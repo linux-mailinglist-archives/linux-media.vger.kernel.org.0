@@ -2,96 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 762D38FD19
-	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2019 10:07:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C58178FD29
+	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2019 10:07:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726896AbfHPIGg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Aug 2019 04:06:36 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:33821 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726892AbfHPIGf (ORCPT
+        id S1726943AbfHPIHT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Aug 2019 04:07:19 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:35466 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726682AbfHPIHS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Aug 2019 04:06:35 -0400
-Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id yXFmh0wZAzaKOyXFphlIDD; Fri, 16 Aug 2019 10:06:34 +0200
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [ANN] Topics for a media summit in Lyon in October
-Cc:     Alexandre Courbot <acourbot@chromium.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Tomasz Figa <tfiga@chromium.org>
-Message-ID: <010ba9ce-bac9-6f0c-f128-4f163a7d8ea7@xs4all.nl>
-Date:   Fri, 16 Aug 2019 10:06:30 +0200
+        Fri, 16 Aug 2019 04:07:18 -0400
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2E2DC2AF;
+        Fri, 16 Aug 2019 10:07:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1565942837;
+        bh=SOfhEHdWH70k70iQPLE4Q4YVBOjq86mN8eCP7JtboaU=;
+        h=Subject:To:Cc:References:From:Reply-To:Date:In-Reply-To:From;
+        b=mj3tKWhW326d9LBSsYpxP8lmjYzRd7AGQ/3CZnF/BIwBZRHUbaY3ULPc0KwRyEntQ
+         chMpGacEJq8SUuc1Bml75gPhjjIJcdsm3W3Q88Uo3eP9KdRNftWi3WfU5fmC0XmkNx
+         BZqK2pePSh8FmSDLwXIDRe8JpoDK9wuWpO0hSjow=
+Subject: Re: [PATCH v2] v4l: rcar-fcp: Read IP version register at probe time
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org
+References: <20190814145417.30670-1-laurent.pinchart+renesas@ideasonboard.com>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Organization: Ideas on Board
+Message-ID: <c203bb23-c8f3-ce10-fc15-454083e39ebc@ideasonboard.com>
+Date:   Fri, 16 Aug 2019 09:07:14 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <20190814145417.30670-1-laurent.pinchart+renesas@ideasonboard.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfF9QyxM6kUBrR9+rFdcQ2A1/CO98bWrj8iBKJLcPyR2uQllmirjQ4pR3U36j13bYwqJFvnFr6BrJMBuap5WrHjuqErSkqxogzjCdQ6XYafHuDcnZtDrw
- EBsbrowUzEYybjNgWq8zMDOPUKKGpwdc+rT/SI3c3s2spCm2170DZcrAQ+qArgSpnchUKigtO3+oHQdpWf/ufJ8sqPS/8D1TJtK5CXGKZhYSApF+7hJszpxx
- JW2Pv5rJbQl9fPunuzLV0EcznglEFKUqJTTXRQnOk7lPIZ+CPSixdokwhDmmZqJT4wEqBYxaLCW1GRuNDK+TzGrTE9H6mXbX3ZkXNmnkT1Q=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Rather then discussing topics for a meeting under the subject 'Lisbon'
-let's start a new thread referring to the right place :-)
+Hi Laurent,
 
-I will try to organize a room, either during the ELCE or (if that doesn't
-work) perhaps on the Thursday afterwards. If that's going to be a problem
-for someone, please let me know.
+On 14/08/2019 15:54, Laurent Pinchart wrote:
+> This helps identifying the IP core version, for debugging purpose only
+> for now.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+> Changes since v1:
+> 
+> - Use devm_platform_ioremap_resource()
+> ---
+>  drivers/media/platform/rcar-fcp.c | 41 +++++++++++++++++++++++++++++++
+>  1 file changed, 41 insertions(+)
+> 
+> diff --git a/drivers/media/platform/rcar-fcp.c b/drivers/media/platform/rcar-fcp.c
+> index 43c78620c9d8..6e0c0e7c0f8c 100644
+> --- a/drivers/media/platform/rcar-fcp.c
+> +++ b/drivers/media/platform/rcar-fcp.c
+> @@ -8,6 +8,7 @@
+>   */
+>  
+>  #include <linux/device.h>
+> +#include <linux/io.h>
+>  #include <linux/list.h>
+>  #include <linux/module.h>
+>  #include <linux/mod_devicetable.h>
+> @@ -21,11 +22,38 @@
+>  struct rcar_fcp_device {
+>  	struct list_head list;
+>  	struct device *dev;
+> +	void __iomem *iomem;
+>  };
+>  
+>  static LIST_HEAD(fcp_devices);
+>  static DEFINE_MUTEX(fcp_lock);
+>  
+> +#define FCP_VCR			0x0000
+> +#define FCP_VCR_CATEGORY_MASK	(0xff << 8)
+> +#define FCP_VCR_CATEGORY_SHIFT	8
+> +#define FCP_VCR_REVISION_MASK	(0xff << 0)
+> +#define FCP_VCR_REVISION_SHIFT	0
+> +
+> +#define FCP_CFG0		0x0004
+> +#define FCP_RST			0x0010
+> +#define FCP_STA			0x0018
+> +#define FCP_TL_CTRL		0x0070
+> +#define FCP_PICINFO1		0x00c4
+> +#define FCP_BA_ANC_Y0		0x0100
+> +#define FCP_BA_ANC_Y1		0x0104
+> +#define FCP_BA_ANC_Y2		0x0108
+> +#define FCP_BA_ANC_C		0x010c
+> +#define FCP_BA_REF_Y0		0x0110
+> +#define FCP_BA_REF_Y1		0x0114
+> +#define FCP_BA_REF_Y2		0x0118
+> +#define FCP_BA_REF_C		0x011c
 
-I do need to know how many people I can expect. I have the following
-confirmed attendees (and please reply if you are not listed!):
+Do we need to pull in all these extra register definitions just to read
+the version?
 
-Alexandre Courbot <acourbot@chromium.org>
-Tomasz Figa <tfiga@chromium.org>
-Jacopo Mondi <jacopo@jmondi.org>
-Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Hans Verkuil <hverkuil@xs4all.nl>
+They don't hurt if they're for something else later...
 
-I know there were more who mentioned on irc that they would attend,
-but it is easier to keep track if I have it in an email.
 
-Topics posted under the previous thread:
+Otherwise,
 
-Tomasz:
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-I would want to discuss various v4l2_buffer improvements, e.g.
-- DMA-buf import with plane offsets,
-- unifying the buffer structs for M and non-M formats,
-- ability to import different FDs with offsets for non-M formats if the
-layout matches driver expectations, etc.
 
-Besides that, I would be interested in the general idea on handling
-complex cameras in the Linux kernel in spite of the remaining V4L2
-limitations, e.g.
-- combinatorial explosion of /dev/video nodes,
-- significant ioctl overhead,
-- huge amount of historical legacy making the driver and userspace
-implementations overly difficult and prone to repetitive mistakes,
-- the above also limiting the flexibility of the API - formats, frame
-rates, etc. set using distinct APIs, not covered by Request API, with
-non-failure "negotiation hell", etc.
-- lack of fences, etc.
+> +
+> +
+> +static inline u32 rcar_fcp_read(struct rcar_fcp_device *fcp, u32 reg)
+> +{
+> +	return ioread32(fcp->iomem + reg);
+> +}
+> +
+>  /* -----------------------------------------------------------------------------
+>   * Public API
+>   */
+> @@ -129,6 +157,7 @@ EXPORT_SYMBOL_GPL(rcar_fcp_disable);
+>  static int rcar_fcp_probe(struct platform_device *pdev)
+>  {
+>  	struct rcar_fcp_device *fcp;
+> +	u32 version;
+>  
+>  	fcp = devm_kzalloc(&pdev->dev, sizeof(*fcp), GFP_KERNEL);
+>  	if (fcp == NULL)
+> @@ -138,6 +167,18 @@ static int rcar_fcp_probe(struct platform_device *pdev)
+>  
+>  	pm_runtime_enable(&pdev->dev);
+>  
+> +	fcp->iomem = devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(fcp->iomem))
+> +		return PTR_ERR(fcp->iomem);
+> +
+> +	pm_runtime_get_sync(&pdev->dev);
+> +	version = rcar_fcp_read(fcp, FCP_VCR);
+> +	pm_runtime_put(&pdev->dev);
+> +
+> +	dev_dbg(&pdev->dev, "FCP category %u revision %u\n",
+> +		(version & FCP_VCR_CATEGORY_MASK) >> FCP_VCR_CATEGORY_SHIFT,
+> +		(version & FCP_VCR_REVISION_MASK) >> FCP_VCR_REVISION_SHIFT);
+> +
+>  	mutex_lock(&fcp_lock);
+>  	list_add_tail(&fcp->list, &fcp_devices);
+>  	mutex_unlock(&fcp_lock);
+> 
 
-Jacopo:
-
-Apart from discussing libcamera and hope we could kickstart a review of
-its API, I would like to re-start discussing multiplexed stream support,
-but that would require Sakari to be there, something I'm not certain
-about. Sakari?
-
-Alexandre:
-
-If Collabora/Bootlin is there, I'd certainly want to discuss stateless
-codecs, in particular m2m codec helpers and finalize the specification
-in general.
-
-Regards,
-
-	Hans
