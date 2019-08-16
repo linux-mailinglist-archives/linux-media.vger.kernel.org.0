@@ -2,143 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9826B8F96D
-	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2019 05:25:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 584598F992
+	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2019 05:59:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726598AbfHPDZg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Aug 2019 23:25:36 -0400
-Received: from mga01.intel.com ([192.55.52.88]:58419 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726465AbfHPDZf (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Aug 2019 23:25:35 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 15 Aug 2019 20:25:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,391,1559545200"; 
-   d="scan'208";a="184800513"
-Received: from ipu5-build.bj.intel.com ([10.238.232.193])
-  by FMSMGA003.fm.intel.com with ESMTP; 15 Aug 2019 20:25:33 -0700
-From:   bingbu.cao@intel.com
+        id S1726604AbfHPD7v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Aug 2019 23:59:51 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:59095 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726166AbfHPD7v (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 15 Aug 2019 23:59:51 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:2504:7def:bef6:405e])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id yTP1h0056zaKOyTP2hkvZJ; Fri, 16 Aug 2019 05:59:48 +0200
+Message-ID: <2f5c524707654fb3756108d57ff715c5@smtp-cloud9.xs4all.net>
+Date:   Fri, 16 Aug 2019 05:59:47 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
 To:     linux-media@vger.kernel.org
-Cc:     sakari.ailus@linux.intel.com, tfiga@chromium.org,
-        andy.yeh@intel.com, bingbu.cao@linux.intel.com,
-        tian.shu.qiu@intel.com
-Subject: [PATCH] media: staging: imgu: make imgu work on low frequency for low input
-Date:   Fri, 16 Aug 2019 11:33:39 +0800
-Message-Id: <1565926419-2228-1-git-send-email-bingbu.cao@intel.com>
-X-Mailer: git-send-email 2.7.4
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfIxJrPpn0zyZNMll7VGzHZUkE8B0qs2dUzFw8c+/Y+v0Ld0hrZAFp0JM1b1/g56Y9o99DqsX3QEnJ4L78Y4AIk+yRsT79LZVuZhjt1h61hsLhULkagJ3
+ dQkbda2zKtDyu6OxWlstdYVzTkZCZVNaX7tR1T8S+F5LtiT5jaqDq82NHajuFsvraiaA8QM6BMuM+H8yUab5yEh+YJA3tbMQ3Y4rY8hRIlfXpP7Nh0zbXK5D
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Bingbu Cao <bingbu.cao@intel.com>
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Currently, imgu is working on 450MHz for all cases, however
-in some cases (input frame less than 2.3MP), the imgu
-did not need work in high frequency.
-This patch make imgu work on 200MHz if the imgu input
-frame is less than 2.3MP to save power.
+Results of the daily build of media_tree:
 
-Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
----
- drivers/staging/media/ipu3/ipu3-css.c  | 7 ++++---
- drivers/staging/media/ipu3/ipu3-css.h  | 3 ++-
- drivers/staging/media/ipu3/ipu3-v4l2.c | 6 ++++++
- drivers/staging/media/ipu3/ipu3.c      | 6 ++++--
- drivers/staging/media/ipu3/ipu3.h      | 1 +
- 5 files changed, 17 insertions(+), 6 deletions(-)
+date:			Fri Aug 16 05:00:11 CEST 2019
+media-tree git hash:	31d5d15dfc3418a57cfab419a353d8dc5f5698b5
+media_build git hash:	f31b4d52ae221b6d416c214e2c5eb30671e787a2
+v4l-utils git hash:	59d6c0b4a5605b4dbb4020f3b9cba7de87d9fdce
+edid-decode git hash:	0932deee88928f110b5a74851c173ad895f75863
+gcc version:		i686-linux-gcc (GCC) 8.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1-rc1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.5.1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: c2ffae3e7d5ca45112abb3c6f983abd338792feb
+host hardware:		x86_64
+host os:		4.19.0-4-amd64
 
-diff --git a/drivers/staging/media/ipu3/ipu3-css.c b/drivers/staging/media/ipu3/ipu3-css.c
-index fd1ed84c400c..590ed7e182a6 100644
---- a/drivers/staging/media/ipu3/ipu3-css.c
-+++ b/drivers/staging/media/ipu3/ipu3-css.c
-@@ -210,12 +210,13 @@ static int imgu_hw_wait(void __iomem *base, int reg, u32 mask, u32 cmp)
- 
- /* Initialize the IPU3 CSS hardware and associated h/w blocks */
- 
--int imgu_css_set_powerup(struct device *dev, void __iomem *base)
-+int imgu_css_set_powerup(struct device *dev, void __iomem *base, bool low_power)
- {
--	static const unsigned int freq = 450;
-+	unsigned int freq;
- 	u32 pm_ctrl, state, val;
- 
--	dev_dbg(dev, "%s\n", __func__);
-+	freq = low_power ? 200 : 450;
-+	dev_dbg(dev, "%s with freq %u\n", __func__, freq);
- 	/* Clear the CSS busy signal */
- 	readl(base + IMGU_REG_GP_BUSY);
- 	writel(0, base + IMGU_REG_GP_BUSY);
-diff --git a/drivers/staging/media/ipu3/ipu3-css.h b/drivers/staging/media/ipu3/ipu3-css.h
-index 6b8bab27ab1f..882936a9dae9 100644
---- a/drivers/staging/media/ipu3/ipu3-css.h
-+++ b/drivers/staging/media/ipu3/ipu3-css.h
-@@ -187,7 +187,8 @@ bool imgu_css_is_streaming(struct imgu_css *css);
- bool imgu_css_pipe_queue_empty(struct imgu_css *css, unsigned int pipe);
- 
- /******************* css hw *******************/
--int imgu_css_set_powerup(struct device *dev, void __iomem *base);
-+int imgu_css_set_powerup(struct device *dev, void __iomem *base,
-+			 bool low_power);
- void imgu_css_set_powerdown(struct device *dev, void __iomem *base);
- int imgu_css_irq_ack(struct imgu_css *css);
- 
-diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
-index 3c7ad1eed434..dcc2a0476e49 100644
---- a/drivers/staging/media/ipu3/ipu3-v4l2.c
-+++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
-@@ -182,6 +182,12 @@ static int imgu_subdev_set_fmt(struct v4l2_subdev *sd,
- 		fmt->format.height = clamp(fmt->format.height,
- 					   IPU3_INPUT_MIN_HEIGHT,
- 					   IPU3_INPUT_MAX_HEIGHT);
-+
-+		/* input less than 2.3MP, ask imgu to work with low freq */
-+		if ((fmt->format.width * fmt->format.height) < (2048 * 1152))
-+			imgu->low_power = true;
-+		else
-+			imgu->low_power = false;
- 	}
- 
- 	*mf = fmt->format;
-diff --git a/drivers/staging/media/ipu3/ipu3.c b/drivers/staging/media/ipu3/ipu3.c
-index 06a61f31ca50..d67fc0ea1ec5 100644
---- a/drivers/staging/media/ipu3/ipu3.c
-+++ b/drivers/staging/media/ipu3/ipu3.c
-@@ -346,7 +346,8 @@ static int imgu_powerup(struct imgu_device *imgu)
- {
- 	int r;
- 
--	r = imgu_css_set_powerup(&imgu->pci_dev->dev, imgu->base);
-+	r = imgu_css_set_powerup(&imgu->pci_dev->dev, imgu->base,
-+				 imgu->low_power);
- 	if (r)
- 		return r;
- 
-@@ -666,7 +667,8 @@ static int imgu_pci_probe(struct pci_dev *pci_dev,
- 	atomic_set(&imgu->qbuf_barrier, 0);
- 	init_waitqueue_head(&imgu->buf_drain_wq);
- 
--	r = imgu_css_set_powerup(&pci_dev->dev, imgu->base);
-+	imgu->low_power = false;
-+	r = imgu_css_set_powerup(&pci_dev->dev, imgu->base, imgu->low_power);
- 	if (r) {
- 		dev_err(&pci_dev->dev,
- 			"failed to power up CSS (%d)\n", r);
-diff --git a/drivers/staging/media/ipu3/ipu3.h b/drivers/staging/media/ipu3/ipu3.h
-index 73b123b2b8a2..6846a6f19ef2 100644
---- a/drivers/staging/media/ipu3/ipu3.h
-+++ b/drivers/staging/media/ipu3/ipu3.h
-@@ -152,6 +152,7 @@ struct imgu_device {
- 	bool suspend_in_stream;
- 	/* Used to wait for FW buffer queue drain. */
- 	wait_queue_head_t buf_drain_wq;
-+	bool low_power;
- };
- 
- unsigned int imgu_node_to_queue(unsigned int node);
--- 
-2.7.4
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: ERRORS
+linux-3.10.108-x86_64: ERRORS
+linux-3.11.10-i686: ERRORS
+linux-3.11.10-x86_64: ERRORS
+linux-3.12.74-i686: ERRORS
+linux-3.12.74-x86_64: ERRORS
+linux-3.13.11-i686: ERRORS
+linux-3.13.11-x86_64: ERRORS
+linux-3.14.79-i686: ERRORS
+linux-3.14.79-x86_64: ERRORS
+linux-3.15.10-i686: ERRORS
+linux-3.15.10-x86_64: ERRORS
+linux-3.16.63-i686: ERRORS
+linux-3.16.63-x86_64: ERRORS
+linux-3.17.8-i686: ERRORS
+linux-3.17.8-x86_64: ERRORS
+linux-3.18.136-i686: ERRORS
+linux-3.18.136-x86_64: ERRORS
+linux-3.19.8-i686: ERRORS
+linux-3.19.8-x86_64: ERRORS
+linux-4.0.9-i686: ERRORS
+linux-4.0.9-x86_64: ERRORS
+linux-4.1.52-i686: ERRORS
+linux-4.1.52-x86_64: ERRORS
+linux-4.2.8-i686: ERRORS
+linux-4.2.8-x86_64: ERRORS
+linux-4.3.6-i686: ERRORS
+linux-4.3.6-x86_64: ERRORS
+linux-4.4.167-i686: ERRORS
+linux-4.4.167-x86_64: ERRORS
+linux-4.5.7-i686: ERRORS
+linux-4.5.7-x86_64: ERRORS
+linux-4.6.7-i686: ERRORS
+linux-4.6.7-x86_64: ERRORS
+linux-4.7.10-i686: ERRORS
+linux-4.7.10-x86_64: ERRORS
+linux-4.8.17-i686: ERRORS
+linux-4.8.17-x86_64: ERRORS
+linux-4.9.162-i686: ERRORS
+linux-4.9.162-x86_64: ERRORS
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3-rc1-i686: OK
+linux-5.3-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2327, Succeeded: 2327, Failed: 0, Warnings: 0
+sparse: OK
+smatch: OK
 
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
