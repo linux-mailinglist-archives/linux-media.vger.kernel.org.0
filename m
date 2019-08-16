@@ -2,97 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D6FE88FD8C
-	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2019 10:17:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C0F78FDB2
+	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2019 10:22:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726801AbfHPIQr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Aug 2019 04:16:47 -0400
-Received: from mga07.intel.com ([134.134.136.100]:43627 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726575AbfHPIQr (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Aug 2019 04:16:47 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 16 Aug 2019 01:16:22 -0700
-X-IronPort-AV: E=Sophos;i="5.64,391,1559545200"; 
-   d="scan'208";a="167990821"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 16 Aug 2019 01:16:19 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 7606820ABC; Fri, 16 Aug 2019 11:15:14 +0300 (EEST)
-Date:   Fri, 16 Aug 2019 11:15:14 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Hugues Fruchet <hugues.fruchet@st.com>
-Cc:     Alexandre Torgue <alexandre.torgue@st.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Yannick Fertre <yannick.fertre@st.com>,
-        Philippe CORNU <philippe.cornu@st.com>,
-        Mickael GUENE <mickael.guene@st.com>
-Subject: Re: [PATCH v6 2/4] media: stm32-dcmi: trace the supported
- fourcc/mbus_code
-Message-ID: <20190816081514.GU6133@paasikivi.fi.intel.com>
-References: <1565790533-10043-1-git-send-email-hugues.fruchet@st.com>
- <1565790533-10043-3-git-send-email-hugues.fruchet@st.com>
+        id S1726972AbfHPIVz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Aug 2019 04:21:55 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:43780 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726820AbfHPIVz (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 16 Aug 2019 04:21:55 -0400
+Received: by mail-ot1-f67.google.com with SMTP id e12so8844583otp.10;
+        Fri, 16 Aug 2019 01:21:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=d/RQiN4Zt7fRXFwmq9rP0sC4DcplkHkeUoSPXsgJtWs=;
+        b=QflcEAo5HQnQoNBOvPG0y0gVb6Zgbix8g4EwQHB/wiI2ZiwOQII4FNUDJO/4jKtNG1
+         C6TtdU903wuC6hNwX4y5k0gNUHgzkIAXjS2Wno4eyaDSfDlXf9YsTvVOsFjNn0lqmOTm
+         K0TUqnNVy1zomXkQGIAvIdWoGUBsqPyKlP2DuYs/a7Zql2V4XAIf0iLFHF92nQytivX3
+         MPnil4dONJfw6EATCJjl1MwRnLEf3V5faboQYCoI3XFgoUGC7zjJAIEYjc3zWW6GSoaY
+         QiORQFt5B+KMWKusIv+UJNVmxp9gZoNFX8h1RBUzowWYixoSx8OD4row3F4Sg+65vDUM
+         lDpA==
+X-Gm-Message-State: APjAAAX+/In7GVd1rAKEibOhD4u57r5iLYsoFxbhbVZB4sQqdtKtbqWE
+        kVH/SGuRc4UP+Qpv4ogppilkrB0tJw4dHvYSJA0i7A==
+X-Google-Smtp-Source: APXvYqzg1btR+f/F74H8+tW6jxEOUl0KlYsnxGC6ev6hQ13mosU9hOOQbXm6/eBaKoUyPqjSeYmi5b6hMzrimYVsNDU=
+X-Received: by 2002:a9d:68c5:: with SMTP id i5mr6705007oto.250.1565943714088;
+ Fri, 16 Aug 2019 01:21:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1565790533-10043-3-git-send-email-hugues.fruchet@st.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20190814145417.30670-1-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20190814145417.30670-1-laurent.pinchart+renesas@ideasonboard.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 16 Aug 2019 10:21:42 +0200
+Message-ID: <CAMuHMdWnnWTgnrjbSSxkg1rUadosijZyrfB8LQk5zWhzmg3WtQ@mail.gmail.com>
+Subject: Re: [PATCH v2] v4l: rcar-fcp: Read IP version register at probe time
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hugues,
+Hi Laurent,
 
-On Wed, Aug 14, 2019 at 03:48:51PM +0200, Hugues Fruchet wrote:
-> Add a trace of the set of supported fourcc/mbus_code which
-> intersect between DCMI and source sub-device.
-> 
-> Signed-off-by: Hugues Fruchet <hugues.fruchet@st.com>
-> ---
->  drivers/media/platform/stm32/stm32-dcmi.c | 12 ++++++++++--
->  1 file changed, 10 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/platform/stm32/stm32-dcmi.c b/drivers/media/platform/stm32/stm32-dcmi.c
-> index b462f71..18acecf 100644
-> --- a/drivers/media/platform/stm32/stm32-dcmi.c
-> +++ b/drivers/media/platform/stm32/stm32-dcmi.c
-> @@ -1447,12 +1447,20 @@ static int dcmi_formats_init(struct stm32_dcmi *dcmi)
->  			/* Code supported, have we got this fourcc yet? */
->  			for (j = 0; j < num_fmts; j++)
->  				if (sd_fmts[j]->fourcc ==
-> -						dcmi_formats[i].fourcc)
-> +						dcmi_formats[i].fourcc) {
->  					/* Already available */
-> +					dev_dbg(dcmi->dev, "Skipping fourcc/code: %4.4s/0x%x\n",
-> +						(char *)&sd_fmts[j]->fourcc,
-> +						mbus_code.code);
->  					break;
-> -			if (j == num_fmts)
-> +				}
-> +			if (j == num_fmts) {
->  				/* New */
->  				sd_fmts[num_fmts++] = dcmi_formats + i;
-> +				dev_dbg(dcmi->dev, "Supported fourcc/code: %4.4s/0x%x\n",
+On Wed, Aug 14, 2019 at 4:55 PM Laurent Pinchart
+<laurent.pinchart+renesas@ideasonboard.com> wrote:
+> This helps identifying the IP core version, for debugging purpose only
+> for now.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-Over 80 characters per line.
+> --- a/drivers/media/platform/rcar-fcp.c
+> +++ b/drivers/media/platform/rcar-fcp.c
 
-> +					(char *)&sd_fmts[num_fmts - 1]->fourcc,
-> +					sd_fmts[num_fmts - 1]->mbus_code);
-> +			}
->  		}
->  		mbus_code.index++;
->  	}
+> @@ -138,6 +167,18 @@ static int rcar_fcp_probe(struct platform_device *pdev)
+>
+>         pm_runtime_enable(&pdev->dev);
+>
+> +       fcp->iomem = devm_platform_ioremap_resource(pdev, 0);
+> +       if (IS_ERR(fcp->iomem))
+> +               return PTR_ERR(fcp->iomem);
+> +
+> +       pm_runtime_get_sync(&pdev->dev);
+> +       version = rcar_fcp_read(fcp, FCP_VCR);
+> +       pm_runtime_put(&pdev->dev);
+
+Unless (dynamic) debugging is enabled, all of the above is done for obtaining
+a version number that is not used.
+Can this be improved?
+
+> +
+> +       dev_dbg(&pdev->dev, "FCP category %u revision %u\n",
+> +               (version & FCP_VCR_CATEGORY_MASK) >> FCP_VCR_CATEGORY_SHIFT,
+> +               (version & FCP_VCR_REVISION_MASK) >> FCP_VCR_REVISION_SHIFT);
+> +
+>         mutex_lock(&fcp_lock);
+>         list_add_tail(&fcp->list, &fcp_devices);
+>         mutex_unlock(&fcp_lock);
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Regards,
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Sakari Ailus
-sakari.ailus@linux.intel.com
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
