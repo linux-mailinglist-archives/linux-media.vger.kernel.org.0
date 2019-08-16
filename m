@@ -2,19 +2,19 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5866190537
-	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2019 18:02:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 37BF990539
+	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2019 18:02:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727624AbfHPQCM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Aug 2019 12:02:12 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:50234 "EHLO
+        id S1727640AbfHPQCR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Aug 2019 12:02:17 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:50244 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727590AbfHPQCL (ORCPT
+        with ESMTP id S1727590AbfHPQCQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Aug 2019 12:02:11 -0400
+        Fri, 16 Aug 2019 12:02:16 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id 3F72D283CF7
+        with ESMTPSA id 8F6F7286172
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     linux-media@vger.kernel.org
 Cc:     kernel@collabora.com,
@@ -29,9 +29,9 @@ Cc:     kernel@collabora.com,
         Alexandre Courbot <acourbot@chromium.org>,
         fbuergisser@chromium.org, linux-kernel@vger.kernel.org,
         Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH v7 05/11] media: uapi: h264: Get rid of the p0/b0/b1 ref-lists
-Date:   Fri, 16 Aug 2019 13:01:26 -0300
-Message-Id: <20190816160132.7352-6-ezequiel@collabora.com>
+Subject: [PATCH v7 06/11] media: cedrus: Cleanup control initialization
+Date:   Fri, 16 Aug 2019 13:01:27 -0300
+Message-Id: <20190816160132.7352-7-ezequiel@collabora.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20190816160132.7352-1-ezequiel@collabora.com>
 References: <20190816160132.7352-1-ezequiel@collabora.com>
@@ -42,17 +42,13 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Boris Brezillon <boris.brezillon@collabora.com>
+In order to introduce other controls, the control initialization
+needs to support an initial struct v4l2_ctrl_control.
 
-Those lists can be extracted from the dpb, let's simplify userspace
-life and build that list kernel-side (generic helpers will be provided
-for drivers that need this list).
+While here, let's cleanup the control initialization,
+removing unneeded fields.
 
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
-Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Tested-by: Philipp Zabel <p.zabel@pengutronix.de>
+Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 ---
 Changes in v7:
 * None.
@@ -61,51 +57,120 @@ Changes in v6:
 Changes in v5:
 * None.
 Changes in v4:
-* Add R-b
-* Remove the reflist from the struct
-Changes in v3:
-* None
-Changes in v2:
-* None
+* New patch.
 ---
- Documentation/media/uapi/v4l/ext-ctrls-codec.rst | 9 ---------
- include/media/h264-ctrls.h                       | 3 ---
- 2 files changed, 12 deletions(-)
+ drivers/staging/media/sunxi/cedrus/cedrus.c | 45 +++++++++++----------
+ drivers/staging/media/sunxi/cedrus/cedrus.h |  3 +-
+ 2 files changed, 25 insertions(+), 23 deletions(-)
 
-diff --git a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-index 3703c705286f..94aea8fb1999 100644
---- a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-+++ b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-@@ -1945,15 +1945,6 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
-     * - __u16
-       - ``nal_ref_idc``
-       - NAL reference ID value coming from the NAL Unit header
--    * - __u8
--      - ``ref_pic_list_p0[32]``
--      - Backward reference list used by P-frames in the original bitstream order
--    * - __u8
--      - ``ref_pic_list_b0[32]``
--      - Backward reference list used by B-frames in the original bitstream order
--    * - __u8
--      - ``ref_pic_list_b1[32]``
--      - Forward reference list used by B-frames in the original bitstream order
-     * - __s32
-       - ``top_field_order_cnt``
-       - Picture Order Count for the coded top field
-diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrls.h
-index ba2876a64cf6..e877bf1d537c 100644
---- a/include/media/h264-ctrls.h
-+++ b/include/media/h264-ctrls.h
-@@ -202,9 +202,6 @@ struct v4l2_ctrl_h264_decode_params {
- 	struct v4l2_h264_dpb_entry dpb[16];
- 	__u16 num_slices;
- 	__u16 nal_ref_idc;
--	__u8 ref_pic_list_p0[32];
--	__u8 ref_pic_list_b0[32];
--	__u8 ref_pic_list_b1[32];
- 	__s32 top_field_order_cnt;
- 	__s32 bottom_field_order_cnt;
- 	__u32 flags; /* V4L2_H264_DECODE_PARAM_FLAG_* */
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
+index 370937edfc14..7bdc413bf727 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+@@ -29,44 +29,51 @@
+ 
+ static const struct cedrus_control cedrus_controls[] = {
+ 	{
+-		.id		= V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS,
+-		.elem_size	= sizeof(struct v4l2_ctrl_mpeg2_slice_params),
++		.cfg = {
++			.id	= V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS,
++		},
+ 		.codec		= CEDRUS_CODEC_MPEG2,
+ 		.required	= true,
+ 	},
+ 	{
+-		.id		= V4L2_CID_MPEG_VIDEO_MPEG2_QUANTIZATION,
+-		.elem_size	= sizeof(struct v4l2_ctrl_mpeg2_quantization),
++		.cfg = {
++			.id	= V4L2_CID_MPEG_VIDEO_MPEG2_QUANTIZATION,
++		},
+ 		.codec		= CEDRUS_CODEC_MPEG2,
+ 		.required	= false,
+ 	},
+ 	{
+-		.id		= V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS,
+-		.elem_size	= sizeof(struct v4l2_ctrl_h264_decode_params),
++		.cfg = {
++			.id	= V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS,
++		},
+ 		.codec		= CEDRUS_CODEC_H264,
+ 		.required	= true,
+ 	},
+ 	{
+-		.id		= V4L2_CID_MPEG_VIDEO_H264_SLICE_PARAMS,
+-		.elem_size	= sizeof(struct v4l2_ctrl_h264_slice_params),
++		.cfg = {
++			.id	= V4L2_CID_MPEG_VIDEO_H264_SLICE_PARAMS,
++		},
+ 		.codec		= CEDRUS_CODEC_H264,
+ 		.required	= true,
+ 	},
+ 	{
+-		.id		= V4L2_CID_MPEG_VIDEO_H264_SPS,
+-		.elem_size	= sizeof(struct v4l2_ctrl_h264_sps),
++		.cfg = {
++			.id	= V4L2_CID_MPEG_VIDEO_H264_SPS,
++		},
+ 		.codec		= CEDRUS_CODEC_H264,
+ 		.required	= true,
+ 	},
+ 	{
+-		.id		= V4L2_CID_MPEG_VIDEO_H264_PPS,
+-		.elem_size	= sizeof(struct v4l2_ctrl_h264_pps),
++		.cfg = {
++			.id	= V4L2_CID_MPEG_VIDEO_H264_PPS,
++		},
+ 		.codec		= CEDRUS_CODEC_H264,
+ 		.required	= true,
+ 	},
+ 	{
+-		.id		= V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX,
+-		.elem_size	= sizeof(struct v4l2_ctrl_h264_scaling_matrix),
++		.cfg = {
++			.id	= V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX,
++		},
+ 		.codec		= CEDRUS_CODEC_H264,
+ 		.required	= true,
+ 	},
+@@ -106,12 +113,8 @@ static int cedrus_init_ctrls(struct cedrus_dev *dev, struct cedrus_ctx *ctx)
+ 		return -ENOMEM;
+ 
+ 	for (i = 0; i < CEDRUS_CONTROLS_COUNT; i++) {
+-		struct v4l2_ctrl_config cfg = {};
+-
+-		cfg.elem_size = cedrus_controls[i].elem_size;
+-		cfg.id = cedrus_controls[i].id;
+-
+-		ctrl = v4l2_ctrl_new_custom(hdl, &cfg, NULL);
++		ctrl = v4l2_ctrl_new_custom(hdl, &cedrus_controls[i].cfg,
++					    NULL);
+ 		if (hdl->error) {
+ 			v4l2_err(&dev->v4l2_dev,
+ 				 "Failed to create new custom control\n");
+@@ -178,7 +181,7 @@ static int cedrus_request_validate(struct media_request *req)
+ 			continue;
+ 
+ 		ctrl_test = v4l2_ctrl_request_hdl_ctrl_find(hdl,
+-							    cedrus_controls[i].id);
++							    cedrus_controls[i].cfg.id);
+ 		if (!ctrl_test) {
+ 			v4l2_info(&ctx->dev->v4l2_dev,
+ 				  "Missing required codec control\n");
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h b/drivers/staging/media/sunxi/cedrus/cedrus.h
+index d8e6777e5e27..2f017a651848 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus.h
++++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
+@@ -49,8 +49,7 @@ enum cedrus_h264_pic_type {
+ };
+ 
+ struct cedrus_control {
+-	u32			id;
+-	u32			elem_size;
++	struct v4l2_ctrl_config cfg;
+ 	enum cedrus_codec	codec;
+ 	unsigned char		required:1;
+ };
 -- 
 2.22.0
 
