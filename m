@@ -2,121 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EB3618FFCC
-	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2019 12:12:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B28D90061
+	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2019 12:59:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727039AbfHPKMp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Aug 2019 06:12:45 -0400
-Received: from mga01.intel.com ([192.55.52.88]:49163 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726839AbfHPKMo (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Aug 2019 06:12:44 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 16 Aug 2019 03:12:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,391,1559545200"; 
-   d="scan'208";a="261075209"
-Received: from ipu5-build.bj.intel.com ([10.238.232.193])
-  by orsmga001.jf.intel.com with ESMTP; 16 Aug 2019 03:12:42 -0700
-From:   bingbu.cao@intel.com
-To:     linux-media@vger.kernel.org
-Cc:     sakari.ailus@linux.intel.com, tfiga@chromium.org,
-        andy.yeh@intel.com, bingbu.cao@linux.intel.com
-Subject: [PATCH v2] media: staging: imgu: make imgu work on low frequency for low input
-Date:   Fri, 16 Aug 2019 18:20:48 +0800
-Message-Id: <1565950848-10076-1-git-send-email-bingbu.cao@intel.com>
-X-Mailer: git-send-email 2.7.4
+        id S1727014AbfHPK7r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Aug 2019 06:59:47 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:56085 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726261AbfHPK7r (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 16 Aug 2019 06:59:47 -0400
+Received: from [IPv6:2001:420:44c1:2579:f038:4b04:f67a:276f] ([IPv6:2001:420:44c1:2579:f038:4b04:f67a:276f])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id yZxKhmt3tThuuyZxNhK6U1; Fri, 16 Aug 2019 12:59:45 +0200
+Subject: Re: [PATCH v7 02/13] media: v4l2-fwnode: add v4l2_fwnode_connector
+To:     Marco Felsch <m.felsch@pengutronix.de>, mchehab@kernel.org,
+        sakari.ailus@linux.intel.com, hans.verkuil@cisco.com,
+        jacopo+renesas@jmondi.org, robh+dt@kernel.org,
+        laurent.pinchart@ideasonboard.com
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        kernel@pengutronix.de
+References: <20190815115747.24018-1-m.felsch@pengutronix.de>
+ <20190815115747.24018-3-m.felsch@pengutronix.de>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <eb395727-c1d1-685f-623a-aebf7ba474ea@xs4all.nl>
+Date:   Fri, 16 Aug 2019 12:59:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.5.1
+MIME-Version: 1.0
+In-Reply-To: <20190815115747.24018-3-m.felsch@pengutronix.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfJFesj2vHkvgEKm0D0WN4hvIZp7sBLpXN5WTOiYXAMHSg7JkLZIa1P0Njjpjzg4eUW/ChOLZlCVpzKeWhrDVTcLjvbTUVrIzJBwZgZsr8+SM2NO7JUdO
+ p6D75dyWk5i7hCqSTxGoUsIec4OesEWakDh1bAuziOdJ6axGww3HrA4oyvUrsaPyrPxVyr5oM1H9e7Q4h0iBy9OZS4txJ53HJGOjV7NvCj9Ak4VpD9+OSWZy
+ uX0pSHTAwXf2S2u/CarT+CuVyHd6RFixEI3uqp4rWAhlHkipUQHe0MM2ec8DLRiHs4WmOENYPhTX5qIx4jPBvO0Wr6cphnVr3iBEv9wEmecgArj+f1XuxWMC
+ KTTqEKnM54JE2LKNCPvXsJDEUcCYBtuKPhx9GYxyWK+dpoOPEZ5ID6AX5ptPxsGQtzxf3xZgUWMmgEprajElCkWqR2DRHbcPAV5GEk0IBIQTuCjuo0nwcL0Z
+ trVcke6ocGOP9oD1xM/H0caHLnlnJGwbZSkHPwrmL2QhnzpCZIoLbiX+MZWWyXz0IdzQE46cQ2Ozjbb3P8Dn4uB4jFTuqBIvgeGoRH9M90D9TSVlq/QfNODS
+ 1ziF06nIGn5UMcgAfs5r1VPaCAPY7nZb/4PF2UU/KUHlIg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Bingbu Cao <bingbu.cao@intel.com>
+On 8/15/19 1:57 PM, Marco Felsch wrote:
+> Currently every driver needs to parse the connector endpoints by it self.
+> This is the initial work to make this generic. A generic connector has
+> common members and connector specific members. The common members are:
+>   - type
+>   - label (optional)
+>   - links
+>   - nr_of_links
+> 
+> The specific members are stored within a union, since only one of them
+> can be available at the time. Since this is the initial support the
+> patch adds only the analog-connector specific ones.
+> 
+> Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> ---
+> [1] https://patchwork.kernel.org/cover/10794703/
+> 
+> v7:
+> - fix spelling issues
+> - constify label
+> - support variable label size
+> - replace single remote_port/id members by links member of variable
+>   size
+> - squash v4l2-connector into v4l2-fwnode
+> 
+> @Jacopo: I dropped your r b tag because I changed the port/id logic.
+> 
+> v6:
+> - fix some spelling and style issues
+> - rm unnecessary comments
+> - drop vga and dvi connector
+> - fix misspelt connector
+> 
+> v2-v4:
+> - nothing since the patch was squashed from series [1] into this
+>   series.
+> ---
+>  include/media/v4l2-fwnode.h | 45 +++++++++++++++++++++++++++++++++++++
+>  1 file changed, 45 insertions(+)
+> 
+> diff --git a/include/media/v4l2-fwnode.h b/include/media/v4l2-fwnode.h
+> index f6a7bcd13197..e39c198882fc 100644
+> --- a/include/media/v4l2-fwnode.h
+> +++ b/include/media/v4l2-fwnode.h
+> @@ -123,6 +123,51 @@ struct v4l2_fwnode_link {
+>  	unsigned int remote_port;
+>  };
+>  
+> +/**
+> + * enum v4l2_connector_type - connector type
+> + * @V4L2_CON_UNKNOWN:   unknown connector type, no V4L2 connector configuration
+> + * @V4L2_CON_COMPOSITE: analog composite connector
+> + * @V4L2_CON_SVIDEO:    analog svideo connector
+> + * @V4L2_CON_HDMI:      digital hdmi connector
+> + */
+> +enum v4l2_connector_type {
+> +	V4L2_CON_UNKNOWN,
+> +	V4L2_CON_COMPOSITE,
+> +	V4L2_CON_SVIDEO,
+> +	V4L2_CON_HDMI,
 
-Currently, imgu is working on 450MHz for all cases, however
-in some cases (input frame less than 2048x1152), the imgu
-did not need work in high frequency.
-This patch make imgu work on 200MHz if the imgu input
-frame is less than 2048x1152 to save power.
+Please use CONN instead of CON. CONN is the traditional abbreviation
+used for connectors. 'CON' is too generic (there are many words that
+start with 'con').
 
-Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
----
- drivers/staging/media/ipu3/ipu3-css.c |  6 +++---
- drivers/staging/media/ipu3/ipu3-css.h |  3 ++-
- drivers/staging/media/ipu3/ipu3.c     | 16 ++++++++++++++--
- 3 files changed, 19 insertions(+), 6 deletions(-)
+Regards,
 
-diff --git a/drivers/staging/media/ipu3/ipu3-css.c b/drivers/staging/media/ipu3/ipu3-css.c
-index fd1ed84c400c..a0002ccadbfc 100644
---- a/drivers/staging/media/ipu3/ipu3-css.c
-+++ b/drivers/staging/media/ipu3/ipu3-css.c
-@@ -210,12 +210,12 @@ static int imgu_hw_wait(void __iomem *base, int reg, u32 mask, u32 cmp)
- 
- /* Initialize the IPU3 CSS hardware and associated h/w blocks */
- 
--int imgu_css_set_powerup(struct device *dev, void __iomem *base)
-+int imgu_css_set_powerup(struct device *dev, void __iomem *base,
-+			 unsigned int freq)
- {
--	static const unsigned int freq = 450;
- 	u32 pm_ctrl, state, val;
- 
--	dev_dbg(dev, "%s\n", __func__);
-+	dev_dbg(dev, "%s with freq %u\n", __func__, freq);
- 	/* Clear the CSS busy signal */
- 	readl(base + IMGU_REG_GP_BUSY);
- 	writel(0, base + IMGU_REG_GP_BUSY);
-diff --git a/drivers/staging/media/ipu3/ipu3-css.h b/drivers/staging/media/ipu3/ipu3-css.h
-index 6b8bab27ab1f..6108a068b228 100644
---- a/drivers/staging/media/ipu3/ipu3-css.h
-+++ b/drivers/staging/media/ipu3/ipu3-css.h
-@@ -187,7 +187,8 @@ bool imgu_css_is_streaming(struct imgu_css *css);
- bool imgu_css_pipe_queue_empty(struct imgu_css *css, unsigned int pipe);
- 
- /******************* css hw *******************/
--int imgu_css_set_powerup(struct device *dev, void __iomem *base);
-+int imgu_css_set_powerup(struct device *dev, void __iomem *base,
-+			 unsigned int freq);
- void imgu_css_set_powerdown(struct device *dev, void __iomem *base);
- int imgu_css_irq_ack(struct imgu_css *css);
- 
-diff --git a/drivers/staging/media/ipu3/ipu3.c b/drivers/staging/media/ipu3/ipu3.c
-index 06a61f31ca50..4d53aad31483 100644
---- a/drivers/staging/media/ipu3/ipu3.c
-+++ b/drivers/staging/media/ipu3/ipu3.c
-@@ -345,8 +345,20 @@ int imgu_queue_buffers(struct imgu_device *imgu, bool initial, unsigned int pipe
- static int imgu_powerup(struct imgu_device *imgu)
- {
- 	int r;
-+	unsigned int pipe;
-+	unsigned int freq = 200;
-+	struct v4l2_mbus_framefmt *fmt;
-+
-+	/* input larger than 2048*1152, ask imgu to work on high freq */
-+	for_each_set_bit(pipe, imgu->css.enabled_pipes, IMGU_MAX_PIPE_NUM) {
-+		fmt = &imgu->imgu_pipe[pipe].nodes[IMGU_NODE_IN].pad_fmt;
-+		dev_dbg(&imgu->pci_dev->dev, "pipe %u input format = %ux%u",
-+			pipe, fmt->width, fmt->height);
-+		if ((fmt->width * fmt->height) >= (2048 * 1152))
-+			freq = 450;
-+	}
- 
--	r = imgu_css_set_powerup(&imgu->pci_dev->dev, imgu->base);
-+	r = imgu_css_set_powerup(&imgu->pci_dev->dev, imgu->base, freq);
- 	if (r)
- 		return r;
- 
-@@ -666,7 +678,7 @@ static int imgu_pci_probe(struct pci_dev *pci_dev,
- 	atomic_set(&imgu->qbuf_barrier, 0);
- 	init_waitqueue_head(&imgu->buf_drain_wq);
- 
--	r = imgu_css_set_powerup(&pci_dev->dev, imgu->base);
-+	r = imgu_css_set_powerup(&pci_dev->dev, imgu->base, 200);
- 	if (r) {
- 		dev_err(&pci_dev->dev,
- 			"failed to power up CSS (%d)\n", r);
--- 
-2.7.4
+	Hans
+
+> +};
+> +
+> +/**
+> + * struct v4l2_fwnode_connector_analog - analog connector data structure
+> + * @supported_tvnorms: tv norms this connector supports, set to V4L2_STD_ALL
+> + *                     if no restrictions are specified.
+> + */
+> +struct v4l2_fwnode_connector_analog {
+> +	v4l2_std_id supported_tvnorms;
+> +};
+> +
+> +/**
+> + * struct v4l2_fwnode_connector - the connector data structure
+> + * @label: optional connector label
+> + * @type: connector type
+> + * @links: list of &struct v4l2_fwnode_link links the connector is connected to
+> + * @nr_of_links: total number of links
+> + * @connector: connector configuration
+> + * @connector.analog: analog connector configuration
+> + *                    &struct v4l2_fwnode_connector_analog
+> + */
+> +struct v4l2_fwnode_connector {
+> +	const char *label;
+> +	enum v4l2_connector_type type;
+> +	struct v4l2_fwnode_link *links;
+> +	unsigned int nr_of_links;
+> +
+> +	union {
+> +		struct v4l2_fwnode_connector_analog analog;
+> +		/* future connectors */
+> +	} connector;
+> +};
+> +
+>  /**
+>   * v4l2_fwnode_endpoint_parse() - parse all fwnode node properties
+>   * @fwnode: pointer to the endpoint's fwnode handle
+> 
 
