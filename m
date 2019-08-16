@@ -2,106 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 532628FF87
-	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2019 11:58:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB3618FFCC
+	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2019 12:12:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727022AbfHPJ6v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Aug 2019 05:58:51 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:36866 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726842AbfHPJ6v (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Aug 2019 05:58:51 -0400
-Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BE8AD2AF;
-        Fri, 16 Aug 2019 11:58:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1565949530;
-        bh=MdSDWBvW2MRlClWqWR9NNzBT2rTDlU0t5ijPFdChgoM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=sfMz+uj7gqeE3hmQ0hFrUHz3X6evmaWEf4NBMKEvpkmkIi2hDxJAoJ4U6F/VLOkOM
-         wlj19XR3xjKA3jdsMJisgBh+6QY8EdFd6X+3GK5d/T/5Ddqn5s+raXzisFg19ZGxot
-         Zs1yz3cRbdLJK3LzTq+3Dv3bfYF2s44q8hQA7En4=
-Date:   Fri, 16 Aug 2019 12:58:45 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Nathaniel Russell <naterussell83@gmail.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        intel-gfx <intel-gfx@lists.freedesktop.org>
-Subject: Re: Linux Kernel 5.2.8 (uvc or i915? <<<)
-Message-ID: <20190816095845.GC5020@pendragon.ideasonboard.com>
-References: <CAONH+Jm-O6=DQ+K2n5pNTNMg2Sq1KcVNFLuweVh6W82OPEFJoQ@mail.gmail.com>
- <abcae5c9-b3dc-7403-d628-5d7543d19702@infradead.org>
- <CAONH+JnZpbpdiwdajP7ke7X7wQGU7m4YoyZRDbLHKmRufkD6mQ@mail.gmail.com>
- <5d637638-12d1-6c39-8f76-824a0e875feb@infradead.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <5d637638-12d1-6c39-8f76-824a0e875feb@infradead.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1727039AbfHPKMp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Aug 2019 06:12:45 -0400
+Received: from mga01.intel.com ([192.55.52.88]:49163 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726839AbfHPKMo (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 16 Aug 2019 06:12:44 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 16 Aug 2019 03:12:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,391,1559545200"; 
+   d="scan'208";a="261075209"
+Received: from ipu5-build.bj.intel.com ([10.238.232.193])
+  by orsmga001.jf.intel.com with ESMTP; 16 Aug 2019 03:12:42 -0700
+From:   bingbu.cao@intel.com
+To:     linux-media@vger.kernel.org
+Cc:     sakari.ailus@linux.intel.com, tfiga@chromium.org,
+        andy.yeh@intel.com, bingbu.cao@linux.intel.com
+Subject: [PATCH v2] media: staging: imgu: make imgu work on low frequency for low input
+Date:   Fri, 16 Aug 2019 18:20:48 +0800
+Message-Id: <1565950848-10076-1-git-send-email-bingbu.cao@intel.com>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Randy,
+From: Bingbu Cao <bingbu.cao@intel.com>
 
-On Thu, Aug 15, 2019 at 08:10:03PM -0700, Randy Dunlap wrote:
-> [adding mailing lists etc. with Nathaniel's test info]
-> 
-> On 8/15/19 7:21 PM, Nathaniel Russell wrote:
-> > Well i surpressed the uvcvideo driver and you are right Randy it
-> > definitely is not the uvcvideo driver. There is something going on in
-> > the i915 driver.
-> > 
-> > On 8/15/19, Randy Dunlap <rdunlap@infradead.org> wrote:
-> >> On 8/15/19 6:15 PM, Nathaniel Russell wrote:
-> >>> I would really like help with the kernel error with my uvcvideo driver.
-> >>
-> >> Hi again.
-> >>
-> >> What makes you think that the problem is related to the uvcvideo driver?
-> >> Does some previous kernel version work correctly?  If so, what version(s)?
-> >>
-> >>
-> >> Does this warning message only happen when the uvcvideo driver is being
-> >> loaded?
-> >> Can you suppress loading of the uvcvideo driver to find out?
-> >>
-> >> Most of the problems/errors/warnings that I see are related to the i915
-> >> driver:
-> >>
-> >> [   13.032341] timed out waiting for port C ready: got 0x20, expected 0xe0
-> >> [   13.032872] WARNING: CPU: 1 PID: 239 at
-> >> drivers/gpu/drm/i915/intel_display.c:1597 vlv_wait_port_ready+0x99/0xe0
-> >> [i915]
-> >> [   13.033632] RIP: 0010:vlv_wait_port_ready+0x99/0xe0 [i915]
-> >>
-> >> although there are a few uvcvideo warnings:
-> >> [   13.039305] uvcvideo 1-5:1.0: Entity type for entity Extension 4 was not
-> >> initialized!
-> >> [   13.039318] uvcvideo 1-5:1.0: Entity type for entity Extension 3 was not
-> >> initialized!
-> >> [   13.039330] uvcvideo 1-5:1.0: Entity type for entity Processing 2 was not
-> >> initialized!
-> >> [   13.039339] uvcvideo 1-5:1.0: Entity type for entity Camera 1 was not
-> >> initialized!
-> >>
-> >> Laurent, do you see any uvc issues here?  Any ideas/suggestions?
+Currently, imgu is working on 450MHz for all cases, however
+in some cases (input frame less than 2048x1152), the imgu
+did not need work in high frequency.
+This patch make imgu work on 200MHz if the imgu input
+frame is less than 2048x1152 to save power.
 
-No, uvcvideo seems completely reunlated.
+Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+---
+ drivers/staging/media/ipu3/ipu3-css.c |  6 +++---
+ drivers/staging/media/ipu3/ipu3-css.h |  3 ++-
+ drivers/staging/media/ipu3/ipu3.c     | 16 ++++++++++++++--
+ 3 files changed, 19 insertions(+), 6 deletions(-)
 
-> >> @intel-gfx:  any ideas about what is going on here with the i915 driver?
-> >>
-> >> Original message to lkml:
-> >> https://lore.kernel.org/lkml/CAONH+Jm-O6=DQ+K2n5pNTNMg2Sq1KcVNFLuweVh6W82OPEFJoQ@mail.gmail.com/T/#u
-> >>
-> >> Previous message for 5.1.21 kernel:
-> >> https://lore.kernel.org/lkml/CAONH+JkTFujY9vEyNNuem+9rJ2qBKkf-PbKk9=DBSVEp6kW=yw@mail.gmail.com/
-
+diff --git a/drivers/staging/media/ipu3/ipu3-css.c b/drivers/staging/media/ipu3/ipu3-css.c
+index fd1ed84c400c..a0002ccadbfc 100644
+--- a/drivers/staging/media/ipu3/ipu3-css.c
++++ b/drivers/staging/media/ipu3/ipu3-css.c
+@@ -210,12 +210,12 @@ static int imgu_hw_wait(void __iomem *base, int reg, u32 mask, u32 cmp)
+ 
+ /* Initialize the IPU3 CSS hardware and associated h/w blocks */
+ 
+-int imgu_css_set_powerup(struct device *dev, void __iomem *base)
++int imgu_css_set_powerup(struct device *dev, void __iomem *base,
++			 unsigned int freq)
+ {
+-	static const unsigned int freq = 450;
+ 	u32 pm_ctrl, state, val;
+ 
+-	dev_dbg(dev, "%s\n", __func__);
++	dev_dbg(dev, "%s with freq %u\n", __func__, freq);
+ 	/* Clear the CSS busy signal */
+ 	readl(base + IMGU_REG_GP_BUSY);
+ 	writel(0, base + IMGU_REG_GP_BUSY);
+diff --git a/drivers/staging/media/ipu3/ipu3-css.h b/drivers/staging/media/ipu3/ipu3-css.h
+index 6b8bab27ab1f..6108a068b228 100644
+--- a/drivers/staging/media/ipu3/ipu3-css.h
++++ b/drivers/staging/media/ipu3/ipu3-css.h
+@@ -187,7 +187,8 @@ bool imgu_css_is_streaming(struct imgu_css *css);
+ bool imgu_css_pipe_queue_empty(struct imgu_css *css, unsigned int pipe);
+ 
+ /******************* css hw *******************/
+-int imgu_css_set_powerup(struct device *dev, void __iomem *base);
++int imgu_css_set_powerup(struct device *dev, void __iomem *base,
++			 unsigned int freq);
+ void imgu_css_set_powerdown(struct device *dev, void __iomem *base);
+ int imgu_css_irq_ack(struct imgu_css *css);
+ 
+diff --git a/drivers/staging/media/ipu3/ipu3.c b/drivers/staging/media/ipu3/ipu3.c
+index 06a61f31ca50..4d53aad31483 100644
+--- a/drivers/staging/media/ipu3/ipu3.c
++++ b/drivers/staging/media/ipu3/ipu3.c
+@@ -345,8 +345,20 @@ int imgu_queue_buffers(struct imgu_device *imgu, bool initial, unsigned int pipe
+ static int imgu_powerup(struct imgu_device *imgu)
+ {
+ 	int r;
++	unsigned int pipe;
++	unsigned int freq = 200;
++	struct v4l2_mbus_framefmt *fmt;
++
++	/* input larger than 2048*1152, ask imgu to work on high freq */
++	for_each_set_bit(pipe, imgu->css.enabled_pipes, IMGU_MAX_PIPE_NUM) {
++		fmt = &imgu->imgu_pipe[pipe].nodes[IMGU_NODE_IN].pad_fmt;
++		dev_dbg(&imgu->pci_dev->dev, "pipe %u input format = %ux%u",
++			pipe, fmt->width, fmt->height);
++		if ((fmt->width * fmt->height) >= (2048 * 1152))
++			freq = 450;
++	}
+ 
+-	r = imgu_css_set_powerup(&imgu->pci_dev->dev, imgu->base);
++	r = imgu_css_set_powerup(&imgu->pci_dev->dev, imgu->base, freq);
+ 	if (r)
+ 		return r;
+ 
+@@ -666,7 +678,7 @@ static int imgu_pci_probe(struct pci_dev *pci_dev,
+ 	atomic_set(&imgu->qbuf_barrier, 0);
+ 	init_waitqueue_head(&imgu->buf_drain_wq);
+ 
+-	r = imgu_css_set_powerup(&pci_dev->dev, imgu->base);
++	r = imgu_css_set_powerup(&pci_dev->dev, imgu->base, 200);
+ 	if (r) {
+ 		dev_err(&pci_dev->dev,
+ 			"failed to power up CSS (%d)\n", r);
 -- 
-Regards,
+2.7.4
 
-Laurent Pinchart
