@@ -2,200 +2,188 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 54A9C8FBA4
-	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2019 09:04:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 14C558FBB2
+	for <lists+linux-media@lfdr.de>; Fri, 16 Aug 2019 09:09:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727024AbfHPHD4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Aug 2019 03:03:56 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:40487 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725945AbfHPHDz (ORCPT
+        id S1726958AbfHPHHs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Aug 2019 03:07:48 -0400
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:35607 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726866AbfHPHHs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Aug 2019 03:03:55 -0400
-Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id yWH8h0eULzaKOyWHBhl8jR; Fri, 16 Aug 2019 09:03:53 +0200
-Subject: Re: [PATCH] videobuf2-core: avoid buffer operations while in
- stop_streaming
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-References: <475fff8b-9a11-0511-2226-a1767016746e@xs4all.nl>
-Message-ID: <a0a894e6-9ef1-bf6f-c9b2-83b1642e9305@xs4all.nl>
-Date:   Fri, 16 Aug 2019 09:03:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Fri, 16 Aug 2019 03:07:48 -0400
+Received: by mail-ed1-f65.google.com with SMTP id w20so4301190edd.2
+        for <linux-media@vger.kernel.org>; Fri, 16 Aug 2019 00:07:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8eRWyc41c5Q881PBnau4gPoJpN+PILBi3u8esjZiR2k=;
+        b=QdEGFXeJlObF7YeQxuj2bS0XubLL1l3qCyGlHboNVtKQTC0lkLuqFwgiwNLBgVdr/W
+         mp/oYBG4RAtgg/Qz8MaYPgQ6I58RG2q2WZGlbtTzQKqUMdmH3cX8YFXpIMkubiLsChGc
+         6uQMo17F9aIn15IAm1+H+/4hFlslam9XoO7hQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8eRWyc41c5Q881PBnau4gPoJpN+PILBi3u8esjZiR2k=;
+        b=Q+N7XiweF/NObXb4fkC95PJRinWmxyBkEUBS5nj0nKelKMHL8G/z2tXj+vNqBcWeuQ
+         vtPKR7ey2h4x4fp9ZRchkKMDr0i508udZMueIJzGs4IrXX+Lf90dQTxMjE9bS1S5uXOG
+         xgCTalGKOAhO2TMYF69Bmqz/8KBwrtdBlHsnUVQqMNNhHpI7+ygHZVMkJp4OnOe34KRr
+         H6S2dq32UH43BIbkWveQqEVmqjYoQisMwCvqE8veIhFh7fR0YMVVXLCYChy1achlA6il
+         10CxhyEWXUpRkRq5M6vX+Icw6fcbaRpmelsai7ZgQAo2yd/3rUz5kYJdV1sozN6Sj3t+
+         5fdg==
+X-Gm-Message-State: APjAAAUBJ28nPF1H9TU50Zt6ypmuFkrQ7Z9VlYJejv7VQnuM4xHAjE/q
+        VoO+Gs5IBm2XhA3g4Tv26HBTxFEQthAu/g==
+X-Google-Smtp-Source: APXvYqyR+eqS6fhv7sTaBtGaNZdMEmqhjGDppn8Y/W/0Pq9ojG97PB6TyoKfTbcTQxMJxlArJKlcUA==
+X-Received: by 2002:a17:906:a98b:: with SMTP id jr11mr7740422ejb.224.1565939265894;
+        Fri, 16 Aug 2019 00:07:45 -0700 (PDT)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com. [209.85.221.44])
+        by smtp.gmail.com with ESMTPSA id s4sm694173ejq.72.2019.08.16.00.07.45
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 16 Aug 2019 00:07:45 -0700 (PDT)
+Received: by mail-wr1-f44.google.com with SMTP id k2so566196wrq.2
+        for <linux-media@vger.kernel.org>; Fri, 16 Aug 2019 00:07:45 -0700 (PDT)
+X-Received: by 2002:a5d:5543:: with SMTP id g3mr9024920wrw.166.1565939264766;
+ Fri, 16 Aug 2019 00:07:44 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <475fff8b-9a11-0511-2226-a1767016746e@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfL7WRfPOZaaZmHkLlfHHHTmnV9pg2SkVHnCtHq96WSjLsCNDj4jcub+vF71IDSdZzv8cuKZN/ZohU9y5R3PkdSzeYsTVBX9vcjL9TveQ2ML6+HhpZbg4
- UB01Z7WUNQq+VD9Q9dYs0tL9qfDfNmmLvl5xLgmofz5O6zaRkS0j++wvMDKGQBHg3/Am6nLJZkka0w==
+References: <1565926419-2228-1-git-send-email-bingbu.cao@intel.com>
+ <CAAFQd5Db7_cridF5KzuUOujgiUT8fqczRX6T-yyM5P9W9Ut-Mw@mail.gmail.com> <f8f4e40a-b3ae-d75e-d2c2-0c667b0e8b52@linux.intel.com>
+In-Reply-To: <f8f4e40a-b3ae-d75e-d2c2-0c667b0e8b52@linux.intel.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Fri, 16 Aug 2019 16:07:32 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5DYjLFzj1ZS5v0zvr=61MxbZmOO4Dtgjs=hZT20YbHk+g@mail.gmail.com>
+Message-ID: <CAAFQd5DYjLFzj1ZS5v0zvr=61MxbZmOO4Dtgjs=hZT20YbHk+g@mail.gmail.com>
+Subject: Re: [PATCH] media: staging: imgu: make imgu work on low frequency for
+ low input
+To:     Bingbu Cao <bingbu.cao@linux.intel.com>
+Cc:     Cao Bing Bu <bingbu.cao@intel.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        "Yeh, Andy" <andy.yeh@intel.com>,
+        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 8/15/19 2:28 PM, Hans Verkuil wrote:
-> The stop_streaming callback is called with the queue lock held.
-> 
-> But some drivers (vivid being one of them) need to stop a kernel thread
-> in stop_streaming, and if that kernel thread takes the same queue lock,
-> then stop_streaming may have to unlock the queue lock, stop the thread,
-> and lock it again.
-> 
-> However, if you do that, then you must ensure that no other operations
-> can take place that can change the list of buffers queued to the driver,
-> specifically: QBUF, STREAMON/OFF, REQBUFS, CREATE_BUFS.
-> 
-> __vb2_wait_for_done_vb() also checks for this and won't try to wait for
-> new buffers if in_stop_streaming is true.
-> 
-> This issue caused this syzbot report:
-> 
-> https://syzkaller.appspot.com/bug?extid=736c3aae4af7b50d9683
+On Fri, Aug 16, 2019 at 3:52 PM Bingbu Cao <bingbu.cao@linux.intel.com> wrote:
+>
+> Hi, Tomasz
+>
+> Thanks for your review.
+>
+> On 8/16/19 2:10 PM, Tomasz Figa wrote:
+> > Hi Bingbu,
+> >
+> > On Fri, Aug 16, 2019 at 12:25 PM <bingbu.cao@intel.com> wrote:
+> >>
+> >> From: Bingbu Cao <bingbu.cao@intel.com>
+> >>
+> >> Currently, imgu is working on 450MHz for all cases, however
+> >> in some cases (input frame less than 2.3MP), the imgu
+> >> did not need work in high frequency.
+> >> This patch make imgu work on 200MHz if the imgu input
+> >> frame is less than 2.3MP to save power.
+> >>
+> >
+> > Thanks for the patch! Please see my comments inline.
+> >
+> >> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+> >> ---
+> >>  drivers/staging/media/ipu3/ipu3-css.c  | 7 ++++---
+> >>  drivers/staging/media/ipu3/ipu3-css.h  | 3 ++-
+> >>  drivers/staging/media/ipu3/ipu3-v4l2.c | 6 ++++++
+> >>  drivers/staging/media/ipu3/ipu3.c      | 6 ++++--
+> >>  drivers/staging/media/ipu3/ipu3.h      | 1 +
+> >>  5 files changed, 17 insertions(+), 6 deletions(-)
+> >>
+> >> diff --git a/drivers/staging/media/ipu3/ipu3-css.c b/drivers/staging/media/ipu3/ipu3-css.c
+> >> index fd1ed84c400c..590ed7e182a6 100644
+> >> --- a/drivers/staging/media/ipu3/ipu3-css.c
+> >> +++ b/drivers/staging/media/ipu3/ipu3-css.c
+> >> @@ -210,12 +210,13 @@ static int imgu_hw_wait(void __iomem *base, int reg, u32 mask, u32 cmp)
+> >>
+> >>  /* Initialize the IPU3 CSS hardware and associated h/w blocks */
+> >>
+> >> -int imgu_css_set_powerup(struct device *dev, void __iomem *base)
+> >> +int imgu_css_set_powerup(struct device *dev, void __iomem *base, bool low_power)
+> >>  {
+> >> -       static const unsigned int freq = 450;
+> >> +       unsigned int freq;
+> >
+> > How about making freq the argument to this function rather than
+> > introducing some artificial boolean?
+> Let me try to move the check into imgu_powerup().
+> >
+> >>         u32 pm_ctrl, state, val;
+> >>
+> >> -       dev_dbg(dev, "%s\n", __func__);
+> >> +       freq = low_power ? 200 : 450;
+> >> +       dev_dbg(dev, "%s with freq %u\n", __func__, freq);
+> >>         /* Clear the CSS busy signal */
+> >>         readl(base + IMGU_REG_GP_BUSY);
+> >>         writel(0, base + IMGU_REG_GP_BUSY);
+> >> diff --git a/drivers/staging/media/ipu3/ipu3-css.h b/drivers/staging/media/ipu3/ipu3-css.h
+> >> index 6b8bab27ab1f..882936a9dae9 100644
+> >> --- a/drivers/staging/media/ipu3/ipu3-css.h
+> >> +++ b/drivers/staging/media/ipu3/ipu3-css.h
+> >> @@ -187,7 +187,8 @@ bool imgu_css_is_streaming(struct imgu_css *css);
+> >>  bool imgu_css_pipe_queue_empty(struct imgu_css *css, unsigned int pipe);
+> >>
+> >>  /******************* css hw *******************/
+> >> -int imgu_css_set_powerup(struct device *dev, void __iomem *base);
+> >> +int imgu_css_set_powerup(struct device *dev, void __iomem *base,
+> >> +                        bool low_power);
+> >>  void imgu_css_set_powerdown(struct device *dev, void __iomem *base);
+> >>  int imgu_css_irq_ack(struct imgu_css *css);
+> >>
+> >> diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
+> >> index 3c7ad1eed434..dcc2a0476e49 100644
+> >> --- a/drivers/staging/media/ipu3/ipu3-v4l2.c
+> >> +++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
+> >> @@ -182,6 +182,12 @@ static int imgu_subdev_set_fmt(struct v4l2_subdev *sd,
+> >>                 fmt->format.height = clamp(fmt->format.height,
+> >>                                            IPU3_INPUT_MIN_HEIGHT,
+> >>                                            IPU3_INPUT_MAX_HEIGHT);
+> >> +
+> >> +               /* input less than 2.3MP, ask imgu to work with low freq */
+> >> +               if ((fmt->format.width * fmt->format.height) < (2048 * 1152))
+> >
+> > Why 2048 * 1152 specifically if we just care about the number of
+> > pixels? Also it's slightly more than 2.3Mpix (2.359296 Mpix) making
+> > the comment inaccurate.
+> 2048 *1152 is the smallest common 16:9/4:3 resolution that larger than
+> 1080p, we try to use this resolution as the start point to make imgu
+> work on high frequency.
 
-And also this syzbot report:
+I'm still not sure what's the reason for this particular value. What's
+exactly the hardware specification for 200 MHz?
 
-https://syzkaller.appspot.com/bug?extid=06283a66a648cd073885
+> >
+> >> +                       imgu->low_power = true;
+> >> +               else
+> >> +                       imgu->low_power = false;
+> >
+> > There should be no need to store this, as we should have access to the
+> > exact format when we start streaming. Could you move the check there?
+> >
+> > Also, we have 2 pipes. How do they play together?
+> We want to guarantee 2 pipes can always work on each frequency, there is
+> no precise calculation which can be used to make more finer granularity.
 
-> 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Reported-by: syzbot+736c3aae4af7b50d9683@syzkaller.appspotmail.com
+i'm not sure I follow. imgu->low_power is a variable common to both
+pipes, but it can be changed from subdev_s_fmt() of each pipe
+separately.
 
-Reported-and-tested-by: syzbot+06283a66a648cd073885@syzkaller.appspotmail.com
+Consider this example:
+- pipe 0 s_fmt 2048x1536 -> low_power = false;
+- pipe 1 s_fmt 1024x768 -> low_power = truel
 
-Regards,
+We end up with low_power despite the resolution on pipe 0 being higher
+than the thershold.
 
-	Hans
-
-> ---
-> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> index 4489744fbbd9..7c70bb9f6cb8 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> @@ -677,6 +677,11 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  		return -EBUSY;
->  	}
-> 
-> +	if (q->in_stop_streaming) {
-> +		dprintk(1, "reqbufs while the stream is being stopped\n");
-> +		return -EBUSY;
-> +	}
-> +
->  	if (q->waiting_in_dqbuf && *count) {
->  		dprintk(1, "another dup()ped fd is waiting for a buffer\n");
->  		return -EBUSY;
-> @@ -811,6 +816,11 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->  	unsigned plane_sizes[VB2_MAX_PLANES] = { };
->  	int ret;
-> 
-> +	if (q->in_stop_streaming) {
-> +		dprintk(1, "create_bufs while the stream is being stopped\n");
-> +		return -EBUSY;
-> +	}
-> +
->  	if (q->num_buffers == VB2_MAX_FRAME) {
->  		dprintk(1, "maximum number of buffers already allocated\n");
->  		return -ENOBUFS;
-> @@ -1514,6 +1524,11 @@ int vb2_core_qbuf(struct vb2_queue *q, unsigned int index, void *pb,
->  	struct vb2_buffer *vb;
->  	int ret;
-> 
-> +	if (q->in_stop_streaming) {
-> +		dprintk(1, "qbuf while the stream is being stopped\n");
-> +		return -EBUSY;
-> +	}
-> +
->  	if (q->error) {
->  		dprintk(1, "fatal error occurred on queue\n");
->  		return -EIO;
-> @@ -1675,6 +1690,11 @@ static int __vb2_wait_for_done_vb(struct vb2_queue *q, int nonblocking)
->  			return -EBUSY;
->  		}
-> 
-> +		if (q->in_stop_streaming) {
-> +			dprintk(1, "the stream is being stopped, will not wait for buffers\n");
-> +			return -EINVAL;
-> +		}
-> +
->  		if (!q->streaming) {
->  			dprintk(1, "streaming off, will not wait for buffers\n");
->  			return -EINVAL;
-> @@ -1716,7 +1736,7 @@ static int __vb2_wait_for_done_vb(struct vb2_queue *q, int nonblocking)
->  		dprintk(3, "will sleep waiting for buffers\n");
->  		ret = wait_event_interruptible(q->done_wq,
->  				!list_empty(&q->done_list) || !q->streaming ||
-> -				q->error);
-> +				q->in_stop_streaming || q->error);
-> 
->  		/*
->  		 * We need to reevaluate both conditions again after reacquiring
-> @@ -1866,12 +1886,18 @@ static void __vb2_queue_cancel(struct vb2_queue *q)
->  {
->  	unsigned int i;
-> 
-> +	if (WARN_ON(q->in_stop_streaming))
-> +		return;
-> +
->  	/*
->  	 * Tell driver to stop all transactions and release all queued
->  	 * buffers.
->  	 */
-> -	if (q->start_streaming_called)
-> +	if (q->start_streaming_called) {
-> +		q->in_stop_streaming = 1;
->  		call_void_qop(q, stop_streaming, q);
-> +		q->in_stop_streaming = 0;
-> +	}
-> 
->  	/*
->  	 * If you see this warning, then the driver isn't cleaning up properly
-> @@ -1975,6 +2001,11 @@ int vb2_core_streamon(struct vb2_queue *q, unsigned int type)
->  		return -EINVAL;
->  	}
-> 
-> +	if (q->in_stop_streaming) {
-> +		dprintk(1, "streamon while the stream is being stopped\n");
-> +		return -EBUSY;
-> +	}
-> +
->  	if (q->streaming) {
->  		dprintk(3, "already streaming\n");
->  		return 0;
-> @@ -2026,6 +2057,11 @@ int vb2_core_streamoff(struct vb2_queue *q, unsigned int type)
->  		return -EINVAL;
->  	}
-> 
-> +	if (q->in_stop_streaming) {
-> +		dprintk(1, "streamoff while the stream is being stopped\n");
-> +		return -EBUSY;
-> +	}
-> +
->  	/*
->  	 * Cancel will pause streaming and remove all buffers from the driver
->  	 * and videobuf, effectively returning control over them to userspace.
-> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
-> index 640aabe69450..c4b7edd25e13 100644
-> --- a/include/media/videobuf2-core.h
-> +++ b/include/media/videobuf2-core.h
-> @@ -535,6 +535,9 @@ struct vb2_buf_ops {
->   * @streaming:	current streaming state
->   * @start_streaming_called: @start_streaming was called successfully and we
->   *		started streaming.
-> + * @in_stop_streaming: set when calling @stop_streaming. While 1, no new buffers
-> + * 		can be queued or created, and neither is it possible to start or
-> + * 		stop streaming.
->   * @error:	a fatal error occurred on the queue
->   * @waiting_for_buffers: used in poll() to check if vb2 is still waiting for
->   *		buffers. Only set for capture queues if qbuf has not yet been
-> @@ -595,6 +598,7 @@ struct vb2_queue {
-> 
->  	unsigned int			streaming:1;
->  	unsigned int			start_streaming_called:1;
-> +	unsigned int			in_stop_streaming:1;
->  	unsigned int			error:1;
->  	unsigned int			waiting_for_buffers:1;
->  	unsigned int			waiting_in_dqbuf:1;
-> 
-
+Best regards,
+Tomasz
