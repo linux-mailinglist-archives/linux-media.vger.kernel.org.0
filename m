@@ -2,95 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 10F5A90BE0
-	for <lists+linux-media@lfdr.de>; Sat, 17 Aug 2019 03:15:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7811590C93
+	for <lists+linux-media@lfdr.de>; Sat, 17 Aug 2019 05:53:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725945AbfHQBP2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Aug 2019 21:15:28 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:46104 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725829AbfHQBP2 (ORCPT
+        id S1726132AbfHQDxQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Aug 2019 23:53:16 -0400
+Received: from Mailgw01.mediatek.com ([1.203.163.78]:49033 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725829AbfHQDxQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Aug 2019 21:15:28 -0400
-Received: by mail-qt1-f195.google.com with SMTP id j15so8018139qtl.13;
-        Fri, 16 Aug 2019 18:15:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=P7AqQZeADBtiPH+C4tzBJMUOLLardiNcvH5dbcyA0r4=;
-        b=XUZj/TuAV5C/7e8mIoGRGN0shm4UM0kqukS7KvHmxP3AGksuHfMIkfDqPLuIPKqq+y
-         NFcrAs1t7+jd97EtL0NNGHqGx8c8+HijysZKrdbgn/0eKjz/MvKUlU20vwcv46ZPzzBR
-         Gqs0NYwyLaoWpZTfYNItiEQ9QriYpx5QjjuSbZKC0O1OiCHdm4UB4IR0Cob2aAq2Swf+
-         rYKZdtRqggBNRFkVde4q2ygF+pFCc0Kj4rky56D5SnJuUKu/OtTr2GXeAaVjFy6OJIWl
-         k0AvuYSy1uMO4soHT7R6hrbXvDnwscUMb0z6u5yqL8/u9glSL0DRIk32GiHbb/Sw7WKZ
-         PvMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=P7AqQZeADBtiPH+C4tzBJMUOLLardiNcvH5dbcyA0r4=;
-        b=pWSLq073GF6KiC7zBNinDOhwRt2Hc7uFjNxLGE16L1NiGzZu2cYD7swmVN6oMpt96W
-         cp0KLLPWwIGmEwO45NggEMil3gWoVNwRv5PU/k0iJuw0AP/tUzHOb1tu6UPAZhMybmkK
-         j8kLmlV5zSikY4l74+HRzinXqkuO8PJl54vb12I1AF7U/HaJ+0LOuxuee/1sBYfVj2f5
-         XC3YOZ7e8sAvx/iNZQMrptKnXBfiVlpHnN/iqmgnFZpMbUZs4My4i+FbjIIpu5FV6Ovx
-         37Cr8kGQGNPvfJVixVwOoargl5oMpt9KFNd0kdSiHq8mNwU5rIb3sZCHeX7R12QFHGjg
-         +a9Q==
-X-Gm-Message-State: APjAAAVtI6Sc+S+a/XQZQZMZgRMqY8yeYCXLWNx28bCZH6nZkFr9iKfu
-        8rTgOjUUHUALgrCM9+w3jIYm/wp8fupgPLEmFbRmjx6lOgM=
-X-Google-Smtp-Source: APXvYqzVMLZLV0NflpxBmoMdVTTrqmTz44DZn3IMyYT66E2M2UOLSzK1J+wQhLC9pjtjIHPk5f9dfiv0let0w1CMVvM=
-X-Received: by 2002:ac8:2b47:: with SMTP id 7mr11489623qtv.116.1566004527315;
- Fri, 16 Aug 2019 18:15:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <CALaQ_hruPmgnE5yh_MJLLZ_7sPNEnzX8H-WfR=fBvcfEzfG9Fg@mail.gmail.com>
- <e616d881-25e2-c295-2a98-b51c8cbcbc81@nextdimension.cc>
-In-Reply-To: <e616d881-25e2-c295-2a98-b51c8cbcbc81@nextdimension.cc>
-From:   Nathan Royce <nroycea+kernel@gmail.com>
-Date:   Fri, 16 Aug 2019 20:15:17 -0500
-Message-ID: <CALaQ_hqEZ-kco1esyB4mk0z9Q9Xt1XZsgYKR7gSdF7COERKoOA@mail.gmail.com>
-Subject: Re: Kernel 5.2.8 - au0828 - Tuner Is Busy
-To:     Brad Love <brad@nextdimension.cc>
-Cc:     sean@mess.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Shuah Khan <shuah@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+        Fri, 16 Aug 2019 23:53:16 -0400
+X-UUID: 7a5ffd59a7b94a3fa676b8e7829e81cc-20190817
+X-UUID: 7a5ffd59a7b94a3fa676b8e7829e81cc-20190817
+Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+        (envelope-from <dongchun.zhu@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLS)
+        with ESMTP id 968920771; Sat, 17 Aug 2019 11:53:10 +0800
+Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS31N1.mediatek.inc
+ (172.27.4.69) with Microsoft SMTP Server (TLS) id 15.0.1395.4; Sat, 17 Aug
+ 2019 11:53:08 +0800
+Received: from [10.17.3.153] (172.27.4.253) by MTKCAS32.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Sat, 17 Aug 2019 11:53:07 +0800
+Message-ID: <1566013985.21623.9.camel@mhfsdcap03>
+Subject: Re: [RFC,V2,1/2] media: dt-bindings: media: i2c: Add bindings for
+ OV02A10
+From:   Dongchun Zhu <dongchun.zhu@mediatek.com>
+To:     <sakari.ailus@iki.fi>
+CC:     <mchehab@kernel.org>, <robh+dt@kernel.org>, <mark.rutland@arm.com>,
+        <matthias.bgg@gmail.com>, <bingbu.cao@intel.com>,
+        <srv_heupstream@mediatek.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>, <sj.huang@mediatek.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <louis.kuo@mediatek.com>, <menghui.lin@mediatek.com>,
+        <shengnan.wang@mediatek.com>, <tfiga@google.com>,
+        <drinkcat@chromium.org>
+Date:   Sat, 17 Aug 2019 11:53:05 +0800
+In-Reply-To: <ef65288c523f405396991bd6d757bba0@mtkmbs02n1.mediatek.inc>
+References: <20190704084651.3105-1-dongchun.zhu@mediatek.com>
+         <20190704084651.3105-2-dongchun.zhu@mediatek.com>
+         <20190723074153.GA4606@paasikivi.fi.intel.com>
+         <ef65288c523f405396991bd6d757bba0@mtkmbs02n1.mediatek.inc>
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-TM-SNTS-SMTP: 4774094677F93A251C0A435CD09B88B2EBA9C5713E4CDF9174222B5ED8EA93A72000:8
+X-MTK:  N
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Aug 16, 2019 at 1:42 PM Greg Kroah-Hartman
-<gregkh@linuxfoundation.org> wrote:
-> If you revert that one commit, does things start working again?
->
-> thanks,
->
-> greg k-h
-Hey Greg, I just got finished building it after running "$ git revert
-812658d88d26" and verifying it reverted by comparing one of the files
-from git log -p, but alas, no joy.
 
-On Fri, Aug 16, 2019 at 5:41 PM Brad Love <brad@nextdimension.cc> wrote:
->
-> Hi Nathan,
->
-> I don't have a "woodbury", but I have a Hauppauge 950Q sitting around
-> and tested it on latest mainline kernel. w_scan is ok and streaming is
-> fine. There's no unexpected errors. The 950Q uses the same au0828 bridge
-> and au8522 demod as woodbury, but a different tuner. Your problem
-> wouldn't appear to be a general au0828 issue.
->
-> You might have to check out git bisect. That will be the quickest way to
-> get to the bottom, if you've got points A and B, and are
-> building/running your own kernel.
->
-> Cheers,
->
-> Brad
-Thanks Brad, I'll explore bisecting and hopefully will be able to
-narrow down the cause.
-I wasn't running my own kernel, but rather using the Arch Linux kernel
-and modding the one module and putting it in "extramodules".
+Hi Sakari,
+
+On Tue, 2019-07-23 at 10:41 +0300, Sakari Ailus wrote:
+> 
+> Hi Dongchun,
+> 
+> On Thu, Jul 04, 2019 at 04:46:50PM +0800, dongchun.zhu@mediatek.com wrote:
+> > From: Dongchun Zhu <dongchun.zhu@mediatek.com>
+> >
+> > Add device tree binding documentation for the OV02A10 camera sensor.
+> >
+> > Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
+> > ---
+> >  .../devicetree/bindings/media/i2c/ov02a10.txt      | 43 ++++++++++++++++++++++
+> >  MAINTAINERS                                        |  7 ++++
+> >  2 files changed, 50 insertions(+)
+> >  create mode 100644
+> > Documentation/devicetree/bindings/media/i2c/ov02a10.txt
+> >
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/ov02a10.txt
+> > b/Documentation/devicetree/bindings/media/i2c/ov02a10.txt
+> > new file mode 100644
+> > index 0000000..d40aa87
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/i2c/ov02a10.txt
+> > @@ -0,0 +1,43 @@
+> > +* Omnivision OV02A10 MIPI CSI-2 sensor
+> > +
+> > +Required Properties:
+> > +- compatible: shall be "ovti,ov02a10"
+> > +- clocks: reference to the xvclk input clock
+> > +- clock-names: shall be "xvclk"
+> > +- avdd-supply: Analog voltage supply, 2.8 volts
+> > +- dovdd-supply: Digital I/O voltage supply, 1.8 volts
+> > +- dvdd-supply: Digital core voltage supply, 1.8 volts
+> > +- reset-gpios: Low active reset gpio
+> > +
+> > +The device node shall contain one 'port' child node with an
+> > +'endpoint' subnode for its digital output video port, in accordance
+> > +with the video interface bindings defined in
+> > +Documentation/devicetree/bindings/media/video-interfaces.txt.
+> > +The endpoint optional property 'data-lanes' shall be "<1>".
+> 
+> How many lanes does the module (or the sensor) have?
+> 
+
+From sensor datasheet, OV02A10 supports 1-lane MIPI interface.
+
+> > +
+> > +Example:
+> > +&i2c4 {
+> > +ov02a10: camera-sensor@3d {
+> > +compatible = "ovti,ov02a10";
+> > +reg = <0x3d>;
+> > +pinctrl-names = "default";
+> > +pinctrl-0 = <&camera_pins_cam1_mclk_on>;
+> > +
+> > +clocks = <&topckgen CLK_TOP_MUX_CAMTG2>,
+> > +<&topckgen CLK_TOP_UNIVP_192M_D8>;
+> > +clock-names = "xvclk", "freq_mux";
+> > +
+> > +avdd-supply = <&mt6358_vcama1_reg>;
+> > +dvdd-supply = <&mt6358_vcn18_reg>;
+> > +dovdd-supply = <&mt6358_vcamio_reg>;
+> > +pwdn-gpios = <&pio 107 1>;
+> > +reset-gpios = <&pio 109 1>;
+> > +
+> > +port {
+> > +   ov02a10_core: endpoint {
+> > +       remote-endpoint = <&ov02a10_0>;
+> 
+> Indentation is still wrong. :-(
+> 
+
+Fixed in next release.
+
+> > +   data-lanes = <1>;
+> > +};
+> > +};
+> > +};
+> > +};
+> > diff --git a/MAINTAINERS b/MAINTAINERS index 5cfbea4..62b81ff 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -11571,6 +11571,13 @@ T:git git://linuxtv.org/media_tree.git
+> >  S:Maintained
+> >  F:drivers/media/i2c/ov13858.c
+> >
+> > +OMNIVISION OV02A10 SENSOR DRIVER
+> > +M:Dongchun Zhu <dongchun.zhu@mediatek.com>
+> > +L:linux-media@vger.kernel.org
+> > +T:git git://linuxtv.org/media_tree.git
+> > +S:Maintained
+> > +F:Documentation/devicetree/bindings/media/i2c/ov02a10.txt
+> > +
+> >  OMNIVISION OV2680 SENSOR DRIVER
+> >  M:Rui Miguel Silva <rmfrfs@gmail.com>
+> >  L:linux-media@vger.kernel.org
+> 
+> --
+> Kind regards,
+> 
+> Sakari Ailus
+> sakari.ailus@linux.intel.com
+> 
+> _______________________________________________
+> Linux-mediatek mailing list
+> Linux-mediatek@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-mediatek
+> *********************MEDIATEK Confidential/Internal Use*********************
+
+
