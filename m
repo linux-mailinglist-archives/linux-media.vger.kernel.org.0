@@ -2,102 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7690690FDC
-	for <lists+linux-media@lfdr.de>; Sat, 17 Aug 2019 11:49:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 43F1690FE6
+	for <lists+linux-media@lfdr.de>; Sat, 17 Aug 2019 12:08:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725966AbfHQJs6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 17 Aug 2019 05:48:58 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:53355 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725840AbfHQJs6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 17 Aug 2019 05:48:58 -0400
-Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id yvKPh8Uj8DqPeyvKShf07s; Sat, 17 Aug 2019 11:48:56 +0200
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Hugues FRUCHET <hugues.fruchet@st.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.4] Various fixes and enhancements
-Message-ID: <1e96f70a-4589-d905-1d0e-63a8d2ddbe43@xs4all.nl>
-Date:   Sat, 17 Aug 2019 11:48:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1725934AbfHQKIx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 17 Aug 2019 06:08:53 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:58730 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725925AbfHQKIx (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 17 Aug 2019 06:08:53 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtp (Exim 4.84_2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1hyvdb-0001Ff-FN; Sat, 17 Aug 2019 10:08:43 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1hyvdd-0000MN-3W; Sat, 17 Aug 2019 10:08:45 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.4] Hantro H.264 + finish stateful decoder spec
+Date:   Sat, 17 Aug 2019 10:08:44 +0000
+Message-Id: <20190817100844.1342-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <1be8ac17-349b-ef4d-299d-4f38889492ec@xs4all.nl>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfJDXg29G9oQxdxhRi+xoJjiyhBYSM4+O6LhvmZHmtNkEKWwqcnurvLgb+iIj4UMPIpOLVdfzSQSjpnbv82LEYkAhGJStqY/9Y6LVqPhLuCevGohdK27L
- fxXpeauo+IYPTrZ4dY6y7jiSCg8kHKrvOQuUfwMWqEU0FBmhTs0pGpK+kCo/4F3zuqwWng/xkoITCm7zOcthQ7T5uxBX6ziqs+M=
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 31d5d15dfc3418a57cfab419a353d8dc5f5698b5:
+From: builder@linuxtv.org
 
-  media: MAINTAINERS: Add entry for the ov5670 driver (2019-08-15 08:17:04 -0300)
+Pull request: https://patchwork.linuxtv.org/patch/58252/
+Build log: https://builder.linuxtv.org/job/patchwork/10603/
+Build time: 00:35:01
+Link: https://lore.kernel.org/linux-media/1be8ac17-349b-ef4d-299d-4f38889492ec@xs4all.nl
+Summary: 8 patches and/or PDF generation with issues, being 0 at build time
 
-are available in the Git repository at:
+gpg: Signature made Sat 17 Aug 2019 08:26:34 AM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.4m
 
-for you to fetch changes up to cbc77b4a4f3125684f87e9a3ddfdc1a102e31e99:
+Error/warnings:
 
-  gspca: zero usb_buf on error (2019-08-17 11:34:22 +0200)
+patches/0001-lib-sort.c-implement-sort-variant-taking-context-arg.patch:30: WARNING: Non-standard signature: Requested-by:
+patches/0001-lib-sort.c-implement-sort-variant-taking-context-arg.patch:114: WARNING: line over 80 characters
+patches/0001-lib-sort.c-implement-sort-variant-taking-context-arg.patch:120: WARNING: line over 80 characters
 
-----------------------------------------------------------------
-Tag branch
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0001-lib-sort.c-implement-sort-variant-taking-context-arg.patch
+patches/0002-media-uapi-h264-Rename-pixel-format.patch:50: WARNING: line over 80 characters
+patches/0002-media-uapi-h264-Rename-pixel-format.patch:50: ERROR: trailing statements should be on next line
+patches/0002-media-uapi-h264-Rename-pixel-format.patch:107: WARNING: line over 80 characters
 
-----------------------------------------------------------------
-Ezequiel Garcia (2):
-      media: Clarify how menus are hidden by SUBDRV_AUTOSELECT
-      media: rockchip/rga: Update maintainership
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0002-media-uapi-h264-Rename-pixel-format.patch
+patches/0003-media-uapi-h264-Add-the-concept-of-decoding-mode.patch:154: WARNING: line over 80 characters
+patches/0003-media-uapi-h264-Add-the-concept-of-decoding-mode.patch:174: CHECK: spaces preferred around that '+' (ctx:VxV)
 
-Geert Uytterhoeven (1):
-      media: Fix various misspellings of disconnected
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0003-media-uapi-h264-Add-the-concept-of-decoding-mode.patch
+patches/0004-media-uapi-h264-Add-the-concept-of-start-code.patch:118: WARNING: line over 80 characters
+patches/0004-media-uapi-h264-Add-the-concept-of-start-code.patch:138: CHECK: spaces preferred around that '+' (ctx:VxV)
 
-Hans Verkuil (4):
-      vidioc-queryctrl.rst: fix broken c:type references
-      radio/si470x: kill urb on error
-      hdpvr: add terminating 0 at end of string
-      gspca: zero usb_buf on error
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0004-media-uapi-h264-Add-the-concept-of-start-code.patch
+patches/0006-media-cedrus-Cleanup-control-initialization.patch:109: WARNING: line over 80 characters
 
-Hugues Fruchet (4):
-      media: stm32-dcmi: improve sensor subdev naming
-      media: stm32-dcmi: trace the supported fourcc/mbus_code
-      media: stm32-dcmi: add media controller support
-      media: stm32-dcmi: add support of several sub-devices
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0006-media-cedrus-Cleanup-control-initialization.patch
+patches/0009-media-hantro-Add-core-bits-to-support-H264-decoding.patch:138: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+patches/0009-media-hantro-Add-core-bits-to-support-H264-decoding.patch:536: CHECK: Unnecessary parentheses around 'poca < builder->curpoc'
+patches/0009-media-hantro-Add-core-bits-to-support-H264-decoding.patch:536: CHECK: Unnecessary parentheses around 'pocb < builder->curpoc'
+patches/0009-media-hantro-Add-core-bits-to-support-H264-decoding.patch:577: CHECK: Unnecessary parentheses around 'poca < builder->curpoc'
+patches/0009-media-hantro-Add-core-bits-to-support-H264-decoding.patch:577: CHECK: Unnecessary parentheses around 'pocb < builder->curpoc'
 
- Documentation/media/uapi/v4l/vidioc-queryctrl.rst |   4 +-
- MAINTAINERS                                       |   3 +-
- drivers/media/Kconfig                             |   5 +
- drivers/media/dvb-frontends/Kconfig               |   5 +-
- drivers/media/i2c/Kconfig                         |   5 +-
- drivers/media/platform/Kconfig                    |   2 +-
- drivers/media/platform/stm32/stm32-dcmi.c         | 317 ++++++++++++++++++++++++++++++++++++++++++--------
- drivers/media/radio/si470x/radio-si470x-usb.c     |   5 +-
- drivers/media/spi/Kconfig                         |   5 +-
- drivers/media/tuners/Kconfig                      |   6 +-
- drivers/media/usb/cx231xx/cx231xx-cards.c         |   4 +-
- drivers/media/usb/cx231xx/cx231xx-core.c          |   2 +-
- drivers/media/usb/cx231xx/cx231xx-video.c         |   2 +-
- drivers/media/usb/em28xx/em28xx-video.c           |   2 +-
- drivers/media/usb/em28xx/em28xx.h                 |   2 +-
- drivers/media/usb/gspca/konica.c                  |   5 +
- drivers/media/usb/gspca/nw80x.c                   |   5 +
- drivers/media/usb/gspca/ov519.c                   |  10 ++
- drivers/media/usb/gspca/ov534.c                   |   5 +
- drivers/media/usb/gspca/ov534_9.c                 |   1 +
- drivers/media/usb/gspca/se401.c                   |   5 +
- drivers/media/usb/gspca/sn9c20x.c                 |   5 +
- drivers/media/usb/gspca/sonixb.c                  |   5 +
- drivers/media/usb/gspca/sonixj.c                  |   5 +
- drivers/media/usb/gspca/spca1528.c                |   5 +
- drivers/media/usb/gspca/sq930x.c                  |   5 +
- drivers/media/usb/gspca/sunplus.c                 |   5 +
- drivers/media/usb/gspca/vc032x.c                  |   5 +
- drivers/media/usb/gspca/w996Xcf.c                 |   5 +
- drivers/media/usb/hdpvr/hdpvr-core.c              |   1 +
- drivers/media/usb/tm6000/tm6000-cards.c           |   2 +-
- 31 files changed, 376 insertions(+), 67 deletions(-)
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0009-media-hantro-Add-core-bits-to-support-H264-decoding.patch
+patches/0010-media-hantro-Add-support-for-H264-decoding-on-G1.patch:32: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+patches/0010-media-hantro-Add-support-for-H264-decoding-on-G1.patch:89: WARNING: line over 80 characters
+patches/0010-media-hantro-Add-support-for-H264-decoding-on-G1.patch:95: WARNING: line over 80 characters
+patches/0010-media-hantro-Add-support-for-H264-decoding-on-G1.patch:107: WARNING: line over 80 characters
+patches/0010-media-hantro-Add-support-for-H264-decoding-on-G1.patch:111: WARNING: line over 80 characters
+patches/0010-media-hantro-Add-support-for-H264-decoding-on-G1.patch:125: WARNING: line over 80 characters
+patches/0010-media-hantro-Add-support-for-H264-decoding-on-G1.patch:141: WARNING: line over 80 characters
+patches/0010-media-hantro-Add-support-for-H264-decoding-on-G1.patch:142: WARNING: line over 80 characters
+
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0010-media-hantro-Add-support-for-H264-decoding-on-G1.patch
+patches/0017-media-docs-rst-Document-memory-to-memory-video-decod.patch:39: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0017-media-docs-rst-Document-memory-to-memory-video-decod.patch
+
