@@ -2,72 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3446990BDD
-	for <lists+linux-media@lfdr.de>; Sat, 17 Aug 2019 03:12:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10F5A90BE0
+	for <lists+linux-media@lfdr.de>; Sat, 17 Aug 2019 03:15:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725925AbfHQBMy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Aug 2019 21:12:54 -0400
-Received: from mail.kapsi.fi ([91.232.154.25]:49003 "EHLO mail.kapsi.fi"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725829AbfHQBMy (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Aug 2019 21:12:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-         s=20161220; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject
-        :Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
-        Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-        In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-        List-Post:List-Owner:List-Archive;
-        bh=d/1sSyOZpUbnJt3U8OZfKFT4ZJRLrSkvBk1gpXfkkro=; b=YIgumsxPiX4gnltJjhp1/VRhP2
-        awO0B0aakX4SExEbyy4GnUc0IViZNpb6I6jeWwBqrq0Hm9ZhUTLUt2spR9aXczoIJwOzE9UB3MUfF
-        C5Av1CIAiQc85eND1w0+zyL3jAYKBiFJdwD9OSTet/OQP1F1miGHRi8D/44NPytwsuhft+VSZsiQe
-        g7qx4+4kJFmqYGK53CTuJ9/xbFq3bybHs91dAeZylZ0hCfoCX1dbYtbeosc/Vq47IqmBpKrraeE+w
-        aGPVKraEMNRhrKHT/Epb/6iLnE6J/+QekpKtyy4e18W580Hw6yJdy4q5Ru21EOqvh0rNim1JHx5DQ
-        VdTwUfow==;
-Received: from dvbz8cyyyyyyyyyyyy5hy-3.rev.dnainternet.fi ([2001:14ba:8869:c100::64c] helo=localhost.lan)
-        by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <crope@iki.fi>)
-        id 1hynH1-0005cj-NI; Sat, 17 Aug 2019 04:12:51 +0300
-From:   Antti Palosaari <crope@iki.fi>
-To:     linux-media@vger.kernel.org
-Cc:     Antti Palosaari <crope@iki.fi>
-Subject: [PATCH] msi2500: assign SPI bus number dynamically
-Date:   Sat, 17 Aug 2019 04:12:10 +0300
-Message-Id: <20190817011210.29765-1-crope@iki.fi>
-X-Mailer: git-send-email 2.21.0
+        id S1725945AbfHQBP2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Aug 2019 21:15:28 -0400
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:46104 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725829AbfHQBP2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 16 Aug 2019 21:15:28 -0400
+Received: by mail-qt1-f195.google.com with SMTP id j15so8018139qtl.13;
+        Fri, 16 Aug 2019 18:15:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=P7AqQZeADBtiPH+C4tzBJMUOLLardiNcvH5dbcyA0r4=;
+        b=XUZj/TuAV5C/7e8mIoGRGN0shm4UM0kqukS7KvHmxP3AGksuHfMIkfDqPLuIPKqq+y
+         NFcrAs1t7+jd97EtL0NNGHqGx8c8+HijysZKrdbgn/0eKjz/MvKUlU20vwcv46ZPzzBR
+         Gqs0NYwyLaoWpZTfYNItiEQ9QriYpx5QjjuSbZKC0O1OiCHdm4UB4IR0Cob2aAq2Swf+
+         rYKZdtRqggBNRFkVde4q2ygF+pFCc0Kj4rky56D5SnJuUKu/OtTr2GXeAaVjFy6OJIWl
+         k0AvuYSy1uMO4soHT7R6hrbXvDnwscUMb0z6u5yqL8/u9glSL0DRIk32GiHbb/Sw7WKZ
+         PvMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=P7AqQZeADBtiPH+C4tzBJMUOLLardiNcvH5dbcyA0r4=;
+        b=pWSLq073GF6KiC7zBNinDOhwRt2Hc7uFjNxLGE16L1NiGzZu2cYD7swmVN6oMpt96W
+         cp0KLLPWwIGmEwO45NggEMil3gWoVNwRv5PU/k0iJuw0AP/tUzHOb1tu6UPAZhMybmkK
+         j8kLmlV5zSikY4l74+HRzinXqkuO8PJl54vb12I1AF7U/HaJ+0LOuxuee/1sBYfVj2f5
+         XC3YOZ7e8sAvx/iNZQMrptKnXBfiVlpHnN/iqmgnFZpMbUZs4My4i+FbjIIpu5FV6Ovx
+         37Cr8kGQGNPvfJVixVwOoargl5oMpt9KFNd0kdSiHq8mNwU5rIb3sZCHeX7R12QFHGjg
+         +a9Q==
+X-Gm-Message-State: APjAAAVtI6Sc+S+a/XQZQZMZgRMqY8yeYCXLWNx28bCZH6nZkFr9iKfu
+        8rTgOjUUHUALgrCM9+w3jIYm/wp8fupgPLEmFbRmjx6lOgM=
+X-Google-Smtp-Source: APXvYqzVMLZLV0NflpxBmoMdVTTrqmTz44DZn3IMyYT66E2M2UOLSzK1J+wQhLC9pjtjIHPk5f9dfiv0let0w1CMVvM=
+X-Received: by 2002:ac8:2b47:: with SMTP id 7mr11489623qtv.116.1566004527315;
+ Fri, 16 Aug 2019 18:15:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:14ba:8869:c100::64c
-X-SA-Exim-Mail-From: crope@iki.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+References: <CALaQ_hruPmgnE5yh_MJLLZ_7sPNEnzX8H-WfR=fBvcfEzfG9Fg@mail.gmail.com>
+ <e616d881-25e2-c295-2a98-b51c8cbcbc81@nextdimension.cc>
+In-Reply-To: <e616d881-25e2-c295-2a98-b51c8cbcbc81@nextdimension.cc>
+From:   Nathan Royce <nroycea+kernel@gmail.com>
+Date:   Fri, 16 Aug 2019 20:15:17 -0500
+Message-ID: <CALaQ_hqEZ-kco1esyB4mk0z9Q9Xt1XZsgYKR7gSdF7COERKoOA@mail.gmail.com>
+Subject: Re: Kernel 5.2.8 - au0828 - Tuner Is Busy
+To:     Brad Love <brad@nextdimension.cc>
+Cc:     sean@mess.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Shuah Khan <shuah@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SPI bus number must be assigned dynamically for each device, otherwise it
-will crash when multiple devices are plugged to system.
+On Fri, Aug 16, 2019 at 1:42 PM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+> If you revert that one commit, does things start working again?
+>
+> thanks,
+>
+> greg k-h
+Hey Greg, I just got finished building it after running "$ git revert
+812658d88d26" and verifying it reverted by comparing one of the files
+from git log -p, but alas, no joy.
 
-Cc: stable@vger.kernel.org
-Reported-and-tested-by: syzbot+c60ddb60b685777d9d59@syzkaller.appspotmail.com
-Signed-off-by: Antti Palosaari <crope@iki.fi>
----
- drivers/media/usb/msi2500/msi2500.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/media/usb/msi2500/msi2500.c b/drivers/media/usb/msi2500/msi2500.c
-index 65be6f140fe8..1c60dfb647e5 100644
---- a/drivers/media/usb/msi2500/msi2500.c
-+++ b/drivers/media/usb/msi2500/msi2500.c
-@@ -1230,7 +1230,7 @@ static int msi2500_probe(struct usb_interface *intf,
- 	}
- 
- 	dev->master = master;
--	master->bus_num = 0;
-+	master->bus_num = -1;
- 	master->num_chipselect = 1;
- 	master->transfer_one_message = msi2500_transfer_one_message;
- 	spi_master_set_devdata(master, dev);
--- 
-2.21.0
-
+On Fri, Aug 16, 2019 at 5:41 PM Brad Love <brad@nextdimension.cc> wrote:
+>
+> Hi Nathan,
+>
+> I don't have a "woodbury", but I have a Hauppauge 950Q sitting around
+> and tested it on latest mainline kernel. w_scan is ok and streaming is
+> fine. There's no unexpected errors. The 950Q uses the same au0828 bridge
+> and au8522 demod as woodbury, but a different tuner. Your problem
+> wouldn't appear to be a general au0828 issue.
+>
+> You might have to check out git bisect. That will be the quickest way to
+> get to the bottom, if you've got points A and B, and are
+> building/running your own kernel.
+>
+> Cheers,
+>
+> Brad
+Thanks Brad, I'll explore bisecting and hopefully will be able to
+narrow down the cause.
+I wasn't running my own kernel, but rather using the Arch Linux kernel
+and modding the one module and putting it in "extramodules".
