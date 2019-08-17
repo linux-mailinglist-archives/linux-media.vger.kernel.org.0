@@ -2,80 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D5F6590D9D
-	for <lists+linux-media@lfdr.de>; Sat, 17 Aug 2019 09:04:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17B1090FAB
+	for <lists+linux-media@lfdr.de>; Sat, 17 Aug 2019 11:31:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725925AbfHQHEO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 17 Aug 2019 03:04:14 -0400
-Received: from mail-yb1-f195.google.com ([209.85.219.195]:33411 "EHLO
-        mail-yb1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725267AbfHQHEO (ORCPT
+        id S1725840AbfHQJb6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 17 Aug 2019 05:31:58 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:51041 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725267AbfHQJb5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 17 Aug 2019 03:04:14 -0400
-Received: by mail-yb1-f195.google.com with SMTP id b16so2718542ybq.0;
-        Sat, 17 Aug 2019 00:04:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=GaE8AdPWP2CvtbUBOKaQC7z0Y9OZpgy5HIC4jNxXiLY=;
-        b=ZIh4ge7ncwF8PdNblZ261J7bYxaRtFPDQBpOp5cnq/jDgSOXxX8QdpLmWtC5wsLEdU
-         aZ83EfRWbCz2jPeoW3M39YGHmQGV1CSKA1n6/EsbJeQyZONTFGKUJCsozCtMj4qzLX2d
-         3wxiLf4ogiKHE2ztCAObjLCH+nKViz61uecCyqZbbV0gU31oyVJjt4sTizWUO6wNilzv
-         K+QdO2XEgRiZ5avavzIstsPKXShYjY+f3RqNwSBNLnwiIce5iOU8asuGH3SXkjcI2LGN
-         +6xOug+F0gMYhRTzLNDffhH2F2jkZfRA/dvjkIEfV36FPPDF6wSZCIMfzChrYRLZwul1
-         81OQ==
-X-Gm-Message-State: APjAAAWte0kOhH753PvkNXe5rq8lDVUKV4L886PBHPeX9H7suX9C6yPN
-        Pdvt8PRa1OK3LzalUQ0TXE4=
-X-Google-Smtp-Source: APXvYqwOLR8TvHSUwjWn178dDEA/rlLUsfdD3cDN4gTH95Cl2zZ5s1Oluvzd/iz2UOh0AhZu8Dr7Yg==
-X-Received: by 2002:a25:be87:: with SMTP id i7mr10081044ybk.388.1566025453049;
-        Sat, 17 Aug 2019 00:04:13 -0700 (PDT)
-Received: from localhost.localdomain (24-158-240-219.dhcp.smyr.ga.charter.com. [24.158.240.219])
-        by smtp.gmail.com with ESMTPSA id u191sm2128754ywf.74.2019.08.17.00.04.11
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Sat, 17 Aug 2019 00:04:12 -0700 (PDT)
-From:   Wenwen Wang <wenwen@cs.uga.edu>
-To:     Wenwen Wang <wenwen@cs.uga.edu>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Richard Fontana <rfontana@redhat.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Allison Randal <allison@lohutok.net>,
-        linux-media@vger.kernel.org (open list:MEDIA INPUT INFRASTRUCTURE
-        (V4L/DVB)), linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] media: dvb-frontends: fix a memory leak bug
-Date:   Sat, 17 Aug 2019 02:04:04 -0500
-Message-Id: <1566025445-5383-1-git-send-email-wenwen@cs.uga.edu>
-X-Mailer: git-send-email 2.7.4
+        Sat, 17 Aug 2019 05:31:57 -0400
+Received: from [192.168.2.10] ([46.9.232.237])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id yv3th8PggDqPeyv3xhexsE; Sat, 17 Aug 2019 11:31:55 +0200
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.4] Hantro H.264 + finish stateful decoder spec
+Message-ID: <1be8ac17-349b-ef4d-299d-4f38889492ec@xs4all.nl>
+Date:   Sat, 17 Aug 2019 11:31:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfAwpQMbI/00WKg4F1E7TcH133fMg2o3NdotuC5HwZ/lu6wyWwlTGGJRF6GAeMeuGnyt7+GkHTRoYDXox20PnJ0iJr5+tnNCZvV0ej2tvAB/xoWVflu9/
+ q7F72mGXUBTaXtoVkyN73OcxBsANtJ2ImhFIbm21g8Cr3QMKbewhCFD3NQuHNi5oQyrYiIcn2ERLEjUFlpoCR6GUKFdJQRWw/sD/cqXwGnBpKGKOm7LgR/VD
+ E5PCvEvtmbaqPN8b4StoslrEOFXcuImaQTAKpN6it3LTtDiujIYzxA9fpzqH4DFJxvSVBa76Uw/z/yMhZ9ibmg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In cx24117_load_firmware(), 'buf' is allocated through kmalloc() to hold
-the firmware. However, if i2c_transfer() fails, it is not deallocated,
-leading to a memory leak bug.
+Hi Mauro,
 
-Signed-off-by: Wenwen Wang <wenwen@cs.uga.edu>
----
- drivers/media/dvb-frontends/cx24117.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+This PR takes Ezequiel's series adding H.264 decoding for hantro
+(https://patchwork.linuxtv.org/project/linux-media/list/?series=603).
 
-diff --git a/drivers/media/dvb-frontends/cx24117.c b/drivers/media/dvb-frontends/cx24117.c
-index 42697a5..9fccc90 100644
---- a/drivers/media/dvb-frontends/cx24117.c
-+++ b/drivers/media/dvb-frontends/cx24117.c
-@@ -619,8 +619,10 @@ static int cx24117_load_firmware(struct dvb_frontend *fe,
- 
- 	/* send fw */
- 	ret = i2c_transfer(state->priv->i2c, &msg, 1);
--	if (ret < 0)
-+	if (ret < 0) {
-+		kfree(buf);
- 		return ret;
-+	}
- 
- 	kfree(buf);
- 
--- 
-2.7.4
+The first patch (lib/sort.c) is Acked by Andrew Morton and is intended to
+go in through the media subsystem since this is the first driver that uses
+it.
 
+This series substantially improves the H.264 API. Only H.264 slicing support
+still requires some more work.
+
+I double-checked that the H.264 control structures have the same layout between
+32 and 64 bit architectures and do not contain any holes.
+
+The second part of this PR is core API improvements to help give more
+information about the HW capabilities by adding two new format flags.
+
+This second part consists of patches 1-3 and 5-8 of this series:
+
+https://patchwork.linuxtv.org/project/linux-media/list/?series=588
+
+I dropped patch 4 until I have an Ack from Samsung, and patches 9-12
+are not ready yet for merging.
+
+Most importantly, the stateful decoder specification is now merged.
+
+The final patch improves pixfmt-compressed.srt. It's still not perfect
+and I plan to make more changes there with references to the various
+codec standards, so there will be a follow-up patch, but for now this
+is still better than what we had.
+
+Note that the v4l2-compliance test fails with vicodec after this PR
+is merged. I have a patch for v4l-utils ready to fix this.
+
+Regards,
+
+	Hans
+
+
+The following changes since commit 31d5d15dfc3418a57cfab419a353d8dc5f5698b5:
+
+  media: MAINTAINERS: Add entry for the ov5670 driver (2019-08-15 08:17:04 -0300)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.4l
+
+for you to fetch changes up to bf7ca7e0046e7f4e246876e9cfab5a65ca1ec72a:
+
+  pixfmt-compressed.rst: improve H264/HEVC/MPEG1+2/VP8+9 documentation (2019-08-17 10:24:37 +0200)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Boris Brezillon (3):
+      media: uapi: h264: Add the concept of decoding mode
+      media: uapi: h264: Get rid of the p0/b0/b1 ref-lists
+      media: hantro: Move copy_metadata() before doing a decode operation
+
+Ezequiel Garcia (4):
+      media: uapi: h264: Rename pixel format
+      media: uapi: h264: Add the concept of start code
+      media: cedrus: Cleanup control initialization
+      media: cedrus: Specify H264 startcode and decoding mode
+
+Hans Verkuil (2):
+      videodev2.h: add V4L2_FMT_FLAG_CONTINUOUS_BYTESTREAM
+      pixfmt-compressed.rst: improve H264/HEVC/MPEG1+2/VP8+9 documentation
+
+Hertz Wong (3):
+      media: hantro: Add core bits to support H264 decoding
+      media: hantro: Add support for H264 decoding on G1
+      media: hantro: Enable H264 decoding on rk3288
+
+Maxime Jourdan (4):
+      videodev2.h: add V4L2_FMT_FLAG_DYN_RESOLUTION
+      media: venus: vdec: flag OUTPUT formats with V4L2_FMT_FLAG_DYN_RESOLUTION
+      media: mtk-vcodec: flag OUTPUT formats with V4L2_FMT_FLAG_DYN_RESOLUTION
+      media: vicodec: set flags for vdec/stateful OUTPUT coded formats
+
+Rasmus Villemoes (1):
+      lib/sort.c: implement sort() variant taking context argument
+
+Tomasz Figa (1):
+      media: docs-rst: Document memory-to-memory video decoder interface
+
+ Documentation/media/uapi/v4l/dev-decoder.rst        | 1101 +++++++++++++++++++++++++++++++++++++++++++++++
+ Documentation/media/uapi/v4l/dev-mem2mem.rst        |    8 +-
+ Documentation/media/uapi/v4l/ext-ctrls-codec.rst    |   99 ++++-
+ Documentation/media/uapi/v4l/pixfmt-compressed.rst  |   47 +-
+ Documentation/media/uapi/v4l/pixfmt-v4l2.rst        |    5 +
+ Documentation/media/uapi/v4l/v4l2.rst               |   10 +-
+ Documentation/media/uapi/v4l/vidioc-decoder-cmd.rst |   41 +-
+ Documentation/media/uapi/v4l/vidioc-dqevent.rst     |   11 +-
+ Documentation/media/uapi/v4l/vidioc-enum-fmt.rst    |   16 +
+ Documentation/media/videodev2.h.rst.exceptions      |    2 +
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c  |    4 +
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_drv.h  |    1 +
+ drivers/media/platform/qcom/venus/core.h            |    1 +
+ drivers/media/platform/qcom/venus/vdec.c            |   11 +
+ drivers/media/platform/vicodec/vicodec-core.c       |    3 +
+ drivers/media/v4l2-core/v4l2-ctrls.c                |   18 +
+ drivers/media/v4l2-core/v4l2-ioctl.c                |    2 +-
+ drivers/staging/media/hantro/Makefile               |    2 +
+ drivers/staging/media/hantro/hantro.h               |    9 +-
+ drivers/staging/media/hantro/hantro_drv.c           |   50 ++-
+ drivers/staging/media/hantro/hantro_g1_h264_dec.c   |  292 +++++++++++++
+ drivers/staging/media/hantro/hantro_h264.c          |  646 +++++++++++++++++++++++++++
+ drivers/staging/media/hantro/hantro_hw.h            |   56 +++
+ drivers/staging/media/hantro/hantro_v4l2.c          |   10 +
+ drivers/staging/media/hantro/rk3288_vpu_hw.c        |   21 +-
+ drivers/staging/media/sunxi/cedrus/cedrus.c         |   63 ++-
+ drivers/staging/media/sunxi/cedrus/cedrus.h         |    3 +-
+ drivers/staging/media/sunxi/cedrus/cedrus_dec.c     |    2 +-
+ drivers/staging/media/sunxi/cedrus/cedrus_video.c   |    6 +-
+ include/linux/sort.h                                |    5 +
+ include/media/h264-ctrls.h                          |   21 +-
+ include/uapi/linux/videodev2.h                      |    6 +-
+ lib/sort.c                                          |   34 +-
+ 33 files changed, 2523 insertions(+), 83 deletions(-)
+ create mode 100644 Documentation/media/uapi/v4l/dev-decoder.rst
+ create mode 100644 drivers/staging/media/hantro/hantro_g1_h264_dec.c
+ create mode 100644 drivers/staging/media/hantro/hantro_h264.c
