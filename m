@@ -2,71 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F19891355
-	for <lists+linux-media@lfdr.de>; Sat, 17 Aug 2019 23:32:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C15C591456
+	for <lists+linux-media@lfdr.de>; Sun, 18 Aug 2019 05:46:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726252AbfHQVcg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 17 Aug 2019 17:32:36 -0400
-Received: from retiisi.org.uk ([95.216.213.190]:38934 "EHLO
-        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726163AbfHQVcf (ORCPT
+        id S1726217AbfHRDpt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 17 Aug 2019 23:45:49 -0400
+Received: from mail-yb1-f196.google.com ([209.85.219.196]:41134 "EHLO
+        mail-yb1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726045AbfHRDps (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 17 Aug 2019 17:32:35 -0400
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 3FABE634C87;
-        Sun, 18 Aug 2019 00:32:08 +0300 (EEST)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1hz6Ix-0001KY-Kr; Sun, 18 Aug 2019 00:32:07 +0300
-Date:   Sun, 18 Aug 2019 00:32:07 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Dongchun Zhu <dongchun.zhu@mediatek.com>
-Cc:     mchehab@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com,
-        matthias.bgg@gmail.com, bingbu.cao@intel.com,
-        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, sj.huang@mediatek.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        louis.kuo@mediatek.com, menghui.lin@mediatek.com,
-        shengnan.wang@mediatek.com, tfiga@google.com, drinkcat@chromium.org
-Subject: Re: [RFC,V2,1/2] media: dt-bindings: media: i2c: Add bindings for
- OV02A10
-Message-ID: <20190817213207.GC3504@valkosipuli.retiisi.org.uk>
-References: <20190704084651.3105-1-dongchun.zhu@mediatek.com>
- <20190704084651.3105-2-dongchun.zhu@mediatek.com>
- <20190723074153.GA4606@paasikivi.fi.intel.com>
- <ef65288c523f405396991bd6d757bba0@mtkmbs02n1.mediatek.inc>
- <1566013985.21623.9.camel@mhfsdcap03>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1566013985.21623.9.camel@mhfsdcap03>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Sat, 17 Aug 2019 23:45:48 -0400
+Received: by mail-yb1-f196.google.com with SMTP id n7so3255299ybd.8;
+        Sat, 17 Aug 2019 20:45:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=w1MBOJKPWwd/x/PvHJlxbST3O7JCpKcUgtndmXHLa3U=;
+        b=mmpE+tYcVDzsX1wZpNV/d0uM3yTuDiCuvV9Ymc6F6Hqz9VBC8PE/bKwbziHTddJ8/I
+         PoSK5nwkMHOsLuKACiKSBMacJdSjnBrrcNfT4jlaMv7yTr9W9pO++m3pgdUU/rWIEyxH
+         /xkg385wYz7rVibfyS9xWoCQhT64Ip1nVSVNZ3Eo6wYzcJjL8La2k6kkRZgsQZRv3hrX
+         keEWItJWK66BEouYSsz3CZ+8T4PqFW3+kL5xFarqkhjF9C+By6JjiC+B5uOTVdtLJHLj
+         vuCcp2OL9VNPvH/U3Ti56CktyRh1fUVTrgZ8L/cQcSc1ypnJoLLRMcAGHk8A7qrh8kwg
+         YODw==
+X-Gm-Message-State: APjAAAUH01BK1ApCVK0q1uUg25aU4Bw8t19H6lRH3g58I2udxk8VH5tF
+        G/WLltk9IIpWQ9MtV2JwH0M=
+X-Google-Smtp-Source: APXvYqya9QoPycBBU+7kZ1Rj/p+6jl2cXHRThkFsYEB2x/U4oy/x4fJvRGKIEgi1b4/k4b0Pg63PDQ==
+X-Received: by 2002:a25:7083:: with SMTP id l125mr12641443ybc.449.1566099948013;
+        Sat, 17 Aug 2019 20:45:48 -0700 (PDT)
+Received: from localhost.localdomain (24-158-240-219.dhcp.smyr.ga.charter.com. [24.158.240.219])
+        by smtp.gmail.com with ESMTPSA id k11sm3132216ywk.42.2019.08.17.20.45.46
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Sat, 17 Aug 2019 20:45:46 -0700 (PDT)
+From:   Wenwen Wang <wenwen@cs.uga.edu>
+To:     Wenwen Wang <wenwen@cs.uga.edu>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Kees Cook <keescook@chromium.org>,
+        linux-media@vger.kernel.org (open list:MEDIA INPUT INFRASTRUCTURE
+        (V4L/DVB)), linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] media: dvb-core: fix a memory leak bug
+Date:   Sat, 17 Aug 2019 22:45:40 -0500
+Message-Id: <1566099942-2290-1-git-send-email-wenwen@cs.uga.edu>
+X-Mailer: git-send-email 2.7.4
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dongchun,
+In dvb_create_media_entity(), 'dvbdev->entity' is allocated through
+kzalloc(). Then, 'dvbdev->pads' is allocated through kcalloc(). However, if
+kcalloc() fails, the allocated 'dvbdev->entity' is not deallocated, leading
+to a memory leak bug. To fix this issue, free 'dvbdev->entity' before
+returning -ENOMEM.
 
-On Sat, Aug 17, 2019 at 11:53:05AM +0800, Dongchun Zhu wrote:
-...
-> > > +
-> > > +The device node shall contain one 'port' child node with an
-> > > +'endpoint' subnode for its digital output video port, in accordance
-> > > +with the video interface bindings defined in
-> > > +Documentation/devicetree/bindings/media/video-interfaces.txt.
-> > > +The endpoint optional property 'data-lanes' shall be "<1>".
-> > 
-> > How many lanes does the module (or the sensor) have?
-> > 
-> 
-> From sensor datasheet, OV02A10 supports 1-lane MIPI interface.
+Signed-off-by: Wenwen Wang <wenwen@cs.uga.edu>
+---
+ drivers/media/dvb-core/dvbdev.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-If only one lane is supported, the property should be omitted: there's
-nothing that the driver needs to know here.
-
+diff --git a/drivers/media/dvb-core/dvbdev.c b/drivers/media/dvb-core/dvbdev.c
+index a3393cd..7557fbf 100644
+--- a/drivers/media/dvb-core/dvbdev.c
++++ b/drivers/media/dvb-core/dvbdev.c
+@@ -339,8 +339,10 @@ static int dvb_create_media_entity(struct dvb_device *dvbdev,
+ 	if (npads) {
+ 		dvbdev->pads = kcalloc(npads, sizeof(*dvbdev->pads),
+ 				       GFP_KERNEL);
+-		if (!dvbdev->pads)
++		if (!dvbdev->pads) {
++			kfree(dvbdev->entity);
+ 			return -ENOMEM;
++		}
+ 	}
+ 
+ 	switch (type) {
 -- 
-Sakari Ailus
+2.7.4
+
