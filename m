@@ -2,1387 +2,646 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B16191CF5
-	for <lists+linux-media@lfdr.de>; Mon, 19 Aug 2019 08:20:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3CD8991CFA
+	for <lists+linux-media@lfdr.de>; Mon, 19 Aug 2019 08:21:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726366AbfHSGT3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Aug 2019 02:19:29 -0400
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:42410 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726174AbfHSGT2 (ORCPT
+        id S1726607AbfHSGVR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Aug 2019 02:21:17 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:43609 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726132AbfHSGVR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Aug 2019 02:19:28 -0400
-Received: by mail-ed1-f67.google.com with SMTP id m44so562609edd.9
-        for <linux-media@vger.kernel.org>; Sun, 18 Aug 2019 23:19:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=tJpNgyZPgO8nqlsHUtlDK2Gn7iuck8dIJJX7iganvwA=;
-        b=SOwi+b0M4yfu5q5P8yvD0rgYukn9v8JcnHpipUHBAguVY5jr05XnIHUw0mgoEdZdk5
-         Mp47vpT2fqHdZcMa4J/cD1F9gRq87xwUOSW7O3HCmMOP72vJ/tfe4EMJ6LfLBoE7sSpN
-         u9wo5DgtLRLpLDwjGL6keGuFgk4jMhKuiKYR4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=tJpNgyZPgO8nqlsHUtlDK2Gn7iuck8dIJJX7iganvwA=;
-        b=K9ut3RemcfaVWtpG6XvY6W7m68EKrq7pnWCx808KWb/J3SzsNCAGi3YLnR7+sYc0PP
-         lgPtzNoJk5At7RCQ+M1HIXGsf6y37Mf2rxSko6bWLGDrH1whwr22zLrhXCKytwlGkyxx
-         ilgEkgJ/N3CuCdl0iR/+N7xcXTNZc6Joq9yOmV+qsGSnfRsqaeFMyEJjlHXkVLJi+suz
-         QEKG8iIpbstFlpmh1pNM/oM314UOoEr/Gv+Fei+Vd1TiNJDMk5cjLIkUGk1QNiw/2mw1
-         i4fnveBzv1hYC+lXRHXBiHAgjle7p7dkIns+yAjnZflPMbzUzjXHGfaQwq/LpRGEgFaF
-         6+Cw==
-X-Gm-Message-State: APjAAAUyUfF51fFbN2zgLOs3y+ti5AbNg3xBa47miYK+N9X+I7XrJGlI
-        SWU3W1KylF9mLkZbff5MG4hp0RO8yhl0gQ==
-X-Google-Smtp-Source: APXvYqxSgaUSECn3BOW0dmnbmIBjbKqx3WkJ9e1ikHD+a8vm1M9Xz7D4RP7lOt1eZVNr3ksTJTAd4g==
-X-Received: by 2002:a50:ace2:: with SMTP id x89mr23278029edc.268.1566195561581;
-        Sun, 18 Aug 2019 23:19:21 -0700 (PDT)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com. [209.85.128.42])
-        by smtp.gmail.com with ESMTPSA id y14sm535039ejo.76.2019.08.18.23.19.20
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 18 Aug 2019 23:19:20 -0700 (PDT)
-Received: by mail-wm1-f42.google.com with SMTP id p74so491795wme.4
-        for <linux-media@vger.kernel.org>; Sun, 18 Aug 2019 23:19:20 -0700 (PDT)
-X-Received: by 2002:a7b:c08f:: with SMTP id r15mr19243830wmh.90.1566195559415;
- Sun, 18 Aug 2019 23:19:19 -0700 (PDT)
+        Mon, 19 Aug 2019 02:21:17 -0400
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1hzb2J-0005Zc-4f; Mon, 19 Aug 2019 08:20:59 +0200
+Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1hzb2E-0005tV-Pt; Mon, 19 Aug 2019 08:20:54 +0200
+Date:   Mon, 19 Aug 2019 08:20:54 +0200
+From:   Marco Felsch <m.felsch@pengutronix.de>
+To:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
+        hans.verkuil@cisco.com, jacopo+renesas@jmondi.org,
+        robh+dt@kernel.org, laurent.pinchart@ideasonboard.com
+Cc:     devicetree@vger.kernel.org, kernel@pengutronix.de,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v7 05/13] media: tvp5150: add input source selection
+ of_graph support
+Message-ID: <20190819062054.sg2kfcrtrxw4nv6z@pengutronix.de>
+References: <20190815115747.24018-1-m.felsch@pengutronix.de>
+ <20190815115747.24018-6-m.felsch@pengutronix.de>
 MIME-Version: 1.0
-References: <1565954700-12488-1-git-send-email-bingbu.cao@intel.com>
-In-Reply-To: <1565954700-12488-1-git-send-email-bingbu.cao@intel.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Mon, 19 Aug 2019 15:19:07 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5B1APay1QFmP+2WC_mXASf+sZpGeFn7zc5KeSE1zx3+CA@mail.gmail.com>
-Message-ID: <CAAFQd5B1APay1QFmP+2WC_mXASf+sZpGeFn7zc5KeSE1zx3+CA@mail.gmail.com>
-Subject: Re: [PATCH] doc-rst: add more info for resolution change blocks in ipu3
-To:     Cao Bing Bu <bingbu.cao@intel.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
-        Bingbu Cao <bingbu.cao@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190815115747.24018-6-m.felsch@pengutronix.de>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 08:16:33 up 93 days, 12:34, 56 users,  load average: 0.13, 0.13,
+ 0.07
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Bingbu,
+Hi,
 
-On Fri, Aug 16, 2019 at 8:17 PM <bingbu.cao@intel.com> wrote:
->
-> From: Bingbu Cao <bingbu.cao@intel.com>
->
-> This patch add more details for the resolution change blocks
-> It can help the developer to understand the main resolution
-> change blocks in ImgU.
->
-> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+sorry for the noise but this patch has two bugs. First is a rebasing
+issue and the second a wrong #ifdef handling. I will prepare a v8
+addressing Hans comments and fixing those issues. Please let me know if
+you have more comments for this patch.
+
+Regards,
+  Marco
+
+On 19-08-15 13:57, Marco Felsch wrote:
+> This patch adds the of_graph support to describe the tvp input connections.
+> Physical the TVP5150 has three ports: AIP1A, AIP1B and YOUT. As result
+> of discussion [1],[2] the device-tree maps these ports 1:1. Look at the
+> Documentation for more information. Since the TVP5150 is a converter/bridge
+> the device-tree must contain at least 1-input and 1-output port. The
+> mc-connectors and mc-links are only created if the device-tree contains the
+> corresponding connector nodes. If more than one connector is available the
+> media_entity_operations.link_setup() callback ensures that only one
+> connector is active.
+> 
+> [1] https://www.spinics.net/lists/linux-media/msg138545.html
+> [2] https://www.spinics.net/lists/linux-media/msg138546.html
+> 
+> Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> 
 > ---
->  Documentation/media/v4l-drivers/ipu3.rst     |  52 ++++-
->  Documentation/media/v4l-drivers/ipu3_rcb.svg | 331 +++++++++++++++++++++=
-++++++
->  2 files changed, 375 insertions(+), 8 deletions(-)
->  create mode 100644 Documentation/media/v4l-drivers/ipu3_rcb.svg
->
+> Changelog:
+> 
+> [1] https://patchwork.kernel.org/cover/10794703/
+> [2] https://patchwork.kernel.org/cover/10786553/
+> 
+> v7:
+> - don't init enum tvp5150_pads with TVP5150_COMPOSITE0 functionality
+> - break some 80 character limitation to improve readability
+> - fix comment style -> always start with capital letters and end with dot
+> - fix some minor style issues
+> - fix tvp5150_registered error handling
+> - simplify tvp5150_mc_init
+> - make connectors static
+>   -> since now only three connectors are possible (as described in DT)
+>   -> drop tvp5150.endpoints storage
+>   -> squash tvp5150_parse_dt and tvp5150_add_of_connectors
+> - improve tvp5150_parse_dt:
+>   -> make parsing stricter and fix not detected missconfigured dt-data
+>   -> svideo must be connected now to port@[0,1]/endpoint@1
+> 
+> v6:
+> - fix misspelled comments
+> - use 'unsigned int' where it's possible
+> - cleanup ifdef part-2:
+>   * tvp5150_mc_init, tvp5150_add_of_connectors: add surrounding
+>     CONFIG_MEDIA_CONTROLLER if def and stubs to improve quality
+> - tvp5150_mc_init: uniform interface, use 'struct tvp5150' since all
+>   internal function do this.
+> - tvp5150_add_of_connectors: call within probe() to make it cleaner
+> - tvp5150_parse_dt: move local loop vars within the loop.
+> 
+> v5:
+> - Fixing build deps:
+>   - tvp5150_mc_init: fix CONFIG_MEDIA_CONTROLLER deps
+>   - struct tvp5150: drop CONFIG_MEDIA_CONTROLLER conditional property
+>     includes. This leads into to complex deps for futher development.
+>   - tvp5150_dt_cleanup: enable function only if CONFIG_OF is enabled
+>   - tvp5150_parse_dt: enable function only if CONFIG_OF is enabled
+>   - tvp5150_probe: call tvp5150_dt_cleanup only if CONFIG_OF is enabled
+> 
+> - Simplify link_setup routine:
+>   - use generic connector parsing since both series [1,2] are squashed into
+>     one
+>   - struct tvp5150: drop pads_state and modify_second_link property
+>     due to link_setup() rework.
+>   - tvp5150_link_setup: add more comments
+>   - tvp5150_link_setup: simply the link setup routine a lot. Edit the 2nd
+>     link directly within the driver instead of a recursive media-framework
+>     call (__media_entity_setup_link). This improves the readability and
+>     shrinks the driver code.
+>   - tvp5150_link_setup: disable all active links in case user switches
+>     connectors without disable it first.
+>   - tvp5150_registered: simplify default link enable path due to link_setup()
+>     rework.
+> 
+> - General cleanups
+>   - tvp5150_parse_dt: drop unecessary test
+>   - tvp5150_parse_dt: add err message due to misconfiguration
+>   - tvp5150_parse_dt: make use of V4L2_MBUS_UNKNOWN definition
+>   - s/dev_dbg/dev_dbg_lvl
+> 
+> v4:
+>  - rebase on top of media_tree/master, fix merge conflict due to commit
+>    60359a28d592 ("media: v4l: fwnode: Initialise the V4L2 fwnode endpoints
+>    to zero")
+> 
+> v3:
+> - probe(): s/err/err_free_v4l2_ctrls
+> - drop MC dependency for tvp5150_pads
+> 
+> v2:
+> - adapt commit message
+> - unify ifdef switches
+> - rename tvp5150_valid_input -> tvp5150_of_valid_input, to be more precise
+> - mc: use 2-input and 1-output pad
+> - mc: link svideo connector to both input pads
+> - mc: enable/disable svideo links in one go
+> - mc: change link_setup() behaviour, switch the input src don't require a
+>       explicite disable before.
+> - mc: rename 'local' media_pad param to tvp5150_pad to avoid confusion
+> - mc: enable link to the first available connector and set the
+>       corresponding tvp5150 input src per default during registered()
+> - mc/of: factor out oftree connector allocation
+> - of: drop svideo dt port
+> - of: move svideo connector to port@0/endpoint@1
+> - of: require at least 1-in and 1-out endpoint
+> ---
+>  drivers/media/i2c/tvp5150.c | 379 +++++++++++++++++++++++++++++++++---
+>  1 file changed, 350 insertions(+), 29 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/tvp5150.c b/drivers/media/i2c/tvp5150.c
+> index 11a5fd7e2f58..dfbf5bbc307c 100644
+> --- a/drivers/media/i2c/tvp5150.c
+> +++ b/drivers/media/i2c/tvp5150.c
+> @@ -32,11 +32,12 @@
+>  #define TVP5150_FIELD		V4L2_FIELD_ALTERNATE
+>  #define TVP5150_COLORSPACE	V4L2_COLORSPACE_SMPTE170M
+>  
+> +#define TVP5150_MAX_CONNECTORS	3 /* Check dt-bindings for more informations. */
+> +
+>  MODULE_DESCRIPTION("Texas Instruments TVP5150A/TVP5150AM1/TVP5151 video decoder driver");
+>  MODULE_AUTHOR("Mauro Carvalho Chehab");
+>  MODULE_LICENSE("GPL v2");
+>  
+> -
+>  static int debug;
+>  module_param(debug, int, 0644);
+>  MODULE_PARM_DESC(debug, "Debug level (0-2)");
+> @@ -44,16 +45,25 @@ MODULE_PARM_DESC(debug, "Debug level (0-2)");
+>  #define dprintk0(__dev, __arg...) dev_dbg_lvl(__dev, 0, 0, __arg)
+>  
+>  enum tvp5150_pads {
+> -	TVP5150_PAD_IF_INPUT,
+> +	TVP5150_PAD_AIP1A,
+> +	TVP5150_PAD_AIP1B,
+>  	TVP5150_PAD_VID_OUT,
+>  	TVP5150_NUM_PADS
+>  };
+>  
+> +struct tvp5150_connector {
+> +	struct v4l2_fwnode_connector base;
+> +	struct media_entity ent;
+> +	struct media_pad pad;
+> +};
+> +
+>  struct tvp5150 {
+>  	struct v4l2_subdev sd;
+> -#ifdef CONFIG_MEDIA_CONTROLLER
+> +
+>  	struct media_pad pads[TVP5150_NUM_PADS];
+> -#endif
+> +	struct tvp5150_connector connectors[TVP5150_MAX_CONNECTORS];
+> +	unsigned int connectors_num;
+> +
+>  	struct v4l2_ctrl_handler hdl;
+>  	struct v4l2_rect rect;
+>  	struct regmap *regmap;
+> @@ -1167,6 +1177,130 @@ static int tvp5150_enum_frame_size(struct v4l2_subdev *sd,
+>  	return 0;
+>  }
+>  
+> +/****************************************************************************
+> + *			Media entity ops
+> + ****************************************************************************/
+> +#if defined(CONFIG_MEDIA_CONTROLLER)
+> +static int tvp5150_set_link(struct media_pad *connector_pad,
+> +			    struct media_pad *tvp5150_pad, u32 flags)
+> +{
+> +	struct media_link *link;
+> +
+> +	link = media_entity_find_link(connector_pad, tvp5150_pad);
+> +	if (!link)
+> +		return -EINVAL;
+> +
+> +	link->flags = flags;
+> +	link->reverse->flags = link->flags;
+> +
+> +	return 0;
+> +}
+> +
+> +static int tvp5150_disable_all_input_links(struct tvp5150 *decoder)
+> +{
+> +	struct media_pad *connector_pad;
+> +	unsigned int i;
+> +	int err;
+> +
+> +	for (i = 0; i < TVP5150_NUM_PADS - 1; i++) {
+> +		connector_pad = media_entity_remote_pad(&decoder->pads[i]);
+> +		if (!connector_pad)
+> +			continue;
+> +
+> +		err = tvp5150_set_link(connector_pad, &decoder->pads[i], 0);
+> +		if (err)
+> +			return err;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int tvp5150_s_routing(struct v4l2_subdev *sd, u32 input, u32 output,
+> +			     u32 config);
+> +
+> +static int tvp5150_link_setup(struct media_entity *entity,
+> +			      const struct media_pad *tvp5150_pad,
+> +			      const struct media_pad *remote, u32 flags)
+> +{
+> +	struct v4l2_subdev *sd = media_entity_to_v4l2_subdev(entity);
+> +	struct tvp5150 *decoder = to_tvp5150(sd);
+> +	struct media_pad *other_tvp5150_pad =
+> +		&decoder->pads[tvp5150_pad->index ^ 1];
+> +	bool is_svideo = false;
+> +	unsigned int i;
+> +	int err;
+> +
+> +	/*
+> +	 * The TVP5150 state is determined by the enabled sink pad link(s).
+> +	 * Enabling or disabling the source pad link has no effect.
+> +	 */
+> +	if (tvp5150_pad->flags & MEDIA_PAD_FL_SOURCE)
+> +		return 0;
+> +
+> +	/* Check if the svideo connector should be enabled */
+> +	for (i = 0; i < decoder->connectors_num; i++) {
+> +		if (remote->entity == &decoder->connectors[i].ent) {
+> +			is_svideo = decoder->connectors[i].base.type == V4L2_CON_SVIDEO;
+> +			break;
+> +		}
+> +	}
+> +
+> +	dev_dbg_lvl(sd->dev, 1, debug, "link setup '%s':%d->'%s':%d[%d]",
+> +		    remote->entity->name, remote->index,
+> +		    tvp5150_pad->entity->name, tvp5150_pad->index,
+> +		    flags & MEDIA_LNK_FL_ENABLED);
+> +	if (is_svideo)
+> +		dev_dbg_lvl(sd->dev, 1, debug,
+> +			    "link setup '%s':%d->'%s':%d[%d]",
+> +			    remote->entity->name, remote->index,
+> +			    other_tvp5150_pad->entity->name,
+> +			    other_tvp5150_pad->index,
+> +			    flags & MEDIA_LNK_FL_ENABLED);
+> +
+> +	/*
+> +	 * The TVP5150 has an internal mux which allows the following setup:
+> +	 *
+> +	 * comp-connector1  --\
+> +	 *		       |---> AIP1A
+> +	 *		      /
+> +	 * svideo-connector -|
+> +	 *		      \
+> +	 *		       |---> AIP1B
+> +	 * comp-connector2  --/
+> +	 *
+> +	 * We can't rely on user space that the current connector gets disabled
+> +	 * first before enabling the new connector. Disable all active
+> +	 * connector links to be on the safe side.
+> +	 */
+> +	err = tvp5150_disable_all_input_links(decoder);
+> +	if (err)
+> +		return err;
+> +
+> +	tvp5150_s_routing(sd, is_svideo ? TVP5150_SVIDEO : tvp5150_pad->index,
+> +			  flags & MEDIA_LNK_FL_ENABLED ? TVP5150_NORMAL :
+> +			  TVP5150_BLACK_SCREEN, 0);
+> +
+> +	if (flags & MEDIA_LNK_FL_ENABLED) {
+> +		/*
+> +		 * S-Video connector is conneted to both ports AIP1A and AIP1B.
+> +		 * Both links must be enabled in one-shot regardless which link
+> +		 * the user requests.
+> +		 */
+> +		if (is_svideo) {
+> +			err = tvp5150_set_link((struct media_pad *) remote,
+> +					       other_tvp5150_pad, flags);
+> +			if (err)
+> +				return err;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct media_entity_operations tvp5150_sd_media_ops = {
+> +	.link_setup = tvp5150_link_setup,
+> +};
+> +#endif
+>  /****************************************************************************
+>  			I2C Command
+>   ****************************************************************************/
+> @@ -1314,6 +1448,70 @@ static int tvp5150_g_tuner(struct v4l2_subdev *sd, struct v4l2_tuner *vt)
+>  	return 0;
+>  }
+>  
+> +static int tvp5150_registered(struct v4l2_subdev *sd)
+> +{
+> +#if defined(CONFIG_MEDIA_CONTROLLER)
+> +	struct tvp5150 *decoder = to_tvp5150(sd);
+> +	unsigned int i;
+> +	int ret;
+> +
+> +	/*
+> +	 * Setup connector pads and links. Enable the link to the first
+> +	 * available connector per default.
+> +	 */
+> +	for (i = 0; i < decoder->connectors_num; i++) {
+> +		struct media_entity *con = &decoder->connectors[i].ent;
+> +		struct media_pad *pad = &decoder->connectors[i].pad;
+> +		unsigned int port = decoder->connectors[i].base.links[0].remote_port;
+> +		unsigned int flags = i ? 0 : MEDIA_LNK_FL_ENABLED;
+> +		bool is_svideo = decoder->connectors[i].base.type == V4L2_CON_SVIDEO;
+> +
+> +		pad->flags = MEDIA_PAD_FL_SOURCE;
+> +		ret = media_entity_pads_init(con, 1, pad);
+> +		if (ret < 0)
+> +			return ret;
+> +
+> +		ret = media_device_register_entity(sd->v4l2_dev->mdev, con);
+> +		if (ret < 0)
+> +			return ret;
+> +
+> +		ret = media_create_pad_link(con, 0, &sd->entity, port, flags);
+> +		if (ret < 0)
+> +			goto err;
+> +
+> +		if (is_svideo) {
+> +			/*
+> +			 * Check tvp5150_link_setup() comments for more
+> +			 * information.
+> +			 */
+> +			port = decoder->connectors[i].base.links[1].remote_port;
+> +			ret = media_create_pad_link(con, 0, &sd->entity, port,
+> +						    flags);
+> +			if (ret < 0)
+> +				goto err;
+> +		}
+> +
+> +		/* Enable default input. */
+> +		if (flags == MEDIA_LNK_FL_ENABLED) {
+> +			decoder->input =
+> +				is_svideo ? TVP5150_SVIDEO :
+> +				port == 0 ? TVP5150_COMPOSITE0 :
+> +				TVP5150_COMPOSITE1;
+> +
+> +			tvp5150_selmux(sd);
+> +		}
+> +	}
+> +#endif
+> +
+> +	return 0;
+> +
+> +err:
+> +	for (i = 0; i < decoder->connectors_num; i++)
+> +		media_device_unregister_entity(&decoder->connectors[i].ent);
+> +
+> +	return ret;
+> +}
+> +
+>  /* ----------------------------------------------------------------------- */
+>  
+>  static const struct v4l2_ctrl_ops tvp5150_ctrl_ops = {
+> @@ -1367,6 +1565,10 @@ static const struct v4l2_subdev_ops tvp5150_ops = {
+>  	.pad = &tvp5150_pad_ops,
+>  };
+>  
+> +static const struct v4l2_subdev_internal_ops tvp5150_internal_ops = {
+> +	.registered = tvp5150_registered,
+> +};
+> +
+>  /****************************************************************************
+>  			I2C Client & Driver
+>   ****************************************************************************/
+> @@ -1515,36 +1717,164 @@ static int tvp5150_init(struct i2c_client *c)
+>  	return 0;
+>  }
+>  
+> +#if defined(CONFIG_MEDIA_CONTROLLER)
+> +static int tvp5150_mc_init(struct tvp5150 *decoder)
+> +{
+> +	struct v4l2_subdev *sd = &decoder->sd;
+> +	unsigned int i;
+> +
+> +	sd->entity.ops = &tvp5150_sd_media_ops;
+> +	sd->entity.function = MEDIA_ENT_F_ATV_DECODER;
+> +
+> +	for (i = 0; i < TVP5150_NUM_PADS - 1; i++) {
+> +		decoder->pads[i].flags = MEDIA_PAD_FL_SINK;
+> +		decoder->pads[i].sig_type = PAD_SIGNAL_ANALOG;
+> +	}
+> +
+> +	decoder->pads[i].flags = MEDIA_PAD_FL_SOURCE;
+> +	decoder->pads[i].sig_type = PAD_SIGNAL_DV;
+> +
+> +	return media_entity_pads_init(&sd->entity, TVP5150_NUM_PADS,
+> +				      decoder->pads);
+> +}
+> +
+> +#else /* !defined(CONFIG_MEDIA_CONTROLLER) */
+> +
+> +static inline int tvp5150_mc_init(struct tvp5150 *decoder)
+> +{
+> +	return 0;
+> +}
+> +#endif /* defined(CONFIG_MEDIA_CONTROLLER) */
+> +
+> +static int
+> +tvp5150_add_connector(struct tvp5150 *decoder, struct device_node *np,
+> +		      unsigned int portn, unsigned int epn, unsigned int svideo)
+> +{
+> +	struct device *dev = decoder->sd.dev;
+> +	struct device_node *ep_np, *remote_np;
+> +	struct v4l2_fwnode_connector *vc;
+> +	struct tvp5150_connector *c;
+> +	unsigned int next_connector = decoder->connectors_num;
+> +	int ret;
+> +
+> +	/* Get free connector entry. */
+> +	if (next_connector >= TVP5150_MAX_CONNECTORS)
+> +		return 0;
+> +
+> +	c = &decoder->connectors[next_connector];
+> +	vc = &c->base;
+> +	ep_np = of_graph_get_endpoint_by_regs(np, portn, epn);
+> +	remote_np = of_graph_get_remote_port_parent(ep_np);
+> +
+> +	ret = v4l2_fwnode_connector_alloc_parse(of_fwnode_handle(ep_np), vc);
+> +	if (ret)
+> +		goto err;
+> +
+> +	if ((!svideo && vc->type != V4L2_CON_COMPOSITE) ||
+> +	    (svideo && vc->type != V4L2_CON_SVIDEO)) {
+> +		dev_err(dev, "Invalid connector type for port@%u/endpoint@%u\n",
+> +			portn, epn);
+> +		ret = -EINVAL;
+> +		goto err;
+> +	}
+> +
+> +	if (svideo &&
+> +	    (vc->nr_of_links != 2 ||
+> +	     vc->links[0].remote_port == vc->links[1].remote_port)) {
+> +		dev_err(dev, "Invalid Svideo connector configuration\n");
+> +		ret = -EINVAL;
+> +		goto err;
+> +	}
+> +
+> +	if (!(vc->connector.analog.supported_tvnorms & TVP5150_STD_MASK)) {
+> +		dev_err(dev, "Unsupported tv-norm on connector %s\n",
+> +			remote_np->name);
+> +		ret = -EINVAL;
+> +		goto err;
+> +	}
+> +
+> +	c->ent.flags = MEDIA_ENT_FL_CONNECTOR;
+> +	c->ent.name = vc->label;
+> +	c->ent.name = kasprintf(GFP_KERNEL, "%s %s", remote_np->name,
+> +				vc->label ? vc->label : "");
+> +	c->ent.function = vc->type == V4L2_CON_SVIDEO ?
+> +		MEDIA_ENT_F_CONN_SVIDEO : MEDIA_ENT_F_CONN_COMPOSITE;
+> +
+> +	decoder->connectors_num++;
+> +
+> +	of_node_put(remote_np);
+> +	of_node_put(ep_np);
+> +	return 0;
+> +
+> +err:
+> +	of_node_put(remote_np);
+> +	of_node_put(ep_np);
+> +	v4l2_fwnode_connector_free(vc);
+> +	return ret;
+> +}
+> +
+>  static int tvp5150_parse_dt(struct tvp5150 *decoder, struct device_node *np)
+>  {
+> -	struct v4l2_fwnode_endpoint bus_cfg = { .bus_type = 0 };
+> -	struct device_node *ep;
+> +	struct device *dev = decoder->sd.dev;
+> +	struct device_node *ep_np;
+> +	struct v4l2_fwnode_endpoint bus_cfg = {
+> +		.bus_type = V4L2_MBUS_UNKNOWN
+> +	};
+>  	unsigned int flags;
+> -	int ret = 0;
+> +	int ret, ep_num;
+>  
+> -	ep = of_graph_get_next_endpoint(np, NULL);
+> -	if (!ep)
+> +	/* At least 1 output and 1 input. */
+> +	ep_num = of_graph_get_endpoint_count(np);
+> +	if (ep_num < 2 || ep_num > 5) {
+> +		dev_err(dev, "At least 1 input and 1 output must be connected to the device.\n");
+>  		return -EINVAL;
+> +	}
+> +
+> +	/* Layout if all connectors are used
+> +	 *
+> +	 * tvp-5150 port@0 (AIP1A)
+> +	 *	endpoint@0 -----------> Comp0-Con  port
+> +	 *	endpoint@1 --------+--> Svideo-Con port
+> +	 * tvp-5150 port@1 (AIP1B) |
+> +	 *	endpoint@1 --------+
+> +	 *	endpoint@0 -----------> Comp1-Con  port
+> +	 * tvp-5150 port@2
+> +	 *	endpoint (video bitstream output at YOUT[0-7] parallel bus)
+> +	 */
+> +	for_each_endpoint_of_node(np, ep_np) {
+> +		struct of_endpoint ep;
+> +
+> +		of_graph_parse_endpoint(ep_np, &ep);
+> +		if (ep.port > 1)
+> +			continue;
+> +
+> +		ret = tvp5150_add_connector(decoder, np, ep.port, ep.id,
+> +					    ep.id ? 1 : 0);
+> +		if (ret)
+> +			return ret;
+> +	}
+>  
+> -	ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(ep), &bus_cfg);
+> +	ep_np = of_graph_get_endpoint_by_regs(np, TVP5150_PAD_VID_OUT, 0);
+> +	if (!ep_np) {
+> +		dev_err(dev, "Error no output endpoint available\n");
+> +		return -EINVAL;
+> +	}
+> +	ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(ep_np), &bus_cfg);
+> +	of_node_put(ep_np);
+>  	if (ret)
+> -		goto err;
+> +		return ret;
+>  
+>  	flags = bus_cfg.bus.parallel.flags;
+> -
+>  	if (bus_cfg.bus_type == V4L2_MBUS_PARALLEL &&
+>  	    !(flags & V4L2_MBUS_HSYNC_ACTIVE_HIGH &&
+>  	      flags & V4L2_MBUS_VSYNC_ACTIVE_HIGH &&
+>  	      flags & V4L2_MBUS_FIELD_EVEN_LOW)) {
+> -		ret = -EINVAL;
+> -		goto err;
+> +		return -EINVAL;
+>  	}
+>  
+>  	decoder->mbus_type = bus_cfg.bus_type;
+>  
+> -err:
+> -	of_node_put(ep);
+> -	return ret;
+> +	return decoder->connectors_num ? 0 : -ENODEV;
+>  }
+>  
+>  static const char * const tvp5150_test_patterns[2] = {
+> @@ -1592,22 +1922,13 @@ static int tvp5150_probe(struct i2c_client *c)
+>  	}
+>  
+>  	v4l2_i2c_subdev_init(sd, c, &tvp5150_ops);
+> +	sd->internal_ops = &tvp5150_internal_ops;
+>  	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+>  
+> -#if defined(CONFIG_MEDIA_CONTROLLER)
+> -	core->pads[TVP5150_PAD_IF_INPUT].flags = MEDIA_PAD_FL_SINK;
+> -	core->pads[TVP5150_PAD_IF_INPUT].sig_type = PAD_SIGNAL_ANALOG;
+> -	core->pads[TVP5150_PAD_VID_OUT].flags = MEDIA_PAD_FL_SOURCE;
+> -	core->pads[TVP5150_PAD_VID_OUT].sig_type = PAD_SIGNAL_DV;
+> -
+> -	sd->entity.function = MEDIA_ENT_F_ATV_DECODER;
+> -
+> -	res = media_entity_pads_init(&sd->entity, TVP5150_NUM_PADS, core->pads);
+> -	if (res < 0)
+> +	res = tvp5150_mc_init(core);
+> +	if (res)
+>  		return res;
+>  
+> -#endif
+> -
+>  	res = tvp5150_detect_version(core);
+>  	if (res < 0)
+>  		return res;
+> -- 
+> 2.20.1
+> 
+> 
+> 
 
-Thanks for the patch! Good to see improvements being made to the documentat=
-ion.
-
-Let me add Laurent on CC to check if this clarifies everything needed
-for libcamera.
-
-Best regards,
-Tomasz
-
-> diff --git a/Documentation/media/v4l-drivers/ipu3.rst b/Documentation/med=
-ia/v4l-drivers/ipu3.rst
-> index c9f780404eee..235e10b37c2c 100644
-> --- a/Documentation/media/v4l-drivers/ipu3.rst
-> +++ b/Documentation/media/v4l-drivers/ipu3.rst
-> @@ -265,19 +265,55 @@ below.
->
->  yavta -w "0x009819A1 1" /dev/v4l-subdev7
->
-> -RAW Bayer frames go through the following ImgU pipeline HW blocks to hav=
-e the
-> +Certain hardware blocks in ImgU pipeline can change the frame resolution=
- by
-> +cropping or scaling, these hardware blocks include Input Feeder(IF), Bay=
-er Down
-> +Scaler (BDS) and Geometric Distortion Correction (GDC).
-> +There is also a block which can change the frame resolution - YUV Scaler=
-, it is
-> +only applicable to the secondary output.
-> +
-> +RAW Bayer frames go through these ImgU pipeline hardware blocks and the =
-final
->  processed image output to the DDR memory.
->
-> -RAW Bayer frame -> Input Feeder -> Bayer Down Scaling (BDS) -> Geometric
-> -Distortion Correction (GDC) -> DDR
-> +.. kernel-figure::  ipu3_rcb.svg
-> +   :alt: ipu3 resolution blocks image
->
-> -The ImgU V4L2 subdev has to be configured with the supported resolutions=
- in all
-> -the above HW blocks, for a given input resolution.
-> +   IPU3 resolution change hardware blocks
-> +
-> +**Input Feeder**
-> +
-> +Input Feeder gets the Bayer frame data from the sensor, it can enable cr=
-opping
-> +of lines and columns from the frame and then store pixels into device's =
-internal
-> +pixel buffer which are ready to readout by following blocks.
-> +
-> +**Bayer Down Scaler**
-> +
-> +Bayer Down Scaler is capable of performing image scaling in Bayer domain=
-, the
-> +downscale factor can be configured from 1X to 1/4X in each axis with
-> +configuration steps of 0.03125 (1/32).
->
-> +**Geometric Distortion Correction**
-> +
-> +Geometric Distortion Correction is used to performe correction of distor=
-tions
-> +and image filtering. It needs some extra filter and envelop padding pixe=
-ls to
-> +work, so the input resolution of GDC should be larger than the output re=
-solution.
-> +
-> +**YUV Scaler**
-> +
-> +YUV Scaler which similiar with BDS, but it is mainly do image down scali=
-ng
-> +in YUV domain, it can support up to 1/12X down scaling, but it can not b=
-e applied
-> +to the main output.
-> +
-> +The ImgU V4L2 subdev has to be configured with the supported resolutions=
- in all
-> +the above hardware blocks, for a given input resolution.
->  For a given supported resolution for an input frame, the Input Feeder, B=
-ayer
-> -Down Scaling and GDC blocks should be configured with the supported reso=
-lutions.
-> -This information can be obtained by looking at the following IPU3 ImgU
-> -configuration table.
-> +Down Scaler and GDC blocks should be configured with the supported resol=
-utions
-> +as each hardware block has its own alignment requirement.
-> +
-> +You must configure the output resolution of the hardware blocks smartly =
-to meet
-> +the hardware requirment along with keeping the maximum field of view.
-> +The intermediate resolutions can be generated by specific tool and this
-> +information can be obtained by looking at the following IPU3 ImgU config=
-uration
-> +table.
->
->  https://chromium.googlesource.com/chromiumos/overlays/board-overlays/+/m=
-aster
->
-> diff --git a/Documentation/media/v4l-drivers/ipu3_rcb.svg b/Documentation=
-/media/v4l-drivers/ipu3_rcb.svg
-> new file mode 100644
-> index 000000000000..d878421b42a0
-> --- /dev/null
-> +++ b/Documentation/media/v4l-drivers/ipu3_rcb.svg
-> @@ -0,0 +1,331 @@
-> +<?xml version=3D"1.0" encoding=3D"UTF-8"?>
-> +<svg xmlns=3D"http://www.w3.org/2000/svg" xmlns:xlink=3D"http://www.w3.o=
-rg/1999/xlink" width=3D"774pt" height=3D"152pt" viewBox=3D"0 0 774 152" ver=
-sion=3D"1.1">
-> +<defs>
-> +<g>
-> +<symbol overflow=3D"visible" id=3D"glyph0-0">
-> +<path style=3D"stroke:none;" d=3D"M 1 0 L 1 -15 L 9 -15 L 9 0 Z M 8 -1 L=
- 8 -14 L 2 -14 L 2 -1 Z M 8 -1 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph0-1">
-> +<path style=3D"stroke:none;" d=3D"M 4.6875 -1.15625 C 5.519531 -1.15625 =
-6.15625 -1.316406 6.59375 -1.640625 C 7.039062 -1.960938 7.265625 -2.441406=
- 7.265625 -3.078125 C 7.265625 -3.460938 7.179688 -3.789062 7.015625 -4.062=
-5 C 6.859375 -4.34375 6.644531 -4.582031 6.375 -4.78125 C 6.113281 -4.98828=
-1 5.816406 -5.171875 5.484375 -5.328125 C 5.148438 -5.484375 4.804688 -5.62=
-8906 4.453125 -5.765625 C 4.054688 -5.921875 3.675781 -6.097656 3.3125 -6.2=
-96875 C 2.945312 -6.492188 2.617188 -6.726562 2.328125 -7 C 2.046875 -7.269=
-531 1.820312 -7.582031 1.65625 -7.9375 C 1.488281 -8.300781 1.40625 -8.7265=
-62 1.40625 -9.21875 C 1.40625 -10.300781 1.742188 -11.144531 2.421875 -11.7=
-5 C 3.097656 -12.351562 4.046875 -12.65625 5.265625 -12.65625 C 5.597656 -1=
-2.65625 5.925781 -12.628906 6.25 -12.578125 C 6.570312 -12.535156 6.875 -12=
-.476562 7.15625 -12.40625 C 7.4375 -12.34375 7.6875 -12.265625 7.90625 -12.=
-171875 C 8.125 -12.085938 8.300781 -12 8.4375 -11.90625 L 7.921875 -10.5156=
-25 C 7.648438 -10.679688 7.28125 -10.84375 6.8125 -11 C 6.351562 -11.15625 =
-5.835938 -11.234375 5.265625 -11.234375 C 4.660156 -11.234375 4.140625 -11.=
-082031 3.703125 -10.78125 C 3.265625 -10.488281 3.046875 -10.039062 3.04687=
-5 -9.4375 C 3.046875 -9.09375 3.109375 -8.800781 3.234375 -8.5625 C 3.35937=
-5 -8.320312 3.53125 -8.109375 3.75 -7.921875 C 3.96875 -7.742188 4.222656 -=
-7.582031 4.515625 -7.4375 C 4.804688 -7.289062 5.128906 -7.144531 5.484375 =
--7 C 5.984375 -6.789062 6.441406 -6.578125 6.859375 -6.359375 C 7.285156 -6=
-.148438 7.648438 -5.894531 7.953125 -5.59375 C 8.253906 -5.300781 8.488281 =
--4.953125 8.65625 -4.546875 C 8.820312 -4.148438 8.90625 -3.664062 8.90625 =
--3.09375 C 8.90625 -2.019531 8.539062 -1.191406 7.8125 -0.609375 C 7.082031=
- -0.0234375 6.039062 0.265625 4.6875 0.265625 C 4.238281 0.265625 3.820312 =
-0.234375 3.4375 0.171875 C 3.050781 0.109375 2.707031 0.03125 2.40625 -0.06=
-25 C 2.101562 -0.15625 1.835938 -0.25 1.609375 -0.34375 C 1.390625 -0.4375 =
-1.21875 -0.519531 1.09375 -0.59375 L 1.59375 -1.953125 C 1.863281 -1.804688=
- 2.257812 -1.632812 2.78125 -1.4375 C 3.300781 -1.25 3.9375 -1.15625 4.6875=
- -1.15625 Z M 4.6875 -1.15625 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph0-2">
-> +<path style=3D"stroke:none;" d=3D"M 5.1875 -9.5 C 6.4375 -9.5 7.398438 -=
-9.109375 8.078125 -8.328125 C 8.753906 -7.546875 9.09375 -6.363281 9.09375 =
--4.78125 L 9.09375 -4.203125 L 2.453125 -4.203125 C 2.523438 -3.242188 2.84=
-375 -2.515625 3.40625 -2.015625 C 3.976562 -1.515625 4.773438 -1.265625 5.7=
-96875 -1.265625 C 6.390625 -1.265625 6.890625 -1.3125 7.296875 -1.40625 C 7=
-.710938 -1.5 8.023438 -1.597656 8.234375 -1.703125 L 8.453125 -0.296875 C 8=
-.253906 -0.191406 7.894531 -0.0820312 7.375 0.03125 C 6.851562 0.15625 6.26=
-9531 0.21875 5.625 0.21875 C 4.820312 0.21875 4.113281 0.0976562 3.5 -0.140=
-625 C 2.894531 -0.390625 2.394531 -0.726562 2 -1.15625 C 1.601562 -1.582031=
- 1.300781 -2.09375 1.09375 -2.6875 C 0.894531 -3.28125 0.796875 -3.925781 0=
-.796875 -4.625 C 0.796875 -5.445312 0.921875 -6.164062 1.171875 -6.78125 C =
-1.429688 -7.394531 1.765625 -7.898438 2.171875 -8.296875 C 2.585938 -8.7031=
-25 3.054688 -9.003906 3.578125 -9.203125 C 4.097656 -9.398438 4.632812 -9.5=
- 5.1875 -9.5 Z M 7.421875 -5.546875 C 7.421875 -6.328125 7.210938 -6.945312=
- 6.796875 -7.40625 C 6.390625 -7.863281 5.84375 -8.09375 5.15625 -8.09375 C=
- 4.769531 -8.09375 4.421875 -8.019531 4.109375 -7.875 C 3.796875 -7.726562 =
-3.523438 -7.535156 3.296875 -7.296875 C 3.066406 -7.054688 2.882812 -6.7812=
-5 2.75 -6.46875 C 2.625 -6.164062 2.539062 -5.859375 2.5 -5.546875 Z M 7.42=
-1875 -5.546875 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph0-3">
-> +<path style=3D"stroke:none;" d=3D"M 1.421875 -9.015625 C 2.015625 -9.160=
-156 2.609375 -9.273438 3.203125 -9.359375 C 3.796875 -9.441406 4.351562 -9.=
-484375 4.875 -9.484375 C 6.113281 -9.484375 7.050781 -9.160156 7.6875 -8.51=
-5625 C 8.320312 -7.878906 8.640625 -6.851562 8.640625 -5.4375 L 8.640625 0 =
-L 7 0 L 7 -5.140625 C 7 -5.742188 6.945312 -6.226562 6.84375 -6.59375 C 6.7=
-38281 -6.96875 6.585938 -7.257812 6.390625 -7.46875 C 6.191406 -7.675781 5.=
-957031 -7.816406 5.6875 -7.890625 C 5.414062 -7.972656 5.117188 -8.015625 4=
-.796875 -8.015625 C 4.535156 -8.015625 4.253906 -8 3.953125 -7.96875 C 3.64=
-8438 -7.9375 3.359375 -7.894531 3.078125 -7.84375 L 3.078125 0 L 1.421875 0=
- Z M 1.421875 -9.015625 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph0-4">
-> +<path style=3D"stroke:none;" d=3D"M 7.015625 -2.3125 C 7.015625 -2.64453=
-1 6.878906 -2.914062 6.609375 -3.125 C 6.335938 -3.34375 6 -3.53125 5.59375=
- -3.6875 C 5.1875 -3.851562 4.742188 -4.015625 4.265625 -4.171875 C 3.78515=
-6 -4.328125 3.335938 -4.515625 2.921875 -4.734375 C 2.515625 -4.960938 2.17=
-5781 -5.242188 1.90625 -5.578125 C 1.632812 -5.910156 1.5 -6.34375 1.5 -6.8=
-75 C 1.5 -7.625 1.800781 -8.25 2.40625 -8.75 C 3.007812 -9.25 3.960938 -9.5=
- 5.265625 -9.5 C 5.765625 -9.5 6.285156 -9.460938 6.828125 -9.390625 C 7.36=
-7188 -9.316406 7.832031 -9.21875 8.21875 -9.09375 L 7.921875 -7.625 C 7.816=
-406 -7.675781 7.671875 -7.726562 7.484375 -7.78125 C 7.296875 -7.84375 7.08=
-2031 -7.894531 6.84375 -7.9375 C 6.601562 -7.988281 6.34375 -8.023438 6.062=
-5 -8.046875 C 5.789062 -8.078125 5.53125 -8.09375 5.28125 -8.09375 C 3.8437=
-5 -8.09375 3.125 -7.703125 3.125 -6.921875 C 3.125 -6.640625 3.257812 -6.39=
-8438 3.53125 -6.203125 C 3.800781 -6.015625 4.144531 -5.835938 4.5625 -5.67=
-1875 C 4.976562 -5.515625 5.425781 -5.351562 5.90625 -5.1875 C 6.382812 -5.=
-019531 6.828125 -4.816406 7.234375 -4.578125 C 7.648438 -4.335938 7.992188 =
--4.046875 8.265625 -3.703125 C 8.546875 -3.367188 8.6875 -2.941406 8.6875 -=
-2.421875 C 8.6875 -1.578125 8.359375 -0.925781 7.703125 -0.46875 C 7.046875=
- -0.0078125 6.007812 0.21875 4.59375 0.21875 C 3.957031 0.21875 3.375 0.164=
-062 2.84375 0.0625 C 2.3125 -0.0390625 1.800781 -0.203125 1.3125 -0.421875 =
-L 1.640625 -1.921875 C 2.109375 -1.703125 2.597656 -1.523438 3.109375 -1.39=
-0625 C 3.617188 -1.253906 4.171875 -1.1875 4.765625 -1.1875 C 6.265625 -1.1=
-875 7.015625 -1.5625 7.015625 -2.3125 Z M 7.015625 -2.3125 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph0-5">
-> +<path style=3D"stroke:none;" d=3D"M 9.203125 -4.640625 C 9.203125 -3.910=
-156 9.097656 -3.25 8.890625 -2.65625 C 8.679688 -2.0625 8.390625 -1.550781 =
-8.015625 -1.125 C 7.640625 -0.695312 7.191406 -0.363281 6.671875 -0.125 C 6=
-.160156 0.101562 5.597656 0.21875 4.984375 0.21875 C 4.378906 0.21875 3.820=
-312 0.101562 3.3125 -0.125 C 2.800781 -0.363281 2.359375 -0.695312 1.984375=
- -1.125 C 1.609375 -1.550781 1.316406 -2.0625 1.109375 -2.65625 C 0.898438 =
--3.25 0.796875 -3.910156 0.796875 -4.640625 C 0.796875 -5.367188 0.898438 -=
-6.035156 1.109375 -6.640625 C 1.316406 -7.242188 1.609375 -7.753906 1.98437=
-5 -8.171875 C 2.359375 -8.585938 2.800781 -8.910156 3.3125 -9.140625 C 3.82=
-0312 -9.378906 4.378906 -9.5 4.984375 -9.5 C 5.597656 -9.5 6.160156 -9.3789=
-06 6.671875 -9.140625 C 7.191406 -8.910156 7.640625 -8.585938 8.015625 -8.1=
-71875 C 8.390625 -7.753906 8.679688 -7.242188 8.890625 -6.640625 C 9.097656=
- -6.035156 9.203125 -5.367188 9.203125 -4.640625 Z M 7.5 -4.640625 C 7.5 -5=
-.691406 7.269531 -6.519531 6.8125 -7.125 C 6.363281 -7.738281 5.753906 -8.0=
-46875 4.984375 -8.046875 C 4.222656 -8.046875 3.617188 -7.738281 3.171875 -=
-7.125 C 2.722656 -6.519531 2.5 -5.691406 2.5 -4.640625 C 2.5 -3.597656 2.72=
-2656 -2.773438 3.171875 -2.171875 C 3.617188 -1.566406 4.222656 -1.265625 4=
-.984375 -1.265625 C 5.753906 -1.265625 6.363281 -1.566406 6.8125 -2.171875 =
-C 7.269531 -2.773438 7.5 -3.597656 7.5 -4.640625 Z M 7.5 -4.640625 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph0-6">
-> +<path style=3D"stroke:none;" d=3D"M 2.140625 0 L 2.140625 -8.78125 C 3.5=
-03906 -9.25 4.878906 -9.484375 6.265625 -9.484375 C 6.691406 -9.484375 7.09=
-7656 -9.460938 7.484375 -9.421875 C 7.867188 -9.390625 8.296875 -9.320312 8=
-.765625 -9.21875 L 8.453125 -7.765625 C 8.023438 -7.878906 7.648438 -7.9531=
-25 7.328125 -7.984375 C 7.003906 -8.023438 6.648438 -8.046875 6.265625 -8.0=
-46875 C 5.453125 -8.046875 4.625 -7.929688 3.78125 -7.703125 L 3.78125 0 Z =
-M 2.140625 0 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph0-7">
-> +<path style=3D"stroke:none;" d=3D"M 5.8125 -10.984375 L 5.8125 -1.40625 =
-L 8.21875 -1.40625 L 8.21875 0 L 1.78125 0 L 1.78125 -1.40625 L 4.1875 -1.4=
-0625 L 4.1875 -10.984375 L 1.78125 -10.984375 L 1.78125 -12.375 L 8.21875 -=
-12.375 L 8.21875 -10.984375 Z M 5.8125 -10.984375 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph0-8">
-> +<path style=3D"stroke:none;" d=3D"M 1.8125 0 L 1.8125 -12.375 L 8.84375 =
--12.375 L 8.84375 -10.984375 L 3.453125 -10.984375 L 3.453125 -7.125 L 8.20=
-3125 -7.125 L 8.203125 -5.734375 L 3.453125 -5.734375 L 3.453125 0 Z M 1.81=
-25 0 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph0-9">
-> +<path style=3D"stroke:none;" d=3D"M 4.078125 0.09375 C 3.878906 0.09375 =
-3.644531 0.0859375 3.375 0.078125 C 3.113281 0.0664062 2.847656 0.0507812 2=
-.578125 0.03125 C 2.316406 0.0078125 2.050781 -0.0195312 1.78125 -0.0625 C =
-1.507812 -0.101562 1.273438 -0.148438 1.078125 -0.203125 L 1.078125 -12.203=
-125 C 1.273438 -12.253906 1.503906 -12.300781 1.765625 -12.34375 C 2.023438=
- -12.382812 2.289062 -12.410156 2.5625 -12.421875 C 2.84375 -12.441406 3.11=
-3281 -12.457031 3.375 -12.46875 C 3.632812 -12.488281 3.867188 -12.5 4.0781=
-25 -12.5 C 4.691406 -12.5 5.265625 -12.445312 5.796875 -12.34375 C 6.328125=
- -12.238281 6.789062 -12.054688 7.1875 -11.796875 C 7.582031 -11.546875 7.8=
-90625 -11.210938 8.109375 -10.796875 C 8.328125 -10.390625 8.4375 -9.878906=
- 8.4375 -9.265625 C 8.4375 -8.960938 8.390625 -8.675781 8.296875 -8.40625 C=
- 8.203125 -8.132812 8.070312 -7.878906 7.90625 -7.640625 C 7.738281 -7.3984=
-38 7.546875 -7.1875 7.328125 -7 C 7.109375 -6.820312 6.875 -6.6875 6.625 -6=
-.59375 C 7.300781 -6.40625 7.867188 -6.0625 8.328125 -5.5625 C 8.785156 -5.=
-0625 9.015625 -4.414062 9.015625 -3.625 C 9.015625 -2.394531 8.617188 -1.46=
-875 7.828125 -0.84375 C 7.046875 -0.21875 5.796875 0.09375 4.078125 0.09375=
- Z M 2.71875 -5.78125 L 2.71875 -1.359375 C 2.75 -1.347656 2.898438 -1.3320=
-31 3.171875 -1.3125 C 3.441406 -1.289062 3.785156 -1.28125 4.203125 -1.2812=
-5 C 4.609375 -1.28125 5 -1.3125 5.375 -1.375 C 5.757812 -1.445312 6.097656 =
--1.570312 6.390625 -1.75 C 6.691406 -1.925781 6.929688 -2.160156 7.109375 -=
-2.453125 C 7.285156 -2.753906 7.375 -3.132812 7.375 -3.59375 C 7.375 -4.007=
-812 7.289062 -4.359375 7.125 -4.640625 C 6.957031 -4.921875 6.738281 -5.144=
-531 6.46875 -5.3125 C 6.195312 -5.476562 5.878906 -5.597656 5.515625 -5.671=
-875 C 5.160156 -5.742188 4.789062 -5.78125 4.40625 -5.78125 Z M 2.71875 -7.=
-140625 L 4.015625 -7.140625 C 4.347656 -7.140625 4.679688 -7.171875 5.01562=
-5 -7.234375 C 5.347656 -7.304688 5.644531 -7.414062 5.90625 -7.5625 C 6.175=
-781 -7.707031 6.390625 -7.90625 6.546875 -8.15625 C 6.710938 -8.414062 6.79=
-6875 -8.738281 6.796875 -9.125 C 6.796875 -9.476562 6.722656 -9.78125 6.578=
-125 -10.03125 C 6.429688 -10.289062 6.238281 -10.5 6 -10.65625 C 5.757812 -=
-10.820312 5.484375 -10.9375 5.171875 -11 C 4.859375 -11.0625 4.53125 -11.09=
-375 4.1875 -11.09375 C 3.832031 -11.09375 3.523438 -11.085938 3.265625 -11.=
-078125 C 3.003906 -11.078125 2.820312 -11.066406 2.71875 -11.046875 Z M 2.7=
-1875 -7.140625 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph0-10">
-> +<path style=3D"stroke:none;" d=3D"M 9.203125 -6.203125 C 9.203125 -5.054=
-688 9.054688 -4.082031 8.765625 -3.28125 C 8.484375 -2.476562 8.09375 -1.82=
-8125 7.59375 -1.328125 C 7.09375 -0.828125 6.5 -0.460938 5.8125 -0.234375 C=
- 5.125 -0.015625 4.378906 0.09375 3.578125 0.09375 C 2.753906 0.09375 1.921=
-875 -0.00390625 1.078125 -0.203125 L 1.078125 -12.203125 C 1.921875 -12.398=
-438 2.753906 -12.5 3.578125 -12.5 C 4.378906 -12.5 5.125 -12.382812 5.8125 =
--12.15625 C 6.5 -11.925781 7.09375 -11.554688 7.59375 -11.046875 C 8.09375 =
--10.546875 8.484375 -9.894531 8.765625 -9.09375 C 9.054688 -8.300781 9.2031=
-25 -7.335938 9.203125 -6.203125 Z M 2.71875 -1.375 C 3.050781 -1.332031 3.3=
-90625 -1.3125 3.734375 -1.3125 C 4.335938 -1.3125 4.875 -1.398438 5.34375 -=
-1.578125 C 5.8125 -1.765625 6.203125 -2.054688 6.515625 -2.453125 C 6.83593=
-8 -2.847656 7.082031 -3.351562 7.25 -3.96875 C 7.425781 -4.59375 7.515625 -=
-5.335938 7.515625 -6.203125 C 7.515625 -7.878906 7.191406 -9.109375 6.54687=
-5 -9.890625 C 5.898438 -10.679688 4.945312 -11.078125 3.6875 -11.078125 C 3=
-.507812 -11.078125 3.335938 -11.070312 3.171875 -11.0625 C 3.003906 -11.062=
-5 2.851562 -11.046875 2.71875 -11.015625 Z M 2.71875 -1.375 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph0-11">
-> +<path style=3D"stroke:none;" d=3D"M 7.453125 -6.09375 L 9.09375 -6.09375=
- L 9.09375 -0.296875 C 8.84375 -0.203125 8.4375 -0.0859375 7.875 0.046875 C=
- 7.320312 0.191406 6.664062 0.265625 5.90625 0.265625 C 5.15625 0.265625 4.=
-472656 0.125 3.859375 -0.15625 C 3.242188 -0.445312 2.71875 -0.863281 2.281=
-25 -1.40625 C 1.851562 -1.957031 1.519531 -2.632812 1.28125 -3.4375 C 1.039=
-062 -4.25 0.921875 -5.171875 0.921875 -6.203125 C 0.921875 -7.242188 1.0507=
-81 -8.160156 1.3125 -8.953125 C 1.582031 -9.753906 1.945312 -10.425781 2.40=
-625 -10.96875 C 2.863281 -11.519531 3.398438 -11.9375 4.015625 -12.21875 C =
-4.628906 -12.507812 5.289062 -12.65625 6 -12.65625 C 6.457031 -12.65625 6.8=
-59375 -12.617188 7.203125 -12.546875 C 7.546875 -12.484375 7.835938 -12.406=
-25 8.078125 -12.3125 C 8.328125 -12.226562 8.53125 -12.132812 8.6875 -12.03=
-125 C 8.851562 -11.925781 8.976562 -11.847656 9.0625 -11.796875 L 8.515625 =
--10.421875 C 8.210938 -10.660156 7.847656 -10.851562 7.421875 -11 C 7.00390=
-6 -11.15625 6.5625 -11.234375 6.09375 -11.234375 C 5.59375 -11.234375 5.125=
- -11.113281 4.6875 -10.875 C 4.257812 -10.632812 3.890625 -10.296875 3.5781=
-25 -9.859375 C 3.273438 -9.421875 3.035156 -8.890625 2.859375 -8.265625 C 2=
-.679688 -7.648438 2.59375 -6.960938 2.59375 -6.203125 C 2.59375 -5.453125 2=
-.671875 -4.769531 2.828125 -4.15625 C 2.984375 -3.539062 3.207031 -3.015625=
- 3.5 -2.578125 C 3.789062 -2.140625 4.148438 -1.796875 4.578125 -1.546875 C=
- 5.015625 -1.304688 5.515625 -1.1875 6.078125 -1.1875 C 6.460938 -1.1875 6.=
-757812 -1.210938 6.96875 -1.265625 C 7.1875 -1.316406 7.347656 -1.367188 7.=
-453125 -1.421875 Z M 7.453125 -6.09375 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph0-12">
-> +<path style=3D"stroke:none;" d=3D"M 9.203125 -0.515625 C 8.734375 -0.253=
-906 8.234375 -0.0625 7.703125 0.0625 C 7.179688 0.195312 6.617188 0.265625 =
-6.015625 0.265625 C 5.285156 0.265625 4.609375 0.132812 3.984375 -0.125 C 3=
-.367188 -0.382812 2.832031 -0.773438 2.375 -1.296875 C 1.925781 -1.828125 1=
-.570312 -2.5 1.3125 -3.3125 C 1.050781 -4.132812 0.921875 -5.097656 0.92187=
-5 -6.203125 C 0.921875 -7.253906 1.054688 -8.179688 1.328125 -8.984375 C 1.=
-597656 -9.785156 1.96875 -10.457031 2.4375 -11 C 2.90625 -11.539062 3.45312=
-5 -11.953125 4.078125 -12.234375 C 4.703125 -12.515625 5.367188 -12.65625 6=
-.078125 -12.65625 C 6.566406 -12.65625 7.066406 -12.585938 7.578125 -12.453=
-125 C 8.097656 -12.328125 8.601562 -12.109375 9.09375 -11.796875 L 8.625 -1=
-0.4375 C 7.738281 -10.945312 6.910156 -11.203125 6.140625 -11.203125 C 5.58=
-5938 -11.203125 5.09375 -11.082031 4.65625 -10.84375 C 4.226562 -10.613281 =
-3.859375 -10.28125 3.546875 -9.84375 C 3.242188 -9.40625 3.007812 -8.878906=
- 2.84375 -8.265625 C 2.675781 -7.648438 2.59375 -6.960938 2.59375 -6.203125=
- C 2.59375 -5.347656 2.679688 -4.609375 2.859375 -3.984375 C 3.046875 -3.35=
-9375 3.296875 -2.835938 3.609375 -2.421875 C 3.929688 -2.003906 4.316406 -1=
-.695312 4.765625 -1.5 C 5.210938 -1.300781 5.695312 -1.203125 6.21875 -1.20=
-3125 C 6.601562 -1.203125 7.007812 -1.25 7.4375 -1.34375 C 7.863281 -1.4453=
-12 8.304688 -1.625 8.765625 -1.875 Z M 9.203125 -0.515625 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph1-0">
-> +<path style=3D"stroke:none;" d=3D"M 0.59375 0 L 0.59375 -9 L 5.40625 -9 =
-L 5.40625 0 Z M 4.796875 -0.59375 L 4.796875 -8.40625 L 1.203125 -8.40625 L=
- 1.203125 -0.59375 Z M 4.796875 -0.59375 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph1-1">
-> +<path style=3D"stroke:none;" d=3D"M 2.515625 0 L 2.515625 -2.765625 C 2.=
-023438 -3.554688 1.582031 -4.332031 1.1875 -5.09375 C 0.789062 -5.851562 0.=
-445312 -6.628906 0.15625 -7.421875 L 1.265625 -7.421875 C 1.492188 -6.75390=
-6 1.757812 -6.113281 2.0625 -5.5 C 2.363281 -4.882812 2.6875 -4.253906 3.03=
-125 -3.609375 C 3.394531 -4.285156 3.71875 -4.929688 4 -5.546875 C 4.28125 =
--6.160156 4.539062 -6.785156 4.78125 -7.421875 L 5.859375 -7.421875 C 5.554=
-688 -6.640625 5.207031 -5.875 4.8125 -5.125 C 4.414062 -4.382812 3.976562 -=
-3.601562 3.5 -2.78125 L 3.5 0 Z M 2.515625 0 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph1-2">
-> +<path style=3D"stroke:none;" d=3D"M 3 0.15625 C 2.5625 0.15625 2.1875 0.=
-09375 1.875 -0.03125 C 1.570312 -0.164062 1.320312 -0.347656 1.125 -0.57812=
-5 C 0.9375 -0.804688 0.796875 -1.085938 0.703125 -1.421875 C 0.617188 -1.76=
-5625 0.578125 -2.144531 0.578125 -2.5625 L 0.578125 -7.421875 L 1.5625 -7.4=
-21875 L 1.5625 -2.65625 C 1.5625 -2.28125 1.59375 -1.96875 1.65625 -1.71875=
- C 1.726562 -1.46875 1.828125 -1.265625 1.953125 -1.109375 C 2.078125 -0.96=
-0938 2.222656 -0.859375 2.390625 -0.796875 C 2.566406 -0.734375 2.769531 -0=
-.703125 3 -0.703125 C 3.226562 -0.703125 3.425781 -0.734375 3.59375 -0.7968=
-75 C 3.769531 -0.859375 3.921875 -0.960938 4.046875 -1.109375 C 4.171875 -1=
-.265625 4.265625 -1.46875 4.328125 -1.71875 C 4.398438 -1.96875 4.4375 -2.2=
-8125 4.4375 -2.65625 L 4.4375 -7.421875 L 5.421875 -7.421875 L 5.421875 -2.=
-5625 C 5.421875 -2.144531 5.375 -1.765625 5.28125 -1.421875 C 5.195312 -1.0=
-85938 5.054688 -0.804688 4.859375 -0.578125 C 4.671875 -0.347656 4.421875 -=
-0.164062 4.109375 -0.03125 C 3.804688 0.09375 3.4375 0.15625 3 0.15625 Z M =
-3 0.15625 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph1-3">
-> +<path style=3D"stroke:none;" d=3D"M 1.21875 -7.421875 C 1.320312 -6.9218=
-75 1.445312 -6.375 1.59375 -5.78125 C 1.738281 -5.1875 1.890625 -4.585938 2=
-.046875 -3.984375 C 2.210938 -3.390625 2.378906 -2.820312 2.546875 -2.28125=
- C 2.722656 -1.738281 2.882812 -1.265625 3.03125 -0.859375 C 3.15625 -1.265=
-625 3.300781 -1.742188 3.46875 -2.296875 C 3.644531 -2.847656 3.816406 -3.4=
-21875 3.984375 -4.015625 C 4.148438 -4.609375 4.304688 -5.203125 4.453125 -=
-5.796875 C 4.609375 -6.390625 4.734375 -6.929688 4.828125 -7.421875 L 5.859=
-375 -7.421875 C 5.796875 -7.109375 5.691406 -6.679688 5.546875 -6.140625 C =
-5.398438 -5.597656 5.226562 -4.992188 5.03125 -4.328125 C 4.832031 -3.66015=
-6 4.609375 -2.953125 4.359375 -2.203125 C 4.117188 -1.453125 3.863281 -0.71=
-875 3.59375 0 L 2.375 0 C 2.125 -0.71875 1.878906 -1.445312 1.640625 -2.187=
-5 C 1.410156 -2.9375 1.195312 -3.644531 1 -4.3125 C 0.800781 -4.976562 0.62=
-8906 -5.582031 0.484375 -6.125 C 0.335938 -6.675781 0.226562 -7.109375 0.15=
-625 -7.421875 Z M 1.21875 -7.421875 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph1-4">
-> +<path style=3D"stroke:none;" d=3D""/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph1-5">
-> +<path style=3D"stroke:none;" d=3D"M 5.515625 -3.71875 C 5.515625 -3.0312=
-5 5.425781 -2.445312 5.25 -1.96875 C 5.082031 -1.488281 4.847656 -1.097656 =
-4.546875 -0.796875 C 4.253906 -0.492188 3.898438 -0.273438 3.484375 -0.1406=
-25 C 3.078125 -0.00390625 2.628906 0.0625 2.140625 0.0625 C 1.648438 0.0625=
- 1.148438 0 0.640625 -0.125 L 0.640625 -7.3125 C 1.148438 -7.4375 1.648438 =
--7.5 2.140625 -7.5 C 2.628906 -7.5 3.078125 -7.429688 3.484375 -7.296875 C =
-3.898438 -7.160156 4.253906 -6.941406 4.546875 -6.640625 C 4.847656 -6.3359=
-38 5.082031 -5.941406 5.25 -5.453125 C 5.425781 -4.972656 5.515625 -4.39453=
-1 5.515625 -3.71875 Z M 1.625 -0.828125 C 1.832031 -0.804688 2.039062 -0.79=
-6875 2.25 -0.796875 C 2.601562 -0.796875 2.921875 -0.847656 3.203125 -0.953=
-125 C 3.484375 -1.054688 3.71875 -1.226562 3.90625 -1.46875 C 4.101562 -1.7=
-07031 4.253906 -2.007812 4.359375 -2.375 C 4.460938 -2.75 4.515625 -3.19531=
-2 4.515625 -3.71875 C 4.515625 -4.726562 4.316406 -5.46875 3.921875 -5.9375=
- C 3.535156 -6.40625 2.960938 -6.640625 2.203125 -6.640625 C 2.097656 -6.64=
-0625 1.992188 -6.640625 1.890625 -6.640625 C 1.796875 -6.640625 1.707031 -6=
-.628906 1.625 -6.609375 Z M 1.625 -0.828125 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph1-6">
-> +<path style=3D"stroke:none;" d=3D"M 5.515625 -2.78125 C 5.515625 -2.3437=
-5 5.453125 -1.945312 5.328125 -1.59375 C 5.203125 -1.238281 5.023438 -0.929=
-688 4.796875 -0.671875 C 4.578125 -0.410156 4.3125 -0.210938 4 -0.078125 C =
-3.695312 0.0546875 3.359375 0.125 2.984375 0.125 C 2.628906 0.125 2.296875 =
-0.0546875 1.984375 -0.078125 C 1.679688 -0.210938 1.414062 -0.410156 1.1875=
- -0.671875 C 0.96875 -0.929688 0.796875 -1.238281 0.671875 -1.59375 C 0.546=
-875 -1.945312 0.484375 -2.34375 0.484375 -2.78125 C 0.484375 -3.21875 0.546=
-875 -3.617188 0.671875 -3.984375 C 0.796875 -4.347656 0.96875 -4.65625 1.18=
-75 -4.90625 C 1.414062 -5.15625 1.679688 -5.347656 1.984375 -5.484375 C 2.2=
-96875 -5.628906 2.628906 -5.703125 2.984375 -5.703125 C 3.359375 -5.703125 =
-3.695312 -5.628906 4 -5.484375 C 4.3125 -5.347656 4.578125 -5.15625 4.79687=
-5 -4.90625 C 5.023438 -4.65625 5.203125 -4.347656 5.328125 -3.984375 C 5.45=
-3125 -3.617188 5.515625 -3.21875 5.515625 -2.78125 Z M 4.5 -2.78125 C 4.5 -=
-3.414062 4.363281 -3.914062 4.09375 -4.28125 C 3.820312 -4.644531 3.453125 =
--4.828125 2.984375 -4.828125 C 2.523438 -4.828125 2.160156 -4.644531 1.8906=
-25 -4.28125 C 1.628906 -3.914062 1.5 -3.414062 1.5 -2.78125 C 1.5 -2.15625 =
-1.628906 -1.660156 1.890625 -1.296875 C 2.160156 -0.929688 2.523438 -0.75 2=
-.984375 -0.75 C 3.453125 -0.75 3.820312 -0.929688 4.09375 -1.296875 C 4.363=
-281 -1.660156 4.5 -2.15625 4.5 -2.78125 Z M 4.5 -2.78125 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph1-7">
-> +<path style=3D"stroke:none;" d=3D"M 4.109375 0 C 3.992188 -0.269531 3.89=
-0625 -0.515625 3.796875 -0.734375 C 3.710938 -0.960938 3.628906 -1.1875 3.5=
-46875 -1.40625 C 3.460938 -1.632812 3.378906 -1.867188 3.296875 -2.109375 C=
- 3.210938 -2.359375 3.113281 -2.640625 3 -2.953125 C 2.882812 -2.640625 2.7=
-8125 -2.359375 2.6875 -2.109375 C 2.601562 -1.867188 2.519531 -1.632812 2.4=
-375 -1.40625 C 2.351562 -1.1875 2.265625 -0.960938 2.171875 -0.734375 C 2.0=
-85938 -0.515625 1.984375 -0.269531 1.859375 0 L 1.109375 0 C 0.890625 -0.97=
-6562 0.707031 -1.953125 0.5625 -2.921875 C 0.414062 -3.890625 0.304688 -4.7=
-69531 0.234375 -5.5625 L 1.15625 -5.5625 C 1.1875 -5.25 1.210938 -4.941406 =
-1.234375 -4.640625 C 1.265625 -4.347656 1.300781 -4.035156 1.34375 -3.70312=
-5 C 1.382812 -3.378906 1.429688 -3.023438 1.484375 -2.640625 C 1.535156 -2.=
-253906 1.59375 -1.820312 1.65625 -1.34375 C 1.78125 -1.664062 1.882812 -1.9=
-45312 1.96875 -2.1875 C 2.0625 -2.425781 2.144531 -2.648438 2.21875 -2.8593=
-75 C 2.289062 -3.078125 2.359375 -3.296875 2.421875 -3.515625 C 2.492188 -3=
-.742188 2.570312 -4 2.65625 -4.28125 L 3.390625 -4.28125 C 3.472656 -4 3.54=
-6875 -3.742188 3.609375 -3.515625 C 3.671875 -3.296875 3.738281 -3.078125 3=
-.8125 -2.859375 C 3.882812 -2.648438 3.957031 -2.425781 4.03125 -2.1875 C 4=
-.113281 -1.945312 4.21875 -1.671875 4.34375 -1.359375 C 4.414062 -1.796875 =
-4.476562 -2.203125 4.53125 -2.578125 C 4.59375 -2.953125 4.640625 -3.304688=
- 4.671875 -3.640625 C 4.710938 -3.972656 4.75 -4.296875 4.78125 -4.609375 C=
- 4.820312 -4.921875 4.851562 -5.238281 4.875 -5.5625 L 5.765625 -5.5625 C 5=
-.734375 -5.164062 5.6875 -4.738281 5.625 -4.28125 C 5.570312 -3.820312 5.50=
-3906 -3.351562 5.421875 -2.875 C 5.335938 -2.394531 5.25 -1.910156 5.15625 =
--1.421875 C 5.0625 -0.929688 4.960938 -0.457031 4.859375 0 Z M 4.109375 0 "=
-/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph1-8">
-> +<path style=3D"stroke:none;" d=3D"M 0.859375 -5.40625 C 1.210938 -5.5 1.=
-566406 -5.566406 1.921875 -5.609375 C 2.273438 -5.660156 2.609375 -5.6875 2=
-.921875 -5.6875 C 3.671875 -5.6875 4.234375 -5.492188 4.609375 -5.109375 C =
-4.992188 -4.722656 5.1875 -4.109375 5.1875 -3.265625 L 5.1875 0 L 4.203125 =
-0 L 4.203125 -3.078125 C 4.203125 -3.441406 4.171875 -3.734375 4.109375 -3.=
-953125 C 4.046875 -4.179688 3.953125 -4.359375 3.828125 -4.484375 C 3.71093=
-8 -4.609375 3.570312 -4.691406 3.40625 -4.734375 C 3.25 -4.785156 3.070312 =
--4.8125 2.875 -4.8125 C 2.71875 -4.8125 2.546875 -4.800781 2.359375 -4.7812=
-5 C 2.179688 -4.757812 2.007812 -4.734375 1.84375 -4.703125 L 1.84375 0 L 0=
-.859375 0 Z M 0.859375 -5.40625 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph1-9">
-> +<path style=3D"stroke:none;" d=3D"M 4.21875 -1.390625 C 4.21875 -1.58593=
-8 4.132812 -1.75 3.96875 -1.875 C 3.800781 -2.007812 3.59375 -2.125 3.34375=
- -2.21875 C 3.101562 -2.3125 2.835938 -2.40625 2.546875 -2.5 C 2.265625 -2.=
-59375 2 -2.707031 1.75 -2.84375 C 1.507812 -2.976562 1.304688 -3.144531 1.1=
-40625 -3.34375 C 0.984375 -3.539062 0.90625 -3.800781 0.90625 -4.125 C 0.90=
-625 -4.570312 1.082031 -4.945312 1.4375 -5.25 C 1.800781 -5.550781 2.375 -5=
-.703125 3.15625 -5.703125 C 3.457031 -5.703125 3.769531 -5.675781 4.09375 -=
-5.625 C 4.414062 -5.582031 4.695312 -5.523438 4.9375 -5.453125 L 4.75 -4.57=
-8125 C 4.6875 -4.609375 4.597656 -4.640625 4.484375 -4.671875 C 4.367188 -4=
-.710938 4.238281 -4.742188 4.09375 -4.765625 C 3.957031 -4.796875 3.804688 =
--4.816406 3.640625 -4.828125 C 3.472656 -4.847656 3.316406 -4.859375 3.1718=
-75 -4.859375 C 2.304688 -4.859375 1.875 -4.625 1.875 -4.15625 C 1.875 -3.98=
-8281 1.953125 -3.84375 2.109375 -3.71875 C 2.273438 -3.601562 2.484375 -3.5=
- 2.734375 -3.40625 C 2.984375 -3.3125 3.25 -3.210938 3.53125 -3.109375 C 3.=
-820312 -3.015625 4.09375 -2.894531 4.34375 -2.75 C 4.59375 -2.601562 4.7968=
-75 -2.425781 4.953125 -2.21875 C 5.117188 -2.019531 5.203125 -1.765625 5.20=
-3125 -1.453125 C 5.203125 -0.953125 5.003906 -0.5625 4.609375 -0.28125 C 4.=
-222656 -0.0078125 3.609375 0.125 2.765625 0.125 C 2.378906 0.125 2.023438 0=
-.09375 1.703125 0.03125 C 1.378906 -0.03125 1.078125 -0.125 0.796875 -0.25 =
-L 0.984375 -1.15625 C 1.265625 -1.019531 1.554688 -0.910156 1.859375 -0.828=
-125 C 2.171875 -0.742188 2.503906 -0.703125 2.859375 -0.703125 C 3.765625 -=
-0.703125 4.21875 -0.929688 4.21875 -1.390625 Z M 4.21875 -1.390625 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph1-10">
-> +<path style=3D"stroke:none;" d=3D"M 0.59375 -2.765625 C 0.59375 -3.27343=
-8 0.671875 -3.710938 0.828125 -4.078125 C 0.984375 -4.441406 1.203125 -4.74=
-2188 1.484375 -4.984375 C 1.765625 -5.234375 2.09375 -5.414062 2.46875 -5.5=
-3125 C 2.84375 -5.644531 3.238281 -5.703125 3.65625 -5.703125 C 3.925781 -5=
-.703125 4.195312 -5.679688 4.46875 -5.640625 C 4.738281 -5.609375 5.023438 =
--5.546875 5.328125 -5.453125 L 5.09375 -4.59375 C 4.832031 -4.6875 4.59375 =
--4.75 4.375 -4.78125 C 4.15625 -4.8125 3.929688 -4.828125 3.703125 -4.82812=
-5 C 3.421875 -4.828125 3.148438 -4.785156 2.890625 -4.703125 C 2.640625 -4.=
-628906 2.414062 -4.507812 2.21875 -4.34375 C 2.03125 -4.1875 1.878906 -3.97=
-6562 1.765625 -3.71875 C 1.660156 -3.457031 1.609375 -3.140625 1.609375 -2.=
-765625 C 1.609375 -2.421875 1.660156 -2.117188 1.765625 -1.859375 C 1.86718=
-8 -1.609375 2.015625 -1.398438 2.203125 -1.234375 C 2.390625 -1.078125 2.61=
-3281 -0.957031 2.875 -0.875 C 3.144531 -0.789062 3.4375 -0.75 3.75 -0.75 C =
-4.007812 -0.75 4.253906 -0.765625 4.484375 -0.796875 C 4.722656 -0.828125 4=
-.984375 -0.890625 5.265625 -0.984375 L 5.40625 -0.15625 C 5.125 -0.0507812 =
-4.835938 0.0195312 4.546875 0.0625 C 4.265625 0.101562 3.957031 0.125 3.625=
- 0.125 C 3.175781 0.125 2.765625 0.0664062 2.390625 -0.046875 C 2.023438 -0=
-.171875 1.707031 -0.351562 1.4375 -0.59375 C 1.164062 -0.832031 0.957031 -1=
-.132812 0.8125 -1.5 C 0.664062 -1.863281 0.59375 -2.285156 0.59375 -2.76562=
-5 Z M 0.59375 -2.765625 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph1-11">
-> +<path style=3D"stroke:none;" d=3D"M 3.0625 -0.703125 C 3.3125 -0.703125 =
-3.53125 -0.707031 3.71875 -0.71875 C 3.914062 -0.738281 4.082031 -0.765625 =
-4.21875 -0.796875 L 4.21875 -2.453125 C 4.082031 -2.492188 3.925781 -2.5234=
-38 3.75 -2.546875 C 3.570312 -2.566406 3.382812 -2.578125 3.1875 -2.578125 =
-C 3 -2.578125 2.816406 -2.5625 2.640625 -2.53125 C 2.460938 -2.507812 2.304=
-688 -2.460938 2.171875 -2.390625 C 2.035156 -2.316406 1.921875 -2.222656 1.=
-828125 -2.109375 C 1.742188 -1.992188 1.703125 -1.847656 1.703125 -1.671875=
- C 1.703125 -1.304688 1.820312 -1.050781 2.0625 -0.90625 C 2.3125 -0.769531=
- 2.644531 -0.703125 3.0625 -0.703125 Z M 2.96875 -5.703125 C 3.382812 -5.70=
-3125 3.734375 -5.648438 4.015625 -5.546875 C 4.296875 -5.441406 4.523438 -5=
-.296875 4.703125 -5.109375 C 4.878906 -4.929688 5.003906 -4.707031 5.078125=
- -4.4375 C 5.148438 -4.175781 5.1875 -3.890625 5.1875 -3.578125 L 5.1875 -0=
-.09375 C 4.957031 -0.0507812 4.648438 -0.00390625 4.265625 0.046875 C 3.890=
-625 0.0976562 3.5 0.125 3.09375 0.125 C 2.789062 0.125 2.492188 0.0976562 2=
-.203125 0.046875 C 1.921875 -0.00390625 1.664062 -0.09375 1.4375 -0.21875 C=
- 1.21875 -0.351562 1.039062 -0.535156 0.90625 -0.765625 C 0.769531 -0.99218=
-8 0.703125 -1.289062 0.703125 -1.65625 C 0.703125 -1.976562 0.769531 -2.25 =
-0.90625 -2.46875 C 1.039062 -2.6875 1.21875 -2.863281 1.4375 -3 C 1.664062 =
--3.132812 1.921875 -3.234375 2.203125 -3.296875 C 2.484375 -3.359375 2.7695=
-31 -3.390625 3.0625 -3.390625 C 3.445312 -3.390625 3.832031 -3.34375 4.2187=
-5 -3.25 L 4.21875 -3.53125 C 4.21875 -3.695312 4.195312 -3.859375 4.15625 -=
-4.015625 C 4.125 -4.171875 4.054688 -4.3125 3.953125 -4.4375 C 3.847656 -4.=
-5625 3.707031 -4.660156 3.53125 -4.734375 C 3.363281 -4.816406 3.144531 -4.=
-859375 2.875 -4.859375 C 2.53125 -4.859375 2.226562 -4.832031 1.96875 -4.78=
-125 C 1.71875 -4.738281 1.523438 -4.691406 1.390625 -4.640625 L 1.265625 -5=
-.453125 C 1.398438 -5.523438 1.625 -5.582031 1.9375 -5.625 C 2.257812 -5.67=
-5781 2.601562 -5.703125 2.96875 -5.703125 Z M 2.96875 -5.703125 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph1-12">
-> +<path style=3D"stroke:none;" d=3D"M 4.0625 0.125 C 3.707031 0.125 3.4101=
-56 0.078125 3.171875 -0.015625 C 2.941406 -0.109375 2.757812 -0.25 2.625 -0=
-.4375 C 2.488281 -0.632812 2.390625 -0.875 2.328125 -1.15625 C 2.273438 -1.=
-4375 2.25 -1.765625 2.25 -2.140625 L 2.25 -7.421875 L 0.640625 -7.421875 L =
-0.640625 -8.25 L 3.234375 -8.25 L 3.234375 -2.140625 C 3.234375 -1.867188 3=
-.25 -1.644531 3.28125 -1.46875 C 3.320312 -1.289062 3.378906 -1.144531 3.45=
-3125 -1.03125 C 3.535156 -0.925781 3.628906 -0.851562 3.734375 -0.8125 C 3.=
-847656 -0.769531 3.984375 -0.75 4.140625 -0.75 C 4.367188 -0.75 4.582031 -0=
-.773438 4.78125 -0.828125 C 4.988281 -0.890625 5.144531 -0.953125 5.25 -1.0=
-15625 L 5.40625 -0.1875 C 5.351562 -0.15625 5.28125 -0.117188 5.1875 -0.078=
-125 C 5.101562 -0.046875 5 -0.015625 4.875 0.015625 C 4.757812 0.046875 4.6=
-28906 0.0703125 4.484375 0.09375 C 4.347656 0.113281 4.207031 0.125 4.0625 =
-0.125 Z M 4.0625 0.125 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph1-13">
-> +<path style=3D"stroke:none;" d=3D"M 2.515625 -6.4375 C 2.304688 -6.4375 =
-2.125 -6.503906 1.96875 -6.640625 C 1.8125 -6.785156 1.734375 -6.984375 1.7=
-34375 -7.234375 C 1.734375 -7.484375 1.8125 -7.679688 1.96875 -7.828125 C 2=
-.125 -7.972656 2.304688 -8.046875 2.515625 -8.046875 C 2.722656 -8.046875 2=
-.898438 -7.972656 3.046875 -7.828125 C 3.203125 -7.679688 3.28125 -7.484375=
- 3.28125 -7.234375 C 3.28125 -6.984375 3.203125 -6.785156 3.046875 -6.64062=
-5 C 2.898438 -6.503906 2.722656 -6.4375 2.515625 -6.4375 Z M 2.25 -4.734375=
- L 0.640625 -4.734375 L 0.640625 -5.5625 L 3.234375 -5.5625 L 3.234375 -2.1=
-40625 C 3.234375 -1.585938 3.3125 -1.21875 3.46875 -1.03125 C 3.625 -0.8437=
-5 3.851562 -0.75 4.15625 -0.75 C 4.382812 -0.75 4.597656 -0.773438 4.796875=
- -0.828125 C 4.992188 -0.890625 5.144531 -0.953125 5.25 -1.015625 L 5.40625=
- -0.1875 C 5.351562 -0.15625 5.28125 -0.117188 5.1875 -0.078125 C 5.101562 =
--0.046875 5.003906 -0.015625 4.890625 0.015625 C 4.773438 0.046875 4.644531=
- 0.0703125 4.5 0.09375 C 4.363281 0.113281 4.21875 0.125 4.0625 0.125 C 3.7=
-1875 0.125 3.425781 0.078125 3.1875 -0.015625 C 2.957031 -0.109375 2.769531=
- -0.25 2.625 -0.4375 C 2.488281 -0.632812 2.390625 -0.875 2.328125 -1.15625=
- C 2.273438 -1.4375 2.25 -1.765625 2.25 -2.140625 Z M 2.25 -4.734375 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph1-14">
-> +<path style=3D"stroke:none;" d=3D"M 4.15625 -0.515625 C 4.039062 -0.4531=
-25 3.863281 -0.382812 3.625 -0.3125 C 3.394531 -0.238281 3.128906 -0.203125=
- 2.828125 -0.203125 C 2.503906 -0.203125 2.195312 -0.253906 1.90625 -0.3593=
-75 C 1.625 -0.472656 1.378906 -0.640625 1.171875 -0.859375 C 0.960938 -1.07=
-8125 0.796875 -1.351562 0.671875 -1.6875 C 0.546875 -2.03125 0.484375 -2.43=
-75 0.484375 -2.90625 C 0.484375 -3.3125 0.539062 -3.679688 0.65625 -4.01562=
-5 C 0.769531 -4.359375 0.9375 -4.65625 1.15625 -4.90625 C 1.375 -5.15625 1.=
-644531 -5.347656 1.96875 -5.484375 C 2.289062 -5.628906 2.65625 -5.703125 3=
-.0625 -5.703125 C 3.539062 -5.703125 3.945312 -5.664062 4.28125 -5.59375 C =
-4.625 -5.53125 4.910156 -5.46875 5.140625 -5.40625 L 5.140625 -0.4375 C 5.1=
-40625 0.425781 4.921875 1.050781 4.484375 1.4375 C 4.054688 1.820312 3.3984=
-38 2.015625 2.515625 2.015625 C 2.160156 2.015625 1.835938 1.984375 1.54687=
-5 1.921875 C 1.253906 1.867188 0.992188 1.804688 0.765625 1.734375 L 0.9531=
-25 0.859375 C 1.160156 0.941406 1.394531 1.007812 1.65625 1.0625 C 1.925781=
- 1.125 2.222656 1.15625 2.546875 1.15625 C 3.117188 1.15625 3.53125 1.03515=
-6 3.78125 0.796875 C 4.03125 0.566406 4.15625 0.191406 4.15625 -0.328125 Z =
-M 4.15625 -4.6875 C 4.0625 -4.71875 3.925781 -4.75 3.75 -4.78125 C 3.582031=
- -4.8125 3.359375 -4.828125 3.078125 -4.828125 C 2.554688 -4.828125 2.16015=
-6 -4.648438 1.890625 -4.296875 C 1.628906 -3.941406 1.5 -3.472656 1.5 -2.89=
-0625 C 1.5 -2.566406 1.535156 -2.289062 1.609375 -2.0625 C 1.691406 -1.8437=
-5 1.796875 -1.65625 1.921875 -1.5 C 2.054688 -1.351562 2.207031 -1.242188 2=
-.375 -1.171875 C 2.539062 -1.109375 2.722656 -1.078125 2.921875 -1.078125 C=
- 3.160156 -1.078125 3.390625 -1.113281 3.609375 -1.1875 C 3.835938 -1.25781=
-2 4.019531 -1.34375 4.15625 -1.4375 Z M 4.15625 -4.6875 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph1-15">
-> +<path style=3D"stroke:none;" d=3D"M 2.8125 -0.703125 C 3.3125 -0.703125 =
-3.691406 -0.796875 3.953125 -0.984375 C 4.222656 -1.171875 4.359375 -1.4570=
-31 4.359375 -1.84375 C 4.359375 -2.082031 4.304688 -2.28125 4.203125 -2.437=
-5 C 4.109375 -2.601562 3.984375 -2.75 3.828125 -2.875 C 3.671875 -3 3.48828=
-1 -3.109375 3.28125 -3.203125 C 3.082031 -3.296875 2.878906 -3.378906 2.671=
-875 -3.453125 C 2.429688 -3.546875 2.203125 -3.648438 1.984375 -3.765625 C =
-1.765625 -3.890625 1.566406 -4.03125 1.390625 -4.1875 C 1.222656 -4.351562 =
-1.085938 -4.546875 0.984375 -4.765625 C 0.890625 -4.984375 0.84375 -5.23828=
-1 0.84375 -5.53125 C 0.84375 -6.175781 1.046875 -6.679688 1.453125 -7.04687=
-5 C 1.859375 -7.410156 2.425781 -7.59375 3.15625 -7.59375 C 3.351562 -7.593=
-75 3.550781 -7.578125 3.75 -7.546875 C 3.945312 -7.523438 4.128906 -7.49218=
-8 4.296875 -7.453125 C 4.460938 -7.410156 4.609375 -7.359375 4.734375 -7.29=
-6875 C 4.867188 -7.242188 4.976562 -7.191406 5.0625 -7.140625 L 4.75 -6.312=
-5 C 4.59375 -6.40625 4.375 -6.5 4.09375 -6.59375 C 3.8125 -6.695312 3.5 -6.=
-75 3.15625 -6.75 C 2.789062 -6.75 2.476562 -6.65625 2.21875 -6.46875 C 1.95=
-7031 -6.289062 1.828125 -6.019531 1.828125 -5.65625 C 1.828125 -5.457031 1.=
-863281 -5.285156 1.9375 -5.140625 C 2.007812 -4.992188 2.113281 -4.863281 2=
-.25 -4.75 C 2.382812 -4.644531 2.535156 -4.546875 2.703125 -4.453125 C 2.87=
-8906 -4.367188 3.070312 -4.285156 3.28125 -4.203125 C 3.59375 -4.078125 3.8=
-75 -3.945312 4.125 -3.8125 C 4.375 -3.6875 4.585938 -3.535156 4.765625 -3.3=
-59375 C 4.953125 -3.179688 5.09375 -2.972656 5.1875 -2.734375 C 5.289062 -2=
-.492188 5.34375 -2.203125 5.34375 -1.859375 C 5.34375 -1.210938 5.125 -0.71=
-0938 4.6875 -0.359375 C 4.25 -0.015625 3.625 0.15625 2.8125 0.15625 C 2.539=
-062 0.15625 2.289062 0.132812 2.0625 0.09375 C 1.832031 0.0625 1.625 0.0195=
-312 1.4375 -0.03125 C 1.257812 -0.09375 1.101562 -0.148438 0.96875 -0.20312=
-5 C 0.832031 -0.253906 0.726562 -0.304688 0.65625 -0.359375 L 0.953125 -1.1=
-71875 C 1.117188 -1.085938 1.359375 -0.988281 1.671875 -0.875 C 1.984375 -0=
-.757812 2.363281 -0.703125 2.8125 -0.703125 Z M 2.8125 -0.703125 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph1-16">
-> +<path style=3D"stroke:none;" d=3D"M 3.109375 -5.703125 C 3.859375 -5.703=
-125 4.4375 -5.46875 4.84375 -5 C 5.25 -4.53125 5.453125 -3.820312 5.453125 =
--2.875 L 5.453125 -2.515625 L 1.46875 -2.515625 C 1.507812 -1.941406 1.7031=
-25 -1.503906 2.046875 -1.203125 C 2.390625 -0.898438 2.867188 -0.75 3.48437=
-5 -0.75 C 3.835938 -0.75 4.132812 -0.773438 4.375 -0.828125 C 4.625 -0.8906=
-25 4.8125 -0.953125 4.9375 -1.015625 L 5.078125 -0.1875 C 4.953125 -0.11328=
-1 4.734375 -0.046875 4.421875 0.015625 C 4.109375 0.0859375 3.757812 0.125 =
-3.375 0.125 C 2.894531 0.125 2.472656 0.0507812 2.109375 -0.09375 C 1.74218=
-8 -0.238281 1.441406 -0.4375 1.203125 -0.6875 C 0.960938 -0.945312 0.78125 =
--1.253906 0.65625 -1.609375 C 0.539062 -1.960938 0.484375 -2.347656 0.48437=
-5 -2.765625 C 0.484375 -3.265625 0.554688 -3.695312 0.703125 -4.0625 C 0.85=
-9375 -4.4375 1.0625 -4.742188 1.3125 -4.984375 C 1.5625 -5.222656 1.835938 =
--5.398438 2.140625 -5.515625 C 2.453125 -5.640625 2.773438 -5.703125 3.1093=
-75 -5.703125 Z M 4.453125 -3.328125 C 4.453125 -3.796875 4.328125 -4.164062=
- 4.078125 -4.4375 C 3.828125 -4.71875 3.5 -4.859375 3.09375 -4.859375 C 2.8=
-63281 -4.859375 2.65625 -4.8125 2.46875 -4.71875 C 2.28125 -4.632812 2.1171=
-88 -4.519531 1.984375 -4.375 C 1.847656 -4.226562 1.738281 -4.0625 1.65625 =
--3.875 C 1.570312 -3.695312 1.519531 -3.515625 1.5 -3.328125 Z M 4.453125 -=
-3.328125 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph1-17">
-> +<path style=3D"stroke:none;" d=3D"M 4.15625 -4.390625 C 4.039062 -4.4921=
-88 3.875 -4.59375 3.65625 -4.6875 C 3.445312 -4.78125 3.222656 -4.828125 2.=
-984375 -4.828125 C 2.722656 -4.828125 2.5 -4.773438 2.3125 -4.671875 C 2.12=
-5 -4.566406 1.96875 -4.421875 1.84375 -4.234375 C 1.726562 -4.054688 1.6406=
-25 -3.84375 1.578125 -3.59375 C 1.523438 -3.34375 1.5 -3.070312 1.5 -2.7812=
-5 C 1.5 -2.132812 1.648438 -1.632812 1.953125 -1.28125 C 2.253906 -0.925781=
- 2.648438 -0.75 3.140625 -0.75 C 3.390625 -0.75 3.597656 -0.757812 3.765625=
- -0.78125 C 3.941406 -0.8125 4.070312 -0.835938 4.15625 -0.859375 Z M 4.156=
-25 -8.140625 L 5.140625 -8.3125 L 5.140625 -0.15625 C 4.929688 -0.09375 4.6=
-5625 -0.03125 4.3125 0.03125 C 3.976562 0.09375 3.585938 0.125 3.140625 0.1=
-25 C 2.742188 0.125 2.378906 0.0546875 2.046875 -0.078125 C 1.722656 -0.210=
-938 1.441406 -0.40625 1.203125 -0.65625 C 0.972656 -0.90625 0.796875 -1.207=
-031 0.671875 -1.5625 C 0.546875 -1.925781 0.484375 -2.332031 0.484375 -2.78=
-125 C 0.484375 -3.21875 0.535156 -3.613281 0.640625 -3.96875 C 0.742188 -4.=
-320312 0.898438 -4.625 1.109375 -4.875 C 1.316406 -5.132812 1.566406 -5.335=
-938 1.859375 -5.484375 C 2.148438 -5.628906 2.488281 -5.703125 2.875 -5.703=
-125 C 3.164062 -5.703125 3.421875 -5.664062 3.640625 -5.59375 C 3.867188 -5=
-.519531 4.039062 -5.441406 4.15625 -5.359375 Z M 4.15625 -8.140625 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph1-18">
-> +<path style=3D"stroke:none;" d=3D"M 1.28125 0 L 1.28125 -5.265625 C 2.10=
-1562 -5.546875 2.925781 -5.6875 3.75 -5.6875 C 4.007812 -5.6875 4.253906 -5=
-.675781 4.484375 -5.65625 C 4.722656 -5.632812 4.976562 -5.59375 5.25 -5.53=
-125 L 5.078125 -4.65625 C 4.816406 -4.726562 4.585938 -4.773438 4.390625 -4=
-.796875 C 4.203125 -4.816406 3.988281 -4.828125 3.75 -4.828125 C 3.269531 -=
-4.828125 2.773438 -4.757812 2.265625 -4.625 L 2.265625 0 Z M 1.28125 0 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph1-19">
-> +<path style=3D"stroke:none;" d=3D"M 0.609375 1.046875 C 0.679688 1.08593=
-8 0.78125 1.117188 0.90625 1.140625 C 1.039062 1.160156 1.164062 1.171875 1=
-.28125 1.171875 C 1.675781 1.171875 1.984375 1.082031 2.203125 0.90625 C 2.=
-421875 0.738281 2.625 0.460938 2.8125 0.078125 C 2.363281 -0.773438 1.94140=
-6 -1.6875 1.546875 -2.65625 C 1.148438 -3.625 0.828125 -4.59375 0.578125 -5=
-.5625 L 1.65625 -5.5625 C 1.738281 -5.25 1.832031 -4.90625 1.9375 -4.53125 =
-C 2.039062 -4.15625 2.160156 -3.769531 2.296875 -3.375 C 2.441406 -2.988281=
- 2.585938 -2.597656 2.734375 -2.203125 C 2.890625 -1.804688 3.054688 -1.425=
-781 3.234375 -1.0625 C 3.367188 -1.4375 3.488281 -1.800781 3.59375 -2.15625=
- C 3.707031 -2.519531 3.8125 -2.882812 3.90625 -3.25 C 4.007812 -3.613281 4=
-.109375 -3.984375 4.203125 -4.359375 C 4.296875 -4.742188 4.394531 -5.14453=
-1 4.5 -5.5625 L 5.53125 -5.5625 C 5.269531 -4.53125 4.984375 -3.523438 4.67=
-1875 -2.546875 C 4.359375 -1.566406 4.019531 -0.660156 3.65625 0.171875 C 3=
-.519531 0.484375 3.375 0.753906 3.21875 0.984375 C 3.0625 1.222656 2.890625=
- 1.414062 2.703125 1.5625 C 2.523438 1.71875 2.316406 1.832031 2.078125 1.9=
-0625 C 1.847656 1.976562 1.585938 2.015625 1.296875 2.015625 C 1.140625 2.0=
-15625 0.972656 1.992188 0.796875 1.953125 C 0.617188 1.910156 0.5 1.875 0.4=
-375 1.84375 Z M 0.609375 1.046875 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph1-20">
-> +<path style=3D"stroke:none;" d=3D"M 0.34375 -3.71875 C 0.34375 -4.382812=
- 0.40625 -4.960938 0.53125 -5.453125 C 0.664062 -5.941406 0.847656 -6.34375=
- 1.078125 -6.65625 C 1.304688 -6.96875 1.582031 -7.203125 1.90625 -7.359375=
- C 2.238281 -7.515625 2.601562 -7.59375 3 -7.59375 C 3.394531 -7.59375 3.75=
-3906 -7.515625 4.078125 -7.359375 C 4.410156 -7.203125 4.691406 -6.96875 4.=
-921875 -6.65625 C 5.148438 -6.34375 5.328125 -5.941406 5.453125 -5.453125 C=
- 5.585938 -4.960938 5.65625 -4.382812 5.65625 -3.71875 C 5.65625 -3.050781 =
-5.585938 -2.472656 5.453125 -1.984375 C 5.328125 -1.503906 5.148438 -1.1015=
-62 4.921875 -0.78125 C 4.691406 -0.457031 4.410156 -0.21875 4.078125 -0.062=
-5 C 3.753906 0.0820312 3.394531 0.15625 3 0.15625 C 2.601562 0.15625 2.2382=
-81 0.0820312 1.90625 -0.0625 C 1.582031 -0.21875 1.304688 -0.457031 1.07812=
-5 -0.78125 C 0.847656 -1.101562 0.664062 -1.503906 0.53125 -1.984375 C 0.40=
-625 -2.472656 0.34375 -3.050781 0.34375 -3.71875 Z M 1.359375 -3.71875 C 1.=
-359375 -2.738281 1.488281 -1.988281 1.75 -1.46875 C 2.007812 -0.957031 2.41=
-4062 -0.703125 2.96875 -0.703125 C 3.53125 -0.703125 3.953125 -0.957031 4.2=
-34375 -1.46875 C 4.515625 -1.988281 4.65625 -2.738281 4.65625 -3.71875 C 4.=
-65625 -4.695312 4.515625 -5.445312 4.234375 -5.96875 C 3.953125 -6.488281 3=
-.53125 -6.75 2.96875 -6.75 C 2.414062 -6.75 2.007812 -6.488281 1.75 -5.9687=
-5 C 1.488281 -5.445312 1.359375 -4.695312 1.359375 -3.71875 Z M 1.359375 -3=
-.71875 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph1-21">
-> +<path style=3D"stroke:none;" d=3D"M 5.140625 -0.15625 C 4.929688 -0.1015=
-62 4.644531 -0.046875 4.28125 0.015625 C 3.925781 0.0859375 3.507812 0.125 =
-3.03125 0.125 C 2.613281 0.125 2.265625 0.0625 1.984375 -0.0625 C 1.703125 =
--0.1875 1.472656 -0.363281 1.296875 -0.59375 C 1.117188 -0.820312 0.992188 =
--1.09375 0.921875 -1.40625 C 0.847656 -1.71875 0.8125 -2.0625 0.8125 -2.437=
-5 L 0.8125 -5.5625 L 1.796875 -5.5625 L 1.796875 -2.65625 C 1.796875 -1.968=
-75 1.894531 -1.476562 2.09375 -1.1875 C 2.300781 -0.894531 2.644531 -0.75 3=
-.125 -0.75 C 3.226562 -0.75 3.332031 -0.753906 3.4375 -0.765625 C 3.550781 =
--0.773438 3.65625 -0.785156 3.75 -0.796875 C 3.851562 -0.804688 3.9375 -0.8=
-16406 4 -0.828125 C 4.070312 -0.847656 4.125 -0.859375 4.15625 -0.859375 L =
-4.15625 -5.5625 L 5.140625 -5.5625 Z M 5.140625 -0.15625 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph1-22">
-> +<path style=3D"stroke:none;" d=3D"M 2.921875 -5.5625 L 5.265625 -5.5625 =
-L 5.265625 -4.734375 L 2.921875 -4.734375 L 2.921875 -2.140625 C 2.921875 -=
-1.867188 2.9375 -1.644531 2.96875 -1.46875 C 3.007812 -1.289062 3.078125 -1=
-.144531 3.171875 -1.03125 C 3.265625 -0.925781 3.382812 -0.851562 3.53125 -=
-0.8125 C 3.675781 -0.769531 3.851562 -0.75 4.0625 -0.75 C 4.34375 -0.75 4.5=
-70312 -0.773438 4.75 -0.828125 C 4.925781 -0.878906 5.09375 -0.941406 5.25 =
--1.015625 L 5.40625 -0.1875 C 5.289062 -0.132812 5.109375 -0.0703125 4.8593=
-75 0 C 4.617188 0.0820312 4.316406 0.125 3.953125 0.125 C 3.546875 0.125 3.=
-207031 0.078125 2.9375 -0.015625 C 2.675781 -0.109375 2.46875 -0.25 2.3125 =
--0.4375 C 2.164062 -0.632812 2.066406 -0.875 2.015625 -1.15625 C 1.960938 -=
-1.4375 1.9375 -1.765625 1.9375 -2.140625 L 1.9375 -4.734375 L 0.75 -4.73437=
-5 L 0.75 -5.5625 L 1.9375 -5.5625 L 1.9375 -7.125 L 2.921875 -7.296875 Z M =
-2.921875 -5.5625 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph1-23">
-> +<path style=3D"stroke:none;" d=3D"M 4.5 -2.765625 C 4.5 -3.421875 4.3476=
-56 -3.925781 4.046875 -4.28125 C 3.742188 -4.632812 3.347656 -4.8125 2.8593=
-75 -4.8125 C 2.585938 -4.8125 2.375 -4.796875 2.21875 -4.765625 C 2.0625 -4=
-.742188 1.9375 -4.71875 1.84375 -4.6875 L 1.84375 -1.171875 C 1.957031 -1.0=
-66406 2.117188 -0.96875 2.328125 -0.875 C 2.546875 -0.789062 2.773438 -0.75=
- 3.015625 -0.75 C 3.273438 -0.75 3.5 -0.800781 3.6875 -0.90625 C 3.875 -1.0=
-07812 4.023438 -1.148438 4.140625 -1.328125 C 4.265625 -1.515625 4.351562 -=
-1.726562 4.40625 -1.96875 C 4.46875 -2.21875 4.5 -2.484375 4.5 -2.765625 Z =
-M 5.515625 -2.765625 C 5.515625 -2.347656 5.460938 -1.957031 5.359375 -1.59=
-375 C 5.253906 -1.238281 5.097656 -0.929688 4.890625 -0.671875 C 4.679688 -=
-0.421875 4.429688 -0.222656 4.140625 -0.078125 C 3.847656 0.0546875 3.50781=
-2 0.125 3.125 0.125 C 2.832031 0.125 2.570312 0.0859375 2.34375 0.015625 C =
-2.125 -0.046875 1.957031 -0.125 1.84375 -0.21875 L 1.84375 1.984375 L 0.859=
-375 1.984375 L 0.859375 -5.40625 C 1.066406 -5.46875 1.34375 -5.53125 1.687=
-5 -5.59375 C 2.03125 -5.65625 2.421875 -5.6875 2.859375 -5.6875 C 3.253906 =
--5.6875 3.613281 -5.617188 3.9375 -5.484375 C 4.269531 -5.347656 4.550781 -=
-5.15625 4.78125 -4.90625 C 5.019531 -4.65625 5.203125 -4.347656 5.328125 -3=
-.984375 C 5.453125 -3.617188 5.515625 -3.210938 5.515625 -2.765625 Z M 5.51=
-5625 -2.765625 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph1-24">
-> +<path style=3D"stroke:none;" d=3D"M 3.015625 -3.734375 L 4.15625 -7.4218=
-75 L 5.09375 -7.421875 C 5.25 -6.253906 5.359375 -5.054688 5.421875 -3.8281=
-25 C 5.492188 -2.609375 5.554688 -1.332031 5.609375 0 L 4.65625 0 C 4.64453=
-1 -0.425781 4.632812 -0.890625 4.625 -1.390625 C 4.625 -1.898438 4.613281 -=
-2.421875 4.59375 -2.953125 C 4.582031 -3.492188 4.570312 -4.039062 4.5625 -=
-4.59375 C 4.550781 -5.144531 4.539062 -5.679688 4.53125 -6.203125 L 3.4375 =
--2.8125 L 2.578125 -2.8125 L 1.46875 -6.203125 C 1.46875 -5.679688 1.457031=
- -5.144531 1.4375 -4.59375 C 1.425781 -4.050781 1.414062 -3.507812 1.40625 =
--2.96875 C 1.394531 -2.425781 1.382812 -1.898438 1.375 -1.390625 C 1.363281=
- -0.890625 1.351562 -0.425781 1.34375 0 L 0.390625 0 C 0.410156 -0.601562 0=
-.4375 -1.222656 0.46875 -1.859375 C 0.5 -2.503906 0.535156 -3.144531 0.5781=
-25 -3.78125 C 0.617188 -4.414062 0.671875 -5.039062 0.734375 -5.65625 C 0.7=
-96875 -6.269531 0.863281 -6.859375 0.9375 -7.421875 L 1.84375 -7.421875 Z M=
- 3.015625 -3.734375 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph2-0">
-> +<path style=3D"stroke:none;" d=3D"M 0.640625 2.296875 L 0.640625 -9.1718=
-75 L 7.140625 -9.171875 L 7.140625 2.296875 Z M 1.375 1.578125 L 6.421875 1=
-.578125 L 6.421875 -8.4375 L 1.375 -8.4375 Z M 1.375 1.578125 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph2-1">
-> +<path style=3D"stroke:none;" d=3D"M 6.34375 -6.84375 L 6.34375 -5.75 C 6=
-.007812 -5.925781 5.675781 -6.0625 5.34375 -6.15625 C 5.007812 -6.25 4.6757=
-81 -6.296875 4.34375 -6.296875 C 3.582031 -6.296875 2.992188 -6.050781 2.57=
-8125 -5.5625 C 2.160156 -5.082031 1.953125 -4.410156 1.953125 -3.546875 C 1=
-.953125 -2.679688 2.160156 -2.007812 2.578125 -1.53125 C 2.992188 -1.050781=
- 3.582031 -0.8125 4.34375 -0.8125 C 4.675781 -0.8125 5.007812 -0.851562 5.3=
-4375 -0.9375 C 5.675781 -1.03125 6.007812 -1.171875 6.34375 -1.359375 L 6.3=
-4375 -0.265625 C 6.019531 -0.117188 5.679688 -0.0078125 5.328125 0.0625 C 4=
-.984375 0.144531 4.613281 0.1875 4.21875 0.1875 C 3.144531 0.1875 2.289062 =
--0.144531 1.65625 -0.8125 C 1.03125 -1.488281 0.71875 -2.398438 0.71875 -3.=
-546875 C 0.71875 -4.703125 1.035156 -5.613281 1.671875 -6.28125 C 2.304688 =
--6.945312 3.179688 -7.28125 4.296875 -7.28125 C 4.648438 -7.28125 5 -7.2421=
-88 5.34375 -7.171875 C 5.6875 -7.097656 6.019531 -6.988281 6.34375 -6.84375=
- Z M 6.34375 -6.84375 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph2-2">
-> +<path style=3D"stroke:none;" d=3D"M 5.34375 -6.015625 C 5.207031 -6.0859=
-38 5.0625 -6.140625 4.90625 -6.171875 C 4.757812 -6.210938 4.59375 -6.23437=
-5 4.40625 -6.234375 C 3.75 -6.234375 3.242188 -6.019531 2.890625 -5.59375 C=
- 2.535156 -5.164062 2.359375 -4.550781 2.359375 -3.75 L 2.359375 0 L 1.1875=
- 0 L 1.1875 -7.109375 L 2.359375 -7.109375 L 2.359375 -6 C 2.597656 -6.4375=
- 2.914062 -6.757812 3.3125 -6.96875 C 3.707031 -7.175781 4.1875 -7.28125 4.=
-75 -7.28125 C 4.832031 -7.28125 4.921875 -7.273438 5.015625 -7.265625 C 5.1=
-09375 -7.253906 5.21875 -7.238281 5.34375 -7.21875 Z M 5.34375 -6.015625 "/=
->
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph2-3">
-> +<path style=3D"stroke:none;" d=3D"M 3.984375 -6.296875 C 3.359375 -6.296=
-875 2.863281 -6.050781 2.5 -5.5625 C 2.132812 -5.070312 1.953125 -4.398438 =
-1.953125 -3.546875 C 1.953125 -2.691406 2.128906 -2.019531 2.484375 -1.5312=
-5 C 2.847656 -1.050781 3.347656 -0.8125 3.984375 -0.8125 C 4.597656 -0.8125=
- 5.085938 -1.054688 5.453125 -1.546875 C 5.816406 -2.035156 6 -2.703125 6 -=
-3.546875 C 6 -4.390625 5.816406 -5.054688 5.453125 -5.546875 C 5.085938 -6.=
-046875 4.597656 -6.296875 3.984375 -6.296875 Z M 3.984375 -7.28125 C 4.9921=
-88 -7.28125 5.789062 -6.945312 6.375 -6.28125 C 6.957031 -5.625 7.25 -4.710=
-938 7.25 -3.546875 C 7.25 -2.378906 6.957031 -1.460938 6.375 -0.796875 C 5.=
-789062 -0.140625 4.992188 0.1875 3.984375 0.1875 C 2.960938 0.1875 2.160156=
- -0.140625 1.578125 -0.796875 C 1.003906 -1.460938 0.71875 -2.378906 0.7187=
-5 -3.546875 C 0.71875 -4.710938 1.003906 -5.625 1.578125 -6.28125 C 2.16015=
-6 -6.945312 2.960938 -7.28125 3.984375 -7.28125 Z M 3.984375 -7.28125 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph2-4">
-> +<path style=3D"stroke:none;" d=3D"M 2.359375 -1.0625 L 2.359375 2.703125=
- L 1.1875 2.703125 L 1.1875 -7.109375 L 2.359375 -7.109375 L 2.359375 -6.03=
-125 C 2.597656 -6.457031 2.90625 -6.769531 3.28125 -6.96875 C 3.65625 -7.17=
-5781 4.101562 -7.28125 4.625 -7.28125 C 5.488281 -7.28125 6.191406 -6.9375 =
-6.734375 -6.25 C 7.273438 -5.5625 7.546875 -4.660156 7.546875 -3.546875 C 7=
-.546875 -2.429688 7.273438 -1.53125 6.734375 -0.84375 C 6.191406 -0.15625 5=
-.488281 0.1875 4.625 0.1875 C 4.101562 0.1875 3.65625 0.0820312 3.28125 -0.=
-125 C 2.90625 -0.332031 2.597656 -0.644531 2.359375 -1.0625 Z M 6.328125 -3=
-.546875 C 6.328125 -4.410156 6.148438 -5.082031 5.796875 -5.5625 C 5.441406=
- -6.050781 4.957031 -6.296875 4.34375 -6.296875 C 3.726562 -6.296875 3.2421=
-88 -6.050781 2.890625 -5.5625 C 2.535156 -5.082031 2.359375 -4.410156 2.359=
-375 -3.546875 C 2.359375 -2.691406 2.535156 -2.019531 2.890625 -1.53125 C 3=
-.242188 -1.039062 3.726562 -0.796875 4.34375 -0.796875 C 4.957031 -0.796875=
- 5.441406 -1.039062 5.796875 -1.53125 C 6.148438 -2.019531 6.328125 -2.6914=
-06 6.328125 -3.546875 Z M 6.328125 -3.546875 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph2-5">
-> +<path style=3D"stroke:none;" d=3D"M 5.75 -6.90625 L 5.75 -5.796875 C 5.4=
-25781 -5.960938 5.085938 -6.085938 4.734375 -6.171875 C 4.378906 -6.253906 =
-4.007812 -6.296875 3.625 -6.296875 C 3.039062 -6.296875 2.601562 -6.207031 =
-2.3125 -6.03125 C 2.03125 -5.851562 1.890625 -5.585938 1.890625 -5.234375 C=
- 1.890625 -4.960938 1.988281 -4.75 2.1875 -4.59375 C 2.394531 -4.445312 2.8=
-16406 -4.300781 3.453125 -4.15625 L 3.84375 -4.0625 C 4.675781 -3.882812 5.=
-265625 -3.632812 5.609375 -3.3125 C 5.960938 -2.988281 6.140625 -2.539062 6=
-.140625 -1.96875 C 6.140625 -1.300781 5.878906 -0.773438 5.359375 -0.390625=
- C 4.835938 -0.00390625 4.117188 0.1875 3.203125 0.1875 C 2.816406 0.1875 2=
-.414062 0.148438 2 0.078125 C 1.59375 0.00390625 1.160156 -0.109375 0.70312=
-5 -0.265625 L 0.703125 -1.46875 C 1.140625 -1.238281 1.566406 -1.066406 1.9=
-84375 -0.953125 C 2.398438 -0.847656 2.8125 -0.796875 3.21875 -0.796875 C 3=
-.769531 -0.796875 4.191406 -0.890625 4.484375 -1.078125 C 4.785156 -1.26562=
-5 4.9375 -1.53125 4.9375 -1.875 C 4.9375 -2.1875 4.828125 -2.425781 4.60937=
-5 -2.59375 C 4.398438 -2.769531 3.9375 -2.9375 3.21875 -3.09375 L 2.8125 -3=
-.1875 C 2.082031 -3.34375 1.554688 -3.578125 1.234375 -3.890625 C 0.910156 =
--4.203125 0.75 -4.632812 0.75 -5.1875 C 0.75 -5.851562 0.984375 -6.367188 1=
-.453125 -6.734375 C 1.929688 -7.097656 2.609375 -7.28125 3.484375 -7.28125 =
-C 3.910156 -7.28125 4.316406 -7.25 4.703125 -7.1875 C 5.085938 -7.125 5.437=
-5 -7.03125 5.75 -6.90625 Z M 5.75 -6.90625 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph2-6">
-> +<path style=3D"stroke:none;" d=3D"M 4.453125 -3.578125 C 3.515625 -3.578=
-125 2.863281 -3.46875 2.5 -3.25 C 2.132812 -3.03125 1.953125 -2.660156 1.95=
-3125 -2.140625 C 1.953125 -1.734375 2.085938 -1.40625 2.359375 -1.15625 C 2=
-.628906 -0.914062 3 -0.796875 3.46875 -0.796875 C 4.113281 -0.796875 4.6328=
-12 -1.023438 5.03125 -1.484375 C 5.425781 -1.941406 5.625 -2.550781 5.625 -=
-3.3125 L 5.625 -3.578125 Z M 6.78125 -4.0625 L 6.78125 0 L 5.625 0 L 5.625 =
--1.078125 C 5.351562 -0.648438 5.019531 -0.332031 4.625 -0.125 C 4.226562 0=
-.0820312 3.738281 0.1875 3.15625 0.1875 C 2.425781 0.1875 1.847656 -0.01562=
-5 1.421875 -0.421875 C 0.992188 -0.835938 0.78125 -1.382812 0.78125 -2.0625=
- C 0.78125 -2.863281 1.046875 -3.46875 1.578125 -3.875 C 2.117188 -4.28125 =
-2.921875 -4.484375 3.984375 -4.484375 L 5.625 -4.484375 L 5.625 -4.609375 C=
- 5.625 -5.140625 5.445312 -5.550781 5.09375 -5.84375 C 4.738281 -6.144531 4=
-.238281 -6.296875 3.59375 -6.296875 C 3.1875 -6.296875 2.789062 -6.242188 2=
-.40625 -6.140625 C 2.019531 -6.046875 1.648438 -5.898438 1.296875 -5.703125=
- L 1.296875 -6.78125 C 1.722656 -6.945312 2.140625 -7.070312 2.546875 -7.15=
-625 C 2.953125 -7.238281 3.34375 -7.28125 3.71875 -7.28125 C 4.75 -7.28125 =
-5.515625 -7.015625 6.015625 -6.484375 C 6.523438 -5.953125 6.78125 -5.14453=
-1 6.78125 -4.0625 Z M 6.78125 -4.0625 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph2-7">
-> +<path style=3D"stroke:none;" d=3D"M 1.21875 -9.875 L 2.390625 -9.875 L 2=
-.390625 0 L 1.21875 0 Z M 1.21875 -9.875 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph2-8">
-> +<path style=3D"stroke:none;" d=3D"M 7.3125 -3.84375 L 7.3125 -3.28125 L =
-1.9375 -3.28125 C 1.988281 -2.46875 2.226562 -1.851562 2.65625 -1.4375 C 3.=
-09375 -1.019531 3.695312 -0.8125 4.46875 -0.8125 C 4.914062 -0.8125 5.34765=
-6 -0.863281 5.765625 -0.96875 C 6.191406 -1.082031 6.613281 -1.25 7.03125 -=
-1.46875 L 7.03125 -0.359375 C 6.613281 -0.179688 6.179688 -0.046875 5.73437=
-5 0.046875 C 5.296875 0.140625 4.851562 0.1875 4.40625 0.1875 C 3.269531 0.=
-1875 2.367188 -0.140625 1.703125 -0.796875 C 1.046875 -1.460938 0.71875 -2.=
-359375 0.71875 -3.484375 C 0.71875 -4.648438 1.03125 -5.570312 1.65625 -6.2=
-5 C 2.289062 -6.9375 3.140625 -7.28125 4.203125 -7.28125 C 5.160156 -7.2812=
-5 5.914062 -6.972656 6.46875 -6.359375 C 7.03125 -5.742188 7.3125 -4.90625 =
-7.3125 -3.84375 Z M 6.140625 -4.1875 C 6.128906 -4.820312 5.945312 -5.33203=
-1 5.59375 -5.71875 C 5.25 -6.101562 4.789062 -6.296875 4.21875 -6.296875 C =
-3.5625 -6.296875 3.035156 -6.109375 2.640625 -5.734375 C 2.253906 -5.367188=
- 2.03125 -4.851562 1.96875 -4.1875 Z M 6.140625 -4.1875 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph2-9">
-> +<path style=3D"stroke:none;" d=3D"M 6.328125 -3.546875 C 6.328125 -4.410=
-156 6.148438 -5.082031 5.796875 -5.5625 C 5.441406 -6.050781 4.957031 -6.29=
-6875 4.34375 -6.296875 C 3.726562 -6.296875 3.242188 -6.050781 2.890625 -5.=
-5625 C 2.535156 -5.082031 2.359375 -4.410156 2.359375 -3.546875 C 2.359375 =
--2.691406 2.535156 -2.019531 2.890625 -1.53125 C 3.242188 -1.039062 3.72656=
-2 -0.796875 4.34375 -0.796875 C 4.957031 -0.796875 5.441406 -1.039062 5.796=
-875 -1.53125 C 6.148438 -2.019531 6.328125 -2.691406 6.328125 -3.546875 Z M=
- 2.359375 -6.03125 C 2.597656 -6.457031 2.90625 -6.769531 3.28125 -6.96875 =
-C 3.65625 -7.175781 4.101562 -7.28125 4.625 -7.28125 C 5.488281 -7.28125 6.=
-191406 -6.9375 6.734375 -6.25 C 7.273438 -5.5625 7.546875 -4.660156 7.54687=
-5 -3.546875 C 7.546875 -2.429688 7.273438 -1.53125 6.734375 -0.84375 C 6.19=
-1406 -0.15625 5.488281 0.1875 4.625 0.1875 C 4.101562 0.1875 3.65625 0.0820=
-312 3.28125 -0.125 C 2.90625 -0.332031 2.597656 -0.644531 2.359375 -1.0625 =
-L 2.359375 0 L 1.1875 0 L 1.1875 -9.875 L 2.359375 -9.875 Z M 2.359375 -6.0=
-3125 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph2-10">
-> +<path style=3D"stroke:none;" d=3D"M 1.21875 -7.109375 L 2.390625 -7.1093=
-75 L 2.390625 0 L 1.21875 0 Z M 1.21875 -9.875 L 2.390625 -9.875 L 2.390625=
- -8.390625 L 1.21875 -8.390625 Z M 1.21875 -9.875 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph2-11">
-> +<path style=3D"stroke:none;" d=3D"M 7.140625 -4.296875 L 7.140625 0 L 5.=
-96875 0 L 5.96875 -4.25 C 5.96875 -4.925781 5.835938 -5.429688 5.578125 -5.=
-765625 C 5.316406 -6.097656 4.921875 -6.265625 4.390625 -6.265625 C 3.76562=
-5 -6.265625 3.269531 -6.0625 2.90625 -5.65625 C 2.539062 -5.257812 2.359375=
- -4.710938 2.359375 -4.015625 L 2.359375 0 L 1.1875 0 L 1.1875 -7.109375 L =
-2.359375 -7.109375 L 2.359375 -6 C 2.640625 -6.425781 2.96875 -6.742188 3.3=
-4375 -6.953125 C 3.71875 -7.171875 4.15625 -7.28125 4.65625 -7.28125 C 5.46=
-875 -7.28125 6.082031 -7.023438 6.5 -6.515625 C 6.925781 -6.015625 7.140625=
- -5.273438 7.140625 -4.296875 Z M 7.140625 -4.296875 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph2-12">
-> +<path style=3D"stroke:none;" d=3D"M 5.90625 -3.640625 C 5.90625 -4.48437=
-5 5.726562 -5.132812 5.375 -5.59375 C 5.03125 -6.0625 4.539062 -6.296875 3.=
-90625 -6.296875 C 3.28125 -6.296875 2.789062 -6.0625 2.4375 -5.59375 C 2.09=
-375 -5.132812 1.921875 -4.484375 1.921875 -3.640625 C 1.921875 -2.796875 2.=
-09375 -2.140625 2.4375 -1.671875 C 2.789062 -1.210938 3.28125 -0.984375 3.9=
-0625 -0.984375 C 4.539062 -0.984375 5.03125 -1.210938 5.375 -1.671875 C 5.7=
-26562 -2.140625 5.90625 -2.796875 5.90625 -3.640625 Z M 7.078125 -0.875 C 7=
-.078125 0.332031 6.804688 1.226562 6.265625 1.8125 C 5.722656 2.40625 4.898=
-438 2.703125 3.796875 2.703125 C 3.390625 2.703125 3.003906 2.671875 2.6406=
-25 2.609375 C 2.273438 2.546875 1.921875 2.453125 1.578125 2.328125 L 1.578=
-125 1.1875 C 1.921875 1.375 2.257812 1.507812 2.59375 1.59375 C 2.925781 1.=
-6875 3.265625 1.734375 3.609375 1.734375 C 4.378906 1.734375 4.953125 1.535=
-156 5.328125 1.140625 C 5.710938 0.742188 5.90625 0.140625 5.90625 -0.67187=
-5 L 5.90625 -1.25 C 5.664062 -0.832031 5.351562 -0.519531 4.96875 -0.3125 C=
- 4.59375 -0.101562 4.144531 0 3.625 0 C 2.75 0 2.046875 -0.332031 1.515625 =
--1 C 0.984375 -1.664062 0.71875 -2.546875 0.71875 -3.640625 C 0.71875 -4.73=
-4375 0.984375 -5.613281 1.515625 -6.28125 C 2.046875 -6.945312 2.75 -7.2812=
-5 3.625 -7.28125 C 4.144531 -7.28125 4.59375 -7.175781 4.96875 -6.96875 C 5=
-.351562 -6.757812 5.664062 -6.445312 5.90625 -6.03125 L 5.90625 -7.109375 L=
- 7.078125 -7.109375 Z M 7.078125 -0.875 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph2-13">
-> +<path style=3D"stroke:none;" d=3D"M 5.125 -8.609375 C 4.1875 -8.609375 3=
-.441406 -8.257812 2.890625 -7.5625 C 2.347656 -6.875 2.078125 -5.929688 2.0=
-78125 -4.734375 C 2.078125 -3.535156 2.347656 -2.585938 2.890625 -1.890625 =
-C 3.441406 -1.203125 4.1875 -0.859375 5.125 -0.859375 C 6.050781 -0.859375 =
-6.785156 -1.203125 7.328125 -1.890625 C 7.878906 -2.585938 8.15625 -3.53515=
-6 8.15625 -4.734375 C 8.15625 -5.929688 7.878906 -6.875 7.328125 -7.5625 C =
-6.785156 -8.257812 6.050781 -8.609375 5.125 -8.609375 Z M 5.125 -9.65625 C =
-6.445312 -9.65625 7.503906 -9.207031 8.296875 -8.3125 C 9.097656 -7.414062 =
-9.5 -6.222656 9.5 -4.734375 C 9.5 -3.234375 9.097656 -2.035156 8.296875 -1.=
-140625 C 7.503906 -0.253906 6.445312 0.1875 5.125 0.1875 C 3.789062 0.1875 =
-2.722656 -0.253906 1.921875 -1.140625 C 1.128906 -2.035156 0.734375 -3.2343=
-75 0.734375 -4.734375 C 0.734375 -6.222656 1.128906 -7.414062 1.921875 -8.3=
-125 C 2.722656 -9.207031 3.789062 -9.65625 5.125 -9.65625 Z M 5.125 -9.6562=
-5 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph2-14">
-> +<path style=3D"stroke:none;" d=3D"M 1.109375 -2.8125 L 1.109375 -7.10937=
-5 L 2.265625 -7.109375 L 2.265625 -2.84375 C 2.265625 -2.175781 2.394531 -1=
-.671875 2.65625 -1.328125 C 2.925781 -0.992188 3.320312 -0.828125 3.84375 -=
-0.828125 C 4.476562 -0.828125 4.976562 -1.023438 5.34375 -1.421875 C 5.7070=
-31 -1.828125 5.890625 -2.378906 5.890625 -3.078125 L 5.890625 -7.109375 L 7=
-.0625 -7.109375 L 7.0625 0 L 5.890625 0 L 5.890625 -1.09375 C 5.609375 -0.6=
-5625 5.28125 -0.332031 4.90625 -0.125 C 4.53125 0.0820312 4.09375 0.1875 3.=
-59375 0.1875 C 2.78125 0.1875 2.160156 -0.0664062 1.734375 -0.578125 C 1.31=
-6406 -1.085938 1.109375 -1.832031 1.109375 -2.8125 Z M 4.046875 -7.28125 Z =
-M 4.046875 -7.28125 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph2-15">
-> +<path style=3D"stroke:none;" d=3D"M 2.375 -9.125 L 2.375 -7.109375 L 4.7=
-8125 -7.109375 L 4.78125 -6.203125 L 2.375 -6.203125 L 2.375 -2.34375 C 2.3=
-75 -1.757812 2.453125 -1.382812 2.609375 -1.21875 C 2.773438 -1.0625 3.1015=
-62 -0.984375 3.59375 -0.984375 L 4.78125 -0.984375 L 4.78125 0 L 3.59375 0 =
-C 2.6875 0 2.0625 -0.164062 1.71875 -0.5 C 1.375 -0.84375 1.203125 -1.45703=
-1 1.203125 -2.34375 L 1.203125 -6.203125 L 0.34375 -6.203125 L 0.34375 -7.1=
-09375 L 1.203125 -7.109375 L 1.203125 -9.125 Z M 2.375 -9.125 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph2-16">
-> +<path style=3D"stroke:none;" d=3D""/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph2-17">
-> +<path style=3D"stroke:none;" d=3D"M 1.28125 -9.484375 L 6.71875 -9.48437=
-5 L 6.71875 -8.390625 L 2.5625 -8.390625 L 2.5625 -5.609375 L 6.3125 -5.609=
-375 L 6.3125 -4.53125 L 2.5625 -4.53125 L 2.5625 0 L 1.28125 0 Z M 1.28125 =
--9.484375 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph2-18">
-> +<path style=3D"stroke:none;" d=3D"M 6.765625 -5.75 C 7.054688 -6.269531 =
-7.40625 -6.65625 7.8125 -6.90625 C 8.21875 -7.15625 8.695312 -7.28125 9.25 =
--7.28125 C 9.988281 -7.28125 10.554688 -7.019531 10.953125 -6.5 C 11.359375=
- -5.976562 11.5625 -5.242188 11.5625 -4.296875 L 11.5625 0 L 10.390625 0 L =
-10.390625 -4.25 C 10.390625 -4.9375 10.265625 -5.441406 10.015625 -5.765625=
- C 9.773438 -6.097656 9.410156 -6.265625 8.921875 -6.265625 C 8.316406 -6.2=
-65625 7.835938 -6.0625 7.484375 -5.65625 C 7.128906 -5.257812 6.953125 -4.7=
-10938 6.953125 -4.015625 L 6.953125 0 L 5.78125 0 L 5.78125 -4.25 C 5.78125=
- -4.9375 5.660156 -5.441406 5.421875 -5.765625 C 5.179688 -6.097656 4.80468=
-8 -6.265625 4.296875 -6.265625 C 3.703125 -6.265625 3.226562 -6.0625 2.875 =
--5.65625 C 2.53125 -5.25 2.359375 -4.703125 2.359375 -4.015625 L 2.359375 0=
- L 1.1875 0 L 1.1875 -7.109375 L 2.359375 -7.109375 L 2.359375 -6 C 2.61718=
-8 -6.4375 2.9375 -6.757812 3.3125 -6.96875 C 3.6875 -7.175781 4.128906 -7.2=
-8125 4.640625 -7.28125 C 5.160156 -7.28125 5.597656 -7.148438 5.953125 -6.8=
-90625 C 6.316406 -6.628906 6.585938 -6.25 6.765625 -5.75 Z M 6.765625 -5.75=
- "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph2-19">
-> +<path style=3D"stroke:none;" d=3D"M 6.953125 -9.171875 L 6.953125 -7.921=
-875 C 6.472656 -8.148438 6.015625 -8.320312 5.578125 -8.4375 C 5.148438 -8.=
-550781 4.734375 -8.609375 4.328125 -8.609375 C 3.628906 -8.609375 3.085938 =
--8.472656 2.703125 -8.203125 C 2.328125 -7.929688 2.140625 -7.546875 2.1406=
-25 -7.046875 C 2.140625 -6.628906 2.265625 -6.3125 2.515625 -6.09375 C 2.77=
-3438 -5.882812 3.253906 -5.710938 3.953125 -5.578125 L 4.734375 -5.421875 C=
- 5.679688 -5.234375 6.382812 -4.910156 6.84375 -4.453125 C 7.300781 -3.9921=
-88 7.53125 -3.378906 7.53125 -2.609375 C 7.53125 -1.691406 7.222656 -0.9921=
-88 6.609375 -0.515625 C 5.992188 -0.046875 5.085938 0.1875 3.890625 0.1875 =
-C 3.441406 0.1875 2.960938 0.132812 2.453125 0.03125 C 1.953125 -0.0703125 =
-1.429688 -0.222656 0.890625 -0.421875 L 0.890625 -1.734375 C 1.410156 -1.44=
-1406 1.921875 -1.222656 2.421875 -1.078125 C 2.921875 -0.929688 3.410156 -0=
-.859375 3.890625 -0.859375 C 4.628906 -0.859375 5.195312 -1 5.59375 -1.2812=
-5 C 5.988281 -1.570312 6.1875 -1.984375 6.1875 -2.515625 C 6.1875 -2.984375=
- 6.039062 -3.347656 5.75 -3.609375 C 5.46875 -3.867188 5.003906 -4.066406 4=
-.359375 -4.203125 L 3.578125 -4.359375 C 2.617188 -4.546875 1.925781 -4.843=
-75 1.5 -5.25 C 1.070312 -5.65625 0.859375 -6.21875 0.859375 -6.9375 C 0.859=
-375 -7.78125 1.148438 -8.441406 1.734375 -8.921875 C 2.328125 -9.410156 3.1=
-44531 -9.65625 4.1875 -9.65625 C 4.625 -9.65625 5.070312 -9.613281 5.53125 =
--9.53125 C 6 -9.445312 6.472656 -9.328125 6.953125 -9.171875 Z M 6.953125 -=
-9.171875 "/>
-> +</symbol>
-> +<symbol overflow=3D"visible" id=3D"glyph2-20">
-> +<path style=3D"stroke:none;" d=3D"M 4.1875 0.65625 C 3.851562 1.507812 3=
-.53125 2.0625 3.21875 2.3125 C 2.90625 2.570312 2.488281 2.703125 1.96875 2=
-.703125 L 1.03125 2.703125 L 1.03125 1.734375 L 1.71875 1.734375 C 2.039062=
- 1.734375 2.289062 1.65625 2.46875 1.5 C 2.644531 1.34375 2.835938 0.984375=
- 3.046875 0.421875 L 3.265625 -0.109375 L 0.390625 -7.109375 L 1.625 -7.109=
-375 L 3.84375 -1.546875 L 6.0625 -7.109375 L 7.3125 -7.109375 Z M 4.1875 0.=
-65625 "/>
-> +</symbol>
-> +</g>
-> +</defs>
-> +<g id=3D"surface268880">
-> +<rect x=3D"0" y=3D"0" width=3D"774" height=3D"152" style=3D"fill:rgb(100=
-%,100%,100%);fill-opacity:1;stroke:none;"/>
-> +<path style=3D"fill-rule:evenodd;fill:rgb(100%,100%,100%);fill-opacity:1=
-;stroke-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%,0=
-%,0%);stroke-opacity:1;stroke-miterlimit:10;" d=3D"M 21.75297 10.408118 L 2=
-6.433829 10.408118 L 26.433829 12.281165 L 21.75297 12.281165 Z M 21.75297 =
-10.408118 " transform=3D"matrix(20,0,0,20,-434.059401,-172.47877)"/>
-> +<path style=3D"fill-rule:evenodd;fill:rgb(100%,100%,100%);fill-opacity:1=
-;stroke-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%,0=
-%,0%);stroke-opacity:1;stroke-miterlimit:10;" d=3D"M 29.079728 10.51222 L 3=
-2.829728 10.51222 L 32.829728 12.149915 L 29.079728 12.149915 Z M 29.079728=
- 10.51222 " transform=3D"matrix(20,0,0,20,-434.059401,-172.47877)"/>
-> +<g style=3D"fill:rgb(0%,0%,0%);fill-opacity:1;">
-> +  <use xlink:href=3D"#glyph0-1" x=3D"20.171875" y=3D"57.705621"/>
-> +  <use xlink:href=3D"#glyph0-2" x=3D"30.171875" y=3D"57.705621"/>
-> +  <use xlink:href=3D"#glyph0-3" x=3D"40.171875" y=3D"57.705621"/>
-> +  <use xlink:href=3D"#glyph0-4" x=3D"50.171875" y=3D"57.705621"/>
-> +  <use xlink:href=3D"#glyph0-5" x=3D"60.171875" y=3D"57.705621"/>
-> +  <use xlink:href=3D"#glyph0-6" x=3D"70.171875" y=3D"57.705621"/>
-> +</g>
-> +<g style=3D"fill:rgb(0%,0%,0%);fill-opacity:1;">
-> +  <use xlink:href=3D"#glyph0-7" x=3D"174.203125" y=3D"60.053277"/>
-> +  <use xlink:href=3D"#glyph0-8" x=3D"184.203125" y=3D"60.053277"/>
-> +</g>
-> +<path style=3D"fill-rule:evenodd;fill:rgb(100%,100%,100%);fill-opacity:1=
-;stroke-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%,0=
-%,0%);stroke-opacity:1;stroke-miterlimit:10;" d=3D"M 40.925236 10.544446 L =
-44.675236 10.544446 L 44.675236 12.090345 L 40.925236 12.090345 Z M 40.9252=
-36 10.544446 " transform=3D"matrix(20,0,0,20,-434.059401,-172.47877)"/>
-> +<path style=3D"fill-rule:evenodd;fill:rgb(100%,100%,100%);fill-opacity:1=
-;stroke-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%,0=
-%,0%);stroke-opacity:1;stroke-miterlimit:10;" d=3D"M 34.883439 10.536634 L =
-38.633439 10.536634 L 38.633439 12.120032 L 34.883439 12.120032 Z M 34.8834=
-39 10.536634 " transform=3D"matrix(20,0,0,20,-434.059401,-172.47877)"/>
-> +<path style=3D"fill-rule:evenodd;fill:rgb(100%,100%,100%);fill-opacity:1=
-;stroke-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%,0=
-%,0%);stroke-opacity:1;stroke-miterlimit:10;" d=3D"M 47.084806 10.484876 L =
-52.045743 10.484876 L 52.045743 12.130774 L 47.084806 12.130774 Z M 47.0848=
-06 10.484876 " transform=3D"matrix(20,0,0,20,-434.059401,-172.47877)"/>
-> +<path style=3D"fill-rule:evenodd;fill:rgb(100%,100%,100%);fill-opacity:1=
-;stroke-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%,0=
-%,0%);stroke-opacity:1;stroke-miterlimit:10;" d=3D"M 53.980118 10.376868 L =
-59.866642 10.376868 L 59.866642 12.279603 L 53.980118 12.279603 Z M 53.9801=
-18 10.376868 " transform=3D"matrix(20,0,0,20,-434.059401,-172.47877)"/>
-> +<path style=3D"fill-rule:evenodd;fill:rgb(100%,100%,100%);fill-opacity:1=
-;stroke-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%,0=
-%,0%);stroke-opacity:1;stroke-miterlimit:10;" d=3D"M 54.048478 13.825501 L =
-59.868009 13.825501 L 59.868009 15.490345 L 54.048478 15.490345 Z M 54.0484=
-78 13.825501 " transform=3D"matrix(20,0,0,20,-434.059401,-172.47877)"/>
-> +<path style=3D"fill:none;stroke-width:0.1;stroke-linecap:butt;stroke-lin=
-ejoin:miter;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d=
-=3D"M 26.481876 11.338001 L 28.593009 11.332337 " transform=3D"matrix(20,0,=
-0,20,-434.059401,-172.47877)"/>
-> +<path style=3D"fill-rule:evenodd;fill:rgb(0%,0%,0%);fill-opacity:1;strok=
-e-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%,0%,0%);=
-stroke-opacity:1;stroke-miterlimit:10;" d=3D"M 28.968009 11.33136 L 28.4685=
-95 11.582728 L 28.593009 11.332337 L 28.467228 11.082728 Z M 28.968009 11.3=
-3136 " transform=3D"matrix(20,0,0,20,-434.059401,-172.47877)"/>
-> +<path style=3D"fill:none;stroke-width:0.1;stroke-linecap:butt;stroke-lin=
-ejoin:miter;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d=
-=3D"M 32.876798 11.329798 L 34.396525 11.328626 " transform=3D"matrix(20,0,=
-0,20,-434.059401,-172.47877)"/>
-> +<path style=3D"fill-rule:evenodd;fill:rgb(0%,0%,0%);fill-opacity:1;strok=
-e-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%,0%,0%);=
-stroke-opacity:1;stroke-miterlimit:10;" d=3D"M 34.771525 11.328431 L 34.271=
-72 11.578821 L 34.396525 11.328626 L 34.271329 11.078821 Z M 34.771525 11.3=
-28431 " transform=3D"matrix(20,0,0,20,-434.059401,-172.47877)"/>
-> +<path style=3D"fill:none;stroke-width:0.1;stroke-linecap:butt;stroke-lin=
-ejoin:miter;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d=
-=3D"M 38.633439 11.328431 L 40.438517 11.319642 " transform=3D"matrix(20,0,=
-0,20,-434.059401,-172.47877)"/>
-> +<path style=3D"fill-rule:evenodd;fill:rgb(0%,0%,0%);fill-opacity:1;strok=
-e-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%,0%,0%);=
-stroke-opacity:1;stroke-miterlimit:10;" d=3D"M 40.813517 11.317884 L 40.314=
-689 11.570228 L 40.438517 11.319642 L 40.312345 11.070423 Z M 40.813517 11.=
-317884 " transform=3D"matrix(20,0,0,20,-434.059401,-172.47877)"/>
-> +<path style=3D"fill:none;stroke-width:0.1;stroke-linecap:butt;stroke-lin=
-ejoin:miter;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d=
-=3D"M 44.675236 11.317298 L 46.597892 11.309876 " transform=3D"matrix(20,0,=
-0,20,-434.059401,-172.47877)"/>
-> +<path style=3D"fill-rule:evenodd;fill:rgb(0%,0%,0%);fill-opacity:1;strok=
-e-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%,0%,0%);=
-stroke-opacity:1;stroke-miterlimit:10;" d=3D"M 46.972892 11.308313 L 46.473=
-868 11.560267 L 46.597892 11.309876 L 46.471915 11.060267 Z M 46.972892 11.=
-308313 " transform=3D"matrix(20,0,0,20,-434.059401,-172.47877)"/>
-> +<path style=3D"fill:none;stroke-width:0.1;stroke-linecap:butt;stroke-lin=
-ejoin:miter;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d=
-=3D"M 52.045743 11.307923 L 53.4934 11.323157 " transform=3D"matrix(20,0,0,=
-20,-434.059401,-172.47877)"/>
-> +<path style=3D"fill-rule:evenodd;fill:rgb(0%,0%,0%);fill-opacity:1;strok=
-e-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%,0%,0%);=
-stroke-opacity:1;stroke-miterlimit:10;" d=3D"M 53.8684 11.327063 L 53.36586=
-1 11.57179 L 53.4934 11.323157 L 53.370939 11.07179 Z M 53.8684 11.327063 "=
- transform=3D"matrix(20,0,0,20,-434.059401,-172.47877)"/>
-> +<g style=3D"fill:rgb(0%,0%,0%);fill-opacity:1;">
-> +  <use xlink:href=3D"#glyph0-9" x=3D"286.757813" y=3D"60.611871"/>
-> +  <use xlink:href=3D"#glyph0-10" x=3D"296.757813" y=3D"60.611871"/>
-> +  <use xlink:href=3D"#glyph0-1" x=3D"306.757813" y=3D"60.611871"/>
-> +</g>
-> +<g style=3D"fill:rgb(0%,0%,0%);fill-opacity:1;">
-> +  <use xlink:href=3D"#glyph0-11" x=3D"405.660156" y=3D"59.904839"/>
-> +  <use xlink:href=3D"#glyph0-10" x=3D"415.660156" y=3D"59.904839"/>
-> +  <use xlink:href=3D"#glyph0-12" x=3D"425.660156" y=3D"59.904839"/>
-> +</g>
-> +<g style=3D"fill:rgb(0%,0%,0%);fill-opacity:1;">
-> +  <use xlink:href=3D"#glyph1-1" x=3D"511.308594" y=3D"58.064616"/>
-> +  <use xlink:href=3D"#glyph1-2" x=3D"517.308757" y=3D"58.064616"/>
-> +  <use xlink:href=3D"#glyph1-3" x=3D"523.308919" y=3D"58.064616"/>
-> +  <use xlink:href=3D"#glyph1-4" x=3D"529.309082" y=3D"58.064616"/>
-> +  <use xlink:href=3D"#glyph1-5" x=3D"535.309245" y=3D"58.064616"/>
-> +  <use xlink:href=3D"#glyph1-6" x=3D"541.309408" y=3D"58.064616"/>
-> +  <use xlink:href=3D"#glyph1-7" x=3D"547.30957" y=3D"58.064616"/>
-> +  <use xlink:href=3D"#glyph1-8" x=3D"553.309733" y=3D"58.064616"/>
-> +  <use xlink:href=3D"#glyph1-9" x=3D"559.309896" y=3D"58.064616"/>
-> +  <use xlink:href=3D"#glyph1-10" x=3D"565.310059" y=3D"58.064616"/>
-> +  <use xlink:href=3D"#glyph1-11" x=3D"571.310221" y=3D"58.064616"/>
-> +  <use xlink:href=3D"#glyph1-12" x=3D"577.310384" y=3D"58.064616"/>
-> +  <use xlink:href=3D"#glyph1-13" x=3D"583.310547" y=3D"58.064616"/>
-> +  <use xlink:href=3D"#glyph1-8" x=3D"589.31071" y=3D"58.064616"/>
-> +  <use xlink:href=3D"#glyph1-14" x=3D"595.310872" y=3D"58.064616"/>
-> +</g>
-> +<path style=3D"fill:none;stroke-width:0.1;stroke-linecap:butt;stroke-lin=
-ejoin:miter;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-miterlimit:10;" d=
-=3D"M 45.671915 11.342298 L 45.655704 11.342298 L 45.655704 14.657923 L 53.=
-561759 14.657923 " transform=3D"matrix(20,0,0,20,-434.059401,-172.47877)"/>
-> +<path style=3D"fill-rule:evenodd;fill:rgb(0%,0%,0%);fill-opacity:1;strok=
-e-width:0.1;stroke-linecap:butt;stroke-linejoin:miter;stroke:rgb(0%,0%,0%);=
-stroke-opacity:1;stroke-miterlimit:10;" d=3D"M 53.936759 14.657923 L 53.436=
-759 14.907923 L 53.561759 14.657923 L 53.436759 14.407923 Z M 53.936759 14.=
-657923 " transform=3D"matrix(20,0,0,20,-434.059401,-172.47877)"/>
-> +<g style=3D"fill:rgb(0%,0%,0%);fill-opacity:1;">
-> +  <use xlink:href=3D"#glyph1-15" x=3D"657.078125" y=3D"57.724772"/>
-> +  <use xlink:href=3D"#glyph1-16" x=3D"663.078288" y=3D"57.724772"/>
-> +  <use xlink:href=3D"#glyph1-10" x=3D"669.078451" y=3D"57.724772"/>
-> +  <use xlink:href=3D"#glyph1-6" x=3D"675.078613" y=3D"57.724772"/>
-> +  <use xlink:href=3D"#glyph1-8" x=3D"681.078776" y=3D"57.724772"/>
-> +  <use xlink:href=3D"#glyph1-17" x=3D"687.078939" y=3D"57.724772"/>
-> +  <use xlink:href=3D"#glyph1-11" x=3D"693.079102" y=3D"57.724772"/>
-> +  <use xlink:href=3D"#glyph1-18" x=3D"699.079264" y=3D"57.724772"/>
-> +  <use xlink:href=3D"#glyph1-19" x=3D"705.079427" y=3D"57.724772"/>
-> +  <use xlink:href=3D"#glyph1-4" x=3D"711.07959" y=3D"57.724772"/>
-> +  <use xlink:href=3D"#glyph1-20" x=3D"717.079753" y=3D"57.724772"/>
-> +  <use xlink:href=3D"#glyph1-21" x=3D"723.079915" y=3D"57.724772"/>
-> +  <use xlink:href=3D"#glyph1-22" x=3D"729.080078" y=3D"57.724772"/>
-> +  <use xlink:href=3D"#glyph1-23" x=3D"735.080241" y=3D"57.724772"/>
-> +  <use xlink:href=3D"#glyph1-21" x=3D"741.080404" y=3D"57.724772"/>
-> +  <use xlink:href=3D"#glyph1-22" x=3D"747.080566" y=3D"57.724772"/>
-> +</g>
-> +<g style=3D"fill:rgb(0%,0%,0%);fill-opacity:1;">
-> +  <use xlink:href=3D"#glyph1-24" x=3D"673.335938" y=3D"124.170085"/>
-> +  <use xlink:href=3D"#glyph1-11" x=3D"679.3361" y=3D"124.170085"/>
-> +  <use xlink:href=3D"#glyph1-13" x=3D"685.336263" y=3D"124.170085"/>
-> +  <use xlink:href=3D"#glyph1-8" x=3D"691.336426" y=3D"124.170085"/>
-> +  <use xlink:href=3D"#glyph1-4" x=3D"697.336589" y=3D"124.170085"/>
-> +  <use xlink:href=3D"#glyph1-20" x=3D"703.336751" y=3D"124.170085"/>
-> +  <use xlink:href=3D"#glyph1-21" x=3D"709.336914" y=3D"124.170085"/>
-> +  <use xlink:href=3D"#glyph1-22" x=3D"715.337077" y=3D"124.170085"/>
-> +  <use xlink:href=3D"#glyph1-23" x=3D"721.33724" y=3D"124.170085"/>
-> +  <use xlink:href=3D"#glyph1-21" x=3D"727.337402" y=3D"124.170085"/>
-> +  <use xlink:href=3D"#glyph1-22" x=3D"733.337565" y=3D"124.170085"/>
-> +</g>
-> +<g style=3D"fill:rgb(0%,0%,0%);fill-opacity:1;">
-> +  <use xlink:href=3D"#glyph2-1" x=3D"168.71875" y=3D"31.959093"/>
-> +  <use xlink:href=3D"#glyph2-2" x=3D"175.866102" y=3D"31.959093"/>
-> +  <use xlink:href=3D"#glyph2-3" x=3D"180.92551" y=3D"31.959093"/>
-> +  <use xlink:href=3D"#glyph2-4" x=3D"188.879069" y=3D"31.959093"/>
-> +</g>
-> +<g style=3D"fill:rgb(0%,0%,0%);fill-opacity:1;">
-> +  <use xlink:href=3D"#glyph2-5" x=3D"288.109375" y=3D"31.681749"/>
-> +  <use xlink:href=3D"#glyph2-1" x=3D"294.882378" y=3D"31.681749"/>
-> +  <use xlink:href=3D"#glyph2-6" x=3D"302.029731" y=3D"31.681749"/>
-> +  <use xlink:href=3D"#glyph2-7" x=3D"309.996039" y=3D"31.681749"/>
-> +  <use xlink:href=3D"#glyph2-8" x=3D"313.607964" y=3D"31.681749"/>
-> +</g>
-> +<g style=3D"fill:rgb(0%,0%,0%);fill-opacity:1;">
-> +  <use xlink:href=3D"#glyph2-5" x=3D"535.988281" y=3D"33.365343"/>
-> +  <use xlink:href=3D"#glyph2-1" x=3D"542.761285" y=3D"33.365343"/>
-> +  <use xlink:href=3D"#glyph2-6" x=3D"549.908637" y=3D"33.365343"/>
-> +  <use xlink:href=3D"#glyph2-7" x=3D"557.874946" y=3D"33.365343"/>
-> +  <use xlink:href=3D"#glyph2-8" x=3D"561.486871" y=3D"33.365343"/>
-> +</g>
-> +<g style=3D"fill:rgb(0%,0%,0%);fill-opacity:1;">
-> +  <use xlink:href=3D"#glyph2-9" x=3D"26.695313" y=3D"32.365343"/>
-> +  <use xlink:href=3D"#glyph2-10" x=3D"34.947266" y=3D"32.365343"/>
-> +  <use xlink:href=3D"#glyph2-11" x=3D"38.559191" y=3D"32.365343"/>
-> +  <use xlink:href=3D"#glyph2-11" x=3D"46.798394" y=3D"32.365343"/>
-> +  <use xlink:href=3D"#glyph2-10" x=3D"55.037598" y=3D"32.365343"/>
-> +  <use xlink:href=3D"#glyph2-11" x=3D"58.649523" y=3D"32.365343"/>
-> +  <use xlink:href=3D"#glyph2-12" x=3D"66.888726" y=3D"32.365343"/>
-> +</g>
-> +<path style=3D"fill:none;stroke-width:0.1;stroke-linecap:butt;stroke-lin=
-ejoin:miter;stroke:rgb(0%,0%,0%);stroke-opacity:1;stroke-dasharray:0.14,0.1=
-4;stroke-miterlimit:10;" d=3D"M 45.300431 9.486438 L 60.373478 9.486438 L 6=
-0.373478 16.175696 L 45.300431 16.175696 Z M 45.300431 9.486438 " transform=
-=3D"matrix(20,0,0,20,-434.059401,-172.47877)"/>
-> +<g style=3D"fill:rgb(0%,0%,0%);fill-opacity:1;">
-> +  <use xlink:href=3D"#glyph2-13" x=3D"532.003906" y=3D"11.904405"/>
-> +  <use xlink:href=3D"#glyph2-14" x=3D"542.236382" y=3D"11.904405"/>
-> +  <use xlink:href=3D"#glyph2-15" x=3D"550.475586" y=3D"11.904405"/>
-> +  <use xlink:href=3D"#glyph2-4" x=3D"555.5727" y=3D"11.904405"/>
-> +  <use xlink:href=3D"#glyph2-14" x=3D"563.824653" y=3D"11.904405"/>
-> +  <use xlink:href=3D"#glyph2-15" x=3D"572.063856" y=3D"11.904405"/>
-> +  <use xlink:href=3D"#glyph2-16" x=3D"577.16097" y=3D"11.904405"/>
-> +  <use xlink:href=3D"#glyph2-17" x=3D"581.293186" y=3D"11.904405"/>
-> +  <use xlink:href=3D"#glyph2-3" x=3D"588.307346" y=3D"11.904405"/>
-> +  <use xlink:href=3D"#glyph2-2" x=3D"596.260905" y=3D"11.904405"/>
-> +  <use xlink:href=3D"#glyph2-18" x=3D"601.377279" y=3D"11.904405"/>
-> +  <use xlink:href=3D"#glyph2-6" x=3D"614.040853" y=3D"11.904405"/>
-> +  <use xlink:href=3D"#glyph2-15" x=3D"622.007161" y=3D"11.904405"/>
-> +  <use xlink:href=3D"#glyph2-15" x=3D"627.104275" y=3D"11.904405"/>
-> +  <use xlink:href=3D"#glyph2-8" x=3D"632.201389" y=3D"11.904405"/>
-> +  <use xlink:href=3D"#glyph2-2" x=3D"640.199436" y=3D"11.904405"/>
-> +  <use xlink:href=3D"#glyph2-16" x=3D"645.544217" y=3D"11.904405"/>
-> +  <use xlink:href=3D"#glyph2-19" x=3D"649.676432" y=3D"11.904405"/>
-> +  <use xlink:href=3D"#glyph2-20" x=3D"657.928385" y=3D"11.904405"/>
-> +  <use xlink:href=3D"#glyph2-5" x=3D"665.621799" y=3D"11.904405"/>
-> +  <use xlink:href=3D"#glyph2-15" x=3D"672.394803" y=3D"11.904405"/>
-> +  <use xlink:href=3D"#glyph2-8" x=3D"677.491916" y=3D"11.904405"/>
-> +  <use xlink:href=3D"#glyph2-18" x=3D"685.489963" y=3D"11.904405"/>
-> +</g>
-> +</g>
-> +</svg>
-> --
-> 2.7.4
->
+-- 
+Pengutronix e.K.                           |                             |
+Industrial Linux Solutions                 | http://www.pengutronix.de/  |
+Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
