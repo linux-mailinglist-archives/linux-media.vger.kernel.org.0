@@ -2,139 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D45592485
-	for <lists+linux-media@lfdr.de>; Mon, 19 Aug 2019 15:17:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8ECA09255A
+	for <lists+linux-media@lfdr.de>; Mon, 19 Aug 2019 15:42:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727656AbfHSNQ4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Aug 2019 09:16:56 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:35516 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727525AbfHSNQz (ORCPT
+        id S1727487AbfHSNmV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Aug 2019 09:42:21 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:55035 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727332AbfHSNmV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Aug 2019 09:16:55 -0400
-Received: by mail-pg1-f193.google.com with SMTP id n4so1223174pgv.2
-        for <linux-media@vger.kernel.org>; Mon, 19 Aug 2019 06:16:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=G3QrTp7p7joYbJCkRsXIJddWfOp/eioksMTpigV+wkM=;
-        b=M2vK+xZVjtXBYjUxUUk1iMNbxYwjUd+W6togCQiYPc7Vu+BGQx7l3hXcn4ECMLvDWt
-         DlIAvUe8ekFSnxnofy3VvCNWLct8LZOpiNSM+v1WhYFyPJDwu5gZzaBjspAETr+32sje
-         Xh1peTR5yYmEcUyhpwKV8rR/zI3wE7krkn5mWhAZXsBdSmKIExx6Aai/02AtaqBWuiMJ
-         rwdLtwVmt2z/BiSdji1RT9OqjhuC+NoRsQcrlELRw7LuJbnkQsJhQDfS2T7BkdRszDtd
-         SsGJHm5kXWMKbJ6caWbq9raXqyHYkwoMk/qLwvz6vTD2dWWbREUV34BsqN2ExAzlW+sj
-         Ywjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=G3QrTp7p7joYbJCkRsXIJddWfOp/eioksMTpigV+wkM=;
-        b=CkJn+MOqbbNvv3ohnTwi5zy0BmJTUc1+8Xyx+uiS27OaGi/80Jcikjqgu45Ip6hP8U
-         V6OiEBxI5cypKAqTIAseT/6HckR9iiFylzjUv99C3MfD8u8TARVokqhV0lR0UUz6Qa2E
-         jFXUI1tlTyw4PoiXk0xXJaWXTFaEvNYqThUA23ojn9cM6WU+mrUqkwGIQN+Mn+b0X8uP
-         XwubQ78i/iQiguWM/l75J3LHjIwbNAoGi9x+ZYSU3KZw9+f3rwPZ4i0L/zUw/w3ASE8z
-         VLjFUNr33/7/ModPjgw6DoAFq7rn3mIobI2YAD2uKhXKWQvG3G+wAspZmjqq6BdbAvZA
-         Ur0w==
-X-Gm-Message-State: APjAAAX45NBpe9hRhqCcWjeJGpuKxUXrG/IxB3jCDAtgWOgp5dKcq+Uk
-        Wp0BGwPHCjT5eUxEd6NarZfcf1GUnysOdZcNBcw9EQ==
-X-Google-Smtp-Source: APXvYqyVpOFailHQYDN6SGrqGiLu77ISHhF0UzRLkKGS0q9bNLzKJCagc2Nkkti9u80AQyBrYjiyPqa9PxLeXB9+mf8=
-X-Received: by 2002:aa7:9e0a:: with SMTP id y10mr23727599pfq.93.1566220614754;
- Mon, 19 Aug 2019 06:16:54 -0700 (PDT)
-MIME-Version: 1.0
-References: <00eb8ba84205c59cac01b1b47615116a461c302c.1566220355.git.andreyknvl@google.com>
-In-Reply-To: <00eb8ba84205c59cac01b1b47615116a461c302c.1566220355.git.andreyknvl@google.com>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Mon, 19 Aug 2019 15:16:43 +0200
-Message-ID: <CAAeHK+xBKrS0LZX+d3psaynznU4tQGfz4wQ9oFanxjjPv1ytVQ@mail.gmail.com>
-Subject: Re: [PATCH ARM] selftests, arm64: fix uninitialized symbol in tags_test.c
-To:     Will Deacon <will.deacon@arm.com>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kees Cook <keescook@chromium.org>,
-        Yishai Hadas <yishaih@mellanox.com>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        Alexander Deucher <Alexander.Deucher@amd.com>,
-        Christian Koenig <Christian.Koenig@amd.com>,
+        Mon, 19 Aug 2019 09:42:21 -0400
+Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1hzhvL-0003R3-Fq; Mon, 19 Aug 2019 15:42:15 +0200
+Message-ID: <1566222134.3008.4.camel@pengutronix.de>
+Subject: Re: [PATCH 2/3] Documentation: Describe V4L2_CID_PIXEL_SIZE
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Ricardo Ribalda Delgado <ribalda@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Leon Romanovsky <leon@kernel.org>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Khalid Aziz <khalid.aziz@oracle.com>, enh <enh@google.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>,
-        Evgeniy Stepanov <eugenis@google.com>,
-        Lee Smith <Lee.Smith@arm.com>,
-        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
-        Jacob Bramley <Jacob.Bramley@arm.com>,
-        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Kevin Brodsky <kevin.brodsky@arm.com>,
-        Szabolcs Nagy <Szabolcs.Nagy@arm.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
-        kvm@vger.kernel.org,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Mon, 19 Aug 2019 15:42:14 +0200
+In-Reply-To: <20190819121720.31345-2-ribalda@kernel.org>
+References: <20190819121720.31345-1-ribalda@kernel.org>
+         <20190819121720.31345-2-ribalda@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.22.6-1+deb9u2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Aug 19, 2019 at 3:14 PM Andrey Konovalov <andreyknvl@google.com> wrote:
->
-> Fix tagged_ptr not being initialized when TBI is not enabled.
->
-> Dan Carpenter <dan.carpenter@oracle.com>
-> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+On Mon, 2019-08-19 at 14:17 +0200, Ricardo Ribalda Delgado wrote:
+> New control to pass to userspace the width/height of a pixel. Which is
+> needed for 3D calibration and lens selection.
+> 
+> Signed-off-by: Ricardo Ribalda Delgado <ribalda@kernel.org>
 > ---
->  tools/testing/selftests/arm64/tags_test.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
->
-> diff --git a/tools/testing/selftests/arm64/tags_test.c b/tools/testing/selftests/arm64/tags_test.c
-> index 22a1b266e373..5701163460ef 100644
-> --- a/tools/testing/selftests/arm64/tags_test.c
-> +++ b/tools/testing/selftests/arm64/tags_test.c
-> @@ -14,15 +14,17 @@
->  int main(void)
->  {
->         static int tbi_enabled = 0;
-> -       struct utsname *ptr, *tagged_ptr;
-> +       unsigned long tag = 0;
-> +       struct utsname *ptr;
->         int err;
->
->         if (prctl(PR_SET_TAGGED_ADDR_CTRL, PR_TAGGED_ADDR_ENABLE, 0, 0, 0) == 0)
->                 tbi_enabled = 1;
->         ptr = (struct utsname *)malloc(sizeof(*ptr));
->         if (tbi_enabled)
-> -               tagged_ptr = (struct utsname *)SET_TAG(ptr, 0x42);
-> -       err = uname(tagged_ptr);
-> +               tag = 0x42;
-> +       ptr = (struct utsname *)SET_TAG(ptr, tag);
-> +       err = uname(ptr);
->         free(ptr);
->
->         return err;
-> --
-> 2.23.0.rc1.153.gdeed80330f-goog
->
+>  Documentation/media/uapi/v4l/ext-ctrls-camera.rst | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/Documentation/media/uapi/v4l/ext-ctrls-camera.rst b/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
+> index 51c1d5c9eb00..670c57a6f622 100644
+> --- a/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
+> +++ b/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
+> @@ -510,6 +510,12 @@ enum v4l2_scene_mode -
+>      value down. A value of zero stops the motion if one is in progress
+>      and has no effect otherwise.
+>  
+> +``V4L2_CID_PIXEL_SIZE (struct)``
+> +    This control returns the pixel size in nanometres. The struct provides
+> +    the width and the height in separated fields to take into consideration
+> +    asymmetric pixels and/or hardware binning.
+> +    This control is required for automatic calibration of the sensor.
+> +
+>  .. [#f1]
+>     This control may be changed to a menu control in the future, if more
+>     options are required.
 
-Hi Will,
+I suppose this is a common term, but should it be mentioned that pixel
+size is the same as unit cell size, and not necessarily the size of the
+light sensitive area? Just in case the effective fill-factor is < 100%.
 
-This is supposed to go on top of the TBI related patches that you have
-added to the arm tree.
-
-Thanks!
+regards
+Philipp
