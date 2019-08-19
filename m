@@ -2,224 +2,194 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EEA3894934
-	for <lists+linux-media@lfdr.de>; Mon, 19 Aug 2019 17:55:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A971394C41
+	for <lists+linux-media@lfdr.de>; Mon, 19 Aug 2019 20:01:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727459AbfHSPxt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Aug 2019 11:53:49 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:49717 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725536AbfHSPxt (ORCPT
+        id S1728101AbfHSSA0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Aug 2019 14:00:26 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:33463 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727936AbfHSSA0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Aug 2019 11:53:49 -0400
-Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id zjyXhIMM8zaKOzjybhsEwV; Mon, 19 Aug 2019 17:53:46 +0200
-Subject: Re: [PATCH v7 02/11] media: uapi: h264: Rename pixel format
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     linux-media@vger.kernel.org, kernel@collabora.com,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        linux-rockchip@lists.infradead.org,
-        Heiko Stuebner <heiko@sntech.de>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        fbuergisser@chromium.org, linux-kernel@vger.kernel.org
-References: <20190816160132.7352-1-ezequiel@collabora.com>
- <20190816160132.7352-3-ezequiel@collabora.com>
- <20190819124110.GB32182@aptenodytes>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <e618bf01-3f82-ff06-1842-9d21a379d7ee@xs4all.nl>
-Date:   Mon, 19 Aug 2019 17:53:41 +0200
+        Mon, 19 Aug 2019 14:00:26 -0400
+Received: by mail-io1-f66.google.com with SMTP id z3so6281655iog.0
+        for <linux-media@vger.kernel.org>; Mon, 19 Aug 2019 11:00:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=hVgnPcH189KZdWmlS6S6j8AuQX+ilqf2qoLFJdoTj+8=;
+        b=Zonh3sWtRC1v0PFLlYzBXgbMaPKtUHM41S58fGk/2Yh4/P10gexQ+O/H6ji2S1SRfW
+         UWBsEMM9sU6lI2peJdh18LYRnDjUqQofXBCWsZkBw6Vhrx4huhqEz2KdRBTWFeDoAje1
+         MGLhnZAje2WBiv7W7foS9oF+CFd3DwFwdpVh0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=hVgnPcH189KZdWmlS6S6j8AuQX+ilqf2qoLFJdoTj+8=;
+        b=WVD60ZobK9x7n3SGho9oRX2c7AQn8QAsX8Bsa/RQZZ/FuJB4wRH0NiYO9ENufGhFEo
+         tnAPnM/sZaUkYqrbsEi+GXFBl9iq5ubMO1EFctbjWYtq5faUKM1EV+eZci4A66yQo6Fr
+         5XqT1GZE5u/RrAIvlZHE6TpHkGpfdcwroPLXhM/WHDMLzCOp0N7o+ivPdS8ffPUedKVS
+         3SOrRE+eQdu/nLwVEaWvZiTZ6Pu5oRi7DqXoTfKJDTnwWQqFJ6X3PYFasPqYW3wGqjEh
+         Lp8hHhvceQvIgaKkIYqu/1+bHBMQ3HS15qbABl9eRemD/IF0LF6XQ7EyQ5nZjswgQYvO
+         kyfw==
+X-Gm-Message-State: APjAAAV3Q8ouqda75u5DTexTz9Mp58N+KHRTtbpqO7DE0tbaVE0i7Isj
+        LaDT4PbTSMuidAGAF70E2IB1FQ==
+X-Google-Smtp-Source: APXvYqxboD2ihz5W/j12udgjfd2kA1An0Dbg4p7lpNXokfzjaQidnDIX8FkL0JH+Fe/rsL2jbhiXQA==
+X-Received: by 2002:a02:6a56:: with SMTP id m22mr26788225jaf.114.1566237625012;
+        Mon, 19 Aug 2019 11:00:25 -0700 (PDT)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id z9sm1976602ior.79.2019.08.19.11.00.23
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 19 Aug 2019 11:00:24 -0700 (PDT)
+Subject: Re: [PATCH v2 0/2] Collapse vimc into single monolithic driver
+To:     Helen Koike <helen.koike@collabora.com>, mchehab@kernel.org,
+        hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
+        andrealmeid@collabora.com
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        Shuah Khan <skhan@linuxfoundation.org>
+References: <cover.1565740213.git.skhan@linuxfoundation.org>
+ <ce727478-1aa5-c6c0-9aee-911b6ac1efb1@collabora.com>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <fb822995-747c-b2a1-e1d3-7d62512a4700@linuxfoundation.org>
+Date:   Mon, 19 Aug 2019 12:00:22 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190819124110.GB32182@aptenodytes>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <ce727478-1aa5-c6c0-9aee-911b6ac1efb1@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfLSJAj/rDwoyBQh8QJ0WKMTeCggqoSOqIj+0x32nTjKPJ7c0WpJYdAy9fu62xRI4TGb8PUpkE/HJrv5WzA4xfCcBo2dpkBsitEjg7tzzu+z1ezY/mgme
- +p05/vXXregGSH1mCwY6KHZV3o6yHcEiVfBYgGJXoaCo/1Xu9tKciwwu8qAxFnwa7Kzbr7z3jBgvxF9SjpbjzDpVNR/HKAgNVXhagig27AWvRLCH1a3ojzOs
- WCeutyZ6DN5SWz9Xio8QeWY2TjYmyGdS6c/oYd/nZvoDR+XDoORZKH2apIg7+ubHXs/Tgse+mKO1BwcXJK1Fiuq5Rha8ISY3wcp2NdzcMn1u/sOG1hm+2NQt
- qs0LnFdMplq0PEtHXDSK1p2w1THwHXaqHPKnMmSmfkIVLAntUZlqCJQ7RAlQIOqCHF8TNbFuBNc7+R8EUJbRnHzudTktl40QPrqxJeP+tY8AJk+7yCVaLTjW
- ttK7z02JzqZdwwrs/gQ2gPFrEJYhxCg88aqWcMUz2KgMCCFCoHHmjkGCSEg4Gcd5mLDHLyvsVw7t2fT1JJflSUYS42/EBTZr2CQNC0iOa8XYr/bxUgR+suAB
- NVSAmLJeP8tm5/aUFKyAoGMnqvDYcq5wbrJq7DoPEMfpLng38S/yAoRUpNUr/tBrfvw=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 8/19/19 2:41 PM, Paul Kocialkowski wrote:
-> Hi,
+On 8/16/19 2:03 PM, Helen Koike wrote:
+> Hi Shuah,
 > 
-> On Fri 16 Aug 19, 13:01, Ezequiel Garcia wrote:
->> The V4L2_PIX_FMT_H264_SLICE_RAW name was originally suggested
->> because the pixel format would represent H264 slices without any
->> start code.
+> Thanks for the patches.
+> 
+> On 8/15/19 4:42 PM, Shuah Khan wrote:
+>> vimc uses Component API to split the driver into functional components.
+>> The real hardware resembles a monolith structure than component and
+>> component structure added a level of complexity making it hard to
+>> maintain without adding any real benefit.
 >>
->> However, as we will now introduce a start code menu control,
->> give the pixel format a more meaningful name, while it's
->> still early enough to do so.
-> 
-> I definitely agree that SLICE_RAW is not the suffix we are looking for, but I'm
-> not sure that _SLICE is self-describing given that we can operate either
-> per-frame or per-slice, and _SLICE sort of implies the latter. Also, VP8 uses
-> _FRAME to clearly indicate that it operates per-frame.
-
-Well, VP8 doesn't support slices at all.
-
-> 
-> In addition, the _SLICE suffix is used by MPEG-2 in the stable API. Since we
-
-Regarding MPEG-2: while it has a concept of slices, it is my understanding
-that you never process slices separately, but only full pictures. I may be
-wrong here.
-
-> certainly want MPEG-2 to allow per-slice and per-frame decoding as well as
-> H.264 and that the _SLICE format is specified to be the broken "concatenated
-> slices" that cedrus expects, we probably want to use another suffix. This way,
-> we could deprecated MPEG2_SLICE and introduce a new format for MPEG-2 that would
-> have consistent naming with the other mpeg formats.
-
-I actually think that H264_SLICE is a decent name.
-
-I'm less sure about MPEG2_SLICE since I am not sure if it means the same as
-a H264 slice.
-
-> 
-> One suggestion I had was to call it H264_PARSED (and apply this to MPEG-2 and
-> HEVC when similar controls to H.264 are set in place for them). I think Hans had
-> another suggestion for the name but I don't recall what it was at this point.
-
-I can't remember it either. In any case, I'm not that keen on _PARSED.
-
-I think for H264 and HEVC the _SLICE suffix is good enough.
-
-Regards,
-
-	Hans
-
-> 
-> Either way, if this has to be some debate, we could perhaps take it off your
-> series and stay with SLICE_RAW for now, as long as we do rename it before making
-> the API stable.
-> 
-> What do you think?
-> 
-> Cheers,
-> 
-> Paul
-> 
->> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
->> Tested-by: Philipp Zabel <p.zabel@pengutronix.de>
->> ---
->> Changes in v7:
->> * None.
->> Changes in v6:
->> * None.
->> Changes in v5:
->> * None.
->> Changes in v4:
->> * New patch.
->> ---
->>  Documentation/media/uapi/v4l/pixfmt-compressed.rst | 4 ++--
->>  drivers/media/v4l2-core/v4l2-ioctl.c               | 2 +-
->>  drivers/staging/media/sunxi/cedrus/cedrus_dec.c    | 2 +-
->>  drivers/staging/media/sunxi/cedrus/cedrus_video.c  | 6 +++---
->>  include/media/h264-ctrls.h                         | 2 +-
->>  5 files changed, 8 insertions(+), 8 deletions(-)
+>> The sensor is one vimc component that would makes sense to be a separate
+>> module to closely align with the real hardware. It would be easier to
+>> collapse vimc into single monolithic driver first and then split the
+>> sensor off as a separate module.
 >>
->> diff --git a/Documentation/media/uapi/v4l/pixfmt-compressed.rst b/Documentation/media/uapi/v4l/pixfmt-compressed.rst
->> index f52a7b67023d..9b65473a2288 100644
->> --- a/Documentation/media/uapi/v4l/pixfmt-compressed.rst
->> +++ b/Documentation/media/uapi/v4l/pixfmt-compressed.rst
->> @@ -52,9 +52,9 @@ Compressed Formats
->>        - ``V4L2_PIX_FMT_H264_MVC``
->>        - 'M264'
->>        - H264 MVC video elementary stream.
->> -    * .. _V4L2-PIX-FMT-H264-SLICE-RAW:
->> +    * .. _V4L2-PIX-FMT-H264-SLICE:
->>  
->> -      - ``V4L2_PIX_FMT_H264_SLICE_RAW``
->> +      - ``V4L2_PIX_FMT_H264_SLICE``
->>        - 'S264'
->>        - H264 parsed slice data, without the start code and as
->>  	extracted from the H264 bitstream.  This format is adapted for
->> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
->> index bb5b4926538a..39f10621c91b 100644
->> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
->> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
->> @@ -1343,7 +1343,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
->>  		case V4L2_PIX_FMT_H264:		descr = "H.264"; break;
->>  		case V4L2_PIX_FMT_H264_NO_SC:	descr = "H.264 (No Start Codes)"; break;
->>  		case V4L2_PIX_FMT_H264_MVC:	descr = "H.264 MVC"; break;
->> -		case V4L2_PIX_FMT_H264_SLICE_RAW:	descr = "H.264 Parsed Slice Data"; break;
->> +		case V4L2_PIX_FMT_H264_SLICE:	descr = "H.264 Parsed Slice Data"; break;
->>  		case V4L2_PIX_FMT_H263:		descr = "H.263"; break;
->>  		case V4L2_PIX_FMT_MPEG1:	descr = "MPEG-1 ES"; break;
->>  		case V4L2_PIX_FMT_MPEG2:	descr = "MPEG-2 ES"; break;
->> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
->> index bdad87eb9d79..56ca4c9ad01c 100644
->> --- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
->> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
->> @@ -46,7 +46,7 @@ void cedrus_device_run(void *priv)
->>  			V4L2_CID_MPEG_VIDEO_MPEG2_QUANTIZATION);
->>  		break;
->>  
->> -	case V4L2_PIX_FMT_H264_SLICE_RAW:
->> +	case V4L2_PIX_FMT_H264_SLICE:
->>  		run.h264.decode_params = cedrus_find_control_data(ctx,
->>  			V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS);
->>  		run.h264.pps = cedrus_find_control_data(ctx,
->> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
->> index 681dfe3367a6..eeee3efd247b 100644
->> --- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
->> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
->> @@ -38,7 +38,7 @@ static struct cedrus_format cedrus_formats[] = {
->>  		.directions	= CEDRUS_DECODE_SRC,
->>  	},
->>  	{
->> -		.pixelformat	= V4L2_PIX_FMT_H264_SLICE_RAW,
->> +		.pixelformat	= V4L2_PIX_FMT_H264_SLICE,
->>  		.directions	= CEDRUS_DECODE_SRC,
->>  	},
->>  	{
->> @@ -104,7 +104,7 @@ static void cedrus_prepare_format(struct v4l2_pix_format *pix_fmt)
->>  
->>  	switch (pix_fmt->pixelformat) {
->>  	case V4L2_PIX_FMT_MPEG2_SLICE:
->> -	case V4L2_PIX_FMT_H264_SLICE_RAW:
->> +	case V4L2_PIX_FMT_H264_SLICE:
->>  		/* Zero bytes per line for encoded source. */
->>  		bytesperline = 0;
->>  
->> @@ -449,7 +449,7 @@ static int cedrus_start_streaming(struct vb2_queue *vq, unsigned int count)
->>  		ctx->current_codec = CEDRUS_CODEC_MPEG2;
->>  		break;
->>  
->> -	case V4L2_PIX_FMT_H264_SLICE_RAW:
->> +	case V4L2_PIX_FMT_H264_SLICE:
->>  		ctx->current_codec = CEDRUS_CODEC_H264;
->>  		break;
->>  
->> diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrls.h
->> index e1404d78d6ff..6160a69c0143 100644
->> --- a/include/media/h264-ctrls.h
->> +++ b/include/media/h264-ctrls.h
->> @@ -14,7 +14,7 @@
->>  #include <linux/videodev2.h>
->>  
->>  /* Our pixel format isn't stable at the moment */
->> -#define V4L2_PIX_FMT_H264_SLICE_RAW v4l2_fourcc('S', '2', '6', '4') /* H264 parsed slices */
->> +#define V4L2_PIX_FMT_H264_SLICE v4l2_fourcc('S', '2', '6', '4') /* H264 parsed slices */
->>  
->>  /*
->>   * This is put insanely high to avoid conflicting with controls that
->> -- 
->> 2.22.0
+>> This patch series removes the component API and makes minimal changes to
+>> the code base preserving the functional division of the code structure.
+>> Preserving the functional structure allows us to split the sensor off
+>> as a separate module in the future.
 >>
+>> Major design elements in this change are:
+>>      - Use existing struct vimc_ent_config and struct vimc_pipeline_config
+>>        to drive the initialization of the functional components.
+>>      - Make vimc_device and vimc_ent_config global by moving them to
+>>        vimc-common.h
+>>      - Add two new hooks add and rm to initialize and register, unregister
+>>        and free subdevs.
+>>      - All component API is now gone and bind and unbind hooks are modified
+>>        to do "add" and "rm" with minimal changes to just add and rm subdevs.
+>>      - vimc-core's bind and unbind are now register and unregister.
+>>      - vimc-core invokes "add" hooks from its vimc_register_devices().
+>>        The "add" hooks remain the same and register subdevs. They don't
+>>        create platform devices of their own and use vimc's pdev.dev as
+>>        their reference device. The "add" hooks save their vimc_ent_device(s)
+>>        in the corresponding vimc_ent_config.
+>>      - vimc-core invokes "rm" hooks from its unregister to unregister
+>>        subdevs and cleanup.
+>>      - vimc-core invokes "add" and "rm" hooks with pointer to struct
+>>        vimc_device and the corresponding struct vimc_ent_config pointer.
+>>
+>> The following configure and stream test works on all devices.
+>>
+>>      media-ctl -d platform:vimc -V '"Sensor A":0[fmt:SBGGR8_1X8/640x480]'
+>>      media-ctl -d platform:vimc -V '"Debayer A":0[fmt:SBGGR8_1X8/640x480]'
+>>      media-ctl -d platform:vimc -V '"Sensor B":0[fmt:SBGGR8_1X8/640x480]'
+>>      media-ctl -d platform:vimc -V '"Debayer B":0[fmt:SBGGR8_1X8/640x480]'
+>>
+>>      v4l2-ctl -z platform:vimc -d "RGB/YUV Capture" -v width=1920,height=1440
+>>      v4l2-ctl -z platform:vimc -d "Raw Capture 0" -v pixelformat=BA81
+>>      v4l2-ctl -z platform:vimc -d "Raw Capture 1" -v pixelformat=BA81
+>>
+>>      v4l2-ctl --stream-mmap --stream-count=100 -d /dev/video1
+>>      v4l2-ctl --stream-mmap --stream-count=100 -d /dev/video2
+>>      v4l2-ctl --stream-mmap --stream-count=100 -d /dev/video3
+>>
+>> The second patch in the series fixes a general protection fault found
+>> when rmmod is done while stream is active.
+>>
+>> - rmmod while streaming returns vimc is in use
+>> - rmmod without active stream works correctly
+>>
+>> Changes since v1:
+>> Patch 1 & 2: (patch 1 in this series)
+>> - Collapsed the two patches into one
+>> - Added common defines (vimc_device and vimc_ent_config) to vimc-common.h
+>>    based on our discussion.
+>> - Addressed review comments from Helen and Laurent
+>> - Use vimc-common.h instead of creating a new file.
+>> - Other minor comments from Helen on int vs. unsigned int and
+>>    not needing to initialize ret in vimc_add_subdevs()
+>> Patch 3 (patch 2 in this series):
+>> - The second patch is the fix for gpf. Updated the patch after looking
+>>    at the test results from Andre and Helen. This problem is in a common
+>>    code and impacts all subdevs. The fix addresses the core problem and
+>>    fixes it. Fix removes pads release from v4l2_device_unregister_subdev()
+>>    and pads are now released from the sd release handler with all other
+>>    resources.
+>>
+>> Outstanding:
+>> - Update documentation with the correct topology.
+>> - There is one outstanding gpf remaining in the unbind path. I will
+>>    fix that in a separate patch. This is an existing problem and will
+>>    be easier to fix on top of this patch series.
+>>
+>> vimc_print_dot (--print-dot) topology after this change: (no change
+>> compared to media master)
+>> digraph board {
+>>          rankdir=TB
+>>          n00000001 [label="{{} | Sensor A\n/dev/v4l-subdev0 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
+>>          n00000001:port0 -> n00000005:port0 [style=bold]
+>>          n00000001:port0 -> n0000000b [style=bold]
+>>          n00000003 [label="{{} | Sensor B\n/dev/v4l-subdev1 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
+>>          n00000003:port0 -> n00000008:port0 [style=bold]
+>>          n00000003:port0 -> n0000000f [style=bold]
+>>          n00000005 [label="{{<port0> 0} | Debayer A\n/dev/v4l-subdev2 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+>>          n00000005:port1 -> n00000015:port0
+>>          n00000008 [label="{{<port0> 0} | Debayer B\n/dev/v4l-subdev3 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+>>          n00000008:port1 -> n00000015:port0 [style=dashed]
+>>          n0000000b [label="Raw Capture 0\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
+>>          n0000000f [label="Raw Capture 1\n/dev/video2", shape=box, style=filled, fillcolor=yellow]
+>>          n00000013 [label="{{} | RGB/YUV Input\n/dev/v4l-subdev4 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
+>>          n00000013:port0 -> n00000015:port0 [style=dashed]
+>>          n00000015 [label="{{<port0> 0} | Scaler\n/dev/v4l-subdev5 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+>>          n00000015:port1 -> n00000018 [style=bold]
+>>          n00000018 [label="RGB/YUV Capture\n/dev/video3", shape=box, style=filled, fillcolor=yellow]
+>>
+>> Shuah Khan (2):
+>>    media: vimc: Collapse component structure into a single monolithic
+>>      driver
+>>    media: vimc: Fix gpf in rmmod path when stream is active
 > 
+> I couldn't apply those on top of media/master, I think they are
+> conflicting with the two "Reverts" commits in vimc.
+> 
+
+Sorry for the delay. I was out backpacking for a couple of days.
+
+I knew I have to rebase after the reverts go in. I will do that
+and address your comments on patch 1/2 and resend the series.
+
+Thanks for the review. Your comments on naming make sense.
+
+thanks,
+-- Shuah
+
 
