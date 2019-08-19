@@ -2,113 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C3DF91DD5
-	for <lists+linux-media@lfdr.de>; Mon, 19 Aug 2019 09:30:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 45A6391DF3
+	for <lists+linux-media@lfdr.de>; Mon, 19 Aug 2019 09:37:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726776AbfHSH3O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Aug 2019 03:29:14 -0400
-Received: from mga18.intel.com ([134.134.136.126]:62493 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726261AbfHSH3O (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Aug 2019 03:29:14 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Aug 2019 00:27:59 -0700
-X-IronPort-AV: E=Sophos;i="5.64,403,1559545200"; 
-   d="scan'208";a="177797511"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Aug 2019 00:27:52 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 09D1F202FC; Mon, 19 Aug 2019 10:26:22 +0300 (EEST)
-Date:   Mon, 19 Aug 2019 10:26:21 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Hugues FRUCHET <hugues.fruchet@st.com>
-Cc:     Alexandre TORGUE <alexandre.torgue@st.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-stm32@st-md-mailman.stormreply.com" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-        Yannick FERTRE <yannick.fertre@st.com>,
-        Philippe CORNU <philippe.cornu@st.com>,
-        Mickael GUENE <mickael.guene@st.com>
-Subject: Re: [PATCH v6 2/4] media: stm32-dcmi: trace the supported
- fourcc/mbus_code
-Message-ID: <20190819072621.GZ6133@paasikivi.fi.intel.com>
-References: <1565790533-10043-1-git-send-email-hugues.fruchet@st.com>
- <1565790533-10043-3-git-send-email-hugues.fruchet@st.com>
- <20190816081514.GU6133@paasikivi.fi.intel.com>
- <fb02573f-991a-18c5-b780-b5fc100da6a8@st.com>
+        id S1726957AbfHSHf5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Aug 2019 03:35:57 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:42301 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725790AbfHSHf4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 19 Aug 2019 03:35:56 -0400
+Received: by mail-pl1-f196.google.com with SMTP id y1so550305plp.9
+        for <linux-media@vger.kernel.org>; Mon, 19 Aug 2019 00:35:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Mz5277Wf7QmhodaejrUdoJlivd192UtE+H2UxO076Qg=;
+        b=ZUzWLF0fwZBvb1DvizQJ+xFAJpomvlUTipCUnlVZ9WXPUoUVZzmuPT0bDBMiJ+mYxo
+         oPBc+JVk6lc2fc/wYDtTNI1ILBLFZ7Gp1/7feHxuWc9mzgdiwNT5cMTZj7MupiQ1/I3z
+         YxgyYj6olD4hz02tkdvTAVjTjA1+A9sogRTPIo1hmkHI4drIPoX+siMAV02e2eS66B8g
+         spSTuS7hHyrH0UHVOHMRVW0B9luUVfl2/P58SqZ/y8euPxBSgr+XaqNM7fm2AA9vQ111
+         4HgcnKG22dWlUB1KzVb1WiteybSg7TdNkgfieiJHd/ft8QpLSYYnxdV+xTyvKOqiHsxc
+         Ea/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Mz5277Wf7QmhodaejrUdoJlivd192UtE+H2UxO076Qg=;
+        b=tXMxVu0rLGJ0iAf+jwNivs/9j8Stk8N32j532lXz+pZvlwO+Rz4vqd2fA0PtCkIXFA
+         xJpPwxaeLy5A+4C4huttRRNLH3YhdwL+dcxZgGzDbOmA4UZCCZjUFI7MOgltlTGPn47r
+         IwQEzFPzE2NdHe4dJx8VcV0IRG5OlMt3b2KSSXJJ8HyFSA0OGhX6qWBP+Djn1Cqy59MI
+         pXWidDvkzZWDqXsYmtpesbNTwtA226m3cCpWT2HzZfdRsGDf/ZW84FWFDlPBSRH9Skfg
+         Fz922ao+wepZiph3aPwRHhkpzn6aPbwGMPtgx3McUhqpLYTBZpcu5H10LhDK7BLhSe8B
+         Y4hw==
+X-Gm-Message-State: APjAAAXOFZEc4F8Z7zvsX23RRf+o8UG0bzgqT4tNaGIfBBsMRC/QRw2R
+        ttKuoc7GYmTLZks7todFpiQ=
+X-Google-Smtp-Source: APXvYqzNbEkVLWjtJOq4fgg2yOim2wWOxUvsrX4OXV0pu7JJEYCt/6M+fIerrItEnpZ5l20h0uXySg==
+X-Received: by 2002:a17:902:bb81:: with SMTP id m1mr21458710pls.125.1566200156309;
+        Mon, 19 Aug 2019 00:35:56 -0700 (PDT)
+Received: from localhost.localdomain ([110.225.16.165])
+        by smtp.gmail.com with ESMTPSA id f205sm23424987pfa.161.2019.08.19.00.35.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Aug 2019 00:35:55 -0700 (PDT)
+From:   Nishka Dasgupta <nishkadg.linux@gmail.com>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Cc:     Nishka Dasgupta <nishkadg.linux@gmail.com>
+Subject: [PATCH] media: dvb-bt8xx: Make variable dst_config constant
+Date:   Mon, 19 Aug 2019 13:05:42 +0530
+Message-Id: <20190819073542.32072-1-nishkadg.linux@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fb02573f-991a-18c5-b780-b5fc100da6a8@st.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hugues,
+Static structure dst_config, of type dst_config, is not used except to
+be assigned as the value of field state of a variable having type
+dst_state *. In the definition of dst_state, field config is declared as
+const. Hence dst_config, when assigned to config, cannot be modified.
+Therefore, make dst_config const as well.
+Issue found with Coccinelle.
 
-On Mon, Aug 19, 2019 at 07:23:17AM +0000, Hugues FRUCHET wrote:
-> Hi Sakari,
-> 
-> On 8/16/19 10:15 AM, Sakari Ailus wrote:
-> > Hi Hugues,
-> > 
-> > On Wed, Aug 14, 2019 at 03:48:51PM +0200, Hugues Fruchet wrote:
-> >> Add a trace of the set of supported fourcc/mbus_code which
-> >> intersect between DCMI and source sub-device.
-> >>
-> >> Signed-off-by: Hugues Fruchet <hugues.fruchet@st.com>
-> >> ---
-> >>   drivers/media/platform/stm32/stm32-dcmi.c | 12 ++++++++++--
-> >>   1 file changed, 10 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/drivers/media/platform/stm32/stm32-dcmi.c b/drivers/media/platform/stm32/stm32-dcmi.c
-> >> index b462f71..18acecf 100644
-> >> --- a/drivers/media/platform/stm32/stm32-dcmi.c
-> >> +++ b/drivers/media/platform/stm32/stm32-dcmi.c
-> >> @@ -1447,12 +1447,20 @@ static int dcmi_formats_init(struct stm32_dcmi *dcmi)
-> >>   			/* Code supported, have we got this fourcc yet? */
-> >>   			for (j = 0; j < num_fmts; j++)
-> >>   				if (sd_fmts[j]->fourcc ==
-> >> -						dcmi_formats[i].fourcc)
-> >> +						dcmi_formats[i].fourcc) {
-> >>   					/* Already available */
-> >> +					dev_dbg(dcmi->dev, "Skipping fourcc/code: %4.4s/0x%x\n",
-> >> +						(char *)&sd_fmts[j]->fourcc,
-> >> +						mbus_code.code);
-> >>   					break;
-> >> -			if (j == num_fmts)
-> >> +				}
-> >> +			if (j == num_fmts) {
-> >>   				/* New */
-> >>   				sd_fmts[num_fmts++] = dcmi_formats + i;
-> >> +				dev_dbg(dcmi->dev, "Supported fourcc/code: %4.4s/0x%x\n",
-> > 
-> > Over 80 characters per line.
-> > 
-> 
-> This an exception of the "80 chars" in order to be able to grep in 
-> kernel messages:
-> https://www.kernel.org/doc/html/v4.10/process/coding-style.html
-> "However, never break user-visible strings such as printk messages, 
-> because that breaks the ability to grep for them."
-> 
-> This exception is managed in checkpatch.pl (--strict).
+Signed-off-by: Nishka Dasgupta <nishkadg.linux@gmail.com>
+---
+ drivers/media/pci/bt8xx/dvb-bt8xx.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This exception is for cases where wrapping the line in the usual way, e.g.
-at argument boundaries, does not prevent it exceeding 80 characters. But it is
-not the case here.
-
+diff --git a/drivers/media/pci/bt8xx/dvb-bt8xx.c b/drivers/media/pci/bt8xx/dvb-bt8xx.c
+index 64df9d491941..02ebd43e672e 100644
+--- a/drivers/media/pci/bt8xx/dvb-bt8xx.c
++++ b/drivers/media/pci/bt8xx/dvb-bt8xx.c
+@@ -393,7 +393,7 @@ static struct mt352_config advbt771_samsung_tdtc9251dh0_config = {
+ 	.demod_init = advbt771_samsung_tdtc9251dh0_demod_init,
+ };
+ 
+-static struct dst_config dst_config = {
++static const struct dst_config dst_config = {
+ 	.demod_address = 0x55,
+ };
+ 
 -- 
-Sakari Ailus
-sakari.ailus@linux.intel.com
+2.19.1
+
