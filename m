@@ -2,68 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BC99692765
-	for <lists+linux-media@lfdr.de>; Mon, 19 Aug 2019 16:47:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A57589277D
+	for <lists+linux-media@lfdr.de>; Mon, 19 Aug 2019 16:49:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727455AbfHSOrq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Aug 2019 10:47:46 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:52827 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726769AbfHSOrq (ORCPT
+        id S1727378AbfHSOsz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Aug 2019 10:48:55 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:42239 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726211AbfHSOsz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Aug 2019 10:47:46 -0400
-Received: by mail-wm1-f68.google.com with SMTP id o4so1876000wmh.2
-        for <linux-media@vger.kernel.org>; Mon, 19 Aug 2019 07:47:43 -0700 (PDT)
+        Mon, 19 Aug 2019 10:48:55 -0400
+Received: by mail-wr1-f65.google.com with SMTP id b16so9015763wrq.9
+        for <linux-media@vger.kernel.org>; Mon, 19 Aug 2019 07:48:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20150623.gappssmtp.com; s=20150623;
         h=subject:to:cc:references:from:openpgp:autocrypt:organization
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=l8O3gTzFJyMMAvz/M2oePHQ+jko3IzVMepvXf+tCO0Y=;
-        b=oClruPFVBaHSacCDLIpICqxSLiSZtxZ/BRoPLNYyNwBdUxvKqx0kNWQDbNrOhkuu7l
-         fXg2t5g7vDYu7RrL+noqJISwFwnf8bGt7o5yR06UxrvwCepVqWXc975Z9HQwxHaE3LEH
-         Ag1mAKj89tkaCCVm+5pkO36vI4e++KyvX0rbrixS+cZC6Vkacl9ukL2oDgERsc8W2OoU
-         t2fjtTFbVeK5lafLeiYCEbfntxwnbWxNpI5ZhxZOlQ8TKXpbIRHMm5VOYLHseB03Zg73
-         DFNjZ61FX0XroOhC91Hj2qpdoE5dwLwL/xXvw2NU+VTRKcqpYzOMZ90N1q35D97VaaVY
-         daWA==
+        bh=vagkGtT2jMz7T0k0vgD6q1Sjj5TnzDJFn2lBxriOeDI=;
+        b=C4E7k4DAwRoWYCiWRqvSJ9eQVmlpNJt1wUf3a99tER9nUbwv3zq6CndZlXTzCaCmLW
+         Jbb3SaCWJKKjbaBMiQLB22J42IlMRyrkBYgrFPFtR3ZWvJCdBiX+/ZUTFWj0PZPS8ue9
+         zCtC6hsy2FJmr2cVAaR04/FAE3FRuq6X2ffAOeXHdWcu1mLEfPaDLYlA79KD76Rl+pzl
+         ssa0XjxF4VqQ/HKKvujSI//KhN/fALMFZyfF6DUC/qbauXvLh9BWJIIk1Ebr8zlOrsmX
+         KW5KIy7BKYwkpgjZLsPKHp2BkN8+M8Nhv1DGHKmJ82MqAJ9eyuxV+D/Sep1Poua5SL1I
+         MitA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
          :organization:message-id:date:user-agent:mime-version:in-reply-to
          :content-language:content-transfer-encoding;
-        bh=l8O3gTzFJyMMAvz/M2oePHQ+jko3IzVMepvXf+tCO0Y=;
-        b=Wc45al/dY7y/WM0jbpz+oFjeWpEPevgTFxjG2n9I6DBA3whbOzfwJpMUHOXTRovzVY
-         0w1CR4Ntt52r1QBYvRo3vEx0OT20FwGJFbhqIhYUeo2XeXdfR+MmcDPBNpnBp7GPY/j/
-         8OzalQsUPjgUuFq6WiOHAE5OF0ZOGXYrKxM8zYVKe3v1ysvIkmVZTjd+VsWYQlh7GIyg
-         gwi94PSzkfk+1MEHprAfpvE9gScQ1NiksRuDWC9qAgpGf3CiVziAs+E4RkttUcmwfgIN
-         dVZAs1Ys33h4vxeJ/+z2J1+LFvrgaxnQltl+21UUg/We9zE3WL12R/3Kv3oxF5D9Bxno
-         Chqw==
-X-Gm-Message-State: APjAAAUbn323CWTYHfs/tSHEIvJ3CRbA9MT7SBG9Q43NnTBosD3nPXIe
-        AuFVovTB6EX7CkgBcV0YesA6cw==
-X-Google-Smtp-Source: APXvYqwKhYKXOKjpY06JOsoELyEEx/4hXV5HKWkILWEZjU+AL35o9qA9wq10eenS0ZiqRFUlBngSVQ==
-X-Received: by 2002:a1c:4d05:: with SMTP id o5mr20391922wmh.129.1566226062855;
-        Mon, 19 Aug 2019 07:47:42 -0700 (PDT)
+        bh=vagkGtT2jMz7T0k0vgD6q1Sjj5TnzDJFn2lBxriOeDI=;
+        b=EYmIynpQ9Gh/IoR5/OXxfAT1gtj4hRWhGwMoKY8w+BB6i6jExmTYEp4TE+YjPCZET4
+         pT3hjTDbyCChq+bUupUI2QLYbpEtgzrr1tV4/6AYgQUdXZwVzDkL6uoR5oofcd9LivrF
+         K/W+PMnyePSBnYyZgutZRlAMiMPHP9RfoE5y+pSCGxgDGfoGhmAN1HEHADHQ76ZO2re7
+         VdZ7hIF7PNW8451ejov4fkBcrVGwwuQVYQmu0lqfzRqiWavAAxeC5Dc9lXSyFTCNupJd
+         e5dMaMNxWUfgMJLxGImpsxPN6C6FCP0l84P+36Mwgmch5tyQSz4AriCN46fVBpy5tiuM
+         RShQ==
+X-Gm-Message-State: APjAAAV46DRxzqO51oF+SSweYYkwREGkrGY8aA8OJPWhbpbwlBm8hX1y
+        myv8R/j/K2agAe6luD2AdHxmLA==
+X-Google-Smtp-Source: APXvYqw+6IQ7xkFNeV1Us45hRaomN8yAJoeL/1p2i2CnYEMmnC47xkGPP9DN8Eg+hUKKxGWxrM4JNg==
+X-Received: by 2002:adf:bc84:: with SMTP id g4mr28127062wrh.135.1566226133002;
+        Mon, 19 Aug 2019 07:48:53 -0700 (PDT)
 Received: from [10.1.3.173] (lmontsouris-657-1-212-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.gmail.com with ESMTPSA id a8sm11885768wma.31.2019.08.19.07.47.41
+        by smtp.gmail.com with ESMTPSA id 91sm46319107wrp.3.2019.08.19.07.48.49
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 19 Aug 2019 07:47:42 -0700 (PDT)
-Subject: Re: [PATCH v7 8/9] drm: dw-hdmi: use cec_notifier_conn_(un)register
+        Mon, 19 Aug 2019 07:48:52 -0700 (PDT)
+Subject: Re: [PATCH v7 0/9] drm: cec: convert DRM drivers to the new notifier
+ API
 To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Dariusz Marcinkiewicz <darekm@google.com>,
         dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
-Cc:     Jernej Skrabec <jernej.skrabec@siol.net>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        David Airlie <airlied@linux.ie>,
+Cc:     Kate Stewart <kstewart@linuxfoundation.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Dhinakaran Pandiyan <dhinakaran.pandiyan@intel.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        linux-samsung-soc@vger.kernel.org,
+        David Francis <David.Francis@amd.com>,
+        amd-gfx@lists.freedesktop.org, Leo Li <sunpeng.li@amd.com>,
+        "Jerry (Fangzhi) Zuo" <Jerry.Zuo@amd.com>,
+        linux-arm-kernel@lists.infradead.org,
+        nouveau@lists.freedesktop.org, Jonas Karlman <jonas@kwiboo.se>,
+        Jani Nikula <jani.nikula@intel.com>,
+        intel-gfx@lists.freedesktop.org,
+        Russell King <rmk+kernel@armlinux.org.uk>,
+        Sean Paul <seanpaul@chromium.org>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        linux-tegra@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        Allison Randal <allison@lohutok.net>,
+        Thomas Lim <Thomas.Lim@amd.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Douglas Anderson <dianders@chromium.org>,
-        linux-kernel@vger.kernel.org, Sean Paul <seanpaul@chromium.org>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Sam Ravnborg <sam@ravnborg.org>
+        linux-kernel@vger.kernel.org,
+        Manasi Navare <manasi.d.navare@intel.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Colin Ian King <colin.king@canonical.com>,
+        Enrico Weigelt <info@metux.net>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
 References: <20190814104520.6001-1-darekm@google.com>
- <20190814104520.6001-9-darekm@google.com>
- <b04edaf8-6116-69ab-fd8f-c28c90f73ad7@xs4all.nl>
- <3ae37c2f-94da-5ad0-a244-ef9658fc35e2@xs4all.nl>
- <0e961672-aadb-f8fc-457b-8daa325d459c@baylibre.com>
- <389b558f-06ec-8ec0-07ab-256dff3d4cb0@xs4all.nl>
+ <42c7ef3c-b7e5-8c63-c7c2-bfc6c56100c6@xs4all.nl>
 From:   Neil Armstrong <narmstrong@baylibre.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
@@ -116,12 +134,12 @@ Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
  VsbXrP9BZ6snXyHfebPnno/te5XRqZTL9aJOytB/1iUna+1MAwBxGFPvqeEUUyT+gx1l3Acl
  ZaTUOEkgIor5losDrePdPgE=
 Organization: Baylibre
-Message-ID: <8680ee8a-ff7f-de3c-a185-ff3fb3a93b2b@baylibre.com>
-Date:   Mon, 19 Aug 2019 16:47:41 +0200
+Message-ID: <ad2a4af0-aeff-a81e-7885-7e9fc3c5cf90@baylibre.com>
+Date:   Mon, 19 Aug 2019 16:48:49 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <389b558f-06ec-8ec0-07ab-256dff3d4cb0@xs4all.nl>
+In-Reply-To: <42c7ef3c-b7e5-8c63-c7c2-bfc6c56100c6@xs4all.nl>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -130,189 +148,84 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 19/08/2019 16:41, Hans Verkuil wrote:
-> On 8/19/19 4:38 PM, Neil Armstrong wrote:
->> Hi Hans,
->>
->> On 19/08/2019 16:05, Hans Verkuil wrote:
->>> On 8/19/19 11:32 AM, Hans Verkuil wrote:
->>>> On 8/14/19 12:45 PM, Dariusz Marcinkiewicz wrote:
->>>>> Use the new cec_notifier_conn_(un)register() functions to
->>>>> (un)register the notifier for the HDMI connector, and fill in
->>>>> the cec_connector_info.
->>>>>
->>>>> Changes since v6:
->>>>>         - move cec_notifier_conn_unregister to a bridge detach
->>>>> 	  function,
->>>>> 	- add a mutex protecting a CEC notifier.
->>>>> Changes since v4:
->>>>> 	- typo fix
->>>>> Changes since v2:
->>>>> 	- removed unnecessary NULL check before a call to
->>>>> 	cec_notifier_conn_unregister,
->>>>> 	- use cec_notifier_phys_addr_invalidate to invalidate physical
->>>>> 	address.
->>>>> Changes since v1:
->>>>> 	Add memory barrier to make sure that the notifier
->>>>> 	becomes visible to the irq thread once it is fully
->>>>> 	constructed.
->>>>>
->>>>> Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
->>>>
->>>> Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->>>
->>> Tested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->>
->> Did you test it on an Amlogic platform ? If yes, I don't have to !
+Hi Dariusz, Hans,
+
+I can apply the dw-hdmi patches if necessary.
+
+Neil
+
+On 19/08/2019 11:38, Hans Verkuil wrote:
+> Hi all,
 > 
-> Yes, tested on my khadas VIM2 (modified a bit to fix the issue where
-> the CEC physical address wasn't invalidated correctly as discussed here
-> earlier).
-
-Good, thanks.
-
-Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
-
+> The patches in this series can be applied independently from each other.
 > 
-> Regards,
+> If you maintain one of these drivers and you want to merge it for v5.4
+> yourself, then please do so and let me know. If you prefer I commit it
+> to drm-misc, then please review and (hopefully) Ack the patch.
+> 
+> I would really like to get this in for v5.4 so I can get the userspace
+> bits in for v5.4 as well through the media subsystem.
+> 
+> Dariusz, can you post a v7.1 for patch 5/9 fixing the typo?
+> 
+> Thanks!
 > 
 > 	Hans
 > 
+> On 8/14/19 12:44 PM, Dariusz Marcinkiewicz wrote:
+>> This series updates DRM drivers to use new CEC notifier API.
 >>
->> Neil
+>> Changes since v6:
+>> 	Made CEC notifiers' registration and de-registration symmetric
+>> 	in tda998x and dw-hdmi drivers. Also, accidentally dropped one
+>> 	patch in v6 (change to drm_dp_cec), brought it back now.
+>> Changes since v5:
+>>         Fixed a warning about a missing comment for a new member of
+>> 	drm_dp_aux_cec struct. Sending to a wider audience,
+>> 	including maintainers of respective drivers.
+>> Changes since v4:
+>> 	Addressing review comments.
+>> Changes since v3:
+>>         Updated adapter flags in dw-hdmi-cec.
+>> Changes since v2:
+>> 	Include all DRM patches from "cec: improve notifier support,
+>> 	add connector info connector info" series.
+>> Changes since v1:
+>> 	Those patches delay creation of notifiers until respective
+>> 	connectors are constructed. It seems that those patches, for a
+>> 	couple of drivers, by adding the delay, introduce a race between
+>> 	notifiers' creation and the IRQs handling threads - at least I
+>> 	don't see anything obvious in there that would explicitly forbid
+>> 	such races to occur. v2 adds a write barrier to make sure IRQ
+>> 	threads see the notifier once it is created (replacing the
+>> 	WRITE_ONCE I put in v1). The best thing to do here, I believe,
+>> 	would be not to have any synchronization and make sure that an IRQ
+>> 	only gets enabled after the notifier is created.
+>> Dariusz Marcinkiewicz (9):
+>>   drm_dp_cec: add connector info support.
+>>   drm/i915/intel_hdmi: use cec_notifier_conn_(un)register
+>>   dw-hdmi-cec: use cec_notifier_cec_adap_(un)register
+>>   tda9950: use cec_notifier_cec_adap_(un)register
+>>   drm: tda998x: use cec_notifier_conn_(un)register
+>>   drm: sti: use cec_notifier_conn_(un)register
+>>   drm: tegra: use cec_notifier_conn_(un)register
+>>   drm: dw-hdmi: use cec_notifier_conn_(un)register
+>>   drm: exynos: exynos_hdmi: use cec_notifier_conn_(un)register
 >>
->>>
->>> Regards,
->>>
->>> 	Hans
->>>
->>>>
->>>> Regards,
->>>>
->>>> 	Hans
->>>>
->>>>> ---
->>>>>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 45 +++++++++++++++--------
->>>>>  1 file changed, 30 insertions(+), 15 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
->>>>> index 83b94b66e464e..55162c9092f71 100644
->>>>> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
->>>>> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
->>>>> @@ -190,6 +190,7 @@ struct dw_hdmi {
->>>>>  	void (*enable_audio)(struct dw_hdmi *hdmi);
->>>>>  	void (*disable_audio)(struct dw_hdmi *hdmi);
->>>>>  
->>>>> +	struct mutex cec_notifier_mutex;
->>>>>  	struct cec_notifier *cec_notifier;
->>>>>  };
->>>>>  
->>>>> @@ -2194,6 +2195,8 @@ static int dw_hdmi_bridge_attach(struct drm_bridge *bridge)
->>>>>  	struct dw_hdmi *hdmi = bridge->driver_private;
->>>>>  	struct drm_encoder *encoder = bridge->encoder;
->>>>>  	struct drm_connector *connector = &hdmi->connector;
->>>>> +	struct cec_connector_info conn_info;
->>>>> +	struct cec_notifier *notifier;
->>>>>  
->>>>>  	connector->interlace_allowed = 1;
->>>>>  	connector->polled = DRM_CONNECTOR_POLL_HPD;
->>>>> @@ -2207,9 +2210,29 @@ static int dw_hdmi_bridge_attach(struct drm_bridge *bridge)
->>>>>  
->>>>>  	drm_connector_attach_encoder(connector, encoder);
->>>>>  
->>>>> +	cec_fill_conn_info_from_drm(&conn_info, connector);
->>>>> +
->>>>> +	notifier = cec_notifier_conn_register(hdmi->dev, NULL, &conn_info);
->>>>> +	if (!notifier)
->>>>> +		return -ENOMEM;
->>>>> +
->>>>> +	mutex_lock(&hdmi->cec_notifier_mutex);
->>>>> +	hdmi->cec_notifier = notifier;
->>>>> +	mutex_unlock(&hdmi->cec_notifier_mutex);
->>>>> +
->>>>>  	return 0;
->>>>>  }
->>>>>  
->>>>> +static void dw_hdmi_bridge_detach(struct drm_bridge *bridge)
->>>>> +{
->>>>> +	struct dw_hdmi *hdmi = bridge->driver_private;
->>>>> +
->>>>> +	mutex_lock(&hdmi->cec_notifier_mutex);
->>>>> +	cec_notifier_conn_unregister(hdmi->cec_notifier);
->>>>> +	hdmi->cec_notifier = NULL;
->>>>> +	mutex_unlock(&hdmi->cec_notifier_mutex);
->>>>> +}
->>>>> +
->>>>>  static enum drm_mode_status
->>>>>  dw_hdmi_bridge_mode_valid(struct drm_bridge *bridge,
->>>>>  			  const struct drm_display_mode *mode)
->>>>> @@ -2266,6 +2289,7 @@ static void dw_hdmi_bridge_enable(struct drm_bridge *bridge)
->>>>>  
->>>>>  static const struct drm_bridge_funcs dw_hdmi_bridge_funcs = {
->>>>>  	.attach = dw_hdmi_bridge_attach,
->>>>> +	.detach = dw_hdmi_bridge_detach,
->>>>>  	.enable = dw_hdmi_bridge_enable,
->>>>>  	.disable = dw_hdmi_bridge_disable,
->>>>>  	.mode_set = dw_hdmi_bridge_mode_set,
->>>>> @@ -2373,9 +2397,11 @@ static irqreturn_t dw_hdmi_irq(int irq, void *dev_id)
->>>>>  				       phy_stat & HDMI_PHY_HPD,
->>>>>  				       phy_stat & HDMI_PHY_RX_SENSE);
->>>>>  
->>>>> -		if ((phy_stat & (HDMI_PHY_RX_SENSE | HDMI_PHY_HPD)) == 0)
->>>>> -			cec_notifier_set_phys_addr(hdmi->cec_notifier,
->>>>> -						   CEC_PHYS_ADDR_INVALID);
->>>>> +		if ((phy_stat & (HDMI_PHY_RX_SENSE | HDMI_PHY_HPD)) == 0) {
->>>>> +			mutex_lock(&hdmi->cec_notifier_mutex);
->>>>> +			cec_notifier_phys_addr_invalidate(hdmi->cec_notifier);
->>>>> +			mutex_unlock(&hdmi->cec_notifier_mutex);
->>>>> +		}
->>>>>  	}
->>>>>  
->>>>>  	if (intr_stat & HDMI_IH_PHY_STAT0_HPD) {
->>>>> @@ -2561,6 +2587,7 @@ __dw_hdmi_probe(struct platform_device *pdev,
->>>>>  
->>>>>  	mutex_init(&hdmi->mutex);
->>>>>  	mutex_init(&hdmi->audio_mutex);
->>>>> +	mutex_init(&hdmi->cec_notifier_mutex);
->>>>>  	spin_lock_init(&hdmi->audio_lock);
->>>>>  
->>>>>  	ddc_node = of_parse_phandle(np, "ddc-i2c-bus", 0);
->>>>> @@ -2693,12 +2720,6 @@ __dw_hdmi_probe(struct platform_device *pdev,
->>>>>  	if (ret)
->>>>>  		goto err_iahb;
->>>>>  
->>>>> -	hdmi->cec_notifier = cec_notifier_get(dev);
->>>>> -	if (!hdmi->cec_notifier) {
->>>>> -		ret = -ENOMEM;
->>>>> -		goto err_iahb;
->>>>> -	}
->>>>> -
->>>>>  	/*
->>>>>  	 * To prevent overflows in HDMI_IH_FC_STAT2, set the clk regenerator
->>>>>  	 * N and cts values before enabling phy
->>>>> @@ -2796,9 +2817,6 @@ __dw_hdmi_probe(struct platform_device *pdev,
->>>>>  		hdmi->ddc = NULL;
->>>>>  	}
->>>>>  
->>>>> -	if (hdmi->cec_notifier)
->>>>> -		cec_notifier_put(hdmi->cec_notifier);
->>>>> -
->>>>>  	clk_disable_unprepare(hdmi->iahb_clk);
->>>>>  	if (hdmi->cec_clk)
->>>>>  		clk_disable_unprepare(hdmi->cec_clk);
->>>>> @@ -2820,9 +2838,6 @@ static void __dw_hdmi_remove(struct dw_hdmi *hdmi)
->>>>>  	/* Disable all interrupts */
->>>>>  	hdmi_writeb(hdmi, ~0, HDMI_IH_MUTE_PHY_STAT0);
->>>>>  
->>>>> -	if (hdmi->cec_notifier)
->>>>> -		cec_notifier_put(hdmi->cec_notifier);
->>>>> -
->>>>>  	clk_disable_unprepare(hdmi->iahb_clk);
->>>>>  	clk_disable_unprepare(hdmi->isfr_clk);
->>>>>  	if (hdmi->cec_clk)
->>>>>
->>>>
->>>
+>>  .../display/amdgpu_dm/amdgpu_dm_mst_types.c   |  2 +-
+>>  drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c | 13 +++---
+>>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c     | 46 +++++++++++++------
+>>  drivers/gpu/drm/drm_dp_cec.c                  | 25 ++++++----
+>>  drivers/gpu/drm/exynos/exynos_hdmi.c          | 31 +++++++------
+>>  drivers/gpu/drm/i2c/tda9950.c                 | 12 ++---
+>>  drivers/gpu/drm/i2c/tda998x_drv.c             | 36 ++++++++++-----
+>>  drivers/gpu/drm/i915/display/intel_dp.c       |  4 +-
+>>  drivers/gpu/drm/i915/display/intel_hdmi.c     | 13 ++++--
+>>  drivers/gpu/drm/nouveau/nouveau_connector.c   |  3 +-
+>>  drivers/gpu/drm/sti/sti_hdmi.c                | 19 +++++---
+>>  drivers/gpu/drm/tegra/output.c                | 28 ++++++++---
+>>  include/drm/drm_dp_helper.h                   | 17 ++++---
+>>  13 files changed, 155 insertions(+), 94 deletions(-)
 >>
 > 
 
