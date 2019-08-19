@@ -2,56 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1002F91DFE
-	for <lists+linux-media@lfdr.de>; Mon, 19 Aug 2019 09:37:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A812291E04
+	for <lists+linux-media@lfdr.de>; Mon, 19 Aug 2019 09:38:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726846AbfHSHhH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Aug 2019 03:37:07 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:42809 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726464AbfHSHhH (ORCPT
+        id S1726888AbfHSHib (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Aug 2019 03:38:31 -0400
+Received: from mail-pl1-f194.google.com ([209.85.214.194]:42495 "EHLO
+        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726464AbfHSHib (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Aug 2019 03:37:07 -0400
-Received: by mail-pf1-f194.google.com with SMTP id i30so666235pfk.9
-        for <linux-media@vger.kernel.org>; Mon, 19 Aug 2019 00:37:06 -0700 (PDT)
+        Mon, 19 Aug 2019 03:38:31 -0400
+Received: by mail-pl1-f194.google.com with SMTP id y1so553436plp.9
+        for <linux-media@vger.kernel.org>; Mon, 19 Aug 2019 00:38:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=sTwE1kzHyYHA7dDNOOwRZ75yFPMR6k8B+jW2U9IUMDs=;
-        b=YcJEQpLCHlJ982b97AImvdfJejn6HFVi2Bvmkx/eiSTbdBDpsQpjxVlAdksZwzm9gg
-         HLSRcRtdJdM3tFYHlKCeMzg+yGZJXoOR5Q8bxje13nYoheJ96IASGMCQazzuFHL0Hc7M
-         PnG3X6tu64LmPEJd3wyZDCX8VSWvNgPAB01z4nGw/ptIwPee+LBXpRlY3KqH++c+KoWa
-         H4tRXQUaifehN20lUDcnOXqYuto4lWJqMkc02/Pl2msXxeVIYJFiTNuRziggF51ZjcZn
-         9HnZ0AyEXGMY9zEoSg3dSp0ArptL5DmTbfDbO9d4mBjel9FH0/c6n/SJsqiOA9rKcli9
-         QjIQ==
+        bh=j5rvShXh0kcFKHyYimciyPIhYVtOtWnaMP4y4j+0ekE=;
+        b=MDZWXsxXNjd4nSUeLsA+N8f8ThSjLInQzi0W/DzKbpnlKQ+k7ERQHxPzZ6ad+1Trtg
+         n4bGqutOzBD2y8Az0KOsJU4IYokZumeEQfjf4RpuqeA0oi0pVVswi5jmlqVjVTV4g3Ek
+         sVw55752vZ0XgI1M3yHVjTJyiC5B13vQ7A+nYdoWRb4L5XbIO1+57oqwISE1Vb4s/Id4
+         D5ok6fsh2aJJYehxBWyVzRwPEgq8m5zZZGp/LGgIdP5mlie7tuaQGYrTBr7vacuXgVSv
+         Teg9TgCEIX9X6gh4FmPF0vtaDj3XAaMthqHG+glcmwK7vz7y1GeE5lgwApU33Q+z0nfc
+         JRCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=sTwE1kzHyYHA7dDNOOwRZ75yFPMR6k8B+jW2U9IUMDs=;
-        b=BHVhFi6wkZbVAYv34yNKIq4DbhIAFjMeVHxhzJRnZc0eXbf3rgbRlsRbb4i+37ihXV
-         f9PrOLNPGAoTXnhDrfpA4NZIGyX+koPPzv2pgh63iAoTvWm2HnXIMaZi3ZU52dlYeyM9
-         F6w8mE9TQvLSAskQzxBhnVRoVj1a20r54UaCrGzoudGxLK5Q5ZvU/fPt8ArCfpAAfXfi
-         4wQuiAti5RUiUeXOcFTyv5ksxPCKXos+L2zPWzMA1C5h3Zg+zy5SacAIZKazb03dxFV8
-         YrLygN5lIPF99u+6nfuQD0nvHujntQmpfwyuhrFDUyfjP3GBjuWhJPh6XD7owNt1wmcI
-         1jkw==
-X-Gm-Message-State: APjAAAVhF0W4FcCgHDhEEZJo6kgV89rxD0dvYCkRsNRybprYecdBrf2n
-        YN2gEmsB5PnYFwZu/UooDe0=
-X-Google-Smtp-Source: APXvYqw2128VcNLK/TgFWk76G501Bmb6L9kYargy3ZOkLc2lzuxwNnGpUey2LwnVEWII+bbw5FUXvA==
-X-Received: by 2002:a17:90a:5207:: with SMTP id v7mr18588168pjh.127.1566200226131;
-        Mon, 19 Aug 2019 00:37:06 -0700 (PDT)
+        bh=j5rvShXh0kcFKHyYimciyPIhYVtOtWnaMP4y4j+0ekE=;
+        b=i4O12lCbYNGLErIEv9gXY2J2XwFVMFDzVkb0Nolc0ITERv8q/RZKm27A/1nCT0oS80
+         z/tWW5d56IYWyqmjAlZ0WLl4S+U0cnSzO1n/ax4un8vzQm8XoKcxuxQkSK7FRjgBLEbR
+         AP+Q9XpNlVOugu/kZvtTIXajqXwRn8HmNZr65XecaDSiQrNugb8Il53zkcAraGz5APjh
+         zfzLcU3vRj89paM+lUyQ6Muq+elmgivp1JXo6kkkz3FmZGPY9hR8k3uQ+pfrK7e8Ctq7
+         u2zSaS4dxeuZNDQ9gueixUXVDrIOfaBFtQk4gB9E2SDhe2sbpZLM3S6TT9ZarGiHAOUl
+         yuNQ==
+X-Gm-Message-State: APjAAAXkLLvYc8AaBOd0+Hz57qYjFhiTwuy3HHiKuN+wvatentKzw5EO
+        e8Fqcwrd32hMXqxzzL8sxTU=
+X-Google-Smtp-Source: APXvYqxmCztOBdzeSMM+aJKzDPsY/JxicbsIrYa4k2Q7iLBJzZ8HXsGkzgZVwWS3ZcPRpJzqA2nW6w==
+X-Received: by 2002:a17:902:5a1:: with SMTP id f30mr21554725plf.64.1566200310943;
+        Mon, 19 Aug 2019 00:38:30 -0700 (PDT)
 Received: from localhost.localdomain ([110.225.16.165])
-        by smtp.gmail.com with ESMTPSA id x128sm20095680pfd.52.2019.08.19.00.37.03
+        by smtp.gmail.com with ESMTPSA id d16sm1831075pfd.81.2019.08.19.00.38.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Aug 2019 00:37:05 -0700 (PDT)
+        Mon, 19 Aug 2019 00:38:30 -0700 (PDT)
 From:   Nishka Dasgupta <nishkadg.linux@gmail.com>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        stefanr@s5r6.in-berlin.de, linux1394-devel@lists.sourceforge.net
+To:     mchehab@kernel.org, linux-media@vger.kernel.org, crope@iki.fi
 Cc:     Nishka Dasgupta <nishkadg.linux@gmail.com>
-Subject: [PATCH] media: firewire: Make structure fdtv_ca constant
-Date:   Mon, 19 Aug 2019 13:06:54 +0530
-Message-Id: <20190819073654.32128-1-nishkadg.linux@gmail.com>
+Subject: [PATCH] media: ec168: Make structure ec168_props constant
+Date:   Mon, 19 Aug 2019 13:08:18 +0530
+Message-Id: <20190819073818.32292-1-nishkadg.linux@gmail.com>
 X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -60,30 +59,31 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Static structure fdtv_ca, of type dvb_device, is only used when it is
-passed as the third argument to function dvb_register_device(). However,
-in the definition of dvb_register_device, the third parameter is
-declared as constant. Hence make fdtv_ca const as well.
+The static structure ec168_props, of type dvb_usb_device_properties, is
+used only once, when it is assigned to field props of the constant
+structure ec168_driver_info. As this means that ec168_props will never be
+modified, make it const as well in order to prevent unintended
+modification of its fields.
 Issue found with Coccinelle.
 
 Signed-off-by: Nishka Dasgupta <nishkadg.linux@gmail.com>
 ---
- drivers/media/firewire/firedtv-ci.c | 2 +-
+ drivers/media/usb/dvb-usb-v2/ec168.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/firewire/firedtv-ci.c b/drivers/media/firewire/firedtv-ci.c
-index a960a0ce9deb..9363d005e2b6 100644
---- a/drivers/media/firewire/firedtv-ci.c
-+++ b/drivers/media/firewire/firedtv-ci.c
-@@ -217,7 +217,7 @@ static const struct file_operations fdtv_ca_fops = {
- 	.llseek		= noop_llseek,
- };
- 
--static struct dvb_device fdtv_ca = {
-+static const struct dvb_device fdtv_ca = {
- 	.users		= 1,
- 	.readers	= 1,
- 	.writers	= 1,
+diff --git a/drivers/media/usb/dvb-usb-v2/ec168.c b/drivers/media/usb/dvb-usb-v2/ec168.c
+index 0c1fef118be4..e30305876840 100644
+--- a/drivers/media/usb/dvb-usb-v2/ec168.c
++++ b/drivers/media/usb/dvb-usb-v2/ec168.c
+@@ -309,7 +309,7 @@ static int ec168_streaming_ctrl(struct dvb_frontend *fe, int onoff)
+ /* DVB USB Driver stuff */
+ /* bInterfaceNumber 0 is HID
+  * bInterfaceNumber 1 is DVB-T */
+-static struct dvb_usb_device_properties ec168_props = {
++static const struct dvb_usb_device_properties ec168_props = {
+ 	.driver_name = KBUILD_MODNAME,
+ 	.owner = THIS_MODULE,
+ 	.adapter_nr = adapter_nr,
 -- 
 2.19.1
 
