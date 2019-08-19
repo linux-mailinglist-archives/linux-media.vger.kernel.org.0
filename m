@@ -2,298 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B249991FA6
-	for <lists+linux-media@lfdr.de>; Mon, 19 Aug 2019 11:06:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D6DE391FBC
+	for <lists+linux-media@lfdr.de>; Mon, 19 Aug 2019 11:13:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727148AbfHSJGn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Aug 2019 05:06:43 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:47127 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726211AbfHSJGn (ORCPT
+        id S1726594AbfHSJNp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Aug 2019 05:13:45 -0400
+Received: from mx07-00178001.pphosted.com ([62.209.51.94]:43346 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726186AbfHSJNp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Aug 2019 05:06:43 -0400
-Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id zdcbhLhojDqPezdcehnYIc; Mon, 19 Aug 2019 11:06:40 +0200
-Subject: Re: [PATCH v7 01/13] dt-bindings: connector: analog: add tv norms
- property
-To:     Marco Felsch <m.felsch@pengutronix.de>
-Cc:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
-        hans.verkuil@cisco.com, jacopo+renesas@jmondi.org,
-        robh+dt@kernel.org, laurent.pinchart@ideasonboard.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        kernel@pengutronix.de, Rob Herring <robh@kernel.org>
-References: <20190815115747.24018-1-m.felsch@pengutronix.de>
- <20190815115747.24018-2-m.felsch@pengutronix.de>
- <76aeaa4e-4a29-5abe-1af6-fc82958e9530@xs4all.nl>
- <20190819080904.ch3e3by5seha5ca7@pengutronix.de>
- <14e1593c-0d90-f242-9ab9-598a1005dbb8@xs4all.nl>
- <20190819090146.dguqzy7w7clk67ny@pengutronix.de>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <74a4cfe1-26b0-ff3d-7567-e204691b8971@xs4all.nl>
-Date:   Mon, 19 Aug 2019 11:06:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <20190819090146.dguqzy7w7clk67ny@pengutronix.de>
-Content-Type: text/plain; charset=utf-8
+        Mon, 19 Aug 2019 05:13:45 -0400
+Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x7J9C44g008020;
+        Mon, 19 Aug 2019 11:13:30 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-type : content-id
+ : content-transfer-encoding : mime-version; s=STMicroelectronics;
+ bh=qPtY65syNbZPgYlU9jqqgNS94oIfK9I+q4XLxKpjhnI=;
+ b=d41pUUzNDUnezdRr90IZ61ONsJ21G4K5DZYJtf2bZZGzywRpRuiz+oGVHnaedJSLmdFm
+ O8vLW82Rc0hzYKWwP/S/Lr8VYzhKTxYU+y/hIG45CCgRWVyjLtKaGzI7xIYeuJasIaUt
+ lq4oGEx23LCbjfWsVQhtSaF98k/ajKzTwtXgF/hcmrlNzR9BNb5WhNOTpDpXvX4uoNNO
+ SiyR0mTaR5Lj3HKIfhp7ZSXmOgwSCMxrVVuHGRDfrHYqb1LhDSLo7igN3D642yM22FzR
+ mLCEY8IVjtuAfFWoY52vkRfU92aA6Qt037akHvkcwsJ/HN4GNvnBRIVTZpO3qXYyJ8nY eg== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 2ue720tdyj-1
+        (version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
+        Mon, 19 Aug 2019 11:13:30 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 743E634;
+        Mon, 19 Aug 2019 09:13:29 +0000 (GMT)
+Received: from Webmail-eu.st.com (sfhdag6node3.st.com [10.75.127.18])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 620CA2CA5CE;
+        Mon, 19 Aug 2019 11:13:29 +0200 (CEST)
+Received: from SFHDAG5NODE1.st.com (10.75.127.13) by SFHDAG6NODE3.st.com
+ (10.75.127.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 19 Aug
+ 2019 11:13:29 +0200
+Received: from SFHDAG5NODE1.st.com ([fe80::cc53:528c:36c8:95f6]) by
+ SFHDAG5NODE1.st.com ([fe80::cc53:528c:36c8:95f6%20]) with mapi id
+ 15.00.1473.003; Mon, 19 Aug 2019 11:13:29 +0200
+From:   Hugues FRUCHET <hugues.fruchet@st.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Alexandre TORGUE <alexandre.torgue@st.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Sakari Ailus" <sakari.ailus@linux.intel.com>
+CC:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-stm32@st-md-mailman.stormreply.com" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Yannick FERTRE <yannick.fertre@st.com>,
+        Philippe CORNU <philippe.cornu@st.com>,
+        Mickael GUENE <mickael.guene@st.com>
+Subject: Re: [PATCH v7 0/4] DCMI bridge support
+Thread-Topic: [PATCH v7 0/4] DCMI bridge support
+Thread-Index: AQHVVmonZD9iAGFT80+FGsi2F1VjYqcCDlyA
+Date:   Mon, 19 Aug 2019 09:13:28 +0000
+Message-ID: <5d36f437-0de5-1aa0-09bf-51d3a415ad2f@st.com>
+References: <1566204081-19051-1-git-send-email-hugues.fruchet@st.com>
+ <0cd073d9-3d25-9e22-f243-f72e395e9e96@xs4all.nl>
+In-Reply-To: <0cd073d9-3d25-9e22-f243-f72e395e9e96@xs4all.nl>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfG9gj3plN52XEh2fauycNvs0rm4D5VxwC/rvDK/53Lgfvf3aXIUPB6JSLMu8j4sgSwK36QbOLgjOyN1Tc1Da/NnOtLpbdmVYbUle8aDcWGfriQNEdbUf
- 2IzZs5KylEP6Nn1/HrRudDpKJwSqQwQboI5u++DwtTjVptYpvhWO/qDdpjL/JkIzO3mtt5054Op8RJp7kU3BMN3rXmilVdOIrCraI5S8v3RAIwCFu69AnWN+
- KjP+qws2zUru8hKnk2PtQcTJrymhNXGjNmloqdpqDAcvCyx1DV96QLcLc8zB8aNJYgy9wrX1thJBtmhRtXK6KxYh76OmB38ruh00ShZboYY7qBTfVrm0tpoD
- Wk5LD4i6xU1Rdywnp3j18QzOpHC86y2sAJ3R24T/HDfx1VBawoh3ZiPwoXu2e8/fpFKAOHZfB5tutAY0UmPBqPUYE+L3B2bNXEQEpwbqvx35pgtLeHY6r+hI
- WD+xtr3Q/xG75F79tTx3g7nkJs+szXJmFrZIA9i7X9a6ZEMMabZM33C9UDFYgasdMt1s4cOk6O1ebwz/
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.75.127.49]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <7454236525196C4ABD655304CB57FFD8@st.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-08-19_02:,,
+ signatures=0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 8/19/19 11:01 AM, Marco Felsch wrote:
-> On 19-08-19 10:39, Hans Verkuil wrote:
->> On 8/19/19 10:09 AM, Marco Felsch wrote:
->>> Hi Hans,
->>>
->>> On 19-08-16 13:11, Hans Verkuil wrote:
->>>> On 8/15/19 1:57 PM, Marco Felsch wrote:
->>>>> Some connectors no matter if in- or output supports only a limited
->>>>> range of tv norms. It doesn't matter if the hardware behind that
->>>>> connector supports more than the listed formats since the users are
->>>>> restriced by a label e.g. to plug only a camera into this connector
->>>>> which uses the PAL format.
->>>>>
->>>>> This patch adds the capability to describe such limitation within the
->>>>> firmware. There are no format restrictions if the property isn't
->>>>> present, so it's completely backward compatible.
->>>>>
->>>>> Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
->>>>> Reviewed-by: Rob Herring <robh@kernel.org>
->>>>> ---
->>>>> [1] https://patchwork.kernel.org/cover/10794703/
->>>>>
->>>>> v7:
->>>>> I kept Robs r b tag because I only changed the example and extended
->>>>> TVNORM_* macros.
->>>>>
->>>>> - fix some style issues
->>>>> - add TVNORM_NTSC, TVNORM_525_60 and TVNORM_625_50
->>>>>
->>>>> v6:
->>>>> - tvnorms.h: use tabs instead of spaces
->>>>> - tvnorms.h: add TVNORM_PAL and TVNORM_SECAM
->>>>> - tvnorms.h: drop rarely used TVNORM_ATSC_* norms
->>>>>
->>>>> v2-v4:
->>>>> - nothing since the patch was squashed from series [1] into this
->>>>>   series.
->>>>> ---
->>>>>  .../display/connector/analog-tv-connector.txt |  4 ++
->>>>>  include/dt-bindings/media/tvnorms.h           | 72 +++++++++++++++++++
->>>>>  2 files changed, 76 insertions(+)
->>>>>  create mode 100644 include/dt-bindings/media/tvnorms.h
->>>>>
->>>>> diff --git a/Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt b/Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt
->>>>> index 0c0970c210ab..434e8aa0398b 100644
->>>>> --- a/Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt
->>>>> +++ b/Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt
->>>>> @@ -6,6 +6,9 @@ Required properties:
->>>>>  
->>>>>  Optional properties:
->>>>>  - label: a symbolic name for the connector
->>>>> +- tvnorms: limit the supported tv norms on a connector to the given ones else
->>>>
->>>> tv -> TV
->>>>
->>>>> +           all tv norms are allowed. Possible video standards are defined in
->>>>
->>>> tv -> TV
->>>
->>> Changed both thanks.
->>>
->>>> And a more high-level question: I think tvnorm is a very vague name. It's a term
->>>> used in media, but what does 'norm' mean anyway? 'tv_standards' or 'video_standards'
->>>> would be a lot more descriptive.
->>>
->>> I'm with you *_standards would be more descriptive. Now the question is:
->>> is it a video or a tv standard? Wikipedia says that SECAM, PAL, NTSC is
->>> a television standard. So I prefer the 'tv_standards' or better the
->>> 'tv-standards' approach.
->>
->> It's a bit of both, actually. But in the context of S-Video and Composite connectors
->> it is a video standard. In the context of a tuner/modulator it would be a TV standard.
->>
->> I.e. there is no difference between PAL_B and PAL_[GHIDJ] when it comes to S-Video and
->> Composite connectors, but in the context of a tuner/modulator these defines give
->> additional information about transmission bands, etc.
->>
->> That said, I think video-standards is too vague, but so is tv-standards. How about
->> sdtv-standards? I think that makes a lot of sense since this is really just for SDTV.
-> 
-> Yes, thats a good name.
-> 
->> So tvnorms.h becomes sdtv-standards.h.
-> 
-> Of course.
-> 
->>>
->>>> 'tvnorm' is, I think, a term used only internally in the media subsystem for no
->>>> clear reason. In the V4L2 spec it talks about 'video standard'.
->>>>
->>>> Sorry for being so late with raising this issue.
->>>>
->>>>> +           include/dt-bindings/media/tvnorms.h.
->>>>>  
->>>>>  Required nodes:
->>>>>  - Video port for TV input
->>>>> @@ -16,6 +19,7 @@ Example
->>>>>  tv: connector {
->>>>>  	compatible = "composite-video-connector";
->>>>>  	label = "tv";
->>>>> +	tvnorms = <(TVNORM_PAL | TVNORM_NTSC)>;
->>>>>  
->>>>>  	port {
->>>>>  		tv_connector_in: endpoint {
->>>>> diff --git a/include/dt-bindings/media/tvnorms.h b/include/dt-bindings/media/tvnorms.h
->>>>> new file mode 100644
->>>>> index 000000000000..e1275673c4d6
->>>>> --- /dev/null
->>>>> +++ b/include/dt-bindings/media/tvnorms.h
->>>>> @@ -0,0 +1,72 @@
->>>>> +/* SPDX-License-Identifier: GPL-2.0-only or X11 */
->>>>> +/*
->>>>> + * Copyright 2019 Pengutronix, Marco Felsch <kernel@pengutronix.de>
->>>>> + */
->>>>> +
->>>>> +#ifndef _DT_BINDINGS_MEDIA_TVNORMS_H
->>>>> +#define _DT_BINDINGS_MEDIA_TVNORMS_H
->>>>> +
->>>>> +/* One bit for each standard */
->>>>
->>>> I would add a comment here and in videodev2.h where you mention that
->>>> the two headers should remain in sync.
->>>
->>> Yes, good point.
->>>
->>>>> +#define TVNORM_PAL_B		0x00000001
->>>>> +#define TVNORM_PAL_B1		0x00000002
->>>>> +#define TVNORM_PAL_G		0x00000004
->>>>> +#define TVNORM_PAL_H		0x00000008
->>>>> +#define TVNORM_PAL_I		0x00000010
->>>>> +#define TVNORM_PAL_D		0x00000020
->>>>> +#define TVNORM_PAL_D1		0x00000040
->>>>> +#define TVNORM_PAL_K		0x00000080
->>>>> +
->>>>> +#define TVNORM_PAL		(TVNORM_PAL_B		| \
->>>>> +				 TVNORM_PAL_B1		| \
->>>>> +				 TVNORM_PAL_G		| \
->>>>> +				 TVNORM_PAL_H		| \
->>>>> +				 TVNORM_PAL_I		| \
->>>>> +				 TVNORM_PAL_D		| \
->>>>> +				 TVNORM_PAL_D1		| \
->>>>> +				 TVNORM_PAL_K)
->>>>> +
->>>>> +#define TVNORM_PAL_M		0x00000100
->>>>> +#define TVNORM_PAL_N		0x00000200
->>>>> +#define TVNORM_PAL_Nc		0x00000400
->>>>> +#define TVNORM_PAL_60		0x00000800
->>>>> +
->>>>> +#define TVNORM_NTSC_M		0x00001000	/* BTSC */
->>>>> +#define TVNORM_NTSC_M_JP	0x00002000	/* EIA-J */
->>>>> +#define TVNORM_NTSC_443		0x00004000
->>>>> +#define TVNORM_NTSC_M_KR	0x00008000	/* FM A2 */
->>>>> +
->>>>> +#define TVNORM_NTSC		(TVNORM_NTSC_M		|\
->>>>> +				 TVNORM_NTSC_M_JP	|\
->>>>
->>>> Add space before \
->>>>
->>>>> +				 TVNORM_NTSC_M_KR)
->>>>> +
->>>>> +#define TVNORM_SECAM_B		0x00010000
->>>>> +#define TVNORM_SECAM_D		0x00020000
->>>>> +#define TVNORM_SECAM_G		0x00040000
->>>>> +#define TVNORM_SECAM_H		0x00080000
->>>>> +#define TVNORM_SECAM_K		0x00100000
->>>>> +#define TVNORM_SECAM_K1		0x00200000
->>>>> +#define TVNORM_SECAM_L		0x00400000
->>>>> +#define TVNORM_SECAM_LC		0x00800000
->>>>> +
->>>>> +#define TVNORM_SECAM		(TVNORM_SECAM_B		| \
->>>>> +				 TVNORM_SECAM_D		| \
->>>>> +				 TVNORM_SECAM_G		| \
->>>>> +				 TVNORM_SECAM_H		| \
->>>>> +				 TVNORM_SECAM_K		| \
->>>>> +				 TVNORM_SECAM_K1	| \
->>>>> +				 TVNORM_SECAM_L		| \
->>>>> +				 TVNORM_SECAM_LC)
->>>>> +
->>>>> +/* Standards for Countries with 60Hz Line frequency */
->>>>> +#define TVNORM_525_60		(TVNORM_PAL_M		| \
->>>>> +				 TVNORM_PAL_60		| \
->>>>> +				 TVNORM_NTSC		| \
->>>>> +				 TVNORM_NTSC_443)
->>>>> +
->>>>> +/* Standards for Countries with 50Hz Line frequency */
->>>>> +#define TVNORM_625_50		(TVNORM_PAL		|\
->>>>> +				 TVNORM_PAL_N		|\
->>>>> +				 TVNORM_PAL_Nc		|\
->>>>
->>>> Add space before \
->>>
->>> Both space errors fixed.
->>>
->>>>> +				 TVNORM_SECAM)
->>>>> +
->>>>> +#endif /* _DT_BINDINGS_MEDIA_TVNORMS_H */
->>>>>
->>>>
->>>> I was also wondering if this header shouldn't be in include/dt-bindings/display/
->>>> since the bindings are also described in 'display'.
->>>
->>> That's a good one and I really don't know which is the 'right' place for
->>> it. Since the standard has nothing to do with a display I would keep it
->>> within media. But the radeon [1] gpu uses the stds too. So I really
->>> don't know which place is better.
->>
->> Move it to display: that matches where the documentation is.
-> 
-> Okay.
-> 
->>
->> Note that this means that _DT_BINDINGS_MEDIA_TVNORMS_H also becomes
->> _DT_BINDINGS_DISPLAY_TVNORMS_H (or DISPLAY_SDTV_STANDARDS_H).
-> 
-> Yes.
-> 
-> Last question. I replaced TVNORM_* by TV_STD_*. Should I move to
-> SDTV_STD_* too?
-
-I think so, yes.
-
-Regards,
-
-	Hans
-
-> 
-> Regards,
->   Marco
-> 
->> Regards,
->>
->> 	Hans
->>
->>>
->>> [1] drivers/gpu/drm/radeon/radeon_mode.h. 
->>>
->>> Regards,
->>>   Marco
->>>
->>>> Regards,
->>>>
->>>> 	Hans
->>>>
->>>
->>
->>
-> 
-
+SGkgSGFucywgU2FrYXJpLA0KDQpPSyB0byBwdXNoIHNlcGFyYXRlbHkgdGhlIDgwIGNoYXIgZml4
+Lg0KDQpUaGVyZSB3YXMgcGVuZGluZyByZWxhdGVkIGNoYW5nZXMgb24gc3QtbWlwaWQwMiBhbmQg
+b3Y1NjQwIChsaXN0ZWQgDQpiZWxvdyksIGRvIHlvdSB0aGluayBpdCdzIHBvc3NpYmxlIHRvIHRh
+a2UgdGhlbSBhbHNvID8NCg0KDQptZWRpYTogc3QtbWlwaWQwMjogYWRkIHN1cHBvcnQgb2YgVjRM
+Ml9DSURfTElOS19GUkVRIA0KaHR0cHM6Ly9wYXRjaHdvcmsubGludXh0di5vcmcvcGF0Y2gvNTY5
+NjkvDQpTdGF0ZQlBY2NlcHRlZA0KDQpbdjIsMS8zXSBtZWRpYTogc3QtbWlwaWQwMjogYWRkIHN1
+cHBvcnQgb2YgUkdCNTY1DQpodHRwczovL3BhdGNod29yay5saW51eHR2Lm9yZy9wYXRjaC81Njk3
+MC8NClN0YXRlCUFjY2VwdGVkDQoNClt2MiwyLzNdIG1lZGlhOiBzdC1taXBpZDAyOiBhZGQgc3Vw
+cG9ydCBvZiBZVVlWOCBhbmQgVVlWWTgNCmh0dHBzOi8vcGF0Y2h3b3JrLmxpbnV4dHYub3JnL3Bh
+dGNoLzU2OTcxLw0KU3RhdGUJQWNjZXB0ZWQNCg0KW3YyLDMvM10gbWVkaWE6IHN0LW1pcGlkMDI6
+IGFkZCBzdXBwb3J0IG9mIEpQRUcgDQpodHRwczovL3BhdGNod29yay5saW51eHR2Lm9yZy9wYXRj
+aC81Njk3My8NClN0YXRlCUFjY2VwdGVkDQoNCg0KW3YyXSBtZWRpYTogb3Y1NjQwOiBhZGQgc3Vw
+cG9ydCBvZiBWNEwyX0NJRF9MSU5LX0ZSRVENCmh0dHBzOi8vcGF0Y2h3b3JrLmxpbnV4dHYub3Jn
+L3BhdGNoLzU3MjE1Lw0KU3RhdGUJQ2hhbmdlcyBSZXF1ZXN0ZWQNCj0+IFRoaXMgY2hhbmdlIGlz
+IG5lZWRlZCB0byBtYWtlIGl0IHdvcmsgdGhlIHdob2xlIHNldHVwLg0KPT4gSSBkb24ndCBrbm93
+IHdoYXQgdG8gY2hhbmdlIGhlcmUsIGV2ZW4gaWYgdGhpcyAzODRNSHogZml4ZWQgdmFsdWUgDQpz
+ZWVtcyBzdHJhbmdlLCBpdCB3b3JrcyBmaW5lIG9uIG15IHNldHVwLCBvbiBteSBvcGluaW9uIGl0
+J3MgYmV0dGVyIHRoYW4gDQpub3RoaW5nLiBXZSBjb3VsZCBjb21lIGJhY2sgb24gdGhpcyBsYXRl
+ciBvbiB3aGVuIG90aGVyIE9WNTY0MCBDU0kgDQppbnRlcmZhY2VzIHdpbGwgcmVxdWlyZSBWNEwy
+X0NJRF9MSU5LX0ZSRVEgdmFsdWUuDQoNClNha2FyaSwgd2hhdCBkbyB5b3UgdGhpbmsgYWJvdXQg
+dGhpcyA/DQoNCg0KQlIsDQpIdWd1ZXMuDQoNCk9uIDgvMTkvMTkgMTA6NDMgQU0sIEhhbnMgVmVy
+a3VpbCB3cm90ZToNCj4gT24gOC8xOS8xOSAxMDo0MSBBTSwgSHVndWVzIEZydWNoZXQgd3JvdGU6
+DQo+PiBUaGlzIHBhdGNoIHNlcmllIGFsbG93cyB0byBjb25uZWN0IG5vbi1wYXJhbGxlbCBjYW1l
+cmEgc2Vuc29yIHRvDQo+PiBEQ01JIHRoYW5rcyB0byBhIGJyaWRnZSBjb25uZWN0ZWQgaW4gYmV0
+d2VlbiBzdWNoIGFzIFNUTUlQSUQwMiBbMV0uDQo+Pg0KPj4gTWVkaWEgY29udHJvbGxlciBzdXBw
+b3J0IGlzIGludHJvZHVjZWQgZmlyc3QsIHRoZW4gc3VwcG9ydCBvZg0KPj4gc2V2ZXJhbCBzdWIt
+ZGV2aWNlcyB3aXRoaW4gcGlwZWxpbmUgd2l0aCBkeW5hbWljIGxpbmtpbmcNCj4+IGJldHdlZW4g
+dGhlbS4NCj4+IEluIG9yZGVyIHRvIGtlZXAgYmFja3dhcmQgY29tcGF0aWJpbGl0eSB3aXRoIGFw
+cGxpY2F0aW9ucw0KPj4gcmVseWluZyBvbiBWNEwyIGludGVyZmFjZSBvbmx5LCBmb3JtYXQgc2V0
+IG9uIHZpZGVvIG5vZGUNCj4+IGlzIHByb3BhZ2F0ZWQgdG8gYWxsIHN1Yi1kZXZpY2VzIGNvbm5l
+Y3RlZCB0byBjYW1lcmEgaW50ZXJmYWNlLg0KPj4NCj4+IFsxXSBodHRwczovL3d3dy5zcGluaWNz
+Lm5ldC9saXN0cy9kZXZpY2V0cmVlL21zZzI3ODAwMi5odG1sDQo+Pg0KPj4gPT09PT09PT09PT0N
+Cj4+ID0gaGlzdG9yeSA9DQo+PiA9PT09PT09PT09PQ0KPj4gdmVyc2lvbiA3Og0KPj4gICAgLSBt
+aW5vciBmaXggb24gODAgY2hhciB0cmFjZSBtZXNzYWdlDQo+IA0KPiB2NiBpcyBhbHJlYWR5IGlu
+IGEgcGVuZGluZyBQUi4gSSBkb24ndCByZWFsbHkgd2FudCB0byBtYWtlIGEgbmV3DQo+IFBSIGp1
+c3QgZm9yIGEgODAgY2hhciB3YXJuaW5nLg0KPiANCj4gSXQgY2FuIGFsd2F5cyBiZSBkb25lIGlu
+IGEgZm9sbG93LXVwIHBhdGNoLg0KPiANCj4gUmVnYXJkcywNCj4gDQo+IAlIYW5zDQo+IA0KPj4N
+Cj4+IHZlcnNpb24gNjoNCj4+ICAgIC0gQXMgcGVyIFNha2FyaSByZW1hcms6IGFkZCBhIEZJWE1F
+IGV4cGxhaW5pbmcgdGhhdCB0aGlzDQo+PiAgICAgIHZlcnNpb24gb25seSBzdXBwb3J0cyBzdWJk
+ZXZpY2VzIHdoaWNoIGV4cG9zZSBSR0IgJiBZVVYNCj4+ICAgICAgInBhcmFsbGVsIGZvcm0iIG1i
+dXMgY29kZSAoXzJYOCkNCj4+ICAgIC0gQWRkIHNvbWUgdHJhY2UgYXJvdW5kIHN1YmRldl9jYWxs
+KHNfZm10KSBlcnJvciAmIGZvcm1hdA0KPj4gICAgICBjaGFuZ2VzIHRvIGRlYnVnIHN1YmRldiB3
+aGljaCBvbmx5IGV4cG9zZSBzZXJpYWwgbWJ1cyBjb2RlDQo+PiAgICAtIENvbmZvcm0gdG8gIjxu
+YW1lPiI6PHBhZCBpbmRleD4gd2hlbiB0cmFjaW5nIHN1YmRldiBpbmZvcw0KPj4NCj4+IHZlcnNp
+b24gNToNCj4+ICAgIC0gUmVtb3ZlIHJlbWFpbmluZyBDaGFuZ2UtSWQNCj4+ICAgIC0gQWRkIEFj
+a2VkLWJ5OiBTYWthcmkgQWlsdXMgPHNha2FyaS5haWx1c0BsaW51eC5pbnRlbC5jb20+DQo+Pg0K
+Pj4gdmVyc2lvbiA0Og0KPj4gICAgLSBBbHNvIGRyb3Agc3ViZGV2IG5vZGVzIHJlZ2lzdHJ5IGFz
+IHN1Z2dlc3RlZCBieSBIYW5zOg0KPj4gICAgICBodHRwczovL3d3dy5zcGluaWNzLm5ldC9saXN0
+cy9hcm0ta2VybmVsL21zZzc0MzM3NS5odG1sDQo+Pg0KPj4gdmVyc2lvbiAzOg0KPj4gICAgLSBE
+cm9wIG1lZGlhIGRldmljZSByZWdpc3RyeSB0byBub3QgZXhwb3NlIG1lZGlhIGNvbnRyb2xsZXIN
+Cj4+ICAgICAgaW50ZXJmYWNlIHRvIHVzZXJzcGFjZSBhcyBwZXIgTGF1cmVudCcgc3VnZ2VzdGlv
+bjoNCj4+ICAgICAgaHR0cHM6Ly93d3cuc3Bpbmljcy5uZXQvbGlzdHMvbGludXgtbWVkaWEvbXNn
+MTUzNDE3Lmh0bWwNCj4+ICAgIC0gUHJlZmVyICJzb3VyY2UiIGluc3RlYWQgb2YgInNlbnNvciIg
+YW5kIGtlZXAgaXQgaW4NCj4+ICAgICAgZGNtaV9ncmFwaF9lbnRpdHkgc3RydWN0LCBtb3ZlIGFz
+ZCBhcyBmaXJzdCBtZW1iZXINCj4+ICAgICAgb2Ygc3RydWN0IGFzIHBlciBTYWthcmknIHN1Z2dl
+c3Rpb246DQo+PiAgICAgIGh0dHBzOi8vd3d3LnNwaW5pY3MubmV0L2xpc3RzL2xpbnV4LW1lZGlh
+L21zZzE1MzExOS5odG1sDQo+PiAgICAtIERyb3AgZGNtaV9ncmFwaF9kZWluaXQoKSBhcyBwZXIg
+U2FrYXJpJyBzdWdnZXN0aW9uOg0KPj4gICAgICBodHRwczovL3d3dy5zcGluaWNzLm5ldC9saXN0
+cy9saW51eC1tZWRpYS9tc2cxNTM0MTcuaHRtbA0KPj4NCj4+IHZlcnNpb24gMjoNCj4+ICAgIC0g
+Rml4IGJ1c19pbmZvIG5vdCBjb25zaXN0ZW50IGJldHdlZW4gbWVkaWEgYW5kIFY0TDoNCj4+ICAg
+ICAgaHR0cHM6Ly93d3cuc3Bpbmljcy5uZXQvbGlzdHMvYXJtLWtlcm5lbC9tc2c3MTc2NzYuaHRt
+bA0KPj4gICAgLSBQcm9wYWdhdGlvbiBvZiBmb3JtYXQgc2V0IG9uIHZpZGVvIG5vZGUgdG8gdGhl
+IHN1Yi1kZXZpY2VzDQo+PiAgICAgIGNoYWluIGNvbm5lY3RlZCBvbiBjYW1lcmEgaW50ZXJmYWNl
+DQo+Pg0KPj4gdmVyc2lvbiAxOg0KPj4gICAgLSBJbml0aWFsIHN1Ym1pc3Npb24NCj4+DQo+PiBI
+dWd1ZXMgRnJ1Y2hldCAoNCk6DQo+PiAgICBtZWRpYTogc3RtMzItZGNtaTogaW1wcm92ZSBzZW5z
+b3Igc3ViZGV2IG5hbWluZw0KPj4gICAgbWVkaWE6IHN0bTMyLWRjbWk6IHRyYWNlIHRoZSBzdXBw
+b3J0ZWQgZm91cmNjL21idXNfY29kZQ0KPj4gICAgbWVkaWE6IHN0bTMyLWRjbWk6IGFkZCBtZWRp
+YSBjb250cm9sbGVyIHN1cHBvcnQNCj4+ICAgIG1lZGlhOiBzdG0zMi1kY21pOiBhZGQgc3VwcG9y
+dCBvZiBzZXZlcmFsIHN1Yi1kZXZpY2VzDQo+Pg0KPj4gICBkcml2ZXJzL21lZGlhL3BsYXRmb3Jt
+L0tjb25maWcgICAgICAgICAgICB8ICAgMiArLQ0KPj4gICBkcml2ZXJzL21lZGlhL3BsYXRmb3Jt
+L3N0bTMyL3N0bTMyLWRjbWkuYyB8IDMxOCArKysrKysrKysrKysrKysrKysrKysrKysrLS0tLS0N
+Cj4+ICAgMiBmaWxlcyBjaGFuZ2VkLCAyNjggaW5zZXJ0aW9ucygrKSwgNTIgZGVsZXRpb25zKC0p
+DQo+Pg0KPiA=
