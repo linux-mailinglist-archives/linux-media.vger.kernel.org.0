@@ -2,115 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 125AC95B34
-	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2019 11:40:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D501995B99
+	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2019 11:51:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729658AbfHTJkf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Aug 2019 05:40:35 -0400
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:34715 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728414AbfHTJke (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Aug 2019 05:40:34 -0400
-Received: by mail-ed1-f67.google.com with SMTP id s49so5573697edb.1;
-        Tue, 20 Aug 2019 02:40:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=F4LOpR2+qDGG/nyT8CDQzwfIkNx8dPONyLIfkWrwXb0=;
-        b=pAO8b0enPUDQRcQU6KJWM6w6AMVJewkc3FljenpBBsAm/fcc8fGxid94RcAa5blnTT
-         7rwCL/6QHjw5aWg7eHp7tjl1GST1GH9m1lYHR6gw20imO3IG48dDe7NOl37b1ZCyBu5v
-         NINgf4c6I+4c7IEbsQ072ot/D/YpHUIEiQWb1r1BzpWI0yeYxg858Yqy93knqkImbipb
-         a6JyF4nVnEc2TjQkXcqEG2kdv4XqGXU1Jlj7s0T9DJw6VKB8VKQlpKgGE3wzGByu8knj
-         VPqQZgkh9PkuLQ1XttC6Jpo5HYDNKPV+UKduMpj0kFJtntxzwAqn00456lBpBxPfDZ0C
-         Yhvg==
-X-Gm-Message-State: APjAAAV23+IUD+tsBwXO5NG1PPwTQEWVoWAcbofor3yYSfPJq6OfHxdH
-        n/TTAqxkM/L6Uzm6Q/SF1fU=
-X-Google-Smtp-Source: APXvYqyRecxQxMOPmI8NopXpVU38gqYahmiUiwm3vmKPM5fq7qf5ITTqib2gdF9RQeyAID+0r/k/CA==
-X-Received: by 2002:a17:906:3604:: with SMTP id q4mr1518387ejb.102.1566294032808;
-        Tue, 20 Aug 2019 02:40:32 -0700 (PDT)
-Received: from neopili.qtec.com (cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
-        by smtp.gmail.com with ESMTPSA id j37sm3354259ede.23.2019.08.20.02.40.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Aug 2019 02:40:31 -0700 (PDT)
-From:   Ricardo Ribalda Delgado <ribalda@kernel.org>
-To:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Ricardo Ribalda Delgado <ribalda@kernel.org>
-Subject: [PATCH v2 3/3] media: imx214: Add new control with V4L2_CID_UNIT_CELL_SIZE
-Date:   Tue, 20 Aug 2019 11:40:27 +0200
-Message-Id: <20190820094027.4144-3-ribalda@kernel.org>
-X-Mailer: git-send-email 2.23.0.rc1
-In-Reply-To: <20190820094027.4144-1-ribalda@kernel.org>
-References: <20190820094027.4144-1-ribalda@kernel.org>
+        id S1729862AbfHTJud (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Aug 2019 05:50:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58722 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728842AbfHTJuc (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 20 Aug 2019 05:50:32 -0400
+Received: from localhost (lfbn-1-17395-211.w86-250.abo.wanadoo.fr [86.250.200.211])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E705222DA7;
+        Tue, 20 Aug 2019 09:50:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1566294631;
+        bh=xAjbNh3jm1ba4AhcLUZNLmJZ2TdxmfxVs39tcWlM78Q=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=0EXoISDTEiqwhkhpbtk5VfIHEy45qg61TQnHaT/HD1JvT418X54lFE5BvAiCLQjFC
+         hNgJfLXMKpVSrkA43VEjSiKgypNwWRv+jpE4uJtcFp2vTNwqlBK819bLRG4DNN2VW6
+         vQRVyIzXd4QqfZD2CDtD49H91AWPFlXzS5YQXxIA=
+Date:   Tue, 20 Aug 2019 11:50:28 +0200
+From:   Maxime Ripard <mripard@kernel.org>
+To:     Sean Young <sean@mess.org>
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v2 1/2] dt-bindings: media: Add YAML schemas for the
+ generic RC bindings
+Message-ID: <20190820095028.l74sfvipwjjla6kq@flea>
+References: <20190819182619.29065-1-mripard@kernel.org>
+ <20190820081525.celdosrgcvwoq6e7@gofer.mess.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="ftcnfstprcqph37g"
+Content-Disposition: inline
+In-Reply-To: <20190820081525.celdosrgcvwoq6e7@gofer.mess.org>
+User-Agent: NeoMutt/20180716
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-According to the product brief, the unit cell size is 1120 nanometers^2.
 
-https://www.sony-semicon.co.jp/products_en/IS/sensor1/img/products/ProductBrief_IMX214_20150428.pdf
+--ftcnfstprcqph37g
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: Ricardo Ribalda Delgado <ribalda@kernel.org>
----
- drivers/media/i2c/imx214.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+Hi Sean,
 
-diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
-index 159a3a604f0e..cc0a013ba7da 100644
---- a/drivers/media/i2c/imx214.c
-+++ b/drivers/media/i2c/imx214.c
-@@ -47,6 +47,7 @@ struct imx214 {
- 	struct v4l2_ctrl *pixel_rate;
- 	struct v4l2_ctrl *link_freq;
- 	struct v4l2_ctrl *exposure;
-+	struct v4l2_ctrl *unit_size;
- 
- 	struct regulator_bulk_data	supplies[IMX214_NUM_SUPPLIES];
- 
-@@ -941,6 +942,26 @@ static int __maybe_unused imx214_resume(struct device *dev)
- 	return ret;
- }
- 
-+static void unit_size_init(const struct v4l2_ctrl *ctrl, u32 idx,
-+		     union v4l2_ctrl_ptr ptr)
-+{
-+	ptr.p_area->width = 1120;
-+	ptr.p_area->height = 1120;
-+}
-+
-+static const struct v4l2_ctrl_type_ops unit_size_ops = {
-+	.init = unit_size_init,
-+};
-+
-+static struct v4l2_ctrl *new_unit_size_ctrl(struct v4l2_ctrl_handler *handler)
-+{
-+	static struct v4l2_ctrl_config ctrl = {
-+		.id = V4L2_CID_UNIT_CELL_SIZE,
-+		.type_ops = &unit_size_ops,
-+	};
-+
-+	return v4l2_ctrl_new_custom(handler, &ctrl, NULL);
-+}
- static int imx214_probe(struct i2c_client *client)
- {
- 	struct device *dev = &client->dev;
-@@ -1029,6 +1050,8 @@ static int imx214_probe(struct i2c_client *client)
- 					     V4L2_CID_EXPOSURE,
- 					     0, 3184, 1, 0x0c70);
- 
-+	imx214->unit_size = new_unit_size_ctrl(&imx214->ctrls);
-+
- 	ret = imx214->ctrls.error;
- 	if (ret) {
- 		dev_err(&client->dev, "%s control init failed (%d)\n",
--- 
-2.23.0.rc1
+On Tue, Aug 20, 2019 at 09:15:26AM +0100, Sean Young wrote:
+> On Mon, Aug 19, 2019 at 08:26:18PM +0200, Maxime Ripard wrote:
+> > From: Maxime Ripard <maxime.ripard@bootlin.com>
+> >
+> > The RC controllers have a bunch of generic properties that are needed in a
+> > device tree. Add a YAML schemas for those.
+> >
+> > Reviewed-by: Rob Herring <robh@kernel.org>
+> > Signed-off-by: Maxime Ripard <maxime.ripard@bootlin.com>
+>
+> For the series (both 1/2 and 2.2):
+>
+> Reviewed-by: Sean Young <sean@mess.org>
+>
+> How's tree should this go through?
 
+Either yours or Rob's, I guess?
+
+Maxime
+
+--
+Maxime Ripard, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
+--ftcnfstprcqph37g
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXVvCZAAKCRDj7w1vZxhR
+xTFAAQDl8xXvQIXa8WbCZaFxnwrmvUt5UqA7/9ObYafNNiYcpQEAt15seL7rf1IE
+lBtjtxdyX5TG4nk1wDwD7edVTHVeaQ4=
+=TAb7
+-----END PGP SIGNATURE-----
+
+--ftcnfstprcqph37g--
