@@ -2,179 +2,187 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E65695ABE
-	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2019 11:13:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 342E895B10
+	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2019 11:35:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729312AbfHTJNR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Aug 2019 05:13:17 -0400
-Received: from mga14.intel.com ([192.55.52.115]:30959 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728414AbfHTJNR (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Aug 2019 05:13:17 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 20 Aug 2019 02:13:16 -0700
-X-IronPort-AV: E=Sophos;i="5.64,408,1559545200"; 
-   d="scan'208";a="195728293"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 20 Aug 2019 02:13:14 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 0D9FE20928; Tue, 20 Aug 2019 12:13:12 +0300 (EEST)
-Date:   Tue, 20 Aug 2019 12:13:12 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Hugues FRUCHET <hugues.fruchet@st.com>
-Cc:     Maxime Ripard <maxime.ripard@bootlin.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-stm32@st-md-mailman.stormreply.com" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        Benjamin Gaignard <benjamin.gaignard@linaro.org>
-Subject: Re: [PATCH v2] media: ov5640: add support of V4L2_CID_LINK_FREQ
-Message-ID: <20190820091311.GB5123@paasikivi.fi.intel.com>
-References: <1561640224-24062-1-git-send-email-hugues.fruchet@st.com>
- <20190627160518.ylc2xfvqdw5w77xc@paasikivi.fi.intel.com>
- <5b43d59c-92d0-7234-71aa-b283e7462a84@st.com>
+        id S1729459AbfHTJfH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Aug 2019 05:35:07 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:38945 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729312AbfHTJfG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 20 Aug 2019 05:35:06 -0400
+Received: by mail-lj1-f195.google.com with SMTP id x4so4475534ljj.6
+        for <linux-media@vger.kernel.org>; Tue, 20 Aug 2019 02:35:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=hTvsFcOmSwggdm7PgrD1IJjN9bzFDClMt1u/HcunehU=;
+        b=pYwMho3J5PMYtyIzLlzyRFcsPsBb+P6BTE2MZHiEQBcRqt+f9Jz+khkLvoi5Ngt254
+         ZGwBYFbhdsmQ6YmsTzlkIkjauww4it8jmFXyqP4py9lHNIlG9faxZAgP+erhDyNebWBL
+         4KSexr2QaR3QMuQ1lNMy9RiwFF+JtJomrwt1jXPZWErvZnMV6jxOogjxVvpLc5GowChL
+         fgwV4OEiV5D47t8inBDHbidFcoXqhb3GwVDho35s55PBp9tAX1oYZ4/Ld6kKm5S7ZLvf
+         Y1wVIvO/qFqfxsxJLNIlts46l0fR+E+f8/8WPTVTjkK2TCA1RO+AladojpZM712fb6z4
+         ZZBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+         :message-id:date:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=hTvsFcOmSwggdm7PgrD1IJjN9bzFDClMt1u/HcunehU=;
+        b=YHdP0Mk20scMXAvjTHi0D/zL18Jj559LzemiMqbfVvE/RiegOF8NfFb2q0V8FGEMfY
+         KDQ3LHIPxtuHnRHyPwfFfmRiqUkidXLZ9Eg/EiYDgRilzkSHbnI7QIU9vCq1yp6kderT
+         EBTJ4rhSsMQPnWZ/L5stCF84Bkhyu8cNpajxlL1IEOMKMQhEqZOft++s0st39REpag/P
+         6a1Vb9lPyjqxw3M5R/b3jkgWTYXJODTfMCNnY/JYZeMosOyW9BYaFYKtZf2vVOno01+P
+         QTUVqQLpsgqiyWZj4CQ0sSMXM83ivJpdnVWdzGvBGMIvCHvV2VOy8lQImmAoOvbbxfFR
+         R7PA==
+X-Gm-Message-State: APjAAAX14/7zAaFyPijp16ErF8iOujryzQ6DQOnM60kco3ULizLn83V5
+        Zfgjw0V0APU2PVlbvHj02x0LXg==
+X-Google-Smtp-Source: APXvYqyvVDnssfzkEcE0lLTlxkxh4aA/7WLmrToi/RHVH5+iW6Z7neHR7Z56pl2XgwrgAhL8Oo7eww==
+X-Received: by 2002:a05:651c:153:: with SMTP id c19mr5188412ljd.152.1566293704102;
+        Tue, 20 Aug 2019 02:35:04 -0700 (PDT)
+Received: from [192.168.27.187] ([37.157.136.206])
+        by smtp.googlemail.com with ESMTPSA id d16sm2782440lfi.31.2019.08.20.02.35.02
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 20 Aug 2019 02:35:03 -0700 (PDT)
+Subject: Re: [PATCH 1/2] venus: use on-chip interconnect API
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     Vikash Garodia <vgarodia@codeaurora.org>,
+        Andy Gross <agross@kernel.org>,
+        Aniket Masule <amasule@codeaurora.org>,
+        Linux PM list <linux-pm@vger.kernel.org>
+References: <20190814084701.25455-1-stanimir.varbanov@linaro.org>
+ <20190814084701.25455-2-stanimir.varbanov@linaro.org>
+From:   Georgi Djakov <georgi.djakov@linaro.org>
+Openpgp: preference=signencrypt
+Autocrypt: addr=georgi.djakov@linaro.org; prefer-encrypt=mutual; keydata=
+ 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
+ KEmKjLDvB0pePJkdTw==
+Message-ID: <cc85f55c-3d21-c3b2-6848-e48513263e39@linaro.org>
+Date:   Tue, 20 Aug 2019 12:34:59 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5b43d59c-92d0-7234-71aa-b283e7462a84@st.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190814084701.25455-2-stanimir.varbanov@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hugues,
+Hi Stan,
 
-On Tue, Jul 02, 2019 at 04:05:46PM +0000, Hugues FRUCHET wrote:
-> Hi Sakari,
-> 
-> On 6/27/19 6:05 PM, Sakari Ailus wrote:
-> > Hi Hugues,
-> > 
-> > On Thu, Jun 27, 2019 at 02:57:04PM +0200, Hugues Fruchet wrote:
-> >> Add support of V4L2_CID_LINK_FREQ, this is needed
-> >> by some CSI-2 receivers.
-> >>
-> >> 384MHz is exposed for the time being, corresponding
-> >> to 96MHz pixel clock with 2 bytes per pixel on 2 data lanes.
-> >>
-> >> This setup has been tested successfully with ST MIPID02
-> >> CSI-2 to parallel bridge.
-> >>
-> >> Signed-off-by: Hugues Fruchet <hugues.fruchet@st.com>
-> >> ---
-> > 
-> > Thanks for the patch.
-> > 
-> > The driver calculates the sensor configuration based on its configuration,
-> > and this needs to be reflected in the link frequency: it's not a static
-> > value. See e.g. ov5640_calc_sys_clk().
-> > 
-> 
-> I know this code, but for a reason I don't understand yet, this seems
-> to not have effects on the CSI-2 link frequency.
-> 
-> This has been verified with MIPID02 CSI-2 bridge which only work with
-> this fixed link frequency as input to program its ui_x4 register 
-> setting, see 
-> https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg2028171.html.
-> All resolutions and all framerate have been tested succesfully with this 
-> setting.
-> 
-> Initially I tried to set the link frequency according to the value 
-> computed in ov5640_calc_sys_clk() but it was only functional when 
-> resolutions/framerate was close to the 384MHz value...
-> 
-> As OV5640 D3 engineering board has been initially developped for 
-> dragonboard, I'll dig into this and found this commit:
-> https://lore.kernel.org/patchwork/patch/886794/
-> which set a fixed pixel rate value to 96MHz, which match perfectly
-> with the 384MHz value I found for link frequency...
-> 
-> Perhaps other CSI-2 OV5640 users can comment about it and have the 
-> explanations of what I experiment...
-> Maxime, Jacopo, do you have any idea about it ?
+On 8/14/19 11:47, Stanimir Varbanov wrote:
+> This aims to add a requests for bandwidth scaling depending
+> on the resolution and framerate (macroblocks per second). The
+> exact value ff the requested bandwidth is get from a
 
-I would also like to wee a comment from someone who's familiar with the
-device. Yet I can tell a static value of 348 MHz is clearly incorrect as it
-ignores sensor runtime configuration as well as platform configuration
-(external clock frequency for instance).
+s/ff/of/
 
-Generally speaking, configuring a CSI-2 receiver to expect a particular
-frequency usually doesn't mean it's going to fail even if the transmitter
-uses a different frequency, albeit the likelihood of it not working
-increases as the difference grows. Could the problem be at the receiver's
-end?
+> pre-calculated tables for encoder and decoder.
+> 
+> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+> ---
+>  drivers/media/platform/qcom/venus/core.c    | 34 +++++++++++
+>  drivers/media/platform/qcom/venus/core.h    | 14 +++++
+>  drivers/media/platform/qcom/venus/helpers.c | 67 ++++++++++++++++++++-
+>  3 files changed, 114 insertions(+), 1 deletion(-)
 
-Have you checked what kind of values ov5640_calc_pclk() returns for
-different configurations? It would seem like that this is what the
-LINK_FREQ (divided by lanes and multiplied by two) should be.
+It looks like venus can be built-in, so how about the case when venus is
+built-in and the interconnect provider is a module? Maybe add a dependency in
+Kconfig to depend on INTERCONNECT || !INTERCONNECT?
 
 > 
-> 
-> >> version 2:
-> >>    - do not set control read only as per Hans' comment:
-> >>      See https://www.mail-archive.com/linux-media@vger.kernel.org/msg147910.html
-> >>
-> >>   drivers/media/i2c/ov5640.c | 10 ++++++++++
-> >>   1 file changed, 10 insertions(+)
-> >>
-> >> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-> >> index 82d4ce9..e6307f3 100644
-> >> --- a/drivers/media/i2c/ov5640.c
-> >> +++ b/drivers/media/i2c/ov5640.c
-> >> @@ -218,6 +218,7 @@ struct ov5640_ctrls {
-> >>   	struct v4l2_ctrl *test_pattern;
-> >>   	struct v4l2_ctrl *hflip;
-> >>   	struct v4l2_ctrl *vflip;
-> >> +	struct v4l2_ctrl *link_freq;
-> >>   };
-> >>   
-> >>   struct ov5640_dev {
-> >> @@ -2198,6 +2199,10 @@ static int ov5640_try_fmt_internal(struct v4l2_subdev *sd,
-> >>   	return 0;
-> >>   }
-> >>   
-> >> +static const s64 link_freq_menu_items[] = {
-> >> +	384000000,
-> >> +};
-> >> +
-> >>   static int ov5640_set_fmt(struct v4l2_subdev *sd,
-> >>   			  struct v4l2_subdev_pad_config *cfg,
-> >>   			  struct v4l2_subdev_format *format)
-> >> @@ -2636,6 +2641,8 @@ static int ov5640_s_ctrl(struct v4l2_ctrl *ctrl)
-> >>   	case V4L2_CID_VFLIP:
-> >>   		ret = ov5640_set_ctrl_vflip(sensor, ctrl->val);
-> >>   		break;
-> >> +	case V4L2_CID_LINK_FREQ:
-> >> +		return 0;
-> >>   	default:
-> >>   		ret = -EINVAL;
-> >>   		break;
-> >> @@ -2703,6 +2710,9 @@ static int ov5640_init_controls(struct ov5640_dev *sensor)
-> >>   				       V4L2_CID_POWER_LINE_FREQUENCY_AUTO, 0,
-> >>   				       V4L2_CID_POWER_LINE_FREQUENCY_50HZ);
-> >>   
-> >> +	ctrls->link_freq = v4l2_ctrl_new_int_menu(hdl, ops, V4L2_CID_LINK_FREQ,
-> >> +						  0, 0, link_freq_menu_items);
-> >> +
-> >>   	if (hdl->error) {
-> >>   		ret = hdl->error;
-> >>   		goto free_ctrls;
-> >> -- 
-> >> 2.7.4
-> >>
-> > 
-> 
-> BR,
-> Hugues.
+> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+> index 0acc7576cc58..19cbe9d5d028 100644
+> --- a/drivers/media/platform/qcom/venus/core.c
+> +++ b/drivers/media/platform/qcom/venus/core.c
+> @@ -5,6 +5,7 @@
+>   */
+>  #include <linux/clk.h>
+>  #include <linux/init.h>
+> +#include <linux/interconnect.h>
+>  #include <linux/ioctl.h>
+>  #include <linux/list.h>
+>  #include <linux/module.h>
+> @@ -239,6 +240,14 @@ static int venus_probe(struct platform_device *pdev)
+>  	if (IS_ERR(core->base))
+>  		return PTR_ERR(core->base);
+>  
+> +	core->video_path = of_icc_get(dev, "video-mem");
+> +	if (IS_ERR(core->video_path))
+> +		return PTR_ERR(core->video_path);
+> +
+> +	core->cpucfg_path = of_icc_get(dev, "cpu-cfg");
+> +	if (IS_ERR(core->cpucfg_path))
+> +		return PTR_ERR(core->cpucfg_path);
+> +
+>  	core->irq = platform_get_irq(pdev, 0);
+>  	if (core->irq < 0)
+>  		return core->irq;
+> @@ -273,6 +282,10 @@ static int venus_probe(struct platform_device *pdev)
+>  	if (ret)
+>  		return ret;
+>  
+> +	ret = icc_set_bw(core->cpucfg_path, 0, kbps_to_icc(1000));
+> +	if (ret)
+> +		return ret;
+> +
+>  	ret = hfi_create(core, &venus_core_ops);
+>  	if (ret)
+>  		return ret;
+> @@ -355,6 +368,9 @@ static int venus_remove(struct platform_device *pdev)
+>  	pm_runtime_put_sync(dev);
+>  	pm_runtime_disable(dev);
+>  
+> +	icc_put(core->video_path);
+> +	icc_put(core->cpucfg_path);
+> +
 
--- 
-Sakari Ailus
-sakari.ailus@linux.intel.com
+Do you have any plans to scale the bandwidth on suspend/resume too?
+
+Thanks,
+Georgi
