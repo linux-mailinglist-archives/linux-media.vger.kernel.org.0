@@ -2,123 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B783596127
-	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2019 15:45:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B5462961BC
+	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2019 15:57:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730670AbfHTNmf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Aug 2019 09:42:35 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37912 "EHLO mail.kernel.org"
+        id S1730130AbfHTN5W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Aug 2019 09:57:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49660 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730240AbfHTNme (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Aug 2019 09:42:34 -0400
-Received: from sasha-vm.mshome.net (unknown [12.236.144.82])
+        id S1730085AbfHTN5W (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 20 Aug 2019 09:57:22 -0400
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net [24.9.64.241])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0F3AC2339F;
-        Tue, 20 Aug 2019 13:42:31 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id A36FE22CF7;
+        Tue, 20 Aug 2019 13:57:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1566308552;
-        bh=jo2OaElzij4WqL7QcwC9Oto8b3h1wNr7KwstU2QAYl8=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=2j5LEWvfnO0NlqziH5wrynotvUOby5uXadZyosVQjM4yUXesDtr92Bd6zFDZRl7d3
-         Ox2UTQuRvThsbzXYi21t59+J2PetBWDT/2deZ4cMZaEpGQy/JGjpBUf/FI4pKH2EH+
-         iug+9cA917Euw9QydjmELgV5uhyBu/CsfmUEIyVk=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Peter Ujfalusi <peter.ujfalusi@ti.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Vinod Koul <vkoul@kernel.org>, Sasha Levin <sashal@kernel.org>,
-        dmaengine@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 16/27] omap-dma/omap_vout_vrfb: fix off-by-one fi value
-Date:   Tue, 20 Aug 2019 09:42:02 -0400
-Message-Id: <20190820134213.11279-16-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190820134213.11279-1-sashal@kernel.org>
-References: <20190820134213.11279-1-sashal@kernel.org>
+        s=default; t=1566309441;
+        bh=YtsY2og8yBaA7YM9T/8sS7w0ELILJjUl0401PMRABTo=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=dBSY1dum7cNiR0HrpujnmA6OGH+C++WMpFVl/Wii4IW+J7Xv/T7xJOmpHj/m5emJY
+         lP4QOI60Ej/v1CR8VCw624O+3BKyOdf7NqUVghU/gxCBkqB+3OFlksRGs1WQ+xo094
+         PTkaGhBmmJhE3/ruHrPHWJhckH11t3ezvjZAMEHM=
+Subject: Re: Kernel 5.2.8 - au0828 - Tuner Is Busy
+To:     Nathan Royce <nroycea+kernel@gmail.com>
+Cc:     Brad Love <brad@nextdimension.cc>, sean@mess.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        shuah <shuah@kernel.org>
+References: <CALaQ_hruPmgnE5yh_MJLLZ_7sPNEnzX8H-WfR=fBvcfEzfG9Fg@mail.gmail.com>
+ <e616d881-25e2-c295-2a98-b51c8cbcbc81@nextdimension.cc>
+ <CALaQ_hqEZ-kco1esyB4mk0z9Q9Xt1XZsgYKR7gSdF7COERKoOA@mail.gmail.com>
+ <eada38a3-258b-52ff-94a7-b8877899267e@kernel.org>
+ <da6a1b65-cbe5-4e5e-d61c-43644a23da34@kernel.org>
+ <CALaQ_hrPZ7LMBvuHnCLayxHoVFi5U0gtxF-33-ehR=phRs3D5A@mail.gmail.com>
+From:   shuah <shuah@kernel.org>
+Message-ID: <94bfd12e-e9d4-1e6a-a18f-742e251f5cd9@kernel.org>
+Date:   Tue, 20 Aug 2019 07:56:55 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALaQ_hrPZ7LMBvuHnCLayxHoVFi5U0gtxF-33-ehR=phRs3D5A@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Hans Verkuil <hverkuil@xs4all.nl>
+On 8/20/19 12:58 AM, Nathan Royce wrote:
+> While your mention of quirks-table.h certainly had possibilities, I'm
+> afraid adding the "AU0828_DEVICE(0x05e1, 0x0400, "Hauppauge",
+> "Woodbury")," entry for my tuner did not make any difference regarding
+> the "Tuner is busy. Error -19" message.
+> 
+> I don't know if this means anything, but I see
+> https://patchwork.kernel.org/patch/97726/ from 2010 which contains
+> changes for the 0x0400 model. I guess it never got pulled in.
+> 
+> Really, it's fine for me just to hang back at v5.1 for a year or two
+> until ATSC 3.0 USB tuners come out at a reasonable price.
+> 
 
-[ Upstream commit d555c34338cae844b207564c482e5a3fb089d25e ]
+Hi Nathan,
 
-The OMAP 4 TRM specifies that when using double-index addressing
-the address increases by the ES plus the EI value minus 1 within
-a frame. When a full frame is transferred, the address increases
-by the ES plus the frame index (FI) value minus 1.
+The tuner busy error code is ENODEV. It appears some devices aren't
+created on your system. Would it be possible for you to send me your
+config and a complete dmesg.
 
-The omap-dma code didn't account for the 'minus 1' in the FI register.
-To get correct addressing, add 1 to the src_icg value.
+I am curious if /dev/media0 or /dev/media1 present on your system.
+Not having this could explain the ENODEV you are seeing.
 
-This was found when testing a hacked version of the media m2m-deinterlace.c
-driver on a Pandaboard.
-
-The only other source that uses this feature is omap_vout_vrfb.c,
-and that adds a + 1 when setting the dst_icg. This is a workaround
-for the broken omap-dma.c behavior. So remove the workaround at the
-same time that we fix omap-dma.c.
-
-I tested the omap_vout driver with a Beagle XM board to check that
-the '+ 1' in omap_vout_vrfb.c was indeed a workaround for the omap-dma
-bug.
-
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Acked-by: Peter Ujfalusi <peter.ujfalusi@ti.com>
-Acked-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Link: https://lore.kernel.org/r/952e7f51-f208-9333-6f58-b7ed20d2ea0b@xs4all.nl
-Signed-off-by: Vinod Koul <vkoul@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/dma/ti/omap-dma.c                    | 4 ++--
- drivers/media/platform/omap/omap_vout_vrfb.c | 3 +--
- 2 files changed, 3 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/dma/ti/omap-dma.c b/drivers/dma/ti/omap-dma.c
-index a4a931ddf6f69..aeb9c29e52554 100644
---- a/drivers/dma/ti/omap-dma.c
-+++ b/drivers/dma/ti/omap-dma.c
-@@ -1237,7 +1237,7 @@ static struct dma_async_tx_descriptor *omap_dma_prep_dma_interleaved(
- 	if (src_icg) {
- 		d->ccr |= CCR_SRC_AMODE_DBLIDX;
- 		d->ei = 1;
--		d->fi = src_icg;
-+		d->fi = src_icg + 1;
- 	} else if (xt->src_inc) {
- 		d->ccr |= CCR_SRC_AMODE_POSTINC;
- 		d->fi = 0;
-@@ -1252,7 +1252,7 @@ static struct dma_async_tx_descriptor *omap_dma_prep_dma_interleaved(
- 	if (dst_icg) {
- 		d->ccr |= CCR_DST_AMODE_DBLIDX;
- 		sg->ei = 1;
--		sg->fi = dst_icg;
-+		sg->fi = dst_icg + 1;
- 	} else if (xt->dst_inc) {
- 		d->ccr |= CCR_DST_AMODE_POSTINC;
- 		sg->fi = 0;
-diff --git a/drivers/media/platform/omap/omap_vout_vrfb.c b/drivers/media/platform/omap/omap_vout_vrfb.c
-index 29e3f5da59c1f..11ec048929e80 100644
---- a/drivers/media/platform/omap/omap_vout_vrfb.c
-+++ b/drivers/media/platform/omap/omap_vout_vrfb.c
-@@ -253,8 +253,7 @@ int omap_vout_prepare_vrfb(struct omap_vout_device *vout,
- 	 */
- 
- 	pixsize = vout->bpp * vout->vrfb_bpp;
--	dst_icg = ((MAX_PIXELS_PER_LINE * pixsize) -
--		  (vout->pix.width * vout->bpp)) + 1;
-+	dst_icg = MAX_PIXELS_PER_LINE * pixsize - vout->pix.width * vout->bpp;
- 
- 	xt->src_start = vout->buf_phy_addr[vb->i];
- 	xt->dst_start = vout->vrfb_context[vb->i].paddr[0];
--- 
-2.20.1
+thanks,
+-- Shuah
 
