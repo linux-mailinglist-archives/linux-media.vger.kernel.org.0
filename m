@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 231A795D3A
+	by mail.lfdr.de (Postfix) with ESMTP id B87EE95D3B
 	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2019 13:26:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729621AbfHTLYn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Aug 2019 07:24:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40624 "EHLO mail.kernel.org"
+        id S1729761AbfHTLYq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Aug 2019 07:24:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40670 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729421AbfHTLYm (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Aug 2019 07:24:42 -0400
+        id S1729421AbfHTLYp (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 20 Aug 2019 07:24:45 -0400
 Received: from localhost (lfbn-1-17395-211.w86-250.abo.wanadoo.fr [86.250.200.211])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1270B2082F;
-        Tue, 20 Aug 2019 11:24:40 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id C70B422CF9;
+        Tue, 20 Aug 2019 11:24:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1566300281;
-        bh=be/ximFWqGpHFeIhSuv7lOPq2RW6biddbx32xfqGjTg=;
-        h=From:To:Cc:Subject:Date:From;
-        b=EIosSN9/gCEu73RgRFC5bNtLKAGiOp2MJH/zpmmJ+IwCEDWXMMuDHnRcY4rqViwfn
-         OsVi9SP0+Twfo7A+dsrTh1p4gqQJTlfANsbiLDxrc/fxv7GMKMfznpKnjIjzfD5gDG
-         MVE71XYuNv001QwKg2yYnclHesY06maqi7a2sqgg=
+        s=default; t=1566300284;
+        bh=KuPYgScnsq8NVJ17LsXSj/9k1U4/rG3n9SuWLCCohdc=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=wb67Z2seCCUDAlbUWXeWCDpz7pLI3HW1uAQMwpB/JO2fg//kwMqnlneiIFAjYUtca
+         /+k4UU3LtzMs2WvS7Mi6S/mTTOUgrJxrm30AWABxEV2WqWIYHPDm2xBLfRMu9Luj72
+         /gj0o0dbaqBdmPXbUl5bb5q4v6JZ21JAVRJxu0Ac=
 From:   Maxime Ripard <mripard@kernel.org>
 To:     Hans Verkuil <hans.verkuil@cisco.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -34,11 +34,14 @@ Cc:     Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         devicetree@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>,
         Rob Herring <robh+dt@kernel.org>,
         Frank Rowand <frowand.list@gmail.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>
-Subject: [PATCH v7 0/5] media: Allwinner A10 CSI support
-Date:   Tue, 20 Aug 2019 13:24:31 +0200
-Message-Id: <cover.b695c63cf668192aff5574a3005d483c601e77f6.1566300265.git-series.maxime.ripard@bootlin.com>
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Rob Herring <robh@kernel.org>
+Subject: [PATCH v7 1/5] dt-bindings: media: Add Allwinner A10 CSI binding
+Date:   Tue, 20 Aug 2019 13:24:32 +0200
+Message-Id: <f490b35e62c5fd15174b5241ce1653e991c8fc9e.1566300265.git-series.maxime.ripard@bootlin.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <cover.b695c63cf668192aff5574a3005d483c601e77f6.1566300265.git-series.maxime.ripard@bootlin.com>
+References: <cover.b695c63cf668192aff5574a3005d483c601e77f6.1566300265.git-series.maxime.ripard@bootlin.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -48,258 +51,131 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Maxime Ripard <maxime.ripard@bootlin.com>
 
-Hi,
+The Allwinner A10 CMOS Sensor Interface is a camera capture interface also
+used in later (A10s, A13, A20, R8 and GR8) SoCs.
 
-Here is a series introducing the support for the A10 (and SoCs of the same
-generation) CMOS Sensor Interface (called CSI, not to be confused with
-MIPI-CSI, which isn't support by that IP).
+On some SoCs, like the A10, there's multiple instances of that controller,
+with one instance supporting more channels and having an ISP.
 
-That interface is pretty straightforward, but the driver has a few issues
-that I wanted to bring up:
-
-  * The only board I've been testing this with has an ov5640 sensor
-    attached, which doesn't work with the upstream driver. Copying the
-    Allwinner init sequence works though, and this is how it has been
-    tested. Testing with a second sensor would allow to see if it's an
-    issue on the CSI side or the sensor side.
-  * We don't have support for the ISP at the moment, but this can be added
-    eventually.
-
-Here is the v4l2-compliance output (commit f61132e81d79 of v4l-utils)
-v4l2-compliance SHA: not available, 32 bits
-
-Compliance test for device /dev/video1:
-
-Driver Info:
-	Driver name      : sun4i_csi
-	Card type        : sun4i-csi
-	Bus info         : platform:1c09000.csi
-	Driver version   : 5.3.0
-	Capabilities     : 0x84201000
-		Video Capture Multiplanar
-		Streaming
-		Extended Pix Format
-		Device Capabilities
-	Device Caps      : 0x04201000
-		Video Capture Multiplanar
-		Streaming
-		Extended Pix Format
-Media Driver Info:
-	Driver name      : sun4i-csi
-	Model            : Allwinner Video Capture Device
-	Serial           :
-	Bus info         :
-	Media version    : 5.3.0
-	Hardware revision: 0x00000000 (0)
-	Driver version   : 5.3.0
-Interface Info:
-	ID               : 0x03000008
-	Type             : V4L Video
-Entity Info:
-	ID               : 0x00000006 (6)
-	Name             : sun4i_csi
-	Function         : V4L2 I/O
-	Pad 0x01000007   : 0: Sink, Must Connect
-	  Link 0x0200000a: from remote pad 0x1000005 of entity 'sun4i-csi-0': Data, Enabled, Immutable
-
-Required ioctls:
-	test MC information (see 'Media Driver Info' above): OK
-	test VIDIOC_QUERYCAP: OK
-
-Allow for multiple opens:
-	test second /dev/video1 open: OK
-	test VIDIOC_QUERYCAP: OK
-	test VIDIOC_G/S_PRIORITY: OK
-	test for unlimited opens: OK
-
-Debug ioctls:
-	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
-	test VIDIOC_LOG_STATUS: OK (Not Supported)
-
-Input ioctls:
-	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-	test VIDIOC_ENUMAUDIO: OK (Not Supported)
-	test VIDIOC_G/S/ENUMINPUT: OK
-	test VIDIOC_G/S_AUDIO: OK (Not Supported)
-	Inputs: 1 Audio Inputs: 0 Tuners: 0
-
-Output ioctls:
-	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-	Outputs: 0 Audio Outputs: 0 Modulators: 0
-
-Input/Output configuration ioctls:
-	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-	test VIDIOC_G/S_EDID: OK (Not Supported)
-
-Control ioctls (Input 0):
-	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
-	test VIDIOC_QUERYCTRL: OK (Not Supported)
-	test VIDIOC_G/S_CTRL: OK (Not Supported)
-	test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
-	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
-	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-	Standard Controls: 0 Private Controls: 0
-
-Format ioctls (Input 0):
-	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-	test VIDIOC_G/S_PARM: OK (Not Supported)
-	test VIDIOC_G_FBUF: OK (Not Supported)
-	test VIDIOC_G_FMT: OK
-	test VIDIOC_TRY_FMT: OK
-	test VIDIOC_S_FMT: OK
-	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-	test Cropping: OK (Not Supported)
-	test Composing: OK (Not Supported)
-	test Scaling: OK
-
-Codec ioctls (Input 0):
-	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-
-Buffer ioctls (Input 0):
-	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-	test VIDIOC_EXPBUF: OK
-
-Test input 0:
-
-Streaming ioctls:
-	test read/write: OK (Not Supported)
-	test blocking wait: OK
-	test MMAP: OK
-	test USERPTR: OK (Not Supported)
-	test DMABUF: OK (Not Supported)
-
-Total: 49, Succeeded: 49, Failed: 0, Warnings: 0
-
-media-ctl -p -d /dev/media1 output after boot:
-Media controller API version 5.3.0
-
-Media device information
-------------------------
-driver          sun4i-csi
-model           Allwinner Video Capture Device
-serial
-bus info
-hw revision     0x0
-driver version  5.3.0
-
-Device topology
-- entity 1: ov5640 1-0021 (1 pad, 1 link)
-            type V4L2 subdev subtype Sensor flags 0
-            device node name /dev/v4l-subdev0
-	pad0: Source
-		[fmt:YUYV8_2X8/640x480@1/30 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range]
-		-> "sun4i-csi-0":0 [ENABLED,IMMUTABLE]
-
-- entity 3: sun4i-csi-0 (2 pads, 2 links)
-            type V4L2 subdev subtype Unknown flags 0
-            device node name /dev/v4l-subdev1
-	pad0: Sink
-		[fmt:YUYV8_2X8/640x480 field:none colorspace:raw]
-		<- "ov5640 1-0021":0 [ENABLED,IMMUTABLE]
-	pad1: Source
-		[fmt:YUYV8_2X8/640x480 field:none colorspace:raw]
-		-> "sun4i_csi":0 [ENABLED,IMMUTABLE]
-
-- entity 6: sun4i_csi (1 pad, 1 link)
-            type Node subtype V4L flags 0
-            device node name /dev/video1
-	pad0: Sink
-		<- "sun4i-csi-0":1 [ENABLED,IMMUTABLE]
-
-Let me know what you think,
-Maxime
-
-Changes from v6:
-  - Add init_cfg callback on the pads
-  - Use v4l2_subdev_link_validate instead of hand-rolled link validate
-  - Make sun4i_csi_qops const
-  - Add MODULE_DESCRIPTION, MODULE_AUTHOR and MODULE_LICENSE
-  - Remove the mod clock handling from the CSI driver
-  - Remove the A10 compatible fallback
-  - Rework the CSI pinctrl groups
-  - Add an example to the binding
-
-Changes from v5:
-  - Add link_validate/get_fmt/set_fmt/enum_mbus_code to the subdevice
-  - Create a device file for the subdevice
-  - Add link_validate to the video device
-  - Remove the storage of both the v4l2_pix_format_mplane structure and the
-    sun4i_csi_format structure, since the latter can be retrieved easily
-    from the former, and this is actually needed in a single place.
-  - Fix the copyright year notice
-
-Changes from v4:
-  - Created an intermediate sub-device
-
-Changes from v3:
-  - Rebased on v5.1-rc
-  - Fixed the YAML binding according to Rob's review
-
-Changes from v2:
-  - Address a few minors comments on the error path, the return type of
-    some functions, the type of some variables
-  - Disable the device if the subdev call fails in start_streaming
-  - Use __maybe_unused and SET_RUNTIME_PM_OPS for the runtime PM hooks
-  - Call media_device_cleanup in the remove function
-  - Add a dependency on the subdev API and the common clock framework
-  - Fix the MAINTAINERS entry to point to the yaml file
-  - Add the of graph bindings to the YAML schemas
-  - Rebase on next
-
-Changes from v1:
-  - Make sure it's compliant with a much newer v4l2-compliance
-  - Conversion of the DT bindings to a JSON schema
-  - Drop the vendor properties and use a separate compatible instead
-  - Fix an issue on the last frame where we would not have any buffer
-    queued and would report an error by using a scratch buffer
-  - Fix the warnings reported by v4l2-compliance
-  - Rebase on top of 5.0-rc1
-  - Added a MAINTAINERS entry
-  - Switched to strscpy
-  - Fixed SPDX header
-
-Maxime Ripard (5):
-  dt-bindings: media: Add Allwinner A10 CSI binding
-  media: sunxi: Refactor the Makefile and Kconfig
-  media: sunxi: Add A10 CSI driver
-  ARM: dts: sun7i: Add CSI0 controller
-  DO NOT MERGE: ARM: dts: bananapi: Add Camera support
-
- Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml | 107 +++++++++++++++++-
- MAINTAINERS                                                          |   8 +-
- arch/arm/boot/dts/sun7i-a20-bananapi.dts                             |  87 ++++++++++++++-
- arch/arm/boot/dts/sun7i-a20.dtsi                                     |  25 ++++-
- drivers/media/platform/Kconfig                                       |   2 +-
- drivers/media/platform/Makefile                                      |   2 +-
- drivers/media/platform/sunxi/Kconfig                                 |   2 +-
- drivers/media/platform/sunxi/Makefile                                |   2 +-
- drivers/media/platform/sunxi/sun4i-csi/Kconfig                       |  11 ++-
- drivers/media/platform/sunxi/sun4i-csi/Makefile                      |   5 +-
- drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c                   | 305 +++++++++++++++++++++++++++++++++++++++++++++++++-
- drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.h                   | 159 ++++++++++++++++++++++++++-
- drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c                   | 444 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
- drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c                  | 383 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
- 14 files changed, 1540 insertions(+), 2 deletions(-)
+Reviewed-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Maxime Ripard <maxime.ripard@bootlin.com>
+---
+ Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml | 107 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 107 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml
- create mode 100644 drivers/media/platform/sunxi/Kconfig
- create mode 100644 drivers/media/platform/sunxi/Makefile
- create mode 100644 drivers/media/platform/sunxi/sun4i-csi/Kconfig
- create mode 100644 drivers/media/platform/sunxi/sun4i-csi/Makefile
- create mode 100644 drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
- create mode 100644 drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.h
- create mode 100644 drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
- create mode 100644 drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c
 
-base-commit: 85b8819be27eab140d280bbee4f01385beb11e7d
+diff --git a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml
+new file mode 100644
+index 000000000000..9000bca344f9
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml
+@@ -0,0 +1,107 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/arm/allwinner,sun4i-a10-csi.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Allwinner A10 CMOS Sensor Interface (CSI) Device Tree Bindings
++
++maintainers:
++  - Chen-Yu Tsai <wens@csie.org>
++  - Maxime Ripard <maxime.ripard@bootlin.com>
++
++description: |-
++  The Allwinner A10 and later has a CMOS Sensor Interface to retrieve
++  frames from a parallel or BT656 sensor.
++
++properties:
++  compatible:
++    const: allwinner,sun7i-a20-csi0
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: The CSI interface clock
++      - description: The CSI module clock
++      - description: The CSI ISP clock
++      - description: The CSI DRAM clock
++
++  clock-names:
++    items:
++      - const: bus
++      - const: mod
++      - const: isp
++      - const: ram
++
++  resets:
++    maxItems: 1
++
++  port:
++    type: object
++    additionalProperties: false
++
++    properties:
++      endpoint:
++        properties:
++          bus-width:
++            const: 8
++            description: Number of data lines actively used.
++
++          data-active: true
++          hsync-active: true
++          pclk-sample: true
++          remote-endpoint: true
++          vsync-active: true
++
++        required:
++          - bus-width
++          - data-active
++          - hsync-active
++          - pclk-sample
++          - remote-endpoint
++          - vsync-active
++
++    required:
++      - endpoint
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/clock/sun7i-a20-ccu.h>
++    #include <dt-bindings/reset/sun4i-a10-ccu.h>
++
++    csi0: csi@1c09000 {
++        compatible = "allwinner,sun7i-a20-csi0";
++        reg = <0x01c09000 0x1000>;
++        interrupts = <GIC_SPI 42 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&ccu CLK_AHB_CSI0>, <&ccu CLK_CSI0>,
++                 <&ccu CLK_CSI_SCLK>, <&ccu CLK_DRAM_CSI0>;
++        clock-names = "bus", "mod", "isp", "ram";
++        resets = <&ccu RST_CSI0>;
++
++        port {
++            csi_from_ov5640: endpoint {
++                remote-endpoint = <&ov5640_to_csi>;
++                bus-width = <8>;
++                hsync-active = <1>; /* Active high */
++                vsync-active = <0>; /* Active low */
++                data-active = <1>;  /* Active high */
++                pclk-sample = <1>;  /* Rising */
++            };
++        };
++    };
++
++...
 -- 
 git-series 0.9.1
