@@ -2,177 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CF8A96B4A
-	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2019 23:19:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E9A596BAA
+	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2019 23:44:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730895AbfHTVSw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Aug 2019 17:18:52 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:47005 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730877AbfHTVSs (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Aug 2019 17:18:48 -0400
-Received: by mail-io1-f68.google.com with SMTP id x4so216760iog.13
-        for <linux-media@vger.kernel.org>; Tue, 20 Aug 2019 14:18:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=rkcX3ujLe0beIts8QiTuw+UqZR+RRH2frURa/U9SR5U=;
-        b=Je+V63T42q7O0zxEaUttv9WylC1e40RSiHQplf7gVB/RpIb+D1+5rPqVO28A3st+2Q
-         ZIfd07o060NWzwGxQbu846Tk4N9cQLqzMFhkQb7brya8/zeu8dUa+zIOT8dcgP2yiaTK
-         3Ta5C1L5VtRSaYTnHxTNrNK/qHxyHfh17aTmk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=rkcX3ujLe0beIts8QiTuw+UqZR+RRH2frURa/U9SR5U=;
-        b=EBbtxWrG4qFR2mzzOQMXkRudvppE9naiaA6RH26YHy7sXM964OAk/Q1vUDKd1GZ5dP
-         RAKpmhC7Ww5far+02BPcxm2QoB5LaIttPScBg+RHJTXeXMxyWrCCFsAIteToWLFZ8UuY
-         XUYIBMYWO0vo5T4BxPLSYZ3OiuC3sBETm/15zMIhL6RCHJ7wznHqXfAUqFdH12QRw7Fw
-         +RtYI2tdG7waOeQnXyTV7K1FqRu/e9LuTvpPaR0gdRV4ttbQDsb09y9mcXXt/oGLpnIx
-         ecsOpMZh6ZM4ciP9TIu5fS8zAFyByTo+VVcRYl51TOpKWcIZGN8VqAsjHxmFeRO8lVR9
-         O68Q==
-X-Gm-Message-State: APjAAAW3VxdvMvrpEQpuOnUqJHNdKsZctBr1Kll43IHXCC9CyFK7QFl2
-        aMot17vhwJozj8l3RLYB23/zEPJXyUo=
-X-Google-Smtp-Source: APXvYqxtWQmqw8ESu9PLd5h199TTiQNt+P5/IXCPRB20heySWujYnU+6GNubrMthj484g9qSQKq88A==
-X-Received: by 2002:a6b:610d:: with SMTP id v13mr36466055iob.226.1566335927967;
-        Tue, 20 Aug 2019 14:18:47 -0700 (PDT)
-Received: from shuah-t480s.internal (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id e12sm38441135iob.66.2019.08.20.14.18.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Aug 2019 14:18:47 -0700 (PDT)
-From:   Shuah Khan <skhan@linuxfoundation.org>
-To:     mchehab@kernel.org, helen.koike@collabora.com, hverkuil@xs4all.nl,
-        laurent.pinchart@ideasonboard.com, andrealmeid@collabora.com
-Cc:     Shuah Khan <skhan@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH v3 2/2] media: vimc: Fix gpf in rmmod path when stream is active
-Date:   Tue, 20 Aug 2019 15:18:42 -0600
-Message-Id: <d131406fcf6b554a9957d0b82b142982e1655332.1566334364.git.skhan@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1566334362.git.skhan@linuxfoundation.org>
-References: <cover.1566334362.git.skhan@linuxfoundation.org>
+        id S1730942AbfHTVnX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Aug 2019 17:43:23 -0400
+Received: from vps-vb.mhejs.net ([37.28.154.113]:56552 "EHLO vps-vb.mhejs.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730927AbfHTVnX (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 20 Aug 2019 17:43:23 -0400
+Received: from MUA
+        by vps-vb.mhejs.net with esmtps (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
+        (Exim 4.92)
+        (envelope-from <mail@maciej.szmigiero.name>)
+        id 1i0BuS-00072S-68; Tue, 20 Aug 2019 23:43:20 +0200
+Subject: Re: [PATCH] media: saa7134: keep demod i2c gate open on Medion 7134
+To:     Matthias Schwarzott <zzam@gentoo.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190818225538.302738-1-mail@maciej.szmigiero.name>
+ <0594fd6f-7037-1ca9-ba90-cacff96e23bf@gentoo.org>
+From:   "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mail@maciej.szmigiero.name; prefer-encrypt=mutual; keydata=
+ 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 PA==
+Message-ID: <6b772828-dd74-6d8e-3062-2c9438acfb89@maciej.szmigiero.name>
+Date:   Tue, 20 Aug 2019 23:43:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <0594fd6f-7037-1ca9-ba90-cacff96e23bf@gentoo.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If vimc module is removed while streaming is in progress, sensor subdev
-unregister runs into general protection fault when it tries to unregister
-media entities. This is a common subdev problem related to releasing
-pads from v4l2_device_unregister_subdev() before calling unregister.
-Unregister references pads during unregistering subdev.
+Hi Matthias,
 
-The sd release handler is the right place for releasing all sd resources
-including pads. The release handlers currently release all resources
-except the pads.
+On 20.08.2019 21:54, Matthias Schwarzott wrote:
+> Hi Maciej,
+> 
+> some comment about wording in commit message and code-comment.
+> 
+> As far as I know the terms are defined like this:
+> * gate open = i2c-clients behind gate can be reached
+> * gate closed = i2c-clients behind gate are not reachable
 
-Fix v4l2_device_unregister_subdev() not release pads and release pads
-from the sd_int_op release handlers.
+I always thought that this terminology is like the one used for a switch:
+if it is closed then the signal can pass, if open then it blocks the
+signal but apparently it is literally like a physical gate, so you are
+obviously right here - thanks for pointing this out.
 
-kernel: [ 4136.715839] general protection fault: 0000 [#1] SMP PTI
-kernel: [ 4136.715847] CPU: 2 PID: 1972 Comm: bash Not tainted 5.3.0-rc2+ #4
-kernel: [ 4136.715850] Hardware name: Dell Inc. OptiPlex 790/0HY9JP, BIOS A18 09/24/2013
-kernel: [ 4136.715858] RIP: 0010:media_gobj_destroy.part.16+0x1f/0x60
-kernel: [ 4136.715863] Code: ff 66 2e 0f 1f 84 00 00 00 00 00 66 66 66 66 90 55 48 89 fe 48 89 e5 53 48 89 fb 48 c7 c7 00 7f cf b0 e8 24 fa ff ff 48 8b 03 <48> 83 80 a0 00 00 00 01 48 8b 43 18 48 8b 53 10 48 89 42 08 48 89
-kernel: [ 4136.715866] RSP: 0018:ffff9b2248fe3cb0 EFLAGS: 00010246
-kernel: [ 4136.715870] RAX: bcf2bfbfa0d63c2f RBX: ffff88c3eb37e9c0 RCX: 00000000802a0018
-kernel: [ 4136.715873] RDX: ffff88c3e4f6a078 RSI: ffff88c3eb37e9c0 RDI: ffffffffb0cf7f00
-kernel: [ 4136.715876] RBP: ffff9b2248fe3cb8 R08: 0000000001000002 R09: ffffffffb0492b00
-kernel: [ 4136.715879] R10: ffff9b2248fe3c28 R11: 0000000000000001 R12: 0000000000000038
-kernel: [ 4136.715881] R13: ffffffffc09a1628 R14: ffff88c3e4f6a028 R15: fffffffffffffff2
-kernel: [ 4136.715885] FS:  00007f8389647740(0000) GS:ffff88c465500000(0000) knlGS:0000000000000000
-kernel: [ 4136.715888] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-kernel: [ 4136.715891] CR2: 000055d008f80fd8 CR3: 00000001996ec005 CR4: 00000000000606e0
-kernel: [ 4136.715894] Call Trace:
-kernel: [ 4136.715903]  media_gobj_destroy+0x14/0x20
-kernel: [ 4136.715908]  __media_device_unregister_entity+0xb3/0xe0
-kernel: [ 4136.715915]  media_device_unregister_entity+0x30/0x40
-kernel: [ 4136.715920]  v4l2_device_unregister_subdev+0xa8/0xe0
-kernel: [ 4136.715928]  vimc_ent_sd_unregister+0x1e/0x30 [vimc]
-kernel: [ 4136.715933]  vimc_sen_rm+0x16/0x20 [vimc]
-kernel: [ 4136.715938]  vimc_remove+0x3e/0xa0 [vimc]
-kernel: [ 4136.715945]  platform_drv_remove+0x25/0x50
-kernel: [ 4136.715951]  device_release_driver_internal+0xe0/0x1b0
-kernel: [ 4136.715956]  device_driver_detach+0x14/0x20
-kernel: [ 4136.715960]  unbind_store+0xd1/0x130
-kernel: [ 4136.715965]  drv_attr_store+0x27/0x40
-kernel: [ 4136.715971]  sysfs_kf_write+0x48/0x60
-kernel: [ 4136.715976]  kernfs_fop_write+0x128/0x1b0
-kernel: [ 4136.715982]  __vfs_write+0x1b/0x40
-kernel: [ 4136.715987]  vfs_write+0xc3/0x1d0
-kernel: [ 4136.715993]  ksys_write+0xaa/0xe0
-kernel: [ 4136.715999]  __x64_sys_write+0x1a/0x20
-kernel: [ 4136.716005]  do_syscall_64+0x5a/0x130
-kernel: [ 4136.716010]  entry_SYSCALL_64_after_hwframe+0x4
-Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
----
- drivers/media/platform/vimc/vimc-common.c  | 3 +--
- drivers/media/platform/vimc/vimc-debayer.c | 1 +
- drivers/media/platform/vimc/vimc-scaler.c  | 1 +
- drivers/media/platform/vimc/vimc-sensor.c  | 1 +
- 4 files changed, 4 insertions(+), 2 deletions(-)
+Will respin this patch and also add a second one fixing the terminology
+already present in saa7134_i2c_eeprom_md7134_gate().
 
-diff --git a/drivers/media/platform/vimc/vimc-common.c b/drivers/media/platform/vimc/vimc-common.c
-index 7e1ae0b12f1e..a3120f4f7a90 100644
---- a/drivers/media/platform/vimc/vimc-common.c
-+++ b/drivers/media/platform/vimc/vimc-common.c
-@@ -375,7 +375,7 @@ int vimc_ent_sd_register(struct vimc_ent_device *ved,
- {
- 	int ret;
- 
--	/* Allocate the pads */
-+	/* Allocate the pads. Should be released from the sd_int_op release */
- 	ved->pads = vimc_pads_init(num_pads, pads_flag);
- 	if (IS_ERR(ved->pads))
- 		return PTR_ERR(ved->pads);
-@@ -424,7 +424,6 @@ EXPORT_SYMBOL_GPL(vimc_ent_sd_register);
- void vimc_ent_sd_unregister(struct vimc_ent_device *ved, struct v4l2_subdev *sd)
- {
- 	media_entity_cleanup(ved->ent);
--	vimc_pads_cleanup(ved->pads);
- 	v4l2_device_unregister_subdev(sd);
- }
- EXPORT_SYMBOL_GPL(vimc_ent_sd_unregister);
-diff --git a/drivers/media/platform/vimc/vimc-debayer.c b/drivers/media/platform/vimc/vimc-debayer.c
-index 73dc17f0d990..6cee911bf149 100644
---- a/drivers/media/platform/vimc/vimc-debayer.c
-+++ b/drivers/media/platform/vimc/vimc-debayer.c
-@@ -482,6 +482,7 @@ static void vimc_deb_release(struct v4l2_subdev *sd)
- 	struct vimc_deb_device *vdeb =
- 				container_of(sd, struct vimc_deb_device, sd);
- 
-+	vimc_pads_cleanup(vdeb->ved.pads);
- 	kfree(vdeb);
- }
- 
-diff --git a/drivers/media/platform/vimc/vimc-scaler.c b/drivers/media/platform/vimc/vimc-scaler.c
-index 17da47a103ef..04c778f74972 100644
---- a/drivers/media/platform/vimc/vimc-scaler.c
-+++ b/drivers/media/platform/vimc/vimc-scaler.c
-@@ -338,6 +338,7 @@ static void vimc_sca_release(struct v4l2_subdev *sd)
- 	struct vimc_sca_device *vsca =
- 				container_of(sd, struct vimc_sca_device, sd);
- 
-+	vimc_pads_cleanup(vsca->ved.pads);
- 	kfree(vsca);
- }
- 
-diff --git a/drivers/media/platform/vimc/vimc-sensor.c b/drivers/media/platform/vimc/vimc-sensor.c
-index f6aea32175a2..b1e5d591cc3f 100644
---- a/drivers/media/platform/vimc/vimc-sensor.c
-+++ b/drivers/media/platform/vimc/vimc-sensor.c
-@@ -291,6 +291,7 @@ static void vimc_sen_release(struct v4l2_subdev *sd)
- 
- 	v4l2_ctrl_handler_free(&vsen->hdl);
- 	tpg_free(&vsen->tpg);
-+	vimc_pads_cleanup(vsen->ved.pads);
- 	kfree(vsen);
- }
- 
--- 
-2.20.1
+> Regards
+> Matthias
 
+Regards,
+Maciej
