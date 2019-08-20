@@ -2,92 +2,179 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ED90395A8A
-	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2019 11:00:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E65695ABE
+	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2019 11:13:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729333AbfHTJAQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Aug 2019 05:00:16 -0400
-Received: from mail-vs1-f66.google.com ([209.85.217.66]:33742 "EHLO
-        mail-vs1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729181AbfHTJAQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Aug 2019 05:00:16 -0400
-Received: by mail-vs1-f66.google.com with SMTP id i7so3054685vsp.0
-        for <linux-media@vger.kernel.org>; Tue, 20 Aug 2019 02:00:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=TJe4FUz6/qnqDofDHpLq8YBD58depn0Eh8fZs42JIjg=;
-        b=Cv37vxj2k/gq0JHIRDgkalWPaT3UtaQm/cdfJSed871f1xbO99FVX0bNKCieQlGhA5
-         zwbOGpyKAvtM52rbL6E0ehVRiyUmUOGVxmObBho+98jN9sazjCFZ37+mDcZHcyeRGPUj
-         J4I6g25BX2uHrbnuHQw1bgmLV9kcwBc2+szFj/+nQzqYMei1PPHSRfxqcP5dcmNmwPPw
-         2zCCBrp66nNDl388kaFYFieB5tFxttnAnrCxMt7K++sDnTAyhmZDtwtobfTaFzdAeP05
-         yv318x/MjNzQFVLXpdk6q3KViOHCPzdSb4ZJ/WWgyLjoD6B1rGTQqD6lILpFX7jp/h66
-         P74Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=TJe4FUz6/qnqDofDHpLq8YBD58depn0Eh8fZs42JIjg=;
-        b=l0fuLaonSetgPf+c9Bur1tc+TPMaeoqwUZ9hOqfcuFpM7WfXYEycrtyC/9XFc7Wzio
-         gIKjd1BlXP/OhW8g4/8kYFsaRq/iBF2JJAQ3a5V4pP1WFj4RffWxrmcSokof3IK6An3I
-         JAlIM7JNysY3sOLxR9vwXLk7u9Bqsn0OVWaO+zQYIAxE3/RV1HMGRwbVo+qlVEKdjH7h
-         +PfHgKTZbofO1vsZOp27FkX8I2nL4kzkpHEuTvneo1eUJYhxvkj8bYzZr/u/M+0liBmD
-         98zKy/1kCt1FVUqFzjw2VaxQACKl62e5qJAm6aDQIpjntLdXLPIfAYo1PpVbeyux1z3N
-         vt1Q==
-X-Gm-Message-State: APjAAAU3i4yE9dBkZJLFu5ypmo0YSoZAJhg7XKfI+Wz2MVDBFmQIKSml
-        /I0MPDejDla32MMWhQk6+DV+MhQkx5bPlt5Ol6W5c2ML
-X-Google-Smtp-Source: APXvYqxZ0jLs0FghRtuu9SOi2eLv7u6IX7yZBTgCZ7eJ21cAL/hvjQk5kIEZSoRClSwf+wtMfPASmPLrVAWWDDjzTOc=
-X-Received: by 2002:a67:e9da:: with SMTP id q26mr14882963vso.31.1566291615066;
- Tue, 20 Aug 2019 02:00:15 -0700 (PDT)
+        id S1729312AbfHTJNR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Aug 2019 05:13:17 -0400
+Received: from mga14.intel.com ([192.55.52.115]:30959 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728414AbfHTJNR (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 20 Aug 2019 05:13:17 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 20 Aug 2019 02:13:16 -0700
+X-IronPort-AV: E=Sophos;i="5.64,408,1559545200"; 
+   d="scan'208";a="195728293"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 20 Aug 2019 02:13:14 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 0D9FE20928; Tue, 20 Aug 2019 12:13:12 +0300 (EEST)
+Date:   Tue, 20 Aug 2019 12:13:12 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Hugues FRUCHET <hugues.fruchet@st.com>
+Cc:     Maxime Ripard <maxime.ripard@bootlin.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-stm32@st-md-mailman.stormreply.com" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>
+Subject: Re: [PATCH v2] media: ov5640: add support of V4L2_CID_LINK_FREQ
+Message-ID: <20190820091311.GB5123@paasikivi.fi.intel.com>
+References: <1561640224-24062-1-git-send-email-hugues.fruchet@st.com>
+ <20190627160518.ylc2xfvqdw5w77xc@paasikivi.fi.intel.com>
+ <5b43d59c-92d0-7234-71aa-b283e7462a84@st.com>
 MIME-Version: 1.0
-References: <CADYCxoPj_aUUjh0WhA-op0+z=1q+HxC0LbYwRFFMeFrm7qEAOQ@mail.gmail.com>
-In-Reply-To: <CADYCxoPj_aUUjh0WhA-op0+z=1q+HxC0LbYwRFFMeFrm7qEAOQ@mail.gmail.com>
-From:   Sergey Zakharchenko <doublef.mobile@gmail.com>
-Date:   Tue, 20 Aug 2019 09:00:04 +0000
-Message-ID: <CADYCxoOnXaOPsStH-bNtzauQbz+f9uADjb_nD196jk9GgJ=aGQ@mail.gmail.com>
-Subject: Re: [uvc] Frames smaller than dwMaxVideoFrameSize
-To:     linux-media@vger.kernel.org
-Cc:     Martin Bodo <martin@digital-loggers.com>,
-        "Logan, Peter" <peter.logan@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5b43d59c-92d0-7234-71aa-b283e7462a84@st.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello again list,
+Hi Hugues,
 
-I wrote:
-> We're seeing problems using cameras based on Geo GC6500 in Linux
-> kernels 4.19+ in raw mode (as opposed to H.264 mode, to avoid IP
-> issues).
+On Tue, Jul 02, 2019 at 04:05:46PM +0000, Hugues FRUCHET wrote:
+> Hi Sakari,
+> 
+> On 6/27/19 6:05 PM, Sakari Ailus wrote:
+> > Hi Hugues,
+> > 
+> > On Thu, Jun 27, 2019 at 02:57:04PM +0200, Hugues Fruchet wrote:
+> >> Add support of V4L2_CID_LINK_FREQ, this is needed
+> >> by some CSI-2 receivers.
+> >>
+> >> 384MHz is exposed for the time being, corresponding
+> >> to 96MHz pixel clock with 2 bytes per pixel on 2 data lanes.
+> >>
+> >> This setup has been tested successfully with ST MIPID02
+> >> CSI-2 to parallel bridge.
+> >>
+> >> Signed-off-by: Hugues Fruchet <hugues.fruchet@st.com>
+> >> ---
+> > 
+> > Thanks for the patch.
+> > 
+> > The driver calculates the sensor configuration based on its configuration,
+> > and this needs to be reflected in the link frequency: it's not a static
+> > value. See e.g. ov5640_calc_sys_clk().
+> > 
+> 
+> I know this code, but for a reason I don't understand yet, this seems
+> to not have effects on the CSI-2 link frequency.
+> 
+> This has been verified with MIPID02 CSI-2 bridge which only work with
+> this fixed link frequency as input to program its ui_x4 register 
+> setting, see 
+> https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg2028171.html.
+> All resolutions and all framerate have been tested succesfully with this 
+> setting.
+> 
+> Initially I tried to set the link frequency according to the value 
+> computed in ov5640_calc_sys_clk() but it was only functional when 
+> resolutions/framerate was close to the 384MHz value...
+> 
+> As OV5640 D3 engineering board has been initially developped for 
+> dragonboard, I'll dig into this and found this commit:
+> https://lore.kernel.org/patchwork/patch/886794/
+> which set a fixed pixel rate value to 96MHz, which match perfectly
+> with the 384MHz value I found for link frequency...
+> 
+> Perhaps other CSI-2 OV5640 users can comment about it and have the 
+> explanations of what I experiment...
+> Maxime, Jacopo, do you have any idea about it ?
 
-> Putting frame size reporting/calculations aside for now
+I would also like to wee a comment from someone who's familiar with the
+device. Yet I can tell a static value of 348 MHz is clearly incorrect as it
+ignores sensor runtime configuration as well as platform configuration
+(external clock frequency for instance).
 
-Now, on to frame size calculations. There's a small gadget in the code
-seemingly existing since the dawn of time:
+Generally speaking, configuring a CSI-2 receiver to expect a particular
+frequency usually doesn't mean it's going to fail even if the transmitter
+uses a different frequency, albeit the likelihood of it not working
+increases as the difference grows. Could the problem be at the receiver's
+end?
 
-https://github.com/torvalds/linux/blob/95f5cbff90b9e4324839a5c28ee3153a3c9921a5/drivers/media/usb/uvc/uvc_video.c#L119
+Have you checked what kind of values ov5640_calc_pclk() returns for
+different configurations? It would seem like that this is what the
+LINK_FREQ (divided by lanes and multiplied by two) should be.
 
-if (!(format->flags & UVC_FMT_FLAG_COMPRESSED) ||
-(ctrl->dwMaxVideoFrameSize == 0 && stream->dev->uvc_version < 0x0110))
-    ctrl->dwMaxVideoFrameSize = frame->dwMaxVideoFrameBufferSize;
+> 
+> 
+> >> version 2:
+> >>    - do not set control read only as per Hans' comment:
+> >>      See https://www.mail-archive.com/linux-media@vger.kernel.org/msg147910.html
+> >>
+> >>   drivers/media/i2c/ov5640.c | 10 ++++++++++
+> >>   1 file changed, 10 insertions(+)
+> >>
+> >> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+> >> index 82d4ce9..e6307f3 100644
+> >> --- a/drivers/media/i2c/ov5640.c
+> >> +++ b/drivers/media/i2c/ov5640.c
+> >> @@ -218,6 +218,7 @@ struct ov5640_ctrls {
+> >>   	struct v4l2_ctrl *test_pattern;
+> >>   	struct v4l2_ctrl *hflip;
+> >>   	struct v4l2_ctrl *vflip;
+> >> +	struct v4l2_ctrl *link_freq;
+> >>   };
+> >>   
+> >>   struct ov5640_dev {
+> >> @@ -2198,6 +2199,10 @@ static int ov5640_try_fmt_internal(struct v4l2_subdev *sd,
+> >>   	return 0;
+> >>   }
+> >>   
+> >> +static const s64 link_freq_menu_items[] = {
+> >> +	384000000,
+> >> +};
+> >> +
+> >>   static int ov5640_set_fmt(struct v4l2_subdev *sd,
+> >>   			  struct v4l2_subdev_pad_config *cfg,
+> >>   			  struct v4l2_subdev_format *format)
+> >> @@ -2636,6 +2641,8 @@ static int ov5640_s_ctrl(struct v4l2_ctrl *ctrl)
+> >>   	case V4L2_CID_VFLIP:
+> >>   		ret = ov5640_set_ctrl_vflip(sensor, ctrl->val);
+> >>   		break;
+> >> +	case V4L2_CID_LINK_FREQ:
+> >> +		return 0;
+> >>   	default:
+> >>   		ret = -EINVAL;
+> >>   		break;
+> >> @@ -2703,6 +2710,9 @@ static int ov5640_init_controls(struct ov5640_dev *sensor)
+> >>   				       V4L2_CID_POWER_LINE_FREQUENCY_AUTO, 0,
+> >>   				       V4L2_CID_POWER_LINE_FREQUENCY_50HZ);
+> >>   
+> >> +	ctrls->link_freq = v4l2_ctrl_new_int_menu(hdl, ops, V4L2_CID_LINK_FREQ,
+> >> +						  0, 0, link_freq_menu_items);
+> >> +
+> >>   	if (hdl->error) {
+> >>   		ret = hdl->error;
+> >>   		goto free_ctrls;
+> >> -- 
+> >> 2.7.4
+> >>
+> > 
+> 
+> BR,
+> Hugues.
 
-It seems to be overwriting a closer-to-the-truth value of 3110412 in
-dwMaxVideoFrameSize with frame->dwMaxVideoFrameBufferSize which
-happens to be 4147200 and is used from then on, including the
-uvc_video_validate_buffer() check. FWIW uvc_version is 0x0110. The
-value is still not quite 3110400, but even if it were so (e.g. to
-please uvc_video_validate_buffer()), it would have been overwritten
-anyway. The condition block logic seems worth double-checking (sure
-it's || not &&?).
-
-My original question on whether a value below the maximum is valid
-remains (hope the answer is obvious).
-
-Best regards,
-
---
-DoubleF
+-- 
+Sakari Ailus
+sakari.ailus@linux.intel.com
