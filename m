@@ -2,104 +2,304 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0313195B9E
-	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2019 11:51:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 231A795D3A
+	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2019 13:26:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729879AbfHTJum (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Aug 2019 05:50:42 -0400
-Received: from relay5-d.mail.gandi.net ([217.70.183.197]:41713 "EHLO
-        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728842AbfHTJul (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Aug 2019 05:50:41 -0400
-X-Originating-IP: 87.18.63.98
-Received: from uno.localdomain (unknown [87.18.63.98])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id BF83D1C0014;
-        Tue, 20 Aug 2019 09:50:36 +0000 (UTC)
-Date:   Tue, 20 Aug 2019 11:52:05 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Simon Horman <horms+renesas@verge.net.au>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Magnus Damm <magnus.damm@gmail.com>,
+        id S1729621AbfHTLYn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Aug 2019 07:24:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40624 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729421AbfHTLYm (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 20 Aug 2019 07:24:42 -0400
+Received: from localhost (lfbn-1-17395-211.w86-250.abo.wanadoo.fr [86.250.200.211])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1270B2082F;
+        Tue, 20 Aug 2019 11:24:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1566300281;
+        bh=be/ximFWqGpHFeIhSuv7lOPq2RW6biddbx32xfqGjTg=;
+        h=From:To:Cc:Subject:Date:From;
+        b=EIosSN9/gCEu73RgRFC5bNtLKAGiOp2MJH/zpmmJ+IwCEDWXMMuDHnRcY4rqViwfn
+         OsVi9SP0+Twfo7A+dsrTh1p4gqQJTlfANsbiLDxrc/fxv7GMKMfznpKnjIjzfD5gDG
+         MVE71XYuNv001QwKg2yYnclHesY06maqi7a2sqgg=
+From:   Maxime Ripard <mripard@kernel.org>
+To:     Hans Verkuil <hans.verkuil@cisco.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: sh-mobile-ceu: Rename bindings
- documentation file
-Message-ID: <20190820095205.xnthl7d7cpy7myq2@uno.localdomain>
-References: <20190819140544.19294-1-horms+renesas@verge.net.au>
+        linux-media@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        devicetree@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Maxime Ripard <maxime.ripard@bootlin.com>
+Subject: [PATCH v7 0/5] media: Allwinner A10 CSI support
+Date:   Tue, 20 Aug 2019 13:24:31 +0200
+Message-Id: <cover.b695c63cf668192aff5574a3005d483c601e77f6.1566300265.git-series.maxime.ripard@bootlin.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="s545u3qgtcd2uv4a"
-Content-Disposition: inline
-In-Reply-To: <20190819140544.19294-1-horms+renesas@verge.net.au>
-User-Agent: NeoMutt/20180716
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+From: Maxime Ripard <maxime.ripard@bootlin.com>
 
---s545u3qgtcd2uv4a
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Hi,
 
-Hi Simon,
+Here is a series introducing the support for the A10 (and SoCs of the same
+generation) CMOS Sensor Interface (called CSI, not to be confused with
+MIPI-CSI, which isn't support by that IP).
 
-On Mon, Aug 19, 2019 at 04:05:44PM +0200, Simon Horman wrote:
-> Renesas media binding documentation files uses a naming schema of
-> 'renesas,<module>.txt'. Rename the SH Mobile CEU file to match this pattern.
->
+That interface is pretty straightforward, but the driver has a few issues
+that I wanted to bring up:
 
-The old soc-camera based sh-mobile-ceu driver has been removed one
-year ago and replaced by driver/media/platform/renesas-ceu.c whose
-bindings are described at
-Documentation/devicetree/bindings/media/renesas,ceu.txt
+  * The only board I've been testing this with has an ov5640 sensor
+    attached, which doesn't work with the upstream driver. Copying the
+    Allwinner init sequence works though, and this is how it has been
+    tested. Testing with a second sensor would allow to see if it's an
+    issue on the CSI side or the sensor side.
+  * We don't have support for the ISP at the moment, but this can be added
+    eventually.
 
-Should this file be removed instead of renamed?
+Here is the v4l2-compliance output (commit f61132e81d79 of v4l-utils)
+v4l2-compliance SHA: not available, 32 bits
 
-Thanks
-  j
+Compliance test for device /dev/video1:
 
-> Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
-> ---
-> Based on v5.3-rc1
-> ---
->  .../bindings/media/{sh_mobile_ceu.txt => renesas,sh-mobile-ceu.txt}       | 0
->  1 file changed, 0 insertions(+), 0 deletions(-)
->  rename Documentation/devicetree/bindings/media/{sh_mobile_ceu.txt => renesas,sh-mobile-ceu.txt} (100%)
->
-> diff --git a/Documentation/devicetree/bindings/media/sh_mobile_ceu.txt b/Documentation/devicetree/bindings/media/renesas,sh-mobile-ceu.txt
-> similarity index 100%
-> rename from Documentation/devicetree/bindings/media/sh_mobile_ceu.txt
-> rename to Documentation/devicetree/bindings/media/renesas,sh-mobile-ceu.txt
-> --
-> 2.11.0
->
+Driver Info:
+	Driver name      : sun4i_csi
+	Card type        : sun4i-csi
+	Bus info         : platform:1c09000.csi
+	Driver version   : 5.3.0
+	Capabilities     : 0x84201000
+		Video Capture Multiplanar
+		Streaming
+		Extended Pix Format
+		Device Capabilities
+	Device Caps      : 0x04201000
+		Video Capture Multiplanar
+		Streaming
+		Extended Pix Format
+Media Driver Info:
+	Driver name      : sun4i-csi
+	Model            : Allwinner Video Capture Device
+	Serial           :
+	Bus info         :
+	Media version    : 5.3.0
+	Hardware revision: 0x00000000 (0)
+	Driver version   : 5.3.0
+Interface Info:
+	ID               : 0x03000008
+	Type             : V4L Video
+Entity Info:
+	ID               : 0x00000006 (6)
+	Name             : sun4i_csi
+	Function         : V4L2 I/O
+	Pad 0x01000007   : 0: Sink, Must Connect
+	  Link 0x0200000a: from remote pad 0x1000005 of entity 'sun4i-csi-0': Data, Enabled, Immutable
 
---s545u3qgtcd2uv4a
-Content-Type: application/pgp-signature; name="signature.asc"
+Required ioctls:
+	test MC information (see 'Media Driver Info' above): OK
+	test VIDIOC_QUERYCAP: OK
 
------BEGIN PGP SIGNATURE-----
+Allow for multiple opens:
+	test second /dev/video1 open: OK
+	test VIDIOC_QUERYCAP: OK
+	test VIDIOC_G/S_PRIORITY: OK
+	test for unlimited opens: OK
 
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl1bwsUACgkQcjQGjxah
-VjyPUg//ThVI0x+SJ7Y34qsLEZs0SgzopAtZefvap9z9/MAUuTbIV6qBA5/BaLqT
-O1VQOg//KN/apqfVVcIPI83X1rn1IzIEEznGCKHmKxmehuL4iry+VTWPrJw3EH4y
-FPxeKrOZ76GMPsQFX7xBrSGwdfZgNWzmkccFjWM2RtdYC0tDC8fgh6/uKi9XYmRe
-lyy8zU4OxVLj1G0Uoqp1o5MX57jgKJ5NWs48FhgCkT+R0Yf01d9b3vwjRZF5C6tO
-FTvOSJfSnoP+xaao/GyH5zudiv6LOa5cTohxfUYdEXjiQg9JjNEbWRw35Cmel92U
-h/qVboanowTIBPiAlLqMtK0esWe4moGbDlKpsoivae2n53hx47UJElvo3Hu2LhHC
-4bAFhpT3MRZB3i8Oqw94yl9JuCwVMc0kzzdG7xcuMQimzuijhmdgNxesxDJJk2gn
-FiTt6UrTek4r8E9595/66AT9nN2UB4FnkY79dT1oxT2QJF/FKEh6sFEf6uVgUJDv
-f9km+Mnw2JnssBPf+VZI06yyr24aVfhWnt5vxKi0EqIEr9c5g3NYXk15VFRM/Rqb
-EG8uGkIpifriE1Ccu1G+A0pb9wPdDqQIuReZjEA0JS7K1YaaZ36ebCaudC5hjZJ2
-n7wdqkhOGHzgDQ+vF127kr+ukdEjlkeTC62raHmrU+0pjPH7v64=
-=lZjl
------END PGP SIGNATURE-----
+Debug ioctls:
+	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
 
---s545u3qgtcd2uv4a--
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 1 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls (Input 0):
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+	test VIDIOC_QUERYCTRL: OK (Not Supported)
+	test VIDIOC_G/S_CTRL: OK (Not Supported)
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 0 Private Controls: 0
+
+Format ioctls (Input 0):
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK
+	test VIDIOC_TRY_FMT: OK
+	test VIDIOC_S_FMT: OK
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK
+
+Codec ioctls (Input 0):
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls (Input 0):
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+	test VIDIOC_EXPBUF: OK
+
+Test input 0:
+
+Streaming ioctls:
+	test read/write: OK (Not Supported)
+	test blocking wait: OK
+	test MMAP: OK
+	test USERPTR: OK (Not Supported)
+	test DMABUF: OK (Not Supported)
+
+Total: 49, Succeeded: 49, Failed: 0, Warnings: 0
+
+media-ctl -p -d /dev/media1 output after boot:
+Media controller API version 5.3.0
+
+Media device information
+------------------------
+driver          sun4i-csi
+model           Allwinner Video Capture Device
+serial
+bus info
+hw revision     0x0
+driver version  5.3.0
+
+Device topology
+- entity 1: ov5640 1-0021 (1 pad, 1 link)
+            type V4L2 subdev subtype Sensor flags 0
+            device node name /dev/v4l-subdev0
+	pad0: Source
+		[fmt:YUYV8_2X8/640x480@1/30 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range]
+		-> "sun4i-csi-0":0 [ENABLED,IMMUTABLE]
+
+- entity 3: sun4i-csi-0 (2 pads, 2 links)
+            type V4L2 subdev subtype Unknown flags 0
+            device node name /dev/v4l-subdev1
+	pad0: Sink
+		[fmt:YUYV8_2X8/640x480 field:none colorspace:raw]
+		<- "ov5640 1-0021":0 [ENABLED,IMMUTABLE]
+	pad1: Source
+		[fmt:YUYV8_2X8/640x480 field:none colorspace:raw]
+		-> "sun4i_csi":0 [ENABLED,IMMUTABLE]
+
+- entity 6: sun4i_csi (1 pad, 1 link)
+            type Node subtype V4L flags 0
+            device node name /dev/video1
+	pad0: Sink
+		<- "sun4i-csi-0":1 [ENABLED,IMMUTABLE]
+
+Let me know what you think,
+Maxime
+
+Changes from v6:
+  - Add init_cfg callback on the pads
+  - Use v4l2_subdev_link_validate instead of hand-rolled link validate
+  - Make sun4i_csi_qops const
+  - Add MODULE_DESCRIPTION, MODULE_AUTHOR and MODULE_LICENSE
+  - Remove the mod clock handling from the CSI driver
+  - Remove the A10 compatible fallback
+  - Rework the CSI pinctrl groups
+  - Add an example to the binding
+
+Changes from v5:
+  - Add link_validate/get_fmt/set_fmt/enum_mbus_code to the subdevice
+  - Create a device file for the subdevice
+  - Add link_validate to the video device
+  - Remove the storage of both the v4l2_pix_format_mplane structure and the
+    sun4i_csi_format structure, since the latter can be retrieved easily
+    from the former, and this is actually needed in a single place.
+  - Fix the copyright year notice
+
+Changes from v4:
+  - Created an intermediate sub-device
+
+Changes from v3:
+  - Rebased on v5.1-rc
+  - Fixed the YAML binding according to Rob's review
+
+Changes from v2:
+  - Address a few minors comments on the error path, the return type of
+    some functions, the type of some variables
+  - Disable the device if the subdev call fails in start_streaming
+  - Use __maybe_unused and SET_RUNTIME_PM_OPS for the runtime PM hooks
+  - Call media_device_cleanup in the remove function
+  - Add a dependency on the subdev API and the common clock framework
+  - Fix the MAINTAINERS entry to point to the yaml file
+  - Add the of graph bindings to the YAML schemas
+  - Rebase on next
+
+Changes from v1:
+  - Make sure it's compliant with a much newer v4l2-compliance
+  - Conversion of the DT bindings to a JSON schema
+  - Drop the vendor properties and use a separate compatible instead
+  - Fix an issue on the last frame where we would not have any buffer
+    queued and would report an error by using a scratch buffer
+  - Fix the warnings reported by v4l2-compliance
+  - Rebase on top of 5.0-rc1
+  - Added a MAINTAINERS entry
+  - Switched to strscpy
+  - Fixed SPDX header
+
+Maxime Ripard (5):
+  dt-bindings: media: Add Allwinner A10 CSI binding
+  media: sunxi: Refactor the Makefile and Kconfig
+  media: sunxi: Add A10 CSI driver
+  ARM: dts: sun7i: Add CSI0 controller
+  DO NOT MERGE: ARM: dts: bananapi: Add Camera support
+
+ Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml | 107 +++++++++++++++++-
+ MAINTAINERS                                                          |   8 +-
+ arch/arm/boot/dts/sun7i-a20-bananapi.dts                             |  87 ++++++++++++++-
+ arch/arm/boot/dts/sun7i-a20.dtsi                                     |  25 ++++-
+ drivers/media/platform/Kconfig                                       |   2 +-
+ drivers/media/platform/Makefile                                      |   2 +-
+ drivers/media/platform/sunxi/Kconfig                                 |   2 +-
+ drivers/media/platform/sunxi/Makefile                                |   2 +-
+ drivers/media/platform/sunxi/sun4i-csi/Kconfig                       |  11 ++-
+ drivers/media/platform/sunxi/sun4i-csi/Makefile                      |   5 +-
+ drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c                   | 305 +++++++++++++++++++++++++++++++++++++++++++++++++-
+ drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.h                   | 159 ++++++++++++++++++++++++++-
+ drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c                   | 444 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c                  | 383 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 14 files changed, 1540 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml
+ create mode 100644 drivers/media/platform/sunxi/Kconfig
+ create mode 100644 drivers/media/platform/sunxi/Makefile
+ create mode 100644 drivers/media/platform/sunxi/sun4i-csi/Kconfig
+ create mode 100644 drivers/media/platform/sunxi/sun4i-csi/Makefile
+ create mode 100644 drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
+ create mode 100644 drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.h
+ create mode 100644 drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
+ create mode 100644 drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c
+
+base-commit: 85b8819be27eab140d280bbee4f01385beb11e7d
+-- 
+git-series 0.9.1
