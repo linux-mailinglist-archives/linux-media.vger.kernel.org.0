@@ -2,187 +2,182 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 342E895B10
-	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2019 11:35:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 77BBF95B29
+	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2019 11:40:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729459AbfHTJfH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Aug 2019 05:35:07 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:38945 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729312AbfHTJfG (ORCPT
+        id S1729635AbfHTJkc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Aug 2019 05:40:32 -0400
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:46598 "EHLO
+        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728414AbfHTJkc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Aug 2019 05:35:06 -0400
-Received: by mail-lj1-f195.google.com with SMTP id x4so4475534ljj.6
-        for <linux-media@vger.kernel.org>; Tue, 20 Aug 2019 02:35:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=hTvsFcOmSwggdm7PgrD1IJjN9bzFDClMt1u/HcunehU=;
-        b=pYwMho3J5PMYtyIzLlzyRFcsPsBb+P6BTE2MZHiEQBcRqt+f9Jz+khkLvoi5Ngt254
-         ZGwBYFbhdsmQ6YmsTzlkIkjauww4it8jmFXyqP4py9lHNIlG9faxZAgP+erhDyNebWBL
-         4KSexr2QaR3QMuQ1lNMy9RiwFF+JtJomrwt1jXPZWErvZnMV6jxOogjxVvpLc5GowChL
-         fgwV4OEiV5D47t8inBDHbidFcoXqhb3GwVDho35s55PBp9tAX1oYZ4/Ld6kKm5S7ZLvf
-         Y1wVIvO/qFqfxsxJLNIlts46l0fR+E+f8/8WPTVTjkK2TCA1RO+AladojpZM712fb6z4
-         ZZBA==
+        Tue, 20 Aug 2019 05:40:32 -0400
+Received: by mail-ed1-f68.google.com with SMTP id z51so5550983edz.13;
+        Tue, 20 Aug 2019 02:40:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
-         :message-id:date:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=hTvsFcOmSwggdm7PgrD1IJjN9bzFDClMt1u/HcunehU=;
-        b=YHdP0Mk20scMXAvjTHi0D/zL18Jj559LzemiMqbfVvE/RiegOF8NfFb2q0V8FGEMfY
-         KDQ3LHIPxtuHnRHyPwfFfmRiqUkidXLZ9Eg/EiYDgRilzkSHbnI7QIU9vCq1yp6kderT
-         EBTJ4rhSsMQPnWZ/L5stCF84Bkhyu8cNpajxlL1IEOMKMQhEqZOft++s0st39REpag/P
-         6a1Vb9lPyjqxw3M5R/b3jkgWTYXJODTfMCNnY/JYZeMosOyW9BYaFYKtZf2vVOno01+P
-         QTUVqQLpsgqiyWZj4CQ0sSMXM83ivJpdnVWdzGvBGMIvCHvV2VOy8lQImmAoOvbbxfFR
-         R7PA==
-X-Gm-Message-State: APjAAAX14/7zAaFyPijp16ErF8iOujryzQ6DQOnM60kco3ULizLn83V5
-        Zfgjw0V0APU2PVlbvHj02x0LXg==
-X-Google-Smtp-Source: APXvYqyvVDnssfzkEcE0lLTlxkxh4aA/7WLmrToi/RHVH5+iW6Z7neHR7Z56pl2XgwrgAhL8Oo7eww==
-X-Received: by 2002:a05:651c:153:: with SMTP id c19mr5188412ljd.152.1566293704102;
-        Tue, 20 Aug 2019 02:35:04 -0700 (PDT)
-Received: from [192.168.27.187] ([37.157.136.206])
-        by smtp.googlemail.com with ESMTPSA id d16sm2782440lfi.31.2019.08.20.02.35.02
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 20 Aug 2019 02:35:03 -0700 (PDT)
-Subject: Re: [PATCH 1/2] venus: use on-chip interconnect API
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     Vikash Garodia <vgarodia@codeaurora.org>,
-        Andy Gross <agross@kernel.org>,
-        Aniket Masule <amasule@codeaurora.org>,
-        Linux PM list <linux-pm@vger.kernel.org>
-References: <20190814084701.25455-1-stanimir.varbanov@linaro.org>
- <20190814084701.25455-2-stanimir.varbanov@linaro.org>
-From:   Georgi Djakov <georgi.djakov@linaro.org>
-Openpgp: preference=signencrypt
-Autocrypt: addr=georgi.djakov@linaro.org; prefer-encrypt=mutual; keydata=
- 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
- KEmKjLDvB0pePJkdTw==
-Message-ID: <cc85f55c-3d21-c3b2-6848-e48513263e39@linaro.org>
-Date:   Tue, 20 Aug 2019 12:34:59 +0300
+        bh=k8VTLUSMPpJlERrTrCZkEPzdT4RCL143ZsVe+wpx+3E=;
+        b=smjvbONfMCtWrgRO4aRRdOKmD36mprIOh3qF3Mgr+ca4orIth6foYaBrFCCMGPgdhV
+         jJGArt6MP87/qEPx5brOonKqLmUn1ZL1ePJKlLdonSA8avK6gX7afR9qqvF7bIpjAU98
+         Pwe90Mx9I/w5F+KbZIOhIbNk0N5umRufyT0mF+FQ85El72Bj4Kr/JFK/mGlvitLg6Ir4
+         /sda3K3z0mkX7BUMKSIpouqoZsFb/VXHYhrLjnc/hB+E4iSgt0QIObIT06Sv+Cz+gsHg
+         LpBzeudeSks+UE8uqUEgwA0FthodXi7wpNqVM1+4HwZB1vZYYdCgHhI0hF+/ewW8Wb3p
+         H8iQ==
+X-Gm-Message-State: APjAAAUo9nSSomjc/27GZpYU0wpgCAJWjrhL6Rs2TWxkY7N9BgIDogvp
+        4I1UngZ9ahBs2PFaHlrK2Xo=
+X-Google-Smtp-Source: APXvYqxQfc1FHosZmGZPEXyfGaCgaDxmTrJrsE15LSyDty9Eyjf412FvnXCL93RcBHCUH4RbDKGF6A==
+X-Received: by 2002:aa7:c552:: with SMTP id s18mr17429600edr.0.1566294029934;
+        Tue, 20 Aug 2019 02:40:29 -0700 (PDT)
+Received: from neopili.qtec.com (cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
+        by smtp.gmail.com with ESMTPSA id j37sm3354259ede.23.2019.08.20.02.40.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Aug 2019 02:40:28 -0700 (PDT)
+From:   Ricardo Ribalda Delgado <ribalda@kernel.org>
+To:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Ricardo Ribalda Delgado <ribalda@kernel.org>
+Subject: [PATCH v2 1/3] media: add V4L2_CID_UNIT_CELL_SIZE control
+Date:   Tue, 20 Aug 2019 11:40:25 +0200
+Message-Id: <20190820094027.4144-1-ribalda@kernel.org>
+X-Mailer: git-send-email 2.23.0.rc1
 MIME-Version: 1.0
-In-Reply-To: <20190814084701.25455-2-stanimir.varbanov@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Stan,
+This control returns the unit cell size in nanometres. The struct provides
+the width and the height in separated fields to take into consideration
+asymmetric pixels and/or hardware binning.
+This control is required for automatic calibration of sensors/cameras.
 
-On 8/14/19 11:47, Stanimir Varbanov wrote:
-> This aims to add a requests for bandwidth scaling depending
-> on the resolution and framerate (macroblocks per second). The
-> exact value ff the requested bandwidth is get from a
+Signed-off-by: Ricardo Ribalda Delgado <ribalda@kernel.org>
+---
+ drivers/media/v4l2-core/v4l2-ctrls.c | 11 +++++++++++
+ include/media/v4l2-ctrls.h           |  2 ++
+ include/uapi/linux/v4l2-controls.h   |  3 +++
+ include/uapi/linux/videodev2.h       | 11 +++++++++++
+ 4 files changed, 27 insertions(+)
 
-s/ff/of/
+diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+index cd1ae016706f..ec949453a081 100644
+--- a/drivers/media/v4l2-core/v4l2-ctrls.c
++++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+@@ -978,6 +978,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+ 	case V4L2_CID_AUTO_FOCUS_RANGE:		return "Auto Focus, Range";
+ 	case V4L2_CID_PAN_SPEED:		return "Pan, Speed";
+ 	case V4L2_CID_TILT_SPEED:		return "Tilt, Speed";
++	case V4L2_CID_UNIT_CELL_SIZE:		return "Unit Cell Size";
+ 
+ 	/* FM Radio Modulator controls */
+ 	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+@@ -1357,6 +1358,9 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+ 	case V4L2_CID_MPEG_VIDEO_VP8_FRAME_HEADER:
+ 		*type = V4L2_CTRL_TYPE_VP8_FRAME_HEADER;
+ 		break;
++	case V4L2_CID_UNIT_CELL_SIZE:
++		*type = V4L2_CTRL_TYPE_AREA;
++		break;
+ 	default:
+ 		*type = V4L2_CTRL_TYPE_INTEGER;
+ 		break;
+@@ -1423,6 +1427,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+ 	case V4L2_CID_RDS_RX_TRAFFIC_ANNOUNCEMENT:
+ 	case V4L2_CID_RDS_RX_TRAFFIC_PROGRAM:
+ 	case V4L2_CID_RDS_RX_MUSIC_SPEECH:
++	case V4L2_CID_UNIT_CELL_SIZE:
+ 		*flags |= V4L2_CTRL_FLAG_READ_ONLY;
+ 		break;
+ 	case V4L2_CID_RF_TUNER_PLL_LOCK:
+@@ -1705,6 +1710,9 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+ 	case V4L2_CTRL_TYPE_FWHT_PARAMS:
+ 		break;
+ 
++	case V4L2_CTRL_TYPE_AREA:
++		break;
++
+ 	case V4L2_CTRL_TYPE_H264_SPS:
+ 	case V4L2_CTRL_TYPE_H264_PPS:
+ 	case V4L2_CTRL_TYPE_H264_SCALING_MATRIX:
+@@ -2403,6 +2411,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
+ 	case V4L2_CTRL_TYPE_VP8_FRAME_HEADER:
+ 		elem_size = sizeof(struct v4l2_ctrl_vp8_frame_header);
+ 		break;
++	case V4L2_CTRL_TYPE_AREA:
++		elem_size = sizeof(struct v4l2_area);
++		break;
+ 	default:
+ 		if (type < V4L2_CTRL_COMPOUND_TYPES)
+ 			elem_size = sizeof(s32);
+diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
+index 570ff4b0205a..9a3d11350e67 100644
+--- a/include/media/v4l2-ctrls.h
++++ b/include/media/v4l2-ctrls.h
+@@ -50,6 +50,7 @@ struct poll_table_struct;
+  * @p_h264_slice_params:	Pointer to a struct v4l2_ctrl_h264_slice_params.
+  * @p_h264_decode_params:	Pointer to a struct v4l2_ctrl_h264_decode_params.
+  * @p_vp8_frame_header:		Pointer to a VP8 frame header structure.
++ * @p_area:			Pointer to an area.
+  * @p:				Pointer to a compound value.
+  */
+ union v4l2_ctrl_ptr {
+@@ -68,6 +69,7 @@ union v4l2_ctrl_ptr {
+ 	struct v4l2_ctrl_h264_slice_params *p_h264_slice_params;
+ 	struct v4l2_ctrl_h264_decode_params *p_h264_decode_params;
+ 	struct v4l2_ctrl_vp8_frame_header *p_vp8_frame_header;
++	struct v4l2_area *p_area;
+ 	void *p;
+ };
+ 
+diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+index a2669b79b294..1332eabd27b1 100644
+--- a/include/uapi/linux/v4l2-controls.h
++++ b/include/uapi/linux/v4l2-controls.h
+@@ -912,6 +912,9 @@ enum v4l2_auto_focus_range {
+ #define V4L2_CID_PAN_SPEED			(V4L2_CID_CAMERA_CLASS_BASE+32)
+ #define V4L2_CID_TILT_SPEED			(V4L2_CID_CAMERA_CLASS_BASE+33)
+ 
++#define V4L2_CID_UNIT_CELL_SIZE			(V4L2_CID_CAMERA_CLASS_BASE+34)
++
++
+ /* FM Modulator class control IDs */
+ 
+ #define V4L2_CID_FM_TX_CLASS_BASE		(V4L2_CTRL_CLASS_FM_TX | 0x900)
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 2427bc4d8eba..751e2065ac02 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -422,6 +422,11 @@ struct v4l2_fract {
+ 	__u32   denominator;
+ };
+ 
++struct v4l2_area {
++	__u32   width;
++	__u32   height;
++};
++
+ /**
+   * struct v4l2_capability - Describes V4L2 device caps returned by VIDIOC_QUERYCAP
+   *
+@@ -1718,6 +1723,12 @@ enum v4l2_ctrl_type {
+ 	V4L2_CTRL_TYPE_U8	     = 0x0100,
+ 	V4L2_CTRL_TYPE_U16	     = 0x0101,
+ 	V4L2_CTRL_TYPE_U32	     = 0x0102,
++	/*
++	 * V4L2_CTRL_TYPE_MPEG2_SLICE_PARAMS = 0x0103,
++	 * V4L2_CTRL_TYPE_MPEG2_QUANTIZATION = 0x0104,
++	 * V4L2_CTRL_TYPE_FWHT_PARAMS = 0x0105,
++	 */
++	V4L2_CTRL_TYPE_AREA    = 0x0106,
+ };
+ 
+ /*  Used in the VIDIOC_QUERYCTRL ioctl for querying controls */
+-- 
+2.23.0.rc1
 
-> pre-calculated tables for encoder and decoder.
-> 
-> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-> ---
->  drivers/media/platform/qcom/venus/core.c    | 34 +++++++++++
->  drivers/media/platform/qcom/venus/core.h    | 14 +++++
->  drivers/media/platform/qcom/venus/helpers.c | 67 ++++++++++++++++++++-
->  3 files changed, 114 insertions(+), 1 deletion(-)
-
-It looks like venus can be built-in, so how about the case when venus is
-built-in and the interconnect provider is a module? Maybe add a dependency in
-Kconfig to depend on INTERCONNECT || !INTERCONNECT?
-
-> 
-> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-> index 0acc7576cc58..19cbe9d5d028 100644
-> --- a/drivers/media/platform/qcom/venus/core.c
-> +++ b/drivers/media/platform/qcom/venus/core.c
-> @@ -5,6 +5,7 @@
->   */
->  #include <linux/clk.h>
->  #include <linux/init.h>
-> +#include <linux/interconnect.h>
->  #include <linux/ioctl.h>
->  #include <linux/list.h>
->  #include <linux/module.h>
-> @@ -239,6 +240,14 @@ static int venus_probe(struct platform_device *pdev)
->  	if (IS_ERR(core->base))
->  		return PTR_ERR(core->base);
->  
-> +	core->video_path = of_icc_get(dev, "video-mem");
-> +	if (IS_ERR(core->video_path))
-> +		return PTR_ERR(core->video_path);
-> +
-> +	core->cpucfg_path = of_icc_get(dev, "cpu-cfg");
-> +	if (IS_ERR(core->cpucfg_path))
-> +		return PTR_ERR(core->cpucfg_path);
-> +
->  	core->irq = platform_get_irq(pdev, 0);
->  	if (core->irq < 0)
->  		return core->irq;
-> @@ -273,6 +282,10 @@ static int venus_probe(struct platform_device *pdev)
->  	if (ret)
->  		return ret;
->  
-> +	ret = icc_set_bw(core->cpucfg_path, 0, kbps_to_icc(1000));
-> +	if (ret)
-> +		return ret;
-> +
->  	ret = hfi_create(core, &venus_core_ops);
->  	if (ret)
->  		return ret;
-> @@ -355,6 +368,9 @@ static int venus_remove(struct platform_device *pdev)
->  	pm_runtime_put_sync(dev);
->  	pm_runtime_disable(dev);
->  
-> +	icc_put(core->video_path);
-> +	icc_put(core->cpucfg_path);
-> +
-
-Do you have any plans to scale the bandwidth on suspend/resume too?
-
-Thanks,
-Georgi
