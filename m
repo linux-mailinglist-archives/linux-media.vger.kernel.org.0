@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D89696072
-	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2019 15:41:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B783596127
+	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2019 15:45:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730306AbfHTNlE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Aug 2019 09:41:04 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35954 "EHLO mail.kernel.org"
+        id S1730670AbfHTNmf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Aug 2019 09:42:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37912 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729836AbfHTNlD (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Aug 2019 09:41:03 -0400
+        id S1730240AbfHTNme (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 20 Aug 2019 09:42:34 -0400
 Received: from sasha-vm.mshome.net (unknown [12.236.144.82])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 424812087E;
-        Tue, 20 Aug 2019 13:41:01 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0F3AC2339F;
+        Tue, 20 Aug 2019 13:42:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1566308462;
-        bh=2Tss3GvNiTsZtp+/2r6pA+FChtCCESdrNDU+8ig+4rs=;
+        s=default; t=1566308552;
+        bh=jo2OaElzij4WqL7QcwC9Oto8b3h1wNr7KwstU2QAYl8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=AuHRZgWKNCpwlNPl+3yHLK12YDU5Lq1bVpPF6dy0ddyr6vLvdklBsdwXGhTpkcjpn
-         +tm9rVNY6Sg6tm2Zdk0V/M4Nw+h5oDWMroaNqenWepRuh+uvGShfKQvO/rYVlugyCb
-         6lGiXa1DkhlgAQAnWaHjqQytAfEvLBX6Tvvw0iZs=
+        b=2j5LEWvfnO0NlqziH5wrynotvUOby5uXadZyosVQjM4yUXesDtr92Bd6zFDZRl7d3
+         Ox2UTQuRvThsbzXYi21t59+J2PetBWDT/2deZ4cMZaEpGQy/JGjpBUf/FI4pKH2EH+
+         iug+9cA917Euw9QydjmELgV5uhyBu/CsfmUEIyVk=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
@@ -32,12 +32,12 @@ Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Vinod Koul <vkoul@kernel.org>, Sasha Levin <sashal@kernel.org>,
         dmaengine@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.2 25/44] omap-dma/omap_vout_vrfb: fix off-by-one fi value
-Date:   Tue, 20 Aug 2019 09:40:09 -0400
-Message-Id: <20190820134028.10829-25-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 16/27] omap-dma/omap_vout_vrfb: fix off-by-one fi value
+Date:   Tue, 20 Aug 2019 09:42:02 -0400
+Message-Id: <20190820134213.11279-16-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190820134028.10829-1-sashal@kernel.org>
-References: <20190820134028.10829-1-sashal@kernel.org>
+In-Reply-To: <20190820134213.11279-1-sashal@kernel.org>
+References: <20190820134213.11279-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -84,10 +84,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 3 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/dma/ti/omap-dma.c b/drivers/dma/ti/omap-dma.c
-index ba2489d4ea246..ba27802efcd0a 100644
+index a4a931ddf6f69..aeb9c29e52554 100644
 --- a/drivers/dma/ti/omap-dma.c
 +++ b/drivers/dma/ti/omap-dma.c
-@@ -1234,7 +1234,7 @@ static struct dma_async_tx_descriptor *omap_dma_prep_dma_interleaved(
+@@ -1237,7 +1237,7 @@ static struct dma_async_tx_descriptor *omap_dma_prep_dma_interleaved(
  	if (src_icg) {
  		d->ccr |= CCR_SRC_AMODE_DBLIDX;
  		d->ei = 1;
@@ -96,7 +96,7 @@ index ba2489d4ea246..ba27802efcd0a 100644
  	} else if (xt->src_inc) {
  		d->ccr |= CCR_SRC_AMODE_POSTINC;
  		d->fi = 0;
-@@ -1249,7 +1249,7 @@ static struct dma_async_tx_descriptor *omap_dma_prep_dma_interleaved(
+@@ -1252,7 +1252,7 @@ static struct dma_async_tx_descriptor *omap_dma_prep_dma_interleaved(
  	if (dst_icg) {
  		d->ccr |= CCR_DST_AMODE_DBLIDX;
  		sg->ei = 1;
