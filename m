@@ -2,153 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 060E3955D1
-	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2019 06:07:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E392957C5
+	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2019 09:00:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728414AbfHTEHq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Aug 2019 00:07:46 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:36491 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728206AbfHTEHq (ORCPT
+        id S1729305AbfHTG6o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Aug 2019 02:58:44 -0400
+Received: from mail-qk1-f193.google.com ([209.85.222.193]:42231 "EHLO
+        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726049AbfHTG6o (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Aug 2019 00:07:46 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:d167:d45:dd41:2781])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id zvQshQpx9DqPezvQthqNXr; Tue, 20 Aug 2019 06:07:43 +0200
-Message-ID: <c45c3be9a6f4c33cba8bdf044eb958e4@smtp-cloud8.xs4all.net>
-Date:   Tue, 20 Aug 2019 06:07:42 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-X-CMAE-Envelope: MS4wfF6+7Y37rLV/31qC/aWnOoo47wjbn/RLcO7EAMirZMCWTpjZUCdlu1EMnu4MDS1ZE1XCmxl3oDe2DcZsQRNGU6vzqe1BRoGNW1/rBn2umM+ZXIxwt3+l
- o/YxfmPKuczz6IN4BKdkyWSVCNQgzXwEiYkXRVNV7KMxPgqYN9heyJqjgwH8fXzef7DplpRILrh5o0BCz7Ela0BUmiScmEnga6yZ3IVJwvXb6XSIi2txHdyF
+        Tue, 20 Aug 2019 02:58:44 -0400
+Received: by mail-qk1-f193.google.com with SMTP id 201so3652257qkm.9;
+        Mon, 19 Aug 2019 23:58:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=1ITcxFeUfft3Vy3lqyYXRJNfFN26pjyx3u+nCq4lWiI=;
+        b=V/6LX+OBuZ+VT0e9FNNeFfX6QUGSuswjnano8FkMEcDZCClNMfbnrpW8HBJ52u9+Il
+         aug0/B7XfRUX83BSKhpGHlp18gX9sHTHxAn1gPUMoJc8NOlv+99lR1vI/J35PfLWuJrv
+         o/7rfgVBI64GoDXXYFbZ2hYKerb+bGNmWsILMkGQzJomR9hXF47f21oABdlQrqmrik8G
+         8djfPwUKKLbkZpZd8/Y8nBpmFKMQ4zLUrcwzB+6TmuAuVkgFd/QAFWartId9BgF4UoaB
+         uqU63mDdArinrHKKpwPM5IWA5gP1DqHJnAhrwxyc1yvMoKXzKIpGe7y+AZ7Zfk5WnvaH
+         vb/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=1ITcxFeUfft3Vy3lqyYXRJNfFN26pjyx3u+nCq4lWiI=;
+        b=O8mA6b6jfDMEJ/VSTG2N9W2rsO0kTPTtJN1haG+2Reow6duuDRfk9ENG683gogcmlJ
+         AHPxOSSlF/4Be8rGYhryRF8bo+uZ5oWcKlN3RLCQyj6HLpkTh3hXjmjAqtw6Q35tHdol
+         7EjD2gy/B5c4sgNZJDtsIN6EUeuWmZtEBNxhO0RV0McLdWxkpZBH7D/BU0XX4xlgL9fo
+         DupNGoYqLwnR9Rvt25KGx7hyxPYm+fsB6JxsUM1mom/IA1gxQQft693h+9ClxLmSXBQt
+         30brnMIgipkgKjCGThoC8mh32J1ADsPVzJRAn8w9JnHlKt2b1gbdM+Xo0txEiCMUfKtl
+         m7Xw==
+X-Gm-Message-State: APjAAAUsc8NsEdBWSXGls+I7Yb09vbrgfYfJvgv6s2Kc9xY//7BfO6I9
+        vs319EGeQ1LFoZLrBi5mW5RXQm/rmiXNjdpfnaU=
+X-Google-Smtp-Source: APXvYqzfYV+/el5Zyv8lynvbgYzKRSUamEOHTPvdnWw2EyExZ+yIMr1iJ1b0XGHwbEBaLlhyhZ3QbekCSvAotE6alTY=
+X-Received: by 2002:ae9:ea1a:: with SMTP id f26mr15938828qkg.13.1566284323678;
+ Mon, 19 Aug 2019 23:58:43 -0700 (PDT)
+MIME-Version: 1.0
+References: <CALaQ_hruPmgnE5yh_MJLLZ_7sPNEnzX8H-WfR=fBvcfEzfG9Fg@mail.gmail.com>
+ <e616d881-25e2-c295-2a98-b51c8cbcbc81@nextdimension.cc> <CALaQ_hqEZ-kco1esyB4mk0z9Q9Xt1XZsgYKR7gSdF7COERKoOA@mail.gmail.com>
+ <eada38a3-258b-52ff-94a7-b8877899267e@kernel.org> <da6a1b65-cbe5-4e5e-d61c-43644a23da34@kernel.org>
+In-Reply-To: <da6a1b65-cbe5-4e5e-d61c-43644a23da34@kernel.org>
+From:   Nathan Royce <nroycea+kernel@gmail.com>
+Date:   Tue, 20 Aug 2019 01:58:35 -0500
+Message-ID: <CALaQ_hrPZ7LMBvuHnCLayxHoVFi5U0gtxF-33-ehR=phRs3D5A@mail.gmail.com>
+Subject: Re: Kernel 5.2.8 - au0828 - Tuner Is Busy
+To:     shuah <shuah@kernel.org>
+Cc:     Brad Love <brad@nextdimension.cc>, sean@mess.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+While your mention of quirks-table.h certainly had possibilities, I'm
+afraid adding the "AU0828_DEVICE(0x05e1, 0x0400, "Hauppauge",
+"Woodbury")," entry for my tuner did not make any difference regarding
+the "Tuner is busy. Error -19" message.
 
-Results of the daily build of media_tree:
+I don't know if this means anything, but I see
+https://patchwork.kernel.org/patch/97726/ from 2010 which contains
+changes for the 0x0400 model. I guess it never got pulled in.
 
-date:			Tue Aug 20 05:00:10 CEST 2019
-media-tree git hash:	d4e0f82ac840bf3d16b25d60f261b429603138a9
-media_build git hash:	301385c12da9b80ecb9c127d4a7ca9d4bc8ba781
-v4l-utils git hash:	a49d81777d8faaeb63da395135f93df36910cf72
-edid-decode git hash:	0932deee88928f110b5a74851c173ad895f75863
-gcc version:		i686-linux-gcc (GCC) 8.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: e9d091e930792735d129a821a09b7c85311d055f
-host hardware:		x86_64
-host os:		4.19.0-4-amd64
+Really, it's fine for me just to hang back at v5.1 for a year or two
+until ATSC 3.0 USB tuners come out at a reasonable price.
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3-rc1-i686: OK
-linux-5.3-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2327, Succeeded: 2327, Failed: 0, Warnings: 0
-sparse: OK
-smatch: OK
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+On Mon, Aug 19, 2019 at 4:44 PM shuah <shuah@kernel.org> wrote:
+> You said you make changes to the
+>
+> "Whenever I update my kernel, I edit the
+> ./drivers/media/usb/au0828/au0828-cards.c file adding an entry for my
+> 0x400 device.
+> I've been doing it for years and it's been working fine... until now..."
+>
+> Please send me the changes you make to the file. I see the following
+> WOODBURY devices. I am assuming you add 0x400 entry.
+>
+> { USB_DEVICE(0x05e1, 0x0480),
+>                  .driver_info = AU0828_BOARD_HAUPPAUGE_WOODBURY },
+>          { USB_DEVICE(0x2040, 0x8200),
+>                  .driver_info = AU0828_BOARD_HAUPPAUGE_WOODBURY },
+>
+>
+> There is another table in sound/usb/quirks-table.h for AU0828
+> devices. In addition to 812658d88d26, 66354f18fe5f makes change
+> to this table to add a flag. I see two entries in that table:
+>
+> AU0828_DEVICE(0x05e1, 0x0480, "Hauppauge", "Woodbury"),
+> AU0828_DEVICE(0x2040, 0x8200, "Hauppauge", "Woodbury"),
+>
+> Since these drivers are now coupled doing resource sharing,
+> could it be that with your change to au02828 device table,
+> your changes are bow incomplete.
+>
+> I don't have a Woodbury device though. This is something to
+> try.
+>
+> Did you consider sending patch to add your device variant,
+> so you don't have to keep making this change whenever you
+> go to a new kernel?
+>
+> thanks,
+> -- Shuah
