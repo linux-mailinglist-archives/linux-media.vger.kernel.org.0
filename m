@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B87EE95D3B
-	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2019 13:26:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7ED5895D45
+	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2019 13:26:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729761AbfHTLYq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Aug 2019 07:24:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40670 "EHLO mail.kernel.org"
+        id S1729846AbfHTLY5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Aug 2019 07:24:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41048 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729421AbfHTLYp (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Aug 2019 07:24:45 -0400
+        id S1729814AbfHTLYz (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 20 Aug 2019 07:24:55 -0400
 Received: from localhost (lfbn-1-17395-211.w86-250.abo.wanadoo.fr [86.250.200.211])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C70B422CF9;
-        Tue, 20 Aug 2019 11:24:43 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 41D1022D6D;
+        Tue, 20 Aug 2019 11:24:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1566300284;
-        bh=KuPYgScnsq8NVJ17LsXSj/9k1U4/rG3n9SuWLCCohdc=;
+        s=default; t=1566300294;
+        bh=X1W8O7WR9KJI5jwenMWm+UPsfIL6Rn9a3Bmw4eKTkjU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=wb67Z2seCCUDAlbUWXeWCDpz7pLI3HW1uAQMwpB/JO2fg//kwMqnlneiIFAjYUtca
-         /+k4UU3LtzMs2WvS7Mi6S/mTTOUgrJxrm30AWABxEV2WqWIYHPDm2xBLfRMu9Luj72
-         /gj0o0dbaqBdmPXbUl5bb5q4v6JZ21JAVRJxu0Ac=
+        b=gxBPJv7J7nQUWgzP7bwlSuZioGh03+7UEx0QSyveMtgbw1/wiMjiqwWw/JL0HCdC2
+         JCSy0+N/wWtMOGEauPuPNPpgO6oVamTOx3in7+ug/tP0KG8T5me5CtKcbov0hlr4sv
+         enOzhxBDu7dogAEgwsJuj5Q86dCGe3MPM6BZLy8U=
 From:   Maxime Ripard <mripard@kernel.org>
 To:     Hans Verkuil <hans.verkuil@cisco.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -34,11 +34,10 @@ Cc:     Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         devicetree@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>,
         Rob Herring <robh+dt@kernel.org>,
         Frank Rowand <frowand.list@gmail.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Rob Herring <robh@kernel.org>
-Subject: [PATCH v7 1/5] dt-bindings: media: Add Allwinner A10 CSI binding
-Date:   Tue, 20 Aug 2019 13:24:32 +0200
-Message-Id: <f490b35e62c5fd15174b5241ce1653e991c8fc9e.1566300265.git-series.maxime.ripard@bootlin.com>
+        Maxime Ripard <maxime.ripard@bootlin.com>
+Subject: [PATCH v7 2/5] media: sunxi: Refactor the Makefile and Kconfig
+Date:   Tue, 20 Aug 2019 13:24:33 +0200
+Message-Id: <1345e5d1beb34549399bd2c2dc30adb52cda2b01.1566300265.git-series.maxime.ripard@bootlin.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.b695c63cf668192aff5574a3005d483c601e77f6.1566300265.git-series.maxime.ripard@bootlin.com>
 References: <cover.b695c63cf668192aff5574a3005d483c601e77f6.1566300265.git-series.maxime.ripard@bootlin.com>
@@ -51,131 +50,57 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Maxime Ripard <maxime.ripard@bootlin.com>
 
-The Allwinner A10 CMOS Sensor Interface is a camera capture interface also
-used in later (A10s, A13, A20, R8 and GR8) SoCs.
+The Makefile and Kconfig for the sun6i CSI driver are included in the main
+Makefile / KConfig file. Since we're going to add a new CSI driver for an
+older chip, and the Cedrus driver eventually, it makes more sense to put
+those in our directory.
 
-On some SoCs, like the A10, there's multiple instances of that controller,
-with one instance supporting more channels and having an ISP.
-
-Reviewed-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Maxime Ripard <maxime.ripard@bootlin.com>
 ---
- Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml | 107 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 107 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml
+ drivers/media/platform/Kconfig        | 2 +-
+ drivers/media/platform/Makefile       | 2 +-
+ drivers/media/platform/sunxi/Kconfig  | 1 +
+ drivers/media/platform/sunxi/Makefile | 1 +
+ 4 files changed, 4 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/media/platform/sunxi/Kconfig
+ create mode 100644 drivers/media/platform/sunxi/Makefile
 
-diff --git a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml
+diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+index 89555f9a813f..2fda8036d11d 100644
+--- a/drivers/media/platform/Kconfig
++++ b/drivers/media/platform/Kconfig
+@@ -146,7 +146,7 @@ source "drivers/media/platform/am437x/Kconfig"
+ source "drivers/media/platform/xilinx/Kconfig"
+ source "drivers/media/platform/rcar-vin/Kconfig"
+ source "drivers/media/platform/atmel/Kconfig"
+-source "drivers/media/platform/sunxi/sun6i-csi/Kconfig"
++source "drivers/media/platform/sunxi/Kconfig"
+ 
+ config VIDEO_TI_CAL
+ 	tristate "TI CAL (Camera Adaptation Layer) driver"
+diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
+index 7cbbd925124c..6ee7eb0d36f4 100644
+--- a/drivers/media/platform/Makefile
++++ b/drivers/media/platform/Makefile
+@@ -100,4 +100,4 @@ obj-y					+= meson/
+ 
+ obj-y					+= cros-ec-cec/
+ 
+-obj-$(CONFIG_VIDEO_SUN6I_CSI)		+= sunxi/sun6i-csi/
++obj-y					+= sunxi/
+diff --git a/drivers/media/platform/sunxi/Kconfig b/drivers/media/platform/sunxi/Kconfig
 new file mode 100644
-index 000000000000..9000bca344f9
+index 000000000000..1b6e89cb78b2
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml
-@@ -0,0 +1,107 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/arm/allwinner,sun4i-a10-csi.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Allwinner A10 CMOS Sensor Interface (CSI) Device Tree Bindings
-+
-+maintainers:
-+  - Chen-Yu Tsai <wens@csie.org>
-+  - Maxime Ripard <maxime.ripard@bootlin.com>
-+
-+description: |-
-+  The Allwinner A10 and later has a CMOS Sensor Interface to retrieve
-+  frames from a parallel or BT656 sensor.
-+
-+properties:
-+  compatible:
-+    const: allwinner,sun7i-a20-csi0
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  clocks:
-+    items:
-+      - description: The CSI interface clock
-+      - description: The CSI module clock
-+      - description: The CSI ISP clock
-+      - description: The CSI DRAM clock
-+
-+  clock-names:
-+    items:
-+      - const: bus
-+      - const: mod
-+      - const: isp
-+      - const: ram
-+
-+  resets:
-+    maxItems: 1
-+
-+  port:
-+    type: object
-+    additionalProperties: false
-+
-+    properties:
-+      endpoint:
-+        properties:
-+          bus-width:
-+            const: 8
-+            description: Number of data lines actively used.
-+
-+          data-active: true
-+          hsync-active: true
-+          pclk-sample: true
-+          remote-endpoint: true
-+          vsync-active: true
-+
-+        required:
-+          - bus-width
-+          - data-active
-+          - hsync-active
-+          - pclk-sample
-+          - remote-endpoint
-+          - vsync-active
-+
-+    required:
-+      - endpoint
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - clocks
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/clock/sun7i-a20-ccu.h>
-+    #include <dt-bindings/reset/sun4i-a10-ccu.h>
-+
-+    csi0: csi@1c09000 {
-+        compatible = "allwinner,sun7i-a20-csi0";
-+        reg = <0x01c09000 0x1000>;
-+        interrupts = <GIC_SPI 42 IRQ_TYPE_LEVEL_HIGH>;
-+        clocks = <&ccu CLK_AHB_CSI0>, <&ccu CLK_CSI0>,
-+                 <&ccu CLK_CSI_SCLK>, <&ccu CLK_DRAM_CSI0>;
-+        clock-names = "bus", "mod", "isp", "ram";
-+        resets = <&ccu RST_CSI0>;
-+
-+        port {
-+            csi_from_ov5640: endpoint {
-+                remote-endpoint = <&ov5640_to_csi>;
-+                bus-width = <8>;
-+                hsync-active = <1>; /* Active high */
-+                vsync-active = <0>; /* Active low */
-+                data-active = <1>;  /* Active high */
-+                pclk-sample = <1>;  /* Rising */
-+            };
-+        };
-+    };
-+
-+...
++++ b/drivers/media/platform/sunxi/Kconfig
+@@ -0,0 +1 @@
++source "drivers/media/platform/sunxi/sun6i-csi/Kconfig"
+diff --git a/drivers/media/platform/sunxi/Makefile b/drivers/media/platform/sunxi/Makefile
+new file mode 100644
+index 000000000000..8d06f98500ee
+--- /dev/null
++++ b/drivers/media/platform/sunxi/Makefile
+@@ -0,0 +1 @@
++obj-y		+= sun6i-csi/
 -- 
 git-series 0.9.1
