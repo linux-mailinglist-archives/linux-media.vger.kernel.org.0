@@ -2,344 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 947D495934
-	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2019 10:15:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2500B9593C
+	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2019 10:17:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729384AbfHTIP3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Aug 2019 04:15:29 -0400
-Received: from gofer.mess.org ([88.97.38.141]:52907 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729150AbfHTIP2 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Aug 2019 04:15:28 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 1ECE861074; Tue, 20 Aug 2019 09:15:26 +0100 (BST)
-Date:   Tue, 20 Aug 2019 09:15:26 +0100
-From:   Sean Young <sean@mess.org>
-To:     Maxime Ripard <mripard@kernel.org>
-Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-        Maxime Ripard <maxime.ripard@bootlin.com>,
-        Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v2 1/2] dt-bindings: media: Add YAML schemas for the
- generic RC bindings
-Message-ID: <20190820081525.celdosrgcvwoq6e7@gofer.mess.org>
-References: <20190819182619.29065-1-mripard@kernel.org>
+        id S1729194AbfHTIRZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Aug 2019 04:17:25 -0400
+Received: from mail-ua1-f41.google.com ([209.85.222.41]:40289 "EHLO
+        mail-ua1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729150AbfHTIRZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 20 Aug 2019 04:17:25 -0400
+Received: by mail-ua1-f41.google.com with SMTP id s25so1654414uap.7
+        for <linux-media@vger.kernel.org>; Tue, 20 Aug 2019 01:17:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=+f8jhVfHfz76rOIPhhM4sDOIcZeVMCrTUwe5qRly1zg=;
+        b=Fk8iVrxSxV3wFcTg21RLQ4ZuzVesgmx7H3EKna2I982B+kP+w1KITslqc7awh0E39s
+         hqkhHcMvrQfjpGd8ulnkcdug492ZQD1R+x/Yx8l+fNDaPh9pH/qp9e43M19cSlySCzRF
+         GcAAkZK51N3h4YSvTOF3Bp9Nh92ZEmTnqQamE59V83Be8gqwYCSshhz8r5dQ2FbiaucW
+         IGc8RQEYPXt+ETfN1lQTeNToWQaksUdzRBClhLfTZBkQSUaV3DmHCHrwnvwjBmXl8vmr
+         ei+fa+1wCchLpIU5NU8qollxkaN+AAv8ztl6G4ASmLst9qfJOBDCEz82D3h0WapMw3kg
+         200A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=+f8jhVfHfz76rOIPhhM4sDOIcZeVMCrTUwe5qRly1zg=;
+        b=s+rouKpFep+yhpvxUinOyXQt5oKCL8cEh4OmM8aBPwB97uk1oqk2/WDb5h7oxO5tgr
+         GC2yDq0gUyH5lSBdqJao1NqshD0fH0elMtx1uAfTUGTdhj7yqI1UOzC2v/+5nrMPF+r6
+         N/dVu5FWSfKQaxbXnvxkEXJK7XVb15Frq1kIqNM+cPT3qRZd1VRtOGfk4gzgZECgnEOC
+         kpFfEfdBX56WGOaExH4tSahgOjs6TOYNouxjGbMEHjVrrAac4F4AX/VlCbSV27nviVwD
+         cUGPRkteKpRea4EhPNpxKrMJC/WTi8bgQCol8vNp0On9p4NM6GMfdlvd5d6IjeeZqs8D
+         Z31g==
+X-Gm-Message-State: APjAAAXTmr9SZJd+S/3CkhZR5TKp0d+89EIlVHYViuiWye/nfVgZOIyi
+        /pB453N88EQwX8kZKKv5TqlXfK/xZl+G/1kdC62gy04c
+X-Google-Smtp-Source: APXvYqynnaq2CrEg0RbkAmxWNza/rtKphL+6/2e95I4jnEyTy9EFhmlnNRQHVRBRFHZH7h6JR1JceGpOF5fKOgWDq8o=
+X-Received: by 2002:ab0:7198:: with SMTP id l24mr380785uao.137.1566289043742;
+ Tue, 20 Aug 2019 01:17:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190819182619.29065-1-mripard@kernel.org>
-User-Agent: NeoMutt/20170113 (1.7.2)
+From:   Sergey Zakharchenko <doublef.mobile@gmail.com>
+Date:   Tue, 20 Aug 2019 08:17:12 +0000
+Message-ID: <CADYCxoPj_aUUjh0WhA-op0+z=1q+HxC0LbYwRFFMeFrm7qEAOQ@mail.gmail.com>
+Subject: [uvc] Frames smaller than dwMaxVideoFrameSize
+To:     linux-media@vger.kernel.org
+Cc:     Martin Bodo <martin@digital-loggers.com>,
+        "Logan, Peter" <peter.logan@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Aug 19, 2019 at 08:26:18PM +0200, Maxime Ripard wrote:
-> From: Maxime Ripard <maxime.ripard@bootlin.com>
-> 
-> The RC controllers have a bunch of generic properties that are needed in a
-> device tree. Add a YAML schemas for those.
-> 
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> Signed-off-by: Maxime Ripard <maxime.ripard@bootlin.com>
+Hello list,
 
-For the series (both 1/2 and 2.2):
+We're seeing problems using cameras based on Geo GC6500 in Linux
+kernels 4.19+ in raw mode (as opposed to H.264 mode, to avoid IP
+issues). We have traced that to commit
+95f5cbff90b9e4324839a5c28ee3153a3c9921a5 "media: uvcvideo: Also
+validate buffers in BULK mode". The uvc_video_validate_buffer()
+equality check fails (e.g. for 1920x1080 NV12 dwMaxVideoFrameSize is
+4147200, bytesused is 3110400) and frames aren't shipped to userspace.
 
-Reviewed-by: Sean Young <sean@mess.org>
+Putting frame size reporting/calculations aside for now, I'm curious
+about the rationale of the whole uvc_video_validate_buffer() check for
+size equality in general. The UVC 1.1 spec, and the variable name, say
+"maximum", and I haven't found a specific statement that frames must
+be exactly that size. The spec further implies that frames can indeed
+legally be smaller by saying "The sender is required to toggle the
+Frame ID at least every dwMaxVideoFrameSize", note how it says "at
+least". The check doesn't seem legitimate, at least at a first glance.
+Could you provide some background? If you wanted an heuristic to
+detect broken/incomplete frames, there might be other ways to do that.
 
-How's tree should this go through?
+The raw video stream is otherwise (e.g. kernels before 4.19, or after
+but with the equality check removed) processed just fine with e.g.
+gstreamer FWIW, because the frames aren't, indeed, broken.
 
-Thanks
-Sean
+Interested parties CCd.
 
-> 
-> ---
-> 
-> Changes from v1:
->   - Update the list of valid RC map name
-> ---
->  .../devicetree/bindings/media/rc.txt          | 118 +-------------
->  .../devicetree/bindings/media/rc.yaml         | 145 ++++++++++++++++++
->  2 files changed, 146 insertions(+), 117 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/media/rc.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/rc.txt b/Documentation/devicetree/bindings/media/rc.txt
-> index d3e7a012bfda..be629f7fa77e 100644
-> --- a/Documentation/devicetree/bindings/media/rc.txt
-> +++ b/Documentation/devicetree/bindings/media/rc.txt
-> @@ -1,117 +1 @@
-> -The following properties are common to the infrared remote controllers:
-> -
-> -- linux,rc-map-name: string, specifies the scancode/key mapping table
-> -  defined in-kernel for the remote controller. Support values are:
-> -  * "rc-adstech-dvb-t-pci"
-> -  * "rc-alink-dtu-m"
-> -  * "rc-anysee"
-> -  * "rc-apac-viewcomp"
-> -  * "rc-asus-pc39"
-> -  * "rc-asus-ps3-100"
-> -  * "rc-ati-tv-wonder-hd-600"
-> -  * "rc-ati-x10"
-> -  * "rc-avermedia-a16d"
-> -  * "rc-avermedia-cardbus"
-> -  * "rc-avermedia-dvbt"
-> -  * "rc-avermedia-m135a"
-> -  * "rc-avermedia-m733a-rm-k6"
-> -  * "rc-avermedia-rm-ks"
-> -  * "rc-avermedia"
-> -  * "rc-avertv-303"
-> -  * "rc-azurewave-ad-tu700"
-> -  * "rc-behold-columbus"
-> -  * "rc-behold"
-> -  * "rc-budget-ci-old"
-> -  * "rc-cec"
-> -  * "rc-cinergy-1400"
-> -  * "rc-cinergy"
-> -  * "rc-delock-61959"
-> -  * "rc-dib0700-nec"
-> -  * "rc-dib0700-rc5"
-> -  * "rc-digitalnow-tinytwin"
-> -  * "rc-digittrade"
-> -  * "rc-dm1105-nec"
-> -  * "rc-dntv-live-dvbt-pro"
-> -  * "rc-dntv-live-dvb-t"
-> -  * "rc-dtt200u"
-> -  * "rc-dvbsky"
-> -  * "rc-empty"
-> -  * "rc-em-terratec"
-> -  * "rc-encore-enltv2"
-> -  * "rc-encore-enltv-fm53"
-> -  * "rc-encore-enltv"
-> -  * "rc-evga-indtube"
-> -  * "rc-eztv"
-> -  * "rc-flydvb"
-> -  * "rc-flyvideo"
-> -  * "rc-fusionhdtv-mce"
-> -  * "rc-gadmei-rm008z"
-> -  * "rc-geekbox"
-> -  * "rc-genius-tvgo-a11mce"
-> -  * "rc-gotview7135"
-> -  * "rc-hauppauge"
-> -  * "rc-imon-mce"
-> -  * "rc-imon-pad"
-> -  * "rc-iodata-bctv7e"
-> -  * "rc-it913x-v1"
-> -  * "rc-it913x-v2"
-> -  * "rc-kaiomy"
-> -  * "rc-kworld-315u"
-> -  * "rc-kworld-pc150u"
-> -  * "rc-kworld-plus-tv-analog"
-> -  * "rc-leadtek-y04g0051"
-> -  * "rc-lirc"
-> -  * "rc-lme2510"
-> -  * "rc-manli"
-> -  * "rc-medion-x10"
-> -  * "rc-medion-x10-digitainer"
-> -  * "rc-medion-x10-or2x"
-> -  * "rc-msi-digivox-ii"
-> -  * "rc-msi-digivox-iii"
-> -  * "rc-msi-tvanywhere-plus"
-> -  * "rc-msi-tvanywhere"
-> -  * "rc-nebula"
-> -  * "rc-nec-terratec-cinergy-xs"
-> -  * "rc-norwood"
-> -  * "rc-npgtech"
-> -  * "rc-pctv-sedna"
-> -  * "rc-pinnacle-color"
-> -  * "rc-pinnacle-grey"
-> -  * "rc-pinnacle-pctv-hd"
-> -  * "rc-pixelview-new"
-> -  * "rc-pixelview"
-> -  * "rc-pixelview-002t"
-> -  * "rc-pixelview-mk12"
-> -  * "rc-powercolor-real-angel"
-> -  * "rc-proteus-2309"
-> -  * "rc-purpletv"
-> -  * "rc-pv951"
-> -  * "rc-hauppauge"
-> -  * "rc-rc5-tv"
-> -  * "rc-rc6-mce"
-> -  * "rc-real-audio-220-32-keys"
-> -  * "rc-reddo"
-> -  * "rc-snapstream-firefly"
-> -  * "rc-streamzap"
-> -  * "rc-tbs-nec"
-> -  * "rc-technisat-ts35"
-> -  * "rc-technisat-usb2"
-> -  * "rc-terratec-cinergy-c-pci"
-> -  * "rc-terratec-cinergy-s2-hd"
-> -  * "rc-terratec-cinergy-xs"
-> -  * "rc-terratec-slim"
-> -  * "rc-terratec-slim-2"
-> -  * "rc-tevii-nec"
-> -  * "rc-tivo"
-> -  * "rc-total-media-in-hand"
-> -  * "rc-total-media-in-hand-02"
-> -  * "rc-trekstor"
-> -  * "rc-tt-1500"
-> -  * "rc-twinhan-dtv-cab-ci"
-> -  * "rc-twinhan1027"
-> -  * "rc-videomate-k100"
-> -  * "rc-videomate-s350"
-> -  * "rc-videomate-tv-pvr"
-> -  * "rc-winfast"
-> -  * "rc-winfast-usbii-deluxe"
-> -  * "rc-su3000"
-> +This file has been moved to rc.yaml.
-> diff --git a/Documentation/devicetree/bindings/media/rc.yaml b/Documentation/devicetree/bindings/media/rc.yaml
-> new file mode 100644
-> index 000000000000..3d5c154fd230
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/rc.yaml
-> @@ -0,0 +1,145 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/rc.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Generic Infrared Remote Controller Device Tree Bindings
-> +
-> +maintainers:
-> +  - Mauro Carvalho Chehab <mchehab@kernel.org>
-> +  - Sean Young <sean@mess.org>
-> +
-> +properties:
-> +  $nodename:
-> +    pattern: "^ir(@[a-f0-9]+)?$"
-> +
-> +  linux,rc-map-name:
-> +    description:
-> +      Specifies the scancode/key mapping table defined in-kernel for
-> +      the remote controller.
-> +    allOf:
-> +      - $ref: '/schemas/types.yaml#/definitions/string'
-> +      - enum:
-> +          - rc-adstech-dvb-t-pci
-> +          - rc-alink-dtu-m
-> +          - rc-anysee
-> +          - rc-apac-viewcomp
-> +          - rc-astrometa-t2hybrid
-> +          - rc-asus-pc39
-> +          - rc-asus-ps3-100
-> +          - rc-ati-tv-wonder-hd-600
-> +          - rc-ati-x10
-> +          - rc-avermedia
-> +          - rc-avermedia-a16d
-> +          - rc-avermedia-cardbus
-> +          - rc-avermedia-dvbt
-> +          - rc-avermedia-m135a
-> +          - rc-avermedia-m733a-rm-k6
-> +          - rc-avermedia-rm-ks
-> +          - rc-avertv-303
-> +          - rc-azurewave-ad-tu700
-> +          - rc-behold
-> +          - rc-behold-columbus
-> +          - rc-budget-ci-old
-> +          - rc-cec
-> +          - rc-cinergy
-> +          - rc-cinergy-1400
-> +          - rc-d680-dmb
-> +          - rc-delock-61959
-> +          - rc-dib0700-nec
-> +          - rc-dib0700-rc5
-> +          - rc-digitalnow-tinytwin
-> +          - rc-digittrade
-> +          - rc-dm1105-nec
-> +          - rc-dntv-live-dvb-t
-> +          - rc-dntv-live-dvbt-pro
-> +          - rc-dtt200u
-> +          - rc-dvbsky
-> +          - rc-dvico-mce
-> +          - rc-dvico-portable
-> +          - rc-em-terratec
-> +          - rc-empty
-> +          - rc-encore-enltv
-> +          - rc-encore-enltv-fm53
-> +          - rc-encore-enltv2
-> +          - rc-evga-indtube
-> +          - rc-eztv
-> +          - rc-flydvb
-> +          - rc-flyvideo
-> +          - rc-fusionhdtv-mce
-> +          - rc-gadmei-rm008z
-> +          - rc-geekbox
-> +          - rc-genius-tvgo-a11mce
-> +          - rc-gotview7135
-> +          - rc-hauppauge
-> +          - rc-hauppauge
-> +          - rc-hisi-poplar
-> +          - rc-hisi-tv-demo
-> +          - rc-imon-mce
-> +          - rc-imon-pad
-> +          - rc-imon-rsc
-> +          - rc-iodata-bctv7e
-> +          - rc-it913x-v1
-> +          - rc-it913x-v2
-> +          - rc-kaiomy
-> +          - rc-kworld-315u
-> +          - rc-kworld-pc150u
-> +          - rc-kworld-plus-tv-analog
-> +          - rc-leadtek-y04g0051
-> +          - rc-lme2510
-> +          - rc-manli
-> +          - rc-medion-x10
-> +          - rc-medion-x10-digitainer
-> +          - rc-medion-x10-or2x
-> +          - rc-msi-digivox-ii
-> +          - rc-msi-digivox-iii
-> +          - rc-msi-tvanywhere
-> +          - rc-msi-tvanywhere-plus
-> +          - rc-nebula
-> +          - rc-nec-terratec-cinergy-xs
-> +          - rc-norwood
-> +          - rc-npgtech
-> +          - rc-pctv-sedna
-> +          - rc-pinnacle-color
-> +          - rc-pinnacle-grey
-> +          - rc-pinnacle-pctv-hd
-> +          - rc-pixelview
-> +          - rc-pixelview-002t
-> +          - rc-pixelview-mk12
-> +          - rc-pixelview-new
-> +          - rc-powercolor-real-angel
-> +          - rc-proteus-2309
-> +          - rc-purpletv
-> +          - rc-pv951
-> +          - rc-rc5-tv
-> +          - rc-rc6-mce
-> +          - rc-real-audio-220-32-keys
-> +          - rc-reddo
-> +          - rc-snapstream-firefly
-> +          - rc-streamzap
-> +          - rc-su3000
-> +          - rc-tango
-> +          - rc-tbs-nec
-> +          - rc-technisat-ts35
-> +          - rc-technisat-usb2
-> +          - rc-terratec-cinergy-c-pci
-> +          - rc-terratec-cinergy-s2-hd
-> +          - rc-terratec-cinergy-xs
-> +          - rc-terratec-slim
-> +          - rc-terratec-slim-2
-> +          - rc-tevii-nec
-> +          - rc-tivo
-> +          - rc-total-media-in-hand
-> +          - rc-total-media-in-hand-02
-> +          - rc-trekstor
-> +          - rc-tt-1500
-> +          - rc-twinhan-dtv-cab-ci
-> +          - rc-twinhan1027
-> +          - rc-videomate-k100
-> +          - rc-videomate-s350
-> +          - rc-videomate-tv-pvr
-> +          - rc-winfast
-> +          - rc-winfast-usbii-deluxe
-> +          - rc-xbox-dvd
-> +          - rc-zx-irdec
-> -- 
-> 2.21.0
+Best regards,
+
+-- 
+DoubleF
+
+P.S. In case you're wondering, 3110400 * 8 bits= 1920*1080 * 8 bits
+[8-bit Y values] + (1920*1080)/(2*2) * 16 bits [16-bit chromatic pair
+values (pairs of 8-bit values) subsampled at 2x2]. Judging by NV12
+format description, this looks the way it should be.
