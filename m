@@ -2,193 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 024D395166
-	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2019 01:05:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 060E3955D1
+	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2019 06:07:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728842AbfHSXDr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Aug 2019 19:03:47 -0400
-Received: from mail-qk1-f196.google.com ([209.85.222.196]:33382 "EHLO
-        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728821AbfHSXDo (ORCPT
+        id S1728414AbfHTEHq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Aug 2019 00:07:46 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:36491 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728206AbfHTEHq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Aug 2019 19:03:44 -0400
-Received: by mail-qk1-f196.google.com with SMTP id w18so2946744qki.0;
-        Mon, 19 Aug 2019 16:03:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=A+fEhXc75dNFQQgm3SZ13Enj8uQKmSxtoS1Lo3ZXneE=;
-        b=rz9uIxSnoZKv07hkZPuqNrU1Te5MlxtOHUtRy0Sv4q0vbLAJVcS8msAO0MYHyQhCTT
-         2jp7Rf4JGKZTyvdbnGRxPxYBjwdgU7n7aMySM8xlbA8eTuIphBESaL7P3GN5+yNAo+Tz
-         HVd5fD81tL93m5nXwKwrQQOdKOmT0bmMeRvx0+gOWrz6POEpsUKQsXMCtm0pZGvXYYHd
-         ffLkPr5FwRnn/FpU9MbX0Lt33UpSVS6JUpI4e6t2NvRX0RaAD+Zl/60e6f1euW83QVuP
-         3k/+hyqKTuuLTViu5TphXpEu8akNSNaQE2yc7USUW0I0mJLZD0wybO4D6+5l9xT65KUj
-         Tjkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=A+fEhXc75dNFQQgm3SZ13Enj8uQKmSxtoS1Lo3ZXneE=;
-        b=c0/KXd4fpFUmG5nvoZbBT9lkTsyQmPEs+s0Z9oGQGuVvD6uImaZvYP1xXBaqBQMF73
-         deHfAsUYsuRmv84B/gb1Jl8wcpKP7e2qMS75goTj+m3Yjm8sP2ZgtPl2HPqcWaXkiiqP
-         +6eOMsd5g0ZYowqY9ro4hL04v5/sluNq2625lSe0MMHtANLjUmrWZHzthEA4hHP4xH2N
-         r+30npEM9AtzwSarkm4McRi8X/GhOSdo0jrLFsxejJgOR00S0QwDWwP0MEA8QLG8Y08B
-         s1tdzMdJDzpmuli0GmWICMPLbyqsJBtTRc1mX9bLy/I57LFuIYKqkeFRfe90lfUOnCtO
-         lWkw==
-X-Gm-Message-State: APjAAAUPkSk5bqqL7K51h7eFu8+GA5Xp1tomBSpt0bT42Qip55YX7hCX
-        kxwTrYRw0NmMwXFDYpQxinmF9eTSraYUIv8Ytsh3meE69l4=
-X-Google-Smtp-Source: APXvYqxZtSR7JnVQhywe7n0QCoJVtHfSeVwjuUQydCL5tLwB61QV+2eYNMFO/PAwALYCQr9+Kl3fQrZdTckW5iko988=
-X-Received: by 2002:a37:454:: with SMTP id 81mr22303872qke.153.1566255823035;
- Mon, 19 Aug 2019 16:03:43 -0700 (PDT)
-MIME-Version: 1.0
-References: <CALaQ_hruPmgnE5yh_MJLLZ_7sPNEnzX8H-WfR=fBvcfEzfG9Fg@mail.gmail.com>
- <e616d881-25e2-c295-2a98-b51c8cbcbc81@nextdimension.cc> <CALaQ_hqEZ-kco1esyB4mk0z9Q9Xt1XZsgYKR7gSdF7COERKoOA@mail.gmail.com>
- <eada38a3-258b-52ff-94a7-b8877899267e@kernel.org>
-In-Reply-To: <eada38a3-258b-52ff-94a7-b8877899267e@kernel.org>
-From:   Nathan Royce <nroycea+kernel@gmail.com>
-Date:   Mon, 19 Aug 2019 18:03:35 -0500
-Message-ID: <CALaQ_hrdCP+UhzvDSnWKJYuvxzhNAoKAF4GCN+do3v1-hjiDLg@mail.gmail.com>
-Subject: Re: Kernel 5.2.8 - au0828 - Tuner Is Busy
-To:     shuah <shuah@kernel.org>
-Cc:     Brad Love <brad@nextdimension.cc>, sean@mess.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Tue, 20 Aug 2019 00:07:46 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:d167:d45:dd41:2781])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id zvQshQpx9DqPezvQthqNXr; Tue, 20 Aug 2019 06:07:43 +0200
+Message-ID: <c45c3be9a6f4c33cba8bdf044eb958e4@smtp-cloud8.xs4all.net>
+Date:   Tue, 20 Aug 2019 06:07:42 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: OK
+X-CMAE-Envelope: MS4wfF6+7Y37rLV/31qC/aWnOoo47wjbn/RLcO7EAMirZMCWTpjZUCdlu1EMnu4MDS1ZE1XCmxl3oDe2DcZsQRNGU6vzqe1BRoGNW1/rBn2umM+ZXIxwt3+l
+ o/YxfmPKuczz6IN4BKdkyWSVCNQgzXwEiYkXRVNV7KMxPgqYN9heyJqjgwH8fXzef7DplpRILrh5o0BCz7Ela0BUmiScmEnga6yZ3IVJwvXb6XSIi2txHdyF
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-(resubmitting due to non "plain-text" causing virus bounce):
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Hey Shuah, after these few days, I FINALLY completed bisecting... much
-to my dismay...
-It was my first foray into bisecting and it looked simple enough, but
-for some reason every subsequent step resulted in a "bad" result.
-*****
-$ git bisect log
-git bisect start
-# good: [f0fae702de30331a8ce913cdb87ac0bdf990d85f] Linux 5.1.15
-git bisect good f0fae702de30331a8ce913cdb87ac0bdf990d85f
-# bad: [d36a8d2fb62c7c9415213bea9cf576d8b1f9071f] Linux 5.2.8
-git bisect bad d36a8d2fb62c7c9415213bea9cf576d8b1f9071f
-# good: [e93c9c99a629c61837d5a7fc2120cd2b6c70dbdd] Linux 5.1
-git bisect good e93c9c99a629c61837d5a7fc2120cd2b6c70dbdd
-# bad: [a2d635decbfa9c1e4ae15cb05b68b2559f7f827c] Merge tag
-'drm-next-2019-05-09' of git://anongit.freedesktop.org/drm/drm
-git bisect bad a2d635decbfa9c1e4ae15cb05b68b2559f7f827c
-# bad: [82efe439599439a5e1e225ce5740e6cfb777a7dd] Merge tag
-'devicetree-for-5.2' of
-git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux
-git bisect bad 82efe439599439a5e1e225ce5740e6cfb777a7dd
-# bad: [78438ce18f26dbcaa8993bb45d20ffb0cec3bc3e] Merge branch
-'stable-fodder' of
-git://git.kernel.org/pub/scm/linux/kernel/git/viro/vfs
-git bisect bad 78438ce18f26dbcaa8993bb45d20ffb0cec3bc3e
-# bad: [275b103a26e218b3d739e5ab15be6b40303a1428] Merge tag
-'edac_for_5.2' of git://git.kernel.org/pub/scm/linux/kernel/git/bp/bp
-git bisect bad 275b103a26e218b3d739e5ab15be6b40303a1428
-# bad: [0bc40e549aeea2de20fc571749de9bbfc099fb34] Merge branch
-'x86-mm-for-linus' of
-git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip
-git bisect bad 0bc40e549aeea2de20fc571749de9bbfc099fb34
-# bad: [007dc78fea62610bf06829e38f1d8c69b6ea5af6] Merge branch
-'locking-core-for-linus' of
-git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip
-git bisect bad 007dc78fea62610bf06829e38f1d8c69b6ea5af6
-# bad: [5ba2a4b12f450c5c69099a5c19671c6e59daa435] Merge branch
-'core-rcu-for-linus' of
-git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip
-git bisect bad 5ba2a4b12f450c5c69099a5c19671c6e59daa435
-# bad: [91df49e187c1a111e423fe0c3aec3472980385e4] Merge LKMM and RCU commits
-git bisect bad 91df49e187c1a111e423fe0c3aec3472980385e4
-# bad: [add0d37b4f1e77de7d170ece43c8d765572a1eab] rcu: Correct
-READ_ONCE()/WRITE_ONCE() for ->rcu_read_unlock_special
-git bisect bad add0d37b4f1e77de7d170ece43c8d765572a1eab
-# bad: [da8739f23fadf05809c6c37c327367b229467045] rcu: Allow
-rcu_nocbs= to specify all CPUs
-git bisect bad da8739f23fadf05809c6c37c327367b229467045
-# bad: [884157cef0acf05648fe921d80c680afababb428] rcu: Make exit_rcu()
-handle non-preempted RCU readers
-git bisect bad 884157cef0acf05648fe921d80c680afababb428
-# bad: [671a63517cf983ad8eaa324167165cef245ab744] rcu: Avoid
-unnecessary softirq when system is idle
-git bisect bad 671a63517cf983ad8eaa324167165cef245ab744
-# bad: [e85e6a21b2b5f31148cc3f2e785262b37c3e1ec7] rcu: Unconditionally
-expedite during suspend/hibernate
-git bisect bad e85e6a21b2b5f31148cc3f2e785262b37c3e1ec7
-# first bad commit: [e85e6a21b2b5f31148cc3f2e785262b37c3e1ec7] rcu:
-Unconditionally expedite during suspend/hibernate
-*****
-And those were ALL of the steps and I REALLY don't think that rcu
-commit is the cause.
+Results of the daily build of media_tree:
 
-My testing went down something like this:
-*****
-$ git clean -xdf
-$ git reset --hard
-$ git checkout v5.1.15
-$ git bisect start
-$ git bisect good
-$ git bisect bad v5.2.8
-//edit "./drivers/media/usb/au0828/au0828-cards.c", adding my 0x400 tuner.
-$ cat /proc/config.gz | gunzip > .config
-$ yes '' | make oldconfig
-$ make -j4
-$ make modules_install
-$ cp -v arch/x86/boot/bzImage /boot/vmlinuz-linux-bisect
-$ mkinitcpio -k <kernel listed from modules_install command> -g
-/boot/initramfs-linux-bisect.img
-//reboot into newly compiled kernel (already set in
-/boot/loader/entries/bisect.conf)
-$ /w_scan-20170107/w_scan -c US //test tuner which results in "...
-main:4004: FATAL: ***** NO USEABLE TERRCABLE_ATSC CARD FOUND. *****
-...". Same issue with tvheadend and journalctl shows the Tuner is busy
-error -19 message.
-$ git bisect bad
-$ make mrproper //necessary? Took forever to compile all 13 steps cleanly.
-//GOTO "cat /proc/config.gz | gunzip > .config" step and repeat 13
-times... ugh. About 2-3 hours for each.
-*****
+date:			Tue Aug 20 05:00:10 CEST 2019
+media-tree git hash:	d4e0f82ac840bf3d16b25d60f261b429603138a9
+media_build git hash:	301385c12da9b80ecb9c127d4a7ca9d4bc8ba781
+v4l-utils git hash:	a49d81777d8faaeb63da395135f93df36910cf72
+edid-decode git hash:	0932deee88928f110b5a74851c173ad895f75863
+gcc version:		i686-linux-gcc (GCC) 8.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1-rc1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.5.1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: e9d091e930792735d129a821a09b7c85311d055f
+host hardware:		x86_64
+host os:		4.19.0-4-amd64
 
-I don't know how bisecting does it's magic, but I'd think it'd be
-something like this:
-v............commits...........v //(from 5.1.15 to 5.2.8)
-Good ||||||||||||||||||||||| Bad
-                |                //split the commits
-           |                     //split the bottom half if the
-previous test failed
-              |                  //split the difference again if good,
-and repeat.
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3-rc1-i686: OK
+linux-5.3-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2327, Succeeded: 2327, Failed: 0, Warnings: 0
+sparse: OK
+smatch: OK
 
-I'd think a more intelligent way to bisect would be based on a
-file/module that is known/thought to produce the error.
-In my case, the starting point would be "./drivers/media/usb/au0828/"
-All commit changes for any file in that directory given a branch/tag
-range would be examined.
-If no changes are found in that branch/tag range, then the next step
-would be to analyze any commits that are affected by parents/children
-(references) of au0828 within that version range, and continually move
-up/down the line. (eg. linux/usb.h which is referenced by au0828.h)
-This way, the scope is very narrow at the beginning and widens as needed.
-I think it's something that could be implemented in the git tool and
-the user only needs to provide a starting place. Just a thought.
+Detailed results are available here:
 
-I can only hope that I incorrectly used bisecting and someone can
-point to what I did wrong and provide a better way. (maybe I wouldn't
-have to mrproper, so the testing wouldn't take days?)
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
 
-On Mon, Aug 19, 2019 at 3:49 PM shuah <shuah@kernel.org> wrote:
->
-> On 8/16/19 7:15 PM, Nathan Royce wrote:
-> Hi Nathan,
->
-> Just catching up with this thread. Let me know what you find. Can you
-> build your own kernel and see what you can find?
->
-> thanks,
-> -- Shuah
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
