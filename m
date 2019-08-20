@@ -2,142 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B484396885
-	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2019 20:24:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B5D8C968CC
+	for <lists+linux-media@lfdr.de>; Tue, 20 Aug 2019 20:56:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729852AbfHTSYC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Aug 2019 14:24:02 -0400
-Received: from mail-io1-f66.google.com ([209.85.166.66]:32824 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727358AbfHTSYC (ORCPT
+        id S1729639AbfHTS4G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Aug 2019 14:56:06 -0400
+Received: from shadbolt.e.decadent.org.uk ([88.96.1.126]:50232 "EHLO
+        shadbolt.e.decadent.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728185AbfHTS4G (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Aug 2019 14:24:02 -0400
-Received: by mail-io1-f66.google.com with SMTP id z3so14232330iog.0;
-        Tue, 20 Aug 2019 11:24:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding;
-        bh=uHnpurbv4P4p0F5RuiK25V2aB0GwEuZwO3y6lowyu+M=;
-        b=gYbVKNyGNRgt75nq8hcRa1qtMbEjxj2dCo4RPtWb+81U/Y4cAE2ijyJtFn+lgtuhiE
-         7GqiLfgo2VtL8EzXPKVAfWRWYmUHW2jisB37JSptOTQJnk9V/0geUQMZsQHY/iE7gAxM
-         5Jk5KGXuIvtZC0WQEHtV8Rd7fh7VmgYScyjklqQitmOCc69OFxEA6PT5A2XChvcvTIkq
-         2s2uIPNRIWzL/QwVh4tnOmdI7mMI5lf6TTJpT67UztMY76bnZILkqXJf/zSkvmo6KHpf
-         c8F3N1CXiMoNAGOyzA2o7R7PXYACqt4Klql9YBZwnqGMRalxP0rKd3BqskvAL5oxDDK6
-         Or9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding;
-        bh=uHnpurbv4P4p0F5RuiK25V2aB0GwEuZwO3y6lowyu+M=;
-        b=lGdhY9ICOw+41dI7zCNlGbc0n5DNBeg0wB3vW5+7HiSlgIf5utbecAMvWvYk/Guo7O
-         1YnRtThVCA1RZpPkzvWa9QF8SvWAwG6hNOQPW5XeJKWeSEqjip3yRtWoi7TIBC0x4+2Z
-         8ILsaOVAPL0GYXyEVeEfindAJUxzyezwmcP/WzlJ/hx9e88mBpxRKItp0VrgVfBSMXap
-         bXGBwE19JE+X6PBlvWYUOpwHrSFH03nqh7iOW00iXXMvRLyTI5o7fybZpqjT3XTIMg80
-         kUChVPw7gQ6j/5D9d1CV1sY9onfeGDBPbNUINwmdq5R4B9BjNoj2GQzIoA+NAKyui9Oh
-         +jzg==
-X-Gm-Message-State: APjAAAWhSnAXg2bVLOUw6G06k5aJelzVPSytpEj3ed7mCg5vSW+IEtzJ
-        IQ8KKV4oDv8zki5PzCh/dUo=
-X-Google-Smtp-Source: APXvYqxs6kWHYzMycFstHU+fT+10ExIDJ0/Pp36tFMh4TnF/CwI5LAoOMEFKt9k2gPjBSo+b5DQEcw==
-X-Received: by 2002:a6b:ea12:: with SMTP id m18mr33580734ioc.173.1566325441159;
-        Tue, 20 Aug 2019 11:24:01 -0700 (PDT)
-Received: from [10.164.9.36] (cos-128-210-107-27.science.purdue.edu. [128.210.107.27])
-        by smtp.gmail.com with ESMTPSA id i3sm15060845ion.9.2019.08.20.11.24.00
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 20 Aug 2019 11:24:00 -0700 (PDT)
-From:   Hui Peng <benquike@gmail.com>
-To:     Hui Peng <benquike@gmail.com>
-Cc:     Mathias Payer <mathias.payer@nebelwelt.net>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Kees Cook <keescook@chromium.org>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, security@kernel.org
-Subject: Re: [PATCH] Fix an OOB access bug in technisat_usb2_get_ir
-References: <20190820181921.7921-1-benquike@gmail.com>
-Message-ID: <b9b256cb-95f2-5fa1-9956-5a602a017c11@gmail.com>
-Date:   Tue, 20 Aug 2019 14:24:00 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Tue, 20 Aug 2019 14:56:06 -0400
+Received: from [167.98.27.226] (helo=deadeye)
+        by shadbolt.decadent.org.uk with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <ben@decadent.org.uk>)
+        id 1i09IY-0000YP-0r; Tue, 20 Aug 2019 19:56:02 +0100
+Received: from ben by deadeye with local (Exim 4.92.1)
+        (envelope-from <ben@decadent.org.uk>)
+        id 1i09IX-0005oX-MC; Tue, 20 Aug 2019 19:56:01 +0100
+Message-ID: <fe983331d14442a96db3f71066ca0488a8921840.camel@decadent.org.uk>
+Subject: Re: [PATCH] dvb: usb: fix use after free in dvb_usb_device_exit
+From:   Ben Hutchings <ben@decadent.org.uk>
+To:     Oliver Neukum <oneukum@suse.com>, mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, Anton Vasilyev <vasilyev@ispras.ru>
+Date:   Tue, 20 Aug 2019 19:55:55 +0100
+In-Reply-To: <20190430130736.9191-1-oneukum@suse.com>
+References: <20190430130736.9191-1-oneukum@suse.com>
+Content-Type: multipart/signed; micalg="pgp-sha512";
+        protocol="application/pgp-signature"; boundary="=-ZWpd9A6I0Eza0gxDWHWm"
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-In-Reply-To: <20190820181921.7921-1-benquike@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 167.98.27.226
+X-SA-Exim-Mail-From: ben@decadent.org.uk
+X-SA-Exim-Scanned: No (on shadbolt.decadent.org.uk); SAEximRunCond expanded to false
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following is the kasan report. This bug was found in v4.20-rc2, but
-it is present in the latest version.
 
-BUG: KASAN: slab-out-of-bounds in technisat_usb2_get_ir
-drivers/media/usb/dvb-usb/technisat-usb2.c:664 [inline]
-BUG: KASAN: slab-out-of-bounds in technisat_usb2_rc_query+0x598/0x5f0
-drivers/media/usb/dvb-usb/technisat-usb2.c:679
-Read of size 1 at addr ffff88805ee3d3a8 by task kworker/2:3/8681
+--=-ZWpd9A6I0Eza0gxDWHWm
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-CPU: 2 PID: 8681 Comm: kworker/2:3 Not tainted 4.20.0-rc2 #1
-Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS
-Ubuntu-1.8.2-1ubuntu1 04/01/2014
-Workqueue: events dvb_usb_read_remote_control
-Call Trace:
- __dump_stack lib/dump_stack.c:77 [inline]
- dump_stack+0xd2/0x148 lib/dump_stack.c:113
- print_address_description+0x71/0x239 mm/kasan/report.c:256
- kasan_report_error mm/kasan/report.c:354 [inline]
- kasan_report.cold.5+0x242/0x30b mm/kasan/report.c:412
- __asan_report_load1_noabort+0x19/0x20 mm/kasan/report.c:430
- technisat_usb2_get_ir drivers/media/usb/dvb-usb/technisat-usb2.c:664
-[inline]
- technisat_usb2_rc_query+0x598/0x5f0
-drivers/media/usb/dvb-usb/technisat-usb2.c:679
- dvb_usb_read_remote_control+0xbd/0x150
-drivers/media/usb/dvb-usb/dvb-usb-remote.c:261
- process_one_work+0x816/0x14d0 kernel/workqueue.c:2153
- worker_thread+0x9b/0xce0 kernel/workqueue.c:2296
- kthread+0x33d/0x400 kernel/kthread.c:246
- ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
+On Tue, 2019-04-30 at 15:07 +0200, Oliver Neukum wrote:
+> dvb_usb_device_exit() frees and uses the device name in that order
+> Fix by storing the name in a buffer before freeing it
+>=20
+> v2: fixed style issues
+> v3: strscpy used and variable names changed
+> v4: really use strscpy everywhere
+>=20
+> Signed-off-by: Oliver Neukum <oneukum@suse.com>
+> Reported-by: syzbot+26ec41e9f788b3eba396@syzkaller.appspotmail.com
 
-On 8/20/19 2:19 PM, Hui Peng wrote:
-> In the while loop of technisat_usb2_get_ir, it scans through
-> a fix-sized buffer read from the device side, the termination
-> condition of the loop is `*b == 0xff`. If no `0xff` byte is read
-> from the device side, OOB access happens.
+This doesn't fix that bug (and I don't think it fixes a bug at all).=20
+The name string is static and doesn't get freed until the module it's
+in is freed.
+
+Look again at the stack traces in
+<https://syzkaller.appspot.com/bug?extid=3D26ec41e9f788b3eba396>:
+
+> Allocated by task 21:
+[...]
+>  kmemdup+0x23/0x50 mm/util.c:118
 >
-> This patch fixes the bug by adding an upper bound in the while loop.
+ kmemdup include/linux/string.h:428 [inline]
+>  dw2102_probe+0x62c/0xc50
+drivers/media/usb/dvb-usb/dw2102.c:2375
+[...]
+> Freed by task 21:
+[...]
 >
-> Reported-by: Hui Peng <benquike@gmail.com>
-> Reported-by: Mathias Payer <mathias.payer@nebelwelt.net>
-> Signed-off-by: Hui Peng <benquike@gmail.com>
+ kfree+0xce/0x290 mm/slub.c:3958
+>  dw2102_probe+0x876/0xc50
+drivers/media/usb/dvb-usb/dw2102.c:2409
+
+So, d->desc was freed during probe, and is a dangling pointer before
+dvb_usb_device_exit() runs at all.
+
+The bug seems to have been introduced by:
+
+commit 299c7007e93645067e1d2743f4e50156de78c4ff
+Author: Anton Vasilyev <vasilyev@ispras.ru>
+Date:   Mon Jul 23 13:04:54 2018 -0400
+
+    media: dw2102: Fix memleak on sequence of probes
+
+Ben.
+
 > ---
->  drivers/media/usb/dvb-usb/technisat-usb2.c | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/drivers/media/usb/dvb-usb/technisat-usb2.c b/drivers/media/usb/dvb-usb/technisat-usb2.c
-> index c659e18b358b..181f5f97af45 100644
-> --- a/drivers/media/usb/dvb-usb/technisat-usb2.c
-> +++ b/drivers/media/usb/dvb-usb/technisat-usb2.c
-> @@ -612,6 +612,7 @@ static int technisat_usb2_get_ir(struct dvb_usb_device *d)
->  	u8 *b;
->  	int ret;
->  	struct ir_raw_event ev;
-> +	int i = 0;
->  
->  	buf[0] = GET_IR_DATA_VENDOR_REQUEST;
->  	buf[1] = 0x08;
-> @@ -656,11 +657,15 @@ static int technisat_usb2_get_ir(struct dvb_usb_device *d)
->  
->  	ev.pulse = 0;
->  	while (1) {
-> +		// only `ret` bytes are read from the device side
-> +		if (i >= ret)
-> +			break;
->  		ev.pulse = !ev.pulse;
->  		ev.duration = (*b * FIRMWARE_CLOCK_DIVISOR * FIRMWARE_CLOCK_TICK) / 1000;
->  		ir_raw_event_store(d->rc_dev, &ev);
->  
->  		b++;
-> +		i++;
->  		if (*b == 0xff) {
->  			ev.pulse = 0;
->  			ev.duration = 888888*2;
+>  drivers/media/usb/dvb-usb/dvb-usb-init.c | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/media/usb/dvb-usb/dvb-usb-init.c b/drivers/media/usb=
+/dvb-usb/dvb-usb-init.c
+> index 99951e02a880..dd063a736df5 100644
+> --- a/drivers/media/usb/dvb-usb/dvb-usb-init.c
+> +++ b/drivers/media/usb/dvb-usb/dvb-usb-init.c
+> @@ -287,12 +287,15 @@ EXPORT_SYMBOL(dvb_usb_device_init);
+>  void dvb_usb_device_exit(struct usb_interface *intf)
+>  {
+>  	struct dvb_usb_device *d =3D usb_get_intfdata(intf);
+> -	const char *name =3D "generic DVB-USB module";
+> +	const char *default_name =3D "generic DVB-USB module";
+> +	char name[40];
+> =20
+>  	usb_set_intfdata(intf, NULL);
+>  	if (d !=3D NULL && d->desc !=3D NULL) {
+> -		name =3D d->desc->name;
+> +		strscpy(name, d->desc->name, sizeof(name));
+>  		dvb_usb_exit(d);
+> +	} else {
+> +		strscpy(name, default_name, sizeof(name));
+>  	}
+>  	info("%s successfully deinitialized and disconnected.", name);
+> =20
+--=20
+Ben Hutchings
+Experience is what causes a person to make new mistakes
+instead of old ones.
+
+
+--=-ZWpd9A6I0Eza0gxDWHWm
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEErCspvTSmr92z9o8157/I7JWGEQkFAl1cQjsACgkQ57/I7JWG
+EQkQORAAs8Xj65gEVvBlrFCVf8XkKQsRhIqfF+eagGKI0yNS0xBIBYtjfLrtyzLV
+gp7JaKEAx+1T4p6FFrapPh/wrJ6L7EMf1ykd066dVlG1VxnRN5bYR7tZgUMgHAaS
+gOhTSw2FM0WSn5amLmmKewqMCMQrQKcMdIwWWDszQD+JEHCSjWaHTY3qTwtO6d8s
+tizGZX3LMYEp+8MHJj+B/voPv5uBL3haRe75tf+YMOfvVryGUw6IEmL/t+582yZt
+Zr/bVadOHjwQpk9C4PdcpSd85mGqjHwjamiprCLckGtvpm6nswKkxhHPQUnlmibO
+yJV7BE+p4aPPFc9HF/X5v9bjYAzEvt1oN/5tTwdgztb0dp4uIPE2lgWjaQqiunH0
+OWnE/i7m6/WCAPMPEOVLheUm1f8p4POGfzfF80pzI496jPBG5y+Y37nMFt194wAR
+3f6O3lz5M1Es0Q2Kcyk4uhGY/N7aLL92jWw+Z1etKEPNHsLEVAI2RnpMbojOM3k0
+ZZWae+2RhShVr4JXWZXltOblUWhcaArd3Tsn+4OvGZFMnQ+6EAmJd1l7QI7APGoZ
+XgquW3D7awVIEMCND1g/DHRThdnKlsGUO81ocKgqCR4r9aT9wTTbpRmrXc6e7V+K
+QPvzjW/ADrwro+V5W/1tNxduIzBBnzvv8PMfTeAAwW1beU0f8YY=
+=Ay6V
+-----END PGP SIGNATURE-----
+
+--=-ZWpd9A6I0Eza0gxDWHWm--
