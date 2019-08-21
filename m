@@ -2,403 +2,229 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DDF5F97FA5
-	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2019 18:05:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0BFC97FB6
+	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2019 18:10:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728806AbfHUQFA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Aug 2019 12:05:00 -0400
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:39946 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727480AbfHUQFA (ORCPT
+        id S1728299AbfHUQKZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Aug 2019 12:10:25 -0400
+Received: from relay5-d.mail.gandi.net ([217.70.183.197]:58161 "EHLO
+        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728194AbfHUQKZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Aug 2019 12:05:00 -0400
-Received: by mail-ed1-f68.google.com with SMTP id h8so3545475edv.7
-        for <linux-media@vger.kernel.org>; Wed, 21 Aug 2019 09:04:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=PQJzaKCMOyJ9cU3DjRwvUQW5X0QqM3/O0kDiRQb5Fws=;
-        b=EL8c2Kjeg/3PdUXDP426h6rXAU9ZHvTlfR6UKJaur5GqpZKBEEqvA38G5oqyB95yU0
-         IREqeCTr+s9FBNyaAxmfOyUiwAeCNqAppyjLDs0q3oQtQBwS5fmB+ET1kNasO5Gwz97+
-         OBWoEX0tN8p7drJexvFCn/OMITNqrOvZ251RQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to:user-agent;
-        bh=PQJzaKCMOyJ9cU3DjRwvUQW5X0QqM3/O0kDiRQb5Fws=;
-        b=b7uBTairl89boNTyp7532ckBiVej0gMegJpGGALb4YX/jIBKayiATyvSRtlvOt1BQq
-         Mg5hoot29+USS0Ci4k+msGN7b+n4q4F0mWFSyBoRIK+R0VNWJmZU9TpycKIBoTl5N8uz
-         1qxbpCI2WI3W4Ec0aBUCHAxVIuddAk9c5EHrj8Tz8M5GfPEcJPcJ9gbmZClJM05iw8bC
-         XXqSAJKlp1AJP+pwT03GASoL5U6MgIvMbNJ5XVyDkSgGSqcEqqBTVqMt0UcBa/JoD76S
-         SyMoCxVVf8isUMr4Vysosa5MJhUrZkpZc41jamnURuMb+Lqgf3Z5hFbHKeGEtauaS1SN
-         ONDA==
-X-Gm-Message-State: APjAAAUtcwogZalLbq58y/JY2S17eQE2UwmRxqBIHvyFoMNR7h4/2ROn
-        r0/aphLeLAWOAVsQd8nI6eGYzg==
-X-Google-Smtp-Source: APXvYqzfBlG84lxHLAw426uNJramGTgcjxmP98IF3UpKL+sGMYXE31acDeKoLVmTgmziF7MVHCmc4g==
-X-Received: by 2002:a17:906:254f:: with SMTP id j15mr31543641ejb.69.1566403497424;
-        Wed, 21 Aug 2019 09:04:57 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net. [212.51.149.96])
-        by smtp.gmail.com with ESMTPSA id ay8sm3203806ejb.4.2019.08.21.09.04.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Aug 2019 09:04:56 -0700 (PDT)
-Date:   Wed, 21 Aug 2019 18:04:54 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Christian =?iso-8859-1?Q?K=F6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
-        daniel.vetter@ffwll.ch, sumit.semwal@linaro.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 07/10] dma-buf/resv: add new fences container
- implementation
-Message-ID: <20190821160454.GN11147@phenom.ffwll.local>
-References: <20190821123147.110736-1-christian.koenig@amd.com>
- <20190821123147.110736-8-christian.koenig@amd.com>
+        Wed, 21 Aug 2019 12:10:25 -0400
+X-Originating-IP: 87.18.63.98
+Received: from uno.localdomain (unknown [87.18.63.98])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 3716F1C0006;
+        Wed, 21 Aug 2019 16:10:21 +0000 (UTC)
+Date:   Wed, 21 Aug 2019 18:11:50 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Ricardo Ribalda Delgado <ribalda@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] media: add pixel_size control
+Message-ID: <20190821161150.hcbxzxcjvbkoqyb3@uno.localdomain>
+References: <20190819121720.31345-1-ribalda@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="i2qbawnsbkak4g6z"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190821123147.110736-8-christian.koenig@amd.com>
-X-Operating-System: Linux phenom 5.2.0-2-amd64 
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190819121720.31345-1-ribalda@kernel.org>
+User-Agent: NeoMutt/20180716
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Aug 21, 2019 at 02:31:44PM +0200, Christian König wrote:
-> Add a new container for fences which internally uses
-> dma_fence_array's to store the fences.
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
+
+--i2qbawnsbkak4g6z
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+
+Hi Ricardo,
+
+On Mon, Aug 19, 2019 at 02:17:18PM +0200, Ricardo Ribalda Delgado wrote:
+> This control returns the pixel size in nanometres. The struct provides
+> the width and the height in separated fields to take into consideration
+> asymmetric pixels and/or hardware binning.
+> This control is required for automatic calibration of the sensor.
+>
+> Signed-off-by: Ricardo Ribalda Delgado <ribalda@kernel.org>
 > ---
->  drivers/dma-buf/dma-resv.c | 221 +++++++++++++++++++++++++++++++++++++
->  include/linux/dma-resv.h   |  49 ++++++++
->  2 files changed, 270 insertions(+)
-> 
-> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-> index d3a9a3bb15f0..83033b3e8521 100644
-> --- a/drivers/dma-buf/dma-resv.c
-> +++ b/drivers/dma-buf/dma-resv.c
-> @@ -33,6 +33,7 @@
+>  drivers/media/v4l2-core/v4l2-ctrls.c | 11 +++++++++++
+>  include/media/v4l2-ctrls.h           |  2 ++
+>  include/uapi/linux/v4l2-controls.h   |  3 +++
+>  include/uapi/linux/videodev2.h       | 11 +++++++++++
+>  4 files changed, 27 insertions(+)
+>
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+> index cd1ae016706f..a3a0086c96ff 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+> @@ -978,6 +978,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+>  	case V4L2_CID_AUTO_FOCUS_RANGE:		return "Auto Focus, Range";
+>  	case V4L2_CID_PAN_SPEED:		return "Pan, Speed";
+>  	case V4L2_CID_TILT_SPEED:		return "Tilt, Speed";
+> +	case V4L2_CID_PIXEL_SIZE:		return "Pixel Size";
+
+Is this a camera class control or an image source one ?
+Also, isn't pixel size a bit too generic? I would somehow specify this is
+the physical pixel size
+
+>
+>  	/* FM Radio Modulator controls */
+>  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+> @@ -1357,6 +1358,9 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+>  	case V4L2_CID_MPEG_VIDEO_VP8_FRAME_HEADER:
+>  		*type = V4L2_CTRL_TYPE_VP8_FRAME_HEADER;
+>  		break;
+> +	case V4L2_CID_PIXEL_SIZE:
+> +		*type = V4L2_CTRL_TYPE_PIXEL_SIZE;
+
+Isn't this a read-only control?
+
+> +		break;
+>  	default:
+>  		*type = V4L2_CTRL_TYPE_INTEGER;
+>  		break;
+> @@ -1423,6 +1427,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+>  	case V4L2_CID_RDS_RX_TRAFFIC_ANNOUNCEMENT:
+>  	case V4L2_CID_RDS_RX_TRAFFIC_PROGRAM:
+>  	case V4L2_CID_RDS_RX_MUSIC_SPEECH:
+> +	case V4L2_CID_PIXEL_SIZE:
+>  		*flags |= V4L2_CTRL_FLAG_READ_ONLY;
+
+Ah yes, you set flags here... I don't get why we have two switches
+here.. Anyway, I would set both type and flags in a single case,
+otherwise one should jump back and forth...
+
+>  		break;
+>  	case V4L2_CID_RF_TUNER_PLL_LOCK:
+> @@ -1705,6 +1710,9 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+>  	case V4L2_CTRL_TYPE_FWHT_PARAMS:
+>  		break;
+>
+> +	case V4L2_CTRL_TYPE_PIXEL_SIZE:
+> +		break;
+> +
+>  	case V4L2_CTRL_TYPE_H264_SPS:
+>  	case V4L2_CTRL_TYPE_H264_PPS:
+>  	case V4L2_CTRL_TYPE_H264_SCALING_MATRIX:
+> @@ -2403,6 +2411,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
+>  	case V4L2_CTRL_TYPE_VP8_FRAME_HEADER:
+>  		elem_size = sizeof(struct v4l2_ctrl_vp8_frame_header);
+>  		break;
+> +	case V4L2_CTRL_TYPE_PIXEL_SIZE:
+> +		elem_size = sizeof(struct v4l2_pixel_size);
+> +		break;
+>  	default:
+>  		if (type < V4L2_CTRL_COMPOUND_TYPES)
+>  			elem_size = sizeof(s32);
+> diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
+> index 570ff4b0205a..63de780398b8 100644
+> --- a/include/media/v4l2-ctrls.h
+> +++ b/include/media/v4l2-ctrls.h
+> @@ -50,6 +50,7 @@ struct poll_table_struct;
+>   * @p_h264_slice_params:	Pointer to a struct v4l2_ctrl_h264_slice_params.
+>   * @p_h264_decode_params:	Pointer to a struct v4l2_ctrl_h264_decode_params.
+>   * @p_vp8_frame_header:		Pointer to a VP8 frame header structure.
+> + * @p_pixel_size:		Pointer to a pixel_size value.
+>   * @p:				Pointer to a compound value.
 >   */
->  
->  #include <linux/dma-resv.h>
-> +#include <linux/dma-fence-array.h>
->  #include <linux/export.h>
->  
->  /**
-> @@ -55,6 +56,226 @@ EXPORT_SYMBOL(reservation_seqcount_class);
->  const char reservation_seqcount_string[] = "reservation_seqcount";
->  EXPORT_SYMBOL(reservation_seqcount_string);
->  
-> +static void dma_resv_fences_init(struct dma_resv_fences *fences)
-> +{
-> +	RCU_INIT_POINTER(fences->fence, NULL);
-> +	fences->staged = NULL;
-> +}
+>  union v4l2_ctrl_ptr {
+> @@ -68,6 +69,7 @@ union v4l2_ctrl_ptr {
+>  	struct v4l2_ctrl_h264_slice_params *p_h264_slice_params;
+>  	struct v4l2_ctrl_h264_decode_params *p_h264_decode_params;
+>  	struct v4l2_ctrl_vp8_frame_header *p_vp8_frame_header;
+> +	struct v4l2_pixel_size *p_pixel_size;
+>  	void *p;
+>  };
+>
+> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> index a2669b79b294..13f0410df4c6 100644
+> --- a/include/uapi/linux/v4l2-controls.h
+> +++ b/include/uapi/linux/v4l2-controls.h
+> @@ -912,6 +912,9 @@ enum v4l2_auto_focus_range {
+>  #define V4L2_CID_PAN_SPEED			(V4L2_CID_CAMERA_CLASS_BASE+32)
+>  #define V4L2_CID_TILT_SPEED			(V4L2_CID_CAMERA_CLASS_BASE+33)
+>
+> +#define V4L2_CID_PIXEL_SIZE			(V4L2_CID_CAMERA_CLASS_BASE+34)
 > +
-> +static void dma_resv_fences_fini(struct dma_resv_fences *fences)
-> +{
-> +	/*
-> +	 * This object should be dead and all references must have
-> +	 * been released to it, so no need to be protected with rcu.
-> +	 */
-> +	dma_fence_put(rcu_dereference_protected(fences->fence, true));
-> +	dma_fence_array_free(fences->staged);
-> +}
 > +
-> +/**
-> + * dma_resv_fences_reserve - allocate fence slots
-> + * @fences: fences object where we need slots
-> + * @num_fences: number of fence slots we need
-> + *
-> + * Make sure that we have at least @num_fences + all the existing ones free
-> + * slots in the staged dma_fence_array.
-> + *
-> + * Returns -ENOMEM on allocation failure, 0 otherwise.
-> + */
-> +int dma_resv_fences_reserve(struct dma_resv *obj,
-> +			    struct dma_resv_fences *fences,
-> +			    unsigned int num_fences)
-> +{
-> +	struct dma_fence *fence = dma_resv_fences_deref(obj, fences);
-> +	struct dma_fence_array *staged, *array;
-> +	unsigned int i;
-> +
-> +	array = fences->staged;
-> +	if (!array)
-> +		array = to_dma_fence_array(fence);
-> +
-> +	if (array)
-> +		num_fences += array->num_fences;
-> +	else if (fence)
-> +		num_fences += 1;
-> +
-> +	staged = fences->staged;
-> +	if (staged && dma_fence_array_max_fences(staged) >= num_fences)
-> +		return 0;
-> +
-> +	staged = dma_fence_array_alloc(num_fences, NULL);
-> +	if (!staged)
-> +		return -ENOMEM;
-> +
-> +	/* Copy over all fences from the old object */
-> +	if (array) {
-> +		for (i = 0; i < array->num_fences; ++i) {
-> +			struct dma_fence *f = array->fences[i];
-> +
-> +			staged->fences[i] = dma_fence_get(f);
-> +		}
-> +		staged->num_fences = array->num_fences;
-> +
-> +	} else if (fence) {
-> +		staged->fences[0] = dma_fence_get(fence);
-> +		staged->num_fences = 1;
-> +
-> +	} else {
-> +		staged->num_fences = 0;
-> +	}
-> +
-> +	dma_fence_array_free(fences->staged);
-> +	fences->staged = staged;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(dma_resv_fences_reserve);
-> +
-> +/**
-> + * dma_resv_fences_assign - set the singleton fence
-> + * @fences: fences object where to set the fence
-> + * @fence: singleton fence for the object
-> + *
-> + * Internal helper to assign the signleton fence without grapping a reference.
-> + * If the old fence is a dma_fence_array try to recycle it.
-> + */
-> +static void dma_resv_fences_assign(struct dma_resv *obj,
-> +				   struct dma_resv_fences *fences,
-> +				   struct dma_fence *fence)
-> +{
-> +	struct dma_fence_array *array, *staged;
-> +	unsigned int num_fences, i;
-> +	struct dma_fence *old;
-> +
-> +	old = dma_resv_fences_deref(obj, fences);
-> +	rcu_assign_pointer(fences->fence, fence);
-> +
-> +	dma_fence_array_free(fences->staged);
-> +	fences->staged = NULL;
-> +
-> +	/* Try to recycle the old fence array */
-> +	staged = to_dma_fence_array(old);
-> +	if (!staged)
-> +		goto drop_old;
-> +
-> +	array = to_dma_fence_array(fence);
-> +	if (array)
-> +		num_fences = array->num_fences;
-> +	else
-> +		num_fences = fence ? 1 : 0;
-> +
-> +	if (dma_fence_array_max_fences(staged) < num_fences)
-> +		goto drop_old;
-> +
-> +	/* Try to drop the last reference */
-> +	if (!dma_fence_array_recycle(staged))
 
-Without an rcu barrier here you're not syncing to new clients at all.
-I don't think this works, and I expect that once you've readded all the
-barriers and retry loops we're back to seqlocks.
--Daniel
+Double empty line
 
-> +		return;
-> +
-> +	/* Make sure the staged array has the latest fences */
-> +	if (array) {
-> +		for (i = 0; i < array->num_fences; ++i) {
-> +			struct dma_fence *f = array->fences[i];
-> +
-> +			if (f == staged->fences[i])
-> +				continue;
-> +
-> +			dma_fence_put(staged->fences[i]);
-> +			staged->fences[i] = dma_fence_get(f);
-> +		}
-> +		for (;i < staged->num_fences; ++i)
-> +			dma_fence_put(staged->fences[i]);
-> +		staged->num_fences = array->num_fences;
-> +
-> +	} else if (fence) {
-> +		for (i = 0; i < staged->num_fences; ++i)
-> +			dma_fence_put(staged->fences[i]);
-> +		staged->fences[0] = dma_fence_get(fence);
-> +		staged->num_fences = 1;
-> +	} else {
-> +		for (i = 0; i < staged->num_fences; ++i)
-> +			dma_fence_put(staged->fences[i]);
-> +		staged->num_fences = 0;
-> +	}
-> +
-> +	fences->staged = staged;
-> +	return;
-> +
-> +drop_old:
-> +	dma_fence_put(old);
-> +}
-> +
-> +/**
-> + * dma_resv_fences_set - set the singleton fence
-> + * @fences: fences object where to set the fence
-> + * @fence: singleton fence for the object
-> + *
-> + * Grabs a reference to the new fence and replaces the current singleton fence
-> + * with a new one. If the old fence is a dma_fence_array try to recycle it.
-> + */
-> +void dma_resv_fences_set(struct dma_resv *obj,
-> +			 struct dma_resv_fences *fences,
-> +			 struct dma_fence *fence)
-> +{
-> +	dma_fence_get(fence);
-> +	dma_resv_fences_assign(obj, fences, fence);
-> +}
-> +EXPORT_SYMBOL(dma_resv_fences_set);
-> +
-> +/**
-> + * dma_resv_fences_add - add a fence to the staged fence_array
-> + * @fences: fences object where to add the fence to
-> + * @fence: fence to add
-> + *
-> + * Add a new fence to the staged fence_array.
-> + */
-> +void dma_resv_fences_add(struct dma_resv_fences *fences,
-> +			 struct dma_fence *fence)
-> +{
-> +	struct dma_fence_array *staged = fences->staged;
-> +	struct dma_fence *old;
-> +	unsigned int i;
-> +
-> +#ifndef CONFIG_DEBUG_MUTEXES
-> +	for (i = 0; i < staged->num_fences; ++i) {
-> +		old = staged->fences[i];
-> +
-> +		if (old->context == fence->context ||
-> +		    dma_fence_is_signaled(old)) {
-> +			dma_fence_put(old);
-> +			goto replace;
-> +		}
-> +	}
-> +#endif
-> +
-> +	BUG_ON(staged->num_fences >= dma_fence_array_max_fences(staged));
-> +	i = staged->num_fences++;
-> +
-> +replace:
-> +	staged->fences[i] = dma_fence_get(fence);
-> +}
-> +EXPORT_SYMBOL(dma_resv_fences_add);
-> +
-> +/**
-> + * dma_resv_fences_commit - commit the staged dma_fence_array
-> + * @fences: fences object where the commit should happen
-> + *
-> + * Commit the fences staged in the dma_fence_array and make them visible to
-> + * other threads.
-> + */
-> +void dma_resv_fences_commit(struct dma_resv *obj,
-> +			    struct dma_resv_fences *fences)
-> +{
-> +	struct dma_fence_array *staged = fences->staged;
-> +
-> +	if (!staged || !staged->num_fences)
-> +		return;
-> +
-> +	fences->staged = NULL;
-> +	dma_fence_array_init(staged, dma_fence_context_alloc(1), 1, false);
-> +	dma_resv_fences_assign(obj, fences, &staged->base);
-> +}
-> +EXPORT_SYMBOL(dma_resv_fences_commit);
-> +
->  /**
->   * dma_resv_list_alloc - allocate fence list
->   * @shared_max: number of fences we need space for
-> diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
-> index 03b0f95682b0..c70f13fa6789 100644
-> --- a/include/linux/dma-resv.h
-> +++ b/include/linux/dma-resv.h
-> @@ -45,10 +45,33 @@
->  #include <linux/seqlock.h>
->  #include <linux/rcupdate.h>
->  
-> +struct dma_resv;
-> +
->  extern struct ww_class reservation_ww_class;
->  extern struct lock_class_key reservation_seqcount_class;
->  extern const char reservation_seqcount_string[];
->  
-> +/**
-> + * struct dma_resv_fences - fences inside a reservation object
-> + * @fence: the current RCU protected singleton fence
-> + * @staged: optional staged dma_fence_array to replace @fence
-> + */
-> +struct dma_resv_fences {
-> +	struct dma_fence __rcu *fence;
-> +	struct dma_fence_array *staged;
+>  /* FM Modulator class control IDs */
+>
+>  #define V4L2_CID_FM_TX_CLASS_BASE		(V4L2_CTRL_CLASS_FM_TX | 0x900)
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 2427bc4d8eba..21f4846dca0b 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -422,6 +422,11 @@ struct v4l2_fract {
+>  	__u32   denominator;
+>  };
+>
+> +struct v4l2_pixel_size {
+
+I wonder if instead of defining a 'pixel size' this shouldn't be a
+more generic v4l2_size or something similar. Or even a v4l2_rect with
+left=top=0.
+
+> +	__u32   width;
+> +	__u32   height;
 > +};
 > +
-> +int dma_resv_fences_reserve(struct dma_resv *obj,
-> +			    struct dma_resv_fences *fences,
-> +			    unsigned int num_fences);
-> +void dma_resv_fences_set(struct dma_resv *obj,
-> +			 struct dma_resv_fences *fences,
-> +			 struct dma_fence *fence);
-> +void dma_resv_fences_add(struct dma_resv_fences *fences,
-> +			 struct dma_fence *fence);
-> +void dma_resv_fences_commit(struct dma_resv *obj,
-> +			    struct dma_resv_fences *fences);
-> +
 >  /**
->   * struct dma_resv_list - a list of shared fences
->   * @rcu: for internal use
-> @@ -80,6 +103,32 @@ struct dma_resv {
->  #define dma_resv_held(obj) lockdep_is_held(&(obj)->lock.base)
->  #define dma_resv_assert_held(obj) lockdep_assert_held(&(obj)->lock.base)
->  
-> +/**
-> + * dma_resv_fences_deref - get singleton fence
-> + * @obj: the reservation object
-> + * @fences: the fences object
-> + *
-> + * Returns the singleton fence from a resv_fences object.
-> + */
-> +static inline struct dma_fence *
-> +dma_resv_fences_deref(struct dma_resv *obj, struct dma_resv_fences *fences)
-> +{
-> +	return rcu_dereference_protected(fences->fence,
-> +					 dma_resv_held(obj));
-> +}
-> +
-> +/**
-> + * dma_resv_fences_get_rcu - RCU get single fence
-> + * @fences: fences structure where we need to get a reference for
-> + *
-> + * Get a reference to the single fence representing the synchronization.
-> + */
-> +static inline struct dma_fence *
-> +dma_resv_fences_get_rcu(struct dma_resv_fences *fences)
-> +{
-> +	return dma_fence_get_rcu_safe(&fences->fence);
-> +}
-> +
->  /**
->   * dma_resv_get_list - get the reservation object's
->   * shared fence list, with update-side lock held
-> -- 
-> 2.17.1
-> 
+>    * struct v4l2_capability - Describes V4L2 device caps returned by VIDIOC_QUERYCAP
+>    *
+> @@ -1718,6 +1723,12 @@ enum v4l2_ctrl_type {
+>  	V4L2_CTRL_TYPE_U8	     = 0x0100,
+>  	V4L2_CTRL_TYPE_U16	     = 0x0101,
+>  	V4L2_CTRL_TYPE_U32	     = 0x0102,
+> +	/*
+> +	 * V4L2_CTRL_TYPE_MPEG2_SLICE_PARAMS = 0x0103,
+> +	 * V4L2_CTRL_TYPE_MPEG2_QUANTIZATION = 0x0104,
+> +	 * V4L2_CTRL_TYPE_FWHT_PARAMS = 0x0105,
+> +	 */
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+leftovers ?
+
+> +	V4L2_CTRL_TYPE_PIXEL_SIZE    = 0x0106,
+
+I don't see other compound controls with a custom payload adding their
+types here. What am I missing?
+
+Thanks
+  j
+
+>  };
+>
+>  /*  Used in the VIDIOC_QUERYCTRL ioctl for querying controls */
+> --
+> 2.23.0.rc1
+>
+
+--i2qbawnsbkak4g6z
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl1dbUYACgkQcjQGjxah
+VjzMSg//T3Z0Pn/MM4rl0d9E08+UhovwymM92g/k2giBnTTDmLyZSanh4wJ5z95z
+CcySqDqSdsgk4oe7BSMR3+kaK/O0M9o7wkzNUIzpgT0H2zPIkhLo4rkYN97W2XCj
+eVIcUkdK0YSRpJLUYXP4PyTYMNhwwmP8ugCtfnhdMnVP5ly5H/jHcH9PVlBUVpaq
+qrZVRmfzX7N6jt5L3QE7EMXnH0OouQuZRE7c0RqcRYkFwtsyDtu7Wc9cfAxQGKW2
+Udkx387YTsLGTvh3TgVyiR28fonYxfo48lj8YPM49O53stwsqgMeg667UJ6HPzko
+RY6QUwbz9Yo5ThnMhfIRqIP88wPTYyd+gls8Hs6PJ+LZx5AGYavfBvtWI15NuRSc
++VKrN9s2pqrO4SJsZvtxR0P4he6SeGPNDjozLv2rgtrJDlWstPKe97fwoRWBhFwd
+xb8dHGD6LD5X6bDiJNWFNs5gMti3lMH92CfXC36S2OktV40EVAXWQCryQWohH3cm
+hvFbS8odj2AvXP+1ogErP5QgZe4iI+kDct1kUxt1TjE3iWjbvIENpjgTU9WUvM70
+VY6YcW58J1vk+DZHORiEbB5lA/8cDeoWYSVTROKq9FPrfGxOybwzLzcVfo5N37QO
+JaPhMfm1TLiecZV2w8KdpdfHsEJF3QEGDy9pBztLV/B8FCw7xA0=
+=+EdP
+-----END PGP SIGNATURE-----
+
+--i2qbawnsbkak4g6z--
