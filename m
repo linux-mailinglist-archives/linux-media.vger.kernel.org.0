@@ -2,146 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FE8D979DE
-	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2019 14:48:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 66BEA97A4A
+	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2019 15:06:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728203AbfHUMsG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Aug 2019 08:48:06 -0400
-Received: from shadbolt.e.decadent.org.uk ([88.96.1.126]:55998 "EHLO
-        shadbolt.e.decadent.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728049AbfHUMsF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Aug 2019 08:48:05 -0400
-Received: from [192.168.4.242] (helo=deadeye)
-        by shadbolt.decadent.org.uk with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.89)
-        (envelope-from <ben@decadent.org.uk>)
-        id 1i0Q1w-0007B2-CJ; Wed, 21 Aug 2019 13:48:00 +0100
-Received: from ben by deadeye with local (Exim 4.92.1)
-        (envelope-from <ben@decadent.org.uk>)
-        id 1i0Q1v-0006i7-Ue; Wed, 21 Aug 2019 13:47:59 +0100
-Message-ID: <fcae86f2137822d7658d2bbd4bd8dd35bfb319b0.camel@decadent.org.uk>
-Subject: Re: [PATCH] dvb: usb: fix use after free in dvb_usb_device_exit
-From:   Ben Hutchings <ben@decadent.org.uk>
-To:     Oliver Neukum <oneukum@suse.com>, mchehab@kernel.org
-Cc:     Anton Vasilyev <vasilyev@ispras.ru>, linux-media@vger.kernel.org
-Date:   Wed, 21 Aug 2019 13:47:55 +0100
-In-Reply-To: <1566375500.2611.6.camel@suse.com>
-References: <20190430130736.9191-1-oneukum@suse.com>
-         <fe983331d14442a96db3f71066ca0488a8921840.camel@decadent.org.uk>
-         <1566375500.2611.6.camel@suse.com>
-Content-Type: multipart/signed; micalg="pgp-sha512";
-        protocol="application/pgp-signature"; boundary="=-dK1HuylAfjFCCfud9xmh"
-User-Agent: Evolution 3.30.5-1.1 
+        id S1728026AbfHUNEh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Aug 2019 09:04:37 -0400
+Received: from gofer.mess.org ([88.97.38.141]:48329 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726484AbfHUNEh (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 21 Aug 2019 09:04:37 -0400
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 5263960449; Wed, 21 Aug 2019 14:04:35 +0100 (BST)
+Date:   Wed, 21 Aug 2019 14:04:35 +0100
+From:   Sean Young <sean@mess.org>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL FOR v5.4] More DVB/RC changes
+Message-ID: <20190821130434.gh4drkm6tiawzbpg@gofer.mess.org>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 192.168.4.242
-X-SA-Exim-Mail-From: ben@decadent.org.uk
-X-SA-Exim-Scanned: No (on shadbolt.decadent.org.uk); SAEximRunCond expanded to false
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Mauro,
 
---=-dK1HuylAfjFCCfud9xmh
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This moves the MyGica T230 to dvbsky, like was previously done for the T230C
+model. Other than that some minor fixes and device tree update to yaml.
 
-On Wed, 2019-08-21 at 10:18 +0200, Oliver Neukum wrote:
-> Am Dienstag, den 20.08.2019, 19:55 +0100 schrieb Ben Hutchings:
-> > On Tue, 2019-04-30 at 15:07 +0200, Oliver Neukum wrote:
-> > > dvb_usb_device_exit() frees and uses the device name in that order
-> > > Fix by storing the name in a buffer before freeing it
-> > >=20
-> > > v2: fixed style issues
-> > > v3: strscpy used and variable names changed
-> > > v4: really use strscpy everywhere
-> > >=20
-> > > Signed-off-by: Oliver Neukum <oneukum@suse.com>
-> > > Reported-by: syzbot+26ec41e9f788b3eba396@syzkaller.appspotmail.com
-> >=20
-> > This doesn't fix that bug (and I don't think it fixes a bug at all).=
-=20
-> > The name string is static and doesn't get freed until the module it's
-> > in is freed.
->=20
-> I see.
->=20
-> > Look again at the stack traces in
-> > <https://syzkaller.appspot.com/bug?extid=3D26ec41e9f788b3eba396>;:
-> >=20
-> > > Allocated by task 21:
-> >=20
-> > [...]
-> > >  kmemdup+0x23/0x50 mm/util.c:118
-> > >=20
-> >=20
-> >  kmemdup include/linux/string.h:428 [inline]
-> > >  dw2102_probe+0x62c/0xc50
-> >=20
-> > drivers/media/usb/dvb-usb/dw2102.c:2375
-> > [...]
-> > > Freed by task 21:
-> >=20
-> > [...]
-> >=20
-> >  kfree+0xce/0x290 mm/slub.c:3958
-> > >  dw2102_probe+0x876/0xc50
-> >=20
-> > drivers/media/usb/dvb-usb/dw2102.c:2409
-> >=20
-> > So, d->desc was freed during probe, and is a dangling pointer before
-> > dvb_usb_device_exit() runs at all.
->=20
-> In that case KASAN would have reported a double free in testing, which
-> it did not.
+Thanks
+Sean
 
-So far as I could see, the descriptors are normally static data in the
-driver and nothing in the DVB core frees them.
+The following changes since commit d4e0f82ac840bf3d16b25d60f261b429603138a9:
 
-dw2102 is unusual in that it heap-allocated descriptors, which is why
-this patched fixes a leak:
+  media: pixfmt-compressed.rst: improve H264/HEVC/MPEG1+2/VP8+9 documentation (2019-08-19 15:00:54 -0300)
 
-> > The bug seems to have been introduced by:
-> >=20
-> > commit 299c7007e93645067e1d2743f4e50156de78c4ff
-> > Author: Anton Vasilyev <vasilyev@ispras.ru>
-> > Date:   Mon Jul 23 13:04:54 2018 -0400
-> >=20
-> >     media: dw2102: Fix memleak on sequence of probes
->=20
-> AFAICT this patch only does anything if probe() succeeds, which it does
-> not. Something is strange.
+are available in the Git repository at:
 
-How did you determine that it doesn't succeed?
+  git://linuxtv.org/syoung/media_tree.git tags/v5.4e
 
-Ben.
+for you to fetch changes up to da73cb750fdb94ea3dd70f97224bd27f72d91955:
 
---=20
-Ben Hutchings
-Quantity is no substitute for quality, but it's the only one we've got.
+  dt-bindings: media: Convert Allwinner A10 IR to a schema (2019-08-20 17:34:22 +0100)
 
+----------------------------------------------------------------
+DVB/RC for 5.4
 
+----------------------------------------------------------------
+Jan Pieter van Woerkom (2):
+      media: dvb-usb: remove T230 from cxusb
+      media: dvb-usb: add T230 to dvbsky
 
---=-dK1HuylAfjFCCfud9xmh
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+Maxime Ripard (2):
+      dt-bindings: media: Add YAML schemas for the generic RC bindings
+      dt-bindings: media: Convert Allwinner A10 IR to a schema
 
------BEGIN PGP SIGNATURE-----
+Nishka Dasgupta (4):
+      media: dvb-bt8xx: Make variable dst_config constant
+      media: firewire: Make structure fdtv_ca constant
+      media: ec168: Make structure ec168_props constant
+      media: dvb-frontends/cxd2099: Make en_templ constant
 
-iQIzBAABCgAdFiEErCspvTSmr92z9o8157/I7JWGEQkFAl1dPXsACgkQ57/I7JWG
-EQnW6Q//agyBqDH4uOQKcZXEdJ/3x1G/wGaXZL/cWAKkI2DJ/fwIHhKohMNpJ2Ez
-4yHVRbsbij2SiCTZUKnOGl2nnOKXyIc2Kj3oKC6VYEX9yoqmk14cCAbloy+B6YmP
-VKY7wXmwtFFUdHk1GSbjA76P4f+C1yacjEm75Ej5vGlIMe+xCoE7hPg20/d1d25/
-kEHOMLlIdORKUzVL5GA3MPLLt1oSRZBOyUls476QfJkUfG25wiAtw5k6Il8lr2wH
-2WPvyosKGZ/zHfGCFQ8FLWq5vFZaRs9e/3Ce3C1mdjKepSgZ3L5dKDOXCKlg80gA
-pNlZCp3QB6kUCJhi+5XWIr4hcGJPgLVnZR3qDYi6N4RbMLqv/FT5cIihJt242xEx
-kOczVuSyCG6REYpVa/cuzD5kIWy56rJugGDJC1r2bOdsqtv76MzYRPzm09mGI9yT
-+bft1G3HGVWC9lQjEPUUZQKfAfkk9smUPfzvRkuXugDYRI3gm0Am4F2c7uceqKEc
-PJNSm9j0JktFGOk0btZhPeSl+mpc5xIffLk7Mj9rZ2hqCPtQuZxZ+BuftvzSVExg
-hBI6ft0EcEr3REnQvDHu0BFj7WmDNn/E8Qlr9s9aQLNng66oNU/1KdIQ323FZtIs
-UXjHx6K2Gev9w3ybff1JAto1zs55xxJLnwnCeTWeUsTLnw2nUsM=
-=3zok
------END PGP SIGNATURE-----
+Tomas Bortoli (1):
+      media: ttusb-dec: Fix info-leak in ttusb_dec_send_command()
 
---=-dK1HuylAfjFCCfud9xmh--
+ .../bindings/media/allwinner,sun4i-a10-ir.yaml     |  80 ++++++++++
+ Documentation/devicetree/bindings/media/rc.txt     | 118 +--------------
+ Documentation/devicetree/bindings/media/rc.yaml    | 145 +++++++++++++++++++
+ .../devicetree/bindings/media/sunxi-ir.txt         |  35 -----
+ drivers/media/dvb-frontends/cxd2099.c              |   2 +-
+ drivers/media/firewire/firedtv-ci.c                |   2 +-
+ drivers/media/pci/bt8xx/dvb-bt8xx.c                |   2 +-
+ drivers/media/usb/dvb-usb-v2/dvbsky.c              |  21 ++-
+ drivers/media/usb/dvb-usb-v2/ec168.c               |   2 +-
+ drivers/media/usb/dvb-usb/cxusb.c                  | 161 ---------------------
+ drivers/media/usb/ttusb-dec/ttusb_dec.c            |   2 +-
+ 11 files changed, 247 insertions(+), 323 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun4i-a10-ir.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/rc.yaml
+ delete mode 100644 Documentation/devicetree/bindings/media/sunxi-ir.txt
