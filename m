@@ -2,78 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FD44973DC
-	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2019 09:50:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB946973F8
+	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2019 09:53:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726397AbfHUHuE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Aug 2019 03:50:04 -0400
-Received: from mail.ispras.ru ([83.149.199.45]:50720 "EHLO mail.ispras.ru"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726028AbfHUHuE (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Aug 2019 03:50:04 -0400
-X-Greylist: delayed 459 seconds by postgrey-1.27 at vger.kernel.org; Wed, 21 Aug 2019 03:50:03 EDT
-Received: from localhost.localdomain (broadband-188-32-48-208.ip.moscow.rt.ru [188.32.48.208])
-        by mail.ispras.ru (Postfix) with ESMTPSA id 1679B540081;
-        Wed, 21 Aug 2019 10:42:23 +0300 (MSK)
-From:   Denis Efremov <efremov@ispras.ru>
-To:     akpm@linux-foundation.org
-Cc:     Denis Efremov <efremov@ispras.ru>,
-        Akinobu Mita <akinobu.mita@gmail.com>, Jan Kara <jack@suse.cz>,
-        Matthew Wilcox <matthew@wil.cx>, linux-kernel@vger.kernel.org,
-        dm-devel@redhat.com, linux-fsdevel@vger.kernel.org,
-        linux-media@vger.kernel.org, Erdem Tumurov <erdemus@gmail.com>,
-        Vladimir Shelekhov <vshel@iis.nsk.su>
-Subject: [PATCH] lib/memweight.c: optimize by inlining bitmap_weight()
-Date:   Wed, 21 Aug 2019 10:42:00 +0300
-Message-Id: <20190821074200.2203-1-efremov@ispras.ru>
-X-Mailer: git-send-email 2.21.0
+        id S1726413AbfHUHxa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Aug 2019 03:53:30 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:45003 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726317AbfHUHx0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 21 Aug 2019 03:53:26 -0400
+Received: by mail-lf1-f67.google.com with SMTP id v16so1057874lfg.11
+        for <linux-media@vger.kernel.org>; Wed, 21 Aug 2019 00:53:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=4WkbNxIuQHcMyi/6jdTaT2GJS3hfGOuis/4XMY+Hqv0=;
+        b=XJpPbfj8P9QJPx+MXLpw/Zpk11zobJZrO2DKY2mgHVIboqYEIp2ho60EdmJ3Y6AYhx
+         QSp2QIWv3+2jDYAwohs4rK6Vso5/KH0plNFbkiVQOUBT0vvmNKlwTtmxhBUeNyVviVPx
+         n0fZo6b8dEC6PfFj/iWpjszsR9aKv8/foAkPe46cmiTYeN3GdlFzCc3FTBNrpw6P2R76
+         OT8VBJsJZ11Equt8nnFkW29jpyKvGrmiU9lOd3X/v46bDxzBHa36K1mJnZ5TV0a6SHaW
+         cM/oolufmA0f6Y6h+Se5FCifYLechXV2U57q5/+CIRUGI5wzReLVnaH0QEGrl+dt23hj
+         sLAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=4WkbNxIuQHcMyi/6jdTaT2GJS3hfGOuis/4XMY+Hqv0=;
+        b=AzTP97Kh1Q5nJSZUEJuKMwkuZ9K512SvfioIjCQnIV1+J4SBhWoR/Xyq5CIYEdZhy/
+         D9UGAEAapWvspp2HLMqqh5hBJ4t0+Dc2LqL0O04gfogwv65MXHVpQOjWYiYdLlzdGFHt
+         SeyxCek9N8q0hMvyPOogPwylZCLG+0FJs6brdW94WNJwBMjvUFSsHswEp1dg32mdky3M
+         z9dNdBSnqZJ2VrIgOO6K7XWdL9uO+y0W0GJ9wH3zir3CgNIgznjwH3/5ZXSrUMGa8iw0
+         IynqGTkaNbgia7eOin0hVmtFxJd+Vbs8ZXp6P+4TQT0vNDvTBLiSscoD8Y+keELB7c0N
+         dmuA==
+X-Gm-Message-State: APjAAAWFMLe44CxBlm11mGhDWxBBPd4sJSrKcwbtHygkHF4hmhAHzyII
+        YS70hxbVvkeIkQ5pTpuqnCDRMA==
+X-Google-Smtp-Source: APXvYqyhZXLsc3Atd+lyJOsKNYthp6F6CwMZKFd5dNFZ+MASXA4v3XjQhoGKDCwuBYhc8sOqNq42Ww==
+X-Received: by 2002:ac2:4ac4:: with SMTP id m4mr17369662lfp.172.1566374003532;
+        Wed, 21 Aug 2019 00:53:23 -0700 (PDT)
+Received: from [192.168.27.209] ([37.157.136.206])
+        by smtp.googlemail.com with ESMTPSA id p28sm3254972lfh.55.2019.08.21.00.53.22
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 21 Aug 2019 00:53:22 -0700 (PDT)
+Subject: Re: [PATCH 1/2] venus: use on-chip interconnect API
+To:     Georgi Djakov <georgi.djakov@linaro.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     Vikash Garodia <vgarodia@codeaurora.org>,
+        Andy Gross <agross@kernel.org>,
+        Aniket Masule <amasule@codeaurora.org>,
+        Linux PM list <linux-pm@vger.kernel.org>
+References: <20190814084701.25455-1-stanimir.varbanov@linaro.org>
+ <20190814084701.25455-2-stanimir.varbanov@linaro.org>
+ <cc85f55c-3d21-c3b2-6848-e48513263e39@linaro.org>
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Message-ID: <939ace85-e006-db6d-02d2-b55385fa5043@linaro.org>
+Date:   Wed, 21 Aug 2019 10:53:20 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <cc85f55c-3d21-c3b2-6848-e48513263e39@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This patch inlines bitmap_weight() call. Thus, removing the BUG_ON,
-and 'longs to bits -> bits to longs' conversion by directly calling
-hweight_long().
+Hi Georgi,
 
-./scripts/bloat-o-meter lib/memweight.o.old lib/memweight.o.new
-add/remove: 0/0 grow/shrink: 0/1 up/down: 0/-10 (-10)
-Function                                     old     new   delta
-memweight                                    162     152     -10
+Thanks for the review!
 
-Co-developed-by: Erdem Tumurov <erdemus@gmail.com>
-Co-developed-by: Vladimir Shelekhov <vshel@iis.nsk.su>
-Signed-off-by: Erdem Tumurov <erdemus@gmail.com>
-Signed-off-by: Vladimir Shelekhov <vshel@iis.nsk.su>
-Signed-off-by: Denis Efremov <efremov@ispras.ru>
----
- lib/memweight.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+On 8/20/19 12:34 PM, Georgi Djakov wrote:
+> Hi Stan,
+> 
+> On 8/14/19 11:47, Stanimir Varbanov wrote:
+>> This aims to add a requests for bandwidth scaling depending
+>> on the resolution and framerate (macroblocks per second). The
+>> exact value ff the requested bandwidth is get from a
+> 
+> s/ff/of/
+> 
+>> pre-calculated tables for encoder and decoder.
+>>
+>> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+>> ---
+>>  drivers/media/platform/qcom/venus/core.c    | 34 +++++++++++
+>>  drivers/media/platform/qcom/venus/core.h    | 14 +++++
+>>  drivers/media/platform/qcom/venus/helpers.c | 67 ++++++++++++++++++++-
+>>  3 files changed, 114 insertions(+), 1 deletion(-)
+> 
+> It looks like venus can be built-in, so how about the case when venus is
+> built-in and the interconnect provider is a module? Maybe add a dependency in
+> Kconfig to depend on INTERCONNECT || !INTERCONNECT?
 
-diff --git a/lib/memweight.c b/lib/memweight.c
-index 94dd72ccaa7f..f050b2b4c5e2 100644
---- a/lib/memweight.c
-+++ b/lib/memweight.c
-@@ -20,11 +20,13 @@ size_t memweight(const void *ptr, size_t bytes)
- 
- 	longs = bytes / sizeof(long);
- 	if (longs) {
--		BUG_ON(longs >= INT_MAX / BITS_PER_LONG);
--		ret += bitmap_weight((unsigned long *)bitmap,
--				longs * BITS_PER_LONG);
-+		const unsigned long *bitmap_long =
-+			(const unsigned long *)bitmap;
-+
- 		bytes -= longs * sizeof(long);
--		bitmap += longs * sizeof(long);
-+		for (; longs > 0; longs--, bitmap_long++)
-+			ret += hweight_long(*bitmap_long);
-+		bitmap = (const unsigned char *)bitmap_long;
- 	}
- 	/*
- 	 * The reason that this last loop is distinct from the preceding
+yes, I forgot about that dependency.
+
+> 
+>>
+>> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+>> index 0acc7576cc58..19cbe9d5d028 100644
+>> --- a/drivers/media/platform/qcom/venus/core.c
+>> +++ b/drivers/media/platform/qcom/venus/core.c
+>> @@ -5,6 +5,7 @@
+>>   */
+>>  #include <linux/clk.h>
+>>  #include <linux/init.h>
+>> +#include <linux/interconnect.h>
+>>  #include <linux/ioctl.h>
+>>  #include <linux/list.h>
+>>  #include <linux/module.h>
+>> @@ -239,6 +240,14 @@ static int venus_probe(struct platform_device *pdev)
+>>  	if (IS_ERR(core->base))
+>>  		return PTR_ERR(core->base);
+>>  
+>> +	core->video_path = of_icc_get(dev, "video-mem");
+>> +	if (IS_ERR(core->video_path))
+>> +		return PTR_ERR(core->video_path);
+>> +
+>> +	core->cpucfg_path = of_icc_get(dev, "cpu-cfg");
+>> +	if (IS_ERR(core->cpucfg_path))
+>> +		return PTR_ERR(core->cpucfg_path);
+>> +
+>>  	core->irq = platform_get_irq(pdev, 0);
+>>  	if (core->irq < 0)
+>>  		return core->irq;
+>> @@ -273,6 +282,10 @@ static int venus_probe(struct platform_device *pdev)
+>>  	if (ret)
+>>  		return ret;
+>>  
+>> +	ret = icc_set_bw(core->cpucfg_path, 0, kbps_to_icc(1000));
+>> +	if (ret)
+>> +		return ret;
+>> +
+>>  	ret = hfi_create(core, &venus_core_ops);
+>>  	if (ret)
+>>  		return ret;
+>> @@ -355,6 +368,9 @@ static int venus_remove(struct platform_device *pdev)
+>>  	pm_runtime_put_sync(dev);
+>>  	pm_runtime_disable(dev);
+>>  
+>> +	icc_put(core->video_path);
+>> +	icc_put(core->cpucfg_path);
+>> +
+> 
+> Do you have any plans to scale the bandwidth on suspend/resume too?
+
+Yes, we definitely need that in suspend/resume, but I guess the plan
+should be add it once we implement pm_runtime autosuspend functionality
+in order to easily test that.
+
 -- 
-2.21.0
-
+regards,
+Stan
