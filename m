@@ -2,81 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BB38897376
-	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2019 09:31:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FD44973DC
+	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2019 09:50:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728334AbfHUHbU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Aug 2019 03:31:20 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:42573 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728313AbfHUHbT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Aug 2019 03:31:19 -0400
-Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.lab.pengutronix.de)
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1i0L5N-0003b4-3C; Wed, 21 Aug 2019 09:31:13 +0200
-Received: from mfe by dude02.lab.pengutronix.de with local (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1i0L5H-0005NO-GZ; Wed, 21 Aug 2019 09:31:07 +0200
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
-        hans.verkuil@cisco.com, jacopo+renesas@jmondi.org,
-        robh+dt@kernel.org, laurent.pinchart@ideasonboard.com
-Cc:     devicetree@vger.kernel.org, kernel@pengutronix.de,
-        linux-media@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>
-Subject: [PATCH v8 13/13] media: tvp5150: make debug output more readable
-Date:   Wed, 21 Aug 2019 09:31:03 +0200
-Message-Id: <20190821073103.19634-14-m.felsch@pengutronix.de>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190821073103.19634-1-m.felsch@pengutronix.de>
-References: <20190821073103.19634-1-m.felsch@pengutronix.de>
+        id S1726397AbfHUHuE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Aug 2019 03:50:04 -0400
+Received: from mail.ispras.ru ([83.149.199.45]:50720 "EHLO mail.ispras.ru"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726028AbfHUHuE (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 21 Aug 2019 03:50:04 -0400
+X-Greylist: delayed 459 seconds by postgrey-1.27 at vger.kernel.org; Wed, 21 Aug 2019 03:50:03 EDT
+Received: from localhost.localdomain (broadband-188-32-48-208.ip.moscow.rt.ru [188.32.48.208])
+        by mail.ispras.ru (Postfix) with ESMTPSA id 1679B540081;
+        Wed, 21 Aug 2019 10:42:23 +0300 (MSK)
+From:   Denis Efremov <efremov@ispras.ru>
+To:     akpm@linux-foundation.org
+Cc:     Denis Efremov <efremov@ispras.ru>,
+        Akinobu Mita <akinobu.mita@gmail.com>, Jan Kara <jack@suse.cz>,
+        Matthew Wilcox <matthew@wil.cx>, linux-kernel@vger.kernel.org,
+        dm-devel@redhat.com, linux-fsdevel@vger.kernel.org,
+        linux-media@vger.kernel.org, Erdem Tumurov <erdemus@gmail.com>,
+        Vladimir Shelekhov <vshel@iis.nsk.su>
+Subject: [PATCH] lib/memweight.c: optimize by inlining bitmap_weight()
+Date:   Wed, 21 Aug 2019 10:42:00 +0300
+Message-Id: <20190821074200.2203-1-efremov@ispras.ru>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The debug output for tvp5150_selmux() isn't really intuitive. Register
-values are printed decimal formatted and the input/output driver states
-are printed as enum. Even more the "normal" output enum mapps to zero so
-a active output will printing output=0 and a inactive output=1.
+This patch inlines bitmap_weight() call. Thus, removing the BUG_ON,
+and 'longs to bits -> bits to longs' conversion by directly calling
+hweight_long().
 
-Change this by brinting the register values hex formatted and the states
-as more readable string.
+./scripts/bloat-o-meter lib/memweight.o.old lib/memweight.o.new
+add/remove: 0/0 grow/shrink: 0/1 up/down: 0/-10 (-10)
+Function                                     old     new   delta
+memweight                                    162     152     -10
 
-Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+Co-developed-by: Erdem Tumurov <erdemus@gmail.com>
+Co-developed-by: Vladimir Shelekhov <vshel@iis.nsk.su>
+Signed-off-by: Erdem Tumurov <erdemus@gmail.com>
+Signed-off-by: Vladimir Shelekhov <vshel@iis.nsk.su>
+Signed-off-by: Denis Efremov <efremov@ispras.ru>
 ---
- drivers/media/i2c/tvp5150.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ lib/memweight.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/i2c/tvp5150.c b/drivers/media/i2c/tvp5150.c
-index b48b08421993..240df920b521 100644
---- a/drivers/media/i2c/tvp5150.c
-+++ b/drivers/media/i2c/tvp5150.c
-@@ -300,9 +300,12 @@ static void tvp5150_selmux(struct v4l2_subdev *sd)
- 		break;
+diff --git a/lib/memweight.c b/lib/memweight.c
+index 94dd72ccaa7f..f050b2b4c5e2 100644
+--- a/lib/memweight.c
++++ b/lib/memweight.c
+@@ -20,11 +20,13 @@ size_t memweight(const void *ptr, size_t bytes)
+ 
+ 	longs = bytes / sizeof(long);
+ 	if (longs) {
+-		BUG_ON(longs >= INT_MAX / BITS_PER_LONG);
+-		ret += bitmap_weight((unsigned long *)bitmap,
+-				longs * BITS_PER_LONG);
++		const unsigned long *bitmap_long =
++			(const unsigned long *)bitmap;
++
+ 		bytes -= longs * sizeof(long);
+-		bitmap += longs * sizeof(long);
++		for (; longs > 0; longs--, bitmap_long++)
++			ret += hweight_long(*bitmap_long);
++		bitmap = (const unsigned char *)bitmap_long;
  	}
- 
--	dev_dbg_lvl(sd->dev, 1, debug, "Selecting video route: route input=%i, output=%i => tvp5150 input=%i, opmode=%i\n",
--			decoder->input, decoder->output,
--			input, opmode);
-+	dev_dbg_lvl(sd->dev, 1, debug,
-+		    "Selecting video route: route input=%s, output=%s => tvp5150 input=0x%02x, opmode=0x%02x\n",
-+		    decoder->input == 0 ? "aip1a" :
-+		    decoder->input == 2 ? "aip1b" : "svideo",
-+		    decoder->output == 0 ? "normal" : "black-frame-gen",
-+		    input, opmode);
- 
- 	regmap_write(decoder->regmap, TVP5150_OP_MODE_CTL, opmode);
- 	regmap_write(decoder->regmap, TVP5150_VD_IN_SRC_SEL_1, input);
+ 	/*
+ 	 * The reason that this last loop is distinct from the preceding
 -- 
-2.20.1
+2.21.0
 
