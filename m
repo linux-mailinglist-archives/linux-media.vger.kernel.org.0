@@ -2,102 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 34A7A98580
-	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2019 22:23:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B98A79866B
+	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2019 23:16:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728582AbfHUUXA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Aug 2019 16:23:00 -0400
-Received: from mail-ot1-f53.google.com ([209.85.210.53]:37002 "EHLO
-        mail-ot1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727998AbfHUUXA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Aug 2019 16:23:00 -0400
-Received: by mail-ot1-f53.google.com with SMTP id f17so3325645otq.4
-        for <linux-media@vger.kernel.org>; Wed, 21 Aug 2019 13:22:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=MKzvDm+ztYbW7s8xYbQH0GgXMCIamw1+1ytg0mPF2A8=;
-        b=bJB9mLV4u+q7ZA3/b2C0MxHlyFCbkgj0+BPIvFsWr5qTv+m61JrH+4mikUmO36rEzh
-         GHIuTv8y2YOM+7L8jsfwb1SqW255J/fdl2x7ENOv8MljNHvWHAwfLZh0yxm46ODx7FUv
-         gP2AQbCTBs1fisoXguY7cOLS7BKNT4Y492ZSQ=
+        id S1730822AbfHUVQR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Aug 2019 17:16:17 -0400
+Received: from mx2.ucr.edu ([138.23.62.3]:47390 "EHLO mx2.ucr.edu"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727629AbfHUVQR (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 21 Aug 2019 17:16:17 -0400
+X-Greylist: delayed 426 seconds by postgrey-1.27 at vger.kernel.org; Wed, 21 Aug 2019 17:16:16 EDT
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=ucr.edu; i=@ucr.edu; q=dns/txt; s=selector3;
+  t=1566422176; x=1597958176;
+  h=from:to:cc:subject:date:message-id;
+  bh=cBdSPmFTN1DOzz1EeXVkXTHdBWMI8uVVtsHBkBxazoQ=;
+  b=B5BMyHrtOIFgQAbenN+daWQ1pGabzwT/1kOog89cyNQ5axJy759kqS48
+   bRRlM4KCENlKkpMnTGwQdOn881lg0S282Hi1DCfI4cbtp2RI0S6BSDxr6
+   0jHH++BhAWYSOOg8rekN7btnCIHjSCFsgU4lTq5rNBGNTixRAvUSbrqao
+   gwvFk0vigh3rPb3x2IuZbYiqZavyqFkIb5IUK4u7tkXN80vdpOWEpK/++
+   cpE0eZsFM6TLFWxn/jFPVpFrr7JwW8kZwEO1rmSq6B0I5h447XUCrh9uK
+   KfOJuoyUeksZ62ltdcTxgZoq+qP2rjXForuTAL3RdeTStJDZ80o4YKdYO
+   w==;
+IronPort-SDR: 2h9ccD1T5iEdwdt9nQsSTSbbOyxJwBpsyJWpsGAXh07Xs1Z5cyMyp6+28y3d6Vih/7NKilIqJw
+ VcbFYTWgYg1meiWTbzqSUKcFfK37NBc9bV7+vCN7wfMIZ18c8CDiVt7gvR5hYSWqUTB1JcX+FB
+ 9zS+BM/gTB6aN3mrYtkfDSBLImNbErqTYhVFlQ/KBpUhkqo5UuiOGXxCfcORyqPhUJ2bfzoXy4
+ imJgOSdKGbQkTar60ivCFyS4QKlhOQSFK0rd8swsN26Ctl06U2DnLcbnFEawj2I6S6Mq1lHSMy
+ PYQ=
+IronPort-PHdr: =?us-ascii?q?9a23=3ASGmDHhxdLSG6qrjXCy+O+j09IxM/srCxBDY+r6?=
+ =?us-ascii?q?Qd1OMTIJqq85mqBkHD//Il1AaPAdyBrasY0KGP7vGocFdDyK7JiGoFfp1IWk?=
+ =?us-ascii?q?1NouQttCtkPvS4D1bmJuXhdS0wEZcKflZk+3amLRodQ56mNBXdrXKo8DEdBA?=
+ =?us-ascii?q?j0OxZrKeTpAI7SiNm82/yv95HJbAhEmSSxbalvIBi5owjdudQajItmJ60s1h?=
+ =?us-ascii?q?bHv3xEdvhMy2h1P1yThRH85smx/J5n7Stdvu8q+tBDX6vnYak2VKRUAzs6PW?=
+ =?us-ascii?q?874s3rrgTDQhCU5nQASGUWkwFHDBbD4RrnQ5r+qCr6tu562CmHIc37SK0/VD?=
+ =?us-ascii?q?q+46t3ThLjlTwKPCAl/m7JlsNwjbpboBO/qBx5347Ue5yeOP5ncq/AYd8WWW?=
+ =?us-ascii?q?9NU8BUVyxAGYO8dIoPD+wOPe1FsYfzvkYFrRW/BQayAOPg1yJDinv40KEm1u?=
+ =?us-ascii?q?gsFxzN0g49ENIUqHnarMv7OrocX+62y6fF1inPY+9M1Dvh8oXEbgwtrPeRVr?=
+ =?us-ascii?q?xwa8rRzkwvGhvHgVWRqI3lPy6V1uMQuGWc7+thVOKvhHQmqw1tvjSiyNwhip?=
+ =?us-ascii?q?TViYIP0FzL6zh2wJssKNC+VUV1YsakHYNOuy2GM4Z6WMAvTmFytCok17EKpY?=
+ =?us-ascii?q?S3cDUOxZkj3xLTdv2KfoyS7h79WuucIS10iGxkdb6lhRu//k6twfDmWMauyl?=
+ =?us-ascii?q?ZFtC9Fn8HJtnAKyhPc9NCKSuB4/ke9wTaP0B3T6v1cLUA0i6XbL5khz6Y1lp?=
+ =?us-ascii?q?UJsETDGjb6mF34jKOLb0kk9PWk5uDjb7n8qZ+cMIh0ig76MqswgMCwHeM4Mg?=
+ =?us-ascii?q?0WU2ia/+SzyqHj8FXnTLlWivA6iKrUvZDAKcgFu6K1HxVZ3psn5hu7Fzum1c?=
+ =?us-ascii?q?4XnXgDLFJLYhKHiI3pNknOIfH5DfewmVWsnCt3y/3IJbDhH4nCLmLZnLj/YL?=
+ =?us-ascii?q?l99lZQyBAvwtBH+5JUFrYBLer3Wk/wstzYExA4PxWxw+n5Fdp915kRVHmRAq?=
+ =?us-ascii?q?+WLqzSq0WE5uExLOmWYo8apjL9J+Ii5/70gn9q0XEHeqz87JoFaG2/VqB3MU?=
+ =?us-ascii?q?WQYCK02f8cGn1MswYjGr+5wGaeWCJeMi7hF5k34Ss2Xcf5VYo=3D?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A2FXGgDpsV1dgMfSVdFkHgEGBwaBZ4M?=
+ =?us-ascii?q?FUkwQh2mFMoZTAQEBBoNAKIc1GHGFeIMIgWOFOwEIAQEBDAEBGxICAQGBBIM?=
+ =?us-ascii?q?7gl8jOBMCBQEBBQECAQEGBAEBAhABAQkNCQgnhTAMgjopgUxfNQsWFVKBFQE?=
+ =?us-ascii?q?FATUiOYJHAYF2FJ4UgQM8jCMzg3eEfwEIDIFJCQEIgSKHFYRZgRCBB4Nuc4J?=
+ =?us-ascii?q?IhRuCRASBLgEBAZQ0lW8BBgIBggsUgW+EeY1FJ4MegQ6JFIsFAS2Dfp1Ng3E?=
+ =?us-ascii?q?CCgcGDyGBRoF6TSWBbAqBRAmCcYYEiCkfM4EIjEIB?=
+X-IPAS-Result: =?us-ascii?q?A2FXGgDpsV1dgMfSVdFkHgEGBwaBZ4MFUkwQh2mFMoZTA?=
+ =?us-ascii?q?QEBBoNAKIc1GHGFeIMIgWOFOwEIAQEBDAEBGxICAQGBBIM7gl8jOBMCBQEBB?=
+ =?us-ascii?q?QECAQEGBAEBAhABAQkNCQgnhTAMgjopgUxfNQsWFVKBFQEFATUiOYJHAYF2F?=
+ =?us-ascii?q?J4UgQM8jCMzg3eEfwEIDIFJCQEIgSKHFYRZgRCBB4Nuc4JIhRuCRASBLgEBA?=
+ =?us-ascii?q?ZQ0lW8BBgIBggsUgW+EeY1FJ4MegQ6JFIsFAS2Dfp1Ng3ECCgcGDyGBRoF6T?=
+ =?us-ascii?q?SWBbAqBRAmCcYYEiCkfM4EIjEIB?=
+X-IronPort-AV: E=Sophos;i="5.64,414,1559545200"; 
+   d="scan'208";a="3386587"
+Received: from mail-pf1-f199.google.com ([209.85.210.199])
+  by smtp2.ucr.edu with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2019 14:09:09 -0700
+Received: by mail-pf1-f199.google.com with SMTP id 191so2422573pfy.20
+        for <linux-media@vger.kernel.org>; Wed, 21 Aug 2019 14:09:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=MKzvDm+ztYbW7s8xYbQH0GgXMCIamw1+1ytg0mPF2A8=;
-        b=Z+cup8L1vJLKFR/9sJr52NZEhSE59GPlEsuJzV1V085qSK7HQHwgzF7Z+jYmmxUlxa
-         AUa2kSQF32a+F1XIiWFyj14CL49UUWN19lB0W39zqaiZFy8aaCxNypu5cjkX7Ph0LPYa
-         lvFI2m91pr0GX56Lx0AhnAf5b+/opwbvmGUS1U12sdd0bWyYcU93KZzFNR/x7yZxF5ZQ
-         W38zmhNklntjynbpjHc9bjzI0c7YJJiIpWMs+XDaA1asZE5qpL0LJMXG+dZTTrtiL4vy
-         ekUApMtGVmhnePaDfmgIvpbSrNtiI70Dvs4TX+iLsl1Gblb8/cCWMrjrxJ4UDq4Rcn7P
-         FYLw==
-X-Gm-Message-State: APjAAAUUwOQ2Fk7hUBTsd1HXgtoRJ9/HJWqxB3gA3GUVh4T3yAyD6pz4
-        l7HxHHPnLHTrjQXbbDyG9MANVEb72zgj/F61pM2Lkw==
-X-Google-Smtp-Source: APXvYqxzQXGnnKkIYCYTX+26SGzVn5ZVSNVD//25VTXs31hGvwkhLv0KLTL93xyFsm0usIgLXw2XWLJOtx8wuvtcIys=
-X-Received: by 2002:a9d:6955:: with SMTP id p21mr29956498oto.204.1566418979173;
- Wed, 21 Aug 2019 13:22:59 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190821123147.110736-1-christian.koenig@amd.com> <156641829139.20466.3485292236947741339@skylake-alporthouse-com>
-In-Reply-To: <156641829139.20466.3485292236947741339@skylake-alporthouse-com>
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Wed, 21 Aug 2019 22:22:47 +0200
-Message-ID: <CAKMK7uFAreLt64Y9btk4VNxo6a2YMgXrg136z0uuyy5B3SMS+A@mail.gmail.com>
-Subject: Re: [RFC] replacing dma_resv API
-To:     Chris Wilson <chris@chris-wilson.co.uk>
-Cc:     =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=KPS5jpp4Ywj8sRwhNiLpJFreklEq0lOjofl+ZAU4qJQ=;
+        b=geFgLfPuHa8YnonuzcRxB4+rpqtICko9clk5r3ivlRS+CmpoLJxTL8Ms6rYmU/y3xk
+         yY64KUlqrLwxUYs4tBcDpVvhrS6aIzx7Lbd23ZQHiPBQVeLlWjM7TIIqzd7GzcvnAiv5
+         HjdpjT+6bx5GTvfsX1qevLxDuvxSoafcCEEJ/JHUAZsLI+MvYvsWsuExhDQlk5ZrWc3/
+         DEN/6qlkD1IBfVs4E1MMf+yjvFvhl7yMtWdtdYKeaf5CTLMi8visVGYgoDoy09MWHHg6
+         ooT2GGW+oAqhsvQ3INZ6rRrMsdxwuTt5fgM7NkYPFKJ09JBUN9NGxqWObfCZH401S5pq
+         PpzA==
+X-Gm-Message-State: APjAAAUr2p65fXjhLC0NIv7b6YnwdKsJDjpvQht3wlnxdxazB5tss6Ge
+        J5MFysBDGzA0VAnXv9MQed07uXQBnOH4DwM25CjDF4D8xwBvq8ox1wHrCq4a68FjsklWZYPfXiO
+        SCi98WHeMGYqVchmnwsoOqwCV
+X-Received: by 2002:a63:b555:: with SMTP id u21mr31205056pgo.222.1566421748840;
+        Wed, 21 Aug 2019 14:09:08 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqypPungdy54NKD8FgZtyzscW8+eeQZFviA3kiXY7Ju80sT8SoAvChCE+gSfywI+XS44rMNfaQ==
+X-Received: by 2002:a63:b555:: with SMTP id u21mr31205024pgo.222.1566421748376;
+        Wed, 21 Aug 2019 14:09:08 -0700 (PDT)
+Received: from Yizhuo.cs.ucr.edu (yizhuo.cs.ucr.edu. [169.235.26.74])
+        by smtp.googlemail.com with ESMTPSA id m37sm4782555pjb.0.2019.08.21.14.09.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Aug 2019 14:09:07 -0700 (PDT)
+From:   Yizhuo <yzhai003@ucr.edu>
+Cc:     csong@cs.ucr.edu, zhiyunq@cs.ucr.edu, Yizhuo <yzhai003@ucr.edu>,
+        Mike Isely <isely@pobox.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] [media] pvrusb2: qctrl.flag will be uninitlaized if cx2341x_ctrl_query() returns error code
+Date:   Wed, 21 Aug 2019 14:09:31 -0700
+Message-Id: <20190821210931.9621-1-yzhai003@ucr.edu>
+X-Mailer: git-send-email 2.17.1
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Aug 21, 2019 at 10:11 PM Chris Wilson <chris@chris-wilson.co.uk> wr=
-ote:
->
-> Quoting Christian K=C3=B6nig (2019-08-21 13:31:37)
-> > Hi everyone,
-> >
-> > In previous discussion it surfaced that different drivers use the share=
-d and explicit fences in the dma_resv object with different meanings.
-> >
-> > This is problematic when we share buffers between those drivers and req=
-uirements for implicit and explicit synchronization leaded to quite a numbe=
-r of workarounds related to this.
-> >
-> > So I started an effort to get all drivers back to a common understandin=
-g of what the fences in the dma_resv object mean and be able to use the obj=
-ect for different kind of workloads independent of the classic DRM command =
-submission interface.
-> >
-> > The result is this patch set which modifies the dma_resv API to get awa=
-y from a single explicit fence and multiple shared fences, towards a notati=
-on where we have explicit categories for writers, readers and others.
->
-> Fwiw, I would like the distinction here between optional fences
-> (writers, readers) and mandatory fences (others). The optional fences
-> are where we put the implicit fence tracking that clever userspace would
-> rather avoid. The mandatory fences (I would call internal) is where we
-> put the fences for tracking migration that userspace can not opt out of.
+Inside function ctrl_cx2341x_getv4lflags(), qctrl.flag
+will be uninitlaized if cx2341x_ctrl_query() returns -EINVAL.
+However, it will be used in the later if statement, which is
+potentially unsafe.
 
-I think this would make sense, and is kinda what I expected here. If
-(and I think that's a huge if) we can agree on what those internal
-fences are. There's a huge difference between internal fences for
-buffer moves (better not ignore those) and internal fences like
-amdkfd's eviction fence (better ignore those). So whatever we do add,
-it better come with really clear docs and pretty diagrams about what
-it's supposed to do, and how it's supposed to be used. Or we're just
-back to the current mess we're in, times two.
--Daniel
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-+41 (0) 79 365 57 48 - http://blog.ffwll.ch
+Signed-off-by: Yizhuo <yzhai003@ucr.edu>
+---
+ drivers/media/usb/pvrusb2/pvrusb2-hdw.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/media/usb/pvrusb2/pvrusb2-hdw.c b/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
+index ad5b25b89699..1fa05971316a 100644
+--- a/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
++++ b/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
+@@ -793,6 +793,7 @@ static unsigned int ctrl_cx2341x_getv4lflags(struct pvr2_ctrl *cptr)
+ 	struct v4l2_queryctrl qctrl;
+ 	struct pvr2_ctl_info *info;
+ 	qctrl.id = cptr->info->v4l_id;
++	memset(&qctr, 0, sizeof(qctrl))
+ 	cx2341x_ctrl_query(&cptr->hdw->enc_ctl_state,&qctrl);
+ 	/* Strip out the const so we can adjust a function pointer.  It's
+ 	   OK to do this here because we know this is a dynamically created
+-- 
+2.17.1
+
