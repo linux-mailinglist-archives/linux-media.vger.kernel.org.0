@@ -2,396 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 96BDA986D4
-	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2019 23:50:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F3B99879A
+	for <lists+linux-media@lfdr.de>; Thu, 22 Aug 2019 01:02:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729116AbfHUVuK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Aug 2019 17:50:10 -0400
-Received: from hostingweb31-40.netsons.net ([89.40.174.40]:45835 "EHLO
-        hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728872AbfHUVuK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Aug 2019 17:50:10 -0400
-Received: from [37.160.124.96] (port=3567 helo=[192.168.42.162])
-        by hostingweb31.netsons.net with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
-        (Exim 4.92)
-        (envelope-from <luca@lucaceresoli.net>)
-        id 1i0YUV-000EDm-Jk; Wed, 21 Aug 2019 23:50:03 +0200
-Subject: Re: [RFC,v2 3/6] media: dt-bindings: add DS90UB954-Q1 video
- deserializer
-To:     Rob Herring <robh@kernel.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux I2C <linux-i2c@vger.kernel.org>,
-        devicetree@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Wolfram Sang <wsa@the-dreams.de>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Peter Rosin <peda@axentia.se>
-References: <20190723203723.11730-1-luca@lucaceresoli.net>
- <20190723203723.11730-4-luca@lucaceresoli.net> <20190813154439.GA29515@bogus>
- <8bd3161b-31d6-f49a-cc79-1ac9762e037f@lucaceresoli.net>
- <CAL_JsqKDkixeDJJVxbzWebD6nqMHyk6QqDGSKrQho0THjLdmKQ@mail.gmail.com>
-From:   Luca Ceresoli <luca@lucaceresoli.net>
-Message-ID: <6b42130e-913e-35e6-4396-e9769c638fa4@lucaceresoli.net>
-Date:   Wed, 21 Aug 2019 23:50:01 +0200
+        id S1730260AbfHUXCk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Aug 2019 19:02:40 -0400
+Received: from mail.kapsi.fi ([91.232.154.25]:45657 "EHLO mail.kapsi.fi"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730022AbfHUXCk (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 21 Aug 2019 19:02:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+         s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+        MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=3bWtD2b+tGg0XHoxAgH7cCR0NBw7lNaMSmvwqKVI8C4=; b=DUcTB8AyEUxjujj9x5L3Xso8qj
+        Cd6WH07qo+i/poTUuNiGunvAwwHmHLim9numjqsce1/l1zKbwFrHV5yZXl85KZY0kkKTYGC380uqB
+        cTHC+tWriYpeTBvTWcXPa3D24KN5WI51RfqPowdbt3pruTNNtOZqF7EWZBDcsotQ5pg3O8HXnR0K4
+        87wbJAFdZPPlRbcBvuOrYZ7h4o2TSEfvX8bhOB5bK4Z5HrpAmylCoWiozbCRulVKpLZm/r2+LlWu7
+        j7w8XhyukjTmyW7nhkhRx+hGDO2Y/n84WOXzZEyxSZt/N4E4GAV76rc2DzSooA+Q+/+wkItN4V8p8
+        74cCm/dg==;
+Received: from dvbz8cyyyyyyyyyyyy5hy-3.rev.dnainternet.fi ([2001:14ba:8869:c100::64c] helo=localhost.localdomain)
+        by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.89)
+        (envelope-from <crope@iki.fi>)
+        id 1i0Zci-0004hR-Gd; Thu, 22 Aug 2019 02:02:36 +0300
+Subject: Re: [PATCH] dvb-usb-v2/gl861: fix wrong memcpy
+To:     Akihiro TSUKADA <tskd08@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Sean Young <sean@mess.org>
+References: <98cb0a1c-0db8-951b-80e1-12756678db9a@xs4all.nl>
+ <6c2806fe-f104-84bf-21b8-21df9b3112cf@gmail.com>
+ <20190815220811.6ba32749@coco.lan>
+ <df8060a6-9666-3dd1-e041-620891970e7c@gmail.com>
+From:   Antti Palosaari <crope@iki.fi>
+Message-ID: <fe4da71a-c562-e58e-9b1c-acb6853d9005@iki.fi>
+Date:   Thu, 22 Aug 2019 02:02:35 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <CAL_JsqKDkixeDJJVxbzWebD6nqMHyk6QqDGSKrQho0THjLdmKQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <df8060a6-9666-3dd1-e041-620891970e7c@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lucaceresoli.net
-X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca@lucaceresoli.net
-X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+X-SA-Exim-Connect-IP: 2001:14ba:8869:c100::64c
+X-SA-Exim-Mail-From: crope@iki.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rob,
 
-On 20/08/19 17:44, Rob Herring wrote:
->>>> + - i2c-alias-pool: list of I2C addresses that are known to be available on the
->>>> +                   "local" (SoC-to-deser) I2C bus; they will be picked at
->>>> +               runtime and used as aliases to reach remove I2C chips
->>>
->>> s/remove/remote/
->>
->> Will fix.
->>
->>> Needs a vendor prefix.
->>
->> The ultimate goal here is to define a standard property that all chips
->> able to to I2C forwarding (video serdes or, potentially, other chips)
->> can use. That's why the GMSL (Maxim deser) developers are in Cc: they
->> are also facing a similar need.
->>
->> However I'm OK to change this to "ti,i2c-alias-pool" just in case there
->> are reasons to not use a common name [yet]. However, following this
->> argument, shouldn't a prefix be needed also for other nonstandard
->> strings, such as "i2c-atr" below?
+On 8/17/19 4:22 PM, Akihiro TSUKADA wrote:
+>> Could you please test the patch and check if the return results are
+>> now consistent and that it won't break anything?
 > 
-> Okay, no vendor prefix is fine.
+> I have tested the patch and it worked without problems.
 > 
-> 'i2c-atr' is a node name, not a property so no vendor prefix.
-
-I see, thanks.
-
->>>> + - gpio-controller
->>>> + - #gpio-cells: must be 3: FPD-Link 3 RX port number, remote gpio number, flags
->>>
->>> We're pretty standardized on 2 cells for GPIO. Perhaps combine the port
->>> and gpio number to 1 cell.
->>
->> Oh dear. I dislike implementing software that does not model the
->> physical reality. I know it will bite me back sooner or later. Here we
->> _really_ have N physically separate GPIO controllers, and the number of
->> GPIOs they have depends on the model of the chip that is connected remotely.
->>
->> This is how things look in the case of 2 ports:
->>
->>  <-- base board -->         <------- remote camera module 1 ----->
->>                             .---------------------.
->>  .-----.    .------.        |         SER 1       |
->>  | CPU |----|port 1|========|----------.          |
->>  `-----'    |      |  FPD   | GPIO ctl |          |
->>             |      | Link 3 `---------------------'
->>             |      | cable        ||||
->>             | DES  |         remote GPIO pins
->>             |      |
->>             |      |        <------- remote camera module 2 ----->
->>             |      |        .---------------------.
->>             |port 2|        |         SER 2       |
->>             |      |========|----------.          |
->>             `------'  FPD   | GPIO ctl |          |
->>                      Link 3 `---------------------'
->>                      cable    ||||||||
->>                              remote GPIO pins
->>
->> Perhaps we should have N separate gpiochips, one per port?
+> Testd-by: Akihiro Tsukada <tskd08@gmail.com>
 > 
-> Yes, seems like it.
-
-I'm more and more convinced of that.
-
->>>> +Required subnodes:
->>>> +
->>>> + - ports: A ports node with one port child node per device input and output
->>>> +          port, in accordance with the video interface bindings defined in
->>>> +          Documentation/devicetree/bindings/media/video-interfaces.txt. The
->>>> +          port nodes are numbered as follows:
->>>> +
->>>> +          Port Description
->>>> +          ------------------------------------
->>>> +          0    Input from FPD-Link 3 RX port 0
->>>> +          1    Input from FPD-Link 3 RX port 1
->>>> +          2    CSI-2 output
->>>> +
->>>> +          Each port must have a "remote-chip" subnode that defines the remote
->>>> +      chip (serializer) with at least a "compatible" property
->>>
->>> We don't allow other nodes within graph nodes. I'm not really clear what
->>> you are trying to do here.
->>
->> Each of the deser ports (2 ports in this chip) creates a physical
->> point-to-point "bus". It's called "FPD-Link 3" in the TI chips, "GMSL"
->> in the Maxim chips. One "remote chip" serializer can be connected to
->> each bus. The remote chip has, at least, a model (e.g. DS90UB953) and
->> some properties. So I need a place where model and properties can be
->> described. The port node looked like a good place, but as you point out
->> it is not.
->>
->> Adding to the above discussion about 3 gpio-cells, I can think of a
->> different, tentative DT layout:
->>
->> deser: deser@3d {
->>         compatible = "ti,ds90ub954-q1";
->>         reg-names = "main", "rxport0", "rxport1", "ser0", "ser1";
->>         reg       = <0x3d>,  <0x40>,    <0x41>,   <0x44>, <0x45>;
->>         clocks = <&clk_25M>;
->>         interrupt-parent = <&gic>;
->>         interrupts = <3 1 IRQ_TYPE_LEVEL_HIGH>;
->>         reset-gpios = <&gpio_ctl 4 GPIO_ACTIVE_LOW>;
->>
->>         i2c-alias-pool = /bits/ 16 <0x4a 0x4b 0x4c 0x4d 0x4e 0x4f>;
->>
->>         ports {
->>                 #address-cells = <1>;
->>                 #size-cells = <0>;
->>
->>                 port@0 {
->>                         reg = <0>;
->>                         endpoint {
->>                                 remote-endpoint = <&sensor_0_out>;
->>                         };
->>                 };
->>
->>                 port@1 {
->>                         reg = <1>;
->>                         endpoint {
->>                                 remote-endpoint = <&sensor_1_out>;
->>                         };
->>                 };
->>
->>                 port@2 {
->>                         reg = <2>;
->>                         endpoint {
->>                                 data-lanes = <1 2 3 4>;
->>                                 /* Actually a REFCLK multiplier */
->>                                 data-rate = <1600000000>;
->>                                 remote-endpoint = <&csirx_0_in>;
->>                         };
->>                 };
->>         };
->>
->>         remote-chips {
+> I could not noticed the bug because
+> the device was registered without any error messages,
+> and it seemed to work even with the bug.
+> (Though actually I was wrong and missed that
+>   the device does not work after reboot or re-plugging).
 > 
-> I don't have a better suggestion for the location of this.
+> After applying this patch, I have confirmed that the device
+> now works after reboot/re-plugging without any problems.
 > 
->>                 #address-cells = <1>;
->>                 #size-cells = <0>;
->>
->>                 remote-chip@0 {
->>                         reg = <0>;
->>                         chip {
->>                                 compatible = "ti,ds90ub953-q1";
-> 
-> Seems like this should be in the parent? It's the ds90ub953
-> implementing the I2C bus, GPIO controller, etc.?
+> note:
+> The patched func: gl861_i2c_read_ex was used in device's early init,
+> called from d->props->power_ctrl (from dvb_usbv2_init).
+> But dvb_usbv2_init does not check the return value of it,
+> and if the device had been initialized previously
+> it can work even with the interrupted init process in power_ctrl().
 
-You're right: it's the ds90ub953 implementing i2c, gpio etc. The
-(undoubtedly weird) DT structure originates from the hotplugging issue
-that I explained in the cover letter. The compromise I found to handle
-it is to describe the remote I2C adapters and GPIO controllers as if
-they were part of the "local" domain (the ds90ub954). This is why they
-are represented in DT outside the ds90ub953 node: the "chip" node would
-be added by an overlay, the i2c and gpio nodes are always there.
 
-But this corresponds to how I implemented it in the code. Let's see if
-at least DT can have a better layout:
+I suspect all whole friio_reset() function is not needed as it has 
+worked even I/O has been broken.
 
-deser: deser@3d {
-	compatible = "ti,ds90ub954-q1";
-	reg-names = "main", "rxport0", "rxport1", "ser0", "ser1";
-	reg       = <0x3d>,  <0x40>,    <0x41>,   <0x44>, <0x45>;
-	clocks = <&clk_25M>;
-	interrupt-parent = <&gic>;
-	interrupts = <3 1 IRQ_TYPE_LEVEL_HIGH>;
-	reset-gpios = <&gpio_ctl 4 GPIO_ACTIVE_LOW>;
+Also tuner I2C adapter is implemented wrong (I think I mentioned that 
+earlier). As tuner sits behind demod I2C-adapter/gate that whole logic 
+should be on demod driver.
 
-	i2c-alias-pool = /bits/ 16 <0x4a 0x4b 0x4c 0x4d 0x4e 0x4f>;
+regards
+Antti
 
-	ports {
-		#address-cells = <1>;
-		#size-cells = <0>;
 
-		port@0 {
-			reg = <0>;
-			endpoint {
-				remote-endpoint = <&sensor_0_out>;
-			};
-		};
-
-		port@1 {
-			reg = <1>;
-			endpoint {
-				remote-endpoint = <&sensor_1_out>;
-			};
-		};
-
-		port@2 {
-			reg = <2>;
-			endpoint {
-				data-lanes = <1 2 3 4>;
-				/* Actually a REFCLK multiplier */
-				data-rate = <1600000000>;
-				remote-endpoint = <&csirx_0_in>;
-			};
-		};
-	};
-
-	remote-chips {
-		#address-cells = <1>;
-		#size-cells = <0>;
-
-		remote-chip@0 {
-			reg = <0>;
-
-			/* dynamic */
-			compatible = "ti,ds90ub953-q1";
-			gpio-functions = <...>;
-
-			remote_i2c0: i2c {
-				reg = <0>;
-				#address-cells = <1>;
-				#size-cells = <0>;
-			};
-
-			gpio-controller;
-			/* 2 cells for _each_ gpiochip: */
-			/* remote gpio num, flags */
-			#gpio-cells = <2>;
-		};
-
-		remote-chip@1 {
-			reg = <1>;
-			/* similar to remote chip 0 */
-		};
-	};
-};
-
-Now things _look_ correct: I just removed the "chip" subnode and hoisted
-its properties up, where the i2c and gpio nodes are. However this would
-not correspond a currently doable implementation. The gpio- and
-i2c-related nodes under remote-chip@<N> would be always instantiated in
-the base board DT, while the "compatible" property would be
-added/removed by overlays on hotplug. This would require the deser chip
-driver to probe the remote serializer chip not when the device node
-appears but when the compatible property appears inside it. This would
-look weird on the device driver side, even though I understand very well
-that a DT needs to be future-proof much more than a driver.
-
-I'll have a more detailed look into this.
-
-Also, in case this were not clear, no hotplugging is actually
-implemented currently, mostly due to the lack of a complete
-implementation of runtime DT overlay insertion and removal. I think work
-is in progress on that side, but it doesn't look like it is done yet.
-However I'm trying to be ready for it when it will be available.
-
->>                         remote_i2c0: i2c@0 {
-> 
-> What does '0' mean here? At a given level, you can only have 1 number
-> space of addresses.
-
-Copy-paste leftover, will fix.
-
->>>> +        - #address-cells = <1>;
->>>> +        - #size-cells = <0>;
->>>> +
->>>> +        Optional properties for "i2c-atr" child bus nodes:
->>>> +        - Other properties specific to the remote hardware
->>>
->>> Such as?
->>
->> "clock-frequency" at least. The remote chip is an I2C master, thus any
->> property that applies to an I2C master might apply as well.
->>
->> "clock-frequency" is only half-implemented in these RFC patches:
->>
->>  * in patch 5, function ds90_rxport_add_serializer() passes the REFCLK
->>    value of the deser to the remote chip (serializer): this value is
->>    the physical reference clock the remote chip receives, all of its
->>    timings are based on it
->>
->>  * the remote chip, given refclk, computes the register values that best
->>    approximate "clock-frequency" [not implemented in this version, would
->>    be in patch 6]
->>
->> I plan to implement and document the whole clock-frequency feature for
->> the next patch iteration. But I'd love to receive comments about how
->> reflck is passed from the deser to the serializer via platform_data.
-> 
-> Okay. Please try to make bindings as complete as possible even if
-> there's not yet driver support.
-> 
->>>> +            i2c-atr {
->>>> +                    #address-cells = <1>;
->>>> +                    #size-cells = <0>;
->>>> +
->>>> +                    remote_i2c0: i2c@0 {
->>>> +                            reg = <0>;
->>>> +                            #address-cells = <1>;
->>>> +                            #size-cells = <0>;
->>>
->>> Presumably, there are child I2C devices here. Please show that in the
->>> example.
->>
->> They are shown below to avoid excessive nesting, look for "&remote_i2c0"
->> (1).
-> 
-> I'd rather have longish lines than have things split up.
-
-Ok, but do we have 80-chars limit in the bindings too?
-
->>>> +&ds90ub954_fpd3_in0 {
->>>> +    remote-chip {
->>>> +            compatible = "ti,ds90ub953-q1";
->>>> +            gpio-functions = <DS90_GPIO_FUNC_OUTPUT_REMOTE
->>>
->>> Not documented.
->>
->> That's because this node describes the remote chip. The remote chip is a
->> ti,ds90ub953-q1, its bindings are defined in patch 4. It's similar to
->> showing some child I2C devices under the I2C master, as you suggested
->> just above, except it's not an I2C bus but an FPD-Link 3 "bus".
-> 
-> I think I realized this after sending this...
-> 
->>
->> Is it OK if I replace the whole gpio-functions node with the comment
->> "/* properties specific to the ti,ds90ub953-q1 chip */"?
-> 
-> Not necessary. gpio-functions does need a vendor prefix though.
-
-Fair enough. I think other models/brands of serdes chips will need
-something similar, but they could accept different values, wo I'll add a
-"ti," prefix.
 
 -- 
-Luca
+http://palosaari.fi/
