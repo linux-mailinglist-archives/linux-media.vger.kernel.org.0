@@ -2,229 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C0BFC97FB6
-	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2019 18:10:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0BA497FC5
+	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2019 18:14:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728299AbfHUQKZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Aug 2019 12:10:25 -0400
-Received: from relay5-d.mail.gandi.net ([217.70.183.197]:58161 "EHLO
-        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728194AbfHUQKZ (ORCPT
+        id S1728255AbfHUQNd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Aug 2019 12:13:33 -0400
+Received: from mail-ed1-f48.google.com ([209.85.208.48]:45484 "EHLO
+        mail-ed1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727959AbfHUQNc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Aug 2019 12:10:25 -0400
-X-Originating-IP: 87.18.63.98
-Received: from uno.localdomain (unknown [87.18.63.98])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 3716F1C0006;
-        Wed, 21 Aug 2019 16:10:21 +0000 (UTC)
-Date:   Wed, 21 Aug 2019 18:11:50 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Ricardo Ribalda Delgado <ribalda@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] media: add pixel_size control
-Message-ID: <20190821161150.hcbxzxcjvbkoqyb3@uno.localdomain>
-References: <20190819121720.31345-1-ribalda@kernel.org>
+        Wed, 21 Aug 2019 12:13:32 -0400
+Received: by mail-ed1-f48.google.com with SMTP id x19so3546109eda.12
+        for <linux-media@vger.kernel.org>; Wed, 21 Aug 2019 09:13:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=9F5bjaMc9P000ps+Gl1qY6vV8NWSDQv4mY3g0dOh/G8=;
+        b=ljEy8ojdWAD/hPsmWlI/5ERHgkDUDB8eUM+JVsXlwGeenV9Lot1i75VXoz8sc9Es9F
+         9BSE/kQbk86c2FpJ9OJkiq15KpS95AUyzkFdN5MgjLtFtSgVyCI9eF8V2vuo6ebiBjAX
+         cnMiALZj6mD9d07RlN0ZVLsVIfHt/fDs2lnbY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to:user-agent;
+        bh=9F5bjaMc9P000ps+Gl1qY6vV8NWSDQv4mY3g0dOh/G8=;
+        b=dEJMwKVcnntNChhhB8s+u/F+oD+DDM8rU0WKRten0Fd2g9BylIci8iHW5h+GPIsVMt
+         GNw7MZmKDep+2BdzYU1arD28C5WMmtQb32v8vWY1E6Sw0i9QnhkDZeXzxCa4Wzf4UWOY
+         mNh4uuFOnExj5oaMI3XYzmBMKLteOK2qjVzUMB5jVEipxlsnyZa3qbcZvy/QUlz3BgbX
+         NZUR1Yk6PnPcCielH6jZ+nJecwE2qWlqx2V3yZOHPX9B7TVT5irq17Ok0MwyXaTQIu5a
+         gjlxTmycR5CJs9y2UcVaVaMr4pjUj/xAkkBRMfUC3KfASxb2ucsMP0I4vDhWClWw1UWD
+         4m0Q==
+X-Gm-Message-State: APjAAAXhvrM9TRLUy4fKO55b8t8NEfDKLVa9/oAp/nnLMy4GKI2ocmKo
+        ZLZr25QOkVYFYPwBim/Kv5voDw==
+X-Google-Smtp-Source: APXvYqy31LW3yEn6hEEMQFThT4JnCQX43e25E+unpLiiHuK6DkGmALDxLLbgr+bd+xP3Jy81R2YcQw==
+X-Received: by 2002:aa7:d701:: with SMTP id t1mr36940245edq.265.1566404011008;
+        Wed, 21 Aug 2019 09:13:31 -0700 (PDT)
+Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net. [212.51.149.96])
+        by smtp.gmail.com with ESMTPSA id i8sm4181194edg.12.2019.08.21.09.13.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Aug 2019 09:13:29 -0700 (PDT)
+Date:   Wed, 21 Aug 2019 18:13:27 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Christian =?iso-8859-1?Q?K=F6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>
+Cc:     dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
+        daniel.vetter@ffwll.ch, sumit.semwal@linaro.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [RFC] replacing dma_resv API
+Message-ID: <20190821161327.GO11147@phenom.ffwll.local>
+References: <20190821123147.110736-1-christian.koenig@amd.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="i2qbawnsbkak4g6z"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20190819121720.31345-1-ribalda@kernel.org>
-User-Agent: NeoMutt/20180716
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190821123147.110736-1-christian.koenig@amd.com>
+X-Operating-System: Linux phenom 5.2.0-2-amd64
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Wed, Aug 21, 2019 at 02:31:37PM +0200, Christian König wrote:
+> Hi everyone,
+> 
+> In previous discussion it surfaced that different drivers use the shared
+> and explicit fences in the dma_resv object with different meanings.
+> 
+> This is problematic when we share buffers between those drivers and
+> requirements for implicit and explicit synchronization leaded to quite a
+> number of workarounds related to this.
+> 
+> So I started an effort to get all drivers back to a common understanding
+> of what the fences in the dma_resv object mean and be able to use the
+> object for different kind of workloads independent of the classic DRM
+> command submission interface.
+> 
+> The result is this patch set which modifies the dma_resv API to get away
+> from a single explicit fence and multiple shared fences, towards a
+> notation where we have explicit categories for writers, readers and
+> others.
+> 
+> To do this I came up with a new container called dma_resv_fences which
+> can store both a single fence as well as multiple fences in a
+> dma_fence_array.
+> 
+> This turned out to actually be even be quite a bit simpler, since we
+> don't need any complicated dance between RCU and sequence count
+> protected updates any more.
+> 
+> Instead we can just grab a reference to the dma_fence_array under RCU
+> and so keep the current state of synchronization alive until we are done
+> with it.
+> 
+> This results in both a small performance improvement since we don't need
+> so many barriers any more, as well as fewer lines of code in the actual
+> implementation.
 
---i2qbawnsbkak4g6z
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+I think you traded lack of barriers/retry loops for correctness here, see
+reply later on. But I haven't grokked the full thing in details, so easily
+might have missed something.
 
-Hi Ricardo,
+But high level first, and I don't get this at all. Current state:
 
-On Mon, Aug 19, 2019 at 02:17:18PM +0200, Ricardo Ribalda Delgado wrote:
-> This control returns the pixel size in nanometres. The struct provides
-> the width and the height in separated fields to take into consideration
-> asymmetric pixels and/or hardware binning.
-> This control is required for automatic calibration of the sensor.
->
-> Signed-off-by: Ricardo Ribalda Delgado <ribalda@kernel.org>
-> ---
->  drivers/media/v4l2-core/v4l2-ctrls.c | 11 +++++++++++
->  include/media/v4l2-ctrls.h           |  2 ++
->  include/uapi/linux/v4l2-controls.h   |  3 +++
->  include/uapi/linux/videodev2.h       | 11 +++++++++++
->  4 files changed, 27 insertions(+)
->
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-> index cd1ae016706f..a3a0086c96ff 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-> @@ -978,6 +978,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->  	case V4L2_CID_AUTO_FOCUS_RANGE:		return "Auto Focus, Range";
->  	case V4L2_CID_PAN_SPEED:		return "Pan, Speed";
->  	case V4L2_CID_TILT_SPEED:		return "Tilt, Speed";
-> +	case V4L2_CID_PIXEL_SIZE:		return "Pixel Size";
+Ill defined semantics, no docs. You have to look at the implementations.
 
-Is this a camera class control or an image source one ?
-Also, isn't pixel size a bit too generic? I would somehow specify this is
-the physical pixel size
+New state after you patch series:
 
->
->  	/* FM Radio Modulator controls */
->  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
-> @@ -1357,6 +1358,9 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
->  	case V4L2_CID_MPEG_VIDEO_VP8_FRAME_HEADER:
->  		*type = V4L2_CTRL_TYPE_VP8_FRAME_HEADER;
->  		break;
-> +	case V4L2_CID_PIXEL_SIZE:
-> +		*type = V4L2_CTRL_TYPE_PIXEL_SIZE;
+Ill defined semantics (but hey different!), no docs. You still have to
+look at the implementations to understand what's going on.
 
-Isn't this a read-only control?
+I think what has actually changed (aside from the entire implementation)
+is just these three things:
+- we now allow multiple exclusive fences
+- exclusive was renamed to writer fences, shared to reader fences
+- there's a new "other" group, for ... otherwordly fences?
 
-> +		break;
->  	default:
->  		*type = V4L2_CTRL_TYPE_INTEGER;
->  		break;
-> @@ -1423,6 +1427,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
->  	case V4L2_CID_RDS_RX_TRAFFIC_ANNOUNCEMENT:
->  	case V4L2_CID_RDS_RX_TRAFFIC_PROGRAM:
->  	case V4L2_CID_RDS_RX_MUSIC_SPEECH:
-> +	case V4L2_CID_PIXEL_SIZE:
->  		*flags |= V4L2_CTRL_FLAG_READ_ONLY;
+Afaiui we have the following to issues with the current fence semantics:
+- amdgpu came up with a totally different notion of implicit sync, using
+  the owner to figure out when to sync. I have no idea at all how that
+  meshes with multiple writers, but I guess there's a connection.
+- amdkfd does a very fancy eviction/preempt fence. Is that what the other
+  bucket is for?
 
-Ah yes, you set flags here... I don't get why we have two switches
-here.. Anyway, I would set both type and flags in a single case,
-otherwise one should jump back and forth...
+I guess I could read the amdgpu/ttm code in very fine detail and figure
+this out, but I really don't see how that's moving stuff forward.
 
->  		break;
->  	case V4L2_CID_RF_TUNER_PLL_LOCK:
-> @@ -1705,6 +1710,9 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
->  	case V4L2_CTRL_TYPE_FWHT_PARAMS:
->  		break;
->
-> +	case V4L2_CTRL_TYPE_PIXEL_SIZE:
-> +		break;
-> +
->  	case V4L2_CTRL_TYPE_H264_SPS:
->  	case V4L2_CTRL_TYPE_H264_PPS:
->  	case V4L2_CTRL_TYPE_H264_SCALING_MATRIX:
-> @@ -2403,6 +2411,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
->  	case V4L2_CTRL_TYPE_VP8_FRAME_HEADER:
->  		elem_size = sizeof(struct v4l2_ctrl_vp8_frame_header);
->  		break;
-> +	case V4L2_CTRL_TYPE_PIXEL_SIZE:
-> +		elem_size = sizeof(struct v4l2_pixel_size);
-> +		break;
->  	default:
->  		if (type < V4L2_CTRL_COMPOUND_TYPES)
->  			elem_size = sizeof(s32);
-> diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-> index 570ff4b0205a..63de780398b8 100644
-> --- a/include/media/v4l2-ctrls.h
-> +++ b/include/media/v4l2-ctrls.h
-> @@ -50,6 +50,7 @@ struct poll_table_struct;
->   * @p_h264_slice_params:	Pointer to a struct v4l2_ctrl_h264_slice_params.
->   * @p_h264_decode_params:	Pointer to a struct v4l2_ctrl_h264_decode_params.
->   * @p_vp8_frame_header:		Pointer to a VP8 frame header structure.
-> + * @p_pixel_size:		Pointer to a pixel_size value.
->   * @p:				Pointer to a compound value.
->   */
->  union v4l2_ctrl_ptr {
-> @@ -68,6 +69,7 @@ union v4l2_ctrl_ptr {
->  	struct v4l2_ctrl_h264_slice_params *p_h264_slice_params;
->  	struct v4l2_ctrl_h264_decode_params *p_h264_decode_params;
->  	struct v4l2_ctrl_vp8_frame_header *p_vp8_frame_header;
-> +	struct v4l2_pixel_size *p_pixel_size;
->  	void *p;
->  };
->
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> index a2669b79b294..13f0410df4c6 100644
-> --- a/include/uapi/linux/v4l2-controls.h
-> +++ b/include/uapi/linux/v4l2-controls.h
-> @@ -912,6 +912,9 @@ enum v4l2_auto_focus_range {
->  #define V4L2_CID_PAN_SPEED			(V4L2_CID_CAMERA_CLASS_BASE+32)
->  #define V4L2_CID_TILT_SPEED			(V4L2_CID_CAMERA_CLASS_BASE+33)
->
-> +#define V4L2_CID_PIXEL_SIZE			(V4L2_CID_CAMERA_CLASS_BASE+34)
-> +
-> +
+Also, I think it'd be really good to decouple semantic changes from
+implementation changes, because untangling them if we have to revert one
+or the other is going to be nigh impossible. And dma_* is not really an
+area where we can proudly claim that reverts don't happen.
 
-Double empty line
+Cheers, Daniel
 
->  /* FM Modulator class control IDs */
->
->  #define V4L2_CID_FM_TX_CLASS_BASE		(V4L2_CTRL_CLASS_FM_TX | 0x900)
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index 2427bc4d8eba..21f4846dca0b 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -422,6 +422,11 @@ struct v4l2_fract {
->  	__u32   denominator;
->  };
->
-> +struct v4l2_pixel_size {
+> 
+> Please review and/or comment,
+> Christian. 
+> 
+> 
 
-I wonder if instead of defining a 'pixel size' this shouldn't be a
-more generic v4l2_size or something similar. Or even a v4l2_rect with
-left=top=0.
-
-> +	__u32   width;
-> +	__u32   height;
-> +};
-> +
->  /**
->    * struct v4l2_capability - Describes V4L2 device caps returned by VIDIOC_QUERYCAP
->    *
-> @@ -1718,6 +1723,12 @@ enum v4l2_ctrl_type {
->  	V4L2_CTRL_TYPE_U8	     = 0x0100,
->  	V4L2_CTRL_TYPE_U16	     = 0x0101,
->  	V4L2_CTRL_TYPE_U32	     = 0x0102,
-> +	/*
-> +	 * V4L2_CTRL_TYPE_MPEG2_SLICE_PARAMS = 0x0103,
-> +	 * V4L2_CTRL_TYPE_MPEG2_QUANTIZATION = 0x0104,
-> +	 * V4L2_CTRL_TYPE_FWHT_PARAMS = 0x0105,
-> +	 */
-
-leftovers ?
-
-> +	V4L2_CTRL_TYPE_PIXEL_SIZE    = 0x0106,
-
-I don't see other compound controls with a custom payload adding their
-types here. What am I missing?
-
-Thanks
-  j
-
->  };
->
->  /*  Used in the VIDIOC_QUERYCTRL ioctl for querying controls */
-> --
-> 2.23.0.rc1
->
-
---i2qbawnsbkak4g6z
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl1dbUYACgkQcjQGjxah
-VjzMSg//T3Z0Pn/MM4rl0d9E08+UhovwymM92g/k2giBnTTDmLyZSanh4wJ5z95z
-CcySqDqSdsgk4oe7BSMR3+kaK/O0M9o7wkzNUIzpgT0H2zPIkhLo4rkYN97W2XCj
-eVIcUkdK0YSRpJLUYXP4PyTYMNhwwmP8ugCtfnhdMnVP5ly5H/jHcH9PVlBUVpaq
-qrZVRmfzX7N6jt5L3QE7EMXnH0OouQuZRE7c0RqcRYkFwtsyDtu7Wc9cfAxQGKW2
-Udkx387YTsLGTvh3TgVyiR28fonYxfo48lj8YPM49O53stwsqgMeg667UJ6HPzko
-RY6QUwbz9Yo5ThnMhfIRqIP88wPTYyd+gls8Hs6PJ+LZx5AGYavfBvtWI15NuRSc
-+VKrN9s2pqrO4SJsZvtxR0P4he6SeGPNDjozLv2rgtrJDlWstPKe97fwoRWBhFwd
-xb8dHGD6LD5X6bDiJNWFNs5gMti3lMH92CfXC36S2OktV40EVAXWQCryQWohH3cm
-hvFbS8odj2AvXP+1ogErP5QgZe4iI+kDct1kUxt1TjE3iWjbvIENpjgTU9WUvM70
-VY6YcW58J1vk+DZHORiEbB5lA/8cDeoWYSVTROKq9FPrfGxOybwzLzcVfo5N37QO
-JaPhMfm1TLiecZV2w8KdpdfHsEJF3QEGDy9pBztLV/B8FCw7xA0=
-=+EdP
------END PGP SIGNATURE-----
-
---i2qbawnsbkak4g6z--
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
