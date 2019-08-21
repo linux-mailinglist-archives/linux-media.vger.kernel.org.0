@@ -2,33 +2,33 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A9DE997383
-	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2019 09:31:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC4BF97374
+	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2019 09:31:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728348AbfHUHb2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Aug 2019 03:31:28 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:40361 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728306AbfHUHbT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
+        id S1728327AbfHUHbT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Wed, 21 Aug 2019 03:31:19 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:53021 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728312AbfHUHbS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 21 Aug 2019 03:31:18 -0400
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.lab.pengutronix.de)
         by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <mfe@pengutronix.de>)
-        id 1i0L5J-0003as-9C; Wed, 21 Aug 2019 09:31:09 +0200
+        id 1i0L5J-0003at-9A; Wed, 21 Aug 2019 09:31:09 +0200
 Received: from mfe by dude02.lab.pengutronix.de with local (Exim 4.89)
         (envelope-from <mfe@pengutronix.de>)
-        id 1i0L5H-0005Mo-AV; Wed, 21 Aug 2019 09:31:07 +0200
+        id 1i0L5H-0005Mr-At; Wed, 21 Aug 2019 09:31:07 +0200
 From:   Marco Felsch <m.felsch@pengutronix.de>
 To:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
         hans.verkuil@cisco.com, jacopo+renesas@jmondi.org,
         robh+dt@kernel.org, laurent.pinchart@ideasonboard.com
 Cc:     devicetree@vger.kernel.org, kernel@pengutronix.de,
         linux-media@vger.kernel.org
-Subject: [PATCH v8 01/13] dt-bindings: connector: analog: add sdtv standards property
-Date:   Wed, 21 Aug 2019 09:30:51 +0200
-Message-Id: <20190821073103.19634-2-m.felsch@pengutronix.de>
+Subject: [PATCH v8 02/13] media: v4l2-fwnode: add v4l2_fwnode_connector
+Date:   Wed, 21 Aug 2019 09:30:52 +0200
+Message-Id: <20190821073103.19634-3-m.felsch@pengutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190821073103.19634-1-m.felsch@pengutronix.de>
 References: <20190821073103.19634-1-m.felsch@pengutronix.de>
@@ -43,180 +43,105 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Some connectors no matter if in- or output supports only a limited
-range of sdtv standards. It doesn't matter if the hardware behind that
-connector supports more than the listed formats since the users are
-restriced by a label e.g. to plug only a camera into this connector
-which uses the PAL format.
+Currently every driver needs to parse the connector endpoints by it self.
+This is the initial work to make this generic. A generic connector has
+common members and connector specific members. The common members are:
+  - type
+  - label (optional)
+  - links
+  - nr_of_links
 
-This patch adds the capability to describe such limitation within the
-firmware. There are no format restrictions if the property isn't
-present, so it's completely backward compatible.
+The specific members are stored within a union, since only one of them
+can be available at the time. Since this is the initial support the
+patch adds only the analog-connector specific ones.
 
 Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
 ---
 [1] https://patchwork.kernel.org/cover/10794703/
 
 v8:
-Hi Rob,
-
-I dropped your r b tag becuase of the changes I made in this version.
-Please can you have look on it again? Luckily this would be the last
-time ;-)
-
-- move definition to include/dt-bindings/display
-- rename tvnorms.h to sdtv-standards.h
-- TVORMS_* -> SDTV_STD_*
-- add sync comments
-- adapt commit message
-- fix bindings documentation
+- rename CON -> CONN
+- supported_tvnorms_stds -> sdtv_stds and adapt description
 
 v7:
-I kept Robs r b tag because I only changed the example and extended
-TVNORM_* macros.
+- fix spelling issues
+- constify label
+- support variable label size
+- replace single remote_port/id members by links member of variable
+  size
+- squash v4l2-connector into v4l2-fwnode
 
-- fix some style issues
-- add TVNORM_NTSC, TVNORM_525_60 and TVNORM_625_50
+@Jacopo: I dropped your r b tag because I changed the port/id logic.
 
 v6:
-- tvnorms.h: use tabs instead of spaces
-- tvnorms.h: add TVNORM_PAL and TVNORM_SECAM
-- tvnorms.h: drop rarely used TVNORM_ATSC_* norms
+- fix some spelling and style issues
+- rm unnecessary comments
+- drop vga and dvi connector
+- fix misspelt connector
 
 v2-v4:
 - nothing since the patch was squashed from series [1] into this
   series.
 
- .../display/connector/analog-tv-connector.txt |  6 ++
- include/dt-bindings/display/sdtv-standards.h  | 76 +++++++++++++++++++
- include/uapi/linux/videodev2.h                |  4 +
- 3 files changed, 86 insertions(+)
- create mode 100644 include/dt-bindings/display/sdtv-standards.h
+ include/media/v4l2-fwnode.h | 45 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 45 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt b/Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt
-index 0c0970c210ab..883bcb2604c7 100644
---- a/Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt
-+++ b/Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt
-@@ -6,16 +6,22 @@ Required properties:
+diff --git a/include/media/v4l2-fwnode.h b/include/media/v4l2-fwnode.h
+index f6a7bcd13197..7ca5669ef6fa 100644
+--- a/include/media/v4l2-fwnode.h
++++ b/include/media/v4l2-fwnode.h
+@@ -123,6 +123,51 @@ struct v4l2_fwnode_link {
+ 	unsigned int remote_port;
+ };
  
- Optional properties:
- - label: a symbolic name for the connector
-+- sdtv-standards: limit the supported TV standards on a connector to the given
-+                  ones. If not specified all TV standards are allowed.
-+                  Possible TV standards are defined in
-+                  include/dt-bindings/display/sdtv-standards.h.
- 
- Required nodes:
- - Video port for TV input
- 
- Example
- -------
-+#include <dt-bindings/display/sdtv-standards.h>
- 
- tv: connector {
- 	compatible = "composite-video-connector";
- 	label = "tv";
-+	sdtv-standards = <(SDTV_STD_PAL | SDTV_STD_NTSC)>;
- 
- 	port {
- 		tv_connector_in: endpoint {
-diff --git a/include/dt-bindings/display/sdtv-standards.h b/include/dt-bindings/display/sdtv-standards.h
-new file mode 100644
-index 000000000000..bb6966505a6c
---- /dev/null
-+++ b/include/dt-bindings/display/sdtv-standards.h
-@@ -0,0 +1,76 @@
-+/* SPDX-License-Identifier: GPL-2.0-only or X11 */
-+/*
-+ * Copyright 2019 Pengutronix, Marco Felsch <kernel@pengutronix.de>
++/**
++ * enum v4l2_connector_type - connector type
++ * @V4L2_CONN_UNKNOWN:   unknown connector type, no V4L2 connector configuration
++ * @V4L2_CONN_COMPOSITE: analog composite connector
++ * @V4L2_CONN_SVIDEO:    analog svideo connector
++ * @V4L2_CONN_HDMI:      digital hdmi connector
 + */
++enum v4l2_connector_type {
++	V4L2_CONN_UNKNOWN,
++	V4L2_CONN_COMPOSITE,
++	V4L2_CONN_SVIDEO,
++	V4L2_CONN_HDMI,
++};
 +
-+#ifndef _DT_BINDINGS_DISPLAY_SDTV_STDS_H
-+#define _DT_BINDINGS_DISPLAY_SDTV_STDS_H
-+
-+/*
-+ * Attention: Keep the TV_STD_* bit definitions in sync with
-+ * include/uapi/linux/videodev2.h V4L2_STD_* bit definitions.
++/**
++ * struct v4l2_fwnode_connector_analog - analog connector data structure
++ * @sdtv_stds: sdtv standards this connector supports, set to V4L2_STD_ALL
++ *             if no restrictions are specified.
 + */
-+/* One bit for each standard */
-+#define SDTV_STD_PAL_B		0x00000001
-+#define SDTV_STD_PAL_B1		0x00000002
-+#define SDTV_STD_PAL_G		0x00000004
-+#define SDTV_STD_PAL_H		0x00000008
-+#define SDTV_STD_PAL_I		0x00000010
-+#define SDTV_STD_PAL_D		0x00000020
-+#define SDTV_STD_PAL_D1		0x00000040
-+#define SDTV_STD_PAL_K		0x00000080
++struct v4l2_fwnode_connector_analog {
++	v4l2_std_id sdtv_stds;
++};
 +
-+#define SDTV_STD_PAL		(SDTV_STD_PAL_B		| \
-+				 SDTV_STD_PAL_B1	| \
-+				 SDTV_STD_PAL_G		| \
-+				 SDTV_STD_PAL_H		| \
-+				 SDTV_STD_PAL_I		| \
-+				 SDTV_STD_PAL_D		| \
-+				 SDTV_STD_PAL_D1	| \
-+				 SDTV_STD_PAL_K)
-+
-+#define SDTV_STD_PAL_M		0x00000100
-+#define SDTV_STD_PAL_N		0x00000200
-+#define SDTV_STD_PAL_Nc		0x00000400
-+#define SDTV_STD_PAL_60		0x00000800
-+
-+#define SDTV_STD_NTSC_M		0x00001000	/* BTSC */
-+#define SDTV_STD_NTSC_M_JP	0x00002000	/* EIA-J */
-+#define SDTV_STD_NTSC_443	0x00004000
-+#define SDTV_STD_NTSC_M_KR	0x00008000	/* FM A2 */
-+
-+#define SDTV_STD_NTSC		(SDTV_STD_NTSC_M	| \
-+				 SDTV_STD_NTSC_M_JP	| \
-+				 SDTV_STD_NTSC_M_KR)
-+
-+#define SDTV_STD_SECAM_B	0x00010000
-+#define SDTV_STD_SECAM_D	0x00020000
-+#define SDTV_STD_SECAM_G	0x00040000
-+#define SDTV_STD_SECAM_H	0x00080000
-+#define SDTV_STD_SECAM_K	0x00100000
-+#define SDTV_STD_SECAM_K1	0x00200000
-+#define SDTV_STD_SECAM_L	0x00400000
-+#define SDTV_STD_SECAM_LC	0x00800000
-+
-+#define SDTV_STD_SECAM		(SDTV_STD_SECAM_B	| \
-+				 SDTV_STD_SECAM_D	| \
-+				 SDTV_STD_SECAM_G	| \
-+				 SDTV_STD_SECAM_H	| \
-+				 SDTV_STD_SECAM_K	| \
-+				 SDTV_STD_SECAM_K1	| \
-+				 SDTV_STD_SECAM_L	| \
-+				 SDTV_STD_SECAM_LC)
-+
-+/* Standards for Countries with 60Hz Line frequency */
-+#define SDTV_STD_525_60		(SDTV_STD_PAL_M		| \
-+				 SDTV_STD_PAL_60	| \
-+				 SDTV_STD_NTSC		| \
-+				 SDTV_STD_NTSC_443)
-+
-+/* Standards for Countries with 50Hz Line frequency */
-+#define SDTV_STD_625_50		(SDTV_STD_PAL		| \
-+				 SDTV_STD_PAL_N		| \
-+				 SDTV_STD_PAL_Nc	| \
-+				 SDTV_STD_SECAM)
-+
-+#endif /* _DT_BINDINGS_DISPLAY_SDTV_STDS_H */
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 530638dffd93..c358cc34fc34 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -1208,6 +1208,10 @@ struct v4l2_selection {
- 
- typedef __u64 v4l2_std_id;
- 
-+/*
-+ * Attention: Keep the V4L2_STD_* bit definitions in sync with
-+ * include/dt-bindings/display/sdtv-standards.h TV_STD_* bit definitions.
++/**
++ * struct v4l2_fwnode_connector - the connector data structure
++ * @label: optional connector label
++ * @type: connector type
++ * @links: list of &struct v4l2_fwnode_link links the connector is connected to
++ * @nr_of_links: total number of links
++ * @connector: connector configuration
++ * @connector.analog: analog connector configuration
++ *                    &struct v4l2_fwnode_connector_analog
 + */
- /* one bit for each */
- #define V4L2_STD_PAL_B          ((v4l2_std_id)0x00000001)
- #define V4L2_STD_PAL_B1         ((v4l2_std_id)0x00000002)
++struct v4l2_fwnode_connector {
++	const char *label;
++	enum v4l2_connector_type type;
++	struct v4l2_fwnode_link *links;
++	unsigned int nr_of_links;
++
++	union {
++		struct v4l2_fwnode_connector_analog analog;
++		/* future connectors */
++	} connector;
++};
++
+ /**
+  * v4l2_fwnode_endpoint_parse() - parse all fwnode node properties
+  * @fwnode: pointer to the endpoint's fwnode handle
 -- 
 2.20.1
 
