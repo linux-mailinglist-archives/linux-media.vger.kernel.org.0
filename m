@@ -2,127 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E1EC977B3
-	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2019 13:05:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FB6A97811
+	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2019 13:39:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727270AbfHULFt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Aug 2019 07:05:49 -0400
-Received: from mga09.intel.com ([134.134.136.24]:46163 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726825AbfHULFt (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Aug 2019 07:05:49 -0400
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 Aug 2019 04:05:48 -0700
-X-IronPort-AV: E=Sophos;i="5.64,412,1559545200"; 
-   d="scan'208";a="378910592"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 Aug 2019 04:05:45 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 1884A208DD; Wed, 21 Aug 2019 14:05:43 +0300 (EEST)
-Date:   Wed, 21 Aug 2019 14:05:43 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     dongchun.zhu@mediatek.com, mchehab@kernel.org, robh+dt@kernel.org,
-        mark.rutland@arm.com, drinkcat@chromium.org,
-        matthias.bgg@gmail.com, bingbu.cao@intel.com,
-        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, sj.huang@mediatek.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        louis.kuo@mediatek.com, shengnan.wang@mediatek.com
-Subject: Re: [V3, 2/2] media: i2c: Add Omnivision OV02A10 camera sensor driver
-Message-ID: <20190821110542.GD31967@paasikivi.fi.intel.com>
-References: <20190819034331.13098-1-dongchun.zhu@mediatek.com>
- <20190819034331.13098-3-dongchun.zhu@mediatek.com>
- <20190821103038.GA148543@chromium.org>
+        id S1727188AbfHULjZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Aug 2019 07:39:25 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:55264 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726372AbfHULjZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 21 Aug 2019 07:39:25 -0400
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6C10333D;
+        Wed, 21 Aug 2019 13:39:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1566387562;
+        bh=GAq+49gNlQ0+5jt+SnoVFQqH/A1hRnn5GfyLB3dQbN4=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=vcFH3PmAnGrWXhHSjA1SmeQRQWfYz80wcYJuTJIuh3UeYf/tFHYuut0fHVFJV26Sf
+         3ZwttZtDBI6IEBH64/zVrXakvfHAL5BIt9nm6ypygtYq1hTdnL1+qfMXbSXojmUPuo
+         H2eN8cGGB7s8TPr3Ut51aJu60TNTPVdNpvBk9/9Q=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [PATCH] media: fdp1: Fix a memory leak bug
+To:     Wenwen Wang <wenwen@cs.uga.edu>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "open list:MEDIA DRIVERS FOR RENESAS - FDP1" 
+        <linux-media@vger.kernel.org>,
+        "open list:MEDIA DRIVERS FOR RENESAS - FDP1" 
+        <linux-renesas-soc@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>
+References: <1566107933-3355-1-git-send-email-wenwen@cs.uga.edu>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <5cb18e08-4e9b-6ca4-015a-fb21b4f7d504@ideasonboard.com>
+Date:   Wed, 21 Aug 2019 12:39:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190821103038.GA148543@chromium.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <1566107933-3355-1-git-send-email-wenwen@cs.uga.edu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomasz,
+Hi Wenwen,
 
-On Wed, Aug 21, 2019 at 07:30:38PM +0900, Tomasz Figa wrote:
-...
-> > +
-> > +/*
-> > + * xvclk 24Mhz
+On 18/08/2019 06:58, Wenwen Wang wrote:
+> In fdp1_open(), 'ctx' is allocated through kzalloc(). However, it is not
+> deallocated if v4l2_ctrl_new_std() fails, leading to a memory leak bug. To
+> fix this issue, free 'ctx' before going to the 'done' label.
+We could also free it up in the error path, with an if (ret) kfree(ctx);
+and remove the kfree which is in the "if (IS_ERR(ctx->fh.m2m_ctx))" check.
+
+But I think that doesn't gain much really. So this is ok by me... If you
+prefer that method, then feel free to submit a v2,
+
+Otherwise I think this is fine:
+
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+> Signed-off-by: Wenwen Wang <wenwen@cs.uga.edu>
+
+> ---
+>  drivers/media/platform/rcar_fdp1.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> This seems to assume 24MHz, but the driver allows a range in probe. Is that
-> correct?
-
-I think it'd be better to check for an exact frequency: this is board
-specific and its exact value is known.
-
-...
-
-> > +static int __ov02a10_power_on(struct ov02a10 *ov02a10)
-> > +{
-> > +	struct i2c_client *client = v4l2_get_subdevdata(&ov02a10->subdev);
-> > +	struct device *dev = &client->dev;
-> > +	int ret;
-> > +
-> > +	ret = clk_prepare_enable(ov02a10->xvclk);
-> > +	if (ret < 0) {
-> > +		dev_err(dev, "Failed to enable xvclk\n");
-> > +		return ret;
-> > +	}
+> diff --git a/drivers/media/platform/rcar_fdp1.c b/drivers/media/platform/rcar_fdp1.c
+> index 43aae9b..9e4b330 100644
+> --- a/drivers/media/platform/rcar_fdp1.c
+> +++ b/drivers/media/platform/rcar_fdp1.c
+> @@ -2122,6 +2122,7 @@ static int fdp1_open(struct file *file)
+>  	if (ctx->hdl.error) {
+>  		ret = ctx->hdl.error;
+>  		v4l2_ctrl_handler_free(&ctx->hdl);
+> +		kfree(ctx);
+>  		goto done;
+>  	}
+>  
 > 
-> Is it really correct to enable the clock before the regulators?
-> 
-> According to the datasheet, it should be:
->  - PD pin HIGH,
->  - nRST pin LOW,
->  - DVDDIO and AVDD28 power up and stabilize,
->  - clock enabled,
->  - min 5 ms delay,
->  - PD pin LOW,
->  - min 4 ms delay,
->  - nRST pin HIGH,
->  - min 5 ms delay,
->  - I2C interface ready.
-> 
-> > +
-> > +	/* Note: set 0 is high, set 1 is low */
-> 
-> Why is that? If there is some inverter on the way that should be handled
-> outside of this driver. (GPIO DT bindings have flags for this purpose.
-> 
-> If the pins are nRESET and nPOWERDOWN in the hardware datasheet, we should
-> call them like this in the driver too (+/- the lowercase and underscore
-> convention).
-> 
-> According to the datasheet, the reset pin is called RST and inverted, so we should
-> call it n_rst, but the powerdown signal, called PD, is not inverted, so pd
-> would be the right name.
 
-For what it's worth sensors generally have xshutdown (or reset) pin that is
-active high. Looking at the code, it is not the case here. It's a bit odd
-since the usual arrangement saves power when the camera is not in use; it's
-not a lot but still. Oh well.
-
-...
-
-> > +static struct i2c_driver ov02a10_i2c_driver = {
-> > +	.driver = {
-> > +		.name = "ov02a10",
-> > +		.pm = &ov02a10_pm_ops,
-> > +		.of_match_table = ov02a10_of_match,
-> 
-> Please use of_match_ptr() wrapper.
-
-Not really needed; the driver does expect regulators, GPIOs etc., but by
-leaving out of_match_ptr(), the driver will also probe on ACPI based
-systems.
-
--- 
-Regards,
-
-Sakari Ailus
-sakari.ailus@linux.intel.com
