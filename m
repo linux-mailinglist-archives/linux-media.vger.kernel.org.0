@@ -2,96 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 61A479750C
-	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2019 10:34:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5284697633
+	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2019 11:29:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727481AbfHUIdF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Aug 2019 04:33:05 -0400
-Received: from mx2.suse.de ([195.135.220.15]:50264 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727409AbfHUIdF (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Aug 2019 04:33:05 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 2A4E3AFB7;
-        Wed, 21 Aug 2019 08:33:04 +0000 (UTC)
-Message-ID: <1566375500.2611.6.camel@suse.com>
-Subject: Re: [PATCH] dvb: usb: fix use after free in dvb_usb_device_exit
-From:   Oliver Neukum <oneukum@suse.com>
-To:     Ben Hutchings <ben@decadent.org.uk>, mchehab@kernel.org
-Cc:     Anton Vasilyev <vasilyev@ispras.ru>, linux-media@vger.kernel.org
-Date:   Wed, 21 Aug 2019 10:18:20 +0200
-In-Reply-To: <fe983331d14442a96db3f71066ca0488a8921840.camel@decadent.org.uk>
-References: <20190430130736.9191-1-oneukum@suse.com>
-         <fe983331d14442a96db3f71066ca0488a8921840.camel@decadent.org.uk>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.26.6 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1727362AbfHUJ3S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Aug 2019 05:29:18 -0400
+Received: from relay5-d.mail.gandi.net ([217.70.183.197]:52307 "EHLO
+        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726664AbfHUJ3S (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 21 Aug 2019 05:29:18 -0400
+X-Originating-IP: 87.18.63.98
+Received: from uno.localdomain (unknown [87.18.63.98])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id AFAB71C0009;
+        Wed, 21 Aug 2019 09:29:14 +0000 (UTC)
+Date:   Wed, 21 Aug 2019 11:30:39 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Simon Horman <horms@verge.net.au>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: sh-mobile-ceu: Rename bindings
+ documentation file
+Message-ID: <20190821093039.fb2art6na5stkpao@uno.localdomain>
+References: <20190819140544.19294-1-horms+renesas@verge.net.au>
+ <20190820095205.xnthl7d7cpy7myq2@uno.localdomain>
+ <20190820151930.pwi42cewslkchssf@verge.net.au>
+ <20190821081746.lt6n4nhqnpyowzmi@verge.net.au>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="jnwnpog3xinnecw2"
+Content-Disposition: inline
+In-Reply-To: <20190821081746.lt6n4nhqnpyowzmi@verge.net.au>
+User-Agent: NeoMutt/20180716
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Dienstag, den 20.08.2019, 19:55 +0100 schrieb Ben Hutchings:
-> On Tue, 2019-04-30 at 15:07 +0200, Oliver Neukum wrote:
-> > dvb_usb_device_exit() frees and uses the device name in that order
-> > Fix by storing the name in a buffer before freeing it
-> > 
-> > v2: fixed style issues
-> > v3: strscpy used and variable names changed
-> > v4: really use strscpy everywhere
-> > 
-> > Signed-off-by: Oliver Neukum <oneukum@suse.com>
-> > Reported-by: syzbot+26ec41e9f788b3eba396@syzkaller.appspotmail.com
-> 
-> This doesn't fix that bug (and I don't think it fixes a bug at all). 
-> The name string is static and doesn't get freed until the module it's
-> in is freed.
 
-I see.
+--jnwnpog3xinnecw2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-> Look again at the stack traces in
-> <https://syzkaller.appspot.com/bug?extid=26ec41e9f788b3eba396>:
-> 
-> > Allocated by task 21:
-> 
-> [...]
-> >  kmemdup+0x23/0x50 mm/util.c:118
-> > 
-> 
->  kmemdup include/linux/string.h:428 [inline]
-> >  dw2102_probe+0x62c/0xc50
-> 
-> drivers/media/usb/dvb-usb/dw2102.c:2375
-> [...]
-> > Freed by task 21:
-> 
-> [...]
-> > 
-> 
->  kfree+0xce/0x290 mm/slub.c:3958
-> >  dw2102_probe+0x876/0xc50
-> 
-> drivers/media/usb/dvb-usb/dw2102.c:2409
-> 
-> So, d->desc was freed during probe, and is a dangling pointer before
-> dvb_usb_device_exit() runs at all.
+Hi Simon,
 
-In that case KASAN would have reported a double free in testing, which
-it did not.
+On Wed, Aug 21, 2019 at 10:17:48AM +0200, Simon Horman wrote:
+> On Tue, Aug 20, 2019 at 05:19:30PM +0200, Simon Horman wrote:
+> > On Tue, Aug 20, 2019 at 11:52:05AM +0200, Jacopo Mondi wrote:
+> > > Hi Simon,
+> > >
+> > > On Mon, Aug 19, 2019 at 04:05:44PM +0200, Simon Horman wrote:
+> > > > Renesas media binding documentation files uses a naming schema of
+> > > > 'renesas,<module>.txt'. Rename the SH Mobile CEU file to match this pattern.
+> > > >
+> > >
+> > > The old soc-camera based sh-mobile-ceu driver has been removed one
+> > > year ago and replaced by driver/media/platform/renesas-ceu.c whose
+> > > bindings are described at
+> > > Documentation/devicetree/bindings/media/renesas,ceu.txt
+> > >
+> > > Should this file be removed instead of renamed?
+> >
+> > Thanks,
+> >
+> > I thought I had checked that but clearly I did not.
+> > I agree the file should be removed and I'll send a revised patch
+> > accordingly.
+>
+> The one lingering reference to renesas,sh-mobile-ceu I can see
+> in the tree is its use in an example of two data pipelines in
+> Documentation/devicetree/bindings/media/video-interfaces.txt
+>
 
-> The bug seems to have been introduced by:
-> 
-> commit 299c7007e93645067e1d2743f4e50156de78c4ff
-> Author: Anton Vasilyev <vasilyev@ispras.ru>
-> Date:   Mon Jul 23 13:04:54 2018 -0400
-> 
->     media: dw2102: Fix memleak on sequence of probes
+Yeah, I noticed that, but never considered it more than an example.
+Although, with the removal of the bindings description, it should
+probably be changed to avoid generating confusion...
 
-AFAICT this patch only does anything if probe() succeeds, which it does
-not. Something is strange.
+> Could you suggest an alternative example?
 
-	Regards
-		Oliver
+The pipeline described in the example is purely fictional, as it uses
+a "renesas-shmobile-csi2" compatible to model a CSI-2 input which I
+don't see mentioned anywhere. I guess the CEU compatible value there could be
+changed to anything we want, including the new renesas-ceu value which
+has superseded the sh-mobile-ceu one.
 
+Otherwise, RZ/A2 supports both CSI-2 by using the rcar-vin+rcar-csi2
+IP blocks we have in R-Car and parallel input using the old CEU interface.
+We could use that as a real-world example, using VIN for CSI-2 and CEU for
+parallel input. Unfortunately, no RZ/A2 DTS in mainline has any of the
+two interfaces enabled afaict.
+
+I'll send a patch to the media list that just changes the suppressed
+compatible value with the new 'renesas-ceu' one unless someone has
+different opinions.
+
+Thanks
+   j
+
+--jnwnpog3xinnecw2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl1dDz8ACgkQcjQGjxah
+VjxgoxAAoI6/KzvxOIBXDNLLsIs4wUToXkd7RBWwAPLs9+EXvhRjvszMFo67lAdq
+48okp5lxgg/VtbBtnrMbuFqBQ2hZt5a2KMDLj5lZVG15lkzadMqOxLwPEy//0Liy
+nwzBkb1eFQFHeLZjyVWeWuV3Apt6Cg2Y+ye1oBliS+Y9t/Y94s7bPs1gqwSt7cpL
+Ug9JYHRDKuYWdo17zg88foO1rs6ibk9kmbs0EvYenwA9Yqhlj+6a+lv2Lg7U2Qzb
+PpRvqmnes5UohFtbrH0LiBP2hrJ2wqA5Md3Ug1QJvhq3SoVhK3Se8jdvkGfsop42
+FVgdklqHzv/nKzFATp8daJsQYuiPyDIydFPw9LcvbVMRluJaJSRAZyC7zDsZhJ+y
+u+QF1CZqhtOi/m37bJ/QgvVwH7NSYfqfPcctM1ALyQ1huM42cTvu6ctiMOdSkZbX
+NSaY+3aaE5c5yFj7Z+vEb7iYnsKBqGu1ShyhV9DS7gHAIYbP4Sgj1LFYFxXUP9TI
+Nw/UIUfn5x+Sjbxq6c91uLutOiv4LQ/Cs3uuHLjmHyfkw18b9V8Wka55W26cfpjs
+zWcRlMRtW2Fo8mtVO7G80kpNpTTqsplINrLlMg42bVmB7Ss1sTCo4qmHACKIq2aq
+u2VeEbXyjwAddEcGm1VMxDbdkWA7TuarmJTy67MQDOFizsmQvMQ=
+=UNyD
+-----END PGP SIGNATURE-----
+
+--jnwnpog3xinnecw2--
