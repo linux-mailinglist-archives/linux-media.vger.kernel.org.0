@@ -2,159 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DB946973F8
-	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2019 09:53:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C85629747C
+	for <lists+linux-media@lfdr.de>; Wed, 21 Aug 2019 10:15:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726413AbfHUHxa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Aug 2019 03:53:30 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:45003 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726317AbfHUHx0 (ORCPT
+        id S1726371AbfHUIO2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Aug 2019 04:14:28 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:36775 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726217AbfHUIO2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Aug 2019 03:53:26 -0400
-Received: by mail-lf1-f67.google.com with SMTP id v16so1057874lfg.11
-        for <linux-media@vger.kernel.org>; Wed, 21 Aug 2019 00:53:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=4WkbNxIuQHcMyi/6jdTaT2GJS3hfGOuis/4XMY+Hqv0=;
-        b=XJpPbfj8P9QJPx+MXLpw/Zpk11zobJZrO2DKY2mgHVIboqYEIp2ho60EdmJ3Y6AYhx
-         QSp2QIWv3+2jDYAwohs4rK6Vso5/KH0plNFbkiVQOUBT0vvmNKlwTtmxhBUeNyVviVPx
-         n0fZo6b8dEC6PfFj/iWpjszsR9aKv8/foAkPe46cmiTYeN3GdlFzCc3FTBNrpw6P2R76
-         OT8VBJsJZ11Equt8nnFkW29jpyKvGrmiU9lOd3X/v46bDxzBHa36K1mJnZ5TV0a6SHaW
-         cM/oolufmA0f6Y6h+Se5FCifYLechXV2U57q5/+CIRUGI5wzReLVnaH0QEGrl+dt23hj
-         sLAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=4WkbNxIuQHcMyi/6jdTaT2GJS3hfGOuis/4XMY+Hqv0=;
-        b=AzTP97Kh1Q5nJSZUEJuKMwkuZ9K512SvfioIjCQnIV1+J4SBhWoR/Xyq5CIYEdZhy/
-         D9UGAEAapWvspp2HLMqqh5hBJ4t0+Dc2LqL0O04gfogwv65MXHVpQOjWYiYdLlzdGFHt
-         SeyxCek9N8q0hMvyPOogPwylZCLG+0FJs6brdW94WNJwBMjvUFSsHswEp1dg32mdky3M
-         z9dNdBSnqZJ2VrIgOO6K7XWdL9uO+y0W0GJ9wH3zir3CgNIgznjwH3/5ZXSrUMGa8iw0
-         IynqGTkaNbgia7eOin0hVmtFxJd+Vbs8ZXp6P+4TQT0vNDvTBLiSscoD8Y+keELB7c0N
-         dmuA==
-X-Gm-Message-State: APjAAAWFMLe44CxBlm11mGhDWxBBPd4sJSrKcwbtHygkHF4hmhAHzyII
-        YS70hxbVvkeIkQ5pTpuqnCDRMA==
-X-Google-Smtp-Source: APXvYqyhZXLsc3Atd+lyJOsKNYthp6F6CwMZKFd5dNFZ+MASXA4v3XjQhoGKDCwuBYhc8sOqNq42Ww==
-X-Received: by 2002:ac2:4ac4:: with SMTP id m4mr17369662lfp.172.1566374003532;
-        Wed, 21 Aug 2019 00:53:23 -0700 (PDT)
-Received: from [192.168.27.209] ([37.157.136.206])
-        by smtp.googlemail.com with ESMTPSA id p28sm3254972lfh.55.2019.08.21.00.53.22
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 21 Aug 2019 00:53:22 -0700 (PDT)
-Subject: Re: [PATCH 1/2] venus: use on-chip interconnect API
-To:     Georgi Djakov <georgi.djakov@linaro.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     Vikash Garodia <vgarodia@codeaurora.org>,
-        Andy Gross <agross@kernel.org>,
-        Aniket Masule <amasule@codeaurora.org>,
-        Linux PM list <linux-pm@vger.kernel.org>
-References: <20190814084701.25455-1-stanimir.varbanov@linaro.org>
- <20190814084701.25455-2-stanimir.varbanov@linaro.org>
- <cc85f55c-3d21-c3b2-6848-e48513263e39@linaro.org>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <939ace85-e006-db6d-02d2-b55385fa5043@linaro.org>
-Date:   Wed, 21 Aug 2019 10:53:20 +0300
+        Wed, 21 Aug 2019 04:14:28 -0400
+Received: from [192.168.2.10] ([46.9.232.237])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id 0Ll8iRxu9Thuu0LlBieWWo; Wed, 21 Aug 2019 10:14:26 +0200
+Subject: Re: [PATCH] media: video-i2c: add mlx90640 subpage data to output
+To:     Matt Ranostay <matt.ranostay@konsulko.com>
+Cc:     linux-media@vger.kernel.org
+References: <20190811071015.3303-1-matt.ranostay@konsulko.com>
+ <0630c968-1d47-a2c7-cc47-964a08085f13@xs4all.nl>
+ <CAJCx=g=A7qEq4jpGzHNiCbngCXoM4d3epGVSVKggdBT1qpSYqg@mail.gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <be0ef534-a4d7-fbaa-5961-aae237dc1c6e@xs4all.nl>
+Date:   Wed, 21 Aug 2019 10:14:22 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <cc85f55c-3d21-c3b2-6848-e48513263e39@linaro.org>
+In-Reply-To: <CAJCx=g=A7qEq4jpGzHNiCbngCXoM4d3epGVSVKggdBT1qpSYqg@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfKSSMrr2mgU0pTogvBtxcpg1OpwdokzfJnB1MMwMpkp/K86q8oPSSKOr1yEdP+B8QL7P0XBVWBioLjEctzHSz2GNrVpKECkJkfeRxRZVYe0oG9tpyz0S
+ Yad1wIUhlqalw8v/zFFF+sjFwIbb9DcRIL2McsfdsCvapS1YZ12gGRhPNnB8qv4l62FGJkEnyG0jUCiGrlpza00U97IFCpNQUGQBEwwJfHt94d8kTPTYeHz3
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Georgi,
-
-Thanks for the review!
-
-On 8/20/19 12:34 PM, Georgi Djakov wrote:
-> Hi Stan,
-> 
-> On 8/14/19 11:47, Stanimir Varbanov wrote:
->> This aims to add a requests for bandwidth scaling depending
->> on the resolution and framerate (macroblocks per second). The
->> exact value ff the requested bandwidth is get from a
-> 
-> s/ff/of/
-> 
->> pre-calculated tables for encoder and decoder.
+On 8/21/19 7:59 AM, Matt Ranostay wrote:
+> On Mon, Aug 12, 2019 at 6:05 AM Hans Verkuil <hverkuil@xs4all.nl> wrote:
 >>
->> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
->> ---
->>  drivers/media/platform/qcom/venus/core.c    | 34 +++++++++++
->>  drivers/media/platform/qcom/venus/core.h    | 14 +++++
->>  drivers/media/platform/qcom/venus/helpers.c | 67 ++++++++++++++++++++-
->>  3 files changed, 114 insertions(+), 1 deletion(-)
+>> Hi Matt,
+>>
+>> On 8/11/19 9:10 AM, Matt Ranostay wrote:
+>>> Add current subpage data via the status register to the video
+>>> frame in the last word of data, which seems to be unused
+>>> undocumented reserved data.
+>>
+>> I don't really understand from this description what is going on
+>> here.
+>>
+>> mlx90640_xfer() reads the buffer data from the i2c device, but
+>> that data is split over two different addresses? Or does
+>> 0x8000 contain something else with a different meaning compared
+>> to what is read from 0x400?
 > 
-> It looks like venus can be built-in, so how about the case when venus is
-> built-in and the interconnect provider is a module? Maybe add a dependency in
-> Kconfig to depend on INTERCONNECT || !INTERCONNECT?
+> So the status register contains the bit on if subpage one or two is in
+> the reading, so in reality a 8 fps reading in v4l2
+> space is only a 4 fps processed images.
 
-yes, I forgot about that dependency.
+Isn't it the job of the driver to ensure both subpages are read in the
+correct order before returning the full frame? It makes no sense to
+off-load this to userspace, this definitely is a job for the driver.
 
+Also, you report V4L2_PIX_FMT_Y16_BE as the format, but it clearly
+isn't luma data at all, it is a specialized format which includes
+metadata as well. This needs a new pixel format, just for this device.
+Luckily the datasheet is public, so you can refer to it, but you can't
+just use Y16_BE here.
+
+There is a similar issue with V4L2_PIX_FMT_Y12 for the other device.
+It is a much simpler format, but it still needs its own pixelformat.
+If nothing else, these values are signed, not unsigned.
+
+Regards,
+
+	Hans
+
+> 
+> This is important for userspace processing because it needs to know it
+> has a subpage one and two to process the thermal data.
+> Can't do it with subpage two and one in that order per the algorithms,
+> and also since it is polling it is possible a frame will be dropped.
+> 
+> - Matt
 > 
 >>
->> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
->> index 0acc7576cc58..19cbe9d5d028 100644
->> --- a/drivers/media/platform/qcom/venus/core.c
->> +++ b/drivers/media/platform/qcom/venus/core.c
->> @@ -5,6 +5,7 @@
->>   */
->>  #include <linux/clk.h>
->>  #include <linux/init.h>
->> +#include <linux/interconnect.h>
->>  #include <linux/ioctl.h>
->>  #include <linux/list.h>
->>  #include <linux/module.h>
->> @@ -239,6 +240,14 @@ static int venus_probe(struct platform_device *pdev)
->>  	if (IS_ERR(core->base))
->>  		return PTR_ERR(core->base);
->>  
->> +	core->video_path = of_icc_get(dev, "video-mem");
->> +	if (IS_ERR(core->video_path))
->> +		return PTR_ERR(core->video_path);
->> +
->> +	core->cpucfg_path = of_icc_get(dev, "cpu-cfg");
->> +	if (IS_ERR(core->cpucfg_path))
->> +		return PTR_ERR(core->cpucfg_path);
->> +
->>  	core->irq = platform_get_irq(pdev, 0);
->>  	if (core->irq < 0)
->>  		return core->irq;
->> @@ -273,6 +282,10 @@ static int venus_probe(struct platform_device *pdev)
->>  	if (ret)
->>  		return ret;
->>  
->> +	ret = icc_set_bw(core->cpucfg_path, 0, kbps_to_icc(1000));
->> +	if (ret)
->> +		return ret;
->> +
->>  	ret = hfi_create(core, &venus_core_ops);
->>  	if (ret)
->>  		return ret;
->> @@ -355,6 +368,9 @@ static int venus_remove(struct platform_device *pdev)
->>  	pm_runtime_put_sync(dev);
->>  	pm_runtime_disable(dev);
->>  
->> +	icc_put(core->video_path);
->> +	icc_put(core->cpucfg_path);
->> +
-> 
-> Do you have any plans to scale the bandwidth on suspend/resume too?
+>>>
+>>> Signed-off-by: Matt Ranostay <matt.ranostay@konsulko.com>
+>>> ---
+>>>  drivers/media/i2c/video-i2c.c | 12 ++++++++++--
+>>>  1 file changed, 10 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/media/i2c/video-i2c.c b/drivers/media/i2c/video-i2c.c
+>>> index 078141712c88..8bc7b228ba40 100644
+>>> --- a/drivers/media/i2c/video-i2c.c
+>>> +++ b/drivers/media/i2c/video-i2c.c
+>>> @@ -168,8 +168,16 @@ static int amg88xx_xfer(struct video_i2c_data *data, char *buf)
+>>>
+>>>  static int mlx90640_xfer(struct video_i2c_data *data, char *buf)
+>>>  {
+>>> -     return regmap_bulk_read(data->regmap, 0x400, buf,
+>>> -                             data->chip->buffer_size);
+>>> +     int ret = regmap_bulk_read(data->regmap, 0x400, buf,
+>>> +                                data->chip->buffer_size);
+>>
+>> Shouldn't this be data->chip->buffer_size - size, since the last
+>> 'size' bytes will be overwritten anyway?
+>>
+>>> +     int size = data->chip->bpp / 8;
+>>> +
+>>> +     if (ret)
+>>> +             return ret;
+>>> +
+>>> +     /* read status register, which contains subpage that is read */
+>>> +     return regmap_bulk_read(data->regmap, 0x8000,
+>>> +                             &buf[data->chip->buffer_size - size], size);
+>>>  }
+>>>
+>>>  static int amg88xx_setup(struct video_i2c_data *data)
+>>>
+>>
+>> Regards,
+>>
+>>         Hans
 
-Yes, we definitely need that in suspend/resume, but I guess the plan
-should be add it once we implement pm_runtime autosuspend functionality
-in order to easily test that.
-
--- 
-regards,
-Stan
