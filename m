@@ -2,177 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B32CF98D7F
-	for <lists+linux-media@lfdr.de>; Thu, 22 Aug 2019 10:21:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9010698D8A
+	for <lists+linux-media@lfdr.de>; Thu, 22 Aug 2019 10:23:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732291AbfHVIVh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Aug 2019 04:21:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60232 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732277AbfHVIVe (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Aug 2019 04:21:34 -0400
-Received: from localhost (lfbn-1-10718-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B0C1B2377B;
-        Thu, 22 Aug 2019 08:21:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1566462093;
-        bh=eJ2fT9qPT1MZojyE8YRJ+MPqTXCenhQSEjXtDahZR6w=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=wAcQWmIx4PEEczi2m1z1hfumd4f0w4fKglBvqkXys/jTsN01aDvuIHWE+h+aCGcob
-         8MK1E+xvyTNE5q0GXieJ64B7fuVy0RmkJA9i/gCZ6JOpNBKJBEYu7tPoMVJoyPiNaF
-         kxyxBgPYhciVTpBzqL/qhbFIbtz4JWCcjjW+KprQ=
-From:   Maxime Ripard <mripard@kernel.org>
-To:     Hans Verkuil <hans.verkuil@cisco.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        devicetree@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Maxime Ripard <maxime.ripard@bootlin.com>
-Subject: [PATCH v8 5/5] DO NOT MERGE: ARM: dts: bananapi: Add Camera support
-Date:   Thu, 22 Aug 2019 10:21:16 +0200
-Message-Id: <c544c14920e3e992d93fcac3f2eade6422194363.1566462064.git-series.maxime.ripard@bootlin.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <cover.85d78dd1a3b44fe4cde1b65a9b1eb3b95daea7cc.1566462064.git-series.maxime.ripard@bootlin.com>
-References: <cover.85d78dd1a3b44fe4cde1b65a9b1eb3b95daea7cc.1566462064.git-series.maxime.ripard@bootlin.com>
+        id S1731619AbfHVIXd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Aug 2019 04:23:33 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:41471 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725783AbfHVIXc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 22 Aug 2019 04:23:32 -0400
+Received: by mail-wr1-f67.google.com with SMTP id j16so4517382wrr.8
+        for <linux-media@vger.kernel.org>; Thu, 22 Aug 2019 01:23:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=mHJwv/dmEXrbQ0yLWkXi+BJ6R6ibM6vVujAbVHAGxf8=;
+        b=oQmP8Nr0nPGEfRgu9DLXQMVLv7gXQdsBuM9zA2zLlZAmD0nkbID7M0rmA49HscEo4r
+         jkIZkfiY0Ab6BTng3I8gW8DS/YtZe2GdcxQv8Rlod5YE169PIYiFLrjCZnPJ735npgEx
+         NmvIT80AgAZjdAGgjv1lkvziK1XxAROXIsRx59hIMgzbNuYm919FLN+kZr/OURAdcQdA
+         SJGQfFqOC6GwwJHjRLbjHGojdnm9Df2s4IoFBZMGKIJsLGQ4AW0EoiLTHwYAf04N4kbq
+         2S7cl1/XDidDpnS72jkoiJUJ74vOMWaHMTQTGsw/Y4IfH9KoO6UV502OzYOUUOsDzRVw
+         WQTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:reply-to:subject:to:cc:references:from
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-transfer-encoding:content-language;
+        bh=mHJwv/dmEXrbQ0yLWkXi+BJ6R6ibM6vVujAbVHAGxf8=;
+        b=nVgMtE5QG7umzNouMkIkdbeSUs2wcLx96pmDsD43A92FFiV0HcVykd1R9YpNNJVTxh
+         nL6UBKYoOjxo6xABBS3084ShuZLkH0QuasRtoN/XrNb8Qms2y53sNunVAHTX11giTWja
+         2w4BjS2DS5+yOAQoISoekimnkRV7rt3wqzca+DzgztGBRgTOB2w+m5OyZ7lRNJK7ivbP
+         qNad1W/f3G+Uj6mBI4aIKWuwNS4PvhMd3oEwrNEnGVMnnsNrUYtO3qARLkobUq+w4AG/
+         e8m2iBc+Tjjj2uqv4YBxBzJflRz6Z3iogbU65VwYCzfTeGyMusrapizrCGUSdc6NsTFj
+         iWAQ==
+X-Gm-Message-State: APjAAAVH8WwWRX9hudJ4AZ0t9WFoSnR//HFH3vdE6wZOsXNjMsjwemxa
+        5NC3XLUq1LO6GAVcK5J7x8c=
+X-Google-Smtp-Source: APXvYqxtA5/FlOVudUnT39p+G3xdnBUDJ3HdAqwO8tUek7poJGRDB0yTGr3f57tMjA0UXKHO+6FOUQ==
+X-Received: by 2002:a05:6000:4d:: with SMTP id k13mr45696163wrx.196.1566462211182;
+        Thu, 22 Aug 2019 01:23:31 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7? ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+        by smtp.gmail.com with ESMTPSA id s192sm2324408wme.17.2019.08.22.01.23.30
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 22 Aug 2019 01:23:30 -0700 (PDT)
+Reply-To: christian.koenig@amd.com
+Subject: Re: [PATCH 07/10] dma-buf/resv: add new fences container
+ implementation
+To:     Daniel Vetter <daniel@ffwll.ch>
+Cc:     dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
+        daniel.vetter@ffwll.ch, sumit.semwal@linaro.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <20190821123147.110736-1-christian.koenig@amd.com>
+ <20190821123147.110736-8-christian.koenig@amd.com>
+ <20190821160454.GN11147@phenom.ffwll.local>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <c1ff88ef-0e49-fd7a-6317-de432a04ddf2@gmail.com>
+Date:   Thu, 22 Aug 2019 10:23:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <20190821160454.GN11147@phenom.ffwll.local>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Maxime Ripard <maxime.ripard@bootlin.com>
+Am 21.08.19 um 18:04 schrieb Daniel Vetter:
+> On Wed, Aug 21, 2019 at 02:31:44PM +0200, Christian König wrote:
+>> [SNIP]
+>> +	/* Try to drop the last reference */
+>> +	if (!dma_fence_array_recycle(staged))
+> Without an rcu barrier here you're not syncing to new clients at all.
+> I don't think this works, and I expect that once you've readded all the
+> barriers and retry loops we're back to seqlocks.
 
-Signed-off-by: Maxime Ripard <maxime.ripard@bootlin.com>
----
- arch/arm/boot/dts/sun7i-a20-bananapi.dts | 87 +++++++++++++++++++++++++-
- 1 file changed, 87 insertions(+)
+The key difference is that RCU users now use dma_fence_get_rcu_safe() to 
+grab a reference to the current set of fences.
 
-diff --git a/arch/arm/boot/dts/sun7i-a20-bananapi.dts b/arch/arm/boot/dts/sun7i-a20-bananapi.dts
-index c5730b30a15d..d3f23ce041b2 100644
---- a/arch/arm/boot/dts/sun7i-a20-bananapi.dts
-+++ b/arch/arm/boot/dts/sun7i-a20-bananapi.dts
-@@ -54,6 +54,9 @@
- 	compatible = "lemaker,bananapi", "allwinner,sun7i-a20";
- 
- 	aliases {
-+		i2c0 = &i2c0;
-+		i2c1 = &i2c1;
-+		i2c2 = &i2c2;
- 		serial0 = &uart0;
- 		serial1 = &uart3;
- 		serial2 = &uart7;
-@@ -63,6 +66,41 @@
- 		stdout-path = "serial0:115200n8";
- 	};
- 
-+	reg_cam: cam {
-+		compatible = "regulator-fixed";
-+		regulator-name = "cam";
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+		vin-supply = <&reg_vcc5v0>;
-+		gpio = <&pio 7 16 GPIO_ACTIVE_HIGH>;
-+		enable-active-high;
-+		regulator-always-on;
-+	};
-+
-+        reg_cam_avdd: cam-avdd {
-+                compatible = "regulator-fixed";
-+                regulator-name = "cam500b-avdd";
-+                regulator-min-microvolt = <2800000>;
-+                regulator-max-microvolt = <2800000>;
-+                vin-supply = <&reg_cam>;
-+        };
-+
-+        reg_cam_dovdd: cam-dovdd {
-+                compatible = "regulator-fixed";
-+                regulator-name = "cam500b-dovdd";
-+                regulator-min-microvolt = <1800000>;
-+                regulator-max-microvolt = <1800000>;
-+                vin-supply = <&reg_cam>;
-+        };
-+
-+        reg_cam_dvdd: cam-dvdd {
-+                compatible = "regulator-fixed";
-+                regulator-name = "cam500b-dvdd";
-+                regulator-min-microvolt = <1500000>;
-+                regulator-max-microvolt = <1500000>;
-+                vin-supply = <&reg_cam>;
-+        };
-+
- 	hdmi-connector {
- 		compatible = "hdmi-connector";
- 		type = "a";
-@@ -116,6 +154,23 @@
- 		>;
- };
- 
-+&csi0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&csi0_8bits_pins>;
-+	status = "okay";
-+
-+	port {
-+		csi_from_ov5640: endpoint {
-+                        remote-endpoint = <&ov5640_to_csi>;
-+                        bus-width = <8>;
-+                        hsync-active = <1>; /* Active high */
-+                        vsync-active = <0>; /* Active low */
-+                        data-active = <1>;  /* Active high */
-+                        pclk-sample = <1>;  /* Rising */
-+                };
-+	};
-+};
-+
- &de {
- 	status = "okay";
- };
-@@ -161,6 +216,38 @@
- 	};
- };
- 
-+&i2c1 {
-+	status = "okay";
-+
-+	camera: camera@21 {
-+		compatible = "ovti,ov5640";
-+		reg = <0x21>;
-+		clocks = <&ccu CLK_CSI0>;
-+		clock-names = "xclk";
-+		assigned-clocks = <&ccu CLK_CSI0>;
-+		assigned-clock-rates = <24000000>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&csi0_clk_pin>;
-+
-+		reset-gpios = <&pio 7 14 GPIO_ACTIVE_LOW>;
-+		powerdown-gpios = <&pio 7 19 GPIO_ACTIVE_HIGH>;
-+		AVDD-supply = <&reg_cam_avdd>;
-+		DOVDD-supply = <&reg_cam_dovdd>;
-+		DVDD-supply = <&reg_cam_dvdd>;
-+
-+		port {
-+			ov5640_to_csi: endpoint {
-+				remote-endpoint = <&csi_from_ov5640>;
-+				bus-width = <8>;
-+				hsync-active = <1>; /* Active high */
-+				vsync-active = <0>; /* Active low */
-+				data-active = <1>;  /* Active high */
-+				pclk-sample = <1>;  /* Rising */
-+			};
-+		};
-+	};
-+};
-+
- &i2c2 {
- 	status = "okay";
- };
--- 
-git-series 0.9.1
+In other words the whole array is reference counted and RCU protected 
+instead of each individual entry in the array.
+
+This way you don't need the sequence count any more because you grab a 
+reference to all of them at once and then can be sure that they don't 
+change.
+
+Regards,
+Christian.
+
+> -Daniel
+
