@@ -2,70 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3013598EF3
-	for <lists+linux-media@lfdr.de>; Thu, 22 Aug 2019 11:14:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B59E98F06
+	for <lists+linux-media@lfdr.de>; Thu, 22 Aug 2019 11:16:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727553AbfHVJOc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Aug 2019 05:14:32 -0400
-Received: from mail-wr1-f44.google.com ([209.85.221.44]:42491 "EHLO
-        mail-wr1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733031AbfHVJOb (ORCPT
+        id S1728512AbfHVJQa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Aug 2019 05:16:30 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:32840 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727910AbfHVJQa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Aug 2019 05:14:31 -0400
-Received: by mail-wr1-f44.google.com with SMTP id b16so4657086wrq.9
-        for <linux-media@vger.kernel.org>; Thu, 22 Aug 2019 02:14:30 -0700 (PDT)
+        Thu, 22 Aug 2019 05:16:30 -0400
+Received: by mail-wm1-f65.google.com with SMTP id p77so6642642wme.0
+        for <linux-media@vger.kernel.org>; Thu, 22 Aug 2019 02:16:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
+        h=reply-to:subject:from:to:references:message-id:date:user-agent
          :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=XtOL8gNtG+hmvgLUTNARZ9IJPPatmS0hR06XQs4cIx8=;
-        b=md3I0Cf2sYPPrCeWRJx/YU455jLgbpfe32HlAwsUrXyp79by/dCLP1FlpJInnIHmG4
-         tEobR0ezLBX49CbNR+BED3nKNO9xzL8t4cWeGfvcoXtchBfccKlmy9jktgTOHpi/f/mP
-         lpFo6YdLl8V/LY2IEPRYNxyJQstTCzhJFWA2srYzWPyZR569A8m8eprSuS6QimaJdC0r
-         XDx6o5bvSILXY/khZVMmMg8/9CAfRC/H/OfwF+1h0YCblXmuKN4KHNd20qpsVN/iM8A3
-         a+VLslsforNI7/+PEo1n07c5wTqOk0xBP/QP89ddu8FIDYQdNN40ZdQDQ8qkN7RckoFb
-         qUsg==
+        bh=pBmNUN83OemH3FmcqfsNeAfJoNa4Im4df8D7+zD1r3E=;
+        b=QhFBb1WoBe9Gc/FZHaHfiKyHlPWFOJcnccXPYUDEQdpsIW0NgB7uSh27aUe6puJcrB
+         70LeinoHkJTHlxcz1JUlDJcmiR9RV03aTCQqK0rkvZnSkYltfJ/U25KIuIAA9foVbTji
+         xHzaThCjLHm6Ss4GZ87WFEJn8QU8wInkyv77vi/+T8YOEVcTUAMWfDpjMCGDpvXMPpFF
+         /BgVQuBBfRIzu52hwW3Tkuq618pzPF58Q6HsvuJml2PdLOvNkrwWr6zxpptUSmKdrNEP
+         BGILeD5AcL8prlKOjrqeK3Z+DTzZXiqcuIHB830QYlA9rfrYPJ6lhbYssOtVrSejaO1Q
+         BQGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:reply-to:subject:to:cc:references:from
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-transfer-encoding:content-language;
-        bh=XtOL8gNtG+hmvgLUTNARZ9IJPPatmS0hR06XQs4cIx8=;
-        b=A0lfsC/dj6hxS6VDS2WeYi1CoCKlVb3cnGgGhRQ+qk4GbwHOvQbimYR9YYKtTHa6LW
-         kVRq9KKTp2dLXRMWEavUkZN+/7qzNcULoysZextLs0vbM/fvBwgsUKbl3GsoK+thfFFw
-         YeTG4nL6w9ox8A0XTi8w/6wtwDGR0F2U4bbiFAKDxPXV+Gzs/Rg7wJOeGzcsbnJGfNWt
-         gejkg3tdKwjfccP8R1NO3WzdO3fNsuwc61gQGCoIcK+GkdDXoRf7Z3jNLawSrp7Nb33w
-         +oYBpPSqYKZj3t5+mQufXYZXyi78tTP5w5c3z3K+C8lUPUgjYRQ14TRwo9AZ01+tpxka
-         IXhA==
-X-Gm-Message-State: APjAAAWScXFjKrkmd11n3itjW/4r4LajfeSPsf9S18Ijfdq1ssbbtBNt
-        ndC/psWrHv11qlOrQDwoyQ2jM6za
-X-Google-Smtp-Source: APXvYqy+KJzFiStV4RUvRR1wqwN49akFiyyYPp9S1YCSkTvE81mGV9LfPJTLQHYZqIkHYJsJIezaGA==
-X-Received: by 2002:adf:ecc3:: with SMTP id s3mr46614516wro.302.1566465269850;
-        Thu, 22 Aug 2019 02:14:29 -0700 (PDT)
+        h=x-gm-message-state:reply-to:subject:from:to:references:message-id
+         :date:user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=pBmNUN83OemH3FmcqfsNeAfJoNa4Im4df8D7+zD1r3E=;
+        b=E0lDEcaeumlRomq0pqE9+mNAMAgrSkmUfdQFK3o3gtNCjuA1rlrxHvwaWdVdFuMiQJ
+         /sPI9vwcTGvHe6fUP2qQYDpeDTgo2nN2/c5PhUxXvZrBWtMJkiWr00hQ6aNDj2SD4gav
+         o4akviPZ/B1h7qAVtl1M3fmcv+78deN8kWGGA9V4v04qflSeEEgsrlQapoV8lH5GWnAV
+         DOP2D8kcbjtYlIfkFJKZKWtCPBtsmQKxYVIvSQtsUBJRLEohTY6GvTZOYvYvPS4aHQn5
+         ju0BbaAXlGHLt0QpC3XfC1q5XnbDTY2sz+6s8CshRDh+xHO5RFAfTDzmvi3pIYxBKTKi
+         nbYw==
+X-Gm-Message-State: APjAAAUiYz6hUA7D3TOgn0p43oQYb+NkYuyzMz3hUQBRylZtQxe6NIjS
+        +hI08APh+X7yL53GgKg6onY=
+X-Google-Smtp-Source: APXvYqy/Wz1IuC/teaJCII1HCJXAPjNQbjqduVpy6CcVncTwTbqhe4dbierlFKaXLSDPxoq1SqKVjw==
+X-Received: by 2002:a1c:3d89:: with SMTP id k131mr4706155wma.24.1566465387555;
+        Thu, 22 Aug 2019 02:16:27 -0700 (PDT)
 Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7? ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
-        by smtp.gmail.com with ESMTPSA id c187sm7114923wmd.39.2019.08.22.02.14.29
+        by smtp.gmail.com with ESMTPSA id j20sm57328725wre.65.2019.08.22.02.16.26
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 22 Aug 2019 02:14:29 -0700 (PDT)
+        Thu, 22 Aug 2019 02:16:27 -0700 (PDT)
 Reply-To: christian.koenig@amd.com
-Subject: Re: [RFC] replacing dma_resv API
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Chris Wilson <chris@chris-wilson.co.uk>
-Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>
-References: <20190821123147.110736-1-christian.koenig@amd.com>
- <156641829139.20466.3485292236947741339@skylake-alporthouse-com>
- <CAKMK7uFAreLt64Y9btk4VNxo6a2YMgXrg136z0uuyy5B3SMS+A@mail.gmail.com>
+Subject: Re: [PATCH 08/10] dma-buf/resv: replace shared fence with new fences
+ container
 From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <03244148-a560-47e2-e992-a3ea873e7bd1@gmail.com>
-Date:   Thu, 22 Aug 2019 11:14:28 +0200
+To:     Chris Wilson <chris@chris-wilson.co.uk>, daniel.vetter@ffwll.ch,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-media@vger.kernel.org, sumit.semwal@linaro.org
+References: <20190821123147.110736-1-christian.koenig@amd.com>
+ <20190821123147.110736-9-christian.koenig@amd.com>
+ <156640106246.20466.15153611256655352471@skylake-alporthouse-com>
+ <156640893097.20466.17027932311642169386@skylake-alporthouse-com>
+ <5a2aea22-6857-d061-4a80-64f2f57da007@gmail.com>
+Message-ID: <25f13de1-c5e2-1ec8-cb79-4e7ee28bb392@gmail.com>
+Date:   Thu, 22 Aug 2019 11:16:26 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uFAreLt64Y9btk4VNxo6a2YMgXrg136z0uuyy5B3SMS+A@mail.gmail.com>
+In-Reply-To: <5a2aea22-6857-d061-4a80-64f2f57da007@gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
@@ -74,55 +72,55 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 21.08.19 um 22:22 schrieb Daniel Vetter:
-> On Wed, Aug 21, 2019 at 10:11 PM Chris Wilson <chris@chris-wilson.co.uk> wrote:
->> Quoting Christian König (2019-08-21 13:31:37)
->>> Hi everyone,
->>>
->>> In previous discussion it surfaced that different drivers use the shared and explicit fences in the dma_resv object with different meanings.
->>>
->>> This is problematic when we share buffers between those drivers and requirements for implicit and explicit synchronization leaded to quite a number of workarounds related to this.
->>>
->>> So I started an effort to get all drivers back to a common understanding of what the fences in the dma_resv object mean and be able to use the object for different kind of workloads independent of the classic DRM command submission interface.
->>>
->>> The result is this patch set which modifies the dma_resv API to get away from a single explicit fence and multiple shared fences, towards a notation where we have explicit categories for writers, readers and others.
->> Fwiw, I would like the distinction here between optional fences
->> (writers, readers) and mandatory fences (others). The optional fences
->> are where we put the implicit fence tracking that clever userspace would
->> rather avoid. The mandatory fences (I would call internal) is where we
->> put the fences for tracking migration that userspace can not opt out of.
-> I think this would make sense, and is kinda what I expected here.
+Am 22.08.19 um 10:37 schrieb Christian König:
+> Am 21.08.19 um 19:35 schrieb Chris Wilson:
+>> Quoting Chris Wilson (2019-08-21 16:24:22)
+>>> Quoting Christian König (2019-08-21 13:31:45)
+>>>> @@ -117,17 +120,10 @@ i915_gem_busy_ioctl(struct drm_device *dev, 
+>>>> void *data,
+>>>> busy_check_writer(rcu_dereference(obj->base.resv->fence_excl));
+>>>>            /* Translate shared fences to READ set of engines */
+>>>> -       list = rcu_dereference(obj->base.resv->fence);
+>>>> -       if (list) {
+>>>> -               unsigned int shared_count = list->shared_count, i;
+>>>> -
+>>>> -               for (i = 0; i < shared_count; ++i) {
+>>>> -                       struct dma_fence *fence =
+>>>> - rcu_dereference(list->shared[i]);
+>>>> -
+>>>> -                       args->busy |= busy_check_reader(fence);
+>>>> -               }
+>>>> -       }
+>>>> +       readers = dma_resv_fences_get_rcu(&obj->base.resv->readers);
+>>>> +       dma_fence_array_for_each(fence, cursor, readers)
+>>>> +               args->busy |= busy_check_reader(fence);
+>>>> +       dma_fence_put(readers);
+>>> That's underwhelming, the full-mb shows up in scaling tests (I'll test
+>>> the impact of this series later). Something like,
+>> To put some numbers to it, adding the full-mb adds 5ns to a single
+>> thread on Kabylake and 20ns under contention.
+>
+> The question is if that's the use case we want to optimize for.
+>
+> Querying a buffer for business is something we do absolutely rarely on 
+> amdgpu, e.g. IIRC we even grab the full reservation lock for this.
+>
+> But adding new fences comes with every command submission.
+>
+> What could maybe work is the "do { } while (fence has changed); loop 
+> you suggested earlier in this mail thread, but I need to double check 
+> if that would really work or clash with recycling dma_fence_arrays().
 
-Yeah, exactly that's the intention here.
+Ok thinking about it some more that won't work either.
 
-Basic idea is to group the fences into the categories of "you always 
-need to wait for when doing implicit synchronization" (writers), "you 
-only need to wait for them when you want to write to the object" 
-(readers) and "ignore them for implicit synchronization".
-
-> If (and I think that's a huge if) we can agree on what those internal
-> fences are. There's a huge difference between internal fences for
-> buffer moves (better not ignore those) and internal fences like
-> amdkfd's eviction fence (better ignore those).
-
-Yeah, that's exactly why I want to get away from those exclusive/shared 
-naming.
-
-For readers/writers I hoped the semantic would be more clear, but that's 
-doesn't seems to be the case.
-
-> So whatever we do add, it better come with really clear docs and pretty diagrams about what
-> it's supposed to do, and how it's supposed to be used. Or we're just
-> back to the current mess we're in, times two.
-
-Well documenting it in the end is clearly a good idea, but I don't think 
-we should start with that before we actually know what we want to 
-implement and how we want to implement it.
-
-Otherwise I would write tons of documentation which can be thrown away 
-again in the end because we decided to don't do it this way.
+See the dma_fence_array is only guaranteed to not change when you hold a 
+reference to it. Otherwise we don't guarantee anything.
 
 Christian.
 
-> -Daniel
+>
+> Christian.
+>
+>> -Chris
+>
 
