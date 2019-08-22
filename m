@@ -2,87 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BCDE9A04C
-	for <lists+linux-media@lfdr.de>; Thu, 22 Aug 2019 21:45:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 609E79A04D
+	for <lists+linux-media@lfdr.de>; Thu, 22 Aug 2019 21:45:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387590AbfHVTnm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Aug 2019 15:43:42 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:38322 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732235AbfHVTnm (ORCPT
+        id S2392085AbfHVTpN convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Thu, 22 Aug 2019 15:45:13 -0400
+Received: from mailoutvs34.siol.net ([185.57.226.225]:56048 "EHLO
+        mail.siol.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1732015AbfHVTpN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Aug 2019 15:43:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=T2kwb+o/U2rjl69P+5ZwXGF8TMmaqofITp/VNEYGdpQ=; b=SVG5SaQtxlMkZbQyfYenLSzqg
-        SetzCVxpRVu8bmIqcI7I7Bcz2M8nV2Ov/Byt8wcW1zfrLf9I+jdo9q3YWRjrbZgYw5DYjPe156iOJ
-        j6wKVjyvL+cR7EXNdi8R4/j4PIrG3sWBgDzPdaXkwaQZR56aW7XfCvEIa/3GTPIYFaBzPJU6J+9yw
-        yuw+cNutJYswbPbDnQAN5WCjt8cYJhYm8oo8EJlxzwNsITwkwy+epf4zt710vsDiJWtwzDuNUaBWz
-        MD6BVzX+VkQ9f46uPHYz4NoRZhp7v6gVIegB1BNlefUkJajmoLRkyL8KlEN6w18wGvwG2Ixbv99+I
-        WoEp5udzQ==;
-Received: from [177.133.63.56] (helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1i0szl-0006GP-Rk; Thu, 22 Aug 2019 19:43:42 +0000
-Date:   Thu, 22 Aug 2019 16:43:37 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Enrico Weigelt <info@metux.net>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH 7/7] media: ngene: don't try to memcpy from NULL
-Message-ID: <20190822164337.3b683850@coco.lan>
-In-Reply-To: <11ef5297a62a8c3cc812495b69398b316e80ad73.1566502743.git.mchehab+samsung@kernel.org>
-References: <4a411ba155eb062b6575aba0824123c840806c0b.1566502743.git.mchehab+samsung@kernel.org>
-        <11ef5297a62a8c3cc812495b69398b316e80ad73.1566502743.git.mchehab+samsung@kernel.org>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Thu, 22 Aug 2019 15:45:13 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.siol.net (Postfix) with ESMTP id 588C4524922;
+        Thu, 22 Aug 2019 21:45:09 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at psrvmta11.zcs-production.pri
+Received: from mail.siol.net ([127.0.0.1])
+        by localhost (psrvmta11.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id 3YxjoKs4nn6j; Thu, 22 Aug 2019 21:45:09 +0200 (CEST)
+Received: from mail.siol.net (localhost [127.0.0.1])
+        by mail.siol.net (Postfix) with ESMTPS id B8DC452481F;
+        Thu, 22 Aug 2019 21:45:08 +0200 (CEST)
+Received: from localhost.localdomain (cpe-86-58-59-25.static.triera.net [86.58.59.25])
+        (Authenticated sender: 031275009)
+        by mail.siol.net (Postfix) with ESMTPSA id BAB68524922;
+        Thu, 22 Aug 2019 21:45:05 +0200 (CEST)
+From:   Jernej Skrabec <jernej.skrabec@siol.net>
+To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        paul.kocialkowski@bootlin.com, mripard@kernel.org
+Cc:     pawel@osciak.com, m.szyprowski@samsung.com,
+        kyungmin.park@samsung.com, tfiga@chromium.org, wens@csie.org,
+        acourbot@chromium.org, gregkh@linuxfoundation.org,
+        jernej.skrabec@siol.net, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-arm-kernel@lists.infradead.org, ezequiel@collabora.com,
+        jonas@kwiboo.se
+Subject: [PATCH 0/8] media: cedrus: h264: Support multi-slice frames
+Date:   Thu, 22 Aug 2019 21:44:52 +0200
+Message-Id: <20190822194500.2071-1-jernej.skrabec@siol.net>
+X-Mailer: git-send-email 2.22.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Thu, 22 Aug 2019 16:39:34 -0300
-Mauro Carvalho Chehab <mchehab+samsung@kernel.org> escreveu:
+This series is continuation of work from
+https://patchwork.linuxtv.org/cover/58186/
 
-> [drivers/media/pci/ngene/ngene-i2c.c:122] -> [drivers/media/pci/ngene/ngene-i2c.c:39]: (error) Null pointer dereference: out
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> ---
->  drivers/media/pci/ngene/ngene-i2c.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/pci/ngene/ngene-i2c.c b/drivers/media/pci/ngene/ngene-i2c.c
-> index 2e9e9774dc6f..bfdb7286f6f0 100644
-> --- a/drivers/media/pci/ngene/ngene-i2c.c
-> +++ b/drivers/media/pci/ngene/ngene-i2c.c
-> @@ -36,7 +36,10 @@ static int ngene_command_i2c_read(struct ngene *dev, u8 adr,
->  	com.cmd.hdr.Opcode = CMD_I2C_READ;
->  	com.cmd.hdr.Length = outlen + 3;
->  	com.cmd.I2CRead.Device = adr << 1;
-> -	memcpy(com.cmd.I2CRead.Data, out, outlen);
-> +
-> +	if (out)
-> +		memcpy(com.cmd.I2CRead.Data, out, outlen);
-> +
+It picks up unmerged patches (9-12) from aforementioned series and
+adds support for decoding multi-slice H264 frames along with support
+for V4L2_DEC_CMD_FLUSH and V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF in
+Cedrus driver.
 
-Hmm... I actually forgot to drop this one from this series, as I guess it
-is safe to do:
+Code was tested by modified ffmpeg, which can be found here:
+https://github.com/jernejsk/FFmpeg, branch mainline-test
+It has to be configured with at least following options:
+--enable-v4l2-request --enable-libudev --enable-libdrm
 
-	memcpy(out, NULL, 0);
+Samples used for testing:
+http://jernej.libreelec.tv/videos/h264/BA1_FT_C.mp4
+http://jernej.libreelec.tv/videos/h264/h264.mp4
 
->  	com.cmd.I2CRead.Data[outlen] = inlen;
->  	com.cmd.I2CRead.Data[outlen + 1] = 0;
->  	com.in_len = outlen + 3;
+Command line used for testing:
+ffmpeg -hwaccel drm -hwaccel_device /dev/dri/card0 -i h264.mp4 -pix_fmt bgra -f fbdev /dev/fb0
 
+Please note that V4L2_DEC_CMD_FLUSH was not tested because I'm
+not sure how. ffmpeg follows exactly which slice is last in frame
+and sets hold flag accordingly. Improper usage of hold flag would
+corrupt ffmpeg assumptions and it would probably crash. Any ideas
+how to test this are welcome!
 
+Thanks to Jonas for adjusting ffmpeg.
 
-Thanks,
-Mauro
+Please let me know what you think.
+
+Best regards,
+Jernej
+
+Alexandre Courbot (1):
+  media: docs-rst: Document m2m stateless video decoder interface
+
+Hans Verkuil (2):
+  vb2: add V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF
+  videodev2.h: add V4L2_DEC_CMD_FLUSH
+
+Jernej Skrabec (4):
+  media: cedrus: Detect first slice of a frame
+  media: cedrus: h264: Support multiple slices per frame
+  media: cedrus: Add support for holding capture buffer
+  media: cedrus: Add support for V4L2_DEC_CMD_FLUSH
+
+Tomasz Figa (1):
+  media: docs-rst: Document memory-to-memory video encoder interface
+
+ Documentation/media/uapi/v4l/buffer.rst       |  13 +
+ Documentation/media/uapi/v4l/dev-encoder.rst  | 608 ++++++++++++++++++
+ Documentation/media/uapi/v4l/dev-mem2mem.rst  |   2 +
+ .../media/uapi/v4l/dev-stateless-decoder.rst  | 424 ++++++++++++
+ Documentation/media/uapi/v4l/pixfmt-v4l2.rst  |   5 +
+ Documentation/media/uapi/v4l/v4l2.rst         |   2 +
+ .../media/uapi/v4l/vidioc-decoder-cmd.rst     |  11 +-
+ .../media/uapi/v4l/vidioc-encoder-cmd.rst     |  51 +-
+ .../media/uapi/v4l/vidioc-reqbufs.rst         |   6 +
+ .../media/videodev2.h.rst.exceptions          |   1 +
+ .../media/common/videobuf2/videobuf2-v4l2.c   |   8 +-
+ drivers/staging/media/sunxi/cedrus/cedrus.h   |   1 +
+ .../staging/media/sunxi/cedrus/cedrus_dec.c   |  11 +
+ .../staging/media/sunxi/cedrus/cedrus_h264.c  |  11 +-
+ .../staging/media/sunxi/cedrus/cedrus_hw.c    |   8 +-
+ .../staging/media/sunxi/cedrus/cedrus_video.c |  35 +
+ include/media/v4l2-mem2mem.h                  |  42 ++
+ include/media/videobuf2-core.h                |   3 +
+ include/media/videobuf2-v4l2.h                |   5 +
+ include/uapi/linux/videodev2.h                |  14 +-
+ 20 files changed, 1230 insertions(+), 31 deletions(-)
+ create mode 100644 Documentation/media/uapi/v4l/dev-encoder.rst
+ create mode 100644 Documentation/media/uapi/v4l/dev-stateless-decoder.rst
+
+-- 
+2.22.1
+
