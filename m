@@ -2,140 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 35AC998FC9
-	for <lists+linux-media@lfdr.de>; Thu, 22 Aug 2019 11:39:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF4CC98FD4
+	for <lists+linux-media@lfdr.de>; Thu, 22 Aug 2019 11:39:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729666AbfHVJfv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Aug 2019 05:35:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46834 "EHLO mail.kernel.org"
+        id S1732134AbfHVJhA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Aug 2019 05:37:00 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49236 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725987AbfHVJfv (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Aug 2019 05:35:51 -0400
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1731857AbfHVJg6 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 22 Aug 2019 05:36:58 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 929B6233FD;
-        Thu, 22 Aug 2019 09:35:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1566466549;
-        bh=LMbz0msR2O1TEK3U783cJtWTMHGs6gnyRFKKA4qw9FM=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=wbBT/iLZv5Wp9pUaZsoOmul3hbR3i44kk5j2aCaC8DqcNqkb8QApNnM0k4vsvgHAN
-         aMKjlKh3K5CM9JonHm6fzbo57cYnr6VBfpwbcEzpN/c8JTh86IVzyiGfr4wLImSiy1
-         r+EaZOw07sRHt8H3Lt1nBM5rAX/6K678k72nm6ZM=
-Received: by mail-lj1-f178.google.com with SMTP id t14so4923305lji.4;
-        Thu, 22 Aug 2019 02:35:49 -0700 (PDT)
-X-Gm-Message-State: APjAAAXLe5G5+5NUwYQVKopoIuXG0KvuSHd+kGW3/tYVsH3I+dJvFDTs
-        /ZMENoUpPBQzKO0S9d6t+gpQ4KCJ5t88r/5OR5Y=
-X-Google-Smtp-Source: APXvYqwPG6IU9fzrtES73q5HLxpelXNjNyTBalBXupuLQ+rX2BTYt8MTWVa27JDKckQ6Tyd1mVaeOKbvP/nwZOxlJaM=
-X-Received: by 2002:a2e:95d9:: with SMTP id y25mr17509040ljh.236.1566466547743;
- Thu, 22 Aug 2019 02:35:47 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190820094027.4144-1-ribalda@kernel.org> <20190820094027.4144-3-ribalda@kernel.org>
- <1566466282.3653.5.camel@pengutronix.de>
-In-Reply-To: <1566466282.3653.5.camel@pengutronix.de>
-From:   Ricardo Ribalda Delgado <ribalda@kernel.org>
-Date:   Thu, 22 Aug 2019 11:35:30 +0200
-X-Gmail-Original-Message-ID: <CAPybu_2jeu4m8o5nT932dot5LtY0s5zecK6XZ_owr1qVeV9+yQ@mail.gmail.com>
-Message-ID: <CAPybu_2jeu4m8o5nT932dot5LtY0s5zecK6XZ_owr1qVeV9+yQ@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] media: imx214: Add new control with V4L2_CID_UNIT_CELL_SIZE
-To:     Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        by mx1.redhat.com (Postfix) with ESMTPS id BB49F309175F;
+        Thu, 22 Aug 2019 09:36:57 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-60.ams2.redhat.com [10.36.116.60])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id DE522600CD;
+        Thu, 22 Aug 2019 09:36:54 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+        id 3A3757F; Thu, 22 Aug 2019 11:36:54 +0200 (CEST)
+From:   Gerd Hoffmann <kraxel@redhat.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     laurent.pinchart@ideasonboard.com, daniel@ffwll.ch,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK),
+        linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
+        FRAMEWORK), linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH 1/3] udmabuf: add documentation
+Date:   Thu, 22 Aug 2019 11:36:52 +0200
+Message-Id: <20190822093654.23752-2-kraxel@redhat.com>
+In-Reply-To: <20190822093654.23752-1-kraxel@redhat.com>
+References: <20190822093654.23752-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.41]); Thu, 22 Aug 2019 09:36:58 +0000 (UTC)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Philipp
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ include/uapi/linux/udmabuf.h         | 52 ++++++++++++++++++++++++++--
+ Documentation/driver-api/dma-buf.rst |  8 +++++
+ 2 files changed, 57 insertions(+), 3 deletions(-)
 
-On Thu, Aug 22, 2019 at 11:31 AM Philipp Zabel <p.zabel@pengutronix.de> wrote:
->
-> On Tue, 2019-08-20 at 11:40 +0200, Ricardo Ribalda Delgado wrote:
-> > According to the product brief, the unit cell size is 1120 nanometers^2.
-> >
-> > https://www.sony-semicon.co.jp/products_en/IS/sensor1/img/products/ProductBrief_IMX214_20150428.pdf
-> >
-> > Signed-off-by: Ricardo Ribalda Delgado <ribalda@kernel.org>
-> > ---
-> >  drivers/media/i2c/imx214.c | 23 +++++++++++++++++++++++
-> >  1 file changed, 23 insertions(+)
-> >
-> > diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
-> > index 159a3a604f0e..cc0a013ba7da 100644
-> > --- a/drivers/media/i2c/imx214.c
-> > +++ b/drivers/media/i2c/imx214.c
-> > @@ -47,6 +47,7 @@ struct imx214 {
-> >       struct v4l2_ctrl *pixel_rate;
-> >       struct v4l2_ctrl *link_freq;
-> >       struct v4l2_ctrl *exposure;
-> > +     struct v4l2_ctrl *unit_size;
->
-> This is never used.
->
-> Neither are pixel_rate and exposure, it appears. And link_freq is only
-> used locally in imx214_probe to set the read-only flag.
->
-> >
-> >       struct regulator_bulk_data      supplies[IMX214_NUM_SUPPLIES];
-> >
-> > @@ -941,6 +942,26 @@ static int __maybe_unused imx214_resume(struct device *dev)
-> >       return ret;
-> >  }
-> >
-> > +static void unit_size_init(const struct v4l2_ctrl *ctrl, u32 idx,
-> > +                  union v4l2_ctrl_ptr ptr)
-> > +{
-> > +     ptr.p_area->width = 1120;
-> > +     ptr.p_area->height = 1120;
-> > +}
-> > +
-> > +static const struct v4l2_ctrl_type_ops unit_size_ops = {
-> > +     .init = unit_size_init,
-> > +};
-> > +
-> > +static struct v4l2_ctrl *new_unit_size_ctrl(struct v4l2_ctrl_handler *handler)
-> > +{
-> > +     static struct v4l2_ctrl_config ctrl = {
-> > +             .id = V4L2_CID_UNIT_CELL_SIZE,
-> > +             .type_ops = &unit_size_ops,
-> > +     };
-> > +
-> > +     return v4l2_ctrl_new_custom(handler, &ctrl, NULL);
-> > +}
-> >  static int imx214_probe(struct i2c_client *client)
-> >  {
-> >       struct device *dev = &client->dev;
-> > @@ -1029,6 +1050,8 @@ static int imx214_probe(struct i2c_client *client)
-> >                                            V4L2_CID_EXPOSURE,
-> >                                            0, 3184, 1, 0x0c70);
-> >
-> > +     imx214->unit_size = new_unit_size_ctrl(&imx214->ctrls);
-> > +
-> >       ret = imx214->ctrls.error;
-> >       if (ret) {
-> >               dev_err(&client->dev, "%s control init failed (%d)\n",
->
-> This seems like a lot of parts to assemble in every sensor driver just
-> to provide a constant area control. Should this be turned into a
-> v4l2_ctrl_new_area helper that takes a const struct v4l2_area as an
-> argument?
+diff --git a/include/uapi/linux/udmabuf.h b/include/uapi/linux/udmabuf.h
+index 46b6532ed855..9fe440abf2f9 100644
+--- a/include/uapi/linux/udmabuf.h
++++ b/include/uapi/linux/udmabuf.h
+@@ -5,8 +5,39 @@
+ #include <linux/types.h>
+ #include <linux/ioctl.h>
+ 
++/**
++ * DOC: udmabuf
++ *
++ * udmabuf is a device driver which allows userspace to create
++ * dmabufs.  The memory used for these dmabufs must be backed by
++ * memfd.  The memfd must have F_SEAL_SHRINK and it must not have
++ * F_SEAL_WRITE.
++ *
++ * The driver has two ioctls, one to create a dmabuf from a single
++ * memory block and one to create a dmabuf from a list of memory
++ * blocks.
++ *
++ * UDMABUF_CREATE - _IOW('u', 0x42, udmabuf_create)
++ *
++ * UDMABUF_CREATE_LIST - _IOW('u', 0x43, udmabuf_create_list)
++ */
++
++#define UDMABUF_CREATE       _IOW('u', 0x42, struct udmabuf_create)
++#define UDMABUF_CREATE_LIST  _IOW('u', 0x43, struct udmabuf_create_list)
++
+ #define UDMABUF_FLAGS_CLOEXEC	0x01
+ 
++/**
++ * struct udmabuf_create - create a dmabuf from a single memory block.
++ *
++ * @memfd: The file handle.
++ * @offset: Start of the buffer (from memfd start).
++ * Must be page aligned.
++ * @size: Size of the buffer.  Must be rounded to page size.
++ *
++ * @flags:
++ * UDMABUF_FLAGS_CLOEXEC: set CLOEXEC flag for the dmabuf.
++ */
+ struct udmabuf_create {
+ 	__u32 memfd;
+ 	__u32 flags;
+@@ -14,6 +45,15 @@ struct udmabuf_create {
+ 	__u64 size;
+ };
+ 
++/**
++ * struct udmabuf_create_item - one memory block list item.
++ *
++ * @memfd: The file handle.
++ * @__pad: Padding field (unused).
++ * @offset: Start of the buffer (from memfd start).
++ * Must be page aligned.
++ * @size: Size of the buffer.  Must be rounded to page size.
++ */
+ struct udmabuf_create_item {
+ 	__u32 memfd;
+ 	__u32 __pad;
+@@ -21,13 +61,19 @@ struct udmabuf_create_item {
+ 	__u64 size;
+ };
+ 
++/**
++ * struct udmabuf_create_list - create a dmabuf from a memory block list.
++ *
++ * @count: The number of list elements.
++ * @list: The memory block list
++ *
++ * @flags:
++ * UDMABUF_FLAGS_CLOEXEC: set CLOEXEC flag for the dmabuf.
++ */
+ struct udmabuf_create_list {
+ 	__u32 flags;
+ 	__u32 count;
+ 	struct udmabuf_create_item list[];
+ };
+ 
+-#define UDMABUF_CREATE       _IOW('u', 0x42, struct udmabuf_create)
+-#define UDMABUF_CREATE_LIST  _IOW('u', 0x43, struct udmabuf_create_list)
+-
+ #endif /* _UAPI_LINUX_UDMABUF_H */
+diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
+index b541e97c7ab1..1f62c30a14b0 100644
+--- a/Documentation/driver-api/dma-buf.rst
++++ b/Documentation/driver-api/dma-buf.rst
+@@ -166,3 +166,11 @@ DMA Fence uABI/Sync File
+ .. kernel-doc:: include/linux/sync_file.h
+    :internal:
+ 
++Userspace DMA Buffer driver
++~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++.. kernel-doc:: include/uapi/linux/udmabuf.h
++   :doc: udmabuf
++
++.. kernel-doc:: include/uapi/linux/udmabuf.h
++   :internal:
+-- 
+2.18.1
 
-I agree, I was planning on making a helper afterwards ;). I do not
-mind adding it to this series.
-
->
->         static const struct v4l2_area unit_cell_size = {
->                 .width = 1120,
->                 .height = 1120
->         };
->
->         v4l2_ctrl_new_area(&imx214->ctrls, V4L2_CID_UNIT_CELL_SIZE,
->                            &unit_cell_size);
->
-> regards
-> Philipp
