@@ -2,67 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9010698D8A
-	for <lists+linux-media@lfdr.de>; Thu, 22 Aug 2019 10:23:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6961298DE5
+	for <lists+linux-media@lfdr.de>; Thu, 22 Aug 2019 10:37:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731619AbfHVIXd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Aug 2019 04:23:33 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:41471 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725783AbfHVIXc (ORCPT
+        id S1731418AbfHVIhY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Aug 2019 04:37:24 -0400
+Received: from mail-wr1-f49.google.com ([209.85.221.49]:34304 "EHLO
+        mail-wr1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730919AbfHVIhY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Aug 2019 04:23:32 -0400
-Received: by mail-wr1-f67.google.com with SMTP id j16so4517382wrr.8
-        for <linux-media@vger.kernel.org>; Thu, 22 Aug 2019 01:23:31 -0700 (PDT)
+        Thu, 22 Aug 2019 04:37:24 -0400
+Received: by mail-wr1-f49.google.com with SMTP id s18so4585890wrn.1
+        for <linux-media@vger.kernel.org>; Thu, 22 Aug 2019 01:37:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
+        h=reply-to:subject:to:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=mHJwv/dmEXrbQ0yLWkXi+BJ6R6ibM6vVujAbVHAGxf8=;
-        b=oQmP8Nr0nPGEfRgu9DLXQMVLv7gXQdsBuM9zA2zLlZAmD0nkbID7M0rmA49HscEo4r
-         jkIZkfiY0Ab6BTng3I8gW8DS/YtZe2GdcxQv8Rlod5YE169PIYiFLrjCZnPJ735npgEx
-         NmvIT80AgAZjdAGgjv1lkvziK1XxAROXIsRx59hIMgzbNuYm919FLN+kZr/OURAdcQdA
-         SJGQfFqOC6GwwJHjRLbjHGojdnm9Df2s4IoFBZMGKIJsLGQ4AW0EoiLTHwYAf04N4kbq
-         2S7cl1/XDidDpnS72jkoiJUJ74vOMWaHMTQTGsw/Y4IfH9KoO6UV502OzYOUUOsDzRVw
-         WQTA==
+        bh=qHqGzI3h6bGS7SsXoxtNnAD8/KMthB9ts12wm/m1eDo=;
+        b=svgTT1e6pwUX0FYCa/TK8wFPHCvQOwllQyIUxvPuvAZdBnNaxUcA5RCqQ7wr45sxJq
+         H0iRVQhLqOuq5bu2KYrDBBlgELVeJj0e8KfDhSKSwZFXQZ3jWE1kctG0pvnrLOy4kiaw
+         9wL9In2fT4AA7jQVPHbt1OVw+W3s1tBc0TfNHrAB4GfgCByTBcZmhQynhNeR2u6h3Bme
+         k5Y71yDkkknYmn3SNkb5gR3+IjsyG2/XqfY2mvMYoh91mZhfcvSvcrhRze1MgVJc7f+E
+         0GkbVcuJXxm6JmFqcVo9+yM9sgyeizfZhbQqheP54y3h1msRyineluEX6J3KfAyc4uTg
+         wVlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:reply-to:subject:to:cc:references:from
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-transfer-encoding:content-language;
-        bh=mHJwv/dmEXrbQ0yLWkXi+BJ6R6ibM6vVujAbVHAGxf8=;
-        b=nVgMtE5QG7umzNouMkIkdbeSUs2wcLx96pmDsD43A92FFiV0HcVykd1R9YpNNJVTxh
-         nL6UBKYoOjxo6xABBS3084ShuZLkH0QuasRtoN/XrNb8Qms2y53sNunVAHTX11giTWja
-         2w4BjS2DS5+yOAQoISoekimnkRV7rt3wqzca+DzgztGBRgTOB2w+m5OyZ7lRNJK7ivbP
-         qNad1W/f3G+Uj6mBI4aIKWuwNS4PvhMd3oEwrNEnGVMnnsNrUYtO3qARLkobUq+w4AG/
-         e8m2iBc+Tjjj2uqv4YBxBzJflRz6Z3iogbU65VwYCzfTeGyMusrapizrCGUSdc6NsTFj
-         iWAQ==
-X-Gm-Message-State: APjAAAVH8WwWRX9hudJ4AZ0t9WFoSnR//HFH3vdE6wZOsXNjMsjwemxa
-        5NC3XLUq1LO6GAVcK5J7x8c=
-X-Google-Smtp-Source: APXvYqxtA5/FlOVudUnT39p+G3xdnBUDJ3HdAqwO8tUek7poJGRDB0yTGr3f57tMjA0UXKHO+6FOUQ==
-X-Received: by 2002:a05:6000:4d:: with SMTP id k13mr45696163wrx.196.1566462211182;
-        Thu, 22 Aug 2019 01:23:31 -0700 (PDT)
+        h=x-gm-message-state:reply-to:subject:to:references:from:message-id
+         :date:user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=qHqGzI3h6bGS7SsXoxtNnAD8/KMthB9ts12wm/m1eDo=;
+        b=CRmcgEVY1nEs+4BPE4+EZJ0SHqKItfexnWbDsh5Bdwkk2SY5Kab/71jV8g0aqm98ST
+         S3FcBzFjBmlyPewRwCocyORf3hGxnLxPUcsvgJMNHbKjS2bwoKjNzhFv+xkXVUIMGFV9
+         UbqKUdK6q70pCkK2gILMdFm7x7AtHEKbYOH5w1lXdOBL1GeAk25T4qUgrTenBLGWrwEx
+         x57ytny1KzhN5hWLoox5FSV7q8+45ty+39ycJRgufiwZJ5qA7Qgar3iCFns0FeFSf5p1
+         rDEETtRhW1LjV+bUxXI5ws/VrUngZETDpcA+uz3B2m8n5L+Bd/mTjOow8McQZl80ZuYF
+         jTvw==
+X-Gm-Message-State: APjAAAU87d8hCEtywiYhG4HJR8wDzM2Rlbvj+LCY3chJJRcGK77vHSjN
+        3HYAz0eqewDw1Qvp6FSDal8=
+X-Google-Smtp-Source: APXvYqzdnU9t8ZEiiXpnOtQfSt7dy2nTHQVHAAc8vwelIXp0H+dR1wesZhPTChfDg57Ppdd202C+vw==
+X-Received: by 2002:adf:f14f:: with SMTP id y15mr45649273wro.28.1566463042071;
+        Thu, 22 Aug 2019 01:37:22 -0700 (PDT)
 Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7? ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
-        by smtp.gmail.com with ESMTPSA id s192sm2324408wme.17.2019.08.22.01.23.30
+        by smtp.gmail.com with ESMTPSA id w13sm55729223wre.44.2019.08.22.01.37.21
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 22 Aug 2019 01:23:30 -0700 (PDT)
+        Thu, 22 Aug 2019 01:37:21 -0700 (PDT)
 Reply-To: christian.koenig@amd.com
-Subject: Re: [PATCH 07/10] dma-buf/resv: add new fences container
- implementation
-To:     Daniel Vetter <daniel@ffwll.ch>
-Cc:     dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
-        daniel.vetter@ffwll.ch, sumit.semwal@linaro.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH 08/10] dma-buf/resv: replace shared fence with new fences
+ container
+To:     Chris Wilson <chris@chris-wilson.co.uk>, daniel.vetter@ffwll.ch,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-media@vger.kernel.org, sumit.semwal@linaro.org
 References: <20190821123147.110736-1-christian.koenig@amd.com>
- <20190821123147.110736-8-christian.koenig@amd.com>
- <20190821160454.GN11147@phenom.ffwll.local>
+ <20190821123147.110736-9-christian.koenig@amd.com>
+ <156640106246.20466.15153611256655352471@skylake-alporthouse-com>
+ <156640893097.20466.17027932311642169386@skylake-alporthouse-com>
 From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <c1ff88ef-0e49-fd7a-6317-de432a04ddf2@gmail.com>
-Date:   Thu, 22 Aug 2019 10:23:29 +0200
+Message-ID: <5a2aea22-6857-d061-4a80-64f2f57da007@gmail.com>
+Date:   Thu, 22 Aug 2019 10:37:20 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190821160454.GN11147@phenom.ffwll.local>
+In-Reply-To: <156640893097.20466.17027932311642169386@skylake-alporthouse-com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
@@ -71,27 +71,45 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 21.08.19 um 18:04 schrieb Daniel Vetter:
-> On Wed, Aug 21, 2019 at 02:31:44PM +0200, Christian König wrote:
->> [SNIP]
->> +	/* Try to drop the last reference */
->> +	if (!dma_fence_array_recycle(staged))
-> Without an rcu barrier here you're not syncing to new clients at all.
-> I don't think this works, and I expect that once you've readded all the
-> barriers and retry loops we're back to seqlocks.
+Am 21.08.19 um 19:35 schrieb Chris Wilson:
+> Quoting Chris Wilson (2019-08-21 16:24:22)
+>> Quoting Christian König (2019-08-21 13:31:45)
+>>> @@ -117,17 +120,10 @@ i915_gem_busy_ioctl(struct drm_device *dev, void *data,
+>>>                  busy_check_writer(rcu_dereference(obj->base.resv->fence_excl));
+>>>   
+>>>          /* Translate shared fences to READ set of engines */
+>>> -       list = rcu_dereference(obj->base.resv->fence);
+>>> -       if (list) {
+>>> -               unsigned int shared_count = list->shared_count, i;
+>>> -
+>>> -               for (i = 0; i < shared_count; ++i) {
+>>> -                       struct dma_fence *fence =
+>>> -                               rcu_dereference(list->shared[i]);
+>>> -
+>>> -                       args->busy |= busy_check_reader(fence);
+>>> -               }
+>>> -       }
+>>> +       readers = dma_resv_fences_get_rcu(&obj->base.resv->readers);
+>>> +       dma_fence_array_for_each(fence, cursor, readers)
+>>> +               args->busy |= busy_check_reader(fence);
+>>> +       dma_fence_put(readers);
+>> That's underwhelming, the full-mb shows up in scaling tests (I'll test
+>> the impact of this series later). Something like,
+> To put some numbers to it, adding the full-mb adds 5ns to a single
+> thread on Kabylake and 20ns under contention.
 
-The key difference is that RCU users now use dma_fence_get_rcu_safe() to 
-grab a reference to the current set of fences.
+The question is if that's the use case we want to optimize for.
 
-In other words the whole array is reference counted and RCU protected 
-instead of each individual entry in the array.
+Querying a buffer for business is something we do absolutely rarely on 
+amdgpu, e.g. IIRC we even grab the full reservation lock for this.
 
-This way you don't need the sequence count any more because you grab a 
-reference to all of them at once and then can be sure that they don't 
-change.
+But adding new fences comes with every command submission.
 
-Regards,
+What could maybe work is the "do { } while (fence has changed); loop you 
+suggested earlier in this mail thread, but I need to double check if 
+that would really work or clash with recycling dma_fence_arrays().
+
 Christian.
 
-> -Daniel
+> -Chris
 
