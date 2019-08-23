@@ -2,62 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 485349AEA2
-	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2019 14:01:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ABD8D9AED4
+	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2019 14:11:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731752AbfHWMB1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Aug 2019 08:01:27 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:34541 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731457AbfHWMB1 (ORCPT
+        id S2405320AbfHWMLK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Aug 2019 08:11:10 -0400
+Received: from lelv0143.ext.ti.com ([198.47.23.248]:52614 "EHLO
+        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2403942AbfHWMLK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Aug 2019 08:01:27 -0400
-Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id 18FuikjLnThuu18Fxioubf; Fri, 23 Aug 2019 14:01:25 +0200
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.4] Add imx csc/scaler mem2mem device
-Message-ID: <9d0cbecd-02dc-3d58-6342-3fb091e9d798@xs4all.nl>
-Date:   Fri, 23 Aug 2019 14:01:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Fri, 23 Aug 2019 08:11:10 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x7NCA7of063660;
+        Fri, 23 Aug 2019 07:10:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1566562207;
+        bh=33v/B/ZJqA3blXO/RNp5dWHGOqZq1+rFXfXmdj5+Gds=;
+        h=Date:From:To:CC:Subject:References:In-Reply-To;
+        b=UQHxIVwQKzurgl2CECBwOQG7NM1InTkeNUfGSo/z0TGdBNxqcoKLm7TPWzmreURv2
+         QDPOdOE1YT846Id7C3NGPUwpbZ01PtnlpDOo30p5Jhddm/jo1TBUJbLSuAK5dvwGkH
+         zOsfD1LRRPAdR6lP8Rx08uphXBi3hStfy8W2L+k0=
+Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x7NCA7r7088500
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 23 Aug 2019 07:10:07 -0500
+Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Fri, 23
+ Aug 2019 07:10:07 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE106.ent.ti.com
+ (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Fri, 23 Aug 2019 07:10:07 -0500
+Received: from ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with SMTP id x7NCA6x4092204;
+        Fri, 23 Aug 2019 07:10:07 -0500
+Date:   Fri, 23 Aug 2019 07:12:05 -0500
+From:   Benoit Parrot <bparrot@ti.com>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+CC:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Andy Walls <awalls@md.metrocast.net>,
+        Bluecherry Maintainers <maintainers@bluecherrydvr.com>,
+        Anton Sviridenko <anton@corp.bluecherry.net>,
+        Andrey Utkin <andrey.utkin@corp.bluecherry.net>,
+        Ismael Luceno <ismael@iodev.co.uk>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Richard Fontana <rfontana@redhat.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Allison Randal <allison@lohutok.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-samsung-soc@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>, <devel@driverdev.osuosl.org>
+Subject: Re: [PATCH v2 5/7] media: use the BIT() macro
+Message-ID: <20190823121204.ze4m6m3dxevjpjp6@ti.com>
+References: <20190823000829.GN5027@pendragon.ideasonboard.com>
+ <d6c04bf604084af63fec603b4afbd72c648e0394.1566553525.git.mchehab+samsung@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfJ9mDqPvmaaKH4ldNaUe+PMNkAIVafZeet/QGElCdhqG/0V8474wKPR06pgOdGTrr2JNhbaWxcaQXmQHyWJipfFzf1f2KuD8/87XDLTABudBJTE1EO1o
- 6V124vQdbf4rFYYMNLJeEYRUQv2E/fZS2Z2CVKyQWvOaDKWc7FJ6+K4WE0eyXT/ektKtjG2iGC/BksAOZ01ZD1IsKjO0ADUO18g=
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <d6c04bf604084af63fec603b4afbd72c648e0394.1566553525.git.mchehab+samsung@kernel.org>
+User-Agent: NeoMutt/20171215
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 577bbf23b758848f0c4a50d346460b690c753024:
+Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote on Fri [2019-Aug-23 06:47:30 -0300]:
+> As warned by cppcheck:
+> 
+> 	[drivers/media/dvb-frontends/cx24123.c:434]: (error) Shifting signed 32-bit value by 31 bits is undefined behaviour
+> 	[drivers/media/pci/bt8xx/bttv-input.c:87]: (error) Shifting signed 32-bit value by 31 bits is undefined behaviour
+> 	[drivers/media/pci/bt8xx/bttv-input.c:98]: (error) Shifting signed 32-bit value by 31 bits is undefined behaviour
+> 			...
+> 	[drivers/media/v4l2-core/v4l2-ioctl.c:1391]: (error) Shifting signed 32-bit value by 31 bits is undefined behaviour
+> 
+> There are lots of places where we're doing 1 << 31. That's bad,
+> as, depending on the architecture, this has an undefined behavior.
+> 
+> The BIT() macro is already prepared to handle this, so, let's
+> just switch all "1 << number" macros by BIT(number) at the header files
+> with has 1 << 31.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> ---
+> 
+> v2: 
+>   As suggested by Laurent:
+>      - Don't touch multi-bit masks
+>      - remove explicit casts
+> 
+For:
+drivers/media/platform/am437x/am437x-vpfe_regs.h
+drivers/media/platform/ti-vpe/vpe_regs.h
 
-  media: sunxi: Add A10 CSI driver (2019-08-23 07:31:35 -0300)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.4n
-
-for you to fetch changes up to ba443b4dd9e15ffefba9d8aa07f419b0d19bf1b4:
-
-  media: imx: add csc/scaler mem2mem device (2019-08-23 13:53:40 +0200)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Philipp Zabel (1):
-      media: imx: add csc/scaler mem2mem device
-
- drivers/staging/media/imx/Kconfig                 |   1 +
- drivers/staging/media/imx/Makefile                |   3 +-
- drivers/staging/media/imx/imx-media-csc-scaler.c  | 926 ++++++++++++++++++++++++++++++++++++++++++++++++++
- drivers/staging/media/imx/imx-media-dev.c         |  28 +-
- drivers/staging/media/imx/imx-media-internal-sd.c |   4 +
- drivers/staging/media/imx/imx-media.h             |  12 +
- 6 files changed, 972 insertions(+), 2 deletions(-)
- create mode 100644 drivers/staging/media/imx/imx-media-csc-scaler.c
+Reviewed-by: Benoit Parrot <bparrot@ti.com>
