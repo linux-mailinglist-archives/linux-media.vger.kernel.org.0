@@ -2,199 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 89A8C9ACFE
-	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2019 12:20:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D7E19AD05
+	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2019 12:22:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390026AbfHWKUN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Aug 2019 06:20:13 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:32880 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389165AbfHWKUM (ORCPT
+        id S2390593AbfHWKWv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Aug 2019 06:22:51 -0400
+Received: from mailout2.w1.samsung.com ([210.118.77.12]:57827 "EHLO
+        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732509AbfHWKWv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Aug 2019 06:20:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=urZOyMTijUB26f0is3C9mcTCw63Nh/JDAZh1/VkDIlA=; b=TZomOmmqMs5K5UMH6GbPDpnEZ
-        B/cDqpkbI7zfzAao4hkSgjKTsfp/3MwyGKNs34m+WRzc3jtDJCDqc5tjIsywk8U5XEapPPbuM9b3u
-        fEwuRzhWxy8HfozCEbSKL+zXuieFEwuc52s5JFgVa3T8XoKSH8T7+menYVPjSNR/Q5DKsy/HqEWf6
-        QRVW+YAVHXyyfWZwDVbmoiE2cBq3SY5axPf89sOJcQmEBFzdMr5gId0h+rMASZOxio356hr8nDwKX
-        xIgZIRPtzNcF38iDJ85xVPma1WFa3HNuzx4Poql3fsskhTz/FutmjsvZLHBqEWiaYif3MDKIcUpvr
-        BCw/9PBVA==;
-Received: from [177.133.63.56] (helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1i16g0-0006B9-03; Fri, 23 Aug 2019 10:20:12 +0000
-Date:   Fri, 23 Aug 2019 07:20:08 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Marc Gonzalez <marc.w.gonzalez@free.fr>
-Cc:     linux-media <linux-media@vger.kernel.org>
-Subject: Re: [PATCH 6/7] media: don't do an unsigned int with a 31 bit shift
-Message-ID: <20190823072008.5ab02f4b@coco.lan>
-In-Reply-To: <82b06099-f652-47e9-99b9-3bd3ec197a4e@free.fr>
-References: <4a411ba155eb062b6575aba0824123c840806c0b.1566502743.git.mchehab+samsung@kernel.org>
-        <1a78a757b37d2628312e1d56d7a741ba89d42a91.1566502743.git.mchehab+samsung@kernel.org>
-        <82b06099-f652-47e9-99b9-3bd3ec197a4e@free.fr>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Fri, 23 Aug 2019 06:22:51 -0400
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20190823102248euoutp02a5a21fa2c830f8f6d6ba636eba420e5d~9hivqJx561111811118euoutp02g;
+        Fri, 23 Aug 2019 10:22:48 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20190823102248euoutp02a5a21fa2c830f8f6d6ba636eba420e5d~9hivqJx561111811118euoutp02g
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1566555768;
+        bh=z9XZ2A62tyztr5HnPVLdeo7/XMB6WFaWLXcHY42Qnfg=;
+        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+        b=lkGH8pYyUx7WIBZOx6HzoUybx2oG6Kelr7JFRIg1nrOO1994fzD7eGjdpVL9TblyN
+         dkyyPAxsazh/kwW/0gU8SM11F+66Uv83KggFfFzvTQNTOXIkqku1qyMQVGLajoMN5S
+         shrn3a4aV33XqqgcgIoSrbYv2t/yuVWIx/X27l+4=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+        20190823102248eucas1p23fbfdf9ce74b3b95f265f2d998241190~9hivImyF-0395403954eucas1p2c;
+        Fri, 23 Aug 2019 10:22:48 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+        eusmges3new.samsung.com (EUCPMTA) with SMTP id 69.EF.04374.77EBF5D5; Fri, 23
+        Aug 2019 11:22:47 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+        20190823102246eucas1p1da04b0b59ae81f1fb8dafa801dadf073~9hiuCcful2624926249eucas1p1_;
+        Fri, 23 Aug 2019 10:22:46 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20190823102246eusmtrp1e4c713001b4d3cfb0560212019d255a0~9hitu4sA03092930929eusmtrp1Z;
+        Fri, 23 Aug 2019 10:22:46 +0000 (GMT)
+X-AuditID: cbfec7f5-4f7ff70000001116-63-5d5fbe77cfbf
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+        eusmgms1.samsung.com (EUCPMTA) with SMTP id 55.FC.04166.67EBF5D5; Fri, 23
+        Aug 2019 11:22:46 +0100 (BST)
+Received: from [106.120.51.75] (unknown [106.120.51.75]) by
+        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20190823102244eusmtip13ec3fa4acad298eb81acadb9fb8d76cb~9hir0n7gq0066000660eusmtip1z;
+        Fri, 23 Aug 2019 10:22:44 +0000 (GMT)
+Subject: Re: [PATCH v2 5/7] media: use the BIT() macro
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Andy Walls <awalls@md.metrocast.net>,
+        Bluecherry Maintainers <maintainers@bluecherrydvr.com>,
+        Anton Sviridenko <anton@corp.bluecherry.net>,
+        Andrey Utkin <andrey.utkin@corp.bluecherry.net>,
+        Ismael Luceno <ismael@iodev.co.uk>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Benoit Parrot <bparrot@ti.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Hyun Kwon <hyun.kwon@xilinx.com>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Richard Fontana <rfontana@redhat.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Allison Randal <allison@lohutok.net>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, devel@driverdev.osuosl.org
+From:   Sylwester Nawrocki <s.nawrocki@samsung.com>
+Message-ID: <59cf5c76-2bbb-6cdd-4a3a-12af0faf1238@samsung.com>
+Date:   Fri, 23 Aug 2019 12:22:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+        Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <d6c04bf604084af63fec603b4afbd72c648e0394.1566553525.git.mchehab+samsung@kernel.org>
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA01Sf0xbZRTd997X917JOr91m9ygyZJOjJJsOGf00ynBRM2bf7lk0cWFzYe8
+        sGW0QB8/nIsBiwjtgHVjWnlOwgaJQOa6lh/WbekSyCwwbEEDWUJgxJIt3WiLCOimGbZ9W+S/
+        c8+999xzkiuwxgkuQzhiKZOtFqnIxKXh/p/vB7dX+g/lvdDufZZ2DT3E1OGZ5+nfd1yYztfl
+        05WTtZheHX3A05p2N0fHW6Yxba51cPSe9wxDv1DPY3oyfI+li5MnEA2FLvG04awN0V9sCRH7
+        qQ6eesOTOtpwqU9H+yIxhn4T8jPUvqRydGx8GNP4op2hvpHzLI1F9tPIrU6WXg27E3K9Kwzt
+        8X7F0vuXW3HuVjFy7XdGvLkwwYsz/kEs/qRO8+K39S06saczSzw91ciK3m47J8aCQV5sHd4r
+        XvvuAi/2dFSJf8zP8aI61sOLjTUxToz7J7j3tnyY9nqBXHSkQrZm53yUdtimutiSuO6TiWYf
+        qkaz2IH0ApCXYLpjinGgNMFIOhHMjUxyWrGEYLn5Iq8VfyJwBlrR45XeunN8EhvJ9wiabhdo
+        OIogOF+VxJvIy9D/16ouiTeTEhiLt6VOsGRcDxdGHzDJBkd2QuP1poSoIBhIDoTq9iVpTDLh
+        Sps/NbKF7IfF2cGUjoFshOGWuZRtPZEgEHKmPLAkHWxLXToNb4Ufo2fZ5C0gbj10zPzAaKbf
+        guj1GU7Dm+BuoJfX8NNwo7kBaws1CBquTPFa4URwK9D2KPJuGAyM65JOWfI8uC9na/SbMNQe
+        TNFANsDN6EbNxAY43e9iNdoA9V8ateln4J9u1yM7GXBibhU7kUldE01dE0ddE0f9/24bwt0o
+        XS5XzIWysssiV+5QJLNSbinc8XGx2YsSz37jYWDZh/z/5g8gIiDTesOQ42CeUSdVKMfMAwgE
+        1rTZUHEqQRkKpGOfytbiQ9byIlkZQE8J2JRuOL5u9oCRFEpl8lFZLpGtj7uMoM+oRkOBvBdf
+        zd1WjBfeyIlEb5d17So9cyC8rvbg+8Y9pR9k1xf2r7TcNfFVNpfPsz4/YvdMx0bDK9vT327y
+        ZL2Sk5kpyFPvuEK5v7ll6ntin3vv187qsufedd65+GSlumz2+X71VCsRy/Fzn/VJ3NHP2xdd
+        e7JW47t7F8jSyDZS2vWaCSuHpZ1ZrFWR/gPq/W8F6AMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUwTdxjH87u73hWyJmeB8Asmai4SDZnV460PzHVmieYSk/n6B8ExVvDS
+        GmlLeqWZSxYJSqCdKAgLcipi1UxkGdiCK4NVBuF1SBFDlQhqxGXrYFSJYbKgrqVZwn+fPM/z
+        +T55kkdJqv9UJCmPmW2i1awv4uhY6rd3gzPb7L78vB31v6yH5qF3FDhvzzPw5o96CuYrCmDp
+        XDkF3aP/MnDqWisN9xtmKKgtd9Iw564j4LTsouDc7BwJi4FvEfj9bQycuVSG4F5ZOMRRc50B
+        92xAAWfaOhTQEVwg4ILfR4DjtUzD+P1hCkKLDgK8Iy4SFoI5EHx6k4Tu2dZwXPsSAR73dyQs
+        /9xI7dooBO8+J4RHLycZ4YmvjxI65RlGuFjZoBA8N1OE84+rSMF9y0ELC2NjjNA4fEC4e/kH
+        RvBcPym8mn/BCPK4hxGqTi3QQsg3Se9PyNXstFpKbOImo0Wyfcwd4SFVw2eBJjU9S8OnafOy
+        UzO47bqdR8WiY3bRul33pcZYJteTxSHFV5O1XlSKnlFOFKPEbDpur7jKOFGsUs3eQDhY3kM7
+        kTLcSMJXTnPRmTi8EnDS0Zk5hJfkgVU5js3Ed/55r4hwPFuMf3R9vxpEsg9j8FPZQ0WNIMJT
+        i0OrBs3yuKr/LIpsULE67K84HClTbDLuavIREU5gc3CfV0YRVrHr8HDDi1U1htXjQX81E2GS
+        3YJXGifIKCfistfNiihvxD/9fYmsRmp5jS6vUeQ1irxGaULULRQvlkgmg0niNZLeJJWYDZpC
+        i8mNwl92Z2DZ40UTtw/1IlaJuA9UQ84v8tQKvV06YepFWEly8Sp7TbikOqo/8bVoteRbS4pE
+        qRdlhI+rIZMSCi3hnzXb8vkMXgtZvDZNm5YJXKKqkv31czVr0NvE46JYLFr/9whlTFIputKj
+        Xk4+OV1XFGoZNEwkV7pKc7W17uc9Hx3nU1z1LfvrXk3bjHuXDu/xXMaZZ/unHug27MnP/qQq
+        q3W9WiMfWan4/cPRTHNn2taWvzY4dN0Xqjd/tiuRaBoLrQt09bx9f6BgJHfEWNC1++Ijbl92
+        jveblzsMgZbGbQcX/fbmsb43n3KUZNTzKaRV0v8HoTBJlHsDAAA=
+X-CMS-MailID: 20190823102246eucas1p1da04b0b59ae81f1fb8dafa801dadf073
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20190823094759epcas2p49a6bd2b5a8ada11cac762a67606d2b24
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20190823094759epcas2p49a6bd2b5a8ada11cac762a67606d2b24
+References: <20190823000829.GN5027@pendragon.ideasonboard.com>
+        <CGME20190823094759epcas2p49a6bd2b5a8ada11cac762a67606d2b24@epcas2p4.samsung.com>
+        <d6c04bf604084af63fec603b4afbd72c648e0394.1566553525.git.mchehab+samsung@kernel.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Fri, 23 Aug 2019 11:08:15 +0200
-Marc Gonzalez <marc.w.gonzalez@free.fr> escreveu:
-
-> On 22/08/2019 21:39, Mauro Carvalho Chehab wrote:
+On 8/23/19 11:47, Mauro Carvalho Chehab wrote:
+> There are lots of places where we're doing 1 << 31. That's bad,
+> as, depending on the architecture, this has an undefined behavior.
 > 
-> > [PATCH 6/7] media: don't do an unsigned int with a 31 bit shift  
+> The BIT() macro is already prepared to handle this, so, let's
+> just switch all "1 << number" macros by BIT(number) at the header files
+> with has 1 << 31.
 > 
-> s/unsigned int/signed int  ?
-> 
-> (See below as well.)
-> 
-> > Doing something like:
-> > 
-> > 	i32 foo = 1, bar;
-> > 
-> > 	bar = foo << 31;  
-> 
-> For my information, why did you split the expression over two lines,
-> instead of just using 1 << 31 in the example above?
-> (Most of the cases fixed involve a literal 1)
-> 
-> I.e. why didn't you just say "1 << 31 has undefined behavior" ?
-> 
-> Maybe patch subject can also be changed to "Don't use 1 << foo" ?
-> 
-> > has an undefined behavior in C, as warned by cppcheck, as we're
-> > shifting a signed integer.  
-> 
-> Not quite right. Shifting a signed integer is well-defined in some cases.
-> See paragraph 4 below. For example, 1 << 8 always resolves to 256.
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-I meant to say that, on a 32-bits arch, where a signed integer has
-31 bits and we do a 31 bit shift, it will end touching the 32th bit,
-with is an undefined behavior.
+> v2: 
+>   As suggested by Laurent:
+>      - Don't touch multi-bit masks
+>      - remove explicit casts
 
-I'm changing the description to:
+For:
+  drivers/media/platform/exynos4-is/fimc-lite-reg.h
+  drivers/media/platform/exynos4-is/fimc-reg.h
+  drivers/media/platform/s3c-camif/camif-regs.h
 
-	media: don't do a 31 bit shift on a signed int
-
-	On 32-bits archs, a signed integer has 31 bits plus on extra
-	bit for	signal.	Due to that, touching the 32th bit with something 
-	like:
-
-	        int bar = 1 << 31;
-
-	has an undefined behavior in C on 32 bit architectures, as it
-	touches	the signal bit.	This is warned by cppcheck.
-
-	Instead, force the numbers to be unsigned, in order to solve this
-	issue.
-
-I guess this makes it clearer.
-
-
-> 
->     6.5.7 Bitwise shift operators
-> 
-> 1   Syntax
->              shift-expression:
->                      additive-expression
->                      shift-expression << additive-expression
->                      shift-expression >> additive-expression
-> 
-> 2   Constraints
->     Each of the operands shall have integer type.
-> 
-> 3   Semantics
->     The integer promotions are performed on each of the operands. The type of the result is
->     that of the promoted left operand. If the value of the right operand is negative or is
->     greater than or equal to the width of the promoted left operand, the behavior is undefined.
-
-The problem is here: "greater than or equal to the width of the promoted left operand".
-A 31 bit shift on a 31 bits value is undefined.
-
-In the past, we got real issues like that at the code: gcc on x86 does the shift as
-expected, so:
-
-	u32 a = 1 << 32;
-
-it results in:
-
-	on i386:  a = 0
-	on arm:   a = 1
-
-I've no idea how LLVM/clang implements this.
-
-> 
-> 4   The result of E1 << E2 is E1 left-shifted E2 bit positions; vacated bits are filled with
->     zeros. If E1 has an unsigned type, the value of the result is E1 x 2^E2 , reduced modulo
->     one more than the maximum value representable in the result type. If E1 has a signed
->     type and non-negative value, and E1 x 2^E2 is representable in the result type, then that is
->     the resulting value; otherwise, the behavior is undefined.
-> 
-> 5   The result of E1 >> E2 is E1 right-shifted E2 bit positions. If E1 has an unsigned type
->     or if E1 has a signed type and a non-negative value, the value of the result is the integral
->     part of the quotient of E1 / 2^E2 . If E1 has a signed type and a negative value, the
->     resulting value is implementation-defined.
-> 
-> 
-> > Instead, force the numbers to be unsigned, in order to solve this
-> > issue.
-> > 
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> > ---
-> >  drivers/media/dvb-frontends/cx24123.c           |  2 +-
-> >  drivers/media/pci/bt8xx/bttv-input.c            |  4 ++--
-> >  drivers/media/pci/cx18/cx18-ioctl.c             |  2 +-
-> >  drivers/media/pci/ivtv/ivtv-driver.c            |  2 +-
-> >  drivers/media/pci/ivtv/ivtv-ioctl.c             |  4 ++--
-> >  drivers/media/pci/solo6x10/solo6x10-gpio.c      |  6 +++---
-> >  drivers/media/platform/exynos4-is/mipi-csis.c   |  6 +++---
-> >  drivers/media/platform/fsl-viu.c                |  2 +-
-> >  drivers/media/platform/mx2_emmaprp.c            |  2 +-
-> >  drivers/media/platform/pxa_camera.c             |  4 ++--
-> >  drivers/media/platform/qcom/venus/core.c        |  2 +-
-> >  drivers/media/platform/s5p-jpeg/jpeg-regs.h     | 10 +++++-----
-> >  drivers/media/platform/s5p-mfc/s5p_mfc_opr_v5.c |  4 ++--
-> >  drivers/media/platform/s5p-mfc/s5p_mfc_opr_v6.c |  2 +-
-> >  drivers/media/radio/radio-gemtek.c              |  2 +-
-> >  drivers/media/usb/dvb-usb-v2/gl861.c            |  2 +-
-> >  drivers/media/usb/pvrusb2/pvrusb2-hdw.c         | 14 +++++++-------
-> >  drivers/media/usb/pvrusb2/pvrusb2-v4l2.c        |  4 ++--
-> >  drivers/media/v4l2-core/v4l2-ioctl.c            |  2 +-
-> >  19 files changed, 38 insertions(+), 38 deletions(-)
-> > 
-> > diff --git a/drivers/media/dvb-frontends/cx24123.c b/drivers/media/dvb-frontends/cx24123.c
-> > index ac519c3eff18..3d84ee17e54c 100644
-> > --- a/drivers/media/dvb-frontends/cx24123.c
-> > +++ b/drivers/media/dvb-frontends/cx24123.c
-> > @@ -431,7 +431,7 @@ static u32 cx24123_int_log2(u32 a, u32 b)
-> >  	u32 div = a / b;
-> >  	if (a % b >= b / 2)
-> >  		++div;
-> > -	if (div < (1 << 31)) {
-> > +	if (div < (1UL << 31)) {
-> >  		for (exp = 1; div > exp; nearest++)
-> >  			exp += exp;
-> >  	}  
-> 
-> Did you pick unsigned long (rather than unsigned) because that's what is used
-> in the BIT macro? 
-
-Yes.
-
-> My concern is that UL is 64-bit wide on some platforms, and
-> when used in arithmetic expressions, compiler might generate worse code.
-
-On Linux, long size is equal to integer size, so I don't think
-that this is actually a problem.
-
-Thanks,
-Mauro
+Reviewed-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
