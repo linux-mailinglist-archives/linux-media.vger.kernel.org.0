@@ -2,56 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A3E309AEDF
-	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2019 14:14:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B3909AF1B
+	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2019 14:21:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391307AbfHWMMp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Aug 2019 08:12:45 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:57377 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2391305AbfHWMMp (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Aug 2019 08:12:45 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtp (Exim 4.84_2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1i18Qo-0003sS-QW; Fri, 23 Aug 2019 12:12:38 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1i18Qt-0004w3-AH; Fri, 23 Aug 2019 12:12:43 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.4] Add imx csc/scaler mem2mem device
-Date:   Fri, 23 Aug 2019 12:12:43 +0000
-Message-Id: <20190823121243.18930-1-jenkins@linuxtv.org>
+        id S2389647AbfHWMVE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Aug 2019 08:21:04 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:51743 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1731784AbfHWMVE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 23 Aug 2019 08:21:04 -0400
+Received: from tschai.fritz.box ([46.9.232.237])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id 18YtikrR6Thuu18Ywiozd6; Fri, 23 Aug 2019 14:21:03 +0200
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Cc:     Dariusz Marcinkiewicz <darekm@google.com>,
+        dri-devel@lists.freedesktop.org
+Subject: [PATCHv10 0/2] cec: add the connector info API
+Date:   Fri, 23 Aug 2019 14:20:57 +0200
+Message-Id: <20190823122059.5270-1-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <9d0cbecd-02dc-3d58-6342-3fb091e9d798@xs4all.nl>
-References: 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfKh+SZzZ2rShfi+p8vWdWdkw+bHyBRsIuueZcTujRPG5yVjmn4iotge5YX9orx7VYY7kWh5ODCpy2itE4U2kriexfTmLqTbCENn9vysS3vFjy4SyGKxn
+ 1K6Pb2YbKI65AtDzG9AgI4U3+vb2RIRlzs3Ljnlg5f+uetyGP5r2OzEyQLHCyM2Qa/pfnPNntYmps+JR4WvQzHtYCCh9eYi1VoyRs1Bcqc0R7zgbyd2Jagyj
+ baD77Wx9p6MS9A0G6sj5bDXLad81vctZOnEl0luCHQU=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+These two patches add the CEC connector info API.
 
-Pull request: https://patchwork.linuxtv.org/patch/58391/
-Build log: https://builder.linuxtv.org/job/patchwork/12922/
-Build time: 00:02:14
-Link: https://lore.kernel.org/linux-media/9d0cbecd-02dc-3d58-6342-3fb091e9d798@xs4all.nl
+Note that connector info is currently for drm connectors only.
+In the future support for v4l2 connectors will be added as well,
+once we actually know how to uniquely identify a HDMI receiver
+connector.
 
-gpg: Signature made Fri 23 Aug 2019 12:00:27 PM UTC
-gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+Regards,
 
-Summary: 1 patches and/or PDF generation with issues, being 0 at build time
+	Hans
 
-Error/warnings:
+Dariusz Marcinkiewicz (1):
+  cec: expose the new connector info API
 
-patches/0001-media-imx-add-csc-scaler-mem2mem-device.patch:61: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+Hans Verkuil (1):
+  cec: document CEC_ADAP_G_CONNECTOR_INFO and capability
 
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0001-media-imx-add-csc-scaler-mem2mem-device.patch
+ Documentation/media/uapi/cec/cec-funcs.rst    |   1 +
+ .../media/uapi/cec/cec-ioc-adap-g-caps.rst    |   6 +-
+ .../uapi/cec/cec-ioc-adap-g-conn-info.rst     | 105 ++++++++++++++++++
+ .../media/uapi/cec/cec-ioc-dqevent.rst        |   8 ++
+ drivers/media/cec/cec-adap.c                  |   2 +
+ drivers/media/cec/cec-api.c                   |  20 ++++
+ drivers/media/cec/cec-core.c                  |   5 -
+ include/media/cec.h                           |  31 ------
+ include/uapi/linux/cec.h                      |  40 +++++++
+ 9 files changed, 181 insertions(+), 37 deletions(-)
+ create mode 100644 Documentation/media/uapi/cec/cec-ioc-adap-g-conn-info.rst
+
+-- 
+2.20.1
 
