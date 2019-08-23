@@ -2,113 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 24A5B9AE77
-	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2019 13:55:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 485349AEA2
+	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2019 14:01:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393166AbfHWLzN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Aug 2019 07:55:13 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:37249 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2393004AbfHWLzM (ORCPT
+        id S1731752AbfHWMB1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Aug 2019 08:01:27 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:34541 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1731457AbfHWMB1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Aug 2019 07:55:12 -0400
+        Fri, 23 Aug 2019 08:01:27 -0400
 Received: from [192.168.2.10] ([46.9.232.237])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id 189rikgyQThuu189uiot9S; Fri, 23 Aug 2019 13:55:10 +0200
-Subject: Re: [GIT PULL for 5.4] A10 CSI driver and atmel-isi fix
-To:     Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org
-Cc:     maxime.ripard@bootlin.com
-References: <20190823073109.GR3504@valkosipuli.retiisi.org.uk>
+        id 18FuikjLnThuu18Fxioubf; Fri, 23 Aug 2019 14:01:25 +0200
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <f930291a-8d00-28a4-57e0-f5cfc2d40322@xs4all.nl>
-Date:   Fri, 23 Aug 2019 13:55:07 +0200
+Subject: [GIT PULL FOR v5.4] Add imx csc/scaler mem2mem device
+Message-ID: <9d0cbecd-02dc-3d58-6342-3fb091e9d798@xs4all.nl>
+Date:   Fri, 23 Aug 2019 14:01:22 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190823073109.GR3504@valkosipuli.retiisi.org.uk>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfG81OlVJ4nNJ1O2UVn+UsQQzOYxoo85ApF2V0NFAApMLauhbcT9cwlCo+4D1sq0Pr3fCUfhWWRBMyD+K7X+OFAqncGMJ/sbxx5cjycLVuYR+HGal+iLQ
- a1GKnloTEn/YnQaeN+dKD0oXzJHsmruHJ6nS2HRN0kcELteiwQ+57l6+//tcR0liuLRuLSiKypLLpacvBKWrPphw5oAyWkPbiBa73N5BilObBlx3JyGHN93C
- P3o79fbRSJjgJg/xcPcGVA==
+X-CMAE-Envelope: MS4wfJ9mDqPvmaaKH4ldNaUe+PMNkAIVafZeet/QGElCdhqG/0V8474wKPR06pgOdGTrr2JNhbaWxcaQXmQHyWJipfFzf1f2KuD8/87XDLTABudBJTE1EO1o
+ 6V124vQdbf4rFYYMNLJeEYRUQv2E/fZS2Z2CVKyQWvOaDKWc7FJ6+K4WE0eyXT/ektKtjG2iGC/BksAOZ01ZD1IsKjO0ADUO18g=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Maxime,
+The following changes since commit 577bbf23b758848f0c4a50d346460b690c753024:
 
-On 8/23/19 9:31 AM, Sakari Ailus wrote:
-> Hi Mauro,
-> 
-> Here's a driver for A10 CSI parallel receiver and a fix for atmel-isi.
-> 
-> There are three checkpatch.pl warnings; two on Makefile / Kconfig on
-> MAINTAINERS (i.e. not worth mentioning in MAINTAINERS) while the third is
-> on a spinlock missing a comment. If you'd like the last one to be
-> addressed, I'm proposing doing that in a separate patch.
+  media: sunxi: Add A10 CSI driver (2019-08-23 07:31:35 -0300)
 
-When running sparse I get this warning:
+are available in the Git repository at:
 
-drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c:21:31:  warning: symbol 'sun4i_csi_formats' was not declared. Should it be static?
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.4n
 
-Can you post a follow-up patch for this?
+for you to fetch changes up to ba443b4dd9e15ffefba9d8aa07f419b0d19bf1b4:
 
-Regards,
+  media: imx: add csc/scaler mem2mem device (2019-08-23 13:53:40 +0200)
 
-	Hans
+----------------------------------------------------------------
+Tag branch
 
-> 
-> Please pull.
-> 
-> 
-> The following changes since commit 01faced6f65d0224bf6ce1262a4137771e28519f:
-> 
->   media: dt-bindings: media: Convert Allwinner A10 IR to a schema (2019-08-21 18:39:55 -0300)
-> 
-> are available in the Git repository at:
-> 
->   git://linuxtv.org/sailus/media_tree.git tags/for-5.4-7-signed
-> 
-> for you to fetch changes up to 494630237a2ce13f1e0b8fe06b48811ce5254ce4:
-> 
->   media: sunxi: Add A10 CSI driver (2019-08-23 10:25:33 +0300)
-> 
-> ----------------------------------------------------------------
-> A10 CSI1 driver + sensor fix
-> 
-> ----------------------------------------------------------------
-> Alexandre Kroupski (1):
->       media: atmel: atmel-isi: fix timeout value for stop streaming
-> 
-> Maxime Ripard (3):
->       dt-bindings: media: Add Allwinner A10 CSI binding
->       media: sunxi: Refactor the Makefile and Kconfig
->       media: sunxi: Add A10 CSI driver
-> 
->  .../bindings/media/allwinner,sun4i-a10-csi.yaml    | 109 +++++
->  MAINTAINERS                                        |   8 +
->  drivers/media/platform/Kconfig                     |   2 +-
->  drivers/media/platform/Makefile                    |   2 +-
->  drivers/media/platform/atmel/atmel-isi.c           |   2 +-
->  drivers/media/platform/sunxi/Kconfig               |   2 +
->  drivers/media/platform/sunxi/Makefile              |   2 +
->  drivers/media/platform/sunxi/sun4i-csi/Kconfig     |  11 +
->  drivers/media/platform/sunxi/sun4i-csi/Makefile    |   5 +
->  drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c | 314 ++++++++++++++
->  drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.h | 160 ++++++++
->  drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c | 454 +++++++++++++++++++++
->  .../media/platform/sunxi/sun4i-csi/sun4i_v4l2.c    | 385 +++++++++++++++++
->  13 files changed, 1453 insertions(+), 3 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml
->  create mode 100644 drivers/media/platform/sunxi/Kconfig
->  create mode 100644 drivers/media/platform/sunxi/Makefile
->  create mode 100644 drivers/media/platform/sunxi/sun4i-csi/Kconfig
->  create mode 100644 drivers/media/platform/sunxi/sun4i-csi/Makefile
->  create mode 100644 drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
->  create mode 100644 drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.h
->  create mode 100644 drivers/media/platform/sunxi/sun4i-csi/sun4i_dma.c
->  create mode 100644 drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c
-> 
+----------------------------------------------------------------
+Philipp Zabel (1):
+      media: imx: add csc/scaler mem2mem device
 
+ drivers/staging/media/imx/Kconfig                 |   1 +
+ drivers/staging/media/imx/Makefile                |   3 +-
+ drivers/staging/media/imx/imx-media-csc-scaler.c  | 926 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/staging/media/imx/imx-media-dev.c         |  28 +-
+ drivers/staging/media/imx/imx-media-internal-sd.c |   4 +
+ drivers/staging/media/imx/imx-media.h             |  12 +
+ 6 files changed, 972 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/staging/media/imx/imx-media-csc-scaler.c
