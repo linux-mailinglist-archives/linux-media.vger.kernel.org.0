@@ -2,121 +2,254 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5878F9B07C
-	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2019 15:13:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30F359B174
+	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2019 15:56:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733312AbfHWNNn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Aug 2019 09:13:43 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:40231 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731783AbfHWNNn (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Aug 2019 09:13:43 -0400
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1i19Np-0000Gv-Lb; Fri, 23 Aug 2019 15:13:37 +0200
-Message-ID: <1566566016.3023.21.camel@pengutronix.de>
-Subject: Re: [PATCH v3 5/7] media: v4l2-core: Add new helper for area
- controls
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Ricardo Ribalda Delgado <ribalda@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jacopo Mondi <jacopo@jmondi.org>
-Date:   Fri, 23 Aug 2019 15:13:36 +0200
-In-Reply-To: <CAPybu_0iodVnn1Fa5BFi7zc7ugwpN926wCJaoKU548zqrNJ5iw@mail.gmail.com>
-References: <20190823123737.7774-1-ribalda@kernel.org>
-         <20190823123737.7774-5-ribalda@kernel.org>
-         <1566564998.3023.13.camel@pengutronix.de>
-         <CAPybu_0iodVnn1Fa5BFi7zc7ugwpN926wCJaoKU548zqrNJ5iw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.22.6-1+deb9u2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+        id S2405769AbfHWN4T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Aug 2019 09:56:19 -0400
+Received: from foss.arm.com ([217.140.110.172]:34904 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388949AbfHWN4T (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 23 Aug 2019 09:56:19 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EBE6B28;
+        Fri, 23 Aug 2019 06:56:17 -0700 (PDT)
+Received: from [10.1.197.50] (e120937-lin.cambridge.arm.com [10.1.197.50])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 310B13F718;
+        Fri, 23 Aug 2019 06:56:13 -0700 (PDT)
+Subject: Re: [PATCH v18 15/15] selftests, arm64: add a selftest for passing
+ tagged pointers to kernel
+To:     Andrey Konovalov <andreyknvl@google.com>,
+        linux-arm-kernel@lists.infradead.org, linux-mm@kvack.org,
+        linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+        linux-media@vger.kernel.org, kvm@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
+Cc:     Catalin Marinas <catalin.marinas@arm.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Will Deacon <will.deacon@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kees Cook <keescook@chromium.org>,
+        Yishai Hadas <yishaih@mellanox.com>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        Alexander Deucher <Alexander.Deucher@amd.com>,
+        Christian Koenig <Christian.Koenig@amd.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Leon Romanovsky <leon@kernel.org>,
+        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Khalid Aziz <khalid.aziz@oracle.com>, enh <enh@google.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>,
+        Evgeniy Stepanov <eugenis@google.com>,
+        Lee Smith <Lee.Smith@arm.com>,
+        Ramana Radhakrishnan <Ramana.Radhakrishnan@arm.com>,
+        Jacob Bramley <Jacob.Bramley@arm.com>,
+        Ruben Ayrapetyan <Ruben.Ayrapetyan@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Kevin Brodsky <kevin.brodsky@arm.com>,
+        Szabolcs Nagy <Szabolcs.Nagy@arm.com>
+References: <cover.1561386715.git.andreyknvl@google.com>
+ <0999c80cd639b78ae27c0674069d552833227564.1561386715.git.andreyknvl@google.com>
+From:   Cristian Marussi <cristian.marussi@arm.com>
+Message-ID: <6af3f619-4356-2f67-ed76-92beceb1e0a0@arm.com>
+Date:   Fri, 23 Aug 2019 14:56:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <0999c80cd639b78ae27c0674069d552833227564.1561386715.git.andreyknvl@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 2019-08-23 at 15:05 +0200, Ricardo Ribalda Delgado wrote:
-> On Fri, Aug 23, 2019 at 2:56 PM Philipp Zabel <p.zabel@pengutronix.de> wrote:
-> > 
-> > On Fri, 2019-08-23 at 14:37 +0200, Ricardo Ribalda Delgado wrote:
-> > > Adding a V4L2_CID_UNIT_CELL_SIZE control requires a lot of boilerplate,
-> > > try to minimize it by adding a new helper.
-> > > 
-> > > Suggested-by: Philipp Zabel <p.zabel@pengutronix.de>
-> > > Signed-off-by: Ricardo Ribalda Delgado <ribalda@kernel.org>
-> > > ---
-> > >  drivers/media/v4l2-core/v4l2-ctrls.c | 25 ++++++++++++++++++++++++-
-> > >  include/media/v4l2-ctrls.h           | 16 ++++++++++++++++
-> > >  2 files changed, 40 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-> > > index b3bf458df7f7..33e48f0aec1a 100644
-> > > --- a/drivers/media/v4l2-core/v4l2-ctrls.c
-> > > +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-> > > @@ -2660,7 +2660,6 @@ struct v4l2_ctrl *v4l2_ctrl_new_std_menu_items(struct v4l2_ctrl_handler *hdl,
-> > >  }
-> > >  EXPORT_SYMBOL(v4l2_ctrl_new_std_menu_items);
-> > > 
-> > > -/* Helper function for standard integer menu controls */
-> > 
-> > Why move this ...
-> > 
-> > >  struct v4l2_ctrl *v4l2_ctrl_new_int_menu(struct v4l2_ctrl_handler *hdl,
-> > >                       const struct v4l2_ctrl_ops *ops,
-> > >                       u32 id, u8 _max, u8 _def, const s64 *qmenu_int)
-> > > @@ -2684,6 +2683,30 @@ struct v4l2_ctrl *v4l2_ctrl_new_int_menu(struct v4l2_ctrl_handler *hdl,
-> > >  }
-> > >  EXPORT_SYMBOL(v4l2_ctrl_new_int_menu);
-> > > 
-> > > +static void area_init(const struct v4l2_ctrl *ctrl, u32 idx,
-> > > +             union v4l2_ctrl_ptr ptr)
-> > > +{
-> > > +     memcpy(ptr.p_area, ctrl->priv, sizeof(*ptr.p_area));
-> > > +}
-> > > +
-> > > +static const struct v4l2_ctrl_type_ops area_ops = {
-> > > +     .init = area_init,
-> > > +};
-> > > +
-> > > +struct v4l2_ctrl *v4l2_ctrl_new_area(struct v4l2_ctrl_handler *hdl,
-> > > +                                  const struct v4l2_ctrl_ops *ops,
-> > > +                                  u32 id, const struct v4l2_area *area)
-> > > +{
-> > > +     static struct v4l2_ctrl_config ctrl = {
-> > > +             .id = V4L2_CID_UNIT_CELL_SIZE,
-> > > +             .type_ops = &area_ops,
-> > > +     };
-> > > +
-> > > +     return v4l2_ctrl_new_custom(hdl, &ctrl, (void *)area);
-> > > +}
-> > > +EXPORT_SYMBOL(v4l2_ctrl_new_area);
-> > > +
-> > > +/* Helper function for standard integer menu controls */
-> > 
-> > ... here?
-> 
-> Because I screwed up :). Let me fix that sorry.
-> 
-> I will push all your changes to:
-> 
-> https://github.com/ribalda/linux/tree/unit-size-v4
-> 
-> plus any other comment and then I will wait 2-3 days for resend
+Hi Andrey
 
-Awesome, thanks! Feel free to add
+On 24/06/2019 15:33, Andrey Konovalov wrote:
+> This patch is a part of a series that extends kernel ABI to allow to pass
+> tagged user pointers (with the top byte set to something else other than
+> 0x00) as syscall arguments.
+> 
+> This patch adds a simple test, that calls the uname syscall with a
+> tagged user pointer as an argument. Without the kernel accepting tagged
+> user pointers the test fails with EFAULT.
+> 
+> Signed-off-by: Andrey Konovalov <andreyknvl@google.com>
+> ---
+>  tools/testing/selftests/arm64/.gitignore      |  1 +
+>  tools/testing/selftests/arm64/Makefile        | 11 +++++++
+>  .../testing/selftests/arm64/run_tags_test.sh  | 12 ++++++++
+>  tools/testing/selftests/arm64/tags_test.c     | 29 +++++++++++++++++++
+>  4 files changed, 53 insertions(+)
+>  create mode 100644 tools/testing/selftests/arm64/.gitignore
+>  create mode 100644 tools/testing/selftests/arm64/Makefile
+>  create mode 100755 tools/testing/selftests/arm64/run_tags_test.sh
+>  create mode 100644 tools/testing/selftests/arm64/tags_test.c
 
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+After building a fresh Kernel from arm64/for-next-core from scratch at:
 
-regards
-Philipp
+commit 239ab658bea3b387424501e7c416640d6752dc0c 
+Merge: 6bfa3134bd3a 42d038c4fb00 1243cb6a676f d55c5f28afaf d06fa5a118f1 34b5560db40d
+Author: Will Deacon <will@kernel.org>
+Date:   Thu Aug 22 18:23:53 2019 +0100
+
+    Merge branches 'for-next/error-injection', 'for-next/tbi', 'for-next/psci-cpuidle', 'for-next/cpu-topology' and 'for-next/52-bit-kva' into for-next/core
+
+
+KSFT arm64 tests build is broken for me, both setting or not KBUILD_OUTPUT=
+
+13:30 $ make TARGETS=arm64 kselftest-clean                       
+make[1]: Entering directory '/home/crimar01/ARM/dev/src/pdsw/out_linux'
+rm -f -r /home/crimar01/ARM/dev/src/pdsw/out_linux//kselftest/arm64/tags_test
+make[1]: Leaving directory '/home/crimar01/ARM/dev/src/pdsw/out_linux'
+
+✔ ~/ARM/dev/src/pdsw/linux [arm64_for_next_core|…8⚑ 23]
+
+13:30 $ make TARGETS=arm64 kselftest                  
+make[1]: Entering directory '/home/crimar01/ARM/dev/src/pdsw/out_linux'
+arch/arm64/Makefile:56: CROSS_COMPILE_COMPAT not defined or empty, the compat vDSO will not be built
+make --no-builtin-rules INSTALL_HDR_PATH=$BUILD/usr \
+        ARCH=arm64 -C ../../.. headers_install             
+  HOSTCC  scripts/basic/fixdep                     
+  HOSTCC  scripts/unifdef                         
+...
+...
+  HDRINST usr/include/asm/msgbuf.h
+  HDRINST usr/include/asm/shmbuf.h
+  INSTALL /home/crimar01/ARM/dev/src/pdsw/out_linux//kselftest/usr/include
+/opt/toolchains/gcc-arm-8.3-2019.03-x86_64-aarch64-linux-gnu/bin/aarch64-linux-gnu-gcc     tags_test.c  -o /home/crimar01/ARM/dev/src/pdsw/out_linux//kselftest/arm64/tags_test
+tags_test.c: In function ‘main’:
+tags_test.c:21:12: error: ‘PR_SET_TAGGED_ADDR_CTRL’ undeclared (first use in this function); did you mean ‘PR_GET_TID_ADDRESS’?
+  if (prctl(PR_SET_TAGGED_ADDR_CTRL, PR_TAGGED_ADDR_ENABLE, 0, 0, 0) == 0)
+            ^~~~~~~~~~~~~~~~~~~~~~~
+            PR_GET_TID_ADDRESS
+tags_test.c:21:12: note: each undeclared identifier is reported only once for each function it appears in
+tags_test.c:21:37: error: ‘PR_TAGGED_ADDR_ENABLE’ undeclared (first use in this function); did you mean ‘PR_GET_DUMPABLE’?
+  if (prctl(PR_SET_TAGGED_ADDR_CTRL, PR_TAGGED_ADDR_ENABLE, 0, 0, 0) == 0)
+                                     ^~~~~~~~~~~~~~~~~~~~~
+                                     PR_GET_DUMPABLE
+../lib.mk:138: recipe for target '/home/crimar01/ARM/dev/src/pdsw/out_linux//kselftest/arm64/tags_test' failed
+make[3]: *** [/home/crimar01/ARM/dev/src/pdsw/out_linux//kselftest/arm64/tags_test] Error 1
+Makefile:136: recipe for target 'all' failed
+make[2]: *** [all] Error 2
+/home/crimar01/ARM/dev/src/pdsw/linux/Makefile:1237: recipe for target 'kselftest' failed
+make[1]: *** [kselftest] Error 2
+make[1]: Leaving directory '/home/crimar01/ARM/dev/src/pdsw/out_linux'
+Makefile:179: recipe for target 'sub-make' failed
+make: *** [sub-make] Error 2
+
+Despite seeing KSFT installing Kernel Headers, they cannot be found.
+
+Fixing this patch like this make it work for me:
+
+diff --git a/tools/testing/selftests/arm64/Makefile b/tools/testing/selftests/arm64/Makefile                                                                                        
+index a61b2e743e99..f9f79fb272f0 100644                             
+--- a/tools/testing/selftests/arm64/Makefile   
++++ b/tools/testing/selftests/arm64/Makefile                                                     
+@@ -4,6 +4,7 @@                                                                       
+ ARCH ?= $(shell uname -m 2>/dev/null || echo not)                                              
+                                                       
+ ifneq (,$(filter $(ARCH),aarch64 arm64))                                            
++CFLAGS += -I../../../../usr/include/                                                               
+ TEST_GEN_PROGS := tags_test                                  
+ TEST_PROGS := run_tags_test.sh                                    
+ endif                                                             
+
+but is not really a proper fix since it does NOT account for case in which you have
+installed the Kernel Headers in a non standard location like when you use KBUILD_OUTPUT.
+
+Am I missing something ?
+
+Thanks
+
+Cristian
+
+> 
+> diff --git a/tools/testing/selftests/arm64/.gitignore b/tools/testing/selftests/arm64/.gitignore
+> new file mode 100644
+> index 000000000000..e8fae8d61ed6
+> --- /dev/null
+> +++ b/tools/testing/selftests/arm64/.gitignore
+> @@ -0,0 +1 @@
+> +tags_test
+> diff --git a/tools/testing/selftests/arm64/Makefile b/tools/testing/selftests/arm64/Makefile
+> new file mode 100644
+> index 000000000000..a61b2e743e99
+> --- /dev/null
+> +++ b/tools/testing/selftests/arm64/Makefile
+> @@ -0,0 +1,11 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +
+> +# ARCH can be overridden by the user for cross compiling
+> +ARCH ?= $(shell uname -m 2>/dev/null || echo not)
+> +
+> +ifneq (,$(filter $(ARCH),aarch64 arm64))
+> +TEST_GEN_PROGS := tags_test
+> +TEST_PROGS := run_tags_test.sh
+> +endif
+> +
+> +include ../lib.mk
+> diff --git a/tools/testing/selftests/arm64/run_tags_test.sh b/tools/testing/selftests/arm64/run_tags_test.sh
+> new file mode 100755
+> index 000000000000..745f11379930
+> --- /dev/null
+> +++ b/tools/testing/selftests/arm64/run_tags_test.sh
+> @@ -0,0 +1,12 @@
+> +#!/bin/sh
+> +# SPDX-License-Identifier: GPL-2.0
+> +
+> +echo "--------------------"
+> +echo "running tags test"
+> +echo "--------------------"
+> +./tags_test
+> +if [ $? -ne 0 ]; then
+> +	echo "[FAIL]"
+> +else
+> +	echo "[PASS]"
+> +fi
+> diff --git a/tools/testing/selftests/arm64/tags_test.c b/tools/testing/selftests/arm64/tags_test.c
+> new file mode 100644
+> index 000000000000..22a1b266e373
+> --- /dev/null
+> +++ b/tools/testing/selftests/arm64/tags_test.c
+> @@ -0,0 +1,29 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +#include <stdio.h>
+> +#include <stdlib.h>
+> +#include <unistd.h>
+> +#include <stdint.h>
+> +#include <sys/prctl.h>
+> +#include <sys/utsname.h>
+> +
+> +#define SHIFT_TAG(tag)		((uint64_t)(tag) << 56)
+> +#define SET_TAG(ptr, tag)	(((uint64_t)(ptr) & ~SHIFT_TAG(0xff)) | \
+> +					SHIFT_TAG(tag))
+> +
+> +int main(void)
+> +{
+> +	static int tbi_enabled = 0;
+> +	struct utsname *ptr, *tagged_ptr;
+> +	int err;
+> +
+> +	if (prctl(PR_SET_TAGGED_ADDR_CTRL, PR_TAGGED_ADDR_ENABLE, 0, 0, 0) == 0)
+> +		tbi_enabled = 1;
+> +	ptr = (struct utsname *)malloc(sizeof(*ptr));
+> +	if (tbi_enabled)
+> +		tagged_ptr = (struct utsname *)SET_TAG(ptr, 0x42);
+> +	err = uname(tagged_ptr);
+> +	free(ptr);
+> +
+> +	return err;
+> +}
+> 
+
