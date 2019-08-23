@@ -2,651 +2,199 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 224F39AC55
-	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2019 12:02:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 89A8C9ACFE
+	for <lists+linux-media@lfdr.de>; Fri, 23 Aug 2019 12:20:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391550AbfHWKBe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Aug 2019 06:01:34 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:34560 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391107AbfHWKBd (ORCPT
+        id S2390026AbfHWKUN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Aug 2019 06:20:13 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:32880 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389165AbfHWKUM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Aug 2019 06:01:33 -0400
-Received: by mail-pf1-f196.google.com with SMTP id b24so6157661pfp.1
-        for <linux-media@vger.kernel.org>; Fri, 23 Aug 2019 03:01:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=ZxM74Kyn3vZ+th1DbRlhNF+/q8zOmm1ovF5THAevQQM=;
-        b=JZjOpKJHoUYRrLpakHjc97b9CEk91GJT7FTFH7UAfSkmUgCZdNBBf+q9wSsq414IKA
-         xlF7jWhjdeKACV0jLzhfLCL4SZpusMOA6fI19IB/531cv7EjVD9s14wyZbcxozydK7c6
-         Evf3z55f76ZuAAKmPszOobDhsENxL3LXFCYwg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ZxM74Kyn3vZ+th1DbRlhNF+/q8zOmm1ovF5THAevQQM=;
-        b=P4I1wpiuH1GsX4CO3Bs0sjyIEj/ZJs3luWrLg6KU9rZ7+1EypkK/03YlHvYvFtZw4v
-         ROJiE3nUZ/dgP+23ljgrUcRC1ppbuUKi0HYRM2mxG7xNa4mRneuiCwzRYqn5/QnGym36
-         LYzdaThzQZRhkBPCduzKR0+CGubJrsUBfSzLh7EpyBtc6H+FUdl7F2eypI7XNRNJe4xQ
-         obsaf33zwIE00q2KolgBnnlK63kDwQ09pOfDqeBiC7QAohPmedvVCy0U23OLoTE1HEta
-         mwgjWUUjE+OIQJrKArJ9OrnrOIxZXGwOZOiMq3CkQ7orPrOrsGjX9YNqih091SzE6Ulb
-         4QCA==
-X-Gm-Message-State: APjAAAUa3gQy/jJF/LxpRuSZ2/UgRGQqIIwnW4iEVhOgRyZ7VswOUriG
-        y6zX1rkB7cbIW1hfysd86qFUgw==
-X-Google-Smtp-Source: APXvYqyZPDyWUxmmKNelYf7xhlS+OtgyrzK2fy9Ri+dz5xWSKAIL+vJUlelv/74klwpO/vydDLpObA==
-X-Received: by 2002:a62:87c8:: with SMTP id i191mr4248619pfe.133.1566554492579;
-        Fri, 23 Aug 2019 03:01:32 -0700 (PDT)
-Received: from chromium.org ([2401:fa00:4:4:6d27:f13:a0fa:d4b6])
-        by smtp.gmail.com with ESMTPSA id i137sm1942360pgc.4.2019.08.23.03.01.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Aug 2019 03:01:31 -0700 (PDT)
-Date:   Fri, 23 Aug 2019 19:01:26 +0900
-From:   Tomasz Figa <tfiga@chromium.org>
-To:     dongchun.zhu@mediatek.com
-Cc:     mchehab@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com,
-        sakari.ailus@linux.intel.com, drinkcat@chromium.org,
-        matthias.bgg@gmail.com, bingbu.cao@intel.com,
-        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, sj.huang@mediatek.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        louis.kuo@mediatek.com, shengnan.wang@mediatek.com
-Subject: Re: [V1, 2/2] media: i2c: Add more sensor mode for ov8856 camera
- sensor
-Message-ID: <20190823100126.GB33937@chromium.org>
-References: <20190808092215.5608-1-dongchun.zhu@mediatek.com>
- <20190808092215.5608-3-dongchun.zhu@mediatek.com>
+        Fri, 23 Aug 2019 06:20:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=urZOyMTijUB26f0is3C9mcTCw63Nh/JDAZh1/VkDIlA=; b=TZomOmmqMs5K5UMH6GbPDpnEZ
+        B/cDqpkbI7zfzAao4hkSgjKTsfp/3MwyGKNs34m+WRzc3jtDJCDqc5tjIsywk8U5XEapPPbuM9b3u
+        fEwuRzhWxy8HfozCEbSKL+zXuieFEwuc52s5JFgVa3T8XoKSH8T7+menYVPjSNR/Q5DKsy/HqEWf6
+        QRVW+YAVHXyyfWZwDVbmoiE2cBq3SY5axPf89sOJcQmEBFzdMr5gId0h+rMASZOxio356hr8nDwKX
+        xIgZIRPtzNcF38iDJ85xVPma1WFa3HNuzx4Poql3fsskhTz/FutmjsvZLHBqEWiaYif3MDKIcUpvr
+        BCw/9PBVA==;
+Received: from [177.133.63.56] (helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1i16g0-0006B9-03; Fri, 23 Aug 2019 10:20:12 +0000
+Date:   Fri, 23 Aug 2019 07:20:08 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Marc Gonzalez <marc.w.gonzalez@free.fr>
+Cc:     linux-media <linux-media@vger.kernel.org>
+Subject: Re: [PATCH 6/7] media: don't do an unsigned int with a 31 bit shift
+Message-ID: <20190823072008.5ab02f4b@coco.lan>
+In-Reply-To: <82b06099-f652-47e9-99b9-3bd3ec197a4e@free.fr>
+References: <4a411ba155eb062b6575aba0824123c840806c0b.1566502743.git.mchehab+samsung@kernel.org>
+        <1a78a757b37d2628312e1d56d7a741ba89d42a91.1566502743.git.mchehab+samsung@kernel.org>
+        <82b06099-f652-47e9-99b9-3bd3ec197a4e@free.fr>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190808092215.5608-3-dongchun.zhu@mediatek.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dongchun,
+Em Fri, 23 Aug 2019 11:08:15 +0200
+Marc Gonzalez <marc.w.gonzalez@free.fr> escreveu:
 
-On Thu, Aug 08, 2019 at 05:22:15PM +0800, dongchun.zhu@mediatek.com wrote:
-> From: Dongchun Zhu <dongchun.zhu@mediatek.com>
+> On 22/08/2019 21:39, Mauro Carvalho Chehab wrote:
 > 
-> This patch mainly adds two more sensor modes for OV8856 image sensor.
-> The OV8856 driver currently supports output format: 10-bit Raw,
-> the resolution of 1632*1224 and 3264*2448, and the bayer order of BGGR.
-> The hardware version also differs in some OTP regiser,
-> as well as PLL register setting.
+> > [PATCH 6/7] media: don't do an unsigned int with a 31 bit shift  
 > 
-> Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
-> ---
->  drivers/media/i2c/ov8856.c | 624 ++++++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 621 insertions(+), 3 deletions(-)
+> s/unsigned int/signed int  ?
 > 
+> (See below as well.)
+> 
+> > Doing something like:
+> > 
+> > 	i32 foo = 1, bar;
+> > 
+> > 	bar = foo << 31;  
+> 
+> For my information, why did you split the expression over two lines,
+> instead of just using 1 << 31 in the example above?
+> (Most of the cases fixed involve a literal 1)
+> 
+> I.e. why didn't you just say "1 << 31 has undefined behavior" ?
+> 
+> Maybe patch subject can also be changed to "Don't use 1 << foo" ?
+> 
+> > has an undefined behavior in C, as warned by cppcheck, as we're
+> > shifting a signed integer.  
+> 
+> Not quite right. Shifting a signed integer is well-defined in some cases.
+> See paragraph 4 below. For example, 1 << 8 always resolves to 256.
 
-Thanks for the patch! Please see my comments inline.
+I meant to say that, on a 32-bits arch, where a signed integer has
+31 bits and we do a 31 bit shift, it will end touching the 32th bit,
+with is an undefined behavior.
 
-> diff --git a/drivers/media/i2c/ov8856.c b/drivers/media/i2c/ov8856.c
-> index cd347d6..e0610b6 100644
-> --- a/drivers/media/i2c/ov8856.c
-> +++ b/drivers/media/i2c/ov8856.c
-> @@ -1,12 +1,15 @@
->  // SPDX-License-Identifier: GPL-2.0
->  // Copyright (c) 2019 Intel Corporation.
->  
-> +#include <linux/clk.h>
->  #include <asm/unaligned.h>
->  #include <linux/acpi.h>
->  #include <linux/delay.h>
-> +#include <linux/gpio/consumer.h>
->  #include <linux/i2c.h>
->  #include <linux/module.h>
->  #include <linux/pm_runtime.h>
-> +#include <linux/regulator/consumer.h>
->  #include <media/v4l2-ctrls.h>
->  #include <media/v4l2-device.h>
->  #include <media/v4l2-fwnode.h>
-> @@ -19,6 +22,7 @@
->  #define OV8856_LINK_FREQ_180MHZ		180000000ULL
->  #define OV8856_SCLK			144000000ULL
->  #define OV8856_MCLK			19200000
-> +#define OV8856_XVCLK_FREQ		24000000
->  #define OV8856_DATA_LANES		4
->  #define OV8856_RGB_DEPTH		10
->  
-> @@ -29,6 +33,18 @@
->  #define OV8856_MODE_STANDBY		0x00
->  #define OV8856_MODE_STREAMING		0x01
->  
-> +/* define 1B module */
-> +#define OV8856_1B_MODULE		0x02
-> +
-> +/* otp sram register */
-> +#define OV8856_OTP_REG			0x700f
+I'm changing the description to:
 
-This isn't a register. I believe the OTP read-out buffer is at 0x7000 and
-0xf is the offset of the byte in the OTP that means the module revision.
+	media: don't do a 31 bit shift on a signed int
 
-> +#define OV8856_OTP_REG_ONE		0x3d84
-> +#define OV8856_OTP_REG_TWO		0x3d81
+	On 32-bits archs, a signed integer has 31 bits plus on extra
+	bit for	signal.	Due to that, touching the 32th bit with something 
+	like:
 
-These registers are definitely not "ONE" and "TWO". Please use proper
-names as per the datasheet.
+	        int bar = 1 << 31;
 
-> +
-> +/* clock register */
-> +#define OV8856_CLK_REG			0x3614
-> +#define OV8856_CLK_REG_1B_VAL		0x20
+	has an undefined behavior in C on 32 bit architectures, as it
+	touches	the signal bit.	This is warned by cppcheck.
 
-Same here. These don't look like the real names of the register and bit
-field.
+	Instead, force the numbers to be unsigned, in order to solve this
+	issue.
 
-> +
->  /* vertical-timings from sensor */
->  #define OV8856_REG_VTS			0x380e
->  #define OV8856_VTS_MAX			0x7fff
-> @@ -64,6 +80,14 @@
->  
->  #define to_ov8856(_sd)			container_of(_sd, struct ov8856, sd)
->  
-> +static const char * const ov8856_supply_names[] = {
-> +	"dovdd",	/* Digital I/O power */
-> +	"avdd",		/* Analog power */
-> +	"dvdd",		/* Digital core power */
-> +};
-> +
-> +#define OV8856_NUM_SUPPLIES ARRAY_SIZE(ov8856_supply_names)
-> +
->  enum {
->  	OV8856_LINK_FREQ_720MBPS,
->  	OV8856_LINK_FREQ_360MBPS,
-> @@ -316,6 +340,208 @@ static const struct ov8856_reg mode_3280x2464_regs[] = {
->  	{0x5e00, 0x00}
->  };
->  
-> +static const struct ov8856_reg mode_3264x2448_regs[] = {
-> +	{0x0103, 0x01},
-> +	{0x0302, 0x3c},
-> +	{0x0303, 0x01},
-> +	{0x031e, 0x0c},
-> +	{0x3000, 0x00},
-> +	{0x300e, 0x00},
-> +	{0x3010, 0x00},
-> +	{0x3015, 0x84},
-> +	{0x3018, 0x72},
-> +	{0x3021, 0x23},
-> +	{0x3033, 0x24},
-> +	{0x3500, 0x00},
-> +	{0x3501, 0x9a},
-> +	{0x3502, 0x20},
-> +	{0x3503, 0x08},
-> +	{0x3505, 0x83},
-> +	{0x3508, 0x01},
-> +	{0x3509, 0x80},
-> +	{0x350c, 0x00},
-> +	{0x350d, 0x80},
-> +	{0x350e, 0x04},
-> +	{0x350f, 0x00},
-> +	{0x3510, 0x00},
-> +	{0x3511, 0x02},
-> +	{0x3512, 0x00},
-> +	{0x3600, 0x72},
-> +	{0x3601, 0x40},
-> +	{0x3602, 0x30},
-> +	{0x3610, 0xc5},
-> +	{0x3611, 0x58},
-> +	{0x3612, 0x5c},
-> +	{0x3613, 0xca},
-> +	{0x3614, 0x60},
-> +	{0x3628, 0xff},
-> +	{0x3629, 0xff},
-> +	{0x362a, 0xff},
-> +	{0x3633, 0x10},
-> +	{0x3634, 0x10},
-> +	{0x3635, 0x10},
-> +	{0x3636, 0x10},
-> +	{0x3663, 0x08},
-> +	{0x3669, 0x34},
-> +	{0x366d, 0x00},
-> +	{0x366e, 0x10},
-> +	{0x3706, 0x86},
-> +	{0x370b, 0x7e},
-> +	{0x3714, 0x23},
-> +	{0x3730, 0x12},
-> +	{0x3733, 0x10},
-> +	{0x3764, 0x00},
-> +	{0x3765, 0x00},
-> +	{0x3769, 0x62},
-> +	{0x376a, 0x2a},
-> +	{0x376b, 0x30},
-> +	{0x3780, 0x00},
-> +	{0x3781, 0x24},
-> +	{0x3782, 0x00},
-> +	{0x3783, 0x23},
-> +	{0x3798, 0x2f},
-> +	{0x37a1, 0x60},
-> +	{0x37a8, 0x6a},
-> +	{0x37ab, 0x3f},
-> +	{0x37c2, 0x04},
-> +	{0x37c3, 0xf1},
-> +	{0x37c9, 0x80},
-> +	{0x37cb, 0x16},
-> +	{0x37cc, 0x16},
-> +	{0x37cd, 0x16},
-> +	{0x37ce, 0x16},
-> +	{0x3800, 0x00},
-> +	{0x3801, 0x00},
-> +	{0x3802, 0x00},
-> +	{0x3803, 0x0c},
-> +	{0x3804, 0x0c},
-> +	{0x3805, 0xdf},
-> +	{0x3806, 0x09},
-> +	{0x3807, 0xa3},
-> +	{0x3808, 0x0c},
-> +	{0x3809, 0xc0},
-> +	{0x380a, 0x09},
-> +	{0x380b, 0x90},
-> +	{0x380c, 0x07},
-> +	{0x380d, 0x8c},
-> +	{0x380e, 0x09},
-> +	{0x380f, 0xb2},
-> +	{0x3810, 0x00},
-> +	{0x3811, 0x04},
-> +	{0x3812, 0x00},
-> +	{0x3813, 0x02},
-> +	{0x3814, 0x01},
-> +	{0x3815, 0x01},
-> +	{0x3816, 0x00},
-> +	{0x3817, 0x00},
-> +	{0x3818, 0x00},
-> +	{0x3819, 0x00},
-> +	{0x3820, 0x80},
-> +	{0x3821, 0x46},
-> +	{0x382a, 0x01},
-> +	{0x382b, 0x01},
-> +	{0x3830, 0x06},
-> +	{0x3836, 0x02},
-> +	{0x3862, 0x04},
-> +	{0x3863, 0x08},
-> +	{0x3cc0, 0x33},
-> +	{0x3d85, 0x17},
-> +	{0x3d8c, 0x73},
-> +	{0x3d8d, 0xde},
-> +	{0x4001, 0xe0},
-> +	{0x4003, 0x40},
-> +	{0x4008, 0x00},
-> +	{0x4009, 0x0b},
-> +	{0x400a, 0x00},
-> +	{0x400b, 0x84},
-> +	{0x400f, 0x80},
-> +	{0x4010, 0xf0},
-> +	{0x4011, 0xff},
-> +	{0x4012, 0x02},
-> +	{0x4013, 0x01},
-> +	{0x4014, 0x01},
-> +	{0x4015, 0x01},
-> +	{0x4042, 0x00},
-> +	{0x4043, 0x80},
-> +	{0x4044, 0x00},
-> +	{0x4045, 0x80},
-> +	{0x4046, 0x00},
-> +	{0x4047, 0x80},
-> +	{0x4048, 0x00},
-> +	{0x4049, 0x80},
-> +	{0x4041, 0x03},
-> +	{0x404c, 0x20},
-> +	{0x404d, 0x00},
-> +	{0x404e, 0x20},
-> +	{0x4203, 0x80},
-> +	{0x4307, 0x30},
-> +	{0x4317, 0x00},
-> +	{0x4502, 0x50},
-> +	{0x4503, 0x08},
-> +	{0x4601, 0x80},
-> +	{0x4800, 0x44},
-> +	{0x4816, 0x53},
-> +	{0x481b, 0x50},
-> +	{0x481f, 0x27},
-> +	{0x4823, 0x3c},
-> +	{0x482b, 0x00},
-> +	{0x4831, 0x66},
-> +	{0x4837, 0x16},
-> +	{0x483c, 0x0f},
-> +	{0x484b, 0x05},
-> +	{0x5000, 0x77},
-> +	{0x5001, 0x0a},
-> +	{0x5003, 0xc8},
-> +	{0x5004, 0x04},
-> +	{0x5006, 0x00},
-> +	{0x5007, 0x00},
-> +	{0x502e, 0x03},
-> +	{0x5030, 0x41},
-> +	{0x5780, 0x14},
-> +	{0x5781, 0x0f},
-> +	{0x5782, 0x44},
-> +	{0x5783, 0x02},
-> +	{0x5784, 0x01},
-> +	{0x5785, 0x01},
-> +	{0x5786, 0x00},
-> +	{0x5787, 0x04},
-> +	{0x5788, 0x02},
-> +	{0x5789, 0x0f},
-> +	{0x578a, 0xfd},
-> +	{0x578b, 0xf5},
-> +	{0x578c, 0xf5},
-> +	{0x578d, 0x03},
-> +	{0x578e, 0x08},
-> +	{0x578f, 0x0c},
-> +	{0x5790, 0x08},
-> +	{0x5791, 0x04},
-> +	{0x5792, 0x00},
-> +	{0x5793, 0x52},
-> +	{0x5794, 0xa3},
-> +	{0x5795, 0x02},
-> +	{0x5796, 0x20},
-> +	{0x5797, 0x20},
-> +	{0x5798, 0xd5},
-> +	{0x5799, 0xd5},
-> +	{0x579a, 0x00},
-> +	{0x579b, 0x50},
-> +	{0x579c, 0x00},
-> +	{0x579d, 0x2c},
-> +	{0x579e, 0x0c},
-> +	{0x579f, 0x40},
-> +	{0x57a0, 0x09},
-> +	{0x57a1, 0x40},
-> +	{0x59f8, 0x3d},
-> +	{0x5a08, 0x02},
-> +	{0x5b00, 0x02},
-> +	{0x5b01, 0x10},
-> +	{0x5b02, 0x03},
-> +	{0x5b03, 0xcf},
-> +	{0x5b05, 0x6c},
-> +	{0x5e00, 0x00},
-> +	{0x5e10, 0xfc}
-> +};
-> +
+I guess this makes it clearer.
 
-It would be better if we could find the differences between the two arrays
-and handle them incrementally.
 
-[snip]
+> 
+>     6.5.7 Bitwise shift operators
+> 
+> 1   Syntax
+>              shift-expression:
+>                      additive-expression
+>                      shift-expression << additive-expression
+>                      shift-expression >> additive-expression
+> 
+> 2   Constraints
+>     Each of the operands shall have integer type.
+> 
+> 3   Semantics
+>     The integer promotions are performed on each of the operands. The type of the result is
+>     that of the promoted left operand. If the value of the right operand is negative or is
+>     greater than or equal to the width of the promoted left operand, the behavior is undefined.
 
-> +static int ov8856_update_otp_reg(struct ov8856 *ov8856)
-> +{
-> +	int ret;
-> +
-> +	ret = ov8856_write_reg(ov8856, OV8856_REG_MODE_SELECT,
-> +			       OV8856_REG_VALUE_08BIT, OV8856_MODE_STREAMING);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = ov8856_write_reg(ov8856, OV8856_OTP_REG_ONE,
-> +			       OV8856_REG_VALUE_08BIT, OV8856_MODE_STANDBY);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return ov8856_write_reg(ov8856, OV8856_OTP_REG_TWO,
-> +				OV8856_REG_VALUE_08BIT, OV8856_MODE_STREAMING);
+The problem is here: "greater than or equal to the width of the promoted left operand".
+A 31 bit shift on a 31 bits value is undefined.
 
-Hmm, this doesn't sound right. The OTP register doesn't have anything to do
-with streaming. Also we should stop streaming at the end.
+In the past, we got real issues like that at the code: gcc on x86 does the shift as
+expected, so:
 
-> +}
-> +
->  static int ov8856_set_ctrl(struct v4l2_ctrl *ctrl)
->  {
->  	struct ov8856 *ov8856 = container_of(ctrl->handler,
-> @@ -825,7 +1302,13 @@ static void ov8856_update_pad_format(const struct ov8856_mode *mode,
->  {
->  	fmt->width = mode->width;
->  	fmt->height = mode->height;
-> -	fmt->code = MEDIA_BUS_FMT_SGRBG10_1X10;
-> +
-> +	/* Bayer Order is determined by image resolution */
-> +	if (fmt->width == 3264 || fmt->width == 1632)
+	u32 a = 1 << 32;
 
-Could we instead set the bayer order in the mode struct?
+it results in:
 
-> +		fmt->code = MEDIA_BUS_FMT_SBGGR10_1X10;
-> +	else
-> +		fmt->code = MEDIA_BUS_FMT_SGRBG10_1X10;
-> +
->  	fmt->field = V4L2_FIELD_NONE;
->  }
->  
-> @@ -850,6 +1333,17 @@ static int ov8856_start_streaming(struct ov8856 *ov8856)
->  		return ret;
->  	}
->  
-> +	/* update R3614 for 1B module */
+	on i386:  a = 0
+	on arm:   a = 1
 
-What's R3614?
+I've no idea how LLVM/clang implements this.
 
-> +	if (ov8856->is_1B_module) {
-> +		ret = ov8856_write_reg(ov8856, OV8856_CLK_REG,
-> +				       OV8856_REG_VALUE_08BIT,
-> +				       OV8856_CLK_REG_1B_VAL);
-> +		if (ret) {
-> +			dev_err(&client->dev, "failed to set R3614");
-> +			return ret;
-> +		}
-> +	}
-> +
->  	ret = __v4l2_ctrl_handler_setup(ov8856->sd.ctrl_handler);
->  	if (ret)
->  		return ret;
-> @@ -882,6 +1376,8 @@ static int ov8856_set_stream(struct v4l2_subdev *sd, int enable)
->  	if (ov8856->streaming == enable)
->  		return 0;
->  
-> +	dev_dbg(&client->dev, "hardware version: (%d)\n", ov8856->is_1B_module);
-> +
->  	mutex_lock(&ov8856->mutex);
->  	if (enable) {
->  		ret = pm_runtime_get_sync(&client->dev);
-> @@ -908,6 +1404,54 @@ static int ov8856_set_stream(struct v4l2_subdev *sd, int enable)
->  	return ret;
->  }
->  
-> +/* Calculate the delay in us by clock rate and clock cycles */
-> +static inline u32 ov8856_cal_delay(u32 cycles)
-> +{
-> +	return DIV_ROUND_UP(cycles, OV8856_XVCLK_FREQ / 1000 / 1000);
-> +}
-> +
-> +static int __ov8856_power_on(struct ov8856 *ov8856)
-> +{
-> +	int ret;
-> +	u32 delay_us;
-> +	struct i2c_client *client = v4l2_get_subdevdata(&ov8856->sd);
-> +
-> +	ret = clk_prepare_enable(ov8856->xvclk);
-> +	if (ret < 0) {
-> +		dev_err(&client->dev, "Failed to enable xvclk\n");
-> +		return ret;
-> +	}
-> +
-> +	gpiod_set_value_cansleep(ov8856->reset_gpio, 1);
+> 
+> 4   The result of E1 << E2 is E1 left-shifted E2 bit positions; vacated bits are filled with
+>     zeros. If E1 has an unsigned type, the value of the result is E1 x 2^E2 , reduced modulo
+>     one more than the maximum value representable in the result type. If E1 has a signed
+>     type and non-negative value, and E1 x 2^E2 is representable in the result type, then that is
+>     the resulting value; otherwise, the behavior is undefined.
+> 
+> 5   The result of E1 >> E2 is E1 right-shifted E2 bit positions. If E1 has an unsigned type
+>     or if E1 has a signed type and a non-negative value, the value of the result is the integral
+>     part of the quotient of E1 / 2^E2 . If E1 has a signed type and a negative value, the
+>     resulting value is implementation-defined.
+> 
+> 
+> > Instead, force the numbers to be unsigned, in order to solve this
+> > issue.
+> > 
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> > ---
+> >  drivers/media/dvb-frontends/cx24123.c           |  2 +-
+> >  drivers/media/pci/bt8xx/bttv-input.c            |  4 ++--
+> >  drivers/media/pci/cx18/cx18-ioctl.c             |  2 +-
+> >  drivers/media/pci/ivtv/ivtv-driver.c            |  2 +-
+> >  drivers/media/pci/ivtv/ivtv-ioctl.c             |  4 ++--
+> >  drivers/media/pci/solo6x10/solo6x10-gpio.c      |  6 +++---
+> >  drivers/media/platform/exynos4-is/mipi-csis.c   |  6 +++---
+> >  drivers/media/platform/fsl-viu.c                |  2 +-
+> >  drivers/media/platform/mx2_emmaprp.c            |  2 +-
+> >  drivers/media/platform/pxa_camera.c             |  4 ++--
+> >  drivers/media/platform/qcom/venus/core.c        |  2 +-
+> >  drivers/media/platform/s5p-jpeg/jpeg-regs.h     | 10 +++++-----
+> >  drivers/media/platform/s5p-mfc/s5p_mfc_opr_v5.c |  4 ++--
+> >  drivers/media/platform/s5p-mfc/s5p_mfc_opr_v6.c |  2 +-
+> >  drivers/media/radio/radio-gemtek.c              |  2 +-
+> >  drivers/media/usb/dvb-usb-v2/gl861.c            |  2 +-
+> >  drivers/media/usb/pvrusb2/pvrusb2-hdw.c         | 14 +++++++-------
+> >  drivers/media/usb/pvrusb2/pvrusb2-v4l2.c        |  4 ++--
+> >  drivers/media/v4l2-core/v4l2-ioctl.c            |  2 +-
+> >  19 files changed, 38 insertions(+), 38 deletions(-)
+> > 
+> > diff --git a/drivers/media/dvb-frontends/cx24123.c b/drivers/media/dvb-frontends/cx24123.c
+> > index ac519c3eff18..3d84ee17e54c 100644
+> > --- a/drivers/media/dvb-frontends/cx24123.c
+> > +++ b/drivers/media/dvb-frontends/cx24123.c
+> > @@ -431,7 +431,7 @@ static u32 cx24123_int_log2(u32 a, u32 b)
+> >  	u32 div = a / b;
+> >  	if (a % b >= b / 2)
+> >  		++div;
+> > -	if (div < (1 << 31)) {
+> > +	if (div < (1UL << 31)) {
+> >  		for (exp = 1; div > exp; nearest++)
+> >  			exp += exp;
+> >  	}  
+> 
+> Did you pick unsigned long (rather than unsigned) because that's what is used
+> in the BIT macro? 
 
-According to my datasheet, this sensor doesn't have a reset pin. The one I
-can see there is XSHUTDN, which I would call "n_shutdn" here.
+Yes.
 
-> +
-> +	ret = regulator_bulk_enable(OV8856_NUM_SUPPLIES, ov8856->supplies);
-> +	if (ret < 0) {
-> +		dev_err(&client->dev, "Failed to enable regulators\n");
-> +		goto disable_clk;
-> +	}
-> +
-> +	gpiod_set_value_cansleep(ov8856->reset_gpio, 0);
+> My concern is that UL is 64-bit wide on some platforms, and
+> when used in arithmetic expressions, compiler might generate worse code.
 
-According to the datasheet, XSHUTDN should be 0 for shutdown and 1 for
-running. Why is it the other way around here?
+On Linux, long size is equal to integer size, so I don't think
+that this is actually a problem.
 
-> +
-> +	/* 8192 cycles prior to first SCCB transaction */
-> +	delay_us = ov8856_cal_delay(8192);
-
-If we pass a constant to the function and the function itself only uses
-constants inside, could we just define a constant delay instead?
-
-> +	usleep_range(delay_us  * 2, delay_us * 4);
-
-Normally one one just give some small delta here, like +/- 100 us.
-
-> +
-> +	return 0;
-> +
-> +disable_clk:
-> +	clk_disable_unprepare(ov8856->xvclk);
-> +
-> +	return ret;
-> +}
-> +
-> +static void __ov8856_power_off(struct ov8856 *ov8856)
-> +{
-> +	clk_disable_unprepare(ov8856->xvclk);
-> +	gpiod_set_value_cansleep(ov8856->reset_gpio, 1);
-> +
-> +	regulator_bulk_disable(OV8856_NUM_SUPPLIES, ov8856->supplies);
-> +}
-> +
->  static int __maybe_unused ov8856_suspend(struct device *dev)
->  {
->  	struct i2c_client *client = to_i2c_client(dev);
-> @@ -915,8 +1459,8 @@ static int __maybe_unused ov8856_suspend(struct device *dev)
->  	struct ov8856 *ov8856 = to_ov8856(sd);
->  
->  	mutex_lock(&ov8856->mutex);
-> -	if (ov8856->streaming)
-> -		ov8856_stop_streaming(ov8856);
-> +
-> +	__ov8856_power_off(ov8856);
-
-This change is incorrect because it will power off even if the device was
-already powered off, causing reference count mismatch. The original code
-was okay.
-
->  
->  	mutex_unlock(&ov8856->mutex);
->  
-> @@ -1089,6 +1633,20 @@ static int ov8856_identify_module(struct ov8856 *ov8856)
->  		return -ENXIO;
->  	}
->  
-> +	/* set R3614 to distinguish harward versions */
-
-hardware
-
-> +	ret = ov8856_update_otp_reg(ov8856);
-> +	if (ret) {
-> +		dev_err(&client->dev, "failed to set otp register");
-> +		return ret;
-> +	}
-> +
-> +	ret = ov8856_read_reg(ov8856, OV8856_OTP_REG,
-> +			      OV8856_REG_VALUE_08BIT, &val);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ov8856->is_1B_module = (val == OV8856_1B_MODULE) ? 1 : 0;
-
-I'd rename ov8856_update_otp_reg() to ov8856_check_revision() and move the
-few lines above to that function too.
-
-> +
->  	return 0;
->  }
->  
-> @@ -1164,11 +1722,27 @@ static int ov8856_remove(struct i2c_client *client)
->  	media_entity_cleanup(&sd->entity);
->  	v4l2_ctrl_handler_free(sd->ctrl_handler);
->  	pm_runtime_disable(&client->dev);
-> +	if (!pm_runtime_status_suspended(&client->dev))
-> +		__ov8856_power_off(ov8856);
-> +	pm_runtime_set_suspended(&client->dev);
->  	mutex_destroy(&ov8856->mutex);
->  
->  	return 0;
->  }
->  
-> +static int ov8856_configure_regulators(struct ov8856 *ov8856)
-> +{
-> +	struct i2c_client *client = v4l2_get_subdevdata(&ov8856->sd);
-> +	int i;
-> +
-> +	for (i = 0; i < OV8856_NUM_SUPPLIES; i++)
-> +		ov8856->supplies[i].supply = ov8856_supply_names[i];
-> +
-> +	return devm_regulator_bulk_get(&client->dev,
-> +				       OV8856_NUM_SUPPLIES,
-> +				       ov8856->supplies);
-> +}
-
-There is not much value in having a dedicated function just to call one
-more function. Could you move back to the caller?
-
-> +
->  static int ov8856_probe(struct i2c_client *client)
->  {
->  	struct ov8856 *ov8856;
-> @@ -1186,6 +1760,40 @@ static int ov8856_probe(struct i2c_client *client)
->  		return -ENOMEM;
->  
->  	v4l2_i2c_subdev_init(&ov8856->sd, client, &ov8856_subdev_ops);
-> +
-> +	ov8856->xvclk = devm_clk_get(&client->dev, "xvclk");
-> +	if (IS_ERR(ov8856->xvclk)) {
-> +		dev_err(&client->dev, "Failed to get xvclk\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	ret = clk_set_rate(ov8856->xvclk, OV8856_XVCLK_FREQ);
-
-We should get the frequency from the DT bindings.
-
-> +	if (ret < 0) {
-> +		dev_err(&client->dev, "Failed to set xvclk rate (24MHz)\n");
-> +		return ret;
-> +	}
-> +	if (clk_get_rate(ov8856->xvclk) != OV8856_XVCLK_FREQ)
-> +		dev_warn(&client->dev,
-> +			 "xvclk mismatched, modes are based on 24MHz\n");
-> +
-> +	ov8856->reset_gpio = devm_gpiod_get(&client->dev,
-> +					    "reset",
-> +					    GPIOD_OUT_LOW);
-> +	if (IS_ERR(ov8856->reset_gpio)) {
-> +		dev_err(&client->dev, "Failed to get reset-gpios\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	ret = ov8856_configure_regulators(ov8856);
-> +	if (ret) {
-> +		dev_err(&client->dev, "Failed to get power regulators\n");
-> +		return ret;
-> +	}
-> +
-> +	ret = __ov8856_power_on(ov8856);
-> +	if (ret)
-> +		goto probe_error_v4l2_ctrl_handler_free;
-> +
->  	ret = ov8856_identify_module(ov8856);
->  	if (ret) {
->  		dev_err(&client->dev, "failed to find sensor: %d", ret);
-> @@ -1251,11 +1859,21 @@ static const struct acpi_device_id ov8856_acpi_ids[] = {
->  MODULE_DEVICE_TABLE(acpi, ov8856_acpi_ids);
->  #endif
->  
-> +#if IS_ENABLED(CONFIG_OF)
-> +static const struct of_device_id ov8856_of_match[] = {
-> +	{ .compatible = "ovti,ov8856" },
-> +	{},
-> +};
-> +
-
-nit: Unnecessary blank line.
-
-Best regards,
-Tomasz
+Thanks,
+Mauro
