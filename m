@@ -2,64 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F1AB9BDF1
-	for <lists+linux-media@lfdr.de>; Sat, 24 Aug 2019 15:22:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 08C959BED2
+	for <lists+linux-media@lfdr.de>; Sat, 24 Aug 2019 18:33:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727595AbfHXNWe convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Sat, 24 Aug 2019 09:22:34 -0400
-Received: from mail.fireflyinternet.com ([109.228.58.192]:58236 "EHLO
-        fireflyinternet.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727440AbfHXNWe (ORCPT
+        id S1727252AbfHXQdo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 24 Aug 2019 12:33:44 -0400
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:45698 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727019AbfHXQdo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 24 Aug 2019 09:22:34 -0400
-X-Default-Received-SPF: pass (skip=forwardok (res=PASS)) x-ip-name=78.156.65.138;
-Received: from localhost (unverified [78.156.65.138]) 
-        by fireflyinternet.com (Firefly Internet (M1)) with ESMTP (TLS) id 18250784-1500050 
-        for multiple; Sat, 24 Aug 2019 14:22:28 +0100
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-From:   Chris Wilson <chris@chris-wilson.co.uk>
-User-Agent: alot/0.6
-To:     =?utf-8?q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
-        sumit.semwal@linaro.org
-References: <20190821123147.110736-1-christian.koenig@amd.com>
- <20190821123147.110736-9-christian.koenig@amd.com>
-In-Reply-To: <20190821123147.110736-9-christian.koenig@amd.com>
-Message-ID: <156665294650.4019.8311918110818842888@skylake-alporthouse-com>
-Subject: Re: [PATCH 08/10] dma-buf/resv: replace shared fence with new fences
- container
-Date:   Sat, 24 Aug 2019 14:22:26 +0100
+        Sat, 24 Aug 2019 12:33:44 -0400
+Received: by mail-pg1-f193.google.com with SMTP id o13so7703730pgp.12
+        for <linux-media@vger.kernel.org>; Sat, 24 Aug 2019 09:33:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=qpxEdkDtTE99r0+Kr90WVH88+l8gQz0brzUUDfwcMJM=;
+        b=RaXN3hZw5v8OHEix8mRBKw3HzyctJYbyrb0Vv2v4BUFyrud8mqJiXGsCqyi+nI5MMS
+         0lW0hUsW/jErIk9Ftb+3aMnTq7YyYZ8UBSNDhYJYGmUIopmM0gGsSjun1t6mRiVfcWn4
+         NE3M8H1yERRZQ66cT80LC46XCwa+tjFHM+Wwdj06/6U3/gB3lVF6zQO32cf7IU+gQjf8
+         gS4+Gw8SjbtuikMvUQWBVapoySzVJ1OPWKpUqncfypSZf/0HA95Ro0u4Udb496phJwSv
+         ZelqFWNoLZJfvRRRqszwrpx04fWzw+T8GwNe8cdrRWYpEUwU9WQ6SkGBGeQuo6IKYZv+
+         Venw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=qpxEdkDtTE99r0+Kr90WVH88+l8gQz0brzUUDfwcMJM=;
+        b=EqdVS4g3WWzdZzk+QP/f8t/UdFAq6bVLeDJdO0rbhVR4itR3aTmShlUHXMX+ZddW8+
+         PK5cssyrXN2aIqqiMDtFXkF2bMc0dN7dpQp20XQVPYXrCvKtCLs+DT++MghB8tOJmxTB
+         2O+WI6vEBJEhfCfQ/8EwouLS1ctL8ALiuNHdY06XYOKDf3noct8UAr/oFsjiRFDJZl7j
+         o3BXO4qyN825tT17uIc54+iJgHYQTtxTPAaxUVRCyr7p+igKD3+u47hXZpoZpSakcTrM
+         x7gYdHFOlDvg60re8PIFcDaDJE6viq+OHa1owjpHr2ZrjwhhGgUALY8Z/N/5Ho1jj5bR
+         XuGw==
+X-Gm-Message-State: APjAAAUd8enhqFCDWuMVs20SKo+iKc8L15JI13V6fDSUfoWBK9+iaE58
+        I2lT4OVj8jNBI8kg8wnuUIKrk56B
+X-Google-Smtp-Source: APXvYqxjO4aMUqF437lNL1kTqrgmiH6yGSX7fiTp10uGthpoLkMD7kt9bq3yTlinFILyOZ9SKieSwg==
+X-Received: by 2002:a17:90a:c68c:: with SMTP id n12mr11129933pjt.33.1566664423162;
+        Sat, 24 Aug 2019 09:33:43 -0700 (PDT)
+Received: from majic.sklembedded.com (c-73-202-231-77.hsd1.ca.comcast.net. [73.202.231.77])
+        by smtp.googlemail.com with ESMTPSA id k3sm5733018pjo.3.2019.08.24.09.33.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 24 Aug 2019 09:33:42 -0700 (PDT)
+From:   Steve Longerbeam <slongerbeam@gmail.com>
+To:     linux-media@vger.kernel.org
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>
+Subject: [PATCH v2 0/2] media: imx: Fix subdev unregister/register issues
+Date:   Sat, 24 Aug 2019 09:33:35 -0700
+Message-Id: <20190824163337.8260-1-slongerbeam@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Quoting Christian König (2019-08-21 13:31:45)
-> @@ -528,20 +352,9 @@ void dma_resv_prune_fences(struct dma_resv *obj)
->                 dma_fence_put(fence);
->         }
->  
-> -       list = dma_resv_get_list(obj);
-> -       if (!list)
-> -               return;
-> -
-> -       for (i = 0; i < list->shared_count; ++i) {
-> -               fence = rcu_dereference_protected(list->shared[i],
-> -                                                 dma_resv_held(obj));
-> -
-> -               if (!dma_fence_is_signaled(fence))
-> -                       continue;
-> -
-> -               RCU_INIT_POINTER(list->shared[i], dma_fence_get_stub());
-> -               dma_fence_put(fence);
-> -       }
-> +       fence = dma_resv_fences_deref(obj, &obj->readers);
-> +       if (dma_fence_is_signaled(fence))
-> +               dma_resv_fences_set(obj, &obj->readers, NULL);
+If the media device module is removed and re-probed without also removing
+and re-probing the subdevice modules, .unregister() and .register() ops
+are called on the subdevices without the subdevice drivers being removed
+and re-probed. This creates two problems:
 
-Something to note is that a dma-fence-array is not automatically
-signaled and dma_fence_is_signaled() does not check the array.
--Chris
+- the CSI and PRPENCVF subdevices attempt to register a stale video capture
+  device resulting in the kobject "tried to init an initialized object"
+  backtrace.
+
+- pad graph objects are added to the media device pad list twice, resulting
+  in list corruption on the pad list.
+
+The following two patches fix those issues.
+
+History:
+v2:
+- Add missing local var ic_priv in prp_registered() in first patch.
+
+Steve Longerbeam (2):
+  media: imx: Move capture device init to registered
+  media: imx: Move pads init to probe
+
+ drivers/staging/media/imx/imx-ic-prp.c        | 25 ++++-----
+ drivers/staging/media/imx/imx-ic-prpencvf.c   | 51 ++++++++++---------
+ drivers/staging/media/imx/imx-media-capture.c | 15 +++---
+ drivers/staging/media/imx/imx-media-csi.c     | 35 +++++++------
+ drivers/staging/media/imx/imx-media-vdic.c    | 27 ++++------
+ drivers/staging/media/imx/imx6-mipi-csi2.c    | 27 +++++-----
+ drivers/staging/media/imx/imx7-media-csi.c    | 38 +++++++-------
+ drivers/staging/media/imx/imx7-mipi-csis.c    | 23 +++------
+ 8 files changed, 114 insertions(+), 127 deletions(-)
+
+-- 
+2.17.1
+
