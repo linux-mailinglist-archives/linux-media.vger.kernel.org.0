@@ -2,153 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AA7D19BB86
-	for <lists+linux-media@lfdr.de>; Sat, 24 Aug 2019 05:52:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB55A9BCE7
+	for <lists+linux-media@lfdr.de>; Sat, 24 Aug 2019 12:01:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726436AbfHXDwq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Aug 2019 23:52:46 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:33399 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725924AbfHXDwq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Aug 2019 23:52:46 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:6ddc:7711:6f05:e57b])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id 1N6YipoYVThuu1N6ZirfFj; Sat, 24 Aug 2019 05:52:44 +0200
-Message-ID: <a10242197b109f1671d9a9dbe7fe62e9@smtp-cloud7.xs4all.net>
-Date:   Sat, 24 Aug 2019 05:52:42 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfIU4sPQE2/VB2UuYkNU+FBtAB/daEnm+XKeDKGxRxgUK1cYcx+98B+qE61voYjBw1ZbZSO5s7o5YMlSumIlaAoB3kufln9UzhhIFHKMRlRwhly9lScB+
- EEO7GmfZJOyBWAIC5cjqvq4KKWCMXLX49Vbr1jKNgpkwmqJZIkG+KOE7gb7VI7FBTQSM1W76Pb+HLDvXXpSfeo+c48GyfJMVZBfBp110ntRl792BHlV/0JhK
+        id S1726923AbfHXKBT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 24 Aug 2019 06:01:19 -0400
+Received: from mail.ispras.ru ([83.149.199.45]:51218 "EHLO mail.ispras.ru"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726072AbfHXKBT (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 24 Aug 2019 06:01:19 -0400
+Received: from black.home (broadband-188-32-48-208.ip.moscow.rt.ru [188.32.48.208])
+        by mail.ispras.ru (Postfix) with ESMTPSA id 2678854006A;
+        Sat, 24 Aug 2019 13:01:16 +0300 (MSK)
+From:   Denis Efremov <efremov@ispras.ru>
+To:     akpm@linux-foundation.org
+Cc:     Denis Efremov <efremov@ispras.ru>,
+        Akinobu Mita <akinobu.mita@gmail.com>, Jan Kara <jack@suse.cz>,
+        linux-kernel@vger.kernel.org, Matthew Wilcox <matthew@wil.cx>,
+        dm-devel@redhat.com, linux-fsdevel@vger.kernel.org,
+        linux-media@vger.kernel.org, Erdem Tumurov <erdemus@gmail.com>,
+        Vladimir Shelekhov <vshel@iis.nsk.su>
+Subject: [PATCH v2] lib/memweight.c: open codes bitmap_weight()
+Date:   Sat, 24 Aug 2019 13:01:02 +0300
+Message-Id: <20190824100102.1167-1-efremov@ispras.ru>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190821074200.2203-1-efremov@ispras.ru>
+References: <20190821074200.2203-1-efremov@ispras.ru>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+This patch open codes the bitmap_weight() call. The direct
+invocation of hweight_long() allows to remove the BUG_ON and
+excessive "longs to bits, bits to longs" conversion.
 
-Results of the daily build of media_tree:
+BUG_ON was required to check that bitmap_weight() will return
+a correct value, i.e. the computed weight will fit the int type
+of the return value. With this patch memweight() controls the
+computation directly with size_t type everywhere. Thus, the BUG_ON
+becomes unnecessary.
 
-date:			Sat Aug 24 05:00:12 CEST 2019
-media-tree git hash:	577bbf23b758848f0c4a50d346460b690c753024
-media_build git hash:	81bdb4532e08545386d2aa3a54a806afcb5050e2
-v4l-utils git hash:	2350a23b92ff94967e20c09687b4c5692e989cf7
-edid-decode git hash:	0932deee88928f110b5a74851c173ad895f75863
-gcc version:		i686-linux-gcc (GCC) 8.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 6f55e31dfb87970608ee0a47ba8df34869f14140
-host hardware:		x86_64
-host os:		4.19.0-4-amd64
+Total size reduced:
+./scripts/bloat-o-meter lib/memweight.o.old lib/memweight.o.new
+add/remove: 0/0 grow/shrink: 0/1 up/down: 0/-10 (-10)
+Function                                     old     new   delta
+memweight                                    162     152     -10
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3-rc1-i686: OK
-linux-5.3-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2327, Succeeded: 2327, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: OK
+Co-developed-by: Erdem Tumurov <erdemus@gmail.com>
+Signed-off-by: Erdem Tumurov <erdemus@gmail.com>
+Co-developed-by: Vladimir Shelekhov <vshel@iis.nsk.su>
+Signed-off-by: Vladimir Shelekhov <vshel@iis.nsk.su>
+Signed-off-by: Denis Efremov <efremov@ispras.ru>
+---
+ lib/memweight.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-Detailed results are available here:
+diff --git a/lib/memweight.c b/lib/memweight.c
+index 94dd72ccaa7f..f050b2b4c5e2 100644
+--- a/lib/memweight.c
++++ b/lib/memweight.c
+@@ -20,11 +20,13 @@ size_t memweight(const void *ptr, size_t bytes)
+ 
+ 	longs = bytes / sizeof(long);
+ 	if (longs) {
+-		BUG_ON(longs >= INT_MAX / BITS_PER_LONG);
+-		ret += bitmap_weight((unsigned long *)bitmap,
+-				longs * BITS_PER_LONG);
++		const unsigned long *bitmap_long =
++			(const unsigned long *)bitmap;
++
+ 		bytes -= longs * sizeof(long);
+-		bitmap += longs * sizeof(long);
++		for (; longs > 0; longs--, bitmap_long++)
++			ret += hweight_long(*bitmap_long);
++		bitmap = (const unsigned char *)bitmap_long;
+ 	}
+ 	/*
+ 	 * The reason that this last loop is distinct from the preceding
+-- 
+2.21.0
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
