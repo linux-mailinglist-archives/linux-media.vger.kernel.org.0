@@ -2,142 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 95D1C9C315
-	for <lists+linux-media@lfdr.de>; Sun, 25 Aug 2019 13:40:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A48F39C364
+	for <lists+linux-media@lfdr.de>; Sun, 25 Aug 2019 15:13:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727173AbfHYLjv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 25 Aug 2019 07:39:51 -0400
-Received: from mail.ispras.ru ([83.149.199.45]:58050 "EHLO mail.ispras.ru"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727056AbfHYLjv (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 25 Aug 2019 07:39:51 -0400
-Received: from [10.68.32.192] (broadband-188-32-48-208.ip.moscow.rt.ru [188.32.48.208])
-        by mail.ispras.ru (Postfix) with ESMTPSA id 6026D54006B;
-        Sun, 25 Aug 2019 14:39:47 +0300 (MSK)
-Subject: Re: [PATCH v2] lib/memweight.c: open codes bitmap_weight()
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     akpm@linux-foundation.org, Akinobu Mita <akinobu.mita@gmail.com>,
-        Jan Kara <jack@suse.cz>, linux-kernel@vger.kernel.org,
-        Matthew Wilcox <matthew@wil.cx>, dm-devel@redhat.com,
-        linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
-        Erdem Tumurov <erdemus@gmail.com>,
-        Vladimir Shelekhov <vshel@iis.nsk.su>
-References: <20190821074200.2203-1-efremov@ispras.ru>
- <20190824100102.1167-1-efremov@ispras.ru>
- <20190825061158.GC28002@bombadil.infradead.org>
-From:   Denis Efremov <efremov@ispras.ru>
-Message-ID: <ba051566-0343-ea75-0484-8852f65a15da@ispras.ru>
-Date:   Sun, 25 Aug 2019 14:39:47 +0300
+        id S1727056AbfHYNM5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 25 Aug 2019 09:12:57 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:50971 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726772AbfHYNM5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sun, 25 Aug 2019 09:12:57 -0400
+Received: from [IPv6:2001:983:e9a7:1:7020:eb81:fead:d93b] ([IPv6:2001:983:e9a7:1:7020:eb81:fead:d93b])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id 1sK9ipzoFzaKO1sKBiCe2A; Sun, 25 Aug 2019 15:12:54 +0200
+Subject: Re: [PATCH v7 5/9] drm: tda998x: use cec_notifier_conn_(un)register
+To:     Dariusz Marcinkiewicz <darekm@google.com>,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
+Cc:     Russell King <linux@armlinux.org.uk>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>, linux-kernel@vger.kernel.org
+References: <20190814104520.6001-1-darekm@google.com>
+ <20190814104520.6001-6-darekm@google.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <1e7fdf30-3723-857a-68fd-139f396856b7@xs4all.nl>
+Date:   Sun, 25 Aug 2019 15:12:49 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190825061158.GC28002@bombadil.infradead.org>
+In-Reply-To: <20190814104520.6001-6-darekm@google.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfD0fOt9mfrzmV3IgV/uuKEoGzKJP/P6EzDr0kMFNQssoX8s5YNV5+YgUiIvVh6d3LVB8y6IDWaT0wbrf3ehxU1TCvmh0aFbp8L2IqcHC85Us3obOfjj8
+ TPWTUsShSvSpqV5RdMUC7o9fMEDFE516SgNflSAMdldChyJ8k5CKL9RbA0mX55Sc7p0cACKjsT7KzH46533qjuwPjm1pCoTIR9k68fI2joJinaFHxIsB3E9m
+ NAnij23C3GM+vFOkTEvorGWuykO9t8Ux9iP9tVkpThHhUNI7uBbNtVOZXRZaT/hz+SqrKNoQTYeECMl7IWRuDvM9yWxEUNOF3qEVSwaap4rfD9q2zhNvWV3i
+ 3xTHJhf11QsG//0484cEbv9TRhgWOzfYxGH54TSclwlb4HaGWHrzm7m2MG/uax4xKzK3F3RuWrO6jZSc7qrjYD+ab6sTFdXpFNyidhg1nUgbb97QcU+dMOAm
+ hpKwQkNQlMNXrT68
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On 8/14/19 12:45 PM, Dariusz Marcinkiewicz wrote:
+> Use the new cec_notifier_conn_(un)register() functions to
+> (un)register the notifier for the HDMI connector, and fill
+> in the cec_connector_info.
+> 
+> Changes since v6:
+>         - move cec_notifier_conn_unregister to tda998x_bridge_detach,
+> 	- add a mutex protecting accesses to a CEC notifier.
+> Changes since v2:
+> 	- cec_notifier_phys_addr_invalidate where appropriate,
+> 	- don't check for NULL notifier before calling
+> 	cec_notifier_conn_unregister.
+> Changes since v1:
+> 	Add memory barrier to make sure that the notifier
+> 	becomes visible to the irq thread once it is
+> 	fully constructed.
+> 
+> Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
+> ---
+>  drivers/gpu/drm/i2c/tda998x_drv.c | 36 +++++++++++++++++++++----------
+>  1 file changed, 25 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i2c/tda998x_drv.c b/drivers/gpu/drm/i2c/tda998x_drv.c
+> index 61e042918a7fc..643480415473f 100644
+> --- a/drivers/gpu/drm/i2c/tda998x_drv.c
+> +++ b/drivers/gpu/drm/i2c/tda998x_drv.c
+> @@ -82,6 +82,8 @@ struct tda998x_priv {
+>  	u8 audio_port_enable[AUDIO_ROUTE_NUM];
+>  	struct tda9950_glue cec_glue;
+>  	struct gpio_desc *calib;
+> +
+> +	struct mutex cec_notifiy_mutex;
+>  	struct cec_notifier *cec_notify;
+>  };
+>  
+> @@ -805,8 +807,11 @@ static irqreturn_t tda998x_irq_thread(int irq, void *data)
+>  				tda998x_edid_delay_start(priv);
+>  			} else {
+>  				schedule_work(&priv->detect_work);
+> -				cec_notifier_set_phys_addr(priv->cec_notify,
+> -						   CEC_PHYS_ADDR_INVALID);
+> +
+> +				mutex_lock(&priv->cec_notifiy_mutex);
+> +				cec_notifier_phys_addr_invalidate(
+> +						priv->cec_notify);
+> +				mutex_unlock(&priv->cec_notifiy_mutex);
+>  			}
+>  
+>  			handled = true;
+> @@ -1331,6 +1336,8 @@ static int tda998x_connector_init(struct tda998x_priv *priv,
+>  				  struct drm_device *drm)
+>  {
+>  	struct drm_connector *connector = &priv->connector;
+> +	struct cec_connector_info conn_info;
+> +	struct cec_notifier *notifier;
+>  	int ret;
+>  
+>  	connector->interlace_allowed = 1;
+> @@ -1347,6 +1354,16 @@ static int tda998x_connector_init(struct tda998x_priv *priv,
+>  	if (ret)
+>  		return ret;
+>  
+> +	cec_fill_conn_info_from_drm(&conn_info, connector);
+> +
+> +	notifier = cec_notifier_conn_register(priv->cec_glue.parent,
+> +					      NULL, &conn_info);
+> +		return -ENOMEM;
 
+You dropped a 'if (!notifier)' before the return!
 
-On 25.08.2019 09:11, Matthew Wilcox wrote:
-> On Sat, Aug 24, 2019 at 01:01:02PM +0300, Denis Efremov wrote:
->> This patch open codes the bitmap_weight() call. The direct
->> invocation of hweight_long() allows to remove the BUG_ON and
->> excessive "longs to bits, bits to longs" conversion.
-> 
-> Honestly, that's not the problem with this function.  Take a look
-> at https://danluu.com/assembly-intrinsics/ for a _benchmarked_
-> set of problems with popcnt.
-> 
->> BUG_ON was required to check that bitmap_weight() will return
->> a correct value, i.e. the computed weight will fit the int type
->> of the return value.
-> 
-> What?  No.  Look at the _arguments_ of bitmap_weight():
-> 
-> static __always_inline int bitmap_weight(const unsigned long *src, unsigned int nbits)
+After adding back this 'if' it worked fine on my BeagleBone Black board,
+so after fixing this you can add my:
 
-I'm not sure why it is INT_MAX then? I would expect in case we care only about arguments
-something like:
- 
-BUG_ON(longs >= UINT_MAX / BITS_PER_LONG);
+Tested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-> 
->> With this patch memweight() controls the
->> computation directly with size_t type everywhere. Thus, the BUG_ON
->> becomes unnecessary.
-> 
-> Why are you bothering?  How are you allocating half a gigabyte of memory?
-> Why are you calling memweight() on half a gigabyte of memory?
-> 
+tag.
 
-No, we don't use such big arrays. However, it's possible to remove BUG_ON and make
-the code more "straight". Why do we need to "artificially" limit this function
-to arrays of a particular size if we can relatively simple omit this restriction?
+Regards,
 
-> 
-> If you really must change anything, I'd rather see this turned into a
-> loop:
-> 
-> 	while (longs) {
-> 		unsigned int nbits;
-> 
-> 		if (longs >= INT_MAX / BITS_PER_LONG)
-> 			nbits = INT_MAX + 1;
-> 		else
-> 			nbits = longs * BITS_PER_LONG;
-> 
-> 		ret += bitmap_weight((unsigned long *)bitmap, sz);
-> 		bytes -= nbits / 8;
-> 		bitmap += nbits / 8;
-> 		longs -= nbits / BITS_PER_LONG;
-> 	}
-> 
-> then we only have to use Dan Luu's optimisation in bitmap_weight()
-> and not in memweight() as well.
+	Hans
 
-I don't know how the implementation of this optimization will look like in it's
-final shape, because of different hardware/compiler issues. It looks there are
-a number of different ways to do it https://arxiv.org/pdf/1611.07612.pdf, 
-http://0x80.pl/articles/sse-popcount.html.
-
-However, if it will be based on popcnt instruction I would expect that
-hweight_long will also contain this intrinsics. Since version 4.9.2
-https://gcc.gnu.org/bugzilla/show_bug.cgi?id=62011#c13 GCC knows of the
-false-dependency in popcnt and generates code to handle it
-(e.g. xor https://godbolt.org/z/Q7AW_d) Thus, I would expect that it's
-possible to use popcnt intrinsics in hweight_long that would be natively
-optimized in all loops like "for (...) { res += hweight_long() }" without
-requiring manual unrolling like in builtin_popcnt_unrolled_errata_manual
-example of Dan Luu's optimization.
-
-> 
-> Also, why does the trailer do this:
-> 
->         for (; bytes > 0; bytes--, bitmap++)
->                 ret += hweight8(*bitmap);
-> 
-> instead of calling hweight_long on *bitmap & mask?
+> +
+> +	mutex_lock(&priv->cec_notifiy_mutex);
+> +	priv->cec_notify = notifier;
+> +	mutex_unlock(&priv->cec_notifiy_mutex);
+> +
+>  	drm_connector_attach_encoder(&priv->connector,
+>  				     priv->bridge.encoder);
+>  
+> @@ -1366,6 +1383,11 @@ static void tda998x_bridge_detach(struct drm_bridge *bridge)
+>  {
+>  	struct tda998x_priv *priv = bridge_to_tda998x_priv(bridge);
+>  
+> +	mutex_lock(&priv->cec_notifiy_mutex);
+> +	cec_notifier_conn_unregister(priv->cec_notify);
+> +	priv->cec_notify = NULL;
+> +	mutex_unlock(&priv->cec_notifiy_mutex);
+> +
+>  	drm_connector_cleanup(&priv->connector);
+>  }
+>  
+> @@ -1789,9 +1811,6 @@ static void tda998x_destroy(struct device *dev)
+>  	cancel_work_sync(&priv->detect_work);
+>  
+>  	i2c_unregister_device(priv->cec);
+> -
+> -	if (priv->cec_notify)
+> -		cec_notifier_put(priv->cec_notify);
+>  }
+>  
+>  static int tda998x_create(struct device *dev)
+> @@ -1812,6 +1831,7 @@ static int tda998x_create(struct device *dev)
+>  	mutex_init(&priv->mutex);	/* protect the page access */
+>  	mutex_init(&priv->audio_mutex); /* protect access from audio thread */
+>  	mutex_init(&priv->edid_mutex);
+> +	mutex_init(&priv->cec_notifiy_mutex);
+>  	INIT_LIST_HEAD(&priv->bridge.list);
+>  	init_waitqueue_head(&priv->edid_delay_waitq);
+>  	timer_setup(&priv->edid_delay_timer, tda998x_edid_delay_done, 0);
+> @@ -1916,12 +1936,6 @@ static int tda998x_create(struct device *dev)
+>  		cec_write(priv, REG_CEC_RXSHPDINTENA, CEC_RXSHPDLEV_HPD);
+>  	}
+>  
+> -	priv->cec_notify = cec_notifier_get(dev);
+> -	if (!priv->cec_notify) {
+> -		ret = -ENOMEM;
+> -		goto fail;
+> -	}
+> -
+>  	priv->cec_glue.parent = dev;
+>  	priv->cec_glue.data = priv;
+>  	priv->cec_glue.init = tda998x_cec_hook_init;
 > 
 
-Do you mean something like this?
-
-        longs = bytes;
-        bytes = do_div(longs, sizeof(long));
-        bitmap_long = (const unsigned long *)bitmap;
-        if (longs) {
-                for (; longs > 0; longs--, bitmap_long++)
-                        ret += hweight_long(*bitmap_long);
-        }
-        if (bytes) {
-                ret += hweight_long(*bitmap_long &
-                                   ((0x1 << bytes * BITS_PER_BYTE) - 1));
-        }
-
-The *bitmap_long will lead to buffer overflow here.
-
-Thanks,
-Denis
