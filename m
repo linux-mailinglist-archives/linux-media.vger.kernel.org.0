@@ -2,54 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AA9989BF96
-	for <lists+linux-media@lfdr.de>; Sat, 24 Aug 2019 21:00:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EAE999C24D
+	for <lists+linux-media@lfdr.de>; Sun, 25 Aug 2019 08:12:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728114AbfHXTAf convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Sat, 24 Aug 2019 15:00:35 -0400
-Received: from smtp2.osep.mendoza.gov.ar ([200.16.135.145]:52924 "HELO
-        smtp2.osep.mendoza.gov.ar" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1728023AbfHXTAf (ORCPT
+        id S1726095AbfHYGMG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 25 Aug 2019 02:12:06 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:57202 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725792AbfHYGMG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 24 Aug 2019 15:00:35 -0400
-X-Greylist: delayed 9985 seconds by postgrey-1.27 at vger.kernel.org; Sat, 24 Aug 2019 15:00:34 EDT
-Received: (qmail 402 invoked from network); 24 Aug 2019 14:14:38 -0000
-Received: from unknown (HELO zimbra.servers.dg.intranet) (10.10.195.224)
-  by smtp2.osep.mendoza.gov.ar with SMTP; 24 Aug 2019 14:14:38 -0000
-Received: from localhost (localhost [127.0.0.1])
-        by zimbra.servers.dg.intranet (Postfix) with ESMTP id DB8B3CF7CC66;
-        Sat, 24 Aug 2019 11:14:37 -0300 (ART)
-Received: from zimbra.servers.dg.intranet ([127.0.0.1])
-        by localhost (zimbra.servers.dg.intranet [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id RViPrJdL95bg; Sat, 24 Aug 2019 11:14:37 -0300 (ART)
-Received: from localhost (localhost [127.0.0.1])
-        by zimbra.servers.dg.intranet (Postfix) with ESMTP id 877BBCF7CC58;
-        Sat, 24 Aug 2019 11:14:37 -0300 (ART)
-X-Virus-Scanned: amavisd-new at osep.mendoza.gov.ar
-Received: from zimbra.servers.dg.intranet ([127.0.0.1])
-        by localhost (zimbra.servers.dg.intranet [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id 9n2-6F1Dy9XD; Sat, 24 Aug 2019 11:14:37 -0300 (ART)
-Received: from zimbra.servers.dg.intranet (zimbra.servers.dg.intranet [10.10.195.224])
-        by zimbra.servers.dg.intranet (Postfix) with ESMTP id BAAEBCF7CC40;
-        Sat, 24 Aug 2019 11:14:36 -0300 (ART)
-Date:   Sat, 24 Aug 2019 11:14:36 -0300 (ART)
-From:   "Herr.Robert Jackson" <liliana.marinero@osep.mendoza.gov.ar>
-Reply-To: SKY GROUP FINANCIAL <skygroupfinancial0@gmail.com>
-Message-ID: <1268244548.24999093.1566656076742.JavaMail.zimbra@osep.mendoza.gov.ar>
-Subject: 
+        Sun, 25 Aug 2019 02:12:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=JpNLDg+KbIEgZXCqJMuphSCAD3VmeNChk2WlGZXcmTM=; b=k6MEvGTLP99lhrLpceqHgFSml
+        G9ZIXHbGuMPSYdG+JTUQHLsZXaY8kreOrv3MxHREKQ+lS9LovBQJCCHXv7+ejU8IFEviTLHfByPN4
+        fe2WH/h2wHRO5ggFgeu0Zudl7UtaX2CilZGs9xtZK8Z8RnQNKjf0OVOJgzp2nUsptBhtKzPJ4CWXu
+        VoT/z7IZMAQtAdmMyOHRmicelf2gSj75d5Ap+HdOwizF1VtYmwMkZmGcPn9Q0RWby0D/vfVNEIpDn
+        QB6v8LYGXr+/sE9rLLYVifd4O/CWBYyyfrbYpn8/FxWir/CB7jYRNVCb7tYcjEnCIky0IP5qL4nzw
+        4wB5c07aw==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.92 #3 (Red Hat Linux))
+        id 1i1lks-0001Yj-Kw; Sun, 25 Aug 2019 06:11:58 +0000
+Date:   Sat, 24 Aug 2019 23:11:58 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Denis Efremov <efremov@ispras.ru>
+Cc:     akpm@linux-foundation.org, Akinobu Mita <akinobu.mita@gmail.com>,
+        Jan Kara <jack@suse.cz>, linux-kernel@vger.kernel.org,
+        Matthew Wilcox <matthew@wil.cx>, dm-devel@redhat.com,
+        linux-fsdevel@vger.kernel.org, linux-media@vger.kernel.org,
+        Erdem Tumurov <erdemus@gmail.com>,
+        Vladimir Shelekhov <vshel@iis.nsk.su>
+Subject: Re: [PATCH v2] lib/memweight.c: open codes bitmap_weight()
+Message-ID: <20190825061158.GC28002@bombadil.infradead.org>
+References: <20190821074200.2203-1-efremov@ispras.ru>
+ <20190824100102.1167-1-efremov@ispras.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
-X-Originating-IP: [172.16.3.2]
-X-Mailer: Zimbra 8.6.0_GA_1153 (zclient/8.6.0_GA_1153)
-Thread-Topic: 
-Thread-Index: 9gdTMQJ8JBu8cvpzdFVmtKjzn0qahQ==
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190824100102.1167-1-efremov@ispras.ru>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Sat, Aug 24, 2019 at 01:01:02PM +0300, Denis Efremov wrote:
+> This patch open codes the bitmap_weight() call. The direct
+> invocation of hweight_long() allows to remove the BUG_ON and
+> excessive "longs to bits, bits to longs" conversion.
 
+Honestly, that's not the problem with this function.  Take a look
+at https://danluu.com/assembly-intrinsics/ for a _benchmarked_
+set of problems with popcnt.
 
-Wir sind zuverlässige, vertrauenswürdige Kreditgeber, leihen wir Unternehmen und Einzelpersonen zu einem niedrigen Zinssatz von 2%, Sind Sie auf der Suche nach einem Geschäftskredit, Privatkredite, Schuldenkonsolidierung, unbesicherte Kredite, Risikokapital, wenn ja Kontaktieren Sie uns jetzt für weitere Einzelheiten.
+> BUG_ON was required to check that bitmap_weight() will return
+> a correct value, i.e. the computed weight will fit the int type
+> of the return value.
+
+What?  No.  Look at the _arguments_ of bitmap_weight():
+
+static __always_inline int bitmap_weight(const unsigned long *src, unsigned int nbits)
+
+> With this patch memweight() controls the
+> computation directly with size_t type everywhere. Thus, the BUG_ON
+> becomes unnecessary.
+
+Why are you bothering?  How are you allocating half a gigabyte of memory?
+Why are you calling memweight() on half a gigabyte of memory?
+
+>  	if (longs) {
+> -		BUG_ON(longs >= INT_MAX / BITS_PER_LONG);
+> -		ret += bitmap_weight((unsigned long *)bitmap,
+> -				longs * BITS_PER_LONG);
+> +		const unsigned long *bitmap_long =
+> +			(const unsigned long *)bitmap;
+> +
+>  		bytes -= longs * sizeof(long);
+> -		bitmap += longs * sizeof(long);
+> +		for (; longs > 0; longs--, bitmap_long++)
+> +			ret += hweight_long(*bitmap_long);
+> +		bitmap = (const unsigned char *)bitmap_long;
+>  	}
+
+If you really must change anything, I'd rather see this turned into a
+loop:
+
+	while (longs) {
+		unsigned int nbits;
+
+		if (longs >= INT_MAX / BITS_PER_LONG)
+			nbits = INT_MAX + 1;
+		else
+			nbits = longs * BITS_PER_LONG;
+
+		ret += bitmap_weight((unsigned long *)bitmap, sz);
+		bytes -= nbits / 8;
+		bitmap += nbits / 8;
+		longs -= nbits / BITS_PER_LONG;
+	}
+
+then we only have to use Dan Luu's optimisation in bitmap_weight()
+and not in memweight() as well.
+
+Also, why does the trailer do this:
+
+        for (; bytes > 0; bytes--, bitmap++)
+                ret += hweight8(*bitmap);
+
+instead of calling hweight_long on *bitmap & mask?
