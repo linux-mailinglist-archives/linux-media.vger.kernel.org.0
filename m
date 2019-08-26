@@ -2,210 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 042DA9CBEB
-	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2019 10:55:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03F289CC05
+	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2019 10:59:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729929AbfHZIzB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Aug 2019 04:55:01 -0400
-Received: from mga17.intel.com ([192.55.52.151]:16777 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726189AbfHZIzB (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Aug 2019 04:55:01 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 26 Aug 2019 01:55:00 -0700
-X-IronPort-AV: E=Sophos;i="5.64,431,1559545200"; 
-   d="scan'208";a="182379359"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 26 Aug 2019 01:54:57 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 537E020B47; Mon, 26 Aug 2019 11:54:25 +0300 (EEST)
-Date:   Mon, 26 Aug 2019 11:54:25 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Marco Felsch <m.felsch@pengutronix.de>
-Cc:     mchehab@kernel.org, robh+dt@kernel.org,
-        Jacopo Mondi <jacopo@jmondi.org>, devicetree@vger.kernel.org,
-        graphics@pengutronix.de, linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] media: dt-bindings: add bindings for Toshiba
- TC358746
-Message-ID: <20190826085425.GN31967@paasikivi.fi.intel.com>
-References: <20190619152838.25079-1-m.felsch@pengutronix.de>
- <20190619152838.25079-2-m.felsch@pengutronix.de>
+        id S1730125AbfHZI7Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Aug 2019 04:59:24 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:54759 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729802AbfHZI7X (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 26 Aug 2019 04:59:23 -0400
+Received: from [IPv6:2001:983:e9a7:1:3421:ddcd:2260:77e4] ([IPv6:2001:983:e9a7:1:3421:ddcd:2260:77e4])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id 2AqOiuoLSzaKO2AqPiEEbI; Mon, 26 Aug 2019 10:59:21 +0200
+Subject: Re: [PATCH v7 2/9] drm/i915/intel_hdmi: use
+ cec_notifier_conn_(un)register
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+To:     Dariusz Marcinkiewicz <darekm@google.com>,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
+Cc:     David Airlie <airlied@linux.ie>, intel-gfx@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <20190814104520.6001-1-darekm@google.com>
+ <20190814104520.6001-3-darekm@google.com>
+ <8d0c6d9b-d321-7e4b-8c06-92b9b816d029@xs4all.nl>
+Message-ID: <a942bff9-bbdc-1983-2847-a25a24512d29@xs4all.nl>
+Date:   Mon, 26 Aug 2019 10:59:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190619152838.25079-2-m.felsch@pengutronix.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <8d0c6d9b-d321-7e4b-8c06-92b9b816d029@xs4all.nl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfP5A+2spB5OfeGKS2BXM/ZP4Q729Q0/F1zD6dmXVBEA2CP23zskH+T/WN7EmqDePC4AeAF8BPM9O7pJ91mqx5ilRHKy7p8/zm5WsK4cCfLHLz8eF8suU
+ cWCLxFkR/a/xxoy31NJLNKUp6FzHE+lqm0fY/TWUR2a8xAWC1iFMwsyd7jbcrLP1dI++QRFWITCz+eK7S9nmhzN0MQvDMPG8MwvrDW0HwCTbQAc2uEYsk++q
+ snOXOkPCMUYf+eODbSD8/aeADUaF1Ibp9Qwr8qk8YDosfKpnGsWB9PRDBy/eANbpPZjdKOydrp7EN13Zn25M9V4CKOgeiwgFwcGajzh9aJSENTFfuNkJ9Orz
+ /ThOFfQFZ4G/gSssHcyQyag2ANI1ws8PVlwBDVbZ99g//xAbnc07jI/Ng92Q/tnche7UBi/LfU/KFiXJZM3CrhB5Bnz/pGW0HYU0yHTmGBav8TX97EL7bBkF
+ o38FWS7VfRY0VAoJyn04XHl1rDmIPXfSYdRvlim3/G/CHazQTz7skjbMOhAELJpTmIfi+wKAt8sX8n2J
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Marco,
-
-On Wed, Jun 19, 2019 at 05:28:37PM +0200, Marco Felsch wrote:
-> Add corresponding dt-bindings for the Toshiba tc358746 device and update
-> the MAINTAINERS file too.
+On 8/22/19 10:03 AM, Hans Verkuil wrote:
+> Ville or Rodrigo,
 > 
-> Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> ---
-> Hi Rob,
+> Can one of you either merge this patch or Ack it so that I can merge this?
+
+Ping!
+
+Regards,
+
+	Hans
+
 > 
-> I droped your reviewed-by tag since there where several changes.
+> Thank you!
 > 
-> Changes
-> v2:
->  - use the Documentation/devicetree/bindings/media/ti,omap3isp.txt
->    formatting scheme
->  - Adapt introducing paragraph according Jacopo's comments
->  - drop the clock-names property
->  - drop the clock-lanes (csi-2) property
->  - adapt the property descriptions accroding Jacopo's comments
->  - use port@0 as input and port@1 as output port instead of mapping
->    port@0 to parallel and port@1 to csi-2 interface
->  - Adapt port/endpoint description according Jacopo's and Sakari's
->    comments
->  - Adapt the example
->  - squash v1 patch-3 and patch-1
->  - set status to Maintained
+> Regards,
 > 
->  .../bindings/media/i2c/toshiba,tc358746.txt   | 95 +++++++++++++++++++
->  MAINTAINERS                                   |  7 ++
->  2 files changed, 102 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/toshiba,tc358746.txt
+> 	Hans
 > 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/toshiba,tc358746.txt b/Documentation/devicetree/bindings/media/i2c/toshiba,tc358746.txt
-> new file mode 100644
-> index 000000000000..e79b45ee050e
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/toshiba,tc358746.txt
-> @@ -0,0 +1,95 @@
-> +Toshiba TC358746 Parallel to MIPI CSI2-TX or MIPI CSI2-RX to Parallel Bridge
-> +============================================================================
-> +
-> +The Toshiba TC358746 converts a parallel into a MIPI CSI-2 stream. The direction
-> +can be either parallel-in -> csi-out e.g. to connect a parallel camera to a
-> +MIPI CSI-2 host or csi-in -> parallel-out e.g. to connect a parallel display to
-> +a MIPI CSI-2 host. It's programmable trough I2C and SPI. The SPI interface is
-> +only supported in parallel-in -> csi-out mode.
-> +
-> +Required properties
-> +-------------------
-> +
-> +- compatible		: Shall be "toshiba,tc358746"
-> +- reg			: Shall be <0x0e>
-> +- clocks		: Phandle to the reference clock source
-> +
-> +Optional properties
-> +-------------------
-> +
-> +- reset-gpios		: Phandle to the GPIO connected to the reset input pin
-> +
-> +Port nodes (required)
-> +=====================
-> +
-> +The device node must contain two ports children nodes which should be grouped
-> +within a 'ports' node. The first port describes the input connection, the second
-> +one describes the output one. Each port shall contain one endpoint subnode that
-> +connects to a remote device and specifies the bus type of the input and output
-> +ports. Only one endpoint per port shall be present.
-> +
-> +More documentation on these bindings is available in [1].
-> +
-> +reg			: The interface:
-> +			  0 - Input, either parallel or MIPI CSI-2
-> +			  1 - Output, either parallel or MIPI CSI-2
-> +
-> +Endpoint nodes (required)
-> +=========================
-> +
-> +Required properties
-> +-------------------
-> +
-> +- bus-width		: Look at [1] for more information (Parallel endpoint)
-> +- data-lanes		: Look at [1] for more information (CSI-2 endpoint)
+> On 8/14/19 12:45 PM, Dariusz Marcinkiewicz wrote:
+>> Use the new cec_notifier_conn_(un)register() functions to
+>> (un)register the notifier for the HDMI connector, and fill in
+>> the cec_connector_info.
+>>
+>> Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
+>> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>> Tested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>> ---
+>>  drivers/gpu/drm/i915/display/intel_hdmi.c | 13 +++++++++----
+>>  1 file changed, 9 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
+>> index b1ca8e5bdb56d..9fcf2c58c29c5 100644
+>> --- a/drivers/gpu/drm/i915/display/intel_hdmi.c
+>> +++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
+>> @@ -2752,8 +2752,9 @@ intel_hdmi_connector_register(struct drm_connector *connector)
+>>  
+>>  static void intel_hdmi_destroy(struct drm_connector *connector)
+>>  {
+>> -	if (intel_attached_hdmi(connector)->cec_notifier)
+>> -		cec_notifier_put(intel_attached_hdmi(connector)->cec_notifier);
+>> +	struct cec_notifier *n = intel_attached_hdmi(connector)->cec_notifier;
+>> +
+>> +	cec_notifier_conn_unregister(n);
+>>  
+>>  	intel_connector_destroy(connector);
+>>  }
+>> @@ -3068,6 +3069,7 @@ void intel_hdmi_init_connector(struct intel_digital_port *intel_dig_port,
+>>  	struct drm_device *dev = intel_encoder->base.dev;
+>>  	struct drm_i915_private *dev_priv = to_i915(dev);
+>>  	enum port port = intel_encoder->port;
+>> +	struct cec_connector_info conn_info;
+>>  
+>>  	DRM_DEBUG_KMS("Adding HDMI connector on port %c\n",
+>>  		      port_name(port));
+>> @@ -3120,8 +3122,11 @@ void intel_hdmi_init_connector(struct intel_digital_port *intel_dig_port,
+>>  		I915_WRITE(PEG_BAND_GAP_DATA, (temp & ~0xf) | 0xd);
+>>  	}
+>>  
+>> -	intel_hdmi->cec_notifier = cec_notifier_get_conn(dev->dev,
+>> -							 port_identifier(port));
+>> +	cec_fill_conn_info_from_drm(&conn_info, connector);
+>> +
+>> +	intel_hdmi->cec_notifier =
+>> +		cec_notifier_conn_register(dev->dev, port_identifier(port),
+>> +					   &conn_info);
+>>  	if (!intel_hdmi->cec_notifier)
+>>  		DRM_DEBUG_KMS("CEC notifier get failed\n");
+>>  }
+>>
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> 
 
-Which values data-lanes may have? How about the bus-width property?
-
-> +- link-frequencies	: Array of frequencies the driver can choose to
-> +			  full-fill the parallel timings calculation. Look at
-> +			  [1] for more information (CSI-2 endpoint)
-> +
-> +Optional properties
-> +-------------------
-> +
-> +- bus-type		: Look at [1] for more information
-
-I think you can omit this as you have either bus-width or data-lanes that
-implicitly tell the type of the bus. Another possibility would be making
-this required, but optional doesn't seem useful.
-
-> +- clock-noncontinuous	: Look at [1] for more information (CSI-2 endpoint)
-> +
-> +[1] Documentation/devicetree/bindings/media/video-interfaces.txt
-> +
-> +Example
-> +=======
-> +
-> +&i2c {
-> +	csi-bridge@0e {
-> +		reg = <0x0e>;
-> +		compatible = "toshiba,tc358746";
-> +		pinctrl-names = "default";
-> +		clocks = <&clk_cam_ref>;
-> +		reset-gpios = <&gpio3 2 GPIO_ACTIVE_LOW>;
-> +
-> +		ports {
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +
-> +			/* Input */
-> +			port@0 {
-> +				reg = <0>;
-> +
-> +				tc358746_parallel_in: endpoint {
-> +					bus-width = <8>;
-> +					remote-endpoint = <&micron_parallel_out>;
-> +				};
-> +			};
-> +
-> +			/* Output */
-> +			port@1 {
-> +				reg = <1>;
-> +
-> +				tc358746_mipi2_out: endpoint {
-> +					remote-endpoint = <&mipi_csi2_in>;
-> +					data-lanes = <1 2>;
-> +					clock-noncontinuous;
-> +					link-frequencies = /bits/ 64 <216000000>;
-> +				};
-> +			};
-> +		};
-> +	};
-> +};
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 57f496cff999..833b3c8fb301 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -15955,6 +15955,13 @@ S:	Maintained
->  F:	drivers/media/i2c/tc358743*
->  F:	include/media/i2c/tc358743.h
->  
-> +TOSHIBA TC358746 DRIVER
-> +M:	Marco Felsch <kernel@pengutronix.de>
-> +L:	linux-media@vger.kernel.org
-> +S:	Maintained
-> +F:	drivers/media/i2c/tc358746*
-> +F:	Documentation/devicetree/bindings/media/i2c/toshiba,tc358746.txt
-> +
->  TOSHIBA WMI HOTKEYS DRIVER
->  M:	Azael Avalos <coproscefalo@gmail.com>
->  L:	platform-driver-x86@vger.kernel.org
-
--- 
-Kind regards,
-
-Sakari Ailus
-sakari.ailus@linux.intel.com
