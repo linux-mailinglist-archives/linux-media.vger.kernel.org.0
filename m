@@ -2,286 +2,187 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 17BF59CC27
-	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2019 11:05:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 946B19CC7E
+	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2019 11:21:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730601AbfHZJFk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Aug 2019 05:05:40 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33474 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726892AbfHZJFk (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Aug 2019 05:05:40 -0400
-Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com [209.85.210.70])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 9DAFE882F2
-        for <linux-media@vger.kernel.org>; Mon, 26 Aug 2019 09:05:39 +0000 (UTC)
-Received: by mail-ot1-f70.google.com with SMTP id o21so9795228otj.7
-        for <linux-media@vger.kernel.org>; Mon, 26 Aug 2019 02:05:39 -0700 (PDT)
+        id S1730903AbfHZJVh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Aug 2019 05:21:37 -0400
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:41531 "EHLO
+        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726354AbfHZJVh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 26 Aug 2019 05:21:37 -0400
+Received: by mail-ed1-f68.google.com with SMTP id w5so25507389edl.8
+        for <linux-media@vger.kernel.org>; Mon, 26 Aug 2019 02:21:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=rhUbb4I4hOvyBOfSpMcmGydYU4d0wJQGd5ssHK1Y+Mw=;
+        b=frdlw7+yhNmDD/60qsRg6wF9GR5nqL8SKONmGxNgi1si+CeUHw8SrJagBR2rwwA1pT
+         YW9owHoY7IwlUms2BfqEmrF5oUwtS6VhmgHleV0J1W9yOhZThmBUeP7kmfuWa+keYYzI
+         f1DCA7j2gQtadIuAwHQVwzK263Cc3baRieJNE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=pf0od/ydEpsj8eYoAeUSxte6eTJFUm2q5JY8yieoQPc=;
-        b=H3fn7NBX/MrBj4fl3jYS7YlmlnCVUpoj/Hk7OnAq7dxQfoqq/Ed0aowOMWod9S7wZO
-         G+bscI2wJhY/ifDWwDkhElq97EFuoO6OwYXobiwBbsYm/KrRCxWelP+fFcDZ7FhvC/fo
-         R0w52mchLLa7qWrnom5IMlIwKXGMMlM7LLNMTJkR0cdg4neGUdOMCZnidcGloZg5N0G+
-         kQxPbQyfv/zSnM8XyPkJUnU6uQAoHrrZpOZS8/frnaD6IDedrU8/bvjpJ6EbBkYnl5HB
-         9NPIWcXL6i4KnZD55cUtzgRQAHIx01TjdqRPfCQOKrezU2rX/hUdGq+cao2saQuSEEsA
-         d7iA==
-X-Gm-Message-State: APjAAAUBrCOx5Oor5cNP8hEx3jBdY22KUeyOQ4Vr6PhPhfuF2RPkSEIV
-        g0dUiztwOHkT2WeZhsHfqQpiJ8cFaIuQZTPZGlmKwcbYlQlplmlyBYnsC+xf53B7CtBeK4Q2SK4
-        sYTD6wKywiCx4QqIIGRFjHG1+dtEzxj0X+J2Ih1w=
-X-Received: by 2002:aca:6044:: with SMTP id u65mr11892855oib.16.1566810339076;
-        Mon, 26 Aug 2019 02:05:39 -0700 (PDT)
-X-Google-Smtp-Source: APXvYqy6H8Fg7W2oc2wq8ffkDgehZzTcLXDKkoiifmkdLxxc8Ea0EDRhv12gfPfS+rY0ECYwJhRxNwXrOoiFrpyfB14=
-X-Received: by 2002:aca:6044:: with SMTP id u65mr11892839oib.16.1566810338771;
- Mon, 26 Aug 2019 02:05:38 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=rhUbb4I4hOvyBOfSpMcmGydYU4d0wJQGd5ssHK1Y+Mw=;
+        b=XWt13QVwK/QeSJMIVOyYLxP3tyRADFkX9kxf5VSiS0VNVuoCi08/JYFJUilv8HxkH+
+         DYn4cj6Yo3kykVOplGC3GvzuK+vJ4DgfJ/85FTR/YY+2gfUgDl9QsuEBMQ6I48HLuSdd
+         R200riCCCnlQWeZxxTnAyIPNTVJIHa1xed9TjLbMCK+alnZ4aKGcd/oqjgBN/09KCEvy
+         b99HtHqqq4ERYjrZ8fFZCOdhnrC2ogiGBqYneKoAnUkEL8B29Q+Ne9B0f7Nu1sA1XEAY
+         R0FLEkzI66OCKPapKEUBRBr/PfrB1ueM3CtyL3S0tKPOsDo8tjbyFWGF5ghgXWmT3JaB
+         zYFA==
+X-Gm-Message-State: APjAAAWMFTgkkoKobr4Elw7+IqVsKwhdNeCUVy9lfUf59oHJkmqJKt8N
+        B8w0D246rdDx6vW+aHS2O0tUwyh8sd6AAg==
+X-Google-Smtp-Source: APXvYqwS9ARzkrVMqbdr8p4/+kBDomGWubjklrB+yzmzWWW3s4YlzsaRb6LVHMn/5OXbgNHBielUyA==
+X-Received: by 2002:a17:906:3c7:: with SMTP id c7mr15812804eja.187.1566811294556;
+        Mon, 26 Aug 2019 02:21:34 -0700 (PDT)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com. [209.85.221.49])
+        by smtp.gmail.com with ESMTPSA id ay8sm2805128ejb.4.2019.08.26.02.21.33
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 26 Aug 2019 02:21:33 -0700 (PDT)
+Received: by mail-wr1-f49.google.com with SMTP id b16so14551341wrq.9
+        for <linux-media@vger.kernel.org>; Mon, 26 Aug 2019 02:21:33 -0700 (PDT)
+X-Received: by 2002:adf:f851:: with SMTP id d17mr21238372wrq.77.1566811293556;
+ Mon, 26 Aug 2019 02:21:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190814104520.6001-1-darekm@google.com> <20190814104520.6001-2-darekm@google.com>
- <bc3de8802b695fabb9522333de3a7071b02b47cb.camel@redhat.com>
-In-Reply-To: <bc3de8802b695fabb9522333de3a7071b02b47cb.camel@redhat.com>
-From:   Ben Skeggs <bskeggs@redhat.com>
-Date:   Mon, 26 Aug 2019 19:05:27 +1000
-Message-ID: <CABDvA=mK=4zK5Yn0Ro5oy0Pwa-JKBEq3fWpFJkHmBviexd7VWg@mail.gmail.com>
-Subject: Re: [PATCH v7 1/9] drm_dp_cec: add connector info support.
-To:     Lyude Paul <lyude@redhat.com>
-Cc:     Dariusz Marcinkiewicz <darekm@google.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl,
-        Harry Wentland <harry.wentland@amd.com>,
-        Leo Li <sunpeng.li@amd.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        "David (ChunMing) Zhou" <David1.Zhou@amd.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Sean Paul <sean@poorly.run>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        "Jerry (Fangzhi) Zuo" <Jerry.Zuo@amd.com>,
-        Anthony Koo <Anthony.Koo@amd.com>,
-        Thomas Lim <Thomas.Lim@amd.com>,
-        David Francis <David.Francis@amd.com>,
-        =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
-        Chris Wilson <chris@chris-wilson.co.uk>,
-        Imre Deak <imre.deak@intel.com>,
-        Manasi Navare <manasi.d.navare@intel.com>,
-        Dhinakaran Pandiyan <dhinakaran.pandiyan@intel.com>,
-        amd-gfx@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>,
-        intel-gfx@lists.freedesktop.org,
-        nouveau <nouveau@lists.freedesktop.org>
+References: <20190510100930.14641-1-sakari.ailus@linux.intel.com>
+ <20190510100930.14641-4-sakari.ailus@linux.intel.com> <20190605070752.GA126683@chromium.org>
+ <20190605101535.4sydewuv656x6c2g@kekkonen.localdomain> <CAAFQd5D+RZS0E6xpZ3v8gC5zerj5fd6b6YxcAS_TeWei6vGvUA@mail.gmail.com>
+ <20190826083813.GK31967@paasikivi.fi.intel.com>
+In-Reply-To: <20190826083813.GK31967@paasikivi.fi.intel.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Mon, 26 Aug 2019 18:21:21 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5CL9asYPguLpP-sQJeuvzwMjjfED7z37OcYXqmyGZMyTg@mail.gmail.com>
+Message-ID: <CAAFQd5CL9asYPguLpP-sQJeuvzwMjjfED7z37OcYXqmyGZMyTg@mail.gmail.com>
+Subject: Re: [PATCH 3/5] ov5670: Support probe whilst the device is off
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-acpi@vger.kernel.org,
+        "Mani, Rajmohan" <rajmohan.mani@intel.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Aug 16, 2019 at 4:10 AM Lyude Paul <lyude@redhat.com> wrote:
+On Mon, Aug 26, 2019 at 5:38 PM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
 >
-> Reviewed-by: Lyude Paul <lyude@redhat.com>
-Reviewed-by: Ben Skeggs <bskeggs@redhat.com>
+> Hi Tomasz,
+>
+> On Fri, Jun 07, 2019 at 04:54:06PM +0900, Tomasz Figa wrote:
+> > On Wed, Jun 5, 2019 at 7:15 PM Sakari Ailus
+> > <sakari.ailus@linux.intel.com> wrote:
+> > >
+> > > Hi Tomasz,
+> > >
+> > > On Wed, Jun 05, 2019 at 04:07:52PM +0900, Tomasz Figa wrote:
+> > > > Hi Sakari,
+> > > >
+> > > > On Fri, May 10, 2019 at 01:09:28PM +0300, Sakari Ailus wrote:
+> > > > > Tell ACPI device PM code that the driver supports the device bein=
+g powered
+> > > > > off when the driver's probe function is entered.
+> > > > >
+> > > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > > ---
+> > > > >  drivers/media/i2c/ov5670.c | 25 ++++++++++++++-----------
+> > > > >  1 file changed, 14 insertions(+), 11 deletions(-)
+> > > > >
+> > > > > diff --git a/drivers/media/i2c/ov5670.c b/drivers/media/i2c/ov567=
+0.c
+> > > > > index 041fcbb4eebdf..57e8b92f90e09 100644
+> > > > > --- a/drivers/media/i2c/ov5670.c
+> > > > > +++ b/drivers/media/i2c/ov5670.c
+> > > > > @@ -2444,6 +2444,7 @@ static int ov5670_probe(struct i2c_client *=
+client)
+> > > > >     struct ov5670 *ov5670;
+> > > > >     const char *err_msg;
+> > > > >     u32 input_clk =3D 0;
+> > > > > +   bool powered_off;
+> > > > >     int ret;
+> > > > >
+> > > > >     device_property_read_u32(&client->dev, "clock-frequency", &in=
+put_clk);
+> > > > > @@ -2460,11 +2461,14 @@ static int ov5670_probe(struct i2c_client=
+ *client)
+> > > > >     /* Initialize subdev */
+> > > > >     v4l2_i2c_subdev_init(&ov5670->sd, client, &ov5670_subdev_ops)=
+;
+> > > > >
+> > > > > -   /* Check module identity */
+> > > > > -   ret =3D ov5670_identify_module(ov5670);
+> > > > > -   if (ret) {
+> > > > > -           err_msg =3D "ov5670_identify_module() error";
+> > > > > -           goto error_print;
+> > > > > +   powered_off =3D acpi_dev_powered_off_for_probe(&client->dev);
+> > > > > +   if (!powered_off) {
+> > > > > +           /* Check module identity */
+> > > > > +           ret =3D ov5670_identify_module(ov5670);
+> > > > > +           if (ret) {
+> > > > > +                   err_msg =3D "ov5670_identify_module() error";
+> > > > > +                   goto error_print;
+> > > > > +           }
+> > > > >     }
+> > > >
+> > > > I don't like the fact that we can't detect any hardware connection =
+issue
+> > > > here anymore and we would actually get some obscure failure when we
+> > > > actually start streaming.
+> > > >
+> > > > Wouldn't it be possible to still keep this behavior of not powering=
+ on
+> > > > the device at boot-up if no driver is bound and then have this driv=
+er
+> > > > built as a module and loaded later when the camera is to be used fo=
+r the
+> > > > first time after the system boots?
+> > >
+> > > That'd be a way to work around this, but the downside would be that t=
+he
+> > > user space would need to know not only which drivers to load, but als=
+o
+> > > which drivers _not_ to load. The user space could obtain the former f=
+rom
+> > > the kernel but not the latter, it'd be system specific configuration.
+> > >
+> > > Moving the responsibility of loading the driver to user space would a=
+lso
+> > > not address figuring out whether the sensor is accessible through its
+> > > control bus: you have to power it on to do that. In fact, if you want=
+ to be
+> > > sure that the hardware is all right, you have to start streaming on t=
+he
+> > > device first and that is not a part of a typical driver initialisatio=
+n
+> > > sequence. Just checking the sensor is accessible over I=E6=B6=8E is n=
+ot enough.
+> > >
+> > > The proposed solution addresses the problem without user space change=
+s.
+> >
+> > I guess that makes sense indeed. If going this way, why not just move
+> > all the hardware access from probe to streamon and avoid any
+> > conditional checks at all?
+>
+> My apologies for the late answer.
+>
+> In that case there would be no way to verify the hardware actually is
+> there, even on systems where there is no adverse effect from doing that.
+> For a sensor driver this could be just fine, but I have doubts it'd be
+> appropriate for e.g. the at24 driver.
 
->
-> On Wed, 2019-08-14 at 12:44 +0200, Dariusz Marcinkiewicz wrote:
-> > Pass the connector info to the CEC adapter. This makes it possible
-> > to associate the CEC adapter with the corresponding drm connector.
-> >
-> > Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
-> > Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> > Tested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> > ---
-> >  .../display/amdgpu_dm/amdgpu_dm_mst_types.c   |  2 +-
-> >  drivers/gpu/drm/drm_dp_cec.c                  | 25 ++++++++++++-------
-> >  drivers/gpu/drm/i915/display/intel_dp.c       |  4 +--
-> >  drivers/gpu/drm/nouveau/nouveau_connector.c   |  3 +--
-> >  include/drm/drm_dp_helper.h                   | 17 ++++++-------
-> >  5 files changed, 27 insertions(+), 24 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> > b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> > index 16218a202b591..5ec14efd4d8cb 100644
-> > --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> > +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> > @@ -416,7 +416,7 @@ void amdgpu_dm_initialize_dp_connector(struct
-> > amdgpu_display_manager *dm,
-> >
-> >       drm_dp_aux_register(&aconnector->dm_dp_aux.aux);
-> >       drm_dp_cec_register_connector(&aconnector->dm_dp_aux.aux,
-> > -                                   aconnector->base.name, dm->adev->dev);
-> > +                                   &aconnector->base);
-> >       aconnector->mst_mgr.cbs = &dm_mst_cbs;
-> >       drm_dp_mst_topology_mgr_init(
-> >               &aconnector->mst_mgr,
-> > diff --git a/drivers/gpu/drm/drm_dp_cec.c b/drivers/gpu/drm/drm_dp_cec.c
-> > index b15cee85b702b..b457c16c3a8bb 100644
-> > --- a/drivers/gpu/drm/drm_dp_cec.c
-> > +++ b/drivers/gpu/drm/drm_dp_cec.c
-> > @@ -8,7 +8,9 @@
-> >  #include <linux/kernel.h>
-> >  #include <linux/module.h>
-> >  #include <linux/slab.h>
-> > +#include <drm/drm_connector.h>
-> >  #include <drm/drm_dp_helper.h>
-> > +#include <drm/drmP.h>
-> >  #include <media/cec.h>
-> >
-> >  /*
-> > @@ -295,7 +297,10 @@ static void drm_dp_cec_unregister_work(struct work_struct
-> > *work)
-> >   */
-> >  void drm_dp_cec_set_edid(struct drm_dp_aux *aux, const struct edid *edid)
-> >  {
-> > -     u32 cec_caps = CEC_CAP_DEFAULTS | CEC_CAP_NEEDS_HPD;
-> > +     struct drm_connector *connector = aux->cec.connector;
-> > +     u32 cec_caps = CEC_CAP_DEFAULTS | CEC_CAP_NEEDS_HPD |
-> > +                    CEC_CAP_CONNECTOR_INFO;
-> > +     struct cec_connector_info conn_info;
-> >       unsigned int num_las = 1;
-> >       u8 cap;
-> >
-> > @@ -344,13 +349,17 @@ void drm_dp_cec_set_edid(struct drm_dp_aux *aux, const
-> > struct edid *edid)
-> >
-> >       /* Create a new adapter */
-> >       aux->cec.adap = cec_allocate_adapter(&drm_dp_cec_adap_ops,
-> > -                                          aux, aux->cec.name, cec_caps,
-> > +                                          aux, connector->name, cec_caps,
-> >                                            num_las);
-> >       if (IS_ERR(aux->cec.adap)) {
-> >               aux->cec.adap = NULL;
-> >               goto unlock;
-> >       }
-> > -     if (cec_register_adapter(aux->cec.adap, aux->cec.parent)) {
-> > +
-> > +     cec_fill_conn_info_from_drm(&conn_info, connector);
-> > +     cec_s_conn_info(aux->cec.adap, &conn_info);
-> > +
-> > +     if (cec_register_adapter(aux->cec.adap, connector->dev->dev)) {
-> >               cec_delete_adapter(aux->cec.adap);
-> >               aux->cec.adap = NULL;
-> >       } else {
-> > @@ -406,22 +415,20 @@ EXPORT_SYMBOL(drm_dp_cec_unset_edid);
-> >  /**
-> >   * drm_dp_cec_register_connector() - register a new connector
-> >   * @aux: DisplayPort AUX channel
-> > - * @name: name of the CEC device
-> > - * @parent: parent device
-> > + * @connector: drm connector
-> >   *
-> >   * A new connector was registered with associated CEC adapter name and
-> >   * CEC adapter parent device. After registering the name and parent
-> >   * drm_dp_cec_set_edid() is called to check if the connector supports
-> >   * CEC and to register a CEC adapter if that is the case.
-> >   */
-> > -void drm_dp_cec_register_connector(struct drm_dp_aux *aux, const char *name,
-> > -                                struct device *parent)
-> > +void drm_dp_cec_register_connector(struct drm_dp_aux *aux,
-> > +                                struct drm_connector *connector)
-> >  {
-> >       WARN_ON(aux->cec.adap);
-> >       if (WARN_ON(!aux->transfer))
-> >               return;
-> > -     aux->cec.name = name;
-> > -     aux->cec.parent = parent;
-> > +     aux->cec.connector = connector;
-> >       INIT_DELAYED_WORK(&aux->cec.unregister_work,
-> >                         drm_dp_cec_unregister_work);
-> >  }
-> > diff --git a/drivers/gpu/drm/i915/display/intel_dp.c
-> > b/drivers/gpu/drm/i915/display/intel_dp.c
-> > index 1092499115760..de2486fe7bf2d 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> > @@ -5497,7 +5497,6 @@ static int
-> >  intel_dp_connector_register(struct drm_connector *connector)
-> >  {
-> >       struct intel_dp *intel_dp = intel_attached_dp(connector);
-> > -     struct drm_device *dev = connector->dev;
-> >       int ret;
-> >
-> >       ret = intel_connector_register(connector);
-> > @@ -5512,8 +5511,7 @@ intel_dp_connector_register(struct drm_connector
-> > *connector)
-> >       intel_dp->aux.dev = connector->kdev;
-> >       ret = drm_dp_aux_register(&intel_dp->aux);
-> >       if (!ret)
-> > -             drm_dp_cec_register_connector(&intel_dp->aux,
-> > -                                           connector->name, dev->dev);
-> > +             drm_dp_cec_register_connector(&intel_dp->aux, connector);
-> >       return ret;
-> >  }
-> >
-> > diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c
-> > b/drivers/gpu/drm/nouveau/nouveau_connector.c
-> > index 330d7d29a6e34..8aa703347eb54 100644
-> > --- a/drivers/gpu/drm/nouveau/nouveau_connector.c
-> > +++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
-> > @@ -1416,8 +1416,7 @@ nouveau_connector_create(struct drm_device *dev,
-> >       switch (type) {
-> >       case DRM_MODE_CONNECTOR_DisplayPort:
-> >       case DRM_MODE_CONNECTOR_eDP:
-> > -             drm_dp_cec_register_connector(&nv_connector->aux,
-> > -                                           connector->name, dev->dev);
-> > +             drm_dp_cec_register_connector(&nv_connector->aux, connector);
-> >               break;
-> >       }
-> >
-> > diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
-> > index 8364502f92cfe..7972b925a952b 100644
-> > --- a/include/drm/drm_dp_helper.h
-> > +++ b/include/drm/drm_dp_helper.h
-> > @@ -1230,20 +1230,19 @@ struct drm_dp_aux_msg {
-> >
-> >  struct cec_adapter;
-> >  struct edid;
-> > +struct drm_connector;
-> >
-> >  /**
-> >   * struct drm_dp_aux_cec - DisplayPort CEC-Tunneling-over-AUX
-> >   * @lock: mutex protecting this struct
-> >   * @adap: the CEC adapter for CEC-Tunneling-over-AUX support.
-> > - * @name: name of the CEC adapter
-> > - * @parent: parent device of the CEC adapter
-> > + * @connector: the connector this CEC adapter is associated with
-> >   * @unregister_work: unregister the CEC adapter
-> >   */
-> >  struct drm_dp_aux_cec {
-> >       struct mutex lock;
-> >       struct cec_adapter *adap;
-> > -     const char *name;
-> > -     struct device *parent;
-> > +     struct drm_connector *connector;
-> >       struct delayed_work unregister_work;
-> >  };
-> >
-> > @@ -1451,8 +1450,8 @@ drm_dp_has_quirk(const struct drm_dp_desc *desc, enum
-> > drm_dp_quirk quirk)
-> >
-> >  #ifdef CONFIG_DRM_DP_CEC
-> >  void drm_dp_cec_irq(struct drm_dp_aux *aux);
-> > -void drm_dp_cec_register_connector(struct drm_dp_aux *aux, const char *name,
-> > -                                struct device *parent);
-> > +void drm_dp_cec_register_connector(struct drm_dp_aux *aux,
-> > +                                struct drm_connector *connector);
-> >  void drm_dp_cec_unregister_connector(struct drm_dp_aux *aux);
-> >  void drm_dp_cec_set_edid(struct drm_dp_aux *aux, const struct edid *edid);
-> >  void drm_dp_cec_unset_edid(struct drm_dp_aux *aux);
-> > @@ -1461,9 +1460,9 @@ static inline void drm_dp_cec_irq(struct drm_dp_aux
-> > *aux)
-> >  {
-> >  }
-> >
-> > -static inline void drm_dp_cec_register_connector(struct drm_dp_aux *aux,
-> > -                                              const char *name,
-> > -                                              struct device *parent)
-> > +static inline void
-> > +drm_dp_cec_register_connector(struct drm_dp_aux *aux,
-> > +                           struct drm_connector *connector)
-> >  {
-> >  }
-> >
->
+For an eeprom, the first read could fail. That said, I agree that for
+systems on which there is no such concern it would still be desirable
+to check if the device is accessible in probe.
+
+Anyway, I think you convinced me. :)
+
+Reviewed-by: Tomasz Figa <tfiga@chromium.org>
+
+Best regards,
+Tomasz
