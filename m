@@ -2,205 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 651979CA64
-	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2019 09:30:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C5E09CA71
+	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2019 09:30:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729998AbfHZH2x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Aug 2019 03:28:53 -0400
-Received: from relay5-d.mail.gandi.net ([217.70.183.197]:42881 "EHLO
-        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729925AbfHZH2x (ORCPT
+        id S1730028AbfHZHaP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Aug 2019 03:30:15 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:45187 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729956AbfHZHaO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Aug 2019 03:28:53 -0400
-X-Originating-IP: 87.18.63.98
-Received: from uno.localdomain (unknown [87.18.63.98])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id D4DF51C0005;
-        Mon, 26 Aug 2019 07:28:48 +0000 (UTC)
-Date:   Mon, 26 Aug 2019 09:30:19 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Ricardo Ribalda Delgado <ribalda@kernel.org>
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/7] media: add V4L2_CID_UNIT_CELL_SIZE control
-Message-ID: <20190826073019.2h2ubmiyglzlkpef@uno.localdomain>
-References: <20190823123737.7774-1-ribalda@kernel.org>
+        Mon, 26 Aug 2019 03:30:14 -0400
+Received: by mail-oi1-f193.google.com with SMTP id v12so11378665oic.12
+        for <linux-media@vger.kernel.org>; Mon, 26 Aug 2019 00:30:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=GZR9Edc3896KMe8D29Xub/JgK8I7T7IxthET4pykxsE=;
+        b=I78EFeaoDIQmZfhELopt2iteII8lGJ5rKagYpLh6BLETzYMn1RsDG1F3odla7KVMZ0
+         V0uuVc3JrAwMkQ3gJeymfzH+U5J32Sqq2SDUqsZ6MDgSNClI5D/mj5DuNCkJBxjg1wMf
+         m2Mzw0rnWy3+wZUP+UTAzxhO4cMNAhZtH5abMcs9mYLQJA1GfPg+boU6FZL6FUMalvsH
+         sRzIrkOBBhS/4+Zfqr/qL+rSz47deHwsp462vFInjqdTbFsSryEQqd15n+T2Z3E//7Xn
+         mr8rGK/aNCN4FAZRezQz3sWOz/Vh+XmktTIwxgPYjt5z3MSd0p2ao9LtLzml3ZXg+3VD
+         np0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=GZR9Edc3896KMe8D29Xub/JgK8I7T7IxthET4pykxsE=;
+        b=lQ+ls02J8pcAWfef31hkuwDb1DlFkdROkFRQWrImsdS0bFSTLWz2K9uiAGKGuZIy5W
+         GasdjzRoX74FExz+EMYkarMBZImUV3CiJ685EqJwu1NYkLtrpvuqkMxX6inqfeA+vbhY
+         IuGujhN8Ye15nl3AdWIEyyubPlIGnpeyKLRxtvEpdRkahy2Jr+hJCedqRg3GcgXn56od
+         KBGcb1ZwQ15a2HoppiqRPm3ckeyaDWPxs/er2aBrLbr2jjQIgo2y+b7TTjU4kKT+igt7
+         PZ+Yf0OG+avj++/sVT4bHReIXibq6vNxLaav619WHT2AQUinfe1U2YfQWrvJueNZzKuU
+         e3sQ==
+X-Gm-Message-State: APjAAAVOqH6s/RRU+o9By4Byagz2yp4JEt6tHmD8wXBs1FC2bwqaz2Xf
+        WfXgqgjsUoqOHHl1B49fHbuBbi9bVNUOCLa6RjiSoQ==
+X-Google-Smtp-Source: APXvYqwyYz0KYGRivNkjGqr4HwlRqj+eVOpzVW7LDIQGz7E5wkYwOX2Za/Kwkl730VwyPLKmxe5nnHYKQrBYPErb4SU=
+X-Received: by 2002:aca:f5c8:: with SMTP id t191mr11354958oih.61.1566804614085;
+ Mon, 26 Aug 2019 00:30:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="t4iz3dil4g5c3p7z"
-Content-Disposition: inline
-In-Reply-To: <20190823123737.7774-1-ribalda@kernel.org>
-User-Agent: NeoMutt/20180716
+Received: by 2002:a05:6830:1bd9:0:0:0:0 with HTTP; Mon, 26 Aug 2019 00:30:13
+ -0700 (PDT)
+Reply-To: andrewhendersonesqhenderson@gmail.com
+From:   Heather <lornathom358@gmail.com>
+Date:   Mon, 26 Aug 2019 00:30:13 -0700
+Message-ID: <CAC-u31u3CzSgK4vzdd+QPjR=A_j9ELQOXXx1530nJLJ8Z32HwQ@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
---t4iz3dil4g5c3p7z
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-
-Hi Ricardo,
-
-On Fri, Aug 23, 2019 at 02:37:31PM +0200, Ricardo Ribalda Delgado wrote:
-> This control returns the unit cell size in nanometres. The struct provides
-> the width and the height in separated fields to take into consideration
-> asymmetric pixels and/or hardware binning.
-> This control is required for automatic calibration of sensors/cameras.
->
-> Signed-off-by: Ricardo Ribalda Delgado <ribalda@kernel.org>
-> ---
-> v3:
-> -Put together all actions on ctrl_fill
-> -Move the control to IMAGE_SOURCE
->
->  drivers/media/v4l2-core/v4l2-ctrls.c | 11 +++++++++++
->  include/media/v4l2-ctrls.h           |  2 ++
->  include/uapi/linux/v4l2-controls.h   |  1 +
->  include/uapi/linux/videodev2.h       | 11 +++++++++++
->  4 files changed, 25 insertions(+)
->
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-> index 1d8f38824631..b3bf458df7f7 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-> @@ -994,6 +994,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->  	case V4L2_CID_AUTO_FOCUS_RANGE:		return "Auto Focus, Range";
->  	case V4L2_CID_PAN_SPEED:		return "Pan, Speed";
->  	case V4L2_CID_TILT_SPEED:		return "Tilt, Speed";
-> +	case V4L2_CID_UNIT_CELL_SIZE:		return "Unit Cell Size";
->
->  	/* FM Radio Modulator controls */
->  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
-> @@ -1375,6 +1376,10 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
->  	case V4L2_CID_MPEG_VIDEO_VP8_FRAME_HEADER:
->  		*type = V4L2_CTRL_TYPE_VP8_FRAME_HEADER;
->  		break;
-> +	case V4L2_CID_UNIT_CELL_SIZE:
-> +		*type = V4L2_CTRL_TYPE_AREA;
-> +		*flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> +		break;
->  	default:
->  		*type = V4L2_CTRL_TYPE_INTEGER;
->  		break;
-> @@ -1723,6 +1728,9 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
->  	case V4L2_CTRL_TYPE_FWHT_PARAMS:
->  		break;
->
-> +	case V4L2_CTRL_TYPE_AREA:
-> +		break;
-> +
->  	case V4L2_CTRL_TYPE_H264_SPS:
->  	case V4L2_CTRL_TYPE_H264_PPS:
->  	case V4L2_CTRL_TYPE_H264_SCALING_MATRIX:
-> @@ -2421,6 +2429,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
->  	case V4L2_CTRL_TYPE_VP8_FRAME_HEADER:
->  		elem_size = sizeof(struct v4l2_ctrl_vp8_frame_header);
->  		break;
-> +	case V4L2_CTRL_TYPE_AREA:
-> +		elem_size = sizeof(struct v4l2_area);
-> +		break;
->  	default:
->  		if (type < V4L2_CTRL_COMPOUND_TYPES)
->  			elem_size = sizeof(s32);
-> diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-> index 570ff4b0205a..9a3d11350e67 100644
-> --- a/include/media/v4l2-ctrls.h
-> +++ b/include/media/v4l2-ctrls.h
-> @@ -50,6 +50,7 @@ struct poll_table_struct;
->   * @p_h264_slice_params:	Pointer to a struct v4l2_ctrl_h264_slice_params.
->   * @p_h264_decode_params:	Pointer to a struct v4l2_ctrl_h264_decode_params.
->   * @p_vp8_frame_header:		Pointer to a VP8 frame header structure.
-> + * @p_area:			Pointer to an area.
-
-Actually:
-"Pointer to a struct v4l2_area" ?
-
-Also,, I'm not sure which patch introduces this but I see a new
-warning when building documentation:
-.../Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-ctrl-type-area (if the link has no caption the label must precede a section header)
-
-Thanks
-   j
-
->   * @p:				Pointer to a compound value.
->   */
->  union v4l2_ctrl_ptr {
-> @@ -68,6 +69,7 @@ union v4l2_ctrl_ptr {
->  	struct v4l2_ctrl_h264_slice_params *p_h264_slice_params;
->  	struct v4l2_ctrl_h264_decode_params *p_h264_decode_params;
->  	struct v4l2_ctrl_vp8_frame_header *p_vp8_frame_header;
-> +	struct v4l2_area *p_area;
->  	void *p;
->  };
->
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> index a2669b79b294..5a7bedee2b0e 100644
-> --- a/include/uapi/linux/v4l2-controls.h
-> +++ b/include/uapi/linux/v4l2-controls.h
-> @@ -1034,6 +1034,7 @@ enum v4l2_jpeg_chroma_subsampling {
->  #define V4L2_CID_TEST_PATTERN_GREENR		(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 5)
->  #define V4L2_CID_TEST_PATTERN_BLUE		(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 6)
->  #define V4L2_CID_TEST_PATTERN_GREENB		(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 7)
-> +#define V4L2_CID_UNIT_CELL_SIZE			(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 8)
->
->
->  /* Image processing controls */
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index 530638dffd93..05cfc69d7ed6 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -422,6 +422,11 @@ struct v4l2_fract {
->  	__u32   denominator;
->  };
->
-> +struct v4l2_area {
-> +	__u32   width;
-> +	__u32   height;
-> +};
-> +
->  /**
->    * struct v4l2_capability - Describes V4L2 device caps returned by VIDIOC_QUERYCAP
->    *
-> @@ -1720,6 +1725,12 @@ enum v4l2_ctrl_type {
->  	V4L2_CTRL_TYPE_U8	     = 0x0100,
->  	V4L2_CTRL_TYPE_U16	     = 0x0101,
->  	V4L2_CTRL_TYPE_U32	     = 0x0102,
-> +	/*
-> +	 * V4L2_CTRL_TYPE_MPEG2_SLICE_PARAMS = 0x0103,
-> +	 * V4L2_CTRL_TYPE_MPEG2_QUANTIZATION = 0x0104,
-> +	 * V4L2_CTRL_TYPE_FWHT_PARAMS = 0x0105,
-> +	 */
-> +	V4L2_CTRL_TYPE_AREA    = 0x0106,
->  };
->
->  /*  Used in the VIDIOC_QUERYCTRL ioctl for querying controls */
-> --
-> 2.23.0.rc1
->
-
---t4iz3dil4g5c3p7z
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl1jiosACgkQcjQGjxah
-VjzEBQ/8CWb6x5I7kqxsbMBDKxZlyPQQCm3vt4BQ9NagdFYVLAJuUI7fpxsSFDmQ
-7b4/ehsoKmrfNvmDUWsGXIpqicEgPQXa+06lZXYTE81O2Frw0SExjXsfhzKS90NE
-Dl4EsSZ090JGIbT/XCWiOArHBy0MNwKA1EF4N0B7uRmGXbUQ/oWW5rDHsG6JVjjF
-qqijzKLnWJ1LlMxPm8i8+ZGpe1AtMc5qMWos5z9ccEHhW9VcR3S/5taLzJwr24ww
-8QqeCKmmYX4lbKKfGIvNHaOvBmUQJGkuNH3qL3YfWjryjpg3sKrSWqhURb801s/Z
-xmOdYZ98EV7/i+CIDZ/F7h3IgbAlgowhRYpSKVnUDwE90WgGluMPDlIQ3oHigX+t
-aReavk+OQNcUsJlYVk6yXioqFlkcWAQAeIsltVWwtey1wzCBEQUzHHZ/FWfl+bl0
-G+PYc0PGsJb9rnnkWjrwaeinkKlt31Ue4Lg0nS5uXy6BfCrM+gQx9hCYXVShmKB0
-FIqpF2JGeZdOvfJHdFsi5iFxPrEABiIhTfMP/IxI8xWEhr29HwKivgcjR0OEcmZ/
-elAJKk2N5HGQFrTD6DTFmyHNV8ODArVzJnTlbqG12fhgyJFj1/P0/fEUgQQ+g0P0
-IofjY7a765Uy2QvIqZ/LOHHo9GyfNe/MX+uaAyOc3+dWf883Bak=
-=M5VN
------END PGP SIGNATURE-----
-
---t4iz3dil4g5c3p7z--
+-- 
+Is this email still valid?
