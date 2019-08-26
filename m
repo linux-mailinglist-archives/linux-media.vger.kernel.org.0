@@ -2,187 +2,361 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 946B19CC7E
-	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2019 11:21:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6FD29CD02
+	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2019 12:04:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730903AbfHZJVh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Aug 2019 05:21:37 -0400
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:41531 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726354AbfHZJVh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Aug 2019 05:21:37 -0400
-Received: by mail-ed1-f68.google.com with SMTP id w5so25507389edl.8
-        for <linux-media@vger.kernel.org>; Mon, 26 Aug 2019 02:21:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=rhUbb4I4hOvyBOfSpMcmGydYU4d0wJQGd5ssHK1Y+Mw=;
-        b=frdlw7+yhNmDD/60qsRg6wF9GR5nqL8SKONmGxNgi1si+CeUHw8SrJagBR2rwwA1pT
-         YW9owHoY7IwlUms2BfqEmrF5oUwtS6VhmgHleV0J1W9yOhZThmBUeP7kmfuWa+keYYzI
-         f1DCA7j2gQtadIuAwHQVwzK263Cc3baRieJNE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=rhUbb4I4hOvyBOfSpMcmGydYU4d0wJQGd5ssHK1Y+Mw=;
-        b=XWt13QVwK/QeSJMIVOyYLxP3tyRADFkX9kxf5VSiS0VNVuoCi08/JYFJUilv8HxkH+
-         DYn4cj6Yo3kykVOplGC3GvzuK+vJ4DgfJ/85FTR/YY+2gfUgDl9QsuEBMQ6I48HLuSdd
-         R200riCCCnlQWeZxxTnAyIPNTVJIHa1xed9TjLbMCK+alnZ4aKGcd/oqjgBN/09KCEvy
-         b99HtHqqq4ERYjrZ8fFZCOdhnrC2ogiGBqYneKoAnUkEL8B29Q+Ne9B0f7Nu1sA1XEAY
-         R0FLEkzI66OCKPapKEUBRBr/PfrB1ueM3CtyL3S0tKPOsDo8tjbyFWGF5ghgXWmT3JaB
-         zYFA==
-X-Gm-Message-State: APjAAAWMFTgkkoKobr4Elw7+IqVsKwhdNeCUVy9lfUf59oHJkmqJKt8N
-        B8w0D246rdDx6vW+aHS2O0tUwyh8sd6AAg==
-X-Google-Smtp-Source: APXvYqwS9ARzkrVMqbdr8p4/+kBDomGWubjklrB+yzmzWWW3s4YlzsaRb6LVHMn/5OXbgNHBielUyA==
-X-Received: by 2002:a17:906:3c7:: with SMTP id c7mr15812804eja.187.1566811294556;
-        Mon, 26 Aug 2019 02:21:34 -0700 (PDT)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com. [209.85.221.49])
-        by smtp.gmail.com with ESMTPSA id ay8sm2805128ejb.4.2019.08.26.02.21.33
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Aug 2019 02:21:33 -0700 (PDT)
-Received: by mail-wr1-f49.google.com with SMTP id b16so14551341wrq.9
-        for <linux-media@vger.kernel.org>; Mon, 26 Aug 2019 02:21:33 -0700 (PDT)
-X-Received: by 2002:adf:f851:: with SMTP id d17mr21238372wrq.77.1566811293556;
- Mon, 26 Aug 2019 02:21:33 -0700 (PDT)
+        id S1729904AbfHZKEF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Aug 2019 06:04:05 -0400
+Received: from mga07.intel.com ([134.134.136.100]:59758 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726669AbfHZKEF (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 26 Aug 2019 06:04:05 -0400
+X-Amp-Result: UNSCANNABLE
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 26 Aug 2019 03:04:04 -0700
+X-IronPort-AV: E=Sophos;i="5.64,431,1559545200"; 
+   d="scan'208";a="179830764"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 26 Aug 2019 03:04:02 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 1C9FB20B47; Mon, 26 Aug 2019 13:03:30 +0300 (EEST)
+Date:   Mon, 26 Aug 2019 13:03:30 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Marco Felsch <m.felsch@pengutronix.de>
+Cc:     mchehab@kernel.org, robh+dt@kernel.org,
+        Jacopo Mondi <jacopo@jmondi.org>, devicetree@vger.kernel.org,
+        graphics@pengutronix.de, linux-media@vger.kernel.org,
+        Maxime Ripard <maxime.ripard@bootlin.com>
+Subject: Re: [PATCH v2 2/2] media: tc358746: add Toshiba TC358746 Parallel to
+ CSI-2 bridge driver
+Message-ID: <20190826100330.GO31967@paasikivi.fi.intel.com>
+References: <20190619152838.25079-1-m.felsch@pengutronix.de>
+ <20190619152838.25079-3-m.felsch@pengutronix.de>
+ <20190625122719.xcl3gxxs4gpuvetf@paasikivi.fi.intel.com>
+ <20190729104044.svemh7jvt2kiyn36@pengutronix.de>
 MIME-Version: 1.0
-References: <20190510100930.14641-1-sakari.ailus@linux.intel.com>
- <20190510100930.14641-4-sakari.ailus@linux.intel.com> <20190605070752.GA126683@chromium.org>
- <20190605101535.4sydewuv656x6c2g@kekkonen.localdomain> <CAAFQd5D+RZS0E6xpZ3v8gC5zerj5fd6b6YxcAS_TeWei6vGvUA@mail.gmail.com>
- <20190826083813.GK31967@paasikivi.fi.intel.com>
-In-Reply-To: <20190826083813.GK31967@paasikivi.fi.intel.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Mon, 26 Aug 2019 18:21:21 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5CL9asYPguLpP-sQJeuvzwMjjfED7z37OcYXqmyGZMyTg@mail.gmail.com>
-Message-ID: <CAAFQd5CL9asYPguLpP-sQJeuvzwMjjfED7z37OcYXqmyGZMyTg@mail.gmail.com>
-Subject: Re: [PATCH 3/5] ov5670: Support probe whilst the device is off
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-acpi@vger.kernel.org,
-        "Mani, Rajmohan" <rajmohan.mani@intel.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190729104044.svemh7jvt2kiyn36@pengutronix.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Aug 26, 2019 at 5:38 PM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
->
-> Hi Tomasz,
->
-> On Fri, Jun 07, 2019 at 04:54:06PM +0900, Tomasz Figa wrote:
-> > On Wed, Jun 5, 2019 at 7:15 PM Sakari Ailus
-> > <sakari.ailus@linux.intel.com> wrote:
-> > >
-> > > Hi Tomasz,
-> > >
-> > > On Wed, Jun 05, 2019 at 04:07:52PM +0900, Tomasz Figa wrote:
-> > > > Hi Sakari,
-> > > >
-> > > > On Fri, May 10, 2019 at 01:09:28PM +0300, Sakari Ailus wrote:
-> > > > > Tell ACPI device PM code that the driver supports the device bein=
-g powered
-> > > > > off when the driver's probe function is entered.
-> > > > >
-> > > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > > ---
-> > > > >  drivers/media/i2c/ov5670.c | 25 ++++++++++++++-----------
-> > > > >  1 file changed, 14 insertions(+), 11 deletions(-)
-> > > > >
-> > > > > diff --git a/drivers/media/i2c/ov5670.c b/drivers/media/i2c/ov567=
-0.c
-> > > > > index 041fcbb4eebdf..57e8b92f90e09 100644
-> > > > > --- a/drivers/media/i2c/ov5670.c
-> > > > > +++ b/drivers/media/i2c/ov5670.c
-> > > > > @@ -2444,6 +2444,7 @@ static int ov5670_probe(struct i2c_client *=
-client)
-> > > > >     struct ov5670 *ov5670;
-> > > > >     const char *err_msg;
-> > > > >     u32 input_clk =3D 0;
-> > > > > +   bool powered_off;
-> > > > >     int ret;
-> > > > >
-> > > > >     device_property_read_u32(&client->dev, "clock-frequency", &in=
-put_clk);
-> > > > > @@ -2460,11 +2461,14 @@ static int ov5670_probe(struct i2c_client=
- *client)
-> > > > >     /* Initialize subdev */
-> > > > >     v4l2_i2c_subdev_init(&ov5670->sd, client, &ov5670_subdev_ops)=
-;
-> > > > >
-> > > > > -   /* Check module identity */
-> > > > > -   ret =3D ov5670_identify_module(ov5670);
-> > > > > -   if (ret) {
-> > > > > -           err_msg =3D "ov5670_identify_module() error";
-> > > > > -           goto error_print;
-> > > > > +   powered_off =3D acpi_dev_powered_off_for_probe(&client->dev);
-> > > > > +   if (!powered_off) {
-> > > > > +           /* Check module identity */
-> > > > > +           ret =3D ov5670_identify_module(ov5670);
-> > > > > +           if (ret) {
-> > > > > +                   err_msg =3D "ov5670_identify_module() error";
-> > > > > +                   goto error_print;
-> > > > > +           }
-> > > > >     }
-> > > >
-> > > > I don't like the fact that we can't detect any hardware connection =
-issue
-> > > > here anymore and we would actually get some obscure failure when we
-> > > > actually start streaming.
-> > > >
-> > > > Wouldn't it be possible to still keep this behavior of not powering=
- on
-> > > > the device at boot-up if no driver is bound and then have this driv=
-er
-> > > > built as a module and loaded later when the camera is to be used fo=
-r the
-> > > > first time after the system boots?
-> > >
-> > > That'd be a way to work around this, but the downside would be that t=
-he
-> > > user space would need to know not only which drivers to load, but als=
-o
-> > > which drivers _not_ to load. The user space could obtain the former f=
-rom
-> > > the kernel but not the latter, it'd be system specific configuration.
-> > >
-> > > Moving the responsibility of loading the driver to user space would a=
-lso
-> > > not address figuring out whether the sensor is accessible through its
-> > > control bus: you have to power it on to do that. In fact, if you want=
- to be
-> > > sure that the hardware is all right, you have to start streaming on t=
-he
-> > > device first and that is not a part of a typical driver initialisatio=
-n
-> > > sequence. Just checking the sensor is accessible over I=E6=B6=8E is n=
-ot enough.
-> > >
-> > > The proposed solution addresses the problem without user space change=
-s.
-> >
-> > I guess that makes sense indeed. If going this way, why not just move
-> > all the hardware access from probe to streamon and avoid any
-> > conditional checks at all?
->
-> My apologies for the late answer.
->
-> In that case there would be no way to verify the hardware actually is
-> there, even on systems where there is no adverse effect from doing that.
-> For a sensor driver this could be just fine, but I have doubts it'd be
-> appropriate for e.g. the at24 driver.
+Hi Marco,
 
-For an eeprom, the first read could fail. That said, I agree that for
-systems on which there is no such concern it would still be desirable
-to check if the device is accessible in probe.
+On Mon, Jul 29, 2019 at 12:40:44PM +0200, Marco Felsch wrote:
 
-Anyway, I think you convinced me. :)
+...
 
-Reviewed-by: Tomasz Figa <tfiga@chromium.org>
+> > > +#define I2C_MAX_XFER_SIZE	(512 + 2)
+> > > +#define TC358746_MAX_FIFO_SIZE	512
+> > > +#define TC358746_DEF_LINK_FREQ	0
+> > > +
+> > > +#define TC358746_LINEINIT_MIN_US	110
+> > > +#define TC358746_TWAKEUP_MIN_US		1200
+> > > +#define TC358746_LPTXTIME_MIN_NS	55
+> > > +#define TC358746_TCLKZERO_MIN_NS	305
+> > > +#define TC358746_TCLKTRAIL_MIN_NS	65
+> > > +#define TC358746_TCLKPOST_MIN_NS	65
+> > > +#define TC358746_THSZERO_MIN_NS		150
+> > > +#define TC358746_THSTRAIL_MIN_NS	65
+> > > +#define TC358746_THSPREPARE_MIN_NS	45
+> > > +
+> > > +static const struct v4l2_mbus_framefmt tc358746_def_fmt = {
+> > > +	.width		= 640,
+> > > +	.height		= 480,
+> > > +	.code		= MEDIA_BUS_FMT_UYVY8_2X8,
+> > > +	.field		= V4L2_FIELD_NONE,
+> > > +	.colorspace	= V4L2_COLORSPACE_DEFAULT,
+> > > +	.ycbcr_enc	= V4L2_YCBCR_ENC_DEFAULT,
+> > > +	.quantization	= V4L2_QUANTIZATION_DEFAULT,
+> > > +	.xfer_func	= V4L2_XFER_FUNC_DEFAULT,
+> > > +};
+> > > +
+> > > +struct tc358746_csi_param {
+> > > +	unsigned char speed_range;
+> > > +	unsigned int  unit_clk_hz;
+> > > +	unsigned char unit_clk_mul;
+> > > +	unsigned int speed_per_lane; /* bps / lane */
+> > > +	unsigned short lane_num;
+> > > +	bool is_continuous_clk;
+> > > +
+> > > +	/* CSI2-TX Parameters */
+> > > +	u32 lineinitcnt;
+> > > +	u32 lptxtimecnt;
+> > > +	u32 twakeupcnt;
+> > > +	u32 tclk_preparecnt;
+> > > +	u32 tclk_zerocnt;
+> > > +	u32 tclk_trailcnt;
+> > > +	u32 tclk_postcnt;
+> > > +	u32 ths_preparecnt;
+> > > +	u32 ths_zerocnt;
+> > > +	u32 ths_trailcnt;
+> > > +
+> > > +	unsigned int csi_hs_lp_hs_ps;
+> > > +};
+> > 
+> > Would it be possible to use struct phy_configure_opts_mipi_dphy and perhaps
+> > phy_mipi_dphy_get_default_config() as well? The result of the latter will
+> > surely be different though, but still expected to be valid.
+> 
+> I've checked the struct phy_configure_opts_mipi_dphy and have a few
+> points to think about:
+> 1) The values I need here are counter values. The struct you mentioned
+>    uses time based values. This is good but needs a retranslation into
+>    the count values.
+> 2) The tclk_zerocnt and tclk_zerocnt has a other meaning here:
+>      tclk_zerocnt = ckl_prepare + clk_zero > 300ns
+>      ths_zerocnt  =  hs_prepare +  hs_zero > 145ns + 10 * ui
+> 
+> I can use the struct phy_configure_opts_mipi_dphy but then the
+> meaning are not the same..
+> 
+> If I should use the phy_mipi_dphy_get_default_config() helper I had to
+> reconstruct the whole logic. Currently the driver is based on the
+> following behaviour:
+>   - the fw (DT in our case) defines possible link frequencies and data
+>     lane numbers
+>   - based on that information I calculate possible counter values to
+>     confirm the mipi-spec
+>   - now the user specifies a format and I try to serve the request by
+>     - adjusting the fifo-size
+>       if not possible
+>       - use other link frequency setting and retry adjusting fifo_size
+>       if till not possible
+>       - begin to reduce the resultion
+> 
+> Imagine it that way: I configure the dphy side and adjust the parallel
+> side.
+> 
+> Now phy_mipi_dphy_get_default_config() uses the format bpp and the
+> pixel_clk to calculate the exact default config. Those configs must be
+> converted to the counter values. This wouldn't be a big deal but the
+> excel-sheet I used to calculate the timings adds some "random"
+> undocumented constants. So it would not be just a conversion from a
+> time-val to a counter-val. After that we need to verify the
+> parallel-input settings against the dphy-settings and do proper
+> fifo/picture-soze adjustments.
 
-Best regards,
-Tomasz
+Does the parallel interface configuration really affect the CSI-2 timings,
+apart from the data rate? There are many valid CSI-2 timing configurations
+as what's needed in general is to stay within a range instead of using an
+exact value for a given parameter.
+
+Cc'ing Maxime.
+
+> 
+> I would keep my approach beacause of the "random" undocumented constants
+> and the other meaning of the struct phy_configure_opts_mipi_dphy
+> members. Maybe I can convert it later if I have more time to verify that
+> the "random" undocumented constants aren't important and can be dropped.
+> Also I checked a few other Toshiba TC convert chips and it seems that
+> all off them uses the same DPHY. So maybe we should split out the
+> phy-part to share it.
+
+This would be quite favourable, indeed.
+
+> 
+> > > +
+> > > +enum tc358746_csi_direction {
+> > > +	TC358746_CSI_RX, /* CSI-in -> Parallel-out */
+> > > +	TC358746_CSI_TX  /* Parallel-in -> CSI-out */
+> > > +};
+> > > +
+> > > +struct tc358746_state {
+> > > +	struct v4l2_subdev sd;
+> > > +	struct i2c_client *i2c_client;
+> > > +	struct gpio_desc *reset_gpio;
+> > > +
+> > > +	/*
+> > > +	 * Generic
+> > > +	 */
+> > > +	struct media_pad pads[2];
+> > > +	struct mutex confctl_mutex;
+> > > +	struct v4l2_mbus_framefmt fmt;
+> > > +	struct v4l2_ctrl_handler hdl;
+> > > +	bool fmt_changed;
+> > > +	bool test;
+> > > +
+> > > +	/*
+> > > +	 * Chip Clocks
+> > > +	 */
+> > > +	struct clk  *refclk;
+> > > +	/* internal pll */
+> > > +	unsigned int pllinclk_hz;
+> > > +	u16 pll_prd;
+> > > +	u16 pll_fbd;
+> > > +
+> > > +	/*
+> > > +	 * Video Buffer
+> > > +	 */
+> > > +	u16 vb_fifo; /* The FIFO size is 511x32 */
+> > > +
+> > > +	/* currently only TC358746_CSI_TX supported */
+> > > +	enum tc358746_csi_direction csi_dir;
+> > > +
+> > > +	/*
+> > > +	 * CSI TX
+> > > +	 */
+> > > +	struct v4l2_ctrl	  *link_freq;
+> > > +	struct tc358746_csi_param *link_freq_settings;
+> > > +	u64			  *link_frequencies;
+> > > +	unsigned int		   link_frequencies_num;
+> > > +
+> > > +	/*
+> > > +	 * Parallel input
+> > > +	 */
+> > > +	struct v4l2_ctrl *sensor_pclk_ctrl;
+> > > +	struct v4l2_ctrl *sensor_hblank_ctrl;
+> > > +	unsigned int pclk;
+> > > +	unsigned int hblank;
+> > > +};
+> > > +
+> > > +struct tc358746_mbus_fmt {
+> > > +	u32 code;
+> > > +	u8 bus_width;
+> > > +	u8 bpp;		 /* total bpp */
+> > > +	u8 pdformat;	 /* peripheral data format */
+> > > +	u8 pdataf;	 /* parallel data format option */
+> > > +	u8 ppp;		 /* pclk per pixel */
+> > > +	bool csitx_only; /* format only in csi-tx mode supported */
+> > > +};
+> > > +
+> > > +/* TODO: Add other formats as required */
+> > > +static const struct tc358746_mbus_fmt tc358746_formats[] = {
+> > > +	{
+> > > +		.code = MEDIA_BUS_FMT_UYVY8_2X8,
+> > 
+> > Note that on CSI-2 V4L2 uses the one pixel / sample variants. I.e. this
+> > would be MEDIA_BUS_FMT_UYVY8_1X16.
+> 
+> Sorry but I didn't get you. The format you mentioned is...
+> 
+> > > +		.bus_width = 8,
+> > > +		.bpp = 16,
+> > > +		.pdformat = DATAFMT_PDFMT_YCBCRFMT_422_8_BIT,
+> > > +		.pdataf = CONFCTL_PDATAF_MODE0,
+> > > +		.ppp = 2,
+> > > +	}, {
+> > > +		.code = MEDIA_BUS_FMT_UYVY8_1X16,
+> 
+> here.
+
+You can support both MEDIA_BUS_FMT_UYVY8_1X16 and MEDIA_BUS_FMT_UYVY8_2X8
+on the parallel interface, but on CSI-2 they're both called
+MEDIA_BUS_FMT_UYVY8_1X16.
+
+...
+
+> > > +static int tc358746_s_power(struct v4l2_subdev *sd, int on)
+> > > +{
+> > > +	struct tc358746_state *state = to_state(sd);
+> > > +
+> > > +	/*
+> > > +	 * REF_01:
+> > > +	 * Softreset don't reset configuration registers content but is needed
+> > 
+> > "doesn't"
+> > 
+> > > +	 * during power-on to trigger a csi LP-11 state change and during
+> > > +	 * power-off to disable the csi-module.
+> > > +	 */
+> > > +	tc358746_sreset(sd);
+> > > +
+> > > +	if (state->fmt_changed) {
+> > > +		tc358746_set_buffers(sd);
+> > > +		tc358746_set_csi(sd);
+> > > +		tc358746_set_csi_color_space(sd);
+> > > +
+> > > +		/* as recommend in REF_01 */
+> > > +		tc358746_sleep_mode(sd, 1);
+> > > +		tc358746_set_pll(sd);
+> > > +		tc358746_sleep_mode(sd, 0);
+> > > +
+> > > +		state->fmt_changed = false;
+> > > +	}
+> > > +
+> > > +	tc358746_enable_csi_lanes(sd, on);
+> > > +	tc358746_enable_csi_module(sd, on);
+> > > +	tc358746_sleep_mode(sd, !on);
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static int tc358746_s_stream(struct v4l2_subdev *sd, int enable)
+> > > +{
+> > > +	tc358746_enable_stream(sd, enable);
+> > 
+> > Could you use tc358746_enable_stream() directly as the s_stream op?
+> 
+> Of course, added it for naming consistency since the enable_stream() is
+> a internal function and I didn't wanted to mix those.
+
+Please; it improves readability.
+
+> 
+> > Note that you need to call the upstream sub-device's s_stream op from here
+> > as well.
+> 
+> I tought this is done by the host driver trough iterating over the whole
+> graph?
+
+The driver starting the pipeline is only expected to call s_stream on the
+next sub-device in the pipeline.
+
+...
+
+> > > +static int tc358746_apply_fw(struct tc358746_state *state)
+> > > +{
+> > > +	struct v4l2_subdev *sd = &state->sd;
+> > > +	struct tc358746_csi_param *csi_setting;
+> > > +	int err, i;
+> > 
+> > unsigned int i
+> 
+> Yes.
+> 
+> > > +
+> > > +	for (i = 0; i < state->link_frequencies_num; i++) {
+> > > +		csi_setting = &state->link_freq_settings[i];
+> > > +
+> > > +		err = tc358746_calculate_csi_txtimings(state, csi_setting);
+> > > +		if (err) {
+> > > +			v4l2_err(sd, "Failed to calc csi-tx tminings\n");
+> > > +			return err;
+> > > +		}
+> > > +	}
+> > > +
+> > > +	/*
+> > > +	 * Set it to the hw default value. The correct value will be set during
+> > > +	 * set_fmt(), since it depends on the pclk and and the resulution.
+> > > +	 */
+> > > +	state->vb_fifo = 1;
+> > > +
+> > > +	err = clk_prepare_enable(state->refclk);
+> > > +	if (err) {
+> > > +		v4l2_err(sd, "Failed to enable clock\n");
+> > > +		return err;
+> > > +	}
+> > 
+> > Is there a need to keep the clock running even if the device is not
+> > streaming? Please consider adding runtime PM support. That's not strictly
+> > needed for the patch to be merged though IMO.
+> 
+> Thats a good point. The Chip can act as clk-provider fo rother devices.
+> So I would probably say yes.
+
+If this is the case, wouldn't it be appropriate to take that into account
+in DT bindings? If there's no need for that clock, then this chip could be
+powered off. If the support for that is impelemented later on, then there's
+a small risk of breaking systems where declaring those clocks was
+forgotten.
+
+-- 
+Regards,
+
+Sakari Ailus
+sakari.ailus@linux.intel.com
