@@ -2,95 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 64CBF9CEA1
-	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2019 13:53:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 37BEB9CF05
+	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2019 14:08:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731004AbfHZLxU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Aug 2019 07:53:20 -0400
-Received: from retiisi.org.uk ([95.216.213.190]:46636 "EHLO
-        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726497AbfHZLxT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Aug 2019 07:53:19 -0400
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id B341E634C88;
-        Mon, 26 Aug 2019 14:53:09 +0300 (EEST)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1i2DYb-0000Nz-IT; Mon, 26 Aug 2019 14:53:09 +0300
-Date:   Mon, 26 Aug 2019 14:53:09 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Louis Kuo <louis.kuo@mediatek.com>
-Cc:     hans.verkuil@cisco.com, laurent.pinchart+renesas@ideasonboard.com,
-        tfiga@chromium.org, keiichiw@chromium.org, matthias.bgg@gmail.com,
-        mchehab@kernel.org, yuzhao@chromium.org, zwisler@chromium.org,
-        linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, Sean.Cheng@mediatek.com,
-        sj.huang@mediatek.com, christie.yu@mediatek.com,
-        holmes.chiou@mediatek.com, frederic.chen@mediatek.com,
-        Jerry-ch.Chen@mediatek.com, jungo.lin@mediatek.com,
-        Rynn.Wu@mediatek.com, linux-media@vger.kernel.org,
-        srv_heupstream@mediatek.com, devicetree@vger.kernel.org
-Subject: Re: [RFC PATCH V3 2/4] media: platform: Add Mediatek sensor
- interface driver KConfig
-Message-ID: <20190826115309.GC826@valkosipuli.retiisi.org.uk>
-References: <1559815233-24796-1-git-send-email-louis.kuo@mediatek.com>
- <1559815233-24796-3-git-send-email-louis.kuo@mediatek.com>
+        id S1729961AbfHZMIY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Aug 2019 08:08:24 -0400
+Received: from mga17.intel.com ([192.55.52.151]:30612 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726527AbfHZMIX (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 26 Aug 2019 08:08:23 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 26 Aug 2019 05:08:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,433,1559545200"; 
+   d="scan'208";a="174188415"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+  by orsmga008.jf.intel.com with SMTP; 26 Aug 2019 05:08:17 -0700
+Received: by stinkbox (sSMTP sendmail emulation); Mon, 26 Aug 2019 15:08:16 +0300
+Date:   Mon, 26 Aug 2019 15:08:16 +0300
+From:   Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To:     Dariusz Marcinkiewicz <darekm@google.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        hverkuil-cisco@xs4all.nl,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Chris Wilson <chris@chris-wilson.co.uk>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Shashank Sharma <shashank.sharma@intel.com>,
+        Ramalingam C <ramalingam.c@intel.com>,
+        intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 2/9] drm/i915/intel_hdmi: use
+ cec_notifier_conn_(un)register
+Message-ID: <20190826120816.GX5942@intel.com>
+References: <20190814104520.6001-1-darekm@google.com>
+ <20190814104520.6001-3-darekm@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <1559815233-24796-3-git-send-email-louis.kuo@mediatek.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190814104520.6001-3-darekm@google.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jun 06, 2019 at 06:00:31PM +0800, Louis Kuo wrote:
-> This patch adds KConfig for sensor interface driver. Sensor interface
-> driver
-> is a MIPI-CSI2 host driver, namely, a HW camera interface controller.
-> It support a widely adopted, simple, high-speed protocol primarily
-> intended
-> for point-to-point image and video transmission between cameras and host
-> devices.
+On Wed, Aug 14, 2019 at 12:45:00PM +0200, Dariusz Marcinkiewicz wrote:
+> Use the new cec_notifier_conn_(un)register() functions to
+> (un)register the notifier for the HDMI connector, and fill in
+> the cec_connector_info.
 > 
-> Signed-off-by: Louis Kuo <louis.kuo@mediatek.com>
+> Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Tested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+
 > ---
->  drivers/media/platform/mtk-isp/Kconfig | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
->  create mode 100644 drivers/media/platform/mtk-isp/Kconfig
+>  drivers/gpu/drm/i915/display/intel_hdmi.c | 13 +++++++++----
+>  1 file changed, 9 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/media/platform/mtk-isp/Kconfig b/drivers/media/platform/mtk-isp/Kconfig
-> new file mode 100644
-> index 0000000..bc7fd01
-> --- /dev/null
-> +++ b/drivers/media/platform/mtk-isp/Kconfig
-> @@ -0,0 +1,17 @@
-> +config MTK_SENINF
-> +	bool "Mediatek mipi csi2 driver"
-> +	depends on VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API
-> +	depends on MEDIA_CAMERA_SUPPORT
-> +	select V4L2_FWNODE
+> diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
+> index b1ca8e5bdb56d..9fcf2c58c29c5 100644
+> --- a/drivers/gpu/drm/i915/display/intel_hdmi.c
+> +++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
+> @@ -2752,8 +2752,9 @@ intel_hdmi_connector_register(struct drm_connector *connector)
+>  
+>  static void intel_hdmi_destroy(struct drm_connector *connector)
+>  {
+> -	if (intel_attached_hdmi(connector)->cec_notifier)
+> -		cec_notifier_put(intel_attached_hdmi(connector)->cec_notifier);
+> +	struct cec_notifier *n = intel_attached_hdmi(connector)->cec_notifier;
 > +
-> +	default n
-> +	help
-> +	    This driver provides a mipi-csi2 host driver used as a
-> +	    interface to connect camera with Mediatek's
-> +	    MT8183 SOCs. It is able to handle multiple cameras
-> +	    at the same time.
+> +	cec_notifier_conn_unregister(n);
+>  
+>  	intel_connector_destroy(connector);
+>  }
+> @@ -3068,6 +3069,7 @@ void intel_hdmi_init_connector(struct intel_digital_port *intel_dig_port,
+>  	struct drm_device *dev = intel_encoder->base.dev;
+>  	struct drm_i915_private *dev_priv = to_i915(dev);
+>  	enum port port = intel_encoder->port;
+> +	struct cec_connector_info conn_info;
+>  
+>  	DRM_DEBUG_KMS("Adding HDMI connector on port %c\n",
+>  		      port_name(port));
+> @@ -3120,8 +3122,11 @@ void intel_hdmi_init_connector(struct intel_digital_port *intel_dig_port,
+>  		I915_WRITE(PEG_BAND_GAP_DATA, (temp & ~0xf) | 0xd);
+>  	}
+>  
+> -	intel_hdmi->cec_notifier = cec_notifier_get_conn(dev->dev,
+> -							 port_identifier(port));
+> +	cec_fill_conn_info_from_drm(&conn_info, connector);
 > +
-> +	    Choose y if you want to use Mediatek SoCs to create image
-> +	    capture application such as video recording and still image
-> +	    capture.
-
-Rather than being a separate patch, this should go in with the driver.
-
-The DT bindings should precede the driver, and you'll need a MAINTAINERS
-entry for the driver, too.
+> +	intel_hdmi->cec_notifier =
+> +		cec_notifier_conn_register(dev->dev, port_identifier(port),
+> +					   &conn_info);
+>  	if (!intel_hdmi->cec_notifier)
+>  		DRM_DEBUG_KMS("CEC notifier get failed\n");
+>  }
+> -- 
+> 2.23.0.rc1.153.gdeed80330f-goog
 
 -- 
-Sakari Ailus
+Ville Syrjälä
+Intel
