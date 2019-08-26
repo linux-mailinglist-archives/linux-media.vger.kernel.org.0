@@ -2,113 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 37BEB9CF05
-	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2019 14:08:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B1C739CF15
+	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2019 14:10:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729961AbfHZMIY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Aug 2019 08:08:24 -0400
-Received: from mga17.intel.com ([192.55.52.151]:30612 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726527AbfHZMIX (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Aug 2019 08:08:23 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 26 Aug 2019 05:08:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,433,1559545200"; 
-   d="scan'208";a="174188415"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
-  by orsmga008.jf.intel.com with SMTP; 26 Aug 2019 05:08:17 -0700
-Received: by stinkbox (sSMTP sendmail emulation); Mon, 26 Aug 2019 15:08:16 +0300
-Date:   Mon, 26 Aug 2019 15:08:16 +0300
-From:   Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To:     Dariusz Marcinkiewicz <darekm@google.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        hverkuil-cisco@xs4all.nl,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Chris Wilson <chris@chris-wilson.co.uk>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Shashank Sharma <shashank.sharma@intel.com>,
-        Ramalingam C <ramalingam.c@intel.com>,
-        intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 2/9] drm/i915/intel_hdmi: use
- cec_notifier_conn_(un)register
-Message-ID: <20190826120816.GX5942@intel.com>
-References: <20190814104520.6001-1-darekm@google.com>
- <20190814104520.6001-3-darekm@google.com>
+        id S1731678AbfHZMI6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Aug 2019 08:08:58 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:32995 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727182AbfHZMI5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 26 Aug 2019 08:08:57 -0400
+Received: from [IPv6:2001:983:e9a7:1:3421:ddcd:2260:77e4] ([IPv6:2001:983:e9a7:1:3421:ddcd:2260:77e4])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id 2DnoivsWpzaKO2DnpiEt5c; Mon, 26 Aug 2019 14:08:55 +0200
+Subject: Re: [PATCH] [media] pvrusb2: qctrl.flag will be uninitlaized if
+ cx2341x_ctrl_query() returns error code
+To:     Yizhuo <yzhai003@ucr.edu>
+Cc:     csong@cs.ucr.edu, zhiyunq@cs.ucr.edu, Mike Isely <isely@pobox.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190821210931.9621-1-yzhai003@ucr.edu>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <afa0a08e-30ff-7958-fb09-3e3d58d47f0e@xs4all.nl>
+Date:   Mon, 26 Aug 2019 14:08:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190814104520.6001-3-darekm@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190821210931.9621-1-yzhai003@ucr.edu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfDwcIT6tNO9/GVDrH0sRQt0aTUwH+fPlmRTpdVHKBckIdbH3YFr1Z6AGBVTpS6cyuw4jyZe/AcLv8ZZcWI4XxcqxmmbJNOyr6sAAKaEg9G6QwnMcR+MF
+ u+awvo0OMh1LJe2MDzkot0Og+T5QbaD/nfMECZVsvyN3lzBwXKD7o2UTmubNJrDPdH9HCrVX7ARgH/HjHU1dxWz7KrJgS9hMeq1G9UA0yOoNEoqhNgeb9Pb2
+ fXhZWsir13gThVeCSgW2pQnKilpd90B2ANJw5vfwd1foeVMB88PymS7D7xZbNP80GN/QUpZKDqiE2wAT4Mk5c+toYq9qjY2qf9FpFn3I1Ylj+hlfD1en7Pu8
+ xnWizPNnbLOSWibg/YShLaVCoKLwnLGqAWZpUCmm1WjHBaJl3eyKYQKNeZox+UijyMq8q5chqBr6CsW6mOsIdcRCzVy433ZrP1YQTdFgfE9j/apPOKo=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Aug 14, 2019 at 12:45:00PM +0200, Dariusz Marcinkiewicz wrote:
-> Use the new cec_notifier_conn_(un)register() functions to
-> (un)register the notifier for the HDMI connector, and fill in
-> the cec_connector_info.
+On 8/21/19 11:09 PM, Yizhuo wrote:
+> Inside function ctrl_cx2341x_getv4lflags(), qctrl.flag
+> will be uninitlaized if cx2341x_ctrl_query() returns -EINVAL.
+> However, it will be used in the later if statement, which is
+> potentially unsafe.
 > 
-> Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Tested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-
-Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-
+> Signed-off-by: Yizhuo <yzhai003@ucr.edu>
 > ---
->  drivers/gpu/drm/i915/display/intel_hdmi.c | 13 +++++++++----
->  1 file changed, 9 insertions(+), 4 deletions(-)
+>  drivers/media/usb/pvrusb2/pvrusb2-hdw.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
-> index b1ca8e5bdb56d..9fcf2c58c29c5 100644
-> --- a/drivers/gpu/drm/i915/display/intel_hdmi.c
-> +++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
-> @@ -2752,8 +2752,9 @@ intel_hdmi_connector_register(struct drm_connector *connector)
->  
->  static void intel_hdmi_destroy(struct drm_connector *connector)
->  {
-> -	if (intel_attached_hdmi(connector)->cec_notifier)
-> -		cec_notifier_put(intel_attached_hdmi(connector)->cec_notifier);
-> +	struct cec_notifier *n = intel_attached_hdmi(connector)->cec_notifier;
-> +
-> +	cec_notifier_conn_unregister(n);
->  
->  	intel_connector_destroy(connector);
->  }
-> @@ -3068,6 +3069,7 @@ void intel_hdmi_init_connector(struct intel_digital_port *intel_dig_port,
->  	struct drm_device *dev = intel_encoder->base.dev;
->  	struct drm_i915_private *dev_priv = to_i915(dev);
->  	enum port port = intel_encoder->port;
-> +	struct cec_connector_info conn_info;
->  
->  	DRM_DEBUG_KMS("Adding HDMI connector on port %c\n",
->  		      port_name(port));
-> @@ -3120,8 +3122,11 @@ void intel_hdmi_init_connector(struct intel_digital_port *intel_dig_port,
->  		I915_WRITE(PEG_BAND_GAP_DATA, (temp & ~0xf) | 0xd);
->  	}
->  
-> -	intel_hdmi->cec_notifier = cec_notifier_get_conn(dev->dev,
-> -							 port_identifier(port));
-> +	cec_fill_conn_info_from_drm(&conn_info, connector);
-> +
-> +	intel_hdmi->cec_notifier =
-> +		cec_notifier_conn_register(dev->dev, port_identifier(port),
-> +					   &conn_info);
->  	if (!intel_hdmi->cec_notifier)
->  		DRM_DEBUG_KMS("CEC notifier get failed\n");
->  }
-> -- 
-> 2.23.0.rc1.153.gdeed80330f-goog
+> diff --git a/drivers/media/usb/pvrusb2/pvrusb2-hdw.c b/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
+> index ad5b25b89699..1fa05971316a 100644
+> --- a/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
+> +++ b/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
+> @@ -793,6 +793,7 @@ static unsigned int ctrl_cx2341x_getv4lflags(struct pvr2_ctrl *cptr)
+>  	struct v4l2_queryctrl qctrl;
+>  	struct pvr2_ctl_info *info;
+>  	qctrl.id = cptr->info->v4l_id;
+> +	memset(&qctr, 0, sizeof(qctrl))
 
--- 
-Ville Syrjälä
-Intel
+Please compile test your patches! This doesn't compile due to a typo
+(qctr -> qctrl).
+
+Also, this would overwrite qctrl.id with 0, not what you want.
+
+Instead, just do:
+
+  	struct v4l2_queryctrl qctrl = {};
+
+to initialize the struct with all 0.
+
+Regards,
+
+	Hans
+
+>  	cx2341x_ctrl_query(&cptr->hdw->enc_ctl_state,&qctrl);
+>  	/* Strip out the const so we can adjust a function pointer.  It's
+>  	   OK to do this here because we know this is a dynamically created
+> 
+
