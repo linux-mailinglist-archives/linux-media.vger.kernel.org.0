@@ -2,21 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D6FAC9C9ED
-	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2019 09:11:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 651979CA64
+	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2019 09:30:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729892AbfHZHK4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Aug 2019 03:10:56 -0400
-Received: from relay10.mail.gandi.net ([217.70.178.230]:54963 "EHLO
-        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729625AbfHZHK4 (ORCPT
+        id S1729998AbfHZH2x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Aug 2019 03:28:53 -0400
+Received: from relay5-d.mail.gandi.net ([217.70.183.197]:42881 "EHLO
+        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729925AbfHZH2x (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Aug 2019 03:10:56 -0400
+        Mon, 26 Aug 2019 03:28:53 -0400
+X-Originating-IP: 87.18.63.98
 Received: from uno.localdomain (unknown [87.18.63.98])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay10.mail.gandi.net (Postfix) with ESMTPSA id D9699240010;
-        Mon, 26 Aug 2019 07:10:49 +0000 (UTC)
-Date:   Mon, 26 Aug 2019 09:12:16 +0200
+        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id D4DF51C0005;
+        Mon, 26 Aug 2019 07:28:48 +0000 (UTC)
+Date:   Mon, 26 Aug 2019 09:30:19 +0200
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Ricardo Ribalda Delgado <ribalda@kernel.org>
 Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
@@ -25,11 +26,11 @@ Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v3 1/7] media: add V4L2_CID_UNIT_CELL_SIZE control
-Message-ID: <20190826071216.i5k5dwvqutv6lu2u@uno.localdomain>
+Message-ID: <20190826073019.2h2ubmiyglzlkpef@uno.localdomain>
 References: <20190823123737.7774-1-ribalda@kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="gy5q44t4rn2cb7ev"
+        protocol="application/pgp-signature"; boundary="t4iz3dil4g5c3p7z"
 Content-Disposition: inline
 In-Reply-To: <20190823123737.7774-1-ribalda@kernel.org>
 User-Agent: NeoMutt/20180716
@@ -39,7 +40,7 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---gy5q44t4rn2cb7ev
+--t4iz3dil4g5c3p7z
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 
@@ -115,6 +116,17 @@ On Fri, Aug 23, 2019 at 02:37:31PM +0200, Ricardo Ribalda Delgado wrote:
 >   * @p_h264_decode_params:	Pointer to a struct v4l2_ctrl_h264_decode_params.
 >   * @p_vp8_frame_header:		Pointer to a VP8 frame header structure.
 > + * @p_area:			Pointer to an area.
+
+Actually:
+"Pointer to a struct v4l2_area" ?
+
+Also,, I'm not sure which patch introduces this but I see a new
+warning when building documentation:
+.../Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-ctrl-type-area (if the link has no caption the label must precede a section header)
+
+Thanks
+   j
+
 >   * @p:				Pointer to a compound value.
 >   */
 >  union v4l2_ctrl_ptr {
@@ -163,14 +175,6 @@ On Fri, Aug 23, 2019 at 02:37:31PM +0200, Ricardo Ribalda Delgado wrote:
 > +	 * V4L2_CTRL_TYPE_MPEG2_QUANTIZATION = 0x0104,
 > +	 * V4L2_CTRL_TYPE_FWHT_PARAMS = 0x0105,
 > +	 */
-
-With a confirmation from Hans and others this comments fits here
-
-Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
-
-Thanks
-   j
-
 > +	V4L2_CTRL_TYPE_AREA    = 0x0106,
 >  };
 >
@@ -179,24 +183,24 @@ Thanks
 > 2.23.0.rc1
 >
 
---gy5q44t4rn2cb7ev
+--t4iz3dil4g5c3p7z
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl1jhksACgkQcjQGjxah
-VjwavRAAs3r3di+gEr5tGXIuX2dim23hkoLbcBHiJqMuJR3JZMizC3UGSE3AAkb+
-1fczYyNCP8bvrgMIOBTGgwfidHfVV7bTeAfs67CO4f2RHIBYZbPx+UeXvTaMU/yc
-E4vSRjpAcLOSCysE4S7d/XRjWbGGYxRm+szPsKWW/4Hmw3Q4tgZlDklddy29yUdy
-QWk5GpA0RuhqJ4VCP1K/xPfeTF0RydVArkqMjSY9GKmhdSeNBB0fSnoDgoA5W7LU
-aOuF5hlfIqjW1RX7PDKI27And9+e4PwGujyeAqxWBcIc1kNhXeIlrhVHy2jpc9AC
-w+uNP3tGbzC1UNVpFL5Af2HSGbXgBg17cIwQeD3TKEZ5bEeZ1b0QPZ78ru+akEBz
-aPuM6EO6TAHAjqLhMsHaFIsD84A6bgs7S2b4PkHIBv3aJGFx4etWj65xvWLNAK8M
-9R8amaMEjzAqyw03SgS2/f6gkXGCql0A2mTMRwKNjYlbnNank242eOn17oz+oOHf
-zQfs40W3/FedXYSwfMnwpADlLuJ6/Adi4kMvrn7vgiEKkIz/BrTfhzo3fZAByp9b
-nRZWdZYGm53lggbt6tHsJkc0MNsFym49rUI6Cb1bjDLqEinqPobMfZU4SDY6TrjK
-u1DvSlYLlIojnBRng6LiHqP1lYasemB9eukghI9/X5yBph7CMuA=
-=h7S+
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl1jiosACgkQcjQGjxah
+VjzEBQ/8CWb6x5I7kqxsbMBDKxZlyPQQCm3vt4BQ9NagdFYVLAJuUI7fpxsSFDmQ
+7b4/ehsoKmrfNvmDUWsGXIpqicEgPQXa+06lZXYTE81O2Frw0SExjXsfhzKS90NE
+Dl4EsSZ090JGIbT/XCWiOArHBy0MNwKA1EF4N0B7uRmGXbUQ/oWW5rDHsG6JVjjF
+qqijzKLnWJ1LlMxPm8i8+ZGpe1AtMc5qMWos5z9ccEHhW9VcR3S/5taLzJwr24ww
+8QqeCKmmYX4lbKKfGIvNHaOvBmUQJGkuNH3qL3YfWjryjpg3sKrSWqhURb801s/Z
+xmOdYZ98EV7/i+CIDZ/F7h3IgbAlgowhRYpSKVnUDwE90WgGluMPDlIQ3oHigX+t
+aReavk+OQNcUsJlYVk6yXioqFlkcWAQAeIsltVWwtey1wzCBEQUzHHZ/FWfl+bl0
+G+PYc0PGsJb9rnnkWjrwaeinkKlt31Ue4Lg0nS5uXy6BfCrM+gQx9hCYXVShmKB0
+FIqpF2JGeZdOvfJHdFsi5iFxPrEABiIhTfMP/IxI8xWEhr29HwKivgcjR0OEcmZ/
+elAJKk2N5HGQFrTD6DTFmyHNV8ODArVzJnTlbqG12fhgyJFj1/P0/fEUgQQ+g0P0
+IofjY7a765Uy2QvIqZ/LOHHo9GyfNe/MX+uaAyOc3+dWf883Bak=
+=M5VN
 -----END PGP SIGNATURE-----
 
---gy5q44t4rn2cb7ev--
+--t4iz3dil4g5c3p7z--
