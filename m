@@ -2,147 +2,201 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DAA749C9C0
-	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2019 09:00:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D6FAC9C9ED
+	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2019 09:11:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729847AbfHZHAZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Aug 2019 03:00:25 -0400
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:33680 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729437AbfHZHAZ (ORCPT
+        id S1729892AbfHZHK4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Aug 2019 03:10:56 -0400
+Received: from relay10.mail.gandi.net ([217.70.178.230]:54963 "EHLO
+        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729625AbfHZHK4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Aug 2019 03:00:25 -0400
-Received: by mail-ed1-f68.google.com with SMTP id s15so25026676edx.0
-        for <linux-media@vger.kernel.org>; Mon, 26 Aug 2019 00:00:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nTkNb4qhu4LWrFg09llWi3oBh88pK95w54xsWrsdjT0=;
-        b=WRcwatvAI0WEvdFUv/sT0oyCxKW9JAWDmzw43+hawcVPvkP4MC+sOxq613oe7+u4MD
-         bjj8wG02Jk6cwVwZCt36tlQmALBdiNQObpjmpl0NVmcWhLPGKFfJioYsChUsQ2SvXU+Z
-         +1RwYI0ZvOyR/CpVy0n1vVMkrI8RqOW2IPN3E=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nTkNb4qhu4LWrFg09llWi3oBh88pK95w54xsWrsdjT0=;
-        b=fHDex3u1dFNtcSifPoEUqR5uMRuQzM1PGOa7lwpos1nrJEmIeFQALVAPyc1j+ykcQC
-         KGZ2zSRihq4HCvpqB+vZPrQRNtczUbJ3OQuIo/jdOyoWbxI6WWeE+VnWFxHu0H3Op619
-         pg8ZrZ96Riwy2xJ3NcdRPi7u0no3bRJiF1I6o0Z4U2OSDHu1XFN75AFWA84uU7ixbm8h
-         yKLMMR0D/pYzontsszo6p9cIcPZMQ0Q/QexbvSVfNHZhFLY0JmQsBxVV76HFRG8pNoUa
-         QcvkxrKv3CQhPTjdZBjKE4PKBU4VBytKVQni8Od0/r5X60YfRpFAdsGCW/gCEd6IxY9M
-         TZoA==
-X-Gm-Message-State: APjAAAUvyo4TSDGFFR5vYfarDcyAb+a+BTrlrdOg9s9Ak/TkAT4pRku2
-        wJUxdCta3QLL2G9aiIuKh1P1sTTX7Rjb8g==
-X-Google-Smtp-Source: APXvYqz3TNS37+1cl+fXdnaoMAOwxFxemQQpQC5HGPGhkHDM1VJ1RJbt2/gGoSb1/9VW2Y8adYKoog==
-X-Received: by 2002:a05:6402:170f:: with SMTP id y15mr17651378edu.55.1566802824037;
-        Mon, 26 Aug 2019 00:00:24 -0700 (PDT)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com. [209.85.221.49])
-        by smtp.gmail.com with ESMTPSA id c1sm1097105edn.62.2019.08.26.00.00.23
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Aug 2019 00:00:23 -0700 (PDT)
-Received: by mail-wr1-f49.google.com with SMTP id g17so14197948wrr.5
-        for <linux-media@vger.kernel.org>; Mon, 26 Aug 2019 00:00:23 -0700 (PDT)
-X-Received: by 2002:adf:fc03:: with SMTP id i3mr19059644wrr.48.1566802476916;
- Sun, 25 Aug 2019 23:54:36 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190819034331.13098-1-dongchun.zhu@mediatek.com>
- <20190819034331.13098-3-dongchun.zhu@mediatek.com> <20190821103038.GA148543@chromium.org>
- <20190821110542.GD31967@paasikivi.fi.intel.com>
-In-Reply-To: <20190821110542.GD31967@paasikivi.fi.intel.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Mon, 26 Aug 2019 15:54:25 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5A-ze9FgDqNpPgyu7gA3nQPUW_G0zEG8ThNGjVEb=_jjA@mail.gmail.com>
-Message-ID: <CAAFQd5A-ze9FgDqNpPgyu7gA3nQPUW_G0zEG8ThNGjVEb=_jjA@mail.gmail.com>
-Subject: Re: [V3, 2/2] media: i2c: Add Omnivision OV02A10 camera sensor driver
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     dongchun.zhu@mediatek.com,
+        Mon, 26 Aug 2019 03:10:56 -0400
+Received: from uno.localdomain (unknown [87.18.63.98])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id D9699240010;
+        Mon, 26 Aug 2019 07:10:49 +0000 (UTC)
+Date:   Mon, 26 Aug 2019 09:12:16 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Ricardo Ribalda Delgado <ribalda@kernel.org>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nicolas Boichat <drinkcat@chromium.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Cao Bing Bu <bingbu.cao@intel.com>,
-        srv_heupstream <srv_heupstream@mediatek.com>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
-        Sj Huang <sj.huang@mediatek.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        devicetree@vger.kernel.org, Louis Kuo <louis.kuo@mediatek.com>,
-        shengnan.wang@mediatek.com
-Content-Type: text/plain; charset="UTF-8"
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/7] media: add V4L2_CID_UNIT_CELL_SIZE control
+Message-ID: <20190826071216.i5k5dwvqutv6lu2u@uno.localdomain>
+References: <20190823123737.7774-1-ribalda@kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="gy5q44t4rn2cb7ev"
+Content-Disposition: inline
+In-Reply-To: <20190823123737.7774-1-ribalda@kernel.org>
+User-Agent: NeoMutt/20180716
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Aug 21, 2019 at 8:05 PM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
+
+--gy5q44t4rn2cb7ev
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+
+Hi Ricardo,
+
+On Fri, Aug 23, 2019 at 02:37:31PM +0200, Ricardo Ribalda Delgado wrote:
+> This control returns the unit cell size in nanometres. The struct provides
+> the width and the height in separated fields to take into consideration
+> asymmetric pixels and/or hardware binning.
+> This control is required for automatic calibration of sensors/cameras.
 >
-> Hi Tomasz,
+> Signed-off-by: Ricardo Ribalda Delgado <ribalda@kernel.org>
+> ---
+> v3:
+> -Put together all actions on ctrl_fill
+> -Move the control to IMAGE_SOURCE
 >
-> On Wed, Aug 21, 2019 at 07:30:38PM +0900, Tomasz Figa wrote:
-[snip]
-> > Is it really correct to enable the clock before the regulators?
-> >
-> > According to the datasheet, it should be:
-> >  - PD pin HIGH,
-> >  - nRST pin LOW,
-> >  - DVDDIO and AVDD28 power up and stabilize,
-> >  - clock enabled,
-> >  - min 5 ms delay,
-> >  - PD pin LOW,
-> >  - min 4 ms delay,
-> >  - nRST pin HIGH,
-> >  - min 5 ms delay,
-> >  - I2C interface ready.
-> >
-> > > +
-> > > +   /* Note: set 0 is high, set 1 is low */
-> >
-> > Why is that? If there is some inverter on the way that should be handled
-> > outside of this driver. (GPIO DT bindings have flags for this purpose.
-> >
-> > If the pins are nRESET and nPOWERDOWN in the hardware datasheet, we should
-> > call them like this in the driver too (+/- the lowercase and underscore
-> > convention).
-> >
-> > According to the datasheet, the reset pin is called RST and inverted, so we should
-> > call it n_rst, but the powerdown signal, called PD, is not inverted, so pd
-> > would be the right name.
+>  drivers/media/v4l2-core/v4l2-ctrls.c | 11 +++++++++++
+>  include/media/v4l2-ctrls.h           |  2 ++
+>  include/uapi/linux/v4l2-controls.h   |  1 +
+>  include/uapi/linux/videodev2.h       | 11 +++++++++++
+>  4 files changed, 25 insertions(+)
 >
-> For what it's worth sensors generally have xshutdown (or reset) pin that is
-> active high. Looking at the code, it is not the case here. It's a bit odd
-> since the usual arrangement saves power when the camera is not in use; it's
-> not a lot but still. Oh well.
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+> index 1d8f38824631..b3bf458df7f7 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+> @@ -994,6 +994,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+>  	case V4L2_CID_AUTO_FOCUS_RANGE:		return "Auto Focus, Range";
+>  	case V4L2_CID_PAN_SPEED:		return "Pan, Speed";
+>  	case V4L2_CID_TILT_SPEED:		return "Tilt, Speed";
+> +	case V4L2_CID_UNIT_CELL_SIZE:		return "Unit Cell Size";
+>
+>  	/* FM Radio Modulator controls */
+>  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+> @@ -1375,6 +1376,10 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+>  	case V4L2_CID_MPEG_VIDEO_VP8_FRAME_HEADER:
+>  		*type = V4L2_CTRL_TYPE_VP8_FRAME_HEADER;
+>  		break;
+> +	case V4L2_CID_UNIT_CELL_SIZE:
+> +		*type = V4L2_CTRL_TYPE_AREA;
+> +		*flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> +		break;
+>  	default:
+>  		*type = V4L2_CTRL_TYPE_INTEGER;
+>  		break;
+> @@ -1723,6 +1728,9 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+>  	case V4L2_CTRL_TYPE_FWHT_PARAMS:
+>  		break;
+>
+> +	case V4L2_CTRL_TYPE_AREA:
+> +		break;
+> +
+>  	case V4L2_CTRL_TYPE_H264_SPS:
+>  	case V4L2_CTRL_TYPE_H264_PPS:
+>  	case V4L2_CTRL_TYPE_H264_SCALING_MATRIX:
+> @@ -2421,6 +2429,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
+>  	case V4L2_CTRL_TYPE_VP8_FRAME_HEADER:
+>  		elem_size = sizeof(struct v4l2_ctrl_vp8_frame_header);
+>  		break;
+> +	case V4L2_CTRL_TYPE_AREA:
+> +		elem_size = sizeof(struct v4l2_area);
+> +		break;
+>  	default:
+>  		if (type < V4L2_CTRL_COMPOUND_TYPES)
+>  			elem_size = sizeof(s32);
+> diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
+> index 570ff4b0205a..9a3d11350e67 100644
+> --- a/include/media/v4l2-ctrls.h
+> +++ b/include/media/v4l2-ctrls.h
+> @@ -50,6 +50,7 @@ struct poll_table_struct;
+>   * @p_h264_slice_params:	Pointer to a struct v4l2_ctrl_h264_slice_params.
+>   * @p_h264_decode_params:	Pointer to a struct v4l2_ctrl_h264_decode_params.
+>   * @p_vp8_frame_header:		Pointer to a VP8 frame header structure.
+> + * @p_area:			Pointer to an area.
+>   * @p:				Pointer to a compound value.
+>   */
+>  union v4l2_ctrl_ptr {
+> @@ -68,6 +69,7 @@ union v4l2_ctrl_ptr {
+>  	struct v4l2_ctrl_h264_slice_params *p_h264_slice_params;
+>  	struct v4l2_ctrl_h264_decode_params *p_h264_decode_params;
+>  	struct v4l2_ctrl_vp8_frame_header *p_vp8_frame_header;
+> +	struct v4l2_area *p_area;
+>  	void *p;
+>  };
+>
+> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> index a2669b79b294..5a7bedee2b0e 100644
+> --- a/include/uapi/linux/v4l2-controls.h
+> +++ b/include/uapi/linux/v4l2-controls.h
+> @@ -1034,6 +1034,7 @@ enum v4l2_jpeg_chroma_subsampling {
+>  #define V4L2_CID_TEST_PATTERN_GREENR		(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 5)
+>  #define V4L2_CID_TEST_PATTERN_BLUE		(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 6)
+>  #define V4L2_CID_TEST_PATTERN_GREENB		(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 7)
+> +#define V4L2_CID_UNIT_CELL_SIZE			(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 8)
+>
+>
+>  /* Image processing controls */
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 530638dffd93..05cfc69d7ed6 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -422,6 +422,11 @@ struct v4l2_fract {
+>  	__u32   denominator;
+>  };
+>
+> +struct v4l2_area {
+> +	__u32   width;
+> +	__u32   height;
+> +};
+> +
+>  /**
+>    * struct v4l2_capability - Describes V4L2 device caps returned by VIDIOC_QUERYCAP
+>    *
+> @@ -1720,6 +1725,12 @@ enum v4l2_ctrl_type {
+>  	V4L2_CTRL_TYPE_U8	     = 0x0100,
+>  	V4L2_CTRL_TYPE_U16	     = 0x0101,
+>  	V4L2_CTRL_TYPE_U32	     = 0x0102,
+> +	/*
+> +	 * V4L2_CTRL_TYPE_MPEG2_SLICE_PARAMS = 0x0103,
+> +	 * V4L2_CTRL_TYPE_MPEG2_QUANTIZATION = 0x0104,
+> +	 * V4L2_CTRL_TYPE_FWHT_PARAMS = 0x0105,
+> +	 */
+
+With a confirmation from Hans and others this comments fits here
+
+Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+
+Thanks
+   j
+
+> +	V4L2_CTRL_TYPE_AREA    = 0x0106,
+>  };
+>
+>  /*  Used in the VIDIOC_QUERYCTRL ioctl for querying controls */
+> --
+> 2.23.0.rc1
 >
 
-I guess we could drive powerdown low after disabling the regulators
-and clocks, but that wouldn't work for the cases where the regulators
-are actually shared with something else, especially if that is not
-related to the same camera module.
+--gy5q44t4rn2cb7ev
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> ...
->
-> > > +static struct i2c_driver ov02a10_i2c_driver = {
-> > > +   .driver = {
-> > > +           .name = "ov02a10",
-> > > +           .pm = &ov02a10_pm_ops,
-> > > +           .of_match_table = ov02a10_of_match,
-> >
-> > Please use of_match_ptr() wrapper.
->
-> Not really needed; the driver does expect regulators, GPIOs etc., but by
-> leaving out of_match_ptr(), the driver will also probe on ACPI based
-> systems.
+-----BEGIN PGP SIGNATURE-----
 
-Good point, I always keep forgetting about the ability to probe OF
-drivers from ACPI. Then we also need to remove the #if
-IS_ENABLED(CONFIG_OF) from ov02a10_of_match.
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl1jhksACgkQcjQGjxah
+VjwavRAAs3r3di+gEr5tGXIuX2dim23hkoLbcBHiJqMuJR3JZMizC3UGSE3AAkb+
+1fczYyNCP8bvrgMIOBTGgwfidHfVV7bTeAfs67CO4f2RHIBYZbPx+UeXvTaMU/yc
+E4vSRjpAcLOSCysE4S7d/XRjWbGGYxRm+szPsKWW/4Hmw3Q4tgZlDklddy29yUdy
+QWk5GpA0RuhqJ4VCP1K/xPfeTF0RydVArkqMjSY9GKmhdSeNBB0fSnoDgoA5W7LU
+aOuF5hlfIqjW1RX7PDKI27And9+e4PwGujyeAqxWBcIc1kNhXeIlrhVHy2jpc9AC
+w+uNP3tGbzC1UNVpFL5Af2HSGbXgBg17cIwQeD3TKEZ5bEeZ1b0QPZ78ru+akEBz
+aPuM6EO6TAHAjqLhMsHaFIsD84A6bgs7S2b4PkHIBv3aJGFx4etWj65xvWLNAK8M
+9R8amaMEjzAqyw03SgS2/f6gkXGCql0A2mTMRwKNjYlbnNank242eOn17oz+oOHf
+zQfs40W3/FedXYSwfMnwpADlLuJ6/Adi4kMvrn7vgiEKkIz/BrTfhzo3fZAByp9b
+nRZWdZYGm53lggbt6tHsJkc0MNsFym49rUI6Cb1bjDLqEinqPobMfZU4SDY6TrjK
+u1DvSlYLlIojnBRng6LiHqP1lYasemB9eukghI9/X5yBph7CMuA=
+=h7S+
+-----END PGP SIGNATURE-----
 
-Best regards,
-Tomasz
+--gy5q44t4rn2cb7ev--
