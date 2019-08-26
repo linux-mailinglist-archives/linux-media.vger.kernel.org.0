@@ -2,256 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E8A19D146
-	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2019 16:03:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0AAC9D151
+	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2019 16:05:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729808AbfHZODZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Aug 2019 10:03:25 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:38374 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727091AbfHZODZ (ORCPT
+        id S1731409AbfHZOFs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Aug 2019 10:05:48 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:47992 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730914AbfHZOFs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Aug 2019 10:03:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=wX6I3CgY5ii/0V5lSY8XYLXld4/q9FwHsoS6vZXO1rI=; b=PBa8AYPAYsYuC4oLnRVJnWELm
-        jb4RvDkRkpRoBoV6YDgTOQptlIwRC1oTsbe0S84cQT6uy0vYmlQw/o1acc0grNGGwbEqj0BHAwZtM
-        SRSs7rV14L1nqsCB5FBLzQHHNu+82J5M+lHvFHMqqAQa4bned7VN7RfAtMOEkaGDAzNLgWrzN6pBo
-        uC5UGbO0xjyJ3i7XA6X4CdUHc/4fgcQfGvA6yytzZ/WhyeeHS1d5IYBybwq4yOy9ZAdArHUf84EMt
-        NhETUDo57JEMCq2wOEV2qHFLjvyqZ+NAAKAKt9We2m5qHhavFVJWK7KscXq8WMa4nmD/fDRPMBi7L
-        YOm3UqZ5Q==;
-Received: from 177.17.135.157.dynamic.adsl.gvt.net.br ([177.17.135.157] helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1i2Fad-0007ST-Be; Mon, 26 Aug 2019 14:03:23 +0000
-Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
-        (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1i2FaZ-0003of-Dp; Mon, 26 Aug 2019 11:03:19 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH] v4l2-core: fix coding style for the two new c files
-Date:   Mon, 26 Aug 2019 11:03:18 -0300
-Message-Id: <cc14c00c478ce503c28856e7b2425aae5bc7b31e.1566828181.git.mchehab+samsung@kernel.org>
-X-Mailer: git-send-email 2.21.0
+        Mon, 26 Aug 2019 10:05:48 -0400
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 8BCBD634C87;
+        Mon, 26 Aug 2019 17:05:36 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1i2Fcm-0000Q9-D9; Mon, 26 Aug 2019 17:05:36 +0300
+Date:   Mon, 26 Aug 2019 17:05:36 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Stu Hsieh <stu.hsieh@mediatek.com>
+Cc:     CK Hu <ck.hu@mediatek.com>, Tomasz Figa <tfiga@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        devicetree@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
+        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        srv_heupstream <srv_heupstream@mediatek.com>
+Subject: Re: [PATCH v4 01/14] dt-bindings: Add binding for MT2712 MIPI-CSI2
+Message-ID: <20190826140536.GE826@valkosipuli.retiisi.org.uk>
+References: <1559643115-15124-1-git-send-email-stu.hsieh@mediatek.com>
+ <1559643115-15124-2-git-send-email-stu.hsieh@mediatek.com>
+ <1560134057.28527.5.camel@mtksdaap41>
+ <CAHD77H=vuPi2Rj4Mw-CQ2=UYX7YnS8w8FpUk0QTVxNUVLWKbJg@mail.gmail.com>
+ <1560153073.31854.6.camel@mtksdaap41>
+ <CAAFQd5DDE-L7mW8sTXVYOTLZ8yi3+X6Q3O73fJ61e1aUoeddgg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAAFQd5DDE-L7mW8sTXVYOTLZ8yi3+X6Q3O73fJ61e1aUoeddgg@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-As I2C and SPI parts of the V4L2 core got split, let's take
-the chance and solve the CodingStyle issues there, as reported
-by checkpatch --strict.
+On Mon, Jun 10, 2019 at 04:58:02PM +0900, Tomasz Figa wrote:
+> On Mon, Jun 10, 2019 at 4:51 PM CK Hu <ck.hu@mediatek.com> wrote:
+> >
+> > Hi, Tomasz:
+> >
+> > On Mon, 2019-06-10 at 12:32 +0900, Tomasz Figa wrote:
+> > > Hi CK, Stu,
+> > >
+> > > On Mon, Jun 10, 2019 at 11:34 AM CK Hu <ck.hu@mediatek.com> wrote:
+> > > >
+> > > > Hi, Stu:
+> > > >
+> > > > "mediatek,mt2712-mipicsi" and "mediatek,mt2712-mipicsi-common" have many
+> > > > common part with "mediatek,mt8183-seninf", and I've a discussion in [1],
+> > > > so I would like these two to be merged together.
+> > > >
+> > > > [1] https://patchwork.kernel.org/patch/10979131/
+> > > >
+> > >
+> > > Thanks CK for spotting this.
+> > >
+> > > I also noticed that the driver in fact handles two hardware blocks at
+> > > the same time - SenInf and CamSV. Unless the architecture is very
+> > > different from MT8183, I'd suggest splitting it.
+> > >
+> > > On a general note, the MT8183 SenInf driver has received several
+> > > rounds of review comments already, but I couldn't find any comments
+> > > posted for this one.
+> > >
+> > > Given the two aspects above and also based on my quick look at code
+> > > added by this series, I'd recommend adding MT2712 support on top of
+> > > the MT8183 series.
+> >
+> > In [1], "mediatek,mt8183-seninf" use one device to control multiple csi
+> > instance, so it duplicate many register definition. In [2], one
+> > "mediatek,mt2712-mipicsi" device control one csi instance, so there are
+> > multiple device and the register definition does not duplicate.
+> 
+> I guess we didn't catch that in the review yet. It should be fixed.
+> 
+> > You
+> > recommend adding MT2712 support on top of the MT8183 series, do you mean
+> > that "mediatek,mt2712-mipicsi" should use one device to control multiple
+> > csi instance and duplicate the register setting?
+> 
+> There are some aspects of MT8183 series that are done better than the
+> MT2712 series, but apparently there are also some better aspects in
+> MT2712. We should take the best aspects of both series. :)
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
----
- drivers/media/v4l2-core/v4l2-i2c.c | 66 +++++++++++++++++++-----------
- drivers/media/v4l2-core/v4l2-spi.c | 21 ++++++----
- 2 files changed, 54 insertions(+), 33 deletions(-)
+Stu: Are the two devices similar enough or not; does this look like a
+feasible approach to you?
 
-diff --git a/drivers/media/v4l2-core/v4l2-i2c.c b/drivers/media/v4l2-core/v4l2-i2c.c
-index d549291ab22b..5bf99e7c0c09 100644
---- a/drivers/media/v4l2-core/v4l2-i2c.c
-+++ b/drivers/media/v4l2-core/v4l2-i2c.c
-@@ -28,7 +28,8 @@ void v4l2_i2c_subdev_unregister(struct v4l2_subdev *sd)
- 		i2c_unregister_device(client);
- }
- 
--void v4l2_i2c_subdev_set_name(struct v4l2_subdev *sd, struct i2c_client *client,
-+void v4l2_i2c_subdev_set_name(struct v4l2_subdev *sd,
-+			      struct i2c_client *client,
- 			      const char *devname, const char *postfix)
- {
- 	if (!devname)
-@@ -42,7 +43,7 @@ void v4l2_i2c_subdev_set_name(struct v4l2_subdev *sd, struct i2c_client *client,
- EXPORT_SYMBOL_GPL(v4l2_i2c_subdev_set_name);
- 
- void v4l2_i2c_subdev_init(struct v4l2_subdev *sd, struct i2c_client *client,
--		const struct v4l2_subdev_ops *ops)
-+			  const struct v4l2_subdev_ops *ops)
- {
- 	v4l2_subdev_init(sd, ops);
- 	sd->flags |= V4L2_SUBDEV_FL_IS_I2C;
-@@ -57,9 +58,11 @@ void v4l2_i2c_subdev_init(struct v4l2_subdev *sd, struct i2c_client *client,
- EXPORT_SYMBOL_GPL(v4l2_i2c_subdev_init);
- 
- /* Load an i2c sub-device. */
--struct v4l2_subdev *v4l2_i2c_new_subdev_board(struct v4l2_device *v4l2_dev,
--		struct i2c_adapter *adapter, struct i2c_board_info *info,
--		const unsigned short *probe_addrs)
-+struct v4l2_subdev
-+*v4l2_i2c_new_subdev_board(struct v4l2_device *v4l2_dev,
-+			   struct i2c_adapter *adapter,
-+			   struct i2c_board_info *info,
-+			   const unsigned short *probe_addrs)
- {
- 	struct v4l2_subdev *sd = NULL;
- 	struct i2c_client *client;
-@@ -76,14 +79,16 @@ struct v4l2_subdev *v4l2_i2c_new_subdev_board(struct v4l2_device *v4l2_dev,
- 	else
- 		client = i2c_new_device(adapter, info);
- 
--	/* Note: by loading the module first we are certain that c->driver
--	   will be set if the driver was found. If the module was not loaded
--	   first, then the i2c core tries to delay-load the module for us,
--	   and then c->driver is still NULL until the module is finally
--	   loaded. This delay-load mechanism doesn't work if other drivers
--	   want to use the i2c device, so explicitly loading the module
--	   is the best alternative. */
--	if (client == NULL || client->dev.driver == NULL)
-+	/*
-+	 * Note: by loading the module first we are certain that c->driver
-+	 * will be set if the driver was found. If the module was not loaded
-+	 * first, then the i2c core tries to delay-load the module for us,
-+	 * and then c->driver is still NULL until the module is finally
-+	 * loaded. This delay-load mechanism doesn't work if other drivers
-+	 * want to use the i2c device, so explicitly loading the module
-+	 * is the best alternative.
-+	 */
-+	if (!client || !client->dev.driver)
- 		goto error;
- 
- 	/* Lock the module so we can safely get the v4l2_subdev pointer */
-@@ -91,35 +96,44 @@ struct v4l2_subdev *v4l2_i2c_new_subdev_board(struct v4l2_device *v4l2_dev,
- 		goto error;
- 	sd = i2c_get_clientdata(client);
- 
--	/* Register with the v4l2_device which increases the module's
--	   use count as well. */
-+	/*
-+	 * Register with the v4l2_device which increases the module's
-+	 * use count as well.
-+	 */
- 	if (v4l2_device_register_subdev(v4l2_dev, sd))
- 		sd = NULL;
- 	/* Decrease the module use count to match the first try_module_get. */
- 	module_put(client->dev.driver->owner);
- 
- error:
--	/* If we have a client but no subdev, then something went wrong and
--	   we must unregister the client. */
--	if (client && sd == NULL)
-+	/*
-+	 * If we have a client but no subdev, then something went wrong and
-+	 * we must unregister the client.
-+	 */
-+	if (client && !sd)
- 		i2c_unregister_device(client);
- 	return sd;
- }
- EXPORT_SYMBOL_GPL(v4l2_i2c_new_subdev_board);
- 
- struct v4l2_subdev *v4l2_i2c_new_subdev(struct v4l2_device *v4l2_dev,
--		struct i2c_adapter *adapter, const char *client_type,
--		u8 addr, const unsigned short *probe_addrs)
-+					struct i2c_adapter *adapter,
-+					const char *client_type,
-+					u8 addr,
-+					const unsigned short *probe_addrs)
- {
- 	struct i2c_board_info info;
- 
--	/* Setup the i2c board info with the device type and
--	   the device address. */
-+	/*
-+	 * Setup the i2c board info with the device type and
-+	 * the device address.
-+	 */
- 	memset(&info, 0, sizeof(info));
- 	strscpy(info.type, client_type, sizeof(info.type));
- 	info.addr = addr;
- 
--	return v4l2_i2c_new_subdev_board(v4l2_dev, adapter, &info, probe_addrs);
-+	return v4l2_i2c_new_subdev_board(v4l2_dev, adapter, &info,
-+					 probe_addrs);
- }
- EXPORT_SYMBOL_GPL(v4l2_i2c_new_subdev);
- 
-@@ -132,8 +146,10 @@ unsigned short v4l2_i2c_subdev_addr(struct v4l2_subdev *sd)
- }
- EXPORT_SYMBOL_GPL(v4l2_i2c_subdev_addr);
- 
--/* Return a list of I2C tuner addresses to probe. Use only if the tuner
--   addresses are unknown. */
-+/*
-+ * Return a list of I2C tuner addresses to probe. Use only if the tuner
-+ * addresses are unknown.
-+ */
- const unsigned short *v4l2_i2c_tuner_addrs(enum v4l2_i2c_tuner_type type)
- {
- 	static const unsigned short radio_addrs[] = {
-diff --git a/drivers/media/v4l2-core/v4l2-spi.c b/drivers/media/v4l2-core/v4l2-spi.c
-index 15162659a63b..eadecdff7349 100644
---- a/drivers/media/v4l2-core/v4l2-spi.c
-+++ b/drivers/media/v4l2-core/v4l2-spi.c
-@@ -17,7 +17,7 @@ void v4l2_spi_subdev_unregister(struct v4l2_subdev *sd)
- }
- 
- void v4l2_spi_subdev_init(struct v4l2_subdev *sd, struct spi_device *spi,
--		const struct v4l2_subdev_ops *ops)
-+			  const struct v4l2_subdev_ops *ops)
- {
- 	v4l2_subdev_init(sd, ops);
- 	sd->flags |= V4L2_SUBDEV_FL_IS_SPI;
-@@ -29,12 +29,13 @@ void v4l2_spi_subdev_init(struct v4l2_subdev *sd, struct spi_device *spi,
- 	spi_set_drvdata(spi, sd);
- 	/* initialize name */
- 	snprintf(sd->name, sizeof(sd->name), "%s %s",
--		spi->dev.driver->name, dev_name(&spi->dev));
-+		 spi->dev.driver->name, dev_name(&spi->dev));
- }
- EXPORT_SYMBOL_GPL(v4l2_spi_subdev_init);
- 
- struct v4l2_subdev *v4l2_spi_new_subdev(struct v4l2_device *v4l2_dev,
--		struct spi_master *master, struct spi_board_info *info)
-+					struct spi_master *master,
-+					struct spi_board_info *info)
- {
- 	struct v4l2_subdev *sd = NULL;
- 	struct spi_device *spi = NULL;
-@@ -46,7 +47,7 @@ struct v4l2_subdev *v4l2_spi_new_subdev(struct v4l2_device *v4l2_dev,
- 
- 	spi = spi_new_device(master, info);
- 
--	if (spi == NULL || spi->dev.driver == NULL)
-+	if (!spi || !spi->dev.driver)
- 		goto error;
- 
- 	if (!try_module_get(spi->dev.driver->owner))
-@@ -54,8 +55,10 @@ struct v4l2_subdev *v4l2_spi_new_subdev(struct v4l2_device *v4l2_dev,
- 
- 	sd = spi_get_drvdata(spi);
- 
--	/* Register with the v4l2_device which increases the module's
--	   use count as well. */
-+	/*
-+	 * Register with the v4l2_device which increases the module's
-+	 * use count as well.
-+	 */
- 	if (v4l2_device_register_subdev(v4l2_dev, sd))
- 		sd = NULL;
- 
-@@ -63,8 +66,10 @@ struct v4l2_subdev *v4l2_spi_new_subdev(struct v4l2_device *v4l2_dev,
- 	module_put(spi->dev.driver->owner);
- 
- error:
--	/* If we have a client but no subdev, then something went wrong and
--	   we must unregister the client. */
-+	/*
-+	 * If we have a client but no subdev, then something went wrong and
-+	 * we must unregister the client.
-+	 */
- 	if (!sd)
- 		spi_unregister_device(spi);
- 
 -- 
-2.21.0
-
+Sakari Ailus
