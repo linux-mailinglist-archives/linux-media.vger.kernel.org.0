@@ -2,361 +2,241 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B6FD29CD02
-	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2019 12:04:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA1E39CD1C
+	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2019 12:13:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729904AbfHZKEF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Aug 2019 06:04:05 -0400
-Received: from mga07.intel.com ([134.134.136.100]:59758 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726669AbfHZKEF (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Aug 2019 06:04:05 -0400
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 26 Aug 2019 03:04:04 -0700
-X-IronPort-AV: E=Sophos;i="5.64,431,1559545200"; 
-   d="scan'208";a="179830764"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 26 Aug 2019 03:04:02 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 1C9FB20B47; Mon, 26 Aug 2019 13:03:30 +0300 (EEST)
-Date:   Mon, 26 Aug 2019 13:03:30 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Marco Felsch <m.felsch@pengutronix.de>
-Cc:     mchehab@kernel.org, robh+dt@kernel.org,
-        Jacopo Mondi <jacopo@jmondi.org>, devicetree@vger.kernel.org,
-        graphics@pengutronix.de, linux-media@vger.kernel.org,
-        Maxime Ripard <maxime.ripard@bootlin.com>
-Subject: Re: [PATCH v2 2/2] media: tc358746: add Toshiba TC358746 Parallel to
- CSI-2 bridge driver
-Message-ID: <20190826100330.GO31967@paasikivi.fi.intel.com>
-References: <20190619152838.25079-1-m.felsch@pengutronix.de>
- <20190619152838.25079-3-m.felsch@pengutronix.de>
- <20190625122719.xcl3gxxs4gpuvetf@paasikivi.fi.intel.com>
- <20190729104044.svemh7jvt2kiyn36@pengutronix.de>
+        id S1730415AbfHZKNQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Aug 2019 06:13:16 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:45868 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729519AbfHZKNP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 26 Aug 2019 06:13:15 -0400
+Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BBBFC31B;
+        Mon, 26 Aug 2019 12:13:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1566814392;
+        bh=jNex4vFYH4ofjNfNbhw6UpRuul3WRpU01tPuuRZQDQE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=YdPkQ+/CG6asZ+VViBXxDyxMiUC7hmtUl+I7F3GKnYfIp4KeDB6ok95a8QLIGJs8E
+         hYDKKE5vr5mLTgxQuuTpexzrNykimyYWgSU5MsdutaBTEqnoaCXCmUJud9aB8jtGpV
+         P7uwrmnofGwzvBpuO4Hzch3WlIlwuAeGQit4bpGE=
+Date:   Mon, 26 Aug 2019 13:13:06 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org,
+        Maling list - DRI developers 
+        <dri-devel@lists.freedesktop.org>,
+        Dariusz Marcinkiewicz <darekm@google.com>,
+        Archit Taneja <architt@codeaurora.org>,
+        Eric Anholt <eric@anholt.net>,
+        Maxime Ripard <maxime.ripard@bootlin.com>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Boris Brezillon <bbrezillon@kernel.org>
+Subject: Re: [PATCH 3/3] drm/bridge/adv7511: enable CEC connector info
+Message-ID: <20190826101306.GA5031@pendragon.ideasonboard.com>
+References: <20190823112427.42394-1-hverkuil-cisco@xs4all.nl>
+ <20190823112427.42394-4-hverkuil-cisco@xs4all.nl>
+ <20190823185847.GC4791@pendragon.ideasonboard.com>
+ <20190823190140.GD4791@pendragon.ideasonboard.com>
+ <b16c0722-bdd8-ce94-6878-1fafa52a50d5@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20190729104044.svemh7jvt2kiyn36@pengutronix.de>
+In-Reply-To: <b16c0722-bdd8-ce94-6878-1fafa52a50d5@xs4all.nl>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Marco,
+Hi Hans,
 
-On Mon, Jul 29, 2019 at 12:40:44PM +0200, Marco Felsch wrote:
-
-...
-
-> > > +#define I2C_MAX_XFER_SIZE	(512 + 2)
-> > > +#define TC358746_MAX_FIFO_SIZE	512
-> > > +#define TC358746_DEF_LINK_FREQ	0
-> > > +
-> > > +#define TC358746_LINEINIT_MIN_US	110
-> > > +#define TC358746_TWAKEUP_MIN_US		1200
-> > > +#define TC358746_LPTXTIME_MIN_NS	55
-> > > +#define TC358746_TCLKZERO_MIN_NS	305
-> > > +#define TC358746_TCLKTRAIL_MIN_NS	65
-> > > +#define TC358746_TCLKPOST_MIN_NS	65
-> > > +#define TC358746_THSZERO_MIN_NS		150
-> > > +#define TC358746_THSTRAIL_MIN_NS	65
-> > > +#define TC358746_THSPREPARE_MIN_NS	45
-> > > +
-> > > +static const struct v4l2_mbus_framefmt tc358746_def_fmt = {
-> > > +	.width		= 640,
-> > > +	.height		= 480,
-> > > +	.code		= MEDIA_BUS_FMT_UYVY8_2X8,
-> > > +	.field		= V4L2_FIELD_NONE,
-> > > +	.colorspace	= V4L2_COLORSPACE_DEFAULT,
-> > > +	.ycbcr_enc	= V4L2_YCBCR_ENC_DEFAULT,
-> > > +	.quantization	= V4L2_QUANTIZATION_DEFAULT,
-> > > +	.xfer_func	= V4L2_XFER_FUNC_DEFAULT,
-> > > +};
-> > > +
-> > > +struct tc358746_csi_param {
-> > > +	unsigned char speed_range;
-> > > +	unsigned int  unit_clk_hz;
-> > > +	unsigned char unit_clk_mul;
-> > > +	unsigned int speed_per_lane; /* bps / lane */
-> > > +	unsigned short lane_num;
-> > > +	bool is_continuous_clk;
-> > > +
-> > > +	/* CSI2-TX Parameters */
-> > > +	u32 lineinitcnt;
-> > > +	u32 lptxtimecnt;
-> > > +	u32 twakeupcnt;
-> > > +	u32 tclk_preparecnt;
-> > > +	u32 tclk_zerocnt;
-> > > +	u32 tclk_trailcnt;
-> > > +	u32 tclk_postcnt;
-> > > +	u32 ths_preparecnt;
-> > > +	u32 ths_zerocnt;
-> > > +	u32 ths_trailcnt;
-> > > +
-> > > +	unsigned int csi_hs_lp_hs_ps;
-> > > +};
+On Mon, Aug 26, 2019 at 11:01:40AM +0200, Hans Verkuil wrote:
+> On 8/23/19 9:01 PM, Laurent Pinchart wrote:
+> > (And CC'ing Andrzej Hajda and Neil Armstrong as the new DRM bridge
+> > maintainers, as well as Boris Brezillon, to make sure they're aware of
+> > the problem)
 > > 
-> > Would it be possible to use struct phy_configure_opts_mipi_dphy and perhaps
-> > phy_mipi_dphy_get_default_config() as well? The result of the latter will
-> > surely be different though, but still expected to be valid.
-> 
-> I've checked the struct phy_configure_opts_mipi_dphy and have a few
-> points to think about:
-> 1) The values I need here are counter values. The struct you mentioned
->    uses time based values. This is good but needs a retranslation into
->    the count values.
-> 2) The tclk_zerocnt and tclk_zerocnt has a other meaning here:
->      tclk_zerocnt = ckl_prepare + clk_zero > 300ns
->      ths_zerocnt  =  hs_prepare +  hs_zero > 145ns + 10 * ui
-> 
-> I can use the struct phy_configure_opts_mipi_dphy but then the
-> meaning are not the same..
-> 
-> If I should use the phy_mipi_dphy_get_default_config() helper I had to
-> reconstruct the whole logic. Currently the driver is based on the
-> following behaviour:
->   - the fw (DT in our case) defines possible link frequencies and data
->     lane numbers
->   - based on that information I calculate possible counter values to
->     confirm the mipi-spec
->   - now the user specifies a format and I try to serve the request by
->     - adjusting the fifo-size
->       if not possible
->       - use other link frequency setting and retry adjusting fifo_size
->       if till not possible
->       - begin to reduce the resultion
-> 
-> Imagine it that way: I configure the dphy side and adjust the parallel
-> side.
-> 
-> Now phy_mipi_dphy_get_default_config() uses the format bpp and the
-> pixel_clk to calculate the exact default config. Those configs must be
-> converted to the counter values. This wouldn't be a big deal but the
-> excel-sheet I used to calculate the timings adds some "random"
-> undocumented constants. So it would not be just a conversion from a
-> time-val to a counter-val. After that we need to verify the
-> parallel-input settings against the dphy-settings and do proper
-> fifo/picture-soze adjustments.
-
-Does the parallel interface configuration really affect the CSI-2 timings,
-apart from the data rate? There are many valid CSI-2 timing configurations
-as what's needed in general is to stay within a range instead of using an
-exact value for a given parameter.
-
-Cc'ing Maxime.
-
-> 
-> I would keep my approach beacause of the "random" undocumented constants
-> and the other meaning of the struct phy_configure_opts_mipi_dphy
-> members. Maybe I can convert it later if I have more time to verify that
-> the "random" undocumented constants aren't important and can be dropped.
-> Also I checked a few other Toshiba TC convert chips and it seems that
-> all off them uses the same DPHY. So maybe we should split out the
-> phy-part to share it.
-
-This would be quite favourable, indeed.
-
-> 
-> > > +
-> > > +enum tc358746_csi_direction {
-> > > +	TC358746_CSI_RX, /* CSI-in -> Parallel-out */
-> > > +	TC358746_CSI_TX  /* Parallel-in -> CSI-out */
-> > > +};
-> > > +
-> > > +struct tc358746_state {
-> > > +	struct v4l2_subdev sd;
-> > > +	struct i2c_client *i2c_client;
-> > > +	struct gpio_desc *reset_gpio;
-> > > +
-> > > +	/*
-> > > +	 * Generic
-> > > +	 */
-> > > +	struct media_pad pads[2];
-> > > +	struct mutex confctl_mutex;
-> > > +	struct v4l2_mbus_framefmt fmt;
-> > > +	struct v4l2_ctrl_handler hdl;
-> > > +	bool fmt_changed;
-> > > +	bool test;
-> > > +
-> > > +	/*
-> > > +	 * Chip Clocks
-> > > +	 */
-> > > +	struct clk  *refclk;
-> > > +	/* internal pll */
-> > > +	unsigned int pllinclk_hz;
-> > > +	u16 pll_prd;
-> > > +	u16 pll_fbd;
-> > > +
-> > > +	/*
-> > > +	 * Video Buffer
-> > > +	 */
-> > > +	u16 vb_fifo; /* The FIFO size is 511x32 */
-> > > +
-> > > +	/* currently only TC358746_CSI_TX supported */
-> > > +	enum tc358746_csi_direction csi_dir;
-> > > +
-> > > +	/*
-> > > +	 * CSI TX
-> > > +	 */
-> > > +	struct v4l2_ctrl	  *link_freq;
-> > > +	struct tc358746_csi_param *link_freq_settings;
-> > > +	u64			  *link_frequencies;
-> > > +	unsigned int		   link_frequencies_num;
-> > > +
-> > > +	/*
-> > > +	 * Parallel input
-> > > +	 */
-> > > +	struct v4l2_ctrl *sensor_pclk_ctrl;
-> > > +	struct v4l2_ctrl *sensor_hblank_ctrl;
-> > > +	unsigned int pclk;
-> > > +	unsigned int hblank;
-> > > +};
-> > > +
-> > > +struct tc358746_mbus_fmt {
-> > > +	u32 code;
-> > > +	u8 bus_width;
-> > > +	u8 bpp;		 /* total bpp */
-> > > +	u8 pdformat;	 /* peripheral data format */
-> > > +	u8 pdataf;	 /* parallel data format option */
-> > > +	u8 ppp;		 /* pclk per pixel */
-> > > +	bool csitx_only; /* format only in csi-tx mode supported */
-> > > +};
-> > > +
-> > > +/* TODO: Add other formats as required */
-> > > +static const struct tc358746_mbus_fmt tc358746_formats[] = {
-> > > +	{
-> > > +		.code = MEDIA_BUS_FMT_UYVY8_2X8,
+> > I would really appreciate if we could delay merging this series and
+> > other similar changes until we find a proper solution.
 > > 
-> > Note that on CSI-2 V4L2 uses the one pixel / sample variants. I.e. this
-> > would be MEDIA_BUS_FMT_UYVY8_1X16.
+> > On Fri, Aug 23, 2019 at 09:58:47PM +0300, Laurent Pinchart wrote:
+> >> On Fri, Aug 23, 2019 at 01:24:27PM +0200, Hans Verkuil wrote:
+> >>> Set the connector info to help userspace associate the CEC adapter
+> >>> with the HDMI connector.
+> >>>
+> >>> This required that the cec initialization and unregistering the
+> >>> CEC adapter takes place in the bridge attach and detach ops.
+> >>>
+> >>> Tested on an R-Car Koelsch board.
+> >>>
+> >>> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> >>> Tested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> >>> ---
+> >>>  drivers/gpu/drm/bridge/adv7511/adv7511_cec.c |  7 ++++++-
+> >>>  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 22 ++++++++++----------
+> >>>  2 files changed, 17 insertions(+), 12 deletions(-)
+> >>>
+> >>> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c b/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
+> >>> index a20a45c0b353..accf5e232396 100644
+> >>> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
+> >>> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_cec.c
+> >>> @@ -302,6 +302,7 @@ static int adv7511_cec_parse_dt(struct device *dev, struct adv7511 *adv7511)
+> >>>  
+> >>>  int adv7511_cec_init(struct device *dev, struct adv7511 *adv7511)
+> >>>  {
+> >>> +	struct cec_connector_info conn_info;
+> >>>  	unsigned int offset = adv7511->type == ADV7533 ?
+> >>>  						ADV7533_REG_CEC_OFFSET : 0;
+> >>>  	int ret = adv7511_cec_parse_dt(dev, adv7511);
+> >>> @@ -310,7 +311,8 @@ int adv7511_cec_init(struct device *dev, struct adv7511 *adv7511)
+> >>>  		goto err_cec_parse_dt;
+> >>>  
+> >>>  	adv7511->cec_adap = cec_allocate_adapter(&adv7511_cec_adap_ops,
+> >>> -		adv7511, dev_name(dev), CEC_CAP_DEFAULTS, ADV7511_MAX_ADDRS);
+> >>> +		adv7511, dev_name(dev),
+> >>> +		CEC_CAP_DEFAULTS | CEC_CAP_CONNECTOR_INFO, ADV7511_MAX_ADDRS);
+> >>>  	if (IS_ERR(adv7511->cec_adap)) {
+> >>>  		ret = PTR_ERR(adv7511->cec_adap);
+> >>>  		goto err_cec_alloc;
+> >>> @@ -331,6 +333,9 @@ int adv7511_cec_init(struct device *dev, struct adv7511 *adv7511)
+> >>>  		     ADV7511_REG_CEC_CLK_DIV + offset,
+> >>>  		     ((adv7511->cec_clk_freq / 750000) - 1) << 2);
+> >>>  
+> >>> +	cec_fill_conn_info_from_drm(&conn_info, &adv7511->connector);
+> >>> +	cec_s_conn_info(adv7511->cec_adap, &conn_info);
+> >>
+> >> I'm painfully trying to decouple bridges and connectors, if we keep
+> >> merging patches that go in the opposite direction, I'll never manage to
+> >> complete this :-(
+> >>
+> >> Bridges are moving to a model where they won't create connectors
+> >> themselves, so any new access to drm_connector contained in a bridge
+> >> structure is a no-go I'm afraid (I'm replying to this patch as I know
+> >> this driver best, but this comment applies to the other two patches in
+> >> the series as well).
+> >>
+> >> Here's what I wrote in a private e-mail, regarding similar changes for
+> >> the omapdrm driver.
+> >>
+> >> --------
+> >> Please have a look at "[PATCH 00/60] drm/omap: Replace custom display
+> >> drivers with drm_bridge and drm_panel", available in a new version at
+> >>
+> >> 	git://linuxtv.org/pinchartl/media.git omapdrm/bridge/devel
+> >>
+> >> (I will post v2 soon)
+> >>
+> >> The patches show the direction the omapdrm driver is taking. The goal is
+> >> to decouple connectors from bridges, which I'm afraid will have an
+> >> impact on associating drm_connector with a CEC adapter. This should be
+> >> implemented through new drm_bridge operations, as bridges, when created,
+> >> will not create drm_connector anymore.
+> >>
+> >> I've solved a similar problem related to associating DRM connectors with
+> >> an I2C adapter for DDC. Please see the drm_bridge_connector_init()
+> >> function and how the DDC adapter is handled. Something similar could be
+> >> done for CEC.
+> >> --------
+> >>
+> >> Since then v2 has been posted ("[PATCH v2 00/50] drm/omap: Replace
+> >> custom display drivers with drm_bridge and drm_panel") and v3 is in
+> >> preparation.
+> >>
+> >> So, please, let's both go in the right direction and solve the problem
+> >> properly for CEC.
 > 
-> Sorry but I didn't get you. The format you mentioned is...
+> I don't mind waiting one kernel cycle, but not longer. This CEC feature is
+> ready to be rolled out, so I am not willing to wait a long time for all
+> of this to land. I can help test CEC once you are going to roll this out
+> for all drm drivers (except for the sti SoC, since I don't have any HW).
 > 
-> > > +		.bus_width = 8,
-> > > +		.bpp = 16,
-> > > +		.pdformat = DATAFMT_PDFMT_YCBCRFMT_422_8_BIT,
-> > > +		.pdataf = CONFCTL_PDATAF_MODE0,
-> > > +		.ppp = 2,
-> > > +	}, {
-> > > +		.code = MEDIA_BUS_FMT_UYVY8_1X16,
-> 
-> here.
+> So do you think this will land for 5.5? If yes, then I'll wait.
 
-You can support both MEDIA_BUS_FMT_UYVY8_1X16 and MEDIA_BUS_FMT_UYVY8_2X8
-on the parallel interface, but on CSI-2 they're both called
-MEDIA_BUS_FMT_UYVY8_1X16.
+I really hope so !
 
-...
+Would you be able to try to implement this feature for the OMAP4 based
+on my omapdrm/bridge/devel branch ? The other drivers should follow the
+same path, so that would be a good exercise.
 
-> > > +static int tc358746_s_power(struct v4l2_subdev *sd, int on)
-> > > +{
-> > > +	struct tc358746_state *state = to_state(sd);
-> > > +
-> > > +	/*
-> > > +	 * REF_01:
-> > > +	 * Softreset don't reset configuration registers content but is needed
-> > 
-> > "doesn't"
-> > 
-> > > +	 * during power-on to trigger a csi LP-11 state change and during
-> > > +	 * power-off to disable the csi-module.
-> > > +	 */
-> > > +	tc358746_sreset(sd);
-> > > +
-> > > +	if (state->fmt_changed) {
-> > > +		tc358746_set_buffers(sd);
-> > > +		tc358746_set_csi(sd);
-> > > +		tc358746_set_csi_color_space(sd);
-> > > +
-> > > +		/* as recommend in REF_01 */
-> > > +		tc358746_sleep_mode(sd, 1);
-> > > +		tc358746_set_pll(sd);
-> > > +		tc358746_sleep_mode(sd, 0);
-> > > +
-> > > +		state->fmt_changed = false;
-> > > +	}
-> > > +
-> > > +	tc358746_enable_csi_lanes(sd, on);
-> > > +	tc358746_enable_csi_module(sd, on);
-> > > +	tc358746_sleep_mode(sd, !on);
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +static int tc358746_s_stream(struct v4l2_subdev *sd, int enable)
-> > > +{
-> > > +	tc358746_enable_stream(sd, enable);
-> > 
-> > Could you use tc358746_enable_stream() directly as the s_stream op?
-> 
-> Of course, added it for naming consistency since the enable_stream() is
-> a internal function and I didn't wanted to mix those.
-
-Please; it improves readability.
-
-> 
-> > Note that you need to call the upstream sub-device's s_stream op from here
-> > as well.
-> 
-> I tought this is done by the host driver trough iterating over the whole
-> graph?
-
-The driver starting the pipeline is only expected to call s_stream on the
-next sub-device in the pipeline.
-
-...
-
-> > > +static int tc358746_apply_fw(struct tc358746_state *state)
-> > > +{
-> > > +	struct v4l2_subdev *sd = &state->sd;
-> > > +	struct tc358746_csi_param *csi_setting;
-> > > +	int err, i;
-> > 
-> > unsigned int i
-> 
-> Yes.
-> 
-> > > +
-> > > +	for (i = 0; i < state->link_frequencies_num; i++) {
-> > > +		csi_setting = &state->link_freq_settings[i];
-> > > +
-> > > +		err = tc358746_calculate_csi_txtimings(state, csi_setting);
-> > > +		if (err) {
-> > > +			v4l2_err(sd, "Failed to calc csi-tx tminings\n");
-> > > +			return err;
-> > > +		}
-> > > +	}
-> > > +
-> > > +	/*
-> > > +	 * Set it to the hw default value. The correct value will be set during
-> > > +	 * set_fmt(), since it depends on the pclk and and the resulution.
-> > > +	 */
-> > > +	state->vb_fifo = 1;
-> > > +
-> > > +	err = clk_prepare_enable(state->refclk);
-> > > +	if (err) {
-> > > +		v4l2_err(sd, "Failed to enable clock\n");
-> > > +		return err;
-> > > +	}
-> > 
-> > Is there a need to keep the clock running even if the device is not
-> > streaming? Please consider adding runtime PM support. That's not strictly
-> > needed for the patch to be merged though IMO.
-> 
-> Thats a good point. The Chip can act as clk-provider fo rother devices.
-> So I would probably say yes.
-
-If this is the case, wouldn't it be appropriate to take that into account
-in DT bindings? If there's no need for that clock, then this chip could be
-powered off. If the support for that is impelemented later on, then there's
-a small risk of breaking systems where declaring those clocks was
-forgotten.
+> >>> +
+> >>>  	ret = cec_register_adapter(adv7511->cec_adap, dev);
+> >>>  	if (ret)
+> >>>  		goto err_cec_register;
+> >>> diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> >>> index f6d2681f6927..bbcb996c4d4f 100644
+> >>> --- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> >>> +++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+> >>> @@ -881,14 +881,24 @@ static int adv7511_bridge_attach(struct drm_bridge *bridge)
+> >>>  		regmap_write(adv->regmap, ADV7511_REG_INT_ENABLE(0),
+> >>>  			     ADV7511_INT0_HPD);
+> >>>  
+> >>> +	if (!ret)
+> >>> +		ret = adv7511_cec_init(&adv->i2c_main->dev, adv);
+> >>>  	return ret;
+> >>>  }
+> >>>  
+> >>> +static void adv7511_bridge_detach(struct drm_bridge *bridge)
+> >>> +{
+> >>> +	struct adv7511 *adv = bridge_to_adv7511(bridge);
+> >>> +
+> >>> +	cec_unregister_adapter(adv->cec_adap);
+> >>> +}
+> >>> +
+> >>>  static const struct drm_bridge_funcs adv7511_bridge_funcs = {
+> >>>  	.enable = adv7511_bridge_enable,
+> >>>  	.disable = adv7511_bridge_disable,
+> >>>  	.mode_set = adv7511_bridge_mode_set,
+> >>>  	.attach = adv7511_bridge_attach,
+> >>> +	.detach = adv7511_bridge_detach,
+> >>>  };
+> >>>  
+> >>>  /* -----------------------------------------------------------------------------
+> >>> @@ -1202,7 +1212,7 @@ static int adv7511_probe(struct i2c_client *i2c, const struct i2c_device_id *id)
+> >>>  						IRQF_ONESHOT, dev_name(dev),
+> >>>  						adv7511);
+> >>>  		if (ret)
+> >>> -			goto err_unregister_cec;
+> >>> +			goto err_i2c_unregister_packet;
+> >>>  	}
+> >>>  
+> >>>  	adv7511_power_off(adv7511);
+> >>> @@ -1212,10 +1222,6 @@ static int adv7511_probe(struct i2c_client *i2c, const struct i2c_device_id *id)
+> >>>  	if (adv7511->type == ADV7511)
+> >>>  		adv7511_set_link_config(adv7511, &link_config);
+> >>>  
+> >>> -	ret = adv7511_cec_init(dev, adv7511);
+> >>> -	if (ret)
+> >>> -		goto err_unregister_cec;
+> >>> -
+> >>>  	adv7511->bridge.funcs = &adv7511_bridge_funcs;
+> >>>  	adv7511->bridge.of_node = dev->of_node;
+> >>>  
+> >>> @@ -1224,10 +1230,6 @@ static int adv7511_probe(struct i2c_client *i2c, const struct i2c_device_id *id)
+> >>>  	adv7511_audio_init(dev, adv7511);
+> >>>  	return 0;
+> >>>  
+> >>> -err_unregister_cec:
+> >>> -	i2c_unregister_device(adv7511->i2c_cec);
+> >>> -	if (adv7511->cec_clk)
+> >>> -		clk_disable_unprepare(adv7511->cec_clk);
+> >>>  err_i2c_unregister_packet:
+> >>>  	i2c_unregister_device(adv7511->i2c_packet);
+> >>>  err_i2c_unregister_edid:
+> >>> @@ -1254,8 +1256,6 @@ static int adv7511_remove(struct i2c_client *i2c)
+> >>>  
+> >>>  	adv7511_audio_exit(adv7511);
+> >>>  
+> >>> -	cec_unregister_adapter(adv7511->cec_adap);
+> >>> -
+> >>>  	i2c_unregister_device(adv7511->i2c_packet);
+> >>>  	i2c_unregister_device(adv7511->i2c_edid);
+> >>>  
 
 -- 
 Regards,
 
-Sakari Ailus
-sakari.ailus@linux.intel.com
+Laurent Pinchart
