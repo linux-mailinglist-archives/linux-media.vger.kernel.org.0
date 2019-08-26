@@ -2,126 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B0689D260
-	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2019 17:13:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CBACA9D28D
+	for <lists+linux-media@lfdr.de>; Mon, 26 Aug 2019 17:18:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732842AbfHZPNM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Aug 2019 11:13:12 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:63372 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1731256AbfHZPNM (ORCPT
+        id S1732954AbfHZPSv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Aug 2019 11:18:51 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:35648 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727850AbfHZPSv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Aug 2019 11:13:12 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x7QF6wUB089934;
-        Mon, 26 Aug 2019 11:12:50 -0400
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com [169.53.41.122])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2umggp3tqc-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 26 Aug 2019 11:12:50 -0400
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
-        by ppma04dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x7QFAdhV028102;
-        Mon, 26 Aug 2019 15:12:49 GMT
-Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com [9.57.198.29])
-        by ppma04dal.us.ibm.com with ESMTP id 2ujvv6gwhw-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 26 Aug 2019 15:12:49 +0000
-Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com [9.57.199.109])
-        by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x7QFCmRg51904774
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 26 Aug 2019 15:12:48 GMT
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 783C0112066;
-        Mon, 26 Aug 2019 15:12:48 +0000 (GMT)
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id CFAD6112062;
-        Mon, 26 Aug 2019 15:12:47 +0000 (GMT)
-Received: from [9.41.179.222] (unknown [9.41.179.222])
-        by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
-        Mon, 26 Aug 2019 15:12:47 +0000 (GMT)
-Subject: Re: [PATCH 3/7] media: aspeed-video: address a protential usage of an
- unit var
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     linux-aspeed@lists.ozlabs.org, Andrew Jeffery <andrew@aj.id.au>,
-        openbmc@lists.ozlabs.org, Eddie James <eajames@linux.ibm.com>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        linux-arm-kernel@lists.infradead.org
-References: <4a411ba155eb062b6575aba0824123c840806c0b.1566502743.git.mchehab+samsung@kernel.org>
- <7c85f7dc159927a7316dc13f52697f157fb6e2bd.1566502743.git.mchehab+samsung@kernel.org>
-From:   Eddie James <eajames@linux.vnet.ibm.com>
-Message-ID: <64b90f55-2d8d-718d-0562-528063f3edab@linux.vnet.ibm.com>
-Date:   Mon, 26 Aug 2019 10:12:47 -0500
+        Mon, 26 Aug 2019 11:18:51 -0400
+Received: by mail-lf1-f66.google.com with SMTP id h27so6687299lfp.2;
+        Mon, 26 Aug 2019 08:18:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=50mv38tNDYl/ZA4wnFVjnzU9tnzotrbGWCLUfU9Ss9U=;
+        b=DD954qxFZhSRbJXXAWT8UGI78Qw8ddSTsJ57rK3XJ2/Wkv3WEez0EMD7YmJN/2ZyOa
+         lHwom4XrlZmbf1KZeQLf7asnloWFOOVQf5xcoWVTpcs1szbaGxrmsAO0GkI3d+aVs+tS
+         45DW701tM8vydRxSmqzFNoVGNFbONfoNF0eFihwp/hHhOgmbmtHCvxq0ShKSH9bK4uVZ
+         lWRizjWpZp076tU3UDHdesfEOgSmRxcFr2Q3vf20XLtbKjWauLGo6ia5FwENMqkF2Pnt
+         2si39G/XXBu4K0XjMggmMk0bTE/w5zakucAW0rL5geUPbRtC+zO8WmLsph6xVKz/nJqS
+         Q4Xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=50mv38tNDYl/ZA4wnFVjnzU9tnzotrbGWCLUfU9Ss9U=;
+        b=BNGYeCYJITVD83+jG7mSd3INW6ztUPxQJ51tC1NLJWGBQWqUEak0FktvO9aScctb2J
+         U5lqvw8LlHafV/v9TtTUEu2qzwpndmnV0VusBLvGaBZnE63p1nHPztoLyiR+hZqdjgDz
+         Pr40QLj1jrQFLw1PVgHU6bImp1jR+z/8RfOnU8IRbHjkMWwv1xCn6qrdV6rgVUqwU11p
+         0/gX40Xk4+5NaZ7K5voDoKvJ8894PkR/ewIJD27XuzwSG0ht6uAIBcSMTBDnPV/sVFwQ
+         mMG5yROMOFdLFDC5vcB49CdW8xi9mPs+1xjsmNc+xO4aA/FlMZKGcpOY3NqFdoa6pIoQ
+         4UzA==
+X-Gm-Message-State: APjAAAX+/eJ0SHRPRGFqd4aDuS6fpBwDQt0pyhlVJ0txL2n3PxK3Gcxc
+        zCT10huGW0ylvuuEhobbxU4=
+X-Google-Smtp-Source: APXvYqxwBaKVRDZOzhOVbJvIe3ncrV9/xEPeURbvLz9/UhsnEu7vyFngUol6rQSCZMHo+7dD8ZFuQg==
+X-Received: by 2002:a19:674d:: with SMTP id e13mr11176375lfj.176.1566832729324;
+        Mon, 26 Aug 2019 08:18:49 -0700 (PDT)
+Received: from [192.168.2.145] ([94.29.34.218])
+        by smtp.googlemail.com with ESMTPSA id m74sm2356165lje.72.2019.08.26.08.18.48
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 26 Aug 2019 08:18:48 -0700 (PDT)
+Subject: Re: [PATCH] media: staging: tegra-vde: Disable building with
+ COMPILE_TEST
+To:     YueHaibing <yuehaibing@huawei.com>, mchehab@kernel.org,
+        gregkh@linuxfoundation.org, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, robin.murphy@arm.com,
+        hverkuil-cisco@xs4all.nl
+Cc:     linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
+        iommu@lists.linux-foundation.org
+References: <20190826133140.13456-1-yuehaibing@huawei.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <58a8c62c-a45e-77e4-d2cb-99f95b847a73@gmail.com>
+Date:   Mon, 26 Aug 2019 18:18:47 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <7c85f7dc159927a7316dc13f52697f157fb6e2bd.1566502743.git.mchehab+samsung@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20190826133140.13456-1-yuehaibing@huawei.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-08-26_08:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1906280000 definitions=main-1908260158
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hello Yue,
 
-On 8/22/19 2:39 PM, Mauro Carvalho Chehab wrote:
-> While this might not occur in practice, if the device is doing
-> the right thing, it would be teoretically be possible to have
-> both hsync_counter and vsync_counter negatives.
->
-> If this ever happen, ctrl will be undefined, but the driver
-> will still call:
->
-> 	aspeed_video_update(video, VE_CTRL, 0, ctrl);
->
-> Change the code to prevent this to happen.
->
-> This was warned by cppcheck:
->
-> 	[drivers/media/platform/aspeed-video.c:653]: (error) Uninitialized variable: ctrl
-
-
-Thanks Mauro.
-
-
-Reviewed-by: Eddie James <eajames@linux.ibm.com>
-
-
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+26.08.2019 16:31, YueHaibing пишет:
+> If COMPILE_TEST is y and IOMMU_SUPPORT is n, selecting TEGRA_VDE
+> to m will set IOMMU_IOVA to m, this fails the building of
+> TEGRA_HOST1X and DRM_TEGRA which is y like this:
+> 
+> drivers/gpu/host1x/cdma.o: In function `host1x_cdma_init':
+> cdma.c:(.text+0x66c): undefined reference to `alloc_iova'
+> cdma.c:(.text+0x698): undefined reference to `__free_iova'
+> 
+> drivers/gpu/drm/tegra/drm.o: In function `tegra_drm_unload':
+> drm.c:(.text+0xeb0): undefined reference to `put_iova_domain'
+> drm.c:(.text+0xeb4): undefined reference to `iova_cache_put'
+> 
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Fixes: 6b2265975239 ("media: staging: tegra-vde: Fix build error")
+> Fixes: b301f8de1925 ("media: staging: media: tegra-vde: Add IOMMU support")
+> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
 > ---
->   drivers/media/platform/aspeed-video.c | 5 +++--
->   1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-> index f899ac3b4a61..4ef37cfc8446 100644
-> --- a/drivers/media/platform/aspeed-video.c
-> +++ b/drivers/media/platform/aspeed-video.c
-> @@ -630,7 +630,7 @@ static void aspeed_video_check_and_set_polarity(struct aspeed_video *video)
->   	}
->   
->   	if (hsync_counter < 0 || vsync_counter < 0) {
-> -		u32 ctrl;
-> +		u32 ctrl = 0;
->   
->   		if (hsync_counter < 0) {
->   			ctrl = VE_CTRL_HSYNC_POL;
-> @@ -650,7 +650,8 @@ static void aspeed_video_check_and_set_polarity(struct aspeed_video *video)
->   				V4L2_DV_VSYNC_POS_POL;
->   		}
->   
-> -		aspeed_video_update(video, VE_CTRL, 0, ctrl);
-> +		if (ctrl)
-> +			aspeed_video_update(video, VE_CTRL, 0, ctrl);
->   	}
->   }
->   
+>  drivers/staging/media/tegra-vde/Kconfig | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/media/tegra-vde/Kconfig b/drivers/staging/media/tegra-vde/Kconfig
+> index ba49ea5..a41d30c 100644
+> --- a/drivers/staging/media/tegra-vde/Kconfig
+> +++ b/drivers/staging/media/tegra-vde/Kconfig
+> @@ -1,9 +1,9 @@
+>  # SPDX-License-Identifier: GPL-2.0
+>  config TEGRA_VDE
+>  	tristate "NVIDIA Tegra Video Decoder Engine driver"
+> -	depends on ARCH_TEGRA || COMPILE_TEST
+> +	depends on ARCH_TEGRA
+>  	select DMA_SHARED_BUFFER
+> -	select IOMMU_IOVA if (IOMMU_SUPPORT || COMPILE_TEST)
+> +	select IOMMU_IOVA if IOMMU_SUPPORT
+>  	select SRAM
+>  	help
+>  	    Say Y here to enable support for the NVIDIA Tegra video decoder
+> 
+
+What about this variant:
+
+	select IOMMU_IOVA if (IOMMU_SUPPORT && !COMPILE_TEST)
+
+which should fix the building and preserve compile-testing.
+
+It shouldn't matter at all whether IOVA is enabled or not for
+compile-testing of the driver.
