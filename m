@@ -2,104 +2,261 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 949BA9E86D
-	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2019 14:54:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 018A49E873
+	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2019 14:55:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726555AbfH0MyH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Aug 2019 08:54:07 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:46414 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726250AbfH0MyH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Aug 2019 08:54:07 -0400
-Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2957D2F0;
-        Tue, 27 Aug 2019 14:54:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1566910446;
-        bh=sgMfFbY14ILLDbfCBg6Y2kTqWbsPlKoAxm/wXFu0o9c=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Ap6chgHdAAEaLnfiqGpNtAJWNUfE/EWtlYmtFdD/s2ZKjJTDTCHVyL4s09md01WFP
-         gObxK5M08BK2VHqeUdn+h2ea82LayLrmc1NxIvEuUSkKU7Wc/UxcpabDVuXX+NQ8Rm
-         Ve7M4zH4TtPbJLix9zJgpRngxLtkueJaqevMHv8w=
-Date:   Tue, 27 Aug 2019 15:53:59 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>, tfiga@google.com,
-        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>
-Subject: Re: [PATCH v2 04/10] media: v4l2-ctrl: Add
- V4L2_CID_CAMERA_SENSOR_LOCATION
-Message-ID: <20190827125359.GV5054@pendragon.ideasonboard.com>
-References: <20190827092339.8858-1-jacopo@jmondi.org>
- <20190827092339.8858-5-jacopo@jmondi.org>
+        id S1726794AbfH0Mzh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Aug 2019 08:55:37 -0400
+Received: from gofer.mess.org ([88.97.38.141]:43417 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729072AbfH0Mzg (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 27 Aug 2019 08:55:36 -0400
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 7978160608; Tue, 27 Aug 2019 13:55:35 +0100 (BST)
+From:   Sean Young <sean@mess.org>
+To:     linux-media@vger.kernel.org
+Subject: [PATCH v4l-utils 1/2] rc_keymap: change raw format to much more common raw string
+Date:   Tue, 27 Aug 2019 13:55:34 +0100
+Message-Id: <20190827125535.2858-1-sean@mess.org>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190827092339.8858-5-jacopo@jmondi.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+Many programs and documentation lists raw IR a list of ints:
 
-Thank you for the patch.
+	+8800 –4400 +550 –1650 +550 –1650 +550 –1650 +550 –550 +550
 
-On Tue, Aug 27, 2019 at 11:23:30AM +0200, Jacopo Mondi wrote:
-> Add support for the newly defined V4L2_CID_CAMERA_SENSOR_LOCATION
-> read-only control used to report the camera device mounting position.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+The + and - are optional and are there for readability.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+I think this is much nicer format that 1) toml arrays and 2) lirc
+pulse space format. In fact, I think "ir-ctl -r" should output this
+format too, and support it for sending.
 
-> ---
->  drivers/media/v4l2-core/v4l2-ctrls.c | 2 ++
->  include/uapi/linux/v4l2-controls.h   | 5 +++++
->  2 files changed, 7 insertions(+)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-> index 1d8f38824631..db7124494530 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-> @@ -994,6 +994,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->  	case V4L2_CID_AUTO_FOCUS_RANGE:		return "Auto Focus, Range";
->  	case V4L2_CID_PAN_SPEED:		return "Pan, Speed";
->  	case V4L2_CID_TILT_SPEED:		return "Tilt, Speed";
-> +	case V4L2_CID_CAMERA_SENSOR_LOCATION:	return "Camera Sensor Location";
->  
->  	/* FM Radio Modulator controls */
->  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
-> @@ -1318,6 +1319,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
->  		break;
->  	case V4L2_CID_MIN_BUFFERS_FOR_CAPTURE:
->  	case V4L2_CID_MIN_BUFFERS_FOR_OUTPUT:
-> +	case V4L2_CID_CAMERA_SENSOR_LOCATION:
->  		*type = V4L2_CTRL_TYPE_INTEGER;
->  		*flags |= V4L2_CTRL_FLAG_READ_ONLY;
->  		break;
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> index a2669b79b294..387c2c8553cb 100644
-> --- a/include/uapi/linux/v4l2-controls.h
-> +++ b/include/uapi/linux/v4l2-controls.h
-> @@ -912,6 +912,11 @@ enum v4l2_auto_focus_range {
->  #define V4L2_CID_PAN_SPEED			(V4L2_CID_CAMERA_CLASS_BASE+32)
->  #define V4L2_CID_TILT_SPEED			(V4L2_CID_CAMERA_CLASS_BASE+33)
->  
-> +#define V4L2_CID_CAMERA_SENSOR_LOCATION		(V4L2_CID_CAMERA_CLASS_BASE+34)
-> +#define V4L2_LOCATION_FRONT			0
-> +#define V4L2_LOCATION_BACK			1
-> +#define V4L2_LOCATION_EXTERNAL			2
-> +
->  /* FM Modulator class control IDs */
->  
->  #define V4L2_CID_FM_TX_CLASS_BASE		(V4L2_CTRL_CLASS_FM_TX | 0x900)
+As a first start, let's update the toml rc keymap format; the existing
+toml raw array has not been in a release.
 
+Signed-off-by: Sean Young <sean@mess.org>
+---
+ contrib/lircd2toml.py         |  16 ++---
+ utils/common/keymap.c         | 126 ++++++++++++++++++++++------------
+ utils/keytable/rc_keymap.5.in |   9 +--
+ 3 files changed, 96 insertions(+), 55 deletions(-)
+
+diff --git a/contrib/lircd2toml.py b/contrib/lircd2toml.py
+index 05729239..cfa648ed 100755
+--- a/contrib/lircd2toml.py
++++ b/contrib/lircd2toml.py
+@@ -604,16 +604,16 @@ def writeTOMLFile(fh, remote):
+     elif 'raw' in remote:
+         for raw in remote['raw']:
+             print('[[protocols.raw]]', file=fh)
+-            print('keycode = {}\nraw = ['.format(escapeString(raw['keycode'])), file=fh, end='')
+-            first = True
+-            for v in raw['raw']:
+-                if first:
+-                    print(' {}'.format(v), file=fh, end='')
++            print('keycode = {}\nraw = \''.format(escapeString(raw['keycode'])), file=fh, end='')
++            for i, v in enumerate(raw['raw']):
++                if i == 0:
++                    print('+{}'.format(v), file=fh, end='')
++                elif i % 2 == 1:
++                    print(' -{}'.format(v), file=fh, end='')
+                 else:
+-                    print(', {}'.format(v), file=fh, end='')
+-                first = False
++                    print(' +{}'.format(v), file=fh, end='')
+ 
+-            print(' ]', file=fh)
++            print('\'', file=fh)
+ 
+     return True
+ 
+diff --git a/utils/common/keymap.c b/utils/common/keymap.c
+index 9c49b442..9ca599a0 100644
+--- a/utils/common/keymap.c
++++ b/utils/common/keymap.c
+@@ -177,73 +177,113 @@ err_einval:
+ 	return EINVAL;
+ }
+ 
++static error_t parse_rawir_string(const char *fname, char *str, struct raw_entry **entry)
++{
++	struct raw_entry *re;
++	const char *p;
++	char *copy;
++	int i, size = 0;
++
++	// First do one scan so that we know the length
++	copy = strdup(str);
++	p = strtok(copy, "\n\t\v ,");
++	while (p) {
++		size++;
++		p = strtok(NULL, "\n\t\v ,");
++	}
++
++	re = calloc(1, sizeof(*re) + sizeof(re->raw[0]) * size);
++	if (!re) {
++		fprintf(stderr, _("Failed to allocate memory"));
++		free(copy);
++		return EINVAL;
++	}
++
++	// Second scan to extract values and validate
++	strcpy(copy, str);
++	p = strtok(copy, "\n\t\v ,");
++	i = 0;
++	while (p) {
++		long int value;
++		char *q;
++
++		value = strtoll(p, &q, 10);
++		if (*q || value == 0 || errno) {
++			fprintf(stderr, _("%s: incorrect raw value `%s'"),
++				fname, p);
++			free(copy);
++			return EINVAL;
++		}
++
++		if (value < 0) {
++			if (i % 2)
++				value = -value;
++			else {
++				fprintf(stderr, _("%s: negative raw value `%ld` at position %d only allowed for gaps/spaces"),
++					fname, value, i);
++				free(copy);
++				return EINVAL;
++			}
++		}
++
++		if (value <= 0 || value > USHRT_MAX) {
++			fprintf(stderr, _("%s: raw value %ld out of range"),
++				fname, value);
++			free(copy);
++			return EINVAL;
++		}
++
++		re->raw[i++] = value;
++
++		p = strtok(NULL, "\n\t\v ,");
++	}
++
++	free(copy);
++	re->raw_length = size;
++
++	*entry = re;
++
++	return 0;
++}
++
+ static error_t parse_toml_raw_part(const char *fname, struct toml_array_t *raw, struct keymap *map, bool verbose)
+ {
++	char *keycode, *raw_str;
+ 	struct toml_table_t *t;
+-	struct toml_array_t *rawarray;
+ 	struct raw_entry *re;
+-	const char *rkeycode;
+-	int ind = 0, length;
+-	char *keycode;
++	const char *traw;
++	int ind = 0;
+ 
+ 	while ((t = toml_table_at(raw, ind++)) != NULL) {
+-		rkeycode = toml_raw_in(t, "keycode");
+-		if (!rkeycode) {
++		traw = toml_raw_in(t, "keycode");
++		if (!traw) {
+ 			fprintf(stderr, _("%s: invalid keycode for raw entry %d\n"),
+ 				fname, ind);
+ 			return EINVAL;
+ 		}
+ 
+-		if (toml_rtos(rkeycode, &keycode)) {
++		if (toml_rtos(traw, &keycode)) {
+ 			fprintf(stderr, _("%s: bad value `%s' for keycode\n"),
+-				fname, rkeycode);
++				fname, traw);
+ 			return EINVAL;
+ 		}
+ 
+-		rawarray = toml_array_in(t, "raw");
+-		if (!rawarray) {
+-			fprintf(stderr, _("%s: missing raw array for entry %d\n"),
++		traw = toml_raw_in(t, "raw");
++		if (!traw) {
++			fprintf(stderr, _("%s: missing raw value for entry %d\n"),
+ 				fname, ind);
+ 			return EINVAL;
+ 		}
+ 
+-		// determine length of array
+-		length = 0;
+-		while (toml_raw_at(rawarray, length) != NULL)
+-			length++;
+-
+-		if (!(length % 2)) {
+-			fprintf(stderr, _("%s: raw array must have odd length rather than %d\n"),
+-				fname, length);
++		if (toml_rtos(traw, &raw_str)) {
++			fprintf(stderr, _("%s: bad value `%s' for keycode\n"),
++				fname, traw);
+ 			return EINVAL;
+ 		}
+ 
+-		re = calloc(1, sizeof(*re) + sizeof(re->raw[0]) * length);
+-		if (!re) {
+-			fprintf(stderr, _("Failed to allocate memory"));
++		if (parse_rawir_string(fname, raw_str, &re))
+ 			return EINVAL;
+-		}
+-
+-		for (int i=0; i<length; i++) {
+-			const char *s = toml_raw_at(rawarray, i);
+-			int64_t v;
+-
+-			if (toml_rtoi(s, &v) || v == 0) {
+-				fprintf(stderr, _("%s: incorrect raw value `%s'"),
+-					fname, s);
+-				return EINVAL;
+-			}
+-
+-			if (v <= 0 || v > USHRT_MAX) {
+-				fprintf(stderr, _("%s: raw value %ld out of range"),
+-					fname, v);
+-				return EINVAL;
+-			}
+-
+-			re->raw[i] = v;
+-		}
+ 
+-		re->raw_length = length;
+ 		re->keycode = strdup(keycode);
+ 		re->next = map->raw;
+ 		map->raw = re;
+diff --git a/utils/keytable/rc_keymap.5.in b/utils/keytable/rc_keymap.5.in
+index 00599755..12f05a1d 100644
+--- a/utils/keytable/rc_keymap.5.in
++++ b/utils/keytable/rc_keymap.5.in
+@@ -67,10 +67,11 @@ to raw mapping. For each entry, there is a \fBkeycode\fR field and \fBraw\fR
+ field. The \fBkeycode\fR is a linux input event, as explained the scancodes
+ section.
+ .PP
+-The \fBraw\fR field is an array of integers. These are the pulse and space
+-values of the IR message. The first is a pulse value in microseconds, and
+-the second a space, third pulse, etc. There should be an odd number of fields
+-so that the last entry is a pulse.
++The \fBraw\fR field is an string, which lists pulse and space values,
++separated by whitespace.  The first is a pulse value in microseconds, and
++the second a space, third pulse, etc. The space values can be preceded by
++a - sign and the pulse value can be preceded by a +sign.
++There should be an odd number of fields so that the last entry is a pulse.
+ .SS Remaining fields (BPF parameters)
+ If the protocol is a BPF based decoder, it may have any number of numeric
+ parameters. These parameters are used to support protocols with non-standard
 -- 
-Regards,
+2.21.0
 
-Laurent Pinchart
