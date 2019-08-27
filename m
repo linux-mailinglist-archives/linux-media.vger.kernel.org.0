@@ -2,106 +2,207 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A5B19E8CD
-	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2019 15:12:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E5839E8DD
+	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2019 15:16:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727124AbfH0NMp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Aug 2019 09:12:45 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:54436 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725920AbfH0NMp (ORCPT
+        id S1726278AbfH0NQ2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Aug 2019 09:16:28 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:46752 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725920AbfH0NQ2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Aug 2019 09:12:45 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x7RD9CAZ001945;
-        Tue, 27 Aug 2019 13:12:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2019-08-05;
- bh=ASUUUkYHWUhwFKzNS2t3x+k/4UsOO6plVu7exCkK5XU=;
- b=MPLf+vxxOSe561irWHaSHSyCBYCGV8jpbtY0kHQ/vYVoT9nwJa1pIoMwKod4LgVOkvXh
- etEcI++34RwpM/Fj7kR2LEtjRZk1P0MRZN4JulOvdVulL+MLOViEAicllqIgO37Mcfri
- kj5HC2v6F5ppcF1hW+0IfC9HMRgaG6HUnLvE6qXnvljivORFrATxcFogyobn7JPQxILo
- RwXIhzaX0kSMIMoa7ltyW+Peizl29tUfi8V9RugEs6a64GQfexR91qFOYXYyaMOodxOa
- Zz9JWtNgbx7hbkB+z7mYYe2VBJW9ubHe3ZRFVh5AuR2cYMC+DckQbPh4dJ+zuQK3Dl7B Rw== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by aserp2120.oracle.com with ESMTP id 2un4n9ra2g-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 27 Aug 2019 13:12:41 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x7RD98T9051233;
-        Tue, 27 Aug 2019 13:10:41 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by aserp3030.oracle.com with ESMTP id 2umhu8qtpm-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 27 Aug 2019 13:10:40 +0000
-Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x7RDAevg015866;
-        Tue, 27 Aug 2019 13:10:40 GMT
-Received: from kadam (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Tue, 27 Aug 2019 06:10:39 -0700
-Date:   Tue, 27 Aug 2019 16:10:33 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Colin King <colin.king@canonical.com>
+        Tue, 27 Aug 2019 09:16:28 -0400
+Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9CBA02F0;
+        Tue, 27 Aug 2019 15:16:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1566911786;
+        bh=z5PZjhDR12uPaYibMNmabCaz4NixQiQc5Bc+B+IvZEQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=H9JYEAaGRzqxrSJTVNaUwykdaO7THI1VVoQG7eS5Toh8XeuUWcK3GYnS61KHGDFVc
+         X+IQ/7ugR7ysA8wVbPAquSI62x2orbbwcRoPAqWoCM1M8T93YAGjRIf743nHCAFlgv
+         evOnTtawH1eMFCUKuI7R7zF0SGvQQBku+o4DmAas=
+Date:   Tue, 27 Aug 2019 16:16:20 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: dvb: redundant assignment to variable tmp
-Message-ID: <20190827131033.GD23584@kadam>
-References: <20190827111527.26337-1-colin.king@canonical.com>
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>, tfiga@google.com,
+        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
+        <linux-media@vger.kernel.org>
+Subject: Re: [PATCH v2 06/10] media: v4l2-fwnode: Add helper to register
+ controls from fw
+Message-ID: <20190827131620.GX5054@pendragon.ideasonboard.com>
+References: <20190827092339.8858-1-jacopo@jmondi.org>
+ <20190827092339.8858-9-jacopo@jmondi.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20190827111527.26337-1-colin.king@canonical.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9361 signatures=668684
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1906280000 definitions=main-1908270142
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9361 signatures=668684
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
- lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1906280000
- definitions=main-1908270142
+In-Reply-To: <20190827092339.8858-9-jacopo@jmondi.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Aug 27, 2019 at 12:15:27PM +0100, Colin King wrote:
-> From: Colin Ian King <colin.king@canonical.com>
+Hi Jacopo,
+
+Thank you for the patch.
+
+On Tue, Aug 27, 2019 at 11:23:34AM +0200, Jacopo Mondi wrote:
+> Add the 'v4l2_fwnode_register_controls()' helper to v4l2-fwnode. The
+> function parses the device node and endpoint firmware properties to
+> which a v4l2 control is associated to and registers the control with the
+> provided handler.
 > 
-> Variable tmp is being assigned a value that is never read and tmp
-> is being re-assigned a little later on. The assignment is redundant
-> and hence can be removed.
-> 
-> Addresses-Coverity: ("Ununsed value")
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 > ---
->  drivers/media/dvb-frontends/sp8870.c | 2 --
->  1 file changed, 2 deletions(-)
+>  drivers/media/v4l2-core/v4l2-fwnode.c | 57 +++++++++++++++++++++++++++
+>  include/media/v4l2-fwnode.h           | 30 ++++++++++++++
+>  2 files changed, 87 insertions(+)
 > 
-> diff --git a/drivers/media/dvb-frontends/sp8870.c b/drivers/media/dvb-frontends/sp8870.c
-> index 655db8272268..f6793c9c2dc3 100644
-> --- a/drivers/media/dvb-frontends/sp8870.c
-> +++ b/drivers/media/dvb-frontends/sp8870.c
-> @@ -378,8 +378,6 @@ static int sp8870_read_ber (struct dvb_frontend* fe, u32 * ber)
->  	if (ret < 0)
->  		return -EIO;
+> diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
+> index 3bd1888787eb..669801fceb64 100644
+> --- a/drivers/media/v4l2-core/v4l2-fwnode.c
+> +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
+> @@ -25,6 +25,7 @@
+>  #include <linux/types.h>
 >  
-> -	tmp = ret & 0x3F;
-> -
+>  #include <media/v4l2-async.h>
+> +#include <media/v4l2-ctrls.h>
+>  #include <media/v4l2-fwnode.h>
+>  #include <media/v4l2-subdev.h>
+>  
+> @@ -595,6 +596,62 @@ void v4l2_fwnode_put_link(struct v4l2_fwnode_link *link)
+>  }
+>  EXPORT_SYMBOL_GPL(v4l2_fwnode_put_link);
+>  
+> +int v4l2_fwnode_register_controls(struct fwnode_handle *fwnode,
+> +				  struct v4l2_ctrl_handler *hdl,
+> +				  const struct v4l2_ctrl_ops *ctrl_ops)
 
-This is pre git code.  It's not clear if the tmp is supposed to be used
-or if we can remove the sp8870_readreg() call also...  The problem is
-that we're disabling the warning without necessarily writing the best
-fix.  It's better to leave the warning there until we are more sure of
-the correct fix.  The warning has useful information and it's not
-hurting anyone.
+Passing the ctrl_ops is a bit annoying. Would there be a way to get the
+V4L2 control framework to accept NULL ops for read-only controls ?
 
-regards,
-dan carpenter
+> +{
+> +	u32 val;
+> +	int ret;
+> +
+> +	ret = fwnode_property_read_u32(fwnode, "location", &val);
+> +	if (!ret) {
+> +		switch (val) {
+> +		case V4L2_LOCATION_FRONT:
+> +		case V4L2_LOCATION_BACK:
+> +		case V4L2_LOCATION_EXTERNAL:
+> +			break;
+> +		default:
+> +			pr_warn("Unsupported location: %u\n", val);
 
+dev_warn() would be nicer. Is there a way we could either pass the
+struct device pointer, or maybe a subdev that would be populated with
+the device, fwnode and hdl pointers ?
+
+> +			return -EINVAL;
+> +		}
+> +
+> +		if (v4l2_ctrl_find(hdl, V4L2_CID_CAMERA_SENSOR_LOCATION))
+> +			pr_debug("Skip control '%s': already registered",
+> +				 v4l2_ctrl_get_name(
+> +					 V4L2_CID_CAMERA_SENSOR_LOCATION));
+> +		else
+> +			v4l2_ctrl_new_std(hdl, ctrl_ops,
+> +					  V4L2_CID_CAMERA_SENSOR_LOCATION,
+> +					  val, val, 1, val);
+> +	}
+> +
+> +	ret = fwnode_property_read_u32(fwnode, "rotation", &val);
+> +	if (!ret) {
+> +		if (val > 360) {
+> +			pr_warn("Unsupported rotation: %u\n", val);
+> +			return -EINVAL;
+> +		}
+
+We need to define the range of allowed values in the control
+documentation. 360 doesn't seem very useful as it's equivalent to 0.
+A few possible options are [0, 360[, [-180, +180[ or ]-180, +180].
+
+> +
+> +		if (v4l2_ctrl_find(hdl, V4L2_CID_CAMERA_SENSOR_ROTATION))
+> +			pr_debug("Skip control '%s': already registered",
+> +				 v4l2_ctrl_get_name(
+> +					 V4L2_CID_CAMERA_SENSOR_ROTATION));
+> +		else
+> +			v4l2_ctrl_new_std(hdl, ctrl_ops,
+> +					  V4L2_CID_CAMERA_SENSOR_ROTATION,
+> +					  val, val, 1, val);
+> +	}
+> +
+> +	if (hdl->error) {
+> +		pr_warn("Failed to register controls from firmware: %d\n",
+> +			hdl->error);
+> +		return hdl->error;
+> +	}
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(v4l2_fwnode_register_controls);
+> +
+>  static int
+>  v4l2_async_notifier_fwnode_parse_endpoint(struct device *dev,
+>  					  struct v4l2_async_notifier *notifier,
+> diff --git a/include/media/v4l2-fwnode.h b/include/media/v4l2-fwnode.h
+> index f6a7bcd13197..0dad6968bde9 100644
+> --- a/include/media/v4l2-fwnode.h
+> +++ b/include/media/v4l2-fwnode.h
+> @@ -25,6 +25,8 @@
+>  struct fwnode_handle;
+>  struct v4l2_async_notifier;
+>  struct v4l2_async_subdev;
+> +struct v4l2_ctrl_handler;
+> +struct v4l2_ctrl_ops;
+>  
+>  #define V4L2_FWNODE_CSI2_MAX_DATA_LANES	4
+>  
+> @@ -233,6 +235,34 @@ int v4l2_fwnode_parse_link(struct fwnode_handle *fwnode,
+>   */
+>  void v4l2_fwnode_put_link(struct v4l2_fwnode_link *link);
+>  
+> +/**
+> + * v4l2_fwnode_register_controls() - parse device and endpoint fwnode
+> + *				     properties and register a v4l2 control
+> + *				     for each of them
+
+I don't think that description is accurate.
+
+> + * @fwnode: pointer to the device fwnode handle
+> + * @hdl: pointer to the v4l2 control handler to register controls with
+> + * @ctrl_ops: pointer to the v4l2 control operations to register with the handler
+> + *
+> + * Parse the @fwnode device and endpoint properties to which a v4l2 control
+> + * is associated and register them with the provided handler @hdl.
+> + * Currently the following v4l2 controls are parsed and registered:
+> + * - V4L2_CID_CAMERA_SENSOR_LOCATION;
+> + * - V4L2_CID_CAMERA_SENSOR_ROTATION;
+> + *
+> + * Controls already registered by the caller with the @hdl control handler are
+> + * not overwritten. Callers should register the controls they want to handle
+> + * themselves before calling this function.
+> + *
+> + * NOTE: This function locks the @hdl control handler mutex, the caller shall
+> + * not hold the lock when calling this function.
+> + *
+> + * Return: 0 on success, -EINVAL if the fwnode properties are not correctly
+> + * specified.
+> + */
+> +int v4l2_fwnode_register_controls(struct fwnode_handle *fwnode,
+> +				  struct v4l2_ctrl_handler *hdl,
+> +				  const struct v4l2_ctrl_ops *ctrl_ops);
+> +
+>  /**
+>   * typedef parse_endpoint_func - Driver's callback function to be called on
+>   *	each V4L2 fwnode endpoint.
+
+-- 
+Regards,
+
+Laurent Pinchart
