@@ -2,109 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F8939E8AF
-	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2019 15:10:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A5B19E8CD
+	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2019 15:12:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726944AbfH0NJ7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Aug 2019 09:09:59 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:54464 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726250AbfH0NJ7 (ORCPT
+        id S1727124AbfH0NMp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Aug 2019 09:12:45 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:54436 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725920AbfH0NMp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Aug 2019 09:09:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=XMwq+w9d/m/WBkMhGFnvfZLcnVM+faVFVq/Cs6eIFJY=; b=A07J7YymmK+Q1bFJrFeT/yp6g
-        ixuxidEi5woZ5kNVRg/qA4RiM38xGEAZKYdaqRkbKlbqbASUMs5v2YShciLzPh5Yd27cgR9xtytvk
-        /+cmu8wg9FWh0rUgklyZKzPteHDmux2faQTqpA8zYxij+Hf1OyVgeDSzEgNe+MTxgBwROpi496Pjo
-        YbOunCn5I3pr6i84m0IcM8XyEfK8RQYnYjqZnF0OiQQDi8cPdRL9FYEWEzrn6xH4c1Srd3lfTD0Wb
-        097Hpcr2Vl8LQ9ryEMUHuKeHWsUdHvImk/NpCpMAp5qZovM6Ce+bCs9zBpGwPe2irt+g+5hau47jN
-        cnPro7WzA==;
-Received: from 177.17.135.157.dynamic.adsl.gvt.net.br ([177.17.135.157] helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1i2bET-0006kw-Tx; Tue, 27 Aug 2019 13:09:58 +0000
-Date:   Tue, 27 Aug 2019 10:09:53 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Olcay Korkmaz <olcay.krkmz@gmail.com>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: bug: dvbv5-scan segfaults
-Message-ID: <20190827100953.0e8dc268@coco.lan>
-In-Reply-To: <CADBDwkdbeRPC9VWYqLUcw-As8d14EqhD3qpdjc4c43s4dS5Nsg@mail.gmail.com>
-References: <CADBDwkcKFGLQ_uv4U-gCTXeR09n3uz7dJt3OkufuR_4QsMb0AQ@mail.gmail.com>
-        <20190826144014.02e0a85b@coco.lan>
-        <CADBDwkdbeRPC9VWYqLUcw-As8d14EqhD3qpdjc4c43s4dS5Nsg@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Tue, 27 Aug 2019 09:12:45 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x7RD9CAZ001945;
+        Tue, 27 Aug 2019 13:12:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2019-08-05;
+ bh=ASUUUkYHWUhwFKzNS2t3x+k/4UsOO6plVu7exCkK5XU=;
+ b=MPLf+vxxOSe561irWHaSHSyCBYCGV8jpbtY0kHQ/vYVoT9nwJa1pIoMwKod4LgVOkvXh
+ etEcI++34RwpM/Fj7kR2LEtjRZk1P0MRZN4JulOvdVulL+MLOViEAicllqIgO37Mcfri
+ kj5HC2v6F5ppcF1hW+0IfC9HMRgaG6HUnLvE6qXnvljivORFrATxcFogyobn7JPQxILo
+ RwXIhzaX0kSMIMoa7ltyW+Peizl29tUfi8V9RugEs6a64GQfexR91qFOYXYyaMOodxOa
+ Zz9JWtNgbx7hbkB+z7mYYe2VBJW9ubHe3ZRFVh5AuR2cYMC+DckQbPh4dJ+zuQK3Dl7B Rw== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by aserp2120.oracle.com with ESMTP id 2un4n9ra2g-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 27 Aug 2019 13:12:41 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x7RD98T9051233;
+        Tue, 27 Aug 2019 13:10:41 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by aserp3030.oracle.com with ESMTP id 2umhu8qtpm-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 27 Aug 2019 13:10:40 +0000
+Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x7RDAevg015866;
+        Tue, 27 Aug 2019 13:10:40 GMT
+Received: from kadam (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Tue, 27 Aug 2019 06:10:39 -0700
+Date:   Tue, 27 Aug 2019 16:10:33 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Colin King <colin.king@canonical.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: dvb: redundant assignment to variable tmp
+Message-ID: <20190827131033.GD23584@kadam>
+References: <20190827111527.26337-1-colin.king@canonical.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190827111527.26337-1-colin.king@canonical.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9361 signatures=668684
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.0.1-1906280000 definitions=main-1908270142
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9361 signatures=668684
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1906280000
+ definitions=main-1908270142
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Mon, 26 Aug 2019 22:25:28 +0300
-Olcay Korkmaz <olcay.krkmz@gmail.com> escreveu:
+On Tue, Aug 27, 2019 at 12:15:27PM +0100, Colin King wrote:
+> From: Colin Ian King <colin.king@canonical.com>
+> 
+> Variable tmp is being assigned a value that is never read and tmp
+> is being re-assigned a little later on. The assignment is redundant
+> and hence can be removed.
+> 
+> Addresses-Coverity: ("Ununsed value")
+> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+> ---
+>  drivers/media/dvb-frontends/sp8870.c | 2 --
+>  1 file changed, 2 deletions(-)
+> 
+> diff --git a/drivers/media/dvb-frontends/sp8870.c b/drivers/media/dvb-frontends/sp8870.c
+> index 655db8272268..f6793c9c2dc3 100644
+> --- a/drivers/media/dvb-frontends/sp8870.c
+> +++ b/drivers/media/dvb-frontends/sp8870.c
+> @@ -378,8 +378,6 @@ static int sp8870_read_ber (struct dvb_frontend* fe, u32 * ber)
+>  	if (ret < 0)
+>  		return -EIO;
+>  
+> -	tmp = ret & 0x3F;
+> -
 
-> 1.14.2 and git tree build gives the same error
-> TS of entire transponder:
-> https://drive.google.com/file/d/1zHouZSlbPowyJY5tzT5ro0r4ciPURkbi/view?usp=sharing
+This is pre git code.  It's not clear if the tmp is supposed to be used
+or if we can remove the sp8870_readreg() call also...  The problem is
+that we're disabling the warning without necessarily writing the best
+fix.  It's better to leave the warning there until we are more sure of
+the correct fix.  The warning has useful information and it's not
+hurting anyone.
 
-Thanks!
+regards,
+dan carpenter
 
-Please don't top-post.
-
-> > Em Mon, 26 Aug 2019 19:59:17 +0300
-> > Olcay Korkmaz <olcay.mz@gmail.com> escreveu:
-> >  
-
-
-> > > Service TV8, provider TV8: digital television
-> > > Storing as channel TV8
-> > >
-> > > Program received signal SIGSEGV, Segmentation fault.
-> > > 0x00007ffff7ba5cff in dvb_store_channel ()
-> > >    from /usr/lib/x86_64-linux-gnu/libdvbv5.so.0
-> > > (gdb) backtrace  
-> >
-> >  
-> > > #0 0x00007ffff7ba5cff in dvb_store_channel ()
-> > >    from /usr/lib/x86_64-linux-gnu/libdvbv5.so.0
-> > > #1 0x00005555555560c6 in run_scan (dvb=0x55555575d2e0, args=0x7fffffffdc80)
-> > >     at dvbv5-scan.c:313
-> > > #2 main (argc=<optimized out>, argv=<optimized out>) at dvbv5-scan.c:562
-
-Ok, the problem is happening here:
-
-Program received signal SIGSEGV, Segmentation fault.
-dvb_store_channel (dvb_file=0x7fffffffe460, __p=0x5555555605d0, dvb_scan_handler=0x555555565060, get_detected=0, 
-    get_nit=0) at dvb-file.c:1345
-1345			if (dvb_scan_handler->nit->transport) {
-(gdb) bt
-#0  dvb_store_channel (dvb_file=0x7fffffffe460, __p=0x5555555605d0, dvb_scan_handler=0x555555565060, get_detected=0, 
-    get_nit=0) at dvb-file.c:1345
-#1  0x0000555555556847 in run_scan (dvb=0x5555555604f0, args=0x7fffffffe4b0) at dvbv5-scan.c:313
-#2  main (argc=<optimized out>, argv=<optimized out>) at dvbv5-scan.c:562
-
-The enclosed patch should fix the issue. Could you please check?
-
-diff --git a/lib/libdvbv5/dvb-file.c b/lib/libdvbv5/dvb-file.c
-index d077271a6546..474b59cb6fce 100644
---- a/lib/libdvbv5/dvb-file.c
-+++ b/lib/libdvbv5/dvb-file.c
-@@ -1342,7 +1342,7 @@ int dvb_store_channel(struct dvb_file **dvb_file,
- 			dvb_log(_("Storing as channel %s"), channel);
- 		vchannel = dvb_vchannel(parms, dvb_scan_handler->nit, service->service_id);
- 
--		if (dvb_scan_handler->nit->transport) {
-+		if (dvb_scan_handler->nit && dvb_scan_handler->nit->transport) {
- 			network_id = dvb_scan_handler->nit->transport->network_id;
- 			transport_id = dvb_scan_handler->nit->transport->transport_id;
- 		}
-
-
-Regards,
-Mauro
