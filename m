@@ -2,96 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 57CF59EAA2
-	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2019 16:15:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 955079EBAE
+	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2019 16:57:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726952AbfH0OPN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Aug 2019 10:15:13 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:34013 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726170AbfH0OPM (ORCPT
+        id S1726441AbfH0O5z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Aug 2019 10:57:55 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:47766 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726170AbfH0O5z (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Aug 2019 10:15:12 -0400
-Received: by mail-lj1-f196.google.com with SMTP id x18so18662088ljh.1;
-        Tue, 27 Aug 2019 07:15:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=KfeseVQWz48HAsLr5kcHWdtkdT6kJKG3U+x7h2FYyGM=;
-        b=aOGBqq4Z85flFdMhhFl9AvnbOfU7QDOmEVBPnoX21w4aDGd0QjB01vrR0GhSwtmw1L
-         dhb+Qa3SnEUgASCKtYNN3kRj9hV6w0R6o2tDd6/MxnXn6QZaKe/QbqKr85uzZ5w/u7bK
-         KJMCJz8JASMbf8OyuOzrMXrdIRoO+Co4Pty/fBQZrYb8EhY7HXsktEUDWLh5OcirFdMh
-         t01hzebLjzQVXg42WVcByA9x4z1Sb4nBlnohhoW66ooWM+JyFUzZWGpAwO3hHIj6tbok
-         N5GbLjUaLhs68IOPk6ciZc3cZfMOt2EWaC7EuV7MAdcybjrP3cnmZpsdCwHT+5Z4i8+v
-         8gog==
-X-Gm-Message-State: APjAAAXYirbHHlrkRAL+Iyc5m62UrRLjMBQiIdVa5Q0UJ5e4JfDWNju4
-        7P+bfJDedfXEGPiVKhg+rvBHofBOzIY4wxZL6Y8=
-X-Google-Smtp-Source: APXvYqynbPEMJ5NJosXQEn553TI+EwJm9qEyttNHdgRx0B6Cd7hXJqH69rtOKEoglJrjQ9eC04IA7D0x4NcOdaJK7k0=
-X-Received: by 2002:a2e:980d:: with SMTP id a13mr14098210ljj.145.1566915310400;
- Tue, 27 Aug 2019 07:15:10 -0700 (PDT)
+        Tue, 27 Aug 2019 10:57:55 -0400
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AEC77BB9;
+        Tue, 27 Aug 2019 16:57:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1566917873;
+        bh=FORQNvGW5MdLuE1K2DQvERGzkmwRNkmugUtqOhsouL0=;
+        h=Subject:To:Cc:References:Reply-To:From:Date:In-Reply-To:From;
+        b=D423NDjZ+R4mD1jaqQ79yZuiFJ7/s+N7L5rP76CX1cgrE2eZ3Wd19y86qrq2QKq7I
+         SFv538diH5xgl216SIuoSAAQMlNvFGGok+yKZetkkRHSSVsPRWNhp+xb3Xfmfxdnu2
+         IzawxuAmG8hFufTIKDAy6z+tJtcOnFeuJZifLNP0=
+Subject: Re: [PATCH] media: cx231xx: Spelling s/diconencted/diconnected/
+To:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+References: <20190731134051.18392-1-geert+renesas@glider.be>
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <44bee359-3d5a-f810-0f83-9d499a371e6a@ideasonboard.com>
+Date:   Tue, 27 Aug 2019 15:57:50 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20190822192451.5983-1-scott.branden@broadcom.com> <20190822192451.5983-7-scott.branden@broadcom.com>
-In-Reply-To: <20190822192451.5983-7-scott.branden@broadcom.com>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Tue, 27 Aug 2019 16:14:54 +0200
-Message-ID: <CAK8P3a1WBkmXbJx=rZMumxn7EN4bmA1AdZEgrWBVyQ3XNngU6Q@mail.gmail.com>
-Subject: Re: [PATCH 6/7] misc: bcm-vk: add Broadcom Valkyrie driver
-To:     Scott Branden <scott.branden@broadcom.com>
-Cc:     Luis Chamberlain <mcgrof@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        David Brown <david.brown@linaro.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Shuah Khan <shuah@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-msm@vger.kernel.org,
-        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
-        BCM Kernel Feedback <bcm-kernel-feedback-list@broadcom.com>,
-        Olof Johansson <olof@lixom.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Colin Ian King <colin.king@canonical.com>,
-        Kees Cook <keescook@chromium.org>,
-        Takashi Iwai <tiwai@suse.de>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Desmond Yan <desmond.yan@broadcom.com>,
-        James Hu <james.hu@broadcom.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190731134051.18392-1-geert+renesas@glider.be>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Aug 22, 2019 at 9:25 PM Scott Branden
-<scott.branden@broadcom.com> wrote:
->
-> Add Broadcom Valkyrie driver offload engine.
-> This driver interfaces to the Valkyrie PCIe offload engine to perform
-> should offload functions as video transcoding on multiple streams
-> in parallel.  Valkyrie device is booted from files loaded using
-> request_firmware_into_buf mechanism.  After booted card status is updated
-> and messages can then be sent to the card.
-> Such messages contain scatter gather list of addresses
-> to pull data from the host to perform operations on.
->
-> Signed-off-by: Scott Branden <scott.branden@broadcom.com>
-> Signed-off-by: Desmond Yan <desmond.yan@broadcom.com>
-> Signed-off-by: James Hu <james.hu@broadcom.com>
+Hi Geert,
 
-Can you explain the decision to make this is a standalone misc driver
-rather than hooking into the existing framework in drivers/media?
+On 31/07/2019 14:40, Geert Uytterhoeven wrote:
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> ---
+>  drivers/media/usb/cx231xx/cx231xx-cards.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/usb/cx231xx/cx231xx-cards.c b/drivers/media/usb/cx231xx/cx231xx-cards.c
+> index e0d98ba8fdbfa829..47a85d8152b03afa 100644
+> --- a/drivers/media/usb/cx231xx/cx231xx-cards.c
+> +++ b/drivers/media/usb/cx231xx/cx231xx-cards.c
+> @@ -1924,7 +1924,7 @@ static int cx231xx_usb_probe(struct usb_interface *interface,
+>  
+>  /*
+>   * cx231xx_usb_disconnect()
+> - * called when the device gets diconencted
+> + * called when the device gets diconnected
 
-There is an existing interface that looks like it could fit the hardware
-in include/media/v4l2-mem2mem.h. Have you considered using that?
+Shouldn't this perhaps be 'disconnected' ?
+--
+Kieran
 
-There is also support for video transcoding using GPUs in
-driver/gpu/drm/, that could also be used in theory, though it sounds
-like a less optimal fit.
 
-      Arnd
+>   * video device will be unregistered on v4l2_close in case it is still open
+>   */
+>  static void cx231xx_usb_disconnect(struct usb_interface *interface)
+> 
+
