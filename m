@@ -2,21 +2,21 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 387849E3E3
-	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2019 11:22:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AA68D9E3E4
+	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2019 11:22:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729277AbfH0JWf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Aug 2019 05:22:35 -0400
-Received: from relay5-d.mail.gandi.net ([217.70.183.197]:52563 "EHLO
+        id S1729289AbfH0JWh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Aug 2019 05:22:37 -0400
+Received: from relay5-d.mail.gandi.net ([217.70.183.197]:46449 "EHLO
         relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725912AbfH0JWf (ORCPT
+        with ESMTP id S1725912AbfH0JWh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Aug 2019 05:22:35 -0400
+        Tue, 27 Aug 2019 05:22:37 -0400
 X-Originating-IP: 87.18.63.98
 Received: from uno.homenet.telecomitalia.it (unknown [87.18.63.98])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 695431C000B;
-        Tue, 27 Aug 2019 09:22:32 +0000 (UTC)
+        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 26D331C0005;
+        Tue, 27 Aug 2019 09:22:33 +0000 (UTC)
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
@@ -26,9 +26,9 @@ To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
 Cc:     Jacopo Mondi <jacopo@jmondi.org>,
         linux-media@vger.kernel.org (open list:MEDIA INPUT INFRASTRUCTURE
         (V4L/DVB))
-Subject: [PATCH v2 04/10] media: v4l2-ctrl: Add V4L2_CID_CAMERA_SENSOR_LOCATION
-Date:   Tue, 27 Aug 2019 11:23:30 +0200
-Message-Id: <20190827092339.8858-5-jacopo@jmondi.org>
+Subject: [PATCH v2 04/10] media: v4l2-ctrls: Add V4L2_CID_CAMERA_SENSOR_LOCATION
+Date:   Tue, 27 Aug 2019 11:23:31 +0200
+Message-Id: <20190827092339.8858-6-jacopo@jmondi.org>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20190827092339.8858-1-jacopo@jmondi.org>
 References: <20190827092339.8858-1-jacopo@jmondi.org>
