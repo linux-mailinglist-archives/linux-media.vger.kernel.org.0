@@ -2,144 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D86519DDA5
-	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2019 08:23:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 66BAD9DE66
+	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2019 09:07:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728395AbfH0GXe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Aug 2019 02:23:34 -0400
-Received: from smtp.codeaurora.org ([198.145.29.96]:59696 "EHLO
-        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725825AbfH0GXd (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Aug 2019 02:23:33 -0400
-Received: by smtp.codeaurora.org (Postfix, from userid 1000)
-        id B67A060F38; Tue, 27 Aug 2019 06:23:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1566887012;
-        bh=DWiUZ0h0oKq+88OUYVKweLryQ+oqXke10jLm3RzR10s=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=d+hFDYAv4ew9GCxLPdp/AFrwCNQUN6HIaZCAciVhYLxPNXEZnHAcGUy/3U29hk4wG
-         56qXsrGEql38MXde5WS2z9rAX7PoAn875H495k2CrXbwQz4ryy8ze6ovuqEiHJgyz3
-         p+SIb9+iTdCzlw58kBRGRQm6NV7qGC+9bOZ6Cwco=
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        pdx-caf-mail.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=2.0 tests=ALL_TRUSTED,BAYES_00,
-        DKIM_INVALID,DKIM_SIGNED,SPF_NONE autolearn=no autolearn_force=no
-        version=3.4.0
-Received: from amasule-linux.qualcomm.com (blr-c-bdr-fw-01_globalnat_allzones-outside.qualcomm.com [103.229.19.19])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: amasule@codeaurora.org)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id AC54760E5A;
-        Tue, 27 Aug 2019 06:23:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1566887012;
-        bh=DWiUZ0h0oKq+88OUYVKweLryQ+oqXke10jLm3RzR10s=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=d+hFDYAv4ew9GCxLPdp/AFrwCNQUN6HIaZCAciVhYLxPNXEZnHAcGUy/3U29hk4wG
-         56qXsrGEql38MXde5WS2z9rAX7PoAn875H495k2CrXbwQz4ryy8ze6ovuqEiHJgyz3
-         p+SIb9+iTdCzlw58kBRGRQm6NV7qGC+9bOZ6Cwco=
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org AC54760E5A
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=amasule@codeaurora.org
-From:   Aniket Masule <amasule@codeaurora.org>
-To:     linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        vgarodia@codeaurora.org, Aniket Masule <amasule@codeaurora.org>
-Subject: [PATCH v7 3/3] media: venus: Update to bitrate based clock scaling
-Date:   Tue, 27 Aug 2019 11:53:06 +0530
-Message-Id: <1566886986-10329-4-git-send-email-amasule@codeaurora.org>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1566886986-10329-1-git-send-email-amasule@codeaurora.org>
-References: <1566886986-10329-1-git-send-email-amasule@codeaurora.org>
+        id S1727999AbfH0HH3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Aug 2019 03:07:29 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:46918 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725943AbfH0HH3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 27 Aug 2019 03:07:29 -0400
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id 25C7EF52D139BD0B3CB4;
+        Tue, 27 Aug 2019 15:07:27 +0800 (CST)
+Received: from localhost (10.133.213.239) by DGGEMS414-HUB.china.huawei.com
+ (10.3.19.214) with Microsoft SMTP Server id 14.3.439.0; Tue, 27 Aug 2019
+ 15:07:20 +0800
+From:   YueHaibing <yuehaibing@huawei.com>
+To:     <mripard@kernel.org>, <mchehab@kernel.org>, <wens@csie.org>,
+        <maxime.ripard@bootlin.com>, <sakari.ailus@linux.intel.com>
+CC:     <linux-media@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, YueHaibing <yuehaibing@huawei.com>
+Subject: [PATCH -next] media: sun6i: Make sun4i_csi_formats static
+Date:   Tue, 27 Aug 2019 15:06:23 +0800
+Message-ID: <20190827070623.15776-1-yuehaibing@huawei.com>
+X-Mailer: git-send-email 2.10.2.windows.1
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Originating-IP: [10.133.213.239]
+X-CFilter-Loop: Reflected
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Introduced clock scaling using bitrate, preavious
-calculations consider only the cycles per mb.
-Also, clock scaling is now triggered before every
-buffer being queued to the device. This helps in
-deciding precise clock cycles required.
+Fix sparse warning:
 
-Signed-off-by: Aniket Masule <amasule@codeaurora.org>
+drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c:21:31:
+ warning: symbol 'sun4i_csi_formats' was not declared. Should it be static?
+
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: YueHaibing <yuehaibing@huawei.com>
 ---
- drivers/media/platform/qcom/venus/helpers.c | 33 ++++++++++++++++++++++++-----
- 1 file changed, 28 insertions(+), 5 deletions(-)
+ drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
-index 4ed630b..8fee0ef 100644
---- a/drivers/media/platform/qcom/venus/helpers.c
-+++ b/drivers/media/platform/qcom/venus/helpers.c
-@@ -516,17 +516,26 @@ static int scale_clocks(struct venus_inst *inst)
- 	return 0;
- }
+diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c b/drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c
+index 772b0fc..83a3a02 100644
+--- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c
++++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c
+@@ -18,7 +18,7 @@
+ #define CSI_DEFAULT_WIDTH	640
+ #define CSI_DEFAULT_HEIGHT	480
  
--static unsigned long calculate_vpp_freq(struct venus_inst *inst)
-+static unsigned long calculate_inst_freq(struct venus_inst *inst,
-+					 unsigned long filled_len)
- {
--	unsigned long vpp_freq = 0;
-+	unsigned long vpp_freq = 0, vsp_freq = 0;
-+	u64 fps = inst->fps;
- 	u32 mbs_per_sec;
- 
--	mbs_per_sec = load_per_instance(inst);
-+	mbs_per_sec = load_per_instance(inst) / inst->fps;
- 	vpp_freq = mbs_per_sec * inst->clk_data.codec_freq_data->vpp_freq;
- 	/* 21 / 20 is overhead factor */
- 	vpp_freq += vpp_freq / 20;
-+	vsp_freq = mbs_per_sec * inst->clk_data.codec_freq_data->vsp_freq;
- 
--	return vpp_freq;
-+	/* 10 / 7 is overhead factor */
-+	if (inst->session_type == VIDC_SESSION_TYPE_ENC)
-+		vsp_freq += (inst->controls.enc.bitrate * 10) / 7;
-+	else
-+		vsp_freq += ((fps * filled_len * 8) * 10) / 7;
-+
-+	return max(vpp_freq, vsp_freq);
- }
- 
- static int scale_clocks_v4(struct venus_inst *inst)
-@@ -534,12 +543,24 @@ static int scale_clocks_v4(struct venus_inst *inst)
- 	struct venus_core *core = inst->core;
- 	const struct freq_tbl *table = core->res->freq_tbl;
- 	unsigned int num_rows = core->res->freq_tbl_size;
-+	struct v4l2_m2m_ctx *m2m_ctx = inst->m2m_ctx;
- 	struct device *dev = core->dev;
- 	unsigned int i;
- 	unsigned long freq = 0, freq_core1 = 0, freq_core2 = 0;
-+	unsigned long filled_len = 0;
-+	struct venus_buffer *buf, *n;
-+	struct vb2_buffer *vb;
- 	int ret;
- 
--	freq = calculate_vpp_freq(inst);
-+	v4l2_m2m_for_each_src_buf_safe(m2m_ctx, buf, n) {
-+		vb = &buf->vb.vb2_buf;
-+		filled_len = max(filled_len, vb2_get_plane_payload(vb, 0));
-+	}
-+
-+	if (inst->session_type == VIDC_SESSION_TYPE_DEC && !filled_len)
-+		return 0;
-+
-+	freq = calculate_inst_freq(inst, filled_len);
- 	inst->clk_data.freq = freq;
- 
- 	mutex_lock(&core->lock);
-@@ -701,6 +722,8 @@ void venus_helper_get_ts_metadata(struct venus_inst *inst, u64 timestamp_us,
- 
- 		if (inst->session_type == VIDC_SESSION_TYPE_DEC)
- 			put_ts_metadata(inst, vbuf);
-+
-+		venus_helper_load_scale_clocks(inst);
- 	} else if (type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) {
- 		if (inst->session_type == VIDC_SESSION_TYPE_ENC)
- 			fdata.buffer_type = HFI_BUFFER_OUTPUT;
+-const struct sun4i_csi_format sun4i_csi_formats[] = {
++static const struct sun4i_csi_format sun4i_csi_formats[] = {
+ 	/* YUV422 inputs */
+ 	{
+ 		.mbus		= MEDIA_BUS_FMT_YUYV8_2X8,
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
-a Linux Foundation Collaborative Project
+2.7.4
+
 
