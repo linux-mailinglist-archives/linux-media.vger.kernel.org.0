@@ -2,207 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E5839E8DD
-	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2019 15:16:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E2EEC9E925
+	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2019 15:22:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726278AbfH0NQ2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Aug 2019 09:16:28 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:46752 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725920AbfH0NQ2 (ORCPT
+        id S1728391AbfH0NWk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Aug 2019 09:22:40 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:48742 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725920AbfH0NWk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Aug 2019 09:16:28 -0400
-Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9CBA02F0;
-        Tue, 27 Aug 2019 15:16:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1566911786;
-        bh=z5PZjhDR12uPaYibMNmabCaz4NixQiQc5Bc+B+IvZEQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=H9JYEAaGRzqxrSJTVNaUwykdaO7THI1VVoQG7eS5Toh8XeuUWcK3GYnS61KHGDFVc
-         X+IQ/7ugR7ysA8wVbPAquSI62x2orbbwcRoPAqWoCM1M8T93YAGjRIf743nHCAFlgv
-         evOnTtawH1eMFCUKuI7R7zF0SGvQQBku+o4DmAas=
-Date:   Tue, 27 Aug 2019 16:16:20 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>, tfiga@google.com,
-        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>
-Subject: Re: [PATCH v2 06/10] media: v4l2-fwnode: Add helper to register
- controls from fw
-Message-ID: <20190827131620.GX5054@pendragon.ideasonboard.com>
-References: <20190827092339.8858-1-jacopo@jmondi.org>
- <20190827092339.8858-9-jacopo@jmondi.org>
+        Tue, 27 Aug 2019 09:22:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=6eBvcnLs/eCyS4KaKn57JkKTaMr5nBFGDdXlvxP/2Pw=; b=TL/tht4T193YvnIFp+9/fBHRJ
+        SgLCrPTyVZ6cYtWYwNdu3ck6xTmlhZCPZdvI3J01flZAbT6X9zTN9kl+5TGAz7XSJnqBz+x0+xUJA
+        aVTi/8c15LnzR3Uf01WOlpm0/5lnDbBqCNPLqIkd45jHQ29kWlyg04YIajZmkKASB/Iu/jOPCpQ/7
+        CNqrWQH2YAfEwu+r5KddS5Q9QGgoK79FowwSDxn7+iR4OrgNN6rcluCIEH0U+UR1AFTHswuiq9lgM
+        z/2vYJS9siXcQ80gzOWj25Je38y5FeBDBqSE2/V39IEfsPYnFC0sKgoyz044Jh9V5QQtiwuIc2ecR
+        I3qRA371g==;
+Received: from 177.17.135.157.dynamic.adsl.gvt.net.br ([177.17.135.157] helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1i2bQl-0007Hy-Ox; Tue, 27 Aug 2019 13:22:39 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1i2bQj-0001NU-CH; Tue, 27 Aug 2019 10:22:37 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     linux-media@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Olcay Korkmaz <olcay.krkmz@gmail.com>
+Subject: [PATCH] libdvbv5: Don't assume that NIT table was parsed
+Date:   Tue, 27 Aug 2019 10:22:34 -0300
+Message-Id: <20190827132234.5252-1-mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190827092339.8858-9-jacopo@jmondi.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+It might happen that the NIT table doesn't get parsed.
 
-Thank you for the patch.
+As reported by Olcay, some transponders at Turksat-42.0E seem
+to be missing the NIT table, causing dvb tools to crash with:
 
-On Tue, Aug 27, 2019 at 11:23:34AM +0200, Jacopo Mondi wrote:
-> Add the 'v4l2_fwnode_register_controls()' helper to v4l2-fwnode. The
-> function parses the device node and endpoint firmware properties to
-> which a v4l2 control is associated to and registers the control with the
-> provided handler.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> ---
->  drivers/media/v4l2-core/v4l2-fwnode.c | 57 +++++++++++++++++++++++++++
->  include/media/v4l2-fwnode.h           | 30 ++++++++++++++
->  2 files changed, 87 insertions(+)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
-> index 3bd1888787eb..669801fceb64 100644
-> --- a/drivers/media/v4l2-core/v4l2-fwnode.c
-> +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
-> @@ -25,6 +25,7 @@
->  #include <linux/types.h>
->  
->  #include <media/v4l2-async.h>
-> +#include <media/v4l2-ctrls.h>
->  #include <media/v4l2-fwnode.h>
->  #include <media/v4l2-subdev.h>
->  
-> @@ -595,6 +596,62 @@ void v4l2_fwnode_put_link(struct v4l2_fwnode_link *link)
->  }
->  EXPORT_SYMBOL_GPL(v4l2_fwnode_put_link);
->  
-> +int v4l2_fwnode_register_controls(struct fwnode_handle *fwnode,
-> +				  struct v4l2_ctrl_handler *hdl,
-> +				  const struct v4l2_ctrl_ops *ctrl_ops)
+	Program received signal SIGSEGV, Segmentation fault.
+	dvb_store_channel (dvb_file=0x7fffffffe460, __p=0x5555555605d0, dvb_scan_handler=0x555555565060, get_detected=0,
+	    get_nit=0) at dvb-file.c:1345
+	1345			if (dvb_scan_handler->nit->transport) {
 
-Passing the ctrl_ops is a bit annoying. Would there be a way to get the
-V4L2 control framework to accept NULL ops for read-only controls ?
+As both transport ID and network ID are optional information,
+verify if the nit table was parsed before trying fill them.
 
-> +{
-> +	u32 val;
-> +	int ret;
-> +
-> +	ret = fwnode_property_read_u32(fwnode, "location", &val);
-> +	if (!ret) {
-> +		switch (val) {
-> +		case V4L2_LOCATION_FRONT:
-> +		case V4L2_LOCATION_BACK:
-> +		case V4L2_LOCATION_EXTERNAL:
-> +			break;
-> +		default:
-> +			pr_warn("Unsupported location: %u\n", val);
+Reported-by: Olcay Korkmaz <olcay.krkmz@gmail.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ lib/libdvbv5/dvb-file.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-dev_warn() would be nicer. Is there a way we could either pass the
-struct device pointer, or maybe a subdev that would be populated with
-the device, fwnode and hdl pointers ?
-
-> +			return -EINVAL;
-> +		}
-> +
-> +		if (v4l2_ctrl_find(hdl, V4L2_CID_CAMERA_SENSOR_LOCATION))
-> +			pr_debug("Skip control '%s': already registered",
-> +				 v4l2_ctrl_get_name(
-> +					 V4L2_CID_CAMERA_SENSOR_LOCATION));
-> +		else
-> +			v4l2_ctrl_new_std(hdl, ctrl_ops,
-> +					  V4L2_CID_CAMERA_SENSOR_LOCATION,
-> +					  val, val, 1, val);
-> +	}
-> +
-> +	ret = fwnode_property_read_u32(fwnode, "rotation", &val);
-> +	if (!ret) {
-> +		if (val > 360) {
-> +			pr_warn("Unsupported rotation: %u\n", val);
-> +			return -EINVAL;
-> +		}
-
-We need to define the range of allowed values in the control
-documentation. 360 doesn't seem very useful as it's equivalent to 0.
-A few possible options are [0, 360[, [-180, +180[ or ]-180, +180].
-
-> +
-> +		if (v4l2_ctrl_find(hdl, V4L2_CID_CAMERA_SENSOR_ROTATION))
-> +			pr_debug("Skip control '%s': already registered",
-> +				 v4l2_ctrl_get_name(
-> +					 V4L2_CID_CAMERA_SENSOR_ROTATION));
-> +		else
-> +			v4l2_ctrl_new_std(hdl, ctrl_ops,
-> +					  V4L2_CID_CAMERA_SENSOR_ROTATION,
-> +					  val, val, 1, val);
-> +	}
-> +
-> +	if (hdl->error) {
-> +		pr_warn("Failed to register controls from firmware: %d\n",
-> +			hdl->error);
-> +		return hdl->error;
-> +	}
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(v4l2_fwnode_register_controls);
-> +
->  static int
->  v4l2_async_notifier_fwnode_parse_endpoint(struct device *dev,
->  					  struct v4l2_async_notifier *notifier,
-> diff --git a/include/media/v4l2-fwnode.h b/include/media/v4l2-fwnode.h
-> index f6a7bcd13197..0dad6968bde9 100644
-> --- a/include/media/v4l2-fwnode.h
-> +++ b/include/media/v4l2-fwnode.h
-> @@ -25,6 +25,8 @@
->  struct fwnode_handle;
->  struct v4l2_async_notifier;
->  struct v4l2_async_subdev;
-> +struct v4l2_ctrl_handler;
-> +struct v4l2_ctrl_ops;
->  
->  #define V4L2_FWNODE_CSI2_MAX_DATA_LANES	4
->  
-> @@ -233,6 +235,34 @@ int v4l2_fwnode_parse_link(struct fwnode_handle *fwnode,
->   */
->  void v4l2_fwnode_put_link(struct v4l2_fwnode_link *link);
->  
-> +/**
-> + * v4l2_fwnode_register_controls() - parse device and endpoint fwnode
-> + *				     properties and register a v4l2 control
-> + *				     for each of them
-
-I don't think that description is accurate.
-
-> + * @fwnode: pointer to the device fwnode handle
-> + * @hdl: pointer to the v4l2 control handler to register controls with
-> + * @ctrl_ops: pointer to the v4l2 control operations to register with the handler
-> + *
-> + * Parse the @fwnode device and endpoint properties to which a v4l2 control
-> + * is associated and register them with the provided handler @hdl.
-> + * Currently the following v4l2 controls are parsed and registered:
-> + * - V4L2_CID_CAMERA_SENSOR_LOCATION;
-> + * - V4L2_CID_CAMERA_SENSOR_ROTATION;
-> + *
-> + * Controls already registered by the caller with the @hdl control handler are
-> + * not overwritten. Callers should register the controls they want to handle
-> + * themselves before calling this function.
-> + *
-> + * NOTE: This function locks the @hdl control handler mutex, the caller shall
-> + * not hold the lock when calling this function.
-> + *
-> + * Return: 0 on success, -EINVAL if the fwnode properties are not correctly
-> + * specified.
-> + */
-> +int v4l2_fwnode_register_controls(struct fwnode_handle *fwnode,
-> +				  struct v4l2_ctrl_handler *hdl,
-> +				  const struct v4l2_ctrl_ops *ctrl_ops);
-> +
->  /**
->   * typedef parse_endpoint_func - Driver's callback function to be called on
->   *	each V4L2 fwnode endpoint.
-
+diff --git a/lib/libdvbv5/dvb-file.c b/lib/libdvbv5/dvb-file.c
+index d077271a6546..474b59cb6fce 100644
+--- a/lib/libdvbv5/dvb-file.c
++++ b/lib/libdvbv5/dvb-file.c
+@@ -1342,7 +1342,7 @@ int dvb_store_channel(struct dvb_file **dvb_file,
+ 			dvb_log(_("Storing as channel %s"), channel);
+ 		vchannel = dvb_vchannel(parms, dvb_scan_handler->nit, service->service_id);
+ 
+-		if (dvb_scan_handler->nit->transport) {
++		if (dvb_scan_handler->nit && dvb_scan_handler->nit->transport) {
+ 			network_id = dvb_scan_handler->nit->transport->network_id;
+ 			transport_id = dvb_scan_handler->nit->transport->transport_id;
+ 		}
 -- 
-Regards,
+2.21.0
 
-Laurent Pinchart
