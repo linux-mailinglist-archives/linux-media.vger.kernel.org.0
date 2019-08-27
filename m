@@ -2,156 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 76E109EC78
-	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2019 17:25:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 51A629EF84
+	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2019 17:58:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728792AbfH0PZ6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Aug 2019 11:25:58 -0400
-Received: from mail-qt1-f193.google.com ([209.85.160.193]:33405 "EHLO
-        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727089AbfH0PZ6 (ORCPT
+        id S1727926AbfH0P6R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Aug 2019 11:58:17 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:34490 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726420AbfH0P6R (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Aug 2019 11:25:58 -0400
-Received: by mail-qt1-f193.google.com with SMTP id v38so21704792qtb.0
-        for <linux-media@vger.kernel.org>; Tue, 27 Aug 2019 08:25:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version;
-        bh=UYsPsgGfUckufMeEUec2JwS26x9RnxC68LqfuMsCJb4=;
-        b=Q1NhQkKVxAJlcKICo7k5uO5wNqrqJBvNZeECLILQCFrPYYBxQy90++0mMzPVwDn4S8
-         TpWXTq7/bbzvvgU9XibqgTuSn9KYLWVYUi1wr9wQPm0n9tinq18kYuBsi9mSXbnjVrPJ
-         LI569nCbjvqAHQkLM+ORs/6pREwitnixakqmoxua+Bv9X29ughQwtfmxM2n/Ma4L3FlZ
-         2gjAgAiF2FJcNrKH4g6grpJB8XVrqdboghb2Lp7XhhnM/FOMqhACKeZyzu+PJMkQwCOg
-         dU4mOurRaiSuhta9WPdCrG3SSlUO0bBwb96IjQIJajtvjgjxfd4voZ23uY9kZi8KwooA
-         lKXw==
+        Tue, 27 Aug 2019 11:58:17 -0400
+Received: by mail-ot1-f67.google.com with SMTP id c7so19186018otp.1;
+        Tue, 27 Aug 2019 08:58:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version;
-        bh=UYsPsgGfUckufMeEUec2JwS26x9RnxC68LqfuMsCJb4=;
-        b=pkMpaB0YIcNOi//8DSff506ZSoqPcBdGZtXksuAvqFGjg65IGQhKmxFoYyE9RHFstu
-         NuUMP7cked3CmGrIeGhwM/D4mnwmu+yl8PDxZjVJR8t0zvqrigQXQDxw5p/j2lW5HAdz
-         lRvljCh8zSQHgwdIVRdcVEm0/M6v/WbKuwayIXxA800xL3vekrpXk1hK+cU2u7/pqMTN
-         +t8caHlE0Hp2sV0FLSEpU6T7HHvzj9Ko5eiAUe5gMJOwPI2MLixexwMAk0GwhRBl2oxI
-         3Hl8x/Tf7vP3TAyZi6XVoR3SL0mGYiaF88D+axy1zmjh1izu6M3sKp4lr+DN2GFqW4h0
-         kKWQ==
-X-Gm-Message-State: APjAAAWaoaektFJbusMuGWax1/Mapz66m/T6PcUB3kRVwtZFDmarW1Zo
-        pheCr03Gum4GBlBcDKhaePhpLQ==
-X-Google-Smtp-Source: APXvYqyz2z2LwgJPPM/lvqPrfZk6dZuilv+UvVvnsCTjgYLjcKlMdJnfhv4XQUcExaXeKHLvVSiVZw==
-X-Received: by 2002:ac8:7b2a:: with SMTP id l10mr624196qtu.115.1566919557007;
-        Tue, 27 Aug 2019 08:25:57 -0700 (PDT)
-Received: from tpx230-nicolas (modemcable154.55-37-24.static.videotron.ca. [24.37.55.154])
-        by smtp.gmail.com with ESMTPSA id p201sm7988339qke.6.2019.08.27.08.25.54
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=acj7UIjHVuWuWn2QLV1FnPRCd5iCzDyxTRm5JLj04QI=;
+        b=TrDv4EP12grRKSbzhTrNk6wFoC8bq/CNvDAXikutL3u1CCenonoutiyFUmtoCg/Zgq
+         uW0fw19YALbWygXyOGbppTUtGTZ1G17E3G44h8m/9BITEEJYvMClNojuYdyjwrnHEGzo
+         D2PPUw91lTj01qLcX0f2lubtFj9Iraffqn9gScuwQK7f2anoixfU9qNgdaoXK0WIgv4S
+         yzO2C6+7uh2Yk0uEjsh5UYu09ZuQ5wmF9kr90F6JlkVNTnUbnwdjDX19vnO0wIDgfpxJ
+         6VuuYm20dYcnwxTl9oKvmbw0Gg5ha7dAi7JUpMfkESkG7ngLZBIfTS/0HQzUzRKauFNm
+         sTTQ==
+X-Gm-Message-State: APjAAAV32GXyBt9qVDbB1Jkl4JbU8KMzDvAiTJPv8Qg024olsyQA+CPg
+        9VGRT8NSB096hY/eIk4lwWPD+LY=
+X-Google-Smtp-Source: APXvYqyjIH1Zo+lx6368vMEJ2REDUMdlSEZwfeHgMOaL4gsZ8ux8MkQl55qDn42mLa3z05FAdSZdRQ==
+X-Received: by 2002:a9d:7515:: with SMTP id r21mr3504131otk.49.1566921496767;
+        Tue, 27 Aug 2019 08:58:16 -0700 (PDT)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id s22sm4204272oij.37.2019.08.27.08.58.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Aug 2019 08:25:55 -0700 (PDT)
-Message-ID: <ed170df34f3dadc941f509a84730fe94d7c6a3a4.camel@ndufresne.ca>
-Subject: Re: [PATCH 6/7] misc: bcm-vk: add Broadcom Valkyrie driver
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Arnd Bergmann <arnd@arndb.de>,
-        Scott Branden <scott.branden@broadcom.com>
-Cc:     Luis Chamberlain <mcgrof@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        David Brown <david.brown@linaro.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Shuah Khan <shuah@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-msm@vger.kernel.org,
-        Linux FS-devel Mailing List <linux-fsdevel@vger.kernel.org>,
-        BCM Kernel Feedback <bcm-kernel-feedback-list@broadcom.com>,
-        Olof Johansson <olof@lixom.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Colin Ian King <colin.king@canonical.com>,
-        Kees Cook <keescook@chromium.org>,
-        Takashi Iwai <tiwai@suse.de>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        Desmond Yan <desmond.yan@broadcom.com>,
-        James Hu <james.hu@broadcom.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>
-Date:   Tue, 27 Aug 2019 11:25:53 -0400
-In-Reply-To: <CAK8P3a1WBkmXbJx=rZMumxn7EN4bmA1AdZEgrWBVyQ3XNngU6Q@mail.gmail.com>
-References: <20190822192451.5983-1-scott.branden@broadcom.com>
-         <20190822192451.5983-7-scott.branden@broadcom.com>
-         <CAK8P3a1WBkmXbJx=rZMumxn7EN4bmA1AdZEgrWBVyQ3XNngU6Q@mail.gmail.com>
-Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature";
-        boundary="=-Q6lkT7+PAzBRKQ8Zlvb3"
-User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
+        Tue, 27 Aug 2019 08:58:16 -0700 (PDT)
+Date:   Tue, 27 Aug 2019 10:58:15 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     devicetree@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH 1/1] dt-bindings: smiapp: Align documentation with
+ current practices
+Message-ID: <20190827155815.GA9693@bogus>
+References: <20190813134518.5640-1-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190813134518.5640-1-sakari.ailus@linux.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Tue, 13 Aug 2019 16:45:18 +0300, Sakari Ailus wrote:
+> - The clock-lanes property is not needed for the sensors do not support
+>   lane reordering. (The information possibly present in existing clock-lane
+>   properties is simply not used.)
+> 
+> - There's no need to refer to the sensor device in the DT example, thus
+>   remove the label.
+> 
+> - Rename the "camera" device node as "camera-sensor".
+> 
+> - Rename the endpoint label as "smiapp_ep" (was: "smiapp_1_1"). There is
+>   in practice only one anyway.
+> 
+> - Remove the remote-endpoint documentation (it is covered by
+>   graph.txt to which video-interfaces.txt refers to).
+> 
+> - Add a note on the port and endpoint nodes.
+> 
+> These changes make the smiapp bindings a better example.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  .../devicetree/bindings/media/i2c/nokia,smia.txt       | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+> 
 
---=-Q6lkT7+PAzBRKQ8Zlvb3
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Applied, thanks.
 
-Le mardi 27 ao=C3=BBt 2019 =C3=A0 16:14 +0200, Arnd Bergmann a =C3=A9crit :
-> On Thu, Aug 22, 2019 at 9:25 PM Scott Branden
-> <scott.branden@broadcom.com> wrote:
-> > Add Broadcom Valkyrie driver offload engine.
-> > This driver interfaces to the Valkyrie PCIe offload engine to perform
-> > should offload functions as video transcoding on multiple streams
-> > in parallel.  Valkyrie device is booted from files loaded using
-> > request_firmware_into_buf mechanism.  After booted card status is updat=
-ed
-> > and messages can then be sent to the card.
-> > Such messages contain scatter gather list of addresses
-> > to pull data from the host to perform operations on.
-> >=20
-> > Signed-off-by: Scott Branden <scott.branden@broadcom.com>
-> > Signed-off-by: Desmond Yan <desmond.yan@broadcom.com>
-> > Signed-off-by: James Hu <james.hu@broadcom.com>
->=20
-> Can you explain the decision to make this is a standalone misc driver
-> rather than hooking into the existing framework in drivers/media?
->=20
-> There is an existing interface that looks like it could fit the hardware
-> in include/media/v4l2-mem2mem.h. Have you considered using that?
->=20
-> There is also support for video transcoding using GPUs in
-> driver/gpu/drm/, that could also be used in theory, though it sounds
-> like a less optimal fit.
-
-I believe that a major obstacle with this driver is usability. Even
-though I have read through, I believe it's just impossible for anyone
-to actually write Open Source userspace for it. The commit message does
-not even try to help in this regard.
-
-Note that depending on the feature your transcoder has, there is also
-the option to model it around the media controller. That is notably
-useful for certain transcoders that will also do scaling and produce
-multiple streams (for adaptive streaming usecases were you want to
-share a single decoder).
-
-An 1 to 1 transcoder modeled around m2m would eventually required
-documentation so that other transcoder can be implemented in a way that
-they would share the same userspace. This is currently being worked on
-for m2m encoder and decoders (including state-less variants).
-
-regards,
-Nicolas
-
-
-
---=-Q6lkT7+PAzBRKQ8Zlvb3
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQSScpfJiL+hb5vvd45xUwItrAaoHAUCXWVLgQAKCRBxUwItrAao
-HOWtAJ9PEGIeS4lUvTlk5tzICIY0ocFUrgCfZ7hh+138dIIu9Aq/IBhBjjcgRwg=
-=7DWJ
------END PGP SIGNATURE-----
-
---=-Q6lkT7+PAzBRKQ8Zlvb3--
-
+Rob
