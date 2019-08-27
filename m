@@ -2,21 +2,21 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AFEF49E3E2
-	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2019 11:22:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 387849E3E3
+	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2019 11:22:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729167AbfH0JWd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Aug 2019 05:22:33 -0400
-Received: from relay5-d.mail.gandi.net ([217.70.183.197]:46809 "EHLO
+        id S1729277AbfH0JWf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Aug 2019 05:22:35 -0400
+Received: from relay5-d.mail.gandi.net ([217.70.183.197]:52563 "EHLO
         relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725912AbfH0JWd (ORCPT
+        with ESMTP id S1725912AbfH0JWf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Aug 2019 05:22:33 -0400
+        Tue, 27 Aug 2019 05:22:35 -0400
 X-Originating-IP: 87.18.63.98
 Received: from uno.homenet.telecomitalia.it (unknown [87.18.63.98])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 6EC041C0008;
-        Tue, 27 Aug 2019 09:22:30 +0000 (UTC)
+        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 695431C000B;
+        Tue, 27 Aug 2019 09:22:32 +0000 (UTC)
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
@@ -26,9 +26,9 @@ To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
 Cc:     Jacopo Mondi <jacopo@jmondi.org>,
         linux-media@vger.kernel.org (open list:MEDIA INPUT INFRASTRUCTURE
         (V4L/DVB))
-Subject: [PATCH v2 03/10] media: v4l2-ctrl: Document V4L2_CID_CAMERA_SENSOR_ROTATION
-Date:   Tue, 27 Aug 2019 11:23:29 +0200
-Message-Id: <20190827092339.8858-4-jacopo@jmondi.org>
+Subject: [PATCH v2 04/10] media: v4l2-ctrl: Add V4L2_CID_CAMERA_SENSOR_LOCATION
+Date:   Tue, 27 Aug 2019 11:23:30 +0200
+Message-Id: <20190827092339.8858-5-jacopo@jmondi.org>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20190827092339.8858-1-jacopo@jmondi.org>
 References: <20190827092339.8858-1-jacopo@jmondi.org>
@@ -39,35 +39,51 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add documentation for the V4L2_CID_CAMERA_SENSOR_ROTATION camera
-control. The newly added read-only control reports the camera device
-mounting rotation.
+Add support for the newly defined V4L2_CID_CAMERA_SENSOR_LOCATION
+read-only control used to report the camera device mounting position.
 
 Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 ---
- Documentation/media/uapi/v4l/ext-ctrls-camera.rst | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ drivers/media/v4l2-core/v4l2-ctrls.c | 2 ++
+ include/uapi/linux/v4l2-controls.h   | 5 +++++
+ 2 files changed, 7 insertions(+)
 
-diff --git a/Documentation/media/uapi/v4l/ext-ctrls-camera.rst b/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
-index ecf151f3f0f4..03d1c23d18f7 100644
---- a/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
-+++ b/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
-@@ -544,6 +544,15 @@ enum v4l2_scene_mode -
+diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+index 1d8f38824631..db7124494530 100644
+--- a/drivers/media/v4l2-core/v4l2-ctrls.c
++++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+@@ -994,6 +994,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+ 	case V4L2_CID_AUTO_FOCUS_RANGE:		return "Auto Focus, Range";
+ 	case V4L2_CID_PAN_SPEED:		return "Pan, Speed";
+ 	case V4L2_CID_TILT_SPEED:		return "Tilt, Speed";
++	case V4L2_CID_CAMERA_SENSOR_LOCATION:	return "Camera Sensor Location";
  
+ 	/* FM Radio Modulator controls */
+ 	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+@@ -1318,6 +1319,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+ 		break;
+ 	case V4L2_CID_MIN_BUFFERS_FOR_CAPTURE:
+ 	case V4L2_CID_MIN_BUFFERS_FOR_OUTPUT:
++	case V4L2_CID_CAMERA_SENSOR_LOCATION:
+ 		*type = V4L2_CTRL_TYPE_INTEGER;
+ 		*flags |= V4L2_CTRL_FLAG_READ_ONLY;
+ 		break;
+diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+index a2669b79b294..387c2c8553cb 100644
+--- a/include/uapi/linux/v4l2-controls.h
++++ b/include/uapi/linux/v4l2-controls.h
+@@ -912,6 +912,11 @@ enum v4l2_auto_focus_range {
+ #define V4L2_CID_PAN_SPEED			(V4L2_CID_CAMERA_CLASS_BASE+32)
+ #define V4L2_CID_TILT_SPEED			(V4L2_CID_CAMERA_CLASS_BASE+33)
  
- 
-+``V4L2_CID_CAMERA_SENSOR_ROTATION (integer)``
-+    This read-only control describes the camera sensor orientation by
-+    reporting its mounting rotation in respect to the device intended usage
-+    orientation, expressed in counter clockwise degrees. The control value is
-+    constant and not modifiable by software and its value is retrieved from the
-+    firmware interface by parsing the 'rotation' property. Typical values are 0
-+    degrees for upright mounted sensors and 180 degrees for sensors mounted
-+    upside down.
++#define V4L2_CID_CAMERA_SENSOR_LOCATION		(V4L2_CID_CAMERA_CLASS_BASE+34)
++#define V4L2_LOCATION_FRONT			0
++#define V4L2_LOCATION_BACK			1
++#define V4L2_LOCATION_EXTERNAL			2
 +
- .. [#f1]
-    This control may be changed to a menu control in the future, if more
-    options are required.
+ /* FM Modulator class control IDs */
+ 
+ #define V4L2_CID_FM_TX_CLASS_BASE		(V4L2_CTRL_CLASS_FM_TX | 0x900)
 -- 
 2.23.0
 
