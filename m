@@ -2,97 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0ABD79F053
-	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2019 18:37:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC4039F0AA
+	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2019 18:48:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730017AbfH0Qhq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Aug 2019 12:37:46 -0400
-Received: from mail-ed1-f53.google.com ([209.85.208.53]:40288 "EHLO
-        mail-ed1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726539AbfH0Qhp (ORCPT
+        id S1727270AbfH0Qst (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Aug 2019 12:48:49 -0400
+Received: from mail-oi1-f181.google.com ([209.85.167.181]:41047 "EHLO
+        mail-oi1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727057AbfH0Qst (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Aug 2019 12:37:45 -0400
-Received: by mail-ed1-f53.google.com with SMTP id h8so32184145edv.7
-        for <linux-media@vger.kernel.org>; Tue, 27 Aug 2019 09:37:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=X6m6ji0wgVmeCJH3F3ZV9wKLZzsKCQSRHMJxqstYqj0=;
-        b=ELmS9Cb3e++5pqjflPQtkofvROLhs5tvezuQztDFOIZOrL/RfK5A0hKz9A8lIkXlQg
-         pkkDDw8o//CAsRG09I/kg++nFSxNItQ+8s6OBkrFqhDJYH/aeAPjHKIo78QGl27NIr2e
-         DODtIGdVKSTrIUgmKtFqurRXZeH/xSgBeYOiI=
+        Tue, 27 Aug 2019 12:48:49 -0400
+Received: by mail-oi1-f181.google.com with SMTP id p127so6882874oic.8;
+        Tue, 27 Aug 2019 09:48:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to:user-agent;
-        bh=X6m6ji0wgVmeCJH3F3ZV9wKLZzsKCQSRHMJxqstYqj0=;
-        b=RXHLYXsld/wJeOIIHTD7I8Xmy+AVuJdW0eu2xrNMcQpiyuWg+6T1wp6p6JZKSNyvBk
-         rtvCIhli3DBH0wi3uvRkKC1I7t21SmVE7J8ijSAfZew79pw7y19gUhKT7oUVUXg+GuAg
-         kNRdB2sNtNl4jng+MgGsJR1uQjJRkCI3fe9vuVajzsP5WX7UMZP2zIF1GKlUzx0aCTZ3
-         c//w0w6JdkNNpMsb8t0Ce1w/++oJcAsr6x3Hnv0p6YyRP8FVqovX6xDF7ORFKRfJjVpG
-         JLVXkI26Jl4c+fw1cBN1ykYEr4ZtDI7CzhVCprfoAbXHCFZ6PUFhfeWKtpx6bxm1Lr4h
-         0isg==
-X-Gm-Message-State: APjAAAXa5qgq0Np0xKDX4EcfoYsXlRFWvlLgHBxz4jdpvWSh9L8EGxeI
-        yXHi4uAEdUpjTWF0t0CyWYuSbmyeViI9zw==
-X-Google-Smtp-Source: APXvYqyeWUFA33qFqfl3sPquTqe6/sfRYpA7x0PgfM1qpojyxFDmNnmf7vo6xcpK8EEJHtHIbtO/AQ==
-X-Received: by 2002:a17:906:3518:: with SMTP id r24mr22158673eja.133.1566923864171;
-        Tue, 27 Aug 2019 09:37:44 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net. [212.51.149.96])
-        by smtp.gmail.com with ESMTPSA id br8sm3665083ejb.92.2019.08.27.09.37.42
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=wEdejl/3E6RvnYGJ/kyyb0K7QYCM4jHZSEvI4UNoUac=;
+        b=UqvNKXEsdBel3rQlzN+Dq+YDL6PHDkPh5RT8JB81DT/l19nAHKM3t4SIuRzfHxefLC
+         AURU9ReQdbjtohWOaKy2uHnFjCz0Il0Sk4XyH8/hnjjIuCByjfVIKAU1c2plZmJ2pR6k
+         WnOK9imYU3mMr/UlpeOhsFGxK2Jkq/f1PAwEr9BilbNTryFh8ydW4Me1WZk2sYyxpzRJ
+         ynqI4hjYU8K3MVzhRVi09edDA7N1UzeihiNWjNxcUBferuVGQHzBgRK3n3A2kfIZHEg/
+         4sMGZnuUPyS5K/XfXyHesxqtXNCkryTLBN/SP+ztdB0BGMc4pVp1CduheIhUC6frO07d
+         BpSw==
+X-Gm-Message-State: APjAAAV6/UOcPW/6yJYz7/bcxbbiD3oVMWlAuvocangm5W8mHMIYko+Q
+        /UR20DSN9O82ccU3Fl01Cw==
+X-Google-Smtp-Source: APXvYqzDA2MsllrIzZyZtTCdbxjTgfn8lArwxLtk/7tMd9XzM3rUeQZ5LI+JOL8LFk7i+hNoJ0Tnow==
+X-Received: by 2002:a54:4788:: with SMTP id o8mr16933180oic.100.1566924528431;
+        Tue, 27 Aug 2019 09:48:48 -0700 (PDT)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id t21sm4253147oic.6.2019.08.27.09.48.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Aug 2019 09:37:43 -0700 (PDT)
-Date:   Tue, 27 Aug 2019 18:37:41 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Christian =?iso-8859-1?Q?K=F6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org, chris@chris-wilson.co.uk,
-        daniel.vetter@ffwll.ch, sumit.semwal@linaro.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: Use dma_fence_array for implementing shared dma_resv fences
-Message-ID: <20190827163741.GD2112@phenom.ffwll.local>
-References: <20190826145731.1725-1-christian.koenig@amd.com>
+        Tue, 27 Aug 2019 09:48:47 -0700 (PDT)
+Date:   Tue, 27 Aug 2019 11:48:47 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     dongchun.zhu@mediatek.com
+Cc:     mchehab@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com,
+        sakari.ailus@linux.intel.com, drinkcat@chromium.org,
+        tfiga@chromium.org, matthias.bgg@gmail.com, bingbu.cao@intel.com,
+        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, sj.huang@mediatek.com,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        louis.kuo@mediatek.com, shengnan.wang@mediatek.com,
+        dongchun.zhu@mediatek.com
+Subject: Re: [V3, 1/2] media: dt-bindings: media: i2c: Add bindings for
+ OV02A10
+Message-ID: <20190827164847.GA22619@bogus>
+References: <20190819034331.13098-1-dongchun.zhu@mediatek.com>
+ <20190819034331.13098-2-dongchun.zhu@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190826145731.1725-1-christian.koenig@amd.com>
-X-Operating-System: Linux phenom 5.2.0-2-amd64 
+In-Reply-To: <20190819034331.13098-2-dongchun.zhu@mediatek.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Aug 26, 2019 at 04:57:22PM +0200, Christian König wrote:
-> This is the new dma_fence_array based container for shared fences in the
-> dma_resv object.
+On Mon, 19 Aug 2019 11:43:30 +0800, <dongchun.zhu@mediatek.com> wrote:
+> From: Dongchun Zhu <dongchun.zhu@mediatek.com>
 > 
-> Advantage of this approach is that you can grab a reference to the
-> current set of shared fences at any time, which allows us to drop the
-> sequence number increment and makes the whole RCU handling much more
-> easier.
+> Add device tree binding documentation for the OV02A10 camera sensor.
 > 
-> Disadvantage is that RCU users now have to grab a reference instead of
-> using the sequence counter. As far as I can see i915 was actually the
-> only driver doing this.
+> Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
+> ---
+>  .../devicetree/bindings/media/i2c/ov02a10.txt      | 54 ++++++++++++++++++++++
+>  MAINTAINERS                                        |  7 +++
+>  2 files changed, 61 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov02a10.txt
 > 
-> So we optimize for adding more fences instead of reading them now.
-> 
-> Another behavior change worth noting is that the shared fences are now
-> only visible after unlocking the dma_resv object or calling
-> dma_resv_fences_commit() manually.
 
-I think more specific point for publishing fences makes a lot of sense, so
-this sounds like a solid improvement on the dma_resv api. I'm working on
-some dma_fence instrumentation where that at least might be useful.
-
-/me back to burried state
-
-Cheers, Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Reviewed-by: Rob Herring <robh@kernel.org>
