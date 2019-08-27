@@ -2,21 +2,21 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 272C49E3E5
+	by mail.lfdr.de (Postfix) with ESMTP id A07ED9E3E6
 	for <lists+linux-media@lfdr.de>; Tue, 27 Aug 2019 11:22:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729292AbfH0JWj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Aug 2019 05:22:39 -0400
-Received: from relay5-d.mail.gandi.net ([217.70.183.197]:35307 "EHLO
+        id S1729326AbfH0JWl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Aug 2019 05:22:41 -0400
+Received: from relay5-d.mail.gandi.net ([217.70.183.197]:42711 "EHLO
         relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725912AbfH0JWj (ORCPT
+        with ESMTP id S1725912AbfH0JWl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Aug 2019 05:22:39 -0400
+        Tue, 27 Aug 2019 05:22:41 -0400
 X-Originating-IP: 87.18.63.98
 Received: from uno.homenet.telecomitalia.it (unknown [87.18.63.98])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 32E1A1C000A;
-        Tue, 27 Aug 2019 09:22:36 +0000 (UTC)
+        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 3FE4B1C000B;
+        Tue, 27 Aug 2019 09:22:38 +0000 (UTC)
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
@@ -26,9 +26,9 @@ To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
 Cc:     Jacopo Mondi <jacopo@jmondi.org>,
         linux-media@vger.kernel.org (open list:MEDIA INPUT INFRASTRUCTURE
         (V4L/DVB))
-Subject: [PATCH v2 05/10] media: v4l2-ctrl: Add V4L2_CID_CAMERA_SENSOR_ROTATION
-Date:   Tue, 27 Aug 2019 11:23:32 +0200
-Message-Id: <20190827092339.8858-7-jacopo@jmondi.org>
+Subject: [PATCH v2 05/10] media: v4l2-ctrls: Add V4L2_CID_CAMERA_SENSOR_ROTATION
+Date:   Tue, 27 Aug 2019 11:23:33 +0200
+Message-Id: <20190827092339.8858-8-jacopo@jmondi.org>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20190827092339.8858-1-jacopo@jmondi.org>
 References: <20190827092339.8858-1-jacopo@jmondi.org>
