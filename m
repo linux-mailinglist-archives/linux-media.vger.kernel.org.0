@@ -2,73 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 10A559FBAC
-	for <lists+linux-media@lfdr.de>; Wed, 28 Aug 2019 09:27:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B73A39FBDE
+	for <lists+linux-media@lfdr.de>; Wed, 28 Aug 2019 09:33:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726430AbfH1H14 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Aug 2019 03:27:56 -0400
-Received: from mail-io1-f50.google.com ([209.85.166.50]:42715 "EHLO
-        mail-io1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726271AbfH1H1z (ORCPT
+        id S1726368AbfH1HdV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Aug 2019 03:33:21 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:33928 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726310AbfH1HdV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Aug 2019 03:27:55 -0400
-Received: by mail-io1-f50.google.com with SMTP id e20so3905692iob.9
-        for <linux-media@vger.kernel.org>; Wed, 28 Aug 2019 00:27:55 -0700 (PDT)
+        Wed, 28 Aug 2019 03:33:21 -0400
+Received: by mail-io1-f66.google.com with SMTP id s21so4047482ioa.1
+        for <linux-media@vger.kernel.org>; Wed, 28 Aug 2019 00:33:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+lZGkxmw+ObIFEN4gnuhkssUQbM4tQhr+1ljGR1tTPo=;
-        b=U6NFZlWIxmd3rOooL0aDEOPSOB1yzkVMdSWy791Pj2RjemH+aB2u+wjmfX8BrUUwnb
-         IbunahbEjkdosxHcfL4mY7NY/0tWLC6uBSdo/JH4SG9hStvEhhSjcbzferdVyEIiNjIu
-         cQdl7dn/t5FMqUithQLPd8ui3tCyrBEFIyQNEfjbM57ZvWMRvnSPq1XFG148rQWPY4qC
-         MzpHyB5J37fq6JRkczoK3AbGJ3SlP+CJlzkjueVIZjqqZPEJARbJwphrhD+kjyvPtXdT
-         6kbSCWj9ebsx5QFjOOaKAT6SIIlfTUECrdFGbUx112Sj/HzjgV6DU9zVMEujYB4C0EgD
-         FLQw==
+         :cc:content-transfer-encoding;
+        bh=B/tH3RdlaqfDevaRszeKuzoma9dqc91+yjGGb3NOxOw=;
+        b=EEMGEdKeWolNfI/KooBfRZc/Q+OmhNR1y2gBIBqBmjrn4rM9Hw/6LcXR/mLjl1iHJs
+         s80DsCvYOTbhDqAxUSB4W49DEn3MNVo4EfV3Czqdeni+peW7ElAIfU7Q/CcoqM+TtzuE
+         S7nqxdB74qcxFqm7XWNGSdt0ypJSogVkpoWxssjvJ5AbqqE5SmQ6Ejcl3D6+vUGaquLp
+         XrcxcyfiRAZrObjKdgHxBmgASOfwbkKtcz7FZuXknMLB/w3oRuN/3wgtEXLz15DVvS+c
+         U1xYdmO/m7i4yot972KQQpfS4Jx1JRxwed+y1B03CrDUdZi01EQ0mrQAxNf8x20YCjOo
+         GbxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+lZGkxmw+ObIFEN4gnuhkssUQbM4tQhr+1ljGR1tTPo=;
-        b=WJvmWoy9Z1q9VjvcuhhsAh0ox3XxfGlYVhbud9ni+diYohQASL0xrJfYhJMIZNWfZe
-         AytxgcBkIijcNczBFHASTK+1fIahurmh96AADbdx5jSPVI1ZeLE3dh/oanam4nQdswkU
-         1Po0qNYn3wf3TFcb7Y1DVf8xdHkE4sVq/I84hfQiu70i354Cea467za6g11FnGp5D7DW
-         JQ/PYS/SpMNzcvca/VDIwVgWjN9uNfZ7brt+EYsXWfLlZefliMfocVPJ4sbqK7EXAlxr
-         2j2L5y+IWsNjNW9z50LOSAqsxJ7B7CL8MDlFIxxvf0HJmux8wenvwTQYqHorwWzZXCxU
-         X07w==
-X-Gm-Message-State: APjAAAX5+m38G03Bk3p5xtsvQQU8t2qaU368V9L/xb5Oc6US4v6TMcKo
-        PYE6fVvGm2jfioKBAH3d/nQ0e/bC+8NINdO0KG5E+A==
-X-Google-Smtp-Source: APXvYqxcmekG2vVq5jo+Fa5v1UxzNZlKvXw2SO4uaO3dNLRuP629GUn/m+JB6dT2zHLd7pfD9fda27FzVOZRmTrUH1M=
-X-Received: by 2002:a5e:960a:: with SMTP id a10mr2904501ioq.82.1566977274833;
- Wed, 28 Aug 2019 00:27:54 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=B/tH3RdlaqfDevaRszeKuzoma9dqc91+yjGGb3NOxOw=;
+        b=lPMqjBA9wvgK8bzs3rZOG804KG/vhPQZskcndKUyoKPR8tWKQJnMJLB0tUJIhUiqrs
+         WyhVgLXEb9REQMxfEGYOYjQNY8SIHB8+r1splPKJUD+eWsc85Tp+fxyH/A/771epylA7
+         yOBnHN+mgrC2xFxemd5Z8114uSFuFOcKamCoL+9l3aMkCSBTkEFFxoFti/l8ofJuM25+
+         3vPQSlE8ZUeb3gyh5qLAL0zvkGQSo5+o72Aj7TieefL1wbziHthVW4AWcpVOS5/zTPAP
+         vpRf54MpIKfABe7An0cDI1FnYg3Y2aTC6beLt0R5mVJnttCHYWcrQPI7+i1HGcI6g6FK
+         AsSg==
+X-Gm-Message-State: APjAAAVFuhzXfL8z0wFHixF5Wto+gZYlOuHc8+irfiPd0HlwJSeKq5CO
+        +Qxj7JiJjG6e+Qk82UR371vcMe2LVUzz/W+WltlQpQ==
+X-Google-Smtp-Source: APXvYqwOjNI+i+/HB7m+y+971nBx96PG4X7ieZWlCQ3DG1WaX6qUh9J5Pye64Etxjg0B9PMLJFz9Jzg7RitiVF2UobE=
+X-Received: by 2002:a5d:9746:: with SMTP id c6mr913068ioo.235.1566977600395;
+ Wed, 28 Aug 2019 00:33:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190823122059.5270-1-hverkuil-cisco@xs4all.nl> <20190823122059.5270-3-hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20190823122059.5270-3-hverkuil-cisco@xs4all.nl>
-From:   Dariusz Marcinkiewicz <darekm@google.com>
-Date:   Wed, 28 Aug 2019 09:27:43 +0200
-Message-ID: <CALFZZQHL0WQVJiHDs6TZbgfD8-PEuAKGfyv1JGA5cLTY4LSm+g@mail.gmail.com>
-Subject: Re: [PATCHv10 2/2] cec: document CEC_ADAP_G_CONNECTOR_INFO and capability
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20190725131257.6142-1-brgl@bgdev.pl> <CAK8P3a1FXyRRi5q48h-=egFjgoRJvy6_zuO9MQaAOMA-bsJKRA@mail.gmail.com>
+ <CAMRc=Me_7aw_RvU_tZnVUgduN2wWYGqJ7hQirQ2RLzxGiPujvQ@mail.gmail.com>
+In-Reply-To: <CAMRc=Me_7aw_RvU_tZnVUgduN2wWYGqJ7hQirQ2RLzxGiPujvQ@mail.gmail.com>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Wed, 28 Aug 2019 09:33:09 +0200
+Message-ID: <CAMRc=MdCviMA4gakqFS3+F-nU2XkdmmZbCb-m1mBJdGRHufKGg@mail.gmail.com>
+Subject: Re: [PATCH v2 0/5] ARM: make DaVinci part of the ARM v5 multiplatform build
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Sekhar Nori <nsekhar@ti.com>, Kevin Hilman <khilman@kernel.org>,
+        David Lechner <david@lechnology.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi.
-
-Should this patch also have an explicit From tag?
-
-On Fri, Aug 23, 2019 at 2:21 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+pon., 5 sie 2019 o 10:31 Bartosz Golaszewski <brgl@bgdev.pl> napisa=C5=82(a=
+):
 >
-> Document the new CEC_ADAP_G_CONNECTOR_INFO ioctl and the new
-> CEC_CAP_CONNECTOR_INFO capability.
+> czw., 25 lip 2019 o 16:57 Arnd Bergmann <arnd@arndb.de> napisa=C5=82(a):
+> >
+> > On Thu, Jul 25, 2019 at 3:13 PM Bartosz Golaszewski <brgl@bgdev.pl> wro=
+te:
+> > >
+> > > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> > >
+> > > This series makes DaVinci part of the multiplatform build for ARM v5.
+> > >
+> > > First three patches fix build errors spotted and fixed by Arnd with v=
+1.
+> > >
+> > > The fourth patch adds necessary bits and pieces for davinci to suppor=
+t
+> > > multiplatform build and the last one actually adds all davinci boards
+> > > to multi_v5_defconfig.
+> > >
+> > > Tested on da850-lcdk with both multi_v5 as well as davinci_all defcon=
+figs.
+> > >
+> > > v1 -> v2:
+> > > - added patches from Arnd that fix build errors spotted when building
+> > >   random configurations (much appreciated)
+> > > - rebased on top of v5.3-rc1
+> >
+> > > Arnd Bergmann (3):
+> > > staging: media/davinci_vpfe: fix pinmux setup compilation
+> > >  media: davinci-vpbe: remove obsolete includes
+> > >  davinci: fix sleep.S build error on ARMv4
+> > >
+> > > Bartosz Golaszewski (2):
+> > >  ARM: davinci: support multiplatform build for ARM v5
+> > >  ARM: multi_v5_defconfig: make DaVinci part of the ARM v5 multiplatfo=
+rm build
+> >
+> >
+> > Thanks a lot for reposting the series!
+> >
+> > I wonder how we shoud deal with the dependencies now that the two media
+> > patches got merged in the linux-media tree.
+> >
+> > It would be tempting to just merge the arch/arm/ changes, but that crea=
+tes
+> > a bisection problem when the vpbe driver is enabled. I don't care
+> > about the staging driver really as that one is broken anyway, but inclu=
+ding
+> > the "media: davinci-vpbe: remove obsolete includes" fix would be better
+> > here.
+> >
+> > Mauro, any idea for how to handle that? Should we apply an identical
+> > patch to the davinci tree, or maybe only have it the ARM tree and you
+> > drop it from your tree (I don't know if you have a rule against rebasin=
+g).
+> > Sorry for not coordinating with Bartosz before I sent the patch again
+> > earlier this week.
+> >
+> >
+> >       Arnd
 >
-> Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
-> Co-developed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> [hverkuil-cisco@xs4all.nl: added CEC_CAP_CONNECTOR_INFO]
-> [hverkuil-cisco@xs4all.nl: added DQEVENT have_conn_info]
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> ---
-...
+> Hi Arnd,
+>
+> is there any action required from me for this series?
+>
+> Bart
+
+Ping.
