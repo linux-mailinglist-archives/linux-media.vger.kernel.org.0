@@ -2,269 +2,545 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 59DCDA05A5
-	for <lists+linux-media@lfdr.de>; Wed, 28 Aug 2019 17:06:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C5217A07FF
+	for <lists+linux-media@lfdr.de>; Wed, 28 Aug 2019 19:02:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726857AbfH1PGC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Aug 2019 11:06:02 -0400
-Received: from mga04.intel.com ([192.55.52.120]:2592 "EHLO mga04.intel.com"
+        id S1726512AbfH1RCj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Aug 2019 13:02:39 -0400
+Received: from gofer.mess.org ([88.97.38.141]:37011 "EHLO gofer.mess.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726368AbfH1PGB (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Aug 2019 11:06:01 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 28 Aug 2019 08:06:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,441,1559545200"; 
-   d="scan'208";a="188247449"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
-  by FMSMGA003.fm.intel.com with SMTP; 28 Aug 2019 08:05:53 -0700
-Received: by stinkbox (sSMTP sendmail emulation); Wed, 28 Aug 2019 18:05:52 +0300
-Date:   Wed, 28 Aug 2019 18:05:52 +0300
-From:   Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To:     Dariusz Marcinkiewicz <darekm@google.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        hverkuil-cisco@xs4all.nl, Harry Wentland <harry.wentland@amd.com>,
-        Leo Li <sunpeng.li@amd.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        "David (ChunMing) Zhou" <David1.Zhou@amd.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Sean Paul <sean@poorly.run>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Ben Skeggs <bskeggs@redhat.com>, Lyude Paul <lyude@redhat.com>,
-        "Jerry (Fangzhi) Zuo" <Jerry.Zuo@amd.com>,
-        Anthony Koo <Anthony.Koo@amd.com>,
-        Thomas Lim <Thomas.Lim@amd.com>,
-        David Francis <David.Francis@amd.com>,
-        Chris Wilson <chris@chris-wilson.co.uk>,
-        Imre Deak <imre.deak@intel.com>,
-        Manasi Navare <manasi.d.navare@intel.com>,
-        Dhinakaran Pandiyan <dhinakaran.pandiyan@intel.com>,
-        amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, nouveau@lists.freedesktop.org
-Subject: Re: [PATCH v7 1/9] drm_dp_cec: add connector info support.
-Message-ID: <20190828150552.GF7482@intel.com>
-References: <20190814104520.6001-1-darekm@google.com>
- <20190814104520.6001-2-darekm@google.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190814104520.6001-2-darekm@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1726400AbfH1RCj (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 28 Aug 2019 13:02:39 -0400
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 7946C60665; Wed, 28 Aug 2019 18:02:37 +0100 (BST)
+From:   Sean Young <sean@mess.org>
+To:     linux-media@vger.kernel.org
+Subject: [PATCH v4l-utils] ir-ctl: support raw format by default
+Date:   Wed, 28 Aug 2019 18:02:37 +0100
+Message-Id: <20190828170237.26948-1-sean@mess.org>
+X-Mailer: git-send-email 2.11.0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Aug 14, 2019 at 12:44:59PM +0200, Dariusz Marcinkiewicz wrote:
-> Pass the connector info to the CEC adapter. This makes it possible
-> to associate the CEC adapter with the corresponding drm connector.
-> 
-> Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Tested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> ---
->  .../display/amdgpu_dm/amdgpu_dm_mst_types.c   |  2 +-
->  drivers/gpu/drm/drm_dp_cec.c                  | 25 ++++++++++++-------
->  drivers/gpu/drm/i915/display/intel_dp.c       |  4 +--
->  drivers/gpu/drm/nouveau/nouveau_connector.c   |  3 +--
->  include/drm/drm_dp_helper.h                   | 17 ++++++-------
->  5 files changed, 27 insertions(+), 24 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> index 16218a202b591..5ec14efd4d8cb 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c
-> @@ -416,7 +416,7 @@ void amdgpu_dm_initialize_dp_connector(struct amdgpu_display_manager *dm,
->  
->  	drm_dp_aux_register(&aconnector->dm_dp_aux.aux);
->  	drm_dp_cec_register_connector(&aconnector->dm_dp_aux.aux,
-> -				      aconnector->base.name, dm->adev->dev);
-> +				      &aconnector->base);
->  	aconnector->mst_mgr.cbs = &dm_mst_cbs;
->  	drm_dp_mst_topology_mgr_init(
->  		&aconnector->mst_mgr,
-> diff --git a/drivers/gpu/drm/drm_dp_cec.c b/drivers/gpu/drm/drm_dp_cec.c
-> index b15cee85b702b..b457c16c3a8bb 100644
-> --- a/drivers/gpu/drm/drm_dp_cec.c
-> +++ b/drivers/gpu/drm/drm_dp_cec.c
-> @@ -8,7 +8,9 @@
->  #include <linux/kernel.h>
->  #include <linux/module.h>
->  #include <linux/slab.h>
-> +#include <drm/drm_connector.h>
->  #include <drm/drm_dp_helper.h>
-> +#include <drm/drmP.h>
->  #include <media/cec.h>
->  
->  /*
-> @@ -295,7 +297,10 @@ static void drm_dp_cec_unregister_work(struct work_struct *work)
->   */
->  void drm_dp_cec_set_edid(struct drm_dp_aux *aux, const struct edid *edid)
->  {
-> -	u32 cec_caps = CEC_CAP_DEFAULTS | CEC_CAP_NEEDS_HPD;
-> +	struct drm_connector *connector = aux->cec.connector;
-> +	u32 cec_caps = CEC_CAP_DEFAULTS | CEC_CAP_NEEDS_HPD |
-> +		       CEC_CAP_CONNECTOR_INFO;
-> +	struct cec_connector_info conn_info;
->  	unsigned int num_las = 1;
->  	u8 cap;
->  
-> @@ -344,13 +349,17 @@ void drm_dp_cec_set_edid(struct drm_dp_aux *aux, const struct edid *edid)
->  
->  	/* Create a new adapter */
->  	aux->cec.adap = cec_allocate_adapter(&drm_dp_cec_adap_ops,
-> -					     aux, aux->cec.name, cec_caps,
-> +					     aux, connector->name, cec_caps,
->  					     num_las);
->  	if (IS_ERR(aux->cec.adap)) {
->  		aux->cec.adap = NULL;
->  		goto unlock;
->  	}
-> -	if (cec_register_adapter(aux->cec.adap, aux->cec.parent)) {
-> +
-> +	cec_fill_conn_info_from_drm(&conn_info, connector);
-> +	cec_s_conn_info(aux->cec.adap, &conn_info);
-> +
-> +	if (cec_register_adapter(aux->cec.adap, connector->dev->dev)) {
->  		cec_delete_adapter(aux->cec.adap);
->  		aux->cec.adap = NULL;
->  	} else {
-> @@ -406,22 +415,20 @@ EXPORT_SYMBOL(drm_dp_cec_unset_edid);
->  /**
->   * drm_dp_cec_register_connector() - register a new connector
->   * @aux: DisplayPort AUX channel
-> - * @name: name of the CEC device
-> - * @parent: parent device
-> + * @connector: drm connector
->   *
->   * A new connector was registered with associated CEC adapter name and
->   * CEC adapter parent device. After registering the name and parent
->   * drm_dp_cec_set_edid() is called to check if the connector supports
->   * CEC and to register a CEC adapter if that is the case.
->   */
-> -void drm_dp_cec_register_connector(struct drm_dp_aux *aux, const char *name,
-> -				   struct device *parent)
-> +void drm_dp_cec_register_connector(struct drm_dp_aux *aux,
-> +				   struct drm_connector *connector)
->  {
->  	WARN_ON(aux->cec.adap);
->  	if (WARN_ON(!aux->transfer))
->  		return;
-> -	aux->cec.name = name;
-> -	aux->cec.parent = parent;
-> +	aux->cec.connector = connector;
->  	INIT_DELAYED_WORK(&aux->cec.unregister_work,
->  			  drm_dp_cec_unregister_work);
->  }
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-> index 1092499115760..de2486fe7bf2d 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> @@ -5497,7 +5497,6 @@ static int
->  intel_dp_connector_register(struct drm_connector *connector)
->  {
->  	struct intel_dp *intel_dp = intel_attached_dp(connector);
-> -	struct drm_device *dev = connector->dev;
->  	int ret;
->  
->  	ret = intel_connector_register(connector);
-> @@ -5512,8 +5511,7 @@ intel_dp_connector_register(struct drm_connector *connector)
->  	intel_dp->aux.dev = connector->kdev;
->  	ret = drm_dp_aux_register(&intel_dp->aux);
->  	if (!ret)
-> -		drm_dp_cec_register_connector(&intel_dp->aux,
-> -					      connector->name, dev->dev);
-> +		drm_dp_cec_register_connector(&intel_dp->aux, connector);
->  	return ret;
->  }
->  
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_connector.c b/drivers/gpu/drm/nouveau/nouveau_connector.c
-> index 330d7d29a6e34..8aa703347eb54 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_connector.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_connector.c
-> @@ -1416,8 +1416,7 @@ nouveau_connector_create(struct drm_device *dev,
->  	switch (type) {
->  	case DRM_MODE_CONNECTOR_DisplayPort:
->  	case DRM_MODE_CONNECTOR_eDP:
-> -		drm_dp_cec_register_connector(&nv_connector->aux,
-> -					      connector->name, dev->dev);
-> +		drm_dp_cec_register_connector(&nv_connector->aux, connector);
->  		break;
->  	}
->  
-> diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
-> index 8364502f92cfe..7972b925a952b 100644
-> --- a/include/drm/drm_dp_helper.h
-> +++ b/include/drm/drm_dp_helper.h
-> @@ -1230,20 +1230,19 @@ struct drm_dp_aux_msg {
->  
->  struct cec_adapter;
->  struct edid;
-> +struct drm_connector;
->  
->  /**
->   * struct drm_dp_aux_cec - DisplayPort CEC-Tunneling-over-AUX
->   * @lock: mutex protecting this struct
->   * @adap: the CEC adapter for CEC-Tunneling-over-AUX support.
-> - * @name: name of the CEC adapter
-> - * @parent: parent device of the CEC adapter
-> + * @connector: the connector this CEC adapter is associated with
->   * @unregister_work: unregister the CEC adapter
->   */
->  struct drm_dp_aux_cec {
->  	struct mutex lock;
->  	struct cec_adapter *adap;
-> -	const char *name;
-> -	struct device *parent;
-> +	struct drm_connector *connector;
+When "ir-ctl -r" outputs data it prints one line per space and pulse. This
+is not very space efficient and long protocols like rc-6 are unlikely to
+fit on the screen.
 
-I think all current users could just pass the connector to
-cec_set_edid(). So could save a pointer here.
+The new format is much more compact. A single IR message is printed on a
+single line. The pulse is prefixed with an optional + and a space is
+prefixed with -.
 
-Anyways
-Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+The rc-5 example from the man page becomes:
 
+$ ir-ctl -r
++889 -889 +1778 -1778 +889 -889 +889 -889 +889 -889 +1778 -889 +889 -889 +889 -889 +889 -889 +889 -889 +889 -1778 +889 # timeout 133889
 
->  	struct delayed_work unregister_work;
->  };
->  
-> @@ -1451,8 +1450,8 @@ drm_dp_has_quirk(const struct drm_dp_desc *desc, enum drm_dp_quirk quirk)
->  
->  #ifdef CONFIG_DRM_DP_CEC
->  void drm_dp_cec_irq(struct drm_dp_aux *aux);
-> -void drm_dp_cec_register_connector(struct drm_dp_aux *aux, const char *name,
-> -				   struct device *parent);
-> +void drm_dp_cec_register_connector(struct drm_dp_aux *aux,
-> +				   struct drm_connector *connector);
->  void drm_dp_cec_unregister_connector(struct drm_dp_aux *aux);
->  void drm_dp_cec_set_edid(struct drm_dp_aux *aux, const struct edid *edid);
->  void drm_dp_cec_unset_edid(struct drm_dp_aux *aux);
-> @@ -1461,9 +1460,9 @@ static inline void drm_dp_cec_irq(struct drm_dp_aux *aux)
->  {
->  }
->  
-> -static inline void drm_dp_cec_register_connector(struct drm_dp_aux *aux,
-> -						 const char *name,
-> -						 struct device *parent)
-> +static inline void
-> +drm_dp_cec_register_connector(struct drm_dp_aux *aux,
-> +			      struct drm_connector *connector)
->  {
->  }
->  
-> -- 
-> 2.23.0.rc1.153.gdeed80330f-goog
+The old behaviour can be resurrected with: ir-ctl -r --mode2
 
+This commit also add support for sending the same format.
+
+Signed-off-by: Sean Young <sean@mess.org>
+---
+ utils/common/keymap.c    |   8 +-
+ utils/ir-ctl/ir-ctl.1.in |  36 +++---
+ utils/ir-ctl/ir-ctl.c    | 241 ++++++++++++++++++++++++++++++++-------
+ 3 files changed, 228 insertions(+), 57 deletions(-)
+
+diff --git a/utils/common/keymap.c b/utils/common/keymap.c
+index 9ca599a0..19d63661 100644
+--- a/utils/common/keymap.c
++++ b/utils/common/keymap.c
+@@ -272,19 +272,23 @@ static error_t parse_toml_raw_part(const char *fname, struct toml_array_t *raw,
+ 		if (!traw) {
+ 			fprintf(stderr, _("%s: missing raw value for entry %d\n"),
+ 				fname, ind);
++			free(keycode);
+ 			return EINVAL;
+ 		}
+ 
+ 		if (toml_rtos(traw, &raw_str)) {
+ 			fprintf(stderr, _("%s: bad value `%s' for keycode\n"),
+ 				fname, traw);
++			free(keycode);
+ 			return EINVAL;
+ 		}
+ 
+-		if (parse_rawir_string(fname, raw_str, &re))
++		if (parse_rawir_string(fname, raw_str, &re)) {
++			free(keycode);
+ 			return EINVAL;
++		}
+ 
+-		re->keycode = strdup(keycode);
++		re->keycode = keycode;
+ 		re->next = map->raw;
+ 		map->raw = re;
+ 	}
+diff --git a/utils/ir-ctl/ir-ctl.1.in b/utils/ir-ctl/ir-ctl.1.in
+index 7564066a..4b599418 100644
+--- a/utils/ir-ctl/ir-ctl.1.in
++++ b/utils/ir-ctl/ir-ctl.1.in
+@@ -9,7 +9,7 @@ ir\-ctl \- a swiss\-knife tool to handle raw IR and to set lirc options
+ [\fIOPTION\fR]... \fI\-\-features\fR
+ .br
+ .B ir\-ctl
+-[\fIOPTION\fR]... \fI\-\-send\fR [\fIpulse and space file to send\fR]
++[\fIOPTION\fR]... \fI\-\-send\fR [\fIfile to send\fR]
+ .br
+ .B ir\-ctl
+ [\fIOPTION\fR]... \fI\-\-scancode\fR [\fIprotocol and scancode to send\fR]
+@@ -58,13 +58,16 @@ in\-order with a 125ms gap between them. The gap length can be modified
+ with \fB\-\-gap\fR.
+ .TP
+ \fB-k\fR, \fB\-\-keymap\fR=\fIKEYMAP\fR
+-The rc keymap in toml format. The format is described in the rc_keymap(5)
+-man page.
++The rc keymap file in toml format. The format is described in the rc_keymap(5)
++man page. This file is used to select the \fBKEYCODE\fR from.
+ .TP
+ \fB\-1\fR, \fB\-\-oneshot\fR
+ When receiving, stop receiving after the first message, i.e. after a space or
+ timeout of more than 19ms is received.
+ .TP
++\fB\-\-mode2\fR
++When receiving, output IR in mode2 format. One line per space or pulse.
++.TP
+ \fB\-w\fR, \fB\-\-wideband\fR
+ Use the wideband receiver if available on the hardware. This is also
+ known as learning mode. The measurements should be more precise and any
+@@ -118,14 +121,17 @@ Verbose output; this prints the IR before sending.
+ \fB\-V\fR, \fB\-\-version\fR
+ print the v4l2\-utils version
+ .PP
+-.SS Format of pulse and space file
+-When sending IR, the format of the file should be as follows. A comment
+-starts with #. The carrier frequency can be specified as:
++.SS Format of file
++When sending or receiving raw IR, two formats can be used. The first is
++a list of integers representing pulse and space values. A pulse value can be
++prefixed with + and a space with -, but this is optional. The rc-5 scancode
++0x1e01 is encoded so:
+ .PP
+-	carrier 38000
+++889 -889 +1778 -1778 +889 -889 +889 -889 +889 -889 +1778 -889 +889 -889 +889 -889 +889 -889 +889 -889 +889 -1778 +889
+ .PP
+-The file should contain alternating lines with pulse and space, followed
+-by length in microseconds. The following is a rc-5 encoded message:
++The other format mimics the mode2 tool. This produces one line per space
++or pulse. For receiving it can selected by specifying \fB\-\-mode2\fR. Here is
++the same message as above, now encoded in mode2:
+ .PP
+ 	carrier 36000
+ .br
+@@ -175,9 +181,13 @@ by length in microseconds. The following is a rc-5 encoded message:
+ .br
+ 	pulse 840
+ .PP
+-Rather than specifying the raw IR, you can also specify the scancode and
+-protocol you want to send. This will also automatically set the correct
+-carrier. The above can be written as:
++Note that in this format, the carrier can also be specified. This can only
++by done with a separate \fB\-\-carrier=38000\fR command line option with
++the first format.
++.PP
++Rather than specifying just the raw IR, in this format you can also specify
++the scancode and protocol you want to send. This will also automatically set
++the correct carrier. The above can be written as:
+ .PP
+ 	scancode rc5:0x1e01
+ .PP
+@@ -244,7 +254,7 @@ To send the rc-5 hauppauge '1' scancode:
+ .PP
+ To send the rc-5 hauppauage '1' key from the hauppauge keymap:
+ .br
+-	\fBir\-ctl -k hauppauge.toml -K KEY_NUMERIC_0\fR
++	\fBir\-ctl -k hauppauge.toml -K KEY_NUMERIC_1\fR
+ .SH BUGS
+ Report bugs to \fBLinux Media Mailing List <linux-media@vger.kernel.org>\fR
+ .SH COPYRIGHT
+diff --git a/utils/ir-ctl/ir-ctl.c b/utils/ir-ctl/ir-ctl.c
+index 837dffef..d6f945e2 100644
+--- a/utils/ir-ctl/ir-ctl.c
++++ b/utils/ir-ctl/ir-ctl.c
+@@ -64,8 +64,8 @@ const char *argp_program_bug_address = "Sean Young <sean@mess.org>";
+ /*
+  * Since this program drives the lirc interface, use the same terminology
+  */
+-struct file {
+-	struct file *next;
++struct send {
++	struct send *next;
+ 	const char *fname;
+ 	bool is_scancode;
+ 	bool is_keycode;
+@@ -88,8 +88,9 @@ struct arguments {
+ 	bool features;
+ 	bool receive;
+ 	bool verbose;
++	bool mode2;
+ 	struct keymap *keymap;
+-	struct file *send;
++	struct send *send;
+ 	bool oneshot;
+ 	char *savetofile;
+ 	int wideband;
+@@ -113,6 +114,7 @@ static const struct argp_option options[] = {
+ 	{ "verbose",	'v',	0,		0,	N_("verbose output") },
+ 		{ .doc = N_("Receiving options:") },
+ 	{ "one-shot",	'1',	0,		0,	N_("end receiving after first message") },
++	{ "mode2",	2,	0,		0,	N_("output in mode2 format") },
+ 	{ "wideband",	'w',	0,		0,	N_("use wideband receiver aka learning mode") },
+ 	{ "narrowband",	'n',	0,		0,	N_("use narrowband receiver, disable learning mode") },
+ 	{ "carrier-range", 'R', N_("RANGE"),	0,	N_("set receiver carrier range") },
+@@ -145,7 +147,7 @@ static const char doc[] = N_(
+ 	"  CARRIER  - the carrier frequency to use for sending\n"
+ 	"  DUTY     - the duty cycle to use for sending\n"
+ 	"  EMITTERS - comma separated list of emitters to use for sending, e.g. 1,2\n"
+-	"  GAP      - gap between pulse and files or scancodes in microseconds\n"
++	"  GAP      - gap between sending in microseconds\n"
+ 	"  RANGE    - set range of accepted carrier frequencies, e.g. 20000-40000\n"
+ 	"  TIMEOUT  - set length of space before receiving stops in microseconds\n"
+ 	"  KEYCODE  - key code in keymap\n"
+@@ -201,21 +203,14 @@ static unsigned parse_emitters(char *p)
+ 	return emit;
+ }
+ 
+-static struct file *read_file(struct arguments *args, const char *fname)
++static struct send *read_file_pulse_space(struct arguments *args, const char *fname, FILE *input)
+ {
+ 	bool expect_pulse = true;
+ 	int lineno = 0, lastspace = 0;
+ 	char line[1024];
+ 	int len = 0;
+-	static const char *whitespace = " \n\r\t";
+-	struct file *f;
+-
+-	FILE *input = fopen(fname, "r");
+-
+-	if (!input) {
+-		fprintf(stderr, _("%s: could not open: %m\n"), fname);
+-		return NULL;
+-	}
++	static const char whitespace[] = " \n\r\t";
++	struct send *f;
+ 
+ 	f = malloc(sizeof(*f));
+ 	if (f == NULL) {
+@@ -360,10 +355,145 @@ static struct file *read_file(struct arguments *args, const char *fname)
+ 	return f;
+ }
+ 
+-static struct file *read_scancode(const char *name)
++static struct send *read_file_raw(struct arguments *args, const char *fname, FILE *input)
++{
++	int lineno = 0, lastspace = 0;
++	char line[1024];
++	int len = 0;
++	static const char whitespace[] = " \n\r\t,";
++	struct send *f;
++
++	f = malloc(sizeof(*f));
++	if (f == NULL) {
++		fprintf(stderr, _("Failed to allocate memory\n"));
++		fclose(input);
++		return NULL;
++	}
++	f->is_scancode = false;
++	f->is_keycode = false;
++	f->carrier = 0;
++	f->fname = fname;
++
++	while (fgets(line, sizeof(line), input)) {
++		long int value;
++		char *p, *saveptr;
++		lineno++;
++		char *keyword = strtok_r(line, whitespace, &saveptr);
++
++		for (;;) {
++			if (keyword == NULL || *keyword == 0 || *keyword == '#' ||
++			    (keyword[0] == '/' && keyword[1] == '/'))
++				break;
++
++			value = strtol(keyword, &p, 10);
++			if (errno || *p) {
++				fprintf(stderr, _("%s:%d: error: expected integer, got `%s'\n"),
++					fname, lineno, keyword);
++				fclose(input);
++				free(f);
++				return NULL;
++			}
++
++			if (len % 2) {
++				if (keyword[0] == '+') {
++					fprintf(stderr, _("%s:%d: error: pulse found where space expected `%s'\n"), fname, lineno, keyword);
++					free(f);
++					return NULL;
++				}
++				if (keyword[0] == '-')
++					value = -value;
++			} else {
++				if (keyword[0] == '-') {
++					fprintf(stderr, _("%s:%d: error: space found where pulse expected `%s'\n"), fname, lineno, keyword);
++					fclose(input);
++					free(f);
++					return NULL;
++				}
++				lastspace = lineno;
++			}
++
++			if (value <= 0 || value >= LIRC_VALUE_MASK) {
++				fprintf(stderr, _("%s:%d: error: value `%s' out of range\n"), fname, lineno, keyword);
++				fclose(input);
++				free(f);
++				return NULL;
++			}
++
++			f->buf[len++] = value;
++
++			if (len >= LIRCBUF_SIZE) {
++				fprintf(stderr, _("warning: %s:%d: IR cannot exceed %u edges\n"), fname, lineno, LIRCBUF_SIZE);
++				break;
++			}
++
++			keyword = strtok_r(NULL, whitespace, &saveptr);
++		}
++	}
++
++	fclose(input);
++
++	if (len == 0) {
++		fprintf(stderr, _("%s: no pulses or spaces found\n"), fname);
++		free(f);
++		return NULL;
++	}
++
++	if ((len % 2) == 0) {
++		fprintf(stderr, _("warning: %s:%d: trailing space ignored\n"),
++							fname, lastspace);
++		len--;
++	}
++
++	f->len = len;
++
++	return f;
++}
++
++static struct send *read_file(struct arguments *args, const char *fname)
++{
++	FILE *input = fopen(fname, "r");
++	char line[1024];
++
++	if (!input) {
++		fprintf(stderr, _("%s: could not open: %m\n"), fname);
++		return NULL;
++	}
++
++	while (fgets(line, sizeof(line), input)) {
++		int start = 0;
++
++		while (isspace(line[start]))
++			start++;
++
++		switch (line[start]) {
++		case '/':
++			if (line[start+1] != '/')
++				break;
++		case 0:
++		case '#':
++			continue;
++		case '+':
++		case '-':
++		case '0' ... '9':
++			rewind(input);
++			return read_file_raw(args, fname, input);
++		default:
++			rewind(input);
++			return read_file_pulse_space(args, fname, input);
++		}
++	}
++
++	fclose(input);
++
++	fprintf(stderr, _("%s: file is empty\n"), fname);
++
++	return NULL;
++}
++
++static struct send *read_scancode(const char *name)
+ {
+ 	enum rc_proto proto;
+-	struct file *f;
++	struct send *f;
+ 	unsigned scancode;
+ 	char *pstr;
+ 	char *p = strchr(name, ':');
+@@ -407,7 +537,7 @@ static error_t parse_opt(int k, char *arg, struct argp_state *state)
+ {
+ 	struct arguments *arguments = state->input;
+ 	struct keymap *map;
+-	struct file *s;
++	struct send *s;
+ 
+ 	switch (k) {
+ 	case 'f':
+@@ -431,6 +561,9 @@ static error_t parse_opt(int k, char *arg, struct argp_state *state)
+ 	case '1':
+ 		arguments->oneshot = true;
+ 		break;
++	case 2:
++		arguments->mode2 = true;
++		break;
+ 	case 'v':
+ 		arguments->verbose = true;
+ 		break;
+@@ -514,7 +647,7 @@ static error_t parse_opt(int k, char *arg, struct argp_state *state)
+ 		if (arguments->send == NULL)
+ 			arguments->send = s;
+ 		else {
+-			struct file *p = arguments->send;
++			struct send *p = arguments->send;
+ 			while (p->next) p = p->next;
+ 			p->next = s;
+ 		}
+@@ -530,7 +663,7 @@ static error_t parse_opt(int k, char *arg, struct argp_state *state)
+ 		if (arguments->send == NULL)
+ 			arguments->send = s;
+ 		else {
+-			struct file *p = arguments->send;
++			struct send *p = arguments->send;
+ 			while (p->next) p = p->next;
+ 			p->next = s;
+ 		}
+@@ -550,7 +683,7 @@ static error_t parse_opt(int k, char *arg, struct argp_state *state)
+ 		if (arguments->send == NULL)
+ 			arguments->send = s;
+ 		else {
+-			struct file *p = arguments->send;
++			struct send *p = arguments->send;
+ 			while (p->next) p = p->next;
+ 			p->next = s;
+ 		}
+@@ -577,16 +710,16 @@ static error_t parse_opt(int k, char *arg, struct argp_state *state)
+ 		return ARGP_ERR_UNKNOWN;
+ 	}
+ 
+-	if (k != '1' && k != 'd' && k != 'v' && k != 'k')
++	if (k != '1' && k != 'd' && k != 'v' && k != 'k' && k != 2)
+ 		arguments->work_to_do = true;
+ 
+ 	return 0;
+ }
+ 
+ // FIXME: keymaps can have multiple definitions of the same keycode
+-static struct file* convert_keycode(struct keymap *map, const char *keycode)
++static struct send* convert_keycode(struct keymap *map, const char *keycode)
+ {
+-	struct file *s;
++	struct send *s;
+ 
+ 	while (map) {
+ 		struct raw_entry *re = map->raw;
+@@ -857,7 +990,7 @@ static void lirc_features(struct arguments *args, int fd, unsigned features)
+ 	}
+ }
+ 
+-static int lirc_send(struct arguments *args, int fd, unsigned features, struct file *f)
++static int lirc_send(struct arguments *args, int fd, unsigned features, struct send *f)
+ {
+ 	const char *dev = args->device;
+ 	int rc, mode;
+@@ -930,9 +1063,10 @@ static int lirc_send(struct arguments *args, int fd, unsigned features, struct f
+ 	size_t size = f->len * sizeof(unsigned);
+ 	if (args->verbose) {
+ 		int i;
+-		printf("Sending:\n");
++		printf("Sending:");
+ 		for (i=0; i<f->len; i++)
+-			printf("%s %u\n", i & 1 ? "space" : "pulse", f->buf[i]);
++			printf("%s%u", i & 1 ? " -" : " +", f->buf[i]);
++		putchar('\n');
+ 	}
+ 	ret = TEMP_FAILURE_RETRY(write(fd, f->buf, size));
+ 	if (ret < 0) {
+@@ -982,6 +1116,7 @@ int lirc_receive(struct arguments *args, int fd, unsigned features)
+ 
+ 	bool keep_reading = true;
+ 	bool leading_space = true;
++	unsigned carrier = 0;
+ 
+ 	while (keep_reading) {
+ 		ssize_t ret = TEMP_FAILURE_RETRY(read(fd, buf, sizeof(buf)));
+@@ -1015,20 +1150,42 @@ int lirc_receive(struct arguments *args, int fd, unsigned features)
+ 				break;
+ 			}
+ 
+-			switch (msg) {
+-			case LIRC_MODE2_TIMEOUT:
+-				fprintf(out, "timeout %u\n", val);
+-				leading_space = true;
+-				break;
+-			case LIRC_MODE2_PULSE:
+-				fprintf(out, "pulse %u\n", val);
+-				break;
+-			case LIRC_MODE2_SPACE:
+-				fprintf(out, "space %u\n", val);
+-				break;
+-			case LIRC_MODE2_FREQUENCY:
+-				fprintf(out, "carrier %u\n", val);
+-				break;
++			if (args->mode2) {
++				switch (msg) {
++				case LIRC_MODE2_TIMEOUT:
++					fprintf(out, "timeout %u\n", val);
++					leading_space = true;
++					break;
++				case LIRC_MODE2_PULSE:
++					fprintf(out, "pulse %u\n", val);
++					break;
++				case LIRC_MODE2_SPACE:
++					fprintf(out, "space %u\n", val);
++					break;
++				case LIRC_MODE2_FREQUENCY:
++					fprintf(out, "carrier %u\n", val);
++					break;
++				}
++			} else {
++				switch (msg) {
++				case LIRC_MODE2_TIMEOUT:
++					if (carrier)
++						fprintf(out, "# carrier %uHz, timeout %u\n", carrier, val);
++					else
++						fprintf(out, "# timeout %u\n", val);
++					leading_space = true;
++					carrier = 0;
++					break;
++				case LIRC_MODE2_PULSE:
++					fprintf(out, "+%u ", val);
++					break;
++				case LIRC_MODE2_SPACE:
++					fprintf(out, "-%u ", val);
++					break;
++				case LIRC_MODE2_FREQUENCY:
++					carrier = val;
++					break;
++				}
+ 			}
+ 
+ 			fflush(out);
+@@ -1069,9 +1226,9 @@ int main(int argc, char *argv[])
+ 	if (rc)
+ 		exit(EX_IOERR);
+ 
+-	struct file *s = args.send;
++	struct send *s = args.send;
+ 	while (s) {
+-		struct file *next = s->next;
++		struct send *next = s->next;
+ 		if (s != args.send)
+ 			usleep(args.gap);
+ 
 -- 
-Ville Syrjälä
-Intel
+2.21.0
+
