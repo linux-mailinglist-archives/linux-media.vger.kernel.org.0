@@ -2,158 +2,182 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 95281A1A60
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2019 14:46:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E0A4BA1A77
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2019 14:52:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727235AbfH2MqU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Aug 2019 08:46:20 -0400
-Received: from relay6-d.mail.gandi.net ([217.70.183.198]:60587 "EHLO
-        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726739AbfH2MqU (ORCPT
+        id S1727066AbfH2Mw1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Aug 2019 08:52:27 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:48085 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726852AbfH2Mw0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Aug 2019 08:46:20 -0400
-X-Originating-IP: 2.224.242.101
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 3AB68C0014;
-        Thu, 29 Aug 2019 12:46:17 +0000 (UTC)
-Date:   Thu, 29 Aug 2019 14:47:49 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>, tfiga@google.com,
-        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>
-Subject: Re: [PATCH v2 02/10] media: v4l2-ctrl: Document
- V4L2_CID_CAMERA_SENSOR_LOCATION
-Message-ID: <20190829124749.2ndghbnqhh37h3y2@uno.localdomain>
-References: <20190827092339.8858-1-jacopo@jmondi.org>
- <20190827092339.8858-3-jacopo@jmondi.org>
- <20190827125008.GT5054@pendragon.ideasonboard.com>
+        Thu, 29 Aug 2019 08:52:26 -0400
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1i3JuR-0000cw-QQ; Thu, 29 Aug 2019 14:52:15 +0200
+Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1i3JuQ-0001VD-2D; Thu, 29 Aug 2019 14:52:14 +0200
+Date:   Thu, 29 Aug 2019 14:52:14 +0200
+From:   Marco Felsch <m.felsch@pengutronix.de>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
+        hans.verkuil@cisco.com, jacopo+renesas@jmondi.org,
+        robh+dt@kernel.org, laurent.pinchart@ideasonboard.com,
+        devicetree@vger.kernel.org, kernel@pengutronix.de,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v9 02/13] media: v4l2-fwnode: add v4l2_fwnode_connector
+Message-ID: <20190829125214.q3u7fnpbpas5kpdp@pengutronix.de>
+References: <20190822080556.17109-1-m.felsch@pengutronix.de>
+ <20190822080556.17109-3-m.felsch@pengutronix.de>
+ <c868ab4e-206b-bf66-a276-a9901b9fc41a@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="6vp7taqxzmb6q4jp"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190827125008.GT5054@pendragon.ideasonboard.com>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <c868ab4e-206b-bf66-a276-a9901b9fc41a@xs4all.nl>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 14:50:50 up 103 days, 19:08, 63 users,  load average: 0.10, 0.11,
+ 0.05
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
---6vp7taqxzmb6q4jp
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-
-Hi Laurent,
-
-On Tue, Aug 27, 2019 at 03:50:08PM +0300, Laurent Pinchart wrote:
-> Hi Jacopo,
->
-> Thank you for the patch.
->
-> On Tue, Aug 27, 2019 at 11:23:28AM +0200, Jacopo Mondi wrote:
-> > Add documentation for the V4L2_CID_CAMERA_SENSOR_LOCATION camera
-> > control. The newly added read-only control reports the camera device
-> > mounting position.
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+On 19-08-29 11:59, Hans Verkuil wrote:
+> On 8/22/19 10:05 AM, Marco Felsch wrote:
+> > Currently every driver needs to parse the connector endpoints by it self.
+> > This is the initial work to make this generic. A generic connector has
+> > common members and connector specific members. The common members are:
+> >   - type
+> >   - label (optional)
+> >   - links
+> >   - nr_of_links
+> > 
+> > The specific members are stored within a union, since only one of them
+> > can be available at the time. Since this is the initial support the
+> > patch adds only the analog-connector specific ones.
+> > 
+> > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
 > > ---
-> >  .../media/uapi/v4l/ext-ctrls-camera.rst       | 34 +++++++++++++++++++
-> >  1 file changed, 34 insertions(+)
-> >
-> > diff --git a/Documentation/media/uapi/v4l/ext-ctrls-camera.rst b/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
-> > index 51c1d5c9eb00..ecf151f3f0f4 100644
-> > --- a/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
-> > +++ b/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
-> > @@ -510,6 +510,40 @@ enum v4l2_scene_mode -
-> >      value down. A value of zero stops the motion if one is in progress
-> >      and has no effect otherwise.
-> >
-> > +``V4L2_CID_CAMERA_SENSOR_LOCATION (integer)``
-> > +    This read-only control describes the camera sensor location by
-> > +    reporting its mounting position on the device where the camera is
-> > +    installed. The control value is constant and not modifiable by software
-> > +    and its value is retrieved from the firmware interface by parsing the
-> > +    'location' property.
->
-> How the value is known to the driver is irrelevant in this context, I
-> would drop "and its value ...".
->
+> > [1] https://patchwork.kernel.org/cover/10794703/
+> > 
+> > v8:
+> > - rename CON -> CONN
+> > - supported_tvnorms_stds -> sdtv_stds and adapt description
+> > 
+> > v7:
+> > - fix spelling issues
+> > - constify label
+> > - support variable label size
+> > - replace single remote_port/id members by links member of variable
+> >   size
+> > - squash v4l2-connector into v4l2-fwnode
+> > 
+> > @Jacopo: I dropped your r b tag because I changed the port/id logic.
+> > 
+> > v6:
+> > - fix some spelling and style issues
+> > - rm unnecessary comments
+> > - drop vga and dvi connector
+> > - fix misspelt connector
+> > 
+> > v2-v4:
+> > - nothing since the patch was squashed from series [1] into this
+> >   series.
+> > ---
+> >  include/media/v4l2-fwnode.h | 45 +++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 45 insertions(+)
+> > 
+> > diff --git a/include/media/v4l2-fwnode.h b/include/media/v4l2-fwnode.h
+> > index f6a7bcd13197..7ca5669ef6fa 100644
+> > --- a/include/media/v4l2-fwnode.h
+> > +++ b/include/media/v4l2-fwnode.h
+> > @@ -123,6 +123,51 @@ struct v4l2_fwnode_link {
+> >  	unsigned int remote_port;
+> >  };
+> >  
+> > +/**
+> > + * enum v4l2_connector_type - connector type
+> > + * @V4L2_CONN_UNKNOWN:   unknown connector type, no V4L2 connector configuration
+> > + * @V4L2_CONN_COMPOSITE: analog composite connector
+> > + * @V4L2_CONN_SVIDEO:    analog svideo connector
+> > + * @V4L2_CONN_HDMI:      digital hdmi connector
+> 
+> Why exactly is CONN_HDMI added if there is no V4L2 driver that uses it?
 
-I recall Sakari pointed out it was not mentioned the control value
-comes from firmware in review of v1. Are you both ok in removing this?
+Just for the sake of completeness..
 
-> > This control is particularly meaningful for
-> > +    devices which have a well defined orientation, such as phones, laptops
-> > +    and portable devices as the camera location is expressed as a position
-> > +    relative to the device intended usage orientation. In example, a camera
->
-> s/In example/For example/
->
-> > +    sensor installed on the user-facing side of a phone, a tablet or a
-> > +    laptop device is said to be installed in the ``V4L2_LOCATION_FRONT``
-> > +    location while camera sensors installed on the side opposed to the
->
-> s/opposed to the front one/opposite the front/
->
-> > +    front one are said to be installed in the ``V4L2_LOCATION_BACK``
-> > +    location. Camera sensors connected to the device by extension cables
-> > +    which are freely movable regardless of the device orientation, such as
-> > +    webcams and digital cameras, are said to be have
-> > +    ``V4L2_LOCATION_EXTERNAL`` location.
->
-> Same comment as for the DT bindings regarding cables.
->
-> > +
-> > +
-> > +
-> > +.. flat-table::
-> > +    :header-rows:  0
-> > +    :stub-columns: 0
-> > +
-> > +    * - ``V4L2_LOCATION_FRONT``
-> > +      - The camera sensor is located on the front side of the device.
-> > +    * - ``V4L2_LOCATION_BACK``
-> > +      - The camera sensor is located on the back side of the device.
-> > +    * - ``V4L2_LOCATION_EXTERNAL``
-> > +      - The camera sensor is connected by extension cables to the device and
-> > +        it's freely movable.
->
-> s/it's/is/
->
-> > +
-> > +
-> > +
-> >  .. [#f1]
-> >     This control may be changed to a menu control in the future, if more
-> >     options are required.
->
-> --
+> I would just drop it from this series.
+
+Okay.
+
+Regards,
+  Marco
+
+
 > Regards,
->
-> Laurent Pinchart
+> 
+> 	Hans
+> 
+> > + */
+> > +enum v4l2_connector_type {
+> > +	V4L2_CONN_UNKNOWN,
+> > +	V4L2_CONN_COMPOSITE,
+> > +	V4L2_CONN_SVIDEO,
+> > +	V4L2_CONN_HDMI,
+> > +};
+> > +
+> > +/**
+> > + * struct v4l2_fwnode_connector_analog - analog connector data structure
+> > + * @sdtv_stds: sdtv standards this connector supports, set to V4L2_STD_ALL
+> > + *             if no restrictions are specified.
+> > + */
+> > +struct v4l2_fwnode_connector_analog {
+> > +	v4l2_std_id sdtv_stds;
+> > +};
+> > +
+> > +/**
+> > + * struct v4l2_fwnode_connector - the connector data structure
+> > + * @label: optional connector label
+> > + * @type: connector type
+> > + * @links: list of &struct v4l2_fwnode_link links the connector is connected to
+> > + * @nr_of_links: total number of links
+> > + * @connector: connector configuration
+> > + * @connector.analog: analog connector configuration
+> > + *                    &struct v4l2_fwnode_connector_analog
+> > + */
+> > +struct v4l2_fwnode_connector {
+> > +	const char *label;
+> > +	enum v4l2_connector_type type;
+> > +	struct v4l2_fwnode_link *links;
+> > +	unsigned int nr_of_links;
+> > +
+> > +	union {
+> > +		struct v4l2_fwnode_connector_analog analog;
+> > +		/* future connectors */
+> > +	} connector;
+> > +};
+> > +
+> >  /**
+> >   * v4l2_fwnode_endpoint_parse() - parse all fwnode node properties
+> >   * @fwnode: pointer to the endpoint's fwnode handle
+> > 
+> 
+> 
 
---6vp7taqxzmb6q4jp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl1nyXUACgkQcjQGjxah
-VjyvkxAAr7zMDd16mAQUVXNOplVd4R9bpWX3xBVggZFZFzQ77Wts/HLaKfXPo1Yl
-ybgZuj2t6TuyH9MQtbdG+vCWD3h7e2ozNn7cR0+/n+92bGd46VgwbJXNSTBC7dxK
-Iwv7UBSo0wGG4Q24DI1NJ+fwKAAmsnD8LpGQUo0oiyYjiMSzMk4u7aIjfJ3WT6MQ
-9ETIbenNuQssnj/anYvO8BcZxWoQT4lwJY0MkEL1UrlQUmH1EYzVQNW3I4f30wbr
-CNBXKfC9h+8ummHF2hrANOxvr30LpPmdJObz+o3mOl+LuhLpP0av7pfXbF5nSiML
-3eP8oXL+ALV+YgRRAm1iTrMV9cR8TIF7wCIT76pKg0Fyunt+wdbttSYIGtzbwSf5
-pVLI2bdrR9rXOD3X/KE6+KrOqobjcTvAlSEpPmsZzh3RAt9YquZC0SqOpr3b/mm3
-1PR+X4EVALnNtL2vevomo9kAQLeVC2nD8pczEV2vACuF8CW8F8f1Cr+Ppg/hhqn0
-jYhWcne8wJT81Dmn/MvUgrYza4DI8v76sIh2WbxfwGAXYZcIxE3atQr8iiwNrgB1
-7bhvivakqVcju8xShiCZbS+gy530gVY1CWyPRE5EFGaTcoR0Trv7VCAY8MQp4C2B
-Tar9rpm5k6aymVyyaqiEn+sxH5OHHCEBvCYbfBP11lQLVLtRb9g=
-=uPJx
------END PGP SIGNATURE-----
-
---6vp7taqxzmb6q4jp--
+-- 
+Pengutronix e.K.                           |                             |
+Industrial Linux Solutions                 | http://www.pengutronix.de/  |
+Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
