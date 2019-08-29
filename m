@@ -2,102 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AAA0A1909
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2019 13:39:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E1B3A191B
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2019 13:44:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727109AbfH2Ljj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Aug 2019 07:39:39 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:48315 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727026AbfH2Lji (ORCPT
+        id S1727051AbfH2Lnz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Aug 2019 07:43:55 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:33221 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726379AbfH2Lny (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Aug 2019 07:39:38 -0400
+        Thu, 29 Aug 2019 07:43:54 -0400
 Received: from [192.168.2.10] ([46.9.232.237])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id 3Im4iRJpeDqPe3Im8iNmv5; Thu, 29 Aug 2019 13:39:36 +0200
-Subject: Re: [PATCH] media: staging: tegra-vde: Disable building with
- COMPILE_TEST
-To:     YueHaibing <yuehaibing@huawei.com>, digetx@gmail.com,
-        mchehab@kernel.org, gregkh@linuxfoundation.org,
-        thierry.reding@gmail.com, jonathanh@nvidia.com,
-        robin.murphy@arm.com
-Cc:     linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
-        iommu@lists.linux-foundation.org
-References: <20190826133140.13456-1-yuehaibing@huawei.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <7f73bcac-f52d-f1b3-324c-e9b551c5378b@xs4all.nl>
-Date:   Thu, 29 Aug 2019 13:39:32 +0200
+        id 3IqDiRLcaDqPe3IqGiNo4C; Thu, 29 Aug 2019 13:43:52 +0200
+Subject: Re: [PATCH] media: i2c: adv7180: fix adv7280 BT.656-4 compatibility
+To:     Matthew Michilot <matthew.michilot@gmail.com>, lars@metafoo.de
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>
+References: <20190827215539.1286-1-mmichilot@gateworks.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <cb3e9be4-9ce6-354f-bb7c-a4710edc1c1b@xs4all.nl>
+Date:   Thu, 29 Aug 2019 13:43:49 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190826133140.13456-1-yuehaibing@huawei.com>
+In-Reply-To: <20190827215539.1286-1-mmichilot@gateworks.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfPiBAm9/CVG2yl/RYcmSeabFSsF5/VsS8tiz/yGOIjYSnJaD/MkFj3fN12HeAtoQBMQlQLOy1rQ4hH9Pk3PGKlkkJ9Zl8plyc55GSSz4G1+ppVvvtxVa
- cgqxOaIHdmGI6Lir3V57kld0PdyIGCK03wiHOkje13kc0gv/PhnX5+C3LrfxdHi2CMNt74bKZcw6PfwDuhW1UOnvKmy1QH8JUr++Y9Auceu48WZ6AknahDMp
- y+nvVNlAWPrJV2LqEleB77la5ICht/YcDItL8/YHiyeJqDySBIvEVXGwJL4Xi9NZpZ9Wxt1uH4KbBobOQixOSOlTcNw+jzMsIe+bJEk17cuyRCrooBbp13+w
- rAVl2YjzGamD7FhK930GFNdNmk8AkL+TW8oiCNcUOr/eA3es3KvvOT/pXVSQjB8VA9jwGGPoUNhHSHDpq4csgibDV9Sq8D6Biv12lEVTn+0Gyp3CGn8lifj1
- NQ04G6sIObCBPw4TuYqOc3L6nn1zCZs6e0K9+DpBNqD0AuyfSDTX/sC8t2V3/1Ij0sv2jB60jtfqjR0cWtBhZHW6dO+mED2Z2qpLMcnRImy9u654a5b4EY9U
- 8oU=
+X-CMAE-Envelope: MS4wfBP5gVIkT4EzSUeDh8L+uViMpjIZy24XwL5b54yXH8ordNIc3uJ5k01IjGFumEJrkdXUydOuHRs2G1EiTNVwHb9313a84NPWhDB4O0U3BcUPr/32OzjV
+ vPVqnsImdMv8Cas9uBF0a74MPqJZkIMkGXDFf7iaVxPw+Lidd6YaBhNNyDqz6c/bYslb3dCTICWmKyHb1IaMhoLYjLDJc+xpjane7xt/TF5RU7g4pjcxvK10
+ Ck8LljuLIfJNbKpVKWer1pVqHMhPKtklev8hLSjM6Zpwe+FJOMTyk6e3qYQVwV3MnjB90VWxy3GfD4h74ojYkDOc0/xQXeThCnKDpPaIXuUSj/wMOrv0PphO
+ OOnKTLfw
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 8/26/19 3:31 PM, YueHaibing wrote:
-> If COMPILE_TEST is y and IOMMU_SUPPORT is n, selecting TEGRA_VDE
-> to m will set IOMMU_IOVA to m, this fails the building of
-> TEGRA_HOST1X and DRM_TEGRA which is y like this:
-> 
-> drivers/gpu/host1x/cdma.o: In function `host1x_cdma_init':
-> cdma.c:(.text+0x66c): undefined reference to `alloc_iova'
-> cdma.c:(.text+0x698): undefined reference to `__free_iova'
-> 
-> drivers/gpu/drm/tegra/drm.o: In function `tegra_drm_unload':
-> drm.c:(.text+0xeb0): undefined reference to `put_iova_domain'
-> drm.c:(.text+0xeb4): undefined reference to `iova_cache_put'
-> 
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Fixes: 6b2265975239 ("media: staging: tegra-vde: Fix build error")
-> Fixes: b301f8de1925 ("media: staging: media: tegra-vde: Add IOMMU support")
-> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
-> ---
->  drivers/staging/media/tegra-vde/Kconfig | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/tegra-vde/Kconfig b/drivers/staging/media/tegra-vde/Kconfig
-> index ba49ea5..a41d30c 100644
-> --- a/drivers/staging/media/tegra-vde/Kconfig
-> +++ b/drivers/staging/media/tegra-vde/Kconfig
-> @@ -1,9 +1,9 @@
->  # SPDX-License-Identifier: GPL-2.0
->  config TEGRA_VDE
->  	tristate "NVIDIA Tegra Video Decoder Engine driver"
-> -	depends on ARCH_TEGRA || COMPILE_TEST
-> +	depends on ARCH_TEGRA
+Adding Niklas.
 
-What happens if you drop this change,
-
->  	select DMA_SHARED_BUFFER
-> -	select IOMMU_IOVA if (IOMMU_SUPPORT || COMPILE_TEST)
-> +	select IOMMU_IOVA if IOMMU_SUPPORT
-
-but keep this change?
-
-iova.h has stubs that are used if IOMMU_IOVA is not set, so it should
-work when compile testing this tegra-vde driver.
-
-Haven't tried it, but making sure that compile testing keep working is
-really important.
+Niklas, can you take a look at this?
 
 Regards,
 
 	Hans
 
->  	select SRAM
->  	help
->  	    Say Y here to enable support for the NVIDIA Tegra video decoder
+On 8/27/19 11:55 PM, Matthew Michilot wrote:
+> From: Matthew Michilot <matthew.michilot@gmail.com>
+> 
+> Captured video would be out of sync when using the adv7280 with
+> the BT.656-4 protocol. Certain registers (0x04, 0x31, 0xE6) had to
+> be configured properly to ensure BT.656-4 compatibility.
+> 
+> An error in the adv7280 reference manual suggested that EAV/SAV mode
+> was enabled by default, however upon inspecting register 0x31, it was
+> determined to be disabled by default.
+> 
+> Signed-off-by: Matthew Michilot <matthew.michilot@gmail.com>
+> Reviewed-by: Tim Harvey <tharvey@gateworks.com>
+> ---
+>  drivers/media/i2c/adv7180.c | 15 +++++++++++++--
+>  1 file changed, 13 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
+> index 99697baad2ea..27da424dce76 100644
+> --- a/drivers/media/i2c/adv7180.c
+> +++ b/drivers/media/i2c/adv7180.c
+> @@ -94,6 +94,7 @@
+>  #define ADV7180_REG_SHAP_FILTER_CTL_1	0x0017
+>  #define ADV7180_REG_CTRL_2		0x001d
+>  #define ADV7180_REG_VSYNC_FIELD_CTL_1	0x0031
+> +#define ADV7180_VSYNC_FIELD_CTL_1_NEWAV 0x12
+>  #define ADV7180_REG_MANUAL_WIN_CTL_1	0x003d
+>  #define ADV7180_REG_MANUAL_WIN_CTL_2	0x003e
+>  #define ADV7180_REG_MANUAL_WIN_CTL_3	0x003f
+> @@ -935,10 +936,20 @@ static int adv7182_init(struct adv7180_state *state)
+>  		adv7180_write(state, ADV7180_REG_EXTENDED_OUTPUT_CONTROL, 0x57);
+>  		adv7180_write(state, ADV7180_REG_CTRL_2, 0xc0);
+>  	} else {
+> -		if (state->chip_info->flags & ADV7180_FLAG_V2)
+> +		if (state->chip_info->flags & ADV7180_FLAG_V2) {
+> +			/* ITU-R BT.656-4 compatible */
+>  			adv7180_write(state,
+>  				      ADV7180_REG_EXTENDED_OUTPUT_CONTROL,
+> -				      0x17);
+> +				      ADV7180_EXTENDED_OUTPUT_CONTROL_NTSCDIS);
+> +			/* Manually set NEWAVMODE */
+> +			adv7180_write(state,
+> +				      ADV7180_REG_VSYNC_FIELD_CTL_1,
+> +				      ADV7180_VSYNC_FIELD_CTL_1_NEWAV);
+> +			/* Manually set V bit end position in NTSC mode */
+> +			adv7180_write(state,
+> +				      ADV7180_REG_NTSC_V_BIT_END,
+> +				      ADV7180_NTSC_V_BIT_END_MANUAL_NVEND);
+> +		}
+>  		else
+>  			adv7180_write(state,
+>  				      ADV7180_REG_EXTENDED_OUTPUT_CONTROL,
 > 
 
