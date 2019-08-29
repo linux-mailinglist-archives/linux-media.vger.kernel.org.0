@@ -2,271 +2,328 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A1A7CA1F46
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2019 17:32:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D68ECA1F52
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2019 17:34:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727008AbfH2Pc6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Aug 2019 11:32:58 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:40367 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727223AbfH2Pc6 (ORCPT
+        id S1727904AbfH2Pev (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Aug 2019 11:34:51 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:60415 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726852AbfH2Pev (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Aug 2019 11:32:58 -0400
-Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id 3MPsiSniIDqPe3MPviOhm9; Thu, 29 Aug 2019 17:32:56 +0200
-Subject: Re: [PATCH v2 06/10] media: v4l2-fwnode: Add helper to register
- controls from fw
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>, tfiga@google.com,
-        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>
-References: <20190827092339.8858-1-jacopo@jmondi.org>
- <20190827092339.8858-9-jacopo@jmondi.org>
- <f4e57a0c-08e5-c52c-bd52-7bf7e8f54c30@xs4all.nl>
- <20190829124516.3fbvxcrligtbiy7d@uno.localdomain>
- <54707d6c-fb8e-c10c-e48a-c0ae72075190@xs4all.nl>
- <20190829150548.GF5875@pendragon.ideasonboard.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <6bd504eb-d56c-f07d-8daa-363b1618a1bd@xs4all.nl>
-Date:   Thu, 29 Aug 2019 17:32:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Thu, 29 Aug 2019 11:34:51 -0400
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1i3MRc-0003WC-1r; Thu, 29 Aug 2019 17:34:40 +0200
+Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1i3MRa-0006ty-GF; Thu, 29 Aug 2019 17:34:38 +0200
+Date:   Thu, 29 Aug 2019 17:34:38 +0200
+From:   Marco Felsch <m.felsch@pengutronix.de>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
+        hans.verkuil@cisco.com, jacopo+renesas@jmondi.org,
+        robh+dt@kernel.org, laurent.pinchart@ideasonboard.com,
+        devicetree@vger.kernel.org, kernel@pengutronix.de,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v9 07/13] media: tvp5150: add FORMAT_TRY support for
+ get/set selection handlers
+Message-ID: <20190829153438.fhxdccvko2lilvyn@pengutronix.de>
+References: <20190822080556.17109-1-m.felsch@pengutronix.de>
+ <20190822080556.17109-8-m.felsch@pengutronix.de>
+ <aadcd44b-7708-e4e7-1926-d9ac0bc8ef8f@xs4all.nl>
 MIME-Version: 1.0
-In-Reply-To: <20190829150548.GF5875@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfBYrESCEBu79ngtNQaRWvcqQfC92MbGyQAi/I0IU+g6HD/GGiVgyPb9N3+ldHxZ6p50TPHaV3iNjlfudpRvMKdIVPfHQKdsaK67gmDESM/fpkjSQ0TzQ
- d/4zcKJQzJz85Yqv38F0yq2+yz3VEb7jcMmg3EFX9pPHYpVvkF0RFQKZXklFJE6WcS9PQasxAfLbo5DRgIelis8n36pDhFjgUexnqHXIQEQ6QBdtvr708ijM
- 149LWwp6hTuPfJ5EZotKSVq1IyIPPVRH165BfYv518i3UB6ydh8js62qDeYN/k8WN+PVNXwEQzHJXhj6uJ8WCszVaZgW+vJcQvZZQsKs8OMHIY7IfJulwqhO
- Am3LrpLU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aadcd44b-7708-e4e7-1926-d9ac0bc8ef8f@xs4all.nl>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 15:02:15 up 103 days, 19:20, 63 users,  load average: 0.06, 0.07,
+ 0.05
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 8/29/19 5:05 PM, Laurent Pinchart wrote:
-> Hi Hans,
+On 19-08-29 11:56, Hans Verkuil wrote:
+> On 8/22/19 10:05 AM, Marco Felsch wrote:
+> > Since commit 10d5509c8d50 ("[media] v4l2: remove g/s_crop from video ops")
+> > the 'which' field for set/get_selection must be FORMAT_ACTIVE. There is
+> > no way to try different selections. The patch adds a helper function to
+> > select the correct selection memory space (sub-device file handle or
+> > driver state) which will be set/returned.
+> > 
+> > The selection rectangle is updated if the format is FORMAT_ACTIVE and
+> > the rectangle position and/or size differs from the current set
+> > rectangle.
+> > 
+> > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> > ---
+> > Changelog:
+> > 
+> > v8:
+> > - adapt commit message
+> > - remove wrong FORMAT_TRY handling for tvp5150_fill_fmt() handling
+> > - return 0 during set_selection if FORMAT_TRY was requested and
+> >   CONFIG_VIDEO_V4L2_SUBDEV_API is disabled
+> > - return -EINVAL during get_selection if FORMAT_TRY was requested and
+> >   CONFIG_VIDEO_V4L2_SUBDEV_API is disabled
+> > v7:
+> > - __tvp5150_get_pad_crop(): return error on default case
+> > - simplify __tvp5150_get_pad_crop() error handling
+> > - tvp5150_set_selection() squash __tvp5150_set_selection() execution
+> >   conditions
+> > v6:
+> > nothing
+> > v5:
+> >  - handle stub for v4l2_subdev_get_try_crop() internal since commit
+> >    ("media: v4l2-subdev: add stubs for v4l2_subdev_get_try_*")
+> >    isn't anymore part of this series.
+> >  - add error handling of __tvp5150_get_pad_crop()
+> > v4:
+> >  - fix merge conflict due to rebase on top of media-tree/master
+> >  - __tvp5150_get_pad_crop(): cosmetic alignment fixes
+> > ---
+> >  drivers/media/i2c/tvp5150.c | 111 +++++++++++++++++++++++++-----------
+> >  1 file changed, 79 insertions(+), 32 deletions(-)
+> > 
+> > diff --git a/drivers/media/i2c/tvp5150.c b/drivers/media/i2c/tvp5150.c
+> > index 477a929d4f89..62a1c7c3a7c0 100644
+> > --- a/drivers/media/i2c/tvp5150.c
+> > +++ b/drivers/media/i2c/tvp5150.c
+> > @@ -19,6 +19,7 @@
+> >  #include <media/v4l2-ctrls.h>
+> >  #include <media/v4l2-fwnode.h>
+> >  #include <media/v4l2-mc.h>
+> > +#include <media/v4l2-rect.h>
+> >  
+> >  #include "tvp5150_reg.h"
+> >  
+> > @@ -995,6 +996,23 @@ static void tvp5150_set_default(v4l2_std_id std, struct v4l2_rect *crop)
+> >  		crop->height = TVP5150_V_MAX_OTHERS;
+> >  }
+> >  
+> > +static struct v4l2_rect *
+> > +__tvp5150_get_pad_crop(struct tvp5150 *decoder,
+> > +		       struct v4l2_subdev_pad_config *cfg, unsigned int pad,
+> > +		       enum v4l2_subdev_format_whence which)
+> > +{
+> > +	switch (which) {
+> > +	case V4L2_SUBDEV_FORMAT_ACTIVE:
+> > +		return &decoder->rect;
+> > +	case V4L2_SUBDEV_FORMAT_TRY:
+> > +#if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
+> > +		return v4l2_subdev_get_try_crop(&decoder->sd, cfg, pad);
+> > +#endif
 > 
-> On Thu, Aug 29, 2019 at 03:04:42PM +0200, Hans Verkuil wrote:
->> On 8/29/19 2:45 PM, Jacopo Mondi wrote:
->>> On Thu, Aug 29, 2019 at 12:31:37PM +0200, Hans Verkuil wrote:
->>>> On 8/27/19 11:23 AM, Jacopo Mondi wrote:
->>>>> Add the 'v4l2_fwnode_register_controls()' helper to v4l2-fwnode. The
->>>>> function parses the device node and endpoint firmware properties to
->>>>> which a v4l2 control is associated to and registers the control with the
->>>>> provided handler.
->>>>>
->>>>> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
->>>>> ---
->>>>>  drivers/media/v4l2-core/v4l2-fwnode.c | 57 +++++++++++++++++++++++++++
->>>>>  include/media/v4l2-fwnode.h           | 30 ++++++++++++++
->>>>>  2 files changed, 87 insertions(+)
->>>>>
->>>>> diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
->>>>> index 3bd1888787eb..669801fceb64 100644
->>>>> --- a/drivers/media/v4l2-core/v4l2-fwnode.c
->>>>> +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
->>>>> @@ -25,6 +25,7 @@
->>>>>  #include <linux/types.h>
->>>>>
->>>>>  #include <media/v4l2-async.h>
->>>>> +#include <media/v4l2-ctrls.h>
->>>>>  #include <media/v4l2-fwnode.h>
->>>>>  #include <media/v4l2-subdev.h>
->>>>>
->>>>> @@ -595,6 +596,62 @@ void v4l2_fwnode_put_link(struct v4l2_fwnode_link *link)
->>>>>  }
->>>>>  EXPORT_SYMBOL_GPL(v4l2_fwnode_put_link);
->>>>>
->>>>> +int v4l2_fwnode_register_controls(struct fwnode_handle *fwnode,
->>>>> +				  struct v4l2_ctrl_handler *hdl,
->>>>> +				  const struct v4l2_ctrl_ops *ctrl_ops)
->>>>
->>>> I'm not convinced that this helper is a good idea.
->>>>
->>>> A helper that parses and validates this information makes sense,
->>>> but combining that with creating the controls feels wrong to me.
->>>>
->>>> You're mixing two very different things in one function.
->>>>
->>>> I think something like this would work better in a driver:
->>>>
->>>> 	if (!v4l2_fwnode_parse_location(&val))
->>>> 		v4l2_ctrl_new_std(hdl, ctrl_ops,
->>>> 				  V4L2_CID_CAMERA_SENSOR_LOCATION,
->>>> 				  val, val, 1, val);
->>>> 	if (!v4l2_fwnode_parse_rotation(&val))
->>>> 		v4l2_ctrl_new_std(hdl, ctrl_ops,
->>>> 				  V4L2_CID_CAMERA_SENSOR_ROTATION,
->>>> 				  val, val, 1, val);
->>>>
->>>> Much cleaner IMHO. (Just a brainstorm, so don't get stuck on these
->>>> function prototypes!)
->>>>
->>>
->>> Could the control registration being conditional on the presence of
->>> the *hdl parameter otherwise, or would you split the two operations
->>> (property parsing and control registration) nonetheless ?
->>
->> Split it. My main problem with this helper is that it is mixing two
->> frameworks. Most of Laurent's comments on this patch just go away if
->> you leave the control creation to the driver.
->>
->> It really isn't much code, and it is much easier to review a driver
->> if all the controls are created in the same place instead of some
->> controls being magically created in a helper function.
+> Hmm, this fall-through is confusing.
 > 
-> But this would require copying the above code in every single camera
-> sensor driver. Furthermore, the helper proposed by Jacopo would make
-> addition of new firmware properties much simpler, as we wouldn't need to
-> modify all sensor drivers.
+> I'd just do:
 > 
-> V4L2 requires lots of boilerplate code for sensor drivers, and I think
-> more helper would be useful. There's really not point in doing the same
-> thing slightly differently in dozens of drivers. Maybe we could
-> experiment with a v4l2_camera_subdev structure ?
+> #else
+> 		return ERR_PTR(-EINVAL);
+> #endif
 
-You can make one v4l2_fwnode helper that parses all the sensor properties,
-and another helper in v4l2-ctrl.c or v4l2-common.c that uses the parsed
-result to create the controls. That way if the driver needs to do something
-unusual with the controls it can just create them manually.
+Okay.
 
-But don't mix the two in one helper.
+> > +	default:
+> > +		return ERR_PTR(-EINVAL);
+> > +	}
+> > +}
+> > +
+> >  static int tvp5150_fill_fmt(struct v4l2_subdev *sd,
+> >  			    struct v4l2_subdev_pad_config *cfg,
+> >  			    struct v4l2_subdev_format *format)
+> > @@ -1019,36 +1037,68 @@ static int tvp5150_fill_fmt(struct v4l2_subdev *sd,
+> >  	return 0;
+> >  }
+> >  
+> > +unsigned int tvp5150_get_hmax(struct v4l2_subdev *sd)
+> > +{
+> > +	struct tvp5150 *decoder = to_tvp5150(sd);
+> > +	v4l2_std_id std;
+> > +
+> > +	/* Calculate height based on current standard */
+> > +	if (decoder->norm == V4L2_STD_ALL)
+> > +		std = tvp5150_read_std(sd);
+> > +	else
+> > +		std = decoder->norm;
+> > +
+> > +	return (std & V4L2_STD_525_60) ?
+> > +		TVP5150_V_MAX_525_60 : TVP5150_V_MAX_OTHERS;
+> > +}
+> > +
+> > +static inline void
+> > +__tvp5150_set_selection(struct v4l2_subdev *sd, struct v4l2_rect rect)
+> > +{
+> > +	struct tvp5150 *decoder = to_tvp5150(sd);
+> > +	unsigned int hmax = tvp5150_get_hmax(sd);
+> > +
+> > +	regmap_write(decoder->regmap, TVP5150_VERT_BLANKING_START, rect.top);
+> > +	regmap_write(decoder->regmap, TVP5150_VERT_BLANKING_STOP,
+> > +		     rect.top + rect.height - hmax);
+> > +	regmap_write(decoder->regmap, TVP5150_ACT_VD_CROP_ST_MSB,
+> > +		     rect.left >> TVP5150_CROP_SHIFT);
+> > +	regmap_write(decoder->regmap, TVP5150_ACT_VD_CROP_ST_LSB,
+> > +		     rect.left | (1 << TVP5150_CROP_SHIFT));
+> > +	regmap_write(decoder->regmap, TVP5150_ACT_VD_CROP_STP_MSB,
+> > +		     (rect.left + rect.width - TVP5150_MAX_CROP_LEFT) >>
+> > +		     TVP5150_CROP_SHIFT);
+> > +	regmap_write(decoder->regmap, TVP5150_ACT_VD_CROP_STP_LSB,
+> > +		     rect.left + rect.width - TVP5150_MAX_CROP_LEFT);
+> > +}
+> > +
+> >  static int tvp5150_set_selection(struct v4l2_subdev *sd,
+> >  				 struct v4l2_subdev_pad_config *cfg,
+> >  				 struct v4l2_subdev_selection *sel)
+> >  {
+> >  	struct tvp5150 *decoder = to_tvp5150(sd);
+> >  	struct v4l2_rect rect = sel->r;
+> > -	v4l2_std_id std;
+> > -	int hmax;
+> > +	struct v4l2_rect *crop;
+> > +	unsigned int hmax;
+> >  
+> > -	if (sel->which != V4L2_SUBDEV_FORMAT_ACTIVE ||
+> > -	    sel->target != V4L2_SEL_TGT_CROP)
+> > +	if (sel->target != V4L2_SEL_TGT_CROP)
+> >  		return -EINVAL;
+> >  
+> >  	dev_dbg_lvl(sd->dev, 1, debug, "%s left=%d, top=%d, width=%d, height=%d\n",
+> >  		__func__, rect.left, rect.top, rect.width, rect.height);
+> >  
+> > +	/*
+> > +	 * Do not apply the request in case of FORMAT_TRY and disabled
+> > +	 * CONFIG_VIDEO_V4L2_SUBDEV_API support.
+> > +	 */
+> > +	crop = __tvp5150_get_pad_crop(decoder, cfg, sel->pad, sel->which);
+> > +	if (IS_ERR(crop))
+> > +		return 0;
+> 
+> This isn't right.
+> 
+> If VIDEO_V4L2_SUBDEV_API isn't set, then set_selection with FORMAT_TRY
+> should succeed: it should just verify (and optionally adjust) the selection
+> against the current active format and return that.
 
-Note that creating some more advanced framework for sensors wouldn't hurt
-since it's a bit mess at the moment IMHO.
+Okay got that.
+
+> I think the easiest would be to do this:
+> 
+> #ifdef VIDEO_V4L2_SUBDEV_API
+> 	crop = __tvp5150_get_pad_crop(decoder, cfg, sel->pad, sel->which);
+> #else
+> 	crop = __tvp5150_get_pad_crop(decoder, cfg, sel->pad, V4L2_SUBDEV_FORMAT_ACTIVE);
+> #endif
+
+Hm.. I think that's a bit to easy since we apply the rect to the crop so
+we would apply the selection to the driver state. I changed the order of
+set_selection in such a way to adapt the selection->rect first and
+return 0 if VIDEO_V4L2_SUBDEV_API isn't available and sel->which was
+V4L2_SUBDEV_FORMAT_TRY.
+
+Futhermore I recognized that the set_selection didn't adapt the sel->r.
+Instead the local copy is adapted... BTW. this isn't the only driver
+which has that problem.. Should we add a compliance test here to cover
+such problems during review?
 
 Regards,
+  Marco
 
-	Hans
-
 > 
->>> An helper was suggested in the v1 review, Laurent, Sakari, what do you
->>> think here?
->>>
->>>>> +{
->>>>> +	u32 val;
->>>>> +	int ret;
->>>>> +
->>>>> +	ret = fwnode_property_read_u32(fwnode, "location", &val);
->>>>> +	if (!ret) {
->>>>> +		switch (val) {
->>>>> +		case V4L2_LOCATION_FRONT:
->>>>> +		case V4L2_LOCATION_BACK:
->>>>> +		case V4L2_LOCATION_EXTERNAL:
->>>>> +			break;
->>>>> +		default:
->>>>> +			pr_warn("Unsupported location: %u\n", val);
->>>>> +			return -EINVAL;
->>>>> +		}
->>>>> +
->>>>> +		if (v4l2_ctrl_find(hdl, V4L2_CID_CAMERA_SENSOR_LOCATION))
->>>>> +			pr_debug("Skip control '%s': already registered",
->>>>> +				 v4l2_ctrl_get_name(
->>>>> +					 V4L2_CID_CAMERA_SENSOR_LOCATION));
->>>>> +		else
->>>>> +			v4l2_ctrl_new_std(hdl, ctrl_ops,
->>>>> +					  V4L2_CID_CAMERA_SENSOR_LOCATION,
->>>>> +					  val, val, 1, val);
->>>>> +	}
->>>>> +
->>>>> +	ret = fwnode_property_read_u32(fwnode, "rotation", &val);
->>>>> +	if (!ret) {
->>>>> +		if (val > 360) {
->>>>
->>>> I'd add '|| val % 90' to this condition.
->>>
->>> Do we want to enforce this? I can't imagine any use case, but why a
->>> camera cannot be rotated of an arbitrary number of degrees ?
->>
->> I would start out by enforcing this until someone comes up with a
->> realistic use-case.
->>
->> As long as it is a multiple of 90 degree, then there is a clear interaction
->> with the ROTATE/HFLIP/VFLIP controls. For other angles that gets more confusing
->> and I'd rather avoid that for now.
+> > +
+> >  	/* tvp5150 has some special limits */
+> >  	rect.left = clamp(rect.left, 0, TVP5150_MAX_CROP_LEFT);
+> >  	rect.top = clamp(rect.top, 0, TVP5150_MAX_CROP_TOP);
+> > -
+> > -	/* Calculate height based on current standard */
+> > -	if (decoder->norm == V4L2_STD_ALL)
+> > -		std = tvp5150_read_std(sd);
+> > -	else
+> > -		std = decoder->norm;
+> > -
+> > -	if (std & V4L2_STD_525_60)
+> > -		hmax = TVP5150_V_MAX_525_60;
+> > -	else
+> > -		hmax = TVP5150_V_MAX_OTHERS;
+> > +	hmax = tvp5150_get_hmax(sd);
+> >  
+> >  	/*
+> >  	 * alignments:
+> > @@ -1061,20 +1111,15 @@ static int tvp5150_set_selection(struct v4l2_subdev *sd,
+> >  			      hmax - TVP5150_MAX_CROP_TOP - rect.top,
+> >  			      hmax - rect.top, 0, 0);
+> >  
+> > -	regmap_write(decoder->regmap, TVP5150_VERT_BLANKING_START, rect.top);
+> > -	regmap_write(decoder->regmap, TVP5150_VERT_BLANKING_STOP,
+> > -		     rect.top + rect.height - hmax);
+> > -	regmap_write(decoder->regmap, TVP5150_ACT_VD_CROP_ST_MSB,
+> > -		     rect.left >> TVP5150_CROP_SHIFT);
+> > -	regmap_write(decoder->regmap, TVP5150_ACT_VD_CROP_ST_LSB,
+> > -		     rect.left | (1 << TVP5150_CROP_SHIFT));
+> > -	regmap_write(decoder->regmap, TVP5150_ACT_VD_CROP_STP_MSB,
+> > -		     (rect.left + rect.width - TVP5150_MAX_CROP_LEFT) >>
+> > -		     TVP5150_CROP_SHIFT);
+> > -	regmap_write(decoder->regmap, TVP5150_ACT_VD_CROP_STP_LSB,
+> > -		     rect.left + rect.width - TVP5150_MAX_CROP_LEFT);
+> > +	/*
+> > +	 * Update output image size if the selection (crop) rectangle size or
+> > +	 * position has been modified.
+> > +	 */
+> > +	if (sel->which == V4L2_SUBDEV_FORMAT_ACTIVE &&
+> > +	    !v4l2_rect_equal(&rect, crop))
+> > +		__tvp5150_set_selection(sd, rect);
+> >  
+> > -	decoder->rect = rect;
+> > +	*crop = rect;
+> >  
+> >  	return 0;
+> >  }
+> > @@ -1084,11 +1129,9 @@ static int tvp5150_get_selection(struct v4l2_subdev *sd,
+> >  				 struct v4l2_subdev_selection *sel)
+> >  {
+> >  	struct tvp5150 *decoder = container_of(sd, struct tvp5150, sd);
+> > +	struct v4l2_rect *crop;
+> >  	v4l2_std_id std;
+> >  
+> > -	if (sel->which != V4L2_SUBDEV_FORMAT_ACTIVE)
+> > -		return -EINVAL;
+> > -
+> >  	switch (sel->target) {
+> >  	case V4L2_SEL_TGT_CROP_BOUNDS:
+> >  		sel->r.left = 0;
+> > @@ -1106,7 +1149,11 @@ static int tvp5150_get_selection(struct v4l2_subdev *sd,
+> >  			sel->r.height = TVP5150_V_MAX_OTHERS;
+> >  		return 0;
+> >  	case V4L2_SEL_TGT_CROP:
+> > -		sel->r = decoder->rect;
+> > +		crop = __tvp5150_get_pad_crop(decoder, cfg, sel->pad,
+> > +						sel->which);
+> > +		if (IS_ERR(crop))
+> > +			return PTR_ERR(crop);
+> > +		sel->r = *crop;
+> >  		return 0;
+> >  	default:
+> >  		return -EINVAL;
+> > 
 > 
-> If we enfore this, then let's update the DT bindings accordingly. yaml
-> would help with validation ;-)
+> Regards,
 > 
->>>>> +			pr_warn("Unsupported rotation: %u\n", val);
->>>>> +			return -EINVAL;
->>>>> +		}
->>>>> +
->>>>> +		if (v4l2_ctrl_find(hdl, V4L2_CID_CAMERA_SENSOR_ROTATION))
->>>>> +			pr_debug("Skip control '%s': already registered",
->>>>> +				 v4l2_ctrl_get_name(
->>>>> +					 V4L2_CID_CAMERA_SENSOR_ROTATION));
->>>>> +		else
->>>>> +			v4l2_ctrl_new_std(hdl, ctrl_ops,
->>>>> +					  V4L2_CID_CAMERA_SENSOR_ROTATION,
->>>>> +					  val, val, 1, val);
->>>>> +	}
->>>>> +
->>>>> +	if (hdl->error) {
->>>>> +		pr_warn("Failed to register controls from firmware: %d\n",
->>>>> +			hdl->error);
->>>>> +		return hdl->error;
->>>>> +	}
->>>>> +
->>>>> +	return 0;
->>>>> +}
->>>>> +EXPORT_SYMBOL_GPL(v4l2_fwnode_register_controls);
->>>>> +
->>>>>  static int
->>>>>  v4l2_async_notifier_fwnode_parse_endpoint(struct device *dev,
->>>>>  					  struct v4l2_async_notifier *notifier,
->>>>> diff --git a/include/media/v4l2-fwnode.h b/include/media/v4l2-fwnode.h
->>>>> index f6a7bcd13197..0dad6968bde9 100644
->>>>> --- a/include/media/v4l2-fwnode.h
->>>>> +++ b/include/media/v4l2-fwnode.h
->>>>> @@ -25,6 +25,8 @@
->>>>>  struct fwnode_handle;
->>>>>  struct v4l2_async_notifier;
->>>>>  struct v4l2_async_subdev;
->>>>> +struct v4l2_ctrl_handler;
->>>>> +struct v4l2_ctrl_ops;
->>>>>
->>>>>  #define V4L2_FWNODE_CSI2_MAX_DATA_LANES	4
->>>>>
->>>>> @@ -233,6 +235,34 @@ int v4l2_fwnode_parse_link(struct fwnode_handle *fwnode,
->>>>>   */
->>>>>  void v4l2_fwnode_put_link(struct v4l2_fwnode_link *link);
->>>>>
->>>>> +/**
->>>>> + * v4l2_fwnode_register_controls() - parse device and endpoint fwnode
->>>>> + *				     properties and register a v4l2 control
->>>>> + *				     for each of them
->>>>> + * @fwnode: pointer to the device fwnode handle
->>>>> + * @hdl: pointer to the v4l2 control handler to register controls with
->>>>> + * @ctrl_ops: pointer to the v4l2 control operations to register with the handler
->>>>> + *
->>>>> + * Parse the @fwnode device and endpoint properties to which a v4l2 control
->>>>> + * is associated and register them with the provided handler @hdl.
->>>>> + * Currently the following v4l2 controls are parsed and registered:
->>>>> + * - V4L2_CID_CAMERA_SENSOR_LOCATION;
->>>>> + * - V4L2_CID_CAMERA_SENSOR_ROTATION;
->>>>> + *
->>>>> + * Controls already registered by the caller with the @hdl control handler are
->>>>> + * not overwritten. Callers should register the controls they want to handle
->>>>> + * themselves before calling this function.
->>>>> + *
->>>>> + * NOTE: This function locks the @hdl control handler mutex, the caller shall
->>>>> + * not hold the lock when calling this function.
->>>>> + *
->>>>> + * Return: 0 on success, -EINVAL if the fwnode properties are not correctly
->>>>> + * specified.
->>>>> + */
->>>>> +int v4l2_fwnode_register_controls(struct fwnode_handle *fwnode,
->>>>> +				  struct v4l2_ctrl_handler *hdl,
->>>>> +				  const struct v4l2_ctrl_ops *ctrl_ops);
->>>>> +
->>>>>  /**
->>>>>   * typedef parse_endpoint_func - Driver's callback function to be called on
->>>>>   *	each V4L2 fwnode endpoint.
+> 	Hans
 > 
 
+-- 
+Pengutronix e.K.                           |                             |
+Industrial Linux Solutions                 | http://www.pengutronix.de/  |
+Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
