@@ -2,154 +2,254 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BB1EA1A4A
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2019 14:40:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6EDD5A1A53
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2019 14:43:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727125AbfH2Mkj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Aug 2019 08:40:39 -0400
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:46179 "EHLO
-        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725782AbfH2Mkj (ORCPT
+        id S1726852AbfH2Mns (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Aug 2019 08:43:48 -0400
+Received: from relay7-d.mail.gandi.net ([217.70.183.200]:53191 "EHLO
+        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726379AbfH2Mns (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Aug 2019 08:40:39 -0400
-Received: by mail-ed1-f65.google.com with SMTP id z51so3856942edz.13;
-        Thu, 29 Aug 2019 05:40:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=wmJIhmpe5eh+/gW/vr2H2oqa0HY38tUTFnJyQ/g2lnw=;
-        b=BEHX6O5kpPqJazg+Y2J0VIoeG6AGVw4bHdRUQz3Gp24W7bpATqmb1cfj0SUVh8svAj
-         jiNgAROYNIATDIu9Mh2tlTxusICw/9IFN/1wKDB5WUfdvb+Vsab94ha496M/YAk/tAiR
-         YENrFGmeZ/jNzTJOv9nr4gztoyemotgelzf9AugZtZ36/RY6JSlCcJJyXO680UrNfmjf
-         PgZ+lTtcUUsC291zWbuA4EjqHWemFIe2zMX+Ata+yPcafZfq96PszMER/vtQ6ZiNuYrX
-         1DfAvqVgff1f7PcBVSCLE6C+l/bYgJ66YeekAN69XoYJgO+WzUSmqzMDKSf96bGPAgHe
-         1NLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=wmJIhmpe5eh+/gW/vr2H2oqa0HY38tUTFnJyQ/g2lnw=;
-        b=TfoNJRouPvoTLkVcLcN3WPWxj4WzqAfTOLdVyseX6VX+zKK7qMNqc99Rnxk5vQSx6s
-         00Hcw0rg02i5sl5UjdtLzWn5ovXkieus8AEkpJqhfCwjsZiFxQetkgRcHvV+2ysI53kf
-         yW9RIesGZgia2eoeg9ivAqhCcQVnQ/dO0Ri5xdeEcoM7ensKfaxDESplVptvGJvq9QMx
-         A3ywpoREgc2DgtL+FJmTw/pE6E5NMoK1sFItfnpBeTbeZ7BToWQXU2iTRMzLqaeLStcf
-         bYRk3jiy9dWepEvdhbY7iukgYu5H7p+D2kbKg3MFFKgCEKaxCHW6yY/ExAOOl+qkvibD
-         EmuQ==
-X-Gm-Message-State: APjAAAVIty9vJtz5/2aibKMQwSfpEHZVro0T3n85C8VSdpmYddYZaRU2
-        Xf0LUvIektjyp7WYGJO1anM=
-X-Google-Smtp-Source: APXvYqwH9FMfs2BkjfucZGdoByxkMhDUjVy7mZQxKMVesrJgd1wU7+pYohArwwuIOgvcTiwdJw/6Vw==
-X-Received: by 2002:a17:906:c2c9:: with SMTP id ch9mr8121634ejb.167.1567082436874;
-        Thu, 29 Aug 2019 05:40:36 -0700 (PDT)
-Received: from localhost (pD9E51890.dip0.t-ipconnect.de. [217.229.24.144])
-        by smtp.gmail.com with ESMTPSA id l26sm367862ejg.70.2019.08.29.05.40.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Aug 2019 05:40:35 -0700 (PDT)
-Date:   Thu, 29 Aug 2019 14:40:34 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
+        Thu, 29 Aug 2019 08:43:48 -0400
+X-Originating-IP: 2.224.242.101
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 9B0802000F;
+        Thu, 29 Aug 2019 12:43:44 +0000 (UTC)
+Date:   Thu, 29 Aug 2019 14:45:16 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     YueHaibing <yuehaibing@huawei.com>, digetx@gmail.com,
-        mchehab@kernel.org, gregkh@linuxfoundation.org,
-        jonathanh@nvidia.com, robin.murphy@arm.com,
-        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
-        iommu@lists.linux-foundation.org
-Subject: Re: [PATCH] media: staging: tegra-vde: Disable building with
- COMPILE_TEST
-Message-ID: <20190829124034.GA19842@ulmo>
-References: <20190826133140.13456-1-yuehaibing@huawei.com>
- <7f73bcac-f52d-f1b3-324c-e9b551c5378b@xs4all.nl>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        tfiga@google.com,
+        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
+        <linux-media@vger.kernel.org>
+Subject: Re: [PATCH v2 06/10] media: v4l2-fwnode: Add helper to register
+ controls from fw
+Message-ID: <20190829124516.3fbvxcrligtbiy7d@uno.localdomain>
+References: <20190827092339.8858-1-jacopo@jmondi.org>
+ <20190827092339.8858-9-jacopo@jmondi.org>
+ <f4e57a0c-08e5-c52c-bd52-7bf7e8f54c30@xs4all.nl>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="2fHTh5uZTiUOsy+g"
+        protocol="application/pgp-signature"; boundary="aker6cxdp5fggndt"
 Content-Disposition: inline
-In-Reply-To: <7f73bcac-f52d-f1b3-324c-e9b551c5378b@xs4all.nl>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <f4e57a0c-08e5-c52c-bd52-7bf7e8f54c30@xs4all.nl>
+User-Agent: NeoMutt/20180716
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---2fHTh5uZTiUOsy+g
-Content-Type: text/plain; charset=us-ascii
+--aker6cxdp5fggndt
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 29, 2019 at 01:39:32PM +0200, Hans Verkuil wrote:
-> On 8/26/19 3:31 PM, YueHaibing wrote:
-> > If COMPILE_TEST is y and IOMMU_SUPPORT is n, selecting TEGRA_VDE
-> > to m will set IOMMU_IOVA to m, this fails the building of
-> > TEGRA_HOST1X and DRM_TEGRA which is y like this:
-> >=20
-> > drivers/gpu/host1x/cdma.o: In function `host1x_cdma_init':
-> > cdma.c:(.text+0x66c): undefined reference to `alloc_iova'
-> > cdma.c:(.text+0x698): undefined reference to `__free_iova'
-> >=20
-> > drivers/gpu/drm/tegra/drm.o: In function `tegra_drm_unload':
-> > drm.c:(.text+0xeb0): undefined reference to `put_iova_domain'
-> > drm.c:(.text+0xeb4): undefined reference to `iova_cache_put'
-> >=20
-> > Reported-by: Hulk Robot <hulkci@huawei.com>
-> > Fixes: 6b2265975239 ("media: staging: tegra-vde: Fix build error")
-> > Fixes: b301f8de1925 ("media: staging: media: tegra-vde: Add IOMMU suppo=
-rt")
-> > Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+Hi Hans,
+
+On Thu, Aug 29, 2019 at 12:31:37PM +0200, Hans Verkuil wrote:
+> On 8/27/19 11:23 AM, Jacopo Mondi wrote:
+> > Add the 'v4l2_fwnode_register_controls()' helper to v4l2-fwnode. The
+> > function parses the device node and endpoint firmware properties to
+> > which a v4l2 control is associated to and registers the control with the
+> > provided handler.
+> >
+> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 > > ---
-> >  drivers/staging/media/tegra-vde/Kconfig | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/drivers/staging/media/tegra-vde/Kconfig b/drivers/staging/=
-media/tegra-vde/Kconfig
-> > index ba49ea5..a41d30c 100644
-> > --- a/drivers/staging/media/tegra-vde/Kconfig
-> > +++ b/drivers/staging/media/tegra-vde/Kconfig
-> > @@ -1,9 +1,9 @@
-> >  # SPDX-License-Identifier: GPL-2.0
-> >  config TEGRA_VDE
-> >  	tristate "NVIDIA Tegra Video Decoder Engine driver"
-> > -	depends on ARCH_TEGRA || COMPILE_TEST
-> > +	depends on ARCH_TEGRA
->=20
-> What happens if you drop this change,
->=20
-> >  	select DMA_SHARED_BUFFER
-> > -	select IOMMU_IOVA if (IOMMU_SUPPORT || COMPILE_TEST)
-> > +	select IOMMU_IOVA if IOMMU_SUPPORT
->=20
-> but keep this change?
->=20
-> iova.h has stubs that are used if IOMMU_IOVA is not set, so it should
-> work when compile testing this tegra-vde driver.
->=20
-> Haven't tried it, but making sure that compile testing keep working is
-> really important.
+> >  drivers/media/v4l2-core/v4l2-fwnode.c | 57 +++++++++++++++++++++++++++
+> >  include/media/v4l2-fwnode.h           | 30 ++++++++++++++
+> >  2 files changed, 87 insertions(+)
+> >
+> > diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
+> > index 3bd1888787eb..669801fceb64 100644
+> > --- a/drivers/media/v4l2-core/v4l2-fwnode.c
+> > +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
+> > @@ -25,6 +25,7 @@
+> >  #include <linux/types.h>
+> >
+> >  #include <media/v4l2-async.h>
+> > +#include <media/v4l2-ctrls.h>
+> >  #include <media/v4l2-fwnode.h>
+> >  #include <media/v4l2-subdev.h>
+> >
+> > @@ -595,6 +596,62 @@ void v4l2_fwnode_put_link(struct v4l2_fwnode_link *link)
+> >  }
+> >  EXPORT_SYMBOL_GPL(v4l2_fwnode_put_link);
+> >
+> > +int v4l2_fwnode_register_controls(struct fwnode_handle *fwnode,
+> > +				  struct v4l2_ctrl_handler *hdl,
+> > +				  const struct v4l2_ctrl_ops *ctrl_ops)
+>
+> I'm not convinced that this helper is a good idea.
+>
+> A helper that parses and validates this information makes sense,
+> but combining that with creating the controls feels wrong to me.
+>
+> You're mixing two very different things in one function.
+>
+> I think something like this would work better in a driver:
+>
+> 	if (!v4l2_fwnode_parse_location(&val))
+> 		v4l2_ctrl_new_std(hdl, ctrl_ops,
+> 				  V4L2_CID_CAMERA_SENSOR_LOCATION,
+> 				  val, val, 1, val);
+> 	if (!v4l2_fwnode_parse_rotation(&val))
+> 		v4l2_ctrl_new_std(hdl, ctrl_ops,
+> 				  V4L2_CID_CAMERA_SENSOR_ROTATION,
+> 				  val, val, 1, val);
+>
+> Much cleaner IMHO. (Just a brainstorm, so don't get stuck on these
+> function prototypes!)
+>
 
-Yeah, that variant seems to work for me. I think it's also more correct
-because the IOMMU_IOVA if IOMMU_SUPPORT dependency really says that the
-IOVA usage is bound to IOMMU support. If IOMMU support is not enabled,
-then IOVA is not needed either, so the dummies will do just fine.
+Could the control registration being conditional on the presence of
+the *hdl parameter otherwise, or would you split the two operations
+(property parsing and control registration) nonetheless ?
 
-Thierry
+An helper was suggested in the v1 review, Laurent, Sakari, what do you
+think here?
 
---2fHTh5uZTiUOsy+g
+> > +{
+> > +	u32 val;
+> > +	int ret;
+> > +
+> > +	ret = fwnode_property_read_u32(fwnode, "location", &val);
+> > +	if (!ret) {
+> > +		switch (val) {
+> > +		case V4L2_LOCATION_FRONT:
+> > +		case V4L2_LOCATION_BACK:
+> > +		case V4L2_LOCATION_EXTERNAL:
+> > +			break;
+> > +		default:
+> > +			pr_warn("Unsupported location: %u\n", val);
+> > +			return -EINVAL;
+> > +		}
+> > +
+> > +		if (v4l2_ctrl_find(hdl, V4L2_CID_CAMERA_SENSOR_LOCATION))
+> > +			pr_debug("Skip control '%s': already registered",
+> > +				 v4l2_ctrl_get_name(
+> > +					 V4L2_CID_CAMERA_SENSOR_LOCATION));
+> > +		else
+> > +			v4l2_ctrl_new_std(hdl, ctrl_ops,
+> > +					  V4L2_CID_CAMERA_SENSOR_LOCATION,
+> > +					  val, val, 1, val);
+> > +	}
+> > +
+> > +	ret = fwnode_property_read_u32(fwnode, "rotation", &val);
+> > +	if (!ret) {
+> > +		if (val > 360) {
+>
+> I'd add '|| val % 90' to this condition.
+>
+
+Do we want to enforce this? I can't imagine any use case, but why a
+camera cannot be rotated of an arbitrary number of degrees ?
+
+Thanks
+   j
+> Regards,
+>
+> 	Hans
+>
+> > +			pr_warn("Unsupported rotation: %u\n", val);
+> > +			return -EINVAL;
+> > +		}
+> > +
+> > +		if (v4l2_ctrl_find(hdl, V4L2_CID_CAMERA_SENSOR_ROTATION))
+> > +			pr_debug("Skip control '%s': already registered",
+> > +				 v4l2_ctrl_get_name(
+> > +					 V4L2_CID_CAMERA_SENSOR_ROTATION));
+> > +		else
+> > +			v4l2_ctrl_new_std(hdl, ctrl_ops,
+> > +					  V4L2_CID_CAMERA_SENSOR_ROTATION,
+> > +					  val, val, 1, val);
+> > +	}
+> > +
+> > +	if (hdl->error) {
+> > +		pr_warn("Failed to register controls from firmware: %d\n",
+> > +			hdl->error);
+> > +		return hdl->error;
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +EXPORT_SYMBOL_GPL(v4l2_fwnode_register_controls);
+> > +
+> >  static int
+> >  v4l2_async_notifier_fwnode_parse_endpoint(struct device *dev,
+> >  					  struct v4l2_async_notifier *notifier,
+> > diff --git a/include/media/v4l2-fwnode.h b/include/media/v4l2-fwnode.h
+> > index f6a7bcd13197..0dad6968bde9 100644
+> > --- a/include/media/v4l2-fwnode.h
+> > +++ b/include/media/v4l2-fwnode.h
+> > @@ -25,6 +25,8 @@
+> >  struct fwnode_handle;
+> >  struct v4l2_async_notifier;
+> >  struct v4l2_async_subdev;
+> > +struct v4l2_ctrl_handler;
+> > +struct v4l2_ctrl_ops;
+> >
+> >  #define V4L2_FWNODE_CSI2_MAX_DATA_LANES	4
+> >
+> > @@ -233,6 +235,34 @@ int v4l2_fwnode_parse_link(struct fwnode_handle *fwnode,
+> >   */
+> >  void v4l2_fwnode_put_link(struct v4l2_fwnode_link *link);
+> >
+> > +/**
+> > + * v4l2_fwnode_register_controls() - parse device and endpoint fwnode
+> > + *				     properties and register a v4l2 control
+> > + *				     for each of them
+> > + * @fwnode: pointer to the device fwnode handle
+> > + * @hdl: pointer to the v4l2 control handler to register controls with
+> > + * @ctrl_ops: pointer to the v4l2 control operations to register with the handler
+> > + *
+> > + * Parse the @fwnode device and endpoint properties to which a v4l2 control
+> > + * is associated and register them with the provided handler @hdl.
+> > + * Currently the following v4l2 controls are parsed and registered:
+> > + * - V4L2_CID_CAMERA_SENSOR_LOCATION;
+> > + * - V4L2_CID_CAMERA_SENSOR_ROTATION;
+> > + *
+> > + * Controls already registered by the caller with the @hdl control handler are
+> > + * not overwritten. Callers should register the controls they want to handle
+> > + * themselves before calling this function.
+> > + *
+> > + * NOTE: This function locks the @hdl control handler mutex, the caller shall
+> > + * not hold the lock when calling this function.
+> > + *
+> > + * Return: 0 on success, -EINVAL if the fwnode properties are not correctly
+> > + * specified.
+> > + */
+> > +int v4l2_fwnode_register_controls(struct fwnode_handle *fwnode,
+> > +				  struct v4l2_ctrl_handler *hdl,
+> > +				  const struct v4l2_ctrl_ops *ctrl_ops);
+> > +
+> >  /**
+> >   * typedef parse_endpoint_func - Driver's callback function to be called on
+> >   *	each V4L2 fwnode endpoint.
+> >
+>
+
+--aker6cxdp5fggndt
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl1nx78ACgkQ3SOs138+
-s6FjdBAAjPVTLKQa12c+8O/ecTX4Bkd37JWHnmOyfuQByXvgyFwDufWK1I19NpQh
-gunYeGFxSe36t4aIK8w27Jtr86Zo7tw8xUmNs2cZrNLZahvEx4DERmV3VeqqKv8L
-hNjLT61akI4MlN7rGpRcwbUrtL39NJW3msO/NzvnZAy8EetobwDPVkcyhG+XfQhc
-XsNXJhnvj3W5PR1+RzhL1i2UGwpc4HhLEFjHgzHcBsVgo6QixR/vSCNQ+mJPEcsz
-G5NRpG8zqh6gGUCs4Fxi2Pn6FwWqYaqyqBbSZoAydYULWMhEUsZPTiyihsOP2PxM
-V8ni2vhx6hzqlr0Sml5LfsT8eDjuKLFHacfFzg0ediSy7HI3p8hxotcdZXfJ0T9G
-q1W7wK5WDhA3FP/z9iBQRjryaTUUQtf/F1NBMvTPvIfUipxqcgYq2/SayQ12g/9l
-e36ocSD+yuI0sZNa549AVTF5hYmmbkGAcrX+vF6OB0e0tGZoPAmBvQwd7XH2MHzI
-T2r6b1S4WMlZ6XX4ko8boqXVGzO8cGybF2S3pdNnQrWQc/EiFimCLlxVFjdvR6w2
-MdzxVAYlU47MNIhMaCbOCzEW5lq6krlMSVC3vpK13RGegyM7LHp5XXrhnRk5n6yf
-Ap68NCbc9fsg3oNPcddpiHnadEVLap36FWSpLixSYuZLUevnhZc=
-=jI77
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl1nyNwACgkQcjQGjxah
+VjwO9Q/+IeyBNvBAIr294MwaDl88rbZLBgN+VrHK6jGjV0rmTqc0ep+5Fc2tC4np
+xARwIQiPRGUoHFHSA9Fv9C9F+jyforrk7h6LNtGNTs80IUZtPAVyuoLKItVWqP/B
+QUAxZ+3fHnA56b8cS6385GxLIj0CivL3fWesAyf2ooKuu3lR2/FaO9B+u17Yi9VM
+DZqIEGk1IM8YxPCyEGsdvAVY1rJDdf1MN3nKQSFWqTLuOSynAkPcuKwrSnwLfu9O
+DclMN2ltV8BbeopVOqHMMNYTRTNhZtppyoGwZR1fl8nwwssA0T9HMUnU1nKt9o9O
+FIVpFb1eoJv3KbLhpDdoHZlpja9uDhkTnwdlsQVqcH8uqUERfM+RyCscdX+DMkWL
+2KcpLqBHq8t1uWNk6u/8cRgHlhYCo0m5GT3tvIao17n38vq3YupNpaMOxpPPtmj7
+LovVHtoZjzqRWqJ1lNd69dXEhcp3dGj5GKmbiWCdOCjaUrOCTj5ewXJF1NZyEsFN
+GVbDO0TLNQ0RoYigWXC8Jr+O+bvJ09QOOk09XcU25eBP1UNxyXLT7AgrsDEACm8Z
+X/a1iuAS1snT2vCIb08ccLLoJxUy0LnKu7mtLaffn/luH6GKKsvWOTduW7CQRHGK
+aWPNla5LVE0cAQZlJfrG6xK8zY2RtiBQ2fH2hyPzsGmHmFo7krg=
+=G8/R
 -----END PGP SIGNATURE-----
 
---2fHTh5uZTiUOsy+g--
+--aker6cxdp5fggndt--
