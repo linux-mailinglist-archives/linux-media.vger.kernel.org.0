@@ -2,258 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C0D83A1A83
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2019 14:54:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0291AA1A8D
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2019 14:55:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727235AbfH2MyT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Aug 2019 08:54:19 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:33501 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727012AbfH2MyT (ORCPT
+        id S1727040AbfH2Mzf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Aug 2019 08:55:35 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:34611 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726739AbfH2Mzf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Aug 2019 08:54:19 -0400
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1i3JwJ-0000iA-7h; Thu, 29 Aug 2019 14:54:11 +0200
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1i3JwI-0001Vn-Rx; Thu, 29 Aug 2019 14:54:10 +0200
-Date:   Thu, 29 Aug 2019 14:54:10 +0200
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
-        hans.verkuil@cisco.com, jacopo+renesas@jmondi.org,
-        robh+dt@kernel.org, laurent.pinchart@ideasonboard.com,
-        devicetree@vger.kernel.org, kernel@pengutronix.de,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v9 01/13] dt-bindings: connector: analog: add sdtv
- standards property
-Message-ID: <20190829125410.zjiebcf4cjdlyocl@pengutronix.de>
-References: <20190822080556.17109-1-m.felsch@pengutronix.de>
- <20190822080556.17109-2-m.felsch@pengutronix.de>
- <23fa2569-970e-ebf9-2116-90027123566e@xs4all.nl>
+        Thu, 29 Aug 2019 08:55:35 -0400
+Received: from [192.168.2.10] ([46.9.232.237])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id 3JxaiRoQfDqPe3JxdiO66E; Thu, 29 Aug 2019 14:55:33 +0200
+Subject: Re: [PATCH v2 09/10] media: i2c: ov5670: Report native size and crop
+ bounds
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        tfiga@google.com,
+        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
+        <linux-media@vger.kernel.org>
+References: <20190827092339.8858-1-jacopo@jmondi.org>
+ <20190827092339.8858-12-jacopo@jmondi.org>
+ <db08aa45-922e-e477-9836-cbbc3f17ad8e@xs4all.nl>
+ <20190829124055.zxiu7x6abxfhkzch@uno.localdomain>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <0df4ef45-ba3f-98b9-878e-8cdd2bf307f6@xs4all.nl>
+Date:   Thu, 29 Aug 2019 14:55:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <23fa2569-970e-ebf9-2116-90027123566e@xs4all.nl>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 14:52:36 up 103 days, 19:10, 63 users,  load average: 0.07, 0.09,
- 0.05
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+In-Reply-To: <20190829124055.zxiu7x6abxfhkzch@uno.localdomain>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfIX9PfHm1fcZkjHZcA4SWVX6Jew9xTj4lYrUBR4MXUDY/JB7nocqKN3Yh35QKldutKyF1fW6ezxpuFpEV925hG8CUmK1VjMgxsAPszIvh20fMt50QXa9
+ 2OJFHBOljcvwTsAS1LMAEgIVb5Svi5OLSRoPPOTzaRsjDL3iKB3IzS95ODORIrtJyt3wpoP2fL/irM+TJ+Hr2l5OCO7Ihud3pqtX9qIiJb/GAQC47KlvS6YU
+ MrxcXWqAGFwL0ONdpbW07RlAvWs3pPcb1+Y+UQzO/LTmiZ3lLzkr+0rdFF1NgLR/1BCs8fz7+Aqdy/S//QTqd8h/IEibvF8MP10MHej1AetnV2lkadFSp672
+ m0d7WR0B
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 19-08-29 12:02, Hans Verkuil wrote:
-> On 8/22/19 10:05 AM, Marco Felsch wrote:
-> > Some connectors no matter if in- or output supports only a limited
-> > range of sdtv standards. It doesn't matter if the hardware behind that
-> > connector supports more than the listed formats since the users are
-> > restriced by a label e.g. to plug only a camera into this connector
-> > which uses the PAL format.
-> > 
-> > This patch adds the capability to describe such limitation within the
-> > firmware. There are no format restrictions if the property isn't
-> > present, so it's completely backward compatible.
-> > 
-> > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> > ---
-> > [1] https://patchwork.kernel.org/cover/10794703/
-> > 
-> > v8:
-> > Hi Rob,
-> > 
-> > I dropped your r b tag becuase of the changes I made in this version.
-> > Please can you have look on it again? Luckily this would be the last
-> > time ;-)
-> > 
-> > - move definition to include/dt-bindings/display
-> > - rename tvnorms.h to sdtv-standards.h
-> > - TVORMS_* -> SDTV_STD_*
-> > - add sync comments
-> > - adapt commit message
-> > - fix bindings documentation
-> > 
-> > v7:
-> > I kept Robs r b tag because I only changed the example and extended
-> > TVNORM_* macros.
-> > 
-> > - fix some style issues
-> > - add TVNORM_NTSC, TVNORM_525_60 and TVNORM_625_50
-> > 
-> > v6:
-> > - tvnorms.h: use tabs instead of spaces
-> > - tvnorms.h: add TVNORM_PAL and TVNORM_SECAM
-> > - tvnorms.h: drop rarely used TVNORM_ATSC_* norms
-> > 
-> > v2-v4:
-> > - nothing since the patch was squashed from series [1] into this
-> >   series.
-> > ---
-> >  .../display/connector/analog-tv-connector.txt |  6 ++
-> >  include/dt-bindings/display/sdtv-standards.h  | 76 +++++++++++++++++++
-> >  include/uapi/linux/videodev2.h                |  4 +
-> >  3 files changed, 86 insertions(+)
-> >  create mode 100644 include/dt-bindings/display/sdtv-standards.h
-> > 
-> > diff --git a/Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt b/Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt
-> > index 0c0970c210ab..883bcb2604c7 100644
-> > --- a/Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt
-> > +++ b/Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt
-> > @@ -6,16 +6,22 @@ Required properties:
-> >  
-> >  Optional properties:
-> >  - label: a symbolic name for the connector
-> > +- sdtv-standards: limit the supported TV standards on a connector to the given
-> > +                  ones. If not specified all TV standards are allowed.
-> > +                  Possible TV standards are defined in
-> > +                  include/dt-bindings/display/sdtv-standards.h.
-> >  
-> >  Required nodes:
-> >  - Video port for TV input
-> >  
-> >  Example
-> >  -------
-> > +#include <dt-bindings/display/sdtv-standards.h>
-> >  
-> >  tv: connector {
-> >  	compatible = "composite-video-connector";
-> >  	label = "tv";
-> > +	sdtv-standards = <(SDTV_STD_PAL | SDTV_STD_NTSC)>;
-> >  
-> >  	port {
-> >  		tv_connector_in: endpoint {
-> > diff --git a/include/dt-bindings/display/sdtv-standards.h b/include/dt-bindings/display/sdtv-standards.h
-> > new file mode 100644
-> > index 000000000000..bb6966505a6c
-> > --- /dev/null
-> > +++ b/include/dt-bindings/display/sdtv-standards.h
-> > @@ -0,0 +1,76 @@
-> > +/* SPDX-License-Identifier: GPL-2.0-only or X11 */
-> > +/*
-> > + * Copyright 2019 Pengutronix, Marco Felsch <kernel@pengutronix.de>
-> > + */
-> > +
-> > +#ifndef _DT_BINDINGS_DISPLAY_SDTV_STDS_H
-> > +#define _DT_BINDINGS_DISPLAY_SDTV_STDS_H
-> > +
-> > +/*
-> > + * Attention: Keep the TV_STD_* bit definitions in sync with
+On 8/29/19 2:40 PM, Jacopo Mondi wrote:
+> HI Hans,
 > 
-> TV_STD -> SDTV_STD
+> On Thu, Aug 29, 2019 at 12:20:18PM +0200, Hans Verkuil wrote:
+>> On 8/27/19 11:23 AM, Jacopo Mondi wrote:
+>>> Report the native pixel array size and the crop bounds for the ov5670
+>>> sensor driver.
+>>>
+>>> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+>>> ---
+>>>  drivers/media/i2c/ov5670.c | 20 ++++++++++++++++++++
+>>>  1 file changed, 20 insertions(+)
+>>>
+>>> diff --git a/drivers/media/i2c/ov5670.c b/drivers/media/i2c/ov5670.c
+>>> index 2bc57e85f721..3e22fe9ccad1 100644
+>>> --- a/drivers/media/i2c/ov5670.c
+>>> +++ b/drivers/media/i2c/ov5670.c
+>>> @@ -2258,6 +2258,25 @@ static int ov5670_set_pad_format(struct v4l2_subdev *sd,
+>>>  	return 0;
+>>>  }
+>>>
+>>> +static int ov5670_get_selection(struct v4l2_subdev *sd,
+>>> +				struct v4l2_subdev_pad_config *cfg,
+>>> +				struct v4l2_subdev_selection *sel)
+>>> +{
+>>> +	switch (sel->target) {
+>>> +	case V4L2_SEL_TGT_CROP_BOUNDS:
+>>> +	case V4L2_SEL_TGT_NATIVE_SIZE:
+>>> +		sel->r.left = 0;
+>>> +		sel->r.top = 0;
+>>> +		sel->r.width = 2592;
+>>> +		sel->r.height = 1944;
+>>
+>> Why do you need this?
+>>
 > 
-> > + * include/uapi/linux/videodev2.h V4L2_STD_* bit definitions.
-> > + */
-> > +/* One bit for each standard */
-> > +#define SDTV_STD_PAL_B		0x00000001
-> > +#define SDTV_STD_PAL_B1		0x00000002
-> > +#define SDTV_STD_PAL_G		0x00000004
-> > +#define SDTV_STD_PAL_H		0x00000008
-> > +#define SDTV_STD_PAL_I		0x00000010
-> > +#define SDTV_STD_PAL_D		0x00000020
-> > +#define SDTV_STD_PAL_D1		0x00000040
-> > +#define SDTV_STD_PAL_K		0x00000080
-> > +
-> > +#define SDTV_STD_PAL		(SDTV_STD_PAL_B		| \
-> > +				 SDTV_STD_PAL_B1	| \
-> > +				 SDTV_STD_PAL_G		| \
-> > +				 SDTV_STD_PAL_H		| \
-> > +				 SDTV_STD_PAL_I		| \
-> > +				 SDTV_STD_PAL_D		| \
-> > +				 SDTV_STD_PAL_D1	| \
-> > +				 SDTV_STD_PAL_K)
-> > +
-> > +#define SDTV_STD_PAL_M		0x00000100
-> > +#define SDTV_STD_PAL_N		0x00000200
-> > +#define SDTV_STD_PAL_Nc		0x00000400
-> > +#define SDTV_STD_PAL_60		0x00000800
-> > +
-> > +#define SDTV_STD_NTSC_M		0x00001000	/* BTSC */
-> > +#define SDTV_STD_NTSC_M_JP	0x00002000	/* EIA-J */
-> > +#define SDTV_STD_NTSC_443	0x00004000
-> > +#define SDTV_STD_NTSC_M_KR	0x00008000	/* FM A2 */
-> > +
-> > +#define SDTV_STD_NTSC		(SDTV_STD_NTSC_M	| \
-> > +				 SDTV_STD_NTSC_M_JP	| \
-> > +				 SDTV_STD_NTSC_M_KR)
-> > +
-> > +#define SDTV_STD_SECAM_B	0x00010000
-> > +#define SDTV_STD_SECAM_D	0x00020000
-> > +#define SDTV_STD_SECAM_G	0x00040000
-> > +#define SDTV_STD_SECAM_H	0x00080000
-> > +#define SDTV_STD_SECAM_K	0x00100000
-> > +#define SDTV_STD_SECAM_K1	0x00200000
-> > +#define SDTV_STD_SECAM_L	0x00400000
-> > +#define SDTV_STD_SECAM_LC	0x00800000
-> > +
-> > +#define SDTV_STD_SECAM		(SDTV_STD_SECAM_B	| \
-> > +				 SDTV_STD_SECAM_D	| \
-> > +				 SDTV_STD_SECAM_G	| \
-> > +				 SDTV_STD_SECAM_H	| \
-> > +				 SDTV_STD_SECAM_K	| \
-> > +				 SDTV_STD_SECAM_K1	| \
-> > +				 SDTV_STD_SECAM_L	| \
-> > +				 SDTV_STD_SECAM_LC)
-> > +
-> > +/* Standards for Countries with 60Hz Line frequency */
-> > +#define SDTV_STD_525_60		(SDTV_STD_PAL_M		| \
-> > +				 SDTV_STD_PAL_60	| \
-> > +				 SDTV_STD_NTSC		| \
-> > +				 SDTV_STD_NTSC_443)
-> > +
-> > +/* Standards for Countries with 50Hz Line frequency */
-> > +#define SDTV_STD_625_50		(SDTV_STD_PAL		| \
-> > +				 SDTV_STD_PAL_N		| \
-> > +				 SDTV_STD_PAL_Nc	| \
-> > +				 SDTV_STD_SECAM)
-> > +
-> > +#endif /* _DT_BINDINGS_DISPLAY_SDTV_STDS_H */
-> > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> > index 530638dffd93..c358cc34fc34 100644
-> > --- a/include/uapi/linux/videodev2.h
-> > +++ b/include/uapi/linux/videodev2.h
-> > @@ -1208,6 +1208,10 @@ struct v4l2_selection {
-> >  
-> >  typedef __u64 v4l2_std_id;
-> >  
-> > +/*
-> > + * Attention: Keep the V4L2_STD_* bit definitions in sync with
-> > + * include/dt-bindings/display/sdtv-standards.h TV_STD_* bit definitions.
-> 
-> TV_STD -> SDTV_STD
+> I need to expose the pixel array size and the active pixel area size,
+> and I interpreted the two above targets as the right place where to do
+> so.
 
-Thanks for covering that. I tought I got all of them.
+That didn't answer my question :-)
+
+Why do you need to expose this? Who uses it for what purpose?
+
+> 
+> At least for NATIVE_SIZE the documentation seems to match my
+> understanding:
+> 
+> "The native size of the device, e.g. a sensor’s pixel array. left and top
+> fields are zero for this target."
+
+Correct.
+
+> 
+> 
+>> Since the format can change for this and the next driver I think CROP_BOUNDS
+>> at least should match the current format.
+>>
+> 
+> Ah, does it? It was not clear to me from the documentation, as it
+> suggested to me that target actually identifies the active pixel area
+> 
+> "Bounds of the crop rectangle. All valid crop rectangles fit inside the
+> crop bounds rectangle."
+> 
+> It does not mention format, should this be updated?
+
+The problem is that for sensors it is indeed not clear.
+
+In principle the crop bounds matches the resolution that the sensor uses
+pre-scaling. So yes, that means that it is equal to the native size.
+
+But many sensors have a discrete list of supported formats and it is not
+clear how they map each format to the actual sensor. If it is clearly just
+done through binning or averaging, then all is fine.
+
+If the formats have different aspect ratios, then it becomes a bit more
+difficult how to relate the crop bounds with the format since you may not
+know to which sensor area the current format corresponds.
+
+I have no clear answer for you, to be honest, but it can get tricky.
+
+> 
+> How would you report the two information I need?
+
+It depends on my original question: what do you need this information for?
 
 Regards,
-  Marco
+
+	Hans
 
 > 
-> > + */
-> >  /* one bit for each */
-> >  #define V4L2_STD_PAL_B          ((v4l2_std_id)0x00000001)
-> >  #define V4L2_STD_PAL_B1         ((v4l2_std_id)0x00000002)
-> > 
+>> I don't think this patch and the next have anything to do with the location/rotate
+>> support. I would split it off from this series.
+>>
 > 
-> I really like this. Nice.
+> Agreed, they were split in v1, maybe it has not been a wise move to
+> make a single series out of them. I'll split again.
 > 
-> Regards,
+> Thanks
+>    j
 > 
-> 	Hans
-> 
+>> Regards,
+>>
+>> 	Hans
+>>
+>>> +		break;
+>>> +	default:
+>>> +		return -EINVAL;
+>>> +	}
+>>> +
+>>> +	return 0;
+>>> +}
+>>> +
+>>>  static int ov5670_get_skip_frames(struct v4l2_subdev *sd, u32 *frames)
+>>>  {
+>>>  	*frames = OV5670_NUM_OF_SKIP_FRAMES;
+>>> @@ -2425,6 +2444,7 @@ static const struct v4l2_subdev_pad_ops ov5670_pad_ops = {
+>>>  	.enum_mbus_code = ov5670_enum_mbus_code,
+>>>  	.get_fmt = ov5670_get_pad_format,
+>>>  	.set_fmt = ov5670_set_pad_format,
+>>> +	.get_selection = ov5670_get_selection,
+>>>  	.enum_frame_size = ov5670_enum_frame_size,
+>>>  };
+>>>
+>>>
+>>
 
--- 
-Pengutronix e.K.                           |                             |
-Industrial Linux Solutions                 | http://www.pengutronix.de/  |
-Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
