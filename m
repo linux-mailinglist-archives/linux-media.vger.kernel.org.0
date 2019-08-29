@@ -2,271 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BE343A1BA2
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2019 15:39:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A0EEA1C21
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2019 15:58:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727867AbfH2Njt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Aug 2019 09:39:49 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:59995 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727830AbfH2Njt (ORCPT
+        id S1727900AbfH2N61 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Aug 2019 09:58:27 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:39657 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726973AbfH2N61 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Aug 2019 09:39:49 -0400
-Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id 3KeNiS60ZDqPe3KeRiOGsF; Thu, 29 Aug 2019 15:39:47 +0200
-Subject: Re: [PATCH v2 09/10] media: i2c: ov5670: Report native size and crop
- bounds
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        tfiga@google.com,
-        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>
-References: <20190827092339.8858-1-jacopo@jmondi.org>
- <20190827092339.8858-12-jacopo@jmondi.org>
- <db08aa45-922e-e477-9836-cbbc3f17ad8e@xs4all.nl>
- <20190829124055.zxiu7x6abxfhkzch@uno.localdomain>
- <0df4ef45-ba3f-98b9-878e-8cdd2bf307f6@xs4all.nl>
- <20190829131842.rptvouuir3ubqf4a@uno.localdomain>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <f282b92b-515d-09fd-20d1-cfec53c84332@xs4all.nl>
-Date:   Thu, 29 Aug 2019 15:39:43 +0200
+        Thu, 29 Aug 2019 09:58:27 -0400
+Received: by mail-lj1-f195.google.com with SMTP id x4so3140296ljj.6;
+        Thu, 29 Aug 2019 06:58:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=pXpfC9fVJDCmYksnQ+VHfuPY/W7iUuvQ53sueGC6Na4=;
+        b=LCM6HoSz2hrMB3LeCxNEXp1AY1mamuUn8RLdXvD9Tr/2qrjnokLAwAp6SwvrZDEKk1
+         hffIKGm3aRPmo8FKD8oqHrASYqAUZtDS1TJNkXDWDemv5AF63k77eEqmTncFz7FG5DDB
+         JDKmF7rjguaZJT2u/8c3CxZWft2Qu8PpT0JtmSEkHJHpGP3mDY1G/ILZI/C9z9vFYWjx
+         4Ivfdep4607Dqq1DtA6Ngfhrew6BuUWc+9GVu1o8KSOObbwkbZhliu5OMmDF/UpXvLG6
+         npfBbuRWhm/u3me8aMkXSqsIUrp3NLX6CcWpe3ZM7UrBga1EGCSZc1O7/ZDQKWI76SRO
+         WHWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=pXpfC9fVJDCmYksnQ+VHfuPY/W7iUuvQ53sueGC6Na4=;
+        b=Xe/rK0nolWrlLpfCMvNakfC0og6IWy8aDXPsaJ9uXddXHPp+1AehuZOm7a7/PjiNox
+         C/DEcWVxBguw/iybPNWsqsGuCVjyAwH7VabheLjcPDGg9aUaOqFHqtfesQ+TMJSvXVSf
+         d8qz/mcj4y5RbLj+lgJwnpMrCqIqJWM64/Ab47NGvwCj+iiHJHx2I8ckzTGEkLfLylAk
+         TMMtuaB5orVKMe55kREgj8SiUSQR3tNiSgkAC12IQWBTOb/byyplOBvYv2RW22veeoY5
+         Pj8beUJyJkM6/P+wNXy3lW+YgswxWSDAwW/u5RagCbtfgxWjZjAwxIj3CsU+LUBAn5yc
+         rhaQ==
+X-Gm-Message-State: APjAAAUqXm71YmqXzFD3MC/kggAHfNNhyfBAaQ599L4uxmq1kCbTx8LZ
+        sOs7WmV8P6pJ9jX5rc5wUPI=
+X-Google-Smtp-Source: APXvYqyhU2nYYcl/nKHC9106K7uLheLIAY7mR95TcX2AamAh/vQGuUAipL2F1k86FVP0yJcYYa/PAw==
+X-Received: by 2002:a2e:870f:: with SMTP id m15mr5500259lji.223.1567087104736;
+        Thu, 29 Aug 2019 06:58:24 -0700 (PDT)
+Received: from [192.168.2.145] ([94.29.34.218])
+        by smtp.googlemail.com with ESMTPSA id z3sm365177lji.4.2019.08.29.06.58.23
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 29 Aug 2019 06:58:23 -0700 (PDT)
+Subject: Re: [PATCH] media: staging: tegra-vde: Disable building with
+ COMPILE_TEST
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        YueHaibing <yuehaibing@huawei.com>
+Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org,
+        jonathanh@nvidia.com, robin.murphy@arm.com,
+        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
+        iommu@lists.linux-foundation.org
+References: <20190826133140.13456-1-yuehaibing@huawei.com>
+ <7f73bcac-f52d-f1b3-324c-e9b551c5378b@xs4all.nl>
+ <20190829124034.GA19842@ulmo>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <b048b460-9d58-8e38-e335-f9a3fface559@gmail.com>
+Date:   Thu, 29 Aug 2019 16:58:22 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190829131842.rptvouuir3ubqf4a@uno.localdomain>
+In-Reply-To: <20190829124034.GA19842@ulmo>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfGoMxmH/H9f/IUhQk2j1e/hSex7h1Be4EGAOmaHXikli8Q+yzHpWNU/oqg2M5Nvpc1k16dY1ZHADDSW+KqVw465hM9i5nkOJOUsgbre5uSI/3/xiyL14
- AbHq+kyyJ/9DwxDu64lfb8a/ejoBOhILGg0+MrhAt3aeuhqkbYyv2oPzMU0rfGhKD+MKKRyWmmjO2LQOsq0RF9zZwXIk2/5TgJ1IvmoegQ7qrW4ai3K7U/ZG
- FwQBVo/SC2AXtrUoFqdsF1DBIeRb0goj6fCtm9GPKe+69tablGWp3BcvbrOpiF6ltG1w30OgObxyzYrzRCjJrtL5/wu7kdAFBXsqdTJXDhTZnI6UYjnOAq5T
- Bm38rou+
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 8/29/19 3:18 PM, Jacopo Mondi wrote:
-> Hi Hans
-> 
-> On Thu, Aug 29, 2019 at 02:55:30PM +0200, Hans Verkuil wrote:
->> On 8/29/19 2:40 PM, Jacopo Mondi wrote:
->>> HI Hans,
+29.08.2019 15:40, Thierry Reding пишет:
+> On Thu, Aug 29, 2019 at 01:39:32PM +0200, Hans Verkuil wrote:
+>> On 8/26/19 3:31 PM, YueHaibing wrote:
+>>> If COMPILE_TEST is y and IOMMU_SUPPORT is n, selecting TEGRA_VDE
+>>> to m will set IOMMU_IOVA to m, this fails the building of
+>>> TEGRA_HOST1X and DRM_TEGRA which is y like this:
 >>>
->>> On Thu, Aug 29, 2019 at 12:20:18PM +0200, Hans Verkuil wrote:
->>>> On 8/27/19 11:23 AM, Jacopo Mondi wrote:
->>>>> Report the native pixel array size and the crop bounds for the ov5670
->>>>> sensor driver.
->>>>>
->>>>> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
->>>>> ---
->>>>>  drivers/media/i2c/ov5670.c | 20 ++++++++++++++++++++
->>>>>  1 file changed, 20 insertions(+)
->>>>>
->>>>> diff --git a/drivers/media/i2c/ov5670.c b/drivers/media/i2c/ov5670.c
->>>>> index 2bc57e85f721..3e22fe9ccad1 100644
->>>>> --- a/drivers/media/i2c/ov5670.c
->>>>> +++ b/drivers/media/i2c/ov5670.c
->>>>> @@ -2258,6 +2258,25 @@ static int ov5670_set_pad_format(struct v4l2_subdev *sd,
->>>>>  	return 0;
->>>>>  }
->>>>>
->>>>> +static int ov5670_get_selection(struct v4l2_subdev *sd,
->>>>> +				struct v4l2_subdev_pad_config *cfg,
->>>>> +				struct v4l2_subdev_selection *sel)
->>>>> +{
->>>>> +	switch (sel->target) {
->>>>> +	case V4L2_SEL_TGT_CROP_BOUNDS:
->>>>> +	case V4L2_SEL_TGT_NATIVE_SIZE:
->>>>> +		sel->r.left = 0;
->>>>> +		sel->r.top = 0;
->>>>> +		sel->r.width = 2592;
->>>>> +		sel->r.height = 1944;
->>>>
->>>> Why do you need this?
->>>>
+>>> drivers/gpu/host1x/cdma.o: In function `host1x_cdma_init':
+>>> cdma.c:(.text+0x66c): undefined reference to `alloc_iova'
+>>> cdma.c:(.text+0x698): undefined reference to `__free_iova'
 >>>
->>> I need to expose the pixel array size and the active pixel area size,
->>> and I interpreted the two above targets as the right place where to do
->>> so.
->>
->> That didn't answer my question :-)
->>
->> Why do you need to expose this? Who uses it for what purpose?
->>
-> 
-> Ah, ok :)
-> 
-> Quoting the cover letter of the series:
-> 
-> Retrieving the following camera static information is a requirement for the
-> implementation of the Android-compatiblity layer of libcamera, but I'm sure
-> it might prove useful for other user-space applications and libraries as well.
-> 
-> In other words, in order to report to the android camera stack those
-> two information (among -many- others) they should be somehow retrieved
-> from the kernel interface, and after considering adding two more
-> read-only controls to expose them as I did for rotation and location,
-> I went for using the selection API.
-> 
+>>> drivers/gpu/drm/tegra/drm.o: In function `tegra_drm_unload':
+>>> drm.c:(.text+0xeb0): undefined reference to `put_iova_domain'
+>>> drm.c:(.text+0xeb4): undefined reference to `iova_cache_put'
 >>>
->>> At least for NATIVE_SIZE the documentation seems to match my
->>> understanding:
+>>> Reported-by: Hulk Robot <hulkci@huawei.com>
+>>> Fixes: 6b2265975239 ("media: staging: tegra-vde: Fix build error")
+>>> Fixes: b301f8de1925 ("media: staging: media: tegra-vde: Add IOMMU support")
+>>> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+>>> ---
+>>>  drivers/staging/media/tegra-vde/Kconfig | 4 ++--
+>>>  1 file changed, 2 insertions(+), 2 deletions(-)
 >>>
->>> "The native size of the device, e.g. a sensor’s pixel array. left and top
->>> fields are zero for this target."
+>>> diff --git a/drivers/staging/media/tegra-vde/Kconfig b/drivers/staging/media/tegra-vde/Kconfig
+>>> index ba49ea5..a41d30c 100644
+>>> --- a/drivers/staging/media/tegra-vde/Kconfig
+>>> +++ b/drivers/staging/media/tegra-vde/Kconfig
+>>> @@ -1,9 +1,9 @@
+>>>  # SPDX-License-Identifier: GPL-2.0
+>>>  config TEGRA_VDE
+>>>  	tristate "NVIDIA Tegra Video Decoder Engine driver"
+>>> -	depends on ARCH_TEGRA || COMPILE_TEST
+>>> +	depends on ARCH_TEGRA
 >>
->> Correct.
+>> What happens if you drop this change,
 >>
->>>
->>>
->>>> Since the format can change for this and the next driver I think CROP_BOUNDS
->>>> at least should match the current format.
->>>>
->>>
->>> Ah, does it? It was not clear to me from the documentation, as it
->>> suggested to me that target actually identifies the active pixel area
->>>
->>> "Bounds of the crop rectangle. All valid crop rectangles fit inside the
->>> crop bounds rectangle."
->>>
->>> It does not mention format, should this be updated?
+>>>  	select DMA_SHARED_BUFFER
+>>> -	select IOMMU_IOVA if (IOMMU_SUPPORT || COMPILE_TEST)
+>>> +	select IOMMU_IOVA if IOMMU_SUPPORT
 >>
->> The problem is that for sensors it is indeed not clear.
+>> but keep this change?
 >>
->> In principle the crop bounds matches the resolution that the sensor uses
->> pre-scaling. So yes, that means that it is equal to the native size.
-> 
-> native size != active areas size.
-> Did you mean the latter here?
-
-I mean the latter, but I have to say that the spec doesn't make it clear
-if TGT_NATIVE_SIZE equals the active area or also includes inactive pixels.
-
-What exactly does Android expect?
-
-> 
+>> iova.h has stubs that are used if IOMMU_IOVA is not set, so it should
+>> work when compile testing this tegra-vde driver.
 >>
->> But many sensors have a discrete list of supported formats and it is not
->> clear how they map each format to the actual sensor. If it is clearly just
->> done through binning or averaging, then all is fine.
->>
->> If the formats have different aspect ratios, then it becomes a bit more
->> difficult how to relate the crop bounds with the format since you may not
->> know to which sensor area the current format corresponds.
-> 
-> I see. We've had the same discussion in the libcamera list, as indeed
-> the crop bounds might depend on the aspect ratio as you said.
-> 
-> Maybe the crop_bound target is not the right place to report the
-> active area, or maybe the concept of active area is ill-defined if
-> the sensor is cross-shaped:
-> 
->     /--------------------/ -> Pixel array size
->     ----------------------
->     |x    |        |--- x|------> 4:3 crop bounds
->     |x------------------x|
->     |x|   |        |   |x|
->     |x|   |        |   |x|------> 21:9 crop bounds
->     |x|   |        |   |x|
->     |x------------------x|
->     |x    |________|    x|
->     ----------------------
->       |                 |
->       ---------------------------> Black pixels colums
-> 
->>
->> I have no clear answer for you, to be honest, but it can get tricky.
->>
-> 
-> Indeed, but assuming a simpler square-shaped sensor, is the crop bound
-> target the right one to report the active pixel area ?
+>> Haven't tried it, but making sure that compile testing keep working is
+>> really important.
 
-I don't think so.
+The driver's code compilation works okay, it's the linkage stage which
+fails during compile-testing.
 
-The crop bounds defines the outer bounds of the area where you can put
-your crop rectangle. This can very well include areas where the pixels
-are covered and so always return black (sometimes used to obtain black
-levels, I believe).
+> Yeah, that variant seems to work for me. I think it's also more correct
+> because the IOMMU_IOVA if IOMMU_SUPPORT dependency really says that the
+> IOVA usage is bound to IOMMU support. If IOMMU support is not enabled,
+> then IOVA is not needed either, so the dummies will do just fine.
 
-The default crop rectangle would be the one that reports the active
-area. The native size rectangle would be the full pixel array.
+Am I understanding correctly that you're suggesting to revert [1][2] and
+get back to the other problem?
 
-So CROP_DEFAULT <= CROP_BOUNDS <= NATIVE_SIZE.
+[1]
+https://lore.kernel.org/linux-media/dd547b44-7abb-371f-aeee-a82b96f824e2@gmail.com/T/
+[2] https://patchwork.ozlabs.org/patch/1136619/
 
-For a cross-shaped sensor I would expect that the CROP_BOUNDS/DEFAULT
-depends on the format (aspect ratio).
-
-I think this makes sense.
-
-The specification definitely needs to be improved, patches are welcome...
-
-> 
->>>
->>> How would you report the two information I need?
->>
->> It depends on my original question: what do you need this information for?
->>
-> 
-> Please note that it's for the android camera stack in this case, but
-> it's an information that userspace might want to know for several
-> different reasons. Calibration and FOV calculation come to mind. Does
-> this makes sense to you?
-
-Ah, so that's what it is used for :-)
-
-Which of the three targets above would match with what Android needs?
-
-Regards,
-
-	Hans
-
-> 
-> Thanks
->    j
-> 
->> Regards,
->>
->> 	Hans
->>
->>>
->>>> I don't think this patch and the next have anything to do with the location/rotate
->>>> support. I would split it off from this series.
->>>>
->>>
->>> Agreed, they were split in v1, maybe it has not been a wise move to
->>> make a single series out of them. I'll split again.
->>>
->>> Thanks
->>>    j
->>>
->>>> Regards,
->>>>
->>>> 	Hans
->>>>
->>>>> +		break;
->>>>> +	default:
->>>>> +		return -EINVAL;
->>>>> +	}
->>>>> +
->>>>> +	return 0;
->>>>> +}
->>>>> +
->>>>>  static int ov5670_get_skip_frames(struct v4l2_subdev *sd, u32 *frames)
->>>>>  {
->>>>>  	*frames = OV5670_NUM_OF_SKIP_FRAMES;
->>>>> @@ -2425,6 +2444,7 @@ static const struct v4l2_subdev_pad_ops ov5670_pad_ops = {
->>>>>  	.enum_mbus_code = ov5670_enum_mbus_code,
->>>>>  	.get_fmt = ov5670_get_pad_format,
->>>>>  	.set_fmt = ov5670_set_pad_format,
->>>>> +	.get_selection = ov5670_get_selection,
->>>>>  	.enum_frame_size = ov5670_enum_frame_size,
->>>>>  };
->>>>>
->>>>>
->>>>
->>
-
+If we want to keep compile testing, I guess the only reasonable variant
+right now is to select IOMMU_IOVA unconditionally in all of the drivers
+(vde, host1x, drm and etc) and then just ignore that IOVA will be
+compiled-and-unused if IOMMU_SUPPORT=n (note that IOMMU_SUPPORT=y in all
+of default kernel configurations).
