@@ -2,144 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B0B2A1854
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2019 13:23:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0AAA0A1909
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2019 13:39:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727046AbfH2LXg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Aug 2019 07:23:36 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:57851 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726416AbfH2LXg (ORCPT
+        id S1727109AbfH2Ljj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Aug 2019 07:39:39 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:48315 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727026AbfH2Lji (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Aug 2019 07:23:36 -0400
+        Thu, 29 Aug 2019 07:39:38 -0400
 Received: from [192.168.2.10] ([46.9.232.237])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id 3IWXiRDXJDqPe3IWbiNius; Thu, 29 Aug 2019 13:23:33 +0200
-Subject: Re: [PATCH 7/8] media: cedrus: Add support for holding capture buffer
-To:     Jernej Skrabec <jernej.skrabec@siol.net>, mchehab@kernel.org,
-        paul.kocialkowski@bootlin.com, mripard@kernel.org
-Cc:     pawel@osciak.com, m.szyprowski@samsung.com,
-        kyungmin.park@samsung.com, tfiga@chromium.org, wens@csie.org,
-        acourbot@chromium.org, gregkh@linuxfoundation.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org,
-        ezequiel@collabora.com, jonas@kwiboo.se
-References: <20190822194500.2071-1-jernej.skrabec@siol.net>
- <20190822194500.2071-8-jernej.skrabec@siol.net>
+        id 3Im4iRJpeDqPe3Im8iNmv5; Thu, 29 Aug 2019 13:39:36 +0200
+Subject: Re: [PATCH] media: staging: tegra-vde: Disable building with
+ COMPILE_TEST
+To:     YueHaibing <yuehaibing@huawei.com>, digetx@gmail.com,
+        mchehab@kernel.org, gregkh@linuxfoundation.org,
+        thierry.reding@gmail.com, jonathanh@nvidia.com,
+        robin.murphy@arm.com
+Cc:     linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
+        iommu@lists.linux-foundation.org
+References: <20190826133140.13456-1-yuehaibing@huawei.com>
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <f105990c-e059-6bdd-433f-074388e3a2dc@xs4all.nl>
-Date:   Thu, 29 Aug 2019 13:23:29 +0200
+Message-ID: <7f73bcac-f52d-f1b3-324c-e9b551c5378b@xs4all.nl>
+Date:   Thu, 29 Aug 2019 13:39:32 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190822194500.2071-8-jernej.skrabec@siol.net>
+In-Reply-To: <20190826133140.13456-1-yuehaibing@huawei.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfEvKT+YAX69YOdWPyoQUh8SffH6qqUV6kZn+ESAP2YPgGYwvqviMJ64VZXwp1TtZ/ePLbU0022q51PrAyBsGo/nnPeQJp9Tng6TOHDFy/MyvejmD4sc3
- 5odX7zb2VaFTSpoZdO3Ca/9I/6Hkl3qEkiZDTMRueAwwOcCbETnTqaOHl8zKt9F7zDxEPPO10o0PfJQ+Vfz/abxmnzC03UDuguQGOgacPIoGim6tMUIIwMxB
- A1oDxXQdNbhQzmt6U3A1ahSYmhRpYjCAv+BUr6CAbaTA6K3dx8E2pJeMPTLxflEq0FvzPgSHeTl9i86g1EZZfW5DPLqFi8lhcLvfUge4rU9all+OPl2G4wz7
- +gRj9Jf0ycYsk5j6PaebzSCFvXkZtHesfWUOF/r0ybt4qDPprDpguXjXurxOE0aW0SPuKOUM79iio94IWFRqadpH/YimyRR1KWGv7+34MB/Jnx5jSYcV8k20
- yEqRlVvXWdupr//PmhDXcE0DevUoBQI0W6/JFYWhnX5LKVbhSa/8axDc7+5u7gHmPY3W2LTfbm4dbUFuoHJOsXGULzaiDIsJ+F9OP7WiSq5+YmC9An+/jQII
- Xz7MUUZx2LWCmPVsNXNr1Y9WqICnjYPxC5zSpiLKFnCKj9yzFQcjl828QX4XzWWV42zmQLQXjMnvpovCtNWG9RDdeiwj0CSQDNNetVuN8GgOdjdt+izXFCEE
- oVnAVOLpvvW+PccO4sMh9NDhwTKmMVOI
+X-CMAE-Envelope: MS4wfPiBAm9/CVG2yl/RYcmSeabFSsF5/VsS8tiz/yGOIjYSnJaD/MkFj3fN12HeAtoQBMQlQLOy1rQ4hH9Pk3PGKlkkJ9Zl8plyc55GSSz4G1+ppVvvtxVa
+ cgqxOaIHdmGI6Lir3V57kld0PdyIGCK03wiHOkje13kc0gv/PhnX5+C3LrfxdHi2CMNt74bKZcw6PfwDuhW1UOnvKmy1QH8JUr++Y9Auceu48WZ6AknahDMp
+ y+nvVNlAWPrJV2LqEleB77la5ICht/YcDItL8/YHiyeJqDySBIvEVXGwJL4Xi9NZpZ9Wxt1uH4KbBobOQixOSOlTcNw+jzMsIe+bJEk17cuyRCrooBbp13+w
+ rAVl2YjzGamD7FhK930GFNdNmk8AkL+TW8oiCNcUOr/eA3es3KvvOT/pXVSQjB8VA9jwGGPoUNhHSHDpq4csgibDV9Sq8D6Biv12lEVTn+0Gyp3CGn8lifj1
+ NQ04G6sIObCBPw4TuYqOc3L6nn1zCZs6e0K9+DpBNqD0AuyfSDTX/sC8t2V3/1Ij0sv2jB60jtfqjR0cWtBhZHW6dO+mED2Z2qpLMcnRImy9u654a5b4EY9U
+ 8oU=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 8/22/19 9:44 PM, Jernej Skrabec wrote:
-> When frame contains multiple slices and driver works in slice mode, it's
-> more efficient to hold capture buffer in queue until all slices of a
-> same frame are decoded.
+On 8/26/19 3:31 PM, YueHaibing wrote:
+> If COMPILE_TEST is y and IOMMU_SUPPORT is n, selecting TEGRA_VDE
+> to m will set IOMMU_IOVA to m, this fails the building of
+> TEGRA_HOST1X and DRM_TEGRA which is y like this:
 > 
-> Add support for that to Cedrus driver by exposing and implementing
-> V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF capability.
+> drivers/gpu/host1x/cdma.o: In function `host1x_cdma_init':
+> cdma.c:(.text+0x66c): undefined reference to `alloc_iova'
+> cdma.c:(.text+0x698): undefined reference to `__free_iova'
 > 
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
+> drivers/gpu/drm/tegra/drm.o: In function `tegra_drm_unload':
+> drm.c:(.text+0xeb0): undefined reference to `put_iova_domain'
+> drm.c:(.text+0xeb4): undefined reference to `iova_cache_put'
+> 
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Fixes: 6b2265975239 ("media: staging: tegra-vde: Fix build error")
+> Fixes: b301f8de1925 ("media: staging: media: tegra-vde: Add IOMMU support")
+> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
 > ---
->  drivers/staging/media/sunxi/cedrus/cedrus_dec.c   | 9 +++++++++
->  drivers/staging/media/sunxi/cedrus/cedrus_hw.c    | 8 +++++---
->  drivers/staging/media/sunxi/cedrus/cedrus_video.c | 1 +
->  3 files changed, 15 insertions(+), 3 deletions(-)
+>  drivers/staging/media/tegra-vde/Kconfig | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-> index d7b54accfe83..68462b99750e 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-> @@ -31,6 +31,14 @@ void cedrus_device_run(void *priv)
->  
->  	run.src = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
->  	run.dst = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
-> +
-> +	if (v4l2_m2m_release_capture_buf(run.src, run.dst)) {
-> +		v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
-> +		v4l2_m2m_buf_done(run.dst, VB2_BUF_STATE_DONE);
-> +		run.dst = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
-> +	}
-> +	run.dst->is_held = run.src->flags & V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF;
-> +
->  	run.first_slice =
->  		run.src->vb2_buf.timestamp != run.dst->vb2_buf.timestamp;
->  
-> @@ -46,6 +54,7 @@ void cedrus_device_run(void *priv)
->  			V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS);
->  		run.mpeg2.quantization = cedrus_find_control_data(ctx,
->  			V4L2_CID_MPEG_VIDEO_MPEG2_QUANTIZATION);
-> +		run.dst->is_held = false;
->  		break;
->  
->  	case V4L2_PIX_FMT_H264_SLICE:
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> index a942cd9bed57..99fedec80224 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> @@ -122,7 +122,7 @@ static irqreturn_t cedrus_irq(int irq, void *data)
->  	dev->dec_ops[ctx->current_codec]->irq_clear(ctx);
->  
->  	src_buf = v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
-> -	dst_buf = v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
-> +	dst_buf = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
->  
->  	if (!src_buf || !dst_buf) {
->  		v4l2_err(&dev->v4l2_dev,
-> @@ -136,8 +136,10 @@ static irqreturn_t cedrus_irq(int irq, void *data)
->  		state = VB2_BUF_STATE_DONE;
->  
->  	v4l2_m2m_buf_done(src_buf, state);
-> -	v4l2_m2m_buf_done(dst_buf, state);
-> -
-> +	if (!dst_buf->is_held) {
-> +		v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
-> +		v4l2_m2m_buf_done(dst_buf, state);
-> +	}
->  	v4l2_m2m_job_finish(ctx->dev->m2m_dev, ctx->fh.m2m_ctx);
->  
->  	return IRQ_HANDLED;
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-> index eeee3efd247b..5153b2bba21e 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-> @@ -515,6 +515,7 @@ int cedrus_queue_init(void *priv, struct vb2_queue *src_vq,
->  	src_vq->type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
->  	src_vq->io_modes = VB2_MMAP | VB2_DMABUF;
->  	src_vq->drv_priv = ctx;
-> +	src_vq->subsystem_flags = VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF;
+> diff --git a/drivers/staging/media/tegra-vde/Kconfig b/drivers/staging/media/tegra-vde/Kconfig
+> index ba49ea5..a41d30c 100644
+> --- a/drivers/staging/media/tegra-vde/Kconfig
+> +++ b/drivers/staging/media/tegra-vde/Kconfig
+> @@ -1,9 +1,9 @@
+>  # SPDX-License-Identifier: GPL-2.0
+>  config TEGRA_VDE
+>  	tristate "NVIDIA Tegra Video Decoder Engine driver"
+> -	depends on ARCH_TEGRA || COMPILE_TEST
+> +	depends on ARCH_TEGRA
 
-This isn't quite right: this flag should only be set for formats that support
-slicing. So cedrus_s_fmt_vid_out() should set this for H264, but clear it for
-MPEG2.
+What happens if you drop this change,
 
-Looking at the cedrus code it seems that it does not set an initial default output
-format after opening the video device. This seems wrong to me. If it did set a
-default output format, then src_vq->subsystem_flags should set this flag corresponding
-to the default output format.
+>  	select DMA_SHARED_BUFFER
+> -	select IOMMU_IOVA if (IOMMU_SUPPORT || COMPILE_TEST)
+> +	select IOMMU_IOVA if IOMMU_SUPPORT
 
->  	src_vq->buf_struct_size = sizeof(struct cedrus_buffer);
->  	src_vq->min_buffers_needed = 1;
->  	src_vq->ops = &cedrus_qops;
-> 
+but keep this change?
+
+iova.h has stubs that are used if IOMMU_IOVA is not set, so it should
+work when compile testing this tegra-vde driver.
+
+Haven't tried it, but making sure that compile testing keep working is
+really important.
 
 Regards,
 
 	Hans
+
+>  	select SRAM
+>  	help
+>  	    Say Y here to enable support for the NVIDIA Tegra video decoder
+> 
+
