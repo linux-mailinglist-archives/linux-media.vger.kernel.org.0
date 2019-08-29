@@ -2,40 +2,40 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 780F4A1A5C
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2019 14:45:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 95281A1A60
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2019 14:46:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727234AbfH2MpM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Aug 2019 08:45:12 -0400
-Received: from relay6-d.mail.gandi.net ([217.70.183.198]:58973 "EHLO
+        id S1727235AbfH2MqU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Aug 2019 08:46:20 -0400
+Received: from relay6-d.mail.gandi.net ([217.70.183.198]:60587 "EHLO
         relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726379AbfH2MpL (ORCPT
+        with ESMTP id S1726739AbfH2MqU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Aug 2019 08:45:11 -0400
+        Thu, 29 Aug 2019 08:46:20 -0400
 X-Originating-IP: 2.224.242.101
 Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 18781C000C;
-        Thu, 29 Aug 2019 12:45:07 +0000 (UTC)
-Date:   Thu, 29 Aug 2019 14:46:40 +0200
+        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 3AB68C0014;
+        Thu, 29 Aug 2019 12:46:17 +0000 (UTC)
+Date:   Thu, 29 Aug 2019 14:47:49 +0200
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Sakari Ailus <sakari.ailus@linux.intel.com>, tfiga@google.com,
-        Rob Herring <robh+dt@kernel.org>,
         "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 01/10] media: dt-bindings: Document 'location' property
-Message-ID: <20190829124639.tzjp63tqnojnytlq@uno.localdomain>
+        <linux-media@vger.kernel.org>
+Subject: Re: [PATCH v2 02/10] media: v4l2-ctrl: Document
+ V4L2_CID_CAMERA_SENSOR_LOCATION
+Message-ID: <20190829124749.2ndghbnqhh37h3y2@uno.localdomain>
 References: <20190827092339.8858-1-jacopo@jmondi.org>
- <20190827092339.8858-2-jacopo@jmondi.org>
- <20190827122126.GQ5054@pendragon.ideasonboard.com>
+ <20190827092339.8858-3-jacopo@jmondi.org>
+ <20190827125008.GT5054@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="siklwweqobuuvov4"
+        protocol="application/pgp-signature"; boundary="6vp7taqxzmb6q4jp"
 Content-Disposition: inline
-In-Reply-To: <20190827122126.GQ5054@pendragon.ideasonboard.com>
+In-Reply-To: <20190827125008.GT5054@pendragon.ideasonboard.com>
 User-Agent: NeoMutt/20180716
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
@@ -43,99 +43,117 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---siklwweqobuuvov4
+--6vp7taqxzmb6q4jp
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 
 Hi Laurent,
 
-On Tue, Aug 27, 2019 at 03:21:26PM +0300, Laurent Pinchart wrote:
+On Tue, Aug 27, 2019 at 03:50:08PM +0300, Laurent Pinchart wrote:
 > Hi Jacopo,
 >
 > Thank you for the patch.
 >
-> On Tue, Aug 27, 2019 at 11:23:27AM +0200, Jacopo Mondi wrote:
-> > Add the 'location' device property, used to specify the camera device
-> > mounting position. The property is particularly meaningful for mobile
-> > devices with a well defined usage orientation.
+> On Tue, Aug 27, 2019 at 11:23:28AM +0200, Jacopo Mondi wrote:
+> > Add documentation for the V4L2_CID_CAMERA_SENSOR_LOCATION camera
+> > control. The newly added read-only control reports the camera device
+> > mounting position.
 > >
 > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 > > ---
-> >  .../devicetree/bindings/media/video-interfaces.txt     | 10 ++++++++++
-> >  1 file changed, 10 insertions(+)
+> >  .../media/uapi/v4l/ext-ctrls-camera.rst       | 34 +++++++++++++++++++
+> >  1 file changed, 34 insertions(+)
 > >
-> > diff --git a/Documentation/devicetree/bindings/media/video-interfaces.txt b/Documentation/devicetree/bindings/media/video-interfaces.txt
-> > index f884ada0bffc..865f4142f432 100644
-> > --- a/Documentation/devicetree/bindings/media/video-interfaces.txt
-> > +++ b/Documentation/devicetree/bindings/media/video-interfaces.txt
-> > @@ -89,6 +89,16 @@ Optional properties
-> >    but a number of degrees counter clockwise. Typical values are 0 and 180
-> >    (upside down).
+> > diff --git a/Documentation/media/uapi/v4l/ext-ctrls-camera.rst b/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
+> > index 51c1d5c9eb00..ecf151f3f0f4 100644
+> > --- a/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
+> > +++ b/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
+> > @@ -510,6 +510,40 @@ enum v4l2_scene_mode -
+> >      value down. A value of zero stops the motion if one is in progress
+> >      and has no effect otherwise.
 > >
-> > +- location: The camera sensor mounting location, expressed as a position
-> > +  relative to the usage orientation of the device the sensor is installed on.
+> > +``V4L2_CID_CAMERA_SENSOR_LOCATION (integer)``
+> > +    This read-only control describes the camera sensor location by
+> > +    reporting its mounting position on the device where the camera is
+> > +    installed. The control value is constant and not modifiable by software
+> > +    and its value is retrieved from the firmware interface by parsing the
+> > +    'location' property.
 >
-> DT bindings being ABIs, we need to be precise and thorough there. One
-> particular point that bothers me is that the property is named location,
-> and its description refers to camera sensor mounting location.
+> How the value is known to the driver is irrelevant in this context, I
+> would drop "and its value ...".
 >
-> I see two options to fix this. One of them is to rename the property to
-> camera-location, but that would limit its future usage for other types
-> of devices. The other one is to document the property as applying to a
-> "device" instead of a "camera sensor", and add one sentence stating that
-> this property is valid for camera sensors only.
->
-> This will require finding another name for the device that the device is
-> mounted on though, as using device twice would be very confusing.
 
-I had the same concern, but I cannot find another term to convey
-this... suggestions?
+I recall Sakari pointed out it was not mentioned the control value
+comes from firmware in review of v1. Are you both ok in removing this?
 
+> > This control is particularly meaningful for
+> > +    devices which have a well defined orientation, such as phones, laptops
+> > +    and portable devices as the camera location is expressed as a position
+> > +    relative to the device intended usage orientation. In example, a camera
 >
-> > +  Possible values are:
-> > +  0 - Front. The image sensor is mounted on the front facing side of the device.
-> > +  For mobile devices such as smartphones, tablets and laptops the front side is
-> > +  the user facing side of the device.
-> > +  1 - Back. The image sensor is mounted on the back side of the device, which is
-> > +  defined as the opposite side of the front facing one.
-> > +  2 - External. The image sensor is connected to the device by extension cables,
-> > +  and can be freely moved, regardless of the device position.
+> s/In example/For example/
 >
-> It could be something else than cables (wireless possibly ?). I would
-> phrase this along the lines of "The device is not attached directly to
-> the [device], or is attached in a way that allows it to move to
-> different locations."
-
-Agreed, once we find a good term for [device] :)
-
+> > +    sensor installed on the user-facing side of a phone, a tablet or a
+> > +    laptop device is said to be installed in the ``V4L2_LOCATION_FRONT``
+> > +    location while camera sensors installed on the side opposed to the
 >
-> >
-> >  Optional endpoint properties
-> >  ----------------------------
+> s/opposed to the front one/opposite the front/
+>
+> > +    front one are said to be installed in the ``V4L2_LOCATION_BACK``
+> > +    location. Camera sensors connected to the device by extension cables
+> > +    which are freely movable regardless of the device orientation, such as
+> > +    webcams and digital cameras, are said to be have
+> > +    ``V4L2_LOCATION_EXTERNAL`` location.
+>
+> Same comment as for the DT bindings regarding cables.
+>
+> > +
+> > +
+> > +
+> > +.. flat-table::
+> > +    :header-rows:  0
+> > +    :stub-columns: 0
+> > +
+> > +    * - ``V4L2_LOCATION_FRONT``
+> > +      - The camera sensor is located on the front side of the device.
+> > +    * - ``V4L2_LOCATION_BACK``
+> > +      - The camera sensor is located on the back side of the device.
+> > +    * - ``V4L2_LOCATION_EXTERNAL``
+> > +      - The camera sensor is connected by extension cables to the device and
+> > +        it's freely movable.
+>
+> s/it's/is/
+>
+> > +
+> > +
+> > +
+> >  .. [#f1]
+> >     This control may be changed to a menu control in the future, if more
+> >     options are required.
 >
 > --
 > Regards,
 >
 > Laurent Pinchart
 
---siklwweqobuuvov4
+--6vp7taqxzmb6q4jp
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl1nyS8ACgkQcjQGjxah
-VjzL2BAAgqsNZgAW+vRkwt7RDjK6QpMnNwif5DzH5YXs/aZ9BFu0ZYLi+M9/OXq7
-yiBXbMa7OrA/eYnDRY3Z4ILQ8sEUCBCB/eC733VdWIrThEpiBSNGLLncW1z+2RoS
-fYMuCr2mBirGkyhGzu7vE4geW3FjMwJhB4oEdshuA7Wy8+mcz64LQZipOk/xo01I
-gvmwNmtZltKU5tA6uzShpZ+/UxAitiUwOV6Sh7uBNkDc4V0yYfz+Bo7pU6XexoEd
-W58m9Pprs40BUJ4T8cTGGRK9YqOi+RAAQ6Wv1GtZqgWZiBNO6uWLNC+hkOdmxgGB
-kEznLvM9lw1KjJ9KVJFSX/wX8463gyejJUkTYBzl4pz5ZAWE3P1Un4BfbxrvnoXs
-CFT+6SuRpSZUykGqxfGDLpJ/R+vUhP4QC+DgsNhbFV44jEqElbCmH/cirIdffZ5S
-o29yngV5wfIjGR8uYuJbCqEgLk+o/SCn/Aw3UMzEDA+oJ836kq7pDt+SttlB4FOH
-7dRlko11SeOEKDMJAUsCT1hhn94LshXqKRgqN9zP1CdScR947uQ8M51PRG+n0kKH
-0a+ieydHAGKlQo26jBwkXfosHHLNzNlJ9YFcHXOi2GUS0IOet80eigwmP2zfq78h
-d8SeO9FgcOQ9++h7YlixGBK8+bdxq/tdlNiYV+UZ5slu5IkJpzM=
-=kIpu
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl1nyXUACgkQcjQGjxah
+VjyvkxAAr7zMDd16mAQUVXNOplVd4R9bpWX3xBVggZFZFzQ77Wts/HLaKfXPo1Yl
+ybgZuj2t6TuyH9MQtbdG+vCWD3h7e2ozNn7cR0+/n+92bGd46VgwbJXNSTBC7dxK
+Iwv7UBSo0wGG4Q24DI1NJ+fwKAAmsnD8LpGQUo0oiyYjiMSzMk4u7aIjfJ3WT6MQ
+9ETIbenNuQssnj/anYvO8BcZxWoQT4lwJY0MkEL1UrlQUmH1EYzVQNW3I4f30wbr
+CNBXKfC9h+8ummHF2hrANOxvr30LpPmdJObz+o3mOl+LuhLpP0av7pfXbF5nSiML
+3eP8oXL+ALV+YgRRAm1iTrMV9cR8TIF7wCIT76pKg0Fyunt+wdbttSYIGtzbwSf5
+pVLI2bdrR9rXOD3X/KE6+KrOqobjcTvAlSEpPmsZzh3RAt9YquZC0SqOpr3b/mm3
+1PR+X4EVALnNtL2vevomo9kAQLeVC2nD8pczEV2vACuF8CW8F8f1Cr+Ppg/hhqn0
+jYhWcne8wJT81Dmn/MvUgrYza4DI8v76sIh2WbxfwGAXYZcIxE3atQr8iiwNrgB1
+7bhvivakqVcju8xShiCZbS+gy530gVY1CWyPRE5EFGaTcoR0Trv7VCAY8MQp4C2B
+Tar9rpm5k6aymVyyaqiEn+sxH5OHHCEBvCYbfBP11lQLVLtRb9g=
+=uPJx
 -----END PGP SIGNATURE-----
 
---siklwweqobuuvov4--
+--6vp7taqxzmb6q4jp--
