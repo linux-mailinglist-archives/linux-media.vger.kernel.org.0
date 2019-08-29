@@ -2,172 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DCA7A1A3C
-	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2019 14:39:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BB1EA1A4A
+	for <lists+linux-media@lfdr.de>; Thu, 29 Aug 2019 14:40:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727454AbfH2Mj2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Aug 2019 08:39:28 -0400
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:58995 "EHLO
-        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725782AbfH2Mj1 (ORCPT
+        id S1727125AbfH2Mkj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Aug 2019 08:40:39 -0400
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:46179 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725782AbfH2Mkj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Aug 2019 08:39:27 -0400
-X-Originating-IP: 2.224.242.101
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id F0F03FF809;
-        Thu, 29 Aug 2019 12:39:23 +0000 (UTC)
-Date:   Thu, 29 Aug 2019 14:40:55 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
+        Thu, 29 Aug 2019 08:40:39 -0400
+Received: by mail-ed1-f65.google.com with SMTP id z51so3856942edz.13;
+        Thu, 29 Aug 2019 05:40:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=wmJIhmpe5eh+/gW/vr2H2oqa0HY38tUTFnJyQ/g2lnw=;
+        b=BEHX6O5kpPqJazg+Y2J0VIoeG6AGVw4bHdRUQz3Gp24W7bpATqmb1cfj0SUVh8svAj
+         jiNgAROYNIATDIu9Mh2tlTxusICw/9IFN/1wKDB5WUfdvb+Vsab94ha496M/YAk/tAiR
+         YENrFGmeZ/jNzTJOv9nr4gztoyemotgelzf9AugZtZ36/RY6JSlCcJJyXO680UrNfmjf
+         PgZ+lTtcUUsC291zWbuA4EjqHWemFIe2zMX+Ata+yPcafZfq96PszMER/vtQ6ZiNuYrX
+         1DfAvqVgff1f7PcBVSCLE6C+l/bYgJ66YeekAN69XoYJgO+WzUSmqzMDKSf96bGPAgHe
+         1NLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=wmJIhmpe5eh+/gW/vr2H2oqa0HY38tUTFnJyQ/g2lnw=;
+        b=TfoNJRouPvoTLkVcLcN3WPWxj4WzqAfTOLdVyseX6VX+zKK7qMNqc99Rnxk5vQSx6s
+         00Hcw0rg02i5sl5UjdtLzWn5ovXkieus8AEkpJqhfCwjsZiFxQetkgRcHvV+2ysI53kf
+         yW9RIesGZgia2eoeg9ivAqhCcQVnQ/dO0Ri5xdeEcoM7ensKfaxDESplVptvGJvq9QMx
+         A3ywpoREgc2DgtL+FJmTw/pE6E5NMoK1sFItfnpBeTbeZ7BToWQXU2iTRMzLqaeLStcf
+         bYRk3jiy9dWepEvdhbY7iukgYu5H7p+D2kbKg3MFFKgCEKaxCHW6yY/ExAOOl+qkvibD
+         EmuQ==
+X-Gm-Message-State: APjAAAVIty9vJtz5/2aibKMQwSfpEHZVro0T3n85C8VSdpmYddYZaRU2
+        Xf0LUvIektjyp7WYGJO1anM=
+X-Google-Smtp-Source: APXvYqwH9FMfs2BkjfucZGdoByxkMhDUjVy7mZQxKMVesrJgd1wU7+pYohArwwuIOgvcTiwdJw/6Vw==
+X-Received: by 2002:a17:906:c2c9:: with SMTP id ch9mr8121634ejb.167.1567082436874;
+        Thu, 29 Aug 2019 05:40:36 -0700 (PDT)
+Received: from localhost (pD9E51890.dip0.t-ipconnect.de. [217.229.24.144])
+        by smtp.gmail.com with ESMTPSA id l26sm367862ejg.70.2019.08.29.05.40.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Aug 2019 05:40:35 -0700 (PDT)
+Date:   Thu, 29 Aug 2019 14:40:34 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
 To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        tfiga@google.com,
-        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>
-Subject: Re: [PATCH v2 09/10] media: i2c: ov5670: Report native size and crop
- bounds
-Message-ID: <20190829124055.zxiu7x6abxfhkzch@uno.localdomain>
-References: <20190827092339.8858-1-jacopo@jmondi.org>
- <20190827092339.8858-12-jacopo@jmondi.org>
- <db08aa45-922e-e477-9836-cbbc3f17ad8e@xs4all.nl>
+Cc:     YueHaibing <yuehaibing@huawei.com>, digetx@gmail.com,
+        mchehab@kernel.org, gregkh@linuxfoundation.org,
+        jonathanh@nvidia.com, robin.murphy@arm.com,
+        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
+        iommu@lists.linux-foundation.org
+Subject: Re: [PATCH] media: staging: tegra-vde: Disable building with
+ COMPILE_TEST
+Message-ID: <20190829124034.GA19842@ulmo>
+References: <20190826133140.13456-1-yuehaibing@huawei.com>
+ <7f73bcac-f52d-f1b3-324c-e9b551c5378b@xs4all.nl>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="tbdd7zqj7h5afyyc"
+        protocol="application/pgp-signature"; boundary="2fHTh5uZTiUOsy+g"
 Content-Disposition: inline
-In-Reply-To: <db08aa45-922e-e477-9836-cbbc3f17ad8e@xs4all.nl>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <7f73bcac-f52d-f1b3-324c-e9b551c5378b@xs4all.nl>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---tbdd7zqj7h5afyyc
-Content-Type: text/plain; charset=utf-8
+--2fHTh5uZTiUOsy+g
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-HI Hans,
-
-On Thu, Aug 29, 2019 at 12:20:18PM +0200, Hans Verkuil wrote:
-> On 8/27/19 11:23 AM, Jacopo Mondi wrote:
-> > Report the native pixel array size and the crop bounds for the ov5670
-> > sensor driver.
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+On Thu, Aug 29, 2019 at 01:39:32PM +0200, Hans Verkuil wrote:
+> On 8/26/19 3:31 PM, YueHaibing wrote:
+> > If COMPILE_TEST is y and IOMMU_SUPPORT is n, selecting TEGRA_VDE
+> > to m will set IOMMU_IOVA to m, this fails the building of
+> > TEGRA_HOST1X and DRM_TEGRA which is y like this:
+> >=20
+> > drivers/gpu/host1x/cdma.o: In function `host1x_cdma_init':
+> > cdma.c:(.text+0x66c): undefined reference to `alloc_iova'
+> > cdma.c:(.text+0x698): undefined reference to `__free_iova'
+> >=20
+> > drivers/gpu/drm/tegra/drm.o: In function `tegra_drm_unload':
+> > drm.c:(.text+0xeb0): undefined reference to `put_iova_domain'
+> > drm.c:(.text+0xeb4): undefined reference to `iova_cache_put'
+> >=20
+> > Reported-by: Hulk Robot <hulkci@huawei.com>
+> > Fixes: 6b2265975239 ("media: staging: tegra-vde: Fix build error")
+> > Fixes: b301f8de1925 ("media: staging: media: tegra-vde: Add IOMMU suppo=
+rt")
+> > Signed-off-by: YueHaibing <yuehaibing@huawei.com>
 > > ---
-> >  drivers/media/i2c/ov5670.c | 20 ++++++++++++++++++++
-> >  1 file changed, 20 insertions(+)
-> >
-> > diff --git a/drivers/media/i2c/ov5670.c b/drivers/media/i2c/ov5670.c
-> > index 2bc57e85f721..3e22fe9ccad1 100644
-> > --- a/drivers/media/i2c/ov5670.c
-> > +++ b/drivers/media/i2c/ov5670.c
-> > @@ -2258,6 +2258,25 @@ static int ov5670_set_pad_format(struct v4l2_sub=
-dev *sd,
-> >  	return 0;
-> >  }
-> >
-> > +static int ov5670_get_selection(struct v4l2_subdev *sd,
-> > +				struct v4l2_subdev_pad_config *cfg,
-> > +				struct v4l2_subdev_selection *sel)
-> > +{
-> > +	switch (sel->target) {
-> > +	case V4L2_SEL_TGT_CROP_BOUNDS:
-> > +	case V4L2_SEL_TGT_NATIVE_SIZE:
-> > +		sel->r.left =3D 0;
-> > +		sel->r.top =3D 0;
-> > +		sel->r.width =3D 2592;
-> > +		sel->r.height =3D 1944;
->
-> Why do you need this?
->
+> >  drivers/staging/media/tegra-vde/Kconfig | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/drivers/staging/media/tegra-vde/Kconfig b/drivers/staging/=
+media/tegra-vde/Kconfig
+> > index ba49ea5..a41d30c 100644
+> > --- a/drivers/staging/media/tegra-vde/Kconfig
+> > +++ b/drivers/staging/media/tegra-vde/Kconfig
+> > @@ -1,9 +1,9 @@
+> >  # SPDX-License-Identifier: GPL-2.0
+> >  config TEGRA_VDE
+> >  	tristate "NVIDIA Tegra Video Decoder Engine driver"
+> > -	depends on ARCH_TEGRA || COMPILE_TEST
+> > +	depends on ARCH_TEGRA
+>=20
+> What happens if you drop this change,
+>=20
+> >  	select DMA_SHARED_BUFFER
+> > -	select IOMMU_IOVA if (IOMMU_SUPPORT || COMPILE_TEST)
+> > +	select IOMMU_IOVA if IOMMU_SUPPORT
+>=20
+> but keep this change?
+>=20
+> iova.h has stubs that are used if IOMMU_IOVA is not set, so it should
+> work when compile testing this tegra-vde driver.
+>=20
+> Haven't tried it, but making sure that compile testing keep working is
+> really important.
 
-I need to expose the pixel array size and the active pixel area size,
-and I interpreted the two above targets as the right place where to do
-so.
+Yeah, that variant seems to work for me. I think it's also more correct
+because the IOMMU_IOVA if IOMMU_SUPPORT dependency really says that the
+IOVA usage is bound to IOMMU support. If IOMMU support is not enabled,
+then IOVA is not needed either, so the dummies will do just fine.
 
-At least for NATIVE_SIZE the documentation seems to match my
-understanding:
+Thierry
 
-"The native size of the device, e.g. a sensor=E2=80=99s pixel array. left a=
-nd top
-fields are zero for this target."
-
-
-> Since the format can change for this and the next driver I think CROP_BOU=
-NDS
-> at least should match the current format.
->
-
-Ah, does it? It was not clear to me from the documentation, as it
-suggested to me that target actually identifies the active pixel area
-
-"Bounds of the crop rectangle. All valid crop rectangles fit inside the
-crop bounds rectangle."
-
-It does not mention format, should this be updated?
-
-How would you report the two information I need?
-
-> I don't think this patch and the next have anything to do with the locati=
-on/rotate
-> support. I would split it off from this series.
->
-
-Agreed, they were split in v1, maybe it has not been a wise move to
-make a single series out of them. I'll split again.
-
-Thanks
-   j
-
-> Regards,
->
-> 	Hans
->
-> > +		break;
-> > +	default:
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> >  static int ov5670_get_skip_frames(struct v4l2_subdev *sd, u32 *frames)
-> >  {
-> >  	*frames =3D OV5670_NUM_OF_SKIP_FRAMES;
-> > @@ -2425,6 +2444,7 @@ static const struct v4l2_subdev_pad_ops ov5670_pa=
-d_ops =3D {
-> >  	.enum_mbus_code =3D ov5670_enum_mbus_code,
-> >  	.get_fmt =3D ov5670_get_pad_format,
-> >  	.set_fmt =3D ov5670_set_pad_format,
-> > +	.get_selection =3D ov5670_get_selection,
-> >  	.enum_frame_size =3D ov5670_enum_frame_size,
-> >  };
-> >
-> >
->
-
---tbdd7zqj7h5afyyc
+--2fHTh5uZTiUOsy+g
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl1nx9cACgkQcjQGjxah
-VjwyXA//TFC3om84oeZRyaWdJg3X97i+QX55dKR6ZbMoYbvRKoESStm32WMlLAJ8
-5atdg8bDpfhOqZ7xBeeFYzYE2FIwAu6xT3Fd2R0H2Xpk2FDSg9P/uaizLm/ZFu3R
-TwNg62Mr+lnXQaskJ9JHV+ehOLDqR6AvVio53aHDBm07xhkylzVagfvmMQUU0yyT
-4FHBg5tIcHhaetMVT0o1df+69tDPs9bVPAjJyYRgE0ZXoijnnZVUwjm8AXt04Tye
-5QHhZX47cyzH8ELAUjR/P+w+vLZ7a5o1Nb8U3ppbqf7jV7bYeku75hTZfAVGvA2J
-acDr+/X1GSVVCZ+jhY5+waKzSkAnCy5fXjiRy9+mQmlX6cLm4TdIPhFxGgaJBhck
-ANClFXLOs6BX1WRe7IhDB5l1CXF4Xz35kfLpB/n/85VYZ1frs87tQqojdjMJj5CE
-8R2XQSQj2VgOTdNgo3hrt3QANkdgeMDBWayAYa7+5otV4z8EoMmSdq2cT35k7MHP
-FKeOs77al1N7jz9qQycgOrr2e93+K1T7U2VjpBzCqlbhXyA1nzKTWUIwjE3slUsj
-0SV2OG16QODQtHS0hzLz3+Lh2T0ldZ0o5NBy32F6BG8odl5U7I5Esd6lk0yGTljd
-yZKaZxNLSq8P4JZVGfF8v5VkSYkRZqzYQWS7VULfAtldbVWi7mc=
-=/R+F
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl1nx78ACgkQ3SOs138+
+s6FjdBAAjPVTLKQa12c+8O/ecTX4Bkd37JWHnmOyfuQByXvgyFwDufWK1I19NpQh
+gunYeGFxSe36t4aIK8w27Jtr86Zo7tw8xUmNs2cZrNLZahvEx4DERmV3VeqqKv8L
+hNjLT61akI4MlN7rGpRcwbUrtL39NJW3msO/NzvnZAy8EetobwDPVkcyhG+XfQhc
+XsNXJhnvj3W5PR1+RzhL1i2UGwpc4HhLEFjHgzHcBsVgo6QixR/vSCNQ+mJPEcsz
+G5NRpG8zqh6gGUCs4Fxi2Pn6FwWqYaqyqBbSZoAydYULWMhEUsZPTiyihsOP2PxM
+V8ni2vhx6hzqlr0Sml5LfsT8eDjuKLFHacfFzg0ediSy7HI3p8hxotcdZXfJ0T9G
+q1W7wK5WDhA3FP/z9iBQRjryaTUUQtf/F1NBMvTPvIfUipxqcgYq2/SayQ12g/9l
+e36ocSD+yuI0sZNa549AVTF5hYmmbkGAcrX+vF6OB0e0tGZoPAmBvQwd7XH2MHzI
+T2r6b1S4WMlZ6XX4ko8boqXVGzO8cGybF2S3pdNnQrWQc/EiFimCLlxVFjdvR6w2
+MdzxVAYlU47MNIhMaCbOCzEW5lq6krlMSVC3vpK13RGegyM7LHp5XXrhnRk5n6yf
+Ap68NCbc9fsg3oNPcddpiHnadEVLap36FWSpLixSYuZLUevnhZc=
+=jI77
 -----END PGP SIGNATURE-----
 
---tbdd7zqj7h5afyyc--
+--2fHTh5uZTiUOsy+g--
