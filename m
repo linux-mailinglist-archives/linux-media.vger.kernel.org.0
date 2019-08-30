@@ -2,81 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AA166A34C6
-	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2019 12:17:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E260FA3637
+	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2019 14:05:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728143AbfH3KRK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Aug 2019 06:17:10 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:38389 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728017AbfH3KQ7 (ORCPT
+        id S1727781AbfH3MF1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Aug 2019 08:05:27 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:38438 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727729AbfH3MF1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Aug 2019 06:16:59 -0400
-Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.lab.pengutronix.de)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1i3dxa-00031p-Ox; Fri, 30 Aug 2019 12:16:50 +0200
-Received: from mfe by dude02.lab.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1i3dxY-0003om-Dj; Fri, 30 Aug 2019 12:16:48 +0200
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
-        hans.verkuil@cisco.com, jacopo+renesas@jmondi.org,
-        robh+dt@kernel.org, laurent.pinchart@ideasonboard.com
-Cc:     devicetree@vger.kernel.org, kernel@pengutronix.de,
-        linux-media@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>
-Subject: [PATCH v10 14/14] media: tvp5150: make debug output more readable
-Date:   Fri, 30 Aug 2019 12:16:46 +0200
-Message-Id: <20190830101646.6530-15-m.felsch@pengutronix.de>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190830101646.6530-1-m.felsch@pengutronix.de>
-References: <20190830101646.6530-1-m.felsch@pengutronix.de>
+        Fri, 30 Aug 2019 08:05:27 -0400
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id B0C4C634C87
+        for <linux-media@vger.kernel.org>; Fri, 30 Aug 2019 15:05:00 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1i3feG-00011V-Jc
+        for linux-media@vger.kernel.org; Fri, 30 Aug 2019 15:05:00 +0300
+Date:   Fri, 30 Aug 2019 15:05:00 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL for 5.4] sun4i csi driver sparse fix
+Message-ID: <20190830120500.GB3568@valkosipuli.retiisi.org.uk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The debug output for tvp5150_selmux() isn't really intuitive. Register
-values are printed decimal formatted and the input/output driver states
-are printed as enum. Even more the "normal" output enum mapps to zero so
-a active output will printing output=0 and a inactive output=1.
+Hi Mauro,
 
-Change this by brinting the register values hex formatted and the states
-as more readable string.
+Here's a small sparse fix for the sun4i csi driver.
 
-Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
----
- drivers/media/i2c/tvp5150.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+Please pull.
 
-diff --git a/drivers/media/i2c/tvp5150.c b/drivers/media/i2c/tvp5150.c
-index da7e7fe16f89..16f777e5c1b9 100644
---- a/drivers/media/i2c/tvp5150.c
-+++ b/drivers/media/i2c/tvp5150.c
-@@ -300,9 +300,12 @@ static void tvp5150_selmux(struct v4l2_subdev *sd)
- 		break;
- 	}
- 
--	dev_dbg_lvl(sd->dev, 1, debug, "Selecting video route: route input=%i, output=%i => tvp5150 input=%i, opmode=%i\n",
--			decoder->input, decoder->output,
--			input, opmode);
-+	dev_dbg_lvl(sd->dev, 1, debug,
-+		    "Selecting video route: route input=%s, output=%s => tvp5150 input=0x%02x, opmode=0x%02x\n",
-+		    decoder->input == 0 ? "aip1a" :
-+		    decoder->input == 2 ? "aip1b" : "svideo",
-+		    decoder->output == 0 ? "normal" : "black-frame-gen",
-+		    input, opmode);
- 
- 	regmap_write(decoder->regmap, TVP5150_OP_MODE_CTL, opmode);
- 	regmap_write(decoder->regmap, TVP5150_VD_IN_SRC_SEL_1, input);
+
+The following changes since commit 968bce2f59ce462d296af28610628fe7e03b120a:
+
+  media: imx: remove unused including <linux/version.h> (2019-08-29 10:23:18 -0300)
+
+are available in the Git repository at:
+
+  ssh://linuxtv.org/git/sailus/media_tree.git tags/for-5.4-8-signed
+
+for you to fetch changes up to 3b4dd9dd5db0f77a9541588e7d05bfcf97823d0c:
+
+  media: sun4i: Make sun4i_csi_formats static (2019-08-30 14:55:49 +0300)
+
+----------------------------------------------------------------
+sparse fix for sun4i csi driver
+
+----------------------------------------------------------------
+Maxime Ripard (1):
+      media: sun4i: Make sun4i_csi_formats static
+
+ drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 -- 
-2.20.1
-
+Sakari Ailus
