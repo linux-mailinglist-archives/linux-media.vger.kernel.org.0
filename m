@@ -2,70 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 45D3FA37BF
-	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2019 15:29:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A9784A37EE
+	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2019 15:44:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727754AbfH3N35 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Aug 2019 09:29:57 -0400
-Received: from retiisi.org.uk ([95.216.213.190]:39372 "EHLO
-        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727603AbfH3N35 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Aug 2019 09:29:57 -0400
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 2EF73634C87
-        for <linux-media@vger.kernel.org>; Fri, 30 Aug 2019 16:29:30 +0300 (EEST)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1i3gy1-00012e-Vp
-        for linux-media@vger.kernel.org; Fri, 30 Aug 2019 16:29:29 +0300
-Date:   Fri, 30 Aug 2019 16:29:29 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL v2 for 5.4] sun4i csi driver sparse fix
-Message-ID: <20190830132929.GC3568@valkosipuli.retiisi.org.uk>
+        id S1727792AbfH3NoJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Aug 2019 09:44:09 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:53743 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727718AbfH3NoJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 30 Aug 2019 09:44:09 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtp (Exim 4.84_2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1i3hC4-0002rD-Bo; Fri, 30 Aug 2019 13:44:00 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1i3hCB-0001bQ-Ly; Fri, 30 Aug 2019 13:44:07 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL v2 for 5.4] sun4i csi driver sparse fix
+Date:   Fri, 30 Aug 2019 13:44:07 +0000
+Message-Id: <20190830134407.6119-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190830132929.GC3568@valkosipuli.retiisi.org.uk>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+From: builder@linuxtv.org
 
-Here's a small sparse fix for the sun4i csi driver.
+Pull request: https://patchwork.linuxtv.org/patch/58506/
+Build log: https://builder.linuxtv.org/job/patchwork/13939/
+Build time: 00:03:52
+Link: https://lore.kernel.org/linux-media/20190830132929.GC3568@valkosipuli.retiisi.org.uk
 
-This time with a git URL.
+gpg: Signature made Fri 30 Aug 2019 12:01:09 PM UTC
+gpg:                using DSA key F0D0377A0D4F25A79238EFE56D40361B6E28C193
+gpg:                issuer "sakari.ailus@linux.intel.com"
+gpg: Good signature from "Sakari Ailus <sakari.ailus@linux.intel.com>" [full]
 
-Please pull.
-
-
-The following changes since commit 968bce2f59ce462d296af28610628fe7e03b120a:
-
-  media: imx: remove unused including <linux/version.h> (2019-08-29 10:23:18 -0300)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/sailus/media_tree.git tags/for-5.4-8-signed
-
-for you to fetch changes up to 3b4dd9dd5db0f77a9541588e7d05bfcf97823d0c:
-
-  media: sun4i: Make sun4i_csi_formats static (2019-08-30 14:55:49 +0300)
-
-----------------------------------------------------------------
-sparse fix for sun4i csi driver
-
-----------------------------------------------------------------
-Maxime Ripard (1):
-      media: sun4i: Make sun4i_csi_formats static
-
- drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
--- 
-Sakari Ailus
+Summary: no issues
