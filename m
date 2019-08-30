@@ -2,158 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C446A2C87
-	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2019 03:58:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CE360A2CBB
+	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2019 04:21:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727413AbfH3B6m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Aug 2019 21:58:42 -0400
-Received: from mail-eopbgr1300058.outbound.protection.outlook.com ([40.107.130.58]:41281
-        "EHLO APC01-HK2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727344AbfH3B6m (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Aug 2019 21:58:42 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RTUCdd6Z1MzvG9CBWtFtqOe0oZ3ojolXtM5+ZkgP19eP+yGfCfq6DbdQq+/c+B1qB6KT8Q+A4yyNkXqNIpwItkMTm36zid5NO0dbWAliMaLPASHQwH2e6X2CIp0diIswRy4YpYyviJoHVBpRyJEPFHRPKc2tng/ufUzEzasotnAFQgeGrhVmRGK9vYwouk45PYOs7U2TbUE4osjng96qNSNcVrPVwby0ycnca6tS2CEEZWvJvQfZNX3F0ZDzOTUuE0VQVP0ZRc2q0BALV5R1y/cgE6VxKOycJ03N2OpcH//vLL52YbEGFMJo2AzVGAQtyelBSs11O72wGwCaaApcnQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=z4isZp/PzGBjqlMvBYOKyg33r5kkCtHtvwX4lv1gu04=;
- b=ZluH+j1NEBcfWk/ZNAH5yqjVfXj44vUEBvT45HlWFdTIGNKxLsCt+v57uUj4uaNzHW2Wpl5wjHU7bPVOgRnrfcEwRXacOCZgATpT+CQusQ7uOy9sETp/R6DnDWyuWo7B8O+XQFx8s9bw7vNmNFF8A3CAmrkmvDE20C9mvvH6OFQiAdXLkGedsYTyiVSYzqx5ouiOQOA3Sc8ABQsv68Q5qfgMX0cj5AGcyBXVCKQdSZpUkYfOmRS9ZQng+wE6D2b0Lj90BqevXkKmaTdZKCzS/ZYAqih6JH8EeB77fi/2FF9+LV2fUIRkx7sNt83Vm7Ovj/IhWr/q0vZGBBcGkQJAjw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=teo-en-ming-corp.com; dmarc=pass action=none
- header.from=teo-en-ming-corp.com; dkim=pass header.d=teo-en-ming-corp.com;
- arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=teoenmingcorp.onmicrosoft.com; s=selector1-teoenmingcorp-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=z4isZp/PzGBjqlMvBYOKyg33r5kkCtHtvwX4lv1gu04=;
- b=P23YoZF1XF3VadiUJJTSHaY/muMcsoMWhCFiQz9V1d+gVkOdz0NwzxsYopZHGwWECl4NiFx/e52bmZXn4VOHEbwPaqA7VxRbEpFUYqerQQsH0QZFuEo9m5+IE0NlC/5fAUZOeqjPRFOAVbADk7jC5VK0xsR616X/2ghSg9j6c94=
-Received: from SG2PR01MB2141.apcprd01.prod.exchangelabs.com (10.170.143.19) by
- SG2PR01MB2552.apcprd01.prod.exchangelabs.com (20.177.95.80) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2220.19; Fri, 30 Aug 2019 01:58:34 +0000
-Received: from SG2PR01MB2141.apcprd01.prod.exchangelabs.com
- ([fe80::508e:ee77:4ba7:9278]) by SG2PR01MB2141.apcprd01.prod.exchangelabs.com
- ([fe80::508e:ee77:4ba7:9278%7]) with mapi id 15.20.2199.021; Fri, 30 Aug 2019
- 01:58:34 +0000
-From:   Turritopsis Dohrnii Teo En Ming <ceo@teo-en-ming-corp.com>
-To:     "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-CC:     Turritopsis Dohrnii Teo En Ming <ceo@teo-en-ming-corp.com>
-Subject: Singaporean Mr. Teo En Ming's Refugee Seeking Attempts
-Thread-Topic: Singaporean Mr. Teo En Ming's Refugee Seeking Attempts
-Thread-Index: AdVe1mXog7WbTWhjRVuauzVW9AADZg==
-Date:   Fri, 30 Aug 2019 01:58:34 +0000
-Message-ID: <SG2PR01MB2141AC5BE736CDCE3391D17987BD0@SG2PR01MB2141.apcprd01.prod.exchangelabs.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=ceo@teo-en-ming-corp.com; 
-x-originating-ip: [118.189.211.120]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 1ad066b5-0cd7-4e10-95ff-08d72ced90b0
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(7021145)(8989299)(4534185)(7022145)(4603075)(4627221)(201702281549075)(8990200)(7048125)(7024125)(7027125)(7023125)(5600166)(711020)(4605104)(1401327)(2017052603328)(7193020);SRVR:SG2PR01MB2552;
-x-ms-traffictypediagnostic: SG2PR01MB2552:
-x-ms-exchange-purlcount: 7
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <SG2PR01MB255274AEC6966E4208C6298487BD0@SG2PR01MB2552.apcprd01.prod.exchangelabs.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7219;
-x-forefront-prvs: 0145758B1D
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(376002)(366004)(346002)(136003)(396003)(39830400003)(199004)(189003)(66446008)(107886003)(64756008)(316002)(55016002)(76116006)(66556008)(9686003)(66946007)(6306002)(71200400001)(26005)(4326008)(6916009)(3846002)(6116002)(25786009)(71190400001)(486006)(66476007)(66066001)(102836004)(6436002)(6506007)(476003)(33656002)(5660300002)(8676002)(81166006)(966005)(81156014)(52536014)(14444005)(8936002)(7696005)(7736002)(2906002)(305945005)(186003)(53936002)(86362001)(99286004)(508600001)(74316002)(256004)(14454004);DIR:OUT;SFP:1101;SCL:1;SRVR:SG2PR01MB2552;H:SG2PR01MB2141.apcprd01.prod.exchangelabs.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: teo-en-ming-corp.com does not
- designate permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: /zewHMNUVqaMDQVvNEHSnLAGxokdYvDfawzBCkdCapdMtTdJCzTZZoQZESLkCZiBPopDWA7g42yHH2K4mBaHG9a3C5OD22wb9I7xavGK8Z7Unw/GJcLneWbv0qyQwmjAkjVawRYlahnTk9q6z58W3FD61rNR5hCbFsgYBfV5gONqE9bEVdKeGhhaAhSEgXbL1RZdXUhAsJ+ZfN5PLP1E2oNrq+5p1X3CE7cOttPoT9/8l6O7ox+D5HO87DGZSo1/1VxH74XgvevFSKXjDKSVWoMswb1C5eMwSu9C8hXoTqAiOt1pWflCRuHHrx9koQ99dx4ud7dDEjsO95tKCSVAPDXaUpqOM28LoGNdpnjuILzbjSICPyYU7cs9IbxN0Rf6fueoQDnlJxQqSP0iYtTLxYywcu+QgHpf8PRIvK+3UII=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        id S1727671AbfH3CVI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Aug 2019 22:21:08 -0400
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:15443 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727351AbfH3CVH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 29 Aug 2019 22:21:07 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5d6888110001>; Thu, 29 Aug 2019 19:21:05 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Thu, 29 Aug 2019 19:21:04 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Thu, 29 Aug 2019 19:21:04 -0700
+Received: from [10.110.48.201] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 30 Aug
+ 2019 02:21:03 +0000
+Subject: Re: [PATCH v3 00/39] put_user_pages(): miscellaneous call sites
+To:     Mike Marshall <hubcap@omnibond.com>
+CC:     <john.hubbard@gmail.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Chinner <david@fromorbit.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        <amd-gfx@lists.freedesktop.org>,
+        ceph-devel <ceph-devel@vger.kernel.org>,
+        <devel@driverdev.osuosl.org>, <devel@lists.orangefs.org>,
+        <dri-devel@lists.freedesktop.org>,
+        <intel-gfx@lists.freedesktop.org>, <kvm@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-block@vger.kernel.org>, <linux-crypto@vger.kernel.org>,
+        <linux-fbdev@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
+        Linux NFS Mailing List <linux-nfs@vger.kernel.org>,
+        <linux-rdma@vger.kernel.org>,
+        <linux-rpi-kernel@lists.infradead.org>,
+        <linux-xfs@vger.kernel.org>, <netdev@vger.kernel.org>,
+        <rds-devel@oss.oracle.com>, <sparclinux@vger.kernel.org>,
+        <x86@kernel.org>, <xen-devel@lists.xenproject.org>
+References: <20190807013340.9706-1-jhubbard@nvidia.com>
+ <912eb2bd-4102-05c1-5571-c261617ad30b@nvidia.com>
+ <CAOg9mSQKGDywcMde2DE42diUS7J8m74Hdv+xp_PJhC39EXZQuw@mail.gmail.com>
+X-Nvconfidentiality: public
+From:   John Hubbard <jhubbard@nvidia.com>
+Message-ID: <d453f865-2224-ed53-a2f4-f43d574c130a@nvidia.com>
+Date:   Thu, 29 Aug 2019 19:21:03 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-OriginatorOrg: teo-en-ming-corp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1ad066b5-0cd7-4e10-95ff-08d72ced90b0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Aug 2019 01:58:34.1838
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 23b3f6ae-c453-4b93-aec9-f17508e5885c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: LymI0pdOb+wfq2dtPRe/z4p/RD41a9G8917ayYECwK17wHOFeMaY/38mjxO5XQwEO6ezZo5cIlBtRSTvBQHO1LhRfJl8W9cEwgPyQ1BkP98=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2PR01MB2552
+In-Reply-To: <CAOg9mSQKGDywcMde2DE42diUS7J8m74Hdv+xp_PJhC39EXZQuw@mail.gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1567131665; bh=ws5caXaEY0X3GX3egw6JsJDC0L7OwnIAHkDMK9ZQcE4=;
+        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=dIUKOH913DAYlocN1x3OWKU66rYzbsvcqMg6XurXOtfsQm0mTaQq0ufL9HiRQjmKf
+         MYeR8XR6MbUy9f2nOHFjitJW5jxjU59hEwD2KYzGMRBc0+P+o4b2mkzUliEchFZQzm
+         D0OR0ZfFBCp6cKpnoBGakw3Ch1supTeIz+DcDxFqgzxBAMqXWQoRbk0Sq3VWx6u9tp
+         6uURi8FKe6XveWY1U9zok9s2um/SF43+51Cnxqw5q2h2Dtp4kEwxNonMDqxzAcZjDx
+         HfyaHZc2XUvwuRV5WZb7Ki3OlH/mp5QHGx5CtmwXtp2TNme1r3iXAZgXDKrycQZylt
+         qlPWiGD9ap9bQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Subject: Singaporean Mr. Teo En Ming's Refugee Seeking Attempts
+On 8/29/2019 6:29 PM, Mike Marshall wrote:
+> Hi John...
+> 
+> I added this patch series on top of Linux 5.3rc6 and ran
+> xfstests with no regressions...
+> 
+> Acked-by: Mike Marshall <hubcap@omnibond.com>
+> 
 
-In reverse chronological order:
+Hi Mike (and I hope Ira and others are reading as well, because
+I'm making a bunch of claims further down),
 
-[1] Petition to the Government of Taiwan for Refugee Status, 5th August 201=
-9 Monday
+That's great news, thanks for running that test suite and for
+the report and the ACK.
 
-Photo #1: At the building of the National Immigration Agency, Ministry of t=
-he Interior, Taipei, Taiwan, 5th August 2019
+There is an interesting pause right now, due to the fact that
+we've made some tentative decisions about gup pinning, that affect
+the call sites. A key decision is that only pages that were
+requested via FOLL_PIN, will require put_user_page*() to release
+them. There are 4 main cases, which were first explained by Jan
+Kara and Vlastimil Babka, and are now written up in my FOLL_PIN
+patch [1].
 
-Photo #2: Queue ticket at the National Immigration Agency, Ministry of the =
-Interior, Taipei, Taiwan, 5th August 2019
+So, what that means for this series is that:
 
-Photo #3: Submission of documents/petition to the National Immigration Agen=
-cy, Ministry of the Interior, Taipei, Taiwan, 5th August 2019
+1. Some call sites (mlock.c for example, and a lot of the mm/ files
+in fact, and more) will not be converted: some of these patches will
+get dropped, especially in mm/.
 
-Photos #4 and #5: Acknowledgement of Receipt for the submission of document=
-s/petition from the National Immigration Agency, Ministry of the Interior, =
-Taipei, Taiwan, 5th August 2019
+2. Call sites that do DirectIO or RDMA will need to set FOLL_PIN, and
+will also need to call put_user_page().
 
-References:
+3. Call sites that do RDMA will need to set FOLL_LONGTERM *and* FOLL_PIN,
 
-(a) Petition to the Government of Taiwan for Refugee Status, 5th August 201=
-9 Monday (Blogspot)
+    3.a. ...and will at least in some cases need to provide a link to a
+    vaddr_pin object, and thus back to a struct file*...maybe. Still
+    under discussion.
 
-Link: https://tdtemcerts.blogspot.sg/2019/08/petition-to-government-of-taiw=
-an-for.html
+4. It's desirable to keep FOLL_* flags (or at least FOLL_PIN) internal
+to the gup() calls. That implies using a wrapper call such as Ira's
+vaddr_pin_[user]_pages(), instead of gup(), and vaddr_unpin_[user]_pages()
+instead of put_user_page*().
 
-(b) Petition to the Government of Taiwan for Refugee Status, 5th August 201=
-9 Monday (Wordpress)
+5. We don't want to churn the call sites unnecessarily.
 
-Link: https://tdtemcerts.wordpress.com/2019/08/23/petition-to-the-governmen=
-t-of-taiwan-for-refugee-status/
+With that in mind, I've taken another pass through all these patches
+and narrowed it down to:
 
-[2] Application for Refugee Status at the United Nations Refugee Agency, Ba=
-ngkok, Thailand, 21st March 2017 Tuesday
+     a) 12 call sites that I'd like to convert soon, but even those
+        really look cleaner with a full conversion to a wrapper call
+        similar to (identical to?) vaddr_pin_[user]_pages(), probably
+        just the FOLL_PIN only variant (not FOLL_LONGTERM). That
+        wrapper call is not ready yet, though.
 
-References:
+     b) Some more call sites that require both FOLL_PIN and FOLL_LONGTERM.
+        Definitely will wait to use the wrapper calls for these, because
+        they may also require hooking up to a struct file*.
 
-(a) [YOUTUBE] Vlog: The Road to Application for Refugee Status at UNHCR Ban=
-gkok
+     c) A few more that were already applied, which is fine, because they
+        show where to convert, and simplify a few sites anyway. But they'll
+        need follow-on changes to, one way or another, set FOLL_PIN.
 
-Link: https://www.youtube.com/watch?v=3DutpuAa1eUNI
+     d) And of course a few sites whose patches get dropped, as mentioned
+        above.
 
-YouTube video Published on March 22nd, 2017
+[1] https://lore.kernel.org/r/20190821040727.19650-3-jhubbard@nvidia.com
 
-
-
-
-
------BEGIN EMAIL SIGNATURE-----
-
-The Gospel for all Targeted Individuals (TIs):
-
-[The New York Times] Microwave Weapons Are Prime Suspect in Ills of
-U.S. Embassy Workers
-
-Link: https://www.nytimes.com/2018/09/01/science/sonic-attack-cuba-microwav=
-e.html
-
-***************************************************************************=
-*****************
-
-Singaporean Mr. Turritopsis Dohrnii Teo En Ming's Academic
-Qualifications as at 14 Feb 2019
-
-[1] https://tdtemcerts.wordpress.com/
-
-[2] https://tdtemcerts.blogspot.sg/
-
-[3] https://www.scribd.com/user/270125049/Teo-En-Ming
-
------END EMAIL SIGNATURE-----
-
+thanks,
+-- 
+John Hubbard
+NVIDIA
