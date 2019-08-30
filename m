@@ -2,69 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 87F8AA3813
-	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2019 15:50:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79268A3959
+	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2019 16:37:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727936AbfH3NuV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Aug 2019 09:50:21 -0400
-Received: from andre.telenet-ops.be ([195.130.132.53]:48688 "EHLO
-        andre.telenet-ops.be" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727888AbfH3NuV (ORCPT
+        id S1727899AbfH3OhB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Aug 2019 10:37:01 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:47706 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727170AbfH3OhB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Aug 2019 09:50:21 -0400
-Received: from ramsan ([84.194.98.4])
-        by andre.telenet-ops.be with bizsmtp
-        id vRqJ2000S05gfCL01RqJ3t; Fri, 30 Aug 2019 15:50:19 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1i3hIA-0003KX-Oy; Fri, 30 Aug 2019 15:50:18 +0200
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1i3hGO-0003C6-Jy; Fri, 30 Aug 2019 15:48:28 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Ramesh Shanmugasundaram <ramesh.shanmugasundaram@bp.renesas.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] media: i2c: Use div64_ul() for u64-by-unsigned-long divide
-Date:   Fri, 30 Aug 2019 15:48:27 +0200
-Message-Id: <20190830134827.12237-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
+        Fri, 30 Aug 2019 10:37:01 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dafna)
+        with ESMTPSA id 365CA28BA08
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     dafna.hirschfeld@collabora.com, laurent.pinchart@ideasonboard.com,
+        helen.koike@collabora.com, ezequiel@collabora.com,
+        andre.almeida@collabora.com, kbuild test robot <lkp@intel.com>
+Subject: [PATCH v2] media: vimc: upon streaming, check that the pipeline starts with a source entity
+Date:   Fri, 30 Aug 2019 16:36:35 +0200
+Message-Id: <20190830143635.8455-1-dafna.hirschfeld@collabora.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-div_u64() does a 64-by-32 division, while the divisor max2175.xtal_freq
-is unsigned long, thus 64-bit on 64-bit platforms.  Hence the proper
-function to call is div64_ul().
+Userspace can disable links and create pipelines that
+do not start with a source entity. Trying to stream
+from such a pipeline should fail with -EPIPE
+currently this is not handled and cause kernel crash.
 
-Note that this change does not have any functional impact, as the
-crystal frequency must be much lower than the 32-bit limit anyway.
-On 32-bit platforms, the generated code is the same.  But at least on
-arm64, this saves an AND-instruction to truncate xtal_freq to 32-bit.
-
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reported-by: kbuild test robot <lkp@intel.com>
+Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 ---
- drivers/media/i2c/max2175.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Reproducing the crash:
+media-ctl -d0 -l "5:1->21:0[0]" -v
+v4l2-ctl -z platform:vimc -d "RGB/YUV Capture" -v width=1920,height=1440
+v4l2-ctl --stream-mmap --stream-count=100 -d /dev/video2
 
-diff --git a/drivers/media/i2c/max2175.c b/drivers/media/i2c/max2175.c
-index 19a3ceea3bc20f0f..506a30e69ced45c4 100644
---- a/drivers/media/i2c/max2175.c
-+++ b/drivers/media/i2c/max2175.c
-@@ -591,8 +591,8 @@ static int max2175_set_lo_freq(struct max2175 *ctx, u32 lo_freq)
- 		lo_freq *= lo_mult;
+Changes since v1:
+- document internal helper funtion 'vimc_is_source' with '/*'
+- in 'vimc_is_source', replace 'int i;' with 'unsigned int i;'
+
+drivers/media/platform/vimc/vimc-streamer.c | 39 +++++++++++++++------
+ 1 file changed, 28 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/media/platform/vimc/vimc-streamer.c b/drivers/media/platform/vimc/vimc-streamer.c
+index 048d770e498b..1e62b8c5d143 100644
+--- a/drivers/media/platform/vimc/vimc-streamer.c
++++ b/drivers/media/platform/vimc/vimc-streamer.c
+@@ -13,6 +13,19 @@
  
- 	int_desired = lo_freq / ctx->xtal_freq;
--	frac_desired = div_u64((u64)(lo_freq % ctx->xtal_freq) << 20,
--			       ctx->xtal_freq);
-+	frac_desired = div64_ul((u64)(lo_freq % ctx->xtal_freq) << 20,
-+				ctx->xtal_freq);
+ #include "vimc-streamer.h"
  
- 	/* Check CSM is not busy */
- 	ret = max2175_poll_csm_ready(ctx);
++/*
++ * Check if the entity has only source pads
++ */
++static bool vimc_is_source(struct media_entity *ent)
++{
++	unsigned int i;
++
++	for (i = 0; i < ent->num_pads; i++)
++		if (ent->pads[i].flags & MEDIA_PAD_FL_SINK)
++			return false;
++	return true;
++}
++
+ /**
+  * vimc_get_source_entity - get the entity connected with the first sink pad
+  *
+@@ -83,14 +96,12 @@ static int vimc_streamer_pipeline_init(struct vimc_stream *stream,
+ 	struct media_entity *entity;
+ 	struct video_device *vdev;
+ 	struct v4l2_subdev *sd;
+-	int ret = 0;
++	int ret = -EINVAL;
+ 
+ 	stream->pipe_size = 0;
+ 	while (stream->pipe_size < VIMC_STREAMER_PIPELINE_MAX_SIZE) {
+-		if (!ved) {
+-			vimc_streamer_pipeline_terminate(stream);
+-			return -EINVAL;
+-		}
++		if (!ved)
++			break;
+ 		stream->ved_pipeline[stream->pipe_size++] = ved;
+ 
+ 		if (is_media_entity_v4l2_subdev(ved->ent)) {
+@@ -99,15 +110,22 @@ static int vimc_streamer_pipeline_init(struct vimc_stream *stream,
+ 			if (ret && ret != -ENOIOCTLCMD) {
+ 				pr_err("subdev_call error %s\n",
+ 				       ved->ent->name);
+-				vimc_streamer_pipeline_terminate(stream);
+-				return ret;
++				break;
+ 			}
+ 		}
+ 
+ 		entity = vimc_get_source_entity(ved->ent);
+-		/* Check if the end of the pipeline was reached*/
+-		if (!entity)
++		/* Check if the end of the pipeline was reached */
++		if (!entity) {
++			/* the first entity of the pipe should be source only */
++			if (!vimc_is_source(ved->ent)) {
++				pr_err("first entity in the pipe '%s' is not a source\n",
++				       ved->ent->name);
++				ret = -EPIPE;
++				break;
++			}
+ 			return 0;
++		}
+ 
+ 		/* Get the next device in the pipeline */
+ 		if (is_media_entity_v4l2_subdev(entity)) {
+@@ -120,9 +138,8 @@ static int vimc_streamer_pipeline_init(struct vimc_stream *stream,
+ 			ved = video_get_drvdata(vdev);
+ 		}
+ 	}
+-
+ 	vimc_streamer_pipeline_terminate(stream);
+-	return -EINVAL;
++	return ret;
+ }
+ 
+ /**
 -- 
-2.17.1
+2.20.1
 
