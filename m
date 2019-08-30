@@ -2,153 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9337EA2DA0
-	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2019 05:53:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B5CFDA2F2B
+	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2019 07:48:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727433AbfH3DxX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Aug 2019 23:53:23 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:55287 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727348AbfH3DxX (ORCPT
+        id S1726716AbfH3FsN convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Fri, 30 Aug 2019 01:48:13 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:42244 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726005AbfH3FsM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Aug 2019 23:53:23 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:fc44:d249:9f5e:e7f3])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id 3XySiWIkaDqPe3XyTiQO1J; Fri, 30 Aug 2019 05:53:21 +0200
-Message-ID: <c592fd6c8eccb1c98b9548b81a55c981@smtp-cloud8.xs4all.net>
-Date:   Fri, 30 Aug 2019 05:53:20 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfLuCSd8zX8PBnO/5w2wJZKIt1gRjMgOcBHsVBwIBIGrEePQoDyXftg0JMumqvDmjlLyhfV7uFuW8l+MZJ7lqv4b3UCAtQg8rcPAgKSCceIMmbVBsCzfP
- ybTQyDYYrKB69XfQR5yUQscdaARKXBI2GRUH6qMiDM1u3xf+HneZvci8mfSkn7IVg13aGLKahnBxFltI/LpHWm2D8X8x0D9JK6gM92shaWgw3GPZcoTp6RSD
+        Fri, 30 Aug 2019 01:48:12 -0400
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: bbrezillon)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id E83A528D773;
+        Fri, 30 Aug 2019 06:48:09 +0100 (BST)
+Date:   Fri, 30 Aug 2019 07:48:06 +0200
+From:   Boris Brezillon <boris.brezillon@collabora.com>
+To:     Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
+Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        paul.kocialkowski@bootlin.com, mripard@kernel.org,
+        pawel@osciak.com, m.szyprowski@samsung.com,
+        kyungmin.park@samsung.com, tfiga@chromium.org, wens@csie.org,
+        acourbot@chromium.org, gregkh@linuxfoundation.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org,
+        ezequiel@collabora.com, jonas@kwiboo.se
+Subject: Re: [PATCH 5/8] media: cedrus: Detect first slice of a frame
+Message-ID: <20190830074806.78a2b8b4@collabora.com>
+In-Reply-To: <3132748.mYbjOY1tKM@jernej-laptop>
+References: <20190822194500.2071-1-jernej.skrabec@siol.net>
+        <20190822194500.2071-6-jernej.skrabec@siol.net>
+        <20190826202831.311c7c20@collabora.com>
+        <3132748.mYbjOY1tKM@jernej-laptop>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Thu, 29 Aug 2019 21:04:28 +0200
+Jernej Škrabec <jernej.skrabec@siol.net> wrote:
 
-Results of the daily build of media_tree:
+> Dne ponedeljek, 26. avgust 2019 ob 20:28:31 CEST je Boris Brezillon 
+> napisal(a):
+> > Hi Jernej,
+> > 
+> > On Thu, 22 Aug 2019 21:44:57 +0200
+> > 
+> > Jernej Skrabec <jernej.skrabec@siol.net> wrote:  
+> > > When codec supports multiple slices in one frame, VPU has to know when
+> > > first slice of each frame is being processed, presumably to correctly
+> > > clear/set data in auxiliary buffers.
+> > > 
+> > > Add first_slice field to cedrus_run structure and set it according to
+> > > timestamps of capture and output buffers. If timestamps are different,
+> > > it's first slice and viceversa.
+> > > 
+> > > Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
+> > > ---
+> > > 
+> > >  drivers/staging/media/sunxi/cedrus/cedrus.h     | 1 +
+> > >  drivers/staging/media/sunxi/cedrus/cedrus_dec.c | 2 ++
+> > >  2 files changed, 3 insertions(+)
+> > > 
+> > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h
+> > > b/drivers/staging/media/sunxi/cedrus/cedrus.h index
+> > > 2f017a651848..32cb38e541c6 100644
+> > > --- a/drivers/staging/media/sunxi/cedrus/cedrus.h
+> > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
+> > > @@ -70,6 +70,7 @@ struct cedrus_mpeg2_run {
+> > > 
+> > >  struct cedrus_run {
+> > >  
+> > >  	struct vb2_v4l2_buffer	*src;
+> > >  	struct vb2_v4l2_buffer	*dst;
+> > > 
+> > > +	bool first_slice;
+> > > 
+> > >  	union {
+> > >  	
+> > >  		struct cedrus_h264_run	h264;
+> > > 
+> > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> > > b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c index
+> > > 56ca4c9ad01c..d7b54accfe83 100644
+> > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> > > @@ -31,6 +31,8 @@ void cedrus_device_run(void *priv)
+> > > 
+> > >  	run.src = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
+> > >  	run.dst = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
+> > > 
+> > > +	run.first_slice =
+> > > +		run.src->vb2_buf.timestamp != run.dst-  
+> >vb2_buf.timestamp;
+> > 
+> > Can't we use slice->first_mb_in_slice to determine if a slice is the
+> > first? I'd expect ->first_mb_in_slice to be 0 (unless we decide to
+> > support ASO).  
+> 
+> I looked in all VPU documentation available to me (which isn't much) and there 
+> is no indication if ASO is supported or not. Do you have any sample video with 
+> out-of-order slices? It's my understanding that this is uncommon.
 
-date:			Fri Aug 30 05:00:12 CEST 2019
-media-tree git hash:	968bce2f59ce462d296af28610628fe7e03b120a
-media_build git hash:	d75b29db1297d2475227cc8bada843542271e40d
-v4l-utils git hash:	b393a5408383b7341883857dfda78537f2f85ef6
-edid-decode git hash:	0932deee88928f110b5a74851c173ad895f75863
-gcc version:		i686-linux-gcc (GCC) 8.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 6f55e31dfb87970608ee0a47ba8df34869f14140
-host hardware:		x86_64
-host os:		4.19.0-4-amd64
+I'm not entirely sure, but my understanding was that it might be used
+when streaming over network where some packets might be lost and
+re-emitted later on.
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3-rc1-i686: OK
-linux-5.3-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2327, Succeeded: 2327, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: OK
+> If it's 
+> supported, I would leave code as-is.
 
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+I remember seeing the ASO acronym mentioned in the hantro G1 spec, but
+at the same time we're doing frame-based decoding, so I guess the HW
+block expects slices to be ordered in that case. Honestly I don't know,
+so let's keep the code as-is.
