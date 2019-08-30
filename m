@@ -2,156 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CE360A2CBB
-	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2019 04:21:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9337EA2DA0
+	for <lists+linux-media@lfdr.de>; Fri, 30 Aug 2019 05:53:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727671AbfH3CVI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Aug 2019 22:21:08 -0400
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:15443 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727351AbfH3CVH (ORCPT
+        id S1727433AbfH3DxX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Aug 2019 23:53:23 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:55287 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727348AbfH3DxX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Aug 2019 22:21:07 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5d6888110001>; Thu, 29 Aug 2019 19:21:05 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Thu, 29 Aug 2019 19:21:04 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Thu, 29 Aug 2019 19:21:04 -0700
-Received: from [10.110.48.201] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 30 Aug
- 2019 02:21:03 +0000
-Subject: Re: [PATCH v3 00/39] put_user_pages(): miscellaneous call sites
-To:     Mike Marshall <hubcap@omnibond.com>
-CC:     <john.hubbard@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Chinner <david@fromorbit.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        <amd-gfx@lists.freedesktop.org>,
-        ceph-devel <ceph-devel@vger.kernel.org>,
-        <devel@driverdev.osuosl.org>, <devel@lists.orangefs.org>,
-        <dri-devel@lists.freedesktop.org>,
-        <intel-gfx@lists.freedesktop.org>, <kvm@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-block@vger.kernel.org>, <linux-crypto@vger.kernel.org>,
-        <linux-fbdev@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
-        Linux NFS Mailing List <linux-nfs@vger.kernel.org>,
-        <linux-rdma@vger.kernel.org>,
-        <linux-rpi-kernel@lists.infradead.org>,
-        <linux-xfs@vger.kernel.org>, <netdev@vger.kernel.org>,
-        <rds-devel@oss.oracle.com>, <sparclinux@vger.kernel.org>,
-        <x86@kernel.org>, <xen-devel@lists.xenproject.org>
-References: <20190807013340.9706-1-jhubbard@nvidia.com>
- <912eb2bd-4102-05c1-5571-c261617ad30b@nvidia.com>
- <CAOg9mSQKGDywcMde2DE42diUS7J8m74Hdv+xp_PJhC39EXZQuw@mail.gmail.com>
-X-Nvconfidentiality: public
-From:   John Hubbard <jhubbard@nvidia.com>
-Message-ID: <d453f865-2224-ed53-a2f4-f43d574c130a@nvidia.com>
-Date:   Thu, 29 Aug 2019 19:21:03 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <CAOg9mSQKGDywcMde2DE42diUS7J8m74Hdv+xp_PJhC39EXZQuw@mail.gmail.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1567131665; bh=ws5caXaEY0X3GX3egw6JsJDC0L7OwnIAHkDMK9ZQcE4=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=dIUKOH913DAYlocN1x3OWKU66rYzbsvcqMg6XurXOtfsQm0mTaQq0ufL9HiRQjmKf
-         MYeR8XR6MbUy9f2nOHFjitJW5jxjU59hEwD2KYzGMRBc0+P+o4b2mkzUliEchFZQzm
-         D0OR0ZfFBCp6cKpnoBGakw3Ch1supTeIz+DcDxFqgzxBAMqXWQoRbk0Sq3VWx6u9tp
-         6uURi8FKe6XveWY1U9zok9s2um/SF43+51Cnxqw5q2h2Dtp4kEwxNonMDqxzAcZjDx
-         HfyaHZc2XUvwuRV5WZb7Ki3OlH/mp5QHGx5CtmwXtp2TNme1r3iXAZgXDKrycQZylt
-         qlPWiGD9ap9bQ==
+        Thu, 29 Aug 2019 23:53:23 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:fc44:d249:9f5e:e7f3])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id 3XySiWIkaDqPe3XyTiQO1J; Fri, 30 Aug 2019 05:53:21 +0200
+Message-ID: <c592fd6c8eccb1c98b9548b81a55c981@smtp-cloud8.xs4all.net>
+Date:   Fri, 30 Aug 2019 05:53:20 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfLuCSd8zX8PBnO/5w2wJZKIt1gRjMgOcBHsVBwIBIGrEePQoDyXftg0JMumqvDmjlLyhfV7uFuW8l+MZJ7lqv4b3UCAtQg8rcPAgKSCceIMmbVBsCzfP
+ ybTQyDYYrKB69XfQR5yUQscdaARKXBI2GRUH6qMiDM1u3xf+HneZvci8mfSkn7IVg13aGLKahnBxFltI/LpHWm2D8X8x0D9JK6gM92shaWgw3GPZcoTp6RSD
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 8/29/2019 6:29 PM, Mike Marshall wrote:
-> Hi John...
-> 
-> I added this patch series on top of Linux 5.3rc6 and ran
-> xfstests with no regressions...
-> 
-> Acked-by: Mike Marshall <hubcap@omnibond.com>
-> 
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Hi Mike (and I hope Ira and others are reading as well, because
-I'm making a bunch of claims further down),
+Results of the daily build of media_tree:
 
-That's great news, thanks for running that test suite and for
-the report and the ACK.
+date:			Fri Aug 30 05:00:12 CEST 2019
+media-tree git hash:	968bce2f59ce462d296af28610628fe7e03b120a
+media_build git hash:	d75b29db1297d2475227cc8bada843542271e40d
+v4l-utils git hash:	b393a5408383b7341883857dfda78537f2f85ef6
+edid-decode git hash:	0932deee88928f110b5a74851c173ad895f75863
+gcc version:		i686-linux-gcc (GCC) 8.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1-rc1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.5.1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 6f55e31dfb87970608ee0a47ba8df34869f14140
+host hardware:		x86_64
+host os:		4.19.0-4-amd64
 
-There is an interesting pause right now, due to the fact that
-we've made some tentative decisions about gup pinning, that affect
-the call sites. A key decision is that only pages that were
-requested via FOLL_PIN, will require put_user_page*() to release
-them. There are 4 main cases, which were first explained by Jan
-Kara and Vlastimil Babka, and are now written up in my FOLL_PIN
-patch [1].
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3-rc1-i686: OK
+linux-5.3-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2327, Succeeded: 2327, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: OK
 
-So, what that means for this series is that:
+Detailed results are available here:
 
-1. Some call sites (mlock.c for example, and a lot of the mm/ files
-in fact, and more) will not be converted: some of these patches will
-get dropped, especially in mm/.
+http://www.xs4all.nl/~hverkuil/logs/Friday.log
 
-2. Call sites that do DirectIO or RDMA will need to set FOLL_PIN, and
-will also need to call put_user_page().
+Detailed regression test results are available here:
 
-3. Call sites that do RDMA will need to set FOLL_LONGTERM *and* FOLL_PIN,
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
 
-    3.a. ...and will at least in some cases need to provide a link to a
-    vaddr_pin object, and thus back to a struct file*...maybe. Still
-    under discussion.
+Full logs are available here:
 
-4. It's desirable to keep FOLL_* flags (or at least FOLL_PIN) internal
-to the gup() calls. That implies using a wrapper call such as Ira's
-vaddr_pin_[user]_pages(), instead of gup(), and vaddr_unpin_[user]_pages()
-instead of put_user_page*().
+http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
 
-5. We don't want to churn the call sites unnecessarily.
+The Media Infrastructure API from this daily build is here:
 
-With that in mind, I've taken another pass through all these patches
-and narrowed it down to:
-
-     a) 12 call sites that I'd like to convert soon, but even those
-        really look cleaner with a full conversion to a wrapper call
-        similar to (identical to?) vaddr_pin_[user]_pages(), probably
-        just the FOLL_PIN only variant (not FOLL_LONGTERM). That
-        wrapper call is not ready yet, though.
-
-     b) Some more call sites that require both FOLL_PIN and FOLL_LONGTERM.
-        Definitely will wait to use the wrapper calls for these, because
-        they may also require hooking up to a struct file*.
-
-     c) A few more that were already applied, which is fine, because they
-        show where to convert, and simplify a few sites anyway. But they'll
-        need follow-on changes to, one way or another, set FOLL_PIN.
-
-     d) And of course a few sites whose patches get dropped, as mentioned
-        above.
-
-[1] https://lore.kernel.org/r/20190821040727.19650-3-jhubbard@nvidia.com
-
-thanks,
--- 
-John Hubbard
-NVIDIA
+http://www.xs4all.nl/~hverkuil/spec/index.html
