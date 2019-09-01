@@ -2,38 +2,40 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E6477A4AD8
-	for <lists+linux-media@lfdr.de>; Sun,  1 Sep 2019 19:24:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8883A4ADA
+	for <lists+linux-media@lfdr.de>; Sun,  1 Sep 2019 19:25:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729007AbfIARYS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 1 Sep 2019 13:24:18 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:39184 "EHLO
+        id S1729061AbfIARZB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 1 Sep 2019 13:25:01 -0400
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:39401 "EHLO
         atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728570AbfIARYS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 1 Sep 2019 13:24:18 -0400
+        with ESMTP id S1728570AbfIARZA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 1 Sep 2019 13:25:00 -0400
 Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id 86F49815E8; Sun,  1 Sep 2019 19:24:02 +0200 (CEST)
-Date:   Sun, 1 Sep 2019 19:24:15 +0200
+        id B003281716; Sun,  1 Sep 2019 19:24:44 +0200 (CEST)
+Date:   Sun, 1 Sep 2019 19:24:57 +0200
 From:   Pavel Machek <pavel@ucw.cz>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Cc:     Jacopo Mondi <jacopo@jmondi.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rob Herring <robh+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
         "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
         <linux-media@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        devicetree@vger.kernel.org
-Subject: Re: [RFC 1/5] media: dt-bindings: Document 'location' property
-Message-ID: <20190901172414.GB1047@bug>
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC 2/5] media: v4l2-ctrl: Document V4L2_CID_LOCATION
+Message-ID: <20190901172457.GC1047@bug>
 References: <20190814202815.32491-1-jacopo@jmondi.org>
- <20190814202815.32491-2-jacopo@jmondi.org>
- <20190815065635.GJ6133@paasikivi.fi.intel.com>
+ <20190814202815.32491-3-jacopo@jmondi.org>
+ <20190814224340.GD5015@pendragon.ideasonboard.com>
+ <664fe7b3-9051-30da-736e-710a4e9cecde@xs4all.nl>
+ <d60e4664-3a3f-1723-6c96-4fc822b6a7bb@xs4all.nl>
+ <20190815143423.vaoswb4jvzd2blxp@uno.localdomain>
+ <cb36e8a0-b941-ff37-e58c-0f9b7f62116a@xs4all.nl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190815065635.GJ6133@paasikivi.fi.intel.com>
+In-Reply-To: <cb36e8a0-b941-ff37-e58c-0f9b7f62116a@xs4all.nl>
 User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
@@ -42,29 +44,41 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi!
 
-> > +++ b/Documentation/devicetree/bindings/media/video-interfaces.txt
-> > @@ -89,6 +89,10 @@ Optional properties
-> >    but a number of degrees counter clockwise. Typical values are 0 and 180
-> >    (upside down).
+> >>>>> @@ -510,6 +510,29 @@ enum v4l2_scene_mode -
+> >>>>>      value down. A value of zero stops the motion if one is in progress
+> >>>>>      and has no effect otherwise.
+> >>>>>
+> >>>>> +``V4L2_CID_LOCATION (integer)``
+> >>>>
+> >>>> Maybe V4L2_CID_CAMERA_SENSOR_LOCATION ? Same for the values below.
+> >>>
+> >>> Probably a better name, if a bit long. But we might need other location
+> >>> controls in the future (e.g. flash location), so CID_LOCATION is just too
+> >>> generic.
+> >>
 > > 
-> > +- location: The camera device mounting position, relative to the device
-> > +  usage orientation. Possible values are:
-> > +  0 - Front camera. The image sensor is mounted on the front side of the device.
-> > +  1 - Back camera. The image sensor is mounted on the back side of the device.
+> > Thanks for the feedback.
+> > 
+> >> Note that the location defines themselves can most likely be used with any
+> >> LOCATION control, so V4L2_LOCATION_FRONT would be fine with any control.
+> >>
+> > 
+> > What do you think instead of the control type? Would a single integer
+> > control do or an integer menu one would be better? I see merit in both
+> > proposals actually...
 > 
-> Would it make sense to make this a little more generic? Such as s/image
-> sensor/ device/, for instance?
+> Single integer. It's read-only, so it just reports the location.
 > 
-> Is this also relevant for flash or lens devices?
+> It would be different if this was a writable control: then you need to
+> know which locations are possible to set, and that requires a menu type.
 > 
-> Flash (torch) devices could be present, at least principle, without a
-> camera. There once was even such a Nokia phone, 1100 unless I'm mistaken.
-> :-)
+> But it doesn't make sense to set the location from software. However, the
+> location might change as a result of other changes: e.g. if the camera
+> has motor control of the tilt and the tilt changes from forward facing to
+> downward facing, then the driver might change the location from FRONT
+> to DOWN. A convoluted example perhaps, but this is just brainstorming.
 
-Well, I'd call them LEDs, not camera flashes ... if there's no camera. And IIRC 
-these devices had LEDs on top of the phone... so neither front nor back side.
+There are phones with exactly such camera setup. And yes, it makes sense to be writable
+in that case, as software can move the camera in such case.
 
-									Pavel
--- 
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
+										Pavel
