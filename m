@@ -2,230 +2,276 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 611EEA4B72
-	for <lists+linux-media@lfdr.de>; Sun,  1 Sep 2019 21:46:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D85A7A4C2D
+	for <lists+linux-media@lfdr.de>; Sun,  1 Sep 2019 23:09:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728648AbfIATpu convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Sun, 1 Sep 2019 15:45:50 -0400
-Received: from mail-oln040092069063.outbound.protection.outlook.com ([40.92.69.63]:49476
-        "EHLO EUR02-VE1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727517AbfIATpt (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 1 Sep 2019 15:45:49 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=U1Elgu7k0/oBR/M8IOrURjqGIFu/3Ad4WJ+4jvRaBcOK9+DHvCnw0OMRbJMDgjZlSFwQHLKYtbnL33YARkw/g9LoDyvSLtTLaZ9S4vPOfsYaFy7CD2u6/6XzPuIzVhDkdWVadMrqKQdn9ngqNgjpBL1Yv13kBLviLt8P5mTVTzIWtJpKuSlxwYTU4atYp22NecSbTyGbTWz3eeejqkfNzkFZrSY9ixbdcZKRK4PFbrtzGvuANcpkDSe6VIwmwgF/Z+r5c4j+h5cZvnVAoAUOmFMpjXmgivDrR/2v5FjLLZnHX31x8wFNHOYQ7Fz1drfSHvUfKUr2KbgS2+WHRIfeQA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Sy+h9dGgpqBZDdNXfiew8pXgljbeqEKgQUFSHCbJuKs=;
- b=QimhlmSrF0nnHwv7MnH+Dztf9xQGAlRL+mZeFEVCWV0dF+HcUXDR0BdY8HwEgon2IzOYB7eu31CG8hKQHlVW7NcYl0y1sm6MhIESBq/nK6xkDt/mRKgFWH0Kx9rZD+djalB5adqWaxYYgNMSR1iwStGpw1GF98QE/zd5vEs+D/U8kNyiC4icjY61WFmKEz9PQ0S93m0lbrWDXXB6fD2a2CmERAIewc9H2ijb67pXxOg71lAJlv5DA0WoP4JtiYwKL0dB0w6YetO61UN4VAcXhWF444kUOyennKQ4CKsdvMui8fYnk3cXpKIxRa+CPjKcPksEWieBoI8Eod8Ej0tYlg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-Received: from HE1EUR02FT064.eop-EUR02.prod.protection.outlook.com
- (10.152.10.52) by HE1EUR02HT181.eop-EUR02.prod.protection.outlook.com
- (10.152.11.168) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.2220.16; Sun, 1 Sep
- 2019 19:45:44 +0000
-Received: from DB6PR06MB4007.eurprd06.prod.outlook.com (10.152.10.56) by
- HE1EUR02FT064.mail.protection.outlook.com (10.152.11.88) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2220.16 via Frontend Transport; Sun, 1 Sep 2019 19:45:44 +0000
-Received: from DB6PR06MB4007.eurprd06.prod.outlook.com
- ([fe80::ed3f:186c:c80e:a861]) by DB6PR06MB4007.eurprd06.prod.outlook.com
- ([fe80::ed3f:186c:c80e:a861%6]) with mapi id 15.20.2220.021; Sun, 1 Sep 2019
- 19:45:38 +0000
-From:   Jonas Karlman <jonas@kwiboo.se>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Jonas Karlman <jonas@kwiboo.se>
-Subject: [PATCH] media: cec-notifier: debounce reporing of invalid phys addr
-Thread-Topic: [PATCH] media: cec-notifier: debounce reporing of invalid phys
- addr
-Thread-Index: AQHVYP3UbaEdlTgPCkCkJn46bctZzQ==
-Date:   Sun, 1 Sep 2019 19:45:38 +0000
-Message-ID: <DB6PR06MB400724D0DD41B208D405F44FACBF0@DB6PR06MB4007.eurprd06.prod.outlook.com>
-Accept-Language: sv-SE, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR05CA0182.eurprd05.prod.outlook.com
- (2603:10a6:3:f8::30) To DB6PR06MB4007.eurprd06.prod.outlook.com
- (2603:10a6:6:4e::32)
-x-incomingtopheadermarker: OriginalChecksum:7D3D6E5167D2AAF743DE7054CE3304A050C3D2299F610E0C4D70CF771E4CD177;UpperCasedChecksum:25398339B97843CC48445190B866DC93DD792A6AAEF8C4A424316E7967345795;SizeAsReceived:7433;Count:48
-x-ms-exchange-messagesentrepresentingtype: 1
-x-mailer: git-send-email 2.17.1
-x-tmn:  [Cu5Pcf39T3hnZn1jQVLXN3RsjGTNpELd]
-x-microsoft-original-message-id: <20190901194524.7071-1-jonas@kwiboo.se>
-x-ms-publictraffictype: Email
-x-incomingheadercount: 48
-x-eopattributedmessage: 0
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(5050001)(7020095)(20181119110)(201702061078)(5061506573)(5061507331)(1603103135)(2017031320274)(2017031322404)(2017031323274)(2017031324274)(1601125500)(1603101475)(1701031045);SRVR:HE1EUR02HT181;
-x-ms-traffictypediagnostic: HE1EUR02HT181:
-x-microsoft-antispam-message-info: Hkpp38fj0ynMQDUMcQzkTiPXRvh9Zg0Dwl3wrb0XEQMiKj+Xxc6szMn4+vXYqZT67/kNuZ3+8uAllziKLNTqxM8KpZA+UPyt/y40Pgw8N7S4B6nH8E/h3RXSWSxkPLSCDAGxj6s4gdRffdAR0O8fVMj2QlAQXFeMc7PD6jySD2Bz/pdXr+p0J2MAtdWMhREg
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: 8BIT
+        id S1728961AbfIAVJh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 1 Sep 2019 17:09:37 -0400
+Received: from mail-vk1-f195.google.com ([209.85.221.195]:34466 "EHLO
+        mail-vk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728879AbfIAVJh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 1 Sep 2019 17:09:37 -0400
+Received: by mail-vk1-f195.google.com with SMTP id h192so2533645vka.1;
+        Sun, 01 Sep 2019 14:09:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=DfGhQUmQlwEd5V4oXs2IzZtixormXOqOwnL2xnoqQO4=;
+        b=W4iIHDm3oY7OJj5vFvVR6rgCLf7A7S7MGzlJdwjqJCtCj/5HTgpkyKsN4lo4tHF67e
+         1CsxJ/0OGCN+IxUtgowLlcTJ7u+POYL3KZ/fuqiy73EK2l+rdg2yXG2ASoRsthGTlft0
+         4soCnpf9aXNj/BPewuOGyB6JuuwbJ2y/xYaOQq4ilNGZ1DolmrkJhZIJl/S6OFJUUU/L
+         1O3sOl8ZUx1tk4TAA1WEEO0vLv3AMn7dT7sYVQYBc3YvDqrjsR4ucwhVswhLbPVob333
+         ZSxtdjcwpn82vAjnxntzbLF5lZs2hgOzWXsZ3v4dJrOtvvMFc4jvos05cB8fhyKV9M3l
+         JZ0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=DfGhQUmQlwEd5V4oXs2IzZtixormXOqOwnL2xnoqQO4=;
+        b=SSUiNXoMJmsNUk5XnHKQ3I5C/4RjJ63k3VXcFHcTc2Ac1FQo0ViCWaN08TZAUSi+Vg
+         URHHZoF6/7gQvRqIpjNVsjUqFLFQZmJ/o+2y278JjQ/PXzzVUSChrwGB8w0+lQCbXyGD
+         j1xosK6kyiRyoJhw9L+HbPgnV6ZxEbH8XGjaqqAilQTQEcFnLIVd8SPDPiLGmUIk+xt1
+         ITat57A2zqLHlatAYLts3570czqtJbj0P5KQOn+MuvhQjMW3vqtJkd+gM7sLRAMAwNe1
+         JbP8Sptc+c5sI0GJ1sTUlMBnbeXG46NK/7/M3O3Bg5plvCyZQ7OqfKeuL7tyjiH6HDhm
+         D58g==
+X-Gm-Message-State: APjAAAWKm+BwZ1xq6vNXBZ2jQTjv1H/PBTWy7BspzHM79wNxjx7+qmC6
+        xDnQ9y+bN+qmPglfAbzVRxqDJ5A3tfXAaAzqTRQ=
+X-Google-Smtp-Source: APXvYqxUJ0d83F1un8auPSzaixU7Q6Rx9eWc6bIv/wFgXZR9CSUY8ozE5mXQHw+YOzzdzYYeKAWZin+4xfIRSqeWi/o=
+X-Received: by 2002:a1f:d586:: with SMTP id m128mr12870062vkg.24.1567372175232;
+ Sun, 01 Sep 2019 14:09:35 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: c3d9b19b-b679-4078-7a96-08d72f14f6c4
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Sep 2019 19:45:38.5595
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Internet
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1EUR02HT181
+References: <20190901194032.16207-1-arthurmoraeslago@gmail.com>
+In-Reply-To: <20190901194032.16207-1-arthurmoraeslago@gmail.com>
+From:   =?UTF-8?B?TGHDrXMgUGM=?= <laispc19@gmail.com>
+Date:   Sun, 1 Sep 2019 18:09:23 -0300
+Message-ID: <CAG=BupUy+93XBz-6-oSDqm9+hGsxpQOwiGLt_Jgg4fouNfDE0w@mail.gmail.com>
+Subject: Re: [Lkcamp] [PATCH] media: vimc: Implement debayer control for mean
+ window size
+To:     Arthur Moraes do Lago <arthurmoraeslago@gmail.com>
+Cc:     helen.koike@collabora.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        lkcamp@lists.libreplanetbr.org, hverkuil-cisco@xs4all.nl
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When EDID is refreshed, HDMI cable is unplugged/replugged or
-an AVR is power cycled the CEC phys addr gets invalidated.
+Em dom, 1 de set de 2019 =C3=A0s 16:41, Arthur Moraes do Lago
+<arthurmoraeslago@gmail.com> escreveu:
+>
+> Add mean window size parameter for debayer filter as a control in
+> vimc-debayer.
+>
+> vimc-debayer was patched to allow changing mean windows parameter
+> of the filter without needing to reload the driver. The parameter
+> can now be set using a v4l2-ctl control(mean_window_size).
+>
+> Co-developed-by: La=C3=ADs Pessine do Carmo <laispc19@gmail.com>
+> Signed-off-by: La=C3=ADs Pessine do Carmo <laispc19@gmail.com>
+> Signed-off-by: Arthur Moraes do Lago <arthurmoraeslago@gmail.com>
+>
+> ---
+> This patch was made on top of Shuah Khan's patch (162623).
+> Thanks.
 
-This can cause some disruption of CEC communication when
-adapter is being reconfigured.
+We refered to the patch ID from patchwork.kernel.org, but actually the
+patch series is named "Collapse vimc single monolithic driver".
+Thanks.
 
-Add a debounce option that can be used to debounce setting
-an invalid phys addr.
+> ---
+>  drivers/media/platform/vimc/vimc-common.h  |  1 +
+>  drivers/media/platform/vimc/vimc-debayer.c | 81 ++++++++++++++++++----
+>  2 files changed, 70 insertions(+), 12 deletions(-)
+>
+> diff --git a/drivers/media/platform/vimc/vimc-common.h b/drivers/media/pl=
+atform/vimc/vimc-common.h
+> index 5b2282de395c..547ff04a415e 100644
+> --- a/drivers/media/platform/vimc/vimc-common.h
+> +++ b/drivers/media/platform/vimc/vimc-common.h
+> @@ -19,6 +19,7 @@
+>  #define VIMC_CID_VIMC_BASE             (0x00f00000 | 0xf000)
+>  #define VIMC_CID_VIMC_CLASS            (0x00f00000 | 1)
+>  #define VIMC_CID_TEST_PATTERN          (VIMC_CID_VIMC_BASE + 0)
+> +#define VIMC_CID_MEAN_WIN_SIZE         (VIMC_CID_VIMC_BASE + 1)
+>
+>  #define VIMC_FRAME_MAX_WIDTH 4096
+>  #define VIMC_FRAME_MAX_HEIGHT 2160
+> diff --git a/drivers/media/platform/vimc/vimc-debayer.c b/drivers/media/p=
+latform/vimc/vimc-debayer.c
+> index 6cee911bf149..aa3edeed96bc 100644
+> --- a/drivers/media/platform/vimc/vimc-debayer.c
+> +++ b/drivers/media/platform/vimc/vimc-debayer.c
+> @@ -11,17 +11,11 @@
+>  #include <linux/platform_device.h>
+>  #include <linux/vmalloc.h>
+>  #include <linux/v4l2-mediabus.h>
+> +#include <media/v4l2-ctrls.h>
+>  #include <media/v4l2-subdev.h>
+>
+>  #include "vimc-common.h"
+>
+> -static unsigned int deb_mean_win_size =3D 3;
+> -module_param(deb_mean_win_size, uint, 0000);
+> -MODULE_PARM_DESC(deb_mean_win_size, " the window size to calculate the m=
+ean.\n"
+> -       "NOTE: the window size needs to be an odd number, as the main pix=
+el "
+> -       "stays in the center of the window, otherwise the next odd number=
+ "
+> -       "is considered");
+> -
+>  #define IS_SINK(pad) (!pad)
+>  #define IS_SRC(pad)  (pad)
+>
+> @@ -49,6 +43,8 @@ struct vimc_deb_device {
+>         u8 *src_frame;
+>         const struct vimc_deb_pix_map *sink_pix_map;
+>         unsigned int sink_bpp;
+> +       unsigned int mean_win_size;
+> +       struct v4l2_ctrl_handler hdl;
+>  };
+>
+>  static const struct v4l2_mbus_framefmt sink_fmt_default =3D {
+> @@ -387,7 +383,7 @@ static void vimc_deb_calc_rgb_sink(struct vimc_deb_de=
+vice *vdeb,
+>          * the top left corner of the mean window (considering the curren=
+t
+>          * pixel as the center)
+>          */
+> -       seek =3D deb_mean_win_size / 2;
+> +       seek =3D vdeb->mean_win_size / 2;
+>
+>         /* Sum the values of the colors in the mean window */
+>
+> @@ -477,6 +473,33 @@ static void *vimc_deb_process_frame(struct vimc_ent_=
+device *ved,
+>
+>  }
+>
+> +static inline void vimc_deb_s_mean_win_size(struct vimc_deb_device *vdeb=
+,
+> +                                           unsigned int mean_win_size)
+> +{
+> +               if (vdeb->mean_win_size =3D=3D mean_win_size)
+> +                       return;
+> +               vdeb->mean_win_size =3D mean_win_size;
+> +}
+> +
+> +static int vimc_deb_s_ctrl(struct v4l2_ctrl *ctrl)
+> +{
+> +       struct vimc_deb_device *vdeb =3D
+> +               container_of(ctrl->handler, struct vimc_deb_device, hdl);
+> +
+> +       switch (ctrl->id) {
+> +       case VIMC_CID_MEAN_WIN_SIZE:
+> +               vimc_deb_s_mean_win_size(vdeb, ctrl->val);
+> +               break;
+> +       default:
+> +               return -EINVAL;
+> +       }
+> +       return 0;
+> +}
+> +
+> +static const struct v4l2_ctrl_ops vimc_deb_ctrl_ops =3D {
+> +       .s_ctrl =3D vimc_deb_s_ctrl,
+> +};
+> +
+>  static void vimc_deb_release(struct v4l2_subdev *sd)
+>  {
+>         struct vimc_deb_device *vdeb =3D
+> @@ -502,6 +525,24 @@ void vimc_deb_rm(struct vimc_device *vimc, struct vi=
+mc_ent_config *vcfg)
+>         vimc_ent_sd_unregister(ved, &vdeb->sd);
+>  }
+>
+> +static const struct v4l2_ctrl_config vimc_deb_ctrl_class =3D {
+> +       .flags =3D V4L2_CTRL_FLAG_READ_ONLY | V4L2_CTRL_FLAG_WRITE_ONLY,
+> +       .id =3D VIMC_CID_VIMC_CLASS,
+> +       .name =3D "VIMC Controls",
+> +       .type =3D V4L2_CTRL_TYPE_CTRL_CLASS,
+> +};
+> +
+> +static const struct v4l2_ctrl_config vimc_deb_ctrl_mean_win_size =3D {
+> +       .ops =3D &vimc_deb_ctrl_ops,
+> +       .id =3D VIMC_CID_MEAN_WIN_SIZE,
+> +       .name =3D "Mean window size",
+> +       .type =3D V4L2_CTRL_TYPE_INTEGER,
+> +       .min =3D 1,
+> +       .max =3D 99,
+> +       .step =3D 2,
+> +       .def =3D 3,
+> +};
+> +
+>  int vimc_deb_add(struct vimc_device *vimc, struct vimc_ent_config *vcfg)
+>  {
+>         struct v4l2_device *v4l2_dev =3D &vimc->v4l2_dev;
+> @@ -513,6 +554,16 @@ int vimc_deb_add(struct vimc_device *vimc, struct vi=
+mc_ent_config *vcfg)
+>         if (!vdeb)
+>                 return -ENOMEM;
+>
+> +       /* Create controls: */
+> +       v4l2_ctrl_handler_init(&vdeb->hdl, 2);
+> +       v4l2_ctrl_new_custom(&vdeb->hdl, &vimc_deb_ctrl_class, NULL);
+> +       v4l2_ctrl_new_custom(&vdeb->hdl, &vimc_deb_ctrl_mean_win_size, NU=
+LL);
+> +       vdeb->sd.ctrl_handler =3D &vdeb->hdl;
+> +       if (vdeb->hdl.error) {
+> +               ret =3D vdeb->hdl.error;
+> +               goto err_free_vdeb;
+> +       }
+> +
+>         /* Initialize ved and sd */
+>         ret =3D vimc_ent_sd_register(&vdeb->ved, &vdeb->sd, v4l2_dev,
+>                                    vcfg->name,
+> @@ -520,13 +571,12 @@ int vimc_deb_add(struct vimc_device *vimc, struct v=
+imc_ent_config *vcfg)
+>                                    (const unsigned long[2]) {MEDIA_PAD_FL=
+_SINK,
+>                                    MEDIA_PAD_FL_SOURCE},
+>                                    &vimc_deb_int_ops, &vimc_deb_ops);
+> -       if (ret) {
+> -               kfree(vdeb);
+> -               return ret;
+> -       }
+> +       if (ret)
+> +               goto err_free_hdl;
+>
+>         vdeb->ved.process_frame =3D vimc_deb_process_frame;
+>         vdeb->dev =3D &vimc->pdev.dev;
+> +       vdeb->mean_win_size =3D vimc_deb_ctrl_mean_win_size.def;
+>
+>         /* Initialize the frame format */
+>         vdeb->sink_fmt =3D sink_fmt_default;
+> @@ -541,4 +591,11 @@ int vimc_deb_add(struct vimc_device *vimc, struct vi=
+mc_ent_config *vcfg)
+>
+>         vcfg->ved =3D &vdeb->ved;
+>         return 0;
+> +
+> +err_free_hdl:
+> +       v4l2_ctrl_handler_free(&vdeb->hdl);
+> +err_free_vdeb:
+> +       kfree(vdeb);
+> +
+> +       return ret;
+>  }
+> --
+> 2.23.0
+>
+>
+> _______________________________________________
+> Lkcamp mailing list
+> Lkcamp@lists.libreplanetbr.org
+> https://lists.libreplanetbr.org/mailman/listinfo/lkcamp
 
-Power off AVR (debounce = 0):
-[  101.536866] cec-dw_hdmi: new physical address f.f.f.f
-[  102.495686] cec-dw_hdmi: new physical address 2.1.0.0
-[  102.495913] cec-dw_hdmi: physical address: 2.1.0.0, claim 1 logical addresses
-[  102.628574] cec-dw_hdmi: config: la 1 pa 2.1.0.0
-[  105.130115] cec-dw_hdmi: new physical address f.f.f.f
-[  106.979705] cec-dw_hdmi: new physical address 2.1.0.0
-[  106.979872] cec-dw_hdmi: physical address: 2.1.0.0, claim 1 logical addresses
-[  107.112399] cec-dw_hdmi: config: la 1 pa 2.1.0.0
-[  108.979408] cec-dw_hdmi: reported physical address 2.0.0.0 for logical address 5
-[  109.205386] cec-dw_hdmi: reported physical address 2.0.0.0 for logical address 11
 
-Power on AVR (debounce = 0):
-[  158.398447] cec-dw_hdmi: new physical address f.f.f.f
-[  161.977714] cec-dw_hdmi: new physical address 2.1.0.0
-[  161.978766] cec-dw_hdmi: physical address: 2.1.0.0, claim 1 logical addresses
-[  162.115624] cec-dw_hdmi: config: la 1 pa 2.1.0.0
-[  162.402750] cec-dw_hdmi: new physical address f.f.f.f
-[  162.403389] cec-dw_hdmi: cec_transmit_msg_fh: adapter is unconfigured
-[  162.886757] cec-dw_hdmi: new physical address 2.1.0.0
-[  162.886964] cec-dw_hdmi: physical address: 2.1.0.0, claim 1 logical addresses
-[  163.510725] cec-dw_hdmi: config: la 1 pa 2.1.0.0
-[  173.034200] cec-dw_hdmi: message 10 89 02 05 timed out
 
-Power off AVR (debounce = 5000):
-[  251.720471] cec-dw_hdmi: reported physical address 2.0.0.0 for logical address 5
-[  251.922432] cec-dw_hdmi: reported physical address 2.0.0.0 for logical address 11
+--=20
+La=C3=ADs Pessine do Carmo
+Engenharia de Computa=C3=A7=C3=A3o 011 - USP S=C3=A3o Carlos
 
-Power on AVR (debounce = 5000):
-[  291.154262] cec-dw_hdmi: reported physical address 2.0.0.0 for logical address 5
-[  291.296199] cec-dw_hdmi: reported physical address 2.0.0.0 for logical address 11
-
-Using a debounce of 5000 ms reconfiguring can be avoided.
-
-Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
----
- drivers/media/cec/cec-core.c     |  4 ++++
- drivers/media/cec/cec-notifier.c | 23 ++++++++++++++++++++++-
- drivers/media/cec/cec-priv.h     |  1 +
- 3 files changed, 27 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/media/cec/cec-core.c b/drivers/media/cec/cec-core.c
-index 9c610e1e99b8..c5094fd9b664 100644
---- a/drivers/media/cec/cec-core.c
-+++ b/drivers/media/cec/cec-core.c
-@@ -28,6 +28,10 @@ static bool debug_phys_addr;
- module_param(debug_phys_addr, bool, 0644);
- MODULE_PARM_DESC(debug_phys_addr, "add CEC_CAP_PHYS_ADDR if set");
- 
-+int cec_debounce;
-+module_param_named(debounce, cec_debounce, int, 0644);
-+MODULE_PARM_DESC(debounce, "debounce invalid phys addr");
-+
- static dev_t cec_dev_t;
- 
- /* Active devices */
-diff --git a/drivers/media/cec/cec-notifier.c b/drivers/media/cec/cec-notifier.c
-index 4d82a5522072..0157d468cfe4 100644
---- a/drivers/media/cec/cec-notifier.c
-+++ b/drivers/media/cec/cec-notifier.c
-@@ -12,11 +12,14 @@
- #include <linux/list.h>
- #include <linux/kref.h>
- #include <linux/of_platform.h>
-+#include <linux/workqueue.h>
- 
- #include <media/cec.h>
- #include <media/cec-notifier.h>
- #include <drm/drm_edid.h>
- 
-+#include "cec-priv.h"
-+
- struct cec_notifier {
- 	struct mutex lock;
- 	struct list_head head;
-@@ -28,11 +31,25 @@ struct cec_notifier {
- 	void (*callback)(struct cec_adapter *adap, u16 pa);
- 
- 	u16 phys_addr;
-+	struct delayed_work work;
- };
- 
- static LIST_HEAD(cec_notifiers);
- static DEFINE_MUTEX(cec_notifiers_lock);
- 
-+static void cec_notifier_delayed_work(struct work_struct *work)
-+{
-+	struct cec_notifier *n =
-+		container_of(to_delayed_work(work), struct cec_notifier, work);
-+
-+	mutex_lock(&n->lock);
-+	if (n->callback)
-+		n->callback(n->cec_adap, n->phys_addr);
-+	else if (n->cec_adap)
-+		cec_s_phys_addr(n->cec_adap, n->phys_addr, false);
-+	mutex_unlock(&n->lock);
-+}
-+
- struct cec_notifier *
- cec_notifier_get_conn(struct device *hdmi_dev, const char *conn_name)
- {
-@@ -62,6 +79,7 @@ cec_notifier_get_conn(struct device *hdmi_dev, const char *conn_name)
- 	}
- 	n->phys_addr = CEC_PHYS_ADDR_INVALID;
- 
-+	INIT_DELAYED_WORK(&n->work, cec_notifier_delayed_work);
- 	mutex_init(&n->lock);
- 	kref_init(&n->kref);
- 	list_add_tail(&n->head, &cec_notifiers);
-@@ -172,9 +190,12 @@ void cec_notifier_set_phys_addr(struct cec_notifier *n, u16 pa)
- 	if (n == NULL)
- 		return;
- 
-+	cancel_delayed_work_sync(&n->work);
- 	mutex_lock(&n->lock);
- 	n->phys_addr = pa;
--	if (n->callback)
-+	if (cec_debounce > 0 && pa == CEC_PHYS_ADDR_INVALID)
-+		schedule_delayed_work(&n->work, msecs_to_jiffies(cec_debounce));
-+	else if (n->callback)
- 		n->callback(n->cec_adap, n->phys_addr);
- 	else if (n->cec_adap)
- 		cec_s_phys_addr(n->cec_adap, n->phys_addr, false);
-diff --git a/drivers/media/cec/cec-priv.h b/drivers/media/cec/cec-priv.h
-index 7bdf855aaecd..65176294fcf0 100644
---- a/drivers/media/cec/cec-priv.h
-+++ b/drivers/media/cec/cec-priv.h
-@@ -27,6 +27,7 @@ static inline bool msg_is_raw(const struct cec_msg *msg)
- 
- /* cec-core.c */
- extern int cec_debug;
-+extern int cec_debounce;
- int cec_get_device(struct cec_devnode *devnode);
- void cec_put_device(struct cec_devnode *devnode);
- 
--- 
-2.17.1
-
+  Membro Semear : Rob=C3=B3tica
