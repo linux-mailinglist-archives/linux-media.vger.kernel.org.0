@@ -2,276 +2,443 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D85A7A4C2D
-	for <lists+linux-media@lfdr.de>; Sun,  1 Sep 2019 23:09:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 15338A4C30
+	for <lists+linux-media@lfdr.de>; Sun,  1 Sep 2019 23:12:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728961AbfIAVJh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 1 Sep 2019 17:09:37 -0400
-Received: from mail-vk1-f195.google.com ([209.85.221.195]:34466 "EHLO
-        mail-vk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728879AbfIAVJh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 1 Sep 2019 17:09:37 -0400
-Received: by mail-vk1-f195.google.com with SMTP id h192so2533645vka.1;
-        Sun, 01 Sep 2019 14:09:36 -0700 (PDT)
+        id S1728958AbfIAVLq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 1 Sep 2019 17:11:46 -0400
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:36691 "EHLO
+        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728519AbfIAVLq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 1 Sep 2019 17:11:46 -0400
+Received: by mail-qt1-f194.google.com with SMTP id o12so2091573qtf.3;
+        Sun, 01 Sep 2019 14:11:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=DfGhQUmQlwEd5V4oXs2IzZtixormXOqOwnL2xnoqQO4=;
-        b=W4iIHDm3oY7OJj5vFvVR6rgCLf7A7S7MGzlJdwjqJCtCj/5HTgpkyKsN4lo4tHF67e
-         1CsxJ/0OGCN+IxUtgowLlcTJ7u+POYL3KZ/fuqiy73EK2l+rdg2yXG2ASoRsthGTlft0
-         4soCnpf9aXNj/BPewuOGyB6JuuwbJ2y/xYaOQq4ilNGZ1DolmrkJhZIJl/S6OFJUUU/L
-         1O3sOl8ZUx1tk4TAA1WEEO0vLv3AMn7dT7sYVQYBc3YvDqrjsR4ucwhVswhLbPVob333
-         ZSxtdjcwpn82vAjnxntzbLF5lZs2hgOzWXsZ3v4dJrOtvvMFc4jvos05cB8fhyKV9M3l
-         JZ0A==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FhEhGYlJyknnVLOLo4oWzBHV63OaArmPf55KzUhy0U8=;
+        b=Z5PSBRPFy1AfcggRNGz8n0RkalGr8cJbH8okpPGWQcjSg7SxXAXH6mJOQVfKYb7LCh
+         38soZHOEkYlLulZwcOEVkmDP19Dsnaz8VX8yO+fIXz3plGx8MfPTiHGPTGT4iX6vUgGR
+         EPzrEN1jo4tB1UbhKj14PP9kJB7S+bJwrTLr8PPLW7ncFXb9cFvfvi19c0JwKJEvRaH9
+         FaX5kqUoNtR/XPdotCVQAZLAJK0vO+aGKpj57oFl3tIUNM8NGohCh7o8MCOakzEjIHDR
+         59HogDssGHBs7HtNcMg1fKYCqu+t2EAAQ6xRdBisagGrNFsl6Ioe5p/TwGtntrWzzu4t
+         kbYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=DfGhQUmQlwEd5V4oXs2IzZtixormXOqOwnL2xnoqQO4=;
-        b=SSUiNXoMJmsNUk5XnHKQ3I5C/4RjJ63k3VXcFHcTc2Ac1FQo0ViCWaN08TZAUSi+Vg
-         URHHZoF6/7gQvRqIpjNVsjUqFLFQZmJ/o+2y278JjQ/PXzzVUSChrwGB8w0+lQCbXyGD
-         j1xosK6kyiRyoJhw9L+HbPgnV6ZxEbH8XGjaqqAilQTQEcFnLIVd8SPDPiLGmUIk+xt1
-         ITat57A2zqLHlatAYLts3570czqtJbj0P5KQOn+MuvhQjMW3vqtJkd+gM7sLRAMAwNe1
-         JbP8Sptc+c5sI0GJ1sTUlMBnbeXG46NK/7/M3O3Bg5plvCyZQ7OqfKeuL7tyjiH6HDhm
-         D58g==
-X-Gm-Message-State: APjAAAWKm+BwZ1xq6vNXBZ2jQTjv1H/PBTWy7BspzHM79wNxjx7+qmC6
-        xDnQ9y+bN+qmPglfAbzVRxqDJ5A3tfXAaAzqTRQ=
-X-Google-Smtp-Source: APXvYqxUJ0d83F1un8auPSzaixU7Q6Rx9eWc6bIv/wFgXZR9CSUY8ozE5mXQHw+YOzzdzYYeKAWZin+4xfIRSqeWi/o=
-X-Received: by 2002:a1f:d586:: with SMTP id m128mr12870062vkg.24.1567372175232;
- Sun, 01 Sep 2019 14:09:35 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FhEhGYlJyknnVLOLo4oWzBHV63OaArmPf55KzUhy0U8=;
+        b=sVpn2la/M7bJOpxaKH5cvW9AYtw4MgMfYF9fKdph88GZlldDmVKH7FD2TlpqDz2a9d
+         WYVImxrv+wVatihAxez73Jqd9MAJc9ObcdNAfETfQHmENeY0nkh6jJLY2Gm308Tgulfi
+         j5aYwgqCs+BoyBm7eBYxLuuW9WOd9kvjtk0PgmIMDgJnmdoajPDrDHz0i93pfjKntlfL
+         U+8AVUCTGc80P6oD+3GSfrk9TQWZTZPIj8ky545qMu/mEfRGbr8l7F6oxaMje7XVNEeL
+         XaUxT45zHRcTq9hkJRMS2DfzT6FO5GQLHG6iud1cByvSV4t/WXeOCnaSHZs3nM//hvyy
+         pusQ==
+X-Gm-Message-State: APjAAAV7puuf9BEztPSVhflBnN4/1v7U/WU3zEFrTV6hHPaDDUynHClk
+        XcBAl7NwTdjnSHZSrAR00j0iby/ZOz4=
+X-Google-Smtp-Source: APXvYqzVXfpZo8HKaGFwHSmusSItRygTi3s47KDT5NIz0In5KLPQgipNoCr4tj9LVtYW9R+JKb8Hnw==
+X-Received: by 2002:aed:2ca3:: with SMTP id g32mr26103328qtd.359.1567372304364;
+        Sun, 01 Sep 2019 14:11:44 -0700 (PDT)
+Received: from localhost.localdomain ([177.188.69.119])
+        by smtp.gmail.com with ESMTPSA id k11sm5471751qtp.26.2019.09.01.14.11.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 01 Sep 2019 14:11:43 -0700 (PDT)
+From:   =?UTF-8?q?Lucas=20A=2E=20M=2E=20Magalh=C3=A3es?= 
+        <lucmaga@gmail.com>
+To:     linux-media@vger.kernel.org
+Cc:     hverkuil@xs4all.nl, linux-kernel@vger.kernel.org,
+        helen.koike@collabora.com, edusbarretto@gmail.com,
+        "Lucas A . M . Magalhaes" <lucmaga@gmail.com>
+Subject: [PATCH] media: vimc: fla: Add virtual flash subdevice
+Date:   Sun,  1 Sep 2019 18:11:39 -0300
+Message-Id: <20190901211139.2405-1-lucmaga@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-References: <20190901194032.16207-1-arthurmoraeslago@gmail.com>
-In-Reply-To: <20190901194032.16207-1-arthurmoraeslago@gmail.com>
-From:   =?UTF-8?B?TGHDrXMgUGM=?= <laispc19@gmail.com>
-Date:   Sun, 1 Sep 2019 18:09:23 -0300
-Message-ID: <CAG=BupUy+93XBz-6-oSDqm9+hGsxpQOwiGLt_Jgg4fouNfDE0w@mail.gmail.com>
-Subject: Re: [Lkcamp] [PATCH] media: vimc: Implement debayer control for mean
- window size
-To:     Arthur Moraes do Lago <arthurmoraeslago@gmail.com>
-Cc:     helen.koike@collabora.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        lkcamp@lists.libreplanetbr.org, hverkuil-cisco@xs4all.nl
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em dom, 1 de set de 2019 =C3=A0s 16:41, Arthur Moraes do Lago
-<arthurmoraeslago@gmail.com> escreveu:
->
-> Add mean window size parameter for debayer filter as a control in
-> vimc-debayer.
->
-> vimc-debayer was patched to allow changing mean windows parameter
-> of the filter without needing to reload the driver. The parameter
-> can now be set using a v4l2-ctl control(mean_window_size).
->
-> Co-developed-by: La=C3=ADs Pessine do Carmo <laispc19@gmail.com>
-> Signed-off-by: La=C3=ADs Pessine do Carmo <laispc19@gmail.com>
-> Signed-off-by: Arthur Moraes do Lago <arthurmoraeslago@gmail.com>
->
-> ---
-> This patch was made on top of Shuah Khan's patch (162623).
-> Thanks.
+From: Lucas A. M. Magalhaes <lucmaga@gmail.com>
 
-We refered to the patch ID from patchwork.kernel.org, but actually the
-patch series is named "Collapse vimc single monolithic driver".
-Thanks.
+Add a virtual subdevice to simulate the flash control API.
+Those are the supported controls:
+v4l2-ctl -d /dev/v4l-subdev6 -L
+Flash Controls
 
-> ---
->  drivers/media/platform/vimc/vimc-common.h  |  1 +
->  drivers/media/platform/vimc/vimc-debayer.c | 81 ++++++++++++++++++----
->  2 files changed, 70 insertions(+), 12 deletions(-)
->
-> diff --git a/drivers/media/platform/vimc/vimc-common.h b/drivers/media/pl=
-atform/vimc/vimc-common.h
-> index 5b2282de395c..547ff04a415e 100644
-> --- a/drivers/media/platform/vimc/vimc-common.h
-> +++ b/drivers/media/platform/vimc/vimc-common.h
-> @@ -19,6 +19,7 @@
->  #define VIMC_CID_VIMC_BASE             (0x00f00000 | 0xf000)
->  #define VIMC_CID_VIMC_CLASS            (0x00f00000 | 1)
->  #define VIMC_CID_TEST_PATTERN          (VIMC_CID_VIMC_BASE + 0)
-> +#define VIMC_CID_MEAN_WIN_SIZE         (VIMC_CID_VIMC_BASE + 1)
->
->  #define VIMC_FRAME_MAX_WIDTH 4096
->  #define VIMC_FRAME_MAX_HEIGHT 2160
-> diff --git a/drivers/media/platform/vimc/vimc-debayer.c b/drivers/media/p=
-latform/vimc/vimc-debayer.c
-> index 6cee911bf149..aa3edeed96bc 100644
-> --- a/drivers/media/platform/vimc/vimc-debayer.c
-> +++ b/drivers/media/platform/vimc/vimc-debayer.c
-> @@ -11,17 +11,11 @@
->  #include <linux/platform_device.h>
->  #include <linux/vmalloc.h>
->  #include <linux/v4l2-mediabus.h>
-> +#include <media/v4l2-ctrls.h>
->  #include <media/v4l2-subdev.h>
->
->  #include "vimc-common.h"
->
-> -static unsigned int deb_mean_win_size =3D 3;
-> -module_param(deb_mean_win_size, uint, 0000);
-> -MODULE_PARM_DESC(deb_mean_win_size, " the window size to calculate the m=
-ean.\n"
-> -       "NOTE: the window size needs to be an odd number, as the main pix=
-el "
-> -       "stays in the center of the window, otherwise the next odd number=
- "
-> -       "is considered");
-> -
->  #define IS_SINK(pad) (!pad)
->  #define IS_SRC(pad)  (pad)
->
-> @@ -49,6 +43,8 @@ struct vimc_deb_device {
->         u8 *src_frame;
->         const struct vimc_deb_pix_map *sink_pix_map;
->         unsigned int sink_bpp;
-> +       unsigned int mean_win_size;
-> +       struct v4l2_ctrl_handler hdl;
->  };
->
->  static const struct v4l2_mbus_framefmt sink_fmt_default =3D {
-> @@ -387,7 +383,7 @@ static void vimc_deb_calc_rgb_sink(struct vimc_deb_de=
-vice *vdeb,
->          * the top left corner of the mean window (considering the curren=
-t
->          * pixel as the center)
->          */
-> -       seek =3D deb_mean_win_size / 2;
-> +       seek =3D vdeb->mean_win_size / 2;
->
->         /* Sum the values of the colors in the mean window */
->
-> @@ -477,6 +473,33 @@ static void *vimc_deb_process_frame(struct vimc_ent_=
-device *ved,
->
->  }
->
-> +static inline void vimc_deb_s_mean_win_size(struct vimc_deb_device *vdeb=
-,
-> +                                           unsigned int mean_win_size)
-> +{
-> +               if (vdeb->mean_win_size =3D=3D mean_win_size)
-> +                       return;
-> +               vdeb->mean_win_size =3D mean_win_size;
-> +}
-> +
-> +static int vimc_deb_s_ctrl(struct v4l2_ctrl *ctrl)
-> +{
-> +       struct vimc_deb_device *vdeb =3D
-> +               container_of(ctrl->handler, struct vimc_deb_device, hdl);
-> +
-> +       switch (ctrl->id) {
-> +       case VIMC_CID_MEAN_WIN_SIZE:
-> +               vimc_deb_s_mean_win_size(vdeb, ctrl->val);
-> +               break;
-> +       default:
-> +               return -EINVAL;
-> +       }
-> +       return 0;
-> +}
-> +
-> +static const struct v4l2_ctrl_ops vimc_deb_ctrl_ops =3D {
-> +       .s_ctrl =3D vimc_deb_s_ctrl,
-> +};
-> +
->  static void vimc_deb_release(struct v4l2_subdev *sd)
->  {
->         struct vimc_deb_device *vdeb =3D
-> @@ -502,6 +525,24 @@ void vimc_deb_rm(struct vimc_device *vimc, struct vi=
-mc_ent_config *vcfg)
->         vimc_ent_sd_unregister(ved, &vdeb->sd);
->  }
->
-> +static const struct v4l2_ctrl_config vimc_deb_ctrl_class =3D {
-> +       .flags =3D V4L2_CTRL_FLAG_READ_ONLY | V4L2_CTRL_FLAG_WRITE_ONLY,
-> +       .id =3D VIMC_CID_VIMC_CLASS,
-> +       .name =3D "VIMC Controls",
-> +       .type =3D V4L2_CTRL_TYPE_CTRL_CLASS,
-> +};
-> +
-> +static const struct v4l2_ctrl_config vimc_deb_ctrl_mean_win_size =3D {
-> +       .ops =3D &vimc_deb_ctrl_ops,
-> +       .id =3D VIMC_CID_MEAN_WIN_SIZE,
-> +       .name =3D "Mean window size",
-> +       .type =3D V4L2_CTRL_TYPE_INTEGER,
-> +       .min =3D 1,
-> +       .max =3D 99,
-> +       .step =3D 2,
-> +       .def =3D 3,
-> +};
-> +
->  int vimc_deb_add(struct vimc_device *vimc, struct vimc_ent_config *vcfg)
->  {
->         struct v4l2_device *v4l2_dev =3D &vimc->v4l2_dev;
-> @@ -513,6 +554,16 @@ int vimc_deb_add(struct vimc_device *vimc, struct vi=
-mc_ent_config *vcfg)
->         if (!vdeb)
->                 return -ENOMEM;
->
-> +       /* Create controls: */
-> +       v4l2_ctrl_handler_init(&vdeb->hdl, 2);
-> +       v4l2_ctrl_new_custom(&vdeb->hdl, &vimc_deb_ctrl_class, NULL);
-> +       v4l2_ctrl_new_custom(&vdeb->hdl, &vimc_deb_ctrl_mean_win_size, NU=
-LL);
-> +       vdeb->sd.ctrl_handler =3D &vdeb->hdl;
-> +       if (vdeb->hdl.error) {
-> +               ret =3D vdeb->hdl.error;
-> +               goto err_free_vdeb;
-> +       }
-> +
->         /* Initialize ved and sd */
->         ret =3D vimc_ent_sd_register(&vdeb->ved, &vdeb->sd, v4l2_dev,
->                                    vcfg->name,
-> @@ -520,13 +571,12 @@ int vimc_deb_add(struct vimc_device *vimc, struct v=
-imc_ent_config *vcfg)
->                                    (const unsigned long[2]) {MEDIA_PAD_FL=
-_SINK,
->                                    MEDIA_PAD_FL_SOURCE},
->                                    &vimc_deb_int_ops, &vimc_deb_ops);
-> -       if (ret) {
-> -               kfree(vdeb);
-> -               return ret;
-> -       }
-> +       if (ret)
-> +               goto err_free_hdl;
->
->         vdeb->ved.process_frame =3D vimc_deb_process_frame;
->         vdeb->dev =3D &vimc->pdev.dev;
-> +       vdeb->mean_win_size =3D vimc_deb_ctrl_mean_win_size.def;
->
->         /* Initialize the frame format */
->         vdeb->sink_fmt =3D sink_fmt_default;
-> @@ -541,4 +591,11 @@ int vimc_deb_add(struct vimc_device *vimc, struct vi=
-mc_ent_config *vcfg)
->
->         vcfg->ved =3D &vdeb->ved;
->         return 0;
-> +
-> +err_free_hdl:
-> +       v4l2_ctrl_handler_free(&vdeb->hdl);
-> +err_free_vdeb:
-> +       kfree(vdeb);
-> +
-> +       return ret;
->  }
-> --
-> 2.23.0
->
->
-> _______________________________________________
-> Lkcamp mailing list
-> Lkcamp@lists.libreplanetbr.org
-> https://lists.libreplanetbr.org/mailman/listinfo/lkcamp
+                       led_mode 0x009c0901 (menu)   : min=0 max=2 default=0 value=0
+                                0: Off
+                                1: Flash
+                                2: Torch
+                  strobe_source 0x009c0902 (menu)   : min=0 max=1 default=0 value=0
+                                0: Software
+                                1: External
+                         strobe 0x009c0903 (button) : flags=write-only, execute-on-write
+                    stop_strobe 0x009c0904 (button) : flags=write-only, execute-on-write
+                  strobe_status 0x009c0905 (bool)   : default=0 value=0 flags=read-only
+                 strobe_timeout 0x009c0906 (int)    : min=1 max=10 step=1 default=10 value=10
+           intensity_flash_mode 0x009c0907 (int)    : min=0 max=255 step=1 default=255 value=255
+           intensity_torch_mode 0x009c0908 (int)    : min=0 max=255 step=1 default=255 value=255
+            intensity_indicator 0x009c0909 (int)    : min=0 max=255 step=1 default=255 value=255
+                         faults 0x009c090a (bitmask): max=0x00000002 default=0x00000000 value=0x00000000
 
+Co-authored-by: Eduardo Barretto <edusbarretto@gmail.com>
+Signed-off-by: Eduardo Barretto <edusbarretto@gmail.com>
+Signed-off-by: Lucas A. M. Magalhães <lucmaga@gmail.com>
 
+---
+Hi,
 
---=20
-La=C3=ADs Pessine do Carmo
-Engenharia de Computa=C3=A7=C3=A3o 011 - USP S=C3=A3o Carlos
+This patch depends on the patch series
+	"Collapse vimc into single monolithic driver" version 3.
 
-  Membro Semear : Rob=C3=B3tica
+I tested it using the v4l2-ctl and the v4l2-compliance. Apparently the compliance
+doesn't test any of the standard flash controls. However I got this error:
+
+test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+        fail: v4l2-test-controls.cpp(830): subscribe event for control 'Flash Controls' failed
+
+Is it really mandatory to implement the event mechanism?
+
+Here is the full output of the v4l2-compliance
+
+root@(none):/# /usr/local/bin/v4l2-compliance -d /dev/v4l-subdev6
+v4l2-compliance SHA: b393a5408383b7341883857dfda78537f2f85ef6, 64 bits
+
+Compliance test for vimc device /dev/v4l-subdev6:
+
+Media Driver Info:
+        Driver name      : vimc
+        Model            : VIMC MDEV
+        Serial           :
+        Bus info         : platform:vimc
+        Media version    : 5.3.0
+        Hardware revision: 0x00000000 (0)
+        Driver version   : 5.3.0
+Interface Info:
+        ID               : 0x03000039
+        Type             : V4L Sub-Device
+Entity Info:
+        ID               : 0x0000001c (28)
+        Name             : Flash Controller
+        Function         : Flash Controller
+
+Required ioctls:
+        test MC information (see 'Media Driver Info' above): OK
+
+Allow for multiple opens:
+        test second /dev/v4l-subdev6 open: OK
+        test for unlimited opens: OK
+
+Debug ioctls:
+[  342.293254] Flash Controller: =================  START STATUS  ================
+[  342.293945] Flash Controller: ==================  END STATUS  ==================
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+        test VIDIOC_QUERYCTRL: OK
+        test VIDIOC_G/S_CTRL: OK
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+                fail: v4l2-test-controls.cpp(830): subscribe event for control 'Flash Controls' failed
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: FAIL
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+
+ontrols: 11 Private Controls: 0
+
+Format ioctls:
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK (Not Supported)
+        test VIDIOC_TRY_FMT: OK (Not Supported)
+        test VIDIOC_S_FMT: OK (Not Supported)
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+        test Composing: OK (Not Supported)
+        test Scaling: OK (Not Supported)
+
+Codec ioctls:
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
+        test VIDIOC_EXPBUF: OK (Not Supported)
+        test Requests: OK (Not Supported)
+
+Total for vimc device /dev/v4l-subdev6: 41, Succeeded: 40, Failed: 1, Warnings: 0
+
+ drivers/media/platform/vimc/Makefile      |   2 +-
+ drivers/media/platform/vimc/vimc-common.c |   2 +
+ drivers/media/platform/vimc/vimc-common.h |   3 +
+ drivers/media/platform/vimc/vimc-core.c   |   6 +
+ drivers/media/platform/vimc/vimc-flash.c  | 173 ++++++++++++++++++++++
+ 5 files changed, 185 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/media/platform/vimc/vimc-flash.c
+
+diff --git a/drivers/media/platform/vimc/Makefile b/drivers/media/platform/vimc/Makefile
+index a53b2b532e9f..e759bbb04b14 100644
+--- a/drivers/media/platform/vimc/Makefile
++++ b/drivers/media/platform/vimc/Makefile
+@@ -1,6 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0
+ vimc-y := vimc-core.o vimc-common.o vimc-streamer.o vimc-capture.o \
+-		vimc-debayer.o vimc-scaler.o vimc-sensor.o
++		vimc-debayer.o vimc-scaler.o vimc-sensor.o vimc-flash.o
+ 
+ obj-$(CONFIG_VIDEO_VIMC) += vimc.o
+ 
+diff --git a/drivers/media/platform/vimc/vimc-common.c b/drivers/media/platform/vimc/vimc-common.c
+index a3120f4f7a90..cb786de75573 100644
+--- a/drivers/media/platform/vimc/vimc-common.c
++++ b/drivers/media/platform/vimc/vimc-common.c
+@@ -203,6 +203,8 @@ struct media_pad *vimc_pads_init(u16 num_pads, const unsigned long *pads_flag)
+ 	struct media_pad *pads;
+ 	unsigned int i;
+ 
++	if (!num_pads)
++		return NULL;
+ 	/* Allocate memory for the pads */
+ 	pads = kcalloc(num_pads, sizeof(*pads), GFP_KERNEL);
+ 	if (!pads)
+diff --git a/drivers/media/platform/vimc/vimc-common.h b/drivers/media/platform/vimc/vimc-common.h
+index 5b2282de395c..af35169753f1 100644
+--- a/drivers/media/platform/vimc/vimc-common.h
++++ b/drivers/media/platform/vimc/vimc-common.h
+@@ -159,6 +159,9 @@ void vimc_sca_rm(struct vimc_device *vimc, struct vimc_ent_config *vcfg);
+ int vimc_sen_add(struct vimc_device *vimc, struct vimc_ent_config *vcfg);
+ void vimc_sen_rm(struct vimc_device *vimc, struct vimc_ent_config *vcfg);
+ 
++int vimc_fla_add(struct vimc_device *vimc, struct vimc_ent_config *vcfg);
++void vimc_fla_rm(struct vimc_device *vimc, struct vimc_ent_config *vcfg);
++
+ /**
+  * vimc_pads_init - initialize pads
+  *
+diff --git a/drivers/media/platform/vimc/vimc-core.c b/drivers/media/platform/vimc/vimc-core.c
+index 3749bfa88e40..019a52b0d4e6 100644
+--- a/drivers/media/platform/vimc/vimc-core.c
++++ b/drivers/media/platform/vimc/vimc-core.c
+@@ -100,6 +100,12 @@ static struct vimc_ent_config ent_config[] = {
+ 		.add = vimc_cap_add,
+ 		.rm = vimc_cap_rm,
+ 	},
++	{
++		.name = "Flash Controller",
++		.ved = NULL,
++		.add = vimc_fla_add,
++		.rm = vimc_fla_rm,
++	}
+ };
+ 
+ static const struct vimc_ent_link ent_links[] = {
+diff --git a/drivers/media/platform/vimc/vimc-flash.c b/drivers/media/platform/vimc/vimc-flash.c
+new file mode 100644
+index 000000000000..ee15fcb4aa8f
+--- /dev/null
++++ b/drivers/media/platform/vimc/vimc-flash.c
+@@ -0,0 +1,173 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * vimc-flash.c Virtual Media Controller Driver
++ *
++ * Copyright (C) 2019
++ * Contributors: Lucas A. M. Magalhães <lamm@lucmaga.dev>
++ *               Eduardo Barretto <edusbarretto@gmail.com>
++ *
++ */
++
++#include <linux/vmalloc.h>
++#include <media/v4l2-ctrls.h>
++#include <media/v4l2-subdev.h>
++
++#include "vimc-common.h"
++
++struct vimc_fla_device {
++	struct vimc_ent_device ved;
++	struct v4l2_subdev sd;
++	struct v4l2_ctrl_handler hdl;
++	int led_mode;
++	int indicator_intensity;
++	int torch_intensity;
++	int brightness;
++};
++
++static int vimc_fla_g_volatile_ctrl(struct v4l2_ctrl *c)
++{
++	struct vimc_fla_device *vfla =
++		container_of(c->handler, struct vimc_fla_device, hdl);
++
++	switch (c->id) {
++	case V4L2_CID_FLASH_TORCH_INTENSITY:
++		return vfla->torch_intensity;
++	case V4L2_CID_FLASH_INDICATOR_INTENSITY:
++		return vfla->indicator_intensity;
++	case V4L2_CID_FLASH_INTENSITY:
++		return vfla->brightness;
++	case V4L2_CID_FLASH_STROBE_STATUS:
++	case V4L2_CID_FLASH_FAULT:
++		return 0;
++	default:
++		return -EINVAL;
++	}
++}
++
++/* Flash Controls */
++static const struct v4l2_ctrl_config vimc_fla_ctrl_class = {
++	.flags = V4L2_CTRL_FLAG_READ_ONLY | V4L2_CTRL_FLAG_WRITE_ONLY,
++	.id = VIMC_CID_VIMC_CLASS,
++	.name = "VIMC Flash Controls",
++	.type = V4L2_CTRL_TYPE_CTRL_CLASS,
++};
++
++static int vimc_fla_s_ctrl(struct v4l2_ctrl *c)
++{
++	struct vimc_fla_device *vfla =
++		container_of(c->handler, struct vimc_fla_device, hdl);
++
++	switch (c->id) {
++	case V4L2_CID_FLASH_LED_MODE:
++		vfla->led_mode = c->val;
++		return 0;
++	case V4L2_CID_FLASH_STROBE_SOURCE:
++		return 0;
++	case V4L2_CID_FLASH_STROBE:
++		return 0;
++	case V4L2_CID_FLASH_STROBE_STOP:
++		return 0;
++	case V4L2_CID_FLASH_TIMEOUT:
++		return 0;
++	case V4L2_CID_FLASH_INTENSITY:
++		vfla->brightness = c->val;
++		return 0;
++	case V4L2_CID_FLASH_TORCH_INTENSITY:
++		vfla->torch_intensity = c->val;
++		return 0;
++	case V4L2_CID_FLASH_INDICATOR_INTENSITY:
++		vfla->indicator_intensity = c->val;
++		return 0;
++	}
++	return 0;
++}
++
++static const struct v4l2_ctrl_ops vimc_fla_ctrl_ops = {
++	.g_volatile_ctrl = vimc_fla_g_volatile_ctrl,
++	.s_ctrl = vimc_fla_s_ctrl,
++};
++
++/* initialize device */
++static const struct v4l2_subdev_ops vimc_fla_ops = {
++	.core = NULL,
++};
++
++int vimc_fla_add(struct vimc_device *vimc, struct vimc_ent_config *vcfg)
++{
++	struct v4l2_device *v4l2_dev = &vimc->v4l2_dev;
++	struct vimc_fla_device *vfla;
++	int ret;
++
++	/* Allocate the vfla struct */
++	vfla = kzalloc(sizeof(*vfla), GFP_KERNEL);
++	if (!vfla)
++		return -ENOMEM;
++
++	v4l2_ctrl_handler_init(&vfla->hdl, 4);
++
++	v4l2_ctrl_new_std_menu(&vfla->hdl, &vimc_fla_ctrl_ops,
++			       V4L2_CID_FLASH_LED_MODE,
++			       V4L2_FLASH_LED_MODE_TORCH, ~0x7,
++			       V4L2_FLASH_LED_MODE_NONE);
++	v4l2_ctrl_new_std_menu(&vfla->hdl, &vimc_fla_ctrl_ops,
++			       V4L2_CID_FLASH_STROBE_SOURCE, 0x1, ~0x3,
++			       V4L2_FLASH_STROBE_SOURCE_SOFTWARE);
++	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
++			  V4L2_CID_FLASH_STROBE, 0, 0, 0, 0);
++	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
++			  V4L2_CID_FLASH_STROBE_STOP, 0, 0, 0, 0);
++	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
++			  V4L2_CID_FLASH_TIMEOUT, 1, 10, 1, 10);
++	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
++			  V4L2_CID_FLASH_TORCH_INTENSITY, 0, 255, 1, 255);
++	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
++			  V4L2_CID_FLASH_INTENSITY, 0, 255, 1, 255);
++	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
++			  V4L2_CID_FLASH_INDICATOR_INTENSITY, 0, 255, 1, 255);
++	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
++			  V4L2_CID_FLASH_STROBE_STATUS, 0, 0, 0, 0);
++	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
++			  V4L2_CID_FLASH_FAULT, 0,
++			  V4L2_FLASH_FAULT_TIMEOUT, 0, 0);
++	vfla->sd.ctrl_handler = &vfla->hdl;
++	if (vfla->hdl.error) {
++		ret = vfla->hdl.error;
++		goto err_free_vfla;
++	}
++
++	/* Initialize ved and sd */
++	ret = vimc_ent_sd_register(&vfla->ved, &vfla->sd, v4l2_dev,
++				   vcfg->name,
++				   MEDIA_ENT_F_FLASH, 0, NULL,
++				   NULL, &vimc_fla_ops);
++	if (ret)
++		goto err_free_hdl;
++
++	/* Initialize standard values */
++	vfla->indicator_intensity = 0;
++	vfla->torch_intensity = 0;
++	vfla->brightness = 0;
++	vfla->led_mode = V4L2_FLASH_LED_MODE_NONE;
++
++	vcfg->ved = &vfla->ved;
++	return 0;
++
++err_free_hdl:
++	v4l2_ctrl_handler_free(&vfla->hdl);
++err_free_vfla:
++	kfree(vfla);
++
++	return ret;
++}
++
++void vimc_fla_rm(struct vimc_device *vimc, struct vimc_ent_config *vcfg)
++{
++	struct vimc_ent_device *ved = vcfg->ved;
++	struct vimc_fla_device *vfla;
++
++	if (!ved)
++		return;
++
++	vfla = container_of(ved, struct vimc_fla_device, ved);
++	vimc_ent_sd_unregister(ved, &vfla->sd);
++}
+-- 
+2.23.0
+
