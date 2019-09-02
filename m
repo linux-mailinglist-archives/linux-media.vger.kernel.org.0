@@ -2,104 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D901A5235
-	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2019 10:53:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 513ADA52DB
+	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2019 11:33:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730572AbfIBIxN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Sep 2019 04:53:13 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:58754 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729849AbfIBIxM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Sep 2019 04:53:12 -0400
-Received: from pendragon.ideasonboard.com (231.125-247-81.adsl-dyn.isp.belgacom.be [81.247.125.231])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 95936303;
-        Mon,  2 Sep 2019 10:53:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1567414390;
-        bh=L7HfyK6AoCRBwfi7sSsavkmrIFgZvYJeM1TmWRV84A0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=pLvLkYuxhClpk6qiiHyro9cQILbPHJyPNKdx/3LkmR5z74f9jXMr544uWI1jLqpeo
-         R21dcz3QNHON2GB+ax6swl0OzoOlr2V1X6C1ZitVklecAbr+fwlADnCj83WqZxOpM1
-         cJBlbGOAftzet23JO7p57mWYjcauMFgth11NRtoQ=
-Date:   Mon, 2 Sep 2019 11:53:03 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC 2/5] media: v4l2-ctrl: Document V4L2_CID_LOCATION
-Message-ID: <20190902085303.GG4777@pendragon.ideasonboard.com>
-References: <20190814224340.GD5015@pendragon.ideasonboard.com>
- <664fe7b3-9051-30da-736e-710a4e9cecde@xs4all.nl>
- <d60e4664-3a3f-1723-6c96-4fc822b6a7bb@xs4all.nl>
- <20190815143423.vaoswb4jvzd2blxp@uno.localdomain>
- <cb36e8a0-b941-ff37-e58c-0f9b7f62116a@xs4all.nl>
- <20190901172457.GC1047@bug>
- <20190902080002.GC4777@pendragon.ideasonboard.com>
- <20190902080657.GC15850@amd>
- <20190902081942.GE4777@pendragon.ideasonboard.com>
- <20190902082739.GE15850@amd>
+        id S1731115AbfIBJdu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Sep 2019 05:33:50 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:33558 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729887AbfIBJdt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Sep 2019 05:33:49 -0400
+Received: by mail-oi1-f195.google.com with SMTP id l2so10031048oil.0
+        for <linux-media@vger.kernel.org>; Mon, 02 Sep 2019 02:33:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/Psm3mHEa09YDN/9bY/P25wWiX+oqflBSR0FSp2UxIc=;
+        b=cBT7U2n0p5IgSysnMDHieETKnwiMtmeDGgy9QRD7fpRG60uT7Ynjom2uG2QGSRnZjn
+         yi8ziEqf9yOpmLBlsX5XzjVGHMzCoprYTa64uhcGS7w0goeAjHmpQbOqdwfSaU2De5+z
+         jkffdfg6Vevhk0pNmtnplpaA2Jr3c264c/w1IKPh2Ji0iEghtcJMVeAsTqofR/onLgGZ
+         S/RYKTDrS25H6mY4aVNpOQ6KFmL4w6Z+nqLks1886V7IKtRN3dAp69W1vgr56eBbTWky
+         4SIQ88I5kqKjDv0jJePkSe9XqNxpJKkYuE+rMNUKJiE3sZBaAtYCBVAHr6ECrN9GQZL1
+         Vt+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/Psm3mHEa09YDN/9bY/P25wWiX+oqflBSR0FSp2UxIc=;
+        b=SQOO6FeavSLwE1BEKBN7ZkINtUIlWOW2epdw3d2mYF+2FOXbFKbzOy7az/hXsR2OR9
+         5XkAoWFHX0XyCoAagLCFpjZ7fvCNT/eK02ZRXVehgxv/z5aC7Ugai7e1QdnZF3Zpsyhi
+         SSh5E5UAK2qDQNSeaHxx9GVgJC0viOOIuGlFDcR8kUq2eRGOX3LJqWjcuf9g5xbY5jNh
+         T3Wtb1TR7cZTLTCwFs2vzDIYqrA18kFHl70onaKnMzuNC/DPIPqlimy2aF+KX89CG6mi
+         tan1ZX9GGyptc3SxoOtY8QIE+UkaCVnl+pOYxf3X3higOmSb4GqR+7O9SGsEr5fUCPA9
+         uJ8A==
+X-Gm-Message-State: APjAAAWPgG7imeWbRupRwv4g4zQHG1BytMcV3BPY8E1BmaBJReo1jNse
+        PSxhzEbp7zVXQwkpRC43sZE=
+X-Google-Smtp-Source: APXvYqw0J6UtH07Jc3zgMM8FHcalSOvSwMFhgJjfwM/Tqdh5NYnsH3l/24vQ1BMjfkrsczq3ACFHuw==
+X-Received: by 2002:aca:111a:: with SMTP id 26mr19044196oir.20.1567416828116;
+        Mon, 02 Sep 2019 02:33:48 -0700 (PDT)
+Received: from rYz3n.attlocal.net ([2600:1700:210:3790::40])
+        by smtp.googlemail.com with ESMTPSA id 10sm2625359oix.48.2019.09.02.02.33.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Sep 2019 02:33:47 -0700 (PDT)
+From:   Jiunn Chang <c0d1n61at3@gmail.com>
+To:     rainer.auran@gmail.com, linux-media@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Cc:     hverkuil@xs4all.nl
+Subject: [PATCH] cec-compliance: system audio control tests
+Date:   Mon,  2 Sep 2019 04:33:46 -0500
+Message-Id: <20190902093346.20041-1-c0d1n61at3@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190902082739.GE15850@amd>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Pawel,
+Add user control press operands:
+ - Mute Function
+ - Restore Volume Function
 
-On Mon, Sep 02, 2019 at 10:27:39AM +0200, Pavel Machek wrote:
-> On Mon 2019-09-02 11:19:42, Laurent Pinchart wrote:
-> > On Mon, Sep 02, 2019 at 10:06:57AM +0200, Pavel Machek wrote:
-> >>>>> Single integer. It's read-only, so it just reports the location.
-> >>>>> 
-> >>>>> It would be different if this was a writable control: then you need to
-> >>>>> know which locations are possible to set, and that requires a menu type.
-> >>>>> 
-> >>>>> But it doesn't make sense to set the location from software. However, the
-> >>>>> location might change as a result of other changes: e.g. if the camera
-> >>>>> has motor control of the tilt and the tilt changes from forward facing to
-> >>>>> downward facing, then the driver might change the location from FRONT
-> >>>>> to DOWN. A convoluted example perhaps, but this is just brainstorming.
-> >>>> 
-> >>>> There are phones with exactly such camera setup. And yes, it makes
-> >>>> sense to be writable in that case, as software can move the camera in
-> >>>> such case.
-> >>> 
-> >>> Out of curiosity, what phones are those ?
-> >> 
-> >> This one:
-> >> 
-> >> https://www.samsung.com/global/galaxy/galaxy-a80/
-> > 
-> > Interesting device. I'm not sure we should control that through a
-> > location control though, as it seems there's more than the rotation of
-> > the camera involved. In any case I wouldn't care about it for now, and
-> > turn the location control from read-only to read-write later if needed.
-> > We need more information and more thought to support that use case.
-> 
-> Well, the mechanism is there just to rotate the camera.
+Signed-off-by: Jiunn Chang <c0d1n61at3@gmail.com>
+---
+ utils/cec-compliance/cec-test-audio.cpp | 32 +++++++++++++++++++++++++
+ utils/cec-follower/cec-processing.cpp   |  6 +++++
+ 2 files changed, 38 insertions(+)
 
-But we don't know how it's implemented, it could be heavily
-firmware-based for instance.
-
-> Anyway, that phone is probably nowhere close to having mainline
-> support, so...
-
-If we need to support such a device in the future (and I hope we will
-:-)) then I'm totally fine expanding the features of the location
-control. My only concern is that I don't want to over-design it right
-now without having enough information about the hardware that would make
-use of it.
-
+diff --git a/utils/cec-compliance/cec-test-audio.cpp b/utils/cec-compliance/cec-test-audio.cpp
+index 8611350e..872bb9ad 100644
+--- a/utils/cec-compliance/cec-test-audio.cpp
++++ b/utils/cec-compliance/cec-test-audio.cpp
+@@ -673,6 +673,32 @@ static int sac_user_control_press_mute(struct node *node, unsigned me, unsigned
+ 	return 0;
+ }
+ 
++static int sac_user_control_press_mute_function(struct node *node, unsigned me, unsigned la, bool interactive)
++{
++	__u8 ret;
++
++	if ((ret = sac_util_send_user_control_press(node, me, la, 0x65)))
++		return ret;
++	fail_on_test_v2(node->remote[la].cec_version,
++			la == CEC_LOG_ADDR_AUDIOSYSTEM &&
++			node->remote[la].mute == CEC_OP_AUD_MUTE_STATUS_ON);
++
++	return 0;
++}
++
++static int sac_user_control_press_restore_volume_function(struct node *node, unsigned me, unsigned la, bool interactive)
++{
++	__u8 ret;
++
++	if ((ret = sac_util_send_user_control_press(node, me, la, 0x66)))
++		return ret;
++	fail_on_test_v2(node->remote[la].cec_version,
++			la == CEC_LOG_ADDR_AUDIOSYSTEM &&
++			node->remote[la].mute == CEC_OP_AUD_MUTE_STATUS_OFF);
++
++	return 0;
++}
++
+ static int sac_user_control_release(struct node *node, unsigned me, unsigned la, bool interactive)
+ {
+ 	struct cec_msg msg = {};
+@@ -763,6 +789,12 @@ struct remote_subtest sac_subtests[] = {
+ 	{ "User Control Pressed (Mute)",
+ 	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
+ 	  sac_user_control_press_mute },
++	{ "User Control Pressed (Restore Volume Function)",
++	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
++	  sac_user_control_press_restore_volume_function },
++	{ "User Control Pressed (Mute Function)",
++	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
++	  sac_user_control_press_mute_function },
+ 	{ "User Control Released",
+ 	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
+ 	  sac_user_control_release },
+diff --git a/utils/cec-follower/cec-processing.cpp b/utils/cec-follower/cec-processing.cpp
+index 27172560..c6d88647 100644
+--- a/utils/cec-follower/cec-processing.cpp
++++ b/utils/cec-follower/cec-processing.cpp
+@@ -516,6 +516,12 @@ static void processMsg(struct node *node, struct cec_msg &msg, unsigned me)
+ 		case 0x43:
+ 			node->state.mute = !node->state.mute;
+ 			break;
++		case 0x65:
++			node->state.mute = CEC_OP_AUD_MUTE_STATUS_ON;
++			break;
++		case 0x66:
++			node->state.mute = CEC_OP_AUD_MUTE_STATUS_OFF;
++			break;
+ 		case 0x6B:
+ 			if (!enter_standby(node))
+ 				exit_standby(node);
 -- 
-Regards,
+2.23.0
 
-Laurent Pinchart
