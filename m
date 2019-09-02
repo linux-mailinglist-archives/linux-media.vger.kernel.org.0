@@ -2,140 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 513ADA52DB
-	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2019 11:33:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 399B9A52EF
+	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2019 11:36:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731115AbfIBJdu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Sep 2019 05:33:50 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:33558 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729887AbfIBJdt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Sep 2019 05:33:49 -0400
-Received: by mail-oi1-f195.google.com with SMTP id l2so10031048oil.0
-        for <linux-media@vger.kernel.org>; Mon, 02 Sep 2019 02:33:48 -0700 (PDT)
+        id S1729802AbfIBJgd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Sep 2019 05:36:33 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:43463 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729612AbfIBJgd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Sep 2019 05:36:33 -0400
+Received: by mail-wr1-f67.google.com with SMTP id y8so13248794wrn.10;
+        Mon, 02 Sep 2019 02:36:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=/Psm3mHEa09YDN/9bY/P25wWiX+oqflBSR0FSp2UxIc=;
-        b=cBT7U2n0p5IgSysnMDHieETKnwiMtmeDGgy9QRD7fpRG60uT7Ynjom2uG2QGSRnZjn
-         yi8ziEqf9yOpmLBlsX5XzjVGHMzCoprYTa64uhcGS7w0goeAjHmpQbOqdwfSaU2De5+z
-         jkffdfg6Vevhk0pNmtnplpaA2Jr3c264c/w1IKPh2Ji0iEghtcJMVeAsTqofR/onLgGZ
-         S/RYKTDrS25H6mY4aVNpOQ6KFmL4w6Z+nqLks1886V7IKtRN3dAp69W1vgr56eBbTWky
-         4SIQ88I5kqKjDv0jJePkSe9XqNxpJKkYuE+rMNUKJiE3sZBaAtYCBVAHr6ECrN9GQZL1
-         Vt+g==
+        h=references:user-agent:from:to:cc:subject:in-reply-to:date
+         :message-id:mime-version;
+        bh=7S+vZhVc5zHeiLc/DC6Z2xOOWxBDBUvpp/e3pBI1NHw=;
+        b=SdLltcIqfSTbhoDBqB0JMt9oUEV92Oj/pOU/Ob14cQsQPj+tVBpl3Rr/9U2efcxzSw
+         G8V7L49e6FUh7X+XY0Pg/NAWU3hPUVh0bflsweMM8+44JIlZC41qyHKccjz9hEOHtKhY
+         /QRuBI2cRf2dQ7DB1g4J4239lW7vLw2cgwLL1JxWT7n/w6icES8esjSDU3uL6EVcGoSN
+         i+6J3BjMyq3zpw/INszfY/hWVYhfXhS323KJNFt4RJY0spsQRPWWQys/InPvU+ohDXba
+         m9DYKI8EqZolY7g8hH/XWLgJB1E0iNyLz/UxqPT+3QFN1mecQQkw6V9VJz79skA3pCjJ
+         44IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=/Psm3mHEa09YDN/9bY/P25wWiX+oqflBSR0FSp2UxIc=;
-        b=SQOO6FeavSLwE1BEKBN7ZkINtUIlWOW2epdw3d2mYF+2FOXbFKbzOy7az/hXsR2OR9
-         5XkAoWFHX0XyCoAagLCFpjZ7fvCNT/eK02ZRXVehgxv/z5aC7Ugai7e1QdnZF3Zpsyhi
-         SSh5E5UAK2qDQNSeaHxx9GVgJC0viOOIuGlFDcR8kUq2eRGOX3LJqWjcuf9g5xbY5jNh
-         T3Wtb1TR7cZTLTCwFs2vzDIYqrA18kFHl70onaKnMzuNC/DPIPqlimy2aF+KX89CG6mi
-         tan1ZX9GGyptc3SxoOtY8QIE+UkaCVnl+pOYxf3X3higOmSb4GqR+7O9SGsEr5fUCPA9
-         uJ8A==
-X-Gm-Message-State: APjAAAWPgG7imeWbRupRwv4g4zQHG1BytMcV3BPY8E1BmaBJReo1jNse
-        PSxhzEbp7zVXQwkpRC43sZE=
-X-Google-Smtp-Source: APXvYqw0J6UtH07Jc3zgMM8FHcalSOvSwMFhgJjfwM/Tqdh5NYnsH3l/24vQ1BMjfkrsczq3ACFHuw==
-X-Received: by 2002:aca:111a:: with SMTP id 26mr19044196oir.20.1567416828116;
-        Mon, 02 Sep 2019 02:33:48 -0700 (PDT)
-Received: from rYz3n.attlocal.net ([2600:1700:210:3790::40])
-        by smtp.googlemail.com with ESMTPSA id 10sm2625359oix.48.2019.09.02.02.33.46
+        h=x-gm-message-state:references:user-agent:from:to:cc:subject
+         :in-reply-to:date:message-id:mime-version;
+        bh=7S+vZhVc5zHeiLc/DC6Z2xOOWxBDBUvpp/e3pBI1NHw=;
+        b=kTeTp/Gqa93pdXOwdQdf8tZOneUqiqy0S8N4AreRpYJMK8KfyluKBUaA/evpMmA2SF
+         3Z4H/cCubaBKTnKPKfHsg4R7ZxmJIKV295KdI69MfweSU72GYscLQXcLk5X3tXSXHzKX
+         xpQ1LBGGzS1fKd33M5junwCxB+Y8prMJvPoxQvbVxDgUHALGW6zUYbixUoVACLAn8m9R
+         Y3Grmean79Kx81ZD9K0u1NnPfpnT8v9t/mEBdXhDAxyALtO/P+NcU0oRJuhpMf0wo/is
+         WVx/qU83edQvB3fu8/1Y/0654mRJzSteGuQk6As4OI7NSD4sb9Zcnvo25KFc6fDc3Bn1
+         rdcA==
+X-Gm-Message-State: APjAAAXk3hw1i+45Kl+vFbbYnds0UQoCF7dynRVF5DYDjIK4XKYtggnc
+        C9IS+PEfJLXuC4zirtecYCXPPYK/gt8=
+X-Google-Smtp-Source: APXvYqwnZx3UsFw9tXhL1LKY1pc0SI7+G9To5dGcweMEWFrJ8hdLdd2oaTaKuKhIo7cilHZxWPmycw==
+X-Received: by 2002:adf:d187:: with SMTP id v7mr36485204wrc.33.1567416990962;
+        Mon, 02 Sep 2019 02:36:30 -0700 (PDT)
+Received: from arch-late (87-196-73-69.net.novis.pt. [87.196.73.69])
+        by smtp.gmail.com with ESMTPSA id r6sm14586137wmf.0.2019.09.02.02.36.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Sep 2019 02:33:47 -0700 (PDT)
-From:   Jiunn Chang <c0d1n61at3@gmail.com>
-To:     rainer.auran@gmail.com, linux-media@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Cc:     hverkuil@xs4all.nl
-Subject: [PATCH] cec-compliance: system audio control tests
-Date:   Mon,  2 Sep 2019 04:33:46 -0500
-Message-Id: <20190902093346.20041-1-c0d1n61at3@gmail.com>
-X-Mailer: git-send-email 2.23.0
+        Mon, 02 Sep 2019 02:36:28 -0700 (PDT)
+References: <20190805233505.21167-1-slongerbeam@gmail.com> <20190805233505.21167-15-slongerbeam@gmail.com>
+User-agent: mu4e 1.2.0; emacs 27.0.50
+From:   Rui Miguel Silva <rmfrfs@gmail.com>
+To:     Steve Longerbeam <slongerbeam@gmail.com>
+Cc:     linux-media@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        "open list\:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
+        "moderated list\:ARM\/FREESCALE IMX \/ MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 14/22] media: imx7-mipi-csis: Create media links in bound notifier
+In-reply-to: <20190805233505.21167-15-slongerbeam@gmail.com>
+Date:   Mon, 02 Sep 2019 10:36:20 +0100
+Message-ID: <m3d0gj59bf.fsf@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add user control press operands:
- - Mute Function
- - Restore Volume Function
+Hi Steve,
+Just to let you know that this series no longer apply clean after
+your other series:
+media: imx: Fix subdev unregister/register issues
 
-Signed-off-by: Jiunn Chang <c0d1n61at3@gmail.com>
----
- utils/cec-compliance/cec-test-audio.cpp | 32 +++++++++++++++++++++++++
- utils/cec-follower/cec-processing.cpp   |  6 +++++
- 2 files changed, 38 insertions(+)
+And since you will need to send a new one, some notes...
 
-diff --git a/utils/cec-compliance/cec-test-audio.cpp b/utils/cec-compliance/cec-test-audio.cpp
-index 8611350e..872bb9ad 100644
---- a/utils/cec-compliance/cec-test-audio.cpp
-+++ b/utils/cec-compliance/cec-test-audio.cpp
-@@ -673,6 +673,32 @@ static int sac_user_control_press_mute(struct node *node, unsigned me, unsigned
- 	return 0;
- }
- 
-+static int sac_user_control_press_mute_function(struct node *node, unsigned me, unsigned la, bool interactive)
-+{
-+	__u8 ret;
-+
-+	if ((ret = sac_util_send_user_control_press(node, me, la, 0x65)))
-+		return ret;
-+	fail_on_test_v2(node->remote[la].cec_version,
-+			la == CEC_LOG_ADDR_AUDIOSYSTEM &&
-+			node->remote[la].mute == CEC_OP_AUD_MUTE_STATUS_ON);
-+
-+	return 0;
-+}
-+
-+static int sac_user_control_press_restore_volume_function(struct node *node, unsigned me, unsigned la, bool interactive)
-+{
-+	__u8 ret;
-+
-+	if ((ret = sac_util_send_user_control_press(node, me, la, 0x66)))
-+		return ret;
-+	fail_on_test_v2(node->remote[la].cec_version,
-+			la == CEC_LOG_ADDR_AUDIOSYSTEM &&
-+			node->remote[la].mute == CEC_OP_AUD_MUTE_STATUS_OFF);
-+
-+	return 0;
-+}
-+
- static int sac_user_control_release(struct node *node, unsigned me, unsigned la, bool interactive)
- {
- 	struct cec_msg msg = {};
-@@ -763,6 +789,12 @@ struct remote_subtest sac_subtests[] = {
- 	{ "User Control Pressed (Mute)",
- 	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
- 	  sac_user_control_press_mute },
-+	{ "User Control Pressed (Restore Volume Function)",
-+	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
-+	  sac_user_control_press_restore_volume_function },
-+	{ "User Control Pressed (Mute Function)",
-+	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
-+	  sac_user_control_press_mute_function },
- 	{ "User Control Released",
- 	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
- 	  sac_user_control_release },
-diff --git a/utils/cec-follower/cec-processing.cpp b/utils/cec-follower/cec-processing.cpp
-index 27172560..c6d88647 100644
---- a/utils/cec-follower/cec-processing.cpp
-+++ b/utils/cec-follower/cec-processing.cpp
-@@ -516,6 +516,12 @@ static void processMsg(struct node *node, struct cec_msg &msg, unsigned me)
- 		case 0x43:
- 			node->state.mute = !node->state.mute;
- 			break;
-+		case 0x65:
-+			node->state.mute = CEC_OP_AUD_MUTE_STATUS_ON;
-+			break;
-+		case 0x66:
-+			node->state.mute = CEC_OP_AUD_MUTE_STATUS_OFF;
-+			break;
- 		case 0x6B:
- 			if (!enter_standby(node))
- 				exit_standby(node);
--- 
-2.23.0
+On Tue 06 Aug 2019 at 00:34, Steve Longerbeam wrote:
+> Implement a notifier bound op to register media links from the remote
+> sub-device's source pad(s) to the mipi csi-2 receiver sink pad.
+>
+> Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
+> ---
+>  drivers/staging/media/imx/imx7-mipi-csis.c | 25 ++++++++++++++++++++++
+>  1 file changed, 25 insertions(+)
+>
+> diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
+> index f71d9183cad2..e03b2317a1ac 100644
+> --- a/drivers/staging/media/imx/imx7-mipi-csis.c
+> +++ b/drivers/staging/media/imx/imx7-mipi-csis.c
+> @@ -259,6 +259,12 @@ struct csi_state {
+>  	bool sink_linked;
+>  };
+>
+> +static inline struct csi_state *
+> +notifier_to_csis_state(struct v4l2_async_notifier *n)
+>
+
+instead of adding this between structs declaration can you move it
+down near the similar converter:
+
+static struct csi_state *mipi_sd_to_csis_state(struct v4l2_subdev *sdev)
+
+and remove the inline since the compiler should do this and add
+namespacing function name like the other functions, something like:
+
+static struct csi_state * mipi_notifier_to_csis_state(struct v4l2_async_notifier *n)
+
+Just to coherency.
+
+Other than this, looks good to me.
+
+Cheers,
+   Rui
+
+> +{
+> +	return container_of(n, struct csi_state, notifier);
+> +}
+> +
+>  struct csis_pix_format {
+>  	unsigned int pix_width_alignment;
+>  	u32 code;
+> @@ -863,6 +869,23 @@ static int mipi_csis_parse_endpoint(struct device *dev,
+>  	return 0;
+>  }
+>
+> +static int mipi_csis_notify_bound(struct v4l2_async_notifier *notifier,
+> +				  struct v4l2_subdev *sd,
+> +				  struct v4l2_async_subdev *asd)
+> +{
+> +	struct csi_state *state = notifier_to_csis_state(notifier);
+> +	struct media_pad *sink = &state->mipi_sd.entity.pads[CSIS_PAD_SINK];
+> +
+> +	return media_create_fwnode_pad_links(sink,
+> +					     dev_fwnode(state->mipi_sd.dev),
+> +					     &sd->entity,
+> +					     dev_fwnode(sd->dev), 0);
+> +}
+> +
+> +static const struct v4l2_async_notifier_operations mipi_csis_notify_ops = {
+> +	.bound = mipi_csis_notify_bound,
+> +};
+> +
+>  static int mipi_csis_subdev_init(struct v4l2_subdev *mipi_sd,
+>  				 struct platform_device *pdev,
+>  				 const struct v4l2_subdev_ops *ops)
+> @@ -895,6 +918,8 @@ static int mipi_csis_subdev_init(struct v4l2_subdev *mipi_sd,
+>
+>  	v4l2_async_notifier_init(&state->notifier);
+>
+> +	state->notifier.ops = &mipi_csis_notify_ops;
+> +
+>  	ret = v4l2_async_register_fwnode_subdev(mipi_sd, &state->notifier,
+>  						sizeof(struct v4l2_async_subdev),
+>  						&sink_port, 1,
 
