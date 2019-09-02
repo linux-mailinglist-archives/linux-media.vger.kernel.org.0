@@ -2,103 +2,276 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D5BBA530C
-	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2019 11:41:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E1F6A533F
+	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2019 11:47:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731280AbfIBJlc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Sep 2019 05:41:32 -0400
-Received: from mx07-00178001.pphosted.com ([62.209.51.94]:59530 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731262AbfIBJlc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 2 Sep 2019 05:41:32 -0400
-Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x829aShX002477;
-        Mon, 2 Sep 2019 11:41:19 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type : content-id
- : content-transfer-encoding : mime-version; s=STMicroelectronics;
- bh=k4XLct6ml4ZJyCzK/W4Oqc4vom88qBwlUIHqJmE7NVU=;
- b=WExV3yo0UPyis40W1IocHx2q9xWZZSLIfCVI7UUkJwCObFD46QEF9IUtRIJuOBrfYnxq
- 6czmU8hNIPLA7XGX1KQrvp7cX7iVKSt52MN51pq4wKmaC5oTGAth/pHgHokuv4sXoyel
- IXZ/Un1qARFnrDe9lVVpwZUL1ua43s7NrMoWgTmHGrhxnZ7W8BO+zdG35NOyhq638FTC
- iKLEGDkFQqo76Bldg1xhNjlF4LUTq5m4ilYBT9wF2qCyd3mbVk1FTAhOtp0HMJSRAFRs
- f3Jgeyx8HkSxwBxk0eu8fYwOXfKCm4omgG79+HklgbA5up1cHxqf2IZlPsmncu9YQPQg gw== 
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-        by mx07-00178001.pphosted.com with ESMTP id 2uqec2ksbf-1
-        (version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
-        Mon, 02 Sep 2019 11:41:19 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id A781524;
-        Mon,  2 Sep 2019 09:41:15 +0000 (GMT)
-Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 084022D43A1;
-        Mon,  2 Sep 2019 11:41:15 +0200 (CEST)
-Received: from SFHDAG5NODE1.st.com (10.75.127.13) by SFHDAG3NODE2.st.com
- (10.75.127.8) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Mon, 2 Sep
- 2019 11:41:14 +0200
-Received: from SFHDAG5NODE1.st.com ([fe80::cc53:528c:36c8:95f6]) by
- SFHDAG5NODE1.st.com ([fe80::cc53:528c:36c8:95f6%20]) with mapi id
- 15.00.1473.003; Mon, 2 Sep 2019 11:41:14 +0200
-From:   Hugues FRUCHET <hugues.fruchet@st.com>
-To:     Markus Elfring <Markus.Elfring@web.de>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-stm32@st-md-mailman.stormreply.com" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Alexandre TORGUE <alexandre.torgue@st.com>,
+        id S1730117AbfIBJrA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Sep 2019 05:47:00 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:59154 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729831AbfIBJrA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Sep 2019 05:47:00 -0400
+Received: from pendragon.ideasonboard.com (231.125-247-81.adsl-dyn.isp.belgacom.be [81.247.125.231])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F2B6D303;
+        Mon,  2 Sep 2019 11:46:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1567417617;
+        bh=xgPkCvAqveURzwoQQHqUp/T0MAnkDpmgStDPY8iB70w=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=gjMsNumWOcF38lMybMWR9bNWcZyUaQ21NIHGHjnSYHGRgjfJrKU5SgplNvo+VAelY
+         UIjkqBwEGJQrOnFdiimE008hDdtMIVkmgNWr4gwn2KeddIyQrG7CqgTogaimjZ/F5g
+         MLZlyyHaNdw/6D6wdg/e8NVgOdmW5SIBA9p9M/b8=
+Date:   Mon, 2 Sep 2019 12:46:51 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "Maxime Coquelin" <mcoquelin.stm32@gmail.com>
-CC:     LKML <linux-kernel@vger.kernel.org>,
-        "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>
-Subject: Re: [PATCH] media: stm32-dcmi: Delete an unnecessary of_node_put()
- call in dcmi_probe()
-Thread-Topic: [PATCH] media: stm32-dcmi: Delete an unnecessary of_node_put()
- call in dcmi_probe()
-Thread-Index: AQHVXOEYzuD2okWKlEeO39Kr8stWpKcYCdSA
-Date:   Mon, 2 Sep 2019 09:41:14 +0000
-Message-ID: <58d7d520-ba18-a822-4920-2bedb0d01203@st.com>
-References: <129a4933-2171-7ed9-c84c-8e56b6d05270@web.de>
-In-Reply-To: <129a4933-2171-7ed9-c84c-8e56b6d05270@web.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.75.127.51]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <4915444CEE91B947B1778506854F085B@st.com>
-Content-Transfer-Encoding: base64
+        Sakari Ailus <sakari.ailus@linux.intel.com>, tfiga@google.com,
+        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
+        <linux-media@vger.kernel.org>
+Subject: Re: [PATCH v2 06/10] media: v4l2-fwnode: Add helper to register
+ controls from fw
+Message-ID: <20190902094651.GA9963@pendragon.ideasonboard.com>
+References: <20190827092339.8858-1-jacopo@jmondi.org>
+ <20190827092339.8858-9-jacopo@jmondi.org>
+ <f4e57a0c-08e5-c52c-bd52-7bf7e8f54c30@xs4all.nl>
+ <20190829124516.3fbvxcrligtbiy7d@uno.localdomain>
+ <54707d6c-fb8e-c10c-e48a-c0ae72075190@xs4all.nl>
+ <20190829150548.GF5875@pendragon.ideasonboard.com>
+ <6bd504eb-d56c-f07d-8daa-363b1618a1bd@xs4all.nl>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.70,1.0.8
- definitions=2019-09-02_03:2019-08-29,2019-09-02 signatures=0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <6bd504eb-d56c-f07d-8daa-363b1618a1bd@xs4all.nl>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-QWNrZWQtYnk6IEh1Z3VlcyBGcnVjaGV0IDxodWd1ZXMuZnJ1Y2hldEBzdC5jb20+DQoNCk9uIDgv
-MjcvMTkgNDowOSBQTSwgTWFya3VzIEVsZnJpbmcgd3JvdGU6DQo+IEZyb206IE1hcmt1cyBFbGZy
-aW5nIDxlbGZyaW5nQHVzZXJzLnNvdXJjZWZvcmdlLm5ldD4NCj4gRGF0ZTogVHVlLCAyNyBBdWcg
-MjAxOSAxNjowMDoxMyArMDIwMA0KPiANCj4gQSBudWxsIHBvaW50ZXIgd291bGQgYmUgcGFzc2Vk
-IHRvIGEgY2FsbCBvZiB0aGUgZnVuY3Rpb24g4oCcb2Zfbm9kZV9wdXTigJ0NCj4gaW1tZWRpYXRl
-bHkgYWZ0ZXIgYSBjYWxsIG9mIHRoZSBmdW5jdGlvbiDigJxvZl9ncmFwaF9nZXRfbmV4dF9lbmRw
-b2ludOKAnQ0KPiBmYWlsZWQgYXQgb25lIHBsYWNlLg0KPiBSZW1vdmUgdGhpcyBzdXBlcmZsdW91
-cyBmdW5jdGlvbiBjYWxsLg0KPiANCj4gVGhpcyBpc3N1ZSB3YXMgZGV0ZWN0ZWQgYnkgdXNpbmcg
-dGhlIENvY2NpbmVsbGUgc29mdHdhcmUuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBNYXJrdXMgRWxm
-cmluZyA8ZWxmcmluZ0B1c2Vycy5zb3VyY2Vmb3JnZS5uZXQ+DQo+IC0tLQ0KPiAgIGRyaXZlcnMv
-bWVkaWEvcGxhdGZvcm0vc3RtMzIvc3RtMzItZGNtaS5jIHwgMSAtDQo+ICAgMSBmaWxlIGNoYW5n
-ZWQsIDEgZGVsZXRpb24oLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL21lZGlhL3BsYXRm
-b3JtL3N0bTMyL3N0bTMyLWRjbWkuYyBiL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vc3RtMzIvc3Rt
-MzItZGNtaS5jDQo+IGluZGV4IGNiMWRhZjgyMTdmZi4uOTM5MmUzNDA5ZmJhIDEwMDY0NA0KPiAt
-LS0gYS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL3N0bTMyL3N0bTMyLWRjbWkuYw0KPiArKysgYi9k
-cml2ZXJzL21lZGlhL3BsYXRmb3JtL3N0bTMyL3N0bTMyLWRjbWkuYw0KPiBAQCAtMTg2MSw3ICsx
-ODYxLDYgQEAgc3RhdGljIGludCBkY21pX3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBk
-ZXYpDQo+ICAgCW5wID0gb2ZfZ3JhcGhfZ2V0X25leHRfZW5kcG9pbnQobnAsIE5VTEwpOw0KPiAg
-IAlpZiAoIW5wKSB7DQo+ICAgCQlkZXZfZXJyKCZwZGV2LT5kZXYsICJDb3VsZCBub3QgZmluZCB0
-aGUgZW5kcG9pbnRcbiIpOw0KPiAtCQlvZl9ub2RlX3B1dChucCk7DQo+ICAgCQlyZXR1cm4gLUVO
-T0RFVjsNCj4gICAJfQ0KPiANCj4gLS0NCj4gMi4yMy4wDQo+IA==
+Hi Hans,
+
+On Thu, Aug 29, 2019 at 05:32:52PM +0200, Hans Verkuil wrote:
+> On 8/29/19 5:05 PM, Laurent Pinchart wrote:
+> > On Thu, Aug 29, 2019 at 03:04:42PM +0200, Hans Verkuil wrote:
+> >> On 8/29/19 2:45 PM, Jacopo Mondi wrote:
+> >>> On Thu, Aug 29, 2019 at 12:31:37PM +0200, Hans Verkuil wrote:
+> >>>> On 8/27/19 11:23 AM, Jacopo Mondi wrote:
+> >>>>> Add the 'v4l2_fwnode_register_controls()' helper to v4l2-fwnode. The
+> >>>>> function parses the device node and endpoint firmware properties to
+> >>>>> which a v4l2 control is associated to and registers the control with the
+> >>>>> provided handler.
+> >>>>>
+> >>>>> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> >>>>> ---
+> >>>>>  drivers/media/v4l2-core/v4l2-fwnode.c | 57 +++++++++++++++++++++++++++
+> >>>>>  include/media/v4l2-fwnode.h           | 30 ++++++++++++++
+> >>>>>  2 files changed, 87 insertions(+)
+> >>>>>
+> >>>>> diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
+> >>>>> index 3bd1888787eb..669801fceb64 100644
+> >>>>> --- a/drivers/media/v4l2-core/v4l2-fwnode.c
+> >>>>> +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
+> >>>>> @@ -25,6 +25,7 @@
+> >>>>>  #include <linux/types.h>
+> >>>>>
+> >>>>>  #include <media/v4l2-async.h>
+> >>>>> +#include <media/v4l2-ctrls.h>
+> >>>>>  #include <media/v4l2-fwnode.h>
+> >>>>>  #include <media/v4l2-subdev.h>
+> >>>>>
+> >>>>> @@ -595,6 +596,62 @@ void v4l2_fwnode_put_link(struct v4l2_fwnode_link *link)
+> >>>>>  }
+> >>>>>  EXPORT_SYMBOL_GPL(v4l2_fwnode_put_link);
+> >>>>>
+> >>>>> +int v4l2_fwnode_register_controls(struct fwnode_handle *fwnode,
+> >>>>> +				  struct v4l2_ctrl_handler *hdl,
+> >>>>> +				  const struct v4l2_ctrl_ops *ctrl_ops)
+> >>>>
+> >>>> I'm not convinced that this helper is a good idea.
+> >>>>
+> >>>> A helper that parses and validates this information makes sense,
+> >>>> but combining that with creating the controls feels wrong to me.
+> >>>>
+> >>>> You're mixing two very different things in one function.
+> >>>>
+> >>>> I think something like this would work better in a driver:
+> >>>>
+> >>>> 	if (!v4l2_fwnode_parse_location(&val))
+> >>>> 		v4l2_ctrl_new_std(hdl, ctrl_ops,
+> >>>> 				  V4L2_CID_CAMERA_SENSOR_LOCATION,
+> >>>> 				  val, val, 1, val);
+> >>>> 	if (!v4l2_fwnode_parse_rotation(&val))
+> >>>> 		v4l2_ctrl_new_std(hdl, ctrl_ops,
+> >>>> 				  V4L2_CID_CAMERA_SENSOR_ROTATION,
+> >>>> 				  val, val, 1, val);
+> >>>>
+> >>>> Much cleaner IMHO. (Just a brainstorm, so don't get stuck on these
+> >>>> function prototypes!)
+> >>>>
+> >>>
+> >>> Could the control registration being conditional on the presence of
+> >>> the *hdl parameter otherwise, or would you split the two operations
+> >>> (property parsing and control registration) nonetheless ?
+> >>
+> >> Split it. My main problem with this helper is that it is mixing two
+> >> frameworks. Most of Laurent's comments on this patch just go away if
+> >> you leave the control creation to the driver.
+> >>
+> >> It really isn't much code, and it is much easier to review a driver
+> >> if all the controls are created in the same place instead of some
+> >> controls being magically created in a helper function.
+> > 
+> > But this would require copying the above code in every single camera
+> > sensor driver. Furthermore, the helper proposed by Jacopo would make
+> > addition of new firmware properties much simpler, as we wouldn't need to
+> > modify all sensor drivers.
+> > 
+> > V4L2 requires lots of boilerplate code for sensor drivers, and I think
+> > more helper would be useful. There's really not point in doing the same
+> > thing slightly differently in dozens of drivers. Maybe we could
+> > experiment with a v4l2_camera_subdev structure ?
+> 
+> You can make one v4l2_fwnode helper that parses all the sensor properties,
+> and another helper in v4l2-ctrl.c or v4l2-common.c that uses the parsed
+> result to create the controls. That way if the driver needs to do something
+> unusual with the controls it can just create them manually.
+
+Looks good to me.
+
+> But don't mix the two in one helper.
+> 
+> Note that creating some more advanced framework for sensors wouldn't hurt
+> since it's a bit mess at the moment IMHO.
+
+It's a bit too much as a prerequisite for this patch series, but I'd
+like to see this happening sooner than later, yes.
+
+> >>> An helper was suggested in the v1 review, Laurent, Sakari, what do you
+> >>> think here?
+> >>>
+> >>>>> +{
+> >>>>> +	u32 val;
+> >>>>> +	int ret;
+> >>>>> +
+> >>>>> +	ret = fwnode_property_read_u32(fwnode, "location", &val);
+> >>>>> +	if (!ret) {
+> >>>>> +		switch (val) {
+> >>>>> +		case V4L2_LOCATION_FRONT:
+> >>>>> +		case V4L2_LOCATION_BACK:
+> >>>>> +		case V4L2_LOCATION_EXTERNAL:
+> >>>>> +			break;
+> >>>>> +		default:
+> >>>>> +			pr_warn("Unsupported location: %u\n", val);
+> >>>>> +			return -EINVAL;
+> >>>>> +		}
+> >>>>> +
+> >>>>> +		if (v4l2_ctrl_find(hdl, V4L2_CID_CAMERA_SENSOR_LOCATION))
+> >>>>> +			pr_debug("Skip control '%s': already registered",
+> >>>>> +				 v4l2_ctrl_get_name(
+> >>>>> +					 V4L2_CID_CAMERA_SENSOR_LOCATION));
+> >>>>> +		else
+> >>>>> +			v4l2_ctrl_new_std(hdl, ctrl_ops,
+> >>>>> +					  V4L2_CID_CAMERA_SENSOR_LOCATION,
+> >>>>> +					  val, val, 1, val);
+> >>>>> +	}
+> >>>>> +
+> >>>>> +	ret = fwnode_property_read_u32(fwnode, "rotation", &val);
+> >>>>> +	if (!ret) {
+> >>>>> +		if (val > 360) {
+> >>>>
+> >>>> I'd add '|| val % 90' to this condition.
+> >>>
+> >>> Do we want to enforce this? I can't imagine any use case, but why a
+> >>> camera cannot be rotated of an arbitrary number of degrees ?
+> >>
+> >> I would start out by enforcing this until someone comes up with a
+> >> realistic use-case.
+> >>
+> >> As long as it is a multiple of 90 degree, then there is a clear interaction
+> >> with the ROTATE/HFLIP/VFLIP controls. For other angles that gets more confusing
+> >> and I'd rather avoid that for now.
+> > 
+> > If we enfore this, then let's update the DT bindings accordingly. yaml
+> > would help with validation ;-)
+> > 
+> >>>>> +			pr_warn("Unsupported rotation: %u\n", val);
+> >>>>> +			return -EINVAL;
+> >>>>> +		}
+> >>>>> +
+> >>>>> +		if (v4l2_ctrl_find(hdl, V4L2_CID_CAMERA_SENSOR_ROTATION))
+> >>>>> +			pr_debug("Skip control '%s': already registered",
+> >>>>> +				 v4l2_ctrl_get_name(
+> >>>>> +					 V4L2_CID_CAMERA_SENSOR_ROTATION));
+> >>>>> +		else
+> >>>>> +			v4l2_ctrl_new_std(hdl, ctrl_ops,
+> >>>>> +					  V4L2_CID_CAMERA_SENSOR_ROTATION,
+> >>>>> +					  val, val, 1, val);
+> >>>>> +	}
+> >>>>> +
+> >>>>> +	if (hdl->error) {
+> >>>>> +		pr_warn("Failed to register controls from firmware: %d\n",
+> >>>>> +			hdl->error);
+> >>>>> +		return hdl->error;
+> >>>>> +	}
+> >>>>> +
+> >>>>> +	return 0;
+> >>>>> +}
+> >>>>> +EXPORT_SYMBOL_GPL(v4l2_fwnode_register_controls);
+> >>>>> +
+> >>>>>  static int
+> >>>>>  v4l2_async_notifier_fwnode_parse_endpoint(struct device *dev,
+> >>>>>  					  struct v4l2_async_notifier *notifier,
+> >>>>> diff --git a/include/media/v4l2-fwnode.h b/include/media/v4l2-fwnode.h
+> >>>>> index f6a7bcd13197..0dad6968bde9 100644
+> >>>>> --- a/include/media/v4l2-fwnode.h
+> >>>>> +++ b/include/media/v4l2-fwnode.h
+> >>>>> @@ -25,6 +25,8 @@
+> >>>>>  struct fwnode_handle;
+> >>>>>  struct v4l2_async_notifier;
+> >>>>>  struct v4l2_async_subdev;
+> >>>>> +struct v4l2_ctrl_handler;
+> >>>>> +struct v4l2_ctrl_ops;
+> >>>>>
+> >>>>>  #define V4L2_FWNODE_CSI2_MAX_DATA_LANES	4
+> >>>>>
+> >>>>> @@ -233,6 +235,34 @@ int v4l2_fwnode_parse_link(struct fwnode_handle *fwnode,
+> >>>>>   */
+> >>>>>  void v4l2_fwnode_put_link(struct v4l2_fwnode_link *link);
+> >>>>>
+> >>>>> +/**
+> >>>>> + * v4l2_fwnode_register_controls() - parse device and endpoint fwnode
+> >>>>> + *				     properties and register a v4l2 control
+> >>>>> + *				     for each of them
+> >>>>> + * @fwnode: pointer to the device fwnode handle
+> >>>>> + * @hdl: pointer to the v4l2 control handler to register controls with
+> >>>>> + * @ctrl_ops: pointer to the v4l2 control operations to register with the handler
+> >>>>> + *
+> >>>>> + * Parse the @fwnode device and endpoint properties to which a v4l2 control
+> >>>>> + * is associated and register them with the provided handler @hdl.
+> >>>>> + * Currently the following v4l2 controls are parsed and registered:
+> >>>>> + * - V4L2_CID_CAMERA_SENSOR_LOCATION;
+> >>>>> + * - V4L2_CID_CAMERA_SENSOR_ROTATION;
+> >>>>> + *
+> >>>>> + * Controls already registered by the caller with the @hdl control handler are
+> >>>>> + * not overwritten. Callers should register the controls they want to handle
+> >>>>> + * themselves before calling this function.
+> >>>>> + *
+> >>>>> + * NOTE: This function locks the @hdl control handler mutex, the caller shall
+> >>>>> + * not hold the lock when calling this function.
+> >>>>> + *
+> >>>>> + * Return: 0 on success, -EINVAL if the fwnode properties are not correctly
+> >>>>> + * specified.
+> >>>>> + */
+> >>>>> +int v4l2_fwnode_register_controls(struct fwnode_handle *fwnode,
+> >>>>> +				  struct v4l2_ctrl_handler *hdl,
+> >>>>> +				  const struct v4l2_ctrl_ops *ctrl_ops);
+> >>>>> +
+> >>>>>  /**
+> >>>>>   * typedef parse_endpoint_func - Driver's callback function to be called on
+> >>>>>   *	each V4L2 fwnode endpoint.
+
+-- 
+Regards,
+
+Laurent Pinchart
