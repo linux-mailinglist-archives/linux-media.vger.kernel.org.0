@@ -2,357 +2,462 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A2FAAA5541
-	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2019 13:47:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 24F56A5580
+	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2019 14:04:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730043AbfIBLr6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Sep 2019 07:47:58 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:21512 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1729986AbfIBLr5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Sep 2019 07:47:57 -0400
-X-UUID: f009806bd3e34f7eb47ff23a38fb640e-20190902
-X-UUID: f009806bd3e34f7eb47ff23a38fb640e-20190902
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw02.mediatek.com
-        (envelope-from <jerry-ch.chen@mediatek.com>)
-        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
-        with ESMTP id 206214317; Mon, 02 Sep 2019 19:47:47 +0800
-Received: from mtkcas09.mediatek.inc (172.21.101.178) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Mon, 2 Sep 2019 19:47:47 +0800
-Received: from [172.21.84.99] (172.21.84.99) by mtkcas09.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Mon, 2 Sep 2019 19:47:40 +0800
-Message-ID: <1567424859.18318.32.camel@mtksdccf07>
-Subject: Re: [RFC PATCH V2 4/4] platform: mtk-isp: Add Mediatek FD driver
-From:   Jerry-ch Chen <Jerry-ch.Chen@mediatek.com>
-To:     Tomasz Figa <tfiga@chromium.org>
-CC:     "yuzhao@chromium.org" <yuzhao@chromium.org>,
-        "zwisler@chromium.org" <zwisler@chromium.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Sean Cheng =?UTF-8?Q?=28=E9=84=AD=E6=98=87=E5=BC=98=29?= 
-        <Sean.Cheng@mediatek.com>,
-        "Sj Huang =?UTF-8?Q?=28=E9=BB=83=E4=BF=A1=E7=92=8B=29?=" 
-        <sj.huang@mediatek.com>,
-        Christie Yu =?UTF-8?Q?=28=E6=B8=B8=E9=9B=85=E6=83=A0=29?= 
-        <christie.yu@mediatek.com>,
-        Frederic Chen =?UTF-8?Q?=28=E9=99=B3=E4=BF=8A=E5=85=83=29?= 
-        <Frederic.Chen@mediatek.com>,
-        Jungo Lin =?UTF-8?Q?=28=E6=9E=97=E6=98=8E=E4=BF=8A=29?= 
-        <jungo.lin@mediatek.com>,
-        Rynn Wu =?UTF-8?Q?=28=E5=90=B3=E8=82=B2=E6=81=A9=29?= 
-        <Rynn.Wu@mediatek.com>,
-        Po-Yang Huang =?UTF-8?Q?=28=E9=BB=83=E6=9F=8F=E9=99=BD=29?= 
-        <po-yang.huang@mediatek.com>,
-        "shik@chromium.org" <shik@chromium.org>,
-        "suleiman@chromium.org" <suleiman@chromium.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        srv_heupstream <srv_heupstream@mediatek.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "laurent.pinchart+renesas@ideasonboard.com" 
-        <laurent.pinchart+renesas@ideasonboard.com>,
-        "hans.verkuil@cisco.com" <hans.verkuil@cisco.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>
-Date:   Mon, 2 Sep 2019 19:47:39 +0800
-In-Reply-To: <CAAFQd5D-Yg1FjUE_rwmqfS1gvfE0=MZ=r-ziueU_37-uo9QTbw@mail.gmail.com>
-References: <1562661672-22439-1-git-send-email-Jerry-Ch.chen@mediatek.com>
-         <1562661672-22439-5-git-send-email-Jerry-Ch.chen@mediatek.com>
-         <20190802082815.GA203993@chromium.org>
-         <1566724680.20680.8.camel@mtksdccf07>
-         <CAAFQd5Dw+jaT-+LAUEVeB8W1zdnOgPw7u+aCfDWhYW1SfbzO8g@mail.gmail.com>
-         <1566957625.20680.33.camel@mtksdccf07>
-         <CAAFQd5D-Yg1FjUE_rwmqfS1gvfE0=MZ=r-ziueU_37-uo9QTbw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Content-Transfer-Encoding: 7bit
+        id S1731359AbfIBMEw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Sep 2019 08:04:52 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:48327 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1731334AbfIBMEw (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 2 Sep 2019 08:04:52 -0400
+Received: from [192.168.2.10] ([46.9.232.237])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id 4l4gidhjazaKO4l4jiXbHQ; Mon, 02 Sep 2019 14:04:49 +0200
+Subject: Re: [PATCH] media: vimc: fla: Add virtual flash subdevice
+To:     =?UTF-8?Q?Lucas_A=2e_M=2e_Magalh=c3=a3es?= <lucmaga@gmail.com>,
+        linux-media@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, helen.koike@collabora.com,
+        edusbarretto@gmail.com
+References: <20190901211139.2405-1-lucmaga@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <1fea2f25-98d1-f9f6-a483-17c74f89452e@xs4all.nl>
+Date:   Mon, 2 Sep 2019 14:04:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-MTK:  N
+In-Reply-To: <20190901211139.2405-1-lucmaga@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfNS6P6VVuPGfIyZZPLLvy9iHL0FR+WayJNWWF9lazffIHCu33lsvZq2MckTnArvJAGC29EvS2TLcCsnTUY7DPldZ2eKaR1wvkWWLU++msO2rqfXA0tCd
+ tPy1tp6GqTbOl/C9ckHS45QxJP+w0OKslI99vKOgEgLoRWt+chn7b9emMMcgbQS/8rGVLeF2amck/IyUhvntuD2zP2syfFAs8JY3RlwuuBiAZrZp4duJxVnV
+ 9fo4/DRwmuhR4iNLI/CakLY0RMkmNlOyGCE2aGw2HAfCl/XFi3AcXt1UqOFm0U8Vva/BYs4ErNEzcixTpPtFmA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomasz,
+Hi Lucas, Eduardo,
 
-On Fri, 2019-08-30 at 16:33 +0800, Tomasz Figa wrote:
-> On Wed, Aug 28, 2019 at 11:00 AM Jerry-ch Chen
-> <Jerry-ch.Chen@mediatek.com> wrote:
-> >
-> > Hi Tomasz,
-> >
-> > On Mon, 2019-08-26 at 14:36 +0800, Tomasz Figa wrote:
-> > > Hi Jerry,
-> > >
-> > > On Sun, Aug 25, 2019 at 6:18 PM Jerry-ch Chen
-> > > <Jerry-ch.Chen@mediatek.com> wrote:
-> > > >
-> > > > Hi Tomasz,
-> > > >
-> > > > On Fri, 2019-08-02 at 16:28 +0800, Tomasz Figa wrote:
-> > > > > Hi Jerry,
-> > > > >
-> > > > > On Tue, Jul 09, 2019 at 04:41:12PM +0800, Jerry-ch Chen wrote:
-> > > > > > From: Jerry-ch Chen <jerry-ch.chen@mediatek.com>
-> > > > > >
-> > > > > > This patch adds the driver of Face Detection (FD) unit in
-> > > > > > Mediatek camera system, providing face detection function.
-> > > > > >
-> > > > > > The mtk-isp directory will contain drivers for multiple IP
-> > > > > > blocks found in Mediatek ISP system. It will include ISP Pass 1
-> > > > > > driver (CAM), sensor interface driver, DIP driver and face
-> > > > > > detection driver.
-> > > > > >
-> > > > > > Signed-off-by: Jerry-ch Chen <jerry-ch.chen@mediatek.com>
-> > > > > > ---
-> > > > > >  drivers/media/platform/Makefile               |    2 +
-> > > > > >  drivers/media/platform/mtk-isp/fd/Makefile    |    5 +
-> > > > > >  drivers/media/platform/mtk-isp/fd/mtk_fd.h    |  157 +++
-> > > > > >  drivers/media/platform/mtk-isp/fd/mtk_fd_40.c | 1259 +++++++++++++++++++++++++
-> > > > > >  include/uapi/linux/v4l2-controls.h            |    4 +
-> > > > > >  5 files changed, 1427 insertions(+)
-> > > > > >  create mode 100644 drivers/media/platform/mtk-isp/fd/Makefile
-> > > > > >  create mode 100644 drivers/media/platform/mtk-isp/fd/mtk_fd.h
-> > > > > >  create mode 100644 drivers/media/platform/mtk-isp/fd/mtk_fd_40.c
-> > > > > >
-> > > > >
-> > > > > Thanks for the patch! I finally got a chance to fully review the code. Sorry
-> > > > > for the delay. Please check my comments inline.
-> > > > >
-> > > > I appreciate your comments.
-> > > > I've fixed most of the comments and verifying them,
-> > > > Sorry for the delay, here is the reply.
-> > > >
-> > >
-> > > Thanks for replying to all the comments, it's very helpful. I'll snip
-> > > the parts that I don't have any further comments.
-> > >
-> > > [snip]
-> > >
-> > > > > > +   if (usercount == 1) {
-> > > > > > +           pm_runtime_get_sync(&fd_dev->pdev->dev);
-> > > > > > +           if (mtk_fd_hw_enable(fd_hw)) {
-> > > > > > +                   pm_runtime_put_sync(&fd_dev->pdev->dev);
-> > > > > > +                   atomic_dec_return(&fd_hw->fd_user_cnt);
-> > > > > > +                   mutex_unlock(&fd_hw->fd_hw_lock);
-> > > > > > +                   return -EINVAL;
-> > > > > > +           }
-> > > > > > +   }
-> > > > >
-> > > > > This is a simple mem-to-mem device, so there is no reason to keep it active
-> > > > > all the time it's streaming. Please just get the runtime PM counter when
-> > > > > queuing a job to the hardware and release it when the job finishes.
-> > > > >
-> > > > > I guess we might still want to do the costly operations like rproc_boot()
-> > > > > when we start streaming, though.
-> > > > >
-> > > > Do you mean by moving the pm_runtime_get/put stuff to the job execution
-> > > > and job finish place?
-> > >
-> > > Yes.
-> > >
-> > > > the rproc_boot() operation will be done here.
-> > > >
-> > >
-> > > How much time does the rproc_boot() operation take?
-> > >
-> >
-> > About 0.7~1.3ms, average 0.8ms (14 measurements)
-> >
+Thank you for the patch!
+
+Some comments below:
+
+On 9/1/19 11:11 PM, Lucas A. M. Magalhães wrote:
+> From: Lucas A. M. Magalhaes <lucmaga@gmail.com>
 > 
-> Okay, I think we may want to call it when we start streaming then.
+> Add a virtual subdevice to simulate the flash control API.
+> Those are the supported controls:
+> v4l2-ctl -d /dev/v4l-subdev6 -L
+> Flash Controls
 > 
-Done.
-
-> [snip]
+>                        led_mode 0x009c0901 (menu)   : min=0 max=2 default=0 value=0
+>                                 0: Off
+>                                 1: Flash
+>                                 2: Torch
+>                   strobe_source 0x009c0902 (menu)   : min=0 max=1 default=0 value=0
+>                                 0: Software
+>                                 1: External
+>                          strobe 0x009c0903 (button) : flags=write-only, execute-on-write
+>                     stop_strobe 0x009c0904 (button) : flags=write-only, execute-on-write
+>                   strobe_status 0x009c0905 (bool)   : default=0 value=0 flags=read-only
+>                  strobe_timeout 0x009c0906 (int)    : min=1 max=10 step=1 default=10 value=10
+>            intensity_flash_mode 0x009c0907 (int)    : min=0 max=255 step=1 default=255 value=255
+>            intensity_torch_mode 0x009c0908 (int)    : min=0 max=255 step=1 default=255 value=255
+>             intensity_indicator 0x009c0909 (int)    : min=0 max=255 step=1 default=255 value=255
+>                          faults 0x009c090a (bitmask): max=0x00000002 default=0x00000000 value=0x00000000
 > 
-> > > > > > +static int mtk_fd_vb2_queue_setup(struct vb2_queue *vq,
-> > > > > > +                             unsigned int *num_buffers,
-> > > > > > +                             unsigned int *num_planes,
-> > > > > > +                             unsigned int sizes[],
-> > > > > > +                             struct device *alloc_devs[])
-> > > > > > +{
-> > > > > > +   struct mtk_fd_ctx *ctx = vb2_get_drv_priv(vq);
-> > > > > > +   struct device *dev = ctx->dev;
-> > > > > > +   unsigned int size;
-> > > > > > +
-> > > > > > +   switch (vq->type) {
-> > > > > > +   case V4L2_BUF_TYPE_META_CAPTURE:
-> > > > > > +           size = ctx->dst_fmt.buffersize;
-> > > > > > +           break;
-> > > > > > +   case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
-> > > > > > +           size = ctx->src_fmt.plane_fmt[0].sizeimage;
-> > > > > > +           break;
-> > > > > > +   default:
-> > > > > > +           dev_err(dev, "invalid queue type: %d\n", vq->type);
-> > > > >
-> > > > > We should need to handle this.
-> > > > >
-> > > > Do you mean by giving a size instead of return -EINVAL?
-> > > >
-> > >
-> > > Sorry, typo. I meant we shouldn't need to handle it, because we can't
-> > > get any other queue type here.
-> > >
-> >
-> > Ok, I see, I will remove it.
-> > also, this function will be updated as following due to the 2 plane
-> > case.
-> >
-> > static int mtk_fd_vb2_queue_setup(struct vb2_queue *vq,
-> >                                   unsigned int *num_buffers,
-> >                                   unsigned int *num_planes,
-> >                                   unsigned int sizes[],
-> >                                   struct device *alloc_devs[])
-> > {
-> >         struct mtk_fd_ctx *ctx = vb2_get_drv_priv(vq);
-> >         struct device *dev = ctx->dev;
-> >         unsigned int size[2];
-> >
-> >         switch (vq->type) {
-> >         case V4L2_BUF_TYPE_META_CAPTURE:
-> >                 size[0] = ctx->dst_fmt.buffersize;
-> >                 break;
-> >         case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
-> >                 size[0] = ctx->src_fmt.plane_fmt[0].sizeimage;
-> >                 if (*num_planes == 2)
-> >                         size[1] = ctx->src_fmt.plane_fmt[1].sizeimage;
-> >                 break;
-> >         }
-> >
-> >         if (*num_planes == 1) {
-> >                 if (sizes[0] < size[0])
-> >                         return -EINVAL;
-> >         } else if (*num_planes == 2) {
-> >                 if ((sizes[0] < size[0]) && (sizes[1] < size[1]))
-> >                         return -EINVAL;
+> Co-authored-by: Eduardo Barretto <edusbarretto@gmail.com>
+> Signed-off-by: Eduardo Barretto <edusbarretto@gmail.com>
+> Signed-off-by: Lucas A. M. Magalhães <lucmaga@gmail.com>
 > 
-> Can we just use a loop here and combine the 2 cases above?
+> ---
+> Hi,
 > 
-> Also, we need to fail with -EINVAL if *num_planes is > 2.
+> This patch depends on the patch series
+> 	"Collapse vimc into single monolithic driver" version 3.
 > 
-> >         } else {
-> >                 *num_planes = 1;
-> >                 sizes[0] = size[0];
+> I tested it using the v4l2-ctl and the v4l2-compliance. Apparently the compliance
+> doesn't test any of the standard flash controls. However I got this error:
 > 
-> This should be the case if *num_planes == 0 and the number of planes
-> and sizes should match the currently active format.
+> test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+>         fail: v4l2-test-controls.cpp(830): subscribe event for control 'Flash Controls' failed
 > 
-I appreciate your comments,
-
-Ok, I will update as following:
-static int mtk_fd_vb2_queue_setup(struct vb2_queue *vq,
-				  unsigned int *num_buffers,
-				  unsigned int *num_planes,
-				  unsigned int sizes[],
-				  struct device *alloc_devs[])
-{
-	struct mtk_fd_ctx *ctx = vb2_get_drv_priv(vq);
-	unsigned int size[2];
-	unsigned int plane;
-
-	switch (vq->type) {
-	case V4L2_BUF_TYPE_META_CAPTURE:
-		size[0] = ctx->dst_fmt.buffersize;
-		break;
-	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
-		size[0] = ctx->src_fmt.plane_fmt[0].sizeimage;
-		if (*num_planes == 2)
-			size[1] = ctx->src_fmt.plane_fmt[1].sizeimage;
-		break;
-	}
-
-	if (*num_planes > 2)
-		return -EINVAL;
-	if (*num_planes == 0) {
-		if (vq->type == V4L2_BUF_TYPE_META_CAPTURE) {
-			sizes[0] = ctx->dst_fmt.buffersize;
-			*num_planes = 1;
-			return 0;
-		}
-
-		*num_planes = ctx->src_fmt.num_planes;
-		for (plane = 0; plane < *num_planes; plane++)
-			sizes[plane] = ctx->src_fmt.plane_fmt[plane].sizeimage;
-		return 0;
-	}
-
-	for (plane = 0; plane < *num_planes; plane++) {
-		if(sizes[plane] < size[plane])
-			return -EINVAL;
-	}
-	return 0;
-}
-
-> >         }
-> >
-> >         return 0;
-> > }
-> >
-> > > [snip]
-> > >
-> > > > > > +static void mtk_fd_vb2_stop_streaming(struct vb2_queue *vq)
-> > > > > > +{
-> > > > > > +   struct mtk_fd_ctx *ctx = vb2_get_drv_priv(vq);
-> > > > > > +   struct vb2_buffer *vb;
-> > > > >
-> > > > > How do we guarantee here that the hardware isn't still accessing the buffers
-> > > > > removed below?
-> > > > >
-> > > > Maybe we can check the driver state flag and aborting the unfinished
-> > > > jobs?
-> > > > (fd_hw->state == FD_ENQ)
-> > > >
-> > >
-> > > Yes, we need to either cancel or wait for the currently processing
-> > > job. It depends on hardware capabilities, but cancelling is generally
-> > > preferred for the lower latency.
-> > >
-> > Ok, it the state is ENQ, then we can disable the FD hw by controlling
-> > the registers.
-> >
-> > for example:
-> >         writel(0x0, fd->fd_base + FD_HW_ENABLE);
-> >         writel(0x0, fd->fd_base + FD_INT_EN);
-> >
+> Is it really mandatory to implement the event mechanism?
 > 
-> What's exactly the effect of writing 0 to FD_HW_ENABLE?
+> Here is the full output of the v4l2-compliance
 > 
-Sorry, my last reply didn't solve the question,
-we should implement a mtk_fd_job_abort() for v4l2_m2m_ops().
+> root@(none):/# /usr/local/bin/v4l2-compliance -d /dev/v4l-subdev6
+> v4l2-compliance SHA: b393a5408383b7341883857dfda78537f2f85ef6, 64 bits
+> 
+> Compliance test for vimc device /dev/v4l-subdev6:
+> 
+> Media Driver Info:
+>         Driver name      : vimc
+>         Model            : VIMC MDEV
+>         Serial           :
+>         Bus info         : platform:vimc
+>         Media version    : 5.3.0
+>         Hardware revision: 0x00000000 (0)
+>         Driver version   : 5.3.0
+> Interface Info:
+>         ID               : 0x03000039
+>         Type             : V4L Sub-Device
+> Entity Info:
+>         ID               : 0x0000001c (28)
+>         Name             : Flash Controller
+>         Function         : Flash Controller
+> 
+> Required ioctls:
+>         test MC information (see 'Media Driver Info' above): OK
+> 
+> Allow for multiple opens:
+>         test second /dev/v4l-subdev6 open: OK
+>         test for unlimited opens: OK
+> 
+> Debug ioctls:
+> [  342.293254] Flash Controller: =================  START STATUS  ================
+> [  342.293945] Flash Controller: ==================  END STATUS  ==================
+>         test VIDIOC_LOG_STATUS: OK (Not Supported)
+> 
+> Input ioctls:
+>         test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+>         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>         test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+>         test VIDIOC_ENUMAUDIO: OK (Not Supported)
+>         test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+>         test VIDIOC_G/S_AUDIO: OK (Not Supported)
+>         Inputs: 0 Audio Inputs: 0 Tuners: 0
+> 
+> Output ioctls:
+>         test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+>         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>         test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+>         test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+>         test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+>         Outputs: 0 Audio Outputs: 0 Modulators: 0
+> 
+> Input/Output configuration ioctls:
+>         test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+>         test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+>         test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+>         test VIDIOC_G/S_EDID: OK (Not Supported)
+> 
+> Control ioctls:
+>         test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+>         test VIDIOC_QUERYCTRL: OK
+>         test VIDIOC_G/S_CTRL: OK
+>         test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+>                 fail: v4l2-test-controls.cpp(830): subscribe event for control 'Flash Controls' failed
+>         test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: FAIL
+>         test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+> 
+> ontrols: 11 Private Controls: 0
+> 
+> Format ioctls:
+>         test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
+>         test VIDIOC_G/S_PARM: OK (Not Supported)
+>         test VIDIOC_G_FBUF: OK (Not Supported)
+>         test VIDIOC_G_FMT: OK (Not Supported)
+>         test VIDIOC_TRY_FMT: OK (Not Supported)
+>         test VIDIOC_S_FMT: OK (Not Supported)
+>         test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+>         test Cropping: OK (Not Supported)
+>         test Composing: OK (Not Supported)
+>         test Scaling: OK (Not Supported)
+> 
+> Codec ioctls:
+>         test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+>         test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+>         test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+> 
+> Buffer ioctls:
+>         test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
+>         test VIDIOC_EXPBUF: OK (Not Supported)
+>         test Requests: OK (Not Supported)
+> 
+> Total for vimc device /dev/v4l-subdev6: 41, Succeeded: 40, Failed: 1, Warnings: 0
+> 
+>  drivers/media/platform/vimc/Makefile      |   2 +-
+>  drivers/media/platform/vimc/vimc-common.c |   2 +
+>  drivers/media/platform/vimc/vimc-common.h |   3 +
+>  drivers/media/platform/vimc/vimc-core.c   |   6 +
+>  drivers/media/platform/vimc/vimc-flash.c  | 173 ++++++++++++++++++++++
+>  5 files changed, 185 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/media/platform/vimc/vimc-flash.c
+> 
+> diff --git a/drivers/media/platform/vimc/Makefile b/drivers/media/platform/vimc/Makefile
+> index a53b2b532e9f..e759bbb04b14 100644
+> --- a/drivers/media/platform/vimc/Makefile
+> +++ b/drivers/media/platform/vimc/Makefile
+> @@ -1,6 +1,6 @@
+>  # SPDX-License-Identifier: GPL-2.0
+>  vimc-y := vimc-core.o vimc-common.o vimc-streamer.o vimc-capture.o \
+> -		vimc-debayer.o vimc-scaler.o vimc-sensor.o
+> +		vimc-debayer.o vimc-scaler.o vimc-sensor.o vimc-flash.o
+>  
+>  obj-$(CONFIG_VIDEO_VIMC) += vimc.o
+>  
+> diff --git a/drivers/media/platform/vimc/vimc-common.c b/drivers/media/platform/vimc/vimc-common.c
+> index a3120f4f7a90..cb786de75573 100644
+> --- a/drivers/media/platform/vimc/vimc-common.c
+> +++ b/drivers/media/platform/vimc/vimc-common.c
+> @@ -203,6 +203,8 @@ struct media_pad *vimc_pads_init(u16 num_pads, const unsigned long *pads_flag)
+>  	struct media_pad *pads;
+>  	unsigned int i;
+>  
+> +	if (!num_pads)
+> +		return NULL;
+>  	/* Allocate memory for the pads */
+>  	pads = kcalloc(num_pads, sizeof(*pads), GFP_KERNEL);
+>  	if (!pads)
+> diff --git a/drivers/media/platform/vimc/vimc-common.h b/drivers/media/platform/vimc/vimc-common.h
+> index 5b2282de395c..af35169753f1 100644
+> --- a/drivers/media/platform/vimc/vimc-common.h
+> +++ b/drivers/media/platform/vimc/vimc-common.h
+> @@ -159,6 +159,9 @@ void vimc_sca_rm(struct vimc_device *vimc, struct vimc_ent_config *vcfg);
+>  int vimc_sen_add(struct vimc_device *vimc, struct vimc_ent_config *vcfg);
+>  void vimc_sen_rm(struct vimc_device *vimc, struct vimc_ent_config *vcfg);
+>  
+> +int vimc_fla_add(struct vimc_device *vimc, struct vimc_ent_config *vcfg);
+> +void vimc_fla_rm(struct vimc_device *vimc, struct vimc_ent_config *vcfg);
+> +
+>  /**
+>   * vimc_pads_init - initialize pads
+>   *
+> diff --git a/drivers/media/platform/vimc/vimc-core.c b/drivers/media/platform/vimc/vimc-core.c
+> index 3749bfa88e40..019a52b0d4e6 100644
+> --- a/drivers/media/platform/vimc/vimc-core.c
+> +++ b/drivers/media/platform/vimc/vimc-core.c
+> @@ -100,6 +100,12 @@ static struct vimc_ent_config ent_config[] = {
+>  		.add = vimc_cap_add,
+>  		.rm = vimc_cap_rm,
+>  	},
+> +	{
+> +		.name = "Flash Controller",
+> +		.ved = NULL,
+> +		.add = vimc_fla_add,
+> +		.rm = vimc_fla_rm,
+> +	}
+>  };
+>  
+>  static const struct vimc_ent_link ent_links[] = {
+> diff --git a/drivers/media/platform/vimc/vimc-flash.c b/drivers/media/platform/vimc/vimc-flash.c
+> new file mode 100644
+> index 000000000000..ee15fcb4aa8f
+> --- /dev/null
+> +++ b/drivers/media/platform/vimc/vimc-flash.c
+> @@ -0,0 +1,173 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * vimc-flash.c Virtual Media Controller Driver
+> + *
+> + * Copyright (C) 2019
+> + * Contributors: Lucas A. M. Magalhães <lamm@lucmaga.dev>
+> + *               Eduardo Barretto <edusbarretto@gmail.com>
+> + *
+> + */
+> +
+> +#include <linux/vmalloc.h>
+> +#include <media/v4l2-ctrls.h>
+> +#include <media/v4l2-subdev.h>
+> +
+> +#include "vimc-common.h"
+> +
+> +struct vimc_fla_device {
+> +	struct vimc_ent_device ved;
+> +	struct v4l2_subdev sd;
+> +	struct v4l2_ctrl_handler hdl;
+> +	int led_mode;
+> +	int indicator_intensity;
+> +	int torch_intensity;
+> +	int brightness;
 
-which is able to readl_poll_timeout_atomic()
-and check the HW busy bits in the register FD_INT_EN;
+Please call this flash_intensity or something like that. 'brightness'
+is confusing since that's the name used for the CID_USER_BRIGHTNESS
+control.
 
-if they are not cleared until timeout, we could handle the last
-processing job.
-Otherwise, the FD irq handler should have handled the last processing
-job and we could continue the stop_streaming().
+> +};
+> +
+> +static int vimc_fla_g_volatile_ctrl(struct v4l2_ctrl *c)
+> +{
+> +	struct vimc_fla_device *vfla =
+> +		container_of(c->handler, struct vimc_fla_device, hdl);
+> +
+> +	switch (c->id) {
+> +	case V4L2_CID_FLASH_TORCH_INTENSITY:
+> +		return vfla->torch_intensity;
+> +	case V4L2_CID_FLASH_INDICATOR_INTENSITY:
+> +		return vfla->indicator_intensity;
+> +	case V4L2_CID_FLASH_INTENSITY:
+> +		return vfla->brightness;
+> +	case V4L2_CID_FLASH_STROBE_STATUS:
+> +	case V4L2_CID_FLASH_FAULT:
+> +		return 0;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
 
-For job_abort():
-static void mtk_fd_job_abort(void *priv)
-{
-	struct mtk_fd_ctx *ctx = priv;
-	struct mtk_fd_dev *fd = ctx->fd_dev;
-	u32 val;
-	u32 ret;
+Just drop this function. None of the controls are volatile, so by default
+the control framework just returns the last set value, which is what you do
+here.
 
-	ret = readl_poll_timeout_atomic(fd->fd_base + MTK_FD_REG_OFFSET_INT_EN,
-					val,
-					(val & MTK_FD_HW_BUSY_MASK) ==
-					MTK_FD_HW_STATE_IS_BUSY,
-					USEC_PER_MSEC, MTK_FD_STOP_HW_TIMEOUT);
-	if (ret) {
-		dev_warn(fd->dev, "FD HW timeout\n");
-		mtk_fd_hw_job_finish(fd, VB2_BUF_STATE_ERROR);
-	}
-	writel(0x0, fd->fd_base + MTK_FD_REG_OFFSET_HW_ENABLE);
-	writel(0x0, fd->fd_base + MTK_FD_REG_OFFSET_INT_EN);
-}
+> +
+> +/* Flash Controls */
+> +static const struct v4l2_ctrl_config vimc_fla_ctrl_class = {
+> +	.flags = V4L2_CTRL_FLAG_READ_ONLY | V4L2_CTRL_FLAG_WRITE_ONLY,
+> +	.id = VIMC_CID_VIMC_CLASS,
+> +	.name = "VIMC Flash Controls",
+> +	.type = V4L2_CTRL_TYPE_CTRL_CLASS,
+> +};
 
-Best Regards,
-Jerry
+Huh? Just drop this, this duplicates V4L2_CID_FLASH_CLASS which is added
+automatically.
+
+> +
+> +static int vimc_fla_s_ctrl(struct v4l2_ctrl *c)
+> +{
+> +	struct vimc_fla_device *vfla =
+> +		container_of(c->handler, struct vimc_fla_device, hdl);
+> +
+> +	switch (c->id) {
+> +	case V4L2_CID_FLASH_LED_MODE:
+> +		vfla->led_mode = c->val;
+> +		return 0;
+> +	case V4L2_CID_FLASH_STROBE_SOURCE:
+> +		return 0;
+> +	case V4L2_CID_FLASH_STROBE:
+> +		return 0;
+> +	case V4L2_CID_FLASH_STROBE_STOP:
+> +		return 0;
+> +	case V4L2_CID_FLASH_TIMEOUT:
+> +		return 0;
+> +	case V4L2_CID_FLASH_INTENSITY:
+> +		vfla->brightness = c->val;
+> +		return 0;
+> +	case V4L2_CID_FLASH_TORCH_INTENSITY:
+> +		vfla->torch_intensity = c->val;
+> +		return 0;
+> +	case V4L2_CID_FLASH_INDICATOR_INTENSITY:
+> +		vfla->indicator_intensity = c->val;
+> +		return 0;
+> +	}
+> +	return 0;
+> +}
+> +
+> +static const struct v4l2_ctrl_ops vimc_fla_ctrl_ops = {
+> +	.g_volatile_ctrl = vimc_fla_g_volatile_ctrl,
+> +	.s_ctrl = vimc_fla_s_ctrl,
+> +};
+> +
+> +/* initialize device */
+> +static const struct v4l2_subdev_ops vimc_fla_ops = {
+> +	.core = NULL,
+> +};
+
+You do need core events:
+
+static const struct v4l2_subdev_core_ops vimc_fla_core_ops = {
+        .subscribe_event = v4l2_ctrl_subdev_subscribe_event,
+        .unsubscribe_event = v4l2_event_subdev_unsubscribe,
+};
+
+The reason for the compliance fail is that this is missing.
+
+> +
+> +int vimc_fla_add(struct vimc_device *vimc, struct vimc_ent_config *vcfg)
+> +{
+> +	struct v4l2_device *v4l2_dev = &vimc->v4l2_dev;
+> +	struct vimc_fla_device *vfla;
+> +	int ret;
+> +
+> +	/* Allocate the vfla struct */
+> +	vfla = kzalloc(sizeof(*vfla), GFP_KERNEL);
+> +	if (!vfla)
+> +		return -ENOMEM;
+> +
+> +	v4l2_ctrl_handler_init(&vfla->hdl, 4);
+> +
+> +	v4l2_ctrl_new_std_menu(&vfla->hdl, &vimc_fla_ctrl_ops,
+> +			       V4L2_CID_FLASH_LED_MODE,
+> +			       V4L2_FLASH_LED_MODE_TORCH, ~0x7,
+> +			       V4L2_FLASH_LED_MODE_NONE);
+> +	v4l2_ctrl_new_std_menu(&vfla->hdl, &vimc_fla_ctrl_ops,
+> +			       V4L2_CID_FLASH_STROBE_SOURCE, 0x1, ~0x3,
+> +			       V4L2_FLASH_STROBE_SOURCE_SOFTWARE);
+> +	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
+> +			  V4L2_CID_FLASH_STROBE, 0, 0, 0, 0);
+> +	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
+> +			  V4L2_CID_FLASH_STROBE_STOP, 0, 0, 0, 0);
+> +	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
+> +			  V4L2_CID_FLASH_TIMEOUT, 1, 10, 1, 10);
+> +	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
+> +			  V4L2_CID_FLASH_TORCH_INTENSITY, 0, 255, 1, 255);
+> +	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
+> +			  V4L2_CID_FLASH_INTENSITY, 0, 255, 1, 255);
+> +	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
+> +			  V4L2_CID_FLASH_INDICATOR_INTENSITY, 0, 255, 1, 255);
+> +	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
+> +			  V4L2_CID_FLASH_STROBE_STATUS, 0, 0, 0, 0);
+
+It would be nice if this would actually reflect the actual strobe status.
+
+There are more things that can be done to make this a more realistic module,
+e.g. STROBE_FLASH can only be set if V4L2_CID_FLASH_LED_MODE is set to
+V4L2_FLASH_LED_MODE_FLASH and V4L2_CID_FLASH_STROBE_SOURCE is set to
+V4L2_FLASH_STROBE_SOURCE_SOFTWARE.
+
+Regards,
+
+	Hans
+
+> +	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
+> +			  V4L2_CID_FLASH_FAULT, 0,
+> +			  V4L2_FLASH_FAULT_TIMEOUT, 0, 0);
+> +	vfla->sd.ctrl_handler = &vfla->hdl;
+> +	if (vfla->hdl.error) {
+> +		ret = vfla->hdl.error;
+> +		goto err_free_vfla;
+> +	}
+> +
+> +	/* Initialize ved and sd */
+> +	ret = vimc_ent_sd_register(&vfla->ved, &vfla->sd, v4l2_dev,
+> +				   vcfg->name,
+> +				   MEDIA_ENT_F_FLASH, 0, NULL,
+> +				   NULL, &vimc_fla_ops);
+> +	if (ret)
+> +		goto err_free_hdl;
+> +
+> +	/* Initialize standard values */
+> +	vfla->indicator_intensity = 0;
+> +	vfla->torch_intensity = 0;
+> +	vfla->brightness = 0;
+> +	vfla->led_mode = V4L2_FLASH_LED_MODE_NONE;
+> +
+> +	vcfg->ved = &vfla->ved;
+> +	return 0;
+> +
+> +err_free_hdl:
+> +	v4l2_ctrl_handler_free(&vfla->hdl);
+> +err_free_vfla:
+> +	kfree(vfla);
+> +
+> +	return ret;
+> +}
+> +
+> +void vimc_fla_rm(struct vimc_device *vimc, struct vimc_ent_config *vcfg)
+> +{
+> +	struct vimc_ent_device *ved = vcfg->ved;
+> +	struct vimc_fla_device *vfla;
+> +
+> +	if (!ved)
+> +		return;
+> +
+> +	vfla = container_of(ved, struct vimc_fla_device, ved);
+> +	vimc_ent_sd_unregister(ved, &vfla->sd);
+> +}
+> 
 
