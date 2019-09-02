@@ -2,114 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 63810A518D
-	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2019 10:28:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 392C4A520F
+	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2019 10:44:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729977AbfIBI1m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Sep 2019 04:27:42 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:35701 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729423AbfIBI1m (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Sep 2019 04:27:42 -0400
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id 2273A821DA; Mon,  2 Sep 2019 10:27:26 +0200 (CEST)
-Date:   Mon, 2 Sep 2019 10:27:39 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        id S1730326AbfIBIoF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Sep 2019 04:44:05 -0400
+Received: from kirsty.vergenet.net ([202.4.237.240]:34326 "EHLO
+        kirsty.vergenet.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729874AbfIBIoE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Sep 2019 04:44:04 -0400
+Received: from reginn.horms.nl (watermunt.horms.nl [80.127.179.77])
+        by kirsty.vergenet.net (Postfix) with ESMTPA id 7944F25B784;
+        Mon,  2 Sep 2019 18:44:02 +1000 (AEST)
+Received: by reginn.horms.nl (Postfix, from userid 7100)
+        id 6297E9401E6; Mon,  2 Sep 2019 10:44:00 +0200 (CEST)
+From:   Simon Horman <horms+renesas@verge.net.au>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Magnus Damm <magnus.damm@gmail.com>,
         Jacopo Mondi <jacopo@jmondi.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC 2/5] media: v4l2-ctrl: Document V4L2_CID_LOCATION
-Message-ID: <20190902082739.GE15850@amd>
-References: <20190814202815.32491-3-jacopo@jmondi.org>
- <20190814224340.GD5015@pendragon.ideasonboard.com>
- <664fe7b3-9051-30da-736e-710a4e9cecde@xs4all.nl>
- <d60e4664-3a3f-1723-6c96-4fc822b6a7bb@xs4all.nl>
- <20190815143423.vaoswb4jvzd2blxp@uno.localdomain>
- <cb36e8a0-b941-ff37-e58c-0f9b7f62116a@xs4all.nl>
- <20190901172457.GC1047@bug>
- <20190902080002.GC4777@pendragon.ideasonboard.com>
- <20190902080657.GC15850@amd>
- <20190902081942.GE4777@pendragon.ideasonboard.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="2hMgfIw2X+zgXrFs"
-Content-Disposition: inline
-In-Reply-To: <20190902081942.GE4777@pendragon.ideasonboard.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Simon Horman <horms+renesas@verge.net.au>
+Subject: [PATCH] dt-bindings: sh-mobile-ceu: Remove now unimplemented bindings documentation
+Date:   Mon,  2 Sep 2019 10:43:52 +0200
+Message-Id: <20190902084352.7974-1-horms+renesas@verge.net.au>
+X-Mailer: git-send-email 2.11.0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Remove the SH Mobile CEU bindings documentation as the corresponding driver
+was removed v5.1 by the following commit:
 
---2hMgfIw2X+zgXrFs
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+43a445f188e1 ("media: sh_mobile_ceu_camera: remove obsolete soc_camera driver")
 
-On Mon 2019-09-02 11:19:42, Laurent Pinchart wrote:
-> On Mon, Sep 02, 2019 at 10:06:57AM +0200, Pavel Machek wrote:
-> > >>> Single integer. It's read-only, so it just reports the location.
-> > >>>=20
-> > >>> It would be different if this was a writable control: then you need=
- to
-> > >>> know which locations are possible to set, and that requires a menu =
-type.
-> > >>>=20
-> > >>> But it doesn't make sense to set the location from software. Howeve=
-r, the
-> > >>> location might change as a result of other changes: e.g. if the cam=
-era
-> > >>> has motor control of the tilt and the tilt changes from forward fac=
-ing to
-> > >>> downward facing, then the driver might change the location from FRO=
-NT
-> > >>> to DOWN. A convoluted example perhaps, but this is just brainstormi=
-ng.
-> > >>=20
-> > >> There are phones with exactly such camera setup. And yes, it makes
-> > >> sense to be writable in that case, as software can move the camera in
-> > >> such case.
-> > >=20
-> > > Out of curiosity, what phones are those ?
-> >=20
-> > This one:
-> >=20
-> > https://www.samsung.com/global/galaxy/galaxy-a80/
->=20
-> Interesting device. I'm not sure we should control that through a
-> location control though, as it seems there's more than the rotation of
-> the camera involved. In any case I wouldn't care about it for now, and
-> turn the location control from read-only to read-write later if needed.
-> We need more information and more thought to support that use case.
+Signed-off-by: Simon Horman <horms+renesas@verge.net.au>
+---
+ .../devicetree/bindings/media/sh_mobile_ceu.txt         | 17 -----------------
+ 1 file changed, 17 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/sh_mobile_ceu.txt
 
-Well, the mechanism is there just to rotate the camera.
+diff --git a/Documentation/devicetree/bindings/media/sh_mobile_ceu.txt b/Documentation/devicetree/bindings/media/sh_mobile_ceu.txt
+deleted file mode 100644
+index cfa4ffada8ae..000000000000
+--- a/Documentation/devicetree/bindings/media/sh_mobile_ceu.txt
++++ /dev/null
+@@ -1,17 +0,0 @@
+-Bindings, specific for the sh_mobile_ceu_camera.c driver:
+- - compatible: Should be "renesas,sh-mobile-ceu"
+- - reg: register base and size
+- - interrupts: the interrupt number
+- - renesas,max-width: maximum image width, supported on this SoC
+- - renesas,max-height: maximum image height, supported on this SoC
+-
+-Example:
+-
+-ceu0: ceu@fe910000 {
+-	compatible = "renesas,sh-mobile-ceu";
+-	reg = <0xfe910000 0xa0>;
+-	interrupt-parent = <&intcs>;
+-	interrupts = <0x880>;
+-	renesas,max-width = <8188>;
+-	renesas,max-height = <8188>;
+-};
+-- 
+2.11.0
 
-Anyway, that phone is probably nowhere close to having mainline
-support, so...
-
-									Pavel
-
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---2hMgfIw2X+zgXrFs
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAl1s0nsACgkQMOfwapXb+vLK8wCeOolmxDwSiEfrrMCLr1uKyMwC
-x7oAnj1SKkwBc++DIAb84Xp8unM2RoHV
-=noqu
------END PGP SIGNATURE-----
-
---2hMgfIw2X+zgXrFs--
