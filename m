@@ -2,109 +2,171 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 81C37A57CA
-	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2019 15:38:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D1D1A58AE
+	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2019 16:00:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730794AbfIBNio (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Sep 2019 09:38:44 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:43594 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730618AbfIBNio (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Sep 2019 09:38:44 -0400
-Received: by mail-wr1-f65.google.com with SMTP id y8so14042028wrn.10;
-        Mon, 02 Sep 2019 06:38:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:date:from:to:cc:subject:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=JDle5PY3laF9vYSbvj6oJClAlHR78NQAuuinV8yTwuo=;
-        b=gFISBklsVKPLUdanPxWszdVBz4OazmQki82HYaO1rFt4/QOxgZnbJShqcy9V6GXxjy
-         EHSWtalTshjzVLj/BOhqIYTpEQBhWTzO3Fvuw7XoWbDqKIOkbaiBD3ievslyWs15Uz8g
-         oiAQghTjvvGVaKkFbj2H/Qhm/JQMbGGK3sf3srKPi3oPnZjAQwgTO2M2CxQGLsImU9K5
-         mOi6R80dgtE+2hWRHc0vIYSEXGpyZ7/g4ftKc3j82ZSlsROD+IT06rnECI/9DwdZ73yi
-         WpecZ0pXctkaw8y/Br+YhzKhIS4uL/3m+Qtt1R9GO/zLtax2MIl7TnW3lENchsES1orS
-         LH7g==
-X-Gm-Message-State: APjAAAXzMx5n1jVFUqf/MnGbcAy2+R5fq07D/Twd+iL7WOrYCqQBw16x
-        yDhdYF6iRal96upMO1AcVA==
-X-Google-Smtp-Source: APXvYqwzzd/9a7l2fQnbN6UMYI9OnrfvJxH2tbMTtrt6ri6dYuw73QeDF6NeVdAgloPB1keKHJShzw==
-X-Received: by 2002:a5d:458b:: with SMTP id p11mr6498423wrq.160.1567431521375;
-        Mon, 02 Sep 2019 06:38:41 -0700 (PDT)
-Received: from localhost ([212.187.182.166])
-        by smtp.gmail.com with ESMTPSA id v186sm34392036wmb.5.2019.09.02.06.38.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Sep 2019 06:38:40 -0700 (PDT)
-Message-ID: <5d6d1b60.1c69fb81.f3a3a.1619@mx.google.com>
-Date:   Mon, 02 Sep 2019 14:38:40 +0100
-From:   Rob Herring <robh@kernel.org>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>, tfiga@google.com,
-        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 01/10] media: dt-bindings: Document 'location' property
-References: <20190827092339.8858-1-jacopo@jmondi.org>
- <20190827092339.8858-2-jacopo@jmondi.org>
- <20190827122126.GQ5054@pendragon.ideasonboard.com>
- <20190829124639.tzjp63tqnojnytlq@uno.localdomain>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190829124639.tzjp63tqnojnytlq@uno.localdomain>
-X-Mutt-References: <20190829124639.tzjp63tqnojnytlq@uno.localdomain>
+        id S1730218AbfIBOAv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Sep 2019 10:00:51 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:44155 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726766AbfIBOAu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Sep 2019 10:00:50 -0400
+Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1i4msv-00055J-K2; Mon, 02 Sep 2019 16:00:45 +0200
+Message-ID: <1567432843.3666.6.camel@pengutronix.de>
+Subject: Re: [PATCH 02/12] media: hantro: Do not reorder H264 scaling list
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Jonas Karlman <jonas@kwiboo.se>,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-rockchip@lists.infradead.org" 
+        <linux-rockchip@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Date:   Mon, 02 Sep 2019 16:00:43 +0200
+In-Reply-To: <HE1PR06MB40116C92C3D52C5957EF48E9ACBF0@HE1PR06MB4011.eurprd06.prod.outlook.com>
+References: <HE1PR06MB40117D0EE96E6FA638A04B78ACBF0@HE1PR06MB4011.eurprd06.prod.outlook.com>
+         <20190901124531.23645-1-jonas@kwiboo.se>
+         <HE1PR06MB40116C92C3D52C5957EF48E9ACBF0@HE1PR06MB4011.eurprd06.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.22.6-1+deb9u2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Aug 29, 2019 at 02:46:40PM +0200, Jacopo Mondi wrote:
-> Hi Laurent,
+Hi Jonas,
+
+On Sun, 2019-09-01 at 12:45 +0000, Jonas Karlman wrote:
+> Scaling list supplied from userspace using ffmpeg and libva-v4l2-request
+> is already in matrix order and can be used without applying the inverse
+> scanning process.
+
+"in matrix order" is equivalent to "in raster scan order"?
+
+Could you add this requirement to the
+V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX documentation?
+
+> The HW also only support 8x8 scaling list for the Y component, indices 0
+> and 3 in the scaling list supplied from userspace.
 > 
-> On Tue, Aug 27, 2019 at 03:21:26PM +0300, Laurent Pinchart wrote:
-> > Hi Jacopo,
-> >
-> > Thank you for the patch.
-> >
-> > On Tue, Aug 27, 2019 at 11:23:27AM +0200, Jacopo Mondi wrote:
-> > > Add the 'location' device property, used to specify the camera device
-> > > mounting position. The property is particularly meaningful for mobile
-> > > devices with a well defined usage orientation.
-> > >
-> > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > > ---
-> > >  .../devicetree/bindings/media/video-interfaces.txt     | 10 ++++++++++
-> > >  1 file changed, 10 insertions(+)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/media/video-interfaces.txt b/Documentation/devicetree/bindings/media/video-interfaces.txt
-> > > index f884ada0bffc..865f4142f432 100644
-> > > --- a/Documentation/devicetree/bindings/media/video-interfaces.txt
-> > > +++ b/Documentation/devicetree/bindings/media/video-interfaces.txt
-> > > @@ -89,6 +89,16 @@ Optional properties
-> > >    but a number of degrees counter clockwise. Typical values are 0 and 180
-> > >    (upside down).
-> > >
-> > > +- location: The camera sensor mounting location, expressed as a position
-> > > +  relative to the usage orientation of the device the sensor is installed on.
-> >
-> > DT bindings being ABIs, we need to be precise and thorough there. One
-> > particular point that bothers me is that the property is named location,
-> > and its description refers to camera sensor mounting location.
-> >
-> > I see two options to fix this. One of them is to rename the property to
-> > camera-location, but that would limit its future usage for other types
-> > of devices. The other one is to document the property as applying to a
-> > "device" instead of a "camera sensor", and add one sentence stating that
-> > this property is valid for camera sensors only.
-> >
-> > This will require finding another name for the device that the device is
-> > mounted on though, as using device twice would be very confusing.
+> Remove reordering and write the scaling matrix in an order expected by
+> the VPU, also only allocate memory for the two 8x8 lists used.
 > 
-> I had the same concern, but I cannot find another term to convey
-> this... suggestions?
+> Fixes: a9471e25629b ("media: hantro: Add core bits to support H264 decoding")
+> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+> ---
+>  drivers/staging/media/hantro/hantro_h264.c | 64 +++++++---------------
+>  1 file changed, 20 insertions(+), 44 deletions(-)
+> 
+> diff --git a/drivers/staging/media/hantro/hantro_h264.c b/drivers/staging/media/hantro/hantro_h264.c
+> index 0d758e0c0f99..e2d01145ac4f 100644
+> --- a/drivers/staging/media/hantro/hantro_h264.c
+> +++ b/drivers/staging/media/hantro/hantro_h264.c
+> @@ -20,7 +20,7 @@
+>  /* Size with u32 units. */
+>  #define CABAC_INIT_BUFFER_SIZE		(460 * 2)
+>  #define POC_BUFFER_SIZE			34
+> -#define SCALING_LIST_SIZE		(6 * 16 + 6 * 64)
+> +#define SCALING_LIST_SIZE		(6 * 16 + 2 * 64)
 
-For accelerometers and/or gyroscopes, we already have 'mount-matrix'. 
-That would replace 'rotation'. Maybe we can do something similar here?
+This changes the size of struct hantro_h264_dec_priv_tbl. Did this
+describe the auxiliary buffer format incorrectly before?
 
-Rob
+>  #define POC_CMP(p0, p1) ((p0) < (p1) ? -1 : 1)
+>  
+> @@ -194,57 +194,33 @@ static const u32 h264_cabac_table[] = {
+>  	0x1f0c2517, 0x1f261440
+>  };
+>  
+> -/*
+> - * NOTE: The scaling lists are in zig-zag order, apply inverse scanning process
+> - * to get the values in matrix order. In addition, the hardware requires bytes
+> - * swapped within each subsequent 4 bytes. Both arrays below include both
+> - * transformations.
+> - */
+> -static const u32 zig_zag_4x4[] = {
+> -	3, 2, 7, 11, 6, 1, 0, 5, 10, 15, 14, 9, 4, 8, 13, 12
+> -};
+> -
+> -static const u32 zig_zag_8x8[] = {
+> -	3, 2, 11, 19, 10, 1, 0, 9, 18, 27, 35, 26, 17, 8, 7, 6,
+> -	15, 16, 25, 34, 43, 51, 42, 33, 24, 23, 14, 5, 4, 13, 22, 31,
+> -	32, 41, 50, 59, 58, 49, 40, 39, 30, 21, 12, 20, 29, 38, 47, 48,
+> -	57, 56, 55, 46, 37, 28, 36, 45, 54, 63, 62, 53, 44, 52, 61, 60
+> -};
+> -
+>  static void
+>  reorder_scaling_list(struct hantro_ctx *ctx)
+>  {
+>  	const struct hantro_h264_dec_ctrls *ctrls = &ctx->h264_dec.ctrls;
+>  	const struct v4l2_ctrl_h264_scaling_matrix *scaling = ctrls->scaling;
+> -	const size_t num_list_4x4 = ARRAY_SIZE(scaling->scaling_list_4x4);
+> -	const size_t list_len_4x4 = ARRAY_SIZE(scaling->scaling_list_4x4[0]);
+> -	const size_t num_list_8x8 = ARRAY_SIZE(scaling->scaling_list_8x8);
+> -	const size_t list_len_8x8 = ARRAY_SIZE(scaling->scaling_list_8x8[0]);
+>  	struct hantro_h264_dec_priv_tbl *tbl = ctx->h264_dec.priv.cpu;
+> -	u8 *dst = tbl->scaling_list;
+> -	const u8 *src;
+> -	int i, j;
+> -
+> -	BUILD_BUG_ON(ARRAY_SIZE(zig_zag_4x4) != list_len_4x4);
+> -	BUILD_BUG_ON(ARRAY_SIZE(zig_zag_8x8) != list_len_8x8);
+> -	BUILD_BUG_ON(ARRAY_SIZE(tbl->scaling_list) !=
+> -		     num_list_4x4 * list_len_4x4 +
+> -		     num_list_8x8 * list_len_8x8);
+> -
+> -	src = &scaling->scaling_list_4x4[0][0];
+> -	for (i = 0; i < num_list_4x4; ++i) {
+> -		for (j = 0; j < list_len_4x4; ++j)
+> -			dst[zig_zag_4x4[j]] = src[j];
+> -		src += list_len_4x4;
+> -		dst += list_len_4x4;
+> +	u32 *dst = (u32 *)tbl->scaling_list;
+> +	u32 i, j, tmp;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(scaling->scaling_list_4x4); i++) {
+> +		for (j = 0; j < ARRAY_SIZE(scaling->scaling_list_4x4[0]) / 4; j++) {
+> +			tmp = (scaling->scaling_list_4x4[i][4 * j + 0] << 24) |
+> +			      (scaling->scaling_list_4x4[i][4 * j + 1] << 16) |
+> +			      (scaling->scaling_list_4x4[i][4 * j + 2] << 8) |
+> +			      (scaling->scaling_list_4x4[i][4 * j + 3]);
+> +			*dst++ = tmp;
+> +		}
 
+This looks like it could use swab32().
+
+>  	}
+>  
+> -	src = &scaling->scaling_list_8x8[0][0];
+> -	for (i = 0; i < num_list_8x8; ++i) {
+> -		for (j = 0; j < list_len_8x8; ++j)
+> -			dst[zig_zag_8x8[j]] = src[j];
+> -		src += list_len_8x8;
+> -		dst += list_len_8x8;
+> +	for (i = 0; i < ARRAY_SIZE(scaling->scaling_list_8x8); i += 3) {
+> +		for (j = 0; j < ARRAY_SIZE(scaling->scaling_list_8x8[0]) / 4; j++) {
+> +			tmp = (scaling->scaling_list_8x8[i][4 * j + 0] << 24) |
+> +			      (scaling->scaling_list_8x8[i][4 * j + 1] << 16) |
+> +			      (scaling->scaling_list_8x8[i][4 * j + 2] << 8) |
+> +			      (scaling->scaling_list_8x8[i][4 * j + 3]);
+> +			*dst++ = tmp;
+> +		}
+
+After this change, the second 8x8 scaling list has moved to a different
+offset. Is this where the hardware has always been looking for it, or is
+there a change missing in another place?
+
+regards
+Philipp
