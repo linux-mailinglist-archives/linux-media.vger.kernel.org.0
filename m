@@ -2,170 +2,596 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F2A86A576D
-	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2019 15:11:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A04CA57B5
+	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2019 15:35:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730658AbfIBNLe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Sep 2019 09:11:34 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:45924 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726408AbfIBNLe (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Sep 2019 09:11:34 -0400
-Received: by mail-qt1-f195.google.com with SMTP id r15so9875338qtn.12
-        for <linux-media@vger.kernel.org>; Mon, 02 Sep 2019 06:11:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=PZv22NgyAy4cpGO8nvyQHGric91X1UzIHSt4+HMcQy0=;
-        b=VfyOjtZ8aWgjvf651FHyhOAmwULu+NSuKIFmWFDbTRWli+KD2QjI1GYeqiw61Zjm2m
-         7aaaBlmkKkRFGyH+0e/2tfli/Lzx3ClE2/e2G5QLJQYnubJJ3JYzZLvgyXXSK4+1L+EE
-         Z7LbQ3jZDzcbqs+UdWR7g5QpEcTndIQMh46gYQkp6+SayViDEjVz6qOCIWbXrzCYf9qd
-         7mQnrP/NU6T4dEn9pN39cR1iiOpk8+HPk9FvMT4BxOIGOTrnmYFYwqdtsOMeIh+WZXQZ
-         YbLPKeJAaT7hmIolpfVwwIm0YOCT6huuORR8Dat7ZQQzEFC7TrlK3q7zqruDx4uHmJk/
-         oj0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=PZv22NgyAy4cpGO8nvyQHGric91X1UzIHSt4+HMcQy0=;
-        b=HhxNMnxRzLmFpyFgsXFQWwTMWqafXFHQKuJuXIT8E5HX8PJI+A3HM0YDkOl+e/Qe6Q
-         BiwyZnETNksPOgNmjYmTHx5grUrgsgQH13Ghz91a99f2Nc28/LlSupBYWl1VhaD069pH
-         dOQKN7uOeNnTB1TS2xjaJBeGLDpg9tu2l6bCKNyGXdUFFgW8CXyH2pDekGnQi9UWmIDK
-         AZE3IWbJtYd0q2h+U7I1wR8dK0roUTvM/sj9QUw0UlTxvjqQvbIMzMaA+89Fd4JYWcWd
-         gCNiB7wEt66oOGRGfIjxMTBY59HivSMkIMGp2tpO2dlgXkAAujj2PMSb5FfSiQttLUgO
-         mznw==
-X-Gm-Message-State: APjAAAUnhdMp/AZN/RB/thqHH0bWf9/E5gHckw5OGn8oTLcYk4I7IYyI
-        hMOxw6ZaGrywFPmcjrB9NNIjZ6XqwQsoQTvJBWD0qg==
-X-Google-Smtp-Source: APXvYqxEna7P0g0Bcyf5yaueoracYZLNFgddoZxTQyK2mxM0F5w6o3XIUtpvDIp7islXuRjcdOl+JjDzPJJdEmQZDWQ=
-X-Received: by 2002:ac8:60d6:: with SMTP id i22mr24868461qtm.250.1567429893126;
- Mon, 02 Sep 2019 06:11:33 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190814104520.6001-1-darekm@google.com> <20190814104520.6001-7-darekm@google.com>
- <00515839-a4bd-6721-8563-a16fbbaa7159@xs4all.nl>
-In-Reply-To: <00515839-a4bd-6721-8563-a16fbbaa7159@xs4all.nl>
-From:   Benjamin Gaignard <benjamin.gaignard@linaro.org>
-Date:   Mon, 2 Sep 2019 15:11:22 +0200
-Message-ID: <CA+M3ks6zkg9nh39tLr-fzHR8_UJeaxADTM9yeRSECtkyBuUbFw@mail.gmail.com>
-Subject: Re: [PATCH v7 6/9] drm: sti: use cec_notifier_conn_(un)register
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Dariusz Marcinkiewicz <darekm@google.com>,
-        ML dri-devel <dri-devel@lists.freedesktop.org>,
-        linux-media@vger.kernel.org, David Airlie <airlied@linux.ie>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Vincent Abriou <vincent.abriou@st.com>
+        id S1730624AbfIBNfm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Sep 2019 09:35:42 -0400
+Received: from Mailgw01.mediatek.com ([1.203.163.78]:32264 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1730417AbfIBNfm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Sep 2019 09:35:42 -0400
+X-UUID: 277f0245d0a54bf2a1612aaceda1e91e-20190902
+X-UUID: 277f0245d0a54bf2a1612aaceda1e91e-20190902
+Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+        (envelope-from <dongchun.zhu@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLS)
+        with ESMTP id 1218658141; Mon, 02 Sep 2019 21:35:35 +0800
+Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS31N1.mediatek.inc
+ (172.27.4.69) with Microsoft SMTP Server (TLS) id 15.0.1395.4; Mon, 2 Sep
+ 2019 21:35:33 +0800
+Received: from [10.17.3.153] (172.27.4.253) by MTKCAS32.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Mon, 2 Sep 2019 21:35:32 +0800
+Message-ID: <1567431331.21623.57.camel@mhfsdcap03>
+Subject: Re: [PATCH 2/2] media: i2c: dw9768: Add DW9768 VCM driver
+From:   Dongchun Zhu <dongchun.zhu@mediatek.com>
+To:     Bingbu Cao <bingbu.cao@linux.intel.com>
+CC:     <mchehab@kernel.org>, <robh+dt@kernel.org>, <mark.rutland@arm.com>,
+        <matthias.bgg@gmail.com>, <bingbu.cao@intel.com>,
+        <srv_heupstream@mediatek.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>, <sj.huang@mediatek.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <louis.kuo@mediatek.com>, <shengnan.wang@mediatek.com>,
+        <tfiga@google.com>, <drinkcat@chromium.org>
+Date:   Mon, 2 Sep 2019 21:35:31 +0800
+In-Reply-To: <0255a021cb9b424f85ec53c22f5e8dad@mtkmbs07n1.mediatek.inc>
+References: <20190708100641.2702-1-dongchun.zhu@mediatek.com>
+         <20190708100641.2702-3-dongchun.zhu@mediatek.com>
+         <576bb964-c16d-2ca2-e3ec-feff2e155d3c@linux.intel.com>
+         <0255a021cb9b424f85ec53c22f5e8dad@mtkmbs07n1.mediatek.inc>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-TM-SNTS-SMTP: F9E911B1F6E583A0FBC67DBAB4A296EEF632DF2F947AF3157E41450FDFC8D8EB2000:8
+X-MTK:  N
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le jeu. 22 ao=C3=BBt 2019 =C3=A0 10:11, Hans Verkuil <hverkuil-cisco@xs4all=
-.nl> a =C3=A9crit :
->
-> Adding Benjamin Gaignard.
->
-> Benjamin, can you take a look at this and Ack it (or merge it if you pref=
-er) and
-> ideally test it as well. This is the only patch in this series that I cou=
-ld not
-> test since I don't have any hardware.
+Hi Bingbu,
 
-Looks good for me.
-
-Applied on drm-misc-next,
-Thanks,
-Benjamin
-
->
-> Regards,
->
->         Hans
->
-> On 8/14/19 12:45 PM, Dariusz Marcinkiewicz wrote:
-> > Use the new cec_notifier_conn_(un)register() functions to
-> > (un)register the notifier for the HDMI connector, and fill
-> > in the cec_connector_info.
+On Wed, 2019-07-24 at 11:16 +0800, Bingbu Cao wrote:
+> On 7/8/19 6:06 PM, dongchun.zhu@mediatek.com wrote:
+> > From: Dongchun Zhu <dongchun.zhu@mediatek.com>
 > >
-> > Changes since v2:
-> >       Don't invalidate physical address before unregistering the
-> >       notifier.
+> > This patch adds a V4L2 sub-device driver for DW9768 lens voice coil,
+> > and provides control to set the desired focus.
 > >
-> > Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
+> > The DW9807 is a 10 bit DAC from Dongwoon, designed for linear control
+> > of voice coil motor.
+> >
+> > Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
 > > ---
-> >  drivers/gpu/drm/sti/sti_hdmi.c | 19 ++++++++++++-------
-> >  1 file changed, 12 insertions(+), 7 deletions(-)
+> >  MAINTAINERS                |   1 +
+> >  drivers/media/i2c/Kconfig  |  10 +
+> >  drivers/media/i2c/Makefile |   1 +
+> >  drivers/media/i2c/dw9768.c | 458
+> > +++++++++++++++++++++++++++++++++++++++++++++
+> >  4 files changed, 470 insertions(+)
+> >  create mode 100644 drivers/media/i2c/dw9768.c
 > >
-> > diff --git a/drivers/gpu/drm/sti/sti_hdmi.c b/drivers/gpu/drm/sti/sti_h=
-dmi.c
-> > index 9862c322f0c4a..bd15902b825ad 100644
-> > --- a/drivers/gpu/drm/sti/sti_hdmi.c
-> > +++ b/drivers/gpu/drm/sti/sti_hdmi.c
-> > @@ -1256,6 +1256,7 @@ static int sti_hdmi_bind(struct device *dev, stru=
-ct device *master, void *data)
-> >       struct drm_device *drm_dev =3D data;
-> >       struct drm_encoder *encoder;
-> >       struct sti_hdmi_connector *connector;
-> > +     struct cec_connector_info conn_info;
-> >       struct drm_connector *drm_connector;
-> >       struct drm_bridge *bridge;
-> >       int err;
-> > @@ -1318,6 +1319,14 @@ static int sti_hdmi_bind(struct device *dev, str=
-uct device *master, void *data)
-> >               goto err_sysfs;
-> >       }
+> > diff --git a/MAINTAINERS b/MAINTAINERS index 8f6ac93..17152d7 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -4877,6 +4877,7 @@ M:Dongchun Zhu <dongchun.zhu@mediatek.com>
+> >  L:linux-media@vger.kernel.org
+> >  T:git git://linuxtv.org/media_tree.git
+> >  S:Maintained
+> > +F:drivers/media/i2c/dw9768.c
+> >  F:Documentation/devicetree/bindings/media/i2c/dongwoon,dw9768.txt
 > >
-> > +     cec_fill_conn_info_from_drm(&conn_info, drm_connector);
-> > +     hdmi->notifier =3D cec_notifier_conn_register(&hdmi->dev, NULL,
-> > +                                                 &conn_info);
-> > +     if (!hdmi->notifier) {
-> > +             hdmi->drm_connector =3D NULL;
-> > +             return -ENOMEM;
-> > +     }
+> >  DONGWOON DW9807 LENS VOICE COIL DRIVER diff --git
+> > a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig index
+> > 7793358..8ff6c95 100644
+> > --- a/drivers/media/i2c/Kconfig
+> > +++ b/drivers/media/i2c/Kconfig
+> > @@ -1014,6 +1014,16 @@ config VIDEO_DW9714
+> >    capability. This is designed for linear control of
+> >    voice coil motors, controlled via I2C serial interface.
+> >
+> > +config VIDEO_DW9768
+> > +tristate "DW9768 lens voice coil support"
+> > +depends on I2C && VIDEO_V4L2 && MEDIA_CONTROLLER
+> > +depends on VIDEO_V4L2_SUBDEV_API
+> > +help
+> > +  This is a driver for the DW9768 camera lens voice coil.
+> > +  DW9768 is a 10 bit DAC with 100mA output current sink
+> > +  capability. This is designed for linear control of
+> > +  voice coil motors, controlled via I2C serial interface.
 > > +
-> >       /* Enable default interrupts */
-> >       hdmi_write(hdmi, HDMI_DEFAULT_INT, HDMI_INT_EN);
-> >
-> > @@ -1331,6 +1340,9 @@ static int sti_hdmi_bind(struct device *dev, stru=
-ct device *master, void *data)
-> >  static void sti_hdmi_unbind(struct device *dev,
-> >               struct device *master, void *data)
-> >  {
-> > +     struct sti_hdmi *hdmi =3D dev_get_drvdata(dev);
+> >  config VIDEO_DW9807_VCM
+> >  tristate "DW9807 lens voice coil support"
+> >  depends on I2C && VIDEO_V4L2 && MEDIA_CONTROLLER diff --git
+> > a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile index
+> > d8ad9da..944fbf6 100644
+> > --- a/drivers/media/i2c/Makefile
+> > +++ b/drivers/media/i2c/Makefile
+> > @@ -24,6 +24,7 @@ obj-$(CONFIG_VIDEO_SAA6752HS) += saa6752hs.o
+> >  obj-$(CONFIG_VIDEO_AD5820)  += ad5820.o
+> >  obj-$(CONFIG_VIDEO_AK7375)  += ak7375.o
+> >  obj-$(CONFIG_VIDEO_DW9714)  += dw9714.o
+> > +obj-$(CONFIG_VIDEO_DW9768)  += dw9768.o
+> >  obj-$(CONFIG_VIDEO_DW9807_VCM)  += dw9807-vcm.o
+> >  obj-$(CONFIG_VIDEO_ADV7170) += adv7170.o
+> >  obj-$(CONFIG_VIDEO_ADV7175) += adv7175.o diff --git
+> > a/drivers/media/i2c/dw9768.c b/drivers/media/i2c/dw9768.c new file
+> > mode 100644 index 0000000..f5b5591
+> > --- /dev/null
+> > +++ b/drivers/media/i2c/dw9768.c
+> > @@ -0,0 +1,458 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright (c) 2018 MediaTek Inc.
+> > + */
 > > +
-> > +     cec_notifier_conn_unregister(hdmi->notifier);
-> >  }
+> > +#include <linux/delay.h>
+> > +#include <linux/i2c.h>
+> > +#include <linux/module.h>
+> > +#include <linux/regulator/consumer.h> #include <linux/pm_runtime.h>
+> > +#include <media/v4l2-ctrls.h> #include <media/v4l2-device.h> #include
+> > +<media/v4l2-subdev.h>
+> > +
+> > +#define DW9768_VOLTAGE_ANALOG2800000
+> > +#define DW9768_NAME"dw9768"
+> > +#define DW9768_MAX_FOCUS_POS1023
+> > +/*
+> > + * This sets the minimum granularity for the focus positions.
+> > + * A value of 1 gives maximum accuracy for a desired focus position
+> > +*/
+> > +#define DW9768_FOCUS_STEPS1
+> > +
+> > +#define DW9768_CTRL_DELAY_US5000
+> > +
+> > +#define DW9768_REG_DAC_MSB0x03
+> > +#define DW9768_REG_DAC_LSB0x04
+> > +#define DW9768_REG_NULL0xff
+> > +
+> > +#define DW9768_DAC_SHIFT8
+> > +
+> > +#define DW9768_REG_VALUE_16BIT2
+> > +
+> > +/* dw9768 device structure */
+> > +struct dw9768_device {
+> > +struct v4l2_ctrl_handler ctrls;
+> > +struct v4l2_subdev sd;
+> > +struct regulator *analog_regulator;
+> > +/*
+> > + * Serialize control access, get/set format, get selection
+> > + * and start streaming.
+> > + */
+> > +struct mutex power_lock;
+> > +
+> > +int power_count;
+> > +bool standby;
+> > +};
+> > +
+> > +static inline struct dw9768_device *to_dw9768_vcm(struct v4l2_ctrl
+> > +*ctrl) {
+> > +return container_of(ctrl->handler, struct dw9768_device, ctrls); }
+> > +
+> > +static inline struct dw9768_device *sd_to_dw9768_vcm(struct
+> > +v4l2_subdev *subdev) {
+> > +return container_of(subdev, struct dw9768_device, sd); }
+> > +
+> > +static int dw9768_i2c_write(struct dw9768_device *dw9768_dev, u8 *data,
+> > +    int size)
+> > +{
+> > +struct i2c_client *client = v4l2_get_subdevdata(&dw9768_dev->sd);
+> > +struct i2c_msg msg;
+> > +u8 *w_buf = NULL;
+> > +u8 retry_cnt = 3;
+> > +int ret;
+> > +
+> > +if (!client->adapter)
+> > +return -ENODEV;
+> > +
+> > +if (size != 1 && size != 2)
+> > +return -EINVAL;
+> > +
+> > +memset(&msg, 0, sizeof(struct i2c_msg));
+> > +
+> > +w_buf = kzalloc(size, GFP_KERNEL);
+> > +if (!w_buf)
+> > +return -1;
+> return -ENOMEM;
+
+Fixed in next release.
+
+> > +
+> > +memcpy(w_buf, data, size);
+> > +
+> > +msg.addr  = client->addr;
+> > +msg.flags = 0;
+> > +msg.len   = size;
+> > +msg.buf   = w_buf;
+> > +
+> > +do {
+> > +ret = i2c_transfer(client->adapter, &msg, 1);
+> > +if (ret != 1)
+> > +dev_err(&client->dev, "write fail, ret:%d, retry:%d\n",
+> > +ret, retry_cnt);
+> > +else
+> > +break;
+> > +retry_cnt--;
+> > +} while (retry_cnt != 0);
+> > +
+> > +if (retry_cnt == 0){
+> > +dev_err(&client->dev, "i2c write fail(%d)\n", ret);
+> > +return -EIO;
+> > +}
+> > +
+> > +kfree(w_buf);
+> > +
+> > +return 0;
+> > +}
+> > +
+> > +static int dw9768_release(struct dw9768_device *dw9768_dev) {
+> > +unsigned char i;
+> > +int ret;
+> > +
+> > +char puSendCmdArray[4][2] = {
+> > +{0x02, 0x00}, {DW9768_REG_NULL, DW9768_REG_NULL},
+> > +{0x01, 0x00}, {DW9768_REG_NULL, DW9768_REG_NULL},
+> > +};
+> > +
+> > +for (i = 0; i < (sizeof(puSendCmdArray) / sizeof(char)) /
+> > +     (sizeof(puSendCmdArray[0]) / sizeof(char)); i++) {> +if (puSendCmdArray[i][0] != DW9768_REG_NULL) {
+> > +ret = dw9768_i2c_write(dw9768_dev, puSendCmdArray[i],
+> > +       DW9768_REG_VALUE_16BIT);
+> > +if (ret < 0)
+> > +return ret;
+> > +} else {
+> > +usleep_range(DW9768_CTRL_DELAY_US,
+> > +     DW9768_CTRL_DELAY_US + 100);
+> > +}
+> > +}
+> Can we make this block more simple?  I think the loop is not necessary.
+
+Fixed in next release.
+
+> > +
+> > +return 0;
+> > +}
+> > +
+> > +static int dw9768_init(struct dw9768_device *dw9768_dev) {
+> > +unsigned char i;
+> > +int ret;
+> > +
+> > +char puSendCmdArray[5][2] = {
+> > +{0x02, 0x02}, {DW9768_REG_NULL, DW9768_REG_NULL},
+> > +{0x06, 0x41}, {0x07, 0x39}, {DW9768_REG_NULL, DW9768_REG_NULL},
+> > +};
+> > +
+> > +for (i = 0; i < (sizeof(puSendCmdArray) / sizeof(char)) /
+> > +     (sizeof(puSendCmdArray[0]) / sizeof(char)); i++) {
+> > +if (puSendCmdArray[i][0] != DW9768_REG_NULL) {
+> > +ret = dw9768_i2c_write(dw9768_dev, puSendCmdArray[i],
+> > +       DW9768_REG_VALUE_16BIT);
+> > +if (ret < 0)
+> > +return ret;
+> > +} else {
+> > +usleep_range(DW9768_CTRL_DELAY_US,
+> > +     DW9768_CTRL_DELAY_US + 100);
+> > +}
+> > +}
+> Ditto.
+
+Fixed in next release.
+
+> > +
+> > +return 0;
+> > +}
+> > +
+> > +/*
+> > + * Power handling
+> > + */
+> > +static int dw9768_power_off(struct dw9768_device *dw9768_dev, bool
+> > +standby) {
+> > +struct i2c_client *client = v4l2_get_subdevdata(&dw9768_dev->sd);
+> > +int ret;
+> > +
+> > +/*
+> > + * Go to standby first as real power off my be denied by the
+> > +hardware
+> typo? "may be denied"
+
+Sorry for the typo. Fixed in next release.
+
+> > + * (single power line control for both dw9768_dev and sensor).
+> > + */
+> > +if (standby) {
+> > +dw9768_dev->standby = true;
+> > +ret = dw9768_release(dw9768_dev);
+> > +if (ret)
+> > +dev_err(&client->dev, "dw9768_release failed!\n");
+> > +}
+> > +ret = regulator_disable(dw9768_dev->analog_regulator);
+> > +if (ret)
+> > +return ret;
+> > +
+> > +return 0;
+> > +}
+> > +
+> > +static int dw9768_power_on(struct dw9768_device *dw9768_dev, bool
+> > +restore) {
+> > +int ret;
+> > +
+> > +ret = regulator_enable(dw9768_dev->analog_regulator);
+> > +if (ret < 0)
+> > +return ret;
+> > +
+> > +if (restore) {
+> > +/* Restore the hardware settings. */
+> > +dw9768_dev->standby = false;
+> > +ret = dw9768_init(dw9768_dev);
+> > +if (ret < 0)
+> > +goto fail;
+> > +}
+> > +
+> > +return 0;
+> > +
+> > +fail:
+> > +dw9768_dev->standby = true;
+> > +regulator_disable(dw9768_dev->analog_regulator);
+> > +
+> > +return ret;
+> > +}
+> > +
+> > +/*
+> > + * Calculate status word and write it to the device based on current
+> > + * values of V4L2 controls. It is assumed that the stored V4L2
+> > +control
+> > + * values are properly limited and rounded.
+> > + */
+> > +static int dw9768_update_hw(struct dw9768_device *dw9768_dev, u16
+> > +val) {
+> > +unsigned char i;
+> > +int ret;
+> > +
+> > +char puSendCmdArray[2][2] = {
+> > +{DW9768_REG_DAC_MSB, (char)(val >> DW9768_DAC_SHIFT)},
+> > +{DW9768_REG_DAC_LSB, (char)(val & 0xFF)},
+> > +};
+> > +
+> > +for (i = 0; i < (sizeof(puSendCmdArray) / sizeof(char)) /
+> > +     (sizeof(puSendCmdArray[0]) / sizeof(char)); i++) {
+> > +ret = dw9768_i2c_write(dw9768_dev, puSendCmdArray[i],
+> > +       DW9768_REG_VALUE_16BIT);
+> > +if (ret)
+> > +return ret;
+> > +}
+> ditto.
+
+Fixed in next release.
+
+> > +
+> > +return 0;
+> > +}
+> > +
+> > +static int dw9768_set_ctrl(struct v4l2_ctrl *ctrl) {
+> > +struct dw9768_device *dw9768_dev = to_dw9768_vcm(ctrl);
+> > +
+> > +if (ctrl->id == V4L2_CID_FOCUS_ABSOLUTE)
+> > +return dw9768_update_hw(dw9768_dev, ctrl->val);
+> > +
+> > +return 0;
+> > +}
+> > +
+> > +static const struct v4l2_ctrl_ops dw9768_vcm_ctrl_ops = {
+> > +.s_ctrl = dw9768_set_ctrl,
+> > +};
+> > +
+> > +static int
+> > +dw9768_set_power(struct v4l2_subdev *subdev, int on) {
+> > +struct dw9768_device *dw9768_dev = sd_to_dw9768_vcm(subdev);
+> > +int ret = 0;
+> > +
+> > +mutex_lock(&dw9768_dev->power_lock);
+> > +
+> > +/*
+> > + * If the power count is modified from 0 to != 0 or from != 0 to 0,
+> > + * update the power state.
+> > + */
+> > +if (dw9768_dev->power_count == !on) {
+> > +ret = on ? dw9768_power_on(dw9768_dev, true) :
+> > +dw9768_power_off(dw9768_dev, true);
+> > +if (ret < 0)
+> > +goto done;
+> > +}
+> > +
+> > +/* Update the power count. */
+> > +dw9768_dev->power_count += on ? 1 : -1;
+> > +WARN_ON(dw9768_dev->power_count < 0);
+> > +
+> > +done:
+> > +mutex_unlock(&dw9768_dev->power_lock);
+> > +return ret;
+> > +}
+> > +
+> > +static int dw9768_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh
+> > +*fh) {
+> > +return dw9768_set_power(sd, 1);
+> > +}
+> > +
+> > +static int dw9768_close(struct v4l2_subdev *sd, struct v4l2_subdev_fh
+> > +*fh) {
+> > +return dw9768_set_power(sd, 0);
+> > +}
+> I am a little confused about the pm control here.
+> Could we use the pm generic APIs to help do this?
+
+Fixed in next release.
+
+> > +
+> > +static const struct v4l2_subdev_internal_ops dw9768_int_ops = {
+> > +.open = dw9768_open,
+> > +.close = dw9768_close,
+> > +};
+> > +
+> > +static const struct v4l2_subdev_ops dw9768_ops = { };
+> > +
+> > +static void dw9768_subdev_cleanup(struct dw9768_device *dw9768_dev) {
+> > +v4l2_async_unregister_subdev(&dw9768_dev->sd);
+> > +v4l2_ctrl_handler_free(&dw9768_dev->ctrls);
+> > +media_entity_cleanup(&dw9768_dev->sd.entity);
+> > +}
+> > +
+> > +static int dw9768_init_controls(struct dw9768_device *dw9768_dev) {
+> > +struct v4l2_ctrl_handler *hdl = &dw9768_dev->ctrls;
+> > +const struct v4l2_ctrl_ops *ops = &dw9768_vcm_ctrl_ops;
+> > +
+> > +v4l2_ctrl_handler_init(hdl, 1);
+> > +
+> > +v4l2_ctrl_new_std(hdl, ops, V4L2_CID_FOCUS_ABSOLUTE,
+> > +  0, DW9768_MAX_FOCUS_POS, DW9768_FOCUS_STEPS, 0);
+> > +
+> > +if (hdl->error) {
+> > +dev_err(dw9768_dev->sd.dev, "%s fail error: 0x%x\n",
+> > +__func__, hdl->error);
+> > +return hdl->error;
+> > +}
+> > +
+> > +dw9768_dev->sd.ctrl_handler = hdl;
+> > +
+> > +return 0;
+> > +}
+> > +
+> > +static int dw9768_probe(struct i2c_client *client) {
+> > +struct device *dev = &client->dev;
+> > +struct dw9768_device *dw9768_dev;
+> > +int rval;
+> > +
+> > +dw9768_dev = devm_kzalloc(&client->dev, sizeof(*dw9768_dev),
+> > +  GFP_KERNEL);
+> > +if (!dw9768_dev)
+> > +return -ENOMEM;
+> > +
+> > +dw9768_dev->analog_regulator = devm_regulator_get(dev, "afvdd");
+> > +if (IS_ERR(dw9768_dev->analog_regulator)) {
+> > +dev_err(dev, "cannot get analog regulator\n");
+> > +return PTR_ERR(dw9768_dev->analog_regulator);
+> > +}
+> > +
+> > +rval = regulator_set_voltage(dw9768_dev->analog_regulator,
+> > +     DW9768_VOLTAGE_ANALOG,
+> > +     DW9768_VOLTAGE_ANALOG);
+> > +if (rval < 0) {
+> > +dev_err(dev, "cannot set analog voltage\n");
+> > +return rval;
+> > +}
+> > +
+> > +mutex_init(&dw9768_dev->power_lock);
+> > +
+> > +v4l2_i2c_subdev_init(&dw9768_dev->sd, client, &dw9768_ops);
+> > +dw9768_dev->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> > +dw9768_dev->sd.internal_ops = &dw9768_int_ops;
+> > +
+> > +rval = dw9768_init_controls(dw9768_dev);
+> > +if (rval)
+> > +goto err_cleanup;
+> > +
+> > +rval = media_entity_pads_init(&dw9768_dev->sd.entity, 0, NULL);
+> > +if (rval < 0)
+> > +goto err_cleanup;
+> > +
+> > +dw9768_dev->sd.entity.function = MEDIA_ENT_F_LENS;
+> > +
+> > +rval = v4l2_async_register_subdev(&dw9768_dev->sd);
+> > +if (rval < 0)
+> > +goto err_cleanup;
+> > +
+> > +pm_runtime_set_active(dev);
+> > +pm_runtime_enable(dev);
+> > +pm_runtime_idle(dev);
+> > +
+> > +return 0;
+> > +
+> > +err_cleanup:
+> > +mutex_destroy(&dw9768_dev->power_lock);
+> > +dw9768_subdev_cleanup(dw9768_dev);
+> > +dev_err(dev, "Probe failed: %d\n", rval);
+> > +return rval;
+> > +}
+> > +
+> > +static int dw9768_remove(struct i2c_client *client) {
+> > +struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> > +struct dw9768_device *dw9768_dev = sd_to_dw9768_vcm(sd);
+> > +
+> > +pm_runtime_disable(&client->dev);
+> > +dw9768_subdev_cleanup(dw9768_dev);
+> > +
+> > +return 0;
+> > +}
+> > +
+> > +/*
+> > + * This function sets the vcm position, so it consumes least current
+> > + * The lens position is gradually moved in units of
+> > +DW9768_CTRL_STEPS,
+> > + * to make the movements smoothly.
+> > + */
+> > +static int __maybe_unused dw9768_vcm_suspend(struct device *dev) {
+> > +struct i2c_client *client = to_i2c_client(dev);
+> > +struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> > +struct dw9768_device *dw9768_dev = sd_to_dw9768_vcm(sd);
+> > +
+> > +if (!dw9768_dev->power_count)
+> > +return 0;
+> > +
+> > +return dw9768_power_off(dw9768_dev, false); }
+> > +
+> > +/*
+> > + * This function sets the vcm position to the value set by the user
+> > + * through v4l2_ctrl_ops s_ctrl handler
+> > + * The lens position is gradually moved in units of
+> > +DW9768_CTRL_STEPS,
+> > + * to make the movements smoothly.
+> > + */
+> > +static int __maybe_unused dw9768_vcm_resume(struct device *dev) {
+> > +struct i2c_client *client = to_i2c_client(dev);
+> > +struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> > +struct dw9768_device *dw9768_dev = sd_to_dw9768_vcm(sd);
+> > +
+> > +if (!dw9768_dev->power_count)
+> > +return 0;
+> > +
+> > +return dw9768_power_on(dw9768_dev, true); }
+> > +
+> > +static const struct i2c_device_id dw9768_id_table[] = {
+> > +{ DW9768_NAME, 0 },
+> > +{ { 0 } }
+> > +};
+> > +MODULE_DEVICE_TABLE(i2c, dw9768_id_table);
+> > +
+> > +static const struct of_device_id dw9768_of_table[] = {
+> > +{ .compatible = "dongwoon,dw9768" },
+> > +{ { 0 } }
+> > +};
+> > +MODULE_DEVICE_TABLE(of, dw9768_of_table);
+> > +
+> > +static const struct dev_pm_ops dw9768_pm_ops = {
+> > +SET_SYSTEM_SLEEP_PM_OPS(dw9768_vcm_suspend, dw9768_vcm_resume)
+> > +SET_RUNTIME_PM_OPS(dw9768_vcm_suspend, dw9768_vcm_resume, NULL) };
+> > +
+> > +static struct i2c_driver dw9768_i2c_driver = {
+> > +.driver = {
+> > +.name = DW9768_NAME,
+> > +.pm = &dw9768_pm_ops,
+> > +.of_match_table = dw9768_of_table,
+> > +},
+> > +.probe_new  = dw9768_probe,
+> > +.remove = dw9768_remove,
+> > +.id_table = dw9768_id_table,
+> > +};
+> > +
+> > +module_i2c_driver(dw9768_i2c_driver);
+> > +
+> > +MODULE_AUTHOR("Dongchun Zhu <dongchun.zhu@mediatek.com>");
+> > +MODULE_DESCRIPTION("DW9768 VCM driver"); MODULE_LICENSE("GPL v2");
 > >
-> >  static const struct component_ops sti_hdmi_ops =3D {
-> > @@ -1436,10 +1448,6 @@ static int sti_hdmi_probe(struct platform_device=
- *pdev)
-> >               goto release_adapter;
-> >       }
-> >
-> > -     hdmi->notifier =3D cec_notifier_get(&pdev->dev);
-> > -     if (!hdmi->notifier)
-> > -             goto release_adapter;
-> > -
-> >       hdmi->reset =3D devm_reset_control_get(dev, "hdmi");
-> >       /* Take hdmi out of reset */
-> >       if (!IS_ERR(hdmi->reset))
-> > @@ -1459,14 +1467,11 @@ static int sti_hdmi_remove(struct platform_devi=
-ce *pdev)
-> >  {
-> >       struct sti_hdmi *hdmi =3D dev_get_drvdata(&pdev->dev);
-> >
-> > -     cec_notifier_set_phys_addr(hdmi->notifier, CEC_PHYS_ADDR_INVALID)=
-;
-> > -
-> >       i2c_put_adapter(hdmi->ddc_adapt);
-> >       if (hdmi->audio_pdev)
-> >               platform_device_unregister(hdmi->audio_pdev);
-> >       component_del(&pdev->dev, &sti_hdmi_ops);
-> >
-> > -     cec_notifier_put(hdmi->notifier);
-> >       return 0;
-> >  }
-> >
-> >
->
+> *********************MEDIATEK Confidential/Internal Use*********************
+
+
