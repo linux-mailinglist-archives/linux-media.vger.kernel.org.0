@@ -2,63 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BE973A56DE
-	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2019 15:00:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D1B8A56EE
+	for <lists+linux-media@lfdr.de>; Mon,  2 Sep 2019 15:02:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729666AbfIBNAp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Sep 2019 09:00:45 -0400
-Received: from gofer.mess.org ([88.97.38.141]:37589 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729453AbfIBNAp (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 2 Sep 2019 09:00:45 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 8C2F7609BF; Mon,  2 Sep 2019 14:00:44 +0100 (BST)
-Date:   Mon, 2 Sep 2019 14:00:44 +0100
-From:   Sean Young <sean@mess.org>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: ir-keytable compiler warnings
-Message-ID: <20190902130044.ztxusc62oqnbipip@gofer.mess.org>
-References: <03899f78-498c-cd37-ac0d-7b3d34852f3a@xs4all.nl>
+        id S1729959AbfIBNC3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Sep 2019 09:02:29 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:49166 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729770AbfIBNC3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Sep 2019 09:02:29 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id ADB4628CB08
+Message-ID: <f204a408f980f3ae0cfb859acdc765cdc1c0ff01.camel@collabora.com>
+Subject: Re: [PATCH RFC 00/12] media: hantro: H264 fixes and improvements
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Jonas Karlman <jonas@kwiboo.se>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-rockchip@lists.infradead.org" 
+        <linux-rockchip@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Date:   Mon, 02 Sep 2019 10:02:14 -0300
+In-Reply-To: <HE1PR06MB40117D0EE96E6FA638A04B78ACBF0@HE1PR06MB4011.eurprd06.prod.outlook.com>
+References: <HE1PR06MB40117D0EE96E6FA638A04B78ACBF0@HE1PR06MB4011.eurprd06.prod.outlook.com>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <03899f78-498c-cd37-ac0d-7b3d34852f3a@xs4all.nl>
-User-Agent: NeoMutt/20170113 (1.7.2)
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Hi Jonas,
 
-On Mon, Sep 02, 2019 at 02:42:45PM +0200, Hans Verkuil wrote:
-> I get these compiler warnings:
-> 
->   CC       keymap.o
-> keytable.c:1832:76: warning: ‘struct toml_table_t’ declared inside parameter list will not be visible outside of this definition or
-> declaration
->  1832 | static void attach_bpf(const char *lirc_name, const char *bpf_prog, struct toml_table_t *toml)
->       |                                                                            ^~~~~~~~~~~~
-> keytable.c: In function ‘main’:
-> keytable.c:2108:42: warning: passing argument 3 of ‘attach_bpf’ from incompatible pointer type [-Wincompatible-pointer-types]
-> 
->  2108 |     attach_bpf(rc_dev.lirc_name, fname, b->param);
->       |                                         ~^~~~~~~
->       |                                          |
->       |                                          struct protocol_param *
-> keytable.c:1832:90: note: expected ‘struct toml_table_t *’ but argument is of type ‘struct protocol_param *’
->  1832 | static void attach_bpf(const char *lirc_name, const char *bpf_prog, struct toml_table_t *toml)
->       |                                                                     ~~~~~~~~~~~~~~~~~~~~~^~~~
->   CCLD     ir-keytable
-> 
-> It's with gcc 9.2.
-> 
-> Can you take a look?
+Thanks for the series, I'll be reviewing this shortly.
 
-I've pushed a fix. I had not tested building without the BPF enabled (when
-clang and elfutils-libelf-devel are not installed on Fedora).
+On Sun, 2019-09-01 at 12:42 +0000, Jonas Karlman wrote:
+> This series contains fixes and improvements for the hantro H264 decoder.
+> 
+> Patch 1-6 fixes issues and limitations observed when preparing support
+> for field encoded content.
+> 
+> Patch 7 introduce new DPB entry flags that is used to signal how a reference
+> frame is referenced. This information is needed to correctly build a
+> reference list for field encoded content.
+> 
+> Patch 8 adds bits to handle field encoded content, this is a rough patch
+> and should be reworked with proper code style and formatting.
+> Please get back with feedback on how to improve this.
+> 
+> The following samples from [1] are now playable with patch 1-8
+> - H264_1080i-25-interlace_Kaesescheibchen.mkv
+> - H264_10_1080i_50_AC3-Astra19.2_ProSieben_HD.ts
+> - big_buck_bunny_1080p_H264_AAC_25fps_7200K.mp4
+> - h264_tivo_sample.ts
+> 
+> The rest of the patches refactors G1 H264 code to more closely match
+> the code generated by my rockchip-vpu-regtool at [2] and then adds
+> support for H264 decoding on RK3399/RK3328 using the VPU2 block.
+> This code is early work and needs proper code style and formatting,
+> I just wanted to share the early work and get some initial feedback.
+> 
+> This series has been tested using ffmpeg v4l2 request hwaccel at [3] [4]
+> 
 
+What boards have you tested this on?
 
-Sean
+Thanks,
+Ezequiel
+
