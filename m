@@ -2,61 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EEEA5A715E
-	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2019 19:06:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 90427A7170
+	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2019 19:13:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730207AbfICRGl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Sep 2019 13:06:41 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:53947 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725782AbfICRGl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Sep 2019 13:06:41 -0400
-Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
-        by youngberry.canonical.com with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-        (Exim 4.76)
-        (envelope-from <colin.king@canonical.com>)
-        id 1i5CGN-0005kb-Az; Tue, 03 Sep 2019 17:06:39 +0000
-From:   Colin King <colin.king@canonical.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: cx231xx: remove redundant assignment to variable status
-Date:   Tue,  3 Sep 2019 18:06:39 +0100
-Message-Id: <20190903170639.13849-1-colin.king@canonical.com>
-X-Mailer: git-send-email 2.20.1
+        id S1729927AbfICRNW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Sep 2019 13:13:22 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:37426 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727624AbfICRNV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Sep 2019 13:13:21 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id E4F3228A124
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     kernel@collabora.com,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        linux-rockchip@lists.infradead.org,
+        Heiko Stuebner <heiko@sntech.de>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        fbuergisser@chromium.org, linux-kernel@vger.kernel.org,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Subject: [PATCH for 5.4] media: hantro: Fix s_fmt for dynamic resolution changes
+Date:   Tue,  3 Sep 2019 14:12:56 -0300
+Message-Id: <20190903171256.25052-1-ezequiel@collabora.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Colin Ian King <colin.king@canonical.com>
+Commit 953aaa1492c53 ("media: rockchip/vpu: Prepare things to support decoders")
+changed the conditions under S_FMT was allowed for OUTPUT
+CAPTURE buffers.
 
-Variable status is being initialized with a value that is never read
-and is being re-assigned a later on. The assignment is redundant and
-hence can be removed.
+However, and according to the mem-to-mem stateless decoder specification,
+in order to support dynamic resolution changes, S_FMT should be allowed
+even if OUTPUT buffers have been allocated.
 
-Addresses-Coverity: ("Unused value")
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
+Relax decoder S_FMT restrictions on OUTPUT buffers, allowing a resolution
+modification, provided the pixel format stays the same.
+
+Tested on RK3288 platforms using ChromiumOS Video Decode/Encode Accelerator Unittests.
+
+Fixes: 953aaa1492c53 ("media: rockchip/vpu: Prepare things to support decoders")
+Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 ---
- drivers/media/usb/cx231xx/cx231xx-avcore.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/media/hantro/hantro_v4l2.c | 22 ++++++++++++++++------
+ 1 file changed, 16 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/media/usb/cx231xx/cx231xx-avcore.c b/drivers/media/usb/cx231xx/cx231xx-avcore.c
-index d417b5fe4093..0974965e848f 100644
---- a/drivers/media/usb/cx231xx/cx231xx-avcore.c
-+++ b/drivers/media/usb/cx231xx/cx231xx-avcore.c
-@@ -1240,7 +1240,7 @@ int cx231xx_init_ctrl_pin_status(struct cx231xx *dev)
- int cx231xx_set_agc_analog_digital_mux_select(struct cx231xx *dev,
- 					      u8 analog_or_digital)
+diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
+index 3dae52abb96c..d48b548842cf 100644
+--- a/drivers/staging/media/hantro/hantro_v4l2.c
++++ b/drivers/staging/media/hantro/hantro_v4l2.c
+@@ -367,19 +367,22 @@ vidioc_s_fmt_out_mplane(struct file *file, void *priv, struct v4l2_format *f)
  {
--	int status = 0;
-+	int status;
+ 	struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
+ 	struct hantro_ctx *ctx = fh_to_ctx(priv);
++	struct vb2_queue *vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
+ 	const struct hantro_fmt *formats;
+ 	unsigned int num_fmts;
+-	struct vb2_queue *vq;
+ 	int ret;
  
- 	/* first set the direction to output */
- 	status = cx231xx_set_gpio_direction(dev,
+-	/* Change not allowed if queue is busy. */
+-	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
+-	if (vb2_is_busy(vq))
+-		return -EBUSY;
+-
+ 	if (!hantro_is_encoder_ctx(ctx)) {
+ 		struct vb2_queue *peer_vq;
+ 
++		/*
++		 * In other to support dynamic resolution change,
++		 * the decoder admits a resolution change, as long
++		 * as the pixelformat remains. Can't be done if streaming.
++		 */
++		if (vb2_is_streaming(vq) || (vb2_is_busy(vq) &&
++		    pix_mp->pixelformat != ctx->src_fmt.pixelformat))
++			return -EBUSY;
+ 		/*
+ 		 * Since format change on the OUTPUT queue will reset
+ 		 * the CAPTURE queue, we can't allow doing so
+@@ -389,6 +392,13 @@ vidioc_s_fmt_out_mplane(struct file *file, void *priv, struct v4l2_format *f)
+ 					  V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
+ 		if (vb2_is_busy(peer_vq))
+ 			return -EBUSY;
++	} else {
++		/*
++		 * The encoder doesn't admit a format change if
++		 * there are OUTPUT buffers allocated.
++		 */
++		if (vb2_is_busy(vq))
++			return -EBUSY;
+ 	}
+ 
+ 	ret = vidioc_try_fmt_out_mplane(file, priv, f);
 -- 
-2.20.1
+2.22.0
 
