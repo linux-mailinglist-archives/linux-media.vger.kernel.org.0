@@ -2,75 +2,197 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 61F85A5FDC
-	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2019 05:45:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A23DA5FE8
+	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2019 05:50:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725934AbfICDpp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Sep 2019 23:45:45 -0400
-Received: from c.mail.sonic.net ([64.142.111.80]:50102 "EHLO c.mail.sonic.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725914AbfICDpp (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 2 Sep 2019 23:45:45 -0400
-Received: from [192.168.23.254] (bastion.ponzo.net [69.12.218.213])
-        (authenticated bits=0)
-        by c.mail.sonic.net (8.15.1/8.15.1) with ESMTPSA id x833jhSp029744
-        (version=TLSv1.2 cipher=AES128-SHA bits=128 verify=NOT);
-        Mon, 2 Sep 2019 20:45:43 -0700
-From:   Scott Doty <scott@ponzo.net>
-Subject: Re: hdpvr.ko kernel 5.3-rc6
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-References: <7530b881-c7d0-74fd-dfeb-5e001d8b2266@ponzo.net>
- <5a6ab1fe-9776-961d-970b-5b3dbea12da1@xs4all.nl>
-Message-ID: <839e8ded-dfe5-9fc9-1573-2d64aa547e1c@ponzo.net>
-Date:   Mon, 2 Sep 2019 20:45:43 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1725994AbfICDuh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Sep 2019 23:50:37 -0400
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:35080 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725848AbfICDuh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Sep 2019 23:50:37 -0400
+Received: by mail-ed1-f65.google.com with SMTP id t50so17181585edd.2
+        for <linux-media@vger.kernel.org>; Mon, 02 Sep 2019 20:50:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=bERm9aosiUF/erxQGsOJQyA7y7i++Xkui77JsOdtACI=;
+        b=eh39WEjYZ/TVREn6cDg0rilIJuu6Poeea3tHxjoQhPtzOhO5fXgh4Ass1e/NaK0Zyx
+         OsYmSUUme3ZiGtHuUo7ytVrq6bDXgl/NEd0YeynBJaRLFJLtvnfoF9VynpwWhDBXhBbA
+         2a6pKAMXImbYcaSI3SGsyXCZaV7ny8HRU+K5o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=bERm9aosiUF/erxQGsOJQyA7y7i++Xkui77JsOdtACI=;
+        b=RnneDI5VM9leqoPFgeoiJmGAl7mm4oOP9hgSYRLAclPVmcaVfa6ufVDS4x4/PbOgYQ
+         Caew6i3Pj35rPsJZKrvPwqtpCh/DSJoFAA1J6h4KQ+ZtlDEtAmORdRHW6LWB7+pLNw7m
+         bq96qZ1764/2y90gIexJ/nMLgIvUvfpVEpBGWCmhTGpoJP3V8+cewljSjPMniQU/bWjs
+         P3iSpo3hbOvk5bo9sH3xF631T1ahkFXKzRK33vOu4+u7U7RZGJ1rQjYq6aY0ySPR1JSb
+         UFUYMZ6bLUHArc2F2o6WYgoyL5H8wFZcPM+z3sWja33844IGmdZri2ZJBs6FVqD7y42d
+         MunQ==
+X-Gm-Message-State: APjAAAU00FBBMnLoyL7XyF+I6RLAhJBa0jBPNCdsu9OBMT7CQs7zADhz
+        1TPyK1yWJWQKAAE6EyDlpca8+QKfYvXnjQ==
+X-Google-Smtp-Source: APXvYqyX3l9HnQwBYoIZPOBa66RCE2HNVSzYDZFvsPWIBuUbyAaFkLIIYnVcT2tFpztUZJhevnr4vA==
+X-Received: by 2002:a05:6402:b29:: with SMTP id bo9mr1945117edb.10.1567482634884;
+        Mon, 02 Sep 2019 20:50:34 -0700 (PDT)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com. [209.85.221.46])
+        by smtp.gmail.com with ESMTPSA id n16sm1249799ejy.8.2019.09.02.20.50.32
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Sep 2019 20:50:33 -0700 (PDT)
+Received: by mail-wr1-f46.google.com with SMTP id 30so4818156wrk.11
+        for <linux-media@vger.kernel.org>; Mon, 02 Sep 2019 20:50:32 -0700 (PDT)
+X-Received: by 2002:adf:fc03:: with SMTP id i3mr33237705wrr.48.1567482631483;
+ Mon, 02 Sep 2019 20:50:31 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <5a6ab1fe-9776-961d-970b-5b3dbea12da1@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Sonic-CAuth: UmFuZG9tSVZFiStK0VqrjNlj8lK5/YXUUU9AagPH0tXp2XqGX7mMVAaBe3X4Er8ldGvwW5E9VQ0iDom3W+8WAP7vEAVeTY7e
-X-Sonic-ID: C;nh0mTv3N6RGUudJF5axgbQ== M;aPgwTv3N6RGUudJF5axgbQ==
-X-Spam-Flag: No
-X-Sonic-Spam-Details: 0.0/5.0 by cerberusd
+References: <20190708100641.2702-1-dongchun.zhu@mediatek.com>
+ <20190708100641.2702-3-dongchun.zhu@mediatek.com> <20190823081723.GA33937@chromium.org>
+ <1567436507.21623.83.camel@mhfsdcap03>
+In-Reply-To: <1567436507.21623.83.camel@mhfsdcap03>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Tue, 3 Sep 2019 12:50:19 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5AWBFVF5Fh0OWpfkPid1wXYdi=MDdVukxaAKQg2dABnCA@mail.gmail.com>
+Message-ID: <CAAFQd5AWBFVF5Fh0OWpfkPid1wXYdi=MDdVukxaAKQg2dABnCA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] media: i2c: dw9768: Add DW9768 VCM driver
+To:     Dongchun Zhu <dongchun.zhu@mediatek.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Cao Bing Bu <bingbu.cao@intel.com>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
+        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
+        Sj Huang <sj.huang@mediatek.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        devicetree@vger.kernel.org, Louis Kuo <louis.kuo@mediatek.com>,
+        shengnan.wang@mediatek.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 9/2/19 12:31 AM, Hans Verkuil wrote:
-> Hi Scott,
+Hi Dongchun,
 
-Hi Hans!  Thank you for the speedy reply. :)
+On Tue, Sep 3, 2019 at 12:02 AM Dongchun Zhu <dongchun.zhu@mediatek.com> wrote:
+>
+> Hi Tomasz,
+>
+> On Fri, 2019-08-23 at 17:17 +0900, Tomasz Figa wrote:
+> > Hi Dongchun,
+> >
+> > On Mon, Jul 08, 2019 at 06:06:41PM +0800, dongchun.zhu@mediatek.com wrote:
+> > > From: Dongchun Zhu <dongchun.zhu@mediatek.com>
+> > >
+> > > This patch adds a V4L2 sub-device driver for DW9768 lens voice coil,
+> > > and provides control to set the desired focus.
+> > >
+> > > The DW9807 is a 10 bit DAC from Dongwoon, designed for linear
+> > > control of voice coil motor.
+> > >
+> > > Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
+> > > ---
+> > >  MAINTAINERS                |   1 +
+> > >  drivers/media/i2c/Kconfig  |  10 +
+> > >  drivers/media/i2c/Makefile |   1 +
+> > >  drivers/media/i2c/dw9768.c | 458 +++++++++++++++++++++++++++++++++++++++++++++
+> > >  4 files changed, 470 insertions(+)
+> > >  create mode 100644 drivers/media/i2c/dw9768.c
+> > >
+> >
+> > Thanks for the patch! Please see my comments inline.
+> >
+> > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > index 8f6ac93..17152d7 100644
+> > > --- a/MAINTAINERS
+> > > +++ b/MAINTAINERS
+> > > @@ -4877,6 +4877,7 @@ M:    Dongchun Zhu <dongchun.zhu@mediatek.com>
+> > >  L: linux-media@vger.kernel.org
+> > >  T: git git://linuxtv.org/media_tree.git
+> > >  S: Maintained
+> > > +F: drivers/media/i2c/dw9768.c
+> > >  F: Documentation/devicetree/bindings/media/i2c/dongwoon,dw9768.txt
+> > >
+> > >  DONGWOON DW9807 LENS VOICE COIL DRIVER
+> > > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> > > index 7793358..8ff6c95 100644
+> > > --- a/drivers/media/i2c/Kconfig
+> > > +++ b/drivers/media/i2c/Kconfig
+> > > @@ -1014,6 +1014,16 @@ config VIDEO_DW9714
+> > >       capability. This is designed for linear control of
+> > >       voice coil motors, controlled via I2C serial interface.
+> > >
+> > > +config VIDEO_DW9768
+> > > +   tristate "DW9768 lens voice coil support"
+> > > +   depends on I2C && VIDEO_V4L2 && MEDIA_CONTROLLER
+> > > +   depends on VIDEO_V4L2_SUBDEV_API
+> > > +   help
+> > > +     This is a driver for the DW9768 camera lens voice coil.
+> > > +     DW9768 is a 10 bit DAC with 100mA output current sink
+> > > +     capability. This is designed for linear control of
+> > > +     voice coil motors, controlled via I2C serial interface.
+> > > +
+> > >  config VIDEO_DW9807_VCM
+> > >     tristate "DW9807 lens voice coil support"
+> > >     depends on I2C && VIDEO_V4L2 && MEDIA_CONTROLLER
+> > > diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+> > > index d8ad9da..944fbf6 100644
+> > > --- a/drivers/media/i2c/Makefile
+> > > +++ b/drivers/media/i2c/Makefile
+> > > @@ -24,6 +24,7 @@ obj-$(CONFIG_VIDEO_SAA6752HS) += saa6752hs.o
+> > >  obj-$(CONFIG_VIDEO_AD5820)  += ad5820.o
+> > >  obj-$(CONFIG_VIDEO_AK7375)  += ak7375.o
+> > >  obj-$(CONFIG_VIDEO_DW9714)  += dw9714.o
+> > > +obj-$(CONFIG_VIDEO_DW9768)  += dw9768.o
+> > >  obj-$(CONFIG_VIDEO_DW9807_VCM)  += dw9807-vcm.o
+> > >  obj-$(CONFIG_VIDEO_ADV7170) += adv7170.o
+> > >  obj-$(CONFIG_VIDEO_ADV7175) += adv7175.o
+> > > diff --git a/drivers/media/i2c/dw9768.c b/drivers/media/i2c/dw9768.c
+> > > new file mode 100644
+> > > index 0000000..f5b5591
+> > > --- /dev/null
+> > > +++ b/drivers/media/i2c/dw9768.c
+> > > @@ -0,0 +1,458 @@
+> > > +// SPDX-License-Identifier: GPL-2.0
+> > > +/*
+> > > + * Copyright (c) 2018 MediaTek Inc.
+> > > + */
+> > > +
+> > > +#include <linux/delay.h>
+> > > +#include <linux/i2c.h>
+> > > +#include <linux/module.h>
+> > > +#include <linux/regulator/consumer.h>
+> > > +#include <linux/pm_runtime.h>
+> > > +#include <media/v4l2-ctrls.h>
+> > > +#include <media/v4l2-device.h>
+> > > +#include <media/v4l2-subdev.h>
+> > > +
+> > > +#define DW9768_VOLTAGE_ANALOG                      2800000
+> >
+> > This is a platform detail and should be defined in the platform data, for
+> > example DTS on platforms using DT.
+> >
+>
+> Thanks for your reminder.
+> This would be fixed in next release.
+>
+> > > +#define DW9768_NAME                                "dw9768"
+> >
+> > The chip we seem to be using this driver for is called gt9769. Shouldn't we
+> > call the driver the same?
+> >
+>
+> It is also called DW9768 from camera module specification, which was
+> initially confirmed with vendor.
+>
 
-> The only non-trivial change in hdpvr in 5.3 is this commit:
-> 
-> commit 6bc5a4a1927556ff9adce1aa95ea408c95453225
-> Author: Hans Verkuil <hverkuil@xs4all.nl>
-> Date:   Thu Jun 20 07:43:41 2019 -0400
-> 
->     media: hdpvr: fix locking and a missing msleep
-> 
-> Try reverting it and see if it makes a difference.
+Okay, thanks for clarifying.
 
-I should mention that I haven't tried this driver for over a year,
-so it's not just the change to 5.3 that we would be talking about.
-
-Tried reverting the commit and built Linux 5.3-rc7+ -- alas, it didn't
-change anything.
-
-> 
-> Also test with 'v4l2-ctl -d /dev/videoX --stream-mmap' and see if it
-> keeps streaming buffers or if it also stalls.
-
-That doesn't seem to work:
-
-$ v4l2-ctl -d /dev/video2 --stream-mmap
-New timings found
-VIDIOC_REQBUFS: failed: Inappropriate ioctl for device
-
-I suspect I might have to do a git bisect to find where the problem started.
-
- -Scott
+Best regards,
+Tomasz
