@@ -2,102 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F0EA5A640A
-	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2019 10:34:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B7D5EA644E
+	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2019 10:48:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726946AbfICIex (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Sep 2019 04:34:53 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:34441 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726631AbfICIew (ORCPT
+        id S1728109AbfICIsq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Sep 2019 04:48:46 -0400
+Received: from hostingweb31-40.netsons.net ([89.40.174.40]:46233 "EHLO
+        hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726557AbfICIsq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 3 Sep 2019 04:34:52 -0400
-Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id 54H1iGBbexNy054H4icrBn; Tue, 03 Sep 2019 10:34:51 +0200
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: Re: hdpvr.ko kernel 5.3-rc6
-To:     Scott Doty <scott@ponzo.net>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-References: <7530b881-c7d0-74fd-dfeb-5e001d8b2266@ponzo.net>
- <5a6ab1fe-9776-961d-970b-5b3dbea12da1@xs4all.nl>
- <839e8ded-dfe5-9fc9-1573-2d64aa547e1c@ponzo.net>
- <00b89589-5558-f8a1-3fb7-c631002e11bd@xs4all.nl>
-Message-ID: <152b2b02-67be-a5ba-6283-1b81d59c145f@xs4all.nl>
-Date:   Tue, 3 Sep 2019 10:34:47 +0200
+        Tue, 3 Sep 2019 04:48:46 -0400
+Received: from [109.168.11.45] (port=41926 helo=[192.168.101.73])
+        by hostingweb31.netsons.net with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
+        (Exim 4.92)
+        (envelope-from <luca@lucaceresoli.net>)
+        id 1i54UU-002hxn-8d; Tue, 03 Sep 2019 10:48:42 +0200
+Subject: Re: [RFC,v2 2/6] i2c: add I2C Address Translator (ATR) support
+To:     Wolfram Sang <wsa@the-dreams.de>
+Cc:     linux-media@vger.kernel.org, linux-i2c@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Vladimir Zapolskiy <vz@mleia.com>,
+        Peter Rosin <peda@axentia.se>
+References: <20190723203723.11730-1-luca@lucaceresoli.net>
+ <20190723203723.11730-3-luca@lucaceresoli.net> <20190902204208.GA7253@kunai>
+From:   Luca Ceresoli <luca@lucaceresoli.net>
+Message-ID: <8482d1e2-b1d9-3da5-5b1f-b7e492a87368@lucaceresoli.net>
+Date:   Tue, 3 Sep 2019 10:48:41 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <00b89589-5558-f8a1-3fb7-c631002e11bd@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20190902204208.GA7253@kunai>
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfPcGLor8Pu4T7H3sx+/JI2/eCovGmrDnjbeNIWZtgS0WYYfXky43xjJBxQhUQ/auJcZjbdtR5s6lEVNgtqZ3Pbagnl/d6C7xJDwM4tgV5SK3xyKLxrBF
- lLh3R5rt3QreBp7crNDz2R9t27nVbCJAg+XUvdC8fO4/a1yHNVT1s+9k5dT+B59rTqADe3JOEHYn+wxBqtvaDbamYxWUbYnKct0=
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - lucaceresoli.net
+X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca+lucaceresoli.net/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 9/3/19 8:35 AM, Hans Verkuil wrote:
-> On 9/3/19 5:45 AM, Scott Doty wrote:
->> On 9/2/19 12:31 AM, Hans Verkuil wrote:
->>> Hi Scott,
->>
->> Hi Hans!  Thank you for the speedy reply. :)
->>
->>> The only non-trivial change in hdpvr in 5.3 is this commit:
->>>
->>> commit 6bc5a4a1927556ff9adce1aa95ea408c95453225
->>> Author: Hans Verkuil <hverkuil@xs4all.nl>
->>> Date:   Thu Jun 20 07:43:41 2019 -0400
->>>
->>>     media: hdpvr: fix locking and a missing msleep
->>>
->>> Try reverting it and see if it makes a difference.
->>
->> I should mention that I haven't tried this driver for over a year,
->> so it's not just the change to 5.3 that we would be talking about.
->>
->> Tried reverting the commit and built Linux 5.3-rc7+ -- alas, it didn't
->> change anything.
->>
->>>
->>> Also test with 'v4l2-ctl -d /dev/videoX --stream-mmap' and see if it
->>> keeps streaming buffers or if it also stalls.
->>
->> That doesn't seem to work:
->>
->> $ v4l2-ctl -d /dev/video2 --stream-mmap
->> New timings found
->> VIDIOC_REQBUFS: failed: Inappropriate ioctl for device
+Hi Wolfram,
+
+On 02/09/19 22:42, Wolfram Sang wrote:
+> Hi Luca,
 > 
-> That's weird. I'll dig out my hdpvr later this week and test as well.
-
-Never mind, hdpvr uses read(), not streaming I/O. Of course this
-doesn't work...
-
-Just plain 'cat /dev/videoX >x.mpg' will do.
-
+>> + * Topology:
+>> + *
+>> + *                       Slave X @ 0x10
+>> + *               .-----.   |
+>> + *   .-----.     |     |---+---- B
+>> + *   | CPU |--A--| ATR |
+>> + *   `-----'     |     |---+---- C
+>> + *               `-----'   |
+>> + *                       Slave Y @ 0x10
+>> + *
+>> + * Alias table:
+>> + *
+>> + *   Client  Alias
+>> + *   -------------
+>> + *      X    0x20
+>> + *      Y    0x30
 > 
->>
->> I suspect I might have to do a git bisect to find where the problem started.
+> Great that you already provided docs for this driver!
 > 
-> That would certainly help.
+> One huge drawback for me is the attach/detach callbacks. One year ago, I
+> removed a similar callback from the I2C core ("[PATCH 0/2] i2c: remove
+> deprecated attach_adapter callback") because some drivers did a lot of
+> crazy things there. It took years to remove all that.
 
-If you can at least narrow down what the first kernel version is that broke
-hdpvr? That should help a lot.
+Oh dear, I was completely unaware, apologies! :-)
 
-BTW, you specified H264 in the vlc command line, but hdpvr only supports MPEG.
-So that's weird.
+> What I could imagine here: the adapter (B and C each in the picture
+> above) gets a flag like NEEDS_ATR before registering to the core. The
+> flag means all clients on that bus will have their address translated.
+> The core will figure out a free alias when a device is registered. We
+> can then have an ATR specific callback with the original and translated
+> address as arguments, so one can setup the HW as needed.
 
-Regards,
+Do you mean moving the alias selection code from i2c-atr.c to the i2c
+core? And the rest of the ATR core too?
 
-	Hans
+> Do you think that would work?
 
-> 
-> Regards,
-> 
-> 	Hans
-> 
+Yes.
 
+-- 
+Luca
