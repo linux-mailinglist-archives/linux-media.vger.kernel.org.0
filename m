@@ -2,162 +2,279 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A5AD7A619E
-	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2019 08:40:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C9BFA61AE
+	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2019 08:44:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726062AbfICGkZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Sep 2019 02:40:25 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:60437 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725919AbfICGkZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 3 Sep 2019 02:40:25 -0400
-Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id 52UGiFHGZxNy052UJicAd5; Tue, 03 Sep 2019 08:40:23 +0200
-Subject: Re: cron job: media_tree daily build: ERRORS
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-References: <a57dda1c01e4961d4c27d9b70723e052@smtp-cloud7.xs4all.net>
-Message-ID: <de111f26-c190-05b9-d76e-6013007023cd@xs4all.nl>
-Date:   Tue, 3 Sep 2019 08:40:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <a57dda1c01e4961d4c27d9b70723e052@smtp-cloud7.xs4all.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+        id S1726452AbfICGot (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Sep 2019 02:44:49 -0400
+Received: from mailgw01.mediatek.com ([210.61.82.183]:41959 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725956AbfICGot (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Sep 2019 02:44:49 -0400
+X-UUID: 3c738cff8e05492494681aa556dc0d83-20190903
+X-UUID: 3c738cff8e05492494681aa556dc0d83-20190903
+Received: from mtkcas09.mediatek.inc [(172.21.101.178)] by mailgw01.mediatek.com
+        (envelope-from <jerry-ch.chen@mediatek.com>)
+        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+        with ESMTP id 2091148019; Tue, 03 Sep 2019 14:44:42 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Tue, 3 Sep 2019 14:44:41 +0800
+Received: from [172.21.84.99] (172.21.84.99) by mtkcas08.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Tue, 3 Sep 2019 14:44:41 +0800
+Message-ID: <1567493081.18318.49.camel@mtksdccf07>
+Subject: Re: [RFC PATCH V2 4/4] platform: mtk-isp: Add Mediatek FD driver
+From:   Jerry-ch Chen <Jerry-ch.Chen@mediatek.com>
+To:     Tomasz Figa <tfiga@chromium.org>
+CC:     "yuzhao@chromium.org" <yuzhao@chromium.org>,
+        "zwisler@chromium.org" <zwisler@chromium.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Sean Cheng =?UTF-8?Q?=28=E9=84=AD=E6=98=87=E5=BC=98=29?= 
+        <Sean.Cheng@mediatek.com>,
+        "Sj Huang =?UTF-8?Q?=28=E9=BB=83=E4=BF=A1=E7=92=8B=29?=" 
+        <sj.huang@mediatek.com>,
+        Christie Yu =?UTF-8?Q?=28=E6=B8=B8=E9=9B=85=E6=83=A0=29?= 
+        <christie.yu@mediatek.com>,
+        Frederic Chen =?UTF-8?Q?=28=E9=99=B3=E4=BF=8A=E5=85=83=29?= 
+        <Frederic.Chen@mediatek.com>,
+        Jungo Lin =?UTF-8?Q?=28=E6=9E=97=E6=98=8E=E4=BF=8A=29?= 
+        <jungo.lin@mediatek.com>,
+        Rynn Wu =?UTF-8?Q?=28=E5=90=B3=E8=82=B2=E6=81=A9=29?= 
+        <Rynn.Wu@mediatek.com>,
+        Po-Yang Huang =?UTF-8?Q?=28=E9=BB=83=E6=9F=8F=E9=99=BD=29?= 
+        <po-yang.huang@mediatek.com>,
+        "shik@chromium.org" <shik@chromium.org>,
+        "suleiman@chromium.org" <suleiman@chromium.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "laurent.pinchart+renesas@ideasonboard.com" 
+        <laurent.pinchart+renesas@ideasonboard.com>,
+        "hans.verkuil@cisco.com" <hans.verkuil@cisco.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>
+Date:   Tue, 3 Sep 2019 14:44:41 +0800
+In-Reply-To: <CAAFQd5AGgeFbto6V1KkL0dp1QPziOKV3pWQDU2OJ+S1QKvnBdg@mail.gmail.com>
+References: <1562661672-22439-1-git-send-email-Jerry-Ch.chen@mediatek.com>
+         <1562661672-22439-5-git-send-email-Jerry-Ch.chen@mediatek.com>
+         <20190802082815.GA203993@chromium.org>
+         <1566724680.20680.8.camel@mtksdccf07>
+         <CAAFQd5Dw+jaT-+LAUEVeB8W1zdnOgPw7u+aCfDWhYW1SfbzO8g@mail.gmail.com>
+         <1566957625.20680.33.camel@mtksdccf07>
+         <CAAFQd5D-Yg1FjUE_rwmqfS1gvfE0=MZ=r-ziueU_37-uo9QTbw@mail.gmail.com>
+         <1567424859.18318.32.camel@mtksdccf07>
+         <CAAFQd5AGgeFbto6V1KkL0dp1QPziOKV3pWQDU2OJ+S1QKvnBdg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.2.3-0ubuntu6 
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfBs6FaYdIpIV5n3DPpscpI4qyLX1NLogJzJfmpldFfRfe2HdhWd3MCNxdLqZURRNB548lmgxCtN8rjH6SSS4I+89NOfDpml+Q2PHzQ4Nnx3yfbNn/HfG
- U/5WWnbT1yyARbHxc9M+LzIJnuTUI3eH5LpBws3d5BI+t/icQvtaw9QjzvFTT6THbTOkot6kQ7SySA==
+MIME-Version: 1.0
+X-MTK:  N
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-These errors appear to be fall-out from my upgrade to gcc-9.2.0
-and failing to properly prepare the old kernels for that.
+On Tue, 2019-09-03 at 13:19 +0800, Tomasz Figa wrote:
+> On Mon, Sep 2, 2019 at 8:47 PM Jerry-ch Chen <Jerry-ch.Chen@mediatek.com> wrote:
+> >
+> > Hi Tomasz,
+> >
+> > On Fri, 2019-08-30 at 16:33 +0800, Tomasz Figa wrote:
+> > > On Wed, Aug 28, 2019 at 11:00 AM Jerry-ch Chen
+> > > <Jerry-ch.Chen@mediatek.com> wrote:
+> > > >
+> > > > Hi Tomasz,
+> > > >
+> > > > On Mon, 2019-08-26 at 14:36 +0800, Tomasz Figa wrote:
+> > > > > Hi Jerry,
+> > > > >
+> > > > > On Sun, Aug 25, 2019 at 6:18 PM Jerry-ch Chen
+> > > > > <Jerry-ch.Chen@mediatek.com> wrote:
+> > > > > >
+> > > > > > Hi Tomasz,
+> > > > > >
+> > > > > > On Fri, 2019-08-02 at 16:28 +0800, Tomasz Figa wrote:
+> > > > > > > Hi Jerry,
+> > > > > > >
+> > > > > > > On Tue, Jul 09, 2019 at 04:41:12PM +0800, Jerry-ch Chen wrote:
+> [snip]
+> > > > static int mtk_fd_vb2_queue_setup(struct vb2_queue *vq,
+> > > >                                   unsigned int *num_buffers,
+> > > >                                   unsigned int *num_planes,
+> > > >                                   unsigned int sizes[],
+> > > >                                   struct device *alloc_devs[])
+> > > > {
+> > > >         struct mtk_fd_ctx *ctx = vb2_get_drv_priv(vq);
+> > > >         struct device *dev = ctx->dev;
+> > > >         unsigned int size[2];
+> > > >
+> > > >         switch (vq->type) {
+> > > >         case V4L2_BUF_TYPE_META_CAPTURE:
+> > > >                 size[0] = ctx->dst_fmt.buffersize;
+> > > >                 break;
+> > > >         case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
+> > > >                 size[0] = ctx->src_fmt.plane_fmt[0].sizeimage;
+> > > >                 if (*num_planes == 2)
+> > > >                         size[1] = ctx->src_fmt.plane_fmt[1].sizeimage;
+> > > >                 break;
+> > > >         }
+> > > >
+> > > >         if (*num_planes == 1) {
+> > > >                 if (sizes[0] < size[0])
+> > > >                         return -EINVAL;
+> > > >         } else if (*num_planes == 2) {
+> > > >                 if ((sizes[0] < size[0]) && (sizes[1] < size[1]))
+> > > >                         return -EINVAL;
+> > >
+> > > Can we just use a loop here and combine the 2 cases above?
+> > >
+> > > Also, we need to fail with -EINVAL if *num_planes is > 2.
+> > >
+> > > >         } else {
+> > > >                 *num_planes = 1;
+> > > >                 sizes[0] = size[0];
+> > >
+> > > This should be the case if *num_planes == 0 and the number of planes
+> > > and sizes should match the currently active format.
+> > >
+> > I appreciate your comments,
+> >
+> > Ok, I will update as following:
+> > static int mtk_fd_vb2_queue_setup(struct vb2_queue *vq,
+> >                                   unsigned int *num_buffers,
+> >                                   unsigned int *num_planes,
+> >                                   unsigned int sizes[],
+> >                                   struct device *alloc_devs[])
+> > {
+> >         struct mtk_fd_ctx *ctx = vb2_get_drv_priv(vq);
+> >         unsigned int size[2];
+> >         unsigned int plane;
+> >
+> >         switch (vq->type) {
+> >         case V4L2_BUF_TYPE_META_CAPTURE:
+> >                 size[0] = ctx->dst_fmt.buffersize;
+> >                 break;
+> >         case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
+> >                 size[0] = ctx->src_fmt.plane_fmt[0].sizeimage;
+> >                 if (*num_planes == 2)
+> >                         size[1] = ctx->src_fmt.plane_fmt[1].sizeimage;
+> >                 break;
+> >         }
+> >
+> >         if (*num_planes > 2)
+> >                 return -EINVAL;
+> >         if (*num_planes == 0) {
+> >                 if (vq->type == V4L2_BUF_TYPE_META_CAPTURE) {
+> >                         sizes[0] = ctx->dst_fmt.buffersize;
+> >                         *num_planes = 1;
+> >                         return 0;
+> >                 }
+> >
+> >                 *num_planes = ctx->src_fmt.num_planes;
+> >                 for (plane = 0; plane < *num_planes; plane++)
+> >                         sizes[plane] = ctx->src_fmt.plane_fmt[plane].sizeimage;
+> >                 return 0;
+> >         }
+> >
+> >         for (plane = 0; plane < *num_planes; plane++) {
+> >                 if(sizes[plane] < size[plane])
+> >                         return -EINVAL;
+> >         }
+> >         return 0;
+> > }
+> >
+> 
+> Looks good, thanks!
+> 
+> > > >         }
+> > > >
+> > > >         return 0;
+> > > > }
+> > > >
+> > > > > [snip]
+> > > > >
+> > > > > > > > +static void mtk_fd_vb2_stop_streaming(struct vb2_queue *vq)
+> > > > > > > > +{
+> > > > > > > > +   struct mtk_fd_ctx *ctx = vb2_get_drv_priv(vq);
+> > > > > > > > +   struct vb2_buffer *vb;
+> > > > > > >
+> > > > > > > How do we guarantee here that the hardware isn't still accessing the buffers
+> > > > > > > removed below?
+> > > > > > >
+> > > > > > Maybe we can check the driver state flag and aborting the unfinished
+> > > > > > jobs?
+> > > > > > (fd_hw->state == FD_ENQ)
+> > > > > >
+> > > > >
+> > > > > Yes, we need to either cancel or wait for the currently processing
+> > > > > job. It depends on hardware capabilities, but cancelling is generally
+> > > > > preferred for the lower latency.
+> > > > >
+> > > > Ok, it the state is ENQ, then we can disable the FD hw by controlling
+> > > > the registers.
+> > > >
+> > > > for example:
+> > > >         writel(0x0, fd->fd_base + FD_HW_ENABLE);
+> > > >         writel(0x0, fd->fd_base + FD_INT_EN);
+> > > >
+> > >
+> > > What's exactly the effect of writing 0 to FD_HW_ENABLE?
+> > >
+> > Sorry, my last reply didn't solve the question,
+> > we should implement a mtk_fd_job_abort() for v4l2_m2m_ops().
+> >
+> > which is able to readl_poll_timeout_atomic()
+> > and check the HW busy bits in the register FD_INT_EN;
+> >
+> > if they are not cleared until timeout, we could handle the last
+> > processing job.
+> > Otherwise, the FD irq handler should have handled the last processing
+> > job and we could continue the stop_streaming().
+> >
+> > For job_abort():
+> > static void mtk_fd_job_abort(void *priv)
+> > {
+> >         struct mtk_fd_ctx *ctx = priv;
+> >         struct mtk_fd_dev *fd = ctx->fd_dev;
+> >         u32 val;
+> >         u32 ret;
+> >
+> >         ret = readl_poll_timeout_atomic(fd->fd_base + MTK_FD_REG_OFFSET_INT_EN,
+> >                                         val,
+> >                                         (val & MTK_FD_HW_BUSY_MASK) ==
+> >                                         MTK_FD_HW_STATE_IS_BUSY,
+> >                                         USEC_PER_MSEC, MTK_FD_STOP_HW_TIMEOUT);
+> 
+> Hmm, would it be possible to avoid the busy wait by having a
+> completion that could be signalled from the interrupt handler?
+> 
+> Best regards,
+> Tomasz
 
-Hopefully this will be better tomorrow.
+I suppose that would be wakeup a wait queue in the interrupt handler,
+the the wait_event_interrupt_timeout() will be used in here and system
+suspend e.g. mtk_fd_suspend().
+Or do you suggest to wait_event_interrupt_timeout() every frame in the
+mtk_fd_ipi_handler()?
+I think maybe the readl_poll_timeout_atomic would be good enough.
 
-Regards,
 
-	Hans
+One more thing, for the mtk_fd_video_device_register()
+Sorry that I would need to use intermediate variable here since the 80
+columns check.
 
-On 9/3/19 5:59 AM, Hans Verkuil wrote:
-> This message is generated daily by a cron job that builds media_tree for
-> the kernels and architectures in the list below.
-> 
-> Results of the daily build of media_tree:
-> 
-> date:			Tue Sep  3 05:00:10 CEST 2019
-> media-tree git hash:	20a438d53fd9d12a894161bc56cbeab7a9993c39
-> media_build git hash:	d75b29db1297d2475227cc8bada843542271e40d
-> v4l-utils git hash:	32fd3b7e82e4a018e256ddfa30d4498b385c811d
-> edid-decode git hash:	0932deee88928f110b5a74851c173ad895f75863
-> gcc version:		i686-linux-gcc (GCC) 9.2.0
-> sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-> sparse version:		0.6.1-rc1
-> smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-> smatch version:		0.5.1
-> build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-> build-scripts git hash: 5624386a32db97445f4ab315a1954e6d3bcb0c47
-> host hardware:		x86_64
-> host os:		4.19.0-4-amd64
-> 
-> linux-git-arm-at91: OK
-> linux-git-arm-davinci: OK
-> linux-git-arm-multi: OK
-> linux-git-arm-pxa: OK
-> linux-git-arm-stm32: OK
-> linux-git-arm64: OK
-> linux-git-i686: OK
-> linux-git-mips: OK
-> linux-git-powerpc64: OK
-> linux-git-sh: OK
-> linux-git-x86_64: OK
-> Check COMPILE_TEST: OK
-> Check for strcpy/strncpy/strlcpy: OK
-> linux-3.10.108-i686: WARNINGS
-> linux-3.10.108-x86_64: WARNINGS
-> linux-3.11.10-i686: ERRORS
-> linux-3.11.10-x86_64: ERRORS
-> linux-3.12.74-i686: WARNINGS
-> linux-3.12.74-x86_64: WARNINGS
-> linux-3.13.11-i686: ERRORS
-> linux-3.13.11-x86_64: ERRORS
-> linux-3.14.79-i686: WARNINGS
-> linux-3.14.79-x86_64: WARNINGS
-> linux-3.15.10-i686: ERRORS
-> linux-3.15.10-x86_64: ERRORS
-> linux-3.16.63-i686: WARNINGS
-> linux-3.16.63-x86_64: WARNINGS
-> linux-3.17.8-i686: ERRORS
-> linux-3.17.8-x86_64: ERRORS
-> linux-3.18.136-i686: WARNINGS
-> linux-3.18.136-x86_64: WARNINGS
-> linux-3.19.8-i686: ERRORS
-> linux-3.19.8-x86_64: ERRORS
-> linux-4.0.9-i686: ERRORS
-> linux-4.0.9-x86_64: ERRORS
-> linux-4.1.52-i686: WARNINGS
-> linux-4.1.52-x86_64: WARNINGS
-> linux-4.2.8-i686: WARNINGS
-> linux-4.2.8-x86_64: WARNINGS
-> linux-4.3.6-i686: WARNINGS
-> linux-4.3.6-x86_64: WARNINGS
-> linux-4.4.167-i686: WARNINGS
-> linux-4.4.167-x86_64: WARNINGS
-> linux-4.5.7-i686: WARNINGS
-> linux-4.5.7-x86_64: WARNINGS
-> linux-4.6.7-i686: WARNINGS
-> linux-4.6.7-x86_64: WARNINGS
-> linux-4.7.10-i686: WARNINGS
-> linux-4.7.10-x86_64: WARNINGS
-> linux-4.8.17-i686: WARNINGS
-> linux-4.8.17-x86_64: WARNINGS
-> linux-4.9.162-i686: WARNINGS
-> linux-4.9.162-x86_64: WARNINGS
-> linux-4.10.17-i686: WARNINGS
-> linux-4.10.17-x86_64: WARNINGS
-> linux-4.11.12-i686: WARNINGS
-> linux-4.11.12-x86_64: WARNINGS
-> linux-4.12.14-i686: WARNINGS
-> linux-4.12.14-x86_64: WARNINGS
-> linux-4.13.16-i686: WARNINGS
-> linux-4.13.16-x86_64: WARNINGS
-> linux-4.14.105-i686: WARNINGS
-> linux-4.14.105-x86_64: WARNINGS
-> linux-4.15.18-i686: WARNINGS
-> linux-4.15.18-x86_64: WARNINGS
-> linux-4.16.18-i686: WARNINGS
-> linux-4.16.18-x86_64: WARNINGS
-> linux-4.17.19-i686: WARNINGS
-> linux-4.17.19-x86_64: WARNINGS
-> linux-4.18.20-i686: ERRORS
-> linux-4.18.20-x86_64: ERRORS
-> linux-4.19.28-i686: ERRORS
-> linux-4.19.28-x86_64: ERRORS
-> linux-4.20.15-i686: ERRORS
-> linux-4.20.15-x86_64: ERRORS
-> linux-5.0.15-i686: ERRORS
-> linux-5.0.15-x86_64: ERRORS
-> linux-5.1.1-i686: ERRORS
-> linux-5.1.1-x86_64: ERRORS
-> linux-5.2.1-i686: ERRORS
-> linux-5.2.1-x86_64: ERRORS
-> linux-5.3-rc1-i686: ERRORS
-> linux-5.3-rc1-x86_64: ERRORS
-> apps: OK
-> spec-git: OK
-> virtme: OK: Final Summary: 2327, Succeeded: 2327, Failed: 0, Warnings: 0
-> sparse: OK
-> smatch: OK
-> 
-> Logs weren't copied as they are too large (57232 kB)
-> 
-> The Media Infrastructure API from this daily build is here:
-> 
-> http://www.xs4all.nl/~hverkuil/spec/index.html
-> 
+	function = MEDIA_ENT_F_PROC_VIDEO_STATISTICS;
+	ret = v4l2_m2m_register_media_controller(m2m_dev, vfd, function);
+	if (ret) {
+		dev_err(dev, "Failed to init mem2mem media controller\n");
+		goto err_unreg_video;
+	}
+
+
+Thanks and Best regards,
+Jerry
 
