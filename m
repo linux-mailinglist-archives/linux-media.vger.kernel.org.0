@@ -2,154 +2,161 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A54F4A66F3
-	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2019 12:58:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C554DA66F5
+	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2019 12:58:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728864AbfICK6m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Sep 2019 06:58:42 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:56527 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726631AbfICK6m (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Sep 2019 06:58:42 -0400
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1i56WC-0006J1-Qf; Tue, 03 Sep 2019 12:58:36 +0200
-Message-ID: <1567508315.5229.3.camel@pengutronix.de>
-Subject: Re: [PATCH 03/12] media: hantro: Fix H264 motion vector buffer
- offset
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Jonas Karlman <jonas@kwiboo.se>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-rockchip@lists.infradead.org" 
-        <linux-rockchip@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Date:   Tue, 03 Sep 2019 12:58:35 +0200
-In-Reply-To: <HE1PR06MB40115337CD86C429EF24430CACBF0@HE1PR06MB4011.eurprd06.prod.outlook.com>
-References: <HE1PR06MB40117D0EE96E6FA638A04B78ACBF0@HE1PR06MB4011.eurprd06.prod.outlook.com>
-         <20190901124531.23645-1-jonas@kwiboo.se>
-         <HE1PR06MB40115337CD86C429EF24430CACBF0@HE1PR06MB4011.eurprd06.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.22.6-1+deb9u2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+        id S1728895AbfICK6u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Sep 2019 06:58:50 -0400
+Received: from mail-pf1-f181.google.com ([209.85.210.181]:39467 "EHLO
+        mail-pf1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728894AbfICK6t (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Sep 2019 06:58:49 -0400
+Received: by mail-pf1-f181.google.com with SMTP id s12so3553552pfe.6
+        for <linux-media@vger.kernel.org>; Tue, 03 Sep 2019 03:58:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=xvdnoIXIl2P7LgvY+i9qT9JkYAAePkukI+m7FCO8q1E=;
+        b=EwuBj4O2xS0jClWxWySyRRVEMCmx6Zgm/bVQVglWuC8R/e2RE8akXDqtyBM+Z6ZjWq
+         y1p4YZ22ktO4C7hoklYRY2CtwmezNWBUNjp8vzvIYqZpMwfKjo7YV07cREHvSe53EkCF
+         N3O5oHJEkkDmAJ5aJFEG+Og2e4nicPabxOT/OQLKLMFM4Ioni1TDbbYjkrshHUqg/f8D
+         8znLl0zs60kAXChDCfujajzSzzWJ3pgOqPO64pHgh8D0sGW7Ze4B3PWvJvAqV5rP1lzV
+         k6676PoK7EwOZ2rLa5yiccfiYmvtYkgqThIzkqw39SEqXwWw2joU9K5ukaCKyNLJCQEq
+         c6Ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=xvdnoIXIl2P7LgvY+i9qT9JkYAAePkukI+m7FCO8q1E=;
+        b=kwlSktXT0zta1pOlnD2jqqrFeD+w4gXzePc32x9YIB9DDQR5khhTTJecLg3R0YpTP2
+         PbMKDOHMo9bDF1HyRYjX+tl2cZs78KwBArI+KJ94Tvovicr7KEdLHcxMZEK7lp93d92t
+         tjAszglD6XdThjs85vsOmlcBiDAd7O4OhA69IBofoLdseqZKLoh5jFapFpikqJDkw2hn
+         sWdrbnTvk2nJ7f+EvaiTGP+De3usjqBmSJwqLakK0ObODiDv6fPtNCwc5GFgShwpkxbf
+         HyEXxJ07aayfKyfX0TGow2K9IM28RAU+pZJVrsmt60h7Gf+GV98iAqdkTUtkvDFyYSHD
+         wM3g==
+X-Gm-Message-State: APjAAAXaT1QperYKuSbOimK5G2NwFeKzWlw6nl0ppBZqfy0izHC6uq/I
+        TflN6PZNYnCl2A7wZpbHvA76SjqeNQs=
+X-Google-Smtp-Source: APXvYqyqElJTx8EFKHAPyRi8wmWBQesjWbV4JJScgYVl1qi3AO2fDJraoomatrs+8vqfHtQqYPScjA==
+X-Received: by 2002:a62:e802:: with SMTP id c2mr3798783pfi.212.1567508328618;
+        Tue, 03 Sep 2019 03:58:48 -0700 (PDT)
+Received: from bnva-HP-Pavilion-g6-Notebook-PC.domain.name ([61.1.208.92])
+        by smtp.gmail.com with ESMTPSA id 2sm13168025pfa.43.2019.09.03.03.58.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Sep 2019 03:58:47 -0700 (PDT)
+From:   Vandana BN <bnvandana@gmail.com>
+To:     linux-media@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Cc:     Vandana BN <bnvandana@gmail.com>
+Subject: [PATCH] v4l2-ctl: Print UVC meta info
+Date:   Tue,  3 Sep 2019 16:28:39 +0530
+Message-Id: <20190903105839.4182-1-bnvandana@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jonas,
+Print UVC Metadata information in verbose mode.
 
-On Sun, 2019-09-01 at 12:45 +0000, Jonas Karlman wrote:
-> A decoded 8-bit 4:2:0 frame need memory for up to 448 macroblocks
-> and is laid out in memory as follow:
+Signed-off-by: Vandana BN <bnvandana@gmail.com>
+---
+ utils/v4l2-ctl/v4l2-ctl-meta.cpp      | 20 ++++++++++++++++++++
+ utils/v4l2-ctl/v4l2-ctl-streaming.cpp | 14 ++++++++------
+ utils/v4l2-ctl/v4l2-ctl.h             |  1 +
+ 3 files changed, 29 insertions(+), 6 deletions(-)
 
-Do you mean "A decoded 8-bit 4:2:0 frame needs up to 448 bytes per
-macroblock"?
+diff --git a/utils/v4l2-ctl/v4l2-ctl-meta.cpp b/utils/v4l2-ctl/v4l2-ctl-meta.cpp
+index 75fbd6f4..f1003604 100644
+--- a/utils/v4l2-ctl/v4l2-ctl-meta.cpp
++++ b/utils/v4l2-ctl/v4l2-ctl-meta.cpp
+@@ -127,3 +127,23 @@ void meta_list(cv4l_fd &fd)
+ 		print_video_formats(fd, V4L2_BUF_TYPE_META_OUTPUT);
+ 	}
+ }
++
++static struct vivid_uvc_meta_buf {
++	__u64 ns;
++	__u16 sof;
++	__u8 length;
++	__u8 flags;
++	__u8 buf[];
++} __packed;
++
++void print_meta_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt, cv4l_queue &q)
++{
++	struct vivid_uvc_meta_buf *vbuf;
++	if (fmt.g_pixelformat() == V4L2_META_FMT_UVC) {
++		fprintf(f, "META format V4L2_META_FMT_UVC:");
++		for (unsigned i = 0; i< buf.g_num_planes(); i++) {
++			vbuf = (vivid_uvc_meta_buf *)(q.g_dataptr(buf.g_index(), i) + buf.g_mem_offset(i));
++			fprintf(f, "ns %llu sof %u, len %u, flags 0x%x\n",vbuf[i].ns, vbuf[i].sof, vbuf[i].length, vbuf[i].flags);
++		}
++	}
++}
+diff --git a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+index 11157434..46d53f23 100644
+--- a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
++++ b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+@@ -540,9 +540,9 @@ static void print_buffer(FILE *f, struct v4l2_buffer &buf)
+ 	fprintf(f, "\n");
+ }
+ 
+-static void print_concise_buffer(FILE *f, cv4l_buffer &buf,
+-				 fps_timestamps &fps_ts, int comp_perc,
+-				 bool skip_ts = false)
++static void print_concise_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt,
++				 cv4l_queue &q, fps_timestamps &fps_ts,
++				 int comp_perc, bool skip_ts = false)
+ {
+ 	static double last_ts;
+ 
+@@ -592,6 +592,8 @@ static void print_concise_buffer(FILE *f, cv4l_buffer &buf,
+ 	if (fl)
+ 		fprintf(f, " (%s)", bufferflags2s(fl).c_str());
+ 	fprintf(f, "\n");
++	if (v4l_type_is_meta(buf.g_type()))
++		print_meta_buffer(f, buf, fmt, q);
+ }
+ 
+ static void stream_buf_caps(cv4l_fd &fd, unsigned buftype)
+@@ -1390,7 +1392,7 @@ static int do_handle_cap(cv4l_fd &fd, cv4l_queue &q, FILE *fout, int *index,
+ 		if (!(buf.g_flags() & V4L2_BUF_FLAG_ERROR))
+ 			break;
+ 		if (verbose)
+-			print_concise_buffer(stderr, buf, fps_ts, -1);
++			print_concise_buffer(stderr, buf, fmt, q, fps_ts, -1);
+ 		if (fd.qbuf(buf))
+ 			return QUEUE_ERROR;
+ 	}
+@@ -1412,7 +1414,7 @@ static int do_handle_cap(cv4l_fd &fd, cv4l_queue &q, FILE *fout, int *index,
+ 	else if (buf.g_flags() & V4L2_BUF_FLAG_BFRAME)
+ 		ch = 'B';
+ 	if (verbose) {
+-		print_concise_buffer(stderr, buf, fps_ts,
++		print_concise_buffer(stderr, buf, fmt, q, fps_ts,
+ 				     host_fd_to >= 0 ? 100 - comp_perc / comp_perc_count : -1);
+ 		comp_perc_count = comp_perc = 0;
+ 	}
+@@ -1502,7 +1504,7 @@ static int do_handle_out(cv4l_fd &fd, cv4l_queue &q, FILE *fin, cv4l_buffer *cap
+ 		double ts_secs = buf.g_timestamp().tv_sec + buf.g_timestamp().tv_usec / 1000000.0;
+ 		fps_ts.add_ts(ts_secs, buf.g_sequence(), buf.g_field());
+ 		if (verbose)
+-			print_concise_buffer(stderr, buf, fps_ts, -1);
++			print_concise_buffer(stderr, buf, fmt, q, fps_ts, -1);
+ 
+ 		for (unsigned j = 0; j < buf.g_num_planes(); j++)
+ 			buf.s_bytesused(buf.g_length(j), j);
+diff --git a/utils/v4l2-ctl/v4l2-ctl.h b/utils/v4l2-ctl/v4l2-ctl.h
+index 5797d784..36051566 100644
+--- a/utils/v4l2-ctl/v4l2-ctl.h
++++ b/utils/v4l2-ctl/v4l2-ctl.h
+@@ -406,6 +406,7 @@ void meta_cmd(int ch, char *optarg);
+ void meta_set(cv4l_fd &fd);
+ void meta_get(cv4l_fd &fd);
+ void meta_list(cv4l_fd &fd);
++void print_meta_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt, cv4l_queue &q);
+ 
+ // v4l2-ctl-subdev.cpp
+ void subdev_usage(void);
+-- 
+2.17.1
 
-A 1280x720 frame already consists of 3600 macroblocks (each 16x16 Y +
-2x8x8 Cb,Cr).
-
-> +-------------------+
-> > Y-plane   256 MBs |
-
-So that looks like it should be 256 bytes * number of macroblocks
-instead, same for the following two.
-
-> +-------------------+
-> > UV-plane  128 MBs |
-> +-------------------+
-> > MV buffer  64 MBs |
-> 
-> +-------------------+
->
-> The motion vector buffer offset is currently correct for 4:2:0 because
-> the extra space for motion vectors is overallocated with an extra 64 MBs.
-> 
-> Wrong offset for both destination and motion vector buffer are used
-> for the bottom field of field encoded content, wrong offset is
-> also used for 4:0:0 (monochrome) content.
-> 
-> Fix this by always setting the motion vector address to the expected
-> 384 MBs offset for 4:2:0 and 256 MBs offset for 4:0:0 content.
-
-Expected by whom? For example, could these be placed in separate buffers
-instead of appended to the VB2 allocated buffers?
-
-> Also use correct destination and motion vector buffer offset
-> for the bottom field of field encoded content.
-> 
-> While at it also extend the check for 4:0:0 (monochrome) to include an
-> additional check for High Profile (100).
-> 
-> Fixes: dea0a82f3d22 ("media: hantro: Add support for H264 decoding on G1")
-> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-> ---
->  .../staging/media/hantro/hantro_g1_h264_dec.c | 33 +++++++++++--------
->  1 file changed, 19 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/staging/media/hantro/hantro_g1_h264_dec.c b/drivers/staging/media/hantro/hantro_g1_h264_dec.c
-> index 7ab534936843..159bd67e0a36 100644
-> --- a/drivers/staging/media/hantro/hantro_g1_h264_dec.c
-> +++ b/drivers/staging/media/hantro/hantro_g1_h264_dec.c
-> @@ -19,6 +19,9 @@
->  #include "hantro_hw.h"
->  #include "hantro_v4l2.h"
->  
-> +#define MV_OFFSET_420	384
-> +#define MV_OFFSET_400	256
-> +
->  static void set_params(struct hantro_ctx *ctx)
->  {
->  	const struct hantro_h264_dec_ctrls *ctrls = &ctx->h264_dec.ctrls;
-> @@ -49,8 +52,8 @@ static void set_params(struct hantro_ctx *ctx)
->  	vdpu_write_relaxed(vpu, reg, G1_REG_DEC_CTRL0);
->  
->  	/* Decoder control register 1. */
-> -	reg = G1_REG_DEC_CTRL1_PIC_MB_WIDTH(sps->pic_width_in_mbs_minus1 + 1) |
-> -	      G1_REG_DEC_CTRL1_PIC_MB_HEIGHT_P(sps->pic_height_in_map_units_minus1 + 1) |
-> +	reg = G1_REG_DEC_CTRL1_PIC_MB_WIDTH(H264_MB_WIDTH(ctx->dst_fmt.width)) |
-> +	      G1_REG_DEC_CTRL1_PIC_MB_HEIGHT_P(H264_MB_HEIGHT(ctx->dst_fmt.height)) |
->  	      G1_REG_DEC_CTRL1_REF_FRAMES(sps->max_num_ref_frames);
->  	vdpu_write_relaxed(vpu, reg, G1_REG_DEC_CTRL1);
->  
-> @@ -79,7 +82,7 @@ static void set_params(struct hantro_ctx *ctx)
->  		reg |= G1_REG_DEC_CTRL4_CABAC_E;
->  	if (sps->flags & V4L2_H264_SPS_FLAG_DIRECT_8X8_INFERENCE)
->  		reg |= G1_REG_DEC_CTRL4_DIR_8X8_INFER_E;
-> -	if (sps->chroma_format_idc == 0)
-> +	if (sps->profile_idc >= 100 && sps->chroma_format_idc == 0)
->  		reg |= G1_REG_DEC_CTRL4_BLACKWHITE_E;
->  	if (pps->flags & V4L2_H264_PPS_FLAG_WEIGHTED_PRED)
->  		reg |= G1_REG_DEC_CTRL4_WEIGHT_PRED_E;
-> @@ -233,6 +236,7 @@ static void set_buffers(struct hantro_ctx *ctx)
->  	struct vb2_v4l2_buffer *src_buf, *dst_buf;
->  	struct hantro_dev *vpu = ctx->dev;
->  	dma_addr_t src_dma, dst_dma;
-> +	unsigned int offset = MV_OFFSET_420;
->  
->  	src_buf = hantro_get_src_buf(ctx);
->  	dst_buf = hantro_get_dst_buf(ctx);
-> @@ -243,19 +247,20 @@ static void set_buffers(struct hantro_ctx *ctx)
->  
->  	/* Destination (decoded frame) buffer. */
->  	dst_dma = vb2_dma_contig_plane_dma_addr(&dst_buf->vb2_buf, 0);
-> +	if (ctrls->slices[0].flags & V4L2_H264_SLICE_FLAG_BOTTOM_FIELD)
-> +		dst_dma += ALIGN(ctx->dst_fmt.width, H264_MB_DIM);
-
-How does this work? Does userspace decode two fields into the same
-capture buffer and the hardware writes each field with a stride of 2
-lines? I suppose this corresponds to V4L2_FIELD_INTERLACED. Could this
-also be made to support V4L2_FIELD_SEQ_TB output?
-
-regards
-Philipp
