@@ -2,73 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 37C4DA6904
-	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2019 14:53:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6AB4CA690F
+	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2019 14:55:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729257AbfICMxN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Sep 2019 08:53:13 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:39585 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728860AbfICMxM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Sep 2019 08:53:12 -0400
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1i58J0-0001Lr-Ol; Tue, 03 Sep 2019 14:53:06 +0200
-Message-ID: <1567515184.5229.5.camel@pengutronix.de>
-Subject: Re: [PATCH 02/12] media: hantro: Do not reorder H264 scaling list
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Jonas Karlman <jonas@kwiboo.se>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        "linux-rockchip@lists.infradead.org" 
-        <linux-rockchip@lists.infradead.org>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Date:   Tue, 03 Sep 2019 14:53:04 +0200
-In-Reply-To: <DB6PR06MB4007C140420365E83064C5BEACB90@DB6PR06MB4007.eurprd06.prod.outlook.com>
-References: <HE1PR06MB40117D0EE96E6FA638A04B78ACBF0@HE1PR06MB4011.eurprd06.prod.outlook.com>
-         <20190901124531.23645-1-jonas@kwiboo.se>
-         <HE1PR06MB40116C92C3D52C5957EF48E9ACBF0@HE1PR06MB4011.eurprd06.prod.outlook.com>
-         <1567432843.3666.6.camel@pengutronix.de>
-         <HE1PR06MB4011A8F99D58E5ACFAE3CECAACBE0@HE1PR06MB4011.eurprd06.prod.outlook.com>
-         <DB6PR06MB4007C140420365E83064C5BEACB90@DB6PR06MB4007.eurprd06.prod.outlook.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.22.6-1+deb9u2 
-Mime-Version: 1.0
+        id S1729056AbfICMzY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Sep 2019 08:55:24 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:43888 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728860AbfICMzY (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Sep 2019 08:55:24 -0400
+Received: by mail-io1-f65.google.com with SMTP id u185so31767766iod.10
+        for <linux-media@vger.kernel.org>; Tue, 03 Sep 2019 05:55:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=xXXfF+BP1pkxaEeIfd5tf34OTBwH4aM/p3a2bJwD1PU=;
+        b=igogQoDeX2H+I4Woipqlu0Qo9ejku4LeQgwB2Fp4c8tdVqy3RSap5LygcJRUx5UWBn
+         4LoTLyH+qgQbxzisvs6hcrY21zb4+DzPRDpto2utwGtgRhLhMKtEiHkPpGsZyY1AtKaJ
+         IRKXXdU75uefAXRP3m6lBAZjBAuGvTr9jl1zQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=xXXfF+BP1pkxaEeIfd5tf34OTBwH4aM/p3a2bJwD1PU=;
+        b=AmhsqjjBxHXR41SuSeoa1ZyJ2VI208BHieG7p7G7etf7Ep6aYKpylGomPLMHK96oQ6
+         Utk7dDWQXEZ0sbA314ZjWGL3bGXB6Ut4uEjOjRHiQRvoJiXGD4gGqTBsKHhZbWjoKWvG
+         U6iNam4ojmxMKeKuoV3xsiqa1M8PRUv/cHKyJ8tvLAyl+qrJHwAv0a0LoIcjnX2piu2Y
+         JtWxOWb9nUV/YAc7JwmMnat+B8b7D028L64VHfMIBEh+AzBfBD12NpsyJPIiqgiYjTwx
+         eMCKhcj172b+tDhvkdpFOakFmXDN+dmWaBeFcIBYVg67G6xC7M51ykK0JNsIMgDrVbM3
+         aX/g==
+X-Gm-Message-State: APjAAAW9M292Y+ZLeMcjVfTzujFrWTQopbcKDnveyyIvQ79NIQfB88GS
+        sFIqHTjyRXk9kgcqzsNYahMkzw==
+X-Google-Smtp-Source: APXvYqxKaHcRm1F7gecWXyZPOBIQoF9Xm+B7IHtHtX+R40LM33bnpLjO1tceNHeXj9qaludehv/n5g==
+X-Received: by 2002:a5d:8d12:: with SMTP id p18mr8329383ioj.251.1567515323453;
+        Tue, 03 Sep 2019 05:55:23 -0700 (PDT)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id f7sm2873566ioc.31.2019.09.03.05.55.22
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 03 Sep 2019 05:55:22 -0700 (PDT)
+Subject: Re: [PATCH v3 1/2] media: vimc: Collapse component structure into a
+ single monolithic driver
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        mchehab@kernel.org, helen.koike@collabora.com, hverkuil@xs4all.nl,
+        laurent.pinchart@ideasonboard.com, andrealmeid@collabora.com,
+        dafna3 <dafna3@gmail.com>, Shuah Khan <skhan@linuxfoundation.org>
+References: <cover.1566334362.git.skhan@linuxfoundation.org>
+ <a7b877c08d0885fe7e8bffc9b24ef0a2d6236147.1566334363.git.skhan@linuxfoundation.org>
+ <09c3ddad7122efb23201dff6e11aaf7455c748ea.camel@collabora.com>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <76c8489f-4c6f-27df-ce28-a7ce3e8b3843@linuxfoundation.org>
+Date:   Tue, 3 Sep 2019 06:55:21 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <09c3ddad7122efb23201dff6e11aaf7455c748ea.camel@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 2019-09-03 at 07:54 +0000, Jonas Karlman wrote:
-[...]
-> After a closer look both ffmpeg and rkmpp only apply zig-zag scan and not field scan,
-> ffmpeg will memcpy the scaling_matrix4/8 as is for vaapi, vdpau and nvdec,
-> for dxva2 there is a workaround flag that controls if zig-zag should be applied or not.
+On 9/3/19 6:50 AM, Dafna Hirschfeld wrote:
+> Hi,
+> Thank you for working on the patchset.
 > 
-> I suggest a clarification of the expect order of values and use of the same value order as vaapi, vdpau and nvdec.
-> i.e. have the scaling list values in "matrix order"/"raster order", after zig-zag scan has been applied,
-> as is currently expected by cedrus and hantro after this patch.
+> Since there is only one module now, the section in the vimc Documentation
+> regarding module params should be changed:
 > 
-> I would also suggest a change to the expected order of the 8x8 scaling lists to follow the H264 standard,
-> instead of the ffmpeg order like this patch and cedrus driver currently expects.
+> In the file Documentation/media/v4l-drivers/vimc.rst
+> The following text should be removed:
 > 
-> Expected scaling list order would then be,
-> for 4x4: Intra Y, Intra Cb, Intra Cr, Inter Y, Inter Cb, Inter Cr,
-> for 8x8: Intra Y, Inter Y, Intra Cb, Inter Cb, Intra Cr, Inter Cr.
+> ```
+> You should pass
+> those arguments to each subdevice, not to the vimc module. For example::
+> 
+>          vimc_subdevice.param=value
+> ```
+> 
+> (no inline comments)
+> 
 
-I'm in favor of both, it seems unnecessary to reorder the lists in
-userspace only to have the kernel reorder them back before passing them
-to the hardware.
+Thanks Dafna. Yes Documentation needs updates for other reasons and
+the module params is on my list as well to fix.
 
-regards
-Philipp
+thanks,
+-- Shuah
