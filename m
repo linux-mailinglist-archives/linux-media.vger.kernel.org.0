@@ -2,127 +2,269 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DB62A6003
-	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2019 06:16:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BC68A6071
+	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2019 07:19:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726062AbfICEQf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Sep 2019 00:16:35 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:54198 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725821AbfICEQf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Sep 2019 00:16:35 -0400
-Received: by mail-wm1-f66.google.com with SMTP id q19so7620806wmc.3
-        for <linux-media@vger.kernel.org>; Mon, 02 Sep 2019 21:16:34 -0700 (PDT)
+        id S1726450AbfICFTs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Sep 2019 01:19:48 -0400
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:38236 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725886AbfICFTr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Sep 2019 01:19:47 -0400
+Received: by mail-ed1-f67.google.com with SMTP id r12so17295749edo.5
+        for <linux-media@vger.kernel.org>; Mon, 02 Sep 2019 22:19:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=QBFJQPZLHDeB/fzIsxa0uFNSv6BSbmPLh62kwCUCBfo=;
-        b=U8tbYdnOBD/ItyiHvZXg6b3W7dnshSq+kl5i1xtT94GEaH2BwJ5hO8AtPX40CvDwoB
-         3j+8A9ZB5VmkyiqvQowwn4GUGQ5A9pJzHgsBuhdqi3GwlwYJX95xhjkzSL76wD+L03YN
-         V1jnLQodRjVJ2dsdTAMZQjLnXxsIyOG9z/fRbDGb14300Jm+f37wpm0PlGK6gfOl6QtZ
-         Vi45sFTbiL2Aqi/Dtb+FEh2qMMqUIQ0Y6X2NJnSQ3lgs3c3YJhANiRpUh1kSb0u0ZGbB
-         H4omAfqgDYWFwQQTxvh4Mq+ehx7Hrc63WtoDmNOv9qsbpEjKjkVwnd95+YzFFfepn8SK
-         dFJw==
+        bh=nRWk1hiNsgYKDx0eHOI6vp6cA2gI01WBhMOu+BZ2jiE=;
+        b=XRznKuQFypiCThT4oXIQSIBA7FNl2mvcrR0pkBLgUBKjwgIbdfglCn2WZbp2oaWnie
+         5SIqUtqyGftLXp4KNEyzDy+t+MhsoDwqHd6t0wZtQfXgYzkn6fX17iHhLPhI3hNOVr1g
+         58lg3a5A2vXrMBrASbA4h4/L+NJVUmauuvOvQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=QBFJQPZLHDeB/fzIsxa0uFNSv6BSbmPLh62kwCUCBfo=;
-        b=OXnNEtYcKvwqXuQzB97LnYMBOf6fhLn2MlSaOUS73KgMYQUu+pj0ZLPh3rcFZ61gUm
-         grKbdYz1Fqpld9CWdDnlTAPqfj24GQBi8+DFTsoG2MnE7z+hjSSLlkGZ2t1zq4Bfca54
-         QCyL3O2MLXGQzw91vWtm/aMeMNEOJ17a8Iw4OzyoBottiUXD/ynKk9iG4NZ1hc5byA3d
-         0Zr395XXFA+5cznHLYceGM7piyXDktfvkEmCUakMe2SuBolWB3Pj9TS2Sv0JnJooIoAP
-         jwDJNFtpAw5SZyZLyo0+G42Sox/6SouXAkjLpX8FR+YynhlwQEmGK0CDRZXshGWLjIja
-         jXsw==
-X-Gm-Message-State: APjAAAVNZj0wtXjplT+n/ogCzzoZx1RaepzBbwEKyZMxHYNIa9mdwcym
-        O/25EMkHI9D8nSRgKr3zGWrfMp8GwZ8N4HM9gNrw5w==
-X-Google-Smtp-Source: APXvYqwkkWASIuZ9rqbGWQ6EIkdHyntAS3XW8S8fG1AsSuJcf/ixmXfkmD9Mgl1gndozyOeR3g15HMMDnyutfjiplv8=
-X-Received: by 2002:a1c:4b14:: with SMTP id y20mr7082577wma.10.1567484193015;
- Mon, 02 Sep 2019 21:16:33 -0700 (PDT)
+        bh=nRWk1hiNsgYKDx0eHOI6vp6cA2gI01WBhMOu+BZ2jiE=;
+        b=gEVwnnUI73Ohmd81sjGe6LLebprXnj42ERSTLztqRDkHSYEWhiHSht1LAm8vuOrXlj
+         v1GStusqfZleST6+pF68GuPiGhB4rQWDYSA/o5uMC9TQcuD0BMP7dJnqIjYWFmoXl0eI
+         QPWhGvu0PrUfmIFxH7tlwMSPd9Gwnurt7OJv1hSkPoiKblaRbpUtij3SCDUd2oHEpIDJ
+         L1U4V8A/otkiSvBnCzTQxgkHMkWBJsx4ND3lhn70YggpveMony187GjNK81ER+j1xYgi
+         tL4n12nIQf2OjxlmTQNpAoFTGiyNn+aM1E5gn/ls+8zD7mQY0jsFD2mGMhpdSy509IUr
+         HRmw==
+X-Gm-Message-State: APjAAAXlejyLVvgnOp+Wot0H19yO2/816ozrwh8yg3rqPy2SHfrHU/Wx
+        dfs2TzaafgsqTFlRRRE2lp7sJLZU6Ni0oA==
+X-Google-Smtp-Source: APXvYqyghaL9sfAnsQeRnlU0qoNIINXhjy5x12IQ1IMYGPCN5rt2OUNAJVETChu+iI6pogsnUY5DnA==
+X-Received: by 2002:a17:906:6dd4:: with SMTP id j20mr27269992ejt.173.1567487985506;
+        Mon, 02 Sep 2019 22:19:45 -0700 (PDT)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com. [209.85.128.43])
+        by smtp.gmail.com with ESMTPSA id p11sm19345edh.77.2019.09.02.22.19.45
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Sep 2019 22:19:45 -0700 (PDT)
+Received: by mail-wm1-f43.google.com with SMTP id k1so16537679wmi.1
+        for <linux-media@vger.kernel.org>; Mon, 02 Sep 2019 22:19:45 -0700 (PDT)
+X-Received: by 2002:a1c:f704:: with SMTP id v4mr28499086wmh.90.1567487984880;
+ Mon, 02 Sep 2019 22:19:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190827092339.8858-1-jacopo@jmondi.org> <20190827092339.8858-4-jacopo@jmondi.org>
- <20190827125132.GU5054@pendragon.ideasonboard.com> <20190902112049.uwnawj5rm3tk4eqe@uno.localdomain>
- <20190902164315.GE12197@pendragon.ideasonboard.com>
-In-Reply-To: <20190902164315.GE12197@pendragon.ideasonboard.com>
-From:   Tomasz Figa <tfiga@google.com>
-Date:   Tue, 3 Sep 2019 13:16:21 +0900
-Message-ID: <CAAFQd5CTn_6gDZL+kxN=112JW1tRSXo2PG1-twgnYycb0uGPYA@mail.gmail.com>
-Subject: Re: [PATCH v2 03/10] media: v4l2-ctrl: Document V4L2_CID_CAMERA_SENSOR_ROTATION
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>
+References: <1562661672-22439-1-git-send-email-Jerry-Ch.chen@mediatek.com>
+ <1562661672-22439-5-git-send-email-Jerry-Ch.chen@mediatek.com>
+ <20190802082815.GA203993@chromium.org> <1566724680.20680.8.camel@mtksdccf07>
+ <CAAFQd5Dw+jaT-+LAUEVeB8W1zdnOgPw7u+aCfDWhYW1SfbzO8g@mail.gmail.com>
+ <1566957625.20680.33.camel@mtksdccf07> <CAAFQd5D-Yg1FjUE_rwmqfS1gvfE0=MZ=r-ziueU_37-uo9QTbw@mail.gmail.com>
+ <1567424859.18318.32.camel@mtksdccf07>
+In-Reply-To: <1567424859.18318.32.camel@mtksdccf07>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Tue, 3 Sep 2019 14:19:32 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5AGgeFbto6V1KkL0dp1QPziOKV3pWQDU2OJ+S1QKvnBdg@mail.gmail.com>
+Message-ID: <CAAFQd5AGgeFbto6V1KkL0dp1QPziOKV3pWQDU2OJ+S1QKvnBdg@mail.gmail.com>
+Subject: Re: [RFC PATCH V2 4/4] platform: mtk-isp: Add Mediatek FD driver
+To:     Jerry-ch Chen <Jerry-ch.Chen@mediatek.com>
+Cc:     "yuzhao@chromium.org" <yuzhao@chromium.org>,
+        "zwisler@chromium.org" <zwisler@chromium.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        =?UTF-8?B?U2VhbiBDaGVuZyAo6YSt5piH5byYKQ==?= 
+        <Sean.Cheng@mediatek.com>,
+        =?UTF-8?B?U2ogSHVhbmcgKOm7g+S/oeeSiyk=?= <sj.huang@mediatek.com>,
+        =?UTF-8?B?Q2hyaXN0aWUgWXUgKOa4uOmbheaDoCk=?= 
+        <christie.yu@mediatek.com>,
+        =?UTF-8?B?RnJlZGVyaWMgQ2hlbiAo6Zmz5L+K5YWDKQ==?= 
+        <Frederic.Chen@mediatek.com>,
+        =?UTF-8?B?SnVuZ28gTGluICjmnpfmmI7kv4op?= <jungo.lin@mediatek.com>,
+        =?UTF-8?B?UnlubiBXdSAo5ZCz6IKy5oGpKQ==?= <Rynn.Wu@mediatek.com>,
+        =?UTF-8?B?UG8tWWFuZyBIdWFuZyAo6buD5p+P6Zm9KQ==?= 
+        <po-yang.huang@mediatek.com>,
+        "shik@chromium.org" <shik@chromium.org>,
+        "suleiman@chromium.org" <suleiman@chromium.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "laurent.pinchart+renesas@ideasonboard.com" 
+        <laurent.pinchart+renesas@ideasonboard.com>,
+        "hans.verkuil@cisco.com" <hans.verkuil@cisco.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Sep 3, 2019 at 1:43 AM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
+On Mon, Sep 2, 2019 at 8:47 PM Jerry-ch Chen <Jerry-ch.Chen@mediatek.com> wrote:
 >
-> Hi Jacopo,
+> Hi Tomasz,
 >
-> On Mon, Sep 02, 2019 at 01:20:49PM +0200, Jacopo Mondi wrote:
-> > On Tue, Aug 27, 2019 at 03:51:32PM +0300, Laurent Pinchart wrote:
-> > > On Tue, Aug 27, 2019 at 11:23:29AM +0200, Jacopo Mondi wrote:
-> > >> Add documentation for the V4L2_CID_CAMERA_SENSOR_ROTATION camera
-> > >> control. The newly added read-only control reports the camera device
-> > >> mounting rotation.
-> > >>
-> > >> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > >> ---
-> > >>  Documentation/media/uapi/v4l/ext-ctrls-camera.rst | 9 +++++++++
-> > >>  1 file changed, 9 insertions(+)
-> > >>
-> > >> diff --git a/Documentation/media/uapi/v4l/ext-ctrls-camera.rst b/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
-> > >> index ecf151f3f0f4..03d1c23d18f7 100644
-> > >> --- a/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
-> > >> +++ b/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
-> > >> @@ -544,6 +544,15 @@ enum v4l2_scene_mode -
-> > >>
-> > >>
-> > >>
-> > >> +``V4L2_CID_CAMERA_SENSOR_ROTATION (integer)``
-> > >> +    This read-only control describes the camera sensor orientation by
-> > >> +    reporting its mounting rotation in respect to the device intended usage
-> > >> +    orientation, expressed in counter clockwise degrees. The control value is
+> On Fri, 2019-08-30 at 16:33 +0800, Tomasz Figa wrote:
+> > On Wed, Aug 28, 2019 at 11:00 AM Jerry-ch Chen
+> > <Jerry-ch.Chen@mediatek.com> wrote:
 > > >
-> > > Counter clockwise relative to what ? :-)
+> > > Hi Tomasz,
+> > >
+> > > On Mon, 2019-08-26 at 14:36 +0800, Tomasz Figa wrote:
+> > > > Hi Jerry,
+> > > >
+> > > > On Sun, Aug 25, 2019 at 6:18 PM Jerry-ch Chen
+> > > > <Jerry-ch.Chen@mediatek.com> wrote:
+> > > > >
+> > > > > Hi Tomasz,
+> > > > >
+> > > > > On Fri, 2019-08-02 at 16:28 +0800, Tomasz Figa wrote:
+> > > > > > Hi Jerry,
+> > > > > >
+> > > > > > On Tue, Jul 09, 2019 at 04:41:12PM +0800, Jerry-ch Chen wrote:
+[snip]
+> > > static int mtk_fd_vb2_queue_setup(struct vb2_queue *vq,
+> > >                                   unsigned int *num_buffers,
+> > >                                   unsigned int *num_planes,
+> > >                                   unsigned int sizes[],
+> > >                                   struct device *alloc_devs[])
+> > > {
+> > >         struct mtk_fd_ctx *ctx = vb2_get_drv_priv(vq);
+> > >         struct device *dev = ctx->dev;
+> > >         unsigned int size[2];
+> > >
+> > >         switch (vq->type) {
+> > >         case V4L2_BUF_TYPE_META_CAPTURE:
+> > >                 size[0] = ctx->dst_fmt.buffersize;
+> > >                 break;
+> > >         case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
+> > >                 size[0] = ctx->src_fmt.plane_fmt[0].sizeimage;
+> > >                 if (*num_planes == 2)
+> > >                         size[1] = ctx->src_fmt.plane_fmt[1].sizeimage;
+> > >                 break;
+> > >         }
+> > >
+> > >         if (*num_planes == 1) {
+> > >                 if (sizes[0] < size[0])
+> > >                         return -EINVAL;
+> > >         } else if (*num_planes == 2) {
+> > >                 if ((sizes[0] < size[0]) && (sizes[1] < size[1]))
+> > >                         return -EINVAL;
 > >
-> > I think it is expressed in the previous line:
-> > "mounting rotation in respect to the device intended usage
-> > orientation, expressed in counter clockwise degrees"
+> > Can we just use a loop here and combine the 2 cases above?
 > >
-> > Would you prefer to have this re-phrased as:
+> > Also, we need to fail with -EINVAL if *num_planes is > 2.
 > >
-> > This read-only control describes the camera sensor orientation
-> > expressed as rotation in counter clockwise degrees in respect to
-> > the device intended usage orientation.
+> > >         } else {
+> > >                 *num_planes = 1;
+> > >                 sizes[0] = size[0];
 > >
-> > ?
+> > This should be the case if *num_planes == 0 and the number of planes
+> > and sizes should match the currently active format.
+> >
+> I appreciate your comments,
 >
-> Rotation is expressed in degrees around an axis, which is itself
-> expressed as a vector. It's pretty intuitive that the rotation vector
-> should be perpendicular to the plane of the sensor (which itself should
-> be parallel to the plane of the device side on which it is mounted, as
-> expressed by the location property), but there are still two possible
-> directions for the vector, facing in the same direction as the sensor or
-> the opposite direction. Unless there's a good reason to do so, I would
-> use the same direction as the one defined by Android. I don't know what
-> direction that is though :-)
+> Ok, I will update as following:
+> static int mtk_fd_vb2_queue_setup(struct vb2_queue *vq,
+>                                   unsigned int *num_buffers,
+>                                   unsigned int *num_planes,
+>                                   unsigned int sizes[],
+>                                   struct device *alloc_devs[])
+> {
+>         struct mtk_fd_ctx *ctx = vb2_get_drv_priv(vq);
+>         unsigned int size[2];
+>         unsigned int plane;
+>
+>         switch (vq->type) {
+>         case V4L2_BUF_TYPE_META_CAPTURE:
+>                 size[0] = ctx->dst_fmt.buffersize;
+>                 break;
+>         case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
+>                 size[0] = ctx->src_fmt.plane_fmt[0].sizeimage;
+>                 if (*num_planes == 2)
+>                         size[1] = ctx->src_fmt.plane_fmt[1].sizeimage;
+>                 break;
+>         }
+>
+>         if (*num_planes > 2)
+>                 return -EINVAL;
+>         if (*num_planes == 0) {
+>                 if (vq->type == V4L2_BUF_TYPE_META_CAPTURE) {
+>                         sizes[0] = ctx->dst_fmt.buffersize;
+>                         *num_planes = 1;
+>                         return 0;
+>                 }
+>
+>                 *num_planes = ctx->src_fmt.num_planes;
+>                 for (plane = 0; plane < *num_planes; plane++)
+>                         sizes[plane] = ctx->src_fmt.plane_fmt[plane].sizeimage;
+>                 return 0;
+>         }
+>
+>         for (plane = 0; plane < *num_planes; plane++) {
+>                 if(sizes[plane] < size[plane])
+>                         return -EINVAL;
+>         }
+>         return 0;
+> }
+>
 
-I don't think Android exposes camera rotation to the layers above the
-HAL. The stream is expected to be pre-rotated by the HAL, taking into
-account the desired target rotation of the stream itself [1].
+Looks good, thanks!
 
-[1] https://android.googlesource.com/platform/hardware/libhardware/+/master/include/hardware/camera3.h#1428
+> > >         }
+> > >
+> > >         return 0;
+> > > }
+> > >
+> > > > [snip]
+> > > >
+> > > > > > > +static void mtk_fd_vb2_stop_streaming(struct vb2_queue *vq)
+> > > > > > > +{
+> > > > > > > +   struct mtk_fd_ctx *ctx = vb2_get_drv_priv(vq);
+> > > > > > > +   struct vb2_buffer *vb;
+> > > > > >
+> > > > > > How do we guarantee here that the hardware isn't still accessing the buffers
+> > > > > > removed below?
+> > > > > >
+> > > > > Maybe we can check the driver state flag and aborting the unfinished
+> > > > > jobs?
+> > > > > (fd_hw->state == FD_ENQ)
+> > > > >
+> > > >
+> > > > Yes, we need to either cancel or wait for the currently processing
+> > > > job. It depends on hardware capabilities, but cancelling is generally
+> > > > preferred for the lower latency.
+> > > >
+> > > Ok, it the state is ENQ, then we can disable the FD hw by controlling
+> > > the registers.
+> > >
+> > > for example:
+> > >         writel(0x0, fd->fd_base + FD_HW_ENABLE);
+> > >         writel(0x0, fd->fd_base + FD_INT_EN);
+> > >
+> >
+> > What's exactly the effect of writing 0 to FD_HW_ENABLE?
+> >
+> Sorry, my last reply didn't solve the question,
+> we should implement a mtk_fd_job_abort() for v4l2_m2m_ops().
+>
+> which is able to readl_poll_timeout_atomic()
+> and check the HW busy bits in the register FD_INT_EN;
+>
+> if they are not cleared until timeout, we could handle the last
+> processing job.
+> Otherwise, the FD irq handler should have handled the last processing
+> job and we could continue the stop_streaming().
+>
+> For job_abort():
+> static void mtk_fd_job_abort(void *priv)
+> {
+>         struct mtk_fd_ctx *ctx = priv;
+>         struct mtk_fd_dev *fd = ctx->fd_dev;
+>         u32 val;
+>         u32 ret;
+>
+>         ret = readl_poll_timeout_atomic(fd->fd_base + MTK_FD_REG_OFFSET_INT_EN,
+>                                         val,
+>                                         (val & MTK_FD_HW_BUSY_MASK) ==
+>                                         MTK_FD_HW_STATE_IS_BUSY,
+>                                         USEC_PER_MSEC, MTK_FD_STOP_HW_TIMEOUT);
 
-That said, Android seems to use "degrees counterclockwise" for rotations.
+Hmm, would it be possible to avoid the busy wait by having a
+completion that could be signalled from the interrupt handler?
 
 Best regards,
 Tomasz
