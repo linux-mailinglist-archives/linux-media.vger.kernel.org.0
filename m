@@ -2,266 +2,210 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E52AEA6321
-	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2019 09:54:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2072DA636C
+	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2019 10:02:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727077AbfICHyu convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Tue, 3 Sep 2019 03:54:50 -0400
-Received: from mail-oln040092066037.outbound.protection.outlook.com ([40.92.66.37]:22853
-        "EHLO EUR01-VE1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726840AbfICHyt (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 3 Sep 2019 03:54:49 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=F+JrzNBJKJWVQcreGUBWYsRIyVVgLxphGPbgdEIQ8A2X9L6aE7wq5/ynIWJIi5c0zZIKauoIcEHYhtzlSX3QUhfiCnhpGJFK4fznD7LFLA0WYgIO9DEwUL0HmgbwIZ2hmTeqoOMLYrGXk4gYe3USu7WKHHrJFpslKpr470hT2qj26GgwDdCrLAvDjRsLdKgxAMnJml5Z2JV5ktT4xLrrZA36qpp3AiMHl585iFI0oPrG492brHpt0GRBblMTxlxTmFa6KqR2mbI3dUQra6ASvtIiRJRDyqIJ1UDxMLeHtV/YNT+AW9I+83YqvOS0KhhnOcHUJlEkCHLaW3EOG6Jdvg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BuOSWVAZu1UU0UqJFhnZvN9/ABpumqO80ZehfKB+Poc=;
- b=PXimOnsBqeeH5pTM52asB6KuK1JnLpgiJlReoV3T41/o7h85/cdAwSzrcVzplZu/CzUVHr+vyd4R8GeutEcAQEJ6QBvhIipuEC1SfjZBUB1R90/TiwSYigh0PcVEFKqvtX2HpHsNI3JUE/Q44V7uyBAJ10MAO2zNKAwUl4NyWzUWWYul+Viwhj5tTxGQwPGibXCXhWzeJhwPhs6dVXgkJ/Woc0S38cj878DrLbUITCucP6PwPcg5AhDn45BL2TGrbOPZe+Iqrzf0UhyrYTIT6RnsS4V7n5hDJkvHeAUEcwIYHAsLoosoFiDRxvYLx+09J3UDgUAxJu4ebgMjf7MzdA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-Received: from HE1EUR01FT018.eop-EUR01.prod.protection.outlook.com
- (10.152.0.54) by HE1EUR01HT052.eop-EUR01.prod.protection.outlook.com
- (10.152.0.253) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.2220.16; Tue, 3 Sep
- 2019 07:54:41 +0000
-Received: from DB6PR06MB4007.eurprd06.prod.outlook.com (10.152.0.58) by
- HE1EUR01FT018.mail.protection.outlook.com (10.152.0.175) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.2220.16 via Frontend Transport; Tue, 3 Sep 2019 07:54:41 +0000
-Received: from DB6PR06MB4007.eurprd06.prod.outlook.com
- ([fe80::ed3f:186c:c80e:a861]) by DB6PR06MB4007.eurprd06.prod.outlook.com
- ([fe80::ed3f:186c:c80e:a861%6]) with mapi id 15.20.2220.021; Tue, 3 Sep 2019
- 07:54:41 +0000
-From:   Jonas Karlman <jonas@kwiboo.se>
-To:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-CC:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        "linux-rockchip@lists.infradead.org" 
-        <linux-rockchip@lists.infradead.org>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Subject: Re: [PATCH 02/12] media: hantro: Do not reorder H264 scaling list
-Thread-Topic: [PATCH 02/12] media: hantro: Do not reorder H264 scaling list
-Thread-Index: AQHVYMMq6YIWopjAr0aH2udYAseNuKcYbBiAgAAmcoCAAQWaAA==
-Date:   Tue, 3 Sep 2019 07:54:41 +0000
-Message-ID: <DB6PR06MB4007C140420365E83064C5BEACB90@DB6PR06MB4007.eurprd06.prod.outlook.com>
-References: <HE1PR06MB40117D0EE96E6FA638A04B78ACBF0@HE1PR06MB4011.eurprd06.prod.outlook.com>
- <20190901124531.23645-1-jonas@kwiboo.se>
- <HE1PR06MB40116C92C3D52C5957EF48E9ACBF0@HE1PR06MB4011.eurprd06.prod.outlook.com>
- <1567432843.3666.6.camel@pengutronix.de>
- <HE1PR06MB4011A8F99D58E5ACFAE3CECAACBE0@HE1PR06MB4011.eurprd06.prod.outlook.com>
-In-Reply-To: <HE1PR06MB4011A8F99D58E5ACFAE3CECAACBE0@HE1PR06MB4011.eurprd06.prod.outlook.com>
-Accept-Language: sv-SE, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR0501CA0019.eurprd05.prod.outlook.com
- (2603:10a6:3:1a::29) To DB6PR06MB4007.eurprd06.prod.outlook.com
- (2603:10a6:6:4e::32)
-x-incomingtopheadermarker: OriginalChecksum:22665D6C63946FAB0C1BAE9F9F1E1758E353A799EE1B6B33C9305A69C728CC71;UpperCasedChecksum:19BDF4D3801EF3B32D60D1C37C1F1E8DD5C350F76061FDB222B1136F2963D65A;SizeAsReceived:8095;Count:49
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tmn:  [QVut8zgzLocyaE/3IPiHWZtztoXL8nKv]
-x-microsoft-original-message-id: <6c6529b4-84ad-4eb3-80be-6987883384a8@kwiboo.se>
-x-ms-publictraffictype: Email
-x-incomingheadercount: 49
-x-eopattributedmessage: 0
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(5050001)(7020095)(20181119110)(201702061078)(5061506573)(5061507331)(1603103135)(2017031320274)(2017031322404)(2017031323274)(2017031324274)(1601125500)(1603101475)(1701031045);SRVR:HE1EUR01HT052;
-x-ms-traffictypediagnostic: HE1EUR01HT052:
-x-ms-exchange-purlcount: 2
-x-microsoft-antispam-message-info: XXQY4RzIbPiBLx2PMRnyKfx6NAakeRQWWkofVWRiEbGIfAxRQyRJ10we8x1ULRUkMtIivZk7WEKvctQFduzxaJaKN9uQNDO//UcJ1D6767EyYJM0u7v/EGHNIMJjUDFZ0nROuZBKD7JZwSU8QVnbK4T7EVelLq6OACmTMrmBiVL8CD17tnCWAzT3hJFpmfXp
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="Windows-1252"
-Content-ID: <C0226E9BC9AE3841937AE2A44272B4B6@eurprd06.prod.outlook.com>
-Content-Transfer-Encoding: 8BIT
+        id S1726557AbfICICx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Sep 2019 04:02:53 -0400
+Received: from mail-ed1-f44.google.com ([209.85.208.44]:33123 "EHLO
+        mail-ed1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726698AbfICICw (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Sep 2019 04:02:52 -0400
+Received: by mail-ed1-f44.google.com with SMTP id o9so6064924edq.0
+        for <linux-media@vger.kernel.org>; Tue, 03 Sep 2019 01:02:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8v5XmqEz9dByedyb9+xZ3O50iuiq+zRH6t0Jbe/d43U=;
+        b=ITtJnX+xPYj0tlXMe7jjq74MQaj0azM7Xc/1pAPByOVA9NFb+mkBqBfYbdhUpgdtc7
+         cvEQBIdEmfmP9/JT025mUkm2BjRyGyCuMjf1652AIPSI/vvxNmWeT/nFp4FG58RA9/PO
+         VE2GimVfvtlu7Bv1dRXRO0VhxCN01QZFn2xoY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8v5XmqEz9dByedyb9+xZ3O50iuiq+zRH6t0Jbe/d43U=;
+        b=GTGgV7UlHBfV6CzOHOPaNr/VHEb6mss9G14Y7Ri98DsG6/mmG5/4oaO+LNTwxDX1Nk
+         IW6r/EE3iQXKQLdLrKbHWeQ1G53oczQNow12VjrU+nrpcsYSxacU5D4Z8tN7zxTpF5X2
+         tiuoRXyG1RGkLibAHpyDZK7mUrSOHUMEQVmBvSa1WdKJuYJgxyAvTzXDe7t7BM/BKI+q
+         ANRgdwogfLMR1ay5+FHGQlBp8XdXwjNzhi1neQqz0UnL48VjnEjIn++kEZ6Ljd1FHTZ+
+         wSyP4029xtt3MznK7doBln87fDoDbRgyf0jPvgUM1B4YDTI3hBA3ZPI1Hc6zc4lqxNVs
+         QrIg==
+X-Gm-Message-State: APjAAAWkxI5FT+QwtD/RKtUOzyXcl93bAvWHyeTCAs5t9TfzwI3Gmtzv
+        uLAwHX/3ZA8jEhRum9C4CRyTyplyI9nGOg==
+X-Google-Smtp-Source: APXvYqwofuHNJJmS9JjJ88xky6g1vS6sPtZX77VDbr2g0nRNWjS8e59NlEbKOYyeLUNEhRrVfHHQPg==
+X-Received: by 2002:a17:907:1043:: with SMTP id oy3mr19527147ejb.21.1567497770643;
+        Tue, 03 Sep 2019 01:02:50 -0700 (PDT)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com. [209.85.128.49])
+        by smtp.gmail.com with ESMTPSA id j26sm2613662eds.41.2019.09.03.01.02.50
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Sep 2019 01:02:50 -0700 (PDT)
+Received: by mail-wm1-f49.google.com with SMTP id r17so13673188wme.0
+        for <linux-media@vger.kernel.org>; Tue, 03 Sep 2019 01:02:50 -0700 (PDT)
+X-Received: by 2002:a7b:cc13:: with SMTP id f19mr7991990wmh.116.1567497769776;
+ Tue, 03 Sep 2019 01:02:49 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0ea64c1d-7414-4428-910d-08d73043fa15
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Sep 2019 07:54:41.7181
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Internet
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1EUR01HT052
+References: <010ba9ce-bac9-6f0c-f128-4f163a7d8ea7@xs4all.nl>
+ <a9bb00f0-7ce8-98d4-92cf-57b140814ef6@xs4all.nl> <e4421a68-e68f-e4b8-8e1d-82ace47ba632@xs4all.nl>
+In-Reply-To: <e4421a68-e68f-e4b8-8e1d-82ace47ba632@xs4all.nl>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Tue, 3 Sep 2019 17:02:38 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5D8EwbpABVp+qauS6TrVOiwOhmhtGhF22KNoGerc=ue9A@mail.gmail.com>
+Message-ID: <CAAFQd5D8EwbpABVp+qauS6TrVOiwOhmhtGhF22KNoGerc=ue9A@mail.gmail.com>
+Subject: Re: [ANN] Topics for a media summit in Lyon in October
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Eugen Hristev <Eugen.Hristev@microchip.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Stanimir Varbanov <svarbanov@mm-sol.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@siol.net>,
+        Jonas Karlman <jonas@kwiboo.se>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2019-09-02 18:18, Jonas Karlman wrote:
-> On 2019-09-02 16:00, Philipp Zabel wrote:
->> Hi Jonas,
->>
->> On Sun, 2019-09-01 at 12:45 +0000, Jonas Karlman wrote:
->>> Scaling list supplied from userspace using ffmpeg and libva-v4l2-request
->>> is already in matrix order and can be used without applying the inverse
->>> scanning process.
->> "in matrix order" is equivalent to "in raster scan order"?
-> The values supplied by ffmpeg and libva-v4l2-request is in the order after the
-> inverse scanning process has been applied (scaling list has been transformed
-> into a scaling matrix). Not sure what this is called, "matrix order" seemed
-> close enough.
+On Tue, Sep 3, 2019 at 4:21 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
 >
-> Since there is two scan orders, zig-zag and field, and cedrus already expecting
-> the values in "matrix" order, it seems more logical to let userspace handle the
-> inverse scanning process.
+> Hi all,
+>
+> I've decided to hold the meeting during the ELCE and not on Thursday.
+> Two key people can't be there on Thursday and some travel back Thursday
+> evening and so would have to leave early.
+>
+> Looking at the schedule I propose instead to have one meeting on
+> Tuesday morning concentrating on finalizing the codec support.
+>
+> On Wednesday we have a second meeting for libcamera (morning) and looking
+> at future V4L2 developments such as v4l2_ext_buffer/format, Request API and
+> complex camera pipelines (afternoon).
+>
+> Laurent, it would make sense if you or one of the other libcamera devs is
+> 'chairing' the libcamera meeting. Do you agree? If so, can you prepare an
+> agenda for that meeting?
+>
+> I plan on leaving Thursday afternoon, so we have the option to continue the
+> talks around that last topic on Thursday morning.
+>
+> I have no idea where we will hold these meetings since I've no idea
+> what the conference center looks like and if they have suitable places
+> for doing something like this. So I'll look around on the Monday and
+> mail the details of where to meet then.
+>
+> Confirmed attendees:
+>
+> Boris Brezillon <boris.brezillon@collabora.com>
+> Alexandre Courbot <acourbot@chromium.org>
+> Nicolas Dufresne <nicolas@ndufresne.ca>
+> Tomasz Figa <tfiga@chromium.org>
+> Ezequiel Garcia <ezequiel@collabora.com>
+> Eugen Hristev <Eugen.Hristev@microchip.com>
+> Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> Helen Koike <helen.koike@collabora.com>
+> Jacopo Mondi <jacopo@jmondi.org>
+> Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Hans Verkuil <hverkuil@xs4all.nl>
+>
+> If you are not on this list, but want to join, please let me know.
+>
+> Since this is really three half-day meetings, each with a different
+> topic, please let me know which of those half-day meetings you want
+> to attend.
 
-After a closer look both ffmpeg and rkmpp only apply zig-zag scan and not field scan,
-ffmpeg will memcpy the scaling_matrix4/8 as is for vaapi, vdpau and nvdec,
-for dxva2 there is a workaround flag that controls if zig-zag should be applied or not.
+Thanks Hans! I should be there on all the 3 meetings.
 
-I suggest a clarification of the expect order of values and use of the same value order as vaapi, vdpau and nvdec.
-i.e. have the scaling list values in "matrix order"/"raster order", after zig-zag scan has been applied,
-as is currently expected by cedrus and hantro after this patch.
-
-I would also suggest a change to the expected order of the 8x8 scaling lists to follow the H264 standard,
-instead of the ffmpeg order like this patch and cedrus driver currently expects.
-
-Expected scaling list order would then be,
-for 4x4: Intra Y, Intra Cb, Intra Cr, Inter Y, Inter Cb, Inter Cr,
-for 8x8: Intra Y, Inter Y, Intra Cb, Inter Cb, Intra Cr, Inter Cr.
-
-Regards,
-Jonas
-
->
->> Could you add this requirement to the
->> V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX documentation?
-> Sure, I will update documentation in v2.
->
->>> The HW also only support 8x8 scaling list for the Y component, indices 0
->>> and 3 in the scaling list supplied from userspace.
->>>
->>> Remove reordering and write the scaling matrix in an order expected by
->>> the VPU, also only allocate memory for the two 8x8 lists used.
->>>
->>> Fixes: a9471e25629b ("media: hantro: Add core bits to support H264 decoding")
->>> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
->>> ---
->>>  drivers/staging/media/hantro/hantro_h264.c | 64 +++++++---------------
->>>  1 file changed, 20 insertions(+), 44 deletions(-)
->>>
->>> diff --git a/drivers/staging/media/hantro/hantro_h264.c b/drivers/staging/media/hantro/hantro_h264.c
->>> index 0d758e0c0f99..e2d01145ac4f 100644
->>> --- a/drivers/staging/media/hantro/hantro_h264.c
->>> +++ b/drivers/staging/media/hantro/hantro_h264.c
->>> @@ -20,7 +20,7 @@
->>>  /* Size with u32 units. */
->>>  #define CABAC_INIT_BUFFER_SIZE		(460 * 2)
->>>  #define POC_BUFFER_SIZE			34
->>> -#define SCALING_LIST_SIZE		(6 * 16 + 6 * 64)
->>> +#define SCALING_LIST_SIZE		(6 * 16 + 2 * 64)
->> This changes the size of struct hantro_h264_dec_priv_tbl. Did this
->> describe the auxiliary buffer format incorrectly before?
-> Based on RKMPP and Hantro SDK the HW expects the 8x8 inter/intra list for
-> Y-component to be located at indices 0 and 1, lists for Cr/Cb is only used for
-> 4:4:4 and HW only supports 4:0:0/4:2:0 if I am not mistaken. So the unused
-> extra 4 lists at the end of the auxiliary buffer seemed like a waste,
-> also RKMPP and Hantro SDK only seemed to allocate space for 2 lists.
->
->>>  #define POC_CMP(p0, p1) ((p0) < (p1) ? -1 : 1)
->>>  
->>> @@ -194,57 +194,33 @@ static const u32 h264_cabac_table[] = {
->>>  	0x1f0c2517, 0x1f261440
->>>  };
->>>  
->>> -/*
->>> - * NOTE: The scaling lists are in zig-zag order, apply inverse scanning process
->>> - * to get the values in matrix order. In addition, the hardware requires bytes
->>> - * swapped within each subsequent 4 bytes. Both arrays below include both
->>> - * transformations.
->>> - */
->>> -static const u32 zig_zag_4x4[] = {
->>> -	3, 2, 7, 11, 6, 1, 0, 5, 10, 15, 14, 9, 4, 8, 13, 12
->>> -};
->>> -
->>> -static const u32 zig_zag_8x8[] = {
->>> -	3, 2, 11, 19, 10, 1, 0, 9, 18, 27, 35, 26, 17, 8, 7, 6,
->>> -	15, 16, 25, 34, 43, 51, 42, 33, 24, 23, 14, 5, 4, 13, 22, 31,
->>> -	32, 41, 50, 59, 58, 49, 40, 39, 30, 21, 12, 20, 29, 38, 47, 48,
->>> -	57, 56, 55, 46, 37, 28, 36, 45, 54, 63, 62, 53, 44, 52, 61, 60
->>> -};
->>> -
->>>  static void
->>>  reorder_scaling_list(struct hantro_ctx *ctx)
->>>  {
->>>  	const struct hantro_h264_dec_ctrls *ctrls = &ctx->h264_dec.ctrls;
->>>  	const struct v4l2_ctrl_h264_scaling_matrix *scaling = ctrls->scaling;
->>> -	const size_t num_list_4x4 = ARRAY_SIZE(scaling->scaling_list_4x4);
->>> -	const size_t list_len_4x4 = ARRAY_SIZE(scaling->scaling_list_4x4[0]);
->>> -	const size_t num_list_8x8 = ARRAY_SIZE(scaling->scaling_list_8x8);
->>> -	const size_t list_len_8x8 = ARRAY_SIZE(scaling->scaling_list_8x8[0]);
->>>  	struct hantro_h264_dec_priv_tbl *tbl = ctx->h264_dec.priv.cpu;
->>> -	u8 *dst = tbl->scaling_list;
->>> -	const u8 *src;
->>> -	int i, j;
->>> -
->>> -	BUILD_BUG_ON(ARRAY_SIZE(zig_zag_4x4) != list_len_4x4);
->>> -	BUILD_BUG_ON(ARRAY_SIZE(zig_zag_8x8) != list_len_8x8);
->>> -	BUILD_BUG_ON(ARRAY_SIZE(tbl->scaling_list) !=
->>> -		     num_list_4x4 * list_len_4x4 +
->>> -		     num_list_8x8 * list_len_8x8);
->>> -
->>> -	src = &scaling->scaling_list_4x4[0][0];
->>> -	for (i = 0; i < num_list_4x4; ++i) {
->>> -		for (j = 0; j < list_len_4x4; ++j)
->>> -			dst[zig_zag_4x4[j]] = src[j];
->>> -		src += list_len_4x4;
->>> -		dst += list_len_4x4;
->>> +	u32 *dst = (u32 *)tbl->scaling_list;
->>> +	u32 i, j, tmp;
->>> +
->>> +	for (i = 0; i < ARRAY_SIZE(scaling->scaling_list_4x4); i++) {
->>> +		for (j = 0; j < ARRAY_SIZE(scaling->scaling_list_4x4[0]) / 4; j++) {
->>> +			tmp = (scaling->scaling_list_4x4[i][4 * j + 0] << 24) |
->>> +			      (scaling->scaling_list_4x4[i][4 * j + 1] << 16) |
->>> +			      (scaling->scaling_list_4x4[i][4 * j + 2] << 8) |
->>> +			      (scaling->scaling_list_4x4[i][4 * j + 3]);
->>> +			*dst++ = tmp;
->>> +		}
->> This looks like it could use swab32().
-> Thanks for the tip, will look into and change in v2.
->
->>>  	}
->>>  
->>> -	src = &scaling->scaling_list_8x8[0][0];
->>> -	for (i = 0; i < num_list_8x8; ++i) {
->>> -		for (j = 0; j < list_len_8x8; ++j)
->>> -			dst[zig_zag_8x8[j]] = src[j];
->>> -		src += list_len_8x8;
->>> -		dst += list_len_8x8;
->>> +	for (i = 0; i < ARRAY_SIZE(scaling->scaling_list_8x8); i += 3) {
->>> +		for (j = 0; j < ARRAY_SIZE(scaling->scaling_list_8x8[0]) / 4; j++) {
->>> +			tmp = (scaling->scaling_list_8x8[i][4 * j + 0] << 24) |
->>> +			      (scaling->scaling_list_8x8[i][4 * j + 1] << 16) |
->>> +			      (scaling->scaling_list_8x8[i][4 * j + 2] << 8) |
->>> +			      (scaling->scaling_list_8x8[i][4 * j + 3]);
->>> +			*dst++ = tmp;
->>> +		}
->> After this change, the second 8x8 scaling list has moved to a different
->> offset. Is this where the hardware has always been looking for it, or is
->> there a change missing in another place?
-> As mentioned above HW only looks at indices 0 and 1, and ffmpeg will store the
-> inter/intra Y list at indices 0 and 3 as seen at [1], in similar way cedrus only
-> use indices 0 and 3 at [2].
-> FFmpeg memcpy entire scaling_matrix8 to scaling_list_8x8 for v4l2-request-api
-> and memcpy scaling_matrix8[0] and scaling_matrix8[3] for vaapi.
->
-> You can see the effect of this patch using the h264_tivo_sample.ts sample from
-> cover letter, patch 3-8 must be applied. With this patch applied the green
-> football field will stay green, without the patch the field will shift in colors.
->
-> [1] https://github.com/FFmpeg/FFmpeg/blob/master/libavcodec/h264_ps.c#L299-L308
-> [2] https://git.linuxtv.org/media_tree.git/tree/drivers/staging/media/sunxi/cedrus/cedrus_h264.c#n231
 >
 > Regards,
-> Jonas
 >
->> regards
->> Philipp
-
+>         Hans
+>
+> On 8/28/19 12:55 PM, Hans Verkuil wrote:
+> > On 8/16/19 10:06 AM, Hans Verkuil wrote:
+> >> Rather then discussing topics for a meeting under the subject 'Lisbon'
+> >> let's start a new thread referring to the right place :-)
+> >>
+> >> I will try to organize a room, either during the ELCE or (if that doesn't
+> >> work) perhaps on the Thursday afterwards. If that's going to be a problem
+> >> for someone, please let me know.
+> >
+> > I can only get a room for Thursday afternoon (2pm-6pm). I'm inclined to take
+> > that room, but if a lot of people who want to come, will already have left
+> > on the Thursday, then there is no point in me reserving this room.
+> >
+> > So if you are unable to attend on Thursday, then please let me know asap!
+> >
+> > If Thursday is no problem, then I wanted to have more informal meetings
+> > somewhere in the conference center during the morning, and after lunch
+> > use the room.
+> >
+> > If Thursday is a no-go, then we will just have to find a place inside
+> > the conference center during the ELCE.
+> >
+> > Regards,
+> >
+> >       Hans
+> >
+> >>
+> >> I do need to know how many people I can expect. I have the following
+> >> confirmed attendees (and please reply if you are not listed!):
+> >>
+> >> Alexandre Courbot <acourbot@chromium.org>
+> >> Tomasz Figa <tfiga@chromium.org>
+> >> Jacopo Mondi <jacopo@jmondi.org>
+> >> Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >> Hans Verkuil <hverkuil@xs4all.nl>
+> >>
+> >> I know there were more who mentioned on irc that they would attend,
+> >> but it is easier to keep track if I have it in an email.
+> >>
+> >> Topics posted under the previous thread:
+> >>
+> >> Tomasz:
+> >>
+> >> I would want to discuss various v4l2_buffer improvements, e.g.
+> >> - DMA-buf import with plane offsets,
+> >> - unifying the buffer structs for M and non-M formats,
+> >> - ability to import different FDs with offsets for non-M formats if the
+> >> layout matches driver expectations, etc.
+> >>
+> >> Besides that, I would be interested in the general idea on handling
+> >> complex cameras in the Linux kernel in spite of the remaining V4L2
+> >> limitations, e.g.
+> >> - combinatorial explosion of /dev/video nodes,
+> >> - significant ioctl overhead,
+> >> - huge amount of historical legacy making the driver and userspace
+> >> implementations overly difficult and prone to repetitive mistakes,
+> >> - the above also limiting the flexibility of the API - formats, frame
+> >> rates, etc. set using distinct APIs, not covered by Request API, with
+> >> non-failure "negotiation hell", etc.
+> >> - lack of fences, etc.
+> >>
+> >> Jacopo:
+> >>
+> >> Apart from discussing libcamera and hope we could kickstart a review of
+> >> its API, I would like to re-start discussing multiplexed stream support,
+> >> but that would require Sakari to be there, something I'm not certain
+> >> about. Sakari?
+> >>
+> >> Alexandre:
+> >>
+> >> If Collabora/Bootlin is there, I'd certainly want to discuss stateless
+> >> codecs, in particular m2m codec helpers and finalize the specification
+> >> in general.
+> >>
+> >> Regards,
+> >>
+> >>      Hans
+> >>
+> >
+>
