@@ -2,156 +2,367 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B0FF2A66FE
-	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2019 13:03:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D9B8A67BC
+	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2019 13:46:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728808AbfICLDd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Sep 2019 07:03:33 -0400
-Received: from hostingweb31-40.netsons.net ([89.40.174.40]:58973 "EHLO
-        hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727639AbfICLDc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 3 Sep 2019 07:03:32 -0400
-Received: from [109.168.11.45] (port=42494 helo=[192.168.101.73])
-        by hostingweb31.netsons.net with esmtpsa (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
-        (Exim 4.92)
-        (envelope-from <luca@lucaceresoli.net>)
-        id 1i56at-003rql-Gm; Tue, 03 Sep 2019 13:03:27 +0200
-Subject: Re: [RFC,v2 3/6] media: dt-bindings: add DS90UB954-Q1 video
- deserializer
-To:     Wolfram Sang <wsa@the-dreams.de>
-Cc:     linux-media@vger.kernel.org, linux-i2c@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Vladimir Zapolskiy <vz@mleia.com>,
-        Peter Rosin <peda@axentia.se>
-References: <20190723203723.11730-1-luca@lucaceresoli.net>
- <20190723203723.11730-4-luca@lucaceresoli.net> <20190902204841.GB7253@kunai>
- <63d99d6d-ecdd-7dd8-0dcb-126bfd89b258@lucaceresoli.net>
- <20190903093455.GD1020@kunai>
-From:   Luca Ceresoli <luca@lucaceresoli.net>
-Message-ID: <f3640020-0291-f837-8639-c3ba39800ead@lucaceresoli.net>
-Date:   Tue, 3 Sep 2019 13:03:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <20190903093455.GD1020@kunai>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
+        id S1728094AbfICLqR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Sep 2019 07:46:17 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:7286 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727077AbfICLqR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Sep 2019 07:46:17 -0400
+X-UUID: 075f7ac5009340dc85323d627a9a7e5f-20190903
+X-UUID: 075f7ac5009340dc85323d627a9a7e5f-20190903
+Received: from mtkcas08.mediatek.inc [(172.21.101.126)] by mailgw02.mediatek.com
+        (envelope-from <jerry-ch.chen@mediatek.com>)
+        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+        with ESMTP id 1776348547; Tue, 03 Sep 2019 19:46:10 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Tue, 3 Sep 2019 19:46:09 +0800
+Received: from [172.21.84.99] (172.21.84.99) by mtkcas08.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Tue, 3 Sep 2019 19:46:09 +0800
+Message-ID: <1567511169.18318.65.camel@mtksdccf07>
+Subject: Re: [RFC PATCH V2 4/4] platform: mtk-isp: Add Mediatek FD driver
+From:   Jerry-ch Chen <Jerry-ch.Chen@mediatek.com>
+To:     Tomasz Figa <tfiga@chromium.org>
+CC:     "yuzhao@chromium.org" <yuzhao@chromium.org>,
+        "zwisler@chromium.org" <zwisler@chromium.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Sean Cheng =?UTF-8?Q?=28=E9=84=AD=E6=98=87=E5=BC=98=29?= 
+        <Sean.Cheng@mediatek.com>,
+        "Sj Huang =?UTF-8?Q?=28=E9=BB=83=E4=BF=A1=E7=92=8B=29?=" 
+        <sj.huang@mediatek.com>,
+        Christie Yu =?UTF-8?Q?=28=E6=B8=B8=E9=9B=85=E6=83=A0=29?= 
+        <christie.yu@mediatek.com>,
+        Frederic Chen =?UTF-8?Q?=28=E9=99=B3=E4=BF=8A=E5=85=83=29?= 
+        <Frederic.Chen@mediatek.com>,
+        Jungo Lin =?UTF-8?Q?=28=E6=9E=97=E6=98=8E=E4=BF=8A=29?= 
+        <jungo.lin@mediatek.com>,
+        Rynn Wu =?UTF-8?Q?=28=E5=90=B3=E8=82=B2=E6=81=A9=29?= 
+        <Rynn.Wu@mediatek.com>,
+        Po-Yang Huang =?UTF-8?Q?=28=E9=BB=83=E6=9F=8F=E9=99=BD=29?= 
+        <po-yang.huang@mediatek.com>,
+        "shik@chromium.org" <shik@chromium.org>,
+        "suleiman@chromium.org" <suleiman@chromium.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "laurent.pinchart+renesas@ideasonboard.com" 
+        <laurent.pinchart+renesas@ideasonboard.com>,
+        "hans.verkuil@cisco.com" <hans.verkuil@cisco.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>
+Date:   Tue, 3 Sep 2019 19:46:09 +0800
+In-Reply-To: <CAAFQd5DWM=R7sFHYGhhR_rXrzgRnc4xtH_t8Pig-4tcP9KTSYg@mail.gmail.com>
+References: <1562661672-22439-1-git-send-email-Jerry-Ch.chen@mediatek.com>
+         <1562661672-22439-5-git-send-email-Jerry-Ch.chen@mediatek.com>
+         <20190802082815.GA203993@chromium.org>
+         <1566724680.20680.8.camel@mtksdccf07>
+         <CAAFQd5Dw+jaT-+LAUEVeB8W1zdnOgPw7u+aCfDWhYW1SfbzO8g@mail.gmail.com>
+         <1566957625.20680.33.camel@mtksdccf07>
+         <CAAFQd5D-Yg1FjUE_rwmqfS1gvfE0=MZ=r-ziueU_37-uo9QTbw@mail.gmail.com>
+         <1567424859.18318.32.camel@mtksdccf07>
+         <CAAFQd5AGgeFbto6V1KkL0dp1QPziOKV3pWQDU2OJ+S1QKvnBdg@mail.gmail.com>
+         <1567493081.18318.49.camel@mtksdccf07>
+         <CAAFQd5DWM=R7sFHYGhhR_rXrzgRnc4xtH_t8Pig-4tcP9KTSYg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.2.3-0ubuntu6 
 Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lucaceresoli.net
-X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca+lucaceresoli.net/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+MIME-Version: 1.0
+X-MTK:  N
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Wolfram,
+Hi Tomasz,
 
-On 03/09/19 11:34, Wolfram Sang wrote:
+On Tue, 2019-09-03 at 15:04 +0800, Tomasz Figa wrote:
+> On Tue, Sep 3, 2019 at 3:44 PM Jerry-ch Chen <Jerry-ch.Chen@mediatek.com> wrote:
+> >
+> > On Tue, 2019-09-03 at 13:19 +0800, Tomasz Figa wrote:
+> > > On Mon, Sep 2, 2019 at 8:47 PM Jerry-ch Chen <Jerry-ch.Chen@mediatek.com> wrote:
+> > > >
+> > > > Hi Tomasz,
+> > > >
+> > > > On Fri, 2019-08-30 at 16:33 +0800, Tomasz Figa wrote:
+> > > > > On Wed, Aug 28, 2019 at 11:00 AM Jerry-ch Chen
+> > > > > <Jerry-ch.Chen@mediatek.com> wrote:
+> > > > > >
+> > > > > > Hi Tomasz,
+> > > > > >
+> > > > > > On Mon, 2019-08-26 at 14:36 +0800, Tomasz Figa wrote:
+> > > > > > > Hi Jerry,
+> > > > > > >
+> > > > > > > On Sun, Aug 25, 2019 at 6:18 PM Jerry-ch Chen
+> > > > > > > <Jerry-ch.Chen@mediatek.com> wrote:
+> > > > > > > >
+> > > > > > > > Hi Tomasz,
+> > > > > > > >
+> > > > > > > > On Fri, 2019-08-02 at 16:28 +0800, Tomasz Figa wrote:
+> > > > > > > > > Hi Jerry,
+> > > > > > > > >
+> > > > > > > > > On Tue, Jul 09, 2019 at 04:41:12PM +0800, Jerry-ch Chen wrote:
+> > > [snip]
+> > > > > > static int mtk_fd_vb2_queue_setup(struct vb2_queue *vq,
+> > > > > >                                   unsigned int *num_buffers,
+> > > > > >                                   unsigned int *num_planes,
+> > > > > >                                   unsigned int sizes[],
+> > > > > >                                   struct device *alloc_devs[])
+> > > > > > {
+> > > > > >         struct mtk_fd_ctx *ctx = vb2_get_drv_priv(vq);
+> > > > > >         struct device *dev = ctx->dev;
+> > > > > >         unsigned int size[2];
+> > > > > >
+> > > > > >         switch (vq->type) {
+> > > > > >         case V4L2_BUF_TYPE_META_CAPTURE:
+> > > > > >                 size[0] = ctx->dst_fmt.buffersize;
+> > > > > >                 break;
+> > > > > >         case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
+> > > > > >                 size[0] = ctx->src_fmt.plane_fmt[0].sizeimage;
+> > > > > >                 if (*num_planes == 2)
+> > > > > >                         size[1] = ctx->src_fmt.plane_fmt[1].sizeimage;
+> > > > > >                 break;
+> > > > > >         }
+> > > > > >
+> > > > > >         if (*num_planes == 1) {
+> > > > > >                 if (sizes[0] < size[0])
+> > > > > >                         return -EINVAL;
+> > > > > >         } else if (*num_planes == 2) {
+> > > > > >                 if ((sizes[0] < size[0]) && (sizes[1] < size[1]))
+> > > > > >                         return -EINVAL;
+> > > > >
+> > > > > Can we just use a loop here and combine the 2 cases above?
+> > > > >
+> > > > > Also, we need to fail with -EINVAL if *num_planes is > 2.
+> > > > >
+> > > > > >         } else {
+> > > > > >                 *num_planes = 1;
+> > > > > >                 sizes[0] = size[0];
+> > > > >
+> > > > > This should be the case if *num_planes == 0 and the number of planes
+> > > > > and sizes should match the currently active format.
+> > > > >
+> > > > I appreciate your comments,
+> > > >
+> > > > Ok, I will update as following:
+> > > > static int mtk_fd_vb2_queue_setup(struct vb2_queue *vq,
+> > > >                                   unsigned int *num_buffers,
+> > > >                                   unsigned int *num_planes,
+> > > >                                   unsigned int sizes[],
+> > > >                                   struct device *alloc_devs[])
+> > > > {
+> > > >         struct mtk_fd_ctx *ctx = vb2_get_drv_priv(vq);
+> > > >         unsigned int size[2];
+> > > >         unsigned int plane;
+> > > >
+> > > >         switch (vq->type) {
+> > > >         case V4L2_BUF_TYPE_META_CAPTURE:
+> > > >                 size[0] = ctx->dst_fmt.buffersize;
+> > > >                 break;
+> > > >         case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
+> > > >                 size[0] = ctx->src_fmt.plane_fmt[0].sizeimage;
+> > > >                 if (*num_planes == 2)
+> > > >                         size[1] = ctx->src_fmt.plane_fmt[1].sizeimage;
+> > > >                 break;
+> > > >         }
+> > > >
+> > > >         if (*num_planes > 2)
+> > > >                 return -EINVAL;
+> > > >         if (*num_planes == 0) {
+> > > >                 if (vq->type == V4L2_BUF_TYPE_META_CAPTURE) {
+> > > >                         sizes[0] = ctx->dst_fmt.buffersize;
+> > > >                         *num_planes = 1;
+> > > >                         return 0;
+> > > >                 }
+> > > >
+> > > >                 *num_planes = ctx->src_fmt.num_planes;
+> > > >                 for (plane = 0; plane < *num_planes; plane++)
+> > > >                         sizes[plane] = ctx->src_fmt.plane_fmt[plane].sizeimage;
+> > > >                 return 0;
+> > > >         }
+> > > >
+> > > >         for (plane = 0; plane < *num_planes; plane++) {
+> > > >                 if(sizes[plane] < size[plane])
+> > > >                         return -EINVAL;
+> > > >         }
+> > > >         return 0;
+> > > > }
+> > > >
+> > >
+> > > Looks good, thanks!
+> > >
+> > > > > >         }
+> > > > > >
+> > > > > >         return 0;
+> > > > > > }
+> > > > > >
+> > > > > > > [snip]
+> > > > > > >
+> > > > > > > > > > +static void mtk_fd_vb2_stop_streaming(struct vb2_queue *vq)
+> > > > > > > > > > +{
+> > > > > > > > > > +   struct mtk_fd_ctx *ctx = vb2_get_drv_priv(vq);
+> > > > > > > > > > +   struct vb2_buffer *vb;
+> > > > > > > > >
+> > > > > > > > > How do we guarantee here that the hardware isn't still accessing the buffers
+> > > > > > > > > removed below?
+> > > > > > > > >
+> > > > > > > > Maybe we can check the driver state flag and aborting the unfinished
+> > > > > > > > jobs?
+> > > > > > > > (fd_hw->state == FD_ENQ)
+> > > > > > > >
+> > > > > > >
+> > > > > > > Yes, we need to either cancel or wait for the currently processing
+> > > > > > > job. It depends on hardware capabilities, but cancelling is generally
+> > > > > > > preferred for the lower latency.
+> > > > > > >
+> > > > > > Ok, it the state is ENQ, then we can disable the FD hw by controlling
+> > > > > > the registers.
+> > > > > >
+> > > > > > for example:
+> > > > > >         writel(0x0, fd->fd_base + FD_HW_ENABLE);
+> > > > > >         writel(0x0, fd->fd_base + FD_INT_EN);
+> > > > > >
+> > > > >
+> > > > > What's exactly the effect of writing 0 to FD_HW_ENABLE?
+> > > > >
+> > > > Sorry, my last reply didn't solve the question,
+> > > > we should implement a mtk_fd_job_abort() for v4l2_m2m_ops().
+> > > >
+> > > > which is able to readl_poll_timeout_atomic()
+> > > > and check the HW busy bits in the register FD_INT_EN;
+> > > >
+> > > > if they are not cleared until timeout, we could handle the last
+> > > > processing job.
+> > > > Otherwise, the FD irq handler should have handled the last processing
+> > > > job and we could continue the stop_streaming().
+> > > >
+> > > > For job_abort():
+> > > > static void mtk_fd_job_abort(void *priv)
+> > > > {
+> > > >         struct mtk_fd_ctx *ctx = priv;
+> > > >         struct mtk_fd_dev *fd = ctx->fd_dev;
+> > > >         u32 val;
+> > > >         u32 ret;
+> > > >
+> > > >         ret = readl_poll_timeout_atomic(fd->fd_base + MTK_FD_REG_OFFSET_INT_EN,
+> > > >                                         val,
+> > > >                                         (val & MTK_FD_HW_BUSY_MASK) ==
+> > > >                                         MTK_FD_HW_STATE_IS_BUSY,
+> > > >                                         USEC_PER_MSEC, MTK_FD_STOP_HW_TIMEOUT);
+> > >
+> > > Hmm, would it be possible to avoid the busy wait by having a
+> > > completion that could be signalled from the interrupt handler?
+> > >
+> > > Best regards,
+> > > Tomasz
+> >
+> > I suppose that would be wakeup a wait queue in the interrupt handler,
+> > the the wait_event_interrupt_timeout() will be used in here and system
+> > suspend e.g. mtk_fd_suspend().
 > 
->> Not if you define enough addresses in the pool. E.g. the DS90UB954
->> hardware can have 8 aliases per port, so if you have (n_ports * 8)
->> addresses in the pool the problem is solved.
+> Yes, that should work.
 > 
-> And then you plug-in somewhere another board with another need for ATR
-> and you are out of addresses.
-
-Now I got what you mean: the aliases in a pool are reserved to an ATR
-and not available to another ATR. What about hoisting the pool one level
-up in DT, to the adapter where the ATRs are connected?
-
->>> And another add-on module with
->>> non-repogrammable devices may occupy addresses from the defined pool
->>> above.
->>
->> You mean a new device on the local (SoC-to-ATR) bus? Well, it could as
->> well occupy a non-described address that the ATR has already picked as
->> an alias.
+> > Or do you suggest to wait_event_interrupt_timeout() every frame in the
+> > mtk_fd_ipi_handler()?
 > 
-> Nope, I mean a seperate add-on which has a hardcoded I2C address on the
-> bus of the ATR parent. Then this hardcoded address needs to be removed
-> from the pool if it is in the wrong range.
-
-As I understand it, we are referring to the same use case:
-
-.---------------.       .-----.   .-------------------.
-| adapter (SoC) |---+---| ATR |---| remote slave 0x10 |
-'---------------'   |   '-----'   '-------------------'
-                    |
-              .----------.
-              | device X |
-              '----------'
-
-Here device X with hard-coded address 0x20 is plugged in at runtime.
-
-As you say it, if 0x20 is in the ATR pool we have a problem.
-
-But even without an explicit pool, initially 0x20 is unused and the ATR
-can use it for remote slave 0x10. Then at some point device X is
-connected, and suddenly 0x20 conflicts.
-
-To a limited extend the explicit pool could help if the list of possible
-addons is known: one can put in the pool only address that will never
-appear in addons.
-
-Hey, wait, the no-pool solution could have a way to handle this
-conflict. When device X is connected, the adapter can look for a new
-alias (0x21), call the i2c_atr_deconfigure_hw() and i2c_atr_setup_hw()
-callbacks to stop using 0x20 and start using 0x21. Doesn't look very
-lovely, but may be worth considering.
-
->>> I am not perfectly happy with the assumption that all undescribed
->>> addresses are automatically free. That also might need DTS updates to
->>> describe all clients properly. But this change only needs to be done
->>> once, and it will improve the description of the hardware.
->>
->> Right, but I still suspect some users won't do their homework and
->> discover address conflicts at runtime, maybe months later, in a painful
->> way. Also a chip might be undocumented on a given board, so they could
->> do their homework and still have problems.
+> Nope, we shouldn't need that.
 > 
-> Yes, we probably need a binding to mark an address as used even though
-> we don't know the device or don't have a driver for it.
+> > I think maybe the readl_poll_timeout_atomic would be good enough.
+> >
 > 
-> Don't get me wrong, I know what you mean. One of my boards has a client
-> soldered in a way so that it is still in debug mode. That means it
-> listens to addresses 0x03-0x07 to provide debug information. Took me a
-> while to find out what is happening there.
+> Not really. Busy waiting should be avoided as much as possible. What's
+> the point of entering suspend if you end up burning the power by
+> spinning the CPU for some milliseconds?
 > 
-> But still, 'i2cdetect' showed all of these.
-> 
->> Despite my comments, I'm not strongly against your proposal. To me it
->> doesn't seem to solve any problem, while it does introduce some degree
->> of risk. Could you elaborate more on but what benefit it introduces?
-> 
-> I'd think the risk of running out of defined addresses is somewhere
-> equal to running into (after a while) an unexpectedly used address.
-> I like the fix for the latter better because describing what is on the
-> bus is more helpful and generic than updating the pool-property every
-> time you need it. Plus, as mentioned above, other add-on hardware may
-> disturb your pool allocation.
-> 
-> I expect this topic to be one of the discussion points of the BoF.
+Ok, I see, busy waiting is not a good idea, I will use the wait queue
+instead. the job abort will refine as following:
 
-Definitely.  And having a list of use cases would help a lot IMO. I had
-never considered the use case described above, for example.
+static void mtk_fd_job_abort(void *priv)
+{
+	struct mtk_fd_ctx *ctx = priv;
+	struct mtk_fd_dev *fd = ctx->fd_dev;
+	u32 ret;
 
-Thanks,
--- 
-Luca
+	ret = wait_event_interruptible_timeout
+		(fd->wq, (fd->fd_irq_result & MTK_FD_HW_IRQ_MASK),
+		 usecs_to_jiffies(50000));
+	if (ret)
+		mtk_fd_hw_job_finish(fd, VB2_BUF_STATE_ERROR);
+	dev_dbg(fd->dev, "%s, ret:%d\n", __func__, ret);
+
+	fd->fd_irq_result = 0;
+}
+
+static struct v4l2_m2m_ops fd_m2m_ops = {
+	.device_run = mtk_fd_device_run,
+	.job_abort = mtk_fd_job_abort,
+};
+
+and we could use it in suspend.
+static int mtk_fd_suspend(struct device *dev)
+{
+	struct mtk_fd_dev *fd = dev_get_drvdata(dev);
+
+	if (pm_runtime_suspended(dev))
+		return 0;
+
+	if (fd->fd_stream_count)
+		mtk_fd_job_abort(fd->ctx);
+
+	/* suspend FD HW */
+	writel(0x0, fd->fd_base + MTK_FD_REG_OFFSET_INT_EN);
+	writel(0x0, fd->fd_base + MTK_FD_REG_OFFSET_HW_ENABLE);
+	clk_disable_unprepare(fd->fd_clk);
+	dev_dbg(dev, "%s:disable clock\n", __func__);
+
+	return 0;
+}
+
+static irqreturn_t mtk_fd_irq(int irq, void *data)
+{
+	struct mtk_fd_dev *fd = (struct mtk_fd_dev *)data;
+
+	fd->fd_irq_result = readl(fd->fd_base + MTK_FD_REG_OFFSET_INT_VAL);
+	wake_up_interruptible(&fd->wq);
+	fd->output->number = readl(fd->fd_base + MTK_FD_REG_OFFSET_RESULT);
+	dev_dbg(fd->dev, "mtk_fd_face_num:%d\n", fd->output->number);
+
+	pm_runtime_put((fd->dev));
+	mtk_fd_hw_job_finish(fd, VB2_BUF_STATE_DONE);
+	return IRQ_HANDLED;
+}
+> >
+> > One more thing, for the mtk_fd_video_device_register()
+> > Sorry that I would need to use intermediate variable here since the 80
+> > columns check.
+> >
+> >         function = MEDIA_ENT_F_PROC_VIDEO_STATISTICS;
+> >         ret = v4l2_m2m_register_media_controller(m2m_dev, vfd, function);
+> 
+> Why not just make it like this:
+> 
+> ret = v4l2_m2m_register_media_controller(m2m_dev,
+>                 MEDIA_ENT_F_PROC_VIDEO_STATISTICS);
+> 
+> The above line is aligned using tabs so that its end is as close to
+> the 80 character boundary as possible.
+> 
+I tried but the checkpatch script still gave me a check saying align to
+the scope, I will refine as following:
+
+	ret = v4l2_m2m_register_media_controller
+		(m2m_dev, vfd, MEDIA_ENT_F_PROC_VIDEO_STATISTICS);
+
+
+Thanks and best regards,
+Jerry
+> Best regards,
+> Tomasz
+
+
