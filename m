@@ -2,78 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 280B4A6BEE
-	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2019 16:55:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 49ECEA6C27
+	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2019 17:02:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727624AbfICOzV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Sep 2019 10:55:21 -0400
-Received: from mail-vs1-f48.google.com ([209.85.217.48]:44487 "EHLO
-        mail-vs1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727069AbfICOzV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Sep 2019 10:55:21 -0400
-Received: by mail-vs1-f48.google.com with SMTP id w195so8816917vsw.11
-        for <linux-media@vger.kernel.org>; Tue, 03 Sep 2019 07:55:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=s7cRvIB57O/LEQAlGZSr/DXVRbxq22RKyzIf7diDDvA=;
-        b=JHSdkzz2AwTmLxHuWDAa7qlGoQ8defwVp9gzVQUtAzzRbZuLXZsWsHODNGM9W9WXtY
-         awcwBM0z3N40003OPehAeHSURpUtUbmpKe5Z5zzglrrdeZAOHunGiRiDLgSDOSx1atdA
-         /H22/ckgcYayN6A9h+AAmr+XCqHl5h4wnhVV0o4RYv3u9II7I2CH8iluwTJrSZyRrygv
-         I3kQ+HpjHmerglYzJ8aSMzhr+d57s6LCAcydpS2KjaQVrFzhtWqeGNulrSEn1PdfBv8J
-         OZ5TiTpPWonE4n2Pvou5+HyTLH8qsf8hiYkxnRjq4yZmF9zCu5x+i4sEX49CYAAeWrhA
-         En8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=s7cRvIB57O/LEQAlGZSr/DXVRbxq22RKyzIf7diDDvA=;
-        b=S6+6Pu0QKzTgMX5ClE+RxmVGzuvesMqrw03JZF4o+ooOL42YjtXqsrQ/+5YXEoaMi+
-         5YYOD9+iczsNTOmHt+QHVnV6YFtefCebbTP0vMDSieaQ7aPOHHDucEhM2kd4Dapvq7Ef
-         0vacRkc37B8fXhprgC3miqGMKH3qxzOz7Kt3e6+WtDpAkoM0QzWm1KQ5W4823jwivAQy
-         o9HwT+845Nq0MAP8LwSmS5cO4UBfN1eGQEBDoNig7Dm1ESD1GD3rqn41DyRiAmhIGopF
-         +fnC6Niwvfxf7B5Yyt+MVDc8bcgPeqgEZ9Z3nCw0xUpQJygoua7TUX2MUwcXWi1lOzfR
-         dlqw==
-X-Gm-Message-State: APjAAAWu5b4Ffa22aviRBVCaCUSnZiyS6oxWS807Ucg1RcT8jKGXU5/C
-        T5PDBkGI1HMyobpiCO/so9EDsfx/Oo9vuzp7epOaAOAP
-X-Google-Smtp-Source: APXvYqxCvScdXd/vqE+zx3cs2WYzCB1e7LVlaK3zlSccl+HVaka9YK7OkdGkqmCwBydvwXhYPnnppe4BbSjjHzVOTzo=
-X-Received: by 2002:a67:ad0f:: with SMTP id t15mr13470253vsl.204.1567522519747;
- Tue, 03 Sep 2019 07:55:19 -0700 (PDT)
-MIME-Version: 1.0
-From:   Sebastien Nobert <sebastien.nobert@gmail.com>
-Date:   Tue, 3 Sep 2019 10:55:08 -0400
-Message-ID: <CAE2Cum8+sdaVr35r_qt8_Hf8Z3GoH=0g1qGS7C_TBYmpzVTRfw@mail.gmail.com>
-Subject: dvt-scan-table
-To:     linux-media@vger.kernel.org
-Content-Type: multipart/mixed; boundary="000000000000f7ae3a0591a746a2"
+        id S1729602AbfICPCG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Sep 2019 11:02:06 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:50075 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727069AbfICPCF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Sep 2019 11:02:05 -0400
+Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1i5AJk-0008Fs-Uz; Tue, 03 Sep 2019 17:02:00 +0200
+Message-ID: <1567522916.5229.11.camel@pengutronix.de>
+Subject: Re: [RFC 08/12] media: hantro: Fix H264 decoding of field encoded
+ content
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Jonas Karlman <jonas@kwiboo.se>,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-rockchip@lists.infradead.org" 
+        <linux-rockchip@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Date:   Tue, 03 Sep 2019 17:01:56 +0200
+In-Reply-To: <DB6PR06MB4007C0F89BAEC6F9F1F2AA18ACB90@DB6PR06MB4007.eurprd06.prod.outlook.com>
+References: <HE1PR06MB40117D0EE96E6FA638A04B78ACBF0@HE1PR06MB4011.eurprd06.prod.outlook.com>
+         <20190901124531.23645-1-jonas@kwiboo.se>
+         <HE1PR06MB4011EA39133818A85768B91FACBF0@HE1PR06MB4011.eurprd06.prod.outlook.com>
+         <1567516908.5229.7.camel@pengutronix.de>
+         <DB6PR06MB4007C0F89BAEC6F9F1F2AA18ACB90@DB6PR06MB4007.eurprd06.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.22.6-1+deb9u2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---000000000000f7ae3a0591a746a2
-Content-Type: text/plain; charset="UTF-8"
+On Tue, 2019-09-03 at 14:02 +0000, Jonas Karlman wrote:
+> On 2019-09-03 15:21, Philipp Zabel wrote:
+> > On Sun, 2019-09-01 at 12:45 +0000, Jonas Karlman wrote:
+> > > This need code cleanup and formatting
+> > > 
+> > > Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+> > 
+> > The previous patches all work, but this patch breaks decoding of
+> > progressive content for me (i.MX8MQ with FFmpeg based on Ezequiel's
+> > branch).
+> 
+> Please try with ffmpeg based on my v4l2-request-hwaccel-4.0.4-hantro branch at [1],
+> up to and including the commit "HACK: add dpb flags for reference usage and field picture".
+> That commit adds code to set reference flags needed by the changes in this patch.
+> 
+> There is probably also some other minor difference between our two ffmpeg branches.
+> I have not observed any issues with progressive content with this patch and my ffmpeg branch (on a RK3288 device).
+> Some H264 reference samples do have visual issues after this patch, however all my real world samples does seem to work.
+> 
+> My branch use libudev to probe media/video devices and needs to be configured with:
+> --enable-v4l2-request --enable-libudev --enable-libdrm
+> 
+> [1] https://github.com/Kwiboo/FFmpeg/commits/v4l2-request-hwaccel-4.0.4-hantro
 
+I hadn't realized that this is a backwards incompatible change. With
+your branch rebased onto n4.2, and this patch applied, decoding seems to
+work.
 
-
---000000000000f7ae3a0591a746a2
-Content-Type: application/octet-stream; name=ca-QC-Champlain
-Content-Disposition: attachment; filename=ca-QC-Champlain
-Content-Transfer-Encoding: base64
-Content-ID: <f_k03yf7ra0>
-X-Attachment-Id: f_k03yf7ra0
-
-W0NIRU0tSERdCglWQ0hBTk5FTCA9IDguMQoJU0VSVklDRV9JRCA9IDEKCVZJREVPX1BJRCA9IDQ5
-CglBVURJT19QSUQgPSA1MiA1MwoJRlJFUVVFTkNZID0gMTgzMDAwMDAwCglNT0RVTEFUSU9OID0g
-VlNCLzgKCURFTElWRVJZX1NZU1RFTSA9IEFUU0MKCltDQlZULURUXQoJVkNIQU5ORUwgPSAxMS4x
-CglTRVJWSUNFX0lEID0gMwoJVklERU9fUElEID0gNDkKCUFVRElPX1BJRCA9IDUyIDUzCglQSURf
-ODYgPSAxMzM0CglGUkVRVUVOQ1kgPSA1MzkwMDAwMDAKCU1PRFVMQVRJT04gPSBWU0IvOAoJREVM
-SVZFUllfU1lTVEVNID0gQVRTQwoKW0NLVE0tRFRdCglWQ0hBTk5FTCA9IDEzLjEKCVNFUlZJQ0Vf
-SUQgPSAzCglWSURFT19QSUQgPSA0OQoJQVVESU9fUElEID0gNTIgNTMKCVBJRF84NiA9IDEzNTAK
-CUZSRVFVRU5DWSA9IDU1NzAwMDAwMAoJTU9EVUxBVElPTiA9IFZTQi84CglERUxJVkVSWV9TWVNU
-RU0gPSBBVFNDCgpbQ0ZLTS1EVF0KCVZDSEFOTkVMID0gMTYuMQoJU0VSVklDRV9JRCA9IDEKCVZJ
-REVPX1BJRCA9IDQ5CglBVURJT19QSUQgPSA1MQoJRlJFUVVFTkNZID0gNTkzMDAwMDAwCglNT0RV
-TEFUSU9OID0gVlNCLzgKCURFTElWRVJZX1NZU1RFTSA9IEFUU0MKCltDSVZDLUhEXQoJVkNIQU5O
-RUwgPSA0NS4xCglTRVJWSUNFX0lEID0gMwoJVklERU9fUElEID0gNDkKCUFVRElPX1BJRCA9IDUy
-IDUzCglGUkVRVUVOQ1kgPSA2NTkwMDAwMDAKCU1PRFVMQVRJT04gPSBWU0IvOAoJREVMSVZFUllf
-U1lTVEVNID0gQVRTQwoK
---000000000000f7ae3a0591a746a2--
+regards
+Philipp
