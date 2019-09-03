@@ -2,197 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A23DA5FE8
-	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2019 05:50:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A44EA5FF5
+	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2019 05:59:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725994AbfICDuh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Sep 2019 23:50:37 -0400
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:35080 "EHLO
-        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725848AbfICDuh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Sep 2019 23:50:37 -0400
-Received: by mail-ed1-f65.google.com with SMTP id t50so17181585edd.2
-        for <linux-media@vger.kernel.org>; Mon, 02 Sep 2019 20:50:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=bERm9aosiUF/erxQGsOJQyA7y7i++Xkui77JsOdtACI=;
-        b=eh39WEjYZ/TVREn6cDg0rilIJuu6Poeea3tHxjoQhPtzOhO5fXgh4Ass1e/NaK0Zyx
-         OsYmSUUme3ZiGtHuUo7ytVrq6bDXgl/NEd0YeynBJaRLFJLtvnfoF9VynpwWhDBXhBbA
-         2a6pKAMXImbYcaSI3SGsyXCZaV7ny8HRU+K5o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=bERm9aosiUF/erxQGsOJQyA7y7i++Xkui77JsOdtACI=;
-        b=RnneDI5VM9leqoPFgeoiJmGAl7mm4oOP9hgSYRLAclPVmcaVfa6ufVDS4x4/PbOgYQ
-         Caew6i3Pj35rPsJZKrvPwqtpCh/DSJoFAA1J6h4KQ+ZtlDEtAmORdRHW6LWB7+pLNw7m
-         bq96qZ1764/2y90gIexJ/nMLgIvUvfpVEpBGWCmhTGpoJP3V8+cewljSjPMniQU/bWjs
-         P3iSpo3hbOvk5bo9sH3xF631T1ahkFXKzRK33vOu4+u7U7RZGJ1rQjYq6aY0ySPR1JSb
-         UFUYMZ6bLUHArc2F2o6WYgoyL5H8wFZcPM+z3sWja33844IGmdZri2ZJBs6FVqD7y42d
-         MunQ==
-X-Gm-Message-State: APjAAAU00FBBMnLoyL7XyF+I6RLAhJBa0jBPNCdsu9OBMT7CQs7zADhz
-        1TPyK1yWJWQKAAE6EyDlpca8+QKfYvXnjQ==
-X-Google-Smtp-Source: APXvYqyX3l9HnQwBYoIZPOBa66RCE2HNVSzYDZFvsPWIBuUbyAaFkLIIYnVcT2tFpztUZJhevnr4vA==
-X-Received: by 2002:a05:6402:b29:: with SMTP id bo9mr1945117edb.10.1567482634884;
-        Mon, 02 Sep 2019 20:50:34 -0700 (PDT)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com. [209.85.221.46])
-        by smtp.gmail.com with ESMTPSA id n16sm1249799ejy.8.2019.09.02.20.50.32
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Sep 2019 20:50:33 -0700 (PDT)
-Received: by mail-wr1-f46.google.com with SMTP id 30so4818156wrk.11
-        for <linux-media@vger.kernel.org>; Mon, 02 Sep 2019 20:50:32 -0700 (PDT)
-X-Received: by 2002:adf:fc03:: with SMTP id i3mr33237705wrr.48.1567482631483;
- Mon, 02 Sep 2019 20:50:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190708100641.2702-1-dongchun.zhu@mediatek.com>
- <20190708100641.2702-3-dongchun.zhu@mediatek.com> <20190823081723.GA33937@chromium.org>
- <1567436507.21623.83.camel@mhfsdcap03>
-In-Reply-To: <1567436507.21623.83.camel@mhfsdcap03>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Tue, 3 Sep 2019 12:50:19 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5AWBFVF5Fh0OWpfkPid1wXYdi=MDdVukxaAKQg2dABnCA@mail.gmail.com>
-Message-ID: <CAAFQd5AWBFVF5Fh0OWpfkPid1wXYdi=MDdVukxaAKQg2dABnCA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] media: i2c: dw9768: Add DW9768 VCM driver
-To:     Dongchun Zhu <dongchun.zhu@mediatek.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Cao Bing Bu <bingbu.cao@intel.com>,
-        srv_heupstream <srv_heupstream@mediatek.com>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
-        Sj Huang <sj.huang@mediatek.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        devicetree@vger.kernel.org, Louis Kuo <louis.kuo@mediatek.com>,
-        shengnan.wang@mediatek.com
-Content-Type: text/plain; charset="UTF-8"
+        id S1725848AbfICD7Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Sep 2019 23:59:16 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:36043 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725821AbfICD7Q (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 2 Sep 2019 23:59:16 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:adf8:ed2:80f:eb1a])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id 4zyKiEFRFxNy04zyLibY8R; Tue, 03 Sep 2019 05:59:13 +0200
+Message-ID: <a57dda1c01e4961d4c27d9b70723e052@smtp-cloud7.xs4all.net>
+Date:   Tue, 03 Sep 2019 05:59:12 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfJjF4JbcZES1hgLEVkh0MaWm8z5Rnht/Kw1EgNlWJlVFFcPtPfK6VV8ZOM87o9rEwimABCBgKpgiufJ4nqFZ1o/KpTtYyXUhdWsF7zA1HdkTLTYsdx9S
+ at3eug7Ft40wvMv/9b5bku/XK7qYwf7Ba8xXotuQBNAv1HBNmg7qlrSEkmj94ir+7JvUH2XzUNuC3ruVFTXTnBKrqupWgznHii5tr2VI+JiMLpXE6GpGGiuF
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dongchun,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On Tue, Sep 3, 2019 at 12:02 AM Dongchun Zhu <dongchun.zhu@mediatek.com> wrote:
->
-> Hi Tomasz,
->
-> On Fri, 2019-08-23 at 17:17 +0900, Tomasz Figa wrote:
-> > Hi Dongchun,
-> >
-> > On Mon, Jul 08, 2019 at 06:06:41PM +0800, dongchun.zhu@mediatek.com wrote:
-> > > From: Dongchun Zhu <dongchun.zhu@mediatek.com>
-> > >
-> > > This patch adds a V4L2 sub-device driver for DW9768 lens voice coil,
-> > > and provides control to set the desired focus.
-> > >
-> > > The DW9807 is a 10 bit DAC from Dongwoon, designed for linear
-> > > control of voice coil motor.
-> > >
-> > > Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
-> > > ---
-> > >  MAINTAINERS                |   1 +
-> > >  drivers/media/i2c/Kconfig  |  10 +
-> > >  drivers/media/i2c/Makefile |   1 +
-> > >  drivers/media/i2c/dw9768.c | 458 +++++++++++++++++++++++++++++++++++++++++++++
-> > >  4 files changed, 470 insertions(+)
-> > >  create mode 100644 drivers/media/i2c/dw9768.c
-> > >
-> >
-> > Thanks for the patch! Please see my comments inline.
-> >
-> > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > index 8f6ac93..17152d7 100644
-> > > --- a/MAINTAINERS
-> > > +++ b/MAINTAINERS
-> > > @@ -4877,6 +4877,7 @@ M:    Dongchun Zhu <dongchun.zhu@mediatek.com>
-> > >  L: linux-media@vger.kernel.org
-> > >  T: git git://linuxtv.org/media_tree.git
-> > >  S: Maintained
-> > > +F: drivers/media/i2c/dw9768.c
-> > >  F: Documentation/devicetree/bindings/media/i2c/dongwoon,dw9768.txt
-> > >
-> > >  DONGWOON DW9807 LENS VOICE COIL DRIVER
-> > > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> > > index 7793358..8ff6c95 100644
-> > > --- a/drivers/media/i2c/Kconfig
-> > > +++ b/drivers/media/i2c/Kconfig
-> > > @@ -1014,6 +1014,16 @@ config VIDEO_DW9714
-> > >       capability. This is designed for linear control of
-> > >       voice coil motors, controlled via I2C serial interface.
-> > >
-> > > +config VIDEO_DW9768
-> > > +   tristate "DW9768 lens voice coil support"
-> > > +   depends on I2C && VIDEO_V4L2 && MEDIA_CONTROLLER
-> > > +   depends on VIDEO_V4L2_SUBDEV_API
-> > > +   help
-> > > +     This is a driver for the DW9768 camera lens voice coil.
-> > > +     DW9768 is a 10 bit DAC with 100mA output current sink
-> > > +     capability. This is designed for linear control of
-> > > +     voice coil motors, controlled via I2C serial interface.
-> > > +
-> > >  config VIDEO_DW9807_VCM
-> > >     tristate "DW9807 lens voice coil support"
-> > >     depends on I2C && VIDEO_V4L2 && MEDIA_CONTROLLER
-> > > diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-> > > index d8ad9da..944fbf6 100644
-> > > --- a/drivers/media/i2c/Makefile
-> > > +++ b/drivers/media/i2c/Makefile
-> > > @@ -24,6 +24,7 @@ obj-$(CONFIG_VIDEO_SAA6752HS) += saa6752hs.o
-> > >  obj-$(CONFIG_VIDEO_AD5820)  += ad5820.o
-> > >  obj-$(CONFIG_VIDEO_AK7375)  += ak7375.o
-> > >  obj-$(CONFIG_VIDEO_DW9714)  += dw9714.o
-> > > +obj-$(CONFIG_VIDEO_DW9768)  += dw9768.o
-> > >  obj-$(CONFIG_VIDEO_DW9807_VCM)  += dw9807-vcm.o
-> > >  obj-$(CONFIG_VIDEO_ADV7170) += adv7170.o
-> > >  obj-$(CONFIG_VIDEO_ADV7175) += adv7175.o
-> > > diff --git a/drivers/media/i2c/dw9768.c b/drivers/media/i2c/dw9768.c
-> > > new file mode 100644
-> > > index 0000000..f5b5591
-> > > --- /dev/null
-> > > +++ b/drivers/media/i2c/dw9768.c
-> > > @@ -0,0 +1,458 @@
-> > > +// SPDX-License-Identifier: GPL-2.0
-> > > +/*
-> > > + * Copyright (c) 2018 MediaTek Inc.
-> > > + */
-> > > +
-> > > +#include <linux/delay.h>
-> > > +#include <linux/i2c.h>
-> > > +#include <linux/module.h>
-> > > +#include <linux/regulator/consumer.h>
-> > > +#include <linux/pm_runtime.h>
-> > > +#include <media/v4l2-ctrls.h>
-> > > +#include <media/v4l2-device.h>
-> > > +#include <media/v4l2-subdev.h>
-> > > +
-> > > +#define DW9768_VOLTAGE_ANALOG                      2800000
-> >
-> > This is a platform detail and should be defined in the platform data, for
-> > example DTS on platforms using DT.
-> >
->
-> Thanks for your reminder.
-> This would be fixed in next release.
->
-> > > +#define DW9768_NAME                                "dw9768"
-> >
-> > The chip we seem to be using this driver for is called gt9769. Shouldn't we
-> > call the driver the same?
-> >
->
-> It is also called DW9768 from camera module specification, which was
-> initially confirmed with vendor.
->
+Results of the daily build of media_tree:
 
-Okay, thanks for clarifying.
+date:			Tue Sep  3 05:00:10 CEST 2019
+media-tree git hash:	20a438d53fd9d12a894161bc56cbeab7a9993c39
+media_build git hash:	d75b29db1297d2475227cc8bada843542271e40d
+v4l-utils git hash:	32fd3b7e82e4a018e256ddfa30d4498b385c811d
+edid-decode git hash:	0932deee88928f110b5a74851c173ad895f75863
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1-rc1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.5.1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 5624386a32db97445f4ab315a1954e6d3bcb0c47
+host hardware:		x86_64
+host os:		4.19.0-4-amd64
 
-Best regards,
-Tomasz
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: WARNINGS
+linux-3.10.108-x86_64: WARNINGS
+linux-3.11.10-i686: ERRORS
+linux-3.11.10-x86_64: ERRORS
+linux-3.12.74-i686: WARNINGS
+linux-3.12.74-x86_64: WARNINGS
+linux-3.13.11-i686: ERRORS
+linux-3.13.11-x86_64: ERRORS
+linux-3.14.79-i686: WARNINGS
+linux-3.14.79-x86_64: WARNINGS
+linux-3.15.10-i686: ERRORS
+linux-3.15.10-x86_64: ERRORS
+linux-3.16.63-i686: WARNINGS
+linux-3.16.63-x86_64: WARNINGS
+linux-3.17.8-i686: ERRORS
+linux-3.17.8-x86_64: ERRORS
+linux-3.18.136-i686: WARNINGS
+linux-3.18.136-x86_64: WARNINGS
+linux-3.19.8-i686: ERRORS
+linux-3.19.8-x86_64: ERRORS
+linux-4.0.9-i686: ERRORS
+linux-4.0.9-x86_64: ERRORS
+linux-4.1.52-i686: WARNINGS
+linux-4.1.52-x86_64: WARNINGS
+linux-4.2.8-i686: WARNINGS
+linux-4.2.8-x86_64: WARNINGS
+linux-4.3.6-i686: WARNINGS
+linux-4.3.6-x86_64: WARNINGS
+linux-4.4.167-i686: WARNINGS
+linux-4.4.167-x86_64: WARNINGS
+linux-4.5.7-i686: WARNINGS
+linux-4.5.7-x86_64: WARNINGS
+linux-4.6.7-i686: WARNINGS
+linux-4.6.7-x86_64: WARNINGS
+linux-4.7.10-i686: WARNINGS
+linux-4.7.10-x86_64: WARNINGS
+linux-4.8.17-i686: WARNINGS
+linux-4.8.17-x86_64: WARNINGS
+linux-4.9.162-i686: WARNINGS
+linux-4.9.162-x86_64: WARNINGS
+linux-4.10.17-i686: WARNINGS
+linux-4.10.17-x86_64: WARNINGS
+linux-4.11.12-i686: WARNINGS
+linux-4.11.12-x86_64: WARNINGS
+linux-4.12.14-i686: WARNINGS
+linux-4.12.14-x86_64: WARNINGS
+linux-4.13.16-i686: WARNINGS
+linux-4.13.16-x86_64: WARNINGS
+linux-4.14.105-i686: WARNINGS
+linux-4.14.105-x86_64: WARNINGS
+linux-4.15.18-i686: WARNINGS
+linux-4.15.18-x86_64: WARNINGS
+linux-4.16.18-i686: WARNINGS
+linux-4.16.18-x86_64: WARNINGS
+linux-4.17.19-i686: WARNINGS
+linux-4.17.19-x86_64: WARNINGS
+linux-4.18.20-i686: ERRORS
+linux-4.18.20-x86_64: ERRORS
+linux-4.19.28-i686: ERRORS
+linux-4.19.28-x86_64: ERRORS
+linux-4.20.15-i686: ERRORS
+linux-4.20.15-x86_64: ERRORS
+linux-5.0.15-i686: ERRORS
+linux-5.0.15-x86_64: ERRORS
+linux-5.1.1-i686: ERRORS
+linux-5.1.1-x86_64: ERRORS
+linux-5.2.1-i686: ERRORS
+linux-5.2.1-x86_64: ERRORS
+linux-5.3-rc1-i686: ERRORS
+linux-5.3-rc1-x86_64: ERRORS
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2327, Succeeded: 2327, Failed: 0, Warnings: 0
+sparse: OK
+smatch: OK
+
+Logs weren't copied as they are too large (57232 kB)
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
