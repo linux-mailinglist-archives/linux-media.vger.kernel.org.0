@@ -2,310 +2,183 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 221D5A622C
-	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2019 09:04:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D5FE4A625E
+	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2019 09:21:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726452AbfICHEq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Sep 2019 03:04:46 -0400
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:41212 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726062AbfICHEp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Sep 2019 03:04:45 -0400
-Received: by mail-ed1-f68.google.com with SMTP id z9so12228518edq.8
-        for <linux-media@vger.kernel.org>; Tue, 03 Sep 2019 00:04:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=db032M6/zE4omf+cGRilv5nsZk5oRYhR48JuFpDhX0E=;
-        b=K0+YX7VtC8i3mcTjCo3bRNli9qCdtHJx01NQ5bMbRKQAf6oJKzsNLIiknOSlueBKPy
-         ETBBVeyeVTpEEsMEyuRaacy0a65EUnUp7Kc0XA/w6kpcCGhoFe3zG91siutUiHv5iEu8
-         lPt9ap0YWic/FlpxdQLJiHU/hTqmtFQiviOow=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=db032M6/zE4omf+cGRilv5nsZk5oRYhR48JuFpDhX0E=;
-        b=Oevqlzlo5ctapbg6Rev7xVWh8PrUDQEP/QbNzrzVsCU1Jw14gorZuooH5BQXR1yBAi
-         YbBAYw/hs3O/WHJbkSXCyHovz8beqwRYLW0UMBckY2Blu+qj1eVv1eU6dhfiSn9yNFXG
-         SkcUkex+MMyAL4dU8gmn6fh9q1XWtgNxiO11Qy65LNsY6XR4LEJvgsTvZYztC8kBXfod
-         a8OUPoopFaTk4ACGdayF5QeHPtnnEtKbfVsz0nBU19fYAgky/ZemgNEZVplxpEwxYzWT
-         mLKOzlSkZoV4xivKOQhv/JjudSZtwGaAGDn76BTIdB/zEoY74ax8OVHmUZ0blKnjJytD
-         bpUQ==
-X-Gm-Message-State: APjAAAV2U3b5/rF1hnYaI3hOJpLP8qX30SFK0bVD7a9ByJqs59I5T5Dc
-        Po/7yAtlAHiZj0onSulsPkfC0tClxxyrNQ==
-X-Google-Smtp-Source: APXvYqwIg7F+/Woc8T9rBZlyuYcgHediFX0WClP0UKfN//ViSX8alOKYp8zv42z5eVG5dy8MuTmRow==
-X-Received: by 2002:a05:6402:1214:: with SMTP id c20mr24657598edw.111.1567494283203;
-        Tue, 03 Sep 2019 00:04:43 -0700 (PDT)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com. [209.85.221.49])
-        by smtp.gmail.com with ESMTPSA id a36sm2160404edc.58.2019.09.03.00.04.41
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 03 Sep 2019 00:04:42 -0700 (PDT)
-Received: by mail-wr1-f49.google.com with SMTP id 30so5208727wrk.11
-        for <linux-media@vger.kernel.org>; Tue, 03 Sep 2019 00:04:41 -0700 (PDT)
-X-Received: by 2002:a5d:6585:: with SMTP id q5mr9827920wru.162.1567494281422;
- Tue, 03 Sep 2019 00:04:41 -0700 (PDT)
+        id S1726452AbfICHVw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Sep 2019 03:21:52 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:59515 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726062AbfICHVw (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 3 Sep 2019 03:21:52 -0400
+Received: from [192.168.2.10] ([46.9.232.237])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id 538JiFabJxNy0538MicOnD; Tue, 03 Sep 2019 09:21:50 +0200
+Subject: Re: [ANN] Topics for a media summit in Lyon in October
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Alexandre Courbot <acourbot@chromium.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Eugen Hristev <Eugen.Hristev@microchip.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Stanimir Varbanov <svarbanov@mm-sol.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@siol.net>,
+        Jonas Karlman <jonas@kwiboo.se>
+References: <010ba9ce-bac9-6f0c-f128-4f163a7d8ea7@xs4all.nl>
+ <a9bb00f0-7ce8-98d4-92cf-57b140814ef6@xs4all.nl>
+Message-ID: <e4421a68-e68f-e4b8-8e1d-82ace47ba632@xs4all.nl>
+Date:   Tue, 3 Sep 2019 09:21:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <1562661672-22439-1-git-send-email-Jerry-Ch.chen@mediatek.com>
- <1562661672-22439-5-git-send-email-Jerry-Ch.chen@mediatek.com>
- <20190802082815.GA203993@chromium.org> <1566724680.20680.8.camel@mtksdccf07>
- <CAAFQd5Dw+jaT-+LAUEVeB8W1zdnOgPw7u+aCfDWhYW1SfbzO8g@mail.gmail.com>
- <1566957625.20680.33.camel@mtksdccf07> <CAAFQd5D-Yg1FjUE_rwmqfS1gvfE0=MZ=r-ziueU_37-uo9QTbw@mail.gmail.com>
- <1567424859.18318.32.camel@mtksdccf07> <CAAFQd5AGgeFbto6V1KkL0dp1QPziOKV3pWQDU2OJ+S1QKvnBdg@mail.gmail.com>
- <1567493081.18318.49.camel@mtksdccf07>
-In-Reply-To: <1567493081.18318.49.camel@mtksdccf07>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Tue, 3 Sep 2019 16:04:29 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5DWM=R7sFHYGhhR_rXrzgRnc4xtH_t8Pig-4tcP9KTSYg@mail.gmail.com>
-Message-ID: <CAAFQd5DWM=R7sFHYGhhR_rXrzgRnc4xtH_t8Pig-4tcP9KTSYg@mail.gmail.com>
-Subject: Re: [RFC PATCH V2 4/4] platform: mtk-isp: Add Mediatek FD driver
-To:     Jerry-ch Chen <Jerry-ch.Chen@mediatek.com>
-Cc:     "yuzhao@chromium.org" <yuzhao@chromium.org>,
-        "zwisler@chromium.org" <zwisler@chromium.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        =?UTF-8?B?U2VhbiBDaGVuZyAo6YSt5piH5byYKQ==?= 
-        <Sean.Cheng@mediatek.com>,
-        =?UTF-8?B?U2ogSHVhbmcgKOm7g+S/oeeSiyk=?= <sj.huang@mediatek.com>,
-        =?UTF-8?B?Q2hyaXN0aWUgWXUgKOa4uOmbheaDoCk=?= 
-        <christie.yu@mediatek.com>,
-        =?UTF-8?B?RnJlZGVyaWMgQ2hlbiAo6Zmz5L+K5YWDKQ==?= 
-        <Frederic.Chen@mediatek.com>,
-        =?UTF-8?B?SnVuZ28gTGluICjmnpfmmI7kv4op?= <jungo.lin@mediatek.com>,
-        =?UTF-8?B?UnlubiBXdSAo5ZCz6IKy5oGpKQ==?= <Rynn.Wu@mediatek.com>,
-        =?UTF-8?B?UG8tWWFuZyBIdWFuZyAo6buD5p+P6Zm9KQ==?= 
-        <po-yang.huang@mediatek.com>,
-        "shik@chromium.org" <shik@chromium.org>,
-        "suleiman@chromium.org" <suleiman@chromium.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        srv_heupstream <srv_heupstream@mediatek.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "laurent.pinchart+renesas@ideasonboard.com" 
-        <laurent.pinchart+renesas@ideasonboard.com>,
-        "hans.verkuil@cisco.com" <hans.verkuil@cisco.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <a9bb00f0-7ce8-98d4-92cf-57b140814ef6@xs4all.nl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfIpyUpalLqKFdZY3KFUJzrVwWBCKrYOEIE6qU7ryF4BncrZdSQ8oN6tR555pvRD4bcL0LBcv+sjQL72YE09K1rl76X8kQvxnAt4LrTzJKMPuX/0AopCz
+ 9he/41a0sCgJ8MI62aaUsscfKomOPtfO58UHFJxmHD3K089m4XkcqLnNUTwbI18cg12jTWaskJYh7cpcjsCTwy5CLF9DkwFDJnblKbgA9zCkcd4N6eBRRe6Z
+ wmCysuBS5lz+/3/bnze6GxgP0TMewWLm2WPZyfL8Gvx2d7ZWdM7sEyfzqjdSzxv7AxSgFXE6VFN1g7hLaLppuWVz88jSSSgk6e5XkugzSwlgo97ycL2wRhLJ
+ 1LYUSapXo8gTsIVTawuh7INo/1tycpPC3sA+gCG6C0zp6+mwj97skw6E976+415wi9gnMD7P+Vsa4ZgqUSKoTrSKUXvVG3j1lEXXd+cveA7VR5QIlMnyE3g6
+ jiPbAtK5z2Fz46pfwqpUYUZRaypODrUAfpXsdItv4IMzOkZ05unrc+OCyuZSKOLTyhh2h03x3b5aQLjNblLBbk2tU8a0n1k6zhLP830EOnDgebgDW5T7noY1
+ 4qcvZDibsh1iTSG7v3bin0UthmxVO8m7HvuNZf0KAV9glvR1CEBFuHDHFFDUkxSowJ4=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Sep 3, 2019 at 3:44 PM Jerry-ch Chen <Jerry-ch.Chen@mediatek.com> wrote:
->
-> On Tue, 2019-09-03 at 13:19 +0800, Tomasz Figa wrote:
-> > On Mon, Sep 2, 2019 at 8:47 PM Jerry-ch Chen <Jerry-ch.Chen@mediatek.com> wrote:
-> > >
-> > > Hi Tomasz,
-> > >
-> > > On Fri, 2019-08-30 at 16:33 +0800, Tomasz Figa wrote:
-> > > > On Wed, Aug 28, 2019 at 11:00 AM Jerry-ch Chen
-> > > > <Jerry-ch.Chen@mediatek.com> wrote:
-> > > > >
-> > > > > Hi Tomasz,
-> > > > >
-> > > > > On Mon, 2019-08-26 at 14:36 +0800, Tomasz Figa wrote:
-> > > > > > Hi Jerry,
-> > > > > >
-> > > > > > On Sun, Aug 25, 2019 at 6:18 PM Jerry-ch Chen
-> > > > > > <Jerry-ch.Chen@mediatek.com> wrote:
-> > > > > > >
-> > > > > > > Hi Tomasz,
-> > > > > > >
-> > > > > > > On Fri, 2019-08-02 at 16:28 +0800, Tomasz Figa wrote:
-> > > > > > > > Hi Jerry,
-> > > > > > > >
-> > > > > > > > On Tue, Jul 09, 2019 at 04:41:12PM +0800, Jerry-ch Chen wrote:
-> > [snip]
-> > > > > static int mtk_fd_vb2_queue_setup(struct vb2_queue *vq,
-> > > > >                                   unsigned int *num_buffers,
-> > > > >                                   unsigned int *num_planes,
-> > > > >                                   unsigned int sizes[],
-> > > > >                                   struct device *alloc_devs[])
-> > > > > {
-> > > > >         struct mtk_fd_ctx *ctx = vb2_get_drv_priv(vq);
-> > > > >         struct device *dev = ctx->dev;
-> > > > >         unsigned int size[2];
-> > > > >
-> > > > >         switch (vq->type) {
-> > > > >         case V4L2_BUF_TYPE_META_CAPTURE:
-> > > > >                 size[0] = ctx->dst_fmt.buffersize;
-> > > > >                 break;
-> > > > >         case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
-> > > > >                 size[0] = ctx->src_fmt.plane_fmt[0].sizeimage;
-> > > > >                 if (*num_planes == 2)
-> > > > >                         size[1] = ctx->src_fmt.plane_fmt[1].sizeimage;
-> > > > >                 break;
-> > > > >         }
-> > > > >
-> > > > >         if (*num_planes == 1) {
-> > > > >                 if (sizes[0] < size[0])
-> > > > >                         return -EINVAL;
-> > > > >         } else if (*num_planes == 2) {
-> > > > >                 if ((sizes[0] < size[0]) && (sizes[1] < size[1]))
-> > > > >                         return -EINVAL;
-> > > >
-> > > > Can we just use a loop here and combine the 2 cases above?
-> > > >
-> > > > Also, we need to fail with -EINVAL if *num_planes is > 2.
-> > > >
-> > > > >         } else {
-> > > > >                 *num_planes = 1;
-> > > > >                 sizes[0] = size[0];
-> > > >
-> > > > This should be the case if *num_planes == 0 and the number of planes
-> > > > and sizes should match the currently active format.
-> > > >
-> > > I appreciate your comments,
-> > >
-> > > Ok, I will update as following:
-> > > static int mtk_fd_vb2_queue_setup(struct vb2_queue *vq,
-> > >                                   unsigned int *num_buffers,
-> > >                                   unsigned int *num_planes,
-> > >                                   unsigned int sizes[],
-> > >                                   struct device *alloc_devs[])
-> > > {
-> > >         struct mtk_fd_ctx *ctx = vb2_get_drv_priv(vq);
-> > >         unsigned int size[2];
-> > >         unsigned int plane;
-> > >
-> > >         switch (vq->type) {
-> > >         case V4L2_BUF_TYPE_META_CAPTURE:
-> > >                 size[0] = ctx->dst_fmt.buffersize;
-> > >                 break;
-> > >         case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
-> > >                 size[0] = ctx->src_fmt.plane_fmt[0].sizeimage;
-> > >                 if (*num_planes == 2)
-> > >                         size[1] = ctx->src_fmt.plane_fmt[1].sizeimage;
-> > >                 break;
-> > >         }
-> > >
-> > >         if (*num_planes > 2)
-> > >                 return -EINVAL;
-> > >         if (*num_planes == 0) {
-> > >                 if (vq->type == V4L2_BUF_TYPE_META_CAPTURE) {
-> > >                         sizes[0] = ctx->dst_fmt.buffersize;
-> > >                         *num_planes = 1;
-> > >                         return 0;
-> > >                 }
-> > >
-> > >                 *num_planes = ctx->src_fmt.num_planes;
-> > >                 for (plane = 0; plane < *num_planes; plane++)
-> > >                         sizes[plane] = ctx->src_fmt.plane_fmt[plane].sizeimage;
-> > >                 return 0;
-> > >         }
-> > >
-> > >         for (plane = 0; plane < *num_planes; plane++) {
-> > >                 if(sizes[plane] < size[plane])
-> > >                         return -EINVAL;
-> > >         }
-> > >         return 0;
-> > > }
-> > >
-> >
-> > Looks good, thanks!
-> >
-> > > > >         }
-> > > > >
-> > > > >         return 0;
-> > > > > }
-> > > > >
-> > > > > > [snip]
-> > > > > >
-> > > > > > > > > +static void mtk_fd_vb2_stop_streaming(struct vb2_queue *vq)
-> > > > > > > > > +{
-> > > > > > > > > +   struct mtk_fd_ctx *ctx = vb2_get_drv_priv(vq);
-> > > > > > > > > +   struct vb2_buffer *vb;
-> > > > > > > >
-> > > > > > > > How do we guarantee here that the hardware isn't still accessing the buffers
-> > > > > > > > removed below?
-> > > > > > > >
-> > > > > > > Maybe we can check the driver state flag and aborting the unfinished
-> > > > > > > jobs?
-> > > > > > > (fd_hw->state == FD_ENQ)
-> > > > > > >
-> > > > > >
-> > > > > > Yes, we need to either cancel or wait for the currently processing
-> > > > > > job. It depends on hardware capabilities, but cancelling is generally
-> > > > > > preferred for the lower latency.
-> > > > > >
-> > > > > Ok, it the state is ENQ, then we can disable the FD hw by controlling
-> > > > > the registers.
-> > > > >
-> > > > > for example:
-> > > > >         writel(0x0, fd->fd_base + FD_HW_ENABLE);
-> > > > >         writel(0x0, fd->fd_base + FD_INT_EN);
-> > > > >
-> > > >
-> > > > What's exactly the effect of writing 0 to FD_HW_ENABLE?
-> > > >
-> > > Sorry, my last reply didn't solve the question,
-> > > we should implement a mtk_fd_job_abort() for v4l2_m2m_ops().
-> > >
-> > > which is able to readl_poll_timeout_atomic()
-> > > and check the HW busy bits in the register FD_INT_EN;
-> > >
-> > > if they are not cleared until timeout, we could handle the last
-> > > processing job.
-> > > Otherwise, the FD irq handler should have handled the last processing
-> > > job and we could continue the stop_streaming().
-> > >
-> > > For job_abort():
-> > > static void mtk_fd_job_abort(void *priv)
-> > > {
-> > >         struct mtk_fd_ctx *ctx = priv;
-> > >         struct mtk_fd_dev *fd = ctx->fd_dev;
-> > >         u32 val;
-> > >         u32 ret;
-> > >
-> > >         ret = readl_poll_timeout_atomic(fd->fd_base + MTK_FD_REG_OFFSET_INT_EN,
-> > >                                         val,
-> > >                                         (val & MTK_FD_HW_BUSY_MASK) ==
-> > >                                         MTK_FD_HW_STATE_IS_BUSY,
-> > >                                         USEC_PER_MSEC, MTK_FD_STOP_HW_TIMEOUT);
-> >
-> > Hmm, would it be possible to avoid the busy wait by having a
-> > completion that could be signalled from the interrupt handler?
-> >
-> > Best regards,
-> > Tomasz
->
-> I suppose that would be wakeup a wait queue in the interrupt handler,
-> the the wait_event_interrupt_timeout() will be used in here and system
-> suspend e.g. mtk_fd_suspend().
+Hi all,
 
-Yes, that should work.
+I've decided to hold the meeting during the ELCE and not on Thursday.
+Two key people can't be there on Thursday and some travel back Thursday
+evening and so would have to leave early.
 
-> Or do you suggest to wait_event_interrupt_timeout() every frame in the
-> mtk_fd_ipi_handler()?
+Looking at the schedule I propose instead to have one meeting on
+Tuesday morning concentrating on finalizing the codec support.
 
-Nope, we shouldn't need that.
+On Wednesday we have a second meeting for libcamera (morning) and looking
+at future V4L2 developments such as v4l2_ext_buffer/format, Request API and
+complex camera pipelines (afternoon).
 
-> I think maybe the readl_poll_timeout_atomic would be good enough.
->
+Laurent, it would make sense if you or one of the other libcamera devs is
+'chairing' the libcamera meeting. Do you agree? If so, can you prepare an
+agenda for that meeting?
 
-Not really. Busy waiting should be avoided as much as possible. What's
-the point of entering suspend if you end up burning the power by
-spinning the CPU for some milliseconds?
+I plan on leaving Thursday afternoon, so we have the option to continue the
+talks around that last topic on Thursday morning.
 
->
-> One more thing, for the mtk_fd_video_device_register()
-> Sorry that I would need to use intermediate variable here since the 80
-> columns check.
->
->         function = MEDIA_ENT_F_PROC_VIDEO_STATISTICS;
->         ret = v4l2_m2m_register_media_controller(m2m_dev, vfd, function);
+I have no idea where we will hold these meetings since I've no idea
+what the conference center looks like and if they have suitable places
+for doing something like this. So I'll look around on the Monday and
+mail the details of where to meet then.
 
-Why not just make it like this:
+Confirmed attendees:
 
-ret = v4l2_m2m_register_media_controller(m2m_dev,
-                MEDIA_ENT_F_PROC_VIDEO_STATISTICS);
+Boris Brezillon <boris.brezillon@collabora.com>
+Alexandre Courbot <acourbot@chromium.org>
+Nicolas Dufresne <nicolas@ndufresne.ca>
+Tomasz Figa <tfiga@chromium.org>
+Ezequiel Garcia <ezequiel@collabora.com>
+Eugen Hristev <Eugen.Hristev@microchip.com>
+Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Helen Koike <helen.koike@collabora.com>
+Jacopo Mondi <jacopo@jmondi.org>
+Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Hans Verkuil <hverkuil@xs4all.nl>
 
-The above line is aligned using tabs so that its end is as close to
-the 80 character boundary as possible.
+If you are not on this list, but want to join, please let me know.
 
-Best regards,
-Tomasz
+Since this is really three half-day meetings, each with a different
+topic, please let me know which of those half-day meetings you want
+to attend.
+
+Regards,
+
+	Hans
+
+On 8/28/19 12:55 PM, Hans Verkuil wrote:
+> On 8/16/19 10:06 AM, Hans Verkuil wrote:
+>> Rather then discussing topics for a meeting under the subject 'Lisbon'
+>> let's start a new thread referring to the right place :-)
+>>
+>> I will try to organize a room, either during the ELCE or (if that doesn't
+>> work) perhaps on the Thursday afterwards. If that's going to be a problem
+>> for someone, please let me know.
+> 
+> I can only get a room for Thursday afternoon (2pm-6pm). I'm inclined to take
+> that room, but if a lot of people who want to come, will already have left
+> on the Thursday, then there is no point in me reserving this room.
+> 
+> So if you are unable to attend on Thursday, then please let me know asap!
+> 
+> If Thursday is no problem, then I wanted to have more informal meetings
+> somewhere in the conference center during the morning, and after lunch
+> use the room.
+> 
+> If Thursday is a no-go, then we will just have to find a place inside
+> the conference center during the ELCE.
+> 
+> Regards,
+> 
+> 	Hans
+> 
+>>
+>> I do need to know how many people I can expect. I have the following
+>> confirmed attendees (and please reply if you are not listed!):
+>>
+>> Alexandre Courbot <acourbot@chromium.org>
+>> Tomasz Figa <tfiga@chromium.org>
+>> Jacopo Mondi <jacopo@jmondi.org>
+>> Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>> Hans Verkuil <hverkuil@xs4all.nl>
+>>
+>> I know there were more who mentioned on irc that they would attend,
+>> but it is easier to keep track if I have it in an email.
+>>
+>> Topics posted under the previous thread:
+>>
+>> Tomasz:
+>>
+>> I would want to discuss various v4l2_buffer improvements, e.g.
+>> - DMA-buf import with plane offsets,
+>> - unifying the buffer structs for M and non-M formats,
+>> - ability to import different FDs with offsets for non-M formats if the
+>> layout matches driver expectations, etc.
+>>
+>> Besides that, I would be interested in the general idea on handling
+>> complex cameras in the Linux kernel in spite of the remaining V4L2
+>> limitations, e.g.
+>> - combinatorial explosion of /dev/video nodes,
+>> - significant ioctl overhead,
+>> - huge amount of historical legacy making the driver and userspace
+>> implementations overly difficult and prone to repetitive mistakes,
+>> - the above also limiting the flexibility of the API - formats, frame
+>> rates, etc. set using distinct APIs, not covered by Request API, with
+>> non-failure "negotiation hell", etc.
+>> - lack of fences, etc.
+>>
+>> Jacopo:
+>>
+>> Apart from discussing libcamera and hope we could kickstart a review of
+>> its API, I would like to re-start discussing multiplexed stream support,
+>> but that would require Sakari to be there, something I'm not certain
+>> about. Sakari?
+>>
+>> Alexandre:
+>>
+>> If Collabora/Bootlin is there, I'd certainly want to discuss stateless
+>> codecs, in particular m2m codec helpers and finalize the specification
+>> in general.
+>>
+>> Regards,
+>>
+>> 	Hans
+>>
+> 
+
