@@ -2,142 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A44EA5FF5
-	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2019 05:59:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DB62A6003
+	for <lists+linux-media@lfdr.de>; Tue,  3 Sep 2019 06:16:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725848AbfICD7Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Sep 2019 23:59:16 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:36043 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725821AbfICD7Q (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 2 Sep 2019 23:59:16 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:adf8:ed2:80f:eb1a])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id 4zyKiEFRFxNy04zyLibY8R; Tue, 03 Sep 2019 05:59:13 +0200
-Message-ID: <a57dda1c01e4961d4c27d9b70723e052@smtp-cloud7.xs4all.net>
-Date:   Tue, 03 Sep 2019 05:59:12 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfJjF4JbcZES1hgLEVkh0MaWm8z5Rnht/Kw1EgNlWJlVFFcPtPfK6VV8ZOM87o9rEwimABCBgKpgiufJ4nqFZ1o/KpTtYyXUhdWsF7zA1HdkTLTYsdx9S
- at3eug7Ft40wvMv/9b5bku/XK7qYwf7Ba8xXotuQBNAv1HBNmg7qlrSEkmj94ir+7JvUH2XzUNuC3ruVFTXTnBKrqupWgznHii5tr2VI+JiMLpXE6GpGGiuF
+        id S1726062AbfICEQf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Sep 2019 00:16:35 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:54198 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725821AbfICEQf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Sep 2019 00:16:35 -0400
+Received: by mail-wm1-f66.google.com with SMTP id q19so7620806wmc.3
+        for <linux-media@vger.kernel.org>; Mon, 02 Sep 2019 21:16:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=QBFJQPZLHDeB/fzIsxa0uFNSv6BSbmPLh62kwCUCBfo=;
+        b=U8tbYdnOBD/ItyiHvZXg6b3W7dnshSq+kl5i1xtT94GEaH2BwJ5hO8AtPX40CvDwoB
+         3j+8A9ZB5VmkyiqvQowwn4GUGQ5A9pJzHgsBuhdqi3GwlwYJX95xhjkzSL76wD+L03YN
+         V1jnLQodRjVJ2dsdTAMZQjLnXxsIyOG9z/fRbDGb14300Jm+f37wpm0PlGK6gfOl6QtZ
+         Vi45sFTbiL2Aqi/Dtb+FEh2qMMqUIQ0Y6X2NJnSQ3lgs3c3YJhANiRpUh1kSb0u0ZGbB
+         H4omAfqgDYWFwQQTxvh4Mq+ehx7Hrc63WtoDmNOv9qsbpEjKjkVwnd95+YzFFfepn8SK
+         dFJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=QBFJQPZLHDeB/fzIsxa0uFNSv6BSbmPLh62kwCUCBfo=;
+        b=OXnNEtYcKvwqXuQzB97LnYMBOf6fhLn2MlSaOUS73KgMYQUu+pj0ZLPh3rcFZ61gUm
+         grKbdYz1Fqpld9CWdDnlTAPqfj24GQBi8+DFTsoG2MnE7z+hjSSLlkGZ2t1zq4Bfca54
+         QCyL3O2MLXGQzw91vWtm/aMeMNEOJ17a8Iw4OzyoBottiUXD/ynKk9iG4NZ1hc5byA3d
+         0Zr395XXFA+5cznHLYceGM7piyXDktfvkEmCUakMe2SuBolWB3Pj9TS2Sv0JnJooIoAP
+         jwDJNFtpAw5SZyZLyo0+G42Sox/6SouXAkjLpX8FR+YynhlwQEmGK0CDRZXshGWLjIja
+         jXsw==
+X-Gm-Message-State: APjAAAVNZj0wtXjplT+n/ogCzzoZx1RaepzBbwEKyZMxHYNIa9mdwcym
+        O/25EMkHI9D8nSRgKr3zGWrfMp8GwZ8N4HM9gNrw5w==
+X-Google-Smtp-Source: APXvYqwkkWASIuZ9rqbGWQ6EIkdHyntAS3XW8S8fG1AsSuJcf/ixmXfkmD9Mgl1gndozyOeR3g15HMMDnyutfjiplv8=
+X-Received: by 2002:a1c:4b14:: with SMTP id y20mr7082577wma.10.1567484193015;
+ Mon, 02 Sep 2019 21:16:33 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190827092339.8858-1-jacopo@jmondi.org> <20190827092339.8858-4-jacopo@jmondi.org>
+ <20190827125132.GU5054@pendragon.ideasonboard.com> <20190902112049.uwnawj5rm3tk4eqe@uno.localdomain>
+ <20190902164315.GE12197@pendragon.ideasonboard.com>
+In-Reply-To: <20190902164315.GE12197@pendragon.ideasonboard.com>
+From:   Tomasz Figa <tfiga@google.com>
+Date:   Tue, 3 Sep 2019 13:16:21 +0900
+Message-ID: <CAAFQd5CTn_6gDZL+kxN=112JW1tRSXo2PG1-twgnYycb0uGPYA@mail.gmail.com>
+Subject: Re: [PATCH v2 03/10] media: v4l2-ctrl: Document V4L2_CID_CAMERA_SENSOR_ROTATION
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
+        <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Tue, Sep 3, 2019 at 1:43 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Jacopo,
+>
+> On Mon, Sep 02, 2019 at 01:20:49PM +0200, Jacopo Mondi wrote:
+> > On Tue, Aug 27, 2019 at 03:51:32PM +0300, Laurent Pinchart wrote:
+> > > On Tue, Aug 27, 2019 at 11:23:29AM +0200, Jacopo Mondi wrote:
+> > >> Add documentation for the V4L2_CID_CAMERA_SENSOR_ROTATION camera
+> > >> control. The newly added read-only control reports the camera device
+> > >> mounting rotation.
+> > >>
+> > >> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > >> ---
+> > >>  Documentation/media/uapi/v4l/ext-ctrls-camera.rst | 9 +++++++++
+> > >>  1 file changed, 9 insertions(+)
+> > >>
+> > >> diff --git a/Documentation/media/uapi/v4l/ext-ctrls-camera.rst b/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
+> > >> index ecf151f3f0f4..03d1c23d18f7 100644
+> > >> --- a/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
+> > >> +++ b/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
+> > >> @@ -544,6 +544,15 @@ enum v4l2_scene_mode -
+> > >>
+> > >>
+> > >>
+> > >> +``V4L2_CID_CAMERA_SENSOR_ROTATION (integer)``
+> > >> +    This read-only control describes the camera sensor orientation by
+> > >> +    reporting its mounting rotation in respect to the device intended usage
+> > >> +    orientation, expressed in counter clockwise degrees. The control value is
+> > >
+> > > Counter clockwise relative to what ? :-)
+> >
+> > I think it is expressed in the previous line:
+> > "mounting rotation in respect to the device intended usage
+> > orientation, expressed in counter clockwise degrees"
+> >
+> > Would you prefer to have this re-phrased as:
+> >
+> > This read-only control describes the camera sensor orientation
+> > expressed as rotation in counter clockwise degrees in respect to
+> > the device intended usage orientation.
+> >
+> > ?
+>
+> Rotation is expressed in degrees around an axis, which is itself
+> expressed as a vector. It's pretty intuitive that the rotation vector
+> should be perpendicular to the plane of the sensor (which itself should
+> be parallel to the plane of the device side on which it is mounted, as
+> expressed by the location property), but there are still two possible
+> directions for the vector, facing in the same direction as the sensor or
+> the opposite direction. Unless there's a good reason to do so, I would
+> use the same direction as the one defined by Android. I don't know what
+> direction that is though :-)
 
-Results of the daily build of media_tree:
+I don't think Android exposes camera rotation to the layers above the
+HAL. The stream is expected to be pre-rotated by the HAL, taking into
+account the desired target rotation of the stream itself [1].
 
-date:			Tue Sep  3 05:00:10 CEST 2019
-media-tree git hash:	20a438d53fd9d12a894161bc56cbeab7a9993c39
-media_build git hash:	d75b29db1297d2475227cc8bada843542271e40d
-v4l-utils git hash:	32fd3b7e82e4a018e256ddfa30d4498b385c811d
-edid-decode git hash:	0932deee88928f110b5a74851c173ad895f75863
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 5624386a32db97445f4ab315a1954e6d3bcb0c47
-host hardware:		x86_64
-host os:		4.19.0-4-amd64
+[1] https://android.googlesource.com/platform/hardware/libhardware/+/master/include/hardware/camera3.h#1428
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: WARNINGS
-linux-3.10.108-x86_64: WARNINGS
-linux-3.11.10-i686: ERRORS
-linux-3.11.10-x86_64: ERRORS
-linux-3.12.74-i686: WARNINGS
-linux-3.12.74-x86_64: WARNINGS
-linux-3.13.11-i686: ERRORS
-linux-3.13.11-x86_64: ERRORS
-linux-3.14.79-i686: WARNINGS
-linux-3.14.79-x86_64: WARNINGS
-linux-3.15.10-i686: ERRORS
-linux-3.15.10-x86_64: ERRORS
-linux-3.16.63-i686: WARNINGS
-linux-3.16.63-x86_64: WARNINGS
-linux-3.17.8-i686: ERRORS
-linux-3.17.8-x86_64: ERRORS
-linux-3.18.136-i686: WARNINGS
-linux-3.18.136-x86_64: WARNINGS
-linux-3.19.8-i686: ERRORS
-linux-3.19.8-x86_64: ERRORS
-linux-4.0.9-i686: ERRORS
-linux-4.0.9-x86_64: ERRORS
-linux-4.1.52-i686: WARNINGS
-linux-4.1.52-x86_64: WARNINGS
-linux-4.2.8-i686: WARNINGS
-linux-4.2.8-x86_64: WARNINGS
-linux-4.3.6-i686: WARNINGS
-linux-4.3.6-x86_64: WARNINGS
-linux-4.4.167-i686: WARNINGS
-linux-4.4.167-x86_64: WARNINGS
-linux-4.5.7-i686: WARNINGS
-linux-4.5.7-x86_64: WARNINGS
-linux-4.6.7-i686: WARNINGS
-linux-4.6.7-x86_64: WARNINGS
-linux-4.7.10-i686: WARNINGS
-linux-4.7.10-x86_64: WARNINGS
-linux-4.8.17-i686: WARNINGS
-linux-4.8.17-x86_64: WARNINGS
-linux-4.9.162-i686: WARNINGS
-linux-4.9.162-x86_64: WARNINGS
-linux-4.10.17-i686: WARNINGS
-linux-4.10.17-x86_64: WARNINGS
-linux-4.11.12-i686: WARNINGS
-linux-4.11.12-x86_64: WARNINGS
-linux-4.12.14-i686: WARNINGS
-linux-4.12.14-x86_64: WARNINGS
-linux-4.13.16-i686: WARNINGS
-linux-4.13.16-x86_64: WARNINGS
-linux-4.14.105-i686: WARNINGS
-linux-4.14.105-x86_64: WARNINGS
-linux-4.15.18-i686: WARNINGS
-linux-4.15.18-x86_64: WARNINGS
-linux-4.16.18-i686: WARNINGS
-linux-4.16.18-x86_64: WARNINGS
-linux-4.17.19-i686: WARNINGS
-linux-4.17.19-x86_64: WARNINGS
-linux-4.18.20-i686: ERRORS
-linux-4.18.20-x86_64: ERRORS
-linux-4.19.28-i686: ERRORS
-linux-4.19.28-x86_64: ERRORS
-linux-4.20.15-i686: ERRORS
-linux-4.20.15-x86_64: ERRORS
-linux-5.0.15-i686: ERRORS
-linux-5.0.15-x86_64: ERRORS
-linux-5.1.1-i686: ERRORS
-linux-5.1.1-x86_64: ERRORS
-linux-5.2.1-i686: ERRORS
-linux-5.2.1-x86_64: ERRORS
-linux-5.3-rc1-i686: ERRORS
-linux-5.3-rc1-x86_64: ERRORS
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2327, Succeeded: 2327, Failed: 0, Warnings: 0
-sparse: OK
-smatch: OK
+That said, Android seems to use "degrees counterclockwise" for rotations.
 
-Logs weren't copied as they are too large (57232 kB)
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Best regards,
+Tomasz
