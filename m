@@ -2,122 +2,179 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 75104A96AF
-	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2019 00:47:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17028A96EE
+	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2019 01:14:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730059AbfIDWrt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Sep 2019 18:47:49 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:41155 "EHLO
-        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728008AbfIDWrt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Sep 2019 18:47:49 -0400
-Received: by mail-qt1-f195.google.com with SMTP id j10so428559qtp.8;
-        Wed, 04 Sep 2019 15:47:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=CKyHosvEnb91lwk3iCp8C93MqyR+kvMHU7ULcRus+7I=;
-        b=qx5Z70JbBnAHWChlfXFE5EcvHvuUeZjp0pNuSkBiAK4wxUKeeemJ240MWaAqAXJup6
-         L/6DwaJW80L776VdT8vX/kDYIxrwUBFUh47iJCETmYZBlzVeRhrRF2qfTKQUfNg9CwsU
-         bHCYMewVtXjnvT5I2plewmkYMEK4oLVLz2poKjWltxRLermJ/7BHUoF8eMhgUEeRpUss
-         e3g1nDrySwS29cKYneZUgpPDWvio7J0SPrXVpCLqxLX7/xfeEgG309tTWjTXe1hlNTls
-         8CTgWlig0f9VUs7K3VJKAG3bJ7HOJI/E2R/FiF4l8GPGV1otIkvvq75A/CxAALguD7PZ
-         /PPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=CKyHosvEnb91lwk3iCp8C93MqyR+kvMHU7ULcRus+7I=;
-        b=CJt22H3pwhyo3+eC8gEw7GqaEUJAtm8T2fuEWueC9dxLsCWf8coIfozplxABj01e0k
-         h9NeQIOOjM3sJNdEsfmRUsfhKkLioe+2TiauYGA1HF31epwm2zSPJuuZqOVZYusmOvzo
-         ZXjDTBldFMJjkP6gLqwDAmuUJ3nPLNL43Knqm6QQQkt1XA8U2HwyilaXp6QVvzUAU6sd
-         wavdilUkJDlxpYZTRIG6JlLYZX2thiAd+cVaHzkaYzHgQ4CbCad8pwtw05P2jIiqh51X
-         NwyduhlsfPFMSyDhqpgGUSdpfvqPiOQR6bYB25s8066lGo94uaO8o3VfbpaDbovA05iJ
-         EMnQ==
-X-Gm-Message-State: APjAAAWrUjCSdvCpQQXPJXkEhP1yK4Z0VdMBbOxR26/YSY0G3a/vpKK2
-        3xXAAY/F1o19IZKg9dsjCTxTxOvpNsbT5/+Oj6E=
-X-Google-Smtp-Source: APXvYqxHz3NP2NmOFPlG2V4YfgrtnS7CaVm8XSVUZfgCbTTa3LE71JKOBFGtZLN4+eA+Rjux7wZV78pzYvlgwg0s/qE=
-X-Received: by 2002:ac8:51c4:: with SMTP id d4mr543637qtn.17.1567637268581;
- Wed, 04 Sep 2019 15:47:48 -0700 (PDT)
+        id S1730390AbfIDXOl convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Wed, 4 Sep 2019 19:14:41 -0400
+Received: from mailoutvs5.siol.net ([185.57.226.196]:54364 "EHLO mail.siol.net"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728286AbfIDXOl (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 4 Sep 2019 19:14:41 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.siol.net (Postfix) with ESMTP id D7476520A46;
+        Thu,  5 Sep 2019 01:14:37 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at psrvmta10.zcs-production.pri
+Received: from mail.siol.net ([127.0.0.1])
+        by localhost (psrvmta10.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id FM58iBnMidPl; Thu,  5 Sep 2019 01:14:37 +0200 (CEST)
+Received: from mail.siol.net (localhost [127.0.0.1])
+        by mail.siol.net (Postfix) with ESMTPS id 38A985208D8;
+        Thu,  5 Sep 2019 01:14:37 +0200 (CEST)
+Received: from jernej-laptop.localnet (cpe-86-58-59-25.static.triera.net [86.58.59.25])
+        (Authenticated sender: jernej.skrabec@siol.net)
+        by mail.siol.net (Postfix) with ESMTPA id 76204520A32;
+        Thu,  5 Sep 2019 01:14:34 +0200 (CEST)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     mchehab@kernel.org, paul.kocialkowski@bootlin.com,
+        mripard@kernel.org, pawel@osciak.com, m.szyprowski@samsung.com,
+        kyungmin.park@samsung.com, tfiga@chromium.org, wens@csie.org,
+        acourbot@chromium.org, gregkh@linuxfoundation.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org,
+        ezequiel@collabora.com, jonas@kwiboo.se
+Subject: Re: [PATCH 7/8] media: cedrus: Add support for holding capture buffer
+Date:   Thu, 05 Sep 2019 01:14:34 +0200
+Message-ID: <2397760.v9PcElvEDa@jernej-laptop>
+In-Reply-To: <f105990c-e059-6bdd-433f-074388e3a2dc@xs4all.nl>
+References: <20190822194500.2071-1-jernej.skrabec@siol.net> <20190822194500.2071-8-jernej.skrabec@siol.net> <f105990c-e059-6bdd-433f-074388e3a2dc@xs4all.nl>
 MIME-Version: 1.0
-References: <20190904082232.GA171180@LGEARND20B15> <a9ca05ec-55a9-a58c-267a-334771a1480a@rasmusvillemoes.dk>
-In-Reply-To: <a9ca05ec-55a9-a58c-267a-334771a1480a@rasmusvillemoes.dk>
-From:   Austin Kim <austindh.kim@gmail.com>
-Date:   Thu, 5 Sep 2019 07:47:39 +0900
-Message-ID: <CADLLry6WYJRWz1mkgO-fvKeRmOhOJQ3S_hXH1sBW11TujT-a1g@mail.gmail.com>
-Subject: Re: [PATCH] media: meson: Add NULL check after the call to kmalloc()
-To:     Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc:     mchehab@kernel.org, khilman@baylibre.com, mjourdan@baylibre.com,
-        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
-        linux-amlogic@lists.infradead.org, devel@driverdev.osuosl.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: 8BIT
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-2019=EB=85=84 9=EC=9B=94 4=EC=9D=BC (=EC=88=98) =EC=98=A4=ED=9B=84 5:43, Ra=
-smus Villemoes <linux@rasmusvillemoes.dk>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=
-=B1:
->
-> On 04/09/2019 10.22, Austin Kim wrote:
-> > If the kmalloc() return NULL, the NULL pointer dereference will occur.
-> >       new_ts->ts =3D ts;
-> >
-> > Add exception check after the call to kmalloc() is made.
-> >
-> > Signed-off-by: Austin Kim <austindh.kim@gmail.com>
+Dne četrtek, 29. avgust 2019 ob 13:23:29 CEST je Hans Verkuil napisal(a):
+> On 8/22/19 9:44 PM, Jernej Skrabec wrote:
+> > When frame contains multiple slices and driver works in slice mode, it's
+> > more efficient to hold capture buffer in queue until all slices of a
+> > same frame are decoded.
+> > 
+> > Add support for that to Cedrus driver by exposing and implementing
+> > V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF capability.
+> > 
+> > Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
 > > ---
-> >  drivers/staging/media/meson/vdec/vdec_helpers.c | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> >
-> > diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.c b/drivers/=
-staging/media/meson/vdec/vdec_helpers.c
-> > index f16948b..e7e56d5 100644
-> > --- a/drivers/staging/media/meson/vdec/vdec_helpers.c
-> > +++ b/drivers/staging/media/meson/vdec/vdec_helpers.c
-> > @@ -206,6 +206,10 @@ void amvdec_add_ts_reorder(struct amvdec_session *=
-sess, u64 ts, u32 offset)
-> >       unsigned long flags;
-> >
-> >       new_ts =3D kmalloc(sizeof(*new_ts), GFP_KERNEL);
-> > +     if (!new_ts) {
-> > +             dev_err(sess->core->dev, "Failed to kmalloc()\n");
-> > +             return;
-> > +     }
-> >       new_ts->ts =3D ts;
-> >       new_ts->offset =3D offset;
->
-> No need to printk() on error, AFAIK the mm subsystem should already make
-> some noise if an allocation fails.
+> > 
+> >  drivers/staging/media/sunxi/cedrus/cedrus_dec.c   | 9 +++++++++
+> >  drivers/staging/media/sunxi/cedrus/cedrus_hw.c    | 8 +++++---
+> >  drivers/staging/media/sunxi/cedrus/cedrus_video.c | 1 +
+> >  3 files changed, 15 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> > b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c index
+> > d7b54accfe83..68462b99750e 100644
+> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> > @@ -31,6 +31,14 @@ void cedrus_device_run(void *priv)
+> > 
+> >  	run.src = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
+> >  	run.dst = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
+> > 
+> > +
+> > +	if (v4l2_m2m_release_capture_buf(run.src, run.dst)) {
+> > +		v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
+> > +		v4l2_m2m_buf_done(run.dst, VB2_BUF_STATE_DONE);
+> > +		run.dst = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
+> > +	}
+> > +	run.dst->is_held = run.src->flags & 
+V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF;
+> > +
+> > 
+> >  	run.first_slice =
+> >  	
+> >  		run.src->vb2_buf.timestamp != run.dst-
+>vb2_buf.timestamp;
+> > 
+> > @@ -46,6 +54,7 @@ void cedrus_device_run(void *priv)
+> > 
+> >  			V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS);
+> >  		
+> >  		run.mpeg2.quantization = cedrus_find_control_data(ctx,
+> >  		
+> >  			V4L2_CID_MPEG_VIDEO_MPEG2_QUANTIZATION);
+> > 
+> > +		run.dst->is_held = false;
+> > 
+> >  		break;
+> >  	
+> >  	case V4L2_PIX_FMT_H264_SLICE:
+> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> > b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c index
+> > a942cd9bed57..99fedec80224 100644
+> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> > @@ -122,7 +122,7 @@ static irqreturn_t cedrus_irq(int irq, void *data)
+> > 
+> >  	dev->dec_ops[ctx->current_codec]->irq_clear(ctx);
+> >  	
+> >  	src_buf = v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
+> > 
+> > -	dst_buf = v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
+> > +	dst_buf = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
+> > 
+> >  	if (!src_buf || !dst_buf) {
+> >  	
+> >  		v4l2_err(&dev->v4l2_dev,
+> > 
+> > @@ -136,8 +136,10 @@ static irqreturn_t cedrus_irq(int irq, void *data)
+> > 
+> >  		state = VB2_BUF_STATE_DONE;
+> >  	
+> >  	v4l2_m2m_buf_done(src_buf, state);
+> > 
+> > -	v4l2_m2m_buf_done(dst_buf, state);
+> > -
+> > +	if (!dst_buf->is_held) {
+> > +		v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
+> > +		v4l2_m2m_buf_done(dst_buf, state);
+> > +	}
+> > 
+> >  	v4l2_m2m_job_finish(ctx->dev->m2m_dev, ctx->fh.m2m_ctx);
+> >  	
+> >  	return IRQ_HANDLED;
+> > 
+> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> > b/drivers/staging/media/sunxi/cedrus/cedrus_video.c index
+> > eeee3efd247b..5153b2bba21e 100644
+> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> > @@ -515,6 +515,7 @@ int cedrus_queue_init(void *priv, struct vb2_queue
+> > *src_vq,> 
+> >  	src_vq->type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
+> >  	src_vq->io_modes = VB2_MMAP | VB2_DMABUF;
+> >  	src_vq->drv_priv = ctx;
+> > 
+> > +	src_vq->subsystem_flags = 
+VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF;
+> 
+> This isn't quite right: this flag should only be set for formats that
+> support slicing. So cedrus_s_fmt_vid_out() should set this for H264, but
+> clear it for MPEG2.
+> 
+> Looking at the cedrus code it seems that it does not set an initial default
+> output format after opening the video device. This seems wrong to me. If it
+> did set a default output format, then src_vq->subsystem_flags should set
+> this flag corresponding to the default output format.
 
-Thanks for valuable feedback.
-BTW, if the kmalloc return NULL, mm subsystem throws error log with 100%?
-If no, please share error signature of kernel.
+Ok, I'll base v2 series on your "cedrus: v4l2-compliance fixes", because it has 
+some useful changes for this case.
 
-> This is not a proper fix - you need to make the function return an error
-> (-ENOMEM) to let the caller know allocation failed, and allow that to
-> propagate the error. There's only one caller, which already seems
-> capable of returning errors (there's an -EAGAIN), so it shouldn't be
-> that hard - though of course one needs to undo what has been done so far.
->
-> Also, unrelated to the kmalloc() handling: amvdec_add_ts_reorder() could
-> be moved to esparser.c and made static, or at the very least the
-> EXPORT_SYMBOL can be removed since vdec_helpers.o is linked in to the
-> same module as the sole user. That probably goes for all the
-> EXPORT_SYMBOL(amvdec_*).
+Best regards,
+Jernej
 
-I agreed with your feedback.
-- On memory allocation failure, it should have returned (-ENOMEM)
-rather than 'return' statement.
-- The call to amvdec_add_ts_reorder() is only made by esparser_queue().
+> 
+> >  	src_vq->buf_struct_size = sizeof(struct cedrus_buffer);
+> >  	src_vq->min_buffers_needed = 1;
+> >  	src_vq->ops = &cedrus_qops;
+> 
+> Regards,
+> 
+> 	Hans
 
-Let me resend the patch if necessary.
 
-Thanks,
-Austin Kim
->
-> Rasmus
+
+
