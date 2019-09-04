@@ -2,69 +2,224 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D7A6BA7EC2
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2019 11:04:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 06C99A7F4E
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2019 11:26:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727741AbfIDJEN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Sep 2019 05:04:13 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:55389 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727348AbfIDJEN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 4 Sep 2019 05:04:13 -0400
-Received: from [IPv6:2001:420:44c1:2579:89b1:cff7:3961:1f3f] ([IPv6:2001:420:44c1:2579:89b1:cff7:3961:1f3f])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id 5RCyi5WhKMK4h5RD1iCmiJ; Wed, 04 Sep 2019 11:04:12 +0200
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Dan Carpenter <dan.carpenter@oracle.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH for v5.3] videobuf-core.c: poll_wait needs a non-NULL buf
- pointer
-Message-ID: <f60c12ef-5015-c6e1-ed1b-e9d8ca98a593@xs4all.nl>
-Date:   Wed, 4 Sep 2019 11:04:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.5.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+        id S1726943AbfIDJ0p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Sep 2019 05:26:45 -0400
+Received: from mailgw01.mediatek.com ([210.61.82.183]:7749 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725840AbfIDJ0p (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Sep 2019 05:26:45 -0400
+X-UUID: 5ecf207a7b104b0294e2bd35771b3ea3-20190904
+X-UUID: 5ecf207a7b104b0294e2bd35771b3ea3-20190904
+Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw01.mediatek.com
+        (envelope-from <jerry-ch.chen@mediatek.com>)
+        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+        with ESMTP id 174315045; Wed, 04 Sep 2019 17:26:36 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs02n1.mediatek.inc (172.21.101.77) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Wed, 4 Sep 2019 17:26:28 +0800
+Received: from [172.21.84.99] (172.21.84.99) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Wed, 4 Sep 2019 17:26:27 +0800
+Message-ID: <1567589188.22453.24.camel@mtksdccf07>
+Subject: Re: [RFC PATCH V2 4/4] platform: mtk-isp: Add Mediatek FD driver
+From:   Jerry-ch Chen <Jerry-ch.Chen@mediatek.com>
+To:     Tomasz Figa <tfiga@chromium.org>
+CC:     "yuzhao@chromium.org" <yuzhao@chromium.org>,
+        "zwisler@chromium.org" <zwisler@chromium.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Sean Cheng =?UTF-8?Q?=28=E9=84=AD=E6=98=87=E5=BC=98=29?= 
+        <Sean.Cheng@mediatek.com>,
+        "Sj Huang =?UTF-8?Q?=28=E9=BB=83=E4=BF=A1=E7=92=8B=29?=" 
+        <sj.huang@mediatek.com>,
+        Christie Yu =?UTF-8?Q?=28=E6=B8=B8=E9=9B=85=E6=83=A0=29?= 
+        <christie.yu@mediatek.com>,
+        Frederic Chen =?UTF-8?Q?=28=E9=99=B3=E4=BF=8A=E5=85=83=29?= 
+        <Frederic.Chen@mediatek.com>,
+        Jungo Lin =?UTF-8?Q?=28=E6=9E=97=E6=98=8E=E4=BF=8A=29?= 
+        <jungo.lin@mediatek.com>,
+        Rynn Wu =?UTF-8?Q?=28=E5=90=B3=E8=82=B2=E6=81=A9=29?= 
+        <Rynn.Wu@mediatek.com>,
+        "Po-Yang Huang =?UTF-8?Q?=28=E9=BB=83=E6=9F=8F=E9=99=BD=29?=" 
+        <po-yang.huang@mediatek.com>,
+        "shik@chromium.org" <shik@chromium.org>,
+        "suleiman@chromium.org" <suleiman@chromium.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "laurent.pinchart+renesas@ideasonboard.com" 
+        <laurent.pinchart+renesas@ideasonboard.com>,
+        "hans.verkuil@cisco.com" <hans.verkuil@cisco.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>
+Date:   Wed, 4 Sep 2019 17:26:28 +0800
+In-Reply-To: <CAAFQd5DWfEEiGthPi=qoxD-mpAWa68GOCi55mqpmagS-tsGYkA@mail.gmail.com>
+References: <1562661672-22439-1-git-send-email-Jerry-Ch.chen@mediatek.com>
+         <1562661672-22439-5-git-send-email-Jerry-Ch.chen@mediatek.com>
+         <20190802082815.GA203993@chromium.org>
+         <1566724680.20680.8.camel@mtksdccf07>
+         <CAAFQd5Dw+jaT-+LAUEVeB8W1zdnOgPw7u+aCfDWhYW1SfbzO8g@mail.gmail.com>
+         <1566957625.20680.33.camel@mtksdccf07>
+         <CAAFQd5D-Yg1FjUE_rwmqfS1gvfE0=MZ=r-ziueU_37-uo9QTbw@mail.gmail.com>
+         <1567424859.18318.32.camel@mtksdccf07>
+         <CAAFQd5AGgeFbto6V1KkL0dp1QPziOKV3pWQDU2OJ+S1QKvnBdg@mail.gmail.com>
+         <1567493081.18318.49.camel@mtksdccf07>
+         <CAAFQd5DWM=R7sFHYGhhR_rXrzgRnc4xtH_t8Pig-4tcP9KTSYg@mail.gmail.com>
+         <1567511169.18318.65.camel@mtksdccf07>
+         <CAAFQd5DiPcUxd+R-v_-BdRx+QqZ35Riii_jpgbqr5mc3BnQvDw@mail.gmail.com>
+         <1567568281.18318.80.camel@mtksdccf07>
+         <CAAFQd5CRC2cyV30B4Qv59HdrJ7Cpe_yK5aY-BecQQ3J3i0PtCQ@mail.gmail.com>
+         <1567577389.18318.100.camel@mtksdccf07>
+         <CAAFQd5AxTQPD+nP9CJs45QTzGHKssjv3vRtMqHONABfp12afYw@mail.gmail.com>
+         <1567584577.22453.11.camel@mtksdccf07>
+         <CAAFQd5Dzxy10g-MKHMnNbVO6kp9_L_jm1m+gtN+p=YF2LyBiag@mail.gmail.com>
+         <1567587708.22453.15.camel@mtksdccf07>
+         <CAAFQd5DWfEEiGthPi=qoxD-mpAWa68GOCi55mqpmagS-tsGYkA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.2.3-0ubuntu6 
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfIpGoDXWxuH+bY1piwdWUAFLi/m9avsHqBsiaVdRiljwRioAVjeOzR3fM+750hrko6Q5vDTmOp/edT60hJ2ahyXufGdFjv3EmU4vxAUD2lRmEI5CoGtV
- UoAwI/gLZZ7MMDJeJvsaSWy4Q06r5qemkGf3yXbd9HWurilUje5dQWjiDijLq8QJpE8N5wuK8cFkv+o4gr54dVQO1zxXRvPaHMNiOAfrSS2nar3oxVrJ0MSn
- EpDzWxW34q0FcaDJj3qzrVmMMPGMOmu/ghgUg4/59mBTLpHqqem43y4xdAw3CThO2tMwjaHI6DbDUw64GltgYARpU47uBEdYqRVeyfpI9YE=
+MIME-Version: 1.0
+X-MTK:  N
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-poll_wait uses &buf->done, but buf is NULL. Move the poll_wait to later
-in the function once buf is correctly set and only call it if it is
-non-NULL.
+Hi Tomasz,
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-Fixes: bb436cbeb918 ("media: videobuf: fix epoll() by calling poll_wait first")
-Cc: <stable@vger.kernel.org>      # for v5.1 and up
----
-diff --git a/drivers/media/v4l2-core/videobuf-core.c b/drivers/media/v4l2-core/videobuf-core.c
-index 7ef3e4d22bf6..939fc11cf080 100644
---- a/drivers/media/v4l2-core/videobuf-core.c
-+++ b/drivers/media/v4l2-core/videobuf-core.c
-@@ -1123,7 +1123,6 @@ __poll_t videobuf_poll_stream(struct file *file,
- 	struct videobuf_buffer *buf = NULL;
- 	__poll_t rc = 0;
+On Wed, 2019-09-04 at 17:03 +0800, Tomasz Figa wrote:
+> On Wed, Sep 4, 2019 at 6:02 PM Jerry-ch Chen <Jerry-ch.Chen@mediatek.com> wrote:
+> >
+> > Hi Tomasz,
+> >
+> > On Wed, 2019-09-04 at 16:25 +0800, Tomasz Figa wrote:
+> > > On Wed, Sep 4, 2019 at 5:09 PM Jerry-ch Chen <Jerry-ch.Chen@mediatek.com> wrote:
+> > > >
+> > > > Hi Tomasz,
+> > > >
+> > > > On Wed, 2019-09-04 at 14:34 +0800, Tomasz Figa wrote:
+> > > > > On Wed, Sep 4, 2019 at 3:09 PM Jerry-ch Chen <Jerry-ch.Chen@mediatek.com> wrote:
+> > > > > >
+> > > > > > Hi Tomasz,
+> > > > > >
+> > > > > > On Wed, 2019-09-04 at 12:15 +0800, Tomasz Figa wrote:
+> > > > > > > On Wed, Sep 4, 2019 at 12:38 PM Jerry-ch Chen
+> > > > > > > <Jerry-ch.Chen@mediatek.com> wrote:
+> > > > > > > >
+> > > > > > > > Hi Tomasz,
+> > > > > > > >
+> > > > > > > > On Tue, 2019-09-03 at 20:05 +0800, Tomasz Figa wrote:
+> > > > > > > > > On Tue, Sep 3, 2019 at 8:46 PM Jerry-ch Chen <Jerry-ch.Chen@mediatek.com> wrote:
+> > > > > > > > > >
+> > > > > > > > > > Hi Tomasz,
+> > > > > > > > > >
+> > > > > > > > > > On Tue, 2019-09-03 at 15:04 +0800, Tomasz Figa wrote:
+> > > > > > > > > > > On Tue, Sep 3, 2019 at 3:44 PM Jerry-ch Chen <Jerry-ch.Chen@mediatek.com> wrote:
+> > > > > > > > > > > >
+> > > > > > > > > > > > On Tue, 2019-09-03 at 13:19 +0800, Tomasz Figa wrote:
+> > > > > > > > > > > > > On Mon, Sep 2, 2019 at 8:47 PM Jerry-ch Chen <Jerry-ch.Chen@mediatek.com> wrote:
+> > > > > > > > > > > > > >
+> > > > > > > > > > > > > > Hi Tomasz,
+> > > > > > > > > > > > > >
+> > > > > > > > > > > > > > On Fri, 2019-08-30 at 16:33 +0800, Tomasz Figa wrote:
+> > > > > > > > > > > > > > > On Wed, Aug 28, 2019 at 11:00 AM Jerry-ch Chen
+> > > > > > > > > > > > > > > <Jerry-ch.Chen@mediatek.com> wrote:
+> > > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > > Hi Tomasz,
+> > > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > > On Mon, 2019-08-26 at 14:36 +0800, Tomasz Figa wrote:
+> > > > > > > > > > > > > > > > > Hi Jerry,
+> > > > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > > > On Sun, Aug 25, 2019 at 6:18 PM Jerry-ch Chen
+> > > > > > > > > > > > > > > > > <Jerry-ch.Chen@mediatek.com> wrote:
+> > > > > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > > > > Hi Tomasz,
+> > > > > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > > > > On Fri, 2019-08-02 at 16:28 +0800, Tomasz Figa wrote:
+> > > > > > > > > > > > > > > > > > > Hi Jerry,
+> > > > > > > > > > > > > > > > > > >
+> > > > > > > > > > > > > > > > > > > On Tue, Jul 09, 2019 at 04:41:12PM +0800, Jerry-ch Chen wrote:
+[snip]
+> > > > static void mtk_fd_vb2_stop_streaming(struct vb2_queue *vq)
+> > > > {
+> > > >         struct mtk_fd_ctx *ctx = vb2_get_drv_priv(vq);
+> > > >         struct mtk_fd_dev *fd = ctx->fd_dev;
+> > > >         struct vb2_v4l2_buffer *vb;
+> > > >         struct v4l2_m2m_ctx *m2m_ctx = ctx->fh.m2m_ctx;
+> > > >         struct v4l2_m2m_queue_ctx *queue_ctx;
+> > > >         u32 ret;
+> > > >
+> > > >         if (!fd->fd_irq_done.done)
+> > >
+> > > We shouldn't access internal fields of completion.
+> > >
+> > > >                 ret = wait_for_completion_timeout(&fd->fd_irq_done,
+> > > >                                                   msecs_to_jiffies(
+> > > >                                                         MTK_FD_HW_TIMEOUT));
+> > > >         queue_ctx = V4L2_TYPE_IS_OUTPUT(vq->type) ?
+> > > >                                         &m2m_ctx->out_q_ctx :
+> > > >                                         &m2m_ctx->cap_q_ctx;
+> > > >         while ((vb = v4l2_m2m_buf_remove(queue_ctx)))
+> > > >                 v4l2_m2m_buf_done(vb, VB2_BUF_STATE_ERROR);
+> > > >
+> > > >         if (vq->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
+> > > >                 mtk_fd_hw_disconnect(fd);
+> > > > }
+> > > >
+> > > > I've also tried to wait completion unconditionally for both queues and
+> > > > the second time will wait until timeout, as a result, it takes longer to
+> > > > swap the camera every time and close the camera app.
+> > >
+> > > I think it should work better if we call complete_all() instead of complete().
+> > >
+> > Thanks,
+> >
+> > I use complete_all(), and it works fine now.
+> >
+> > static void mtk_fd_vb2_stop_streaming(struct vb2_queue *vq)
+> > {
+> >         struct mtk_fd_ctx *ctx = vb2_get_drv_priv(vq);
+> >         struct mtk_fd_dev *fd = ctx->fd_dev;
+> >         struct vb2_v4l2_buffer *vb;
+> >         struct v4l2_m2m_ctx *m2m_ctx = ctx->fh.m2m_ctx;
+> >         struct v4l2_m2m_queue_ctx *queue_ctx;
+> >
+> >         wait_for_completion_timeout(&fd->fd_irq_done,
+> >                                           msecs_to_jiffies(MTK_FD_HW_TIMEOUT));
+> 
+> Shouldn't we still send some command to the hardware to stop? Like a
+> reset. Otherwise we don't know if it isn't still accessing the memory.
+> 
+I thought no more jobs will be enqueued here when stop_streaming so we
+don't need it.
+We still could send an ipi command to reset the HW, and wait for it's
+callback or we could set the register MTK_FD_REG_OFFSET_HW_ENABLE to
+zero to disable the HW.
 
--	poll_wait(file, &buf->done, wait);
- 	videobuf_queue_lock(q);
- 	if (q->streaming) {
- 		if (!list_empty(&q->stream))
-@@ -1143,7 +1142,9 @@ __poll_t videobuf_poll_stream(struct file *file,
- 		}
- 		buf = q->read_buf;
- 	}
--	if (!buf)
-+	if (buf)
-+		poll_wait(file, &buf->done, wait);
-+	else
- 		rc = EPOLLERR;
+Best regards,
+Jerry
 
- 	if (0 == rc) {
+> >         queue_ctx = V4L2_TYPE_IS_OUTPUT(vq->type) ?
+> >                                         &m2m_ctx->out_q_ctx :
+> >                                         &m2m_ctx->cap_q_ctx;
+> >         while ((vb = v4l2_m2m_buf_remove(queue_ctx)))
+> >                 v4l2_m2m_buf_done(vb, VB2_BUF_STATE_ERROR);
+> >
+> >         if (vq->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
+> >                 mtk_fd_hw_disconnect(fd);
+> > }
+> >
+> > Best regards,
+> > Jerry
+> >
+> > > Best regards,
+> > > Tomasz
+> >
+> >
+
+
