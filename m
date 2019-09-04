@@ -2,84 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BD4C9A8003
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2019 12:08:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 84F5BA8024
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2019 12:13:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727156AbfIDKIu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Sep 2019 06:08:50 -0400
-Received: from gofer.mess.org ([88.97.38.141]:54501 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726240AbfIDKIu (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 4 Sep 2019 06:08:50 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 920D060688; Wed,  4 Sep 2019 11:08:49 +0100 (BST)
-From:   Sean Young <sean@mess.org>
-To:     linux-media@vger.kernel.org
-Subject: [PATCH v4l-utils] keytable: ensure we have enough memlock pages
-Date:   Wed,  4 Sep 2019 11:08:49 +0100
-Message-Id: <20190904100849.21916-1-sean@mess.org>
-X-Mailer: git-send-email 2.11.0
+        id S1726495AbfIDKNf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Sep 2019 06:13:35 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:43565 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725840AbfIDKNf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Sep 2019 06:13:35 -0400
+Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1i5SIA-0000GT-8m; Wed, 04 Sep 2019 12:13:34 +0200
+Message-ID: <1567592011.3041.1.camel@pengutronix.de>
+Subject: Re: [PATCH for 5.4] media: hantro: Fix s_fmt for dynamic resolution
+ changes
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Ezequiel Garcia <ezequiel@collabora.com>,
+        linux-media@vger.kernel.org
+Cc:     kernel@collabora.com,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        linux-rockchip@lists.infradead.org,
+        Heiko Stuebner <heiko@sntech.de>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        fbuergisser@chromium.org, linux-kernel@vger.kernel.org
+Date:   Wed, 04 Sep 2019 12:13:31 +0200
+In-Reply-To: <20190903171256.25052-1-ezequiel@collabora.com>
+References: <20190903171256.25052-1-ezequiel@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.22.6-1+deb9u2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Since kernel v5.2, BPF maps and programs are charged against
-RLIMT_MEMLOCK. By default this limit is 64KB however all of these are
-already taken (16 patges) by the time we've booted on Fedora. This
-results in a permission denied.
+Hi Ezequiel,
 
-The error message is confusing since error happens when running as root.
-systemd works around this problem by setting setrlimit(RLIMIT_MEMLOCK)
-to 64MB. Do the the same.
+On Tue, 2019-09-03 at 14:12 -0300, Ezequiel Garcia wrote:
+> Commit 953aaa1492c53 ("media: rockchip/vpu: Prepare things to support decoders")
+> changed the conditions under S_FMT was allowed for OUTPUT
+> CAPTURE buffers.
+> 
+> However, and according to the mem-to-mem stateless decoder specification,
+> in order to support dynamic resolution changes, S_FMT should be allowed
+> even if OUTPUT buffers have been allocated.
+> 
+> Relax decoder S_FMT restrictions on OUTPUT buffers, allowing a resolution
+> modification, provided the pixel format stays the same.
+> 
+> Tested on RK3288 platforms using ChromiumOS Video Decode/Encode Accelerator Unittests.
+> 
+> Fixes: 953aaa1492c53 ("media: rockchip/vpu: Prepare things to support decoders")
+> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> ---
+>  drivers/staging/media/hantro/hantro_v4l2.c | 22 ++++++++++++++++------
+>  1 file changed, 16 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
+> index 3dae52abb96c..d48b548842cf 100644
+> --- a/drivers/staging/media/hantro/hantro_v4l2.c
+> +++ b/drivers/staging/media/hantro/hantro_v4l2.c
+> @@ -367,19 +367,22 @@ vidioc_s_fmt_out_mplane(struct file *file, void *priv, struct v4l2_format *f)
+>  {
+>  	struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
+>  	struct hantro_ctx *ctx = fh_to_ctx(priv);
+> +	struct vb2_queue *vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
+>  	const struct hantro_fmt *formats;
+>  	unsigned int num_fmts;
+> -	struct vb2_queue *vq;
+>  	int ret;
+>  
+> -	/* Change not allowed if queue is busy. */
+> -	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
+> -	if (vb2_is_busy(vq))
+> -		return -EBUSY;
+> -
+>  	if (!hantro_is_encoder_ctx(ctx)) {
+>  		struct vb2_queue *peer_vq;
+>  
+> +		/*
+> +		 * In other to support dynamic resolution change,
+> +		 * the decoder admits a resolution change, as long
+> +		 * as the pixelformat remains. Can't be done if streaming.
+> +		 */
+> +		if (vb2_is_streaming(vq) || (vb2_is_busy(vq) &&
+> +		    pix_mp->pixelformat != ctx->src_fmt.pixelformat))
 
-Signed-off-by: Sean Young <sean@mess.org>
----
- utils/keytable/keytable.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+Before using contents of the v4l2_format f for comparison, we should run
+vidioc_try_fmt_out_mplane over it. Also, besides pixelformat, sizeimage
+shouldn't change either, at least if this is a VB2_MMAP queue.
 
-diff --git a/utils/keytable/keytable.c b/utils/keytable/keytable.c
-index 70fbb822..986503a0 100644
---- a/utils/keytable/keytable.c
-+++ b/utils/keytable/keytable.c
-@@ -25,6 +25,7 @@
- #include <linux/lirc.h>
- #include <sys/ioctl.h>
- #include <sys/types.h>
-+#include <sys/resource.h>
- #include <sys/stat.h>
- #include <dirent.h>
- #include <argp.h>
-@@ -1698,9 +1699,14 @@ static void device_info(int fd, char *prepend)
- 
- #ifdef HAVE_BPF
- #define MAX_PROGS 64
-+// This value is what systemd sets PID 1 to, see:
-+// https://github.com/systemd/systemd/blob/master/src/basic/def.h#L60
-+#define HIGH_RLIMIT_MEMLOCK (1024ULL*1024ULL*64ULL)
-+
- static void attach_bpf(const char *lirc_name, const char *bpf_prog, struct protocol_param *param)
- {
- 	unsigned int features;
-+	struct rlimit rl;
- 	int fd;
- 
- 	fd = open(lirc_name, O_RDONLY);
-@@ -1721,6 +1727,14 @@ static void attach_bpf(const char *lirc_name, const char *bpf_prog, struct proto
- 		return;
- 	}
- 
-+	// BPF programs are charged against RLIMIT_MEMLOCK. We'll need pages
-+	// for the state, program text, and any raw IR. None of these are
-+	// particularly large. However, the kernel defaults to 64KB
-+	// memlock, which is only 16 pages which are mostly used by the
-+	// time we are trying to load our BPF program.
-+	rl.rlim_cur = rl.rlim_max = HIGH_RLIMIT_MEMLOCK;
-+	(void) setrlimit(RLIMIT_MEMLOCK, &rl);
-+
- 	load_bpf_file(bpf_prog, fd, param, rawtable);
- 	close(fd);
- }
--- 
-2.21.0
+> +			return -EBUSY;
+>  		/*
+>  		 * Since format change on the OUTPUT queue will reset
+>  		 * the CAPTURE queue, we can't allow doing so
+> @@ -389,6 +392,13 @@ vidioc_s_fmt_out_mplane(struct file *file, void *priv, struct v4l2_format *f)
+>  					  V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
+>  		if (vb2_is_busy(peer_vq))
+>  			return -EBUSY;
+> +	} else {
+> +		/*
+> +		 * The encoder doesn't admit a format change if
+> +		 * there are OUTPUT buffers allocated.
+> +		 */
+> +		if (vb2_is_busy(vq))
+> +			return -EBUSY;
+>  	}
+>  
+>  	ret = vidioc_try_fmt_out_mplane(file, priv, f);
 
+I think this needs to be moved up.
+
+regards
+Philipp
