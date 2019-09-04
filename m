@@ -2,155 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D5ACA95A6
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2019 23:54:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B0FCA9697
+	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2019 00:40:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730197AbfIDVyl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Sep 2019 17:54:41 -0400
-Received: from bin-mail-out-06.binero.net ([195.74.38.229]:62883 "EHLO
-        bin-mail-out-06.binero.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730257AbfIDVyk (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 4 Sep 2019 17:54:40 -0400
-X-Halon-ID: 8a232e0e-cf5e-11e9-837a-0050569116f7
-Authorized-sender: niklas@soderlund.pp.se
-Received: from bismarck.berto.se (unknown [84.172.84.18])
-        by bin-vsp-out-03.atm.binero.net (Halon) with ESMTPA
-        id 8a232e0e-cf5e-11e9-837a-0050569116f7;
-        Wed, 04 Sep 2019 23:54:16 +0200 (CEST)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v3 6/6] rcar-vin: Clean up how format is set on subdevice
-Date:   Wed,  4 Sep 2019 23:54:09 +0200
-Message-Id: <20190904215409.30136-7-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20190904215409.30136-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20190904215409.30136-1-niklas.soderlund+renesas@ragnatech.se>
+        id S1729877AbfIDWkE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Sep 2019 18:40:04 -0400
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:34568 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727722AbfIDWkD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Sep 2019 18:40:03 -0400
+Received: by mail-qt1-f195.google.com with SMTP id a13so464782qtj.1;
+        Wed, 04 Sep 2019 15:40:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=HnUeqUgvHmEsTezEaxVg2P6RFT85Zk7uuJIhbn7279Y=;
+        b=pHvO1Y9pNOVKwRDHUIFgh/rciGlFlYVWTkT0XBPv3nosE3PGDq9qMpuxybiiIAGv+e
+         u1DXeKgOt8lvb3xWzxLbn3rXD8Y543Cn6/f/S0fTlQJ6G6vexCPK09TX1fpmWfEW3VC8
+         1O0W2KL70cG2ClE3xVKoRW1RCvdz6CGu49Pfadneo99ROd27P3CrwHzIN1Jt/qytAZI0
+         yu4BMgLor1zn5Z75g9el0823gTTlROvmhmqDtDpQxLhA/g08zB7EKeAgCWJXY7qsw8YF
+         w1NOUlfLyLJ49HAykmfTN7k1d5tqxaRCuCVdRD7PEISkHjDWi3NxNA0FDU+aUcrH4K39
+         RKfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=HnUeqUgvHmEsTezEaxVg2P6RFT85Zk7uuJIhbn7279Y=;
+        b=GgMZ8czmYgoGpPrbAZ8e+r1Kbs45YJ/wfZpdhDSP0TP0U4xlF9esDrpI3q2ZoFOCUC
+         PVdwV0m5uZR25dNTONyNO2mbusV1NBCW/U6M0lI9s4LZ/aROvcQa16FMBNrLhbQNDoui
+         8dZClNb/c/V/xbBxHKkmwQEqErwc4H2itcFMVXGEpza6qU7EiA0ZwqzlGlCc6NOpZKGn
+         Cj1XvQpIdYvyzYkg8U8sxVFy9ONAHzXCc/H6puKwZQ5D/UPcsFCWaJNipKyH98PY/TAG
+         4KtCyfhaBJhYjK5VvdL2HMqOfE89oy4yptOwDzuLQ9IgUDFx7+vCVarDnDaVcU5DQ+d4
+         agfQ==
+X-Gm-Message-State: APjAAAVI/tzUl/MdZW5bDHOnRZViJ0AUnOvDXJoGGYD+07sSHooCXYZf
+        6aB+KfX2l6YUlYCkbOSn2PeTlhrgXcKtZXzD8YM=
+X-Google-Smtp-Source: APXvYqyH3l5wJ+MhaBXYfkRtMRlhZBfMa58sa4xh3qswk4Z/y/j0Dvr7JPVsQW+3Jh0f/2/JjsSBQjhIBEdTRPhtZ3M=
+X-Received: by 2002:a0c:fba4:: with SMTP id m4mr74237qvp.136.1567636802622;
+ Wed, 04 Sep 2019 15:40:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20190904082232.GA171180@LGEARND20B15> <20190904084525.GB4925@kroah.com>
+In-Reply-To: <20190904084525.GB4925@kroah.com>
+From:   Austin Kim <austindh.kim@gmail.com>
+Date:   Thu, 5 Sep 2019 07:39:53 +0900
+Message-ID: <CADLLry5WHSTyWzRa0bg0Dsnm8rO-cVF=i1CkzKN+DMXv9wq-Xw@mail.gmail.com>
+Subject: Re: [PATCH] media: meson: Add NULL check after the call to kmalloc()
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     mchehab@kernel.org, khilman@baylibre.com, mjourdan@baylibre.com,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
+        linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-With support for V4L2_FIELD_ALTERNATE added it's possible to clean up
-how formats are set on the subdevice. This makes the code easier to read
-as variable names now more clearly express their intent.
+2019=EB=85=84 9=EC=9B=94 4=EC=9D=BC (=EC=88=98) =EC=98=A4=ED=9B=84 5:45, Gr=
+eg KH <gregkh@linuxfoundation.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+>
+> On Wed, Sep 04, 2019 at 05:22:32PM +0900, Austin Kim wrote:
+> > If the kmalloc() return NULL, the NULL pointer dereference will occur.
+> >       new_ts->ts =3D ts;
+> >
+> > Add exception check after the call to kmalloc() is made.
+> >
+> > Signed-off-by: Austin Kim <austindh.kim@gmail.com>
+> > ---
+> >  drivers/staging/media/meson/vdec/vdec_helpers.c | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> >
+> > diff --git a/drivers/staging/media/meson/vdec/vdec_helpers.c b/drivers/=
+staging/media/meson/vdec/vdec_helpers.c
+> > index f16948b..e7e56d5 100644
+> > --- a/drivers/staging/media/meson/vdec/vdec_helpers.c
+> > +++ b/drivers/staging/media/meson/vdec/vdec_helpers.c
+> > @@ -206,6 +206,10 @@ void amvdec_add_ts_reorder(struct amvdec_session *=
+sess, u64 ts, u32 offset)
+> >       unsigned long flags;
+> >
+> >       new_ts =3D kmalloc(sizeof(*new_ts), GFP_KERNEL);
+> > +     if (!new_ts) {
+> > +             dev_err(sess->core->dev, "Failed to kmalloc()\n");
+>
+> Did you run this through checkpatch?  I think it will say that this line
+> is not ok.
+>
+> > +             return;
+>
+> Shouldn't you return an -ENOMEM error somehow?
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- drivers/media/platform/rcar-vin/rcar-v4l2.c | 42 ++++++++++-----------
- 1 file changed, 20 insertions(+), 22 deletions(-)
+I agreed with your feedback.
+Let me take a look at the code more and then resend the patch if necessary.
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-index a7ee44dd248ea0a1..431ee01b0ee33e84 100644
---- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-+++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-@@ -181,7 +181,7 @@ static int rvin_reset_format(struct rvin_dev *vin)
- 
- static int rvin_try_format(struct rvin_dev *vin, u32 which,
- 			   struct v4l2_pix_format *pix,
--			   struct v4l2_rect *crop, struct v4l2_rect *compose)
-+			   struct v4l2_rect *src_rect)
- {
- 	struct v4l2_subdev *sd = vin_to_source(vin);
- 	struct v4l2_subdev_pad_config *pad_cfg;
-@@ -200,13 +200,13 @@ static int rvin_try_format(struct rvin_dev *vin, u32 which,
- 	if (!rvin_format_from_pixel(vin, pix->pixelformat))
- 		pix->pixelformat = RVIN_DEFAULT_FORMAT;
- 
--	v4l2_fill_mbus_format(&format.format, pix, vin->mbus_code);
--
- 	/* Allow the video device to override field and to scale */
- 	field = pix->field;
- 	width = pix->width;
- 	height = pix->height;
- 
-+	v4l2_fill_mbus_format(&format.format, pix, vin->mbus_code);
-+
- 	ret = v4l2_subdev_call(sd, pad, set_fmt, pad_cfg, &format);
- 	if (ret < 0 && ret != -ENOIOCTLCMD)
- 		goto done;
-@@ -214,11 +214,11 @@ static int rvin_try_format(struct rvin_dev *vin, u32 which,
- 
- 	v4l2_fill_pix_format(pix, &format.format);
- 
--	if (crop) {
--		crop->top = 0;
--		crop->left = 0;
--		crop->width = pix->width;
--		crop->height = pix->height;
-+	if (src_rect) {
-+		src_rect->top = 0;
-+		src_rect->left = 0;
-+		src_rect->width = pix->width;
-+		src_rect->height = pix->height;
- 	}
- 
- 	if (field != V4L2_FIELD_ANY)
-@@ -228,13 +228,6 @@ static int rvin_try_format(struct rvin_dev *vin, u32 which,
- 	pix->height = height;
- 
- 	rvin_format_align(vin, pix);
--
--	if (compose) {
--		compose->top = 0;
--		compose->left = 0;
--		compose->width = pix->width;
--		compose->height = pix->height;
--	}
- done:
- 	v4l2_subdev_free_pad_config(pad_cfg);
- 
-@@ -258,29 +251,34 @@ static int rvin_try_fmt_vid_cap(struct file *file, void *priv,
- {
- 	struct rvin_dev *vin = video_drvdata(file);
- 
--	return rvin_try_format(vin, V4L2_SUBDEV_FORMAT_TRY, &f->fmt.pix, NULL,
--			       NULL);
-+	return rvin_try_format(vin, V4L2_SUBDEV_FORMAT_TRY, &f->fmt.pix, NULL);
- }
- 
- static int rvin_s_fmt_vid_cap(struct file *file, void *priv,
- 			      struct v4l2_format *f)
- {
- 	struct rvin_dev *vin = video_drvdata(file);
--	struct v4l2_rect crop, compose;
-+	struct v4l2_rect fmt_rect, src_rect;
- 	int ret;
- 
- 	if (vb2_is_busy(&vin->queue))
- 		return -EBUSY;
- 
- 	ret = rvin_try_format(vin, V4L2_SUBDEV_FORMAT_ACTIVE, &f->fmt.pix,
--			      &crop, &compose);
-+			      &src_rect);
- 	if (ret)
- 		return ret;
- 
- 	vin->format = f->fmt.pix;
--	v4l2_rect_map_inside(&vin->crop, &crop);
--	v4l2_rect_map_inside(&vin->compose, &compose);
--	vin->src_rect = crop;
-+
-+	fmt_rect.top = 0;
-+	fmt_rect.left = 0;
-+	fmt_rect.width = vin->format.width;
-+	fmt_rect.height = vin->format.height;
-+
-+	v4l2_rect_map_inside(&vin->crop, &src_rect);
-+	v4l2_rect_map_inside(&vin->compose, &fmt_rect);
-+	vin->src_rect = src_rect;
- 
- 	return 0;
- }
--- 
-2.23.0
-
+Thanks,
+Austin Kim
+>
+> thanks,
+>
+> greg k-h
