@@ -2,142 +2,348 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 40881A7994
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2019 06:11:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EFDCAA7998
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2019 06:15:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725911AbfIDELo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Sep 2019 00:11:44 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:48127 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725864AbfIDELo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 4 Sep 2019 00:11:44 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:e4d1:de39:eef6:3591])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id 5MduiLbtM50xT5MdviibK5; Wed, 04 Sep 2019 06:11:42 +0200
-Message-ID: <600ca152a024b9bc0bc32003a5b6e83c@smtp-cloud7.xs4all.net>
-Date:   Wed, 04 Sep 2019 06:11:38 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfHWhkWGi2XIF+f60A8tM4pRKQTax1GBLaDM/+l3bbsPvdkbH9Paz34NOIn96ZqmGMaJFZtchy5d95DJcwvwn6fnDr1/FtMGBXSlw1/7BkUTkjksWhQKL
- 8hy0W6/1nOAIcfM2bLwmjpeyZsQWSmvB8dlZUNMoUU5NTD+YlZIep7mBJfWivuM9AzqbWfx74DJNMDWsROokM76Bfqoei05a25Fah5RN04YdJ9803DV93Xte
+        id S1725965AbfIDEPX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Sep 2019 00:15:23 -0400
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:35604 "EHLO
+        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725562AbfIDEPW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Sep 2019 00:15:22 -0400
+Received: by mail-ed1-f68.google.com with SMTP id t50so21051081edd.2
+        for <linux-media@vger.kernel.org>; Tue, 03 Sep 2019 21:15:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=q5y8opnX2BroSXjeQvIIpMYdtoQXE/i3qwOw+SgBMWc=;
+        b=iYDRBf8+vO0Fifjo9hD461k+SooWnhbGjeBijRzwO6XmFh5LjRuA5meKxXnqc3+lPO
+         2bnXk3QfBL1s04WFgseoqXQzmYznzmlEnHDCV9l3HsYfJkOdIlfLSjj6Pga09gXpv1PK
+         73U8I3amxAhgx96sNaNy/UuCZIabceJbnVo+U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=q5y8opnX2BroSXjeQvIIpMYdtoQXE/i3qwOw+SgBMWc=;
+        b=tjCuh02gue+yH+gUYK5NUpUi4AL+kpqBdW/g9Rq2s4Nxnk5QuLmHf0T/fihuPWT6bQ
+         6GSBJF1BxwBFTmWfAjznuk0uvxtIJb/5uX0pO3XP2bvzppRb9cVrn5SAc8pRgunATei6
+         nie4sKw2c4KiSk5tPGU3IpLxih0flHDM9S2XM0B0AJqANCK3R6bLRM+O+CNFZwh8TUWE
+         37fdB8SU4nc8JJ8HV3+0XrRbOLdrzYVBvbDdIF98EpJg2i9dgbL3FgAtYtcpm5vPEaC7
+         /w/2BsTyxUmme1C7BL0uuyuqxyRCSpK3ucE6GthnkVarux596B+YIg81Ff+Km4b+Yg2F
+         x9UQ==
+X-Gm-Message-State: APjAAAWENwWPv/xU4Mb8f/3iGqtTprRQoZlH01CvatlBf7dB0NTNnZB5
+        Ra913uuZZ93Xb0YU6We6EGvStG0BvHoPxA==
+X-Google-Smtp-Source: APXvYqwu2IQJwsJy3JBTbAqepKmBCAzbyL9pvv6EQq8ElX5uqEPh1yyPPPt8HYkFHRr6fLgbYy2xFQ==
+X-Received: by 2002:a17:906:4a19:: with SMTP id w25mr10323846eju.239.1567570520221;
+        Tue, 03 Sep 2019 21:15:20 -0700 (PDT)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com. [209.85.221.52])
+        by smtp.gmail.com with ESMTPSA id ga12sm322788ejb.40.2019.09.03.21.15.18
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Sep 2019 21:15:18 -0700 (PDT)
+Received: by mail-wr1-f52.google.com with SMTP id u16so19628268wrr.0
+        for <linux-media@vger.kernel.org>; Tue, 03 Sep 2019 21:15:18 -0700 (PDT)
+X-Received: by 2002:a5d:6585:: with SMTP id q5mr14990028wru.162.1567570518232;
+ Tue, 03 Sep 2019 21:15:18 -0700 (PDT)
+MIME-Version: 1.0
+References: <1562661672-22439-1-git-send-email-Jerry-Ch.chen@mediatek.com>
+ <1562661672-22439-5-git-send-email-Jerry-Ch.chen@mediatek.com>
+ <20190802082815.GA203993@chromium.org> <1566724680.20680.8.camel@mtksdccf07>
+ <CAAFQd5Dw+jaT-+LAUEVeB8W1zdnOgPw7u+aCfDWhYW1SfbzO8g@mail.gmail.com>
+ <1566957625.20680.33.camel@mtksdccf07> <CAAFQd5D-Yg1FjUE_rwmqfS1gvfE0=MZ=r-ziueU_37-uo9QTbw@mail.gmail.com>
+ <1567424859.18318.32.camel@mtksdccf07> <CAAFQd5AGgeFbto6V1KkL0dp1QPziOKV3pWQDU2OJ+S1QKvnBdg@mail.gmail.com>
+ <1567493081.18318.49.camel@mtksdccf07> <CAAFQd5DWM=R7sFHYGhhR_rXrzgRnc4xtH_t8Pig-4tcP9KTSYg@mail.gmail.com>
+ <1567511169.18318.65.camel@mtksdccf07> <CAAFQd5DiPcUxd+R-v_-BdRx+QqZ35Riii_jpgbqr5mc3BnQvDw@mail.gmail.com>
+ <1567568281.18318.80.camel@mtksdccf07>
+In-Reply-To: <1567568281.18318.80.camel@mtksdccf07>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Wed, 4 Sep 2019 13:15:06 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5CRC2cyV30B4Qv59HdrJ7Cpe_yK5aY-BecQQ3J3i0PtCQ@mail.gmail.com>
+Message-ID: <CAAFQd5CRC2cyV30B4Qv59HdrJ7Cpe_yK5aY-BecQQ3J3i0PtCQ@mail.gmail.com>
+Subject: Re: [RFC PATCH V2 4/4] platform: mtk-isp: Add Mediatek FD driver
+To:     Jerry-ch Chen <Jerry-ch.Chen@mediatek.com>
+Cc:     "yuzhao@chromium.org" <yuzhao@chromium.org>,
+        "zwisler@chromium.org" <zwisler@chromium.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        =?UTF-8?B?U2VhbiBDaGVuZyAo6YSt5piH5byYKQ==?= 
+        <Sean.Cheng@mediatek.com>,
+        =?UTF-8?B?U2ogSHVhbmcgKOm7g+S/oeeSiyk=?= <sj.huang@mediatek.com>,
+        =?UTF-8?B?Q2hyaXN0aWUgWXUgKOa4uOmbheaDoCk=?= 
+        <christie.yu@mediatek.com>,
+        =?UTF-8?B?RnJlZGVyaWMgQ2hlbiAo6Zmz5L+K5YWDKQ==?= 
+        <Frederic.Chen@mediatek.com>,
+        =?UTF-8?B?SnVuZ28gTGluICjmnpfmmI7kv4op?= <jungo.lin@mediatek.com>,
+        =?UTF-8?B?UnlubiBXdSAo5ZCz6IKy5oGpKQ==?= <Rynn.Wu@mediatek.com>,
+        =?UTF-8?B?UG8tWWFuZyBIdWFuZyAo6buD5p+P6Zm9KQ==?= 
+        <po-yang.huang@mediatek.com>,
+        "shik@chromium.org" <shik@chromium.org>,
+        "suleiman@chromium.org" <suleiman@chromium.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "laurent.pinchart+renesas@ideasonboard.com" 
+        <laurent.pinchart+renesas@ideasonboard.com>,
+        "hans.verkuil@cisco.com" <hans.verkuil@cisco.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Wed, Sep 4, 2019 at 12:38 PM Jerry-ch Chen
+<Jerry-ch.Chen@mediatek.com> wrote:
+>
+> Hi Tomasz,
+>
+> On Tue, 2019-09-03 at 20:05 +0800, Tomasz Figa wrote:
+> > On Tue, Sep 3, 2019 at 8:46 PM Jerry-ch Chen <Jerry-ch.Chen@mediatek.com> wrote:
+> > >
+> > > Hi Tomasz,
+> > >
+> > > On Tue, 2019-09-03 at 15:04 +0800, Tomasz Figa wrote:
+> > > > On Tue, Sep 3, 2019 at 3:44 PM Jerry-ch Chen <Jerry-ch.Chen@mediatek.com> wrote:
+> > > > >
+> > > > > On Tue, 2019-09-03 at 13:19 +0800, Tomasz Figa wrote:
+> > > > > > On Mon, Sep 2, 2019 at 8:47 PM Jerry-ch Chen <Jerry-ch.Chen@mediatek.com> wrote:
+> > > > > > >
+> > > > > > > Hi Tomasz,
+> > > > > > >
+> > > > > > > On Fri, 2019-08-30 at 16:33 +0800, Tomasz Figa wrote:
+> > > > > > > > On Wed, Aug 28, 2019 at 11:00 AM Jerry-ch Chen
+> > > > > > > > <Jerry-ch.Chen@mediatek.com> wrote:
+> > > > > > > > >
+> > > > > > > > > Hi Tomasz,
+> > > > > > > > >
+> > > > > > > > > On Mon, 2019-08-26 at 14:36 +0800, Tomasz Figa wrote:
+> > > > > > > > > > Hi Jerry,
+> > > > > > > > > >
+> > > > > > > > > > On Sun, Aug 25, 2019 at 6:18 PM Jerry-ch Chen
+> > > > > > > > > > <Jerry-ch.Chen@mediatek.com> wrote:
+> > > > > > > > > > >
+> > > > > > > > > > > Hi Tomasz,
+> > > > > > > > > > >
+> > > > > > > > > > > On Fri, 2019-08-02 at 16:28 +0800, Tomasz Figa wrote:
+> > > > > > > > > > > > Hi Jerry,
+> > > > > > > > > > > >
+> > > > > > > > > > > > On Tue, Jul 09, 2019 at 04:41:12PM +0800, Jerry-ch Chen wrote:
+> [snip]
+> > > > > > > > > > [snip]
+> > > > > > > > > >
+> > > > > > > > > > > > > +static void mtk_fd_vb2_stop_streaming(struct vb2_queue *vq)
+> > > > > > > > > > > > > +{
+> > > > > > > > > > > > > +   struct mtk_fd_ctx *ctx = vb2_get_drv_priv(vq);
+> > > > > > > > > > > > > +   struct vb2_buffer *vb;
+> > > > > > > > > > > >
+> > > > > > > > > > > > How do we guarantee here that the hardware isn't still accessing the buffers
+> > > > > > > > > > > > removed below?
+> > > > > > > > > > > >
+> > > > > > > > > > > Maybe we can check the driver state flag and aborting the unfinished
+> > > > > > > > > > > jobs?
+> > > > > > > > > > > (fd_hw->state == FD_ENQ)
+> > > > > > > > > > >
+> > > > > > > > > >
+> > > > > > > > > > Yes, we need to either cancel or wait for the currently processing
+> > > > > > > > > > job. It depends on hardware capabilities, but cancelling is generally
+> > > > > > > > > > preferred for the lower latency.
+> > > > > > > > > >
+> > > > > > > > > Ok, it the state is ENQ, then we can disable the FD hw by controlling
+> > > > > > > > > the registers.
+> > > > > > > > >
+> > > > > > > > > for example:
+> > > > > > > > >         writel(0x0, fd->fd_base + FD_HW_ENABLE);
+> > > > > > > > >         writel(0x0, fd->fd_base + FD_INT_EN);
+> > > > > > > > >
+> > > > > > > >
+> > > > > > > > What's exactly the effect of writing 0 to FD_HW_ENABLE?
+> > > > > > > >
+> > > > > > > Sorry, my last reply didn't solve the question,
+> > > > > > > we should implement a mtk_fd_job_abort() for v4l2_m2m_ops().
+> > > > > > >
+> > > > > > > which is able to readl_poll_timeout_atomic()
+> > > > > > > and check the HW busy bits in the register FD_INT_EN;
+> > > > > > >
+> > > > > > > if they are not cleared until timeout, we could handle the last
+> > > > > > > processing job.
+> > > > > > > Otherwise, the FD irq handler should have handled the last processing
+> > > > > > > job and we could continue the stop_streaming().
+> > > > > > >
+> > > > > > > For job_abort():
+> > > > > > > static void mtk_fd_job_abort(void *priv)
+> > > > > > > {
+> > > > > > >         struct mtk_fd_ctx *ctx = priv;
+> > > > > > >         struct mtk_fd_dev *fd = ctx->fd_dev;
+> > > > > > >         u32 val;
+> > > > > > >         u32 ret;
+> > > > > > >
+> > > > > > >         ret = readl_poll_timeout_atomic(fd->fd_base + MTK_FD_REG_OFFSET_INT_EN,
+> > > > > > >                                         val,
+> > > > > > >                                         (val & MTK_FD_HW_BUSY_MASK) ==
+> > > > > > >                                         MTK_FD_HW_STATE_IS_BUSY,
+> > > > > > >                                         USEC_PER_MSEC, MTK_FD_STOP_HW_TIMEOUT);
+> > > > > >
+> > > > > > Hmm, would it be possible to avoid the busy wait by having a
+> > > > > > completion that could be signalled from the interrupt handler?
+> > > > > >
+> > > > > > Best regards,
+> > > > > > Tomasz
+> > > > >
+> > > > > I suppose that would be wakeup a wait queue in the interrupt handler,
+> > > > > the the wait_event_interrupt_timeout() will be used in here and system
+> > > > > suspend e.g. mtk_fd_suspend().
+> > > >
+> > > > Yes, that should work.
+> > > >
+> > > > > Or do you suggest to wait_event_interrupt_timeout() every frame in the
+> > > > > mtk_fd_ipi_handler()?
+> > > >
+> > > > Nope, we shouldn't need that.
+> > > >
+> > > > > I think maybe the readl_poll_timeout_atomic would be good enough.
+> > > > >
+> > > >
+> > > > Not really. Busy waiting should be avoided as much as possible. What's
+> > > > the point of entering suspend if you end up burning the power by
+> > > > spinning the CPU for some milliseconds?
+> > > >
+> > > Ok, I see, busy waiting is not a good idea, I will use the wait queue
+> > > instead. the job abort will refine as following:
+> > >
+> > > static void mtk_fd_job_abort(void *priv)
+> > > {
+> > >         struct mtk_fd_ctx *ctx = priv;
+> > >         struct mtk_fd_dev *fd = ctx->fd_dev;
+> > >         u32 ret;
+> > >
+> > >         ret = wait_event_interruptible_timeout
+> > >                 (fd->wq, (fd->fd_irq_result & MTK_FD_HW_IRQ_MASK),
+> > >                  usecs_to_jiffies(50000));
+> > >         if (ret)
+> > >                 mtk_fd_hw_job_finish(fd, VB2_BUF_STATE_ERROR);
+> > >         dev_dbg(fd->dev, "%s, ret:%d\n", __func__, ret);
+> > >
+> > >         fd->fd_irq_result = 0;
+> > > }
+> > >
+> > > static struct v4l2_m2m_ops fd_m2m_ops = {
+> > >         .device_run = mtk_fd_device_run,
+> > >         .job_abort = mtk_fd_job_abort,
+> >
+> > I'm not sure we should be using the functon above as the .job_abort
+> > callback. It's expected to abort the job, but we're just waiting for
+> > it to finish. I think we should just call mtk_fd_job_abort() manually
+> > from .stop_streaming.
+> >
+>
+> Ok, I will fix it.
+>
+> > > };
+> > >
+> > > and we could use it in suspend.
+> > > static int mtk_fd_suspend(struct device *dev)
+> > > {
+> > >         struct mtk_fd_dev *fd = dev_get_drvdata(dev);
+> > >
+> > >         if (pm_runtime_suspended(dev))
+> > >                 return 0;
+> > >
+> > >         if (fd->fd_stream_count)
+> > >                 mtk_fd_job_abort(fd->ctx);
+> > >
+> > >         /* suspend FD HW */
+> > >         writel(0x0, fd->fd_base + MTK_FD_REG_OFFSET_INT_EN);
+> > >         writel(0x0, fd->fd_base + MTK_FD_REG_OFFSET_HW_ENABLE);
+> > >         clk_disable_unprepare(fd->fd_clk);
+> > >         dev_dbg(dev, "%s:disable clock\n", __func__);
+> > >
+> > >         return 0;
+> > > }
+> > >
+> > > static irqreturn_t mtk_fd_irq(int irq, void *data)
+> > > {
+> > >         struct mtk_fd_dev *fd = (struct mtk_fd_dev *)data;
+> > >
+> > >         fd->fd_irq_result = readl(fd->fd_base + MTK_FD_REG_OFFSET_INT_VAL);
+> > >         wake_up_interruptible(&fd->wq);
+> >
+> > The wake up should be done at the very end of this function. Otherwise
+> > we end up with m2m framework racing with the mtk_fd_hw_job_finish()
+> > below.
+> >
+> > Also, I'd use a completion here rather than an open coded wait and
+> > wake-up. The driver could reinit_completion() before queuing a job to
+> > the hardware and the IRQ handler would complete(). There would be no
+> > need to store the IRQ flags in driver data anymore.
+> Ok, It will be refined as following:
+>
+> suspend and stop streaming will call mtk_fd_job_abort()
+>
+> static void mtk_fd_job_abort(struct mtk_fd_dev *fd)
+> {
+>         u32 ret;
+>
+>         ret = wait_for_completion_timeout(&fd->fd_irq_done,
+>                                           msecs_to_jiffies(MTK_FD_HW_TIMEOUT));
+>         if (ret)
 
-Results of the daily build of media_tree:
+For the _timeout variants, !ret means the timeout and ret > 0 means
+that the wait ended successfully before.
 
-date:			Wed Sep  4 05:00:10 CEST 2019
-media-tree git hash:	20a438d53fd9d12a894161bc56cbeab7a9993c39
-media_build git hash:	d75b29db1297d2475227cc8bada843542271e40d
-v4l-utils git hash:	8604e228e235961bcb9002d281af5cdf54e28982
-edid-decode git hash:	0932deee88928f110b5a74851c173ad895f75863
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 5624386a32db97445f4ab315a1954e6d3bcb0c47
-host hardware:		x86_64
-host os:		4.19.0-4-amd64
+Also please make sure that the timeout is big enough not to happen
+normally on a heavily loaded system. Something like 1 second should be
+good.
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: WARNINGS
-linux-3.10.108-x86_64: WARNINGS
-linux-3.11.10-i686: WARNINGS
-linux-3.11.10-x86_64: WARNINGS
-linux-3.12.74-i686: WARNINGS
-linux-3.12.74-x86_64: WARNINGS
-linux-3.13.11-i686: WARNINGS
-linux-3.13.11-x86_64: WARNINGS
-linux-3.14.79-i686: WARNINGS
-linux-3.14.79-x86_64: WARNINGS
-linux-3.15.10-i686: WARNINGS
-linux-3.15.10-x86_64: WARNINGS
-linux-3.16.63-i686: WARNINGS
-linux-3.16.63-x86_64: WARNINGS
-linux-3.17.8-i686: WARNINGS
-linux-3.17.8-x86_64: WARNINGS
-linux-3.18.136-i686: WARNINGS
-linux-3.18.136-x86_64: WARNINGS
-linux-3.19.8-i686: WARNINGS
-linux-3.19.8-x86_64: WARNINGS
-linux-4.0.9-i686: WARNINGS
-linux-4.0.9-x86_64: WARNINGS
-linux-4.1.52-i686: WARNINGS
-linux-4.1.52-x86_64: WARNINGS
-linux-4.2.8-i686: WARNINGS
-linux-4.2.8-x86_64: WARNINGS
-linux-4.3.6-i686: WARNINGS
-linux-4.3.6-x86_64: WARNINGS
-linux-4.4.167-i686: WARNINGS
-linux-4.4.167-x86_64: WARNINGS
-linux-4.5.7-i686: WARNINGS
-linux-4.5.7-x86_64: WARNINGS
-linux-4.6.7-i686: WARNINGS
-linux-4.6.7-x86_64: WARNINGS
-linux-4.7.10-i686: WARNINGS
-linux-4.7.10-x86_64: WARNINGS
-linux-4.8.17-i686: WARNINGS
-linux-4.8.17-x86_64: WARNINGS
-linux-4.9.162-i686: WARNINGS
-linux-4.9.162-x86_64: WARNINGS
-linux-4.10.17-i686: WARNINGS
-linux-4.10.17-x86_64: WARNINGS
-linux-4.11.12-i686: WARNINGS
-linux-4.11.12-x86_64: WARNINGS
-linux-4.12.14-i686: WARNINGS
-linux-4.12.14-x86_64: WARNINGS
-linux-4.13.16-i686: WARNINGS
-linux-4.13.16-x86_64: WARNINGS
-linux-4.14.105-i686: WARNINGS
-linux-4.14.105-x86_64: WARNINGS
-linux-4.15.18-i686: WARNINGS
-linux-4.15.18-x86_64: WARNINGS
-linux-4.16.18-i686: WARNINGS
-linux-4.16.18-x86_64: WARNINGS
-linux-4.17.19-i686: WARNINGS
-linux-4.17.19-x86_64: WARNINGS
-linux-4.18.20-i686: WARNINGS
-linux-4.18.20-x86_64: WARNINGS
-linux-4.19.28-i686: WARNINGS
-linux-4.19.28-x86_64: WARNINGS
-linux-4.20.15-i686: WARNINGS
-linux-4.20.15-x86_64: WARNINGS
-linux-5.0.15-i686: WARNINGS
-linux-5.0.15-x86_64: WARNINGS
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3-rc1-i686: OK
-linux-5.3-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2327, Succeeded: 2327, Failed: 0, Warnings: 0
-sparse: OK
-smatch: OK
+>                 mtk_fd_hw_job_finish(fd, VB2_BUF_STATE_ERROR);
+> }
+>
+> complete at irq handler
+>
+> static irqreturn_t mtk_fd_irq(int irq, void *data)
+> {
+>         struct mtk_fd_dev *fd = (struct mtk_fd_dev *)data;
+>
+>         /* must read this register otherwise HW will keep sending irq */
+>         readl(fd->fd_base + MTK_FD_REG_OFFSET_INT_VAL);
+>         fd->output->number = readl(fd->fd_base + MTK_FD_REG_OFFSET_RESULT);
+>         dev_dbg(fd->dev, "mtk_fd_face_num:%d\n", fd->output->number);
+>
+>         pm_runtime_put((fd->dev));
+>         mtk_fd_hw_job_finish(fd, VB2_BUF_STATE_DONE);
+>         complete(&fd->fd_irq_done);
+>         return IRQ_HANDLED;
+> }
+>
+> and reinit_completion before time before sending a job to HW
+>
+> static int mtk_fd_hw_job_exec(struct mtk_fd_dev *fd,
+>                               struct fd_enq_param *fd_param)
+> {
+>         struct ipi_message fd_ipi_msg;
+>         int ret;
+>
+>         pm_runtime_get_sync((fd->dev));
+>
+>         reinit_completion(&fd->fd_irq_done);
+>         fd_ipi_msg.cmd_id = MTK_FD_IPI_CMD_ENQUEUE;
+>         memcpy(&fd_ipi_msg.fd_enq_param, fd_param, sizeof(struct
+> fd_enq_param));
+>         ret = scp_ipi_send(fd->scp_pdev, SCP_IPI_FD_CMD, &fd_ipi_msg,
+>                            sizeof(fd_ipi_msg), MTK_FD_IPI_SEND_TIMEOUT);
+>         if (ret) {
+>                 pm_runtime_put((fd->dev));
+>                 mtk_fd_hw_job_finish(fd, VB2_BUF_STATE_ERROR);
+>                 return ret;
+>         }
+>         return 0;
+> }
 
-Logs weren't copied as they are too large (82760 kB)
+Looks good, thanks. Please also don't forget about init_completion()
+in driver probe.
 
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Best regards,
+Tomasz
