@@ -2,68 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 45FD1A911F
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2019 21:38:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 705F2A91D8
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2019 21:40:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390302AbfIDSNj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Sep 2019 14:13:39 -0400
-Received: from c.mail.sonic.net ([64.142.111.80]:60712 "EHLO c.mail.sonic.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390713AbfIDSNh (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 4 Sep 2019 14:13:37 -0400
-Received: from spc.noc.sonic.net (spc.noc.sonic.net [64.142.18.26])
-        (authenticated bits=0)
-        by c.mail.sonic.net (8.15.1/8.15.1) with ESMTPSA id x84IDapY001595
-        (version=TLSv1.2 cipher=AES128-SHA bits=128 verify=NOT);
-        Wed, 4 Sep 2019 11:13:36 -0700
-Subject: Re: hdpvr.ko kernel 5.3-rc6
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-References: <7530b881-c7d0-74fd-dfeb-5e001d8b2266@ponzo.net>
- <5a6ab1fe-9776-961d-970b-5b3dbea12da1@xs4all.nl>
- <839e8ded-dfe5-9fc9-1573-2d64aa547e1c@ponzo.net>
- <00b89589-5558-f8a1-3fb7-c631002e11bd@xs4all.nl>
- <152b2b02-67be-a5ba-6283-1b81d59c145f@xs4all.nl>
-From:   Scott Doty <scott@ponzo.net>
-Message-ID: <75f04282-7625-4c7e-7e94-c45195a152b5@ponzo.net>
-Date:   Wed, 4 Sep 2019 11:13:36 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1732628AbfIDSem (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Sep 2019 14:34:42 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:35500 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732542AbfIDSem (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Sep 2019 14:34:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=Ds49y17sqsey6bLG9HYNFHWOBPX9Xy1jtmWz58gVjoM=; b=MYPIDkyBrmmPMnRCXu2ztElLv
+        p9EEcCOyHBJhSQNiQCgxplTmjSCQ3mdzR/Vwz9lnX0DKBRgRUeD8LTALnaSTw6Gn6wXhLBJ/FM5qx
+        b5m91y5ULdMk2qTHnAaRMOYexXVk4R+b2mu3S58q/+yjszJeBS81OmxNcW/MK3qT/6KfrIdchlqSI
+        Arq5wLiE2yLjX4qNwnkuOM4O2/DRZHTnwiEsWCslkefov9UITf5z0C72LPqFC+mbPHcr8oilTKWNB
+        pZWqGmz/gpmuSMkggxr0GR+RT/s4Ud48ieW4OX0DN7TtgCmwZYJSvwHa5P0zVWZUYT4Mg899r/xDI
+        w3w3JtRJA==;
+Received: from 177.17.137.173.dynamic.adsl.gvt.net.br ([177.17.137.173] helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1i5a72-0007lW-IU; Wed, 04 Sep 2019 18:34:37 +0000
+Date:   Wed, 4 Sep 2019 15:34:32 -0300
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Nishad Kamdar <nishadkamdar@gmail.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Joe Perches <joe@perches.com>,
+        Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= 
+        <u.kleine-koenig@pengutronix.de>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: siano: Use the correct style for SPDX License
+ Identifier
+Message-ID: <20190904153432.7fb54f02@coco.lan>
+In-Reply-To: <20190831151147.GA7082@nishad>
+References: <20190831151147.GA7082@nishad>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <152b2b02-67be-a5ba-6283-1b81d59c145f@xs4all.nl>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Sonic-CAuth: UmFuZG9tSVYl5KSGIvo2VjFeanWvMVanfc3yn5d1Oq7HihE6qHc2rc0Ra3Qf1+wsZnglsUjUDTnhk067LV0tUpuNmY/zZ+Ls
-X-Sonic-ID: C;4JGltj/P6RGMRNJF5axgbQ== M;DNyxtj/P6RGMRNJF5axgbQ==
-X-Spam-Flag: No
-X-Sonic-Spam-Details: 0.0/5.0 by cerberusd
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Em Sat, 31 Aug 2019 20:41:51 +0530
+Nishad Kamdar <nishadkamdar@gmail.com> escreveu:
 
-On 9/3/19 1:34 AM, Hans Verkuil wrote:
->
-> Never mind, hdpvr uses read(), not streaming I/O. Of course this
-> doesn't work...
->
-> Just plain 'cat /dev/videoX >x.mpg' will do.
->
->
+> This patch corrects the SPDX License Identifier style
+> in header file related to Siano Mobile Silicon Digital TV.
+> For C header files Documentation/process/license-rules.rst
+> mandates C-like comments (opposed to C source files where
+> C++ style should be used)
+> 
+> Changes made by using a script provided by Joe Perches here:
+> https://lkml.org/lkml/2019/2/7/46
+> 
+> Suggested-by: Joe Perches <joe@perches.com>
+> Signed-off-by: Nishad Kamdar <nishadkamdar@gmail.com>
+> ---
+>  drivers/media/common/siano/smsir.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/common/siano/smsir.h b/drivers/media/common/siano/smsir.h
+> index b2c54c256e86..ada41d5c4e83 100644
+> --- a/drivers/media/common/siano/smsir.h
+> +++ b/drivers/media/common/siano/smsir.h
+> @@ -1,5 +1,5 @@
+> +/* SPDX-License-Identifier: GPL-2.0+ */
+>  /*
+> - * SPDX-License-Identifier: GPL-2.0+
+>   *
+>   * Siano Mobile Silicon, Inc.
+>   * MDTV receiver kernel modules.
 
-Okay, tried that, it produces data that vlc can then play back.
+What's wrong with that? The above is a perfectly fine SPDX header.
 
-So I think I'm running into a problem with vlc instead of hdpvr. It's 
-just weird that mplayer, vlc, and ffplay would all three be unable to 
-use it.
-
-I'm at work atm, will plug it back in when I get home and see for how 
-long it will read data with cat.
-
-Thank you for looking, now I feel a bit dumb.
-
-  -Scott
-
-
+Thanks,
+Mauro
