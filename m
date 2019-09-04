@@ -2,126 +2,215 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F5AEA8476
-	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2019 15:49:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7EB56A88D5
+	for <lists+linux-media@lfdr.de>; Wed,  4 Sep 2019 21:22:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727900AbfIDN21 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Sep 2019 09:28:27 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:34601 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725911AbfIDN21 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Sep 2019 09:28:27 -0400
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1i5VKj-0006iw-SU; Wed, 04 Sep 2019 15:28:25 +0200
-Message-ID: <1567603704.3041.10.camel@pengutronix.de>
-Subject: Re: [PATCH for 5.4] media: hantro: Fix s_fmt for dynamic resolution
- changes
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media@vger.kernel.org
-Cc:     kernel@collabora.com,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        linux-rockchip@lists.infradead.org,
-        Heiko Stuebner <heiko@sntech.de>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        fbuergisser@chromium.org, linux-kernel@vger.kernel.org
-Date:   Wed, 04 Sep 2019 15:28:24 +0200
-In-Reply-To: <37bbd1b8ee7bb82c75aefb675e0c3ddd955dde0b.camel@collabora.com>
-References: <20190903171256.25052-1-ezequiel@collabora.com>
-         <1567592011.3041.1.camel@pengutronix.de>
-         <37bbd1b8ee7bb82c75aefb675e0c3ddd955dde0b.camel@collabora.com>
+        id S1730606AbfIDOdh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Sep 2019 10:33:37 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:41766 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729809AbfIDOdh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Sep 2019 10:33:37 -0400
+Received: by mail-pg1-f196.google.com with SMTP id x15so11354322pgg.8;
+        Wed, 04 Sep 2019 07:33:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=DpaNQCLmwaNZZZkIvK2MRxioLu52IkmkkbV6j6lsSTI=;
+        b=QVcLTD8SqHO2544hfbjXafPfCHNEZpwx54u/NHKLL3RwoTLbeAc5WRg90T9BucvGkw
+         Z6IpK1fqesAiVvv3WYnGo3XvW7mKItcdFtUy/Bp4QODeexrlOeBRRkhuUAJ4czq3jN8y
+         kUi/Q+fstAnVpRXlUSj41qfGFraX2Q+7Uwt1dxioZzqKoFxtedfDSN6mQKlQi/hfTRDo
+         1myS+X5K21ZpE2a7Y7RyqRgkt91gc7/cgp8ewkCxV9Ij1udkymmbeNNvTEVufv4hePUw
+         pvh5MvLdiiq7aBb0LfsPF8Bryro3CI+4fNdhZMYLqTjXhialouq7RaUdyHuN+U7+3h5b
+         plCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=DpaNQCLmwaNZZZkIvK2MRxioLu52IkmkkbV6j6lsSTI=;
+        b=DGpps6+9mddSCoyq1CugLG9N93zfPPwpXsAAQlGFY7lgWEMOMyn2KIHWCCjqaKtJTq
+         Ec+gpRheMkwx/h+MYJ0sdk3E7aHrqJnzt6Dt26fgqRqAUlqX5PsVJCWPzYasLPCOFCxE
+         PFoJ0/jZUi5VtmREi/bBeCUH8eene/gGuWPAgkhlY060r0QzHKj3edoU3eTmOo8gHWX3
+         6S+hIU0XqR6uiwYzhZksRp9YAzr6f8lIMsMFrwDs/lD4vyQtHeiURrxEew/6KDwuNksG
+         j/D0ENUL3EcCfpgNeIx9ZdNNRXkV9V16+mtU0gu8RYKCHKGalrSODVO1NGxWMXpkqCsr
+         tMtg==
+X-Gm-Message-State: APjAAAWW3mCCN5nl03XLSsEZ49hC2B4pvFeCp4rCA70Vz5Mi/XjwRCD2
+        TegljLgG3aXYcGjtQRqpYcTo6qZe5lyz2R6AwHs=
+X-Google-Smtp-Source: APXvYqwTWnlU/s16wk/kQ7qUIsYPs2aUc2xvVztrYy95Dh8DHJPMltqAbOUq+3863Pi6+Ky/QZPyvefYIbOZMFIRgQw=
+X-Received: by 2002:a63:6eca:: with SMTP id j193mr34647329pgc.74.1567607616694;
+ Wed, 04 Sep 2019 07:33:36 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190708100641.2702-1-dongchun.zhu@mediatek.com> <20190708100641.2702-3-dongchun.zhu@mediatek.com>
+In-Reply-To: <20190708100641.2702-3-dongchun.zhu@mediatek.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 4 Sep 2019 17:33:25 +0300
+Message-ID: <CAHp75VcV_tFNMm=oRNVBtwn8orQGuokSgT6YDzNVpQ0vXw_Yag@mail.gmail.com>
+Subject: Re: [PATCH 2/2] media: i2c: dw9768: Add DW9768 VCM driver
+To:     dongchun.zhu@mediatek.com
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tomasz Figa <tfiga@chromium.org>, bingbu.cao@intel.com,
+        srv_heupstream@mediatek.com,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+        sj.huang@mediatek.com,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>, louis.kuo@mediatek.com,
+        shengnan.wang@mediatek.com
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.22.6-1+deb9u2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 2019-09-04 at 10:01 -0300, Ezequiel Garcia wrote:
-> On Wed, 2019-09-04 at 12:13 +0200, Philipp Zabel wrote:
-> > Hi Ezequiel,
-> > 
-> > On Tue, 2019-09-03 at 14:12 -0300, Ezequiel Garcia wrote:
-> > > Commit 953aaa1492c53 ("media: rockchip/vpu: Prepare things to support decoders")
-> > > changed the conditions under S_FMT was allowed for OUTPUT
-> > > CAPTURE buffers.
-> > > 
-> > > However, and according to the mem-to-mem stateless decoder specification,
-> > > in order to support dynamic resolution changes, S_FMT should be allowed
-> > > even if OUTPUT buffers have been allocated.
-> > > 
-> > > Relax decoder S_FMT restrictions on OUTPUT buffers, allowing a resolution
-> > > modification, provided the pixel format stays the same.
-> > > 
-> > > Tested on RK3288 platforms using ChromiumOS Video Decode/Encode Accelerator Unittests.
-> > > 
-> > > Fixes: 953aaa1492c53 ("media: rockchip/vpu: Prepare things to support decoders")
-> > > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > > ---
-> > >  drivers/staging/media/hantro/hantro_v4l2.c | 22 ++++++++++++++++------
-> > >  1 file changed, 16 insertions(+), 6 deletions(-)
-> > > 
-> > > diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
-> > > index 3dae52abb96c..d48b548842cf 100644
-> > > --- a/drivers/staging/media/hantro/hantro_v4l2.c
-> > > +++ b/drivers/staging/media/hantro/hantro_v4l2.c
-> > > @@ -367,19 +367,22 @@ vidioc_s_fmt_out_mplane(struct file *file, void *priv, struct v4l2_format *f)
-> > >  {
-> > >  	struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
-> > >  	struct hantro_ctx *ctx = fh_to_ctx(priv);
-> > > +	struct vb2_queue *vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
-> > >  	const struct hantro_fmt *formats;
-> > >  	unsigned int num_fmts;
-> > > -	struct vb2_queue *vq;
-> > >  	int ret;
-> > >  
-> > > -	/* Change not allowed if queue is busy. */
-> > > -	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
-> > > -	if (vb2_is_busy(vq))
-> > > -		return -EBUSY;
-> > > -
-> > >  	if (!hantro_is_encoder_ctx(ctx)) {
-> > >  		struct vb2_queue *peer_vq;
-> > >  
-> > > +		/*
-> > > +		 * In other to support dynamic resolution change,
-> > > +		 * the decoder admits a resolution change, as long
-> > > +		 * as the pixelformat remains. Can't be done if streaming.
-> > > +		 */
-> > > +		if (vb2_is_streaming(vq) || (vb2_is_busy(vq) &&
-> > > +		    pix_mp->pixelformat != ctx->src_fmt.pixelformat))
-> > 
-> > Before using contents of the v4l2_format f for comparison, we should run
-> > vidioc_try_fmt_out_mplane over it.
-> 
-> Right, good catch.
-> 
-> >  Also, besides pixelformat, sizeimage
-> > shouldn't change either, at least if this is a VB2_MMAP queue.
-> > 
-> 
-> This is the OUTPUT queue, so I don't see why the sizeimage
-> of the coded buffers should stay the same. Maybe I'm missing
-> something? 
+On Mon, Jul 8, 2019 at 5:13 PM <dongchun.zhu@mediatek.com> wrote:
+>
+> From: Dongchun Zhu <dongchun.zhu@mediatek.com>
+>
+> This patch adds a V4L2 sub-device driver for DW9768 lens voice coil,
+> and provides control to set the desired focus.
+>
+> The DW9807 is a 10 bit DAC from Dongwoon, designed for linear
+> control of voice coil motor.
 
-If the OUTPUT vb2_queue is busy, we already have some buffers of the old
-size allocated. We can't change their size dynamically with just
-VIDIOC_S_FMT.
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (c) 2018 MediaTek Inc.
+> + */
 
-Maybe this should correct sizeimage to the old size instead of returning
--EBUSY? Either way, if the old buffer size is too small to reasonably
-decode the new resolution, the OUTPUT buffers have to be reallocated.
+2019?
 
-regards
-Philipp
+> +       if (!client->adapter)
+> +               return -ENODEV;
+
+Is it ever possible?
+
+> +       w_buf = kzalloc(size, GFP_KERNEL);
+> +       if (!w_buf)
+> +               return -1;
+
+Error code?
+
+> +       do {
+> +               ret = i2c_transfer(client->adapter, &msg, 1);
+
+> +               if (ret != 1)
+> +                       dev_err(&client->dev, "write fail, ret:%d, retry:%d\n",
+> +                               ret, retry_cnt);
+
+This is noise. And better to use positive condition.
+
+> +               else
+> +                       break;
+
+> +               retry_cnt--;
+> +       } while (retry_cnt != 0);
+> +
+
+} while (--retry_cnt);
+
+> +       if (retry_cnt == 0)     {
+> +               dev_err(&client->dev, "i2c write fail(%d)\n", ret);
+> +               return -EIO;
+> +       }
+
+> +
+> +       kfree(w_buf);
+> +
+> +       return 0;
+> +}
+
+> +static int dw9768_power_off(struct dw9768_device *dw9768_dev, bool standby)
+> +{
+> +       struct i2c_client *client = v4l2_get_subdevdata(&dw9768_dev->sd);
+> +       int ret;
+> +
+> +       /*
+> +        * Go to standby first as real power off my be denied by the hardware
+> +        * (single power line control for both dw9768_dev and sensor).
+> +        */
+> +       if (standby) {
+> +               dw9768_dev->standby = true;
+> +               ret = dw9768_release(dw9768_dev);
+
+> +               if (ret)
+
+> +                       dev_err(&client->dev, "dw9768_release failed!\n");
+
+Is it fatal or not?
+
+> +       }
+
+> +       ret = regulator_disable(dw9768_dev->analog_regulator);
+> +       if (ret)
+> +               return ret;
+> +
+> +       return 0;
+
+return regulator_disable(...);
+
+> +}
+
+> +               dev_err(dw9768_dev->sd.dev, "%s fail error: 0x%x\n",
+> +                       __func__, hdl->error);
+
+Non-informative message.
+
+> +static int dw9768_probe(struct i2c_client *client)
+> +{
+> +       struct device *dev = &client->dev;
+> +       struct dw9768_device *dw9768_dev;
+> +       int rval;
+> +
+> +       dw9768_dev = devm_kzalloc(&client->dev, sizeof(*dw9768_dev),
+> +                                 GFP_KERNEL);
+> +       if (!dw9768_dev)
+> +               return -ENOMEM;
+> +
+> +       dw9768_dev->analog_regulator = devm_regulator_get(dev, "afvdd");
+> +       if (IS_ERR(dw9768_dev->analog_regulator)) {
+
+> +               dev_err(dev, "cannot get analog regulator\n");
+
+Would be noise in case of deferred probe.
+
+> +               return PTR_ERR(dw9768_dev->analog_regulator);
+> +       }
+
+> +err_cleanup:
+> +       mutex_destroy(&dw9768_dev->power_lock);
+> +       dw9768_subdev_cleanup(dw9768_dev);
+
+> +       dev_err(dev, "Probe failed: %d\n", rval);
+
+Noise. Device core has this already.
+
+> +       return rval;
+> +}
+
+> +static const struct i2c_device_id dw9768_id_table[] = {
+> +       { DW9768_NAME, 0 },
+> +       { { 0 } }
+
+{} is enough.
+
+> +};
+> +MODULE_DEVICE_TABLE(i2c, dw9768_id_table);
+> +
+> +static const struct of_device_id dw9768_of_table[] = {
+> +       { .compatible = "dongwoon,dw9768" },
+
+> +       { { 0 } }
+
+Ditto.
+
+> +};
+
+-- 
+With Best Regards,
+Andy Shevchenko
