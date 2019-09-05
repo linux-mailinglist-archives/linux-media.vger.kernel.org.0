@@ -2,86 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 47C02AA1D5
-	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2019 13:42:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D582AA1FE
+	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2019 13:49:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731734AbfIELmP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Sep 2019 07:42:15 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:47029 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730412AbfIELmP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Sep 2019 07:42:15 -0400
-Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.pengutronix.de.)
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1i5q9V-0004nt-4s; Thu, 05 Sep 2019 13:42:13 +0200
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     linux-media@vger.kernel.org
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        kernel@pengutronix.de
-Subject: [PATCH] media: uapi: h264: clarify num_ref_idx_l[01]_(default_)active fields
-Date:   Thu,  5 Sep 2019 13:42:10 +0200
-Message-Id: <20190905114210.9232-1-p.zabel@pengutronix.de>
-X-Mailer: git-send-email 2.20.1
+        id S1731556AbfIELtk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Sep 2019 07:49:40 -0400
+Received: from mail-io1-f67.google.com ([209.85.166.67]:45854 "EHLO
+        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730710AbfIELtk (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Sep 2019 07:49:40 -0400
+Received: by mail-io1-f67.google.com with SMTP id f12so4045496iog.12
+        for <linux-media@vger.kernel.org>; Thu, 05 Sep 2019 04:49:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dowhile0-org.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=07XjWPhuRTiUsIcEUDNjhZ6tpZVcaU36P56dDdLY0Pk=;
+        b=ZWbds64KtyFdL7uMmE4khRKKozzY0xYd0T6A3Tny14KpXb0FphtSgDL/hsu+4oIaZ7
+         qSWAaYJj1gdQT5zpEe/pMQ1r0B9jA4p99pYF5auuV0lsHaO1WK3LKAu+TBes+C46ZjPC
+         4hdMzofRj2D8m+e5jeUE+ZYSASN/gI5oNvI14A5OHw72kQKJT2reLGS+qQcYlpgQCRKO
+         /uIn0Ojh2PDfYaBUxLQsUSj2bvx2jrGXq1Ysne+FcaVejETBSGgcP9NUpHm7aZ6UsUZ5
+         Lnj1sBbCDxw63qe/KEUMBHboyeYAIVj+IDfyHG+BIihZMmXOUN18ScVwwWFEf79EkgC+
+         GbJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=07XjWPhuRTiUsIcEUDNjhZ6tpZVcaU36P56dDdLY0Pk=;
+        b=jkY5f2vgxcu3vqHqEKc/Qnud9UFU/pwnWDUG/mwThGFl3xNqgl3u2YiGyKPe78gOeI
+         v3v9J+27tY0iM5YTAsOStCHKmbb8D+FS1RyYu/ih+1zitXnli96/ToA9cFYyhOI5zxYE
+         BXDfcY1caK7iCQb6usKwkRzOxviepz0sRISu4JTlrEuq8p8CvapNcT9rdW8B9h/q4h9w
+         fD/l27XQ85dc1KYhOKOWm5BqnQmwzcY9NzAAH4swiEDPzpVkvKNJJscd0MSF/Z+2IJ/b
+         1Og80C8kX33NgdwE2N+vXftEbiXCEOApmG0BD3AzLfqSda1Ot3gWcsV2qFlpzFauppMP
+         5FFA==
+X-Gm-Message-State: APjAAAXNMdE1bWkE0lIYhQrnYBNzCztfJbvj6fO4c6g17+FaI9sGTHOJ
+        bkYHTNO5F8IlnkpIVUG305GL3Ri6hF9Ir+POMEWLcg==
+X-Google-Smtp-Source: APXvYqyiGxGtl4n/7uL2NBTrtUM5FvEKngetPUXADWAWtMsSh3HfkH+hQtGoOy7IvevSfM/V35Ie24aKLw08l2LlsN4=
+X-Received: by 2002:a5d:8f8d:: with SMTP id l13mr3726673iol.6.1567684179776;
+ Thu, 05 Sep 2019 04:49:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+References: <20190905072142.14606-1-dongchun.zhu@mediatek.com>
+ <20190905072142.14606-2-dongchun.zhu@mediatek.com> <20190905101406.GA2680@smile.fi.intel.com>
+ <20190905104829.GB5475@paasikivi.fi.intel.com> <20190905113509.GD2680@smile.fi.intel.com>
+In-Reply-To: <20190905113509.GD2680@smile.fi.intel.com>
+From:   Javier Martinez Canillas <javier@dowhile0.org>
+Date:   Thu, 5 Sep 2019 13:49:28 +0200
+Message-ID: <CABxcv=knP+-x0O-Ga-Dy8WTNovHk6GfX4ZEv0vVjnQvwchuVzg@mail.gmail.com>
+Subject: Re: [V2, 1/2] media: i2c: dw9768: Add DT support and MAINTAINERS entry
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        dongchun.zhu@mediatek.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>, drinkcat@chromium.org,
+        Tomasz Figa <tfiga@chromium.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        bingbu.cao@intel.com, srv_heupstream@mediatek.com,
+        linux-mediatek@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, sj.huang@mediatek.com,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        devicetree@vger.kernel.org, sam.hung@mediatek.com,
+        shengnan.wang@mediatek.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-To explain why num_ref_idx_active_override_flag is not part of the API,
-describe how the num_ref_idx_l[01]_active_minus1 fields and the
-num_ref_idx_l[01]_default_active_minus1 fields are used, depending on
-whether the decoder parses slice headers itself or not.
+On Thu, Sep 5, 2019 at 1:35 PM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> On Thu, Sep 05, 2019 at 01:48:30PM +0300, Sakari Ailus wrote:
+> > On Thu, Sep 05, 2019 at 01:14:06PM +0300, Andy Shevchenko wrote:
+> > > On Thu, Sep 05, 2019 at 03:21:41PM +0800, dongchun.zhu@mediatek.com wrote:
+> > > > From: Dongchun Zhu <dongchun.zhu@mediatek.com>
+> > > >
+> > > > This patch is to add the Devicetree binding documentation and
+> > > > MAINTAINERS entry for dw9768 actuator.
+> > > >
+> > > > Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
+> > > > ---
+> > > >  Documentation/devicetree/bindings/media/i2c/dongwoon,dw9768.txt | 9 +++++++++
+> > > >  MAINTAINERS                                                     | 7 +++++++
+> > >
+> > > This should be:
+> > > 1) two separate patches
+> >
+> > Why? The MAINTAINERS entry is usually added in the first patch needing it,
+> > isn't it?
+>
+> Bindings are required to be a separate patch.
+> Rob, is it still the case or am I mistaken?
+>
 
-Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
----
- Documentation/media/uapi/v4l/ext-ctrls-codec.rst | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+According to the rule 0 in [1] it should be a separate patch indeed
+and also use as subject "dt-bindings: <binding dir>: ..." which this
+patch also doesn't follow.
+So if I'm reading that document correctly, then I think the
+maintainers entry should be added in patch 2/2 along with the driver.
 
-diff --git a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-index bc5dd8e76567..b9834625a939 100644
---- a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-+++ b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-@@ -1630,10 +1630,10 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
-       -
-     * - __u8
-       - ``num_ref_idx_l0_default_active_minus1``
--      -
-+      - This field is only used by decoders that parse slices themselves.
-     * - __u8
-       - ``num_ref_idx_l1_default_active_minus1``
--      -
-+      - This field is only used by decoders that parse slices themselves.
-     * - __u8
-       - ``weighted_bipred_idc``
-       -
-@@ -1820,10 +1820,14 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
-       -
-     * - __u8
-       - ``num_ref_idx_l0_active_minus1``
--      -
-+      - This field is used by decoders that do not parse slices themselves.
-+        If num_ref_idx_active_override_flag is not set, this field must be
-+        set to the value of num_ref_idx_l0_default_active_minus1.
-     * - __u8
-       - ``num_ref_idx_l1_active_minus1``
--      -
-+      - This field is used by decoders that do not parse slices themselves.
-+        If num_ref_idx_active_override_flag is not set, this field must be
-+        set to the value of num_ref_idx_l1_default_active_minus1.
-     * - __u32
-       - ``slice_group_change_cycle``
-       -
--- 
-2.20.1
+[1]: https://www.kernel.org/doc/Documentation/devicetree/bindings/submitting-patches.txt
 
+Best regards,
+Javier
