@@ -2,14 +2,14 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A87BAAC94
-	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2019 21:58:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB67DAAC97
+	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2019 21:58:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391585AbfIET56 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Sep 2019 15:57:58 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:58448 "EHLO
+        id S2391588AbfIET57 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Sep 2019 15:57:59 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:58456 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388288AbfIET56 (ORCPT
+        with ESMTP id S2388596AbfIET56 (ORCPT
         <rfc822;linux-media@vger.kernel.org>); Thu, 5 Sep 2019 15:57:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
@@ -17,28 +17,37 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
         List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=Gd5Si23CQTkjXHrd1kfDMwHId0XN7lelZ5t8iFh3FtY=; b=BrtD79bFD5K3xtPjdEaW3pbgwz
-        gcZgG8ITxBxpgcjmB/Y3/Kyg5p59py1ioeRWv9FJS0ZHvNUFdVAnipHLDDqvVPEkuxWqda/y38XvD
-        1NkoueT79wVL4hjNE3RV4zL8do/GSBWYoKVOIV5QtR5Q51hGLQt2H5/qbfbSR5mo60n+zx945n8Gm
-        rYmViAH2APBfgLqGkwkkR6PqpUob4q4KESNWy/4c4XGGC8F7PeGZGPIH5pav/ySV1a9qsEDcpzXf5
-        J2WKY8+EXWFDTLHjjOqg/JRstUiusjYyDw4wwOzywWF0WOji5Odi5MTtOpWHl0pLP1SPGccDFVB4B
-        qajF/gGA==;
+        bh=btp8OApGG/3UFKYYTxwfb9hcf8w0H2Q+kH4+OloUAmQ=; b=Mo0egFykTZYm3jAW18Ny4uIu0/
+        os3uteHN//gSLMFWyQTtMjcyZ5rPrlhFwny4sc0p/KOc5OKVK5cpC/FcLnfh4Qj0SvCoeITdie5or
+        Kg7Hn7oKL4brXaLz8lZ1wKnTmD2tz0+LrKhJ7FxYw/0ZEcA71LbQMKKzithJbdTEDS2QYorlA2txU
+        dRtRNtkEYQ8jCsSdQMyzDeLq1qBEMf/ZtIYgJyq3rapo8xbxGDjabroWkeoe7MFz4F0AXxEF4r/A3
+        wVao44R7iYYkrP/Ho6FHoRu/0A0yC7Qqn/f8QFheY3WEJaBmI+1zogti22c2a5R3tYnRwYcuwXkak
+        sGLtS4Nw==;
 Received: from [177.159.253.249] (helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1i5xtF-0000IB-7r; Thu, 05 Sep 2019 19:57:57 +0000
+        id 1i5xtF-0000IF-Ce; Thu, 05 Sep 2019 19:57:57 +0000
 Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.1)
         (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1i5xtC-0005m4-Kz; Thu, 05 Sep 2019 16:57:54 -0300
+        id 1i5xtC-0005m8-Lu; Thu, 05 Sep 2019 16:57:54 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Joe Perches <joe@perches.com>, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH 1/6] docs: sphinx: add SPDX header for some sphinx extensions
-Date:   Thu,  5 Sep 2019 16:57:48 -0300
-Message-Id: <f6f8adf49ec7160211b6c37187126709705d662f.1567712829.git.mchehab+samsung@kernel.org>
+        Jonathan Corbet <corbet@lwn.net>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Armijn Hemel <armijn@tjaldur.nl>,
+        Allison Randal <allison@lohutok.net>,
+        Thomas Gleixner <tglx@linutronix.de>
+Subject: [PATCH 2/6] tools: perf: fix SPDX header in the light of PEP-263
+Date:   Thu,  5 Sep 2019 16:57:49 -0300
+Message-Id: <bd67fb319dcc2e7aabe853de5b37e97eda11c450.1567712829.git.mchehab+samsung@kernel.org>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1567712829.git.mchehab+samsung@kernel.org>
 References: <cover.1567712829.git.mchehab+samsung@kernel.org>
@@ -49,39 +58,45 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Those extensions are released under GPLv2, as stated at the
-:license: markup tag.
+As stated at PEP-263, the coding tag should be at the first or
+second line. On those two scripts, the tag is at the wrong line.
 
-Add the corresponding SPDX tags for such license.
+It also contains a separate e-macs line to tell it to consider
+the file as a python one. Merge this with the encoding tag,
+using the same coding line that we're using on other python files.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- Documentation/sphinx/kernel_include.py | 1 +
- Documentation/sphinx/rstFlatTable.py   | 1 +
- 2 files changed, 2 insertions(+)
+ tools/perf/python/tracepoint.py | 3 +--
+ tools/perf/python/twatch.py     | 3 +--
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/sphinx/kernel_include.py b/Documentation/sphinx/kernel_include.py
-index f523aa68a36b..7aaea4e31f78 100755
---- a/Documentation/sphinx/kernel_include.py
-+++ b/Documentation/sphinx/kernel_include.py
-@@ -1,5 +1,6 @@
- #!/usr/bin/env python3
- # -*- coding: utf-8; mode: python -*-
-+# SPDX-License-Identifier: GPL-2.0
- # pylint: disable=R0903, C0330, R0914, R0912, E0401
+diff --git a/tools/perf/python/tracepoint.py b/tools/perf/python/tracepoint.py
+index eb76f6516247..b7717b501fd8 100755
+--- a/tools/perf/python/tracepoint.py
++++ b/tools/perf/python/tracepoint.py
+@@ -1,7 +1,6 @@
+ #! /usr/bin/python
++# -*- coding: utf-8; mode: python -*-
+ # SPDX-License-Identifier: GPL-2.0
+-# -*- python -*-
+-# -*- coding: utf-8 -*-
  
- u"""
-diff --git a/Documentation/sphinx/rstFlatTable.py b/Documentation/sphinx/rstFlatTable.py
-index 2019a55f6b18..15769d01831b 100755
---- a/Documentation/sphinx/rstFlatTable.py
-+++ b/Documentation/sphinx/rstFlatTable.py
-@@ -1,5 +1,6 @@
- #!/usr/bin/env python3
- # -*- coding: utf-8; mode: python -*-
-+# SPDX-License-Identifier: GPL-2.0
- # pylint: disable=C0330, R0903, R0912
+ import perf
  
- u"""
+diff --git a/tools/perf/python/twatch.py b/tools/perf/python/twatch.py
+index ff87ccf5b708..a95e59373ebd 100755
+--- a/tools/perf/python/twatch.py
++++ b/tools/perf/python/twatch.py
+@@ -1,7 +1,6 @@
+ #! /usr/bin/python
++# -*- coding: utf-8; mode: python -*-
+ # SPDX-License-Identifier: GPL-2.0-only
+-# -*- python -*-
+-# -*- coding: utf-8 -*-
+ #   twatch - Experimental use of the perf python interface
+ #   Copyright (C) 2011 Arnaldo Carvalho de Melo <acme@redhat.com>
+ #
 -- 
 2.21.0
 
