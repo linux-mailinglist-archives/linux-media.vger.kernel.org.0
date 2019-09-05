@@ -2,19 +2,19 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EFDC0A9F59
-	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2019 12:15:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 68B37A9F5A
+	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2019 12:15:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732779AbfIEKPn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1733033AbfIEKPn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Thu, 5 Sep 2019 06:15:43 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:58015 "EHLO
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:45171 "EHLO
         metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732504AbfIEKPm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Sep 2019 06:15:42 -0400
+        with ESMTP id S1732504AbfIEKPn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Sep 2019 06:15:43 -0400
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.pengutronix.de.)
         by metis.ext.pengutronix.de with esmtp (Exim 4.92)
         (envelope-from <p.zabel@pengutronix.de>)
-        id 1i5onl-0001qT-Ag; Thu, 05 Sep 2019 12:15:41 +0200
+        id 1i5onm-0001qT-D3; Thu, 05 Sep 2019 12:15:42 +0200
 From:   Philipp Zabel <p.zabel@pengutronix.de>
 To:     linux-media@vger.kernel.org
 Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
@@ -25,10 +25,12 @@ Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
         Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
         Boris Brezillon <boris.brezillon@collabora.com>,
         kernel@pengutronix.de
-Subject: [PATCH 1/2] media: uapi: h264: Add num_ref_idx_active_override_flag
-Date:   Thu,  5 Sep 2019 12:15:32 +0200
-Message-Id: <20190905101533.525-1-p.zabel@pengutronix.de>
+Subject: [PATCH 2/2] media: hantro: h264: per-slice num_ref_idx_l[01]_active override
+Date:   Thu,  5 Sep 2019 12:15:33 +0200
+Message-Id: <20190905101533.525-2-p.zabel@pengutronix.de>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190905101533.525-1-p.zabel@pengutronix.de>
+References: <20190905101533.525-1-p.zabel@pengutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
@@ -40,43 +42,47 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This flag tells the kernel whether the slice header contained the
-num_ref_idx_l[01]_active_minus1 syntax elements, or whether the
-num_ref_idx_l[01]_default_active_minus1 from PPS should be used
-instead.
+If the slice header had the num_ref_idx_active_override flag set, we
+should use the num_ref_idx_l[01]_active_minus1 fields instead of the
+defaults from the PPS.
 
 Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
 ---
- Documentation/media/uapi/v4l/ext-ctrls-codec.rst | 3 +++
- include/media/h264-ctrls.h                       | 1 +
- 2 files changed, 4 insertions(+)
+ drivers/staging/media/hantro/hantro_g1_h264_dec.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-index bc5dd8e76567..451a5b0f2a35 100644
---- a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-+++ b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-@@ -1860,6 +1860,9 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
-     * - ``V4L2_H264_SLICE_FLAG_SP_FOR_SWITCH``
-       - 0x00000008
-       -
-+    * - ``V4L2_H264_SLICE_FLAG_NUM_REF_IDX_ACTIVE_OVERRIDE
-+      - 0x00000010
-+      - Corresponds to the num_ref_idx_active_override_flag syntax element.
+diff --git a/drivers/staging/media/hantro/hantro_g1_h264_dec.c b/drivers/staging/media/hantro/hantro_g1_h264_dec.c
+index 7ab534936843..544cf92ab62c 100644
+--- a/drivers/staging/media/hantro/hantro_g1_h264_dec.c
++++ b/drivers/staging/media/hantro/hantro_g1_h264_dec.c
+@@ -28,6 +28,8 @@ static void set_params(struct hantro_ctx *ctx)
+ 	const struct v4l2_ctrl_h264_pps *pps = ctrls->pps;
+ 	struct vb2_v4l2_buffer *src_buf = hantro_get_src_buf(ctx);
+ 	struct hantro_dev *vpu = ctx->dev;
++	unsigned char refidx0_active;
++	unsigned char refidx1_active;
+ 	u32 reg;
  
- ``Prediction Weight Table``
+ 	/* Decoder control register 0. */
+@@ -101,9 +103,16 @@ static void set_params(struct hantro_ctx *ctx)
+ 	vdpu_write_relaxed(vpu, reg, G1_REG_DEC_CTRL5);
  
-diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrls.h
-index e877bf1d537c..dab519aea9bf 100644
---- a/include/media/h264-ctrls.h
-+++ b/include/media/h264-ctrls.h
-@@ -133,6 +133,7 @@ struct v4l2_h264_pred_weight_table {
- #define V4L2_H264_SLICE_FLAG_BOTTOM_FIELD		0x02
- #define V4L2_H264_SLICE_FLAG_DIRECT_SPATIAL_MV_PRED	0x04
- #define V4L2_H264_SLICE_FLAG_SP_FOR_SWITCH		0x08
-+#define V4L2_H264_SLICE_FLAG_NUM_REF_IDX_ACTIVE_OVERRIDE	0x10
+ 	/* Decoder control register 6. */
++	if (sps->flags & V4L2_H264_SLICE_FLAG_NUM_REF_IDX_ACTIVE_OVERRIDE) {
++		refidx0_active = slices[0].num_ref_idx_l0_active_minus1 + 1;
++		refidx1_active = slices[0].num_ref_idx_l1_active_minus1 + 1;
++	} else {
++		refidx0_active = pps->num_ref_idx_l0_default_active_minus1 + 1;
++		refidx1_active = pps->num_ref_idx_l1_default_active_minus1 + 1;
++	}
+ 	reg = G1_REG_DEC_CTRL6_PPS_ID(slices[0].pic_parameter_set_id) |
+-	      G1_REG_DEC_CTRL6_REFIDX0_ACTIVE(pps->num_ref_idx_l0_default_active_minus1 + 1) |
+-	      G1_REG_DEC_CTRL6_REFIDX1_ACTIVE(pps->num_ref_idx_l1_default_active_minus1 + 1) |
++	      G1_REG_DEC_CTRL6_REFIDX0_ACTIVE(refidx0_active) |
++	      G1_REG_DEC_CTRL6_REFIDX1_ACTIVE(refidx1_active) |
+ 	      G1_REG_DEC_CTRL6_POC_LENGTH(slices[0].pic_order_cnt_bit_size);
+ 	vdpu_write_relaxed(vpu, reg, G1_REG_DEC_CTRL6);
  
- struct v4l2_ctrl_h264_slice_params {
- 	/* Size in bytes, including header */
 -- 
 2.20.1
 
