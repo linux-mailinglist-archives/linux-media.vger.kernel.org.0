@@ -2,70 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C3EEDAAA89
-	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2019 20:05:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E988AABF5
+	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2019 21:28:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387739AbfIESFg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Sep 2019 14:05:36 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:42567 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730303AbfIESFg (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Sep 2019 14:05:36 -0400
-Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
-        by youngberry.canonical.com with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-        (Exim 4.76)
-        (envelope-from <colin.king@canonical.com>)
-        id 1i5w8T-0003JW-0P; Thu, 05 Sep 2019 18:05:33 +0000
-From:   Colin King <colin.king@canonical.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: i2c: mt9m001: make array init_regs static, makes object smaller
-Date:   Thu,  5 Sep 2019 19:05:32 +0100
-Message-Id: <20190905180532.14093-1-colin.king@canonical.com>
-X-Mailer: git-send-email 2.20.1
+        id S2388311AbfIET2R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Sep 2019 15:28:17 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:53140 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727171AbfIET2Q (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Sep 2019 15:28:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=t1YcN3+xCiz85eBAEfj1FyAohnsFYzHvEYbyJqPQyIM=; b=FR+n5e6W5gAAqw6FLtvlHnO8I
+        DAO1WnOgf6bCa8BdoE8oC3frfV8mIxyk6aoGSSkoPiocwBedukffIe4a/UpxP8Grh/JR6ltPh4IjY
+        TfS+jCTZLqJWUgHDwnDvGPCn2NLvn2iOpmd6h8XD1SE8n3OAbYTrZmVJbnQFIHux2Qub3Y88izqNt
+        G4UvtPFAWEhZ/OQjSy5J41PIoI5NyvKYNWNcNImVocCD8cQlLFNb4HHrE8lmquZnftchqnWY/vnzW
+        LapmaQbSLFvZUnLv6hU8TzQRjP2mMacHCB9gSjVMQABoWuGrjeCFxq1t3Qnc6+oAfwaWIXrRQPww0
+        H/27M46Cw==;
+Received: from [177.159.253.249] (helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1i5xQV-0007Yf-EO; Thu, 05 Sep 2019 19:28:15 +0000
+Date:   Thu, 5 Sep 2019 16:28:10 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Joe Perches <joe@perches.com>, linux-kernel@vger.kernel.org,
+        Jessica Yu <jeyu@kernel.org>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Thomas Gleixner <tglx@linutronix.de>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs: license-rules.txt: cover SPDX headers on Python
+ scripts
+Message-ID: <20190905162810.2388d532@coco.lan>
+In-Reply-To: <20190905065701.4744e66a@lwn.net>
+References: <20190905055614.7958918b@coco.lan>
+        <88e638eb959095ab6657d295f9f8c27169569bf2.1567675272.git.mchehab+samsung@kernel.org>
+        <20190905065701.4744e66a@lwn.net>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Colin Ian King <colin.king@canonical.com>
+Em Thu, 5 Sep 2019 06:57:01 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-Don't populate the array init_regs on the stack but instead make it
-static. Makes the object code smaller by 57 bytes.
+> On Thu,  5 Sep 2019 06:23:13 -0300
+> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+> 
+> > Python's PEP-263 [1] dictates that an script that needs to default to
+> > UTF-8 encoding has to follow this rule:
+> > 
+> > 	'Python will default to ASCII as standard encoding if no other
+> > 	 encoding hints are given.
+> > 
+> > 	 To define a source code encoding, a magic comment must be placed
+> > 	 into the source files either as first or second line in the file'  
+> 
+> So this is only Python 2, right?  Python 3 is UTF8 by default.  Given that
+> Python 2 is EOL in January, is this something we should be concerned
+> about?  Or should we instead be making sure that all the Python we have
+> in-tree works properly with Python 3 and be done with it?
 
-Before:
-   text	   data	    bss	    dec	    hex	filename
-  15935	   3600	    128	  19663	   4ccf	drivers/media/i2c/mt9m001.o
+I don't think we can count that python 3 uses utf-8 per default.
 
-After:
-   text	   data	    bss	    dec	    hex	filename
-  15782	   3696	    128	  19606	   4c96	drivers/media/i2c/mt9m001.o
+I strongly suspect that, if one uses a Python3 version < 3.7, it will
+still default to ASCII.
 
-(gcc version 9.2.1, amd64)
+On a quick look, the new UTF-8 mode was added on PEP-540:
 
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
----
- drivers/media/i2c/mt9m001.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+	https://www.python.org/dev/peps/pep-0540/
 
-diff --git a/drivers/media/i2c/mt9m001.c b/drivers/media/i2c/mt9m001.c
-index 5613072908ac..210ea76adb53 100644
---- a/drivers/media/i2c/mt9m001.c
-+++ b/drivers/media/i2c/mt9m001.c
-@@ -167,7 +167,7 @@ static int multi_reg_write(struct i2c_client *client,
- 
- static int mt9m001_init(struct i2c_client *client)
- {
--	const struct mt9m001_reg init_regs[] = {
-+	static const struct mt9m001_reg init_regs[] = {
- 		/*
- 		 * Issue a soft reset. This returns all registers to their
- 		 * default values.
--- 
-2.20.1
+Such change happened at Python 3.7. 
 
+Yet, according with PEP, it defaults to off, unless when using POSIX 
+locale.
+
+Thanks,
+Mauro
