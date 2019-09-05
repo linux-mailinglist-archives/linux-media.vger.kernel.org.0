@@ -2,41 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7399BAA099
-	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2019 12:57:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED5AEAA097
+	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2019 12:56:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387613AbfIEK4k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Sep 2019 06:56:40 -0400
-Received: from mx0b-0014ca01.pphosted.com ([208.86.201.193]:57344 "EHLO
+        id S2387988AbfIEK4p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Sep 2019 06:56:45 -0400
+Received: from mx0b-0014ca01.pphosted.com ([208.86.201.193]:60646 "EHLO
         mx0a-0014ca01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1732175AbfIEK4k (ORCPT
+        by vger.kernel.org with ESMTP id S2387697AbfIEK4l (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 5 Sep 2019 06:56:40 -0400
+        Thu, 5 Sep 2019 06:56:41 -0400
 Received: from pps.filterd (m0042333.ppops.net [127.0.0.1])
-        by mx0b-0014ca01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x85As5Wp008971;
-        Thu, 5 Sep 2019 03:56:29 -0700
+        by mx0b-0014ca01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x85As5Wr008971;
+        Thu, 5 Sep 2019 03:56:35 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type; s=proofpoint;
- bh=fl2qfzDzlii41ljTMqPY/YmoUfD/06SxvGSv+4k8UMM=;
- b=WScxBF/BrrIHx8LM2jJ27wBbY2xm3UPqFOQ44Kde1AVFmgkT7/xJuD9g4D17OeM7dHe5
- eEDcX+ie0cANLs3OKLmAFauPv+d7tRjJXcvPR/g0GJdkJ8kRnVy+A5ZkBCaKU52F6VCj
- YQ0fh+iLlS0vdjkK0Z4qkqtyxjALrujMYEhAN9PFL1ZNdAxzmKGErGjpu4lNifokr0YG
- QNgHJe2PEJcBbiRg2xxAvWB73EfCrqTvH92mxb2EwxpVeGUEu5Amfy6y57uGxU9zwQbp
- Efz6IswvwSICh8GVTU+/EfIHNV4Xq9Ne7BcAzHoTK0r6bNzeYU4QoaoqANu54bYRhdlF Tg== 
+ bh=AkR+aZVC0e8yItIo9Mq2cuSkYxp0Et2coMIZHZjXLgs=;
+ b=CTWmbx8rOjW4AHIPK9dimr9JbBo3rle0TNkDY0r590SPtruXglNjli08XBlTnhuQwe/w
+ fT63bMz8BJCD9iOV5JGsidGbgR1zr5sn5PK5vJC6ZzwOdeejiD+HoQAmWWtHPiSY3m1v
+ RMGfiHvyajFuzy5IegKlmJp0KszYs6/F2ZFHLELVXJQnYbdFVgDy0sJTZseYRm7ef6OD
+ 0T6M9NJ7ZOTXdHyCq4IznRu8iARslHFnXosWfIN4K67j5+kYm2QNNckpvfNSumZ9S6+m
+ +6hk1WGbavVBpQcP8waTbqNm9oU1+iaH7hlNPKcz28FiGiSEGFS/5/N442Z48HSnkAOY EA== 
 Authentication-Results: cadence.com;
         spf=pass smtp.mailfrom=jank@cadence.com
-Received: from nam02-cy1-obe.outbound.protection.outlook.com (mail-cys01nam02lp2058.outbound.protection.outlook.com [104.47.37.58])
-        by mx0b-0014ca01.pphosted.com with ESMTP id 2uqmfvvx48-1
+Received: from nam03-by2-obe.outbound.protection.outlook.com (mail-by2nam03lp2052.outbound.protection.outlook.com [104.47.42.52])
+        by mx0b-0014ca01.pphosted.com with ESMTP id 2uqmfvvx4j-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 05 Sep 2019 03:56:29 -0700
+        Thu, 05 Sep 2019 03:56:35 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ecQ6UzY9CtThz4zM9n5q7pVECiR4vsIkee63kz3EbqyVZqBv+NubHJAU6byC9+fMCOkIJLH1F3J+Ncsk6NGFRoNBa6UOWD3qbmTltGhKlT6/MNdNlWpqAQeWjFQh/hlrABX54WcuNFT618wIlfHtEmku3a7Ho6Tu+zET8nGgU1Ae7SqhUdrAISOrAN6/JCQqrQwIAdQOC/FQMdM2bRONUDg1FDIsBIaJaQbvOe4wyYCWaL1rF97VKQdZpzG2eqiyqH05TaLN58I46MOa9HGUoDt406S4ennR1++A1/6lBDTLt+zptYWN49TTiY5O1RyCpOAdgUETFGUpq0j8uGtt0g==
+ b=aa2QfsFkhtODcy5Fu+SxUDq7jPcNs74zLiqOr7vrT75qKkxfdUQVHUN1rfzlCeHeQJxWMxlq2cxopYCcIrzI72OVW6OuOufquLZYm45Zweo++jnVg+fdZMYk8aZNYaQGsA1YjxJJpEJ5jYQHJxHc+Zq9ZfrmQ67NKe6MhrjBUdZ3pT/wn1f2MACE8xutmOY7kpXDihA+VWwPZGXcHKJEqaZ0iIs/s1Ob8yruVHddVPHgf8zTug72OIktaHaCNaA1CHPlSh6SksUaVFX2u1d/r7D6VhFYOz1CuNbIv5P/naacDBccRf0A4F8JatQ8lodOBS/5YiWsdPAS8yYG2GM/ww==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fl2qfzDzlii41ljTMqPY/YmoUfD/06SxvGSv+4k8UMM=;
- b=YcrczU9el7UhMTVxWI3qd51ZBKwo52VFwthVmJUtOFzqpG5EvVPjgCqRaUAGMV8XVrVGrpq75y0+W3yqQ4kYv3yi62ZtkoUcrhqFa4wUvPss7NcZ+h4gwI3/lzCjIAKdC7rI+smNszsqgKrERro79j07udepKE3RlrXxNW7NO2FtshmerKQOJBmAxZFqQeA/zoewfQihAZH80n/1nlxvKfI7ztKYLOxOiS4dXQSyExG8WW/LrA3TI21revgLD3fyeO0vdRePsMS+QXqHAx72eWEi44GIUJRffVSO3ktX8vO/zUV8b4vjZFNfNG2cIVDGJwHoK8fsPJBW4j/84mKLfw==
+ bh=AkR+aZVC0e8yItIo9Mq2cuSkYxp0Et2coMIZHZjXLgs=;
+ b=Ax9mTOMOoqDz3GiPNok4iMimdhp4hRiIH0M6W3mDm+UD02n/7DU9kq0GHISqBOdbp0ly2lHOPIdivvbw15G39lzgGIyHdvHX1hMk28WLx46W71GtDbRfBHWnpBCYWJMEmrkThjxPhQPNhhL94vkjV9LlMQ0wuwHCGY2asJZnrZf4b0oPon2Wvos7sh5TrI70VR4dNGI9hGS1JghUqyMvZWMid0jEhXTqJ/ysHm0CBrJAEGyGKV/WwE99XH7M3LV0PkA9Xwk31/XUYtUV5niJB01ADwKkuOkWFF6J/e8cZNz+PirSJd/1hRjfDvx8hDUfxMK6wn6Piknb/O0eOZG3MQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
  is 199.43.4.28) smtp.rcpttodomain=kernel.org smtp.mailfrom=cadence.com;
  dmarc=fail (p=none sp=none pct=100) action=none header.from=cadence.com;
@@ -44,27 +44,28 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fl2qfzDzlii41ljTMqPY/YmoUfD/06SxvGSv+4k8UMM=;
- b=tOZDLOpeYr8GBKJ3qdv595gIwZQRn5ChW7/fD3JZK8MSOW6v5B+OqpM96K36L7VZzKYbqopmu1LSHJi/PFVKYvTqRfa/8Ookw4GT+L5vq+xbUFaEs0KIrTuq1um4G8/G+9zlyloNXmM/v7zEMZI1RkDJCtMeZTaWSVPSV9UiViM=
-Received: from DM5PR07CA0096.namprd07.prod.outlook.com (2603:10b6:4:ae::25) by
- CY4PR07MB3590.namprd07.prod.outlook.com (2603:10b6:910:76::17) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2241.14; Thu, 5 Sep 2019 10:56:26 +0000
-Received: from CO1NAM05FT007.eop-nam05.prod.protection.outlook.com
- (2a01:111:f400:7e50::202) by DM5PR07CA0096.outlook.office365.com
- (2603:10b6:4:ae::25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.2241.13 via Frontend
- Transport; Thu, 5 Sep 2019 10:56:26 +0000
+ bh=AkR+aZVC0e8yItIo9Mq2cuSkYxp0Et2coMIZHZjXLgs=;
+ b=3TD0AHDKwy+gagwNzBgyWfGtxx+l9+zhxZL2TipASQYLUAuZgsPqwTL6V3Q+Cg40l6iriERic9YlBEAJSGGeJW1cJMU0OSpTUjGE100zGZ/wrqXrlwFv7QY/R+jCWnki/BE4wqcSyRNnaqTzEOvCEuC/Q+c9riJhIMT9bWeZNug=
+Received: from DM6PR07CA0070.namprd07.prod.outlook.com (2603:10b6:5:74::47) by
+ MN2PR07MB7085.namprd07.prod.outlook.com (2603:10b6:208:1b0::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2241.15; Thu, 5 Sep
+ 2019 10:56:29 +0000
+Received: from CO1NAM05FT017.eop-nam05.prod.protection.outlook.com
+ (2a01:111:f400:7e50::209) by DM6PR07CA0070.outlook.office365.com
+ (2603:10b6:5:74::47) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.2199.14 via Frontend
+ Transport; Thu, 5 Sep 2019 10:56:29 +0000
 Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
  cadence.com discourages use of 199.43.4.28 as permitted sender)
 Received: from rmmaillnx1.cadence.com (199.43.4.28) by
- CO1NAM05FT007.mail.protection.outlook.com (10.152.96.113) with Microsoft SMTP
+ CO1NAM05FT017.mail.protection.outlook.com (10.152.96.124) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.2263.6 via Frontend Transport; Thu, 5 Sep 2019 10:56:26 +0000
+ 15.20.2263.6 via Frontend Transport; Thu, 5 Sep 2019 10:56:29 +0000
 Received: from maileu3.global.cadence.com (maileu3.cadence.com [10.160.88.99])
-        by rmmaillnx1.cadence.com (8.14.4/8.14.4) with ESMTP id x85AuLtJ025588
+        by rmmaillnx1.cadence.com (8.14.4/8.14.4) with ESMTP id x85AuLtM025588
         (version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=OK);
-        Thu, 5 Sep 2019 06:56:23 -0400
+        Thu, 5 Sep 2019 06:56:27 -0400
 X-CrossPremisesHeadersFilteredBySendConnector: maileu3.global.cadence.com
 Received: from maileu3.global.cadence.com (10.160.88.99) by
  maileu3.global.cadence.com (10.160.88.99) with Microsoft SMTP Server (TLS) id
@@ -73,20 +74,20 @@ Received: from lvloginb.cadence.com (10.165.177.11) by
  maileu3.global.cadence.com (10.160.88.99) with Microsoft SMTP Server (TLS) id
  15.0.1367.3 via Frontend Transport; Thu, 5 Sep 2019 12:56:21 +0200
 Received: from lvloginb.cadence.com (localhost [127.0.0.1])
-        by lvloginb.cadence.com (8.14.4/8.14.4) with ESMTP id x85AuKf1027149;
-        Thu, 5 Sep 2019 11:56:20 +0100
+        by lvloginb.cadence.com (8.14.4/8.14.4) with ESMTP id x85AuLas027157;
+        Thu, 5 Sep 2019 11:56:21 +0100
 Received: (from jank@localhost)
-        by lvloginb.cadence.com (8.14.4/8.14.4/Submit) id x85AuK15027148;
-        Thu, 5 Sep 2019 11:56:20 +0100
+        by lvloginb.cadence.com (8.14.4/8.14.4/Submit) id x85AuKUW027155;
+        Thu, 5 Sep 2019 11:56:21 +0100
 From:   Jan Kotas <jank@cadence.com>
 To:     <maxime.ripard@bootlin.com>, <mchehab@kernel.org>,
         <robh+dt@kernel.org>, <mark.rutland@arm.com>
 CC:     <rafalc@cadence.com>, <linux-media@vger.kernel.org>,
         <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
         Jan Kotas <jank@cadence.com>
-Subject: [PATCH v2 1/3] media: dt-bindings: Update bindings for Cadence CSI2RX
-Date:   Thu, 5 Sep 2019 11:55:59 +0100
-Message-ID: <20190905105601.27034-2-jank@cadence.com>
+Subject: [PATCH v2 2/3] media: Add lane checks for Cadence CSI2RX
+Date:   Thu, 5 Sep 2019 11:56:00 +0100
+Message-ID: <20190905105601.27034-3-jank@cadence.com>
 X-Mailer: git-send-email 2.15.0
 In-Reply-To: <20190905105601.27034-1-jank@cadence.com>
 References: <20190905105601.27034-1-jank@cadence.com>
@@ -94,24 +95,24 @@ MIME-Version: 1.0
 Content-Type: text/plain
 X-OrganizationHeadersPreserved: maileu3.global.cadence.com
 X-EOPAttributedMessage: 0
-X-Forefront-Antispam-Report: CIP:199.43.4.28;IPV:CAL;SCL:-1;CTRY:US;EFV:NLI;SFV:NSPM;SFS:(10009020)(4636009)(376002)(346002)(396003)(136003)(39860400002)(2980300002)(36092001)(189003)(199004)(4326008)(2616005)(48376002)(446003)(476003)(126002)(110136005)(54906003)(16586007)(316002)(42186006)(426003)(50466002)(11346002)(51416003)(486006)(76130400001)(6666004)(356004)(47776003)(5660300002)(26826003)(87636003)(478600001)(14444005)(2906002)(107886003)(53936002)(70206006)(70586007)(36756003)(26005)(186003)(336012)(50226002)(76176011)(1076003)(81166006)(81156014)(86362001)(8936002)(8676002)(305945005)(2101003);DIR:OUT;SFP:1101;SCL:1;SRVR:CY4PR07MB3590;H:rmmaillnx1.cadence.com;FPR:;SPF:SoftFail;LANG:en;PTR:InfoDomainNonexistent;MX:1;A:1;
+X-Forefront-Antispam-Report: CIP:199.43.4.28;IPV:CAL;SCL:-1;CTRY:US;EFV:NLI;SFV:NSPM;SFS:(10009020)(4636009)(346002)(39860400002)(376002)(136003)(396003)(2980300002)(199004)(36092001)(189003)(76130400001)(47776003)(8676002)(86362001)(42186006)(316002)(5660300002)(16586007)(87636003)(36756003)(26826003)(81166006)(81156014)(54906003)(110136005)(2616005)(11346002)(486006)(126002)(476003)(356004)(6666004)(305945005)(8936002)(4326008)(2906002)(186003)(426003)(1076003)(26005)(107886003)(53936002)(446003)(478600001)(50466002)(48376002)(70206006)(50226002)(336012)(70586007)(51416003)(76176011)(2101003);DIR:OUT;SFP:1101;SCL:1;SRVR:MN2PR07MB7085;H:rmmaillnx1.cadence.com;FPR:;SPF:SoftFail;LANG:en;PTR:InfoDomainNonexistent;A:1;MX:1;
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c7e143cc-5802-4784-c34c-08d731efb2e8
-X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600166)(711020)(4605104)(1401327)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328);SRVR:CY4PR07MB3590;
-X-MS-TrafficTypeDiagnostic: CY4PR07MB3590:
-X-Microsoft-Antispam-PRVS: <CY4PR07MB3590368315A0630B9EA1F2E0D0BB0@CY4PR07MB3590.namprd07.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-MS-Office365-Filtering-Correlation-Id: bc038ad1-8f43-4e89-7c20-08d731efb4a3
+X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600166)(711020)(4605104)(1401327)(2017052603328);SRVR:MN2PR07MB7085;
+X-MS-TrafficTypeDiagnostic: MN2PR07MB7085:
+X-Microsoft-Antispam-PRVS: <MN2PR07MB7085ED76307AA6EC867ACDC1D0BB0@MN2PR07MB7085.namprd07.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:262;
 X-Forefront-PRVS: 015114592F
 X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Message-Info: BbSRlIFYp7/DmRpNbk9RV5wZi7fgmzu2Netl5/YmDeFulg+/K/8MyZeJ9IbH2BzfEiMYUlrrGu2mt4uJNZGS2+NLb1rBGV5q4JucwAw2qHKPZp1IX9QnL7ojI0rgOs5QsfRyzmRsKPI8WE7dKL4GtHWlT9JHWwqaWo7JVhMPghGMQ2UIeG1GH0opBC5mfgh9HdvPoUZScwKzcbP9R2+9FLe6M83ZpFuf42VaydZN/mwcFZSBQ1kHAzcrtQ7P5MDbP/NOM2HpZ6ZJ4hJc/uoS4xUOZQHt1YaraCy7XNpqB9r8b7auGcqXGU/5o1B5rDXt2MZJqRyVirg43bP4fYYjUOpYX1U+hFg9JQFjs8WzwSsJ5Tp07/UhM3KWKKd6n1KKx21EZKY8h0nWD+K2tcu+57E2uGr+dJRq1V58fVWC99g=
+X-Microsoft-Antispam-Message-Info: ekUlLZGawAu7o0yM7RLThXMCSeWVm2WWNf35BFKNKUyQKEia323ruUzvNBzrEOVkjgPkPk5LOFI6pq3x0PWQGWIFvCE1nGmdFDJpf7vaGA//z6T/ZDrTOWpxDj0UkXAbRm7lU3FTp8f+4cZJ63HSRD7cWNXqy/u3+uFt2RRb6muXvmzrIDSxpori22n1xMSuk0r3OzbXNGclbj5OWccWRtaBkPwSeLaVMr3vX2Tkiy+lvIi5ERpZmhrWTDexI6kkNuQk8vqgM4U+ENBCLga4DrQYKEfnDuAH4YiCdpyg85kkzthvKaug4ODSvS8cZH3ZnQvoZmd5n6CibgtMevWCDFF4zp1d9I9eW76LSzrJroIMQFkAUKK0VbjW/OjeIHJ3n4BalPCI7iqTotOOZ5zAxBhDSOm9GY1J2EulW9yyTTE=
 X-OriginatorOrg: cadence.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2019 10:56:26.1195
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Sep 2019 10:56:29.0169
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c7e143cc-5802-4784-c34c-08d731efb2e8
+X-MS-Exchange-CrossTenant-Network-Message-Id: bc038ad1-8f43-4e89-7c20-08d731efb4a3
 X-MS-Exchange-CrossTenant-Id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=d36035c5-6ce6-4662-a3dc-e762e61ae4c9;Ip=[199.43.4.28];Helo=[rmmaillnx1.cadence.com]
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR07MB3590
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR07MB7085
 X-Proofpoint-SPF-Result: pass
 X-Proofpoint-SPF-Record: v=spf1 include:spf.smktg.jp include:_spf.salesforce.com
  include:mktomail.com include:spf-0014ca01.pphosted.com
@@ -120,7 +121,7 @@ X-Proofpoint-SPF-Record: v=spf1 include:spf.smktg.jp include:_spf.salesforce.com
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.70,1.0.8
  definitions=2019-09-05_03:2019-09-04,2019-09-05 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_check_notspam policy=outbound_check score=0 phishscore=0
- adultscore=0 mlxscore=0 mlxlogscore=790 impostorscore=0 lowpriorityscore=0
+ adultscore=0 mlxscore=0 mlxlogscore=785 impostorscore=0 lowpriorityscore=0
  spamscore=0 bulkscore=0 suspectscore=0 malwarescore=0 clxscore=1015
  priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-1906280000 definitions=main-1909050110
@@ -129,30 +130,52 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This patch adds a DT bindings documentation for
-Cadence CSI2RX v1.3 and v2.1 controllers.
+This patch adds lane checks for CSI2RX, to prevent clock lane
+being used as a data lane.
 
 Signed-off-by: Jan Kotas <jank@cadence.com>
 ---
- Documentation/devicetree/bindings/media/cdns,csi2rx.txt | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/media/platform/cadence/cdns-csi2rx.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/media/cdns,csi2rx.txt b/Documentation/devicetree/bindings/media/cdns,csi2rx.txt
-index 6b02a0657..df828e4e4 100644
---- a/Documentation/devicetree/bindings/media/cdns,csi2rx.txt
-+++ b/Documentation/devicetree/bindings/media/cdns,csi2rx.txt
-@@ -5,7 +5,10 @@ The Cadence MIPI-CSI2 RX controller is a CSI-2 bridge supporting up to 4 CSI
- lanes in input, and 4 different pixel streams in output.
+diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
+index 31ace114e..97ec09e72 100644
+--- a/drivers/media/platform/cadence/cdns-csi2rx.c
++++ b/drivers/media/platform/cadence/cdns-csi2rx.c
+@@ -2,7 +2,7 @@
+ /*
+  * Driver for Cadence MIPI-CSI2 RX Controller v1.3
+  *
+- * Copyright (C) 2017 Cadence Design Systems Inc.
++ * Copyright (C) 2017-2019 Cadence Design Systems Inc.
+  */
  
- Required properties:
--  - compatible: must be set to "cdns,csi2rx" and an SoC-specific compatible
-+  - compatible: must be set to:
-+    * "cdns,csi2rx" or "cdns,csi2rx-1.3" for version 1.3 of the controller,
-+    * "cdns,csi2rx-2.1" for v2.1,
-+    and an SoC-specific compatible
-   - reg: base address and size of the memory mapped region
-   - clocks: phandles to the clocks driving the controller
-   - clock-names: must contain:
+ #include <linux/clk.h>
+@@ -364,7 +364,7 @@ static int csi2rx_parse_dt(struct csi2rx_priv *csi2rx)
+ 	struct v4l2_fwnode_endpoint v4l2_ep = { .bus_type = 0 };
+ 	struct fwnode_handle *fwh;
+ 	struct device_node *ep;
+-	int ret;
++	int ret, i;
+ 
+ 	ep = of_graph_get_endpoint_by_regs(csi2rx->dev->of_node, 0, 0);
+ 	if (!ep)
+@@ -395,6 +395,15 @@ static int csi2rx_parse_dt(struct csi2rx_priv *csi2rx)
+ 		return -EINVAL;
+ 	}
+ 
++	for (i = 0; i < csi2rx->num_lanes; i++) {
++		if (csi2rx->lanes[i] < 1) {
++			dev_err(csi2rx->dev, "Invalid lane[%d] number: %u\n",
++				i, csi2rx->lanes[i]);
++			of_node_put(ep);
++			return -EINVAL;
++		}
++	}
++
+ 	csi2rx->asd.match.fwnode = fwnode_graph_get_remote_port_parent(fwh);
+ 	csi2rx->asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
+ 	of_node_put(ep);
 -- 
 2.15.0
 
