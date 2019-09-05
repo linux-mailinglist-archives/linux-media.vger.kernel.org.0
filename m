@@ -2,186 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B7C4AACA0
-	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2019 21:58:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60958AACB3
+	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2019 22:05:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391629AbfIET6X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Sep 2019 15:58:23 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:58466 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389223AbfIET56 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Sep 2019 15:57:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=lmKR/QfPflgztvdRJ0TtD1IDJABz8ilaEopVRFO1xZk=; b=BKqaFdapbjhlq/k/T7gDhH0z9l
-        OUEh17fjaZsvdHiHqYWIwk0of2f24eoQpwVvWiBwjLKOk5LNzP37/dnhgx701sDuqLvmKYVgs87Qx
-        mr4YG+mqZoFkOF/F77Otea1denCJwSSAfIqyIkno+0GQEmvrTgPtVa8gO6NYKpMFTxJw3i2LVGzEf
-        GX14OjhKmh1EJleZQmAefzxiufUpSz8QqQtnn39fulF1KmTFr+Ir2YiA+8Py0lkMwNP/jGT9icWAT
-        Bes9gP4w2nOYu6rTiv3+rsK3n/rx89LXTsE61lOC92ieXt+AupbWVmRRxoab0RvUwq7/eWqfQtbhs
-        xbuoIX9Q==;
-Received: from [177.159.253.249] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1i5xtF-0000IG-Es; Thu, 05 Sep 2019 19:57:57 +0000
-Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.1)
-        (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1i5xtC-0005mO-PD; Thu, 05 Sep 2019 16:57:54 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        id S1729928AbfIEUFP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Sep 2019 16:05:15 -0400
+Received: from smtprelay0137.hostedemail.com ([216.40.44.137]:51403 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725921AbfIEUFP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 5 Sep 2019 16:05:15 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay03.hostedemail.com (Postfix) with ESMTP id B663E8368F04;
+        Thu,  5 Sep 2019 20:05:13 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,:::::::::::::::::::::::::::::::::::::::::::::::::,RULES_HIT:41:355:379:599:800:967:973:982:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1538:1567:1593:1594:1711:1714:1730:1747:1777:1792:2393:2525:2559:2563:2682:2685:2828:2859:2895:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3622:3865:3867:3871:3873:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4250:4321:4361:5007:6117:6119:6742:6743:7901:8531:9025:10004:10400:10848:11232:11658:11914:12043:12297:12438:12555:12740:12760:12895:13069:13311:13357:13439:14181:14659:14721:21080:21627:21740:21811:30003:30054:30060:30070:30091,0,RBL:47.151.152.152:@perches.com:.lbl8.mailshell.net-62.8.0.100 64.201.201.201,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:fn,MSBL:0,DNSBL:neutral,Custom_rules:0:0:0,LFtime:27,LUA_SUMMARY:none
+X-HE-Tag: noise97_846cb11498123
+X-Filterd-Recvd-Size: 2280
+Received: from XPS-9350.home (unknown [47.151.152.152])
+        (Authenticated sender: joe@perches.com)
+        by omf17.hostedemail.com (Postfix) with ESMTPA;
+        Thu,  5 Sep 2019 20:05:09 +0000 (UTC)
+Message-ID: <20daa66d58e01f33a248b8703aa8e37933ef4154.camel@perches.com>
+Subject: Re: [PATCH 0/6] Address issues with SPDX requirements and PEP-263
+From:   Joe Perches <joe@perches.com>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@infradead.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Joe Perches <joe@perches.com>, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
         Sven Eckelmann <sven@narfation.org>,
-        Thierry Reding <treding@nvidia.com>,
-        =?UTF-8?q?Aur=C3=A9lien=20Cedeyn?= <aurelien.cedeyn@gmail.com>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>
-Subject: [PATCH 6/6] scripts/spdxcheck.py: check if the line number follows the strict rule
-Date:   Thu,  5 Sep 2019 16:57:53 -0300
-Message-Id: <1b7b5c906646f8165fd818ec9e400609d7a7290b.1567712829.git.mchehab+samsung@kernel.org>
-X-Mailer: git-send-email 2.21.0
+        Doug Smythies <doug.smythies@gmail.com>,
+        =?ISO-8859-1?Q?Aur=E9lien?= Cedeyn <aurelien.cedeyn@gmail.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        linux-doc@vger.kernel.org,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thierry Reding <treding@nvidia.com>,
+        Armijn Hemel <armijn@tjaldur.nl>, Jiri Olsa <jolsa@redhat.com>,
+        Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Allison Randal <allison@lohutok.net>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>
+Date:   Thu, 05 Sep 2019 13:05:08 -0700
 In-Reply-To: <cover.1567712829.git.mchehab+samsung@kernel.org>
 References: <cover.1567712829.git.mchehab+samsung@kernel.org>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There is a very strict rule saying on what line a SPDX header
-should be. Add an optional pedantic check for it.
+On Thu, 2019-09-05 at 16:57 -0300, Mauro Carvalho Chehab wrote:
+> The  description at Documentation/process/license-rules.rst is very strict
+> with regards to the position where the SPDX tags should be.
+[]
+> PS.: I sent already a RFC version for those patches along with this
+> thread:
+> 
+>     https://lore.kernel.org/lkml/b32c2e46b91e7bcda2a9bd140673f06d71b2487a.camel@perches.com/
 
-When the check is enabled, it will verify if the file has the
-SPDX header "at the first possible line in a file which can contain
-a comment", as stated at:
+Nice, thanks.
 
-	Documentation/process/license-rules.rst
+Now I guess I have to update checkpatch too.
+(unless you want to... ;)
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
----
- scripts/spdxcheck.py | 34 +++++++++++++++++++++++++---------
- 1 file changed, 25 insertions(+), 9 deletions(-)
-
-diff --git a/scripts/spdxcheck.py b/scripts/spdxcheck.py
-index c969b050366f..f3260391f091 100755
---- a/scripts/spdxcheck.py
-+++ b/scripts/spdxcheck.py
-@@ -164,9 +164,15 @@ class id_parser(object):
-         self.lastid = None
-         self.parser.parse(expr, lexer = self.lexer)
- 
--    def parse_lines(self, fd, maxlines, fname):
-+    def parse_lines(self, fd, maxlines, fname, strict):
-         self.checked += 1
-         self.curline = 0
-+        self.max_line = 1
-+        self.is_python = False
-+
-+        if fname.find("COPYING") >= 0:
-+            self.max_line = maxlines
-+
-         try:
-             for line in fd:
-                 line = line.decode(locale.getpreferredencoding(False), errors='ignore')
-@@ -174,6 +180,13 @@ class id_parser(object):
-                 if self.curline > maxlines:
-                     break
-                 self.lines_checked += 1
-+                if self.curline == 1:
-+		    if re.match("\#\!", line):
-+                        self.max_line = 2
-+			if re.match("\#\!.*python", line):
-+			    is_python = True
-+                if self.curline == 2 and self.is_python and re.match("^[ \t\f]*#.*?coding[:=][ \t]*([-_.a-zA-Z0-9]+)", line):
-+                        self.max_line = 3
-                 if line.find("SPDX-License-Identifier:") < 0:
-                     continue
-                 expr = line.split(':')[1].strip()
-@@ -189,6 +202,8 @@ class id_parser(object):
-                 # Should we check for more SPDX ids in the same file and
-                 # complain if there are any?
-                 #
-+                if strict and self.curline > self.max_line:
-+                    sys.stderr.write('Warning: SPDX header for file %s is at line %d\n' % (fname,self.curline))
-                 return self.curline - 1
- 
-             return -1
-@@ -202,7 +217,7 @@ class id_parser(object):
-                 sys.stdout.write('%s: %d:0 %s\n' %(fname, self.curline, col, pe.txt))
-             self.spdx_errors += 1
- 
--def scan_git_tree(ln_count, tree):
-+def scan_git_tree(ln_count, tree, strict):
-     for el in tree.traverse():
-         # Exclude stuff which would make pointless noise
-         # FIXME: Put this somewhere more sensible
-@@ -213,15 +228,15 @@ def scan_git_tree(ln_count, tree):
-         if not os.path.isfile(el.path):
-             continue
-         with open(el.path, 'rb') as fd:
--            ln = parser.parse_lines(fd, args.maxlines, el.path)
-+            ln = parser.parse_lines(fd, args.maxlines, el.path, strict)
-             if ln >= 0:
-                 ln_count[ln] += 1;
-     return ln_count
- 
--def scan_git_subtree(ln_count, tree, path):
-+def scan_git_subtree(ln_count, tree, path, strict):
-     for p in path.strip('/').split('/'):
-         tree = tree[p]
--    scan_git_tree(ln_count, tree)
-+    scan_git_tree(ln_count, tree, strict)
- 
- if __name__ == '__main__':
- 
-@@ -231,6 +246,7 @@ if __name__ == '__main__':
-                     help='Maximum number of lines to scan in a file. Default 15')
-     ap.add_argument('-v', '--verbose', action='store_true', help='Verbose statistics output')
-     ap.add_argument('-H', '--histogram', action='store_true', help='Verbose histogram about SPDX header position')
-+    ap.add_argument('-s', '--strict', action='store_true', help='Enable strict mode, making it complain about SPDX line position')
-     args = ap.parse_args()
- 
-     # Sanity check path arguments
-@@ -266,7 +282,7 @@ if __name__ == '__main__':
-     try:
-         if len(args.path) and args.path[0] == '-':
-             stdin = os.fdopen(sys.stdin.fileno(), 'rb')
--            ln = parser.parse_lines(stdin, args.maxlines, '-')
-+            ln = parser.parse_lines(stdin, args.maxlines, '-', args.strict)
-             if ln >= 0:
-                 ln_count[ln] += 1;
- 
-@@ -274,18 +290,18 @@ if __name__ == '__main__':
-             if args.path:
-                 for p in args.path:
-                     if os.path.isfile(p):
--                        ln = parser.parse_lines(open(p, 'rb'), args.maxlines, p)
-+                        ln = parser.parse_lines(open(p, 'rb'), args.maxlines, p, args.strict)
-                         if ln >= 0:
-                             ln_count[ln] += 1;
- 
-                     elif os.path.isdir(p):
--                        scan_git_subtree(ln_count, repo.head.reference.commit.tree, p)
-+                        scan_git_subtree(ln_count, repo.head.reference.commit.tree, p, args.strict)
-                     else:
-                         sys.stderr.write('path %s does not exist\n' %p)
-                         sys.exit(1)
-             else:
-                 # Full git tree scan
--                scan_git_tree(ln_count, repo.head.commit.tree)
-+                scan_git_tree(ln_count, repo.head.commit.tree, args.strict)
- 
-             if args.verbose:
-                 sys.stderr.write('\n')
--- 
-2.21.0
 
