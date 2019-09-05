@@ -2,62 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 88208AA399
-	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2019 14:57:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6AAC9AA3FB
+	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2019 15:13:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732175AbfIEM5E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Sep 2019 08:57:04 -0400
-Received: from ms.lwn.net ([45.79.88.28]:56832 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731008AbfIEM5D (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 5 Sep 2019 08:57:03 -0400
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id EB1176EC;
-        Thu,  5 Sep 2019 12:57:02 +0000 (UTC)
-Date:   Thu, 5 Sep 2019 06:57:01 -0600
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Joe Perches <joe@perches.com>, linux-kernel@vger.kernel.org,
-        Jessica Yu <jeyu@kernel.org>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Thomas Gleixner <tglx@linutronix.de>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: license-rules.txt: cover SPDX headers on Python
- scripts
-Message-ID: <20190905065701.4744e66a@lwn.net>
-In-Reply-To: <88e638eb959095ab6657d295f9f8c27169569bf2.1567675272.git.mchehab+samsung@kernel.org>
-References: <20190905055614.7958918b@coco.lan>
-        <88e638eb959095ab6657d295f9f8c27169569bf2.1567675272.git.mchehab+samsung@kernel.org>
-Organization: LWN.net
+        id S2388395AbfIENNB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Sep 2019 09:13:01 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:45117 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388392AbfIENNA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Sep 2019 09:13:00 -0400
+Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.pengutronix.de.)
+        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1i5rZL-0007Sc-Lp; Thu, 05 Sep 2019 15:12:59 +0200
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     linux-media@vger.kernel.org
+Cc:     Tomasz Figa <tfiga@chromium.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        kernel@pengutronix.de
+Subject: [PATCH 1/2] media: uapi: h264: clarify dec_ref_pic_marking_bit_size fields
+Date:   Thu,  5 Sep 2019 15:12:54 +0200
+Message-Id: <20190905131255.10150-1-p.zabel@pengutronix.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu,  5 Sep 2019 06:23:13 -0300
-Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+Since dec_ref_pic_marking_bit_size is not a syntax element
+itself, explicitly state that this is the size in bits of
+the dec_ref_pic_marking() syntax element contained in the
+slice.
 
-> Python's PEP-263 [1] dictates that an script that needs to default to
-> UTF-8 encoding has to follow this rule:
-> 
-> 	'Python will default to ASCII as standard encoding if no other
-> 	 encoding hints are given.
-> 
-> 	 To define a source code encoding, a magic comment must be placed
-> 	 into the source files either as first or second line in the file'
+Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+---
+ Documentation/media/uapi/v4l/ext-ctrls-codec.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-So this is only Python 2, right?  Python 3 is UTF8 by default.  Given that
-Python 2 is EOL in January, is this something we should be concerned
-about?  Or should we instead be making sure that all the Python we have
-in-tree works properly with Python 3 and be done with it?
+diff --git a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
+index b9834625a939..c281bc7ed1b3 100644
+--- a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
++++ b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
+@@ -1796,7 +1796,7 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
+       -
+     * - __u32
+       - ``dec_ref_pic_marking_bit_size``
+-      -
++      - Size in bits of the dec_ref_pic_marking() syntax element.
+     * - __u32
+       - ``pic_order_cnt_bit_size``
+       -
+-- 
+2.20.1
 
-Thanks,
-
-jon
