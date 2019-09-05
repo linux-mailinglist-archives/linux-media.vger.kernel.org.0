@@ -2,81 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 48842AA0C7
-	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2019 13:02:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D96F2AA0D0
+	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2019 13:04:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733182AbfIELBe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Sep 2019 07:01:34 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:48324 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731666AbfIELBd (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Sep 2019 07:01:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-        Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=Es/zISrtwllZAcTDfnj7OAQJAy+Bnf95m2mw7+BsncA=; b=d5bEaDa3VutuNsrUO1pWw6Bd8q
-        utxDqk1SomwhtO3mKhSkGFfXWtNfsUfasMJAn40C1oxmRQzLmDFdPfThT21htY+tDVECIsRhbyauR
-        lWDWrYYbzVnhvWWvEe7KSsju/20qQ+eAqWKoirezRb/0/lfocNMKr9Uid+8uGiAfdQa5lfUmASV6w
-        h5l/Yf4W+CTipGXvxael20TpzjZ8MST9bUzXMtiVdB6xuEG668WKZDt+Wq7lQX+cqfb6f3+TNRcuo
-        R8OL5+dnvX6lV1M7AVApC8lbLo3peVhl0X+9IUTkC7VZ9czlhn6aJSDeQgRS7sOfdupAIFprtTpU+
-        6QyPeDNA==;
-Received: from 177.17.137.173.dynamic.adsl.gvt.net.br ([177.17.137.173] helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1i5pW8-0003ab-Ux; Thu, 05 Sep 2019 11:01:32 +0000
-Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.1)
-        (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1i5pW6-000314-LJ; Thu, 05 Sep 2019 08:01:30 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Joe Perches <joe@perches.com>, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Allison Randal <allison@lohutok.net>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Enrico Weigelt <info@metux.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Doug Smythies <doug.smythies@gmail.com>
-Subject: [PATCH 3/3] tools: intel_pstate_tracer.py: fix SPDX header in the light of PEP-263
-Date:   Thu,  5 Sep 2019 08:01:29 -0300
-Message-Id: <4c6c3a5a5c3f9ccc5409511f0372008af0706e53.1567681249.git.mchehab+samsung@kernel.org>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <d1331081c206afb4ba71e07d5b11a67896cbd99f.1567681249.git.mchehab+samsung@kernel.org>
-References: <d1331081c206afb4ba71e07d5b11a67896cbd99f.1567681249.git.mchehab+samsung@kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S2387964AbfIELEb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Sep 2019 07:04:31 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:49881 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731215AbfIELEa (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Sep 2019 07:04:30 -0400
+Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1i5pYz-0000rP-Fv; Thu, 05 Sep 2019 13:04:29 +0200
+Message-ID: <1567681468.3958.3.camel@pengutronix.de>
+Subject: Re: [PATCH 2/2] media: hantro: h264: per-slice
+ num_ref_idx_l[01]_active override
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Sasha Hauer <kernel@pengutronix.de>
+Date:   Thu, 05 Sep 2019 13:04:28 +0200
+In-Reply-To: <CAHD77H=UEor0jv3-8E6QPumwdo7wWEUGtzqwfGrGE6ZndtCb7A@mail.gmail.com>
+References: <20190905101533.525-1-p.zabel@pengutronix.de>
+         <20190905101533.525-2-p.zabel@pengutronix.de>
+         <CAHD77H=UEor0jv3-8E6QPumwdo7wWEUGtzqwfGrGE6ZndtCb7A@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.22.6-1+deb9u2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-As stated at PEP-263, the coding tag should be at the first or
-second line. On those two scripts, the tag is at the wrong line.
+On Thu, 2019-09-05 at 19:34 +0900, Tomasz Figa wrote:
+> On Thu, Sep 5, 2019 at 7:15 PM Philipp Zabel <p.zabel@pengutronix.de> wrote:
+> > 
+> > If the slice header had the num_ref_idx_active_override flag set, we
+> > should use the num_ref_idx_l[01]_active_minus1 fields instead of the
+> > defaults from the PPS.
+> > 
+> > Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+> > ---
+> >  drivers/staging/media/hantro/hantro_g1_h264_dec.c | 13 +++++++++++--
+> >  1 file changed, 11 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/staging/media/hantro/hantro_g1_h264_dec.c b/drivers/staging/media/hantro/hantro_g1_h264_dec.c
+> > index 7ab534936843..544cf92ab62c 100644
+> > --- a/drivers/staging/media/hantro/hantro_g1_h264_dec.c
+> > +++ b/drivers/staging/media/hantro/hantro_g1_h264_dec.c
+> > @@ -28,6 +28,8 @@ static void set_params(struct hantro_ctx *ctx)
+> >         const struct v4l2_ctrl_h264_pps *pps = ctrls->pps;
+> >         struct vb2_v4l2_buffer *src_buf = hantro_get_src_buf(ctx);
+> >         struct hantro_dev *vpu = ctx->dev;
+> > +       unsigned char refidx0_active;
+> > +       unsigned char refidx1_active;
+> >         u32 reg;
+> > 
+> >         /* Decoder control register 0. */
+> > @@ -101,9 +103,16 @@ static void set_params(struct hantro_ctx *ctx)
+> >         vdpu_write_relaxed(vpu, reg, G1_REG_DEC_CTRL5);
+> > 
+> >         /* Decoder control register 6. */
+> > +       if (sps->flags & V4L2_H264_SLICE_FLAG_NUM_REF_IDX_ACTIVE_OVERRIDE) {
+> > +               refidx0_active = slices[0].num_ref_idx_l0_active_minus1 + 1;
+> > +               refidx1_active = slices[0].num_ref_idx_l1_active_minus1 + 1;
+> > +       } else {
+> > +               refidx0_active = pps->num_ref_idx_l0_default_active_minus1 + 1;
+> > +               refidx1_active = pps->num_ref_idx_l1_default_active_minus1 + 1;
+> > +       }
+> >         reg = G1_REG_DEC_CTRL6_PPS_ID(slices[0].pic_parameter_set_id) |
+> > -             G1_REG_DEC_CTRL6_REFIDX0_ACTIVE(pps->num_ref_idx_l0_default_active_minus1 + 1) |
+> > -             G1_REG_DEC_CTRL6_REFIDX1_ACTIVE(pps->num_ref_idx_l1_default_active_minus1 + 1) |
+> > +             G1_REG_DEC_CTRL6_REFIDX0_ACTIVE(refidx0_active) |
+> > +             G1_REG_DEC_CTRL6_REFIDX1_ACTIVE(refidx1_active) |
+> >               G1_REG_DEC_CTRL6_POC_LENGTH(slices[0].pic_order_cnt_bit_size);
+> >         vdpu_write_relaxed(vpu, reg, G1_REG_DEC_CTRL6);
+> 
+> My understanding was that Hantro G1 parses the slices itself and
+> handles the override flag internally.
 
-Place it at the right place and use the same kind of line that we're
-using on other python scripts that also work fine with emacs.
+Oh, in that case this patch is incorrect and the first one is indeed
+unnecessary.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
----
- tools/power/x86/intel_pstate_tracer/intel_pstate_tracer.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/tools/power/x86/intel_pstate_tracer/intel_pstate_tracer.py b/tools/power/x86/intel_pstate_tracer/intel_pstate_tracer.py
-index 2d6d342b148f..1009be489f9a 100755
---- a/tools/power/x86/intel_pstate_tracer/intel_pstate_tracer.py
-+++ b/tools/power/x86/intel_pstate_tracer/intel_pstate_tracer.py
-@@ -1,6 +1,6 @@
- #!/usr/bin/python
-+# -*- coding: utf-8; mode: python -*-
- # SPDX-License-Identifier: GPL-2.0-only
--# -*- coding: utf-8 -*-
- #
- """ This utility can be used to debug and tune the performance of the
- intel_pstate driver. This utility can be used in two ways:
--- 
-2.21.0
-
+regards
+Philipp
