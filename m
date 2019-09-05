@@ -2,240 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D83AFAAE1A
-	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2019 23:51:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D3BADAAEC4
+	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2019 00:58:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732629AbfIEVvz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Sep 2019 17:51:55 -0400
-Received: from vsp-unauthed02.binero.net ([195.74.38.227]:49490 "EHLO
-        vsp-unauthed02.binero.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391065AbfIEVvy (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Sep 2019 17:51:54 -0400
-X-Halon-ID: 50317c15-d027-11e9-837a-0050569116f7
-Authorized-sender: niklas@soderlund.pp.se
-Received: from bismarck.berto.se (unknown [84.172.84.18])
-        by bin-vsp-out-03.atm.binero.net (Halon) with ESMTPA
-        id 50317c15-d027-11e9-837a-0050569116f7;
-        Thu, 05 Sep 2019 23:51:28 +0200 (CEST)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH 2/2] rcar-vin: Add support for V4L2_FIELD_SEQ_{TB,BT}
-Date:   Thu,  5 Sep 2019 23:49:15 +0200
-Message-Id: <20190905214915.13919-3-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20190905214915.13919-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20190905214915.13919-1-niklas.soderlund+renesas@ragnatech.se>
+        id S1731603AbfIEW6R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Sep 2019 18:58:17 -0400
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:42225 "EHLO
+        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730065AbfIEW6R (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Sep 2019 18:58:17 -0400
+Received: by mail-qt1-f194.google.com with SMTP id c9so4879442qth.9
+        for <linux-media@vger.kernel.org>; Thu, 05 Sep 2019 15:58:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=cQJ+zFOVB6K6WcAR5pcUdxaScO8yDgBnUHh3PD1RXoI=;
+        b=DRLNWLd8+ETk0QluxLV9XbJORwoyXqRnnMYnVOBDD3zYwbylkOWFJ9gnaLgf67l6lx
+         nXrg/tuOjFYwZIV0I+VrcVrJkKhHNQpBWin4HyZMDKQBhKhYx5WvbWrP0f46reaSkrFx
+         E+fkGTnUHj+R9/vYM863tugJRlR8AfObMEQe0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cQJ+zFOVB6K6WcAR5pcUdxaScO8yDgBnUHh3PD1RXoI=;
+        b=bLmDC7SuWyMtug/aeBf+9i49VPqLXUq4vKkgq5MPvDA/sT8UL26kmNmB+7j3aNNYB3
+         eZ3tgJjjaXKJWu3Fa8sfUStd4XqTV6bRpYEFhj2tOmgb0MkJPV07A8ivyYPWN0qgh0iC
+         5I2x0i+GSx2x76QgMASvlQZVlksVXu2LhvU+Nw2jcKL8fUN/Ne9FgJHS0d7Apf84VCoU
+         SXKbnPsb4vJiVBEkYU5p85VRD3KUkcHilDoLo0fBQD9npebY6x+1/NqQnEPuMxJm3RP2
+         PQL6Vhe/F3XQ4SoDQcN3+aglYBe/FYYOXpIIqV/znenr/uIEKuciMismlgZ7ODJvP6uD
+         3mow==
+X-Gm-Message-State: APjAAAXZPinPe5NqBAgbXAiGtvkkKeRZ8DrpHSEepsH/5lO2gKWiPEkN
+        V8MQxyEomoTmhAYvx0xuVKEFOn166ED/4Mu2aG1mSg==
+X-Google-Smtp-Source: APXvYqzxEctUy2fVNhmlBa2d060jbs6jhMPm3vNuZR/XdvJM98rLVHL7XY+TYTWbR9KnwSaB7/U5fV5KOs5bQUPWGMg=
+X-Received: by 2002:ad4:540c:: with SMTP id f12mr3741489qvt.104.1567724296065;
+ Thu, 05 Sep 2019 15:58:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20190819034331.13098-1-dongchun.zhu@mediatek.com>
+ <20190819034331.13098-3-dongchun.zhu@mediatek.com> <20190819083009.GC6133@paasikivi.fi.intel.com>
+ <1567676465.21623.100.camel@mhfsdcap03> <20190905104546.GA5475@paasikivi.fi.intel.com>
+ <CAAFQd5Bh-11D9RR9WVH5A3DbXZoxWhbMhXSNKUV25mempMi+ag@mail.gmail.com> <20190905160512.GG5475@paasikivi.fi.intel.com>
+In-Reply-To: <20190905160512.GG5475@paasikivi.fi.intel.com>
+From:   Nicolas Boichat <drinkcat@chromium.org>
+Date:   Fri, 6 Sep 2019 06:58:05 +0800
+Message-ID: <CANMq1KDVMGkeBvu1nO5WHopWwec9mxHfhmLmX2BzvaYVLzxoXw@mail.gmail.com>
+Subject: Re: [V3, 2/2] media: i2c: Add Omnivision OV02A10 camera sensor driver
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Tomasz Figa <tfiga@chromium.org>,
+        Dongchun Zhu <dongchun.zhu@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Cao Bing Bu <bingbu.cao@intel.com>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
+        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
+        Sj Huang <sj.huang@mediatek.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        devicetree@vger.kernel.org, Louis Kuo <louis.kuo@mediatek.com>,
+        shengnan.wang@mediatek.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The hardware do not support capturing the field types V4L2_FIELD_SEQ_TB
-and V4L2_FIELD_SEQ_BT. To capture in these formats the driver needs to
-adjust the offset of the capture buffer and capture twice to each vb2
-buffer.
+On Fri, Sep 6, 2019 at 12:05 AM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
+>
+> On Thu, Sep 05, 2019 at 07:53:37PM +0900, Tomasz Figa wrote:
+> > On Thu, Sep 5, 2019 at 7:45 PM Sakari Ailus
+> > <sakari.ailus@linux.intel.com> wrote:
+> > >
+> > > Hi Dongchun,
+> > >
+> > > On Thu, Sep 05, 2019 at 05:41:05PM +0800, Dongchun Zhu wrote:
+> > >
+> > > ...
+> > >
+> > > > > > + ret = regulator_bulk_enable(OV02A10_NUM_SUPPLIES, ov02a10->supplies);
+> > > > > > + if (ret < 0) {
+> > > > > > +         dev_err(dev, "Failed to enable regulators\n");
+> > > > > > +         goto disable_clk;
+> > > > > > + }
+> > > > > > + msleep_range(7);
+> > > > >
+> > > > > This has some potential of clashing with more generic functions in the
+> > > > > future. Please use usleep_range directly, or msleep.
+> > > > >
+> > > >
+> > > > Did you mean using usleep_range(7*1000, 8*1000), as used in patch v1?
+> > > > https://patchwork.kernel.org/patch/10957225/
+> > >
+> > > Yes, please.
+> >
+> > Why not just msleep()?
+>
+> msleep() is usually less accurate. I'm not sure it makes a big different in
+> this case. Perhaps, if someone wants that the sensor is powered on and
+> streaming as soon as possible.
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- drivers/media/platform/rcar-vin/rcar-dma.c  | 57 ++++++++++++++++++---
- drivers/media/platform/rcar-vin/rcar-v4l2.c |  7 ++-
- drivers/media/platform/rcar-vin/rcar-vin.h  | 19 +++++++
- 3 files changed, 74 insertions(+), 9 deletions(-)
+https://elixir.bootlin.com/linux/latest/source/Documentation/timers/timers-howto.txt#L70
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-index a9fffadc268e96ba..c46f6e90627d45fd 100644
---- a/drivers/media/platform/rcar-vin/rcar-dma.c
-+++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-@@ -534,7 +534,7 @@ static void rvin_crop_scale_comp_gen2(struct rvin_dev *vin)
- 
- 	/* Set scaling coefficient */
- 	crop_height = vin->crop.height;
--	if (V4L2_FIELD_IS_INTERLACED(vin->format.field))
-+	if (V4L2_FIELD_HAS_BOTH(vin->format.field))
- 		crop_height *= 2;
- 
- 	ys = 0;
-@@ -625,6 +625,8 @@ static int rvin_setup(struct rvin_dev *vin)
- 	case V4L2_FIELD_INTERLACED_BT:
- 		vnmc = VNMC_IM_FULL | VNMC_FOC;
- 		break;
-+	case V4L2_FIELD_SEQ_TB:
-+	case V4L2_FIELD_SEQ_BT:
- 	case V4L2_FIELD_NONE:
- 		vnmc = VNMC_IM_ODD_EVEN;
- 		progressive = true;
-@@ -839,15 +841,23 @@ static void rvin_fill_hw_slot(struct rvin_dev *vin, int slot)
- 	struct rvin_buffer *buf;
- 	struct vb2_v4l2_buffer *vbuf;
- 	dma_addr_t phys_addr;
-+	int prev;
- 
- 	/* A already populated slot shall never be overwritten. */
- 	if (WARN_ON(vin->buf_hw[slot].buffer != NULL))
- 		return;
- 
--	vin_dbg(vin, "Filling HW slot: %d\n", slot);
-+	prev = (slot == 0 ? HW_BUFFER_NUM : slot) - 1;
- 
--	if (list_empty(&vin->buf_list)) {
-+	if (vin->buf_hw[prev].type == HALF_TOP) {
-+		vbuf = vin->buf_hw[prev].buffer;
-+		vin->buf_hw[slot].buffer = vbuf;
-+		vin->buf_hw[slot].type = HALF_BOTTOM;
-+		phys_addr = vin->buf_hw[prev].phys + vin->format.sizeimage /
-+			(vin->format.pixelformat == V4L2_PIX_FMT_NV16 ? 4 : 2);
-+	} else if (list_empty(&vin->buf_list)) {
- 		vin->buf_hw[slot].buffer = NULL;
-+		vin->buf_hw[slot].type = FULL;
- 		phys_addr = vin->scratch_phys;
- 	} else {
- 		/* Keep track of buffer we give to HW */
-@@ -856,10 +866,18 @@ static void rvin_fill_hw_slot(struct rvin_dev *vin, int slot)
- 		list_del_init(to_buf_list(vbuf));
- 		vin->buf_hw[slot].buffer = vbuf;
- 
-+		vin->buf_hw[slot].type =
-+			V4L2_FIELD_IS_SEQUENTIAL(vin->format.field) ?
-+			HALF_TOP : FULL;
-+
- 		/* Setup DMA */
- 		phys_addr = vb2_dma_contig_plane_dma_addr(&vbuf->vb2_buf, 0);
- 	}
- 
-+	vin_dbg(vin, "Filling HW slot: %d type: %d buffer: %p\n",
-+		slot, vin->buf_hw[slot].type, vin->buf_hw[slot].buffer);
-+
-+	vin->buf_hw[slot].phys = phys_addr;
- 	rvin_set_slot_addr(vin, slot, phys_addr);
- }
- 
-@@ -867,6 +885,11 @@ static int rvin_capture_start(struct rvin_dev *vin)
- {
- 	int slot, ret;
- 
-+	for (slot = 0; slot < HW_BUFFER_NUM; slot++) {
-+		vin->buf_hw[slot].buffer = NULL;
-+		vin->buf_hw[slot].type = FULL;
-+	}
-+
- 	for (slot = 0; slot < HW_BUFFER_NUM; slot++)
- 		rvin_fill_hw_slot(vin, slot);
- 
-@@ -951,6 +974,16 @@ static irqreturn_t rvin_irq(int irq, void *data)
- 
- 	/* Capture frame */
- 	if (vin->buf_hw[slot].buffer) {
-+		/*
-+		 * Nothing to do but refill the hardware slot if
-+		 * capture only filled first half of vb2 buffer.
-+		 */
-+		if (vin->buf_hw[slot].type == HALF_TOP) {
-+			vin->buf_hw[slot].buffer = NULL;
-+			rvin_fill_hw_slot(vin, slot);
-+			goto done;
-+		}
-+
- 		vin->buf_hw[slot].buffer->field =
- 			rvin_get_active_field(vin, vnms);
- 		vin->buf_hw[slot].buffer->sequence = vin->sequence;
-@@ -978,14 +1011,22 @@ static void return_all_buffers(struct rvin_dev *vin,
- 			       enum vb2_buffer_state state)
- {
- 	struct rvin_buffer *buf, *node;
--	int i;
-+	struct vb2_v4l2_buffer *freed[HW_BUFFER_NUM];
-+	unsigned int i, n;
- 
- 	for (i = 0; i < HW_BUFFER_NUM; i++) {
--		if (vin->buf_hw[i].buffer) {
--			vb2_buffer_done(&vin->buf_hw[i].buffer->vb2_buf,
--					state);
--			vin->buf_hw[i].buffer = NULL;
-+		freed[i] = vin->buf_hw[i].buffer;
-+		vin->buf_hw[i].buffer = NULL;
-+
-+		for (n = 0; n < i; n++) {
-+			if (freed[i] == freed[n]) {
-+				freed[i] = NULL;
-+				break;
-+			}
- 		}
-+
-+		if (freed[i])
-+			vb2_buffer_done(&freed[i]->vb2_buf, state);
- 	}
- 
- 	list_for_each_entry_safe(buf, node, &vin->buf_list, list) {
-diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-index 431ee01b0ee33e84..a01d5b6dcd116d60 100644
---- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-+++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-@@ -90,7 +90,10 @@ static u32 rvin_format_bytesperline(struct rvin_dev *vin,
- 	if (WARN_ON(!fmt))
- 		return -EINVAL;
- 
--	align = pix->pixelformat == V4L2_PIX_FMT_NV16 ? 0x20 : 0x10;
-+	if (V4L2_FIELD_IS_SEQUENTIAL(pix->field))
-+		align = 0x80;
-+	else
-+		align = pix->pixelformat == V4L2_PIX_FMT_NV16 ? 0x20 : 0x10;
- 
- 	return ALIGN(pix->width, align) * fmt->bpp;
- }
-@@ -118,6 +121,8 @@ static void rvin_format_align(struct rvin_dev *vin, struct v4l2_pix_format *pix)
- 	case V4L2_FIELD_INTERLACED_BT:
- 	case V4L2_FIELD_INTERLACED:
- 	case V4L2_FIELD_ALTERNATE:
-+	case V4L2_FIELD_SEQ_TB:
-+	case V4L2_FIELD_SEQ_BT:
- 		break;
- 	default:
- 		pix->field = RVIN_DEFAULT_FIELD;
-diff --git a/drivers/media/platform/rcar-vin/rcar-vin.h b/drivers/media/platform/rcar-vin/rcar-vin.h
-index 9031fe7f569b908e..8d48894bc49e4db6 100644
---- a/drivers/media/platform/rcar-vin/rcar-vin.h
-+++ b/drivers/media/platform/rcar-vin/rcar-vin.h
-@@ -60,6 +60,23 @@ enum rvin_dma_state {
- 	STOPPING,
- };
- 
-+/**
-+ * enum rvin_buffer_type
-+ *
-+ * Describes how a buffer is given to the hardware. To be able
-+ * to capture SEQ_TB/BT it's needed to capture to the same vb2
-+ * buffer twice so the type of buffer needs to be kept.
-+ *
-+ * FULL - One capture fills the whole vb2 buffer
-+ * HALF_TOP- One capture fills the top half of the vb2 buffer
-+ * HALF_BOTTOM - One capture fills the bottom half of the vb2 buffer
-+ */
-+enum rvin_buffer_type {
-+	FULL,
-+	HALF_TOP,
-+	HALF_BOTTOM,
-+};
-+
- /**
-  * struct rvin_video_format - Data format stored in memory
-  * @fourcc:	Pixelformat
-@@ -204,6 +221,8 @@ struct rvin_dev {
- 	spinlock_t qlock;
- 	struct {
- 		struct vb2_v4l2_buffer *buffer;
-+		enum rvin_buffer_type type;
-+		dma_addr_t phys;
- 	} buf_hw[HW_BUFFER_NUM];
- 	struct list_head buf_list;
- 	unsigned int sequence;
--- 
-2.23.0
+Use usleep_range for delays up to 20ms (at least that's what the
+documentation (still) says?)
 
+> --
+> Sakari Ailus
+> sakari.ailus@linux.intel.com
