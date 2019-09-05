@@ -2,179 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 17028A96EE
-	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2019 01:14:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B007EA990B
+	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2019 05:52:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730390AbfIDXOl convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 4 Sep 2019 19:14:41 -0400
-Received: from mailoutvs5.siol.net ([185.57.226.196]:54364 "EHLO mail.siol.net"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728286AbfIDXOl (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 4 Sep 2019 19:14:41 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.siol.net (Postfix) with ESMTP id D7476520A46;
-        Thu,  5 Sep 2019 01:14:37 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at psrvmta10.zcs-production.pri
-Received: from mail.siol.net ([127.0.0.1])
-        by localhost (psrvmta10.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id FM58iBnMidPl; Thu,  5 Sep 2019 01:14:37 +0200 (CEST)
-Received: from mail.siol.net (localhost [127.0.0.1])
-        by mail.siol.net (Postfix) with ESMTPS id 38A985208D8;
-        Thu,  5 Sep 2019 01:14:37 +0200 (CEST)
-Received: from jernej-laptop.localnet (cpe-86-58-59-25.static.triera.net [86.58.59.25])
-        (Authenticated sender: jernej.skrabec@siol.net)
-        by mail.siol.net (Postfix) with ESMTPA id 76204520A32;
-        Thu,  5 Sep 2019 01:14:34 +0200 (CEST)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     mchehab@kernel.org, paul.kocialkowski@bootlin.com,
-        mripard@kernel.org, pawel@osciak.com, m.szyprowski@samsung.com,
-        kyungmin.park@samsung.com, tfiga@chromium.org, wens@csie.org,
-        acourbot@chromium.org, gregkh@linuxfoundation.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org,
-        ezequiel@collabora.com, jonas@kwiboo.se
-Subject: Re: [PATCH 7/8] media: cedrus: Add support for holding capture buffer
-Date:   Thu, 05 Sep 2019 01:14:34 +0200
-Message-ID: <2397760.v9PcElvEDa@jernej-laptop>
-In-Reply-To: <f105990c-e059-6bdd-433f-074388e3a2dc@xs4all.nl>
-References: <20190822194500.2071-1-jernej.skrabec@siol.net> <20190822194500.2071-8-jernej.skrabec@siol.net> <f105990c-e059-6bdd-433f-074388e3a2dc@xs4all.nl>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Type: text/plain; charset="UTF-8"
+        id S1727562AbfIEDwq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Sep 2019 23:52:46 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:47277 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725965AbfIEDwq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 4 Sep 2019 23:52:46 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:c91f:b9db:b779:3284])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id 5ip7iB1oiMK4h5ip8iFqZ7; Thu, 05 Sep 2019 05:52:43 +0200
+Message-ID: <a3113f28eb6de689523f88bf54d83ac3@smtp-cloud8.xs4all.net>
+Date:   Thu, 05 Sep 2019 05:52:41 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfGB8qipYNlzsZW6KhKWm/JhpfWhJl4O1FSZTns558pfCF42EEjV5fHt6rPg3Wmt4r55gnfdRCKQQPv/pB2R9adJDzOXRYA4VY4xbnWHnf5TFKf396LzQ
+ UGfaEdy/1aU/VvTN3ITz6BVt0yLRUIn84bc+JoR5UFCMHm27+5gBVu2he91saRHjMmLIOe4MrszU6UkTAegGoZSPAmoqNbcD2eYUBAFfoKfjM94G+kP+1sf7
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dne četrtek, 29. avgust 2019 ob 13:23:29 CEST je Hans Verkuil napisal(a):
-> On 8/22/19 9:44 PM, Jernej Skrabec wrote:
-> > When frame contains multiple slices and driver works in slice mode, it's
-> > more efficient to hold capture buffer in queue until all slices of a
-> > same frame are decoded.
-> > 
-> > Add support for that to Cedrus driver by exposing and implementing
-> > V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF capability.
-> > 
-> > Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
-> > ---
-> > 
-> >  drivers/staging/media/sunxi/cedrus/cedrus_dec.c   | 9 +++++++++
-> >  drivers/staging/media/sunxi/cedrus/cedrus_hw.c    | 8 +++++---
-> >  drivers/staging/media/sunxi/cedrus/cedrus_video.c | 1 +
-> >  3 files changed, 15 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-> > b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c index
-> > d7b54accfe83..68462b99750e 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-> > @@ -31,6 +31,14 @@ void cedrus_device_run(void *priv)
-> > 
-> >  	run.src = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
-> >  	run.dst = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
-> > 
-> > +
-> > +	if (v4l2_m2m_release_capture_buf(run.src, run.dst)) {
-> > +		v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
-> > +		v4l2_m2m_buf_done(run.dst, VB2_BUF_STATE_DONE);
-> > +		run.dst = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
-> > +	}
-> > +	run.dst->is_held = run.src->flags & 
-V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF;
-> > +
-> > 
-> >  	run.first_slice =
-> >  	
-> >  		run.src->vb2_buf.timestamp != run.dst-
->vb2_buf.timestamp;
-> > 
-> > @@ -46,6 +54,7 @@ void cedrus_device_run(void *priv)
-> > 
-> >  			V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS);
-> >  		
-> >  		run.mpeg2.quantization = cedrus_find_control_data(ctx,
-> >  		
-> >  			V4L2_CID_MPEG_VIDEO_MPEG2_QUANTIZATION);
-> > 
-> > +		run.dst->is_held = false;
-> > 
-> >  		break;
-> >  	
-> >  	case V4L2_PIX_FMT_H264_SLICE:
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> > b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c index
-> > a942cd9bed57..99fedec80224 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> > @@ -122,7 +122,7 @@ static irqreturn_t cedrus_irq(int irq, void *data)
-> > 
-> >  	dev->dec_ops[ctx->current_codec]->irq_clear(ctx);
-> >  	
-> >  	src_buf = v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
-> > 
-> > -	dst_buf = v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
-> > +	dst_buf = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
-> > 
-> >  	if (!src_buf || !dst_buf) {
-> >  	
-> >  		v4l2_err(&dev->v4l2_dev,
-> > 
-> > @@ -136,8 +136,10 @@ static irqreturn_t cedrus_irq(int irq, void *data)
-> > 
-> >  		state = VB2_BUF_STATE_DONE;
-> >  	
-> >  	v4l2_m2m_buf_done(src_buf, state);
-> > 
-> > -	v4l2_m2m_buf_done(dst_buf, state);
-> > -
-> > +	if (!dst_buf->is_held) {
-> > +		v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
-> > +		v4l2_m2m_buf_done(dst_buf, state);
-> > +	}
-> > 
-> >  	v4l2_m2m_job_finish(ctx->dev->m2m_dev, ctx->fh.m2m_ctx);
-> >  	
-> >  	return IRQ_HANDLED;
-> > 
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-> > b/drivers/staging/media/sunxi/cedrus/cedrus_video.c index
-> > eeee3efd247b..5153b2bba21e 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-> > @@ -515,6 +515,7 @@ int cedrus_queue_init(void *priv, struct vb2_queue
-> > *src_vq,> 
-> >  	src_vq->type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
-> >  	src_vq->io_modes = VB2_MMAP | VB2_DMABUF;
-> >  	src_vq->drv_priv = ctx;
-> > 
-> > +	src_vq->subsystem_flags = 
-VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF;
-> 
-> This isn't quite right: this flag should only be set for formats that
-> support slicing. So cedrus_s_fmt_vid_out() should set this for H264, but
-> clear it for MPEG2.
-> 
-> Looking at the cedrus code it seems that it does not set an initial default
-> output format after opening the video device. This seems wrong to me. If it
-> did set a default output format, then src_vq->subsystem_flags should set
-> this flag corresponding to the default output format.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Ok, I'll base v2 series on your "cedrus: v4l2-compliance fixes", because it has 
-some useful changes for this case.
+Results of the daily build of media_tree:
 
-Best regards,
-Jernej
+date:			Thu Sep  5 05:00:13 CEST 2019
+media-tree git hash:	20a438d53fd9d12a894161bc56cbeab7a9993c39
+media_build git hash:	d75b29db1297d2475227cc8bada843542271e40d
+v4l-utils git hash:	dd79397d3abf1be875224aad3b62efab53457a73
+edid-decode git hash:	0932deee88928f110b5a74851c173ad895f75863
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1-rc1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.5.1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 8634894b41454ef4215a3d4fd503305c720e761a
+host hardware:		x86_64
+host os:		4.19.0-4-amd64
 
-> 
-> >  	src_vq->buf_struct_size = sizeof(struct cedrus_buffer);
-> >  	src_vq->min_buffers_needed = 1;
-> >  	src_vq->ops = &cedrus_qops;
-> 
-> Regards,
-> 
-> 	Hans
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: WARNINGS
+linux-3.11.10-i686: WARNINGS
+linux-3.11.10-x86_64: WARNINGS
+linux-3.12.74-i686: WARNINGS
+linux-3.12.74-x86_64: WARNINGS
+linux-3.13.11-i686: WARNINGS
+linux-3.13.11-x86_64: WARNINGS
+linux-3.14.79-i686: WARNINGS
+linux-3.14.79-x86_64: WARNINGS
+linux-3.15.10-i686: WARNINGS
+linux-3.15.10-x86_64: WARNINGS
+linux-3.16.63-i686: WARNINGS
+linux-3.16.63-x86_64: WARNINGS
+linux-3.17.8-i686: WARNINGS
+linux-3.17.8-x86_64: WARNINGS
+linux-3.18.136-i686: WARNINGS
+linux-3.18.136-x86_64: WARNINGS
+linux-3.19.8-i686: WARNINGS
+linux-3.19.8-x86_64: WARNINGS
+linux-4.0.9-i686: WARNINGS
+linux-4.0.9-x86_64: WARNINGS
+linux-4.1.52-i686: WARNINGS
+linux-4.1.52-x86_64: WARNINGS
+linux-4.2.8-i686: WARNINGS
+linux-4.2.8-x86_64: WARNINGS
+linux-4.3.6-i686: WARNINGS
+linux-4.3.6-x86_64: WARNINGS
+linux-4.4.167-i686: WARNINGS
+linux-4.4.167-x86_64: WARNINGS
+linux-4.5.7-i686: WARNINGS
+linux-4.5.7-x86_64: WARNINGS
+linux-4.6.7-i686: WARNINGS
+linux-4.6.7-x86_64: WARNINGS
+linux-4.7.10-i686: WARNINGS
+linux-4.7.10-x86_64: WARNINGS
+linux-4.8.17-i686: WARNINGS
+linux-4.8.17-x86_64: WARNINGS
+linux-4.9.162-i686: WARNINGS
+linux-4.9.162-x86_64: WARNINGS
+linux-4.10.17-i686: WARNINGS
+linux-4.10.17-x86_64: WARNINGS
+linux-4.11.12-i686: WARNINGS
+linux-4.11.12-x86_64: WARNINGS
+linux-4.12.14-i686: WARNINGS
+linux-4.12.14-x86_64: WARNINGS
+linux-4.13.16-i686: WARNINGS
+linux-4.13.16-x86_64: WARNINGS
+linux-4.14.105-i686: WARNINGS
+linux-4.14.105-x86_64: WARNINGS
+linux-4.15.18-i686: WARNINGS
+linux-4.15.18-x86_64: WARNINGS
+linux-4.16.18-i686: WARNINGS
+linux-4.16.18-x86_64: WARNINGS
+linux-4.17.19-i686: WARNINGS
+linux-4.17.19-x86_64: WARNINGS
+linux-4.18.20-i686: WARNINGS
+linux-4.18.20-x86_64: WARNINGS
+linux-4.19.28-i686: WARNINGS
+linux-4.19.28-x86_64: WARNINGS
+linux-4.20.15-i686: WARNINGS
+linux-4.20.15-x86_64: WARNINGS
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3-rc1-i686: OK
+linux-5.3-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2327, Succeeded: 2327, Failed: 0, Warnings: 0
+sparse: OK
+smatch: OK
 
+Logs weren't copied as they are too large (81500 kB)
 
+The Media Infrastructure API from this daily build is here:
 
-
+http://www.xs4all.nl/~hverkuil/spec/index.html
