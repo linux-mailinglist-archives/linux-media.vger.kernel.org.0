@@ -2,78 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 60958AACB3
-	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2019 22:05:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 62EE9AACBC
+	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2019 22:07:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729928AbfIEUFP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Sep 2019 16:05:15 -0400
-Received: from smtprelay0137.hostedemail.com ([216.40.44.137]:51403 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725921AbfIEUFP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 5 Sep 2019 16:05:15 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay03.hostedemail.com (Postfix) with ESMTP id B663E8368F04;
-        Thu,  5 Sep 2019 20:05:13 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,:::::::::::::::::::::::::::::::::::::::::::::::::,RULES_HIT:41:355:379:599:800:967:973:982:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1538:1567:1593:1594:1711:1714:1730:1747:1777:1792:2393:2525:2559:2563:2682:2685:2828:2859:2895:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3622:3865:3867:3871:3873:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4250:4321:4361:5007:6117:6119:6742:6743:7901:8531:9025:10004:10400:10848:11232:11658:11914:12043:12297:12438:12555:12740:12760:12895:13069:13311:13357:13439:14181:14659:14721:21080:21627:21740:21811:30003:30054:30060:30070:30091,0,RBL:47.151.152.152:@perches.com:.lbl8.mailshell.net-62.8.0.100 64.201.201.201,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:fn,MSBL:0,DNSBL:neutral,Custom_rules:0:0:0,LFtime:27,LUA_SUMMARY:none
-X-HE-Tag: noise97_846cb11498123
-X-Filterd-Recvd-Size: 2280
-Received: from XPS-9350.home (unknown [47.151.152.152])
-        (Authenticated sender: joe@perches.com)
-        by omf17.hostedemail.com (Postfix) with ESMTPA;
-        Thu,  5 Sep 2019 20:05:09 +0000 (UTC)
-Message-ID: <20daa66d58e01f33a248b8703aa8e37933ef4154.camel@perches.com>
-Subject: Re: [PATCH 0/6] Address issues with SPDX requirements and PEP-263
-From:   Joe Perches <joe@perches.com>
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@infradead.org>,
+        id S1732863AbfIEUHj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Sep 2019 16:07:39 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:60896 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725921AbfIEUHi (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Sep 2019 16:07:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=/RMKG1VmtC2gPGmK7VWh8EaeDGToHpuMmS1djuPjg9Y=; b=HzCrgT9ZhXEE69qWsnIA75rFg
+        HxRqmevdQ9RBjSwPeI87YRf+S1bIDVVH5G0EfMlgu2VA1y5WfwjouHPvNEXRKeSUVOhwzqDXqmgCT
+        yENCkE1gW9Np8oGYRMMN8EwCjOZfzjLEyBmOorojrxuVyCunW1dlaaW/iFBU4kaKvWy7sfYoQTqZQ
+        Emo+v0sAFKOH/cOlD+I3bHDXb0y2QC2Ua4dsXJW2sAsQ1RQnWFJ05m6dhtBG2ieV5aWAjg0se3IUQ
+        Rck8s0t0SOcN4UwdOM/FJ2kCLYsf5LiDMJDRp1r+pYH92BSJWhKqBblQB+30wDbY83pBTZqQ41rvi
+        n9yBeNflg==;
+Received: from [177.159.253.249] (helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1i5y2c-0003S4-Cm; Thu, 05 Sep 2019 20:07:38 +0000
+Date:   Thu, 5 Sep 2019 17:07:33 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Sven Eckelmann <sven@narfation.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Doug Smythies <doug.smythies@gmail.com>,
-        =?ISO-8859-1?Q?Aur=E9lien?= Cedeyn <aurelien.cedeyn@gmail.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        linux-doc@vger.kernel.org,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thierry Reding <treding@nvidia.com>,
-        Armijn Hemel <armijn@tjaldur.nl>, Jiri Olsa <jolsa@redhat.com>,
-        Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
+        Joe Perches <joe@perches.com>, linux-kernel@vger.kernel.org,
+        Jessica Yu <jeyu@kernel.org>,
         Federico Vaga <federico.vaga@vaga.pv.it>,
-        Allison Randal <allison@lohutok.net>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>
-Date:   Thu, 05 Sep 2019 13:05:08 -0700
-In-Reply-To: <cover.1567712829.git.mchehab+samsung@kernel.org>
-References: <cover.1567712829.git.mchehab+samsung@kernel.org>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.32.1-2 
+        Thomas Gleixner <tglx@linutronix.de>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs: license-rules.txt: cover SPDX headers on Python
+ scripts
+Message-ID: <20190905170733.3a25dee8@coco.lan>
+In-Reply-To: <20190905134008.57cd3e89@lwn.net>
+References: <20190905055614.7958918b@coco.lan>
+        <88e638eb959095ab6657d295f9f8c27169569bf2.1567675272.git.mchehab+samsung@kernel.org>
+        <20190905065701.4744e66a@lwn.net>
+        <20190905162810.2388d532@coco.lan>
+        <20190905134008.57cd3e89@lwn.net>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 2019-09-05 at 16:57 -0300, Mauro Carvalho Chehab wrote:
-> The  description at Documentation/process/license-rules.rst is very strict
-> with regards to the position where the SPDX tags should be.
-[]
-> PS.: I sent already a RFC version for those patches along with this
-> thread:
+Em Thu, 5 Sep 2019 13:40:08 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
+
+> On Thu, 5 Sep 2019 16:28:10 -0300
+> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
 > 
->     https://lore.kernel.org/lkml/b32c2e46b91e7bcda2a9bd140673f06d71b2487a.camel@perches.com/
+> > I don't think we can count that python 3 uses utf-8 per default.
+> > 
+> > I strongly suspect that, if one uses a Python3 version < 3.7, it will
+> > still default to ASCII.
+> > 
+> > On a quick look, the new UTF-8 mode was added on PEP-540:
+> > 
+> > 	https://www.python.org/dev/peps/pep-0540/
+> > 
+> > Such change happened at Python 3.7.   
+> 
+> That PEP is to override the locale and use utf8 unconditionally.  It
+> says, with regard to the pre-PEP state:
+> 
+> 	UTF-8 is also the default encoding of Python scripts, XML and JSON
+> 	file formats.
+> 
+> Unicode was the reason for much of the Python 3 pain; it seems unlikely
+> that many installations are defaulting to ASCII anyway...?
 
-Nice, thanks.
+Yeah, but I remember that UTF-8 handling changed a few times during python 3
+releases. I didn't really tracked what happened, as I don't usually program
+in Python. So, I'm actually relying on what I can find about that.
 
-Now I guess I have to update checkpatch too.
-(unless you want to... ;)
+Looking at Python 3.0 release[1], it says:
 
+	"In many cases, but not all, the system default is UTF-8;
+	 you should never count on this default."
 
+[1] https://docs.python.org/3.0/whatsnew/3.0.html
+
+So, at least on early Python 3 releases, the default may not be UTF-8.
+
+I don't know about you, but, from time to time, people complain about
+UTF-8 chars when I'm handling patches (last time was on a patch series
+for Kernel 5.3 by a core dev in Australia, with was unable to apply a
+patch from me with had some UTF-8 chars). 
+
+So, I'm pretty sure that some devs don't set the locale to UTF8 even
+those days.
+
+Thanks,
+Mauro
