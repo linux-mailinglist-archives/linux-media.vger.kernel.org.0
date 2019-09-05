@@ -2,108 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C805A9A43
-	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2019 07:54:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D338A9AFD
+	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2019 08:59:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730785AbfIEFye (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Sep 2019 01:54:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35182 "EHLO mail.kernel.org"
+        id S1731491AbfIEG7b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Sep 2019 02:59:31 -0400
+Received: from d.mail.sonic.net ([64.142.111.50]:35122 "EHLO d.mail.sonic.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725786AbfIEFye (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 5 Sep 2019 01:54:34 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9108B2173B;
-        Thu,  5 Sep 2019 05:54:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1567662873;
-        bh=Uf9AKCBn5jziRHZNbyaOFQh+/kEEr43vpEAZ+ka1xfY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=2Z+aMos2+zBypg8rclvYgrozqQ/h7Fmi1k4rSSb+/VNt5cMXKM7MPs2VseLXbqLSw
-         4Ejxag8xVok55PlZGXHJWwqz6Ite5WJXw0f9vk3Kvt4ikh1NhzkX//OC7mWsTPmRHU
-         dvpcO1XmHnADUSAk1p1d9RjvQWEoF/alEWI6PuM8=
-Date:   Thu, 5 Sep 2019 07:54:30 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Nishad Kamdar <nishadkamdar@gmail.com>,
-        Joe Perches <joe@perches.com>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: siano: Use the correct style for SPDX License
- Identifier
-Message-ID: <20190905055430.GA23826@kroah.com>
-References: <20190831151147.GA7082@nishad>
- <20190904153432.7fb54f02@coco.lan>
- <20190904183608.GA495@kroah.com>
- <20190904160010.4532c3f5@coco.lan>
+        id S1726047AbfIEG7b (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 5 Sep 2019 02:59:31 -0400
+Received: from [192.168.23.254] (bastion.ponzo.net [69.12.218.213])
+        (authenticated bits=0)
+        by d.mail.sonic.net (8.15.1/8.15.1) with ESMTPSA id x856xTCj017452
+        (version=TLSv1.2 cipher=AES128-SHA bits=128 verify=NOT);
+        Wed, 4 Sep 2019 23:59:29 -0700
+Subject: Re: hdpvr.ko kernel 5.3-rc6
+From:   Scott Doty <scott@ponzo.net>
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+References: <7530b881-c7d0-74fd-dfeb-5e001d8b2266@ponzo.net>
+ <5a6ab1fe-9776-961d-970b-5b3dbea12da1@xs4all.nl>
+ <839e8ded-dfe5-9fc9-1573-2d64aa547e1c@ponzo.net>
+ <00b89589-5558-f8a1-3fb7-c631002e11bd@xs4all.nl>
+ <152b2b02-67be-a5ba-6283-1b81d59c145f@xs4all.nl>
+ <75f04282-7625-4c7e-7e94-c45195a152b5@ponzo.net>
+Message-ID: <9b5b96a9-fc14-521f-4b03-772992e57275@ponzo.net>
+Date:   Wed, 4 Sep 2019 23:59:29 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190904160010.4532c3f5@coco.lan>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <75f04282-7625-4c7e-7e94-c45195a152b5@ponzo.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Sonic-CAuth: UmFuZG9tSVax2WJOCWXmrDmN24NP7BhGtYzD4W4Vx8Ny6qFk6rY9HI1pTxHRANZMpjaHJl7vdlntxnSZxEEvk/3HYAr3739G
+X-Sonic-ID: C;xIO7tKrP6RGMQNopn23GFg== M;PKfjtKrP6RGMQNopn23GFg==
+X-Spam-Flag: No
+X-Sonic-Spam-Details: 0.0/5.0 by cerberusd
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Sep 04, 2019 at 04:00:10PM -0300, Mauro Carvalho Chehab wrote:
-> Em Wed, 4 Sep 2019 20:36:08 +0200
-> Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
+On 9/4/19 11:13 AM, Scott Doty wrote:
 > 
-> > On Wed, Sep 04, 2019 at 03:34:32PM -0300, Mauro Carvalho Chehab wrote:
-> > > Em Sat, 31 Aug 2019 20:41:51 +0530
-> > > Nishad Kamdar <nishadkamdar@gmail.com> escreveu:
-> > >   
-> > > > This patch corrects the SPDX License Identifier style
-> > > > in header file related to Siano Mobile Silicon Digital TV.
-> > > > For C header files Documentation/process/license-rules.rst
-> > > > mandates C-like comments (opposed to C source files where
-> > > > C++ style should be used)
-> > > > 
-> > > > Changes made by using a script provided by Joe Perches here:
-> > > > https://lkml.org/lkml/2019/2/7/46
-> > > > 
-> > > > Suggested-by: Joe Perches <joe@perches.com>
-> > > > Signed-off-by: Nishad Kamdar <nishadkamdar@gmail.com>
-> > > > ---
-> > > >  drivers/media/common/siano/smsir.h | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > 
-> > > > diff --git a/drivers/media/common/siano/smsir.h b/drivers/media/common/siano/smsir.h
-> > > > index b2c54c256e86..ada41d5c4e83 100644
-> > > > --- a/drivers/media/common/siano/smsir.h
-> > > > +++ b/drivers/media/common/siano/smsir.h
-> > > > @@ -1,5 +1,5 @@
-> > > > +/* SPDX-License-Identifier: GPL-2.0+ */
-> > > >  /*
-> > > > - * SPDX-License-Identifier: GPL-2.0+
-> > > >   *
-> > > >   * Siano Mobile Silicon, Inc.
-> > > >   * MDTV receiver kernel modules.  
-> > > 
-> > > What's wrong with that? The above is a perfectly fine SPDX header.  
-> > 
-> > It is not the first line of the file :(
-> > 
+> On 9/3/19 1:34 AM, Hans Verkuil wrote:
+>>
+>> Never mind, hdpvr uses read(), not streaming I/O. Of course this
+>> doesn't work...
+>>
+>> Just plain 'cat /dev/videoX >x.mpg' will do.
+>>
+>>
 > 
-> A requirement for having it at the first line is not realistic.
-
-But it is "the rule" as Joe points out.
-
-> I'd say more: some script that would check for SPDX only at the 
-> first line won't work.
+> Okay, tried that, it produces data that vlc can then play back.
 > 
-> The reason is simple: we have some scripts at the Kernel tree.
+> So I think I'm running into a problem with vlc instead of hdpvr. It's
+> just weird that mplayer, vlc, and ffplay would all three be unable to
+> use it.
+> 
+> I'm at work atm, will plug it back in when I get home and see for how
+> long it will read data with cat.
+> 
+> Thank you for looking, now I feel a bit dumb.
+> 
+>  -Scott
+> 
 
-This is not a script, for those, it is fine to use the second line,
-again, this is documented.
+Yep, reads indefinitely.
 
-This isn't new at all, been that way since December of 2017, see commit
-aa19a176df95 ("Documentation: Add license-rules.rst to describe how to
-properly identify file licenses")
+_[/tmp]_(scott@eva)_
+$ time -p cat /dev/video2 > out5.ts
+^C
+real 45.49
+user 0.00
+sys 0.27
+_[/tmp]_(scott@eva)_
+$ time -p cat /dev/video2 > out6.ts
 
-thanks,
+Furthermore, I can run "vlc out6.ts",  and it will play the file until
+it reaches the end (which it won't, if I keep writing to it).
 
-greg k-h
+So this appears to be a problem in userland.  My apologies for reporting
+otherwise.
+
+ -Scott
