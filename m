@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 37968AA8B4
-	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2019 18:20:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CDFBAA8AE
+	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2019 18:20:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387505AbfIEQUO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Sep 2019 12:20:14 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:6689 "EHLO huawei.com"
+        id S2387501AbfIEQSF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Sep 2019 12:18:05 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:34954 "EHLO huawei.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1733153AbfIEQSE (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 5 Sep 2019 12:18:04 -0400
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.59])
-        by Forcepoint Email with ESMTP id C402D2AAE43830CAB68A;
-        Fri,  6 Sep 2019 00:18:00 +0800 (CST)
+        id S1731806AbfIEQSD (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 5 Sep 2019 12:18:03 -0400
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id 12BB16B0AF36F1F33C01;
+        Fri,  6 Sep 2019 00:18:01 +0800 (CST)
 Received: from linux-ibm.site (10.175.102.37) by
  DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
- 14.3.439.0; Fri, 6 Sep 2019 00:18:38 +0800
+ 14.3.439.0; Fri, 6 Sep 2019 00:18:39 +0800
 From:   zhong jiang <zhongjiang@huawei.com>
 To:     <mchehab@kernel.org>
 CC:     <hansverk@cisco.com>, <daniel.vetter@ffwll.ch>,
         <zhongjiang@huawei.com>, <linux-media@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
-Subject: [PATCH 2/4] media: tuners/qm1d1c0042: Use DIV_ROUND_CLOSEST directly to make it readable
-Date:   Fri, 6 Sep 2019 00:14:50 +0800
-Message-ID: <1567700092-27769-3-git-send-email-zhongjiang@huawei.com>
+Subject: [PATCH 4/4] media: v4l2-dv-timings: Use DIV_ROUND_CLOSEST directly to make it readable
+Date:   Fri, 6 Sep 2019 00:14:52 +0800
+Message-ID: <1567700092-27769-5-git-send-email-zhongjiang@huawei.com>
 X-Mailer: git-send-email 1.7.12.4
 In-Reply-To: <1567700092-27769-1-git-send-email-zhongjiang@huawei.com>
 References: <1567700092-27769-1-git-send-email-zhongjiang@huawei.com>
@@ -42,22 +42,22 @@ but is perhaps more readable.
 
 Signed-off-by: zhong jiang <zhongjiang@huawei.com>
 ---
- drivers/media/tuners/qm1d1c0042.c | 2 +-
+ drivers/media/v4l2-core/v4l2-dv-timings.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/tuners/qm1d1c0042.c b/drivers/media/tuners/qm1d1c0042.c
-index 83ca5dc..0e26d22 100644
---- a/drivers/media/tuners/qm1d1c0042.c
-+++ b/drivers/media/tuners/qm1d1c0042.c
-@@ -206,7 +206,7 @@ static int qm1d1c0042_set_params(struct dvb_frontend *fe)
- 	if (ret < 0)
- 		return ret;
+diff --git a/drivers/media/v4l2-core/v4l2-dv-timings.c b/drivers/media/v4l2-core/v4l2-dv-timings.c
+index 4f23e93..2b399c0 100644
+--- a/drivers/media/v4l2-core/v4l2-dv-timings.c
++++ b/drivers/media/v4l2-core/v4l2-dv-timings.c
+@@ -757,7 +757,7 @@ bool v4l2_detect_gtf(unsigned frame_height,
+ 	pix_clk = pix_clk / GTF_PXL_CLK_GRAN * GTF_PXL_CLK_GRAN;
  
--	a = (freq + state->cfg.xtal_freq / 2) / state->cfg.xtal_freq;
-+	a = DIV_ROUND_CLOSEST(freq, state->cfg.xtal_freq);
+ 	hsync = (frame_width * 8 + 50) / 100;
+-	hsync = ((hsync + GTF_CELL_GRAN / 2) / GTF_CELL_GRAN) * GTF_CELL_GRAN;
++	hsync = DIV_ROUND_CLOSEST(hsync, GTF_CELL_GRAN) * GTF_CELL_GRAN;
  
- 	state->regs[0x06] &= 0x40;
- 	state->regs[0x06] |= (a - 12) / 4;
+ 	h_fp = h_blank / 2 - hsync;
+ 
 -- 
 1.7.12.4
 
