@@ -2,142 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B007EA990B
-	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2019 05:52:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C805A9A43
+	for <lists+linux-media@lfdr.de>; Thu,  5 Sep 2019 07:54:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727562AbfIEDwq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Sep 2019 23:52:46 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:47277 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725965AbfIEDwq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 4 Sep 2019 23:52:46 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:c91f:b9db:b779:3284])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id 5ip7iB1oiMK4h5ip8iFqZ7; Thu, 05 Sep 2019 05:52:43 +0200
-Message-ID: <a3113f28eb6de689523f88bf54d83ac3@smtp-cloud8.xs4all.net>
-Date:   Thu, 05 Sep 2019 05:52:41 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfGB8qipYNlzsZW6KhKWm/JhpfWhJl4O1FSZTns558pfCF42EEjV5fHt6rPg3Wmt4r55gnfdRCKQQPv/pB2R9adJDzOXRYA4VY4xbnWHnf5TFKf396LzQ
- UGfaEdy/1aU/VvTN3ITz6BVt0yLRUIn84bc+JoR5UFCMHm27+5gBVu2he91saRHjMmLIOe4MrszU6UkTAegGoZSPAmoqNbcD2eYUBAFfoKfjM94G+kP+1sf7
+        id S1730785AbfIEFye (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Sep 2019 01:54:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35182 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725786AbfIEFye (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 5 Sep 2019 01:54:34 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9108B2173B;
+        Thu,  5 Sep 2019 05:54:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1567662873;
+        bh=Uf9AKCBn5jziRHZNbyaOFQh+/kEEr43vpEAZ+ka1xfY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=2Z+aMos2+zBypg8rclvYgrozqQ/h7Fmi1k4rSSb+/VNt5cMXKM7MPs2VseLXbqLSw
+         4Ejxag8xVok55PlZGXHJWwqz6Ite5WJXw0f9vk3Kvt4ikh1NhzkX//OC7mWsTPmRHU
+         dvpcO1XmHnADUSAk1p1d9RjvQWEoF/alEWI6PuM8=
+Date:   Thu, 5 Sep 2019 07:54:30 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Nishad Kamdar <nishadkamdar@gmail.com>,
+        Joe Perches <joe@perches.com>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: siano: Use the correct style for SPDX License
+ Identifier
+Message-ID: <20190905055430.GA23826@kroah.com>
+References: <20190831151147.GA7082@nishad>
+ <20190904153432.7fb54f02@coco.lan>
+ <20190904183608.GA495@kroah.com>
+ <20190904160010.4532c3f5@coco.lan>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190904160010.4532c3f5@coco.lan>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Wed, Sep 04, 2019 at 04:00:10PM -0300, Mauro Carvalho Chehab wrote:
+> Em Wed, 4 Sep 2019 20:36:08 +0200
+> Greg Kroah-Hartman <gregkh@linuxfoundation.org> escreveu:
+> 
+> > On Wed, Sep 04, 2019 at 03:34:32PM -0300, Mauro Carvalho Chehab wrote:
+> > > Em Sat, 31 Aug 2019 20:41:51 +0530
+> > > Nishad Kamdar <nishadkamdar@gmail.com> escreveu:
+> > >   
+> > > > This patch corrects the SPDX License Identifier style
+> > > > in header file related to Siano Mobile Silicon Digital TV.
+> > > > For C header files Documentation/process/license-rules.rst
+> > > > mandates C-like comments (opposed to C source files where
+> > > > C++ style should be used)
+> > > > 
+> > > > Changes made by using a script provided by Joe Perches here:
+> > > > https://lkml.org/lkml/2019/2/7/46
+> > > > 
+> > > > Suggested-by: Joe Perches <joe@perches.com>
+> > > > Signed-off-by: Nishad Kamdar <nishadkamdar@gmail.com>
+> > > > ---
+> > > >  drivers/media/common/siano/smsir.h | 2 +-
+> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > 
+> > > > diff --git a/drivers/media/common/siano/smsir.h b/drivers/media/common/siano/smsir.h
+> > > > index b2c54c256e86..ada41d5c4e83 100644
+> > > > --- a/drivers/media/common/siano/smsir.h
+> > > > +++ b/drivers/media/common/siano/smsir.h
+> > > > @@ -1,5 +1,5 @@
+> > > > +/* SPDX-License-Identifier: GPL-2.0+ */
+> > > >  /*
+> > > > - * SPDX-License-Identifier: GPL-2.0+
+> > > >   *
+> > > >   * Siano Mobile Silicon, Inc.
+> > > >   * MDTV receiver kernel modules.  
+> > > 
+> > > What's wrong with that? The above is a perfectly fine SPDX header.  
+> > 
+> > It is not the first line of the file :(
+> > 
+> 
+> A requirement for having it at the first line is not realistic.
 
-Results of the daily build of media_tree:
+But it is "the rule" as Joe points out.
 
-date:			Thu Sep  5 05:00:13 CEST 2019
-media-tree git hash:	20a438d53fd9d12a894161bc56cbeab7a9993c39
-media_build git hash:	d75b29db1297d2475227cc8bada843542271e40d
-v4l-utils git hash:	dd79397d3abf1be875224aad3b62efab53457a73
-edid-decode git hash:	0932deee88928f110b5a74851c173ad895f75863
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 8634894b41454ef4215a3d4fd503305c720e761a
-host hardware:		x86_64
-host os:		4.19.0-4-amd64
+> I'd say more: some script that would check for SPDX only at the 
+> first line won't work.
+> 
+> The reason is simple: we have some scripts at the Kernel tree.
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: WARNINGS
-linux-3.11.10-i686: WARNINGS
-linux-3.11.10-x86_64: WARNINGS
-linux-3.12.74-i686: WARNINGS
-linux-3.12.74-x86_64: WARNINGS
-linux-3.13.11-i686: WARNINGS
-linux-3.13.11-x86_64: WARNINGS
-linux-3.14.79-i686: WARNINGS
-linux-3.14.79-x86_64: WARNINGS
-linux-3.15.10-i686: WARNINGS
-linux-3.15.10-x86_64: WARNINGS
-linux-3.16.63-i686: WARNINGS
-linux-3.16.63-x86_64: WARNINGS
-linux-3.17.8-i686: WARNINGS
-linux-3.17.8-x86_64: WARNINGS
-linux-3.18.136-i686: WARNINGS
-linux-3.18.136-x86_64: WARNINGS
-linux-3.19.8-i686: WARNINGS
-linux-3.19.8-x86_64: WARNINGS
-linux-4.0.9-i686: WARNINGS
-linux-4.0.9-x86_64: WARNINGS
-linux-4.1.52-i686: WARNINGS
-linux-4.1.52-x86_64: WARNINGS
-linux-4.2.8-i686: WARNINGS
-linux-4.2.8-x86_64: WARNINGS
-linux-4.3.6-i686: WARNINGS
-linux-4.3.6-x86_64: WARNINGS
-linux-4.4.167-i686: WARNINGS
-linux-4.4.167-x86_64: WARNINGS
-linux-4.5.7-i686: WARNINGS
-linux-4.5.7-x86_64: WARNINGS
-linux-4.6.7-i686: WARNINGS
-linux-4.6.7-x86_64: WARNINGS
-linux-4.7.10-i686: WARNINGS
-linux-4.7.10-x86_64: WARNINGS
-linux-4.8.17-i686: WARNINGS
-linux-4.8.17-x86_64: WARNINGS
-linux-4.9.162-i686: WARNINGS
-linux-4.9.162-x86_64: WARNINGS
-linux-4.10.17-i686: WARNINGS
-linux-4.10.17-x86_64: WARNINGS
-linux-4.11.12-i686: WARNINGS
-linux-4.11.12-x86_64: WARNINGS
-linux-4.12.14-i686: WARNINGS
-linux-4.12.14-x86_64: WARNINGS
-linux-4.13.16-i686: WARNINGS
-linux-4.13.16-x86_64: WARNINGS
-linux-4.14.105-i686: WARNINGS
-linux-4.14.105-x86_64: WARNINGS
-linux-4.15.18-i686: WARNINGS
-linux-4.15.18-x86_64: WARNINGS
-linux-4.16.18-i686: WARNINGS
-linux-4.16.18-x86_64: WARNINGS
-linux-4.17.19-i686: WARNINGS
-linux-4.17.19-x86_64: WARNINGS
-linux-4.18.20-i686: WARNINGS
-linux-4.18.20-x86_64: WARNINGS
-linux-4.19.28-i686: WARNINGS
-linux-4.19.28-x86_64: WARNINGS
-linux-4.20.15-i686: WARNINGS
-linux-4.20.15-x86_64: WARNINGS
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3-rc1-i686: OK
-linux-5.3-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2327, Succeeded: 2327, Failed: 0, Warnings: 0
-sparse: OK
-smatch: OK
+This is not a script, for those, it is fine to use the second line,
+again, this is documented.
 
-Logs weren't copied as they are too large (81500 kB)
+This isn't new at all, been that way since December of 2017, see commit
+aa19a176df95 ("Documentation: Add license-rules.rst to describe how to
+properly identify file licenses")
 
-The Media Infrastructure API from this daily build is here:
+thanks,
 
-http://www.xs4all.nl/~hverkuil/spec/index.html
+greg k-h
