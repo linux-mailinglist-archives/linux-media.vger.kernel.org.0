@@ -2,110 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B7434AB2B2
-	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2019 08:59:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 520B8AB387
+	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2019 09:54:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404046AbfIFG73 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Sep 2019 02:59:29 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:38869 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2403977AbfIFG72 (ORCPT
+        id S1732587AbfIFHy3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Sep 2019 03:54:29 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:54912 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725290AbfIFHy3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 6 Sep 2019 02:59:28 -0400
-Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id 68DKi9way9b7T68DOiYf5x; Fri, 06 Sep 2019 08:59:26 +0200
-Subject: Re: [PATCH] cec-compliance: audio return channel tests
-To:     Jiunn Chang <c0d1n61at3@gmail.com>, linux-media@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-References: <20190906035129.18447-1-c0d1n61at3@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <f2dcb4db-e8d3-132a-e6b4-5e789337e02f@xs4all.nl>
-Date:   Fri, 6 Sep 2019 08:59:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Fri, 6 Sep 2019 03:54:29 -0400
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id C6EAA634C87;
+        Fri,  6 Sep 2019 10:54:13 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1i694P-0000kT-Pu; Fri, 06 Sep 2019 10:54:13 +0300
+Date:   Fri, 6 Sep 2019 10:54:13 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Jan Kotas <jank@cadence.com>
+Cc:     maxime.ripard@bootlin.com, mchehab@kernel.org, robh+dt@kernel.org,
+        mark.rutland@arm.com, rafalc@cadence.com,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] media: Add lane checks for Cadence CSI2RX
+Message-ID: <20190906075413.GE1586@valkosipuli.retiisi.org.uk>
+References: <20190905105601.27034-1-jank@cadence.com>
+ <20190905105601.27034-3-jank@cadence.com>
 MIME-Version: 1.0
-In-Reply-To: <20190906035129.18447-1-c0d1n61at3@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfD814JkYqDxmIuD5Ketdk0g7s4bkh5DPEsJmsBoMpI+4FA8/R1Q/m3Z6GXfmYilkhatK2Kxy4rOFl9Hzat2UhrAAjuAqZaHU8zTZJHZfY4Vobb4LFqUg
- +yxvIuTnYg3fE6s6a+GusSvD2bsTCHJRZ/mflrPYQUi4uTETF4+rwvT2gNdBZvBRV2SyMg+uLi2RyUoTkg+dJvzO/8A4pIzWXjBhR7pco5tPxARCN4bhGM0r
- e3B9y/f4KcjuR4vZ0g+dXatiBcaeSoJW7bMW5FfRIeo=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190905105601.27034-3-jank@cadence.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 9/6/19 5:51 AM, Jiunn Chang wrote:
-> For devices on a HDMI ARC link, sinks can only support transmitter
-> devices and sources and only support receiver devices.
+Hi Jan,
+
+Thanks for the patchset.
+
+On Thu, Sep 05, 2019 at 11:56:00AM +0100, Jan Kotas wrote:
+> This patch adds lane checks for CSI2RX, to prevent clock lane
+> being used as a data lane.
 > 
-> This patch checks to see if the DUT is an transmitter or receiver and
-> has the ARC flag set properly from the device.
-> 
-> This should apply to devices that support the HDMI CEC 1.4 spec going
-> forward when ARC was introduced.
-> 
-> Signed-off-by: Jiunn Chang <c0d1n61at3@gmail.com>
+> Signed-off-by: Jan Kotas <jank@cadence.com>
 > ---
->  utils/cec-compliance/cec-test-audio.cpp | 24 ++++++++++++++++++++++++
->  1 file changed, 24 insertions(+)
+>  drivers/media/platform/cadence/cdns-csi2rx.c | 13 +++++++++++--
+>  1 file changed, 11 insertions(+), 2 deletions(-)
 > 
-> diff --git a/utils/cec-compliance/cec-test-audio.cpp b/utils/cec-compliance/cec-test-audio.cpp
-> index 872bb9ad..da2ed1d1 100644
-> --- a/utils/cec-compliance/cec-test-audio.cpp
-> +++ b/utils/cec-compliance/cec-test-audio.cpp
-> @@ -297,11 +297,35 @@ static int arc_terminate_rx(struct node *node, unsigned me, unsigned la, bool in
->  	return 0;
->  }
+> diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
+> index 31ace114e..97ec09e72 100644
+> --- a/drivers/media/platform/cadence/cdns-csi2rx.c
+> +++ b/drivers/media/platform/cadence/cdns-csi2rx.c
+> @@ -2,7 +2,7 @@
+>  /*
+>   * Driver for Cadence MIPI-CSI2 RX Controller v1.3
+>   *
+> - * Copyright (C) 2017 Cadence Design Systems Inc.
+> + * Copyright (C) 2017-2019 Cadence Design Systems Inc.
+>   */
 >  
-> +static int arc_sink_tx(struct node *node, unsigned me, unsigned la, bool interactive)
-> +{
-> +	/* Check if we are upstream from the device. If we are, then the device is
-> +	   an HDMI source, which means that it is an ARC receiver, not a transmitter. */
-> +	if (pa_is_upstream_from(node->phys_addr, node->remote[la].phys_addr))
-> +		return NOTAPPLICABLE;
-> +	fail_on_test(!node->remote[la].has_arc_tx);
-> +
-> +	return 0;
-> +}
-> +
-> +static int arc_source_rx(struct node *node, unsigned me, unsigned la, bool interactive)
-> +{
-> +	/* Check if the DUT is upstream from us. If it is, then it is an
-> +	   HDMI sink, which means that it is an ARC transmitter, not receiver. */
-> +	if (pa_is_upstream_from(node->remote[la].phys_addr, node->phys_addr))
-> +		return NOTAPPLICABLE;
-> +	fail_on_test(!node->remote[la].has_arc_rx);
-> +
-> +	return 0;
-> +}
-> +
->  struct remote_subtest arc_subtests[] = {
->  	{ "Initiate ARC (RX)", CEC_LOG_ADDR_MASK_ALL, arc_initiate_rx },
->  	{ "Terminate ARC (RX)", CEC_LOG_ADDR_MASK_ALL, arc_terminate_rx },
->  	{ "Initiate ARC (TX)", CEC_LOG_ADDR_MASK_ALL, arc_initiate_tx },
->  	{ "Terminate ARC (TX)", CEC_LOG_ADDR_MASK_ALL, arc_terminate_tx },
-> +	{ "Sink ARC (TX)", CEC_LOG_ADDR_MASK_ALL, arc_sink_tx },
-> +	{ "Source ARC (RX)", CEC_LOG_ADDR_MASK_ALL, arc_source_rx },
->  };
+>  #include <linux/clk.h>
+> @@ -364,7 +364,7 @@ static int csi2rx_parse_dt(struct csi2rx_priv *csi2rx)
+>  	struct v4l2_fwnode_endpoint v4l2_ep = { .bus_type = 0 };
+>  	struct fwnode_handle *fwh;
+>  	struct device_node *ep;
+> -	int ret;
+> +	int ret, i;
 >  
->  const unsigned arc_subtests_size = ARRAY_SIZE(arc_subtests);
-> 
+>  	ep = of_graph_get_endpoint_by_regs(csi2rx->dev->of_node, 0, 0);
+>  	if (!ep)
+> @@ -395,6 +395,15 @@ static int csi2rx_parse_dt(struct csi2rx_priv *csi2rx)
+>  		return -EINVAL;
+>  	}
+>  
+> +	for (i = 0; i < csi2rx->num_lanes; i++) {
+> +		if (csi2rx->lanes[i] < 1) {
 
-This isn't right. First of all, the remote device may not have ARC support
-at all, so failing if has_arc_rx/tx is false is wrong. And in addition, CEC
-versions < 2 do not signal ARC support since they don't have the
-Give Device Features message.
+Do you need this? v4l2_fwnode_parse_endpoint() already has a more thorough
+check for the lane numbers.
 
-The second is to test against pa_is_upstream_from: a remote device such as
-and AV receiver may have ARC support on both sink and source.
+> +			dev_err(csi2rx->dev, "Invalid lane[%d] number: %u\n",
+> +				i, csi2rx->lanes[i]);
+> +			of_node_put(ep);
+> +			return -EINVAL;
+> +		}
+> +	}
+> +
+>  	csi2rx->asd.match.fwnode = fwnode_graph_get_remote_port_parent(fwh);
+>  	csi2rx->asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
+>  	of_node_put(ep);
 
-Just add the checks to system_info_give_features(): there are already checks
-for has_rec_tv, and the new checks are similar to that: a TV can't have
-has_arc_rx, and a Playback device can't have has_arc_tx.
-
+-- 
 Regards,
 
-	Hans
+Sakari Ailus
