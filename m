@@ -2,44 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8728DAB160
+	by mail.lfdr.de (Postfix) with ESMTP id 8C406AB161
 	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2019 05:51:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389145AbfIFDvc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S2392145AbfIFDvc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Thu, 5 Sep 2019 23:51:32 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:33610 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:41203 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
         with ESMTP id S1733221AbfIFDvc (ORCPT
         <rfc822;linux-media@vger.kernel.org>); Thu, 5 Sep 2019 23:51:32 -0400
-Received: by mail-ot1-f65.google.com with SMTP id g25so3222123otl.0
-        for <linux-media@vger.kernel.org>; Thu, 05 Sep 2019 20:51:31 -0700 (PDT)
+Received: by mail-ot1-f68.google.com with SMTP id o101so4458480ota.8
+        for <linux-media@vger.kernel.org>; Thu, 05 Sep 2019 20:51:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=0VaC65y4pOGtw4SvcHIBMg6Bm9p/QZxaEQPcmU2XHSw=;
-        b=qQRu27u/p2s2m6T8zb7tjtG1R5CCQ/Di6xZFfdYCyQMd2VkB6/ymIMyzhnB3cj4cbb
-         s841cEABo1ONqqvdUXFpkrJ75JLWfKFs1Dc2OFXJZkHeH/7eKeD9KyV/MsdI6u5foyIf
-         umHmGmxmP5nJa4Tm44+7QjHwnDkc0CF74sxlXbcZkDA0iCI6kp+XzuzI67DwfKuJoqQ4
-         MFc8xdQA55KZsNIS6H9nACgFReY69RXuLXZBXy4fwt0neYlpv3YtbzUz9MwBeL1hjuRH
-         9qm1YlhYjeklQj5BFcerlzFVZkZMxtzFmnDJ6uD/MMEj2A6oRR2qismuT3jyfPdPjPBE
-         l7KQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=FNKwvAQEG841b6gKiiREjmRG30eyzy4byZZM3hqpa08=;
+        b=f7xAC92cK7eaHgkT6a1/xHIUdhufkhGhAIiwVbjsYcOONs4ooGlLAHX+G9SV1p44G+
+         fKxUcGfbuXj0CNFtOM5sszbza1+lbbBnfSHbGo0tthsvJ/qL5xwZVTiEGauB8rlJOrMe
+         OJpuIkzEPANh7JqD9nKJzm/ggsyHH8F4pUaucinyoBfHNRlk2cKr/lPk9A4ydPLJJsoO
+         dGTpV4AXtBvYfCKMYMI2RiWb9A+T166D+MnMsMeXzPW+zZ8exD4J7I2W5CQbwlmV0i5o
+         xEOrFyQIKDl7iJaLKh/r1yYiB6eTKyjRBkbnzFBY+jve8asWyOEkwunwyQ73SS7Rz80R
+         J+hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=0VaC65y4pOGtw4SvcHIBMg6Bm9p/QZxaEQPcmU2XHSw=;
-        b=HWeFjXi4BA3nKhd/EBRXa617LWpO69e7ocgyCIt2kE6oMPDR27qSb8xkvKeYbn9EHn
-         G/HIxDOqJUwDAkg+O8TaM0oNSIPG7YIAtZmeBptNYhLPI9enqyy0sZesxI/zopWxa9gB
-         SiMVbGzZuCdJVdcsRQMrxbWEYbhsanfM6cbsldgHYp0q/bqtpcgHAaxmDRjO588AlNTf
-         7RCfpSOizJHAjITkmkl6K2dTaj1A6dDUj6N7rFOBGyOCyGhLVb/g89EtIjhThDGY3ndI
-         isfryfKmfVNpHfKJzO473ANkG25+eNHEhmc4UA2UhYtyyJdtKeM47MspRktC4Z4n9YRr
-         X/1g==
-X-Gm-Message-State: APjAAAW9vtDC+YLPcyk6ig3YU84B3uikGinY1AxVQ/0q6GppSTO0tKzm
-        7FoNM9HRYO7ba9Tx4J72g5Zfu86v
-X-Google-Smtp-Source: APXvYqy1berDyRuiH3/V2MqiNVSFWnzwzUQuQA379cA/AjSoozqKnT17uWDxf6AfVInqsOaCKj+yzw==
-X-Received: by 2002:a05:6830:1442:: with SMTP id w2mr5939540otp.206.1567741890807;
-        Thu, 05 Sep 2019 20:51:30 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=FNKwvAQEG841b6gKiiREjmRG30eyzy4byZZM3hqpa08=;
+        b=Qq1agqz2aTLX0IR8X62S0ryda0Y9fTP4+vsIh3owKY8uvDRHCB0jnvwrfX8nJXQjP7
+         70bcaIDUGkZp9v/2dhrEA583cPndKdxTVCECDggVI8Mjy544A2Go0jTHApffv5AYMvqZ
+         LcIPPT0lOADgcp7jJKk1cU4CQa77iETon3ssiWD6P9hiEsWqenNVD2yUrlfoiyRMYYnA
+         lOuQGXs8VzjwJzVCALsUj9ZJt2CgkE/i6da0TzVk8b6O9Y2xS3uzRuICnKkW/VwRxMtY
+         YbKFNsW1ROXAFwZWPH2Yt8rzP73BwxOvQD+RliQQqk83CfP4n6bVY1IWfy7Mj/rkz+p+
+         JJog==
+X-Gm-Message-State: APjAAAWwyzpGMRVx6IXMsS3/pvmnUmSEBqhu0JxCiotpu1KjnR8htPzf
+        ii9e/woKMiPK+Q+ONvySMBOCse9F
+X-Google-Smtp-Source: APXvYqzNDoApEjIKo563JpM1QCO0y1XwZ6eIwZDZgG2Ev5z4REdyNlJrrnSJvzqQrPST3gFtqYTuZg==
+X-Received: by 2002:a9d:4e11:: with SMTP id p17mr5872392otf.192.1567741891960;
+        Thu, 05 Sep 2019 20:51:31 -0700 (PDT)
 Received: from rYz3n.attlocal.net ([2600:1700:210:3790::40])
         by smtp.googlemail.com with ESMTPSA id c93sm991732otb.22.2019.09.05.20.51.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
@@ -48,10 +48,12 @@ From:   Jiunn Chang <c0d1n61at3@gmail.com>
 To:     linux-media@vger.kernel.org,
         linux-kernel-mentees@lists.linuxfoundation.org
 Cc:     hverkuil@xs4all.nl
-Subject: [PATCH] cec-compliance: audio return channel tests
-Date:   Thu,  5 Sep 2019 22:51:28 -0500
-Message-Id: <20190906035129.18447-1-c0d1n61at3@gmail.com>
+Subject: [PATCH v3] cec-compliance: system audio control tests
+Date:   Thu,  5 Sep 2019 22:51:29 -0500
+Message-Id: <20190906035129.18447-2-c0d1n61at3@gmail.com>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20190902165920.17812-1-c0d1n61at3@gmail.com>
+References: <20190902165920.17812-1-c0d1n61at3@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -59,60 +61,103 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-For devices on a HDMI ARC link, sinks can only support transmitter
-devices and sources and only support receiver devices.
+The HDMI CEC specification defines deterministic operands for
+User Control Pressed that mute or unmute system audio.
 
-This patch checks to see if the DUT is an transmitter or receiver and
-has the ARC flag set properly from the device.
+Those being:
+ - Mute Function for mute on
+ - Restore Volume Function for mute off
 
-This should apply to devices that support the HDMI CEC 1.4 spec going
-forward when ARC was introduced.
+This is different from the operand Mute which is a toggle.
+
+This patch adds tests for these User Control Pressed operands.
 
 Signed-off-by: Jiunn Chang <c0d1n61at3@gmail.com>
 ---
- utils/cec-compliance/cec-test-audio.cpp | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+
+Changes made since v2:
+ - add more details to commit message
+
+Notes:
+
+A patch series has been submitted by Hans Verkuil to add CEC UI command operands
+to the cec header in the media tree from which v4l-utils copies it.  Once those
+patches are applied, another patch will be submitted to leverage the new header
+operand macros.
+
+>8---------------------------------------------------------------------------8<
+
+ utils/cec-compliance/cec-test-audio.cpp | 32 +++++++++++++++++++++++++
+ utils/cec-follower/cec-processing.cpp   |  6 +++++
+ 2 files changed, 38 insertions(+)
 
 diff --git a/utils/cec-compliance/cec-test-audio.cpp b/utils/cec-compliance/cec-test-audio.cpp
-index 872bb9ad..da2ed1d1 100644
+index 8611350e..872bb9ad 100644
 --- a/utils/cec-compliance/cec-test-audio.cpp
 +++ b/utils/cec-compliance/cec-test-audio.cpp
-@@ -297,11 +297,35 @@ static int arc_terminate_rx(struct node *node, unsigned me, unsigned la, bool in
+@@ -673,6 +673,32 @@ static int sac_user_control_press_mute(struct node *node, unsigned me, unsigned
  	return 0;
  }
  
-+static int arc_sink_tx(struct node *node, unsigned me, unsigned la, bool interactive)
++static int sac_user_control_press_mute_function(struct node *node, unsigned me, unsigned la, bool interactive)
 +{
-+	/* Check if we are upstream from the device. If we are, then the device is
-+	   an HDMI source, which means that it is an ARC receiver, not a transmitter. */
-+	if (pa_is_upstream_from(node->phys_addr, node->remote[la].phys_addr))
-+		return NOTAPPLICABLE;
-+	fail_on_test(!node->remote[la].has_arc_tx);
++	__u8 ret;
++
++	if ((ret = sac_util_send_user_control_press(node, me, la, 0x65)))
++		return ret;
++	fail_on_test_v2(node->remote[la].cec_version,
++			la == CEC_LOG_ADDR_AUDIOSYSTEM &&
++			node->remote[la].mute == CEC_OP_AUD_MUTE_STATUS_ON);
 +
 +	return 0;
 +}
 +
-+static int arc_source_rx(struct node *node, unsigned me, unsigned la, bool interactive)
++static int sac_user_control_press_restore_volume_function(struct node *node, unsigned me, unsigned la, bool interactive)
 +{
-+	/* Check if the DUT is upstream from us. If it is, then it is an
-+	   HDMI sink, which means that it is an ARC transmitter, not receiver. */
-+	if (pa_is_upstream_from(node->remote[la].phys_addr, node->phys_addr))
-+		return NOTAPPLICABLE;
-+	fail_on_test(!node->remote[la].has_arc_rx);
++	__u8 ret;
++
++	if ((ret = sac_util_send_user_control_press(node, me, la, 0x66)))
++		return ret;
++	fail_on_test_v2(node->remote[la].cec_version,
++			la == CEC_LOG_ADDR_AUDIOSYSTEM &&
++			node->remote[la].mute == CEC_OP_AUD_MUTE_STATUS_OFF);
 +
 +	return 0;
 +}
 +
- struct remote_subtest arc_subtests[] = {
- 	{ "Initiate ARC (RX)", CEC_LOG_ADDR_MASK_ALL, arc_initiate_rx },
- 	{ "Terminate ARC (RX)", CEC_LOG_ADDR_MASK_ALL, arc_terminate_rx },
- 	{ "Initiate ARC (TX)", CEC_LOG_ADDR_MASK_ALL, arc_initiate_tx },
- 	{ "Terminate ARC (TX)", CEC_LOG_ADDR_MASK_ALL, arc_terminate_tx },
-+	{ "Sink ARC (TX)", CEC_LOG_ADDR_MASK_ALL, arc_sink_tx },
-+	{ "Source ARC (RX)", CEC_LOG_ADDR_MASK_ALL, arc_source_rx },
- };
- 
- const unsigned arc_subtests_size = ARRAY_SIZE(arc_subtests);
+ static int sac_user_control_release(struct node *node, unsigned me, unsigned la, bool interactive)
+ {
+ 	struct cec_msg msg = {};
+@@ -763,6 +789,12 @@ struct remote_subtest sac_subtests[] = {
+ 	{ "User Control Pressed (Mute)",
+ 	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
+ 	  sac_user_control_press_mute },
++	{ "User Control Pressed (Restore Volume Function)",
++	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
++	  sac_user_control_press_restore_volume_function },
++	{ "User Control Pressed (Mute Function)",
++	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
++	  sac_user_control_press_mute_function },
+ 	{ "User Control Released",
+ 	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
+ 	  sac_user_control_release },
+diff --git a/utils/cec-follower/cec-processing.cpp b/utils/cec-follower/cec-processing.cpp
+index 27172560..a38f664b 100644
+--- a/utils/cec-follower/cec-processing.cpp
++++ b/utils/cec-follower/cec-processing.cpp
+@@ -516,6 +516,12 @@ static void processMsg(struct node *node, struct cec_msg &msg, unsigned me)
+ 		case 0x43:
+ 			node->state.mute = !node->state.mute;
+ 			break;
++		case 0x65:
++			node->state.mute = true;
++			break;
++		case 0x66:
++			node->state.mute = false;
++			break;
+ 		case 0x6B:
+ 			if (!enter_standby(node))
+ 				exit_standby(node);
 -- 
 2.23.0
 
