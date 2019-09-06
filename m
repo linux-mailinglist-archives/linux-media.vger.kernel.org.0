@@ -2,22 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E099DABB0D
-	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2019 16:35:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC17DABB2D
+	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2019 16:40:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405528AbfIFOfU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Sep 2019 10:35:20 -0400
-Received: from bin-mail-out-06.binero.net ([195.74.38.229]:47258 "EHLO
-        bin-mail-out-06.binero.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731943AbfIFOfT (ORCPT
+        id S2391232AbfIFOkx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Sep 2019 10:40:53 -0400
+Received: from bin-mail-out-05.binero.net ([195.74.38.228]:43052 "EHLO
+        bin-mail-out-05.binero.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729464AbfIFOkx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 6 Sep 2019 10:35:19 -0400
-X-Halon-ID: 859a30b3-d0b3-11e9-903a-005056917f90
+        Fri, 6 Sep 2019 10:40:53 -0400
+X-Halon-ID: 413221c9-d0b4-11e9-837a-0050569116f7
 Authorized-sender: niklas@soderlund.pp.se
 Received: from bismarck.berto.se (unknown [84.172.84.18])
-        by bin-vsp-out-02.atm.binero.net (Halon) with ESMTPA
-        id 859a30b3-d0b3-11e9-903a-005056917f90;
-        Fri, 06 Sep 2019 16:35:12 +0200 (CEST)
+        by bin-vsp-out-03.atm.binero.net (Halon) with ESMTPA
+        id 413221c9-d0b4-11e9-837a-0050569116f7;
+        Fri, 06 Sep 2019 16:40:25 +0200 (CEST)
 From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -25,9 +25,9 @@ To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 Cc:     linux-renesas-soc@vger.kernel.org,
         =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH] rcar-vin: Do not enumerate unsupported pixel formats
-Date:   Fri,  6 Sep 2019 16:35:00 +0200
-Message-Id: <20190906143500.21882-1-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH 0/2] rcar-vin: Add support for outputting NV12
+Date:   Fri,  6 Sep 2019 16:40:27 +0200
+Message-Id: <20190906144029.24080-1-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -37,41 +37,26 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If a pixel format is not supported by the hardware NULL is returned by
-rvin_format_from_pixel() for that fourcc. Verify that the pixel format
-is supported using this or skip it when enumerating.
+Hi,
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- drivers/media/platform/rcar-vin/rcar-v4l2.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+This series adds support for storing captures in NV12 pixel format on 
+most Gen3 SoCs. It is based on top of latest media-tree and tested on 
+Gen2 and Gen3 with out any regressions.
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-index cbc1c07f0a9631a4..ba08f6c49956e899 100644
---- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-+++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-@@ -302,10 +302,20 @@ static int rvin_g_fmt_vid_cap(struct file *file, void *priv,
- static int rvin_enum_fmt_vid_cap(struct file *file, void *priv,
- 				 struct v4l2_fmtdesc *f)
- {
-+	struct rvin_dev *vin = video_drvdata(file);
-+	unsigned int i, skip = 0;
-+
- 	if (f->index >= ARRAY_SIZE(rvin_formats))
- 		return -EINVAL;
- 
--	f->pixelformat = rvin_formats[f->index].fourcc;
-+	for (i = 0; i <= f->index; i++)
-+		if (!rvin_format_from_pixel(vin, rvin_formats[i].fourcc))
-+			skip++;
-+
-+	if (f->index + skip >= ARRAY_SIZE(rvin_formats))
-+		return -EINVAL;
-+
-+	f->pixelformat = rvin_formats[f->index + skip].fourcc;
- 
- 	return 0;
- }
+Patch 1/2 prepares for the admonition of NV12 support by defining which 
+Gen3 SoCs supports the output format. While patch 2/2 is the real change 
+adding the format and register writes to deliver NV12.
+
+Niklas Söderlund (2):
+  rcar-vin: Define which hardware supports NV12
+  rcar-vin: Add support for outputting NV12
+
+ drivers/media/platform/rcar-vin/rcar-core.c |  6 ++++
+ drivers/media/platform/rcar-vin/rcar-dma.c  |  5 ++-
+ drivers/media/platform/rcar-vin/rcar-v4l2.c | 39 +++++++++++++++++----
+ drivers/media/platform/rcar-vin/rcar-vin.h  |  2 ++
+ 4 files changed, 45 insertions(+), 7 deletions(-)
+
 -- 
 2.23.0
 
