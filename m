@@ -2,45 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BB157AB788
-	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2019 13:58:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A3D06AB78A
+	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2019 13:58:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404224AbfIFLzv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Sep 2019 07:55:51 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:43095 "EHLO
-        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404179AbfIFLzu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Sep 2019 07:55:50 -0400
-Received: by mail-pl1-f195.google.com with SMTP id 4so3032828pld.10
-        for <linux-media@vger.kernel.org>; Fri, 06 Sep 2019 04:55:50 -0700 (PDT)
+        id S2391473AbfIFLzy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Sep 2019 07:55:54 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:39124 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391385AbfIFLzx (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Sep 2019 07:55:53 -0400
+Received: by mail-pg1-f194.google.com with SMTP id u17so3371443pgi.6
+        for <linux-media@vger.kernel.org>; Fri, 06 Sep 2019 04:55:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Kv55BZnn02toQdz6kJnclO1x7RUZAYx9ZqQlXw9MFbw=;
-        b=eGW1pVA6FgmcZ6zJNDohUT0Z1B3VbFHelf5Zix26sr+4tvawKYD346Nf2mmNVVYDHi
-         niCnBRlj6FhRv8FxDKWqU0prp1mgcm2mft6s20X5+xdMY0lFuAJCiFRWc+L6mf+S1aYT
-         njlmsvX8bjcaQrG95D2KZN+hadP5ibbXz3isA=
+        bh=Dv10oi4TdbY6GR7F0KvTrO/w4iPoPdTVV/y/o4NNX6o=;
+        b=c0lVH9cOm3zHz4NMOBRVGBZoCbDf8i3w3fPDv5bdKxyWiMxaom7gCnLiER203ZATFJ
+         aL4zQq8tRMEIY9ub5UVH65YMzfAinCgXvY7e6DW4yszEo7z9k8jCSN9i8i1ZjzEvi5ae
+         p9x4crPH7IoNeuVl4uIU0aWCAPlQxyzZDWJ+U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Kv55BZnn02toQdz6kJnclO1x7RUZAYx9ZqQlXw9MFbw=;
-        b=dDFQNEAQLKruSGRH+ObPEdCLqIOOAA6itF+JwbXnjL1MBBPCrpIzSXJqUkfJOeltjd
-         2oWaVgUN0iAt/o5S6K0HP3hrPMdFLmUGTAYoA/bDPSZd77zPBP4dKkr7fUP/a2oEZQUK
-         I5zxZFn6spmRlGaUh+dfPoYCazvnHDWEzMpMnUsdBuCnE+NWKN2lV9nwY4GZ1OJK5qzZ
-         U10Un4hf+pwRGQLXz/3n1J9etjlV5JN1BIujq+G6mg8MosF77C536Xcb5UN9aTiWsX94
-         vpaH5h/xFQUsESM9dBtUR3pnbQOk4JEZDujwwhB7HQgUN+mRaQXkpKtUfhcvesm6cQux
-         p1mg==
-X-Gm-Message-State: APjAAAX9fUbAEhIwf5hl8VWYSzUQiLDeNwlLqKOo1wlM7pI3uRf/i0br
-        1h+73wYbSknwKc/4qiSn42fgbw==
-X-Google-Smtp-Source: APXvYqyC5FMNkRM36lVldrFj5nOcN4Wyw8rYmXXE/IM8t7emC1crUrfOtvatZ4cgQsZy5ZAz5EJASg==
-X-Received: by 2002:a17:902:744a:: with SMTP id e10mr8865982plt.239.1567770949864;
-        Fri, 06 Sep 2019 04:55:49 -0700 (PDT)
+        bh=Dv10oi4TdbY6GR7F0KvTrO/w4iPoPdTVV/y/o4NNX6o=;
+        b=pNWOxY/HJvYIZv8rOBu6uun0dLHTCmWo2tnksOodSc3pr+yPyFlS0SaiNxTKhlf96Q
+         XIHLU4xmSgGQVbTpJmPAGw2wKyUsDmgi8/yhHy3QC+KbFpcBwS97btK7Wpwt07A6qHNk
+         csvRqFaiwDRGXgwaoSgNyrz5oVKf6LYZrMeNaxt0J+GcWM1EislbVqvhbxzLCEY4X8Ma
+         SKWeVG7sAl5eNuYdP6m3/bwSDDvv94v2l0E7wUCoz9F6mFmbGKC+UX6dgtdOj7Ahffo2
+         AP8mz+xXrye41huofJYq4CMB8VLCLu8g+Ty25ZgAmi0IyDKYs1asWdyh1JTIzMYAgy+9
+         5dWA==
+X-Gm-Message-State: APjAAAW906z1HgoNZw8n95G26TFvGDQxGcUQ4OkUTN7HTECVMlppsIJD
+        q6oF+jfhe/HnBs/1vLfYks/8eg==
+X-Google-Smtp-Source: APXvYqyME97NICevcotb4UXynBjruBzW7ohMgRIdClQ531LCsicIQ9luh+MM35ZK2xOCnemHLa0siQ==
+X-Received: by 2002:a63:5f09:: with SMTP id t9mr7631568pgb.351.1567770952532;
+        Fri, 06 Sep 2019 04:55:52 -0700 (PDT)
 Received: from acourbot.tok.corp.google.com ([2401:fa00:4:4:9712:8cf1:d0f:7d33])
-        by smtp.gmail.com with ESMTPSA id o22sm3667394pjq.21.2019.09.06.04.55.47
+        by smtp.gmail.com with ESMTPSA id o22sm3667394pjq.21.2019.09.06.04.55.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Sep 2019 04:55:49 -0700 (PDT)
+        Fri, 06 Sep 2019 04:55:51 -0700 (PDT)
 From:   Alexandre Courbot <acourbot@chromium.org>
 To:     Yunfei Dong <yunfei.dong@mediatek.com>,
         Tiffany Lin <tiffany.lin@mediatek.com>,
@@ -50,9 +50,9 @@ To:     Yunfei Dong <yunfei.dong@mediatek.com>,
 Cc:     linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
         linux-kernel@vger.kernel.org,
         Alexandre Courbot <acourbot@chromium.org>
-Subject: [RFC PATCH v2 07/13] media: mtk-vcodec: add SCP firmware ops
-Date:   Fri,  6 Sep 2019 20:55:07 +0900
-Message-Id: <20190906115513.159705-8-acourbot@chromium.org>
+Subject: [RFC PATCH v2 08/13] media: add Mediatek's MM21 format
+Date:   Fri,  6 Sep 2019 20:55:08 +0900
+Message-Id: <20190906115513.159705-9-acourbot@chromium.org>
 X-Mailer: git-send-email 2.23.0.187.g17f5b7556c-goog
 In-Reply-To: <20190906115513.159705-1-acourbot@chromium.org>
 References: <20190906115513.159705-1-acourbot@chromium.org>
@@ -63,139 +63,40 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Yunfei Dong <yunfei.dong@mediatek.com>
+Add Mediatek's non-compressed 8 bit block video mode. This format is
+produced by the MT8183 codec and can be converted to a non-proprietary
+format with the MDP3 component.
 
-Add support for communicating with the SCP firmware, which will be used
-by MT8183.
-
-Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-[acourbot: refactor, cleanup and split]
-Co-developed-by: Alexandre Courbot <acourbot@chromium.org>
 Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
 ---
- .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  |  3 ++
- .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  |  3 ++
- .../media/platform/mtk-vcodec/mtk_vcodec_fw.c | 51 +++++++++++++++++++
- .../media/platform/mtk-vcodec/mtk_vcodec_fw.h |  2 +
- 4 files changed, 59 insertions(+)
+ drivers/media/v4l2-core/v4l2-ioctl.c | 1 +
+ include/uapi/linux/videodev2.h       | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-index f6494f584354..53a9e016d989 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-@@ -226,6 +226,9 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
- 	if (!of_property_read_u32(pdev->dev.of_node, "mediatek,vpu",
- 				  &rproc_phandle)) {
- 		fw_type = VPU;
-+	} else if (!of_property_read_u32(pdev->dev.of_node, "mediatek,scp",
-+					 &rproc_phandle)) {
-+		fw_type = SCP;
- 	} else {
- 		mtk_v4l2_err("Could not get vdec IPI device");
- 		return -ENODEV;
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-index 6a2ae909d36b..1f40dd780f30 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c
-@@ -234,6 +234,9 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
- 	if (!of_property_read_u32(pdev->dev.of_node, "mediatek,vpu",
- 				  &rproc_phandle)) {
- 		fw_type = VPU;
-+	} else if (!of_property_read_u32(pdev->dev.of_node, "mediatek,scp",
-+					 &rproc_phandle)) {
-+		fw_type = SCP;
- 	} else {
- 		mtk_v4l2_err("Could not get vdec IPI device");
- 		return -ENODEV;
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.c
-index a4361f57aedc..de22e16ad3a3 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.c
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.c
-@@ -63,6 +63,48 @@ static const struct mtk_vcodec_fw_ops mtk_vcodec_vpu_msg = {
- 	.ipi_send = mtk_vcodec_vpu_ipi_send,
- };
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index 51b912743f0f..666d90a71f41 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -1330,6 +1330,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+ 	case V4L2_META_FMT_VSP1_HGT:	descr = "R-Car VSP1 2-D Histogram"; break;
+ 	case V4L2_META_FMT_UVC:		descr = "UVC Payload Header Metadata"; break;
+ 	case V4L2_META_FMT_D4XX:	descr = "Intel D4xx UVC Metadata"; break;
++	case V4L2_PIX_FMT_MM21:		descr = "Mediatek 8-bit block format"; break;
  
-+static int mtk_vcodec_scp_load_firmware(struct mtk_vcodec_fw *fw)
-+{
-+	return rproc_boot(fw->rproc);
-+}
-+
-+static unsigned int mtk_vcodec_scp_get_vdec_capa(struct mtk_vcodec_fw *fw)
-+{
-+	return scp_get_vdec_hw_capa(fw->pdev);
-+}
-+
-+static unsigned int mtk_vcodec_scp_get_venc_capa(struct mtk_vcodec_fw *fw)
-+{
-+	return scp_get_venc_hw_capa(fw->pdev);
-+}
-+
-+static void *mtk_vcodec_vpu_scp_dm_addr(struct mtk_vcodec_fw *fw,
-+					u32 dtcm_dmem_addr)
-+{
-+	return scp_mapping_dm_addr(fw->pdev, dtcm_dmem_addr);
-+}
-+
-+static int mtk_vcodec_scp_set_ipi_register(struct mtk_vcodec_fw *fw, int id,
-+		mtk_vcodec_ipi_handler handler, const char *name, void *priv)
-+{
-+	return scp_ipi_register(fw->pdev, id, handler, priv);
-+}
-+
-+static int mtk_vcodec_scp_ipi_send(struct mtk_vcodec_fw *fw, int id, void *buf,
-+		unsigned int len, unsigned int wait)
-+{
-+	return scp_ipi_send(fw->pdev, id, buf, len, wait);
-+}
-+
-+static const struct mtk_vcodec_fw_ops mtk_vcodec_rproc_msg = {
-+	.load_firmware = mtk_vcodec_scp_load_firmware,
-+	.get_vdec_capa = mtk_vcodec_scp_get_vdec_capa,
-+	.get_venc_capa = mtk_vcodec_scp_get_venc_capa,
-+	.map_dm_addr = mtk_vcodec_vpu_scp_dm_addr,
-+	.ipi_register = mtk_vcodec_scp_set_ipi_register,
-+	.ipi_send = mtk_vcodec_scp_ipi_send,
-+};
-+
- static void mtk_vcodec_reset_handler(void *priv)
- {
- 	struct mtk_vcodec_dev *dev = priv;
-@@ -96,6 +138,15 @@ struct mtk_vcodec_fw *mtk_vcodec_fw_select(struct mtk_vcodec_dev *dev,
- 		vpu_wdt_reg_handler(fw_pdev, mtk_vcodec_reset_handler,
- 				    dev, rst_id);
- 		break;
-+	case SCP:
-+		ops = &mtk_vcodec_rproc_msg;
-+		fw_pdev = scp_get_pdev(dev->plat_dev);
-+		rproc = rproc_get_by_phandle(rproc_phandle);
-+		if (!rproc) {
-+			mtk_v4l2_err("could not get vdec rproc handle");
-+			return ERR_PTR(-EPROBE_DEFER);
-+		}
-+		break;
  	default:
- 		mtk_v4l2_err("invalid vcodec fw type");
- 		return ERR_PTR(-EINVAL);
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.h
-index a6edb3858e6e..c000bda70362 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.h
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.h
-@@ -4,6 +4,7 @@
- #define _MTK_VCODEC_FW_H_
- 
- #include <linux/remoteproc.h>
-+#include <linux/remoteproc/mtk_scp.h>
- 
- #include "../mtk-vpu/mtk_vpu.h"
- 
-@@ -11,6 +12,7 @@ struct mtk_vcodec_dev;
- 
- enum mtk_vcodec_fw_type {
- 	VPU,
-+	SCP,
- };
- 
- struct mtk_vcodec_fw;
+ 		/* Compressed formats */
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 530638dffd93..e0db23e655bf 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -724,6 +724,7 @@ struct v4l2_pix_format {
+ #define V4L2_PIX_FMT_Y12I     v4l2_fourcc('Y', '1', '2', 'I') /* Greyscale 12-bit L/R interleaved */
+ #define V4L2_PIX_FMT_Z16      v4l2_fourcc('Z', '1', '6', ' ') /* Depth data 16-bit */
+ #define V4L2_PIX_FMT_MT21C    v4l2_fourcc('M', 'T', '2', '1') /* Mediatek compressed block mode  */
++#define V4L2_PIX_FMT_MM21     v4l2_fourcc('M', 'M', '2', '1') /* Mediatek 8-bit block mode, two non-contiguous planes */
+ #define V4L2_PIX_FMT_INZI     v4l2_fourcc('I', 'N', 'Z', 'I') /* Intel Planar Greyscale 10-bit and Depth 16-bit */
+ #define V4L2_PIX_FMT_SUNXI_TILED_NV12 v4l2_fourcc('S', 'T', '1', '2') /* Sunxi Tiled NV12 Format */
+ #define V4L2_PIX_FMT_CNF4     v4l2_fourcc('C', 'N', 'F', '4') /* Intel 4-bit packed depth confidence information */
 -- 
 2.23.0.187.g17f5b7556c-goog
 
