@@ -2,153 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 44B46AB175
-	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2019 06:11:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A35F4AB293
+	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2019 08:46:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725946AbfIFELk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Sep 2019 00:11:40 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:49973 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725790AbfIFELk (ORCPT
+        id S2390992AbfIFGqA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Sep 2019 02:46:00 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:54386 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726525AbfIFGqA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 6 Sep 2019 00:11:40 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:4d3a:88c1:467e:fffe])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id 65ayiIFrwMK4h65aziK4GT; Fri, 06 Sep 2019 06:11:38 +0200
-Message-ID: <fa9d31500f5485cd0feaf80bd7639713@smtp-cloud8.xs4all.net>
-Date:   Fri, 06 Sep 2019 06:11:36 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+        Fri, 6 Sep 2019 02:46:00 -0400
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id CDAB9634C87
+        for <linux-media@vger.kernel.org>; Fri,  6 Sep 2019 09:45:46 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1i680A-0000kE-P6
+        for linux-media@vger.kernel.org; Fri, 06 Sep 2019 09:45:46 +0300
+Date:   Fri, 6 Sep 2019 09:45:46 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
 To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfLzmIGqEyCFlcdNXch+nNkeqFf0su2LhHAJU8CIAD/ai9i6L0e0uUWZFVzxDiIf3j9915rgFx5u0RDgSLqxgYw+AStmvngS0MYG5hPxd7QiWxY21Gnz0
- lCZhY9gMQQ4KPcTk4b6cUEKz9yorZwPsA5Ke2HE6kgHeULoDcC6koQ8Fs2dodOnxXINXKk7gLNBO79ixL1alH/7qcAUmSE16tERvCskphsuXPq71ALsDwXk/
+Subject: [GIT PULL for 5.4] MC fix and sensor driver cleanup
+Message-ID: <20190906064546.GD1586@valkosipuli.retiisi.org.uk>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi Mauro,
 
-Results of the daily build of media_tree:
+Here are a few more patches for 5.4.  Please pull.
 
-date:			Fri Sep  6 05:00:12 CEST 2019
-media-tree git hash:	6f51fdfd8229d5358c2d6e272cf73478866e8ddc
-media_build git hash:	d75b29db1297d2475227cc8bada843542271e40d
-v4l-utils git hash:	dd79397d3abf1be875224aad3b62efab53457a73
-edid-decode git hash:	0932deee88928f110b5a74851c173ad895f75863
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 8634894b41454ef4215a3d4fd503305c720e761a
-host hardware:		x86_64
-host os:		4.19.0-4-amd64
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3-rc1-i686: OK
-linux-5.3-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS: Final Summary: 2327, Succeeded: 2326, Failed: 1, Warnings: 0
-sparse: OK
-smatch: OK
+The following changes since commit 6f51fdfd8229d5358c2d6e272cf73478866e8ddc:
 
-Detailed results are available here:
+  media: videobuf-core.c: poll_wait needs a non-NULL buf pointer (2019-09-05 06:26:57 -0300)
 
-http://www.xs4all.nl/~hverkuil/logs/Friday.log
+are available in the Git repository at:
 
-Detailed regression test results are available here:
+  git://linuxtv.org/sailus/media_tree.git tags/for-5.4-9-signed
 
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+for you to fetch changes up to f3b01a6e3cb600f073eb6cc8a469e518e94ade95:
 
-Full logs are available here:
+  media: mc-device.c: fix memleak in media_device_register_entity (2019-09-06 09:19:14 +0300)
 
-http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
+----------------------------------------------------------------
+MC and sensor driver fixes for 5.4.
 
-The Media Infrastructure API from this daily build is here:
+----------------------------------------------------------------
+Colin Ian King (1):
+      media: i2c: mt9m001: make array init_regs static, makes object smaller
 
-http://www.xs4all.nl/~hverkuil/spec/index.html
+zhengbin (1):
+      media: mc-device.c: fix memleak in media_device_register_entity
+
+ drivers/media/i2c/mt9m001.c  |  2 +-
+ drivers/media/mc/mc-device.c | 65 ++++++++++++++++++++++----------------------
+ 2 files changed, 34 insertions(+), 33 deletions(-)
+
+-- 
+Regards,
+
+Sakari Ailus
