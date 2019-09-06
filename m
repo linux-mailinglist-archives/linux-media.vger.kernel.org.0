@@ -2,162 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C406AB161
-	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2019 05:51:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44B46AB175
+	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2019 06:11:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392145AbfIFDvc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Sep 2019 23:51:32 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:41203 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733221AbfIFDvc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Sep 2019 23:51:32 -0400
-Received: by mail-ot1-f68.google.com with SMTP id o101so4458480ota.8
-        for <linux-media@vger.kernel.org>; Thu, 05 Sep 2019 20:51:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=FNKwvAQEG841b6gKiiREjmRG30eyzy4byZZM3hqpa08=;
-        b=f7xAC92cK7eaHgkT6a1/xHIUdhufkhGhAIiwVbjsYcOONs4ooGlLAHX+G9SV1p44G+
-         fKxUcGfbuXj0CNFtOM5sszbza1+lbbBnfSHbGo0tthsvJ/qL5xwZVTiEGauB8rlJOrMe
-         OJpuIkzEPANh7JqD9nKJzm/ggsyHH8F4pUaucinyoBfHNRlk2cKr/lPk9A4ydPLJJsoO
-         dGTpV4AXtBvYfCKMYMI2RiWb9A+T166D+MnMsMeXzPW+zZ8exD4J7I2W5CQbwlmV0i5o
-         xEOrFyQIKDl7iJaLKh/r1yYiB6eTKyjRBkbnzFBY+jve8asWyOEkwunwyQ73SS7Rz80R
-         J+hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=FNKwvAQEG841b6gKiiREjmRG30eyzy4byZZM3hqpa08=;
-        b=Qq1agqz2aTLX0IR8X62S0ryda0Y9fTP4+vsIh3owKY8uvDRHCB0jnvwrfX8nJXQjP7
-         70bcaIDUGkZp9v/2dhrEA583cPndKdxTVCECDggVI8Mjy544A2Go0jTHApffv5AYMvqZ
-         LcIPPT0lOADgcp7jJKk1cU4CQa77iETon3ssiWD6P9hiEsWqenNVD2yUrlfoiyRMYYnA
-         lOuQGXs8VzjwJzVCALsUj9ZJt2CgkE/i6da0TzVk8b6O9Y2xS3uzRuICnKkW/VwRxMtY
-         YbKFNsW1ROXAFwZWPH2Yt8rzP73BwxOvQD+RliQQqk83CfP4n6bVY1IWfy7Mj/rkz+p+
-         JJog==
-X-Gm-Message-State: APjAAAWwyzpGMRVx6IXMsS3/pvmnUmSEBqhu0JxCiotpu1KjnR8htPzf
-        ii9e/woKMiPK+Q+ONvySMBOCse9F
-X-Google-Smtp-Source: APXvYqzNDoApEjIKo563JpM1QCO0y1XwZ6eIwZDZgG2Ev5z4REdyNlJrrnSJvzqQrPST3gFtqYTuZg==
-X-Received: by 2002:a9d:4e11:: with SMTP id p17mr5872392otf.192.1567741891960;
-        Thu, 05 Sep 2019 20:51:31 -0700 (PDT)
-Received: from rYz3n.attlocal.net ([2600:1700:210:3790::40])
-        by smtp.googlemail.com with ESMTPSA id c93sm991732otb.22.2019.09.05.20.51.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Sep 2019 20:51:30 -0700 (PDT)
-From:   Jiunn Chang <c0d1n61at3@gmail.com>
-To:     linux-media@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Cc:     hverkuil@xs4all.nl
-Subject: [PATCH v3] cec-compliance: system audio control tests
-Date:   Thu,  5 Sep 2019 22:51:29 -0500
-Message-Id: <20190906035129.18447-2-c0d1n61at3@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20190902165920.17812-1-c0d1n61at3@gmail.com>
-References: <20190902165920.17812-1-c0d1n61at3@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1725946AbfIFELk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Sep 2019 00:11:40 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:49973 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725790AbfIFELk (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 6 Sep 2019 00:11:40 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:4d3a:88c1:467e:fffe])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id 65ayiIFrwMK4h65aziK4GT; Fri, 06 Sep 2019 06:11:38 +0200
+Message-ID: <fa9d31500f5485cd0feaf80bd7639713@smtp-cloud8.xs4all.net>
+Date:   Fri, 06 Sep 2019 06:11:36 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfLzmIGqEyCFlcdNXch+nNkeqFf0su2LhHAJU8CIAD/ai9i6L0e0uUWZFVzxDiIf3j9915rgFx5u0RDgSLqxgYw+AStmvngS0MYG5hPxd7QiWxY21Gnz0
+ lCZhY9gMQQ4KPcTk4b6cUEKz9yorZwPsA5Ke2HE6kgHeULoDcC6koQ8Fs2dodOnxXINXKk7gLNBO79ixL1alH/7qcAUmSE16tERvCskphsuXPq71ALsDwXk/
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The HDMI CEC specification defines deterministic operands for
-User Control Pressed that mute or unmute system audio.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Those being:
- - Mute Function for mute on
- - Restore Volume Function for mute off
+Results of the daily build of media_tree:
 
-This is different from the operand Mute which is a toggle.
+date:			Fri Sep  6 05:00:12 CEST 2019
+media-tree git hash:	6f51fdfd8229d5358c2d6e272cf73478866e8ddc
+media_build git hash:	d75b29db1297d2475227cc8bada843542271e40d
+v4l-utils git hash:	dd79397d3abf1be875224aad3b62efab53457a73
+edid-decode git hash:	0932deee88928f110b5a74851c173ad895f75863
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1-rc1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.5.1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 8634894b41454ef4215a3d4fd503305c720e761a
+host hardware:		x86_64
+host os:		4.19.0-4-amd64
 
-This patch adds tests for these User Control Pressed operands.
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3-rc1-i686: OK
+linux-5.3-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS: Final Summary: 2327, Succeeded: 2326, Failed: 1, Warnings: 0
+sparse: OK
+smatch: OK
 
-Signed-off-by: Jiunn Chang <c0d1n61at3@gmail.com>
----
+Detailed results are available here:
 
-Changes made since v2:
- - add more details to commit message
+http://www.xs4all.nl/~hverkuil/logs/Friday.log
 
-Notes:
+Detailed regression test results are available here:
 
-A patch series has been submitted by Hans Verkuil to add CEC UI command operands
-to the cec header in the media tree from which v4l-utils copies it.  Once those
-patches are applied, another patch will be submitted to leverage the new header
-operand macros.
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
 
->8---------------------------------------------------------------------------8<
+Full logs are available here:
 
- utils/cec-compliance/cec-test-audio.cpp | 32 +++++++++++++++++++++++++
- utils/cec-follower/cec-processing.cpp   |  6 +++++
- 2 files changed, 38 insertions(+)
+http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
 
-diff --git a/utils/cec-compliance/cec-test-audio.cpp b/utils/cec-compliance/cec-test-audio.cpp
-index 8611350e..872bb9ad 100644
---- a/utils/cec-compliance/cec-test-audio.cpp
-+++ b/utils/cec-compliance/cec-test-audio.cpp
-@@ -673,6 +673,32 @@ static int sac_user_control_press_mute(struct node *node, unsigned me, unsigned
- 	return 0;
- }
- 
-+static int sac_user_control_press_mute_function(struct node *node, unsigned me, unsigned la, bool interactive)
-+{
-+	__u8 ret;
-+
-+	if ((ret = sac_util_send_user_control_press(node, me, la, 0x65)))
-+		return ret;
-+	fail_on_test_v2(node->remote[la].cec_version,
-+			la == CEC_LOG_ADDR_AUDIOSYSTEM &&
-+			node->remote[la].mute == CEC_OP_AUD_MUTE_STATUS_ON);
-+
-+	return 0;
-+}
-+
-+static int sac_user_control_press_restore_volume_function(struct node *node, unsigned me, unsigned la, bool interactive)
-+{
-+	__u8 ret;
-+
-+	if ((ret = sac_util_send_user_control_press(node, me, la, 0x66)))
-+		return ret;
-+	fail_on_test_v2(node->remote[la].cec_version,
-+			la == CEC_LOG_ADDR_AUDIOSYSTEM &&
-+			node->remote[la].mute == CEC_OP_AUD_MUTE_STATUS_OFF);
-+
-+	return 0;
-+}
-+
- static int sac_user_control_release(struct node *node, unsigned me, unsigned la, bool interactive)
- {
- 	struct cec_msg msg = {};
-@@ -763,6 +789,12 @@ struct remote_subtest sac_subtests[] = {
- 	{ "User Control Pressed (Mute)",
- 	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
- 	  sac_user_control_press_mute },
-+	{ "User Control Pressed (Restore Volume Function)",
-+	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
-+	  sac_user_control_press_restore_volume_function },
-+	{ "User Control Pressed (Mute Function)",
-+	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
-+	  sac_user_control_press_mute_function },
- 	{ "User Control Released",
- 	  CEC_LOG_ADDR_MASK_AUDIOSYSTEM | CEC_LOG_ADDR_MASK_TV,
- 	  sac_user_control_release },
-diff --git a/utils/cec-follower/cec-processing.cpp b/utils/cec-follower/cec-processing.cpp
-index 27172560..a38f664b 100644
---- a/utils/cec-follower/cec-processing.cpp
-+++ b/utils/cec-follower/cec-processing.cpp
-@@ -516,6 +516,12 @@ static void processMsg(struct node *node, struct cec_msg &msg, unsigned me)
- 		case 0x43:
- 			node->state.mute = !node->state.mute;
- 			break;
-+		case 0x65:
-+			node->state.mute = true;
-+			break;
-+		case 0x66:
-+			node->state.mute = false;
-+			break;
- 		case 0x6B:
- 			if (!enter_standby(node))
- 				exit_standby(node);
--- 
-2.23.0
+The Media Infrastructure API from this daily build is here:
 
+http://www.xs4all.nl/~hverkuil/spec/index.html
