@@ -2,188 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F29FAB478
-	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2019 10:58:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 652C4AB4A7
+	for <lists+linux-media@lfdr.de>; Fri,  6 Sep 2019 11:12:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392789AbfIFI6m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Sep 2019 04:58:42 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:59518 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730412AbfIFI6l (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Sep 2019 04:58:41 -0400
-Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
-        by youngberry.canonical.com with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-        (Exim 4.76)
-        (envelope-from <colin.king@canonical.com>)
-        id 1i6A4l-0001EK-CW; Fri, 06 Sep 2019 08:58:39 +0000
-From:   Colin King <colin.king@canonical.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: em28xx: make various arrays static const, makes object smaller
-Date:   Fri,  6 Sep 2019 09:58:39 +0100
-Message-Id: <20190906085839.24344-1-colin.king@canonical.com>
-X-Mailer: git-send-email 2.20.1
+        id S2389544AbfIFJMM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Sep 2019 05:12:12 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:53914 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730704AbfIFJML (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Sep 2019 05:12:11 -0400
+Received: from pendragon.ideasonboard.com (wlan-guests.hus.fi [193.166.190.218])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 76CB6542;
+        Fri,  6 Sep 2019 11:12:09 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1567761129;
+        bh=IFUoI3dTebeL4PfHjoNHuuZ8HLWlXoSyuPgwOWPuMJ0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=V6jDrufoJA/EhH8enZ2njbaKVHxef3ly8xKg5frTM/g/7ovAhDwEKTZ/82/wyGgiV
+         3+qx1Q9gsYFycruBGGRykSU1q60UXwjPk1EN+cLy6Tca9T5DzPiLJGinoC2iREcn4M
+         cULJYcqVKljsChB0UDLDE2oTbL+qGPIw7RQjKWdc=
+Date:   Fri, 6 Sep 2019 12:12:03 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     zhengbin <zhengbin13@huawei.com>
+Cc:     sakari.ailus@linux.intel.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, yi.zhang@huawei.com
+Subject: Re: [PATCH v2] media: mc-device.c: fix memleak in
+ media_device_register_entity
+Message-ID: <20190906091203.GB5019@pendragon.ideasonboard.com>
+References: <1566179490-15413-1-git-send-email-zhengbin13@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1566179490-15413-1-git-send-email-zhengbin13@huawei.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Colin Ian King <colin.king@canonical.com>
+Hello Zhengbin,
 
-Don't populate the arrays on the stack but instead make them
-static const. Makes the object code smaller by 767 bytes.
+On Mon, Aug 19, 2019 at 09:51:30AM +0800, zhengbin wrote:
+> In media_device_register_entity, if media_graph_walk_init fails,
+> need to free the previously memory.
+> 
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: zhengbin <zhengbin13@huawei.com>
 
-Before:
-   text	   data	    bss	    dec	    hex	filename
-  41567	  15088	    192	  56847	   de0f	em28xx/em28xx-dvb.o
+This looks good to me.
 
-After:
-   text	   data	    bss	    dec	    hex	filename
-  39872	  16016	    192	  56080	   db10	em28xx/em28xx-dvb.o
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-(gcc version 9.2.1, amd64)
+and applied to my tree, for v5.5.
 
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
----
- drivers/media/usb/em28xx/em28xx-dvb.c | 30 +++++++++++++--------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+> ---
+>  drivers/media/mc/mc-device.c | 65 ++++++++++++++++++++++----------------------
+>  1 file changed, 33 insertions(+), 32 deletions(-)
+> 
+> diff --git a/drivers/media/mc/mc-device.c b/drivers/media/mc/mc-device.c
+> index e19df51..da80883 100644
+> --- a/drivers/media/mc/mc-device.c
+> +++ b/drivers/media/mc/mc-device.c
+> @@ -575,6 +575,38 @@ static void media_device_release(struct media_devnode *devnode)
+>  	dev_dbg(devnode->parent, "Media device released\n");
+>  }
+> 
+> +static void __media_device_unregister_entity(struct media_entity *entity)
+> +{
+> +	struct media_device *mdev = entity->graph_obj.mdev;
+> +	struct media_link *link, *tmp;
+> +	struct media_interface *intf;
+> +	unsigned int i;
+> +
+> +	ida_free(&mdev->entity_internal_idx, entity->internal_idx);
+> +
+> +	/* Remove all interface links pointing to this entity */
+> +	list_for_each_entry(intf, &mdev->interfaces, graph_obj.list) {
+> +		list_for_each_entry_safe(link, tmp, &intf->links, list) {
+> +			if (link->entity == entity)
+> +				__media_remove_intf_link(link);
+> +		}
+> +	}
+> +
+> +	/* Remove all data links that belong to this entity */
+> +	__media_entity_remove_links(entity);
+> +
+> +	/* Remove all pads that belong to this entity */
+> +	for (i = 0; i < entity->num_pads; i++)
+> +		media_gobj_destroy(&entity->pads[i].graph_obj);
+> +
+> +	/* Remove the entity */
+> +	media_gobj_destroy(&entity->graph_obj);
+> +
+> +	/* invoke entity_notify callbacks to handle entity removal?? */
+> +
+> +	entity->graph_obj.mdev = NULL;
+> +}
+> +
+>  /**
+>   * media_device_register_entity - Register an entity with a media device
+>   * @mdev:	The media device
+> @@ -632,6 +664,7 @@ int __must_check media_device_register_entity(struct media_device *mdev,
+>  		 */
+>  		ret = media_graph_walk_init(&new, mdev);
+>  		if (ret) {
+> +			__media_device_unregister_entity(entity);
+>  			mutex_unlock(&mdev->graph_mutex);
+>  			return ret;
+>  		}
+> @@ -644,38 +677,6 @@ int __must_check media_device_register_entity(struct media_device *mdev,
+>  }
+>  EXPORT_SYMBOL_GPL(media_device_register_entity);
+> 
+> -static void __media_device_unregister_entity(struct media_entity *entity)
+> -{
+> -	struct media_device *mdev = entity->graph_obj.mdev;
+> -	struct media_link *link, *tmp;
+> -	struct media_interface *intf;
+> -	unsigned int i;
+> -
+> -	ida_free(&mdev->entity_internal_idx, entity->internal_idx);
+> -
+> -	/* Remove all interface links pointing to this entity */
+> -	list_for_each_entry(intf, &mdev->interfaces, graph_obj.list) {
+> -		list_for_each_entry_safe(link, tmp, &intf->links, list) {
+> -			if (link->entity == entity)
+> -				__media_remove_intf_link(link);
+> -		}
+> -	}
+> -
+> -	/* Remove all data links that belong to this entity */
+> -	__media_entity_remove_links(entity);
+> -
+> -	/* Remove all pads that belong to this entity */
+> -	for (i = 0; i < entity->num_pads; i++)
+> -		media_gobj_destroy(&entity->pads[i].graph_obj);
+> -
+> -	/* Remove the entity */
+> -	media_gobj_destroy(&entity->graph_obj);
+> -
+> -	/* invoke entity_notify callbacks to handle entity removal?? */
+> -
+> -	entity->graph_obj.mdev = NULL;
+> -}
+> -
+>  void media_device_unregister_entity(struct media_entity *entity)
+>  {
+>  	struct media_device *mdev = entity->graph_obj.mdev;
 
-diff --git a/drivers/media/usb/em28xx/em28xx-dvb.c b/drivers/media/usb/em28xx/em28xx-dvb.c
-index a73faf12f7e4..0ab6c493bc74 100644
---- a/drivers/media/usb/em28xx/em28xx-dvb.c
-+++ b/drivers/media/usb/em28xx/em28xx-dvb.c
-@@ -471,13 +471,13 @@ static void hauppauge_hvr930c_init(struct em28xx *dev)
- {
- 	int i;
- 
--	struct em28xx_reg_seq hauppauge_hvr930c_init[] = {
-+	static const struct em28xx_reg_seq hauppauge_hvr930c_init[] = {
- 		{EM2874_R80_GPIO_P0_CTRL,	0xff,	0xff,	0x65},
- 		{EM2874_R80_GPIO_P0_CTRL,	0xfb,	0xff,	0x32},
- 		{EM2874_R80_GPIO_P0_CTRL,	0xff,	0xff,	0xb8},
- 		{	-1,			-1,	-1,	-1},
- 	};
--	struct em28xx_reg_seq hauppauge_hvr930c_end[] = {
-+	static const struct em28xx_reg_seq hauppauge_hvr930c_end[] = {
- 		{EM2874_R80_GPIO_P0_CTRL,	0xef,	0xff,	0x01},
- 		{EM2874_R80_GPIO_P0_CTRL,	0xaf,	0xff,	0x65},
- 		{EM2874_R80_GPIO_P0_CTRL,	0xef,	0xff,	0x76},
-@@ -493,7 +493,7 @@ static void hauppauge_hvr930c_init(struct em28xx *dev)
- 		{	-1,			-1,	-1,	-1},
- 	};
- 
--	struct {
-+	static const struct {
- 		unsigned char r[4];
- 		int len;
- 	} regs[] = {
-@@ -537,20 +537,20 @@ static void hauppauge_hvr930c_init(struct em28xx *dev)
- static void terratec_h5_init(struct em28xx *dev)
- {
- 	int i;
--	struct em28xx_reg_seq terratec_h5_init[] = {
-+	static const struct em28xx_reg_seq terratec_h5_init[] = {
- 		{EM2820_R08_GPIO_CTRL,		0xff,	0xff,	10},
- 		{EM2874_R80_GPIO_P0_CTRL,	0xf6,	0xff,	100},
- 		{EM2874_R80_GPIO_P0_CTRL,	0xf2,	0xff,	50},
- 		{EM2874_R80_GPIO_P0_CTRL,	0xf6,	0xff,	100},
- 		{	-1,			-1,	-1,	-1},
- 	};
--	struct em28xx_reg_seq terratec_h5_end[] = {
-+	static const struct em28xx_reg_seq terratec_h5_end[] = {
- 		{EM2874_R80_GPIO_P0_CTRL,	0xe6,	0xff,	100},
- 		{EM2874_R80_GPIO_P0_CTRL,	0xa6,	0xff,	50},
- 		{EM2874_R80_GPIO_P0_CTRL,	0xe6,	0xff,	100},
- 		{	-1,			-1,	-1,	-1},
- 	};
--	struct {
-+	static const struct {
- 		unsigned char r[4];
- 		int len;
- 	} regs[] = {
-@@ -594,14 +594,14 @@ static void terratec_htc_stick_init(struct em28xx *dev)
- 	 * 0xe6: unknown (does not affect DVB-T).
- 	 * 0xb6: unknown (does not affect DVB-T).
- 	 */
--	struct em28xx_reg_seq terratec_htc_stick_init[] = {
-+	static const struct em28xx_reg_seq terratec_htc_stick_init[] = {
- 		{EM2820_R08_GPIO_CTRL,		0xff,	0xff,	10},
- 		{EM2874_R80_GPIO_P0_CTRL,	0xf6,	0xff,	100},
- 		{EM2874_R80_GPIO_P0_CTRL,	0xe6,	0xff,	50},
- 		{EM2874_R80_GPIO_P0_CTRL,	0xf6,	0xff,	100},
- 		{	-1,			-1,	-1,	-1},
- 	};
--	struct em28xx_reg_seq terratec_htc_stick_end[] = {
-+	static const struct em28xx_reg_seq terratec_htc_stick_end[] = {
- 		{EM2874_R80_GPIO_P0_CTRL,	0xb6,	0xff,	100},
- 		{EM2874_R80_GPIO_P0_CTRL,	0xf6,	0xff,	50},
- 		{	-1,			-1,	-1,	-1},
-@@ -611,7 +611,7 @@ static void terratec_htc_stick_init(struct em28xx *dev)
- 	 * Init the analog decoder (not yet supported), but
- 	 * it's probably still a good idea.
- 	 */
--	struct {
-+	static const struct {
- 		unsigned char r[4];
- 		int len;
- 	} regs[] = {
-@@ -642,14 +642,14 @@ static void terratec_htc_usb_xs_init(struct em28xx *dev)
- {
- 	int i;
- 
--	struct em28xx_reg_seq terratec_htc_usb_xs_init[] = {
-+	static const struct em28xx_reg_seq terratec_htc_usb_xs_init[] = {
- 		{EM2820_R08_GPIO_CTRL,		0xff,	0xff,	10},
- 		{EM2874_R80_GPIO_P0_CTRL,	0xb2,	0xff,	100},
- 		{EM2874_R80_GPIO_P0_CTRL,	0xb2,	0xff,	50},
- 		{EM2874_R80_GPIO_P0_CTRL,	0xb6,	0xff,	100},
- 		{	-1,			-1,	-1,	-1},
- 	};
--	struct em28xx_reg_seq terratec_htc_usb_xs_end[] = {
-+	static const struct em28xx_reg_seq terratec_htc_usb_xs_end[] = {
- 		{EM2874_R80_GPIO_P0_CTRL,	0xa6,	0xff,	100},
- 		{EM2874_R80_GPIO_P0_CTRL,	0xa6,	0xff,	50},
- 		{EM2874_R80_GPIO_P0_CTRL,	0xe6,	0xff,	100},
-@@ -660,7 +660,7 @@ static void terratec_htc_usb_xs_init(struct em28xx *dev)
- 	 * Init the analog decoder (not yet supported), but
- 	 * it's probably still a good idea.
- 	 */
--	struct {
-+	static const struct {
- 		unsigned char r[4];
- 		int len;
- 	} regs[] = {
-@@ -704,7 +704,7 @@ static void pctv_520e_init(struct em28xx *dev)
- 	 * digital demodulator and tuner are routed via AVF4910B.
- 	 */
- 	int i;
--	struct {
-+	static const struct {
- 		unsigned char r[4];
- 		int len;
- 	} regs[] = {
-@@ -800,7 +800,7 @@ static int em28xx_mt352_terratec_xs_init(struct dvb_frontend *fe)
- static void px_bcud_init(struct em28xx *dev)
- {
- 	int i;
--	struct {
-+	static const struct {
- 		unsigned char r[4];
- 		int len;
- 	} regs1[] = {
-@@ -818,7 +818,7 @@ static void px_bcud_init(struct em28xx *dev)
- 		{{ 0x85, 0x7a }, 2},
- 		{{ 0x87, 0x04 }, 2},
- 	};
--	static struct em28xx_reg_seq gpio[] = {
-+	static const struct em28xx_reg_seq gpio[] = {
- 		{EM28XX_R06_I2C_CLK,		0x40,	0xff,	300},
- 		{EM2874_R80_GPIO_P0_CTRL,	0xfd,	0xff,	60},
- 		{EM28XX_R15_RGAIN,		0x20,	0xff,	0},
 -- 
-2.20.1
+Regards,
 
+Laurent Pinchart
