@@ -2,130 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7230DAC6EE
-	for <lists+linux-media@lfdr.de>; Sat,  7 Sep 2019 16:21:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BABE0AC6F7
+	for <lists+linux-media@lfdr.de>; Sat,  7 Sep 2019 16:37:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388916AbfIGOVo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 7 Sep 2019 10:21:44 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:36598 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388238AbfIGOVo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 7 Sep 2019 10:21:44 -0400
-Received: by mail-pf1-f195.google.com with SMTP id y22so6445793pfr.3;
-        Sat, 07 Sep 2019 07:21:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=37f65CGSJoP5CdiEV3OM1izP7iVH496FryBwntyj2lE=;
-        b=kd2Jm8GWBwhE0xBsXqluIUDsHy3ux5Uah19P8x1QssYTZ7XOIo2cgdBen3lsB4iAzi
-         GxzL7vD+k2SFNpg1arMm994weRfs2X6FMIquW6W4ydxo4q9yoYfSMZRtfQ6M+oS/u/vF
-         kADroW4mHS/N7l1mDDls1fsTnUAhLurplEoMWKDmVj6jeiwDf8kxztNLbFqXfs5aI9tV
-         q8Fxs8UsewZLwzQ+YBW3v4wqD1vxOKLpYYiUkWi0od/uDfyqY++qRzWmRxYmGDI+1RkX
-         iNzbAD07V+680gKbBNMTKfFxmsFIaZIXUmoVpQADvYJpGS1rHpA8XK7GXf5huN9sBncC
-         1KeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=37f65CGSJoP5CdiEV3OM1izP7iVH496FryBwntyj2lE=;
-        b=WmCuccGGgdKaPQ3+lq3O59rPt1SDB6IlkF/rFaJNemhO/h5h0iBrEWvvUun+TfJOeI
-         2T3kc0Xzg+SwOrblVFf9SE2G3yhZSxF3ImIkDmJ7ERBOxmRxBC532WsGq2S2zfNSdFE9
-         Fz1K7TEgWCwa6fQiVsFeGLdrtWAPXCTxds21fZbYCKz6DZLvumm1iFc5fQwqV4pIXi7N
-         SGEwgp1aYSqaPBcCM+BvxKnrig4vsiSXc0DQcseJyk1P7MNdd32Ae/CrwjWLbFpL2IV0
-         yPKGITuEWWmlzMc4JVLFWq3nE/Oe0w+wS5WMzHrZicqEKBusKvAb007WUdWcSOgao+v/
-         6gPA==
-X-Gm-Message-State: APjAAAWXei9c48QIWOhCR+Np1Y1RrJRQAXz0288zCe0RVQzDCcv3GvTk
-        /h+FyqTO8yUSIMzbwCY8YmK9IkqGkkI=
-X-Google-Smtp-Source: APXvYqyQ8yChFWgK1RcParrAaabjchntsUg1BuEJKCxSZHEr5B5JusC6goDwYFQpBhcT+SahP2PZgA==
-X-Received: by 2002:a63:ee04:: with SMTP id e4mr12741439pgi.53.1567866103127;
-        Sat, 07 Sep 2019 07:21:43 -0700 (PDT)
-Received: from nishad ([106.51.235.3])
-        by smtp.gmail.com with ESMTPSA id i9sm25547693pgo.46.2019.09.07.07.21.39
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Sat, 07 Sep 2019 07:21:42 -0700 (PDT)
-Date:   Sat, 7 Sep 2019 19:51:36 +0530
-From:   Nishad Kamdar <nishadkamdar@gmail.com>
-To:     Hyun Kwon <hyun.kwon@xilinx.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michal Simek <michal.simek@xilinx.com>,
+        id S2393214AbfIGOgp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 7 Sep 2019 10:36:45 -0400
+Received: from smtp1.goneo.de ([85.220.129.30]:42288 "EHLO smtp1.goneo.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388202AbfIGOgp (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 7 Sep 2019 10:36:45 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by smtp1.goneo.de (Postfix) with ESMTP id 1845123F3DE;
+        Sat,  7 Sep 2019 16:36:41 +0200 (CEST)
+X-Virus-Scanned: by goneo
+X-Spam-Flag: NO
+X-Spam-Score: -2.877
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.877 tagged_above=-999 tests=[ALL_TRUSTED=-1,
+        AWL=0.023, BAYES_00=-1.9] autolearn=ham
+Received: from smtp1.goneo.de ([127.0.0.1])
+        by localhost (smtp1.goneo.de [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id b-iajWqFRVuP; Sat,  7 Sep 2019 16:36:39 +0200 (CEST)
+Received: from [192.168.1.127] (dyndsl-178-142-129-167.ewe-ip-backbone.de [178.142.129.167])
+        by smtp1.goneo.de (Postfix) with ESMTPSA id 3B3ED23F6E3;
+        Sat,  7 Sep 2019 16:36:37 +0200 (CEST)
+Subject: Re: [PATCH 0/6] Address issues with SPDX requirements and PEP-263
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Joe Perches <joe@perches.com>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] media: xilinx: Use the correct style for SPDX License
- Identifier
-Message-ID: <20190907142132.GA7166@nishad>
+        Joe Perches <joe@perches.com>, linux-kernel@vger.kernel.org,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Sven Eckelmann <sven@narfation.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Doug Smythies <doug.smythies@gmail.com>,
+        =?UTF-8?Q?Aur=c3=a9lien_Cedeyn?= <aurelien.cedeyn@gmail.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        linux-doc@vger.kernel.org,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thierry Reding <treding@nvidia.com>,
+        Armijn Hemel <armijn@tjaldur.nl>, Jiri Olsa <jolsa@redhat.com>,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Allison Randal <allison@lohutok.net>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>
+References: <cover.1567712829.git.mchehab+samsung@kernel.org>
+ <20190907073419.6a88e318@lwn.net>
+From:   Markus Heiser <markus.heiser@darmarit.de>
+Message-ID: <be329f0e-ec5b-f5ec-823d-66e58699da73@darmarit.de>
+Date:   Sat, 7 Sep 2019 16:36:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20190907073419.6a88e318@lwn.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: de-DE
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This patch corrects the SPDX License Identifier style
-in header files related to Video drivers for Xilinx devices.
-For C header files Documentation/process/license-rules.rst
-mandates C-like comments (opposed to C source files where
-C++ style should be used)
 
-Changes made by using a script provided by Joe Perches here:
-https://lkml.org/lkml/2019/2/7/46.
+Am 07.09.19 um 15:34 schrieb Jonathan Corbet:
+> On Thu,  5 Sep 2019 16:57:47 -0300
+> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+> 
+>> The  description at Documentation/process/license-rules.rst is very strict
+>> with regards to the position where the SPDX tags should be.
+>>
+>> In the past several developers and maintainers interpreted it on a
+>> more permissive way, placing the SPDX header between lines 1 to 15,
+>> with are the ones which the  scripts/spdxcheck.py script verifies.
+>>
+>> However, recently, devs are becoming more strict about such
+>> requirement and want it to strictly follow the rule, with states that
+>> the SPDX rule should be at the first line ever on most files, and
+>> at the second line for scripts.
+>>
+>> Well, for Python script, such requirement causes violation to PEP-263,
+>> making regressions on scripts that contain encoding lines, as PEP-263
+>> also states about the same.
+>>
+>> This series addresses it.
+> 
+> So I really don't want to be overly difficult here, but I would like to
+> approach this from yet another angle...
+> 
+>> Patches 1 to 3 fix some Python scripts that violates PEP-263;
+> 
+> I just checked all of those scripts, and they are all just plain ASCII.
+> So it really doesn't matter whether the environment defaults to UTF-8 or
+> ASCII here.  So, in other words, we really shouldn't need to define the
+> encoding at all.
+> 
 
-Suggested-by: Joe Perches <joe@perches.com>
-Signed-off-by: Nishad Kamdar <nishadkamdar@gmail.com>
----
- drivers/media/platform/xilinx/xilinx-dma.h  | 2 +-
- drivers/media/platform/xilinx/xilinx-vip.h  | 2 +-
- drivers/media/platform/xilinx/xilinx-vipp.h | 2 +-
- drivers/media/platform/xilinx/xilinx-vtc.h  | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+Thats what I mean [1] .. lets patch the description in the license-rules.rst::
 
-diff --git a/drivers/media/platform/xilinx/xilinx-dma.h b/drivers/media/platform/xilinx/xilinx-dma.h
-index 5aec4d17eb21..2378bdae57ae 100644
---- a/drivers/media/platform/xilinx/xilinx-dma.h
-+++ b/drivers/media/platform/xilinx/xilinx-dma.h
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: GPL-2.0
-+/* SPDX-License-Identifier: GPL-2.0 */
- /*
-  * Xilinx Video DMA
-  *
-diff --git a/drivers/media/platform/xilinx/xilinx-vip.h b/drivers/media/platform/xilinx/xilinx-vip.h
-index f71e2b650453..a528a32ea1dc 100644
---- a/drivers/media/platform/xilinx/xilinx-vip.h
-+++ b/drivers/media/platform/xilinx/xilinx-vip.h
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: GPL-2.0
-+/* SPDX-License-Identifier: GPL-2.0 */
- /*
-  * Xilinx Video IP Core
-  *
-diff --git a/drivers/media/platform/xilinx/xilinx-vipp.h b/drivers/media/platform/xilinx/xilinx-vipp.h
-index e65fce9538f9..cc52c1854dbd 100644
---- a/drivers/media/platform/xilinx/xilinx-vipp.h
-+++ b/drivers/media/platform/xilinx/xilinx-vipp.h
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: GPL-2.0
-+/* SPDX-License-Identifier: GPL-2.0 */
- /*
-  * Xilinx Video IP Composite Device
-  *
-diff --git a/drivers/media/platform/xilinx/xilinx-vtc.h b/drivers/media/platform/xilinx/xilinx-vtc.h
-index 90cf44245283..855845911ffc 100644
---- a/drivers/media/platform/xilinx/xilinx-vtc.h
-+++ b/drivers/media/platform/xilinx/xilinx-vtc.h
-@@ -1,4 +1,4 @@
--// SPDX-License-Identifier: GPL-2.0
-+/* SPDX-License-Identifier: GPL-2.0 */
- /*
-  * Xilinx Video Timing Controller
-  *
--- 
-2.17.1
+- first line for the OS (shebang)
+- second line for environment (python-encoding, editor-mode, ...)
+- third and more lines for application (SPDX use) ..
 
+[1] https://www.mail-archive.com/linux-doc@vger.kernel.org/msg33240.html
+
+-- Markus --
+
+> This suggests to me that we're adding a bunch of complications that we
+> don't necessarily need.  What am I missing here?
+> 
+> Educate me properly and I'll not try to stand in the way of all this...
+> 
+> Thanks,
+> 
+> jon
+> 
