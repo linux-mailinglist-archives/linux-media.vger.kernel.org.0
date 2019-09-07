@@ -2,85 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 176DFAC41F
-	for <lists+linux-media@lfdr.de>; Sat,  7 Sep 2019 04:42:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ACD00AC442
+	for <lists+linux-media@lfdr.de>; Sat,  7 Sep 2019 05:51:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393936AbfIGCmg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Sep 2019 22:42:36 -0400
-Received: from mail-io1-f66.google.com ([209.85.166.66]:42247 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2394009AbfIGCmf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Sep 2019 22:42:35 -0400
-Received: by mail-io1-f66.google.com with SMTP id n197so17209396iod.9
-        for <linux-media@vger.kernel.org>; Fri, 06 Sep 2019 19:42:35 -0700 (PDT)
+        id S2389580AbfIGDvl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Sep 2019 23:51:41 -0400
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:40974 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1733303AbfIGDvl (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Sep 2019 23:51:41 -0400
+Received: by mail-ed1-f67.google.com with SMTP id z9so8363117edq.8
+        for <linux-media@vger.kernel.org>; Fri, 06 Sep 2019 20:51:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=294+1pNE1QvrA8K+k/rIQCwQYW84ev1PmbYotCH5RCQ=;
-        b=SH623TYFdX1L/2A+QyRyAkCxAqF+GYDPcODRe2Sz8FqEtEIIgfuF5rtfHQdogDC30K
-         rrJCT6IPdrcEVFFN0lp3D1YkhqW78HeJqHA4lYKkxuv4Gz2KQbNF7ytlBUYXfD8TmTcR
-         eidC8au4ObhVtrHeHobx9O2OqlGZFOOoiHXIY=
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Z8g/yuEAbsV3RHz2NFoSIRvhRhOGryUeAZNMBK0KH30=;
+        b=a+4E7MF06twSs/byvYx7TYHU2ZXGvTdd/OretEjRgUWdyZOpoUAB4C/xMHxHRG1sxr
+         IothwulEFXzhDLIrDy6sZJcxPDDPL3B4Oc1/8ym/YU4fmlo/qep0VnTLwg8apEOcikaw
+         CUwEUXBXVrl6aIAN1UqMhm3tqqogBokpZg6j4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=294+1pNE1QvrA8K+k/rIQCwQYW84ev1PmbYotCH5RCQ=;
-        b=GhaQ+76CByAZG5v/82+qG6U022PKK8R+rrRlHeAokxb48y5rNKK2lOidm16lX9z+c7
-         0JrNjXd5ddspNRiMY+2MoU1VwwV0XXMbicmvCVxno5JzENkIsMN+EFEIS9uiDIXHZWkQ
-         hkkZZhqi2nk2pGOPdIdLmlRM/apspA9B2D/XWQTVOqggLPrWy9EgSACzWNWeSRSxRwUw
-         ARCy0s4wtE44G1l244f6f0/D5g/HykWL900G+IYNC3NEUSwHyTuNmUYtOzIl4U3ig9CE
-         NSDzKXtzLkQxFV2gnNuC8Pq+0WRuEyOH+Gbd95O1gMR6yvfxEZVyDWAqRcpwdMcFcG2M
-         xw+g==
-X-Gm-Message-State: APjAAAVjkEzfayenNlS1cwGXoPIiy3ylm21WmCpBrKHiyzRd/Ms7veHq
-        b7P7mmG9JwZjkIiwd+aw8q4Uww==
-X-Google-Smtp-Source: APXvYqxYaeCcIgKAbH28UnlzMdq9hP8U2U6gO5o2E1+TocctiGgOEScJrVkUHXNA6/lAVDHHcRch7Q==
-X-Received: by 2002:a6b:7109:: with SMTP id q9mr14767182iog.239.1567824154808;
-        Fri, 06 Sep 2019 19:42:34 -0700 (PDT)
-Received: from shuah-t480s.internal (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id b7sm6441427iod.78.2019.09.06.19.42.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Sep 2019 19:42:34 -0700 (PDT)
-From:   Shuah Khan <skhan@linuxfoundation.org>
-To:     mchehab@kernel.org, helen.koike@collabora.com,
-        skhan@linuxfoundation.org, andrealmeid@collabora.com,
-        dafna.hirschfeld@collabora.com, hverkuil-cisco@xs4all.nl,
-        davem@davemloft.net, gregkh@linuxfoundation.org,
-        nicolas.ferre@microchip.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v4 5/5] MAINTAINERS: Add reviewer to vimc driver
-Date:   Fri,  6 Sep 2019 20:42:19 -0600
-Message-Id: <a22e8a061fd0d9d8c9392e748a3182ce01f830e7.1567822793.git.skhan@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1567822792.git.skhan@linuxfoundation.org>
-References: <cover.1567822792.git.skhan@linuxfoundation.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Z8g/yuEAbsV3RHz2NFoSIRvhRhOGryUeAZNMBK0KH30=;
+        b=tIMQtCMNxWAJ+467kXShjaiMEGylsQCSX/4UosBNxEglLR+sYz58Zu8xLZOZVLfPT8
+         Wda91IVYXVQGUfUK+NuTAz+4dXEKE/tNx4BpEM41Tsk8XcdxGlzmwulpAVlp+NzyA1L3
+         j8W/5p6asE3hNjO796TZMPp4Ys/nW/ubEG2JftiEuDL3mfP4iZoFQkzxQchJ+NQLf+TC
+         d/KEGYZGIx+FapphSBp13SSUJ3B39cYaNB6IZKYm3DMJIAfKTm21c4VOoXaoR+mdYLkh
+         KsbyTy5Fn2MdKB5zB94uJus10fa0791ARabmM7uJCqAsc4DVxiwUx7f5g0hPWrgQ5+sk
+         VYQw==
+X-Gm-Message-State: APjAAAXjR76ezdX2Tbfj3NxmmPK2V6KKX20etJv0ct6ZXyBaX5mXkey9
+        1cDhE6byhyc3vIMMzCzUALwYwIaqEw9GbA==
+X-Google-Smtp-Source: APXvYqxr16g8RzvR/uKLMbo/Ct6tu6qRFRWNAViELHautDV2+gXGJHRgxUzj3KDllhhVzbtzJUloYg==
+X-Received: by 2002:a17:906:4e12:: with SMTP id z18mr10410689eju.187.1567828299105;
+        Fri, 06 Sep 2019 20:51:39 -0700 (PDT)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com. [209.85.128.49])
+        by smtp.gmail.com with ESMTPSA id g11sm1349526edu.4.2019.09.06.20.51.37
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Sep 2019 20:51:37 -0700 (PDT)
+Received: by mail-wm1-f49.google.com with SMTP id g207so8327516wmg.5
+        for <linux-media@vger.kernel.org>; Fri, 06 Sep 2019 20:51:37 -0700 (PDT)
+X-Received: by 2002:a1c:c104:: with SMTP id r4mr4712727wmf.64.1567828296905;
+ Fri, 06 Sep 2019 20:51:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20190819034331.13098-1-dongchun.zhu@mediatek.com>
+ <20190819034331.13098-3-dongchun.zhu@mediatek.com> <20190819083009.GC6133@paasikivi.fi.intel.com>
+ <1567676465.21623.100.camel@mhfsdcap03> <20190905104546.GA5475@paasikivi.fi.intel.com>
+ <CAAFQd5Bh-11D9RR9WVH5A3DbXZoxWhbMhXSNKUV25mempMi+ag@mail.gmail.com>
+ <20190905160512.GG5475@paasikivi.fi.intel.com> <CANMq1KDVMGkeBvu1nO5WHopWwec9mxHfhmLmX2BzvaYVLzxoXw@mail.gmail.com>
+ <1567733585.21623.163.camel@mhfsdcap03>
+In-Reply-To: <1567733585.21623.163.camel@mhfsdcap03>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Sat, 7 Sep 2019 12:51:23 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5AjF491heU7BJTnsB-OsZp2LnYeAFArnEqWcNRPXykKrQ@mail.gmail.com>
+Message-ID: <CAAFQd5AjF491heU7BJTnsB-OsZp2LnYeAFArnEqWcNRPXykKrQ@mail.gmail.com>
+Subject: Re: [V3, 2/2] media: i2c: Add Omnivision OV02A10 camera sensor driver
+To:     Dongchun Zhu <dongchun.zhu@mediatek.com>
+Cc:     Nicolas Boichat <drinkcat@chromium.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Cao Bing Bu <bingbu.cao@intel.com>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
+        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
+        Sj Huang <sj.huang@mediatek.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        devicetree@vger.kernel.org, Louis Kuo <louis.kuo@mediatek.com>,
+        shengnan.wang@mediatek.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-After practically re-writing the driver to collpase it into a monolith,
-I am adding myself as a reviewer for vimc driver.
+On Fri, Sep 6, 2019 at 10:33 AM Dongchun Zhu <dongchun.zhu@mediatek.com> wrote:
+>
+> On Fri, 2019-09-06 at 06:58 +0800, Nicolas Boichat wrote:
+> > On Fri, Sep 6, 2019 at 12:05 AM Sakari Ailus
+> > <sakari.ailus@linux.intel.com> wrote:
+> > >
+> > > On Thu, Sep 05, 2019 at 07:53:37PM +0900, Tomasz Figa wrote:
+> > > > On Thu, Sep 5, 2019 at 7:45 PM Sakari Ailus
+> > > > <sakari.ailus@linux.intel.com> wrote:
+> > > > >
+> > > > > Hi Dongchun,
+> > > > >
+> > > > > On Thu, Sep 05, 2019 at 05:41:05PM +0800, Dongchun Zhu wrote:
+> > > > >
+> > > > > ...
+> > > > >
+> > > > > > > > + ret = regulator_bulk_enable(OV02A10_NUM_SUPPLIES, ov02a10->supplies);
+> > > > > > > > + if (ret < 0) {
+> > > > > > > > +         dev_err(dev, "Failed to enable regulators\n");
+> > > > > > > > +         goto disable_clk;
+> > > > > > > > + }
+> > > > > > > > + msleep_range(7);
+> > > > > > >
+> > > > > > > This has some potential of clashing with more generic functions in the
+> > > > > > > future. Please use usleep_range directly, or msleep.
+> > > > > > >
+> > > > > >
+> > > > > > Did you mean using usleep_range(7*1000, 8*1000), as used in patch v1?
+> > > > > > https://patchwork.kernel.org/patch/10957225/
+> > > > >
+> > > > > Yes, please.
+> > > >
+> > > > Why not just msleep()?
+> > >
+> > > msleep() is usually less accurate. I'm not sure it makes a big different in
+> > > this case. Perhaps, if someone wants that the sensor is powered on and
+> > > streaming as soon as possible.
+> >
+> > https://elixir.bootlin.com/linux/latest/source/Documentation/timers/timers-howto.txt#L70
+> >
+> > Use usleep_range for delays up to 20ms (at least that's what the
+> > documentation (still) says?)
+> >
+>
+> Thank you for your clarifications.
+> From the doc,
+> "msleep(1~20) may not do what the caller intends, and
+> will often sleep longer (~20 ms actual sleep for any
+> value given in the 1~20ms range). In many cases this
+> is not the desired behavior."
+>
+> So, it is supposed to use usleep_range in shorter sleep case,
+> such as 5ms.
 
-Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
----
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+Thanks for double checking. usleep_range() sounds good then. Sorry for
+the noise.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7c62b45201d7..4529d257f8db 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17041,6 +17041,7 @@ F:	include/media/videobuf2-*
- 
- VIMC VIRTUAL MEDIA CONTROLLER DRIVER
- M:	Helen Koike <helen.koike@collabora.com>
-+R:	Shuah Khan <skhan@linuxfoundation.org>
- L:	linux-media@vger.kernel.org
- T:	git git://linuxtv.org/media_tree.git
- W:	https://linuxtv.org
--- 
-2.20.1
-
+Best regards,
+Tomasz
