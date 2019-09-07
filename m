@@ -2,153 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 083F4AC444
-	for <lists+linux-media@lfdr.de>; Sat,  7 Sep 2019 05:52:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F3C2AC553
+	for <lists+linux-media@lfdr.de>; Sat,  7 Sep 2019 10:21:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389631AbfIGDwh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Sep 2019 23:52:37 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:33341 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726940AbfIGDwg (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 6 Sep 2019 23:52:36 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:8d57:d884:190:227d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id 6Rm5ikpfo50xT6Rm6i0Snh; Sat, 07 Sep 2019 05:52:34 +0200
-Message-ID: <9ecc683c420ac53c33047298ce29eb9d@smtp-cloud7.xs4all.net>
-Date:   Sat, 07 Sep 2019 05:52:33 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfGRC8x5OOYYzm+7t9KsE7elD6QbgNXF1KIxAoq2hiAfd7huEuHYMh+SkGNsaEiiy4rvddp8AupKYu/zy+jZZqcPgj+hFCqYW9UVtJq2Q5MN9Kp87au4r
- nbAPQXl3+2V9CK4vILYpJzIKqGTNrd8cUom715jXsIiINaAv/0GpB66HDbyJYufEuvtASd04qxx/Gj7Whb/58VyBMcBbSgR5RTU52ihZc2juZ66L63lh0clR
+        id S2405825AbfIGIVr convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Sat, 7 Sep 2019 04:21:47 -0400
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:43046 "EHLO
+        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387862AbfIGIVr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 7 Sep 2019 04:21:47 -0400
+Received: by mail-qt1-f196.google.com with SMTP id l22so10063588qtp.10;
+        Sat, 07 Sep 2019 01:21:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=SqY8ipdjRhPdcT06V8HKR0Y7vgkgALycJ+/dO+E7hb4=;
+        b=uKfuuY2Lm9JG+rC4DDqFP4gESkl5s39hLVu+j88OsKXjSfJqQTUhi2+d1sE65YsaqQ
+         XhrMRsJFWeckH6l6ICM4XFqnmB8N1L3aqMdQDbFcrMKFEvesVNzyQvokrmJsLH7jfrhp
+         omn6+ASjDmXYVbn+mCZOYjMER2bG78MG/vU6yjM/z2XUzKUCU9T8oHZep3xVSfcevZ7Z
+         YBa1UpudSP7Xq7s0RQZ20q3xJIqzOm6jWeg+1pjXq6qbPAVZt6Naum25hbOo7EbvH6xi
+         Q1MobXhlfZOdt+bb1Py+82vbEf1pfr7dZWpQOpAaQq4JdRpctI/hJI//mCUF90sBCHVt
+         iudg==
+X-Gm-Message-State: APjAAAVj+tyhebFRSbrLpz878p3tLWDWDgPSCoAuSzJVV0qa5wzXFTE2
+        W47wid+dePKqU0tHddwTOfo5c3YG0KXAGQpOWKY=
+X-Google-Smtp-Source: APXvYqzRYVVMyM77Vt8gvI+FbKLaNN+wwlYJ0v6SQkWNMVU/hob4fIebzW9qddRL6uNYcNSgC61iAhB/e3TAzYo2s7s=
+X-Received: by 2002:a0c:d084:: with SMTP id z4mr8031422qvg.63.1567844505515;
+ Sat, 07 Sep 2019 01:21:45 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190725131257.6142-1-brgl@bgdev.pl> <CAK8P3a1FXyRRi5q48h-=egFjgoRJvy6_zuO9MQaAOMA-bsJKRA@mail.gmail.com>
+ <CAMRc=Me_7aw_RvU_tZnVUgduN2wWYGqJ7hQirQ2RLzxGiPujvQ@mail.gmail.com>
+ <CAMRc=MdCviMA4gakqFS3+F-nU2XkdmmZbCb-m1mBJdGRHufKGg@mail.gmail.com>
+ <27eb964a-bc6c-3a0d-c2c4-48e908465986@ti.com> <CAMpxmJX7osgdzx1Lc=627RpHZDs+ha8a6=AnhaQJ5HkLVp-xKg@mail.gmail.com>
+In-Reply-To: <CAMpxmJX7osgdzx1Lc=627RpHZDs+ha8a6=AnhaQJ5HkLVp-xKg@mail.gmail.com>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Sat, 7 Sep 2019 10:21:29 +0200
+Message-ID: <CAK8P3a0+kfDbGrcFi5TLxNNpoOM6u6KRW+PaLFNSQJ9BTxX=-w@mail.gmail.com>
+Subject: Re: [PATCH v2 0/5] ARM: make DaVinci part of the ARM v5 multiplatform build
+To:     Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Cc:     Sekhar Nori <nsekhar@ti.com>, Bartosz Golaszewski <brgl@bgdev.pl>,
+        Kevin Hilman <khilman@kernel.org>,
+        David Lechner <david@lechnology.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Wed, Aug 28, 2019 at 9:55 AM Bartosz Golaszewski
+<bgolaszewski@baylibre.com> wrote:
+> śr., 28 sie 2019 o 09:44 Sekhar Nori <nsekhar@ti.com> napisał(a):
+>
+> Actually I tested this without the clocksource conversion and it works
+> - the previous driver still selects relevant config options. But I
+> think you're right - it's worth picking up all the bug fixes from this
+> series and then merging the rest once dm365 issue is fixed.
 
-Results of the daily build of media_tree:
+I just had another look at the series and found that the driver fixes
+(patches 1 and 2) are queued in linux-next, and patch 3 was merged.
 
-date:			Sat Sep  7 05:00:12 CEST 2019
-media-tree git hash:	6f51fdfd8229d5358c2d6e272cf73478866e8ddc
-media_build git hash:	d75b29db1297d2475227cc8bada843542271e40d
-v4l-utils git hash:	dd79397d3abf1be875224aad3b62efab53457a73
-edid-decode git hash:	0932deee88928f110b5a74851c173ad895f75863
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 8634894b41454ef4215a3d4fd503305c720e761a
-host hardware:		x86_64
-host os:		4.19.0-4-amd64
+If you like, I could put the remaining two patches into the arm/late branch
+and send that after the media and staging trees are merged into mainline.
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3-rc1-i686: OK
-linux-5.3-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2327, Succeeded: 2327, Failed: 0, Warnings: 1
-sparse: OK
-smatch: OK
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+      Arnd
