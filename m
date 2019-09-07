@@ -2,142 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ACD00AC442
-	for <lists+linux-media@lfdr.de>; Sat,  7 Sep 2019 05:51:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 083F4AC444
+	for <lists+linux-media@lfdr.de>; Sat,  7 Sep 2019 05:52:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389580AbfIGDvl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Sep 2019 23:51:41 -0400
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:40974 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733303AbfIGDvl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Sep 2019 23:51:41 -0400
-Received: by mail-ed1-f67.google.com with SMTP id z9so8363117edq.8
-        for <linux-media@vger.kernel.org>; Fri, 06 Sep 2019 20:51:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Z8g/yuEAbsV3RHz2NFoSIRvhRhOGryUeAZNMBK0KH30=;
-        b=a+4E7MF06twSs/byvYx7TYHU2ZXGvTdd/OretEjRgUWdyZOpoUAB4C/xMHxHRG1sxr
-         IothwulEFXzhDLIrDy6sZJcxPDDPL3B4Oc1/8ym/YU4fmlo/qep0VnTLwg8apEOcikaw
-         CUwEUXBXVrl6aIAN1UqMhm3tqqogBokpZg6j4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Z8g/yuEAbsV3RHz2NFoSIRvhRhOGryUeAZNMBK0KH30=;
-        b=tIMQtCMNxWAJ+467kXShjaiMEGylsQCSX/4UosBNxEglLR+sYz58Zu8xLZOZVLfPT8
-         Wda91IVYXVQGUfUK+NuTAz+4dXEKE/tNx4BpEM41Tsk8XcdxGlzmwulpAVlp+NzyA1L3
-         j8W/5p6asE3hNjO796TZMPp4Ys/nW/ubEG2JftiEuDL3mfP4iZoFQkzxQchJ+NQLf+TC
-         d/KEGYZGIx+FapphSBp13SSUJ3B39cYaNB6IZKYm3DMJIAfKTm21c4VOoXaoR+mdYLkh
-         KsbyTy5Fn2MdKB5zB94uJus10fa0791ARabmM7uJCqAsc4DVxiwUx7f5g0hPWrgQ5+sk
-         VYQw==
-X-Gm-Message-State: APjAAAXjR76ezdX2Tbfj3NxmmPK2V6KKX20etJv0ct6ZXyBaX5mXkey9
-        1cDhE6byhyc3vIMMzCzUALwYwIaqEw9GbA==
-X-Google-Smtp-Source: APXvYqxr16g8RzvR/uKLMbo/Ct6tu6qRFRWNAViELHautDV2+gXGJHRgxUzj3KDllhhVzbtzJUloYg==
-X-Received: by 2002:a17:906:4e12:: with SMTP id z18mr10410689eju.187.1567828299105;
-        Fri, 06 Sep 2019 20:51:39 -0700 (PDT)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com. [209.85.128.49])
-        by smtp.gmail.com with ESMTPSA id g11sm1349526edu.4.2019.09.06.20.51.37
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Sep 2019 20:51:37 -0700 (PDT)
-Received: by mail-wm1-f49.google.com with SMTP id g207so8327516wmg.5
-        for <linux-media@vger.kernel.org>; Fri, 06 Sep 2019 20:51:37 -0700 (PDT)
-X-Received: by 2002:a1c:c104:: with SMTP id r4mr4712727wmf.64.1567828296905;
- Fri, 06 Sep 2019 20:51:36 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190819034331.13098-1-dongchun.zhu@mediatek.com>
- <20190819034331.13098-3-dongchun.zhu@mediatek.com> <20190819083009.GC6133@paasikivi.fi.intel.com>
- <1567676465.21623.100.camel@mhfsdcap03> <20190905104546.GA5475@paasikivi.fi.intel.com>
- <CAAFQd5Bh-11D9RR9WVH5A3DbXZoxWhbMhXSNKUV25mempMi+ag@mail.gmail.com>
- <20190905160512.GG5475@paasikivi.fi.intel.com> <CANMq1KDVMGkeBvu1nO5WHopWwec9mxHfhmLmX2BzvaYVLzxoXw@mail.gmail.com>
- <1567733585.21623.163.camel@mhfsdcap03>
-In-Reply-To: <1567733585.21623.163.camel@mhfsdcap03>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Sat, 7 Sep 2019 12:51:23 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5AjF491heU7BJTnsB-OsZp2LnYeAFArnEqWcNRPXykKrQ@mail.gmail.com>
-Message-ID: <CAAFQd5AjF491heU7BJTnsB-OsZp2LnYeAFArnEqWcNRPXykKrQ@mail.gmail.com>
-Subject: Re: [V3, 2/2] media: i2c: Add Omnivision OV02A10 camera sensor driver
-To:     Dongchun Zhu <dongchun.zhu@mediatek.com>
-Cc:     Nicolas Boichat <drinkcat@chromium.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Cao Bing Bu <bingbu.cao@intel.com>,
-        srv_heupstream <srv_heupstream@mediatek.com>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
-        Sj Huang <sj.huang@mediatek.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        devicetree@vger.kernel.org, Louis Kuo <louis.kuo@mediatek.com>,
-        shengnan.wang@mediatek.com
-Content-Type: text/plain; charset="UTF-8"
+        id S2389631AbfIGDwh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Sep 2019 23:52:37 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:33341 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726940AbfIGDwg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 6 Sep 2019 23:52:36 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:8d57:d884:190:227d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id 6Rm5ikpfo50xT6Rm6i0Snh; Sat, 07 Sep 2019 05:52:34 +0200
+Message-ID: <9ecc683c420ac53c33047298ce29eb9d@smtp-cloud7.xs4all.net>
+Date:   Sat, 07 Sep 2019 05:52:33 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfGRC8x5OOYYzm+7t9KsE7elD6QbgNXF1KIxAoq2hiAfd7huEuHYMh+SkGNsaEiiy4rvddp8AupKYu/zy+jZZqcPgj+hFCqYW9UVtJq2Q5MN9Kp87au4r
+ nbAPQXl3+2V9CK4vILYpJzIKqGTNrd8cUom715jXsIiINaAv/0GpB66HDbyJYufEuvtASd04qxx/Gj7Whb/58VyBMcBbSgR5RTU52ihZc2juZ66L63lh0clR
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Sep 6, 2019 at 10:33 AM Dongchun Zhu <dongchun.zhu@mediatek.com> wrote:
->
-> On Fri, 2019-09-06 at 06:58 +0800, Nicolas Boichat wrote:
-> > On Fri, Sep 6, 2019 at 12:05 AM Sakari Ailus
-> > <sakari.ailus@linux.intel.com> wrote:
-> > >
-> > > On Thu, Sep 05, 2019 at 07:53:37PM +0900, Tomasz Figa wrote:
-> > > > On Thu, Sep 5, 2019 at 7:45 PM Sakari Ailus
-> > > > <sakari.ailus@linux.intel.com> wrote:
-> > > > >
-> > > > > Hi Dongchun,
-> > > > >
-> > > > > On Thu, Sep 05, 2019 at 05:41:05PM +0800, Dongchun Zhu wrote:
-> > > > >
-> > > > > ...
-> > > > >
-> > > > > > > > + ret = regulator_bulk_enable(OV02A10_NUM_SUPPLIES, ov02a10->supplies);
-> > > > > > > > + if (ret < 0) {
-> > > > > > > > +         dev_err(dev, "Failed to enable regulators\n");
-> > > > > > > > +         goto disable_clk;
-> > > > > > > > + }
-> > > > > > > > + msleep_range(7);
-> > > > > > >
-> > > > > > > This has some potential of clashing with more generic functions in the
-> > > > > > > future. Please use usleep_range directly, or msleep.
-> > > > > > >
-> > > > > >
-> > > > > > Did you mean using usleep_range(7*1000, 8*1000), as used in patch v1?
-> > > > > > https://patchwork.kernel.org/patch/10957225/
-> > > > >
-> > > > > Yes, please.
-> > > >
-> > > > Why not just msleep()?
-> > >
-> > > msleep() is usually less accurate. I'm not sure it makes a big different in
-> > > this case. Perhaps, if someone wants that the sensor is powered on and
-> > > streaming as soon as possible.
-> >
-> > https://elixir.bootlin.com/linux/latest/source/Documentation/timers/timers-howto.txt#L70
-> >
-> > Use usleep_range for delays up to 20ms (at least that's what the
-> > documentation (still) says?)
-> >
->
-> Thank you for your clarifications.
-> From the doc,
-> "msleep(1~20) may not do what the caller intends, and
-> will often sleep longer (~20 ms actual sleep for any
-> value given in the 1~20ms range). In many cases this
-> is not the desired behavior."
->
-> So, it is supposed to use usleep_range in shorter sleep case,
-> such as 5ms.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Thanks for double checking. usleep_range() sounds good then. Sorry for
-the noise.
+Results of the daily build of media_tree:
 
-Best regards,
-Tomasz
+date:			Sat Sep  7 05:00:12 CEST 2019
+media-tree git hash:	6f51fdfd8229d5358c2d6e272cf73478866e8ddc
+media_build git hash:	d75b29db1297d2475227cc8bada843542271e40d
+v4l-utils git hash:	dd79397d3abf1be875224aad3b62efab53457a73
+edid-decode git hash:	0932deee88928f110b5a74851c173ad895f75863
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1-rc1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.5.1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 8634894b41454ef4215a3d4fd503305c720e761a
+host hardware:		x86_64
+host os:		4.19.0-4-amd64
+
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3-rc1-i686: OK
+linux-5.3-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2327, Succeeded: 2327, Failed: 0, Warnings: 1
+sparse: OK
+smatch: OK
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
