@@ -2,153 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C807AACA79
-	for <lists+linux-media@lfdr.de>; Sun,  8 Sep 2019 05:51:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73449ACA7C
+	for <lists+linux-media@lfdr.de>; Sun,  8 Sep 2019 05:57:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726185AbfIHDvv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 7 Sep 2019 23:51:51 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:60393 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726066AbfIHDvv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 7 Sep 2019 23:51:51 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:79b0:9c72:ba9:e74e])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id 6oEtis05y50xT6oEui4Eo9; Sun, 08 Sep 2019 05:51:48 +0200
-Message-ID: <840643c041ff64f324ee000035a9a086@smtp-cloud7.xs4all.net>
-Date:   Sun, 08 Sep 2019 05:51:47 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-X-CMAE-Envelope: MS4wfLkOaZllDyKpBWm7CQNw5HJRopPAJxV7sGUjkQTwk+0bmjb0U16kehRCwQ5SYqTlrpff1rhwRGq4Y/u8Wv1lvoyfXVqZGuc25xMqDYTWLGG5VTYPFn2G
- pkq9g8N3PwmrF6l8hc+m1kwTSk2uA7dT6gg5Kt4eqND02KhBS5l+JFIgZrYvBNwWvr+R7KN9QDlgkXeEnhhi3hDSiMzBfBg5ETqGxSaE9BoEy4QoqeKN8Zb1
+        id S1727017AbfIHD5q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 7 Sep 2019 23:57:46 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:2235 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726706AbfIHD5q (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 7 Sep 2019 23:57:46 -0400
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id 974D8DA47A9BF00C3F41;
+        Sun,  8 Sep 2019 11:57:41 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.175.113.25) by
+ DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
+ 14.3.439.0; Sun, 8 Sep 2019 11:57:32 +0800
+From:   Kefeng Wang <wangkefeng.wang@huawei.com>
+To:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+CC:     Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Hulk Robot <hulkci@huawei.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Subject: [PATCH] media: vim2m: Fix BUG_ON in vim2m_device_release()
+Date:   Sun, 8 Sep 2019 12:12:54 +0800
+Message-ID: <20190908041254.12286-1-wangkefeng.wang@huawei.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.113.25]
+X-CFilter-Loop: Reflected
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+If v4l2_m2m_init() fails, m2m_dev pointer will be set ERR_PTR(-ENOMEM),
+then kfree m2m_dev will triger BUG_ON, see below, fix it by setting m2m_dev
+to NULL.
 
-Results of the daily build of media_tree:
+  vim2m vim2m.0: Failed to init mem2mem device
+  ------------[ cut here ]------------
+  kernel BUG at mm/slub.c:3944!
+  invalid opcode: 0000 [#1] SMP PTI
+  CPU: 11 PID: 9061 Comm: insmod Tainted: G            E     5.2.0-rc2 #81
+  Hardware name: Red Hat KVM, BIOS 0.5.1 01/01/2011
+  RIP: 0010:kfree+0x11a/0x160
 
-date:			Sun Sep  8 05:00:10 CEST 2019
-media-tree git hash:	6f51fdfd8229d5358c2d6e272cf73478866e8ddc
-media_build git hash:	d75b29db1297d2475227cc8bada843542271e40d
-v4l-utils git hash:	b972d2d6cea558c6fc304938b56518281c953185
-edid-decode git hash:	0932deee88928f110b5a74851c173ad895f75863
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 8634894b41454ef4215a3d4fd503305c720e761a
-host hardware:		x86_64
-host os:		4.19.0-4-amd64
+  Call Trace:
+   vim2m_device_release+0x3f/0x50 [vim2m]
+   device_release+0x27/0x80
+   kobject_release+0x68/0x190
+   vim2m_probe+0x20f/0x280 [vim2m]
+   platform_drv_probe+0x37/0x90
+   really_probe+0xef/0x3d0
+   driver_probe_device+0x110/0x120
+   device_driver_attach+0x4f/0x60
+   __driver_attach+0x9a/0x140
+   ? device_driver_attach+0x60/0x60
+   bus_for_each_dev+0x76/0xc0
+   ? klist_add_tail+0x57/0x70
+   bus_add_driver+0x141/0x210
+   driver_register+0x5b/0xe0
+   vim2m_init+0x29/0x1000 [vim2m]
+   do_one_initcall+0x46/0x1f4
+   ? __slab_alloc+0x1c/0x30
+   ? kmem_cache_alloc_trace+0x167/0x1b0
+   do_init_module+0x5b/0x21f
+   load_module+0x1add/0x1fb0
+   ? __do_sys_finit_module+0xe9/0x110
+   __do_sys_finit_module+0xe9/0x110
+   do_syscall_64+0x5b/0x1c0
+   entry_SYSCALL_64_after_hwframe+0x44/0xa9
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3-rc1-i686: OK
-linux-5.3-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2327, Succeeded: 2327, Failed: 0, Warnings: 0
-sparse: OK
-smatch: OK
+Fixes: ea6c7e34f3b2 ("media: vim2m: replace devm_kzalloc by kzalloc")
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
+---
+ drivers/media/platform/vim2m.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Detailed results are available here:
+diff --git a/drivers/media/platform/vim2m.c b/drivers/media/platform/vim2m.c
+index acd3bd48c7e2..eb8f398d41f4 100644
+--- a/drivers/media/platform/vim2m.c
++++ b/drivers/media/platform/vim2m.c
+@@ -1343,6 +1343,7 @@ static int vim2m_probe(struct platform_device *pdev)
+ 	if (IS_ERR(dev->m2m_dev)) {
+ 		v4l2_err(&dev->v4l2_dev, "Failed to init mem2mem device\n");
+ 		ret = PTR_ERR(dev->m2m_dev);
++		dev->m2m_dev = NULL;
+ 		goto error_dev;
+ 	}
+ 
+-- 
+2.20.1
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
