@@ -2,83 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2624DACA5A
-	for <lists+linux-media@lfdr.de>; Sun,  8 Sep 2019 04:31:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C807AACA79
+	for <lists+linux-media@lfdr.de>; Sun,  8 Sep 2019 05:51:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726749AbfIHCbw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 7 Sep 2019 22:31:52 -0400
-Received: from mga12.intel.com ([192.55.52.136]:40752 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726379AbfIHCbw (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 7 Sep 2019 22:31:52 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Sep 2019 19:31:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,479,1559545200"; 
-   d="scan'208";a="213551396"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 07 Sep 2019 19:31:48 -0700
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1i6mzT-0001NB-Q3; Sun, 08 Sep 2019 10:31:47 +0800
-Date:   Sun, 8 Sep 2019 10:31:02 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     dongchun.zhu@mediatek.com
-Cc:     kbuild-all@01.org, mchehab@kernel.org,
-        andriy.shevchenko@linux.intel.com, robh+dt@kernel.org,
-        mark.rutland@arm.com, sakari.ailus@linux.intel.com,
-        drinkcat@chromium.org, tfiga@chromium.org, matthias.bgg@gmail.com,
-        bingbu.cao@intel.com, srv_heupstream@mediatek.com,
-        linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, sj.huang@mediatek.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        louis.kuo@mediatek.com, shengnan.wang@mediatek.com,
-        dongchun.zhu@mediatek.com
-Subject: [PATCH] media: i2c: fix semicolon.cocci warnings
-Message-ID: <20190908023102.yubb2rax5jo6atbu@48261080c7f1>
-References: <20190907092728.23897-3-dongchun.zhu@mediatek.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190907092728.23897-3-dongchun.zhu@mediatek.com>
-X-Patchwork-Hint: ignore
-User-Agent: NeoMutt/20170113 (1.7.2)
+        id S1726185AbfIHDvv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 7 Sep 2019 23:51:51 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:60393 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726066AbfIHDvv (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sat, 7 Sep 2019 23:51:51 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:79b0:9c72:ba9:e74e])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id 6oEtis05y50xT6oEui4Eo9; Sun, 08 Sep 2019 05:51:48 +0200
+Message-ID: <840643c041ff64f324ee000035a9a086@smtp-cloud7.xs4all.net>
+Date:   Sun, 08 Sep 2019 05:51:47 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: OK
+X-CMAE-Envelope: MS4wfLkOaZllDyKpBWm7CQNw5HJRopPAJxV7sGUjkQTwk+0bmjb0U16kehRCwQ5SYqTlrpff1rhwRGq4Y/u8Wv1lvoyfXVqZGuc25xMqDYTWLGG5VTYPFn2G
+ pkq9g8N3PwmrF6l8hc+m1kwTSk2uA7dT6gg5Kt4eqND02KhBS5l+JFIgZrYvBNwWvr+R7KN9QDlgkXeEnhhi3hDSiMzBfBg5ETqGxSaE9BoEy4QoqeKN8Zb1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: kbuild test robot <lkp@intel.com>
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-drivers/media/i2c/ov02a10.c:695:2-3: Unneeded semicolon
+Results of the daily build of media_tree:
 
+date:			Sun Sep  8 05:00:10 CEST 2019
+media-tree git hash:	6f51fdfd8229d5358c2d6e272cf73478866e8ddc
+media_build git hash:	d75b29db1297d2475227cc8bada843542271e40d
+v4l-utils git hash:	b972d2d6cea558c6fc304938b56518281c953185
+edid-decode git hash:	0932deee88928f110b5a74851c173ad895f75863
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1-rc1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.5.1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 8634894b41454ef4215a3d4fd503305c720e761a
+host hardware:		x86_64
+host os:		4.19.0-4-amd64
 
- Remove unneeded semicolon.
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3-rc1-i686: OK
+linux-5.3-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2327, Succeeded: 2327, Failed: 0, Warnings: 0
+sparse: OK
+smatch: OK
 
-Generated by: scripts/coccinelle/misc/semicolon.cocci
+Detailed results are available here:
 
-Fixes: 2bca4b808db1 ("media: i2c: Add Omnivision OV02A10 camera sensor driver")
-CC: Dongchun Zhu <dongchun.zhu@mediatek.com>
-Signed-off-by: kbuild test robot <lkp@intel.com>
----
+http://www.xs4all.nl/~hverkuil/logs/Sunday.log
 
-url:    https://github.com/0day-ci/linux/commits/dongchun-zhu-mediatek-com/media-i2c-Add-support-for-OV02A10-sensor/20190908-065643
-base:   git://linuxtv.org/media_tree.git master
+Detailed regression test results are available here:
 
- ov02a10.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
 
---- a/drivers/media/i2c/ov02a10.c
-+++ b/drivers/media/i2c/ov02a10.c
-@@ -692,7 +692,7 @@ static int ov02a10_set_ctrl(struct v4l2_
- 	case V4L2_CID_TEST_PATTERN:
- 		ret = ov02a10_set_test_pattern(ov02a10, ctrl->val);
- 		break;
--	};
-+	}
- 
- 	pm_runtime_put(&client->dev);
- 
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
