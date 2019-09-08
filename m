@@ -2,102 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 73449ACA7C
-	for <lists+linux-media@lfdr.de>; Sun,  8 Sep 2019 05:57:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 43FB6ACBE3
+	for <lists+linux-media@lfdr.de>; Sun,  8 Sep 2019 12:03:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727017AbfIHD5q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 7 Sep 2019 23:57:46 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2235 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726706AbfIHD5q (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 7 Sep 2019 23:57:46 -0400
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.60])
-        by Forcepoint Email with ESMTP id 974D8DA47A9BF00C3F41;
-        Sun,  8 Sep 2019 11:57:41 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.175.113.25) by
- DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
- 14.3.439.0; Sun, 8 Sep 2019 11:57:32 +0800
-From:   Kefeng Wang <wangkefeng.wang@huawei.com>
-To:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC:     Kefeng Wang <wangkefeng.wang@huawei.com>,
-        Hulk Robot <hulkci@huawei.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Subject: [PATCH] media: vim2m: Fix BUG_ON in vim2m_device_release()
-Date:   Sun, 8 Sep 2019 12:12:54 +0800
-Message-ID: <20190908041254.12286-1-wangkefeng.wang@huawei.com>
-X-Mailer: git-send-email 2.20.1
+        id S1728043AbfIHKDm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 8 Sep 2019 06:03:42 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:47100 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728023AbfIHKDm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 8 Sep 2019 06:03:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
+        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=VRngH9Tt6f5tjpW6Ayv7hzJ7nXQI6UyfmRniBoaIh7c=; b=iJuH+yTFQErKs399GoKdUJniH
+        rdLj59hSS43GfWs2Vd8enOMGPQwJZ5pl5vfkJusuOGuEk/AQk3nQowGkuf+IGDjj0nzdr0UTu2huR
+        t+ZovCxUaff5nGjtJWEYS2J6PAtNZI66+AqSOhvvST6faaar+0ZzbJzgCX18Oob2CiyRGF8x2Kilp
+        YWtXCTW67f0X7bBc6R9HE22cnxJgFrTzqjFXF/xqi35rhRZoRvPTB9GWuMMO8cb6lzxIscENBNdV4
+        7UYegeMq1FAqGE9O5zdmVOLJAJ+lxNChcMwVgkPFjsQ7jrAwJlMQquCiRwxHa0mcPcqzz0lWDnrOL
+        bLEL4E0pA==;
+Received: from willy by bombadil.infradead.org with local (Exim 4.92 #3 (Red Hat Linux))
+        id 1i6u2a-0004cU-F5; Sun, 08 Sep 2019 10:03:28 +0000
+Date:   Sun, 8 Sep 2019 03:03:28 -0700
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     Markus Heiser <markus.heiser@darmarit.de>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Joe Perches <joe@perches.com>, linux-kernel@vger.kernel.org,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Sven Eckelmann <sven@narfation.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Doug Smythies <doug.smythies@gmail.com>,
+        =?iso-8859-1?Q?Aur=E9lien?= Cedeyn <aurelien.cedeyn@gmail.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        linux-doc@vger.kernel.org,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thierry Reding <treding@nvidia.com>,
+        Armijn Hemel <armijn@tjaldur.nl>, Jiri Olsa <jolsa@redhat.com>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Allison Randal <allison@lohutok.net>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH 0/6] Address issues with SPDX requirements and PEP-263
+Message-ID: <20190908100328.GB29434@bombadil.infradead.org>
+References: <cover.1567712829.git.mchehab+samsung@kernel.org>
+ <20190907073419.6a88e318@lwn.net>
+ <be329f0e-ec5b-f5ec-823d-66e58699da73@darmarit.de>
+ <20190907132259.3199c8a2@coco.lan>
+ <a08c5807-38e7-dfb3-ff3c-f78a498455e6@darmarit.de>
+ <20190907150442.583b44c2@coco.lan>
+ <686101df-f40c-916e-2730-353a3852cc84@darmarit.de>
+ <alpine.DEB.2.21.1909072308060.1902@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.113.25]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.21.1909072308060.1902@nanos.tec.linutronix.de>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If v4l2_m2m_init() fails, m2m_dev pointer will be set ERR_PTR(-ENOMEM),
-then kfree m2m_dev will triger BUG_ON, see below, fix it by setting m2m_dev
-to NULL.
+On Sat, Sep 07, 2019 at 11:17:22PM +0200, Thomas Gleixner wrote:
+> On Sat, 7 Sep 2019, Markus Heiser wrote:
+> > Am 07.09.19 um 20:04 schrieb Mauro Carvalho Chehab:
+> > > No idea. I would actually prefer to just remove the restriction, and let
+> > > the SPDX header to be anywhere inside the first comment block inside a
+> > > file [2].
+> > > [2] I *suspect* that the restriction was added in order to make
+> > >      ./scripts/spdxcheck.py to run faster and to avoid false positives.
+> > >      Right now, if the maximum limit is removed (or set to a very high
+> > >      value), there will be one false positive:
+> 
+> Nope. The intention was to have a well define place and format instead of
+> everyone and his dog deciding to put it somewhere. SPDX is not intended to
+> replace the existing licensing mess with some other randomly placed and
+> formatted licensing mess.
 
-  vim2m vim2m.0: Failed to init mem2mem device
-  ------------[ cut here ]------------
-  kernel BUG at mm/slub.c:3944!
-  invalid opcode: 0000 [#1] SMP PTI
-  CPU: 11 PID: 9061 Comm: insmod Tainted: G            E     5.2.0-rc2 #81
-  Hardware name: Red Hat KVM, BIOS 0.5.1 01/01/2011
-  RIP: 0010:kfree+0x11a/0x160
+I find the current style quite unaesthetic:
 
-  Call Trace:
-   vim2m_device_release+0x3f/0x50 [vim2m]
-   device_release+0x27/0x80
-   kobject_release+0x68/0x190
-   vim2m_probe+0x20f/0x280 [vim2m]
-   platform_drv_probe+0x37/0x90
-   really_probe+0xef/0x3d0
-   driver_probe_device+0x110/0x120
-   device_driver_attach+0x4f/0x60
-   __driver_attach+0x9a/0x140
-   ? device_driver_attach+0x60/0x60
-   bus_for_each_dev+0x76/0xc0
-   ? klist_add_tail+0x57/0x70
-   bus_add_driver+0x141/0x210
-   driver_register+0x5b/0xe0
-   vim2m_init+0x29/0x1000 [vim2m]
-   do_one_initcall+0x46/0x1f4
-   ? __slab_alloc+0x1c/0x30
-   ? kmem_cache_alloc_trace+0x167/0x1b0
-   do_init_module+0x5b/0x21f
-   load_module+0x1add/0x1fb0
-   ? __do_sys_finit_module+0xe9/0x110
-   __do_sys_finit_module+0xe9/0x110
-   do_syscall_64+0x5b/0x1c0
-   entry_SYSCALL_64_after_hwframe+0x44/0xa9
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ *  linux/mm/memory.c
+ *
+ *  Copyright (C) 1991, 1992, 1993, 1994  Linus Torvalds
+ */
 
-Fixes: ea6c7e34f3b2 ("media: vim2m: replace devm_kzalloc by kzalloc")
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Signed-off-by: Kefeng Wang <wangkefeng.wang@huawei.com>
----
- drivers/media/platform/vim2m.c | 1 +
- 1 file changed, 1 insertion(+)
+I'd much rather see
 
-diff --git a/drivers/media/platform/vim2m.c b/drivers/media/platform/vim2m.c
-index acd3bd48c7e2..eb8f398d41f4 100644
---- a/drivers/media/platform/vim2m.c
-+++ b/drivers/media/platform/vim2m.c
-@@ -1343,6 +1343,7 @@ static int vim2m_probe(struct platform_device *pdev)
- 	if (IS_ERR(dev->m2m_dev)) {
- 		v4l2_err(&dev->v4l2_dev, "Failed to init mem2mem device\n");
- 		ret = PTR_ERR(dev->m2m_dev);
-+		dev->m2m_dev = NULL;
- 		goto error_dev;
- 	}
- 
--- 
-2.20.1
+/*
+ * SPDX-License-Identifier: GPL-2.0-only
+ * Copyright (C) 1991, 1992, 1993, 1994  Linus Torvalds
+ */
 
+but I appreciate the desire to force it to be on the first line if at all
+possible.
