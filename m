@@ -2,109 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 43FB6ACBE3
-	for <lists+linux-media@lfdr.de>; Sun,  8 Sep 2019 12:03:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A378ACEEB
+	for <lists+linux-media@lfdr.de>; Sun,  8 Sep 2019 15:31:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728043AbfIHKDm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 8 Sep 2019 06:03:42 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:47100 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728023AbfIHKDm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 8 Sep 2019 06:03:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=VRngH9Tt6f5tjpW6Ayv7hzJ7nXQI6UyfmRniBoaIh7c=; b=iJuH+yTFQErKs399GoKdUJniH
-        rdLj59hSS43GfWs2Vd8enOMGPQwJZ5pl5vfkJusuOGuEk/AQk3nQowGkuf+IGDjj0nzdr0UTu2huR
-        t+ZovCxUaff5nGjtJWEYS2J6PAtNZI66+AqSOhvvST6faaar+0ZzbJzgCX18Oob2CiyRGF8x2Kilp
-        YWtXCTW67f0X7bBc6R9HE22cnxJgFrTzqjFXF/xqi35rhRZoRvPTB9GWuMMO8cb6lzxIscENBNdV4
-        7UYegeMq1FAqGE9O5zdmVOLJAJ+lxNChcMwVgkPFjsQ7jrAwJlMQquCiRwxHa0mcPcqzz0lWDnrOL
-        bLEL4E0pA==;
-Received: from willy by bombadil.infradead.org with local (Exim 4.92 #3 (Red Hat Linux))
-        id 1i6u2a-0004cU-F5; Sun, 08 Sep 2019 10:03:28 +0000
-Date:   Sun, 8 Sep 2019 03:03:28 -0700
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     Markus Heiser <markus.heiser@darmarit.de>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Joe Perches <joe@perches.com>, linux-kernel@vger.kernel.org,
-        Arnaldo Carvalho de Melo <acme@kernel.org>,
-        Sven Eckelmann <sven@narfation.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Doug Smythies <doug.smythies@gmail.com>,
-        =?iso-8859-1?Q?Aur=E9lien?= Cedeyn <aurelien.cedeyn@gmail.com>,
-        Vincenzo Frascino <vincenzo.frascino@arm.com>,
-        linux-doc@vger.kernel.org,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thierry Reding <treding@nvidia.com>,
-        Armijn Hemel <armijn@tjaldur.nl>, Jiri Olsa <jolsa@redhat.com>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Namhyung Kim <namhyung@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Allison Randal <allison@lohutok.net>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH 0/6] Address issues with SPDX requirements and PEP-263
-Message-ID: <20190908100328.GB29434@bombadil.infradead.org>
-References: <cover.1567712829.git.mchehab+samsung@kernel.org>
- <20190907073419.6a88e318@lwn.net>
- <be329f0e-ec5b-f5ec-823d-66e58699da73@darmarit.de>
- <20190907132259.3199c8a2@coco.lan>
- <a08c5807-38e7-dfb3-ff3c-f78a498455e6@darmarit.de>
- <20190907150442.583b44c2@coco.lan>
- <686101df-f40c-916e-2730-353a3852cc84@darmarit.de>
- <alpine.DEB.2.21.1909072308060.1902@nanos.tec.linutronix.de>
+        id S1728202AbfIHNbp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 8 Sep 2019 09:31:45 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:45864 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726591AbfIHNbp (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 8 Sep 2019 09:31:45 -0400
+Received: by mail-io1-f66.google.com with SMTP id f12so22765349iog.12
+        for <linux-media@vger.kernel.org>; Sun, 08 Sep 2019 06:31:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=X36wmf2pELzyiFZg2q0AZrLC5LYQSeOEO3rN3+H57xE=;
+        b=BimSHKNEyNzWb8hT9o7lZ2Nhdz/s4+lbiuzgpmVLSurdU1us2dnPcX4TK/Wg+cAbKH
+         oVd2ZhdQAxE+a4fHS932+8og+uPsHLydHNkwp28Au5hrNzHhD8cr3C07Up6dpjg1L5We
+         JVyoJQxbUyyXkNyXqmLr0TlbDB0A0f1mnJnrP+RO3nZlF62DmwCnrNEka/VcHUNZxe51
+         9sRid72T1Jwe7r5ctCkCBVTqG6Qtm+a82yBZGA1Nj4Vop0YsfYVXoC7E267+P503exA7
+         CzR0t2upSy3AgcUA0Vj9I+mnENWe6Wc3v0eLkyYP4tAeZKwM2W5A6U7VsWdj+FSfltr8
+         tltg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=X36wmf2pELzyiFZg2q0AZrLC5LYQSeOEO3rN3+H57xE=;
+        b=LoeTLIXLR4QiFpoKvbFLQrxqrADtj1br9QEg7YTxsQ0mOnLdvjPqS02VB5HQzSfMTx
+         S51MAhE+uctZ0VBq8a8nkIL4Uxwjmldgsp8r4KXVPFDRJvbWNPnbP5A2dGJMciRHausf
+         MrMF8iA+WBdqMh063Z3NvDlC9Y0ZD5rt9rUZm1zhFN7snCxPsbK1my7jSgkKid9Z+dsH
+         9d2B3lTO1PZcNGbLZ6i2A9ksfp3fPpSDhlt6AO6To1ARkFX9Ya7Db9lny99OsD8YQQ4P
+         YhQzyP8lM1qHsIbeuonf2TVjr7CcgtYkfdBYEs0OJ4w6bscigOxFhoXePAe/NLFEyxWd
+         QyeQ==
+X-Gm-Message-State: APjAAAVmJXEFTedLIVws0vUvigpeD6wFxiO66k65/WPpSvvdVVrGSR3r
+        rQB5DnXqk9oGOh7sd+tD4OBuVbEuwUlpd4rx/3Mi6Q==
+X-Google-Smtp-Source: APXvYqwzM2/smviUmWv4GATCXByKYmZBZv6kVqGnmRGoYGjQ1Na3OObolYsXeau8eo8I2KisMILUm2hc4DvR+jJL9Aw=
+X-Received: by 2002:a5d:8457:: with SMTP id w23mr3350922ior.189.1567949504203;
+ Sun, 08 Sep 2019 06:31:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.21.1909072308060.1902@nanos.tec.linutronix.de>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+References: <20190725131257.6142-1-brgl@bgdev.pl> <CAK8P3a1FXyRRi5q48h-=egFjgoRJvy6_zuO9MQaAOMA-bsJKRA@mail.gmail.com>
+ <CAMRc=Me_7aw_RvU_tZnVUgduN2wWYGqJ7hQirQ2RLzxGiPujvQ@mail.gmail.com>
+ <CAMRc=MdCviMA4gakqFS3+F-nU2XkdmmZbCb-m1mBJdGRHufKGg@mail.gmail.com>
+ <27eb964a-bc6c-3a0d-c2c4-48e908465986@ti.com> <CAMpxmJX7osgdzx1Lc=627RpHZDs+ha8a6=AnhaQJ5HkLVp-xKg@mail.gmail.com>
+ <CAK8P3a0+kfDbGrcFi5TLxNNpoOM6u6KRW+PaLFNSQJ9BTxX=-w@mail.gmail.com>
+In-Reply-To: <CAK8P3a0+kfDbGrcFi5TLxNNpoOM6u6KRW+PaLFNSQJ9BTxX=-w@mail.gmail.com>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Sun, 8 Sep 2019 15:31:33 +0200
+Message-ID: <CAMRc=Mdsfbh1nF1a23Anig=w42s7=WzS3Uz7KK1P1aRNP2kFvg@mail.gmail.com>
+Subject: Re: [PATCH v2 0/5] ARM: make DaVinci part of the ARM v5 multiplatform build
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Sekhar Nori <nsekhar@ti.com>,
+        Kevin Hilman <khilman@kernel.org>,
+        David Lechner <david@lechnology.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Sep 07, 2019 at 11:17:22PM +0200, Thomas Gleixner wrote:
-> On Sat, 7 Sep 2019, Markus Heiser wrote:
-> > Am 07.09.19 um 20:04 schrieb Mauro Carvalho Chehab:
-> > > No idea. I would actually prefer to just remove the restriction, and let
-> > > the SPDX header to be anywhere inside the first comment block inside a
-> > > file [2].
-> > > [2] I *suspect* that the restriction was added in order to make
-> > >      ./scripts/spdxcheck.py to run faster and to avoid false positives.
-> > >      Right now, if the maximum limit is removed (or set to a very high
-> > >      value), there will be one false positive:
-> 
-> Nope. The intention was to have a well define place and format instead of
-> everyone and his dog deciding to put it somewhere. SPDX is not intended to
-> replace the existing licensing mess with some other randomly placed and
-> formatted licensing mess.
+sob., 7 wrz 2019 o 10:21 Arnd Bergmann <arnd@arndb.de> napisa=C5=82(a):
+>
+> On Wed, Aug 28, 2019 at 9:55 AM Bartosz Golaszewski
+> <bgolaszewski@baylibre.com> wrote:
+> > =C5=9Br., 28 sie 2019 o 09:44 Sekhar Nori <nsekhar@ti.com> napisa=C5=82=
+(a):
+> >
+> > Actually I tested this without the clocksource conversion and it works
+> > - the previous driver still selects relevant config options. But I
+> > think you're right - it's worth picking up all the bug fixes from this
+> > series and then merging the rest once dm365 issue is fixed.
+>
+> I just had another look at the series and found that the driver fixes
+> (patches 1 and 2) are queued in linux-next, and patch 3 was merged.
+>
+> If you like, I could put the remaining two patches into the arm/late bran=
+ch
+> and send that after the media and staging trees are merged into mainline.
+>
+>       Arnd
 
-I find the current style quite unaesthetic:
+Sure! Makes sense.
 
-// SPDX-License-Identifier: GPL-2.0-only
-/*
- *  linux/mm/memory.c
- *
- *  Copyright (C) 1991, 1992, 1993, 1994  Linus Torvalds
- */
+Sekhar: this series doesn't break current mainline (i.e. without the
+clocksource series) so I think we're safe even for dm365.
 
-I'd much rather see
-
-/*
- * SPDX-License-Identifier: GPL-2.0-only
- * Copyright (C) 1991, 1992, 1993, 1994  Linus Torvalds
- */
-
-but I appreciate the desire to force it to be on the first line if at all
-possible.
+Bart
