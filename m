@@ -2,104 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FB53AD430
-	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2019 09:54:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D168AAD466
+	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2019 10:05:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388480AbfIIHyG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Sep 2019 03:54:06 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:53928 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388470AbfIIHyF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Sep 2019 03:54:05 -0400
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x897rGEC046111;
-        Mon, 9 Sep 2019 02:53:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1568015596;
-        bh=PJzWMa6p8MTEkwFPcIePn/KpuFAu5Gxuc4FeHI2OLsU=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=sPytFT56SwsM5xY3ut6akJIHVkQyNKskE6ehkQbXhhNt5mmb00dC5deHY0Eed85rU
-         bC4kwhmnL+tpRHv85gLv8SP1erEvicU7ieKjzoHTgD+2/yZviUUik4DbBOgzafH3hv
-         bro35PT7KUAabAqhz7mnosZfwnIPBmppHPNH0cGI=
-Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x897rGZQ085681
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 9 Sep 2019 02:53:16 -0500
-Received: from DFLE110.ent.ti.com (10.64.6.31) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Mon, 9 Sep
- 2019 02:53:16 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE110.ent.ti.com
- (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Mon, 9 Sep 2019 02:53:15 -0500
-Received: from [172.24.190.212] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x897rCrV088897;
-        Mon, 9 Sep 2019 02:53:12 -0500
-Subject: Re: [PATCH v2 0/5] ARM: make DaVinci part of the ARM v5 multiplatform
- build
-To:     Bartosz Golaszewski <brgl@bgdev.pl>, Arnd Bergmann <arnd@arndb.de>
-CC:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Kevin Hilman <khilman@kernel.org>,
-        David Lechner <david@lechnology.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>
-References: <20190725131257.6142-1-brgl@bgdev.pl>
- <CAK8P3a1FXyRRi5q48h-=egFjgoRJvy6_zuO9MQaAOMA-bsJKRA@mail.gmail.com>
- <CAMRc=Me_7aw_RvU_tZnVUgduN2wWYGqJ7hQirQ2RLzxGiPujvQ@mail.gmail.com>
- <CAMRc=MdCviMA4gakqFS3+F-nU2XkdmmZbCb-m1mBJdGRHufKGg@mail.gmail.com>
- <27eb964a-bc6c-3a0d-c2c4-48e908465986@ti.com>
- <CAMpxmJX7osgdzx1Lc=627RpHZDs+ha8a6=AnhaQJ5HkLVp-xKg@mail.gmail.com>
- <CAK8P3a0+kfDbGrcFi5TLxNNpoOM6u6KRW+PaLFNSQJ9BTxX=-w@mail.gmail.com>
- <CAMRc=Mdsfbh1nF1a23Anig=w42s7=WzS3Uz7KK1P1aRNP2kFvg@mail.gmail.com>
-From:   Sekhar Nori <nsekhar@ti.com>
-Message-ID: <d579c29c-6e30-8e2f-cbc0-0c4820ed6a72@ti.com>
-Date:   Mon, 9 Sep 2019 13:23:11 +0530
+        id S1726896AbfIIIFs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Sep 2019 04:05:48 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:39371 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726385AbfIIIFs (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 9 Sep 2019 04:05:48 -0400
+Received: from [192.168.2.10] ([46.9.232.237])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id 7EgAi0e3450xT7EgEi8eqU; Mon, 09 Sep 2019 10:05:46 +0200
+Subject: Re: [PATCH] cec-compliance: system information give features
+To:     Jiunn Chang <c0d1n61at3@gmail.com>, linux-media@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+References: <20190906164443.1748-1-c0d1n61at3@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <e0c092da-407c-40f5-d6dd-a639508c19ef@xs4all.nl>
+Date:   Mon, 9 Sep 2019 10:05:42 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <CAMRc=Mdsfbh1nF1a23Anig=w42s7=WzS3Uz7KK1P1aRNP2kFvg@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20190906164443.1748-1-c0d1n61at3@gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfPSsKYzSzGLUFox9FiHEkXtdtWJ82R/Ww268cjP2zVfCaMVTDxnGcie7U/vDLbZrqwxPwRL7+cXWF8azamAF1xun4GgtABCzvWnooHyjkHRvCh+Kjdgi
+ Zp8ly1BSElUTObW6v908R1C+3GkGXQCtdHtsrrBx0W8RneIPpfnjtet7JALU42muWt8ocf9USYadfBQjmEurxk43ZRP935zLB/ls9fs+LkWNenPSUC6O8QoT
+ DPw3qula2YZeKodO7mRYffNV8+YYpKbaFbtlrQ9ME00=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 08/09/19 7:01 PM, Bartosz Golaszewski wrote:
-> sob., 7 wrz 2019 o 10:21 Arnd Bergmann <arnd@arndb.de> napisał(a):
->>
->> On Wed, Aug 28, 2019 at 9:55 AM Bartosz Golaszewski
->> <bgolaszewski@baylibre.com> wrote:
->>> śr., 28 sie 2019 o 09:44 Sekhar Nori <nsekhar@ti.com> napisał(a):
->>>
->>> Actually I tested this without the clocksource conversion and it works
->>> - the previous driver still selects relevant config options. But I
->>> think you're right - it's worth picking up all the bug fixes from this
->>> series and then merging the rest once dm365 issue is fixed.
->>
->> I just had another look at the series and found that the driver fixes
->> (patches 1 and 2) are queued in linux-next, and patch 3 was merged.
->>
->> If you like, I could put the remaining two patches into the arm/late branch
->> and send that after the media and staging trees are merged into mainline.
->>
->>       Arnd
+On 9/6/19 6:44 PM, Jiunn Chang wrote:
+> For devices on a HDMI ARC link, sinks can only support transmitter
+> devices and sources can only support receiver devices.
 > 
-> Sure! Makes sense.
+> Add two checks:
+>  - Playback devices can only have has_arc_rx
+>  - TVs can only have has_arc_tx
 > 
-> Sekhar: this series doesn't break current mainline (i.e. without the
-> clocksource series) so I think we're safe even for dm365.
+> Signed-off-by: Jiunn Chang <c0d1n61at3@gmail.com>
+> ---
+>  utils/cec-compliance/cec-test.cpp | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/utils/cec-compliance/cec-test.cpp b/utils/cec-compliance/cec-test.cpp
+> index bbd13989..839c0fb9 100644
+> --- a/utils/cec-compliance/cec-test.cpp
+> +++ b/utils/cec-compliance/cec-test.cpp
+> @@ -172,6 +172,10 @@ int system_info_give_features(struct node *node, unsigned me, unsigned la, bool
+>  		return fail("Only Playback and Recording devices shall set the Supports Deck Control bit\n");
+>  	if (!cec_has_tv(1 << la) && node->remote[la].has_rec_tv)
+>  		return fail("Only TVs shall set the Record TV Screen bit\n");
+> +	if (!cec_has_playback(1 << la) && node->remote[la].has_arc_rx)
+> +		return fail("Only Playback devices shall set the Source Supports ARC Rx bit\n");
 
-Yes, I boot/NFS tested the two patches applied on latest linux-next on
-on all 6 DaVinci SoCs.
+Actually, this test should be inverted: the test is that has_arc_tx can't be used
+by Playback devices.
 
-I have acked the patches in case Arnd will apply them directly to ARM-SoC.
+> +	if (!cec_has_tv(1 << la) && node->remote[la].has_arc_tx)
+> +		return fail("Only TVs shall set the Sink Supports ARC Tx bit\n");
 
-Thanks,
-Sekhar
+Same here.
+
+Right now this would fail for e.g. Audio Systems since in theory those can have
+ARC for both rx and tx.
+
+I also think that the has_arc_tx/rx fields should be renamed in a preceding patch
+to 'source_has_arc_rx' and 'sink_has_arc_tx'. That makes these fields easier to
+understand, and they match better with the CEC_OP_FEAT_DEV_ defines.
+
+Regards,
+
+	Hans
+
+>  
+>  	fail_on_test(node->remote[la].rc_profile != *rc_profile);
+>  	fail_on_test(node->remote[la].dev_features != *dev_features);
+> 
+
