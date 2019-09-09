@@ -2,90 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A649BADBC1
-	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2019 17:07:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10A83ADBD9
+	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2019 17:10:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727143AbfIIPHJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Sep 2019 11:07:09 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:37199 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725875AbfIIPHI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Sep 2019 11:07:08 -0400
-Received: by mail-oi1-f196.google.com with SMTP id v7so10810131oib.4
-        for <linux-media@vger.kernel.org>; Mon, 09 Sep 2019 08:07:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=BS+8Ba/a6JLciG6MVUiSMtwdZorSPw8lGzEFJQ9QvmY=;
-        b=iLLq2ZimxRnjgjI/03eCmOjGMQV0w5WCbg4/FGzqGJXBOXgQQSR6loDHqeeUAdg3fY
-         LU/6OTNIM2JalnqG16tcu7lP3s8r/WG6IPt8Qj4jOCI/i5JCiUWS/zuIhdw6gsnYLvjC
-         QY7LEpDjqD9WU1qB6lx7QuPIN8rH/o4eTC7rqxjBVFjhziG7xwFNxl/Bbp4p0rBtpouO
-         bDNYlD9l8cvo9F+SWYOSzUQeAW2UYhdod03TYEtjpCh9E82cxvoE7xIUxDYPibZwHX6M
-         PQ2aKphfjbFsA/j91hvkw4YaPbHwxeq95lvfaqCbe2eBD5UlEdq0PyC9ACkNjDlAmch/
-         6cxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=BS+8Ba/a6JLciG6MVUiSMtwdZorSPw8lGzEFJQ9QvmY=;
-        b=DhP1v+bhl8XWJh1YztZh4O4MvNsn4c7PGz+QyI1UJfLH64tl9rW9sfj+T4SgbnAnFu
-         q7//YqP+jAOmz6faCgZKDBVojZG/Xf/peKmExYfSCkyVyMtaIBEHjNkRzzDCWTDoGjnY
-         QKc/hkRoX/JQs2Zd+SfYHg9tNzufiRebXUS8jFd7KE1beZ2w9kPBLbyqcBOSwgt31Vtg
-         QIH+ZMDYUBgqkbIXcKOs+BnuzgC2QlWDa5cgHK6yl1HUMHF2dgatOjU1GHJA5/JOmyUm
-         /Ui/5epsZUkGXGUgaqDXrErF8u59TdBQP/Ov3o1rEUo3HkNm+LwzwcQrUE+VuFWRanFA
-         ebUQ==
-X-Gm-Message-State: APjAAAVgucOyNLyfmQyA4nsVQwhrXz2fBlviTcgcmRivDmPPCfUvwkq5
-        GQWpkxTV5LfoaJZ5PtviFTAM9Vi0
-X-Google-Smtp-Source: APXvYqwxI1RU6pCKS45GvYZzAmQG1l4BZyxhz224BCQm1BD8OAtFbY33gEicC8AGeFmE6mmbMIjtKg==
-X-Received: by 2002:aca:c58f:: with SMTP id v137mr16241859oif.144.1568041626408;
-        Mon, 09 Sep 2019 08:07:06 -0700 (PDT)
-Received: from rYz3n.attlocal.net ([2600:1700:210:3790::40])
-        by smtp.googlemail.com with ESMTPSA id j3sm4831572oih.52.2019.09.09.08.07.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Sep 2019 08:07:06 -0700 (PDT)
-From:   Jiunn Chang <c0d1n61at3@gmail.com>
-To:     linux-media@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Cc:     hverkuil@xs4all.nl
-Subject: [PATCH] cec-compliance: system information give features
-Date:   Mon,  9 Sep 2019 10:07:05 -0500
-Message-Id: <20190909150705.38206-1-c0d1n61at3@gmail.com>
-X-Mailer: git-send-email 2.23.0
+        id S2387602AbfIIPKt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Sep 2019 11:10:49 -0400
+Received: from mleia.com ([178.79.152.223]:43654 "EHLO mail.mleia.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727278AbfIIPKs (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 9 Sep 2019 11:10:48 -0400
+Received: from mail.mleia.com (localhost [127.0.0.1])
+        by mail.mleia.com (Postfix) with ESMTP id C66E339CB18;
+        Mon,  9 Sep 2019 15:10:45 +0000 (UTC)
+Subject: Re: [RFC,v2 2/6] i2c: add I2C Address Translator (ATR) support
+To:     Wolfram Sang <wsa@the-dreams.de>, jacopo mondi <jacopo@jmondi.org>,
+        Luca Ceresoli <luca@lucaceresoli.net>,
+        Peter Rosin <peda@axentia.se>
+Cc:     linux-media@vger.kernel.org, linux-i2c@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+References: <20190723203723.11730-1-luca@lucaceresoli.net>
+ <20190723203723.11730-3-luca@lucaceresoli.net>
+ <20190901143101.humomdehy5ee73sk@vino>
+ <aedad45b-16d6-d189-b045-329727440ca5@mleia.com> <20190909072232.GA990@kunai>
+From:   Vladimir Zapolskiy <vz@mleia.com>
+Message-ID: <8af9a049-06b9-dbe8-827b-5134d20e9435@mleia.com>
+Date:   Mon, 9 Sep 2019 18:10:44 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Thunderbird/52.6.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190909072232.GA990@kunai>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-49551924 
+X-CRM114-CacheID: sfid-20190909_151045_839705_75E56B8F 
+X-CRM114-Status: GOOD (  22.12  )
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-For devices on a HDMI ARC link, sources can only receive ARC
-and sinks can only transmit ARC.
+Hi Wolfram,
 
-Add two checks:
- - Playback devices can only receive ARC, i.e. source_has_arc_rx
- - TVs can only transmit ARC, i.e. sink_has_arc_tx
+On 09/09/2019 10:22 AM, Wolfram Sang wrote:
+> Hi Vladimir,
+> 
+>> I won't attend the LPC, however I would appreciate if you book some
+> 
+> A pity. I would have liked to have you in the room. Let's see if we can
+> get enough input from you via mail here.
+> 
 
-Signed-off-by: Jiunn Chang <c0d1n61at3@gmail.com>
----
- utils/cec-compliance/cec-test.cpp | 4 ++++
- 1 file changed, 4 insertions(+)
+if it might help, I'll attend the Embedded Recipes and ELCE conferences
+this year.
 
-diff --git a/utils/cec-compliance/cec-test.cpp b/utils/cec-compliance/cec-test.cpp
-index bbd13989..aece546c 100644
---- a/utils/cec-compliance/cec-test.cpp
-+++ b/utils/cec-compliance/cec-test.cpp
-@@ -172,6 +172,10 @@ int system_info_give_features(struct node *node, unsigned me, unsigned la, bool
- 		return fail("Only Playback and Recording devices shall set the Supports Deck Control bit\n");
- 	if (!cec_has_tv(1 << la) && node->remote[la].has_rec_tv)
- 		return fail("Only TVs shall set the Record TV Screen bit\n");
-+	if (cec_has_playback(1 << la) && node->remote[la].sink_has_arc_tx)
-+		return fail("A Playback device cannot set the Sink Supports ARC Tx bit\n");
-+	if (cec_has_tv(1 << la) && node->remote[la].source_has_arc_rx)
-+		return fail("A TV cannot set the Source Supports ARC Rx bit\n");
- 
- 	fail_on_test(node->remote[la].rc_profile != *rc_profile);
- 	fail_on_test(node->remote[la].dev_features != *dev_features);
--- 
-2.23.0
+>> time to review my original / alternative implementation of the TI
+>> DS90Ux9xx I2C bridge device driver.
+> 
+> We have only 45 minutes, this will not allow to review specific
+> implementations. I want to give an overview of existing implementations
+> with pros/cons...
+> 
 
+Sure! Any shared summary/opinions are greatly welcome.
+
+>> The reasons why my driver is better/more flexible/more functional are
+>> discussed earlier, please let me know, if you expect anything else
+>> from me to add, also I would be happy to get a summary of your offline
+>> discussion.
+> 
+> ... and I'd appreciate support here from you, like your summary of the
+> back then discussion (from where I can dive deeper if needed).
+> 
+> Also, with Luca's new series we discussed some scenarios which can
+> happen WRT to I2C address conflicts. Maybe you could comment on them,
+> too?
+
+I do remember I've commented on the Luca's suggestion of using dynamic
+I2C addresses from a pool (the introduced "i2c-alias-pool" property).
+
+I have to scrutinize it in Luca's v2, but then it might happen that the
+userspace won't know to which IC on the remote side it communicates to.
+
+> As I read the old thread, you have a hardcoded aliases using
+> "ti,i2c-bridge-maps". This means you can't have own DTSI files for e.g.
+> add-on modules, do I get this correctly?
+> 
+
+Basically hardcoding of aliases completely resolves the highlighted
+above problem. Still it is possible to have own DTSI files for the FPD
+link detachable PCBs, and this is an exceptionally important scenario,
+however some limitations shall be applied:
+* dt overlays for "local" derializer/deserializer ICs, it's a generic
+  and universal solution, it is successfully used in the field,
+* only "compatible" PCBs are supposed to be connected (same set of I2C
+  devices/addresses on every such PCB), this is imperfect for sure,
+* "ti,i2c-bridge-maps" list is excessive to cover "almost compatible"
+  (in the sense from above) PCBs, some of the missed alias matches
+  just won't instantiate a driver, this is of course also imperfect.
+
+In general nothing critical should happen, if some I2C device on the
+remote side is simply not probed in runtime, in opposite you can imagine
+that writing for instance to another EEPROM of two on the remote side
+could be harmful.
+
+Any technically better solution to the two given approaches (from Luca
+and from me) is more than appreciated. For non-dynamic/fixed local and
+remote PCBs the fixed mapping is better, the dynamic case is covered
+by the dt overlays, why not?
+
+As a side note please do remember that the I2C bridging on Maxim GMSL
+and TI DS90Ux9xx are different, the former one is a real mux, and the
+latter one is not, I'm uncertain if it's reasonable to think of a
+generalized solution which covers both IC series, so likely we
+have to review the developed solutions for them separately instead
+of trying to work out a combined one.
+
+--
+Best wishes,
+Vladimir
