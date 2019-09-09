@@ -2,49 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C6D6CADD15
-	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2019 18:26:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 21740ADD10
+	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2019 18:26:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389497AbfIIQZv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Sep 2019 12:25:51 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:55388 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726907AbfIIQZv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Sep 2019 12:25:51 -0400
+        id S2389588AbfIIQZy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Sep 2019 12:25:54 -0400
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:49126 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389577AbfIIQZx (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Sep 2019 12:25:53 -0400
 Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x89GPnv3045109;
-        Mon, 9 Sep 2019 11:25:49 -0500
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x89GPpAD070397;
+        Mon, 9 Sep 2019 11:25:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1568046349;
-        bh=qOaE43n59Xn9z85FENujisRAdEffat99mm+Z4EKhjCM=;
-        h=From:To:CC:Subject:Date;
-        b=HLl43lPrdDOu2pKKOE5dZryK1O88PrwirtOlAEXJ1u+ave5G/2/qkJzwnZp1mQUiA
-         ev/dV7srXdN6dSX6ey2RDHyTh8BOqTjl35gVnwHEpiwtUDWw4ynyOysfOGgUib4QEr
-         E9DwzVWHrgUD74ed8pSnMDe5rpX+RxxPbQy7ys1U=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x89GPn62026721
+        s=ti-com-17Q1; t=1568046351;
+        bh=ZUNgq9Kc07s4hJ1BQZTNPqbFYkBH7lGyGY7xvKH4+OU=;
+        h=From:To:CC:Subject:Date:In-Reply-To:References;
+        b=rUn5IfzU1qUcKQd82OgL90VTwjR0uDLp2WAOzdIdp8ow7+yxERaX+1o2OR7istcbV
+         Flq2Dq8YD3RatPoenXTIruDe1f5NU/BT+AVI8uk/8c6osGoPe48ueFBiXazO6kyVvn
+         LdJkd+gOOvm901IuPnBchH5/2r8rhXfn95NHsOyI=
+Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x89GPpOD026755
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 9 Sep 2019 11:25:49 -0500
-Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+        Mon, 9 Sep 2019 11:25:51 -0500
+Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Mon, 9 Sep
- 2019 11:25:49 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ 2019 11:25:51 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE106.ent.ti.com
+ (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Mon, 9 Sep 2019 11:25:49 -0500
+ Frontend Transport; Mon, 9 Sep 2019 11:25:51 -0500
 Received: from uda0869644b.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x89GPnoO056522;
-        Mon, 9 Sep 2019 11:25:49 -0500
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x89GPnoP056522;
+        Mon, 9 Sep 2019 11:25:51 -0500
 From:   Benoit Parrot <bparrot@ti.com>
 To:     Hans Verkuil <hverkuil@xs4all.nl>
 CC:     Prabhakar Lad <prabhakar.csengg@gmail.com>,
         <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Benoit Parrot <bparrot@ti.com>
-Subject: [Patch 00/13] media: am437x-vpfe: overdue maintenance
-Date:   Mon, 9 Sep 2019 11:27:30 -0500
-Message-ID: <20190909162743.30114-1-bparrot@ti.com>
+        <linux-kernel@vger.kernel.org>, Dave Gerlach <d-gerlach@ti.com>,
+        Benoit Parrot <bparrot@ti.com>
+Subject: [Patch 01/13] media: am437x-vpfe: Fix suspend path to always handle pinctrl config
+Date:   Mon, 9 Sep 2019 11:27:31 -0500
+Message-ID: <20190909162743.30114-2-bparrot@ti.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190909162743.30114-1-bparrot@ti.com>
+References: <20190909162743.30114-1-bparrot@ti.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
@@ -53,39 +56,89 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This patch series is a collection of patches we have been carrying for a
-while.
+From: Dave Gerlach <d-gerlach@ti.com>
 
-A few patches do fix actual bug and v4l2-compliance errors/warnings.
-Other are drivers re-work to simplify/clarify the code for easier
-maintenance.
+Currently if vpfe is not active then it returns immediately in the
+suspend and resume handlers. Change this so that it always performs the
+pinctrl config so that we can still get proper sleep state configuration
+on the pins even if we do not need to worry about fully saving and
+restoring context.
 
-We also include the SPDX Licensing update which seemed to have been
-missed by the global script thus far.
+Signed-off-by: Dave Gerlach <d-gerlach@ti.com>
+Signed-off-by: Benoit Parrot <bparrot@ti.com>
+---
+ drivers/media/platform/am437x/am437x-vpfe.c | 44 ++++++++++-----------
+ 1 file changed, 22 insertions(+), 22 deletions(-)
 
-Benoit Parrot (12):
-  media: am437x-vpfe: Fix missing first line
-  media: am437x-vpfe: Rework ISR routine for clarity
-  media: am437x-vpfe: Wait for end of frame before tear-down
-  media: am437x-vpfe: Streamlined vb2 buffer cleanup
-  media: am437x-vpfe: Setting STD to current value is not an error
-  media: am437x-vpfe: Use a per instance format array instead of a
-    static one
-  media: am437x-vpfe: Maintain a reference to the current vpfe_fmt
-  media: am437x-vpfe: fix function trace debug log
-  media: am437x-vpfe: Remove print_fourcc helper
-  media: am437x-vpfe: TRY_FMT ioctl is not really trying anything
-  media: am437x-vpfe: Remove per bus width static data
-  media: am437x-vpfe: Switch to SPDX Licensing
-
-Dave Gerlach (1):
-  media: am437x-vpfe: Fix suspend path to always handle pinctrl config
-
- drivers/media/platform/am437x/am437x-vpfe.c   | 906 ++++++++----------
- drivers/media/platform/am437x/am437x-vpfe.h   |  44 +-
- .../media/platform/am437x/am437x-vpfe_regs.h  |  10 +-
- 3 files changed, 438 insertions(+), 522 deletions(-)
-
+diff --git a/drivers/media/platform/am437x/am437x-vpfe.c b/drivers/media/platform/am437x/am437x-vpfe.c
+index 2b42ba1f5949..ab959d61f9c9 100644
+--- a/drivers/media/platform/am437x/am437x-vpfe.c
++++ b/drivers/media/platform/am437x/am437x-vpfe.c
+@@ -2653,22 +2653,22 @@ static int vpfe_suspend(struct device *dev)
+ 	struct vpfe_device *vpfe = dev_get_drvdata(dev);
+ 	struct vpfe_ccdc *ccdc = &vpfe->ccdc;
+ 
+-	/* if streaming has not started we don't care */
+-	if (!vb2_start_streaming_called(&vpfe->buffer_queue))
+-		return 0;
++	/* only do full suspend if streaming has started */
++	if (vb2_start_streaming_called(&vpfe->buffer_queue)) {
+ 
+-	pm_runtime_get_sync(dev);
+-	vpfe_config_enable(ccdc, 1);
++		pm_runtime_get_sync(dev);
++		vpfe_config_enable(ccdc, 1);
+ 
+-	/* Save VPFE context */
+-	vpfe_save_context(ccdc);
++		/* Save VPFE context */
++		vpfe_save_context(ccdc);
+ 
+-	/* Disable CCDC */
+-	vpfe_pcr_enable(ccdc, 0);
+-	vpfe_config_enable(ccdc, 0);
++		/* Disable CCDC */
++		vpfe_pcr_enable(ccdc, 0);
++		vpfe_config_enable(ccdc, 0);
+ 
+-	/* Disable both master and slave clock */
+-	pm_runtime_put_sync(dev);
++		/* Disable both master and slave clock */
++		pm_runtime_put_sync(dev);
++	}
+ 
+ 	/* Select sleep pin state */
+ 	pinctrl_pm_select_sleep_state(dev);
+@@ -2710,19 +2710,19 @@ static int vpfe_resume(struct device *dev)
+ 	struct vpfe_device *vpfe = dev_get_drvdata(dev);
+ 	struct vpfe_ccdc *ccdc = &vpfe->ccdc;
+ 
+-	/* if streaming has not started we don't care */
+-	if (!vb2_start_streaming_called(&vpfe->buffer_queue))
+-		return 0;
++	/* only do full resume if streaming has started */
++	if (vb2_start_streaming_called(&vpfe->buffer_queue)) {
+ 
+-	/* Enable both master and slave clock */
+-	pm_runtime_get_sync(dev);
+-	vpfe_config_enable(ccdc, 1);
++		/* Enable both master and slave clock */
++		pm_runtime_get_sync(dev);
++		vpfe_config_enable(ccdc, 1);
+ 
+-	/* Restore VPFE context */
+-	vpfe_restore_context(ccdc);
++		/* Restore VPFE context */
++		vpfe_restore_context(ccdc);
+ 
+-	vpfe_config_enable(ccdc, 0);
+-	pm_runtime_put_sync(dev);
++		vpfe_config_enable(ccdc, 0);
++		pm_runtime_put_sync(dev);
++	}
+ 
+ 	/* Select default pin state */
+ 	pinctrl_pm_select_default_state(dev);
 -- 
 2.17.1
 
