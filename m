@@ -2,153 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7761BAD260
-	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2019 05:52:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A24C3AD269
+	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2019 05:56:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388001AbfIIDw2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 8 Sep 2019 23:52:28 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:34509 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2387860AbfIIDw2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sun, 8 Sep 2019 23:52:28 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:a42c:5137:4437:c48c])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id 7Aj2iOB3Q9b7T7Aj3ie3kx; Mon, 09 Sep 2019 05:52:26 +0200
-Message-ID: <75d8fb78861e2c884cf25f8822585148@smtp-cloud9.xs4all.net>
-Date:   Mon, 09 Sep 2019 05:52:24 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-X-CMAE-Envelope: MS4wfNtb01GYdhIj8s+Cqs1cmOBaJyvPvIwgFh9REUhKxg4h7i9fIaxZiN7KRdMLKHPBELE5BCGIxGnZBfxIktg+lCCP5C+fAl7IgGHhG12wNqXwLWsYohq+
- K9nWNDFsUA4T7ZUv1xHzuypegJZPRqf5x/o+IWvtwItKN6BzMHUBOT7By7wHlUfTBLp9YOG0234VN/x6wH0S0lGTQ5BCk2/4Be5r5fnB9ksFet2IJx73A/Po
+        id S2388055AbfIID4C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 8 Sep 2019 23:56:02 -0400
+Received: from mailgw02.mediatek.com ([1.203.163.81]:24135 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S2387942AbfIID4C (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 8 Sep 2019 23:56:02 -0400
+X-UUID: 53918360d9204d30b8041c335b5e8380-20190909
+X-UUID: 53918360d9204d30b8041c335b5e8380-20190909
+Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+        (envelope-from <dongchun.zhu@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLS)
+        with ESMTP id 1274453681; Mon, 09 Sep 2019 11:55:52 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS31N2.mediatek.inc
+ (172.27.4.87) with Microsoft SMTP Server (TLS) id 15.0.1395.4; Mon, 9 Sep
+ 2019 11:55:48 +0800
+Received: from [10.17.3.153] (172.27.4.253) by MTKCAS36.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Mon, 9 Sep 2019 11:55:48 +0800
+Message-ID: <1568001348.21623.173.camel@mhfsdcap03>
+Subject: Re: [V1, 1/2] media: dt-bindings: media: i2c: Add bindings for
+ ov8856
+From:   Dongchun Zhu <dongchun.zhu@mediatek.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+CC:     <mchehab@kernel.org>, <robh+dt@kernel.org>, <mark.rutland@arm.com>,
+        <drinkcat@chromium.org>, <tfiga@chromium.org>,
+        <matthias.bgg@gmail.com>, <bingbu.cao@intel.com>,
+        <srv_heupstream@mediatek.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>, <sj.huang@mediatek.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <louis.kuo@mediatek.com>, <shengnan.wang@mediatek.com>,
+        Ben Kao <ben.kao@intel.com>
+Date:   Mon, 9 Sep 2019 11:55:48 +0800
+In-Reply-To: <20190808165416.GA1845@kekkonen.localdomain>
+References: <20190808092215.5608-1-dongchun.zhu@mediatek.com>
+         <20190808092215.5608-2-dongchun.zhu@mediatek.com>
+         <20190808165416.GA1845@kekkonen.localdomain>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-TM-SNTS-SMTP: 081F698E455D92653B89BAEE5D1532842DA0144527A369190CB26B39126B11652000:8
+X-MTK:  N
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi Sakari,
 
-Results of the daily build of media_tree:
+On Thu, 2019-08-08 at 19:54 +0300, Sakari Ailus wrote:
+> Hi Dongchun,
+> 
+> (Cc'ing Ben, too.)
+> 
+> On Thu, Aug 08, 2019 at 05:22:14PM +0800, dongchun.zhu@mediatek.com wrote:
+> > From: Dongchun Zhu <dongchun.zhu@mediatek.com>
+> > 
+> > Add device tree binding documentation for the ov8856 camera sensor.
+> > 
+> > Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
+> > ---
+> >  .../devicetree/bindings/media/i2c/ov8856.txt       | 41 ++++++++++++++++++++++
+> >  MAINTAINERS                                        |  1 +
+> >  2 files changed, 42 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov8856.txt
+> > 
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/ov8856.txt b/Documentation/devicetree/bindings/media/i2c/ov8856.txt
+> > new file mode 100644
+> > index 0000000..96b10e0
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/i2c/ov8856.txt
+> > @@ -0,0 +1,41 @@
+> > +* Omnivision OV8856 MIPI CSI-2 sensor
+> > +
+> > +Required Properties:
+> > +- compatible: shall be "ovti,ov8856"
+> > +- clocks: reference to the xvclk input clock
+> > +- clock-names: shall be "xvclk"
+> 
+> Could you add "clock-frequency" property here, please, and specify the
+> upper and lower limits?
+> 
 
-date:			Mon Sep  9 05:00:11 CEST 2019
-media-tree git hash:	6f51fdfd8229d5358c2d6e272cf73478866e8ddc
-media_build git hash:	d75b29db1297d2475227cc8bada843542271e40d
-v4l-utils git hash:	b972d2d6cea558c6fc304938b56518281c953185
-edid-decode git hash:	0932deee88928f110b5a74851c173ad895f75863
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 8634894b41454ef4215a3d4fd503305c720e761a
-host hardware:		x86_64
-host os:		4.19.0-4-amd64
+Sorry, this frequency of the external clock to the sensor and
+link-frequencies would be added in DT in next release.
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3-rc1-i686: OK
-linux-5.3-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2328, Succeeded: 2328, Failed: 0, Warnings: 0
-sparse: OK
-smatch: OK
+> > +- avdd-supply: Analog voltage supply, 2.8 volts
+> > +- dovdd-supply: Digital I/O voltage supply, 1.8 volts
+> > +- dvdd-supply: Digital core voltage supply, 1.2 volts
+> > +- reset-gpios: Low active reset gpio
+> > +
+> > +The device node shall contain one 'port' child node with an
+> > +'endpoint' subnode for its digital output video port,
+> > +in accordance with the video interface bindings defined in
+> > +Documentation/devicetree/bindings/media/video-interfaces.txt.
+> > +The endpoint optional property 'data-lanes' shall be "<0 1 3 4>".
+> 
+> If you don't support lane reordering, then monotonically incrementing lane
+> numbers from 1 onwards are recommended.
+> 
+> Please also make the property mandatory.
+> 
 
-Detailed results are available here:
+data-lanes would be required property on endpoint in next release.
 
-http://www.xs4all.nl/~hverkuil/logs/Monday.log
+> > +
+> > +Example:
+> > +&i2c7 {
+> > +	ov8856: camera-sensor@10 {
+> > +		compatible = "ovti,ov8856";
+> > +		reg = <0x10>;
+> > +		pinctrl-names = "default";
+> > +		pinctrl-0 = <&clk_24m_cam>;
+> > +
+> > +		clocks = <&cru SCLK_TESTCLKOUT1>;
+> > +		clock-names = "xvclk";
+> > +
+> > +		avdd-supply = <&mt6358_vcama2_reg>;
+> > +		dvdd-supply = <&mt6358_vcamd_reg>;
+> > +		dovdd-supply = <&mt6358_vcamio_reg>;
+> > +		reset-gpios = <&gpio2 3 GPIO_ACTIVE_LOW>;
+> > +
+> > +		port {
+> > +			wcam_out: endpoint {
+> > +				remote-endpoint = <&mipi_in_wcam>;
+> > +				data-lanes = <0 1 3 4>;
+> > +			};
+> > +		};
+> > +	};
+> > +};
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 783569e..7746c6b 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -11889,6 +11889,7 @@ L:	linux-media@vger.kernel.org
+> >  T:	git git://linuxtv.org/media_tree.git
+> >  S:	Maintained
+> >  F:	drivers/media/i2c/ov8856.c
+> > +F:	Documentation/devicetree/bindings/media/i2c/ov8856.txt
+> >  
+> >  OMNIVISION OV9650 SENSOR DRIVER
+> >  M:	Sakari Ailus <sakari.ailus@linux.intel.com>
+> 
 
-Detailed regression test results are available here:
 
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
