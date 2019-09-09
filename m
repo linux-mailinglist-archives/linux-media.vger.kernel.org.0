@@ -2,106 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 481EDAD3A2
-	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2019 09:22:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AF7FAD3D5
+	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2019 09:28:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731919AbfIIHWh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Sep 2019 03:22:37 -0400
-Received: from sauhun.de ([88.99.104.3]:55138 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727546AbfIIHWg (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 9 Sep 2019 03:22:36 -0400
-Received: from localhost (234.77.63.94.rev.vodafone.pt [94.63.77.234])
-        by pokefinder.org (Postfix) with ESMTPSA id 84C1E2C3112;
-        Mon,  9 Sep 2019 09:22:33 +0200 (CEST)
-Date:   Mon, 9 Sep 2019 08:22:32 +0100
-From:   Wolfram Sang <wsa@the-dreams.de>
-To:     Vladimir Zapolskiy <vz@mleia.com>
-Cc:     jacopo mondi <jacopo@jmondi.org>,
-        Luca Ceresoli <luca@lucaceresoli.net>,
-        Peter Rosin <peda@axentia.se>, linux-media@vger.kernel.org,
-        linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        id S1732341AbfIIH2X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Sep 2019 03:28:23 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:54426 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727285AbfIIH2W (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Sep 2019 03:28:22 -0400
+Received: from localhost.localdomain (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: bbrezillon)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 42CDC28C051;
+        Mon,  9 Sep 2019 08:28:20 +0100 (BST)
+From:   Boris Brezillon <boris.brezillon@collabora.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [RFC,v2 2/6] i2c: add I2C Address Translator (ATR) support
-Message-ID: <20190909072232.GA990@kunai>
-References: <20190723203723.11730-1-luca@lucaceresoli.net>
- <20190723203723.11730-3-luca@lucaceresoli.net>
- <20190901143101.humomdehy5ee73sk@vino>
- <aedad45b-16d6-d189-b045-329727440ca5@mleia.com>
+        Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Francois Buergisser <fbuergisser@google.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>
+Subject: [PATCH 1/3] media: hantro: h264: Fix a comment in b1_ref_list_cmp()
+Date:   Mon,  9 Sep 2019 09:28:13 +0200
+Message-Id: <20190909072815.23981-1-boris.brezillon@collabora.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="opJtzjQTFsWo+cga"
-Content-Disposition: inline
-In-Reply-To: <aedad45b-16d6-d189-b045-329727440ca5@mleia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+So it matches the code and the spec.
 
---opJtzjQTFsWo+cga
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+---
+ drivers/staging/media/hantro/hantro_h264.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Hi Vladimir,
+diff --git a/drivers/staging/media/hantro/hantro_h264.c b/drivers/staging/media/hantro/hantro_h264.c
+index 0d758e0c0f99..f070e7174007 100644
+--- a/drivers/staging/media/hantro/hantro_h264.c
++++ b/drivers/staging/media/hantro/hantro_h264.c
+@@ -429,7 +429,7 @@ static int b1_ref_list_cmp(const void *ptra, const void *ptrb, const void *data)
+ 
+ 	/*
+ 	 * Short term pics with POC > cur POC first in POC ascending order
+-	 * followed by short term pics with POC > cur POC in POC descending
++	 * followed by short term pics with POC < cur POC in POC descending
+ 	 * order.
+ 	 */
+ 	if ((poca < builder->curpoc) != (pocb < builder->curpoc))
+-- 
+2.21.0
 
-> I won't attend the LPC, however I would appreciate if you book some
-
-A pity. I would have liked to have you in the room. Let's see if we can
-get enough input from you via mail here.
-
-> time to review my original / alternative implementation of the TI
-> DS90Ux9xx I2C bridge device driver.
-
-We have only 45 minutes, this will not allow to review specific
-implementations. I want to give an overview of existing implementations
-with pros/cons...
-
-> The reasons why my driver is better/more flexible/more functional are
-> discussed earlier, please let me know, if you expect anything else
-> from me to add, also I would be happy to get a summary of your offline
-> discussion.
-
-... and I'd appreciate support here from you, like your summary of the
-back then discussion (from where I can dive deeper if needed).
-
-Also, with Luca's new series we discussed some scenarios which can
-happen WRT to I2C address conflicts. Maybe you could comment on them,
-too? As I read the old thread, you have a hardcoded aliases using
-"ti,i2c-bridge-maps". This means you can't have own DTSI files for e.g.
-add-on modules, do I get this correctly?
-
-Regards,
-
-   Wolfram
-
-
---opJtzjQTFsWo+cga
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl11/bQACgkQFA3kzBSg
-Kba0gw//SqXQP85w5Al3h5SpknTTtA58vH9+t7A1sh/8dQECAQiHyupLtYyIbo49
-fkEgUsofN7z1QbGLjiz7YHw6HaIOya6wzAlEA6Usnk8fApS5vAnHiZU3DFnHlsW+
-FOqvn2pwjyA3USz0+67ZSb1ioivrztQcNpd8lTVdTYLprIMNcAaiuMKRVEBX0xgW
-Sx7l4Gy7gzxKxFdNCERshQsge3qcKGTc90oXYriTY/uPEyuL8TbP5wy2l95njk/L
-CDxbIR+G+rrS4iCN+wK9bmmRog5tiP4T9voS1AgX0J2hW5GIfgLayR7cxCP9WRxR
-0UgaQfVPHruESXcd5fcwkLiW97VHgIfV3eSlBeDtx1Xl8h+s9AxxDeCNGF+XJNrJ
-2hmvGmv25qqcG5ZPb+Qj5iEDm8JIHtACnJEYb7GUyL8vwTFinLI9zpHhsXp2wIzc
-2mBGaiY4mw83eomSOy1untwqFdVkLq4sm98oFEZQFwrNCi0uO+F7Azl8lUMQDWcM
-GGsdtYxiQIhg5CvKCPDfJbJjF7mMTVrsIzHgfvD/oraN+52kDv6CFpkT0qDqBy+l
-AZ1l2/zR2K2nPnUxXcyU9CSLwboBNxcuQ0CNiq2G0F7WC646MiALQXLkLpu4FdGb
-4MaEUK7LHp9OPDhbjT3fGfbNw45zR1m3BSQgwL7unDYMhLZEUI4=
-=33hh
------END PGP SIGNATURE-----
-
---opJtzjQTFsWo+cga--
