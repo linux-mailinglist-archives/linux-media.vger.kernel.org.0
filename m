@@ -2,80 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 11507ADD96
-	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2019 18:55:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6841FADDCF
+	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2019 19:10:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730005AbfIIQzA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Sep 2019 12:55:00 -0400
-Received: from smtprelay0227.hostedemail.com ([216.40.44.227]:45554 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727781AbfIIQzA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 9 Sep 2019 12:55:00 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay01.hostedemail.com (Postfix) with ESMTP id DD120100E86C0;
-        Mon,  9 Sep 2019 16:54:58 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,:::::::::::,RULES_HIT:41:355:379:599:960:968:973:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1541:1593:1594:1711:1730:1747:1777:1792:1981:2194:2199:2393:2559:2562:2828:3138:3139:3140:3141:3142:3352:3622:3865:3866:3867:3870:3871:3874:4250:4321:4419:5007:6117:10004:10400:10848:11026:11232:11657:11658:11914:12043:12296:12297:12438:12740:12760:12895:13069:13161:13229:13311:13357:13439:13972:14181:14659:14721:21080:21451:21627:21740:30029:30054:30069:30091,0,RBL:47.151.152.152:@perches.com:.lbl8.mailshell.net-62.8.0.100 64.201.201.201,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:fn,MSBL:0,DNSBL:neutral,Custom_rules:0:0:0,LFtime:28,LUA_SUMMARY:none
-X-HE-Tag: joke95_e38df7958c09
-X-Filterd-Recvd-Size: 2099
-Received: from XPS-9350.home (unknown [47.151.152.152])
-        (Authenticated sender: joe@perches.com)
-        by omf16.hostedemail.com (Postfix) with ESMTPA;
-        Mon,  9 Sep 2019 16:54:57 +0000 (UTC)
-Message-ID: <ec66e477095bcddb86ffcc7ca10d3e0bbe72f943.camel@perches.com>
-Subject: Re: [Patch 09/13] media: am437x-vpfe: fix function trace debug log
-From:   Joe Perches <joe@perches.com>
-To:     Benoit Parrot <bparrot@ti.com>, Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Prabhakar Lad <prabhakar.csengg@gmail.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Date:   Mon, 09 Sep 2019 09:54:56 -0700
-In-Reply-To: <20190909162743.30114-10-bparrot@ti.com>
+        id S1727249AbfIIRKQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Sep 2019 13:10:16 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:59168 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726538AbfIIRKP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Sep 2019 13:10:15 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x89HACwf045302;
+        Mon, 9 Sep 2019 12:10:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1568049012;
+        bh=jaOPtnrJZSC4bXQdecoO/P4/6xRau5GoMuR2a3wmutM=;
+        h=Date:From:To:CC:Subject:References:In-Reply-To;
+        b=P1CsGmmmU7qjx21v7EhdOv/aOMOUWSBcXkY6WIBGovaKHu+0L/14dG2KR37gwEMN5
+         4Qt6UjcsIkEUgNWHaYzSzqR+sVjB//J0RYt/sTQtdGpMHWHVMQiNoM4Lu8WdKLyKxO
+         Gh3XIghJ4uIneq5dYrHwDpM2fEa8AccdHZ45DWfs=
+Received: from DLEE111.ent.ti.com (dlee111.ent.ti.com [157.170.170.22])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id x89HACuH043637;
+        Mon, 9 Sep 2019 12:10:12 -0500
+Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE111.ent.ti.com
+ (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Mon, 9 Sep
+ 2019 12:10:12 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Mon, 9 Sep 2019 12:10:12 -0500
+Received: from ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with SMTP id x89HACNZ030302;
+        Mon, 9 Sep 2019 12:10:12 -0500
+Date:   Mon, 9 Sep 2019 12:12:15 -0500
+From:   Benoit Parrot <bparrot@ti.com>
+To:     Joe Perches <joe@perches.com>
+CC:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Prabhakar Lad <prabhakar.csengg@gmail.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [Patch 10/13] media: am437x-vpfe: Remove print_fourcc helper
+Message-ID: <20190909171215.2cyiulubzxcjqmf7@ti.com>
 References: <20190909162743.30114-1-bparrot@ti.com>
-         <20190909162743.30114-10-bparrot@ti.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.32.1-2 
+ <20190909162743.30114-11-bparrot@ti.com>
+ <7d870b0119afa378dc68c710670b9b550ef5bdd4.camel@perches.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <7d870b0119afa378dc68c710670b9b550ef5bdd4.camel@perches.com>
+User-Agent: NeoMutt/20171215
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 2019-09-09 at 11:27 -0500, Benoit Parrot wrote:
-> checkpatch.pl nows reports several:
-> WARNING: Prefer using '"%s...", __func__' to using '<function name>',
-> this function's name, in a string
+Joe Perches <joe@perches.com> wrote on Mon [2019-Sep-09 09:39:37 -0700]:
+> On Mon, 2019-09-09 at 11:27 -0500, Benoit Parrot wrote:
+> > print_fourcc helper function was used for debug log the
+> > convert a pixel format code into its readable form for display
+> > purposes. But since it used a single static buffer to perform
+> > the conversion this might lead to display format issue when more
+> > than one instance was invoked simultaneously.
+> > 
+> > It turns out that print_fourcc can be safely replace by using
+> > "%4.4s" instead and casting the pointer to the fourcc code
+> > into a (char *).
+> []
+> > diff --git a/drivers/media/platform/am437x/am437x-vpfe.c b/drivers/media/platform/am437x/am437x-vpfe.c
+> []
+> > @@ -221,20 +221,6 @@ static void pix_to_mbus(struct vpfe_device *vpfe,
+> []
+> > @@ -700,8 +686,8 @@ static int vpfe_ccdc_set_pixel_format(struct vpfe_ccdc *ccdc, u32 pixfmt)
+> >  {
+> >  	struct vpfe_device *vpfe = container_of(ccdc, struct vpfe_device, ccdc);
+> >  
+> > -	vpfe_dbg(1, vpfe, "%s: if_type: %d, pixfmt:%s\n",
+> > -		 __func__, ccdc->ccdc_cfg.if_type, print_fourcc(pixfmt));
+> > +	vpfe_dbg(1, vpfe, "%s: if_type: %d, pixfmt:%4.4s\n",
+> > +		 __func__, ccdc->ccdc_cfg.if_type, (char *)&pixfmt);
 > 
-> So fix these for the whole driver.
+> 
+> To avoid any possible defect in the content of pixfmt, it's
+> probably better to use vsprintf extension "%4pE", &pixfmt
+> see: Documentation/core-api/printk-formats.rst
+> 
+> 	vpfe_dbg(1, vpfe, "%s: if_type: %d, pixfmt:%4pE\n",
+> 		 __func__, ccdc->ccdc_cfg.if_type, &pixfmt);
+> 
 
-Most of these seem to be function tracing comments
-that should probably be removed instead.
+Thanks Joe, I was not aware of this feature.
+I'll update this patch.
 
-The generic kernel facility ftrace works well.
+Benoit
 
-> diff --git a/drivers/media/platform/am437x/am437x-vpfe.c b/drivers/media/platform/am437x/am437x-vpfe.c
-[]
-> @@ -466,7 +466,7 @@ static void vpfe_ccdc_config_ycbcr(struct vpfe_ccdc *ccdc)
->  	struct ccdc_params_ycbcr *params = &ccdc->ccdc_cfg.ycbcr;
->  	u32 syn_mode;
->  
-> -	vpfe_dbg(3, vpfe, "vpfe_ccdc_config_ycbcr:\n");
-> +	vpfe_dbg(3, vpfe, "%s:\n", __func__);
-
-Remove this instead
-
->  	/*
->  	 * first restore the CCDC registers to default values
->  	 * This is important since we assume default values to be set in
-> @@ -598,7 +598,7 @@ static void vpfe_ccdc_config_raw(struct vpfe_ccdc *ccdc)
->  	unsigned int syn_mode;
->  	unsigned int val;
->  
-> -	vpfe_dbg(3, vpfe, "vpfe_ccdc_config_raw:\n");
-> +	vpfe_dbg(3, vpfe, "%s:\n", __func__);
-
-here too, etc...
-
-
+> >  
+> >  	if (ccdc->ccdc_cfg.if_type == VPFE_RAW_BAYER) {
+> >  		ccdc->ccdc_cfg.bayer.pix_fmt = CCDC_PIXFMT_RAW;
+> > @@ -989,8 +975,8 @@ static int vpfe_config_ccdc_image_format(struct vpfe_device *vpfe)
+> >  
+> >  	vpfe_dbg(2, vpfe, "%s:\n", __func__);
+> >  
+> > -	vpfe_dbg(1, vpfe, "pixelformat: %s\n",
+> > -		print_fourcc(vpfe->v_fmt.fmt.pix.pixelformat));
+> > +	vpfe_dbg(1, vpfe, "pixelformat: %4.4s\n",
+> > +		 (char *)&vpfe->v_fmt.fmt.pix.pixelformat);
+> 
+> 	vpfe_dbg(1, vpfe, "pixelformat: %4pE\n",
+> 		 &vpfe->v_fmt.fmt.pix.pixelformat);
+> 
+> etc...
+> 
+> 
