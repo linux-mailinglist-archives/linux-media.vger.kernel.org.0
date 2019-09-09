@@ -2,145 +2,221 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CC214ADAA2
-	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2019 16:00:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B89BAADB28
+	for <lists+linux-media@lfdr.de>; Mon,  9 Sep 2019 16:26:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731172AbfIIOAb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Sep 2019 10:00:31 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:51603 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731053AbfIIOAb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 9 Sep 2019 10:00:31 -0400
-Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id 7KDRi3Eck50xT7KDUiAas2; Mon, 09 Sep 2019 16:00:29 +0200
-Subject: Re: [PATCH] media: uapi: h264: clarify
- num_ref_idx_l[01]_(default_)active fields
-To:     Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        kernel@pengutronix.de
-References: <20190905114210.9232-1-p.zabel@pengutronix.de>
- <4fd58acf-4553-aff2-85ab-3bd2b1851090@xs4all.nl>
- <1568032074.2956.5.camel@pengutronix.de>
- <205e9605-05ac-c9aa-e3f6-b6e576778252@xs4all.nl>
- <1568036165.2956.7.camel@pengutronix.de>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <57441d52-af69-5364-e66f-9923372ed3f7@xs4all.nl>
-Date:   Mon, 9 Sep 2019 16:00:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1727258AbfIIO04 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Sep 2019 10:26:56 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:38256 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726774AbfIIO04 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Sep 2019 10:26:56 -0400
+Received: by mail-oi1-f195.google.com with SMTP id 7so10671933oip.5
+        for <linux-media@vger.kernel.org>; Mon, 09 Sep 2019 07:26:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mP0fRk/YhaxJL+vpDg0DeOYsx2YjD4Fw5w6e7jmISX8=;
+        b=bHw7FeH5zFBxyHAuQRepOzNkibTNGvUMS6WfnDk82nrqD/0wGvXJ+moh9xNZgyAbRq
+         afsYQe/LiZ3Zx6R34xesPbFUYZPYFIzCKPob0aML7SLYTLxzt/bXOMlu4RoL7HNCmY6a
+         MteeKoghQTN+3liS8d0tyya5ucmxuYabwJvJKCFNAqGMfkEjCtpD1SLiQBrX/IsG5Fwe
+         fJikrefdmXfpT8txGHQD6N649+UBL6PDWpaCLoVxnoKovIE3f2RU4h6RVVrtj4Rpphqj
+         VIZ55mJeE6+Phhki2wgCRE905cbeo+Vwmx3pc1ARQTV6BpfU4cMKxWin8DZ3xID79qNy
+         2soA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mP0fRk/YhaxJL+vpDg0DeOYsx2YjD4Fw5w6e7jmISX8=;
+        b=tvIyT2CiBTK1NrWkKtVhrHLPapGQRlVYHuOR5xTC3XazxpXnJz4L8R3WWnOtbj7cCh
+         lVDY/NvRZ6nVNMaXPQ897x2dG/ujxhdw0Wcw1mClbX5HhLR9MMDw2tsNIE2F80O0sbVA
+         6GR0MfhGDOL7xNEwZH/m5d5M/Pe58GztyjafVT8u3kDp/urMhqHKNOxBTVeKl5UGAFBp
+         bosOgB7vh0dco3RLQ37GXdv8JK4r3ZxUUUSRvhJKpENFBJM44eHJWGMSVP/Nohel2ICf
+         995HCTdxGThqidMsDXMRtyPI4vqqf1qvxBXGftMRMzTTpEc+fudTo1z8bEMlURyEN+tF
+         YV0Q==
+X-Gm-Message-State: APjAAAUGk8OUrX2dJw2PwrVxnFSKQI/U7KIN66ycKmMPtALYTyFXOcco
+        ea079nlPUeqHMeE2v0R0L6OrAkQs
+X-Google-Smtp-Source: APXvYqxFrLexKD70dIgrVw1xbQlkMYgRZFzeXY8drgH8xy60SdV5ns7JQtqCb4Lo7cBuT1Pmh7Fbiw==
+X-Received: by 2002:aca:f48e:: with SMTP id s136mr17858660oih.57.1568039214824;
+        Mon, 09 Sep 2019 07:26:54 -0700 (PDT)
+Received: from rYz3n.attlocal.net ([2600:1700:210:3790::40])
+        by smtp.googlemail.com with ESMTPSA id l4sm341369oia.51.2019.09.09.07.26.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Sep 2019 07:26:54 -0700 (PDT)
+From:   Jiunn Chang <c0d1n61at3@gmail.com>
+To:     linux-media@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Cc:     hverkuil@xs4all.nl
+Subject: [PATCH] cec-compliance: rename has_arc_rx, has_arc_tx
+Date:   Mon,  9 Sep 2019 09:26:53 -0500
+Message-Id: <20190909142653.35823-1-c0d1n61at3@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <1568036165.2956.7.camel@pengutronix.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfIa3qItYdhjllf9aAlw7lggomJezhom0YMCWQ743maNlDw2kTkQIfu/FYE6TeIhQuGPwjEbDj66isaTXwCPXnOoqYecHTunNTxT9IZGqJNXDsPhwMHu3
- wmFeW8Oh4ACxx2vGpixc0BDooY1mT6YD8w6XTwkAM3fPA3KuQsU8VJiULc0VZtzwEnJLpMBXYW/X/ZroHceN+gRealqfyoPSUXOWKawwyrvhDmInGORHCfvQ
- ILd83P7KufknQBllAxI1dRzaujMb1EqNcDn5QxUotU8ZxbK4iojyQwQluHvwcgjTMki7bsG+vDJ1h6YiGNLJGtwIl1yWZzcm17hzr4Gn/znoxIuw/maNJrvM
- mp+VS+x/R7JTWQsIlAtKXtSFipKMdTlgFagqDvjJmS83eDHvV6w=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 9/9/19 3:36 PM, Philipp Zabel wrote:
-> On Mon, 2019-09-09 at 14:43 +0200, Hans Verkuil wrote:
->> On 9/9/19 2:27 PM, Philipp Zabel wrote:
->>> On Mon, 2019-09-09 at 14:09 +0200, Hans Verkuil wrote:
->>>> On 9/5/19 1:42 PM, Philipp Zabel wrote:
-> [...]
->>>>> @@ -1820,10 +1820,14 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
->>>>>        -
->>>>>      * - __u8
->>>>>        - ``num_ref_idx_l0_active_minus1``
->>>>> -      -
->>>>> +      - This field is used by decoders that do not parse slices themselves.
->>>>> +        If num_ref_idx_active_override_flag is not set, this field must be
->>>>> +        set to the value of num_ref_idx_l0_default_active_minus1.
->>>>
->>>> I don't think you can know if the decoder parses the slices.
->>>
->>> That is correct.
->>>
->>>> Wouldn't it be better to just delete the 'This field is only used by decoders
->>>> that parse slices themselves.' sentence? Drivers for HW that handle this can
->>>> just ignore these fields.
->>>
->>> If this has no place in the API documentation, or if it just might
->>> confuse the user in a different way, it's indeed better drop these.
->>> Is there another place where this could be clarified instead, perhaps
->>> the kerneldoc comments?
->>
->> A code comment in those drivers where the HW parses this would make
->> sense since that explains why that driver ignores these fields.
->>
->> But I would not mention this at all in the userspace API.
->>
->> The 'If num_ref_idx_active_override_flag is not set, this field must be
->> set to the value of num_ref_idx_l0_default_active_minus1.' addition is
->> of course fine.
-> 
-> Ok. I'll revise the patch accordingly.
-> 
->> I'm a bit confused, though: you say some HW can parse this, but how?
->> It's part of the slice_header, so it ends up in struct v4l2_ctrl_h264_slice_params,
->> right? So how can the HW parse this without also providing the
->> num_ref_idx_active_override_flag value?
-> 
-> The complete slice queued via VIDIOC_QBUF still contains all these
-> fields (and more). Presumably that's where the Hantro G1 reads the
-> num_ref_idx_active_override_flag from, as well as other fields that it
-> doesn't use from v4l2_ctrl_h264_slice_params.
+Renaming has_arc_rx and has_arc_tx to better match the macros defined in
+cec.h:
+- CEC_OP_FEAT_DEV_SOURCE_HAS_ARC_RX
+- CEC_OP_FEAT_DEV_SINK_HAS_ARC_TX
 
-Right. Can you check if the current description for V4L2_PIX_FMT_H264_SLICE_RAW
-in our spec is sufficiently detailed to make it clear what is in the buffer?
+For devices on a HDMI ARC link, sources can only support receiver devices
+and sinks can only support transmitter devices.
 
-In particular I would like to see a reference to the H.264 spec that
-describes the slice data format.
+Signed-off-by: Jiunn Chang <c0d1n61at3@gmail.com>
+---
+ utils/cec-compliance/cec-compliance.cpp |  4 ++--
+ utils/cec-compliance/cec-compliance.h   |  4 ++--
+ utils/cec-compliance/cec-test-audio.cpp | 10 +++++-----
+ utils/cec-follower/cec-follower.cpp     |  4 ++--
+ utils/cec-follower/cec-follower.h       |  4 ++--
+ utils/cec-follower/cec-processing.cpp   |  8 ++++----
+ 6 files changed, 17 insertions(+), 17 deletions(-)
 
-Regards,
-
-	Hans
-
-> 
-> G1 can not parse the slice header completely by itself though,
-> it needs to be told the total size of the (pic_order_cnt_lsb /
-> delta_pic_order_cnt_bottom / delta_pic_order_cnt0 /
-> delta_pic_order_cnt1) syntax elements and the size of the
-> dec_ref_pic_marking() syntax element, as well as the values of
-> pic_parameter_set_id, frame_num, and idr_pic_id, and some flags.
-> The num_ref_idx_l[01]_active_minus1 fields are among those parsed from
-> the vb2 buffer directly.
-> 
-> That's why the hantro-vpu driver ignores the header_bit_size field,
-> whereas cedrus has to use it to tell the hardware how to skip the
-> header.
-> 
-> Cedrus completely ignores the num_ref_idx_l[01]_default_active_minus1
-> fields, and always uses the values passed via
-> num_ref_idx_l[01]_active_minus1, see cedrus_h264.c +343:
->         /*
->          * FIXME: the kernel headers are allowing the default value to
->          * be passed, but the libva doesn't give us that.
->          */
->         reg |= (slice->num_ref_idx_l0_active_minus1 & 0x1f) << 10;
->         reg |= (slice->num_ref_idx_l1_active_minus1 & 0x1f) << 5;
->         cedrus_write(dev, VE_H264_PPS, reg);
-> 
-> and +388:
->         reg |= VE_H264_SHS2_NUM_REF_IDX_ACTIVE_OVRD;
->         reg |= (slice->num_ref_idx_l0_active_minus1 & 0x1f) << 24;
->         reg |= (slice->num_ref_idx_l1_active_minus1 & 0x1f) << 16;
->         cedrus_write(dev, VE_H264_SHS2, reg);
-> 
-> ^ that's the override flag being set unconditionally, to select the
-> values from SHS2 over those from PPS.
-> 
-> regards
-> Philipp
-> 
+diff --git a/utils/cec-compliance/cec-compliance.cpp b/utils/cec-compliance/cec-compliance.cpp
+index 3818ce58..d89962f0 100644
+--- a/utils/cec-compliance/cec-compliance.cpp
++++ b/utils/cec-compliance/cec-compliance.cpp
+@@ -1038,9 +1038,9 @@ static void topology_probe_device(struct node *node, unsigned i, unsigned la)
+ 		node->remote[i].rc_profile = *rc_profile;
+ 		node->remote[i].dev_features = *dev_features;
+ 		node->remote[i].all_device_types = all_device_types;
+-		node->remote[i].has_arc_rx =
++		node->remote[i].source_has_arc_rx =
+ 			(*dev_features & CEC_OP_FEAT_DEV_SOURCE_HAS_ARC_RX) != 0;
+-		node->remote[i].has_arc_tx =
++		node->remote[i].sink_has_arc_tx =
+ 			(*dev_features & CEC_OP_FEAT_DEV_SINK_HAS_ARC_TX) != 0;
+ 		node->remote[i].has_aud_rate =
+ 			(*dev_features & CEC_OP_FEAT_DEV_HAS_SET_AUDIO_RATE) != 0;
+diff --git a/utils/cec-compliance/cec-compliance.h b/utils/cec-compliance/cec-compliance.h
+index d7460b62..023c34d4 100644
+--- a/utils/cec-compliance/cec-compliance.h
++++ b/utils/cec-compliance/cec-compliance.h
+@@ -137,8 +137,8 @@ struct remote {
+ 	bool has_text_view_on;
+ 	bool in_standby;
+ 	bool has_remote_control_passthrough;
+-	bool has_arc_rx;
+-	bool has_arc_tx;
++	bool source_has_arc_rx;
++	bool sink_has_arc_tx;
+ 	bool arc_initiated;
+ 	bool has_sys_audio_mode_req;
+ 	bool has_set_sys_audio_mode;
+diff --git a/utils/cec-compliance/cec-test-audio.cpp b/utils/cec-compliance/cec-test-audio.cpp
+index 872bb9ad..2bc24daf 100644
+--- a/utils/cec-compliance/cec-test-audio.cpp
++++ b/utils/cec-compliance/cec-test-audio.cpp
+@@ -165,17 +165,17 @@ static int arc_initiate_tx(struct node *node, unsigned me, unsigned la, bool int
+ 	cec_msg_initiate_arc(&msg, true);
+ 	fail_on_test(!transmit_timeout(node, &msg));
+ 	if (timed_out(&msg)) {
+-		fail_on_test_v2(node->remote[la].cec_version, node->remote[la].has_arc_tx);
++		fail_on_test_v2(node->remote[la].cec_version, node->remote[la].sink_has_arc_tx);
+ 		warn("Timed out waiting for Report ARC Initiated/Terminated.\n");
+ 		return PRESUMED_OK;
+ 	}
+ 	if (unrecognized_op(&msg)) {
+-		fail_on_test_v2(node->remote[la].cec_version, node->remote[la].has_arc_tx);
++		fail_on_test_v2(node->remote[la].cec_version, node->remote[la].sink_has_arc_tx);
+ 		return NOTSUPPORTED;
+ 	}
+ 	if (cec_msg_opcode(&msg) == CEC_MSG_REPORT_ARC_INITIATED) {
+ 		fail_on_test(!pa_are_adjacent(node->phys_addr, node->remote[la].phys_addr));
+-		fail_on_test_v2(node->remote[la].cec_version, !node->remote[la].has_arc_tx);
++		fail_on_test_v2(node->remote[la].cec_version, !node->remote[la].sink_has_arc_tx);
+ 		node->remote[la].arc_initiated = true;
+ 	}
+ 	else if (cec_msg_opcode(&msg) == CEC_MSG_REPORT_ARC_TERMINATED)
+@@ -248,11 +248,11 @@ static int arc_initiate_rx(struct node *node, unsigned me, unsigned la, bool int
+ 		}
+ 	}
+ 	if (unsupported) {
+-		fail_on_test_v2(node->remote[la].cec_version, node->remote[la].has_arc_rx);
++		fail_on_test_v2(node->remote[la].cec_version, node->remote[la].source_has_arc_rx);
+ 		return NOTSUPPORTED;
+ 	}
+ 	fail_on_test(!pa_are_adjacent(node->phys_addr, node->remote[la].phys_addr));
+-	fail_on_test_v2(node->remote[la].cec_version, !node->remote[la].has_arc_rx);
++	fail_on_test_v2(node->remote[la].cec_version, !node->remote[la].source_has_arc_rx);
+ 
+ 	cec_msg_init(&msg, me, la);
+ 	cec_msg_report_arc_initiated(&msg);
+diff --git a/utils/cec-follower/cec-follower.cpp b/utils/cec-follower/cec-follower.cpp
+index 77394ab0..dca0f627 100644
+--- a/utils/cec-follower/cec-follower.cpp
++++ b/utils/cec-follower/cec-follower.cpp
+@@ -450,8 +450,8 @@ int main(int argc, char **argv)
+ 			__u8 byte = laddrs.features[0][idx];
+ 
+ 			if (is_dev_feat) {
+-				node.has_arc_rx = (byte & CEC_OP_FEAT_DEV_SOURCE_HAS_ARC_RX) != 0;
+-				node.has_arc_tx = (byte & CEC_OP_FEAT_DEV_SINK_HAS_ARC_TX) != 0;
++				node.source_has_arc_rx = (byte & CEC_OP_FEAT_DEV_SOURCE_HAS_ARC_RX) != 0;
++				node.sink_has_arc_tx = (byte & CEC_OP_FEAT_DEV_SINK_HAS_ARC_TX) != 0;
+ 				node.has_aud_rate = (byte & CEC_OP_FEAT_DEV_HAS_SET_AUDIO_RATE) != 0;
+ 				node.has_deck_ctl = (byte & CEC_OP_FEAT_DEV_HAS_DECK_CONTROL) != 0;
+ 				node.has_rec_tv = (byte & CEC_OP_FEAT_DEV_HAS_RECORD_TV_SCREEN) != 0;
+diff --git a/utils/cec-follower/cec-follower.h b/utils/cec-follower/cec-follower.h
+index 36496fdc..0998382c 100644
+--- a/utils/cec-follower/cec-follower.h
++++ b/utils/cec-follower/cec-follower.h
+@@ -64,8 +64,8 @@ struct node {
+ 	struct state state;
+ 	__u16 phys_addr;
+ 	__u8 cec_version;
+-	bool has_arc_rx;
+-	bool has_arc_tx;
++	bool source_has_arc_rx;
++	bool sink_has_arc_tx;
+ 	bool has_aud_rate;
+ 	bool has_deck_ctl;
+ 	bool has_rec_tv;
+diff --git a/utils/cec-follower/cec-processing.cpp b/utils/cec-follower/cec-processing.cpp
+index a38f664b..fa7687c9 100644
+--- a/utils/cec-follower/cec-processing.cpp
++++ b/utils/cec-follower/cec-processing.cpp
+@@ -753,7 +753,7 @@ static void processMsg(struct node *node, struct cec_msg &msg, unsigned me)
+ 		/* Audio Return Channel Control */
+ 
+ 	case CEC_MSG_INITIATE_ARC:
+-		if (node->has_arc_tx) {
++		if (node->sink_has_arc_tx) {
+ 			if (!pa_is_upstream_from(node->phys_addr, remote_pa) ||
+ 			    !pa_are_adjacent(node->phys_addr, remote_pa)) {
+ 				cec_msg_reply_feature_abort(&msg, CEC_OP_ABORT_REFUSED);
+@@ -769,7 +769,7 @@ static void processMsg(struct node *node, struct cec_msg &msg, unsigned me)
+ 		}
+ 		break;
+ 	case CEC_MSG_TERMINATE_ARC:
+-		if (node->has_arc_tx) {
++		if (node->sink_has_arc_tx) {
+ 			if (!pa_is_upstream_from(node->phys_addr, remote_pa) ||
+ 			    !pa_are_adjacent(node->phys_addr, remote_pa)) {
+ 				cec_msg_reply_feature_abort(&msg, CEC_OP_ABORT_REFUSED);
+@@ -785,7 +785,7 @@ static void processMsg(struct node *node, struct cec_msg &msg, unsigned me)
+ 		}
+ 		break;
+ 	case CEC_MSG_REQUEST_ARC_INITIATION:
+-		if (node->has_arc_rx) {
++		if (node->source_has_arc_rx) {
+ 			if (pa_is_upstream_from(node->phys_addr, remote_pa) ||
+ 			    !pa_are_adjacent(node->phys_addr, remote_pa)) {
+ 				cec_msg_reply_feature_abort(&msg, CEC_OP_ABORT_REFUSED);
+@@ -800,7 +800,7 @@ static void processMsg(struct node *node, struct cec_msg &msg, unsigned me)
+ 		}
+ 		break;
+ 	case CEC_MSG_REQUEST_ARC_TERMINATION:
+-		if (node->has_arc_rx) {
++		if (node->source_has_arc_rx) {
+ 			if (pa_is_upstream_from(node->phys_addr, remote_pa) ||
+ 			    !pa_are_adjacent(node->phys_addr, remote_pa)) {
+ 				cec_msg_reply_feature_abort(&msg, CEC_OP_ABORT_REFUSED);
+-- 
+2.23.0
 
