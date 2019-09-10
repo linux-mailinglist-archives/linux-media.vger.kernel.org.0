@@ -2,131 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 95714AF09D
-	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2019 19:44:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A1C36AF137
+	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2019 20:47:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437147AbfIJRo5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Sep 2019 13:44:57 -0400
-Received: from mga05.intel.com ([192.55.52.43]:17576 "EHLO mga05.intel.com"
+        id S1727709AbfIJSq4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Sep 2019 14:46:56 -0400
+Received: from sauhun.de ([88.99.104.3]:50760 "EHLO pokefinder.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2394113AbfIJRo5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Sep 2019 13:44:57 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Sep 2019 10:44:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,490,1559545200"; 
-   d="scan'208";a="186924829"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga003.jf.intel.com with ESMTP; 10 Sep 2019 10:44:51 -0700
-Received: from andy by smile with local (Exim 4.92.1)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1i7kCA-0003u5-Ca; Tue, 10 Sep 2019 20:44:50 +0300
-Date:   Tue, 10 Sep 2019 20:44:50 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     dongchun.zhu@mediatek.com
-Cc:     mchehab@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com,
-        sakari.ailus@linux.intel.com, drinkcat@chromium.org,
-        tfiga@chromium.org, matthias.bgg@gmail.com, bingbu.cao@intel.com,
-        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, sj.huang@mediatek.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        louis.kuo@mediatek.com, shengnan.wang@mediatek.com
-Subject: Re: [V2, 2/2] media: i2c: Add more sensor modes for ov8856 camera
- sensor
-Message-ID: <20190910174450.GJ2680@smile.fi.intel.com>
-References: <20190910130446.26413-1-dongchun.zhu@mediatek.com>
- <20190910130446.26413-3-dongchun.zhu@mediatek.com>
+        id S1725875AbfIJSq4 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 10 Sep 2019 14:46:56 -0400
+Received: from localhost (234.77.63.94.rev.vodafone.pt [94.63.77.234])
+        by pokefinder.org (Postfix) with ESMTPSA id 19EC92C0095;
+        Tue, 10 Sep 2019 20:46:54 +0200 (CEST)
+Date:   Tue, 10 Sep 2019 19:46:53 +0100
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Luca Ceresoli <luca@lucaceresoli.net>
+Cc:     Peter Rosin <peda@axentia.se>, jacopo mondi <jacopo@jmondi.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Vladimir Zapolskiy <vz@mleia.com>
+Subject: Re: [RFC,v2 2/6] i2c: add I2C Address Translator (ATR) support
+Message-ID: <20190910184653.GB5581@kunai>
+References: <20190723203723.11730-1-luca@lucaceresoli.net>
+ <20190723203723.11730-3-luca@lucaceresoli.net>
+ <20190901143101.humomdehy5ee73sk@vino>
+ <20bac324-c4d3-270c-5175-0a7f261fd760@lucaceresoli.net>
+ <51dede3c-545b-b66a-5e89-9e889d784eb9@axentia.se>
+ <2d770b36-9521-820d-726a-bc9b52048ef8@lucaceresoli.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="8P1HSweYDcXXzwPJ"
 Content-Disposition: inline
-In-Reply-To: <20190910130446.26413-3-dongchun.zhu@mediatek.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <2d770b36-9521-820d-726a-bc9b52048ef8@lucaceresoli.net>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Sep 10, 2019 at 09:04:46PM +0800, dongchun.zhu@mediatek.com wrote:
-> From: Dongchun Zhu <dongchun.zhu@mediatek.com>
-> 
-> This patch mainly adds two more sensor modes for OV8856 CMOS image sensor.
-> That is, the resolution of 1632*1224 and 3264*2448, corresponding to the bayer order of BGGR.
-> The sensor revision also differs in some OTP register.
 
-> +static int __ov8856_power_on(struct ov8856 *ov8856)
-> +{
-> +	struct i2c_client *client = v4l2_get_subdevdata(&ov8856->sd);
-> +	int ret;
-> +
-> +	ret = clk_prepare_enable(ov8856->xvclk);
-> +	if (ret < 0) {
-> +		dev_err(&client->dev, "failed to enable xvclk\n");
-> +		return ret;
-> +	}
-> +
-> +	gpiod_set_value_cansleep(ov8856->n_shutdn_gpio, GPIOD_OUT_LOW);
-> +
-> +	ret = regulator_bulk_enable(OV8856_NUM_SUPPLIES, ov8856->supplies);
-> +	if (ret < 0) {
-> +		dev_err(&client->dev, "failed to enable regulators\n");
-> +		goto disable_clk;
-> +	}
-> +
-> +	gpiod_set_value_cansleep(ov8856->n_shutdn_gpio, GPIOD_OUT_HIGH);
-> +
-
-> +	usleep_range(1400, 1500);
-
-This should be commented why this is needed and from where the requirement
-comes from. Also, not, that 100us, which is only ~7%, is small margin.
-Recommended one is ~20%.
-
-> +
-> +	return 0;
-> +
-> +disable_clk:
-> +	clk_disable_unprepare(ov8856->xvclk);
-> +
-> +	return ret;
-> +}
-
-> +	ov8856->is_1B_revision = (val == OV8856_1B_MODULE) ? 1 : 0;
-
-!! will give same result without using ternary operator.
-
-> +	ov8856->xvclk = devm_clk_get(&client->dev, "xvclk");
-> +	if (IS_ERR(ov8856->xvclk)) {
-> +		dev_err(&client->dev, "failed to get xvclk\n");
-> +		return -EINVAL;
-> +	}
-
-Previously it was optional.
-How did it work before and why it's not optional?
-
-> +	ov8856->n_shutdn_gpio = devm_gpiod_get(&client->dev, "reset",
-> +					       GPIOD_OUT_LOW);
-> +	if (IS_ERR(ov8856->n_shutdn_gpio)) {
-> +		dev_err(&client->dev, "failed to get reset-gpios\n");
-> +		return -EINVAL;
-> +	}
-
-Ditto.
-
-> +static const struct of_device_id ov8856_of_match[] = {
-> +	{ .compatible = "ovti,ov8856" },
-
-> +	{},
-
-No comma needed for terminator line.
-
-> +};
-
--- 
-With Best Regards,
-Andy Shevchenko
+--8P1HSweYDcXXzwPJ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 
+> I still have to examine in depth all of the problems in the i2c-mux
+> documented in Documentation/i2c/i2c-topology (thanks for having written
+> those docs!), but at first sight it looks like the ATR is not going to
+> introduce big problems because of how it works.
+
+Assuming we are using the previously discussed NEEDS_ATR flag for the adapter
+instead of the attach/detach callbacks:
+
+Can't we then simply understand an ATR as a generic 1:1 mapping device
+which can be setup when registering an adapter?
+
+When we add an adapter using i2c_add_adapter, we have:
+
+
+              .-----.  Slave X @ 0x10
+  .-----.     |     |   |
+  | CPU |--A--| ATR |---+---- B
+  `-----'     |     |
+              `-----'
+
+When we use i2c_add_mux_adapter, we have:
+
+
+                                Slave X @ 0x10
+              .-----.   .-----.   |
+  .-----.     |     |---| ATR |---+---- B
+  | CPU |--A--| MUX |   '-----'
+  `-----'     |     |   .-----.
+              |     |---| ATR |---+---- C
+              `-----'   '-----'   |
+                                 Slave Y @ 0x10
+
+
+That way we could keep the topology handling solely to the mux-core.
+
+Am I overlooking something?
+
+
+--8P1HSweYDcXXzwPJ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl1375gACgkQFA3kzBSg
+KbYJow/+JCThTpeS2XICmf9Q3MrO1dOKBMlUgPruJRw4irTMMkrMProjr3EhIYCw
+7LuYkhW8Pessu8F9PbIJ9iU6IDb2UC5+Ao16IdbWYauY/Ij3ayhXsUd3ECl19lo4
+SjbUynLbxbch6xzw4nitl1Vg8pxH1eVHA+3wi60O2eGBr2WHTouAMHa5YI6a6fw6
+5MkxCxS4A08Ss0TUKZhJvl+7WttM5uigTmTsaI8FQLS0T+Z5rlxQIQR0CMP3ZyOR
+1Fc/sndLvWOK5lRk/+v76LC7lFYEXa9ePLqql9IqP00u0qTO+wE+l3t51R5oTjpj
+poXtKqLcjtfyue7efqfYm+rQDu39I9lEguZsp8OivuYQlCkWzRu/IRYSxQSsBmbd
+37XvMAHedHMQy4PIhzRSq9MtprK6RcMgFvUxf3fr/05WW+P2udby4gluEI3ba4lo
+MydbdFgf3rJfLkJ0TjC3GplUjDbffGmQ/uLvcwyxC1i3FCsQrK10NsUScZPg/oM9
+KJjwa06l9ua0MrwDMq1s/3eqcWXCV9kyaIu1bE9CT6hLmJd7yacadcFRo5WqgVK1
+qGBofVZbgsIrerqrYcKdXGS9vFCbsEZP6NQ2JpKHbiEITBy9Cqi1g2Jjo82byCqE
+BtyGllOLEvVIpm8938c9epfklbGk+ZIlWVJciamn1gG89j3bI/4=
+=3L8E
+-----END PGP SIGNATURE-----
+
+--8P1HSweYDcXXzwPJ--
