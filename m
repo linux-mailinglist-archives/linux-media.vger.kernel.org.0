@@ -2,84 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 495DBAE7F4
-	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2019 12:22:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 72F68AE88E
+	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2019 12:43:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731579AbfIJKWp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Sep 2019 06:22:45 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:48993 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728971AbfIJKWo (ORCPT
+        id S1732573AbfIJKm5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Sep 2019 06:42:57 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:39259 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729308AbfIJKm5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Sep 2019 06:22:44 -0400
-Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.pengutronix.de.)
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1i7dIJ-0002V8-7E; Tue, 10 Sep 2019 12:22:43 +0200
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     linux-media@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        kernel@pengutronix.de
-Subject: [PATCH v2] media: uapi: h264: clarify num_ref_idx_l[01]_(default_)active fields
-Date:   Tue, 10 Sep 2019 12:22:39 +0200
-Message-Id: <20190910102239.23545-1-p.zabel@pengutronix.de>
-X-Mailer: git-send-email 2.20.1
+        Tue, 10 Sep 2019 06:42:57 -0400
+Received: from [IPv6:2001:420:44c1:2577:9dde:3063:4dc7:2a88] ([IPv6:2001:420:44c1:2577:9dde:3063:4dc7:2a88])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id 7dbniVrTy9b7T7dbrii3hs; Tue, 10 Sep 2019 12:42:55 +0200
+Subject: Re: [Patch 00/13] media: am437x-vpfe: overdue maintenance
+To:     Benoit Parrot <bparrot@ti.com>
+Cc:     Prabhakar Lad <prabhakar.csengg@gmail.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20190909162743.30114-1-bparrot@ti.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <5b73285c-5d05-1799-06fc-f4ab84cb9a1d@xs4all.nl>
+Date:   Tue, 10 Sep 2019 12:42:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+In-Reply-To: <20190909162743.30114-1-bparrot@ti.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfDgLUEHVN+RKov8OWXK1F7XNGT12EkJNiYeymJivzCZcZuFob/plBzrX/mPgK47XVhOZy64hbgWTJSXRZXg53bsDL2o24RyqG6Yk5/bKNtsBxMPfo7lf
+ 6Y+6E9PCVDB74klKgCifSzdihMf4RSAKZuVrvrpZyZ6M5enTvN1rpiivxHtqdvR4HbGZfUJSozQGB0h6r/fqV4wpFbb8IMFmENSV9czometSb2ird2gjTPN8
+ ULjQA2TVpldqO/OaNYq37mUO7HXKqfxx49Xe3hASQEYcPyc/pr1qS6rc6+D/0c3Exh0ZoHGwcsXffW9RzuglCcXXvhexe5ywDmOySNcx67yXuWUr6RUgGNMX
+ dDYcgO1NXn9hwaUqDoNOc9FZ3McMA4pjti1dCJjC70VflsSdpSEPUHPpDE9R4MLLInQji2HJB5H/1BYnGEhc+78FZjjdWA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Since the uapi does not contain the num_ref_idx_active_override_flag,
-drivers for decoders that do not parse slices themselves don't know
-how to choose between the num_ref_idx_l[01]_default_active and the
-num_ref_idx_l[01]_active override fields.
+Hi Benoit,
 
-Instead, userspace must set the override fields to the default values
-if the slice does not have the num_ref_idx_active_override flag set.
-The drivers will then always enable the override internally and ignore
-the default fields completely.
+On 9/9/19 6:27 PM, Benoit Parrot wrote:
+> This patch series is a collection of patches we have been carrying for a
+> while.
+> 
+> A few patches do fix actual bug and v4l2-compliance errors/warnings.
+> Other are drivers re-work to simplify/clarify the code for easier
+> maintenance.
 
-Clarify this requirement in the API documentation.
+Can you post the output of the latest version of v4l2-compliance? Use
+the '-s' option so streaming is tested as well.
 
-Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
----
-Changes since v1:
- - Drop sentences about num_ref_idx_l[011](_default)_active_minus1
-   fields only being used by decoders that do/do not parse slice
-   headers.
----
- Documentation/media/uapi/v4l/ext-ctrls-codec.rst | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Thanks!
 
-diff --git a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-index bc5dd8e76567..6b3bb71655a3 100644
---- a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-+++ b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-@@ -1820,10 +1820,12 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
-       -
-     * - __u8
-       - ``num_ref_idx_l0_active_minus1``
--      -
-+      - If num_ref_idx_active_override_flag is not set, this field must be
-+        set to the value of num_ref_idx_l0_default_active_minus1.
-     * - __u8
-       - ``num_ref_idx_l1_active_minus1``
--      -
-+      - If num_ref_idx_active_override_flag is not set, this field must be
-+        set to the value of num_ref_idx_l1_default_active_minus1.
-     * - __u32
-       - ``slice_group_change_cycle``
-       -
--- 
-2.20.1
+	Hans
+
+> 
+> We also include the SPDX Licensing update which seemed to have been
+> missed by the global script thus far.
+> 
+> Benoit Parrot (12):
+>   media: am437x-vpfe: Fix missing first line
+>   media: am437x-vpfe: Rework ISR routine for clarity
+>   media: am437x-vpfe: Wait for end of frame before tear-down
+>   media: am437x-vpfe: Streamlined vb2 buffer cleanup
+>   media: am437x-vpfe: Setting STD to current value is not an error
+>   media: am437x-vpfe: Use a per instance format array instead of a
+>     static one
+>   media: am437x-vpfe: Maintain a reference to the current vpfe_fmt
+>   media: am437x-vpfe: fix function trace debug log
+>   media: am437x-vpfe: Remove print_fourcc helper
+>   media: am437x-vpfe: TRY_FMT ioctl is not really trying anything
+>   media: am437x-vpfe: Remove per bus width static data
+>   media: am437x-vpfe: Switch to SPDX Licensing
+> 
+> Dave Gerlach (1):
+>   media: am437x-vpfe: Fix suspend path to always handle pinctrl config
+> 
+>  drivers/media/platform/am437x/am437x-vpfe.c   | 906 ++++++++----------
+>  drivers/media/platform/am437x/am437x-vpfe.h   |  44 +-
+>  .../media/platform/am437x/am437x-vpfe_regs.h  |  10 +-
+>  3 files changed, 438 insertions(+), 522 deletions(-)
+> 
 
