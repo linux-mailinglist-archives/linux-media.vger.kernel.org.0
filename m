@@ -2,59 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E64FEAF1EB
-	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2019 21:35:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E4B6AF246
+	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2019 22:29:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726050AbfIJTfD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Sep 2019 15:35:03 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:45066 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725880AbfIJTfD (ORCPT
+        id S1725856AbfIJU3Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Sep 2019 16:29:25 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:60740 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725263AbfIJU3Z (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Sep 2019 15:35:03 -0400
-Received: by mail-oi1-f195.google.com with SMTP id o205so2935922oib.12
-        for <linux-media@vger.kernel.org>; Tue, 10 Sep 2019 12:35:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=5Rvs3KIW/G0uS+h4BfbM/GaeD2EpzKi6/w1u8dOCKe4=;
-        b=dLJlh46/jPVHfG57SvhK/DDRaljC7QKTA+SE0hpVakcraBDxiy2fOHrn17DrEcddbU
-         lhzlfz0OaQ6UckYNc37mk8Ie3JrSaQWbAozcvwbWMFFLFNHEud5ZrWCyCSIeK9BLenxL
-         SemWTXvpm6WSx4jU3dbgJLqaSNbEsY+es5WPUX4oov7Fj+0woN40oOrZ1sqRUtm6FAh1
-         Ijt+AbDIWUgigDHqWF5Ocq50/+Fv2E8MQCG5ycO0xyTvT6mlZH89gNfqTCFJro8t6EKC
-         yPcAfK3TPKSyGyG8VAbWTx54ltWcqBuuIntTiHsqyxvOIM0AAQcQfSbKuj42MiuSoI2h
-         HPww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=5Rvs3KIW/G0uS+h4BfbM/GaeD2EpzKi6/w1u8dOCKe4=;
-        b=bSxryMyPjxc/DtiNXZtgB7XW/gLY2zU0IoOgnaQOvWr6Oix9Sr4X6iHC+FL3Z5ow3d
-         1kEh1vR0helxxHS7UbqR0qB3fJxICDvdfrmJQ2G11SGRDAMWccVGyeD8WM+JSQLf0kEt
-         MBJroEpGc3jjg2UQEDaMRuqCVi6Bv+n5iL3qrE6byE46EVPoEXxaoFVvtXBFF9Iitiap
-         A68aceVeIyRxcFH5mdPpv6VRgzAKUhoqedeP3nJjpi3l84Ya1T+KnFdByg9aUx6O/aPA
-         l3d+cF2gpjsOE2WaphOiYycd1gFqRYALKFfk+8WebTKD44mAZdqnP1rLWXVUWGhFhK7K
-         aOfg==
-X-Gm-Message-State: APjAAAVP0LTtzv8Wk9ycjDMJGXhopAKgmbi78U5E1Ecy+EFvo6+CuiFv
-        4SAkXDZ1aFdyPcEAt+50NEVXLY3b
-X-Google-Smtp-Source: APXvYqwL0naxev4aowLbUtbO0nYWiJyBXJKVk15fmCq4bjGAG0RYKyotggPNV1d7/X2Fo+rUM9UXdw==
-X-Received: by 2002:a05:6808:2c3:: with SMTP id a3mr1059513oid.121.1568144100448;
-        Tue, 10 Sep 2019 12:35:00 -0700 (PDT)
-Received: from rYz3n.attlocal.net ([2600:1700:210:3790::48])
-        by smtp.googlemail.com with ESMTPSA id u12sm403671oiv.29.2019.09.10.12.34.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Sep 2019 12:34:59 -0700 (PDT)
-From:   Jiunn Chang <c0d1n61at3@gmail.com>
-To:     linux-media@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Cc:     hverkuil@xs4all.nl
-Subject: [PATCH v2] cec-compliance: system audio control
-Date:   Tue, 10 Sep 2019 14:34:58 -0500
-Message-Id: <20190910193458.53210-2-c0d1n61at3@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20190909202030.82287-1-c0d1n61at3@gmail.com>
-References: <20190909202030.82287-1-c0d1n61at3@gmail.com>
+        Tue, 10 Sep 2019 16:29:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=NJbl3FJllBdIDq+vIy+cbt6Hdl0MScmT5nDNzaSIo/g=; b=fQoqImEeu0vGD1CZLJYPS8r5B
+        D/6pggcSg5Nbe84HLHTmElLZ7el/Fcyqgl6XiXCGEMSHvra4oacq0qZNSO7Q/6+2+i9m2NkLLPK2x
+        Ef1myPU7lRRHm69mwXl6d196hL5gkl2uiSExC1bzHeLhAT30ewI0YuVkhMmwh84QyW0pQhHBUfke/
+        KcX7KX9UXnIzm/ddJFU7Ofl3JFHA/+ca6FMF0mMR2cy7fckig+WrJ7vrUWehvz4nUIfBmKj11Kx/9
+        +k/4S6OhX3FHgiqHqIPraESMpNtXbrZn9PrNEtJJUI15BD0CBvViiL6e5D0tgkCEBSViY4SOhsQyy
+        s4Tt7Bbgw==;
+Received: from [179.95.10.161] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
+        id 1i7mlP-0001bR-J2; Tue, 10 Sep 2019 20:29:23 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.2)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1i7mlM-0005mB-0g; Tue, 10 Sep 2019 17:29:20 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Colin Ian King <colin.king@canonical.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Thomas Gleixner <tglx@linutronix.de>
+Subject: [PATCH] media: cx231xx: fix unregister logic
+Date:   Tue, 10 Sep 2019 17:29:19 -0300
+Message-Id: <485f1467cc94907c8fd20188d673104b2b92ced7.1568147356.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -62,55 +51,60 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add comment block documenting tests not included from section 13.15 of
-the CEC 1.4b specification.  This section outlines the System Audio
-Control feature.
+Right now, dev->users is not been decremented for VBI nodes,
+causing unregister to fail. Fix it.
 
-Signed-off-by: Jiunn Chang <c0d1n61at3@gmail.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- utils/cec-compliance/cec-test-audio.cpp | 29 +++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+ drivers/media/usb/cx231xx/cx231xx-video.c | 25 +++++++++++++----------
+ 1 file changed, 14 insertions(+), 11 deletions(-)
 
-diff --git a/utils/cec-compliance/cec-test-audio.cpp b/utils/cec-compliance/cec-test-audio.cpp
-index 2bc24daf..14f1d122 100644
---- a/utils/cec-compliance/cec-test-audio.cpp
-+++ b/utils/cec-compliance/cec-test-audio.cpp
-@@ -309,6 +309,35 @@ const unsigned arc_subtests_size = ARRAY_SIZE(arc_subtests);
+diff --git a/drivers/media/usb/cx231xx/cx231xx-video.c b/drivers/media/usb/cx231xx/cx231xx-video.c
+index 6d2f4da3a3fa..69abafaebbf3 100644
+--- a/drivers/media/usb/cx231xx/cx231xx-video.c
++++ b/drivers/media/usb/cx231xx/cx231xx-video.c
+@@ -1557,6 +1557,18 @@ static int cx231xx_close(struct file *filp)
  
- /* System Audio Control */
+ 	_vb2_fop_release(filp, NULL);
  
-+/*
-+ * The following scenarios are defined in section 13.15 of the CEC 1.4b
-+ * specification where the amplifier provides the audio for a source that
-+ * is being displayed on a TV.
-+ *
-+ * 1.  Amplifier initiated <System Audio Mode Request> and active source
-+ *     discovery with a <Request Active Source> broadcast plus the
-+ *     <Active Source> response.
-+ * 2.  Post discovery, subsequent amplifier <Set System Audio Mode> [On]
-+ *     and System Audio Control feature confirmation with TV.
-+ * 3.  Amplifier broadcasts <Set System Audio Mode> [On] to mute the TV and
-+ *     unmute amplifier.
-+ * 4.  Amplifier broadcasts <Set System Audio Mode> [Off] to unmute the TV
-+ *     and mute the amplifier.
-+ * 5.  When System Audio Mode is On, muting and unmuting an amplifier sends
-+ *     a <Report Audio Status> message to the TV.
-+ * 6.  When System Audio Mode is On, the amplifier sends a <Set System Audio
-+ *     Mode> [Off] to unmute the TV before going into standby.
-+ * 7.  When System Audio Mode is On, only the amplifier can control system
-+ *     volume.
-+ * 8.  Optional features in subsection 13.15.4 of version 1.4b.
-+ * 9.  <Request Audio Descriptor> message is from version 1.4 so older versions
-+ *     report <Feature Abort>.
-+ * 10. <Report Audio Descriptor> message is from version 1.4 so older versions
-+ *     report <Feature Abort>.
-+ * 11. System Audio Control is from version 1.3a so older versions report
-+ *     <Feature Abort>.
-+ */
++	if (--dev->users == 0) {
++		/* Save some power by putting tuner to sleep */
++		call_all(dev, tuner, standby);
 +
- static int sac_request_sad_probe(struct node *node, unsigned me, unsigned la, bool interactive)
- {
- 	struct cec_msg msg = {};
++		/* do this before setting alternate! */
++		if (dev->USE_ISO)
++			cx231xx_uninit_isoc(dev);
++		else
++			cx231xx_uninit_bulk(dev);
++		cx231xx_set_mode(dev, CX231XX_SUSPEND);
++	}
++
+ 	/*
+ 	 * To workaround error number=-71 on EP0 for VideoGrabber,
+ 	 *	 need exclude following.
+@@ -1577,20 +1589,11 @@ static int cx231xx_close(struct file *filp)
+ 		return 0;
+ 	}
+ 
+-	if (--dev->users == 0) {
+-		/* Save some power by putting tuner to sleep */
+-		call_all(dev, tuner, standby);
+-
+-		/* do this before setting alternate! */
+-		if (dev->USE_ISO)
+-			cx231xx_uninit_isoc(dev);
+-		else
+-			cx231xx_uninit_bulk(dev);
+-		cx231xx_set_mode(dev, CX231XX_SUSPEND);
+-
++	if (dev->users == 0) {
+ 		/* set alternate 0 */
+ 		cx231xx_set_alt_setting(dev, INDEX_VIDEO, 0);
+ 	}
++
+ 	wake_up_interruptible(&dev->open);
+ 	return 0;
+ }
 -- 
-2.23.0
+2.21.0
 
