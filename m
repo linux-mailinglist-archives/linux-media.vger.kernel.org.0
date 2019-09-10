@@ -2,107 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 048B0AE156
-	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2019 01:04:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60F60AE29F
+	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2019 05:52:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730151AbfIIXEu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Sep 2019 19:04:50 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:36546 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728358AbfIIXEu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Sep 2019 19:04:50 -0400
-Received: from pendragon.ideasonboard.com (unknown [88.214.160.167])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 874DE4FE;
-        Tue, 10 Sep 2019 01:04:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1568070288;
-        bh=aMko9867ugF01tWgJcEmGEH7Q3llzWNzsN0Yl9FpdFE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ODIn6NlRsjVuaa/DIKVRkIbW5kNKoCcxV9EJksXmFuKb/tA17tNVumYq4jZaue1Qn
-         QnhjIRpGIGhtD2US5QSipZiQnXPtx27/oYWny6wmyeQtBdNEo0EG1KxE8k0hPlwwse
-         bRslXB3gJSnM1HldaLq8FJasYHNFWLWe/dG1Owt0=
-Date:   Tue, 10 Sep 2019 02:04:41 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] rcar-vin: Do not enumerate unsupported pixel formats
-Message-ID: <20190909230441.GE15652@pendragon.ideasonboard.com>
-References: <20190906143500.21882-1-niklas.soderlund+renesas@ragnatech.se>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190906143500.21882-1-niklas.soderlund+renesas@ragnatech.se>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S2389388AbfIJDwF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Sep 2019 23:52:05 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:52393 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728293AbfIJDwE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 9 Sep 2019 23:52:04 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:646b:e2e7:e982:5d5f])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id 7XCDij8UOMK4h7XCEiYG6G; Tue, 10 Sep 2019 05:52:02 +0200
+Message-ID: <43c13de985dff81cb6bda08be891a53e@smtp-cloud8.xs4all.net>
+Date:   Tue, 10 Sep 2019 05:52:01 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: OK
+X-CMAE-Envelope: MS4wfOaAksPAUF2/yxNmRUtHb67Oq8idVUJzZ5UdQdbBVtzZPHCWbRCjzMwA3lPHijuB6ozg5auejgiS3jfxGtOekyuP3Vu9gVRvYgNDvgfq1CKxysWPdsmd
+ M8TehzxuHH0yjmSRQRPROGx4/t93Ur5GpzfAOLoU2K1UO1mwJAt1tW5ywe5QYVIRneu+8trFgoL7moprLMEL0cZkq41gD5AP+Buthr/sBMXpygZPxPP2pQmY
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Niklas,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Thank you for the patch.
+Results of the daily build of media_tree:
 
-On Fri, Sep 06, 2019 at 04:35:00PM +0200, Niklas Söderlund wrote:
-> If a pixel format is not supported by the hardware NULL is returned by
-> rvin_format_from_pixel() for that fourcc. Verify that the pixel format
-> is supported using this or skip it when enumerating.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
->  drivers/media/platform/rcar-vin/rcar-v4l2.c | 12 +++++++++++-
->  1 file changed, 11 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> index cbc1c07f0a9631a4..ba08f6c49956e899 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> @@ -302,10 +302,20 @@ static int rvin_g_fmt_vid_cap(struct file *file, void *priv,
->  static int rvin_enum_fmt_vid_cap(struct file *file, void *priv,
->  				 struct v4l2_fmtdesc *f)
->  {
-> +	struct rvin_dev *vin = video_drvdata(file);
-> +	unsigned int i, skip = 0;
+date:			Tue Sep 10 05:00:10 CEST 2019
+media-tree git hash:	6f51fdfd8229d5358c2d6e272cf73478866e8ddc
+media_build git hash:	d75b29db1297d2475227cc8bada843542271e40d
+v4l-utils git hash:	5b168dc8473911227890526bad26553d9e8ff81b
+edid-decode git hash:	0932deee88928f110b5a74851c173ad895f75863
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1-rc1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.5.1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 8634894b41454ef4215a3d4fd503305c720e761a
+host hardware:		x86_64
+host os:		4.19.0-4-amd64
 
-This doesn't seem right. Let's consider, as initial conditions,
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3-rc1-i686: OK
+linux-5.3-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2331, Succeeded: 2331, Failed: 0, Warnings: 0
+sparse: OK
+smatch: OK
 
-rvin_formats = { RGB, unsupported, unsupported, YUV }
-ARRAY_SIZE(rvin_formats) == 4
-f->index = 1
+Detailed results are available here:
 
-You want to return YUV.
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
 
-> +
->  	if (f->index >= ARRAY_SIZE(rvin_formats))
->  		return -EINVAL;
+Detailed regression test results are available here:
 
-This check will pass.
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
 
-> -	f->pixelformat = rvin_formats[f->index].fourcc;
-> +	for (i = 0; i <= f->index; i++)
-> +		if (!rvin_format_from_pixel(vin, rvin_formats[i].fourcc))
-> +			skip++;
+Full logs are available here:
 
-This loop will have two iterations, i == 0 and i == 1. The second
-iteration will increase skip, so skip == 1.
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
 
-> +
-> +	if (f->index + skip >= ARRAY_SIZE(rvin_formats))
-> +		return -EINVAL;
+The Media Infrastructure API from this daily build is here:
 
-This check will pass.
-
-> +
-> +	f->pixelformat = rvin_formats[f->index + skip].fourcc;
-
-This will return unsupported format.
-
->  
->  	return 0;
->  }
-
--- 
-Regards,
-
-Laurent Pinchart
+http://www.xs4all.nl/~hverkuil/spec/index.html
