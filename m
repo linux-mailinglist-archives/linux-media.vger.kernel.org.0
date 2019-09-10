@@ -2,48 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E4B6AF246
-	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2019 22:29:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60898AF272
+	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2019 22:59:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725856AbfIJU3Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Sep 2019 16:29:25 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:60740 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725263AbfIJU3Z (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Sep 2019 16:29:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=NJbl3FJllBdIDq+vIy+cbt6Hdl0MScmT5nDNzaSIo/g=; b=fQoqImEeu0vGD1CZLJYPS8r5B
-        D/6pggcSg5Nbe84HLHTmElLZ7el/Fcyqgl6XiXCGEMSHvra4oacq0qZNSO7Q/6+2+i9m2NkLLPK2x
-        Ef1myPU7lRRHm69mwXl6d196hL5gkl2uiSExC1bzHeLhAT30ewI0YuVkhMmwh84QyW0pQhHBUfke/
-        KcX7KX9UXnIzm/ddJFU7Ofl3JFHA/+ca6FMF0mMR2cy7fckig+WrJ7vrUWehvz4nUIfBmKj11Kx/9
-        +k/4S6OhX3FHgiqHqIPraESMpNtXbrZn9PrNEtJJUI15BD0CBvViiL6e5D0tgkCEBSViY4SOhsQyy
-        s4Tt7Bbgw==;
-Received: from [179.95.10.161] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92 #3 (Red Hat Linux))
-        id 1i7mlP-0001bR-J2; Tue, 10 Sep 2019 20:29:23 +0000
-Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.2)
-        (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1i7mlM-0005mB-0g; Tue, 10 Sep 2019 17:29:20 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Colin Ian King <colin.king@canonical.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Thomas Gleixner <tglx@linutronix.de>
-Subject: [PATCH] media: cx231xx: fix unregister logic
-Date:   Tue, 10 Sep 2019 17:29:19 -0300
-Message-Id: <485f1467cc94907c8fd20188d673104b2b92ced7.1568147356.git.mchehab+samsung@kernel.org>
-X-Mailer: git-send-email 2.21.0
+        id S1726168AbfIJU7y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Sep 2019 16:59:54 -0400
+Received: from danelski.pl ([185.20.172.155]:16018 "EHLO danelski.pl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726121AbfIJU7y (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 10 Sep 2019 16:59:54 -0400
+Received: from vaio-debian (unknown [10.0.3.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by danelski.pl (Postfix) with ESMTPSA id 4F664682015E;
+        Tue, 10 Sep 2019 20:59:49 +0000 (UTC)
+Message-ID: <be4ea159656d26befe62da112a5caa6eecf0cdee.camel@danelski.pl>
+Subject: Re: [PATCH] media: em28xx: Add support for Magix Wideowandler 2
+From:   Dominik Danelski <dominik@danelski.pl>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Date:   Tue, 10 Sep 2019 22:59:49 +0200
+In-Reply-To: <20190901212746.2249-1-dominik@danelski.pl>
+References: <20190901212746.2249-1-dominik@danelski.pl>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -51,60 +33,73 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Right now, dev->users is not been decremented for VBI nodes,
-causing unregister to fail. Fix it.
+W dniu nie, 01.09.2019 o godzinie 23∶27 +0200, użytkownik Dominik Danelski napisał:
+> Add support for Magix Wideowandler 2 - analog USB capture card
+> 
+> Co-author: Cornelius Porosanu <cornelius591@gmail.com>
+> Signed-off-by: Dominik Danelski <dominik@danelski.pl>
+> ---
+>  drivers/media/usb/em28xx/em28xx-cards.c | 20 ++++++++++++++++++++
+>  drivers/media/usb/em28xx/em28xx.h       |  1 +
+>  2 files changed, 21 insertions(+)
+> 
+> diff --git a/drivers/media/usb/em28xx/em28xx-cards.c
+> b/drivers/media/usb/em28xx/em28xx-cards.c
+> index 1283c7ca9ad5..2faeb91c5afd 100644
+> --- a/drivers/media/usb/em28xx/em28xx-cards.c
+> +++ b/drivers/media/usb/em28xx/em28xx-cards.c
+> @@ -2487,6 +2487,24 @@ const struct em28xx_board em28xx_boards[] = {
+>  		.ir_codes      = RC_MAP_HAUPPAUGE,
+>  		.leds          = hauppauge_dualhd_leds,
+>  	},
+> +	/*
+> +	 * 1b80:e349 Magix USB Videowandler-2
+> +	 * (same chips as Honestech VIDBOX NW03)
+> +	 * Empia EM2860, Philips SAA7113, Empia EMP202, No Tuner
+> +	 */
+> +	[EM2861_BOARD_MAGIX_VIDEOWANDLER2] = {
+> +		.name                = "Magix USB Videowandler-2",
+> +		.tuner_type          = TUNER_ABSENT,
+> +		.decoder             = EM28XX_SAA711X,
+> +		.input               = { {
+> +			.type     = EM28XX_VMUX_COMPOSITE,
+> +			.vmux     = SAA7115_COMPOSITE0,
+> +			.amux     = EM28XX_AMUX_LINE_IN,
+> +		}, {
+> +			.type     = EM28XX_VMUX_SVIDEO,
+> +			.amux     = EM28XX_AMUX_LINE_IN,
+> +		} },
+> +	},
+>  };
+>  EXPORT_SYMBOL_GPL(em28xx_boards);
+>  
+> @@ -2696,6 +2714,8 @@ struct usb_device_id em28xx_id_table[] = {
+>  			.driver_info = EM28178_BOARD_PLEX_PX_BCUD },
+>  	{ USB_DEVICE(0xeb1a, 0x5051), /* Ion Video 2 PC MKII / Startech
+> svid2usb23 / Raygo R12-41373 */
+>  			.driver_info =
+> EM2860_BOARD_TVP5150_REFERENCE_DESIGN },
+> +	{ USB_DEVICE(0x1b80, 0xe349), /* Magix USB Videowandler-2 */
+> +		.driver_info = EM2861_BOARD_MAGIX_VIDEOWANDLER2 },
+>  	{ },
+>  };
+>  MODULE_DEVICE_TABLE(usb, em28xx_id_table);
+> diff --git a/drivers/media/usb/em28xx/em28xx.h
+> b/drivers/media/usb/em28xx/em28xx.h
+> index a551072e62ed..ef8f2729f7b8 100644
+> --- a/drivers/media/usb/em28xx/em28xx.h
+> +++ b/drivers/media/usb/em28xx/em28xx.h
+> @@ -149,6 +149,7 @@
+>  #define EM28174_BOARD_HAUPPAUGE_WINTV_DUALHD_01595 100
+>  #define EM2884_BOARD_TERRATEC_H6		  101
+>  #define EM2882_BOARD_ZOLID_HYBRID_TV_STICK		102
+> +#define EM2861_BOARD_MAGIX_VIDEOWANDLER2          103
+>  
+>  /* Limits minimum and default number of buffers */
+>  #define EM28XX_MIN_BUF 4
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
----
- drivers/media/usb/cx231xx/cx231xx-video.c | 25 +++++++++++++----------
- 1 file changed, 14 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/media/usb/cx231xx/cx231xx-video.c b/drivers/media/usb/cx231xx/cx231xx-video.c
-index 6d2f4da3a3fa..69abafaebbf3 100644
---- a/drivers/media/usb/cx231xx/cx231xx-video.c
-+++ b/drivers/media/usb/cx231xx/cx231xx-video.c
-@@ -1557,6 +1557,18 @@ static int cx231xx_close(struct file *filp)
- 
- 	_vb2_fop_release(filp, NULL);
- 
-+	if (--dev->users == 0) {
-+		/* Save some power by putting tuner to sleep */
-+		call_all(dev, tuner, standby);
-+
-+		/* do this before setting alternate! */
-+		if (dev->USE_ISO)
-+			cx231xx_uninit_isoc(dev);
-+		else
-+			cx231xx_uninit_bulk(dev);
-+		cx231xx_set_mode(dev, CX231XX_SUSPEND);
-+	}
-+
- 	/*
- 	 * To workaround error number=-71 on EP0 for VideoGrabber,
- 	 *	 need exclude following.
-@@ -1577,20 +1589,11 @@ static int cx231xx_close(struct file *filp)
- 		return 0;
- 	}
- 
--	if (--dev->users == 0) {
--		/* Save some power by putting tuner to sleep */
--		call_all(dev, tuner, standby);
--
--		/* do this before setting alternate! */
--		if (dev->USE_ISO)
--			cx231xx_uninit_isoc(dev);
--		else
--			cx231xx_uninit_bulk(dev);
--		cx231xx_set_mode(dev, CX231XX_SUSPEND);
--
-+	if (dev->users == 0) {
- 		/* set alternate 0 */
- 		cx231xx_set_alt_setting(dev, INDEX_VIDEO, 0);
- 	}
-+
- 	wake_up_interruptible(&dev->open);
- 	return 0;
- }
--- 
-2.21.0
+Hello,
+It's been 9 days now without any reponse. Do I need to change anything in my patch to have it accepted?
+Regards
+Dominik Danelski
 
