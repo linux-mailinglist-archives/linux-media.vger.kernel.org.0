@@ -2,85 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2043CAE7D4
-	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2019 12:18:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 993EAAE7DF
+	for <lists+linux-media@lfdr.de>; Tue, 10 Sep 2019 12:20:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393676AbfIJKSi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Sep 2019 06:18:38 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:40268 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729475AbfIJKSi (ORCPT
+        id S1728988AbfIJKUg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Sep 2019 06:20:36 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:47531 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728803AbfIJKUg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Sep 2019 06:18:38 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 8C97828C51D
-Message-ID: <255f22b1ddea5fa81104865769eec0fcb5617b36.camel@collabora.com>
-Subject: Re: [PATCH 03/12] media: hantro: Fix H264 motion vector buffer
- offset
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Jonas Karlman <jonas@kwiboo.se>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
+        Tue, 10 Sep 2019 06:20:36 -0400
+Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.pengutronix.de.)
+        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1i7dGE-0002HE-Vw; Tue, 10 Sep 2019 12:20:34 +0200
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     linux-media@vger.kernel.org
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Tomasz Figa <tfiga@chromium.org>,
         Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-rockchip@lists.infradead.org" 
-        <linux-rockchip@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Date:   Tue, 10 Sep 2019 11:18:34 +0100
-In-Reply-To: <HE1PR06MB40115337CD86C429EF24430CACBF0@HE1PR06MB4011.eurprd06.prod.outlook.com>
-References: <HE1PR06MB40117D0EE96E6FA638A04B78ACBF0@HE1PR06MB4011.eurprd06.prod.outlook.com>
-         <20190901124531.23645-1-jonas@kwiboo.se>
-         <HE1PR06MB40115337CD86C429EF24430CACBF0@HE1PR06MB4011.eurprd06.prod.outlook.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.30.5-1.1 
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        kernel@pengutronix.de
+Subject: [PATCH] media: uapi: h264: clarify V4L2_PIX_FMT_H264_SLICE format
+Date:   Tue, 10 Sep 2019 12:20:30 +0200
+Message-Id: <20190910102030.2236-1-p.zabel@pengutronix.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jonas,
+Document that the slice headers must be included for the benefit of
+decoders that parse them (partially) in hardware, and that the start
+code is optional. Add a link to the ITU-T Rec. H.264 specification
+section that describes the slice format.
 
-Thanks for fixing this, I'm happy we are reducing the amount
-of black magic here.
+Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+---
+ Documentation/media/uapi/v4l/pixfmt-compressed.rst | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-On Sun, 2019-09-01 at 12:45 +0000, Jonas Karlman wrote:
-> A decoded 8-bit 4:2:0 frame need memory for up to 448 macroblocks
-> and is laid out in memory as follow:
-> 
-> +-------------------+
-> > Y-plane   256 MBs |
-> +-------------------+
-> > UV-plane  128 MBs |
-> +-------------------+
-> > MV buffer  64 MBs |
-> +-------------------+
-> 
-> The motion vector buffer offset is currently correct for 4:2:0 because
-> the extra space for motion vectors is overallocated with an extra 64 MBs.
-> 
-> Wrong offset for both destination and motion vector buffer are used
-> for the bottom field of field encoded content, wrong offset is
-> also used for 4:0:0 (monochrome) content.
-> 
-> Fix this by always setting the motion vector address to the expected
-> 384 MBs offset for 4:2:0 and 256 MBs offset for 4:0:0 content.
-> 
-> Also use correct destination and motion vector buffer offset
-> for the bottom field of field encoded content.
-> 
-> While at it also extend the check for 4:0:0 (monochrome) to include an
-> additional check for High Profile (100).
-> 
-
-As with the scaling list, I believe it would make a lot of sense
-to document this in the driver itself.
-
-Thanks,
-Ezequiel
+diff --git a/Documentation/media/uapi/v4l/pixfmt-compressed.rst b/Documentation/media/uapi/v4l/pixfmt-compressed.rst
+index 292fdc116c77..55d8d690f22f 100644
+--- a/Documentation/media/uapi/v4l/pixfmt-compressed.rst
++++ b/Documentation/media/uapi/v4l/pixfmt-compressed.rst
+@@ -61,10 +61,10 @@ Compressed Formats
+ 
+       - ``V4L2_PIX_FMT_H264_SLICE``
+       - 'S264'
+-      - H264 parsed slice data, without the start code and as
+-	extracted from the H264 bitstream.  This format is adapted for
+-	stateless video decoders that implement an H264 pipeline
+-	(using the :ref:`mem2mem` and :ref:`media-request-api`).
++      - H264 parsed slice data, including slice headers, either with or
++	without the start code, as extracted from the H264 bitstream.
++	This format is adapted for stateless video decoders that implement an
++	H264 pipeline (using the :ref:`mem2mem` and :ref:`media-request-api`).
+ 	This pixelformat has two modifiers that must be set at least once
+ 	through the ``V4L2_CID_MPEG_VIDEO_H264_DECODE_MODE``
+         and ``V4L2_CID_MPEG_VIDEO_H264_START_CODE`` controls.
+@@ -80,6 +80,10 @@ Compressed Formats
+ 	appropriate number of macroblocks to decode a full
+ 	corresponding frame to the matching capture buffer.
+ 
++	The syntax for this format is documented in :ref:`h264`, section
++	7.3.2.8 "Slice layer without partitioning RBSP syntax" and the following
++	sections.
++
+ 	.. note::
+ 
+ 	   This format is not yet part of the public kernel API and it
+-- 
+2.20.1
 
