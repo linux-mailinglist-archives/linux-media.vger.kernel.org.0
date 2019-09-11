@@ -2,138 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B3C26AF8E8
-	for <lists+linux-media@lfdr.de>; Wed, 11 Sep 2019 11:29:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D927AF8FB
+	for <lists+linux-media@lfdr.de>; Wed, 11 Sep 2019 11:34:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727090AbfIKJ3v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Sep 2019 05:29:51 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:45798 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726842AbfIKJ3v (ORCPT
+        id S1727072AbfIKJeP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Sep 2019 05:34:15 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:9355 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726702AbfIKJeP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Sep 2019 05:29:51 -0400
-Received: by mail-lf1-f66.google.com with SMTP id r134so15855969lff.12
-        for <linux-media@vger.kernel.org>; Wed, 11 Sep 2019 02:29:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=+HbSvL2e9LJRsc7qJLTrafgy8tjNTtDuD0nsrSg6bW0=;
-        b=WRCXJamj6BAkjVsd6Yl4pJ5BTL6NFCdkx/fYdIZJA73nOceXxx7/8f5q1hxwG5FbIP
-         yOM19cHCiykRjhVO3ezQ8A01cYJCsrLY6UhnbT1789/2bVLaasNJIAOzXYDaRArsK2I9
-         2RUOwBGHnLbtr4GjwCQJ70Wh2ft3UvAirXl7LXBpbxHoM1zWr1wtn8jonIJfNvqOD0xL
-         AU7/8VzR9X8zR0xo0IcXLQbHOhk4RwtYtnIbAsgUl3bvB9ZZe+3+csGmQuSEtnB4mLY/
-         B6VIoGiVhK3ZDvLcGefco0tQxboTn8seumveae3K8UbaBRsR1TDjM6mi8Klc7aBPzW0S
-         Hb/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=+HbSvL2e9LJRsc7qJLTrafgy8tjNTtDuD0nsrSg6bW0=;
-        b=DZDrCu4fqZvmfwvqiwebumAdBAMLESV8laYXcBjncgbKNt2bdWzWONEBGaJGg8+GJh
-         GuDgLAPEk5SFwLUGHNmLqqDj/6FSSZA6Rd7aVHHlhIFJGVMvdmVpXnn2B88ndzpDsaSb
-         xD8DCuWbv875asXdpjWOsOzBtKgAJHIUVjqC5Yt36FtGgPH7LuI6H/fEgdJdbyBRZE4a
-         1r/cHtnYeU28QiJ7AToYg5cxBsTReFDfYu4F7b5FvVX9+FBOVlLV+S0zLonsHSEY5hvy
-         StaS6EHHfMjvgP8IDYXovjQsmFqf5wCFk5OXcup1SkSJ36DtjUEHnt55trXIr5ul3+yj
-         F4Hw==
-X-Gm-Message-State: APjAAAVHRTPOEdXMYLwOoClKAGkUJaQ4RStiMAsWjvPvrvYSCoknxZkK
-        JE+Yq8YfPKLfVSYHJs17dWzZ1Iw5Zfo=
-X-Google-Smtp-Source: APXvYqxVXa9bHq4a8OoOH/3V2nRX6Q3DjJTCbYCPKCL2dFqSEpPGXTa6ytRSwkx7CmhxQasSqJdaVg==
-X-Received: by 2002:ac2:50c5:: with SMTP id h5mr4769111lfm.105.1568194189299;
-        Wed, 11 Sep 2019 02:29:49 -0700 (PDT)
-Received: from [192.168.27.209] ([37.157.136.206])
-        by smtp.googlemail.com with ESMTPSA id i17sm4458821ljd.2.2019.09.11.02.29.48
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 11 Sep 2019 02:29:48 -0700 (PDT)
-Subject: Re: [PATCH] media: venus: core: Fix msm8996 frequency table
-To:     Loic Poulain <loic.poulain@linaro.org>, agross@kernel.org
-Cc:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org
-References: <1567591618-22467-1-git-send-email-loic.poulain@linaro.org>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <92275cdb-870e-8cfe-0b7d-1b35f1a2ff5a@linaro.org>
-Date:   Wed, 11 Sep 2019 12:29:46 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Wed, 11 Sep 2019 05:34:15 -0400
+X-UUID: dfa9b0760f1d4aca9203bd16b526293e-20190911
+X-UUID: dfa9b0760f1d4aca9203bd16b526293e-20190911
+Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw02.mediatek.com
+        (envelope-from <bibby.hsieh@mediatek.com>)
+        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+        with ESMTP id 803037160; Wed, 11 Sep 2019 17:34:09 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs02n1.mediatek.inc (172.21.101.77) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Wed, 11 Sep 2019 17:34:08 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Wed, 11 Sep 2019 17:34:08 +0800
+From:   Bibby Hsieh <bibby.hsieh@mediatek.com>
+To:     <hans.verkuil@cisco.com>,
+        <laurent.pinchart+renesas@ideasonboard.com>, <tfiga@chromium.org>,
+        <matthias.bgg@gmail.com>, <mchehab@kernel.org>
+CC:     <yuzhao@chromium.org>, <zwisler@chromium.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>, <Sean.Cheng@mediatek.com>,
+        <sj.huang@mediatek.com>, <christie.yu@mediatek.com>,
+        <holmes.chiou@mediatek.com>, <frederic.chen@mediatek.com>,
+        <Jerry-ch.Chen@mediatek.com>, <jungo.lin@mediatek.com>,
+        <Rynn.Wu@mediatek.com>, <linux-media@vger.kernel.org>,
+        <srv_heupstream@mediatek.com>, <devicetree@vger.kernel.org>,
+        <Daoyuan.Huang@mediatek.com>,
+        daoyuan huang <daoyuan.huang@mediatek.com>
+Subject: [RFC, v3, 0/4] media: mediatek: support mdp3 on mt8183 platform
+Date:   Wed, 11 Sep 2019 17:34:02 +0800
+Message-ID: <20190911093406.5688-1-bibby.hsieh@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-In-Reply-To: <1567591618-22467-1-git-send-email-loic.poulain@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-MTK:  N
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Loic,
+From: daoyuan huang <daoyuan.huang@mediatek.com>
 
-Thanks for the patch!
+Changes since v2:
+- modify code for review comment from Tomasz Figa & Alexandre Courbot
+- review comment from Rob Hering will offer code revision in v4, due to
+  it's related to device node modification, will need to modify code
+  architecture
 
-On 9/4/19 1:06 PM, Loic Poulain wrote:
-> In downstream driver, there are two frequency tables defined,
-> one for the encoder and one for the decoder:
-> 
-> /* Encoders /
-> <972000 490000000 0x55555555>, / 4k UHD @ 30 /
-> <489600 320000000 0x55555555>, / 1080p @ 60 /
-> <244800 150000000 0x55555555>, / 1080p @ 30 /
-> <108000 75000000 0x55555555>, / 720p @ 30 */
-> 
-> /* Decoders /
-> <1944000 490000000 0xffffffff>, / 4k UHD @ 60 /
-> < 972000 320000000 0xffffffff>, / 4k UHD @ 30 /
-> < 489600 150000000 0xffffffff>, / 1080p @ 60 /
-> < 244800 75000000 0xffffffff>; / 1080p @ 30 */
-> 
-> It shows that encoder always needs a higher clock than decoder.
-> 
-> In current venus driver, the unified frequency table is aligned
-> with the downstream decoder table which causes performance issues
-> in decoding scenarios. Fix that by aligning frequency table on
+Changes since v1:
+- modify code for CMDQ v3 API support
+- EC ipi cmd migration
+- fix compliance test fail item (m2m cmd with -f)
+due to there is two problem in runing all format(-f) cmd:
+1. out of memory before test complete
+        Due to capture buffer mmap (refcount + 1) after reqbuf but seems
+        no corresponding munmap called before device close.
+        There are total 12XX items(formats) in format test and each format
+        alloc 8 capture/output buffers.
+2. unceasingly captureBufs() (randomly)
+        Seems the break statement didn't catch the count == 0 situation:
+        In v4l2-test-buffers.cpp, function: captureBufs()
+                        ...
+                        count--;
+                        if (!node->is_m2m && !count)
+                                break;
+        Log is as attachment
 
-s/decoding scenarios/encoding scenarios
+I will paste the test result with problem part in another e-mail
 
-> worst case (encoding).
+Hi,
 
-Did you checked the exact rate from clk_summary? Checking the frequency
-table for subcore0|1 from mmcc-msm8996.c clock driver shows that the
-tables are slightly different for higher rates.
+This is the first version of RFC patch for Media Data Path 3 (MDP3),
+MDP3 is used for scaling and color format conversion.
+support using GCE to write register in critical time limitation.
+support V4L2 m2m device control.
 
-Otherwise, I'd take the patch but it would be better to align the
-frequency tables to avoid confusions.
+Ping-Hsun Wu (1):
+  dts: arm64: mt8183: Add Mediatek MDP3 nodes
 
-On the other side we can split freq table to encode and decode tables,
-but I'm still not sure is it possible to have:
-subcore0_freq != subcore1_freq.
+daoyuan huang (3):
+  dt-binding: mt8183: Add Mediatek MDP3 dt-bindings
+  media: platform: Add Mediatek MDP3 driver KConfig
+  media: platform: mtk-mdp3: Add Mediatek MDP3 driver
 
-> 
-> Signed-off-by: Loic Poulain <loic.poulain@linaro.org>
-> ---
->  drivers/media/platform/qcom/venus/core.c | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-> index 0acc757..1e80689 100644
-> --- a/drivers/media/platform/qcom/venus/core.c
-> +++ b/drivers/media/platform/qcom/venus/core.c
-> @@ -427,10 +427,11 @@ static const struct venus_resources msm8916_res = {
->  };
->  
->  static const struct freq_tbl msm8996_freq_table[] = {
-> -	{ 1944000, 490000000 },	/* 4k UHD @ 60 */
-> -	{  972000, 320000000 },	/* 4k UHD @ 30 */
-> -	{  489600, 150000000 },	/* 1080p @ 60 */
-> -	{  244800,  75000000 },	/* 1080p @ 30 */
-> +	{ 1944000, 490000000 },	/* 4k UHD @ 60 (decode only) */
-> +	{  972000, 490000000 },	/* 4k UHD @ 30 */
-> +	{  489600, 320000000 },	/* 1080p @ 60 */
-> +	{  244800, 150000000 },	/* 1080p @ 30 */
-> +	{  108000,  75000000 },	/* 720p @ 30 */
->  };
->  
->  static const struct reg_val msm8996_reg_preset[] = {
-> 
+ .../bindings/media/mediatek,mt8183-mdp3.txt   |  201 +++
+ arch/arm64/boot/dts/mediatek/mt8183.dtsi      |  137 ++
+ drivers/media/platform/Kconfig                |   19 +
+ drivers/media/platform/Makefile               |    1 +
+ drivers/media/platform/mtk-mdp3/Makefile      |    7 +
+ drivers/media/platform/mtk-mdp3/isp_reg.h     |   37 +
+ .../media/platform/mtk-mdp3/mdp-platform.h    |   58 +
+ .../media/platform/mtk-mdp3/mdp_reg_ccorr.h   |   75 +
+ .../media/platform/mtk-mdp3/mdp_reg_rdma.h    |  206 +++
+ drivers/media/platform/mtk-mdp3/mdp_reg_rsz.h |  109 ++
+ .../media/platform/mtk-mdp3/mdp_reg_wdma.h    |  125 ++
+ .../media/platform/mtk-mdp3/mdp_reg_wrot.h    |  115 ++
+ .../media/platform/mtk-mdp3/mmsys_config.h    |  188 +++
+ drivers/media/platform/mtk-mdp3/mmsys_mutex.h |   35 +
+ .../media/platform/mtk-mdp3/mmsys_reg_base.h  |   38 +
+ drivers/media/platform/mtk-mdp3/mtk-img-ipi.h |  270 ++++
+ .../media/platform/mtk-mdp3/mtk-mdp3-cmdq.c   |  504 +++++++
+ .../media/platform/mtk-mdp3/mtk-mdp3-cmdq.h   |   54 +
+ .../media/platform/mtk-mdp3/mtk-mdp3-comp.c   | 1328 +++++++++++++++++
+ .../media/platform/mtk-mdp3/mtk-mdp3-comp.h   |  155 ++
+ .../media/platform/mtk-mdp3/mtk-mdp3-core.c   |  277 ++++
+ .../media/platform/mtk-mdp3/mtk-mdp3-core.h   |   84 ++
+ .../media/platform/mtk-mdp3/mtk-mdp3-m2m.c    |  816 ++++++++++
+ .../media/platform/mtk-mdp3/mtk-mdp3-m2m.h    |   42 +
+ .../media/platform/mtk-mdp3/mtk-mdp3-regs.c   |  739 +++++++++
+ .../media/platform/mtk-mdp3/mtk-mdp3-regs.h   |  375 +++++
+ .../media/platform/mtk-mdp3/mtk-mdp3-vpu.c    |  313 ++++
+ .../media/platform/mtk-mdp3/mtk-mdp3-vpu.h    |   81 +
+ 28 files changed, 6389 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt8183-mdp3.txt
+ create mode 100644 drivers/media/platform/mtk-mdp3/Makefile
+ create mode 100644 drivers/media/platform/mtk-mdp3/isp_reg.h
+ create mode 100644 drivers/media/platform/mtk-mdp3/mdp-platform.h
+ create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_ccorr.h
+ create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_rdma.h
+ create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_rsz.h
+ create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_wdma.h
+ create mode 100644 drivers/media/platform/mtk-mdp3/mdp_reg_wrot.h
+ create mode 100644 drivers/media/platform/mtk-mdp3/mmsys_config.h
+ create mode 100644 drivers/media/platform/mtk-mdp3/mmsys_mutex.h
+ create mode 100644 drivers/media/platform/mtk-mdp3/mmsys_reg_base.h
+ create mode 100644 drivers/media/platform/mtk-mdp3/mtk-img-ipi.h
+ create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c
+ create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.h
+ create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.c
+ create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-comp.h
+ create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-core.c
+ create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-core.h
+ create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-m2m.c
+ create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-m2m.h
+ create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-regs.c
+ create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-regs.h
+ create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-vpu.c
+ create mode 100644 drivers/media/platform/mtk-mdp3/mtk-mdp3-vpu.h
 
 -- 
-regards,
-Stan
+2.18.0
+
