@@ -2,20 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F1C5BB04A3
-	for <lists+linux-media@lfdr.de>; Wed, 11 Sep 2019 21:49:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 902E0B04A5
+	for <lists+linux-media@lfdr.de>; Wed, 11 Sep 2019 21:49:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728845AbfIKTtJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Sep 2019 15:49:09 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:60076 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728395AbfIKTtI (ORCPT
+        id S1728854AbfIKTtm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Sep 2019 15:49:42 -0400
+Received: from mail-ed1-f51.google.com ([209.85.208.51]:46908 "EHLO
+        mail-ed1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728395AbfIKTtm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Sep 2019 15:49:08 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: nicolas)
-        with ESMTPSA id DBB1128D47A
-Message-ID: <20b4042dc3627b46e336e8c1c6fc401622bf3df9.camel@ndufresne.ca>
+        Wed, 11 Sep 2019 15:49:42 -0400
+Received: by mail-ed1-f51.google.com with SMTP id i8so21767691edn.13
+        for <linux-media@vger.kernel.org>; Wed, 11 Sep 2019 12:49:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version;
+        bh=v3mgNJx4oG3sOd0s0/8iNdeiQGEHPFmY0wcwefa76ac=;
+        b=Iw7ZAVq0XliGKL+EWtqH0rdNmLLCbg3UPsmQyGopj5KGDTEMrNkKBiGTL66WciZ08g
+         dFu6JtGz5RHbUWUPH85QeJJsOfkXw3QbAnsL6KjmQHe9bwoVU9UCSM3i6APX/3eX/JPh
+         VpkXEhOVqDEwqlqn8FNN59lZ/+cfhCmYIXZMYGlP5SwCdgdSbq2ssVk8U5PC56BaGSKQ
+         cR8A9Z4v3MiHZyQHT9ofeGTEJdzXpMhJZADeYELFxRkxAU4ko0jtDLhKek5RIkacJI33
+         93Ow04E/yn3uh/xuP8zZjOYrNZIee8E7+QTPp29Qyor31e3n2Svk8BFX7/rGjHKOx7A2
+         yGdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version;
+        bh=v3mgNJx4oG3sOd0s0/8iNdeiQGEHPFmY0wcwefa76ac=;
+        b=J0+DWVXidJ1WAHaJZDF/N+xCvGrv5TcBB4ZZk97c9HTXDNFdl+0KHhqtRGbgj1ZSFR
+         iHJw99mfVXTC0yxETtAsDkU1pTO2EornJhSFTsmWD0BhQtT8VZvsnkAQsf73mQZg2QdY
+         FH06Bfs5Gt1/lNf/2D3SD/c9JjayFL6+FPgiZAZEDEQH1DEk7Y+ZAX9SNHs1mDVTEsC2
+         aY1fjsz0aHXM7rDAp781VsHq1X/YPvrIqpOsyREFKru2E+46AkeTfwTIIx0wfXFULFwW
+         s7Eyx1rxzxKro05swqmZll471rBb5DwlsnNVVvKE05E1mIiFSPwD633EY+0EINHChm1q
+         vyHw==
+X-Gm-Message-State: APjAAAUO5KLmkD7TsO2xza1Akfxs62sXH6CWZ4WvEGPDHfBGu9baIPdr
+        EqF7An/VVpxATSekn1RqRtpaLxynzaGEMQ==
+X-Google-Smtp-Source: APXvYqwyvHcR4sCaGmFTbCVqN+AbRRwLHK9jU9Me2Ux6oKu2c1pYWT41ezAIZ4sUJIP99Cq5Dw/dKw==
+X-Received: by 2002:a17:906:3715:: with SMTP id d21mr30787397ejc.24.1568231380558;
+        Wed, 11 Sep 2019 12:49:40 -0700 (PDT)
+Received: from tpx230-nicolas.home ([86.85.109.110])
+        by smtp.gmail.com with ESMTPSA id a11sm4356622edf.73.2019.09.11.12.49.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Sep 2019 12:49:39 -0700 (PDT)
+Message-ID: <c7b62640ae0e57a9da0c6c5245b5454af08ad2a0.camel@ndufresne.ca>
 Subject: Re: [PATCH 0/4] Enable Hantro G1 post-processor
 From:   Nicolas Dufresne <nicolas@ndufresne.ca>
 To:     Ezequiel Garcia <ezequiel@collabora.com>,
@@ -28,22 +58,22 @@ Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Boris Brezillon <boris.brezillon@collabora.com>,
         Chris Healy <cphealy@gmail.com>
+Date:   Wed, 11 Sep 2019 15:49:38 -0400
 In-Reply-To: <6e493142690d48ee7e65c1cb2a4d6aec1e3b671b.camel@collabora.com>
 References: <20190903181711.7559-1-ezequiel@collabora.com>
          <CAAFQd5AdikoN+7TG=0ZGFkSzaK2UFHM4VG7SYtfUtmjQgD61zA@mail.gmail.com>
          <6e493142690d48ee7e65c1cb2a4d6aec1e3b671b.camel@collabora.com>
 Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature";
-        boundary="=-v1t+JGEHFAUPnEcHoFwA"
-MIME-Version: 1.0
-Date:   Wed, 11 Sep 2019 15:48:29 -0400
+        boundary="=-a9ozNFCk/x1M6OTkHF6F"
 User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
+MIME-Version: 1.0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---=-v1t+JGEHFAUPnEcHoFwA
+--=-a9ozNFCk/x1M6OTkHF6F
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -103,16 +133,17 @@ hint.
 > Ezequiel
 >=20
 
---=-v1t+JGEHFAUPnEcHoFwA
+--=-a9ozNFCk/x1M6OTkHF6F
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQSScpfJiL+hb5vvd45xUwItrAaoHAUCXXlPiQAKCRBxUwItrAao
-HII0AJ4pjy8CgdrB0H02TI6NAG3s7SUkWACffzXziQp0QiEe8fgzFulcgFS/XSU=
-=q71o
+iF0EABECAB0WIQSScpfJiL+hb5vvd45xUwItrAaoHAUCXXlP0gAKCRBxUwItrAao
+HNw+AKCQcVOG1SaxOGLL555nItsPa9cvMQCeK4EDSk7KrRai+IkgEBCyQDHa8Yo=
+=ffC4
 -----END PGP SIGNATURE-----
 
---=-v1t+JGEHFAUPnEcHoFwA--
+--=-a9ozNFCk/x1M6OTkHF6F--
 
