@@ -2,61 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B03BBB04CF
-	for <lists+linux-media@lfdr.de>; Wed, 11 Sep 2019 22:20:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 42977B04D9
+	for <lists+linux-media@lfdr.de>; Wed, 11 Sep 2019 22:26:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729188AbfIKUUa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Sep 2019 16:20:30 -0400
-Received: from mail-io1-f65.google.com ([209.85.166.65]:35456 "EHLO
+        id S1730523AbfIKU0O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Sep 2019 16:26:14 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:37942 "EHLO
         mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729054AbfIKUU3 (ORCPT
+        with ESMTP id S1729001AbfIKU0O (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Sep 2019 16:20:29 -0400
-Received: by mail-io1-f65.google.com with SMTP id f4so48266422ion.2;
-        Wed, 11 Sep 2019 13:20:29 -0700 (PDT)
+        Wed, 11 Sep 2019 16:26:14 -0400
+Received: by mail-io1-f65.google.com with SMTP id k5so23746799iol.5;
+        Wed, 11 Sep 2019 13:26:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id;
-        bh=iZ9ZspCWMcol1pKYB+J9B5Kr5gfoF9n9RCCNo2Mg9j4=;
-        b=OiZMhTYKjK+8rNX8ASHmW4fIP0MIrS7byHUvJDxmUzNmr6QpCDszI7ByTghyl5KXyv
-         GFGd1N9zzoRxRig0DpfCMWal2jDq+2nIwxWzY0RYJBLCxY36IM6rMTVHaOOoO2RBxrQ7
-         yPjQPOvd9ub0/qgC9ZR1hZgqoaOe3NGPAU0IaO4N5RuBdgeBAU6XM2XY/jyZkZ2/dyYH
-         6+As9UMIqdlxYc8IIrbAXqecaxNXCUYpE+MKvfLYtSTaN5Fo4h29Hvv27B5g8gWlIsWM
-         uePGOMb+t2F2WYJ6ymHPumKeTgJ2kTW1lv7KY+exUKSJYm6/l/RYmRMe4vBz+gWV2DgL
-         RZUQ==
+        bh=ry5hLNX1d0tX2Sbto+75KAiWlIHP1VB3CEPnkog+XmA=;
+        b=MkfYoycL5g0bbwtR2rEAFu67nBhW2JYmojWOMxdeePTFfu6VHDObm/4Fxwpe7sPect
+         z0s1yIhIr68nM6r47cW5JBmLZTAnEQ1FOJTro873qPNx4vD123OxcsAXX0w4Zk20rphl
+         SHd1FqqddDbbfhIAxGzfQAUK5plaQo8qh/qZbbYqZ0wDIW0GzpVZsnBQflLcCLT+S9HK
+         +ksXwz8wH0mO6w+P9lDOAiDNeFF4qcWZsxvNvaMJBdljYDd83QR9KSQKT1wALDS0gPjX
+         6BZ4M/C6S9CxbvkJvdKLToVYGO5EvhuHbHr973U+06arh0tWffUnLg4yoRGdt4UnYWRy
+         tVUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=iZ9ZspCWMcol1pKYB+J9B5Kr5gfoF9n9RCCNo2Mg9j4=;
-        b=KZy6Xsm4z573rwLNRVi350BvXqDrqXW4wRUzD+ZGJZf4CwUgiMFXfOu8w5i7WmYCZh
-         GgFwTa7+crU0M7Gmn5BIGNL2gblj2BYrEehz4Vx1bMuIx9NyiDA7mCun/+cUPXXwEZtF
-         dpmdFGXGOhiYyMs4ebk1FxFDmk/IvsUh/Li2UlBVHqEPaL4+y8gPJ0IXgNkLSAhXr9Dp
-         X1zD40eI8CDZVw+FyGYuGLQqmBx7szbdQFdgbh7G/qxYHkurqUPpjti06obNBKqY4H3Y
-         YhLDgfVzKgVOSQbQEzSgvv3B0eeFEB9Bg99Dr30Ev2tHoldBmWuBFRlQ7tXfxPrzSPBO
-         +abQ==
-X-Gm-Message-State: APjAAAVWr7vCKMlY/3sw6IKEb68hg3004Oqeyaf6XAAd2Z+5e3osGYzO
-        4D00xeMzTsut4uKfKjq9YOS+Z0dcrNs=
-X-Google-Smtp-Source: APXvYqz6kwA0HlBNs2udFzVW64nEXBbfaVgfCTnikbcqjJNuYOEolRHMh7yWphBvc/umsqxIuqPt1w==
-X-Received: by 2002:a02:2a87:: with SMTP id w129mr26432127jaw.41.1568233228997;
-        Wed, 11 Sep 2019 13:20:28 -0700 (PDT)
+        bh=ry5hLNX1d0tX2Sbto+75KAiWlIHP1VB3CEPnkog+XmA=;
+        b=uADRvGOf3umVD9wwYC90t8C8MBDn62dSZS/k/tadnzAg6zmlC+txbKeienwkqT0NTw
+         aBnLewTHW+mx4IWXq3fMQkUDIsmIEEPLR0bEKi5ZCdwruyPcjdNBZ0mqlxoE85sIlOeE
+         nUqGnvC/3+i18S8oc1EyXQEi+ftQbeC1/0k7Mb9XeShi8GubTcSxGT6cKYA98Hg9TKi+
+         Cgjw/pVQXDCWzdbZtIhtVX8mImQG3n3Hy+sD9On7AMmTNCf+S6UwDiAzGF3CV2QEcBik
+         3UbAj3zmQrLSFKYtaieu++EJScKCFmOhKo76orSCTNShtG55KBqMZtxZfap2cQBGWK1f
+         tgMA==
+X-Gm-Message-State: APjAAAWzYnm3YR9q2ZZGWkQVX02QV0MJg+Nkk+C1vFiTgz8s54XNSEFE
+        3CvJK5ObrM62lpjQxa125GA=
+X-Google-Smtp-Source: APXvYqwlo5pNy0gVHX7ssYwO+u4telVjGeapJYGI38KL7lLCP8a9EdfJPxFGjXTPPdh1c5G56lvoHQ==
+X-Received: by 2002:a6b:b445:: with SMTP id d66mr12103059iof.269.1568233573261;
+        Wed, 11 Sep 2019 13:26:13 -0700 (PDT)
 Received: from cs-dulles.cs.umn.edu (cs-dulles.cs.umn.edu. [128.101.35.54])
-        by smtp.googlemail.com with ESMTPSA id w22sm5366713ior.79.2019.09.11.13.20.28
+        by smtp.googlemail.com with ESMTPSA id q5sm14635474iob.65.2019.09.11.13.26.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Sep 2019 13:20:28 -0700 (PDT)
+        Wed, 11 Sep 2019 13:26:12 -0700 (PDT)
 From:   Navid Emamdoost <navid.emamdoost@gmail.com>
 Cc:     emamd001@umn.edu, smccaman@umn.edu, kjlu@umn.edu,
         Navid Emamdoost <navid.emamdoost@gmail.com>,
         Hans Verkuil <hverkuil@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Allison Randal <allison@lohutok.net>,
-        Jilayne Lovejoy <opensource@jilayne.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Steve Winslow <swinslow@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: gspca: null check create_singlethread_workqueue
-Date:   Wed, 11 Sep 2019 15:20:12 -0500
-Message-Id: <20190911202015.12431-1-navid.emamdoost@gmail.com>
+Subject: [PATCH] media: usb: null check create_singlethread_workqueue
+Date:   Wed, 11 Sep 2019 15:26:00 -0500
+Message-Id: <20190911202603.13689-1-navid.emamdoost@gmail.com>
 X-Mailer: git-send-email 2.17.1
 To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-media-owner@vger.kernel.org
@@ -64,19 +62,19 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In sd_start the return value of create_singlethread_workqueue needs
-null check.
+In sd_start return value of create_singlethread_workqueue needs null
+check.
 
 Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
 ---
- drivers/media/usb/gspca/sq905c.c | 3 +++
+ drivers/media/usb/gspca/sq905.c | 3 +++
  1 file changed, 3 insertions(+)
 
-diff --git a/drivers/media/usb/gspca/sq905c.c b/drivers/media/usb/gspca/sq905c.c
-index 3d7f6dcdd7a8..6ca947aef298 100644
---- a/drivers/media/usb/gspca/sq905c.c
-+++ b/drivers/media/usb/gspca/sq905c.c
-@@ -276,6 +276,9 @@ static int sd_start(struct gspca_dev *gspca_dev)
+diff --git a/drivers/media/usb/gspca/sq905.c b/drivers/media/usb/gspca/sq905.c
+index 863c485f4275..97799cfb832e 100644
+--- a/drivers/media/usb/gspca/sq905.c
++++ b/drivers/media/usb/gspca/sq905.c
+@@ -378,6 +378,9 @@ static int sd_start(struct gspca_dev *gspca_dev)
  	}
  	/* Start the workqueue function to do the streaming */
  	dev->work_thread = create_singlethread_workqueue(MODULE_NAME);
