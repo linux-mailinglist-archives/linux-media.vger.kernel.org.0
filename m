@@ -2,116 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 406E0AF685
-	for <lists+linux-media@lfdr.de>; Wed, 11 Sep 2019 09:14:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 14666AF7DD
+	for <lists+linux-media@lfdr.de>; Wed, 11 Sep 2019 10:27:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726794AbfIKHNC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Sep 2019 03:13:02 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:51433 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726781AbfIKHNC (ORCPT
+        id S1727151AbfIKI1W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Sep 2019 04:27:22 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:52926 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726735AbfIKI1W (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Sep 2019 03:13:02 -0400
-Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id 7woCiasig9b7T7woGikVQL; Wed, 11 Sep 2019 09:13:00 +0200
-Subject: Re: [PATCH v2] cec-compliance: system audio control
-To:     Jiunn Chang <c0d1n61at3@gmail.com>, linux-media@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-References: <20190909202030.82287-1-c0d1n61at3@gmail.com>
- <20190910193458.53210-2-c0d1n61at3@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <7daae43c-5d54-9cb9-25e4-2a130a3cb368@xs4all.nl>
-Date:   Wed, 11 Sep 2019 09:12:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Wed, 11 Sep 2019 04:27:22 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 47C1428DCE0
+Message-ID: <6e493142690d48ee7e65c1cb2a4d6aec1e3b671b.camel@collabora.com>
+Subject: Re: [PATCH 0/4] Enable Hantro G1 post-processor
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        kernel@collabora.com,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Chris Healy <cphealy@gmail.com>
+Date:   Wed, 11 Sep 2019 09:27:16 +0100
+In-Reply-To: <CAAFQd5AdikoN+7TG=0ZGFkSzaK2UFHM4VG7SYtfUtmjQgD61zA@mail.gmail.com>
+References: <20190903181711.7559-1-ezequiel@collabora.com>
+         <CAAFQd5AdikoN+7TG=0ZGFkSzaK2UFHM4VG7SYtfUtmjQgD61zA@mail.gmail.com>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-In-Reply-To: <20190910193458.53210-2-c0d1n61at3@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfItKlAVwwpd5oE800jDhBF9A0S2BZlS3NoFrQvsTZCIAR50shaoZhxen7eW2blphOPksghnNPnFiqL2ogX2Eu8aDE28Q2IY0eS8TuRWf65ZgCq4LP0yk
- fDAp13/7G0NVA8gdun0ooG5vWX0fwRK309Tq9GzIjv9SWCcblDrNYNiJeZasCGt1wqkmTcuWWSc/CSo3i3KmhK/074EvkCBpI+i66zOZTiO2TYi0/bis6GX4
- gWvieGzbK5cqgiIaRZnpGcX7AQJxceJuX7NJNlA4z2I=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jiunn,
-
-A few nitpicks below:
-
-On 9/10/19 9:34 PM, Jiunn Chang wrote:
-> Add comment block documenting tests not included from section 13.15 of
-> the CEC 1.4b specification.  This section outlines the System Audio
-> Control feature.
+On Mon, 2019-09-09 at 16:07 +0900, Tomasz Figa wrote:
+> Hi Ezequiel,
 > 
-> Signed-off-by: Jiunn Chang <c0d1n61at3@gmail.com>
-> ---
->  utils/cec-compliance/cec-test-audio.cpp | 29 +++++++++++++++++++++++++
->  1 file changed, 29 insertions(+)
+> On Wed, Sep 4, 2019 at 3:17 AM Ezequiel Garcia <ezequiel@collabora.com> wrote:
+> > Hi all,
+> > 
+> > This series enables the post-processor support available
+> > on the Hantro G1 VPU. The post-processor block can be
+> > pipelined with the decoder hardware, allowing to perform
+> > operations such as color conversion, scaling, rotation,
+> > cropping, among others.
+> > 
+> > The decoder hardware needs its own set of NV12 buffers
+> > (the native decoder format), and the post-processor is the
+> > owner of the CAPTURE buffers. This allows the application
+> > get processed (scaled, converted, etc) buffers, completely
+> > transparently.
+> > 
+> > This feature is implemented by exposing other CAPTURE pixel
+> > formats to the application (ENUM_FMT). When the application
+> > sets a pixel format other than NV12, the driver will enable
+> > and use the post-processor transparently.
 > 
-> diff --git a/utils/cec-compliance/cec-test-audio.cpp b/utils/cec-compliance/cec-test-audio.cpp
-> index 2bc24daf..14f1d122 100644
-> --- a/utils/cec-compliance/cec-test-audio.cpp
-> +++ b/utils/cec-compliance/cec-test-audio.cpp
-> @@ -309,6 +309,35 @@ const unsigned arc_subtests_size = ARRAY_SIZE(arc_subtests);
->  
->  /* System Audio Control */
->  
-> +/*
-> + * The following scenarios are defined in section 13.15 of the CEC 1.4b
-
-It's CEC 1.4, not 1.4b. The version number refers to the corresponding HDMI
-specification that first defined this CEC version, which was HDMI 1.4. Later
-small HDMI updates were releases (1.4a and 1.4b), but the CEC spec remained
-unchanged. So CEC 1.4 is the right CEC version number to use, and it applies
-to HDMI 1.4, 1.4a and 1.4b.
-
-So replace 1.4b in this comment block with 1.4.
-
-> + * specification where the amplifier provides the audio for a source that
-> + * is being displayed on a TV.
-> + *
-> + * 1.  Amplifier initiated <System Audio Mode Request> and active source
-> + *     discovery with a <Request Active Source> broadcast plus the
-> + *     <Active Source> response.
-> + * 2.  Post discovery, subsequent amplifier <Set System Audio Mode> [On]
-> + *     and System Audio Control feature confirmation with TV.
-> + * 3.  Amplifier broadcasts <Set System Audio Mode> [On] to mute the TV and
-> + *     unmute amplifier.
-> + * 4.  Amplifier broadcasts <Set System Audio Mode> [Off] to unmute the TV
-> + *     and mute the amplifier.
-> + * 5.  When System Audio Mode is On, muting and unmuting an amplifier sends
-> + *     a <Report Audio Status> message to the TV.
-> + * 6.  When System Audio Mode is On, the amplifier sends a <Set System Audio
-> + *     Mode> [Off] to unmute the TV before going into standby.
-> + * 7.  When System Audio Mode is On, only the amplifier can control system
-> + *     volume.
-> + * 8.  Optional features in subsection 13.15.4 of version 1.4b.
-> + * 9.  <Request Audio Descriptor> message is from version 1.4 so older versions
-> + *     report <Feature Abort>.
-> + * 10. <Report Audio Descriptor> message is from version 1.4 so older versions
-> + *     report <Feature Abort>.
-> + * 11. System Audio Control is from version 1.3a so older versions report
-> + *     <Feature Abort>.
-
-I would like to see that the reason why these scenarios are not implemented is
-added as well.
-
-For 1-7 I think that is because you need three CEC devices for testing.
-9-11 deal with 1.3a or older versions and is not worth spending time on.
-8 is because these are hard-to-test corner cases.
-
-Regards,
-
-	Hans
-
-> + */
-> +
->  static int sac_request_sad_probe(struct node *node, unsigned me, unsigned la, bool interactive)
->  {
->  	struct cec_msg msg = {};
+> I'll try to review the series a bit later, but a general comment here
+> is that the userspace wouldn't have a way to distinguish between the
+> native and post-processed formats. I'm pretty much sure that
+> post-processing at least imposes some power penalty, so it would be
+> good if the userspace could avoid it if unnecessary.
 > 
+
+Hm, that's true, good catch.
+
+So, it would be desirable to retain the current behavior of allowing
+the application to just set a different pixel format and get
+a post-processed frame, transparently.
+
+But at the same time, it would be nice if the application is somehow
+aware of the post-processing happening. Maybe we can expose a more
+accurate media controller topology, have applications enable
+the post-processing pipeline explicitly.
+
+Thanks for the feedback,
+Ezequiel
 
