@@ -2,144 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 179E4B0FAC
-	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2019 15:16:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87FA3B0FB0
+	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2019 15:18:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731787AbfILNQR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Sep 2019 09:16:17 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:54922 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731283AbfILNQQ (ORCPT
+        id S1731820AbfILNSA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Sep 2019 09:18:00 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:38149 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1731667AbfILNSA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Sep 2019 09:16:16 -0400
-Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3D0B733A;
-        Thu, 12 Sep 2019 15:16:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1568294174;
-        bh=J3PkXneUXKLjKHLbq/NzUYT9IENNUFu8JpFkfdsiTK4=;
-        h=Subject:To:References:Reply-To:From:Date:In-Reply-To:From;
-        b=vq77JYSuvebjRh1n3TCacav4fEMtjKcRxBIaIMEbBP50u9RuHRkvp/GsjFusKxEZ8
-         VbKyYKlFrWosh0RnC8dpCWfaSOUmP3bA7/Exyq8gS6Q2S60++AMWgAoRvtWRLtJRAo
-         WPCZIwqHsMpwiFGFKbX8Ybme8rOZpPmVpqJx21Ho=
-Subject: Re: [RFC] V4L2 & Metadata: switch to /dev/v4l-metaX instead of
- /dev/videoX
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-References: <f26a4eb0-7009-a25f-29bc-3a292d2d79e1@xs4all.nl>
-Reply-To: kieran.bingham@ideasonboard.com
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
- 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
-Organization: Ideas on Board
-Message-ID: <60769f0c-506c-4057-00ce-f4c8620441c5@ideasonboard.com>
-Date:   Thu, 12 Sep 2019 14:16:11 +0100
+        Thu, 12 Sep 2019 09:18:00 -0400
+Received: from [IPv6:2001:420:44c1:2577:24f7:5447:c5bf:b985] ([IPv6:2001:420:44c1:2577:24f7:5447:c5bf:b985])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id 8OywiQ0FVV17O8Oz0iypA2; Thu, 12 Sep 2019 15:17:58 +0200
+Subject: Re: [PATCH 6/6] smiapp: Avoid fall-through in switch
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org
+References: <20190819124728.10511-1-sakari.ailus@linux.intel.com>
+ <20190819124728.10511-7-sakari.ailus@linux.intel.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <74b049a8-9f03-c7c0-94db-0a1e5db4d07a@xs4all.nl>
+Date:   Thu, 12 Sep 2019 15:17:54 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <f26a4eb0-7009-a25f-29bc-3a292d2d79e1@xs4all.nl>
+In-Reply-To: <20190819124728.10511-7-sakari.ailus@linux.intel.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfJxfwB4KgOut3MSNlmck5iem9KJ+d/zLFlS7dvGNa7rGA7rg39SQ42J+DmosxoI/L6g5nQ0WzHYDpsnD/qNM8ZIp8aRYL51yECZcQaVPLCgt8I2iKv4L
+ ZuMJlzPwaGnAv5jaxDK+EVotCLePzTyDvtV0sBOOace8wKQMpcK5WQZ+qV6Un5Jl3Yub6P2RDo4LVuC72g2m8oYXzF5hP5Om4545LBVAHtcxIx1No6i+WcBa
+ PidS7vQzAyEouw/fzjT5PSknaXDaFrQ+dUBWoEzCJTgbAzzcUIqeTJICEokovIEIzcdZyRcREAnCDYWvUXDaqKJyJ1T7/5XIQ1AJNdgPpdA=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
-
-On 12/09/2019 08:48, Hans Verkuil wrote:
-> Hi all,
+On 8/19/19 2:47 PM, Sakari Ailus wrote:
+> Remove switch fall-through cases in the driver.
 > 
-> I am increasingly unhappy about the choice of /dev/videoX for metadata devices.
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  drivers/media/i2c/smiapp/smiapp-core.c | 11 +++++------
+>  1 file changed, 5 insertions(+), 6 deletions(-)
 > 
-> It is confusing for end-users (especially w.r.t. the common uvc driver) and
-> if we want to change this, then we need to do it soon.
+> diff --git a/drivers/media/i2c/smiapp/smiapp-core.c b/drivers/media/i2c/smiapp/smiapp-core.c
+> index 76d7d204ec17..61de8cdccc4b 100644
+> --- a/drivers/media/i2c/smiapp/smiapp-core.c
+> +++ b/drivers/media/i2c/smiapp/smiapp-core.c
+> @@ -1674,13 +1674,12 @@ static void smiapp_propagate(struct v4l2_subdev *subdev,
+>  				sensor->binning_vertical = 1;
+>  			}
+>  		}
+> -		/* Fall through */
+> -	case V4L2_SEL_TGT_COMPOSE:
+
+This doesn't look right: for this target you now enter the default case.
+
+You probably want to do:
+
+		break;
+	case V4L2_SEL_TGT_COMPOSE:
+		break;
+
+Regards,
+
+	Hans
+
+> -		*crops[SMIAPP_PAD_SRC] = *comp;
+>  		break;
+>  	default:
+> -		BUG();
+> +		WARN_ON(1);
+> +		return;
+>  	}
+> +	*crops[SMIAPP_PAD_SRC] = *comp;
+>  }
+>  
+>  static const struct smiapp_csi_data_format
+> @@ -2062,7 +2061,7 @@ static int __smiapp_sel_supported(struct v4l2_subdev *subdev,
+>  		    && sensor->limits[SMIAPP_LIMIT_SCALING_CAPABILITY]
+>  		    != SMIAPP_SCALING_CAPABILITY_NONE)
+>  			return 0;
+> -		/* Fall through */
+> +		return -EINVAL;
+>  	default:
+>  		return -EINVAL;
+>  	}
+> @@ -2716,7 +2715,7 @@ static struct smiapp_hwconfig *smiapp_get_hwconfig(struct device *dev)
+>  		case 180:
+>  			hwcfg->module_board_orient =
+>  				SMIAPP_MODULE_BOARD_ORIENT_180;
+> -			/* Fall through */
+> +			break;
+>  		case 0:
+>  			break;
+>  		default:
 > 
-> This patch https://patchwork.linuxtv.org/patch/58693/ adds a new VFL_TYPE_METADATA
-> so at least drivers can now explicitly signal that they want to register a
-> metadata device.
-> 
-> This also makes it possible to add a kernel config option that allows you
-> to select whether you want metadata devices to appear as videoX or v4l-metaX.
-> I would prefer to set it to v4l-metaX by default.
 
-I think I prefer this separation (v4l-metaX).
-
-Having metadata as a (separate) videoX seemed odd to me - but I only
-saw/was affected by the metadata topics when it was too late it seemed ...
-
-
-> We can also consider backporting this to the stable/long-term kernels.
-> 
-> Metadata capture was introduced in 4.12 for the vsp1 driver, in 4.16 for the
-> uvc driver and in 5.0 for the staging ipu3 driver.
-> 
-> Does someone remember the reason why we picked /dev/videoX for this in the
-> first place?
-
-I've wondered why it's not a separate queue on the same video device -
-much like we have multiple queues for V4L2-M2M devices ....
-
-The data is relative to the same frames coming from the main queue right ?
-
-That might have been awkward to express through our device type flags
-though.
-
-Anyway, I thought the horse had bolted on this topic ?
-
- :-D
-
-
-> Regards,
-> 
-> 	Hans
-> 
-
-
--- 
-Regards
---
-Kieran
