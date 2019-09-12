@@ -2,87 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F76AB0A58
-	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2019 10:30:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 503DAB0D3B
+	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2019 12:52:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730359AbfILIaN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Sep 2019 04:30:13 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:37578 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730301AbfILIaM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Sep 2019 04:30:12 -0400
-Received: by mail-wm1-f67.google.com with SMTP id r195so6553058wme.2
-        for <linux-media@vger.kernel.org>; Thu, 12 Sep 2019 01:30:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=G0a6gblQbbIzUwDe3eeqwGYgG4v78FyPDrriBQXOIMg=;
-        b=tJMDrj6f2iMOjPqxETkZTNFQt3wxOi25KfpL8VfuTphKT3MsMVg96UL1KShQ5pTS8+
-         q3mP3dBQ9h3eFZ3/2yLU1vRznguNjf8aMxVssv6wBYKmXRGyUXOUc/tujufkl1n0RuiX
-         mW8d34Eq1lfVt6EVEKNadBFBmRhDrOBbkgYCCE6oCi3u9RqBwJxxtJPR1LACJeCalPgg
-         wSUxyqqnVxqlVaVjtspdKw2kYp0VdKZYNL1lh2/GTYxcTh2LN4ELZjOBQFzDPT455N7O
-         n0AM5TdKAokqzdVNKQWf3qcZXh4Jf0e/qE3goSfD+Moke/v69hdaVJOpupMc5mdLYoZO
-         /WgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=G0a6gblQbbIzUwDe3eeqwGYgG4v78FyPDrriBQXOIMg=;
-        b=dRnzaWR5hWq/Rf0q3AZAIHFCgkCDYXcvlpq6nfG9bxX0NcnqpMNK0GXY2RvlnLwG0G
-         PvLS21vO+9E2ZFUnZ8c9yeBzir3L86cZ5vAQ7n6AHLcra/FbVKcuVJ7ZxbXSCzZArOiu
-         vhtnjvVGEnzAKvADwl5FBWRRPo9A15RR8vmj30zpuxnQTRhZTHVrgxLbOKtErD9kK1rP
-         46l2Zh5x/+/tRCA7Bl4uu07rrr29OCDwadH9MieTgmtWAAct1aTU7QV3dGT8spMCCQ3k
-         Vj+TdAYi2ihIG59wtjBv8SbsMM58sw9JzMf4SI2m8awkBBqsdwdovpj+6pYddUFBGY11
-         HBUQ==
-X-Gm-Message-State: APjAAAVX2farSADtukplUxs6NBwIkVQ65P3j8pZTYeQE3X1whpcY8TgZ
-        d2fii8uLZIKPpcHYjkcz0mmT4lZuJj4=
-X-Google-Smtp-Source: APXvYqzb8A6UO67zAzYjMyYvpUXZjEFSjFv61OtlUPan0vt5nW+c8PXOHLOTVfucxaiLVGANwjXyQQ==
-X-Received: by 2002:a1c:9988:: with SMTP id b130mr7735411wme.164.1568277010827;
-        Thu, 12 Sep 2019 01:30:10 -0700 (PDT)
-Received: from mms-0440.qualcomm.mm-sol.com ([37.157.136.206])
-        by smtp.gmail.com with ESMTPSA id 189sm7100877wmz.19.2019.09.12.01.30.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Sep 2019 01:30:10 -0700 (PDT)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org
-Cc:     Vikash Garodia <vgarodia@codeaurora.org>,
-        Andy Gross <agross@kernel.org>,
-        Georgi Djakov <georgi.djakov@linaro.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: [PATCH v2 2/2] arm64: dts: sdm845: Add interconnect properties for Venus
-Date:   Thu, 12 Sep 2019 11:29:48 +0300
-Message-Id: <20190912082948.22836-3-stanimir.varbanov@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190912082948.22836-1-stanimir.varbanov@linaro.org>
-References: <20190912082948.22836-1-stanimir.varbanov@linaro.org>
+        id S1731223AbfILKwL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Sep 2019 06:52:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53796 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731218AbfILKwK (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 12 Sep 2019 06:52:10 -0400
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id BFFF120678;
+        Thu, 12 Sep 2019 10:52:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1568285530;
+        bh=KwCFUpMIc51ZQrrZ5Pst1c2DVUJ0KQNPr8Z6qMKPklU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=rrXMs1RPO5chWrIQHFdlo0bkhKko9dN1mWrYY0X7IgyV6kCNjjrygyFhEJoqYT1NX
+         zoiYMCJbjwU0Mno2RD3gY3jWUwsc+1JAMNOqdLO/JNBoXMxqY7gvgV1lNGaLF/9ccm
+         VY7s3QxxKMlrj7jlVlNZBlsGB72iV3KnshqPJ39Y=
+Received: by mail-lj1-f174.google.com with SMTP id a4so23113962ljk.8;
+        Thu, 12 Sep 2019 03:52:09 -0700 (PDT)
+X-Gm-Message-State: APjAAAWF0BmoecmEW61i0PZt77MO2MLxvDCnX75C7vStQaWKOe6+HFcL
+        da7JWpNhmKswX2T2MEbT5J/8CsRVuD4hR2e8FFw=
+X-Google-Smtp-Source: APXvYqyG6/tcsqsyfqRFRqXPK0ImcChBAEVnerDWxcFFeR78703ENdInutO0ecRhHphfVeVW+Ne3WyEnFhUHga+b1O4=
+X-Received: by 2002:a2e:b167:: with SMTP id a7mr26718879ljm.236.1568285527962;
+ Thu, 12 Sep 2019 03:52:07 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190823123737.7774-1-ribalda@kernel.org> <20190823123737.7774-3-ribalda@kernel.org>
+ <20190826074059.bby3k6vr25axfbqc@uno.localdomain>
+In-Reply-To: <20190826074059.bby3k6vr25axfbqc@uno.localdomain>
+From:   Ricardo Ribalda Delgado <ribalda@kernel.org>
+Date:   Thu, 12 Sep 2019 12:51:51 +0200
+X-Gmail-Original-Message-ID: <CAPybu_290wASRs+LLLNup-MYb3W35Zj7W3_qBZSKYJrZCKUJ+g@mail.gmail.com>
+Message-ID: <CAPybu_290wASRs+LLLNup-MYb3W35Zj7W3_qBZSKYJrZCKUJ+g@mail.gmail.com>
+Subject: Re: [PATCH v3 3/7] Documentation: media: Document V4L2_CTRL_TYPE_AREA
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Populate Venus DT node with interconnect properties.
+HI Jacopo
 
-Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
----
- arch/arm64/boot/dts/qcom/sdm845.dtsi | 3 +++
- 1 file changed, 3 insertions(+)
+(Sorry for the late reply, I have been in holidays plus with plenty of
+family matters)
 
-diff --git a/arch/arm64/boot/dts/qcom/sdm845.dtsi b/arch/arm64/boot/dts/qcom/sdm845.dtsi
-index 0323e3da190a..567bfc89bd77 100644
---- a/arch/arm64/boot/dts/qcom/sdm845.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sdm845.dtsi
-@@ -2039,6 +2039,9 @@
- 			iommus = <&apps_smmu 0x10a0 0x8>,
- 				 <&apps_smmu 0x10b0 0x0>;
- 			memory-region = <&venus_mem>;
-+			interconnects = <&rsc_hlos MASTER_VIDEO_P0 &rsc_hlos SLAVE_EBI1>,
-+					<&rsc_hlos MASTER_APPSS_PROC &rsc_hlos SLAVE_VENUS_CFG>;
-+			interconnect-names = "video-mem", "cpu-cfg";
- 
- 			video-core0 {
- 				compatible = "venus-decoder";
--- 
-2.17.1
+On Mon, Aug 26, 2019 at 9:39 AM Jacopo Mondi <jacopo@jmondi.org> wrote:
+>
+> Hi Ricardo,
+>
+> On Fri, Aug 23, 2019 at 02:37:33PM +0200, Ricardo Ribalda Delgado wrote:
+> > A struct v4l2_area containing the width and the height of a rectangular
+> > area.
+> >
+> > Signed-off-by: Ricardo Ribalda Delgado <ribalda@kernel.org>
+> > Suggested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> > ---
+> >  Documentation/media/uapi/v4l/vidioc-queryctrl.rst | 6 ++++++
+> >  1 file changed, 6 insertions(+)
+> >
+> > diff --git a/Documentation/media/uapi/v4l/vidioc-queryctrl.rst b/Documentation/media/uapi/v4l/vidioc-queryctrl.rst
+> > index a3d56ffbf4cc..c09d06ef2b08 100644
+> > --- a/Documentation/media/uapi/v4l/vidioc-queryctrl.rst
+> > +++ b/Documentation/media/uapi/v4l/vidioc-queryctrl.rst
+> > @@ -443,6 +443,12 @@ See also the examples in :ref:`control`.
+> >        - n/a
+> >        - A struct :c:type:`v4l2_ctrl_mpeg2_quantization`, containing MPEG-2
+> >       quantization matrices for stateless video decoders.
+> > +    * - ``V4L2_CTRL_TYPE_AREA``
+> > +      - n/a
+>
+> Can an area be negative ?
+> I would set these fields to ">= 0" ">= 1" and ">= 0" respectively.
+>
 
+Dont min, max and step only make sense for integer controls?
+
+> Thanks
+>    j
+>
+> > +      - n/a
+> > +      - n/a
+> > +      - A struct :c:type:`v4l2_area`, containing the width and the height
+> > +        of a rectangular area.
+> >      * - ``V4L2_CTRL_TYPE_H264_SPS``
+> >        - n/a
+> >        - n/a
+> > --
+> > 2.23.0.rc1
+> >
