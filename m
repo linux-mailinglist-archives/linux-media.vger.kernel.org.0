@@ -2,132 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7988BB0FA0
-	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2019 15:11:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 179E4B0FAC
+	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2019 15:16:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731760AbfILNLd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Sep 2019 09:11:33 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:44421 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731687AbfILNLd (ORCPT
+        id S1731787AbfILNQR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Sep 2019 09:16:17 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:54922 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731283AbfILNQQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Sep 2019 09:11:33 -0400
-Received: from [IPv6:2001:420:44c1:2577:24f7:5447:c5bf:b985] ([IPv6:2001:420:44c1:2577:24f7:5447:c5bf:b985])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id 8OshiPxuRV17O8Osliynaa; Thu, 12 Sep 2019 15:11:31 +0200
-Subject: Re: [PATCH 2/6] v4l: subdev: Provide a locking scheme for subdev
- operations
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-References: <20190819124728.10511-1-sakari.ailus@linux.intel.com>
- <20190819124728.10511-3-sakari.ailus@linux.intel.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <cec240cb-daf7-fc68-6578-44be011720ba@xs4all.nl>
-Date:   Thu, 12 Sep 2019 15:11:27 +0200
+        Thu, 12 Sep 2019 09:16:16 -0400
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3D0B733A;
+        Thu, 12 Sep 2019 15:16:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1568294174;
+        bh=J3PkXneUXKLjKHLbq/NzUYT9IENNUFu8JpFkfdsiTK4=;
+        h=Subject:To:References:Reply-To:From:Date:In-Reply-To:From;
+        b=vq77JYSuvebjRh1n3TCacav4fEMtjKcRxBIaIMEbBP50u9RuHRkvp/GsjFusKxEZ8
+         VbKyYKlFrWosh0RnC8dpCWfaSOUmP3bA7/Exyq8gS6Q2S60++AMWgAoRvtWRLtJRAo
+         WPCZIwqHsMpwiFGFKbX8Ybme8rOZpPmVpqJx21Ho=
+Subject: Re: [RFC] V4L2 & Metadata: switch to /dev/v4l-metaX instead of
+ /dev/videoX
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+References: <f26a4eb0-7009-a25f-29bc-3a292d2d79e1@xs4all.nl>
+Reply-To: kieran.bingham@ideasonboard.com
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
+ 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
+Organization: Ideas on Board
+Message-ID: <60769f0c-506c-4057-00ce-f4c8620441c5@ideasonboard.com>
+Date:   Thu, 12 Sep 2019 14:16:11 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190819124728.10511-3-sakari.ailus@linux.intel.com>
+In-Reply-To: <f26a4eb0-7009-a25f-29bc-3a292d2d79e1@xs4all.nl>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfFxj/ANGi67tSyEL/xpX1h5eByInALIFLJJsxmuqC93pDsJBk0/abyQWXeJ/lNTYDa0o+1mzAdkuJdeKmd2ScSjIwEmmfy0DB7pDTAoGlsEQyVPmXay4
- 2aIgJ688NzMfeIi98HvGf8Z6039+oSahqrPUeeXdjiZwHLp2h2tlVwlUFKM77jZDwSQI39OHihOcGrY3ENJ7ebxSNMIkPjSty++4Hr5M39abSpGU76H7LXba
- ddpGQp4RXlagnrlLtUfnXzzXfsh3e/KAiAktM/7vz/1dQx9VnQdkPC5rq7k9JO0ghZZtNdgRh8Aoq4Fu5qKHCdtEGjaFiFByHvxdS/hnOY4=
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 8/19/19 2:47 PM, Sakari Ailus wrote:
-> The V4L2 sub-device's operations are called both from other drivers as
-> well as through the IOCTL uAPI. Previously the sub-device drivers were
-> responsible for managing their own serialisation. This patch adds an
-> optional mutex the drivers may set, and it will be used to serialise
-> access to driver's data related to a device across the driver's ops.
-> 
-> Access to the driver's controls through the control framework works as
-> usual, i.e. using a different mutex.
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  include/media/v4l2-subdev.h | 25 +++++++++++++++++--------
->  1 file changed, 17 insertions(+), 8 deletions(-)
-> 
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index 71f1f2f0da53..dc6e11019df6 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -9,6 +9,7 @@
->  #define _V4L2_SUBDEV_H
->  
->  #include <linux/types.h>
-> +#include <linux/mutex.h>
->  #include <linux/v4l2-subdev.h>
->  #include <media/media-entity.h>
->  #include <media/v4l2-async.h>
-> @@ -828,6 +829,7 @@ struct v4l2_subdev_platform_data {
->   * @host_priv: pointer to private data used by the device where the subdev
->   *	is attached.
->   * @devnode: subdev device node
-> + * @lock: A mutex for serialising access to the subdev's operations. Optional.
+Hi Hans,
 
-A pointer to a mutex...
+On 12/09/2019 08:48, Hans Verkuil wrote:
+> Hi all,
+> 
+> I am increasingly unhappy about the choice of /dev/videoX for metadata devices.
+> 
+> It is confusing for end-users (especially w.r.t. the common uvc driver) and
+> if we want to change this, then we need to do it soon.
+> 
+> This patch https://patchwork.linuxtv.org/patch/58693/ adds a new VFL_TYPE_METADATA
+> so at least drivers can now explicitly signal that they want to register a
+> metadata device.
+> 
+> This also makes it possible to add a kernel config option that allows you
+> to select whether you want metadata devices to appear as videoX or v4l-metaX.
+> I would prefer to set it to v4l-metaX by default.
 
->   * @dev: pointer to the physical device, if any
->   * @fwnode: The fwnode_handle of the subdev, usually the same as
->   *	    either dev->of_node->fwnode or dev->fwnode (whichever is non-NULL).
-> @@ -862,6 +864,7 @@ struct v4l2_subdev {
->  	void *dev_priv;
->  	void *host_priv;
->  	struct video_device *devnode;
-> +	struct mutex *lock;
->  	struct device *dev;
->  	struct fwnode_handle *fwnode;
->  	struct list_head async_list;
-> @@ -1101,16 +1104,22 @@ extern const struct v4l2_subdev_ops v4l2_subdev_call_wrappers;
->  	({								\
->  		struct v4l2_subdev *__sd = (sd);			\
->  		int __result;						\
-> -		if (!__sd)						\
-> +		if (!__sd) {						\
->  			__result = -ENODEV;				\
-> -		else if (!(__sd->ops->o && __sd->ops->o->f))		\
-> +		} else if (!(__sd->ops->o && __sd->ops->o->f)) {	\
->  			__result = -ENOIOCTLCMD;			\
-> -		else if (v4l2_subdev_call_wrappers.o &&			\
-> -			 v4l2_subdev_call_wrappers.o->f)		\
-> -			__result = v4l2_subdev_call_wrappers.o->f(	\
-> -							__sd, ##args);	\
-> -		else							\
-> -			__result = __sd->ops->o->f(__sd, ##args);	\
-> +		} else {						\
-> +			if (__sd->lock)					\
-> +				mutex_lock(__sd->lock);			\
-> +			if (v4l2_subdev_call_wrappers.o &&		\
-> +				 v4l2_subdev_call_wrappers.o->f)	\
-> +				__result = v4l2_subdev_call_wrappers.o->f( \
-> +					__sd, ##args);			\
-> +			else						\
-> +				__result = __sd->ops->o->f(__sd, ##args); \
-> +			if (__sd->lock)					\
-> +				mutex_unlock(__sd->lock);			\
-> +		}							\
->  		__result;						\
->  	})
->  
+I think I prefer this separation (v4l-metaX).
+
+Having metadata as a (separate) videoX seemed odd to me - but I only
+saw/was affected by the metadata topics when it was too late it seemed ...
+
+
+> We can also consider backporting this to the stable/long-term kernels.
+> 
+> Metadata capture was introduced in 4.12 for the vsp1 driver, in 4.16 for the
+> uvc driver and in 5.0 for the staging ipu3 driver.
+> 
+> Does someone remember the reason why we picked /dev/videoX for this in the
+> first place?
+
+I've wondered why it's not a separate queue on the same video device -
+much like we have multiple queues for V4L2-M2M devices ....
+
+The data is relative to the same frames coming from the main queue right ?
+
+That might have been awkward to express through our device type flags
+though.
+
+Anyway, I thought the horse had bolted on this topic ?
+
+ :-D
+
+
+> Regards,
+> 
+> 	Hans
 > 
 
-I'm not sure this is the right place to lock. Locking is only needed if the
-subdev device can be called directly from userspace. So I would put the
-locking in subdev_do_ioctl() and use mutex_lock_interruptible.
 
-If there are subdev ops that in this scenario (i.e. userspace is responsible
-for configuring the subdev) are still called from another driver, then I would
-create a v4l2_subdev_call_lock() function that takes the lock.
-
-Adding a lock in the v4l2_subdev_call macro feels too invasive.
-
-Regards,
-
-	Hans
+-- 
+Regards
+--
+Kieran
