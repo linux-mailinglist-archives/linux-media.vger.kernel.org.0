@@ -2,42 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A77E2B141C
-	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2019 19:53:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B352B149F
+	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2019 20:56:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726740AbfILRwM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Sep 2019 13:52:12 -0400
-Received: from mailoutvs57.siol.net ([185.57.226.248]:33585 "EHLO
-        mail.siol.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1731181AbfILRwM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Sep 2019 13:52:12 -0400
+        id S1727538AbfILS4E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Sep 2019 14:56:04 -0400
+Received: from mailoutvs9.siol.net ([185.57.226.200]:51018 "EHLO mail.siol.net"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726008AbfILS4E (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 12 Sep 2019 14:56:04 -0400
 Received: from localhost (localhost [127.0.0.1])
-        by mail.siol.net (Postfix) with ESMTP id 0EF6D522719;
-        Thu, 12 Sep 2019 19:52:09 +0200 (CEST)
+        by mail.siol.net (Postfix) with ESMTP id 1CBC0521637;
+        Thu, 12 Sep 2019 20:56:02 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at psrvmta10.zcs-production.pri
 Received: from mail.siol.net ([127.0.0.1])
         by localhost (psrvmta10.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id Cn9XC3Ed3qBl; Thu, 12 Sep 2019 19:52:08 +0200 (CEST)
+        with ESMTP id lL0ERO98_Ars; Thu, 12 Sep 2019 20:56:01 +0200 (CEST)
 Received: from mail.siol.net (localhost [127.0.0.1])
-        by mail.siol.net (Postfix) with ESMTPS id C5397521395;
-        Thu, 12 Sep 2019 19:52:08 +0200 (CEST)
+        by mail.siol.net (Postfix) with ESMTPS id C35CF5223A8;
+        Thu, 12 Sep 2019 20:56:01 +0200 (CEST)
 Received: from localhost.localdomain (cpe-86-58-59-25.static.triera.net [86.58.59.25])
         (Authenticated sender: 031275009)
-        by mail.siol.net (Postfix) with ESMTPSA id 6A7535227D7;
-        Thu, 12 Sep 2019 19:52:06 +0200 (CEST)
+        by mail.siol.net (Postfix) with ESMTPSA id 6E0E9521637;
+        Thu, 12 Sep 2019 20:56:01 +0200 (CEST)
 From:   Jernej Skrabec <jernej.skrabec@siol.net>
-To:     mripard@kernel.org, wens@csie.org
-Cc:     robh+dt@kernel.org, mark.rutland@arm.com, mchehab@kernel.org,
-        hverkuil@xs4all.nl, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-sunxi@googlegroups.com
-Subject: [PATCH 6/6] dts: arm: sun8i: h3: Enable deinterlace unit
-Date:   Thu, 12 Sep 2019 19:51:32 +0200
-Message-Id: <20190912175132.411-7-jernej.skrabec@siol.net>
+To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: vim2m: Fix abort issue
+Date:   Thu, 12 Sep 2019 20:55:55 +0200
+Message-Id: <20190912185555.9221-1-jernej.skrabec@siol.net>
 X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20190912175132.411-1-jernej.skrabec@siol.net>
-References: <20190912175132.411-1-jernej.skrabec@siol.net>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
@@ -45,41 +39,44 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Allwinner H3 SoC contains deinterlace unit, which can be used in
-combination with VPU unit to decode and process interlaced videos.
+Currently, if start streaming -> stop streaming -> start streaming
+sequence is executed, driver will end job prematurely, if ctx->translen
+is higher than 1, because "aborting" flag is still set from previous
+stop streaming command.
 
-Add a node for it.
+Fix that by clearing "aborting" flag in start streaming handler.
 
+Fixes: 96d8eab5d0a1 ("V4L/DVB: [v5,2/2] v4l: Add a mem-to-mem videobuf fr=
+amework test device")
 Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
 ---
- arch/arm/boot/dts/sun8i-h3.dtsi | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+Hi!
 
-diff --git a/arch/arm/boot/dts/sun8i-h3.dtsi b/arch/arm/boot/dts/sun8i-h3=
-.dtsi
-index e37c30e811d3..7a59c57d2114 100644
---- a/arch/arm/boot/dts/sun8i-h3.dtsi
-+++ b/arch/arm/boot/dts/sun8i-h3.dtsi
-@@ -120,6 +120,19 @@
- 	};
+This was only compile tested. Any suggestion how to properly test it
+would be appreciated.
+
+Best regards,
+Jernej
+
+ drivers/media/platform/vim2m.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/media/platform/vim2m.c b/drivers/media/platform/vim2=
+m.c
+index acd3bd48c7e2..2d79cdc130c5 100644
+--- a/drivers/media/platform/vim2m.c
++++ b/drivers/media/platform/vim2m.c
+@@ -1073,6 +1073,9 @@ static int vim2m_start_streaming(struct vb2_queue *=
+q, unsigned int count)
+ 	if (!q_data)
+ 		return -EINVAL;
 =20
- 	soc {
-+		deinterlace: deinterlace@1400000 {
-+			compatible =3D "allwinner,sun8i-h3-deinterlace";
-+			reg =3D <0x01400000 0x20000>;
-+			clocks =3D <&ccu CLK_BUS_DEINTERLACE>,
-+				 <&ccu CLK_DEINTERLACE>,
-+				 <&ccu CLK_DRAM_DEINTERLACE>;
-+			clock-names =3D "bus", "mod", "ram";
-+			resets =3D <&ccu RST_BUS_DEINTERLACE>;
-+			interrupts =3D <GIC_SPI 93 IRQ_TYPE_LEVEL_HIGH>;
-+			interconnects =3D <&mbus 9>;
-+			interconnect-names =3D "dma-mem";
-+		};
++	if (V4L2_TYPE_IS_OUTPUT(q->type))
++		ctx->aborting =3D 0;
 +
- 		syscon: system-control@1c00000 {
- 			compatible =3D "allwinner,sun8i-h3-system-control";
- 			reg =3D <0x01c00000 0x1000>;
+ 	q_data->sequence =3D 0;
+ 	return 0;
+ }
 --=20
 2.23.0
 
