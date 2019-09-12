@@ -2,121 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4958CB0DF3
-	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2019 13:35:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D30B1B0EFA
+	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2019 14:40:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731106AbfILLfU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Sep 2019 07:35:20 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:42564 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730923AbfILLfU (ORCPT
+        id S1731679AbfILMkj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Sep 2019 08:40:39 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:39021 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730454AbfILMkj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Sep 2019 07:35:20 -0400
-Received: from [IPv6:2001:8a0:6c2f:b301:66f4:e6a0:633:7a5e] (unknown [IPv6:2001:8a0:6c2f:b301:66f4:e6a0:633:7a5e])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: ezequiel)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id B00F728A88C;
-        Thu, 12 Sep 2019 12:35:16 +0100 (BST)
-Message-ID: <9d7cb0caf39aa4704e5d83fab56a65b305c5b924.camel@collabora.com>
-Subject: Re: [PATCH 0/4] Enable Hantro G1 post-processor
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Tomasz Figa <tfiga@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        kernel@collabora.com,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Chris Healy <cphealy@gmail.com>
-Date:   Thu, 12 Sep 2019 12:35:12 +0100
-In-Reply-To: <CAAFQd5CKkdN0byeAonPvvzmHQ5CRXLRVidAG8FGmxExHzgvaqA@mail.gmail.com>
-References: <20190903181711.7559-1-ezequiel@collabora.com>
-         <CAAFQd5AdikoN+7TG=0ZGFkSzaK2UFHM4VG7SYtfUtmjQgD61zA@mail.gmail.com>
-         <6e493142690d48ee7e65c1cb2a4d6aec1e3b671b.camel@collabora.com>
-         <c7b62640ae0e57a9da0c6c5245b5454af08ad2a0.camel@ndufresne.ca>
-         <CAAFQd5CKkdN0byeAonPvvzmHQ5CRXLRVidAG8FGmxExHzgvaqA@mail.gmail.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.30.5-1.1 
+        Thu, 12 Sep 2019 08:40:39 -0400
+Received: from [IPv6:2001:420:44c1:2577:24f7:5447:c5bf:b985] ([IPv6:2001:420:44c1:2577:24f7:5447:c5bf:b985])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id 8OOoiPlkeV17O8OOriydkz; Thu, 12 Sep 2019 14:40:37 +0200
+Subject: Re: [PATCH 1/6] v4l: subdev: Set sd->devnode before registering the
+ subdev
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org
+References: <20190819124728.10511-1-sakari.ailus@linux.intel.com>
+ <20190819124728.10511-2-sakari.ailus@linux.intel.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <d62c2300-70b5-4b98-7b9a-6aaec44c724c@xs4all.nl>
+Date:   Thu, 12 Sep 2019 14:40:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190819124728.10511-2-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfAfa/UftSsvDvoRxMVGtDXC/G62Qkg6rPq1C7M+CvuyXRpPIK0xQ8Pva0mUQYljPwElAcTUUx4UUQMD5wYMLHCWWZ/i9q+I4IDQp+V0lEnoP8JfHbPlg
+ 8xJ4xoHrXcQbeLSerJ+slwpeCCq+WDJsMFBHxwPKvtSpXFlp7Om7yt9RkEDzFlFrYkY5oLZuOOnkia7F0+ChXTXu6LdEGjYCt27Wt9ZzhZzcQkUGz9YCXtXM
+ T/pAXQYI24t2qZTEaKL8G6Re1xl13ry/oNElKPsLvmqcH/qPOH7NBb5KppccMbw1arXmqCCD08cp7D7Ltmyz4q/S2PpunnoQBMVjuIgvN+k=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 2019-09-12 at 14:52 +0900, Tomasz Figa wrote:
-> On Thu, Sep 12, 2019 at 4:49 AM Nicolas Dufresne <nicolas@ndufresne.ca> wrote:
-> > Le mercredi 11 septembre 2019 à 09:27 +0100, Ezequiel Garcia a écrit :
-> > > On Mon, 2019-09-09 at 16:07 +0900, Tomasz Figa wrote:
-> > > > Hi Ezequiel,
-> > > > 
-> > > > On Wed, Sep 4, 2019 at 3:17 AM Ezequiel Garcia <ezequiel@collabora.com> wrote:
-> > > > > Hi all,
-> > > > > 
-> > > > > This series enables the post-processor support available
-> > > > > on the Hantro G1 VPU. The post-processor block can be
-> > > > > pipelined with the decoder hardware, allowing to perform
-> > > > > operations such as color conversion, scaling, rotation,
-> > > > > cropping, among others.
-> > > > > 
-> > > > > The decoder hardware needs its own set of NV12 buffers
-> > > > > (the native decoder format), and the post-processor is the
-> > > > > owner of the CAPTURE buffers. This allows the application
-> > > > > get processed (scaled, converted, etc) buffers, completely
-> > > > > transparently.
-> > > > > 
-> > > > > This feature is implemented by exposing other CAPTURE pixel
-> > > > > formats to the application (ENUM_FMT). When the application
-> > > > > sets a pixel format other than NV12, the driver will enable
-> > > > > and use the post-processor transparently.
-> > > > 
-> > > > I'll try to review the series a bit later, but a general comment here
-> > > > is that the userspace wouldn't have a way to distinguish between the
-> > > > native and post-processed formats. I'm pretty much sure that
-> > > > post-processing at least imposes some power penalty, so it would be
-> > > > good if the userspace could avoid it if unnecessary.
-> > > > 
-> > > 
-> > > Hm, that's true, good catch.
-> > > 
-> > > So, it would be desirable to retain the current behavior of allowing
-> > > the application to just set a different pixel format and get
-> > > a post-processed frame, transparently.
-> > > 
-> > > But at the same time, it would be nice if the application is somehow
-> > > aware of the post-processing happening. Maybe we can expose a more
-> > > accurate media controller topology, have applications enable
-> > > the post-processing pipeline explicitly.
-> > 
-> > How it works on the stateful side is that userspace set the encoding
-> > type (the codec), then passes a header (in our case, there will be
-> > parsed structures replacing this) first. The driver then configure
-> > capture format, giving a hint of the "default" or "native" format. This
-> > may or may not be sufficient, but it does work in giving userspace a
-> > hint.
+On 8/19/19 2:47 PM, Sakari Ailus wrote:
+> The subdev's video device node was only assigned after registering the
+> device node in the system. While it is unlikely that a driver needed to
+> use this field in handling system calls to its file handle, there remains
+> a slim chance the devnode field remains NULL while the driver expects to
+> find a video node there.
 > 
-> The bad side of that is that we can't handle more than 1 native format.
+> Assign the devnode field before registering the device, and assign it back
+> to NULL if the registration failed.
 > 
-> For the most backwards-compatible behavior, sorting the results of
-> ENUM_FMT according to format preference would allow the applications
-> that choose the first format returned that works for them to choose
-> the best one.
-> 
-> For a further improvement, an ENUM_FMT flag that tells the userspace
-> that a format is preferred could work.
-> 
-> That said, modelling the pipeline appropriately using the media
-> controller is the idea I like the most, because it's the most
-> comprehensive solution. That would have to be well specified and
-> documented, though, and sounds like a long term effort.
-> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-Completely agreed.
+Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-Thanks,
-Ezequiel
+> ---
+>  drivers/media/v4l2-core/v4l2-device.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-device.c b/drivers/media/v4l2-core/v4l2-device.c
+> index aa277f5bc862..8c79699b1be7 100644
+> --- a/drivers/media/v4l2-core/v4l2-device.c
+> +++ b/drivers/media/v4l2-core/v4l2-device.c
+> @@ -248,13 +248,14 @@ int v4l2_device_register_subdev_nodes(struct v4l2_device *v4l2_dev)
+>  		vdev->fops = &v4l2_subdev_fops;
+>  		vdev->release = v4l2_device_release_subdev_node;
+>  		vdev->ctrl_handler = sd->ctrl_handler;
+> +		sd->devnode = vdev;
+>  		err = __video_register_device(vdev, VFL_TYPE_SUBDEV, -1, 1,
+>  					      sd->owner);
+>  		if (err < 0) {
+> +			sd->devnode = NULL;
+>  			kfree(vdev);
+>  			goto clean_up;
+>  		}
+> -		sd->devnode = vdev;
+>  #if defined(CONFIG_MEDIA_CONTROLLER)
+>  		sd->entity.info.dev.major = VIDEO_MAJOR;
+>  		sd->entity.info.dev.minor = vdev->minor;
+> 
 
