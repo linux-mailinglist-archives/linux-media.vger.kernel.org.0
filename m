@@ -2,112 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6644FB1562
-	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2019 22:27:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E97BB1567
+	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2019 22:29:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727104AbfILU0u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Sep 2019 16:26:50 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57008 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725995AbfILU0u (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Sep 2019 16:26:50 -0400
-Received: from localhost (lfbn-1-10718-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 32B6B20830;
-        Thu, 12 Sep 2019 20:26:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1568320009;
-        bh=l19LbqpY2hBqQHafDv7Xu6iCTFH9k+VC+tpz3LtafOg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=UFCNoVjFPh+fpGv9CiYMm812hzIN/3Eq2qmnzyppi5hG+ugtGsgv+7JyIjswXrK/K
-         OTVXqdwK/45z2tsbUccVxXYsfrro4cyZPCEyDrAR/4etecx1LIJxwma9vrAez5r8F/
-         bfC4h1h8is+wJKo0dLp2mX6cXiPHg+BvtDwjZtXg=
-Date:   Thu, 12 Sep 2019 22:26:47 +0200
-From:   Maxime Ripard <mripard@kernel.org>
-To:     Jernej Skrabec <jernej.skrabec@siol.net>
+        id S1727250AbfILU2n convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Thu, 12 Sep 2019 16:28:43 -0400
+Received: from mailoutvs11.siol.net ([185.57.226.202]:35428 "EHLO
+        mail.siol.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725995AbfILU2n (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 12 Sep 2019 16:28:43 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.siol.net (Postfix) with ESMTP id 4E4D55208E3;
+        Thu, 12 Sep 2019 22:28:39 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at psrvmta09.zcs-production.pri
+Received: from mail.siol.net ([127.0.0.1])
+        by localhost (psrvmta09.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id PegbFYo6SQrO; Thu, 12 Sep 2019 22:28:39 +0200 (CEST)
+Received: from mail.siol.net (localhost [127.0.0.1])
+        by mail.siol.net (Postfix) with ESMTPS id C0A7952079B;
+        Thu, 12 Sep 2019 22:28:38 +0200 (CEST)
+Received: from jernej-laptop.localnet (cpe-86-58-59-25.static.triera.net [86.58.59.25])
+        (Authenticated sender: jernej.skrabec@siol.net)
+        by mail.siol.net (Postfix) with ESMTPA id CA8BF522798;
+        Thu, 12 Sep 2019 22:28:37 +0200 (CEST)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
+To:     Maxime Ripard <mripard@kernel.org>
 Cc:     wens@csie.org, robh+dt@kernel.org, mark.rutland@arm.com,
         mchehab@kernel.org, hverkuil@xs4all.nl, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-media@vger.kernel.org, linux-sunxi@googlegroups.com
-Subject: Re: [PATCH 5/6] media: sun4i: Add H3 deinterlace driver
-Message-ID: <20190912202647.wfcjur7yxhlelvd6@localhost.localdomain>
-References: <20190912175132.411-1-jernej.skrabec@siol.net>
- <20190912175132.411-6-jernej.skrabec@siol.net>
+Subject: Re: [PATCH 3/6] ARM: dts: sunxi: h3/h5: Add MBUS controller node
+Date:   Thu, 12 Sep 2019 22:28:37 +0200
+Message-ID: <1679881.yZ8pMUtPNZ@jernej-laptop>
+In-Reply-To: <20190912202057.czb6nzgssg442isi@localhost.localdomain>
+References: <20190912175132.411-1-jernej.skrabec@siol.net> <20190912175132.411-4-jernej.skrabec@siol.net> <20190912202057.czb6nzgssg442isi@localhost.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190912175132.411-6-jernej.skrabec@siol.net>
-User-Agent: NeoMutt/20180716
+Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Dne četrtek, 12. september 2019 ob 22:20:57 CEST je Maxime Ripard napisal(a):
+> Hi,
+> 
+> On Thu, Sep 12, 2019 at 07:51:29PM +0200, Jernej Skrabec wrote:
+> > Both, H3 and H5, contain MBUS, which is the bus used by DMA devices to
+> > access system memory.
+> > 
+> > MBUS controller is responsible for arbitration between channels based
+> > on set priority and can do some other things as well, like report
+> > bandwidth used. It also maps RAM region to different address than CPU.
+> > 
+> > Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
+> > ---
+> > 
+> >  arch/arm/boot/dts/sunxi-h3-h5.dtsi | 9 +++++++++
+> >  1 file changed, 9 insertions(+)
+> > 
+> > diff --git a/arch/arm/boot/dts/sunxi-h3-h5.dtsi
+> > b/arch/arm/boot/dts/sunxi-h3-h5.dtsi index eba190b3f9de..ef1d03812636
+> > 100644
+> > --- a/arch/arm/boot/dts/sunxi-h3-h5.dtsi
+> > +++ b/arch/arm/boot/dts/sunxi-h3-h5.dtsi
+> > @@ -109,6 +109,7 @@
+> > 
+> >  		compatible = "simple-bus";
+> >  		#address-cells = <1>;
+> >  		#size-cells = <1>;
+> > 
+> > +		dma-ranges;
+> > 
+> >  		ranges;
+> >  		
+> >  		display_clocks: clock@1000000 {
+> > 
+> > @@ -538,6 +539,14 @@
+> > 
+> >  			};
+> >  		
+> >  		};
+> > 
+> > +		mbus: dram-controller@1c62000 {
+> > +			compatible = "allwinner,sun8i-h3-mbus";
+> > +			reg = <0x01c62000 0x1000>;
+> > +			clocks = <&ccu 113>;
+> > +			dma-ranges = <0x00000000 0x40000000 
+0xc0000000>;
+> > +			#interconnect-cells = <1>;
+> > +		};
+> > +
+> 
+> If that's easy enough to access, can you also add the references in
+> the devices that are already there? (CSI and DE comes to my mind, but
+> there might be others).
 
-On Thu, Sep 12, 2019 at 07:51:31PM +0200, Jernej Skrabec wrote:
-> +	dev->regmap = devm_regmap_init_mmio(dev->dev, dev->base,
-> +					    &deinterlace_regmap_config);
-> +	if (IS_ERR(dev->regmap)) {
-> +		dev_err(dev->dev, "Couldn't create deinterlace regmap\n");
-> +
-> +		return PTR_ERR(dev->regmap);
-> +	}
-> +
-> +	ret = clk_prepare_enable(dev->bus_clk);
-> +	if (ret) {
-> +		dev_err(dev->dev, "Failed to enable bus clock\n");
-> +
-> +		return ret;
-> +	}
+Strangely, DE2 doesn't use this offset. That was tested on OrangePi Plus2E, 
+which has 2 GiB of RAM and subtracting this offset causes corrupted image.
 
-Do you need to keep the bus clock enabled all the time? Usually, for
-the SoCs that have a reset line, you only need it to read / write to
-the registers, not to have the controller actually running.
+But I can add this properties to CSI too. However, wouldn't that need CSI DT 
+binding expansion with those properties? othetwise DT check will fail.
 
-If you don't, then regmap_init_mmio_clk will take care of that for
-you.
+Best regards,
+Jernej
 
-> +	clk_set_rate(dev->mod_clk, 300000000);
-> +
-> +	ret = clk_prepare_enable(dev->mod_clk);
-> +	if (ret) {
-> +		dev_err(dev->dev, "Failed to enable mod clock\n");
-> +
-> +		goto err_bus_clk;
-> +	}
-> +
-> +	ret = clk_prepare_enable(dev->ram_clk);
-> +	if (ret) {
-> +		dev_err(dev->dev, "Failed to enable ram clock\n");
-> +
-> +		goto err_mod_clk;
-> +	}
-> +
-> +	ret = reset_control_reset(dev->rstc);
-> +	if (ret) {
-> +		dev_err(dev->dev, "Failed to apply reset\n");
-> +
-> +		goto err_ram_clk;
-> +	}
+> 
+> Thanks!
+> Maxime
 
-This could be moved to a runtime_pm hook, with get_sync called in the
-open. That way you won't leave the device powered on if it's unused.
 
-> +struct deinterlace_dev {
-> +	struct v4l2_device	v4l2_dev;
-> +	struct video_device	vfd;
-> +	struct device		*dev;
-> +	struct v4l2_m2m_dev	*m2m_dev;
-> +
-> +	/* Device file mutex */
-> +	struct mutex		dev_mutex;
-> +
-> +	void __iomem		*base;
-> +	struct regmap		*regmap;
 
-Do you need to store the base address in that structure if you're
-using the regmap?
 
-Maxime
