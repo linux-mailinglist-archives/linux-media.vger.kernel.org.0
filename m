@@ -2,174 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B4128B12D5
-	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2019 18:35:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 963EBB1327
+	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2019 19:04:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733242AbfILQfM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Sep 2019 12:35:12 -0400
-Received: from relay11.mail.gandi.net ([217.70.178.231]:58153 "EHLO
-        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728382AbfILQfM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Sep 2019 12:35:12 -0400
-Received: from uno.localdomain (bl10-204-24.dsl.telepac.pt [85.243.204.24])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay11.mail.gandi.net (Postfix) with ESMTPSA id 2FC86100015;
-        Thu, 12 Sep 2019 16:35:07 +0000 (UTC)
-Date:   Thu, 12 Sep 2019 18:36:40 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>, tfiga@google.com,
-        Rob Herring <robh+dt@kernel.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 01/10] media: dt-bindings: Document 'location' property
-Message-ID: <20190912163640.gacucembu63nudku@uno.localdomain>
-References: <20190827092339.8858-1-jacopo@jmondi.org>
- <20190827092339.8858-2-jacopo@jmondi.org>
- <20190827122126.GQ5054@pendragon.ideasonboard.com>
- <20190912095120.4a592631@coco.lan>
+        id S1731054AbfILRER (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Sep 2019 13:04:17 -0400
+Received: from mga17.intel.com ([192.55.52.151]:13838 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728286AbfILRER (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 12 Sep 2019 13:04:17 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Sep 2019 10:04:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,492,1559545200"; 
+   d="scan'208";a="190048964"
+Received: from yoojae-mobl1.amr.corp.intel.com (HELO [10.7.153.148]) ([10.7.153.148])
+  by orsmga006.jf.intel.com with ESMTP; 12 Sep 2019 10:04:16 -0700
+Subject: Re: [PATCH -next 1/2] media: aspeed: refine hsync/vsync polarity
+ setting logic
+To:     Andrew Jeffery <andrew@aj.id.au>,
+        Eddie James <eajames@linux.ibm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Joel Stanley <joel@jms.id.au>
+Cc:     linux-aspeed@lists.ozlabs.org, linux-media@vger.kernel.org,
+        openbmc@lists.ozlabs.org
+References: <20190910190756.31432-1-jae.hyun.yoo@linux.intel.com>
+ <20190910190756.31432-2-jae.hyun.yoo@linux.intel.com>
+ <a11026fa-f2bb-47a2-b792-6009c2bbe63d@www.fastmail.com>
+From:   Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+Message-ID: <564501a5-f4db-b1ed-76b5-9e76c29aa7d4@linux.intel.com>
+Date:   Thu, 12 Sep 2019 10:04:16 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="ygzrvf6kbmbtj5sc"
-Content-Disposition: inline
-In-Reply-To: <20190912095120.4a592631@coco.lan>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <a11026fa-f2bb-47a2-b792-6009c2bbe63d@www.fastmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Andrew,
 
---ygzrvf6kbmbtj5sc
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+On 9/11/2019 10:33 PM, Andrew Jeffery wrote:
+> On Wed, 11 Sep 2019, at 04:37, Jae Hyun Yoo wrote:
+>> This commit refines hsync/vsync polarity setting logic by making
+>> also clearing register bits possible based on probed sync state
+>> accordingly.
+> 
+> That was tough to parse, but I think I understand. Trying to rephrase:
+> 
+> Enable clearing of hsync/vsync plarity bits based on probed sync state.
 
-Hi Mauro,
+Correct.
 
-On Thu, Sep 12, 2019 at 09:51:47AM -0300, Mauro Carvalho Chehab wrote:
-> Em Tue, 27 Aug 2019 15:21:26 +0300
-> Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
->
-> > Hi Jacopo,
-> >
-> > Thank you for the patch.
-> >
-> > On Tue, Aug 27, 2019 at 11:23:27AM +0200, Jacopo Mondi wrote:
-> > > Add the 'location' device property, used to specify the camera device
-> > > mounting position. The property is particularly meaningful for mobile
-> > > devices with a well defined usage orientation.
-> > >
-> > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > > ---
-> > >  .../devicetree/bindings/media/video-interfaces.txt     | 10 ++++++++++
-> > >  1 file changed, 10 insertions(+)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/media/video-interfaces.txt b/Documentation/devicetree/bindings/media/video-interfaces.txt
-> > > index f884ada0bffc..865f4142f432 100644
-> > > --- a/Documentation/devicetree/bindings/media/video-interfaces.txt
-> > > +++ b/Documentation/devicetree/bindings/media/video-interfaces.txt
-> > > @@ -89,6 +89,16 @@ Optional properties
-> > >    but a number of degrees counter clockwise. Typical values are 0 and 180
-> > >    (upside down).
-> > >
-> > > +- location: The camera sensor mounting location, expressed as a position
-> > > +  relative to the usage orientation of the device the sensor is installed on.
-> >
-> > DT bindings being ABIs, we need to be precise and thorough there. One
-> > particular point that bothers me is that the property is named location,
-> > and its description refers to camera sensor mounting location.
->
-> Yeah, "location" doesn't sound a good name for me neither.
->
+> What was the issue that drove the change? Do you know why it was done
+> the way it was prior to this patch?
 
-I think Laurent referred to the fact that as we changed the property
-name to 'location' it is not a good idea to refer to 'camera sensor'
-as it could refer to flash leds too (and potentially other devices).
+Because this driver detects weird resolutions sometimes. Investigated
+that it uses
+     aspeed_video_update(video, VE_CTRL, 0, ctrl);
+so only setting of polarity bits is available. Means that clearing of
+the bits isn't available so it can't set back the polarities to normal.
 
-In v3 I have
-s/camera sensor/device
-s/device/system
+To fix the issue, this patch makes it use
+     aspeed_video_write(video, VE_CTRL, ctrl);
+instead of above one with adding bit masking code changes.
 
-How would you name the property?
-
-> >
-> > I see two options to fix this. One of them is to rename the property to
-> > camera-location, but that would limit its future usage for other types
-> > of devices. The other one is to document the property as applying to a
-> > "device" instead of a "camera sensor", and add one sentence stating that
-> > this property is valid for camera sensors only.
-> >
-> > This will require finding another name for the device that the device is
-> > mounted on though, as using device twice would be very confusing.
-> >
-> > > +  Possible values are:
-> > > +  0 - Front. The image sensor is mounted on the front facing side of the device.
-> > > +  For mobile devices such as smartphones, tablets and laptops the front side is
-> > > +  the user facing side of the device.
-> > > +  1 - Back. The image sensor is mounted on the back side of the device, which is
-> > > +  defined as the opposite side of the front facing one.
-> > > +  2 - External. The image sensor is connected to the device by extension cables,
-> > > +  and can be freely moved, regardless of the device position.
->
-> Hmm...
->
-> Besides the point that Laurent and Rob already commented, just those 3 options
-> doesn't seem good enough. I was reading a public article yesterday about a new
-> device (Samsung Galaxy Fold[1]) with comes with 6 cameras, being 3 at back,
-> 1 at front, when the device is opened, and 1 camera that could be either at the
-> back or at the front, depending if the device is opened or not.
->
-
-Pavel linked a similar device in a previous reply:
-https://www.samsung.com/global/galaxy/galaxy-a80/
-
-I understand the above options might not get enough in future, but
-right now they cover the 99,9% of devices in the market, and those
-phones are far from being mainline supported I presume.
-
-> Btw, on a device with multiple cameras at the same side, it would
-> make sense to also be able to uniquely identify the location of each
-> sensor somehow.
->
-
-I think the location property should not identify devices, but just
-report where they are installed. Does having two cameras reporting the
-same mounting location bother you?
-
-
-> There are also some other new devices with a front motorized slider camera
-> that sits hidden inside the phone, until when someone uses it.
->
-
-So it's an HIDDEN_FRONT_CAMERA ? :)
-
-Thanks
-   j
-
-
-> Thanks,
-> Mauro
-
---ygzrvf6kbmbtj5sc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl16dBgACgkQcjQGjxah
-Vjx9ixAAr4KSp2m0hEzIyNtcMrjjiEZaRADD4azwXYMQrm4v6ZCr56vlZff6i37z
-MoqJ/QNxf3cKMkiBgfTIfmP2GryFVGzhu2CpOJ0T33FcTuJ7x5JBZaGKNCfy5kZs
-4ODxynf9BZkWAPwT5/f2KybvbwO+8OD4PC09eAOEqOpsxwS75nWzjJ+aKzeT2WaG
-XM4aUP5zDKTXDhRYCzpW6gABHKv4+DFqDtyz3S2K8oYceGaIISiG0xY9k7HYkg3/
-VyD0cYAoPIq1+OFRI4i/XzMSRuAOIjX1bq1KrMXJ7QeBEFF21eknhy20ZiyRymjA
-fenVjSDGRYNs+me1K5X3wF7KOa5yeYQGZ/WL6y4fTx0C2o+pLZI6qDTGSs4ps8QN
-qQ8Nqxo/GmE4jcA1CWntZ1WxEE01fBSIEZjzKhAgrh//jQ127aovSBdVLngFrbhl
-RU0hi8gpIWRE1r7lQJAYeIm35ftkOA69uCmvldK1aark2cOKWRN3UuBZd4H9EJXU
-xuk9626CYOzNWiEoUbioXsMVDp69MbB6NBF2Ukqy3UmZXvi1m1Sh3WMHDMZY2Jel
-NraE5ll86JGX+aYunB/br5R2kDSx7JB2jl6QMVWZ/afiKzmsYFYN0+1OW6B67x/O
-raZCNVroouTwqpHoEzC4tRwKndIByTBzSlmcoydSjJ7A0fY1UOI=
-=A7Hw
------END PGP SIGNATURE-----
-
---ygzrvf6kbmbtj5sc--
+Thanks,
+Jae
