@@ -2,63 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 60A29B0848
-	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2019 07:32:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6D42B0856
+	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2019 07:38:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725789AbfILFcb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Sep 2019 01:32:31 -0400
-Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:55019 "EHLO
+        id S1725972AbfILFiu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Sep 2019 01:38:50 -0400
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:53585 "EHLO
         wout1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725765AbfILFcb (ORCPT
+        by vger.kernel.org with ESMTP id S1725794AbfILFiu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Sep 2019 01:32:31 -0400
+        Thu, 12 Sep 2019 01:38:50 -0400
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailout.west.internal (Postfix) with ESMTP id B62A1511;
-        Thu, 12 Sep 2019 01:32:29 -0400 (EDT)
+        by mailout.west.internal (Postfix) with ESMTP id 286614C7;
+        Thu, 12 Sep 2019 01:38:49 -0400 (EDT)
 Received: from imap2 ([10.202.2.52])
-  by compute4.internal (MEProxy); Thu, 12 Sep 2019 01:32:30 -0400
+  by compute4.internal (MEProxy); Thu, 12 Sep 2019 01:38:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
         mime-version:message-id:in-reply-to:references:date:from:to:cc
-        :subject:content-type; s=fm3; bh=HXnqi2m/BtoX8yKDvfymopMouxsh1hG
-        OuxsMkysRLIM=; b=h5KQIcK8/VSF455VfEAxg+/L+dgQqx0X5TKUVPMFE2Y8Q5B
-        hPWgg2QpJZ82gTn+aHJldWPteoAB4P7awfOc8dLo5RPTTZbky70JPv3ZUqTpXHJW
-        dqpPudDbcWvBVbaP6hBctVzcFWPyecoNj0k8hfhzl5Wpc4qqJHsr3mni8zhspCl+
-        AdkEiRMCR46NRRJA1MPkfx0llX5MsxVo1UtTsv+ysM1j39lWM3rc0kQ+ASVjcuJV
-        FDWgFG88PDz438ZYM+EwsyffVkS6zwrDi1m4khbX9JSsuD9BcqBDrsB6imyYjhLE
-        l6UJqd3HuXXBf+QGMRV8V/GK0EotnhKngnZzwhg==
+        :subject:content-type; s=fm3; bh=1K6jRTYNbrTt0S2z4EGpf5QtdQZ9iE6
+        A4qNFJmy5FwE=; b=LhI+OTMIAni6lwqy2kX6DGEygo6HfNFZuxNMfQtdXxMsmOo
+        5UfPZnZTTwY+8u9e1FJBqWICcVGb42K/F5PzRwcOEYqa+H3qZGiD7nv568GoCDqb
+        /y8u2rYiIxf9+WxHclkjG+OEIcFhQEdQ8B1HpAOa4F3J4L7R02nla18OFDupwoWr
+        dtCqHqAZQOT/JXaathEdqhic+TeoJ0e1Ebq60diMW0ctLukfYRIo1AtEadTXPeKD
+        ghnLwOFbfZmSeUQ/DF9G2w2u7+WTBUmEauBWE4j7daO0BsfDGsex5PtUQJqFm2/g
+        3dcpBPXS+rUAWy3Al4OepDT3Zk36+XfLidiGLfw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-type:date:from:in-reply-to
         :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=HXnqi2
-        m/BtoX8yKDvfymopMouxsh1hGOuxsMkysRLIM=; b=rQ3Rj+OCAM1i2f+R3dLymq
-        Fv4VlloBHbmOWNpkBlqV63CwWiquWQF+C0NJ4DMYr33JD1phMxA/CnP+BWqCYf0q
-        Tn+a4HhebxzFNH8ObpaLFK4dApmIuHLUhsA8GfUL4x1EZXaNbAwuR/X9OBfX+Ft8
-        j5hil8nSCnQ8tY67e4rwzkC4+2i5/xAl5iBdfdEmkbIiIMEO0kd9RsoPSwAD/jWA
-        Z65VpTOGfk5Ahp8+bIyd5LoIHzBMpi2G20kmnX8DynuRD6W+ETk5qRecYZkGqrhS
-        V3+JOwKUCIQewZ4apJ4gGL0wkoBFpuWMBiBYqE3rJvNrVNYz3fDtEuQf5mh9QLoA
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=1K6jRT
+        YNbrTt0S2z4EGpf5QtdQZ9iE6A4qNFJmy5FwE=; b=QtuNRUzKdD6f6vsd6ZyNBi
+        lBRC30v7/KduqNaR3y/uZS6w1b4Y2v41Tm2VWOno54zW/JsA79gteusVeoTTma1/
+        d6qpDddhdNCZLqE7S4z7jaLrTcdI49KJ6n3oNItsBGmzHeqeixtfaDIor7K/x2CW
+        YtLKnqTQ87DkHlYzggbe0LdJ7U80J2xWCyagMRHW+JihiEXknh6mEZ0qB3gxNFxA
+        gl0BHtFvdjrM7bfLIG305zkde4sXp6qFB1Za5QgaPvOUv2FX0mYOykjBI2yq29WE
+        XdFtR1bhTcktWBEJ79aHrei8ODObOWposgpPQ/Tstz9drAEFzYnvYPNG4TRhOorg
         ==
-X-ME-Sender: <xms:bNh5Xb8FIWE2F3KuJVk8NUa2cZOp7WbmBe2nCQ-nH47TYSUNrUTIzA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrtdeggdeljecutefuodetggdotefrodftvf
+X-ME-Sender: <xms:59l5Xd8Tk7vEsYQBTgHt2aPMx_v7OV3mnoPMf9gHdmLrs1GACjc2IQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrtdeggdelkecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
     fjughrpefofgggkfgjfhffhffvufgtsehttdertderreejnecuhfhrohhmpedftehnughr
     vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucfrrghrrg
     hmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruhenucevlhhushhtvghr
     ufhiiigvpedt
-X-ME-Proxy: <xmx:bNh5XUD597UG-59ED2d5Q25Uy7nwLZjNzV2JTVjdFZIweZN7pW7u7A>
-    <xmx:bNh5Xbypg5pVAPD6BRfBQtswPK3T3puyoI78kN-E6tR5plb6t03NDA>
-    <xmx:bNh5XZTMcW7bEr-PxR-BkCaYP720wzrsyQ5EwlnN3zK-MVC0lA8xTQ>
-    <xmx:bdh5XQML8ZRgY6WGg36ebT0OWuS4GglI9c5Lts5FhDIaS2mOnrGpWA>
+X-ME-Proxy: <xmx:59l5XbA_-5h0JnM6iiwnN7yTzjWFOnYco7q4h2hnfNlMVWgqFnU9aQ>
+    <xmx:59l5XSQN6Jp8rLLefpyrVvXXyaSdU7PESsSJ2cwRy17Dteqh0zHIMQ>
+    <xmx:59l5XSsP_FQPav4Zm1yKZop1AwLsLuX7zODXZnuvCnaOOUpkKMzEZA>
+    <xmx:6Nl5XZ1PyaVdf5bfrKI70F-C-pCHAPhKSeupSPxI-4IwkCSdoR166w>
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 620A6E00A9; Thu, 12 Sep 2019 01:32:28 -0400 (EDT)
+        id AD4DAE00A9; Thu, 12 Sep 2019 01:38:47 -0400 (EDT)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.1.7-237-gf35468d-fmstable-20190912v1
 Mime-Version: 1.0
-Message-Id: <a11026fa-f2bb-47a2-b792-6009c2bbe63d@www.fastmail.com>
-In-Reply-To: <20190910190756.31432-2-jae.hyun.yoo@linux.intel.com>
+Message-Id: <5c5538e7-4b7a-4d13-b4ac-584be4090d48@www.fastmail.com>
+In-Reply-To: <20190910190756.31432-3-jae.hyun.yoo@linux.intel.com>
 References: <20190910190756.31432-1-jae.hyun.yoo@linux.intel.com>
- <20190910190756.31432-2-jae.hyun.yoo@linux.intel.com>
-Date:   Thu, 12 Sep 2019 15:03:00 +0930
+ <20190910190756.31432-3-jae.hyun.yoo@linux.intel.com>
+Date:   Thu, 12 Sep 2019 15:09:19 +0930
 From:   "Andrew Jeffery" <andrew@aj.id.au>
 To:     "Jae Hyun Yoo" <jae.hyun.yoo@linux.intel.com>,
         "Eddie James" <eajames@linux.ibm.com>,
@@ -66,8 +66,8 @@ To:     "Jae Hyun Yoo" <jae.hyun.yoo@linux.intel.com>,
         "Joel Stanley" <joel@jms.id.au>
 Cc:     linux-aspeed@lists.ozlabs.org, linux-media@vger.kernel.org,
         openbmc@lists.ozlabs.org
-Subject: =?UTF-8?Q?Re:_[PATCH_-next_1/2]_media:_aspeed:_refine_hsync/vsync_polari?=
- =?UTF-8?Q?ty_setting_logic?=
+Subject: =?UTF-8?Q?Re:_[PATCH_-next_2/2]_media:_aspeed:_set_hsync_and_vsync_polar?=
+ =?UTF-8?Q?ities_to_normal_before_starting_mode_detection?=
 Content-Type: text/plain
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
@@ -77,15 +77,13 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 
 On Wed, 11 Sep 2019, at 04:37, Jae Hyun Yoo wrote:
-> This commit refines hsync/vsync polarity setting logic by making
-> also clearing register bits possible based on probed sync state
-> accordingly.
+> Sometimes it detects a weird resolution such as 1024x287 when the
+> actual resolution is 1024x768. To resolve such an issue, this
+> commit adds clearing for hsync and vsync polarity register bits
+> at the beginning of the first mode detection. This is recommended
+> in the datasheet.
 
-That was tough to parse, but I think I understand. Trying to rephrase:
-
-Enable clearing of hsync/vsync plarity bits based on probed sync state.
-
-What was the issue that drove the change? Do you know why it was done
-the way it was prior to this patch?
+I guess this answers my question on the previous patch's commit
+message. Maybe it should be in both?
 
 Andrew
