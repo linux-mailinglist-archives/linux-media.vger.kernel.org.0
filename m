@@ -2,153 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 59DF7B177E
-	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2019 05:52:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5407FB1878
+	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2019 08:50:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727025AbfIMDwL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Sep 2019 23:52:11 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:33695 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726908AbfIMDwK (ORCPT
+        id S1726841AbfIMGu3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Sep 2019 02:50:29 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:35278 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726672AbfIMGu2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Sep 2019 23:52:10 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:f93d:b077:27ce:10a2])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id 8ccxiTlPVV17O8ccyi0iSW; Fri, 13 Sep 2019 05:52:08 +0200
-Message-ID: <c82b5b2d73122fa877752a9a12421371@smtp-cloud9.xs4all.net>
-Date:   Fri, 13 Sep 2019 05:52:07 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+        Fri, 13 Sep 2019 02:50:28 -0400
+Received: from lanttu.localdomain (unknown [IPv6:2a01:4f9:c010:4572::e1:1001])
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTP id 029F3634C87;
+        Fri, 13 Sep 2019 09:50:07 +0300 (EEST)
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfADdVpgdSTVKaxUnoYb5VZu6Fgbrj3w5tnVWOLfrjfJzTQTDVIPzQnLUXZZUmKu2U3uHITUHCOM1OA5UsC0KFCGt4j0179ocgedaktmOdIl/O4C7qV63
- dFrKUC7lkJelOLYPaWmc2r9/JnILPsO+cjfEJ0fBB3xjQIyFzdUa8aBDPWk656LcoC+1jJg+Qx75HVyl+0u5vPKoo7yRVuW+aEHD2Z8WOugIoHvIwXHjQgCk
+Cc:     hverkuil@xs4all.nl
+Subject: [PATCH v2 6/6] smiapp: Avoid fall-through in switch
+Date:   Fri, 13 Sep 2019 09:47:22 +0300
+Message-Id: <20190913064722.11415-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190819124728.10511-7-sakari.ailus@linux.intel.com>
+References: <20190819124728.10511-7-sakari.ailus@linux.intel.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Remove switch fall-through cases in the driver.
 
-Results of the daily build of media_tree:
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+ drivers/media/i2c/smiapp/smiapp-core.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-date:			Fri Sep 13 05:00:12 CEST 2019
-media-tree git hash:	6f51fdfd8229d5358c2d6e272cf73478866e8ddc
-media_build git hash:	d75b29db1297d2475227cc8bada843542271e40d
-v4l-utils git hash:	204c2bfd30f788b7d038047ef9e007f3d8fbfd14
-edid-decode git hash:	0932deee88928f110b5a74851c173ad895f75863
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 8634894b41454ef4215a3d4fd503305c720e761a
-host hardware:		x86_64
-host os:		4.19.0-4-amd64
+diff --git a/drivers/media/i2c/smiapp/smiapp-core.c b/drivers/media/i2c/smiapp/smiapp-core.c
+index 76d7d204ec17..c6202f3a4015 100644
+--- a/drivers/media/i2c/smiapp/smiapp-core.c
++++ b/drivers/media/i2c/smiapp/smiapp-core.c
+@@ -1674,13 +1674,14 @@ static void smiapp_propagate(struct v4l2_subdev *subdev,
+ 				sensor->binning_vertical = 1;
+ 			}
+ 		}
+-		/* Fall through */
++		break;
+ 	case V4L2_SEL_TGT_COMPOSE:
+-		*crops[SMIAPP_PAD_SRC] = *comp;
+ 		break;
+ 	default:
+-		BUG();
++		WARN_ON(1);
++		return;
+ 	}
++	*crops[SMIAPP_PAD_SRC] = *comp;
+ }
+ 
+ static const struct smiapp_csi_data_format
+@@ -2062,7 +2063,7 @@ static int __smiapp_sel_supported(struct v4l2_subdev *subdev,
+ 		    && sensor->limits[SMIAPP_LIMIT_SCALING_CAPABILITY]
+ 		    != SMIAPP_SCALING_CAPABILITY_NONE)
+ 			return 0;
+-		/* Fall through */
++		return -EINVAL;
+ 	default:
+ 		return -EINVAL;
+ 	}
+@@ -2716,7 +2717,7 @@ static struct smiapp_hwconfig *smiapp_get_hwconfig(struct device *dev)
+ 		case 180:
+ 			hwcfg->module_board_orient =
+ 				SMIAPP_MODULE_BOARD_ORIENT_180;
+-			/* Fall through */
++			break;
+ 		case 0:
+ 			break;
+ 		default:
+-- 
+2.20.1
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3-rc1-i686: OK
-linux-5.3-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS: Final Summary: 2331, Succeeded: 2330, Failed: 1, Warnings: 1
-sparse: OK
-smatch: OK
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
