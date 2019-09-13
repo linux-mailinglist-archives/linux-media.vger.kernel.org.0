@@ -2,101 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 45FEAB16DA
-	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2019 02:18:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 59DF7B177E
+	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2019 05:52:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727157AbfIMASZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Sep 2019 20:18:25 -0400
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:42281 "EHLO
-        out3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725775AbfIMASZ (ORCPT
+        id S1727025AbfIMDwL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Sep 2019 23:52:11 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:33695 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726908AbfIMDwK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Sep 2019 20:18:25 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailout.nyi.internal (Postfix) with ESMTP id C9231218C1;
-        Thu, 12 Sep 2019 20:18:24 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
-  by compute4.internal (MEProxy); Thu, 12 Sep 2019 20:18:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
-        mime-version:message-id:in-reply-to:references:date:from:to:cc
-        :subject:content-type; s=fm3; bh=oNwpvvEFJpewbaAAzElh0tbN5tfdwes
-        oAvqCdHyUw20=; b=BQKKVypc07wGv3ETEqiDniu/M41UoqTlRbeyipH149Ckz9H
-        HTZ31Kl6EjyTRRfUZ4/eOINWVA60mIulx/Ap0w8gNCMxDxL1M28X7PEWrY5n8MRf
-        BMYfkD4jVHSVT9hRxCvUepksrTR4d4o1U+1mQQOfPRPFekIcZWZ5pxhYoIaa8nRZ
-        mYZ/Mh5p8HgtubTZJAgOwhhunIURsZN36S/7HbrPXHRnBLJr9RTU+K26zUPO+/GW
-        KJzUeiW70j+UluBkXtiXvGWk1Fe1zRceKk13C/2dZB9dzDCJ1HylswbHiRCiyNMR
-        mAm7PvVcfXMiBPY0kISDz9tfmJQu2lNrohxgQsg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=oNwpvv
-        EFJpewbaAAzElh0tbN5tfdwesoAvqCdHyUw20=; b=N73yuY+IyuOqVQNmQaRPnN
-        xFqjQoGIW6OjoJBzc/g3zzTlYM0jBgi+h+ZnQGm9AX7Rm2X5pmmwxNiMvp6q72yW
-        JrhIg+WqT/JzN7ro2sNXWqhTiJQ1Q7yVKuzL0QV9QLl9o4kg9o9+zeVcqIbfcPbh
-        1tI1fwsrvt1bDF4+ywWq8aByms/iw+qzvryenH3iPq3x9ahXUKLmPfco6t2HKEp2
-        s3+bF2WGhgRY/trTmNZMbKF27LDORxJICPMy+deiGZz8gPdPRjzJ4OGRyBP2mJsP
-        hIIPfVrXVWD+2GXvrwKMsgCoGFdZLSy7EwGxN4Gor8gciRwUoQlaBQvTtxrVNyvw
-        ==
-X-ME-Sender: <xms:T-B6XVzBfMV0FCGSNx67R1ER2fZZIHDPdALWnGEONwoYHVD_JBpvFQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrtdeigdeffecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvufgtsehttdertderreejnecuhfhrohhmpedftehnughr
-    vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucfrrghrrg
-    hmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruhenucevlhhushhtvghr
-    ufhiiigvpedt
-X-ME-Proxy: <xmx:T-B6Xf0JkaJrv512xukpHGAmztcvJJa9REAAaN5yLprZ4sqWgrXj1A>
-    <xmx:T-B6Xb6cFvvZzKmhbFMxOAjy2d8HgILQTXiMUO9Z7EOT5vYJbYFhsg>
-    <xmx:T-B6XaWm3CneoLTmi69aMjzeBy1jnk7prR0mJvLk8cVDfDAkBDU9Eg>
-    <xmx:UOB6XZ4Yzrw0nRUORO1XxTIY3WvjzhKjHBmNdcu4dMQa6k2K6I4esg>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id D9C27E00A9; Thu, 12 Sep 2019 20:18:23 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.7-237-gf35468d-fmstable-20190912v1
-Mime-Version: 1.0
-Message-Id: <2c24c8a9-b357-4948-8744-3900ed28012c@www.fastmail.com>
-In-Reply-To: <490bc4d9-e471-3b0f-49c9-39e99af95d62@linux.intel.com>
-References: <20190910190756.31432-1-jae.hyun.yoo@linux.intel.com>
- <20190910190756.31432-3-jae.hyun.yoo@linux.intel.com>
- <5c5538e7-4b7a-4d13-b4ac-584be4090d48@www.fastmail.com>
- <490bc4d9-e471-3b0f-49c9-39e99af95d62@linux.intel.com>
-Date:   Fri, 13 Sep 2019 09:48:56 +0930
-From:   "Andrew Jeffery" <andrew@aj.id.au>
-To:     "Jae Hyun Yoo" <jae.hyun.yoo@linux.intel.com>,
-        "Eddie James" <eajames@linux.ibm.com>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        "Joel Stanley" <joel@jms.id.au>
-Cc:     linux-aspeed@lists.ozlabs.org, linux-media@vger.kernel.org,
-        openbmc@lists.ozlabs.org
-Subject: =?UTF-8?Q?Re:_[PATCH_-next_2/2]_media:_aspeed:_set_hsync_and_vsync_polar?=
- =?UTF-8?Q?ities_to_normal_before_starting_mode_detection?=
-Content-Type: text/plain
+        Thu, 12 Sep 2019 23:52:10 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:f93d:b077:27ce:10a2])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id 8ccxiTlPVV17O8ccyi0iSW; Fri, 13 Sep 2019 05:52:08 +0200
+Message-ID: <c82b5b2d73122fa877752a9a12421371@smtp-cloud9.xs4all.net>
+Date:   Fri, 13 Sep 2019 05:52:07 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfADdVpgdSTVKaxUnoYb5VZu6Fgbrj3w5tnVWOLfrjfJzTQTDVIPzQnLUXZZUmKu2U3uHITUHCOM1OA5UsC0KFCGt4j0179ocgedaktmOdIl/O4C7qV63
+ dFrKUC7lkJelOLYPaWmc2r9/JnILPsO+cjfEJ0fBB3xjQIyFzdUa8aBDPWk656LcoC+1jJg+Qx75HVyl+0u5vPKoo7yRVuW+aEHD2Z8WOugIoHvIwXHjQgCk
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
+Results of the daily build of media_tree:
 
-On Fri, 13 Sep 2019, at 02:36, Jae Hyun Yoo wrote:
-> On 9/11/2019 10:39 PM, Andrew Jeffery wrote:
-> > 
-> > 
-> > On Wed, 11 Sep 2019, at 04:37, Jae Hyun Yoo wrote:
-> >> Sometimes it detects a weird resolution such as 1024x287 when the
-> >> actual resolution is 1024x768. To resolve such an issue, this
-> >> commit adds clearing for hsync and vsync polarity register bits
-> >> at the beginning of the first mode detection. This is recommended
-> >> in the datasheet.
-> > 
-> > I guess this answers my question on the previous patch's commit
-> > message. Maybe it should be in both?
-> 
-> I think the previous patch is a bug fix and this one is an enhancement
-> patch. Better splitting them.
+date:			Fri Sep 13 05:00:12 CEST 2019
+media-tree git hash:	6f51fdfd8229d5358c2d6e272cf73478866e8ddc
+media_build git hash:	d75b29db1297d2475227cc8bada843542271e40d
+v4l-utils git hash:	204c2bfd30f788b7d038047ef9e007f3d8fbfd14
+edid-decode git hash:	0932deee88928f110b5a74851c173ad895f75863
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1-rc1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.5.1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 8634894b41454ef4215a3d4fd503305c720e761a
+host hardware:		x86_64
+host os:		4.19.0-4-amd64
 
-I wasn't suggesting squashing the patches, I was suggesting updating
-the commit message of the first patch to better justify/explain the
-change.
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3-rc1-i686: OK
+linux-5.3-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS: Final Summary: 2331, Succeeded: 2330, Failed: 1, Warnings: 1
+sparse: OK
+smatch: OK
 
-Andrew
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
