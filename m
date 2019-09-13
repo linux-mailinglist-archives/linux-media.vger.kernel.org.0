@@ -2,371 +2,232 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BCFBFB2127
-	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2019 15:49:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1105CB212A
+	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2019 15:49:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391386AbfIMNeg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Sep 2019 09:34:36 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:33625 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2389172AbfIMNef (ORCPT
+        id S2389334AbfIMNfH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Sep 2019 09:35:07 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:44780 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388524AbfIMNfG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Sep 2019 09:34:35 -0400
-Received: from [IPv6:2001:420:44c1:2577:888a:538c:8dda:557b] ([IPv6:2001:420:44c1:2577:888a:538c:8dda:557b])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id 8liWiWuDRV17O8liai2unZ; Fri, 13 Sep 2019 15:34:32 +0200
-Subject: Re: [Patch 08/13] media: am437x-vpfe: Maintain a reference to the
- current vpfe_fmt
-To:     Benoit Parrot <bparrot@ti.com>
-Cc:     Prabhakar Lad <prabhakar.csengg@gmail.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20190909162743.30114-1-bparrot@ti.com>
- <20190909162743.30114-9-bparrot@ti.com>
- <8b3d5c23-6784-fb1c-5e14-f3759b10aa0b@xs4all.nl>
- <20190913133245.6rvajfhlghbocuf4@ti.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <693c483f-5342-ab0a-7023-222f06bd011e@xs4all.nl>
-Date:   Fri, 13 Sep 2019 15:34:28 +0200
+        Fri, 13 Sep 2019 09:35:06 -0400
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D9BEE33A;
+        Fri, 13 Sep 2019 15:35:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1568381703;
+        bh=c/DAu/9ejvbLN+ifE60METToH39xCkPgvfOhCF6zG5k=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=vRlaGWJRFnapzzZRdY1xiNIO04+538y0Q1bUaksxLUj/SQUnYgA8QLUemLlJsNRng
+         is3gfY6yXB5xtcW/mhOiHzC4wGrtsCu58Kiu7/YaHkx44/UQGJzsO+fuiLwsq8N5ay
+         nLVdq28H4Zp82DjJsxNAq7jHpTSvEOI7DNaA8pzo=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [PATCH v3 5/6] rcar-vin: Add support for V4L2_FIELD_ALTERNATE
+To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org
+References: <20190904215409.30136-1-niklas.soderlund+renesas@ragnatech.se>
+ <20190904215409.30136-6-niklas.soderlund+renesas@ragnatech.se>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <61fd1036-2d11-4761-6cab-93b70a44baf6@ideasonboard.com>
+Date:   Fri, 13 Sep 2019 14:34:59 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190913133245.6rvajfhlghbocuf4@ti.com>
+In-Reply-To: <20190904215409.30136-6-niklas.soderlund+renesas@ragnatech.se>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfImM0td0oRcDxKFUYicQBanvMfTvbG+fKHcuUh11/5jg+bwiQcU2Iv0vU4YidXrglMcGpZoTCi0oQP8LPwb3+kjWLb+gpT7GZzFSyF3W7wEv/AucWZoj
- Xymxrkllf8t+JXJmw4xpZcCsnbgprdSv3ZQkOnfPZ3yWxlOY4cFZXYU8H5iFDbS0qWShYQuGJRIKh4lcn9pbrdN+ZT4gspIK7Km7N5qandeIYTiK3KdI0xKJ
- rZFQqNVy0SaOwUS52FmQjpAi7Xeb8GpkQ+GDkL/CXC1N2YYpA5B1hvnGucqClh07drNBZihgPyi1bqoclYpkx/33+21hiQ84akmtMNVZfcbtghiNJ8bFgN1Z
- D0Sidlgw4SAjHQdMNYmMEjV35SyKTREb+4zDNtSxke7H9dJagEpGhlBHDv9DlfIFHca57SEfDtuB4piQjd/RqvaV8vxxjQ==
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 9/13/19 3:32 PM, Benoit Parrot wrote:
-> Hans Verkuil <hverkuil@xs4all.nl> wrote on Fri [2019-Sep-13 15:14:45 +0200]:
->> On 9/9/19 6:27 PM, Benoit Parrot wrote:
->>> Keep a reference to the currently selected struct vpfe_fmt * object.
->>> By doing so we rename the current struct v4l2_format * member from
->>> fmt to v_fmt.
->>> The added struct vpfe_fmt * reference is set to "const" so we also
->>> constify all accesses and related helper functions.
->>
->> This explains what you do, but not why you do it.
+On 04/09/2019 22:54, Niklas Söderlund wrote:
+> The hardware is capable to passing V4L2_FIELD_ALTERNATE to user-space.
+
+s/to/of/
+
+> Allow users to request this field format but still default to using the
+> hardware interlacer if alternating is not explicitly requested.
 > 
-> Hmm ok I'll rework this a bit.
+> Before this change a sensor providing data using alternate would be
+> always combined to an interlaced frame. After this change the user can
+
+s/would be always/would always be/
+
+> request to receive frames as alternate if the sensor provides it.
 > 
->>
->> And I think fmt vs v_fmt is *very* confusing naming.
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+
+> ---
+>  drivers/media/platform/rcar-vin/rcar-dma.c  | 43 +++++++++++++--------
+>  drivers/media/platform/rcar-vin/rcar-v4l2.c | 31 +++++++--------
+>  2 files changed, 39 insertions(+), 35 deletions(-)
 > 
-> Well in this case v_fmt stands for "v4l2_fmt" and depending on the function
-> I was using fmt to either mean a vpfe_fmt pointer or a v4l2_format pointer
-> so tried (and apparently failed) to make it clearer which was which.
-
-Well, v_fmt could refer to either v4l2_format or vpfe_fmt, so that prefix
-doesn't help me :-)
-
-Since 'fmt' was already defined in struct vpfe_device as v4l2_format, I'd
-just keep that rather than causing code churn by changing it. And come up
-with a better name for when you refer to a vpfe_fmt struct.
-
-Regards,
-
-	Hans
-
+> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
+> index 7d40d71c863265c9..c7859b329dd4f02a 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
+> @@ -529,12 +529,17 @@ static void rvin_set_coeff(struct rvin_dev *vin, unsigned short xs)
+>  
+>  static void rvin_crop_scale_comp_gen2(struct rvin_dev *vin)
+>  {
+> +	unsigned int crop_height;
+>  	u32 xs, ys;
+>  
+>  	/* Set scaling coefficient */
+> +	crop_height = vin->crop.height;
+> +	if (V4L2_FIELD_IS_INTERLACED(vin->format.field))
+> +		crop_height *= 2;
+> +
+>  	ys = 0;
+> -	if (vin->crop.height != vin->compose.height)
+> -		ys = (4096 * vin->crop.height) / vin->compose.height;
+> +	if (crop_height != vin->compose.height)
+> +		ys = (4096 * crop_height) / vin->compose.height;
+>  	rvin_write(vin, ys, VNYS_REG);
+>  
+>  	xs = 0;
+> @@ -578,21 +583,9 @@ void rvin_crop_scale_comp(struct rvin_dev *vin)
+>  	/* Set Start/End Pixel/Line Pre-Clip */
+>  	rvin_write(vin, vin->crop.left, VNSPPRC_REG);
+>  	rvin_write(vin, vin->crop.left + vin->crop.width - 1, VNEPPRC_REG);
+> +	rvin_write(vin, vin->crop.top, VNSLPRC_REG);
+> +	rvin_write(vin, vin->crop.top + vin->crop.height - 1, VNELPRC_REG);
+>  
+> -	switch (vin->format.field) {
+> -	case V4L2_FIELD_INTERLACED:
+> -	case V4L2_FIELD_INTERLACED_TB:
+> -	case V4L2_FIELD_INTERLACED_BT:
+> -		rvin_write(vin, vin->crop.top / 2, VNSLPRC_REG);
+> -		rvin_write(vin, (vin->crop.top + vin->crop.height) / 2 - 1,
+> -			   VNELPRC_REG);
+> -		break;
+> -	default:
+> -		rvin_write(vin, vin->crop.top, VNSLPRC_REG);
+> -		rvin_write(vin, vin->crop.top + vin->crop.height - 1,
+> -			   VNELPRC_REG);
+> -		break;
+> -	}
+>  
+>  	/* TODO: Add support for the UDS scaler. */
+>  	if (vin->info->model != RCAR_GEN3)
+> @@ -636,6 +629,9 @@ static int rvin_setup(struct rvin_dev *vin)
+>  		vnmc = VNMC_IM_ODD_EVEN;
+>  		progressive = true;
+>  		break;
+> +	case V4L2_FIELD_ALTERNATE:
+> +		vnmc = VNMC_IM_ODD_EVEN;
+> +		break;
+>  	default:
+>  		vnmc = VNMC_IM_ODD;
+>  		break;
+> @@ -794,6 +790,18 @@ static bool rvin_capture_active(struct rvin_dev *vin)
+>  	return rvin_read(vin, VNMS_REG) & VNMS_CA;
+>  }
+>  
+> +static enum v4l2_field rvin_get_active_field(struct rvin_dev *vin, u32 vnms)
+> +{
+> +	if (vin->format.field == V4L2_FIELD_ALTERNATE) {
+> +		/* If FS is set it is an Even field. */
+> +		if (vnms & VNMS_FS)
+> +			return V4L2_FIELD_BOTTOM;
+> +		return V4L2_FIELD_TOP;
+> +	}
+> +
+> +	return vin->format.field;
+> +}
+> +
+>  static void rvin_set_slot_addr(struct rvin_dev *vin, int slot, dma_addr_t addr)
+>  {
+>  	const struct rvin_video_format *fmt;
+> @@ -943,7 +951,7 @@ static irqreturn_t rvin_irq(int irq, void *data)
+>  
+>  	/* Capture frame */
+>  	if (vin->queue_buf[slot]) {
+> -		vin->queue_buf[slot]->field = vin->format.field;
+> +		vin->queue_buf[slot]->field = rvin_get_active_field(vin, vnms);
+>  		vin->queue_buf[slot]->sequence = vin->sequence;
+>  		vin->queue_buf[slot]->vb2_buf.timestamp = ktime_get_ns();
+>  		vb2_buffer_done(&vin->queue_buf[slot]->vb2_buf,
+> @@ -1070,6 +1078,7 @@ static int rvin_mc_validate_format(struct rvin_dev *vin, struct v4l2_subdev *sd,
+>  		case V4L2_FIELD_TOP:
+>  		case V4L2_FIELD_BOTTOM:
+>  		case V4L2_FIELD_NONE:
+> +		case V4L2_FIELD_ALTERNATE:
+>  			break;
+>  		case V4L2_FIELD_INTERLACED_TB:
+>  		case V4L2_FIELD_INTERLACED_BT:
+> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> index 3f175e2e0a9a1389..a7ee44dd248ea0a1 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> @@ -117,15 +117,7 @@ static void rvin_format_align(struct rvin_dev *vin, struct v4l2_pix_format *pix)
+>  	case V4L2_FIELD_INTERLACED_TB:
+>  	case V4L2_FIELD_INTERLACED_BT:
+>  	case V4L2_FIELD_INTERLACED:
+> -		break;
+>  	case V4L2_FIELD_ALTERNATE:
+> -		/*
+> -		 * Driver does not (yet) support outputting ALTERNATE to a
+> -		 * userspace. It does support outputting INTERLACED so use
+> -		 * the VIN hardware to combine the two fields.
+> -		 */
+> -		pix->field = V4L2_FIELD_INTERLACED;
+> -		pix->height *= 2;
+>  		break;
+>  	default:
+>  		pix->field = RVIN_DEFAULT_FIELD;
+> @@ -164,15 +156,25 @@ static int rvin_reset_format(struct rvin_dev *vin)
+>  
+>  	v4l2_fill_pix_format(&vin->format, &fmt.format);
+>  
+> -	rvin_format_align(vin, &vin->format);
+> -
+>  	vin->src_rect.top = 0;
+>  	vin->src_rect.left = 0;
+>  	vin->src_rect.width = vin->format.width;
+>  	vin->src_rect.height = vin->format.height;
+>  
+> +	/*  Make use of the hardware interlacer by default. */
+> +	if (vin->format.field == V4L2_FIELD_ALTERNATE) {
+> +		vin->format.field = V4L2_FIELD_INTERLACED;
+> +		vin->format.height *= 2;
+> +	}
+> +
+> +	rvin_format_align(vin, &vin->format);
+> +
+>  	vin->crop = vin->src_rect;
+> -	vin->compose = vin->src_rect;
+> +
+> +	vin->compose.top = 0;
+> +	vin->compose.left = 0;
+> +	vin->compose.width = vin->format.width;
+> +	vin->compose.height = vin->format.height;
+>  
+>  	return 0;
+>  }
+> @@ -217,13 +219,6 @@ static int rvin_try_format(struct rvin_dev *vin, u32 which,
+>  		crop->left = 0;
+>  		crop->width = pix->width;
+>  		crop->height = pix->height;
+> -
+> -		/*
+> -		 * If source is ALTERNATE the driver will use the VIN hardware
+> -		 * to INTERLACE it. The crop height then needs to be doubled.
+> -		 */
+> -		if (pix->field == V4L2_FIELD_ALTERNATE)
+> -			crop->height *= 2;
+>  	}
+>  
+>  	if (field != V4L2_FIELD_ANY)
 > 
->>
->> I'd keep fmt as-is, and come up with a different name for the vpfe_fmt
->> pointer. ref_vpfe_fmt?
->>
->> Regards,
->>
->> 	Hans
->>
->>>
->>> Signed-off-by: Benoit Parrot <bparrot@ti.com>
->>> ---
->>>  drivers/media/platform/am437x/am437x-vpfe.c | 88 +++++++++++++--------
->>>  drivers/media/platform/am437x/am437x-vpfe.h |  3 +-
->>>  2 files changed, 55 insertions(+), 36 deletions(-)
->>>
->>> diff --git a/drivers/media/platform/am437x/am437x-vpfe.c b/drivers/media/platform/am437x/am437x-vpfe.c
->>> index e76dc2b3b7b8..a8f6cf1d06a0 100644
->>> --- a/drivers/media/platform/am437x/am437x-vpfe.c
->>> +++ b/drivers/media/platform/am437x/am437x-vpfe.c
->>> @@ -147,8 +147,8 @@ static int
->>>  __vpfe_get_format(struct vpfe_device *vpfe,
->>>  		  struct v4l2_format *format, unsigned int *bpp);
->>>  
->>> -static struct vpfe_fmt *find_format_by_code(struct vpfe_device *vpfe,
->>> -					    unsigned int code)
->>> +static const struct vpfe_fmt *find_format_by_code(struct vpfe_device *vpfe,
->>> +						  unsigned int code)
->>>  {
->>>  	struct vpfe_fmt *fmt;
->>>  	unsigned int k;
->>> @@ -162,8 +162,8 @@ static struct vpfe_fmt *find_format_by_code(struct vpfe_device *vpfe,
->>>  	return NULL;
->>>  }
->>>  
->>> -static struct vpfe_fmt *find_format_by_pix(struct vpfe_device *vpfe,
->>> -					   unsigned int pixelformat)
->>> +static const struct vpfe_fmt *find_format_by_pix(struct vpfe_device *vpfe,
->>> +						 unsigned int pixelformat)
->>>  {
->>>  	struct vpfe_fmt *fmt;
->>>  	unsigned int k;
->>> @@ -184,7 +184,7 @@ mbus_to_pix(struct vpfe_device *vpfe,
->>>  {
->>>  	struct vpfe_subdev_info *sdinfo = vpfe->current_subdev;
->>>  	unsigned int bus_width = sdinfo->vpfe_param.bus_width;
->>> -	struct vpfe_fmt *fmt;
->>> +	const struct vpfe_fmt *fmt;
->>>  
->>>  	fmt = find_format_by_code(vpfe, mbus->code);
->>>  	if (WARN_ON(fmt == NULL)) {
->>> @@ -207,7 +207,7 @@ static void pix_to_mbus(struct vpfe_device *vpfe,
->>>  			struct v4l2_pix_format *pix_fmt,
->>>  			struct v4l2_mbus_framefmt *mbus_fmt)
->>>  {
->>> -	struct vpfe_fmt *fmt;
->>> +	const struct vpfe_fmt *fmt;
->>>  
->>>  	fmt = find_format_by_pix(vpfe, pix_fmt->pixelformat);
->>>  	if (!fmt) {
->>> @@ -990,10 +990,10 @@ static int vpfe_config_ccdc_image_format(struct vpfe_device *vpfe)
->>>  	vpfe_dbg(2, vpfe, "vpfe_config_ccdc_image_format\n");
->>>  
->>>  	vpfe_dbg(1, vpfe, "pixelformat: %s\n",
->>> -		print_fourcc(vpfe->fmt.fmt.pix.pixelformat));
->>> +		print_fourcc(vpfe->v_fmt.fmt.pix.pixelformat));
->>>  
->>>  	if (vpfe_ccdc_set_pixel_format(&vpfe->ccdc,
->>> -			vpfe->fmt.fmt.pix.pixelformat) < 0) {
->>> +			vpfe->v_fmt.fmt.pix.pixelformat) < 0) {
->>>  		vpfe_err(vpfe, "couldn't set pix format in ccdc\n");
->>>  		return -EINVAL;
->>>  	}
->>> @@ -1001,7 +1001,7 @@ static int vpfe_config_ccdc_image_format(struct vpfe_device *vpfe)
->>>  	/* configure the image window */
->>>  	vpfe_ccdc_set_image_window(&vpfe->ccdc, &vpfe->crop, vpfe->bpp);
->>>  
->>> -	switch (vpfe->fmt.fmt.pix.field) {
->>> +	switch (vpfe->v_fmt.fmt.pix.field) {
->>>  	case V4L2_FIELD_INTERLACED:
->>>  		/* do nothing, since it is default */
->>>  		ret = vpfe_ccdc_set_buftype(
->>> @@ -1043,7 +1043,8 @@ static int vpfe_config_ccdc_image_format(struct vpfe_device *vpfe)
->>>  static int vpfe_config_image_format(struct vpfe_device *vpfe,
->>>  				    v4l2_std_id std_id)
->>>  {
->>> -	struct v4l2_pix_format *pix = &vpfe->fmt.fmt.pix;
->>> +	const struct vpfe_fmt *fmt;
->>> +	struct v4l2_pix_format *pix = &vpfe->v_fmt.fmt.pix;
->>>  	int i, ret;
->>>  
->>>  	for (i = 0; i < ARRAY_SIZE(vpfe_standards); i++) {
->>> @@ -1078,10 +1079,18 @@ static int vpfe_config_image_format(struct vpfe_device *vpfe,
->>>  	else
->>>  		pix->field = V4L2_FIELD_NONE;
->>>  
->>> -	ret = __vpfe_get_format(vpfe, &vpfe->fmt, &vpfe->bpp);
->>> +	ret = __vpfe_get_format(vpfe, &vpfe->v_fmt, &vpfe->bpp);
->>>  	if (ret)
->>>  		return ret;
->>>  
->>> +	fmt = find_format_by_pix(vpfe, pix->pixelformat);
->>> +	if (!fmt) {
->>> +		vpfe_dbg(3, vpfe, "Invalid pixel code: %4.4s\n",
->>> +			 (char *)&pix->pixelformat);
->>> +		return -EINVAL;
->>> +	}
->>> +	vpfe->fmt = fmt;
->>> +
->>>  	/* Update the crop window based on found values */
->>>  	vpfe->crop.width = pix->width;
->>>  	vpfe->crop.height = pix->height;
->>> @@ -1227,7 +1236,7 @@ static inline void vpfe_schedule_bottom_field(struct vpfe_device *vpfe)
->>>  static inline void vpfe_process_buffer_complete(struct vpfe_device *vpfe)
->>>  {
->>>  	vpfe->cur_frm->vb.vb2_buf.timestamp = ktime_get_ns();
->>> -	vpfe->cur_frm->vb.field = vpfe->fmt.fmt.pix.field;
->>> +	vpfe->cur_frm->vb.field = vpfe->v_fmt.fmt.pix.field;
->>>  	vpfe->cur_frm->vb.sequence = vpfe->sequence++;
->>>  	vb2_buffer_done(&vpfe->cur_frm->vb.vb2_buf, VB2_BUF_STATE_DONE);
->>>  	vpfe->cur_frm = vpfe->next_frm;
->>> @@ -1296,7 +1305,7 @@ static void vpfe_handle_interlaced_irq(struct vpfe_device *vpfe,
->>>  static irqreturn_t vpfe_isr(int irq, void *dev)
->>>  {
->>>  	struct vpfe_device *vpfe = (struct vpfe_device *)dev;
->>> -	enum v4l2_field field = vpfe->fmt.fmt.pix.field;
->>> +	enum v4l2_field field = vpfe->v_fmt.fmt.pix.field;
->>>  	int intr_status, stopping = vpfe->stopping;
->>>  
->>>  	intr_status = vpfe_reg_read(&vpfe->ccdc, VPFE_IRQ_STS);
->>> @@ -1397,7 +1406,7 @@ static int __vpfe_get_format(struct vpfe_device *vpfe,
->>>  		mbus_to_pix(vpfe, &mbus_fmt, &format->fmt.pix, bpp);
->>>  	}
->>>  
->>> -	format->type = vpfe->fmt.type;
->>> +	format->type = vpfe->v_fmt.type;
->>>  
->>>  	vpfe_dbg(1, vpfe,
->>>  		 "%s size %dx%d (%s) bytesperline = %d, size = %d, bpp = %d\n",
->>> @@ -1434,7 +1443,7 @@ static int __vpfe_set_format(struct vpfe_device *vpfe,
->>>  	v4l2_fill_pix_format(&format->fmt.pix, &fmt.format);
->>>  	mbus_to_pix(vpfe, &fmt.format, &format->fmt.pix, bpp);
->>>  
->>> -	format->type = vpfe->fmt.type;
->>> +	format->type = vpfe->v_fmt.type;
->>>  
->>>  	vpfe_dbg(1, vpfe,
->>>  		 "%s size %dx%d (%s) bytesperline = %d, size = %d, bpp = %d\n",
->>> @@ -1452,7 +1461,7 @@ static int vpfe_g_fmt(struct file *file, void *priv,
->>>  
->>>  	vpfe_dbg(2, vpfe, "vpfe_g_fmt\n");
->>>  
->>> -	*fmt = vpfe->fmt;
->>> +	*fmt = vpfe->v_fmt;
->>>  
->>>  	return 0;
->>>  }
->>> @@ -1496,9 +1505,10 @@ static int vpfe_try_fmt(struct file *file, void *priv,
->>>  }
->>>  
->>>  static int vpfe_s_fmt(struct file *file, void *priv,
->>> -		      struct v4l2_format *fmt)
->>> +		      struct v4l2_format *f)
->>>  {
->>>  	struct vpfe_device *vpfe = video_drvdata(file);
->>> +	const struct vpfe_fmt *fmt;
->>>  	struct v4l2_format format;
->>>  	unsigned int bpp;
->>>  	int ret;
->>> @@ -1515,25 +1525,32 @@ static int vpfe_s_fmt(struct file *file, void *priv,
->>>  	if (ret)
->>>  		return ret;
->>>  
->>> -
->>> -	if (!cmp_v4l2_format(fmt, &format)) {
->>> +	if (!cmp_v4l2_format(f, &format)) {
->>>  		/* Sensor format is different from the requested format
->>>  		 * so we need to change it
->>>  		 */
->>> -		ret = __vpfe_set_format(vpfe, fmt, &bpp);
->>> +		ret = __vpfe_set_format(vpfe, f, &bpp);
->>>  		if (ret)
->>>  			return ret;
->>>  	} else /* Just make sure all of the fields are consistent */
->>> -		*fmt = format;
->>> +		*f = format;
->>> +
->>> +	fmt = find_format_by_pix(vpfe, f->fmt.pix.pixelformat);
->>> +	if (!fmt) {
->>> +		vpfe_dbg(3, vpfe, "Invalid pixel code: %4.4s, This should not happen!!\n",
->>> +			 (char *)&f->fmt.pix.pixelformat);
->>> +		return -EINVAL;
->>> +	}
->>>  
->>>  	/* First detach any IRQ if currently attached */
->>>  	vpfe_detach_irq(vpfe);
->>> -	vpfe->fmt = *fmt;
->>> +	vpfe->v_fmt = *f;
->>>  	vpfe->bpp = bpp;
->>> +	vpfe->fmt = fmt;
->>>  
->>>  	/* Update the crop window based on found values */
->>> -	vpfe->crop.width = fmt->fmt.pix.width;
->>> -	vpfe->crop.height = fmt->fmt.pix.height;
->>> +	vpfe->crop.width = f->fmt.pix.width;
->>> +	vpfe->crop.height = f->fmt.pix.height;
->>>  
->>>  	/* set image capture parameters in the ccdc */
->>>  	return vpfe_config_ccdc_image_format(vpfe);
->>> @@ -1547,7 +1564,7 @@ static int vpfe_enum_size(struct file *file, void  *priv,
->>>  	struct vpfe_subdev_info *sdinfo;
->>>  	struct v4l2_mbus_framefmt mbus;
->>>  	struct v4l2_pix_format pix;
->>> -	struct vpfe_fmt *fmt;
->>> +	const struct vpfe_fmt *fmt;
->>>  	int ret;
->>>  
->>>  	vpfe_dbg(2, vpfe, "vpfe_enum_size\n");
->>> @@ -1850,7 +1867,7 @@ static int vpfe_queue_setup(struct vb2_queue *vq,
->>>  			    unsigned int sizes[], struct device *alloc_devs[])
->>>  {
->>>  	struct vpfe_device *vpfe = vb2_get_drv_priv(vq);
->>> -	unsigned size = vpfe->fmt.fmt.pix.sizeimage;
->>> +	unsigned int size = vpfe->v_fmt.fmt.pix.sizeimage;
->>>  
->>>  	if (vq->num_buffers + *nbuffers < 3)
->>>  		*nbuffers = 3 - vq->num_buffers;
->>> @@ -1886,12 +1903,12 @@ static int vpfe_buffer_prepare(struct vb2_buffer *vb)
->>>  	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
->>>  	struct vpfe_device *vpfe = vb2_get_drv_priv(vb->vb2_queue);
->>>  
->>> -	vb2_set_plane_payload(vb, 0, vpfe->fmt.fmt.pix.sizeimage);
->>> +	vb2_set_plane_payload(vb, 0, vpfe->v_fmt.fmt.pix.sizeimage);
->>>  
->>>  	if (vb2_get_plane_payload(vb, 0) > vb2_plane_size(vb, 0))
->>>  		return -EINVAL;
->>>  
->>> -	vbuf->field = vpfe->fmt.fmt.pix.field;
->>> +	vbuf->field = vpfe->v_fmt.fmt.pix.field;
->>>  
->>>  	return 0;
->>>  }
->>> @@ -2116,11 +2133,12 @@ vpfe_s_selection(struct file *file, void *fh, struct v4l2_selection *s)
->>>  	s->r = vpfe->crop = r;
->>>  
->>>  	vpfe_ccdc_set_image_window(&vpfe->ccdc, &r, vpfe->bpp);
->>> -	vpfe->fmt.fmt.pix.width = r.width;
->>> -	vpfe->fmt.fmt.pix.height = r.height;
->>> -	vpfe->fmt.fmt.pix.bytesperline = vpfe_ccdc_get_line_length(&vpfe->ccdc);
->>> -	vpfe->fmt.fmt.pix.sizeimage = vpfe->fmt.fmt.pix.bytesperline *
->>> -						vpfe->fmt.fmt.pix.height;
->>> +	vpfe->v_fmt.fmt.pix.width = r.width;
->>> +	vpfe->v_fmt.fmt.pix.height = r.height;
->>> +	vpfe->v_fmt.fmt.pix.bytesperline =
->>> +		vpfe_ccdc_get_line_length(&vpfe->ccdc);
->>> +	vpfe->v_fmt.fmt.pix.sizeimage = vpfe->v_fmt.fmt.pix.bytesperline *
->>> +						vpfe->v_fmt.fmt.pix.height;
->>>  
->>>  	vpfe_dbg(1, vpfe, "cropped (%d,%d)/%dx%d of %dx%d\n",
->>>  		 r.left, r.top, r.width, r.height, cr.width, cr.height);
->>> @@ -2156,7 +2174,7 @@ static long vpfe_ioctl_default(struct file *file, void *priv,
->>>  			return ret;
->>>  		}
->>>  		ret = vpfe_get_ccdc_image_format(vpfe,
->>> -						 &vpfe->fmt);
->>> +						 &vpfe->v_fmt);
->>>  		if (ret < 0) {
->>>  			vpfe_dbg(2, vpfe,
->>>  				"Invalid image format at CCDC\n");
->>> @@ -2309,7 +2327,7 @@ static int vpfe_probe_complete(struct vpfe_device *vpfe)
->>>  	spin_lock_init(&vpfe->dma_queue_lock);
->>>  	mutex_init(&vpfe->lock);
->>>  
->>> -	vpfe->fmt.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
->>> +	vpfe->v_fmt.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
->>>  
->>>  	/* set first sub device as current one */
->>>  	vpfe->current_subdev = &vpfe->cfg->sub_devs[0];
->>> diff --git a/drivers/media/platform/am437x/am437x-vpfe.h b/drivers/media/platform/am437x/am437x-vpfe.h
->>> index 6f25750f84e4..64a25bf720e4 100644
->>> --- a/drivers/media/platform/am437x/am437x-vpfe.h
->>> +++ b/drivers/media/platform/am437x/am437x-vpfe.h
->>> @@ -280,7 +280,8 @@ struct vpfe_device {
->>>  	/* Pointer pointing to next v4l2_buffer */
->>>  	struct vpfe_cap_buffer *next_frm;
->>>  	/* Used to store pixel format */
->>> -	struct v4l2_format fmt;
->>> +	const struct vpfe_fmt *fmt;
->>> +	struct v4l2_format v_fmt;
->>>  	/* Used to store current bytes per pixel based on current format */
->>>  	unsigned int bpp;
->>>  	struct vpfe_fmt	*active_fmt[VPFE_MAX_ACTIVE_FMT];
->>>
->>
 
