@@ -2,70 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F7D9B266E
-	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2019 22:07:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1627DB278C
+	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2019 23:50:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731029AbfIMUGW convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Fri, 13 Sep 2019 16:06:22 -0400
-Received: from mailoutvs39.siol.net ([185.57.226.230]:47326 "EHLO
-        mail.siol.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1730930AbfIMUGV (ORCPT
+        id S2390171AbfIMVtB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Sep 2019 17:49:01 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:36347 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390169AbfIMVtB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Sep 2019 16:06:21 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.siol.net (Postfix) with ESMTP id 1A96A522590;
-        Fri, 13 Sep 2019 22:06:19 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at psrvmta09.zcs-production.pri
-Received: from mail.siol.net ([127.0.0.1])
-        by localhost (psrvmta09.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id Yu6tDdrqQ1J6; Fri, 13 Sep 2019 22:06:18 +0200 (CEST)
-Received: from mail.siol.net (localhost [127.0.0.1])
-        by mail.siol.net (Postfix) with ESMTPS id B54C1522597;
-        Fri, 13 Sep 2019 22:06:18 +0200 (CEST)
-Received: from jernej-laptop.localnet (cpe-86-58-59-25.static.triera.net [86.58.59.25])
-        (Authenticated sender: jernej.skrabec@siol.net)
-        by mail.siol.net (Postfix) with ESMTPA id D201E522590;
-        Fri, 13 Sep 2019 22:06:16 +0200 (CEST)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
-To:     Maxime Ripard <mripard@kernel.org>
-Cc:     wens@csie.org, robh+dt@kernel.org, mark.rutland@arm.com,
-        mchehab@kernel.org, hverkuil@xs4all.nl, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-sunxi@googlegroups.com
-Subject: Re: [PATCH 5/6] media: sun4i: Add H3 deinterlace driver
-Date:   Fri, 13 Sep 2019 22:06:15 +0200
-Message-ID: <6033065.vD0Azduf8t@jernej-laptop>
-In-Reply-To: <20190913091147.42nsldzxwzfjoiak@localhost.localdomain>
-References: <20190912175132.411-1-jernej.skrabec@siol.net> <4613446.95M5L3lKvs@jernej-laptop> <20190913091147.42nsldzxwzfjoiak@localhost.localdomain>
+        Fri, 13 Sep 2019 17:49:01 -0400
+Received: by mail-oi1-f194.google.com with SMTP id k20so3898428oih.3;
+        Fri, 13 Sep 2019 14:49:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:date:from:to:cc:subject:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=3ui0eUxYUk9AGgzSlQ7m/osQuaMVwY1YZdYH8n3luq8=;
+        b=uY+c4JNj55i4u++eKNAMOAGMybqJtgwQXeM0/lmDDOIqxOszzsaOiRODZSecuatL9Q
+         Y7AjcK+Qt4vlUIgKow1USulhIt43BlutFRfgQfLg/lRehZR5vHwD6kTDjHUmMwK/uVCi
+         fNMMJsXnmJavK6jXB/VS7TrhTGJjoS8GkPVzOW78z5+uYuzilM6OT5S/QY+basYwDp9v
+         zNnCE51eCVmPDBJZTuyzmv1rGDzFTJZ4aSY52MXXkELwFO43MoQjC9WYoYZdELE+Wxbo
+         0Qb4iTuA9dcKzeJZs4zuh+GcdNDQXBuXpjLT43W3W4uqrgGrvmD59SrDiT3gUf1bAOwH
+         rRCA==
+X-Gm-Message-State: APjAAAWLVEuj94/GyFk2wcPTqYZfsaVFCGHRoeKT6XQIfh3f7zbiUIqO
+        lKzX2USuHoUvahKKoX25qg==
+X-Google-Smtp-Source: APXvYqwrX78qL+fphXmP83YaXehBjj7lGvQnlNkImVCOv6wfycHSII+8QXVN1ACQV9qwo7LJNutSCA==
+X-Received: by 2002:aca:f3d4:: with SMTP id r203mr5157914oih.164.1568411340561;
+        Fri, 13 Sep 2019 14:49:00 -0700 (PDT)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id d17sm10106995otl.25.2019.09.13.14.48.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Sep 2019 14:49:00 -0700 (PDT)
+Message-ID: <5d7c0ecc.1c69fb81.2f580.64bb@mx.google.com>
+Date:   Fri, 13 Sep 2019 16:48:59 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     frederic.chen@mediatek.com
+Cc:     hans.verkuil@cisco.com, laurent.pinchart+renesas@ideasonboard.com,
+        tfiga@chromium.org, matthias.bgg@gmail.com, mchehab@kernel.org,
+        yuzhao@chromium.org, zwisler@chromium.org,
+        linux-mediatek@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, Sean.Cheng@mediatek.com,
+        sj.huang@mediatek.com, christie.yu@mediatek.com,
+        holmes.chiou@mediatek.com, frederic.chen@mediatek.com,
+        Jerry-ch.Chen@mediatek.com, jungo.lin@mediatek.com,
+        Rynn.Wu@mediatek.com, linux-media@vger.kernel.org,
+        srv_heupstream@mediatek.com, devicetree@vger.kernel.org,
+        shik@chromium.org, suleiman@chromium.org, Allan.Yang@mediatek.com
+Subject: Re: [RFC PATCH V3 1/5] dt-bindings: mt8183: Added DIP dt-bindings
+References: <20190909192244.9367-1-frederic.chen@mediatek.com>
+ <20190909192244.9367-2-frederic.chen@mediatek.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190909192244.9367-2-frederic.chen@mediatek.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi!
-
-Dne petek, 13. september 2019 ob 11:11:47 CEST je Maxime Ripard napisal(a):
-> Hi,
+On Tue, 10 Sep 2019 03:22:40 +0800, <frederic.chen@mediatek.com> wrote:
+> From: Frederic Chen <frederic.chen@mediatek.com>
 > 
-> On Thu, Sep 12, 2019 at 10:43:28PM +0200, Jernej Škrabec wrote:
-> > Dne četrtek, 12. september 2019 ob 22:26:47 CEST je Maxime Ripard 
-napisal(a):
-> > > > +	clk_set_rate(dev->mod_clk, 300000000);
+> This patch adds DT binding documentation for the Digital Image
+> Processing (DIP) unit of camera ISP system on Mediatek's SoCs.
 > 
-> I just realized I missed this too. If you really need the rate to be
-> fixed, and if the controller cannot operate properly at any other
-> frequency, you probably want to use clk_set_rate_exclusive there.
+> It depends on the SCP and MDP 3 patch as following:
+> 
+> 1. dt-bindings: Add a binding for Mediatek SCP
+>    https://patchwork.kernel.org/patch/11027247/
+> 2. dt-binding: mt8183: Add Mediatek MDP3 dt-bindings
+>    https://patchwork.kernel.org/patch/10945603/
+> 
+> Signed-off-by: Frederic Chen <frederic.chen@mediatek.com>
+> ---
+>  .../bindings/media/mediatek,mt8183-dip.txt    | 40 +++++++++++++++++++
+>  1 file changed, 40 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt8183-dip.txt
+> 
 
-I don't think that's needed. Parents of deinterlace clock are pll-periph0 and 
-pll-periph1 which both have fixed clock and thus deinterlace clock will never 
-be changed. I just set it to same frequency as it is set in BSP driver. I 
-think it works with 600 MHz too, but that's overkill.
+Please add Acked-by/Reviewed-by tags when posting new versions. However,
+there's no need to repost patches *only* to add the tags. The upstream
+maintainer will do that for acks received on the version they apply.
 
-Best regards,
-Jernej 
-
-
+If a tag was not added on purpose, please state why and what changed.
 
