@@ -2,75 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C1C6B1879
-	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2019 08:50:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B464EB187A
+	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2019 08:53:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726891AbfIMGux (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Sep 2019 02:50:53 -0400
-Received: from mga17.intel.com ([192.55.52.151]:53638 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725446AbfIMGux (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Sep 2019 02:50:53 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Sep 2019 23:50:52 -0700
-X-IronPort-AV: E=Sophos;i="5.64,489,1559545200"; 
-   d="scan'208";a="386302958"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Sep 2019 23:50:52 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 04C3720BD1; Fri, 13 Sep 2019 09:50:49 +0300 (EEST)
-Date:   Fri, 13 Sep 2019 09:50:49 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH 6/6] smiapp: Avoid fall-through in switch
-Message-ID: <20190913065049.GK5781@paasikivi.fi.intel.com>
-References: <20190819124728.10511-1-sakari.ailus@linux.intel.com>
- <20190819124728.10511-7-sakari.ailus@linux.intel.com>
- <74b049a8-9f03-c7c0-94db-0a1e5db4d07a@xs4all.nl>
+        id S1726636AbfIMGxB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Sep 2019 02:53:01 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:37527 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725446AbfIMGxB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 13 Sep 2019 02:53:01 -0400
+Received: from [192.168.2.10] ([46.9.232.237])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id 8fRwiDub6QUjz8fRziAQl0; Fri, 13 Sep 2019 08:53:00 +0200
+Subject: Re: [PATCH v2 6/6] smiapp: Avoid fall-through in switch
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org
+References: <20190819124728.10511-7-sakari.ailus@linux.intel.com>
+ <20190913064722.11415-1-sakari.ailus@linux.intel.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <c4d6cde2-b290-0fb0-b256-69a1cda1cb89@xs4all.nl>
+Date:   Fri, 13 Sep 2019 08:52:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <74b049a8-9f03-c7c0-94db-0a1e5db4d07a@xs4all.nl>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190913064722.11415-1-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfOwPr5+UCZGbgJ05c8SA8dDpTuLhw89FRip/foZn1b3O7QoPu9PNG8VnO0A0SgAuWeb+ZEXWu3TcR7WZmFg/l+zxqYeel8ANbmh36KqoXasZEOs+yZRX
+ 5QRAuPjGOsPNU/y0PUjZZLhFvZYp19ZvNkiv2A7oMetcUDdOWPwud47cTbod2ZZY1DIs8oAFvRdxD3ZI74qaFi9R0TiBRHI02Fzd0WZQne5KYGJVIu3YDXHm
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Sep 12, 2019 at 03:17:54PM +0200, Hans Verkuil wrote:
-> On 8/19/19 2:47 PM, Sakari Ailus wrote:
-> > Remove switch fall-through cases in the driver.
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  drivers/media/i2c/smiapp/smiapp-core.c | 11 +++++------
-> >  1 file changed, 5 insertions(+), 6 deletions(-)
-> > 
-> > diff --git a/drivers/media/i2c/smiapp/smiapp-core.c b/drivers/media/i2c/smiapp/smiapp-core.c
-> > index 76d7d204ec17..61de8cdccc4b 100644
-> > --- a/drivers/media/i2c/smiapp/smiapp-core.c
-> > +++ b/drivers/media/i2c/smiapp/smiapp-core.c
-> > @@ -1674,13 +1674,12 @@ static void smiapp_propagate(struct v4l2_subdev *subdev,
-> >  				sensor->binning_vertical = 1;
-> >  			}
-> >  		}
-> > -		/* Fall through */
-> > -	case V4L2_SEL_TGT_COMPOSE:
+On 9/13/19 8:47 AM, Sakari Ailus wrote:
+> Remove switch fall-through cases in the driver.
 > 
-> This doesn't look right: for this target you now enter the default case.
-> 
-> You probably want to do:
-> 
-> 		break;
-> 	case V4L2_SEL_TGT_COMPOSE:
-> 		break;
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-Yes; thanks. I've just sent v2.
+Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
--- 
-Sakari Ailus
-sakari.ailus@linux.intel.com
+> ---
+>  drivers/media/i2c/smiapp/smiapp-core.c | 11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/smiapp/smiapp-core.c b/drivers/media/i2c/smiapp/smiapp-core.c
+> index 76d7d204ec17..c6202f3a4015 100644
+> --- a/drivers/media/i2c/smiapp/smiapp-core.c
+> +++ b/drivers/media/i2c/smiapp/smiapp-core.c
+> @@ -1674,13 +1674,14 @@ static void smiapp_propagate(struct v4l2_subdev *subdev,
+>  				sensor->binning_vertical = 1;
+>  			}
+>  		}
+> -		/* Fall through */
+> +		break;
+>  	case V4L2_SEL_TGT_COMPOSE:
+> -		*crops[SMIAPP_PAD_SRC] = *comp;
+>  		break;
+>  	default:
+> -		BUG();
+> +		WARN_ON(1);
+> +		return;
+>  	}
+> +	*crops[SMIAPP_PAD_SRC] = *comp;
+>  }
+>  
+>  static const struct smiapp_csi_data_format
+> @@ -2062,7 +2063,7 @@ static int __smiapp_sel_supported(struct v4l2_subdev *subdev,
+>  		    && sensor->limits[SMIAPP_LIMIT_SCALING_CAPABILITY]
+>  		    != SMIAPP_SCALING_CAPABILITY_NONE)
+>  			return 0;
+> -		/* Fall through */
+> +		return -EINVAL;
+>  	default:
+>  		return -EINVAL;
+>  	}
+> @@ -2716,7 +2717,7 @@ static struct smiapp_hwconfig *smiapp_get_hwconfig(struct device *dev)
+>  		case 180:
+>  			hwcfg->module_board_orient =
+>  				SMIAPP_MODULE_BOARD_ORIENT_180;
+> -			/* Fall through */
+> +			break;
+>  		case 0:
+>  			break;
+>  		default:
+> 
+
