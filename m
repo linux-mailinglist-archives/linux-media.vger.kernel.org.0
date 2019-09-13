@@ -2,125 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B5887B158C
-	for <lists+linux-media@lfdr.de>; Thu, 12 Sep 2019 22:47:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 45FEAB16DA
+	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2019 02:18:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727862AbfILUrD convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Thu, 12 Sep 2019 16:47:03 -0400
-Received: from mailoutvs18.siol.net ([185.57.226.209]:47244 "EHLO
-        mail.siol.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727381AbfILUrD (ORCPT
+        id S1727157AbfIMASZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Sep 2019 20:18:25 -0400
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:42281 "EHLO
+        out3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725775AbfIMASZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Sep 2019 16:47:03 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.siol.net (Postfix) with ESMTP id 91F0952276C;
-        Thu, 12 Sep 2019 22:46:59 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at psrvmta10.zcs-production.pri
-Received: from mail.siol.net ([127.0.0.1])
-        by localhost (psrvmta10.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id PiO-ecvngsQu; Thu, 12 Sep 2019 22:46:59 +0200 (CEST)
-Received: from mail.siol.net (localhost [127.0.0.1])
-        by mail.siol.net (Postfix) with ESMTPS id 3045752278E;
-        Thu, 12 Sep 2019 22:46:59 +0200 (CEST)
-Received: from jernej-laptop.localnet (cpe-86-58-59-25.static.triera.net [86.58.59.25])
-        (Authenticated sender: jernej.skrabec@siol.net)
-        by mail.siol.net (Postfix) with ESMTPA id C6B2352276C;
-        Thu, 12 Sep 2019 22:46:58 +0200 (CEST)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
-To:     Maxime Ripard <mripard@kernel.org>
-Cc:     wens@csie.org, robh+dt@kernel.org, mark.rutland@arm.com,
-        mchehab@kernel.org, hverkuil@xs4all.nl, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-sunxi@googlegroups.com
-Subject: Re: [PATCH 3/6] ARM: dts: sunxi: h3/h5: Add MBUS controller node
-Date:   Thu, 12 Sep 2019 22:46:58 +0200
-Message-ID: <5193854.KWMFve8tAi@jernej-laptop>
-In-Reply-To: <20190912203427.ajbmtm5djctpkz6p@localhost.localdomain>
-References: <20190912175132.411-1-jernej.skrabec@siol.net> <1679881.yZ8pMUtPNZ@jernej-laptop> <20190912203427.ajbmtm5djctpkz6p@localhost.localdomain>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Type: text/plain; charset="UTF-8"
+        Thu, 12 Sep 2019 20:18:25 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.nyi.internal (Postfix) with ESMTP id C9231218C1;
+        Thu, 12 Sep 2019 20:18:24 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+  by compute4.internal (MEProxy); Thu, 12 Sep 2019 20:18:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+        mime-version:message-id:in-reply-to:references:date:from:to:cc
+        :subject:content-type; s=fm3; bh=oNwpvvEFJpewbaAAzElh0tbN5tfdwes
+        oAvqCdHyUw20=; b=BQKKVypc07wGv3ETEqiDniu/M41UoqTlRbeyipH149Ckz9H
+        HTZ31Kl6EjyTRRfUZ4/eOINWVA60mIulx/Ap0w8gNCMxDxL1M28X7PEWrY5n8MRf
+        BMYfkD4jVHSVT9hRxCvUepksrTR4d4o1U+1mQQOfPRPFekIcZWZ5pxhYoIaa8nRZ
+        mYZ/Mh5p8HgtubTZJAgOwhhunIURsZN36S/7HbrPXHRnBLJr9RTU+K26zUPO+/GW
+        KJzUeiW70j+UluBkXtiXvGWk1Fe1zRceKk13C/2dZB9dzDCJ1HylswbHiRCiyNMR
+        mAm7PvVcfXMiBPY0kISDz9tfmJQu2lNrohxgQsg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=oNwpvv
+        EFJpewbaAAzElh0tbN5tfdwesoAvqCdHyUw20=; b=N73yuY+IyuOqVQNmQaRPnN
+        xFqjQoGIW6OjoJBzc/g3zzTlYM0jBgi+h+ZnQGm9AX7Rm2X5pmmwxNiMvp6q72yW
+        JrhIg+WqT/JzN7ro2sNXWqhTiJQ1Q7yVKuzL0QV9QLl9o4kg9o9+zeVcqIbfcPbh
+        1tI1fwsrvt1bDF4+ywWq8aByms/iw+qzvryenH3iPq3x9ahXUKLmPfco6t2HKEp2
+        s3+bF2WGhgRY/trTmNZMbKF27LDORxJICPMy+deiGZz8gPdPRjzJ4OGRyBP2mJsP
+        hIIPfVrXVWD+2GXvrwKMsgCoGFdZLSy7EwGxN4Gor8gciRwUoQlaBQvTtxrVNyvw
+        ==
+X-ME-Sender: <xms:T-B6XVzBfMV0FCGSNx67R1ER2fZZIHDPdALWnGEONwoYHVD_JBpvFQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrtdeigdeffecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvufgtsehttdertderreejnecuhfhrohhmpedftehnughr
+    vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucfrrghrrg
+    hmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgruhenucevlhhushhtvghr
+    ufhiiigvpedt
+X-ME-Proxy: <xmx:T-B6Xf0JkaJrv512xukpHGAmztcvJJa9REAAaN5yLprZ4sqWgrXj1A>
+    <xmx:T-B6Xb6cFvvZzKmhbFMxOAjy2d8HgILQTXiMUO9Z7EOT5vYJbYFhsg>
+    <xmx:T-B6XaWm3CneoLTmi69aMjzeBy1jnk7prR0mJvLk8cVDfDAkBDU9Eg>
+    <xmx:UOB6XZ4Yzrw0nRUORO1XxTIY3WvjzhKjHBmNdcu4dMQa6k2K6I4esg>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id D9C27E00A9; Thu, 12 Sep 2019 20:18:23 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.1.7-237-gf35468d-fmstable-20190912v1
+Mime-Version: 1.0
+Message-Id: <2c24c8a9-b357-4948-8744-3900ed28012c@www.fastmail.com>
+In-Reply-To: <490bc4d9-e471-3b0f-49c9-39e99af95d62@linux.intel.com>
+References: <20190910190756.31432-1-jae.hyun.yoo@linux.intel.com>
+ <20190910190756.31432-3-jae.hyun.yoo@linux.intel.com>
+ <5c5538e7-4b7a-4d13-b4ac-584be4090d48@www.fastmail.com>
+ <490bc4d9-e471-3b0f-49c9-39e99af95d62@linux.intel.com>
+Date:   Fri, 13 Sep 2019 09:48:56 +0930
+From:   "Andrew Jeffery" <andrew@aj.id.au>
+To:     "Jae Hyun Yoo" <jae.hyun.yoo@linux.intel.com>,
+        "Eddie James" <eajames@linux.ibm.com>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        "Joel Stanley" <joel@jms.id.au>
+Cc:     linux-aspeed@lists.ozlabs.org, linux-media@vger.kernel.org,
+        openbmc@lists.ozlabs.org
+Subject: =?UTF-8?Q?Re:_[PATCH_-next_2/2]_media:_aspeed:_set_hsync_and_vsync_polar?=
+ =?UTF-8?Q?ities_to_normal_before_starting_mode_detection?=
+Content-Type: text/plain
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dne četrtek, 12. september 2019 ob 22:34:27 CEST je Maxime Ripard napisal(a):
-> On Thu, Sep 12, 2019 at 10:28:37PM +0200, Jernej Škrabec wrote:
-> > Dne četrtek, 12. september 2019 ob 22:20:57 CEST je Maxime Ripard 
-napisal(a):
-> > > Hi,
-> > > 
-> > > On Thu, Sep 12, 2019 at 07:51:29PM +0200, Jernej Skrabec wrote:
-> > > > Both, H3 and H5, contain MBUS, which is the bus used by DMA devices to
-> > > > access system memory.
-> > > > 
-> > > > MBUS controller is responsible for arbitration between channels based
-> > > > on set priority and can do some other things as well, like report
-> > > > bandwidth used. It also maps RAM region to different address than CPU.
-> > > > 
-> > > > Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
-> > > > ---
-> > > > 
-> > > >  arch/arm/boot/dts/sunxi-h3-h5.dtsi | 9 +++++++++
-> > > >  1 file changed, 9 insertions(+)
-> > > > 
-> > > > diff --git a/arch/arm/boot/dts/sunxi-h3-h5.dtsi
-> > > > b/arch/arm/boot/dts/sunxi-h3-h5.dtsi index eba190b3f9de..ef1d03812636
-> > > > 100644
-> > > > --- a/arch/arm/boot/dts/sunxi-h3-h5.dtsi
-> > > > +++ b/arch/arm/boot/dts/sunxi-h3-h5.dtsi
-> > > > @@ -109,6 +109,7 @@
-> > > > 
-> > > >  		compatible = "simple-bus";
-> > > >  		#address-cells = <1>;
-> > > >  		#size-cells = <1>;
-> > > > 
-> > > > +		dma-ranges;
-> > > > 
-> > > >  		ranges;
-> > > >  		
-> > > >  		display_clocks: clock@1000000 {
-> > > > 
-> > > > @@ -538,6 +539,14 @@
-> > > > 
-> > > >  			};
-> > > >  		
-> > > >  		};
-> > > > 
-> > > > +		mbus: dram-controller@1c62000 {
-> > > > +			compatible = "allwinner,sun8i-h3-mbus";
-> > > > +			reg = <0x01c62000 0x1000>;
-> > > > +			clocks = <&ccu 113>;
-> > > > +			dma-ranges = <0x00000000 0x40000000
+
+
+On Fri, 13 Sep 2019, at 02:36, Jae Hyun Yoo wrote:
+> On 9/11/2019 10:39 PM, Andrew Jeffery wrote:
 > > 
-> > 0xc0000000>;
 > > 
-> > > > +			#interconnect-cells = <1>;
-> > > > +		};
-> > > > +
-> > > 
-> > > If that's easy enough to access, can you also add the references in
-> > > the devices that are already there? (CSI and DE comes to my mind, but
-> > > there might be others).
+> > On Wed, 11 Sep 2019, at 04:37, Jae Hyun Yoo wrote:
+> >> Sometimes it detects a weird resolution such as 1024x287 when the
+> >> actual resolution is 1024x768. To resolve such an issue, this
+> >> commit adds clearing for hsync and vsync polarity register bits
+> >> at the beginning of the first mode detection. This is recommended
+> >> in the datasheet.
 > > 
-> > Strangely, DE2 doesn't use this offset. That was tested on OrangePi
-> > Plus2E,
-> > which has 2 GiB of RAM and subtracting this offset causes corrupted image.
+> > I guess this answers my question on the previous patch's commit
+> > message. Maybe it should be in both?
 > 
-> Ok, weird. But if it was tested then fine by me :)
-> 
-> > But I can add this properties to CSI too. However, wouldn't that need CSI
-> > DT binding expansion with those properties? othetwise DT check will fail.
-> Oh right, we definitely need to update the binding indeed. The code
-> should be able to cope with both cases already.
+> I think the previous patch is a bug fix and this one is an enhancement
+> patch. Better splitting them.
 
-I guess it's better to handle that with another patch series then? Changing 
-CSI bindings doesn't fit here.
+I wasn't suggesting squashing the patches, I was suggesting updating
+the commit message of the first patch to better justify/explain the
+change.
 
-Best regards,
-Jernej
-
-
-
-
+Andrew
