@@ -2,95 +2,207 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3EB89B1F83
-	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2019 15:21:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 28811B20EA
+	for <lists+linux-media@lfdr.de>; Fri, 13 Sep 2019 15:49:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390512AbfIMNUG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Sep 2019 09:20:06 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:44690 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390494AbfIMNUF (ORCPT
+        id S2391509AbfIMN3U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Sep 2019 09:29:20 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:33885 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2390444AbfIMNT6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Sep 2019 09:20:05 -0400
-Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A2C8633A;
-        Fri, 13 Sep 2019 15:20:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1568380803;
-        bh=4kRbhFg+9dUSHPO2GVJj0visaweYygNMgySoV4SSvX4=;
-        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=OfPtFBP+wH6GVblOBvvVZ9xG15W6TioNJwcBj2gpGChsbCIbNldX0EB0FyXvDRyEN
-         X4tXk3IdGtz+Z2EErFXzhwT1i1i957MeOiC9N3GbVNCSp/zbG/78OU+YjxZlZdZINk
-         wC9TX9SFNFgoHHf9BplrBeOiSWJdf7A9pkHjHfFQ=
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH v3 1/6] rcar-vin: Fix incorrect return statement in
- rvin_try_format()
-To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org
-References: <20190904215409.30136-1-niklas.soderlund+renesas@ragnatech.se>
- <20190904215409.30136-2-niklas.soderlund+renesas@ragnatech.se>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <48208a9b-d92b-d0bf-7c62-7225b154f315@ideasonboard.com>
-Date:   Fri, 13 Sep 2019 14:20:00 +0100
+        Fri, 13 Sep 2019 09:19:58 -0400
+Received: from [IPv6:2001:420:44c1:2577:888a:538c:8dda:557b] ([IPv6:2001:420:44c1:2577:888a:538c:8dda:557b])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id 8lUOiWodCV17O8lURi2q7R; Fri, 13 Sep 2019 15:19:55 +0200
+Subject: Re: [Patch 12/13] media: am437x-vpfe: Remove per bus width static
+ data
+To:     Benoit Parrot <bparrot@ti.com>
+Cc:     Prabhakar Lad <prabhakar.csengg@gmail.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20190909162743.30114-1-bparrot@ti.com>
+ <20190909162743.30114-13-bparrot@ti.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <add3cb62-1391-f8e3-15f3-f1345e18da47@xs4all.nl>
+Date:   Fri, 13 Sep 2019 15:19:52 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190904215409.30136-2-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20190909162743.30114-13-bparrot@ti.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfDPD79xpkAXnqWG0IqlGd95oDOl6bT+t+OMAuRgFfzmSo+y5satYA0w6avFYMQClcPT72By7btbxBlcfIXJSYFPmzapLt0p05YQz0Ot3cIej0Rrjv4rD
+ TKGUjwt56ya8Kk68vFVAt6s0E8gulCm1cc+HpK1IMy8v+ScJy7+KSr7sSe9EneEp6fgS1+OyQ84o9VQBbAa+ePjkH2/hsogZjV+3lAtajqplQ7d6Zfk3drHT
+ Fb0mX1fXJmHUFDdc4fsSWJ1Ex4z7/OOTkLfNU70O3a3x+vnAe7yNOIxlzqQQZnuNUTb4KnPYY/bUrtZweAkj0NinkPrpt0O2Pj9yPiKbxdWq3wmYBueBtsYO
+ SuyWNIAajdqqtnl1BvkyjHMFrXIlbtnhaLlh0oXT71i5JixTJfK12uwvqfweIBHva2PL4usEX/Ij6hmDt1IVHFyRcEJCaw==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Niklas,
+On 9/9/19 6:27 PM, Benoit Parrot wrote:
+> The bus related static data include in the vpfe_fmt
+> static table can be derived dynamically instead.
+> This simplify the table and it's use.
 
-On 04/09/2019 22:54, Niklas Söderlund wrote:
-> While refactoring code the return statement became corrupted, fix it by
-> returning the correct return code.
+simplify -> simplifies
+it's -> its
+
 > 
-> Reported-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Fixes: 897e371389e77514 ("media: rcar-vin: simplify how formats are set and reset"
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> We instead replace the per bus data info with just
+> the usual bit per pixel value for each supported
 
+bit -> bits
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
+> pixel format.
+> 
+> Signed-off-by: Benoit Parrot <bparrot@ti.com>
 > ---
+>  drivers/media/platform/am437x/am437x-vpfe.c | 56 ++++++---------------
+>  drivers/media/platform/am437x/am437x-vpfe.h | 16 +-----
+>  2 files changed, 16 insertions(+), 56 deletions(-)
 > 
-> * Changes since v2
-> - Set ret to 0 if the subdevice do not implement set_fmt and returns
->   -ENOIOCTLCMD instead of returning the not implemented error.
-> ---
->  drivers/media/platform/rcar-vin/rcar-v4l2.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> index cbc1c07f0a9631a4..ec2796413e26822d 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> @@ -208,6 +208,7 @@ static int rvin_try_format(struct rvin_dev *vin, u32 which,
->  	ret = v4l2_subdev_call(sd, pad, set_fmt, pad_cfg, &format);
->  	if (ret < 0 && ret != -ENOIOCTLCMD)
->  		goto done;
-> +	ret = 0;
+> diff --git a/drivers/media/platform/am437x/am437x-vpfe.c b/drivers/media/platform/am437x/am437x-vpfe.c
+> index 9759ed398943..9855d4cb1d13 100644
+> --- a/drivers/media/platform/am437x/am437x-vpfe.c
+> +++ b/drivers/media/platform/am437x/am437x-vpfe.c
+> @@ -73,73 +73,43 @@ static struct vpfe_fmt formats[] = {
+>  	{
+>  		.fourcc		= V4L2_PIX_FMT_YUYV,
+>  		.code		= MEDIA_BUS_FMT_YUYV8_2X8,
+> -		.l.width	= 10,
+> -		.l.bpp		= 4,
+> -		.s.width	= 8,
+> -		.s.bpp		= 2,
+> +		.bitsperpixel	= 16,
+>  	}, {
+>  		.fourcc		= V4L2_PIX_FMT_UYVY,
+>  		.code		= MEDIA_BUS_FMT_UYVY8_2X8,
+> -		.l.width	= 10,
+> -		.l.bpp		= 4,
+> -		.s.width	= 8,
+> -		.s.bpp		= 2,
+> +		.bitsperpixel	= 16,
+>  	}, {
+>  		.fourcc		= V4L2_PIX_FMT_YVYU,
+>  		.code		= MEDIA_BUS_FMT_YVYU8_2X8,
+> -		.l.width	= 10,
+> -		.l.bpp		= 4,
+> -		.s.width	= 8,
+> -		.s.bpp		= 2,
+> +		.bitsperpixel	= 16,
+>  	}, {
+>  		.fourcc		= V4L2_PIX_FMT_VYUY,
+>  		.code		= MEDIA_BUS_FMT_VYUY8_2X8,
+> -		.l.width	= 10,
+> -		.l.bpp		= 4,
+> -		.s.width	= 8,
+> -		.s.bpp		= 2,
+> +		.bitsperpixel	= 16,
+>  	}, {
+>  		.fourcc		= V4L2_PIX_FMT_SBGGR8,
+>  		.code		= MEDIA_BUS_FMT_SBGGR8_1X8,
+> -		.l.width	= 10,
+> -		.l.bpp		= 2,
+> -		.s.width	= 8,
+> -		.s.bpp		= 1,
+> +		.bitsperpixel	= 8,
+>  	}, {
+>  		.fourcc		= V4L2_PIX_FMT_SGBRG8,
+>  		.code		= MEDIA_BUS_FMT_SGBRG8_1X8,
+> -		.l.width	= 10,
+> -		.l.bpp		= 2,
+> -		.s.width	= 8,
+> -		.s.bpp		= 1,
+> +		.bitsperpixel	= 8,
+>  	}, {
+>  		.fourcc		= V4L2_PIX_FMT_SGRBG8,
+>  		.code		= MEDIA_BUS_FMT_SGRBG8_1X8,
+> -		.l.width	= 10,
+> -		.l.bpp		= 2,
+> -		.s.width	= 8,
+> -		.s.bpp		= 1,
+> +		.bitsperpixel	= 8,
+>  	}, {
+>  		.fourcc		= V4L2_PIX_FMT_SRGGB8,
+>  		.code		= MEDIA_BUS_FMT_SRGGB8_1X8,
+> -		.l.width	= 10,
+> -		.l.bpp		= 2,
+> -		.s.width	= 8,
+> -		.s.bpp		= 1,
+> +		.bitsperpixel	= 8,
+>  	}, {
+>  		.fourcc		= V4L2_PIX_FMT_RGB565,
+>  		.code		= MEDIA_BUS_FMT_RGB565_2X8_LE,
+> -		.l.width	= 10,
+> -		.l.bpp		= 4,
+> -		.s.width	= 8,
+> -		.s.bpp		= 2,
+> +		.bitsperpixel	= 16,
+>  	}, {
+>  		.fourcc		= V4L2_PIX_FMT_RGB565X,
+>  		.code		= MEDIA_BUS_FMT_RGB565_2X8_BE,
+> -		.l.width	= 10,
+> -		.l.bpp		= 4,
+> -		.s.width	= 8,
+> -		.s.bpp		= 2,
+> +		.bitsperpixel	= 16,
+>  	},
+>  };
 >  
->  	v4l2_fill_pix_format(pix, &format.format);
+> @@ -184,9 +154,11 @@ static unsigned int __get_bytesperpixel(struct vpfe_device *vpfe,
+>  {
+>  	struct vpfe_subdev_info *sdinfo = vpfe->current_subdev;
+>  	unsigned int bus_width = sdinfo->vpfe_param.bus_width;
+> -	u32 bpp;
+> +	u32 bpp, bus_width_bytes, clocksperpixel;
 >  
-> @@ -242,7 +243,7 @@ static int rvin_try_format(struct rvin_dev *vin, u32 which,
->  done:
->  	v4l2_subdev_free_pad_config(pad_cfg);
+> -	bpp = (bus_width == 10) ? fmt->l.bpp : fmt->s.bpp;
+> +	bus_width_bytes = ALIGN(bus_width, 8) >> 3;
+> +	clocksperpixel = DIV_ROUND_UP(fmt->bitsperpixel, bus_width);
+> +	bpp = clocksperpixel * bus_width_bytes;
 >  
-> -	return 0;
-> +	return ret;
+>  	return bpp;
 >  }
+> diff --git a/drivers/media/platform/am437x/am437x-vpfe.h b/drivers/media/platform/am437x/am437x-vpfe.h
+> index 0d10d2b4d7a2..2c9e89395bea 100644
+> --- a/drivers/media/platform/am437x/am437x-vpfe.h
+> +++ b/drivers/media/platform/am437x/am437x-vpfe.h
+> @@ -215,28 +215,16 @@ struct vpfe_ccdc {
+>  	u32 ccdc_ctx[VPFE_REG_END / sizeof(u32)];
+>  };
 >  
->  static int rvin_querycap(struct file *file, void *priv,
+> -/*
+> - * struct bus_format - VPFE bus format information
+> - * @width: Bits per pixel (when transferred over a bus)
+> - * @bpp: Bytes per pixel (when stored in memory)
+> - */
+> -struct bus_format {
+> -	unsigned int width;
+> -	unsigned int bpp;
+> -};
+> -
+>  /*
+>   * struct vpfe_fmt - VPFE media bus format information
+>   * @fourcc: V4L2 pixel format code
+>   * @code: V4L2 media bus format code
+> - * @l: 10 bit bus format info
+> - * @s: 8 bit bus format info
+> + * @bitsperpixel: Bits per pixel over the bus
+>   */
+>  struct vpfe_fmt {
+>  	u32 fourcc;
+>  	u32 code;
+> -	struct bus_format l;
+> -	struct bus_format s;
+> +	u32 bitsperpixel;
+>  };
+>  
+>  /*
 > 
 
+Regards,
+
+	Hans
