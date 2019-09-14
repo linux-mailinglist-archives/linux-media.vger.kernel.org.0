@@ -2,151 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EFD2B2A8E
-	for <lists+linux-media@lfdr.de>; Sat, 14 Sep 2019 10:54:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 56C30B2AEF
+	for <lists+linux-media@lfdr.de>; Sat, 14 Sep 2019 12:11:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727481AbfINIy2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 14 Sep 2019 04:54:28 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:36760 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726622AbfINIy1 (ORCPT
+        id S1728196AbfINKLc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 14 Sep 2019 06:11:32 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:45711 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726313AbfINKLb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 14 Sep 2019 04:54:27 -0400
-Received: by mail-wr1-f67.google.com with SMTP id y19so34203532wrd.3
-        for <linux-media@vger.kernel.org>; Sat, 14 Sep 2019 01:54:26 -0700 (PDT)
+        Sat, 14 Sep 2019 06:11:31 -0400
+Received: by mail-oi1-f194.google.com with SMTP id o205so4660355oib.12;
+        Sat, 14 Sep 2019 03:11:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=QIyck85uSERpvRHQqI5bMUvlATthpgtevcauuigbneg=;
-        b=V1d909PkgIOM06gS3Pvi622M7lcqfZFSm0O4gZewmO/zmUFuI6+ZfsaAFhzPeIh6UF
-         EEn4kPC6HxDWLfqHegdIaJ1cA5JHmU29PXTKUDKMBPV2JTScwpaULh+hgjo/HtzneKEn
-         joObr/AAv16ztumUSb0SQMSigugGbchccqbZOaxSGe2Gly31UaJh7INN3dZFaQKu8uD+
-         PTWL7juAdvyJxxajVqpOCR4gBHwVw+p37rWeevlOfwib6zUgF/Kk4zrRor3hFzwebzAZ
-         Ydy9hP5yDMrJTFWqVEEx29pFjvr7dp1mLnPnCQgwXJLDEsPR48JLnsfYWYh75pir6O3X
-         jcSA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=w98abdyP0iDoOCCgOY4sBXFFg13pO1U0mLK+q84lIdc=;
+        b=FtLnoI9RJ0k/xMfpIdqYXAgC3ZCu/Bv6lepCGCKPHIotHEhV7ANIbzKyLj9KTlb4MK
+         X1ZJ21ih8/ao/VLEk8QsHTzXzTwQzaiOfBkLhGKncFIdjRI1wut81OSfISmL8HjVMEwj
+         ydJf+gn1WxUJPPCRmn3YGjRlXe4o9nDOG0OJkBPWGtwxT2HFENhKjuuW3H+Jt02s5xHC
+         OHOVrEv/AcceOSloky/P0vZUuXYMDSumrkUjY11v7SmR5VoZVlaqODehAH8vpUC4d3pS
+         N7mD2tCgZLS7ocCPOKNBNsd3nE3KDCsibT7oyZAThdTK6AAKI+FK6gUfj9VGTTmz9oY6
+         C7EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=QIyck85uSERpvRHQqI5bMUvlATthpgtevcauuigbneg=;
-        b=COUcNdGWI91+pL3ff2SLo/1Gz8rls75yipn5ArKr1OPN6CDDIxFJHu8p8yfwlbEn7K
-         PtL4d4PkG60A0Vl7wcP12A9pHEz69TuRCcDeFljvxGNvI/0vdq5DH7LhkmKVAr1UufxM
-         ZGudxqKbVMxldDOr7Kbe5NoYwQcD4J2wi4yQQhUOrEWrZmaMmHU9K5T+RSUfZTDNfz6L
-         pOSCYCQuhsbn3+oygLqN9SZs44Umg9FGNAh/OTtKolGC2e449fQKRwE6DAOoxSYlEDfM
-         LPhU8HHKSwhdH6qTAPUtMHNU6BmWHnIOynBhvG5q2tfDIidg/9FlNB5yiCHM15kWOwI7
-         Xw7w==
-X-Gm-Message-State: APjAAAVflWXzwoiDmFzdfYy+lp0P/FOacAPjh57haNpxFdpEeGFRvPEX
-        qFN8mpmNb6xvMxATV1HMkik=
-X-Google-Smtp-Source: APXvYqw0K2aV2m8qBA5RrCzfYCqyzDaXWBnI0ydSG7kQNN/pE6IaJshdP3WYaLCEIdTzn7c9zu6ZIA==
-X-Received: by 2002:adf:f20f:: with SMTP id p15mr37327483wro.17.1568451265239;
-        Sat, 14 Sep 2019 01:54:25 -0700 (PDT)
-Received: from pretoriano-kubuntu.fritz.box ([79.114.202.215])
-        by smtp.googlemail.com with ESMTPSA id s26sm56080603wrs.63.2019.09.14.01.54.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Sep 2019 01:54:24 -0700 (PDT)
-From:   pretoriano80 <pretoriano.mp@gmail.com>
-X-Google-Original-From: pretoriano80 <viusflag@libero.it>
-To:     sean@mess.org
-Cc:     linux-media@vger.kernel.org
-Subject: [PATCH] media: rc:     Add support for another 0xffdc device
-Date:   Sat, 14 Sep 2019 11:54:07 +0300
-Message-Id: <20190914085407.6476-1-viusflag@libero.it>
-X-Mailer: git-send-email 2.20.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=w98abdyP0iDoOCCgOY4sBXFFg13pO1U0mLK+q84lIdc=;
+        b=pz452pXvIfUZmDdVAH/a/KCm42vv2CLOGCww1KxJIqh3QVz/S/5A25Ms6BhzRcZ548
+         YhUw8a2oawWtUbki2Xd6fcuiY0IdL0kroUxdsr3y7VLAev+W9/u9BTpG67FPKG7WTzpN
+         BdDAx1keElRrS9C7hW+R3sUDd+w5SjZNL1U3ZoKca/0IzQ+X8C2cMShg0rGninLkfEP+
+         DDUyJDZ4WO1czzJZ1wvJON/CkcrXFNHoXEqdEBqX0l8iYghKS+lCx7ZaqLqQP8ALxF+s
+         FaO4yIBxOvDJ7QE/O7HGIDw+Lb+RInic4rvt3oW/rONoVzM4mDQ2IDlo5B1hfS9wTrU0
+         tmGQ==
+X-Gm-Message-State: APjAAAVbs5+Defj08TuHhgNaBVHGigIy7r2YDRkZogT7epvPg0/+Pgo+
+        K9DchDR2I9MyAmtLTSRgU8iPE6idpFVyTg7jSs4=
+X-Google-Smtp-Source: APXvYqz/UGyDGZKzufN9AC6O6ku4BxK3yiwQM+DqG/Q/RgT/iOekCCPHgrrAb9plA3SLd/7Guh4tGdv9qiXyXoCZdps=
+X-Received: by 2002:aca:4e87:: with SMTP id c129mr7100340oib.7.1568455889105;
+ Sat, 14 Sep 2019 03:11:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20190912130007.4469-1-bparrot@ti.com> <20190912130007.4469-4-bparrot@ti.com>
+In-Reply-To: <20190912130007.4469-4-bparrot@ti.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Sat, 14 Sep 2019 11:11:02 +0100
+Message-ID: <CA+V-a8vo2ddxdDEBefTErsTB43tPAFNy-94xhQN1Yhb64jr_Aw@mail.gmail.com>
+Subject: Re: [Patch 3/6] media: dt-bindings: ov2659: add powerdown-gpios
+ optional property
+To:     Benoit Parrot <bparrot@ti.com>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        devicetree@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The device it's an iMON UltraBay (0x98 in config byte) with LCD,
-IR and dual-knobs front panel.
+Hi Benoit,
 
-To work properly the device also require its own key table,
-and repeat suppression for all buttons.
+Thank you for the patch.
 
-Signed-off-by: pretoriano80 <viusflag@libero.it>
----
- drivers/media/rc/imon.c | 44 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 44 insertions(+)
+On Thu, Sep 12, 2019 at 1:58 PM Benoit Parrot <bparrot@ti.com> wrote:
+>
+> Add powerdown-gpios to the list of optional properties for the OV2659
+> camera sensor.
+>
+> Signed-off-by: Benoit Parrot <bparrot@ti.com>
+> ---
+>  Documentation/devicetree/bindings/media/i2c/ov2659.txt | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ov2659.txt b/Documentation/devicetree/bindings/media/i2c/ov2659.txt
+> index cabc7d827dfb..f55204cce0cd 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/ov2659.txt
+> +++ b/Documentation/devicetree/bindings/media/i2c/ov2659.txt
+> @@ -12,6 +12,10 @@ Required Properties:
+>  - clock-names: should be "xvclk".
+>  - link-frequencies: target pixel clock frequency.
+>
+> +Optional Properties:
+> +- powerdown-gpios: reference to the GPIO connected to the pwdn pin, if any.
+> +  Active is low.
+> +
+as per the datasheet this should be active high with  pull-down resistor.
 
-diff --git a/drivers/media/rc/imon.c b/drivers/media/rc/imon.c
-index 7bee72108b0e..3b29e0815610 100644
---- a/drivers/media/rc/imon.c
-+++ b/drivers/media/rc/imon.c
-@@ -83,6 +83,7 @@ struct imon_usb_dev_descr {
- 	__u16 flags;
- #define IMON_NO_FLAGS 0
- #define IMON_NEED_20MS_PKT_DELAY 1
-+#define IMON_SUPPRESS_REPEATED_KEYS 2
- 	struct imon_panel_key_table key_table[];
- };
- 
-@@ -315,6 +316,32 @@ static const struct imon_usb_dev_descr imon_DH102 = {
- 	}
- };
- 
-+/* imon ultrabay front panel key table */
-+static const struct imon_usb_dev_descr imon_ultrabay_table = {
-+	.flags = IMON_SUPPRESS_REPEATED_KEYS,
-+	.key_table = {
-+		{ 0x0000000f0000ffeell, KEY_MEDIA },      /* Go */
-+		{ 0x000000000100ffeell, KEY_UP },
-+		{ 0x000000000001ffeell, KEY_DOWN },
-+		{ 0x000000160000ffeell, KEY_ENTER },
-+		{ 0x0000001f0000ffeell, KEY_AUDIO },	/* Music */
-+		{ 0x000000200000ffeell, KEY_VIDEO },	/* Movie */
-+		{ 0x000000210000ffeell, KEY_CAMERA },	/* Photo */
-+		{ 0x000000270000ffeell, KEY_DVD },
-+		{ 0x000000230000ffeell, KEY_TV },
-+		{ 0x000000050000ffeell, KEY_PREVIOUS },
-+		{ 0x000000070000ffeell, KEY_REWIND },
-+		{ 0x000000040000ffeell, KEY_STOP },
-+		{ 0x000000020000ffeell, KEY_PLAYPAUSE },
-+		{ 0x000000080000ffeell, KEY_FASTFORWARD },
-+		{ 0x000000060000ffeell, KEY_NEXT },
-+		{ 0x000100000000ffeell, KEY_VOLUMEUP },
-+		{ 0x010000000000ffeell, KEY_VOLUMEDOWN },
-+		{ 0x000000010000ffeell, KEY_MUTE },
-+		{ 0, KEY_RESERVED },
-+	}
-+};
-+
- /*
-  * USB Device ID for iMON USB Control Boards
-  *
-@@ -1661,6 +1688,17 @@ static void imon_incoming_packet(struct imon_context *ictx,
- 			return;
- 		}
- 	}
-+	/* KEY repeats from knob need to be suppressed */
-+	if (ictx->dev_descr->flags & IMON_SUPPRESS_REPEATED_KEYS) {
-+		if (ictx->kc == ictx->last_keycode) {
-+			msec = ktime_ms_delta(t, prev_time);
-+			if (msec < ictx->idev->rep[REP_DELAY]) {
-+				spin_unlock_irqrestore(&ictx->kc_lock, flags);
-+				return;
-+			}
-+		}
-+	}
-+
- 	prev_time = t;
- 	kc = ictx->kc;
- 
-@@ -1843,6 +1881,12 @@ static void imon_get_ffdc_type(struct imon_context *ictx)
- 		dev_info(ictx->dev, "0xffdc iMON Inside, iMON IR");
- 		ictx->display_supported = false;
- 		break;
-+	/* Soundgraph iMON UltraBay */
-+	case 0x98:
-+		dev_info(ictx->dev, "0xffdc iMON UltraBay, LCD + IR");
-+		detected_display_type = IMON_DISPLAY_TYPE_LCD;
-+		allowed_protos = RC_PROTO_BIT_IMON | RC_PROTO_BIT_RC6_MCE;
-+		ictx->dev_descr = (struct imon_usb_dev_descr *) &imon_ultrabay_table;
- 	default:
- 		dev_info(ictx->dev, "Unknown 0xffdc device, defaulting to VFD and iMON IR");
- 		detected_display_type = IMON_DISPLAY_TYPE_VFD;
--- 
-2.20.1
-
+Cheers,
+--Prabhakar Lad
