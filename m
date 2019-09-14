@@ -2,83 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 531BFB2B3A
-	for <lists+linux-media@lfdr.de>; Sat, 14 Sep 2019 14:42:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3471DB2B3D
+	for <lists+linux-media@lfdr.de>; Sat, 14 Sep 2019 14:46:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388220AbfINMi6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 14 Sep 2019 08:38:58 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:43298 "EHLO
+        id S2388303AbfINMqT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 14 Sep 2019 08:46:19 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:43330 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388211AbfINMi6 (ORCPT
+        with ESMTP id S2388285AbfINMqS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 14 Sep 2019 08:38:58 -0400
+        Sat, 14 Sep 2019 08:46:18 -0400
 Received: from pendragon.ideasonboard.com (unknown [IPv6:2001:8a0:6be4:9301:a728:6099:33:a27c])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9C88123F;
-        Sat, 14 Sep 2019 14:38:55 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 07AD323F;
+        Sat, 14 Sep 2019 14:46:16 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1568464736;
-        bh=2epG4//Zl8VWZNuAnYoP9aIn4wnWEbetZTyuOf2nbHY=;
+        s=mail; t=1568465177;
+        bh=kP78qeVzxj8IgqFihuf0gbCi+PoKLewsjvH2ZG/JaEA=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=AtjVBTs6wmKhgDT9U6yXehdDzjsbIPU3dFTYG/SkC9fOi9HFFgy/rTkJyXzUW4R/m
-         nxn+DJ7/Gsi0nbHYu+NyBzvtNLmRXTVmiBDaSUoBgeCaANJYlC03IF3IRcEAP7OnTX
-         dFS0x9/NRvFgWxMNhMb1Ex003LzjdiAU98w78Wkk=
-Date:   Sat, 14 Sep 2019 15:38:48 +0300
+        b=p+1sJx9vO3i4y/tnABWlnx2LuFyam31NQADCy3rw4LGD2HyhiaISPCODgCw/jVv3/
+         JnoeDYNjBVkLtNNjOA773d5/sWy9Fia1qeTMcFMMq78oDbu5NT0S9oBGLClVVHmIM5
+         e57qnUVC9i+eZEFMWh9gc/VtiSZ1/6qS5178VEps=
+Date:   Sat, 14 Sep 2019 15:46:09 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: [RFC] V4L2 & Metadata: switch to /dev/v4l-metaX instead of
- /dev/videoX
-Message-ID: <20190914123848.GD4734@pendragon.ideasonboard.com>
-References: <f26a4eb0-7009-a25f-29bc-3a292d2d79e1@xs4all.nl>
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] media: uvcvideo: Fix a typo in UVC_METATADA_BUF_SIZE
+Message-ID: <20190914124609.GE4734@pendragon.ideasonboard.com>
+References: <20190724045612.29870-1-christophe.jaillet@wanadoo.fr>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <f26a4eb0-7009-a25f-29bc-3a292d2d79e1@xs4all.nl>
+In-Reply-To: <20190724045612.29870-1-christophe.jaillet@wanadoo.fr>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Hi Christophe,
 
-On Thu, Sep 12, 2019 at 09:48:11AM +0200, Hans Verkuil wrote:
-> Hi all,
-> 
-> I am increasingly unhappy about the choice of /dev/videoX for metadata devices.
-> 
-> It is confusing for end-users (especially w.r.t. the common uvc driver) and
-> if we want to change this, then we need to do it soon.
-> 
-> This patch https://patchwork.linuxtv.org/patch/58693/ adds a new VFL_TYPE_METADATA
-> so at least drivers can now explicitly signal that they want to register a
-> metadata device.
-> 
-> This also makes it possible to add a kernel config option that allows you
-> to select whether you want metadata devices to appear as videoX or v4l-metaX.
-> I would prefer to set it to v4l-metaX by default.
-> 
-> We can also consider backporting this to the stable/long-term kernels.
-> 
-> Metadata capture was introduced in 4.12 for the vsp1 driver, in 4.16 for the
-> uvc driver and in 5.0 for the staging ipu3 driver.
-> 
-> Does someone remember the reason why we picked /dev/videoX for this in the
-> first place?
+Thank you for the patch.
 
-One of the reason is CSI-2 sensors and CSI-2 receivers. A CSI-2 link
-often carries both video and metadata using two different datatypes.
-From the point of view of the CSI-2 receiver or the DMA engines, video
-and metadata are not distinguishable, the CSI-2 receiver receives one
-stream with two data types, demultiplexes them, and passes them to
-different DMA engines. A sensor could send two video datatypes, or even
-conceptually two metadata data types, and this would work the exact same
-way, with each of the two DMA engines capturing data to buffers without
-caring about the contents. Given that the datatype selection happens at
-runtime, a given DMA engine is thus not dedicated to video or metadata,
-any of the DMA engines (and there could also be more than two) could
-handle any type of data. For this type of system we thus can't dedicate
-device nodes to video or metadata, they need to support either.
+On Wed, Jul 24, 2019 at 06:56:12AM +0200, Christophe JAILLET wrote:
+> It is likely that it should be UVC_METADATA_BUF_SIZE instead.
+> Fix it and use it.
+> 
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+
+Oops indeed. Applied to my tree for v5.5.
+
+> ---
+>  drivers/media/usb/uvc/uvc_metadata.c | 4 ++--
+>  drivers/media/usb/uvc/uvc_queue.c    | 2 +-
+>  drivers/media/usb/uvc/uvcvideo.h     | 2 +-
+>  3 files changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_metadata.c b/drivers/media/usb/uvc/uvc_metadata.c
+> index 99bb71b47117..b6279ad7ac84 100644
+> --- a/drivers/media/usb/uvc/uvc_metadata.c
+> +++ b/drivers/media/usb/uvc/uvc_metadata.c
+> @@ -51,7 +51,7 @@ static int uvc_meta_v4l2_get_format(struct file *file, void *fh,
+>  	memset(fmt, 0, sizeof(*fmt));
+>  
+>  	fmt->dataformat = stream->meta.format;
+> -	fmt->buffersize = UVC_METATADA_BUF_SIZE;
+> +	fmt->buffersize = UVC_METADATA_BUF_SIZE;
+>  
+>  	return 0;
+>  }
+> @@ -72,7 +72,7 @@ static int uvc_meta_v4l2_try_format(struct file *file, void *fh,
+>  
+>  	fmt->dataformat = fmeta == dev->info->meta_format
+>  			? fmeta : V4L2_META_FMT_UVC;
+> -	fmt->buffersize = UVC_METATADA_BUF_SIZE;
+> +	fmt->buffersize = UVC_METADATA_BUF_SIZE;
+>  
+>  	return 0;
+>  }
+> diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc/uvc_queue.c
+> index da72577c2998..cd60c6c1749e 100644
+> --- a/drivers/media/usb/uvc/uvc_queue.c
+> +++ b/drivers/media/usb/uvc/uvc_queue.c
+> @@ -79,7 +79,7 @@ static int uvc_queue_setup(struct vb2_queue *vq,
+>  
+>  	switch (vq->type) {
+>  	case V4L2_BUF_TYPE_META_CAPTURE:
+> -		size = UVC_METATADA_BUF_SIZE;
+> +		size = UVC_METADATA_BUF_SIZE;
+>  		break;
+>  
+>  	default:
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index c7c1baa90dea..f773dc5d802c 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -491,7 +491,7 @@ struct uvc_stats_stream {
+>  	unsigned int max_sof;		/* Maximum STC.SOF value */
+>  };
+>  
+> -#define UVC_METATADA_BUF_SIZE 1024
+> +#define UVC_METADATA_BUF_SIZE 1024
+>  
+>  /**
+>   * struct uvc_copy_op: Context structure to schedule asynchronous memcpy
 
 -- 
 Regards,
