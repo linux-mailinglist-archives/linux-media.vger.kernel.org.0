@@ -2,139 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 25EEFB2A1E
-	for <lists+linux-media@lfdr.de>; Sat, 14 Sep 2019 08:42:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EFD2B2A8E
+	for <lists+linux-media@lfdr.de>; Sat, 14 Sep 2019 10:54:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726640AbfINGm3 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Sat, 14 Sep 2019 02:42:29 -0400
-Received: from mailoutvs41.siol.net ([185.57.226.232]:44870 "EHLO
-        mail.siol.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726462AbfINGm2 (ORCPT
+        id S1727481AbfINIy2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 14 Sep 2019 04:54:28 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:36760 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726622AbfINIy1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 14 Sep 2019 02:42:28 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.siol.net (Zimbra) with ESMTP id 2B7D6520C71;
-        Sat, 14 Sep 2019 08:42:24 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at psrvmta12.zcs-production.pri
-Received: from mail.siol.net ([127.0.0.1])
-        by localhost (psrvmta12.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id 0F_nRnEQ3SM1; Sat, 14 Sep 2019 08:42:23 +0200 (CEST)
-Received: from mail.siol.net (localhost [127.0.0.1])
-        by mail.siol.net (Zimbra) with ESMTPS id AF25E52132C;
-        Sat, 14 Sep 2019 08:42:23 +0200 (CEST)
-Received: from jernej-laptop.localnet (cpe-86-58-59-25.static.triera.net [86.58.59.25])
-        (Authenticated sender: jernej.skrabec@siol.net)
-        by mail.siol.net (Zimbra) with ESMTPA id 2E97D520C71;
-        Sat, 14 Sep 2019 08:42:23 +0200 (CEST)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
-To:     Maxime Ripard <mripard@kernel.org>
-Cc:     wens@csie.org, robh+dt@kernel.org, mark.rutland@arm.com,
-        mchehab@kernel.org, hverkuil@xs4all.nl, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-sunxi@googlegroups.com
-Subject: Re: [PATCH 5/6] media: sun4i: Add H3 deinterlace driver
-Date:   Sat, 14 Sep 2019 08:42:22 +0200
-Message-ID: <3227980.eWD6USAIP4@jernej-laptop>
-In-Reply-To: <20190912202647.wfcjur7yxhlelvd6@localhost.localdomain>
-References: <20190912175132.411-1-jernej.skrabec@siol.net> <20190912175132.411-6-jernej.skrabec@siol.net> <20190912202647.wfcjur7yxhlelvd6@localhost.localdomain>
+        Sat, 14 Sep 2019 04:54:27 -0400
+Received: by mail-wr1-f67.google.com with SMTP id y19so34203532wrd.3
+        for <linux-media@vger.kernel.org>; Sat, 14 Sep 2019 01:54:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=QIyck85uSERpvRHQqI5bMUvlATthpgtevcauuigbneg=;
+        b=V1d909PkgIOM06gS3Pvi622M7lcqfZFSm0O4gZewmO/zmUFuI6+ZfsaAFhzPeIh6UF
+         EEn4kPC6HxDWLfqHegdIaJ1cA5JHmU29PXTKUDKMBPV2JTScwpaULh+hgjo/HtzneKEn
+         joObr/AAv16ztumUSb0SQMSigugGbchccqbZOaxSGe2Gly31UaJh7INN3dZFaQKu8uD+
+         PTWL7juAdvyJxxajVqpOCR4gBHwVw+p37rWeevlOfwib6zUgF/Kk4zrRor3hFzwebzAZ
+         Ydy9hP5yDMrJTFWqVEEx29pFjvr7dp1mLnPnCQgwXJLDEsPR48JLnsfYWYh75pir6O3X
+         jcSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=QIyck85uSERpvRHQqI5bMUvlATthpgtevcauuigbneg=;
+        b=COUcNdGWI91+pL3ff2SLo/1Gz8rls75yipn5ArKr1OPN6CDDIxFJHu8p8yfwlbEn7K
+         PtL4d4PkG60A0Vl7wcP12A9pHEz69TuRCcDeFljvxGNvI/0vdq5DH7LhkmKVAr1UufxM
+         ZGudxqKbVMxldDOr7Kbe5NoYwQcD4J2wi4yQQhUOrEWrZmaMmHU9K5T+RSUfZTDNfz6L
+         pOSCYCQuhsbn3+oygLqN9SZs44Umg9FGNAh/OTtKolGC2e449fQKRwE6DAOoxSYlEDfM
+         LPhU8HHKSwhdH6qTAPUtMHNU6BmWHnIOynBhvG5q2tfDIidg/9FlNB5yiCHM15kWOwI7
+         Xw7w==
+X-Gm-Message-State: APjAAAVflWXzwoiDmFzdfYy+lp0P/FOacAPjh57haNpxFdpEeGFRvPEX
+        qFN8mpmNb6xvMxATV1HMkik=
+X-Google-Smtp-Source: APXvYqw0K2aV2m8qBA5RrCzfYCqyzDaXWBnI0ydSG7kQNN/pE6IaJshdP3WYaLCEIdTzn7c9zu6ZIA==
+X-Received: by 2002:adf:f20f:: with SMTP id p15mr37327483wro.17.1568451265239;
+        Sat, 14 Sep 2019 01:54:25 -0700 (PDT)
+Received: from pretoriano-kubuntu.fritz.box ([79.114.202.215])
+        by smtp.googlemail.com with ESMTPSA id s26sm56080603wrs.63.2019.09.14.01.54.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 14 Sep 2019 01:54:24 -0700 (PDT)
+From:   pretoriano80 <pretoriano.mp@gmail.com>
+X-Google-Original-From: pretoriano80 <viusflag@libero.it>
+To:     sean@mess.org
+Cc:     linux-media@vger.kernel.org
+Subject: [PATCH] media: rc:     Add support for another 0xffdc device
+Date:   Sat, 14 Sep 2019 11:54:07 +0300
+Message-Id: <20190914085407.6476-1-viusflag@libero.it>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi!
+The device it's an iMON UltraBay (0x98 in config byte) with LCD,
+IR and dual-knobs front panel.
 
-Dne četrtek, 12. september 2019 ob 22:26:47 CEST je Maxime Ripard napisal(a):
-> Hi,
-> 
-> On Thu, Sep 12, 2019 at 07:51:31PM +0200, Jernej Skrabec wrote:
-> > +	dev->regmap = devm_regmap_init_mmio(dev->dev, dev->base,
-> > +					    
-&deinterlace_regmap_config);
-> > +	if (IS_ERR(dev->regmap)) {
-> > +		dev_err(dev->dev, "Couldn't create deinterlace 
-regmap\n");
-> > +
-> > +		return PTR_ERR(dev->regmap);
-> > +	}
-> > +
-> > +	ret = clk_prepare_enable(dev->bus_clk);
-> > +	if (ret) {
-> > +		dev_err(dev->dev, "Failed to enable bus clock\n");
-> > +
-> > +		return ret;
-> > +	}
-> 
-> Do you need to keep the bus clock enabled all the time? Usually, for
-> the SoCs that have a reset line, you only need it to read / write to
-> the registers, not to have the controller actually running.
-> 
-> If you don't, then regmap_init_mmio_clk will take care of that for
-> you.
-> 
-> > +	clk_set_rate(dev->mod_clk, 300000000);
-> > +
-> > +	ret = clk_prepare_enable(dev->mod_clk);
-> > +	if (ret) {
-> > +		dev_err(dev->dev, "Failed to enable mod clock\n");
-> > +
-> > +		goto err_bus_clk;
-> > +	}
-> > +
-> > +	ret = clk_prepare_enable(dev->ram_clk);
-> > +	if (ret) {
-> > +		dev_err(dev->dev, "Failed to enable ram clock\n");
-> > +
-> > +		goto err_mod_clk;
-> > +	}
-> > +
-> > +	ret = reset_control_reset(dev->rstc);
-> > +	if (ret) {
-> > +		dev_err(dev->dev, "Failed to apply reset\n");
-> > +
-> > +		goto err_ram_clk;
-> > +	}
-> 
-> This could be moved to a runtime_pm hook, with get_sync called in the
-> open. That way you won't leave the device powered on if it's unused.
+To work properly the device also require its own key table,
+and repeat suppression for all buttons.
 
-Currently I'm looking at sun4i_csi.c as an example of runtime ops, but it 
-seems a bit wrong to have suspend and resume function marked with 
-__maybe_unused because they are the only functions which enable needed clocks.
-If CONFIG_PM is not enabled, then this driver simply won't work, because 
-clocks will never get enabled. I guess I can implement runtime pm ops in the 
-same way and add additional handling when CONFIG_PM is not enabled, right?
+Signed-off-by: pretoriano80 <viusflag@libero.it>
+---
+ drivers/media/rc/imon.c | 44 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
 
-BTW, which callback is get_sync? I don't see it in dev_pm_ops. I suppose I 
-need only runtime_suspend and runtime_resume.
-
-Off topic: sun6i_csi.c includes linux/pm_runtime.h but it doesn't have any kind 
-of power management as far as I can see.
-
-Best regards,
-Jernej
-
-> 
-> > +struct deinterlace_dev {
-> > +	struct v4l2_device	v4l2_dev;
-> > +	struct video_device	vfd;
-> > +	struct device		*dev;
-> > +	struct v4l2_m2m_dev	*m2m_dev;
-> > +
-> > +	/* Device file mutex */
-> > +	struct mutex		dev_mutex;
-> > +
-> > +	void __iomem		*base;
-> > +	struct regmap		*regmap;
-> 
-> Do you need to store the base address in that structure if you're
-> using the regmap?
-> 
-> Maxime
-
-
-
+diff --git a/drivers/media/rc/imon.c b/drivers/media/rc/imon.c
+index 7bee72108b0e..3b29e0815610 100644
+--- a/drivers/media/rc/imon.c
++++ b/drivers/media/rc/imon.c
+@@ -83,6 +83,7 @@ struct imon_usb_dev_descr {
+ 	__u16 flags;
+ #define IMON_NO_FLAGS 0
+ #define IMON_NEED_20MS_PKT_DELAY 1
++#define IMON_SUPPRESS_REPEATED_KEYS 2
+ 	struct imon_panel_key_table key_table[];
+ };
+ 
+@@ -315,6 +316,32 @@ static const struct imon_usb_dev_descr imon_DH102 = {
+ 	}
+ };
+ 
++/* imon ultrabay front panel key table */
++static const struct imon_usb_dev_descr imon_ultrabay_table = {
++	.flags = IMON_SUPPRESS_REPEATED_KEYS,
++	.key_table = {
++		{ 0x0000000f0000ffeell, KEY_MEDIA },      /* Go */
++		{ 0x000000000100ffeell, KEY_UP },
++		{ 0x000000000001ffeell, KEY_DOWN },
++		{ 0x000000160000ffeell, KEY_ENTER },
++		{ 0x0000001f0000ffeell, KEY_AUDIO },	/* Music */
++		{ 0x000000200000ffeell, KEY_VIDEO },	/* Movie */
++		{ 0x000000210000ffeell, KEY_CAMERA },	/* Photo */
++		{ 0x000000270000ffeell, KEY_DVD },
++		{ 0x000000230000ffeell, KEY_TV },
++		{ 0x000000050000ffeell, KEY_PREVIOUS },
++		{ 0x000000070000ffeell, KEY_REWIND },
++		{ 0x000000040000ffeell, KEY_STOP },
++		{ 0x000000020000ffeell, KEY_PLAYPAUSE },
++		{ 0x000000080000ffeell, KEY_FASTFORWARD },
++		{ 0x000000060000ffeell, KEY_NEXT },
++		{ 0x000100000000ffeell, KEY_VOLUMEUP },
++		{ 0x010000000000ffeell, KEY_VOLUMEDOWN },
++		{ 0x000000010000ffeell, KEY_MUTE },
++		{ 0, KEY_RESERVED },
++	}
++};
++
+ /*
+  * USB Device ID for iMON USB Control Boards
+  *
+@@ -1661,6 +1688,17 @@ static void imon_incoming_packet(struct imon_context *ictx,
+ 			return;
+ 		}
+ 	}
++	/* KEY repeats from knob need to be suppressed */
++	if (ictx->dev_descr->flags & IMON_SUPPRESS_REPEATED_KEYS) {
++		if (ictx->kc == ictx->last_keycode) {
++			msec = ktime_ms_delta(t, prev_time);
++			if (msec < ictx->idev->rep[REP_DELAY]) {
++				spin_unlock_irqrestore(&ictx->kc_lock, flags);
++				return;
++			}
++		}
++	}
++
+ 	prev_time = t;
+ 	kc = ictx->kc;
+ 
+@@ -1843,6 +1881,12 @@ static void imon_get_ffdc_type(struct imon_context *ictx)
+ 		dev_info(ictx->dev, "0xffdc iMON Inside, iMON IR");
+ 		ictx->display_supported = false;
+ 		break;
++	/* Soundgraph iMON UltraBay */
++	case 0x98:
++		dev_info(ictx->dev, "0xffdc iMON UltraBay, LCD + IR");
++		detected_display_type = IMON_DISPLAY_TYPE_LCD;
++		allowed_protos = RC_PROTO_BIT_IMON | RC_PROTO_BIT_RC6_MCE;
++		ictx->dev_descr = (struct imon_usb_dev_descr *) &imon_ultrabay_table;
+ 	default:
+ 		dev_info(ictx->dev, "Unknown 0xffdc device, defaulting to VFD and iMON IR");
+ 		detected_display_type = IMON_DISPLAY_TYPE_VFD;
+-- 
+2.20.1
 
