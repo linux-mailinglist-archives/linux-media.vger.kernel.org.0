@@ -2,40 +2,40 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 93078B297E
-	for <lists+linux-media@lfdr.de>; Sat, 14 Sep 2019 05:37:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 24D42B2983
+	for <lists+linux-media@lfdr.de>; Sat, 14 Sep 2019 05:50:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390915AbfINDhD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Sep 2019 23:37:03 -0400
-Received: from mga17.intel.com ([192.55.52.151]:14199 "EHLO mga17.intel.com"
+        id S2390929AbfINDuH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Sep 2019 23:50:07 -0400
+Received: from mga04.intel.com ([192.55.52.120]:43394 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390905AbfINDhD (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Sep 2019 23:37:03 -0400
+        id S2390926AbfINDuH (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 13 Sep 2019 23:50:07 -0400
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Sep 2019 20:37:00 -0700
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Sep 2019 20:50:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,492,1559545200"; 
-   d="gz'50?scan'50,208,50";a="197762842"
+X-IronPort-AV: E=Sophos;i="5.64,503,1559545200"; 
+   d="gz'50?scan'50,208,50";a="185304803"
 Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 13 Sep 2019 20:36:57 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 13 Sep 2019 20:50:03 -0700
 Received: from kbuild by lkp-server01 with local (Exim 4.89)
         (envelope-from <lkp@intel.com>)
-        id 1i8yrp-000CYI-CH; Sat, 14 Sep 2019 11:36:57 +0800
-Date:   Sat, 14 Sep 2019 11:36:28 +0800
+        id 1i8z4V-000AQL-5L; Sat, 14 Sep 2019 11:50:03 +0800
+Date:   Sat, 14 Sep 2019 11:49:33 +0800
 From:   kbuild test robot <lkp@intel.com>
 To:     Philipp Zabel <p.zabel@pengutronix.de>
 Cc:     kbuild-all@01.org, linux-media@vger.kernel.org,
         Steve Longerbeam <slongerbeam@gmail.com>, kernel@pengutronix.de
-Subject: Re: [PATCH 2/3] media: imx: fix and simplify pixel format enumeration
-Message-ID: <201909141106.8J90Wpyp%lkp@intel.com>
-References: <20190912160122.5545-2-p.zabel@pengutronix.de>
+Subject: Re: [PATCH 3/3] media: imx: fix media bus format enumeration
+Message-ID: <201909141122.D3HDZBJ4%lkp@intel.com>
+References: <20190912160122.5545-3-p.zabel@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="ufdzdskemlucbgwx"
+Content-Type: multipart/mixed; boundary="2aa5zzcy2qcxftyy"
 Content-Disposition: inline
-In-Reply-To: <20190912160122.5545-2-p.zabel@pengutronix.de>
+In-Reply-To: <20190912160122.5545-3-p.zabel@pengutronix.de>
 X-Patchwork-Hint: ignore
 User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-media-owner@vger.kernel.org
@@ -44,7 +44,7 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---ufdzdskemlucbgwx
+--2aa5zzcy2qcxftyy
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
@@ -69,18 +69,24 @@ reproduce:
 If you fix the issue, kindly add following tag
 Reported-by: kbuild test robot <lkp@intel.com>
 
+Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
+http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
+
 All warnings (new ones prefixed by >>):
 
    drivers/staging/media/imx/imx-media-utils.c: In function 'find_format':
->> drivers/staging/media/imx/imx-media-utils.c:232:40: warning: comparison between 'const enum ipu_color_space' and 'enum codespace_sel' [-Wenum-compare]
+   drivers/staging/media/imx/imx-media-utils.c:232:40: warning: comparison between 'const enum ipu_color_space' and 'enum codespace_sel' [-Wenum-compare]
       if ((cs_sel != CS_SEL_ANY && fmt->cs != cs_sel) ||
                                            ^~
    drivers/staging/media/imx/imx-media-utils.c: In function 'enum_format':
    drivers/staging/media/imx/imx-media-utils.c:262:40: warning: comparison between 'const enum ipu_color_space' and 'enum codespace_sel' [-Wenum-compare]
       if ((cs_sel != CS_SEL_ANY && fmt->cs != cs_sel) ||
                                            ^~
+>> drivers/staging/media/imx/imx-media-utils.c:257:18: warning: 'j' may be used uninitialized in this function [-Wmaybe-uninitialized]
+     unsigned int i, j, k = 0;
+                     ^
 
-vim +232 drivers/staging/media/imx/imx-media-utils.c
+vim +/j +257 drivers/staging/media/imx/imx-media-utils.c
 
    218	
    219	static const
@@ -115,17 +121,60 @@ vim +232 drivers/staging/media/imx/imx-media-utils.c
    248		return NULL;
    249	}
    250	
+   251	static int enum_format(u32 *fourcc, u32 *code, u32 index,
+   252			       enum codespace_sel cs_sel,
+   253			       bool allow_non_mbus,
+   254			       bool allow_bayer)
+   255	{
+   256		const struct imx_media_pixfmt *fmt;
+ > 257		unsigned int i, j, k = 0;
+   258	
+   259		for (i = 0; i < ARRAY_SIZE(pixel_formats); i++) {
+   260			fmt = &pixel_formats[i];
+   261	
+   262			if ((cs_sel != CS_SEL_ANY && fmt->cs != cs_sel) ||
+   263			    (!allow_non_mbus && !fmt->codes[0]) ||
+   264			    (!allow_bayer && fmt->bayer))
+   265				continue;
+   266	
+   267			if (fourcc && index == k)
+   268				break;
+   269	
+   270			if (!code) {
+   271				k++;
+   272				continue;
+   273			}
+   274	
+   275			for (j = 0; j < ARRAY_SIZE(fmt->codes) && fmt->codes[j]; j++) {
+   276				if (index == k)
+   277					goto out;
+   278	
+   279				k++;
+   280			}
+   281		}
+   282		if (i == ARRAY_SIZE(pixel_formats))
+   283			return -EINVAL;
+   284	
+   285	out:
+   286		if (fourcc)
+   287			*fourcc = fmt->fourcc;
+   288		if (code)
+   289			*code = fmt->codes[j];
+   290	
+   291		return 0;
+   292	}
+   293	
 
 ---
 0-DAY kernel test infrastructure                Open Source Technology Center
 https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
 
---ufdzdskemlucbgwx
+--2aa5zzcy2qcxftyy
 Content-Type: application/gzip
 Content-Disposition: attachment; filename=".config.gz"
 Content-Transfer-Encoding: base64
 
-H4sICC1dfF0AAy5jb25maWcAlDzZktu2su/5CpXzkjzEZzZPcs+teQBBkMIRSdAEqJHmhaWM
+H4sICAtifF0AAy5jb25maWcAlDzZktu2su/5CpXzkjzEZzZPcs+teQBBkMIRSdAEqJHmhaWM
 ZWcqs/hoNEn897cb3LCR8q1ylYfdjSbQ6B2gfvzhxwV5O7487Y4P97vHx2+LL/vn/WF33H9a
 fH543P/vIhaLQqgFi7l6D8TZw/PbP/962F1fLT68v3x/9svh/mqx2h+e948L+vL8+eHLG4x+
 eHn+4ccf4N+PAHz6CowO/17goF8ecfwvX+7vFz+llP68+PX91fszIKSiSHjaUNpw2QDm5lsP
@@ -1137,4 +1186,4 @@ XHKj4cfJAzUofhV4SEyiAMhNnd0LdaFp0DRLDzYnhQgEVxuM6aJNlnZV86ua9BM3oyZN1nkm
 rMS2nYh/LAselGAkkhwPkhfH/CCESDZ+LHpkVSHXcHqn5vNN2Thf9MqPPTxUaXav418M6A9j
 ucJHAXDRO7wIWqwMFuH/AESg+QjvWgMA
 
---ufdzdskemlucbgwx--
+--2aa5zzcy2qcxftyy--
