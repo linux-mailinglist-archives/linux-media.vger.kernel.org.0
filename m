@@ -2,153 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EA56CB2DEF
-	for <lists+linux-media@lfdr.de>; Sun, 15 Sep 2019 05:40:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 283E0B2EBE
+	for <lists+linux-media@lfdr.de>; Sun, 15 Sep 2019 08:50:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726383AbfIODkN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 14 Sep 2019 23:40:13 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:49571 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726206AbfIODkN (ORCPT
+        id S1726285AbfIOGuS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 15 Sep 2019 02:50:18 -0400
+Received: from mailgw01.mediatek.com ([210.61.82.183]:44063 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725613AbfIOGuS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 14 Sep 2019 23:40:13 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:bc9a:a9ca:4314:cb9c])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id 9LOTiezT3V17O9LOVi63sy; Sun, 15 Sep 2019 05:40:11 +0200
-Message-ID: <8eb3f2240ac272176afb9257edfda47e@smtp-cloud9.xs4all.net>
-Date:   Sun, 15 Sep 2019 05:40:09 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfOpeUUqSFM6yoctCTS66QJ12Ms+TnCMiNeUhmrR22qjaeYjI1oOYrMD3t8wZvT2PWGUzmEuaSzk30LrAcgh6xeD7Yk/uX8yPrwVZen16+Pqmnt/M6CFP
- z2IiAsB/GMwheYbLM2ZiRBYkJ+Ygw2rQYeo4Ba0ig9FyhNYzcMmEchJfGYB4t9llWEljS1YHm09OKOv8rPRYFj1h0dUafu2l4Ji9awhyLbpKHJ/qix4Sh5CQ
+        Sun, 15 Sep 2019 02:50:18 -0400
+X-UUID: 2295e692c5af4d4692fc9cdcf5fef292-20190915
+X-UUID: 2295e692c5af4d4692fc9cdcf5fef292-20190915
+Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw01.mediatek.com
+        (envelope-from <louis.kuo@mediatek.com>)
+        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+        with ESMTP id 1650005843; Sun, 15 Sep 2019 14:50:09 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
+ mtkmbs01n2.mediatek.inc (172.21.101.79) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Sun, 15 Sep 2019 14:50:06 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by MTKCAS06.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Sun, 15 Sep 2019 14:50:06 +0800
+From:   Louis Kuo <louis.kuo@mediatek.com>
+To:     <hans.verkuil@cisco.com>,
+        <laurent.pinchart+renesas@ideasonboard.com>, <tfiga@chromium.org>,
+        <keiichiw@chromium.org>, <matthias.bgg@gmail.com>,
+        <mchehab@kernel.org>
+CC:     <yuzhao@chromium.org>, <zwisler@chromium.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>, <Sean.Cheng@mediatek.com>,
+        <sj.huang@mediatek.com>, <christie.yu@mediatek.com>,
+        <louis.kuo@mediatek.com>, <frederic.chen@mediatek.com>,
+        <Jerry-ch.Chen@mediatek.com>, <jungo.lin@mediatek.com>,
+        <Rynn.Wu@mediatek.com>, <linux-media@vger.kernel.org>,
+        <srv_heupstream@mediatek.com>, <devicetree@vger.kernel.org>
+Subject: [RFC PATCH V4 0/4] media: support Mediatek sensor interface driver
+Date:   Sun, 15 Sep 2019 14:50:00 +0800
+Message-ID: <20190915065004.20257-1-louis.kuo@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+MIME-Version: 1.0
+Content-Type: text/plain
+X-TM-SNTS-SMTP: 1585134051E855BDBEBE7F5BF01A47B56D3C3368540B3F6FF779A1A833F610DB2000:8
+X-MTK:  N
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hello,
 
-Results of the daily build of media_tree:
+This is the RFC patch adding Sensor Inferface(seninf) driver on
+Mediatek mt8183 SoC, which will be used in camera features on CrOS application.
+It belongs to the first Mediatek's camera driver series based on V4L2 and media controller framework.
+I posted the main part of the seninf driver as RFC to discuss first and would like some review comments
+on the overall structure of the driver.
 
-date:			Sun Sep 15 05:00:13 CEST 2019
-media-tree git hash:	6f51fdfd8229d5358c2d6e272cf73478866e8ddc
-media_build git hash:	d75b29db1297d2475227cc8bada843542271e40d
-v4l-utils git hash:	204c2bfd30f788b7d038047ef9e007f3d8fbfd14
-edid-decode git hash:	7696439db703eeca7248af6c3a17d2e19a9292ea
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 8634894b41454ef4215a3d4fd503305c720e761a
-host hardware:		x86_64
-host os:		4.19.0-4-amd64
+The driver is implemented with V4L2 framework.
+1. Register as a V4L2 sub-device.
+2. Only one entity with sink pads linked to camera sensors for choosing desired camera sensor by setup link
+   and with source pads linked to cam-io for routing different types of decoded packet datas to PASS1 driver
+   to generate sensor image frame and meta-data.
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3-rc1-i686: OK
-linux-5.3-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: VM was not running
-sparse: OK
-smatch: OK
+The overall file structure of the seninf driver is as following:
 
-Detailed results are available here:
+* mtk_seninf.c: Implement software and HW control flow of seninf driver.
+* mtk_seninf_def.h: Define data structure and enumeration.
+* mtk_seninf_reg.h: Define HW register R/W macros and HW register names.
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday.log
+[ V4: use recommended coding style, re-arrange and remove redundant code, change endpoint parsing method ]
 
-Detailed regression test results are available here:
+  media: platform: mtk-isp: Add Mediatek sensor interface driver
+  media: platform: Add Mediatek sensor interface driver KConfig
+  dt-bindings: mt8183: Add sensor interface dt-bindings
+  dts: arm64: mt8183: Add sensor interface nodes
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
+ .../bindings/media/mediatek-seninf.txt        |   30 +
+ arch/arm64/boot/dts/mediatek/mt8183.dtsi      |   14 +
+ drivers/media/platform/Makefile               |    2 +
+ drivers/media/platform/mtk-isp/Kconfig        |   17 +
+ drivers/media/platform/mtk-isp/Makefile       |    3 +
+ .../media/platform/mtk-isp/isp_50/Makefile    |    5 +
+ .../platform/mtk-isp/isp_50/seninf/Makefile   |    6 +
+ .../mtk-isp/isp_50/seninf/mtk_seninf.c        | 1011 +++++++++++++++++
+ .../mtk-isp/isp_50/seninf/mtk_seninf_def.h    |   59 +
+ .../mtk-isp/isp_50/seninf/mtk_seninf_reg.h    |  853 ++++++++++++++
+ 10 files changed, 2000 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek-seninf.txt
+ create mode 100644 drivers/media/platform/mtk-isp/Kconfig
+ create mode 100644 drivers/media/platform/mtk-isp/Makefile
+ create mode 100644 drivers/media/platform/mtk-isp/isp_50/Makefile
+ create mode 100644 drivers/media/platform/mtk-isp/isp_50/seninf/Makefile
+ create mode 100644 drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf.c
+ create mode 100644 drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf_def.h
+ create mode 100644 drivers/media/platform/mtk-isp/isp_50/seninf/mtk_seninf_reg.h
 
-Full logs are available here:
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
