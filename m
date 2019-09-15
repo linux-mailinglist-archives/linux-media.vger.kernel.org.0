@@ -2,87 +2,225 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E83FB2EC2
-	for <lists+linux-media@lfdr.de>; Sun, 15 Sep 2019 08:50:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2655B2F47
+	for <lists+linux-media@lfdr.de>; Sun, 15 Sep 2019 10:54:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727030AbfIOGuV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 15 Sep 2019 02:50:21 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:59699 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725835AbfIOGuU (ORCPT
+        id S1726717AbfIOIyc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 15 Sep 2019 04:54:32 -0400
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:44544 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725951AbfIOIyb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 15 Sep 2019 02:50:20 -0400
-X-UUID: 31c5a11394274a3db69d226665b57e15-20190915
-X-UUID: 31c5a11394274a3db69d226665b57e15-20190915
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw02.mediatek.com
-        (envelope-from <louis.kuo@mediatek.com>)
-        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
-        with ESMTP id 1493376918; Sun, 15 Sep 2019 14:50:09 +0800
-Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs02n1.mediatek.inc (172.21.101.77) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Sun, 15 Sep 2019 14:50:07 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by MTKCAS06.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Sun, 15 Sep 2019 14:50:07 +0800
-From:   Louis Kuo <louis.kuo@mediatek.com>
-To:     <hans.verkuil@cisco.com>,
-        <laurent.pinchart+renesas@ideasonboard.com>, <tfiga@chromium.org>,
-        <keiichiw@chromium.org>, <matthias.bgg@gmail.com>,
-        <mchehab@kernel.org>
-CC:     <yuzhao@chromium.org>, <zwisler@chromium.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-arm-kernel@lists.infradead.org>, <Sean.Cheng@mediatek.com>,
-        <sj.huang@mediatek.com>, <christie.yu@mediatek.com>,
-        <louis.kuo@mediatek.com>, <frederic.chen@mediatek.com>,
-        <Jerry-ch.Chen@mediatek.com>, <jungo.lin@mediatek.com>,
-        <Rynn.Wu@mediatek.com>, <linux-media@vger.kernel.org>,
-        <srv_heupstream@mediatek.com>, <devicetree@vger.kernel.org>
-Subject: [RFC PATCH V4 4/4] dts: arm64: mt8183: Add sensor interface nodes
-Date:   Sun, 15 Sep 2019 14:50:04 +0800
-Message-ID: <20190915065004.20257-5-louis.kuo@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20190915065004.20257-1-louis.kuo@mediatek.com>
-References: <20190915065004.20257-1-louis.kuo@mediatek.com>
+        Sun, 15 Sep 2019 04:54:31 -0400
+Received: by mail-ed1-f65.google.com with SMTP id p2so29261366edx.11;
+        Sun, 15 Sep 2019 01:54:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=PWnzu3eflcbwSP6tx+4Ivb9O3SO0Lh/ZkIkmqyjnoX4=;
+        b=o0ASUyWZVM0uYIFkEBWyia3S4BtPjEBymEhFfFUGuV358/EYU6KRr5vebja9OG5cDN
+         /ZE/NEgSXPjBwWGTY9ZIiLlFS09P9jxA6HtQ5hypKSeooEs43DphJl8DOAtM3Fxzx6CQ
+         +xMZ3/pgtjke3EfRjBxPO5Sid9xWBsx3fI8C5d/10FJ64GpPza6d6+2WFM92VwPAt0+T
+         uiAOXbawOZhaDDMcaiSmswNeHdnCGK3zEucLpzOqKFUTs36VGEEGN7lZYZ9ubaaIE1lE
+         1p2UzfZp2Uzkvf3XudyQ0J+BZSClp0nfBWMjSA8KPzaUB0ZaAxoRw66FeoqQy7k4uZpO
+         VEXA==
+X-Gm-Message-State: APjAAAVW3ocY8dOYj8ZLn45zjT+2bDvkx8jifDNTi7SAfpLie8hoe4vu
+        zo2CMZcLLoHrMX/OMSH3dqXkonj0hIw=
+X-Google-Smtp-Source: APXvYqw6hbGgxxJF6pEw8NNamzz/+yf3p1joWgujcvfqZxHKQwGhDXrKYxRlcchwB4MOm6gczEZVZg==
+X-Received: by 2002:a17:906:7709:: with SMTP id q9mr15166080ejm.286.1568537668852;
+        Sun, 15 Sep 2019 01:54:28 -0700 (PDT)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com. [209.85.128.43])
+        by smtp.gmail.com with ESMTPSA id ba28sm857147edb.4.2019.09.15.01.54.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 15 Sep 2019 01:54:28 -0700 (PDT)
+Received: by mail-wm1-f43.google.com with SMTP id 5so982482wmg.0;
+        Sun, 15 Sep 2019 01:54:28 -0700 (PDT)
+X-Received: by 2002:a1c:a54a:: with SMTP id o71mr10242857wme.51.1568537667994;
+ Sun, 15 Sep 2019 01:54:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
+References: <cover.34bcd988943a26671681eaf849aacab51fab1cfe.1562847292.git-series.maxime.ripard@bootlin.com>
+ <110dd9ff1784c29fa16304825a41d1603a33f166.1562847292.git-series.maxime.ripard@bootlin.com>
+ <CAGb2v64nx2AuWZN+RxCneE0pqvXr_d7u6mQ+=nCHv2VJ1MNtrQ@mail.gmail.com>
+In-Reply-To: <CAGb2v64nx2AuWZN+RxCneE0pqvXr_d7u6mQ+=nCHv2VJ1MNtrQ@mail.gmail.com>
+From:   Chen-Yu Tsai <wens@csie.org>
+Date:   Sun, 15 Sep 2019 16:54:16 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66Sin9HZ+QENegLQ3d7iiy278niwdr9rEZ0HwUfeQNFRQ@mail.gmail.com>
+Message-ID: <CAGb2v66Sin9HZ+QENegLQ3d7iiy278niwdr9rEZ0HwUfeQNFRQ@mail.gmail.com>
+Subject: Re: [PATCH v6 1/5] dt-bindings: media: Add Allwinner A10 CSI binding
+To:     Maxime Ripard <mripard@kernel.org>
+Cc:     Hans Verkuil <hans.verkuil@cisco.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Rob Herring <robh+dt@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add nodes for Mediatek's sensor interface device. Sensor interface module
-embedded in Mediatek SOCs, works as a HW camera interface controller
-intended for image and data transmission between cameras and host devices.
+On Thu, Aug 15, 2019 at 4:34 PM Chen-Yu Tsai <wens@csie.org> wrote:
+>
+> Hi,
+>
+> Sorry for chiming in so late.
+>
+> On Thu, Jul 11, 2019 at 8:15 PM Maxime Ripard <maxime.ripard@bootlin.com> wrote:
+> >
+> > The Allwinner A10 CMOS Sensor Interface is a camera capture interface also
+> > used in later (A10s, A13, A20, R8 and GR8) SoCs.
+> >
+> > On some SoCs, like the A10, there's multiple instances of that controller,
+> > with one instance supporting more channels and having an ISP.
+> >
+> > Reviewed-by: Rob Herring <robh@kernel.org>
+> > Signed-off-by: Maxime Ripard <maxime.ripard@bootlin.com>
+> > ---
+> >  Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml | 94 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+> >  1 file changed, 94 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml
+> > new file mode 100644
+> > index 000000000000..97c9fc3b5050
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml
+> > @@ -0,0 +1,94 @@
+> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/arm/allwinner,sun4i-a10-csi.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Allwinner A10 CMOS Sensor Interface (CSI) Device Tree Bindings
+> > +
+> > +maintainers:
+> > +  - Chen-Yu Tsai <wens@csie.org>
+> > +  - Maxime Ripard <maxime.ripard@bootlin.com>
+> > +
+> > +description: |-
+> > +  The Allwinner A10 and later has a CMOS Sensor Interface to retrieve
+> > +  frames from a parallel or BT656 sensor.
+> > +
+> > +
+> > +properties:
+> > +  compatible:
+> > +    oneOf:
+> > +      - items:
+> > +          - enum:
+> > +              - allwinner,sun7i-a20-csi0
+> > +          - const: allwinner,sun4i-a10-csi0
+>
+> CSI0 on the A10 has an ISP. Do we know if the one in the A20 does
+> as well? It certainly doesn't say so in the user manual. If not,
+> then we can't claim that A20 CSI0 is compatible with A10 CSI0.
+>
+> > +
+> > +      - items:
+> > +          - const: allwinner,sun4i-a10-csi0
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    items:
+> > +      - description: The CSI interface clock
+> > +      - description: The CSI module clock
+> > +      - description: The CSI ISP clock
+> > +      - description: The CSI DRAM clock
+> > +
+> > +  clock-names:
+> > +    items:
+> > +      - const: bus
+> > +      - const: mod
+>
+> I doubt this actually is a module clock. Based on the usage in your
+> device tree patch, and the csi driver in the old linux-sunxi kernel,
+> the clock rate is set to 24 MHz, or whatever the sensor requires for
+> MCLK.
 
-Signed-off-by: Louis Kuo <louis.kuo@mediatek.com>
----
- arch/arm64/boot/dts/mediatek/mt8183.dtsi | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+I'm working on adding support for this on the R40, and it seems with
+this SoC the picture is much clearer. It has the same CSI interface
+block, but the CCU has the clocks correctly named. We have:
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8183.dtsi b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-index 66aaa07f6cec..f1d081b99867 100644
---- a/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-+++ b/arch/arm64/boot/dts/mediatek/mt8183.dtsi
-@@ -506,4 +506,18 @@
- 			#clock-cells = <1>;
- 		};
- 	};
-+
-+	seninf: seninf@1a040000 {
-+		compatible = "mediatek,mt8183-seninf";
-+		reg = <0 0x1a040000 0 0x8000>,
-+		      <0 0x11C80000 0 0x6000>;
-+		reg-names = "base_reg", "rx_reg";
-+		interrupts = <GIC_SPI 251 IRQ_TYPE_LEVEL_LOW>;
-+		power-domains = <&scpsys MT8183_POWER_DOMAIN_CAM>;
-+		clocks = <&camsys CLK_CAM_SENINF>,
-+			 <&topckgen CLK_TOP_MUX_SENINF>;
-+		clock-names = "CLK_CAM_SENINF", "CLK_TOP_MUX_SENINF";
-+		status = "disabled";
-+		};
-+	};
- };
--- 
-2.18.0
+  - CSI_MCLK0
+  - CSI_MCLK1
+  - CSI_SCLK
 
+in addition to the bus clocks.
+
+The CSI section also explains the clock signals:
+
+    6.1.3.2. Clock Sources
+    Two Clocks need to be configured for CSI controller. CSI0/1_MCLK
+    provides the master clock for sensor and other devices. CSI_SCLK
+    is the top clock for the whole CSI module.
+
+So it would seem the ISP clock we currently have in the DT is simply
+the module clock shared by all CSI-related hardware blocks, and the
+module clock is bogus.
+
+ChenYu
+
+> ChenYu
+>
+> > +      - const: isp
+> > +      - const: ram
+> > +
+> > +  resets:
+> > +    description: The reset line driver this IP
+> > +    maxItems: 1
+> > +
+> > +  pinctrl-0:
+> > +    minItems: 1
+> > +
+> > +  pinctrl-names:
+> > +    const: default
+> > +
+> > +  port:
+> > +    type: object
+> > +    additionalProperties: false
+> > +
+> > +    properties:
+> > +      endpoint:
+> > +        properties:
+> > +          bus-width:
+> > +            const: 8
+> > +            description: Number of data lines actively used.
+> > +
+> > +          data-active: true
+> > +          hsync-active: true
+> > +          pclk-sample: true
+> > +          remote-endpoint: true
+> > +          vsync-active: true
+> > +
+> > +        required:
+> > +          - bus-width
+> > +          - data-active
+> > +          - hsync-active
+> > +          - pclk-sample
+> > +          - remote-endpoint
+> > +          - vsync-active
+> > +
+> > +    required:
+> > +      - endpoint
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - interrupts
+> > +  - clocks
+> > +
+> > +additionalProperties: false
+> > +...
+> > --
+> > git-series 0.9.1
