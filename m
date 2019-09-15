@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B0E66B31A3
-	for <lists+linux-media@lfdr.de>; Sun, 15 Sep 2019 21:26:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 386C6B31A6
+	for <lists+linux-media@lfdr.de>; Sun, 15 Sep 2019 21:26:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727492AbfIOTZx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 15 Sep 2019 15:25:53 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:47766 "EHLO
+        id S1727534AbfIOT0B (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 15 Sep 2019 15:26:01 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:47778 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726247AbfIOTZx (ORCPT
+        with ESMTP id S1726247AbfIOT0A (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 15 Sep 2019 15:25:53 -0400
+        Sun, 15 Sep 2019 15:26:00 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: koike)
-        with ESMTPSA id A7B7228AE52
-Subject: Re: [PATCH v4 3/5] vimc: move duplicated IS_SRC and IS_SINK to common
- header
+        with ESMTPSA id E7FE528AE52
+Subject: Re: [PATCH v4 4/5] doc: media: vimc: Update module parameter usage
+ information
 To:     Shuah Khan <skhan@linuxfoundation.org>, mchehab@kernel.org,
         andrealmeid@collabora.com, dafna.hirschfeld@collabora.com,
         hverkuil-cisco@xs4all.nl
 Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <cover.1567822792.git.skhan@linuxfoundation.org>
- <8dbc93c2a7291d942d2d37491833444d77316211.1567822793.git.skhan@linuxfoundation.org>
+ <bf82fb10fc29c04f4da4de069974d3c584f7435e.1567822793.git.skhan@linuxfoundation.org>
 From:   Helen Koike <helen.koike@collabora.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=helen.koike@collabora.com; keydata=
@@ -99,146 +99,65 @@ Autocrypt: addr=helen.koike@collabora.com; keydata=
  iR1nXfMxENVYnM5ag7mBZyD/kru5W1Uj34L6AFaDMXFPwedSCpzzqUiHb0f+nYkfOodf5xy0
  46+3THy/NUS/ZZp/rI4F7Y77+MQPVg7vARfHHX1AxYUKfRVW5j88QUB70txn8Vgi1tDrOr4J
  eD+xr0CvIGa5lKqgQacQtGkpOpJ8zY4ObSvpNubey/qYUE3DCXD0n2Xxk4muTvqlkFpOYA==
-Message-ID: <cac58f55-6d0f-d69f-6bba-474eedb0f80e@collabora.com>
-Date:   Sun, 15 Sep 2019 16:25:44 -0300
+Message-ID: <0a596f6e-85bb-f38c-e4f9-5ee09abc6036@collabora.com>
+Date:   Sun, 15 Sep 2019 16:25:52 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <8dbc93c2a7291d942d2d37491833444d77316211.1567822793.git.skhan@linuxfoundation.org>
+In-Reply-To: <bf82fb10fc29c04f4da4de069974d3c584f7435e.1567822793.git.skhan@linuxfoundation.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Shuah,
+
 
 On 9/6/19 11:42 PM, Shuah Khan wrote:
-> Move duplicated IS_SRC and IS_SINK dfines to common header. Rename
-> them to VIMC_IS_SRC and VIM_IS_SINK.
+> vimc driver is now a monolithic driver. Update the module parameter
+> usage information to reflect that.
 > 
 > Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+
+Acked-by: Helen Koike <helen.koike@collabora.com>
+
 > ---
->  drivers/media/platform/vimc/vimc-common.h  |  4 ++++
->  drivers/media/platform/vimc/vimc-debayer.c | 11 ++++-------
->  drivers/media/platform/vimc/vimc-scaler.c  |  8 +++-----
->  3 files changed, 11 insertions(+), 12 deletions(-)
+>  Documentation/media/v4l-drivers/vimc.rst | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
 > 
-> diff --git a/drivers/media/platform/vimc/vimc-common.h b/drivers/media/platform/vimc/vimc-common.h
-> index 87ee84f78322..236412ad7548 100644
-> --- a/drivers/media/platform/vimc/vimc-common.h
-> +++ b/drivers/media/platform/vimc/vimc-common.h
-> @@ -27,6 +27,10 @@
+> diff --git a/Documentation/media/v4l-drivers/vimc.rst b/Documentation/media/v4l-drivers/vimc.rst
+> index 406417680db5..a582af0509ee 100644
+> --- a/Documentation/media/v4l-drivers/vimc.rst
+> +++ b/Documentation/media/v4l-drivers/vimc.rst
+> @@ -76,22 +76,22 @@ vimc-capture:
+>  	* 1 Pad sink
+>  	* 1 Pad source
 >  
->  #define VIMC_FRAME_INDEX(lin, col, width, bpp) ((lin * width + col) * bpp)
->  
-> +/* Source and sink pad checks */
-> +#define VIMC_IS_SRC(pad)	(pad)
-> +#define VIMC_IS_SINK(pad)	(!(pad))
-
-This is true now, but it might not be true in the future.
-In the output video device (that was sent by André but not yet upstream) for instance, only have a single
-source pad (which I suppose the index will be 0), and this macro won't be true.
-
-Maybe we could check pad flags in sd->entity->pads[index].flags ?
-
-Thanks
-Helen
-
+> -Module options
 > +
->  /**
->   * struct vimc_colorimetry_clamp - Adjust colorimetry parameters
->   *
-> diff --git a/drivers/media/platform/vimc/vimc-debayer.c b/drivers/media/platform/vimc/vimc-debayer.c
-> index b38b55f51a24..37f3767db469 100644
-> --- a/drivers/media/platform/vimc/vimc-debayer.c
-> +++ b/drivers/media/platform/vimc/vimc-debayer.c
-> @@ -22,9 +22,6 @@ MODULE_PARM_DESC(deb_mean_win_size, " the window size to calculate the mean.\n"
->  	"stays in the center of the window, otherwise the next odd number "
->  	"is considered");
+> +        Module options
+>  ---------------
 >  
-> -#define IS_SINK(pad) (!pad)
-> -#define IS_SRC(pad)  (pad)
-> -
->  enum vimc_deb_rgb_colors {
->  	VIMC_DEB_RED = 0,
->  	VIMC_DEB_GREEN = 1,
-> @@ -157,7 +154,7 @@ static int vimc_deb_enum_mbus_code(struct v4l2_subdev *sd,
->  				   struct v4l2_subdev_mbus_code_enum *code)
->  {
->  	/* We only support one format for source pads */
-> -	if (IS_SRC(code->pad)) {
-> +	if (VIMC_IS_SRC(code->pad)) {
->  		struct vimc_deb_device *vdeb = v4l2_get_subdevdata(sd);
+> -Vimc has a few module parameters to configure the driver. You should pass
+> -those arguments to each subdevice, not to the vimc module. For example::
+> +Vimc has a few module parameters to configure the driver.
 >  
->  		if (code->index)
-> @@ -183,7 +180,7 @@ static int vimc_deb_enum_frame_size(struct v4l2_subdev *sd,
->  	if (fse->index)
->  		return -EINVAL;
+> -        vimc_subdevice.param=value
+> +        param=value
 >  
-> -	if (IS_SINK(fse->pad)) {
-> +	if (VIMC_IS_SINK(fse->pad)) {
->  		const struct vimc_deb_pix_map *vpix =
->  			vimc_deb_pix_map_by_code(fse->code);
+> -* ``vimc_scaler.sca_mult=<unsigned int>``
+> +* ``sca_mult=<unsigned int>``
 >  
-> @@ -213,7 +210,7 @@ static int vimc_deb_get_fmt(struct v4l2_subdev *sd,
->  		      vdeb->sink_fmt;
+>          Image size multiplier factor to be used to multiply both width and
+>          height, so the image size will be ``sca_mult^2`` bigger than the
+>          original one. Currently, only supports scaling up (the default value
+>          is 3).
 >  
->  	/* Set the right code for the source pad */
-> -	if (IS_SRC(fmt->pad))
-> +	if (VIMC_IS_SRC(fmt->pad))
->  		fmt->format.code = vdeb->src_code;
+> -* ``vimc_debayer.deb_mean_win_size=<unsigned int>``
+> +* ``deb_mean_win_size=<unsigned int>``
 >  
->  	return 0;
-> @@ -260,7 +257,7 @@ static int vimc_deb_set_fmt(struct v4l2_subdev *sd,
->  	 * Do not change the format of the source pad,
->  	 * it is propagated from the sink
->  	 */
-> -	if (IS_SRC(fmt->pad)) {
-> +	if (VIMC_IS_SRC(fmt->pad)) {
->  		fmt->format = *sink_fmt;
->  		/* TODO: Add support for other formats */
->  		fmt->format.code = vdeb->src_code;
-> diff --git a/drivers/media/platform/vimc/vimc-scaler.c b/drivers/media/platform/vimc/vimc-scaler.c
-> index 05db5070e268..a5a0855ad9cd 100644
-> --- a/drivers/media/platform/vimc/vimc-scaler.c
-> +++ b/drivers/media/platform/vimc/vimc-scaler.c
-> @@ -16,8 +16,6 @@ static unsigned int sca_mult = 3;
->  module_param(sca_mult, uint, 0000);
->  MODULE_PARM_DESC(sca_mult, " the image size multiplier");
->  
-> -#define IS_SINK(pad)	(!pad)
-> -#define IS_SRC(pad)	(pad)
->  #define MAX_ZOOM	8
->  
->  struct vimc_sca_device {
-> @@ -93,7 +91,7 @@ static int vimc_sca_enum_frame_size(struct v4l2_subdev *sd,
->  	fse->min_width = VIMC_FRAME_MIN_WIDTH;
->  	fse->min_height = VIMC_FRAME_MIN_HEIGHT;
->  
-> -	if (IS_SINK(fse->pad)) {
-> +	if (VIMC_IS_SINK(fse->pad)) {
->  		fse->max_width = VIMC_FRAME_MAX_WIDTH;
->  		fse->max_height = VIMC_FRAME_MAX_HEIGHT;
->  	} else {
-> @@ -116,7 +114,7 @@ static int vimc_sca_get_fmt(struct v4l2_subdev *sd,
->  			 vsca->sink_fmt;
->  
->  	/* Scale the frame size for the source pad */
-> -	if (IS_SRC(format->pad)) {
-> +	if (VIMC_IS_SRC(format->pad)) {
->  		format->format.width = vsca->sink_fmt.width * sca_mult;
->  		format->format.height = vsca->sink_fmt.height * sca_mult;
->  	}
-> @@ -165,7 +163,7 @@ static int vimc_sca_set_fmt(struct v4l2_subdev *sd,
->  	 * Do not change the format of the source pad,
->  	 * it is propagated from the sink
->  	 */
-> -	if (IS_SRC(fmt->pad)) {
-> +	if (VIMC_IS_SRC(fmt->pad)) {
->  		fmt->format = *sink_fmt;
->  		fmt->format.width = sink_fmt->width * sca_mult;
->  		fmt->format.height = sink_fmt->height * sca_mult;
+>          Window size to calculate the mean. Note: the window size needs to be an
+>          odd number, as the main pixel stays in the center of the window,
 > 
