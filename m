@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AF568B31A2
-	for <lists+linux-media@lfdr.de>; Sun, 15 Sep 2019 21:25:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0E66B31A3
+	for <lists+linux-media@lfdr.de>; Sun, 15 Sep 2019 21:26:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727431AbfIOTZr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 15 Sep 2019 15:25:47 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:47758 "EHLO
+        id S1727492AbfIOTZx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 15 Sep 2019 15:25:53 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:47766 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726247AbfIOTZr (ORCPT
+        with ESMTP id S1726247AbfIOTZx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 15 Sep 2019 15:25:47 -0400
+        Sun, 15 Sep 2019 15:25:53 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: koike)
-        with ESMTPSA id 3966728AE52
-Subject: Re: [PATCH v4 2/5] media: vimc: Fix gpf in rmmod path when stream is
- active
+        with ESMTPSA id A7B7228AE52
+Subject: Re: [PATCH v4 3/5] vimc: move duplicated IS_SRC and IS_SINK to common
+ header
 To:     Shuah Khan <skhan@linuxfoundation.org>, mchehab@kernel.org,
         andrealmeid@collabora.com, dafna.hirschfeld@collabora.com,
         hverkuil-cisco@xs4all.nl
 Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <cover.1567822792.git.skhan@linuxfoundation.org>
- <2421a0ea4bec8c5084121ecdbc9213c331239f3d.1567822793.git.skhan@linuxfoundation.org>
+ <8dbc93c2a7291d942d2d37491833444d77316211.1567822793.git.skhan@linuxfoundation.org>
 From:   Helen Koike <helen.koike@collabora.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=helen.koike@collabora.com; keydata=
@@ -99,12 +99,12 @@ Autocrypt: addr=helen.koike@collabora.com; keydata=
  iR1nXfMxENVYnM5ag7mBZyD/kru5W1Uj34L6AFaDMXFPwedSCpzzqUiHb0f+nYkfOodf5xy0
  46+3THy/NUS/ZZp/rI4F7Y77+MQPVg7vARfHHX1AxYUKfRVW5j88QUB70txn8Vgi1tDrOr4J
  eD+xr0CvIGa5lKqgQacQtGkpOpJ8zY4ObSvpNubey/qYUE3DCXD0n2Xxk4muTvqlkFpOYA==
-Message-ID: <05f955ad-525a-cabf-637f-d68a1ac43e33@collabora.com>
-Date:   Sun, 15 Sep 2019 16:25:36 -0300
+Message-ID: <cac58f55-6d0f-d69f-6bba-474eedb0f80e@collabora.com>
+Date:   Sun, 15 Sep 2019 16:25:44 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <2421a0ea4bec8c5084121ecdbc9213c331239f3d.1567822793.git.skhan@linuxfoundation.org>
+In-Reply-To: <8dbc93c2a7291d942d2d37491833444d77316211.1567822793.git.skhan@linuxfoundation.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -113,123 +113,132 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
+Hi Shuah,
 
 On 9/6/19 11:42 PM, Shuah Khan wrote:
-> If vimc module is removed while streaming is in progress, sensor subdev
-> unregister runs into general protection fault when it tries to unregister
-> media entities. This is a common subdev problem related to releasing
-> pads from v4l2_device_unregister_subdev() before calling unregister.
-> Unregister references pads during unregistering subdev.
+> Move duplicated IS_SRC and IS_SINK dfines to common header. Rename
+> them to VIMC_IS_SRC and VIM_IS_SINK.
 > 
-> The sd release handler is the right place for releasing all sd resources
-> including pads. The release handlers currently release all resources
-> except the pads.
-> 
-> Fix v4l2_device_unregister_subdev() not release pads and release pads
-> from the sd_int_op release handlers.
-> 
-> kernel: [ 4136.715839] general protection fault: 0000 [#1] SMP PTI
-> kernel: [ 4136.715847] CPU: 2 PID: 1972 Comm: bash Not tainted 5.3.0-rc2+ #4
-> kernel: [ 4136.715850] Hardware name: Dell Inc. OptiPlex 790/0HY9JP, BIOS A18 09/24/2013
-> kernel: [ 4136.715858] RIP: 0010:media_gobj_destroy.part.16+0x1f/0x60
-> kernel: [ 4136.715863] Code: ff 66 2e 0f 1f 84 00 00 00 00 00 66 66 66 66 90 55 48 89 fe 48 89 e5 53 48 89 fb 48 c7 c7 00 7f cf b0 e8 24 fa ff ff 48 8b 03 <48> 83 80 a0 00 00 00 01 48 8b 43 18 48 8b 53 10 48 89 42 08 48 89
-> kernel: [ 4136.715866] RSP: 0018:ffff9b2248fe3cb0 EFLAGS: 00010246
-> kernel: [ 4136.715870] RAX: bcf2bfbfa0d63c2f RBX: ffff88c3eb37e9c0 RCX: 00000000802a0018
-> kernel: [ 4136.715873] RDX: ffff88c3e4f6a078 RSI: ffff88c3eb37e9c0 RDI: ffffffffb0cf7f00
-> kernel: [ 4136.715876] RBP: ffff9b2248fe3cb8 R08: 0000000001000002 R09: ffffffffb0492b00
-> kernel: [ 4136.715879] R10: ffff9b2248fe3c28 R11: 0000000000000001 R12: 0000000000000038
-> kernel: [ 4136.715881] R13: ffffffffc09a1628 R14: ffff88c3e4f6a028 R15: fffffffffffffff2
-> kernel: [ 4136.715885] FS:  00007f8389647740(0000) GS:ffff88c465500000(0000) knlGS:0000000000000000
-> kernel: [ 4136.715888] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> kernel: [ 4136.715891] CR2: 000055d008f80fd8 CR3: 00000001996ec005 CR4: 00000000000606e0
-> kernel: [ 4136.715894] Call Trace:
-> kernel: [ 4136.715903]  media_gobj_destroy+0x14/0x20
-> kernel: [ 4136.715908]  __media_device_unregister_entity+0xb3/0xe0
-> kernel: [ 4136.715915]  media_device_unregister_entity+0x30/0x40
-> kernel: [ 4136.715920]  v4l2_device_unregister_subdev+0xa8/0xe0
-> kernel: [ 4136.715928]  vimc_ent_sd_unregister+0x1e/0x30 [vimc]
-> kernel: [ 4136.715933]  vimc_sen_rm+0x16/0x20 [vimc]
-> kernel: [ 4136.715938]  vimc_remove+0x3e/0xa0 [vimc]
-> kernel: [ 4136.715945]  platform_drv_remove+0x25/0x50
-> kernel: [ 4136.715951]  device_release_driver_internal+0xe0/0x1b0
-> kernel: [ 4136.715956]  device_driver_detach+0x14/0x20
-> kernel: [ 4136.715960]  unbind_store+0xd1/0x130
-> kernel: [ 4136.715965]  drv_attr_store+0x27/0x40
-> kernel: [ 4136.715971]  sysfs_kf_write+0x48/0x60
-> kernel: [ 4136.715976]  kernfs_fop_write+0x128/0x1b0
-> kernel: [ 4136.715982]  __vfs_write+0x1b/0x40
-> kernel: [ 4136.715987]  vfs_write+0xc3/0x1d0
-> kernel: [ 4136.715993]  ksys_write+0xaa/0xe0
-> kernel: [ 4136.715999]  __x64_sys_write+0x1a/0x20
-> kernel: [ 4136.716005]  do_syscall_64+0x5a/0x130
-> kernel: [ 4136.716010]  entry_SYSCALL_64_after_hwframe+0x4
 > Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
-
-Acked-by: Helen Koike <helen.koike@collabora.com>
-
 > ---
->  drivers/media/platform/vimc/vimc-common.c  | 3 +--
->  drivers/media/platform/vimc/vimc-debayer.c | 1 +
->  drivers/media/platform/vimc/vimc-scaler.c  | 1 +
->  drivers/media/platform/vimc/vimc-sensor.c  | 1 +
->  4 files changed, 4 insertions(+), 2 deletions(-)
+>  drivers/media/platform/vimc/vimc-common.h  |  4 ++++
+>  drivers/media/platform/vimc/vimc-debayer.c | 11 ++++-------
+>  drivers/media/platform/vimc/vimc-scaler.c  |  8 +++-----
+>  3 files changed, 11 insertions(+), 12 deletions(-)
 > 
-> diff --git a/drivers/media/platform/vimc/vimc-common.c b/drivers/media/platform/vimc/vimc-common.c
-> index 7e1ae0b12f1e..a3120f4f7a90 100644
-> --- a/drivers/media/platform/vimc/vimc-common.c
-> +++ b/drivers/media/platform/vimc/vimc-common.c
-> @@ -375,7 +375,7 @@ int vimc_ent_sd_register(struct vimc_ent_device *ved,
->  {
->  	int ret;
+> diff --git a/drivers/media/platform/vimc/vimc-common.h b/drivers/media/platform/vimc/vimc-common.h
+> index 87ee84f78322..236412ad7548 100644
+> --- a/drivers/media/platform/vimc/vimc-common.h
+> +++ b/drivers/media/platform/vimc/vimc-common.h
+> @@ -27,6 +27,10 @@
 >  
-> -	/* Allocate the pads */
-> +	/* Allocate the pads. Should be released from the sd_int_op release */
->  	ved->pads = vimc_pads_init(num_pads, pads_flag);
->  	if (IS_ERR(ved->pads))
->  		return PTR_ERR(ved->pads);
-> @@ -424,7 +424,6 @@ EXPORT_SYMBOL_GPL(vimc_ent_sd_register);
->  void vimc_ent_sd_unregister(struct vimc_ent_device *ved, struct v4l2_subdev *sd)
->  {
->  	media_entity_cleanup(ved->ent);
-> -	vimc_pads_cleanup(ved->pads);
->  	v4l2_device_unregister_subdev(sd);
->  }
->  EXPORT_SYMBOL_GPL(vimc_ent_sd_unregister);
+>  #define VIMC_FRAME_INDEX(lin, col, width, bpp) ((lin * width + col) * bpp)
+>  
+> +/* Source and sink pad checks */
+> +#define VIMC_IS_SRC(pad)	(pad)
+> +#define VIMC_IS_SINK(pad)	(!(pad))
+
+This is true now, but it might not be true in the future.
+In the output video device (that was sent by André but not yet upstream) for instance, only have a single
+source pad (which I suppose the index will be 0), and this macro won't be true.
+
+Maybe we could check pad flags in sd->entity->pads[index].flags ?
+
+Thanks
+Helen
+
+> +
+>  /**
+>   * struct vimc_colorimetry_clamp - Adjust colorimetry parameters
+>   *
 > diff --git a/drivers/media/platform/vimc/vimc-debayer.c b/drivers/media/platform/vimc/vimc-debayer.c
-> index 00850f2501ad..b38b55f51a24 100644
+> index b38b55f51a24..37f3767db469 100644
 > --- a/drivers/media/platform/vimc/vimc-debayer.c
 > +++ b/drivers/media/platform/vimc/vimc-debayer.c
-> @@ -482,6 +482,7 @@ static void vimc_deb_release(struct v4l2_subdev *sd)
->  	struct vimc_deb_device *vdeb =
->  				container_of(sd, struct vimc_deb_device, sd);
+> @@ -22,9 +22,6 @@ MODULE_PARM_DESC(deb_mean_win_size, " the window size to calculate the mean.\n"
+>  	"stays in the center of the window, otherwise the next odd number "
+>  	"is considered");
 >  
-> +	vimc_pads_cleanup(vdeb->ved.pads);
->  	kfree(vdeb);
->  }
+> -#define IS_SINK(pad) (!pad)
+> -#define IS_SRC(pad)  (pad)
+> -
+>  enum vimc_deb_rgb_colors {
+>  	VIMC_DEB_RED = 0,
+>  	VIMC_DEB_GREEN = 1,
+> @@ -157,7 +154,7 @@ static int vimc_deb_enum_mbus_code(struct v4l2_subdev *sd,
+>  				   struct v4l2_subdev_mbus_code_enum *code)
+>  {
+>  	/* We only support one format for source pads */
+> -	if (IS_SRC(code->pad)) {
+> +	if (VIMC_IS_SRC(code->pad)) {
+>  		struct vimc_deb_device *vdeb = v4l2_get_subdevdata(sd);
 >  
+>  		if (code->index)
+> @@ -183,7 +180,7 @@ static int vimc_deb_enum_frame_size(struct v4l2_subdev *sd,
+>  	if (fse->index)
+>  		return -EINVAL;
+>  
+> -	if (IS_SINK(fse->pad)) {
+> +	if (VIMC_IS_SINK(fse->pad)) {
+>  		const struct vimc_deb_pix_map *vpix =
+>  			vimc_deb_pix_map_by_code(fse->code);
+>  
+> @@ -213,7 +210,7 @@ static int vimc_deb_get_fmt(struct v4l2_subdev *sd,
+>  		      vdeb->sink_fmt;
+>  
+>  	/* Set the right code for the source pad */
+> -	if (IS_SRC(fmt->pad))
+> +	if (VIMC_IS_SRC(fmt->pad))
+>  		fmt->format.code = vdeb->src_code;
+>  
+>  	return 0;
+> @@ -260,7 +257,7 @@ static int vimc_deb_set_fmt(struct v4l2_subdev *sd,
+>  	 * Do not change the format of the source pad,
+>  	 * it is propagated from the sink
+>  	 */
+> -	if (IS_SRC(fmt->pad)) {
+> +	if (VIMC_IS_SRC(fmt->pad)) {
+>  		fmt->format = *sink_fmt;
+>  		/* TODO: Add support for other formats */
+>  		fmt->format.code = vdeb->src_code;
 > diff --git a/drivers/media/platform/vimc/vimc-scaler.c b/drivers/media/platform/vimc/vimc-scaler.c
-> index 28a947950a0b..05db5070e268 100644
+> index 05db5070e268..a5a0855ad9cd 100644
 > --- a/drivers/media/platform/vimc/vimc-scaler.c
 > +++ b/drivers/media/platform/vimc/vimc-scaler.c
-> @@ -338,6 +338,7 @@ static void vimc_sca_release(struct v4l2_subdev *sd)
->  	struct vimc_sca_device *vsca =
->  				container_of(sd, struct vimc_sca_device, sd);
+> @@ -16,8 +16,6 @@ static unsigned int sca_mult = 3;
+>  module_param(sca_mult, uint, 0000);
+>  MODULE_PARM_DESC(sca_mult, " the image size multiplier");
 >  
-> +	vimc_pads_cleanup(vsca->ved.pads);
->  	kfree(vsca);
->  }
+> -#define IS_SINK(pad)	(!pad)
+> -#define IS_SRC(pad)	(pad)
+>  #define MAX_ZOOM	8
 >  
-> diff --git a/drivers/media/platform/vimc/vimc-sensor.c b/drivers/media/platform/vimc/vimc-sensor.c
-> index 1f15637ca8bb..46dc6a535abe 100644
-> --- a/drivers/media/platform/vimc/vimc-sensor.c
-> +++ b/drivers/media/platform/vimc/vimc-sensor.c
-> @@ -291,6 +291,7 @@ static void vimc_sen_release(struct v4l2_subdev *sd)
+>  struct vimc_sca_device {
+> @@ -93,7 +91,7 @@ static int vimc_sca_enum_frame_size(struct v4l2_subdev *sd,
+>  	fse->min_width = VIMC_FRAME_MIN_WIDTH;
+>  	fse->min_height = VIMC_FRAME_MIN_HEIGHT;
 >  
->  	v4l2_ctrl_handler_free(&vsen->hdl);
->  	tpg_free(&vsen->tpg);
-> +	vimc_pads_cleanup(vsen->ved.pads);
->  	kfree(vsen);
->  }
+> -	if (IS_SINK(fse->pad)) {
+> +	if (VIMC_IS_SINK(fse->pad)) {
+>  		fse->max_width = VIMC_FRAME_MAX_WIDTH;
+>  		fse->max_height = VIMC_FRAME_MAX_HEIGHT;
+>  	} else {
+> @@ -116,7 +114,7 @@ static int vimc_sca_get_fmt(struct v4l2_subdev *sd,
+>  			 vsca->sink_fmt;
 >  
+>  	/* Scale the frame size for the source pad */
+> -	if (IS_SRC(format->pad)) {
+> +	if (VIMC_IS_SRC(format->pad)) {
+>  		format->format.width = vsca->sink_fmt.width * sca_mult;
+>  		format->format.height = vsca->sink_fmt.height * sca_mult;
+>  	}
+> @@ -165,7 +163,7 @@ static int vimc_sca_set_fmt(struct v4l2_subdev *sd,
+>  	 * Do not change the format of the source pad,
+>  	 * it is propagated from the sink
+>  	 */
+> -	if (IS_SRC(fmt->pad)) {
+> +	if (VIMC_IS_SRC(fmt->pad)) {
+>  		fmt->format = *sink_fmt;
+>  		fmt->format.width = sink_fmt->width * sca_mult;
+>  		fmt->format.height = sink_fmt->height * sca_mult;
 > 
