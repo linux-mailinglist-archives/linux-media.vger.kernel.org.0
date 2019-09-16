@@ -2,276 +2,396 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A411FB3AB3
-	for <lists+linux-media@lfdr.de>; Mon, 16 Sep 2019 14:51:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 59382B3B34
+	for <lists+linux-media@lfdr.de>; Mon, 16 Sep 2019 15:23:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732920AbfIPMvr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Sep 2019 08:51:47 -0400
-Received: from dc8-smtprelay2.synopsys.com ([198.182.47.102]:45544 "EHLO
-        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1732709AbfIPMvr (ORCPT
+        id S1733068AbfIPNXM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Sep 2019 09:23:12 -0400
+Received: from mail-oi1-f171.google.com ([209.85.167.171]:35188 "EHLO
+        mail-oi1-f171.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728014AbfIPNXM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Sep 2019 08:51:47 -0400
-Received: from mailhost.synopsys.com (badc-mailhost2.synopsys.com [10.192.0.18])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 2E822C037B;
-        Mon, 16 Sep 2019 12:51:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1568638306; bh=EM9atY3RMN1CrOPmMORQwULO6GXap4riLN8WbM+PmCg=;
-        h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-        b=gUPzyoS3Z2/KG4z+a+YA/qNn6HiqTUukvVHFLg/RWGdVeJct92Jo2jSOxqwUSiYJE
-         EXwVjtim/kOXqmGkB5a3kUCY7ScwNjy+Q6/tN9glTQJO2o09Ht27RxeG94OicSwmGi
-         bmBDpVhTf24T+bKBk4IMPjT2zreYkMEw8Ez4z9kWdI/nMG1N0ot76NV7RBHMQji+yU
-         Xf/oJ81f65LdAcnTwfy2CbBu/rDAyf+za0MO1UIpGONIXJ+7am22/a+VTs7HGkL7dJ
-         8N2ZhYAWWVI12G8zGIZIM05TTjsN4Lm3k0cKGvRDlMfkzhL4TlRGAjDYar/pSzC84K
-         SQWeBimap7Xiw==
-Received: from US01WEHTC3.internal.synopsys.com (us01wehtc3.internal.synopsys.com [10.15.84.232])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mailhost.synopsys.com (Postfix) with ESMTPS id 16E7DA006E;
-        Mon, 16 Sep 2019 12:51:45 +0000 (UTC)
-Received: from US01WEHTC2.internal.synopsys.com (10.12.239.237) by
- US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Mon, 16 Sep 2019 05:51:44 -0700
-Received: from US01HYBRID2.internal.synopsys.com (10.15.246.24) by
- US01WEHTC2.internal.synopsys.com (10.12.239.237) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Mon, 16 Sep 2019 05:51:44 -0700
-Received: from NAM04-BN3-obe.outbound.protection.outlook.com (10.13.134.195)
- by mrs.synopsys.com (10.15.246.24) with Microsoft SMTP Server (TLS) id
- 14.3.408.0; Mon, 16 Sep 2019 05:51:44 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=V1Hv/fevGkmk188M5NDd1geHsS4T2vASZkieTXZLSncSybiiDp8zn4vz9QozwbO2CPNTs/OD7SQ1zzb3G8X1gfzhsn3Snq0s2qdb0FpuBDVQwbZGQcwsgK1OIRSE4QJaDSL9Z8QRkyohonGBTWOls7Il6BiHizi/JL3A+F0MWFg/QYq/xseEjUUuYdMBMVYvTOLE2M6o2N2OUVP3U1t6OXgUApTYBnKRaFH+CBedyHAtQJ8xA1Cqv8bkeRZd0fBq9SA+1dPft+wGSnSd4uWIntmkxY7mFhSHHZbMq50OjVgSfxQy8aJ4b8plDL4tnGWKxxLOKHeoHoSx8YN7+G/EBw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EM9atY3RMN1CrOPmMORQwULO6GXap4riLN8WbM+PmCg=;
- b=iSwiBft+V7qFNPtcMkDt9hVNMGrZ9PFc71x6uDvWhjSO5+rMQAL3JxzaxzT5T0aEE1qB2KZ0l4XHBZvgp2muGYHa1GZ+INS9CdNbHXmxpW8dmE1mko8NDXR1cviJje15buNZXA495vFtlue5Jhv6monzYQtLwUOzHULDQ3Ixq1CcfgUnbG9U8Em/sHHyIqo5N1I2lHZtc51P682WuN6dRiSGnKGSxXpmCWfUJIguD3nPWaSyY6Ced1qU1r7rcIcaJ0oE0rYX1g/U30CRkfswKEkCtYD8SkI5Ors0PSUHegMrmZGcQ/A+lntt+Kaf3FSijXJHbTbo/1MIUQi4JTVyHg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
+        Mon, 16 Sep 2019 09:23:12 -0400
+Received: by mail-oi1-f171.google.com with SMTP id a127so8266309oii.2
+        for <linux-media@vger.kernel.org>; Mon, 16 Sep 2019 06:23:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=synopsys.onmicrosoft.com; s=selector2-synopsys-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EM9atY3RMN1CrOPmMORQwULO6GXap4riLN8WbM+PmCg=;
- b=oxz/JY10ZA7UIVkWqL8KlroNMdHJhtxe5VZ5moFMP6FAYUVuZ7VYybEmOXdRX/LzJxo2GVDhBFJGYitCmFak8tJIh0QMVMSDr6VGI0yC3YLYFJr6M01dnq+5xdqdg8QVQ3hSzS5BzJ7vP0n5e9B6nbnA5BhTWVXg1GFdyguPHfY=
-Received: from SN6PR12MB2814.namprd12.prod.outlook.com (52.135.107.151) by
- SN6PR12MB2734.namprd12.prod.outlook.com (52.135.107.25) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2263.17; Mon, 16 Sep 2019 12:51:41 +0000
-Received: from SN6PR12MB2814.namprd12.prod.outlook.com
- ([fe80::7c91:9104:bdb0:673b]) by SN6PR12MB2814.namprd12.prod.outlook.com
- ([fe80::7c91:9104:bdb0:673b%6]) with mapi id 15.20.2263.023; Mon, 16 Sep 2019
- 12:51:41 +0000
-From:   Angelo Ribeiro <Angelo.Ribeiro@synopsys.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Jose Abreu <Jose.Abreu@synopsys.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Joao Pinto <Joao.Pinto@synopsys.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        "Jacopo Mondi" <jacopo+renesas@jmondi.org>,
-        Tomasz Figa <tfiga@chromium.org>
-Subject: RE: [ANN] Topics for a media summit in Lyon in October
-Thread-Topic: [ANN] Topics for a media summit in Lyon in October
-Thread-Index: AQHVVAmnO3mQx22M8k+4lYTjWUYIqKcuLLGAgAACW4CAABJxgIAACFiwgAAHfYCAABxmAA==
-Date:   Mon, 16 Sep 2019 12:51:41 +0000
-Message-ID: <SN6PR12MB281440C2B32D7C59A3D4F61CCB8C0@SN6PR12MB2814.namprd12.prod.outlook.com>
-References: <010ba9ce-bac9-6f0c-f128-4f163a7d8ea7@xs4all.nl>
- <BN8PR12MB3266963E3EAA25AC2644942DD38C0@BN8PR12MB3266.namprd12.prod.outlook.com>
- <3d6735ce-d39b-9875-1cfc-0e68fa3a45c6@xs4all.nl>
- <20190916095451.GA4734@pendragon.ideasonboard.com>
- <SN6PR12MB2814153C981E306E253CD013CB8C0@SN6PR12MB2814.namprd12.prod.outlook.com>
- <20190916105131.GC4734@pendragon.ideasonboard.com>
-In-Reply-To: <20190916105131.GC4734@pendragon.ideasonboard.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-dg-ref: =?utf-8?B?UEcxbGRHRStQR0YwSUc1dFBTSmliMlI1TG5SNGRDSWdjRDBpWXpwY2RYTmxj?=
- =?utf-8?B?bk5jWVc1blpXeHZjbHhoY0hCa1lYUmhYSEp2WVcxcGJtZGNNRGxrT0RRNVlq?=
- =?utf-8?B?WXRNekprTXkwMFlUUXdMVGcxWldVdE5tSTROR0poTWpsbE16VmlYRzF6WjNO?=
- =?utf-8?B?Y2JYTm5MV0k1TVRBeE16aGhMV1E0T0RBdE1URmxPUzA1WkRRMkxXWmpOemMz?=
- =?utf-8?B?TkdWbFpHTXlaVnhoYldVdGRHVnpkRnhpT1RFd01UTTRZaTFrT0Rnd0xURXha?=
- =?utf-8?B?VGt0T1dRME5pMW1ZemMzTnpSbFpXUmpNbVZpYjJSNUxuUjRkQ0lnYzNvOUlq?=
- =?utf-8?B?TXdPVFFpSUhROUlqRXpNakV6TVRFeE9EazVOamszTURJeE55SWdhRDBpWTFv?=
- =?utf-8?B?eGFuQk5WbmRCTjJrNE16Rklha3huWlZCUE9XZEhka2xqUFNJZ2FXUTlJaUln?=
- =?utf-8?B?WW13OUlqQWlJR0p2UFNJeElpQmphVDBpWTBGQlFVRkZVa2hWTVZKVFVsVkdU?=
- =?utf-8?B?a05uVlVGQlFsRktRVUZFY0RKd1dqZHFWM3BXUVZRNFNEUTJlVzR6Vm5acVVI?=
- =?utf-8?B?ZG1hbkpMWm1SWEswMVBRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
- =?utf-8?B?QlFVaEJRVUZCUTJ0RFFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
- =?utf-8?B?UVVWQlFWRkJRa0ZCUVVGSlJVZzFRbmRCUVVGQlFVRkJRVUZCUVVGQlFVRktO?=
- =?utf-8?B?RUZCUVVKdFFVZHJRV0puUW1oQlJ6UkJXWGRDYkVGR09FRmpRVUp6UVVkRlFX?=
- =?utf-8?B?Sm5RblZCUjJ0QlltZENia0ZHT0VGa2QwSm9RVWhSUVZwUlFubEJSekJCV1ZG?=
- =?utf-8?B?Q2VVRkhjMEZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
- =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
- =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
- =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUlVGQlFVRkJRVUZCUVVG?=
- =?utf-8?B?blFVRkJRVUZCYm1kQlFVRkhXVUZpZDBJeFFVYzBRVnBCUW5sQlNHdEJXSGRD?=
- =?utf-8?B?ZDBGSFJVRmpaMEl3UVVjMFFWcFJRbmxCU0UxQldIZENia0ZIV1VGQlFVRkJR?=
- =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
- =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
- =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
- =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFWRkJR?=
- =?utf-8?B?VUZCUVVGQlFVRkRRVUZCUVVGQlEyVkJRVUZCV21kQ2RrRklWVUZpWjBKclFV?=
- =?utf-8?B?aEpRV1ZSUW1aQlNFRkJXVkZDZVVGSVVVRmlaMEpzUVVoSlFXTjNRbVpCU0Ux?=
- =?utf-8?B?QldWRkNkRUZJVFVGa1VVSjFRVWRqUVZoM1FtcEJSemhCWW1kQ2JVRkJRVUZC?=
- =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
- =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
- =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
- =?utf-8?B?QlFVRkJRVUpCUVVGQlFVRkJRVUZCU1VGQlFVRkJRVW8wUVVGQlFtMUJSemhC?=
- =?utf-8?B?WkZGQ2RVRkhVVUZqWjBJMVFVWTRRV05CUW1oQlNFbEJaRUZDZFVGSFZVRmpa?=
- =?utf-8?B?MEo2UVVZNFFXTjNRbWhCUnpCQlkzZENNVUZITkVGYWQwSm1RVWhKUVZwUlFu?=
- =?utf-8?B?cEJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
- =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
- =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
- =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGRlFVRkJRVUZCUVVGQlFXZEJRVUZCUVVGdVow?=
- =?utf-8?B?RkJRVWRaUVdKM1FqRkJSelJCV2tGQ2VVRklhMEZZZDBKM1FVZEZRV05uUWpC?=
- =?utf-8?B?QlJ6UkJXbEZDZVVGSVRVRllkMEo2UVVjd1FXRlJRbXBCUVVGQlFVRkJRVUZC?=
- =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
- =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
- =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
- =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJVVUZCUVVGQlFVRkJRVU5C?=
- =?utf-8?B?UVVGQlFVRkRaVUZCUVVGYVowSjJRVWhWUVdKblFtdEJTRWxCWlZGQ1prRklR?=
- =?utf-8?B?VUZaVVVKNVFVaFJRV0puUW14QlNFbEJZM2RDWmtGSVRVRmtRVUZCUVVGQlFV?=
- =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
- =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
- =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
- =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUWtGQlFV?=
- =?utf-8?B?RkJRVUZCUVVGSlFVRkJRVUZCU2pSQlFVRkNiVUZIT0VGa1VVSjFRVWRSUVdO?=
- =?utf-8?B?blFqVkJSamhCWTBGQ2FFRklTVUZrUVVKMVFVZFZRV05uUW5wQlJqaEJaRUZD?=
- =?utf-8?B?ZWtGSE1FRlpkMEZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
- =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
- =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
- =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
- =?utf-8?B?UVVGQlFVVkJRVUZCUVVGQlFVRkJaMEZCUVVGQlFXNW5RVUZCUjFsQlluZENN?=
- =?utf-8?B?VUZITkVGYVFVSjVRVWhyUVZoM1FuZEJSMFZCWTJkQ01FRkhORUZhVVVKNVFV?=
- =?utf-8?B?aE5RVmgzUWpGQlJ6QkJXWGRCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
- =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
- =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
- =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
- =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZSUVVGQlFVRkJRVUZCUTBGQlFVRkJRVU5sUVVG?=
- =?utf-8?B?QlFWcDNRakJCU0UxQldIZENkMEZJU1VGaWQwSnJRVWhWUVZsM1FqQkJSamhC?=
- =?utf-8?B?WkVGQ2VVRkhSVUZoVVVKMVFVZHJRV0puUW01QlFVRkJRVUZCUVVGQlFVRkJR?=
- =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
- =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
- =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
- =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQ1FVRkJRVUZCUVVGQlFVbEJR?=
- =?utf-8?B?VUZCUVVGS05FRkJRVUo2UVVkRlFXSkJRbXhCU0UxQldIZENhRUZIVFVGWmQw?=
- =?utf-8?B?SjJRVWhWUVdKblFqQkJSamhCWTBGQ2MwRkhSVUZpWjBGQlFVRkJRVUZCUVVG?=
- =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
- =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
- =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
- =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJSVUZCUVVG?=
- =?utf-8?B?QlFVRkJRVUZuUVVGQlFVRkJibWRCUVVGSVRVRlpVVUp6UVVkVlFXTjNRbVpC?=
- =?utf-8?B?U0VWQlpGRkNka0ZJVVVGYVVVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
- =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
- =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
- =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
- =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
- =?utf-8?B?VUZCUVZGQlFVRkJRVUZCUVVGRFFVRkJRVUZCUTJWQlFVRkJZM2RDZFVGSVFV?=
- =?utf-8?B?RmpkMEptUVVkM1FXRlJRbXBCUjFWQlltZENla0ZIVlVGWWQwSXdRVWRWUVdO?=
- =?utf-8?B?blFuUkJSamhCVFZGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
- =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
- =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
- =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
- =?utf-8?B?QlFVRkJRVUZCUVVGQlFVSkJRVUZCUVVGQlFVRkJTVUZCUVVGQlFVbzBRVUZC?=
- =?utf-8?B?UW5wQlJ6UkJZMEZDZWtGR09FRmlRVUp3UVVkTlFWcFJRblZCU0UxQldsRkNa?=
- =?utf-8?B?a0ZJVVVGYVVVSjVRVWN3UVZoM1FucEJTRkZCWkZGQ2EwRkhWVUZpWjBJd1FV?=
- =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
- =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
- =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
- =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZGUVVGQlFVRkJRVUZCUVdkQlFV?=
- =?utf-8?B?RkJRVUZ1WjBGQlFVaFpRVnAzUW1aQlIzTkJXbEZDTlVGSVkwRmlkMEo1UVVk?=
- =?utf-8?B?UlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
- =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
- =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
- =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
- =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlVVRkJRVUZC?=
- =?utf-8?Q?QUFBQUNBQUFBQUFBPSIvPjwvbWV0YT4=3D?=
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=angelor@synopsys.com; 
-x-originating-ip: [83.174.63.141]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: ca792224-ae34-4931-e2ff-08d73aa49f55
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600167)(711020)(4605104)(1401327)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);SRVR:SN6PR12MB2734;
-x-ms-traffictypediagnostic: SN6PR12MB2734:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <SN6PR12MB27341BB6A15234CDB42BA3DECB8C0@SN6PR12MB2734.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 0162ACCC24
-x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(39860400002)(396003)(366004)(376002)(346002)(136003)(199004)(189003)(53824002)(51914003)(64756008)(66556008)(229853002)(52536014)(26005)(6916009)(476003)(71200400001)(76176011)(3846002)(74316002)(446003)(99286004)(486006)(71190400001)(33656002)(7736002)(305945005)(561944003)(186003)(6116002)(6506007)(53546011)(53936002)(102836004)(6246003)(11346002)(4326008)(66446008)(316002)(25786009)(5660300002)(81166006)(54906003)(8676002)(81156014)(8936002)(66476007)(9686003)(66066001)(256004)(14444005)(86362001)(55016002)(14454004)(7696005)(76116006)(66946007)(478600001)(2906002)(6436002);DIR:OUT;SFP:1102;SCL:1;SRVR:SN6PR12MB2734;H:SN6PR12MB2814.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: synopsys.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: EM041/lXV3T5wNT8xuGXK5PgPrUvnrbbBPMZRk2wkmRY9ID+i0wd2h4PSDX1eVEqZ6zAT7MX72rzT75deeT10NPmGExnozLauekAfAOO09MNjxZz6eoCIF2SD3W3hw2F1vrKSmo4BoikAyaoeuKjRRP1QibFWwrQQ+wPgGObIUR93SEKW2YzEFMOlulSvhO2beWNe3lbH17/tRdusV82/d7k8dnBGXyF8a999UASHXxBPDEjvc4566RJTGdqAINFm7sdYH4abgPnj4gpLD+RcZEqP+lR958Ip/AjP9qDIUZXjC6eOv+FmKmtECg1zJwGlSrS4XaRQw81nU/D5k1ZTky8dLevthxFTTZD0L00NBi2I0bYJeo+XirMsRxK+112qB9reF792oPJPcKn1hhNgmbZ3W7ECZVNjMPakWegslE=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=n3U29OmFOZrNUDgWbzfJqVH6AgOhq2z1uq16fp9Z0d4=;
+        b=XmoqllKO7Y9vBZa2nrXRO6qhjGlHgOC6EHq8pqvq5vXGU1Jq7sQkz4Y90qADMtIC3X
+         OWw1Swf5IA+/XUNbtnJDtj2kFF9s4N3ask4+NICMfLs/9q1fYYg/L/n+o6zpYQv1k0XA
+         UAAu/RLXc78Z1xiiCrPZ2SKxYJl1P+22WJX0XfvvVP+R8qMyNHAaIaxteW5KShPfujKt
+         KaiOQ+PEXECsdApPwtabI5/Gl2mh+cE2EAkzgssor66R7lodIuM+teNnwAG2vsztM6eK
+         rf0WJtZtxWGKu6/+wm9B7DPKnKXxiV7lQAGU5a34qkPF5QY1uZSna9HnK7b+wQp1JuZy
+         /yuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=n3U29OmFOZrNUDgWbzfJqVH6AgOhq2z1uq16fp9Z0d4=;
+        b=SCMmZ/Obqv4g4V9he1wLlhJsT/YNvnbRdq2p4tEdLd+iSFdO+ve2s0OrQtdKawHAN5
+         XOPh7c1n1Md1NZGcpjA/cKQZCyGla4nWqkjT1wlCyqHHaI/kua75Zdo+rCMhQzey8TfG
+         3m1eEuA1Rx9snCReh/xiVDh8yOXrWoHNnoGbdt9/eOHYjYXJwRYBkbab9kr+WwA7KCcd
+         2R6sDVHM3Uim2dF6UWuauAbMbde3NOWY5LmeR7Pf7afMy6VwF/EMYRl00PjMx4QVx4vq
+         IRCiQZBtnbzxrHJrSq0IpWk+bRfbcGFxJ4q48DatXH0K+AcDjE142dKU8skK7ytz8cY6
+         rFPg==
+X-Gm-Message-State: APjAAAX5M0AJExCUroU5J26hUQxFPrJx35998PLf2ZPz0ZhSQ9AAE7ST
+        whuuDHYFISVkzAM3fO2tdSYguxgq
+X-Google-Smtp-Source: APXvYqynzVbCbbkiMIwU0abxD7g/9IbQtV0a248cp9KPZpY48OegX5haou3wrTDLKOPEY0NOnJA2fw==
+X-Received: by 2002:aca:d9c3:: with SMTP id q186mr4264636oig.53.1568640190125;
+        Mon, 16 Sep 2019 06:23:10 -0700 (PDT)
+Received: from rYz3n.attlocal.net ([2600:1700:210:3790::40])
+        by smtp.googlemail.com with ESMTPSA id b67sm3955431oii.21.2019.09.16.06.23.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Sep 2019 06:23:09 -0700 (PDT)
+From:   Jiunn Chang <c0d1n61at3@gmail.com>
+To:     linux-media@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Cc:     hverkuil@xs4all.nl
+Subject: [PATCH v2] cec-follower: create cec-tuner.cpp
+Date:   Mon, 16 Sep 2019 08:23:08 -0500
+Message-Id: <20190916132308.41810-1-c0d1n61at3@gmail.com>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20190916091553.116728-1-c0d1n61at3@gmail.com>
+References: <20190916091553.116728-1-c0d1n61at3@gmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: ca792224-ae34-4931-e2ff-08d73aa49f55
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Sep 2019 12:51:41.6429
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 30vDjx7p30r/E8r73nP+Ts4sTN/2tWUtfjp6DbroknbJSPJhxitqQDGwhGOIDzqrjJNdffqWqwziU3il22HCRw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2734
-X-OriginatorOrg: synopsys.com
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGkgTGF1cmVudCwNCg0KDQpGcm9tOiBMYXVyZW50IFBpbmNoYXJ0IDxsYXVyZW50LnBpbmNoYXJ0
-QGlkZWFzb25ib2FyZC5jb20+DQpEYXRlOiBNb24sIFNlcCAxNiwgMjAxOSBhdCAxMTo1MTozMQ0K
-DQo+IEhpIEFuZ2VsbywNCj4gDQo+IE9uIE1vbiwgU2VwIDE2LCAyMDE5IGF0IDEwOjM5OjU2QU0g
-KzAwMDAsIEFuZ2VsbyBSaWJlaXJvIHdyb3RlOg0KPiA+IE9uIE1vbiwgU2VwIDE2LCAyMDE5IGF0
-IDEwOjU0OjUxIExhdXJlbnQgUGluY2hhcnQgd3JvdGU6DQo+ID4gPiBPbiBNb24sIFNlcCAxNiwg
-MjAxOSBhdCAxMDo0ODo1MUFNICswMjAwLCBIYW5zIFZlcmt1aWwgd3JvdGU6DQo+ID4gPiA+IE9u
-IDkvMTYvMTkgMTA6NDAgQU0sIEpvc2UgQWJyZXUgd3JvdGU6DQo+ID4gPiA+ID4gRnJvbTogSGFu
-cyBWZXJrdWlsIDxodmVya3VpbEB4czRhbGwubmw+DQo+ID4gPiA+ID4gRGF0ZTogQXVnLzE2LzIw
-MTksIDA5OjA2OjMwIChVVEMrMDA6MDApDQo+ID4gPiA+ID4gDQo+ID4gPiA+ID4+IFJhdGhlciB0
-aGVuIGRpc2N1c3NpbmcgdG9waWNzIGZvciBhIG1lZXRpbmcgdW5kZXIgdGhlIHN1YmplY3QgJ0xp
-c2JvbicNCj4gPiA+ID4gPj4gbGV0J3Mgc3RhcnQgYSBuZXcgdGhyZWFkIHJlZmVycmluZyB0byB0
-aGUgcmlnaHQgcGxhY2UgOi0pDQo+ID4gPiA+ID4+DQo+ID4gPiA+ID4+IEkgd2lsbCB0cnkgdG8g
-b3JnYW5pemUgYSByb29tLCBlaXRoZXIgZHVyaW5nIHRoZSBFTENFIG9yIChpZiB0aGF0IGRvZXNu
-J3QNCj4gPiA+ID4gPj4gd29yaykgcGVyaGFwcyBvbiB0aGUgVGh1cnNkYXkgYWZ0ZXJ3YXJkcy4g
-SWYgdGhhdCdzIGdvaW5nIHRvIGJlIGEgcHJvYmxlbQ0KPiA+ID4gPiA+PiBmb3Igc29tZW9uZSwg
-cGxlYXNlIGxldCBtZSBrbm93Lg0KPiA+ID4gPiA+Pg0KPiA+ID4gPiA+PiBJIGRvIG5lZWQgdG8g
-a25vdyBob3cgbWFueSBwZW9wbGUgSSBjYW4gZXhwZWN0LiBJIGhhdmUgdGhlIGZvbGxvd2luZw0K
-PiA+ID4gPiA+PiBjb25maXJtZWQgYXR0ZW5kZWVzIChhbmQgcGxlYXNlIHJlcGx5IGlmIHlvdSBh
-cmUgbm90IGxpc3RlZCEpOg0KPiA+ID4gPiA+IA0KPiA+ID4gPiA+IEhpIEhhbnMsDQo+ID4gPiA+
-ID4gDQo+ID4gPiA+ID4gSXQncyBiZWVuIGEgd2hpbGUsIGhvcGUgeW91IGFyZSBkb2luZyB3ZWxs
-IDopDQo+ID4gPiA+ID4gDQo+ID4gPiA+ID4gSSdtIG5vIGxvbmdlciB3b3JraW5nIGluIG1lZGlh
-IHN1YnN5c3RlbSBidXQgbXkgY29sbGVhZ3VlcyBBbmdlbG8gYW5kIA0KPiA+ID4gPiA+IEpvYW8g
-d291bGQgbGlrZSB0byBhdHRlbmQuDQo+ID4gPiA+ID4gDQo+ID4gPiA+ID4gV2UgY3VycmVudGx5
-IGhhdmUgSERNSSBhbmQgQ1NJIHN1cHBvcnQgZm9yIG91ciBJUHMgdXNpbmcgVjRMMiBhbmQgd2Ug
-DQo+ID4gPiA+ID4gd291bGQgbGlrZSB0byBpbnRlcmFjdCB3aXRoIHRoZSBjb21tdW5pdHkgaW4g
-b3JkZXIgdG8gZ2V0IHRoaXMgDQo+ID4gPiA+ID4gdXAtc3RyZWFtZWQgc28gdGhhdCB3ZSBoYXZl
-IGFzIG1hbnkgZmVhdHVyZXMgc3VwcG9ydGVkIGFzIHBvc3NpYmxlLg0KPiA+ID4gPiA+IA0KPiA+
-ID4gPiA+IElzIGl0IHBvc3NpYmxlID8NCj4gPiA+ID4gDQo+ID4gPiA+IFllcy4gVGhhdCBzYWlk
-LCBzaW5jZSB0aGlzIGlzIGZhaXJseSBzcGVjaWZpYyBhbmQgZG9lc24ndCBmYWxsIGludG8gYW55
-IG9mDQo+ID4gPiA+IHRoZSB0aHJlZSBkaXNjdXNzaW9ucyB0aGF0IHdlIHBsYW4gKGNvZGVjcywg
-bGliY2FtZXJhLCBmdXR1cmUgZGV2ZWxvcG1lbnRzKQ0KPiA+ID4gPiBJIHRoaW5rIGl0IGlzIG1v
-cmUgdXNlZnVsIGlmIEkgZGlzY3VzcyB0aGlzIHNlcGFyYXRlbHkgd2l0aCBBbmdlbG8gYW5kDQo+
-ID4gPiA+IEpvYW8gb24gTW9uZGF5IG9yIFR1ZXNkYXkgYWZ0ZXJub29uLg0KPiA+ID4gPiANCj4g
-PiA+ID4gSSBjYW4gZGVmaW5pdGVseSBkaXNjdXNzIEhETUkgc3VwcG9ydCwgYW5kIHByb2JhYmx5
-IGdpdmUgYSBnb29kIHN0YWIgYXQgdGhlDQo+ID4gPiA+IENTSSBzdXBwb3J0ICh0b28gYmFkIFNh
-a2FyaSB3b24ndCBiZSB0aGVyZSkuDQo+ID4gPiA+IA0KPiA+ID4gPiBIb3cgYWJvdXQgd2UgZ2V0
-IHRvZ2V0aGVyIGFmdGVyIEdyZWcgS0gncyBrZXlub3RlIG9uIE1vbmRheT8NCj4gPiA+IA0KPiA+
-ID4gSSdsbCB0cnkgdG8gam9pbiBhcyB3ZWxsLiBJJ3ZlIHJ1biBpbnRvIGlzc3VlcyBpbiB0aGUg
-cGFzdCB3aXRoIHRoZQ0KPiA+ID4gZGV2ZWxvcG1lbnQgcHJvY2VzcyByZWxhdGVkIHRvIGFuIEhE
-TUkgSVAgKGJ1dCBvbiB0aGUgRFJNL0tNUyBzaWRlKSwgYW5kDQo+ID4gPiBJJ2QgbGlrZSB0byB0
-cnkgYW5kIGF2b2lkIHRoZSBzYW1lIG1pc3Rha2VzIGhlcmUuDQo+ID4gDQo+ID4gVGhhbmtzIGZv
-ciB0aGUgbWVldGluZyBwcm9wb3NhbCwgZm9yIG1lIHNvdW5kcyBncmVhdC4NCj4gPiBDdXJyZW50
-bHkgSSdtIGJ1aWxkaW5nIGEgRFJNL0tNUyB2aWRlbyBwaXBlbGluZSBmb3Igb3VyIEhXIHNvbHV0
-aW9uIHdpdGggDQo+ID4gU3lub3BzeXMgRFNJIElQLCB0aGF0IGlzIHN1cHBvcnRlZCBieSB0aGUg
-ZHctbWlwaS1kc2kgZHJpdmVyLg0KPiANCj4gQ2FuIHlvdSBzaGFyZSBkZXRhaWxzIGFib3V0IHRo
-ZSBwYXJ0IG9mIHRoZSBwaXBlbGluZSBiZWZvcmUgdGhlIERTSQ0KPiBlbmNvZGVyID8gQXJlIHRo
-ZXJlIFN5bm9wc3lzIElQcyB0aGVyZSB0b28sIG9yIGlzIHRoZSBEU0kgZW5jb2Rlcg0KPiBjb25u
-ZWN0ZWQgdG8gYSBkaXNwbGF5IGNvbnRyb2xsZXIgZnJvbSB0aGUgU29DIHZlbmRvciA/DQoNClRo
-ZXJlIGlzIGEgdmlkZW8gRE1BIGZlZWRpbmcgdGhlIERTSSBlbmNvZGVyIGFuZCB0aGUgb3V0cHV0
-IGlzIGRyaXZlbiANCnRocm91Z2ggYSBQSFkgdG8gYSBwYW5lbC4NCg0KPiA+IEFsc28gSSdtIGdv
-aW5nIHRvIHN1cHBvcnQgdGhlIERlc2lnbldhcmUgTUlQSSBDU0ktMiBIb3N0IGFuZCBELVBIWQ0K
-PiA+IHRoYXQgdXNlcyBWNGwyLg0KPiANCj4gLS0gDQo+IFJlZ2FyZHMsDQo+IA0KPiBMYXVyZW50
-IFBpbmNoYXJ0ICANCg0KVGhhbmtzLA0KDQpBbmdlbG8gUmliZWlybw0KDQoNCg==
+Move tuner control, one touch record, and timer programming into
+cec-tuner.cpp.  These features are all tuner related and involve the
+tuner as a central feature to be able to test.
+
+Signed-off-by: Jiunn Chang <c0d1n61at3@gmail.com>
+---
+
+Changes made since v1:
+  - Change cec-tuner.cpp function name to process_tuner_record_timer_msgs()
+  - Refactor commit message
+
+>8---------------------------------------------------------------------------8<
+
+ utils/cec-follower/Makefile.am        |   2 +-
+ utils/cec-follower/cec-follower.h     |   3 +
+ utils/cec-follower/cec-processing.cpp | 109 +-------------------
+ utils/cec-follower/cec-tuner.cpp      | 139 ++++++++++++++++++++++++++
+ 4 files changed, 148 insertions(+), 105 deletions(-)
+ create mode 100644 utils/cec-follower/cec-tuner.cpp
+
+diff --git a/utils/cec-follower/Makefile.am b/utils/cec-follower/Makefile.am
+index 9b0a48b0..294a6ab4 100644
+--- a/utils/cec-follower/Makefile.am
++++ b/utils/cec-follower/Makefile.am
+@@ -1,7 +1,7 @@
+ bin_PROGRAMS = cec-follower
+ man_MANS = cec-follower.1
+ 
+-cec_follower_SOURCES = cec-follower.cpp cec-follower.h cec-processing.cpp cec-log.cpp cec-info.cpp
++cec_follower_SOURCES = cec-follower.cpp cec-follower.h cec-processing.cpp cec-tuner.cpp cec-log.cpp cec-info.cpp
+ cec_follower_CPPFLAGS = -I$(top_srcdir)/utils/common
+ cec_follower_LDFLAGS = -lrt
+ 
+diff --git a/utils/cec-follower/cec-follower.h b/utils/cec-follower/cec-follower.h
+index 0998382c..9f5f1be4 100644
+--- a/utils/cec-follower/cec-follower.h
++++ b/utils/cec-follower/cec-follower.h
+@@ -219,6 +219,9 @@ std::string audio_format_id_code2s(__u8 audio_format_id, __u8 audio_format_code)
+ std::string opcode2s(const struct cec_msg *msg);
+ void sad_encode(const struct short_audio_desc *sad, __u32 *descriptor);
+ 
++// cec-tuner.cpp
++void process_tuner_record_timer_msgs(struct node *node, struct cec_msg &msg, unsigned me);
++
+ // CEC processing
+ void testProcessing(struct node *node, bool wallclock);
+ 
+diff --git a/utils/cec-follower/cec-processing.cpp b/utils/cec-follower/cec-processing.cpp
+index fa7687c9..15cedddf 100644
+--- a/utils/cec-follower/cec-processing.cpp
++++ b/utils/cec-follower/cec-processing.cpp
+@@ -608,128 +608,29 @@ static void processMsg(struct node *node, struct cec_msg &msg, unsigned me)
+ 	case CEC_MSG_DECK_STATUS:
+ 		return;
+ 
++	/* Tuner Centric Messages */
+ 
+-		/*
+-		  Tuner Control
+-
+-		  This is only a basic implementation.
+-
+-		  TODO: Device state should change when selecting services etc.
+-		*/
+-
+-	case CEC_MSG_GIVE_TUNER_DEVICE_STATUS: {
+-		if (!cec_has_tuner(1 << me))
+-			break;
+-
+-		struct cec_op_tuner_device_info tuner_dev_info = {};
+-
+-		cec_msg_set_reply_to(&msg, &msg);
+-		tuner_dev_info.rec_flag = CEC_OP_REC_FLAG_NOT_USED;
+-		tuner_dev_info.tuner_display_info = CEC_OP_TUNER_DISPLAY_INFO_NONE;
+-		tuner_dev_info.is_analog = false;
+-		tuner_dev_info.digital.service_id_method = CEC_OP_SERVICE_ID_METHOD_BY_CHANNEL;
+-		tuner_dev_info.digital.dig_bcast_system = CEC_OP_DIG_SERVICE_BCAST_SYSTEM_DVB_C;
+-		tuner_dev_info.digital.channel.channel_number_fmt = CEC_OP_CHANNEL_NUMBER_FMT_1_PART;
+-		tuner_dev_info.digital.channel.minor = 1;
+-
+-		cec_msg_tuner_device_status(&msg, &tuner_dev_info);
+-		transmit(node, &msg);
+-		return;
+-	}
+-
++	case CEC_MSG_GIVE_TUNER_DEVICE_STATUS:
+ 	case CEC_MSG_TUNER_DEVICE_STATUS:
+-		return;
+-
+ 	case CEC_MSG_SELECT_ANALOGUE_SERVICE:
+ 	case CEC_MSG_SELECT_DIGITAL_SERVICE:
+ 	case CEC_MSG_TUNER_STEP_DECREMENT:
+ 	case CEC_MSG_TUNER_STEP_INCREMENT:
+-		if (!cec_has_tuner(1 << me))
+-			break;
+-		return;
+-
+-
+-		/*
+-		  One Touch Record
+-
+-		  This is only a basic implementation.
+-
+-		  TODO:
+-		  - If we are a TV, we should only send Record On if the
+-		    remote end is a Recording device or Reserved. Otherwise ignore.
+-
+-		  - Device state should reflect whether we are recording, etc. In
+-		    recording mode we should ignore Standby messages.
+-		*/
+-
+-	case CEC_MSG_RECORD_TV_SCREEN: {
+-		if (!node->has_rec_tv)
+-			break;
+-
+-		struct cec_op_record_src rec_src = {};
+-
+-		rec_src.type = CEC_OP_RECORD_SRC_OWN;
+-		cec_msg_set_reply_to(&msg, &msg);
+-		cec_msg_record_on(&msg, false, &rec_src);
+-		transmit(node, &msg);
+-		return;
+-	}
++	case CEC_MSG_RECORD_TV_SCREEN:
+ 	case CEC_MSG_RECORD_ON:
+-		if (!cec_has_record(1 << me))
+-			break;
+-		cec_msg_set_reply_to(&msg, &msg);
+-		cec_msg_record_status(&msg, CEC_OP_RECORD_STATUS_CUR_SRC);
+-		transmit(node, &msg);
+-		return;
+ 	case CEC_MSG_RECORD_OFF:
+-		if (!cec_has_record(1 << me))
+-			break;
+-		cec_msg_set_reply_to(&msg, &msg);
+-		cec_msg_record_status(&msg, CEC_OP_RECORD_STATUS_TERMINATED_OK);
+-		transmit(node, &msg);
+-		return;
+ 	case CEC_MSG_RECORD_STATUS:
+-		return;
+-
+-
+-		/*
+-		  Timer Programming
+-
+-		  This is only a basic implementation.
+-
+-		  TODO/Ideas:
+-		  - Act like an actual recording device; keep track of recording
+-		    schedule and act correctly when colliding timers are set.
+-		  - Emulate a finite storage space for recordings
+-		 */
+-
+ 	case CEC_MSG_SET_ANALOGUE_TIMER:
+ 	case CEC_MSG_SET_DIGITAL_TIMER:
+ 	case CEC_MSG_SET_EXT_TIMER:
+-		if (!cec_has_record(1 << me))
+-			break;
+-		cec_msg_set_reply_to(&msg, &msg);
+-		cec_msg_timer_status(&msg, CEC_OP_TIMER_OVERLAP_WARNING_NO_OVERLAP,
+-				     CEC_OP_MEDIA_INFO_NO_MEDIA,
+-				     CEC_OP_PROG_INFO_ENOUGH_SPACE, 0, 0, 0);
+-		transmit(node, &msg);
+-		return;
+ 	case CEC_MSG_CLEAR_ANALOGUE_TIMER:
+ 	case CEC_MSG_CLEAR_DIGITAL_TIMER:
+ 	case CEC_MSG_CLEAR_EXT_TIMER:
+-		if (!cec_has_record(1 << me))
+-			break;
+-		cec_msg_set_reply_to(&msg, &msg);
+-		cec_msg_timer_cleared_status(&msg, CEC_OP_TIMER_CLR_STAT_CLEARED);
+-		transmit(node, &msg);
+-		return;
+ 	case CEC_MSG_SET_TIMER_PROGRAM_TITLE:
+-		if (!cec_has_record(1 << me))
+-			break;
+-		return;
+ 	case CEC_MSG_TIMER_CLEARED_STATUS:
+ 	case CEC_MSG_TIMER_STATUS:
+-		return;
++		process_tuner_record_timer_msgs(node, msg, me);
++		break;
+ 
+ 		/* Dynamic Auto Lipsync */
+ 
+diff --git a/utils/cec-follower/cec-tuner.cpp b/utils/cec-follower/cec-tuner.cpp
+new file mode 100644
+index 00000000..5e794d71
+--- /dev/null
++++ b/utils/cec-follower/cec-tuner.cpp
+@@ -0,0 +1,139 @@
++// SPDX-License-Identifier: (GPL-2.0-only OR BSD-3-Clause)
++/*
++ * Copyright 2016 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
++ */
++
++#include <sys/ioctl.h>
++
++#include "cec-follower.h"
++
++void process_tuner_record_timer_msgs(struct node *node, struct cec_msg &msg, unsigned me)
++{
++	switch (msg.msg[1]) {
++
++
++		/*
++		  Tuner Control
++
++		  This is only a basic implementation.
++
++		  TODO: Device state should change when selecting services etc.
++		*/
++
++	case CEC_MSG_GIVE_TUNER_DEVICE_STATUS: {
++		if (!cec_has_tuner(1 << me))
++			break;
++
++		struct cec_op_tuner_device_info tuner_dev_info = {};
++
++		cec_msg_set_reply_to(&msg, &msg);
++		tuner_dev_info.rec_flag = CEC_OP_REC_FLAG_NOT_USED;
++		tuner_dev_info.tuner_display_info = CEC_OP_TUNER_DISPLAY_INFO_NONE;
++		tuner_dev_info.is_analog = false;
++		tuner_dev_info.digital.service_id_method = CEC_OP_SERVICE_ID_METHOD_BY_CHANNEL;
++		tuner_dev_info.digital.dig_bcast_system = CEC_OP_DIG_SERVICE_BCAST_SYSTEM_DVB_C;
++		tuner_dev_info.digital.channel.channel_number_fmt = CEC_OP_CHANNEL_NUMBER_FMT_1_PART;
++		tuner_dev_info.digital.channel.minor = 1;
++
++		cec_msg_tuner_device_status(&msg, &tuner_dev_info);
++		transmit(node, &msg);
++		return;
++	}
++
++	case CEC_MSG_TUNER_DEVICE_STATUS:
++		return;
++
++	case CEC_MSG_SELECT_ANALOGUE_SERVICE:
++	case CEC_MSG_SELECT_DIGITAL_SERVICE:
++	case CEC_MSG_TUNER_STEP_DECREMENT:
++	case CEC_MSG_TUNER_STEP_INCREMENT:
++		if (!cec_has_tuner(1 << me))
++			break;
++		return;
++
++
++		/*
++		  One Touch Record
++
++		  This is only a basic implementation.
++
++		  TODO:
++		  - If we are a TV, we should only send Record On if the
++		    remote end is a Recording device or Reserved. Otherwise ignore.
++
++		  - Device state should reflect whether we are recording, etc. In
++		    recording mode we should ignore Standby messages.
++		*/
++
++	case CEC_MSG_RECORD_TV_SCREEN: {
++		if (!node->has_rec_tv)
++			break;
++
++		struct cec_op_record_src rec_src = {};
++
++		rec_src.type = CEC_OP_RECORD_SRC_OWN;
++		cec_msg_set_reply_to(&msg, &msg);
++		cec_msg_record_on(&msg, false, &rec_src);
++		transmit(node, &msg);
++		return;
++	}
++	case CEC_MSG_RECORD_ON:
++		if (!cec_has_record(1 << me))
++			break;
++		cec_msg_set_reply_to(&msg, &msg);
++		cec_msg_record_status(&msg, CEC_OP_RECORD_STATUS_CUR_SRC);
++		transmit(node, &msg);
++		return;
++	case CEC_MSG_RECORD_OFF:
++		if (!cec_has_record(1 << me))
++			break;
++		cec_msg_set_reply_to(&msg, &msg);
++		cec_msg_record_status(&msg, CEC_OP_RECORD_STATUS_TERMINATED_OK);
++		transmit(node, &msg);
++		return;
++	case CEC_MSG_RECORD_STATUS:
++		return;
++
++
++		/*
++		  Timer Programming
++
++		  This is only a basic implementation.
++
++		  TODO/Ideas:
++		  - Act like an actual recording device; keep track of recording
++		    schedule and act correctly when colliding timers are set.
++		  - Emulate a finite storage space for recordings
++		 */
++
++	case CEC_MSG_SET_ANALOGUE_TIMER:
++	case CEC_MSG_SET_DIGITAL_TIMER:
++	case CEC_MSG_SET_EXT_TIMER:
++		if (!cec_has_record(1 << me))
++			break;
++		cec_msg_set_reply_to(&msg, &msg);
++		cec_msg_timer_status(&msg, CEC_OP_TIMER_OVERLAP_WARNING_NO_OVERLAP,
++				     CEC_OP_MEDIA_INFO_NO_MEDIA,
++				     CEC_OP_PROG_INFO_ENOUGH_SPACE, 0, 0, 0);
++		transmit(node, &msg);
++		return;
++	case CEC_MSG_CLEAR_ANALOGUE_TIMER:
++	case CEC_MSG_CLEAR_DIGITAL_TIMER:
++	case CEC_MSG_CLEAR_EXT_TIMER:
++		if (!cec_has_record(1 << me))
++			break;
++		cec_msg_set_reply_to(&msg, &msg);
++		cec_msg_timer_cleared_status(&msg, CEC_OP_TIMER_CLR_STAT_CLEARED);
++		transmit(node, &msg);
++		return;
++	case CEC_MSG_SET_TIMER_PROGRAM_TITLE:
++		if (!cec_has_record(1 << me))
++			break;
++		return;
++	case CEC_MSG_TIMER_CLEARED_STATUS:
++	case CEC_MSG_TIMER_STATUS:
++		return;
++	default:
++		break;
++	}
++}
+-- 
+2.23.0
+
