@@ -2,161 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8293BB4070
-	for <lists+linux-media@lfdr.de>; Mon, 16 Sep 2019 20:38:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 394DBB4117
+	for <lists+linux-media@lfdr.de>; Mon, 16 Sep 2019 21:24:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390490AbfIPSii (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Sep 2019 14:38:38 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:41144 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726084AbfIPSii (ORCPT
+        id S2391019AbfIPTYf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Sep 2019 15:24:35 -0400
+Received: from smtp11.smtpout.orange.fr ([80.12.242.133]:29106 "EHLO
+        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388188AbfIPTYf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Sep 2019 14:38:38 -0400
-Received: by mail-oi1-f196.google.com with SMTP id w17so625887oiw.8
-        for <linux-media@vger.kernel.org>; Mon, 16 Sep 2019 11:38:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=iD8YNUJPC+ni027Dp+djj+9OUAvTpsiwx48j+Waj0to=;
-        b=fo0NtCT36giYq5JPrJsqIRVmQYN/oY3HjnkTxEgyaHwg0e96jfbKsa4DSty8Uec/lO
-         ixMcUiFz/IbCoKtm04q9BxdwCeZJjwUWF6QmEEHD54G9FjGlGs6fXnD054GgRQnuXdVq
-         7z0luecfCLqEsWsKQkd2vxWgoqOPdej58miLJcgfbRyiPDgrTkcPQib491zommN7q0ZW
-         PMNw1kZh6T5gu0c5EzYOJbdEIScnmFASAJIyCAKVEOnUBjdPFrvCtapXcO/M6p7i9/7j
-         um52SSrSA62K+Wbqd0HL1P1UBU0P1n+K/I2ZZ3x1znyOASIawe4NWyjbhM/qbKtQfslw
-         l7ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=iD8YNUJPC+ni027Dp+djj+9OUAvTpsiwx48j+Waj0to=;
-        b=HqDE8gQT1COkuAKlb+3r3wgqsvHQuH6uwuJV0wOgb84bSjabBKmMAswq8w8HJcJdya
-         lP3gApVZIwHNj4V4poNTkjbBUIX8Iu6ma8jCcaxe5XTLQ1Nih+vjfpVOGEuJ0fbVj4MY
-         tMY3bx0CY0zdi4B1GGuTL4ST/K9V/L1nYbwBnvRHo/8SPiqzohV6Wgkp5+5tNVkWljSD
-         YMEjZov0E9o0IjK0u7IsnkcH/8sYc3wNcwFg882N31X6Q08dZphC6N/8rYpd8bl1at4d
-         w1TBuCDuu3Dcs/pboH1LPyP86EDksGoOw4gNpe9pgBRypILb7+7+L3TU5d3AWLYhDSwS
-         eQ2w==
-X-Gm-Message-State: APjAAAUCwx5Wo6jPRQfLN1WvQSGsHgrkFVWN20gjNIdcHr131Js3WJkB
-        4H4l8gAbogycykPtA1jcVdf9VwPq
-X-Google-Smtp-Source: APXvYqxS7ucr3xidyFnMyl1Jxd+cSsiHN9NZ9kPuaJypO1ssJaqTFVowqEGubYQjGO3KSF2NYriuqg==
-X-Received: by 2002:aca:642:: with SMTP id 63mr610883oig.10.1568659117337;
-        Mon, 16 Sep 2019 11:38:37 -0700 (PDT)
-Received: from rYz3n.attlocal.net ([2600:1700:210:3790::40])
-        by smtp.googlemail.com with ESMTPSA id 94sm13491478oty.44.2019.09.16.11.38.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Sep 2019 11:38:36 -0700 (PDT)
-From:   Jiunn Chang <c0d1n61at3@gmail.com>
-To:     linux-media@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Cc:     hverkuil@xs4all.nl
-Subject: [PATCH] cec-follower: create analog channel frequencies
-Date:   Mon, 16 Sep 2019 13:38:35 -0500
-Message-Id: <20190916183835.132777-1-c0d1n61at3@gmail.com>
-X-Mailer: git-send-email 2.23.0
+        Mon, 16 Sep 2019 15:24:35 -0400
+Received: from [192.168.1.41] ([90.126.97.183])
+        by mwinf5d90 with ME
+        id 2KQU210063xPcdm03KQWVm; Mon, 16 Sep 2019 21:24:33 +0200
+X-ME-Helo: [192.168.1.41]
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Mon, 16 Sep 2019 21:24:33 +0200
+X-ME-IP: 90.126.97.183
+Subject: Re: [PATCH] media: v4l: cadence: Fix how unsued lanes are handled in
+ 'csi2rx_start()'
+To:     Dan Carpenter <dan.carpenter@oracle.com>,
+        Maxime Ripard <mripard@kernel.org>
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+References: <20190912204450.17625-1-christophe.jaillet@wanadoo.fr>
+ <20190913075709.t35ggip624tybd6l@localhost.localdomain>
+ <20190916062846.GD18977@kadam>
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Message-ID: <f67787da-dc1c-3e05-c1e2-e8737641dfd0@wanadoo.fr>
+Date:   Mon, 16 Sep 2019 21:24:26 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
+In-Reply-To: <20190916062846.GD18977@kadam>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: fr
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This frequency table will allow proper testing of tuner control.  There
-are three frequencies per analog broadcast type and broadcast system, so
-tuner increment and decrement can be tested.
+Le 16/09/2019 à 08:28, Dan Carpenter a écrit :
+> On Fri, Sep 13, 2019 at 09:57:09AM +0200, Maxime Ripard wrote:
+>> Hi Christophe,
+>>
+>> On Thu, Sep 12, 2019 at 10:44:50PM +0200, Christophe JAILLET wrote:
+>>> The 2nd parameter of 'find_first_zero_bit()' is a number of bits, not of
+>>> bytes. So use 'BITS_PER_LONG' instead of 'sizeof(lanes_used)'.
+>>>
+>>> Fixes: 1fc3b37f34f6 ("media: v4l: cadence: Add Cadence MIPI-CSI2 RX driver")
+>>> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+>>> ---
+>>> This patch is purely speculative. Using BITS_PER_LONG looks logical to me,
+>>> but I'm not 100% sure that it is what is expected here. 'csi2rx->max_lanes'
+>>> could also be a good candidate.
+>> Yeah, csi2rx->max_lanes would make more sense in that context. Could
+>> you resend a new version?
+> This is sort of unrelated, but for Smatch purposes the csi2rx->max_lanes
+> comes from the firmware in csi2rx_parse_dt() and it could be any u8
+> value.
 
-Signed-off-by: Jiunn Chang <c0d1n61at3@gmail.com>
----
- utils/cec-follower/cec-tuner.cpp | 77 ++++++++++++++++++++++++++++++++
- 1 file changed, 77 insertions(+)
+Hi Dan,
 
-diff --git a/utils/cec-follower/cec-tuner.cpp b/utils/cec-follower/cec-tuner.cpp
-index 5e794d71..e0d58e6c 100644
---- a/utils/cec-follower/cec-tuner.cpp
-+++ b/utils/cec-follower/cec-tuner.cpp
-@@ -7,6 +7,83 @@
- 
- #include "cec-follower.h"
- 
-+/*
-+ * This table contains analog television channel frequencies in KHz.  There are
-+ * a total of three frequencies per analog broadcast type and broadcast system.
-+ *
-+ * CEC 17 and CEC Table 31 of the 1.4 specification lists the available analog
-+ * broadcast types and broadcast systems.
-+ *
-+ * The table is indexed by [ana_bcast_type][bcast_system][i].
-+ *
-+ */
-+static unsigned int analog_freqs_khz[3][9][3] =
-+{
-+	// cable
-+	{
-+		// pal-bg
-+		{471250, 479250, 487250},
-+		// secam-lq
-+		{615250, 623250, 631250},
-+		// pal-m
-+		{501250, 507250, 513250},
-+		// ntsc-m
-+		{519250, 525250, 531250},
-+		// pal-i
-+		{45750, 53750, 61750},
-+		// secam-dk
-+		{759250, 767250, 775250},
-+		// secam-bg
-+		{495250, 503250, 511250},
-+		// secam-l
-+		{639250, 647250, 655250},
-+		// pal-dk
-+		{783250, 791250, 799250}
-+	},
-+	// satellite
-+	{
-+		// pal-bg
-+		{519250, 527250, 535250},
-+		// secam-lq
-+		{663250, 671250, 679250},
-+		// pal-m
-+		{537250, 543250, 549250},
-+		// ntsc-m
-+		{555250, 561250, 567250},
-+		// pal-i
-+		{175250, 183250, 191250},
-+		// secam-dk
-+		{807250, 815250, 823250},
-+		// secam-bg
-+		{543250, 551250, 559250},
-+		// secam-l
-+		{687250, 695250, 703250},
-+		// pal-dk
-+		{831250, 839250, 847250}
-+	},
-+	// terrestrial
-+	{
-+		// pal-bg
-+		{567250, 575250, 583250},
-+		// secam-lq
-+		{711250, 719250, 727250},
-+		// pal-m
-+		{573250, 579250, 585250},
-+		// ntsc-m
-+		{591250, 597250, 603250},
-+		// pal-i
-+		{199250, 207250, 215250},
-+		// secam-dk
-+		{145250, 153250, 161250},
-+		// secam-bg
-+		{591250, 599250, 607250},
-+		// secam-l
-+		{735250, 743250, 751250},
-+		// pal-dk
-+		{169250, 177250, 185250}
-+	}
-+};
-+
- void process_tuner_record_timer_msgs(struct node *node, struct cec_msg &msg, unsigned me)
- {
- 	switch (msg.msg[1]) {
--- 
-2.23.0
+not sure to follow you.
+
+csi2rx_probe()
+   --> csi2rx_get_resources()
+      -->  ...
+           dev_cfg = readl(csi2rx->base + CSI2RX_DEVICE_CFG_REG);
+           ...
+           csi2rx->max_lanes = dev_cfg & 7;
+           if (csi2rx->max_lanes > CSI2RX_LANES_MAX) {
+              dev_err(&pdev->dev, "Invalid number of lanes: %u\n",
+                      csi2rx->max_lanes);
+              return -EINVAL;
+           }
+
+So I guess, that we can trust max_lanes because of the 'if (... > 
+CSI2RX_LANES_MAX)' check.
+
+Did I miss something?
+
+
+> I sort of wish that people would write code which was known to be
+> correct just from reading the kernel code, without looking at the
+> firmware...  I guess I could mark v4l2_fwnode_endpoint_parse() as always
+> giving us valid data, but that still wouldn't tell us what the valid
+> data is.  It's hard to know the right answer from a static analysis
+> point of view.
+>
+> regards,
+> dan carpenter
+>
+>
 
