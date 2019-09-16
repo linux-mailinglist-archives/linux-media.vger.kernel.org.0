@@ -2,248 +2,821 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 251CEB3901
-	for <lists+linux-media@lfdr.de>; Mon, 16 Sep 2019 13:06:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F0E0B39AA
+	for <lists+linux-media@lfdr.de>; Mon, 16 Sep 2019 13:46:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726330AbfIPLGl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Sep 2019 07:06:41 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:55408 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726081AbfIPLGl (ORCPT
+        id S1727309AbfIPLqI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Sep 2019 07:46:08 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:47097 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726875AbfIPLqI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Sep 2019 07:06:41 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: koike)
-        with ESMTPSA id 0FDC728B28A
-Subject: Re: media: vimc-debayer: lock problem
-To:     Randy Dunlap <rdunlap@infradead.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <977ffd28-7dfe-f434-008c-847c2527d540@infradead.org>
-From:   Helen Koike <helen.koike@collabora.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=helen.koike@collabora.com; keydata=
- mQINBFmOMD4BEADb2nC8Oeyvklh+ataw2u/3mrl+hIHL4WSWtii4VxCapl9+zILuxFDrxw1p
- XgF3cfx7g9taWBrmLE9VEPwJA6MxaVnQuDL3GXxTxO/gqnOFgT3jT+skAt6qMvoWnhgurMGH
- wRaA3dO4cFrDlLsZIdDywTYcy7V2bou81ItR5Ed6c5UVX7uTTzeiD/tUi8oIf0XN4takyFuV
- Rf09nOhi24bn9fFN5xWHJooFaFf/k2Y+5UTkofANUp8nn4jhBUrIr6glOtmE0VT4pZMMLT63
- hyRB+/s7b1zkOofUGW5LxUg+wqJXZcOAvjocqSq3VVHcgyxdm+Nv0g9Hdqo8bQHC2KBK86VK
- vB+R7tfv7NxVhG1sTW3CQ4gZb0ZugIWS32Mnr+V+0pxci7QpV3jrtVp5W2GA5HlXkOyC6C7H
- Ao7YhogtvFehnlUdG8NrkC3HhCTF8+nb08yGMVI4mMZ9v/KoIXKC6vT0Ykz434ed9Oc9pDow
- VUqaKi3ey96QczfE4NI029bmtCY4b5fucaB/aVqWYRH98Jh8oIQVwbt+pY7cL5PxS7dQ/Zuz
- 6yheqDsUGLev1O3E4R8RZ8jPcfCermL0txvoXXIA56t4ZjuHVcWEe2ERhLHFGq5Zw7KC6u12
- kJoiZ6WDBYo4Dp+Gd7a81/WsA33Po0j3tk/8BWoiJCrjXzhtRwARAQABtCdIZWxlbiBLb2lr
- ZSA8aGVsZW4ua29pa2VAY29sbGFib3JhLmNvbT6JAlQEEwEKAD4CGwEFCwkIBwMFFQoJCAsF
- FgIDAQACHgECF4AWIQSofQA6zrItXEgHWTzAfqwo9yFiXQUCXEz3bwUJBKaPRQAKCRDAfqwo
- 9yFiXdUCD/4+WZr503hQ13KB4DijOW76ju8JDPp4p++qoPxtoAsld3yROoTI+VPWmt7ojHrr
- TZc7sTLxOFzaUC8HjGTb3r9ilIhIKf/M9KRLkpIJ+iLA+VoUbcSOMYWoVNfgLmbnqoezjPcy
- OHJwVw9dzEeYpvG6nkY6E4UktANySp27AniSXNuHOvYsOsXmUOqU1ScdsrQ9s732p/OGdTyw
- 1yd3gUMLZvCKFOBVHILH59HCRJgpwUPiws8G4dGMs4GTRvHT2s2mDQdQ0HEvcM9rvCRVixuC
- 5ZeOymZNi6lDIUIysgiZ+yzk6i5l/Ni6r7v20N3JppZvhPK6LqtaYceyAGyc3jjnOqoHT/qR
- kPjCwzmKiPtXjLw6HbRXtGgGtP5m3y8v6bfHH+66zd2vGCY0Z9EsqcnK4DCqRkLncFLPM2gn
- 9cZcCmO4ZqXUhTyn1nHM494kd5NX1Op4HO+t9ErnpufkVjoMUeBwESdQwwwHT3rjUueGmCrn
- VJK69/qhA4La72VTxHutl+3Z0Xy20HWsZS8Gsam39f95/LtPLzbBwnOOi5ZoXnm97tF8HrAZ
- 2h+kcRLMWw3BXy5q4gic+oFZMZP9oq1G9XTFld4FGgJ9ys8aGmhLM+uB1pFxb3XFtWQ2z4AJ
- iEp2VLl34quwfD6Gg4csiZe2KzvQHUe0w8SJ9LplrHPPprkCDQRZjjChARAAzISLQaHzaDOv
- ZxcoCNBk/hUGo2/gsmBW4KSj73pkStZ+pm3Yv2CRtOD4jBlycXjzhwBV7/70ZMH70/Y25dJa
- CnJKl/Y76dPPn2LDWrG/4EkqUzoJkhRIYFUTpkPdaVYznqLgsho19j7HpEbAum8r3jemYBE1
- AIuVGg4bqY3UkvuHWLVRMuaHZNy55aYwnUvd46E64JH7O990mr6t/nu2a1aJ0BDdi8HZ0RMo
- Eg76Avah+YR9fZrhDFmBQSL+mcCVWEbdiOzHmGYFoToqzM52wsNEpo2aStH9KLk8zrCXGx68
- ohJyQoALX4sS03RIWh1jFjnlw2FCbEdj/HDX0+U0i9COtanm54arYXiBTnAnx0F7LW7pv7sb
- 6tKMxsMLmprP/nWyV5AfFRi3jxs5tdwtDDk/ny8WH6KWeLR/zWDwpYgnXLBCdg8l97xUoPQO
- 0VkKSa4JEXUZWZx9q6kICzFGsuqApqf9gIFJZwUmirsxH80Fe04Tv+IqIAW7/djYpOqGjSyk
- oaEVNacwLLgZr+/j69/1ZwlbS8K+ChCtyBV4kEPzltSRZ4eU19v6sDND1JSTK9KSDtCcCcAt
- VGFlr4aE00AD/aOkHSylc93nPinBFO4AGhcs4WypZ3GGV6vGWCpJy9svfWsUDhSwI7GS/i/v
- UQ1+bswyYEY1Q3DjJqT7fXcAEQEAAYkEcgQYAQoAJgIbAhYhBKh9ADrOsi1cSAdZPMB+rCj3
- IWJdBQJcTPfVBQkEpo7hAkDBdCAEGQEKAB0WIQSomGMEg78Cd/pMshveCRfNeJ05lgUCWY4w
- oQAKCRDeCRfNeJ05lp0gD/49i95kPKjpgjUbYeidjaWuINXMCA171KyaBAp+Jp2Qrun4sIJB
- Z6srMj6O/gC34AhZln2sXeQdxe88sNbg6HjlN+4AkhTd6DttjOfUwnamLDA7uw+YIapGgsgN
- lznjLnqOaQ9mtEwRbZMUOdyRf9osSuL14vHl4ia3bYNJ52WYre6gLMu4K+Ghd02og+ILgIio
- Q827h0spqIJYHrR3Ynnhxdlv5GPCobh+AKsQMdTIuCzR6JSCBk6GHkg33SiWScKMUzT8B/cn
- ypLfGnfV/LDZ9wS2TMzIlK/uv0Vd4C0OGDd/GCi5Gwu/Ot0aY7fzZo2CiRV+/nJBWPRRBTji
- bE4FG2rt7WSRLO/QmH2meIW4f0USDiHeNwznHkPei59vRdlMyQdsxrmgSRDuX9Y3UkERxbgd
- uscqC8Cpcy5kpF11EW91J8aGpcxASc+5Pa66/+7CrpBC2DnfcfACdMAje7yeMn9XlHrqXNlQ
- GaglEcnGN2qVqRcKgcjJX+ur8l56BVpBPFYQYkYkIdQAuhlPylxOvsMcqI6VoEWNt0iFF3dA
- //0MNb8fEqw5TlxDPOt6BDhDKowkxOGIA9LOcF4PkaR9Qkvwo2P4vA/8fhCnMqlSPom4xYdk
- Ev8P554zDoL/XMHl+s7A0MjIJzT253ejZKlWeO68pAbNy/z7QRn2lFDnjwkQwH6sKPchYl2f
- 0g//Yu3vDkqk8+mi2letP3XBl2hjv2eCZjTh34VvtgY5oeL2ROSJWNd18+7O6q3hECZ727EW
- gIb3LK9g4mKF6+Rch6Gwz1Y4fmC5554fd2Y2XbVzzz6AGUC6Y+ohNg7lTAVO4wu43+IyTB8u
- ip5rX/JDGFv7Y1sl6tQJKAVIKAJE+Z3Ncqh3doQr9wWHl0UiQYKbSR9HpH1lmC1C3EEbTpwK
- fUIpZd1eQNyNJl1jHsZZIBYFsAfVNH/u6lB1TU+9bSOsV5SepdIb88d0fm3oZ4KzjhRHLFQF
- RwNUNn3ha6x4fbxYcwbvu5ZCiiX6yRTPoage/LUNkgQNX2PtPcur6CdxK6Pqm8EAI7PmYLfN
- NY3y01XhKNRvaVZoH2FugfUkhsBITglTIpI+n6YU06nDAcbeINFo67TSE0iL6Pek5a6gUQQC
- 6w+hJCaMr8KYud0q3ccHyU3TlAPDe10En3GsVz7Y5Sa3ODGdbmkfjK8Af3ogGNBVmpV16Xl8
- 4rETFv7POSUB2eMtbpmBopd+wKqHCwUEy3fx1zDbM9mp+pcDoL73rRZmlgmNfW/4o4qBzxRf
- FYTQLE69wAFU2IFce9PjtUAlBdC+6r3X24h3uD+EC37s/vWhxuKj2glaU9ONrVJ/SPvlqXOO
- WR1Zqw57vHMKimLdG3c24l8PkSw1usudgAA5OyO5Ag0EWY4wyQEQAMVp0U38Le7d80Mu6AT+
- 1dMes87iKn30TdMuLvSg2uYqJ1T2riRBF7zU6u74HF6zps0rPQviBXOgoSuKa1hnS6OwFb9x
- yQPlk76LY96SUB5jPWJ3fO78ZGSwkVbJFuG9gpD/41n8Unn1hXgDb2gUaxD0oXv/723EmTYC
- vSo3z6Y8A2aBQNr+PyhQAPDazvVQ+P7vnZYq1oK0w+D7aIix/Bp4mo4VbgAeAeMxXWSZs8N5
- NQtXeTBgB7DqrfJP5wWwgCsROfeds6EoddcYgqhG0zVU9E54C8JcPOA0wKVs+9+gt2eyRNtx
- 0UhFbah7qXuJGhWy/0CLXvVoCoS+7qpWz070TBAlPZrg9D0o2gOw01trQgoKAYBKKgJhxaX/
- 4gzi+5Ccm33LYH9lAVTdzdorejuV1xWdsnNyc8OAPeoXBf9RIIWfQVmbhVXBp2DAPjV6/kIJ
- Eml7MNJfEvqjV9zKsWF9AFlsqDWZDCyUdqR96ahTSD34pRwb6a9H99/GrjeowKaaL95DIVZT
- C6STvDNL6kpys4sOe2AMmQGv2MMcJB3aYLzH8f1sEQ9S0UMX7/6CifEG6JodG6Y/W/lLo1Vv
- DxeDA+u4Lgq6qxlksp8M78FjcmxFVlf4cpCi2ucbZxurhlBkjtZZ8MVAEde3hlqjcBl2Ah6Q
- D826FTxscOGlHEfNABEBAAGJAjwEGAEKACYCGwwWIQSofQA6zrItXEgHWTzAfqwo9yFiXQUC
- XEz31QUJBKaOuQAKCRDAfqwo9yFiXUvnEACBWe8wSnIvSX+9k4LxuLq6GQTOt+RNfliZQkCW
- 5lT3KL1IJyzzOm4x+/slHRBl8bF7KEZyOPinXQXyJ/vgIdgSYxDqoZ7YZn3SvuNe4aT6kGwL
- EYYEV8Ecj4ets15FR2jSUNnVv5YHWtZ7bP/oUzr2LT54fjRcstYxgwzoj8AREtHQ4EJWAWCO
- ZuEHTSm5clMFoi41CmG4DlJbzbo4YfilKYm69vwh50Y8WebcRN31jh0g8ufjOJnBldYYBLwN
- Obymhlfy/HKBDIbyCGBuwYoAkoJ6LR/cqzl/FuhwhuDocCGlXyYaJOwXgHaCvVXI3PLQPxWZ
- +vPsD+TSVHc9m/YWrOiYDnZn6aO0Uk1Zv/m9+BBkWAwsreLJ/evn3SsJV1omNBTITG+uxXcf
- JkgmmesIAw8mpI6EeLmReUJLasz8QkzhZIC7t5rGlQI94GQG3Jg2dC+kpaGWOaT5G4FVMcBj
- iR1nXfMxENVYnM5ag7mBZyD/kru5W1Uj34L6AFaDMXFPwedSCpzzqUiHb0f+nYkfOodf5xy0
- 46+3THy/NUS/ZZp/rI4F7Y77+MQPVg7vARfHHX1AxYUKfRVW5j88QUB70txn8Vgi1tDrOr4J
- eD+xr0CvIGa5lKqgQacQtGkpOpJ8zY4ObSvpNubey/qYUE3DCXD0n2Xxk4muTvqlkFpOYA==
-Message-ID: <60c15719-56b9-f996-b494-430dbd8c6d3d@collabora.com>
-Date:   Mon, 16 Sep 2019 08:06:30 -0300
+        Mon, 16 Sep 2019 07:46:08 -0400
+Received: from [IPv6:2001:983:e9a7:1:3124:3fc9:5634:2d8] ([IPv6:2001:983:e9a7:1:3124:3fc9:5634:2d8])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id 9pSEiopbLV17O9pSFiDYmq; Mon, 16 Sep 2019 13:46:04 +0200
+Subject: Re: [PATCH v5] vivid: Add metadata capture support
+To:     Vandana BN <bnvandana@gmail.com>, linux-media@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+References: <ef86234a-f60c-3383-bf32-4c140ef6062e@xs4all.nl>
+ <20190916074849.8376-1-bnvandana@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <64aa47cf-b39f-0371-985a-136e0c69d5fb@xs4all.nl>
+Date:   Mon, 16 Sep 2019 13:46:02 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <977ffd28-7dfe-f434-008c-847c2527d540@infradead.org>
+In-Reply-To: <20190916074849.8376-1-bnvandana@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfJUh9VKEn1foB5/d/PFL3F6DH2t36XzKRWLSq+ftIA5nHricJboJBdwOTdKNboV/3IiAkqOYEmv2JLERxbn+/CuxjVljaZd4wgFOi64y4SbZg7fLHsYd
+ HySWy0gJmy2ITorSdAAMLOmvT+5uDucZ7yKQZXiCJzZcFSXa9cqJBdUsbXmhEa+mJvAMOLlSsNTNsyjI878/SNeMFTz466sVrGlXB5sN3xc7uyIMSL2K6UzZ
+ n9ElRXvCZ2tqICdoqdy59K41U2qOtCU2xGZYkqJyEEhOG0tFDpkjmOnL8WxQiaBwm3ihFYJTA6yeyme5s3WC9OW53SweXihAmANUOw68Q07U7BcTYSWct8wH
+ eBl3EVd6twz19tEF0DsFhLS3cjubHQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Randy,
+On 9/16/19 9:48 AM, Vandana BN wrote:
+> This patch adds meatadata capture support in vivid driver.
+> Added new files for metadata capture.
+> 
+> Signed-off-by: Vandana BN <bnvandana@gmail.com>
 
-On 9/14/19 11:16 PM, Randy Dunlap wrote:
-> Kernel is 5.3-rc8 on x86_64.
-> 
-> Loading, unloading, and then loading the vimc-debayer module causes:
-> 
-> 
-> [  793.542496] ------------[ cut here ]------------
-> [  793.542518] DEBUG_LOCKS_WARN_ON(lock->magic != lock)
-> [  793.542536] WARNING: CPU: 3 PID: 2029 at ../kernel/locking/mutex.c:912 __mutex_lock+0xd7c/0x1480
-> [  793.542559] Modules linked in: vimc_debayer(+) vimc_capture vimc_scaler vimc_sensor v4l2_tpg vimc v4l2_common ccm xt_tcpudp ip6t_rpfilter ip6t_REJECT nf_reject_ipv6 ipt_REJECT nf_reject_ipv4 af_packet xt_conntrack ip_set nfnetlink ebtable_nat ebtable_broute ip6table_nat ip6table_mangle ip6table_raw ip6table_security iptable_nat scsi_transport_iscsi nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 iptable_mangle iptable_raw iptable_security ebtable_filter ebtables ip6table_filter ip6_tables iptable_filter ip_tables x_tables bpfilter coretemp hwmon intel_rapl_msr intel_rapl_common x86_pkg_temp_thermal intel_powerclamp kvm_intel kvm irqbypass crct10dif_pclmul crc32_generic crc32_pclmul ghash_clmulni_intel msr ghash_generic gf128mul uvcvideo hid_generic btrfs videobuf2_vmalloc gcm videobuf2_memops xor videobuf2_v4l2 iTCO_wdt zstd_compress videobuf2_common videodev iTCO_vendor_support usbmouse usb_debug mei_hdcp usbserial xts raid6_pq mc usbhid libcrc32c crc32c_intel hid
-> [  793.542617]  zstd_decompress iwldvm ctr snd_hda_codec_hdmi aesni_intel mac80211 aes_x86_64 snd_hda_codec_realtek crypto_simd snd_hda_codec_generic cryptd ledtrig_audio glue_helper libarc4 snd_hda_intel intel_cstate iwlwifi snd_hda_codec intel_uncore intel_rapl_perf snd_hda_core joydev snd_hwdep input_leds cfg80211 mousedev sdhci_pci toshiba_acpi cqhci sparse_keymap sr_mod snd_pcm uio_pdrv_genirq sdhci uio snd_timer wmi serio_raw pcspkr mmc_core cdrom rfkill led_class snd rtc_cmos mei_me industrialio evdev mei thermal lpc_ich mac_hid soundcore toshiba_haps ac battery sg dm_multipath dm_mod scsi_dh_rdac scsi_dh_emc scsi_dh_alua autofs4 [last unloaded: vimc_debayer]
-> [  793.542817] CPU: 3 PID: 2029 Comm: modprobe Not tainted 5.3.0-rc8 #3
-> [  793.542829] Hardware name: TOSHIBA PORTEGE R835/Portable PC, BIOS Version 4.10   01/08/2013
-> [  793.542845] RIP: 0010:__mutex_lock+0xd7c/0x1480
-> [  793.542857] Code: d2 0f 85 35 05 00 00 44 8b 0d 50 7f b2 01 45 85 c9 0f 85 b1 f3 ff ff 48 c7 c6 60 15 89 9c 48 c7 c7 00 14 89 9c e8 b4 86 eb fd <0f> 0b e9 97 f3 ff ff 48 8b 85 88 fe ff ff 48 c1 e8 03 42 80 3c 28
-> [  793.542882] RSP: 0018:ffff88812a5eefd0 EFLAGS: 00010282
-> [  793.542894] RAX: dffffc0000000008 RBX: ffffffffc1c0f7e0 RCX: ffffffff9a2b67f4
-> [  793.542906] RDX: 1ffffffff3a3dfc5 RSI: 0000000000000004 RDI: 0000000000000246
-> [  793.542919] RBP: ffff88812a5ef150 R08: fffffbfff3a3dfc5 R09: fffffbfff3a3dfc5
-> [  793.542931] R10: 0000000000000001 R11: fffffbfff3a3dfc4 R12: 0000000000000000
-> [  793.542944] R13: 0000000000000000 R14: dffffc0000000000 R15: ffffffff9e700400
-> [  793.542957] FS:  00007f080c4a6b80(0000) GS:ffff88812aa00000(0000) knlGS:0000000000000000
-> [  793.542970] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [  793.542981] CR2: 00007ffeab8adee8 CR3: 000000010fd66005 CR4: 00000000000606e0
-> [  793.542993] Call Trace:
-> [  793.543007]  ? do_raw_spin_unlock+0x54/0x220
-> [  793.543026]  ? media_device_register_entity+0x1fd/0x710 [mc]
-> [  793.543044]  ? mutex_lock_io_nested+0x1380/0x1380
-> [  793.543055]  ? ida_alloc_range+0x5b7/0x6e0
-> [  793.543068]  ? ida_destroy+0x260/0x260
-> [  793.543080]  ? save_stack+0x21/0x90
-> [  793.543090]  ? __kasan_kmalloc.constprop.8+0xa7/0xd0
-> [  793.543101]  ? kasan_kmalloc+0x9/0x10
-> [  793.543111]  ? __kmalloc+0x11f/0x260
-> [  793.543123]  ? vimc_pads_init+0x33/0x130 [vimc]
-> [  793.543134]  ? vimc_ent_sd_register+0x36/0x350 [vimc]
-> [  793.543147]  ? vimc_sen_comp_bind+0x280/0x520 [vimc_sensor]
-> [  793.543160]  ? component_bind_all+0x2ef/0xa60
-> [  793.543171]  ? vimc_comp_bind+0x74/0x630 [vimc]
-> [  793.543188]  ? driver_probe_device+0xf0/0x3a0
-> [  793.543199]  ? device_driver_attach+0xec/0x120
-> [  793.543212]  mutex_lock_nested+0x16/0x20
-> [  793.543223]  ? mutex_lock_nested+0x16/0x20
-> [  793.543236]  media_device_register_entity+0x1fd/0x710 [mc]
-> [  793.543249]  ? __x64_sys_finit_module+0x6e/0xb0
-> [  793.543260]  ? do_syscall_64+0xaa/0x380
-> [  793.543271]  ? check_object+0xb2/0x300
-> [  793.543282]  ? vimc_pads_init+0x33/0x130 [vimc]
-> [  793.543296]  ? media_device_unregister_entity_notify+0xf0/0xf0 [mc]
-> [  793.543311]  ? ___slab_alloc+0x5b3/0x600
-> [  793.543321]  ? ___slab_alloc+0x5b3/0x600
-> [  793.543335]  ? kasan_unpoison_shadow+0x35/0x50
-> [  793.543346]  ? __kasan_kmalloc.constprop.8+0xa7/0xd0
-> [  793.543358]  ? kasan_kmalloc+0x9/0x10
-> [  793.543377]  v4l2_device_register_subdev+0x261/0x620 [videodev]
-> [  793.543392]  vimc_ent_sd_register+0x26b/0x350 [vimc]
-> [  793.543406]  vimc_sen_comp_bind+0x280/0x520 [vimc_sensor]
-> [  793.543421]  component_bind_all+0x2ef/0xa60
-> [  793.543433]  ? refcount_inc_checked+0xa/0x50
-> [  793.543446]  ? vimc_comp_unbind+0x60/0x60 [vimc]
-> [  793.543459]  vimc_comp_bind+0x74/0x630 [vimc]
-> [  793.543471]  ? devres_open_group+0x2a0/0x460
-> [  793.543483]  ? vimc_comp_unbind+0x60/0x60 [vimc]
-> [  793.543499]  try_to_bring_up_master+0x586/0x960
-> [  793.543515]  __component_add+0x202/0x520
-> [  793.543527]  ? sysfs_do_create_link_sd+0x8c/0x110
-> [  793.543540]  component_add+0xb/0x10
-> [  793.543552]  vimc_deb_probe+0x14/0x20 [vimc_debayer]
-> [  793.543565]  platform_drv_probe+0xbb/0x210
-> [  793.543577]  really_probe+0x516/0xb00
-> [  793.543589]  driver_probe_device+0xf0/0x3a0
-> [  793.543601]  ? mutex_lock_nested+0x16/0x20
-> [  793.543613]  device_driver_attach+0xec/0x120
-> [  793.543625]  __driver_attach+0x108/0x270
-> [  793.543636]  ? device_driver_attach+0x120/0x120
-> [  793.543648]  bus_for_each_dev+0x116/0x1b0
-> [  793.543659]  ? klist_add_tail+0x2f/0xe0
-> [  793.543669]  ? subsys_dev_iter_init+0xe0/0xe0
-> [  793.543681]  ? do_raw_spin_unlock+0x54/0x220
-> [  793.543692]  ? _raw_spin_unlock+0x22/0x40
-> [  793.543704]  driver_attach+0x38/0x50
-> [  793.543715]  bus_add_driver+0x44e/0x6a0
-> [  793.543727]  driver_register+0x18e/0x410
-> [  793.543738]  ? 0xffffffffc1c88000
-> [  793.543748]  ? 0xffffffffc1c88000
-> [  793.543759]  __platform_driver_register+0xc8/0x110
-> [  793.543772]  vimc_deb_pdrv_init+0x17/0x1000 [vimc_debayer]
-> [  793.543785]  do_one_initcall+0xab/0x2d5
-> [  793.543796]  ? initcall_blacklisted+0x190/0x190
-> [  793.543807]  ? kasan_unpoison_shadow+0x35/0x50
-> [  793.543819]  ? kasan_unpoison_shadow+0x35/0x50
-> [  793.543830]  ? kasan_unpoison_shadow+0x35/0x50
-> [  793.543841]  ? kasan_poison_shadow+0x2f/0x40
-> [  793.543852]  ? __asan_register_globals+0x5a/0x70
-> [  793.543864]  do_init_module+0x1c7/0x582
-> [  793.543877]  load_module+0x4efa/0x5f30
-> [  793.543897]  ? layout_and_allocate+0x2e10/0x2e10
-> [  793.543909]  ? __kasan_check_write+0x14/0x20
-> [  793.543920]  ? kernel_read+0xf1/0x140
-> [  793.543931]  ? __kasan_check_write+0x14/0x20
-> [  793.543943]  ? kernel_read_file+0x244/0x600
-> [  793.543957]  ? do_mmap+0x744/0xe40
-> [  793.543968]  ? down_write_killable_nested+0x210/0x210
-> [  793.543983]  __do_sys_finit_module+0x12a/0x1b0
-> [  793.543994]  ? __do_sys_finit_module+0x12a/0x1b0
-> [  793.544006]  ? __ia32_sys_init_module+0xa0/0xa0
-> [  793.544018]  ? iterate_fd+0x140/0x140
-> [  793.544035]  ? vfs_statx_fd+0x45/0x80
-> [  793.544045]  ? __kasan_check_write+0x14/0x20
-> [  793.544056]  ? fput_many+0x1b/0x130
-> [  793.544073]  __x64_sys_finit_module+0x6e/0xb0
-> [  793.544085]  do_syscall_64+0xaa/0x380
-> [  793.544097]  ? prepare_exit_to_usermode+0xad/0x1b0
-> [  793.544110]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> [  793.544121] RIP: 0033:0x7f080bb922a9
-> [  793.544132] Code: 00 f3 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d bf 0b 2c 00 f7 d8 64 89 01 48
-> [  793.544167] RSP: 002b:00007ffeab8b0fb8 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
-> [  793.544190] RAX: ffffffffffffffda RBX: 00005584684d5c10 RCX: 00007f080bb922a9
-> [  793.544210] RDX: 0000000000000000 RSI: 00005584682c3548 RDI: 0000000000000003
-> [  793.544230] RBP: 00005584682c3548 R08: 0000000000000000 R09: 00005584684d5400
-> [  793.544251] R10: 0000000000000003 R11: 0000000000000246 R12: 0000000000040000
-> [  793.544272] R13: 00005584684d5dd0 R14: 0000000000000000 R15: 00005584684d5c10
-> [  793.544301] ---[ end trace 89125559482bbf21 ]---
-> 
-> 
+It's good practice to mention what has changed since v4.
 
-Thanks for the report, I believe this should be fixed once this series [1] which
-collapses all the vimc modules gets merged.
+You can do that by adding a --- separator and then something along the lines of:
 
-[1] https://patchwork.kernel.org/project/linux-media/list/?series=171283
+---
+
+Changes since v4:
+- foo
+- bar
+
+Everything between the two --- separators is ignored when the patch is merged,
+so it won't end up in the commit log.
+
+> ---
+>  drivers/media/platform/vivid/Makefile         |   2 +-
+>  drivers/media/platform/vivid/vivid-core.c     |  92 ++++++++-
+>  drivers/media/platform/vivid/vivid-core.h     |  12 ++
+>  drivers/media/platform/vivid/vivid-ctrls.c    |  14 ++
+>  .../media/platform/vivid/vivid-kthread-cap.c  |  48 ++++-
+>  drivers/media/platform/vivid/vivid-meta-cap.c | 175 ++++++++++++++++++
+>  drivers/media/platform/vivid/vivid-meta-cap.h |  18 ++
+>  drivers/media/platform/vivid/vivid-meta-gen.c |  25 +++
+>  drivers/media/platform/vivid/vivid-meta-gen.h |  18 ++
+>  9 files changed, 395 insertions(+), 9 deletions(-)
+>  create mode 100644 drivers/media/platform/vivid/vivid-meta-cap.c
+>  create mode 100644 drivers/media/platform/vivid/vivid-meta-cap.h
+>  create mode 100644 drivers/media/platform/vivid/vivid-meta-gen.c
+>  create mode 100644 drivers/media/platform/vivid/vivid-meta-gen.h
+> 
+> diff --git a/drivers/media/platform/vivid/Makefile b/drivers/media/platform/vivid/Makefile
+> index 2f5762e3309a..70a9262fafaa 100644
+> --- a/drivers/media/platform/vivid/Makefile
+> +++ b/drivers/media/platform/vivid/Makefile
+> @@ -3,7 +3,7 @@ vivid-objs := vivid-core.o vivid-ctrls.o vivid-vid-common.o vivid-vbi-gen.o \
+>  		vivid-vid-cap.o vivid-vid-out.o vivid-kthread-cap.o vivid-kthread-out.o \
+>  		vivid-radio-rx.o vivid-radio-tx.o vivid-radio-common.o \
+>  		vivid-rds-gen.o vivid-sdr-cap.o vivid-vbi-cap.o vivid-vbi-out.o \
+> -		vivid-osd.o
+> +		vivid-osd.o vivid-meta-cap.o vivid-meta-gen.o
+>  ifeq ($(CONFIG_VIDEO_VIVID_CEC),y)
+>    vivid-objs += vivid-cec.o
+>  endif
+> diff --git a/drivers/media/platform/vivid/vivid-core.c b/drivers/media/platform/vivid/vivid-core.c
+> index 53315c8dd2bb..75da1d6e9ed0 100644
+> --- a/drivers/media/platform/vivid/vivid-core.c
+> +++ b/drivers/media/platform/vivid/vivid-core.c
+> @@ -37,6 +37,7 @@
+>  #include "vivid-osd.h"
+>  #include "vivid-cec.h"
+>  #include "vivid-ctrls.h"
+> +#include "vivid-meta-cap.h"
+>  
+>  #define VIVID_MODULE_NAME "vivid"
+>  
+> @@ -79,6 +80,10 @@ static int radio_tx_nr[VIVID_MAX_DEVS] = { [0 ... (VIVID_MAX_DEVS - 1)] = -1 };
+>  module_param_array(radio_tx_nr, int, NULL, 0444);
+>  MODULE_PARM_DESC(radio_tx_nr, " radioX start number, -1 is autodetect");
+>  
+> +static int meta_cap_nr[VIVID_MAX_DEVS] = { [0 ... (VIVID_MAX_DEVS - 1)] = -1 };
+> +module_param_array(meta_cap_nr, int, NULL, 0444);
+> +MODULE_PARM_DESC(meta_cap_nr, " videoX start number, -1 is autodetect");
+> +
+>  static int ccs_cap_mode[VIVID_MAX_DEVS] = { [0 ... (VIVID_MAX_DEVS - 1)] = -1 };
+>  module_param_array(ccs_cap_mode, int, NULL, 0444);
+>  MODULE_PARM_DESC(ccs_cap_mode, " capture crop/compose/scale mode:\n"
+> @@ -95,8 +100,12 @@ static unsigned multiplanar[VIVID_MAX_DEVS] = { [0 ... (VIVID_MAX_DEVS - 1)] = 1
+>  module_param_array(multiplanar, uint, NULL, 0444);
+>  MODULE_PARM_DESC(multiplanar, " 1 (default) creates a single planar device, 2 creates a multiplanar device.");
+>  
+> -/* Default: video + vbi-cap (raw and sliced) + radio rx + radio tx + sdr + vbi-out + vid-out */
+> -static unsigned node_types[VIVID_MAX_DEVS] = { [0 ... (VIVID_MAX_DEVS - 1)] = 0x1d3d };
+> +/* Default: video + vbi-cap (raw and sliced) + radio rx + radio tx + sdr +
+
+Put this on a new line. A comment is either of the form:
+
+/* A one line comment */
+
+or:
+
+/*
+ * A multiline comment.
+ * Line 2
+ */
+
+> + * vbi-out + vid-out + meta-cap
+> + */
+> +static unsigned int node_types[VIVID_MAX_DEVS] = {
+> +	[0 ... (VIVID_MAX_DEVS - 1)] = 0x21d3d
+> +};
+>  module_param_array(node_types, uint, NULL, 0444);
+>  MODULE_PARM_DESC(node_types, " node types, default is 0x1d3d. Bitmask with the following meaning:\n"
+>  			     "\t\t    bit 0: Video Capture node\n"
+> @@ -106,7 +115,8 @@ MODULE_PARM_DESC(node_types, " node types, default is 0x1d3d. Bitmask with the f
+>  			     "\t\t    bit 8: Video Output node\n"
+>  			     "\t\t    bit 10-11: VBI Output node: 0 = none, 1 = raw vbi, 2 = sliced vbi, 3 = both\n"
+>  			     "\t\t    bit 12: Radio Transmitter node\n"
+> -			     "\t\t    bit 16: Framebuffer for testing overlays");
+> +			     "\t\t    bit 16: Framebuffer for testing overlays\n"
+> +			     "\t\t    bit 17: Metadata capture node\n");
+>  
+>  /* Default: 4 inputs */
+>  static unsigned num_inputs[VIVID_MAX_DEVS] = { [0 ... (VIVID_MAX_DEVS - 1)] = 4 };
+> @@ -205,7 +215,7 @@ static int vidioc_querycap(struct file *file, void  *priv,
+>  	cap->capabilities = dev->vid_cap_caps | dev->vid_out_caps |
+>  		dev->vbi_cap_caps | dev->vbi_out_caps |
+>  		dev->radio_rx_caps | dev->radio_tx_caps |
+> -		dev->sdr_cap_caps | V4L2_CAP_DEVICE_CAPS;
+> +		dev->sdr_cap_caps | dev->meta_cap_caps | V4L2_CAP_DEVICE_CAPS;
+>  	return 0;
+>  }
+>  
+> @@ -433,7 +443,8 @@ static bool vivid_is_last_user(struct vivid_dev *dev)
+>  			vivid_is_in_use(&dev->vbi_out_dev) +
+>  			vivid_is_in_use(&dev->sdr_cap_dev) +
+>  			vivid_is_in_use(&dev->radio_rx_dev) +
+> -			vivid_is_in_use(&dev->radio_tx_dev);
+> +			vivid_is_in_use(&dev->radio_tx_dev) +
+> +			vivid_is_in_use(&dev->meta_cap_dev);
+>  
+>  	return uses == 1;
+>  }
+> @@ -459,6 +470,7 @@ static int vivid_fop_release(struct file *file)
+>  		set_bit(V4L2_FL_REGISTERED, &dev->sdr_cap_dev.flags);
+>  		set_bit(V4L2_FL_REGISTERED, &dev->radio_rx_dev.flags);
+>  		set_bit(V4L2_FL_REGISTERED, &dev->radio_tx_dev.flags);
+> +		set_bit(V4L2_FL_REGISTERED, &dev->meta_cap_dev.flags);
+>  	}
+>  	mutex_unlock(&dev->mutex);
+>  	if (file->private_data == dev->overlay_cap_owner)
+> @@ -604,6 +616,11 @@ static const struct v4l2_ioctl_ops vivid_ioctl_ops = {
+>  	.vidioc_log_status		= vidioc_log_status,
+>  	.vidioc_subscribe_event		= vidioc_subscribe_event,
+>  	.vidioc_unsubscribe_event	= v4l2_event_unsubscribe,
+> +
+> +	.vidioc_enum_fmt_meta_cap	= vidioc_enum_fmt_meta_cap,
+> +	.vidioc_g_fmt_meta_cap		= vidioc_g_fmt_meta_cap,
+> +	.vidioc_s_fmt_meta_cap		= vidioc_g_fmt_meta_cap,
+> +	.vidioc_try_fmt_meta_cap	= vidioc_g_fmt_meta_cap,
+>  };
+>  
+>  /* -----------------------------------------------------------------
+> @@ -818,6 +835,9 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+>  			dev->has_scaler_out ? 'Y' : 'N');
+>  	}
+>  
+> +	/* do we create a meta capture device */
+> +	dev->has_meta_cap = node_type & 0x20000;
+> +
+>  	/* end detecting feature set */
+>  
+>  	if (dev->has_vid_cap) {
+> @@ -875,6 +895,11 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+>  		dev->radio_tx_caps = V4L2_CAP_RDS_OUTPUT | V4L2_CAP_MODULATOR |
+>  				     V4L2_CAP_READWRITE;
+>  
+> +	/* set up the capabilities of meta capture device */
+> +	if (dev->has_meta_cap)
+> +		dev->meta_cap_caps = V4L2_CAP_META_CAPTURE |
+> +				     V4L2_CAP_STREAMING | V4L2_CAP_READWRITE;
+> +
+>  	ret = -ENOMEM;
+>  	/* initialize the test pattern generator */
+>  	tpg_init(&dev->tpg, 640, 360);
+> @@ -1078,6 +1103,7 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+>  	INIT_LIST_HEAD(&dev->vbi_cap_active);
+>  	INIT_LIST_HEAD(&dev->vbi_out_active);
+>  	INIT_LIST_HEAD(&dev->sdr_cap_active);
+> +	INIT_LIST_HEAD(&dev->meta_cap_active);
+>  
+>  	INIT_LIST_HEAD(&dev->cec_work_list);
+>  	spin_lock_init(&dev->cec_slock);
+> @@ -1225,6 +1251,27 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+>  				dev->fb_info.node);
+>  	}
+>  
+> +	if (dev->has_meta_cap) {
+> +		/* initialize meta_cap queue */
+> +		q = &dev->vb_meta_cap_q;
+> +		q->type = V4L2_BUF_TYPE_META_CAPTURE;
+> +		q->io_modes = VB2_MMAP | VB2_DMABUF | VB2_READ;
+> +		if (!allocator)
+> +			q->io_modes |= VB2_USERPTR;
+> +		q->drv_priv = dev;
+> +		q->buf_struct_size = sizeof(struct vivid_buffer);
+> +		q->ops = &vivid_meta_cap_qops;
+> +		q->mem_ops = vivid_mem_ops[allocator];
+> +		q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+> +		q->min_buffers_needed = 2;
+> +		q->lock = &dev->mutex;
+> +		q->dev = dev->v4l2_dev.dev;
+> +		q->supports_requests = true;
+> +		ret = vb2_queue_init(q);
+> +		if (ret)
+> +			goto unreg_dev;
+> +	}
+> +
+>  #ifdef CONFIG_VIDEO_VIVID_CEC
+>  	if (dev->has_vid_cap && in_type_counter[HDMI]) {
+>  		struct cec_adapter *adap;
+> @@ -1265,6 +1312,7 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+>  	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_radio_rx);
+>  	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_radio_tx);
+>  	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_sdr_cap);
+> +	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_meta_cap);
+>  
+>  	/* finally start creating the device nodes */
+>  	if (dev->has_vid_cap) {
+> @@ -1492,6 +1540,34 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+>  					  video_device_node_name(vfd));
+>  	}
+>  
+> +	if (dev->has_meta_cap) {
+> +		vfd = &dev->meta_cap_dev;
+> +		snprintf(vfd->name, sizeof(vfd->name),
+> +			 "vivid-%03d-meta-cap", inst);
+> +		vfd->fops = &vivid_fops;
+> +		vfd->ioctl_ops = &vivid_ioctl_ops;
+> +		vfd->device_caps = dev->meta_cap_caps;
+> +		vfd->release = video_device_release_empty;
+> +		vfd->v4l2_dev = &dev->v4l2_dev;
+> +		vfd->queue = &dev->vb_meta_cap_q;
+> +		vfd->lock = &dev->mutex;
+> +		video_set_drvdata(vfd, dev);
+> +#ifdef CONFIG_MEDIA_CONTROLLER
+> +		dev->meta_cap_pad.flags = MEDIA_PAD_FL_SINK;
+> +		ret = media_entity_pads_init(&vfd->entity, 1,
+> +					     &dev->meta_cap_pad);
+> +		if (ret)
+> +			goto unreg_dev;
+> +#endif
+> +		ret = video_register_device(vfd, VFL_TYPE_METADATA,
+> +					    meta_cap_nr[inst]);
+> +		if (ret < 0)
+> +			goto unreg_dev;
+> +		v4l2_info(&dev->v4l2_dev,
+> +			  "V4L2 metadata capture device registered as %s\n",
+> +			  video_device_node_name(vfd));
+> +	}
+> +
+>  #ifdef CONFIG_MEDIA_CONTROLLER
+>  	/* Register the media device */
+>  	ret = media_device_register(&dev->mdev);
+> @@ -1508,6 +1584,7 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+>  	return 0;
+>  
+>  unreg_dev:
+> +	video_unregister_device(&dev->meta_cap_dev);
+>  	video_unregister_device(&dev->radio_tx_dev);
+>  	video_unregister_device(&dev->radio_rx_dev);
+>  	video_unregister_device(&dev->sdr_cap_dev);
+> @@ -1624,6 +1701,11 @@ static int vivid_remove(struct platform_device *pdev)
+>  			unregister_framebuffer(&dev->fb_info);
+>  			vivid_fb_release_buffers(dev);
+>  		}
+> +		if (dev->has_meta_cap) {
+> +			v4l2_info(&dev->v4l2_dev, "unregistering %s\n",
+> +				  video_device_node_name(&dev->meta_cap_dev));
+> +			video_unregister_device(&dev->meta_cap_dev);
+> +		}
+>  		cec_unregister_adapter(dev->cec_rx_adap);
+>  		for (j = 0; j < MAX_OUTPUTS; j++)
+>  			cec_unregister_adapter(dev->cec_tx_adap[j]);
+> diff --git a/drivers/media/platform/vivid/vivid-core.h b/drivers/media/platform/vivid/vivid-core.h
+> index 7ebb14673c75..8ce26ba7d508 100644
+> --- a/drivers/media/platform/vivid/vivid-core.h
+> +++ b/drivers/media/platform/vivid/vivid-core.h
+> @@ -18,6 +18,7 @@
+>  #include <media/tpg/v4l2-tpg.h>
+>  #include "vivid-rds-gen.h"
+>  #include "vivid-vbi-gen.h"
+> +#include "vivid-meta-gen.h"
+>  
+>  #define dprintk(dev, level, fmt, arg...) \
+>  	v4l2_dbg(level, vivid_debug, &dev->v4l2_dev, fmt, ## arg)
+> @@ -131,6 +132,7 @@ struct vivid_dev {
+>  	struct media_pad		vbi_cap_pad;
+>  	struct media_pad		vbi_out_pad;
+>  	struct media_pad		sdr_cap_pad;
+> +	struct media_pad		meta_cap_pad;
+>  #endif
+>  	struct v4l2_ctrl_handler	ctrl_hdl_user_gen;
+>  	struct v4l2_ctrl_handler	ctrl_hdl_user_vid;
+> @@ -153,6 +155,9 @@ struct vivid_dev {
+>  	struct v4l2_ctrl_handler	ctrl_hdl_radio_tx;
+>  	struct video_device		sdr_cap_dev;
+>  	struct v4l2_ctrl_handler	ctrl_hdl_sdr_cap;
+> +	struct video_device		meta_cap_dev;
+> +	struct v4l2_ctrl_handler	ctrl_hdl_meta_cap;
+> +
+>  	spinlock_t			slock;
+>  	struct mutex			mutex;
+>  
+> @@ -164,6 +169,7 @@ struct vivid_dev {
+>  	u32				sdr_cap_caps;
+>  	u32				radio_rx_caps;
+>  	u32				radio_tx_caps;
+> +	u32				meta_cap_caps;
+>  
+>  	/* supported features */
+>  	bool				multiplanar;
+> @@ -189,6 +195,7 @@ struct vivid_dev {
+>  	bool				has_radio_tx;
+>  	bool				has_sdr_cap;
+>  	bool				has_fb;
+> +	bool				has_meta_cap;
+>  
+>  	bool				can_loop_video;
+>  
+> @@ -390,6 +397,8 @@ struct vivid_dev {
+>  	struct list_head		vid_cap_active;
+>  	struct vb2_queue		vb_vbi_cap_q;
+>  	struct list_head		vbi_cap_active;
+> +	struct vb2_queue		vb_meta_cap_q;
+> +	struct list_head		meta_cap_active;
+>  
+>  	/* thread for generating video capture stream */
+>  	struct task_struct		*kthread_vid_cap;
+> @@ -407,6 +416,9 @@ struct vivid_dev {
+>  	u32				vbi_cap_seq_count;
+>  	bool				vbi_cap_streaming;
+>  	bool				stream_sliced_vbi_cap;
+> +	u32				meta_cap_seq_start;
+> +	u32				meta_cap_seq_count;
+> +	bool				meta_cap_streaming;
+>  
+>  	/* video output */
+>  	const struct vivid_fmt		*fmt_out;
+> diff --git a/drivers/media/platform/vivid/vivid-ctrls.c b/drivers/media/platform/vivid/vivid-ctrls.c
+> index cb19a9a73092..78ae0fe90081 100644
+> --- a/drivers/media/platform/vivid/vivid-ctrls.c
+> +++ b/drivers/media/platform/vivid/vivid-ctrls.c
+> @@ -110,6 +110,7 @@ static int vivid_user_gen_s_ctrl(struct v4l2_ctrl *ctrl)
+>  		clear_bit(V4L2_FL_REGISTERED, &dev->sdr_cap_dev.flags);
+>  		clear_bit(V4L2_FL_REGISTERED, &dev->radio_rx_dev.flags);
+>  		clear_bit(V4L2_FL_REGISTERED, &dev->radio_tx_dev.flags);
+> +		clear_bit(V4L2_FL_REGISTERED, &dev->meta_cap_dev.flags);
+>  		break;
+>  	case VIVID_CID_BUTTON:
+>  		dev->button_pressed = 30;
+> @@ -1448,6 +1449,8 @@ int vivid_create_controls(struct vivid_dev *dev, bool show_ccs_cap,
+>  	struct v4l2_ctrl_handler *hdl_radio_rx = &dev->ctrl_hdl_radio_rx;
+>  	struct v4l2_ctrl_handler *hdl_radio_tx = &dev->ctrl_hdl_radio_tx;
+>  	struct v4l2_ctrl_handler *hdl_sdr_cap = &dev->ctrl_hdl_sdr_cap;
+> +	struct v4l2_ctrl_handler *hdl_meta_cap = &dev->ctrl_hdl_meta_cap;
+> +
+>  	struct v4l2_ctrl_config vivid_ctrl_dv_timings = {
+>  		.ops = &vivid_vid_cap_ctrl_ops,
+>  		.id = VIVID_CID_DV_TIMINGS,
+> @@ -1486,6 +1489,8 @@ int vivid_create_controls(struct vivid_dev *dev, bool show_ccs_cap,
+>  	v4l2_ctrl_new_custom(hdl_radio_tx, &vivid_ctrl_class, NULL);
+>  	v4l2_ctrl_handler_init(hdl_sdr_cap, 19);
+>  	v4l2_ctrl_new_custom(hdl_sdr_cap, &vivid_ctrl_class, NULL);
+> +	v4l2_ctrl_handler_init(hdl_meta_cap, 2);
+> +	v4l2_ctrl_new_custom(hdl_meta_cap, &vivid_ctrl_class, NULL);
+>  
+>  	/* User Controls */
+>  	dev->volume = v4l2_ctrl_new_std(hdl_user_aud, NULL,
+> @@ -1817,6 +1822,14 @@ int vivid_create_controls(struct vivid_dev *dev, bool show_ccs_cap,
+>  			return hdl_sdr_cap->error;
+>  		dev->sdr_cap_dev.ctrl_handler = hdl_sdr_cap;
+>  	}
+> +	if (dev->has_meta_cap) {
+> +		v4l2_ctrl_add_handler(hdl_meta_cap, hdl_user_gen, NULL, false);
+> +		v4l2_ctrl_add_handler(hdl_meta_cap, hdl_streaming, NULL, false);
+> +		if (hdl_meta_cap->error)
+> +			return hdl_meta_cap->error;
+> +		dev->meta_cap_dev.ctrl_handler = hdl_meta_cap;
+> +	}
+> +
+>  	return 0;
+>  }
+>  
+> @@ -1836,4 +1849,5 @@ void vivid_free_controls(struct vivid_dev *dev)
+>  	v4l2_ctrl_handler_free(&dev->ctrl_hdl_sdtv_cap);
+>  	v4l2_ctrl_handler_free(&dev->ctrl_hdl_loop_cap);
+>  	v4l2_ctrl_handler_free(&dev->ctrl_hdl_fb);
+> +	v4l2_ctrl_handler_free(&dev->ctrl_hdl_meta_cap);
+>  }
+> diff --git a/drivers/media/platform/vivid/vivid-kthread-cap.c b/drivers/media/platform/vivid/vivid-kthread-cap.c
+> index 003319d7816d..d79f652fe097 100644
+> --- a/drivers/media/platform/vivid/vivid-kthread-cap.c
+> +++ b/drivers/media/platform/vivid/vivid-kthread-cap.c
+> @@ -39,6 +39,7 @@
+>  #include "vivid-osd.h"
+>  #include "vivid-ctrls.h"
+>  #include "vivid-kthread-cap.h"
+> +#include "vivid-meta-cap.h"
+>  
+>  static inline v4l2_std_id vivid_get_std_cap(const struct vivid_dev *dev)
+>  {
+> @@ -677,6 +678,7 @@ static noinline_for_stack void vivid_thread_vid_cap_tick(struct vivid_dev *dev,
+>  {
+>  	struct vivid_buffer *vid_cap_buf = NULL;
+>  	struct vivid_buffer *vbi_cap_buf = NULL;
+> +	struct vivid_buffer *meta_cap_buf = NULL;
+>  	u64 f_time = 0;
+>  
+>  	dprintk(dev, 1, "Video Capture Thread Tick\n");
+> @@ -704,9 +706,15 @@ static noinline_for_stack void vivid_thread_vid_cap_tick(struct vivid_dev *dev,
+>  			list_del(&vbi_cap_buf->list);
+>  		}
+>  	}
+> +	if (!list_empty(&dev->meta_cap_active)) {
+> +		meta_cap_buf = list_entry(dev->meta_cap_active.next,
+> +					  struct vivid_buffer, list);
+> +		list_del(&meta_cap_buf->list);
+> +	}
+> +
+>  	spin_unlock(&dev->slock);
+>  
+> -	if (!vid_cap_buf && !vbi_cap_buf)
+> +	if (!vid_cap_buf && !vbi_cap_buf && !meta_cap_buf)
+>  		goto update_mv;
+>  
+>  	f_time = dev->cap_frame_period * dev->vid_cap_seq_count +
+> @@ -758,6 +766,20 @@ static noinline_for_stack void vivid_thread_vid_cap_tick(struct vivid_dev *dev,
+>  		do_div(vbi_period, 100);
+>  		vbi_cap_buf->vb.vb2_buf.timestamp = f_time + vbi_period;
+>  	}
+> +
+> +	if (meta_cap_buf) {
+> +		v4l2_ctrl_request_setup(meta_cap_buf->vb.vb2_buf.req_obj.req,
+> +					&dev->ctrl_hdl_meta_cap);
+> +		vivid_meta_cap_fillbuff(dev, meta_cap_buf);
+> +		v4l2_ctrl_request_complete(meta_cap_buf->vb.vb2_buf.req_obj.req,
+> +					   &dev->ctrl_hdl_meta_cap);
+> +		vb2_buffer_done(&meta_cap_buf->vb.vb2_buf, dev->dqbuf_error ?
+> +				VB2_BUF_STATE_ERROR : VB2_BUF_STATE_DONE);
+> +		dprintk(dev, 2, "meta_cap %d done\n",
+> +			meta_cap_buf->vb.vb2_buf.index);
+> +		meta_cap_buf->vb.vb2_buf.timestamp = f_time;
+> +	}
+> +
+>  	dev->dqbuf_error = false;
+>  
+>  update_mv:
+> @@ -835,6 +857,7 @@ static int vivid_thread_vid_cap(void *data)
+>  		dev->cap_seq_count = buffers_since_start + dev->cap_seq_offset;
+>  		dev->vid_cap_seq_count = dev->cap_seq_count - dev->vid_cap_seq_start;
+>  		dev->vbi_cap_seq_count = dev->cap_seq_count - dev->vbi_cap_seq_start;
+> +		dev->meta_cap_seq_count = dev->cap_seq_count - dev->meta_cap_seq_start;
+>  
+>  		vivid_thread_vid_cap_tick(dev, dropped_bufs);
+>  
+> @@ -883,8 +906,10 @@ int vivid_start_generating_vid_cap(struct vivid_dev *dev, bool *pstreaming)
+>  
+>  		if (pstreaming == &dev->vid_cap_streaming)
+>  			dev->vid_cap_seq_start = seq_count;
+> -		else
+> +		else if (pstreaming == &dev->vbi_cap_streaming)
+>  			dev->vbi_cap_seq_start = seq_count;
+> +		else
+> +			dev->meta_cap_seq_start = seq_count;
+>  		*pstreaming = true;
+>  		return 0;
+>  	}
+> @@ -894,6 +919,7 @@ int vivid_start_generating_vid_cap(struct vivid_dev *dev, bool *pstreaming)
+>  
+>  	dev->vid_cap_seq_start = dev->seq_wrap * 128;
+>  	dev->vbi_cap_seq_start = dev->seq_wrap * 128;
+> +	dev->meta_cap_seq_start = dev->seq_wrap * 128;
+>  
+>  	dev->kthread_vid_cap = kthread_run(vivid_thread_vid_cap, dev,
+>  			"%s-vid-cap", dev->v4l2_dev.name);
+> @@ -951,7 +977,23 @@ void vivid_stop_generating_vid_cap(struct vivid_dev *dev, bool *pstreaming)
+>  		}
+>  	}
+>  
+> -	if (dev->vid_cap_streaming || dev->vbi_cap_streaming)
+> +	if (pstreaming == &dev->meta_cap_streaming) {
+> +		while (!list_empty(&dev->meta_cap_active)) {
+> +			struct vivid_buffer *buf;
+> +
+> +			buf = list_entry(dev->meta_cap_active.next,
+> +					 struct vivid_buffer, list);
+> +			list_del(&buf->list);
+> +			v4l2_ctrl_request_complete(buf->vb.vb2_buf.req_obj.req,
+> +						   &dev->ctrl_hdl_meta_cap);
+> +			vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
+> +			dprintk(dev, 2, "meta_cap buffer %d done\n",
+> +				buf->vb.vb2_buf.index);
+> +		}
+> +	}
+> +
+> +	if (dev->vid_cap_streaming || dev->vbi_cap_streaming ||
+> +	    dev->meta_cap_streaming)
+>  		return;
+>  
+>  	/* shutdown control thread */
+> diff --git a/drivers/media/platform/vivid/vivid-meta-cap.c b/drivers/media/platform/vivid/vivid-meta-cap.c
+> new file mode 100644
+> index 000000000000..cb01f89333b1
+> --- /dev/null
+> +++ b/drivers/media/platform/vivid/vivid-meta-cap.c
+> @@ -0,0 +1,175 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * vivid-meta-cap.c - meta capture support functions.
+> + *
+> + */
+> +
+> +#include <linux/errno.h>
+> +#include <linux/kernel.h>
+> +#include <linux/videodev2.h>
+> +#include <media/v4l2-common.h>
+> +#include <linux/usb/video.h>
+> +
+> +#include "vivid-core.h"
+> +#include "vivid-kthread-cap.h"
+> +#include "vivid-meta-cap.h"
+> +#include "vivid-meta-gen.h"
+> +
+> +static int meta_cap_queue_setup(struct vb2_queue *vq, unsigned int *nbuffers,
+> +				unsigned int *nplanes, unsigned int sizes[],
+> +				struct device *alloc_devs[])
+> +{
+> +	struct vivid_dev *dev = vb2_get_drv_priv(vq);
+> +	unsigned int size =  sizeof(struct vivid_uvc_meta_buf);
+> +
+> +	if (!vivid_is_webcam(dev))
+> +		return -EINVAL;
+> +
+> +	if (*nplanes) {
+> +		if (sizes[0] < size)
+> +			return -EINVAL;
+> +	} else {
+> +		sizes[0] = size;
+> +	}
+> +
+> +	if (vq->num_buffers + *nbuffers < 2)
+> +		*nbuffers = 2 - vq->num_buffers;
+> +
+> +	*nplanes = 1;
+> +	return 0;
+> +}
+> +
+> +static int meta_cap_buf_prepare(struct vb2_buffer *vb)
+> +{
+> +	struct vivid_dev *dev = vb2_get_drv_priv(vb->vb2_queue);
+> +	unsigned int size = sizeof(struct vivid_uvc_meta_buf);
+> +
+> +	dprintk(dev, 1, "%s\n", __func__);
+> +
+> +	if (dev->buf_prepare_error) {
+> +		/*
+> +		 * Error injection: test what happens if buf_prepare() returns
+> +		 * an error.
+> +		 */
+> +		dev->buf_prepare_error = false;
+> +		return -EINVAL;
+> +	}
+> +	if (vb2_plane_size(vb, 0) < size) {
+> +		dprintk(dev, 1, "%s data will not fit into plane (%lu < %u)\n",
+> +			__func__, vb2_plane_size(vb, 0), size);
+> +		return -EINVAL;
+> +	}
+> +	vb2_set_plane_payload(vb, 0, size);
+> +
+> +	return 0;
+> +}
+> +
+> +static void meta_cap_buf_queue(struct vb2_buffer *vb)
+> +{
+> +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+> +	struct vivid_dev *dev = vb2_get_drv_priv(vb->vb2_queue);
+> +	struct vivid_buffer *buf = container_of(vbuf, struct vivid_buffer, vb);
+> +
+> +	dprintk(dev, 1, "%s\n", __func__);
+> +
+> +	spin_lock(&dev->slock);
+> +	list_add_tail(&buf->list, &dev->meta_cap_active);
+> +	spin_unlock(&dev->slock);
+> +}
+> +
+> +static int meta_cap_start_streaming(struct vb2_queue *vq, unsigned int count)
+> +{
+> +	struct vivid_dev *dev = vb2_get_drv_priv(vq);
+> +	int err;
+> +
+> +	dprintk(dev, 1, "%s\n", __func__);
+> +	dev->meta_cap_seq_count = 0;
+> +	if (dev->start_streaming_error) {
+> +		dev->start_streaming_error = false;
+> +		err = -EINVAL;
+> +	} else {
+> +		err = vivid_start_generating_vid_cap(dev,
+> +						     &dev->meta_cap_streaming);
+> +	}
+> +	if (err) {
+> +		struct vivid_buffer *buf, *tmp;
+> +
+> +		list_for_each_entry_safe(buf, tmp,
+> +					 &dev->meta_cap_active, list) {
+> +			list_del(&buf->list);
+> +			vb2_buffer_done(&buf->vb.vb2_buf,
+> +					VB2_BUF_STATE_QUEUED);
+> +		}
+> +	}
+> +	return err;
+> +}
+> +
+> +/* abort streaming and wait for last buffer */
+> +static void meta_cap_stop_streaming(struct vb2_queue *vq)
+> +{
+> +	struct vivid_dev *dev = vb2_get_drv_priv(vq);
+> +
+> +	dprintk(dev, 1, "%s\n", __func__);
+> +	vivid_stop_generating_vid_cap(dev, &dev->meta_cap_streaming);
+> +}
+> +
+> +static void meta_cap_buf_request_complete(struct vb2_buffer *vb)
+> +{
+> +	struct vivid_dev *dev = vb2_get_drv_priv(vb->vb2_queue);
+> +
+> +	v4l2_ctrl_request_complete(vb->req_obj.req, &dev->ctrl_hdl_meta_cap);
+> +}
+> +
+> +const struct vb2_ops vivid_meta_cap_qops = {
+> +	.queue_setup		= meta_cap_queue_setup,
+> +	.buf_prepare		= meta_cap_buf_prepare,
+> +	.buf_queue		= meta_cap_buf_queue,
+> +	.start_streaming	= meta_cap_start_streaming,
+> +	.stop_streaming		= meta_cap_stop_streaming,
+> +	.buf_request_complete	= meta_cap_buf_request_complete,
+> +	.wait_prepare		= vb2_ops_wait_prepare,
+> +	.wait_finish		= vb2_ops_wait_finish,
+> +};
+> +
+> +int vidioc_enum_fmt_meta_cap(struct file *file, void  *priv,
+> +			     struct v4l2_fmtdesc *f)
+> +{
+> +	struct vivid_dev *dev = video_drvdata(file);
+> +
+> +	if (!vivid_is_webcam(dev))
+> +		return -ENODATA;
+> +
+> +	if (f->index > 0)
+> +		return -EINVAL;
+> +
+> +	f->type = V4L2_BUF_TYPE_META_CAPTURE;
+> +	f->pixelformat = V4L2_META_FMT_UVC;
+> +	return 0;
+> +}
+> +
+> +int vidioc_g_fmt_meta_cap(struct file *file, void *priv,
+> +			  struct v4l2_format *f)
+> +{
+> +	struct vivid_dev *dev = video_drvdata(file);
+> +	struct v4l2_meta_format *meta = &f->fmt.meta;
+> +
+> +	if (!vivid_is_webcam(dev) || !dev->has_meta_cap)
+> +		return -EINVAL;
+> +
+> +	meta->dataformat = V4L2_META_FMT_UVC;
+> +	meta->buffersize = sizeof(struct vivid_uvc_meta_buf);
+> +	return 0;
+> +}
+> +
+> +void vivid_meta_cap_fillbuff(struct vivid_dev *dev, struct vivid_buffer *buf)
+> +{
+> +	struct vivid_uvc_meta_buf *vbuf = vb2_plane_vaddr(&buf->vb.vb2_buf, 0);
+> +
+> +	buf->vb.sequence = dev->meta_cap_seq_count;
+> +	if (dev->field_cap == V4L2_FIELD_ALTERNATE)
+> +		buf->vb.sequence /= 2;
+> +	memset(vbuf, 1, vb2_plane_size(&buf->vb.vb2_buf, 0));
+> +	vivid_meta_cap_gen(vbuf, buf->vb.sequence);
+> +	dprintk(dev, 2, "%s ns %llu sof %u, len %u, flags 0x%x\n",
+> +		__func__, vbuf->ns, vbuf->sof, vbuf->length, vbuf->flags);
+> +}
+> diff --git a/drivers/media/platform/vivid/vivid-meta-cap.h b/drivers/media/platform/vivid/vivid-meta-cap.h
+> new file mode 100644
+> index 000000000000..58d6c019fe96
+> --- /dev/null
+> +++ b/drivers/media/platform/vivid/vivid-meta-cap.h
+> @@ -0,0 +1,18 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * vivid-meta-cap.h - meta capture support functions.
+> + *
+> + */
+> +#ifndef _VIVID_META_CAP_H_
+> +#define _VIVID_META_CAP_H_
+> +
+> +void vivid_meta_cap_fillbuff(struct vivid_dev *dev, struct vivid_buffer *buf);
+> +
+> +int vidioc_enum_fmt_meta_cap(struct file *file, void  *priv,
+> +			     struct v4l2_fmtdesc *f);
+> +
+> +int vidioc_g_fmt_meta_cap(struct file *file, void *priv,
+> +			  struct v4l2_format *f);
+> +
+> +extern const struct vb2_ops vivid_meta_cap_qops;
+> +#endif
+> diff --git a/drivers/media/platform/vivid/vivid-meta-gen.c b/drivers/media/platform/vivid/vivid-meta-gen.c
+> new file mode 100644
+> index 000000000000..32b3ca1aa206
+> --- /dev/null
+> +++ b/drivers/media/platform/vivid/vivid-meta-gen.c
+> @@ -0,0 +1,25 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * vivid-meta-gen.c - metadata generator support functions.
+> + *
+> + */
+> +
+> +#include <linux/errno.h>
+> +#include <linux/kernel.h>
+> +#include <linux/ktime.h>
+> +#include <linux/string.h>
+> +#include <linux/videodev2.h>
+> +#include <linux/usb/video.h>
+> +
+> +#include "vivid-meta-gen.h"
+> +#include "vivid-core.h"
+> +
+> +void vivid_meta_cap_gen(struct vivid_uvc_meta_buf *meta, unsigned int seq)
+> +{
+> +	meta->ns = ktime_get_ns();
+> +	meta->sof = seq;
+> +	meta->length = sizeof(meta->ns) + sizeof(meta->sof) + 2;
+
+This is wrong. The length is sizeof(*meta) - offsetof(struct vivid_uvc_meta_buf, length)
+
+The sof value is a bit weird: I expect this to be updated for every buffer,
+instead the first 4 frames have a sof of 0, the next four have a sof of 4, the
+next 4 frames have a sof of 8, etc.
+
+I would expect to see it increment by some value (4 seems a bit small) for every frame.
+Looking at what happens with uvc it seems that for every frame a lot of metadata
+packets arrive, but all with the same SOF. Whenever a new video frame begins the
+SOF value increases by some small value (around 30).
+
+In the emulation we don't need to have multiple metadata packets per frame, one is
+sufficient. But I would expect to see the SOF increase for every frame.
+
+> +	meta->flags = UVC_STREAM_EOH;
+> +	if ((seq % 2) == 0)
+> +		meta->flags |= UVC_STREAM_FID;
+
+This seems to be always 1. I suspect meta->flags needs to be cleared somewhere.
+
+Bit 1 (End of Frame) should also be set, since this is always the end of frame
+since we transmit only one metadata buffer per frame.
+
+> +}
+> diff --git a/drivers/media/platform/vivid/vivid-meta-gen.h b/drivers/media/platform/vivid/vivid-meta-gen.h
+> new file mode 100644
+> index 000000000000..2af35a003338
+> --- /dev/null
+> +++ b/drivers/media/platform/vivid/vivid-meta-gen.h
+> @@ -0,0 +1,18 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * vivid-meta-gen.h - meta generator support functions.
+> + *
+> + */
+> +#ifndef _VIVID_META_GEN_H_
+> +#define _VIVID_META_GEN_H_
+> +
+> +struct vivid_uvc_meta_buf {
+> +	__u64 ns;
+> +	__u16 sof;
+> +	__u8 length;
+> +	__u8 flags;
+> +	__u8 buf[];
+> +} __packed;
+> +
+> +void vivid_meta_cap_gen(struct vivid_uvc_meta_buf *meta, unsigned int seq);
+> +#endif
+> 
 
 Regards,
-Helen
 
+	Hans
