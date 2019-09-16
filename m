@@ -2,166 +2,182 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3175EB3C79
-	for <lists+linux-media@lfdr.de>; Mon, 16 Sep 2019 16:23:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C0E7B3CE3
+	for <lists+linux-media@lfdr.de>; Mon, 16 Sep 2019 16:52:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388627AbfIPOXV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Sep 2019 10:23:21 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:37277 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2388541AbfIPOXV (ORCPT
+        id S1730758AbfIPOvx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Sep 2019 10:51:53 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:40060 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726690AbfIPOvx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Sep 2019 10:23:21 -0400
-Received: from [IPv6:2001:983:e9a7:1:3124:3fc9:5634:2d8] ([IPv6:2001:983:e9a7:1:3124:3fc9:5634:2d8])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id 9ruPiqIYWV17O9ruQiFGZQ; Mon, 16 Sep 2019 16:23:18 +0200
-Subject: Re: [PATCH v2] v4l2-ctl: Print UVC meta info
-To:     Vandana BN <bnvandana@gmail.com>, linux-media@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-References: <c1351836-c3a3-e8ac-ff2a-871a57788de1@xs4all.nl>
- <20190916141900.22491-1-bnvandana@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <9d52d428-dbf6-0968-ab3e-761da02d45ed@xs4all.nl>
-Date:   Mon, 16 Sep 2019 16:23:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Mon, 16 Sep 2019 10:51:53 -0400
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8GEppEZ048227;
+        Mon, 16 Sep 2019 09:51:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1568645511;
+        bh=N2fNUTJ5FqCAIRceZLmcocaOVqYYlTS4Sz3JSM1s1To=;
+        h=Date:From:To:CC:Subject:References:In-Reply-To;
+        b=qSrkDPzFGX2ZFyVswTk+k9SZ/PSDqAl54dAgfESJvwvmlkgBH/2wbURA42Z9NUHDX
+         pH5RdyNEf6MVprFGcL9tLGMdirKakBpDWhPtQPqso16J+5pQAZmGBpHYq6Sl1e3PLm
+         g5OTDCnQtwUXUU5QzRwdABJaqV6u+Ru0b4nUYAOs=
+Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x8GEppft012452
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 16 Sep 2019 09:51:51 -0500
+Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Mon, 16
+ Sep 2019 09:51:50 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE107.ent.ti.com
+ (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Mon, 16 Sep 2019 09:51:48 -0500
+Received: from ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with SMTP id x8GEpoBQ048306;
+        Mon, 16 Sep 2019 09:51:50 -0500
+Date:   Mon, 16 Sep 2019 09:53:56 -0500
+From:   Benoit Parrot <bparrot@ti.com>
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+CC:     Hans Verkuil <hverkuil@xs4all.nl>,
+        linux-media <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [Patch 05/13] media: am437x-vpfe: Streamlined vb2 buffer cleanup
+Message-ID: <20190916145356.wddnnl3kk2awmbf4@ti.com>
+References: <20190909162743.30114-1-bparrot@ti.com>
+ <20190909162743.30114-6-bparrot@ti.com>
+ <CA+V-a8ub2rjkp0WyUDV8EKnvqR=jCbCdxGzeeNas2APyiJdsYg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20190916141900.22491-1-bnvandana@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfFlJOiLmcPCTXzK/AcTy7NGY/KfV2YGdixGqW39yMynQdmkB6wlabbf18/wXr/8M3IDuFWuhIlPIOEWVvUFWv6IAA7jhbySwjVFV3OQkdFWU3c6vQiX7
- I9ZZSqVWVx6Wb+mPQnUrtWgZk4PIffm0cAWE0PszlTz8Jt55P02Cs4bbcNlW6eLF/1xv/v+FuXX4JIc+RVIviRUTWGT0P78SRPxKlU64r2FQ+e26Lk+boi3D
- 15gX9nTO3G10mMZJ5UexgXAhC1lvETxoBO/Y61jMgsz5YnmiNFe2Q3PUxUifjS86gmB5alf1AuE+qRfea6q5lkXPFoKYXJOR/iA7VLvpAFGzIzBOwsVpC1Q0
- 3erw6wRhp88oNR5BNKAtBxAoFdaDsA==
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <CA+V-a8ub2rjkp0WyUDV8EKnvqR=jCbCdxGzeeNas2APyiJdsYg@mail.gmail.com>
+User-Agent: NeoMutt/20171215
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 9/16/19 4:19 PM, Vandana BN wrote:
-> Print UVC Metadata information in verbose mode.
+Lad, Prabhakar <prabhakar.csengg@gmail.com> wrote on Mon [2019-Sep-16 09:00:03 +0100]:
+> Hi Benoit,
 > 
-> Signed-off-by: Vandana BN <bnvandana@gmail.com>
-> ---
-> Changes since v1
-> - Removed static form type declaration of structure vivid_uvc_meta_buf.
-> - to print time in seconds.
-> - extract vivid_uvc_meta_buf properly from buf.
-> ---
->  utils/v4l2-ctl/v4l2-ctl-meta.cpp      | 22 ++++++++++++++++++++++
->  utils/v4l2-ctl/v4l2-ctl-streaming.cpp | 14 ++++++++------
->  utils/v4l2-ctl/v4l2-ctl.h             |  1 +
->  3 files changed, 31 insertions(+), 6 deletions(-)
+> Thank you for the patch.
 > 
-> diff --git a/utils/v4l2-ctl/v4l2-ctl-meta.cpp b/utils/v4l2-ctl/v4l2-ctl-meta.cpp
-> index 75fbd6f4..bee0eed0 100644
-> --- a/utils/v4l2-ctl/v4l2-ctl-meta.cpp
-> +++ b/utils/v4l2-ctl/v4l2-ctl-meta.cpp
-> @@ -127,3 +127,25 @@ void meta_list(cv4l_fd &fd)
->  		print_video_formats(fd, V4L2_BUF_TYPE_META_OUTPUT);
->  	}
->  }
-> +
-> +struct vivid_uvc_meta_buf {
-> +	__u64 ns;
-> +	__u16 sof;
-> +	__u8 length;
-> +	__u8 flags;
-> +	__u8 buf[];
-> +};
-> +
-> +void print_meta_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt, cv4l_queue &q)
-> +{
-> +	struct vivid_uvc_meta_buf *vbuf;
-
-Add a newline. It is good practice to leave an empty line between
-declaring variables and the following code.
-
-> +	if (fmt.g_pixelformat() == V4L2_META_FMT_UVC) {
-
-Let's make this a switch, so it is easy to add new formats in the future.
-
-> +		fprintf(f, "UVC: ");
-> +		for (unsigned i = 0; i< buf.g_num_planes(); i++) {
-> +			vbuf = (vivid_uvc_meta_buf *)q.g_dataptr(buf.g_index(), i);
-> +			fprintf(f, "ns %6fs sof %u, len %u, flags 0x%x\n"
-
-This should be "%.6fs" and drop the ns (since it now prints seconds, not ns).
-
-,
-> +				(double)vbuf[i].ns / 1000000000.0, vbuf[i].sof,
-> +				vbuf[i].length, vbuf[i].flags);
-> +		}
-> +	}
-> +}
-> diff --git a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-> index 11157434..46d53f23 100644
-> --- a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-> +++ b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-> @@ -540,9 +540,9 @@ static void print_buffer(FILE *f, struct v4l2_buffer &buf)
->  	fprintf(f, "\n");
->  }
->  
-> -static void print_concise_buffer(FILE *f, cv4l_buffer &buf,
-> -				 fps_timestamps &fps_ts, int comp_perc,
-> -				 bool skip_ts = false)
-> +static void print_concise_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt,
-> +				 cv4l_queue &q, fps_timestamps &fps_ts,
-> +				 int comp_perc, bool skip_ts = false)
->  {
->  	static double last_ts;
->  
-> @@ -592,6 +592,8 @@ static void print_concise_buffer(FILE *f, cv4l_buffer &buf,
->  	if (fl)
->  		fprintf(f, " (%s)", bufferflags2s(fl).c_str());
->  	fprintf(f, "\n");
-> +	if (v4l_type_is_meta(buf.g_type()))
-> +		print_meta_buffer(f, buf, fmt, q);
->  }
->  
->  static void stream_buf_caps(cv4l_fd &fd, unsigned buftype)
-> @@ -1390,7 +1392,7 @@ static int do_handle_cap(cv4l_fd &fd, cv4l_queue &q, FILE *fout, int *index,
->  		if (!(buf.g_flags() & V4L2_BUF_FLAG_ERROR))
->  			break;
->  		if (verbose)
-> -			print_concise_buffer(stderr, buf, fps_ts, -1);
-> +			print_concise_buffer(stderr, buf, fmt, q, fps_ts, -1);
->  		if (fd.qbuf(buf))
->  			return QUEUE_ERROR;
->  	}
-> @@ -1412,7 +1414,7 @@ static int do_handle_cap(cv4l_fd &fd, cv4l_queue &q, FILE *fout, int *index,
->  	else if (buf.g_flags() & V4L2_BUF_FLAG_BFRAME)
->  		ch = 'B';
->  	if (verbose) {
-> -		print_concise_buffer(stderr, buf, fps_ts,
-> +		print_concise_buffer(stderr, buf, fmt, q, fps_ts,
->  				     host_fd_to >= 0 ? 100 - comp_perc / comp_perc_count : -1);
->  		comp_perc_count = comp_perc = 0;
->  	}
-> @@ -1502,7 +1504,7 @@ static int do_handle_out(cv4l_fd &fd, cv4l_queue &q, FILE *fin, cv4l_buffer *cap
->  		double ts_secs = buf.g_timestamp().tv_sec + buf.g_timestamp().tv_usec / 1000000.0;
->  		fps_ts.add_ts(ts_secs, buf.g_sequence(), buf.g_field());
->  		if (verbose)
-> -			print_concise_buffer(stderr, buf, fps_ts, -1);
-> +			print_concise_buffer(stderr, buf, fmt, q, fps_ts, -1);
->  
->  		for (unsigned j = 0; j < buf.g_num_planes(); j++)
->  			buf.s_bytesused(buf.g_length(j), j);
-> diff --git a/utils/v4l2-ctl/v4l2-ctl.h b/utils/v4l2-ctl/v4l2-ctl.h
-> index 5797d784..36051566 100644
-> --- a/utils/v4l2-ctl/v4l2-ctl.h
-> +++ b/utils/v4l2-ctl/v4l2-ctl.h
-> @@ -406,6 +406,7 @@ void meta_cmd(int ch, char *optarg);
->  void meta_set(cv4l_fd &fd);
->  void meta_get(cv4l_fd &fd);
->  void meta_list(cv4l_fd &fd);
-> +void print_meta_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt, cv4l_queue &q);
->  
->  // v4l2-ctl-subdev.cpp
->  void subdev_usage(void);
+> On Mon, Sep 9, 2019 at 5:26 PM Benoit Parrot <bparrot@ti.com> wrote:
+> >
+> > Returning queued vb2 buffers back to user space is a common
+> > task best handled by a helper function.
+> >
+> > Signed-off-by: Benoit Parrot <bparrot@ti.com>
+> > ---
+> >  drivers/media/platform/am437x/am437x-vpfe.c | 54 ++++++++++-----------
+> >  1 file changed, 26 insertions(+), 28 deletions(-)
+> >
+> > diff --git a/drivers/media/platform/am437x/am437x-vpfe.c b/drivers/media/platform/am437x/am437x-vpfe.c
+> > index 3a8ad9bdf283..52f7fc6e11dd 100644
+> > --- a/drivers/media/platform/am437x/am437x-vpfe.c
+> > +++ b/drivers/media/platform/am437x/am437x-vpfe.c
+> > @@ -1949,6 +1949,29 @@ static void vpfe_buffer_queue(struct vb2_buffer *vb)
+> >         spin_unlock_irqrestore(&vpfe->dma_queue_lock, flags);
+> >  }
+> >
+> > +static void vpfe_return_all_buffers(struct vpfe_device *vpfe,
+> > +                                   enum vb2_buffer_state state)
+> > +{
+> > +       struct vpfe_cap_buffer *buf, *node;
+> > +       unsigned long flags;
+> > +
+> > +       spin_lock_irqsave(&vpfe->dma_queue_lock, flags);
+> > +       list_for_each_entry_safe(buf, node, &vpfe->dma_queue, list) {
+> > +               vb2_buffer_done(&buf->vb.vb2_buf, state);
+> > +               list_del(&buf->list);
+> > +       }
+> > +
+> > +       if (vpfe->cur_frm)
+> > +               vb2_buffer_done(&vpfe->cur_frm->vb.vb2_buf, state);
+> > +
+> > +       if (vpfe->next_frm && vpfe->next_frm != vpfe->cur_frm)
+> > +               vb2_buffer_done(&vpfe->next_frm->vb.vb2_buf, state);
+> > +
+> > +       vpfe->cur_frm = NULL;
+> > +       vpfe->next_frm = NULL;
+> > +       spin_unlock_irqrestore(&vpfe->dma_queue_lock, flags);
+> > +}
+> > +
+> >  /*
+> >   * vpfe_start_streaming : Starts the DMA engine for streaming
+> >   * @vb: ptr to vb2_buffer
+> > @@ -1957,7 +1980,6 @@ static void vpfe_buffer_queue(struct vb2_buffer *vb)
+> >  static int vpfe_start_streaming(struct vb2_queue *vq, unsigned int count)
+> >  {
+> >         struct vpfe_device *vpfe = vb2_get_drv_priv(vq);
+> > -       struct vpfe_cap_buffer *buf, *tmp;
+> >         struct vpfe_subdev_info *sdinfo;
+> >         unsigned long flags;
+> >         unsigned long addr;
+> > @@ -2003,11 +2025,8 @@ static int vpfe_start_streaming(struct vb2_queue *vq, unsigned int count)
+> >         return 0;
+> >
+> >  err:
+> > -       list_for_each_entry_safe(buf, tmp, &vpfe->dma_queue, list) {
+> > -               list_del(&buf->list);
+> > -               vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_QUEUED);
+> > -       }
+> > -
+> > +       vpfe_return_all_buffers(vpfe, VB2_BUF_STATE_QUEUED);
+> > +       vpfe_pcr_enable(&vpfe->ccdc, 0);
 > 
+> please create a seperate patch for the above change.
 
-Regards,
+You mean a separate patch just for the vpfe_pcr_enable() call?
 
-	Hans
+Benoit
+
+> 
+> Cheers,
+> --Prabhakar Lad
+> 
+> >         return ret;
+> >  }
+> >
+> > @@ -2022,7 +2041,6 @@ static void vpfe_stop_streaming(struct vb2_queue *vq)
+> >  {
+> >         struct vpfe_device *vpfe = vb2_get_drv_priv(vq);
+> >         struct vpfe_subdev_info *sdinfo;
+> > -       unsigned long flags;
+> >         int ret;
+> >
+> >         vpfe_pcr_enable(&vpfe->ccdc, 0);
+> > @@ -2040,27 +2058,7 @@ static void vpfe_stop_streaming(struct vb2_queue *vq)
+> >                 vpfe_dbg(1, vpfe, "stream off failed in subdev\n");
+> >
+> >         /* release all active buffers */
+> > -       spin_lock_irqsave(&vpfe->dma_queue_lock, flags);
+> > -       if (vpfe->cur_frm == vpfe->next_frm) {
+> > -               vb2_buffer_done(&vpfe->cur_frm->vb.vb2_buf,
+> > -                               VB2_BUF_STATE_ERROR);
+> > -       } else {
+> > -               if (vpfe->cur_frm != NULL)
+> > -                       vb2_buffer_done(&vpfe->cur_frm->vb.vb2_buf,
+> > -                                       VB2_BUF_STATE_ERROR);
+> > -               if (vpfe->next_frm != NULL)
+> > -                       vb2_buffer_done(&vpfe->next_frm->vb.vb2_buf,
+> > -                                       VB2_BUF_STATE_ERROR);
+> > -       }
+> > -
+> > -       while (!list_empty(&vpfe->dma_queue)) {
+> > -               vpfe->next_frm = list_entry(vpfe->dma_queue.next,
+> > -                                               struct vpfe_cap_buffer, list);
+> > -               list_del(&vpfe->next_frm->list);
+> > -               vb2_buffer_done(&vpfe->next_frm->vb.vb2_buf,
+> > -                               VB2_BUF_STATE_ERROR);
+> > -       }
+> > -       spin_unlock_irqrestore(&vpfe->dma_queue_lock, flags);
+> > +       vpfe_return_all_buffers(vpfe, VB2_BUF_STATE_ERROR);
+> >  }
+> >
+> >  static int vpfe_g_pixelaspect(struct file *file, void *priv,
+> > --
+> > 2.17.1
+> >
