@@ -2,396 +2,203 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 59382B3B34
-	for <lists+linux-media@lfdr.de>; Mon, 16 Sep 2019 15:23:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BFD4B3B52
+	for <lists+linux-media@lfdr.de>; Mon, 16 Sep 2019 15:29:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733068AbfIPNXM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Sep 2019 09:23:12 -0400
-Received: from mail-oi1-f171.google.com ([209.85.167.171]:35188 "EHLO
-        mail-oi1-f171.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728014AbfIPNXM (ORCPT
+        id S1733276AbfIPN3R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Sep 2019 09:29:17 -0400
+Received: from mail-io1-f69.google.com ([209.85.166.69]:35296 "EHLO
+        mail-io1-f69.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1733267AbfIPN3P (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Sep 2019 09:23:12 -0400
-Received: by mail-oi1-f171.google.com with SMTP id a127so8266309oii.2
-        for <linux-media@vger.kernel.org>; Mon, 16 Sep 2019 06:23:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=n3U29OmFOZrNUDgWbzfJqVH6AgOhq2z1uq16fp9Z0d4=;
-        b=XmoqllKO7Y9vBZa2nrXRO6qhjGlHgOC6EHq8pqvq5vXGU1Jq7sQkz4Y90qADMtIC3X
-         OWw1Swf5IA+/XUNbtnJDtj2kFF9s4N3ask4+NICMfLs/9q1fYYg/L/n+o6zpYQv1k0XA
-         UAAu/RLXc78Z1xiiCrPZ2SKxYJl1P+22WJX0XfvvVP+R8qMyNHAaIaxteW5KShPfujKt
-         KaiOQ+PEXECsdApPwtabI5/Gl2mh+cE2EAkzgssor66R7lodIuM+teNnwAG2vsztM6eK
-         rf0WJtZtxWGKu6/+wm9B7DPKnKXxiV7lQAGU5a34qkPF5QY1uZSna9HnK7b+wQp1JuZy
-         /yuw==
+        Mon, 16 Sep 2019 09:29:15 -0400
+Received: by mail-io1-f69.google.com with SMTP id 18so50767912iof.2
+        for <linux-media@vger.kernel.org>; Mon, 16 Sep 2019 06:29:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=n3U29OmFOZrNUDgWbzfJqVH6AgOhq2z1uq16fp9Z0d4=;
-        b=SCMmZ/Obqv4g4V9he1wLlhJsT/YNvnbRdq2p4tEdLd+iSFdO+ve2s0OrQtdKawHAN5
-         XOPh7c1n1Md1NZGcpjA/cKQZCyGla4nWqkjT1wlCyqHHaI/kua75Zdo+rCMhQzey8TfG
-         3m1eEuA1Rx9snCReh/xiVDh8yOXrWoHNnoGbdt9/eOHYjYXJwRYBkbab9kr+WwA7KCcd
-         2R6sDVHM3Uim2dF6UWuauAbMbde3NOWY5LmeR7Pf7afMy6VwF/EMYRl00PjMx4QVx4vq
-         IRCiQZBtnbzxrHJrSq0IpWk+bRfbcGFxJ4q48DatXH0K+AcDjE142dKU8skK7ytz8cY6
-         rFPg==
-X-Gm-Message-State: APjAAAX5M0AJExCUroU5J26hUQxFPrJx35998PLf2ZPz0ZhSQ9AAE7ST
-        whuuDHYFISVkzAM3fO2tdSYguxgq
-X-Google-Smtp-Source: APXvYqynzVbCbbkiMIwU0abxD7g/9IbQtV0a248cp9KPZpY48OegX5haou3wrTDLKOPEY0NOnJA2fw==
-X-Received: by 2002:aca:d9c3:: with SMTP id q186mr4264636oig.53.1568640190125;
-        Mon, 16 Sep 2019 06:23:10 -0700 (PDT)
-Received: from rYz3n.attlocal.net ([2600:1700:210:3790::40])
-        by smtp.googlemail.com with ESMTPSA id b67sm3955431oii.21.2019.09.16.06.23.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Sep 2019 06:23:09 -0700 (PDT)
-From:   Jiunn Chang <c0d1n61at3@gmail.com>
-To:     linux-media@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Cc:     hverkuil@xs4all.nl
-Subject: [PATCH v2] cec-follower: create cec-tuner.cpp
-Date:   Mon, 16 Sep 2019 08:23:08 -0500
-Message-Id: <20190916132308.41810-1-c0d1n61at3@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20190916091553.116728-1-c0d1n61at3@gmail.com>
-References: <20190916091553.116728-1-c0d1n61at3@gmail.com>
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=qLNORXdlbsWjGAZLAd3piPYffVWHIm2TyIyzvE96vw8=;
+        b=RUxcvy9r5Th2NZl4+m/56AUOGvOfIp26+TIhSLfWS2jNXgSNVok8Qdlq0ogYjxdGkw
+         lhvhWB63030m4H1IfmKY4012q8b+0YmO6BvnTah4CIv/EYRVqHAsGwMmUXXyPT4+A2Ce
+         Ib72xJVrZ3XRI38p93sbdnprocj9uQBmEM6+AL/w9YMIAHlWszMTQ0rJXer1sVmkxcQX
+         DcPbGSf2wia9Um5ubLPcyHlWL9jMvl/ywr4WuVCdPBxKbQx15mShjuH3umGGdBTrs6IE
+         FCSJTFfEFWnMV6rZ3hXPUf/IBO0EgCVmNJ73pBjgoUQ5ebqXhwsWsG+qPyCPubBeVytp
+         QMew==
+X-Gm-Message-State: APjAAAXmJ0W4adixsmY32e5opfJ1bZ7XV6X1cp9AUNRYH3w9NqH3wNYH
+        W8mttaHQg8LMWQQXwhexh6cIscGTEaXEoGiIsgKmTT5W+BOr
+X-Google-Smtp-Source: APXvYqxvfnLKWVljKr1lxbJm/wgfFozfNZKDbTfhv3oWfXtRyJ6c3Hz79xdiwwM8f9F1XjG9gUGU2hL3rLIj2NorZ38hDxZNHWrq
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a6b:fe11:: with SMTP id x17mr16821546ioh.6.1568640552994;
+ Mon, 16 Sep 2019 06:29:12 -0700 (PDT)
+Date:   Mon, 16 Sep 2019 06:29:12 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000f111a20592ab9671@google.com>
+Subject: KASAN: invalid-free in usbvision_release
+From:   syzbot <syzbot+0350a2346edac2799574@syzkaller.appspotmail.com>
+To:     allison@lohutok.net, andreyknvl@google.com, hverkuil@xs4all.nl,
+        kstewart@linuxfoundation.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        mchehab@kernel.org, sakari.ailus@linux.intel.com,
+        syzkaller-bugs@googlegroups.com, tglx@linutronix.de
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Move tuner control, one touch record, and timer programming into
-cec-tuner.cpp.  These features are all tuner related and involve the
-tuner as a central feature to be able to test.
+Hello,
 
-Signed-off-by: Jiunn Chang <c0d1n61at3@gmail.com>
+syzbot found the following crash on:
+
+HEAD commit:    f0df5c1b usb-fuzzer: main usb gadget fuzzer driver
+git tree:       https://github.com/google/kasan.git usb-fuzzer
+console output: https://syzkaller.appspot.com/x/log.txt?x=11caf595600000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=5c6633fa4ed00be5
+dashboard link: https://syzkaller.appspot.com/bug?extid=0350a2346edac2799574
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+
+Unfortunately, I don't have any reproducer for this crash yet.
+
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+0350a2346edac2799574@syzkaller.appspotmail.com
+
+usb 6-1: usbvision_write_reg: failed: error -2
+usbvision_set_audio: can't write iopin register for audio switching
+usb 6-1: usbvision_write_reg: failed: error -19
+usbvision_audio_off: can't write reg
+usbvision_radio_close: Final disconnect
+==================================================================
+BUG: KASAN: double-free or invalid-free in usbvision_release+0x13b/0x1c0  
+drivers/media/usb/usbvision/usbvision-video.c:1353
+
+CPU: 1 PID: 7362 Comm: v4l_id Not tainted 5.3.0-rc7+ #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+Google 01/01/2011
+Call Trace:
+  __dump_stack lib/dump_stack.c:77 [inline]
+  dump_stack+0xca/0x13e lib/dump_stack.c:113
+  print_address_description+0x6a/0x32c mm/kasan/report.c:351
+  kasan_report_invalid_free+0x61/0xa0 mm/kasan/report.c:444
+  __kasan_slab_free+0x162/0x180 mm/kasan/common.c:434
+  slab_free_hook mm/slub.c:1423 [inline]
+  slab_free_freelist_hook mm/slub.c:1474 [inline]
+  slab_free mm/slub.c:3016 [inline]
+  kfree+0xe4/0x2f0 mm/slub.c:3957
+  usbvision_release+0x13b/0x1c0  
+drivers/media/usb/usbvision/usbvision-video.c:1353
+  usbvision_radio_close.cold+0x6f/0x74  
+drivers/media/usb/usbvision/usbvision-video.c:1125
+  v4l2_release+0x2e7/0x390 drivers/media/v4l2-core/v4l2-dev.c:455
+  __fput+0x2d7/0x840 fs/file_table.c:280
+  task_work_run+0x13f/0x1c0 kernel/task_work.c:113
+  tracehook_notify_resume include/linux/tracehook.h:188 [inline]
+  exit_to_usermode_loop+0x1d2/0x200 arch/x86/entry/common.c:163
+  prepare_exit_to_usermode arch/x86/entry/common.c:194 [inline]
+  syscall_return_slowpath arch/x86/entry/common.c:274 [inline]
+  do_syscall_64+0x45f/0x580 arch/x86/entry/common.c:299
+  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+RIP: 0033:0x7f0c157b92b0
+Code: 40 75 0b 31 c0 48 83 c4 08 e9 0c ff ff ff 48 8d 3d c5 32 08 00 e8 c0  
+07 02 00 83 3d 45 a3 2b 00 00 75 10 b8 03 00 00 00 0f 05 <48> 3d 01 f0 ff  
+ff 73 31 c3 48 83 ec 08 e8 ce 8a 01 00 48 89 04 24
+RSP: 002b:00007fff5c949928 EFLAGS: 00000246 ORIG_RAX: 0000000000000003
+RAX: 0000000000000000 RBX: 0000000000000003 RCX: 00007f0c157b92b0
+RDX: 00007f0c15a6fdf0 RSI: 0000000000000001 RDI: 0000000000000003
+RBP: 0000000000000000 R08: 00007f0c15a6fdf0 R09: 000000000000000a
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000400884
+R13: 00007fff5c949a80 R14: 0000000000000000 R15: 0000000000000000
+
+Allocated by task 1995:
+  save_stack+0x1b/0x80 mm/kasan/common.c:69
+  set_track mm/kasan/common.c:77 [inline]
+  __kasan_kmalloc mm/kasan/common.c:493 [inline]
+  __kasan_kmalloc.constprop.0+0xbf/0xd0 mm/kasan/common.c:466
+  kmalloc_array include/linux/slab.h:676 [inline]
+  usbvision_probe.cold+0xaae/0x1e57  
+drivers/media/usb/usbvision/usbvision-video.c:1484
+  usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
+  really_probe+0x281/0x6d0 drivers/base/dd.c:548
+  driver_probe_device+0x101/0x1b0 drivers/base/dd.c:721
+  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
+  bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:454
+  __device_attach+0x217/0x360 drivers/base/dd.c:894
+  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
+  device_add+0xae6/0x16f0 drivers/base/core.c:2165
+  usb_set_configuration+0xdf6/0x1670 drivers/usb/core/message.c:2023
+  generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
+  usb_probe_device+0x99/0x100 drivers/usb/core/driver.c:266
+  really_probe+0x281/0x6d0 drivers/base/dd.c:548
+  driver_probe_device+0x101/0x1b0 drivers/base/dd.c:721
+  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
+  bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:454
+  __device_attach+0x217/0x360 drivers/base/dd.c:894
+  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:514
+  device_add+0xae6/0x16f0 drivers/base/core.c:2165
+  usb_new_device.cold+0x6a4/0xe79 drivers/usb/core/hub.c:2536
+  hub_port_connect drivers/usb/core/hub.c:5098 [inline]
+  hub_port_connect_change drivers/usb/core/hub.c:5213 [inline]
+  port_event drivers/usb/core/hub.c:5359 [inline]
+  hub_event+0x1b5c/0x3640 drivers/usb/core/hub.c:5441
+  process_one_work+0x92b/0x1530 kernel/workqueue.c:2269
+  worker_thread+0x96/0xe20 kernel/workqueue.c:2415
+  kthread+0x318/0x420 kernel/kthread.c:255
+  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+
+Freed by task 1995:
+  save_stack+0x1b/0x80 mm/kasan/common.c:69
+  set_track mm/kasan/common.c:77 [inline]
+  __kasan_slab_free+0x130/0x180 mm/kasan/common.c:455
+  slab_free_hook mm/slub.c:1423 [inline]
+  slab_free_freelist_hook mm/slub.c:1474 [inline]
+  slab_free mm/slub.c:3016 [inline]
+  kfree+0xe4/0x2f0 mm/slub.c:3957
+  usbvision_release+0x13b/0x1c0  
+drivers/media/usb/usbvision/usbvision-video.c:1353
+  usbvision_disconnect+0x16c/0x1d0  
+drivers/media/usb/usbvision/usbvision-video.c:1582
+  usb_unbind_interface+0x1bd/0x8a0 drivers/usb/core/driver.c:423
+  __device_release_driver drivers/base/dd.c:1134 [inline]
+  device_release_driver_internal+0x42f/0x500 drivers/base/dd.c:1165
+  bus_remove_device+0x2dc/0x4a0 drivers/base/bus.c:556
+  device_del+0x420/0xb10 drivers/base/core.c:2339
+  usb_disable_device+0x211/0x690 drivers/usb/core/message.c:1237
+  usb_disconnect+0x284/0x8d0 drivers/usb/core/hub.c:2199
+  hub_port_connect drivers/usb/core/hub.c:4949 [inline]
+  hub_port_connect_change drivers/usb/core/hub.c:5213 [inline]
+  port_event drivers/usb/core/hub.c:5359 [inline]
+  hub_event+0x1454/0x3640 drivers/usb/core/hub.c:5441
+  process_one_work+0x92b/0x1530 kernel/workqueue.c:2269
+  worker_thread+0x96/0xe20 kernel/workqueue.c:2415
+  kthread+0x318/0x420 kernel/kthread.c:255
+  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+
+The buggy address belongs to the object at ffff8881d41ad420
+  which belongs to the cache kmalloc-32 of size 32
+The buggy address is located 0 bytes inside of
+  32-byte region [ffff8881d41ad420, ffff8881d41ad440)
+The buggy address belongs to the page:
+page:ffffea0007506b40 refcount:1 mapcount:0 mapping:ffff8881da003400  
+index:0x0
+flags: 0x200000000000200(slab)
+raw: 0200000000000200 ffffea0007662c40 0000000f0000000f ffff8881da003400
+raw: 0000000000000000 0000000080550055 00000001ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
+
+Memory state around the buggy address:
+  ffff8881d41ad300: fb fb fb fb fc fc fb fb fb fb fc fc fb fb fb fb
+  ffff8881d41ad380: fc fc fb fb fb fb fc fc fb fb fb fb fc fc fb fb
+> ffff8881d41ad400: fb fb fc fc fb fb fb fb fc fc fb fb fb fb fc fc
+                                ^
+  ffff8881d41ad480: fb fb fb fb fc fc fb fb fb fb fc fc fb fb fb fb
+  ffff8881d41ad500: fc fc 00 00 00 00 fc fc fb fb fb fb fc fc fb fb
+==================================================================
+
+
 ---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-Changes made since v1:
-  - Change cec-tuner.cpp function name to process_tuner_record_timer_msgs()
-  - Refactor commit message
-
->8---------------------------------------------------------------------------8<
-
- utils/cec-follower/Makefile.am        |   2 +-
- utils/cec-follower/cec-follower.h     |   3 +
- utils/cec-follower/cec-processing.cpp | 109 +-------------------
- utils/cec-follower/cec-tuner.cpp      | 139 ++++++++++++++++++++++++++
- 4 files changed, 148 insertions(+), 105 deletions(-)
- create mode 100644 utils/cec-follower/cec-tuner.cpp
-
-diff --git a/utils/cec-follower/Makefile.am b/utils/cec-follower/Makefile.am
-index 9b0a48b0..294a6ab4 100644
---- a/utils/cec-follower/Makefile.am
-+++ b/utils/cec-follower/Makefile.am
-@@ -1,7 +1,7 @@
- bin_PROGRAMS = cec-follower
- man_MANS = cec-follower.1
- 
--cec_follower_SOURCES = cec-follower.cpp cec-follower.h cec-processing.cpp cec-log.cpp cec-info.cpp
-+cec_follower_SOURCES = cec-follower.cpp cec-follower.h cec-processing.cpp cec-tuner.cpp cec-log.cpp cec-info.cpp
- cec_follower_CPPFLAGS = -I$(top_srcdir)/utils/common
- cec_follower_LDFLAGS = -lrt
- 
-diff --git a/utils/cec-follower/cec-follower.h b/utils/cec-follower/cec-follower.h
-index 0998382c..9f5f1be4 100644
---- a/utils/cec-follower/cec-follower.h
-+++ b/utils/cec-follower/cec-follower.h
-@@ -219,6 +219,9 @@ std::string audio_format_id_code2s(__u8 audio_format_id, __u8 audio_format_code)
- std::string opcode2s(const struct cec_msg *msg);
- void sad_encode(const struct short_audio_desc *sad, __u32 *descriptor);
- 
-+// cec-tuner.cpp
-+void process_tuner_record_timer_msgs(struct node *node, struct cec_msg &msg, unsigned me);
-+
- // CEC processing
- void testProcessing(struct node *node, bool wallclock);
- 
-diff --git a/utils/cec-follower/cec-processing.cpp b/utils/cec-follower/cec-processing.cpp
-index fa7687c9..15cedddf 100644
---- a/utils/cec-follower/cec-processing.cpp
-+++ b/utils/cec-follower/cec-processing.cpp
-@@ -608,128 +608,29 @@ static void processMsg(struct node *node, struct cec_msg &msg, unsigned me)
- 	case CEC_MSG_DECK_STATUS:
- 		return;
- 
-+	/* Tuner Centric Messages */
- 
--		/*
--		  Tuner Control
--
--		  This is only a basic implementation.
--
--		  TODO: Device state should change when selecting services etc.
--		*/
--
--	case CEC_MSG_GIVE_TUNER_DEVICE_STATUS: {
--		if (!cec_has_tuner(1 << me))
--			break;
--
--		struct cec_op_tuner_device_info tuner_dev_info = {};
--
--		cec_msg_set_reply_to(&msg, &msg);
--		tuner_dev_info.rec_flag = CEC_OP_REC_FLAG_NOT_USED;
--		tuner_dev_info.tuner_display_info = CEC_OP_TUNER_DISPLAY_INFO_NONE;
--		tuner_dev_info.is_analog = false;
--		tuner_dev_info.digital.service_id_method = CEC_OP_SERVICE_ID_METHOD_BY_CHANNEL;
--		tuner_dev_info.digital.dig_bcast_system = CEC_OP_DIG_SERVICE_BCAST_SYSTEM_DVB_C;
--		tuner_dev_info.digital.channel.channel_number_fmt = CEC_OP_CHANNEL_NUMBER_FMT_1_PART;
--		tuner_dev_info.digital.channel.minor = 1;
--
--		cec_msg_tuner_device_status(&msg, &tuner_dev_info);
--		transmit(node, &msg);
--		return;
--	}
--
-+	case CEC_MSG_GIVE_TUNER_DEVICE_STATUS:
- 	case CEC_MSG_TUNER_DEVICE_STATUS:
--		return;
--
- 	case CEC_MSG_SELECT_ANALOGUE_SERVICE:
- 	case CEC_MSG_SELECT_DIGITAL_SERVICE:
- 	case CEC_MSG_TUNER_STEP_DECREMENT:
- 	case CEC_MSG_TUNER_STEP_INCREMENT:
--		if (!cec_has_tuner(1 << me))
--			break;
--		return;
--
--
--		/*
--		  One Touch Record
--
--		  This is only a basic implementation.
--
--		  TODO:
--		  - If we are a TV, we should only send Record On if the
--		    remote end is a Recording device or Reserved. Otherwise ignore.
--
--		  - Device state should reflect whether we are recording, etc. In
--		    recording mode we should ignore Standby messages.
--		*/
--
--	case CEC_MSG_RECORD_TV_SCREEN: {
--		if (!node->has_rec_tv)
--			break;
--
--		struct cec_op_record_src rec_src = {};
--
--		rec_src.type = CEC_OP_RECORD_SRC_OWN;
--		cec_msg_set_reply_to(&msg, &msg);
--		cec_msg_record_on(&msg, false, &rec_src);
--		transmit(node, &msg);
--		return;
--	}
-+	case CEC_MSG_RECORD_TV_SCREEN:
- 	case CEC_MSG_RECORD_ON:
--		if (!cec_has_record(1 << me))
--			break;
--		cec_msg_set_reply_to(&msg, &msg);
--		cec_msg_record_status(&msg, CEC_OP_RECORD_STATUS_CUR_SRC);
--		transmit(node, &msg);
--		return;
- 	case CEC_MSG_RECORD_OFF:
--		if (!cec_has_record(1 << me))
--			break;
--		cec_msg_set_reply_to(&msg, &msg);
--		cec_msg_record_status(&msg, CEC_OP_RECORD_STATUS_TERMINATED_OK);
--		transmit(node, &msg);
--		return;
- 	case CEC_MSG_RECORD_STATUS:
--		return;
--
--
--		/*
--		  Timer Programming
--
--		  This is only a basic implementation.
--
--		  TODO/Ideas:
--		  - Act like an actual recording device; keep track of recording
--		    schedule and act correctly when colliding timers are set.
--		  - Emulate a finite storage space for recordings
--		 */
--
- 	case CEC_MSG_SET_ANALOGUE_TIMER:
- 	case CEC_MSG_SET_DIGITAL_TIMER:
- 	case CEC_MSG_SET_EXT_TIMER:
--		if (!cec_has_record(1 << me))
--			break;
--		cec_msg_set_reply_to(&msg, &msg);
--		cec_msg_timer_status(&msg, CEC_OP_TIMER_OVERLAP_WARNING_NO_OVERLAP,
--				     CEC_OP_MEDIA_INFO_NO_MEDIA,
--				     CEC_OP_PROG_INFO_ENOUGH_SPACE, 0, 0, 0);
--		transmit(node, &msg);
--		return;
- 	case CEC_MSG_CLEAR_ANALOGUE_TIMER:
- 	case CEC_MSG_CLEAR_DIGITAL_TIMER:
- 	case CEC_MSG_CLEAR_EXT_TIMER:
--		if (!cec_has_record(1 << me))
--			break;
--		cec_msg_set_reply_to(&msg, &msg);
--		cec_msg_timer_cleared_status(&msg, CEC_OP_TIMER_CLR_STAT_CLEARED);
--		transmit(node, &msg);
--		return;
- 	case CEC_MSG_SET_TIMER_PROGRAM_TITLE:
--		if (!cec_has_record(1 << me))
--			break;
--		return;
- 	case CEC_MSG_TIMER_CLEARED_STATUS:
- 	case CEC_MSG_TIMER_STATUS:
--		return;
-+		process_tuner_record_timer_msgs(node, msg, me);
-+		break;
- 
- 		/* Dynamic Auto Lipsync */
- 
-diff --git a/utils/cec-follower/cec-tuner.cpp b/utils/cec-follower/cec-tuner.cpp
-new file mode 100644
-index 00000000..5e794d71
---- /dev/null
-+++ b/utils/cec-follower/cec-tuner.cpp
-@@ -0,0 +1,139 @@
-+// SPDX-License-Identifier: (GPL-2.0-only OR BSD-3-Clause)
-+/*
-+ * Copyright 2016 Cisco Systems, Inc. and/or its affiliates. All rights reserved.
-+ */
-+
-+#include <sys/ioctl.h>
-+
-+#include "cec-follower.h"
-+
-+void process_tuner_record_timer_msgs(struct node *node, struct cec_msg &msg, unsigned me)
-+{
-+	switch (msg.msg[1]) {
-+
-+
-+		/*
-+		  Tuner Control
-+
-+		  This is only a basic implementation.
-+
-+		  TODO: Device state should change when selecting services etc.
-+		*/
-+
-+	case CEC_MSG_GIVE_TUNER_DEVICE_STATUS: {
-+		if (!cec_has_tuner(1 << me))
-+			break;
-+
-+		struct cec_op_tuner_device_info tuner_dev_info = {};
-+
-+		cec_msg_set_reply_to(&msg, &msg);
-+		tuner_dev_info.rec_flag = CEC_OP_REC_FLAG_NOT_USED;
-+		tuner_dev_info.tuner_display_info = CEC_OP_TUNER_DISPLAY_INFO_NONE;
-+		tuner_dev_info.is_analog = false;
-+		tuner_dev_info.digital.service_id_method = CEC_OP_SERVICE_ID_METHOD_BY_CHANNEL;
-+		tuner_dev_info.digital.dig_bcast_system = CEC_OP_DIG_SERVICE_BCAST_SYSTEM_DVB_C;
-+		tuner_dev_info.digital.channel.channel_number_fmt = CEC_OP_CHANNEL_NUMBER_FMT_1_PART;
-+		tuner_dev_info.digital.channel.minor = 1;
-+
-+		cec_msg_tuner_device_status(&msg, &tuner_dev_info);
-+		transmit(node, &msg);
-+		return;
-+	}
-+
-+	case CEC_MSG_TUNER_DEVICE_STATUS:
-+		return;
-+
-+	case CEC_MSG_SELECT_ANALOGUE_SERVICE:
-+	case CEC_MSG_SELECT_DIGITAL_SERVICE:
-+	case CEC_MSG_TUNER_STEP_DECREMENT:
-+	case CEC_MSG_TUNER_STEP_INCREMENT:
-+		if (!cec_has_tuner(1 << me))
-+			break;
-+		return;
-+
-+
-+		/*
-+		  One Touch Record
-+
-+		  This is only a basic implementation.
-+
-+		  TODO:
-+		  - If we are a TV, we should only send Record On if the
-+		    remote end is a Recording device or Reserved. Otherwise ignore.
-+
-+		  - Device state should reflect whether we are recording, etc. In
-+		    recording mode we should ignore Standby messages.
-+		*/
-+
-+	case CEC_MSG_RECORD_TV_SCREEN: {
-+		if (!node->has_rec_tv)
-+			break;
-+
-+		struct cec_op_record_src rec_src = {};
-+
-+		rec_src.type = CEC_OP_RECORD_SRC_OWN;
-+		cec_msg_set_reply_to(&msg, &msg);
-+		cec_msg_record_on(&msg, false, &rec_src);
-+		transmit(node, &msg);
-+		return;
-+	}
-+	case CEC_MSG_RECORD_ON:
-+		if (!cec_has_record(1 << me))
-+			break;
-+		cec_msg_set_reply_to(&msg, &msg);
-+		cec_msg_record_status(&msg, CEC_OP_RECORD_STATUS_CUR_SRC);
-+		transmit(node, &msg);
-+		return;
-+	case CEC_MSG_RECORD_OFF:
-+		if (!cec_has_record(1 << me))
-+			break;
-+		cec_msg_set_reply_to(&msg, &msg);
-+		cec_msg_record_status(&msg, CEC_OP_RECORD_STATUS_TERMINATED_OK);
-+		transmit(node, &msg);
-+		return;
-+	case CEC_MSG_RECORD_STATUS:
-+		return;
-+
-+
-+		/*
-+		  Timer Programming
-+
-+		  This is only a basic implementation.
-+
-+		  TODO/Ideas:
-+		  - Act like an actual recording device; keep track of recording
-+		    schedule and act correctly when colliding timers are set.
-+		  - Emulate a finite storage space for recordings
-+		 */
-+
-+	case CEC_MSG_SET_ANALOGUE_TIMER:
-+	case CEC_MSG_SET_DIGITAL_TIMER:
-+	case CEC_MSG_SET_EXT_TIMER:
-+		if (!cec_has_record(1 << me))
-+			break;
-+		cec_msg_set_reply_to(&msg, &msg);
-+		cec_msg_timer_status(&msg, CEC_OP_TIMER_OVERLAP_WARNING_NO_OVERLAP,
-+				     CEC_OP_MEDIA_INFO_NO_MEDIA,
-+				     CEC_OP_PROG_INFO_ENOUGH_SPACE, 0, 0, 0);
-+		transmit(node, &msg);
-+		return;
-+	case CEC_MSG_CLEAR_ANALOGUE_TIMER:
-+	case CEC_MSG_CLEAR_DIGITAL_TIMER:
-+	case CEC_MSG_CLEAR_EXT_TIMER:
-+		if (!cec_has_record(1 << me))
-+			break;
-+		cec_msg_set_reply_to(&msg, &msg);
-+		cec_msg_timer_cleared_status(&msg, CEC_OP_TIMER_CLR_STAT_CLEARED);
-+		transmit(node, &msg);
-+		return;
-+	case CEC_MSG_SET_TIMER_PROGRAM_TITLE:
-+		if (!cec_has_record(1 << me))
-+			break;
-+		return;
-+	case CEC_MSG_TIMER_CLEARED_STATUS:
-+	case CEC_MSG_TIMER_STATUS:
-+		return;
-+	default:
-+		break;
-+	}
-+}
--- 
-2.23.0
-
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
