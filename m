@@ -2,98 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BEB9B372C
-	for <lists+linux-media@lfdr.de>; Mon, 16 Sep 2019 11:31:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F3AA4B3796
+	for <lists+linux-media@lfdr.de>; Mon, 16 Sep 2019 11:55:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731973AbfIPJb3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Sep 2019 05:31:29 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:38357 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725850AbfIPJb3 (ORCPT
+        id S1726872AbfIPJzE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Sep 2019 05:55:04 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:54652 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728163AbfIPJzD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Sep 2019 05:31:29 -0400
-Received: from [IPv6:2001:983:e9a7:1:3124:3fc9:5634:2d8] ([IPv6:2001:983:e9a7:1:3124:3fc9:5634:2d8])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id 9nLyiUeod8SjN9nLziWhpX; Mon, 16 Sep 2019 11:31:27 +0200
-Subject: Re: [PATCH 1/2] videodev2.h: add macros to print a fourcc
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     linux-media@vger.kernel.org,
-        Dave Stevenson <dave.stevenson@raspberrypi.org>
-References: <20190916090047.122078-1-hverkuil-cisco@xs4all.nl>
- <20190916090047.122078-2-hverkuil-cisco@xs4all.nl>
- <20190916092642.GM843@valkosipuli.retiisi.org.uk>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <5c60c178-00db-96dd-f356-1704aa454d84@xs4all.nl>
-Date:   Mon, 16 Sep 2019 11:31:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        Mon, 16 Sep 2019 05:55:03 -0400
+Received: from pendragon.ideasonboard.com (unknown [IPv6:2001:8a0:6be4:9301:a728:6099:33:a27c])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1E2F7528;
+        Mon, 16 Sep 2019 11:55:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1568627701;
+        bh=WaL0YSzlDNICxPzMXSVJ5+GLNuIjXM6NKcYRw/MPgU0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Ekkr2JXlpAMqOvvKmd6Hr6PmXuBsH7kPuCv+Gnr7fKaZ9L3cdhHR+q2w4/xCE+n/b
+         ejTTHxpoXS4RiZzwu/gzwVcHO7WWZAJKT3lNG772gUnwn9+BY468CO9m7W/DMHLmGd
+         R3VnAZ9CpPSOUD7Lby8THADu48LOzIm92YMqLJ4s=
+Date:   Mon, 16 Sep 2019 12:54:51 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Jose Abreu <Jose.Abreu@synopsys.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Angelo Ribeiro <Angelo.Ribeiro@synopsys.com>,
+        Joao Pinto <Joao.Pinto@synopsys.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Tomasz Figa <tfiga@chromium.org>
+Subject: Re: [ANN] Topics for a media summit in Lyon in October
+Message-ID: <20190916095451.GA4734@pendragon.ideasonboard.com>
+References: <010ba9ce-bac9-6f0c-f128-4f163a7d8ea7@xs4all.nl>
+ <BN8PR12MB3266963E3EAA25AC2644942DD38C0@BN8PR12MB3266.namprd12.prod.outlook.com>
+ <3d6735ce-d39b-9875-1cfc-0e68fa3a45c6@xs4all.nl>
 MIME-Version: 1.0
-In-Reply-To: <20190916092642.GM843@valkosipuli.retiisi.org.uk>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfKUIezu8gBauBYY69SHyrl/xlUWnOGCEgqAVgHCCn90rWYcc9mdWGazoo3K/Cu2+O+Ki7hkdGx/pQwzK4RhlJ0pktkObjdSLa/c2zS+1nC3dz9bmBe2Q
- kjwjjZj9452IFsy0j3f33K+J24atgD5KEoTbWSkYYFPeLd7Ii11inxBCLQ36sEiHLG4NWCnJs/+KoQvD0G0lHE0YV11cR7W89Fql+Cs74QFeDR0SmhShYtHN
- YlgCXxXneeXOk6BNpSPUxxW922S0YnF+zlClcVb4kc2OoYoVolFzcudTn5IZ0A3XopLlgWDgo/R1Ar5VrDSasiOXWFGBJeVbROmApCcOXNoXddPegsQrlXvk
- ZWAjcpf0
+Content-Disposition: inline
+In-Reply-To: <3d6735ce-d39b-9875-1cfc-0e68fa3a45c6@xs4all.nl>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 9/16/19 11:26 AM, Sakari Ailus wrote:
-> Hi Hans,
+On Mon, Sep 16, 2019 at 10:48:51AM +0200, Hans Verkuil wrote:
+> On 9/16/19 10:40 AM, Jose Abreu wrote:
+> > From: Hans Verkuil <hverkuil@xs4all.nl>
+> > Date: Aug/16/2019, 09:06:30 (UTC+00:00)
+> > 
+> >> Rather then discussing topics for a meeting under the subject 'Lisbon'
+> >> let's start a new thread referring to the right place :-)
+> >>
+> >> I will try to organize a room, either during the ELCE or (if that doesn't
+> >> work) perhaps on the Thursday afterwards. If that's going to be a problem
+> >> for someone, please let me know.
+> >>
+> >> I do need to know how many people I can expect. I have the following
+> >> confirmed attendees (and please reply if you are not listed!):
+> > 
+> > Hi Hans,
+> > 
+> > It's been a while, hope you are doing well :)
+> > 
+> > I'm no longer working in media subsystem but my colleagues Angelo and 
+> > Joao would like to attend.
+> > 
+> > We currently have HDMI and CSI support for our IPs using V4L2 and we 
+> > would like to interact with the community in order to get this 
+> > up-streamed so that we have as many features supported as possible.
+> > 
+> > Is it possible ?
 > 
-> On Mon, Sep 16, 2019 at 11:00:46AM +0200, Hans Verkuil wrote:
->> Add new macros V4L2_FOURCC_CONV and V4L2_FOURCC_ARGS for use
->> in code that prints a fourcc. These macros can be used in both
->> kernel and userspace.
->>
->> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->> Suggested-by: Sakari Ailus <sakari.ailus@iki.fi>
->> ---
->>  include/uapi/linux/videodev2.h | 13 +++++++++++++
->>  1 file changed, 13 insertions(+)
->>
->> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
->> index 530638dffd93..7a34eb93437e 100644
->> --- a/include/uapi/linux/videodev2.h
->> +++ b/include/uapi/linux/videodev2.h
->> @@ -82,6 +82,19 @@
->>  	((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
->>  #define v4l2_fourcc_be(a, b, c, d)	(v4l2_fourcc(a, b, c, d) | (1U << 31))
->>  
->> +/*
->> + * Helper macros to print a fourcc in a standard format. E.g.:
->> + *
->> + * printf("fourcc is " V4L2_FOURCC_CONV "\n", V4L2_FOURCC_ARGS(fourcc));
->> + *
->> + * Note that V4L2_FOURCC_ARGS reuses fourcc, so this can't be an
->> + * expression with side-effects.
->> + */
->> +#define V4L2_FOURCC_CONV "%c%c%c%c%s"
->> +#define V4L2_FOURCC_ARGS(fourcc) \
->> +	(fourcc) & 0x7f, ((fourcc) >> 8) & 0x7f, ((fourcc) >> 16) & 0x7f, \
->> +	((fourcc) >> 24) & 0x7f, ((fourcc) & (1U << 31) ? "-BE" : "")
->> +
->>  /*
->>   *	E N U M S
->>   */
+> Yes. That said, since this is fairly specific and doesn't fall into any of
+> the three discussions that we plan (codecs, libcamera, future developments)
+> I think it is more useful if I discuss this separately with Angelo and
+> Joao on Monday or Tuesday afternoon.
 > 
-> KernelDoc comments would be nice. Such as in here:
+> I can definitely discuss HDMI support, and probably give a good stab at the
+> CSI support (too bad Sakari won't be there).
 > 
-> <URL:https://patchwork.linuxtv.org/patch/48372/>
+> How about we get together after Greg KH's keynote on Monday?
 
-I was searching for old patches with the string 'fourcc', not '4cc',
-so that's why I missed your patch.
+I'll try to join as well. I've run into issues in the past with the
+development process related to an HDMI IP (but on the DRM/KMS side), and
+I'd like to try and avoid the same mistakes here.
 
-I'll respin with that (slightly updated) patch.
-
+-- 
 Regards,
 
-	Hans
-
-> 
-> I'm fine with either patch though.
-> 
-
+Laurent Pinchart
