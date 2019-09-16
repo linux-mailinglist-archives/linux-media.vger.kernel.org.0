@@ -2,162 +2,261 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E71CB37B9
-	for <lists+linux-media@lfdr.de>; Mon, 16 Sep 2019 12:04:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED3E6B3854
+	for <lists+linux-media@lfdr.de>; Mon, 16 Sep 2019 12:40:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732043AbfIPKEh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Sep 2019 06:04:37 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:57685 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728156AbfIPKEh (ORCPT
+        id S1726818AbfIPKkB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Sep 2019 06:40:01 -0400
+Received: from smtprelay-out1.synopsys.com ([198.182.61.142]:40092 "EHLO
+        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726055AbfIPKkB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Sep 2019 06:04:37 -0400
-Received: from marune.fritz.box ([IPv6:2001:983:e9a7:1:3124:3fc9:5634:2d8])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id 9ns1iUw5J8SjN9ns3iWvZ3; Mon, 16 Sep 2019 12:04:35 +0200
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Cc:     Dave Stevenson <dave.stevenson@raspberrypi.org>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: [PATCHv2 2/2] v4l2-ioctl.c: use new v4l2_fourcc_conv/args macros
-Date:   Mon, 16 Sep 2019 12:04:33 +0200
-Message-Id: <20190916100433.24367-3-hverkuil-cisco@xs4all.nl>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190916100433.24367-1-hverkuil-cisco@xs4all.nl>
-References: <20190916100433.24367-1-hverkuil-cisco@xs4all.nl>
+        Mon, 16 Sep 2019 06:40:01 -0400
+Received: from mailhost.synopsys.com (badc-mailhost1.synopsys.com [10.192.0.17])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 78348C22F2;
+        Mon, 16 Sep 2019 10:39:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1568630400; bh=MeUt7nJCKHfUVQTXRdgQWfj0yXnpangNz6kZDhTbMU8=;
+        h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+        b=Px53ukGQxav4CpxaTHCBRhq6TGtD+zmrhzClJRY+9ExortmkTPmD9GPgMYWPfsBkB
+         /O8sPQzsUeJ5oHWbiMH98MzsOPeFpcH7xd1Qa8OXR0BvNf8pj+T71MwZX9K5ZSwjQa
+         TTLgfgwbFcky5nhOvpKrF6SVGkw5kT8KsjYz8Gaf8IV8KzEjOhZ58+aIU5EzzZdhni
+         9KpKHU9wSZXHpsbg4ueCaKoum4VXU80IQWtZrTIW+xx76wIxnrKUfR0muvn4ZygIUu
+         2xq/6k55bd65oSCBFo/0A3PsM7/tjZ+suKJ4nImC2vJMluWmJqGXLMN1aaFyiWw9cG
+         12Goeno6piteg==
+Received: from US01WEHTC3.internal.synopsys.com (us01wehtc3.internal.synopsys.com [10.15.84.232])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mailhost.synopsys.com (Postfix) with ESMTPS id 52BEAA0079;
+        Mon, 16 Sep 2019 10:39:59 +0000 (UTC)
+Received: from US01HYBRID2.internal.synopsys.com (10.15.246.24) by
+ US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
+ (TLS) id 14.3.408.0; Mon, 16 Sep 2019 03:39:58 -0700
+Received: from NAM04-CO1-obe.outbound.protection.outlook.com (10.13.134.195)
+ by mrs.synopsys.com (10.15.246.24) with Microsoft SMTP Server (TLS) id
+ 14.3.408.0; Mon, 16 Sep 2019 03:39:58 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Rl7IRyNqrHb0Ssd8+gfhmOhA1VaK8mHflqCyU7B/JdW8K0w0Femi6o59jnM+yFZ2oLbw7yj/jqF5XdM8iOwC+b7JFQnPVgwcwiAOtiZeeM1V2NWetD5d2oTIDAWpmz9kpXxpxptBEp74UFcgZD1nyOYkcKURbmfuhHSHQAuVVLzq+rOP/9IIr71+4Fc30A2v7wjbcuWW1y7DQyj/PNr9uMKAF5FKK1jR2oCQkRiJOC0OCb2QTubxdbb9YfBAvSMmoP2Y96buKBaRKMG60hs0NZRwi7zZBMi/H31zt3ORTPZOCLUSihMA+bIgrIZpaytqOo/yBZzSjepLj5ogSnCYVQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MeUt7nJCKHfUVQTXRdgQWfj0yXnpangNz6kZDhTbMU8=;
+ b=LB6CKMc8TqUOOAnPVZNvx+rS5ju198LTMXCvulwgw+pDEgED+Qs0PFGbddyOB0/Z/Oro3L3bwAR0wnqa0TFW8ygwv/abMnCcL7U9xyGV12xRK4rtahm8MRnag8vXLo8tjYF8cDVekj0nxSZ7CTYep69p1aUKAF1Tpt1oUOYqZI5QUj/rM9HpTnmuCVlHduT6OVypELH9Aw724MUkypL8mKzAEpkzS6pVPJHqjXChn+mTqxUUsz8kQmfoIQfqK50A3TegCzg5iz8l+sJc+EM0IZaxitQ83yvhBOuxLVWa2QIcTCrGtd4dzBbts20qU8Ze43sqo0v6aTvDx2762ScHIA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=synopsys.onmicrosoft.com; s=selector2-synopsys-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MeUt7nJCKHfUVQTXRdgQWfj0yXnpangNz6kZDhTbMU8=;
+ b=MtqI6vhtRmQaPa60o1T3qDLSWSVOZYexlQaAYTFHL6uA6CntwMfSg479meIuzAz1ROF+GOUBcdnBSZWap++XA3wxVF9ctnFms0COcygOkEIHIPyciWjrfPka8xekcIMpo3Zp5Fm1t29tDgu7Z6+Ch94/kr8rHXKjjF9YN1RWQug=
+Received: from SN6PR12MB2814.namprd12.prod.outlook.com (52.135.107.151) by
+ SN6PR12MB2846.namprd12.prod.outlook.com (52.135.103.161) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2263.23; Mon, 16 Sep 2019 10:39:57 +0000
+Received: from SN6PR12MB2814.namprd12.prod.outlook.com
+ ([fe80::7c91:9104:bdb0:673b]) by SN6PR12MB2814.namprd12.prod.outlook.com
+ ([fe80::7c91:9104:bdb0:673b%6]) with mapi id 15.20.2263.023; Mon, 16 Sep 2019
+ 10:39:56 +0000
+From:   Angelo Ribeiro <Angelo.Ribeiro@synopsys.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+CC:     Jose Abreu <Jose.Abreu@synopsys.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Angelo Ribeiro <Angelo.Ribeiro@synopsys.com>,
+        Joao Pinto <Joao.Pinto@synopsys.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        "Tomasz Figa" <tfiga@chromium.org>
+Subject: RE: [ANN] Topics for a media summit in Lyon in October
+Thread-Topic: [ANN] Topics for a media summit in Lyon in October
+Thread-Index: AQHVVAmnO3mQx22M8k+4lYTjWUYIqKcuLLGAgAACW4CAABJxgIAACFiw
+Date:   Mon, 16 Sep 2019 10:39:56 +0000
+Message-ID: <SN6PR12MB2814153C981E306E253CD013CB8C0@SN6PR12MB2814.namprd12.prod.outlook.com>
+References: <010ba9ce-bac9-6f0c-f128-4f163a7d8ea7@xs4all.nl>
+ <BN8PR12MB3266963E3EAA25AC2644942DD38C0@BN8PR12MB3266.namprd12.prod.outlook.com>
+ <3d6735ce-d39b-9875-1cfc-0e68fa3a45c6@xs4all.nl>
+ <20190916095451.GA4734@pendragon.ideasonboard.com>
+In-Reply-To: <20190916095451.GA4734@pendragon.ideasonboard.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-dg-ref: =?utf-8?B?UEcxbGRHRStQR0YwSUc1dFBTSmliMlI1TG5SNGRDSWdjRDBpWXpwY2RYTmxj?=
+ =?utf-8?B?bk5jWVc1blpXeHZjbHhoY0hCa1lYUmhYSEp2WVcxcGJtZGNNRGxrT0RRNVlq?=
+ =?utf-8?B?WXRNekprTXkwMFlUUXdMVGcxWldVdE5tSTROR0poTWpsbE16VmlYRzF6WjNO?=
+ =?utf-8?B?Y2JYTm5MVFV4TTJZeVpEUTVMV1E0Tm1VdE1URmxPUzA1WkRRMkxXWmpOemMz?=
+ =?utf-8?B?TkdWbFpHTXlaVnhoYldVdGRHVnpkRncxTVRObU1tUTBZUzFrT0RabExURXha?=
+ =?utf-8?B?VGt0T1dRME5pMW1ZemMzTnpSbFpXUmpNbVZpYjJSNUxuUjRkQ0lnYzNvOUlq?=
+ =?utf-8?B?STBNellpSUhROUlqRXpNakV6TVRBek9UazBORFUwTXpVME15SWdhRDBpWVd0?=
+ =?utf-8?B?TmQwUktiek5JY2pnM2NuSnVORGhpVEVwS1FUZ3ZiaXR2UFNJZ2FXUTlJaUln?=
+ =?utf-8?B?WW13OUlqQWlJR0p2UFNJeElpQmphVDBpWTBGQlFVRkZVa2hWTVZKVFVsVkdU?=
+ =?utf-8?B?a05uVlVGQlFsRktRVUZCTTJwaVNWUmxNbnBXUVZWRGFITlBlREIwVEVWalVV?=
+ =?utf-8?B?dEhkemRJVXpCelVuZFBRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVaEJRVUZCUTJ0RFFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVWQlFWRkJRa0ZCUVVGSlJVZzFRbmRCUVVGQlFVRkJRVUZCUVVGQlFVRktO?=
+ =?utf-8?B?RUZCUVVKdFFVZHJRV0puUW1oQlJ6UkJXWGRDYkVGR09FRmpRVUp6UVVkRlFX?=
+ =?utf-8?B?Sm5RblZCUjJ0QlltZENia0ZHT0VGa2QwSm9RVWhSUVZwUlFubEJSekJCV1ZG?=
+ =?utf-8?B?Q2VVRkhjMEZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUlVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?blFVRkJRVUZCYm1kQlFVRkhXVUZpZDBJeFFVYzBRVnBCUW5sQlNHdEJXSGRD?=
+ =?utf-8?B?ZDBGSFJVRmpaMEl3UVVjMFFWcFJRbmxCU0UxQldIZENia0ZIV1VGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFWRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkRRVUZCUVVGQlEyVkJRVUZCV21kQ2RrRklWVUZpWjBKclFV?=
+ =?utf-8?B?aEpRV1ZSUW1aQlNFRkJXVkZDZVVGSVVVRmlaMEpzUVVoSlFXTjNRbVpCU0Ux?=
+ =?utf-8?B?QldWRkNkRUZJVFVGa1VVSjFRVWRqUVZoM1FtcEJSemhCWW1kQ2JVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUpCUVVGQlFVRkJRVUZCU1VGQlFVRkJRVW8wUVVGQlFtMUJSemhC?=
+ =?utf-8?B?WkZGQ2RVRkhVVUZqWjBJMVFVWTRRV05CUW1oQlNFbEJaRUZDZFVGSFZVRmpa?=
+ =?utf-8?B?MEo2UVVZNFFXTjNRbWhCUnpCQlkzZENNVUZITkVGYWQwSm1RVWhKUVZwUlFu?=
+ =?utf-8?B?cEJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGRlFVRkJRVUZCUVVGQlFXZEJRVUZCUVVGdVow?=
+ =?utf-8?B?RkJRVWRaUVdKM1FqRkJSelJCV2tGQ2VVRklhMEZZZDBKM1FVZEZRV05uUWpC?=
+ =?utf-8?B?QlJ6UkJXbEZDZVVGSVRVRllkMEo2UVVjd1FXRlJRbXBCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJVVUZCUVVGQlFVRkJRVU5C?=
+ =?utf-8?B?UVVGQlFVRkRaVUZCUVVGYVowSjJRVWhWUVdKblFtdEJTRWxCWlZGQ1prRklR?=
+ =?utf-8?B?VUZaVVVKNVFVaFJRV0puUW14QlNFbEJZM2RDWmtGSVRVRmtRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUWtGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGSlFVRkJRVUZCU2pSQlFVRkNiVUZIT0VGa1VVSjFRVWRSUVdO?=
+ =?utf-8?B?blFqVkJSamhCWTBGQ2FFRklTVUZrUVVKMVFVZFZRV05uUW5wQlJqaEJaRUZD?=
+ =?utf-8?B?ZWtGSE1FRlpkMEZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVVkJRVUZCUVVGQlFVRkJaMEZCUVVGQlFXNW5RVUZCUjFsQlluZENN?=
+ =?utf-8?B?VUZITkVGYVFVSjVRVWhyUVZoM1FuZEJSMFZCWTJkQ01FRkhORUZhVVVKNVFV?=
+ =?utf-8?B?aE5RVmgzUWpGQlJ6QkJXWGRCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZSUVVGQlFVRkJRVUZCUTBGQlFVRkJRVU5sUVVG?=
+ =?utf-8?B?QlFWcDNRakJCU0UxQldIZENkMEZJU1VGaWQwSnJRVWhWUVZsM1FqQkJSamhC?=
+ =?utf-8?B?WkVGQ2VVRkhSVUZoVVVKMVFVZHJRV0puUW01QlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQ1FVRkJRVUZCUVVGQlFVbEJR?=
+ =?utf-8?B?VUZCUVVGS05FRkJRVUo2UVVkRlFXSkJRbXhCU0UxQldIZENhRUZIVFVGWmQw?=
+ =?utf-8?B?SjJRVWhWUVdKblFqQkJSamhCWTBGQ2MwRkhSVUZpWjBGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJSVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZuUVVGQlFVRkJibWRCUVVGSVRVRlpVVUp6UVVkVlFXTjNRbVpC?=
+ =?utf-8?B?U0VWQlpGRkNka0ZJVVVGYVVVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVZGQlFVRkJRVUZCUVVGRFFVRkJRVUZCUTJWQlFVRkJZM2RDZFVGSVFV?=
+ =?utf-8?B?RmpkMEptUVVkM1FXRlJRbXBCUjFWQlltZENla0ZIVlVGWWQwSXdRVWRWUVdO?=
+ =?utf-8?B?blFuUkJSamhCVFZGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVSkJRVUZCUVVGQlFVRkJTVUZCUVVGQlFVbzBRVUZC?=
+ =?utf-8?B?UW5wQlJ6UkJZMEZDZWtGR09FRmlRVUp3UVVkTlFWcFJRblZCU0UxQldsRkNa?=
+ =?utf-8?B?a0ZJVVVGYVVVSjVRVWN3UVZoM1FucEJTRkZCWkZGQ2EwRkhWVUZpWjBJd1FV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZGUVVGQlFVRkJRVUZCUVdkQlFV?=
+ =?utf-8?B?RkJRVUZ1WjBGQlFVaFpRVnAzUW1aQlIzTkJXbEZDTlVGSVkwRmlkMEo1UVVk?=
+ =?utf-8?B?UlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZC?=
+ =?utf-8?B?UVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJR?=
+ =?utf-8?B?VUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFV?=
+ =?utf-8?B?RkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVG?=
+ =?utf-8?B?QlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlFVRkJRVUZCUVVGQlVVRkJRVUZC?=
+ =?utf-8?Q?QUFBQUNBQUFBQUFBPSIvPjwvbWV0YT4=3D?=
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=angelor@synopsys.com; 
+x-originating-ip: [83.174.63.141]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 7cd88b70-ad89-477b-05b6-08d73a9237a1
+x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(5600167)(711020)(4605104)(1401327)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328)(7193020);SRVR:SN6PR12MB2846;
+x-ms-traffictypediagnostic: SN6PR12MB2846:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <SN6PR12MB284671FFFEFCEFC337B44745CB8C0@SN6PR12MB2846.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-forefront-prvs: 0162ACCC24
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(396003)(366004)(136003)(346002)(376002)(39860400002)(51914003)(189003)(199004)(53824002)(66946007)(55016002)(81156014)(81166006)(476003)(8676002)(305945005)(11346002)(74316002)(8936002)(53936002)(14454004)(33656002)(54906003)(478600001)(316002)(7696005)(76176011)(110136005)(9686003)(6246003)(561944003)(6506007)(5660300002)(53546011)(229853002)(3846002)(4326008)(64756008)(66446008)(186003)(66066001)(76116006)(7736002)(99286004)(446003)(6116002)(102836004)(486006)(26005)(52536014)(86362001)(2906002)(71200400001)(71190400001)(14444005)(256004)(25786009)(6436002)(66556008)(66476007);DIR:OUT;SFP:1102;SCL:1;SRVR:SN6PR12MB2846;H:SN6PR12MB2814.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: synopsys.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: ExiFKYtc92ZPB+m/MC3Cc5z8c/5SqD0kNiBmSBwA4PRkQrNzG2sv7dv4OJC642prchJUG/NkWmeeDSgvl41xrieNOOrxnrgHb9bHPyUdY+g7oxWqXsSptP4xGK5WF1LHG4Krlw+MrptG+dZPFa8Yg4ps4cUDxfiWPID6NEkJIcaXl33AmOFv2J4UnQmnszfvptSF4ZsSY0BVSAY9fLFya7RmC488dgzzW3IfqZy9U2BySSCAF6901Ya/2U+5zwu2D4LhPBxj14JuLpjxeVeCwXYpuWsLshET5LGEh1xAM9IIri/9Q3qHl9gyjRQ8VY5qW0qBvnx+xGVVyCLmlAbMTYDHjfIrDqlamNxon3og20/tdJVPHzx5rhHCSiBVhjSxTa05jhoFb/MbbxiSxhKpkMtqRf66McUlFUihQD6CMo0=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfGmgH9ieCyUZoHYFPdCogTq9MxB91DM7Nidj0AS8dV5zdS6z6AMk/CKpemCrBqBcz/C4PjFCY7Hr5TtUb+B+KJB6HCHwub/+WkLTMIiBoDuwZSZrTmi1
- nDH35Wyqfw14+yo9qO24AemtHvwZ5KtwEaviUlesm2GKSvqcoVsaa2bAgRw+s6xc+p5QLD7WSL4MVwHclcwaWJfu3WY2fkCDRlIaSO3GNQWfi0lF3IO9A0w3
- jza8JZ49ihVGaXeumWne5DYhr4pjf/4Xdqn6BxLNN2mpAxxpU2tKa3hj8Z6CZPRDGnBSELYF/JzNGDHHIg6YKTkXaFLC1zoVEJUG1nsWzbxS4YewliALD+zy
- 8SSU4N6iNXBjRTkdt+SJNE2J9U1FanUefTP59SsJ23wKzq0wLDE=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7cd88b70-ad89-477b-05b6-08d73a9237a1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Sep 2019 10:39:56.7331
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: /P4K9vJpOopN1lIQKLKSZFs7+tAZIwfgYsP7HhnKen0FkAz9a9T8ALpKGpseGZEnDrGkFswXM9Gh9v8VwH918g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2846
+X-OriginatorOrg: synopsys.com
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use these new standard macros to log the fourcc value in a
-human readable format.
-
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- drivers/media/v4l2-core/v4l2-ioctl.c | 58 +++++++++-------------------
- 1 file changed, 18 insertions(+), 40 deletions(-)
-
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index 51b912743f0f..8a302691447e 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -264,12 +264,9 @@ static void v4l_print_fmtdesc(const void *arg, bool write_only)
- {
- 	const struct v4l2_fmtdesc *p = arg;
- 
--	pr_cont("index=%u, type=%s, flags=0x%x, pixelformat=%c%c%c%c, description='%.*s'\n",
-+	pr_cont("index=%u, type=%s, flags=0x%x, pixelformat=" v4l2_fourcc_conv ", description='%.*s'\n",
- 		p->index, prt_names(p->type, v4l2_type_names),
--		p->flags, (p->pixelformat & 0xff),
--		(p->pixelformat >>  8) & 0xff,
--		(p->pixelformat >> 16) & 0xff,
--		(p->pixelformat >> 24) & 0xff,
-+		p->flags, v4l2_fourcc_args(p->pixelformat),
- 		(int)sizeof(p->description), p->description);
- }
- 
-@@ -291,12 +288,9 @@ static void v4l_print_format(const void *arg, bool write_only)
- 	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
- 	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
- 		pix = &p->fmt.pix;
--		pr_cont(", width=%u, height=%u, pixelformat=%c%c%c%c, field=%s, bytesperline=%u, sizeimage=%u, colorspace=%d, flags=0x%x, ycbcr_enc=%u, quantization=%u, xfer_func=%u\n",
-+		pr_cont(", width=%u, height=%u, pixelformat=" v4l2_fourcc_conv ", field=%s, bytesperline=%u, sizeimage=%u, colorspace=%d, flags=0x%x, ycbcr_enc=%u, quantization=%u, xfer_func=%u\n",
- 			pix->width, pix->height,
--			(pix->pixelformat & 0xff),
--			(pix->pixelformat >>  8) & 0xff,
--			(pix->pixelformat >> 16) & 0xff,
--			(pix->pixelformat >> 24) & 0xff,
-+			v4l2_fourcc_args(pix->pixelformat),
- 			prt_names(pix->field, v4l2_field_names),
- 			pix->bytesperline, pix->sizeimage,
- 			pix->colorspace, pix->flags, pix->ycbcr_enc,
-@@ -305,12 +299,9 @@ static void v4l_print_format(const void *arg, bool write_only)
- 	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
- 	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
- 		mp = &p->fmt.pix_mp;
--		pr_cont(", width=%u, height=%u, format=%c%c%c%c, field=%s, colorspace=%d, num_planes=%u, flags=0x%x, ycbcr_enc=%u, quantization=%u, xfer_func=%u\n",
-+		pr_cont(", width=%u, height=%u, format=" v4l2_fourcc_conv ", field=%s, colorspace=%d, num_planes=%u, flags=0x%x, ycbcr_enc=%u, quantization=%u, xfer_func=%u\n",
- 			mp->width, mp->height,
--			(mp->pixelformat & 0xff),
--			(mp->pixelformat >>  8) & 0xff,
--			(mp->pixelformat >> 16) & 0xff,
--			(mp->pixelformat >> 24) & 0xff,
-+			v4l2_fourcc_args(mp->pixelformat),
- 			prt_names(mp->field, v4l2_field_names),
- 			mp->colorspace, mp->num_planes, mp->flags,
- 			mp->ycbcr_enc, mp->quantization, mp->xfer_func);
-@@ -358,20 +349,14 @@ static void v4l_print_format(const void *arg, bool write_only)
- 	case V4L2_BUF_TYPE_SDR_CAPTURE:
- 	case V4L2_BUF_TYPE_SDR_OUTPUT:
- 		sdr = &p->fmt.sdr;
--		pr_cont(", pixelformat=%c%c%c%c\n",
--			(sdr->pixelformat >>  0) & 0xff,
--			(sdr->pixelformat >>  8) & 0xff,
--			(sdr->pixelformat >> 16) & 0xff,
--			(sdr->pixelformat >> 24) & 0xff);
-+		pr_cont(", pixelformat=" v4l2_fourcc_conv "\n",
-+			v4l2_fourcc_args(sdr->pixelformat));
- 		break;
- 	case V4L2_BUF_TYPE_META_CAPTURE:
- 	case V4L2_BUF_TYPE_META_OUTPUT:
- 		meta = &p->fmt.meta;
--		pr_cont(", dataformat=%c%c%c%c, buffersize=%u\n",
--			(meta->dataformat >>  0) & 0xff,
--			(meta->dataformat >>  8) & 0xff,
--			(meta->dataformat >> 16) & 0xff,
--			(meta->dataformat >> 24) & 0xff,
-+		pr_cont(", dataformat=" v4l2_fourcc_conv ", buffersize=%u\n",
-+			v4l2_fourcc_args(meta->dataformat),
- 			meta->buffersize);
- 		break;
- 	}
-@@ -381,15 +366,12 @@ static void v4l_print_framebuffer(const void *arg, bool write_only)
- {
- 	const struct v4l2_framebuffer *p = arg;
- 
--	pr_cont("capability=0x%x, flags=0x%x, base=0x%p, width=%u, height=%u, pixelformat=%c%c%c%c, bytesperline=%u, sizeimage=%u, colorspace=%d\n",
--			p->capability, p->flags, p->base,
--			p->fmt.width, p->fmt.height,
--			(p->fmt.pixelformat & 0xff),
--			(p->fmt.pixelformat >>  8) & 0xff,
--			(p->fmt.pixelformat >> 16) & 0xff,
--			(p->fmt.pixelformat >> 24) & 0xff,
--			p->fmt.bytesperline, p->fmt.sizeimage,
--			p->fmt.colorspace);
-+	pr_cont("capability=0x%x, flags=0x%x, base=0x%p, width=%u, height=%u, pixelformat=" v4l2_fourcc_conv ", bytesperline=%u, sizeimage=%u, colorspace=%d\n",
-+		p->capability, p->flags, p->base,
-+		p->fmt.width, p->fmt.height,
-+		v4l2_fourcc_args(p->fmt.pixelformat),
-+		p->fmt.bytesperline, p->fmt.sizeimage,
-+		p->fmt.colorspace);
- }
- 
- static void v4l_print_buftype(const void *arg, bool write_only)
-@@ -1383,12 +1365,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
- 				return;
- 			WARN(1, "Unknown pixelformat 0x%08x\n", fmt->pixelformat);
- 			flags = 0;
--			snprintf(fmt->description, sz, "%c%c%c%c%s",
--					(char)(fmt->pixelformat & 0x7f),
--					(char)((fmt->pixelformat >> 8) & 0x7f),
--					(char)((fmt->pixelformat >> 16) & 0x7f),
--					(char)((fmt->pixelformat >> 24) & 0x7f),
--					(fmt->pixelformat & (1UL << 31)) ? "-BE" : "");
-+			snprintf(fmt->description, sz, v4l2_fourcc_conv,
-+				 v4l2_fourcc_args(fmt->pixelformat));
- 			break;
- 		}
- 	}
--- 
-2.20.1
-
+RnJvbTogTGF1cmVudCBQaW5jaGFydCA8bGF1cmVudC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29t
+Pg0KRGF0ZTogTW9uLCBTZXAgMTYsIDIwMTkgYXQgMTA6NTQ6NTENCg0KPiBPbiBNb24sIFNlcCAx
+NiwgMjAxOSBhdCAxMDo0ODo1MUFNICswMjAwLCBIYW5zIFZlcmt1aWwgd3JvdGU6DQo+ID4gT24g
+OS8xNi8xOSAxMDo0MCBBTSwgSm9zZSBBYnJldSB3cm90ZToNCj4gPiA+IEZyb206IEhhbnMgVmVy
+a3VpbCA8aHZlcmt1aWxAeHM0YWxsLm5sPg0KPiA+ID4gRGF0ZTogQXVnLzE2LzIwMTksIDA5OjA2
+OjMwIChVVEMrMDA6MDApDQo+ID4gPiANCj4gPiA+PiBSYXRoZXIgdGhlbiBkaXNjdXNzaW5nIHRv
+cGljcyBmb3IgYSBtZWV0aW5nIHVuZGVyIHRoZSBzdWJqZWN0ICdMaXNib24nDQo+ID4gPj4gbGV0
+J3Mgc3RhcnQgYSBuZXcgdGhyZWFkIHJlZmVycmluZyB0byB0aGUgcmlnaHQgcGxhY2UgOi0pDQo+
+ID4gPj4NCj4gPiA+PiBJIHdpbGwgdHJ5IHRvIG9yZ2FuaXplIGEgcm9vbSwgZWl0aGVyIGR1cmlu
+ZyB0aGUgRUxDRSBvciAoaWYgdGhhdCBkb2Vzbid0DQo+ID4gPj4gd29yaykgcGVyaGFwcyBvbiB0
+aGUgVGh1cnNkYXkgYWZ0ZXJ3YXJkcy4gSWYgdGhhdCdzIGdvaW5nIHRvIGJlIGEgcHJvYmxlbQ0K
+PiA+ID4+IGZvciBzb21lb25lLCBwbGVhc2UgbGV0IG1lIGtub3cuDQo+ID4gPj4NCj4gPiA+PiBJ
+IGRvIG5lZWQgdG8ga25vdyBob3cgbWFueSBwZW9wbGUgSSBjYW4gZXhwZWN0LiBJIGhhdmUgdGhl
+IGZvbGxvd2luZw0KPiA+ID4+IGNvbmZpcm1lZCBhdHRlbmRlZXMgKGFuZCBwbGVhc2UgcmVwbHkg
+aWYgeW91IGFyZSBub3QgbGlzdGVkISk6DQo+ID4gPiANCj4gPiA+IEhpIEhhbnMsDQo+ID4gPiAN
+Cj4gPiA+IEl0J3MgYmVlbiBhIHdoaWxlLCBob3BlIHlvdSBhcmUgZG9pbmcgd2VsbCA6KQ0KPiA+
+ID4gDQo+ID4gPiBJJ20gbm8gbG9uZ2VyIHdvcmtpbmcgaW4gbWVkaWEgc3Vic3lzdGVtIGJ1dCBt
+eSBjb2xsZWFndWVzIEFuZ2VsbyBhbmQgDQo+ID4gPiBKb2FvIHdvdWxkIGxpa2UgdG8gYXR0ZW5k
+Lg0KPiA+ID4gDQo+ID4gPiBXZSBjdXJyZW50bHkgaGF2ZSBIRE1JIGFuZCBDU0kgc3VwcG9ydCBm
+b3Igb3VyIElQcyB1c2luZyBWNEwyIGFuZCB3ZSANCj4gPiA+IHdvdWxkIGxpa2UgdG8gaW50ZXJh
+Y3Qgd2l0aCB0aGUgY29tbXVuaXR5IGluIG9yZGVyIHRvIGdldCB0aGlzIA0KPiA+ID4gdXAtc3Ry
+ZWFtZWQgc28gdGhhdCB3ZSBoYXZlIGFzIG1hbnkgZmVhdHVyZXMgc3VwcG9ydGVkIGFzIHBvc3Np
+YmxlLg0KPiA+ID4gDQo+ID4gPiBJcyBpdCBwb3NzaWJsZSA/DQo+ID4gDQo+ID4gWWVzLiBUaGF0
+IHNhaWQsIHNpbmNlIHRoaXMgaXMgZmFpcmx5IHNwZWNpZmljIGFuZCBkb2Vzbid0IGZhbGwgaW50
+byBhbnkgb2YNCj4gPiB0aGUgdGhyZWUgZGlzY3Vzc2lvbnMgdGhhdCB3ZSBwbGFuIChjb2RlY3Ms
+IGxpYmNhbWVyYSwgZnV0dXJlIGRldmVsb3BtZW50cykNCj4gPiBJIHRoaW5rIGl0IGlzIG1vcmUg
+dXNlZnVsIGlmIEkgZGlzY3VzcyB0aGlzIHNlcGFyYXRlbHkgd2l0aCBBbmdlbG8gYW5kDQo+ID4g
+Sm9hbyBvbiBNb25kYXkgb3IgVHVlc2RheSBhZnRlcm5vb24uDQo+ID4gDQo+ID4gSSBjYW4gZGVm
+aW5pdGVseSBkaXNjdXNzIEhETUkgc3VwcG9ydCwgYW5kIHByb2JhYmx5IGdpdmUgYSBnb29kIHN0
+YWIgYXQgdGhlDQo+ID4gQ1NJIHN1cHBvcnQgKHRvbyBiYWQgU2FrYXJpIHdvbid0IGJlIHRoZXJl
+KS4NCj4gPiANCj4gPiBIb3cgYWJvdXQgd2UgZ2V0IHRvZ2V0aGVyIGFmdGVyIEdyZWcgS0gncyBr
+ZXlub3RlIG9uIE1vbmRheT8NCj4gDQo+IEknbGwgdHJ5IHRvIGpvaW4gYXMgd2VsbC4gSSd2ZSBy
+dW4gaW50byBpc3N1ZXMgaW4gdGhlIHBhc3Qgd2l0aCB0aGUNCj4gZGV2ZWxvcG1lbnQgcHJvY2Vz
+cyByZWxhdGVkIHRvIGFuIEhETUkgSVAgKGJ1dCBvbiB0aGUgRFJNL0tNUyBzaWRlKSwgYW5kDQo+
+IEknZCBsaWtlIHRvIHRyeSBhbmQgYXZvaWQgdGhlIHNhbWUgbWlzdGFrZXMgaGVyZS4NCj4gDQo+
+IC0tIA0KPiBSZWdhcmRzLA0KPiANCj4gTGF1cmVudCBQaW5jaGFydA0KDQpIaSwNCg0KVGhhbmtz
+IGZvciB0aGUgbWVldGluZyBwcm9wb3NhbCwgZm9yIG1lIHNvdW5kcyBncmVhdC4NCkN1cnJlbnRs
+eSBJJ20gYnVpbGRpbmcgYSBEUk0vS01TIHZpZGVvIHBpcGVsaW5lIGZvciBvdXIgSFcgc29sdXRp
+b24gd2l0aCANClN5bm9wc3lzIERTSSBJUCwgdGhhdCBpcyBzdXBwb3J0ZWQgYnkgdGhlIGR3LW1p
+cGktZHNpIGRyaXZlci4gQWxzbyBJJ20gDQpnb2luZyB0byBzdXBwb3J0IHRoZSBEZXNpZ25XYXJl
+IE1JUEkgQ1NJLTIgSG9zdCBhbmQgRC1QSFkgdGhhdCB1c2VzIFY0bDIuDQoNClJlZ2FyZHMsDQpB
+bmdlbG8gUmliZWlybw0K
