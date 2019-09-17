@@ -2,65 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 88D53B5374
-	for <lists+linux-media@lfdr.de>; Tue, 17 Sep 2019 18:55:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 692BAB55D6
+	for <lists+linux-media@lfdr.de>; Tue, 17 Sep 2019 21:00:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727399AbfIQQz0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Sep 2019 12:55:26 -0400
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:42176 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725811AbfIQQz0 (ORCPT
+        id S1729783AbfIQTAm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Sep 2019 15:00:42 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:37932 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729728AbfIQTAm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Sep 2019 12:55:26 -0400
-Received: by mail-pf1-f195.google.com with SMTP id q12so2497920pff.9
-        for <linux-media@vger.kernel.org>; Tue, 17 Sep 2019 09:55:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=P4WkZq/bkgdy7kcPMxAFnWpJbHpg8FG3L429nUcfcjw=;
-        b=nXvL8s0OGTIJ/CRYObBiAzWoKTY93asiSdgWzqhlmUp8ntNIhlXWTUfRIY0DcZJynp
-         5yBAY6LpxH63zgz/ds+KfMuoW5sGCxexwyrorAx+bUD15TK6j4na/wi7aN0xe7nscIrU
-         CCapg7+gpgIK+UeXuLpW/Yv9kdq11qwvfAz6dqrQs0nGl9gtbfv65rQa21SzMvXEG1q8
-         0cC3/awTUbEc1e4o2Bi85v4peXt8PN+zn7LIDCJXe6q3W3RoVce43vVbzLgu6d62eZyR
-         dZh6V0RBrkEDGvZXKBgJUTTMSJ7kzZQd6N3By8MEUh2okfaosay5yqEEYGbEl9grgIqq
-         N8tA==
+        Tue, 17 Sep 2019 15:00:42 -0400
+Received: by mail-oi1-f193.google.com with SMTP id 7so3838209oip.5;
+        Tue, 17 Sep 2019 12:00:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=P4WkZq/bkgdy7kcPMxAFnWpJbHpg8FG3L429nUcfcjw=;
-        b=rPPNEUHAOIvVs/FoGCaqZYWCRVRidSjBNATmzLV23mNpHNuUKgUUZQAFz7R4mdtcDx
-         30um8fGdhA/Pb3VCEIb909OitvI1pZbIQmL0pNoQkgTbWkuwbUcmYcEPbp8nTF6aIZJM
-         SiW4CyUlEYx4dq7t9l6Wwcs6qNRlkVFMkV14IbDN81AbRt8zrcU5I7v1q4e4aplRJjem
-         MOCIYezJ4QFjdzu2zrlDVhmlLrvo2JujJOURL6BSCUuKDpHTAZm8oWFvx4DzM9p1X0Vt
-         NJ1cEzWnvQjXdCsoYpzt2zhTF8+2vhseITIlPnnCbah+vZ2hztylNbCT2fSGd4WTwvep
-         Xz7A==
-X-Gm-Message-State: APjAAAXWud10Ilk5nY8I5p7NyzgOZSOfZ6YOR6rAMEA2s12Duoh8a6ZC
-        R1qZgnDGPdPAHs2UfSA406oEFGLvyVwT7QI2bNw=
-X-Google-Smtp-Source: APXvYqxEmGVVfq/CRYGPPQnXSAUdDt1GSsCEU1RFsxbB0yuT9x3XSfzLr0F+agsusa+yx+OOEuvf8tl5dIRz+wRSAdE=
-X-Received: by 2002:a62:8c10:: with SMTP id m16mr5170758pfd.58.1568739325688;
- Tue, 17 Sep 2019 09:55:25 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=KMFOJxSDmNk+ep/uvhUIXWKVpfvuQM6FW+WcSok7HNU=;
+        b=e2NwGORjRmUMKPrH6Ucwft/jRwCWqbvGwHZF22FWIIJLwU/3T+EkZFW0jaA/HGfDzW
+         92qhIrhsGIscbJBRt+jGxrdtJ4bQXH2EHu3n/kZ30FgX1GRc0JZs7EhYwD7dTSnRyEFz
+         gQu5XGflB06CMPMEakCZ2+/sqhaUuIB5Xl2J7J4lqxT4D4XW5YktGS8/fLv8u9sjlE3O
+         IkdwVx9Pm+3CgRkoqNbZk4Bp0s81QpuaoPfuDdbniIXRV1VqG26K5Ko5/H3SupHSNXg7
+         w9aSRRSziq+LxwruWslx5yQPTMin+HLISbsqWLOlKYo0DOD2IdKPGY/iftMDtHE0NvM0
+         cuaw==
+X-Gm-Message-State: APjAAAVMSeoPlChgwjpW1jr6h/Fqwe3FFTVWK73th+keZZhSJ1SCloM6
+        bQZkNxzvYeA1o8jpkMo7OA==
+X-Google-Smtp-Source: APXvYqyPBAleJPJJgi/jVRhyloWkqDSvUnLKGRJvMyJRlfhxoL2QGkUKIRHmQ4g6WVCXP1CtVtoeVQ==
+X-Received: by 2002:aca:cd58:: with SMTP id d85mr4702733oig.119.1568746841223;
+        Tue, 17 Sep 2019 12:00:41 -0700 (PDT)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id t8sm928029oic.46.2019.09.17.12.00.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Sep 2019 12:00:40 -0700 (PDT)
+Date:   Tue, 17 Sep 2019 14:00:39 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Jerry-ch Chen <Jerry-Ch.chen@mediatek.com>
+Cc:     hans.verkuil@cisco.com, laurent.pinchart+renesas@ideasonboard.com,
+        tfiga@chromium.org, matthias.bgg@gmail.com, mchehab@kernel.org,
+        lkml@metux.net, ck.hu@mediatek.com, yuzhao@chromium.org,
+        zwisler@chromium.org, linux-mediatek@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, Sean.Cheng@mediatek.com,
+        sj.huang@mediatek.com, christie.yu@mediatek.com,
+        frederic.chen@mediatek.com, Jerry-ch.Chen@mediatek.com,
+        jungo.lin@mediatek.com, po-yang.huang@mediatek.com,
+        Rynn.Wu@mediatek.com, linux-media@vger.kernel.org,
+        srv_heupstream@mediatek.com, devicetree@vger.kernel.org,
+        Jerry-ch Chen <jerry-ch.chen@mediatek.com>
+Subject: Re: [RFC PATCH V3 1/3] dt-bindings: mt8183: Added FD dt-bindings
+Message-ID: <20190917190039.GA6553@bogus>
+References: <20190906101125.3784-1-Jerry-Ch.chen@mediatek.com>
+ <20190906101125.3784-2-Jerry-Ch.chen@mediatek.com>
 MIME-Version: 1.0
-Received: by 2002:a17:90a:9b83:0:0:0:0 with HTTP; Tue, 17 Sep 2019 09:55:25
- -0700 (PDT)
-Reply-To: peacemaurice55@gmail.com
-From:   Peace maurice <okerekenwaka@gmail.com>
-Date:   Tue, 17 Sep 2019 16:55:25 +0000
-Message-ID: <CAOWzqCsfBLKJQO0NSqRtACja4bJ=OU7JJOpnBgujTZz=pk3N0Q@mail.gmail.com>
-Subject: sehr geehrter
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190906101125.3784-2-Jerry-Ch.chen@mediatek.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-DO YOU SPEAK ENGLISH?
-Lieber, ich bin Peace Maurice, es w=C3=A4re sch=C3=B6n, dich zu kennen, ich=
- habe
-eine sehr wichtige und vertrauliche Angelegenheit, die ich mit dir
-besprechen m=C3=B6chte, antworte mir f=C3=BCr weitere Diskussionen.
-Gr=C3=BC=C3=9Fe,
-Frieden.
+On Fri, 6 Sep 2019 18:11:23 +0800, Jerry-ch Chen wrote:
+> From: Jerry-ch Chen <jerry-ch.chen@mediatek.com>
+> 
+> This patch adds DT binding documentation for the Face Detection (FD)
+> unit of the Mediatek's mt8183 SoC.
+> 
+> Signed-off-by: Jerry-ch Chen <jerry-ch.chen@mediatek.com>
+> ---
+>  .../bindings/media/mediatek,mt8183-fd.txt     | 34 +++++++++++++++++++
+>  1 file changed, 34 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt8183-fd.txt
+> 
+
+Reviewed-by: Rob Herring <robh@kernel.org>
