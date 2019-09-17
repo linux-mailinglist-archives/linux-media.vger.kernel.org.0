@@ -2,494 +2,626 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 92C7BB4F9C
-	for <lists+linux-media@lfdr.de>; Tue, 17 Sep 2019 15:45:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25368B5033
+	for <lists+linux-media@lfdr.de>; Tue, 17 Sep 2019 16:18:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727698AbfIQNpa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Sep 2019 09:45:30 -0400
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:41150 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725902AbfIQNpa (ORCPT
+        id S1727629AbfIQOSB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Sep 2019 10:18:01 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:37795 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726439AbfIQOSA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Sep 2019 09:45:30 -0400
-Received: by mail-ed1-f68.google.com with SMTP id f20so934595edv.8
-        for <linux-media@vger.kernel.org>; Tue, 17 Sep 2019 06:45:28 -0700 (PDT)
+        Tue, 17 Sep 2019 10:18:00 -0400
+Received: by mail-lf1-f67.google.com with SMTP id w67so3043307lff.4
+        for <linux-media@vger.kernel.org>; Tue, 17 Sep 2019 07:17:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=mTd1sMhOugGGRtHAZ2HWIlNweABx12pg8kgneh2lnH4=;
-        b=RRbX9C94cyais1ZH4U0PtEQtpO+Uzo1P1E9c0UVPnhElfXouAd6k7w1BHg9htx2LrA
-         Tumww9Uuxiw01oZBbXLkqLxJ/UBwDoctysAyopfU+rfcJVAHqKzGpsnFo7V8AphZfmWh
-         p4kP9oouGmX4WN7pFfiJrtMjJUnnhSwGlMjHI=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=2MrBSELriSZhAHjNMYNc9KpHEr2MOm9aTry+QYLcsWQ=;
+        b=Bj76yLfbhu6I0wfJvSLfsysiu/Vv0EWrxhl9m8pz4nCUbKiY2y4l63YpILFkBDI3Y0
+         ho9oNBMC0L6q8vTL8UJb/DTN3jlBs7G5GDbIC1ue8SD2LRDAgTMIggxRIny/HYGhtE+X
+         Vav/egnQeDv7oh8mVoaEfyTecZtXZjuZoqOch5H0BZnPEOlYkTyuedh0RtDy52xY8+pO
+         dyAx4tP8xGyaZRS3E9V5DW3d4I0xRpJrCQbzPWnzeLBFosgCodMG4QN7oHnUxbbZF56e
+         ceVwUsrLgV3nQh7ASiG9LMRS1UhcFHjYsZgXMNT0gcFEbzE7uk+RY7xxrf10kPNrCMlv
+         Uwww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to:user-agent;
-        bh=mTd1sMhOugGGRtHAZ2HWIlNweABx12pg8kgneh2lnH4=;
-        b=Zkp2OgzXK5l/bRiYBs1l1z7ixBBR+OpSsUIlVcl6a5byI7UYSwoLRrSoH/He4t3KoF
-         1oMNWwYbIk3AG4iVwDUjHEkYhqB6VObtsw148cRVrmSiYFYCAMfCc29Q5o+4WyI28WIc
-         fbmISfRjeJ7D0M/EVmQiX38C8t2CvSdyrHNsvHgkywqDLAbYE23dmP6ckkWl533ixkej
-         0gdg4G9z66qxagbV23kRkRGbUr9NNzHV/qbJgz7hIfLua+MSDOyfZ++yJuXQrXtWYPj5
-         IgAHNBRLz3bfsJS1QIOlNzWO81plQZFhGklUSxd/CX8McNcGelb3xQPOM46uG/4BKmCY
-         C3lA==
-X-Gm-Message-State: APjAAAXp6JYzuFP+FipQFPZMOatRsvkVvZZ0e8zJVdoFSCpmJO7gK+ms
-        sr5Ty8EcMN0H/84Gs861oZOvcQ==
-X-Google-Smtp-Source: APXvYqzXrf8q9RajMkQh629SHTn7v7FGbkI+4yJyVVMZ+BtKqbXqL2DnoU++1o10zSkW2Dl9dc/zWA==
-X-Received: by 2002:aa7:c5c2:: with SMTP id h2mr4873307eds.260.1568727927467;
-        Tue, 17 Sep 2019 06:45:27 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net. [212.51.149.96])
-        by smtp.gmail.com with ESMTPSA id rs25sm288157ejb.14.2019.09.17.06.45.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Sep 2019 06:45:26 -0700 (PDT)
-Date:   Tue, 17 Sep 2019 15:45:24 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     "Koenig, Christian" <Christian.Koenig@amd.com>
-Cc:     Daniel Vetter <daniel@ffwll.ch>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
-        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Subject: Re: [PATCH 1/4] dma-buf: change DMA-buf locking convention
-Message-ID: <20190917134524.GY3958@phenom.ffwll.local>
-References: <20190829142917.13058-1-christian.koenig@amd.com>
- <20190829142917.13058-2-christian.koenig@amd.com>
- <20190903080522.GM2112@phenom.ffwll.local>
- <cd5acbac-73a4-a51a-4383-2c7517e7c180@gmail.com>
- <88f748d2-43de-ae2a-b895-40d8b3be5c78@gmail.com>
- <20190917123150.GM3958@phenom.ffwll.local>
- <da55aa8d-f2b8-0428-ed22-23dc17f71d77@amd.com>
- <20190917131320.GU3958@phenom.ffwll.local>
- <e0e50037-df08-86e3-e8b2-768683e5cce0@amd.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2MrBSELriSZhAHjNMYNc9KpHEr2MOm9aTry+QYLcsWQ=;
+        b=T3+TzsnUHx5fMvny6yPyR10DZHn5rICY2mdyTYSWul2SWVjB0RFRmo7wqG+eCgG7Vn
+         AhzbPCHStnTXdgw/IztZA+mTRByhBpf0CkH2ObtPUIjDHynjaIHYX6LxKmjIfOoPeBVh
+         m755DHxCAKznWmmFJiQPs41lHbbk3tstP2e295Nm/Zz3lMwwlxndUaZYx5Kvqhu5yJ9z
+         bVePzi3bOb6385tohge1rxumRl17HKpMgvKu/i1qxNQVBZPBv4WIJ2nQciDAtOrkyDkY
+         /0NcnRrE0vx8hhAhoDhTHjslXIVZegnLoCCj77vSTGYaRj/GeYGmeI7z6mvvXGMTNag0
+         YyWg==
+X-Gm-Message-State: APjAAAXgiQsLmIs+fCCCUap9ApxO8Qh1FK5d8d9oyUCSN5hMMf3bJLf5
+        r0TLMOwz4xFk9sZvwYAOGAfRdeqesxXr230a8ZA=
+X-Google-Smtp-Source: APXvYqyZ45CNKNOxCvVuBvZS4ld6L43dYYOXmoTZAMzcQYq7DdjhShJ7/p7ABHIBDYL3urubBtK6aoTjaupkyEI2EEg=
+X-Received: by 2002:ac2:5a19:: with SMTP id q25mr2238531lfn.178.1568729877705;
+ Tue, 17 Sep 2019 07:17:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <e0e50037-df08-86e3-e8b2-768683e5cce0@amd.com>
-X-Operating-System: Linux phenom 5.2.0-2-amd64 
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20190917013341.26626-1-gagallo7@gmail.com> <8bf856f9-4616-ab2e-10cf-34ad55176cf3@xs4all.nl>
+In-Reply-To: <8bf856f9-4616-ab2e-10cf-34ad55176cf3@xs4all.nl>
+From:   Guilherme Alcarde Gallo <gagallo7@gmail.com>
+Date:   Tue, 17 Sep 2019 11:17:21 -0300
+Message-ID: <CAF2jNbj_yHoOm78yAYpRC+HoVzArbmZm=da2jjJ19jx3y09GVw@mail.gmail.com>
+Subject: Re: [RFC] media: vimc: Implement frame rate control
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, lkcamp@lists.libreplanetbr.org,
+        Helen Koike <helen.koike@collabora.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Sep 17, 2019 at 01:24:10PM +0000, Koenig, Christian wrote:
-> Am 17.09.19 um 15:13 schrieb Daniel Vetter:
-> > On Tue, Sep 17, 2019 at 12:40:51PM +0000, Koenig, Christian wrote:
-> >> Am 17.09.19 um 14:31 schrieb Daniel Vetter:
-> >>> On Mon, Sep 16, 2019 at 02:23:13PM +0200, Christian König wrote:
-> >>>> Ping? Any further comment on this or can't we merge at least the locking
-> >>>> change?
-> >>> I was at plumbers ...
-> >>>> Christian.
-> >>>>
-> >>>> Am 11.09.19 um 12:53 schrieb Christian König:
-> >>>>> Am 03.09.19 um 10:05 schrieb Daniel Vetter:
-> >>>>>> On Thu, Aug 29, 2019 at 04:29:14PM +0200, Christian König wrote:
-> >>>>>>> This patch is a stripped down version of the locking changes
-> >>>>>>> necessary to support dynamic DMA-buf handling.
-> >>>>>>>
-> >>>>>>> For compatibility we cache the DMA-buf mapping as soon as
-> >>>>>>> exporter/importer disagree on the dynamic handling.
-> >>>>>>>
-> >>>>>>> Signed-off-by: Christian König <christian.koenig@amd.com>
-> >>>>>>> ---
-> >>>>>>>     drivers/dma-buf/dma-buf.c | 90
-> >>>>>>> ++++++++++++++++++++++++++++++++++++---
-> >>>>>>>     include/linux/dma-buf.h   | 51 +++++++++++++++++++++-
-> >>>>>>>     2 files changed, 133 insertions(+), 8 deletions(-)
-> >>>>>>>
-> >>>>>>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> >>>>>>> index 433d91d710e4..65052d52602b 100644
-> >>>>>>> --- a/drivers/dma-buf/dma-buf.c
-> >>>>>>> +++ b/drivers/dma-buf/dma-buf.c
-> >>>>>>> @@ -525,6 +525,10 @@ struct dma_buf *dma_buf_export(const struct
-> >>>>>>> dma_buf_export_info *exp_info)
-> >>>>>>>             return ERR_PTR(-EINVAL);
-> >>>>>>>         }
-> >>>>>>>     +    if (WARN_ON(exp_info->ops->cache_sgt_mapping &&
-> >>>>>>> +            exp_info->ops->dynamic_mapping))
-> >>>>>>> +        return ERR_PTR(-EINVAL);
-> >>>>>>> +
-> >>>>>>>         if (!try_module_get(exp_info->owner))
-> >>>>>>>             return ERR_PTR(-ENOENT);
-> >>>>>>>     @@ -645,10 +649,11 @@ void dma_buf_put(struct dma_buf *dmabuf)
-> >>>>>>>     EXPORT_SYMBOL_GPL(dma_buf_put);
-> >>>>>>>       /**
-> >>>>>>> - * dma_buf_attach - Add the device to dma_buf's attachments
-> >>>>>>> list; optionally,
-> >>>>>>> + * dma_buf_dynamic_attach - Add the device to dma_buf's
-> >>>>>>> attachments list; optionally,
-> >>>>>>>      * calls attach() of dma_buf_ops to allow device-specific
-> >>>>>>> attach functionality
-> >>>>>>> - * @dmabuf:    [in]    buffer to attach device to.
-> >>>>>>> - * @dev:    [in]    device to be attached.
-> >>>>>>> + * @dmabuf:        [in]    buffer to attach device to.
-> >>>>>>> + * @dev:        [in]    device to be attached.
-> >>>>>>> + * @dynamic_mapping:    [in]    calling convention for map/unmap
-> >>>>>>>      *
-> >>>>>>>      * Returns struct dma_buf_attachment pointer for this
-> >>>>>>> attachment. Attachments
-> >>>>>>>      * must be cleaned up by calling dma_buf_detach().
-> >>>>>>> @@ -662,8 +667,9 @@ EXPORT_SYMBOL_GPL(dma_buf_put);
-> >>>>>>>      * accessible to @dev, and cannot be moved to a more suitable
-> >>>>>>> place. This is
-> >>>>>>>      * indicated with the error code -EBUSY.
-> >>>>>>>      */
-> >>>>>>> -struct dma_buf_attachment *dma_buf_attach(struct dma_buf *dmabuf,
-> >>>>>>> -                      struct device *dev)
-> >>>>>>> +struct dma_buf_attachment *
-> >>>>>>> +dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
-> >>>>>>> +               bool dynamic_mapping)
-> >>>>>>>     {
-> >>>>>>>         struct dma_buf_attachment *attach;
-> >>>>>>>         int ret;
-> >>>>>>> @@ -677,6 +683,7 @@ struct dma_buf_attachment
-> >>>>>>> *dma_buf_attach(struct dma_buf *dmabuf,
-> >>>>>>>           attach->dev = dev;
-> >>>>>>>         attach->dmabuf = dmabuf;
-> >>>>>>> +    attach->dynamic_mapping = dynamic_mapping;
-> >>>>>>>           mutex_lock(&dmabuf->lock);
-> >>>>>>>     @@ -685,16 +692,64 @@ struct dma_buf_attachment
-> >>>>>>> *dma_buf_attach(struct dma_buf *dmabuf,
-> >>>>>>>             if (ret)
-> >>>>>>>                 goto err_attach;
-> >>>>>>>         }
-> >>>>>>> +    dma_resv_lock(dmabuf->resv, NULL);
-> >>>>>>>         list_add(&attach->node, &dmabuf->attachments);
-> >>>>>>> +    dma_resv_unlock(dmabuf->resv);
-> >>>>>>>           mutex_unlock(&dmabuf->lock);
-> >>>>>>>     +    /* When either the importer or the exporter can't handle dynamic
-> >>>>>>> +     * mappings we cache the mapping here to avoid issues with the
-> >>>>>>> +     * reservation object lock.
-> >>>>>>> +     */
-> >>>>>>> +    if (dma_buf_attachment_is_dynamic(attach) !=
-> >>>>>>> +        dma_buf_is_dynamic(dmabuf)) {
-> >>>>>>> +        struct sg_table *sgt;
-> >>>>>>> +
-> >>>>>>> +        if (dma_buf_is_dynamic(attach->dmabuf))
-> >>>>>>> +            dma_resv_lock(attach->dmabuf->resv, NULL);
-> >>>>>>> +
-> >>>>>>> +        sgt = dmabuf->ops->map_dma_buf(attach, DMA_BIDIRECTIONAL);
-> >>>>>> Now we're back to enforcing DMA_BIDI, which works nicely around the
-> >>>>>> locking pain, but apparently upsets the arm-soc folks who want to
-> >>>>>> control
-> >>>>>> this better.
-> >>>>> Take another look at dma_buf_map_attachment(), we still try to get the
-> >>>>> caching there for ARM.
-> >>>>>
-> >>>>> What we do here is to bidirectionally map the buffer to avoid the
-> >>>>> locking hydra when importer and exporter disagree on locking.
-> >>>>>
-> >>>>> So the ARM folks can easily avoid that by switching to dynamic locking
-> >>>>> for both.
-> >>> So you still break the contract between importer and exporter, except not
-> >>> for anything that's run in intel-gfx-ci so all is good?
-> >> No, the contract between importer and exporter stays exactly the same it
-> >> is currently as long as you don't switch to dynamic dma-buf handling.
-> >>
-> >> There is no functional change for the ARM folks here. The only change
-> >> which takes effect is between i915 and amdgpu and that is perfectly
-> >> covered by intel-gfx-ci.
-> > There's people who want to run amdgpu on ARM?
-> 
-> Sure there are, we even recently fixed some bugs for this.
-> 
-> But as far as I know there is no one currently which is affect by this 
-> change on ARM with amdgpu.
+Hi Hans.
+Thank you very much for your prompt response.
 
-But don't you break them with this now?
+I'll work on your suggestions.
+Please give me some days to send the next patch.
 
-amdgpu will soon set the dynamic flag on exports, which forces the caching
-at create time (to avoid the locking fun), which will then result in a
-EBUSY at map_attachment time because we have a cached mapping, but it's
-the wrong type.
+Regards,
+Guilherme
 
-> > Also, x86 doesn't have cache
-> > flushing in the dma-api, so naturally this isn't any issue for us (we
-> > still have cache flushing in actual hw, but that's a different topic). So
-> > "works on x86" isn't really a great way to justify what we do here I
-> > think.
-> 
-> Well it is the exact same caching we previously had as well, so there is 
-> absolutely no functional change here except that we now explicitly note 
-> that amdgpu always needs bidirectional mappings.
-> 
-> I agree that we should get rid of this caching as soon as possible, but 
-> we should not fix things which where broken before.
-> 
-> On the other hand adding dma_sg_sync_for_cpu/device sounds like 
-> something we could easily add separately to the caching if you think 
-> that this will help.
 
-The current code maybe lacks some cache flushes, but we already require a
-fixed direction per attachment. So I guess not a real problem, probably.
-
-But with your patches I think we now fail with EBUSY. Not exactly nice ...
--Daniel
-
-> 
-> Christian.
-> 
-> > -Daniel
+On Tue, Sep 17, 2019 at 6:14 AM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>
+> Hi Guilherme,
+>
+> Some comments below:
+>
+> On 9/17/19 3:33 AM, Guilherme Alcarde Gallo wrote:
+> > In order to make the frame rate changeable, this patch implements the
+> > ioctls VIDIOC_ENUM_FRAMEINTERVALS, VIDIOC_S_PARM and VIDIOC_G_PARM.
+> > Most of the implementation was based on vivid driver.
 > >
-> >> Regards,
-> >> Christian.
-> >>
-> >>> The other issue with "we solve this with caching the mapping": Currently
-> >>> map/unmap flush (at least on arm, at least on cases where it matters). If
-> >>> you just return the cached sg, then we don't do the flushing anymore,
-> >>> which might break importers/exporters in exactly the same way as just
-> >>> giving them the wrong mapping. There's zero differences between a BIDI,
-> >>> TO_CPU, or TO_DEVICE mapping, the only places where this matters is for
-> >>> cache flushing.
-> >>>
-> >>> So here's something that could actually work:
-> >>> - We cache the mapping.
-> >>> - We cache a bidirectional mapping.
-> >>> - We put the right dma_sg_sync_for_cpu/device calls in place for map/unmap
-> >>>     to give current importers/exporters the same behaviour they're used to
-> >>>     now.
-> >>>
-> >>> And yes the caching we've lifted might have broken something somewhere
-> >>> already. But generally you only hear about that long time after because
-> >>> arm vendors roll forward once every few years. Or something like that.
-> >>> -Daniel
-> >>>
-> >>>>> Regards,
-> >>>>> Christian.
-> >>>>>
-> >>>>>> That's why your previous version moved the caching into
-> >>>>>> map/unmap_sg, which resurrected the locking hydra.
-> >>>>>>
-> >>>>>> I think we're going a bit in circles here, and I don't have a good idea
-> >>>>>> either :-/
-> >>>>>> -Daniel
-> >>>>>>
-> >>>>>>> +        if (!sgt)
-> >>>>>>> +            sgt = ERR_PTR(-ENOMEM);
-> >>>>>>> +        if (IS_ERR(sgt)) {
-> >>>>>>> +            ret = PTR_ERR(sgt);
-> >>>>>>> +            goto err_unlock;
-> >>>>>>> +        }
-> >>>>>>> +        if (dma_buf_is_dynamic(attach->dmabuf))
-> >>>>>>> +            dma_resv_unlock(attach->dmabuf->resv);
-> >>>>>>> +        attach->sgt = sgt;
-> >>>>>>> +        attach->dir = DMA_BIDIRECTIONAL;
-> >>>>>>> +    }
-> >>>>>>> +
-> >>>>>>>         return attach;
-> >>>>>>>       err_attach:
-> >>>>>>>         kfree(attach);
-> >>>>>>>         mutex_unlock(&dmabuf->lock);
-> >>>>>>>         return ERR_PTR(ret);
-> >>>>>>> +
-> >>>>>>> +err_unlock:
-> >>>>>>> +    if (dma_buf_is_dynamic(attach->dmabuf))
-> >>>>>>> +        dma_resv_unlock(attach->dmabuf->resv);
-> >>>>>>> +
-> >>>>>>> +    dma_buf_detach(dmabuf, attach);
-> >>>>>>> +    return ERR_PTR(ret);
-> >>>>>>> +}
-> >>>>>>> +EXPORT_SYMBOL_GPL(dma_buf_dynamic_attach);
-> >>>>>>> +
-> >>>>>>> +/**
-> >>>>>>> + * dma_buf_attach - Wrapper for dma_buf_dynamic_attach
-> >>>>>>> + * @dmabuf:    [in]    buffer to attach device to.
-> >>>>>>> + * @dev:    [in]    device to be attached.
-> >>>>>>> + *
-> >>>>>>> + * Wrapper to call dma_buf_dynamic_attach() for drivers which
-> >>>>>>> still use a static
-> >>>>>>> + * mapping.
-> >>>>>>> + */
-> >>>>>>> +struct dma_buf_attachment *dma_buf_attach(struct dma_buf *dmabuf,
-> >>>>>>> +                      struct device *dev)
-> >>>>>>> +{
-> >>>>>>> +    return dma_buf_dynamic_attach(dmabuf, dev, false);
-> >>>>>>>     }
-> >>>>>>>     EXPORT_SYMBOL_GPL(dma_buf_attach);
-> >>>>>>>     @@ -711,11 +766,20 @@ void dma_buf_detach(struct dma_buf
-> >>>>>>> *dmabuf, struct dma_buf_attachment *attach)
-> >>>>>>>         if (WARN_ON(!dmabuf || !attach))
-> >>>>>>>             return;
-> >>>>>>>     -    if (attach->sgt)
-> >>>>>>> +    if (attach->sgt) {
-> >>>>>>> +        if (dma_buf_is_dynamic(attach->dmabuf))
-> >>>>>>> +            dma_resv_lock(attach->dmabuf->resv, NULL);
-> >>>>>>> +
-> >>>>>>>             dmabuf->ops->unmap_dma_buf(attach, attach->sgt, attach->dir);
-> >>>>>>>     +        if (dma_buf_is_dynamic(attach->dmabuf))
-> >>>>>>> +            dma_resv_unlock(attach->dmabuf->resv);
-> >>>>>>> +    }
-> >>>>>>> +
-> >>>>>>>         mutex_lock(&dmabuf->lock);
-> >>>>>>> +    dma_resv_lock(dmabuf->resv, NULL);
-> >>>>>>>         list_del(&attach->node);
-> >>>>>>> +    dma_resv_unlock(dmabuf->resv);
-> >>>>>>>         if (dmabuf->ops->detach)
-> >>>>>>>             dmabuf->ops->detach(dmabuf, attach);
-> >>>>>>>     @@ -749,6 +813,9 @@ struct sg_table
-> >>>>>>> *dma_buf_map_attachment(struct dma_buf_attachment *attach,
-> >>>>>>>         if (WARN_ON(!attach || !attach->dmabuf))
-> >>>>>>>             return ERR_PTR(-EINVAL);
-> >>>>>>>     +    if (dma_buf_attachment_is_dynamic(attach))
-> >>>>>>> +        dma_resv_assert_held(attach->dmabuf->resv);
-> >>>>>>> +
-> >>>>>>>         if (attach->sgt) {
-> >>>>>>>             /*
-> >>>>>>>              * Two mappings with different directions for the same
-> >>>>>>> @@ -761,6 +828,9 @@ struct sg_table
-> >>>>>>> *dma_buf_map_attachment(struct dma_buf_attachment *attach,
-> >>>>>>>             return attach->sgt;
-> >>>>>>>         }
-> >>>>>>>     +    if (dma_buf_is_dynamic(attach->dmabuf))
-> >>>>>>> +        dma_resv_assert_held(attach->dmabuf->resv);
-> >>>>>>> +
-> >>>>>>>         sg_table = attach->dmabuf->ops->map_dma_buf(attach, direction);
-> >>>>>>>         if (!sg_table)
-> >>>>>>>             sg_table = ERR_PTR(-ENOMEM);
-> >>>>>>> @@ -793,9 +863,15 @@ void dma_buf_unmap_attachment(struct
-> >>>>>>> dma_buf_attachment *attach,
-> >>>>>>>         if (WARN_ON(!attach || !attach->dmabuf || !sg_table))
-> >>>>>>>             return;
-> >>>>>>>     +    if (dma_buf_attachment_is_dynamic(attach))
-> >>>>>>> +        dma_resv_assert_held(attach->dmabuf->resv);
-> >>>>>>> +
-> >>>>>>>         if (attach->sgt == sg_table)
-> >>>>>>>             return;
-> >>>>>>>     +    if (dma_buf_is_dynamic(attach->dmabuf))
-> >>>>>>> +        dma_resv_assert_held(attach->dmabuf->resv);
-> >>>>>>> +
-> >>>>>>>         attach->dmabuf->ops->unmap_dma_buf(attach, sg_table, direction);
-> >>>>>>>     }
-> >>>>>>>     EXPORT_SYMBOL_GPL(dma_buf_unmap_attachment);
-> >>>>>>> @@ -1219,10 +1295,12 @@ static int dma_buf_debug_show(struct
-> >>>>>>> seq_file *s, void *unused)
-> >>>>>>>             seq_puts(s, "\tAttached Devices:\n");
-> >>>>>>>             attach_count = 0;
-> >>>>>>>     +        dma_resv_lock(buf_obj->resv, NULL);
-> >>>>>>>             list_for_each_entry(attach_obj, &buf_obj->attachments,
-> >>>>>>> node) {
-> >>>>>>>                 seq_printf(s, "\t%s\n", dev_name(attach_obj->dev));
-> >>>>>>>                 attach_count++;
-> >>>>>>>             }
-> >>>>>>> +        dma_resv_unlock(buf_obj->resv);
-> >>>>>>>               seq_printf(s, "Total %d devices attached\n\n",
-> >>>>>>>                     attach_count);
-> >>>>>>> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> >>>>>>> index ec212cb27fdc..a8f8b2b812fd 100644
-> >>>>>>> --- a/include/linux/dma-buf.h
-> >>>>>>> +++ b/include/linux/dma-buf.h
-> >>>>>>> @@ -42,6 +42,17 @@ struct dma_buf_ops {
-> >>>>>>>           */
-> >>>>>>>         bool cache_sgt_mapping;
-> >>>>>>>     +    /**
-> >>>>>>> +     * @dynamic_mapping:
-> >>>>>>> +     *
-> >>>>>>> +     * If true the framework makes sure that the map/unmap_dma_buf
-> >>>>>>> +     * callbacks are always called with the dma_resv object locked.
-> >>>>>>> +     *
-> >>>>>>> +     * If false the framework makes ure that the map/unmap_dma_buf
-> >>>>>>> +     * callbacks are always called without the dma_resv object locked.
-> >>>>>>> +     */
-> >>>>>>> +    bool dynamic_mapping;
-> >>>>>>> +
-> >>>>>>>         /**
-> >>>>>>>          * @attach:
-> >>>>>>>          *
-> >>>>>>> @@ -109,6 +120,9 @@ struct dma_buf_ops {
-> >>>>>>>          * any other kind of sharing that the exporter might wish to make
-> >>>>>>>          * available to buffer-users.
-> >>>>>>>          *
-> >>>>>>> +     * This is always called with the dmabuf->resv object locked when
-> >>>>>>> +     * the dynamic_mapping flag is true.
-> >>>>>>> +     *
-> >>>>>>>          * Returns:
-> >>>>>>>          *
-> >>>>>>>          * A &sg_table scatter list of or the backing storage of
-> >>>>>>> the DMA buffer,
-> >>>>>>> @@ -327,6 +341,8 @@ struct dma_buf {
-> >>>>>>>      * @sgt: cached mapping.
-> >>>>>>>      * @dir: direction of cached mapping.
-> >>>>>>>      * @priv: exporter specific attachment data.
-> >>>>>>> + * @dynamic_mapping: true if dma_buf_map/unmap_attachment() is
-> >>>>>>> called with the
-> >>>>>>> + * dma_resv lock held.
-> >>>>>>>      *
-> >>>>>>>      * This structure holds the attachment information between the
-> >>>>>>> dma_buf buffer
-> >>>>>>>      * and its user device(s). The list contains one attachment
-> >>>>>>> struct per device
-> >>>>>>> @@ -343,6 +359,7 @@ struct dma_buf_attachment {
-> >>>>>>>         struct list_head node;
-> >>>>>>>         struct sg_table *sgt;
-> >>>>>>>         enum dma_data_direction dir;
-> >>>>>>> +    bool dynamic_mapping;
-> >>>>>>>         void *priv;
-> >>>>>>>     };
-> >>>>>>>     @@ -394,10 +411,39 @@ static inline void get_dma_buf(struct
-> >>>>>>> dma_buf *dmabuf)
-> >>>>>>>         get_file(dmabuf->file);
-> >>>>>>>     }
-> >>>>>>>     +/**
-> >>>>>>> + * dma_buf_is_dynamic - check if a DMA-buf uses dynamic mappings.
-> >>>>>>> + * @dmabuf: the DMA-buf to check
-> >>>>>>> + *
-> >>>>>>> + * Returns true if a DMA-buf exporter wants to be called with
-> >>>>>>> the dma_resv
-> >>>>>>> + * locked, false if it doesn't wants to be called with the lock held.
-> >>>>>>> + */
-> >>>>>>> +static inline bool dma_buf_is_dynamic(struct dma_buf *dmabuf)
-> >>>>>>> +{
-> >>>>>>> +    return dmabuf->ops->dynamic_mapping;
-> >>>>>>> +}
-> >>>>>>> +
-> >>>>>>> +/**
-> >>>>>>> + * dma_buf_attachment_is_dynamic - check if a DMA-buf
-> >>>>>>> attachment uses dynamic
-> >>>>>>> + * mappinsg
-> >>>>>>> + * @attach: the DMA-buf attachment to check
-> >>>>>>> + *
-> >>>>>>> + * Returns true if a DMA-buf importer wants to call the
-> >>>>>>> map/unmap functions with
-> >>>>>>> + * the dma_resv lock held.
-> >>>>>>> + */
-> >>>>>>> +static inline bool
-> >>>>>>> +dma_buf_attachment_is_dynamic(struct dma_buf_attachment *attach)
-> >>>>>>> +{
-> >>>>>>> +    return attach->dynamic_mapping;
-> >>>>>>> +}
-> >>>>>>> +
-> >>>>>>>     struct dma_buf_attachment *dma_buf_attach(struct dma_buf *dmabuf,
-> >>>>>>> -                            struct device *dev);
-> >>>>>>> +                      struct device *dev);
-> >>>>>>> +struct dma_buf_attachment *
-> >>>>>>> +dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
-> >>>>>>> +               bool dynamic_mapping);
-> >>>>>>>     void dma_buf_detach(struct dma_buf *dmabuf,
-> >>>>>>> -                struct dma_buf_attachment *dmabuf_attach);
-> >>>>>>> +            struct dma_buf_attachment *attach);
-> >>>>>>>       struct dma_buf *dma_buf_export(const struct
-> >>>>>>> dma_buf_export_info *exp_info);
-> >>>>>>>     @@ -409,6 +455,7 @@ struct sg_table
-> >>>>>>> *dma_buf_map_attachment(struct dma_buf_attachment *,
-> >>>>>>>                         enum dma_data_direction);
-> >>>>>>>     void dma_buf_unmap_attachment(struct dma_buf_attachment *,
-> >>>>>>> struct sg_table *,
-> >>>>>>>                     enum dma_data_direction);
-> >>>>>>> +void dma_buf_move_notify(struct dma_buf *dma_buf);
-> >>>>>>>     int dma_buf_begin_cpu_access(struct dma_buf *dma_buf,
-> >>>>>>>                      enum dma_data_direction dir);
-> >>>>>>>     int dma_buf_end_cpu_access(struct dma_buf *dma_buf,
-> >>>>>>> -- 
-> >>>>>>> 2.17.1
-> >>>>>>>
-> 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> > The frame rate control is mainly made in vimc_force_frame_rate function,
+> > which sleeps how long is needed to achieve the desired frame rate, or do
+> > not sleep at all if it is unnecessary.
+> >
+> > There are some issues:
+> > 1. v4l2-compliance is giving one warning. See below.
+>
+> The warning means that S_PARM works, but that the compliance test didn't find
+> any valid frame intervals. So for some reason the ENUM_FRAMEINTERVALS ioctl
+> failed. You'll have to dig a bit deeper to discover the reason.
+>
+> > 2. qv4l2 is setting the frame rate to -1 FPS when it starts to stream.
+>
+> This might be related to the previous issue.
+>
+> >
+> > Signed-off-by: Guilherme Alcarde Gallo <gagallo7@gmail.com>
+> >
+> > ---
+> > NOTE: This patch was made on top of Shuah's patch
+> > "Collapse component structure into a single monolithic driver".
+> > https://patchwork.kernel.org/patch/11136201/
+> >
+> > v4l2-compliance output:
+> > v4l2-compliance SHA: b393a5408383b7341883857dfda78537f2f85ef6, 64 bits
+> >
+> > Compliance test for vimc device /dev/video0:
+> >
+> > Driver Info:
+> >       Driver name      : vimc
+> >       Card type        : vimc
+> >       Bus info         : platform:vimc
+> >       Driver version   : 5.3.0
+> >       Capabilities     : 0x84200001
+> >               Video Capture
+> >               Streaming
+> >               Extended Pix Format
+> >               Device Capabilities
+> >       Device Caps      : 0x04200001
+> >               Video Capture
+> >               Streaming
+> >               Extended Pix Format
+> > Media Driver Info:
+> >       Driver name      : vimc
+> >       Model            : VIMC MDEV
+> >       Serial           :
+> >       Bus info         : platform:vimc
+> >       Media version    : 5.3.0
+> >       Hardware revision: 0x00000000 (0)
+> >       Driver version   : 5.3.0
+> > Interface Info:
+> >       ID               : 0x0300000d
+> >       Type             : V4L Video
+> > Entity Info:
+> >       ID               : 0x0000000b (11)
+> >       Name             : Raw Capture 0
+> >       Function         : V4L2 I/O
+> >       Pad 0x0100000c   : 0: Sink
+> >         Link 0x0200001e: from remote pad 0x1000002 of entity 'Sensor A': Data, Enabled, Immutable
+> >
+> > Required ioctls:
+> >       test MC information (see 'Media Driver Info' above): OK
+> >       test VIDIOC_QUERYCAP: OK
+> >
+> > Allow for multiple opens:
+> >       test second /dev/video0 open: OK
+> >       test VIDIOC_QUERYCAP: OK
+> >       test VIDIOC_G/S_PRIORITY: OK
+> >       test for unlimited opens: OK
+> >
+> > Debug ioctls:
+> >       test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+> >       test VIDIOC_LOG_STATUS: OK (Not Supported)
+> >
+> > Input ioctls:
+> >       test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+> >       test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+> >       test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+> >       test VIDIOC_ENUMAUDIO: OK (Not Supported)
+> >       test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+> >       test VIDIOC_G/S_AUDIO: OK (Not Supported)
+> >       Inputs: 0 Audio Inputs: 0 Tuners: 0
+> >
+> > Output ioctls:
+> >       test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+> >       test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+> >       test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+> >       test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+> >       test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+> >       Outputs: 0 Audio Outputs: 0 Modulators: 0
+> >
+> > Input/Output configuration ioctls:
+> >       test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+> >       test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+> >       test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+> >       test VIDIOC_G/S_EDID: OK (Not Supported)
+> >
+> > Control ioctls:
+> >       test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+> >       test VIDIOC_QUERYCTRL: OK (Not Supported)
+> >       test VIDIOC_G/S_CTRL: OK (Not Supported)
+> >       test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+> >       test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+> >       test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+> >       Standard Controls: 0 Private Controls: 0
+> >
+> > Format ioctls:
+> >       test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+> >               warn: v4l2-test-formats.cpp(1320): S_PARM is supported for buftype 1, but not for ENUM_FRAMEINTERVALS
+> >       test VIDIOC_G/S_PARM: OK
+> >       test VIDIOC_G_FBUF: OK (Not Supported)
+> >       test VIDIOC_G_FMT: OK
+> >       test VIDIOC_TRY_FMT: OK
+> >       test VIDIOC_S_FMT: OK
+> >       test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+> >       test Cropping: OK (Not Supported)
+> >       test Composing: OK (Not Supported)
+> >       test Scaling: OK
+> >
+> > Codec ioctls:
+> >       test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+> >       test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+> >       test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+> >
+> > Buffer ioctls:
+> >       test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+> >       test VIDIOC_EXPBUF: OK
+> >       test Requests: OK (Not Supported)
+> >
+> > Total for vimc device /dev/video0: 45, Succeeded: 45, Failed: 0, Warnings: 1
+> >
+> > ---
+> > ---
+> >  drivers/media/platform/vimc/vimc-capture.c  | 129 +++++++++++++++++++-
+> >  drivers/media/platform/vimc/vimc-common.h   |  27 ++++
+> >  drivers/media/platform/vimc/vimc-streamer.c |  73 ++++++++++-
+> >  drivers/media/platform/vimc/vimc-streamer.h |   3 +
+> >  4 files changed, 229 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/media/platform/vimc/vimc-capture.c b/drivers/media/platform/vimc/vimc-capture.c
+> > index 602f80323031..b600e0dc2f1d 100644
+> > --- a/drivers/media/platform/vimc/vimc-capture.c
+> > +++ b/drivers/media/platform/vimc/vimc-capture.c
+> > @@ -165,8 +165,9 @@ static int vimc_cap_enum_framesizes(struct file *file, void *fh,
+> >               return -EINVAL;
+> >
+> >       /* Only accept code in the pix map table */
+> > -     vpix = vimc_pix_map_by_code(fsize->pixel_format);
+> > +     vpix = vimc_pix_map_by_pixelformat(fsize->pixel_format);
+> >       if (!vpix)
+> > +             pr_err("Invalid pixelformat given to %s.", __func__);
+>
+> This is not something that should be logged. I'd just drop this.
+>
+> >               return -EINVAL;
+> >
+> >       fsize->type = V4L2_FRMSIZE_TYPE_CONTINUOUS;
+> > @@ -190,6 +191,122 @@ static const struct v4l2_file_operations vimc_cap_fops = {
+> >       .mmap           = vb2_fop_mmap,
+> >  };
+> >
+> > +static int vimc_enum_frameintervals(struct file *file, void *fh,
+> > +                                 struct v4l2_frmivalenum *fival)
+> > +{
+> > +     const struct vimc_pix_map *vpix =
+> > +             vimc_pix_map_by_pixelformat(fival->pixel_format);
+> > +     const struct video_device *vdev = video_devdata(file);
+> > +
+> > +     if (vdev->vfl_dir != VFL_DIR_RX)
+> > +             return -ENOTTY;
+>
+> This test shouldn't be needed.
+>
+> > +
+> > +     /* Using step-wise frame rates. Only the first index is retrieved by the
+> > +      * application.
+> > +      */
+> > +     if (fival->index)
+> > +             return -EINVAL;
+> > +
+> > +     if (!vpix) {
+> > +             pr_err("Invalid pixelformat given to %s.", __func__);
+>
+> Just drop this.
+>
+> > +             return -EINVAL;
+> > +     }
+> > +
+> > +     /* TODO: Check the given frame dimensions when VIDIOC_ENUM_FRAMESIZES
+> > +      * is done
+> > +      */
+>
+> I don't understand this TODO.
+>
+> > +     if (fival->width < VIMC_FRAME_MIN_WIDTH ||
+> > +         fival->width > VIMC_FRAME_MAX_WIDTH ||
+> > +         fival->height < VIMC_FRAME_MIN_HEIGHT ||
+> > +         fival->height > VIMC_FRAME_MAX_HEIGHT) {
+> > +             pr_err("Invalid frame size given to %s.", __func__);
+>
+> Drop this. Invalid user arguments are never a reason to log an error.
+> This would rate at best a dev_dbg() call (same for the similar comments
+> above).
+>
+> > +             return -EINVAL;
+> > +     }
+> > +
+> > +     /*Setting a continuous step-wise approach to enumerate the frame rates*/
+> > +     fival->type = V4L2_FRMIVAL_TYPE_CONTINUOUS;
+> > +     fival->stepwise.min.numerator = tpf_min.numerator;
+> > +     fival->stepwise.min.denominator = tpf_min.denominator;
+> > +     fival->stepwise.max.numerator = tpf_max.numerator;
+> > +     fival->stepwise.max.denominator = tpf_max.denominator;
+> > +     fival->stepwise.step.numerator = 1;
+> > +     fival->stepwise.step.denominator = 1;
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static int vimc_vid_cap_g_parm(struct file *file, void *priv,
+> > +                            struct v4l2_streamparm *parm)
+> > +{
+> > +     struct vimc_cap_device *vcap = video_drvdata(file);
+> > +
+> > +     /* TODO: Update allowed types when multiplanar feature is done. */
+> > +     if (parm->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
+> > +             return -EINVAL;
+> > +
+> > +     parm->parm.capture.capability   = V4L2_CAP_TIMEPERFRAME;
+> > +     parm->parm.capture.timeperframe = vcap->stream.timeperframe_vid_cap;
+> > +     pr_debug("g_parm tpf_vid_cap: %u/%u",
+> > +              vcap->stream.timeperframe_vid_cap.numerator,
+> > +              vcap->stream.timeperframe_vid_cap.denominator);
+>
+> Drop this pr_debug. It doesn't add any useful information.
+>
+> > +     /* Setting readbuffers to 0, because read capability is not supported */
+> > +     parm->parm.capture.readbuffers = 0;
+> > +     return 0;
+> > +}
+> > +
+> > +static int vimc_vid_cap_s_parm(struct file *file, void *priv,
+> > +                            struct v4l2_streamparm *parm)
+> > +{
+> > +     struct vimc_cap_device *vcap = video_drvdata(file);
+> > +     struct v4l2_fract tpf;
+> > +
+> > +     /* TODO: Update allowed types when multiplanar feature is done. */
+> > +     if (parm->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
+> > +             return -ENOTTY;
+> > +
+> > +     tpf = parm->parm.capture.timeperframe;
+> > +
+> > +     pr_debug("s_parm %u / %u", tpf.numerator, tpf.denominator);
+> > +
+> > +     if (tpf.denominator == 0) {
+> > +             tpf = tpf_max;
+> > +     } else {
+> > +             tpf = V4L2_FRACT_COMPARE(tpf, <, tpf_min) ? tpf_min : tpf;
+> > +             tpf = V4L2_FRACT_COMPARE(tpf, >, tpf_max) ? tpf_max : tpf;
+> > +     }
+> > +
+> > +     pr_debug("final s_parm %u / %u.", tpf.numerator, tpf.denominator);
+>
+> dev_dbg is preferred over pr_debug. But I'd just drop this since these are
+> just debug lines while developing the code.
+>
+> > +     /* resync the thread's timings */
+> > +     vcap->stream.timeperframe_vid_cap = tpf;
+> > +     parm->parm.capture.capability   = V4L2_CAP_TIMEPERFRAME;
+> > +     parm->parm.capture.timeperframe = tpf;
+> > +     /* Setting readbuffers to 0, because read capability is not supported */
+> > +     parm->parm.capture.readbuffers = 0;
+> > +     return 0;
+> > +}
+> > +
+> > +static int vimc_g_parm(struct file *file, void *fh,
+> > +                    struct v4l2_streamparm *parm)
+> > +{
+> > +     struct video_device *vdev = video_devdata(file);
+> > +
+> > +     if (vdev->vfl_dir == VFL_DIR_RX)
+>
+> No need to test this.
+>
+> > +             return vimc_vid_cap_g_parm(file, fh, parm);
+> > +
+> > +     return -ENOTTY;
+> > +}
+> > +
+> > +static int vimc_s_parm(struct file *file, void *fh,
+> > +                    struct v4l2_streamparm *parm)
+> > +{
+> > +     struct video_device *vdev = video_devdata(file);
+> > +
+> > +     if (vdev->vfl_dir == VFL_DIR_RX)
+>
+> Ditto.
+>
+> > +             return vimc_vid_cap_s_parm(file, fh, parm);
+>
+> You can just move vimc_vid_cap_[g]_parm into the corresponding vimc_[gs]_parm
+> functions.
+>
+> > +
+> > +     return -ENOTTY;
+> > +}
+> > +
+> >  static const struct v4l2_ioctl_ops vimc_cap_ioctl_ops = {
+> >       .vidioc_querycap = vimc_cap_querycap,
+> >
+> > @@ -199,6 +316,10 @@ static const struct v4l2_ioctl_ops vimc_cap_ioctl_ops = {
+> >       .vidioc_enum_fmt_vid_cap = vimc_cap_enum_fmt_vid_cap,
+> >       .vidioc_enum_framesizes = vimc_cap_enum_framesizes,
+> >
+>
+> I'd drop this empty line since enum_framesizes and intervals go together.
+>
+> > +     .vidioc_enum_frameintervals = vimc_enum_frameintervals,
+> > +     .vidioc_g_parm = vimc_g_parm,
+> > +     .vidioc_s_parm = vimc_s_parm,
+> > +
+> >       .vidioc_reqbufs = vb2_ioctl_reqbufs,
+> >       .vidioc_create_bufs = vb2_ioctl_create_bufs,
+> >       .vidioc_prepare_buf = vb2_ioctl_prepare_buf,
+> > @@ -240,6 +361,10 @@ static int vimc_cap_start_streaming(struct vb2_queue *vq, unsigned int count)
+> >               return ret;
+> >       }
+> >
+> > +     pr_debug("s_stream begin. Timeperframe: %u / %u",
+> > +              vcap->stream.timeperframe_vid_cap.numerator,
+> > +              vcap->stream.timeperframe_vid_cap.denominator);
+> > +
+> >       ret = vimc_streamer_s_stream(&vcap->stream, &vcap->ved, 1);
+> >       if (ret) {
+> >               media_pipeline_stop(entity);
+> > @@ -446,6 +571,8 @@ struct vimc_ent_device *vimc_cap_add(struct vimc_device *vimc,
+> >       vcap->format.bytesperline = vcap->format.width * vpix->bpp;
+> >       vcap->format.sizeimage = vcap->format.bytesperline *
+> >                                vcap->format.height;
+> > +     vcap->stream.timeperframe_vid_cap.numerator = 1;
+> > +     vcap->stream.timeperframe_vid_cap.denominator = 60;
+> >
+> >       /* Fill the vimc_ent_device struct */
+> >       vcap->ved.ent = &vcap->vdev.entity;
+> > diff --git a/drivers/media/platform/vimc/vimc-common.h b/drivers/media/platform/vimc/vimc-common.h
+> > index 236412ad7548..930206bc925b 100644
+> > --- a/drivers/media/platform/vimc/vimc-common.h
+> > +++ b/drivers/media/platform/vimc/vimc-common.h
+> > @@ -25,6 +25,33 @@
+> >  #define VIMC_FRAME_MIN_WIDTH 16
+> >  #define VIMC_FRAME_MIN_HEIGHT 16
+> >
+> > +/* Maximum allowed frame rate
+> > + *
+> > + * vimc will allow setting timeperframe in [1/FPS_MAX - FPS_MAX/1] range.
+> > + *
+> > + * Ideally FPS_MAX should be infinity, i.e. practically UINT_MAX, but that
+> > + * might hit application errors when they manipulate these values.
+> > + *
+> > + */
+> > +#define VIMC_FPS_MAX 100
+> > +#define VIMC_FPS_MIN 1
+> > +
+> > +#define DIV64_1000(val)              (div_u64(val, 1000))
+> > +#define MS_TO_S(msec)                (DIV64_1000(msec))
+> > +#define US_TO_MS(usec)               (DIV64_1000(usec))
+> > +#define NS_TO_US(nsec)               (DIV64_1000(nsec))
+> > +#define NS_TO_MS(nsec)               (DIV64_1000(DIV64_1000(nsec)))
+> > +#define US_TO_NS(usec)               ((usec) * 1000)
+> > +#define MS_TO_US(msec)               ((msec) * 1000)
+> > +#define MS_TO_NS(msec)               ((msec) * 1000 * 1000)
+> > +#define S_TO_MS(sec)         ((sec) * 1000)
+> > +#define S_TO_US(sec)         ((sec) * 1000 * 1000)
+>
+> Why all these unused defines?
+>
+> > +
+> > +/* timeperframe: min/max and default */
+> > +static const struct v4l2_fract
+> > +     tpf_min     = {.numerator = 1,          .denominator = VIMC_FPS_MAX},
+> > +     tpf_max     = {.numerator = VIMC_FPS_MAX,       .denominator = 1};
+> > +
+> >  #define VIMC_FRAME_INDEX(lin, col, width, bpp) ((lin * width + col) * bpp)
+> >
+> >  /* Source and sink pad checks */
+> > diff --git a/drivers/media/platform/vimc/vimc-streamer.c b/drivers/media/platform/vimc/vimc-streamer.c
+> > index 048d770e498b..2b1cc7727880 100644
+> > --- a/drivers/media/platform/vimc/vimc-streamer.c
+> > +++ b/drivers/media/platform/vimc/vimc-streamer.c
+> > @@ -6,6 +6,7 @@
+> >   *
+> >   */
+> >
+> > +#include <linux/delay.h>
+> >  #include <linux/init.h>
+> >  #include <linux/module.h>
+> >  #include <linux/freezer.h>
+> > @@ -125,6 +126,52 @@ static int vimc_streamer_pipeline_init(struct vimc_stream *stream,
+> >       return -EINVAL;
+> >  }
+> >
+> > +static int vimc_force_frame_rate(u64 target_interval_ms, u64 tick)
+> > +{
+> > +     const u64 tock = ktime_get_ns();
+> > +     const u64 target_timespan_usec = MS_TO_US(target_interval_ms);
+> > +     s64 freeze_time_usec = MS_TO_US(target_interval_ms) - NS_TO_US(tock -
+> > +                                                                    tick);
+> > +     u64 frame_current_timespan_usec = 0;
+> > +
+> > +     if (target_interval_ms < S_TO_MS(1) / VIMC_FPS_MAX) {
+> > +             pr_warn("Invalid timespan given. Don't limit the FPS.");
+> > +             return -EINVAL;
+> > +     }
+> > +
+> > +     if (tick > tock) {
+> > +             pr_err("Wrong tick timing given to calculate the frame rate.");
+> > +             return -EINVAL;
+> > +     }
+> > +
+> > +     if (freeze_time_usec < 0LL) {
+> > +             /*No need to skip frames.*/
+>
+> Always add space after /* and before */
+>
+> > +             return 0;
+> > +     } else if (freeze_time_usec > MS_TO_US(20)) {
+> > +             /* From: Documentation/timers/timers-howto.rst
+>
+> Multiline comments start with a bare /* line.
+>
+> > +              * If the freeze time is greater than 20 milliseconds, use
+> > +              * msleep or msleep_interruptible.
+> > +              */
+> > +             msleep_interruptible(US_TO_MS(freeze_time_usec));
+> > +     } else {
+> > +             /* From: Documentation/timers/timers-howto.rst
+> > +              * If the freeze time is between 0.01 and 20 milliseconds, use
+> > +              * usleep_range.
+> > +              * For FPS greater than 50.
+> > +              */
+> > +             frame_current_timespan_usec = NS_TO_US(ktime_get_ns() - tick);
+> > +             while (frame_current_timespan_usec < target_timespan_usec) {
+> > +                     usleep_range(0, target_timespan_usec -
+> > +                                  frame_current_timespan_usec);
+> > +                     frame_current_timespan_usec = NS_TO_US(ktime_get_ns() -
+> > +                                                            tick);
+> > +             }
+> > +     }
+> > +
+> > +     /*Frames have been skipped to achieve the target FPS.*/
+> > +     return 0;
+> > +}
+> > +
+> >  /**
+> >   * vimc_streamer_thread - Process frames through the pipeline
+> >   *
+> > @@ -143,6 +190,23 @@ static int vimc_streamer_thread(void *data)
+> >       u8 *frame = NULL;
+> >       int i;
+> >
+> > +     u64 tick;
+> > +     u32 interval_ms = 0;
+> > +
+> > +     if (V4L2_FRACT_COMPARE(stream->timeperframe_vid_cap, <, tpf_min) ||
+> > +         V4L2_FRACT_COMPARE(stream->timeperframe_vid_cap, >, tpf_max)) {
+> > +             pr_err("Zero timeperframe_vid_cap numerator or denominator");
+> > +             return -EINVAL;
+> > +     }
+> > +
+> > +     interval_ms = S_TO_MS(stream->timeperframe_vid_cap.numerator) /
+>
+> Don't roll your own defines. You can use the MSEC_PER_SEC define if you want.
+>
+> > +             stream->timeperframe_vid_cap.denominator;
+> > +
+> > +     pr_debug("Got interval = %u s / %u fps = %u ms.",
+> > +              stream->timeperframe_vid_cap.numerator,
+> > +              stream->timeperframe_vid_cap.denominator,
+> > +              interval_ms);
+> > +
+> >       set_freezable();
+> >
+> >       for (;;) {
+> > @@ -150,15 +214,20 @@ static int vimc_streamer_thread(void *data)
+> >               if (kthread_should_stop())
+> >                       break;
+> >
+> > +             interval_ms = S_TO_MS(stream->timeperframe_vid_cap.numerator) /
+> > +                     stream->timeperframe_vid_cap.denominator;
+> > +             tick = ktime_get_ns();
+> > +
+> >               for (i = stream->pipe_size - 1; i >= 0; i--) {
+> >                       frame = stream->ved_pipeline[i]->process_frame(
+> >                                       stream->ved_pipeline[i], frame);
+> >                       if (!frame || IS_ERR(frame))
+> >                               break;
+> >               }
+> > -             //wait for 60hz
+> > +
+> >               set_current_state(TASK_UNINTERRUPTIBLE);
+> > -             schedule_timeout(HZ / 60);
+> > +
+> > +             vimc_force_frame_rate(interval_ms, tick);
+> >       }
+>
+> I'll wait for the next version before I review this timing code.
+>
+> One other vivid thing you might want to look at is the timestamping:
+> vivid tries hard to provide precise timestamping, just as would happen
+> with real hardware where the timestamp happens in an interrupt routine
+> (and so is very precise).
+>
+> See commit be7e3c3684e0 adding support for this in vivid.
+>
+> One advantage is that the fps reported by v4l2-ctl is much more precise
+> this way.
+>
+> >
+> >       return 0;
+> > diff --git a/drivers/media/platform/vimc/vimc-streamer.h b/drivers/media/platform/vimc/vimc-streamer.h
+> > index fe3c51f15fad..04d3d0ecb65c 100644
+> > --- a/drivers/media/platform/vimc/vimc-streamer.h
+> > +++ b/drivers/media/platform/vimc/vimc-streamer.h
+> > @@ -9,6 +9,7 @@
+> >  #ifndef _VIMC_STREAMER_H_
+> >  #define _VIMC_STREAMER_H_
+> >
+> > +#include <linux/videodev2.h>
+> >  #include <media/media-device.h>
+> >
+> >  #include "vimc-common.h"
+> > @@ -35,6 +36,8 @@ struct vimc_stream {
+> >       struct vimc_ent_device *ved_pipeline[VIMC_STREAMER_PIPELINE_MAX_SIZE];
+> >       unsigned int pipe_size;
+> >       struct task_struct *kthread;
+> > +
+> > +     struct v4l2_fract timeperframe_vid_cap;
+> >  };
+> >
+> >  int vimc_streamer_s_stream(struct vimc_stream *stream,
+> >
+>
+> Regards,
+>
+>         Hans
