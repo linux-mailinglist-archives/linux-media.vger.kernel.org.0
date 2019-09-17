@@ -2,63 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E822B4835
-	for <lists+linux-media@lfdr.de>; Tue, 17 Sep 2019 09:23:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C29A9B4889
+	for <lists+linux-media@lfdr.de>; Tue, 17 Sep 2019 09:52:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727635AbfIQHXv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Sep 2019 03:23:51 -0400
-Received: from protonic.xs4all.nl ([83.163.252.89]:37996 "EHLO protonic.nl"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725985AbfIQHXv (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Sep 2019 03:23:51 -0400
-X-Greylist: delayed 564 seconds by postgrey-1.27 at vger.kernel.org; Tue, 17 Sep 2019 03:23:50 EDT
-Received: from erd987.prtnl (erd987.prtnl [192.168.237.3])
-        by sparta (Postfix) with ESMTP id 63AC744A009E;
-        Tue, 17 Sep 2019 09:16:27 +0200 (CEST)
-From:   Robin van der Gracht <robin@protonic.nl>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Andreas Pretzsch <apr@cn-eng.de>,
-        Robin van der Gracht <robin@protonic.nl>
-Subject: [PATCH] media: i2c: tvp5150: Fix horizontal crop stop boundry
-Date:   Tue, 17 Sep 2019 09:14:42 +0200
-Message-Id: <20190917071442.24986-1-robin@protonic.nl>
-X-Mailer: git-send-email 2.20.1
+        id S2404517AbfIQHwD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Sep 2019 03:52:03 -0400
+Received: from ns.iliad.fr ([212.27.33.1]:42340 "EHLO ns.iliad.fr"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727479AbfIQHwD (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 17 Sep 2019 03:52:03 -0400
+Received: from ns.iliad.fr (localhost [127.0.0.1])
+        by ns.iliad.fr (Postfix) with ESMTP id 1AC8520315;
+        Tue, 17 Sep 2019 09:52:02 +0200 (CEST)
+Received: from [192.168.108.37] (freebox.vlq16.iliad.fr [213.36.7.13])
+        by ns.iliad.fr (Postfix) with ESMTP id 70E3A1FF84;
+        Tue, 17 Sep 2019 09:52:01 +0200 (CEST)
+Subject: Re: [PATCH] media: v4l: cadence: Fix how unsued lanes are handled in
+ 'csi2rx_start()'
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+References: <20190912204450.17625-1-christophe.jaillet@wanadoo.fr>
+Cc:     linux-media <linux-media@vger.kernel.org>
+From:   Marc Gonzalez <marc.w.gonzalez@free.fr>
+Message-ID: <c1a7e025-c3c7-9648-1ba9-c3f5469ac23d@free.fr>
+Date:   Tue, 17 Sep 2019 09:52:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190912204450.17625-1-christophe.jaillet@wanadoo.fr>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: ClamAV using ClamSMTP ; ns.iliad.fr ; Tue Sep 17 09:52:02 2019 +0200 (CEST)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The value for AVID stop is relative to the width of the active video area,
-not the maximum register value. Zero means equal and a negative value means
-we're cropping on the right side.
+On 12/09/2019 22:44, Christophe JAILLET wrote:
 
-Signed-off-by: Robin van der Gracht <robin@protonic.nl>
----
- drivers/media/i2c/tvp5150.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> Subject: [PATCH] media: v4l: cadence: Fix how unsued lanes are handled in 'csi2rx_start()'
 
-diff --git a/drivers/media/i2c/tvp5150.c b/drivers/media/i2c/tvp5150.c
-index f47cb9a023fb..6bc65ab5e8ab 100644
---- a/drivers/media/i2c/tvp5150.c
-+++ b/drivers/media/i2c/tvp5150.c
-@@ -1231,10 +1231,10 @@ __tvp5150_set_selection(struct v4l2_subdev *sd, struct v4l2_rect rect)
- 	regmap_write(decoder->regmap, TVP5150_ACT_VD_CROP_ST_LSB,
- 		     rect.left | (1 << TVP5150_CROP_SHIFT));
- 	regmap_write(decoder->regmap, TVP5150_ACT_VD_CROP_STP_MSB,
--		     (rect.left + rect.width - TVP5150_MAX_CROP_LEFT) >>
-+		     (rect.left + rect.width - TVP5150_H_MAX) >>
- 		     TVP5150_CROP_SHIFT);
- 	regmap_write(decoder->regmap, TVP5150_ACT_VD_CROP_STP_LSB,
--		     rect.left + rect.width - TVP5150_MAX_CROP_LEFT);
-+		     rect.left + rect.width - TVP5150_H_MAX);
- }
- 
- static int tvp5150_set_selection(struct v4l2_subdev *sd,
--- 
-2.20.1
+s/unsued/unused
 
+> The 2nd parameter of 'find_first_zero_bit()' is a number of bits, not of
+> bytes. So use 'BITS_PER_LONG' instead of 'sizeof(lanes_used)'.
+> 
+> Fixes: 1fc3b37f34f6 ("media: v4l: cadence: Add Cadence MIPI-CSI2 RX driver")
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
