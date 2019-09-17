@@ -2,327 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BE93B50D7
-	for <lists+linux-media@lfdr.de>; Tue, 17 Sep 2019 16:57:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 67406B52C7
+	for <lists+linux-media@lfdr.de>; Tue, 17 Sep 2019 18:17:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728810AbfIQO5H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Sep 2019 10:57:07 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:34010 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728802AbfIQO5H (ORCPT
+        id S1726805AbfIQQRG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Sep 2019 12:17:06 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:54722 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725825AbfIQQRG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Sep 2019 10:57:07 -0400
-Received: by mail-ot1-f68.google.com with SMTP id z26so3346665oto.1
-        for <linux-media@vger.kernel.org>; Tue, 17 Sep 2019 07:57:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=yEUqC1BdDRSydjoXzRp5u4T3tTSHAr18JcLTUznmZ8s=;
-        b=dQir1pIxwdHZmxwg4g2Tto5JSCek49AePIRQoZcX6x1NOI7TESdy782K9S7FSFKxWY
-         w4Fs4IZyaeXN0CRCNxTMfVCWYaya7AVxfXFdyIj8EIEzb1lAbAVQ9lVLTbVDOdZZWDLA
-         EBvDFA34/pLKcPkcmu2nbiXnFOW+V4ccIgwU4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=yEUqC1BdDRSydjoXzRp5u4T3tTSHAr18JcLTUznmZ8s=;
-        b=nl5MrFJL9X8hoi6OFowo6bSWtqQlfOfrCh8ImK412QMxLHKW88HQj1bPfC5EPK0mbP
-         ZEHvfUUaGAZnj/7iEoLXvs+4HjUqwUAnqkgAUK3LPjdqmRf3DL4gFGs+nWaFDrVYm6vn
-         n1LPyjbi435TsrNwIkNVXMRW4wh5RAEcNuDHz1ldYG/dDVBLh80/QLKe5XmwOybjLc0a
-         kWijS6d+MwEFsbWz41M6Cw52vdYvuagqUie3tnYfghUKdqVIDsePEBo//79MT1+qEWsU
-         MRXZD/4h2Rv7RmvCBss8aOF/5jKlHjCnBjRF02bsbOcFDxH6q4R2KFJPoTiHQgz2hjWq
-         f8Yg==
-X-Gm-Message-State: APjAAAV21wTLGiNLaEcaZFzvtrW599E8V69HKYRuRw5u0BZn+lJmm8Vr
-        nVCifZZRHr/4HTfw4Ji6B+KbBNwGVjPMxWWQ9wTLHg==
-X-Google-Smtp-Source: APXvYqyM6u2l0+8QWgXOGCY1CdZqfESgPaQniqZeXRCDLBV9ExavndEhjnhyt1FL2RiccQ1XsI3oC76hLjhiAaBa9W4=
-X-Received: by 2002:a9d:404:: with SMTP id 4mr3177485otc.204.1568732225192;
- Tue, 17 Sep 2019 07:57:05 -0700 (PDT)
+        Tue, 17 Sep 2019 12:17:06 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8HGH5m5051925;
+        Tue, 17 Sep 2019 11:17:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1568737025;
+        bh=WbAHk/bYtnH2mwW0/tGEvTI0+nk2woFFg905dMFbxXE=;
+        h=Date:From:To:CC:Subject:References:In-Reply-To;
+        b=QLYvEZO4gYfDUfS0YykpBlhIjQ/Je2AHOxa/eS+/XRlWAkedI59uvgKHg/LiNNNaC
+         iaNr/3ibbEIz1/hlyhPeytd515EANhhfBVeRlOvZvbWO29ztciQsROGJzJ7cSZp9uU
+         7ADruy6SkYPp3719J9qh9xedG2mlX9PVUzaYZbjw=
+Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8HGH5G8068621;
+        Tue, 17 Sep 2019 11:17:05 -0500
+Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Tue, 17
+ Sep 2019 11:17:02 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE102.ent.ti.com
+ (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Tue, 17 Sep 2019 11:17:02 -0500
+Received: from ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8HGH4Sq084606;
+        Tue, 17 Sep 2019 11:17:04 -0500
+Date:   Tue, 17 Sep 2019 11:19:11 -0500
+From:   Benoit Parrot <bparrot@ti.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+CC:     Prabhakar Lad <prabhakar.csengg@gmail.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [Patch 07/13] media: am437x-vpfe: Use a per instance format
+ array instead of a static one
+Message-ID: <20190917161911.tldspiynarmxd4ky@ti.com>
+References: <20190909162743.30114-1-bparrot@ti.com>
+ <20190909162743.30114-8-bparrot@ti.com>
+ <d6aebae8-570a-284a-d336-f3a9670daa0b@xs4all.nl>
 MIME-Version: 1.0
-References: <20190829142917.13058-1-christian.koenig@amd.com>
- <20190829142917.13058-2-christian.koenig@amd.com> <20190903080522.GM2112@phenom.ffwll.local>
- <cd5acbac-73a4-a51a-4383-2c7517e7c180@gmail.com> <88f748d2-43de-ae2a-b895-40d8b3be5c78@gmail.com>
- <20190917123150.GM3958@phenom.ffwll.local> <da55aa8d-f2b8-0428-ed22-23dc17f71d77@amd.com>
- <20190917131320.GU3958@phenom.ffwll.local> <e0e50037-df08-86e3-e8b2-768683e5cce0@amd.com>
- <20190917134524.GY3958@phenom.ffwll.local> <7de46ca8-8cb5-d545-42ad-6a7cb4cf753a@amd.com>
-In-Reply-To: <7de46ca8-8cb5-d545-42ad-6a7cb4cf753a@amd.com>
-From:   Daniel Vetter <daniel@ffwll.ch>
-Date:   Tue, 17 Sep 2019 16:56:53 +0200
-Message-ID: <CAKMK7uFc6CKyF-dW6FE7Hzdz5La7N265DZu_PR7=rKXFjg4QBw@mail.gmail.com>
-Subject: Re: [PATCH 1/4] dma-buf: change DMA-buf locking convention
-To:     "Koenig, Christian" <Christian.Koenig@amd.com>
-Cc:     "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
-        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d6aebae8-570a-284a-d336-f3a9670daa0b@xs4all.nl>
+User-Agent: NeoMutt/20171215
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Sep 17, 2019 at 4:47 PM Koenig, Christian
-<Christian.Koenig@amd.com> wrote:
->
-> Am 17.09.19 um 15:45 schrieb Daniel Vetter:
-> > On Tue, Sep 17, 2019 at 01:24:10PM +0000, Koenig, Christian wrote:
-> >> Am 17.09.19 um 15:13 schrieb Daniel Vetter:
-> >>> On Tue, Sep 17, 2019 at 12:40:51PM +0000, Koenig, Christian wrote:
-> >>>> Am 17.09.19 um 14:31 schrieb Daniel Vetter:
-> >>>>> On Mon, Sep 16, 2019 at 02:23:13PM +0200, Christian K=C3=B6nig wrot=
-e:
-> >>>>>> Ping? Any further comment on this or can't we merge at least the l=
-ocking
-> >>>>>> change?
-> >>>>> I was at plumbers ...
-> >>>>>> Christian.
-> >>>>>>
-> >>>>>> Am 11.09.19 um 12:53 schrieb Christian K=C3=B6nig:
-> >>>>>>> Am 03.09.19 um 10:05 schrieb Daniel Vetter:
-> >>>>>>>> On Thu, Aug 29, 2019 at 04:29:14PM +0200, Christian K=C3=B6nig w=
-rote:
-> >>>>>>>>> This patch is a stripped down version of the locking changes
-> >>>>>>>>> necessary to support dynamic DMA-buf handling.
-> >>>>>>>>>
-> >>>>>>>>> For compatibility we cache the DMA-buf mapping as soon as
-> >>>>>>>>> exporter/importer disagree on the dynamic handling.
-> >>>>>>>>>
-> >>>>>>>>> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> >>>>>>>>> ---
-> >>>>>>>>>      drivers/dma-buf/dma-buf.c | 90
-> >>>>>>>>> ++++++++++++++++++++++++++++++++++++---
-> >>>>>>>>>      include/linux/dma-buf.h   | 51 +++++++++++++++++++++-
-> >>>>>>>>>      2 files changed, 133 insertions(+), 8 deletions(-)
-> >>>>>>>>>
-> >>>>>>>>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-bu=
-f.c
-> >>>>>>>>> index 433d91d710e4..65052d52602b 100644
-> >>>>>>>>> --- a/drivers/dma-buf/dma-buf.c
-> >>>>>>>>> +++ b/drivers/dma-buf/dma-buf.c
-> >>>>>>>>> @@ -525,6 +525,10 @@ struct dma_buf *dma_buf_export(const struc=
-t
-> >>>>>>>>> dma_buf_export_info *exp_info)
-> >>>>>>>>>              return ERR_PTR(-EINVAL);
-> >>>>>>>>>          }
-> >>>>>>>>>      +    if (WARN_ON(exp_info->ops->cache_sgt_mapping &&
-> >>>>>>>>> +            exp_info->ops->dynamic_mapping))
-> >>>>>>>>> +        return ERR_PTR(-EINVAL);
-> >>>>>>>>> +
-> >>>>>>>>>          if (!try_module_get(exp_info->owner))
-> >>>>>>>>>              return ERR_PTR(-ENOENT);
-> >>>>>>>>>      @@ -645,10 +649,11 @@ void dma_buf_put(struct dma_buf *dma=
-buf)
-> >>>>>>>>>      EXPORT_SYMBOL_GPL(dma_buf_put);
-> >>>>>>>>>        /**
-> >>>>>>>>> - * dma_buf_attach - Add the device to dma_buf's attachments
-> >>>>>>>>> list; optionally,
-> >>>>>>>>> + * dma_buf_dynamic_attach - Add the device to dma_buf's
-> >>>>>>>>> attachments list; optionally,
-> >>>>>>>>>       * calls attach() of dma_buf_ops to allow device-specific
-> >>>>>>>>> attach functionality
-> >>>>>>>>> - * @dmabuf:    [in]    buffer to attach device to.
-> >>>>>>>>> - * @dev:    [in]    device to be attached.
-> >>>>>>>>> + * @dmabuf:        [in]    buffer to attach device to.
-> >>>>>>>>> + * @dev:        [in]    device to be attached.
-> >>>>>>>>> + * @dynamic_mapping:    [in]    calling convention for map/unm=
-ap
-> >>>>>>>>>       *
-> >>>>>>>>>       * Returns struct dma_buf_attachment pointer for this
-> >>>>>>>>> attachment. Attachments
-> >>>>>>>>>       * must be cleaned up by calling dma_buf_detach().
-> >>>>>>>>> @@ -662,8 +667,9 @@ EXPORT_SYMBOL_GPL(dma_buf_put);
-> >>>>>>>>>       * accessible to @dev, and cannot be moved to a more suita=
-ble
-> >>>>>>>>> place. This is
-> >>>>>>>>>       * indicated with the error code -EBUSY.
-> >>>>>>>>>       */
-> >>>>>>>>> -struct dma_buf_attachment *dma_buf_attach(struct dma_buf *dmab=
-uf,
-> >>>>>>>>> -                      struct device *dev)
-> >>>>>>>>> +struct dma_buf_attachment *
-> >>>>>>>>> +dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *=
-dev,
-> >>>>>>>>> +               bool dynamic_mapping)
-> >>>>>>>>>      {
-> >>>>>>>>>          struct dma_buf_attachment *attach;
-> >>>>>>>>>          int ret;
-> >>>>>>>>> @@ -677,6 +683,7 @@ struct dma_buf_attachment
-> >>>>>>>>> *dma_buf_attach(struct dma_buf *dmabuf,
-> >>>>>>>>>            attach->dev =3D dev;
-> >>>>>>>>>          attach->dmabuf =3D dmabuf;
-> >>>>>>>>> +    attach->dynamic_mapping =3D dynamic_mapping;
-> >>>>>>>>>            mutex_lock(&dmabuf->lock);
-> >>>>>>>>>      @@ -685,16 +692,64 @@ struct dma_buf_attachment
-> >>>>>>>>> *dma_buf_attach(struct dma_buf *dmabuf,
-> >>>>>>>>>              if (ret)
-> >>>>>>>>>                  goto err_attach;
-> >>>>>>>>>          }
-> >>>>>>>>> +    dma_resv_lock(dmabuf->resv, NULL);
-> >>>>>>>>>          list_add(&attach->node, &dmabuf->attachments);
-> >>>>>>>>> +    dma_resv_unlock(dmabuf->resv);
-> >>>>>>>>>            mutex_unlock(&dmabuf->lock);
-> >>>>>>>>>      +    /* When either the importer or the exporter can't han=
-dle dynamic
-> >>>>>>>>> +     * mappings we cache the mapping here to avoid issues with=
- the
-> >>>>>>>>> +     * reservation object lock.
-> >>>>>>>>> +     */
-> >>>>>>>>> +    if (dma_buf_attachment_is_dynamic(attach) !=3D
-> >>>>>>>>> +        dma_buf_is_dynamic(dmabuf)) {
-> >>>>>>>>> +        struct sg_table *sgt;
-> >>>>>>>>> +
-> >>>>>>>>> +        if (dma_buf_is_dynamic(attach->dmabuf))
-> >>>>>>>>> +            dma_resv_lock(attach->dmabuf->resv, NULL);
-> >>>>>>>>> +
-> >>>>>>>>> +        sgt =3D dmabuf->ops->map_dma_buf(attach, DMA_BIDIRECTI=
-ONAL);
-> >>>>>>>> Now we're back to enforcing DMA_BIDI, which works nicely around =
-the
-> >>>>>>>> locking pain, but apparently upsets the arm-soc folks who want t=
-o
-> >>>>>>>> control
-> >>>>>>>> this better.
-> >>>>>>> Take another look at dma_buf_map_attachment(), we still try to ge=
-t the
-> >>>>>>> caching there for ARM.
-> >>>>>>>
-> >>>>>>> What we do here is to bidirectionally map the buffer to avoid the
-> >>>>>>> locking hydra when importer and exporter disagree on locking.
-> >>>>>>>
-> >>>>>>> So the ARM folks can easily avoid that by switching to dynamic lo=
-cking
-> >>>>>>> for both.
-> >>>>> So you still break the contract between importer and exporter, exce=
-pt not
-> >>>>> for anything that's run in intel-gfx-ci so all is good?
-> >>>> No, the contract between importer and exporter stays exactly the sam=
-e it
-> >>>> is currently as long as you don't switch to dynamic dma-buf handling=
-.
-> >>>>
-> >>>> There is no functional change for the ARM folks here. The only chang=
-e
-> >>>> which takes effect is between i915 and amdgpu and that is perfectly
-> >>>> covered by intel-gfx-ci.
-> >>> There's people who want to run amdgpu on ARM?
-> >> Sure there are, we even recently fixed some bugs for this.
-> >>
-> >> But as far as I know there is no one currently which is affect by this
-> >> change on ARM with amdgpu.
-> > But don't you break them with this now?
->
-> No, we see the bidirectional attachment as compatible with the other ones=
-.
->
-> > amdgpu will soon set the dynamic flag on exports, which forces the cach=
-ing
-> > at create time (to avoid the locking fun), which will then result in a
-> > EBUSY at map_attachment time because we have a cached mapping, but it's
-> > the wrong type.
->
-> See the check in dma_buf_map_attachment():
->
->      if (attach->dir !=3D direction && attach->dir !=3D DMA_BIDIRECTIONAL=
-)
->          return ERR_PTR(-EBUSY);
+Hans Verkuil <hverkuil@xs4all.nl> wrote on Fri [2019-Sep-13 15:07:29 +0200]:
+> On 9/9/19 6:27 PM, Benoit Parrot wrote:
+> > +/*
+> > + * This value needs to be at least as large as the number of entry in
+> > + * formats[].
+> > + * When formats[] is modified make sure to adjust this value also.
+> > + */
+> > +#define VPFE_MAX_ACTIVE_FMT	10
+> 
+> I recommend adding something like:
+> 
+> #if ARRAY_SIZE(formats) > VPFE_MAX_ACTIVE_FMT
+> 	#error must update VPFE_MAX_ACTIVE_FMT
+> #endif
+> 
+> to am437x-vpfe.c.
+> 
+> Or something along those lines. Don't rely on just the comment :-)
 
-Hm, I misread this. So yeah should work, +/- the issue that we might
-not flush enough. But I guess that can be fixed whenever, it's not
-like dma-api semantics are a great fit for us. Maybe a fixme comment
-would be useful here ... I'll look at this tomorrow or so because atm
-brain is slow, I'm down with the usual post-conference cold it seems
-:-/
--Daniel
+I remeber doing this a while back for another driver.
+Not sure if you ever treid this or not but "#if ARRAY_SIZE()" construct
+does not work because the ARRAY_SIZE() macro which needs to evaluate
+sizeof() generates the following compiler error:
 
->
+In file included from ../include/linux/delay.h:22,
+                 from ../drivers/media/platform/am437x/am437x-vpfe.c:23:
+../include/linux/kernel.h:47:26: warning: "sizeof" is not defined,
+evaluates to 0 [-Wundef]
+ #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) +
+                          __must_be_array(arr))
+
+So no luck there. But I remembered also how I previously fixed it.
+In this case if instead of leaving the formats[] definition with empty
+brackets you actually used the same defined value like
+formats[VPFE_MAX_ACTIVE_FMT] then if you inadvertantly add more enties in
+the table then the value of VPFE_MAX_ACTIVE_FMT then you'll get series of
+compile time warnings like this:
+
+drivers/media/platform/am437x/am437x-vpfe.c:108:5: warning: excess elements
+in array initializer
+  }, {
+     ^
+drivers/media/platform/am437x/am437x-vpfe.c:108:5: note: (near initialization
+for ‘formats’)
+drivers/media/platform/am437x/am437x-vpfe.c:115:5: warning: excess elements
+in array initializer
+  }, {
+
+etc...
+
+So this is how I will address this.
+
+Benoit
+
+> 
 > Regards,
-> Christian.
->
-> >
-> >>> Also, x86 doesn't have cache
-> >>> flushing in the dma-api, so naturally this isn't any issue for us (we
-> >>> still have cache flushing in actual hw, but that's a different topic)=
-. So
-> >>> "works on x86" isn't really a great way to justify what we do here I
-> >>> think.
-> >> Well it is the exact same caching we previously had as well, so there =
-is
-> >> absolutely no functional change here except that we now explicitly not=
-e
-> >> that amdgpu always needs bidirectional mappings.
-> >>
-> >> I agree that we should get rid of this caching as soon as possible, bu=
-t
-> >> we should not fix things which where broken before.
-> >>
-> >> On the other hand adding dma_sg_sync_for_cpu/device sounds like
-> >> something we could easily add separately to the caching if you think
-> >> that this will help.
-> > The current code maybe lacks some cache flushes, but we already require=
- a
-> > fixed direction per attachment. So I guess not a real problem, probably=
-.
-> >
-> > But with your patches I think we now fail with EBUSY. Not exactly nice =
-...
-> > -Daniel
-> >
-> >> Christian.
-> >>
-> >>> -Daniel
-> >>>
-> >>>> Regards,
-> >>>> Christian.
-> >>>>
-> >>>>> The other issue with "we solve this with caching the mapping": Curr=
-ently
-> >>>>> map/unmap flush (at least on arm, at least on cases where it matter=
-s). If
-> >>>>> you just return the cached sg, then we don't do the flushing anymor=
-e,
-> >>>>> which might break importers/exporters in exactly the same way as ju=
-st
-> >>>>> giving them the wrong mapping. There's zero differences between a B=
-IDI,
-> >>>>> TO_CPU, or TO_DEVICE mapping, the only places where this matters is=
- for
-> >>>>> cache flushing.
-> >>>>>
-> >>>>> So here's something that could actually work:
-> >>>>> - We cache the mapping.
-> >>>>> - We cache a bidirectional mapping.
-> >>>>> - We put the right dma_sg_sync_for_cpu/device calls in place for ma=
-p/unmap
-> >>>>>      to give current importers/exporters the same behaviour they're=
- used to
-> >>>>>      now.
-> >>>>>
-> >>>>> And yes the caching we've lifted might have broken something somewh=
-ere
-> >>>>> already. But generally you only hear about that long time after bec=
-ause
-> >>>>> arm vendors roll forward once every few years. Or something like th=
-at.
-> >>>>> -Daniel
-> >>>>>
-> >>>>>>> Regards,
-> >>>>>>> Christian.
-> >>>>>>>
-> >>>>>>>> That's why your previous version moved the caching into
-> >>>>>>>> map/unmap_sg, which resurrected the locking hydra.
-> >>>>>>>>
-> >>>>>>>> I think we're going a bit in circles here, and I don't have a go=
-od idea
-> >>>>>>>> either :-/
-> >>>>>>>> -Daniel
-> >>>>>>>>
-> >>>>>>>>
->
-
-
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-+41 (0) 79 365 57 48 - http://blog.ffwll.ch
+> 
+> 	Hans
+> 
