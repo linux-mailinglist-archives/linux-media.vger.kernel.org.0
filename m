@@ -2,86 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 59087B5317
-	for <lists+linux-media@lfdr.de>; Tue, 17 Sep 2019 18:36:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88D53B5374
+	for <lists+linux-media@lfdr.de>; Tue, 17 Sep 2019 18:55:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730534AbfIQQf0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Sep 2019 12:35:26 -0400
-Received: from mail-io1-f66.google.com ([209.85.166.66]:38802 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730517AbfIQQfY (ORCPT
+        id S1727399AbfIQQz0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Sep 2019 12:55:26 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:42176 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725811AbfIQQz0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Sep 2019 12:35:24 -0400
-Received: by mail-io1-f66.google.com with SMTP id k5so9156127iol.5
-        for <linux-media@vger.kernel.org>; Tue, 17 Sep 2019 09:35:24 -0700 (PDT)
+        Tue, 17 Sep 2019 12:55:26 -0400
+Received: by mail-pf1-f195.google.com with SMTP id q12so2497920pff.9
+        for <linux-media@vger.kernel.org>; Tue, 17 Sep 2019 09:55:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=294+1pNE1QvrA8K+k/rIQCwQYW84ev1PmbYotCH5RCQ=;
-        b=Tfh+5yMrHUYKeKA9+q9X6Xhm8+u0RWVyyxHdAX3aZLxwUsRnoeNaDspvl/Un73Bwcq
-         pnSPCVbxML9W+UK0zA6h+xDzQ1aNt9SoJrM1RHuV/WAJ4yhq/ZC1U64Bi2Fj2iYsBIs8
-         KCi2E5pJsZ7F3KklKGa85rzhKvCnRActTpNuo=
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=P4WkZq/bkgdy7kcPMxAFnWpJbHpg8FG3L429nUcfcjw=;
+        b=nXvL8s0OGTIJ/CRYObBiAzWoKTY93asiSdgWzqhlmUp8ntNIhlXWTUfRIY0DcZJynp
+         5yBAY6LpxH63zgz/ds+KfMuoW5sGCxexwyrorAx+bUD15TK6j4na/wi7aN0xe7nscIrU
+         CCapg7+gpgIK+UeXuLpW/Yv9kdq11qwvfAz6dqrQs0nGl9gtbfv65rQa21SzMvXEG1q8
+         0cC3/awTUbEc1e4o2Bi85v4peXt8PN+zn7LIDCJXe6q3W3RoVce43vVbzLgu6d62eZyR
+         dZh6V0RBrkEDGvZXKBgJUTTMSJ7kzZQd6N3By8MEUh2okfaosay5yqEEYGbEl9grgIqq
+         N8tA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=294+1pNE1QvrA8K+k/rIQCwQYW84ev1PmbYotCH5RCQ=;
-        b=aV1kdHlu450SxSfajdqxge2UKSDeeOT3mmXDVRcnDmlpIR1TtIwUhEcJ+W5aQxotxQ
-         DwKhSqrXaVaPfbap6c/U6dnBahN2Q3waGLcQdeh9bKypIafIDuRPitK6QWtyHYeYrf8V
-         EnORYejFjqi+AqVjIVDvzaPC8PgHG03rK9mQxeqVi7j08inmE7cC1PolWugnvtq5vFXO
-         hriPlmmEpBBSFI7Tem9amNnlj5uJlnBgQysFXYmCTWiH0d5Ua+3tJWZNsza+1WcqFKhb
-         9mDSiRH4V3uGfZAMiyeij37dvPWd1WARH/0PycMqk9zppqhax/8iVR5daeLm9SUYkwbJ
-         53EQ==
-X-Gm-Message-State: APjAAAVuesT834aSIG5HjyhO53trvMWWIDK9s6BSYmWxVYTDGzzkucuR
-        EBsrav7Oe4C/l2l5b/6mYPVEBw==
-X-Google-Smtp-Source: APXvYqylcBKYmKIgGAXRltGvqqvimwBhgilW0kwtUz36uYE1R/OGf1EPI+4k/kLL9WPdRjdp2/iXxA==
-X-Received: by 2002:a02:ce2b:: with SMTP id v11mr2431784jar.134.1568738123063;
-        Tue, 17 Sep 2019 09:35:23 -0700 (PDT)
-Received: from shuah-t480s.internal (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id v3sm2593781ioh.51.2019.09.17.09.35.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Sep 2019 09:35:22 -0700 (PDT)
-From:   Shuah Khan <skhan@linuxfoundation.org>
-To:     mchehab@kernel.org, helen.koike@collabora.com,
-        skhan@linuxfoundation.org, andrealmeid@collabora.com,
-        dafna.hirschfeld@collabora.com, hverkuil-cisco@xs4all.nl,
-        davem@davemloft.net, gregkh@linuxfoundation.org,
-        nicolas.ferre@microchip.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v5 5/5] MAINTAINERS: Add reviewer to vimc driver
-Date:   Tue, 17 Sep 2019 10:35:12 -0600
-Message-Id: <e0665a825bbef9027bcbc5a9d14c3ac8b902d3c3.1568689325.git.skhan@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1568689325.git.skhan@linuxfoundation.org>
-References: <cover.1568689325.git.skhan@linuxfoundation.org>
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=P4WkZq/bkgdy7kcPMxAFnWpJbHpg8FG3L429nUcfcjw=;
+        b=rPPNEUHAOIvVs/FoGCaqZYWCRVRidSjBNATmzLV23mNpHNuUKgUUZQAFz7R4mdtcDx
+         30um8fGdhA/Pb3VCEIb909OitvI1pZbIQmL0pNoQkgTbWkuwbUcmYcEPbp8nTF6aIZJM
+         SiW4CyUlEYx4dq7t9l6Wwcs6qNRlkVFMkV14IbDN81AbRt8zrcU5I7v1q4e4aplRJjem
+         MOCIYezJ4QFjdzu2zrlDVhmlLrvo2JujJOURL6BSCUuKDpHTAZm8oWFvx4DzM9p1X0Vt
+         NJ1cEzWnvQjXdCsoYpzt2zhTF8+2vhseITIlPnnCbah+vZ2hztylNbCT2fSGd4WTwvep
+         Xz7A==
+X-Gm-Message-State: APjAAAXWud10Ilk5nY8I5p7NyzgOZSOfZ6YOR6rAMEA2s12Duoh8a6ZC
+        R1qZgnDGPdPAHs2UfSA406oEFGLvyVwT7QI2bNw=
+X-Google-Smtp-Source: APXvYqxEmGVVfq/CRYGPPQnXSAUdDt1GSsCEU1RFsxbB0yuT9x3XSfzLr0F+agsusa+yx+OOEuvf8tl5dIRz+wRSAdE=
+X-Received: by 2002:a62:8c10:: with SMTP id m16mr5170758pfd.58.1568739325688;
+ Tue, 17 Sep 2019 09:55:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a17:90a:9b83:0:0:0:0 with HTTP; Tue, 17 Sep 2019 09:55:25
+ -0700 (PDT)
+Reply-To: peacemaurice55@gmail.com
+From:   Peace maurice <okerekenwaka@gmail.com>
+Date:   Tue, 17 Sep 2019 16:55:25 +0000
+Message-ID: <CAOWzqCsfBLKJQO0NSqRtACja4bJ=OU7JJOpnBgujTZz=pk3N0Q@mail.gmail.com>
+Subject: sehr geehrter
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-After practically re-writing the driver to collpase it into a monolith,
-I am adding myself as a reviewer for vimc driver.
-
-Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
----
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7c62b45201d7..4529d257f8db 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17041,6 +17041,7 @@ F:	include/media/videobuf2-*
- 
- VIMC VIRTUAL MEDIA CONTROLLER DRIVER
- M:	Helen Koike <helen.koike@collabora.com>
-+R:	Shuah Khan <skhan@linuxfoundation.org>
- L:	linux-media@vger.kernel.org
- T:	git git://linuxtv.org/media_tree.git
- W:	https://linuxtv.org
--- 
-2.20.1
-
+DO YOU SPEAK ENGLISH?
+Lieber, ich bin Peace Maurice, es w=C3=A4re sch=C3=B6n, dich zu kennen, ich=
+ habe
+eine sehr wichtige und vertrauliche Angelegenheit, die ich mit dir
+besprechen m=C3=B6chte, antworte mir f=C3=BCr weitere Diskussionen.
+Gr=C3=BC=C3=9Fe,
+Frieden.
