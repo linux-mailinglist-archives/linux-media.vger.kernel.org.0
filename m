@@ -2,99 +2,212 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D026CB55DD
-	for <lists+linux-media@lfdr.de>; Tue, 17 Sep 2019 21:01:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9BB48B55EA
+	for <lists+linux-media@lfdr.de>; Tue, 17 Sep 2019 21:05:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729825AbfIQTBK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Sep 2019 15:01:10 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:55571 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729728AbfIQTBJ (ORCPT
+        id S1729848AbfIQTFo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Sep 2019 15:05:44 -0400
+Received: from mail-ot1-f53.google.com ([209.85.210.53]:45063 "EHLO
+        mail-ot1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729820AbfIQTFo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Sep 2019 15:01:09 -0400
-Received: by mail-wm1-f67.google.com with SMTP id a6so32645wma.5
-        for <linux-media@vger.kernel.org>; Tue, 17 Sep 2019 12:01:06 -0700 (PDT)
+        Tue, 17 Sep 2019 15:05:44 -0400
+Received: by mail-ot1-f53.google.com with SMTP id 41so4015655oti.12
+        for <linux-media@vger.kernel.org>; Tue, 17 Sep 2019 12:05:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gateworks-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=BhrzmIFijyJs8g+TQazhtEehXPAnsC0rpRPGak1WDWc=;
-        b=u5OQbZU2TyyZ4Vl2IqfhCfmY5usH9KEDhiUe7O4dnTidVHJ/Dza+hbMe+wDqAaldMB
-         LLh1/d2AgxVByB3jdoYBs0HTpfzMpJ0OyXBFrk9NG81NZWm8sAE53Nkkxyrrut5m2m5q
-         atzhSERyo7XeagDHsoN4xJL/3M1Oqek/nI3ulPOiiJFLw7xnOSF5EAy8T6hnwUDuGhnP
-         uK9M0gRAlaak4aSNMCuBS/iwuZ4mCRyp7s+PKsajVBiR3KaXcAl6jtEXkLyWaM9OYRZY
-         8CeUgjNJnzN18DqI5MjWFmDY8tdxK/DHEtPUleq6TuoaPGVoPYKah6tCq0sQDDIxAxSO
-         IIaA==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=8SKFPXCltEjb4zBozxg+q3dV9MlY8quMkDoT8CH2h0c=;
+        b=ihg+1gAjKBYj/+bXaqDD4Y4PvzrAU/LJ4kcUqE5gLB78JRAeGfza4x/C1vml2jnnnz
+         x0muA4C3aqbws8Hqsk9MvscYzr8NdCVdwgu6Xs8JPrHAZxVJu0tM8PVB33xR7R5Ieasw
+         xGyJ+VdvAXyDSzJVtg6tOo5YVt+cwBfShfms/LVJsA14kuQ1MNWAO1xA4JXWFp5WGD/c
+         dN4fexUDzLw7CHXw/8OXhPGvijvK4bGgGIRFPwOhOzPx6s8xfti4RgUiW7hR9o73o+P3
+         EooQ1ghYgAXZFzhiUDwWLtHufei2mtu4gz95nU8cxFR0WvU3FFR5fYCPxlFIYRYOM6Lg
+         2TDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=BhrzmIFijyJs8g+TQazhtEehXPAnsC0rpRPGak1WDWc=;
-        b=J6fYU6akC0X3F4CCTB6rUjtTgk4H+O1yIPeegZSydjA8DJKlpApl5fRMU4l6rQy95n
-         jV+S0yRyOKU+2I/vanrqJGuL6CnFRky03dYzLcYa4Mbm1Zyu+9PgBj7n7oBpLU1C5p5S
-         20hX+ko6eI4gmGt7+7rTQVmCyX0vdnXAUopVy91nvLhVtULCJylaXC25T6XkteV/38S8
-         om9p1X9la1r5YB+00D3mAZuoJTabTi1Ku/vmU9uhZc73vv9NKvebnwIHwWPPPqGTO728
-         iVXGYUMej7QM51g10dwI2PN9GCkqr2IIDNi1V+i4NEzbys3ypAIyjhCfcOrQNk/WFGyx
-         BX6g==
-X-Gm-Message-State: APjAAAUVBJjPi8WBTQ24++scW7ZnhZiILGDzpFF/rg0jwwMfM5tHloW5
-        nw2cKJhrIiQwZirXsotOsRXBQg1CUReJoToxE7lfY9tF
-X-Google-Smtp-Source: APXvYqy530lMRAKBm/8y8HTSX42B1bzE2QuTpQ7u3jPXkBK9jsAshbryHk2zcafaWmdoJIMlzxSxWvVsOdcydPaFchI=
-X-Received: by 2002:a7b:caa9:: with SMTP id r9mr5057746wml.14.1568746866056;
- Tue, 17 Sep 2019 12:01:06 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=8SKFPXCltEjb4zBozxg+q3dV9MlY8quMkDoT8CH2h0c=;
+        b=YljZJ3BT+ngVbp7v5fGUVNYpXq0eH+F4XDtYqMsii6FNB5obIk4Vx2V+fDY6P70TSl
+         +a/vOa6+3wXEeqfzScdsP0sNaavZIfxRmFAZaRqPZGc174hNzubILyObj/mX7zaNvEHX
+         /KVJj7cKyuCR1xqlC7Ie2n1BElxa4T96nVYmRRHzWi8fprpA3dqPqEiUeDZ3NPjV2Q0w
+         ffIQOsEW220NSFzj5yOAKtIOpVPMLPkSNNZkUjUASB6BLHSm7GvCT4PbaANCpoAgv2gr
+         hy9xVmqpovMi2ZFOKD0CtIV3mOsMKVlfFzqg6vPBIZnzu9Fvfq8FbIedpsmfuYjtJF+6
+         XdZA==
+X-Gm-Message-State: APjAAAWtgjQ6lpUEV3mhjeTv3PliBZM607vhwA6VIZXOxQHsxDt3wb7n
+        3ClOEQAK1/Y9JH2HnxRmIYgkzSQq
+X-Google-Smtp-Source: APXvYqyRonwdjN2EcZHN5a5HyqMVrI2cDeWwGQntFtA7FJjuCzdDOR6g8T5utpQOMnbBpa07UQadEA==
+X-Received: by 2002:a9d:4718:: with SMTP id a24mr311102otf.234.1568747141577;
+        Tue, 17 Sep 2019 12:05:41 -0700 (PDT)
+Received: from rYz3n.attlocal.net ([2600:1700:210:3790::48])
+        by smtp.googlemail.com with ESMTPSA id w33sm993902otb.68.2019.09.17.12.05.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Sep 2019 12:05:40 -0700 (PDT)
+From:   Jiunn Chang <c0d1n61at3@gmail.com>
+To:     linux-media@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Cc:     hverkuil@xs4all.nl
+Subject: [PATCH v2] cec-follower: add tuner analog service emulation
+Date:   Tue, 17 Sep 2019 14:05:39 -0500
+Message-Id: <20190917190539.162555-1-c0d1n61at3@gmail.com>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20190917094327.51804-1-c0d1n61at3@gmail.com>
+References: <20190917094327.51804-1-c0d1n61at3@gmail.com>
 MIME-Version: 1.0
-References: <CAJ+vNU1F0OU6j9ZbQyXwuc1JbEYrbOEK0h7hHBf-VhWrefhvpw@mail.gmail.com>
- <1568730830.8808.1.camel@pengutronix.de>
-In-Reply-To: <1568730830.8808.1.camel@pengutronix.de>
-From:   Tim Harvey <tharvey@gateworks.com>
-Date:   Tue, 17 Sep 2019 12:00:55 -0700
-Message-ID: <CAJ+vNU1ME9RT0_Jdy9j0ocvfU8imyBqZip6Y8Gfj27B6P4JvAQ@mail.gmail.com>
-Subject: Re: coda9 jpeg support?
-To:     Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     linux-media <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Sep 17, 2019 at 7:33 AM Philipp Zabel <p.zabel@pengutronix.de> wrote:
->
-> Hi Tim,
->
-> On Fri, 2019-09-13 at 09:00 -0700, Tim Harvey wrote:
-> > Greetings,
-> >
-> > What would need to be done to support JPEG enc/dec for coda9?
->
-> here is a WIP that still needs some cleanup for upstreaming:
->
->   https://git.pengutronix.de/cgit/pza/linux/log/?h=coda/jpeg
->
-> Basically I'd like to avoid adding yet another JPEG header parser to the
-> kernel, as we already have at least three:
->   drivers/media/platform/rcar_jpu.c
->   drivers/media/platform/mtk-jpeg/mtk_jpeg_parse.c
->   drivers/media/platform/s5p-jpeg/jpeg-core.c
->
-> I want to allow probing without the BIT processor firmware for blobless
-> JPEG-only support, and I'd like the JPEG codec to be able to run
-> concurrently with the BIT processor codec.
->
-> I'm working on this this week.
->
+Implement the following tuner control features:
+ - <Select Analogue Service>
+ - <Give Tuner Device Status> and reply <Tuner Device Status>
 
-Philipp,
+Signed-off-by: Jiunn Chang <c0d1n61at3@gmail.com>
+---
+ utils/cec-follower/cec-follower.h |  1 +
+ utils/cec-follower/cec-tuner.cpp  | 89 ++++++++++++++++++++++++++-----
+ 2 files changed, 78 insertions(+), 12 deletions(-)
 
-Thanks for this! I'll keep an eye out for your submission and provide testing.
+diff --git a/utils/cec-follower/cec-follower.h b/utils/cec-follower/cec-follower.h
+index 9f5f1be4..9c146be1 100644
+--- a/utils/cec-follower/cec-follower.h
++++ b/utils/cec-follower/cec-follower.h
+@@ -51,6 +51,7 @@ struct state {
+ 	__u64 rc_press_rx_ts;
+ 	unsigned rc_press_hold_count;
+ 	unsigned rc_duration_sum;
++	struct cec_op_tuner_device_info tuner_dev_info;
+ };
+ 
+ struct node {
+diff --git a/utils/cec-follower/cec-tuner.cpp b/utils/cec-follower/cec-tuner.cpp
+index 912adcb9..ffd1776f 100644
+--- a/utils/cec-follower/cec-tuner.cpp
++++ b/utils/cec-follower/cec-tuner.cpp
+@@ -4,6 +4,7 @@
+  */
+ 
+ #include <sys/ioctl.h>
++#include <stdlib.h>
+ 
+ #include "cec-follower.h"
+ 
+@@ -87,6 +88,67 @@ static unsigned int analog_freqs_khz[3][9][3] =
+ 	}
+ };
+ 
++static struct state state;
++
++static void set_analog_channel_freq(__u16 *ana_freq)
++{
++	unsigned int ana_freq_khz = (*ana_freq * 625) / 10;
++	unsigned int current = analog_freqs_khz[state.tuner_dev_info.analog.bcast_system][state.tuner_dev_info.analog.ana_bcast_type][0];
++	for (int i = 0; i < 3; i++) {
++		if (abs(int(ana_freq_khz - analog_freqs_khz[state.tuner_dev_info.analog.bcast_system][state.tuner_dev_info.analog.ana_bcast_type][i])) <
++		    abs(int(ana_freq_khz - current))) {
++			current = analog_freqs_khz[state.tuner_dev_info.analog.bcast_system][state.tuner_dev_info.analog.ana_bcast_type][i];
++		}
++	}
++	state.tuner_dev_info.analog.ana_freq = (current * 10) / 625;
++}
++
++static bool set_analog_tuner_dev_info(const struct cec_msg *msg)
++{
++	state.tuner_dev_info.rec_flag = CEC_OP_REC_FLAG_NOT_USED;
++	state.tuner_dev_info.tuner_display_info = CEC_OP_TUNER_DISPLAY_INFO_ANALOGUE;
++	state.tuner_dev_info.is_analog = true;
++	cec_ops_select_analogue_service(msg,
++					&state.tuner_dev_info.analog.ana_bcast_type,
++					&state.tuner_dev_info.analog.ana_freq,
++					&state.tuner_dev_info.analog.bcast_system);
++	if (state.tuner_dev_info.analog.ana_bcast_type > 2 ||
++	    state.tuner_dev_info.analog.bcast_system > 8)
++		return false;
++	set_analog_channel_freq(&state.tuner_dev_info.analog.ana_freq);
++	return true;
++}
++
++static void reply_feature_abort(struct node *node, struct cec_msg *msg, __u8 reason = CEC_OP_ABORT_UNRECOGNIZED_OP)
++{
++	unsigned la = cec_msg_initiator(msg);
++	__u8 opcode = cec_msg_opcode(msg);
++	__u64 ts_now = get_ts();
++
++	if (cec_msg_is_broadcast(msg) || cec_msg_initiator(msg) == CEC_LOG_ADDR_UNREGISTERED)
++		return;
++	if (reason == CEC_OP_ABORT_UNRECOGNIZED_OP) {
++		la_info[la].feature_aborted[opcode].count++;
++		if (la_info[la].feature_aborted[opcode].count == 2) {
++			/* If the Abort Reason was "Unrecognized opcode", the Initiator should not send
++			   the same message to the same Follower again at that time to avoid saturating
++			   the bus. */
++			warn("Received message %s from LA %d (%s) shortly after\n",
++				opcode2s(msg).c_str(), la, la2s(la));
++			warn("replying Feature Abort [Unrecognized Opcode] to the same message.\n");
++		}
++	}
++	else if (la_info[la].feature_aborted[opcode].count) {
++		warn("Replying Feature Abort with abort reason different than [Unrecognized Opcode]\n");
++		warn("to message that has previously been replied Feature Abort to with [Unrecognized Opcode].\n");
++	}
++	else
++		la_info[la].feature_aborted[opcode].ts = ts_now;
++
++	cec_msg_reply_feature_abort(msg, reason);
++	transmit(node, msg);
++}
++
+ void process_tuner_record_timer_msgs(struct node *node, struct cec_msg &msg, unsigned me)
+ {
+ 	switch (msg.msg[1]) {
+@@ -101,21 +163,11 @@ void process_tuner_record_timer_msgs(struct node *node, struct cec_msg &msg, uns
+ 		*/
+ 
+ 	case CEC_MSG_GIVE_TUNER_DEVICE_STATUS: {
+-		if (!cec_has_tuner(1 << me))
++		if (!cec_has_tuner(1 << me) && !cec_has_tv(1 << me))
+ 			break;
+ 
+-		struct cec_op_tuner_device_info tuner_dev_info = {};
+-
+ 		cec_msg_set_reply_to(&msg, &msg);
+-		tuner_dev_info.rec_flag = CEC_OP_REC_FLAG_NOT_USED;
+-		tuner_dev_info.tuner_display_info = CEC_OP_TUNER_DISPLAY_INFO_NONE;
+-		tuner_dev_info.is_analog = false;
+-		tuner_dev_info.digital.service_id_method = CEC_OP_SERVICE_ID_METHOD_BY_CHANNEL;
+-		tuner_dev_info.digital.dig_bcast_system = CEC_OP_DIG_SERVICE_BCAST_SYSTEM_DVB_C;
+-		tuner_dev_info.digital.channel.channel_number_fmt = CEC_OP_CHANNEL_NUMBER_FMT_1_PART;
+-		tuner_dev_info.digital.channel.minor = 1;
+-
+-		cec_msg_tuner_device_status(&msg, &tuner_dev_info);
++		cec_msg_tuner_device_status(&msg, &state.tuner_dev_info);
+ 		transmit(node, &msg);
+ 		return;
+ 	}
+@@ -124,6 +176,19 @@ void process_tuner_record_timer_msgs(struct node *node, struct cec_msg &msg, uns
+ 		return;
+ 
+ 	case CEC_MSG_SELECT_ANALOGUE_SERVICE:
++		if (!cec_has_tuner(1 << me) && !cec_has_tv(1 << me))
++			break;
++
++		if (state.tuner_dev_info.rec_flag == CEC_OP_REC_FLAG_USED) {
++			reply_feature_abort(node, &msg, CEC_OP_ABORT_REFUSED);
++			return;
++		}
++		if (!set_analog_tuner_dev_info(&msg)) {
++			reply_feature_abort(node, &msg, CEC_OP_ABORT_INVALID_OP);
++			return;
++		}
++		return;
++
+ 	case CEC_MSG_SELECT_DIGITAL_SERVICE:
+ 	case CEC_MSG_TUNER_STEP_DECREMENT:
+ 	case CEC_MSG_TUNER_STEP_INCREMENT:
+-- 
+2.23.0
 
-I have pulled your branch and boot-tested it. I see the 2 new video
-devices but noticed that the JPEG decoder shows up as an element for
-video4linux2 the JPEG encoder doesn't show up (gstreamer v1.14.5) -
-any idea why that would be?
-
-Thanks,
-
-Tim
-
-
-Tim
