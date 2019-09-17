@@ -2,145 +2,258 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C67EB5624
-	for <lists+linux-media@lfdr.de>; Tue, 17 Sep 2019 21:27:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A17B8B56D7
+	for <lists+linux-media@lfdr.de>; Tue, 17 Sep 2019 22:23:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730260AbfIQT1m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Sep 2019 15:27:42 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:43852 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726025AbfIQT1m (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Sep 2019 15:27:42 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: koike)
-        with ESMTPSA id 8E57628C513
-Subject: Re: [PATCH v5 5/5] MAINTAINERS: Add reviewer to vimc driver
-To:     Shuah Khan <skhan@linuxfoundation.org>, mchehab@kernel.org,
-        andrealmeid@collabora.com, dafna.hirschfeld@collabora.com,
-        hverkuil-cisco@xs4all.nl, davem@davemloft.net,
-        gregkh@linuxfoundation.org, nicolas.ferre@microchip.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <cover.1568689325.git.skhan@linuxfoundation.org>
- <e0665a825bbef9027bcbc5a9d14c3ac8b902d3c3.1568689325.git.skhan@linuxfoundation.org>
-From:   Helen Koike <helen.koike@collabora.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=helen.koike@collabora.com; keydata=
- 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
-Message-ID: <a68d769a-8024-afe7-c715-98602c37c485@collabora.com>
-Date:   Tue, 17 Sep 2019 16:27:33 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        id S1726194AbfIQUXX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Sep 2019 16:23:23 -0400
+Received: from mail-eopbgr820041.outbound.protection.outlook.com ([40.107.82.41]:43265
+        "EHLO NAM01-SN1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725862AbfIQUXX (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 17 Sep 2019 16:23:23 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Kz7W2LvBrYItJpksyQXwQRbo/XnWmPiffIGE5FMTWFSkpUnGBHxsV9E3ekOYUdQ9ZrgWuPOyXz5JkvxCymvCfvYuMibfPbEClfL8RsKRwGuEghVZTeQG6lnIkf3X3Xy9JuESpOpsGJgxHGA8AoWuqYy9QCMNaWbHeh4IzsGXywWuv2VnUk1R04fZzUb69+wQ+B7vUM6MUKJXXO16Ms9UNLPQ8zs1LzeGB52ql88gk5Xui0cpkVkvECYkzK6Feze81V9RsWeRwAyndpUH3KvHFtm5uHxWmHOoyuMye5GX3RS2MsIoWXLDchWzsjhH+g8OLKbyTG2iAIlGdXyb/mMnrQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pwXrvOmDVmVyq64hMbhAF0PuJaQpuzxzcUF+0Dlr9E8=;
+ b=IoOXRa64X4RbYE4bDpzpj8hqrYSTo+3SCsaoUVSgkf9gpZUVqOCnocsz/fG5sqoyKjJtBt/6nmin7ZxvzPX1XBbZ7Ko4Z3O7VdpbasF/ED/mD1SBgqGaQVKRodbTDueOEwGvkNTvtzPErwFw6CdRxcsY923EH9POkrBOBz5hxjxGgyJAR+jR937F/WsEmh6yGGAiVdKtAFl65i8jVEYCD2GxyrRafzdJR8PlNzORI4hiKsLCbOzSx6b+pVVC0ojGCLsr4sXksfvkNNiyInnBw71T/dWAiKojTREeSExujdroZGIKzdwVrMzuWWWlbyi8eJkwqyyfmGuKnIFh4CsWfw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.60.100) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pwXrvOmDVmVyq64hMbhAF0PuJaQpuzxzcUF+0Dlr9E8=;
+ b=RYmQUGGDrv4KijVoi50T8dC1eFG/gTE74oyXiZKeu1Vl3njG9yD/CU+Z2Ct3Asma+r/KG2Dumkuat94foSJGGJeesDeTV4s7cV4Wm88Yb7qMk18GK/gnwRKvykr8+oPx5PDbwShweWxO9/S97HyOmpilgGissmwwKHiAFdyxTb0=
+Received: from MWHPR0201CA0033.namprd02.prod.outlook.com
+ (2603:10b6:301:74::46) by SN6PR02MB5263.namprd02.prod.outlook.com
+ (2603:10b6:805:70::32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2284.19; Tue, 17 Sep
+ 2019 20:21:40 +0000
+Received: from CY1NAM02FT022.eop-nam02.prod.protection.outlook.com
+ (2a01:111:f400:7e45::202) by MWHPR0201CA0033.outlook.office365.com
+ (2603:10b6:301:74::46) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.2263.15 via Frontend
+ Transport; Tue, 17 Sep 2019 20:21:40 +0000
+Authentication-Results: spf=pass (sender IP is 149.199.60.100)
+ smtp.mailfrom=xilinx.com; vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.60.100 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.60.100; helo=xsj-pvapsmtpgw02;
+Received: from xsj-pvapsmtpgw02 (149.199.60.100) by
+ CY1NAM02FT022.mail.protection.outlook.com (10.152.75.185) with Microsoft SMTP
+ Server (version=TLS1_0, cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.2263.17
+ via Frontend Transport; Tue, 17 Sep 2019 20:21:40 +0000
+Received: from unknown-38-66.xilinx.com ([149.199.38.66]:42288 helo=xsj-pvapsmtp01)
+        by xsj-pvapsmtpgw02 with esmtp (Exim 4.63)
+        (envelope-from <dylan.yip@xilinx.com>)
+        id 1iAJyl-0004n5-FB
+        for linux-media@vger.kernel.org; Tue, 17 Sep 2019 13:21:39 -0700
+Received: from [127.0.0.1] (helo=localhost)
+        by xsj-pvapsmtp01 with smtp (Exim 4.63)
+        (envelope-from <dylan.yip@xilinx.com>)
+        id 1iAJyg-0002l3-Bb
+        for linux-media@vger.kernel.org; Tue, 17 Sep 2019 13:21:34 -0700
+Received: from xsj-pvapsmtp01 (xsj-smtp.xilinx.com [149.199.38.66])
+        by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id x8HKLRMm008553;
+        Tue, 17 Sep 2019 13:21:27 -0700
+Received: from [172.19.2.242] (helo=xsjmadhurki50.xilinx.com)
+        by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+        (envelope-from <dylan.yip@xilinx.com>)
+        id 1iAJyZ-0002kT-6i; Tue, 17 Sep 2019 13:21:27 -0700
+From:   Dylan Yip <dylan.yip@xilinx.com>
+To:     linux-media@vger.kernel.org, satishna@xilinx.com
+Cc:     Dylan Yip <dylan.yip@xilinx.com>
+Subject: [LINUX PATCH] dma-mapping: Control memset operation using gfp flags
+Date:   Tue, 17 Sep 2019 13:21:24 -0700
+Message-Id: <1568751684-8809-1-git-send-email-dylan.yip@xilinx.com>
+X-Mailer: git-send-email 2.7.4
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:149.199.60.100;IPV:NLI;CTRY:US;EFV:NLI;SFV:NSPM;SFS:(10009020)(4636009)(346002)(136003)(396003)(39860400002)(376002)(199004)(189003)(9786002)(50466002)(6636002)(107886003)(4326008)(2906002)(50226002)(14444005)(36386004)(36756003)(305945005)(47776003)(70206006)(70586007)(7696005)(51416003)(16586007)(6666004)(316002)(186003)(26005)(356004)(48376002)(478600001)(486006)(44832011)(106002)(8936002)(5660300002)(81156014)(426003)(8676002)(336012)(476003)(126002)(2616005)(81166006)(5001870100001);DIR:OUT;SFP:1101;SCL:1;SRVR:SN6PR02MB5263;H:xsj-pvapsmtpgw02;FPR:;SPF:Pass;LANG:en;PTR:unknown-60-100.xilinx.com,xapps1.xilinx.com;A:1;MX:1;
 MIME-Version: 1.0
-In-Reply-To: <e0665a825bbef9027bcbc5a9d14c3ac8b902d3c3.1568689325.git.skhan@linuxfoundation.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4756a82e-a08e-4ed2-4e5c-08d73baca60c
+X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600167)(711020)(4605104)(4709080)(1401327)(4618075)(2017052603328);SRVR:SN6PR02MB5263;
+X-MS-TrafficTypeDiagnostic: SN6PR02MB5263:
+X-Microsoft-Antispam-PRVS: <SN6PR02MB5263AB4419D5906445B46363B08F0@SN6PR02MB5263.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-Forefront-PRVS: 01630974C0
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam-Message-Info: l0U8FVPQJ8WxxYqwrvIPi1fLFZvtt2ymIEGTx1B31nJRQXB1mLDel/6kRctcIVRZR48zksF88v5LZ5SgIX/4LGXHXi66+mLbpyiBEuZ3tOf62p6HpFguHLrsNUegLv5dOyI+1g0HXQp61uW5f9AiXnPCyO6I1jGR+sxETuNTQfDbPujG+YtHOZRnMeBM+mgOTnJaq5cBC27QbIeFrbpPdVgH4TOSsh4gkenQVPlSODMm8OxvfP+sbFG68azKhvdMl0osJTbCi2vqrHApLvFz/+Q5aqFpvVqnnwxWhDdxhvBibkblH9ROJu2F23e29s8PrFhhf0iD9r+Wnl5LIWCzo8LNN3FXClkJ8VhvL7N3jaCSEUhMIW5kkjZnVDtFvAkaY3NBVrxtlN3ct5VtGs0uHVQO1x6lJ9KNBg4hgaqgcRk=
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2019 20:21:40.0541
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4756a82e-a08e-4ed2-4e5c-08d73baca60c
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;Ip=[149.199.60.100];Helo=[xsj-pvapsmtpgw02]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR02MB5263
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+In case of 4k video buffer, the allocation from a reserved memory is
+taking a long time, ~500ms. This is root caused to the memset()
+operations on the allocated memory which is consuming more cpu cycles.
+Due to this delay, we see that initial frames are being dropped.
 
+To fix this, we have wrapped the default memset, done when allocating
+coherent memory, under the __GFP_ZERO flag. So, we only clear
+allocated memory if __GFP_ZERO flag is enabled. We believe this
+should be safe as the video decoder always writes before reading.
+This optimizes decoder initialization as we do not set the __GFP_ZERO
+flag when allocating memory for decoder. With this optimization, we
+don't see initial frame drops and decoder initialization time is
+~100ms.
 
-On 9/17/19 1:35 PM, Shuah Khan wrote:
-> After practically re-writing the driver to collpase it into a monolith,
-> I am adding myself as a reviewer for vimc driver.
-> 
-> Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
+This patch adds plumbing through dma_alloc functions to pass gfp flag
+set by user to __dma_alloc_from_coherent(). Here gfp flag is checked
+for __GFP_ZERO. If present, we memset the buffer to 0 otherwise we
+skip memset.
 
-Acked-by: Helen Koike <helen.koike@collabora.com>
+Signed-off-by: Dylan Yip <dylan.yip@xilinx.com>
+---
+ arch/arm/mm/dma-mapping-nommu.c |  2 +-
+ include/linux/dma-mapping.h     | 11 +++++++----
+ kernel/dma/coherent.c           | 15 +++++++++------
+ kernel/dma/mapping.c            |  2 +-
+ 4 files changed, 18 insertions(+), 12 deletions(-)
 
-> ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 7c62b45201d7..4529d257f8db 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -17041,6 +17041,7 @@ F:	include/media/videobuf2-*
->  
->  VIMC VIRTUAL MEDIA CONTROLLER DRIVER
->  M:	Helen Koike <helen.koike@collabora.com>
-> +R:	Shuah Khan <skhan@linuxfoundation.org>
->  L:	linux-media@vger.kernel.org
->  T:	git git://linuxtv.org/media_tree.git
->  W:	https://linuxtv.org
-> 
+diff --git a/arch/arm/mm/dma-mapping-nommu.c b/arch/arm/mm/dma-mapping-nommu.c
+index 52b8255..242b2c3 100644
+--- a/arch/arm/mm/dma-mapping-nommu.c
++++ b/arch/arm/mm/dma-mapping-nommu.c
+@@ -35,7 +35,7 @@ static void *arm_nommu_dma_alloc(struct device *dev, size_t size,
+ 				 unsigned long attrs)
+ 
+ {
+-	void *ret = dma_alloc_from_global_coherent(size, dma_handle);
++	void *ret = dma_alloc_from_global_coherent(size, dma_handle, gfp);
+ 
+ 	/*
+ 	 * dma_alloc_from_global_coherent() may fail because:
+diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
+index f7d1eea..b715c9f 100644
+--- a/include/linux/dma-mapping.h
++++ b/include/linux/dma-mapping.h
+@@ -160,24 +160,27 @@ static inline int is_device_dma_capable(struct device *dev)
+  * Don't use them in device drivers.
+  */
+ int dma_alloc_from_dev_coherent(struct device *dev, ssize_t size,
+-				       dma_addr_t *dma_handle, void **ret);
++				       dma_addr_t *dma_handle, void **ret,
++				       gfp_t flag);
+ int dma_release_from_dev_coherent(struct device *dev, int order, void *vaddr);
+ 
+ int dma_mmap_from_dev_coherent(struct device *dev, struct vm_area_struct *vma,
+ 			    void *cpu_addr, size_t size, int *ret);
+ 
+-void *dma_alloc_from_global_coherent(ssize_t size, dma_addr_t *dma_handle);
++void *dma_alloc_from_global_coherent(ssize_t size, dma_addr_t *dma_handle,
++				     gfp_t flag);
+ int dma_release_from_global_coherent(int order, void *vaddr);
+ int dma_mmap_from_global_coherent(struct vm_area_struct *vma, void *cpu_addr,
+ 				  size_t size, int *ret);
+ 
+ #else
+-#define dma_alloc_from_dev_coherent(dev, size, handle, ret) (0)
++#define dma_alloc_from_dev_coherent(dev, size, handle, ret, flag) (0)
+ #define dma_release_from_dev_coherent(dev, order, vaddr) (0)
+ #define dma_mmap_from_dev_coherent(dev, vma, vaddr, order, ret) (0)
+ 
+ static inline void *dma_alloc_from_global_coherent(ssize_t size,
+-						   dma_addr_t *dma_handle)
++						   dma_addr_t *dma_handle,
++						   gfp_t flag)
+ {
+ 	return NULL;
+ }
+diff --git a/kernel/dma/coherent.c b/kernel/dma/coherent.c
+index 29fd659..d85fab5 100644
+--- a/kernel/dma/coherent.c
++++ b/kernel/dma/coherent.c
+@@ -136,7 +136,7 @@ void dma_release_declared_memory(struct device *dev)
+ EXPORT_SYMBOL(dma_release_declared_memory);
+ 
+ static void *__dma_alloc_from_coherent(struct dma_coherent_mem *mem,
+-		ssize_t size, dma_addr_t *dma_handle)
++		ssize_t size, dma_addr_t *dma_handle, gfp_t gfp_flag)
+ {
+ 	int order = get_order(size);
+ 	unsigned long flags;
+@@ -158,7 +158,8 @@ static void *__dma_alloc_from_coherent(struct dma_coherent_mem *mem,
+ 	*dma_handle = mem->device_base + (pageno << PAGE_SHIFT);
+ 	ret = mem->virt_base + (pageno << PAGE_SHIFT);
+ 	spin_unlock_irqrestore(&mem->spinlock, flags);
+-	memset(ret, 0, size);
++	if (gfp_flag & __GFP_ZERO)
++		memset(ret, 0, size);
+ 	return ret;
+ err:
+ 	spin_unlock_irqrestore(&mem->spinlock, flags);
+@@ -172,6 +173,7 @@ static void *__dma_alloc_from_coherent(struct dma_coherent_mem *mem,
+  * @dma_handle:	This will be filled with the correct dma handle
+  * @ret:	This pointer will be filled with the virtual address
+  *		to allocated area.
++ * @flag:      gfp flag set by user
+  *
+  * This function should be only called from per-arch dma_alloc_coherent()
+  * to support allocation from per-device coherent memory pools.
+@@ -180,24 +182,25 @@ static void *__dma_alloc_from_coherent(struct dma_coherent_mem *mem,
+  * generic memory areas, or !0 if dma_alloc_coherent should return @ret.
+  */
+ int dma_alloc_from_dev_coherent(struct device *dev, ssize_t size,
+-		dma_addr_t *dma_handle, void **ret)
++		dma_addr_t *dma_handle, void **ret, gfp_t flag)
+ {
+ 	struct dma_coherent_mem *mem = dev_get_coherent_memory(dev);
+ 
+ 	if (!mem)
+ 		return 0;
+ 
+-	*ret = __dma_alloc_from_coherent(mem, size, dma_handle);
++	*ret = __dma_alloc_from_coherent(mem, size, dma_handle, flag);
+ 	return 1;
+ }
+ 
+-void *dma_alloc_from_global_coherent(ssize_t size, dma_addr_t *dma_handle)
++void *dma_alloc_from_global_coherent(ssize_t size, dma_addr_t *dma_handle,
++				     gfp_t flag)
+ {
+ 	if (!dma_coherent_default_memory)
+ 		return NULL;
+ 
+ 	return __dma_alloc_from_coherent(dma_coherent_default_memory, size,
+-			dma_handle);
++			dma_handle, flag);
+ }
+ 
+ static int __dma_release_from_coherent(struct dma_coherent_mem *mem,
+diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
+index b0038ca..bfea1d2 100644
+--- a/kernel/dma/mapping.c
++++ b/kernel/dma/mapping.c
+@@ -272,7 +272,7 @@ void *dma_alloc_attrs(struct device *dev, size_t size, dma_addr_t *dma_handle,
+ 
+ 	WARN_ON_ONCE(!dev->coherent_dma_mask);
+ 
+-	if (dma_alloc_from_dev_coherent(dev, size, dma_handle, &cpu_addr))
++	if (dma_alloc_from_dev_coherent(dev, size, dma_handle, &cpu_addr, flag))
+ 		return cpu_addr;
+ 
+ 	/* let the implementation decide on the zone to allocate from: */
+-- 
+2.7.4
 
-
-Thanks!
-Helen
