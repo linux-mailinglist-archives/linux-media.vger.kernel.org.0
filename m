@@ -2,175 +2,273 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4711DB4B5C
-	for <lists+linux-media@lfdr.de>; Tue, 17 Sep 2019 11:56:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 76A59B4B5E
+	for <lists+linux-media@lfdr.de>; Tue, 17 Sep 2019 11:57:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725972AbfIQJ4d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Sep 2019 05:56:33 -0400
-Received: from mail-pf1-f179.google.com ([209.85.210.179]:34299 "EHLO
-        mail-pf1-f179.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725801AbfIQJ4d (ORCPT
+        id S1725951AbfIQJ5C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Sep 2019 05:57:02 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:53887 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725801AbfIQJ5C (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Sep 2019 05:56:33 -0400
-Received: by mail-pf1-f179.google.com with SMTP id b128so1867988pfa.1
-        for <linux-media@vger.kernel.org>; Tue, 17 Sep 2019 02:56:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=BpKDj2JJHMSbDTEZ/ijmMR74snHq+w7OfvzYmQKVpKo=;
-        b=NGBZGF2WD1RJ0lIe4x7HLE3fho5FkgP9CRw9fj3dSTWsQzherGZ6aHbM1lZA4DiAXO
-         KA9KvX/9pY1efxPOJ8w7Qo0oJuea3jmZC6HjnglwRtCZ6SUs+Zx7GSkZOvrLDyi8LWdD
-         uPQchTs8a9Bl87+VIv300uBfTadAHogy5UlGGBWrli+5IxNnSVaU4XFZYMY80Vkk4LGs
-         NMxXi9f7AgoewahfPWmangD/GVU2WjSB/UKv34JjGhPi2VZpG2tEQnfMsipk71GFhkTi
-         bSG/d/aXC/Nua/QIuosM17Du2mek41QONPiTj52r5W+RJUUz44Wlqx/0n3AexjZ7PbEf
-         byRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=BpKDj2JJHMSbDTEZ/ijmMR74snHq+w7OfvzYmQKVpKo=;
-        b=Kv4oUN/93Vh3t1t7NrF5k7CY1SYy07KGQ3h1dBzQyJEq3m9xS7cDzMq/aCsSl/xrKh
-         srl9jAuFsY9Mr/xjuYaYleNUBthVVM5k2zAluG8IUHUbJtTTiDWlLmm+HTGmQ+LRVOBP
-         LpChi2y6EsDKEyeQZvbmG1GP62tkCVlstljQhpiwOQJsvb2b8LEWjvjsnQ36wyLhIaCK
-         jqg5ZUNwaBWdzX1Wfgiqq7Zd8UB49AX39zMkx7/bWziIWHni+AZzWQv6FkUn7ZVhxGuH
-         BydO2E7g3dm5d2G+wi1q512EWzmZJWdwYWIZsTKjziscey6Vos3e6ArS08iHFa/3d2nz
-         eBaQ==
-X-Gm-Message-State: APjAAAUpzPM90k8s3oVeC9curoZo3duQKh9UAmiclwaQntSb4k1Qvyct
-        +k/39mXVhcfsTrnIfLbWJkJpymINNK8=
-X-Google-Smtp-Source: APXvYqybOAjm21k3Ej+Tjqtyxdqel8egiR3tnRV35y1025C6T48QjeNrfs7rjuTXfjp/EfLEm+RFKQ==
-X-Received: by 2002:a63:4562:: with SMTP id u34mr2469190pgk.288.1568714191958;
-        Tue, 17 Sep 2019 02:56:31 -0700 (PDT)
-Received: from bnva-HP-Pavilion-g6-Notebook-PC.domain.name ([117.241.200.70])
-        by smtp.gmail.com with ESMTPSA id s5sm1916980pfe.52.2019.09.17.02.56.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Sep 2019 02:56:31 -0700 (PDT)
-From:   Vandana BN <bnvandana@gmail.com>
-To:     linux-media@vger.kernel.org,
+        Tue, 17 Sep 2019 05:57:02 -0400
+Received: from [IPv6:2001:983:e9a7:1:4561:5751:6822:aafd] ([IPv6:2001:983:e9a7:1:4561:5751:6822:aafd])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id AAEEiwT4wV17OAAEGiKOIv; Tue, 17 Sep 2019 11:57:00 +0200
+Subject: Re: [PATCH v3] v4l2-core: Add metadata type to vfl_devnode_type
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+To:     Vandana BN <bnvandana@gmail.com>, linux-media@vger.kernel.org,
         linux-kernel-mentees@lists.linuxfoundation.org
-Cc:     hverkuil@xs4all.nl, Vandana BN <bnvandana@gmail.com>
-Subject: [PATCH v4] v4l2-ctl: Print UVC meta info
-Date:   Tue, 17 Sep 2019 15:26:16 +0530
-Message-Id: <20190917095616.3554-1-bnvandana@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <97514f22-b21a-ae56-2972-e845c16c90a0@xs4all.nl>
-References: <97514f22-b21a-ae56-2972-e845c16c90a0@xs4all.nl>
+References: <a3ecdeee-883f-2ff7-7bbe-56d428a63015@xs4all.nl>
+ <20190913065700.4119-1-bnvandana@gmail.com>
+ <1ab00162-9bd2-a974-9614-aa4230302428@xs4all.nl>
+Message-ID: <7e3eed9b-680d-6a93-3b26-2291267e2e9d@xs4all.nl>
+Date:   Tue, 17 Sep 2019 11:56:58 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <1ab00162-9bd2-a974-9614-aa4230302428@xs4all.nl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfDyASiV1azLocexT4048cfy+qpLFLqCd17sobv/5IKwkVPh3a8jpCH9zHL3t0ihLLh6RVfEtSLuFYIjFz/netsIl+waShb8+bDGELnDw1r/ZD9PA8DZ0
+ kxdM+NeyesNawsriIcMLNeXMTQZZcNNOzox4eGWmrxb9JE75ng+HzbiszUHicxURtR1rSWFaz+veM1smvIRnHTMx34ZJMV3nmoAergPGY73U9DdQcIFYH20k
+ DpnDYhm2EAiQNzRLHL5mHyRyzNYaYwBUKSMMlb8/WnGc/Y6Gz6hTD7bmH/+9rInZw1Jmlxbna0UPll3e4tpvQ4cvGUSNuH31PV+W8+6ONJyrGoaQw7ACbx4Z
+ t2ONPqNzmonjZfyK+cr3wl3+mdIuGw==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Print UVC Metadata information in verbose mode.
+On 9/17/19 11:54 AM, Hans Verkuil wrote:
+> On 9/13/19 8:57 AM, Vandana BN wrote:
+>> Add VFL_TYPE_METADATA, to detect devices of type metadata and
+>> to disable unneeded ioctls.
+>> Without this change, format ioctls for both video and metadata devices
+>> could be called on both device nodes.This is true for other ioctls as
+>> well.
+>>
+>> Signed-off-by: Vandana BN <bnvandana@gmail.com>
+>> ---
+>> V3 Updated commit message
+>>
+>>  drivers/media/v4l2-core/v4l2-dev.c   | 57 ++++++++++++++++++----------
+>>  drivers/media/v4l2-core/v4l2-ioctl.c |  5 ++-
+>>  include/media/v4l2-dev.h             |  2 +
+>>  3 files changed, 41 insertions(+), 23 deletions(-)
+>>
+>> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+>> index 4037689a945a..5f2ead772c5f 100644
+>> --- a/drivers/media/v4l2-core/v4l2-dev.c
+>> +++ b/drivers/media/v4l2-core/v4l2-dev.c
+>> @@ -112,6 +112,7 @@ static inline unsigned long *devnode_bits(enum vfl_devnode_type vfl_type)
+>>  	   one single bitmap for the purposes of finding a free node number
+>>  	   since all those unassigned types use the same minor range. */
+>>  	int idx = (vfl_type > VFL_TYPE_RADIO) ? VFL_TYPE_MAX - 1 : vfl_type;
+>> +	idx = (vfl_type == VFL_TYPE_METADATA) ? VFL_TYPE_GRABBER : vfl_type;
+>>  
+>>  	return devnode_nums[idx];
+>>  }
+>> @@ -119,7 +120,9 @@ static inline unsigned long *devnode_bits(enum vfl_devnode_type vfl_type)
+>>  /* Return the bitmap corresponding to vfl_type. */
+>>  static inline unsigned long *devnode_bits(enum vfl_devnode_type vfl_type)
+>>  {
+>> -	return devnode_nums[vfl_type];
+>> +	int idx = (vfl_type == VFL_TYPE_METADATA) ? VFL_TYPE_GRABBER : vfl_type;
+>> +
+>> +	return devnode_nums[idx];
+>>  }
+>>  #endif
+>>  
+>> @@ -540,6 +543,7 @@ static void determine_valid_ioctls(struct video_device *vdev)
+>>  	bool is_radio = vdev->vfl_type == VFL_TYPE_RADIO;
+>>  	bool is_sdr = vdev->vfl_type == VFL_TYPE_SDR;
+>>  	bool is_tch = vdev->vfl_type == VFL_TYPE_TOUCH;
+>> +	bool is_meta = vdev->vfl_type == VFL_TYPE_METADATA;
+>>  	bool is_rx = vdev->vfl_dir != VFL_DIR_TX;
+>>  	bool is_tx = vdev->vfl_dir != VFL_DIR_RX;
+>>  
+>> @@ -571,8 +575,10 @@ static void determine_valid_ioctls(struct video_device *vdev)
+>>  		set_bit(_IOC_NR(VIDIOC_TRY_EXT_CTRLS), valid_ioctls);
+>>  	if (vdev->ctrl_handler || ops->vidioc_querymenu)
+>>  		set_bit(_IOC_NR(VIDIOC_QUERYMENU), valid_ioctls);
+>> -	SET_VALID_IOCTL(ops, VIDIOC_G_FREQUENCY, vidioc_g_frequency);
+>> -	SET_VALID_IOCTL(ops, VIDIOC_S_FREQUENCY, vidioc_s_frequency);
+>> +	if (!is_meta) {
+>> +		SET_VALID_IOCTL(ops, VIDIOC_G_FREQUENCY, vidioc_g_frequency);
+>> +		SET_VALID_IOCTL(ops, VIDIOC_S_FREQUENCY, vidioc_s_frequency);
+>> +	}
+>>  	SET_VALID_IOCTL(ops, VIDIOC_LOG_STATUS, vidioc_log_status);
+>>  #ifdef CONFIG_VIDEO_ADV_DEBUG
+>>  	set_bit(_IOC_NR(VIDIOC_DBG_G_CHIP_INFO), valid_ioctls);
+>> @@ -589,37 +595,29 @@ static void determine_valid_ioctls(struct video_device *vdev)
+>>  	if (is_vid || is_tch) {
+>>  		/* video and metadata specific ioctls */
+>>  		if ((is_rx && (ops->vidioc_enum_fmt_vid_cap ||
+>> -			       ops->vidioc_enum_fmt_vid_overlay ||
+>> -			       ops->vidioc_enum_fmt_meta_cap)) ||
+>> -		    (is_tx && (ops->vidioc_enum_fmt_vid_out ||
+>> -			       ops->vidioc_enum_fmt_meta_out)))
+>> +			       ops->vidioc_enum_fmt_vid_overlay)) ||
+>> +		    (is_tx && ops->vidioc_enum_fmt_vid_out))
+>>  			set_bit(_IOC_NR(VIDIOC_ENUM_FMT), valid_ioctls);
+>>  		if ((is_rx && (ops->vidioc_g_fmt_vid_cap ||
+>>  			       ops->vidioc_g_fmt_vid_cap_mplane ||
+>> -			       ops->vidioc_g_fmt_vid_overlay ||
+>> -			       ops->vidioc_g_fmt_meta_cap)) ||
+>> +			       ops->vidioc_g_fmt_vid_overlay)) ||
+>>  		    (is_tx && (ops->vidioc_g_fmt_vid_out ||
+>>  			       ops->vidioc_g_fmt_vid_out_mplane ||
+>> -			       ops->vidioc_g_fmt_vid_out_overlay ||
+>> -			       ops->vidioc_g_fmt_meta_out)))
+>> +			       ops->vidioc_g_fmt_vid_out_overlay)))
+>>  			 set_bit(_IOC_NR(VIDIOC_G_FMT), valid_ioctls);
+>>  		if ((is_rx && (ops->vidioc_s_fmt_vid_cap ||
+>>  			       ops->vidioc_s_fmt_vid_cap_mplane ||
+>> -			       ops->vidioc_s_fmt_vid_overlay ||
+>> -			       ops->vidioc_s_fmt_meta_cap)) ||
+>> +			       ops->vidioc_s_fmt_vid_overlay)) ||
+>>  		    (is_tx && (ops->vidioc_s_fmt_vid_out ||
+>>  			       ops->vidioc_s_fmt_vid_out_mplane ||
+>> -			       ops->vidioc_s_fmt_vid_out_overlay ||
+>> -			       ops->vidioc_s_fmt_meta_out)))
+>> +			       ops->vidioc_s_fmt_vid_out_overlay)))
+>>  			 set_bit(_IOC_NR(VIDIOC_S_FMT), valid_ioctls);
+>>  		if ((is_rx && (ops->vidioc_try_fmt_vid_cap ||
+>>  			       ops->vidioc_try_fmt_vid_cap_mplane ||
+>> -			       ops->vidioc_try_fmt_vid_overlay ||
+>> -			       ops->vidioc_try_fmt_meta_cap)) ||
+>> +			       ops->vidioc_try_fmt_vid_overlay)) ||
+>>  		    (is_tx && (ops->vidioc_try_fmt_vid_out ||
+>>  			       ops->vidioc_try_fmt_vid_out_mplane ||
+>> -			       ops->vidioc_try_fmt_vid_out_overlay ||
+>> -			       ops->vidioc_try_fmt_meta_out)))
+>> +			       ops->vidioc_try_fmt_vid_out_overlay)))
+>>  			 set_bit(_IOC_NR(VIDIOC_TRY_FMT), valid_ioctls);
+>>  		SET_VALID_IOCTL(ops, VIDIOC_OVERLAY, vidioc_overlay);
+>>  		SET_VALID_IOCTL(ops, VIDIOC_G_FBUF, vidioc_g_fbuf);
+>> @@ -679,9 +677,23 @@ static void determine_valid_ioctls(struct video_device *vdev)
+>>  			set_bit(_IOC_NR(VIDIOC_S_FMT), valid_ioctls);
+>>  		if (ops->vidioc_try_fmt_sdr_out)
+>>  			set_bit(_IOC_NR(VIDIOC_TRY_FMT), valid_ioctls);
+>> +	} else if (is_meta) {
+>> +		/* metadata specific ioctls */
+>> +		if ((is_rx && ops->vidioc_enum_fmt_meta_cap) ||
+>> +		    (is_tx && ops->vidioc_enum_fmt_meta_out))
+>> +			set_bit(_IOC_NR(VIDIOC_ENUM_FMT), valid_ioctls);
+>> +		if ((is_rx && ops->vidioc_g_fmt_meta_cap) ||
+>> +		    (is_tx && ops->vidioc_g_fmt_meta_out))
+>> +			set_bit(_IOC_NR(VIDIOC_G_FMT), valid_ioctls);
+>> +		if ((is_rx && ops->vidioc_s_fmt_meta_cap) ||
+>> +		    (is_tx && ops->vidioc_s_fmt_meta_out))
+>> +			set_bit(_IOC_NR(VIDIOC_S_FMT), valid_ioctls);
+>> +		if ((is_rx && ops->vidioc_try_fmt_meta_cap) ||
+>> +		    (is_tx && ops->vidioc_try_fmt_meta_out))
+>> +			set_bit(_IOC_NR(VIDIOC_TRY_FMT), valid_ioctls);
+> 
+> After some more testing I realized that metadata devices should still support
+> ENUM/G/S_INPUT for capture and ENUM/S/G_OUTPUT for output.
+> 
+> Can you post a v4 with support for that?
 
-Signed-off-by: Vandana BN <bnvandana@gmail.com>
----
-Changes since v3:
-- Coding style corrections in print_meta_buffer.
----
- utils/v4l2-ctl/v4l2-ctl-meta.cpp      | 27 +++++++++++++++++++++++++++
- utils/v4l2-ctl/v4l2-ctl-streaming.cpp | 14 ++++++++------
- utils/v4l2-ctl/v4l2-ctl.h             |  1 +
- 3 files changed, 36 insertions(+), 6 deletions(-)
+Hmm, now the compliance test fails if that's added. Let me dig a bit deeper
+into this.
 
-diff --git a/utils/v4l2-ctl/v4l2-ctl-meta.cpp b/utils/v4l2-ctl/v4l2-ctl-meta.cpp
-index 75fbd6f4..1755798a 100644
---- a/utils/v4l2-ctl/v4l2-ctl-meta.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl-meta.cpp
-@@ -127,3 +127,30 @@ void meta_list(cv4l_fd &fd)
- 		print_video_formats(fd, V4L2_BUF_TYPE_META_OUTPUT);
- 	}
- }
-+
-+struct vivid_uvc_meta_buf {
-+	__u64 ns;
-+	__u16 sof;
-+	__u8 length;
-+	__u8 flags;
-+	__u8 buf[];
-+};
-+
-+void print_meta_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt, cv4l_queue &q)
-+{
-+	struct vivid_uvc_meta_buf *vbuf;
-+
-+	switch (fmt.g_pixelformat()) {
-+	case V4L2_META_FMT_UVC:
-+		fprintf(f, "UVC: ");
-+		for (unsigned i = 0; i < buf.g_num_planes(); i++) {
-+			vbuf = (vivid_uvc_meta_buf *)q.g_dataptr(buf.g_index(), i);
-+			fprintf(f, "%.6fs, sof %u, len %u, flags 0x%x\n",
-+				(double)vbuf[i].ns / 1000000000.0,
-+				vbuf[i].sof,
-+				vbuf[i].length,
-+				vbuf[i].flags);
-+		}
-+		break;
-+	}
-+}
-diff --git a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-index 11157434..46d53f23 100644
---- a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-@@ -540,9 +540,9 @@ static void print_buffer(FILE *f, struct v4l2_buffer &buf)
- 	fprintf(f, "\n");
- }
- 
--static void print_concise_buffer(FILE *f, cv4l_buffer &buf,
--				 fps_timestamps &fps_ts, int comp_perc,
--				 bool skip_ts = false)
-+static void print_concise_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt,
-+				 cv4l_queue &q, fps_timestamps &fps_ts,
-+				 int comp_perc, bool skip_ts = false)
- {
- 	static double last_ts;
- 
-@@ -592,6 +592,8 @@ static void print_concise_buffer(FILE *f, cv4l_buffer &buf,
- 	if (fl)
- 		fprintf(f, " (%s)", bufferflags2s(fl).c_str());
- 	fprintf(f, "\n");
-+	if (v4l_type_is_meta(buf.g_type()))
-+		print_meta_buffer(f, buf, fmt, q);
- }
- 
- static void stream_buf_caps(cv4l_fd &fd, unsigned buftype)
-@@ -1390,7 +1392,7 @@ static int do_handle_cap(cv4l_fd &fd, cv4l_queue &q, FILE *fout, int *index,
- 		if (!(buf.g_flags() & V4L2_BUF_FLAG_ERROR))
- 			break;
- 		if (verbose)
--			print_concise_buffer(stderr, buf, fps_ts, -1);
-+			print_concise_buffer(stderr, buf, fmt, q, fps_ts, -1);
- 		if (fd.qbuf(buf))
- 			return QUEUE_ERROR;
- 	}
-@@ -1412,7 +1414,7 @@ static int do_handle_cap(cv4l_fd &fd, cv4l_queue &q, FILE *fout, int *index,
- 	else if (buf.g_flags() & V4L2_BUF_FLAG_BFRAME)
- 		ch = 'B';
- 	if (verbose) {
--		print_concise_buffer(stderr, buf, fps_ts,
-+		print_concise_buffer(stderr, buf, fmt, q, fps_ts,
- 				     host_fd_to >= 0 ? 100 - comp_perc / comp_perc_count : -1);
- 		comp_perc_count = comp_perc = 0;
- 	}
-@@ -1502,7 +1504,7 @@ static int do_handle_out(cv4l_fd &fd, cv4l_queue &q, FILE *fin, cv4l_buffer *cap
- 		double ts_secs = buf.g_timestamp().tv_sec + buf.g_timestamp().tv_usec / 1000000.0;
- 		fps_ts.add_ts(ts_secs, buf.g_sequence(), buf.g_field());
- 		if (verbose)
--			print_concise_buffer(stderr, buf, fps_ts, -1);
-+			print_concise_buffer(stderr, buf, fmt, q, fps_ts, -1);
- 
- 		for (unsigned j = 0; j < buf.g_num_planes(); j++)
- 			buf.s_bytesused(buf.g_length(j), j);
-diff --git a/utils/v4l2-ctl/v4l2-ctl.h b/utils/v4l2-ctl/v4l2-ctl.h
-index 5797d784..36051566 100644
---- a/utils/v4l2-ctl/v4l2-ctl.h
-+++ b/utils/v4l2-ctl/v4l2-ctl.h
-@@ -406,6 +406,7 @@ void meta_cmd(int ch, char *optarg);
- void meta_set(cv4l_fd &fd);
- void meta_get(cv4l_fd &fd);
- void meta_list(cv4l_fd &fd);
-+void print_meta_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt, cv4l_queue &q);
- 
- // v4l2-ctl-subdev.cpp
- void subdev_usage(void);
--- 
-2.17.1
+Regards,
+
+	Hans
+
+> 
+> Thanks!
+> 
+> 	Hans
+> 
+>>  	}
+>>  
+>> -	if (is_vid || is_vbi || is_sdr || is_tch) {
+>> +	if (is_vid || is_vbi || is_sdr || is_tch || is_meta) {
+>>  		/* ioctls valid for video, metadata, vbi or sdr */
+>>  		SET_VALID_IOCTL(ops, VIDIOC_REQBUFS, vidioc_reqbufs);
+>>  		SET_VALID_IOCTL(ops, VIDIOC_QUERYBUF, vidioc_querybuf);
+>> @@ -734,7 +746,7 @@ static void determine_valid_ioctls(struct video_device *vdev)
+>>  		SET_VALID_IOCTL(ops, VIDIOC_G_MODULATOR, vidioc_g_modulator);
+>>  		SET_VALID_IOCTL(ops, VIDIOC_S_MODULATOR, vidioc_s_modulator);
+>>  	}
+>> -	if (is_rx) {
+>> +	if (is_rx && !is_meta) {
+>>  		/* receiver only ioctls */
+>>  		SET_VALID_IOCTL(ops, VIDIOC_G_TUNER, vidioc_g_tuner);
+>>  		SET_VALID_IOCTL(ops, VIDIOC_S_TUNER, vidioc_s_tuner);
+>> @@ -762,6 +774,7 @@ static int video_register_media_controller(struct video_device *vdev)
+>>  
+>>  	switch (vdev->vfl_type) {
+>>  	case VFL_TYPE_GRABBER:
+>> +	case VFL_TYPE_METADATA:
+>>  		intf_type = MEDIA_INTF_T_V4L_VIDEO;
+>>  		vdev->entity.function = MEDIA_ENT_F_IO_V4L;
+>>  		break;
+>> @@ -870,6 +883,7 @@ int __video_register_device(struct video_device *vdev,
+>>  	/* Part 1: check device type */
+>>  	switch (type) {
+>>  	case VFL_TYPE_GRABBER:
+>> +	case VFL_TYPE_METADATA:
+>>  		name_base = "video";
+>>  		break;
+>>  	case VFL_TYPE_VBI:
+>> @@ -914,6 +928,7 @@ int __video_register_device(struct video_device *vdev,
+>>  	 * (new style). */
+>>  	switch (type) {
+>>  	case VFL_TYPE_GRABBER:
+>> +	case VFL_TYPE_METADATA:
+>>  		minor_offset = 0;
+>>  		minor_cnt = 64;
+>>  		break;
+>> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+>> index 51b912743f0f..0d71c06c82cf 100644
+>> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+>> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+>> @@ -938,6 +938,7 @@ static int check_fmt(struct file *file, enum v4l2_buf_type type)
+>>  	bool is_vbi = vfd->vfl_type == VFL_TYPE_VBI;
+>>  	bool is_sdr = vfd->vfl_type == VFL_TYPE_SDR;
+>>  	bool is_tch = vfd->vfl_type == VFL_TYPE_TOUCH;
+>> +	bool is_meta = vfd->vfl_type == VFL_TYPE_METADATA;
+>>  	bool is_rx = vfd->vfl_dir != VFL_DIR_TX;
+>>  	bool is_tx = vfd->vfl_dir != VFL_DIR_RX;
+>>  
+>> @@ -996,11 +997,11 @@ static int check_fmt(struct file *file, enum v4l2_buf_type type)
+>>  			return 0;
+>>  		break;
+>>  	case V4L2_BUF_TYPE_META_CAPTURE:
+>> -		if (is_vid && is_rx && ops->vidioc_g_fmt_meta_cap)
+>> +		if (is_meta && is_rx && ops->vidioc_g_fmt_meta_cap)
+>>  			return 0;
+>>  		break;
+>>  	case V4L2_BUF_TYPE_META_OUTPUT:
+>> -		if (is_vid && is_tx && ops->vidioc_g_fmt_meta_out)
+>> +		if (is_meta && is_tx && ops->vidioc_g_fmt_meta_out)
+>>  			return 0;
+>>  		break;
+>>  	default:
+>> diff --git a/include/media/v4l2-dev.h b/include/media/v4l2-dev.h
+>> index 48531e57cc5a..2da91d454c10 100644
+>> --- a/include/media/v4l2-dev.h
+>> +++ b/include/media/v4l2-dev.h
+>> @@ -30,6 +30,7 @@
+>>   * @VFL_TYPE_SUBDEV:	for V4L2 subdevices
+>>   * @VFL_TYPE_SDR:	for Software Defined Radio tuners
+>>   * @VFL_TYPE_TOUCH:	for touch sensors
+>> + * @VFL_TYPE_METADATA:	for Metadata device
+>>   * @VFL_TYPE_MAX:	number of VFL types, must always be last in the enum
+>>   */
+>>  enum vfl_devnode_type {
+>> @@ -39,6 +40,7 @@ enum vfl_devnode_type {
+>>  	VFL_TYPE_SUBDEV,
+>>  	VFL_TYPE_SDR,
+>>  	VFL_TYPE_TOUCH,
+>> +	VFL_TYPE_METADATA,
+>>  	VFL_TYPE_MAX /* Shall be the last one */
+>>  };
+>>  
+>>
+> 
 
