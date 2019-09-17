@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5EC31B5620
-	for <lists+linux-media@lfdr.de>; Tue, 17 Sep 2019 21:27:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C67EB5624
+	for <lists+linux-media@lfdr.de>; Tue, 17 Sep 2019 21:27:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730228AbfIQT1P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Sep 2019 15:27:15 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:43840 "EHLO
+        id S1730260AbfIQT1m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Sep 2019 15:27:42 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:43852 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726025AbfIQT1O (ORCPT
+        with ESMTP id S1726025AbfIQT1m (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Sep 2019 15:27:14 -0400
+        Tue, 17 Sep 2019 15:27:42 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: koike)
-        with ESMTPSA id 8B75328C513
-Subject: Re: [PATCH v5 4/5] doc: media: vimc: Update module parameter usage
- information
+        with ESMTPSA id 8E57628C513
+Subject: Re: [PATCH v5 5/5] MAINTAINERS: Add reviewer to vimc driver
 To:     Shuah Khan <skhan@linuxfoundation.org>, mchehab@kernel.org,
         andrealmeid@collabora.com, dafna.hirschfeld@collabora.com,
-        hverkuil-cisco@xs4all.nl
+        hverkuil-cisco@xs4all.nl, davem@davemloft.net,
+        gregkh@linuxfoundation.org, nicolas.ferre@microchip.com
 Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <cover.1568689325.git.skhan@linuxfoundation.org>
- <f21e40f304507dffe2de240fdaeb881305c270ca.1568689325.git.skhan@linuxfoundation.org>
+ <e0665a825bbef9027bcbc5a9d14c3ac8b902d3c3.1568689325.git.skhan@linuxfoundation.org>
 From:   Helen Koike <helen.koike@collabora.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=helen.koike@collabora.com; keydata=
@@ -99,12 +99,12 @@ Autocrypt: addr=helen.koike@collabora.com; keydata=
  iR1nXfMxENVYnM5ag7mBZyD/kru5W1Uj34L6AFaDMXFPwedSCpzzqUiHb0f+nYkfOodf5xy0
  46+3THy/NUS/ZZp/rI4F7Y77+MQPVg7vARfHHX1AxYUKfRVW5j88QUB70txn8Vgi1tDrOr4J
  eD+xr0CvIGa5lKqgQacQtGkpOpJ8zY4ObSvpNubey/qYUE3DCXD0n2Xxk4muTvqlkFpOYA==
-Message-ID: <da086043-6e01-983a-dc0c-9656f01494e6@collabora.com>
-Date:   Tue, 17 Sep 2019 16:27:07 -0300
+Message-ID: <a68d769a-8024-afe7-c715-98602c37c485@collabora.com>
+Date:   Tue, 17 Sep 2019 16:27:33 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <f21e40f304507dffe2de240fdaeb881305c270ca.1568689325.git.skhan@linuxfoundation.org>
+In-Reply-To: <e0665a825bbef9027bcbc5a9d14c3ac8b902d3c3.1568689325.git.skhan@linuxfoundation.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -116,48 +116,31 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 
 On 9/17/19 1:35 PM, Shuah Khan wrote:
-> vimc driver is now a monolithic driver. Update the module parameter
-> usage information to reflect that.
+> After practically re-writing the driver to collpase it into a monolith,
+> I am adding myself as a reviewer for vimc driver.
 > 
 > Signed-off-by: Shuah Khan <skhan@linuxfoundation.org>
 
 Acked-by: Helen Koike <helen.koike@collabora.com>
 
 > ---
->  Documentation/media/v4l-drivers/vimc.rst | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
+>  MAINTAINERS | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/Documentation/media/v4l-drivers/vimc.rst b/Documentation/media/v4l-drivers/vimc.rst
-> index 406417680db5..a582af0509ee 100644
-> --- a/Documentation/media/v4l-drivers/vimc.rst
-> +++ b/Documentation/media/v4l-drivers/vimc.rst
-> @@ -76,22 +76,22 @@ vimc-capture:
->  	* 1 Pad sink
->  	* 1 Pad source
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 7c62b45201d7..4529d257f8db 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -17041,6 +17041,7 @@ F:	include/media/videobuf2-*
 >  
-> -Module options
-> +
-> +        Module options
->  ---------------
->  
-> -Vimc has a few module parameters to configure the driver. You should pass
-> -those arguments to each subdevice, not to the vimc module. For example::
-> +Vimc has a few module parameters to configure the driver.
->  
-> -        vimc_subdevice.param=value
-> +        param=value
->  
-> -* ``vimc_scaler.sca_mult=<unsigned int>``
-> +* ``sca_mult=<unsigned int>``
->  
->          Image size multiplier factor to be used to multiply both width and
->          height, so the image size will be ``sca_mult^2`` bigger than the
->          original one. Currently, only supports scaling up (the default value
->          is 3).
->  
-> -* ``vimc_debayer.deb_mean_win_size=<unsigned int>``
-> +* ``deb_mean_win_size=<unsigned int>``
->  
->          Window size to calculate the mean. Note: the window size needs to be an
->          odd number, as the main pixel stays in the center of the window,
+>  VIMC VIRTUAL MEDIA CONTROLLER DRIVER
+>  M:	Helen Koike <helen.koike@collabora.com>
+> +R:	Shuah Khan <skhan@linuxfoundation.org>
+>  L:	linux-media@vger.kernel.org
+>  T:	git git://linuxtv.org/media_tree.git
+>  W:	https://linuxtv.org
 > 
+
+
+Thanks!
+Helen
