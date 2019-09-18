@@ -2,154 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 10CEFB6597
-	for <lists+linux-media@lfdr.de>; Wed, 18 Sep 2019 16:11:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 85D37B661B
+	for <lists+linux-media@lfdr.de>; Wed, 18 Sep 2019 16:30:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727439AbfIROL6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Sep 2019 10:11:58 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:41196 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726853AbfIROL6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Sep 2019 10:11:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=Yohvd0Idt9XF7Z6aLd86ae0gny3xbIPIECy+nZxQfLE=; b=S/PEL4lw1qOMpx3VheqesgCV1
-        AIiEYbnI2+76xp2AdoZPxn99nn4aBnFFjMqZDtORB/z7ZMSmPUc8cQgoQ+zPzDCZMzxEwMNI2Xisv
-        7Kt8c+FOSVluINCBfYJCFxm9YCOt8RvGMA+E9yntY3tGoE+taqsw2dB1Y3aeOw2GXqOH66/bK+39F
-        DpBuzmAmm4vHuSOsaIPBL4rSbm/3ziVEeebXN9NwQ8syvEOt2bDqZ70gcln9F2e8GgQMQQgpmegct
-        UQUPONz3+M1pb3nEeAfnBgNDdMo7gr9gQQcsO8K8cOYzdoFXSXXe3K9qefRYIbKQ6yIzlHfqXVpAc
-        Kl+PGB/QQ==;
-Received: from 177.96.192.152.dynamic.adsl.gvt.net.br ([177.96.192.152] helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
-        id 1iAagX-0002oN-EH; Wed, 18 Sep 2019 14:11:57 +0000
-Date:   Wed, 18 Sep 2019 11:11:53 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     =?UTF-8?B?QW5kcsOp?= Almeida <andrealmeid@collabora.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        ksummit-discuss@lists.linuxfoundation.org,
-        laurent.pinchart@ideasonboard.com
-Subject: Re: [PATCH v2] media: add a subsystem profile documentation
-Message-ID: <20190918111153.6f52c651@coco.lan>
-In-Reply-To: <1e479f17-dbc8-b44d-bd1e-4229a6dbf151@collabora.com>
-References: <20190918123620.GA6306@pendragon.ideasonboard.com>
-        <9cdbab30b9e0a435b97113b90645e647e8165225.1568815176.git.mchehab+samsung@kernel.org>
-        <1e479f17-dbc8-b44d-bd1e-4229a6dbf151@collabora.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1728293AbfIROaR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Sep 2019 10:30:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42062 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727273AbfIROaR (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 18 Sep 2019 10:30:17 -0400
+Received: from localhost (lfbn-1-10718-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0BD8F218AE;
+        Wed, 18 Sep 2019 14:30:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1568817015;
+        bh=n7hEc4U3JFOCFiwdHi6OxEy+MNo9Uxm6c6RnEDR8WCk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=u0FC0ls3vLRORjqiIUVr1q5uIM4D5c4rEUU4iQtMFK+Zkh4h99Regs1s/KZ3GBhWq
+         Cl8vuE9rrla1mh+Y+QW3Vxw9p3O8xmlC2DfI34/YeRkgXBIDmStGfXKkhtIJ9zmCf2
+         EZ12GpdDZk3k7CnbMblC+5hiUGtkMC/B7Ps3/BLY=
+Date:   Wed, 18 Sep 2019 16:30:12 +0200
+From:   Maxime Ripard <mripard@kernel.org>
+To:     Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@siol.net>
+Cc:     wens@csie.org, robh+dt@kernel.org, mark.rutland@arm.com,
+        mchehab@kernel.org, hverkuil@xs4all.nl, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-sunxi@googlegroups.com
+Subject: Re: [PATCH 5/6] media: sun4i: Add H3 deinterlace driver
+Message-ID: <20190918143012.4o54doeauiv3j42z@gilmour>
+References: <20190912175132.411-1-jernej.skrabec@siol.net>
+ <20190912175132.411-6-jernej.skrabec@siol.net>
+ <20190912202647.wfcjur7yxhlelvd6@localhost.localdomain>
+ <3227980.eWD6USAIP4@jernej-laptop>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="murlg7gnizd4neyj"
+Content-Disposition: inline
+In-Reply-To: <3227980.eWD6USAIP4@jernej-laptop>
+User-Agent: NeoMutt/20180716
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Wed, 18 Sep 2019 11:07:16 -0300
-Andr=C3=A9 Almeida <andrealmeid@collabora.com> escreveu:
 
-> Hello Mauro,
->=20
-> On 9/18/19 10:59 AM, Mauro Carvalho Chehab wrote:
-> > Document the basic policies of the media subsystem profile.
-> >=20
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> > ---
-> >  Documentation/media/index.rst                 |   1 +
-> >  .../media/maintainer-entry-profile.rst        | 157 ++++++++++++++++++
-> >  MAINTAINERS                                   |   1 +
-> >  3 files changed, 159 insertions(+)
-> >  create mode 100644 Documentation/media/maintainer-entry-profile.rst
-> >=20
-> > diff --git a/Documentation/media/index.rst b/Documentation/media/index.=
-rst
-> > index 0301c25ff887..ac94685b822a 100644
-> > --- a/Documentation/media/index.rst
-> > +++ b/Documentation/media/index.rst
-> > @@ -12,6 +12,7 @@ Linux Media Subsystem Documentation
-> >  .. toctree::
-> >     :maxdepth: 2
-> > =20
-> > +   maintainer-entry-profile
-> >     media_uapi
-> >     media_kapi
-> >     dvb-drivers/index
-> > diff --git a/Documentation/media/maintainer-entry-profile.rst b/Documen=
-tation/media/maintainer-entry-profile.rst
-> > new file mode 100644
-> > index 000000000000..68d642abe2c1
-> > --- /dev/null
-> > +++ b/Documentation/media/maintainer-entry-profile.rst
-> > @@ -0,0 +1,157 @@
-> > +Media Subsystem Profile
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +
-> > +Overview
-> > +--------
-> > +
-> > +The media subsystem covers support for a variety of devices: stream
-> > +capture, analog and digital TV, cameras, remote controllers, HDMI CEC
-> > +and media pipeline control.
-> > +
-> > +It covers, mainly, the contents of those directories:
-> > +
-> > +  - drivers/media
-> > +  - drivers/staging/media
-> > +  - Documentation/media
-> > +  - include/media
-> > +
-> > +Both media userspace and Kernel APIs are documented and should be kept=
- in
-> > +sync with the API changes. It means that all patches that add new
-> > +features to the subsystem should also bring changes to the correspondi=
-ng
-> > +API files.
-> > +
-> > +Also, patches that changes the Open Firmware/Device Tree bindings shou=
-ld
-> > +also be reviewed by the Device Tree maintainers.
-> > +
-> > +Due to the size and wide scope of the media subsystem, media's
-> > +maintainership model is to have sub-maintainers that have a broad
-> > +knowledge of an specific aspect of the subsystem. It is a
-> > +sub-maintainer's task to review the patches, providing feedback to use=
-rs
-> > +if the patches are following the subsystem rules and are properly using
-> > +the media internal and external APIs.
-> > +
-> > +Patches for the media subsystem should be sent to the media mailing li=
-st
-> > +at linux-media@vger.kernel.org as plain text only e-mail. Emails with
-> > +HTML will be automatically rejected by the mail server. It could be wi=
-se
-> > +to also copy the sub-maintainer(s).
-> > +
-> > +Media's workflow is heavily based on Patchwork, meaning that, once a p=
-atch
-> > +is submitted, it should appear at:
-> > +
-> > +   - https://patchwork.linuxtv.org/project/linux-media/list/
-> > +
-> > +If it doesn't automatically appear there after a few minutes, then
-> > +probably something got wrong on your submission. Please check if the
-> > +email is in plain text only and if your emailer is not mangling with
-> > +whitespaces before complaining or submit it again.
-> > +
-> > +Sub-maintainers
-> > ++++++++++++++++ =20
->=20
-> What is the motivation for using "+++" instead of "---"?
+--murlg7gnizd4neyj
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Just cosmetics.
+Hi,
 
-This chapter doesn't exist at the original profile, as sub-maintainers,
-co-maintainers, etc. are used only on a few subsystems.=20
+On Sat, Sep 14, 2019 at 08:42:22AM +0200, Jernej =C5=A0krabec wrote:
+> Dne =C4=8Detrtek, 12. september 2019 ob 22:26:47 CEST je Maxime Ripard na=
+pisal(a):
+> > Hi,
+> >
+> > On Thu, Sep 12, 2019 at 07:51:31PM +0200, Jernej Skrabec wrote:
+> > > +	dev->regmap =3D devm_regmap_init_mmio(dev->dev, dev->base,
+> > > +
+> &deinterlace_regmap_config);
+> > > +	if (IS_ERR(dev->regmap)) {
+> > > +		dev_err(dev->dev, "Couldn't create deinterlace
+> regmap\n");
+> > > +
+> > > +		return PTR_ERR(dev->regmap);
+> > > +	}
+> > > +
+> > > +	ret =3D clk_prepare_enable(dev->bus_clk);
+> > > +	if (ret) {
+> > > +		dev_err(dev->dev, "Failed to enable bus clock\n");
+> > > +
+> > > +		return ret;
+> > > +	}
+> >
+> > Do you need to keep the bus clock enabled all the time? Usually, for
+> > the SoCs that have a reset line, you only need it to read / write to
+> > the registers, not to have the controller actually running.
+> >
+> > If you don't, then regmap_init_mmio_clk will take care of that for
+> > you.
+> >
+> > > +	clk_set_rate(dev->mod_clk, 300000000);
+> > > +
+> > > +	ret =3D clk_prepare_enable(dev->mod_clk);
+> > > +	if (ret) {
+> > > +		dev_err(dev->dev, "Failed to enable mod clock\n");
+> > > +
+> > > +		goto err_bus_clk;
+> > > +	}
+> > > +
+> > > +	ret =3D clk_prepare_enable(dev->ram_clk);
+> > > +	if (ret) {
+> > > +		dev_err(dev->dev, "Failed to enable ram clock\n");
+> > > +
+> > > +		goto err_mod_clk;
+> > > +	}
+> > > +
+> > > +	ret =3D reset_control_reset(dev->rstc);
+> > > +	if (ret) {
+> > > +		dev_err(dev->dev, "Failed to apply reset\n");
+> > > +
+> > > +		goto err_ram_clk;
+> > > +	}
+> >
+> > This could be moved to a runtime_pm hook, with get_sync called in the
+> > open. That way you won't leave the device powered on if it's unused.
+>
+> Currently I'm looking at sun4i_csi.c as an example of runtime ops, but it
+> seems a bit wrong to have suspend and resume function marked with
+> __maybe_unused because they are the only functions which enable needed cl=
+ocks.
+> If CONFIG_PM is not enabled, then this driver simply won't work, because
+> clocks will never get enabled. I guess I can implement runtime pm ops in =
+the
+> same way and add additional handling when CONFIG_PM is not enabled, right?
 
-So, I'm adding it as a sub-chapter.
+Ah, right. I guess you can either add a depends on PM, or you can call
+the function directly and use set_active like we're doing in the SPI
+driver.
 
-Thanks,
-Mauro
+> BTW, which callback is get_sync? I don't see it in dev_pm_ops. I suppose I
+> need only runtime_suspend and runtime_resume.
+
+get_sync is the user facing API, ie what you call when you want the
+device to be powered up. This will call runtime_resume if needed
+(there were no users, and you become the first one), and on the parent
+devices if needed too (even though it's not our case).
+
+> Off topic: sun6i_csi.c includes linux/pm_runtime.h but it doesn't have an=
+y kind
+> of power management as far as I can see.
+
+That's probably something we can remove then
+
+Thanks!
+Maxime
+
+--murlg7gnizd4neyj
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXYI/dAAKCRDj7w1vZxhR
+xevqAQCkxjBKYVgA/AYg52M5egxPmCw9EbU+dTVOFOS3HnL94wD8C/1DfMGYclzH
+K2NXT3v5e5dek4yjiUUAdMyPuzrn4gU=
+=xZgs
+-----END PGP SIGNATURE-----
+
+--murlg7gnizd4neyj--
