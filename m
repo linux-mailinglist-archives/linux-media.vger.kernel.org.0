@@ -2,37 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A5092B6063
-	for <lists+linux-media@lfdr.de>; Wed, 18 Sep 2019 11:31:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 91F4DB6184
+	for <lists+linux-media@lfdr.de>; Wed, 18 Sep 2019 12:37:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730986AbfIRJa7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Sep 2019 05:30:59 -0400
-Received: from mout.web.de ([212.227.15.3]:45143 "EHLO mout.web.de"
+        id S1728568AbfIRKhx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Sep 2019 06:37:53 -0400
+Received: from mout.web.de ([212.227.15.14]:58825 "EHLO mout.web.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729307AbfIRJa5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Sep 2019 05:30:57 -0400
+        id S1727485AbfIRKhx (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 18 Sep 2019 06:37:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
-        s=dbaedf251592; t=1568799034;
-        bh=o++p9693E2UvDPwPrIcg8d+RdqZWpYbuZSCZtdvZT5A=;
+        s=dbaedf251592; t=1568803049;
+        bh=b3O0yMTTsIZ+i4p2aAFUvGvyGvIEojHRsscDgbuJQus=;
         h=X-UI-Sender-Class:To:From:Subject:Cc:Date;
-        b=iDw0YSXB1pmMdVnnBrlRYyPHuVVCX0msHTn+VlCc/AJ7A84YgQxUkeU/4U5Kegjl3
-         KHsb6fKo0HYKabLccl4357VYGzyvTHE3cxxdHkWlkHWy9JPjyLMxEb31crnfh3POAQ
-         Ct+WpoemuRkxuoXPE6SRcmQPSnQdvy8a3rYc7BlY=
+        b=i0ZniXnb8AYutTGYY+GnfoKhty0VBPt/uIihJKVCAZGa1oUd03x4m+bfalUd/yfMC
+         P2VtzDzsytN8BeoZvHZU9OxoxeqVPP95O2OwSAzckezhHuMnTRbClrzFHabInyC6qb
+         glfSxsT5laY/iQkEQ2n8W7Mxs6xBLRZjaWbuYdQ8=
 X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([2.244.2.101]) by smtp.web.de (mrweb001
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0MS1tK-1idYgt3Kby-00TGlb; Wed, 18
- Sep 2019 11:30:33 +0200
+Received: from [192.168.1.2] ([2.244.2.101]) by smtp.web.de (mrweb004
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0MGlGr-1iO3zd3Rmz-00DZ0t; Wed, 18
+ Sep 2019 12:37:29 +0200
 To:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
+        Allison Randal <allison@lohutok.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mans Rullgard <mans@mansr.com>,
+        Marc Gonzalez <marc.w.gonzalez@free.fr>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Tiffany Lin <tiffany.lin@mediatek.com>
+        Thomas Gleixner <tglx@linutronix.de>
 From:   Markus Elfring <Markus.Elfring@web.de>
-Subject: [PATCH] media: platform: Use devm_platform_ioremap_resource() in two
- functions
+Subject: [PATCH] media: rc: Use devm_platform_ioremap_resource() in
+ tango_ir_probe()
 Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
  mQINBFg2+xABEADBJW2hoUoFXVFWTeKbqqif8VjszdMkriilx90WB5c0ddWQX14h6w5bT/A8
  +v43YoGpDNyhgA0w9CEhuwfZrE91GocMtjLO67TAc2i2nxMc/FJRDI0OemO4VJ9RwID6ltwt
@@ -80,104 +79,95 @@ Cc:     LKML <linux-kernel@vger.kernel.org>,
         kernel-janitors@vger.kernel.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         Himanshu Jha <himanshujha199640@gmail.com>
-Message-ID: <d80a685a-c3de-b9c9-ad32-e1da9308c393@web.de>
-Date:   Wed, 18 Sep 2019 11:30:30 +0200
+Message-ID: <04df8450-1b15-55ec-91e7-7d72ffbedac7@web.de>
+Date:   Wed, 18 Sep 2019 12:37:24 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.1.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:WWd+vOer71vAV+x2YMZX0l/l4cPFXevJQvHBjh8biXp3aZE+URz
- 89oXRc95GDOBlwi24LkdiTxMGtO73uYzJDbry9HLygvcdSA7XLaAELfKbaj9e9Xs0EcuVUQ
- A8+CQ5EN20icOGdKf2azkRVVd7IH4ykVEjH+D+NfTnHqtUW2R5u65eI7ml66UlCGS4pPp4r
- w7M+1UjKZiV0ILC6UIPcA==
+X-Provags-ID: V03:K1:lYeXFCIDnIOkpaY5BhkcUA9s+DwytISpyo/Mg86UyX/WuQDRDKm
+ G2Bgbkz+N2Iw4H6Yy0EYCbzw3B1zqikfr1CkMA1YMpaUZquGW3OOCxTCZ3PZuW+RgbUCnSX
+ wlT3x+cTQ9hTQ7ZgkPEwwvuG800j9lwSIOhvpzk5w4CTZNFdJG5GD+IN6mu3cuERTjkldT1
+ VFxKfo6mli52o7ghLYVSg==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:qnbIG1ZWk68=:Nlg56Kn/36Lq3zdU29JAcd
- F6oeMg4CRTGKtZZlrSTdtlq5dP/wrOEi1jPscJPUM5dZ8QIESnKllvonqhBZfCYFhrTHLMdXl
- b8K4dipvY26ZqPEg/ZMAu4eX+OOXoIukJETrrP8yt3FOSzsBtcLmmeIXkTYray70Lf0T2ScpB
- KDDuoLgZLtBTDYA1hlUySyoYxHFqF4o9l1hkhuyQi0RR6+JFfhjBR22roRGMtV3SgqPBYGATj
- rjF7X2yf7Rw8NsDVk2ixKIS6BemBTVcJrvO5jUvdvdV7tq6bsJPEChK/kPgo+LFdHsBbPIIQw
- U8WxIOFcGk3M45N95LAakC9Bfg+/DubWP2xT7PTWGPrsw9b7dl+Mi2ftxVfAe+gJXAywQUch5
- SPSzwaQuZfkHeImJmmHEwvX0MrXJeXzzZ/RywPRDLsDCldlxN0sqjn/z63t0eugvwHeWufygr
- Wktb7nPCdFuWCZka8kp+RZYpgiSrfZRUmaBoG+Mxg06GD6/ef/PaLc/E9skJ0LU5H1/WRyHgv
- msEMBNI0hFPw865tWeqpGdaa2ry+8wI/yhKZJ6l+JPel2WodXfL+jiBHrAVLPQkVM8IqoBnPC
- 4poqvQJDPTBitTJilXG8gfg3/kpzSHAr750wpQ7GgP6Q4NyznnCpr7HM9OnY54muLQYi9Zika
- rB2heB2b1fDItcjnBWtj+pzgo10qd+tyRJJ6ykLNtWfRh9vgqd75nsjHazAK/IoLyaySVITSg
- wZNVa8h0jXPOeLW6OXhKAgaDqDzTxIylh8vFCdEJM7M/i8IzubRIe/oS3+wy57ncbwC1vd4ul
- SWH4XS5vEDellmKkdmkwevVzei4eWA8n8DnYw+mkvyzB75/VAhX6TCWvrL7x3GsMCuHJN/zzj
- 5tGAFq+pJ/mDA00wUYQgle4JFRLNvTcW1iFJTXRDb9LvNANGdJnEXLgsIlUL48jqYoP5r4Y89
- sXSKDYQqVPuAN2rwbjTCbjgSLuW0Md62guUpNPtsfwuXc1BNAkM9M67PxW4jbR0Lct2nnMv+1
- iIkH+u7F8iPGmKUBHCojHruyI+Q1ur0J1EOPx22KMXW00ifmlmh9uSsAbvcEziyLtdPRr/ax3
- i6zUr7E0hktjPOUZb2T9pd7VeL6JZtgW5Y2CDQyhvy9FG/UTzzCMV8iYowoIbK/rjYjFpWiKb
- aOa30QniK2jdFXb6WVuWWhNI5MQeTW4FIBDTIscFE2/YRRZtvi0zCRuHrofWASO9zmk+tACXy
- LCXFqkkIHkZUKN6ecksIw8N+Lsu9rgjfR+wAcOvNd2zSre7k2xgmrqdMHAd0=
+X-UI-Out-Filterresults: notjunk:1;V03:K0:1x9XVEsbl0Q=:KUl/xEwPQvHctmYCaZkSNG
+ gaMPsWD9bU4x5HMK6PwEw5QOdyBTrQIopRjmarRhJgBj74KAogcWxyF3GWZFLg3+639+FFM/E
+ Uv0r5w2gVg0B8xhrIIogQcnNdhWvAQ1c3xV1kBY3jy4bkzX1MBZxag3Fvfr1RVoqptjeDBv4v
+ ZNwBWAqSytWcpbK5U97opdQNRyBVFA4drOkkkJmLe25x1kKTPE3+P3ZfIfxORfqAeKQEMKNfi
+ c1CznMHU6g8SlkC7KLNkpAYvXce0cTW2KA+AwWccLcf04x29mPo3095g26LKKkNoz+TJM7SCW
+ QqKZTu+W1oKYRnx0i52nI8edTUPg2ndD9btRQE1Q3R4nWwLEF4Q9D44jszwhi5+lqV0OMA9C2
+ 9gAAntW0DBG+sv612QdEPTD17JGpy8BJ1O646vRt3cJjNKaamqxBRdm+B1oR1k05xqQrYDYrB
+ yz7FJeHa/APPQaHckZnUxXCbRkfzzO6LYclUleUFVcOqcrn5XhQW1o2vQDJNGMW8fLiqOCXjV
+ jlWuXxoAMvPM37uZcaj8zBSBFahTOCYxMuX0W0cErRbVdoTbvNaq66prhpkHYMb8NusvqphHp
+ +AVYr7g5lqZcMdYsrMDm7ZbnwBg47w4q0c3irx24v3auLg8VIsgZ5EjK95kj0VnEi14xXYEWv
+ 8in0HfoFRltD+mJedgk4OLgZH5wj5/JsJRajlMFU9V3NH9xDcvGOo3LOrkGhBD+fQxNGGMOwX
+ rtxQO+OQFQjTfa9KN8Ob+L/9CyzMur3j5GhKFZRe2vrWPTltZ+iJMtZYBNGT6+3t2bPM4el4G
+ BlRWed6nUSkdLEOCIjr1Jn5F+GXRBgpkA8QQw8bd0kCRfZLud5U9x2m6EjtVCD7lXhX+A5dTe
+ V7z76hevSdlSG0cJ0jBjvWCkgGSpZXcpOZBOgEh2DPfFAQzsXE1j7V7ACG6RFRkaFiZ9fZ89t
+ N/U4F4CTWVYIrjQJ4B4rEwBhuimN/zFJoCTPFx7jfq8q+RAvLB4BW44qSujxXq/yVx4SbjVqi
+ MQrF+1S92LqyigubAISPK8UXX3Zs8iSdS/LEYecoTGv382lLxCkl9eytx9AMNx098iq/nvPS+
+ XsVYHupBFqYjEn6gkxpVYpQCUL8Znq1ZKe8PrTi48Qr2F9Xc4EPFJtd4nadQm7DYZG5pbqSsR
+ TkUpWjM0nDlscNTtRuwKfwSBCtKjR1EESl2OdWZz2d8wMKVZTEq2VrighHZwEP8VNLI7fcj4P
+ g+3Z9DStAVHhAOryY1JAMZakEpe8BzjqhLXMdcm3hTaUuETsmQMRgYPY9W34=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 From: Markus Elfring <elfring@users.sourceforge.net>
-Date: Wed, 18 Sep 2019 11:20:48 +0200
+Date: Wed, 18 Sep 2019 12:30:18 +0200
 
-Simplify these function implementations by using a known wrapper function.
+Simplify this function implementation by using a known wrapper function.
 
 This issue was detected by using the Coccinelle software.
 
 Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
 =2D--
- drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c | 8 +-------
- drivers/media/platform/rcar-vin/rcar-core.c            | 7 +------
- 2 files changed, 2 insertions(+), 13 deletions(-)
+ drivers/media/rc/tango-ir.c | 14 ++------------
+ 1 file changed, 2 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c b/driv=
-ers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-index 00d090df11bb..944771ee5f5c 100644
-=2D-- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
-@@ -253,13 +253,7 @@ static int mtk_vcodec_probe(struct platform_device *p=
-dev)
- 	}
-
- 	for (i =3D 0; i < NUM_MAX_VDEC_REG_BASE; i++) {
--		res =3D platform_get_resource(pdev, IORESOURCE_MEM, i);
--		if (res =3D=3D NULL) {
--			dev_err(&pdev->dev, "get memory resource failed.");
--			ret =3D -ENXIO;
--			goto err_res;
--		}
--		dev->reg_base[i] =3D devm_ioremap_resource(&pdev->dev, res);
-+		dev->reg_base[i] =3D devm_platform_ioremap_resource(pdev, i);
- 		if (IS_ERR((__force void *)dev->reg_base[i])) {
- 			ret =3D PTR_ERR((__force void *)dev->reg_base[i]);
- 			goto err_res;
-diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/p=
-latform/rcar-vin/rcar-core.c
-index 6993484ff0f3..334c62805959 100644
-=2D-- a/drivers/media/platform/rcar-vin/rcar-core.c
-+++ b/drivers/media/platform/rcar-vin/rcar-core.c
-@@ -1282,7 +1282,6 @@ static int rcar_vin_probe(struct platform_device *pd=
+diff --git a/drivers/media/rc/tango-ir.c b/drivers/media/rc/tango-ir.c
+index 451ec4e9dcfa..b8eb5bc4d9be 100644
+=2D-- a/drivers/media/rc/tango-ir.c
++++ b/drivers/media/rc/tango-ir.c
+@@ -157,20 +157,10 @@ static int tango_ir_probe(struct platform_device *pd=
 ev)
- {
- 	const struct soc_device_attribute *attr;
- 	struct rvin_dev *vin;
--	struct resource *mem;
- 	int irq, ret;
+ 	struct device *dev =3D &pdev->dev;
+ 	struct rc_dev *rc;
+ 	struct tango_ir *ir;
+-	struct resource *rc5_res;
+-	struct resource *rc6_res;
+ 	u64 clkrate, clkdiv;
+ 	int irq, err;
+ 	u32 val;
 
- 	vin =3D devm_kzalloc(&pdev->dev, sizeof(*vin), GFP_KERNEL);
-@@ -1301,11 +1300,7 @@ static int rcar_vin_probe(struct platform_device *p=
-dev)
- 	if (attr)
- 		vin->info =3D attr->data;
-
--	mem =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	if (mem =3D=3D NULL)
+-	rc5_res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	if (!rc5_res)
 -		return -EINVAL;
 -
--	vin->base =3D devm_ioremap_resource(vin->dev, mem);
-+	vin->base =3D devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(vin->base))
- 		return PTR_ERR(vin->base);
+-	rc6_res =3D platform_get_resource(pdev, IORESOURCE_MEM, 1);
+-	if (!rc6_res)
+-		return -EINVAL;
+-
+ 	irq =3D platform_get_irq(pdev, 0);
+ 	if (irq <=3D 0)
+ 		return -EINVAL;
+@@ -179,11 +169,11 @@ static int tango_ir_probe(struct platform_device *pd=
+ev)
+ 	if (!ir)
+ 		return -ENOMEM;
+
+-	ir->rc5_base =3D devm_ioremap_resource(dev, rc5_res);
++	ir->rc5_base =3D devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(ir->rc5_base))
+ 		return PTR_ERR(ir->rc5_base);
+
+-	ir->rc6_base =3D devm_ioremap_resource(dev, rc6_res);
++	ir->rc6_base =3D devm_platform_ioremap_resource(pdev, 1);
+ 	if (IS_ERR(ir->rc6_base))
+ 		return PTR_ERR(ir->rc6_base);
 
 =2D-
 2.23.0
