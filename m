@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F3FCEB5A9A
-	for <lists+linux-media@lfdr.de>; Wed, 18 Sep 2019 07:03:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6361FB5AA0
+	for <lists+linux-media@lfdr.de>; Wed, 18 Sep 2019 07:04:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727075AbfIRFD0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Sep 2019 01:03:26 -0400
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:41613 "EHLO
+        id S1727132AbfIRFEK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Sep 2019 01:04:10 -0400
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:36446 "EHLO
         mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726930AbfIRFDZ (ORCPT
+        with ESMTP id S1726444AbfIRFEJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Sep 2019 01:03:25 -0400
-Received: by mail-ed1-f65.google.com with SMTP id f20so2933413edv.8
-        for <linux-media@vger.kernel.org>; Tue, 17 Sep 2019 22:03:24 -0700 (PDT)
+        Wed, 18 Sep 2019 01:04:09 -0400
+Received: by mail-ed1-f65.google.com with SMTP id f2so5400268edw.3
+        for <linux-media@vger.kernel.org>; Tue, 17 Sep 2019 22:04:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=o6Yu5aLgFr4xlN3BdFA/n9HFrfFS0OabwkHg9ZOTitM=;
-        b=ItjY6m3MusiWRpAUhexsCn2x7kWW7VXP29efW/3uz4qPiXQfzG03vD4JkXRQ2D7skf
-         JFZwUHN2MGp1Ct1Rgx8g0J3N/PYfEc9y+aBVN5tK6t3sAeJFVjYSq9pe5OCZlIowgiWH
-         37j9TytWf9mwsqHPC0m/pNFJrl1RRnF9pgB/sbUn6V0yRRrkzB6bTeckc3csZQ3WLpg5
-         xvvB7McYTqhmS4V3IO/gpgrpInApVa6eBEYCmIdB+Cic87G2YHZaDI9J8KaeGAVoltW1
-         1S1/Rh4Xr5s70ajpyKIUwy8jpc09U4hmmUW+OjDcW0bqhQcqFoLyZgLWkcnVtDFTuntS
-         EF4Q==
+        bh=OHURgL8YrqfsdYLneBy7ACmZxY783i3qLJ/kVnEBgIg=;
+        b=NGNBMnDrYY6pjbfCkUnyS1o9LLcMfIfjqirQfoaYRgbSycTvjp6EI0K9zs8G2udNpq
+         21FAlzEKxelzZ6YfJumj4+I0xhan3zcHjyQCQYJaDp2CflBYW3i4Xs0BD/wd3234UftB
+         ZDYL7XxCFcSPEfoe8Y0RD4rgHqiCq8oIrfmqUTwyA9W1mNhn0mDJguZ/3WnxYmkwAIOE
+         RhuzLP4LlyKDkHEiMoQH0rtDHQjfzd6m0woEXBLCEWQ3vtbGFR+klpAs6gE0Y5Yb27G1
+         r1xAtwmwt/SdhqsteOugdam7Su8J8OhNhi1NC7afpsY9d5ivMyqfegC4cY0mL4qhw3L3
+         sT9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=o6Yu5aLgFr4xlN3BdFA/n9HFrfFS0OabwkHg9ZOTitM=;
-        b=gsrUT7soa218QLBn7AZa7M1JWgEhw5N5ch7jtLD7bIfMti4P1NTTC9qAXEKyvc4tKg
-         F/l50fkR22I/PDq+LWV0FP6YZCCbhxo0w/0uB78i+JCXLU4fCM8jB6YTxH0gn+7aorvI
-         OH9Z5gdwdXsklOHqS4zReaeu0d5lbIn3eO2NH+naMdyiA1zxl3g3Mxt8aLgj4ECVgi13
-         /smqwUueHhC2tR8aqka9/iIZXaoqyNlMFs0SN7meKXrk4oxGVcOt7hW+wU9dwIiw38Mf
-         Dsb8vBcZmbcdq7sxaOYpp1v7IQTTpsRypxtofX9rInM5KW5HyS3IA4wZ3bidfjWF6IT1
-         qtUw==
-X-Gm-Message-State: APjAAAWZkUfwLo26hTkijp67Mn2SS+Alnqlx5jnpYvh8fg/zIW9J0zLI
-        aJR9wQZN2OiN40rX02+8jmdPIxgQy4Kqxmfm6hUFpPFbXgXNsQ==
-X-Google-Smtp-Source: APXvYqyRColqHKOhn4iMIgeNXOivEgz2mu4ZEduWaPxQI1c56QurLgQdtjB6eorbWwrymHzWI/0PZ5LTSM1ZdQJQrIo=
-X-Received: by 2002:a50:9b58:: with SMTP id a24mr1007726edj.29.1568783003621;
- Tue, 17 Sep 2019 22:03:23 -0700 (PDT)
+        bh=OHURgL8YrqfsdYLneBy7ACmZxY783i3qLJ/kVnEBgIg=;
+        b=JACOO2sSHPlUbzbW8QcKxCE9+SxLCNAa5/yJtd49YABwmND4vab2PablCcq5BbNOrD
+         QntcnWF9sJfBeGOdzQJ2tXbF4sUdfb3yTMj6dsOjOd3huYaOI7ZYi5Nc0tIDRP7iHEGA
+         PRAtgvh5e8oyeraFoVBE4pjtGSjtNxQSeNNTH5xEIonweS97ux8O13PWMgxrsApoU8Bu
+         o8nHThZYSS0dqSW1Z6y+4gsHIXpI56o1rDmSmo9Jocv7tp9UnztNxcdZ8T8dGeG1zh/d
+         cr9Y1qhNsMMVyT/YssZkTmLTxWiGQ7i6xdWeO7u+ESLk3K9EuH7nqlHy5ootUxDpsZKI
+         qgRQ==
+X-Gm-Message-State: APjAAAXxkvuNG48KwXDztW5DYUagGCXEvN7evygL+R4OD2K2YuuQmbVk
+        fW7jxl6owh40ugIwixXN3nxKYqTGvSrIyr4//nlEaQ==
+X-Google-Smtp-Source: APXvYqyorIk2TG7oqekd+bCVHiaStJd/Xj/lzbL53mMLXZHPY2Wr3tcqMVCHqTFgVIPcda4MM56EjA9c+IujUCJ7DiI=
+X-Received: by 2002:a50:95c1:: with SMTP id x1mr8217609eda.180.1568783047335;
+ Tue, 17 Sep 2019 22:04:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190909072815.23981-1-boris.brezillon@collabora.com>
-In-Reply-To: <20190909072815.23981-1-boris.brezillon@collabora.com>
+References: <20190909072815.23981-1-boris.brezillon@collabora.com> <20190909072815.23981-2-boris.brezillon@collabora.com>
+In-Reply-To: <20190909072815.23981-2-boris.brezillon@collabora.com>
 From:   Francois Buergisser <fbuergisser@google.com>
-Date:   Wed, 18 Sep 2019 14:03:12 +0900
-Message-ID: <CABK_QF10zXzkYaLgmkoDLcOYZHj4Es0ZuLWxM+mY=A3H-JBfQA@mail.gmail.com>
-Subject: Re: [PATCH 1/3] media: hantro: h264: Fix a comment in b1_ref_list_cmp()
+Date:   Wed, 18 Sep 2019 14:03:56 +0900
+Message-ID: <CABK_QF07McU+iPvXLfnJY17bO0AOa3rkVEgFBswsM7UBYwygNQ@mail.gmail.com>
+Subject: Re: [PATCH 2/3] media: hantro: h264: Rename POC_CMP() into HANTRO_CMP()
 To:     Boris Brezillon <boris.brezillon@collabora.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hans.verkuil@cisco.com>,
@@ -68,7 +68,10 @@ X-Mailing-List: linux-media@vger.kernel.org
 On Mon, Sep 9, 2019 at 4:28 PM Boris Brezillon
 <boris.brezillon@collabora.com> wrote:
 >
-> So it matches the code and the spec.
+> And use it for all native type comparisons, even if it's not strictly
+> required. By doing that we make the code more consistent and prevent
+> from potential incorrect results in case of overflow or when the the
+> values being compared are both negative.
 >
 > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 Tested-by: Francois Buergisser <fbuergisser@chromium.org>
