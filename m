@@ -2,87 +2,204 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 67EB2B758D
-	for <lists+linux-media@lfdr.de>; Thu, 19 Sep 2019 10:58:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 19341B75A7
+	for <lists+linux-media@lfdr.de>; Thu, 19 Sep 2019 11:05:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388439AbfISI6c (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Sep 2019 04:58:32 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:36343 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388321AbfISI62 (ORCPT
+        id S1731118AbfISJFi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Sep 2019 05:05:38 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:60753 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730839AbfISJFh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Sep 2019 04:58:28 -0400
-Received: by mail-ot1-f65.google.com with SMTP id 67so2420740oto.3
-        for <linux-media@vger.kernel.org>; Thu, 19 Sep 2019 01:58:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Vsvei9Y5VfaEXgSwWw7qKH7EiWeYE55XBf3/hgO9R6k=;
-        b=UenyJm4pUHyPXuCn+tJWt5CMm5Sn6DGv0WvGh+ZDR09+0SRijMoGCd/Kz1AQ55PTJo
-         TCBaqs6niBxaU3exMcCrIsMEFucgVCbYbKR3PijFv0H5Oga7cOMy888/LrjD+4OWVVcU
-         HUwZPc8xDgF8aTDwbLcLwYVc8yNnyMOQIfll7HEBzGCLuO6V8XxvAnW3AuxZqg7Oom7S
-         wJSA08TTphvE3GQanz92JvRebYxXOFmbFUJQwDrslghRYozWaPl9T96G7G/hlDZcmcOH
-         35NziduYe0vMUekqfXzrMXrfC5JRg3bAP2vteVLt2IZxfoGc9RIWbVsre+pBdAPj99SN
-         IA+A==
-X-Gm-Message-State: APjAAAVYtUwtZAklRJSBrozk71x2x2PrnW4BDGnM5DfDMKVroUNfkJcp
-        8a+OQ0Swoc8ZD8oJfPWGyiVUyEq/gWZ5CR09APk=
-X-Google-Smtp-Source: APXvYqy8HAcm68+5cz6nJ8t0MturiUiIqhHMZc4iJeGMKPPIRBLSH1Ab2RIUve8U/4TA6LPhJUIfdjgUY82meIYXld8=
-X-Received: by 2002:a9d:5a06:: with SMTP id v6mr5887194oth.250.1568883507337;
- Thu, 19 Sep 2019 01:58:27 -0700 (PDT)
+        Thu, 19 Sep 2019 05:05:37 -0400
+Received: from [IPv6:2001:983:e9a7:1:c95c:52f0:f173:9443] ([IPv6:2001:983:e9a7:1:c95c:52f0:f173:9443])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id AsNaill7Gz6EAAsNbivOXv; Thu, 19 Sep 2019 11:05:35 +0200
+Subject: Re: [PATCH v4] cec-follower: add tuner analog service emulation
+To:     Jiunn Chang <c0d1n61at3@gmail.com>, linux-media@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+References: <20190918192710.170428-1-c0d1n61at3@gmail.com>
+ <20190919041844.346514-1-c0d1n61at3@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <f2146a23-b358-e9ed-1c68-386d6c7f7a68@xs4all.nl>
+Date:   Thu, 19 Sep 2019 11:05:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <156821693963.2951081.11214256396118531359.stgit@dwillia2-desk3.amr.corp.intel.com>
- <434c05bddd2b364e607e565227487910a8dd9793.1568391461.git.mchehab+samsung@kernel.org>
- <20190918123620.GA6306@pendragon.ideasonboard.com> <20190918105728.24e7eb48@coco.lan>
- <20190919065447.GF2959@kadam> <CAMuHMdU10J5zgQ0r8uoA+LFHRbyLB=AG6xygTmsxwc7T-ffdDw@mail.gmail.com>
- <87o8zgwu0m.fsf@intel.com>
-In-Reply-To: <87o8zgwu0m.fsf@intel.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 19 Sep 2019 10:58:15 +0200
-Message-ID: <CAMuHMdWGhSNu-5U0B5WN6tMRQRaAeFgcN1b=pAcXZPUpSW-ehA@mail.gmail.com>
-Subject: Re: [Ksummit-discuss] [PATCH] media: add a subsystem profile documentation
-To:     Jani Nikula <jani.nikula@intel.com>
-Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        ksummit <ksummit-discuss@lists.linuxfoundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190919041844.346514-1-c0d1n61at3@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfArhTZBB8MaTUNZbPeO56RmH4cMLrVtJlzNSLVXkPcofkHEXZGvAySwwJbAMTt69Ktu9CX3YkrTQnuLL9WS/UAl8jibB3UKSduvkciDqYFEEOxDv9lPc
+ 7OEf5bY560qvBeI+upgJj1DlpKQsPZ+pdi64D0ez5FCiZPYFBje8VMBG1ojCY3a6IO+PyKZyPK4DbPZcUx+xfqM9Z4qRPnpfRBRw6eENL/HbhdC8X+H7h7rJ
+ iPHdpQxPO4ZMkbT4InC92xdWDCNcasVljlMe03MJmhQnl4pNAeK3WRWMfoGfHyjFUzBZoqJ9fULFvARMT9ZzAwGoxzWZuDjdHfpE7CgYE5Gp4G/f1QBmAtw1
+ PW3/AvqB0GooPtHff1lV4btSa8nxxQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jani,
+On 9/19/19 6:18 AM, Jiunn Chang wrote:
+> Implement the following tuner control features:
+>   - <Select Analogue Service>
+>   - <Give Tuner Device Status> and reply <Tuner Device Status>
+> 
+> Signed-off-by: Jiunn Chang <c0d1n61at3@gmail.com>
+> ---
+> 
+> Changes made since v1:
+>   - Fix typos/bugs
+>   - Import reply_feature_abort() from cec-processing.cpp
+>   - Add functionality to choose nearest frequency
+> 
+> Changes made since v2:
+>   - Fix typos/bugs
+>   - Use state from node in cec-follower.h
+>   - Rename functions to analog_ prefix
+> 
+> Changes made since v3:
+>   - Refactor lines numbers since a fix patch was needed for cec-tuner.cpp
+> 
+> ---
+>  utils/cec-follower/cec-follower.h |  1 +
+>  utils/cec-follower/cec-tuner.cpp  | 57 ++++++++++++++++++++++++-------
+>  2 files changed, 46 insertions(+), 12 deletions(-)
+> 
+> diff --git a/utils/cec-follower/cec-follower.h b/utils/cec-follower/cec-follower.h
+> index 9f5f1be4..9c146be1 100644
+> --- a/utils/cec-follower/cec-follower.h
+> +++ b/utils/cec-follower/cec-follower.h
+> @@ -51,6 +51,7 @@ struct state {
+>  	__u64 rc_press_rx_ts;
+>  	unsigned rc_press_hold_count;
+>  	unsigned rc_duration_sum;
+> +	struct cec_op_tuner_device_info tuner_dev_info;
+>  };
+>  
+>  struct node {
+> diff --git a/utils/cec-follower/cec-tuner.cpp b/utils/cec-follower/cec-tuner.cpp
+> index 2303e6bb..87c631e4 100644
+> --- a/utils/cec-follower/cec-tuner.cpp
+> +++ b/utils/cec-follower/cec-tuner.cpp
+> @@ -4,6 +4,7 @@
+>   */
+>  
+>  #include <sys/ioctl.h>
+> +#include <stdlib.h>
+>  
+>  #include "cec-follower.h"
+>  
+> @@ -117,6 +118,35 @@ static void reply_feature_abort(struct node *node, struct cec_msg *msg, __u8 rea
+>  	transmit(node, msg);
+>  }
+>  
+> +static void analog_set_tuner_chan_freq(struct node *node)
+> +{
+> +	unsigned int ana_freq_khz = (node->state.tuner_dev_info.analog.ana_freq * 625) / 10;
+> +	unsigned int nearest = analog_freqs_khz[node->state.tuner_dev_info.analog.ana_bcast_type][node->state.tuner_dev_info.analog.bcast_system][0];
 
-On Thu, Sep 19, 2019 at 10:49 AM Jani Nikula <jani.nikula@intel.com> wrote:
-> On Thu, 19 Sep 2019, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > On Thu, Sep 19, 2019 at 8:57 AM Dan Carpenter <dan.carpenter@oracle.com> wrote:
-> >> On Wed, Sep 18, 2019 at 10:57:28AM -0300, Mauro Carvalho Chehab wrote:
-> >> When I sent a patch, I use get_maintainer.pl then I add whoever the
-> >> wrote the commit from the Fixes tag.  Then I remove Colin King and Kees
-> >> Cook from the CC list because they worked all over the tree and I know
-> >> them.  I also normally remove LKML if there is another mailing list but
-> >> at least one subsystem uses LKML for patchwork so this isn't safe.
-> >>
-> >> So the safest instructions are "Use get_matainer.pl and add the person
-> >> who wrote the commit in the Fixes tag".
-> >
-> > Better: perhaps get_maintainer.pl can be taught to add the author of the
-> > commit pointed to by the Fixes tag, if present?
->
-> The drm maintainer tools [1] have that, with Cc's and reviewers picked
-> up, and appropriate Cc: stable added. On a random commit from v5.3:
+I'd make both variable 'int', since that will avoid the int cast in the abs function.
 
-Thanks, but that's not scripts/get_maintainer.pl, and restricted to one out
-of N subsystems.  Not so dissimilar from what Dan was complaining about.
+Add newline after variable declarations.
 
-Gr{oetje,eeting}s,
+Also make a temp variable like this:
 
-                        Geert
+	struct cec_op_tuner_device_info *info = &node->state.tuner_dev_info;
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+and use that instead instead of repeating 'node->state.tuner_dev_info.' everywhere.
+That's way too long.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> +	for (int i = 0; i < 3; i++) {
+
+Rather than hardcoding '3' here, add a NUM_ANALOG_FREQS define and use that.
+
+Of course, the analog_freqs_khz array declaration should use this new define as well.
+This means a new version of 'cec-follower: create analog channel frequencies'.
+
+I'd add a:
+		int freq = analog_freqs_khz[info->analog.ana_bcast_type][info->analog.bcast_system][i];
+
+and use that below.
+
+> +		if (abs(int(ana_freq_khz - analog_freqs_khz[node->state.tuner_dev_info.analog.ana_bcast_type][node->state.tuner_dev_info.analog.bcast_system][i])) <
+> +		    abs(int(ana_freq_khz - nearest))) {
+> +			nearest = analog_freqs_khz[node->state.tuner_dev_info.analog.ana_bcast_type][node->state.tuner_dev_info.analog.bcast_system][i];
+> +		}
+> +	}
+> +	node->state.tuner_dev_info.analog.ana_freq = (nearest * 10) / 625;
+> +}
+> +
+> +static bool analog_set_tuner_dev_info(struct node *node, struct cec_msg *msg)
+> +{
+> +	node->state.tuner_dev_info.rec_flag = CEC_OP_REC_FLAG_NOT_USED;
+> +	node->state.tuner_dev_info.tuner_display_info = CEC_OP_TUNER_DISPLAY_INFO_ANALOGUE;
+> +	node->state.tuner_dev_info.is_analog = true;
+
+Same here, use info pointer.
+
+> +	cec_ops_select_analogue_service(msg,
+> +					&node->state.tuner_dev_info.analog.ana_bcast_type,
+> +					&node->state.tuner_dev_info.analog.ana_freq,
+> +					&node->state.tuner_dev_info.analog.bcast_system);
+> +	if (node->state.tuner_dev_info.analog.ana_bcast_type > 2 ||
+> +	    node->state.tuner_dev_info.analog.bcast_system > 8)
+> +		return false;
+> +	analog_set_tuner_chan_freq(node);
+> +	return true;
+> +}
+> +
+>  void process_tuner_record_timer_msgs(struct node *node, struct cec_msg &msg, unsigned me)
+>  {
+>  	bool is_bcast = cec_msg_is_broadcast(&msg);
+> @@ -133,21 +163,11 @@ void process_tuner_record_timer_msgs(struct node *node, struct cec_msg &msg, uns
+>  		*/
+>  
+>  	case CEC_MSG_GIVE_TUNER_DEVICE_STATUS: {
+> -		if (!cec_has_tuner(1 << me))
+> +		if (!cec_has_tuner(1 << me) && !cec_has_tv(1 << me))
+>  			break;
+>  
+> -		struct cec_op_tuner_device_info tuner_dev_info = {};
+> -
+>  		cec_msg_set_reply_to(&msg, &msg);
+> -		tuner_dev_info.rec_flag = CEC_OP_REC_FLAG_NOT_USED;
+> -		tuner_dev_info.tuner_display_info = CEC_OP_TUNER_DISPLAY_INFO_NONE;
+> -		tuner_dev_info.is_analog = false;
+> -		tuner_dev_info.digital.service_id_method = CEC_OP_SERVICE_ID_METHOD_BY_CHANNEL;
+> -		tuner_dev_info.digital.dig_bcast_system = CEC_OP_DIG_SERVICE_BCAST_SYSTEM_DVB_C;
+> -		tuner_dev_info.digital.channel.channel_number_fmt = CEC_OP_CHANNEL_NUMBER_FMT_1_PART;
+> -		tuner_dev_info.digital.channel.minor = 1;
+> -
+> -		cec_msg_tuner_device_status(&msg, &tuner_dev_info);
+> +		cec_msg_tuner_device_status(&msg, &node->state.tuner_dev_info);
+>  		transmit(node, &msg);
+>  		return;
+>  	}
+> @@ -156,6 +176,19 @@ void process_tuner_record_timer_msgs(struct node *node, struct cec_msg &msg, uns
+>  		return;
+>  
+>  	case CEC_MSG_SELECT_ANALOGUE_SERVICE:
+> +		if (!cec_has_tuner(1 << me) && !cec_has_tv(1 << me))
+> +			break;
+> +
+> +		if (node->state.tuner_dev_info.rec_flag == CEC_OP_REC_FLAG_USED) {
+> +			reply_feature_abort(node, &msg, CEC_OP_ABORT_REFUSED);
+> +			return;
+> +		}
+> +		if (!analog_set_tuner_dev_info(node, &msg)) {
+> +			reply_feature_abort(node, &msg, CEC_OP_ABORT_INVALID_OP);
+> +			return;
+> +		}
+> +		return;
+> +
+>  	case CEC_MSG_SELECT_DIGITAL_SERVICE:
+>  	case CEC_MSG_TUNER_STEP_DECREMENT:
+>  	case CEC_MSG_TUNER_STEP_INCREMENT:
+> 
+
+Can you post a patch series next time? There are now three patches on top of one another,
+it's easier to review if I see the whole set.
+
+Regards,
+
+	Hans
