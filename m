@@ -2,57 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 80DDAB7177
-	for <lists+linux-media@lfdr.de>; Thu, 19 Sep 2019 04:17:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D229B71AA
+	for <lists+linux-media@lfdr.de>; Thu, 19 Sep 2019 04:53:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387957AbfISCRT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Sep 2019 22:17:19 -0400
-Received: from mail-ot1-f53.google.com ([209.85.210.53]:37725 "EHLO
-        mail-ot1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730815AbfISCRT (ORCPT
+        id S1731036AbfISCx1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Sep 2019 22:53:27 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:37925 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730685AbfISCx1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Sep 2019 22:17:19 -0400
-Received: by mail-ot1-f53.google.com with SMTP id k32so1721963otc.4
-        for <linux-media@vger.kernel.org>; Wed, 18 Sep 2019 19:17:18 -0700 (PDT)
+        Wed, 18 Sep 2019 22:53:27 -0400
+Received: by mail-ot1-f68.google.com with SMTP id e11so1764972otl.5
+        for <linux-media@vger.kernel.org>; Wed, 18 Sep 2019 19:53:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=vhHwix/O6zIG7j5J5ipIgYIaXlpdR/mZcHmp3KJBBXM=;
-        b=L0LdormV0YhIgLrUDlBFplL7ZRRTNV5UfcXHgsJbaOS09wSdowj108quIpvIxm2e77
-         krpj5S0yc+mBn9yAs5og/CctDox1I8paLh/UpkRtB1vVrk2Crt1TyXljnLXRYoCnx+Hw
-         J7zZ6B3p+sk5ZuJPvSFH5OKRMA9/UrUmShbZjxe9BcFR49xcCEC4XP46/JBD+seE9xti
-         Tm5rwADgNwazvkFiLo+WDeQq1G8NZ8eswVtp8sMPBIGbX+zwS5Duq7kXQscQAL4wiNOe
-         B9tk1mm32u6bjrHjr1ExCNHcyn5/QyE7LRJKjPijBtceSQVG1L34SB0qXZGgxoFm62Sz
-         rIrw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=FfOVvBN9pvMU4KWu4mwncJyTVRWcX9dwFxB5dHm6iDo=;
+        b=pQ3cU/JNRH+InzAWTFGB1an519NCGxWciLOHdxTHVgcDhzQsbTk22gl5U33E3KSUqI
+         dYyqtRKsaRrHGAY5UNc+QPkU2PNPUgTUiQFPAqDs0YhNgVQ3YVoQa6hrfWmqXr+ZMcdj
+         D7tEmrd1202Rr8Hs1MobBfZ7V81OsWkG9oPjmU4BiSmC5s9whzjD7n0o6uZqecjA/iA0
+         r/DdSI+wZk0pjA8Rumzs6qWT5Rb6lJuZJzUPofVPn5cnWEqdJ03CIL2JNSx40Tjp6Xun
+         UeCR0BM28DSfEdyO1u8jpZn12cAHikM44gTrp02Pb6A4PNH2KYjMsCeFoi4ewnHosnVR
+         dVFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=vhHwix/O6zIG7j5J5ipIgYIaXlpdR/mZcHmp3KJBBXM=;
-        b=ffArJgYuqaRC62IXjX3ngvz2ZtVZ7444LlBiUooL45FwDLR3FOVKJViQvpKTO/U6xt
-         yYjQF8GLD8ArYhKDjL6ZXBBNiwsnA7GdHPvUS5NcHWUyA/9gnS6lIe6LoNRbY293Leb5
-         Cm05Z2S6WhyPcUzrY7WpH5639V8oHBlI47fZ0Y+uO3hVYp8Dk5FmsSkdZ1EuPHglryp2
-         52nETNJETFJwGRfmKLzpdj1NWwPJQ9FMwwqup8unNakGoDQs36l+RQhaFDAPI2HXUqiW
-         OfhZJkpsk+n7Y0RA4qjTFxzM1MMnFX5PL5iCYARuyqvBEK+Br+YUYmEC9fT5wctV0mAo
-         BPcQ==
-X-Gm-Message-State: APjAAAW6DaFUHsLo0lFBTSJ1gBF/2QGzwkJuPzQRFm0Y1ueziDRsKKtE
-        pO5LefiNfGVtbeCx9rarPozNz28s
-X-Google-Smtp-Source: APXvYqxJJptmQ+ISBTWPyX9+dJ0r0MMUhwinQCJ0u7e7F5UClgsr5ZwwTbU2EAuNtnuByixFKK7gPQ==
-X-Received: by 2002:a9d:6a51:: with SMTP id h17mr514238otn.218.1568859438066;
-        Wed, 18 Sep 2019 19:17:18 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=FfOVvBN9pvMU4KWu4mwncJyTVRWcX9dwFxB5dHm6iDo=;
+        b=KEO8CKfbGYxQF0e1zQ+5ZxsJHiz1yw63vkBFjnI2BOhZbIkPcHeEOymiJRr4X4Q8Gk
+         zzrdiHP2rtoWSfbxu9i4ibGOcQVgsYUoJ1HtV0IZ9xJurZ9mRevt1LRxwfJp87tCRQR2
+         Q5BlTv1CgIMybCZx5hCO/8q/6gFLTG6GPqBh773wr3fxtNfuq6E1CTdvAYMRPxIXFj5P
+         COSUBqPAbQohs+KO1WuUX/yB3NiqLGwVwoXkPphOa6r6qjuWb+Yt2xPini+ijie1stkB
+         HyoLRRJSBzmX72K691zl3ZGVDbEUlt3v0kmyim0GEmVfj6ZGVboXyptWy4PCDKCYmDqA
+         yUTQ==
+X-Gm-Message-State: APjAAAWtZrPC5YJk+HR4ffWcbOvjHSPo/vfIZXqL/p1KzGjjPaiApV5b
+        9m1iXDl8sruUnlX/8kdHd4A5l29s
+X-Google-Smtp-Source: APXvYqzZ2/c0Sr5hvKD7XrhnHOKvbFSmhKJ9u5jPTKuTlHSLTxW3MPYAg6nY2o/IavRPnuPOMGTiVw==
+X-Received: by 2002:a05:6830:16da:: with SMTP id l26mr5230082otr.339.1568861606185;
+        Wed, 18 Sep 2019 19:53:26 -0700 (PDT)
 Received: from rYz3n.attlocal.net ([2600:1700:210:3790::48])
-        by smtp.googlemail.com with ESMTPSA id a21sm2178772oia.27.2019.09.18.19.17.16
+        by smtp.googlemail.com with ESMTPSA id g18sm2203757otg.24.2019.09.18.19.53.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Sep 2019 19:17:17 -0700 (PDT)
+        Wed, 18 Sep 2019 19:53:25 -0700 (PDT)
 From:   Jiunn Chang <c0d1n61at3@gmail.com>
 To:     linux-media@vger.kernel.org,
         linux-kernel-mentees@lists.linuxfoundation.org
 Cc:     hverkuil@xs4all.nl
-Subject: [PATCH] cec-follower: fix cec-tuner.cpp
-Date:   Wed, 18 Sep 2019 21:17:16 -0500
-Message-Id: <20190919021716.259614-1-c0d1n61at3@gmail.com>
+Subject: [PATCH v3] cec-follower: create analog channel frequencies
+Date:   Wed, 18 Sep 2019 21:53:24 -0500
+Message-Id: <20190919025324.277999-1-c0d1n61at3@gmail.com>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20190917091323.48665-1-c0d1n61at3@gmail.com>
+References: <20190917091323.48665-1-c0d1n61at3@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -60,94 +62,115 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Export code from cec-processing.cpp to cec-tuner.cpp so testing logic
-does not break for PRESUMED_OK which replies on the feature abort
-message.  Also needed it a boolean for broadcast messages that should
-not be aborted.
+This frequency table will allow proper testing of tuner control.  There
+are three frequencies per analog broadcast type and broadcast system, so
+tuner increment and decrement can be tested.
 
 Signed-off-by: Jiunn Chang <c0d1n61at3@gmail.com>
 ---
- utils/cec-follower/cec-processing.cpp |  4 +--
- utils/cec-follower/cec-tuner.cpp      | 37 +++++++++++++++++++++++++++
- 2 files changed, 39 insertions(+), 2 deletions(-)
 
-diff --git a/utils/cec-follower/cec-processing.cpp b/utils/cec-follower/cec-processing.cpp
-index 15cedddf..c6ef1d09 100644
---- a/utils/cec-follower/cec-processing.cpp
-+++ b/utils/cec-follower/cec-processing.cpp
-@@ -608,7 +608,7 @@ static void processMsg(struct node *node, struct cec_msg &msg, unsigned me)
- 	case CEC_MSG_DECK_STATUS:
- 		return;
- 
--	/* Tuner Centric Messages */
-+	/* Tuner/Record/Timer Messages */
- 
- 	case CEC_MSG_GIVE_TUNER_DEVICE_STATUS:
- 	case CEC_MSG_TUNER_DEVICE_STATUS:
-@@ -630,7 +630,7 @@ static void processMsg(struct node *node, struct cec_msg &msg, unsigned me)
- 	case CEC_MSG_TIMER_CLEARED_STATUS:
- 	case CEC_MSG_TIMER_STATUS:
- 		process_tuner_record_timer_msgs(node, msg, me);
--		break;
-+		return;
- 
- 		/* Dynamic Auto Lipsync */
- 
+Changes since v1:
+  - Add Wikipedia link for analog channel frequencies
+  - Add spaces between { and }
+
+Changes since v2:
+  - Refactor lines numbers since a fix patch was needed for cec-tuner.cpp
+
+---
+ utils/cec-follower/cec-tuner.cpp | 80 ++++++++++++++++++++++++++++++++
+ 1 file changed, 80 insertions(+)
+
 diff --git a/utils/cec-follower/cec-tuner.cpp b/utils/cec-follower/cec-tuner.cpp
-index 5e794d71..bb727ae7 100644
+index bb727ae7..2303e6bb 100644
 --- a/utils/cec-follower/cec-tuner.cpp
 +++ b/utils/cec-follower/cec-tuner.cpp
-@@ -7,8 +7,40 @@
+@@ -7,6 +7,86 @@
  
  #include "cec-follower.h"
  
-+static void reply_feature_abort(struct node *node, struct cec_msg *msg, __u8 reason = CEC_OP_ABORT_UNRECOGNIZED_OP)
++/*
++ * This table contains analog television channel frequencies in KHz.  There are
++ * a total of three frequencies per analog broadcast type and broadcast system.
++ *
++ * CEC 17 and CEC Table 31 of the 1.4 specification lists the available analog
++ * broadcast types and broadcast systems.
++ *
++ * The table is indexed by [ana_bcast_type][bcast_system][i].
++ *
++ * Analog channel frequencies are from Wikipedia:
++ *
++ * https://en.wikipedia.org/wiki/Television_channel_frequencies
++ */
++static unsigned int analog_freqs_khz[3][9][3] =
 +{
-+	unsigned la = cec_msg_initiator(msg);
-+	__u8 opcode = cec_msg_opcode(msg);
-+	__u64 ts_now = get_ts();
-+
-+	if (cec_msg_is_broadcast(msg) || cec_msg_initiator(msg) == CEC_LOG_ADDR_UNREGISTERED)
-+		return;
-+	if (reason == CEC_OP_ABORT_UNRECOGNIZED_OP) {
-+		la_info[la].feature_aborted[opcode].count++;
-+		if (la_info[la].feature_aborted[opcode].count == 2) {
-+			/* If the Abort Reason was "Unrecognized opcode", the Initiator should not send
-+			   the same message to the same Follower again at that time to avoid saturating
-+			   the bus. */
-+			warn("Received message %s from LA %d (%s) shortly after\n",
-+				opcode2s(msg).c_str(), la, la2s(la));
-+			warn("replying Feature Abort [Unrecognized Opcode] to the same message.\n");
-+		}
++	// cable
++	{
++		// pal-bg
++		{ 471250, 479250, 487250 },
++		// secam-lq
++		{ 615250, 623250, 631250 },
++		// pal-m
++		{ 501250, 507250, 513250 },
++		// ntsc-m
++		{ 519250, 525250, 531250 },
++		// pal-i
++		{ 45750, 53750, 61750 },
++		// secam-dk
++		{ 759250, 767250, 775250 },
++		// secam-bg
++		{ 495250, 503250, 511250 },
++		// secam-l
++		{ 639250, 647250, 655250 },
++		// pal-dk
++		{ 783250, 791250, 799250 }
++	},
++	// satellite
++	{
++		// pal-bg
++		{ 519250, 527250, 535250 },
++		// secam-lq
++		{ 663250, 671250, 679250 },
++		// pal-m
++		{ 537250, 543250, 549250 },
++		// ntsc-m
++		{ 555250, 561250, 567250 },
++		// pal-i
++		{ 175250, 183250, 191250 },
++		// secam-dk
++		{ 807250, 815250, 823250 },
++		// secam-bg
++		{ 543250, 551250, 559250 },
++		// secam-l
++		{ 687250, 695250, 703250 },
++		// pal-dk
++		{ 831250, 839250, 847250 }
++	},
++	// terrestrial
++	{
++		// pal-bg
++		{ 567250, 575250, 583250 },
++		// secam-lq
++		{ 711250, 719250, 727250 },
++		// pal-m
++		{ 573250, 579250, 585250 },
++		// ntsc-m
++		{ 591250, 597250, 603250 },
++		// pal-i
++		{ 199250, 207250, 215250 },
++		// secam-dk
++		{ 145250, 153250, 161250 },
++		// secam-bg
++		{ 591250, 599250, 607250 },
++		// secam-l
++		{ 735250, 743250, 751250 },
++		// pal-dk
++		{ 169250, 177250, 185250 }
 +	}
-+	else if (la_info[la].feature_aborted[opcode].count) {
-+		warn("Replying Feature Abort with abort reason different than [Unrecognized Opcode]\n");
-+		warn("to message that has previously been replied Feature Abort to with [Unrecognized Opcode].\n");
-+	}
-+	else
-+		la_info[la].feature_aborted[opcode].ts = ts_now;
++};
 +
-+	cec_msg_reply_feature_abort(msg, reason);
-+	transmit(node, msg);
-+}
-+
- void process_tuner_record_timer_msgs(struct node *node, struct cec_msg &msg, unsigned me)
+ static void reply_feature_abort(struct node *node, struct cec_msg *msg, __u8 reason = CEC_OP_ABORT_UNRECOGNIZED_OP)
  {
-+	bool is_bcast = cec_msg_is_broadcast(&msg);
-+
- 	switch (msg.msg[1]) {
- 
- 
-@@ -136,4 +168,9 @@ void process_tuner_record_timer_msgs(struct node *node, struct cec_msg &msg, uns
- 	default:
- 		break;
- 	}
-+
-+	if (is_bcast)
-+		return;
-+
-+	reply_feature_abort(node, &msg);
- }
+ 	unsigned la = cec_msg_initiator(msg);
 -- 
 2.23.0
 
