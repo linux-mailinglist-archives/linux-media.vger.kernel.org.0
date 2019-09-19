@@ -2,149 +2,198 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2666DB82C0
-	for <lists+linux-media@lfdr.de>; Thu, 19 Sep 2019 22:41:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 58637B8782
+	for <lists+linux-media@lfdr.de>; Fri, 20 Sep 2019 00:39:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404682AbfISUjm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Sep 2019 16:39:42 -0400
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:54278 "EHLO
-        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392750AbfISUje (ORCPT
+        id S2404466AbfISWjt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Sep 2019 18:39:49 -0400
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:33853 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2393525AbfISWjs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Sep 2019 16:39:34 -0400
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8JKdXnV073308;
-        Thu, 19 Sep 2019 15:39:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1568925573;
-        bh=4AxNmIxxGvgr2uIp2fxIL46eCkuXfMeHXM5eby2OiO4=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=wcjoyd0BwJqWbzrhdZD7unEkimBq7BSp72DCBI9eo66QKAsOSwFTV4xO14Pc0jnij
-         7ak/m6LMisl2q4nPFnwTFL0hNWmaZOyA9YxHB9nih2Qpr4VSGkaoGMrDMsAN9NFlWh
-         X+H+6A/5x9CKxgrCfc5XU7PFnIa0Zd0fduRoia+k=
-Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8JKdXsC122925;
-        Thu, 19 Sep 2019 15:39:33 -0500
-Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Thu, 19
- Sep 2019 15:39:29 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Thu, 19 Sep 2019 15:39:33 -0500
-Received: from uda0869644b.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8JKdKIg014276;
-        Thu, 19 Sep 2019 15:39:33 -0500
-From:   Benoit Parrot <bparrot@ti.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-CC:     Prabhakar Lad <prabhakar.csengg@gmail.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Benoit Parrot <bparrot@ti.com>
-Subject: [Patch v2 13/13] media: am437x-vpfe: Switch to SPDX Licensing
-Date:   Thu, 19 Sep 2019 15:41:25 -0500
-Message-ID: <20190919204125.15254-14-bparrot@ti.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190919204125.15254-1-bparrot@ti.com>
-References: <20190919204125.15254-1-bparrot@ti.com>
+        Thu, 19 Sep 2019 18:39:48 -0400
+Received: by mail-ed1-f67.google.com with SMTP id p10so4643649edq.1
+        for <linux-media@vger.kernel.org>; Thu, 19 Sep 2019 15:39:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=MMUjJCwIl0O1q1PtvFRwqlu/rYQ+tpcv/qKGn4UhdgA=;
+        b=nvIPEjO1WeoDUWrnWwCmiI8mGeM+jGArxJPGVfCfHiRyhLSci3YlZ4rIIZBwTNGz5Q
+         AGX76maDriHa97Ub2/b0xqOUax0ZFAWObJ9QSiVKkLB6nol8PW/sQrK15ar2cb1Sp5gb
+         f9nW7TG1IZYJq60jyyKy/quLssWhQqNarivPMMmn8bydY3iDJDeuMiPoMUsjdBk2o+DW
+         f54bB2d6oEB2BJNmQP4RvFoqLKhZWSfB+6f7CbkqDOTJiTiGisnibmawv6OO2wCwxKvH
+         eTy1K6mhUVfYLvtEmbeBZ8+nrHkzE8OYvqZFjOapaH9xN1zF1oN4bEY5BJa+Z+kJOcTg
+         fHaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=MMUjJCwIl0O1q1PtvFRwqlu/rYQ+tpcv/qKGn4UhdgA=;
+        b=iviMtPgZT5bHwwKL7bqBokbmgql4ZAptcxRldJ8wW2XpRGWMcmnV5NfFCc0ALk0/kl
+         4HZImxEeFiA/RjSIpHhtfidxbgEhXhApEZLQGCsSh/eXjeoR/SfjRUUGictGUDaHs0jq
+         o3TPKw3X2B+I8Cjs7we6LDd0i/dxDpHM+yfnbD+vo5b/LsZi0aXssD5e1O1mTvS3uBZk
+         BvdJrp8mLCAYPLEyRY8W9+1WcjlTp9kGXgkqLzT5LWh3686Tf48YXSakgx8bThT9qYWC
+         qtypwayMd3XbFxJdl059RO2Y53lEmO/CJQPS0o+JXxNzjQ8VZxZqizwirqeprL1QBnGq
+         OMFA==
+X-Gm-Message-State: APjAAAXLyLUpAKLjwXysfRPp3MUJo4FGKc/AfPmvrK9XkoTBRM9aR1ov
+        pTTnR/JGAReOGrGigjkgTHOw0aBiEQ8YRwjZeBw=
+X-Google-Smtp-Source: APXvYqxzmrmmAO7X+jj/6MZ10sKVva39TYFo83SPWoEMk9iIqCCsW5xeMm8zxuGbeez8n+hi5znolBdbXH8CQy6qZZ0=
+X-Received: by 2002:a50:bb22:: with SMTP id y31mr19327451ede.58.1568932785955;
+ Thu, 19 Sep 2019 15:39:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20190919151358.7030-1-pretoriano.mp@gmail.com> <20190919154016.l32myqh5zzccbggf@gofer.mess.org>
+In-Reply-To: <20190919154016.l32myqh5zzccbggf@gofer.mess.org>
+From:   Flavius Adrian <pretoriano.mp@gmail.com>
+Date:   Fri, 20 Sep 2019 01:39:35 +0300
+Message-ID: <CAOLSq=CPHeYpJ_j+0ZRjO0LtSC8qy4p9rfXP6d4_cPT0d8C9fA@mail.gmail.com>
+Subject: Re: [PATCH] media: rc: Add support for another iMON 0xffdc device
+To:     Sean Young <sean@mess.org>
+Cc:     linux-media@vger.kernel.org, mchehab@kernel.org,
+        Chris Vandomelen <chris@sightworks.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Switch to SPDX licensing and drop the redundant GPL text.
+On Thu, Sep 19, 2019 at 6:40 PM Sean Young <sean@mess.org> wrote:
+>
+> Hi Flavius,
+>
+> Please make sure you label your patch with sequentially increasing versions.
+> I think the last one was v3 and there is no v4.
+>
+Hi Sean,
+thanks for taking the time to review this patch.
+I decided to re-send the patch because the previous one was a bit messy,
+mostly because some mistakes i did,so that's why there's no version on
+this one.Please ignore the previous ones.
 
-Signed-off-by: Benoit Parrot <bparrot@ti.com>
----
- drivers/media/platform/am437x/am437x-vpfe.c      | 14 +-------------
- drivers/media/platform/am437x/am437x-vpfe.h      | 14 +-------------
- drivers/media/platform/am437x/am437x-vpfe_regs.h | 10 +---------
- 3 files changed, 3 insertions(+), 35 deletions(-)
+> On Thu, Sep 19, 2019 at 06:13:58PM +0300, Flavius Georgescu wrote:
+> > The device it's an iMON UltraBay (0x98 in config byte) with LCD,
+> > IR and dual-knobs front panel.
+> >
+> > To work properly the device also require its own key table,
+> > and repeat suppression for all buttons.
+> >
+> > Signed-off-by: Flavius Georgescu <pretoriano.mp@gmail.com>
+> > Co-developed-by: Chris Vandomelen <chris@sightworks.com>
+> > Signed-off-by: Chris Vandomelen <chris@sightworks.com>
+> > ---
+> >  drivers/media/rc/imon.c | 46 +++++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 46 insertions(+)
+> >
+> > diff --git a/drivers/media/rc/imon.c b/drivers/media/rc/imon.c
+> > index 37a850421fbb..17141d57e311 100644
+> > --- a/drivers/media/rc/imon.c
+> > +++ b/drivers/media/rc/imon.c
+> > @@ -83,6 +83,7 @@ struct imon_usb_dev_descr {
+> >       __u16 flags;
+> >  #define IMON_NO_FLAGS 0
+> >  #define IMON_NEED_20MS_PKT_DELAY 1
+> > +#define IMON_SUPPRESS_REPEATED_KEYS 2
+> >       struct imon_panel_key_table key_table[];
+> >  };
+> >
+> > @@ -315,6 +316,32 @@ static const struct imon_usb_dev_descr imon_DH102 = {
+> >       }
+> >  };
+> >
+> > +/* imon ultrabay front panel key table */
+> > +static const struct imon_usb_dev_descr ultrabay_table = {
+> > +     .flags = IMON_SUPPRESS_REPEATED_KEYS,
+> > +     .key_table = {
+> > +             { 0x0000000f0000ffeell, KEY_MEDIA },      /* Go */
+> > +             { 0x000000000100ffeell, KEY_UP },
+> > +             { 0x000000000001ffeell, KEY_DOWN },
+> > +             { 0x000000160000ffeell, KEY_ENTER },
+> > +             { 0x0000001f0000ffeell, KEY_AUDIO },    /* Music */
+> > +             { 0x000000200000ffeell, KEY_VIDEO },    /* Movie */
+> > +             { 0x000000210000ffeell, KEY_CAMERA },   /* Photo */
+> > +             { 0x000000270000ffeell, KEY_DVD },
+> > +             { 0x000000230000ffeell, KEY_TV },
+> > +             { 0x000000050000ffeell, KEY_PREVIOUS },
+> > +             { 0x000000070000ffeell, KEY_REWIND },
+> > +             { 0x000000040000ffeell, KEY_STOP },
+> > +             { 0x000000020000ffeell, KEY_PLAYPAUSE },
+> > +             { 0x000000080000ffeell, KEY_FASTFORWARD },
+> > +             { 0x000000060000ffeell, KEY_NEXT },
+> > +             { 0x000100000000ffeell, KEY_VOLUMEUP },
+> > +             { 0x010000000000ffeell, KEY_VOLUMEDOWN },
+> > +             { 0x000000010000ffeell, KEY_MUTE },
+> > +             { 0, KEY_RESERVED },
+> > +     }
+> > +};
+> > +
+> >  /*
+> >   * USB Device ID for iMON USB Control Boards
+> >   *
+> > @@ -1661,6 +1688,17 @@ static void imon_incoming_packet(struct imon_context *ictx,
+> >                       return;
+> >               }
+> >       }
+> > +     /* KEY repeats from knob need to be suppressed */
+> > +     if (ictx->dev_descr->flags & IMON_SUPPRESS_REPEATED_KEYS) {
+> > +             if (ictx->kc == ictx->last_keycode) {
+> > +                     msec = ktime_ms_delta(t, prev_time);
+> > +                     if (msec < ictx->idev->rep[REP_DELAY]) {
+> > +                             spin_unlock_irqrestore(&ictx->kc_lock, flags);
+> > +                             return;
+> > +                     }
+> > +             }
+> > +     }
+>
+> This can probably be merged with previous statement. Also, the nested ifs
+> can be shorted with &&.
+>
+>         if (itc->kc == KEY_MUTE ||
+>             ictx->dev_descr->flags & IMON_SUPPRESS_REPEATED_KEYS) {
+>                 if (ictx->kc == ictx->last_keycode &&
+>                     ktime_ms_delta(t, prev_time) < ictx->idev->rep[REP_DELAY]) {
+>                         spin_unlock_irqrestore(&ictx->kc_lock, flags);
+>                         return;
+>                 }
+>         }
+>
+>
+> Something like that a least. No need for the msec variable.
+>
+Thanks for the advice,already tested your solution and it's working.I
+will send a new revision which will include your changes.
 
-diff --git a/drivers/media/platform/am437x/am437x-vpfe.c b/drivers/media/platform/am437x/am437x-vpfe.c
-index 6416b7955fb7..5a66b0e9cff5 100644
---- a/drivers/media/platform/am437x/am437x-vpfe.c
-+++ b/drivers/media/platform/am437x/am437x-vpfe.c
-@@ -1,3 +1,4 @@
-+// SPDX-License-Identifier: GPL-2.0-only
- /*
-  * TI VPFE capture Driver
-  *
-@@ -5,19 +6,6 @@
-  *
-  * Benoit Parrot <bparrot@ti.com>
-  * Lad, Prabhakar <prabhakar.csengg@gmail.com>
-- *
-- * This program is free software; you may redistribute it and/or modify
-- * it under the terms of the GNU General Public License as published by
-- * the Free Software Foundation; version 2 of the License.
-- *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
-- * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
-- * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-- * SOFTWARE.
-  */
- 
- #include <linux/delay.h>
-diff --git a/drivers/media/platform/am437x/am437x-vpfe.h b/drivers/media/platform/am437x/am437x-vpfe.h
-index 7556cca308c2..fa5b85bcd8db 100644
---- a/drivers/media/platform/am437x/am437x-vpfe.h
-+++ b/drivers/media/platform/am437x/am437x-vpfe.h
-@@ -1,21 +1,9 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
- /*
-  * Copyright (C) 2013 - 2014 Texas Instruments, Inc.
-  *
-  * Benoit Parrot <bparrot@ti.com>
-  * Lad, Prabhakar <prabhakar.csengg@gmail.com>
-- *
-- * This program is free software; you may redistribute it and/or modify
-- * it under the terms of the GNU General Public License as published by
-- * the Free Software Foundation; version 2 of the License.
-- *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
-- * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
-- * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-- * SOFTWARE.
-  */
- 
- #ifndef AM437X_VPFE_H
-diff --git a/drivers/media/platform/am437x/am437x-vpfe_regs.h b/drivers/media/platform/am437x/am437x-vpfe_regs.h
-index 0746c48ec23f..63ecdca3b908 100644
---- a/drivers/media/platform/am437x/am437x-vpfe_regs.h
-+++ b/drivers/media/platform/am437x/am437x-vpfe_regs.h
-@@ -1,3 +1,4 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
- /*
-  * TI AM437x Image Sensor Interface Registers
-  *
-@@ -5,15 +6,6 @@
-  *
-  * Benoit Parrot <bparrot@ti.com>
-  * Lad, Prabhakar <prabhakar.csengg@gmail.com>
-- *
-- * This program is free software; you can redistribute it and/or modify
-- * it under the terms of the GNU General Public License version 2 as
-- * published by the Free Software Foundation.
-- *
-- * This program is distributed "as is" WITHOUT ANY WARRANTY of any
-- * kind, whether express or implied; without even the implied warranty
-- * of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-- * GNU General Public License for more details.
-  */
- 
- #ifndef AM437X_VPFE_REGS_H
+> > +
+> >       prev_time = t;
+> >       kc = ictx->kc;
+> >
+> > @@ -1848,6 +1886,14 @@ static void imon_get_ffdc_type(struct imon_context *ictx)
+> >               dev_info(ictx->dev, "0xffdc iMON Inside, iMON IR");
+> >               ictx->display_supported = false;
+> >               break;
+> > +     /* Soundgraph iMON UltraBay */
+> > +     case 0x98:
+> > +             dev_info(ictx->dev, "0xffdc iMON UltraBay, LCD + IR");
+> > +             detected_display_type = IMON_DISPLAY_TYPE_LCD;
+> > +             allowed_protos = RC_PROTO_BIT_IMON | RC_PROTO_BIT_RC6_MCE;
+> > +             ictx->dev_descr = (struct imon_usb_dev_descr *) &ultrabay_table;
+>
+> No cast needed here (I think).
+>
+Sadly,i couldn't figure a way around that and i know that probably
+isn't the best solution.
+If you have a better solution to set the key table,please let me know
+and i will be glad to
+test it.
+
+> > +             break;
+> > +
+> >       default:
+> >               dev_info(ictx->dev, "Unknown 0xffdc device, defaulting to VFD and iMON IR");
+> >               detected_display_type = IMON_DISPLAY_TYPE_VFD;
+> > --
+> > 2.20.1
+
+
+
 -- 
-2.17.1
-
+Flavius
