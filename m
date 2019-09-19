@@ -2,860 +2,245 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D76F7B765F
-	for <lists+linux-media@lfdr.de>; Thu, 19 Sep 2019 11:34:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 47F52B7681
+	for <lists+linux-media@lfdr.de>; Thu, 19 Sep 2019 11:41:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388778AbfISJeQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Sep 2019 05:34:16 -0400
-Received: from mail-pl1-f193.google.com ([209.85.214.193]:45095 "EHLO
-        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387767AbfISJeQ (ORCPT
+        id S2388909AbfISJlP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Sep 2019 05:41:15 -0400
+Received: from mailgw01.mediatek.com ([210.61.82.183]:60699 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S2388084AbfISJlP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Sep 2019 05:34:16 -0400
-Received: by mail-pl1-f193.google.com with SMTP id u12so1306836pls.12
-        for <linux-media@vger.kernel.org>; Thu, 19 Sep 2019 02:34:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=xY5Dyd42xRRcTEdOgW1XSqjcl0lyHk3thOV+R+sehvQ=;
-        b=WJkuWCIeLSZOr3LDI/JzMjRHJfuy3NPAi4+aFpCVq8ub81XpXHj6+QrSpBgJqfc2n+
-         i68ZwnXcbkZopD0fMyOUZ76Ybn0aJG62o1DtDG/R+6gedkKuSOeMvrVINaJHhfmD50E7
-         Mk4boG3lFCDiOoSNv8WcUhIok0m7nP+xNsubM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=xY5Dyd42xRRcTEdOgW1XSqjcl0lyHk3thOV+R+sehvQ=;
-        b=oMe6MfdYeBu6Wa48ZD5JABdVS5/BNMJ7P4P/6Y4sIbUAgjMrCl9cEW5PvtA51u0jQR
-         EiRmXVOVjmbkfMWQX2pWlGqVepPMOkRblzZCPia0Z1JDkywotkrog0IZLZsReZATkXKN
-         IK9blZRqBDrlS0arNmgX3DZbMqpAcoIcFlDmr30+RnwPHHh8tRFAvsnHL9wZlyP1Cfyp
-         VsmDVcX21/k0Bd0qKIPe1yVbkjoWM7EaNhNRDbb3aIGV9zrz2h0YxbQ6J5e7hfRt6nlF
-         bkajP1PmCF3cdpKrbyhtQy+pDjMOWVnCz6MC8/F6T+Dgo9iyeAt5wimK5uwGLxF5Rprq
-         rAsA==
-X-Gm-Message-State: APjAAAV9uOlP+QsZtRK01igDE+0IvbEpd9MmjJvY9xccUDeoua4iYwjr
-        l1aUGLWBDFobdk7Ltcae1/5f/Q==
-X-Google-Smtp-Source: APXvYqxehrqqlSt6WOScnOkbQKFc2QSMaBM02liHcfNbvQaYyR61TORS98qDjRquUczOJrPuQGohUA==
-X-Received: by 2002:a17:902:8d8e:: with SMTP id v14mr8882091plo.33.1568885653567;
-        Thu, 19 Sep 2019 02:34:13 -0700 (PDT)
-Received: from keiichiw1.tok.corp.google.com ([2401:fa00:4:4:e832:6ce1:abf7:e9e])
-        by smtp.gmail.com with ESMTPSA id c125sm9580152pfa.107.2019.09.19.02.34.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Sep 2019 02:34:12 -0700 (PDT)
-From:   Keiichi Watanabe <keiichiw@chromium.org>
-To:     virtio-dev@lists.oasis-open.org
-Cc:     keiichiw@chromium.org, acourbot@chromium.org, alexlau@chromium.org,
-        dgreid@chromium.org, marcheu@chromium.org, posciak@chromium.org,
-        stevensd@chromium.org, tfiga@chromium.org, hverkuil@xs4all.nl,
-        linux-media@vger.kernel.org
-Subject: [PATCH] [RFC RESEND] vdec: Add virtio video decode device specification
-Date:   Thu, 19 Sep 2019 18:34:04 +0900
-Message-Id: <20190919093404.182015-1-keiichiw@chromium.org>
-X-Mailer: git-send-email 2.23.0.237.gc6a4ce50a0-goog
+        Thu, 19 Sep 2019 05:41:15 -0400
+X-UUID: 7c4e54af02464508bce32b082209e874-20190919
+X-UUID: 7c4e54af02464508bce32b082209e874-20190919
+Received: from mtkcas09.mediatek.inc [(172.21.101.178)] by mailgw01.mediatek.com
+        (envelope-from <frederic.chen@mediatek.com>)
+        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+        with ESMTP id 681303365; Thu, 19 Sep 2019 17:41:08 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Thu, 19 Sep 2019 17:41:04 +0800
+Received: from [172.21.84.99] (172.21.84.99) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Thu, 19 Sep 2019 17:41:04 +0800
+Message-ID: <1568886066.19171.16.camel@mtksdccf07>
+Subject: Re: [RFC PATCH V3 4/5] platform: mtk-isp: Add Mediatek DIP driver
+From:   Frederic Chen <frederic.chen@mediatek.com>
+To:     Tomasz Figa <tfiga@chromium.org>
+CC:     Hans Verkuil <hans.verkuil@cisco.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        <yuzhao@chromium.org>, <zwisler@chromium.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg 
+        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
+        Sean Cheng =?UTF-8?Q?=28=E9=84=AD=E6=98=87=E5=BC=98=29?= 
+        <Sean.Cheng@mediatek.com>, "Sj Huang" <sj.huang@mediatek.com>,
+        Christie Yu =?UTF-8?Q?=28=E6=B8=B8=E9=9B=85=E6=83=A0=29?= 
+        <christie.yu@mediatek.com>,
+        Holmes Chiou =?UTF-8?Q?=28=E9=82=B1=E6=8C=BA=29?= 
+        <holmes.chiou@mediatek.com>,
+        Jerry-ch Chen <Jerry-ch.Chen@mediatek.com>,
+        Jungo Lin =?UTF-8?Q?=28=E6=9E=97=E6=98=8E=E4=BF=8A=29?= 
+        <jungo.lin@mediatek.com>,
+        Rynn Wu =?UTF-8?Q?=28=E5=90=B3=E8=82=B2=E6=81=A9=29?= 
+        <Rynn.Wu@mediatek.com>,
+        "Linux Media Mailing List" <linux-media@vger.kernel.org>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        <devicetree@vger.kernel.org>, Shik Chen <shik@chromium.org>,
+        <suleiman@chromium.org>,
+        Allan Yang =?UTF-8?Q?=28=E6=A5=8A=E6=99=BA=E9=88=9E=29?= 
+        <Allan.Yang@mediatek.com>
+Date:   Thu, 19 Sep 2019 17:41:06 +0800
+In-Reply-To: <CAAFQd5Cd2-dyQnMEy0LBwaajn7UfzEbHiJp7AkDy=T8Zy6t_=A@mail.gmail.com>
+References: <20190909192244.9367-1-frederic.chen@mediatek.com>
+         <20190909192244.9367-5-frederic.chen@mediatek.com>
+         <CAAFQd5DEn_N26M7B4X7fKHVA=XBtWJN=Y4VF7D9B=TkgXf_i+Q@mail.gmail.com>
+         <1568223671.19171.12.camel@mtksdccf07>
+         <CAAFQd5Cd2-dyQnMEy0LBwaajn7UfzEbHiJp7AkDy=T8Zy6t_=A@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MTK:  N
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-[Resending because of some issues with sending to virtio-dev. Sorry for the noise.]
+Dear Tomasz,
 
-This patch proposes virtio specification for new virtio video decode
-device.
-This device provides the functionality of hardware accelerated video
-decoding from encoded video contents provided by the guest into frame
-buffers accessible by the guest.
 
-We have prototype implementation for VMs on Chrome OS:
-* virtio-vdec device in crosvm [1]
-* virtio-vdec driver in Linux kernel v4.19 [2]
-  - This driver follows V4L2 stateful video decoder API [3].
+On Thu, 2019-09-12 at 14:58 +0900, Tomasz Figa wrote:
+> On Thu, Sep 12, 2019 at 2:41 AM Frederic Chen
+> <frederic.chen@mediatek.com> wrote:
+> >
+> > Hi Tomasz,
+> >
+> > I appreciate your helpful comments.
+> >
+> >
+> > On Tue, 2019-09-10 at 13:04 +0900, Tomasz Figa wrote:
+> > > Hi Frederic,
+> > >
+> > > On Tue, Sep 10, 2019 at 4:23 AM <frederic.chen@mediatek.com> wrote:
+> > > >
+> > > > From: Frederic Chen <frederic.chen@mediatek.com>
+> > > >
+> > > > This patch adds the driver of Digital Image Processing (DIP)
+> > > > unit in Mediatek ISP system, providing image format
+> > > > conversion, resizing, and rotation features.
+> > > >
+> > > > The mtk-isp directory will contain drivers for multiple IP
+> > > > blocks found in Mediatek ISP system. It will include ISP
+> > > > Pass 1 driver(CAM), sensor interface driver, DIP driver and
+> > > > face detection driver.
+> > > >
+> > > > Signed-off-by: Frederic Chen <frederic.chen@mediatek.com>
+> > > > ---
+> > > >  drivers/media/platform/mtk-isp/Makefile       |    7 +
+> > > >  .../media/platform/mtk-isp/isp_50/Makefile    |    7 +
+> > > >  .../platform/mtk-isp/isp_50/dip/Makefile      |   18 +
+> > > >  .../platform/mtk-isp/isp_50/dip/mtk_dip-dev.c |  650 +++++
+> > > >  .../platform/mtk-isp/isp_50/dip/mtk_dip-dev.h |  566 +++++
+> > > >  .../platform/mtk-isp/isp_50/dip/mtk_dip-hw.h  |  156 ++
+> > > >  .../platform/mtk-isp/isp_50/dip/mtk_dip-sys.c |  521 ++++
+> > > >  .../mtk-isp/isp_50/dip/mtk_dip-v4l2.c         | 2255 +++++++++++++++++
+> > > >  8 files changed, 4180 insertions(+)
+> > > >  create mode 100644 drivers/media/platform/mtk-isp/Makefile
+> > > >  create mode 100644 drivers/media/platform/mtk-isp/isp_50/Makefile
+> > > >  create mode 100644 drivers/media/platform/mtk-isp/isp_50/dip/Makefile
+> > > >  create mode 100644 drivers/media/platform/mtk-isp/isp_50/dip/mtk_dip-dev.c
+> > > >  create mode 100644 drivers/media/platform/mtk-isp/isp_50/dip/mtk_dip-dev.h
+> > > >  create mode 100644 drivers/media/platform/mtk-isp/isp_50/dip/mtk_dip-hw.h
+> > > >  create mode 100644 drivers/media/platform/mtk-isp/isp_50/dip/mtk_dip-sys.c
+> > > >  create mode 100644 drivers/media/platform/mtk-isp/isp_50/dip/mtk_dip-v4l2.c
+> > > >
+> > >
+> > > Thanks for sending v3!
+> > >
+> > > I'm going to do a full review a bit later, but please check one
+> > > comment about power handling below.
+> > >
+> > > Other than that one comment, from a quick look, I think we only have a
+> > > number of style issues left. Thanks for the hard work!
+> > >
+> > > [snip]
+> > > > +static void dip_runner_func(struct work_struct *work)
+> > > > +{
+> > > > +       struct mtk_dip_request *req = mtk_dip_hw_mdp_work_to_req(work);
+> > > > +       struct mtk_dip_dev *dip_dev = req->dip_pipe->dip_dev;
+> > > > +       struct img_config *config_data =
+> > > > +               (struct img_config *)req->working_buf->config_data.vaddr;
+> > > > +
+> > > > +       /*
+> > > > +        * Call MDP/GCE API to do HW excecution
+> > > > +        * Pass the framejob to MDP driver
+> > > > +        */
+> > > > +       pm_runtime_get_sync(dip_dev->dev);
+> > > > +       mdp_cmdq_sendtask(dip_dev->mdp_pdev, config_data,
+> > > > +                         &req->img_fparam.frameparam, NULL, false,
+> > > > +                         dip_mdp_cb_func, req);
+> > > > +}
+> > > [snip]
+> > > > +static void dip_composer_workfunc(struct work_struct *work)
+> > > > +{
+> > > > +       struct mtk_dip_request *req = mtk_dip_hw_fw_work_to_req(work);
+> > > > +       struct mtk_dip_dev *dip_dev = req->dip_pipe->dip_dev;
+> > > > +       struct img_ipi_param ipi_param;
+> > > > +       struct mtk_dip_hw_subframe *buf;
+> > > > +       int ret;
+> > > > +
+> > > > +       down(&dip_dev->sem);
+> > > > +
+> > > > +       buf = mtk_dip_hw_working_buf_alloc(req->dip_pipe->dip_dev);
+> > > > +       if (!buf) {
+> > > > +               dev_err(req->dip_pipe->dip_dev->dev,
+> > > > +                       "%s:%s:req(%p): no free working buffer available\n",
+> > > > +                       __func__, req->dip_pipe->desc->name, req);
+> > > > +       }
+> > > > +
+> > > > +       req->working_buf = buf;
+> > > > +       mtk_dip_wbuf_to_ipi_img_addr(&req->img_fparam.frameparam.subfrm_data,
+> > > > +                                    &buf->buffer);
+> > > > +       memset(buf->buffer.vaddr, 0, DIP_SUB_FRM_SZ);
+> > > > +       mtk_dip_wbuf_to_ipi_img_sw_addr(&req->img_fparam.frameparam.config_data,
+> > > > +                                       &buf->config_data);
+> > > > +       memset(buf->config_data.vaddr, 0, DIP_COMP_SZ);
+> > > > +
+> > > > +       if (!req->img_fparam.frameparam.tuning_data.present) {
+> > > > +               /*
+> > > > +                * When user enqueued without tuning buffer,
+> > > > +                * it would use driver internal buffer.
+> > > > +                */
+> > > > +               dev_dbg(dip_dev->dev,
+> > > > +                       "%s: frame_no(%d) has no tuning_data\n",
+> > > > +                       __func__, req->img_fparam.frameparam.frame_no);
+> > > > +
+> > > > +               mtk_dip_wbuf_to_ipi_tuning_addr
+> > > > +                               (&req->img_fparam.frameparam.tuning_data,
+> > > > +                                &buf->tuning_buf);
+> > > > +               memset(buf->tuning_buf.vaddr, 0, DIP_TUNING_SZ);
+> > > > +       }
+> > > > +
+> > > > +       mtk_dip_wbuf_to_ipi_img_sw_addr(&req->img_fparam.frameparam.self_data,
+> > > > +                                       &buf->frameparam);
+> > > > +       memcpy(buf->frameparam.vaddr, &req->img_fparam.frameparam,
+> > > > +              sizeof(req->img_fparam.frameparam));
+> > > > +       ipi_param.usage = IMG_IPI_FRAME;
+> > > > +       ipi_param.frm_param.handle = req->id;
+> > > > +       ipi_param.frm_param.scp_addr = (u32)buf->frameparam.scp_daddr;
+> > > > +
+> > > > +       mutex_lock(&dip_dev->hw_op_lock);
+> > > > +       atomic_inc(&dip_dev->num_composing);
+> > > > +       ret = scp_ipi_send(dip_dev->scp_pdev, SCP_IPI_DIP, &ipi_param,
+> > > > +                          sizeof(ipi_param), 0);
+> > >
+> > > We're not holding the pm_runtime enable count here
+> > > (pm_runtime_get_sync() wasn't called), so rproc_shutdown() might have
+> > > been called. Wouldn't that affect the ability for this IPI to run?
+> > >
+> > > We had a related discussion with Jerry on the FD series and I think
+> > > the conclusion is:
+> > > a) if there is any state that needs to be preserved between jobs, that
+> > > would be cleared by rproc_shutdown() then we need to call
+> > > rproc_boot/shutdown() when we start/stop streaming.
+> > > b) it there is no such state, we can keep them inside runtime PM
+> > > callbacks, but we need to call pm_runtime_get_sync() before sending an
+> > > IPI and pm_runtime_mark_last_busy() + pm_runtime_put_autosuspend()
+> > > after the SCP signals completion. In this case the runtime PM
+> > > autosuspend delay should be set to around 2-3 times the delay needed
+> > > for rproc_shutdown() + rproc_boot() to complete.
+> >
+> > Since each IMG_IPI_FRAME command is stateless, I would like to
+> > use pm_runtime_get_sync()/ pm_runtime_mark_last_busy()/
+> > pm_runtime_put_autosuspend() to fix this issue (solution b).
+> 
+> What does IMG_IPI_INIT do then? Do we need it at all?
+> 
+> I'm worried about the fact that we call rproc_boot(), IMG_IPI_INIT and
+> then rproc_shutdown(). The latter can completely shutdown the SCP and
+> clear any state there. How would the effects of IMG_IPI_INIT be
+> preserved until IMG_IPI_FRAME is called?
+> 
 
-Our prototype implementation uses [4], which allows the virtio-vdec
-device to use buffers allocated by virtio-gpu device.
+The command IMG_IPI_INIT is to initialize the DIP hardware. Although the
+DIP hardware status is not cleared when SCP is powered off, it can still
+be cleared after mtk_dip_runtime_suspend() is called (it means that DIP
+is going to be powered off).
 
-Any feedback would be greatly appreciated. Thank you.
+I would like to re-initialize the DIP with IMG_IPI_INIT in
+mtk_dip_runtime_resume() to handle this case. Is is OK?
 
-[1] https://chromium-review.googlesource.com/q/hashtag:%22virtio-vdec-device%22+(status:open%20OR%20status:merged)
-[2] https://chromium-review.googlesource.com/q/hashtag:%22virtio-vdec-driver%22+(status:open%20OR%20status:merged)
-[3] https://hverkuil.home.xs4all.nl/codec-api/uapi/v4l/dev-decoder.html (to be merged to Linux 5.4)
-[4] https://lkml.org/lkml/2019/9/12/157
 
-Signed-off-by: Keiichi Watanabe <keiichiw@chromium.org>
----
- content.tex     |   1 +
- virtio-vdec.tex | 750 ++++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 751 insertions(+)
- create mode 100644 virtio-vdec.tex
+> Best regards,
+> Tomasz
 
-diff --git a/content.tex b/content.tex
-index 37a2190..b57d4a9 100644
---- a/content.tex
-+++ b/content.tex
-@@ -5682,6 +5682,7 @@ \subsubsection{Legacy Interface: Framing Requirements}\label{sec:Device
- \input{virtio-input.tex}
- \input{virtio-crypto.tex}
- \input{virtio-vsock.tex}
-+\input{virtio-vdec.tex}
 
- \chapter{Reserved Feature Bits}\label{sec:Reserved Feature Bits}
+Sincerely,
 
-diff --git a/virtio-vdec.tex b/virtio-vdec.tex
-new file mode 100644
-index 0000000..d117129
---- /dev/null
-+++ b/virtio-vdec.tex
-@@ -0,0 +1,750 @@
-+\section{Video Decode Device}
-+\label{sec:Device Types / Video Decode Device}
-+
-+virtio-vdec is a virtio based video decoder. This device provides the
-+functionality of hardware accelerated video decoding from encoded
-+video contents provided by the guest into frame buffers accessible by
-+the guest.
-+
-+\subsection{Device ID}
-+\label{sec:Device Types / Video Decode Device / Device ID}
-+
-+28
-+
-+\subsection{Virtqueues}
-+\label{sec:Device Types / Video Decode Device / Virtqueues}
-+
-+\begin{description}
-+\item[0] outq - queue for sending requests from the driver to the
-+  device
-+\item[1] inq - queue for sending requests from the device to the
-+  driver
-+\end{description}
-+
-+Each queue is used uni-directionally. outq is used to send requests
-+from the driver to the device (i.e., guest requests) and inq is used
-+to send requests in the other direction (i.e., host requests).
-+
-+\subsection{Feature bits}
-+\label{sec:Device Types / Video Decode Device / Feature bits}
-+
-+There are currently no feature bits defined for this device.
-+
-+\subsection{Device configuration layout}
-+\label{sec:Device Types / Video Decode Device / Device configuration layout}
-+
-+None.
-+
-+\subsection{Device Requirements: Device Initialization}
-+\label{sec:Device Types / Video Decode Device / Device Requirements: Device Initialization}
-+
-+The virtqueues are initialized.
-+
-+\subsection{Device Operation}
-+\label{sec:Device Types / Video Decode Device / Device Operation}
-+
-+\subsubsection{Video Buffers}
-+\label{sec:Device Types / Video Decode Device / Device Operation / Buffers}
-+
-+A virtio-vdec driver and a device use two types of video buffers:
-+\emph{bitstream buffer} and \emph{frame buffer}. A bitstream buffer
-+contains encoded video stream data. This buffer is similar to an
-+OUTPUT buffer for Video for Linux Two (V4L2) API. A frame buffer
-+contains decoded video frame data like a CAPTURE buffers for V4L2 API.
-+The driver and the device share these buffers, and each buffer is
-+identified by a unique integer called a \emph{resource handle}.
-+
-+\subsubsection{Guest Request}
-+
-+The driver queues requests to the outq virtqueue. The device MAY
-+process requests out-of-order. All requests on outq use the following
-+structure:
-+
-+\begin{lstlisting}
-+enum virtio_vdec_guest_req_type {
-+        VIRTIO_VDEC_GUEST_REQ_UNDEFINED = 0,
-+
-+        /* Global */
-+        VIRTIO_VDEC_GUEST_REQ_QUERY = 0x0100,
-+
-+        /* Per instance */
-+        VIRTIO_VDEC_GUEST_REQ_OPEN = 0x0200,
-+        VIRTIO_VDEC_GUEST_REQ_SET_BUFFER_COUNT,
-+        VIRTIO_VDEC_GUEST_REQ_REGISTER_BUFFER,
-+        VIRTIO_VDEC_GUEST_REQ_ACK_STREAM_INFO,
-+        VIRTIO_VDEC_GUEST_REQ_FRAME_BUFFER,
-+        VIRTIO_VDEC_GUEST_REQ_BITSTREAM_BUFFER,
-+        VIRTIO_VDEC_GUEST_REQ_DRAIN,
-+        VIRTIO_VDEC_GUEST_REQ_FLUSH,
-+        VIRTIO_VDEC_GUEST_REQ_CLOSE,
-+};
-+
-+struct virtio_vdec_guest_req {
-+        le32 type;
-+        le32 instance_id;
-+        union {
-+                struct virtio_vdec_guest_req_open open;
-+                struct virtio_vdec_guest_req_set_buffer_count set_buffer_count;
-+                struct virtio_vdec_guest_req_register_buffer register_buffer;
-+                struct virtio_vdec_guest_req_bitstream_buffer bitstream_buffer;
-+                struct virtio_vdec_guest_req_frame_buffer frame_buffer;
-+        };
-+};
-+\end{lstlisting}
-+
-+This structure includes the following generic fields to identify the
-+request:
-+\begin{description}
-+\item[\field{type}] specifies the type of the guest request using
-+  values from \field{enum virtio_vdec_guest_req_type}.
-+\item[\field{instance_id}] specifies an instance ID. This field is
-+  ignored unless \field{type} represents a per-instance request.
-+\end{description}
-+
-+The union fields are additional per-request data used only when
-+\field{type} has a specific value:
-+
-+\begin{description}
-+\item[\field{open}] is used when \field{type} is set to
-+  VIRTIO_VDEC_GUEST_REQ_OPEN. See \ref{sec:Device Types / Video Decode
-+    Device / Device Operation / Instance Open}.
-+\item[\field{set_buffer_count}] is used when \field{type} is set to
-+  VIRTIO_VDEC_GUEST_REQ_SET_BUFFER_COUNT. See \ref{sec:Device Types /
-+    Video Decode Device / Device Operation / Set Buffer Count}.
-+\item[\field{register_buffer}] is used when \field{type} is set to
-+  VIRTIO_VDEC_GUEST_REQ_REGISTER_BUFFER. See \ref{sec:Device Types /
-+    Video Decode Device / Device Operation / Buffer Registration}.
-+\item[\field{bitstream_buffer}] is used when \field{type} is set to
-+  VIRTIO_VDEC_GUEST_REQ_BITSTREAM_BUFFER. See \ref{sec:Device Types /
-+    Video Decode Device / Device Operation / Bitstream Buffer
-+    Requests}.
-+\item[\field{frame_buffer}] is used when \field{type} is set to
-+  VIRTIO_VDEC_GUEST_REQ_FRAME_BUFFER. See \ref{sec:Device Types /
-+    Video Decode Device / Device Operation / Frame Buffer Requests}.
-+\end{description}
-+
-+\subsubsection{Host Request}
-+
-+The device queues requests to the inq virtqueue. All requests on inq
-+use the following structure:
-+
-+\begin{lstlisting}
-+enum virtio_vdec_host_req_type {
-+        VIRTIO_VDEC_HOST_REQ_UNDEFINED = 0,
-+
-+        /* Global */
-+        VIRTIO_VDEC_HOST_REQ_QUERY = 0x0100,
-+
-+        /* Per instance */
-+        VIRTIO_VDEC_HOST_REQ_OPEN = 0x0200,
-+        VIRTIO_VDEC_HOST_REQ_SET_BUFFER_COUNT,
-+        VIRTIO_VDEC_HOST_REQ_REGISTER_BUFFER,
-+        VIRTIO_VDEC_HOST_REQ_BITSTREAM_BUFFER,
-+        VIRTIO_VDEC_HOST_REQ_STREAM_INFO,
-+        VIRTIO_VDEC_HOST_REQ_FRAME_BUFFER,
-+        VIRTIO_VDEC_HOST_REQ_DRAINED,
-+        VIRTIO_VDEC_HOST_REQ_FLUSHED,
-+        VIRTIO_VDEC_HOST_REQ_CLOSE,
-+        VIRTIO_VDEC_HOST_REQ_EOS,
-+
-+        /* Error response */
-+        VIRTIO_VDEC_HOST_REQ_NOTIFY_GLOBAL_ERROR = 0x1100,
-+};
-+
-+enum virtio_vdec_host_req_result {
-+        /* Success */
-+        VIRTIO_VDEC_HOST_REQ_RESULT_SUCCESS = 0,
-+
-+        /* Error */
-+        VIRTIO_VDEC_HOST_REQ_RESULT_ERROR_UNSPEC = 0x1000,
-+        VIRTIO_VDEC_HOST_REQ_RESULT_ERROR_INVALID_REQUEST,
-+};
-+
-+struct virtio_vdec_host_req {
-+        le32 type;     /* VIRTIO_VDEC_HOST_REQ_* */
-+        le32 result;   /* VIRTIO_VDEC_HOST_REQ_RESULT_ */
-+        le32 instance_id;
-+        le32 reserved; /* for 64-bit alignment */
-+        union {
-+                struct virtio_vdec_host_req_query query;
-+                struct virtio_vdec_host_req_set_buffer_count set_buffer_count;
-+                struct virtio_vdec_host_req_register_buffer register_buffer;
-+                struct virtio_vdec_host_req_bitstream_buffer bitstream_buffer;
-+                struct virtio_vdec_host_req_stream_info stream_info;
-+                struct virtio_vdec_host_req_frame_buffer frame_buffer;
-+        };
-+};
-+\end{lstlisting}
-+
-+This structure includes the following generic fields:
-+\begin{description}
-+\item[\field{type}] specifies the type of the host request using
-+  values from \field{enum virtio_vdec_host_req_type}.
-+\item[\field{result}] specifies the result of the operation using the
-+  \field{enum virtio_vdec_host_req_result}.
-+\item[\field{instance_id}] specifies an instance ID. This field is
-+  ignored unless \field{type} represents a per-instance request.
-+\end{description}
-+
-+The union fields are additional per-request data used only when
-+\field{type} has a specific value:
-+
-+\begin{description}
-+\item[\field{query}] is used when \field{type} is set to
-+  VIRTIO_VDEC_HOST_REQ_QUERY. See \ref{sec:Device Types / Video Decode
-+    Device / Device Operation / Query Capabilities}.
-+\item[\field{set_buffer_count}] is used when \field{type} is set to
-+  VIRTIO_VDEC_HOST_REQ_SET_BUFFER_COUNT. See \ref{sec:Device Types /
-+    Video Decode Device / Device Operation / Set Buffer Count}.
-+\item[\field{register_buffer}] is used when \field{type} is set to
-+  VIRTIO_VDEC_HOST_REQ_REGISTER_BUFFER. See \ref{sec:Device Types /
-+    Video Decode Device / Device Operation / Buffer Registration}.
-+\item[\field{bitstream_buffer}] is used when \field{type} is set to
-+  VIRTIO_VDEC_HOST_REQ_BITSTREAM_BUFFER. See \ref{sec:Device Types /
-+    Video Decode Device / Device Operation / Bitstream Buffer
-+    Requests}.
-+\item[\field{stream_info}] is used when \field{type} is set to
-+  VIRTIO_VDEC_HOST_REQ_STREAM_INFO. See \ref{sec:Device Types / Video
-+    Decode Device / Device Operation / Stream Information}.
-+\item[\field{frame_buffer}] is used when \field{type} is set to
-+  VIRTIO_VDEC_HOST_REQ_FRAME_BUFFER. See \ref{sec:Device Types / Video
-+    Decode Device / Device Operation / Frame Buffer Requests}.
-+\end{description}
-+
-+\subsubsection{Query Capabilities}
-+\label{sec:Device Types / Video Decode Device / Device Operation / Query Capabilities}
-+
-+The driver can send VIRTIO_VDEC_GUEST_REQ_QUERY to query supported
-+bitstream formats and frame formats. This is similar to
-+VIDIOC_ENUM_FMT ioctl and VIDIOC_ENUM_FRAMESIZES ioctl for V4L2
-+devices.
-+
-+The device sends supported formats as VIRTIO_VDEC_HOST_REQ_QUERY with
-+the following structure:
-+
-+\begin{lstlisting}
-+struct virtio_vdec_range {
-+        le32 min;
-+        le32 max;
-+        le32 step;
-+};
-+
-+struct virtio_vdec_format_desc {
-+        le32 fourcc;
-+        le32 mask;
-+        struct virtio_vdec_range width;
-+        struct virtio_vdec_range height;
-+};
-+
-+#define VIRTIO_VDEC_NUM_FORMATS 32
-+
-+struct virtio_vdec_host_req_query {
-+        struct virtio_vdec_format_desc bitstream_formats[VIRTIO_VDEC_NUM_FORMATS];
-+        struct virtio_vdec_format_desc frame_formats[VIRTIO_VDEC_NUM_FORMATS];
-+};
-+\end{lstlisting}
-+
-+The \field{virtio_vdec_host_req_query} describes the set of supported
-+bitstream and frame formats, with corresponding ranges of image
-+resolution and compatibility mask to determine the compatibility
-+between coded and raw formats.
-+
-+\begin{description}
-+\item[fourcc] specifies a FOURCC of a supported video codec or a pixel
-+  format.
-+\item[mask] is used to represent supported combination of video codec
-+  and pixel format. If i-th bit is set in \field{mask} of the
-+  \field{bitstream_formats[j]}, the device MUST support decoding from
-+  the video codec of \field{bitstream_formats[j]} to the pixel format
-+  of \field{frame_formats[i]}.
-+\item[width/height] represents either a supported stream resolution or
-+  a supported frame buffer resolution.
-+\end{description}
-+
-+\devicenormative{\paragraph}{Query Capabilities}{Device Types / Video
-+  Decode Device / Device Operation / Query Capabilities}
-+
-+The device MUST set \field{mask} to 0 if the \field{struct
-+  virtio_vdec_format_desc} is invalid in VIRTIO_VDEC_HOST_REQ_QUERY.
-+
-+\subsubsection{Instance Open}
-+\label{sec:Device Types / Video Decode Device / Device Operation / Instance Open}
-+
-+To acquire a decoder instance for a given coded format, the driver
-+sends a VIRTIO_VDEC_GUEST_REQ_OPEN request. The driver specifies a
-+video codec with the following structure:
-+
-+\begin{lstlisting}
-+struct virtio_vdec_guest_req_open {
-+        le32 bitstream_fourcc;
-+};
-+\end{lstlisting}
-+
-+When the guest request comes, the device allocates the instance and
-+sends a VIRTIO_VDEC_HOST_REQ_OPEN request.
-+
-+Once the driver recieves VIRTIO_VDEC_HOST_REQ_OPEN, the driver can
-+send per-instance guest requests to the opened instance by specifying
-+\field{instance_id}. The device MUST process per-instance requests
-+with a same value of \field{instance_id} in order.
-+
-+\drivernormative{\paragraph}{Instance Open}{Device Types / Video
-+  Decode Device / Device Operation / Instance Open}
-+
-+In VIRTIO_VDEC_GUEST_REQ_OPEN,
-+\begin{itemize*}
-+\item The driver MUST set \field{bitstream_fourcc} to a FOURCC of a
-+  video codec that is supported by the device.
-+\item The driver MUST set \field{instance_id} to an integer that is
-+  not used as an \field{instance_id} before.
-+\end{itemize*}
-+
-+\devicenormative{\paragraph}{Instance Open}{Device Types / Video
-+  Decode Device / Device Operation / Instance Open}
-+
-+If the device fails to allocate an instance, the device MUST set
-+\field{result} to a value other than
-+VIRTIO_VDEC_HOST_REQ_RESULT_SUCCESS.
-+
-+\subsubsection{Set Buffer Count}
-+\label{sec:Device Types / Video Decode Device / Device Operation / Set Buffer Count}
-+
-+Once an instance is acquired, the driver and the device negotiate the
-+number of buffers to use during the decoding process by
-+VIRTIO_VDEC_GUEST_REQ_SET_BUFFER_COUNT and
-+VIRTIO_VDEC_HOST_REQ_SET_BUFFER_COUNT. These requests are similar to
-+VIDIOC_REQBUFS controls for V4L2 devices. First, the driver sends
-+VIRTIO_VDEC_GUEST_REQ_SET_BUFFER_COUNT to tell how many buffers the
-+driver needs by using the following structure:
-+
-+\begin{lstlisting}
-+enum virtio_vdec_buffer_type {
-+        VIRTIO_VDEC_GUEST_REQ_BUFFER_TYPE_BITSTREAM = 0,
-+        VIRTIO_VDEC_GUEST_REQ_BUFFER_TYPE_FRAME = 1,
-+};
-+
-+struct virtio_vdec_guest_req_set_buffer_count {
-+        le32 type;
-+        le32 buffer_count;
-+};
-+\end{lstlisting}
-+
-+\begin{description}
-+\item[type] specifies a buffer type with a value of the
-+  \field{virtio_vdec_buffer_type}.
-+\item[buffer_count] is the minimum number of buffers that the driver
-+  needs to use.
-+\end{description}
-+
-+The device responds the VIRTIO_VDEC_GUEST_REQ_SET_BUFFER_COUNT to
-+notify the number of buffers that it can accept with the following
-+structure.
-+
-+\begin{lstlisting}
-+struct virtio_vdec_host_req_set_buffer_count {
-+        le32 type;
-+        le32 buffer_count;
-+};
-+\end{lstlisting}
-+
-+\begin{description}
-+\item[type] specifies a buffer type with a value of the
-+  \field{virtio_vdec_buffer_type}.
-+\item[buffer_count] is the maximum number of buffers that the device
-+  can accept.
-+\end{description}
-+
-+\drivernormative{\paragraph}{Set Buffer Count}{Device Types / Video
-+  Decode Device / Device Operation / Set Buffer Count}
-+
-+The driver MUST set \field{buffer_count} to a non-zero value in
-+VIRTIO_VDEC_GUEST_REQ_SET_BUFFER_COUNT. The value of
-+\field{buffer_count} for frame buffers MUST match the requirement
-+given via VIRTIO_VDEC_HOST_REQ_STREAM_INFO. See \ref{sec:Device Types
-+  / Video Decode Device / Device Operation / Stream Information}.
-+
-+\devicenormative{\paragraph}{Set Buffer Count}{Device Types / Video
-+  Decode Device / Device Operation / Set Buffer Count}
-+
-+The device MUST set \field{buffer_count} to a number of buffers that
-+the device can accept. The value MAY be different from the value the
-+driver set \field{buffer_count} to in the corresponding
-+VIRTIO_VDEC_GUEST_REQ_SET_BUFFER_COUNT request.
-+
-+\subsubsection{Buffer Registration}
-+\label{sec:Device Types / Video Decode Device / Device Operation / Buffer Registration}
-+
-+Once the number of buffers is set, the driver registers metadata of
-+buffers via the VIRTIO_VDEC_GUEST_REQ_REGISTER_BUFFER with the
-+following structure:
-+
-+\begin{lstlisting}
-+#define VIRTIO_VDEC_MAX_PLANES 8
-+
-+struct virtio_vdec_guest_req_register_buffer {
-+        le32 type;
-+        le32 num_planes;
-+        struct virtio_vdec_plane {
-+                le32 handle;
-+                le32 offset;
-+                le32 length;
-+        } planes[VIRTIO_VDEC_MAX_PLANES];
-+};
-+\end{lstlisting}
-+
-+\begin{description}
-+\item[VIRTIO_VDEC_MAX_PLANES] is the maximum number of planes that a
-+  video format needs. It is similar to VIDEO_MAX_PLANES in
-+  \href{https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/tree/include/uapi/linux/videodev2.h}{include/uapi/linux/videodev2.h}
-+  in the Linux source tree.
-+\item[type] specifies a buffer type with a value of the
-+  \field{virtio_vdec_buffer_type}.
-+\item[num_planes] is the number of planes (i.e. separate memory
-+  buffers) for this format. This indicates the number of valid entries
-+  in \field{planes}.
-+\item[planes] is an array of structures describing information of each
-+  plane.
-+  \begin{description}
-+  \item[handle] is a resource handle for the buffer.
-+  \item[offset] equals to the offset in the plane to the start of
-+    data.
-+  \item[length] is the size of this plane in bytes.
-+  \end{description}
-+\end{description}
-+
-+Once the device accepts the buffer registration, the device responds
-+the VIRTIO_VDEC_HOST_REQ_REGISTER_BUFFER with the following structure.
-+
-+\begin{lstlisting}
-+struct virtio_vdec_host_req_register_buffer {
-+        le32 type;
-+        le32 handles[VIRTIO_VDEC_MAX_PLANES];
-+};
-+\end{lstlisting}
-+
-+\begin{description}
-+\item[type] specifies a buffer type with a value of the
-+  \field{virtio_vdec_buffer_type}.
-+\item[handles] is an array of resource handles from the corresponding
-+  guest request.
-+\end{description}
-+
-+\drivernormative{\paragraph}{Buffer Registration}{Device Types / Video
-+  Decode Device / Device Operation / Buffer Registration}
-+
-+The VIRTIO_VDEC_GUEST_REQ_REGISTER_BUFFER requires followings:
-+
-+\begin{itemize*}
-+\item The driver MUST set \field{type}.
-+\item The driver MUST set \field{num_planes} to a non-zero value that
-+  is less than of equal to VIRTIO_VDEC_MAX_PLANES.
-+\item The driver MUST fill out the fields of \field{planes[i]} for
-+  each \(0 \le i < \field{num_planes} \).
-+\item The driver MUST NOT send VIRTIO_VDEC_GUEST_REQ_REGISTER_BUFFER
-+  more than the number of times that the device requested via
-+  VIRTIO_VDEC_HOST_REQ_SET_BUFFER_COUNT.
-+\end{itemize*}
-+
-+\devicenormative{\paragraph}{Buffer Registration}{Device Types / Video
-+  Decode Device / Device Operation / Buffer Registration}
-+
-+The VIRTIO_VDEC_HOST_REQ_REGISTER_BUFFER requires followings:
-+
-+\begin{itemize*}
-+\item The device MUST set \field{type} to the value that the
-+  corresponding VIRTIO_VDEC_GUEST_REQ_REGISTER_BUFFER used.
-+\item The device MUST set \field{handles[i]} to the value that equals
-+  to \field{register_buffer.planes[i].handle} in the corresponding
-+  VIRTIO_VDEC_GUEST_REQ_REGISTER_BUFFER.
-+\end{itemize*}
-+
-+\subsubsection{Bitstream Buffer Requests}
-+\label{sec:Device Types / Video Decode Device / Device Operation / Bitstream Buffer Requests}
-+
-+The driver sends VIRTIO_VDEC_GUEST_REQ_BITSTREAM_BUFFER to ask the
-+device to decode contents in a registered bitstream buffer. This
-+request is similar to the V4L2's VIDIOC_QBUF ioctl for the OUTPUT
-+buffer. The following structure is used to specify the buffer:
-+
-+\begin{lstlisting}
-+struct virtio_vdec_guest_req_bitstream_buffer {
-+        le32 handle;
-+        le32 offset;
-+        le32 length;
-+        le64 cookie;
-+};
-+\end{lstlisting}
-+
-+\begin{description}
-+\item[handle] is a resource handle for the bitstream buffer to be
-+  decoded.
-+\item[offset] is the offset in bytes to video data in the buffer.
-+\item[length] is the size of valid data in the buffer.
-+\item[cookie] is an identifier for the frame decoded from this
-+  bitstream data. This cookie will be copied to the matching frame
-+  buffer. See also \field{virtio_vdec_host_req_frame_buffer} in
-+  \ref{sec:Device Types / Video Decode Device / Device Operation /
-+    Frame Buffer Requests}.
-+\end{description}
-+
-+Once the device consumes the bitstream passed by the
-+VIRTIO_VDEC_GUEST_REQ_BITSTREAM_BUFFER request, it sends
-+VIRTIO_VDEC_HOST_REQ_BITSTREAM_BUFFER with the following structure:
-+
-+\begin{lstlisting}
-+struct virtio_vdec_host_req_bitstream_buffer {
-+        le32 handle;
-+};
-+\end{lstlisting}
-+\begin{description}
-+\item[handle] is a resource handle of the bitstream buffer that the
-+  device completed processing.
-+\end{description}
-+
-+The driver can reuse bitstream buffers that
-+VIRTIO_VDEC_HOST_REQ_BITSTREAM is sent for.
-+
-+\drivernormative{\paragraph}{Bitstream Buffer Requests}{Device Types /
-+  Video Decode Device / Device Operation / Bitstream Buffer Requests}
-+
-+\begin{itemize*}
-+\item The driver MUST use \field{handle} which is already registered
-+  by the VIRTIO_VDEC_GUEST_REQ_REGISTER_BUFFER.
-+\end{itemize*}
-+
-+\subsubsection{Stream Information}
-+\label{sec:Device Types / Video Decode Device / Device Operation / Stream Information}
-+
-+To obtain the information required to allocate frame buffers
-+(resolution, etc.), the driver registers bitstream buffers first and
-+proceeds with queuing VIRTIO_VDEC_GUEST_REQ_BITSTREAM_BUFFER requests
-+until stream information is received via a
-+VIRTIO_VDEC_HOST_REQ_STREAM_INFO host request. The
-+VIRTIO_VDEC_HOST_REQ_STREAM_INFO is also sent when a run-time
-+resolution change is detected. This request is similar to
-+V4L2_EVENT_SOURCE_CHANGE events for V4L2 devices.
-+
-+The following structure is used for the
-+VIRTIO_VDEC_HOST_REQ_STREAM_INFO:
-+
-+\begin{lstlisting}
-+struct virtio_vdec_host_req_stream_info {
-+        le32 frame_fourcc;
-+        le32 fb_width;
-+        le32 fb_height;
-+        le32 min_frame_buffer_count;
-+        le32 max_frame_buffer_count;
-+        struct virtio_vdec_host_req_stream_crop {
-+                le32 left;
-+                le32 top;
-+                le32 width;
-+                le32 height;
-+        } crop;
-+};
-+\end{lstlisting}
-+
-+\begin{description}
-+\item[frame_fourcc] indicates the pixel format that the video is
-+  decoded to.
-+\item[fb_width] is the width of a required frame buffer.
-+\item[fb_height] is the height of a required frame buffer.
-+\item[min_frame_buffer_count] is the minimum number of frame buffers
-+  that the device requires.
-+\item[max_frame_buffer_count] is the maximum number of frame buffers
-+  that the device can accept.
-+\item[crop] indicates video cropping information.
-+    \begin{description}
-+    \item[left] is the horizontal offset of the left-most valid pixel
-+      of the video in pixels.
-+    \item[top] is the vertical offset of the top-most valid line of
-+      the video in lines.
-+    \item[width] is the width of the rectangle in pixels.
-+    \item[height] is the height of the rectangle in pixels.
-+    \end{description}
-+\end{description}
-+
-+The driver responds the VIRTIO_VDEC_GUEST_REQ_ACK_STREAM_INFO once it
-+processes the incoming stream information.
-+
-+\devicenormative{\paragraph}{Stream Information}{Device Types / Video
-+  Decode Device / Device Operation / Stream Information}
-+
-+\begin{itemize*}
-+\item After the device send the VIRTIO_VDEC_HOST_REQ_STREAM_INFO, the
-+  device MUST empty its list of registered frame buffers and skip any
-+  pending VIRTIO_VDEC_GUEST_REQ_FRAME_BUFFER requests until a
-+  VIRTIO_VDEC_GUEST_REQ_ACK_STREAM_INFO request is received.
-+\end{itemize*}
-+
-+\drivernormative{\paragraph}{Stream Information}{Device Types / Video
-+  Decode Device / Device Operation / Stream Information}
-+
-+\begin{itemize*}
-+\item The driver MUST send the VIRTIO_VDEC_GUEST_REQ_ACK_STREAM_INFO
-+  once it processes a VIRTIO_VDEC_HOST_REQ_STREAM_INFO.
-+\item If VIRTIO_VDEC_HOST_REQ_STREAM_INFO came when the driver is
-+  waiting for a VIRTIO_VDEC_HOST_REQ_FRAME_BUFFER request, the driver
-+  MUST enqueue the corresponding VIRTIO_VDEC_GUEST_REQ_FRAME_BUFFER
-+  again after sending the VIRTIO_VDEC_GUEST_REQ_REGISTER_BUFFER for a
-+  frame buffer with new stream information.
-+\end{itemize*}
-+
-+\subsubsection{Frame Buffer Requests}
-+\label{sec:Device Types / Video Decode Device / Device Operation / Frame Buffer Requests}
-+
-+The driver provides frame buffers via
-+VIRTIO_VDEC_GUEST_REQ_FRAME_BUFFER, in which the device will fill
-+decoded frames. This request is similar to V4L2's VIDIOC_QBUF ioctl
-+for CAPTURE buffers. The following structure is used for the request:
-+
-+\begin{lstlisting}
-+struct virtio_vdec_guest_req_frame_buffer {
-+        struct virtio_vdec_frame_buffer_plane {
-+                le32 handle;
-+                le32 offset;
-+                le32 stride;
-+                le32 length;
-+        } planes[VIRTIO_VDEC_MAX_PLANES];
-+};
-+\end{lstlisting}
-+
-+\begin{description}
-+\item[planes] is an array of planes that a frame buffer consists of.
-+    \begin{description}
-+    \item[handle] is a resource handle to indicate the buffer for a
-+      plane.
-+    \item[offset] is the offset in bytes to the place where decoded
-+      frame is filled in.
-+    \item[stride] is the line stride.
-+    \item[length] is the length of plane where the device can fill in
-+      decoded data.
-+    \end{description}
-+\end{description}
-+
-+When the device fills the buffer with decoded frame data, the device
-+notifies to the driver by VIRTIO_VDEC_HOST_REQ_FRAME_BUFFER with the
-+following structure:
-+
-+\begin{lstlisting}
-+struct virtio_vdec_host_req_frame_buffer {
-+        le32 handle[VIRTIO_VDEC_MAX_PLANES];
-+        le64 cookie;
-+};
-+\end{lstlisting}
-+
-+\begin{description}
-+\item[handles] is an array of handles passed via the
-+  \field{virtio_vdec_guest_req_frame_buffer} in the corresponding
-+  VIRTIO_VDEC_GUEST_REQ_FRAME_BUFFER.
-+\item[cookie] is a \field{cookie} passed via a
-+  VIRTIO_VDEC_GUEST_REQ_BITSTREAM_BUFFER. This indicates a bitstream
-+  buffer which a frame was decoded from.
-+\end{description}
-+
-+\drivernormative{\paragraph}{Frame Buffer Requests}{Device Types /
-+  Video Decode Device / Device Operation / Frame Buffer Requests}
-+
-+\begin{itemize*}
-+\item Before the driver sends the VIRTIO_VDEC_GUEST_REQ_FRAME_BUFFER
-+  for a frame buffer, the driver MUST have sent the
-+  VIRTIO_VDEC_GUEST_REQ_REGISTER_BUFFER for the buffer.
-+\item The driver MUST send the VIRTIO_VDEC_GUEST_REQ_FRAME_BUFFER for
-+  a frame buffer that satisfies the restriction passed by
-+  VIRTIO_VDEC_HOST_REQ_STREAM_INFO.
-+\end{itemize*}
-+
-+\devicenormative{\paragraph}{Frame Buffer Requests}{Device Types /
-+  Video Decode Device / Device Operation / Frame Buffer Requests}
-+
-+When the device successfully processed the frame buffer, it MUST set
-+\field{cookie} to a value that is passed via a
-+VIRTIO_VDEC_GUEST_REQ_BITSTREAM_BUFFER request that provided the
-+corresponding bitstream.
-+
-+\subsubsection{Drain}
-+\label{sec:Device Types / Video Decode Device / Device Operation / Drain}
-+
-+To ensure that any pending requests are processed and decoded frames
-+returned in appropriate replies, the driver MAY issue a
-+VIRTIO_VDEC_GUEST_REQ_DRAIN request. The device will continue
-+processing the requests as usual, but once all the requests of given
-+context preceding the DRAIN request are processed, the device will
-+issue a VIRTIO_VDEC_HOST_REQ_DRAINED host request to notify the driver
-+of this fact.
-+
-+\devicenormative{\paragraph}{Drain}{Device Types / Video Decode Device
-+  / Device Operation / Drain}
-+
-+\begin{itemize*}
-+\item When VIRTIO_VDEC_GUEST_REQ_DRAIN comes, the device MUST process
-+  all pending guest requests. After processing them, the device MUST
-+  send VIRTIO_VDEC_HOST_REQ_DRAINED to the driver.
-+\item While processing a drain request, the device MUST ignore any
-+  guest requests other than Flush and Close requests. See
-+  \ref{sec:Device Types / Video Decode Device / Device Operation / Flush}
-+  and
-+  \ref{sec:Device Types / Video Decode Device / Device Operation / Instance
-+    Close}.
-+\end{itemize*}
-+
-+\subsubsection{Flush}
-+\label{sec:Device Types / Video Decode Device / Device Operation / Flush}
-+
-+To drop any pending decode requests and decoded frames pending on
-+output buffers, the driver MAY issue a VIRTIO_VDEC_GUEST_REQ_FLUSH
-+request. Any frames that would result from the previously enqueued
-+bitstream data will be dropped and the device will not write to any of
-+the frame buffers provided earlier.
-+
-+\devicenormative{\paragraph}{Flush}{Device Types / Video Decode Device
-+  / Device Operation / Flush}
-+
-+\begin{itemize*}
-+\item The device MUST send VIRTIO_VDEC_HOST_REQ_FLUSHED when finishing
-+  the flush process.
-+\item If VIRTIO_VDEC_GUEST_REQ_FLUSH comes while processing guest
-+  requests, the device MUST stop them.
-+\item The device MUST NOT process any guest request that comes after
-+  VIRTIO_VDEC_GUEST_REQ_FLUSH until it sends
-+  VIRTIO_VDEC_HOST_REQ_FLUSHED.
-+\item The device MUST dequeue all unread requests in outq when
-+  VIRTIO_VDEC_GUEST_REQ_FLUSH comes.
-+\end{itemize*}
-+
-+\subsubsection{EOS Notification}
-+\label{sec:Device Types / Video Decode Device / Device Operation / EOS Notification}
-+
-+The device sends VIRTIO_VDEC_HOST_REQ_EOS when the end of a stream
-+(EOS) is reached while decoding.
-+
-+This request is similar to the V4L2_EVENT_EOS for V4L2 devices.
-+
-+\subsubsection{Instance Close}
-+\label{sec:Device Types / Video Decode Device / Device Operation / Instance Close}
-+
-+If a decoding instance is no longer needed, the driver SHOULD issue a
-+VIRTIO_VDEC_GUEST_REQ_CLOSE request. This will trigger an implicit
-+flush operation (as in a VIRTIO_VDEC_GUEST_REQ_FLUSH request; without
-+a following host request) and free the instance ID and any associated
-+resources on the device side.
-+
-+The instance is successfully terminated once the device responds to
-+the request. After that, it is guaranteed that any buffers registered
-+by the driver to given instance will no longer be accessed by the
-+device (unless also provided to another instance).
-+
-+\subsubsection{Error Reporting}
-+\label{sec:Device Types / Video Decode Device / Device Operation / Error Reporting}
-+
-+The device has two ways of reporting errors to the driver: one is for
-+errors associated with a host request, the other is for global errors.
-+
-+If an error is associated with a host request, the device sets
-+\field{type} to the host request and \field{result} to a value of
-+\field{virtio_vdec_host_req_result} describing the error in
-+\field{virtio_vdec_host_req}.
-+
-+If the device cannot proceed decoding due to an error which is not
-+associated with any requests, the device MUST send the
-+VIRTIO_VDEC_HOST_REQ_NOTIFY_GLOBAL_ERROR. In such case, the driver
-+MUST stop sending decoding requests.
---
-2.23.0.237.gc6a4ce50a0-goog
+Frederic Chen
+
