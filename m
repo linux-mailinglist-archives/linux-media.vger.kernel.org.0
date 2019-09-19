@@ -2,41 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D049CB829F
-	for <lists+linux-media@lfdr.de>; Thu, 19 Sep 2019 22:38:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 098C3B8297
+	for <lists+linux-media@lfdr.de>; Thu, 19 Sep 2019 22:38:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389897AbfISUhz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Sep 2019 16:37:55 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:42464 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388181AbfISUhy (ORCPT
+        id S2392612AbfISUiR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Sep 2019 16:38:17 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:34846 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2392547AbfISUh7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Sep 2019 16:37:54 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8JKbq7C116609;
-        Thu, 19 Sep 2019 15:37:52 -0500
+        Thu, 19 Sep 2019 16:37:59 -0400
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8JKbrtb011397;
+        Thu, 19 Sep 2019 15:37:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1568925472;
-        bh=iTVrMjr1jpW2jGLDHpDluWhwBeMusQS6Cqz8cCy6Yzo=;
+        s=ti-com-17Q1; t=1568925473;
+        bh=CrlXIhfT8xsTDmUmEr9Vo9usJitecelkTp/ShJS5Jrc=;
         h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=Q4+hXIsIqVTrNO6zJGGQ0RRO4x7hk3bhAUjbfQrxZ4mJxJx57UKNkbMOb0UZ6YyuV
-         NR4GmJVQrwFT/HI2K21vYJiZvpTZbruT9S73g0hInL1iair6763zqV50r4ee7mF41t
-         Rdx35p3D86rXsmmdcjhvEe0XDWa2bxH/P5DvuwFY=
-Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x8JKbpnJ130955
+        b=XXwpasjfQAONe77F/174265Xt3n68YsFeXjCN0ik+av0GGxCBYt6qy95dQip8YKzw
+         Ww33GWb5QlUmxEJdPK+vs2zqqu2kAIbCXRnCG+lla8qe25bpdoM7kDvZQ8KaIj4hho
+         leis+rweavQejPE/TNmgJ7AWDVD891KIF6J8FEH8=
+Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x8JKbrkI130715
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 19 Sep 2019 15:37:52 -0500
-Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+        Thu, 19 Sep 2019 15:37:53 -0500
+Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Thu, 19
- Sep 2019 15:37:48 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
+ Sep 2019 15:37:49 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Thu, 19 Sep 2019 15:37:47 -0500
+ Frontend Transport; Thu, 19 Sep 2019 15:37:48 -0500
 Received: from uda0869644b.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8JKboc0083029;
-        Thu, 19 Sep 2019 15:37:51 -0500
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8JKboc1083029;
+        Thu, 19 Sep 2019 15:37:52 -0500
 From:   Benoit Parrot <bparrot@ti.com>
 To:     Hans Verkuil <hverkuil@xs4all.nl>,
         Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -44,9 +44,9 @@ CC:     Prabhakar Lad <prabhakar.csengg@gmail.com>,
         <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, Benoit Parrot <bparrot@ti.com>,
         Jyri Sarha <jsarha@ti.com>
-Subject: [Patch v2 1/7] media: i2c: ov2659: Fix for image wrap-around in lower resolution
-Date:   Thu, 19 Sep 2019 15:39:49 -0500
-Message-ID: <20190919203955.15125-2-bparrot@ti.com>
+Subject: [Patch v2 2/7] media: i2c: ov2659: Fix sensor detection to actually fail when device is not present
+Date:   Thu, 19 Sep 2019 15:39:50 -0500
+Message-ID: <20190919203955.15125-3-bparrot@ti.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190919203955.15125-1-bparrot@ti.com>
 References: <20190919203955.15125-1-bparrot@ti.com>
@@ -58,39 +58,35 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Based on recently found sensor configuration examples, it was
-discovered that when scaling and binning are used for the lower
-resolutions (i.e. 640x480, 320x240) the read offset has to be
-increased otherwise the image appears to be wrapped around.
+Make sure that if the expected sensor device id register
+is not recognized properly the failure is propagated
+up so devices are not left partially initialized.
 
 Signed-off-by: Benoit Parrot <bparrot@ti.com>
 Signed-off-by: Jyri Sarha <jsarha@ti.com>
 ---
- drivers/media/i2c/ov2659.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/i2c/ov2659.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/media/i2c/ov2659.c b/drivers/media/i2c/ov2659.c
-index f4ded0669ff9..17573257097d 100644
+index 17573257097d..efbe6dc720e2 100644
 --- a/drivers/media/i2c/ov2659.c
 +++ b/drivers/media/i2c/ov2659.c
-@@ -661,7 +661,7 @@ static struct sensor_register ov2659_vga[] = {
- 	{ REG_TIMING_HORIZ_FORMAT, 0x01 },
- 	{ 0x370a, 0x52 },
- 	{ REG_VFIFO_READ_START_H, 0x00 },
--	{ REG_VFIFO_READ_START_L, 0x80 },
-+	{ REG_VFIFO_READ_START_L, 0xa0 },
- 	{ REG_ISP_CTRL02, 0x10 },
- 	{ REG_NULL, 0x00 },
- };
-@@ -709,7 +709,7 @@ static  struct sensor_register ov2659_qvga[] = {
- 	{ REG_TIMING_HORIZ_FORMAT, 0x01 },
- 	{ 0x370a, 0x52 },
- 	{ REG_VFIFO_READ_START_H, 0x00 },
--	{ REG_VFIFO_READ_START_L, 0x80 },
-+	{ REG_VFIFO_READ_START_L, 0xa0 },
- 	{ REG_ISP_CTRL02, 0x10 },
- 	{ REG_NULL, 0x00 },
- };
+@@ -1330,11 +1330,12 @@ static int ov2659_detect(struct v4l2_subdev *sd)
+ 		unsigned short id;
+ 
+ 		id = OV265X_ID(pid, ver);
+-		if (id != OV2659_ID)
++		if (id != OV2659_ID) {
+ 			dev_err(&client->dev,
+ 				"Sensor detection failed (%04X, %d)\n",
+ 				id, ret);
+-		else {
++			ret = -ENODEV;
++		} else {
+ 			dev_info(&client->dev, "Found OV%04X sensor\n", id);
+ 			ret = ov2659_init(sd, 0);
+ 		}
 -- 
 2.17.1
 
