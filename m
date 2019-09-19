@@ -2,65 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D5887B7A74
-	for <lists+linux-media@lfdr.de>; Thu, 19 Sep 2019 15:27:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 634ECB7A79
+	for <lists+linux-media@lfdr.de>; Thu, 19 Sep 2019 15:29:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389793AbfISN1g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Sep 2019 09:27:36 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:47066 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389783AbfISN1f (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Sep 2019 09:27:35 -0400
-Received: by mail-wr1-f65.google.com with SMTP id o18so3055706wrv.13
-        for <linux-media@vger.kernel.org>; Thu, 19 Sep 2019 06:27:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=sUQ0MapueTEkl2RraQH96DId2uC2BHxqOglzNZ05qbU=;
-        b=eQEOD9FvAYPETG7uDikJiTIrCK+JTMQ4XJqYRJNdxQvl2huNPM0s3Xu5lh5ZQMBXt3
-         A14UnFoNfQ8gMFBSPOnmLVeqroFtZJ2A1bMq4oabBXWaOEDIo0X4arCiDoS4fotKavIG
-         kcZiOVU/fGrSyKLHGCRnw/0qGWhaJzfW81k8iy7462MLZ31K0U61pIP6upLXII62wE2X
-         SKlvsX40nCbVtx0YT70u9RocTVUjYOIie3FsKZoHQ/8G4XgyjVr0iAhlf4lXXVJ1oUxw
-         Vq9MCtJXxYwvL/RWRXr6P9APFX7fytx64D3VwXSxOJ1VkdnY9gvFE087ULNjo+O3adlh
-         qq5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=sUQ0MapueTEkl2RraQH96DId2uC2BHxqOglzNZ05qbU=;
-        b=WU2lSIVVzAJsPXik4Sn/JEXvIrhztIJwsO9331P+jEkd+aoHRw6koWv6LUxBRHBgVo
-         NHX/qQdN53exu8MvzGB38DQYaPIc8/CS8IYtL0OwQO5GV97CKHuQNDbWCaBlkyzZlVTx
-         5ZgE/FnnKrfCH5wFoGybNmrq9XFgYelp3MhlGwHPFQarz2aRnJLvTL6gmDx4IhVHkI8Y
-         ihW5kcJKvSdg0vL6JN1XpMecOKjyAQJC+Ow/fTuJzATNq6sbhyxBYaartRmAAx7HDLaA
-         WpKKh6u4S1VrO81SvSfXBSyo/k4yWSimcd35S8k/h4fo0PWXMunZ1Lifq02e7+xPxvcZ
-         pY8Q==
-X-Gm-Message-State: APjAAAUJdP5ZY0qJjOm8mlJvlcW1F2zH6Y1YtfIZYiZVOJlKCIg7GAgR
-        O0CKCx6D7AHMO5zEvn+1NV9uSXdUIJg=
-X-Google-Smtp-Source: APXvYqxcm6VB6ZRDFZ5yhB1g+X4C+H5gZbMLz2LF4ER2FkFHrLd6ckERakwuooajt3vWiSOZ9lndYA==
-X-Received: by 2002:adf:e607:: with SMTP id p7mr7689694wrm.230.1568899653535;
-        Thu, 19 Sep 2019 06:27:33 -0700 (PDT)
-Received: from pretoriano-kubuntu.fritz.box ([79.114.202.215])
-        by smtp.googlemail.com with ESMTPSA id q10sm18002205wrd.39.2019.09.19.06.27.32
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Sep 2019 06:27:33 -0700 (PDT)
-From:   Flavius Georgescu <pretoriano.mp@gmail.com>
-To:     linux-media@vger.kernel.org
-Subject: Re: [PATCH v3] media: rc: Add support for another 0xffdc device
-Date:   Thu, 19 Sep 2019 16:27:09 +0300
-Message-Id: <20190919132709.5062-1-pretoriano.mp@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190919091445.5038-1-pretoriano.mp@gmail.com>
-References: <20190919091445.5038-1-pretoriano.mp@gmail.com>
+        id S2389822AbfISN27 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Sep 2019 09:28:59 -0400
+Received: from mga05.intel.com ([192.55.52.43]:28045 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388551AbfISN27 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 19 Sep 2019 09:28:59 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Sep 2019 06:28:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,523,1559545200"; 
+   d="scan'208";a="199392042"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+  by orsmga002.jf.intel.com with SMTP; 19 Sep 2019 06:28:54 -0700
+Received: by stinkbox (sSMTP sendmail emulation); Thu, 19 Sep 2019 16:28:53 +0300
+From:   Ville Syrjala <ville.syrjala@linux.intel.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     intel-gfx@lists.freedesktop.org, stable@vger.kernel.org,
+        linux-media@vger.kernel.org, Martin Bugge <marbugge@cisco.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Thierry Reding <treding@nvidia.com>,
+        Mauro Carvalho Chehab <mchehab@osg.samsung.com>
+Subject: [PATCH] video/hdmi: Fix AVI bar unpack
+Date:   Thu, 19 Sep 2019 16:28:53 +0300
+Message-Id: <20190919132853.30954-1-ville.syrjala@linux.intel.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
- Please igonore this patch,due to some dumb mistakes and to avoid confusion ,
- i will re-send the patch as a new thread.I apologize for any inconvenience!
+From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+
+The bar values are little endian, not big endian. The pack
+function did it right but the unpack got it wrong. Fix it.
+
+Cc: stable@vger.kernel.org
+Cc: linux-media@vger.kernel.org
+Cc: Martin Bugge <marbugge@cisco.com>
+Cc: Hans Verkuil <hans.verkuil@cisco.com>
+Cc: Thierry Reding <treding@nvidia.com>
+Cc: Mauro Carvalho Chehab <mchehab@osg.samsung.com>
+Fixes: 2c676f378edb ("[media] hdmi: added unpack and logging functions for InfoFrames")
+Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+---
+ drivers/video/hdmi.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/video/hdmi.c b/drivers/video/hdmi.c
+index b939bc28d886..9c82e2a0a411 100644
+--- a/drivers/video/hdmi.c
++++ b/drivers/video/hdmi.c
+@@ -1576,12 +1576,12 @@ static int hdmi_avi_infoframe_unpack(struct hdmi_avi_infoframe *frame,
+ 	if (ptr[0] & 0x10)
+ 		frame->active_aspect = ptr[1] & 0xf;
+ 	if (ptr[0] & 0x8) {
+-		frame->top_bar = (ptr[5] << 8) + ptr[6];
+-		frame->bottom_bar = (ptr[7] << 8) + ptr[8];
++		frame->top_bar = (ptr[6] << 8) | ptr[5];
++		frame->bottom_bar = (ptr[8] << 8) | ptr[7];
+ 	}
+ 	if (ptr[0] & 0x4) {
+-		frame->left_bar = (ptr[9] << 8) + ptr[10];
+-		frame->right_bar = (ptr[11] << 8) + ptr[12];
++		frame->left_bar = (ptr[10] << 8) | ptr[9];
++		frame->right_bar = (ptr[12] << 8) | ptr[11];
+ 	}
+ 	frame->scan_mode = ptr[0] & 0x3;
+ 
+-- 
+2.21.0
 
