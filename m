@@ -2,59 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D229B71AA
-	for <lists+linux-media@lfdr.de>; Thu, 19 Sep 2019 04:53:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8241CB7222
+	for <lists+linux-media@lfdr.de>; Thu, 19 Sep 2019 06:18:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731036AbfISCx1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Sep 2019 22:53:27 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:37925 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730685AbfISCx1 (ORCPT
+        id S1729037AbfISESt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Sep 2019 00:18:49 -0400
+Received: from mail-ot1-f48.google.com ([209.85.210.48]:34252 "EHLO
+        mail-ot1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728850AbfISESt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Sep 2019 22:53:27 -0400
-Received: by mail-ot1-f68.google.com with SMTP id e11so1764972otl.5
-        for <linux-media@vger.kernel.org>; Wed, 18 Sep 2019 19:53:26 -0700 (PDT)
+        Thu, 19 Sep 2019 00:18:49 -0400
+Received: by mail-ot1-f48.google.com with SMTP id m19so50673otp.1
+        for <linux-media@vger.kernel.org>; Wed, 18 Sep 2019 21:18:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=FfOVvBN9pvMU4KWu4mwncJyTVRWcX9dwFxB5dHm6iDo=;
-        b=pQ3cU/JNRH+InzAWTFGB1an519NCGxWciLOHdxTHVgcDhzQsbTk22gl5U33E3KSUqI
-         dYyqtRKsaRrHGAY5UNc+QPkU2PNPUgTUiQFPAqDs0YhNgVQ3YVoQa6hrfWmqXr+ZMcdj
-         D7tEmrd1202Rr8Hs1MobBfZ7V81OsWkG9oPjmU4BiSmC5s9whzjD7n0o6uZqecjA/iA0
-         r/DdSI+wZk0pjA8Rumzs6qWT5Rb6lJuZJzUPofVPn5cnWEqdJ03CIL2JNSx40Tjp6Xun
-         UeCR0BM28DSfEdyO1u8jpZn12cAHikM44gTrp02Pb6A4PNH2KYjMsCeFoi4ewnHosnVR
-         dVFg==
+        bh=arI0JTJh1Us+PJ17qSpRVbNN54FCOB6r3x+E+m71VC0=;
+        b=aOpjWV/mVGB/mUvKvy+us7EFlSWjhKzlRk7Jj/RTq+ULoblaCkQW4BG+vK9TbtCebe
+         eCEhT+ukym21vnUZbeYxfHFuAZT7OvOxHfpIjtSAqARet5XfK4OKEOXnZy7WT0xcomqy
+         hQ8DdPnpe4tJtM712HhTpnYAUiw1U7LR6fkxjS1nuwHefdJBzURMbSR6t9Ld1YSe6i/P
+         Hqp7ir78VePxU7+othLsLDfZAPDYixgRWGUHIl+WKPXoohXz+yAStcb6mvC91mtNR0/Z
+         TkGqB7310mDN4MkU51uabtXyM0/lB0bD8xGca8DdZX/YF61jfwErmy/ItDvMfYBMDSzx
+         Dq/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=FfOVvBN9pvMU4KWu4mwncJyTVRWcX9dwFxB5dHm6iDo=;
-        b=KEO8CKfbGYxQF0e1zQ+5ZxsJHiz1yw63vkBFjnI2BOhZbIkPcHeEOymiJRr4X4Q8Gk
-         zzrdiHP2rtoWSfbxu9i4ibGOcQVgsYUoJ1HtV0IZ9xJurZ9mRevt1LRxwfJp87tCRQR2
-         Q5BlTv1CgIMybCZx5hCO/8q/6gFLTG6GPqBh773wr3fxtNfuq6E1CTdvAYMRPxIXFj5P
-         COSUBqPAbQohs+KO1WuUX/yB3NiqLGwVwoXkPphOa6r6qjuWb+Yt2xPini+ijie1stkB
-         HyoLRRJSBzmX72K691zl3ZGVDbEUlt3v0kmyim0GEmVfj6ZGVboXyptWy4PCDKCYmDqA
-         yUTQ==
-X-Gm-Message-State: APjAAAWtZrPC5YJk+HR4ffWcbOvjHSPo/vfIZXqL/p1KzGjjPaiApV5b
-        9m1iXDl8sruUnlX/8kdHd4A5l29s
-X-Google-Smtp-Source: APXvYqzZ2/c0Sr5hvKD7XrhnHOKvbFSmhKJ9u5jPTKuTlHSLTxW3MPYAg6nY2o/IavRPnuPOMGTiVw==
-X-Received: by 2002:a05:6830:16da:: with SMTP id l26mr5230082otr.339.1568861606185;
-        Wed, 18 Sep 2019 19:53:26 -0700 (PDT)
+        bh=arI0JTJh1Us+PJ17qSpRVbNN54FCOB6r3x+E+m71VC0=;
+        b=qVDHywG+FOxLPU7JL3/IwHmjhTehsgcNgMCghM0Y6XcbBHYR6U3bV3D1EFLlSaIv30
+         GX5JSAQ73CfrgknFWtwsHiT0766eKH5Cmmkwbp7B2KqN5IZ6tJVvaPii0VncNh3pXE5j
+         vyVRSjj38Hc9hI0ZVqUjNG39SC/DKQRA/6L6iOXTcjq88kecTxEYPFACh1GdVhAOgnTM
+         ohG3iFu776je3havD0aDib+j4j/5XkjFqgpJ0R2kRm0spz1eLL2xlspcjK+HMOJugqXh
+         7mYFPJ7KCEU6C5pQL9S0SMHXHHkGLZhTHdP58IWAvE/p/qflFwU9fxVRnK9ibDIE+Kp/
+         8liA==
+X-Gm-Message-State: APjAAAUGhYFnuNj4VZIJR7Au5uwy5PO+5Je90+Fo5Ypc5EX6QEua3Kr5
+        a8JCDUSj9oNXOUEr2Aq2xsmS4rO9
+X-Google-Smtp-Source: APXvYqzyEP4SQaOPYok+f1fw9SYgavGbDO06DIPoQdqFEjiToOxR3Zr9BIpGaeIJaKde+laaENTFXA==
+X-Received: by 2002:a9d:6a51:: with SMTP id h17mr732176otn.218.1568866726448;
+        Wed, 18 Sep 2019 21:18:46 -0700 (PDT)
 Received: from rYz3n.attlocal.net ([2600:1700:210:3790::48])
-        by smtp.googlemail.com with ESMTPSA id g18sm2203757otg.24.2019.09.18.19.53.24
+        by smtp.googlemail.com with ESMTPSA id r19sm408802ota.79.2019.09.18.21.18.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Sep 2019 19:53:25 -0700 (PDT)
+        Wed, 18 Sep 2019 21:18:45 -0700 (PDT)
 From:   Jiunn Chang <c0d1n61at3@gmail.com>
 To:     linux-media@vger.kernel.org,
         linux-kernel-mentees@lists.linuxfoundation.org
 Cc:     hverkuil@xs4all.nl
-Subject: [PATCH v3] cec-follower: create analog channel frequencies
-Date:   Wed, 18 Sep 2019 21:53:24 -0500
-Message-Id: <20190919025324.277999-1-c0d1n61at3@gmail.com>
+Subject: [PATCH v4] cec-follower: add tuner analog service emulation
+Date:   Wed, 18 Sep 2019 23:18:44 -0500
+Message-Id: <20190919041844.346514-1-c0d1n61at3@gmail.com>
 X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20190917091323.48665-1-c0d1n61at3@gmail.com>
-References: <20190917091323.48665-1-c0d1n61at3@gmail.com>
+In-Reply-To: <20190918192710.170428-1-c0d1n61at3@gmail.com>
+References: <20190918192710.170428-1-c0d1n61at3@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -62,115 +62,135 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This frequency table will allow proper testing of tuner control.  There
-are three frequencies per analog broadcast type and broadcast system, so
-tuner increment and decrement can be tested.
+Implement the following tuner control features:
+  - <Select Analogue Service>
+  - <Give Tuner Device Status> and reply <Tuner Device Status>
 
 Signed-off-by: Jiunn Chang <c0d1n61at3@gmail.com>
 ---
 
-Changes since v1:
-  - Add Wikipedia link for analog channel frequencies
-  - Add spaces between { and }
+Changes made since v1:
+  - Fix typos/bugs
+  - Import reply_feature_abort() from cec-processing.cpp
+  - Add functionality to choose nearest frequency
 
-Changes since v2:
+Changes made since v2:
+  - Fix typos/bugs
+  - Use state from node in cec-follower.h
+  - Rename functions to analog_ prefix
+
+Changes made since v3:
   - Refactor lines numbers since a fix patch was needed for cec-tuner.cpp
 
 ---
- utils/cec-follower/cec-tuner.cpp | 80 ++++++++++++++++++++++++++++++++
- 1 file changed, 80 insertions(+)
+ utils/cec-follower/cec-follower.h |  1 +
+ utils/cec-follower/cec-tuner.cpp  | 57 ++++++++++++++++++++++++-------
+ 2 files changed, 46 insertions(+), 12 deletions(-)
 
+diff --git a/utils/cec-follower/cec-follower.h b/utils/cec-follower/cec-follower.h
+index 9f5f1be4..9c146be1 100644
+--- a/utils/cec-follower/cec-follower.h
++++ b/utils/cec-follower/cec-follower.h
+@@ -51,6 +51,7 @@ struct state {
+ 	__u64 rc_press_rx_ts;
+ 	unsigned rc_press_hold_count;
+ 	unsigned rc_duration_sum;
++	struct cec_op_tuner_device_info tuner_dev_info;
+ };
+ 
+ struct node {
 diff --git a/utils/cec-follower/cec-tuner.cpp b/utils/cec-follower/cec-tuner.cpp
-index bb727ae7..2303e6bb 100644
+index 2303e6bb..87c631e4 100644
 --- a/utils/cec-follower/cec-tuner.cpp
 +++ b/utils/cec-follower/cec-tuner.cpp
-@@ -7,6 +7,86 @@
+@@ -4,6 +4,7 @@
+  */
+ 
+ #include <sys/ioctl.h>
++#include <stdlib.h>
  
  #include "cec-follower.h"
  
-+/*
-+ * This table contains analog television channel frequencies in KHz.  There are
-+ * a total of three frequencies per analog broadcast type and broadcast system.
-+ *
-+ * CEC 17 and CEC Table 31 of the 1.4 specification lists the available analog
-+ * broadcast types and broadcast systems.
-+ *
-+ * The table is indexed by [ana_bcast_type][bcast_system][i].
-+ *
-+ * Analog channel frequencies are from Wikipedia:
-+ *
-+ * https://en.wikipedia.org/wiki/Television_channel_frequencies
-+ */
-+static unsigned int analog_freqs_khz[3][9][3] =
+@@ -117,6 +118,35 @@ static void reply_feature_abort(struct node *node, struct cec_msg *msg, __u8 rea
+ 	transmit(node, msg);
+ }
+ 
++static void analog_set_tuner_chan_freq(struct node *node)
 +{
-+	// cable
-+	{
-+		// pal-bg
-+		{ 471250, 479250, 487250 },
-+		// secam-lq
-+		{ 615250, 623250, 631250 },
-+		// pal-m
-+		{ 501250, 507250, 513250 },
-+		// ntsc-m
-+		{ 519250, 525250, 531250 },
-+		// pal-i
-+		{ 45750, 53750, 61750 },
-+		// secam-dk
-+		{ 759250, 767250, 775250 },
-+		// secam-bg
-+		{ 495250, 503250, 511250 },
-+		// secam-l
-+		{ 639250, 647250, 655250 },
-+		// pal-dk
-+		{ 783250, 791250, 799250 }
-+	},
-+	// satellite
-+	{
-+		// pal-bg
-+		{ 519250, 527250, 535250 },
-+		// secam-lq
-+		{ 663250, 671250, 679250 },
-+		// pal-m
-+		{ 537250, 543250, 549250 },
-+		// ntsc-m
-+		{ 555250, 561250, 567250 },
-+		// pal-i
-+		{ 175250, 183250, 191250 },
-+		// secam-dk
-+		{ 807250, 815250, 823250 },
-+		// secam-bg
-+		{ 543250, 551250, 559250 },
-+		// secam-l
-+		{ 687250, 695250, 703250 },
-+		// pal-dk
-+		{ 831250, 839250, 847250 }
-+	},
-+	// terrestrial
-+	{
-+		// pal-bg
-+		{ 567250, 575250, 583250 },
-+		// secam-lq
-+		{ 711250, 719250, 727250 },
-+		// pal-m
-+		{ 573250, 579250, 585250 },
-+		// ntsc-m
-+		{ 591250, 597250, 603250 },
-+		// pal-i
-+		{ 199250, 207250, 215250 },
-+		// secam-dk
-+		{ 145250, 153250, 161250 },
-+		// secam-bg
-+		{ 591250, 599250, 607250 },
-+		// secam-l
-+		{ 735250, 743250, 751250 },
-+		// pal-dk
-+		{ 169250, 177250, 185250 }
++	unsigned int ana_freq_khz = (node->state.tuner_dev_info.analog.ana_freq * 625) / 10;
++	unsigned int nearest = analog_freqs_khz[node->state.tuner_dev_info.analog.ana_bcast_type][node->state.tuner_dev_info.analog.bcast_system][0];
++	for (int i = 0; i < 3; i++) {
++		if (abs(int(ana_freq_khz - analog_freqs_khz[node->state.tuner_dev_info.analog.ana_bcast_type][node->state.tuner_dev_info.analog.bcast_system][i])) <
++		    abs(int(ana_freq_khz - nearest))) {
++			nearest = analog_freqs_khz[node->state.tuner_dev_info.analog.ana_bcast_type][node->state.tuner_dev_info.analog.bcast_system][i];
++		}
 +	}
-+};
++	node->state.tuner_dev_info.analog.ana_freq = (nearest * 10) / 625;
++}
 +
- static void reply_feature_abort(struct node *node, struct cec_msg *msg, __u8 reason = CEC_OP_ABORT_UNRECOGNIZED_OP)
++static bool analog_set_tuner_dev_info(struct node *node, struct cec_msg *msg)
++{
++	node->state.tuner_dev_info.rec_flag = CEC_OP_REC_FLAG_NOT_USED;
++	node->state.tuner_dev_info.tuner_display_info = CEC_OP_TUNER_DISPLAY_INFO_ANALOGUE;
++	node->state.tuner_dev_info.is_analog = true;
++	cec_ops_select_analogue_service(msg,
++					&node->state.tuner_dev_info.analog.ana_bcast_type,
++					&node->state.tuner_dev_info.analog.ana_freq,
++					&node->state.tuner_dev_info.analog.bcast_system);
++	if (node->state.tuner_dev_info.analog.ana_bcast_type > 2 ||
++	    node->state.tuner_dev_info.analog.bcast_system > 8)
++		return false;
++	analog_set_tuner_chan_freq(node);
++	return true;
++}
++
+ void process_tuner_record_timer_msgs(struct node *node, struct cec_msg &msg, unsigned me)
  {
- 	unsigned la = cec_msg_initiator(msg);
+ 	bool is_bcast = cec_msg_is_broadcast(&msg);
+@@ -133,21 +163,11 @@ void process_tuner_record_timer_msgs(struct node *node, struct cec_msg &msg, uns
+ 		*/
+ 
+ 	case CEC_MSG_GIVE_TUNER_DEVICE_STATUS: {
+-		if (!cec_has_tuner(1 << me))
++		if (!cec_has_tuner(1 << me) && !cec_has_tv(1 << me))
+ 			break;
+ 
+-		struct cec_op_tuner_device_info tuner_dev_info = {};
+-
+ 		cec_msg_set_reply_to(&msg, &msg);
+-		tuner_dev_info.rec_flag = CEC_OP_REC_FLAG_NOT_USED;
+-		tuner_dev_info.tuner_display_info = CEC_OP_TUNER_DISPLAY_INFO_NONE;
+-		tuner_dev_info.is_analog = false;
+-		tuner_dev_info.digital.service_id_method = CEC_OP_SERVICE_ID_METHOD_BY_CHANNEL;
+-		tuner_dev_info.digital.dig_bcast_system = CEC_OP_DIG_SERVICE_BCAST_SYSTEM_DVB_C;
+-		tuner_dev_info.digital.channel.channel_number_fmt = CEC_OP_CHANNEL_NUMBER_FMT_1_PART;
+-		tuner_dev_info.digital.channel.minor = 1;
+-
+-		cec_msg_tuner_device_status(&msg, &tuner_dev_info);
++		cec_msg_tuner_device_status(&msg, &node->state.tuner_dev_info);
+ 		transmit(node, &msg);
+ 		return;
+ 	}
+@@ -156,6 +176,19 @@ void process_tuner_record_timer_msgs(struct node *node, struct cec_msg &msg, uns
+ 		return;
+ 
+ 	case CEC_MSG_SELECT_ANALOGUE_SERVICE:
++		if (!cec_has_tuner(1 << me) && !cec_has_tv(1 << me))
++			break;
++
++		if (node->state.tuner_dev_info.rec_flag == CEC_OP_REC_FLAG_USED) {
++			reply_feature_abort(node, &msg, CEC_OP_ABORT_REFUSED);
++			return;
++		}
++		if (!analog_set_tuner_dev_info(node, &msg)) {
++			reply_feature_abort(node, &msg, CEC_OP_ABORT_INVALID_OP);
++			return;
++		}
++		return;
++
+ 	case CEC_MSG_SELECT_DIGITAL_SERVICE:
+ 	case CEC_MSG_TUNER_STEP_DECREMENT:
+ 	case CEC_MSG_TUNER_STEP_INCREMENT:
 -- 
 2.23.0
 
