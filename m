@@ -2,465 +2,418 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 06F82B8EBF
-	for <lists+linux-media@lfdr.de>; Fri, 20 Sep 2019 13:00:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FA99B8F08
+	for <lists+linux-media@lfdr.de>; Fri, 20 Sep 2019 13:32:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438081AbfITLAF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Sep 2019 07:00:05 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:54527 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2408656AbfITLAE (ORCPT
+        id S2438151AbfITLca (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Sep 2019 07:32:30 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:47853 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2408667AbfITLca (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Sep 2019 07:00:04 -0400
+        Fri, 20 Sep 2019 07:32:30 -0400
 Received: from [IPv6:2001:983:e9a7:1:3829:6e33:4e49:c53d] ([IPv6:2001:983:e9a7:1:3829:6e33:4e49:c53d])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id BGdqisQvVz6EABGdriyeaR; Fri, 20 Sep 2019 13:00:00 +0200
-Subject: Re: [PATCH v2] media: vimc: Enable set resolution at the scaler src
- pad
-To:     Pedro Terra <pirate@terraco.de>, helen.koike@collabora.com,
-        mchehab@kernel.org, skhan@linuxfoundation.org,
-        andrealmeid@collabora.com, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, lkcamp@lists.libreplanetbr.org
-Cc:     Gabriela Bittencourt <gabrielabittencourt00@gmail.com>,
-        Gabriel Francisco Mandaji <gfmandaji@gmail.com>
-References: <20190915213550.6967-1-pirate@terraco.de>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <9cdf1990-0b80-207c-012c-a56298b698c1@xs4all.nl>
-Date:   Fri, 20 Sep 2019 12:59:58 +0200
+        id BH9FisbYnz6EABH9GiylOx; Fri, 20 Sep 2019 13:32:27 +0200
+Subject: Re: [PATCH v2] media: vimc: fla: Add virtual flash subdevice
+To:     =?UTF-8?Q?Lucas_A=2e_M=2e_Magalh=c3=a3es?= <lucmaga@gmail.com>,
+        linux-media@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, helen.koike@collabora.com,
+        edusbarretto@gmail.com, lkcamp@lists.libreplanetbr.org
+References: <20190915184419.32184-1-lucmaga@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <f9670de6-5586-0067-936e-87ebf8a20609@xs4all.nl>
+Date:   Fri, 20 Sep 2019 13:32:25 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190915213550.6967-1-pirate@terraco.de>
+In-Reply-To: <20190915184419.32184-1-lucmaga@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfOT4dfn4bOREMaRLNyj54kpoQ0wUyCcNfl3FxFdrsLGjis5p0lu/NiAUkX/+UIrgCl3VTDXUvT2znxa+sQM44JhNS1vhjiMgtlMWWy4HvMQEwUk0459G
- 7Jxq3NzfiGUsLVvk7X+4TLQnGWRR8sIakO73TVab0EmmvTOUJ6XlDxuFtmxsK69MFRXhuNoZ7UxptQdQ55F+4qK9nm34VMwHu1N/aZZAPmm8Lzv1IqWQvMj6
- 5IvJdaHzA7YZDK8HtBjimJP2gYtilp1PSaHyRfTTx9B4UbGmHth7A9nJ/6DgbtpmJdNmuhF1KYemxsjq6Y3YZEaadMhn1PxC4sBTpWTmTP8csElcBs0JaGKd
- Q1KnZcN/uGNwDHM1S42DfVTQ06W2NN8ldLVOpHfygLW/PIVdzgRmvZJSVGBitumhgGfIBzwDwl1jm6Xp6FsygFxH/i3Aq8TzTkbmwpd3/knamA/RV8xUVqcK
- uWmXKNE4FvblM+LyEre+LOHomiGVzYi548dkyW39lWAyLiM/OiguFWEmdvtexC/ZZL8XBWb0jc57FS+srwtOOYoJByaraAw+XRPv3qtCxFTlzgcJhF7IctqA
- w69Bcj6fNqxWobo7LV98i5KbQD5p89urcXHtRQniFK37vg==
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfJVrI6xX7kau+dyOk91gQIwjxYSmXIcrZJo5Qnq0SBiXJa+T/HiguUb7QFvWefXEsBo+MxfTwva9GXrysIOWcywXcm7mi+AgAMt0VMDK1OAZPa23j4Dp
+ lIjPksCdgdi1MM5KMtPyFXMeEez5xtr3TlUeQqn13QeFmiKsUJ/BxapjyZTOBX2LeaKIMrX8emszjV9rsOEeoKU6ynDh3FJ5Z6gqWcnUXB/PWE2kzLWorM8G
+ 8rxa4pc5nFVrK2NmUB9NVTOdgxfkO8NIhktClJW22tsLzvo26Jsps0gKC5MErS8N0YiuvrtDZ1k9QMY+FjyaeJyxfXniZfeWGVWDdL1bKO/PDqnZ+Mqfp+wh
+ zu4N2pbImAHcC58dYLjhyXF0NLs830okrtw/rkuPLpC1ByQbCuk4gGAHZ/MKw1EemZKdaf8174Nmbp3d0uF6PuyBuvc2NxoZhFv8u4hGBFeE5HXFflc=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Pedro, Gabriela, Gabriel,
-
-On 9/15/19 11:35 PM, Pedro Terra wrote:
-> Modify the scaler subdevice to accept setting the resolution of the source
-> pad (previously the source resolution would always be 3 times the sink for
-> both dimensions). Now any resolution can be set at src (even smaller ones)
-> and the sink video will be scaled to match it.
+On 9/15/19 8:44 PM, Lucas A. M. Magalhães wrote:
+> From: Lucas A. M. Magalhaes <lucmaga@gmail.com>
 > 
-> Test example: With the vimc module up (using the default vimc topology)
-> media-ctl -d /dev/media0 -V '"Sensor A":0[fmt:SBGGR8_1X8/640x480]'
-> media-ctl -d /dev/media0 -V '"Debayer A":0[fmt:SBGGR8_1X8/640x480]'
-> media-ctl -d /dev/media0 -V '"Scaler":0[fmt:SBGGR8_1X8/640x480]'
-> media-ctl -d /dev/media0 -V '"Scaler":1[fmt:SBGGR8_1X8/300x700]'
-> v4l2-ctl -d /dev/video2 -v width=300,height=700
-> v4l2-ctl -d /dev/video0 -v pixelformat=BA81
-> v4l2-ctl --stream-mmap --stream-count=10 -d /dev/video2 \
-> 	--stream-to=test.raw
-> ffplay -loglevel warning -v info -f rawvideo -pixel_format rgb24 \
-> 	-video_size "300x700" test.raw
+> Add a virtual subdevice to simulate the flash control API.
+> Those are the supported controls:
+> v4l2-ctl -d /dev/v4l-subdev6 -L
+> Flash Controls
 > 
-> Co-developed-by: Gabriela Bittencourt <gabrielabittencourt00@gmail.com>
-> Signed-off-by: Gabriela Bittencourt <gabrielabittencourt00@gmail.com>
-> Co-developed-by: Gabriel Francisco Mandaji <gfmandaji@gmail.com>
-> Signed-off-by: Gabriel Francisco Mandaji <gfmandaji@gmail.com>
-> Signed-off-by: Pedro "pirate" Terra <pirate@terraco.de>
+>                        led_mode 0x009c0901 (menu)   : min=0 max=2 default=0 value=0
+>                                 0: Off
+>                                 1: Flash
+>                                 2: Torch
+>                   strobe_source 0x009c0902 (menu)   : min=0 max=1 default=0 value=0
+>                                 0: Software
+>                                 1: External
+>                          strobe 0x009c0903 (button) : flags=write-only, execute-on-write
+>                     stop_strobe 0x009c0904 (button) : flags=write-only, execute-on-write
+>                   strobe_status 0x009c0905 (bool)   : default=0 value=0 flags=read-only
+>                  strobe_timeout 0x009c0906 (int)    : min=1 max=10 step=1 default=10 value=10
+>            intensity_flash_mode 0x009c0907 (int)    : min=0 max=255 step=1 default=255 value=255
+>            intensity_torch_mode 0x009c0908 (int)    : min=0 max=255 step=1 default=255 value=255
+>             intensity_indicator 0x009c0909 (int)    : min=0 max=255 step=1 default=255 value=255
+>                          faults 0x009c090a (bitmask): max=0x00000002 default=0x00000000 value=0x00000000
+> 
+> Co-authored-by: Eduardo Barretto <edusbarretto@gmail.com>
+> Signed-off-by: Eduardo Barretto <edusbarretto@gmail.com>
+> Signed-off-by: Lucas A. M. Magalhães <lucmaga@gmail.com>
 > 
 > ---
+> Hi,
 > 
-> Changes in V2:
-> * Patch was not sent to media list mail for some reason (even though it
-> was on the Cc list), trying again.
-> * Updating documentation.
+> This patch depends on the patch series
+>         "Collapse vimc into single monolithic driver" version 4.
 > 
-> Hello! This patch depends on the series:
-> "Collapse vimc into single monolithic driver" V3
-> This code is the result of friends getting together with too much
-> coffee, sugar and beer trying to get started with some kernel coding.
-> Please, don't go easy on us! s2
-
-Well, since you asked... :-)
-
-> 
-> Running
-> /usr/local/bin/v4l2-compliance -m /dev/media0
-> Gave the following result:
-> v4l2-compliance SHA: b393a5408383b7341883857dfda78537f2f85ef6, 64 bits
-> Grand Total for vimc device /dev/media0: 451, Succeeded: 451, Failed: 0, Warnings: 0
+> Changes in v2:
+> 	- Fix v4l2-complience errors
+> 	- Add V4L2_CID_FLASH_STROBE_STATUS behavior
+> 	- Add V4L2_CID_FLASH_STROBE restrictions
+> 	- Remove vimc_fla_g_volatile_ctrl
+> 	- Remove unnecessarie V4L2_CID_FLASH_CLASS
+> 	- Change varables names
+> 	- Changes to apply over v4 of patch
+> 		"Collapse vimc into single monolithic driver"
 > ---
->  Documentation/media/v4l-drivers/vimc.rst  |  15 +-
->  drivers/media/platform/vimc/vimc-scaler.c | 217 +++++++---------------
->  2 files changed, 77 insertions(+), 155 deletions(-)
+>  drivers/media/platform/vimc/Makefile      |   2 +-
+>  drivers/media/platform/vimc/vimc-common.c |   2 +
+>  drivers/media/platform/vimc/vimc-common.h |   4 +
+>  drivers/media/platform/vimc/vimc-core.c   |   5 +
+>  drivers/media/platform/vimc/vimc-flash.c  | 200 ++++++++++++++++++++++
+>  5 files changed, 212 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/media/platform/vimc/vimc-flash.c
 > 
-> diff --git a/Documentation/media/v4l-drivers/vimc.rst b/Documentation/media/v4l-drivers/vimc.rst
-> index a582af0509ee..c28c635d965c 100644
-> --- a/Documentation/media/v4l-drivers/vimc.rst
-> +++ b/Documentation/media/v4l-drivers/vimc.rst
-> @@ -61,9 +61,11 @@ vimc-debayer:
->  	* 1 Pad source
+> diff --git a/drivers/media/platform/vimc/Makefile b/drivers/media/platform/vimc/Makefile
+> index a53b2b532e9f..e759bbb04b14 100644
+> --- a/drivers/media/platform/vimc/Makefile
+> +++ b/drivers/media/platform/vimc/Makefile
+> @@ -1,6 +1,6 @@
+>  # SPDX-License-Identifier: GPL-2.0
+>  vimc-y := vimc-core.o vimc-common.o vimc-streamer.o vimc-capture.o \
+> -		vimc-debayer.o vimc-scaler.o vimc-sensor.o
+> +		vimc-debayer.o vimc-scaler.o vimc-sensor.o vimc-flash.o
 >  
->  vimc-scaler:
-> -	Scale up the image by a factor of 3. E.g.: a 640x480 image becomes a
-> -        1920x1440 image. (this value can be configured, see at
-> -        `Module options`_).
-> +	Re-size the image to meet the source pad resolution. E.g.: if the sync pad
-> +is configured to 360x480 and the source to 1280x720, the image will be stretched
-> +to fit the source resolution. Works for any resolution within the vimc
-> +limitations (even shrinking the image if necessary).
+>  obj-$(CONFIG_VIDEO_VIMC) += vimc.o
+>  
+> diff --git a/drivers/media/platform/vimc/vimc-common.c b/drivers/media/platform/vimc/vimc-common.c
+> index a3120f4f7a90..cb786de75573 100644
+> --- a/drivers/media/platform/vimc/vimc-common.c
+> +++ b/drivers/media/platform/vimc/vimc-common.c
+> @@ -203,6 +203,8 @@ struct media_pad *vimc_pads_init(u16 num_pads, const unsigned long *pads_flag)
+>  	struct media_pad *pads;
+>  	unsigned int i;
+>  
+> +	if (!num_pads)
+> +		return NULL;
+>  	/* Allocate memory for the pads */
+>  	pads = kcalloc(num_pads, sizeof(*pads), GFP_KERNEL);
+>  	if (!pads)
+> diff --git a/drivers/media/platform/vimc/vimc-common.h b/drivers/media/platform/vimc/vimc-common.h
+> index 236412ad7548..a1fbbc8066d3 100644
+> --- a/drivers/media/platform/vimc/vimc-common.h
+> +++ b/drivers/media/platform/vimc/vimc-common.h
+> @@ -169,6 +169,10 @@ struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
+>  				     const char *vcfg_name);
+>  void vimc_sen_rm(struct vimc_device *vimc, struct vimc_ent_device *ved);
+>  
+> +struct vimc_ent_device *vimc_fla_add(struct vimc_device *vimc,
+> +				     const char *vcfg_name);
+> +void vimc_fla_rm(struct vimc_device *vimc, struct vimc_ent_device *ved);
 > +
->  	Exposes:
+>  /**
+>   * vimc_pads_init - initialize pads
+>   *
+> diff --git a/drivers/media/platform/vimc/vimc-core.c b/drivers/media/platform/vimc/vimc-core.c
+> index a1218578cb9a..312723b4ed8a 100644
+> --- a/drivers/media/platform/vimc/vimc-core.c
+> +++ b/drivers/media/platform/vimc/vimc-core.c
+> @@ -91,6 +91,11 @@ static struct vimc_ent_config ent_config[] = {
+>  		.add = vimc_cap_add,
+>  		.rm = vimc_cap_rm,
+>  	},
+> +	{
+> +		.name = "Flash Controller",
+> +		.add = vimc_fla_add,
+> +		.rm = vimc_fla_rm,
+> +	}
+>  };
 >  
->  	* 1 Pad sink
-> @@ -84,13 +86,6 @@ Vimc has a few module parameters to configure the driver.
->  
->          param=value
->  
-> -* ``sca_mult=<unsigned int>``
-> -
-> -        Image size multiplier factor to be used to multiply both width and
-> -        height, so the image size will be ``sca_mult^2`` bigger than the
-> -        original one. Currently, only supports scaling up (the default value
-> -        is 3).
-> -
->  * ``deb_mean_win_size=<unsigned int>``
->  
->          Window size to calculate the mean. Note: the window size needs to be an
-> diff --git a/drivers/media/platform/vimc/vimc-scaler.c b/drivers/media/platform/vimc/vimc-scaler.c
-> index 05db5070e268..1e398124a651 100644
-> --- a/drivers/media/platform/vimc/vimc-scaler.c
-> +++ b/drivers/media/platform/vimc/vimc-scaler.c
-> @@ -12,25 +12,24 @@
->  
->  #include "vimc-common.h"
->  
-> -static unsigned int sca_mult = 3;
-> -module_param(sca_mult, uint, 0000);
-> -MODULE_PARM_DESC(sca_mult, " the image size multiplier");
-> +/* Pad identifier */
-> +enum sca_pad {
-> +	SCA_SINK = 0,
-> +	SCA_SRC = 1,
-> +	SCA_COUNT = 2
+>  static const struct vimc_ent_link ent_links[] = {
+> diff --git a/drivers/media/platform/vimc/vimc-flash.c b/drivers/media/platform/vimc/vimc-flash.c
+> new file mode 100644
+> index 000000000000..637e7d0a5919
+> --- /dev/null
+> +++ b/drivers/media/platform/vimc/vimc-flash.c
+> @@ -0,0 +1,200 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * vimc-flash.c Virtual Media Controller Driver
+> + *
+> + * Copyright (C) 2019
+> + * Contributors: Lucas A. M. Magalhães <lamm@lucmaga.dev>
+> + *               Eduardo Barretto <edusbarretto@gmail.com>
+> + *
+> + */
+> +
+> +#include <linux/delay.h>
+> +#include <linux/kthread.h>
+> +#include <linux/sched.h>
+> +#include <linux/vmalloc.h>
+> +#include <media/v4l2-ctrls.h>
+> +#include <media/v4l2-event.h>
+> +#include <media/v4l2-subdev.h>
+> +
+> +#include "vimc-common.h"
+> +
+> +#define VIMC_FLASH_TIMEOUT_STEP 10000
+> +#define VIMC_FLASH_TIMEOUT_MAX 50000000
+
+What's the time unit for these defines? Just make that part of the name,
+e.g. VIMC_FLASH_TIMEOUT_MS_STEP (or NS or US, whatever the unit is).
+
+> +
+> +struct vimc_fla_device {
+> +	struct vimc_ent_device ved;
+> +	struct v4l2_subdev sd;
+> +	struct v4l2_ctrl_handler hdl;
+> +	int strobe_source;
+> +	bool is_strobe;
+> +	int led_mode;
+> +	int indicator_intensity;
+> +	int torch_intensity;
+> +	int flash_intensity;
+> +	u64 timeout;
+> +	u64 last_strobe;
+> +	struct task_struct *kthread;
 > +};
->  
-> -#define IS_SINK(pad)	(!pad)
-> -#define IS_SRC(pad)	(pad)
-> -#define MAX_ZOOM	8
-> +/* Default scaling factor for both width and height  */
-> +#define SRC_SCALING_DEFAULT 3
-
-Normally a scaler defaults at a scale factor of 1. It doesn't
-really make sense to default to another factor IMHO.
-
->  
->  struct vimc_sca_device {
->  	struct vimc_ent_device ved;
->  	struct v4l2_subdev sd;
->  	struct device *dev;
-> -	/* NOTE: the source fmt is the same as the sink
-> -	 * with the width and hight multiplied by mult
-> -	 */
-> -	struct v4l2_mbus_framefmt sink_fmt;
-> +	/* Frame format for both sink and src pad */
-> +	struct v4l2_mbus_framefmt fmt[SCA_COUNT];
-
-This is one of the rare cases when I think using a define for the
-array size makes the code actually less readable. Since there is
-just one source and one sink, it makes perfect sense to just use 2
-instead of SCA_COUNT. The name SCA_COUNT does not actually tell the
-reader anything. I'd just drop it from the enum.
-
->  	/* Values calculated when the stream starts */
->  	u8 *src_frame;
-> -	unsigned int src_line_size;
->  	unsigned int bpp;
->  };
->  
-> @@ -54,8 +53,8 @@ static int vimc_sca_init_cfg(struct v4l2_subdev *sd,
->  	for (i = 1; i < sd->entity.num_pads; i++) {
->  		mf = v4l2_subdev_get_try_format(sd, cfg, i);
->  		*mf = sink_fmt_default;
-> -		mf->width = mf->width * sca_mult;
-> -		mf->height = mf->height * sca_mult;
-> +		mf->width = mf->width * SRC_SCALING_DEFAULT;
-> +		mf->height = mf->height * SRC_SCALING_DEFAULT;
->  	}
->  
->  	return 0;
-> @@ -92,14 +91,8 @@ static int vimc_sca_enum_frame_size(struct v4l2_subdev *sd,
->  
->  	fse->min_width = VIMC_FRAME_MIN_WIDTH;
->  	fse->min_height = VIMC_FRAME_MIN_HEIGHT;
-> -
-> -	if (IS_SINK(fse->pad)) {
-> -		fse->max_width = VIMC_FRAME_MAX_WIDTH;
-> -		fse->max_height = VIMC_FRAME_MAX_HEIGHT;
-> -	} else {
-> -		fse->max_width = VIMC_FRAME_MAX_WIDTH * MAX_ZOOM;
-> -		fse->max_height = VIMC_FRAME_MAX_HEIGHT * MAX_ZOOM;
-> -	}
-> +	fse->max_width = VIMC_FRAME_MAX_WIDTH;
-> +	fse->max_height = VIMC_FRAME_MAX_HEIGHT;
->  
->  	return 0;
->  }
-> @@ -111,82 +104,64 @@ static int vimc_sca_get_fmt(struct v4l2_subdev *sd,
->  	struct vimc_sca_device *vsca = v4l2_get_subdevdata(sd);
->  
->  	/* Get the current sink format */
-> -	format->format = (format->which == V4L2_SUBDEV_FORMAT_TRY) ?
-> -			 *v4l2_subdev_get_try_format(sd, cfg, 0) :
-> -			 vsca->sink_fmt;
-> -
-> -	/* Scale the frame size for the source pad */
-> -	if (IS_SRC(format->pad)) {
-> -		format->format.width = vsca->sink_fmt.width * sca_mult;
-> -		format->format.height = vsca->sink_fmt.height * sca_mult;
-> -	}
-> +	if (format->which == V4L2_SUBDEV_FORMAT_TRY)
-> +		format->format = *v4l2_subdev_get_try_format(sd, cfg,
-> +							     format->pad);
-> +	else
-> +		format->format = vsca->fmt[format->pad];
->  
->  	return 0;
->  }
->  
-> -static void vimc_sca_adjust_sink_fmt(struct v4l2_mbus_framefmt *fmt)
-> +static void vimc_sca_adjust_fmt(struct v4l2_mbus_framefmt *fmt[], __u32 pad)
->  {
-> -	const struct vimc_pix_map *vpix;
-> +	if (pad == SCA_SINK) {
-> +		const struct vimc_pix_map *vpix;
->  
-> -	/* Only accept code in the pix map table in non bayer format */
-> -	vpix = vimc_pix_map_by_code(fmt->code);
-> -	if (!vpix || vpix->bayer)
-> -		fmt->code = sink_fmt_default.code;
-> +		/* Only accept code in the pix map table in non bayer format */
-> +		vpix = vimc_pix_map_by_code(fmt[SCA_SINK]->code);
-> +		if (!vpix || vpix->bayer)
-> +			fmt[SCA_SINK]->code = sink_fmt_default.code;
-> +		if (fmt[SCA_SINK]->field == V4L2_FIELD_ANY)
-> +			fmt[SCA_SINK]->field = sink_fmt_default.field;
 > +
-> +		vimc_colorimetry_clamp(fmt[SCA_SINK]);
+> +void vimc_fla_set_strobe_status(struct v4l2_ctrl_handler *hdl, bool value){
+
+Please use proper coding style, so { should be on a new line...
+
+> +	struct v4l2_ctrl *c;
+
+...and add an empty line between variable declarations and the following code.
+
+> +	c = v4l2_ctrl_find(hdl, V4L2_CID_FLASH_STROBE_STATUS);
+> +	if (!c) return;
+
+'return' should be on the next line.
+
+> +	v4l2_ctrl_s_ctrl(c, value);
+> +
+
+no spurious empty line at the end.
+
+> +}
+
+How about this:
+
+static void vimc_fla_set_strobe_status(struct v4l2_ctrl_handler *hdl, bool value)
+{
+	struct v4l2_ctrl *c = v4l2_ctrl_find(hdl, V4L2_CID_FLASH_STROBE_STATUS);
+
+	if (c)
+		v4l2_ctrl_s_ctrl(c, value);
+}
+
+Even better: just store the V4L2_CID_FLASH_STROBE_STATUS v4l2_ctrl pointer in
+struct vimc_fla_device when the control is created and use that pointer directly.
+
+> +
+> +static int vimc_fla_strobe_thread(void *data)
+> +{
+> +	struct vimc_fla_device *vfla = data;
+
+empty line
+
+> +	vimc_fla_set_strobe_status(&vfla->hdl, vfla->is_strobe);
+
+Hmm, this really boils down to a simple:
+
+	v4l2_ctrl_s_ctrl(vfla->strobe_status_ctrl, 1);
+
+So you don't need the vimc_fla_set_strobe_status at all.
+
+> +	vfla->last_strobe = ktime_get_ns();
+> +	while(vfla->is_strobe &&
+
+space after 'while'.
+
+Please run 'checkpatch.pl --strict' over your patch!
+
+> +		vfla->last_strobe + vfla->timeout > ktime_get_ns()){
+> +		msleep_interruptible(VIMC_FLASH_TIMEOUT_STEP/1000);
 > +	}
->  
-> -	fmt->width = clamp_t(u32, fmt->width, VIMC_FRAME_MIN_WIDTH,
-> +	fmt[pad]->width = clamp_t(u32, fmt[pad]->width, VIMC_FRAME_MIN_WIDTH,
->  			     VIMC_FRAME_MAX_WIDTH) & ~1;
-> -	fmt->height = clamp_t(u32, fmt->height, VIMC_FRAME_MIN_HEIGHT,
-> +	fmt[pad]->height = clamp_t(u32, fmt[pad]->height, VIMC_FRAME_MIN_HEIGHT,
->  			      VIMC_FRAME_MAX_HEIGHT) & ~1;
->  
-> -	if (fmt->field == V4L2_FIELD_ANY)
-> -		fmt->field = sink_fmt_default.field;
-> -
-> -	vimc_colorimetry_clamp(fmt);
-> +	/* Assure src pad attributes besides dimensions are the same as sink */
-> +	fmt[SCA_SRC]->code = fmt[SCA_SINK]->code;
-> +	fmt[SCA_SRC]->field = fmt[SCA_SINK]->field;
-> +	fmt[SCA_SRC]->colorspace = fmt[SCA_SINK]->colorspace;
->  }
->  
->  static int vimc_sca_set_fmt(struct v4l2_subdev *sd,
->  			    struct v4l2_subdev_pad_config *cfg,
-> -			    struct v4l2_subdev_format *fmt)
-> +			    struct v4l2_subdev_format *format)
->  {
->  	struct vimc_sca_device *vsca = v4l2_get_subdevdata(sd);
-> -	struct v4l2_mbus_framefmt *sink_fmt;
-> +	struct v4l2_mbus_framefmt *fmt[SCA_COUNT];
->  
-> -	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-> +	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
->  		/* Do not change the format while stream is on */
->  		if (vsca->src_frame)
->  			return -EBUSY;
->  
-> -		sink_fmt = &vsca->sink_fmt;
-> +		fmt[SCA_SINK] = &vsca->fmt[SCA_SINK];
-> +		fmt[SCA_SRC] = &vsca->fmt[SCA_SRC];
->  	} else {
-> -		sink_fmt = v4l2_subdev_get_try_format(sd, cfg, 0);
-> +		fmt[SCA_SINK] = v4l2_subdev_get_try_format(sd, cfg, SCA_SINK);
-> +		fmt[SCA_SRC] = v4l2_subdev_get_try_format(sd, cfg, SCA_SRC);
->  	}
->  
-> -	/*
-> -	 * Do not change the format of the source pad,
-> -	 * it is propagated from the sink
-> -	 */
-> -	if (IS_SRC(fmt->pad)) {
-> -		fmt->format = *sink_fmt;
-> -		fmt->format.width = sink_fmt->width * sca_mult;
-> -		fmt->format.height = sink_fmt->height * sca_mult;
-> -	} else {
-> -		/* Set the new format in the sink pad */
-> -		vimc_sca_adjust_sink_fmt(&fmt->format);
-> -
-> -		dev_dbg(vsca->dev, "%s: sink format update: "
-> -			"old:%dx%d (0x%x, %d, %d, %d, %d) "
-> -			"new:%dx%d (0x%x, %d, %d, %d, %d)\n", vsca->sd.name,
-> -			/* old */
-> -			sink_fmt->width, sink_fmt->height, sink_fmt->code,
-> -			sink_fmt->colorspace, sink_fmt->quantization,
-> -			sink_fmt->xfer_func, sink_fmt->ycbcr_enc,
-> -			/* new */
-> -			fmt->format.width, fmt->format.height, fmt->format.code,
-> -			fmt->format.colorspace,	fmt->format.quantization,
-> -			fmt->format.xfer_func, fmt->format.ycbcr_enc);
-> -
-> -		*sink_fmt = fmt->format;
-> -	}
-> +	*fmt[format->pad] = format->format;
-> +	vimc_sca_adjust_fmt(fmt, format->pad);
+> +	vimc_fla_set_strobe_status(&vfla->hdl, false);
+> +	return 0;
+> +}
 > +
-> +	format->format = *fmt[format->pad];
->  
->  	return 0;
->  }
-> @@ -211,16 +186,12 @@ static int vimc_sca_s_stream(struct v4l2_subdev *sd, int enable)
->  			return 0;
->  
->  		/* Save the bytes per pixel of the sink */
-> -		vpix = vimc_pix_map_by_code(vsca->sink_fmt.code);
-> +		vpix = vimc_pix_map_by_code(vsca->fmt[SCA_SINK].code);
->  		vsca->bpp = vpix->bpp;
->  
-> -		/* Calculate the width in bytes of the src frame */
-> -		vsca->src_line_size = vsca->sink_fmt.width *
-> -				      sca_mult * vsca->bpp;
-> -
->  		/* Calculate the frame size of the source pad */
-> -		frame_size = vsca->src_line_size * vsca->sink_fmt.height *
-> -			     sca_mult;
-> +		frame_size = vsca->fmt[SCA_SRC].width
-> +			     * vsca->fmt[SCA_SRC].height * vsca->bpp;
->  
->  		/* Allocate the frame buffer. Use vmalloc to be able to
->  		 * allocate a large amount of memory
-> @@ -249,73 +220,26 @@ static const struct v4l2_subdev_ops vimc_sca_ops = {
->  	.video = &vimc_sca_video_ops,
->  };
->  
-> -static void vimc_sca_fill_pix(u8 *const ptr,
-> -			      const u8 *const pixel,
-> -			      const unsigned int bpp)
-> -{
-> -	unsigned int i;
-> -
-> -	/* copy the pixel to the pointer */
-> -	for (i = 0; i < bpp; i++)
-> -		ptr[i] = pixel[i];
-> -}
-> -
-> -static void vimc_sca_scale_pix(const struct vimc_sca_device *const vsca,
-> -			       const unsigned int lin, const unsigned int col,
-> -			       const u8 *const sink_frame)
-> -{
-> -	unsigned int i, j, index;
-> -	const u8 *pixel;
-> -
-> -	/* Point to the pixel value in position (lin, col) in the sink frame */
-> -	index = VIMC_FRAME_INDEX(lin, col,
-> -				 vsca->sink_fmt.width,
-> -				 vsca->bpp);
-> -	pixel = &sink_frame[index];
-> -
-> -	dev_dbg(vsca->dev,
-> -		"sca: %s: --- scale_pix sink pos %dx%d, index %d ---\n",
-> -		vsca->sd.name, lin, col, index);
-> -
-> -	/* point to the place we are going to put the first pixel
-> -	 * in the scaled src frame
-> -	 */
-> -	index = VIMC_FRAME_INDEX(lin * sca_mult, col * sca_mult,
-> -				 vsca->sink_fmt.width * sca_mult, vsca->bpp);
-> -
-> -	dev_dbg(vsca->dev, "sca: %s: scale_pix src pos %dx%d, index %d\n",
-> -		vsca->sd.name, lin * sca_mult, col * sca_mult, index);
-> -
-> -	/* Repeat this pixel mult times */
-> -	for (i = 0; i < sca_mult; i++) {
-> -		/* Iterate through each beginning of a
-> -		 * pixel repetition in a line
-> -		 */
-> -		for (j = 0; j < sca_mult * vsca->bpp; j += vsca->bpp) {
-> -			dev_dbg(vsca->dev,
-> -				"sca: %s: sca: scale_pix src pos %d\n",
-> -				vsca->sd.name, index + j);
-> -
-> -			/* copy the pixel to the position index + j */
-> -			vimc_sca_fill_pix(&vsca->src_frame[index + j],
-> -					  pixel, vsca->bpp);
-> -		}
-> -
-> -		/* move the index to the next line */
-> -		index += vsca->src_line_size;
-> -	}
-> -}
-> -
->  static void vimc_sca_fill_src_frame(const struct vimc_sca_device *const vsca,
->  				    const u8 *const sink_frame)
->  {
-> -	unsigned int i, j;
-> -
-> -	/* Scale each pixel from the original sink frame */
-> -	/* TODO: implement scale down, only scale up is supported for now */
-> -	for (i = 0; i < vsca->sink_fmt.height; i++)
-> -		for (j = 0; j < vsca->sink_fmt.width; j++)
-> -			vimc_sca_scale_pix(vsca, i, j, sink_frame);
-> +	unsigned int lin, col, bpp_i, index;
-> +	struct v4l2_mbus_framefmt const *fmt = vsca->fmt;
-> +	u8 *walker = vsca->src_frame;
+> +static int vimc_fla_s_ctrl(struct v4l2_ctrl *c)
+> +{
 > +
-> +	/* Set each pixel at the src_frame to its sink_frame equivalent */
-> +	for (lin = 0; lin < fmt[SCA_SRC].height; lin++) {
-> +		for (col = 0; col < fmt[SCA_SRC].width; col++) {
-> +			index = VIMC_FRAME_INDEX((lin * fmt[SCA_SINK].height)
-> +						 / fmt[SCA_SRC].height,
-> +						 (col * fmt[SCA_SINK].width)
-> +						 / fmt[SCA_SRC].width,
-> +						 fmt[SCA_SINK].width,
-> +						 vsca->bpp);
-> +			for (bpp_i = 0; bpp_i < vsca->bpp; bpp_i++)
-> +				*(walker++) = sink_frame[index + bpp_i];
-
-This can be replaced with memcpy.
-
-I assume that the input to the scaler is never a Bayer format, i.e. the
-image was debayered first?
-
+> +	struct vimc_fla_device *vfla =
+> +		container_of(c->handler, struct vimc_fla_device, hdl);
+> +
+> +	switch (c->id) {
+> +	case V4L2_CID_FLASH_LED_MODE:
+> +		vfla->led_mode = c->val;
+> +		return 0;
+> +	case V4L2_CID_FLASH_STROBE_SOURCE:
+> +		vfla->strobe_source = c->val;
+> +		return 0;
+> +	case V4L2_CID_FLASH_STROBE:
+> +		if (vfla->led_mode != V4L2_FLASH_LED_MODE_FLASH ||
+> +		    vfla->strobe_source != V4L2_FLASH_STROBE_SOURCE_SOFTWARE){
+> +			return -EILSEQ;
 > +		}
+> +		vfla->is_strobe = true;
+> +		vfla->kthread = kthread_run(vimc_fla_strobe_thread, vfla, "vimc-flash thread");
+
+What if the thread is already running?
+
+I wonder what existing flash drivers do if V4L2_CID_FLASH_STROBE is called
+repeatedly. Perhaps returning EBUSY if strobe is still active makes sense here.
+
+It would also be a nice feature if keeping the strobe on for more than X seconds
+would create a V4L2_FLASH_FAULT_LED_OVER_TEMPERATURE fault.
+
+> +		return 0;
+> +	case V4L2_CID_FLASH_STROBE_STATUS:
+> +		vfla->is_strobe = c->val;
+> +		return 0;
+> +	case V4L2_CID_FLASH_STROBE_STOP:
+> +		vfla->is_strobe = false;
+> +		return 0;
+> +	case V4L2_CID_FLASH_TIMEOUT:
+> +		vfla->timeout = c->val;
+> +		return 0;
+> +	case V4L2_CID_FLASH_INTENSITY:
+> +		vfla->flash_intensity = c->val;
+> +		return 0;
+> +	case V4L2_CID_FLASH_TORCH_INTENSITY:
+> +		vfla->torch_intensity = c->val;
+> +		return 0;
+> +	case V4L2_CID_FLASH_INDICATOR_INTENSITY:
+> +		vfla->indicator_intensity = c->val;
+> +		return 0;
 > +	}
+> +	return 0;
+> +}
+> +
+> +static const struct v4l2_ctrl_ops vimc_fla_ctrl_ops = {
+> +	.s_ctrl = vimc_fla_s_ctrl,
+> +};
+> +
+> +static const struct v4l2_subdev_core_ops vimc_fla_core_ops = {
+> +	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
+> +	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
+> +};
+> +
+> +static const struct v4l2_subdev_ops vimc_fla_ops = {
+> +	.core = &vimc_fla_core_ops,
+> +};
+> +
+> +/* initialize device */
+> +struct vimc_ent_device *vimc_fla_add(struct vimc_device *vimc,
+> +				     const char *vcfg_name)
+> +{
+> +	struct v4l2_device *v4l2_dev = &vimc->v4l2_dev;
+> +	struct vimc_fla_device *vfla;
+> +	int ret;
+> +
+> +	/* Allocate the vfla struct */
+> +	vfla = kzalloc(sizeof(*vfla), GFP_KERNEL);
+> +	if (!vfla)
+> +		return NULL;
+> +
+> +	v4l2_ctrl_handler_init(&vfla->hdl, 4);
+> +
+> +	v4l2_ctrl_new_std_menu(&vfla->hdl, &vimc_fla_ctrl_ops,
+> +			       V4L2_CID_FLASH_LED_MODE,
+> +			       V4L2_FLASH_LED_MODE_TORCH, ~0x7,
+> +			       V4L2_FLASH_LED_MODE_NONE);
+> +	v4l2_ctrl_new_std_menu(&vfla->hdl, &vimc_fla_ctrl_ops,
+> +			       V4L2_CID_FLASH_STROBE_SOURCE, 0x1, ~0x3,
+> +			       V4L2_FLASH_STROBE_SOURCE_SOFTWARE);
+> +	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
+> +			  V4L2_CID_FLASH_STROBE, 0, 0, 0, 0);
+> +	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
+> +			  V4L2_CID_FLASH_STROBE_STOP, 0, 0, 0, 0);
+> +	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
+> +			  V4L2_CID_FLASH_TIMEOUT, 0,
+> +			  VIMC_FLASH_TIMEOUT_MAX,
+> +			  VIMC_FLASH_TIMEOUT_STEP,
+> +			  VIMC_FLASH_TIMEOUT_STEP);
+> +	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
+> +			  V4L2_CID_FLASH_TORCH_INTENSITY, 0, 255, 1, 255);
+> +	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
+> +			  V4L2_CID_FLASH_INTENSITY, 0, 255, 1, 255);
+> +	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
+> +			  V4L2_CID_FLASH_INDICATOR_INTENSITY, 0, 255, 1, 255);
 
-As a suggestion for a future patch: use the Coarse Bresenham scaling algorithm
-to do the scaling (the v4l2 test pattern generator uses this).
+Can you look at existing flash drivers and copy the min/max/step/def values?
 
-This will give substantially better scaling results.
+The values here are rather arbitrary. It would be nice if it was a bit more
+realistic.
 
->  }
->  
->  static void *vimc_sca_process_frame(struct vimc_ent_device *ved,
-> @@ -382,7 +306,10 @@ struct vimc_ent_device *vimc_sca_add(struct vimc_device *vimc,
->  	vsca->dev = &vimc->pdev.dev;
->  
->  	/* Initialize the frame format */
-> -	vsca->sink_fmt = sink_fmt_default;
-> +	vsca->fmt[SCA_SINK] = sink_fmt_default;
-> +	vsca->fmt[SCA_SRC] = sink_fmt_default;
-> +	vsca->fmt[SCA_SRC].width *= SRC_SCALING_DEFAULT;
-> +	vsca->fmt[SCA_SRC].height *= SRC_SCALING_DEFAULT;
->  
->  	return &vsca->ved;
->  }
+> +	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
+> +			  V4L2_CID_FLASH_STROBE_STATUS, 0, 1, 1, 0);
+> +	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
+> +			  V4L2_CID_FLASH_FAULT, 0,
+> +			  V4L2_FLASH_FAULT_TIMEOUT, 0, 0);
+> +	vfla->sd.ctrl_handler = &vfla->hdl;
+> +	if (vfla->hdl.error) {
+> +		ret = vfla->hdl.error;
+> +		goto err_free_vfla;
+> +	}
+> +
+> +	/* Initialize ved and sd */
+> +	ret = vimc_ent_sd_register(&vfla->ved, &vfla->sd, v4l2_dev,
+> +				   vcfg_name,
+> +				   MEDIA_ENT_F_FLASH, 0, NULL,
+> +				   NULL, &vimc_fla_ops);
+> +	if (ret)
+> +		goto err_free_hdl;
+> +
+> +	/* Initialize standard values */
+> +	vfla->indicator_intensity = 0;
+> +	vfla->torch_intensity = 0;
+> +	vfla->flash_intensity = 0;
+> +	vfla->is_strobe = false;
+> +	vfla->timeout = 0;
+> +	vfla->last_strobe = 0;
+> +	vfla->led_mode = V4L2_FLASH_LED_MODE_NONE;
+> +
+> +	return &vfla->ved;
+> +
+> +err_free_hdl:
+> +	v4l2_ctrl_handler_free(&vfla->hdl);
+> +err_free_vfla:
+> +	kfree(vfla);
+> +
+> +	return NULL;
+> +}
+> +
+> +void vimc_fla_rm(struct vimc_device *vimc, struct vimc_ent_device *ved)
+> +{
+> +	struct vimc_fla_device *vfla;
+> +
+> +	if (!ved)
+> +		return;
+> +
+> +	vfla = container_of(ved, struct vimc_fla_device, ved);
+> +	vimc_ent_sd_unregister(ved, &vfla->sd);
+> +}
 > 
 
 Regards,
