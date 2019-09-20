@@ -2,59 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E022B9411
-	for <lists+linux-media@lfdr.de>; Fri, 20 Sep 2019 17:35:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 946E8B9418
+	for <lists+linux-media@lfdr.de>; Fri, 20 Sep 2019 17:35:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404040AbfITPfE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Sep 2019 11:35:04 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:44964 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404033AbfITPfE (ORCPT
+        id S2404117AbfITPfW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Sep 2019 11:35:22 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:36463 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404105AbfITPfU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Sep 2019 11:35:04 -0400
-Received: by mail-pg1-f196.google.com with SMTP id g3so2451524pgs.11
-        for <linux-media@vger.kernel.org>; Fri, 20 Sep 2019 08:35:03 -0700 (PDT)
+        Fri, 20 Sep 2019 11:35:20 -0400
+Received: by mail-pf1-f193.google.com with SMTP id y22so4762056pfr.3
+        for <linux-media@vger.kernel.org>; Fri, 20 Sep 2019 08:35:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=h0ilJ7FaENDS4M6Ggy0Kf7zMIazzs6SFduurCY/3QAo=;
-        b=PNMyDBN7BL8SW7bK06vcDWSH8LNhvxb2P4xUXuQPT/VoT/Vk0V71dLPwTm5uXY4Th+
-         mCI5rmwVP2+6SlZ3ebSycHechWUkKDdXNlAtoCqqn7fRc5wIxFof8mc0kZJs/xYdhO+c
-         hH8VxGApgBfy/3wu1H2Tgbsdry7ZbvFt/wnqDaJQNsfkKI5cAXnVCoIZDf8Ij+5w1+bE
-         NcJuvTx/PAvs3vZXnekI/jAwOt2jgG7CICsgw++oqd8jipEsXbsGOqpfhCVZ5GGgBVNT
-         FEYONeuXG57LygiO0VMZBLaXG56TYkRCtUJQcxGS8SS2+an3m+1MCnMXZoaXMg15X1zN
-         5VVw==
+        bh=KYYXiwhTHKlZGhQO6s6tMNDr7MAM6pAY3179upZ2BOo=;
+        b=KQxbGU1RiQfdCGtKvn71cIg4ycczc7KD03DnHRQPsmd0aj4xtiTgPgQ3XLWbRkzIJZ
+         3IFxpiksNZFe0pLUs2bLwa2Yp6XiZwQLRWkWiAqPZkPxFmbiZyW8rBBqF7pIoteEKKnc
+         v0ftsjNKmByaOBXLbVZFGjtR2tj20C1XjoZtTp+FAISrP7/d5qbVco1nFORsL31xZlVp
+         4RWA2Adml/s8kQAQH2uvUT78+aSCbiLGTU9DzywOlJOL3W4lQER2KDw5/4h6AnuMl8te
+         gkSiaVPvfGpmmm81sjxn82iPYqapDk/IYCvG4gt3tXfLhAOpr4cFozZdeN7uWMfwVCm0
+         axaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=h0ilJ7FaENDS4M6Ggy0Kf7zMIazzs6SFduurCY/3QAo=;
-        b=ttebF2xFzeZShmfh9t1maoRscPzLEg7KB9fea1+xOOlYdtHL8rwsFE/JXFTDRonVoW
-         JGX8vRB8+iT9cvEQZX4/F1u4YZp/wJsKGysRCsSO8dKP6Pk3VSZ5bLG8YLS6WKJymCDG
-         VXjZLVfAcDwfT8UJHLLsy0tb+NUIa5dwSsuq3EN8XIQkTVS2PxY8BjheDOCi3oyWUwpD
-         85EL19sXQM3U04dVgWISaWheYG1ZUrD358Vfn12wMtiytCQe8RcuV7NCK40zNeLj3ASP
-         KUm+8CG1nxYTyS6DesA9B1EyPVNgw37jpNQTiDzC3rXvXxGMS7D4SYos/SxBJ0NRMBun
-         L5gw==
-X-Gm-Message-State: APjAAAW1YBmR+Seoud/I4VxodT/FJKpWAvUzCVhYpS6VwUuya/68azkX
-        qWESPi6bW4Mpt1BqnU46YgQRp+JNuVzbYgjQ7J7VDg==
-X-Google-Smtp-Source: APXvYqzmd/of2dTWYIZADOtrmSPKgS7q1zaiGvVdYbtWoRi/dBar7L09417ujeYCYXoTiB+nUkHPQ+HIhu1kswy/29E=
-X-Received: by 2002:a17:90a:c255:: with SMTP id d21mr5461040pjx.129.1568993703051;
- Fri, 20 Sep 2019 08:35:03 -0700 (PDT)
+        bh=KYYXiwhTHKlZGhQO6s6tMNDr7MAM6pAY3179upZ2BOo=;
+        b=YytVBEKJnV/ZkOl2cI7nvtmOaw0rxVFFytqKr7pAj8nLAapD0h/Ad8c/j8SfKkxr6C
+         5QLm+N4/8dZjw+10PJFPD/gcBop/7ikp+RSYTlCTERqjRv6YissGMNcBVYmnRGB2jWpH
+         oqk4xfAO2FJM6daaP4T6Q/368scFTspf0j4coT3vjGktYDby0kSMYK3MoIzONA1KkL0y
+         MmNFU9l+4+tJmgT8XD54Ms6d9gnpVWjsCpA8op8Q535eqPFVxIxdr4AvpJmPKC3zHDoB
+         QDueS8weEoYEVyiRuCS54iph7whY3FRlD4yVtsgD6HWS+IgiAhE3xiCovn5cyNqRXVrT
+         HAOA==
+X-Gm-Message-State: APjAAAX+sxADX2WakKT/F5VzpCOiqWBxv68k28hn6vo4u/uEbVQWqjsR
+        OgjZfeAvY9icE+65kZv+nQx8oSZjR7jgk2vWUNpe2A==
+X-Google-Smtp-Source: APXvYqwzX7kgRz9E1iQ5UZ2ovmhU2m5NM1Ek8i3gbJBhffTeiMOGOkJ/6wyD4uj9P6rGzmly6IdbeRXXq4frR5RXOuk=
+X-Received: by 2002:a63:d20f:: with SMTP id a15mr10870010pgg.130.1568993717722;
+ Fri, 20 Sep 2019 08:35:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <000000000000eb2d700592ab96a0@google.com>
-In-Reply-To: <000000000000eb2d700592ab96a0@google.com>
+References: <000000000000f111a20592ab9671@google.com>
+In-Reply-To: <000000000000f111a20592ab9671@google.com>
 From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Fri, 20 Sep 2019 17:34:51 +0200
-Message-ID: <CAAeHK+yLaih9MrcU+9XgA-fjyd7X6xw7FRvtubuHBKSe2gZJgQ@mail.gmail.com>
-Subject: Re: KASAN: use-after-free Write in usbvision_decompress_alloc
-To:     syzbot <syzbot+37e33be6d077b2c85b4a@syzkaller.appspotmail.com>
-Cc:     allison@lohutok.net, bigeasy@linutronix.de,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>, kjlu@umn.edu,
+Date:   Fri, 20 Sep 2019 17:35:06 +0200
+Message-ID: <CAAeHK+znT=Bdy58Vgj+gBR7eNOhhSAPcSu0KXugsmJQBZ3JuLg@mail.gmail.com>
+Subject: Re: KASAN: invalid-free in usbvision_release
+To:     syzbot <syzbot+0350a2346edac2799574@syzkaller.appspotmail.com>
+Cc:     allison@lohutok.net, Hans Verkuil <hverkuil@xs4all.nl>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
         LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
         USB list <linux-usb@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
         syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
         Thomas Gleixner <tglx@linutronix.de>
 Content-Type: text/plain; charset="UTF-8"
@@ -64,7 +64,7 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On Mon, Sep 16, 2019 at 3:29 PM syzbot
-<syzbot+37e33be6d077b2c85b4a@syzkaller.appspotmail.com> wrote:
+<syzbot+0350a2346edac2799574@syzkaller.appspotmail.com> wrote:
 >
 > Hello,
 >
@@ -72,64 +72,70 @@ On Mon, Sep 16, 2019 at 3:29 PM syzbot
 >
 > HEAD commit:    f0df5c1b usb-fuzzer: main usb gadget fuzzer driver
 > git tree:       https://github.com/google/kasan.git usb-fuzzer
-> console output: https://syzkaller.appspot.com/x/log.txt?x=176af9fa600000
+> console output: https://syzkaller.appspot.com/x/log.txt?x=11caf595600000
 > kernel config:  https://syzkaller.appspot.com/x/.config?x=5c6633fa4ed00be5
-> dashboard link: https://syzkaller.appspot.com/bug?extid=37e33be6d077b2c85b4a
+> dashboard link: https://syzkaller.appspot.com/bug?extid=0350a2346edac2799574
 > compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
 >
 > Unfortunately, I don't have any reproducer for this crash yet.
 >
 > IMPORTANT: if you fix the bug, please add the following tag to the commit:
-> Reported-by: syzbot+37e33be6d077b2c85b4a@syzkaller.appspotmail.com
+> Reported-by: syzbot+0350a2346edac2799574@syzkaller.appspotmail.com
 >
+> usb 6-1: usbvision_write_reg: failed: error -2
+> usbvision_set_audio: can't write iopin register for audio switching
+> usb 6-1: usbvision_write_reg: failed: error -19
+> usbvision_audio_off: can't write reg
+> usbvision_radio_close: Final disconnect
 > ==================================================================
-> BUG: KASAN: use-after-free in usbvision_decompress_alloc+0x63/0x70
-> drivers/media/usb/usbvision/usbvision-core.c:376
-> Write of size 8 at addr ffff8881d3989ca0 by task v4l_id/9731
+> BUG: KASAN: double-free or invalid-free in usbvision_release+0x13b/0x1c0
+> drivers/media/usb/usbvision/usbvision-video.c:1353
 >
-> CPU: 0 PID: 9731 Comm: v4l_id Not tainted 5.3.0-rc7+ #0
+> CPU: 1 PID: 7362 Comm: v4l_id Not tainted 5.3.0-rc7+ #0
 > Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
 > Google 01/01/2011
 > Call Trace:
 >   __dump_stack lib/dump_stack.c:77 [inline]
 >   dump_stack+0xca/0x13e lib/dump_stack.c:113
 >   print_address_description+0x6a/0x32c mm/kasan/report.c:351
->   __kasan_report.cold+0x1a/0x33 mm/kasan/report.c:482
->   kasan_report+0xe/0x12 mm/kasan/common.c:618
->   usbvision_decompress_alloc+0x63/0x70
-> drivers/media/usb/usbvision/usbvision-core.c:376
->   usbvision_v4l2_open+0x2b7/0x2f0
-> drivers/media/usb/usbvision/usbvision-video.c:329
->   v4l2_open+0x20f/0x3d0 drivers/media/v4l2-core/v4l2-dev.c:423
->   chrdev_open+0x219/0x5c0 fs/char_dev.c:414
->   do_dentry_open+0x494/0x1120 fs/open.c:797
->   do_last fs/namei.c:3416 [inline]
->   path_openat+0x1430/0x3f50 fs/namei.c:3533
->   do_filp_open+0x1a1/0x280 fs/namei.c:3563
->   do_sys_open+0x3c0/0x580 fs/open.c:1089
->   do_syscall_64+0xb7/0x580 arch/x86/entry/common.c:296
+>   kasan_report_invalid_free+0x61/0xa0 mm/kasan/report.c:444
+>   __kasan_slab_free+0x162/0x180 mm/kasan/common.c:434
+>   slab_free_hook mm/slub.c:1423 [inline]
+>   slab_free_freelist_hook mm/slub.c:1474 [inline]
+>   slab_free mm/slub.c:3016 [inline]
+>   kfree+0xe4/0x2f0 mm/slub.c:3957
+>   usbvision_release+0x13b/0x1c0
+> drivers/media/usb/usbvision/usbvision-video.c:1353
+>   usbvision_radio_close.cold+0x6f/0x74
+> drivers/media/usb/usbvision/usbvision-video.c:1125
+>   v4l2_release+0x2e7/0x390 drivers/media/v4l2-core/v4l2-dev.c:455
+>   __fput+0x2d7/0x840 fs/file_table.c:280
+>   task_work_run+0x13f/0x1c0 kernel/task_work.c:113
+>   tracehook_notify_resume include/linux/tracehook.h:188 [inline]
+>   exit_to_usermode_loop+0x1d2/0x200 arch/x86/entry/common.c:163
+>   prepare_exit_to_usermode arch/x86/entry/common.c:194 [inline]
+>   syscall_return_slowpath arch/x86/entry/common.c:274 [inline]
+>   do_syscall_64+0x45f/0x580 arch/x86/entry/common.c:299
 >   entry_SYSCALL_64_after_hwframe+0x49/0xbe
-> RIP: 0033:0x7fd7a6293120
-> Code: 48 8b 15 1b 4d 2b 00 f7 d8 64 89 02 83 c8 ff c3 90 90 90 90 90 90 90
-> 90 90 90 83 3d d5 a4 2b 00 00 75 10 b8 02 00 00 00 0f 05 <48> 3d 01 f0 ff
-> ff 73 31 c3 48 83 ec 08 e8 5e 8c 01 00 48 89 04 24
-> RSP: 002b:00007fff16a863b8 EFLAGS: 00000246 ORIG_RAX: 0000000000000002
-> RAX: ffffffffffffffda RBX: 00007fff16a86518 RCX: 00007fd7a6293120
-> RDX: 00007fd7a6548138 RSI: 0000000000000000 RDI: 00007fff16a87f1b
-> RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+> RIP: 0033:0x7f0c157b92b0
+> Code: 40 75 0b 31 c0 48 83 c4 08 e9 0c ff ff ff 48 8d 3d c5 32 08 00 e8 c0
+> 07 02 00 83 3d 45 a3 2b 00 00 75 10 b8 03 00 00 00 0f 05 <48> 3d 01 f0 ff
+> ff 73 31 c3 48 83 ec 08 e8 ce 8a 01 00 48 89 04 24
+> RSP: 002b:00007fff5c949928 EFLAGS: 00000246 ORIG_RAX: 0000000000000003
+> RAX: 0000000000000000 RBX: 0000000000000003 RCX: 00007f0c157b92b0
+> RDX: 00007f0c15a6fdf0 RSI: 0000000000000001 RDI: 0000000000000003
+> RBP: 0000000000000000 R08: 00007f0c15a6fdf0 R09: 000000000000000a
 > R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000400884
-> R13: 00007fff16a86510 R14: 0000000000000000 R15: 0000000000000000
+> R13: 00007fff5c949a80 R14: 0000000000000000 R15: 0000000000000000
 >
-> Allocated by task 2755:
+> Allocated by task 1995:
 >   save_stack+0x1b/0x80 mm/kasan/common.c:69
 >   set_track mm/kasan/common.c:77 [inline]
 >   __kasan_kmalloc mm/kasan/common.c:493 [inline]
 >   __kasan_kmalloc.constprop.0+0xbf/0xd0 mm/kasan/common.c:466
->   kmalloc include/linux/slab.h:552 [inline]
->   kzalloc include/linux/slab.h:748 [inline]
->   usbvision_alloc drivers/media/usb/usbvision/usbvision-video.c:1310 [inline]
->   usbvision_probe.cold+0x586/0x1e57
-> drivers/media/usb/usbvision/usbvision-video.c:1464
+>   kmalloc_array include/linux/slab.h:676 [inline]
+>   usbvision_probe.cold+0xaae/0x1e57
+> drivers/media/usb/usbvision/usbvision-video.c:1484
 >   usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
 >   really_probe+0x281/0x6d0 drivers/base/dd.c:548
 >   driver_probe_device+0x101/0x1b0 drivers/base/dd.c:721
@@ -154,12 +160,11 @@ On Mon, Sep 16, 2019 at 3:29 PM syzbot
 >   port_event drivers/usb/core/hub.c:5359 [inline]
 >   hub_event+0x1b5c/0x3640 drivers/usb/core/hub.c:5441
 >   process_one_work+0x92b/0x1530 kernel/workqueue.c:2269
->   process_scheduled_works kernel/workqueue.c:2331 [inline]
->   worker_thread+0x7ab/0xe20 kernel/workqueue.c:2417
+>   worker_thread+0x96/0xe20 kernel/workqueue.c:2415
 >   kthread+0x318/0x420 kernel/kthread.c:255
 >   ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
 >
-> Freed by task 2755:
+> Freed by task 1995:
 >   save_stack+0x1b/0x80 mm/kasan/common.c:69
 >   set_track mm/kasan/common.c:77 [inline]
 >   __kasan_slab_free+0x130/0x180 mm/kasan/common.c:455
@@ -167,8 +172,8 @@ On Mon, Sep 16, 2019 at 3:29 PM syzbot
 >   slab_free_freelist_hook mm/slub.c:1474 [inline]
 >   slab_free mm/slub.c:3016 [inline]
 >   kfree+0xe4/0x2f0 mm/slub.c:3957
->   usbvision_release+0x181/0x1c0
-> drivers/media/usb/usbvision/usbvision-video.c:1359
+>   usbvision_release+0x13b/0x1c0
+> drivers/media/usb/usbvision/usbvision-video.c:1353
 >   usbvision_disconnect+0x16c/0x1d0
 > drivers/media/usb/usbvision/usbvision-video.c:1582
 >   usb_unbind_interface+0x1bd/0x8a0 drivers/usb/core/driver.c:423
@@ -183,30 +188,29 @@ On Mon, Sep 16, 2019 at 3:29 PM syzbot
 >   port_event drivers/usb/core/hub.c:5359 [inline]
 >   hub_event+0x1454/0x3640 drivers/usb/core/hub.c:5441
 >   process_one_work+0x92b/0x1530 kernel/workqueue.c:2269
->   process_scheduled_works kernel/workqueue.c:2331 [inline]
->   worker_thread+0x7ab/0xe20 kernel/workqueue.c:2417
+>   worker_thread+0x96/0xe20 kernel/workqueue.c:2415
 >   kthread+0x318/0x420 kernel/kthread.c:255
 >   ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
 >
-> The buggy address belongs to the object at ffff8881d3988000
->   which belongs to the cache kmalloc-8k of size 8192
-> The buggy address is located 7328 bytes inside of
->   8192-byte region [ffff8881d3988000, ffff8881d398a000)
+> The buggy address belongs to the object at ffff8881d41ad420
+>   which belongs to the cache kmalloc-32 of size 32
+> The buggy address is located 0 bytes inside of
+>   32-byte region [ffff8881d41ad420, ffff8881d41ad440)
 > The buggy address belongs to the page:
-> page:ffffea00074e6200 refcount:1 mapcount:0 mapping:ffff8881da00c500
-> index:0x0 compound_mapcount: 0
-> flags: 0x200000000010200(slab|head)
-> raw: 0200000000010200 ffffea0007174200 0000000300000003 ffff8881da00c500
-> raw: 0000000000000000 0000000080030003 00000001ffffffff 0000000000000000
+> page:ffffea0007506b40 refcount:1 mapcount:0 mapping:ffff8881da003400
+> index:0x0
+> flags: 0x200000000000200(slab)
+> raw: 0200000000000200 ffffea0007662c40 0000000f0000000f ffff8881da003400
+> raw: 0000000000000000 0000000080550055 00000001ffffffff 0000000000000000
 > page dumped because: kasan: bad access detected
 >
 > Memory state around the buggy address:
->   ffff8881d3989b80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->   ffff8881d3989c00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-> > ffff8881d3989c80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>   ffff8881d41ad300: fb fb fb fb fc fc fb fb fb fb fc fc fb fb fb fb
+>   ffff8881d41ad380: fc fc fb fb fb fb fc fc fb fb fb fb fc fc fb fb
+> > ffff8881d41ad400: fb fb fc fc fb fb fb fb fc fc fb fb fb fb fc fc
 >                                 ^
->   ffff8881d3989d00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->   ffff8881d3989d80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>   ffff8881d41ad480: fb fb fb fb fc fc fb fb fb fb fc fc fb fb fb fb
+>   ffff8881d41ad500: fc fc 00 00 00 00 fc fc fb fb fb fb fc fc fb fb
 > ==================================================================
 >
 >
@@ -217,6 +221,11 @@ On Mon, Sep 16, 2019 at 3:29 PM syzbot
 >
 > syzbot will keep track of this bug report. See:
 > https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+>
+> --
+> You received this message because you are subscribed to the Google Groups "syzkaller-bugs" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to syzkaller-bugs+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/syzkaller-bugs/000000000000f111a20592ab9671%40google.com.
 
 Most probably the same bug as:
 
