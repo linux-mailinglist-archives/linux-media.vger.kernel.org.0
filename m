@@ -2,164 +2,311 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D350B94FE
-	for <lists+linux-media@lfdr.de>; Fri, 20 Sep 2019 18:12:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 602A9B9604
+	for <lists+linux-media@lfdr.de>; Fri, 20 Sep 2019 18:53:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391071AbfITQMb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Sep 2019 12:12:31 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:35307 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388473AbfITQMb (ORCPT
+        id S2405241AbfITQxZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Sep 2019 12:53:25 -0400
+Received: from lelv0143.ext.ti.com ([198.47.23.248]:56600 "EHLO
+        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404658AbfITQxY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Sep 2019 12:12:31 -0400
-Received: by mail-wm1-f66.google.com with SMTP id y21so2833970wmi.0
-        for <linux-media@vger.kernel.org>; Fri, 20 Sep 2019 09:12:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=pmRl2UYASKDcoA4tl0oihWQqkqih3Vp25rXnozbYFPg=;
-        b=fmQMbY22FpVloEO/KK9SuvgXS5NIshvjocsyO2WPpj5y2wwikJO7e3cZv1hjzhUkZI
-         ciZdfmeqprPFtm4l7IhwA2Q9qaUjdjxKtB+RVEVpEbOBVxl1TRc4erhWsk2FUezWEJFh
-         TRHHyflmBV8dht9DYb8uxKkHE33SoopfMsTsyGYtpGJK+9b+/8kLo7Bc/NZYuuwOCnYt
-         aP228CH1dzrfmlFtu5fHEbBxJnRJYjcc/RUplt/1mI+lcJPLVCEHGDJz9bk7ex7sCOhO
-         pO1LwFq66pb0xVjn1W0b+yay5WquFS0Mo3Cg2PZbVKokzh7YEuDPfy2sZKCtx3unfdQf
-         VC3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=pmRl2UYASKDcoA4tl0oihWQqkqih3Vp25rXnozbYFPg=;
-        b=BsvGn1G707Zb497lTjhOllPQ90mEXfllmsHInqOa+0oJi+cPozOYCg/Ea6xYr2/Rd1
-         inQ7n4pbzMAy1VbobhK+DH/0LliEH8N0MKfF3J7DT++CmRzXhJCTsHyvqT0g+OO8A9BX
-         ONLcSK3E0OrWshPs8S7BhjDzmG07Ek5dzTdqrjCqvvVuNQV7xXj4KB24JxDl7i+xEVPF
-         SvA8U+vkTnDmHqSfQbV5N9gLLHGoBlVKjtR4TutOK6wzsxvhziBLlvOLb2tRZTFV1O4D
-         E8pSvd5Y70q5J+teYfZghp8l4RIOtt+FVGaO0dJUEBE9Nq+QCfRqgk90/vQhdXypTyNz
-         OT7A==
-X-Gm-Message-State: APjAAAVHkIFqh4FBiZUTPlQaMsbCcpPFt/jDSixvr9PWeScu7R8BdXti
-        3C82/qpTZxTea7EBamgVg78=
-X-Google-Smtp-Source: APXvYqyCX/X9MAdAjV1QNuzhQdaMmQG2jzUp4IrQWQBT3lz+nhAFJzFwBnVrQpKuPSnG1g8hbpF5Ng==
-X-Received: by 2002:a1c:3cc3:: with SMTP id j186mr3970202wma.119.1568995948804;
-        Fri, 20 Sep 2019 09:12:28 -0700 (PDT)
-Received: from pretoriano-kubuntu.fritz.box ([79.114.202.215])
-        by smtp.googlemail.com with ESMTPSA id j1sm3693004wrg.24.2019.09.20.09.12.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Sep 2019 09:12:28 -0700 (PDT)
-From:   Flavius Georgescu <pretoriano.mp@gmail.com>
-To:     sean@mess.org
-Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        Flavius Georgescu <pretoriano.mp@gmail.com>,
-        Chris Vandomelen <chris@sightworks.com>
-Subject: [PATCH v2] media: rc: Add support for another iMON 0xffdc device
-Date:   Fri, 20 Sep 2019 19:11:39 +0300
-Message-Id: <20190920161139.9493-1-pretoriano.mp@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190919151358.7030-1-pretoriano.mp@gmail.com>
-References: <20190919151358.7030-1-pretoriano.mp@gmail.com>
+        Fri, 20 Sep 2019 12:53:24 -0400
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8KGrMKe009591;
+        Fri, 20 Sep 2019 11:53:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1568998402;
+        bh=t+zep25C2SnHwsvWsbLfo5d1pUPHgbtfc23ViF10D9o=;
+        h=Date:From:To:CC:Subject:References:In-Reply-To;
+        b=kcr6PUVFuV35EL62IllzHCxw9NTv9sh9VE+Zk8jfUWTHN6GYFrrXYkeRnPMil7Z+6
+         hti7E/0442WbspFFo+rNRcBEVRMje05tnwLUiJfdjd3WQ94nbc80qz/D2xk3d13ND6
+         dQz8E4aqGoO7DN1KFmKtmgB9BKF7+dbRejl9BEU0=
+Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x8KGrMLU082574
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 20 Sep 2019 11:53:22 -0500
+Received: from DLEE109.ent.ti.com (157.170.170.41) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Fri, 20
+ Sep 2019 11:53:17 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE109.ent.ti.com
+ (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Fri, 20 Sep 2019 11:53:17 -0500
+Received: from ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with SMTP id x8KGrMml033640;
+        Fri, 20 Sep 2019 11:53:22 -0500
+Date:   Fri, 20 Sep 2019 11:55:29 -0500
+From:   Benoit Parrot <bparrot@ti.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+CC:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Prabhakar Lad <prabhakar.csengg@gmail.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [Patch v2 5/7] media: i2c: ov2659: Add powerdown/reset gpio
+ handling
+Message-ID: <20190920165529.it7urirm6epg4woq@ti.com>
+References: <20190919203955.15125-1-bparrot@ti.com>
+ <20190919203955.15125-6-bparrot@ti.com>
+ <20190920101706.GX5781@paasikivi.fi.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20190920101706.GX5781@paasikivi.fi.intel.com>
+User-Agent: NeoMutt/20171215
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The device it's an iMON UltraBay (0x98 in config byte) with LCD,
-IR and dual-knobs front panel.
+Sakari Ailus <sakari.ailus@linux.intel.com> wrote on Fri [2019-Sep-20 13:17:06 +0300]:
+> Hi Benoit,
+> 
+> Thanks for the update.
+> 
+> On Thu, Sep 19, 2019 at 03:39:53PM -0500, Benoit Parrot wrote:
+> > On some board it is possible that the sensor 'powerdown' and or 'reset'
+> > pin might be controlled by gpio instead of being tied.
+> > 
+> > To implement we add pm_runtime support which will handle the power
+> > up/down sequence.
+> > 
+> > Now originally the driver assumed tat the sensor would always stay
+> > powered and there keep its register setting. We cannot assume that this
+> > anymore, so every time we "power up" we need to re-program the initial
+> > registers configuration first. This was previously done only at probe
+> > time.
+> > 
+> > Signed-off-by: Benoit Parrot <bparrot@ti.com>
+> > ---
+> >  drivers/media/i2c/Kconfig  |  2 +-
+> >  drivers/media/i2c/ov2659.c | 88 +++++++++++++++++++++++++++++++++++++-
+> >  2 files changed, 88 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> > index 7eee1812bba3..315c1d8bdb7b 100644
+> > --- a/drivers/media/i2c/Kconfig
+> > +++ b/drivers/media/i2c/Kconfig
+> > @@ -634,7 +634,7 @@ config VIDEO_OV2640
+> >  config VIDEO_OV2659
+> >  	tristate "OmniVision OV2659 sensor support"
+> >  	depends on VIDEO_V4L2 && I2C
+> > -	depends on MEDIA_CAMERA_SUPPORT
+> > +	depends on MEDIA_CAMERA_SUPPORT && GPIOLIB
+> >  	select V4L2_FWNODE
+> >  	help
+> >  	  This is a Video4Linux2 sensor driver for the OmniVision
+> > diff --git a/drivers/media/i2c/ov2659.c b/drivers/media/i2c/ov2659.c
+> > index f77320e8a60d..170f80a1a51f 100644
+> > --- a/drivers/media/i2c/ov2659.c
+> > +++ b/drivers/media/i2c/ov2659.c
+> > @@ -22,9 +22,11 @@
+> >  
+> >  #include <linux/clk.h>
+> >  #include <linux/delay.h>
+> > +#include <linux/gpio/consumer.h>
+> >  #include <linux/i2c.h>
+> >  #include <linux/module.h>
+> >  #include <linux/of_graph.h>
+> > +#include <linux/pm_runtime.h>
+> >  
+> >  #include <media/i2c/ov2659.h>
+> >  #include <media/v4l2-ctrls.h>
+> > @@ -218,6 +220,11 @@ struct ov2659 {
+> >  	struct sensor_register *format_ctrl_regs;
+> >  	struct ov2659_pll_ctrl pll;
+> >  	int streaming;
+> > +	/* used to control the sensor PWDN pin */
+> > +	struct gpio_desc *pwdn_gpio;
+> > +	/* used to control the sensor RESETB pin */
+> > +	struct gpio_desc *resetb_gpio;
+> > +	int on;
+> >  };
+> >  
+> >  static const struct sensor_register ov2659_init_regs[] = {
+> > @@ -1184,9 +1191,17 @@ static int ov2659_s_stream(struct v4l2_subdev *sd, int on)
+> >  		/* Stop Streaming Sequence */
+> >  		ov2659_set_streaming(ov2659, 0);
+> >  		ov2659->streaming = on;
+> > +		pm_runtime_put(&client->dev);
+> >  		goto unlock;
+> >  	}
+> >  
+> > +	ret = pm_runtime_get_sync(&client->dev);
+> > +	if (ret < 0) {
+> > +		pm_runtime_put_noidle(&client->dev);
+> > +		goto unlock;
+> > +	}
+> > +
+> > +	ov2659_init(sd, 0);
+> >  	ov2659_set_pixel_clock(ov2659);
+> >  	ov2659_set_frame_size(ov2659);
+> >  	ov2659_set_format(ov2659);
+> > @@ -1243,6 +1258,32 @@ static const char * const ov2659_test_pattern_menu[] = {
+> >  	"Vertical Color Bars",
+> >  };
+> >  
+> > +static int ov2659_set_power(struct ov2659 *ov2659, int on)
+> > +{
+> > +	struct i2c_client *client = ov2659->client;
+> > +
+> > +	dev_dbg(&client->dev, "%s: on: %d\n", __func__, on);
+> > +
+> > +	if (on) {
+> > +		if (ov2659->pwdn_gpio)
+> > +			gpiod_direction_output(ov2659->pwdn_gpio, 0);
+> > +
+> > +		if (ov2659->resetb_gpio) {
+> > +			gpiod_set_value(ov2659->resetb_gpio, 1);
+> > +			usleep_range(500, 1000);
+> > +			gpiod_set_value(ov2659->resetb_gpio, 0);
+> > +			usleep_range(3000, 5000);
+> > +		}
+> 
+> Please move the code to the runtime PM callbacks.
+> 
+> > +	} else {
+> > +		if (ov2659->pwdn_gpio)
+> > +			gpiod_direction_output(ov2659->pwdn_gpio, 1);
+> 
+> Gpiod API works with NULL GPIOs, too, so no need to check here.
 
-To work properly the device also require its own key table,
-and repeat suppression for all buttons.
+Didn't realize that. I'll check.
 
-Signed-off-by: Flavius Georgescu <pretoriano.mp@gmail.com>
-Co-developed-by: Chris Vandomelen <chris@sightworks.com>
-Signed-off-by: Chris Vandomelen <chris@sightworks.com>
----
-Changes in v2:
-- refined the key repeat suppression code
-(Suggested-by: Sean Young <sean@mess.org>)
+> 
+> Isn't the direction supposed to be already output, so set_value would be
+> more appropriate here, and above.
 
- drivers/media/rc/imon.c | 45 +++++++++++++++++++++++++++++++++++++----
- 1 file changed, 41 insertions(+), 4 deletions(-)
+Oh yeah the direction should already be set.
 
-diff --git a/drivers/media/rc/imon.c b/drivers/media/rc/imon.c
-index 37a850421fbb..fddbf33a8ea6 100644
---- a/drivers/media/rc/imon.c
-+++ b/drivers/media/rc/imon.c
-@@ -83,6 +83,7 @@ struct imon_usb_dev_descr {
- 	__u16 flags;
- #define IMON_NO_FLAGS 0
- #define IMON_NEED_20MS_PKT_DELAY 1
-+#define IMON_SUPPRESS_REPEATED_KEYS 2
- 	struct imon_panel_key_table key_table[];
- };
+> 
+> > +	}
+> > +
+> > +	ov2659->on = on;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >  /* -----------------------------------------------------------------------------
+> >   * V4L2 subdev internal operations
+> >   */
+> > @@ -1323,7 +1364,6 @@ static int ov2659_detect(struct v4l2_subdev *sd)
+> >  			ret = -ENODEV;
+> >  		} else {
+> >  			dev_info(&client->dev, "Found OV%04X sensor\n", id);
+> > -			ret = ov2659_init(sd, 0);
+> >  		}
+> >  	}
+> >  
+> > @@ -1400,6 +1440,18 @@ static int ov2659_probe(struct i2c_client *client)
+> >  	    ov2659->xvclk_frequency > 27000000)
+> >  		return -EINVAL;
+> >  
+> > +	/* Optional gpio don't fail if not present */
+> > +	ov2659->pwdn_gpio = devm_gpiod_get_optional(&client->dev, "powerdown",
+> > +						    GPIOD_OUT_LOW);
+> > +	if (IS_ERR(ov2659->pwdn_gpio))
+> > +		return PTR_ERR(ov2659->pwdn_gpio);
+> > +
+> > +	/* Optional gpio don't fail if not present */
+> > +	ov2659->resetb_gpio = devm_gpiod_get_optional(&client->dev, "reset",
+> > +						      GPIOD_OUT_HIGH);
+> > +	if (IS_ERR(ov2659->resetb_gpio))
+> > +		return PTR_ERR(ov2659->resetb_gpio);
+> > +
+> >  	v4l2_ctrl_handler_init(&ov2659->ctrls, 2);
+> >  	ov2659->link_frequency =
+> >  			v4l2_ctrl_new_std(&ov2659->ctrls, &ov2659_ctrl_ops,
+> > @@ -1445,6 +1497,9 @@ static int ov2659_probe(struct i2c_client *client)
+> >  	ov2659->frame_size = &ov2659_framesizes[2];
+> >  	ov2659->format_ctrl_regs = ov2659_formats[0].format_ctrl_regs;
+> >  
+> > +	pm_runtime_enable(&client->dev);
+> > +	pm_runtime_get_sync(&client->dev);
+> 
+> This makes the driver depend on runtime PM.
 
-@@ -315,6 +316,32 @@ static const struct imon_usb_dev_descr imon_DH102 = {
- 	}
- };
+Obviously.
+Why? Is that bad?
 
-+/* imon ultrabay front panel key table */
-+static const struct imon_usb_dev_descr ultrabay_table = {
-+	.flags = IMON_SUPPRESS_REPEATED_KEYS,
-+	.key_table = {
-+		{ 0x0000000f0000ffeell, KEY_MEDIA },      /* Go */
-+		{ 0x000000000100ffeell, KEY_UP },
-+		{ 0x000000000001ffeell, KEY_DOWN },
-+		{ 0x000000160000ffeell, KEY_ENTER },
-+		{ 0x0000001f0000ffeell, KEY_AUDIO },      /* Music */
-+		{ 0x000000200000ffeell, KEY_VIDEO },      /* Movie */
-+		{ 0x000000210000ffeell, KEY_CAMERA },     /* Photo */
-+		{ 0x000000270000ffeell, KEY_DVD },        /* DVD */
-+		{ 0x000000230000ffeell, KEY_TV },         /* TV */
-+		{ 0x000000050000ffeell, KEY_PREVIOUS },   /* Previous */
-+		{ 0x000000070000ffeell, KEY_REWIND },
-+		{ 0x000000040000ffeell, KEY_STOP },
-+		{ 0x000000020000ffeell, KEY_PLAYPAUSE },
-+		{ 0x000000080000ffeell, KEY_FASTFORWARD },
-+		{ 0x000000060000ffeell, KEY_NEXT },       /* Next */
-+		{ 0x000100000000ffeell, KEY_VOLUMEUP },
-+		{ 0x010000000000ffeell, KEY_VOLUMEDOWN },
-+		{ 0x000000010000ffeell, KEY_MUTE },
-+		{ 0, KEY_RESERVED },
-+	}
-+};
-+
- /*
-  * USB Device ID for iMON USB Control Boards
-  *
-@@ -1653,14 +1680,16 @@ static void imon_incoming_packet(struct imon_context *ictx,
- 	spin_lock_irqsave(&ictx->kc_lock, flags);
+> 
+> See e.g. the smiapp driver for an example how to make it work without. It
+> wasn't trivial. :I You won't need autosuspend.
 
- 	t = ktime_get();
--	/* KEY_MUTE repeats from knob need to be suppressed */
--	if (ictx->kc == KEY_MUTE && ictx->kc == ictx->last_keycode) {
--		msec = ktime_ms_delta(t, prev_time);
--		if (msec < ictx->idev->rep[REP_DELAY]) {
-+	/* KEY repeats from knob and panel that need to be suppressed */
-+	if (ictx->kc == KEY_MUTE ||
-+	    ictx->dev_descr->flags & IMON_SUPPRESS_REPEATED_KEYS) {
-+		if (ictx->kc == ictx->last_keycode &&
-+		    ktime_ms_delta(t, prev_time) < ictx->idev->rep[REP_DELAY]) {
- 			spin_unlock_irqrestore(&ictx->kc_lock, flags);
- 			return;
- 		}
- 	}
-+
- 	prev_time = t;
- 	kc = ictx->kc;
+I took a look at that driver, but I don't get your reference to being able
+to work without runtime pm!
+That driver looks pretty similar to ov7740.c which I used as a reference
+for this.
 
-@@ -1848,6 +1877,14 @@ static void imon_get_ffdc_type(struct imon_context *ictx)
- 		dev_info(ictx->dev, "0xffdc iMON Inside, iMON IR");
- 		ictx->display_supported = false;
- 		break;
-+	/* Soundgraph iMON UltraBay */
-+	case 0x98:
-+		dev_info(ictx->dev, "0xffdc iMON UltraBay, LCD + IR");
-+		detected_display_type = IMON_DISPLAY_TYPE_LCD;
-+		allowed_protos = RC_PROTO_BIT_IMON | RC_PROTO_BIT_RC6_MCE;
-+		ictx->dev_descr = (struct imon_usb_dev_descr *)&ultrabay_table;
-+		break;
-+
- 	default:
- 		dev_info(ictx->dev, "Unknown 0xffdc device, defaulting to VFD and iMON IR");
- 		detected_display_type = IMON_DISPLAY_TYPE_VFD;
---
-2.20.1
+> 
+> > +
+> >  	ret = ov2659_detect(sd);
+> >  	if (ret < 0)
+> >  		goto error;
+> > @@ -1458,10 +1513,14 @@ static int ov2659_probe(struct i2c_client *client)
+> >  
+> >  	dev_info(&client->dev, "%s sensor driver registered !!\n", sd->name);
+> >  
+> > +	pm_runtime_put(&client->dev);
+> > +
+> >  	return 0;
+> >  
+> >  error:
+> >  	v4l2_ctrl_handler_free(&ov2659->ctrls);
+> > +	pm_runtime_put(&client->dev);
+> > +	pm_runtime_disable(&client->dev);
+> >  	media_entity_cleanup(&sd->entity);
+> >  	mutex_destroy(&ov2659->lock);
+> >  	return ret;
+> > @@ -1477,9 +1536,35 @@ static int ov2659_remove(struct i2c_client *client)
+> >  	media_entity_cleanup(&sd->entity);
+> >  	mutex_destroy(&ov2659->lock);
+> >  
+> > +	pm_runtime_disable(&client->dev);
+> > +
+> >  	return 0;
+> >  }
+> >  
+> > +static int ov2659_runtime_suspend(struct device *dev)
+> > +{
+> > +	struct i2c_client *client = to_i2c_client(dev);
+> > +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> > +	struct ov2659 *ov2659 = to_ov2659(sd);
+> > +
+> > +	ov2659_set_power(ov2659, 0);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int ov2659_runtime_resume(struct device *dev)
+> > +{
+> > +	struct i2c_client *client = to_i2c_client(dev);
+> > +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> > +	struct ov2659 *ov2659 = to_ov2659(sd);
+> > +
+> > +	return ov2659_set_power(ov2659, 1);
+> > +}
+> > +
+> > +static const struct dev_pm_ops ov2659_pm_ops = {
+> > +	SET_RUNTIME_PM_OPS(ov2659_runtime_suspend, ov2659_runtime_resume, NULL)
+> > +};
+> > +
+> >  static const struct i2c_device_id ov2659_id[] = {
+> >  	{ "ov2659", 0 },
+> >  	{ /* sentinel */ },
+> > @@ -1497,6 +1582,7 @@ MODULE_DEVICE_TABLE(of, ov2659_of_match);
+> >  static struct i2c_driver ov2659_i2c_driver = {
+> >  	.driver = {
+> >  		.name	= DRIVER_NAME,
+> > +		.pm	= &ov2659_pm_ops,
+> >  		.of_match_table = of_match_ptr(ov2659_of_match),
+> >  	},
+> >  	.probe_new	= ov2659_probe,
+> 
+> -- 
+> Kind regards,
+> 
+> Sakari Ailus
+> sakari.ailus@linux.intel.com
