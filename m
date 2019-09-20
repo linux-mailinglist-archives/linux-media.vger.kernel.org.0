@@ -2,118 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 557E1B938F
-	for <lists+linux-media@lfdr.de>; Fri, 20 Sep 2019 16:58:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0105B9396
+	for <lists+linux-media@lfdr.de>; Fri, 20 Sep 2019 16:59:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389691AbfITO65 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Sep 2019 10:58:57 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:46001 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388416AbfITO65 (ORCPT
+        id S2388815AbfITO7a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Sep 2019 10:59:30 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:32832 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388416AbfITO7a (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Sep 2019 10:58:57 -0400
-Received: by mail-wr1-f65.google.com with SMTP id r5so7048281wrm.12;
-        Fri, 20 Sep 2019 07:58:56 -0700 (PDT)
+        Fri, 20 Sep 2019 10:59:30 -0400
+Received: by mail-io1-f65.google.com with SMTP id m11so16931730ioo.0
+        for <linux-media@vger.kernel.org>; Fri, 20 Sep 2019 07:59:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=YWSKJigIWyYHoT79ZbcIUltwc9MAequwzDfGlnQbW5U=;
-        b=uVhp6vt+uznQ0uQ4BVjgiwDmBVR4W6a/fPzdJTsheAFQRNKsE/4BCDBpdjJ7z+jL7E
-         94lJkoNWV2BmHAa2UHw0kAk0UKWZzvKHwfeL84aHU6Ah3RkjEn4hXXzfTRv/w4HCb5v8
-         PSnMPBQOtm5ANSeKWvGEZ31bMd/clPHtcCwGQOBuQ11+X75qYtqQDHamiM/3jnqHH5KE
-         rf8u+swWQeTJGeJE30jJ+xoLpgfSABdBiz4v9wg3Y2JDMh7r+/Uzmz54ieNa3NZJiA6s
-         nVQlfZ/xWXc9OozjIU6KJGx1nqslCpkCKPf0ulcRtMUfeq/RGXiBuRR4n1xYJdzoukf3
-         1w7A==
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=7MWqfk6+lcr5uGGG01MhMZJ03kCPMDZ/BnOM+3NK0mw=;
+        b=eSNEL0OajMRxrCCiB/WSHauBh894qG1+JILfEsi/bEs/uK5EDRJdtm7deGAi8d7Wbi
+         6BfEWgO9U+kGONqzYZR/FEkjASIZcnN5EFv0WWAmoBnKc7odS/CV3F5bNXexRk3gWjKJ
+         s7nTSGD/LsB0Ha/9X82VNTD2nWae7M+Akl8M4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=YWSKJigIWyYHoT79ZbcIUltwc9MAequwzDfGlnQbW5U=;
-        b=q1OH3qdWTfnAw3ODShG4LnJqD4661N5iL3qdY+ox0sNvOV94JRugKZKh9eVPiVcOwC
-         73euZx7tArTBSFugwa7TVkdbCGrU2kKEPaI0zX18B3LsOyL4pphe8vxSiLezQqzpBK2I
-         PGkkO32IJ+5uhx268UBbY9H5tBn4GBkpedqWnkbiaJ15jz3DuY9ynzA0Q96p8hMYOUHn
-         TDCF22dSlvjvSxrB28fMco4Z8lGATMabdOKtxpcXcNIv8BUqWPS9O+LsnWYvpngMEL5l
-         hnu9ej/zR3O6Tn2+GMe9UrmegASpdlsk5MCjz7TbhZI6tK5NBdGTe3Cd8buViZREhc9r
-         v39g==
-X-Gm-Message-State: APjAAAW54U//hyEhDR2kI2ErH8opf1iGraAUaUEpnnNm7ylRqsULctjK
-        gwoZ7CwxBNOWGXhgmY/q0Ng=
-X-Google-Smtp-Source: APXvYqzLyvmfe7qpco90UOMZEgel6sIS3gbWfhbSHxmPnAQ7e84rS2QeY7RN5brumlGiWzjv6fN73Q==
-X-Received: by 2002:a5d:6451:: with SMTP id d17mr5255339wrw.260.1568991535483;
-        Fri, 20 Sep 2019 07:58:55 -0700 (PDT)
-Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id b22sm2576487wmj.36.2019.09.20.07.58.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Sep 2019 07:58:54 -0700 (PDT)
-Date:   Fri, 20 Sep 2019 16:58:53 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Ville Syrjala <ville.syrjala@linux.intel.com>
-Cc:     dri-devel@lists.freedesktop.org,
-        Mauro Carvalho Chehab <mchehab@osg.samsung.com>,
-        intel-gfx@lists.freedesktop.org, stable@vger.kernel.org,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Martin Bugge <marbugge@cisco.com>,
-        Thierry Reding <treding@nvidia.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH] video/hdmi: Fix AVI bar unpack
-Message-ID: <20190920145853.GA10973@ulmo>
-References: <20190919132853.30954-1-ville.syrjala@linux.intel.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=7MWqfk6+lcr5uGGG01MhMZJ03kCPMDZ/BnOM+3NK0mw=;
+        b=KJYTDvPZCA3syb2mS7pCmauN/tXH/+qzp23+Cs2n2gHTiHHXzdFvP4sWEOM+nMUFlk
+         sCaSZx8/R2yvwWwfKoF7rr8eUnUd2ENu0qYtrWQ9fUM7nM6W4lCat/Fbaw0Yhy7RVJdO
+         jUWWUUYAt7eAv7EH+QGGZ5WTjzxQDVfEer+IDql7EK5GxWHQyyoSYGnEVRvQO+si260o
+         MvSivPzuZO4dXh7GirLTnCJSjE1/Vz6dP/2dx2cT4smsSUq9NlkIcoEn54GdlWyaXHsr
+         TowcBghXAlrDZrtohq1P/zJzGidx8VcUrJmfB9sbbYt1CW7syIvQfGCcDncuWleQ2MKt
+         YpuA==
+X-Gm-Message-State: APjAAAVbS/logRA7FUCSBZFAunmS1QR7N3u+yW5Q3gnWrFMRkJnLyVpz
+        8hSWK34m8InZtcd2YRF5BvujnhecbTQ=
+X-Google-Smtp-Source: APXvYqy1PdecaSi69iyttybFLJfwtto+cR11PyNSUl5W9U//L/KJISwOv+0KZE4Xnmx7y2jVUJJqNw==
+X-Received: by 2002:a5e:9917:: with SMTP id t23mr20229088ioj.141.1568991568067;
+        Fri, 20 Sep 2019 07:59:28 -0700 (PDT)
+Received: from mail-io1-f51.google.com (mail-io1-f51.google.com. [209.85.166.51])
+        by smtp.gmail.com with ESMTPSA id c4sm1874271ioa.70.2019.09.20.07.59.26
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Sep 2019 07:59:27 -0700 (PDT)
+Received: by mail-io1-f51.google.com with SMTP id q1so16922966ion.1
+        for <linux-media@vger.kernel.org>; Fri, 20 Sep 2019 07:59:26 -0700 (PDT)
+X-Received: by 2002:a6b:b704:: with SMTP id h4mr2418021iof.218.1568991566249;
+ Fri, 20 Sep 2019 07:59:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="8t9RHnE3ZwKMSgU+"
-Content-Disposition: inline
-In-Reply-To: <20190919132853.30954-1-ville.syrjala@linux.intel.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+References: <156821693963.2951081.11214256396118531359.stgit@dwillia2-desk3.amr.corp.intel.com>
+ <434c05bddd2b364e607e565227487910a8dd9793.1568391461.git.mchehab+samsung@kernel.org>
+ <20190918123620.GA6306@pendragon.ideasonboard.com> <20190918105728.24e7eb48@coco.lan>
+ <20190919065447.GF2959@kadam> <CAMuHMdU10J5zgQ0r8uoA+LFHRbyLB=AG6xygTmsxwc7T-ffdDw@mail.gmail.com>
+ <20190920145352.GI12950@pendragon.ideasonboard.com>
+In-Reply-To: <20190920145352.GI12950@pendragon.ideasonboard.com>
+From:   Doug Anderson <dianders@chromium.org>
+Date:   Fri, 20 Sep 2019 07:59:13 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=UjTT04pOf3q3H+ZdG9ixr6RWaRJfNs2Dk7xTTEMi-=xw@mail.gmail.com>
+Message-ID: <CAD=FV=UjTT04pOf3q3H+ZdG9ixr6RWaRJfNs2Dk7xTTEMi-=xw@mail.gmail.com>
+Subject: Re: [Ksummit-discuss] [PATCH] media: add a subsystem profile documentation
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        ksummit <ksummit-discuss@lists.linuxfoundation.org>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi,
 
---8t9RHnE3ZwKMSgU+
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Fri, Sep 20, 2019 at 7:54 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> On Thu, Sep 19, 2019 at 09:22:45AM +0200, Geert Uytterhoeven wrote:
+> > On Thu, Sep 19, 2019 at 8:57 AM Dan Carpenter <dan.carpenter@oracle.com> wrote:
+> > > On Wed, Sep 18, 2019 at 10:57:28AM -0300, Mauro Carvalho Chehab wrote:
+> > > > > > +Patches for the media subsystem should be sent to the media mailing list
+> > > > > > +at linux-media@vger.kernel.org as plain text only e-mail. Emails with
+> > > > > > +HTML will be automatically rejected by the mail server. There's no need
+> > > > > > +to copy the maintainer or sub-maintainer(s).
+> > > > >
+> > > > > There's too much traffic on mailing lists for me to follow everything, I
+> > > > > much prefer being CC'ed on patches.
+> > > >
+> > > > Well, by using patchwork, the best is to take a look on it at least for
+> > > > the patches that you're interested. You could script something using
+> > > > pwclient in order to make it easier.
+> > > >
+> > > > Anyway, not sure if the other sub-maintainers see the same way. From my side,
+> > > > I prefer not to be c/c, as this is just more noise, as I just rely on
+> > > > patchwork for media patches. What about changing this to:
+> > > >
+> > > >       Patches for the media subsystem should be sent to the media mailing list
+> > > >       at linux-media@vger.kernel.org as plain text only e-mail. Emails with
+> > > >       HTML will be automatically rejected by the mail server. It could be wise
+> > > >       to also copy the sub-maintainer(s).
+> > >
+> > > The documentation should say "Use get_maintainer.pl" and do what it
+> > > says.  Everything else is too complicated.
+> >
+> > +1
+> >
+> > > When I sent a patch, I use get_maintainer.pl then I add whoever the
+> > > wrote the commit from the Fixes tag.  Then I remove Colin King and Kees
+> > > Cook from the CC list because they worked all over the tree and I know
+> > > them.  I also normally remove LKML if there is another mailing list but
+> > > at least one subsystem uses LKML for patchwork so this isn't safe.
+> > >
+> > > So the safest instructions are "Use get_matainer.pl and add the person
+> > > who wrote the commit in the Fixes tag".
+> >
+> > Better: perhaps get_maintainer.pl can be taught to add the author of the
+> > commit pointed to by the Fixes tag, if present?
+>
+> And remove Kees Cook and Colin King ? :-) Jokes aside, brushing up
+> get_maintainer.pl a bit is a good idea. I'm for instance not sure adding
+> LKML automatically is a good idea if other mailing lists are already
+> CC'ed, as it's a bit of a /dev/null (albeit with logging, so CC'ing it
+> when no other mailing list is appropriate certainly makes sense).
 
-On Thu, Sep 19, 2019 at 04:28:53PM +0300, Ville Syrjala wrote:
-> From: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
->=20
-> The bar values are little endian, not big endian. The pack
-> function did it right but the unpack got it wrong. Fix it.
->=20
-> Cc: stable@vger.kernel.org
-> Cc: linux-media@vger.kernel.org
-> Cc: Martin Bugge <marbugge@cisco.com>
-> Cc: Hans Verkuil <hans.verkuil@cisco.com>
-> Cc: Thierry Reding <treding@nvidia.com>
-> Cc: Mauro Carvalho Chehab <mchehab@osg.samsung.com>
-> Fixes: 2c676f378edb ("[media] hdmi: added unpack and logging functions fo=
-r InfoFrames")
-> Signed-off-by: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
-> ---
->  drivers/video/hdmi.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+Please don't do this, as it means the patch won't be findable on the
+"LKML" patchwork instance at:
 
-Reviewed-by: Thierry Reding <treding@nvidia.com>
+https://lore.kernel.org/patchwork/project/lkml/list/
 
---8t9RHnE3ZwKMSgU+
-Content-Type: application/pgp-signature; name="signature.asc"
+Having LKML copied on all patches is also nice because it makes it
+easier to respond to a patch that was posted to a list you didn't
+subscribe to.  I subscribe to LKML and have it redirected to a folder
+that I never look at.  Then if I want to find an email thread I can
+search that folder and easily respond from within my normal email
+client.
 
------BEGIN PGP SIGNATURE-----
+Is there any downside to CCing LKML?
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl2E6SkACgkQ3SOs138+
-s6HXNA/+KeSBAey7HOIxjXzG1ATuVyYPEjR0QhVdOB5wRLb6n4mq2VmoGOuHWOET
-qJ5letIjaBdJvsBNrg/OTlPhUU+KrYSu22z7q6zmfPt6jF5qSWhSyd0X8TQsguGc
-Ga+J2EQkTnU7rRVXAMkTc9ZQuF8EpM993lbJLafeLvoEdJDmkABt5V2/TkfuqehU
-9FkyH+eLg/ScFkGzV/A0j/F+2nNEbLXsCn2ChxgDGI2NiUMBrz9VWRrrbp9P+RMl
-ZHoXFBLEp8CYXe9CzLiTnHpObuE6HEh1Rls1KDB7ol0FDF+JoJEs+jTzV90X83jW
-hGffs6RMV3ZndyL/lUEEhTTPqCnrpWH4Z2X0DtuH/HLGgkyPZ8MyRdNrlapi4Ffb
-uUYR8yotEMIXpxIm5hHGIu+uBaFNx33BQFd0cB2IecANMHctudR/Tik+0a6oqzPV
-B3OqVW4XQ2T4Fa1DlkcBowkynyWW9J4vIeZTxjudK6uQ9D0W2Fz4wZcYJPprdex6
-kMDsspZ3vCzQH2iURcnK6joImUcOQOckveO1XaEJ8OCs0zZch18wTBIy4Aog72mY
-aE3Nt45YatvxYZhpEq6L7G7i4dW5sMwtNxNraCAk4H6jO4HFmQCCG0D7kWe4KCno
-zU2QjNprjt06iyWQR+sjxcuKG0DFdwefaNjqBycCKynOgh6N2Y4=
-=6tSc
------END PGP SIGNATURE-----
-
---8t9RHnE3ZwKMSgU+--
+-Doug
