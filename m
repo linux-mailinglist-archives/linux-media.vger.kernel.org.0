@@ -2,116 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 76D82B9123
-	for <lists+linux-media@lfdr.de>; Fri, 20 Sep 2019 15:52:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 057D9B9168
+	for <lists+linux-media@lfdr.de>; Fri, 20 Sep 2019 16:09:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387587AbfITNvy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Sep 2019 09:51:54 -0400
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:38554 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387571AbfITNvw (ORCPT
+        id S2387614AbfITOJ4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Sep 2019 10:09:56 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:36746 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727273AbfITOJz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Sep 2019 09:51:52 -0400
-Received: by mail-ed1-f67.google.com with SMTP id l21so1684781edr.5;
-        Fri, 20 Sep 2019 06:51:51 -0700 (PDT)
+        Fri, 20 Sep 2019 10:09:55 -0400
+Received: by mail-ot1-f65.google.com with SMTP id 67so6318033oto.3
+        for <linux-media@vger.kernel.org>; Fri, 20 Sep 2019 07:09:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Mip9hhM4GlCkg7XXw8v5EimNCLlBX1UP4PMrnT65eGA=;
-        b=s+31JabZiBSdo4+9i5gb8psqbEpaYWX0NouUD8j24FHpLXBKJZT3w7DvtNwzGwgOtl
-         F1Z4h+NjiQYYkLiap4yaq1WZ63xSG1tG5IM63/MDSq6xdXex35ABgSmVoz5tBshVGKfL
-         TIbrCuuqKRs97G5Vvzys+NvjBAYICAUIkeitwQLtR1qJI+DfnuDG6P9Rpla+J2h5MPgn
-         s3ftV+xDrUEVV6ieF6T1GnyZ3iuAuMLagjX3qprOKiuik51BS4Xjz1cn6CXOEWWylY17
-         KFgpcaheCKyeizqu8P1v1oTDB4XWrA46KcBpN+dPZD3W3hDvaB0tlk25ZBYoJldLKqGe
-         spEQ==
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=6mjOvNkyDJoUSFzKGpJ6UrFxyHGBEfjS8CehN7hW8uc=;
+        b=IUsghactGUSl6Ol/d/2VhnjvoAr+YlQHUC/c0qe9PMfYqT/ISK8Di3bYPBxeT7ocb/
+         pcyy5OqOHXmhr9Xp8301d0Ue7pRfI3C296ej3asCopooKDJpLTJlUF25tP+Ir04wV3DG
+         dxFA5D0I2DSAn/F5tbfQf2htRtrgS7CeFVHgI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=Mip9hhM4GlCkg7XXw8v5EimNCLlBX1UP4PMrnT65eGA=;
-        b=CSguP5ZAP94nQrvMUaNg6EoX8jVD6tyETX91DSW4Aigjuhtm2p5UQRcKbCjeKrk2E7
-         JM2B+hOz9K2ukTH3TOj7OpXjIMp/QAt2i6H49ng6JACTm+U7JqnZP09TfvQOS9H2EG2T
-         yeaxF3iu++d9vW1trVNYJA26xf+B49+IMGFIO7FUUx5gNttzergJjH1fz6sZT7Lvk9jx
-         25y8far6sF2+R71UguzvaSYfPshdWtyUgXgrSCzkHhBsDe9qzIy/qqY6rexl1XmBDRSq
-         M2urOBO58hb80m2LmMT87sXQPMvWciYxp+rmaW2SxoKO+Ft7L+8CgUBpHATcBql4GGmP
-         76TQ==
-X-Gm-Message-State: APjAAAXBuAcEBF0z5VMMpBLOkFgTojnQQXJmOK/pjvMmOQQK5BqeC+H5
-        DcqBMcOgEZrVmbdQO6/lcP6HDzF2wAo=
-X-Google-Smtp-Source: APXvYqxm5+Jfk1GgeMe0PSir7qMXVQx82RmWbXFBTAxxk7fP+7RL3b75vrpVdOs1uQE40p3H/C5Qtw==
-X-Received: by 2002:a17:906:3e96:: with SMTP id a22mr3725252ejj.268.1568987510723;
-        Fri, 20 Sep 2019 06:51:50 -0700 (PDT)
-Received: from neopili.qtec.com (cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
-        by smtp.gmail.com with ESMTPSA id t30sm337673edt.91.2019.09.20.06.51.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Sep 2019 06:51:49 -0700 (PDT)
-From:   Ricardo Ribalda Delgado <ricardo@ribalda.com>
-To:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Ricardo Ribalda Delgado <ribalda@kernel.org>
-Subject: [PATCH v6 7/7] media: imx214: Add new control with V4L2_CID_UNIT_CELL_SIZE
-Date:   Fri, 20 Sep 2019 15:51:37 +0200
-Message-Id: <20190920135137.10052-8-ricardo@ribalda.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20190920135137.10052-1-ricardo@ribalda.com>
-References: <20190920135137.10052-1-ricardo@ribalda.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6mjOvNkyDJoUSFzKGpJ6UrFxyHGBEfjS8CehN7hW8uc=;
+        b=HEYek8RkAsOjr4q/z15Hnvl7/GSYLXcu7qbVqzh6JycvmSKytO89LI3ADRiebgQkXn
+         LjYJaUUpg1a9KD4DyDfGCG3BzsVmlhymif3RE4I1GXz7vo4Z78NbXs2MZv1ep5PKoK5x
+         tE2ogc7Hc+ZIAjjlqqqdLKvTcUsYYGX3E5C6HHKB2Qn6vRABfsg4KEOMh4iybjLnarGU
+         ZxPOEY+r9MjU41RebtGYwP3OvbrAcNNMOBWhvGs+cfnjZ7qrSvLSizxDcpLj5KE+0B/o
+         ShwKJ9tpXLZEzrQ1fvSWr8k9COSVadfv4frLuJJKLNIJwihE9nnYE1+jYBjwPdP77Vyp
+         X0bg==
+X-Gm-Message-State: APjAAAWHnq3ABqM2djWpovGB+Ye7CFR6v1gLaH0Pfp8pUILkoMFm3O0E
+        P8A04PfwNegOvRCm05f+yO4JH3SMYk7DkiMuHFoFcDIk
+X-Google-Smtp-Source: APXvYqw8acnX2GcC9Dyed1nYa3MJdYIi+Pq96RFyfi7GNbQ3fX6lT8nIXYdzYEjXqDhGkzFqiYjWRtzFCinQgM/+wKA=
+X-Received: by 2002:a9d:7006:: with SMTP id k6mr11469082otj.303.1568988595029;
+ Fri, 20 Sep 2019 07:09:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <156821693963.2951081.11214256396118531359.stgit@dwillia2-desk3.amr.corp.intel.com>
+ <434c05bddd2b364e607e565227487910a8dd9793.1568391461.git.mchehab+samsung@kernel.org>
+ <20190918123620.GA6306@pendragon.ideasonboard.com> <20190918105728.24e7eb48@coco.lan>
+ <20190918172705.GC4734@pendragon.ideasonboard.com> <20190918154831.3dd0d040@coco.lan>
+ <20190919070856.GG2959@kadam> <cfbe9a092f60f1ce5d1fb3ab5260dd56193bd8fb.camel@perches.com>
+In-Reply-To: <cfbe9a092f60f1ce5d1fb3ab5260dd56193bd8fb.camel@perches.com>
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+Date:   Fri, 20 Sep 2019 16:09:43 +0200
+Message-ID: <CAKMK7uFrvjMDng7Ko17CPLFfiNhTw5jABi52w7P9v_3qj3350A@mail.gmail.com>
+Subject: Re: [Ksummit-discuss] [PATCH] media: add a subsystem profile documentation
+To:     Joe Perches <joe@perches.com>
+Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        ksummit <ksummit-discuss@lists.linuxfoundation.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Ricardo Ribalda Delgado <ribalda@kernel.org>
+On Fri, Sep 20, 2019 at 1:27 PM Joe Perches <joe@perches.com> wrote:
+>
+> On Thu, 2019-09-19 at 10:08 +0300, Dan Carpenter wrote:
+> > On Wed, Sep 18, 2019 at 03:48:31PM -0300, Mauro Carvalho Chehab wrote:
+> > > Em Wed, 18 Sep 2019 20:27:05 +0300
+> > > Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
+> > >
+> > > > > Anyway, not sure if the other sub-maintainers see the same way. From my side,
+> > > > > I prefer not to be c/c, as this is just more noise, as I just rely on
+> > > > > patchwork for media patches. What about changing this to:
+> > > > >
+> > > > >         Patches for the media subsystem should be sent to the media mailing list
+> > > > >         at linux-media@vger.kernel.org as plain text only e-mail. Emails with
+> > > > >         HTML will be automatically rejected by the mail server. It could be wise
+> > > > >         to also copy the sub-maintainer(s).
+> > > >
+> > > > That works for me. As this is really a personal preference, is there a
+> > > > way it could be encoded in MAINTAINERS in a per-person fashion ?
+> > > > Something that would allow you to opt-out from CC from linux-media (but
+> > > > possibly opt-in for other parts of the kernel), and allow me to opt-in
+> > > > for the drivers I maintain ?
+> > >
+> > > I don't think so. Perhaps we could add, instead, something like that at the
+> > > sub-maintainers section of the profile.
+> >
+> > Of course there is a way to add yourself as a maintainer for a specific
+> > .c file...  Maybe people feel like MAINTAINERS is too crowded?
+> >
+> > We could update get_maintainer.pl to grep the .c files for a specific
+> > tag instead of putting everything in a centralized MAINTAINERS file.
+>
+> Another option is to split the MAINTAINERS file into multiple
+> distributed files.  get_maintainer.pl already supports that.
+>
+> https://lwn.net/Articles/730509/
+> https://lore.kernel.org/lkml/1501350403.5368.65.camel@perches.com/
 
-According to the product brief, the unit cell size is 1120 nanometers^2.
+Oh I missed that entirely. Can we roll this out now in subsystems? I'd
+really like to move all the gpu related MAINTAINERS entries into
+drivers/gpu. The one file in the root is unmangeable big and git blame
+takes forever. Ofc splitting it isn't an immediate fix, but long term
+should be easier. I thought Linus planned to just do that split (at
+least the first level or so) after an -rc1?
+-Daniel
 
-https://www.sony-semicon.co.jp/products_en/IS/sensor1/img/products/ProductBrief_IMX214_20150428.pdf
+> > But it doesn't make sense to try store that information MY BRAIN!  I
+> > can't remember anything from one minute to the next so I have no idea
+> > who maintains media submodules...
+>
+> Nor I.  Nor should I have to.
+>
+>
+> _______________________________________________
+> Ksummit-discuss mailing list
+> Ksummit-discuss@lists.linuxfoundation.org
+> https://lists.linuxfoundation.org/mailman/listinfo/ksummit-discuss
 
-Signed-off-by: Ricardo Ribalda Delgado <ribalda@kernel.org>
----
- drivers/media/i2c/imx214.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
 
-diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
-index 159a3a604f0e..57562e20c4ca 100644
---- a/drivers/media/i2c/imx214.c
-+++ b/drivers/media/i2c/imx214.c
-@@ -47,6 +47,7 @@ struct imx214 {
- 	struct v4l2_ctrl *pixel_rate;
- 	struct v4l2_ctrl *link_freq;
- 	struct v4l2_ctrl *exposure;
-+	struct v4l2_ctrl *unit_size;
- 
- 	struct regulator_bulk_data	supplies[IMX214_NUM_SUPPLIES];
- 
-@@ -948,6 +949,13 @@ static int imx214_probe(struct i2c_client *client)
- 	static const s64 link_freq[] = {
- 		IMX214_DEFAULT_LINK_FREQ,
- 	};
-+	struct v4l2_area unit_size = {
-+		.width = 1120,
-+		.height = 1120,
-+	};
-+	union v4l2_ctrl_ptr p_def = {
-+		.p_area = &unit_size,
-+	};
- 	int ret;
- 
- 	ret = imx214_parse_fwnode(dev);
-@@ -1029,6 +1037,10 @@ static int imx214_probe(struct i2c_client *client)
- 					     V4L2_CID_EXPOSURE,
- 					     0, 3184, 1, 0x0c70);
- 
-+	imx214->unit_size = v4l2_ctrl_new_std_compound(&imx214->ctrls,
-+						       NULL,
-+						       V4L2_CID_UNIT_CELL_SIZE,
-+						       p_def);
- 	ret = imx214->ctrls.error;
- 	if (ret) {
- 		dev_err(&client->dev, "%s control init failed (%d)\n",
+
 -- 
-2.23.0
-
+Daniel Vetter
+Software Engineer, Intel Corporation
++41 (0) 79 365 57 48 - http://blog.ffwll.ch
