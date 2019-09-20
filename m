@@ -2,81 +2,420 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E5437B90C6
-	for <lists+linux-media@lfdr.de>; Fri, 20 Sep 2019 15:38:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 27CA2B90CD
+	for <lists+linux-media@lfdr.de>; Fri, 20 Sep 2019 15:40:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728035AbfITNif (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Sep 2019 09:38:35 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:43919 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726835AbfITNif (ORCPT
+        id S1727819AbfITNkE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Sep 2019 09:40:04 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:58239 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727736AbfITNkE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Sep 2019 09:38:35 -0400
-Received: by mail-oi1-f196.google.com with SMTP id t84so1747081oih.10;
-        Fri, 20 Sep 2019 06:38:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=U7SYpu/IKv9A1L7ri1/PD+Qii7rDc6Mb4V84bwV3zu8=;
-        b=IQ2015M21qbQ/joqpih/7/DGCCTUk8tjWX8s788VR1LRCdYD+r6/maw+BtyX62fXzF
-         HM9Uk9b6KxFmfBPrdiV0OXrYiBrC7qD+juoaeyKUqTUvzRtIs+T2dYmeyW4wcJJd7VLy
-         ywfFV2arFEuclpjG3gdnl2rKh0NNu0jHRenWCONr2u67Ux7zrAQQ0tWCO5TYa/g5wL5R
-         StGNmo6z1aMCzT9aQAKS7P4K4ymKfFKufGdFc3YzVVf4jA+LGLRHa6Aidu/7ZFe91Mi7
-         gEHSvQO06OoXU7N9/p5xlgvY2zrR7mw9HHm8ic/Razgh3bIjdaZxlJRrxzTs5cCE3fzS
-         PI0g==
-X-Gm-Message-State: APjAAAWES4mGnX+4OJhQbBuMbxd2LtIGixP9/kJ+gcs3WIzKCbG6Lzi5
-        KugJ9b7K+QS1Yj3Vlv4y38mexxe9binlA2q3f6g=
-X-Google-Smtp-Source: APXvYqw67ydlVXFpRTDwDbvUAIeUNKLYEQkD97I8eV/GUwXmYJHJyeTNAxbYLZDN4ARUAYp+5lhdOdt3kja0FCIfhP8=
-X-Received: by 2002:aca:f305:: with SMTP id r5mr2816182oih.131.1568986714503;
- Fri, 20 Sep 2019 06:38:34 -0700 (PDT)
+        Fri, 20 Sep 2019 09:40:04 -0400
+Received: from [IPv6:2001:983:e9a7:1:3829:6e33:4e49:c53d] ([IPv6:2001:983:e9a7:1:3829:6e33:4e49:c53d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id BJ8hiWCA39D4hBJ8iie5NT; Fri, 20 Sep 2019 15:40:01 +0200
+Subject: Re: [PATCH 2/5] docs: media: vimc: Documenting vimc topology
+ configuration using configfs
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        linux-media@vger.kernel.org
+Cc:     laurent.pinchart@ideasonboard.com, helen.koike@collabora.com,
+        ezequiel@collabora.com, andre.almeida@collabora.com,
+        skhan@linuxfoundation.org, kernel@collabora.com, dafna3@gmail.com
+References: <20190919203208.12515-1-dafna.hirschfeld@collabora.com>
+ <20190919203208.12515-3-dafna.hirschfeld@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <3cb0359d-aca7-ee79-350c-1065651ad245@xs4all.nl>
+Date:   Fri, 20 Sep 2019 15:39:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <d80a685a-c3de-b9c9-ad32-e1da9308c393@web.de>
-In-Reply-To: <d80a685a-c3de-b9c9-ad32-e1da9308c393@web.de>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 20 Sep 2019 15:38:22 +0200
-Message-ID: <CAMuHMdVD4ktoacaqWSRxGehmO3ULrcFXCSTQ=JaxrUWhCTw-Lg@mail.gmail.com>
-Subject: Re: [PATCH] media: platform: Use devm_platform_ioremap_resource() in
- two functions
-To:     Markus Elfring <Markus.Elfring@web.de>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-mediatek@lists.infradead.org,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        kernel-janitors@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        Himanshu Jha <himanshujha199640@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190919203208.12515-3-dafna.hirschfeld@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfI0H+05lScGs/euTdB4w6FCr61W3aV/yrj5OFRdbGB4IlC2qLiwY0rcgIWejcO2YFN6WsrYL/nQyEiC/ny4StbYSB37/X2+h9LvomYWacouJBiCCL9mf
+ POf6foTryYm5cyb9p7SO68+YSv5Xupv86C2omOnNL8deqVfaSKG50vRGCP6smobqxlorjPX+8S2tzHTjNRzxmt8Tdb3xd5y0xl7p4A5IW9RLzKdYMPUOweoV
+ hljrhMDFRNTijms9wLxuHoi7EOccndpp99PGGW8ryadS6mxL3je7mc47eYPGjOQ52JT/n7opTHnAe6+buZcxh4kj51Gv+IcOIoDpquPjwFxuedLlACiGjoXT
+ 9GWdZxdQRPCHdF+XZ+ddH5CVoVgezUx3GBaJtkFkDWQoE7+q4EJDUWe713OYymWCT2kOcCujxXF2E7P3YkbdAGsmYehiVQ4TXBwACJI7/kvsbB9kCxbp/k4G
+ khGZ+6VWgPi4gVuB+XaVQbRhjhXlN6iWM1HZyeBqQ5dktBibPstozGvfVd2mOGgV1gHalYKOTP2niMmNdJpLFCkuNjaMYkxnoH8UiT+OWszm2jiuaTB+qPLY
+ Yds=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Sep 18, 2019 at 11:30 AM Markus Elfring <Markus.Elfring@web.de> wrote:
-> From: Markus Elfring <elfring@users.sourceforge.net>
-> Date: Wed, 18 Sep 2019 11:20:48 +0200
->
-> Simplify these function implementations by using a known wrapper function.
->
-> This issue was detected by using the Coccinelle software.
->
-> Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
+On 9/19/19 10:32 PM, Dafna Hirschfeld wrote:
+> Add explanation of how to use configfs in order to create a
+> vimc device with a given topology.
+> 
+> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> ---
+>  Documentation/media/v4l-drivers/vimc.dot |  28 ++-
+>  Documentation/media/v4l-drivers/vimc.rst | 240 ++++++++++++++++++++---
+>  2 files changed, 220 insertions(+), 48 deletions(-)
+> 
+> diff --git a/Documentation/media/v4l-drivers/vimc.dot b/Documentation/media/v4l-drivers/vimc.dot
+> index 57863a13fa39..e3b41ac2bc46 100644
+> --- a/Documentation/media/v4l-drivers/vimc.dot
+> +++ b/Documentation/media/v4l-drivers/vimc.dot
+> @@ -2,21 +2,15 @@
+>  
+>  digraph board {
+>  	rankdir=TB
+> -	n00000001 [label="{{} | Sensor A\n/dev/v4l-subdev0 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
+> -	n00000001:port0 -> n00000005:port0 [style=bold]
+> -	n00000001:port0 -> n0000000b [style=bold]
+> -	n00000003 [label="{{} | Sensor B\n/dev/v4l-subdev1 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
+> -	n00000003:port0 -> n00000008:port0 [style=bold]
+> -	n00000003:port0 -> n0000000f [style=bold]
+> -	n00000005 [label="{{<port0> 0} | Debayer A\n/dev/v4l-subdev2 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+> -	n00000005:port1 -> n00000017:port0
+> -	n00000008 [label="{{<port0> 0} | Debayer B\n/dev/v4l-subdev3 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+> -	n00000008:port1 -> n00000017:port0 [style=dashed]
+> -	n0000000b [label="Raw Capture 0\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
+> -	n0000000f [label="Raw Capture 1\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
+> -	n00000013 [label="RGB/YUV Input\n/dev/video2", shape=box, style=filled, fillcolor=yellow]
+> -	n00000013 -> n00000017:port0 [style=dashed]
+> -	n00000017 [label="{{<port0> 0} | Scaler\n/dev/v4l-subdev4 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+> -	n00000017:port1 -> n0000001a [style=bold]
+> -	n0000001a [label="RGB/YUV Capture\n/dev/video3", shape=box, style=filled, fillcolor=yellow]
+> +	n00000001 [label="cap-deb\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
+> +	n00000005 [label="cap-sen\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
+> +	n00000009 [label="cap-sca\n/dev/video2", shape=box, style=filled, fillcolor=yellow]
+> +	n0000000d [label="{{<port0> 0} | sca\n/dev/v4l-subdev0 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+> +	n0000000d:port1 -> n00000009 [style=bold]
+> +	n00000010 [label="{{<port0> 0} | deb\n/dev/v4l-subdev1 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+> +	n00000010:port1 -> n00000001 [style=bold]
+> +	n00000010:port1 -> n0000000d:port0 [style=bold]
+> +	n00000013 [label="{{} | sen\n/dev/v4l-subdev2 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
+> +	n00000013:port0 -> n00000005 [style=bold]
+> +	n00000013:port0 -> n00000010:port0 [style=bold]
+>  }
+> diff --git a/Documentation/media/v4l-drivers/vimc.rst b/Documentation/media/v4l-drivers/vimc.rst
+> index a582af0509ee..e5636883545f 100644
+> --- a/Documentation/media/v4l-drivers/vimc.rst
+> +++ b/Documentation/media/v4l-drivers/vimc.rst
+> @@ -1,45 +1,225 @@
+>  .. SPDX-License-Identifier: GPL-2.0
+>  
+> +==========================================
+>  The Virtual Media Controller Driver (vimc)
+>  ==========================================
+>  
+> -The vimc driver emulates complex video hardware using the V4L2 API and the Media
+> -API. It has a capture device and three subdevices: sensor, debayer and scaler.
+> +The vimc driver emulates complex video hardware topologies using the V4L2 API
+> +and the Media API. It has a capture device and three subdevices:
+> +sensor, debayer and scaler. It exposes media devices through /dev/mediaX nodes,
+> +video capture devices through /dev/videoX and sub-devices through /dev/v4l-subdevX.
+> +
+> +
+> +To configure a media device of a given topology, a ConfigFS API is provided.
+> +
+> +Configuring a topology through ConfigFS (Experimental)
+> +======================================================
+> +
+> +.. note:: This API is under development and might change in the future.
+> +
+> +Mount configfs:
+> +::
+> +
+> +	$ mkdir /configfs
+> +	$ mount -t configfs none /configfs
+> +
+> +When loading the module, you will see a folder named vimc
+> +::
+> +
+> +	$ tree /configfs/
+> +	/configfs/
+> +	`-- vimc
+> +
+> +Creating a media device
+> +-----------------------
+> +
+> +To create a media device create a new folder under /configfs/vimc/
+> +
+> +Example:
+> +::
+> +
+> +	$ mkdir /configfs/vimc/mdev
+> +	$ tree /configfs/vimc/mdev
+> +	/configfs/
+> +	`-- vimc
+> +	    `-- mdev
+> +	        `-- hotplug
+> +
+> +Creating entities
+> +-----------------
+> +
+> +To create an entity in the media device's topology, create a folder under
+> +``/configfs/vimc/<mdev-name>/`` with the following format:
+> +
+> +	<entity-type>:<entity-name>
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+I suspect that there are restrictions to the characters that can be used in
+these names. For one the use of ':' in the entity-name is probably a bad idea.
+Also the entity name should be unique, i.e. you can't have a sensor and a scaler
+with the same entity name.
 
-Gr{oetje,eeting}s,
+Such restrictions should be documented here and also tested in the driver!
 
-                        Geert
+> +
+> +Where <entity-type> is one of the following:
+> +
+> +- vimc-sensor
+> +- vimc-scaler
+> +- vimc-debayer
+> +- vimc-capture
+> +
+> +Example:
+> +::
+> +
+> +	$ mkdir /configfs/vimc/mdev/vimc-sensor:sen
+> +	$ mkdir /configfs/vimc/mdev/vimc-capture:cap-sen
+> +	$ tree /configfs/
+> +	/configfs/
+> +	`-- vimc
+> +	    `-- mdev
+> +		|-- hotplug
+> +		|-- vimc-capture:cap-sen
+> +		|   `-- pad:sink:0
+> +		`-- vimc-sensor:sen
+> +                    `-- pad:source:0
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Do we need the 'pad:' prefix here? Isn't 'sink:' or 'source:' sufficient?
+I think pad:sink:0 is rather cumbersome.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> +
+> +Default folders are created under the entity directory for each pad of the entity.
+> +
+> +Creating links
+> +--------------
+> +
+> +To create a link between two entities, you should create a directory for the link
+> +under the source pad of the link and then set it to be a symbolic link to the sink pad:
+>  
+> -Topology
+> ---------
+> +Example:
+> +::
+> +
+> +	$ mkdir "/configfs/vimc/mdev/vimc-sensor:sen/pad:source:0/to-cap"
+
+I'd call the directory 'to-cap-sen': it's clearer that this points to the
+cap-sen entity. It makes the example easier to understand.
+
+> +	$ ln -s "/configfs/vimc/mdev/vimc-capture:cap-sen/pad:sink:0" "/configfs/vimc/mdev/vimc-sensor:sen/pad:source:0/to-cap"
+> +	$ tree /configfs
+> +	/configfs
+> +	`-- vimc
+> +	    `-- mdev
+> +	        |-- hotplug
+> +	        |-- vimc-capture:cap-sen
+> +	        |   `-- pad:sink:0
+> +	        `-- vimc-sensor:sen
+> +	            `-- pad:source:0
+> +	                `-- to-cap
+> +	                    |-- enabled
+> +	                    |-- immutable
+> +	                    `-- pad:sink:0 -> ../../../../../vimc/mdev/vimc-capture:cap-sen/pad:sink:0
+> +
+> +The `enabled` and `immutable` are two boolean attributes of the link corresponding to the link flags
+> +
+> +
+> +Flag values are described in :ref:`Documentation/media/uapi/mediactl/media-types.rst <media-link-flag>`
+> +( seek for ``MEDIA_LNK_FL_*``)
+> +
+> +1 - Enabled
+> +	Indicates that the link will be enabled when the media device is created.
+> +
+> +3 - Enabled and Immutable
+> +	Indicates that the link enabled state can't be modified at runtime.
+> +
+> +Change an attribute of the link by writing "on" or "1" to set it on , and "off" or "0" to set it off
+> +
+> +Example:
+> +::
+> +
+> +	$ echo "on" > /configfs/vimc/mdev/vimc-sensor:sen/pad:source:0/to-cap/immutable
+> +
+> +Activating/Deactivating device
+> +------------------------------
+> +
+> +To activate the device, write one of "plugged", "plug" or "1" to the file
+> +``/configfs/vimc/<mdev-name>/hotplug``
+> +
+> +Example:
+> +::
+> +
+> +	$ echo 1 > /configfs/vimc/mdev/hotplug
+> +
+> +You should see a new node ``/dev/mediaX`` in your devfs.
+> +
+> +To deactivate the device, write one of "unplugged", "unplug" or "0" to the file
+> +``/configfs/vimc/<ndev-name>/hotplug``
+> +
+> +Example:
+> +::
+> +
+> +	$ echo unplugged > /configfs/vimc/mdev/hotplug
+> +
+> +Topology Configuration - Full Example
+> +-------------------------------------
+> +
+> +Here is a full example of a simple topology configuration:
+> +
+> +.. code-block:: bash
+> +
+> +    # Creating the entities
+> +    mkdir "/configfs/vimc/mdev"
+> +    mkdir "/configfs/vimc/mdev/vimc-sensor:sen"
+> +    mkdir "/configfs/vimc/mdev/vimc-debayer:deb"
+> +    mkdir "/configfs/vimc/mdev/vimc-scaler:sca"
+> +    mkdir "/configfs/vimc/mdev/vimc-capture:cap-sca" #/dev/video2
+> +    mkdir "/configfs/vimc/mdev/vimc-capture:cap-sen" #/dev/video1
+> +    mkdir "/configfs/vimc/mdev/vimc-capture:cap-deb" #/dev/video0
+> +
+> +    # Creating the links
+> +    #sen -> deb
+> +    mkdir "/configfs/vimc/mdev/vimc-sensor:sen/pad:source:0/to-deb"
+> +    ln -s "/configfs/vimc/mdev/vimc-debayer:deb/pad:sink:0" "/configfs/vimc/mdev/vimc-sensor:sen/pad:source:0/to-deb"
+> +    echo on > "/configfs/vimc/mdev/vimc-sensor:sen/pad:source:0/to-deb/immutable"
+
+If you set immutable to on, then it should automatically set enabled to on as well,
+so no need for the next line.
+
+> +    echo on > "/configfs/vimc/mdev/vimc-sensor:sen/pad:source:0/to-deb/enabled"
+> +
+> +    #deb -> sca
+> +    mkdir "/configfs/vimc/mdev/vimc-debayer:deb/pad:source:1/to-sca"
+> +    ln -s "/configfs/vimc/mdev/vimc-scaler:sca/pad:sink:0" "/configfs/vimc/mdev/vimc-debayer:deb/pad:source:1/to-sca"
+> +    echo on > "/configfs/vimc/mdev/vimc-debayer:deb/pad:source:1/to-sca/immutable"
+> +    echo on > "/configfs/vimc/mdev/vimc-debayer:deb/pad:source:1/to-sca/enabled"
+> +
+> +    #sca -> cap-sca
+> +    mkdir "/configfs/vimc/mdev/vimc-scaler:sca/pad:source:1/to-cap"
+
+Same in this example: use to-cap-sca
+
+> +    ln -s "/configfs/vimc/mdev/vimc-capture:cap-sca/pad:sink:0" "/configfs/vimc/mdev/vimc-scaler:sca/pad:source:1/to-cap"
+> +    echo on > "/configfs/vimc/mdev/vimc-scaler:sca/pad:source:1/to-cap/immutable"
+> +    echo on > "/configfs/vimc/mdev/vimc-scaler:sca/pad:source:1/to-cap/enabled"
+> +
+> +    #sen -> cap-sen
+> +    mkdir "/configfs/vimc/mdev/vimc-sensor:sen/pad:source:0/to-cap"
+> +    ln -s "/configfs/vimc/mdev/vimc-capture:cap-sen/pad:sink:0" "/configfs/vimc/mdev/vimc-sensor:sen/pad:source:0/to-cap"
+> +    echo on > "/configfs/vimc/mdev/vimc-sensor:sen/pad:source:0/to-cap/immutable"
+> +    echo on > "/configfs/vimc/mdev/vimc-sensor:sen/pad:source:0/to-cap/enabled"
+> +
+> +    #deb -> cap-deb
+> +    mkdir "/configfs/vimc/mdev/vimc-debayer:deb/pad:source:1/to-cap"
+> +    ln -s "/configfs/vimc/mdev/vimc-capture:cap-deb/pad:sink:0" "/configfs/vimc/mdev/vimc-debayer:deb/pad:source:1/to-cap"
+> +    echo on > "/configfs/vimc/mdev/vimc-debayer:deb/pad:source:1/to-cap/immutable"
+> +    echo on > "/configfs/vimc/mdev/vimc-debayer:deb/pad:source:1/to-cap/enabled"
+>  
+> -The topology is hardcoded, although you could modify it in vimc-core and
+> -recompile the driver to achieve your own topology. This is the default topology:
+>  
+>  .. _vimc_topology_graph:
+>  
+>  .. kernel-figure:: vimc.dot
+> -    :alt:   Diagram of the default media pipeline topology
+> +    :alt:   Diagram of the configured simple topology in the example
+>      :align: center
+>  
+> -    Media pipeline graph on vimc
+> +    Simple Media pipeline graph on vimc configured through configfs
+>  
+> -Configuring the topology
+> -~~~~~~~~~~~~~~~~~~~~~~~~
+> +Configuring the pipeline formats
+> +================================
+>  
+> -Each subdevice will come with its default configuration (pixelformat, height,
+> -width, ...). One needs to configure the topology in order to match the
+> +Each subdevice has a default format configuration (pixelformat, height,
+> +width, ...). You should configure the formats in order to match the
+>  configuration on each linked subdevice to stream frames through the pipeline.
+> -If the configuration doesn't match, the stream will fail. The ``v4l-utils``
+> +If the configuration doesn't match, streaming will fail. The ``v4l-utils``
+>  package is a bundle of user-space applications, that comes with ``media-ctl`` and
+> -``v4l2-ctl`` that can be used to configure the vimc configuration. This sequence
+> -of commands fits for the default topology:
+> +``v4l2-ctl`` that can be used to configure the formats of the entities. This sequence
+> +of commands fits the simple topology created in the full example of topology configuration:
+>  
+>  .. code-block:: bash
+>  
+> -        media-ctl -d platform:vimc -V '"Sensor A":0[fmt:SBGGR8_1X8/640x480]'
+> -        media-ctl -d platform:vimc -V '"Debayer A":0[fmt:SBGGR8_1X8/640x480]'
+> -        media-ctl -d platform:vimc -V '"Sensor B":0[fmt:SBGGR8_1X8/640x480]'
+> -        media-ctl -d platform:vimc -V '"Debayer B":0[fmt:SBGGR8_1X8/640x480]'
+> -        v4l2-ctl -z platform:vimc -d "RGB/YUV Capture" -v width=1920,height=1440
+> -        v4l2-ctl -z platform:vimc -d "Raw Capture 0" -v pixelformat=BA81
+> -        v4l2-ctl -z platform:vimc -d "Raw Capture 1" -v pixelformat=BA81
+> +	media-ctl -d platform:vimc-000 -V '"sen":0[fmt:SBGGR8_1X8/640x480]'
+> +	media-ctl -d platform:vimc-000 -V '"deb":0[fmt:SBGGR8_1X8/640x480]'
+> +	media-ctl -d platform:vimc-000 -V '"deb":1[fmt:RGB888_1X24/640x480]'
+> +	media-ctl -d platform:vimc-000 -V '"sca":0[fmt:RGB888_1X24/640x480]'
+> +	media-ctl -d platform:vimc-000 -V '"sca":1[fmt:RGB888_1X24/640x480]'
+> +	v4l2-ctl -z platform:vimc-000 -d "cap-sen" -v pixelformat=BA81
+> +	v4l2-ctl -z platform:vimc-000 -d "cap-deb" -v pixelformat=RGB3
+> +	# The default scaling value of the scaler is 3, so need to set its capture accordingly
+> +	v4l2-ctl -z platform:vimc -d "cap-sca" -v pixelformat=RGB3,width=1920,height=1440
+>  
+>  Subdevices
+>  ----------
+> @@ -61,8 +241,8 @@ vimc-debayer:
+>  	* 1 Pad source
+>  
+>  vimc-scaler:
+> -	Scale up the image by a factor of 3. E.g.: a 640x480 image becomes a
+> -        1920x1440 image. (this value can be configured, see at
+> +	Scales up the image by a factor of 3. E.g.: a 640x480 image becomes a
+> +        1920x1440 image. (this value can be configured, see
+
+Note that this might change with this patch:
+
+https://patchwork.kernel.org/patch/11146175/
+
+Just so you are aware of this.
+
+>          `Module options`_).
+>  	Exposes:
+>  
+> @@ -77,12 +257,10 @@ vimc-capture:
+>  	* 1 Pad source
+>  
+>  
+> -        Module options
+> ----------------
+> -
+> -Vimc has a few module parameters to configure the driver.
+> +Module options
+> +==============
+>  
+> -        param=value
+> +Vimc has 2 module parameters to configure the driver.
+>  
+>  * ``sca_mult=<unsigned int>``
+>  
+> @@ -98,10 +276,10 @@ Vimc has a few module parameters to configure the driver.
+>          otherwise the next odd number is considered (the default value is 3).
+>  
+>  Source code documentation
+> --------------------------
+> +=========================
+>  
+>  vimc-streamer
+> -~~~~~~~~~~~~~
+> +-------------
+>  
+>  .. kernel-doc:: drivers/media/platform/vimc/vimc-streamer.h
+>     :internal:
+> 
+
+Regards,
+
+	Hans
