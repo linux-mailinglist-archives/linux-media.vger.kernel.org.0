@@ -2,70 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C0105B9396
-	for <lists+linux-media@lfdr.de>; Fri, 20 Sep 2019 16:59:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D8BAB93AB
+	for <lists+linux-media@lfdr.de>; Fri, 20 Sep 2019 17:07:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388815AbfITO7a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Sep 2019 10:59:30 -0400
-Received: from mail-io1-f65.google.com ([209.85.166.65]:32832 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388416AbfITO7a (ORCPT
+        id S2390579AbfITPHp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Sep 2019 11:07:45 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:55616 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387614AbfITPHo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Sep 2019 10:59:30 -0400
-Received: by mail-io1-f65.google.com with SMTP id m11so16931730ioo.0
-        for <linux-media@vger.kernel.org>; Fri, 20 Sep 2019 07:59:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=7MWqfk6+lcr5uGGG01MhMZJ03kCPMDZ/BnOM+3NK0mw=;
-        b=eSNEL0OajMRxrCCiB/WSHauBh894qG1+JILfEsi/bEs/uK5EDRJdtm7deGAi8d7Wbi
-         6BfEWgO9U+kGONqzYZR/FEkjASIZcnN5EFv0WWAmoBnKc7odS/CV3F5bNXexRk3gWjKJ
-         s7nTSGD/LsB0Ha/9X82VNTD2nWae7M+Akl8M4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7MWqfk6+lcr5uGGG01MhMZJ03kCPMDZ/BnOM+3NK0mw=;
-        b=KJYTDvPZCA3syb2mS7pCmauN/tXH/+qzp23+Cs2n2gHTiHHXzdFvP4sWEOM+nMUFlk
-         sCaSZx8/R2yvwWwfKoF7rr8eUnUd2ENu0qYtrWQ9fUM7nM6W4lCat/Fbaw0Yhy7RVJdO
-         jUWWUUYAt7eAv7EH+QGGZ5WTjzxQDVfEer+IDql7EK5GxWHQyyoSYGnEVRvQO+si260o
-         MvSivPzuZO4dXh7GirLTnCJSjE1/Vz6dP/2dx2cT4smsSUq9NlkIcoEn54GdlWyaXHsr
-         TowcBghXAlrDZrtohq1P/zJzGidx8VcUrJmfB9sbbYt1CW7syIvQfGCcDncuWleQ2MKt
-         YpuA==
-X-Gm-Message-State: APjAAAVbS/logRA7FUCSBZFAunmS1QR7N3u+yW5Q3gnWrFMRkJnLyVpz
-        8hSWK34m8InZtcd2YRF5BvujnhecbTQ=
-X-Google-Smtp-Source: APXvYqy1PdecaSi69iyttybFLJfwtto+cR11PyNSUl5W9U//L/KJISwOv+0KZE4Xnmx7y2jVUJJqNw==
-X-Received: by 2002:a5e:9917:: with SMTP id t23mr20229088ioj.141.1568991568067;
-        Fri, 20 Sep 2019 07:59:28 -0700 (PDT)
-Received: from mail-io1-f51.google.com (mail-io1-f51.google.com. [209.85.166.51])
-        by smtp.gmail.com with ESMTPSA id c4sm1874271ioa.70.2019.09.20.07.59.26
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Sep 2019 07:59:27 -0700 (PDT)
-Received: by mail-io1-f51.google.com with SMTP id q1so16922966ion.1
-        for <linux-media@vger.kernel.org>; Fri, 20 Sep 2019 07:59:26 -0700 (PDT)
-X-Received: by 2002:a6b:b704:: with SMTP id h4mr2418021iof.218.1568991566249;
- Fri, 20 Sep 2019 07:59:26 -0700 (PDT)
-MIME-Version: 1.0
-References: <156821693963.2951081.11214256396118531359.stgit@dwillia2-desk3.amr.corp.intel.com>
- <434c05bddd2b364e607e565227487910a8dd9793.1568391461.git.mchehab+samsung@kernel.org>
- <20190918123620.GA6306@pendragon.ideasonboard.com> <20190918105728.24e7eb48@coco.lan>
- <20190919065447.GF2959@kadam> <CAMuHMdU10J5zgQ0r8uoA+LFHRbyLB=AG6xygTmsxwc7T-ffdDw@mail.gmail.com>
- <20190920145352.GI12950@pendragon.ideasonboard.com>
-In-Reply-To: <20190920145352.GI12950@pendragon.ideasonboard.com>
-From:   Doug Anderson <dianders@chromium.org>
-Date:   Fri, 20 Sep 2019 07:59:13 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=UjTT04pOf3q3H+ZdG9ixr6RWaRJfNs2Dk7xTTEMi-=xw@mail.gmail.com>
-Message-ID: <CAD=FV=UjTT04pOf3q3H+ZdG9ixr6RWaRJfNs2Dk7xTTEMi-=xw@mail.gmail.com>
-Subject: Re: [Ksummit-discuss] [PATCH] media: add a subsystem profile documentation
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        ksummit <ksummit-discuss@lists.linuxfoundation.org>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
+        Fri, 20 Sep 2019 11:07:44 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dafna)
+        with ESMTPSA id B4E3928EF24
+Message-ID: <54db3b74e9c660b3c3590497b7390ae7832b3f11.camel@collabora.com>
+Subject: Re: [PATCH 0/5] media: vimc: use configfs in order to configure
+ devices topologies
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
+Cc:     laurent.pinchart@ideasonboard.com, helen.koike@collabora.com,
+        ezequiel@collabora.com, andre.almeida@collabora.com,
+        skhan@linuxfoundation.org, kernel@collabora.com, dafna3@gmail.com
+Date:   Fri, 20 Sep 2019 18:07:35 +0300
+In-Reply-To: <1ec1a1f9-2b9d-9484-2713-cc63a6edb7cb@xs4all.nl>
+References: <20190919203208.12515-1-dafna.hirschfeld@collabora.com>
+         <1ec1a1f9-2b9d-9484-2713-cc63a6edb7cb@xs4all.nl>
+Organization: Collabora
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.5-1.1 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -73,68 +39,134 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi,
 
-On Fri, Sep 20, 2019 at 7:54 AM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> On Thu, Sep 19, 2019 at 09:22:45AM +0200, Geert Uytterhoeven wrote:
-> > On Thu, Sep 19, 2019 at 8:57 AM Dan Carpenter <dan.carpenter@oracle.com> wrote:
-> > > On Wed, Sep 18, 2019 at 10:57:28AM -0300, Mauro Carvalho Chehab wrote:
-> > > > > > +Patches for the media subsystem should be sent to the media mailing list
-> > > > > > +at linux-media@vger.kernel.org as plain text only e-mail. Emails with
-> > > > > > +HTML will be automatically rejected by the mail server. There's no need
-> > > > > > +to copy the maintainer or sub-maintainer(s).
-> > > > >
-> > > > > There's too much traffic on mailing lists for me to follow everything, I
-> > > > > much prefer being CC'ed on patches.
-> > > >
-> > > > Well, by using patchwork, the best is to take a look on it at least for
-> > > > the patches that you're interested. You could script something using
-> > > > pwclient in order to make it easier.
-> > > >
-> > > > Anyway, not sure if the other sub-maintainers see the same way. From my side,
-> > > > I prefer not to be c/c, as this is just more noise, as I just rely on
-> > > > patchwork for media patches. What about changing this to:
-> > > >
-> > > >       Patches for the media subsystem should be sent to the media mailing list
-> > > >       at linux-media@vger.kernel.org as plain text only e-mail. Emails with
-> > > >       HTML will be automatically rejected by the mail server. It could be wise
-> > > >       to also copy the sub-maintainer(s).
-> > >
-> > > The documentation should say "Use get_maintainer.pl" and do what it
-> > > says.  Everything else is too complicated.
-> >
-> > +1
-> >
-> > > When I sent a patch, I use get_maintainer.pl then I add whoever the
-> > > wrote the commit from the Fixes tag.  Then I remove Colin King and Kees
-> > > Cook from the CC list because they worked all over the tree and I know
-> > > them.  I also normally remove LKML if there is another mailing list but
-> > > at least one subsystem uses LKML for patchwork so this isn't safe.
-> > >
-> > > So the safest instructions are "Use get_matainer.pl and add the person
-> > > who wrote the commit in the Fixes tag".
-> >
-> > Better: perhaps get_maintainer.pl can be taught to add the author of the
-> > commit pointed to by the Fixes tag, if present?
->
-> And remove Kees Cook and Colin King ? :-) Jokes aside, brushing up
-> get_maintainer.pl a bit is a good idea. I'm for instance not sure adding
-> LKML automatically is a good idea if other mailing lists are already
-> CC'ed, as it's a bit of a /dev/null (albeit with logging, so CC'ing it
-> when no other mailing list is appropriate certainly makes sense).
+On Fri, 2019-09-20 at 15:17 +0200, Hans Verkuil wrote:
+> Hi Dafna,
+> 
+> On 9/19/19 10:32 PM, Dafna Hirschfeld wrote:
+> > This patchset introduces the usage of configfs in order to create vimc devices
+> > with a configured topology. A patch introducing configfs usage was already sent by Helen Koike:
+> > https://patchwork.linuxtv.org/patch/53397/ . The current patch is based on her patch but
+> > suggests a new API for using configfs.
+> > It uses symlinks to represent a link between two entities, an approach already used in the kernel
+> > by usb gadgets composed with configfs to associate usb gadget's functions to its configurations.
+> > For example, a topology of sensor->capture will be created with the following commands:
+> > 
+> > CONFIGFS_ROOT=/sys/kernel/config
+> > 
+> > mkdir ${CONFIGFS_ROOT}/vimc/mdev/
+> > mkdir ${CONFIGFS_ROOT}/vimc/mdev/vimc-sensor:sen
+> > mkdir ${CONFIGFS_ROOT}/vimc/mdev/vimc-capture:cap
+> > tree ${CONFIGFS_ROOT}
+> > /configfs/
+> > `-- vimc
+> >     `-- mdev
+> >         |-- hotplug
+> >         |-- vimc-capture:cap
+> >         |   `-- pad:sink:0
+> >         `-- vimc-sensor:sen
+> >             `-- pad:source:0
+> > 
+> > mkdir ${CONFIGFS_ROOT}/vimc/mdev/vimc-sensor:sen/pad:source:0/to-cap
+> > ln -s ${CONFIGFS_ROOT}/vimc/mdev/vimc-capture:cap/pad:sink:0 ${CONFIGFS_ROOT}/vimc/mdev/vimc-sensor:sen/pad:source:0/to-cap
+> > tree ${CONFIGFS_ROOT}
+> > /configfs/
+> > `-- vimc
+> >     `-- mdev
+> >         |-- hotplug
+> >         |-- vimc-capture:cap
+> >         |   `-- pad:sink:0
+> >         `-- vimc-sensor:sen
+> >             `-- pad:source:0
+> >                 `-- to-cap
+> >                     |-- enabled
+> >                     |-- immutable
+> >                     `-- pad:sink:0 -> ../../../../../vimc/mdev/vimc-capture:cap/pad:sink:0
+> > 
+> > There are several reasons to prefer the symlink approach in order to represent links between entities.
+> > The previous approach in which links are represented with directories of the form 'entity1:pad>-><entity2:pad'
+> > requires userspace to parse the dirctories names in order to understand the topology, while in the symlink
+> > approach userspace needs only to traverse the configfs tree.
+> > Also, the usage of symlinks prevents userspace from creating links between entities that don't exist and also
+> > an entity can't be removed if there is a symlink pointing to it or from it, while in the previous approach the
+> 
+> Why can't you remove an entity if there is a symlink pointing to it?
+> 
+> In the example above I can remove mdev/vimc-capture:cap just fine. Afterwards
+> the pad:sink:0 symlink will point to a non-existing file, but that's valid
+> symlink behavior.
 
-Please don't do this, as it means the patch won't be findable on the
-"LKML" patchwork instance at:
+Hmm, this should not be allowed, maybe you did something wrong?
+I get:
+# rmdir /sys/kernel/config/vimc/mdev/vimc-capture:cap
+rmdir: failed to remove '/sys/kernel/config/vimc/mdev/vimc-capture:cap': Device or resource busy
 
-https://lore.kernel.org/patchwork/project/lkml/list/
 
-Having LKML copied on all patches is also nice because it makes it
-easier to respond to a patch that was posted to a list you didn't
-subscribe to.  I subscribe to LKML and have it redirected to a folder
-that I never look at.  Then if I want to find an email thread I can
-search that folder and easily respond from within my normal email
-client.
+> Or is vimc checking internally and prohibits the user from making invalid changes?
 
-Is there any downside to CCing LKML?
+No, this is not internal to vimc, it is part of configfs, it is also written in the docs:
 
--Doug
+"A config_item cannot be removed while it links to any other item, nor
+can it be removed while an item links to it.  Dangling symlinks are not
+allowed in configfs."
+
+Regards,
+Dafna
+
+> In any case, this cover letter is a bit confusing and needs to address this in more
+> detail.
+> 
+> Regards,
+> 
+> 	Hans
+> 
+> > links were created by creating unrelated directories and care had to be taken to ensure consistency. This way
+> > the topology configured from userspace is restricted to always be valid and represent the current topology of
+> > the device. This results in less validation needed in kernel code when plugging the device and less possibility
+> > for mistakes in the userspace side. Last, but not least, using symlinks is the natural way of associating things
+> > in configfs.
+> > 
+> > This patch is meant to demonstrate the suggested configfs api and get comments and acceptance/disagreement from
+> > the community. It passes few tests that configure basic topology and streams the capture entities.
+> > Here is the tests script: https://gitlab.collabora.com/dafna/scripts/blob/master/configfs/sym-unit-tests-simple-topo.sh
+> > Further versions will go through more extensive debugging.
+> > 
+> > The patchset is rebased on top of v5 of the patchset 'Collapse vimc into single monolithic driver' sent by Shuah Khan
+> > https://lkml.org/lkml/2019/9/17/656
+> > 
+> > Patch 1, was sent by me before as a single patch and is needed for the configfs implementation.
+> > 
+> > Patch 2, documents how to use the new configfs api in order to create and set devices topologies.
+> > 
+> > Patch 3, only adds the new configfs api code but does not use it yet, so it still creates only the hardcoded device.
+> > 
+> > Patch 4, removes the hardcoded device topology and creates devices with topologies configured with the configfs.
+> > 
+> > Patch 5, implements indexing for the bus_info field since now there can be more than one vimc device.
+> > 
+> > Dafna Hirschfeld (5):
+> >   media: vimc: upon streaming, check that the pipeline starts with a
+> >     source entity
+> >   docs: media: vimc: Documenting vimc topology configuration using
+> >     configfs
+> >   media: vimc: Add the implementation for the configfs api
+> >   media: vimc: use configfs instead of having hardcoded configuration
+> >   media: vimc: Add device index to the bus_info
+> > 
+> >  Documentation/media/v4l-drivers/vimc.dot    |  28 +-
+> >  Documentation/media/v4l-drivers/vimc.rst    | 240 ++++++-
+> >  drivers/media/platform/vimc/Kconfig         |   9 +-
+> >  drivers/media/platform/vimc/Makefile        |   2 +-
+> >  drivers/media/platform/vimc/vimc-capture.c  |  50 +-
+> >  drivers/media/platform/vimc/vimc-common.h   |  86 ++-
+> >  drivers/media/platform/vimc/vimc-configfs.c | 656 ++++++++++++++++++++
+> >  drivers/media/platform/vimc/vimc-configfs.h |  41 ++
+> >  drivers/media/platform/vimc/vimc-core.c     | 350 +++++------
+> >  drivers/media/platform/vimc/vimc-debayer.c  |  35 +-
+> >  drivers/media/platform/vimc/vimc-scaler.c   |  35 +-
+> >  drivers/media/platform/vimc/vimc-sensor.c   |  33 +-
+> >  drivers/media/platform/vimc/vimc-streamer.c |  39 +-
+> >  13 files changed, 1289 insertions(+), 315 deletions(-)
+> >  create mode 100644 drivers/media/platform/vimc/vimc-configfs.c
+> >  create mode 100644 drivers/media/platform/vimc/vimc-configfs.h
+> > 
+
