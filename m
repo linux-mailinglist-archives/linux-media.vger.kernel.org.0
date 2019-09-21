@@ -2,66 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BBA8B9F29
-	for <lists+linux-media@lfdr.de>; Sat, 21 Sep 2019 19:29:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A09B3B9F8F
+	for <lists+linux-media@lfdr.de>; Sat, 21 Sep 2019 21:13:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726728AbfIUR3j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 21 Sep 2019 13:29:39 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:46954 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725681AbfIUR3j (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 21 Sep 2019 13:29:39 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F29FA2F9;
-        Sat, 21 Sep 2019 19:29:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1569086977;
-        bh=SgEChjR2VE+5NS+vNfhpCsTunWBHxkGh+QLmx6RsuyI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gxKOOGt4OyRcpyeItwkr345bXvRwAXIom4E8I+GhUwVok32pfnpO8oTAdttPDWMdu
-         9aVxV4XiQ8sAfXLIqZrMBERFXvNYh1dUjuWKXGlVltcVnSYWKCVxeWCCED7G4gCrng
-         mJN+njZIgMn4dyvAlyTnBPOXPucopGDwIvyx8n04=
-Date:   Sat, 21 Sep 2019 20:29:27 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Corentin Labbe <clabbe.montjoie@gmail.com>
-Cc:     mjpeg-users@lists.sourceforge.net, linux-media@vger.kernel.org,
-        mchehab@kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: bringing back media/zoran driver
-Message-ID: <20190921172927.GA9189@pendragon.ideasonboard.com>
-References: <20190921170357.GA26626@Red>
+        id S1732340AbfIUTNP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 21 Sep 2019 15:13:15 -0400
+Received: from ms.lwn.net ([45.79.88.28]:41768 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727755AbfIUTNP (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 21 Sep 2019 15:13:15 -0400
+Received: from localhost.localdomain (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 643B04FA;
+        Sat, 21 Sep 2019 19:13:13 +0000 (UTC)
+Date:   Sat, 21 Sep 2019 13:13:07 -0600
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Kees Cook <keescook@chromium.org>,
+        ksummit-discuss@lists.linuxfoundation.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: [Ksummit-discuss] single maintainer profile directory (was Re:
+ [PATCH] media: add a subsystem profile documentation)
+Message-ID: <20190921131307.77d01ebb@lwn.net>
+In-Reply-To: <20190918082326.49a19a24@coco.lan>
+References: <156821693963.2951081.11214256396118531359.stgit@dwillia2-desk3.amr.corp.intel.com>
+        <434c05bddd2b364e607e565227487910a8dd9793.1568391461.git.mchehab+samsung@kernel.org>
+        <201909162032.F4462D3@keescook>
+        <20190917102817.263517b5@coco.lan>
+        <201909170930.B8AD840@keescook>
+        <20190918082326.49a19a24@coco.lan>
+Organization: LWN.net
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190921170357.GA26626@Red>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Corentin,
+On Wed, 18 Sep 2019 08:23:26 -0300
+Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
 
-On Sat, Sep 21, 2019 at 07:03:57PM +0200, Corentin Labbe wrote:
-> hello
+> A simple/lazy solution would be to apply the enclosed patch - or a
+> variant of it that would place the contents of MAINTAINERS outside
+> process/index.html, and add instructions about how to use
+> get_maintainers.pl.
 > 
-> I am the owner of a zoran based DC10+ card.
-> I am in the need of using it since yesterday and I found that its driver was removed.
+> Jon,
 > 
-> Reverting the removing patch made to a temporary working situation.
+> Please let me know if you're willing to accept something like that.
 
-Sorry the the unpleasant surprise caused by the driver removal.
+[Sorry for the slowness, I'm kind of tuned out this week]
 
-> If I understand correctly, it was removed due to lack of vb2 convertion.
-> If I am able to do this vb2 conversion, does bring it back in mainline will be posssible ?
-> In that case I am ready to assume to be the maintainer if needed.
+I guess we could do that as a short-term thing.
 
-That would be great ! I used to own a DC10 a long time ago, and the
-zoran driver was the first one I tried to hack when I moved to Linux.
-I'd love to see it getting maintained. Please let us know if you need
-any help getting started.
+In truth, though, this thing is a database; printing it out linearly is
+perhaps not the best thing we could do.  There should be better ways we
+could provide access to it.
 
--- 
-Regards,
+Also, that file is nearly 18K lines long.  If some unsuspecting person
+generates a PDF and prints it, they're going to get something along the
+lines of 300 pages of MAINTAINERS, which may not quite be what they had
+in mind.  It costs (almost) nothing to put that into HTML output, but
+other formats could be painful.
 
-Laurent Pinchart
+So I dunno, we need to think this through a bit...
+
+jon
