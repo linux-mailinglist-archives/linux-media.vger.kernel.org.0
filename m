@@ -2,153 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BD385B9C17
-	for <lists+linux-media@lfdr.de>; Sat, 21 Sep 2019 06:06:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C5E3B9D12
+	for <lists+linux-media@lfdr.de>; Sat, 21 Sep 2019 10:56:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725848AbfIUEGG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 21 Sep 2019 00:06:06 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:58857 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725821AbfIUEGF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 21 Sep 2019 00:06:05 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:a5b5:62ae:c371:1e6d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id BWeoifTXcKKNGBWepidGOP; Sat, 21 Sep 2019 06:06:03 +0200
-Message-ID: <1400c3f72effab25fd1004ed59491c2c@smtp-cloud8.xs4all.net>
-Date:   Sat, 21 Sep 2019 06:06:02 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-X-CMAE-Envelope: MS4wfH3ax28gdBIBQy+TQ5i29sS8pC3V+qj+4bGODlrSHAlf+vFV+gjXE2Sk3G0j8n/hSF6mQ2QyO8/cFs0KGbBRn/748onTrSItW7v4BjD6O7B1/DR/66qA
- pEO8MtsKbVUHywi0OtHung40Bcvm9M9n+3AMrVcfOs8mo5RMfZsde8tWWjY9NtHXpk+OiKjxiXexsVvN+JXTUWH5w/U8LQF9vPlRWmrJr0iAxOn0ocHHMd49
+        id S2393078AbfIUI4J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 21 Sep 2019 04:56:09 -0400
+Received: from mga04.intel.com ([192.55.52.120]:57474 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2393032AbfIUI4J (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 21 Sep 2019 04:56:09 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 Sep 2019 01:56:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,532,1559545200"; 
+   d="scan'208";a="202667604"
+Received: from reichelh-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.54.127])
+  by fmsmga001.fm.intel.com with ESMTP; 21 Sep 2019 01:56:05 -0700
+From:   Jani Nikula <jani.nikula@intel.com>
+To:     Doug Anderson <dianders@chromium.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        ksummit <ksummit-discuss@lists.linuxfoundation.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: [Ksummit-discuss] [PATCH] media: add a subsystem profile documentation
+In-Reply-To: <CAD=FV=UjTT04pOf3q3H+ZdG9ixr6RWaRJfNs2Dk7xTTEMi-=xw@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <156821693963.2951081.11214256396118531359.stgit@dwillia2-desk3.amr.corp.intel.com> <434c05bddd2b364e607e565227487910a8dd9793.1568391461.git.mchehab+samsung@kernel.org> <20190918123620.GA6306@pendragon.ideasonboard.com> <20190918105728.24e7eb48@coco.lan> <20190919065447.GF2959@kadam> <CAMuHMdU10J5zgQ0r8uoA+LFHRbyLB=AG6xygTmsxwc7T-ffdDw@mail.gmail.com> <20190920145352.GI12950@pendragon.ideasonboard.com> <CAD=FV=UjTT04pOf3q3H+ZdG9ixr6RWaRJfNs2Dk7xTTEMi-=xw@mail.gmail.com>
+Date:   Sat, 21 Sep 2019 11:56:06 +0300
+Message-ID: <87k1a2yqmx.fsf@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Fri, 20 Sep 2019, Doug Anderson <dianders@chromium.org> wrote:
+> On Fri, Sep 20, 2019 at 7:54 AM Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
+>> And remove Kees Cook and Colin King ? :-) Jokes aside, brushing up
+>> get_maintainer.pl a bit is a good idea. I'm for instance not sure adding
+>> LKML automatically is a good idea if other mailing lists are already
+>> CC'ed, as it's a bit of a /dev/null (albeit with logging, so CC'ing it
+>> when no other mailing list is appropriate certainly makes sense).
+>
+> Please don't do this, as it means the patch won't be findable on the
+> "LKML" patchwork instance at:
+>
+> https://lore.kernel.org/patchwork/project/lkml/list/
+>
+> Having LKML copied on all patches is also nice because it makes it
+> easier to respond to a patch that was posted to a list you didn't
+> subscribe to.  I subscribe to LKML and have it redirected to a folder
+> that I never look at.  Then if I want to find an email thread I can
+> search that folder and easily respond from within my normal email
+> client.
+>
+> Is there any downside to CCing LKML?
 
-Results of the daily build of media_tree:
+I think the question becomes, do we want *everything* posted to LKML?
 
-date:			Sat Sep 21 05:00:14 CEST 2019
-media-tree git hash:	6f51fdfd8229d5358c2d6e272cf73478866e8ddc
-media_build git hash:	d75b29db1297d2475227cc8bada843542271e40d
-v4l-utils git hash:	a42e008316600b79e6833420612afcb8fc4a2171
-edid-decode git hash:	7696439db703eeca7248af6c3a17d2e19a9292ea
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 8634894b41454ef4215a3d4fd503305c720e761a
-host hardware:		x86_64
-host os:		5.2.0-2-amd64
+For example, based on the last 30 days, the kernel the monthly addition
+to LKML traffic from my corner of the kernel would be in this ballpark:
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3-rc1-i686: OK
-linux-5.3-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2331, Succeeded: 2331, Failed: 0, Warnings: 0
-sparse: OK
-smatch: OK
+$ notmuch count date:30d.. to:intel-gfx@lists.freedesktop.org or to:dri-devel@lists.freedesktop.org and not to linux-kernel@vger.kernel.org and subject:PATCH
+96904
 
-Detailed results are available here:
+OTOH LKML is already a firehose that's impossible to drink from, so not
+much difference there...
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday.log
+BR,
+Jani.
 
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+-- 
+Jani Nikula, Intel Open Source Graphics Center
