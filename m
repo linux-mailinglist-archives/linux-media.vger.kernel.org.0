@@ -2,153 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 16AA3BA06A
-	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 05:52:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98C6ABA13B
+	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 08:06:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727420AbfIVDwC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 21 Sep 2019 23:52:02 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:54323 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727391AbfIVDwC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 21 Sep 2019 23:52:02 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:24a9:bd1c:57fa:28ba])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id Bsuki17f6z6EABsuli1eMB; Sun, 22 Sep 2019 05:51:59 +0200
-Message-ID: <bdda85f1a4e3531fe9f18fe6a5657de5@smtp-cloud9.xs4all.net>
-Date:   Sun, 22 Sep 2019 05:51:58 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfDX2ULalcp3dpI7ZUQvojYHfjPspnyShyFXzcrP7gB7RPz/7RupyvLumwAyq6fqeLVI/rd2ljBGkm3wStdDofw5LDGodU8zRBULGjftPAnl/wFnqClrJ
- d6p3711xNo0whEGc5jW5Tut8C/lma8ODeO/6SW1KBDMVE0VLktW6qyGc7AdNIY17KDWScoD4dr3dXmzgNvbDwq3zHOFblXQVIaz+Z2uufTgXz4t0EBom4BV/
+        id S1727595AbfIVGGk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 22 Sep 2019 02:06:40 -0400
+Received: from mail.zabedu.ru ([95.189.97.10]:34106 "EHLO mail.zabedu.ru"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727552AbfIVGGk (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 22 Sep 2019 02:06:40 -0400
+X-Greylist: delayed 29620 seconds by postgrey-1.27 at vger.kernel.org; Sun, 22 Sep 2019 02:06:38 EDT
+Received: from localhost (localhost [127.0.0.1])
+        by mail.zabedu.ru (Postfix) with ESMTP id 5DF1458DB4F;
+        Sun, 22 Sep 2019 05:14:53 +0900 (+09)
+Received: from mail.zabedu.ru ([127.0.0.1])
+        by localhost (mail.zabedu.ru [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id xra6F1VzJbyn; Sun, 22 Sep 2019 05:14:52 +0900 (+09)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.zabedu.ru (Postfix) with ESMTP id 05FF058DAF7;
+        Sun, 22 Sep 2019 05:14:52 +0900 (+09)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.zabedu.ru 05FF058DAF7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zabedu.ru;
+        s=F4F8CB62-D72E-11E6-B493-75AB9FC1A46C; t=1569096892;
+        bh=FvPwu2qD/HOjuYt+iWAdoRwPr/yDhY30LF9a7mrzGzk=;
+        h=MIME-Version:To:From:Date:Message-Id;
+        b=eBwH9zXYNAk1nL+bzCE6ZQYAf0YzejitomKN/9cMvwBUxp6LyhQ+/e5yz3t7Uy8pl
+         rj4ujK386UjbMCu9imYXLbASZruMk9B3YU5WbfdGGgl49sE61ihPpUEfHIkS7QrWld
+         yiBF31Y32C7i18kvTDEd4hdgfXUQuTTmpVHZEJVU=
+X-Virus-Scanned: amavisd-new at zabedu.ru
+Received: from mail.zabedu.ru ([127.0.0.1])
+        by localhost (mail.zabedu.ru [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id tM6BGw6F6zMY; Sun, 22 Sep 2019 05:14:51 +0900 (+09)
+Received: from MAC12B2.vpnsecure (unknown [125.212.251.87])
+        by mail.zabedu.ru (Postfix) with ESMTPSA id 4DF4658C887;
+        Sun, 22 Sep 2019 05:14:04 +0900 (+09)
+Content-Type: text/plain; charset="iso-8859-1"
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: my subject Jag
+To:     Recipients <shs_srtn_1.srtn@zabedu.ru>
+From:   shs_srtn_1.srtn@zabedu.ru
+Date:   Sun, 22 Sep 2019 00:11:38 +0400
+Reply-To: liushiyu688@gmail.com
+Message-Id: <20190921201405.4DF4658C887@mail.zabedu.ru>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Jag heter Liu Shiyu, jag har ett gynnsamt aff=E4rsf=F6rslag f=F6r
+du? Ignorera inte detta meddelande. Se till att du svarar mig
+entr=E4get.
 
-Results of the daily build of media_tree:
+V=E4nliga h=E4lsningar,
+Herr Liu Shiyu
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+My name is Mr. Liu Shiyu, I have a favorable business proposal for
+you? Please do not ignore this message. Make sure you answer me
+urgently.
 
-date:			Sun Sep 22 05:00:12 CEST 2019
-media-tree git hash:	6f51fdfd8229d5358c2d6e272cf73478866e8ddc
-media_build git hash:	d75b29db1297d2475227cc8bada843542271e40d
-v4l-utils git hash:	a42e008316600b79e6833420612afcb8fc4a2171
-edid-decode git hash:	7696439db703eeca7248af6c3a17d2e19a9292ea
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 8634894b41454ef4215a3d4fd503305c720e761a
-host hardware:		x86_64
-host os:		5.2.0-2-amd64
-
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3-rc1-i686: OK
-linux-5.3-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2331, Succeeded: 2331, Failed: 0, Warnings: 1
-sparse: OK
-smatch: OK
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Best regards,
+Mr. Liu Shiyu
