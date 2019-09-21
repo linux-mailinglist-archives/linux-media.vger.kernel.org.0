@@ -2,79 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C5E3B9D12
-	for <lists+linux-media@lfdr.de>; Sat, 21 Sep 2019 10:56:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BDA9B9F12
+	for <lists+linux-media@lfdr.de>; Sat, 21 Sep 2019 19:04:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393078AbfIUI4J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 21 Sep 2019 04:56:09 -0400
-Received: from mga04.intel.com ([192.55.52.120]:57474 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2393032AbfIUI4J (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 21 Sep 2019 04:56:09 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 Sep 2019 01:56:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.64,532,1559545200"; 
-   d="scan'208";a="202667604"
-Received: from reichelh-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.54.127])
-  by fmsmga001.fm.intel.com with ESMTP; 21 Sep 2019 01:56:05 -0700
-From:   Jani Nikula <jani.nikula@intel.com>
-To:     Doug Anderson <dianders@chromium.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        ksummit <ksummit-discuss@lists.linuxfoundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: [Ksummit-discuss] [PATCH] media: add a subsystem profile documentation
-In-Reply-To: <CAD=FV=UjTT04pOf3q3H+ZdG9ixr6RWaRJfNs2Dk7xTTEMi-=xw@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <156821693963.2951081.11214256396118531359.stgit@dwillia2-desk3.amr.corp.intel.com> <434c05bddd2b364e607e565227487910a8dd9793.1568391461.git.mchehab+samsung@kernel.org> <20190918123620.GA6306@pendragon.ideasonboard.com> <20190918105728.24e7eb48@coco.lan> <20190919065447.GF2959@kadam> <CAMuHMdU10J5zgQ0r8uoA+LFHRbyLB=AG6xygTmsxwc7T-ffdDw@mail.gmail.com> <20190920145352.GI12950@pendragon.ideasonboard.com> <CAD=FV=UjTT04pOf3q3H+ZdG9ixr6RWaRJfNs2Dk7xTTEMi-=xw@mail.gmail.com>
-Date:   Sat, 21 Sep 2019 11:56:06 +0300
-Message-ID: <87k1a2yqmx.fsf@intel.com>
+        id S2407842AbfIUREC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 21 Sep 2019 13:04:02 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:32977 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2406192AbfIUREC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sat, 21 Sep 2019 13:04:02 -0400
+Received: by mail-wr1-f67.google.com with SMTP id b9so9802847wrs.0;
+        Sat, 21 Sep 2019 10:04:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=55amjIu2TF3CCD9dfZQ7gR+oWC1rkKKs0l26DxHMq2I=;
+        b=ux3fQc910IEW3PhTVTjkp+MKFpIHLHjhin61mmPdzaqD9j6z9Bh1v+6QQIXhqsn8V8
+         vVfT0zEhnayS+nlKVow11xrXEVvHHaOoIYgkv8AtvQxY3lmoQfBeBb5JiJdi8VyPToTs
+         NLuqLWTcx2RzwPnzxqQLXxG0IMIm5org8JvP4E7mNyF9PqH1roOYKkWrcqcdQJqnc7qC
+         ufHm0YBE23Z2ijPma0C33C6dO3u9XbnhjtvuoOGEjl0outphR/3WsHkHiy1NDb3QG/Mz
+         40zZlD5ILulJelu3ipm5lWBQq8oPrUvBdrfdzIlPjhMp9yFomWqEAHOb+UVp1PfkgfiX
+         hMfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=55amjIu2TF3CCD9dfZQ7gR+oWC1rkKKs0l26DxHMq2I=;
+        b=ogHo4SrgaMV6B8OgeUYqKDmcAoKfuA2BWSkF73Eujm6B0HroP2ptgY4fbdWKHyAC8D
+         XLUl+3X+rBcMpG8G9Xamp/o9e5an6iND3cSO5QYj4af7bXs+u/dV3fePdX8tYP2UiOrW
+         8AsmZceI+tXcNyScx7bBZD0wOkDqp5I2rlNit6NIVSl5GkOJbk9Rml5cdHfRPWdnZ/5S
+         AzpeEj366dGF/30kRTRPGoKGZkuxCHGV6T+ODhfv0S2gxHETDRAqJ4iXyCJ+pVC0GQSk
+         jjEN99Aje4bVfvxqOTLpdfNMVUaxBGxyXT3QI5z7asxH/zRLH/IqjwSt5BFHHP3l/L1U
+         1fTw==
+X-Gm-Message-State: APjAAAULq3IfaH1nLc9+1lCs6kC3J+11Klr880JVjUbtiAiLPnu3Q6vz
+        aauGHdpwwpa150haGwvRG7LOmKF0
+X-Google-Smtp-Source: APXvYqxFL84KLpSZMc5/N059+0hlyRMOj1E0IZ+6Y7dGH/TmX232EhUn0HdzjZ8RYcOqvPmaKLSWRw==
+X-Received: by 2002:adf:de08:: with SMTP id b8mr14928562wrm.200.1569085439582;
+        Sat, 21 Sep 2019 10:03:59 -0700 (PDT)
+Received: from Red ([2a01:cb1d:147:7200:2e56:dcff:fed2:c6d6])
+        by smtp.googlemail.com with ESMTPSA id t14sm5136519wrs.6.2019.09.21.10.03.58
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 21 Sep 2019 10:03:59 -0700 (PDT)
+Date:   Sat, 21 Sep 2019 19:03:57 +0200
+From:   Corentin Labbe <clabbe.montjoie@gmail.com>
+To:     mjpeg-users@lists.sourceforge.net, linux-media@vger.kernel.org,
+        mchehab@kernel.org, laurent.pinchart@ideasonboard.com
+Cc:     linux-kernel@vger.kernel.org
+Subject: bringing back media/zoran driver
+Message-ID: <20190921170357.GA26626@Red>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 20 Sep 2019, Doug Anderson <dianders@chromium.org> wrote:
-> On Fri, Sep 20, 2019 at 7:54 AM Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
->> And remove Kees Cook and Colin King ? :-) Jokes aside, brushing up
->> get_maintainer.pl a bit is a good idea. I'm for instance not sure adding
->> LKML automatically is a good idea if other mailing lists are already
->> CC'ed, as it's a bit of a /dev/null (albeit with logging, so CC'ing it
->> when no other mailing list is appropriate certainly makes sense).
->
-> Please don't do this, as it means the patch won't be findable on the
-> "LKML" patchwork instance at:
->
-> https://lore.kernel.org/patchwork/project/lkml/list/
->
-> Having LKML copied on all patches is also nice because it makes it
-> easier to respond to a patch that was posted to a list you didn't
-> subscribe to.  I subscribe to LKML and have it redirected to a folder
-> that I never look at.  Then if I want to find an email thread I can
-> search that folder and easily respond from within my normal email
-> client.
->
-> Is there any downside to CCing LKML?
+hello
 
-I think the question becomes, do we want *everything* posted to LKML?
+I am the owner of a zoran based DC10+ card.
+I am in the need of using it since yesterday and I found that its driver was removed.
 
-For example, based on the last 30 days, the kernel the monthly addition
-to LKML traffic from my corner of the kernel would be in this ballpark:
+Reverting the removing patch made to a temporary working situation.
 
-$ notmuch count date:30d.. to:intel-gfx@lists.freedesktop.org or to:dri-devel@lists.freedesktop.org and not to linux-kernel@vger.kernel.org and subject:PATCH
-96904
+If I understand correctly, it was removed due to lack of vb2 convertion.
+If I am able to do this vb2 conversion, does bring it back in mainline will be posssible ?
+In that case I am ready to assume to be the maintainer if needed.
 
-OTOH LKML is already a firehose that's impossible to drink from, so not
-much difference there...
-
-BR,
-Jani.
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Regards
