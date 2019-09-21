@@ -2,285 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ACF1DB9F15
-	for <lists+linux-media@lfdr.de>; Sat, 21 Sep 2019 19:06:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F2A6B9F25
+	for <lists+linux-media@lfdr.de>; Sat, 21 Sep 2019 19:18:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404416AbfIURGK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 21 Sep 2019 13:06:10 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:32902 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726206AbfIURGK (ORCPT
+        id S1726974AbfIURR5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 21 Sep 2019 13:17:57 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:45224 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726206AbfIURR5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 21 Sep 2019 13:06:10 -0400
-Received: by mail-pg1-f193.google.com with SMTP id n190so5604588pgn.0
-        for <linux-media@vger.kernel.org>; Sat, 21 Sep 2019 10:06:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=q3EASD/L/Tbqo5I7bBXhfvJbTdGddqKCIHjoRiVpKvc=;
-        b=aTfLU0b3uhpBtZvWJ5wl40qfGIT8/aJUL2UYv4eV8LIvpSxvI3eLOV8n/D2rV4Uv+Y
-         4z1W7z6YRNQufIXDI2Coh1FiLB1qUwTCtuG+O6NJmqn3snPe0LF0G1Cey1Se2N5VA7me
-         /GilR7k5t6qBHBriShBNS3WY6r7MPHq/3v3g28ElMTeW7pS7CbFaM4KHgiI8xVOT20G7
-         2xBEDquf98ih5VT5+/CqyQBAfF6cWMPcLLtEiZBRmGtdVfYQdosZH/fCLxXu8a+SUlDU
-         nlqH764lrq51FGlCzSGVsOUX4Do5L0TBPmK3O5lFD4Y/RTU/UXuCl6p3Nht/Gw/vrkC4
-         6qFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=q3EASD/L/Tbqo5I7bBXhfvJbTdGddqKCIHjoRiVpKvc=;
-        b=H2J2bjfhq/klj0ODj9zJ0lYxU98nh8GwRrNToGq3NsxFo/QEaPSTokgSmBtYJrPKr1
-         pw78DG0HAnnOcYcwc8U+YTPqXn6ENA4XJE95z2bQoXK9d6Pj6XeoDM2uFzIYLUmGMadE
-         WOBnu3cjQ+gjhhkLcyz9k0mJScKDlDnWmryFoMpmGbJLTmgCJkMoyL7gHTEZ2NAHhqV9
-         NbiZJ0OhoLDZmVOYBV5zZcl1A4ZUCE5YeddyMgpV5Ccb4O3oy/S8SlistMl471XJ/TO8
-         S9Y5JLS79BQmi7EvhHs9O2vlKOrqPSYKAkQbt9A4vh8hHGtrEjh2uQ5QPop7YdBBxv3d
-         zNjw==
-X-Gm-Message-State: APjAAAWSG4pVozD1YU4UcYpzJyMThQsYc0OEpw7kX8VWpi5YyxINF0EM
-        oGLmwNMAs9m6FMtGeCo7jyiJbCAL
-X-Google-Smtp-Source: APXvYqwmM68kZ3jVaMl8NFNyDyOYVl20Ue4KTMGkvmkH3O9fY24awkHpj73EPGNRyMIt3CvLu5ui7w==
-X-Received: by 2002:a17:90a:1903:: with SMTP id 3mr11019535pjg.80.1569085569306;
-        Sat, 21 Sep 2019 10:06:09 -0700 (PDT)
-Received: from localhost.localdomain ([240f:34:212d:1:50c1:f4e7:d521:49c0])
-        by smtp.gmail.com with ESMTPSA id 22sm6811576pfj.139.2019.09.21.10.06.07
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Sat, 21 Sep 2019 10:06:08 -0700 (PDT)
-From:   Akinobu Mita <akinobu.mita@gmail.com>
-To:     linux-media@vger.kernel.org
-Cc:     Akinobu Mita <akinobu.mita@gmail.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH] v4l2-ctl: add sizeimage suboption for set-fmt-video options
-Date:   Sun, 22 Sep 2019 02:05:32 +0900
-Message-Id: <1569085532-17991-1-git-send-email-akinobu.mita@gmail.com>
-X-Mailer: git-send-email 2.7.4
+        Sat, 21 Sep 2019 13:17:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=npyIJ4oToPFwwAoSLl7eEajl0gPXRwoTouB58DzCRGQ=; b=hNI/MfVNYzfEi84RDy1At19Zo
+        V+5ZYbYYZwtcSf64eVEDRE+ju7B0ruNN/SG6AUjDrP1dPeE/SRmQUMhK1OPP926DbYT6l9kWQUjwu
+        OMMSSm9HRcOPus3tg4Vd3QUdDT+KORmpqwV9tb3N0jsItX2kK0NDyoYnqz1cu5X0UcBOHQRlE5eYd
+        gVSXIcNt94elgV4VOhqpfoPmr1B/BthcB9PoL+N9f1oVs2KhBS90iwwrB8qmXG1W9QOX1blB9rykT
+        +rwxguDr+ellBQf5SgQNwLQ0A7CxE43IJYzl6ycCvdmtF2G5fu2eyXkt64zzT4R2rC094Suf+16CI
+        VUhvuOL2Q==;
+Received: from 177.206.132.221.dynamic.adsl.gvt.net.br ([177.206.132.221] helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
+        id 1iBj19-0008MP-4N; Sat, 21 Sep 2019 17:17:55 +0000
+Date:   Sat, 21 Sep 2019 14:17:49 -0300
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Corentin Labbe <clabbe.montjoie@gmail.com>
+Cc:     mjpeg-users@lists.sourceforge.net, linux-media@vger.kernel.org,
+        laurent.pinchart@ideasonboard.com, linux-kernel@vger.kernel.org,
+        hverkuil-cisco@xs4all.nl
+Subject: Re: bringing back media/zoran driver
+Message-ID: <20190921141749.03ebb25f@coco.lan>
+In-Reply-To: <20190921170357.GA26626@Red>
+References: <20190921170357.GA26626@Red>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When I tried to run v4l2-ctl streaming tests with the Hantro VPU JPEG
-encoder on ROCKPro64, the following command generates empty output file.
+Em Sat, 21 Sep 2019 19:03:57 +0200
+Corentin Labbe <clabbe.montjoie@gmail.com> escreveu:
 
-v4l2-ctl -d /dev/video1 --stream-from=/dev/urandom --stream-to=out.jpg \
-  --set-fmt-video-out=width=640,height=480 \
-  --set-fmt-video=width=640,height=480 \
-  --stream-mmap=1 --stream-out-mmap=1 --stream-count=1
+> hello
+> 
+> I am the owner of a zoran based DC10+ card.
+> I am in the need of using it since yesterday and I found that its driver was removed.
+> 
+> Reverting the removing patch made to a temporary working situation.
+> 
+> If I understand correctly, it was removed due to lack of vb2 convertion.
+> If I am able to do this vb2 conversion, does bring it back in mainline will be posssible ?
 
-This is because the sizeimage field for encoded format is too small.
+Yes.
 
-When opening the video device for the Hantro VPU JPEG encoder, the
-sizeimage field for encoded format is reset to the maximum size in bytes
-required for the minimam frame size (96x32) by hantro_reset_encoded_fmt()
-in linux/drivers/staging/media/hantro/hantro_v4l2.c.
+> In that case I am ready to assume to be the maintainer if needed.
 
-Currently v4l2-ctl doesn't touch the sizeimage fields, so when the frame
-size is not small, the JPEG encoder cannot get enough buffer size.
+Yeah, if we're willing to re-add it, the best is if you can also
+maintain it.
 
-This adds sizeimage suboption for set-fmt-video options and the following
-command generates correct jpeg image.
-
-v4l2-ctl -d /dev/video1 --stream-from=/dev/urandom --stream-to=out.jpg \
-  --set-fmt-video-out=width=640,height=480 \
-  --set-fmt-video=width=640,height=480,sizeimage=0 \
-  --stream-mmap=1 --stream-out-mmap=1 --stream-count=1
-
-The following comment for vidioc_try_fmt() in
-linux/drivers/staging/media/hantro/hantro_v4l2.c explains why a zero
-sizeimage is passed.
-
-		/*
-		 * For coded formats the application can specify
-		 * sizeimage. If the application passes a zero sizeimage,
-		 * let's default to the maximum frame size.
-		 */
-
-Cc: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Ezequiel Garcia <ezequiel@collabora.com>
-Signed-off-by: Akinobu Mita <akinobu.mita@gmail.com>
----
- utils/v4l2-ctl/v4l2-ctl-vidcap.cpp | 16 +++++++++++++---
- utils/v4l2-ctl/v4l2-ctl-vidout.cpp | 16 +++++++++++++---
- utils/v4l2-ctl/v4l2-ctl.cpp        | 10 +++++++++-
- utils/v4l2-ctl/v4l2-ctl.h          |  4 +++-
- 4 files changed, 38 insertions(+), 8 deletions(-)
-
-diff --git a/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp b/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp
-index 15ffbea..3a29251 100644
---- a/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp
-@@ -21,6 +21,7 @@ static struct v4l2_frmivalenum frmival; /* list frame intervals */
- static unsigned set_fmts;
- static __u32 width, height, pixfmt, field, flags;
- static __u32 bytesperline[VIDEO_MAX_PLANES];
-+static __u32 sizeimage[VIDEO_MAX_PLANES];
- 
- void vidcap_usage(void)
- {
-@@ -42,11 +43,12 @@ void vidcap_usage(void)
- 	       "  -v, --set-fmt-video\n"
- 	       "  --try-fmt-video width=<w>,height=<h>,pixelformat=<pf>,field=<f>,colorspace=<c>,\n"
- 	       "                  xfer=<xf>,ycbcr=<y>,hsv=<hsv>,quantization=<q>,\n"
--	       "                  premul-alpha,bytesperline=<bpl>\n"
-+	       "                  premul-alpha,bytesperline=<bpl>,sizeimage=<sz>\n"
- 	       "                     set/try the video capture format [VIDIOC_S/TRY_FMT]\n"
- 	       "                     pixelformat is either the format index as reported by\n"
- 	       "                       --list-formats, or the fourcc value as a string.\n"
--	       "                     The bytesperline option can be used multiple times, once for each plane.\n"
-+	       "                     The bytesperline and sizeimage options can be used multiple times,\n"
-+	       "                       once for each plane.\n"
- 	       "                     premul-alpha sets V4L2_PIX_FMT_FLAG_PREMUL_ALPHA.\n"
- 	       "                     <f> can be one of the following field layouts:\n"
- 	       "                       any, none, top, bottom, interlaced, seq_tb, seq_bt,\n"
-@@ -106,7 +108,8 @@ void vidcap_cmd(int ch, char *optarg)
- 	case OptSetVideoFormat:
- 	case OptTryVideoFormat:
- 		set_fmts = parse_fmt(optarg, width, height, pixfmt, field, colorspace,
--				xfer_func, ycbcr, quantization, flags, bytesperline);
-+				xfer_func, ycbcr, quantization, flags, bytesperline,
-+				sizeimage);
- 		if (!set_fmts ||
- 		    (set_fmts & (FmtColorspace | FmtYCbCr | FmtQuantization | FmtXferFunc))) {
- 			vidcap_usage();
-@@ -211,6 +214,11 @@ int vidcap_get_and_update_fmt(cv4l_fd &_fd, struct v4l2_format &vfmt)
- 			for (unsigned i = 0; i < vfmt.fmt.pix_mp.num_planes; i++)
- 				vfmt.fmt.pix_mp.plane_fmt[i].bytesperline = 0;
- 		}
-+		if (set_fmts & FmtSizeImage) {
-+			for (unsigned i = 0; i < VIDEO_MAX_PLANES; i++)
-+				vfmt.fmt.pix_mp.plane_fmt[i].sizeimage =
-+					sizeimage[i];
-+		}
- 	} else {
- 		if (set_fmts & FmtWidth)
- 			vfmt.fmt.pix.width = width;
-@@ -238,6 +246,8 @@ int vidcap_get_and_update_fmt(cv4l_fd &_fd, struct v4l2_format &vfmt)
- 			 */
- 			vfmt.fmt.pix.bytesperline = 0;
- 		}
-+		if (set_fmts & FmtSizeImage)
-+			vfmt.fmt.pix.sizeimage = sizeimage[0];
- 	}
- 
- 	if ((set_fmts & FmtPixelFormat) &&
-diff --git a/utils/v4l2-ctl/v4l2-ctl-vidout.cpp b/utils/v4l2-ctl/v4l2-ctl-vidout.cpp
-index c90bee5..227d624 100644
---- a/utils/v4l2-ctl/v4l2-ctl-vidout.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl-vidout.cpp
-@@ -19,6 +19,7 @@
- static unsigned set_fmts_out;
- static __u32 width, height, pixfmt, field, colorspace, xfer_func, ycbcr, quantization, flags;
- static __u32 bytesperline[VIDEO_MAX_PLANES];
-+static __u32 sizeimage[VIDEO_MAX_PLANES];
- 
- void vidout_usage(void)
- {
-@@ -33,12 +34,13 @@ void vidout_usage(void)
- 	       "  -x, --set-fmt-video-out\n"
- 	       "  --try-fmt-video-out width=<w>,height=<h>,pixelformat=<pf>,field=<f>,colorspace=<c>,\n"
- 	       "                      xfer=<xf>,ycbcr=<y>,hsv=<hsv>,quantization=<q>,\n"
--	       "                      premul-alpha,bytesperline=<bpl>\n"
-+	       "                      premul-alpha,bytesperline=<bpl>,sizeimage=<sz>\n"
- 	       "                     set/try the video output format [VIDIOC_S/TRY_FMT]\n"
- 	       "                     pixelformat is either the format index as reported by\n"
- 	       "                       --list-formats-out, or the fourcc value as a string.\n"
- 	       "                     premul-alpha sets V4L2_PIX_FMT_FLAG_PREMUL_ALPHA.\n"
--	       "                     The bytesperline option can be used multiple times, once for each plane.\n"
-+	       "                     The bytesperline and sizeimage options can be used multiple times,\n"
-+	       "                       once for each plane.\n"
- 	       "                     <f> can be one of the following field layouts:\n"
- 	       "                       any, none, top, bottom, interlaced, seq_tb, seq_bt,\n"
- 	       "                       alternate, interlaced_tb, interlaced_bt\n"
-@@ -93,7 +95,8 @@ void vidout_cmd(int ch, char *optarg)
- 	case OptSetVideoOutFormat:
- 	case OptTryVideoOutFormat:
- 		set_fmts_out = parse_fmt(optarg, width, height, pixfmt, field,
--				colorspace, xfer_func, ycbcr, quantization, flags, bytesperline);
-+				colorspace, xfer_func, ycbcr, quantization, flags, bytesperline,
-+				sizeimage);
- 		if (!set_fmts_out) {
- 			vidcap_usage();
- 			exit(1);
-@@ -150,6 +153,11 @@ void vidout_set(cv4l_fd &_fd)
- 					for (unsigned i = 0; i < vfmt.fmt.pix_mp.num_planes; i++)
- 						vfmt.fmt.pix_mp.plane_fmt[i].bytesperline = 0;
- 				}
-+				if (set_fmts_out & FmtSizeImage) {
-+					for (unsigned i = 0; i < VIDEO_MAX_PLANES; i++)
-+						vfmt.fmt.pix_mp.plane_fmt[i].sizeimage =
-+							sizeimage[i];
-+				}
- 			} else {
- 				if (set_fmts_out & FmtWidth)
- 					vfmt.fmt.pix.width = width;
-@@ -183,6 +191,8 @@ void vidout_set(cv4l_fd &_fd)
- 					 * to the closest value for the new width. */
- 					vfmt.fmt.pix.bytesperline = 0;
- 				}
-+				if (set_fmts_out & FmtSizeImage)
-+					vfmt.fmt.pix.sizeimage = sizeimage[0];
- 			}
- 
- 			if ((set_fmts_out & FmtPixelFormat) &&
-diff --git a/utils/v4l2-ctl/v4l2-ctl.cpp b/utils/v4l2-ctl/v4l2-ctl.cpp
-index 3a2d082..77e0d36 100644
---- a/utils/v4l2-ctl/v4l2-ctl.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl.cpp
-@@ -744,11 +744,13 @@ __u32 parse_quantization(const char *s)
- 
- int parse_fmt(char *optarg, __u32 &width, __u32 &height, __u32 &pixelformat,
- 	      __u32 &field, __u32 &colorspace, __u32 &xfer_func, __u32 &ycbcr,
--	      __u32 &quantization, __u32 &flags, __u32 *bytesperline)
-+	      __u32 &quantization, __u32 &flags, __u32 *bytesperline,
-+	      __u32 *sizeimage)
- {
- 	char *value, *subs;
- 	int fmts = 0;
- 	unsigned bpl_index = 0;
-+	unsigned sizeimage_index = 0;
- 	bool be_pixfmt;
- 
- 	field = V4L2_FIELD_ANY;
-@@ -767,6 +769,7 @@ int parse_fmt(char *optarg, __u32 &width, __u32 &height, __u32 &pixelformat,
- 			"premul-alpha",
- 			"quantization",
- 			"xfer",
-+			"sizeimage",
- 			NULL
- 		};
- 
-@@ -835,6 +838,11 @@ int parse_fmt(char *optarg, __u32 &width, __u32 &height, __u32 &pixelformat,
- 			xfer_func = parse_xfer_func(value);
- 			fmts |= FmtXferFunc;
- 			break;
-+		case 11:
-+			sizeimage[sizeimage_index] = strtoul(value, 0L, 0);
-+			sizeimage_index++;
-+			fmts |= FmtSizeImage;
-+			break;
- 		default:
- 			return 0;
- 		}
-diff --git a/utils/v4l2-ctl/v4l2-ctl.h b/utils/v4l2-ctl/v4l2-ctl.h
-index 5797d78..46c87b5 100644
---- a/utils/v4l2-ctl/v4l2-ctl.h
-+++ b/utils/v4l2-ctl/v4l2-ctl.h
-@@ -296,6 +296,7 @@ typedef struct {
- #define FmtFlags		(1L<<11)
- #define FmtBytesPerLine		(1L<<12)
- #define FmtXferFunc		(1L<<13)
-+#define FmtSizeImage		(1L<<14)
- 
- // v4l2-ctl.cpp
- int doioctl_name(int fd, unsigned long int request, void *parm, const char *name);
-@@ -309,7 +310,8 @@ __u32 parse_hsv(const char *s);
- __u32 parse_quantization(const char *s);
- int parse_fmt(char *optarg, __u32 &width, __u32 &height, __u32 &pixelformat,
- 	      __u32 &field, __u32 &colorspace, __u32 &xfer, __u32 &ycbcr,
--	      __u32 &quantization, __u32 &flags, __u32 *bytesperline);
-+	      __u32 &quantization, __u32 &flags, __u32 *bytesperline,
-+	      __u32 *sizeimage);
- int parse_selection_target(const char *s, unsigned int &target);
- int parse_selection_flags(const char *s);
- void print_selection(const struct v4l2_selection &sel);
--- 
-2.7.4
-
+Thanks,
+Mauro
