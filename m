@@ -2,104 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F029EBA15F
-	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 09:41:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A11D2BA163
+	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 09:49:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727747AbfIVHlh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 22 Sep 2019 03:41:37 -0400
-Received: from smtp09.smtpout.orange.fr ([80.12.242.131]:46320 "EHLO
-        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727598AbfIVHlh (ORCPT
+        id S1727789AbfIVHtu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 22 Sep 2019 03:49:50 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:33773 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727785AbfIVHtu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 22 Sep 2019 03:41:37 -0400
-Received: from localhost.localdomain ([93.22.150.25])
-        by mwinf5d85 with ME
-        id 4XhW210060Z7Li503XhWTo; Sun, 22 Sep 2019 09:41:32 +0200
-X-ME-Helo: localhost.localdomain
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sun, 22 Sep 2019 09:41:32 +0200
-X-ME-IP: 93.22.150.25
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl, tglx@linutronix.de,
-        gregkh@linuxfoundation.org, kstewart@linuxfoundation.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: [PATCH] [media] cx88: Fix some error handling path in 'cx8800_initdev()'
-Date:   Sun, 22 Sep 2019 09:41:23 +0200
-Message-Id: <20190922074123.29124-1-christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.20.1
+        Sun, 22 Sep 2019 03:49:50 -0400
+Received: by mail-pf1-f195.google.com with SMTP id q10so7151458pfl.0
+        for <linux-media@vger.kernel.org>; Sun, 22 Sep 2019 00:49:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/P04TVQeG2TqtKqnh5NeUjgcAZkp2eeIEEO+pcLFimI=;
+        b=M/xx3S0fObzJAC7Q0yLbKqcZqa5MoT9YYx9XUcR4V8ItKFBQYE/QwdqzrWkmKANvGN
+         MYuC9n+WDjYmQIm1JImn4++yj8Nv/FD2I2Atm4bEw2L//p4BP0BpQ3Z4PEnPc8wdWjCi
+         SR8sH/6I6+5o+r/u6MOnsKtg1ZDUEUBX8HyJpspkTtzOgGSXFCqPgWU60BrMRpv5185L
+         wKDtpTgqYgr3MJU3/3M2EIDNSvivtVl7CJOxESGXrBB2xDua2+wbM2fFC8YLYVflWWbV
+         SqsQwDPN1muzH+wMK7WSP0UiVhamJaM6a82sSoFobxf9cjeuaZtsT7HdkC2gA3JtVsqp
+         1J3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/P04TVQeG2TqtKqnh5NeUjgcAZkp2eeIEEO+pcLFimI=;
+        b=bIABmlmKL9DaHr07bc+Dc4MSjbM74WfMhgnk8AbNtr8V9+fyxlgYIaFp2+4AuETAiz
+         ArClyhpTtZ4IGpOujxbjCq3NH5B3Adat5Gi/NA250pH3DDRb8cANLHLub8EvUIeUxc0G
+         JK7x/9+SodEGkLPveQLiG+ADogZyGS/BrKjXL6a03Z42TyQ4VVINdxlPX2fzgCfYBzve
+         nkiK9NV4VYf++OVzA8L60nUY+p5urzA1mfkeHO/zAouQhtUD+vJ1ttOp4MLFxtkmf673
+         ZAGG/wQGop92XZiaNSvxUYNl8uTHaVAPSdjYsJp3SXAbHcgD9LgoPKAgPSWF+QZPKSOJ
+         yqYw==
+X-Gm-Message-State: APjAAAW0CQ9owB7+sbTIkGv6gCMluVkREMfmvjDnsq1rQbklBN5f+eSK
+        zP2Mor7u7FOqypygbpunrCA=
+X-Google-Smtp-Source: APXvYqx9WFfqi0tOd1jiZXhwnRWHa9sevld2/rp0T8BsVLUgUcSnQPf8YghWXMs7gYxMmchxrZtI6w==
+X-Received: by 2002:a63:790b:: with SMTP id u11mr7725989pgc.273.1569138588365;
+        Sun, 22 Sep 2019 00:49:48 -0700 (PDT)
+Received: from yuq-Aspire-4738G.lan (ah.ptr230.ptrcloud.net. [153.122.161.8])
+        by smtp.gmail.com with ESMTPSA id f188sm6194234pfa.170.2019.09.22.00.49.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 22 Sep 2019 00:49:47 -0700 (PDT)
+From:   Qiang Yu <yuq825@gmail.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     lima@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        Qiang Yu <yuq825@gmail.com>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Subject: [PATCH] dma-buf/resv: fix exclusive fence get
+Date:   Sun, 22 Sep 2019 15:49:00 +0800
+Message-Id: <20190922074900.853-1-yuq825@gmail.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-A call to 'pci_disable_device()' is missing in the error handling path.
-In some cases, a call to 'free_irq()' may also be missing.
+This causes kernel crash when testing lima driver.
 
-Reorder the error handling path, add some new labels and fix the 2 issues
-mentionned above.
-
-This way, the error handling path in more in line with 'cx8800_finidev()'
-(i.e. the remove function)
-
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: Christian König <christian.koenig@amd.com>
+Fixes: b8c036dfc66f ("dma-buf: simplify reservation_object_get_fences_rcu a bit")
+Signed-off-by: Qiang Yu <yuq825@gmail.com>
 ---
-It is likely that this is still incomplete, but at least it should be
-better :)
----
- drivers/media/pci/cx88/cx88-video.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ drivers/dma-buf/dma-resv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/pci/cx88/cx88-video.c b/drivers/media/pci/cx88/cx88-video.c
-index dcc0f02aeb70..b8abcd550604 100644
---- a/drivers/media/pci/cx88/cx88-video.c
-+++ b/drivers/media/pci/cx88/cx88-video.c
-@@ -1277,7 +1277,7 @@ static int cx8800_initdev(struct pci_dev *pci_dev,
- 	core = cx88_core_get(dev->pci);
- 	if (!core) {
- 		err = -EINVAL;
--		goto fail_free;
-+		goto fail_disable;
- 	}
- 	dev->core = core;
+diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+index 42a8f3f11681..709002515550 100644
+--- a/drivers/dma-buf/dma-resv.c
++++ b/drivers/dma-buf/dma-resv.c
+@@ -471,7 +471,7 @@ int dma_resv_get_fences_rcu(struct dma_resv *obj,
+ 	if (pfence_excl)
+ 		*pfence_excl = fence_excl;
+ 	else if (fence_excl)
+-		shared[++shared_count] = fence_excl;
++		shared[shared_count++] = fence_excl;
  
-@@ -1323,7 +1323,7 @@ static int cx8800_initdev(struct pci_dev *pci_dev,
- 				       cc->step, cc->default_value);
- 		if (!vc) {
- 			err = core->audio_hdl.error;
--			goto fail_core;
-+			goto fail_irq;
- 		}
- 		vc->priv = (void *)cc;
- 	}
-@@ -1337,7 +1337,7 @@ static int cx8800_initdev(struct pci_dev *pci_dev,
- 				       cc->step, cc->default_value);
- 		if (!vc) {
- 			err = core->video_hdl.error;
--			goto fail_core;
-+			goto fail_irq;
- 		}
- 		vc->priv = (void *)cc;
- 		if (vc->id == V4L2_CID_CHROMA_AGC)
-@@ -1509,11 +1509,14 @@ static int cx8800_initdev(struct pci_dev *pci_dev,
- 
- fail_unreg:
- 	cx8800_unregister_video(dev);
--	free_irq(pci_dev->irq, dev);
- 	mutex_unlock(&core->lock);
-+fail_irq:
-+	free_irq(pci_dev->irq, dev);
- fail_core:
- 	core->v4ldev = NULL;
- 	cx88_core_put(core, dev->pci);
-+fail_disable:
-+	pci_disable_device(pci_dev);
- fail_free:
- 	kfree(dev);
- 	return err;
+ 	if (!shared_count) {
+ 		kfree(shared);
 -- 
-2.20.1
+2.17.1
 
