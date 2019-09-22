@@ -2,35 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 07ABCBA984
-	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 21:52:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A3026BA955
+	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 21:51:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2395548AbfIVTQP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 22 Sep 2019 15:16:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58094 "EHLO mail.kernel.org"
+        id S2391918AbfIVTOL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 22 Sep 2019 15:14:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59432 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389533AbfIVS4K (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 22 Sep 2019 14:56:10 -0400
+        id S2394736AbfIVS5C (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 22 Sep 2019 14:57:02 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8DAE921907;
-        Sun, 22 Sep 2019 18:56:09 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 646262184D;
+        Sun, 22 Sep 2019 18:57:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569178570;
-        bh=lAXoCvK9UQCg0kKCfkhoaIjzPBFySSpdewTqTsr5tNk=;
+        s=default; t=1569178622;
+        bh=5PRxwvJOPGRmn8UkRJJoesonvbFonXLvvtfiGZcZyPU=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Fo9renCPJtrB0dV/9djV+G/Jyh/6oN8XLwZaH6inEc5UnUxsarAmzC4ZV2xaLvMsp
-         ZVMPWPfdn9n8Pa3H1A7AJ1ZB78CKiKQ0q0MUBAEKEoWCFytEGZNjbaBaB0znfJS2/w
-         VHf8mHuvqnJmLQqCy2Ezie8EABa+rxogRKGBnlqc=
+        b=oKDazYqqeckfL3Ok9wKyFcs0fD0pEi3g8Pu/Les2sliRDHgkrwdB2/MA3owW8BvxP
+         r8ykX7BXLuEiSc33hEu5ILtYE2ZNJzvWaH6vl01L1bi7g68tgtKJ270TWxI1Okd8CT
+         Iijt4pRgvM4Ob8aqV856c4Ean1NM5EE/UgptICCk=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+Cc:     Sean Young <sean@mess.org>,
+        syzbot+eaaaf38a95427be88f4b@syzkaller.appspotmail.com,
+        Kees Cook <keescook@chromium.org>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 082/128] media: ov9650: add a sanity check
-Date:   Sun, 22 Sep 2019 14:53:32 -0400
-Message-Id: <20190922185418.2158-82-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 120/128] media: technisat-usb2: break out of loop at end of buffer
+Date:   Sun, 22 Sep 2019 14:54:10 -0400
+Message-Id: <20190922185418.2158-120-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190922185418.2158-1-sashal@kernel.org>
 References: <20190922185418.2158-1-sashal@kernel.org>
@@ -43,47 +45,74 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+From: Sean Young <sean@mess.org>
 
-[ Upstream commit 093347abc7a4e0490e3c962ecbde2dc272a8f708 ]
+[ Upstream commit 0c4df39e504bf925ab666132ac3c98d6cbbe380b ]
 
-As pointed by cppcheck:
+Ensure we do not access the buffer beyond the end if no 0xff byte
+is encountered.
 
-	[drivers/media/i2c/ov9650.c:706]: (error) Shifting by a negative value is undefined behaviour
-	[drivers/media/i2c/ov9650.c:707]: (error) Shifting by a negative value is undefined behaviour
-	[drivers/media/i2c/ov9650.c:721]: (error) Shifting by a negative value is undefined behaviour
-
-Prevent mangling with gains with invalid values.
-
-As pointed by Sylvester, this should never happen in practice,
-as min value of V4L2_CID_GAIN control is 16 (gain is always >= 16
-and m is always >= 0), but it is too hard for a static analyzer
-to get this, as the logic with validates control min/max is
-elsewhere inside V4L2 core.
-
-Reviewed-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
+Reported-by: syzbot+eaaaf38a95427be88f4b@syzkaller.appspotmail.com
+Signed-off-by: Sean Young <sean@mess.org>
+Reviewed-by: Kees Cook <keescook@chromium.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/i2c/ov9650.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/media/usb/dvb-usb/technisat-usb2.c | 22 ++++++++++------------
+ 1 file changed, 10 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/media/i2c/ov9650.c b/drivers/media/i2c/ov9650.c
-index 5bea31cd41aa1..33a21d585dc9c 100644
---- a/drivers/media/i2c/ov9650.c
-+++ b/drivers/media/i2c/ov9650.c
-@@ -716,6 +716,11 @@ static int ov965x_set_gain(struct ov965x *ov965x, int auto_gain)
- 		for (m = 6; m >= 0; m--)
- 			if (gain >= (1 << m) * 16)
- 				break;
-+
-+		/* Sanity check: don't adjust the gain with a negative value */
-+		if (m < 0)
-+			return -EINVAL;
-+
- 		rgain = (gain - ((1 << m) * 16)) / (1 << m);
- 		rgain |= (((1 << m) - 1) << 4);
+diff --git a/drivers/media/usb/dvb-usb/technisat-usb2.c b/drivers/media/usb/dvb-usb/technisat-usb2.c
+index 18d0f8f5283fa..8d8e9f56a8be5 100644
+--- a/drivers/media/usb/dvb-usb/technisat-usb2.c
++++ b/drivers/media/usb/dvb-usb/technisat-usb2.c
+@@ -607,10 +607,9 @@ static int technisat_usb2_frontend_attach(struct dvb_usb_adapter *a)
+ static int technisat_usb2_get_ir(struct dvb_usb_device *d)
+ {
+ 	struct technisat_usb2_state *state = d->priv;
+-	u8 *buf = state->buf;
+-	u8 *b;
+-	int ret;
+ 	struct ir_raw_event ev;
++	u8 *buf = state->buf;
++	int i, ret;
  
+ 	buf[0] = GET_IR_DATA_VENDOR_REQUEST;
+ 	buf[1] = 0x08;
+@@ -646,26 +645,25 @@ static int technisat_usb2_get_ir(struct dvb_usb_device *d)
+ 		return 0; /* no key pressed */
+ 
+ 	/* decoding */
+-	b = buf+1;
+ 
+ #if 0
+ 	deb_rc("RC: %d ", ret);
+-	debug_dump(b, ret, deb_rc);
++	debug_dump(buf + 1, ret, deb_rc);
+ #endif
+ 
+ 	ev.pulse = 0;
+-	while (1) {
+-		ev.pulse = !ev.pulse;
+-		ev.duration = (*b * FIRMWARE_CLOCK_DIVISOR * FIRMWARE_CLOCK_TICK) / 1000;
+-		ir_raw_event_store(d->rc_dev, &ev);
+-
+-		b++;
+-		if (*b == 0xff) {
++	for (i = 1; i < ARRAY_SIZE(state->buf); i++) {
++		if (buf[i] == 0xff) {
+ 			ev.pulse = 0;
+ 			ev.duration = 888888*2;
+ 			ir_raw_event_store(d->rc_dev, &ev);
+ 			break;
+ 		}
++
++		ev.pulse = !ev.pulse;
++		ev.duration = (buf[i] * FIRMWARE_CLOCK_DIVISOR *
++			       FIRMWARE_CLOCK_TICK) / 1000;
++		ir_raw_event_store(d->rc_dev, &ev);
+ 	}
+ 
+ 	ir_raw_event_handle(d->rc_dev);
 -- 
 2.20.1
 
