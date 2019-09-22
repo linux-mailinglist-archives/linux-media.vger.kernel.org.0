@@ -2,115 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C0490B9FA1
-	for <lists+linux-media@lfdr.de>; Sat, 21 Sep 2019 21:45:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 16AA3BA06A
+	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 05:52:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726075AbfIUTpR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 21 Sep 2019 15:45:17 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:34238 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726055AbfIUTpR (ORCPT
+        id S1727420AbfIVDwC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 21 Sep 2019 23:52:02 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:54323 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727391AbfIVDwC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 21 Sep 2019 15:45:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=zVemiHyFftuWLyJCi32mOapZtlhRvSsGykZ2Z/1kXzs=; b=IXIiEj+rZR00eqhwUMnToxBSN
-        Tu/E0LEIqM9AGqEv9vyADQhcvKvYPpqCfxv9zh90QHQRt5Ueg8NSPPnSt/XkOuPXr9KhQV+yynYCA
-        InBy+eWhNTtqv481wEeo8NJVIk3PND940oSyFfOxAMIN8rIUSYTWM+uf0EfCBzf9fLx5Mujmh4SAc
-        BH5xaQadn70LSx+gENl+qxCwl+iYpKh8d3TXPBy+ziSiQy1rJ7bEFHqEE4eioIIBh8UyMoSI5LWkw
-        tRmpp03CCpx44THBBJJ53YPf8Nw4VNKUrvFWFDMZG2IXvOEcWkSLzKVyZPTsNcfaeW6JVscKdBiLR
-        HQ+H62Vrg==;
-Received: from 177.206.132.221.dynamic.adsl.gvt.net.br ([177.206.132.221] helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
-        id 1iBlJi-0003Vw-5h; Sat, 21 Sep 2019 19:45:14 +0000
-Date:   Sat, 21 Sep 2019 16:45:10 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Kees Cook <keescook@chromium.org>,
-        ksummit-discuss@lists.linuxfoundation.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: [Ksummit-discuss] single maintainer profile directory (was Re:
- [PATCH] media: add a subsystem profile documentation)
-Message-ID: <20190921164510.3e52af21@coco.lan>
-In-Reply-To: <20190921131307.77d01ebb@lwn.net>
-References: <156821693963.2951081.11214256396118531359.stgit@dwillia2-desk3.amr.corp.intel.com>
-        <434c05bddd2b364e607e565227487910a8dd9793.1568391461.git.mchehab+samsung@kernel.org>
-        <201909162032.F4462D3@keescook>
-        <20190917102817.263517b5@coco.lan>
-        <201909170930.B8AD840@keescook>
-        <20190918082326.49a19a24@coco.lan>
-        <20190921131307.77d01ebb@lwn.net>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        Sat, 21 Sep 2019 23:52:02 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:24a9:bd1c:57fa:28ba])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id Bsuki17f6z6EABsuli1eMB; Sun, 22 Sep 2019 05:51:59 +0200
+Message-ID: <bdda85f1a4e3531fe9f18fe6a5657de5@smtp-cloud9.xs4all.net>
+Date:   Sun, 22 Sep 2019 05:51:58 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfDX2ULalcp3dpI7ZUQvojYHfjPspnyShyFXzcrP7gB7RPz/7RupyvLumwAyq6fqeLVI/rd2ljBGkm3wStdDofw5LDGodU8zRBULGjftPAnl/wFnqClrJ
+ d6p3711xNo0whEGc5jW5Tut8C/lma8ODeO/6SW1KBDMVE0VLktW6qyGc7AdNIY17KDWScoD4dr3dXmzgNvbDwq3zHOFblXQVIaz+Z2uufTgXz4t0EBom4BV/
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Sat, 21 Sep 2019 13:13:07 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-> On Wed, 18 Sep 2019 08:23:26 -0300
-> Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
-> 
-> > A simple/lazy solution would be to apply the enclosed patch - or a
-> > variant of it that would place the contents of MAINTAINERS outside
-> > process/index.html, and add instructions about how to use
-> > get_maintainers.pl.
-> > 
-> > Jon,
-> > 
-> > Please let me know if you're willing to accept something like that.  
-> 
-> [Sorry for the slowness, I'm kind of tuned out this week]
-> 
-> I guess we could do that as a short-term thing.
-> 
-> In truth, though, this thing is a database; printing it out linearly is
-> perhaps not the best thing we could do.  There should be better ways we
-> could provide access to it.
+Results of the daily build of media_tree:
 
-Yeah, as this is a database, instead of just outputting it on a
-formatted way, it is possible to generate other types of output.
+date:			Sun Sep 22 05:00:12 CEST 2019
+media-tree git hash:	6f51fdfd8229d5358c2d6e272cf73478866e8ddc
+media_build git hash:	d75b29db1297d2475227cc8bada843542271e40d
+v4l-utils git hash:	a42e008316600b79e6833420612afcb8fc4a2171
+edid-decode git hash:	7696439db703eeca7248af6c3a17d2e19a9292ea
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1-rc1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.5.1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 8634894b41454ef4215a3d4fd503305c720e761a
+host hardware:		x86_64
+host os:		5.2.0-2-amd64
 
-We could, for example, have an extension with would implement something like:
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3-rc1-i686: OK
+linux-5.3-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2331, Succeeded: 2331, Failed: 0, Warnings: 1
+sparse: OK
+smatch: OK
 
-	.. maintainers:: <subdir>
+Detailed results are available here:
 
-Which would call get-maintainers in order to parse a subsystem-specific
-set of entries and printing the maintainership details.
+http://www.xs4all.nl/~hverkuil/logs/Sunday.log
 
-This could be added at the subsystem-specific profile, for the subsystems
-that have it.
+Detailed regression test results are available here:
 
-> 
-> Also, that file is nearly 18K lines long.  If some unsuspecting person
-> generates a PDF and prints it, they're going to get something along the
-> lines of 300 pages of MAINTAINERS, which may not quite be what they had
-> in mind.  It costs (almost) nothing to put that into HTML output, but
-> other formats could be painful.
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
 
-Even if we go for adding a Sphinx tag that would produce a parsed
-output for a system-specific profile, we'll still have several other
-subsystems that won't have a profile for a while, so I would still 
-consider having somewhere an output with its contents. Yeah, someone
-might be tempted to print it, but we could place it on a separate PDF,
-in order to minimize the risks of someone printing the 300+ pages.
+Full logs are available here:
 
-> 
-> So I dunno, we need to think this through a bit...
+http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
 
+The Media Infrastructure API from this daily build is here:
 
-> 
-> jon
-
-
-
-Thanks,
-Mauro
+http://www.xs4all.nl/~hverkuil/spec/index.html
