@@ -2,38 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 19958BA926
-	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 21:51:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 084D6BA91F
+	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 21:51:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404978AbfIVTL5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 22 Sep 2019 15:11:57 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60962 "EHLO mail.kernel.org"
+        id S2395557AbfIVTLh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 22 Sep 2019 15:11:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:32986 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2394870AbfIVS6Q (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 22 Sep 2019 14:58:16 -0400
+        id S2405384AbfIVS6Z (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 22 Sep 2019 14:58:25 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7CEAE214D9;
-        Sun, 22 Sep 2019 18:58:14 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id C69A5214D9;
+        Sun, 22 Sep 2019 18:58:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569178695;
-        bh=F+BBISY2usXO5Kw7pU45xxt7mQnQUjIjnV1fz2gbs68=;
+        s=default; t=1569178704;
+        bh=e0OsJVXdRup6T509mAuK/fbZ1RieDXJfxSYWGYLNNhw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cvy6CmwykOO6F9rgVKgCOJ16ZaJZcZORsGf4n/LbFNDNhGYfLs+b5Zb2dpOvXl3nv
-         d4Xi3YYB5TTsOwZEu2XBkN8jitg+pub73getyQwmmmLKHt8wrrGVu9n9Bn9VsAwhS5
-         jFB1NJL4garArkPBtXB6DGHRLcOMvlV38pOYkv68=
+        b=demiMWVPDGRTmIK+BV/5+F9+utXXhko6Zs811kmTnZT8U8EU0ic69E9Vt/p58E62v
+         imD7BjlHzElxS7lZFC0D3wXEanRq+eIPFeV+06YX/eCnjJMt2N/ohCOVd1gEHs7Azl
+         jchGCDgEf5rspWlf48iayAoQIMMPNLuYGWfijEL8=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 35/89] media: fdp1: Reduce FCP not found message level to debug
-Date:   Sun, 22 Sep 2019 14:56:23 -0400
-Message-Id: <20190922185717.3412-35-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.14 41/89] media: omap3isp: Don't set streaming state on random subdevs
+Date:   Sun, 22 Sep 2019 14:56:29 -0400
+Message-Id: <20190922185717.3412-41-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190922185717.3412-1-sashal@kernel.org>
 References: <20190922185717.3412-1-sashal@kernel.org>
@@ -46,43 +44,48 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Geert Uytterhoeven <geert+renesas@glider.be>
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-[ Upstream commit 4fd22938569c14f6092c05880ca387409d78355f ]
+[ Upstream commit 7ef57be07ac146e70535747797ef4aee0f06e9f9 ]
 
-When support for the IPMMU is not enabled, the FDP driver may be
-probe-deferred multiple times, causing several messages to be printed
-like:
+The streaming state should be set to the first upstream sub-device only,
+not everywhere, for a sub-device driver itself knows how to best control
+the streaming state of its own upstream sub-devices.
 
-    rcar_fdp1 fe940000.fdp1: FCP not found (-517)
-    rcar_fdp1 fe944000.fdp1: FCP not found (-517)
-
-Fix this by reducing the message level to debug level, as is done in the
-VSP1 driver.
-
-Fixes: 4710b752e029f3f8 ("[media] v4l: Add Renesas R-Car FDP1 Driver")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/rcar_fdp1.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/platform/omap3isp/isp.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/media/platform/rcar_fdp1.c b/drivers/media/platform/rcar_fdp1.c
-index a889332d5d309..d8d406c79cfa1 100644
---- a/drivers/media/platform/rcar_fdp1.c
-+++ b/drivers/media/platform/rcar_fdp1.c
-@@ -2310,7 +2310,7 @@ static int fdp1_probe(struct platform_device *pdev)
- 		fdp1->fcp = rcar_fcp_get(fcp_node);
- 		of_node_put(fcp_node);
- 		if (IS_ERR(fdp1->fcp)) {
--			dev_err(&pdev->dev, "FCP not found (%ld)\n",
-+			dev_dbg(&pdev->dev, "FCP not found (%ld)\n",
- 				PTR_ERR(fdp1->fcp));
- 			return PTR_ERR(fdp1->fcp);
+diff --git a/drivers/media/platform/omap3isp/isp.c b/drivers/media/platform/omap3isp/isp.c
+index c834fea5f9b00..b34b6a604f92f 100644
+--- a/drivers/media/platform/omap3isp/isp.c
++++ b/drivers/media/platform/omap3isp/isp.c
+@@ -727,6 +727,10 @@ static int isp_pipeline_enable(struct isp_pipeline *pipe,
+ 					s_stream, mode);
+ 			pipe->do_propagation = true;
  		}
++
++		/* Stop at the first external sub-device. */
++		if (subdev->dev != isp->dev)
++			break;
+ 	}
+ 
+ 	return 0;
+@@ -841,6 +845,10 @@ static int isp_pipeline_disable(struct isp_pipeline *pipe)
+ 						      &subdev->entity);
+ 			failure = -ETIMEDOUT;
+ 		}
++
++		/* Stop at the first external sub-device. */
++		if (subdev->dev != isp->dev)
++			break;
+ 	}
+ 
+ 	return failure;
 -- 
 2.20.1
 
