@@ -2,37 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 64CD6BA3D1
-	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 20:45:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 441B6BA3D3
+	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 20:45:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388970AbfIVSpF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 22 Sep 2019 14:45:05 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40644 "EHLO mail.kernel.org"
+        id S2389004AbfIVSpI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 22 Sep 2019 14:45:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40690 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388952AbfIVSpE (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 22 Sep 2019 14:45:04 -0400
+        id S2388987AbfIVSpH (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 22 Sep 2019 14:45:07 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3434A208C0;
-        Sun, 22 Sep 2019 18:45:03 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id D901A21907;
+        Sun, 22 Sep 2019 18:45:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569177904;
-        bh=CKOJhoQWKwRHugdFdAlJKtgD9dw0sIWNrDvnzJWLrKE=;
+        s=default; t=1569177906;
+        bh=3J51t1zJfEomA/al1Z3i4PXwF7s1o8TPuA25Tg3ecf4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=M2f4PfAF4CoPa3w4OKxTJwxMorEuU+qimBzZbV0G1NpdDeQGAqTijDSNO6RCeK826
-         MyyaiMsDobEyeKK8+6t5t/5SnVgXPSYaGmbQRhhdfEBpd1do1iXNBjeJ8BESjS58e9
-         YQm4VrEkLH6EpfmiDIztItxwAQSyyZ8NWQJ+wmlA=
+        b=D1lrujPBnio+0SB3BXrij/EpHlGAKcp1LFqq2TkdF6Dj6KxVU0UmcjffKH5U6KwgN
+         P21cJpkn3w57LdaLPXml72vtdcmDLTSIu4EybbyTHL0LU/L/TAhHrxW9ehj9jH7I6o
+         lrv+7WRqYatgRA3TE0oO6iL8fKbdBUQX6jnjnXFQ=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+Cc:     Fabio Estevam <festevam@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.3 021/203] media: vivid: work around high stack usage with clang
-Date:   Sun, 22 Sep 2019 14:40:47 -0400
-Message-Id: <20190922184350.30563-21-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.3 023/203] media: i2c: ov5640: Check for devm_gpiod_get_optional() error
+Date:   Sun, 22 Sep 2019 14:40:49 -0400
+Message-Id: <20190922184350.30563-23-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190922184350.30563-1-sashal@kernel.org>
 References: <20190922184350.30563-1-sashal@kernel.org>
@@ -45,56 +44,41 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Arnd Bergmann <arnd@arndb.de>
+From: Fabio Estevam <festevam@gmail.com>
 
-[ Upstream commit 1a03f91c2c2419c3709c4554952c66695575e91c ]
+[ Upstream commit 8791a102ce579346cea9d2f911afef1c1985213c ]
 
-Building a KASAN-enabled kernel with clang ends up in a case where too
-much is inlined into vivid_thread_vid_cap() and the stack usage grows
-a lot, possibly when the register allocation fails to produce efficient
-code and spills a lot of temporaries to the stack. This uses more
-than twice the amount of stack than the sum of the individual functions
-when they are not inlined:
+The power down and reset GPIO are optional, but the return value
+from devm_gpiod_get_optional() needs to be checked and propagated
+in the case of error, so that probe deferral can work.
 
-drivers/media/platform/vivid/vivid-kthread-cap.c:766:12: error: stack frame size of 2208 bytes in function 'vivid_thread_vid_cap' [-Werror,-Wframe-larger-than=]
-
-Marking two of the key functions in here as 'noinline_for_stack' avoids
-the pathological case in clang without any apparent downside for gcc.
-
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-Acked-by: Nick Desaulniers <ndesaulniers@google.com>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Fabio Estevam <festevam@gmail.com>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/vivid/vivid-kthread-cap.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ drivers/media/i2c/ov5640.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/media/platform/vivid/vivid-kthread-cap.c b/drivers/media/platform/vivid/vivid-kthread-cap.c
-index ed466d737a90d..003319d7816d7 100644
---- a/drivers/media/platform/vivid/vivid-kthread-cap.c
-+++ b/drivers/media/platform/vivid/vivid-kthread-cap.c
-@@ -232,8 +232,8 @@ static void *plane_vaddr(struct tpg_data *tpg, struct vivid_buffer *buf,
- 	return vbuf;
- }
+diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+index 759d60c6d6304..afe7920557a8f 100644
+--- a/drivers/media/i2c/ov5640.c
++++ b/drivers/media/i2c/ov5640.c
+@@ -3022,9 +3022,14 @@ static int ov5640_probe(struct i2c_client *client,
+ 	/* request optional power down pin */
+ 	sensor->pwdn_gpio = devm_gpiod_get_optional(dev, "powerdown",
+ 						    GPIOD_OUT_HIGH);
++	if (IS_ERR(sensor->pwdn_gpio))
++		return PTR_ERR(sensor->pwdn_gpio);
++
+ 	/* request optional reset pin */
+ 	sensor->reset_gpio = devm_gpiod_get_optional(dev, "reset",
+ 						     GPIOD_OUT_HIGH);
++	if (IS_ERR(sensor->reset_gpio))
++		return PTR_ERR(sensor->reset_gpio);
  
--static int vivid_copy_buffer(struct vivid_dev *dev, unsigned p, u8 *vcapbuf,
--		struct vivid_buffer *vid_cap_buf)
-+static noinline_for_stack int vivid_copy_buffer(struct vivid_dev *dev, unsigned p,
-+		u8 *vcapbuf, struct vivid_buffer *vid_cap_buf)
- {
- 	bool blank = dev->must_blank[vid_cap_buf->vb.vb2_buf.index];
- 	struct tpg_data *tpg = &dev->tpg;
-@@ -672,7 +672,8 @@ static void vivid_cap_update_frame_period(struct vivid_dev *dev)
- 	dev->cap_frame_period = f_period;
- }
+ 	v4l2_i2c_subdev_init(&sensor->sd, client, &ov5640_subdev_ops);
  
--static void vivid_thread_vid_cap_tick(struct vivid_dev *dev, int dropped_bufs)
-+static noinline_for_stack void vivid_thread_vid_cap_tick(struct vivid_dev *dev,
-+							 int dropped_bufs)
- {
- 	struct vivid_buffer *vid_cap_buf = NULL;
- 	struct vivid_buffer *vbi_cap_buf = NULL;
 -- 
 2.20.1
 
