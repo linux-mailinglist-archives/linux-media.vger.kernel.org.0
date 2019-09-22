@@ -2,36 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 45B2EBA8FD
-	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 21:51:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A157BA8DB
+	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 21:50:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394035AbfIVTKX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 22 Sep 2019 15:10:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33594 "EHLO mail.kernel.org"
+        id S2406441AbfIVTIw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 22 Sep 2019 15:08:52 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34702 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2438810AbfIVS6r (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 22 Sep 2019 14:58:47 -0400
+        id S2393449AbfIVS73 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 22 Sep 2019 14:59:29 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F1CDE2186A;
-        Sun, 22 Sep 2019 18:58:45 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2472F214D9;
+        Sun, 22 Sep 2019 18:59:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569178726;
-        bh=TzclzCnOtcFLt11UKdi3KK8wVXtcXIil06141Ycp/Kk=;
+        s=default; t=1569178769;
+        bh=sySXfSKrLyVqmxbZDPppgpdYcTudYJC6EBHWPkUDGCQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=FPIHSTkAshfwvbWXluz8oYz/PtQ3wsenfEMa7w8y6f0Jx8HM5O4IZXRUSdBIqB5rk
-         iCSlwpNsbIL5UM3vW9587NbjEIv8VPzPFDqTI+Ytu8flHb13NxPsKWan9WF7I9zhRv
-         3M6jSn+zMznWgtJ8MPBgVK03w7u08I44aH2Xkk/I=
+        b=lb7nrKbEqEvWREUw4CBe5IxM32UPE8nYBteLtFCJS9tyPfMUPhXWaxaZHVTYoo06e
+         4YACuQHmkwzDifqscSIsyS3hFXOMVMAU0vH/gTqrHEgOt6Td+4EGkR+is9JA19DAB2
+         nOky6fPX/XwAnlotgGZU11nIf0BScf/i2umgUfKI=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+Cc:     Tomas Bortoli <tomasbortoli@gmail.com>,
+        syzbot+0522702e9d67142379f1@syzkaller.appspotmail.com,
+        Sean Young <sean@mess.org>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 57/89] media: saa7134: fix terminology around saa7134_i2c_eeprom_md7134_gate()
-Date:   Sun, 22 Sep 2019 14:56:45 -0400
-Message-Id: <20190922185717.3412-57-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 87/89] media: ttusb-dec: Fix info-leak in ttusb_dec_send_command()
+Date:   Sun, 22 Sep 2019 14:57:15 -0400
+Message-Id: <20190922185717.3412-87-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190922185717.3412-1-sashal@kernel.org>
 References: <20190922185717.3412-1-sashal@kernel.org>
@@ -44,57 +45,37 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
+From: Tomas Bortoli <tomasbortoli@gmail.com>
 
-[ Upstream commit 9d802222a3405599d6e1984d9324cddf592ea1f4 ]
+[ Upstream commit a10feaf8c464c3f9cfdd3a8a7ce17e1c0d498da1 ]
 
-saa7134_i2c_eeprom_md7134_gate() function and the associated comment uses
-an inverted i2c gate open / closed terminology.
-Let's fix this.
+The function at issue does not always initialize each byte allocated
+for 'b' and can therefore leak uninitialized memory to a USB device in
+the call to usb_bulk_msg()
 
-Signed-off-by: Maciej S. Szmigiero <mail@maciej.szmigiero.name>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-[hverkuil-cisco@xs4all.nl: fix alignment checkpatch warning]
+Use kzalloc() instead of kmalloc()
+
+Signed-off-by: Tomas Bortoli <tomasbortoli@gmail.com>
+Reported-by: syzbot+0522702e9d67142379f1@syzkaller.appspotmail.com
+Signed-off-by: Sean Young <sean@mess.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/pci/saa7134/saa7134-i2c.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ drivers/media/usb/ttusb-dec/ttusb_dec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/pci/saa7134/saa7134-i2c.c b/drivers/media/pci/saa7134/saa7134-i2c.c
-index 8f2ed632840f7..f70a799836840 100644
---- a/drivers/media/pci/saa7134/saa7134-i2c.c
-+++ b/drivers/media/pci/saa7134/saa7134-i2c.c
-@@ -351,7 +351,11 @@ static struct i2c_client saa7134_client_template = {
+diff --git a/drivers/media/usb/ttusb-dec/ttusb_dec.c b/drivers/media/usb/ttusb-dec/ttusb_dec.c
+index cdefb5dfbbdcd..cad2746158160 100644
+--- a/drivers/media/usb/ttusb-dec/ttusb_dec.c
++++ b/drivers/media/usb/ttusb-dec/ttusb_dec.c
+@@ -330,7 +330,7 @@ static int ttusb_dec_send_command(struct ttusb_dec *dec, const u8 command,
  
- /* ----------------------------------------------------------- */
+ 	dprintk("%s\n", __func__);
  
--/* On Medion 7134 reading EEPROM needs DVB-T demod i2c gate open */
-+/*
-+ * On Medion 7134 reading the SAA7134 chip config EEPROM needs DVB-T
-+ * demod i2c gate closed due to an address clash between this EEPROM
-+ * and the demod one.
-+ */
- static void saa7134_i2c_eeprom_md7134_gate(struct saa7134_dev *dev)
- {
- 	u8 subaddr = 0x7, dmdregval;
-@@ -368,14 +372,14 @@ static void saa7134_i2c_eeprom_md7134_gate(struct saa7134_dev *dev)
- 
- 	ret = i2c_transfer(&dev->i2c_adap, i2cgatemsg_r, 2);
- 	if ((ret == 2) && (dmdregval & 0x2)) {
--		pr_debug("%s: DVB-T demod i2c gate was left closed\n",
-+		pr_debug("%s: DVB-T demod i2c gate was left open\n",
- 			 dev->name);
- 
- 		data[0] = subaddr;
- 		data[1] = (dmdregval & ~0x2);
- 		if (i2c_transfer(&dev->i2c_adap, i2cgatemsg_w, 1) != 1)
--			pr_err("%s: EEPROM i2c gate open failure\n",
--			  dev->name);
-+			pr_err("%s: EEPROM i2c gate close failure\n",
-+			       dev->name);
- 	}
- }
+-	b = kmalloc(COMMAND_PACKET_SIZE + 4, GFP_KERNEL);
++	b = kzalloc(COMMAND_PACKET_SIZE + 4, GFP_KERNEL);
+ 	if (!b)
+ 		return -ENOMEM;
  
 -- 
 2.20.1
