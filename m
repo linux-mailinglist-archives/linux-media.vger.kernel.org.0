@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 441B6BA3D3
-	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 20:45:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A8A5BA3E9
+	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 20:46:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389004AbfIVSpI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 22 Sep 2019 14:45:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40690 "EHLO mail.kernel.org"
+        id S2389586AbfIVSpq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 22 Sep 2019 14:45:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41512 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388987AbfIVSpH (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 22 Sep 2019 14:45:07 -0400
+        id S2389409AbfIVSpq (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 22 Sep 2019 14:45:46 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D901A21907;
-        Sun, 22 Sep 2019 18:45:05 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 896BA206C2;
+        Sun, 22 Sep 2019 18:45:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569177906;
-        bh=3J51t1zJfEomA/al1Z3i4PXwF7s1o8TPuA25Tg3ecf4=;
+        s=default; t=1569177945;
+        bh=iPazQ00aOuuilt+GzDQbr9bRbIVeHkRFhHoRkii1JTQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=D1lrujPBnio+0SB3BXrij/EpHlGAKcp1LFqq2TkdF6Dj6KxVU0UmcjffKH5U6KwgN
-         P21cJpkn3w57LdaLPXml72vtdcmDLTSIu4EybbyTHL0LU/L/TAhHrxW9ehj9jH7I6o
-         lrv+7WRqYatgRA3TE0oO6iL8fKbdBUQX6jnjnXFQ=
+        b=gwlaVk9mJVxz/KN69s6DYEMlUA4acajYpHBdHZu9bnPbSWATgeJUOgCyn87sG5niB
+         ru56FtX5eY6JRoSNAUW9xcqfaa8YKpf7Mnc4ZtsthXIjqsNtINdAOZ9tG/1JJy5azZ
+         zrLf/p+cQMN5LewpO9XipmeP6rkavfCOFKv0evtQ=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Fabio Estevam <festevam@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.3 023/203] media: i2c: ov5640: Check for devm_gpiod_get_optional() error
-Date:   Sun, 22 Sep 2019 14:40:49 -0400
-Message-Id: <20190922184350.30563-23-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.3 053/203] media: media/platform: fsl-viu.c: fix build for MICROBLAZE
+Date:   Sun, 22 Sep 2019 14:41:19 -0400
+Message-Id: <20190922184350.30563-53-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190922184350.30563-1-sashal@kernel.org>
 References: <20190922184350.30563-1-sashal@kernel.org>
@@ -44,41 +44,42 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Fabio Estevam <festevam@gmail.com>
+From: Randy Dunlap <rdunlap@infradead.org>
 
-[ Upstream commit 8791a102ce579346cea9d2f911afef1c1985213c ]
+[ Upstream commit 6898dd580a045341f844862ceb775144156ec1af ]
 
-The power down and reset GPIO are optional, but the return value
-from devm_gpiod_get_optional() needs to be checked and propagated
-in the case of error, so that probe deferral can work.
+arch/microblaze/ defines out_be32() and in_be32(), so don't do that
+again in the driver source.
 
-Signed-off-by: Fabio Estevam <festevam@gmail.com>
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Fixes these build warnings:
+
+../drivers/media/platform/fsl-viu.c:36: warning: "out_be32" redefined
+../arch/microblaze/include/asm/io.h:50: note: this is the location of the previous definition
+../drivers/media/platform/fsl-viu.c:37: warning: "in_be32" redefined
+../arch/microblaze/include/asm/io.h:53: note: this is the location of the previous definition
+
+Fixes: 29d750686331 ("media: fsl-viu: allow building it with COMPILE_TEST")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/i2c/ov5640.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/media/platform/fsl-viu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-index 759d60c6d6304..afe7920557a8f 100644
---- a/drivers/media/i2c/ov5640.c
-+++ b/drivers/media/i2c/ov5640.c
-@@ -3022,9 +3022,14 @@ static int ov5640_probe(struct i2c_client *client,
- 	/* request optional power down pin */
- 	sensor->pwdn_gpio = devm_gpiod_get_optional(dev, "powerdown",
- 						    GPIOD_OUT_HIGH);
-+	if (IS_ERR(sensor->pwdn_gpio))
-+		return PTR_ERR(sensor->pwdn_gpio);
-+
- 	/* request optional reset pin */
- 	sensor->reset_gpio = devm_gpiod_get_optional(dev, "reset",
- 						     GPIOD_OUT_HIGH);
-+	if (IS_ERR(sensor->reset_gpio))
-+		return PTR_ERR(sensor->reset_gpio);
+diff --git a/drivers/media/platform/fsl-viu.c b/drivers/media/platform/fsl-viu.c
+index 691be788e38b3..b74e4f50d7d9f 100644
+--- a/drivers/media/platform/fsl-viu.c
++++ b/drivers/media/platform/fsl-viu.c
+@@ -32,7 +32,7 @@
+ #define VIU_VERSION		"0.5.1"
  
- 	v4l2_i2c_subdev_init(&sensor->sd, client, &ov5640_subdev_ops);
- 
+ /* Allow building this driver with COMPILE_TEST */
+-#ifndef CONFIG_PPC
++#if !defined(CONFIG_PPC) && !defined(CONFIG_MICROBLAZE)
+ #define out_be32(v, a)	iowrite32be(a, (void __iomem *)v)
+ #define in_be32(a)	ioread32be((void __iomem *)a)
+ #endif
 -- 
 2.20.1
 
