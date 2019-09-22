@@ -2,38 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 22ECDBAB01
-	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 21:54:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 274F2BAAA7
+	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 21:54:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390929AbfIVTdd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 22 Sep 2019 15:33:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44046 "EHLO mail.kernel.org"
+        id S1731721AbfIVT3R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 22 Sep 2019 15:29:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47216 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2391012AbfIVSrf (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 22 Sep 2019 14:47:35 -0400
+        id S2392822AbfIVSuQ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 22 Sep 2019 14:50:16 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F3C5D21D6C;
-        Sun, 22 Sep 2019 18:47:33 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 16054208C2;
+        Sun, 22 Sep 2019 18:50:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569178054;
-        bh=DdnHqTTMKKfCpDwlPlBDOYddiSHmslJNpMh4FwJwhwI=;
+        s=default; t=1569178215;
+        bh=3J51t1zJfEomA/al1Z3i4PXwF7s1o8TPuA25Tg3ecf4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=zYlnhOseF8RkN0o76SgWfDdxmiLvr1aKWwsdqdCJPZIalDfvyw7c53DtoXEci6PyO
-         yq0huDowfihUaE4/CMRgricZRgEiKmyRXwpL4MbGWyCnG5z2lKjrJRcqlTU9KOhlKz
-         QB1uVIBJSy1uhRcdesY7oDTEl9XHVCNBLUJbFJnE=
+        b=XYMfmH+ZxwN/A+GO25p+04Jf5aXaqPvmItLiboNxDB9nxck02GHKcuwBrik6IsA0o
+         WhMIiOZ3213OEaECRWouCFpQ1gwZOSRCcsS5yew0WZHJLJJG/uSYIJyMZ/PqW1dh/B
+         EamE+jEYwKf7dostFbGE0H6Nuq6+inqnuLYxOChs=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+Cc:     Fabio Estevam <festevam@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.3 131/203] media: ov9650: add a sanity check
-Date:   Sun, 22 Sep 2019 14:42:37 -0400
-Message-Id: <20190922184350.30563-131-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.2 020/185] media: i2c: ov5640: Check for devm_gpiod_get_optional() error
+Date:   Sun, 22 Sep 2019 14:46:38 -0400
+Message-Id: <20190922184924.32534-20-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190922184350.30563-1-sashal@kernel.org>
-References: <20190922184350.30563-1-sashal@kernel.org>
+In-Reply-To: <20190922184924.32534-1-sashal@kernel.org>
+References: <20190922184924.32534-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -43,46 +44,40 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+From: Fabio Estevam <festevam@gmail.com>
 
-[ Upstream commit 093347abc7a4e0490e3c962ecbde2dc272a8f708 ]
+[ Upstream commit 8791a102ce579346cea9d2f911afef1c1985213c ]
 
-As pointed by cppcheck:
+The power down and reset GPIO are optional, but the return value
+from devm_gpiod_get_optional() needs to be checked and propagated
+in the case of error, so that probe deferral can work.
 
-	[drivers/media/i2c/ov9650.c:706]: (error) Shifting by a negative value is undefined behaviour
-	[drivers/media/i2c/ov9650.c:707]: (error) Shifting by a negative value is undefined behaviour
-	[drivers/media/i2c/ov9650.c:721]: (error) Shifting by a negative value is undefined behaviour
-
-Prevent mangling with gains with invalid values.
-
-As pointed by Sylvester, this should never happen in practice,
-as min value of V4L2_CID_GAIN control is 16 (gain is always >= 16
-and m is always >= 0), but it is too hard for a static analyzer
-to get this, as the logic with validates control min/max is
-elsewhere inside V4L2 core.
-
-Reviewed-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
+Signed-off-by: Fabio Estevam <festevam@gmail.com>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/i2c/ov9650.c | 5 +++++
+ drivers/media/i2c/ov5640.c | 5 +++++
  1 file changed, 5 insertions(+)
 
-diff --git a/drivers/media/i2c/ov9650.c b/drivers/media/i2c/ov9650.c
-index 30ab2225fbd0c..b350f5c1a9890 100644
---- a/drivers/media/i2c/ov9650.c
-+++ b/drivers/media/i2c/ov9650.c
-@@ -703,6 +703,11 @@ static int ov965x_set_gain(struct ov965x *ov965x, int auto_gain)
- 		for (m = 6; m >= 0; m--)
- 			if (gain >= (1 << m) * 16)
- 				break;
+diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+index 759d60c6d6304..afe7920557a8f 100644
+--- a/drivers/media/i2c/ov5640.c
++++ b/drivers/media/i2c/ov5640.c
+@@ -3022,9 +3022,14 @@ static int ov5640_probe(struct i2c_client *client,
+ 	/* request optional power down pin */
+ 	sensor->pwdn_gpio = devm_gpiod_get_optional(dev, "powerdown",
+ 						    GPIOD_OUT_HIGH);
++	if (IS_ERR(sensor->pwdn_gpio))
++		return PTR_ERR(sensor->pwdn_gpio);
 +
-+		/* Sanity check: don't adjust the gain with a negative value */
-+		if (m < 0)
-+			return -EINVAL;
-+
- 		rgain = (gain - ((1 << m) * 16)) / (1 << m);
- 		rgain |= (((1 << m) - 1) << 4);
+ 	/* request optional reset pin */
+ 	sensor->reset_gpio = devm_gpiod_get_optional(dev, "reset",
+ 						     GPIOD_OUT_HIGH);
++	if (IS_ERR(sensor->reset_gpio))
++		return PTR_ERR(sensor->reset_gpio);
+ 
+ 	v4l2_i2c_subdev_init(&sensor->sd, client, &ov5640_subdev_ops);
  
 -- 
 2.20.1
