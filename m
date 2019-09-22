@@ -2,35 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 931C0BA840
-	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 21:49:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F081BA85F
+	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 21:50:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729526AbfIVTBv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 22 Sep 2019 15:01:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38146 "EHLO mail.kernel.org"
+        id S1729660AbfIVTCi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 22 Sep 2019 15:02:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38538 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729508AbfIVTBu (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 22 Sep 2019 15:01:50 -0400
+        id S2439087AbfIVTCK (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 22 Sep 2019 15:02:10 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 25CB0206C2;
-        Sun, 22 Sep 2019 19:01:49 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9B253214D9;
+        Sun, 22 Sep 2019 19:02:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569178909;
-        bh=A5/n2+dnHsm+o2DAgqLkioXjOHxRa4b4U34TxnzTCeg=;
+        s=default; t=1569178929;
+        bh=xpL+Zktkj4FG1ObP8MvGMpsubfq7xDXJQA7h+p6dJUA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ZOAm5wvlt9ADBY0Piupnl5PQpFDjPyKbzaPk81WqWk+iulcp5EaTt/y1tdMoo7i7Y
-         dGk+XEXJBuUQeFmCFmWj+U/nmsq7Mmea44/999xHeEYjiRDmFL8QV4u7dfR9u4ol4J
-         mUAdKAgdN3d8Q3dYCH3cn6xMhg061IbN95vhtGLQ=
+        b=EhgpDvi21RaECpdG2JcyDJOUI9aLxb31gAG6kbSbdmeprYJs6JakCak7XkTlHbpgx
+         2cFDNa5PMv9JqKNo48i1NAMTrMGBD3xzoJ5eIjAR4Kv9N1oel8prlUF0YkLng7DFNe
+         44MW3km3uFiot4M+x1LTudsaQnetnPDkS79mUBU8=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+Cc:     Tomas Bortoli <tomasbortoli@gmail.com>,
+        syzbot+0522702e9d67142379f1@syzkaller.appspotmail.com,
+        Sean Young <sean@mess.org>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 29/44] media: ov9650: add a sanity check
-Date:   Sun, 22 Sep 2019 15:00:47 -0400
-Message-Id: <20190922190103.4906-29-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 42/44] media: ttusb-dec: Fix info-leak in ttusb_dec_send_command()
+Date:   Sun, 22 Sep 2019 15:01:00 -0400
+Message-Id: <20190922190103.4906-42-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190922190103.4906-1-sashal@kernel.org>
 References: <20190922190103.4906-1-sashal@kernel.org>
@@ -43,46 +45,37 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+From: Tomas Bortoli <tomasbortoli@gmail.com>
 
-[ Upstream commit 093347abc7a4e0490e3c962ecbde2dc272a8f708 ]
+[ Upstream commit a10feaf8c464c3f9cfdd3a8a7ce17e1c0d498da1 ]
 
-As pointed by cppcheck:
+The function at issue does not always initialize each byte allocated
+for 'b' and can therefore leak uninitialized memory to a USB device in
+the call to usb_bulk_msg()
 
-	[drivers/media/i2c/ov9650.c:706]: (error) Shifting by a negative value is undefined behaviour
-	[drivers/media/i2c/ov9650.c:707]: (error) Shifting by a negative value is undefined behaviour
-	[drivers/media/i2c/ov9650.c:721]: (error) Shifting by a negative value is undefined behaviour
+Use kzalloc() instead of kmalloc()
 
-Prevent mangling with gains with invalid values.
-
-As pointed by Sylvester, this should never happen in practice,
-as min value of V4L2_CID_GAIN control is 16 (gain is always >= 16
-and m is always >= 0), but it is too hard for a static analyzer
-to get this, as the logic with validates control min/max is
-elsewhere inside V4L2 core.
-
-Reviewed-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
+Signed-off-by: Tomas Bortoli <tomasbortoli@gmail.com>
+Reported-by: syzbot+0522702e9d67142379f1@syzkaller.appspotmail.com
+Signed-off-by: Sean Young <sean@mess.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/i2c/ov9650.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/media/usb/ttusb-dec/ttusb_dec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/i2c/ov9650.c b/drivers/media/i2c/ov9650.c
-index 1ee6a5527c384..d11de02ecb63e 100644
---- a/drivers/media/i2c/ov9650.c
-+++ b/drivers/media/i2c/ov9650.c
-@@ -707,6 +707,11 @@ static int ov965x_set_gain(struct ov965x *ov965x, int auto_gain)
- 		for (m = 6; m >= 0; m--)
- 			if (gain >= (1 << m) * 16)
- 				break;
-+
-+		/* Sanity check: don't adjust the gain with a negative value */
-+		if (m < 0)
-+			return -EINVAL;
-+
- 		rgain = (gain - ((1 << m) * 16)) / (1 << m);
- 		rgain |= (((1 << m) - 1) << 4);
+diff --git a/drivers/media/usb/ttusb-dec/ttusb_dec.c b/drivers/media/usb/ttusb-dec/ttusb_dec.c
+index a5de46f04247f..f9b5de7ace01c 100644
+--- a/drivers/media/usb/ttusb-dec/ttusb_dec.c
++++ b/drivers/media/usb/ttusb-dec/ttusb_dec.c
+@@ -272,7 +272,7 @@ static int ttusb_dec_send_command(struct ttusb_dec *dec, const u8 command,
+ 
+ 	dprintk("%s\n", __func__);
+ 
+-	b = kmalloc(COMMAND_PACKET_SIZE + 4, GFP_KERNEL);
++	b = kzalloc(COMMAND_PACKET_SIZE + 4, GFP_KERNEL);
+ 	if (!b)
+ 		return -ENOMEM;
  
 -- 
 2.20.1
