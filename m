@@ -2,36 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F2C46BA48F
-	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 20:56:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A2AF4BA4BA
+	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 20:57:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392611AbfIVSts (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 22 Sep 2019 14:49:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46822 "EHLO mail.kernel.org"
+        id S1729313AbfIVSvV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 22 Sep 2019 14:51:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49102 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2392587AbfIVStr (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 22 Sep 2019 14:49:47 -0400
+        id S1729292AbfIVSvU (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 22 Sep 2019 14:51:20 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 41491208C2;
-        Sun, 22 Sep 2019 18:49:45 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1F06B2196E;
+        Sun, 22 Sep 2019 18:51:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569178186;
-        bh=hur19vWkAiOq3yd3smTM1bKIGxosmEdosTs5oL2XyEc=;
+        s=default; t=1569178280;
+        bh=LYIbF59LRkqGRsnLtIcvlgJlu1D6vqFSlyn1nFHtP2M=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=tq7X2dUbvocKJY5JmnjJAu5qVunSrOWNDdiJPsmpaOJAW4zMsZlCyrCr11zaoyM6c
-         fGPo2w16wnlVYPDY6TeqzC7NwOP06l5eKj1c8qDirK7qkk0h4HrwVosaJ0pBcp+BEX
-         UKZy8tbDVED//qGevEdROtgjXIHwXRabZaw7PdlM=
+        b=c7BrtGkWKIX0s/pDfylMjNXoTUQjQo6khlCTKMxeioB4UmtbO+SUyhLG9mLrdrgMI
+         YxPaNWI3fhg+qEIegP8lQROLZ7iwwcgBH/ouJ1RAto1GfhogfceQhGXsSdVHuGuq7u
+         55yeyvddszirOHxRvNaMy1MoPOoV26XJsOnEL3Z4=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Wen Yang <wen.yang99@zte.com.cn>,
+Cc:     Matthias Brugger <matthias.bgg@gmail.com>,
+        Houlong Wei <houlong.wei@mediatek.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.2 015/185] media: exynos4-is: fix leaked of_node references
-Date:   Sun, 22 Sep 2019 14:46:33 -0400
-Message-Id: <20190922184924.32534-15-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.2 061/185] media: mtk-mdp: fix reference count on old device tree
+Date:   Sun, 22 Sep 2019 14:47:19 -0400
+Message-Id: <20190922184924.32534-61-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190922184924.32534-1-sashal@kernel.org>
 References: <20190922184924.32534-1-sashal@kernel.org>
@@ -44,63 +45,40 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Wen Yang <wen.yang99@zte.com.cn>
+From: Matthias Brugger <matthias.bgg@gmail.com>
 
-[ Upstream commit da79bf41a4d170ca93cc8f3881a70d734a071c37 ]
+[ Upstream commit 864919ea0380e62adb2503b89825fe358acb8216 ]
 
-The call to of_get_child_by_name returns a node pointer with refcount
-incremented thus it must be explicitly decremented after the last
-usage.
+of_get_next_child() increments the reference count of the returning
+device_node. Decrement it in the check if we are using the old or the
+new DTB.
 
-Detected by coccinelle with the following warnings:
-drivers/media/platform/exynos4-is/fimc-is.c:813:2-8: ERROR: missing of_node_put; acquired a node pointer with refcount incremented on line 807, but without a corresponding object release within this function.
-drivers/media/platform/exynos4-is/fimc-is.c:870:1-7: ERROR: missing of_node_put; acquired a node pointer with refcount incremented on line 807, but without a corresponding object release within this function.
-drivers/media/platform/exynos4-is/fimc-is.c:885:1-7: ERROR: missing of_node_put; acquired a node pointer with refcount incremented on line 807, but without a corresponding object release within this function.
-drivers/media/platform/exynos4-is/media-dev.c:545:1-7: ERROR: missing of_node_put; acquired a node pointer with refcount incremented on line 541, but without a corresponding object release within this function.
-drivers/media/platform/exynos4-is/media-dev.c:528:1-7: ERROR: missing of_node_put; acquired a node pointer with refcount incremented on line 499, but without a corresponding object release within this function.
-drivers/media/platform/exynos4-is/media-dev.c:534:1-7: ERROR: missing of_node_put; acquired a node pointer with refcount incremented on line 499, but without a corresponding object release within this function.
-
-Signed-off-by: Wen Yang <wen.yang99@zte.com.cn>
+Fixes: ba1f1f70c2c0 ("[media] media: mtk-mdp: Fix mdp device tree")
+Signed-off-by: Matthias Brugger <matthias.bgg@gmail.com>
+Acked-by: Houlong Wei <houlong.wei@mediatek.com>
+[hverkuil-cisco@xs4all.nl: use node instead of parent as temp variable]
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/exynos4-is/fimc-is.c   | 1 +
- drivers/media/platform/exynos4-is/media-dev.c | 2 ++
- 2 files changed, 3 insertions(+)
+ drivers/media/platform/mtk-mdp/mtk_mdp_core.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/exynos4-is/fimc-is.c b/drivers/media/platform/exynos4-is/fimc-is.c
-index e043d55133a31..b7cc8e651e327 100644
---- a/drivers/media/platform/exynos4-is/fimc-is.c
-+++ b/drivers/media/platform/exynos4-is/fimc-is.c
-@@ -806,6 +806,7 @@ static int fimc_is_probe(struct platform_device *pdev)
- 		return -ENODEV;
+diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
+index fc9faec85edb6..5d44f2e92dd50 100644
+--- a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
++++ b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
+@@ -110,7 +110,9 @@ static int mtk_mdp_probe(struct platform_device *pdev)
+ 	mutex_init(&mdp->vpulock);
  
- 	is->pmu_regs = of_iomap(node, 0);
-+	of_node_put(node);
- 	if (!is->pmu_regs)
- 		return -ENOMEM;
- 
-diff --git a/drivers/media/platform/exynos4-is/media-dev.c b/drivers/media/platform/exynos4-is/media-dev.c
-index 1b83a6ec745fb..3cece7cd73e28 100644
---- a/drivers/media/platform/exynos4-is/media-dev.c
-+++ b/drivers/media/platform/exynos4-is/media-dev.c
-@@ -499,6 +499,7 @@ static int fimc_md_register_sensor_entities(struct fimc_md *fmd)
- 			continue;
- 
- 		ret = fimc_md_parse_port_node(fmd, port, index);
-+		of_node_put(port);
- 		if (ret < 0) {
- 			of_node_put(node);
- 			goto cleanup;
-@@ -538,6 +539,7 @@ static int __of_get_csis_id(struct device_node *np)
- 	if (!np)
- 		return -EINVAL;
- 	of_property_read_u32(np, "reg", &reg);
-+	of_node_put(np);
- 	return reg - FIMC_INPUT_MIPI_CSI2_0;
- }
- 
+ 	/* Old dts had the components as child nodes */
+-	if (of_get_next_child(dev->of_node, NULL)) {
++	node = of_get_next_child(dev->of_node, NULL);
++	if (node) {
++		of_node_put(node);
+ 		parent = dev->of_node;
+ 		dev_warn(dev, "device tree is out of date\n");
+ 	} else {
 -- 
 2.20.1
 
