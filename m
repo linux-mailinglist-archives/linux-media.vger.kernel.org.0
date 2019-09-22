@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 635EABA539
-	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 20:58:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EE3EBA541
+	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 20:58:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404245AbfIVSze (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 22 Sep 2019 14:55:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56812 "EHLO mail.kernel.org"
+        id S2394564AbfIVSzp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 22 Sep 2019 14:55:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57160 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2438384AbfIVSzd (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 22 Sep 2019 14:55:33 -0400
+        id S2438505AbfIVSzn (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 22 Sep 2019 14:55:43 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E271721D81;
-        Sun, 22 Sep 2019 18:55:31 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0CE6A21A4A;
+        Sun, 22 Sep 2019 18:55:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569178532;
-        bh=3TBPpUvQrXT/SFyjnF4LAeHputJ0ewAoJYd6bGHXiIc=;
+        s=default; t=1569178542;
+        bh=n46A0WxBsaP3OlEwVOYLlKlMlSHCyjYYFsBf+0xaCu4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=jDb2RLjvfUasaQ/HfaPXsqGFSutb9zJZtbLH6ZwMXTsdUE1HI/BKtyFv/pW2xoNcO
-         qrWcUXOCNnDYl4BKJV65rQ5LRk6/LfbCmmfn3xHy3KRMS7u/sLiYm78lWkIWBzm7+T
-         ti7E+QMvlJo02rTloh9eLkH3Ik8IiaiB/jtcn/6k=
+        b=Hm6ysLjZ6B41LDdriDSY4M3u3gnlolMHtyQR+ZePYiw1YJDa64LgDfdbbIMiX2Ktm
+         tpp5NgWooh4eB9dEIO5wsbgACIhseFNxkwWbEodSkvaMB5ZfCdquFR0m9J4/r2EM5h
+         B1HT3xLJmcyKMkiDxQb730ovuyFkOONnpISI0iXQ=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        syzbot+79d18aac4bf1770dd050@syzkaller.appspotmail.com,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 055/128] media: omap3isp: Don't set streaming state on random subdevs
-Date:   Sun, 22 Sep 2019 14:53:05 -0400
-Message-Id: <20190922185418.2158-55-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 062/128] media: hdpvr: add terminating 0 at end of string
+Date:   Sun, 22 Sep 2019 14:53:12 -0400
+Message-Id: <20190922185418.2158-62-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190922185418.2158-1-sashal@kernel.org>
 References: <20190922185418.2158-1-sashal@kernel.org>
@@ -44,48 +44,38 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-[ Upstream commit 7ef57be07ac146e70535747797ef4aee0f06e9f9 ]
+[ Upstream commit 8b8900b729e4f31f12ac1127bde137c775c327e6 ]
 
-The streaming state should be set to the first upstream sub-device only,
-not everywhere, for a sub-device driver itself knows how to best control
-the streaming state of its own upstream sub-devices.
+dev->usbc_buf was passed as argument for %s, but it was not safeguarded
+by a terminating 0.
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+This caused this syzbot issue:
+
+https://syzkaller.appspot.com/bug?extid=79d18aac4bf1770dd050
+
+Reported-and-tested-by: syzbot+79d18aac4bf1770dd050@syzkaller.appspotmail.com
+
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/omap3isp/isp.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/media/usb/hdpvr/hdpvr-core.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/media/platform/omap3isp/isp.c b/drivers/media/platform/omap3isp/isp.c
-index 432bc7fbedc99..addd03b517481 100644
---- a/drivers/media/platform/omap3isp/isp.c
-+++ b/drivers/media/platform/omap3isp/isp.c
-@@ -722,6 +722,10 @@ static int isp_pipeline_enable(struct isp_pipeline *pipe,
- 					s_stream, mode);
- 			pipe->do_propagation = true;
- 		}
-+
-+		/* Stop at the first external sub-device. */
-+		if (subdev->dev != isp->dev)
-+			break;
- 	}
+diff --git a/drivers/media/usb/hdpvr/hdpvr-core.c b/drivers/media/usb/hdpvr/hdpvr-core.c
+index 46adee95f89d5..3316a17c141be 100644
+--- a/drivers/media/usb/hdpvr/hdpvr-core.c
++++ b/drivers/media/usb/hdpvr/hdpvr-core.c
+@@ -141,6 +141,7 @@ static int device_authorization(struct hdpvr_device *dev)
  
- 	return 0;
-@@ -836,6 +840,10 @@ static int isp_pipeline_disable(struct isp_pipeline *pipe)
- 						      &subdev->entity);
- 			failure = -ETIMEDOUT;
- 		}
-+
-+		/* Stop at the first external sub-device. */
-+		if (subdev->dev != isp->dev)
-+			break;
- 	}
+ 	dev->fw_ver = dev->usbc_buf[1];
  
- 	return failure;
++	dev->usbc_buf[46] = '\0';
+ 	v4l2_info(&dev->v4l2_dev, "firmware version 0x%x dated %s\n",
+ 			  dev->fw_ver, &dev->usbc_buf[2]);
+ 
 -- 
 2.20.1
 
