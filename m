@@ -2,67 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 98C6ABA13B
-	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 08:06:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F029EBA15F
+	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 09:41:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727595AbfIVGGk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 22 Sep 2019 02:06:40 -0400
-Received: from mail.zabedu.ru ([95.189.97.10]:34106 "EHLO mail.zabedu.ru"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727552AbfIVGGk (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 22 Sep 2019 02:06:40 -0400
-X-Greylist: delayed 29620 seconds by postgrey-1.27 at vger.kernel.org; Sun, 22 Sep 2019 02:06:38 EDT
-Received: from localhost (localhost [127.0.0.1])
-        by mail.zabedu.ru (Postfix) with ESMTP id 5DF1458DB4F;
-        Sun, 22 Sep 2019 05:14:53 +0900 (+09)
-Received: from mail.zabedu.ru ([127.0.0.1])
-        by localhost (mail.zabedu.ru [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id xra6F1VzJbyn; Sun, 22 Sep 2019 05:14:52 +0900 (+09)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.zabedu.ru (Postfix) with ESMTP id 05FF058DAF7;
-        Sun, 22 Sep 2019 05:14:52 +0900 (+09)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.zabedu.ru 05FF058DAF7
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zabedu.ru;
-        s=F4F8CB62-D72E-11E6-B493-75AB9FC1A46C; t=1569096892;
-        bh=FvPwu2qD/HOjuYt+iWAdoRwPr/yDhY30LF9a7mrzGzk=;
-        h=MIME-Version:To:From:Date:Message-Id;
-        b=eBwH9zXYNAk1nL+bzCE6ZQYAf0YzejitomKN/9cMvwBUxp6LyhQ+/e5yz3t7Uy8pl
-         rj4ujK386UjbMCu9imYXLbASZruMk9B3YU5WbfdGGgl49sE61ihPpUEfHIkS7QrWld
-         yiBF31Y32C7i18kvTDEd4hdgfXUQuTTmpVHZEJVU=
-X-Virus-Scanned: amavisd-new at zabedu.ru
-Received: from mail.zabedu.ru ([127.0.0.1])
-        by localhost (mail.zabedu.ru [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id tM6BGw6F6zMY; Sun, 22 Sep 2019 05:14:51 +0900 (+09)
-Received: from MAC12B2.vpnsecure (unknown [125.212.251.87])
-        by mail.zabedu.ru (Postfix) with ESMTPSA id 4DF4658C887;
-        Sun, 22 Sep 2019 05:14:04 +0900 (+09)
-Content-Type: text/plain; charset="iso-8859-1"
+        id S1727747AbfIVHlh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 22 Sep 2019 03:41:37 -0400
+Received: from smtp09.smtpout.orange.fr ([80.12.242.131]:46320 "EHLO
+        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727598AbfIVHlh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sun, 22 Sep 2019 03:41:37 -0400
+Received: from localhost.localdomain ([93.22.150.25])
+        by mwinf5d85 with ME
+        id 4XhW210060Z7Li503XhWTo; Sun, 22 Sep 2019 09:41:32 +0200
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 22 Sep 2019 09:41:32 +0200
+X-ME-IP: 93.22.150.25
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl, tglx@linutronix.de,
+        gregkh@linuxfoundation.org, kstewart@linuxfoundation.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH] [media] cx88: Fix some error handling path in 'cx8800_initdev()'
+Date:   Sun, 22 Sep 2019 09:41:23 +0200
+Message-Id: <20190922074123.29124-1-christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: my subject Jag
-To:     Recipients <shs_srtn_1.srtn@zabedu.ru>
-From:   shs_srtn_1.srtn@zabedu.ru
-Date:   Sun, 22 Sep 2019 00:11:38 +0400
-Reply-To: liushiyu688@gmail.com
-Message-Id: <20190921201405.4DF4658C887@mail.zabedu.ru>
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Jag heter Liu Shiyu, jag har ett gynnsamt aff=E4rsf=F6rslag f=F6r
-du? Ignorera inte detta meddelande. Se till att du svarar mig
-entr=E4get.
+A call to 'pci_disable_device()' is missing in the error handling path.
+In some cases, a call to 'free_irq()' may also be missing.
 
-V=E4nliga h=E4lsningar,
-Herr Liu Shiyu
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-My name is Mr. Liu Shiyu, I have a favorable business proposal for
-you? Please do not ignore this message. Make sure you answer me
-urgently.
+Reorder the error handling path, add some new labels and fix the 2 issues
+mentionned above.
 
-Best regards,
-Mr. Liu Shiyu
+This way, the error handling path in more in line with 'cx8800_finidev()'
+(i.e. the remove function)
+
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+It is likely that this is still incomplete, but at least it should be
+better :)
+---
+ drivers/media/pci/cx88/cx88-video.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/media/pci/cx88/cx88-video.c b/drivers/media/pci/cx88/cx88-video.c
+index dcc0f02aeb70..b8abcd550604 100644
+--- a/drivers/media/pci/cx88/cx88-video.c
++++ b/drivers/media/pci/cx88/cx88-video.c
+@@ -1277,7 +1277,7 @@ static int cx8800_initdev(struct pci_dev *pci_dev,
+ 	core = cx88_core_get(dev->pci);
+ 	if (!core) {
+ 		err = -EINVAL;
+-		goto fail_free;
++		goto fail_disable;
+ 	}
+ 	dev->core = core;
+ 
+@@ -1323,7 +1323,7 @@ static int cx8800_initdev(struct pci_dev *pci_dev,
+ 				       cc->step, cc->default_value);
+ 		if (!vc) {
+ 			err = core->audio_hdl.error;
+-			goto fail_core;
++			goto fail_irq;
+ 		}
+ 		vc->priv = (void *)cc;
+ 	}
+@@ -1337,7 +1337,7 @@ static int cx8800_initdev(struct pci_dev *pci_dev,
+ 				       cc->step, cc->default_value);
+ 		if (!vc) {
+ 			err = core->video_hdl.error;
+-			goto fail_core;
++			goto fail_irq;
+ 		}
+ 		vc->priv = (void *)cc;
+ 		if (vc->id == V4L2_CID_CHROMA_AGC)
+@@ -1509,11 +1509,14 @@ static int cx8800_initdev(struct pci_dev *pci_dev,
+ 
+ fail_unreg:
+ 	cx8800_unregister_video(dev);
+-	free_irq(pci_dev->irq, dev);
+ 	mutex_unlock(&core->lock);
++fail_irq:
++	free_irq(pci_dev->irq, dev);
+ fail_core:
+ 	core->v4ldev = NULL;
+ 	cx88_core_put(core, dev->pci);
++fail_disable:
++	pci_disable_device(pci_dev);
+ fail_free:
+ 	kfree(dev);
+ 	return err;
+-- 
+2.20.1
+
