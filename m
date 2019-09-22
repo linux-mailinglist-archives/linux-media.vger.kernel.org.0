@@ -2,37 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2341BBA885
-	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 21:50:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 17154BA87E
+	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 21:50:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729883AbfIVTEn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 22 Sep 2019 15:04:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37296 "EHLO mail.kernel.org"
+        id S1729843AbfIVTET (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 22 Sep 2019 15:04:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37532 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725820AbfIVTBM (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 22 Sep 2019 15:01:12 -0400
+        id S2395326AbfIVTBW (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 22 Sep 2019 15:01:22 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 04BAE214D9;
-        Sun, 22 Sep 2019 19:01:10 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id F15022070C;
+        Sun, 22 Sep 2019 19:01:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569178871;
-        bh=cuZo9s602fDcrRD5mupxhsazaMcvhkTI6YHA7sdWTV4=;
+        s=default; t=1569178881;
+        bh=cEno2wrjPI9YrH8bPe4reOWiOUsn/oHZHDpE5clJ76o=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=1w4N9ctZPXmo4J7WgJwqEVW73Da7az6l2rGD9eTJQOCcfQdDHh0SrzHgBM56cIP5O
-         IB+Qd9NXlure/DvSxsoZqLDgbYCY9VhhX2jZVQ6edY8COXRPd9lNUD2VwRNzDOYhdC
-         NxnNGNQgCYHeFVG54wOhF95zLEHKrv4ItgQPHEYI=
+        b=rHgTM6z5YQEd2uMAtuhRAVwO0w9rNdITAh02kx0plL/Dz+01FhUkkgxC5mHJMy/Qs
+         xSBbYzJx5oHpBJkquPuf6E25taRO7Eve8FIUSGrsp+HHxn6n0WVr40VbtqU547tSje
+         XZGJ0vzw4FvHmM6SVwEVm6onyVtJPPkTuwVBwkII=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Luke Nowakowski-Krijger <lnowakow@eng.ucsd.edu>,
-        syzbot+aac8d0d7205f112045d2@syzkaller.appspotmail.com,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+Cc:     Oliver Neukum <oneukum@suse.com>,
+        syzbot+01a77b82edaa374068e1@syzkaller.appspotmail.com,
+        Sean Young <sean@mess.org>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.4 06/44] media: hdpvr: Add device num check and handling
-Date:   Sun, 22 Sep 2019 15:00:24 -0400
-Message-Id: <20190922190103.4906-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.4 13/44] media: iguanair: add sanity checks
+Date:   Sun, 22 Sep 2019 15:00:31 -0400
+Message-Id: <20190922190103.4906-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190922190103.4906-1-sashal@kernel.org>
 References: <20190922190103.4906-1-sashal@kernel.org>
@@ -45,57 +45,59 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Luke Nowakowski-Krijger <lnowakow@eng.ucsd.edu>
+From: Oliver Neukum <oneukum@suse.com>
 
-[ Upstream commit d4a6a9537bc32811486282206ecfb7c53754b74d ]
+[ Upstream commit ab1cbdf159beba7395a13ab70bc71180929ca064 ]
 
-Add hdpvr device num check and error handling
+The driver needs to check the endpoint types, too, as opposed
+to the number of endpoints. This also requires moving the check earlier.
 
-We need to increment the device count atomically before we checkout a
-device to make sure that we do not reach the max count, otherwise we get
-out-of-bounds errors as reported by syzbot.
-
-Reported-and-tested-by: syzbot+aac8d0d7205f112045d2@syzkaller.appspotmail.com
-
-Signed-off-by: Luke Nowakowski-Krijger <lnowakow@eng.ucsd.edu>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Reported-by: syzbot+01a77b82edaa374068e1@syzkaller.appspotmail.com
+Signed-off-by: Oliver Neukum <oneukum@suse.com>
+Signed-off-by: Sean Young <sean@mess.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/usb/hdpvr/hdpvr-core.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ drivers/media/rc/iguanair.c | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/media/usb/hdpvr/hdpvr-core.c b/drivers/media/usb/hdpvr/hdpvr-core.c
-index 08f0ca7aa012e..924517b09fc9f 100644
---- a/drivers/media/usb/hdpvr/hdpvr-core.c
-+++ b/drivers/media/usb/hdpvr/hdpvr-core.c
-@@ -278,6 +278,7 @@ static int hdpvr_probe(struct usb_interface *interface,
- #endif
- 	size_t buffer_size;
- 	int i;
-+	int dev_num;
- 	int retval = -ENOMEM;
+diff --git a/drivers/media/rc/iguanair.c b/drivers/media/rc/iguanair.c
+index ee60e17fba05d..cda4ce612dcf5 100644
+--- a/drivers/media/rc/iguanair.c
++++ b/drivers/media/rc/iguanair.c
+@@ -430,6 +430,10 @@ static int iguanair_probe(struct usb_interface *intf,
+ 	int ret, pipein, pipeout;
+ 	struct usb_host_interface *idesc;
  
- 	/* allocate memory for our device state and initialize it */
-@@ -386,8 +387,17 @@ static int hdpvr_probe(struct usb_interface *interface,
- 	}
- #endif
- 
-+	dev_num = atomic_inc_return(&dev_nr);
-+	if (dev_num >= HDPVR_MAX) {
-+		v4l2_err(&dev->v4l2_dev,
-+			 "max device number reached, device register failed\n");
-+		atomic_dec(&dev_nr);
-+		retval = -ENODEV;
-+		goto reg_fail;
-+	}
++	idesc = intf->altsetting;
++	if (idesc->desc.bNumEndpoints < 2)
++		return -ENODEV;
 +
- 	retval = hdpvr_register_videodev(dev, &interface->dev,
--				    video_nr[atomic_inc_return(&dev_nr)]);
-+				    video_nr[dev_num]);
- 	if (retval < 0) {
- 		v4l2_err(&dev->v4l2_dev, "registering videodev failed\n");
- 		goto reg_fail;
+ 	ir = kzalloc(sizeof(*ir), GFP_KERNEL);
+ 	rc = rc_allocate_device();
+ 	if (!ir || !rc) {
+@@ -444,18 +448,13 @@ static int iguanair_probe(struct usb_interface *intf,
+ 	ir->urb_in = usb_alloc_urb(0, GFP_KERNEL);
+ 	ir->urb_out = usb_alloc_urb(0, GFP_KERNEL);
+ 
+-	if (!ir->buf_in || !ir->packet || !ir->urb_in || !ir->urb_out) {
++	if (!ir->buf_in || !ir->packet || !ir->urb_in || !ir->urb_out ||
++	    !usb_endpoint_is_int_in(&idesc->endpoint[0].desc) ||
++	    !usb_endpoint_is_int_out(&idesc->endpoint[1].desc)) {
+ 		ret = -ENOMEM;
+ 		goto out;
+ 	}
+ 
+-	idesc = intf->altsetting;
+-
+-	if (idesc->desc.bNumEndpoints < 2) {
+-		ret = -ENODEV;
+-		goto out;
+-	}
+-
+ 	ir->rc = rc;
+ 	ir->dev = &intf->dev;
+ 	ir->udev = udev;
 -- 
 2.20.1
 
