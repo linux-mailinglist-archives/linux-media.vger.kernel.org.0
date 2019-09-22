@@ -2,40 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CA71ABA564
-	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 20:58:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B158ABA572
+	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 20:58:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394789AbfIVS5K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 22 Sep 2019 14:57:10 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59594 "EHLO mail.kernel.org"
+        id S2438495AbfIVS5d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 22 Sep 2019 14:57:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60114 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2394783AbfIVS5J (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 22 Sep 2019 14:57:09 -0400
+        id S2394850AbfIVS5c (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 22 Sep 2019 14:57:32 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 41591206C2;
-        Sun, 22 Sep 2019 18:57:08 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id DAF322186A;
+        Sun, 22 Sep 2019 18:57:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569178629;
-        bh=QrVb8AKqGho74elpDM3t5GaiRxbdvP6AAaWnOKIF96A=;
+        s=default; t=1569178651;
+        bh=nE9nz5evbkAO8wmG0ixscqvwNdd1KDUNZZz1Dyjbub8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=elu7Isr8NGOyhVLs4M69M8OJSxJ4WTG1VXYqv12DFqjIxOrmXe197h5tkOXVNegzZ
-         dDZn15OuMB+m0JXIDWnsbEja0xDJZVGOXX8EgWXHmo/CqjoQvnPSeMKQq164WI3whD
-         DjzdwkFZTlaZ0efq3Pm7Zx0QkgamZADzHqrzif70=
+        b=mdhtEGc0kKueewHy1hSq5zc0i5gV83SGPLLnSVVMs9Ve6fVO5OLmNsbhZNpxRMfyQ
+         wmvyTdxte6CgFqTwHVBNTKZYpRxVr5GiIJPcynuLI7CGzwu/Fuxhc3L0INq5coUWwt
+         WmyKpdrlCFb8feCG9bouEesaaBS3cLS7IKTRi5HA=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Tomas Bortoli <tomasbortoli@gmail.com>,
-        syzbot+0522702e9d67142379f1@syzkaller.appspotmail.com,
-        Sean Young <sean@mess.org>,
+Cc:     Sean Young <sean@mess.org>, Sean Wang <sean.wang@kernel.org>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 125/128] media: ttusb-dec: Fix info-leak in ttusb_dec_send_command()
-Date:   Sun, 22 Sep 2019 14:54:15 -0400
-Message-Id: <20190922185418.2158-125-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 07/89] media: mtk-cir: lower de-glitch counter for rc-mm protocol
+Date:   Sun, 22 Sep 2019 14:55:55 -0400
+Message-Id: <20190922185717.3412-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190922185418.2158-1-sashal@kernel.org>
-References: <20190922185418.2158-1-sashal@kernel.org>
+In-Reply-To: <20190922185717.3412-1-sashal@kernel.org>
+References: <20190922185717.3412-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -45,38 +43,49 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Tomas Bortoli <tomasbortoli@gmail.com>
+From: Sean Young <sean@mess.org>
 
-[ Upstream commit a10feaf8c464c3f9cfdd3a8a7ce17e1c0d498da1 ]
+[ Upstream commit 5dd4b89dc098bf22cd13e82a308f42a02c102b2b ]
 
-The function at issue does not always initialize each byte allocated
-for 'b' and can therefore leak uninitialized memory to a USB device in
-the call to usb_bulk_msg()
+The rc-mm protocol can't be decoded by the mtk-cir since the de-glitch
+filter removes pulses/spaces shorter than 294 microseconds.
 
-Use kzalloc() instead of kmalloc()
+Tested on a BananaPi R2.
 
-Signed-off-by: Tomas Bortoli <tomasbortoli@gmail.com>
-Reported-by: syzbot+0522702e9d67142379f1@syzkaller.appspotmail.com
 Signed-off-by: Sean Young <sean@mess.org>
+Acked-by: Sean Wang <sean.wang@kernel.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/usb/ttusb-dec/ttusb_dec.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/rc/mtk-cir.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/media/usb/ttusb-dec/ttusb_dec.c b/drivers/media/usb/ttusb-dec/ttusb_dec.c
-index 44ca66cb9b8f1..f34efa7c61b40 100644
---- a/drivers/media/usb/ttusb-dec/ttusb_dec.c
-+++ b/drivers/media/usb/ttusb-dec/ttusb_dec.c
-@@ -329,7 +329,7 @@ static int ttusb_dec_send_command(struct ttusb_dec *dec, const u8 command,
+diff --git a/drivers/media/rc/mtk-cir.c b/drivers/media/rc/mtk-cir.c
+index e88eb64e8e693..00a4a0dfcab87 100644
+--- a/drivers/media/rc/mtk-cir.c
++++ b/drivers/media/rc/mtk-cir.c
+@@ -44,6 +44,11 @@
+ /* Fields containing pulse width data */
+ #define MTK_WIDTH_MASK		  (GENMASK(7, 0))
  
- 	dprintk("%s\n", __func__);
++/* IR threshold */
++#define MTK_IRTHD		 0x14
++#define MTK_DG_CNT_MASK		 (GENMASK(12, 8))
++#define MTK_DG_CNT(x)		 ((x) << 8)
++
+ /* Bit to enable interrupt */
+ #define MTK_IRINT_EN		  BIT(0)
  
--	b = kmalloc(COMMAND_PACKET_SIZE + 4, GFP_KERNEL);
-+	b = kzalloc(COMMAND_PACKET_SIZE + 4, GFP_KERNEL);
- 	if (!b)
- 		return -ENOMEM;
+@@ -411,6 +416,9 @@ static int mtk_ir_probe(struct platform_device *pdev)
+ 	mtk_w32_mask(ir, val, ir->data->fields[MTK_HW_PERIOD].mask,
+ 		     ir->data->fields[MTK_HW_PERIOD].reg);
  
++	/* Set de-glitch counter */
++	mtk_w32_mask(ir, MTK_DG_CNT(1), MTK_DG_CNT_MASK, MTK_IRTHD);
++
+ 	/* Enable IR and PWM */
+ 	val = mtk_r32(ir, MTK_CONFIG_HIGH_REG);
+ 	val |= MTK_OK_COUNT(ir->data->ok_count) |  MTK_PWM_EN | MTK_IR_EN;
 -- 
 2.20.1
 
