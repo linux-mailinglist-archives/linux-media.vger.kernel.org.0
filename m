@@ -2,35 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C438EBAB39
-	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 21:55:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A9ECBAB36
+	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 21:55:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406742AbfIVTgS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 22 Sep 2019 15:36:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42464 "EHLO mail.kernel.org"
+        id S2439200AbfIVTgB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 22 Sep 2019 15:36:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42718 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389879AbfIVSqW (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 22 Sep 2019 14:46:22 -0400
+        id S2389892AbfIVSqd (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 22 Sep 2019 14:46:33 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B24E2206B6;
-        Sun, 22 Sep 2019 18:46:20 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id E8F9720882;
+        Sun, 22 Sep 2019 18:46:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569177981;
-        bh=/gOo4WZ1NVLy14zDedgsXiyLcv0A5qENps5nn1jtGQg=;
+        s=default; t=1569177992;
+        bh=7p/PpIJVXp3yefC5Tsd+O11UJMhZ4iW3qIEvbURNxrk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=xVcNyBus8Fak2S6X7sqruhTQQd9VVYqiSu5sqXCu13b8aLjJRhbZTx8pxhOwBzhcy
-         n8o6H4nUj7qDUCRJGIxGRmpxT1yLiqw7j/UCD4RWex8GY01pigKX2I5yWCjq2ZyNX7
-         +TeW06qOwhjOMT8AZ9vQaMnMKk0cWrwG3MQDiF5M=
+        b=Iv9NxLeplQw1hN6d33wVtJoQLx65rTXRAKAdBM126120OShSfpPkOXaRZSK74Jm7g
+         4Ttm20L2il0Ju+PFHsaq6HfEKOatjZWwXUTN830tUm4nDF9gM67K7QSRZmMwmBCp+B
+         sXoreKhIMmza9ApSuxzmOdNTII3u1uUKeMA3iK1k=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Darius Rad <alpha@area49.net>, Sean Young <sean@mess.org>,
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.3 076/203] media: rc: imon: Allow iMON RC protocol for ffdc 7e device
-Date:   Sun, 22 Sep 2019 14:41:42 -0400
-Message-Id: <20190922184350.30563-76-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.3 084/203] media: omap3isp: Don't set streaming state on random subdevs
+Date:   Sun, 22 Sep 2019 14:41:50 -0400
+Message-Id: <20190922184350.30563-84-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190922184350.30563-1-sashal@kernel.org>
 References: <20190922184350.30563-1-sashal@kernel.org>
@@ -43,51 +44,48 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Darius Rad <alpha@area49.net>
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-[ Upstream commit b20a6e298bcb8cb8ae18de26baaf462a6418515b ]
+[ Upstream commit 7ef57be07ac146e70535747797ef4aee0f06e9f9 ]
 
-Allow selecting the IR protocol, MCE or iMON, for a device that
-identifies as follows (with config id 0x7e):
+The streaming state should be set to the first upstream sub-device only,
+not everywhere, for a sub-device driver itself knows how to best control
+the streaming state of its own upstream sub-devices.
 
-15c2:ffdc SoundGraph Inc. iMON PAD Remote Controller
-
-As the driver is structured to default to iMON when both RC
-protocols are supported, existing users of this device (using MCE
-protocol) will need to manually switch to MCE (RC-6) protocol from
-userspace (with ir-keytable, sysfs).
-
-Signed-off-by: Darius Rad <alpha@area49.net>
-Signed-off-by: Sean Young <sean@mess.org>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/rc/imon.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/media/platform/omap3isp/isp.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/media/rc/imon.c b/drivers/media/rc/imon.c
-index 7bee72108b0ee..37a850421fbb1 100644
---- a/drivers/media/rc/imon.c
-+++ b/drivers/media/rc/imon.c
-@@ -1826,12 +1826,17 @@ static void imon_get_ffdc_type(struct imon_context *ictx)
- 		break;
- 	/* iMON VFD, MCE IR */
- 	case 0x46:
--	case 0x7e:
- 	case 0x9e:
- 		dev_info(ictx->dev, "0xffdc iMON VFD, MCE IR");
- 		detected_display_type = IMON_DISPLAY_TYPE_VFD;
- 		allowed_protos = RC_PROTO_BIT_RC6_MCE;
- 		break;
-+	/* iMON VFD, iMON or MCE IR */
-+	case 0x7e:
-+		dev_info(ictx->dev, "0xffdc iMON VFD, iMON or MCE IR");
-+		detected_display_type = IMON_DISPLAY_TYPE_VFD;
-+		allowed_protos |= RC_PROTO_BIT_RC6_MCE;
-+		break;
- 	/* iMON LCD, MCE IR */
- 	case 0x9f:
- 		dev_info(ictx->dev, "0xffdc iMON LCD, MCE IR");
+diff --git a/drivers/media/platform/omap3isp/isp.c b/drivers/media/platform/omap3isp/isp.c
+index 83216fc7156b3..9cdb43859ae09 100644
+--- a/drivers/media/platform/omap3isp/isp.c
++++ b/drivers/media/platform/omap3isp/isp.c
+@@ -719,6 +719,10 @@ static int isp_pipeline_enable(struct isp_pipeline *pipe,
+ 					s_stream, mode);
+ 			pipe->do_propagation = true;
+ 		}
++
++		/* Stop at the first external sub-device. */
++		if (subdev->dev != isp->dev)
++			break;
+ 	}
+ 
+ 	return 0;
+@@ -833,6 +837,10 @@ static int isp_pipeline_disable(struct isp_pipeline *pipe)
+ 						      &subdev->entity);
+ 			failure = -ETIMEDOUT;
+ 		}
++
++		/* Stop at the first external sub-device. */
++		if (subdev->dev != isp->dev)
++			break;
+ 	}
+ 
+ 	return failure;
 -- 
 2.20.1
 
