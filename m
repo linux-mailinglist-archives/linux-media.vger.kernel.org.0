@@ -2,36 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B27BDBA9A0
-	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 21:52:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 784F4BA98C
+	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 21:52:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730866AbfIVTR3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 22 Sep 2019 15:17:29 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57080 "EHLO mail.kernel.org"
+        id S2436941AbfIVTQ3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 22 Sep 2019 15:16:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57842 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2392190AbfIVSzl (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 22 Sep 2019 14:55:41 -0400
+        id S2408154AbfIVS4E (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 22 Sep 2019 14:56:04 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9C3E521D7A;
-        Sun, 22 Sep 2019 18:55:40 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id C1F51206C2;
+        Sun, 22 Sep 2019 18:56:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569178541;
-        bh=pClu90STKLB18oeln6ktnsGd79j8DaMmJ6BX0IqDGQM=;
+        s=default; t=1569178563;
+        bh=mn1239LQ4bPELmDLxiZL6N61urwswicdb7wLJtJNYuI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=n/UJcOEXLi5WMKgHEbRQCNA+y1zoCODfVnWuTKjGYujl3Nr2SLHF5QFxPl9g6yguy
-         +p/PIuX7ICbFn95mmYMy3bzSb8HK2eCdrjknq3CoIIa+zMmMUzw7oZCVTfho6M3i+i
-         6O9h5vYrI6KPt2h7ZRktUQC6JeYpmrg7/wmWrPTU=
+        b=bImn4mqnloTmeJJiblteliyJhd4hP83Ce0ezuyrCMvAvcuytHIvV3DmWQtbwFY/GN
+         2EmdFEWBB+FIBorEPTTYbBQAz/ygw/SkER6hcYEM9PNRD5k3HW3IkJGcPh0d0weO3L
+         5BH0Ppfwf/xwRi4i+4HEBoGPtOOPy55PojDEZ9gc=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        syzbot+2d4fc2a0c45ad8da7e99@syzkaller.appspotmail.com,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 061/128] media: radio/si470x: kill urb on error
-Date:   Sun, 22 Sep 2019 14:53:11 -0400
-Message-Id: <20190922185418.2158-61-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 077/128] media: cec-notifier: clear cec_adap in cec_notifier_unregister
+Date:   Sun, 22 Sep 2019 14:53:27 -0400
+Message-Id: <20190922185418.2158-77-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190922185418.2158-1-sashal@kernel.org>
 References: <20190922185418.2158-1-sashal@kernel.org>
@@ -46,55 +45,43 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-[ Upstream commit 0d616f2a3fdbf1304db44d451d9f07008556923b ]
+[ Upstream commit 14d5511691e5290103bc480998bc322e68f139d4 ]
 
-In the probe() function radio->int_in_urb was not killed if an
-error occurred in the probe sequence. It was also missing in
-the disconnect.
+If cec_notifier_cec_adap_unregister() is called before
+cec_unregister_adapter() then everything is OK (and this is the
+case today). But if it is the other way around, then
+cec_notifier_unregister() is called first, and that doesn't
+set n->cec_adap to NULL.
 
-This caused this syzbot issue:
+So if e.g. cec_notifier_set_phys_addr() is called after
+cec_notifier_unregister() but before cec_unregister_adapter()
+then n->cec_adap points to an unregistered and likely deleted
+cec adapter. So just set n->cec_adap->notifier and n->cec_adap
+to NULL for rubustness.
 
-https://syzkaller.appspot.com/bug?extid=2d4fc2a0c45ad8da7e99
-
-Reported-and-tested-by: syzbot+2d4fc2a0c45ad8da7e99@syzkaller.appspotmail.com
+Eventually cec_notifier_unregister will disappear and this will
+be simplified substantially.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/radio/si470x/radio-si470x-usb.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/media/cec/cec-notifier.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/media/radio/si470x/radio-si470x-usb.c b/drivers/media/radio/si470x/radio-si470x-usb.c
-index 313a95f195a27..19e381dd58089 100644
---- a/drivers/media/radio/si470x/radio-si470x-usb.c
-+++ b/drivers/media/radio/si470x/radio-si470x-usb.c
-@@ -743,7 +743,7 @@ static int si470x_usb_driver_probe(struct usb_interface *intf,
- 	/* start radio */
- 	retval = si470x_start_usb(radio);
- 	if (retval < 0)
--		goto err_all;
-+		goto err_buf;
- 
- 	/* set initial frequency */
- 	si470x_set_freq(radio, 87.5 * FREQ_MUL); /* available in all regions */
-@@ -758,6 +758,8 @@ static int si470x_usb_driver_probe(struct usb_interface *intf,
- 
- 	return 0;
- err_all:
-+	usb_kill_urb(radio->int_in_urb);
-+err_buf:
- 	kfree(radio->buffer);
- err_ctrl:
- 	v4l2_ctrl_handler_free(&radio->hdl);
-@@ -831,6 +833,7 @@ static void si470x_usb_driver_disconnect(struct usb_interface *intf)
- 	mutex_lock(&radio->lock);
- 	v4l2_device_disconnect(&radio->v4l2_dev);
- 	video_unregister_device(&radio->videodev);
-+	usb_kill_urb(radio->int_in_urb);
- 	usb_set_intfdata(intf, NULL);
- 	mutex_unlock(&radio->lock);
- 	v4l2_device_put(&radio->v4l2_dev);
+diff --git a/drivers/media/cec/cec-notifier.c b/drivers/media/cec/cec-notifier.c
+index dd2078b27a419..2424680f71c3d 100644
+--- a/drivers/media/cec/cec-notifier.c
++++ b/drivers/media/cec/cec-notifier.c
+@@ -123,6 +123,8 @@ void cec_notifier_unregister(struct cec_notifier *n)
+ {
+ 	mutex_lock(&n->lock);
+ 	n->callback = NULL;
++	n->cec_adap->notifier = NULL;
++	n->cec_adap = NULL;
+ 	mutex_unlock(&n->lock);
+ 	cec_notifier_put(n);
+ }
 -- 
 2.20.1
 
