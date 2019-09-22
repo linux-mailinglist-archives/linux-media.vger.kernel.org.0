@@ -2,40 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 86244BA5EA
-	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 21:45:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4878BBA5F2
+	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 21:45:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390076AbfIVSqg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 22 Sep 2019 14:46:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42788 "EHLO mail.kernel.org"
+        id S2390214AbfIVSqr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 22 Sep 2019 14:46:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43102 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390057AbfIVSqf (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 22 Sep 2019 14:46:35 -0400
+        id S2390199AbfIVSqr (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 22 Sep 2019 14:46:47 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 16C9E21971;
-        Sun, 22 Sep 2019 18:46:33 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 81FBD21A4A;
+        Sun, 22 Sep 2019 18:46:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569177994;
-        bh=UgYhas+Ne82pUddsBnQzmIKiDCnGAB4Tisqknu33vB4=;
+        s=default; t=1569178006;
+        bh=Crki/rhPZBSSiGnUAfWFpCxUMjGFSdR3yUOWDXh92Rk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=DcnKPPdNE+BwCuiKQhiUe420xuiDnPZ3hGZFdMXEgg+iswj0Et8ceIpu66PhIyzS4
-         9xtwaJ6NkhT0RBkG1Nq/g2pbFX/3u1QSX67vNOGW/HcDoI5mNfoLsFyoo0fvN3zM+u
-         Ep6ot950ljYLPJxa4SZI3p4tLdyeq10YARz0n5NY=
+        b=oIm3S1cYk/aR1CRgjINalV9R0zuHRZ38IfDYD9lSaLODJ080xR7oQNThdBcX1uXKk
+         esjr6mI5T2f40Nfoa9XgqNUAezy4rdQXaIkxhK0vXjrymXp2Knml5lK8TerG4hJKrq
+         2eupm4goe0QKkn9Wa6UDEkcLoP+FmiiwmcW6gUgY=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        syzbot+2d4fc2a0c45ad8da7e99@syzkaller.appspotmail.com,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
-        devel@driverdev.osuosl.org
-Subject: [PATCH AUTOSEL 5.3 085/203] media: imx: mipi csi-2: Don't fail if initial state times-out
-Date:   Sun, 22 Sep 2019 14:41:51 -0400
-Message-Id: <20190922184350.30563-85-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.3 094/203] media: radio/si470x: kill urb on error
+Date:   Sun, 22 Sep 2019 14:42:00 -0400
+Message-Id: <20190922184350.30563-94-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190922184350.30563-1-sashal@kernel.org>
 References: <20190922184350.30563-1-sashal@kernel.org>
@@ -48,73 +44,57 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Ezequiel Garcia <ezequiel@collabora.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-[ Upstream commit 0d5078c7172c46db6c58718d817b9fcf769554b4 ]
+[ Upstream commit 0d616f2a3fdbf1304db44d451d9f07008556923b ]
 
-Not all sensors will be able to guarantee a proper initial state.
-This may be either because the driver is not properly written,
-or (probably unlikely) because the hardware won't support it.
+In the probe() function radio->int_in_urb was not killed if an
+error occurred in the probe sequence. It was also missing in
+the disconnect.
 
-While the right solution in the former case is to fix the sensor
-driver, the real world not always allows right solutions, due to lack
-of available documentation and support on these sensors.
+This caused this syzbot issue:
 
-Let's relax this requirement, and allow the driver to support stream start,
-even if the sensor initial sequence wasn't the expected.
+https://syzkaller.appspot.com/bug?extid=2d4fc2a0c45ad8da7e99
 
-Also improve the warning message to better explain the problem and provide
-a hint that the sensor driver needs to be fixed.
+Reported-and-tested-by: syzbot+2d4fc2a0c45ad8da7e99@syzkaller.appspotmail.com
 
-Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-Signed-off-by: Fabio Estevam <festevam@gmail.com>
-Reviewed-by: Steve Longerbeam <slongerbeam@gmail.com>
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/media/imx/imx6-mipi-csi2.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ drivers/media/radio/si470x/radio-si470x-usb.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/imx/imx6-mipi-csi2.c b/drivers/staging/media/imx/imx6-mipi-csi2.c
-index f29e28df36ed8..bfa4b254c4e48 100644
---- a/drivers/staging/media/imx/imx6-mipi-csi2.c
-+++ b/drivers/staging/media/imx/imx6-mipi-csi2.c
-@@ -243,7 +243,7 @@ static int __maybe_unused csi2_dphy_wait_ulp(struct csi2_dev *csi2)
- }
+diff --git a/drivers/media/radio/si470x/radio-si470x-usb.c b/drivers/media/radio/si470x/radio-si470x-usb.c
+index 49073747b1e7b..fedff68d8c496 100644
+--- a/drivers/media/radio/si470x/radio-si470x-usb.c
++++ b/drivers/media/radio/si470x/radio-si470x-usb.c
+@@ -734,7 +734,7 @@ static int si470x_usb_driver_probe(struct usb_interface *intf,
+ 	/* start radio */
+ 	retval = si470x_start_usb(radio);
+ 	if (retval < 0)
+-		goto err_all;
++		goto err_buf;
  
- /* Waits for low-power LP-11 state on data and clock lanes. */
--static int csi2_dphy_wait_stopstate(struct csi2_dev *csi2)
-+static void csi2_dphy_wait_stopstate(struct csi2_dev *csi2)
- {
- 	u32 mask, reg;
- 	int ret;
-@@ -254,11 +254,9 @@ static int csi2_dphy_wait_stopstate(struct csi2_dev *csi2)
- 	ret = readl_poll_timeout(csi2->base + CSI2_PHY_STATE, reg,
- 				 (reg & mask) == mask, 0, 500000);
- 	if (ret) {
--		v4l2_err(&csi2->sd, "LP-11 timeout, phy_state = 0x%08x\n", reg);
--		return ret;
-+		v4l2_warn(&csi2->sd, "LP-11 wait timeout, likely a sensor driver bug, expect capture failures.\n");
-+		v4l2_warn(&csi2->sd, "phy_state = 0x%08x\n", reg);
- 	}
--
--	return 0;
- }
+ 	/* set initial frequency */
+ 	si470x_set_freq(radio, 87.5 * FREQ_MUL); /* available in all regions */
+@@ -749,6 +749,8 @@ static int si470x_usb_driver_probe(struct usb_interface *intf,
  
- /* Wait for active clock on the clock lane. */
-@@ -316,9 +314,7 @@ static int csi2_start(struct csi2_dev *csi2)
- 	csi2_enable(csi2, true);
- 
- 	/* Step 5 */
--	ret = csi2_dphy_wait_stopstate(csi2);
--	if (ret)
--		goto err_assert_reset;
-+	csi2_dphy_wait_stopstate(csi2);
- 
- 	/* Step 6 */
- 	ret = v4l2_subdev_call(csi2->src_sd, video, s_stream, 1);
+ 	return 0;
+ err_all:
++	usb_kill_urb(radio->int_in_urb);
++err_buf:
+ 	kfree(radio->buffer);
+ err_ctrl:
+ 	v4l2_ctrl_handler_free(&radio->hdl);
+@@ -822,6 +824,7 @@ static void si470x_usb_driver_disconnect(struct usb_interface *intf)
+ 	mutex_lock(&radio->lock);
+ 	v4l2_device_disconnect(&radio->v4l2_dev);
+ 	video_unregister_device(&radio->videodev);
++	usb_kill_urb(radio->int_in_urb);
+ 	usb_set_intfdata(intf, NULL);
+ 	mutex_unlock(&radio->lock);
+ 	v4l2_device_put(&radio->v4l2_dev);
 -- 
 2.20.1
 
