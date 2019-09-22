@@ -2,37 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B762BA574
-	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 20:58:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 57FD1BA586
+	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 20:58:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404456AbfIVS5h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 22 Sep 2019 14:57:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60176 "EHLO mail.kernel.org"
+        id S2408264AbfIVS6d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 22 Sep 2019 14:58:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33172 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2438589AbfIVS5f (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 22 Sep 2019 14:57:35 -0400
+        id S2408250AbfIVS6b (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 22 Sep 2019 14:58:31 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DBE8121928;
-        Sun, 22 Sep 2019 18:57:33 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 865E4206C2;
+        Sun, 22 Sep 2019 18:58:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569178654;
-        bh=DLYsDOF+mnPpL6nk885EagTqgeXo0CbFTowjIouox3g=;
+        s=default; t=1569178710;
+        bh=44rgQTh2Yc+Xc1QrGStJl2qwKe7VSYF3ttp8sId0wsc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=0VL66gDBTmHAItZPSZ/ypalnYNQ44Sm+Wg3RbVSjpzvZc+W1ZYGdlDZJ/PGjsClB2
-         bL6phNXHI8uId9lYlavURS8BsUXN+gVoo0hwci5/8ZMwu+kuX+r03Ffrsbqutooero
-         zhxq7UtWKe+FXoyb6O4TsYrBdJXYjkpMlJQtSWNI=
+        b=vOvVm1Z1iZVMmzTx1jGkejTKl7lVsPGsH39KMojcxdgnVdjcHW5hxCYe8aOWPbHBK
+         Ea5dXVMEYzg2Z/XCGczGf5t1HWjodypO2j8oDQiT0ByhDd8BKxkRXvEMPPI2MAsMr+
+         hsRTwJ45o+xya58+WClxBPnI/B2CCUTkF+6FR4vs=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Luke Nowakowski-Krijger <lnowakow@eng.ucsd.edu>,
-        syzbot+aac8d0d7205f112045d2@syzkaller.appspotmail.com,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        syzbot+2d4fc2a0c45ad8da7e99@syzkaller.appspotmail.com,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 09/89] media: hdpvr: Add device num check and handling
-Date:   Sun, 22 Sep 2019 14:55:57 -0400
-Message-Id: <20190922185717.3412-9-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 45/89] media: radio/si470x: kill urb on error
+Date:   Sun, 22 Sep 2019 14:56:33 -0400
+Message-Id: <20190922185717.3412-45-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190922185717.3412-1-sashal@kernel.org>
 References: <20190922185717.3412-1-sashal@kernel.org>
@@ -45,57 +44,57 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Luke Nowakowski-Krijger <lnowakow@eng.ucsd.edu>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-[ Upstream commit d4a6a9537bc32811486282206ecfb7c53754b74d ]
+[ Upstream commit 0d616f2a3fdbf1304db44d451d9f07008556923b ]
 
-Add hdpvr device num check and error handling
+In the probe() function radio->int_in_urb was not killed if an
+error occurred in the probe sequence. It was also missing in
+the disconnect.
 
-We need to increment the device count atomically before we checkout a
-device to make sure that we do not reach the max count, otherwise we get
-out-of-bounds errors as reported by syzbot.
+This caused this syzbot issue:
 
-Reported-and-tested-by: syzbot+aac8d0d7205f112045d2@syzkaller.appspotmail.com
+https://syzkaller.appspot.com/bug?extid=2d4fc2a0c45ad8da7e99
 
-Signed-off-by: Luke Nowakowski-Krijger <lnowakow@eng.ucsd.edu>
+Reported-and-tested-by: syzbot+2d4fc2a0c45ad8da7e99@syzkaller.appspotmail.com
+
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/usb/hdpvr/hdpvr-core.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ drivers/media/radio/si470x/radio-si470x-usb.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/usb/hdpvr/hdpvr-core.c b/drivers/media/usb/hdpvr/hdpvr-core.c
-index 1e8cbaf368961..416092c47ef40 100644
---- a/drivers/media/usb/hdpvr/hdpvr-core.c
-+++ b/drivers/media/usb/hdpvr/hdpvr-core.c
-@@ -275,6 +275,7 @@ static int hdpvr_probe(struct usb_interface *interface,
- #endif
- 	size_t buffer_size;
- 	int i;
-+	int dev_num;
- 	int retval = -ENOMEM;
+diff --git a/drivers/media/radio/si470x/radio-si470x-usb.c b/drivers/media/radio/si470x/radio-si470x-usb.c
+index c311f9951d806..aec528f52ca12 100644
+--- a/drivers/media/radio/si470x/radio-si470x-usb.c
++++ b/drivers/media/radio/si470x/radio-si470x-usb.c
+@@ -737,7 +737,7 @@ static int si470x_usb_driver_probe(struct usb_interface *intf,
+ 	/* start radio */
+ 	retval = si470x_start_usb(radio);
+ 	if (retval < 0)
+-		goto err_all;
++		goto err_buf;
  
- 	/* allocate memory for our device state and initialize it */
-@@ -379,8 +380,17 @@ static int hdpvr_probe(struct usb_interface *interface,
- 	}
- #endif
+ 	/* set initial frequency */
+ 	si470x_set_freq(radio, 87.5 * FREQ_MUL); /* available in all regions */
+@@ -752,6 +752,8 @@ static int si470x_usb_driver_probe(struct usb_interface *intf,
  
-+	dev_num = atomic_inc_return(&dev_nr);
-+	if (dev_num >= HDPVR_MAX) {
-+		v4l2_err(&dev->v4l2_dev,
-+			 "max device number reached, device register failed\n");
-+		atomic_dec(&dev_nr);
-+		retval = -ENODEV;
-+		goto reg_fail;
-+	}
-+
- 	retval = hdpvr_register_videodev(dev, &interface->dev,
--				    video_nr[atomic_inc_return(&dev_nr)]);
-+				    video_nr[dev_num]);
- 	if (retval < 0) {
- 		v4l2_err(&dev->v4l2_dev, "registering videodev failed\n");
- 		goto reg_fail;
+ 	return 0;
+ err_all:
++	usb_kill_urb(radio->int_in_urb);
++err_buf:
+ 	kfree(radio->buffer);
+ err_ctrl:
+ 	v4l2_ctrl_handler_free(&radio->hdl);
+@@ -825,6 +827,7 @@ static void si470x_usb_driver_disconnect(struct usb_interface *intf)
+ 	mutex_lock(&radio->lock);
+ 	v4l2_device_disconnect(&radio->v4l2_dev);
+ 	video_unregister_device(&radio->videodev);
++	usb_kill_urb(radio->int_in_urb);
+ 	usb_set_intfdata(intf, NULL);
+ 	mutex_unlock(&radio->lock);
+ 	v4l2_device_put(&radio->v4l2_dev);
 -- 
 2.20.1
 
