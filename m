@@ -2,36 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A575BAB0A
-	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 21:54:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 22ECDBAB01
+	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 21:54:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438433AbfIVTd4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 22 Sep 2019 15:33:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43884 "EHLO mail.kernel.org"
+        id S2390929AbfIVTdd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 22 Sep 2019 15:33:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44046 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390861AbfIVSr2 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 22 Sep 2019 14:47:28 -0400
+        id S2391012AbfIVSrf (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 22 Sep 2019 14:47:35 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0203B214D9;
-        Sun, 22 Sep 2019 18:47:26 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id F3C5D21D6C;
+        Sun, 22 Sep 2019 18:47:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569178047;
-        bh=wxlemXqcQli902QZT0OQcLMn5GX/KD1gd3Ig9+iAhYs=;
+        s=default; t=1569178054;
+        bh=DdnHqTTMKKfCpDwlPlBDOYddiSHmslJNpMh4FwJwhwI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mwdsWB0A6FLrilEx+Yx4cWKgtwkaIMsHnLmT3N0iJfAdCiQSV9UrZ+B5WZj5bahKD
-         8/fPS9JLHtHU016GsGIA0QzSygTwDOlSymVUa5zIfi5mX8gPEwRZFA9pRXNPMzZzL5
-         e1PmEOv7wpwSbFuvOswiROHPDHsDa7oORTt6zwbg=
+        b=zYlnhOseF8RkN0o76SgWfDdxmiLvr1aKWwsdqdCJPZIalDfvyw7c53DtoXEci6PyO
+         yq0huDowfihUaE4/CMRgricZRgEiKmyRXwpL4MbGWyCnG5z2lKjrJRcqlTU9KOhlKz
+         QB1uVIBJSy1uhRcdesY7oDTEl9XHVCNBLUJbFJnE=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.3 126/203] media: saa7134: fix terminology around saa7134_i2c_eeprom_md7134_gate()
-Date:   Sun, 22 Sep 2019 14:42:32 -0400
-Message-Id: <20190922184350.30563-126-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.3 131/203] media: ov9650: add a sanity check
+Date:   Sun, 22 Sep 2019 14:42:37 -0400
+Message-Id: <20190922184350.30563-131-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190922184350.30563-1-sashal@kernel.org>
 References: <20190922184350.30563-1-sashal@kernel.org>
@@ -44,57 +43,46 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: "Maciej S. Szmigiero" <mail@maciej.szmigiero.name>
+From: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-[ Upstream commit 9d802222a3405599d6e1984d9324cddf592ea1f4 ]
+[ Upstream commit 093347abc7a4e0490e3c962ecbde2dc272a8f708 ]
 
-saa7134_i2c_eeprom_md7134_gate() function and the associated comment uses
-an inverted i2c gate open / closed terminology.
-Let's fix this.
+As pointed by cppcheck:
 
-Signed-off-by: Maciej S. Szmigiero <mail@maciej.szmigiero.name>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-[hverkuil-cisco@xs4all.nl: fix alignment checkpatch warning]
+	[drivers/media/i2c/ov9650.c:706]: (error) Shifting by a negative value is undefined behaviour
+	[drivers/media/i2c/ov9650.c:707]: (error) Shifting by a negative value is undefined behaviour
+	[drivers/media/i2c/ov9650.c:721]: (error) Shifting by a negative value is undefined behaviour
+
+Prevent mangling with gains with invalid values.
+
+As pointed by Sylvester, this should never happen in practice,
+as min value of V4L2_CID_GAIN control is 16 (gain is always >= 16
+and m is always >= 0), but it is too hard for a static analyzer
+to get this, as the logic with validates control min/max is
+elsewhere inside V4L2 core.
+
+Reviewed-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/pci/saa7134/saa7134-i2c.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ drivers/media/i2c/ov9650.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/media/pci/saa7134/saa7134-i2c.c b/drivers/media/pci/saa7134/saa7134-i2c.c
-index 493b1858815fb..04e85765373ec 100644
---- a/drivers/media/pci/saa7134/saa7134-i2c.c
-+++ b/drivers/media/pci/saa7134/saa7134-i2c.c
-@@ -342,7 +342,11 @@ static const struct i2c_client saa7134_client_template = {
- 
- /* ----------------------------------------------------------- */
- 
--/* On Medion 7134 reading EEPROM needs DVB-T demod i2c gate open */
-+/*
-+ * On Medion 7134 reading the SAA7134 chip config EEPROM needs DVB-T
-+ * demod i2c gate closed due to an address clash between this EEPROM
-+ * and the demod one.
-+ */
- static void saa7134_i2c_eeprom_md7134_gate(struct saa7134_dev *dev)
- {
- 	u8 subaddr = 0x7, dmdregval;
-@@ -359,14 +363,14 @@ static void saa7134_i2c_eeprom_md7134_gate(struct saa7134_dev *dev)
- 
- 	ret = i2c_transfer(&dev->i2c_adap, i2cgatemsg_r, 2);
- 	if ((ret == 2) && (dmdregval & 0x2)) {
--		pr_debug("%s: DVB-T demod i2c gate was left closed\n",
-+		pr_debug("%s: DVB-T demod i2c gate was left open\n",
- 			 dev->name);
- 
- 		data[0] = subaddr;
- 		data[1] = (dmdregval & ~0x2);
- 		if (i2c_transfer(&dev->i2c_adap, i2cgatemsg_w, 1) != 1)
--			pr_err("%s: EEPROM i2c gate open failure\n",
--			  dev->name);
-+			pr_err("%s: EEPROM i2c gate close failure\n",
-+			       dev->name);
- 	}
- }
+diff --git a/drivers/media/i2c/ov9650.c b/drivers/media/i2c/ov9650.c
+index 30ab2225fbd0c..b350f5c1a9890 100644
+--- a/drivers/media/i2c/ov9650.c
++++ b/drivers/media/i2c/ov9650.c
+@@ -703,6 +703,11 @@ static int ov965x_set_gain(struct ov965x *ov965x, int auto_gain)
+ 		for (m = 6; m >= 0; m--)
+ 			if (gain >= (1 << m) * 16)
+ 				break;
++
++		/* Sanity check: don't adjust the gain with a negative value */
++		if (m < 0)
++			return -EINVAL;
++
+ 		rgain = (gain - ((1 << m) * 16)) / (1 << m);
+ 		rgain |= (((1 << m) - 1) << 4);
  
 -- 
 2.20.1
