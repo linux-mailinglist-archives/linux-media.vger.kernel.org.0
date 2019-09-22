@@ -2,38 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B1E5CBA4E8
-	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 20:57:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 635EABA539
+	for <lists+linux-media@lfdr.de>; Sun, 22 Sep 2019 20:58:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393080AbfIVSwt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 22 Sep 2019 14:52:49 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52082 "EHLO mail.kernel.org"
+        id S2404245AbfIVSze (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 22 Sep 2019 14:55:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56812 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2392961AbfIVSws (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 22 Sep 2019 14:52:48 -0400
+        id S2438384AbfIVSzd (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 22 Sep 2019 14:55:33 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5138621BE5;
-        Sun, 22 Sep 2019 18:52:47 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id E271721D81;
+        Sun, 22 Sep 2019 18:55:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569178368;
-        bh=/rangsZ0ELaQluOZKEg4V40zOt8+RCVaCUrHYUx7Wvw=;
+        s=default; t=1569178532;
+        bh=3TBPpUvQrXT/SFyjnF4LAeHputJ0ewAoJYd6bGHXiIc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=aJc/vZjwAjZGT+OXVaDRabBY3+7uNkRzabe2LIXXu5iJBAB/gc5xZSPKqxFPJxMN1
-         TNe0Squsbj2N9MKY5xjxY/oydpLZ9wnJhHUhhJNgRe20y+QPl+Mw97LnC2AMVrBIsy
-         XKWW+th9fvTrRXDF5EvCP1LArHTDO5eVEH3LJARQ=
+        b=jDb2RLjvfUasaQ/HfaPXsqGFSutb9zJZtbLH6ZwMXTsdUE1HI/BKtyFv/pW2xoNcO
+         qrWcUXOCNnDYl4BKJV65rQ5LRk6/LfbCmmfn3xHy3KRMS7u/sLiYm78lWkIWBzm7+T
+         ti7E+QMvlJo02rTloh9eLkH3Ik8IiaiB/jtcn/6k=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Eddie James <eajames@linux.ibm.com>,
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.2 119/185] media: aspeed-video: address a protential usage of an unitialized var
-Date:   Sun, 22 Sep 2019 14:48:17 -0400
-Message-Id: <20190922184924.32534-119-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 055/128] media: omap3isp: Don't set streaming state on random subdevs
+Date:   Sun, 22 Sep 2019 14:53:05 -0400
+Message-Id: <20190922185418.2158-55-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190922184924.32534-1-sashal@kernel.org>
-References: <20190922184924.32534-1-sashal@kernel.org>
+In-Reply-To: <20190922185418.2158-1-sashal@kernel.org>
+References: <20190922185418.2158-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -43,55 +44,48 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-[ Upstream commit 31b8b0bd6e55c3ea5a08bb8141fa5d3c90600e3b ]
+[ Upstream commit 7ef57be07ac146e70535747797ef4aee0f06e9f9 ]
 
-While this might not occur in practice, if the device is doing
-the right thing, it would be teoretically be possible to have
-both hsync_counter and vsync_counter negatives.
+The streaming state should be set to the first upstream sub-device only,
+not everywhere, for a sub-device driver itself knows how to best control
+the streaming state of its own upstream sub-devices.
 
-If this ever happen, ctrl will be undefined, but the driver
-will still call:
-
-	aspeed_video_update(video, VE_CTRL, 0, ctrl);
-
-Change the code to prevent this to happen.
-
-This was warned by cppcheck:
-
-	[drivers/media/platform/aspeed-video.c:653]: (error) Uninitialized variable: ctrl
-
-Reviewed-by: Eddie James <eajames@linux.ibm.com>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/aspeed-video.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/media/platform/omap3isp/isp.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-index de0f192afa8b1..388c32a11345d 100644
---- a/drivers/media/platform/aspeed-video.c
-+++ b/drivers/media/platform/aspeed-video.c
-@@ -632,7 +632,7 @@ static void aspeed_video_check_and_set_polarity(struct aspeed_video *video)
- 	}
- 
- 	if (hsync_counter < 0 || vsync_counter < 0) {
--		u32 ctrl;
-+		u32 ctrl = 0;
- 
- 		if (hsync_counter < 0) {
- 			ctrl = VE_CTRL_HSYNC_POL;
-@@ -652,7 +652,8 @@ static void aspeed_video_check_and_set_polarity(struct aspeed_video *video)
- 				V4L2_DV_VSYNC_POS_POL;
+diff --git a/drivers/media/platform/omap3isp/isp.c b/drivers/media/platform/omap3isp/isp.c
+index 432bc7fbedc99..addd03b517481 100644
+--- a/drivers/media/platform/omap3isp/isp.c
++++ b/drivers/media/platform/omap3isp/isp.c
+@@ -722,6 +722,10 @@ static int isp_pipeline_enable(struct isp_pipeline *pipe,
+ 					s_stream, mode);
+ 			pipe->do_propagation = true;
  		}
- 
--		aspeed_video_update(video, VE_CTRL, 0, ctrl);
-+		if (ctrl)
-+			aspeed_video_update(video, VE_CTRL, 0, ctrl);
++
++		/* Stop at the first external sub-device. */
++		if (subdev->dev != isp->dev)
++			break;
  	}
- }
  
+ 	return 0;
+@@ -836,6 +840,10 @@ static int isp_pipeline_disable(struct isp_pipeline *pipe)
+ 						      &subdev->entity);
+ 			failure = -ETIMEDOUT;
+ 		}
++
++		/* Stop at the first external sub-device. */
++		if (subdev->dev != isp->dev)
++			break;
+ 	}
+ 
+ 	return failure;
 -- 
 2.20.1
 
