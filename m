@@ -2,122 +2,216 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A3196BB784
-	for <lists+linux-media@lfdr.de>; Mon, 23 Sep 2019 17:07:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E5A0BB7A1
+	for <lists+linux-media@lfdr.de>; Mon, 23 Sep 2019 17:12:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726166AbfIWPHq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Sep 2019 11:07:46 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:59419 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726135AbfIWPHq (ORCPT
+        id S1727061AbfIWPM0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Sep 2019 11:12:26 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:46941 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727009AbfIWPM0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Sep 2019 11:07:46 -0400
-Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id CPwCiyENIKKNGCPwFimXkN; Mon, 23 Sep 2019 17:07:44 +0200
-Subject: Re: [RFC PATCH v2 0/7] media: v4l2: Add extended fmt and buffer
- ioctls
-To:     Boris Brezillon <boris.brezillon@collabora.com>
-Cc:     Mauro Carvalho Chehab <m.chehab@samsung.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        linux-media@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
-        Hirokazu Honda <hiroh@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Brian Starkey <Brian.Starkey@arm.com>, kernel@collabora.com
-References: <20190404081700.30006-1-boris.brezillon@collabora.com>
- <9d53f065-da2c-9ab9-5e97-dbd48237d41e@xs4all.nl>
- <20190923164054.59792271@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <ea8d4a53-ce8b-848e-dbcf-443bb164ce89@xs4all.nl>
-Date:   Mon, 23 Sep 2019 17:07:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Mon, 23 Sep 2019 11:12:26 -0400
+Received: by mail-pf1-f196.google.com with SMTP id q5so9271364pfg.13
+        for <linux-media@vger.kernel.org>; Mon, 23 Sep 2019 08:12:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+e6VKyi4RDxzO+rMfy4D/+EuNanataS4taqwSVna9oM=;
+        b=szKAfDtwzpOu4MZzLe0ZS4E5nlYUrmKWuqmfRRece3j9lH1xpomjbFMSeTm7Xuaq+c
+         N05YLh4za/0+mnyWOjpM0CQxPIfktO5s3X987svSdq7nLxlp2617ZoCJDt++CZLnbswM
+         rWLLbODhLuJlYoktGAhG6lgaavTOGHR/AOKHAWOQqK8wEmmIVdlLxSfF7YW7jdaxFcWl
+         4odWWj9MeB1XmW6JjXQXyZNE4U4vaKioGvjF4q4xaupCgNFBJHjcmZOYlg3vhQWPBlcG
+         2xnsPTb+P/bF3MjIsbE8nioHprPNIVmUDbtsh48UVJ9SJI4OpxnyK3dWCF8HVBWYMa38
+         MvMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+e6VKyi4RDxzO+rMfy4D/+EuNanataS4taqwSVna9oM=;
+        b=AktT7t4H0q+8ueei7yT78vDreyLNBDBs5fb9v7bdfpVhSt4wn/Mon+ZlefS6kzC9V/
+         fiKKhjKjSJ7WG+bq3bwIdyPVVX13MNo0RXYSAiMMVGjpisMdegJOCco0oZp/TK36zN63
+         xJyc+BEITHYvRS/DZGO3R0wPtJUGqSUW/j/UxfBDGJ8767wDqSmiuxCtHhgE8kN0XxPu
+         f76EaiwHAxvB9G/4v8UOyizsSudDJBsnxs07n+eWXVlL4DWv9yeYeYm6FAZJB6vIdzdm
+         Wxi9d7EoqUEUV2Y9A2Wy6SgCT+L+3naI8ouGcp5WN84KC6LPIkXU2adf7sGgWF/QYn/N
+         IyvA==
+X-Gm-Message-State: APjAAAXgMPyqCuFATF0EuKiB+/8JaMB7Aigd5WVQHE/tfZgknoVlUyB8
+        Df1SyTKVocVnpEm9Q+HESP55SWLsdWtqwyPdpubp7i8y1co1Lg==
+X-Google-Smtp-Source: APXvYqzQu3zf7MwD5dSwHodhAcyLgVZAG0O7QPJ49rUXrKnnT4WLwPcTm7oGBXASJ4CDZCVhP2HnLUytdNiWsdA8EXo=
+X-Received: by 2002:aa7:8bcc:: with SMTP id s12mr34228pfd.93.1569251544634;
+ Mon, 23 Sep 2019 08:12:24 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190923164054.59792271@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfC9qNWCZdPg0RSRoIK81k41ZgzTwUUQGxiMuXAUj++AZgvgz6mv34JKAI3xaYIucwrEoK23h+NXptPCU94h48IVCuS7dgHjUygBj0QSlUW+ZX+2w99bP
- VoD7ocEFVJIsFppSA8h6fjyYVohQ8gxprm1kXF+1HODgWNy2X60ZSeWzJw+aoRiyE+7Y/2Wzud320xaUA0wKi+e/uSaQEWQ5GFASkatN+akLWlJV9gtlM4Oi
- KaPyI734b4a6TS+za22rnPKUFatGq9kRO5gBoUuTZHBLLcxnEb+Z6cKIks7ImkrmI7l2u21/f9LJCkFfwctpI52l/uNwbjOdFFFgAjztA0EFWbBKV8bWC2GB
- YKv0pQDQpTlkiEpVthpgTz7E9WIyDtXwMeAndv4QcjwRWV73PpnXyAd1d68wVcI/KE2T5KJw8B80ZooZ2nGvOTkEge380LzQlfUvFLgCG6KqPD/r4sU9TfNE
- oeWOLrbjL4U3XwRiAnyeXPM0dgOnGImaeUKOK94RhnSnzTsZ/utAtEc1igk=
+References: <00000000000058cce90593394589@google.com>
+In-Reply-To: <00000000000058cce90593394589@google.com>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Mon, 23 Sep 2019 17:12:13 +0200
+Message-ID: <CAAeHK+ywLa2CLMnxNxck2VStxj-xrxo4QLjJFmamJ7G25Tu+CA@mail.gmail.com>
+Subject: Re: KASAN: use-after-free Read in v4l2_release (2)
+To:     syzbot <syzbot+ac438d7ad8171b0ecbbe@syzkaller.appspotmail.com>
+Cc:     boris.brezillon@collabora.com, ezequiel@collabora.com,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
+        USB list <linux-usb@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        niklas.soderlund+renesas@ragnatech.se, s.nawrocki@samsung.com,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
+        Thomas Gleixner <tglx@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 9/23/19 4:40 PM, Boris Brezillon wrote:
-> On Mon, 23 Sep 2019 13:41:07 +0200
-> Hans Verkuil <hverkuil@xs4all.nl> wrote:
-> 
->> Hi Boris,
->>
->> On 4/4/19 10:16 AM, Boris Brezillon wrote:
->>> Hello,
->>>
->>> This RFC follows the discussion started by Hans [1] a few months back.
->>> It does not try to address all the problem reported in this thread but
->>> instead focuses on the FMT and BUF(S) ioctls.
->>>
->>> Note that my primary goal is to unify handling for multiplanar and
->>> singleplanar formats and extend things to support the "single dmabuf
->>> storing all pixel planes" issue.
->>>
->>> This version received a bit more testing than the previous one (added
->>> new tests to v4l2-compliance [2] to make sure EXT ioctls work as
->>> expected and also checked that !ext -> ext wrappers work correctly by
->>> running the old tests). Note that I'm not planning to post those
->>> v4l-utils patches on the ML until we've settled down on the userspace
->>> API, unless I'm explicitly asked to do so.
->>>
->>> Right now I'm focusing on the case I was primarily interested in:
->>> single dmabuf storing all pixel planes (each being at a different
->>> offset), and it seems that patching the VB2 core to support that is
->>> not a trivial task.
->>>
->>> So here are a few questions for V4L/DMABUF experts:
->>> - Can the same dmabuf be mapped several times. I think it's okay apart
->>>   from the extra/needless time spent doing cache maintenance
->>>   operations, but there might be issues if an IOMMU is involved
->>>   (duplicate mappings?). If it's not okay, then we need to find a
->>>   solution to only attach/map the DMABUF once when it's used for
->>>   several planes (this is what I tried to do here [3], but I'm not
->>>   entirely happy with the implementation and started to investigate
->>>   another approach here [4]).
->>> - How should we pass the offset to drivers that were previously using
->>>   the get_cookie() (or the dma_sg wrapper) to retrieve an sg table.
->>>   Adding the offset to the dma_addr or vaddr for vmalloc or dma-contig
->>>   case can be done in the core, but for an sg-table it's a bit more
->>>   complicated. Should drivers access this piece of information
->>>   directly from vb2_plane->dbuf_offset? And in that case, how do we
->>>   make sure drivers don't simply ignore the offset and assume it's
->>>   always zero? 
->>>
->>> Few words about the feedback I got from Brian and Nicolas on my v1:
->>>
->>> - modifier field has been moved to v4l2_ext_format as suggested
->>> - v4l2_timecode is still not present in v4l2_ext_buffer, but can be
->>>   added back thanks to the extra reserved space
->>> - the ENUMFMT is left as is for now, because I think we want Maxime's
->>>   work on DRM/V4L format unification to land before reworking the
->>>   ioctl (exposing extra info about the format and not only the 4CC
->>>   code?). That also means that there's currently no way to know which
->>>   modifiers are supported
->>> - EXT_FMT/EXT_BUF capability flags to detect whether new ioctls are
->>>   supported or not have not been added yet  
->>
->> Can you post a v3, rebased on top of our current master branch? No other
->> changes needed, just a rebase.
-> 
-> Ok, I'll try to do that next week.
-> 
+On Mon, Sep 23, 2019 at 4:31 PM syzbot
+<syzbot+ac438d7ad8171b0ecbbe@syzkaller.appspotmail.com> wrote:
+>
+> Hello,
+>
+> syzbot found the following crash on:
+>
+> HEAD commit:    e0bd8d79 usb-fuzzer: main usb gadget fuzzer driver
+> git tree:       https://github.com/google/kasan.git usb-fuzzer
+> console output: https://syzkaller.appspot.com/x/log.txt?x=14d4b6a1600000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=8847e5384a16f66a
+> dashboard link: https://syzkaller.appspot.com/bug?extid=ac438d7ad8171b0ecbbe
+> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+>
+> Unfortunately, I don't have any reproducer for this crash yet.
+>
+> IMPORTANT: if you fix the bug, please add the following tag to the commit:
+> Reported-by: syzbot+ac438d7ad8171b0ecbbe@syzkaller.appspotmail.com
+>
+> usb 4-1: usbvision_write_reg: failed: error -19
+> usbvision_audio_off: can't write reg
+> usbvision_radio_close: Final disconnect
+> ==================================================================
+> BUG: KASAN: use-after-free in v4l2_release+0x2f1/0x390
+> drivers/media/v4l2-core/v4l2-dev.c:459
+> Read of size 4 at addr ffff8881c5c55228 by task v4l_id/16726
+>
+> CPU: 0 PID: 16726 Comm: v4l_id Not tainted 5.3.0+ #0
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
+> Google 01/01/2011
+> Call Trace:
+>   __dump_stack lib/dump_stack.c:77 [inline]
+>   dump_stack+0xca/0x13e lib/dump_stack.c:113
+>   print_address_description+0x6a/0x32c mm/kasan/report.c:351
+>   __kasan_report.cold+0x1a/0x33 mm/kasan/report.c:482
+>   kasan_report+0xe/0x12 mm/kasan/common.c:618
+>   v4l2_release+0x2f1/0x390 drivers/media/v4l2-core/v4l2-dev.c:459
+>   __fput+0x2d7/0x840 fs/file_table.c:280
+>   task_work_run+0x13f/0x1c0 kernel/task_work.c:113
+>   tracehook_notify_resume include/linux/tracehook.h:188 [inline]
+>   exit_to_usermode_loop+0x1d2/0x200 arch/x86/entry/common.c:163
+>   prepare_exit_to_usermode arch/x86/entry/common.c:194 [inline]
+>   syscall_return_slowpath arch/x86/entry/common.c:274 [inline]
+>   do_syscall_64+0x45f/0x580 arch/x86/entry/common.c:300
+>   entry_SYSCALL_64_after_hwframe+0x49/0xbe
+> RIP: 0033:0x7f26b3e742b0
+> Code: 40 75 0b 31 c0 48 83 c4 08 e9 0c ff ff ff 48 8d 3d c5 32 08 00 e8 c0
+> 07 02 00 83 3d 45 a3 2b 00 00 75 10 b8 03 00 00 00 0f 05 <48> 3d 01 f0 ff
+> ff 73 31 c3 48 83 ec 08 e8 ce 8a 01 00 48 89 04 24
+> RSP: 002b:00007fff0e393978 EFLAGS: 00000246 ORIG_RAX: 0000000000000003
+> RAX: 0000000000000000 RBX: 0000000000000003 RCX: 00007f26b3e742b0
+> RDX: 00007f26b412adf0 RSI: 0000000000000001 RDI: 0000000000000003
+> RBP: 0000000000000000 R08: 00007f26b412adf0 R09: 000000000000000a
+> R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000400884
+> R13: 00007fff0e393ad0 R14: 0000000000000000 R15: 0000000000000000
+>
+> Allocated by task 2757:
+>   save_stack+0x1b/0x80 mm/kasan/common.c:69
+>   set_track mm/kasan/common.c:77 [inline]
+>   __kasan_kmalloc mm/kasan/common.c:493 [inline]
+>   __kasan_kmalloc.constprop.0+0xbf/0xd0 mm/kasan/common.c:466
+>   kmalloc include/linux/slab.h:552 [inline]
+>   kzalloc include/linux/slab.h:748 [inline]
+>   usbvision_alloc drivers/media/usb/usbvision/usbvision-video.c:1298 [inline]
+>   usbvision_probe.cold+0x5c5/0x1f1f
+> drivers/media/usb/usbvision/usbvision-video.c:1452
+>   usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
+>   really_probe+0x281/0x6d0 drivers/base/dd.c:548
+>   driver_probe_device+0x101/0x1b0 drivers/base/dd.c:721
+>   __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
+>   bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+>   __device_attach+0x217/0x360 drivers/base/dd.c:894
+>   bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+>   device_add+0xae6/0x16f0 drivers/base/core.c:2201
+>   usb_set_configuration+0xdf6/0x1670 drivers/usb/core/message.c:2023
+>   generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
+>   usb_probe_device+0x99/0x100 drivers/usb/core/driver.c:266
+>   really_probe+0x281/0x6d0 drivers/base/dd.c:548
+>   driver_probe_device+0x101/0x1b0 drivers/base/dd.c:721
+>   __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
+>   bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+>   __device_attach+0x217/0x360 drivers/base/dd.c:894
+>   bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+>   device_add+0xae6/0x16f0 drivers/base/core.c:2201
+>   usb_new_device.cold+0x6a4/0xe79 drivers/usb/core/hub.c:2536
+>   hub_port_connect drivers/usb/core/hub.c:5098 [inline]
+>   hub_port_connect_change drivers/usb/core/hub.c:5213 [inline]
+>   port_event drivers/usb/core/hub.c:5359 [inline]
+>   hub_event+0x1b5c/0x3640 drivers/usb/core/hub.c:5441
+>   process_one_work+0x92b/0x1530 kernel/workqueue.c:2269
+>   worker_thread+0x96/0xe20 kernel/workqueue.c:2415
+>   kthread+0x318/0x420 kernel/kthread.c:255
+>   ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+>
+> Freed by task 16726:
+>   save_stack+0x1b/0x80 mm/kasan/common.c:69
+>   set_track mm/kasan/common.c:77 [inline]
+>   __kasan_slab_free+0x130/0x180 mm/kasan/common.c:455
+>   slab_free_hook mm/slub.c:1423 [inline]
+>   slab_free_freelist_hook mm/slub.c:1474 [inline]
+>   slab_free mm/slub.c:3016 [inline]
+>   kfree+0xe4/0x2f0 mm/slub.c:3957
+>   usbvision_release+0x181/0x1c0
+> drivers/media/usb/usbvision/usbvision-video.c:1347
+>   usbvision_radio_close.cold+0x6f/0x74
+> drivers/media/usb/usbvision/usbvision-video.c:1113
+>   v4l2_release+0x2e7/0x390 drivers/media/v4l2-core/v4l2-dev.c:455
+>   __fput+0x2d7/0x840 fs/file_table.c:280
+>   task_work_run+0x13f/0x1c0 kernel/task_work.c:113
+>   tracehook_notify_resume include/linux/tracehook.h:188 [inline]
+>   exit_to_usermode_loop+0x1d2/0x200 arch/x86/entry/common.c:163
+>   prepare_exit_to_usermode arch/x86/entry/common.c:194 [inline]
+>   syscall_return_slowpath arch/x86/entry/common.c:274 [inline]
+>   do_syscall_64+0x45f/0x580 arch/x86/entry/common.c:300
+>   entry_SYSCALL_64_after_hwframe+0x49/0xbe
+>
+> The buggy address belongs to the object at ffff8881c5c54200
+>   which belongs to the cache kmalloc-8k of size 8192
+> The buggy address is located 4136 bytes inside of
+>   8192-byte region [ffff8881c5c54200, ffff8881c5c56200)
+> The buggy address belongs to the page:
+> page:ffffea0007171400 refcount:1 mapcount:0 mapping:ffff8881da00c500
+> index:0x0 compound_mapcount: 0
+> flags: 0x200000000010200(slab|head)
+> raw: 0200000000010200 0000000000000000 0000000100000001 ffff8881da00c500
+> raw: 0000000000000000 0000000080030003 00000001ffffffff 0000000000000000
+> page dumped because: kasan: bad access detected
+>
+> Memory state around the buggy address:
+>   ffff8881c5c55100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>   ffff8881c5c55180: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> > ffff8881c5c55200: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>                                    ^
+>   ffff8881c5c55280: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>   ffff8881c5c55300: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> ==================================================================
+>
+>
+> ---
+> This bug is generated by a bot. It may contain errors.
+> See https://goo.gl/tpsmEJ for more information about syzbot.
+> syzbot engineers can be reached at syzkaller@googlegroups.com.
+>
+> syzbot will keep track of this bug report. See:
+> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-Great. Then it's also best to wait until v5.4-rc1 has been merged back
-into our tree.
+Most probably the same bug as:
 
-Regards,
+https://syzkaller.appspot.com/bug?extid=7fa38a608b1075dfd634
 
-	Hans
+#syz dup: general protection fault in usb_set_interface
