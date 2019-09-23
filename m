@@ -2,85 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 17FF2BB00E
-	for <lists+linux-media@lfdr.de>; Mon, 23 Sep 2019 10:56:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DD01BB101
+	for <lists+linux-media@lfdr.de>; Mon, 23 Sep 2019 11:09:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731941AbfIWI4j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Sep 2019 04:56:39 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49574 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731860AbfIWI4j (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Sep 2019 04:56:39 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S1731997AbfIWJIz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Sep 2019 05:08:55 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:50864 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1731943AbfIWJIy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 23 Sep 2019 05:08:54 -0400
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id A2498883C2;
-        Mon, 23 Sep 2019 08:56:38 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-47.ams2.redhat.com [10.36.116.47])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 5E21E5D9CA;
-        Mon, 23 Sep 2019 08:56:38 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-        id 91AFA9D69; Mon, 23 Sep 2019 10:56:37 +0200 (CEST)
-Date:   Mon, 23 Sep 2019 10:56:37 +0200
-From:   Gerd Hoffmann <kraxel@redhat.com>
-To:     Keiichi Watanabe <keiichiw@chromium.org>
-Cc:     virtio-dev@lists.oasis-open.org, acourbot@chromium.org,
-        alexlau@chromium.org, dgreid@chromium.org, marcheu@chromium.org,
-        posciak@chromium.org, stevensd@chromium.org, tfiga@chromium.org,
-        hverkuil@xs4all.nl, linux-media@vger.kernel.org
-Subject: Re: [virtio-dev] [PATCH] [RFC RESEND] vdec: Add virtio video decode
- device specification
-Message-ID: <20190923085637.bsaevedklweijgya@sirius.home.kraxel.org>
-References: <20190919093404.182015-1-keiichiw@chromium.org>
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 03979634C87;
+        Mon, 23 Sep 2019 12:07:52 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1iCKK0-0002AD-TH; Mon, 23 Sep 2019 12:07:52 +0300
+Date:   Mon, 23 Sep 2019 12:07:52 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc:     mchehab@kernel.org, robh+dt@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        c.barrett@framos.com, a.brela@framos.com
+Subject: Re: [PATCH v3 3/3] MAINTAINERS: Add entry for IMX290 CMOS image
+ sensor driver
+Message-ID: <20190923090752.GK5525@valkosipuli.retiisi.org.uk>
+References: <20190830091943.22646-1-manivannan.sadhasivam@linaro.org>
+ <20190830091943.22646-4-manivannan.sadhasivam@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190919093404.182015-1-keiichiw@chromium.org>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.26]); Mon, 23 Sep 2019 08:56:38 +0000 (UTC)
+In-Reply-To: <20190830091943.22646-4-manivannan.sadhasivam@linaro.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-  Hi,
+On Fri, Aug 30, 2019 at 02:49:43PM +0530, Manivannan Sadhasivam wrote:
+> Add MAINTAINERS entry for Sony IMX290 CMOS image sensor driver.
+> 
+> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> ---
+>  MAINTAINERS | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index f7c84004187d..0ee261fca602 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -14962,6 +14962,14 @@ S:	Maintained
+>  F:	drivers/media/i2c/imx274.c
+>  F:	Documentation/devicetree/bindings/media/i2c/imx274.txt
+>  
+> +SONY IMX290 SENSOR DRIVER
+> +M:	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> +L:	linux-media@vger.kernel.org
+> +T:	git git://linuxtv.org/media_tree.git
+> +S:	Maintained
+> +F:	drivers/media/i2c/imx290.c
+> +F:	Documentation/devicetree/bindings/media/i2c/imx290.txt
+> +
+>  SONY IMX319 SENSOR DRIVER
+>  M:	Bingbu Cao <bingbu.cao@intel.com>
+>  L:	linux-media@vger.kernel.org
 
-> Our prototype implementation uses [4], which allows the virtio-vdec
-> device to use buffers allocated by virtio-gpu device.
+Please squash this change to the first patch.
 
-> [4] https://lkml.org/lkml/2019/9/12/157
-
-Well.  I think before even discussing the protocol details we need a
-reasonable plan for buffer handling.  I think using virtio-gpu buffers
-should be an optional optimization and not a requirement.  Also the
-motivation for that should be clear (Let the host decoder write directly
-to virtio-gpu resources, to display video without copying around the
-decoded framebuffers from one device to another).
-
-Referencing virtio-gpu buffers needs a better plan than just re-using
-virtio-gpu resource handles.  The handles are device-specific.  What if
-there are multiple virtio-gpu devices present in the guest?
-
-I think we need a framework for cross-device buffer sharing.  One
-possible option would be to have some kind of buffer registry, where
-buffers can be registered for cross-device sharing and get a unique
-id (a uuid maybe?).  Drivers would typically register buffers on
-dma-buf export.
-
-Another option would be to pass around both buffer handle and buffer
-owner, i.e. instead of "u32 handle" have something like this:
-
-struct buffer_reference {
-	enum device_type; /* pci, virtio-mmio, ... */
-	union device_address {
-		struct pci_address pci_addr;
-		u64 virtio_mmio_addr;
-		[ ... ]
-	};
-	u64 device_buffer_handle; /* device-specific, virtio-gpu could use resource ids here */
-};
-
-cheers,
-  Gerd
-
+-- 
+Sakari Ailus
