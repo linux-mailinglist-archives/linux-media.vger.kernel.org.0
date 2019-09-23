@@ -2,78 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CEE7BAE76
-	for <lists+linux-media@lfdr.de>; Mon, 23 Sep 2019 09:25:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FC01BAEDC
+	for <lists+linux-media@lfdr.de>; Mon, 23 Sep 2019 10:05:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393323AbfIWHZO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Sep 2019 03:25:14 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:35982 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389719AbfIWHZO (ORCPT
+        id S2436889AbfIWIFP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Sep 2019 04:05:15 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:57027 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2436751AbfIWIFP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Sep 2019 03:25:14 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2528E51A;
-        Mon, 23 Sep 2019 09:25:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1569223512;
-        bh=W73OWeyjps5zQDbf4o8klBK6FV6fBTBTuu61y3QjNRI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=W8HM36RZnNhOKBVdbAEVUJxROIW10YLs781fqrJLyjDixRMp4nev8nos+W4xtvg/q
-         baxHCiSaAeArs9Bi/5RiVQX9JUjJ8p2ETtwhf013Prit9mHkg4bR/c9tmX8Hy/w1Pl
-         6clowBhFMoQOuJfLoN1/kooP7ELRPdXHIQt5XTZU=
-Date:   Mon, 23 Sep 2019 10:25:03 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org,
-        stable@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH AUTOSEL 5.3 084/203] media: omap3isp: Don't set streaming
- state on random subdevs
-Message-ID: <20190923072503.GA5056@pendragon.ideasonboard.com>
-References: <20190922184350.30563-1-sashal@kernel.org>
- <20190922184350.30563-84-sashal@kernel.org>
- <20190923071942.GJ5525@valkosipuli.retiisi.org.uk>
+        Mon, 23 Sep 2019 04:05:15 -0400
+Received: from [192.168.2.10] ([46.9.232.237])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id CJLJivCGlKKNGCJLMikH25; Mon, 23 Sep 2019 10:05:13 +0200
+Subject: Re: bringing back media/zoran driver
+To:     Corentin Labbe <clabbe.montjoie@gmail.com>,
+        mjpeg-users@lists.sourceforge.net, linux-media@vger.kernel.org,
+        mchehab@kernel.org, laurent.pinchart@ideasonboard.com
+Cc:     linux-kernel@vger.kernel.org
+References: <20190921170357.GA26626@Red>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <8db38daf-74eb-8218-1cc6-ea9036afac3d@xs4all.nl>
+Date:   Mon, 23 Sep 2019 10:05:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <20190921170357.GA26626@Red>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190923071942.GJ5525@valkosipuli.retiisi.org.uk>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfCt1NjjCrrSl4jVu+CGzrZ5XhSiiHWrlUMePsTQcsj+kDTvGrYlE3vi9hHcONZRmJxVMWgOkWI9Dg0urdPkdhWd0N9H4bkSxk/Frzyj+2aYSPYeywbH0
+ l10rUt4+m7bT6Uo6XP9Pi0seagJmyqgsFNe7AVrWoW6G/F+jdMQulndng3pvD8O+0sDmNUdmfIo18gIcGAxo0ivjEXBDn856wYmgDpc2uLlI2kXlx3/4Tguu
+ mfkWm9zDz6K6Nl2tkf//h+Z9gHKnLoj52qhsEj3t4votTLnDmzlH6QxewAZNSWdgKvARu7g2TKgb+mNxUIMRippvkudm8ip+NnUSiagtEwvCRRhENbZvIRdu
+ fjLEfZD4HJsY/7koMv0T3j25Xf9xrg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Sep 23, 2019 at 10:19:42AM +0300, Sakari Ailus wrote:
-> Hi Sasha,
+On 9/21/19 7:03 PM, Corentin Labbe wrote:
+> hello
 > 
-> On Sun, Sep 22, 2019 at 02:41:50PM -0400, Sasha Levin wrote:
-> > From: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > 
-> > [ Upstream commit 7ef57be07ac146e70535747797ef4aee0f06e9f9 ]
-> > 
-> > The streaming state should be set to the first upstream sub-device only,
-> > not everywhere, for a sub-device driver itself knows how to best control
-> > the streaming state of its own upstream sub-devices.
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> > Signed-off-by: Sasha Levin <sashal@kernel.org>
+> I am the owner of a zoran based DC10+ card.
+> I am in the need of using it since yesterday and I found that its driver was removed.
 > 
-> I don't disagree with this going to the stable trees as well, but in that
-> case it *must* be accompanied by commit e9eb103f0277 ("media: omap3isp: Set
-> device on omap3isp subdevs") or the driver will mostly cease to work.
+> Reverting the removing patch made to a temporary working situation.
 > 
-> Could you pick that up as well?
+> If I understand correctly, it was removed due to lack of vb2 convertion.
+> If I am able to do this vb2 conversion, does bring it back in mainline will be posssible ?
+> In that case I am ready to assume to be the maintainer if needed.
 
-While I don't disagree either, I also think there's no requirement to
-get this commit backported to stable branches. It seems to be the result
-of a too aggressive auto-selection.
+It would be nice to get it back. The conversion to vb2 is the main requirement, but in
+general this driver needed some TLC in general: it's a very old driver and the coding
+standards were quite a bit lower than they are today.
 
--- 
+But the vb2 conversion is the most important part.
+
+It's unfortunately not the easiest thing to do (if it was, we'd have done it already!),
+and it is also a 'big bang' patch, i.e. one very large patch that converts the driver
+to vb2. It's all or nothing, you can't have half a vb2 conversion, so that makes it hard
+to review.
+
+The easiest way is to use the v4l2-compliance utility to verify the conversion. Running
+'v4l2-compliance -s' is a good way of verifying this.
+
+My recommended approach is to:
+
+1) first revert the removal patch (commit 8dce4b265a53)
+2) clean up the coding style. Probably easiest to create one patch per source.
+   Use 'checkpatch.pl --strict -f <source>' for this. Doing this should make the
+   source code easier to understand/review.
+3) Run v4l2-compliance (without the -s option) and fix any failures it finds.
+4) Convert to vb2, using 'v4l2-compliance -s' to test.
+
+Be aware that the code is messy compared to modern standards. Do not be afraid
+to create cleanup patches, it's probably needed.
+
+The v4l2-compliance utility is part of https://git.linuxtv.org/v4l-utils.git/.
+See the README on how to build. Always use the v4l2-compliance version from this
+git repo since that's always the latest and greatest.
+
+I recommend that you join the #v4l irc channel on freenode.org. Most core devs that
+can help with advice are there during office hours (and often outside of office hours
+as well). That's for the European timezones since most devs are based in Europe.
+
 Regards,
 
-Laurent Pinchart
+	Hans
