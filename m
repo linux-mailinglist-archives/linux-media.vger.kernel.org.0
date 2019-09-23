@@ -2,48 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E79BBB68A
-	for <lists+linux-media@lfdr.de>; Mon, 23 Sep 2019 16:21:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 977E1BB6AE
+	for <lists+linux-media@lfdr.de>; Mon, 23 Sep 2019 16:27:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407984AbfIWOVK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Sep 2019 10:21:10 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:48247 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2407008AbfIWOVK (ORCPT
+        id S2439854AbfIWO15 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Sep 2019 10:27:57 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:60003 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2437634AbfIWO15 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Sep 2019 10:21:10 -0400
+        Mon, 23 Sep 2019 10:27:57 -0400
 Received: from [192.168.2.10] ([46.9.232.237])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id CPD6ixuerKKNGCPDAimJe7; Mon, 23 Sep 2019 16:21:08 +0200
+        id CPJfixxc2KKNGCPJjimLy7; Mon, 23 Sep 2019 16:27:55 +0200
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [ANN] Media sessions in Lyon in October: libcamera
+Subject: [ANN] Media sessions in Lyon in October: future V4L2 work
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>,
         Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
         Alexandre Courbot <acourbot@chromium.org>,
         Tomasz Figa <tfiga@chromium.org>,
         Ezequiel Garcia <ezequiel@collabora.com>,
         Daniel Gomez <daniel@qtec.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
         Eugen Hristev <Eugen.Hristev@microchip.com>,
-        Dafna Hirschfeld <dafna3@gmail.com>,
         Shuah Khan <skhan@linuxfoundation.org>,
         Helen Koike <helen.koike@collabora.com>,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>
-Message-ID: <07f46758-66e3-5ac1-cc41-807a30f93359@xs4all.nl>
-Date:   Mon, 23 Sep 2019 16:21:04 +0200
+Message-ID: <bfeb78df-aaa5-a756-16d4-c874a7dd4645@xs4all.nl>
+Date:   Mon, 23 Sep 2019 16:27:51 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfESG3Gy0XChbbQlleTTRHW4eVchSXZd7bgKnj/abrGRlxA3s9qEWBLvXjw9U0F2TayvyVgjXLrmB18AWbN+gQXrgDxxn7wRmZNBewPkj+weZrZr9A8Sh
- u5mBZT7+jSKsDy2F8IW9NX5KxtxOvmCebW6Ue8KIMgkxRfaB8Q1oNsnX58BYPO5l3rbZu9ff81vz1+JontwHX/IhogZW1m1ETqiX+IxqiWzDAwEdMXVuJ22R
- QFh9MoCvDJKHNm/56id/nYIBUt0+X5TYz94xX1/WTM4LrXx3UinCdUuCqxGKpZ9T97L5SOXpWTNAQPWIVrEfrJJmm64Re5DvN91Hur+qWm0cmSIWj5+OO31K
- 1WqtDD9RHln8hEXNyB5GKOEEWj+yA4PQlGKJRAFrtW3xWpUBckDE/lCWgdnR32XU1j++AhRbTTZ7CtylG2J61UY2HNSYP5ngxYJ663ukPQDIA19xRUfUbFhB
- Ctrei1QxINXmKUPFUHbXbeBrS4SvAfmIZ6D93aZPnpkKjXHdisUBBued2fpEI7dtyCuBbdxDwhrdYj/vKoiUQ0NMGjsgMfPLuDYQePrxFz3N9FS64syvOAZs
- JRziy4lGvvcQXhwC0f5rj2jwMGHolhtNROo8q+ifBZ1WkA==
+X-CMAE-Envelope: MS4wfHNCjEIcM1AnwLsEdqkfSJOYjJ2QxxKW27c22hpiERIGyppJWJ1dE+pLgIDfDRUmKpiK+8w8PAxjVJRGRChc4GHW0cE1XaY0dxrF/yhLWJrdF6nj9EnM
+ 5mNKPxS3EJbL9k/PIzBhCibjuaJchtnhCwX+RyUWBiw1GiGhKe83W6uy75nYgM1Pt6dfK9hrrmRA7wYvkH2FKYVnkdGUlxJSANXlWDXXO4JInkcdlQ24DGQF
+ t9H4SIaMlj4NJsrfifDJUxxMx4KIPwfNl8XOxS7UH+jcnU/X4MAiSGkrVPw87ZNghbM1TRaYyfCq7Yzwcp1UvAa8TKl4zsUQB5LY1/Dj25/1LNhMNBhmAZyX
+ //zStasSNScQ1r8D9Z35Zn78wulGp6n5NqjEoqCZsUkHPgnWmLTWMLG/9dRPkbVqTDxtMCgd0JAnR0uFYLEGTZG1Zd1wovZ5/uwKWcEEhQghzmGUVzdBsbkk
+ IXS8YP2YZDEcsTc9zLQoNsjKSfIAAoQoBZ+e6G5LD2dyJLjecYlfL0D07iLclsccCmQTzUPARHUKfHTaGZ4Lkw9Z2I5dCFA5Cco+czkRCPrCe/eZGP3qHlcY
+ BfaFXl+FoSjiLIOz9aB39Uub/WyaJEQWbhD3wHJVRuojvExYDSEE6bGpxCgCbMcA36fMM6dOxvSwhhC4MbSkD3Mfp8iBvAkSIc+h+XSM2ctBjg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -58,8 +59,8 @@ can be discussed in separate threads.
 All sessions are in room Terreaux VIP Lounge - Level 0.
 There is a maximum of 15 people.
 
-The second session deals with libcamera and is on Wednesday morning
-from 9:00 to 13:00.
+The third session deals with future V4L2 API work and is on Wednesday afternoon
+from 14:00 to 18:00.
 
 Attendees for this session:
 
@@ -81,14 +82,22 @@ Hans Verkuil <hverkuil@xs4all.nl>
 If I missed someone, or you are on the list but won't attend after all, then
 please let me know.
 
-Attendees: it is probably useful if you let us know whether you have to
-join this meeting because you plan to use libcamera, or if you are 'just
-interested'. After the libcamera presentation on Tuesday afternoon we
-should know how many of the 'just interested' list can join.
+As with the previous session: if you are 'just interested', then let me know.
+If others want to join this session who actually need to be there, then I
+may have to drop some of the 'just interested' people. At this moment we're
+at 14 devs, so that fits.
 
 Agenda:
 
-Laurent, can you fill this in?
+TBD
+
+We will at minimum discuss Boris' RFCv2 patch series:
+
+https://www.spinics.net/lists/linux-media/msg149221.html
+
+(I've asked if he can rebase this and post a v3)
+
+I will expand the agenda further in a week or so.
 
 Regards,
 
