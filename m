@@ -2,266 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F1455BAC77
-	for <lists+linux-media@lfdr.de>; Mon, 23 Sep 2019 03:58:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C851BACF1
+	for <lists+linux-media@lfdr.de>; Mon, 23 Sep 2019 05:53:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403909AbfIWB6s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 22 Sep 2019 21:58:48 -0400
-Received: from mailgw01.mediatek.com ([210.61.82.183]:51443 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S2391419AbfIWB6s (ORCPT
+        id S2404740AbfIWDxG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 22 Sep 2019 23:53:06 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:34793 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2404038AbfIWDxG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 22 Sep 2019 21:58:48 -0400
-X-UUID: 9df3d1a65e8d4ed89f1ae385a2a4f21d-20190923
-X-UUID: 9df3d1a65e8d4ed89f1ae385a2a4f21d-20190923
-Received: from mtkcas09.mediatek.inc [(172.21.101.178)] by mailgw01.mediatek.com
-        (envelope-from <ck.hu@mediatek.com>)
-        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
-        with ESMTP id 915901570; Mon, 23 Sep 2019 09:58:41 +0800
-Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkmbs06n1.mediatek.inc (172.21.101.129) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Mon, 23 Sep 2019 09:58:40 +0800
-Received: from [172.21.77.4] (172.21.77.4) by mtkcas08.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Mon, 23 Sep 2019 09:58:39 +0800
-Message-ID: <1569203920.25491.9.camel@mtksdaap41>
-Subject: Re: [RFC, v3, 4/4] media: platform: mtk-mdp3: Add Mediatek MDP3
- driver
-From:   CK Hu <ck.hu@mediatek.com>
-To:     Bibby Hsieh <bibby.hsieh@mediatek.com>
-CC:     <hans.verkuil@cisco.com>,
-        <laurent.pinchart+renesas@ideasonboard.com>, <tfiga@chromium.org>,
-        <matthias.bgg@gmail.com>, <mchehab@kernel.org>,
-        <devicetree@vger.kernel.org>, <Sean.Cheng@mediatek.com>,
-        <Rynn.Wu@mediatek.com>, <srv_heupstream@mediatek.com>,
-        daoyuan huang <daoyuan.huang@mediatek.com>,
-        <holmes.chiou@mediatek.com>, <Jerry-ch.Chen@mediatek.com>,
-        <jungo.lin@mediatek.com>, <sj.huang@mediatek.com>,
-        <yuzhao@chromium.org>, <linux-mediatek@lists.infradead.org>,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
-        <zwisler@chromium.org>, <christie.yu@mediatek.com>,
-        <frederic.chen@mediatek.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-media@vger.kernel.org>
-Date:   Mon, 23 Sep 2019 09:58:40 +0800
-In-Reply-To: <20190911094013.5892-1-bibby.hsieh@mediatek.com>
-References: <20190911094013.5892-1-bibby.hsieh@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK:  N
+        Sun, 22 Sep 2019 23:53:06 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:a1ac:7af6:e7a9:cd65])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id CFPKin7GQ9D4hCFPLimiaO; Mon, 23 Sep 2019 05:53:03 +0200
+Message-ID: <efe68fef2d52e4ef266cf44af5b2994a@smtp-cloud7.xs4all.net>
+Date:   Mon, 23 Sep 2019 05:53:02 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: OK
+X-CMAE-Envelope: MS4wfE4QgzyEvtrdBiRe+j7ulKgNvM7r9jVPXfS6cV1iPsZv0VwoxOoFGMlHKG2nON1rQVbHEgHIqgTYAAcmk/ElPn07O3ZzF54uvdUeHfu7DjWiyFvInpP8
+ TajcVwoyrPmVsJ3emiVDTGeq/EH1htN5funpaiyv5SAK5ft4G7yyGR3Cg7tz7AMGC+hfMbRiMQFqLYf6bpxBk6T70A2V85pC90IuhdrYDbOsXOvo0lVUwg/7
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi, Bibby:
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On Wed, 2019-09-11 at 17:40 +0800, Bibby Hsieh wrote:
-> From: daoyuan huang <daoyuan.huang@mediatek.com>
-> 
-> This patch adds driver for Media Data Path 3 (MDP3).
-> Each modules' related operation control is sited in mtk-mdp3-comp.c
-> Each modules' register table is defined in file with "mdp_reg_"
-> and "mmsys_" prefix
-> GCE related API, operation control  sited in mtk-mdp3-cmdq.c
-> V4L2 m2m device functions are implemented in mtk-mdp3-m2m.c
-> Probe, power, suspend/resume, system level functions are defined in
-> mtk-mdp3-core.c
-> 
-> Signed-off-by: Ping-Hsun Wu <ping-hsun.wu@mediatek.com>
-> Signed-off-by: daoyuan huang <daoyuan.huang@mediatek.com>
-> ---
+Results of the daily build of media_tree:
 
-[snip]
+date:			Mon Sep 23 05:00:11 CEST 2019
+media-tree git hash:	6f51fdfd8229d5358c2d6e272cf73478866e8ddc
+media_build git hash:	d75b29db1297d2475227cc8bada843542271e40d
+v4l-utils git hash:	7a03d12a2c9588ff7a8e5e26f8bb9448559c9e7d
+edid-decode git hash:	7696439db703eeca7248af6c3a17d2e19a9292ea
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1-rc1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.5.1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 8634894b41454ef4215a3d4fd503305c720e761a
+host hardware:		x86_64
+host os:		5.2.0-2-amd64
 
-> +
-> diff --git a/drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c b/drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c
-> new file mode 100644
-> index 000000000000..bd8f274fcaa9
-> --- /dev/null
-> +++ b/drivers/media/platform/mtk-mdp3/mtk-mdp3-cmdq.c
-> @@ -0,0 +1,504 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (c) 2018 MediaTek Inc.
-> + * Author: Ping-Hsun Wu <ping-hsun.wu@mediatek.com>
-> + */
-> +
-> +#include <linux/platform_device.h>
-> +#include "mtk-mdp3-cmdq.h"
-> +#include "mtk-mdp3-comp.h"
-> +#include "mtk-mdp3-core.h"
-> +#include "mtk-mdp3-m2m.h"
-> +
-> +#include "mdp-platform.h"
-> +#include "mmsys_mutex.h"
-> +
-> +#define DISP_MUTEX_MDP_FIRST	(5)
-> +#define DISP_MUTEX_MDP_COUNT	(5)
-> +
-> +#define MDP_PATH_MAX_COMPS	IMG_MAX_COMPONENTS
-> +
-> +struct mdp_path {
-> +	struct mdp_dev		*mdp_dev;
-> +	struct mdp_comp_ctx	comps[MDP_PATH_MAX_COMPS];
-> +	u32			num_comps;
-> +	const struct img_config	*config;
-> +	const struct img_ipi_frameparam *param;
-> +	const struct v4l2_rect	*composes[IMG_MAX_HW_OUTPUTS];
-> +	struct v4l2_rect	bounds[IMG_MAX_HW_OUTPUTS];
-> +};
-> +
-> +#define has_op(ctx, op) \
-> +	(ctx->comp->ops && ctx->comp->ops->op)
-> +#define call_op(ctx, op, ...) \
-> +	(has_op(ctx, op) ? ctx->comp->ops->op(ctx, ##__VA_ARGS__) : 0)
-> +
-> +struct mdp_path_subfrm {
-> +	s32	mutex_id;
-> +	u32	mutex_mod;
-> +	s32	sofs[MDP_PATH_MAX_COMPS];
-> +	u32	num_sofs;
-> +};
-> +
-> +static bool is_output_disable(const struct img_compparam *param, u32 count)
-> +{
-> +	return (count < param->num_subfrms) ?
-> +		(param->frame.output_disable ||
-> +		param->subfrms[count].tile_disable) :
-> +		true;
-> +}
-> +
-> +static int mdp_path_subfrm_require(struct mdp_path_subfrm *subfrm,
-> +				   const struct mdp_path *path,
-> +				   struct mdp_cmd *cmd, u32 count)
-> +{
-> +	const struct img_config *config = path->config;
-> +	const struct mdp_comp_ctx *ctx;
-> +	phys_addr_t mm_mutex = path->mdp_dev->mm_mutex.reg_base;
-> +	s32 mutex_id = -1;
-> +	u32 mutex_sof = 0;
-> +	int mdp_color = 0;
-> +	int index;
-> +	u8 subsys_id = path->mdp_dev->mm_mutex.subsys_id;
-> +
-> +	/* Default value */
-> +	memset(subfrm, 0, sizeof(*subfrm));
-> +
-> +	for (index = 0; index < config->num_components; index++) {
-> +		ctx = &path->comps[index];
-> +		if (is_output_disable(ctx->param, count))
-> +			continue;
-> +		switch (ctx->comp->id) {
-> +		/**********************************************
-> +		 * Name            MSB LSB
-> +		 * DISP_MUTEX_MOD   23   0
-> +		 *
-> +		 * Specifies which modules are in this mutex.
-> +		 * Every bit denotes a module. Bit definition:
-> +		 *  2 mdp_rdma0
-> +		 *  4 mdp_rsz0
-> +		 *  5 mdp_rsz1
-> +		 *  6 mdp_tdshp
-> +		 *  7 mdp_wrot0
-> +		 *  8 mdp_wdma
-> +		 *  13 mdp_color
-> +		 *  23 mdp_aal
-> +		 *  24 mdp_ccorr
-> +		 **********************************************/
-> +		case MDP_AAL0:
-> +			subfrm->mutex_mod |= 1 << 23;
-> +			break;
-> +		case MDP_CCORR0:
-> +			subfrm->mutex_mod |= 1 << 24;
-> +			break;
-> +		case MDP_COLOR0:
-> +			if (mdp_color)
-> +				subfrm->mutex_mod |= 1 << 13;
-> +			break;
-> +		case MDP_WDMA:
-> +			subfrm->mutex_mod |= 1 << 8;
-> +			subfrm->sofs[subfrm->num_sofs++] = MDP_WDMA;
-> +			break;
-> +		case MDP_WROT0:
-> +			subfrm->mutex_mod |= 1 << 7;
-> +			subfrm->sofs[subfrm->num_sofs++] = MDP_WROT0;
-> +			break;
-> +		case MDP_TDSHP0:
-> +			subfrm->mutex_mod |= 1 << 6;
-> +			subfrm->sofs[subfrm->num_sofs++] = MDP_TDSHP0;
-> +			break;
-> +		case MDP_SCL1:
-> +			subfrm->mutex_mod |= 1 << 5;
-> +			subfrm->sofs[subfrm->num_sofs++] = MDP_SCL1;
-> +			break;
-> +		case MDP_SCL0:
-> +			subfrm->mutex_mod |= 1 << 4;
-> +			subfrm->sofs[subfrm->num_sofs++] = MDP_SCL0;
-> +			break;
-> +		case MDP_RDMA0:
-> +			mutex_id = DISP_MUTEX_MDP_FIRST + 1;
-> +			subfrm->mutex_mod |= 1 << 2;
-> +			subfrm->sofs[subfrm->num_sofs++] = MDP_RDMA0;
-> +			break;
-> +		case MDP_IMGI:
-> +			mutex_id = DISP_MUTEX_MDP_FIRST;
-> +			break;
-> +		case MDP_WPEI:
-> +			mutex_id = DISP_MUTEX_MDP_FIRST + 3;
-> +			break;
-> +		case MDP_WPEI2:
-> +			mutex_id = DISP_MUTEX_MDP_FIRST + 4;
-> +			break;
-> +		default:
-> +			break;
-> +		}
-> +	}
-> +
-> +	subfrm->mutex_id = mutex_id;
-> +	if (-1 == mutex_id) {
-> +		mdp_err("No mutex assigned");
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (subfrm->mutex_mod) {
-> +		/* Set mutex modules */
-> +		MM_REG_WRITE(cmd, subsys_id, mm_mutex, MM_MUTEX_MOD,
-> +			     subfrm->mutex_mod, 0x07FFFFFF);
-> +		MM_REG_WRITE(cmd, subsys_id, mm_mutex, MM_MUTEX_SOF,
-> +			     mutex_sof, 0x00000007);
-> +	}
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2331, Succeeded: 2331, Failed: 0, Warnings: 0
+sparse: OK
+smatch: OK
 
-In [1], mdp3 device has a pointer to mutex device, and you directly
-write mutex register in mdp3 driver.
+Detailed results are available here:
 
-		mdp_rdma0: mdp_rdma0@14001000 {
-			compatible = "mediatek,mt8183-mdp-rdma",
-				     "mediatek,mt8183-mdp3";
+http://www.xs4all.nl/~hverkuil/logs/Monday.log
 
-			mediatek,mm-mutex = <&mutex>;
-		};
+Detailed regression test results are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
 
- 		mutex: mutex@14016000 {
- 			compatible = "mediatek,mt8183-disp-mutex";
- 			reg = <0 0x14016000 0 0x1000>;
- 		};
+Full logs are available here:
 
-But mutex already has its own driver in mediatek drm driver [2]. This is
-not a good design. I would like all mutex device register is controlled
-in single driver. 
+http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
 
-[1] https://patchwork.kernel.org/patch/11140747/
-[2]
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/gpu/drm/mediatek/mtk_drm_ddp.c?h=v5.3#n429
+The Media Infrastructure API from this daily build is here:
 
-Regards,
-CK
-
-> +	return 0;
-> +}
-
-
-
+http://www.xs4all.nl/~hverkuil/spec/index.html
