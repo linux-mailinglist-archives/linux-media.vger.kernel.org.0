@@ -2,159 +2,202 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C0E8BB712
-	for <lists+linux-media@lfdr.de>; Mon, 23 Sep 2019 16:48:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8351BB769
+	for <lists+linux-media@lfdr.de>; Mon, 23 Sep 2019 17:00:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438368AbfIWOsQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Sep 2019 10:48:16 -0400
-Received: from mail-qt1-f170.google.com ([209.85.160.170]:39381 "EHLO
-        mail-qt1-f170.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2438125AbfIWOsQ (ORCPT
+        id S1731503AbfIWPAk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Sep 2019 11:00:40 -0400
+Received: from relay6-d.mail.gandi.net ([217.70.183.198]:54059 "EHLO
+        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731437AbfIWPAk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Sep 2019 10:48:16 -0400
-Received: by mail-qt1-f170.google.com with SMTP id n7so17462786qtb.6
-        for <linux-media@vger.kernel.org>; Mon, 23 Sep 2019 07:48:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version;
-        bh=Kylj60szb3/RZwvHy7gX9osGVi8dC2HrIGXRepi31F8=;
-        b=qBKRdnot9kH0qDhDfP/q0VhTVNzjRBamz7OSWW1JPiPN6mhfE1bSM9OOMB7yefaVJ9
-         Vq5urxHH3gRObwuu8p/38FebrIYTF00fCqo+gKNRKumxjGAMRG+AB/VIqqL6AkEKTZIJ
-         HBfo8rPWBELJbwPHoY+UzGUfFdUTydJcb9aCdWRqiI43w80OrII5wcKKep/tAthunhvj
-         MheD0TttPO8VYP6Walco+PlTobPSPBYdJpAWYoxoX8dehR7VVfC1To+dPW8A/0ezncwg
-         Gy/pxMFOjL8kUkfurGBNEV5nKgXoDX0THjNLtfAgXobf8zY5M2DpcZLoiBS24YSsiCgc
-         2CLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version;
-        bh=Kylj60szb3/RZwvHy7gX9osGVi8dC2HrIGXRepi31F8=;
-        b=kYDkvbqlKwsY/xzhkHR0T1/gxSgqsGCTdlXae4cFSPv+euXX7TSWCRLmpVuWfOWtR3
-         7vIXBFp6sB9Gdy0FpxhSZjWHHI4U+Y1MPHMU2AuIZi42LKisZv6ioobTl8J/2ziVuh8u
-         OLM0cpVtEzXtwmAwl+Kld1puGT75U0DHq9ep55SrsJI/hpTAeyMOUg6UpdN09f3GzK3l
-         FR8M/6zSYY5DNOFlnkjijUWcNT+5Q8WX/EM9o0OCmoGvdwYu3ikHLFhqgqC8uFK1/k5o
-         UuAoe1DTPsywK3VzE8ssU00JXN06i9uyySMovsB5fGir3tHxUET3k5JNbjKtRv97eCJ6
-         7QTA==
-X-Gm-Message-State: APjAAAV0vTQPZcztbw+9z+L0UVKiNXpiefhD6749hCsV7NbS67e6Lr4b
-        RFS8Ivc5Figai4MDbDGcydQdAA==
-X-Google-Smtp-Source: APXvYqw78bPXANU6MRJd2+X/EF0e3owLX3c71kFE1CVQrH1CDz+evDHhj/qGJQzRIAAiBPWToM5wbQ==
-X-Received: by 2002:ac8:2e31:: with SMTP id r46mr252098qta.293.1569250095618;
-        Mon, 23 Sep 2019 07:48:15 -0700 (PDT)
-Received: from tpx230-nicolas (modemcable154.55-37-24.static.videotron.ca. [24.37.55.154])
-        by smtp.gmail.com with ESMTPSA id c201sm5286587qke.128.2019.09.23.07.48.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Sep 2019 07:48:14 -0700 (PDT)
-Message-ID: <04f448f9f1b566d9fcc07490bcaf20c78153e84d.camel@ndufresne.ca>
-Subject: Re: [ANN] Media sessions in Lyon in October: future V4L2 work
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mon, 23 Sep 2019 11:00:40 -0400
+X-Originating-IP: 37.176.15.222
+Received: from uno.localdomain (mob-37-176-15-222.net.vodafone.it [37.176.15.222])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 52ED2C0007;
+        Mon, 23 Sep 2019 15:00:34 +0000 (UTC)
+Date:   Mon, 23 Sep 2019 17:02:13 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
         Boris Brezillon <boris.brezillon@collabora.com>,
         Alexandre Courbot <acourbot@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
         Tomasz Figa <tfiga@chromium.org>,
         Ezequiel Garcia <ezequiel@collabora.com>,
         Daniel Gomez <daniel@qtec.com>,
         Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
         Eugen Hristev <Eugen.Hristev@microchip.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
         Helen Koike <helen.koike@collabora.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
         Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Niklas =?ISO-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-Date:   Mon, 23 Sep 2019 10:48:12 -0400
-In-Reply-To: <bfeb78df-aaa5-a756-16d4-c874a7dd4645@xs4all.nl>
-References: <bfeb78df-aaa5-a756-16d4-c874a7dd4645@xs4all.nl>
-Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature";
-        boundary="=-pt1W2lARLxqI7i9411dX"
-User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [ANN] Media sessions in Lyon in October: codecs
+Message-ID: <20190923150213.2ub26ys4mhpp2hm5@uno.localdomain>
+References: <b3b2c3a6-43d6-ffbd-f94c-e6f92cad8a97@xs4all.nl>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="7dlf2k42yngoybvr"
+Content-Disposition: inline
+In-Reply-To: <b3b2c3a6-43d6-ffbd-f94c-e6f92cad8a97@xs4all.nl>
+User-Agent: NeoMutt/20180716
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---=-pt1W2lARLxqI7i9411dX
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--7dlf2k42yngoybvr
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Le lundi 23 septembre 2019 =C3=A0 16:27 +0200, Hans Verkuil a =C3=A9crit :
+Hi Hans,
+
+On Mon, Sep 23, 2019 at 04:12:55PM +0200, Hans Verkuil wrote:
 > Hi all,
->=20
-> Since we have three separate half-day sessions for different topics I dec=
-ided
-> to split the announcement for this in three emails as well, so these thin=
-gs
+>
+> Since we have three separate half-day sessions for different topics I decided
+> to split the announcement for this in three emails as well, so these things
 > can be discussed in separate threads.
->=20
+>
 > All sessions are in room Terreaux VIP Lounge - Level 0.
 > There is a maximum of 15 people.
->=20
-> The third session deals with future V4L2 API work and is on Wednesday aft=
-ernoon
-> from 14:00 to 18:00.
->=20
-> Attendees for this session:
->=20
-> Kieran Bingham <kieran.bingham@ideasonboard.com>
+>
+> The first session deals with the codec API and is on Tuesday morning from
+> 8:30 (tentative, might change) to 12:00 (we have to vacate the room at that
+> time).
+>
+> Confirmed attendees for this session:
+>
 > Boris Brezillon <boris.brezillon@collabora.com>
 > Alexandre Courbot <acourbot@chromium.org>
+> Nicolas Dufresne <nicolas@ndufresne.ca>
 > Tomasz Figa <tfiga@chromium.org>
 > Ezequiel Garcia <ezequiel@collabora.com>
 > Daniel Gomez <daniel@qtec.com>
 > Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 > Eugen Hristev <Eugen.Hristev@microchip.com>
-> Shuah Khan <skhan@linuxfoundation.org>
+> Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 > Helen Koike <helen.koike@collabora.com>
-> Jacopo Mondi <jacopo@jmondi.org>
-> Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Niklas S=C3=B6derlund <niklas.soderlund@ragnatech.se>
+> Michael Tretter <m.tretter@pengutronix.de>
 > Hans Verkuil <hverkuil@xs4all.nl>
->=20
-> If I missed someone, or you are on the list but won't attend after all, t=
-hen
+>
+> Tentative:
+>
+> Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Jacopo Mondi <jacopo@jmondi.org>
+>
+> Jacopo, please confirm if you want to attend this session. I didn't find
+> an email with explicit confirmation, so it was probably done via irc. But since
+> this session is getting close to capacity I would prefer to keep attendance to
+> those are actually working with codecs (or will work with it in the near future).
+
+I'm not really working on codecs, so if you're running almost at full
+capacity please feel free to re-assign my seat.
+
+If there are free seats I might flock in, but without contributing too
+much to the discussions :)
+
+Thanks
+   j
+
+>
+> If I missed someone, or you are on the list but won't attend after all, then
 > please let me know.
-
-Same, let me know.
-
->=20
-> As with the previous session: if you are 'just interested', then let me k=
-now.
-> If others want to join this session who actually need to be there, then I
-> may have to drop some of the 'just interested' people. At this moment we'=
-re
-> at 14 devs, so that fits.
->=20
+>
+>
+>
 > Agenda:
->=20
-> TBD
->=20
-> We will at minimum discuss Boris' RFCv2 patch series:
->=20
-> https://www.spinics.net/lists/linux-media/msg149221.html
->=20
-> (I've asked if he can rebase this and post a v3)
->=20
-> I will expand the agenda further in a week or so.
->=20
+>
+> - Status of any pending patches related to codec support.
+>
+> - Requirements of moving codec drivers out of staging.
+>
+> - Finalize the stateful encoder API. There are two pieces that need
+>   to be defined:
+>
+> 1) Setting the frame rate so bitrate control can make sense, since
+>    they need to know this information. This is also relevant for the
+>    stateless codec (and this may have to change on a per-frame basis
+>    for stateless codecs!).
+>
+>    This can either be implemented via ENUM_FRAMEINTERVALS for the coded
+>    pixelformats and S_PARM support, or we just add a new control for this.
+>    E.g. V4L2_CID_MPEG_VIDEO_FRAME_INTERVAL (or perhaps FRAME_RATE). If we
+>    go for a control, then we need to consider the unit. We can use a
+>    fraction as well. See this series that puts in the foundation for that:
+>    https://patchwork.linuxtv.org/cover/58857/
+>
+>    I am inclined to go with a control, since the semantics don't really
+>    match ENUM_FRAMEINTERVALS/S_PARM. These ioctls still need to be supported
+>    for legacy drivers. Open question: some drivers (mediatek, hva, coda)
+>    require S_PARM(OUTPUT), some (venus) allow both S_PARM(CAPTURE) and
+>    S_PARM(OUTPUT). I am inclined to allow both since this is not a CAPTURE
+>    vs OUTPUT thing, it is global to both queues.
+>
+> 2) Interactions between OUTPUT and CAPTURE formats.
+>
+>    The main problem is what to do if the capture sizeimage is too small
+>    for the OUTPUT resolution when streaming starts.
+>
+>    Proposal: width and height of S_FMT(OUTPUT) are used to
+>    calculate a minimum sizeimage (app may request more). This is
+>    driver-specific. (Is it? Or is this codec-specific?)
+>
+>    V4L2_FMT_FLAG_FIXED_RESOLUTION is always set for codec formats
+>    for the encoder (i.e. we don't support mid-stream resolution
+>    changes for now) and V4L2_EVENT_SOURCE_CHANGE is not
+>    supported. See https://patchwork.linuxtv.org/patch/56478/ for
+>    the patch adding this flag.
+>
+>    Of course, if we start to support mid-stream resolution
+>    changes (or other changes that require a source change event),
+>    then this flag should be dropped by the encoder driver and
+>    documentation on how to handle the source change event should
+>    be documented in the encoder spec. I prefer to postpone this
+>    until we have an encoder than can actually do mid-stream
+>    resolution changes.
+>
+>    If sizeimage of the OUTPUT is too small for the CAPTURE
+>    resolution and V4L2_EVENT_SOURCE_CHANGE is not supported,
+>    then the second STREAMON (either CAPTURE or OUTPUT) will
+>    return -ENOMEM since there is not enough memory to do the
+>    encode.
+>
+>    If V4L2_FMT_FLAG_FIXED_RESOLUTION is set (i.e. that should
+>    be the case for all current encoders), then any bitrate controls
+>    will be limited in range to what the current state (CAPTURE and
+>    OUTPUT formats and frame rate) supports.
+>
+> - Stateless encoders?
+>
+> - Anything else? (I have a feeling I missed a codec-related topic, but
+>   I can't find it in my mailbox)
+>
 > Regards,
->=20
+>
 > 	Hans
 
---=-pt1W2lARLxqI7i9411dX
+--7dlf2k42yngoybvr
 Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EABECAB0WIQSScpfJiL+hb5vvd45xUwItrAaoHAUCXYjbLQAKCRBxUwItrAao
-HFuKAJ9aSZD+EYS/i0kbqLxCVrYeqxgkNgCeLQoeDOleqdbbQo1NsBd2Q/ZOa3o=
-=qgb0
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl2I3nUACgkQcjQGjxah
+VjwrzQ//dNjV00Pcn905EM9/D6HCiyQSnUvOzEMY2+HcuuVaXyE8RSsFkBAHjKHf
+2hq5oE4MAcsLbVMKnIyRifefq9RucKnostQi0iH6UUz9uhkwTWtGH2ycWMwtshn5
+qwYMdZZRCtWyUXi0Qb1yT2mwSdAN45domlR2QZC060S0gorYwj9WeqfsOpxNvde/
+8Pk7ZJEr0QfT2URPQVTxqND0PQrsYfQQ/D5zI1YsKifzQXTvTdAGNOR8uYhIu1Mz
+vkzoPaCxIb/gsUxCIic3pP0+3EqxPO2XAIbaCwZ0ECZj8vOL0oPzhoTtCFsXSvId
+7jM2roxBLFG2iv1Ek/HoKuzhDpi1FJnOHiHkAVO70of9SMUaYA6tIUR6nCxSfcd0
+SMMNpSH7evIQ0zcpqXbmZJabUblNQeYk+rP6VyiaxPZ6IQQ6RIsm6wEhRL3bai9f
+oWKKVoQPjfdLkWoePOT/6rge2y4cL3hNZSJ1XaoOuH2MNT2L1YOylsqoNkFTt+dA
+K5zOmw0qgFt4VpyfFA0LVc9HyGP0pWeb9HtPD727LM6Bg79PfWhC2fZKoJ0LXvfZ
+bPY/sphgkXvlys5FYqpC9bxrted3VvyW6V3WrjZu4YsegiZQlJvpucxtAMFTJatU
+YuL6oURPsJK+9k2WxMEiA1oB9oR8tMffCxS8uyBL0Od94+sTrLw=
+=ramq
 -----END PGP SIGNATURE-----
 
---=-pt1W2lARLxqI7i9411dX--
-
+--7dlf2k42yngoybvr--
