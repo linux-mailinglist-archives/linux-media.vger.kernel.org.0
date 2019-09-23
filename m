@@ -2,90 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FC01BAEDC
-	for <lists+linux-media@lfdr.de>; Mon, 23 Sep 2019 10:05:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B186BAEF3
+	for <lists+linux-media@lfdr.de>; Mon, 23 Sep 2019 10:11:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436889AbfIWIFP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Sep 2019 04:05:15 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:57027 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2436751AbfIWIFP (ORCPT
+        id S2405647AbfIWILP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Sep 2019 04:11:15 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:55977 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2390655AbfIWILP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Sep 2019 04:05:15 -0400
+        Mon, 23 Sep 2019 04:11:15 -0400
 Received: from [192.168.2.10] ([46.9.232.237])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id CJLJivCGlKKNGCJLMikH25; Mon, 23 Sep 2019 10:05:13 +0200
-Subject: Re: bringing back media/zoran driver
-To:     Corentin Labbe <clabbe.montjoie@gmail.com>,
-        mjpeg-users@lists.sourceforge.net, linux-media@vger.kernel.org,
-        mchehab@kernel.org, laurent.pinchart@ideasonboard.com
-Cc:     linux-kernel@vger.kernel.org
-References: <20190921170357.GA26626@Red>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <8db38daf-74eb-8218-1cc6-ea9036afac3d@xs4all.nl>
-Date:   Mon, 23 Sep 2019 10:05:09 +0200
+        id CJR7ivF8BKKNGCJRAikJ2j; Mon, 23 Sep 2019 10:11:13 +0200
+Subject: Re: [PATCHv4 0/3] v4l2-core: Add metadata type to vfl_devnode_type
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, Vandana BN <bnvandana@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+References: <20190917133647.17533-1-hverkuil-cisco@xs4all.nl>
+ <20190920234857.GM12672@pendragon.ideasonboard.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <9ae7713a-c76c-cecd-165d-77dfe8eb0be0@xs4all.nl>
+Date:   Mon, 23 Sep 2019 10:11:09 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190921170357.GA26626@Red>
+In-Reply-To: <20190920234857.GM12672@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfCt1NjjCrrSl4jVu+CGzrZ5XhSiiHWrlUMePsTQcsj+kDTvGrYlE3vi9hHcONZRmJxVMWgOkWI9Dg0urdPkdhWd0N9H4bkSxk/Frzyj+2aYSPYeywbH0
- l10rUt4+m7bT6Uo6XP9Pi0seagJmyqgsFNe7AVrWoW6G/F+jdMQulndng3pvD8O+0sDmNUdmfIo18gIcGAxo0ivjEXBDn856wYmgDpc2uLlI2kXlx3/4Tguu
- mfkWm9zDz6K6Nl2tkf//h+Z9gHKnLoj52qhsEj3t4votTLnDmzlH6QxewAZNSWdgKvARu7g2TKgb+mNxUIMRippvkudm8ip+NnUSiagtEwvCRRhENbZvIRdu
- fjLEfZD4HJsY/7koMv0T3j25Xf9xrg==
+X-CMAE-Envelope: MS4wfNAZ+hvhoV+3gpjDnr1qCT9B4lSf2yqBuKyZhjBWKJFaOQ39CnnuuVE9dlSH67FMWw2i8g+Cr1y2VmUHslo6N5wFlyPpklX2U+leUumfd1e18ywHJijO
+ s1QRhuPeSRZqXmGBd079TuAQW0XfqTQPTxH0czg1VFe6xl/aFTV1U4uqP17BZE96/A5j2ZfOD98fYq+wVnsty5yubmpSWOpc2YswjgxlSxmmoTaMvCLv7n0q
+ xcgcaqj1lslUk23P9lqlGq5N+EZo2VfcbBtXnnn8n0PcRpxYh7nc0rvG38rQ19F0HAazRHLZ8BYqI9zTxzheRw==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 9/21/19 7:03 PM, Corentin Labbe wrote:
-> hello
+Hi Laurent,
+
+On 9/21/19 1:48 AM, Laurent Pinchart wrote:
+> Hi Hans,
 > 
-> I am the owner of a zoran based DC10+ card.
-> I am in the need of using it since yesterday and I found that its driver was removed.
+> On Tue, Sep 17, 2019 at 03:36:44PM +0200, Hans Verkuil wrote:
+>> This is a follow-up series from Vandana's "[v3] v4l2-core: Add metadata type to
+>> vfl_devnode_type" patch: https://patchwork.linuxtv.org/patch/58755/
+>>
+>> While testing that v3 patch with a patched version of vivid that has metadata
+>> capture support, I realized that metadata should be treated the same way as
+>> vbi in determine_valid_ioctls(). That makes sense since vbi *is* effectively
+>> metadata. So I changed Vandana's patch (hence my Co-Developed-by tag) to
+>> correctly validate the ioctls for metadata.
+>>
+>> I also added two follow-up patches to simplify the SDR code in that function,
+>> and to fix the code for v4l-touch devices (too many ioctls were enabled for
+>> such devices). I think the final code is easier to read as well.
 > 
-> Reverting the removing patch made to a temporary working situation.
+> Quoting my reply to "[RFC] V4L2 & Metadata: switch to /dev/v4l-metaX
+> instead of /dev/videoX]" as it may have fell through the cracks, and I
+> don't want this series to be merged without addressing the issue,
 > 
-> If I understand correctly, it was removed due to lack of vb2 convertion.
-> If I am able to do this vb2 conversion, does bring it back in mainline will be posssible ?
-> In that case I am ready to assume to be the maintainer if needed.
+> One of the reason [we didn't introduce a metadata video node type] is
+> CSI-2 sensors and CSI-2 receivers. A CSI-2 link often carries both video
+> and metadata using two different datatypes. From the point of view of
+> the CSI-2 receiver or the DMA engines, video and metadata are not
+> distinguishable, the CSI-2 receiver receives one stream with two data
+> types, demultiplexes them, and passes them to different DMA engines. A
+> sensor could send two video datatypes, or even conceptually two metadata
+> data types, and this would work the exact same way, with each of the two
+> DMA engines capturing data to buffers without caring about the contents.
+> Given that the datatype selection happens at runtime, a given DMA engine
 
-It would be nice to get it back. The conversion to vb2 is the main requirement, but in
-general this driver needed some TLC in general: it's a very old driver and the coding
-standards were quite a bit lower than they are today.
+'happens at runtime': what decides this? The user-specified topology?
+Something else?
 
-But the vb2 conversion is the most important part.
+Is this documented somewhere?
 
-It's unfortunately not the easiest thing to do (if it was, we'd have done it already!),
-and it is also a 'big bang' patch, i.e. one very large patch that converts the driver
-to vb2. It's all or nothing, you can't have half a vb2 conversion, so that makes it hard
-to review.
+To my knowledge there are no drivers that can do this in mainline code,
+right? The current drivers all create dedicated metadata devices.
 
-The easiest way is to use the v4l2-compliance utility to verify the conversion. Running
-'v4l2-compliance -s' is a good way of verifying this.
-
-My recommended approach is to:
-
-1) first revert the removal patch (commit 8dce4b265a53)
-2) clean up the coding style. Probably easiest to create one patch per source.
-   Use 'checkpatch.pl --strict -f <source>' for this. Doing this should make the
-   source code easier to understand/review.
-3) Run v4l2-compliance (without the -s option) and fix any failures it finds.
-4) Convert to vb2, using 'v4l2-compliance -s' to test.
-
-Be aware that the code is messy compared to modern standards. Do not be afraid
-to create cleanup patches, it's probably needed.
-
-The v4l2-compliance utility is part of https://git.linuxtv.org/v4l-utils.git/.
-See the README on how to build. Always use the v4l2-compliance version from this
-git repo since that's always the latest and greatest.
-
-I recommend that you join the #v4l irc channel on freenode.org. Most core devs that
-can help with advice are there during office hours (and often outside of office hours
-as well). That's for the European timezones since most devs are based in Europe.
+Also, this specific use-case is for capture only. Do you think this
+might be needed for metadata output as well?
 
 Regards,
 
 	Hans
+
+> is thus not dedicated to video or metadata, any of the DMA engines (and
+> there could also be more than two) could handle any type of data. For
+> this type of system we thus can't dedicate device nodes to video or
+> metadata, they need to support either.
+> 
+>> Hans Verkuil (2):
+>>   v4l2-dev: simplify the SDR checks
+>>   v4l2-dev: fix is_tch checks
+>>
+>> Vandana BN (1):
+>>   v4l2-core: Add metadata type to vfl_devnode_type
+>>
+>>  drivers/media/v4l2-core/v4l2-dev.c   | 97 ++++++++++++++++------------
+>>  drivers/media/v4l2-core/v4l2-ioctl.c |  5 +-
+>>  include/media/v4l2-dev.h             |  2 +
+>>  3 files changed, 61 insertions(+), 43 deletions(-)
+> 
+
