@@ -2,153 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C851BACF1
-	for <lists+linux-media@lfdr.de>; Mon, 23 Sep 2019 05:53:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 49411BADB7
+	for <lists+linux-media@lfdr.de>; Mon, 23 Sep 2019 08:17:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404740AbfIWDxG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 22 Sep 2019 23:53:06 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:34793 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2404038AbfIWDxG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sun, 22 Sep 2019 23:53:06 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:a1ac:7af6:e7a9:cd65])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id CFPKin7GQ9D4hCFPLimiaO; Mon, 23 Sep 2019 05:53:03 +0200
-Message-ID: <efe68fef2d52e4ef266cf44af5b2994a@smtp-cloud7.xs4all.net>
-Date:   Mon, 23 Sep 2019 05:53:02 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-X-CMAE-Envelope: MS4wfE4QgzyEvtrdBiRe+j7ulKgNvM7r9jVPXfS6cV1iPsZv0VwoxOoFGMlHKG2nON1rQVbHEgHIqgTYAAcmk/ElPn07O3ZzF54uvdUeHfu7DjWiyFvInpP8
- TajcVwoyrPmVsJ3emiVDTGeq/EH1htN5funpaiyv5SAK5ft4G7yyGR3Cg7tz7AMGC+hfMbRiMQFqLYf6bpxBk6T70A2V85pC90IuhdrYDbOsXOvo0lVUwg/7
+        id S2392876AbfIWGRh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Sep 2019 02:17:37 -0400
+Received: from mga04.intel.com ([192.55.52.120]:47196 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387519AbfIWGRg (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 23 Sep 2019 02:17:36 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 22 Sep 2019 23:17:36 -0700
+X-IronPort-AV: E=Sophos;i="5.64,539,1559545200"; 
+   d="scan'208";a="179024428"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 22 Sep 2019 23:17:34 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 249B820C9F; Mon, 23 Sep 2019 09:17:32 +0300 (EEST)
+Date:   Mon, 23 Sep 2019 09:17:32 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Benoit Parrot <bparrot@ti.com>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Prabhakar Lad <prabhakar.csengg@gmail.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [Patch v2 5/7] media: i2c: ov2659: Add powerdown/reset gpio
+ handling
+Message-ID: <20190923061731.GZ5781@paasikivi.fi.intel.com>
+References: <20190919203955.15125-1-bparrot@ti.com>
+ <20190919203955.15125-6-bparrot@ti.com>
+ <20190920101706.GX5781@paasikivi.fi.intel.com>
+ <20190920165529.it7urirm6epg4woq@ti.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190920165529.it7urirm6epg4woq@ti.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi Benoit,
 
-Results of the daily build of media_tree:
+On Fri, Sep 20, 2019 at 11:55:29AM -0500, Benoit Parrot wrote:
+...
+> > > @@ -1400,6 +1440,18 @@ static int ov2659_probe(struct i2c_client *client)
+> > >  	    ov2659->xvclk_frequency > 27000000)
+> > >  		return -EINVAL;
+> > >  
+> > > +	/* Optional gpio don't fail if not present */
+> > > +	ov2659->pwdn_gpio = devm_gpiod_get_optional(&client->dev, "powerdown",
+> > > +						    GPIOD_OUT_LOW);
+> > > +	if (IS_ERR(ov2659->pwdn_gpio))
+> > > +		return PTR_ERR(ov2659->pwdn_gpio);
+> > > +
+> > > +	/* Optional gpio don't fail if not present */
+> > > +	ov2659->resetb_gpio = devm_gpiod_get_optional(&client->dev, "reset",
+> > > +						      GPIOD_OUT_HIGH);
+> > > +	if (IS_ERR(ov2659->resetb_gpio))
+> > > +		return PTR_ERR(ov2659->resetb_gpio);
+> > > +
+> > >  	v4l2_ctrl_handler_init(&ov2659->ctrls, 2);
+> > >  	ov2659->link_frequency =
+> > >  			v4l2_ctrl_new_std(&ov2659->ctrls, &ov2659_ctrl_ops,
+> > > @@ -1445,6 +1497,9 @@ static int ov2659_probe(struct i2c_client *client)
+> > >  	ov2659->frame_size = &ov2659_framesizes[2];
+> > >  	ov2659->format_ctrl_regs = ov2659_formats[0].format_ctrl_regs;
+> > >  
+> > > +	pm_runtime_enable(&client->dev);
+> > > +	pm_runtime_get_sync(&client->dev);
+> > 
+> > This makes the driver depend on runtime PM.
+> 
+> Obviously.
+> Why? Is that bad?
 
-date:			Mon Sep 23 05:00:11 CEST 2019
-media-tree git hash:	6f51fdfd8229d5358c2d6e272cf73478866e8ddc
-media_build git hash:	d75b29db1297d2475227cc8bada843542271e40d
-v4l-utils git hash:	7a03d12a2c9588ff7a8e5e26f8bb9448559c9e7d
-edid-decode git hash:	7696439db703eeca7248af6c3a17d2e19a9292ea
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 8634894b41454ef4215a3d4fd503305c720e761a
-host hardware:		x86_64
-host os:		5.2.0-2-amd64
+Well, if it is, then it should be listed in driver's dependencies in
+Kconfig.
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2331, Succeeded: 2331, Failed: 0, Warnings: 0
-sparse: OK
-smatch: OK
+> 
+> > 
+> > See e.g. the smiapp driver for an example how to make it work without. It
+> > wasn't trivial. :I You won't need autosuspend.
+> 
+> I took a look at that driver, but I don't get your reference to being able
+> to work without runtime pm!
 
-Detailed results are available here:
+The driver didn't need runtime PM, so it'd be nice to continue work
+without.
 
-http://www.xs4all.nl/~hverkuil/logs/Monday.log
+What smiapp does is that it powers the sensor on first *without* runtime
+PM, and then proceeds to set up runtime PM if it's available. The sensor
+will only be powered off when the device is unbound with runtime PM
+disabled.
 
-Detailed regression test results are available here:
+Regarding the smiapp driver, you can replace pm_runtime_get_noresume() and
+all the autoidle lines with pm_runtime_idle() call after
+pm_runtime_enable() in the ov2659 driver.
 
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
+> That driver looks pretty similar to ov7740.c which I used as a reference
+> for this.
 
-Full logs are available here:
+I guess in practice many sensor drivers don't work without it on DT-based
+systems I'm afraid. :-( They should be fixed.
 
-http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
+-- 
+Kind regards,
 
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Sakari Ailus
+sakari.ailus@linux.intel.com
