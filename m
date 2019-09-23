@@ -2,119 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E3603BB8C0
-	for <lists+linux-media@lfdr.de>; Mon, 23 Sep 2019 17:57:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A2A64BB8C4
+	for <lists+linux-media@lfdr.de>; Mon, 23 Sep 2019 17:58:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387442AbfIWP5W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Sep 2019 11:57:22 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:49904 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387399AbfIWP5V (ORCPT
+        id S2387599AbfIWP6o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Sep 2019 11:58:44 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:36473 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387555AbfIWP6o (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Sep 2019 11:57:21 -0400
-Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9ADBB53B;
-        Mon, 23 Sep 2019 17:57:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1569254238;
-        bh=cev2lCBqcUi01JwqJdoN+zQzHIIhvQtHBPhXtisdlCI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=idEhmmHt/gi/l0pdEFZxBgXdOP3vAPr1iBegxBkEOC5Ze4r/QwLYsNrcYFJFPVnb4
-         rQwzCNTxOnlEdaxdQGiudVh72NFH01fKpDc35Fup7cU+2ROjYuD/XGUV7Qilf8mx3A
-         o6U8dS/9Dx7BQsGFLTFx9zJMvFw+RXnSEwQSlqIk=
-Date:   Mon, 23 Sep 2019 18:57:09 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Daniel Gomez <daniel@qtec.com>,
-        Eugen Hristev <Eugen.Hristev@microchip.com>,
-        Dafna Hirschfeld <dafna3@gmail.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Subject: Re: [ANN] Media sessions in Lyon in October: libcamera
-Message-ID: <20190923155709.GC5056@pendragon.ideasonboard.com>
-References: <07f46758-66e3-5ac1-cc41-807a30f93359@xs4all.nl>
- <7f154b1ce154b75b352945cf05f6359393e9cc3b.camel@ndufresne.ca>
- <cd309f07-16c7-94bc-2de6-e0baa22080ff@ideasonboard.com>
+        Mon, 23 Sep 2019 11:58:44 -0400
+Received: by mail-io1-f66.google.com with SMTP id b136so34713002iof.3
+        for <linux-media@vger.kernel.org>; Mon, 23 Sep 2019 08:58:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=fol4ZsNp8Kdo3yO2q1shDBzS/5TjO9ufrtF85Tvjgow=;
+        b=AuHOsq9JFSE5Ify7QRYRkbU2pp/wr3ZndsDy6fRR3fze82MYhF7kgsrsTLe+z47AAK
+         YhsUYhXAqCQy5Oh4PlGj6lDS0wEhHF+ypGGqhnZBESgJTapMgEypq4cu/aFrqpT6qmtz
+         x0VZqOUy4BNlHhiA2hx1YlILYS27L/W8IGf20=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=fol4ZsNp8Kdo3yO2q1shDBzS/5TjO9ufrtF85Tvjgow=;
+        b=C7HWK3aQd9lK9ief9Piy/fGlOqlhmasmAh5hjLzQkFMxgEHAfRB8QGwul/VdlWYqOH
+         f/TYCoesiJPDC+w38KlPt67sObWXB9NLvOcXm+atrR7+ccYd1roun6jUPouOYuiDGHf2
+         vumyYTaphBUMbdBjZb+I01CcrCEZ27EAy7Ue9QA5jbSFcf1f3RSTu+/XpsRrWlgoMi8O
+         lMEcxUfpuvDU8UrNFv7vHl2y0xOG+8rHsT3kS3IE0nczx/lsEtehklQN9RSn4ckcRvKD
+         +NGayKLt9eyuXUyucwF+bMF04MNQDW6p65wFjKApMSCVceitLNidW7b23vlkeg0Q6tVh
+         Iaig==
+X-Gm-Message-State: APjAAAXZNz6I2Jdoce6F8dox0oJc46lLtPivBTeqsrlJZGxjxiLGWkIO
+        X14Us8Gdz5ejQKhW63z1NH0wNkanCnA=
+X-Google-Smtp-Source: APXvYqxzQDZO+DFXyWer8Sy1jTQFXWfte4y3xR6vlfy5tqDrlFsyWXj50ynDEvLQSBIL0tjT8mKjAA==
+X-Received: by 2002:a02:a792:: with SMTP id e18mr72396jaj.125.1569254321540;
+        Mon, 23 Sep 2019 08:58:41 -0700 (PDT)
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com. [209.85.166.48])
+        by smtp.gmail.com with ESMTPSA id x2sm9254873iob.74.2019.09.23.08.58.39
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Sep 2019 08:58:40 -0700 (PDT)
+Received: by mail-io1-f48.google.com with SMTP id r26so34627362ioh.8
+        for <linux-media@vger.kernel.org>; Mon, 23 Sep 2019 08:58:39 -0700 (PDT)
+X-Received: by 2002:a02:1109:: with SMTP id 9mr121098jaf.90.1569254319004;
+ Mon, 23 Sep 2019 08:58:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <cd309f07-16c7-94bc-2de6-e0baa22080ff@ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <156821693963.2951081.11214256396118531359.stgit@dwillia2-desk3.amr.corp.intel.com>
+ <434c05bddd2b364e607e565227487910a8dd9793.1568391461.git.mchehab+samsung@kernel.org>
+ <20190918123620.GA6306@pendragon.ideasonboard.com> <20190918105728.24e7eb48@coco.lan>
+ <20190919065447.GF2959@kadam> <CAMuHMdU10J5zgQ0r8uoA+LFHRbyLB=AG6xygTmsxwc7T-ffdDw@mail.gmail.com>
+ <20190920145352.GI12950@pendragon.ideasonboard.com> <CAD=FV=UjTT04pOf3q3H+ZdG9ixr6RWaRJfNs2Dk7xTTEMi-=xw@mail.gmail.com>
+ <87k1a2yqmx.fsf@intel.com>
+In-Reply-To: <87k1a2yqmx.fsf@intel.com>
+From:   Doug Anderson <dianders@chromium.org>
+Date:   Mon, 23 Sep 2019 08:58:28 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XNys5BbzrYNnNFSEXOTUGD1LBxJHeuv8YHCcHmRQs28A@mail.gmail.com>
+Message-ID: <CAD=FV=XNys5BbzrYNnNFSEXOTUGD1LBxJHeuv8YHCcHmRQs28A@mail.gmail.com>
+Subject: Re: [Ksummit-discuss] [PATCH] media: add a subsystem profile documentation
+To:     Jani Nikula <jani.nikula@intel.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        ksummit <ksummit-discuss@lists.linuxfoundation.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello everybody,
+Hi,
 
-On Mon, Sep 23, 2019 at 04:03:54PM +0100, Kieran Bingham wrote:
-> On 23/09/2019 15:47, Nicolas Dufresne wrote:
-> > Le lundi 23 septembre 2019 à 16:21 +0200, Hans Verkuil a écrit :
-> >> Hi all,
-> >>
-> >> Since we have three separate half-day sessions for different topics I decided
-> >> to split the announcement for this in three emails as well, so these things
-> >> can be discussed in separate threads.
-> >>
-> >> All sessions are in room Terreaux VIP Lounge - Level 0.
-> >> There is a maximum of 15 people.
-> >>
-> >> The second session deals with libcamera and is on Wednesday morning
-> >> from 9:00 to 13:00.
-> >>
-> >> Attendees for this session:
-> >>
-> >> Kieran Bingham <kieran.bingham@ideasonboard.com>
-> 
-> Unfortunately I can no longer attend ELCE.
-> 
-> (My second baby will be a bit too new for an extended stay away from home)
-> 
-> >> Boris Brezillon <boris.brezillon@collabora.com>
-> >> Alexandre Courbot <acourbot@chromium.org>
-> >> Tomasz Figa <tfiga@chromium.org>
-> >> Ezequiel Garcia <ezequiel@collabora.com>
-> >> Daniel Gomez <daniel@qtec.com>
-> >> Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> >> Eugen Hristev <Eugen.Hristev@microchip.com>
-> >> Shuah Khan <skhan@linuxfoundation.org>
-> >> Helen Koike <helen.koike@collabora.com>
-> >> Jacopo Mondi <jacopo@jmondi.org>
-> >> Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >> Niklas Söderlund <niklas.soderlund@ragnatech.se>
-> >> Hans Verkuil <hverkuil@xs4all.nl>
-> >>
-> >> If I missed someone, or you are on the list but won't attend after all, then
-> >> please let me know.
-> > 
-> > I would like to join this one to, as after ELCE I should have some time
-> > to spend on this. I understand thought hat this would make use reach
-> > the limit, let me know if there is any issues, I can spare my seat if
-> > needed.
-> 
-> You now have my seat, and I've just made you a required attendee to go
-> in my place :-D
+On Sat, Sep 21, 2019 at 1:56 AM Jani Nikula <jani.nikula@intel.com> wrote:
+>
+> On Fri, 20 Sep 2019, Doug Anderson <dianders@chromium.org> wrote:
+> > On Fri, Sep 20, 2019 at 7:54 AM Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
+> >> And remove Kees Cook and Colin King ? :-) Jokes aside, brushing up
+> >> get_maintainer.pl a bit is a good idea. I'm for instance not sure adding
+> >> LKML automatically is a good idea if other mailing lists are already
+> >> CC'ed, as it's a bit of a /dev/null (albeit with logging, so CC'ing it
+> >> when no other mailing list is appropriate certainly makes sense).
+> >
+> > Please don't do this, as it means the patch won't be findable on the
+> > "LKML" patchwork instance at:
+> >
+> > https://lore.kernel.org/patchwork/project/lkml/list/
+> >
+> > Having LKML copied on all patches is also nice because it makes it
+> > easier to respond to a patch that was posted to a list you didn't
+> > subscribe to.  I subscribe to LKML and have it redirected to a folder
+> > that I never look at.  Then if I want to find an email thread I can
+> > search that folder and easily respond from within my normal email
+> > client.
+> >
+> > Is there any downside to CCing LKML?
+>
+> I think the question becomes, do we want *everything* posted to LKML?
 
-Thank you for the offer Kieran.
+I swear that I was involved in a conversation in the past where
+someone suggested to stop CCing LKML on patches and Jonathan Corbet
+jumped in and said that he supported CCing LKML on all patches.  I
+searched for that conversation and couldn't find it, so it's possible
+I dreamed it.  Maybe he can confirm?
 
-We're reaching the room capacity, and I know of several people who may
-attend ELCE and would be beneficial for the discussions. If anyone in
-the above list only has a general curiosity about libcamera but doesn't
-expect to really contribute to the discussions, and would consider
-giving their seat if required, could you please let me know ?
 
-> > Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> For example, based on the last 30 days, the kernel the monthly addition
+> to LKML traffic from my corner of the kernel would be in this ballpark:
+>
+> $ notmuch count date:30d.. to:intel-gfx@lists.freedesktop.org or to:dri-devel@lists.freedesktop.org and not to linux-kernel@vger.kernel.org and subject:PATCH
+> 96904
+>
+> OTOH LKML is already a firehose that's impossible to drink from, so not
+> much difference there...
 
--- 
-Regards,
+Right.  At this point I think LKML is just useful as a dumping ground
+and not a place to look for patches or conversations without filters.
+It feels fine to keep using it that way.  Having another list (like
+ksummit-discuss) for conversations with a higher signal-to-noise ratio
+seems like a fine way forward to me.
 
-Laurent Pinchart
+
+-Doug
