@@ -2,161 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 83699BBE40
-	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2019 00:05:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F9ABBBE97
+	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2019 00:45:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2503140AbfIWWFB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Sep 2019 18:05:01 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:44578 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2503109AbfIWWFB (ORCPT
+        id S2503477AbfIWWpj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Sep 2019 18:45:39 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:34901 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2392282AbfIWWpj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Sep 2019 18:05:01 -0400
-Received: by mail-wr1-f66.google.com with SMTP id i18so15581702wru.11
-        for <linux-media@vger.kernel.org>; Mon, 23 Sep 2019 15:04:59 -0700 (PDT)
+        Mon, 23 Sep 2019 18:45:39 -0400
+Received: by mail-pf1-f194.google.com with SMTP id 205so10124895pfw.2
+        for <linux-media@vger.kernel.org>; Mon, 23 Sep 2019 15:45:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gateworks-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=jbJLKwQpjOd723wY7Vi/Lqdhwgi3KaOZ4g+zQ7nLgfE=;
-        b=V4bUEYg0YS+4DAymJw1ykzYFSljWIhwUN4y0c4Xw3ikBoT9IKyG3AA4yOUguY3uQRo
-         JkplzVQ3uvBj8cjOy4GowAIFgZ6IuJVXgiDk3f722KJYjU+EruvFD86VLAgDBBVIVUK4
-         ax0xf+bIbrxz8VPghVoqm2wahCBiLaucrCQDs6XvLRbQwzyHq5z0eC5Ii9Lxdd/B4KwE
-         nd1KlWDNVB0UdBEXeLrgXOlE5pNaUcOUvWYO2d9VvVh6QPTXUYmoHgXTtnVXXzwie3gG
-         SK/EmaGQHLpEKetBY1pFpUPvkByDkxYBpECcF7zWTCqj7JddiZtiXZziUmRObKh2UshR
-         ywnw==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=dD9byLk1Tx9Plup+AvdF7bH1lsfwrv+hU6TjIHJ7AiM=;
+        b=SQc545BqocTTaFcprLPMeYKs+DwL+h5wFYyUGD7hkbhugHlAlchPy+ZX2YczzUFeqb
+         5CHXZxMteiGd5s9v/KLdzmHPPn/M44AyNpl9J2jxD/aJraq6skMQyGTjS9XvUIcOWU9E
+         wYc9FZbbFurWaixF9kTE8Ejzzcma+2oJjJFao=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=jbJLKwQpjOd723wY7Vi/Lqdhwgi3KaOZ4g+zQ7nLgfE=;
-        b=aj3wsncWJ1PW8bESQrFoIozR+sqBE/qrAYeoyaBoRq2FognpZguKwviSxF/trg4HY8
-         Kg0tXgMKfAGNAcBYY433mLM35d6t6dMqVMV+fOCb4dAFuYfUhIiqqI5n8U/CjHUqOJIE
-         09zn9wXN7IEu4QFfgaMlMbre0B5HcXT2b8gig72zoZlHUip8LBGIiA4wRuum+HnCVCmj
-         i3a2HggOGQvOLHdvU+XCB85NY6X37orJkUt/32ptz1d9BRXFKMg1YYcE4o/IVgBwiw6e
-         /hrF+UfOq6OtSdgcx/ice02W9VCAd+JHtElzJXkGl2A18KBZdksfylFKM67D5ksPt8LI
-         RjIg==
-X-Gm-Message-State: APjAAAVEewOWg+4jTkug6JFkVwjJ2RQJ2AaiTvwp/10w+KH9J9vDIh/M
-        SKVAHEVufxf3hBXZxLgdf+12iTc1LV6T2AMwBLkc6g==
-X-Google-Smtp-Source: APXvYqzSOfuanb7Qe1YMUmEHyioZIDI2B1FuvdEYuNZP6+C4WB4y7q1q/O0Me708Nq8MNMy+P/KaY67kI/lqA5PNB74=
-X-Received: by 2002:adf:e591:: with SMTP id l17mr1122991wrm.199.1569276298912;
- Mon, 23 Sep 2019 15:04:58 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=dD9byLk1Tx9Plup+AvdF7bH1lsfwrv+hU6TjIHJ7AiM=;
+        b=NHF5THChKZ1aBiGqRXZhBLJwLdry8w7GuZgqTwtcBVtld6EZVT2NPvmsCsrC0qbU7C
+         uVlbHAgjEj4LsvExcIae4amQjrxJPODNwoPjhttaYosajdLvU1TFZKsrzvKobq2KuiD0
+         Hg7aCWM/4Fu1q8n67TLhi5SYd8YkUxrvc+RUBXi5bx8dO9qzkAmAa6VW82hmuHqxqNaw
+         rWEpe10CYQTiEj6V0kyR3rIqH0GTiugcJ5DzesuF7uDLOUdt3Wfo7tkACzIW+/JPQiBD
+         xMfYcgE5iwHP34dlqK5Ib1RQmPp+6w4fA7HUso2SrY8zH5fuYWNN2vGAUjT3+HmdRlRL
+         Vopw==
+X-Gm-Message-State: APjAAAV4rjGPMraK5bVvoI48oz1eziInRX+PPMdwxxhf9T7G911Mk5oW
+        BIeAjmzIALivaLb8a4MqKtvnTQ==
+X-Google-Smtp-Source: APXvYqwi9Em13OLwso62pTOFMS3xLV7frTZ4jn4ACdyWpI9Z1AHz7htTIXaZ1mjKZWkmfq15rkw8zA==
+X-Received: by 2002:a17:90a:c244:: with SMTP id d4mr1949950pjx.129.1569278737040;
+        Mon, 23 Sep 2019 15:45:37 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id 16sm12875244pfi.55.2019.09.23.15.45.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Sep 2019 15:45:36 -0700 (PDT)
+Date:   Mon, 23 Sep 2019 15:45:35 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        ksummit-discuss@lists.linuxfoundation.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: [Ksummit-discuss] single maintainer profile directory (was Re:
+ [PATCH] media: add a subsystem profile documentation)
+Message-ID: <201909231544.9A0328AE8C@keescook>
+References: <156821693963.2951081.11214256396118531359.stgit@dwillia2-desk3.amr.corp.intel.com>
+ <434c05bddd2b364e607e565227487910a8dd9793.1568391461.git.mchehab+samsung@kernel.org>
+ <201909162032.F4462D3@keescook>
+ <20190917102817.263517b5@coco.lan>
+ <201909170930.B8AD840@keescook>
+ <20190918082326.49a19a24@coco.lan>
+ <20190921131307.77d01ebb@lwn.net>
 MIME-Version: 1.0
-References: <20190827215539.1286-1-mmichilot@gateworks.com>
- <cb3e9be4-9ce6-354f-bb7c-a4710edc1c1b@xs4all.nl> <20190829142931.GZ28351@bigcity.dyn.berto.se>
-In-Reply-To: <20190829142931.GZ28351@bigcity.dyn.berto.se>
-From:   Tim Harvey <tharvey@gateworks.com>
-Date:   Mon, 23 Sep 2019 15:04:47 -0700
-Message-ID: <CAJ+vNU11HTcP8L5J2Xg+Rmhvb8JDYemhJxt-GaGG5Myk3n38Tw@mail.gmail.com>
-Subject: Re: [PATCH] media: i2c: adv7180: fix adv7280 BT.656-4 compatibility
-To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Matthew Michilot <matthew.michilot@gmail.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190921131307.77d01ebb@lwn.net>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Aug 29, 2019 at 7:29 AM Niklas S=C3=B6derlund
-<niklas.soderlund@ragnatech.se> wrote:
->
-> Hi,
->
-> On 2019-08-29 13:43:49 +0200, Hans Verkuil wrote:
-> > Adding Niklas.
-> >
-> > Niklas, can you take a look at this?
->
-> I'm happy to have a look at this. I'm currently moving so all my boards
-> are in a box somewhere. I hope to have my lab up and running next week,
-> so if this is not urgent I will look at it then.
->
+On Sat, Sep 21, 2019 at 01:13:07PM -0600, Jonathan Corbet wrote:
+> Also, that file is nearly 18K lines long.  If some unsuspecting person
+> generates a PDF and prints it, they're going to get something along the
+> lines of 300 pages of MAINTAINERS, which may not quite be what they had
+> in mind.  It costs (almost) nothing to put that into HTML output, but
+> other formats could be painful.
 
-Niklas,
+Is this something that can be specifically excluded from the non-HTML
+outputs? (Or rather, specifically included in only the HTML output?) I
+don't see a way to do that exactly... maybe in my RFC only the html
+target would get the "real" file?
 
-Have you looked at this yet? Without this patch the ADV7280A does not
-output proper BT.656. We tested this on a Gateworks Ventana GW5404-G
-which uses the ADV7280A connected to the IMX6 CSI parallel bus. I'm
-hoping to see this get merged and perhaps backported to older kernels.
-
-Regards,
-
-Tim
-
-> >
-> > Regards,
-> >
-> >       Hans
-> >
-> > On 8/27/19 11:55 PM, Matthew Michilot wrote:
-> > > From: Matthew Michilot <matthew.michilot@gmail.com>
-> > >
-> > > Captured video would be out of sync when using the adv7280 with
-> > > the BT.656-4 protocol. Certain registers (0x04, 0x31, 0xE6) had to
-> > > be configured properly to ensure BT.656-4 compatibility.
-> > >
-> > > An error in the adv7280 reference manual suggested that EAV/SAV mode
-> > > was enabled by default, however upon inspecting register 0x31, it was
-> > > determined to be disabled by default.
-> > >
-> > > Signed-off-by: Matthew Michilot <matthew.michilot@gmail.com>
-> > > Reviewed-by: Tim Harvey <tharvey@gateworks.com>
-> > > ---
-> > >  drivers/media/i2c/adv7180.c | 15 +++++++++++++--
-> > >  1 file changed, 13 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.=
-c
-> > > index 99697baad2ea..27da424dce76 100644
-> > > --- a/drivers/media/i2c/adv7180.c
-> > > +++ b/drivers/media/i2c/adv7180.c
-> > > @@ -94,6 +94,7 @@
-> > >  #define ADV7180_REG_SHAP_FILTER_CTL_1      0x0017
-> > >  #define ADV7180_REG_CTRL_2         0x001d
-> > >  #define ADV7180_REG_VSYNC_FIELD_CTL_1      0x0031
-> > > +#define ADV7180_VSYNC_FIELD_CTL_1_NEWAV 0x12
-> > >  #define ADV7180_REG_MANUAL_WIN_CTL_1       0x003d
-> > >  #define ADV7180_REG_MANUAL_WIN_CTL_2       0x003e
-> > >  #define ADV7180_REG_MANUAL_WIN_CTL_3       0x003f
-> > > @@ -935,10 +936,20 @@ static int adv7182_init(struct adv7180_state *s=
-tate)
-> > >             adv7180_write(state, ADV7180_REG_EXTENDED_OUTPUT_CONTROL,=
- 0x57);
-> > >             adv7180_write(state, ADV7180_REG_CTRL_2, 0xc0);
-> > >     } else {
-> > > -           if (state->chip_info->flags & ADV7180_FLAG_V2)
-> > > +           if (state->chip_info->flags & ADV7180_FLAG_V2) {
-> > > +                   /* ITU-R BT.656-4 compatible */
-> > >                     adv7180_write(state,
-> > >                                   ADV7180_REG_EXTENDED_OUTPUT_CONTROL=
-,
-> > > -                                 0x17);
-> > > +                                 ADV7180_EXTENDED_OUTPUT_CONTROL_NTS=
-CDIS);
-> > > +                   /* Manually set NEWAVMODE */
-> > > +                   adv7180_write(state,
-> > > +                                 ADV7180_REG_VSYNC_FIELD_CTL_1,
-> > > +                                 ADV7180_VSYNC_FIELD_CTL_1_NEWAV);
-> > > +                   /* Manually set V bit end position in NTSC mode *=
-/
-> > > +                   adv7180_write(state,
-> > > +                                 ADV7180_REG_NTSC_V_BIT_END,
-> > > +                                 ADV7180_NTSC_V_BIT_END_MANUAL_NVEND=
-);
-> > > +           }
-> > >             else
-> > >                     adv7180_write(state,
-> > >                                   ADV7180_REG_EXTENDED_OUTPUT_CONTROL=
-,
-> > >
-> >
->
-> --
-> Regards,
-> Niklas S=C3=B6derlund
+-- 
+Kees Cook
