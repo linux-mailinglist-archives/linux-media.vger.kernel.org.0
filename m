@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 835EABCE16
-	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2019 18:52:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A5E59BCFAC
+	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2019 19:02:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2410142AbfIXQsn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Sep 2019 12:48:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40464 "EHLO mail.kernel.org"
+        id S1732158AbfIXRAV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Sep 2019 13:00:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35656 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2410550AbfIXQsm (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Sep 2019 12:48:42 -0400
+        id S2410016AbfIXQpm (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 24 Sep 2019 12:45:42 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A909A21D6C;
-        Tue, 24 Sep 2019 16:48:40 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id D074A217F4;
+        Tue, 24 Sep 2019 16:45:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569343721;
+        s=default; t=1569343540;
         bh=9JDnUe+bzR1K2h89N2eGq+vFz+UQRtG1DOZSfGbpTE0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=S9RX5HbVNbZhd3Uv61E1JJO8iZsaa/6BATO/aNdju7aicLSzw1oBf6FfH/joA96rR
-         082kAJOipTLQQ5EH+bg93Woo8NATmu1Zb+rFFBpshE9Dzqwum/LsMeFNM9rHv836Ts
-         PUb26lj3Hdm96ziCNNIPBUL4D/NhlkVI6+m2MsV4=
+        b=IWaWsbweW9XrsJD5KsMPChVpQ027+CIV+2olw4Cvamhe7HMnBLwUL0E5zk3ikZ8D0
+         COb0sUd9jqjmHaz/po8z1Kde5R71vwkiKBNgCsvSELdqeEL7mB7Gwrdymtza3+fhrl
+         M9W6Nhl0mM4z2xD7YpAcQ2AxbDc+fPJJsOMjrnoA=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Chris Wilson <chris@chris-wilson.co.uk>,
@@ -32,12 +32,12 @@ Cc:     Chris Wilson <chris@chris-wilson.co.uk>,
         =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
         dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.2 67/70] dma-buf/sw_sync: Synchronize signal vs syncpt free
-Date:   Tue, 24 Sep 2019 12:45:46 -0400
-Message-Id: <20190924164549.27058-67-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.3 84/87] dma-buf/sw_sync: Synchronize signal vs syncpt free
+Date:   Tue, 24 Sep 2019 12:41:40 -0400
+Message-Id: <20190924164144.25591-84-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190924164549.27058-1-sashal@kernel.org>
-References: <20190924164549.27058-1-sashal@kernel.org>
+In-Reply-To: <20190924164144.25591-1-sashal@kernel.org>
+References: <20190924164144.25591-1-sashal@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-stable: review
