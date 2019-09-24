@@ -2,362 +2,284 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 500FEBCB9C
-	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2019 17:35:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C6A9BCBDA
+	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2019 17:51:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390432AbfIXPej (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Sep 2019 11:34:39 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:44528 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389843AbfIXPei (ORCPT
+        id S2390477AbfIXPvm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Sep 2019 11:51:42 -0400
+Received: from relay3-d.mail.gandi.net ([217.70.183.195]:34015 "EHLO
+        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390614AbfIXPvm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Sep 2019 11:34:38 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dafna)
-        with ESMTPSA id 0DFE82601A9
-Message-ID: <893b802437a8cc011354cb724b6047283bd06f90.camel@collabora.com>
-Subject: Re: [PATCH v2] media: vimc: fla: Add virtual flash subdevice
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-To:     "Lucas A. M." =?ISO-8859-1?Q?Magalh=E3es?= <lucmaga@gmail.com>,
-        linux-media@vger.kernel.org
-Cc:     hverkuil@xs4all.nl, linux-kernel@vger.kernel.org,
-        helen.koike@collabora.com, edusbarretto@gmail.com,
-        lkcamp@lists.libreplanetbr.org
-Date:   Tue, 24 Sep 2019 18:34:32 +0300
-In-Reply-To: <20190915184419.32184-1-lucmaga@gmail.com>
-References: <20190915184419.32184-1-lucmaga@gmail.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.30.5-1.1 
+        Tue, 24 Sep 2019 11:51:42 -0400
+X-Originating-IP: 213.45.248.89
+Received: from uno.localdomain (host89-248-dynamic.45-213-r.retail.telecomitalia.it [213.45.248.89])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id B68DF6000A;
+        Tue, 24 Sep 2019 15:51:37 +0000 (UTC)
+Date:   Tue, 24 Sep 2019 17:53:17 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        tfiga@google.com, pavel@ucw.cz,
+        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
+        <linux-media@vger.kernel.org>
+Subject: Re: [PATCH v3 04/11] media: v4l2-ctrl: Document
+ V4L2_CID_CAMERA_SENSOR_ROTATION
+Message-ID: <20190924155317.nd7f5bp2ey2rkb54@uno.localdomain>
+References: <20190912201055.13964-1-jacopo@jmondi.org>
+ <20190912201055.13964-5-jacopo@jmondi.org>
+ <549569c7-64bd-f6bd-30f6-e0fe27687780@xs4all.nl>
+ <20190913184906.6tpl374n4anzja5c@uno.localdomain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="okq6vozo6yankmca"
+Content-Disposition: inline
+In-Reply-To: <20190913184906.6tpl374n4anzja5c@uno.localdomain>
+User-Agent: NeoMutt/20180716
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
 
-On Sun, 2019-09-15 at 15:44 -0300, Lucas A. M. Magalhães wrote:
-> From: Lucas A. M. Magalhaes <lucmaga@gmail.com>
-> 
-> Add a virtual subdevice to simulate the flash control API.
-> Those are the supported controls:
-> v4l2-ctl -d /dev/v4l-subdev6 -L
-> Flash Controls
-> 
->                        led_mode 0x009c0901 (menu)   : min=0 max=2 default=0 value=0
->                                 0: Off
->                                 1: Flash
->                                 2: Torch
->                   strobe_source 0x009c0902 (menu)   : min=0 max=1 default=0 value=0
->                                 0: Software
->                                 1: External
->                          strobe 0x009c0903 (button) : flags=write-only, execute-on-write
->                     stop_strobe 0x009c0904 (button) : flags=write-only, execute-on-write
->                   strobe_status 0x009c0905 (bool)   : default=0 value=0 flags=read-only
->                  strobe_timeout 0x009c0906 (int)    : min=1 max=10 step=1 default=10 value=10
->            intensity_flash_mode 0x009c0907 (int)    : min=0 max=255 step=1 default=255 value=255
->            intensity_torch_mode 0x009c0908 (int)    : min=0 max=255 step=1 default=255 value=255
->             intensity_indicator 0x009c0909 (int)    : min=0 max=255 step=1 default=255 value=255
->                          faults 0x009c090a (bitmask): max=0x00000002 default=0x00000000 value=0x00000000
-> 
-> Co-authored-by: Eduardo Barretto <edusbarretto@gmail.com>
-> Signed-off-by: Eduardo Barretto <edusbarretto@gmail.com>
-> Signed-off-by: Lucas A. M. Magalhães <lucmaga@gmail.com>
-> 
-> ---
-> Hi,
-> 
-> This patch depends on the patch series
->         "Collapse vimc into single monolithic driver" version 4.
-> 
-> Changes in v2:
-> 	- Fix v4l2-complience errors
-> 	- Add V4L2_CID_FLASH_STROBE_STATUS behavior
-> 	- Add V4L2_CID_FLASH_STROBE restrictions
-> 	- Remove vimc_fla_g_volatile_ctrl
-> 	- Remove unnecessarie V4L2_CID_FLASH_CLASS
-> 	- Change varables names
-> 	- Changes to apply over v4 of patch
-> 		"Collapse vimc into single monolithic driver"
-> ---
->  drivers/media/platform/vimc/Makefile      |   2 +-
->  drivers/media/platform/vimc/vimc-common.c |   2 +
->  drivers/media/platform/vimc/vimc-common.h |   4 +
->  drivers/media/platform/vimc/vimc-core.c   |   5 +
->  drivers/media/platform/vimc/vimc-flash.c  | 200 ++++++++++++++++++++++
->  5 files changed, 212 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/media/platform/vimc/vimc-flash.c
-> 
-> diff --git a/drivers/media/platform/vimc/Makefile b/drivers/media/platform/vimc/Makefile
-> index a53b2b532e9f..e759bbb04b14 100644
-> --- a/drivers/media/platform/vimc/Makefile
-> +++ b/drivers/media/platform/vimc/Makefile
-> @@ -1,6 +1,6 @@
->  # SPDX-License-Identifier: GPL-2.0
->  vimc-y := vimc-core.o vimc-common.o vimc-streamer.o vimc-capture.o \
-> -		vimc-debayer.o vimc-scaler.o vimc-sensor.o
-> +		vimc-debayer.o vimc-scaler.o vimc-sensor.o vimc-flash.o
->  
->  obj-$(CONFIG_VIDEO_VIMC) += vimc.o
->  
-> diff --git a/drivers/media/platform/vimc/vimc-common.c b/drivers/media/platform/vimc/vimc-common.c
-> index a3120f4f7a90..cb786de75573 100644
-> --- a/drivers/media/platform/vimc/vimc-common.c
-> +++ b/drivers/media/platform/vimc/vimc-common.c
-> @@ -203,6 +203,8 @@ struct media_pad *vimc_pads_init(u16 num_pads, const unsigned long *pads_flag)
->  	struct media_pad *pads;
->  	unsigned int i;
->  
-> +	if (!num_pads)
-> +		return NULL;
->  	/* Allocate memory for the pads */
->  	pads = kcalloc(num_pads, sizeof(*pads), GFP_KERNEL);
->  	if (!pads)
-> diff --git a/drivers/media/platform/vimc/vimc-common.h b/drivers/media/platform/vimc/vimc-common.h
-> index 236412ad7548..a1fbbc8066d3 100644
-> --- a/drivers/media/platform/vimc/vimc-common.h
-> +++ b/drivers/media/platform/vimc/vimc-common.h
-> @@ -169,6 +169,10 @@ struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
->  				     const char *vcfg_name);
->  void vimc_sen_rm(struct vimc_device *vimc, struct vimc_ent_device *ved);
->  
-> +struct vimc_ent_device *vimc_fla_add(struct vimc_device *vimc,
-> +				     const char *vcfg_name);
-> +void vimc_fla_rm(struct vimc_device *vimc, struct vimc_ent_device *ved);
-> +
->  /**
->   * vimc_pads_init - initialize pads
->   *
-> diff --git a/drivers/media/platform/vimc/vimc-core.c b/drivers/media/platform/vimc/vimc-core.c
-> index a1218578cb9a..312723b4ed8a 100644
-> --- a/drivers/media/platform/vimc/vimc-core.c
-> +++ b/drivers/media/platform/vimc/vimc-core.c
-> @@ -91,6 +91,11 @@ static struct vimc_ent_config ent_config[] = {
->  		.add = vimc_cap_add,
->  		.rm = vimc_cap_rm,
->  	},
-> +	{
-> +		.name = "Flash Controller",
-> +		.add = vimc_fla_add,
-> +		.rm = vimc_fla_rm,
-> +	}
->  };
->  
->  static const struct vimc_ent_link ent_links[] = {
-> diff --git a/drivers/media/platform/vimc/vimc-flash.c b/drivers/media/platform/vimc/vimc-flash.c
-> new file mode 100644
-> index 000000000000..637e7d0a5919
-> --- /dev/null
-> +++ b/drivers/media/platform/vimc/vimc-flash.c
-> @@ -0,0 +1,200 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * vimc-flash.c Virtual Media Controller Driver
-> + *
-> + * Copyright (C) 2019
-> + * Contributors: Lucas A. M. Magalhães <lamm@lucmaga.dev>
-> + *               Eduardo Barretto <edusbarretto@gmail.com>
-> + *
-> + */
-> +
-> +#include <linux/delay.h>
-> +#include <linux/kthread.h>
-> +#include <linux/sched.h>
-> +#include <linux/vmalloc.h>
-> +#include <media/v4l2-ctrls.h>
-> +#include <media/v4l2-event.h>
-> +#include <media/v4l2-subdev.h>
-> +
-> +#include "vimc-common.h"
-> +
-> +#define VIMC_FLASH_TIMEOUT_STEP 10000
-> +#define VIMC_FLASH_TIMEOUT_MAX 50000000
-> +
-> +struct vimc_fla_device {
-> +	struct vimc_ent_device ved;
-> +	struct v4l2_subdev sd;
-> +	struct v4l2_ctrl_handler hdl;
-> +	int strobe_source;
-> +	bool is_strobe;
-> +	int led_mode;
-> +	int indicator_intensity;
-> +	int torch_intensity;
-> +	int flash_intensity;
-> +	u64 timeout;
-> +	u64 last_strobe;
-> +	struct task_struct *kthread;
-> +};
-> +
-> +void vimc_fla_set_strobe_status(struct v4l2_ctrl_handler *hdl, bool value){
-> +	struct v4l2_ctrl *c;
-> +	c = v4l2_ctrl_find(hdl, V4L2_CID_FLASH_STROBE_STATUS);
-> +	if (!c) return;
-> +	v4l2_ctrl_s_ctrl(c, value);
-> +
-> +}
-> +
-> +static int vimc_fla_strobe_thread(void *data)
-> +{
-> +	struct vimc_fla_device *vfla = data;
-> +	vimc_fla_set_strobe_status(&vfla->hdl, vfla->is_strobe);
-> +	vfla->last_strobe = ktime_get_ns();
-> +	while(vfla->is_strobe &&
-> +		vfla->last_strobe + vfla->timeout > ktime_get_ns()){
-> +		msleep_interruptible(VIMC_FLASH_TIMEOUT_STEP/1000);
-> +	}
-> +	vimc_fla_set_strobe_status(&vfla->hdl, false);
-> +	return 0;
-> +}
-> +
-> +static int vimc_fla_s_ctrl(struct v4l2_ctrl *c)
-> +{
-> +
-> +	struct vimc_fla_device *vfla =
-> +		container_of(c->handler, struct vimc_fla_device, hdl);
-> +
-> +	switch (c->id) {
-> +	case V4L2_CID_FLASH_LED_MODE:
-> +		vfla->led_mode = c->val;
-> +		return 0;
-> +	case V4L2_CID_FLASH_STROBE_SOURCE:
-> +		vfla->strobe_source = c->val;
-> +		return 0;
-> +	case V4L2_CID_FLASH_STROBE:
-> +		if (vfla->led_mode != V4L2_FLASH_LED_MODE_FLASH ||
-> +		    vfla->strobe_source != V4L2_FLASH_STROBE_SOURCE_SOFTWARE){
-> +			return -EILSEQ;
-> +		}
-> +		vfla->is_strobe = true;
-> +		vfla->kthread = kthread_run(vimc_fla_strobe_thread, vfla, "vimc-flash thread");
-> +		return 0;
-> +	case V4L2_CID_FLASH_STROBE_STATUS:
-> +		vfla->is_strobe = c->val;
-> +		return 0;
-> +	case V4L2_CID_FLASH_STROBE_STOP:
-> +		vfla->is_strobe = false;
-> +		return 0;
-> +	case V4L2_CID_FLASH_TIMEOUT:
-> +		vfla->timeout = c->val;
-> +		return 0;
-> +	case V4L2_CID_FLASH_INTENSITY:
-> +		vfla->flash_intensity = c->val;
-> +		return 0;
-> +	case V4L2_CID_FLASH_TORCH_INTENSITY:
-> +		vfla->torch_intensity = c->val;
-> +		return 0;
-> +	case V4L2_CID_FLASH_INDICATOR_INTENSITY:
-> +		vfla->indicator_intensity = c->val;
-> +		return 0;
-Should you add here a "default" case returning error?
+--okq6vozo6yankmca
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-> +	}
-> +	return 0;
-> +}
-> +
-> +static const struct v4l2_ctrl_ops vimc_fla_ctrl_ops = {
-> +	.s_ctrl = vimc_fla_s_ctrl,
-> +};
-> +
-> +static const struct v4l2_subdev_core_ops vimc_fla_core_ops = {
-> +	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
-> +	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
-> +};
-> +
-> +static const struct v4l2_subdev_ops vimc_fla_ops = {
-> +	.core = &vimc_fla_core_ops,
-> +};
-> +
-> +/* initialize device */
-> +struct vimc_ent_device *vimc_fla_add(struct vimc_device *vimc,
-> +				     const char *vcfg_name)
-> +{
-> +	struct v4l2_device *v4l2_dev = &vimc->v4l2_dev;
-> +	struct vimc_fla_device *vfla;
-> +	int ret;
-> +
-> +	/* Allocate the vfla struct */
-> +	vfla = kzalloc(sizeof(*vfla), GFP_KERNEL);
-> +	if (!vfla)
-> +		return NULL;
-> +
-> +	v4l2_ctrl_handler_init(&vfla->hdl, 4);
-> +
-> +	v4l2_ctrl_new_std_menu(&vfla->hdl, &vimc_fla_ctrl_ops,
-> +			       V4L2_CID_FLASH_LED_MODE,
-> +			       V4L2_FLASH_LED_MODE_TORCH, ~0x7,
-> +			       V4L2_FLASH_LED_MODE_NONE);
-> +	v4l2_ctrl_new_std_menu(&vfla->hdl, &vimc_fla_ctrl_ops,
-> +			       V4L2_CID_FLASH_STROBE_SOURCE, 0x1, ~0x3,
-> +			       V4L2_FLASH_STROBE_SOURCE_SOFTWARE);
-> +	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
-> +			  V4L2_CID_FLASH_STROBE, 0, 0, 0, 0);
-> +	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
-> +			  V4L2_CID_FLASH_STROBE_STOP, 0, 0, 0, 0);
-> +	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
-> +			  V4L2_CID_FLASH_TIMEOUT, 0,
-> +			  VIMC_FLASH_TIMEOUT_MAX,
-> +			  VIMC_FLASH_TIMEOUT_STEP,
-> +			  VIMC_FLASH_TIMEOUT_STEP);
-> +	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
-> +			  V4L2_CID_FLASH_TORCH_INTENSITY, 0, 255, 1, 255);
-> +	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
-> +			  V4L2_CID_FLASH_INTENSITY, 0, 255, 1, 255);
-> +	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
-> +			  V4L2_CID_FLASH_INDICATOR_INTENSITY, 0, 255, 1, 255);
-> +	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
-> +			  V4L2_CID_FLASH_STROBE_STATUS, 0, 1, 1, 0);
-> +	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
-> +			  V4L2_CID_FLASH_FAULT, 0,
-> +			  V4L2_FLASH_FAULT_TIMEOUT, 0, 0);
-> +	vfla->sd.ctrl_handler = &vfla->hdl;
-> +	if (vfla->hdl.error) {
-> +		ret = vfla->hdl.error;
-> +		goto err_free_vfla;
-> +	}
-> +
-> +	/* Initialize ved and sd */
-> +	ret = vimc_ent_sd_register(&vfla->ved, &vfla->sd, v4l2_dev,
-> +				   vcfg_name,
-> +				   MEDIA_ENT_F_FLASH, 0, NULL,
-> +				   NULL, &vimc_fla_ops);
-I think you are missing a v4l2_subdev_internal_ops* as the 8th argument
-with a release callback that frees the ctrl handler, similar to vimc-sensor
+Hi Hans,
 
-Regards,
-Dafna
+On Fri, Sep 13, 2019 at 08:49:06PM +0200, Jacopo Mondi wrote:
+> Hi Hans,
+>
+> On Fri, Sep 13, 2019 at 04:02:45PM +0200, Hans Verkuil wrote:
+> > On 9/12/19 10:10 PM, Jacopo Mondi wrote:
+> > > Add documentation for the V4L2_CID_CAMERA_SENSOR_ROTATION camera
+> > > control. The newly added read-only control reports the camera device
+> > > mounting rotation.
+> > >
+> > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > > ---
+> > >  .../media/uapi/v4l/ext-ctrls-camera.rst       | 117 ++++++++++++++++++
+> > >  1 file changed, 117 insertions(+)
+> > >
+> > > diff --git a/Documentation/media/uapi/v4l/ext-ctrls-camera.rst b/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
+> > > index f879dcc9409c..74991522ca3a 100644
+> > > --- a/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
+> > > +++ b/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
+> > > @@ -542,6 +542,123 @@ enum v4l2_scene_mode -
+> > >
+> > >
+> > >
+> > > +``V4L2_CID_CAMERA_SENSOR_ROTATION (integer)``
+> > > +    This read-only control describes the sensor orientation expressed as
+> > > +    rotation in counterclockwise degrees along the axis perpendicular to the
+> > > +    device mounting plane, and directed away from the sensor lens. Possible
+> > > +    values for the control are 90, 180 and 270 degrees. To compensate the device
+> >
+> > compensate -> compensate for
+> >
+> > > +    mounting rotation on the captured images, a rotation of the same amount of
+> > > +    degrees, in the same counterclockwise rotation direction should be applied
+> > > +    along the axis directed from the observer to the captured image when
+> > > +    displayed on a screen.
+> >
+> > Is this right? Shouldn't that be "in the clockwise direction"? If the sensor is
+> > mounted 90 degrees counterclockwise, then I need to rotate by 90 degrees clockwise
+> > to compensate for that, right?
+> >
+>
+> It really depend along which axis direction you are applying the mounting
+> rotation and the compensation rotation... See below...
+>
+> > > +
+> > > +    To better understand the effect of the sensor rotation on the acquired
+> > > +    images when displayed on a screen, it is helpful to consider a fictional
+> > > +    scan-out sequence of the sensor's pixels, assuming the pixel array having
+> > > +    its top-left pixel at position (0, 0) with values on the 'x' axis increasing
+> > > +    towards the right direction, and values on the 'y' axis increasing towards
+> > > +    the bottom. The effect of sensor rotation could be easily visualized
+> > > +    considering the sequence of captured pixels.
+> > > +
+> > > +    Assuming the following scene has to be captured::
+> > > +
+> > > +                o
+> > > +               -|-
+> > > +               / \
+> > > +
+> > > +    An upright mounted sensor has its pixel array displaced as follow::
+> > > +
+> > > +                                      x
+> > > +            (0,0)---------------------->
+> > > +              ! 0,0 0,1 0,2 ... 0,line-len
+> >
+> > Isn't that 0,0 ... 0,num-col?
+>
+> Yes indeed sorry
+>
+> > line-len is a weird name, shouldn't that be num-lines?
+> >
+> > line-len sounds like it is the same as num-col.
+> >
+> > I'm totally confused.
+> >
+>
+> num-col is totally wrong, that should have been num-lines
+>
+> In general
+> s/line-len/num-col
+> s/num-col/num-lines
+>
+> > > +              ! 1,0 1,1 1,2 ...
+> > > +              ! ...
+> > > +              ! ...
+> > > +              ! (num-col,0)...  (num-col,line-len)
+> > > +            y V
+> > > +
+> > > +
+> > > +    Assuming pixels are scanned out from (0,0) to (num-col,line-len)
+> > > +    progressively::
+> > > +
+> > > +             (0,0) ---->-------------> (0,line-len)---!
+> > > +             !------------------------------------<a--!
+> > > +             V
+> > > +             (1,0) ---->-------------> (1,line-len)---!
+> > > +             !------------------------------------<---!
+> > > +             V
+> > > +             (...) .-->--------------> ( ,,,, )    ---!
+> > > +             !------------------------------------<---!
+> > > +             V
+> > > +             (num-col,0)------------->(num-col,line-len)
+> > > +
+> > > +
+> > > +    If a rotation of 90 degrees counterclockwise along the axis perpendicular to
+> > > +    the sensor's lens and directed towards the scene to be captured is applied
+> > > +    to the sensor, the pixel array would then be rotated as follows::
+> > > +
+> > > +            x ^  0,line-len,,,(num-col,line-len
+> > > +              !  ....
+> > > +              !  0,2 1,2      ...
+> > > +              !  0,1 1,1      ...
+> > > +              !  0,0 1,0 ... num-col,0
+> > > +             (0,0)------------------------>
+> > > +                                   y
+> > > +
+> > > +    And the pixel scan-out sequence would then proceed as follows::
+> > > +
+> > > +            (0,line-len)            (num-cols,line-len)
+> > > +                 ^\    ^\    ^\    ^\    ^
+> > > +                 ! \   ! \   ! \   ! \   !
+> > > +                 !  \  !  \  !  \  !  \  !
+> > > +                 !   \ !   \ !   \ !   \ !
+> > > +                 !    \!    \!    \!    \!
+> > > +               (0,0)  (1,0) ....      (num-cols,0)
+> > > +
+> > > +    Which when applied to the capture scene gives::
+> > > +
+> > > +            (0,line-len)            (num-cols,line-len)
+> > > +                ^\    ^\    ^\    ^\    ^
+> > > +                ! \   ! \   0 \   ! \   !
+> > > +                !  \  !  \ -|- \  !  \  !
+> > > +                !   \ !    / \  \ !   \ !
+> > > +                !    \!    \!    \!    \!
+> > > +              (0,0)  (1,0) ....      (num-cols,0)
+> > > +
+> > > +    Producing the following image once captured to memory and
+> > > +    displayed to the user::
+> > > +
+> > > +             \ !
+> > > +               --0
+> > > +             / !
+> > > +
+> > > +    Which has a rotation of the same amount of degrees applied on the opposite
+> > > +    rotation direction along the axis that goes from the observer to the
+> > > +    displayed image.
+> > > +
+> > > +    In order to compensate the sensor mounting rotation, when expressed
+> > > +    as counterclockwise rotation along the axis directed from the sensor to
+> > > +    the captured scene, a rotation of the same amount of degrees in the
+> > > +    same counterclockwise rotation direction but applied along the axis
+> > > +    directed from the observer to the captured image, has to be applied.::
+> >
+> > .:: -> :
+> >
+>
+> Don't I need the :: to mark the following block of text as verbatim ?
+>
+> > > +
+> > > +                -------   90 degree counterclockwise
+> > > +                |   o  |  mounting rotation applied
+> > > +                |  -|- |  along the axis directed
+> > > +                |  / \ |  away from the sensor lens
+> > > +                -------
+> > > +                -------
+> > > +                | \ !  |  Resulting captured
+> > > +                |  --0 |  image when displayed
+> > > +                | / !  |  on screen
+> > > +                -------
+> >
+> > Trying this with my webcam turning it 90 degrees counterclockwise, I
+> > and up with my head to the left, not to the right.
+> >
+>
+> Along which axis direction are you rotating the camera counterclockwise ?
+>
+> If you see your face, and you rotate the camera counterclockwise while
+> looking at it, you're actually rotating along the axis directed -towards-
+> the sensor.
+>
+> The rotation here in the example and in the 'rotation' property
+> description has to be applied along the axis pointing aways from the
+> sensor, so what you're actually doing is rotating clockwise along that
+> direction (I guess)... So yes, to compensate that, you need to rotate
+> clockwise when you look at the image on the screen... Confusing,
+> right?
+>
 
-> +	if (ret)
-> +		goto err_free_hdl;
-> +
-> +	/* Initialize standard values */
-> +	vfla->indicator_intensity = 0;
-> +	vfla->torch_intensity = 0;
-> +	vfla->flash_intensity = 0;
-> +	vfla->is_strobe = false;
-> +	vfla->timeout = 0;
-> +	vfla->last_strobe = 0;
-> +	vfla->led_mode = V4L2_FLASH_LED_MODE_NONE;
-> +
-> +	return &vfla->ved;
-> +
-> +err_free_hdl:
-> +	v4l2_ctrl_handler_free(&vfla->hdl);
-> +err_free_vfla:
-> +	kfree(vfla);
-> +
-> +	return NULL;
-> +}
-> +
-> +void vimc_fla_rm(struct vimc_device *vimc, struct vimc_ent_device *ved)
-> +{
-> +	struct vimc_fla_device *vfla;
-> +
-> +	if (!ved)
-> +		return;
-> +
-> +	vfla = container_of(ved, struct vimc_fla_device, ved);
-> +	vimc_ent_sd_unregister(ved, &vfla->sd);
-> +}
+Does it work for you? Can I send a new iteration with your comments on
+the previous patches taken in ?
 
+Thanks
+  j
+
+> > > +                -------
+> > > +                |   o  |  Rotation compensation
+> > > +                |  -|- |  is 90 degrees counterclockwise
+> > > +                |  / \ |  along the axis directed to the
+> > > +                -------   displayed image
+> > > +
+> > > +
+> > >  .. [#f1]
+> > >     This control may be changed to a menu control in the future, if more
+> > >     options are required.
+> > >
+> >
+> > Regards,
+> >
+> > 	Hans
+
+
+
+--okq6vozo6yankmca
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl2KO+0ACgkQcjQGjxah
+Vjx2HQ//bXcwyB+j1yKdxWSnGf0ryFMaRAp+YF2/c8jzK6NW5ggKETILRL/Yke5U
+8ZULrpNDO2Hnug9FT/v5dIU6NWAx4aj5QB9dEbxCIJeUORRrGAmyAW3ZP+ro7CrL
+bChn/gYLNwwpFYzjnD7GX076aPME3oKAnrVH68VjdOJzSyAYiWyTpirwxEhBED1K
+DAZd/x8VFAIIIN4JXx99/OF72BjZoq+4GWnsqgfmuRlSWjTAbPUTQPlhmeCyWsqZ
+mRj9jVZ8xFCOgqrFLFoDOEgTkjnd0SGOaixXUs3EHhtvrFnHigtTuoO4/aLXWHvy
+UXQfS4cUcKGvbicVftEpVAs9rseWRuqHuwFkKOuhIGmjXOgNiSWzDPgo0omue8tY
+GQ+LwmnV46xwigN6x4YXY5tPIAaXcF093WoT1n8/dCjCx1mqyLSV7hregABcMlZU
++AiXax1Lu7QL7xfjKfzYHiqouAn5/7H5oOKOgFk3ItS5PEvSFlDCsDY6KbP61E2r
+21A+JFfdkWKNUl8LHsQep+HPy3NmavXVrshoJzMUbLy3p7yhxTLHQK3IU9Z69t36
+If3/85xDDnQGJkYOAeewKDf4qsx/FRwXodx0FHO1sS40ZEOFoqhL84EobUu0BnX5
+suwHmEVfn5bwPKqQPsq1Mtw9Rb1sKDVtBNT6O1jtiwOWnkGNDyI=
+=HcLT
+-----END PGP SIGNATURE-----
+
+--okq6vozo6yankmca--
