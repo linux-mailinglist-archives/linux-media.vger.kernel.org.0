@@ -2,182 +2,304 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 48C1FBC5A7
-	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2019 12:28:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 185B9BC5FB
+	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2019 12:56:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2504477AbfIXK20 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Sep 2019 06:28:26 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:47755 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2504469AbfIXK20 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Sep 2019 06:28:26 -0400
-Received: from [IPv6:2001:420:44c1:2577:643f:100b:90b3:eb83] ([IPv6:2001:420:44c1:2577:643f:100b:90b3:eb83])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id Ci3QiDga1z6EACi3Ti7IZp; Tue, 24 Sep 2019 12:28:23 +0200
-Subject: Re: [PATCH v7] v4l2-ctl: Print UVC meta info
-To:     Vandana BN <bnvandana@gmail.com>, linux-media@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-References: <215f6e47-84ec-8c63-713b-b30b81f90c18@xs4all.nl>
- <20190924091426.17530-1-bnvandana@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <4a30b7ef-4e1e-3cef-5f7d-c75920edae7e@xs4all.nl>
-Date:   Tue, 24 Sep 2019 12:28:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S2405618AbfIXK40 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Sep 2019 06:56:26 -0400
+Received: from mga02.intel.com ([134.134.136.20]:45875 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2388652AbfIXK4Z (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 24 Sep 2019 06:56:25 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 24 Sep 2019 03:56:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.64,543,1559545200"; 
+   d="scan'208";a="388818463"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 24 Sep 2019 03:56:20 -0700
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+        (envelope-from <lkp@intel.com>)
+        id 1iCiUW-000FWz-Ej; Tue, 24 Sep 2019 18:56:20 +0800
+Date:   Tue, 24 Sep 2019 18:56:08 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     Xia Jiang <xia.jiang@mediatek.com>
+Cc:     kbuild-all@01.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rick Chang <rick.chang@mediatek.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Tomasz Figa <tfiga@chromium.org>, srv_heupstream@mediatek.com,
+        Xia Jiang <xia.jiang@mediatek.com>
+Subject: Re: [PATCH v3 5/5] media: platform: Add jpeg dec/enc feature
+Message-ID: <201909241844.UH843Yx0%lkp@intel.com>
+References: <20190924074303.22713-6-xia.jiang@mediatek.com>
 MIME-Version: 1.0
-In-Reply-To: <20190924091426.17530-1-bnvandana@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfOmdckTHFSgmFSUDtweC9QIE6tu4cYrmo6k6Nr8jT/FCtRMbz2tyFEHYmp6WMlof32VlCobPfnM+h8dcfiHmrKybOjkOGBetzStsgIMDw9ijF4nPYPhJ
- JyV1tp32NMh/GhCySNFP/yGN2vdZLKlS4Jzx7j46dh5Ze01xsTvaneBICeBYuf+wgpwP+VXJaW1ElmBw7VOAnB79vPjBA7A9pTSu0YLiKFZf0fYHF9IOOqkK
- p0C3Y5RZwE4kGssTD2gxEJeuoThdl8e1WCL7Wi1WqwNlRK6g1vFoLBrkZ+ZWcWD82ZPkPmKcrplua3eJOdWQhtPPjCkL4bIAcpclOCUgTN3hs1fQ9VLooGSB
- pQl9p45zEHqIyE6EgHjvJGG014Gd8g==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190924074303.22713-6-xia.jiang@mediatek.com>
+X-Patchwork-Hint: ignore
+User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Vandana,
+Hi Xia,
 
-I did some testing with several webcams and there is only one more thing
-to do:
+Thank you for the patch! Perhaps something to improve:
 
-On 9/24/19 11:14 AM, Vandana BN wrote:
-> Print UVC Metadata information in verbose mode.
-> 
-> Signed-off-by: Vandana BN <bnvandana@gmail.com>
-> ---
-> Changes since v6:
-> 	Not to print PTS/SCR if not present.
-> 	Remove loop in print_meta_buffer()
-> Changes since v5:
-> 	Use proper print format.
-> 	split fprintf.
-> Changes since v4:
-> 	Print PTS and SCR info.
-> ---
->  utils/v4l2-ctl/v4l2-ctl-meta.cpp      | 39 +++++++++++++++++++++++++++
->  utils/v4l2-ctl/v4l2-ctl-streaming.cpp | 14 +++++-----
->  utils/v4l2-ctl/v4l2-ctl.h             |  1 +
->  3 files changed, 48 insertions(+), 6 deletions(-)
-> 
-> diff --git a/utils/v4l2-ctl/v4l2-ctl-meta.cpp b/utils/v4l2-ctl/v4l2-ctl-meta.cpp
-> index 75fbd6f4..eae7438f 100644
-> --- a/utils/v4l2-ctl/v4l2-ctl-meta.cpp
-> +++ b/utils/v4l2-ctl/v4l2-ctl-meta.cpp
-> @@ -127,3 +127,42 @@ void meta_list(cv4l_fd &fd)
->  		print_video_formats(fd, V4L2_BUF_TYPE_META_OUTPUT);
->  	}
->  }
-> +
-> +struct vivid_uvc_meta_buf {
-> +	__u64 ns;
-> +	__u16 sof;
-> +	__u8 length;
-> +	__u8 flags;
-> +	__u8 buf[10];
-> +};
-> +
-> +#define UVC_STREAM_SCR	(1 << 3)
-> +#define UVC_STREAM_PTS	(1 << 2)
-> +
-> +void print_meta_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt, cv4l_queue &q)
-> +{
-> +	struct vivid_uvc_meta_buf *vbuf;
-> +	int buf_off = 0;
-> +
-> +	switch (fmt.g_pixelformat()) {
-> +	case V4L2_META_FMT_UVC:
-> +		fprintf(f, "UVC: ");
-> +		vbuf = (vivid_uvc_meta_buf *)q.g_dataptr(buf.g_index(), 0);
-> +
-> +		fprintf(f, "%.6fs sof: %4d len: %u flags: 0x%02x",
-> +			(double)vbuf->ns / 1000000000.0,
-> +			vbuf->sof,
-> +			vbuf->length,
-> +			vbuf->flags);
-> +		if (vbuf->flags & UVC_STREAM_PTS) {
-> +			fprintf(f, " PTS: %u", le32toh(*(__u32*)(vbuf->buf)));
-> +			buf_off = 4;
-> +		}
-> +		if (vbuf->flags & UVC_STREAM_SCR)
-> +			fprintf(f, " STC: %u SOF counter: %u",
-> +				le32toh(*(__u32*)(vbuf->buf + buf_off)),
-> +				le16toh(*(__u16*)(vbuf->buf + buf_off + 4)));
-> +		fprintf(f, "\n");
-> +		break;
-> +	}
-> +}
-> diff --git a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-> index 11157434..46d53f23 100644
-> --- a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-> +++ b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-> @@ -540,9 +540,9 @@ static void print_buffer(FILE *f, struct v4l2_buffer &buf)
->  	fprintf(f, "\n");
->  }
->  
-> -static void print_concise_buffer(FILE *f, cv4l_buffer &buf,
-> -				 fps_timestamps &fps_ts, int comp_perc,
-> -				 bool skip_ts = false)
-> +static void print_concise_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt,
-> +				 cv4l_queue &q, fps_timestamps &fps_ts,
-> +				 int comp_perc, bool skip_ts = false)
->  {
->  	static double last_ts;
->  
-> @@ -592,6 +592,8 @@ static void print_concise_buffer(FILE *f, cv4l_buffer &buf,
->  	if (fl)
->  		fprintf(f, " (%s)", bufferflags2s(fl).c_str());
->  	fprintf(f, "\n");
-> +	if (v4l_type_is_meta(buf.g_type()))
+[auto build test WARNING on linuxtv-media/master]
+[cannot apply to v5.3 next-20190920]
+[if your patch is applied to the wrong git tree, please drop us a note to help
+improve the system. BTW, we also suggest to use '--base' option to specify the
+base tree in git format-patch, please see https://stackoverflow.com/a/37406982]
 
-Don't call print_meta_buffer if V4L2_BUF_FLAG_ERROR is set, or if bytesused == 0, since
-in that case the buffer doesn't contain valid data.
+url:    https://github.com/0day-ci/linux/commits/Xia-Jiang/Add-support-for-mt2701-JPEG-ENC-support/20190924-161234
+base:   git://linuxtv.org/media_tree.git master
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.1-rc1-7-g2b96cd8-dirty
+        make ARCH=x86_64 allmodconfig
+        make C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__'
 
-> +		print_meta_buffer(f, buf, fmt, q);
->  }
->  
->  static void stream_buf_caps(cv4l_fd &fd, unsigned buftype)
-> @@ -1390,7 +1392,7 @@ static int do_handle_cap(cv4l_fd &fd, cv4l_queue &q, FILE *fout, int *index,
->  		if (!(buf.g_flags() & V4L2_BUF_FLAG_ERROR))
->  			break;
->  		if (verbose)
-> -			print_concise_buffer(stderr, buf, fps_ts, -1);
-> +			print_concise_buffer(stderr, buf, fmt, q, fps_ts, -1);
->  		if (fd.qbuf(buf))
->  			return QUEUE_ERROR;
->  	}
-> @@ -1412,7 +1414,7 @@ static int do_handle_cap(cv4l_fd &fd, cv4l_queue &q, FILE *fout, int *index,
->  	else if (buf.g_flags() & V4L2_BUF_FLAG_BFRAME)
->  		ch = 'B';
->  	if (verbose) {
-> -		print_concise_buffer(stderr, buf, fps_ts,
-> +		print_concise_buffer(stderr, buf, fmt, q, fps_ts,
->  				     host_fd_to >= 0 ? 100 - comp_perc / comp_perc_count : -1);
->  		comp_perc_count = comp_perc = 0;
->  	}
-> @@ -1502,7 +1504,7 @@ static int do_handle_out(cv4l_fd &fd, cv4l_queue &q, FILE *fin, cv4l_buffer *cap
->  		double ts_secs = buf.g_timestamp().tv_sec + buf.g_timestamp().tv_usec / 1000000.0;
->  		fps_ts.add_ts(ts_secs, buf.g_sequence(), buf.g_field());
->  		if (verbose)
-> -			print_concise_buffer(stderr, buf, fps_ts, -1);
-> +			print_concise_buffer(stderr, buf, fmt, q, fps_ts, -1);
->  
->  		for (unsigned j = 0; j < buf.g_num_planes(); j++)
->  			buf.s_bytesused(buf.g_length(j), j);
-> diff --git a/utils/v4l2-ctl/v4l2-ctl.h b/utils/v4l2-ctl/v4l2-ctl.h
-> index 5797d784..36051566 100644
-> --- a/utils/v4l2-ctl/v4l2-ctl.h
-> +++ b/utils/v4l2-ctl/v4l2-ctl.h
-> @@ -406,6 +406,7 @@ void meta_cmd(int ch, char *optarg);
->  void meta_set(cv4l_fd &fd);
->  void meta_get(cv4l_fd &fd);
->  void meta_list(cv4l_fd &fd);
-> +void print_meta_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt, cv4l_queue &q);
->  
->  // v4l2-ctl-subdev.cpp
->  void subdev_usage(void);
-> 
+If you fix the issue, kindly add following tag
+Reported-by: kbuild test robot <lkp@intel.com>
 
+
+sparse warnings: (new ones prefixed by >>)
+
+   include/linux/sched.h:609:43: sparse: sparse: bad integer constant expression
+   include/linux/sched.h:609:73: sparse: sparse: invalid named zero-width bitfield `value'
+   include/linux/sched.h:610:43: sparse: sparse: bad integer constant expression
+   include/linux/sched.h:610:67: sparse: sparse: invalid named zero-width bitfield `bucket_id'
+>> drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:338:42: sparse: sparse: incompatible types in comparison expression (different signedness):
+>> drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:338:42: sparse:    unsigned int *
+>> drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:338:42: sparse:    int *
+>> drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:338:42: sparse: sparse: cast from unknown type
+>> drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:338:42: sparse: sparse: incompatible types in comparison expression (different signedness):
+>> drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:338:42: sparse:    unsigned int *
+>> drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:338:42: sparse:    int *
+>> drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:338:42: sparse: sparse: incompatible types in comparison expression (different signedness):
+>> drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:338:42: sparse:    unsigned int *
+>> drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:338:42: sparse:    int *
+>> drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:338:42: sparse: sparse: cast from unknown type
+>> drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:338:42: sparse: sparse: incompatible types in comparison expression (different signedness):
+>> drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:338:42: sparse:    unsigned int *
+>> drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:338:42: sparse:    int *
+>> drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:338:42: sparse: sparse: cast from unknown type
+>> drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:338:42: sparse: sparse: incompatible types in comparison expression (different signedness):
+>> drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:338:42: sparse:    unsigned int *
+>> drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:338:42: sparse:    int *
+>> drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:338:42: sparse: sparse: cast from unknown type
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:341:41: sparse: sparse: incompatible types in comparison expression (different signedness):
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:341:41: sparse:    unsigned int *
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:341:41: sparse:    int *
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:341:41: sparse: sparse: cast from unknown type
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:341:41: sparse: sparse: incompatible types in comparison expression (different signedness):
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:341:41: sparse:    unsigned int *
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:341:41: sparse:    int *
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:341:41: sparse: sparse: incompatible types in comparison expression (different signedness):
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:341:41: sparse:    unsigned int *
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:341:41: sparse:    int *
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:341:41: sparse: sparse: cast from unknown type
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:341:41: sparse: sparse: incompatible types in comparison expression (different signedness):
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:341:41: sparse:    unsigned int *
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:341:41: sparse:    int *
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:341:41: sparse: sparse: cast from unknown type
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:341:41: sparse: sparse: incompatible types in comparison expression (different signedness):
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:341:41: sparse:    unsigned int *
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:341:41: sparse:    int *
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:341:41: sparse: sparse: cast from unknown type
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:417:34: sparse: sparse: incompatible types in comparison expression (different signedness):
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:417:34: sparse:    unsigned int *
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:417:34: sparse:    int *
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:417:34: sparse: sparse: cast from unknown type
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:417:34: sparse: sparse: incompatible types in comparison expression (different signedness):
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:417:34: sparse:    unsigned int *
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:417:34: sparse:    int *
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:417:34: sparse: sparse: incompatible types in comparison expression (different signedness):
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:417:34: sparse:    unsigned int *
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:417:34: sparse:    int *
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:417:34: sparse: sparse: cast from unknown type
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:417:34: sparse: sparse: incompatible types in comparison expression (different signedness):
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:417:34: sparse:    unsigned int *
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:417:34: sparse:    int *
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:417:34: sparse: sparse: cast from unknown type
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:417:34: sparse: sparse: incompatible types in comparison expression (different signedness):
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:417:34: sparse:    unsigned int *
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:417:34: sparse:    int *
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:417:34: sparse: sparse: cast from unknown type
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:419:33: sparse: sparse: incompatible types in comparison expression (different signedness):
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:419:33: sparse:    unsigned int *
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:419:33: sparse:    int *
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:419:33: sparse: sparse: cast from unknown type
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:419:33: sparse: sparse: incompatible types in comparison expression (different signedness):
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:419:33: sparse:    unsigned int *
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:419:33: sparse:    int *
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:419:33: sparse: sparse: incompatible types in comparison expression (different signedness):
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:419:33: sparse:    unsigned int *
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:419:33: sparse:    int *
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:419:33: sparse: sparse: cast from unknown type
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:419:33: sparse: sparse: incompatible types in comparison expression (different signedness):
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:419:33: sparse:    unsigned int *
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:419:33: sparse:    int *
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:419:33: sparse: sparse: cast from unknown type
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:419:33: sparse: sparse: incompatible types in comparison expression (different signedness):
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:419:33: sparse:    unsigned int *
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:419:33: sparse:    int *
+   drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c:419:33: sparse: sparse: cast from unknown type
+
+vim +338 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
+
+   316	
+   317	static int mtk_jpeg_try_fmt_mplane(struct v4l2_format *f,
+   318					   struct mtk_jpeg_fmt *fmt,
+   319					   struct mtk_jpeg_ctx *ctx, int q_type)
+   320	{
+   321		struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
+   322		struct mtk_jpeg_dev *jpeg = ctx->jpeg;
+   323		int i, align_w, align_h;
+   324	
+   325		memset(pix_mp->reserved, 0, sizeof(pix_mp->reserved));
+   326		pix_mp->field = V4L2_FIELD_NONE;
+   327	
+   328		if (ctx->state != MTK_JPEG_INIT) {
+   329			mtk_jpeg_adjust_fmt_mplane(ctx, f);
+   330			goto end;
+   331		}
+   332	
+   333		pix_mp->num_planes = fmt->colplanes;
+   334		pix_mp->pixelformat = fmt->fourcc;
+   335	
+   336		if (q_type == MTK_JPEG_FMT_TYPE_OUTPUT) {
+   337			if (jpeg->mode == MTK_JPEG_ENC) {
+ > 338				pix_mp->height = clamp(pix_mp->height,
+   339						       MTK_JPEG_MIN_HEIGHT,
+   340						       MTK_JPEG_MAX_HEIGHT);
+   341				pix_mp->width = clamp(pix_mp->width,
+   342						      MTK_JPEG_MIN_WIDTH,
+   343						      MTK_JPEG_MAX_WIDTH);
+   344				align_w = pix_mp->width;
+   345				align_h = pix_mp->height;
+   346				align_w = round_up(align_w, 2);
+   347				if (pix_mp->num_planes == 1U) {
+   348					align_w = align_w << 1;
+   349					mtk_jpeg_bound_align_image(&align_w,
+   350								   MTK_JPEG_MIN_WIDTH,
+   351								   MTK_JPEG_MAX_WIDTH,
+   352								   5, &align_h,
+   353								   MTK_JPEG_MIN_HEIGHT,
+   354								   MTK_JPEG_MAX_HEIGHT,
+   355								   3);
+   356					pix_mp->plane_fmt[0].bytesperline = align_w;
+   357					pix_mp->plane_fmt[0].sizeimage =
+   358						align_w * align_h;
+   359				} else if (pix_mp->num_planes == 2U) {
+   360					mtk_jpeg_bound_align_image(&align_w,
+   361								   MTK_JPEG_MIN_WIDTH,
+   362								   MTK_JPEG_MAX_WIDTH,
+   363								   4, &align_h,
+   364								   MTK_JPEG_MIN_HEIGHT,
+   365								   MTK_JPEG_MAX_HEIGHT,
+   366								   4);
+   367					pix_mp->plane_fmt[0].bytesperline = align_w;
+   368					pix_mp->plane_fmt[0].sizeimage =
+   369						align_w * align_h;
+   370					pix_mp->plane_fmt[1].bytesperline = align_w;
+   371					pix_mp->plane_fmt[1].sizeimage =
+   372						(align_w * align_h) / 2;
+   373				} else {
+   374					v4l2_err(&ctx->jpeg->v4l2_dev,
+   375						 "Unsupport num planes = %d\n",
+   376						 pix_mp->num_planes);
+   377				}
+   378				goto end;
+   379			} else {
+   380				struct v4l2_plane_pix_format *pfmt =
+   381							&pix_mp->plane_fmt[0];
+   382	
+   383				mtk_jpeg_bound_align_image(&pix_mp->width,
+   384							   MTK_JPEG_MIN_WIDTH,
+   385						   MTK_JPEG_MAX_WIDTH, 0,
+   386							   &pix_mp->height,
+   387							   MTK_JPEG_MIN_HEIGHT,
+   388						   MTK_JPEG_MAX_HEIGHT, 0);
+   389	
+   390				pfmt->bytesperline = 0;
+   391				/* Source size must be aligned to 128 */
+   392				pfmt->sizeimage = mtk_jpeg_align(pfmt->sizeimage, 128);
+   393				if (pfmt->sizeimage == 0)
+   394					pfmt->sizeimage = MTK_JPEG_DEFAULT_SIZEIMAGE;
+   395	
+   396				goto end;
+   397			}
+   398		}
+   399	
+   400		/* type is MTK_JPEG_FMT_TYPE_CAPTURE */
+   401		if (jpeg->mode == MTK_JPEG_ENC) {
+   402			mtk_jpeg_bound_align_image(&pix_mp->width, MTK_JPEG_MIN_WIDTH,
+   403						   MTK_JPEG_MAX_WIDTH, 0,
+   404						   &pix_mp->height, MTK_JPEG_MIN_HEIGHT,
+   405						   MTK_JPEG_MAX_HEIGHT, 0);
+   406	
+   407			if (fmt->fourcc == V4L2_PIX_FMT_JPEG) {
+   408				pix_mp->plane_fmt[0].bytesperline = 0;
+   409				pix_mp->plane_fmt[0].sizeimage =
+   410					mtk_jpeg_align(pix_mp->plane_fmt[0].sizeimage,
+   411						       128);
+   412				if (pix_mp->plane_fmt[0].sizeimage == 0)
+   413					pix_mp->plane_fmt[0].sizeimage =
+   414						MTK_JPEG_DEFAULT_SIZEIMAGE;
+   415			}
+   416		} else {
+   417			pix_mp->height = clamp(pix_mp->height, MTK_JPEG_MIN_HEIGHT,
+   418					       MTK_JPEG_MAX_HEIGHT);
+   419			pix_mp->width = clamp(pix_mp->width, MTK_JPEG_MIN_WIDTH,
+   420					      MTK_JPEG_MAX_WIDTH);
+   421			mtk_jpeg_bound_align_image(&pix_mp->width, MTK_JPEG_MIN_WIDTH,
+   422						   MTK_JPEG_MAX_WIDTH, fmt->h_align,
+   423						   &pix_mp->height,
+   424						   MTK_JPEG_MIN_HEIGHT,
+   425						   MTK_JPEG_MAX_HEIGHT, fmt->v_align);
+   426	
+   427			for (i = 0; i < fmt->colplanes; i++) {
+   428				struct v4l2_plane_pix_format *pfmt =
+   429						&pix_mp->plane_fmt[i];
+   430				u32 stride = pix_mp->width * fmt->h_sample[i] / 4;
+   431				u32 h = pix_mp->height * fmt->v_sample[i] / 4;
+   432	
+   433				pfmt->bytesperline = stride;
+   434				pfmt->sizeimage = stride * h;
+   435			}
+   436		}
+   437	
+   438		for (i = 0; i < fmt->colplanes; i++) {
+   439			struct v4l2_plane_pix_format *pfmt =
+   440					&pix_mp->plane_fmt[i];
+   441			memset(pfmt->reserved, 0, sizeof(pfmt->reserved));
+   442		}
+   443	end:
+   444		v4l2_dbg(2, debug, &jpeg->v4l2_dev, "wxh:%ux%u\n",
+   445			 pix_mp->width, pix_mp->height);
+   446		for (i = 0; i < pix_mp->num_planes; i++) {
+   447			v4l2_dbg(2, debug, &jpeg->v4l2_dev,
+   448				 "plane[%d] bpl=%u, size=%u\n",
+   449				 i,
+   450				 pix_mp->plane_fmt[i].bytesperline,
+   451				 pix_mp->plane_fmt[i].sizeimage);
+   452		}
+   453		return 0;
+   454	}
+   455	
+
+---
+0-DAY kernel test infrastructure                Open Source Technology Center
+https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
