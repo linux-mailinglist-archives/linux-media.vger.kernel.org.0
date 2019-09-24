@@ -2,153 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EE249BC0CD
-	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2019 05:50:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C4425BC177
+	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2019 07:48:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437713AbfIXDuW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Sep 2019 23:50:22 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:50555 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2389841AbfIXDuW (ORCPT
+        id S2409058AbfIXFsD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Sep 2019 01:48:03 -0400
+Received: from smtp.codeaurora.org ([198.145.29.96]:40546 "EHLO
+        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2405096AbfIXFsC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Sep 2019 23:50:22 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:e55b:bc85:99ce:dda2])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id CbqFi1wFyKKNGCbqGioKri; Tue, 24 Sep 2019 05:50:20 +0200
-Message-ID: <423055848edade366b7ccc160c4b1a21@smtp-cloud8.xs4all.net>
-Date:   Tue, 24 Sep 2019 05:50:19 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-X-CMAE-Envelope: MS4wfImKGZ0PvJsFhNOPtgzjS1AqFBY2+3j0Y+Y5dWDrBJrmDYQ9JUwPGCfUn3VFbOwtZalk+2yDnkJAXx0ugSrJFn+n/wINo9zXDvwr0NjHXCnHUgfAiY1q
- 0Es+zo8oePOMsBJ0IDNUQSt0yjvVI7qRzURggTtNuUNyjdfGL2PMG3/oiikBdeNwzPCB1ZKYy1/D8YhDoNaxENwP7wrQ9GBkFlV7zGULx1IBAby6pqdEoZKc
+        Tue, 24 Sep 2019 01:48:02 -0400
+Received: by smtp.codeaurora.org (Postfix, from userid 1000)
+        id AB07460A60; Tue, 24 Sep 2019 05:48:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1569304081;
+        bh=xvymJ4GYEKWrSL7puVuOYOXGQH4K71w3rf2tjoJNIHM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=SlRZNR43c1USLJn+QyViLdXTmkFllIkBE8Ymk/nRUqnsyYW+Zpbymxv1c/wNK9nhU
+         AePAlZCwLySx4RI8PFKL1KBuGdv1uvnYSgQ38G0KngROHJsRAjd6gqyl2w7UTLgCWf
+         AnR4/S7BdNcrOaofP1tYKycmfwFf0QVeZtJN+mss=
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        pdx-caf-mail.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.7 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+        DKIM_INVALID,DKIM_SIGNED,SPF_NONE autolearn=no autolearn_force=no
+        version=3.4.0
+Received: from amasule-linux.qualcomm.com (blr-c-bdr-fw-01_globalnat_allzones-outside.qualcomm.com [103.229.19.19])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: amasule@codeaurora.org)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id C92A460256;
+        Tue, 24 Sep 2019 05:47:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
+        s=default; t=1569304081;
+        bh=xvymJ4GYEKWrSL7puVuOYOXGQH4K71w3rf2tjoJNIHM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=SlRZNR43c1USLJn+QyViLdXTmkFllIkBE8Ymk/nRUqnsyYW+Zpbymxv1c/wNK9nhU
+         AePAlZCwLySx4RI8PFKL1KBuGdv1uvnYSgQ38G0KngROHJsRAjd6gqyl2w7UTLgCWf
+         AnR4/S7BdNcrOaofP1tYKycmfwFf0QVeZtJN+mss=
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org C92A460256
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=amasule@codeaurora.org
+From:   Aniket Masule <amasule@codeaurora.org>
+To:     linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        vgarodia@codeaurora.org, Aniket Masule <amasule@codeaurora.org>
+Subject: [RESEND v7 0/2]media: venus: Update clock scaling 
+Date:   Tue, 24 Sep 2019 11:17:47 +0530
+Message-Id: <1569304069-20713-1-git-send-email-amasule@codeaurora.org>
+X-Mailer: git-send-email 1.9.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+In this patch series, clock scaling and core selection methods are
+updated. Current clock scaling is same for vpu4 and previous versions.
+Introducing load calculations using vpp cycles, which indicates the
+cycles required by video hardware to process each macroblock. Also
+adding vsp cycles, cycles require by stream processor. Clock scaling
+is now done more precisely using vpp and vsp cycles.
+Removing core selection from this series, there will be separate patch
+once issue related to power domain is fixed.
 
-Results of the daily build of media_tree:
+This patch depends on the following patch:
+https://patchwork.kernel.org/patch/11142557/ - Venus interconnect support for sdm845
 
-date:			Tue Sep 24 05:00:12 CEST 2019
-media-tree git hash:	6f51fdfd8229d5358c2d6e272cf73478866e8ddc
-media_build git hash:	d75b29db1297d2475227cc8bada843542271e40d
-v4l-utils git hash:	847834c10d11b1cf67c95a8555115e4aa7b4f51b
-edid-decode git hash:	7696439db703eeca7248af6c3a17d2e19a9292ea
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 8634894b41454ef4215a3d4fd503305c720e761a
-host hardware:		x86_64
-host os:		5.2.0-2-amd64
+Changes since v6:
+ - Removed core selection.
+ - Corrected frequency calculations.
+ - Removed instance lock used while iterating over buffers.
+ 
+Changes since v5:
+ - Corrected load_per_core calculations.
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2253, Succeeded: 2253, Failed: 0, Warnings: 0
-sparse: OK
-smatch: OK
+Changes since v4:
+ - Added call to load_scale_clocks from venus_helper_vb2_buf_queue.
+ - Modified check to match core_id in core_selection.
 
-Detailed results are available here:
+Changes since v3:
+ - vsp_cycles and vpp_cyles are now unsigned long.
+ - Core number counting aligned with VIDC_CORE_ID_.
+ - Aligned hardware overload handling of scale_clocks_v4 with scale_clocks.
+ - Added bitrate based clock scaling patch in this patch series.
+ - Instance state check is now moved from scale_clocks to load_scale_clocks
 
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
+Aniket Masule (2):
+  media: venus: Add codec data table
+  media: venus: Update clock scaling
 
-Detailed regression test results are available here:
+ drivers/media/platform/qcom/venus/core.c    |  13 ++
+ drivers/media/platform/qcom/venus/core.h    |  16 +++
+ drivers/media/platform/qcom/venus/helpers.c | 187 +++++++++++++++++++++++++---
+ drivers/media/platform/qcom/venus/helpers.h |   3 +-
+ drivers/media/platform/qcom/venus/vdec.c    |   8 +-
+ drivers/media/platform/qcom/venus/venc.c    |   4 +
+ 6 files changed, 208 insertions(+), 23 deletions(-)
 
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum,
+a Linux Foundation Collaborative Project
 
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
