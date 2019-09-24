@@ -2,284 +2,440 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C6A9BCBDA
-	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2019 17:51:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DA18BCC7C
+	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2019 18:31:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390477AbfIXPvm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Sep 2019 11:51:42 -0400
-Received: from relay3-d.mail.gandi.net ([217.70.183.195]:34015 "EHLO
-        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390614AbfIXPvm (ORCPT
+        id S2390837AbfIXQbd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Sep 2019 12:31:33 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:45036 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725787AbfIXQbd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Sep 2019 11:51:42 -0400
-X-Originating-IP: 213.45.248.89
-Received: from uno.localdomain (host89-248-dynamic.45-213-r.retail.telecomitalia.it [213.45.248.89])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id B68DF6000A;
-        Tue, 24 Sep 2019 15:51:37 +0000 (UTC)
-Date:   Tue, 24 Sep 2019 17:53:17 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        tfiga@google.com, pavel@ucw.cz,
-        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>
-Subject: Re: [PATCH v3 04/11] media: v4l2-ctrl: Document
- V4L2_CID_CAMERA_SENSOR_ROTATION
-Message-ID: <20190924155317.nd7f5bp2ey2rkb54@uno.localdomain>
-References: <20190912201055.13964-1-jacopo@jmondi.org>
- <20190912201055.13964-5-jacopo@jmondi.org>
- <549569c7-64bd-f6bd-30f6-e0fe27687780@xs4all.nl>
- <20190913184906.6tpl374n4anzja5c@uno.localdomain>
+        Tue, 24 Sep 2019 12:31:33 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dafna)
+        with ESMTPSA id 5CCDD28BB6B
+Message-ID: <f2225cfe4b68691e3307d9717e3fb70ee7815f09.camel@collabora.com>
+Subject: Re: [PATCH v2] media: vimc: Enable set resolution at the scaler src
+ pad
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+To:     Pedro Terra <pirate@terraco.de>, helen.koike@collabora.com,
+        mchehab@kernel.org, skhan@linuxfoundation.org,
+        hverkuil-cisco@xs4all.nl, andrealmeid@collabora.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        lkcamp@lists.libreplanetbr.org
+Cc:     Gabriela Bittencourt <gabrielabittencourt00@gmail.com>,
+        Gabriel Francisco Mandaji <gfmandaji@gmail.com>,
+        dafna3 <dafna3@gmail.com>
+Date:   Tue, 24 Sep 2019 19:31:24 +0300
+In-Reply-To: <20190915213550.6967-1-pirate@terraco.de>
+References: <20190915213550.6967-1-pirate@terraco.de>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="okq6vozo6yankmca"
-Content-Disposition: inline
-In-Reply-To: <20190913184906.6tpl374n4anzja5c@uno.localdomain>
-User-Agent: NeoMutt/20180716
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi,
 
---okq6vozo6yankmca
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+On Sun, 2019-09-15 at 18:35 -0300, Pedro Terra wrote:
+> Modify the scaler subdevice to accept setting the resolution of the source
+> pad (previously the source resolution would always be 3 times the sink for
+> both dimensions). Now any resolution can be set at src (even smaller ones)
+> and the sink video will be scaled to match it.
+> 
+> Test example: With the vimc module up (using the default vimc topology)
+> media-ctl -d /dev/media0 -V '"Sensor A":0[fmt:SBGGR8_1X8/640x480]'
+> media-ctl -d /dev/media0 -V '"Debayer A":0[fmt:SBGGR8_1X8/640x480]'
+> media-ctl -d /dev/media0 -V '"Scaler":0[fmt:SBGGR8_1X8/640x480]'
+> media-ctl -d /dev/media0 -V '"Scaler":1[fmt:SBGGR8_1X8/300x700]'
+> v4l2-ctl -d /dev/video2 -v width=300,height=700
+> v4l2-ctl -d /dev/video0 -v pixelformat=BA81
+> v4l2-ctl --stream-mmap --stream-count=10 -d /dev/video2 \
+> 	--stream-to=test.raw
+> ffplay -loglevel warning -v info -f rawvideo -pixel_format rgb24 \
+> 	-video_size "300x700" test.raw
+> 
+> Co-developed-by: Gabriela Bittencourt <gabrielabittencourt00@gmail.com>
+> Signed-off-by: Gabriela Bittencourt <gabrielabittencourt00@gmail.com>
+> Co-developed-by: Gabriel Francisco Mandaji <gfmandaji@gmail.com>
+> Signed-off-by: Gabriel Francisco Mandaji <gfmandaji@gmail.com>
+> Signed-off-by: Pedro "pirate" Terra <pirate@terraco.de>
+> 
+> ---
+> 
+> Changes in V2:
+> * Patch was not sent to media list mail for some reason (even though it
+> was on the Cc list), trying again.
+maybe it was not plain text?
 
-Hi Hans,
+> * Updating documentation.
+> 
+> Hello! This patch depends on the series:
+> "Collapse vimc into single monolithic driver" V3
+> This code is the result of friends getting together with too much
+> coffee, sugar and beer trying to get started with some kernel coding.
+welcome!
 
-On Fri, Sep 13, 2019 at 08:49:06PM +0200, Jacopo Mondi wrote:
-> Hi Hans,
->
-> On Fri, Sep 13, 2019 at 04:02:45PM +0200, Hans Verkuil wrote:
-> > On 9/12/19 10:10 PM, Jacopo Mondi wrote:
-> > > Add documentation for the V4L2_CID_CAMERA_SENSOR_ROTATION camera
-> > > control. The newly added read-only control reports the camera device
-> > > mounting rotation.
-> > >
-> > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > > ---
-> > >  .../media/uapi/v4l/ext-ctrls-camera.rst       | 117 ++++++++++++++++++
-> > >  1 file changed, 117 insertions(+)
-> > >
-> > > diff --git a/Documentation/media/uapi/v4l/ext-ctrls-camera.rst b/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
-> > > index f879dcc9409c..74991522ca3a 100644
-> > > --- a/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
-> > > +++ b/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
-> > > @@ -542,6 +542,123 @@ enum v4l2_scene_mode -
-> > >
-> > >
-> > >
-> > > +``V4L2_CID_CAMERA_SENSOR_ROTATION (integer)``
-> > > +    This read-only control describes the sensor orientation expressed as
-> > > +    rotation in counterclockwise degrees along the axis perpendicular to the
-> > > +    device mounting plane, and directed away from the sensor lens. Possible
-> > > +    values for the control are 90, 180 and 270 degrees. To compensate the device
-> >
-> > compensate -> compensate for
-> >
-> > > +    mounting rotation on the captured images, a rotation of the same amount of
-> > > +    degrees, in the same counterclockwise rotation direction should be applied
-> > > +    along the axis directed from the observer to the captured image when
-> > > +    displayed on a screen.
-> >
-> > Is this right? Shouldn't that be "in the clockwise direction"? If the sensor is
-> > mounted 90 degrees counterclockwise, then I need to rotate by 90 degrees clockwise
-> > to compensate for that, right?
-> >
->
-> It really depend along which axis direction you are applying the mounting
-> rotation and the compensation rotation... See below...
->
-> > > +
-> > > +    To better understand the effect of the sensor rotation on the acquired
-> > > +    images when displayed on a screen, it is helpful to consider a fictional
-> > > +    scan-out sequence of the sensor's pixels, assuming the pixel array having
-> > > +    its top-left pixel at position (0, 0) with values on the 'x' axis increasing
-> > > +    towards the right direction, and values on the 'y' axis increasing towards
-> > > +    the bottom. The effect of sensor rotation could be easily visualized
-> > > +    considering the sequence of captured pixels.
-> > > +
-> > > +    Assuming the following scene has to be captured::
-> > > +
-> > > +                o
-> > > +               -|-
-> > > +               / \
-> > > +
-> > > +    An upright mounted sensor has its pixel array displaced as follow::
-> > > +
-> > > +                                      x
-> > > +            (0,0)---------------------->
-> > > +              ! 0,0 0,1 0,2 ... 0,line-len
-> >
-> > Isn't that 0,0 ... 0,num-col?
->
-> Yes indeed sorry
->
-> > line-len is a weird name, shouldn't that be num-lines?
-> >
-> > line-len sounds like it is the same as num-col.
-> >
-> > I'm totally confused.
-> >
->
-> num-col is totally wrong, that should have been num-lines
->
-> In general
-> s/line-len/num-col
-> s/num-col/num-lines
->
-> > > +              ! 1,0 1,1 1,2 ...
-> > > +              ! ...
-> > > +              ! ...
-> > > +              ! (num-col,0)...  (num-col,line-len)
-> > > +            y V
-> > > +
-> > > +
-> > > +    Assuming pixels are scanned out from (0,0) to (num-col,line-len)
-> > > +    progressively::
-> > > +
-> > > +             (0,0) ---->-------------> (0,line-len)---!
-> > > +             !------------------------------------<a--!
-> > > +             V
-> > > +             (1,0) ---->-------------> (1,line-len)---!
-> > > +             !------------------------------------<---!
-> > > +             V
-> > > +             (...) .-->--------------> ( ,,,, )    ---!
-> > > +             !------------------------------------<---!
-> > > +             V
-> > > +             (num-col,0)------------->(num-col,line-len)
-> > > +
-> > > +
-> > > +    If a rotation of 90 degrees counterclockwise along the axis perpendicular to
-> > > +    the sensor's lens and directed towards the scene to be captured is applied
-> > > +    to the sensor, the pixel array would then be rotated as follows::
-> > > +
-> > > +            x ^  0,line-len,,,(num-col,line-len
-> > > +              !  ....
-> > > +              !  0,2 1,2      ...
-> > > +              !  0,1 1,1      ...
-> > > +              !  0,0 1,0 ... num-col,0
-> > > +             (0,0)------------------------>
-> > > +                                   y
-> > > +
-> > > +    And the pixel scan-out sequence would then proceed as follows::
-> > > +
-> > > +            (0,line-len)            (num-cols,line-len)
-> > > +                 ^\    ^\    ^\    ^\    ^
-> > > +                 ! \   ! \   ! \   ! \   !
-> > > +                 !  \  !  \  !  \  !  \  !
-> > > +                 !   \ !   \ !   \ !   \ !
-> > > +                 !    \!    \!    \!    \!
-> > > +               (0,0)  (1,0) ....      (num-cols,0)
-> > > +
-> > > +    Which when applied to the capture scene gives::
-> > > +
-> > > +            (0,line-len)            (num-cols,line-len)
-> > > +                ^\    ^\    ^\    ^\    ^
-> > > +                ! \   ! \   0 \   ! \   !
-> > > +                !  \  !  \ -|- \  !  \  !
-> > > +                !   \ !    / \  \ !   \ !
-> > > +                !    \!    \!    \!    \!
-> > > +              (0,0)  (1,0) ....      (num-cols,0)
-> > > +
-> > > +    Producing the following image once captured to memory and
-> > > +    displayed to the user::
-> > > +
-> > > +             \ !
-> > > +               --0
-> > > +             / !
-> > > +
-> > > +    Which has a rotation of the same amount of degrees applied on the opposite
-> > > +    rotation direction along the axis that goes from the observer to the
-> > > +    displayed image.
-> > > +
-> > > +    In order to compensate the sensor mounting rotation, when expressed
-> > > +    as counterclockwise rotation along the axis directed from the sensor to
-> > > +    the captured scene, a rotation of the same amount of degrees in the
-> > > +    same counterclockwise rotation direction but applied along the axis
-> > > +    directed from the observer to the captured image, has to be applied.::
-> >
-> > .:: -> :
-> >
->
-> Don't I need the :: to mark the following block of text as verbatim ?
->
-> > > +
-> > > +                -------   90 degree counterclockwise
-> > > +                |   o  |  mounting rotation applied
-> > > +                |  -|- |  along the axis directed
-> > > +                |  / \ |  away from the sensor lens
-> > > +                -------
-> > > +                -------
-> > > +                | \ !  |  Resulting captured
-> > > +                |  --0 |  image when displayed
-> > > +                | / !  |  on screen
-> > > +                -------
-> >
-> > Trying this with my webcam turning it 90 degrees counterclockwise, I
-> > and up with my head to the left, not to the right.
-> >
->
-> Along which axis direction are you rotating the camera counterclockwise ?
->
-> If you see your face, and you rotate the camera counterclockwise while
-> looking at it, you're actually rotating along the axis directed -towards-
-> the sensor.
->
-> The rotation here in the example and in the 'rotation' property
-> description has to be applied along the axis pointing aways from the
-> sensor, so what you're actually doing is rotating clockwise along that
-> direction (I guess)... So yes, to compensate that, you need to rotate
-> clockwise when you look at the image on the screen... Confusing,
-> right?
->
+> Please, don't go easy on us! s2
+> 
+> Running
+> /usr/local/bin/v4l2-compliance -m /dev/media0
+> Gave the following result:
+> v4l2-compliance SHA: b393a5408383b7341883857dfda78537f2f85ef6, 64 bits
+> Grand Total for vimc device /dev/media0: 451, Succeeded: 451, Failed: 0, Warnings: 0
+> ---
+>  Documentation/media/v4l-drivers/vimc.rst  |  15 +-
+>  drivers/media/platform/vimc/vimc-scaler.c | 217 +++++++---------------
+>  2 files changed, 77 insertions(+), 155 deletions(-)
+> 
+> diff --git a/Documentation/media/v4l-drivers/vimc.rst b/Documentation/media/v4l-drivers/vimc.rst
+> index a582af0509ee..c28c635d965c 100644
+> --- a/Documentation/media/v4l-drivers/vimc.rst
+> +++ b/Documentation/media/v4l-drivers/vimc.rst
+> @@ -61,9 +61,11 @@ vimc-debayer:
+>  	* 1 Pad source
+>  
+>  vimc-scaler:
+> -	Scale up the image by a factor of 3. E.g.: a 640x480 image becomes a
+> -        1920x1440 image. (this value can be configured, see at
+> -        `Module options`_).
+> +	Re-size the image to meet the source pad resolution. E.g.: if the sync pad
+> +is configured to 360x480 and the source to 1280x720, the image will be stretched
+> +to fit the source resolution. Works for any resolution within the vimc
+> +limitations (even shrinking the image if necessary).
+> +
+>  	Exposes:
+>  
+>  	* 1 Pad sink
+> @@ -84,13 +86,6 @@ Vimc has a few module parameters to configure the driver.
+this should now change to "Vimc has one module parameter to configure the driver."
 
-Does it work for you? Can I send a new iteration with your comments on
-the previous patches taken in ?
+>  
+>          param=value
+This line can actually be removed.
 
-Thanks
-  j
+>  
+> -* ``sca_mult=<unsigned int>``
+> -
+> -        Image size multiplier factor to be used to multiply both width and
+> -        height, so the image size will be ``sca_mult^2`` bigger than the
+> -        original one. Currently, only supports scaling up (the default value
+> -        is 3).
+> -
+>  * ``deb_mean_win_size=<unsigned int>``
+>  
+>          Window size to calculate the mean. Note: the window size needs to be an
+> diff --git a/drivers/media/platform/vimc/vimc-scaler.c b/drivers/media/platform/vimc/vimc-scaler.c
+> index 05db5070e268..1e398124a651 100644
+> --- a/drivers/media/platform/vimc/vimc-scaler.c
+> +++ b/drivers/media/platform/vimc/vimc-scaler.c
+> @@ -12,25 +12,24 @@
+>  
+>  #include "vimc-common.h"
+>  
+> -static unsigned int sca_mult = 3;
+> -module_param(sca_mult, uint, 0000);
+> -MODULE_PARM_DESC(sca_mult, " the image size multiplier");
+> +/* Pad identifier */
+> +enum sca_pad {
+> +	SCA_SINK = 0,
+> +	SCA_SRC = 1,
+> +	SCA_COUNT = 2
+> +};
+>  
+> -#define IS_SINK(pad)	(!pad)
+> -#define IS_SRC(pad)	(pad)
+> -#define MAX_ZOOM	8
+> +/* Default scaling factor for both width and height  */
+> +#define SRC_SCALING_DEFAULT 3
+>  
+>  struct vimc_sca_device {
+>  	struct vimc_ent_device ved;
+>  	struct v4l2_subdev sd;
+>  	struct device *dev;
+> -	/* NOTE: the source fmt is the same as the sink
+> -	 * with the width and hight multiplied by mult
+> -	 */
+> -	struct v4l2_mbus_framefmt sink_fmt;
+> +	/* Frame format for both sink and src pad */
+> +	struct v4l2_mbus_framefmt fmt[SCA_COUNT];
+>  	/* Values calculated when the stream starts */
+>  	u8 *src_frame;
+> -	unsigned int src_line_size;
+>  	unsigned int bpp;
+>  };
+>  
+> @@ -54,8 +53,8 @@ static int vimc_sca_init_cfg(struct v4l2_subdev *sd,
+>  	for (i = 1; i < sd->entity.num_pads; i++) {
+>  		mf = v4l2_subdev_get_try_format(sd, cfg, i);
+>  		*mf = sink_fmt_default;
+> -		mf->width = mf->width * sca_mult;
+> -		mf->height = mf->height * sca_mult;
+> +		mf->width = mf->width * SRC_SCALING_DEFAULT;
+> +		mf->height = mf->height * SRC_SCALING_DEFAULT;
+>  	}
+>  
+>  	return 0;
+> @@ -92,14 +91,8 @@ static int vimc_sca_enum_frame_size(struct v4l2_subdev *sd,
+>  
+>  	fse->min_width = VIMC_FRAME_MIN_WIDTH;
+>  	fse->min_height = VIMC_FRAME_MIN_HEIGHT;
+> -
+> -	if (IS_SINK(fse->pad)) {
+> -		fse->max_width = VIMC_FRAME_MAX_WIDTH;
+> -		fse->max_height = VIMC_FRAME_MAX_HEIGHT;
+> -	} else {
+> -		fse->max_width = VIMC_FRAME_MAX_WIDTH * MAX_ZOOM;
+> -		fse->max_height = VIMC_FRAME_MAX_HEIGHT * MAX_ZOOM;
+> -	}
+> +	fse->max_width = VIMC_FRAME_MAX_WIDTH;
+> +	fse->max_height = VIMC_FRAME_MAX_HEIGHT;
+>  
+>  	return 0;
+>  }
+> @@ -111,82 +104,64 @@ static int vimc_sca_get_fmt(struct v4l2_subdev *sd,
+>  	struct vimc_sca_device *vsca = v4l2_get_subdevdata(sd);
+>  
+>  	/* Get the current sink format */
+> -	format->format = (format->which == V4L2_SUBDEV_FORMAT_TRY) ?
+> -			 *v4l2_subdev_get_try_format(sd, cfg, 0) :
+> -			 vsca->sink_fmt;
+> -
+> -	/* Scale the frame size for the source pad */
+> -	if (IS_SRC(format->pad)) {
+> -		format->format.width = vsca->sink_fmt.width * sca_mult;
+> -		format->format.height = vsca->sink_fmt.height * sca_mult;
+> -	}
+> +	if (format->which == V4L2_SUBDEV_FORMAT_TRY)
+> +		format->format = *v4l2_subdev_get_try_format(sd, cfg,
+> +							     format->pad);
+> +	else
+> +		format->format = vsca->fmt[format->pad];
+>  
+>  	return 0;
+>  }
+>  
+> -static void vimc_sca_adjust_sink_fmt(struct v4l2_mbus_framefmt *fmt)
+> +static void vimc_sca_adjust_fmt(struct v4l2_mbus_framefmt *fmt[], __u32 pad)
+>  {
+> -	const struct vimc_pix_map *vpix;
+> +	if (pad == SCA_SINK) {
+> +		const struct vimc_pix_map *vpix;
+>  
+> -	/* Only accept code in the pix map table in non bayer format */
+> -	vpix = vimc_pix_map_by_code(fmt->code);
+> -	if (!vpix || vpix->bayer)
+> -		fmt->code = sink_fmt_default.code;
+> +		/* Only accept code in the pix map table in non bayer format */
+> +		vpix = vimc_pix_map_by_code(fmt[SCA_SINK]->code);
+> +		if (!vpix || vpix->bayer)
+> +			fmt[SCA_SINK]->code = sink_fmt_default.code;
+> +		if (fmt[SCA_SINK]->field == V4L2_FIELD_ANY)
+> +			fmt[SCA_SINK]->field = sink_fmt_default.field;
+> +
+> +		vimc_colorimetry_clamp(fmt[SCA_SINK]);
+> +	}
+>  
+> -	fmt->width = clamp_t(u32, fmt->width, VIMC_FRAME_MIN_WIDTH,
+> +	fmt[pad]->width = clamp_t(u32, fmt[pad]->width, VIMC_FRAME_MIN_WIDTH,
+>  			     VIMC_FRAME_MAX_WIDTH) & ~1;
+> -	fmt->height = clamp_t(u32, fmt->height, VIMC_FRAME_MIN_HEIGHT,
+> +	fmt[pad]->height = clamp_t(u32, fmt[pad]->height, VIMC_FRAME_MIN_HEIGHT,
+>  			      VIMC_FRAME_MAX_HEIGHT) & ~1;
+>  
+> -	if (fmt->field == V4L2_FIELD_ANY)
+> -		fmt->field = sink_fmt_default.field;
+> -
+> -	vimc_colorimetry_clamp(fmt);
+> +	/* Assure src pad attributes besides dimensions are the same as sink */
+> +	fmt[SCA_SRC]->code = fmt[SCA_SINK]->code;
+> +	fmt[SCA_SRC]->field = fmt[SCA_SINK]->field;
+> +	fmt[SCA_SRC]->colorspace = fmt[SCA_SINK]->colorspace;
+>  }
+>  
+>  static int vimc_sca_set_fmt(struct v4l2_subdev *sd,
+>  			    struct v4l2_subdev_pad_config *cfg,
+> -			    struct v4l2_subdev_format *fmt)
+> +			    struct v4l2_subdev_format *format)
+>  {
+>  	struct vimc_sca_device *vsca = v4l2_get_subdevdata(sd);
+> -	struct v4l2_mbus_framefmt *sink_fmt;
+> +	struct v4l2_mbus_framefmt *fmt[SCA_COUNT];
+>  
+> -	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+> +	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+>  		/* Do not change the format while stream is on */
+>  		if (vsca->src_frame)
+>  			return -EBUSY;
+>  
+> -		sink_fmt = &vsca->sink_fmt;
+> +		fmt[SCA_SINK] = &vsca->fmt[SCA_SINK];
+> +		fmt[SCA_SRC] = &vsca->fmt[SCA_SRC];
+>  	} else {
+> -		sink_fmt = v4l2_subdev_get_try_format(sd, cfg, 0);
+> +		fmt[SCA_SINK] = v4l2_subdev_get_try_format(sd, cfg, SCA_SINK);
+> +		fmt[SCA_SRC] = v4l2_subdev_get_try_format(sd, cfg, SCA_SRC);
+>  	}
+>  
+> -	/*
+> -	 * Do not change the format of the source pad,
+> -	 * it is propagated from the sink
+> -	 */
+> -	if (IS_SRC(fmt->pad)) {
+> -		fmt->format = *sink_fmt;
+> -		fmt->format.width = sink_fmt->width * sca_mult;
+> -		fmt->format.height = sink_fmt->height * sca_mult;
+> -	} else {
+> -		/* Set the new format in the sink pad */
+> -		vimc_sca_adjust_sink_fmt(&fmt->format);
+> -
+> -		dev_dbg(vsca->dev, "%s: sink format update: "
+> -			"old:%dx%d (0x%x, %d, %d, %d, %d) "
+> -			"new:%dx%d (0x%x, %d, %d, %d, %d)\n", vsca->sd.name,
+> -			/* old */
+> -			sink_fmt->width, sink_fmt->height, sink_fmt->code,
+> -			sink_fmt->colorspace, sink_fmt->quantization,
+> -			sink_fmt->xfer_func, sink_fmt->ycbcr_enc,
+> -			/* new */
+> -			fmt->format.width, fmt->format.height, fmt->format.code,
+> -			fmt->format.colorspace,	fmt->format.quantization,
+> -			fmt->format.xfer_func, fmt->format.ycbcr_enc);
+> -
+> -		*sink_fmt = fmt->format;
+> -	}
+> +	*fmt[format->pad] = format->format;
+> +	vimc_sca_adjust_fmt(fmt, format->pad);
+> +
+> +	format->format = *fmt[format->pad];
+>  
+>  	return 0;
+>  }
+> @@ -211,16 +186,12 @@ static int vimc_sca_s_stream(struct v4l2_subdev *sd, int enable)
+>  			return 0;
+>  
+>  		/* Save the bytes per pixel of the sink */
+> -		vpix = vimc_pix_map_by_code(vsca->sink_fmt.code);
+> +		vpix = vimc_pix_map_by_code(vsca->fmt[SCA_SINK].code);
+>  		vsca->bpp = vpix->bpp;
+>  
+> -		/* Calculate the width in bytes of the src frame */
+> -		vsca->src_line_size = vsca->sink_fmt.width *
+> -				      sca_mult * vsca->bpp;
+> -
+>  		/* Calculate the frame size of the source pad */
+> -		frame_size = vsca->src_line_size * vsca->sink_fmt.height *
+> -			     sca_mult;
+> +		frame_size = vsca->fmt[SCA_SRC].width
+> +			     * vsca->fmt[SCA_SRC].height * vsca->bpp;
+>  
+>  		/* Allocate the frame buffer. Use vmalloc to be able to
+>  		 * allocate a large amount of memory
+> @@ -249,73 +220,26 @@ static const struct v4l2_subdev_ops vimc_sca_ops = {
+>  	.video = &vimc_sca_video_ops,
+>  };
+>  
+> -static void vimc_sca_fill_pix(u8 *const ptr,
+> -			      const u8 *const pixel,
+> -			      const unsigned int bpp)
+> -{
+> -	unsigned int i;
+> -
+> -	/* copy the pixel to the pointer */
+> -	for (i = 0; i < bpp; i++)
+> -		ptr[i] = pixel[i];
+> -}
+> -
+> -static void vimc_sca_scale_pix(const struct vimc_sca_device *const vsca,
+> -			       const unsigned int lin, const unsigned int col,
+> -			       const u8 *const sink_frame)
+> -{
+> -	unsigned int i, j, index;
+> -	const u8 *pixel;
+> -
+> -	/* Point to the pixel value in position (lin, col) in the sink frame */
+> -	index = VIMC_FRAME_INDEX(lin, col,
+> -				 vsca->sink_fmt.width,
+> -				 vsca->bpp);
+> -	pixel = &sink_frame[index];
+> -
+> -	dev_dbg(vsca->dev,
+> -		"sca: %s: --- scale_pix sink pos %dx%d, index %d ---\n",
+> -		vsca->sd.name, lin, col, index);
+> -
+> -	/* point to the place we are going to put the first pixel
+> -	 * in the scaled src frame
+> -	 */
+> -	index = VIMC_FRAME_INDEX(lin * sca_mult, col * sca_mult,
+> -				 vsca->sink_fmt.width * sca_mult, vsca->bpp);
+> -
+> -	dev_dbg(vsca->dev, "sca: %s: scale_pix src pos %dx%d, index %d\n",
+> -		vsca->sd.name, lin * sca_mult, col * sca_mult, index);
+> -
+> -	/* Repeat this pixel mult times */
+> -	for (i = 0; i < sca_mult; i++) {
+> -		/* Iterate through each beginning of a
+> -		 * pixel repetition in a line
+> -		 */
+> -		for (j = 0; j < sca_mult * vsca->bpp; j += vsca->bpp) {
+> -			dev_dbg(vsca->dev,
+> -				"sca: %s: sca: scale_pix src pos %d\n",
+> -				vsca->sd.name, index + j);
+> -
+> -			/* copy the pixel to the position index + j */
+> -			vimc_sca_fill_pix(&vsca->src_frame[index + j],
+> -					  pixel, vsca->bpp);
+> -		}
+> -
+> -		/* move the index to the next line */
+> -		index += vsca->src_line_size;
+> -	}
+> -}
+> -
+>  static void vimc_sca_fill_src_frame(const struct vimc_sca_device *const vsca,
+>  				    const u8 *const sink_frame)
+>  {
+> -	unsigned int i, j;
+> -
+> -	/* Scale each pixel from the original sink frame */
+> -	/* TODO: implement scale down, only scale up is supported for now */
+> -	for (i = 0; i < vsca->sink_fmt.height; i++)
+> -		for (j = 0; j < vsca->sink_fmt.width; j++)
+> -			vimc_sca_scale_pix(vsca, i, j, sink_frame);
+> +	unsigned int lin, col, bpp_i, index;
+> +	struct v4l2_mbus_framefmt const *fmt = vsca->fmt;
+> +	u8 *walker = vsca->src_frame;
+> +
+> +	/* Set each pixel at the src_frame to its sink_frame equivalent */
+> +	for (lin = 0; lin < fmt[SCA_SRC].height; lin++) {
+> +		for (col = 0; col < fmt[SCA_SRC].width; col++) {
+> +			index = VIMC_FRAME_INDEX((lin * fmt[SCA_SINK].height)
+> +						 / fmt[SCA_SRC].height,
+> +						 (col * fmt[SCA_SINK].width)
+> +						 / fmt[SCA_SRC].width,
+> +						 fmt[SCA_SINK].width,
+> +						 vsca->bpp);
+> +			for (bpp_i = 0; bpp_i < vsca->bpp; bpp_i++)
+> +				*(walker++) = sink_frame[index + bpp_i];
+> +		}
+> +	}
+>  }
+>  
+>  static void *vimc_sca_process_frame(struct vimc_ent_device *ved,
+> @@ -382,7 +306,10 @@ struct vimc_ent_device *vimc_sca_add(struct vimc_device *vimc,
+>  	vsca->dev = &vimc->pdev.dev;
+>  
+>  	/* Initialize the frame format */
+> -	vsca->sink_fmt = sink_fmt_default;
+> +	vsca->fmt[SCA_SINK] = sink_fmt_default;
+> +	vsca->fmt[SCA_SRC] = sink_fmt_default;
+> +	vsca->fmt[SCA_SRC].width *= SRC_SCALING_DEFAULT;
+> +	vsca->fmt[SCA_SRC].height *= SRC_SCALING_DEFAULT;
+>  
+>  	return &vsca->ved;
+>  }
 
-> > > +                -------
-> > > +                |   o  |  Rotation compensation
-> > > +                |  -|- |  is 90 degrees counterclockwise
-> > > +                |  / \ |  along the axis directed to the
-> > > +                -------   displayed image
-> > > +
-> > > +
-> > >  .. [#f1]
-> > >     This control may be changed to a menu control in the future, if more
-> > >     options are required.
-> > >
-> >
-> > Regards,
-> >
-> > 	Hans
-
-
-
---okq6vozo6yankmca
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl2KO+0ACgkQcjQGjxah
-Vjx2HQ//bXcwyB+j1yKdxWSnGf0ryFMaRAp+YF2/c8jzK6NW5ggKETILRL/Yke5U
-8ZULrpNDO2Hnug9FT/v5dIU6NWAx4aj5QB9dEbxCIJeUORRrGAmyAW3ZP+ro7CrL
-bChn/gYLNwwpFYzjnD7GX076aPME3oKAnrVH68VjdOJzSyAYiWyTpirwxEhBED1K
-DAZd/x8VFAIIIN4JXx99/OF72BjZoq+4GWnsqgfmuRlSWjTAbPUTQPlhmeCyWsqZ
-mRj9jVZ8xFCOgqrFLFoDOEgTkjnd0SGOaixXUs3EHhtvrFnHigtTuoO4/aLXWHvy
-UXQfS4cUcKGvbicVftEpVAs9rseWRuqHuwFkKOuhIGmjXOgNiSWzDPgo0omue8tY
-GQ+LwmnV46xwigN6x4YXY5tPIAaXcF093WoT1n8/dCjCx1mqyLSV7hregABcMlZU
-+AiXax1Lu7QL7xfjKfzYHiqouAn5/7H5oOKOgFk3ItS5PEvSFlDCsDY6KbP61E2r
-21A+JFfdkWKNUl8LHsQep+HPy3NmavXVrshoJzMUbLy3p7yhxTLHQK3IU9Z69t36
-If3/85xDDnQGJkYOAeewKDf4qsx/FRwXodx0FHO1sS40ZEOFoqhL84EobUu0BnX5
-suwHmEVfn5bwPKqQPsq1Mtw9Rb1sKDVtBNT6O1jtiwOWnkGNDyI=
-=HcLT
------END PGP SIGNATURE-----
-
---okq6vozo6yankmca--
