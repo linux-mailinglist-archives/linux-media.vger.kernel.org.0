@@ -2,97 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 80338BD00E
-	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2019 19:03:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5EB65BCF04
+	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2019 19:01:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438480AbfIXRDF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Sep 2019 13:03:05 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:45510 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2505058AbfIXQmo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Sep 2019 12:42:44 -0400
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8OGgQdY090228;
-        Tue, 24 Sep 2019 11:42:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1569343346;
-        bh=aummLSqWx0fb6f9M3SJ/rEjoc5mT/hKcpYjgZJWHWIw=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=pxGi6xdktIgnC5uS+pgebwI+DO7+AghP0ADyezDpyRc4n6dP0g6pEZYJAo/fZr0OX
-         h/Yuj6nzrrwaV3f9cncuk7NP04f+i1ypYG3EAopHG1zCOpPXILNLlOxTp8FayjTHVH
-         lQm8H4HuwzAyMmu5wLCqDWxbI245GjMWIFjI6uvU=
-Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8OGgQn8122095;
-        Tue, 24 Sep 2019 11:42:26 -0500
-Received: from DFLE104.ent.ti.com (10.64.6.25) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Tue, 24
- Sep 2019 11:42:19 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE104.ent.ti.com
- (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Tue, 24 Sep 2019 11:42:25 -0500
-Received: from uda0869644b.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8OGgCQa073229;
-        Tue, 24 Sep 2019 11:42:25 -0500
-From:   Benoit Parrot <bparrot@ti.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-CC:     Prabhakar Lad <prabhakar.csengg@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Benoit Parrot <bparrot@ti.com>
-Subject: [Patch v3 8/8] media: i2c: ov2659: Switch to SPDX Licensing
-Date:   Tue, 24 Sep 2019 11:44:14 -0500
-Message-ID: <20190924164414.21897-9-bparrot@ti.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190924164414.21897-1-bparrot@ti.com>
-References: <20190924164414.21897-1-bparrot@ti.com>
+        id S2410780AbfIXQub (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Sep 2019 12:50:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43324 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2410763AbfIXQub (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 24 Sep 2019 12:50:31 -0400
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6D144222C7;
+        Tue, 24 Sep 2019 16:50:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1569343829;
+        bh=Y7O/CJ4GQZDpiGBV9ktsPOEKJRsFVUj6tMUvdMunxdU=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=2p06diMS7gR4UNc/MnL8LDYV+S+yCp6mpTunC1RqID8X2/seLCzmLPpBd12yhTqCL
+         fH5mh4UkmZ0Vl2sHygJOC9fjQuzXvlP2ACWAAslW+JFnM+UnbdUTlBrMVOWSJ+3sX7
+         cTM5Ei8xWRlHk2c0/xqVxibebm6mN3hFRfK5dyRA=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Chris Wilson <chris@chris-wilson.co.uk>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Sean Paul <seanpaul@chromium.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 4.19 49/50] dma-buf/sw_sync: Synchronize signal vs syncpt free
+Date:   Tue, 24 Sep 2019 12:48:46 -0400
+Message-Id: <20190924164847.27780-49-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190924164847.27780-1-sashal@kernel.org>
+References: <20190924164847.27780-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Switch to SPDX licensing and drop the redundant GPL text.
+From: Chris Wilson <chris@chris-wilson.co.uk>
 
-Signed-off-by: Benoit Parrot <bparrot@ti.com>
+[ Upstream commit d3c6dd1fb30d3853c2012549affe75c930f4a2f9 ]
+
+During release of the syncpt, we remove it from the list of syncpt and
+the tree, but only if it is not already been removed. However, during
+signaling, we first remove the syncpt from the list. So, if we
+concurrently free and signal the syncpt, the free may decide that it is
+not part of the tree and immediately free itself -- meanwhile the
+signaler goes on to use the now freed datastructure.
+
+In particular, we get struck by commit 0e2f733addbf ("dma-buf: make
+dma_fence structure a bit smaller v2") as the cb_list is immediately
+clobbered by the kfree_rcu.
+
+v2: Avoid calling into timeline_fence_release() from under the spinlock
+
+Bugzilla: https://bugs.freedesktop.org/show_bug.cgi?id=111381
+Fixes: d3862e44daa7 ("dma-buf/sw-sync: Fix locking around sync_timeline lists")
+References: 0e2f733addbf ("dma-buf: make dma_fence structure a bit smaller v2")
+Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Sean Paul <seanpaul@chromium.org>
+Cc: Gustavo Padovan <gustavo@padovan.org>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: <stable@vger.kernel.org> # v4.14+
+Acked-by: Christian König <christian.koenig@amd.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20190812154247.20508-1-chris@chris-wilson.co.uk
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/i2c/ov2659.c | 14 +-------------
- 1 file changed, 1 insertion(+), 13 deletions(-)
+ drivers/dma-buf/sw_sync.c | 16 +++++++---------
+ 1 file changed, 7 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/media/i2c/ov2659.c b/drivers/media/i2c/ov2659.c
-index 23f161fd69bb..6b5fb2cf7f71 100644
---- a/drivers/media/i2c/ov2659.c
-+++ b/drivers/media/i2c/ov2659.c
-@@ -1,3 +1,4 @@
-+// SPDX-License-Identifier: GPL-2.0-only
- /*
-  * Omnivision OV2659 CMOS Image Sensor driver
-  *
-@@ -5,19 +6,6 @@
-  *
-  * Benoit Parrot <bparrot@ti.com>
-  * Lad, Prabhakar <prabhakar.csengg@gmail.com>
-- *
-- * This program is free software; you may redistribute it and/or modify
-- * it under the terms of the GNU General Public License as published by
-- * the Free Software Foundation; version 2 of the License.
-- *
-- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
-- * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
-- * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-- * SOFTWARE.
-  */
+diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
+index 53c1d6d36a642..81ba4eb348909 100644
+--- a/drivers/dma-buf/sw_sync.c
++++ b/drivers/dma-buf/sw_sync.c
+@@ -141,17 +141,14 @@ static void timeline_fence_release(struct dma_fence *fence)
+ {
+ 	struct sync_pt *pt = dma_fence_to_sync_pt(fence);
+ 	struct sync_timeline *parent = dma_fence_parent(fence);
++	unsigned long flags;
  
- #include <linux/clk.h>
++	spin_lock_irqsave(fence->lock, flags);
+ 	if (!list_empty(&pt->link)) {
+-		unsigned long flags;
+-
+-		spin_lock_irqsave(fence->lock, flags);
+-		if (!list_empty(&pt->link)) {
+-			list_del(&pt->link);
+-			rb_erase(&pt->node, &parent->pt_tree);
+-		}
+-		spin_unlock_irqrestore(fence->lock, flags);
++		list_del(&pt->link);
++		rb_erase(&pt->node, &parent->pt_tree);
+ 	}
++	spin_unlock_irqrestore(fence->lock, flags);
+ 
+ 	sync_timeline_put(parent);
+ 	dma_fence_free(fence);
+@@ -274,7 +271,8 @@ static struct sync_pt *sync_pt_create(struct sync_timeline *obj,
+ 				p = &parent->rb_left;
+ 			} else {
+ 				if (dma_fence_get_rcu(&other->base)) {
+-					dma_fence_put(&pt->base);
++					sync_timeline_put(obj);
++					kfree(pt);
+ 					pt = other;
+ 					goto unlock;
+ 				}
 -- 
-2.17.1
+2.20.1
 
