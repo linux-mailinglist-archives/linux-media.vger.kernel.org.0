@@ -2,104 +2,210 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 90D55BD4C1
-	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2019 23:59:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A1EB3BD518
+	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2019 00:49:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2633597AbfIXV7e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Sep 2019 17:59:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60378 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387723AbfIXV7d (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Sep 2019 17:59:33 -0400
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6156D217D7;
-        Tue, 24 Sep 2019 21:59:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569362372;
-        bh=7EnBQLGJXbJ0krx6sf9eAXMt0SpVcFYHvJ4Ffxc+GEI=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=ZUjBfJ5y+ysHUqZVHvVQV6vmXEF5m5l7X/D3o8MMo6T+fnXCBe1Len91UdIVSmNm8
-         1+IgmCK2yWkyLXKdLfON0wTF2uVY6/Zj+z4CbqBQ8S1mTFhTzxJ4K+kIhlIbeitlp5
-         qXtcO6SJzhSJ74/8s14mN0YBxYms1LJJP0SwTimA=
-Received: by mail-qt1-f179.google.com with SMTP id x4so4100980qtq.8;
-        Tue, 24 Sep 2019 14:59:32 -0700 (PDT)
-X-Gm-Message-State: APjAAAUSipfNLAs0r3iY98Oq51rlrlAyRzY6XaLme2e9ZLFqmU4bXOcs
-        y3XFqQogK86HIUelflV99P3yYhl0p6JxbjmCsw==
-X-Google-Smtp-Source: APXvYqxu7lx2ORNXYuD01RyoAdK8YY//zQYn3oJnMVZaPVMMDgXcioCqkbUXveNdRfpBkQzN/4OY/SjTncH5t1k8eUk=
-X-Received: by 2002:ac8:6982:: with SMTP id o2mr5274643qtq.143.1569362371529;
- Tue, 24 Sep 2019 14:59:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190924181244.7159-1-nsaenzjulienne@suse.de>
-In-Reply-To: <20190924181244.7159-1-nsaenzjulienne@suse.de>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Tue, 24 Sep 2019 16:59:20 -0500
-X-Gmail-Original-Message-ID: <CAL_Jsq+v+svTyna7UzQdRVqfNc5Z_bgWzxNRXv7-Wqv3NwDu2g@mail.gmail.com>
-Message-ID: <CAL_Jsq+v+svTyna7UzQdRVqfNc5Z_bgWzxNRXv7-Wqv3NwDu2g@mail.gmail.com>
-Subject: Re: [PATCH 00/11] of: Fix DMA configuration for non-DT masters
-To:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Cc:     devicetree@vger.kernel.org, Frank Rowand <frowand.list@gmail.com>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        linux-wireless <linux-wireless@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        "open list:DMA GENERIC OFFLOAD ENGINE SUBSYSTEM" 
-        <dmaengine@vger.kernel.org>, etnaviv@lists.freedesktop.org,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        xen-devel@lists.xenproject.org, linux-tegra@vger.kernel.org,
+        id S2436483AbfIXWtG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Sep 2019 18:49:06 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:48372 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2405403AbfIXWtG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 24 Sep 2019 18:49:06 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: koike)
+        with ESMTPSA id 167EC28CF8D
+Subject: Re: [ANN] Media sessions in Lyon in October: libcamera
+To:     Daniel Gomez <daniel@qtec.com>,
+        Shuah Khan <skhan@linuxfoundation.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-pci@vger.kernel.org, Matthias Brugger <mbrugger@suse.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        james.quinlan@broadcom.com, Stefan Wahren <wahrenst@gmx.net>,
-        Dan Williams <dan.j.williams@intel.com>,
-        freedreno <freedreno@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
+        Alexandre Courbot <acourbot@chromium.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Eugen Hristev <Eugen.Hristev@microchip.com>,
+        Dafna Hirschfeld <dafna3@gmail.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>
+References: <07f46758-66e3-5ac1-cc41-807a30f93359@xs4all.nl>
+ <7f154b1ce154b75b352945cf05f6359393e9cc3b.camel@ndufresne.ca>
+ <cd309f07-16c7-94bc-2de6-e0baa22080ff@ideasonboard.com>
+ <20190923155709.GC5056@pendragon.ideasonboard.com>
+ <336f155e-9f1c-1df8-2761-8136cf8d201e@linuxfoundation.org>
+ <CAH1Ww+TS55RwJZVebvZnHtNXe7ECe7DARDiPtg_f4w+7a7z3FA@mail.gmail.com>
+From:   Helen Koike <helen.koike@collabora.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=helen.koike@collabora.com; keydata=
+ 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
+Message-ID: <55fe5875-2a25-2e14-d976-85716c59977a@collabora.com>
+Date:   Tue, 24 Sep 2019 19:48:55 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
+MIME-Version: 1.0
+In-Reply-To: <CAH1Ww+TS55RwJZVebvZnHtNXe7ECe7DARDiPtg_f4w+7a7z3FA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Sep 24, 2019 at 1:12 PM Nicolas Saenz Julienne
-<nsaenzjulienne@suse.de> wrote:
->
-> Hi All,
-> this series tries to address one of the issues blocking us from
-> upstreaming Broadcom's STB PCIe controller[1]. Namely, the fact that
-> devices not represented in DT which sit behind a PCI bus fail to get the
-> bus' DMA addressing constraints.
->
-> This is due to the fact that of_dma_configure() assumes it's receiving a
-> DT node representing the device being configured, as opposed to the PCIe
-> bridge node we currently pass. This causes the code to directly jump
-> into PCI's parent node when checking for 'dma-ranges' and misses
-> whatever was set there.
->
-> To address this I create a new API in OF - inspired from Robin Murphys
-> original proposal[2] - which accepts a bus DT node as it's input in
-> order to configure a device's DMA constraints. The changes go deep into
-> of/address.c's implementation, as a device being having a DT node
-> assumption was pretty strong.
->
-> On top of this work, I also cleaned up of_dma_configure() removing its
-> redundant arguments and creating an alternative function for the special cases
-> not applicable to either the above case or the default usage.
->
-> IMO the resulting functions are more explicit. They will probably
-> surface some hacky usages that can be properly fixed as I show with the
-> DT fixes on the Layerscape platform.
->
-> This was also tested on a Raspberry Pi 4 with a custom PCIe driver and
-> on a Seattle AMD board.
+Hi,
 
-Humm, I've been working on this issue too. Looks similar though yours
-has a lot more churn and there's some other bugs I've found.
+On 9/23/19 3:21 PM, Daniel Gomez wrote:
+> Hi Laurent, Hans:
+> On Mon, 23 Sep 2019 at 20:16, Shuah Khan <skhan@linuxfoundation.org> wrote:
+>>
+>> On 9/23/19 9:57 AM, Laurent Pinchart wrote:
+>>> Hello everybody,
+>>>
+>>> On Mon, Sep 23, 2019 at 04:03:54PM +0100, Kieran Bingham wrote:
+>>>> On 23/09/2019 15:47, Nicolas Dufresne wrote:
+>>>>> Le lundi 23 septembre 2019 à 16:21 +0200, Hans Verkuil a écrit :
+>>>>>> Hi all,
+>>>>>>
+>>>>>> Since we have three separate half-day sessions for different topics I decided
+>>>>>> to split the announcement for this in three emails as well, so these things
+>>>>>> can be discussed in separate threads.
+>>>>>>
+>>>>>> All sessions are in room Terreaux VIP Lounge - Level 0.
+>>>>>> There is a maximum of 15 people.
+>>>>>>
+>>>>>> The second session deals with libcamera and is on Wednesday morning
+>>>>>> from 9:00 to 13:00.
+>>>>>>
+>>>>>> Attendees for this session:
+>>>>>>
+>>>>>> Kieran Bingham <kieran.bingham@ideasonboard.com>
+>>>>
+>>>> Unfortunately I can no longer attend ELCE.
+>>>>
+>>>> (My second baby will be a bit too new for an extended stay away from home)
+>>>>
+>>>>>> Boris Brezillon <boris.brezillon@collabora.com>
+>>>>>> Alexandre Courbot <acourbot@chromium.org>
+>>>>>> Tomasz Figa <tfiga@chromium.org>
+>>>>>> Ezequiel Garcia <ezequiel@collabora.com>
+>>>>>> Daniel Gomez <daniel@qtec.com>
+>>>>>> Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+>>>>>> Eugen Hristev <Eugen.Hristev@microchip.com>
+>>>>>> Shuah Khan <skhan@linuxfoundation.org>
+>>>>>> Helen Koike <helen.koike@collabora.com>
+>>>>>> Jacopo Mondi <jacopo@jmondi.org>
+>>>>>> Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>>>>>> Niklas Söderlund <niklas.soderlund@ragnatech.se>
+>>>>>> Hans Verkuil <hverkuil@xs4all.nl>
+>>>>>>
+>>>>>> If I missed someone, or you are on the list but won't attend after all, then
+>>>>>> please let me know.
+>>>>>
+>>>>> I would like to join this one to, as after ELCE I should have some time
+>>>>> to spend on this. I understand thought hat this would make use reach
+>>>>> the limit, let me know if there is any issues, I can spare my seat if
+>>>>> needed.
+>>>>
+>>>> You now have my seat, and I've just made you a required attendee to go
+>>>> in my place :-D
+>>>
+>>> Thank you for the offer Kieran.
+>>>
+>>> We're reaching the room capacity, and I know of several people who may
+>>> attend ELCE and would be beneficial for the discussions. If anyone in
+>>> the above list only has a general curiosity about libcamera but doesn't
+>>> expect to really contribute to the discussions, and would consider
+>>> giving their seat if required, could you please let me know ?
+>>>
+> I would like to attend if possible since we are going to work with libcamera
+> but not sure how much I can contribute so, no problem to give my seat
+> if necessary.
 
-Can you test out this branch[1]. I don't have any h/w needing this,
-but wrote a unittest and tested with modified QEMU.
+Same thing for me. I also would like to attend since I intend to work on libcamera,
+more specifically in the Rockchip support part. But not sure how much I can contribute.
 
-Rob
+Helen
 
-[1] git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dma-masks
+>>
+>> Looks like I have a conflict with my talk for the an hour so towards the
+>> end of this morning session. I might as well give up my seat so it can
+>> be given to somebody that can attend the session in full.
+>>
+>> I am attending the afternoon session on Wednesday.
+>>
+>> thanks,
+>> -- Shuah
