@@ -2,122 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A5E59BCFAC
-	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2019 19:02:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A401BBD02F
+	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2019 19:08:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732158AbfIXRAV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Sep 2019 13:00:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35656 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2410016AbfIXQpm (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Sep 2019 12:45:42 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D074A217F4;
-        Tue, 24 Sep 2019 16:45:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569343540;
-        bh=9JDnUe+bzR1K2h89N2eGq+vFz+UQRtG1DOZSfGbpTE0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=IWaWsbweW9XrsJD5KsMPChVpQ027+CIV+2olw4Cvamhe7HMnBLwUL0E5zk3ikZ8D0
-         COb0sUd9jqjmHaz/po8z1Kde5R71vwkiKBNgCsvSELdqeEL7mB7Gwrdymtza3+fhrl
-         M9W6Nhl0mM4z2xD7YpAcQ2AxbDc+fPJJsOMjrnoA=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Chris Wilson <chris@chris-wilson.co.uk>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Sean Paul <seanpaul@chromium.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.3 84/87] dma-buf/sw_sync: Synchronize signal vs syncpt free
-Date:   Tue, 24 Sep 2019 12:41:40 -0400
-Message-Id: <20190924164144.25591-84-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190924164144.25591-1-sashal@kernel.org>
-References: <20190924164144.25591-1-sashal@kernel.org>
+        id S1730212AbfIXRDl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Sep 2019 13:03:41 -0400
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:58740 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2403997AbfIXQmR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 24 Sep 2019 12:42:17 -0400
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8OGgFLK054408;
+        Tue, 24 Sep 2019 11:42:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1569343335;
+        bh=iTVrMjr1jpW2jGLDHpDluWhwBeMusQS6Cqz8cCy6Yzo=;
+        h=From:To:CC:Subject:Date:In-Reply-To:References;
+        b=NYPkL4TFtfvQV/nq+u2xYW7vD8wU2Az7LWpDw1hvnIk/f61qnLDYlraLvOwsm8OQS
+         tsNlA6bwHQT5g2OfKtpMy7I85/H0v2EYiO9bjP/m+rdtJqFUkQVI1b3V43BjpltJBW
+         l3AvgtA2oUYT/RULR5hwMD4aZ2Frx5RSDHGOSa3g=
+Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x8OGgFLk079041
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 24 Sep 2019 11:42:15 -0500
+Received: from DLEE110.ent.ti.com (157.170.170.21) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Tue, 24
+ Sep 2019 11:42:08 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE110.ent.ti.com
+ (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Tue, 24 Sep 2019 11:42:14 -0500
+Received: from uda0869644b.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8OGgCQT073229;
+        Tue, 24 Sep 2019 11:42:14 -0500
+From:   Benoit Parrot <bparrot@ti.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+CC:     Prabhakar Lad <prabhakar.csengg@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, Benoit Parrot <bparrot@ti.com>,
+        Jyri Sarha <jsarha@ti.com>
+Subject: [Patch v3 1/8] media: i2c: ov2659: Fix for image wrap-around in lower resolution
+Date:   Tue, 24 Sep 2019 11:44:07 -0500
+Message-ID: <20190924164414.21897-2-bparrot@ti.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190924164414.21897-1-bparrot@ti.com>
+References: <20190924164414.21897-1-bparrot@ti.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Chris Wilson <chris@chris-wilson.co.uk>
+Based on recently found sensor configuration examples, it was
+discovered that when scaling and binning are used for the lower
+resolutions (i.e. 640x480, 320x240) the read offset has to be
+increased otherwise the image appears to be wrapped around.
 
-[ Upstream commit d3c6dd1fb30d3853c2012549affe75c930f4a2f9 ]
-
-During release of the syncpt, we remove it from the list of syncpt and
-the tree, but only if it is not already been removed. However, during
-signaling, we first remove the syncpt from the list. So, if we
-concurrently free and signal the syncpt, the free may decide that it is
-not part of the tree and immediately free itself -- meanwhile the
-signaler goes on to use the now freed datastructure.
-
-In particular, we get struck by commit 0e2f733addbf ("dma-buf: make
-dma_fence structure a bit smaller v2") as the cb_list is immediately
-clobbered by the kfree_rcu.
-
-v2: Avoid calling into timeline_fence_release() from under the spinlock
-
-Bugzilla: https://bugs.freedesktop.org/show_bug.cgi?id=111381
-Fixes: d3862e44daa7 ("dma-buf/sw-sync: Fix locking around sync_timeline lists")
-References: 0e2f733addbf ("dma-buf: make dma_fence structure a bit smaller v2")
-Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Sean Paul <seanpaul@chromium.org>
-Cc: Gustavo Padovan <gustavo@padovan.org>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: <stable@vger.kernel.org> # v4.14+
-Acked-by: Christian König <christian.koenig@amd.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20190812154247.20508-1-chris@chris-wilson.co.uk
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Benoit Parrot <bparrot@ti.com>
+Signed-off-by: Jyri Sarha <jsarha@ti.com>
 ---
- drivers/dma-buf/sw_sync.c | 16 +++++++---------
- 1 file changed, 7 insertions(+), 9 deletions(-)
+ drivers/media/i2c/ov2659.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
-index 051f6c2873c7a..6713cfb1995c6 100644
---- a/drivers/dma-buf/sw_sync.c
-+++ b/drivers/dma-buf/sw_sync.c
-@@ -132,17 +132,14 @@ static void timeline_fence_release(struct dma_fence *fence)
- {
- 	struct sync_pt *pt = dma_fence_to_sync_pt(fence);
- 	struct sync_timeline *parent = dma_fence_parent(fence);
-+	unsigned long flags;
- 
-+	spin_lock_irqsave(fence->lock, flags);
- 	if (!list_empty(&pt->link)) {
--		unsigned long flags;
--
--		spin_lock_irqsave(fence->lock, flags);
--		if (!list_empty(&pt->link)) {
--			list_del(&pt->link);
--			rb_erase(&pt->node, &parent->pt_tree);
--		}
--		spin_unlock_irqrestore(fence->lock, flags);
-+		list_del(&pt->link);
-+		rb_erase(&pt->node, &parent->pt_tree);
- 	}
-+	spin_unlock_irqrestore(fence->lock, flags);
- 
- 	sync_timeline_put(parent);
- 	dma_fence_free(fence);
-@@ -265,7 +262,8 @@ static struct sync_pt *sync_pt_create(struct sync_timeline *obj,
- 				p = &parent->rb_left;
- 			} else {
- 				if (dma_fence_get_rcu(&other->base)) {
--					dma_fence_put(&pt->base);
-+					sync_timeline_put(obj);
-+					kfree(pt);
- 					pt = other;
- 					goto unlock;
- 				}
+diff --git a/drivers/media/i2c/ov2659.c b/drivers/media/i2c/ov2659.c
+index f4ded0669ff9..17573257097d 100644
+--- a/drivers/media/i2c/ov2659.c
++++ b/drivers/media/i2c/ov2659.c
+@@ -661,7 +661,7 @@ static struct sensor_register ov2659_vga[] = {
+ 	{ REG_TIMING_HORIZ_FORMAT, 0x01 },
+ 	{ 0x370a, 0x52 },
+ 	{ REG_VFIFO_READ_START_H, 0x00 },
+-	{ REG_VFIFO_READ_START_L, 0x80 },
++	{ REG_VFIFO_READ_START_L, 0xa0 },
+ 	{ REG_ISP_CTRL02, 0x10 },
+ 	{ REG_NULL, 0x00 },
+ };
+@@ -709,7 +709,7 @@ static  struct sensor_register ov2659_qvga[] = {
+ 	{ REG_TIMING_HORIZ_FORMAT, 0x01 },
+ 	{ 0x370a, 0x52 },
+ 	{ REG_VFIFO_READ_START_H, 0x00 },
+-	{ REG_VFIFO_READ_START_L, 0x80 },
++	{ REG_VFIFO_READ_START_L, 0xa0 },
+ 	{ REG_ISP_CTRL02, 0x10 },
+ 	{ REG_NULL, 0x00 },
+ };
 -- 
-2.20.1
+2.17.1
 
