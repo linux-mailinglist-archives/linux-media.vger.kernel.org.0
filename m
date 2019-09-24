@@ -2,89 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8183ABC72B
-	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2019 13:50:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B4EBBC774
+	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2019 14:02:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2440843AbfIXLuM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Sep 2019 07:50:12 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:59921 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2438941AbfIXLuM (ORCPT
+        id S2504826AbfIXMCB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Sep 2019 08:02:01 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:47513 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2395363AbfIXMCB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Sep 2019 07:50:12 -0400
-Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.pengutronix.de.)
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1iCjKc-0002f6-FS; Tue, 24 Sep 2019 13:50:10 +0200
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     linux-media@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Mats Randgaard <matrandg@cisco.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>, kernel@pengutronix.de
-Subject: [PATCH v4 3/3] media: imx: ask source subdevice for number of active data lanes
-Date:   Tue, 24 Sep 2019 13:49:55 +0200
-Message-Id: <20190924114955.13132-4-p.zabel@pengutronix.de>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190924114955.13132-1-p.zabel@pengutronix.de>
-References: <20190924114955.13132-1-p.zabel@pengutronix.de>
+        Tue, 24 Sep 2019 08:02:01 -0400
+Received: from [IPv6:2001:420:44c1:2577:813c:89fd:7ccb:168c] ([IPv6:2001:420:44c1:2577:813c:89fd:7ccb:168c])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id CjVziyTPN9D4hCjW2iuwdK; Tue, 24 Sep 2019 14:01:58 +0200
+Subject: Re: [PATCH] v4l2-compliance: Verify metadata formats
+To:     Vandana BN <bnvandana@gmail.com>, linux-media@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+References: <20190924092530.17749-1-bnvandana@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <49ffdb33-39a7-aa44-fb0c-302e963972b1@xs4all.nl>
+Date:   Tue, 24 Sep 2019 14:01:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+In-Reply-To: <20190924092530.17749-1-bnvandana@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfI9C3wFse1SUWb/GXWaNRvMQ/yvo8nXnuAmZ6WiLJSLXDz0GjVWX8+yv0ApBiF21qXElMHT/OJLzv3ADz4dGRVfFY1QfYz7gNHUlaqGVTYDBFSuu3yOZ
+ jlElughXP6Hjvrzu96xqSVPPgFc8R6Dj4wjD788YFM8AMBUC4Y03DoZmurAkaY47p3+9n62HpIAFFHNM9jZzPTn45xRM4ueFXD/in7B3gWrQJcReGr1FahUi
+ SCvQweuv9YqaLr7aFj2Mov+PYM0NI+zhTPT8EeoNQ3S70UDaBhzwxAHiSWg8FNVdbWBXDjTnk7MFiZcobGxJDNRI9VeiNh0DSR0ukm/xLUbq0/8ozJWMLu81
+ KYoT64Al+hkauOfr3u8dkDwRXu0n5Q==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use the newly added g_csi_active_lanes() video op to determine the
-number of active data lanes used by the transmitter. If this subdev
-call is not supported or does not return the number of active lanes,
-default to using all connected data lanes as before.
+On 9/24/19 11:25 AM, Vandana BN wrote:
+> changes to testEnumFormats() and testGetFormats() to verify METADATA type.
+> G_FMT sets node->valid_buftypes, so TRY/S_FMT does not get called for
+> other input types, hence did not modify them.
 
-Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
----
-Changes since v3:
- - Use g_csi_active_lanes instead of g_mbus_config.
----
- drivers/staging/media/imx/imx6-mipi-csi2.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+This is a very confusing commit log.
 
-diff --git a/drivers/staging/media/imx/imx6-mipi-csi2.c b/drivers/staging/media/imx/imx6-mipi-csi2.c
-index bfa4b254c4e4..aa4bf2f89695 100644
---- a/drivers/staging/media/imx/imx6-mipi-csi2.c
-+++ b/drivers/staging/media/imx/imx6-mipi-csi2.c
-@@ -131,10 +131,8 @@ static void csi2_enable(struct csi2_dev *csi2, bool enable)
- 	}
- }
- 
--static void csi2_set_lanes(struct csi2_dev *csi2)
-+static void csi2_set_lanes(struct csi2_dev *csi2, int lanes)
- {
--	int lanes = csi2->bus.num_data_lanes;
--
- 	writel(lanes - 1, csi2->base + CSI2_N_LANES);
- }
- 
-@@ -295,6 +293,7 @@ static void csi2ipu_gasket_init(struct csi2_dev *csi2)
- 
- static int csi2_start(struct csi2_dev *csi2)
- {
-+	u32 lanes = 0;
- 	int ret;
- 
- 	ret = clk_prepare_enable(csi2->pix_clk);
-@@ -310,7 +309,8 @@ static int csi2_start(struct csi2_dev *csi2)
- 		goto err_disable_clk;
- 
- 	/* Step 4 */
--	csi2_set_lanes(csi2);
-+	v4l2_subdev_call(csi2->src_sd, video, g_csi_active_lanes, &lanes);
-+	csi2_set_lanes(csi2, lanes ?: csi2->bus.num_data_lanes);
- 	csi2_enable(csi2, true);
- 
- 	/* Step 5 */
--- 
-2.20.1
+The core problem is that for a given input or output there may not be any
+metadata formats defined. And that is what is fixed here.
 
+> 
+> Signed-off-by: Vandana BN <bnvandana@gmail.com>
+> ---
+>  utils/v4l2-compliance/v4l2-test-formats.cpp | 17 +++++++++++++----
+>  1 file changed, 13 insertions(+), 4 deletions(-)
+> 
+> diff --git a/utils/v4l2-compliance/v4l2-test-formats.cpp b/utils/v4l2-compliance/v4l2-test-formats.cpp
+> index 525dfafa..604ea921 100644
+> --- a/utils/v4l2-compliance/v4l2-test-formats.cpp
+> +++ b/utils/v4l2-compliance/v4l2-test-formats.cpp
+> @@ -305,8 +305,6 @@ int testEnumFormats(struct node *node)
+>  		case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
+>  		case V4L2_BUF_TYPE_SDR_CAPTURE:
+>  		case V4L2_BUF_TYPE_SDR_OUTPUT:
+> -		case V4L2_BUF_TYPE_META_CAPTURE:
+> -		case V4L2_BUF_TYPE_META_OUTPUT:
+>  			if (ret && (node->g_caps() & buftype2cap[type]))
+>  				return fail("%s cap set, but no %s formats defined\n",
+>  						buftype2s(type).c_str(), buftype2s(type).c_str());
+> @@ -314,6 +312,10 @@ int testEnumFormats(struct node *node)
+>  				return fail("%s cap not set, but %s formats defined\n",
+>  						buftype2s(type).c_str(), buftype2s(type).c_str());
+>  			break;
+> +		case V4L2_BUF_TYPE_META_CAPTURE:
+> +		case V4L2_BUF_TYPE_META_OUTPUT:
+> +			/* Metadata formats need not be present for all input types */
+
+for all input types -> for the current input/output
+
+> +			break;
+>  		default:
+>  			if (!ret)
+>  				return fail("Buffer type %s not allowed!\n", buftype2s(type).c_str());
+> @@ -599,8 +601,6 @@ int testGetFormats(struct node *node)
+>  		case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
+>  		case V4L2_BUF_TYPE_SDR_CAPTURE:
+>  		case V4L2_BUF_TYPE_SDR_OUTPUT:
+> -		case V4L2_BUF_TYPE_META_CAPTURE:
+> -		case V4L2_BUF_TYPE_META_OUTPUT:
+>  			if (ret && (node->g_caps() & buftype2cap[type]))
+>  				return fail("%s cap set, but no %s formats defined\n",
+>  					buftype2s(type).c_str(), buftype2s(type).c_str());
+> @@ -608,6 +608,15 @@ int testGetFormats(struct node *node)
+>  				return fail("%s cap not set, but %s formats defined\n",
+>  					buftype2s(type).c_str(), buftype2s(type).c_str());
+>  			break;
+> +		case V4L2_BUF_TYPE_META_CAPTURE:
+> +		case V4L2_BUF_TYPE_META_OUTPUT:
+> +			if(ret && !node->buftype_pixfmts[type].empty())
+
+Space after 'if'.
+
+> +				return fail("%s Get_format failed, but %s formats defined\n",
+
+Get_format -> G_FMT
+
+> +					buftype2s(type).c_str(), buftype2s(type).c_str());
+> +			if(!ret && node->buftype_pixfmts[type].empty())
+
+Space after 'if'.
+
+> +				return fail("%s Get_format success, but no  %s formats defined\n",
+
+G_FMT, 'no  %s' -> 'no %s' (space too many.
+
+> +					buftype2s(type).c_str(), buftype2s(type).c_str());
+> +			break;
+>  		default:
+>  			/* ENUMFMT doesn't support other buftypes */
+>  			break;
+> 
+
+Regards,
+
+	Hans
