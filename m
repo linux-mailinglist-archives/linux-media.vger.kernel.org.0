@@ -2,67 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 82B9BBD0BA
-	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2019 19:34:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0110FBD144
+	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2019 20:12:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404599AbfIXReq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Sep 2019 13:34:46 -0400
-Received: from mail-oi1-f175.google.com ([209.85.167.175]:45375 "EHLO
-        mail-oi1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730690AbfIXReq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Sep 2019 13:34:46 -0400
-Received: by mail-oi1-f175.google.com with SMTP id o205so2377713oib.12
-        for <linux-media@vger.kernel.org>; Tue, 24 Sep 2019 10:34:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
-        bh=VAfWdgYR0S0HOj0z6wvnuYHJwjiI0dKzh1qGdDFZs/M=;
-        b=WZMU9imWPOF1j1kFnni+Zx+bo5pUethU8SQ3m4yJRHytr6gxoNj/QtkF/TJ2glE1Oa
-         ZYYz8jXdNe+5EaLvC5lZLrIoyDqcM+7/7ipgeiVWbzmFsXgIMk+Fyfl4vTOF2BdsAlOJ
-         lET00UbmQRT2SfuV2wQJ2VeSKaab51+oAjTlyb6Ssm/Amh62FlXzx6B54X8sd7+UFWb/
-         8VoVg5aVjZYJ3tVDsRYZzmvIsDnTgSfieL/iXEVtJm1LzML+Bd2arUgR8vCrmwg0fuiL
-         4x+iGn9D4J/VHcYAHke1mR8PQyGYjxZJo1mR2gpjHCQF3GIJ8FD3xrbBNW69Vxk+DF9h
-         OKKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to;
-        bh=VAfWdgYR0S0HOj0z6wvnuYHJwjiI0dKzh1qGdDFZs/M=;
-        b=miqJdAUx3TRX6TSRxSFvDX1Obqc+8GATEuwATdroJ+9dOBzb8OZRstR871oQiyOrxm
-         UoMhavCkB33RslizayozBE+RfQebC01ysEij6HBFkCzS96Ft4jFg3jOESAbP5btQFoAH
-         chtbDwtdRSop8zSwsAvp+k6T+AoOe+1ggm5FGiK1wxhKODAIHdWSYF7Qr0vuIxIqOzZv
-         hu8cMKKNqSaAQ5gnVggsuZikOKuUfZN015t5RdfczWnGPj2qDd99gJxYs5UPi2Oe/fY0
-         tFb8TWtz1SyqT88+SFkxr+CT0G170H2JhDEhvTkqPmxvykLY4gKf0+RgdX7a56elKmNn
-         zwIg==
-X-Gm-Message-State: APjAAAXL3RL/BTusHv2wqvukXRtKAMNfpKXfsdjxJjfZ2iT9SjKW2Y3O
-        IIwgFAkQmpRCPdd0cSwfcJKfEDi8a0rLWo/CMA==
-X-Google-Smtp-Source: APXvYqw9xCWehB2eMDLXAQ1FOvh2XpmzW2RoZeaio4zANvS01GepL38gKBbWwtZlWbOfJBklRhiTlCX9vG/RER8Oo/0=
-X-Received: by 2002:aca:1308:: with SMTP id e8mr1134119oii.145.1569346485369;
- Tue, 24 Sep 2019 10:34:45 -0700 (PDT)
+        id S2439592AbfIXSMz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Sep 2019 14:12:55 -0400
+Received: from mx2.suse.de ([195.135.220.15]:43946 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2393874AbfIXSMy (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 24 Sep 2019 14:12:54 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 22E57AC93;
+        Tue, 24 Sep 2019 18:12:51 +0000 (UTC)
+From:   Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+To:     robh+dt@kernel.org, devicetree@vger.kernel.org,
+        frowand.list@gmail.com, linux-arm-kernel@lists.infradead.org,
+        linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, dmaengine@vger.kernel.org,
+        etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        xen-devel@lists.xenproject.org, linux-tegra@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-pci@vger.kernel.org
+Cc:     mbrugger@suse.com, robin.murphy@arm.com, f.fainelli@gmail.com,
+        james.quinlan@broadcom.com, wahrenst@gmx.net,
+        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+        Dan Williams <dan.j.williams@intel.com>,
+        freedreno@lists.freedesktop.org
+Subject: [PATCH 00/11] of: Fix DMA configuration for non-DT masters
+Date:   Tue, 24 Sep 2019 20:12:31 +0200
+Message-Id: <20190924181244.7159-1-nsaenzjulienne@suse.de>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Reply-To: janetrossana01@gmail.com
-Received: by 2002:a9d:6c84:0:0:0:0:0 with HTTP; Tue, 24 Sep 2019 10:34:44
- -0700 (PDT)
-From:   janet rossana <janetrossana01@gmail.com>
-Date:   Tue, 24 Sep 2019 19:34:44 +0200
-X-Google-Sender-Auth: fXqG_Blk4uujr5K0KybpwF6v-JQ
-Message-ID: <CAO=M-3t2YUWWK6YyiD7tqSBNm25AbZZgYC5X241XebRNsUQLWQ@mail.gmail.com>
-Subject: Hi
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Please dear, I know this contact will be so strange to you, but i
-summon courage to reach you because i desperately need your friendly
-assistance there in your country. I am making preparations to relocate
-with my children there, and i have some capital which i wanted to
-invest there to be able to take care of my kids. And i want you by my
-side to plan the investment and decide the best city for us to reside.
-Please listen to me so that you will understand properly the reason i
-contacted you.
+Hi All,
+this series tries to address one of the issues blocking us from
+upstreaming Broadcom's STB PCIe controller[1]. Namely, the fact that
+devices not represented in DT which sit behind a PCI bus fail to get the
+bus' DMA addressing constraints.
 
-Mrs.Janet.
+This is due to the fact that of_dma_configure() assumes it's receiving a
+DT node representing the device being configured, as opposed to the PCIe
+bridge node we currently pass. This causes the code to directly jump
+into PCI's parent node when checking for 'dma-ranges' and misses
+whatever was set there.
+
+To address this I create a new API in OF - inspired from Robin Murphys
+original proposal[2] - which accepts a bus DT node as it's input in
+order to configure a device's DMA constraints. The changes go deep into
+of/address.c's implementation, as a device being having a DT node
+assumption was pretty strong.
+
+On top of this work, I also cleaned up of_dma_configure() removing its
+redundant arguments and creating an alternative function for the special cases
+not applicable to either the above case or the default usage.
+
+IMO the resulting functions are more explicit. They will probably
+surface some hacky usages that can be properly fixed as I show with the
+DT fixes on the Layerscape platform.
+
+This was also tested on a Raspberry Pi 4 with a custom PCIe driver and
+on a Seattle AMD board.
+
+Regards,
+Nicolas
+
+[1] https://patchwork.kernel.org/patch/9650345/#20294961
+[2] https://patchwork.kernel.org/patch/9650345/
+
+---
+
+Nicolas Saenz Julienne (11):
+  of: address: clean-up unused variable in of_dma_get_range()
+  of: base: introduce __of_n_*_cells_parent()
+  of: address: use parent DT node in bus->count_cells()
+  of: address: introduce of_translate_dma_address_parent()
+  of: expose __of_get_dma_parent() to OF subsystem
+  of: address: use parent OF node in of_dma_get_range()
+  dts: arm64: layerscape: add dma-ranges property to qoric-mc node
+  dts: arm64: layerscape: add dma-ranges property to pcie nodes
+  of: device: remove comment in of_dma_configure()
+  of: device: introduce of_dma_configure_parent()
+  of: simplify of_dma_config()'s arguments
+
+ .../arm64/boot/dts/freescale/fsl-ls1088a.dtsi |   1 +
+ .../arm64/boot/dts/freescale/fsl-ls208xa.dtsi |   5 +
+ .../arm64/boot/dts/freescale/fsl-lx2160a.dtsi |   1 +
+ drivers/base/platform.c                       |   2 +-
+ drivers/bcma/main.c                           |   2 +-
+ drivers/bus/fsl-mc/fsl-mc-bus.c               |   2 +-
+ drivers/dma/qcom/hidma_mgmt.c                 |   2 +-
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c         |   2 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c         |   2 +-
+ drivers/gpu/drm/sun4i/sun4i_backend.c         |   2 +-
+ drivers/gpu/drm/xen/xen_drm_front.c           |   2 +-
+ drivers/gpu/host1x/bus.c                      |   4 +-
+ drivers/media/platform/qcom/venus/firmware.c  |   2 +-
+ drivers/media/platform/s5p-mfc/s5p_mfc.c      |   2 +-
+ drivers/of/address.c                          | 136 +++++++++---------
+ drivers/of/base.c                             |  69 +++++++--
+ drivers/of/device.c                           |  59 +++++++-
+ drivers/of/of_private.h                       |   5 +
+ drivers/pci/pci-driver.c                      |   3 +-
+ drivers/xen/gntdev.c                          |   2 +-
+ include/linux/of_address.h                    |   8 +-
+ include/linux/of_device.h                     |  23 ++-
+ 22 files changed, 223 insertions(+), 113 deletions(-)
+
+-- 
+2.23.0
+
