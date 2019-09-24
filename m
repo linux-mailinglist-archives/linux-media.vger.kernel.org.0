@@ -2,82 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F9ABBBE97
-	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2019 00:45:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE249BC0CD
+	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2019 05:50:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2503477AbfIWWpj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Sep 2019 18:45:39 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:34901 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392282AbfIWWpj (ORCPT
+        id S2437713AbfIXDuW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Sep 2019 23:50:22 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:50555 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2389841AbfIXDuW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Sep 2019 18:45:39 -0400
-Received: by mail-pf1-f194.google.com with SMTP id 205so10124895pfw.2
-        for <linux-media@vger.kernel.org>; Mon, 23 Sep 2019 15:45:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=dD9byLk1Tx9Plup+AvdF7bH1lsfwrv+hU6TjIHJ7AiM=;
-        b=SQc545BqocTTaFcprLPMeYKs+DwL+h5wFYyUGD7hkbhugHlAlchPy+ZX2YczzUFeqb
-         5CHXZxMteiGd5s9v/KLdzmHPPn/M44AyNpl9J2jxD/aJraq6skMQyGTjS9XvUIcOWU9E
-         wYc9FZbbFurWaixF9kTE8Ejzzcma+2oJjJFao=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=dD9byLk1Tx9Plup+AvdF7bH1lsfwrv+hU6TjIHJ7AiM=;
-        b=NHF5THChKZ1aBiGqRXZhBLJwLdry8w7GuZgqTwtcBVtld6EZVT2NPvmsCsrC0qbU7C
-         uVlbHAgjEj4LsvExcIae4amQjrxJPODNwoPjhttaYosajdLvU1TFZKsrzvKobq2KuiD0
-         Hg7aCWM/4Fu1q8n67TLhi5SYd8YkUxrvc+RUBXi5bx8dO9qzkAmAa6VW82hmuHqxqNaw
-         rWEpe10CYQTiEj6V0kyR3rIqH0GTiugcJ5DzesuF7uDLOUdt3Wfo7tkACzIW+/JPQiBD
-         xMfYcgE5iwHP34dlqK5Ib1RQmPp+6w4fA7HUso2SrY8zH5fuYWNN2vGAUjT3+HmdRlRL
-         Vopw==
-X-Gm-Message-State: APjAAAV4rjGPMraK5bVvoI48oz1eziInRX+PPMdwxxhf9T7G911Mk5oW
-        BIeAjmzIALivaLb8a4MqKtvnTQ==
-X-Google-Smtp-Source: APXvYqwi9Em13OLwso62pTOFMS3xLV7frTZ4jn4ACdyWpI9Z1AHz7htTIXaZ1mjKZWkmfq15rkw8zA==
-X-Received: by 2002:a17:90a:c244:: with SMTP id d4mr1949950pjx.129.1569278737040;
-        Mon, 23 Sep 2019 15:45:37 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id 16sm12875244pfi.55.2019.09.23.15.45.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Sep 2019 15:45:36 -0700 (PDT)
-Date:   Mon, 23 Sep 2019 15:45:35 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        ksummit-discuss@lists.linuxfoundation.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: [Ksummit-discuss] single maintainer profile directory (was Re:
- [PATCH] media: add a subsystem profile documentation)
-Message-ID: <201909231544.9A0328AE8C@keescook>
-References: <156821693963.2951081.11214256396118531359.stgit@dwillia2-desk3.amr.corp.intel.com>
- <434c05bddd2b364e607e565227487910a8dd9793.1568391461.git.mchehab+samsung@kernel.org>
- <201909162032.F4462D3@keescook>
- <20190917102817.263517b5@coco.lan>
- <201909170930.B8AD840@keescook>
- <20190918082326.49a19a24@coco.lan>
- <20190921131307.77d01ebb@lwn.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190921131307.77d01ebb@lwn.net>
+        Mon, 23 Sep 2019 23:50:22 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:e55b:bc85:99ce:dda2])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id CbqFi1wFyKKNGCbqGioKri; Tue, 24 Sep 2019 05:50:20 +0200
+Message-ID: <423055848edade366b7ccc160c4b1a21@smtp-cloud8.xs4all.net>
+Date:   Tue, 24 Sep 2019 05:50:19 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: OK
+X-CMAE-Envelope: MS4wfImKGZ0PvJsFhNOPtgzjS1AqFBY2+3j0Y+Y5dWDrBJrmDYQ9JUwPGCfUn3VFbOwtZalk+2yDnkJAXx0ugSrJFn+n/wINo9zXDvwr0NjHXCnHUgfAiY1q
+ 0Es+zo8oePOMsBJ0IDNUQSt0yjvVI7qRzURggTtNuUNyjdfGL2PMG3/oiikBdeNwzPCB1ZKYy1/D8YhDoNaxENwP7wrQ9GBkFlV7zGULx1IBAby6pqdEoZKc
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Sep 21, 2019 at 01:13:07PM -0600, Jonathan Corbet wrote:
-> Also, that file is nearly 18K lines long.  If some unsuspecting person
-> generates a PDF and prints it, they're going to get something along the
-> lines of 300 pages of MAINTAINERS, which may not quite be what they had
-> in mind.  It costs (almost) nothing to put that into HTML output, but
-> other formats could be painful.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Is this something that can be specifically excluded from the non-HTML
-outputs? (Or rather, specifically included in only the HTML output?) I
-don't see a way to do that exactly... maybe in my RFC only the html
-target would get the "real" file?
+Results of the daily build of media_tree:
 
--- 
-Kees Cook
+date:			Tue Sep 24 05:00:12 CEST 2019
+media-tree git hash:	6f51fdfd8229d5358c2d6e272cf73478866e8ddc
+media_build git hash:	d75b29db1297d2475227cc8bada843542271e40d
+v4l-utils git hash:	847834c10d11b1cf67c95a8555115e4aa7b4f51b
+edid-decode git hash:	7696439db703eeca7248af6c3a17d2e19a9292ea
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1-rc1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.5.1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 8634894b41454ef4215a3d4fd503305c720e761a
+host hardware:		x86_64
+host os:		5.2.0-2-amd64
+
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2253, Succeeded: 2253, Failed: 0, Warnings: 0
+sparse: OK
+smatch: OK
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
