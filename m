@@ -2,163 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B4CCBC535
-	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2019 11:51:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 53AA1BC552
+	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2019 11:58:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2504354AbfIXJvH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Sep 2019 05:51:07 -0400
-Received: from mail-eopbgr760080.outbound.protection.outlook.com ([40.107.76.80]:10880
-        "EHLO NAM02-CY1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2391553AbfIXJvG (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Sep 2019 05:51:06 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PHxQDnxY5NcMfRaNpnKihQKPY2A8Rg6jJCzapjTNBDGs+dpra9aZjR/QmkmQ/WwNMXWl9hoEkItkq2eNGf5TAgPu6Cmi3C9mjmkiWv0xQc2aA8He//Jcs640gIm/cZDarOpDWo4F5/ZgI2sr6ImvW3LBS8rWJSSSdDqB6fr/3+HYZY5WF+DgX3MV4Capvkz090iC7Bzb1owNY/22eH+946Sn6gCL669Rsz5pf/oRW1wsaBSfY4VQ0VXPrztfMi948FEtwaJo3hqHfKycJG2VAztVz18dV4Z//HXWmX+zEVvT/T1IXI8CgMVHB3qxJyKsTHU+eU8kkR/8V0S5r16pNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sOoq4+1ZqghsPIt2gDgHuj2WGGOEj/CX+6bjQif9Bk8=;
- b=ULqUnllvzCMhL2RZRlKBejrTItFnwhgHzBDCO2KL7Gg72l08d4KM0Kxh2q8VLuYzVZVi0FWkzQJe0JwDsZzlWSXqbZqaPkjCzbUslKJa/OrShlbe2JO4/clVpPMAaGKMMx+bjuMk/zZ+m/FqEfqSvY+So24E7mRlTCSZ6rh/ymM4CV2m28jpcV6pHf7YABHZp8hZFLkotfBKWZ2wa81IVN2ubraUaLwGdbnI+e+F2SjN6Boh1jse2fzrk18sN2jkafZwk6S9zlKXQ16GnHQQJHB2C3Xq69jRsbg+WDawZkerZiNsSMrjQdKcoTigzHtzH4KvJ6Mx9stTTt/B3+wplA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
+        id S2504417AbfIXJ6b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Sep 2019 05:58:31 -0400
+Received: from mx07-00252a01.pphosted.com ([62.209.51.214]:26900 "EHLO
+        mx07-00252a01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2504402AbfIXJ6b (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 24 Sep 2019 05:58:31 -0400
+Received: from pps.filterd (m0102628.ppops.net [127.0.0.1])
+        by mx07-00252a01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x8O9wR24006516
+        for <linux-media@vger.kernel.org>; Tue, 24 Sep 2019 10:58:27 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=raspberrypi.org; h=subject : to :
+ references : from : cc : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp;
+ bh=eUOGg08hT/El2gaPgfweQkjqfO61g6ucjaADPvf7Yic=;
+ b=qInWuI5htxcAQETvJ54rlb5232lWVNcGepnkKSfMVq0c22RIx50WkMl90IztflfB/CZP
+ OvkCkeiHGZBXlPpHCnkGMvoFaS6sIzNnl0FPMioRHFG0VaDD2vZKd0iXVaGbBw1CKq+f
+ G4jwjuAGRZIPX2jHpqJAL7Y0H44/AGiEC7rDIPIOTY1TkL1vaG67btAZOcTkXKNzajW3
+ DamVM3s++8W2mlErNUzqtsIHtVbLpHdqydA/kxn3qaiHOSLsCFxJkV5C8Zxhct64u9We
+ 81QuTzMsu/ESVhpttGTxx9Ltt/LC5hogxjBEIfuKRjU5kgLRvvHDcD01+64M4R2KaIdp cg== 
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com [209.85.128.70])
+        by mx07-00252a01.pphosted.com with ESMTP id 2v59999dt3-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=OK)
+        for <linux-media@vger.kernel.org>; Tue, 24 Sep 2019 10:58:27 +0100
+Received: by mail-wm1-f70.google.com with SMTP id 124so711167wmz.1
+        for <linux-media@vger.kernel.org>; Tue, 24 Sep 2019 02:58:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sOoq4+1ZqghsPIt2gDgHuj2WGGOEj/CX+6bjQif9Bk8=;
- b=ToILAGoe8cmeIK/5sOFWX/FwspJUQ11r7FA1V1DvU9PPjWYNB0i1F130evY2Eo/OjYbD9HHLEkCjpMhqOsV4KDkZMjYr9Fp8YFi2zInrGlRlrfTmsyYr1FUOitoxCgxG/C8QWmmErOZ9L5sPT5nb+GMGQcFf8ZGDnP29Vl9nJdQ=
-Received: from DM5PR12MB1705.namprd12.prod.outlook.com (10.175.88.22) by
- DM5PR12MB1900.namprd12.prod.outlook.com (10.175.89.146) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2284.25; Tue, 24 Sep 2019 09:51:01 +0000
-Received: from DM5PR12MB1705.namprd12.prod.outlook.com
- ([fe80::9d43:b3d4:9ef:29fc]) by DM5PR12MB1705.namprd12.prod.outlook.com
- ([fe80::9d43:b3d4:9ef:29fc%8]) with mapi id 15.20.2284.023; Tue, 24 Sep 2019
- 09:51:01 +0000
-From:   "Koenig, Christian" <Christian.Koenig@amd.com>
-To:     Daniel Vetter <daniel@ffwll.ch>
-CC:     "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
-        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Subject: Re: [PATCH 1/4] dma-buf: change DMA-buf locking convention
-Thread-Topic: [PATCH 1/4] dma-buf: change DMA-buf locking convention
-Thread-Index: AQHVbVPkWzky0N2Xn0SoVd76Go5NWKcvz5eAgAAJGwCAAAL9AIAABfgAgAARP4CAAAK6gIAKqtQA
-Date:   Tue, 24 Sep 2019 09:51:01 +0000
-Message-ID: <97bb8f03-7fa3-6e61-a1ff-0ffcadbc1a39@amd.com>
-References: <20190829142917.13058-1-christian.koenig@amd.com>
- <20190829142917.13058-2-christian.koenig@amd.com>
- <20190903080522.GM2112@phenom.ffwll.local>
- <cd5acbac-73a4-a51a-4383-2c7517e7c180@gmail.com>
- <88f748d2-43de-ae2a-b895-40d8b3be5c78@gmail.com>
- <20190917123150.GM3958@phenom.ffwll.local>
- <da55aa8d-f2b8-0428-ed22-23dc17f71d77@amd.com>
- <20190917131320.GU3958@phenom.ffwll.local>
- <e0e50037-df08-86e3-e8b2-768683e5cce0@amd.com>
- <20190917134524.GY3958@phenom.ffwll.local>
- <7de46ca8-8cb5-d545-42ad-6a7cb4cf753a@amd.com>
- <CAKMK7uFc6CKyF-dW6FE7Hzdz5La7N265DZu_PR7=rKXFjg4QBw@mail.gmail.com>
-In-Reply-To: <CAKMK7uFc6CKyF-dW6FE7Hzdz5La7N265DZu_PR7=rKXFjg4QBw@mail.gmail.com>
-Accept-Language: de-DE, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-x-originating-ip: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-x-clientproxiedby: PR0P264CA0061.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:100:1d::25) To DM5PR12MB1705.namprd12.prod.outlook.com
- (2603:10b6:3:10c::22)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Christian.Koenig@amd.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 384dbb7a-e3f5-414e-9249-08d740d4b4fc
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600167)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);SRVR:DM5PR12MB1900;
-x-ms-traffictypediagnostic: DM5PR12MB1900:
-x-microsoft-antispam-prvs: <DM5PR12MB19003D2E8A189BCCAEFFE99783840@DM5PR12MB1900.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 0170DAF08C
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(979002)(4636009)(39860400002)(346002)(396003)(376002)(366004)(136003)(199004)(189003)(71190400001)(66446008)(6436002)(71200400001)(6246003)(7736002)(46003)(305945005)(4326008)(81156014)(66476007)(6512007)(6486002)(64756008)(65806001)(8676002)(66946007)(65956001)(81166006)(66556008)(5660300002)(186003)(25786009)(102836004)(14444005)(229853002)(2906002)(8936002)(6116002)(54906003)(58126008)(99286004)(6916009)(5024004)(316002)(14454004)(31686004)(2616005)(11346002)(446003)(476003)(256004)(31696002)(36756003)(486006)(76176011)(52116002)(6506007)(478600001)(386003)(86362001)(969003)(989001)(999001)(1009001)(1019001);DIR:OUT;SFP:1101;SCL:1;SRVR:DM5PR12MB1900;H:DM5PR12MB1705.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: R+valivIUKw/Ry3ZDElgvZkjGLK9XqYtItKc33g65oEboEqG2Ci+4GXZgWQkhsaQbAUIabnzGQDXd5hsXEctbDAzP7CN0eq2+Pb6GrRkm/EVSaDVy5Ny4H1+wVge5/s57/ssGQfZSKOxKRrixs9UFao12vU3oo2xp+rjhPLRIgHSXsv27yfcFvIe/bAotaziDD646jQdk1z+XHCgJRUrh6d/okubvzpQ87qHPvg2BfdM8+hJKtwiYAqMl2kWWYxvA4ddUHv+TGGtghBhJjDvJaEHzcExLke12nkYxCtQjlfA9UAE80FtZkmkc1eiXyv6dFLGf5flDp+wgf81aQ+N/o0J1MaamH26u1V5MFvw6Pp6j1C3YWH1I7d+4oEsAATL/7OQk5qD10IYrAHMRCSNIVR05ydbWzSzGHcgT0K5QfA=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <B85A100AA3409E499659D9B1E85120CD@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        d=raspberrypi.org; s=google;
+        h=subject:to:references:from:cc:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=eUOGg08hT/El2gaPgfweQkjqfO61g6ucjaADPvf7Yic=;
+        b=NWhID3J4crVHA9dnTKlsRb5OzUoAjT+3WSC6yTmG189gxaLCyrtMd4T6i3XT8GTNHJ
+         HcdoVAKEdXxmn3CfAVmHk0y0bkC3n9hge5732n4n3M1EvMXaL2R3dTKqlYMcqIGEr8Hp
+         zXW6gZ9tW+90EoE9yKVVdsY0J/udZe44R3Pxcrg/2Bu2/4Ti3aoAmUdt7sPdsD9ifjRa
+         TsCiwYn7RaFPjGblLb0YjWVa19+eG/q1K7v/QeAwsWsGpx4DaVFBrmzaDmSiFQsMv9xC
+         Fc6CSPo5GWt58sWvKoCwfrDH0hes8/THWi8tgJaq8xNuyRV6Cc6j27nKZ9Qd+Yoxi75m
+         I5Kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:from:cc:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=eUOGg08hT/El2gaPgfweQkjqfO61g6ucjaADPvf7Yic=;
+        b=l6PxjschvP1SmjP7ZpowZeU7Fcf1ruWPP63RJHhYtx6U4MOw713p+T4l4PNnwvE7DN
+         mmjP9ixbkaXTkkcBPDcdVDK7n1I0vQxHfRKQmqtITWdeZXGf9R61G8NjyCyltX0MAz6v
+         8MpWYx6LwB/Nazabkj5GD6xiX0Y/exQeJyncm+JmSv+zb3q1tpets6uHXgochodPrWwv
+         OXZlyQqgMVPQ5RvvXMDNl7qKDadGGErVYheTX1hphkR9AVQmgjSM464txwp/bqrLozct
+         og/kzOV+CPwxkg2qpjPyNzdrdwvkE7jW22PR7/kY3/B81dDWNL0VzghQ52Ffj4WUnWDQ
+         QjKA==
+X-Gm-Message-State: APjAAAU9Krkh8S5bzoanuPT/BlT7tp6WaCaq4kbgQE+80h58ZaAOiEUk
+        pHdFSFKDYhH2OJCqNWiIsRH5cGgD9P0fSIdhj1bnlaRU+/z12h+mf8PiUdJXTeVGFISQVvUMGix
+        q7NwlIVn5VvxRuQnrkZNhGQ==
+X-Received: by 2002:a5d:6ace:: with SMTP id u14mr1703745wrw.385.1569319107002;
+        Tue, 24 Sep 2019 02:58:27 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqySn5092ZixdKiWNVL7T0CpP18ONMInXYW1KjfUhHsnaB4Rx748xN8g5pM9RMiWb3HihTR+Xg==
+X-Received: by 2002:a5d:6ace:: with SMTP id u14mr1703727wrw.385.1569319106787;
+        Tue, 24 Sep 2019 02:58:26 -0700 (PDT)
+Received: from ?IPv6:2a00:1098:3142:14:4004:4e18:7f37:4b39? ([2a00:1098:3142:14:4004:4e18:7f37:4b39])
+        by smtp.gmail.com with ESMTPSA id a18sm4229429wrh.25.2019.09.24.02.58.25
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 24 Sep 2019 02:58:26 -0700 (PDT)
+Subject: Re: [ANN] Media sessions in Lyon in October: libcamera
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+References: <07f46758-66e3-5ac1-cc41-807a30f93359@xs4all.nl>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.org>
+Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Daniel Gomez <daniel@qtec.com>,
+        Eugen Hristev <Eugen.Hristev@microchip.com>,
+        Dafna Hirschfeld <dafna3@gmail.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Helen Koike <helen.koike@collabora.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Message-ID: <262eb602-b190-126b-6bb6-09fae4b10bed@raspberrypi.org>
+Date:   Tue, 24 Sep 2019 10:58:25 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 384dbb7a-e3f5-414e-9249-08d740d4b4fc
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Sep 2019 09:51:01.5258
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: lQNCf1eHw/UsfV0MgkV1tmeqdKuT2411VqKSaQppAeHFDjK5HKjTkZuo+HV1mWHK
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1900
+In-Reply-To: <07f46758-66e3-5ac1-cc41-807a30f93359@xs4all.nl>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,1.0.8
+ definitions=2019-09-24_05:2019-09-23,2019-09-24 signatures=0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-QW0gMTcuMDkuMTkgdW0gMTY6NTYgc2NocmllYiBEYW5pZWwgVmV0dGVyOg0KPiBbU05JUF0NCj4+
-Pj4+Pj4+Pj4+ICAgICAgICsgICAgLyogV2hlbiBlaXRoZXIgdGhlIGltcG9ydGVyIG9yIHRoZSBl
-eHBvcnRlciBjYW4ndCBoYW5kbGUgZHluYW1pYw0KPj4+Pj4+Pj4+Pj4gKyAgICAgKiBtYXBwaW5n
-cyB3ZSBjYWNoZSB0aGUgbWFwcGluZyBoZXJlIHRvIGF2b2lkIGlzc3VlcyB3aXRoIHRoZQ0KPj4+
-Pj4+Pj4+Pj4gKyAgICAgKiByZXNlcnZhdGlvbiBvYmplY3QgbG9jay4NCj4+Pj4+Pj4+Pj4+ICsg
-ICAgICovDQo+Pj4+Pj4+Pj4+PiArICAgIGlmIChkbWFfYnVmX2F0dGFjaG1lbnRfaXNfZHluYW1p
-YyhhdHRhY2gpICE9DQo+Pj4+Pj4+Pj4+PiArICAgICAgICBkbWFfYnVmX2lzX2R5bmFtaWMoZG1h
-YnVmKSkgew0KPj4+Pj4+Pj4+Pj4gKyAgICAgICAgc3RydWN0IHNnX3RhYmxlICpzZ3Q7DQo+Pj4+
-Pj4+Pj4+PiArDQo+Pj4+Pj4+Pj4+PiArICAgICAgICBpZiAoZG1hX2J1Zl9pc19keW5hbWljKGF0
-dGFjaC0+ZG1hYnVmKSkNCj4+Pj4+Pj4+Pj4+ICsgICAgICAgICAgICBkbWFfcmVzdl9sb2NrKGF0
-dGFjaC0+ZG1hYnVmLT5yZXN2LCBOVUxMKTsNCj4+Pj4+Pj4+Pj4+ICsNCj4+Pj4+Pj4+Pj4+ICsg
-ICAgICAgIHNndCA9IGRtYWJ1Zi0+b3BzLT5tYXBfZG1hX2J1ZihhdHRhY2gsIERNQV9CSURJUkVD
-VElPTkFMKTsNCj4+Pj4+Pj4+Pj4gTm93IHdlJ3JlIGJhY2sgdG8gZW5mb3JjaW5nIERNQV9CSURJ
-LCB3aGljaCB3b3JrcyBuaWNlbHkgYXJvdW5kIHRoZQ0KPj4+Pj4+Pj4+PiBsb2NraW5nIHBhaW4s
-IGJ1dCBhcHBhcmVudGx5IHVwc2V0cyB0aGUgYXJtLXNvYyBmb2xrcyB3aG8gd2FudCB0bw0KPj4+
-Pj4+Pj4+PiBjb250cm9sDQo+Pj4+Pj4+Pj4+IHRoaXMgYmV0dGVyLg0KPj4+Pj4+Pj4+IFRha2Ug
-YW5vdGhlciBsb29rIGF0IGRtYV9idWZfbWFwX2F0dGFjaG1lbnQoKSwgd2Ugc3RpbGwgdHJ5IHRv
-IGdldCB0aGUNCj4+Pj4+Pj4+PiBjYWNoaW5nIHRoZXJlIGZvciBBUk0uDQo+Pj4+Pj4+Pj4NCj4+
-Pj4+Pj4+PiBXaGF0IHdlIGRvIGhlcmUgaXMgdG8gYmlkaXJlY3Rpb25hbGx5IG1hcCB0aGUgYnVm
-ZmVyIHRvIGF2b2lkIHRoZQ0KPj4+Pj4+Pj4+IGxvY2tpbmcgaHlkcmEgd2hlbiBpbXBvcnRlciBh
-bmQgZXhwb3J0ZXIgZGlzYWdyZWUgb24gbG9ja2luZy4NCj4+Pj4+Pj4+Pg0KPj4+Pj4+Pj4+IFNv
-IHRoZSBBUk0gZm9sa3MgY2FuIGVhc2lseSBhdm9pZCB0aGF0IGJ5IHN3aXRjaGluZyB0byBkeW5h
-bWljIGxvY2tpbmcNCj4+Pj4+Pj4+PiBmb3IgYm90aC4NCj4+Pj4+Pj4gU28geW91IHN0aWxsIGJy
-ZWFrIHRoZSBjb250cmFjdCBiZXR3ZWVuIGltcG9ydGVyIGFuZCBleHBvcnRlciwgZXhjZXB0IG5v
-dA0KPj4+Pj4+PiBmb3IgYW55dGhpbmcgdGhhdCdzIHJ1biBpbiBpbnRlbC1nZngtY2kgc28gYWxs
-IGlzIGdvb2Q/DQo+Pj4+Pj4gTm8sIHRoZSBjb250cmFjdCBiZXR3ZWVuIGltcG9ydGVyIGFuZCBl
-eHBvcnRlciBzdGF5cyBleGFjdGx5IHRoZSBzYW1lIGl0DQo+Pj4+Pj4gaXMgY3VycmVudGx5IGFz
-IGxvbmcgYXMgeW91IGRvbid0IHN3aXRjaCB0byBkeW5hbWljIGRtYS1idWYgaGFuZGxpbmcuDQo+
-Pj4+Pj4NCj4+Pj4+PiBUaGVyZSBpcyBubyBmdW5jdGlvbmFsIGNoYW5nZSBmb3IgdGhlIEFSTSBm
-b2xrcyBoZXJlLiBUaGUgb25seSBjaGFuZ2UNCj4+Pj4+PiB3aGljaCB0YWtlcyBlZmZlY3QgaXMg
-YmV0d2VlbiBpOTE1IGFuZCBhbWRncHUgYW5kIHRoYXQgaXMgcGVyZmVjdGx5DQo+Pj4+Pj4gY292
-ZXJlZCBieSBpbnRlbC1nZngtY2kuDQo+Pj4+PiBUaGVyZSdzIHBlb3BsZSB3aG8gd2FudCB0byBy
-dW4gYW1kZ3B1IG9uIEFSTT8NCj4+Pj4gU3VyZSB0aGVyZSBhcmUsIHdlIGV2ZW4gcmVjZW50bHkg
-Zml4ZWQgc29tZSBidWdzIGZvciB0aGlzLg0KPj4+Pg0KPj4+PiBCdXQgYXMgZmFyIGFzIEkga25v
-dyB0aGVyZSBpcyBubyBvbmUgY3VycmVudGx5IHdoaWNoIGlzIGFmZmVjdCBieSB0aGlzDQo+Pj4+
-IGNoYW5nZSBvbiBBUk0gd2l0aCBhbWRncHUuDQo+Pj4gQnV0IGRvbid0IHlvdSBicmVhayB0aGVt
-IHdpdGggdGhpcyBub3c/DQo+PiBObywgd2Ugc2VlIHRoZSBiaWRpcmVjdGlvbmFsIGF0dGFjaG1l
-bnQgYXMgY29tcGF0aWJsZSB3aXRoIHRoZSBvdGhlciBvbmVzLg0KPj4NCj4+PiBhbWRncHUgd2ls
-bCBzb29uIHNldCB0aGUgZHluYW1pYyBmbGFnIG9uIGV4cG9ydHMsIHdoaWNoIGZvcmNlcyB0aGUg
-Y2FjaGluZw0KPj4+IGF0IGNyZWF0ZSB0aW1lICh0byBhdm9pZCB0aGUgbG9ja2luZyBmdW4pLCB3
-aGljaCB3aWxsIHRoZW4gcmVzdWx0IGluIGENCj4+PiBFQlVTWSBhdCBtYXBfYXR0YWNobWVudCB0
-aW1lIGJlY2F1c2Ugd2UgaGF2ZSBhIGNhY2hlZCBtYXBwaW5nLCBidXQgaXQncw0KPj4+IHRoZSB3
-cm9uZyB0eXBlLg0KPj4gU2VlIHRoZSBjaGVjayBpbiBkbWFfYnVmX21hcF9hdHRhY2htZW50KCk6
-DQo+Pg0KPj4gICAgICAgaWYgKGF0dGFjaC0+ZGlyICE9IGRpcmVjdGlvbiAmJiBhdHRhY2gtPmRp
-ciAhPSBETUFfQklESVJFQ1RJT05BTCkNCj4+ICAgICAgICAgICByZXR1cm4gRVJSX1BUUigtRUJV
-U1kpOw0KPiBIbSwgSSBtaXNyZWFkIHRoaXMuIFNvIHllYWggc2hvdWxkIHdvcmssICsvLSB0aGUg
-aXNzdWUgdGhhdCB3ZSBtaWdodA0KPiBub3QgZmx1c2ggZW5vdWdoLiBCdXQgSSBndWVzcyB0aGF0
-IGNhbiBiZSBmaXhlZCB3aGVuZXZlciwgaXQncyBub3QNCj4gbGlrZSBkbWEtYXBpIHNlbWFudGlj
-cyBhcmUgYSBncmVhdCBmaXQgZm9yIHVzLiBNYXliZSBhIGZpeG1lIGNvbW1lbnQNCj4gd291bGQg
-YmUgdXNlZnVsIGhlcmUgLi4uIEknbGwgbG9vayBhdCB0aGlzIHRvbW9ycm93IG9yIHNvIGJlY2F1
-c2UgYXRtDQo+IGJyYWluIGlzIHNsb3csIEknbSBkb3duIHdpdGggdGhlIHVzdWFsIHBvc3QtY29u
-ZmVyZW5jZSBjb2xkIGl0IHNlZW1zDQo+IDotLw0KDQpIb3BlIHlvdXIgYXJlIGZlZWxpbmcgYmV0
-dGVyIG5vdywgYWRkaW5nIGEgY29tbWVudCBpcyBvZiBjb3Vyc2Ugbm90IGEgDQpwcm9ibGVtLg0K
-DQpXaXRoIHRoYXQgZml4ZWQgY2FuIEkgZ2V0IGFuIHJldmlld2VkLWJ5IG9yIGF0IGxlYXN0IGFu
-ZCBhY2tlZC1ieT8NCg0KSSB3YW50IHRvIGxhbmQgYXQgbGVhc3Qgc29tZSBwYXJ0cyBvZiB0aG9z
-ZSBjaGFuZ2VzIG5vdy4NCg0KUmVnYXJkcywNCkNocmlzdGlhbi4NCg0KPiAtRGFuaWVsDQo+DQoN
-Cg==
+On 23/09/2019 15:21, Hans Verkuil wrote:
+> Hi all,
+> 
+> Since we have three separate half-day sessions for different topics I decided
+> to split the announcement for this in three emails as well, so these things
+> can be discussed in separate threads.
+> 
+> All sessions are in room Terreaux VIP Lounge - Level 0.
+> There is a maximum of 15 people.
+> 
+> The second session deals with libcamera and is on Wednesday morning
+> from 9:00 to 13:00.
+> 
+> Attendees for this session:
+> 
+> Kieran Bingham <kieran.bingham@ideasonboard.com>
+> Boris Brezillon <boris.brezillon@collabora.com>
+> Alexandre Courbot <acourbot@chromium.org>
+> Tomasz Figa <tfiga@chromium.org>
+> Ezequiel Garcia <ezequiel@collabora.com>
+> Daniel Gomez <daniel@qtec.com>
+> Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> Eugen Hristev <Eugen.Hristev@microchip.com>
+> Shuah Khan <skhan@linuxfoundation.org>
+> Helen Koike <helen.koike@collabora.com>
+> Jacopo Mondi <jacopo@jmondi.org>
+> Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> Hans Verkuil <hverkuil@xs4all.nl>
+> 
+> If I missed someone, or you are on the list but won't attend after all, then
+> please let me know.
+
+Could I be added to the list please?
+Dave Stevenson <dave.stevenson@raspberrypi.org>
+
+> Attendees: it is probably useful if you let us know whether you have to
+> join this meeting because you plan to use libcamera, or if you are 'just
+> interested'. After the libcamera presentation on Tuesday afternoon we
+> should know how many of the 'just interested' list can join.
+
+We're actively working with Laurent and team to get libcamera running on 
+the Pi.
+
+> Agenda:
+> 
+> Laurent, can you fill this in?
+> 
+> Regards,
+> 
+> 	Hans
+
+Thanks
+   Dave
+
+PS Apologies if the formatting has gone mad on this. I no longer get 
+linux-media messages directly due to some issue with mail servers 
+somewhere, so I'm having to pull this off the NNTP server.
