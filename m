@@ -2,122 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 66DDBBCF27
-	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2019 19:01:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 82B9BBD0BA
+	for <lists+linux-media@lfdr.de>; Tue, 24 Sep 2019 19:34:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2410749AbfIXQwS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Sep 2019 12:52:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44800 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2410977AbfIXQva (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Sep 2019 12:51:30 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6686021D7A;
-        Tue, 24 Sep 2019 16:51:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569343889;
-        bh=PmQ3ybytXCaMRsqOe4heuQ2NUprFu64GeVfS8Swud6M=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=G1//zz3DLbmbxuU/obAfyosztNLGXRf3zsV+qIfUoPShiXjufsUc+hO0TrNuxLLxX
-         XZQXIY9UO4xAOVsxN2ltTjRe9FkYo+TnWWTcpBcLsQVgzthRTu1FQ3PTpkK3JFhZAa
-         t5QwijsxGSmm9+2cGtf6MJNwLH1hyl9LuhFzk54A=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Chris Wilson <chris@chris-wilson.co.uk>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Sean Paul <seanpaul@chromium.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 4.14 28/28] dma-buf/sw_sync: Synchronize signal vs syncpt free
-Date:   Tue, 24 Sep 2019 12:50:31 -0400
-Message-Id: <20190924165031.28292-28-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190924165031.28292-1-sashal@kernel.org>
-References: <20190924165031.28292-1-sashal@kernel.org>
+        id S2404599AbfIXReq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Sep 2019 13:34:46 -0400
+Received: from mail-oi1-f175.google.com ([209.85.167.175]:45375 "EHLO
+        mail-oi1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730690AbfIXReq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 24 Sep 2019 13:34:46 -0400
+Received: by mail-oi1-f175.google.com with SMTP id o205so2377713oib.12
+        for <linux-media@vger.kernel.org>; Tue, 24 Sep 2019 10:34:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
+        bh=VAfWdgYR0S0HOj0z6wvnuYHJwjiI0dKzh1qGdDFZs/M=;
+        b=WZMU9imWPOF1j1kFnni+Zx+bo5pUethU8SQ3m4yJRHytr6gxoNj/QtkF/TJ2glE1Oa
+         ZYYz8jXdNe+5EaLvC5lZLrIoyDqcM+7/7ipgeiVWbzmFsXgIMk+Fyfl4vTOF2BdsAlOJ
+         lET00UbmQRT2SfuV2wQJ2VeSKaab51+oAjTlyb6Ssm/Amh62FlXzx6B54X8sd7+UFWb/
+         8VoVg5aVjZYJ3tVDsRYZzmvIsDnTgSfieL/iXEVtJm1LzML+Bd2arUgR8vCrmwg0fuiL
+         4x+iGn9D4J/VHcYAHke1mR8PQyGYjxZJo1mR2gpjHCQF3GIJ8FD3xrbBNW69Vxk+DF9h
+         OKKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to;
+        bh=VAfWdgYR0S0HOj0z6wvnuYHJwjiI0dKzh1qGdDFZs/M=;
+        b=miqJdAUx3TRX6TSRxSFvDX1Obqc+8GATEuwATdroJ+9dOBzb8OZRstR871oQiyOrxm
+         UoMhavCkB33RslizayozBE+RfQebC01ysEij6HBFkCzS96Ft4jFg3jOESAbP5btQFoAH
+         chtbDwtdRSop8zSwsAvp+k6T+AoOe+1ggm5FGiK1wxhKODAIHdWSYF7Qr0vuIxIqOzZv
+         hu8cMKKNqSaAQ5gnVggsuZikOKuUfZN015t5RdfczWnGPj2qDd99gJxYs5UPi2Oe/fY0
+         tFb8TWtz1SyqT88+SFkxr+CT0G170H2JhDEhvTkqPmxvykLY4gKf0+RgdX7a56elKmNn
+         zwIg==
+X-Gm-Message-State: APjAAAXL3RL/BTusHv2wqvukXRtKAMNfpKXfsdjxJjfZ2iT9SjKW2Y3O
+        IIwgFAkQmpRCPdd0cSwfcJKfEDi8a0rLWo/CMA==
+X-Google-Smtp-Source: APXvYqw9xCWehB2eMDLXAQ1FOvh2XpmzW2RoZeaio4zANvS01GepL38gKBbWwtZlWbOfJBklRhiTlCX9vG/RER8Oo/0=
+X-Received: by 2002:aca:1308:: with SMTP id e8mr1134119oii.145.1569346485369;
+ Tue, 24 Sep 2019 10:34:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Reply-To: janetrossana01@gmail.com
+Received: by 2002:a9d:6c84:0:0:0:0:0 with HTTP; Tue, 24 Sep 2019 10:34:44
+ -0700 (PDT)
+From:   janet rossana <janetrossana01@gmail.com>
+Date:   Tue, 24 Sep 2019 19:34:44 +0200
+X-Google-Sender-Auth: fXqG_Blk4uujr5K0KybpwF6v-JQ
+Message-ID: <CAO=M-3t2YUWWK6YyiD7tqSBNm25AbZZgYC5X241XebRNsUQLWQ@mail.gmail.com>
+Subject: Hi
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Chris Wilson <chris@chris-wilson.co.uk>
+Please dear, I know this contact will be so strange to you, but i
+summon courage to reach you because i desperately need your friendly
+assistance there in your country. I am making preparations to relocate
+with my children there, and i have some capital which i wanted to
+invest there to be able to take care of my kids. And i want you by my
+side to plan the investment and decide the best city for us to reside.
+Please listen to me so that you will understand properly the reason i
+contacted you.
 
-[ Upstream commit d3c6dd1fb30d3853c2012549affe75c930f4a2f9 ]
-
-During release of the syncpt, we remove it from the list of syncpt and
-the tree, but only if it is not already been removed. However, during
-signaling, we first remove the syncpt from the list. So, if we
-concurrently free and signal the syncpt, the free may decide that it is
-not part of the tree and immediately free itself -- meanwhile the
-signaler goes on to use the now freed datastructure.
-
-In particular, we get struck by commit 0e2f733addbf ("dma-buf: make
-dma_fence structure a bit smaller v2") as the cb_list is immediately
-clobbered by the kfree_rcu.
-
-v2: Avoid calling into timeline_fence_release() from under the spinlock
-
-Bugzilla: https://bugs.freedesktop.org/show_bug.cgi?id=111381
-Fixes: d3862e44daa7 ("dma-buf/sw-sync: Fix locking around sync_timeline lists")
-References: 0e2f733addbf ("dma-buf: make dma_fence structure a bit smaller v2")
-Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Sean Paul <seanpaul@chromium.org>
-Cc: Gustavo Padovan <gustavo@padovan.org>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: <stable@vger.kernel.org> # v4.14+
-Acked-by: Christian König <christian.koenig@amd.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20190812154247.20508-1-chris@chris-wilson.co.uk
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/dma-buf/sw_sync.c | 16 +++++++---------
- 1 file changed, 7 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
-index 24f83f9eeaedc..114b36674af42 100644
---- a/drivers/dma-buf/sw_sync.c
-+++ b/drivers/dma-buf/sw_sync.c
-@@ -141,17 +141,14 @@ static void timeline_fence_release(struct dma_fence *fence)
- {
- 	struct sync_pt *pt = dma_fence_to_sync_pt(fence);
- 	struct sync_timeline *parent = dma_fence_parent(fence);
-+	unsigned long flags;
- 
-+	spin_lock_irqsave(fence->lock, flags);
- 	if (!list_empty(&pt->link)) {
--		unsigned long flags;
--
--		spin_lock_irqsave(fence->lock, flags);
--		if (!list_empty(&pt->link)) {
--			list_del(&pt->link);
--			rb_erase(&pt->node, &parent->pt_tree);
--		}
--		spin_unlock_irqrestore(fence->lock, flags);
-+		list_del(&pt->link);
-+		rb_erase(&pt->node, &parent->pt_tree);
- 	}
-+	spin_unlock_irqrestore(fence->lock, flags);
- 
- 	sync_timeline_put(parent);
- 	dma_fence_free(fence);
-@@ -275,7 +272,8 @@ static struct sync_pt *sync_pt_create(struct sync_timeline *obj,
- 				p = &parent->rb_left;
- 			} else {
- 				if (dma_fence_get_rcu(&other->base)) {
--					dma_fence_put(&pt->base);
-+					sync_timeline_put(obj);
-+					kfree(pt);
- 					pt = other;
- 					goto unlock;
- 				}
--- 
-2.20.1
-
+Mrs.Janet.
