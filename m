@@ -2,133 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D351BE0A9
-	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2019 16:57:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D3D17BE0C4
+	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2019 17:02:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438204AbfIYO5Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Sep 2019 10:57:24 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:51779 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2438028AbfIYO5Y (ORCPT
+        id S2438583AbfIYPC4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Sep 2019 11:02:56 -0400
+Received: from mail-io1-f66.google.com ([209.85.166.66]:44698 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731142AbfIYPCz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Sep 2019 10:57:24 -0400
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1iD8jK-00054E-Jt; Wed, 25 Sep 2019 16:57:22 +0200
-Message-ID: <1569423438.6554.5.camel@pengutronix.de>
-Subject: Re: [PATCH v4 1/3] media: v4l2-subdev: add g_csi_active_lanes() op
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        Mats Randgaard <matrandg@cisco.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        kernel@pengutronix.de, Sakari Ailus <sakari.ailus@iki.fi>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Niklas =?ISO-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-Date:   Wed, 25 Sep 2019 16:57:18 +0200
-In-Reply-To: <20190925134113.GA19093@pendragon.ideasonboard.com>
-References: <20190924114955.13132-1-p.zabel@pengutronix.de>
-         <20190924114955.13132-2-p.zabel@pengutronix.de>
-         <20190925134113.GA19093@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.22.6-1+deb9u2 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+        Wed, 25 Sep 2019 11:02:55 -0400
+Received: by mail-io1-f66.google.com with SMTP id j4so14606376iog.11;
+        Wed, 25 Sep 2019 08:02:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=MWyh3PNmOklfeVqzYOrNwzDcAH8lax2jMCGmRDG4urM=;
+        b=arASj5Yv5bqz17U8QZVYbble7TDB5sj0TMbNk56fxz5ejOoHyT3kYbYJ/QtfbbLSs6
+         iEjbcUYxhDqPRDkxpycr9uysp4vVx+usX4dONocnmhwJEwUZNwBO9gxatNe8zkYv3cBV
+         6/zgf3/mu1ElXkjkjabewFHnWgFLNY2bEKtd9Wx3P6FGJyuwNg5dgB8SDQb/2DSr4X9q
+         aUgMqjBas1yw+cOjn/+KzpYS5k6gjQTDGNc4k+SZec43+S+O208YvxdUJ1ivWceNMa90
+         RFPA3kk2XYQIgbJVbmqVTOzfX1l/qDVCb/GHdWaEq3GUolGoF7RGnD3ntqNF7uyElR4g
+         1cfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=MWyh3PNmOklfeVqzYOrNwzDcAH8lax2jMCGmRDG4urM=;
+        b=a11vAjMQ8OwRtbrsNLlkXz9P6ewInEp9Y3Yp+tDjNcUdkcFEfckW79Eoc5EIFPd58E
+         KdJncVKoKTHG4PNxbHcjBXFY82d8wYP+gzkfv4Fx5zKfi9ZRj03gupr1tq8kAizI6+QM
+         fQUaDU5Z+kETTNPQx4V9W9WsMituZTsmC3yIjhtyaY9qnvDFpjeIcFi8ityCJ59nqaBs
+         xDkYx9NCUK/ZkRujeIznZ3kaCDvgTxG/PM02POWE8/CEnkaS4oVwMqIJ1WJqRO4cW5Rd
+         ak9LLUKankinb6T5dd1BPeVmOq4MJJnB8OrnMrENhtYgLgCDELF9090hqfpBkv4FW4zN
+         vGOQ==
+X-Gm-Message-State: APjAAAULnVDgP2mQfcWBZXj8JYWYlmhlw/fk0WqZRMbvjRR4s+BO+yLW
+        YtHDvZSJqP12YLMYI6zTrm0=
+X-Google-Smtp-Source: APXvYqwPBH16FuEXUH7rOy3JWTXRjXFzwF9Spfa1QHh9p2MfWd+kBFJthLybBlVk8lVb6Ym4UWB2NA==
+X-Received: by 2002:a5d:8ad4:: with SMTP id e20mr2109019iot.203.1569423773435;
+        Wed, 25 Sep 2019 08:02:53 -0700 (PDT)
+Received: from cs-dulles.cs.umn.edu (cs-dulles.cs.umn.edu. [128.101.35.54])
+        by smtp.googlemail.com with ESMTPSA id 2sm206447ilw.50.2019.09.25.08.02.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Sep 2019 08:02:52 -0700 (PDT)
+From:   Navid Emamdoost <navid.emamdoost@gmail.com>
+Cc:     emamd001@umn.edu, smccaman@umn.edu, kjlu@umn.edu,
+        Navid Emamdoost <navid.emamdoost@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Allison Randal <allison@lohutok.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] media: rc: prevent memory leak in cx23888_ir_probe
+Date:   Wed, 25 Sep 2019 10:02:41 -0500
+Message-Id: <20190925150244.13644-1-navid.emamdoost@gmail.com>
+X-Mailer: git-send-email 2.17.1
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+In cx23888_ir_probe if kfifo_alloc fails the allocated memory for state
+should be released.
 
-On Wed, 2019-09-25 at 16:41 +0300, Laurent Pinchart wrote:
-> Hi Philipp,
-> 
-> (CC'ing Sakari, Jacopo, Kieran and Niklas)
-> 
-> Thank you for the patch.
-> 
-> On Tue, Sep 24, 2019 at 01:49:53PM +0200, Philipp Zabel wrote:
-> > Add a subdevice video operation that allows to query the number
-> > of data lanes a MIPI CSI-2 TX is actively transmitting on.
-> > 
-> > Suggested-by: Hans Verkuil <hverkuil@xs4all.nl>
-> > Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
-> > ---
-> > New in v4.
-> > ---
-> >  include/media/v4l2-subdev.h | 3 +++
-> >  1 file changed, 3 insertions(+)
-> > 
-> > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> > index 71f1f2f0da53..bb71eedc38f6 100644
-> > --- a/include/media/v4l2-subdev.h
-> > +++ b/include/media/v4l2-subdev.h
-> > @@ -411,6 +411,8 @@ struct v4l2_mbus_frame_desc {
-> >   * @s_rx_buffer: set a host allocated memory buffer for the subdev. The subdev
-> >   *	can adjust @size to a lower value and must not write more data to the
-> >   *	buffer starting at @data than the original value of @size.
-> > + *
-> > + * @g_csi_active_lanes: Get number of currently active MIPI CSI-2 data lanes.
-> >   */
-> >  struct v4l2_subdev_video_ops {
-> >  	int (*s_routing)(struct v4l2_subdev *sd, u32 input, u32 output, u32 config);
-> > @@ -441,6 +443,7 @@ struct v4l2_subdev_video_ops {
-> >  			     const struct v4l2_mbus_config *cfg);
-> >  	int (*s_rx_buffer)(struct v4l2_subdev *sd, void *buf,
-> >  			   unsigned int *size);
-> > +	int (*g_csi_active_lanes)(struct v4l2_subdev *sd, u32 *lanes);
-> 
-> This shouldn't be a video operation but a pad operation, as a subdev
-> could have multiple CSI-2 pads.
+Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
+---
+ drivers/media/pci/cx23885/cx23888-ir.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Right this should be pad specific.
+diff --git a/drivers/media/pci/cx23885/cx23888-ir.c b/drivers/media/pci/cx23885/cx23888-ir.c
+index e880afe37f15..90e7c32c54bb 100644
+--- a/drivers/media/pci/cx23885/cx23888-ir.c
++++ b/drivers/media/pci/cx23885/cx23888-ir.c
+@@ -1167,8 +1167,11 @@ int cx23888_ir_probe(struct cx23885_dev *dev)
+ 		return -ENOMEM;
+ 
+ 	spin_lock_init(&state->rx_kfifo_lock);
+-	if (kfifo_alloc(&state->rx_kfifo, CX23888_IR_RX_KFIFO_SIZE, GFP_KERNEL))
++	if (kfifo_alloc(&state->rx_kfifo, CX23888_IR_RX_KFIFO_SIZE,
++			GFP_KERNEL)) {
++		kfree(state);
+ 		return -ENOMEM;
++	}
+ 
+ 	state->dev = dev;
+ 	sd = &state->sd;
+-- 
+2.17.1
 
-> Furthermore, you need to define the semantics of this operation more
-> precisely. When can it be called,
-
-The downstream subdevice connected to this pad is expected to call this
-in its s_stream(enable=1) op, right before enabling the MIPI CSI-2 RX,
-and then calling s_stream(enable=1) on the same upstream subdevice.
-
-The returned value is a decision by the upstream subdevice driver based
-on external factors such as available link-frequencies and mbus frame
-format, so it can change whenever those are changed, but not by itself.
-
-> when is the information valid ?
-
-It is valid until the next time the pad's mbus frame format or link
-frequency are changed. Since the caller
-
-> Can the subdev change the number of lanes it supports at runtime ?
-
-At least for MIPI CSI-2, no. Are there any buses that can dynamically
-change bus width while active?
-
-> If so, how are race conditions avoided ? All this needs to be documented.
-
-I think no, so the only possible race conditions would be with
-reconfiguration, which should already be avoided by requiring this to be
-called from s_stream(),as the media pipeline is already started and
-all configuration locked in place at this point.
-
-> Finally, the number of lanes is far from being the only information
-> about a physical bus that could be interesting for a remote subdev. I
-> would much prefer a more generic operation to retrieve bus
-> information/configuration, with a data structure that we will be able to
-> extend later.
-
-This is specifically about configuration chosen by the transmitter, not
-physical bus properties, which can be specified in the device tree. The
-chosen link frequency (if more than one is specified in DT) could be one
-of those values.
-
-regards
-Philipp
