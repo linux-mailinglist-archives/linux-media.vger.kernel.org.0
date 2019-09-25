@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E8AFDBE6E4
-	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2019 23:08:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 209BABE700
+	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2019 23:23:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390506AbfIYVIg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Sep 2019 17:08:36 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:45078 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2393339AbfIYVIc (ORCPT
+        id S1725821AbfIYVW4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Sep 2019 17:22:56 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:44633 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725806AbfIYVW4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Sep 2019 17:08:32 -0400
-Received: by mail-lf1-f65.google.com with SMTP id r134so21875lff.12;
-        Wed, 25 Sep 2019 14:08:29 -0700 (PDT)
+        Wed, 25 Sep 2019 17:22:56 -0400
+Received: by mail-lj1-f194.google.com with SMTP id m13so7190254ljj.11;
+        Wed, 25 Sep 2019 14:22:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=srW9jBTOOY6Th2zbYsONLADra93j3oABkghJfbLyUPY=;
-        b=XYuoKhZqedpq8sYEBJYkgFPF0k0NUft9dXLLdBuPWJBSWoUb4+UzJihCF7cBTV+dWH
-         89CFldB8HceKSpX2HJEzXGmkZxzBDZFOES10b3lgcTk9fjBh2bImNZ6E7vng1kBnohW9
-         WHVgD61kncJxb6/jPze8aEzNeY3wO+4TyjB4fTPA6fJNzDU9qK77Uld/keu0aOhD5VGW
-         f2OJ16ZEUVobIPR8oPwGL5rpJou/3zRY4iGNNiFD95ZhRL7goOxjNAcmATWDJddFWSRT
-         D2F7ss0dJZHifVBmbRDt4oN4lkRtUZpxIK+GGLqJD+TKPZYeGvjWO5Zl8Ziv7+3Xci3o
-         Lw1w==
-X-Gm-Message-State: APjAAAWxYmL5OlzXX/KiqJNaLfIADaOCNh85hnGx+H/bwS7HoAeOL4jr
-        rTZtULx2TnaSrzq2U6hMJ79IYjjyU+Ic8fWoCvA=
-X-Google-Smtp-Source: APXvYqx8uJU34gat2jj05a1JtfX2WAWEdWsZn7Myiddypxd4/D7fMgMYWcUSz0KVljn/0TFlPUSXHjp6/AlOkmR803Y=
-X-Received: by 2002:ac2:4427:: with SMTP id w7mr16466lfl.143.1569445708615;
- Wed, 25 Sep 2019 14:08:28 -0700 (PDT)
+        bh=U610o8DhX8dPtXlasTMJnSiR0eXeLZTVnrwXIEiOEPo=;
+        b=Qx8FKvmTMGfUSHUo/RUf3UuUnv6EQWp2vaJ4FO36OKbvRIWvZNzYGwyxp+/+JyxQq+
+         6JH4RfIWjBqEW+mMsqh6p5KYWAGKXaadK6Y0y00aXiNLQYDQbirITA9dv74WpThMrEZF
+         LmFw/mLZYE4/7Lw5HTo5gFcRtOHxDc37j+SD3FwCWe5RE2tBknGxr4uL9nouRo534XIz
+         xZHtk21TaAiywWCcLnREgHJk24I4d+bv7sABoMm2l7JDWHc20MMfXHJ0fylbJqE0Xz+1
+         iYb0Ro3pQWhFcHABKAvmqGs9UqqVF7Zdne/+PUfBePP2SjwBSrp4D2nCKLi+Slzw1/6P
+         BnrA==
+X-Gm-Message-State: APjAAAXekmSYKzoOHE/Brr6tErCT3gKr9+9Xb3d6J3unC/WORYPAbGTU
+        BxBXQXydk8TKdUf03VtpNxzJ+VUwpcrPTqrwxmA=
+X-Google-Smtp-Source: APXvYqyBY16qcMqD0X8eEUYTs58uMslOWYDq9eAWjL6JvfhkAcnE4rCuNMhhk3pBQNWxSFrIp2pWUuL3gOp/77CtKZ4=
+X-Received: by 2002:a2e:5b9a:: with SMTP id m26mr238583lje.90.1569446140921;
+ Wed, 25 Sep 2019 14:15:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190920135137.10052-1-ricardo@ribalda.com> <20190920135137.10052-5-ricardo@ribalda.com>
- <20190925083421.ronwsvmqeu5quxpx@uno.localdomain>
-In-Reply-To: <20190925083421.ronwsvmqeu5quxpx@uno.localdomain>
+References: <20190920135137.10052-1-ricardo@ribalda.com> <20190920135137.10052-8-ricardo@ribalda.com>
+ <20190925092552.okhiq5nweujjuk7q@uno.localdomain>
+In-Reply-To: <20190925092552.okhiq5nweujjuk7q@uno.localdomain>
 From:   Ricardo Ribalda Delgado <ricardo@ribalda.com>
-Date:   Wed, 25 Sep 2019 23:08:11 +0200
-Message-ID: <CAPybu_3Q7S+t4SbxAM5NS4gFsAv532=O=w-+rH_fmah_5WWz4Q@mail.gmail.com>
-Subject: Re: [PATCH v6 4/7] Documentation: media: Document V4L2_CTRL_TYPE_AREA
+Date:   Wed, 25 Sep 2019 23:15:19 +0200
+Message-ID: <CAPybu_3ma+oPPzgQ39fjGtZrSLxPuLRC2crvFe0cERGYZfzwuw@mail.gmail.com>
+Subject: Re: [PATCH v6 7/7] media: imx214: Add new control with V4L2_CID_UNIT_CELL_SIZE
 To:     Jacopo Mondi <jacopo@jmondi.org>
 Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
@@ -51,53 +51,134 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Jacopo
 
-On Wed, Sep 25, 2019 at 10:32 AM Jacopo Mondi <jacopo@jmondi.org> wrote:
+Thanks for the review
+
+On Wed, Sep 25, 2019 at 11:24 AM Jacopo Mondi <jacopo@jmondi.org> wrote:
 >
 > Hi Ricardo,
 >
-> On Fri, Sep 20, 2019 at 03:51:34PM +0200, Ricardo Ribalda Delgado wrote:
+> On Fri, Sep 20, 2019 at 03:51:37PM +0200, Ricardo Ribalda Delgado wrote:
 > > From: Ricardo Ribalda Delgado <ribalda@kernel.org>
 > >
-> > A struct v4l2_area containing the width and the height of a rectangular
-> > area.
+> > According to the product brief, the unit cell size is 1120 nanometers^2.
 > >
-> > Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+> > https://www.sony-semicon.co.jp/products_en/IS/sensor1/img/products/ProductBrief_IMX214_20150428.pdf
+> >
 > > Signed-off-by: Ricardo Ribalda Delgado <ribalda@kernel.org>
 > > ---
-> >  Documentation/media/uapi/v4l/vidioc-queryctrl.rst | 6 ++++++
-> >  1 file changed, 6 insertions(+)
+> >  drivers/media/i2c/imx214.c | 12 ++++++++++++
+> >  1 file changed, 12 insertions(+)
 > >
-> > diff --git a/Documentation/media/uapi/v4l/vidioc-queryctrl.rst b/Documentation/media/uapi/v4l/vidioc-queryctrl.rst
-> > index a3d56ffbf4cc..33aff21b7d11 100644
-> > --- a/Documentation/media/uapi/v4l/vidioc-queryctrl.rst
-> > +++ b/Documentation/media/uapi/v4l/vidioc-queryctrl.rst
-> > @@ -443,6 +443,12 @@ See also the examples in :ref:`control`.
-> >        - n/a
-> >        - A struct :c:type:`v4l2_ctrl_mpeg2_quantization`, containing MPEG-2
-> >       quantization matrices for stateless video decoders.
-> > +    * - ``V4L2_CTRL_TYPE_AREA``
-> > +      - n/a
-> > +      - n/a
-> > +      - n/a
-> > +      - A struct :c:type:`v4l2_area`, containing the width and the height
-> > +        of a rectangular area. Units depend on the use case.
+> > diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
+> > index 159a3a604f0e..57562e20c4ca 100644
+> > --- a/drivers/media/i2c/imx214.c
+> > +++ b/drivers/media/i2c/imx214.c
+> > @@ -47,6 +47,7 @@ struct imx214 {
+> >       struct v4l2_ctrl *pixel_rate;
+> >       struct v4l2_ctrl *link_freq;
+> >       struct v4l2_ctrl *exposure;
+> > +     struct v4l2_ctrl *unit_size;
+> >
+> >       struct regulator_bulk_data      supplies[IMX214_NUM_SUPPLIES];
+> >
+> > @@ -948,6 +949,13 @@ static int imx214_probe(struct i2c_client *client)
+> >       static const s64 link_freq[] = {
+> >               IMX214_DEFAULT_LINK_FREQ,
+> >       };
+> > +     struct v4l2_area unit_size = {
+> > +             .width = 1120,
+> > +             .height = 1120,
+> > +     };
+> > +     union v4l2_ctrl_ptr p_def = {
+> > +             .p_area = &unit_size,
+> > +     };
+> >       int ret;
+> >
+> >       ret = imx214_parse_fwnode(dev);
+> > @@ -1029,6 +1037,10 @@ static int imx214_probe(struct i2c_client *client)
+> >                                            V4L2_CID_EXPOSURE,
+> >                                            0, 3184, 1, 0x0c70);
+> >
+> > +     imx214->unit_size = v4l2_ctrl_new_std_compound(&imx214->ctrls,
+> > +                                                    NULL,
+> > +                                                    V4L2_CID_UNIT_CELL_SIZE,
+> > +                                                    p_def);
+> >       ret = imx214->ctrls.error;
+> >       if (ret) {
+> >               dev_err(&client->dev, "%s control init failed (%d)\n",
 >
-> I recall Hans too was in favour of having min, max and step defined
-> (and applied to both width and height).
+> Would something like this scale? I'm a bit bothered by the need of
+> declaring v4l2_ctrl_ptr structure just to set a field there in
+> drivers.
+
+I have implemented the interface that Hans proposed on
+https://www.mail-archive.com/linux-media@vger.kernel.org/msg149901.html
+
+I thik Hans prefers this way to avoid castings, which can end in a lot
+of "here be dragoons" :)
+
+
 >
-He changed his mind :)
-
-https://www.mail-archive.com/linux-media@vger.kernel.org/msg150103.html
-
-
-> Really a minor issue from my side, feel free to keep it the way it is
-> Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+> diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
+> index 57562e20c4ca..a00d8fa481c2 100644
+> --- a/drivers/media/i2c/imx214.c
+> +++ b/drivers/media/i2c/imx214.c
+> @@ -953,9 +953,6 @@ static int imx214_probe(struct i2c_client *client)
+>                 .width = 1120,
+>                 .height = 1120,
+>         };
+> -       union v4l2_ctrl_ptr p_def = {
+> -               .p_area = &unit_size,
+> -       };
+>         int ret;
 >
-> Thanks
->    j
-> >      * - ``V4L2_CTRL_TYPE_H264_SPS``
-> >        - n/a
-> >        - n/a
+>         ret = imx214_parse_fwnode(dev);
+> @@ -1040,7 +1037,7 @@ static int imx214_probe(struct i2c_client *client)
+>         imx214->unit_size = v4l2_ctrl_new_std_compound(&imx214->ctrls,
+>                                                        NULL,
+>                                                        V4L2_CID_UNIT_CELL_SIZE,
+> -                                                      p_def);
+> +                                                      &unit_size);
+>         ret = imx214->ctrls.error;
+>         if (ret) {
+>                 dev_err(&client->dev, "%s control init failed (%d)\n",
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+> index f626f9983408..4a2648bee6f5 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+> @@ -2681,18 +2681,26 @@ EXPORT_SYMBOL(v4l2_ctrl_new_std_menu_items);
+>  /* Helper function for standard compound controls */
+>  struct v4l2_ctrl *v4l2_ctrl_new_std_compound(struct v4l2_ctrl_handler *hdl,
+>                                 const struct v4l2_ctrl_ops *ops, u32 id,
+> -                               const union v4l2_ctrl_ptr p_def)
+> +                               void *defval)
+>  {
+>         const char *name;
+>         enum v4l2_ctrl_type type;
+>         u32 flags;
+>         s64 min, max, step, def;
+> +       union v4l2_ctrl_ptr p_def;
+>
+>         v4l2_ctrl_fill(id, &name, &type, &min, &max, &step, &def, &flags);
+>         if (type < V4L2_CTRL_COMPOUND_TYPES) {
+>                 handler_set_err(hdl, -EINVAL);
+>                 return NULL;
+>         }
+> +
+> +       switch ((u32)type) {
+> +       case V4L2_CTRL_TYPE_AREA:
+> +               p_def.p_area = defval;
+> +               break;
+> +       }
+> +
+>         return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
+>                              min, max, step, def, NULL, 0,
+>                              flags, NULL, NULL, p_def, NULL);
+>
+> However, due to my limitied understanding of the control framework, I
+> cannot tell how many cases the newly introduced switch should
+> handle...
+>
 > > --
 > > 2.23.0
 > >
