@@ -2,110 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AD3CABD9B4
-	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2019 10:20:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CF78BD9CF
+	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2019 10:27:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438134AbfIYIUk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Sep 2019 04:20:40 -0400
-Received: from relay12.mail.gandi.net ([217.70.178.232]:41443 "EHLO
-        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2437303AbfIYIUk (ORCPT
+        id S2442737AbfIYI1v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Sep 2019 04:27:51 -0400
+Received: from mail-pg1-f182.google.com ([209.85.215.182]:38193 "EHLO
+        mail-pg1-f182.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2438134AbfIYI1v (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Sep 2019 04:20:40 -0400
-Received: from uno.localdomain (host71-63-dynamic.19-79-r.retail.telecomitalia.it [79.19.63.71])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay12.mail.gandi.net (Postfix) with ESMTPSA id 37F5B200007;
-        Wed, 25 Sep 2019 08:20:35 +0000 (UTC)
-Date:   Wed, 25 Sep 2019 10:22:12 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Ricardo Ribalda Delgado <ricardo@ribalda.com>
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Subject: Re: [PATCH v6 2/7] Documentation: v4l2_ctrl_new_std_compound
-Message-ID: <20190925082203.b2phkyrvfyv6imfv@uno.localdomain>
-References: <20190920135137.10052-1-ricardo@ribalda.com>
- <20190920135137.10052-3-ricardo@ribalda.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="btb5z6ghh37wnht7"
-Content-Disposition: inline
-In-Reply-To: <20190920135137.10052-3-ricardo@ribalda.com>
-User-Agent: NeoMutt/20180716
+        Wed, 25 Sep 2019 04:27:51 -0400
+Received: by mail-pg1-f182.google.com with SMTP id x10so2789476pgi.5
+        for <linux-media@vger.kernel.org>; Wed, 25 Sep 2019 01:27:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=BcLR8fFB2JP+Hk8Hne+IfCrwjjYbglOmsJCk4fc8AOw=;
+        b=I3pWPzyzbZvugX0QfkhgE9i286FLFg2KaaBh1rPcX1hGBoB71zm+Xggf46OIUXSL3N
+         dPe4wjWXCYxCElGe7MTFuyCtKoZOKhM++lWvz1HDYVKoiHN+V1HyJBnvdl0AO7+iKfwX
+         9a7yoZGqOBgLK5ckzdcBEonR8sPM+RUql7PumWjKXm7kEDZ2GODyetMZAihuYAwK2UU2
+         zRhWTl4EyQmOJOafbqu1Dj6oe20bQBGScK1rXmkzhCwTvGIlYh2ZTw5k8k1MUsfR22zT
+         6o2pQHu35rKj+3xg7dKtj472TylA3KgbO2T6FLo71CTr6tctDnIogAm/iMGYrmK3ZE4X
+         UWMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=BcLR8fFB2JP+Hk8Hne+IfCrwjjYbglOmsJCk4fc8AOw=;
+        b=S/ylrSaWIka+7vY5j5yuQP7MFMfFOqpUz7oCpWSEOf3WnRp+aNep3mw27WZJy7WowG
+         xFGbTECfywXnSRoz2EKTKJUNK57ciUq/ZWYhEx4+tetQALrocgiTo1rgYqAwXyhAVyAF
+         ZOHTIxDLswdMM+/gS3s0CicxpeDbsKrGuscLnUtkPntltUjQFisASq+WezveDyhRXAMK
+         svV6vp5WA3JaMcS0ddjxSc709dtwIg7mDxnqTrdYIjIFO9mlumdotHUR/WFlwv7fOxZJ
+         EZHFPd8+Mx6kI0rqwb/shU9c0Lz+vn6LZBZqEmGXUFx+nepSW4f3jDX+BJPMqVUVbcgO
+         n3kg==
+X-Gm-Message-State: APjAAAU4U8ZTaUv/lRt1gmVtMpkev+WNlimozjEoZNew3CCrhMOi7JAK
+        Zx4JSWzrOlFUnUUc38a1koJBbTpQ
+X-Google-Smtp-Source: APXvYqx5fuMbVN4eFP8I0kf4+qr1rTvWMowzkUGRpvTBXI++wBokPVag5e6Ft5lSIiTP5hE8Hv/wOw==
+X-Received: by 2002:a63:521f:: with SMTP id g31mr7328152pgb.254.1569400070354;
+        Wed, 25 Sep 2019 01:27:50 -0700 (PDT)
+Received: from localhost.localdomain ([49.206.9.88])
+        by smtp.gmail.com with ESMTPSA id e10sm7789346pfh.77.2019.09.25.01.27.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Sep 2019 01:27:49 -0700 (PDT)
+From:   Vandana BN <bnvandana@gmail.com>
+To:     linux-media@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Cc:     hverkuil@xs4all.nl, Vandana BN <bnvandana@gmail.com>
+Subject: [PATCH v7 0/2] vivid: Add metadata capture support
+Date:   Wed, 25 Sep 2019 13:57:28 +0530
+Message-Id: <20190925082730.15550-1-bnvandana@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <bbef8158-e603-7f80-308a-129d76c68a1b@xs4all.nl>
+References: <bbef8158-e603-7f80-308a-129d76c68a1b@xs4all.nl>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+This Patch series adds support for emulation of metadata capture in vivid
+driver.
+UVCH metadata format is supported as it is widely used in webcams.
+https://hverkuil.home.xs4all.nl/spec/uapi/v4l/pixfmt-meta-uvc.html
 
---btb5z6ghh37wnht7
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Regards,
+Vandana.
 
-Hi Ricardo,
+Hans Verkuil (1):
+  vivid:  fixes for v4l2-compliance issues.
 
-On Fri, Sep 20, 2019 at 03:51:32PM +0200, Ricardo Ribalda Delgado wrote:
-> Function for initializing compound controls with a default value.
->
-> Suggested-by: Hans Verkuil <hverkuil@xs4all.nl>
-> Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-> ---
->  Documentation/media/kapi/v4l2-controls.rst | 9 +++++++++
->  1 file changed, 9 insertions(+)
->
-> diff --git a/Documentation/media/kapi/v4l2-controls.rst b/Documentation/media/kapi/v4l2-controls.rst
-> index ebe2a55908be..b20800cae3f2 100644
-> --- a/Documentation/media/kapi/v4l2-controls.rst
-> +++ b/Documentation/media/kapi/v4l2-controls.rst
-> @@ -140,6 +140,15 @@ Menu controls with a driver specific menu are added by calling
->                         const struct v4l2_ctrl_ops *ops, u32 id, s32 max,
->                         s32 skip_mask, s32 def, const char * const *qmenu);
->
-> +Standard compound controls can be added by calling
+Vandana BN (1):
+  vivid: Add metadata capture support
 
-Standard compound controls with a driver provided default value can be..
+ drivers/media/platform/vivid/Makefile         |   2 +-
+ drivers/media/platform/vivid/vivid-core.c     | 107 +++++++++-
+ drivers/media/platform/vivid/vivid-core.h     |  14 ++
+ drivers/media/platform/vivid/vivid-ctrls.c    |  64 ++++++
+ .../media/platform/vivid/vivid-kthread-cap.c  |  52 ++++-
+ drivers/media/platform/vivid/vivid-meta-cap.c | 201 ++++++++++++++++++
+ drivers/media/platform/vivid/vivid-meta-cap.h |  29 +++
+ drivers/media/platform/vivid/vivid-vid-cap.c  |   5 +-
+ 8 files changed, 462 insertions(+), 12 deletions(-)
+ create mode 100644 drivers/media/platform/vivid/vivid-meta-cap.c
+ create mode 100644 drivers/media/platform/vivid/vivid-meta-cap.h
 
-Or is it un-necessary to re-state it?
+-- 
+2.17.1
 
-In any case:
-Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
-
-Thanks
-  j
-> +:c:func:`v4l2_ctrl_new_std_compound`:
-> +
-> +.. code-block:: c
-> +
-> +       struct v4l2_ctrl *v4l2_ctrl_new_std_compound(struct v4l2_ctrl_handler *hdl,
-> +                       const struct v4l2_ctrl_ops *ops, u32 id,
-> +                       const union v4l2_ctrl_ptr p_def);
-> +
->  Integer menu controls with a driver specific menu can be added by calling
->  :c:func:`v4l2_ctrl_new_int_menu`:
->
-> --
-> 2.23.0
->
-
---btb5z6ghh37wnht7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl2LI7QACgkQcjQGjxah
-Vjy76A/+O7gynK7SxMnxPjAsEGPHX4n74gChYAocM0BjU3hXxUh3SAlWkNrV0VFF
-Yyz6OkuPrsxXOEwx6h089M/UXZ8bVwkaSJIvNSao1s24JIGhFyb0Dfm+TmrkfbMB
-unXa3V+sBI1vZ+Ffxm78IfCGr4+N6XF7PoR7FAmryR0PsI9kaUlGvceg172yNhQb
-k0hkzMOekKpg5GqT7drbeppwxNxzx9KCVh1W7PVE95oCArn36KFth09ioS2n72km
-C/myu8IhTEejmBo3/W9V7YoR+4WPeROznHTvi1vAM/7SbQYMq8aOay3BdhZyht/i
-AES5m5HdziOPemI5DU/KxkA6w6uFYAHhw33Q5EO0atkDGs4Wcqv/L6Plz0MjeFaK
-uB/I1Js8KYmyPtKelUOyR6OPtyidtb8DpA4Uc003c0I620QfRiO0NFQqOj6RMM9d
-kywskULvat+FDqYq4AUiEBIa0doqv5xtQQNGuK7xfR2RlVBYV5/p9g/3XPAPiDOM
-X9NnG75spbml6zS7c/TXbdIk2Bmso4qZZUpxgeTQvCHiUo7MWKvyjFPJRin0W9Ll
-4R1eoaINHWVDgDe+Krrh2FQdZPgJxPBCkBjJBoiLe7HFPWh/FFzect+RPn7Mjp5S
-OOlRL+n3kaaxXAlIAMbtlTmsLsvKM0ESza/zM/26mGK7kq90a+k=
-=OKwy
------END PGP SIGNATURE-----
-
---btb5z6ghh37wnht7--
