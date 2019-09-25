@@ -2,110 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 46BCBBE10A
-	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2019 17:17:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E6D5BE11F
+	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2019 17:21:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2439184AbfIYPR0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Sep 2019 11:17:26 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:39071 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726496AbfIYPR0 (ORCPT
+        id S2439421AbfIYPU5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Sep 2019 11:20:57 -0400
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:35402 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726128AbfIYPU4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Sep 2019 11:17:26 -0400
-Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id D92eiLFFSz6EAD92hiBWC5; Wed, 25 Sep 2019 17:17:24 +0200
-Subject: Re: [PATCH] media: vidioc-queryctrl.rst: clarify combining READ_ONLY
- with WRITE_ONLY
-To:     Helen Koike <helen.koike@collabora.com>, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel@collabora.com
-References: <20190925150945.27706-1-helen.koike@collabora.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <211b3d26-ffbc-3245-6613-7fd42c65cc80@xs4all.nl>
-Date:   Wed, 25 Sep 2019 17:17:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Wed, 25 Sep 2019 11:20:56 -0400
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8PFKsrI125193;
+        Wed, 25 Sep 2019 10:20:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1569424854;
+        bh=1TPs+PNmYkoQWTZgbmCZluJSZbvWjeIv343i7k1kfn8=;
+        h=From:To:CC:Subject:Date;
+        b=sOJctlcWMYelI8YA5Mz4YiPJxO1hppFiVtNyeHKy5riTEfFJCnuft1dyTfttIaOZJ
+         TXS3tsXgYSLQUKR26sN2eCkkLDa46dlo6ih5XWlzL6nDb6AP2Tj/LsVdIKnj/tWFkR
+         sJ5dPaxbHikCVP/YoQY1j1iuRqKDbSNcEF0fD6wU=
+Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x8PFKsQB128695
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 25 Sep 2019 10:20:54 -0500
+Received: from DLEE114.ent.ti.com (157.170.170.25) by DLEE112.ent.ti.com
+ (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Wed, 25
+ Sep 2019 10:20:47 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Wed, 25 Sep 2019 10:20:47 -0500
+Received: from uda0869644b.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x8PFKssn047659;
+        Wed, 25 Sep 2019 10:20:54 -0500
+From:   Benoit Parrot <bparrot@ti.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, Benoit Parrot <bparrot@ti.com>
+Subject: [Patch 0/3] media: ov5640: updates
+Date:   Wed, 25 Sep 2019 10:22:58 -0500
+Message-ID: <20190925152301.21645-1-bparrot@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <20190925150945.27706-1-helen.koike@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfO+ibsMf9ShsmwQnFbBeOlb0AhnOcX4lBpawYBQHV+RFyXgynEUjzDZ67k5FScg4zIKunKlSsjGNaRBoJmxicNR7W3WiznZZpvE2fjPUBitpvlneleGK
- YVKz4zxeOHOzWpbHkeEl37M41gSsqbg08wvhvSghwM4bXONmAUkIlk0IZ0GT8nd7H/ylhDWvJUfEmahCW59UPUZitKR/TftOViXyLhGlZGT7Kr0t8NW/x57n
- Wnxtn9Z+nkyMyHbnkJTYNb+1I57CFqayEghVK2pncaruN0FzpHfkLS07jFG2HPz7pmQ3JOjCrcLhIRexw0aULqcXpvKTWAfgmLuxww+Y3PE=
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 9/25/19 5:09 PM, Helen Koike wrote:
-> Make it clear in the documentation that V4L2_CTRL_FLAG_READ_ONLY doesn't
-> conflict with V4L2_CTRL_FLAG_WRITE_ONLY. Also make it clear that
-> if both are combined then the control has read and write permissions.
+This patch series is a collection of patches we have been carrying for a
+while.
 
-That doesn't look right.
+First, it adds support for PIXEL_RATE control which is used by some
+CSI2 receiver driver to properly set-up their DPHY.
 
-This is the test in v4l2-compliance:
+Then we fix an issue related to having extra sensor enable/disable in
+the register array for the 1920x1080 mode.
 
-__u32 rw_mask = V4L2_CTRL_FLAG_READ_ONLY | V4L2_CTRL_FLAG_WRITE_ONLY;
+Finally we restrict the largest resolution which should only be
+available at the lowest FPS.
 
-if ((fl & rw_mask) == rw_mask)
-	return fail("can't read nor write this control\n");
+Benoit Parrot (3):
+  media: ov5640: add PIXEL_RATE control
+  media: ov5640: Fix 1920x1080 mode to remove extra enable/disable
+  media: ov5640: Make 2592x1944 mode only available at 15 fps
 
-If both flags are set, then a fail is reported.
+ drivers/media/i2c/ov5640.c | 33 +++++++++++++++++++++++++++++++--
+ 1 file changed, 31 insertions(+), 2 deletions(-)
 
-Did you mis-read?
-
-Setting both flags makes no sense.
-
-Regards,
-
-	Hans
-
-> 
-> Signed-off-by: Helen Koike <helen.koike@collabora.com>
-> 
-> ---
-> Hi,
-> 
-> v4l2-compliance expects both flags for read and write permissions, so I
-> would like to make it clear in the docs.
-> Please let me know if this is not the case.
-> 
-> Thanks
-> Helen
-> ---
->  Documentation/media/uapi/v4l/vidioc-queryctrl.rst | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> 
-> diff --git a/Documentation/media/uapi/v4l/vidioc-queryctrl.rst b/Documentation/media/uapi/v4l/vidioc-queryctrl.rst
-> index a3d56ffbf4cc..1d3aecdf679f 100644
-> --- a/Documentation/media/uapi/v4l/vidioc-queryctrl.rst
-> +++ b/Documentation/media/uapi/v4l/vidioc-queryctrl.rst
-> @@ -500,6 +500,11 @@ See also the examples in :ref:`control`.
->        - 0x0004
->        - This control is permanently readable only. Any attempt to change
->  	the control will result in an ``EINVAL`` error code.
-> +
-> +	.. note::
-> +
-> +	   If combined with ``V4L2_CTRL_FLAG_WRITE_ONLY``, then both, read
-> +	   and write are allowed.
->      * - ``V4L2_CTRL_FLAG_UPDATE``
->        - 0x0008
->        - A hint that changing this control may affect the value of other
-> @@ -523,6 +528,11 @@ See also the examples in :ref:`control`.
->  	where writing a value will cause the device to carry out a given
->  	action (e. g. motor control) but no meaningful value can be
->  	returned.
-> +
-> +	.. note::
-> +
-> +	   If combined with ``V4L2_CTRL_FLAG_READ_ONLY``, then both, read
-> +	   and write are allowed.
->      * - ``V4L2_CTRL_FLAG_VOLATILE``
->        - 0x0080
->        - This control is volatile, which means that the value of the
-> 
+-- 
+2.17.1
 
