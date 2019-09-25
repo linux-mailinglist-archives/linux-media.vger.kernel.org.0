@@ -2,166 +2,182 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 74978BE085
-	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2019 16:49:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A55FBE097
+	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2019 16:53:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407732AbfIYOtv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Sep 2019 10:49:51 -0400
-Received: from relay8-d.mail.gandi.net ([217.70.183.201]:56177 "EHLO
-        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405664AbfIYOtv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Sep 2019 10:49:51 -0400
-X-Originating-IP: 79.19.63.71
-Received: from uno.localdomain (host71-63-dynamic.19-79-r.retail.telecomitalia.it [79.19.63.71])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 690841BF212;
-        Wed, 25 Sep 2019 14:49:45 +0000 (UTC)
-Date:   Wed, 25 Sep 2019 16:51:25 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        Mats Randgaard <matrandg@cisco.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        kernel@pengutronix.de, Sakari Ailus <sakari.ailus@iki.fi>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Dave Stevenson <dave.stevenson@raspberrypi.org>
-Subject: Re: [PATCH v4 1/3] media: v4l2-subdev: add g_csi_active_lanes() op
-Message-ID: <20190925145125.yqeqmv7hnwlmojdl@uno.localdomain>
-References: <20190924114955.13132-1-p.zabel@pengutronix.de>
- <20190924114955.13132-2-p.zabel@pengutronix.de>
- <20190925134113.GA19093@pendragon.ideasonboard.com>
+        id S2438220AbfIYOxG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Sep 2019 10:53:06 -0400
+Received: from mx2.suse.de ([195.135.220.15]:57190 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726036AbfIYOxG (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 25 Sep 2019 10:53:06 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 47F59AEE1;
+        Wed, 25 Sep 2019 14:53:02 +0000 (UTC)
+Message-ID: <d1a31a2ec8eb2f226b1fb41f6c24ffb47c3bf7c7.camel@suse.de>
+Subject: Re: [PATCH 00/11] of: Fix DMA configuration for non-DT masters
+From:   Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+To:     Rob Herring <robh+dt@kernel.org>
+Cc:     devicetree@vger.kernel.org, Frank Rowand <frowand.list@gmail.com>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        linux-wireless <linux-wireless@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        "open list:DMA GENERIC OFFLOAD ENGINE SUBSYSTEM" 
+        <dmaengine@vger.kernel.org>, etnaviv@lists.freedesktop.org,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        xen-devel@lists.xenproject.org, linux-tegra@vger.kernel.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-pci@vger.kernel.org, Matthias Brugger <mbrugger@suse.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        james.quinlan@broadcom.com, Stefan Wahren <wahrenst@gmx.net>,
+        Dan Williams <dan.j.williams@intel.com>,
+        freedreno <freedreno@lists.freedesktop.org>
+Date:   Wed, 25 Sep 2019 16:52:59 +0200
+In-Reply-To: <CAL_Jsq+v+svTyna7UzQdRVqfNc5Z_bgWzxNRXv7-Wqv3NwDu2g@mail.gmail.com>
+References: <20190924181244.7159-1-nsaenzjulienne@suse.de>
+         <CAL_Jsq+v+svTyna7UzQdRVqfNc5Z_bgWzxNRXv7-Wqv3NwDu2g@mail.gmail.com>
+Content-Type: multipart/signed; micalg="pgp-sha256";
+        protocol="application/pgp-signature"; boundary="=-5Mzcra9IsjRjM5vnaomh"
+User-Agent: Evolution 3.32.4 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="7fdbgv27zjrhpsnm"
-Content-Disposition: inline
-In-Reply-To: <20190925134113.GA19093@pendragon.ideasonboard.com>
-User-Agent: NeoMutt/20180716
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---7fdbgv27zjrhpsnm
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-
-Hello,
-   sorry for having missed this
-
-On Wed, Sep 25, 2019 at 04:41:13PM +0300, Laurent Pinchart wrote:
-> Hi Philipp,
->
-> (CC'ing Sakari, Jacopo, Kieran and Niklas)
->
-> Thank you for the patch.
->
-> On Tue, Sep 24, 2019 at 01:49:53PM +0200, Philipp Zabel wrote:
-> > Add a subdevice video operation that allows to query the number
-> > of data lanes a MIPI CSI-2 TX is actively transmitting on.
-> >
-> > Suggested-by: Hans Verkuil <hverkuil@xs4all.nl>
-> > Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
-> > ---
-> > New in v4.
-> > ---
-> >  include/media/v4l2-subdev.h | 3 +++
-> >  1 file changed, 3 insertions(+)
-> >
-> > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> > index 71f1f2f0da53..bb71eedc38f6 100644
-> > --- a/include/media/v4l2-subdev.h
-> > +++ b/include/media/v4l2-subdev.h
-> > @@ -411,6 +411,8 @@ struct v4l2_mbus_frame_desc {
-> >   * @s_rx_buffer: set a host allocated memory buffer for the subdev. The subdev
-> >   *	can adjust @size to a lower value and must not write more data to the
-> >   *	buffer starting at @data than the original value of @size.
-> > + *
-> > + * @g_csi_active_lanes: Get number of currently active MIPI CSI-2 data lanes.
-> >   */
-> >  struct v4l2_subdev_video_ops {
-> >  	int (*s_routing)(struct v4l2_subdev *sd, u32 input, u32 output, u32 config);
-> > @@ -441,6 +443,7 @@ struct v4l2_subdev_video_ops {
-> >  			     const struct v4l2_mbus_config *cfg);
-> >  	int (*s_rx_buffer)(struct v4l2_subdev *sd, void *buf,
-> >  			   unsigned int *size);
-> > +	int (*g_csi_active_lanes)(struct v4l2_subdev *sd, u32 *lanes);
->
-> This shouldn't be a video operation but a pad operation, as a subdev
-> could have multiple CSI-2 pads.
->
-> Furthermore, you need to define the semantics of this operation more
-> precisely. When can it be called, when is the information valid ? Can
-> the subdev change the number of lanes it supports at runtime ? If so,
-> how are race conditions avoided ? All this needs to be documented.
->
-> Finally, the number of lanes is far from being the only information
-> about a physical bus that could be interesting for a remote subdev. I
-> would much prefer a more generic operation to retrieve bus
-> information/configuration, with a data structure that we will be able to
-> extend later.
->
-
-For the record we tried to get those information from the frame
-descriptor (the number of used data lanes and the clock
-continous/non-continous information to be precise)
-
-This is the RFC series I sent
-https://patchwork.kernel.org/project/linux-media/list/?series=92501
-
-Which depends on Sakari's patches:
-https://patchwork.kernel.org/patch/10875871/
-https://patchwork.kernel.org/patch/10875873/
-
-The latest two were part of a much bigger series that tried to add
-support for multiplexed streams. Honestly, it now seems to be that
-part could be breakout without involving streams, and re-use that
-portion to negotiate the csi-2 bus configuration. I might be wrong
-though, and the two parts could not be separate easily (from a very
-quick look, after months, it does not seem so).
-
-In the past I spoke against this solution as I would have preferred
-leaving frame_desc alone and introduce a bus configuration operation.
-I tried a few times and I ended up implementing g_mbus_format but on
-pads and not video. Right now with Sakari's and Laurent's ack I would
-say re-using frame_desc might actually work and get use a feature
-which is needed by many (cc also Dave, as he had a similar issue with
-TC358743 iirc)
-
-Thanks
-  j
+--=-5Mzcra9IsjRjM5vnaomh
+Content-Type: multipart/mixed; boundary="=-QzsDiLgE5dpWVAyKk5Wj"
 
 
-> >  };
-> >
-> >  /**
->
-> --
-> Regards,
->
-> Laurent Pinchart
+--=-QzsDiLgE5dpWVAyKk5Wj
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
---7fdbgv27zjrhpsnm
+On Tue, 2019-09-24 at 16:59 -0500, Rob Herring wrote:
+> On Tue, Sep 24, 2019 at 1:12 PM Nicolas Saenz Julienne
+> <nsaenzjulienne@suse.de> wrote:
+> > Hi All,
+> > this series tries to address one of the issues blocking us from
+> > upstreaming Broadcom's STB PCIe controller[1]. Namely, the fact that
+> > devices not represented in DT which sit behind a PCI bus fail to get th=
+e
+> > bus' DMA addressing constraints.
+> >=20
+> > This is due to the fact that of_dma_configure() assumes it's receiving =
+a
+> > DT node representing the device being configured, as opposed to the PCI=
+e
+> > bridge node we currently pass. This causes the code to directly jump
+> > into PCI's parent node when checking for 'dma-ranges' and misses
+> > whatever was set there.
+> >=20
+> > To address this I create a new API in OF - inspired from Robin Murphys
+> > original proposal[2] - which accepts a bus DT node as it's input in
+> > order to configure a device's DMA constraints. The changes go deep into
+> > of/address.c's implementation, as a device being having a DT node
+> > assumption was pretty strong.
+> >=20
+> > On top of this work, I also cleaned up of_dma_configure() removing its
+> > redundant arguments and creating an alternative function for the specia=
+l
+> > cases
+> > not applicable to either the above case or the default usage.
+> >=20
+> > IMO the resulting functions are more explicit. They will probably
+> > surface some hacky usages that can be properly fixed as I show with the
+> > DT fixes on the Layerscape platform.
+> >=20
+> > This was also tested on a Raspberry Pi 4 with a custom PCIe driver and
+> > on a Seattle AMD board.
+>=20
+> Humm, I've been working on this issue too. Looks similar though yours
+> has a lot more churn and there's some other bugs I've found.
+
+That's good news, and yes now that I see it, some stuff on my series is ove=
+rly
+complicated. Specially around of_translate_*().
+
+On top of that, you removed in of_dma_get_range():
+
+-	/*
+-	 * At least empty ranges has to be defined for parent node if
+-	 * DMA is supported
+-	 */
+-	if (!ranges)
+-		break;
+
+Which I assumed was bound to the standard and makes things easier.
+
+> Can you test out this branch[1]. I don't have any h/w needing this,
+> but wrote a unittest and tested with modified QEMU.
+
+I reviewed everything, I did find a minor issue, see the patch attached.
+
+Also I tested your branch both on an RPi4, with a PCI device that depends o=
+n
+these changes and by comparing the OF debugs logs on a Layerscape board whi=
+ch
+uses dma-ranges, dma-coherent and IOMMU. All works as expected.
+
+Will you send this series for v5.5? Please keep me in the loop, I'll review=
+ and
+test the final version.
+
+Regards,
+Nicolas
+
+
+--=-QzsDiLgE5dpWVAyKk5Wj
+Content-Disposition: attachment;
+	filename*0=0001-of-device-do-not-bail-of_dma_configure-when-force_dm.pat;
+	filename*1=ch
+Content-Type: text/x-patch;
+	name="0001-of-device-do-not-bail-of_dma_configure-when-force_dm.patch";
+	charset="UTF-8"
+Content-Transfer-Encoding: base64
+
+RnJvbSAyNmQ1MTg1M2MyNWMwNGMyOGRiYzA5MDYxOTUxYTkzYzEwMmRhYmNkIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBOaWNvbGFzIFNhZW56IEp1bGllbm5lIDxuc2FlbnpqdWxpZW5u
+ZUBzdXNlLmRlPgpEYXRlOiBXZWQsIDI1IFNlcCAyMDE5IDE2OjI2OjU3ICswMjAwClN1YmplY3Q6
+IFtQQVRDSF0gb2Y6IGRldmljZTogZG8gbm90IGJhaWwgb2ZfZG1hX2NvbmZpZ3VyZSgpIHdoZW4g
+Zm9yY2VfZG1hIGlzCiBzZXQKClNvbWUgWGVuIGRldmljZXMgY2FsbCBvZl9kbWFfY29uZmlndXJl
+KCkgd2l0aG91dCBhbiBhY3R1YWwgRFQgbm9kZSBpbgpvcmRlciBmb3IgaXQgdG8gc2V0IGl0cyAn
+ZG1hX29wcycuIFRoYXQncyB0aGUgb3JpZ2luYWwgaW50ZW50IG9mCidmb3JjZV9kbWEnLCBob25v
+ciB0aGF0IGJlaGF2aW91ci4KClNpZ25lZC1vZmYtYnk6IE5pY29sYXMgU2FlbnogSnVsaWVubmUg
+PG5zYWVuemp1bGllbm5lQHN1c2UuZGU+Ci0tLQogZHJpdmVycy9vZi9kZXZpY2UuYyB8IDIgLS0K
+IDEgZmlsZSBjaGFuZ2VkLCAyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvb2Yv
+ZGV2aWNlLmMgYi9kcml2ZXJzL29mL2RldmljZS5jCmluZGV4IGE0NTI2MWUyMTE0NC4uN2JjMDBm
+NzI0NjhmIDEwMDY0NAotLS0gYS9kcml2ZXJzL29mL2RldmljZS5jCisrKyBiL2RyaXZlcnMvb2Yv
+ZGV2aWNlLmMKQEAgLTEwMCw4ICsxMDAsNiBAQCBpbnQgb2ZfZG1hX2NvbmZpZ3VyZShzdHJ1Y3Qg
+ZGV2aWNlICpkZXYsIHN0cnVjdCBkZXZpY2Vfbm9kZSAqcGFyZW50LCBib29sIGZvcmNlXwogCW5w
+ID0gZGV2LT5vZl9ub2RlOwogCWlmICghbnApCiAJCW5wID0gcGFyZW50OwotCWlmICghbnApCi0J
+CXJldHVybiAtRU5PREVWOwogCiAJcmV0ID0gb2ZfZG1hX2dldF9yYW5nZShucCwgJmRtYV9hZGRy
+LCAmcGFkZHIsICZzaXplKTsKIAlpZiAocmV0IDwgMCkgewotLSAKMi4yMy4wCgo=
+
+
+--=-QzsDiLgE5dpWVAyKk5Wj--
+
+--=-5Mzcra9IsjRjM5vnaomh
 Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl2Lfu0ACgkQcjQGjxah
-Vjxe8RAAlOEMbH2uqTKHrc+btH/jGc94TCDHoEeNmnrSvqvyiHlpeUZNgenxedek
-gOW9rArDq45zx74Hsq/UzY5I0jA1hsPu/BTF1/NzSuagP/MmvwOWSaOEmi5ILHas
-DQsdyP4cveCs5aoWzlYg8G/IPWpZjXQcEILUYlbVeBx7zf8ZMbGtsoMeNuLLgZIN
-t3s8Gu9XTNmTXjlMMKHIn+D/3f9UsIm32U+JiIqwAitSb77/4RYXDFTh33rKZ7bM
-N/9glhYLHLH3I69F1u19VBgXNEcKT8MXAmzeF1piw7MLsk67eVHMzMhxoLiKS5WI
-olDgJpf8onLzx4ahjLLQQpC2nYRum2IZriSg3po5vGXyt8a3BvS0zVGGE1S2w3fI
-19L7ZI+7982bHi/vW5dXjn7Ei4E+Qv+bTgco6Dgb3+wrjDPBWy2kIFQNLHnKnnX3
-BYeJHkxxfBI6Izn2sL8GwHXCQSkxKBZAEqMAaEwTJpL6faQyPtmaG81VfonjUSiu
-lFe/vq1okwBOMyNfdmz8pC0wcpx3jAvTkea4OTfZ/bCuVw2km5D6DoR55L5Jlnf0
-hqXjq+Orr41PZ31hBE1UjVSSIqAekd/gFWxIKXQiLtmnDs4iFdaD7xYmDkxAKP1n
-+0NhLUXVlOjX3GzCr+xsFL1fW86S/9DRRAFK8xnbmBSltQgU6C4=
-=ctqp
+iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl2Lf0sACgkQlfZmHno8
+x/7mvQf6A++shc7v4vCUvlFLh6kIZ0UPBKuSnxpUpUn+R3BMoS6J5Ce/ma0SOzIJ
+MRQmawROuL2F6qf0g3ykdpnaSD14TAEB9UnJzLoTkprKRFRhdq4pQjCDGDWIpWSO
+fW6GnBbCLaTa0r38siU1DvnV3ZXCNnmN+lO5mqEp380R7cLwMj0hrH4mzkNuSUHK
+uKWLMd/ZZyDk7e2j1qZ2bXg6PRRSfXZfU7Oqtwt6k7JNoPB/HneraMxoO43EyzDA
+qt4Fxx6cDsZQAPbqJPChpSN4USdi0rN171NlKW3+PRsGfZN4LzUF3MoK2uvReV0n
+DhW7JoNOzqhh0pk2iPTRov0M+zbYEg==
+=jmQ8
 -----END PGP SIGNATURE-----
 
---7fdbgv27zjrhpsnm--
+--=-5Mzcra9IsjRjM5vnaomh--
+
