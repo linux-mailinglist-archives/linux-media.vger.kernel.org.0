@@ -2,155 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C189BE2DD
-	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2019 18:53:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D7173BE326
+	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2019 19:13:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392113AbfIYQwr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Sep 2019 12:52:47 -0400
-Received: from foss.arm.com ([217.140.110.172]:54720 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731087AbfIYQwr (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Sep 2019 12:52:47 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 37EA81570;
-        Wed, 25 Sep 2019 09:52:46 -0700 (PDT)
-Received: from [10.1.197.57] (e110467-lin.cambridge.arm.com [10.1.197.57])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2F5133F67D;
-        Wed, 25 Sep 2019 09:52:41 -0700 (PDT)
-Subject: Re: [PATCH 00/11] of: Fix DMA configuration for non-DT masters
-To:     Rob Herring <robh+dt@kernel.org>,
-        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Cc:     devicetree@vger.kernel.org, Matthias Brugger <mbrugger@suse.com>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        linux-wireless <linux-wireless@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        etnaviv@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Stefan Wahren <wahrenst@gmx.net>, james.quinlan@broadcom.com,
-        linux-pci@vger.kernel.org,
-        "open list:DMA GENERIC OFFLOAD ENGINE SUBSYSTEM" 
-        <dmaengine@vger.kernel.org>, xen-devel@lists.xenproject.org,
-        Dan Williams <dan.j.williams@intel.com>,
-        freedreno <freedreno@lists.freedesktop.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-References: <20190924181244.7159-1-nsaenzjulienne@suse.de>
- <CAL_Jsq+v+svTyna7UzQdRVqfNc5Z_bgWzxNRXv7-Wqv3NwDu2g@mail.gmail.com>
- <d1a31a2ec8eb2f226b1fb41f6c24ffb47c3bf7c7.camel@suse.de>
- <e404c65b-5a66-6f91-5b38-8bf89a7697b2@arm.com>
- <43fb5fe1de317d65a4edf592f88ea150c6e3b8cc.camel@suse.de>
- <CAL_JsqLhx500cx3YLoC7HL1ux3bBpV+fEA2Qnk7D5RFGgiGzSw@mail.gmail.com>
-From:   Robin Murphy <robin.murphy@arm.com>
-Message-ID: <aa4c8d62-7990-e385-2bb1-cec55148f0a8@arm.com>
-Date:   Wed, 25 Sep 2019 17:52:39 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S2440280AbfIYRNo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Sep 2019 13:13:44 -0400
+Received: from smtprelay0091.hostedemail.com ([216.40.44.91]:60820 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2438404AbfIYRNo (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 25 Sep 2019 13:13:44 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay06.hostedemail.com (Postfix) with ESMTP id 5567818224519;
+        Wed, 25 Sep 2019 17:13:43 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,:::::::::,RULES_HIT:41:355:379:599:960:968:973:982:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1535:1544:1593:1594:1605:1711:1730:1747:1777:1792:2194:2197:2199:2200:2393:2559:2562:2828:3138:3139:3140:3141:3142:3622:3653:3865:3866:3868:3870:3871:4250:4321:5007:6117:6119:7903:8957:9010:9040:9592:10004:10562:10848:11026:11232:11658:11914:12043:12291:12296:12297:12438:12555:12679:12681:12683:12740:12760:12895:12986:13138:13231:13439:14659:14721:21080:21221:21324:21433:21451:21627:21740:21819:30022:30029:30046:30054:30060:30062:30091,0,RBL:220.255.137.117:@perches.com:.lbl8.mailshell.net-62.8.204.186 64.201.201.201,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:fn,MSBL:0,DNSBL:neutral,Custom_rules:0:0:0,LFtime:61,LUA_SUMMARY:none
+X-HE-Tag: jail83_5a5903f769533
+X-Filterd-Recvd-Size: 5415
+Received: from XPS-9350 (bb220-255-137-117.singnet.com.sg [220.255.137.117])
+        (Authenticated sender: joe@perches.com)
+        by omf07.hostedemail.com (Postfix) with ESMTPA;
+        Wed, 25 Sep 2019 17:13:40 +0000 (UTC)
+Message-ID: <5d71311232fd6d4aa0fab038512eab933c13a722.camel@perches.com>
+Subject: Re: [Ksummit-discuss] [PATCH] media: add a subsystem profile
+ documentation
+From:   Joe Perches <joe@perches.com>
+To:     Dan Carpenter <dan.carpenter@oracle.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     ksummit-discuss@lists.linuxfoundation.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>
+Date:   Wed, 25 Sep 2019 10:13:37 -0700
+In-Reply-To: <20190919065447.GF2959@kadam>
+References: <156821693963.2951081.11214256396118531359.stgit@dwillia2-desk3.amr.corp.intel.com>
+         <434c05bddd2b364e607e565227487910a8dd9793.1568391461.git.mchehab+samsung@kernel.org>
+         <20190918123620.GA6306@pendragon.ideasonboard.com>
+         <20190918105728.24e7eb48@coco.lan> <20190919065447.GF2959@kadam>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-In-Reply-To: <CAL_JsqLhx500cx3YLoC7HL1ux3bBpV+fEA2Qnk7D5RFGgiGzSw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 25/09/2019 17:16, Rob Herring wrote:
-> On Wed, Sep 25, 2019 at 10:30 AM Nicolas Saenz Julienne
-> <nsaenzjulienne@suse.de> wrote:
->>
->> On Wed, 2019-09-25 at 16:09 +0100, Robin Murphy wrote:
->>> On 25/09/2019 15:52, Nicolas Saenz Julienne wrote:
->>>> On Tue, 2019-09-24 at 16:59 -0500, Rob Herring wrote:
->>>>> On Tue, Sep 24, 2019 at 1:12 PM Nicolas Saenz Julienne
->>>>> <nsaenzjulienne@suse.de> wrote:
->>>>>> Hi All,
->>>>>> this series tries to address one of the issues blocking us from
->>>>>> upstreaming Broadcom's STB PCIe controller[1]. Namely, the fact that
->>>>>> devices not represented in DT which sit behind a PCI bus fail to get the
->>>>>> bus' DMA addressing constraints.
->>>>>>
->>>>>> This is due to the fact that of_dma_configure() assumes it's receiving a
->>>>>> DT node representing the device being configured, as opposed to the PCIe
->>>>>> bridge node we currently pass. This causes the code to directly jump
->>>>>> into PCI's parent node when checking for 'dma-ranges' and misses
->>>>>> whatever was set there.
->>>>>>
->>>>>> To address this I create a new API in OF - inspired from Robin Murphys
->>>>>> original proposal[2] - which accepts a bus DT node as it's input in
->>>>>> order to configure a device's DMA constraints. The changes go deep into
->>>>>> of/address.c's implementation, as a device being having a DT node
->>>>>> assumption was pretty strong.
->>>>>>
->>>>>> On top of this work, I also cleaned up of_dma_configure() removing its
->>>>>> redundant arguments and creating an alternative function for the special
->>>>>> cases
->>>>>> not applicable to either the above case or the default usage.
->>>>>>
->>>>>> IMO the resulting functions are more explicit. They will probably
->>>>>> surface some hacky usages that can be properly fixed as I show with the
->>>>>> DT fixes on the Layerscape platform.
->>>>>>
->>>>>> This was also tested on a Raspberry Pi 4 with a custom PCIe driver and
->>>>>> on a Seattle AMD board.
->>>>>
->>>>> Humm, I've been working on this issue too. Looks similar though yours
->>>>> has a lot more churn and there's some other bugs I've found.
->>>>
->>>> That's good news, and yes now that I see it, some stuff on my series is
->>>> overly
->>>> complicated. Specially around of_translate_*().
->>>>
->>>> On top of that, you removed in of_dma_get_range():
->>>>
->>>> -   /*
->>>> -    * At least empty ranges has to be defined for parent node if
->>>> -    * DMA is supported
->>>> -    */
->>>> -   if (!ranges)
->>>> -           break;
->>>>
->>>> Which I assumed was bound to the standard and makes things easier.
->>>>
->>>>> Can you test out this branch[1]. I don't have any h/w needing this,
->>>>> but wrote a unittest and tested with modified QEMU.
->>>>
->>>> I reviewed everything, I did find a minor issue, see the patch attached.
->>>
->>> WRT that patch, the original intent of "force_dma" was purely to
->>> consider a device DMA-capable regardless of the presence of
->>> "dma-ranges". Expecting of_dma_configure() to do anything for a non-OF
->>> device has always been bogus - magic paravirt devices which appear out
->>> of nowhere and expect to be treated as genuine DMA masters are a
->>> separate problem that we haven't really approached yet.
->>
->> I agree it's clearly abusing the function. I have no problem with the behaviour
->> change if it's OK with you.
-
-Thinking about it, you could probably just remove that call from the Xen 
-DRM driver now anyway - since the dma-direct rework, we lost the ability 
-to set dma_dummy_ops by default, and NULL ops now represent what it 
-(presumably) wants.
-
->> Robin, have you looked into supporting multiple dma-ranges? It's the next thing
->> we need for BCM STB's PCIe. I'll have a go at it myself if nothing is in the
->> works already.
+On Thu, 2019-09-19 at 09:56 +0300, Dan Carpenter wrote:
+> When I sent a patch, I use get_maintainer.pl then I add whoever the
+> wrote the commit from the Fixes tag.  Then I remove Colin King and Kees
+> Cook from the CC list because they worked all over the tree and I know
+> them.  I also normally remove LKML if there is another mailing list but
+> at least one subsystem uses LKML for patchwork so this isn't safe.
 > 
-> Multiple dma-ranges as far as configuring inbound windows should work
-> already other than the bug when there's any parent translation. But if
-> you mean supporting multiple DMA offsets and masks per device in the
-> DMA API, there's nothing in the works yet.
+> So the safest instructions are "Use get_matainer.pl and add the person
+> who wrote the commit in the Fixes tag".
 
-There's also the in-between step of making of_dma_get_range() return a 
-size based on all the dma-ranges entries rather than only the first one 
-- otherwise, something like [1] can lead to pretty unworkable default 
-masks. We implemented that when doing acpi_dma_get_range(), it's just 
-that the OF counterpart never caught up.
+Maybe add this:
 
-Robin.
+Add the signers of any commit referenced in a "Fixes: <commit>" line
+of a patch description.
 
-[1] 
-http://linux-arm.org/git?p=linux-rm.git;a=commitdiff;h=a2814af56b3486c2985a95540a88d8f9fa3a699f
+---
+ scripts/get_maintainer.pl | 38 +++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 37 insertions(+), 1 deletion(-)
+
+diff --git a/scripts/get_maintainer.pl b/scripts/get_maintainer.pl
+index 5ef59214c555..34085d146fa2 100755
+--- a/scripts/get_maintainer.pl
++++ b/scripts/get_maintainer.pl
+@@ -26,6 +26,7 @@ my $email = 1;
+ my $email_usename = 1;
+ my $email_maintainer = 1;
+ my $email_reviewer = 1;
++my $email_fixes = 1;
+ my $email_list = 1;
+ my $email_moderated_list = 1;
+ my $email_subscriber_list = 0;
+@@ -249,6 +250,7 @@ if (!GetOptions(
+ 		'r!' => \$email_reviewer,
+ 		'n!' => \$email_usename,
+ 		'l!' => \$email_list,
++		'fixes!' => \$email_fixes,
+ 		'moderated!' => \$email_moderated_list,
+ 		's!' => \$email_subscriber_list,
+ 		'multiline!' => \$output_multiline,
+@@ -503,6 +505,7 @@ sub read_mailmap {
+ ## use the filenames on the command line or find the filenames in the patchfiles
+ 
+ my @files = ();
++my @fixes = ();			# If a patch description includes Fixes: lines
+ my @range = ();
+ my @keyword_tvi = ();
+ my @file_emails = ();
+@@ -568,6 +571,8 @@ foreach my $file (@ARGV) {
+ 		my $filename2 = $2;
+ 		push(@files, $filename1);
+ 		push(@files, $filename2);
++	    } elsif (m/^Fixes:\s+([0-9a-fA-F]{6,40})/) {
++		push(@fixes, $1) if ($email_fixes);
+ 	    } elsif (m/^\+\+\+\s+(\S+)/ or m/^---\s+(\S+)/) {
+ 		my $filename = $1;
+ 		$filename =~ s@^[^/]*/@@;
+@@ -598,6 +603,7 @@ foreach my $file (@ARGV) {
+ }
+ 
+ @file_emails = uniq(@file_emails);
++@fixes = uniq(@fixes);
+ 
+ my %email_hash_name;
+ my %email_hash_address;
+@@ -612,7 +618,6 @@ my %deduplicate_name_hash = ();
+ my %deduplicate_address_hash = ();
+ 
+ my @maintainers = get_maintainers();
+-
+ if (@maintainers) {
+     @maintainers = merge_email(@maintainers);
+     output(@maintainers);
+@@ -927,6 +932,10 @@ sub get_maintainers {
+ 	}
+     }
+ 
++    foreach my $fix (@fixes) {
++	vcs_add_commit_signers($fix, "blamed_fixes");
++    }
++
+     foreach my $email (@email_to, @list_to) {
+ 	$email->[0] = deduplicate_email($email->[0]);
+     }
+@@ -1031,6 +1040,7 @@ MAINTAINER field selection options:
+     --roles => show roles (status:subsystem, git-signer, list, etc...)
+     --rolestats => show roles and statistics (commits/total_commits, %)
+     --file-emails => add email addresses found in -f file (default: 0 (off))
++    --fixes => for patches, add signatures of commits with 'Fixes: <commit>' (default: 1 (on))
+   --scm => print SCM tree(s) if any
+   --status => print status if any
+   --subsystem => print subsystem name if any
+@@ -1730,6 +1740,32 @@ sub vcs_is_hg {
+     return $vcs_used == 2;
+ }
+ 
++sub vcs_add_commit_signers {
++    return if (!vcs_exists());
++
++    my ($commit, $desc) = @_;
++    my $commit_count = 0;
++    my $commit_authors_ref;
++    my $commit_signers_ref;
++    my $stats_ref;
++    my @commit_authors = ();
++    my @commit_signers = ();
++    my $cmd;
++
++    $cmd = $VCS_cmds{"find_commit_signers_cmd"};
++    $cmd =~ s/(\$\w+)/$1/eeg;	#substitute variables in $cmd
++
++    ($commit_count, $commit_signers_ref, $commit_authors_ref, $stats_ref) = vcs_find_signers($cmd, "");
++    @commit_authors = @{$commit_authors_ref} if defined $commit_authors_ref;
++    @commit_signers = @{$commit_signers_ref} if defined $commit_signers_ref;
++
++    foreach my $signer (@commit_signers) {
++	$signer = deduplicate_email($signer);
++    }
++
++    vcs_assign($desc, 1, @commit_signers);
++}
++
+ sub interactive_get_maintainers {
+     my ($list_ref) = @_;
+     my @list = @$list_ref;
+
+
