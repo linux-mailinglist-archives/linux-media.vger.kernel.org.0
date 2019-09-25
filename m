@@ -2,110 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 058CBBD9E9
-	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2019 10:32:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A2CA0BDAB8
+	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2019 11:14:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2634143AbfIYIcn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Sep 2019 04:32:43 -0400
-Received: from relay4-d.mail.gandi.net ([217.70.183.196]:39277 "EHLO
-        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2634140AbfIYIcn (ORCPT
+        id S2389068AbfIYJOp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Sep 2019 05:14:45 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:40387 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388828AbfIYJOo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Sep 2019 04:32:43 -0400
-X-Originating-IP: 79.19.63.71
-Received: from uno.localdomain (host71-63-dynamic.19-79-r.retail.telecomitalia.it [79.19.63.71])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 2ABE6E0007;
-        Wed, 25 Sep 2019 08:32:39 +0000 (UTC)
-Date:   Wed, 25 Sep 2019 10:34:21 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Ricardo Ribalda Delgado <ricardo@ribalda.com>
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Ricardo Ribalda Delgado <ribalda@kernel.org>
-Subject: Re: [PATCH v6 4/7] Documentation: media: Document V4L2_CTRL_TYPE_AREA
-Message-ID: <20190925083421.ronwsvmqeu5quxpx@uno.localdomain>
-References: <20190920135137.10052-1-ricardo@ribalda.com>
- <20190920135137.10052-5-ricardo@ribalda.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="jvmepk34h776iu7a"
-Content-Disposition: inline
-In-Reply-To: <20190920135137.10052-5-ricardo@ribalda.com>
-User-Agent: NeoMutt/20180716
+        Wed, 25 Sep 2019 05:14:44 -0400
+Received: by mail-pl1-f195.google.com with SMTP id d22so2147674pll.7
+        for <linux-media@vger.kernel.org>; Wed, 25 Sep 2019 02:14:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=KCnlQGjWOLIDapHcpMI8S/mSnM8l6ASGOjZnx5oeNu4=;
+        b=M3x/Qe/PVDV0hGiVy48MtFtLbVMt16U69Z/vRPeGC99NM8Elbnje8pzv3CMPS7ArkU
+         f1F/KYpM0TNJo6dqIJel72TMJVNAJebVNtOzEmS9YQMLDai8K6CbjE7hGFl2OmnubgrM
+         D9JmWKQt0cSTM7EuH5lKB1Oc0wXvvXkL+rA6nmTnO0ghaamhYm75IPlE5xkm77vzcQm9
+         5FswFQT246RwUqQAZxOJUNu50UR/iyeMBMasVq2c74wBTieMNfQ9hm2e3pPw6KBiDtr4
+         l1G0BpX2poXedjsExsNlyCDKK9PZLXizQMQRJqv5yUG6ZTnJkfuNVRTJiRLwDsilUg+I
+         bmgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=KCnlQGjWOLIDapHcpMI8S/mSnM8l6ASGOjZnx5oeNu4=;
+        b=ON1ZpIgkBFJWWt+Lw+8g44018yJyVyeMGkGbL4vfhtwDyeJgoyM4MpYiWcI7bdkpic
+         BfY0LNd6T/bAvvwmXHMw3Gu21jgvfD5xteHqSXIDNqlauUu43levxUp5LUXmvovYXQAt
+         q3aDAjqO6Ri91rmSLrmTsW85JYYJcdxla2ccu2llEtZ9ZUOnF/ln9ijYiC40MP0StiSy
+         sszc4bAA+gjIgYeSpT65TLmerwCghrOdUJlt8rPBqxQ2ApAJj77eHI+EFtn/ELmy/Hii
+         fw9FP3+433f68OnEBEMpmlFTLiDO3HRBtXIArMc14j/Rpob6AyjT+zMDfhU9GoYDVSj/
+         eqZA==
+X-Gm-Message-State: APjAAAUHcdWQzHn/RvuDR+w4wjiiTMYlFCvpGu0P5TpBmzOK/OX8Awk8
+        P6mFYptX3ga3nn54PYgxhgTP7srn
+X-Google-Smtp-Source: APXvYqyG8B7hb8LGTsrBUcWO5KNZZNok9a/2KggxnHY8Iz8Ktq8coxSwsiM1wk3ngCRSNl6MKJzJug==
+X-Received: by 2002:a17:902:8b89:: with SMTP id ay9mr7926304plb.81.1569402883295;
+        Wed, 25 Sep 2019 02:14:43 -0700 (PDT)
+Received: from localhost.localdomain ([49.206.9.88])
+        by smtp.gmail.com with ESMTPSA id n185sm3911736pga.16.2019.09.25.02.14.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Sep 2019 02:14:42 -0700 (PDT)
+From:   Vandana BN <bnvandana@gmail.com>
+To:     linux-media@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Cc:     hverkuil@xs4all.nl, Vandana BN <bnvandana@gmail.com>
+Subject: [PATCH v2] v4l2-compliance: Verify metadata formats
+Date:   Wed, 25 Sep 2019 14:44:26 +0530
+Message-Id: <20190925091426.17120-1-bnvandana@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <49ffdb33-39a7-aa44-fb0c-302e963972b1@xs4all.nl>
+References: <49ffdb33-39a7-aa44-fb0c-302e963972b1@xs4all.nl>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Metadata formats may not be defined for a given input or output type.
+This patch checks, if given input/output type enumerates metadata formats
+and validates G_FMT accordingly.
 
---jvmepk34h776iu7a
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Signed-off-by: Vandana BN <bnvandana@gmail.com>
+---
+ utils/v4l2-compliance/v4l2-test-formats.cpp | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
-Hi Ricardo,
+diff --git a/utils/v4l2-compliance/v4l2-test-formats.cpp b/utils/v4l2-compliance/v4l2-test-formats.cpp
+index 525dfafa..b60d9275 100644
+--- a/utils/v4l2-compliance/v4l2-test-formats.cpp
++++ b/utils/v4l2-compliance/v4l2-test-formats.cpp
+@@ -305,8 +305,6 @@ int testEnumFormats(struct node *node)
+ 		case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
+ 		case V4L2_BUF_TYPE_SDR_CAPTURE:
+ 		case V4L2_BUF_TYPE_SDR_OUTPUT:
+-		case V4L2_BUF_TYPE_META_CAPTURE:
+-		case V4L2_BUF_TYPE_META_OUTPUT:
+ 			if (ret && (node->g_caps() & buftype2cap[type]))
+ 				return fail("%s cap set, but no %s formats defined\n",
+ 						buftype2s(type).c_str(), buftype2s(type).c_str());
+@@ -314,6 +312,10 @@ int testEnumFormats(struct node *node)
+ 				return fail("%s cap not set, but %s formats defined\n",
+ 						buftype2s(type).c_str(), buftype2s(type).c_str());
+ 			break;
++		case V4L2_BUF_TYPE_META_CAPTURE:
++		case V4L2_BUF_TYPE_META_OUTPUT:
++			/* Metadata formats need not be present for the current input/output */
++			break;
+ 		default:
+ 			if (!ret)
+ 				return fail("Buffer type %s not allowed!\n", buftype2s(type).c_str());
+@@ -599,8 +601,6 @@ int testGetFormats(struct node *node)
+ 		case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
+ 		case V4L2_BUF_TYPE_SDR_CAPTURE:
+ 		case V4L2_BUF_TYPE_SDR_OUTPUT:
+-		case V4L2_BUF_TYPE_META_CAPTURE:
+-		case V4L2_BUF_TYPE_META_OUTPUT:
+ 			if (ret && (node->g_caps() & buftype2cap[type]))
+ 				return fail("%s cap set, but no %s formats defined\n",
+ 					buftype2s(type).c_str(), buftype2s(type).c_str());
+@@ -608,6 +608,15 @@ int testGetFormats(struct node *node)
+ 				return fail("%s cap not set, but %s formats defined\n",
+ 					buftype2s(type).c_str(), buftype2s(type).c_str());
+ 			break;
++		case V4L2_BUF_TYPE_META_CAPTURE:
++		case V4L2_BUF_TYPE_META_OUTPUT:
++			if (ret && !node->buftype_pixfmts[type].empty())
++				return fail("%s G_FMT failed, but %s formats defined\n",
++					buftype2s(type).c_str(), buftype2s(type).c_str());
++			if (!ret && node->buftype_pixfmts[type].empty())
++				return fail("%s G_FMT success, but no %s formats defined\n",
++					buftype2s(type).c_str(), buftype2s(type).c_str());
++			break;
+ 		default:
+ 			/* ENUMFMT doesn't support other buftypes */
+ 			break;
+-- 
+2.17.1
 
-On Fri, Sep 20, 2019 at 03:51:34PM +0200, Ricardo Ribalda Delgado wrote:
-> From: Ricardo Ribalda Delgado <ribalda@kernel.org>
->
-> A struct v4l2_area containing the width and the height of a rectangular
-> area.
->
-> Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
-> Signed-off-by: Ricardo Ribalda Delgado <ribalda@kernel.org>
-> ---
->  Documentation/media/uapi/v4l/vidioc-queryctrl.rst | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/Documentation/media/uapi/v4l/vidioc-queryctrl.rst b/Documentation/media/uapi/v4l/vidioc-queryctrl.rst
-> index a3d56ffbf4cc..33aff21b7d11 100644
-> --- a/Documentation/media/uapi/v4l/vidioc-queryctrl.rst
-> +++ b/Documentation/media/uapi/v4l/vidioc-queryctrl.rst
-> @@ -443,6 +443,12 @@ See also the examples in :ref:`control`.
->        - n/a
->        - A struct :c:type:`v4l2_ctrl_mpeg2_quantization`, containing MPEG-2
->  	quantization matrices for stateless video decoders.
-> +    * - ``V4L2_CTRL_TYPE_AREA``
-> +      - n/a
-> +      - n/a
-> +      - n/a
-> +      - A struct :c:type:`v4l2_area`, containing the width and the height
-> +        of a rectangular area. Units depend on the use case.
-
-I recall Hans too was in favour of having min, max and step defined
-(and applied to both width and height).
-
-Really a minor issue from my side, feel free to keep it the way it is
-Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
-
-Thanks
-   j
->      * - ``V4L2_CTRL_TYPE_H264_SPS``
->        - n/a
->        - n/a
-> --
-> 2.23.0
->
-
---jvmepk34h776iu7a
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl2LJowACgkQcjQGjxah
-Vjxe7RAAs5u7tbvDOZmmKv/xCoPoxID0YGDFn+9bzAQu2F/cUHGbIrJjLMx2oBFo
-xRskqRp6wdztDyngFlVtDTaaEqvGtfhRagAJ7xe0gXvZAoKgMchCv027lWAz4KyL
-wIHOFqrAFvvy3dqc4V/pzfifgzqUCC6NtMXEkyNSPopbVZG+PVOHdADfL3cDzqxT
-TObImqKYGfXkEZJJCX6hYWulJr53JRf8Ks2UHrO8z5SGo5xU/hzMWZY/2GH8lo9b
-vN29/q3urnCExZjwGSJyGQ7KE3HRXRywo1AO+QNvT4bnr4+zJ++HO2QmWcfemcn2
-sqjkfYN3EKaCe/I0ZhO/Rb9C+kvWypGIguvLCuQuZO+mJky3Hh7sxdCW5AUUey2j
-BJe+LrweRz5QIorCxWSxMg5IaU/DvS3vPiXacX+aEDncSyT2LEVrVEl1E2UJKnHr
-K4F4TKNr00U73kw7wm7YNS8v4g4ZMzzrppoR6Hlrugl5FlwCsZauBDeaGDoM1joI
-5EsaDPDkTUBn/4W7LbPZfipUccue1xFp+257wT6tDRhQ/S0gqax9JoRWOxMqpo7f
-JtNpCpbA9zdYmT+ZuELoMnTKRc3jMRFf0SX7S8mph7p/y991gtweFPbN0iEVbZ2k
-/2EinpLCT6zWw1rBQM38Wngs7tx6MUG0HJk01i3x9bJImhi0was=
-=aOcf
------END PGP SIGNATURE-----
-
---jvmepk34h776iu7a--
