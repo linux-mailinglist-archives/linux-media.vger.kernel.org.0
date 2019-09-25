@@ -2,48 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B918EBE6C9
-	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2019 23:01:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E8AFDBE6E4
+	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2019 23:08:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437658AbfIYVBA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Sep 2019 17:01:00 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:46268 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730434AbfIYVBA (ORCPT
+        id S2390506AbfIYVIg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Sep 2019 17:08:36 -0400
+Received: from mail-lf1-f65.google.com ([209.85.167.65]:45078 "EHLO
+        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2393339AbfIYVIc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Sep 2019 17:01:00 -0400
-Received: by mail-lf1-f68.google.com with SMTP id t8so5003lfc.13;
-        Wed, 25 Sep 2019 14:00:58 -0700 (PDT)
+        Wed, 25 Sep 2019 17:08:32 -0400
+Received: by mail-lf1-f65.google.com with SMTP id r134so21875lff.12;
+        Wed, 25 Sep 2019 14:08:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=MymcLqXLu2R7VgSZysaxkbGT3jtuEM3ojf3ChQo8Jss=;
-        b=owFD+RWB84TOQ0fNEVa/nPqxV7rSQqOm5ZuNI+n6MJYGP60E0tBMJhtNJdNu/fjbEU
-         gNZQFqUj2H4wKViM2lrdBpE/6+QXlZUzWiUd1njeHvSYWfAJ/znaAsA8xdKx+vO8zh26
-         ypL0yJFlmb7K6AMJztWZOA02cBUyKFx1kWemeCc27x8Vhk4AFrTD6GmAPje/qrBHqsSv
-         3CDMCOG1/QMw5776uLI/WxyiUJ5dQtRupOb2hwT88MN2baVVr5Nd7IfFcigckzkbmWe3
-         vUxuGWKhfEfSxjW6je+egjcpQTrAwv6ITOpirxRVTQkUinvi4PKbIpUalZiFfDjEd1Rz
-         yf/w==
-X-Gm-Message-State: APjAAAWD6ZDbuNnr503vLZ03tl4nWjD6xv0D7+qZ+AfJdCtVQQuMwszD
-        Mf8NISrvuT0uhZPaV9AyVAAo7UTTGGZNF9sP1kw=
-X-Google-Smtp-Source: APXvYqyYNBQ6SqCmSqUZoCRsaANcA31Pqa5j5B+33cUGp+VbMRbH6ggjsEjkHy/L0aDa/9VFnfKhzADc0t/lXOOe1Ec=
-X-Received: by 2002:a19:f247:: with SMTP id d7mr7090029lfk.191.1569445257886;
- Wed, 25 Sep 2019 14:00:57 -0700 (PDT)
+        bh=srW9jBTOOY6Th2zbYsONLADra93j3oABkghJfbLyUPY=;
+        b=XYuoKhZqedpq8sYEBJYkgFPF0k0NUft9dXLLdBuPWJBSWoUb4+UzJihCF7cBTV+dWH
+         89CFldB8HceKSpX2HJEzXGmkZxzBDZFOES10b3lgcTk9fjBh2bImNZ6E7vng1kBnohW9
+         WHVgD61kncJxb6/jPze8aEzNeY3wO+4TyjB4fTPA6fJNzDU9qK77Uld/keu0aOhD5VGW
+         f2OJ16ZEUVobIPR8oPwGL5rpJou/3zRY4iGNNiFD95ZhRL7goOxjNAcmATWDJddFWSRT
+         D2F7ss0dJZHifVBmbRDt4oN4lkRtUZpxIK+GGLqJD+TKPZYeGvjWO5Zl8Ziv7+3Xci3o
+         Lw1w==
+X-Gm-Message-State: APjAAAWxYmL5OlzXX/KiqJNaLfIADaOCNh85hnGx+H/bwS7HoAeOL4jr
+        rTZtULx2TnaSrzq2U6hMJ79IYjjyU+Ic8fWoCvA=
+X-Google-Smtp-Source: APXvYqx8uJU34gat2jj05a1JtfX2WAWEdWsZn7Myiddypxd4/D7fMgMYWcUSz0KVljn/0TFlPUSXHjp6/AlOkmR803Y=
+X-Received: by 2002:ac2:4427:: with SMTP id w7mr16466lfl.143.1569445708615;
+ Wed, 25 Sep 2019 14:08:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190920135137.10052-1-ricardo@ribalda.com> <20190920135137.10052-3-ricardo@ribalda.com>
- <20190925082203.b2phkyrvfyv6imfv@uno.localdomain>
-In-Reply-To: <20190925082203.b2phkyrvfyv6imfv@uno.localdomain>
+References: <20190920135137.10052-1-ricardo@ribalda.com> <20190920135137.10052-5-ricardo@ribalda.com>
+ <20190925083421.ronwsvmqeu5quxpx@uno.localdomain>
+In-Reply-To: <20190925083421.ronwsvmqeu5quxpx@uno.localdomain>
 From:   Ricardo Ribalda Delgado <ricardo@ribalda.com>
-Date:   Wed, 25 Sep 2019 23:00:40 +0200
-Message-ID: <CAPybu_2jXb1kcKA7+3QA2FT29qg3dOvXTZBxROk0WxTFhwFQ6g@mail.gmail.com>
-Subject: Re: [PATCH v6 2/7] Documentation: v4l2_ctrl_new_std_compound
+Date:   Wed, 25 Sep 2019 23:08:11 +0200
+Message-ID: <CAPybu_3Q7S+t4SbxAM5NS4gFsAv532=O=w-+rH_fmah_5WWz4Q@mail.gmail.com>
+Subject: Re: [PATCH v6 4/7] Documentation: media: Document V4L2_CTRL_TYPE_AREA
 To:     Jacopo Mondi <jacopo@jmondi.org>
 Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         linux-media <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>
+        LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
@@ -51,55 +50,54 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Jacopo
-On Wed, Sep 25, 2019 at 10:20 AM Jacopo Mondi <jacopo@jmondi.org> wrote:
+
+On Wed, Sep 25, 2019 at 10:32 AM Jacopo Mondi <jacopo@jmondi.org> wrote:
 >
 > Hi Ricardo,
 >
-> On Fri, Sep 20, 2019 at 03:51:32PM +0200, Ricardo Ribalda Delgado wrote:
-> > Function for initializing compound controls with a default value.
+> On Fri, Sep 20, 2019 at 03:51:34PM +0200, Ricardo Ribalda Delgado wrote:
+> > From: Ricardo Ribalda Delgado <ribalda@kernel.org>
 > >
-> > Suggested-by: Hans Verkuil <hverkuil@xs4all.nl>
-> > Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+> > A struct v4l2_area containing the width and the height of a rectangular
+> > area.
+> >
+> > Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+> > Signed-off-by: Ricardo Ribalda Delgado <ribalda@kernel.org>
 > > ---
-> >  Documentation/media/kapi/v4l2-controls.rst | 9 +++++++++
-> >  1 file changed, 9 insertions(+)
+> >  Documentation/media/uapi/v4l/vidioc-queryctrl.rst | 6 ++++++
+> >  1 file changed, 6 insertions(+)
 > >
-> > diff --git a/Documentation/media/kapi/v4l2-controls.rst b/Documentation/media/kapi/v4l2-controls.rst
-> > index ebe2a55908be..b20800cae3f2 100644
-> > --- a/Documentation/media/kapi/v4l2-controls.rst
-> > +++ b/Documentation/media/kapi/v4l2-controls.rst
-> > @@ -140,6 +140,15 @@ Menu controls with a driver specific menu are added by calling
-> >                         const struct v4l2_ctrl_ops *ops, u32 id, s32 max,
-> >                         s32 skip_mask, s32 def, const char * const *qmenu);
-> >
-> > +Standard compound controls can be added by calling
+> > diff --git a/Documentation/media/uapi/v4l/vidioc-queryctrl.rst b/Documentation/media/uapi/v4l/vidioc-queryctrl.rst
+> > index a3d56ffbf4cc..33aff21b7d11 100644
+> > --- a/Documentation/media/uapi/v4l/vidioc-queryctrl.rst
+> > +++ b/Documentation/media/uapi/v4l/vidioc-queryctrl.rst
+> > @@ -443,6 +443,12 @@ See also the examples in :ref:`control`.
+> >        - n/a
+> >        - A struct :c:type:`v4l2_ctrl_mpeg2_quantization`, containing MPEG-2
+> >       quantization matrices for stateless video decoders.
+> > +    * - ``V4L2_CTRL_TYPE_AREA``
+> > +      - n/a
+> > +      - n/a
+> > +      - n/a
+> > +      - A struct :c:type:`v4l2_area`, containing the width and the height
+> > +        of a rectangular area. Units depend on the use case.
 >
-> Standard compound controls with a driver provided default value can be..
+> I recall Hans too was in favour of having min, max and step defined
+> (and applied to both width and height).
 >
-> Or is it un-necessary to re-state it?
->
+He changed his mind :)
 
-I think is a bit redundant, nothing stops you from not defining def,
-if ctrl_fill has the default value for it.
+https://www.mail-archive.com/linux-media@vger.kernel.org/msg150103.html
 
-> In any case:
+
+> Really a minor issue from my side, feel free to keep it the way it is
 > Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
-
-Thanks
 >
 > Thanks
->   j
-> > +:c:func:`v4l2_ctrl_new_std_compound`:
-> > +
-> > +.. code-block:: c
-> > +
-> > +       struct v4l2_ctrl *v4l2_ctrl_new_std_compound(struct v4l2_ctrl_handler *hdl,
-> > +                       const struct v4l2_ctrl_ops *ops, u32 id,
-> > +                       const union v4l2_ctrl_ptr p_def);
-> > +
-> >  Integer menu controls with a driver specific menu can be added by calling
-> >  :c:func:`v4l2_ctrl_new_int_menu`:
-> >
+>    j
+> >      * - ``V4L2_CTRL_TYPE_H264_SPS``
+> >        - n/a
+> >        - n/a
 > > --
 > > 2.23.0
 > >
