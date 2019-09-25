@@ -2,102 +2,150 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A779BE1E1
-	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2019 18:03:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00E3BBE1FB
+	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2019 18:07:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2439662AbfIYQDv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Sep 2019 12:03:51 -0400
-Received: from fallback16.mail.ru ([94.100.177.128]:42502 "EHLO
-        fallback16.mail.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725851AbfIYQDv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Sep 2019 12:03:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=list.ru; s=mail;
-        h=Content-Type:MIME-Version:Date:Message-ID:Subject:From:To; bh=vDulfZYQWbWEXeCrgLPNRqyJVnnxORwziYcRKTBOR7Y=;
-        b=KLirXtKNOBy5u+XZmV19aSgz+qhYvBQwE6grfJHBa8Lw9fux9QZ4xO4Ehfp1e/6iH/a9onAcxtBYGd/h0DSf31GkQ04ipTYhYJKLrNuSDLonRXRWbuNtOMf4NcjXfZoE8CQ3vAcX3OEsJZ4K87s8CAn28a3JRUEJkMrpA3CKXuM=;
-Received: from [10.161.64.53] (port=35958 helo=smtp45.i.mail.ru)
-        by fallback16.i with esmtp (envelope-from <citizen777@list.ru>)
-        id 1iD9lc-0000Fc-Mj
-        for linux-media@vger.kernel.org; Wed, 25 Sep 2019 19:03:48 +0300
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=list.ru; s=mail;
-        h=Content-Type:MIME-Version:Date:Message-ID:Subject:From:To; bh=vDulfZYQWbWEXeCrgLPNRqyJVnnxORwziYcRKTBOR7Y=;
-        b=KLirXtKNOBy5u+XZmV19aSgz+qhYvBQwE6grfJHBa8Lw9fux9QZ4xO4Ehfp1e/6iH/a9onAcxtBYGd/h0DSf31GkQ04ipTYhYJKLrNuSDLonRXRWbuNtOMf4NcjXfZoE8CQ3vAcX3OEsJZ4K87s8CAn28a3JRUEJkMrpA3CKXuM=;
-Received: by smtp45.i.mail.ru with esmtpa (envelope-from <citizen777@list.ru>)
-        id 1iD9la-0002kB-Rc
-        for linux-media@vger.kernel.org; Wed, 25 Sep 2019 19:03:47 +0300
-To:     linux-media@vger.kernel.org
-From:   =?UTF-8?B?0JDQu9C10LrRgdC10Lk=?= <citizen777@list.ru>
-Subject: Submit new entries in Digital TV scan tables
-Message-ID: <d0645dae-eb7f-3de8-9e4a-d5924adc4d89@list.ru>
-Date:   Wed, 25 Sep 2019 21:03:46 +0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:60.0)
- Gecko/20100101 Thunderbird/60.9.0
+        id S2501893AbfIYQHk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Sep 2019 12:07:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55896 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727993AbfIYQHj (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 25 Sep 2019 12:07:39 -0400
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 756CA21E6F;
+        Wed, 25 Sep 2019 16:07:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1569427658;
+        bh=BDhFvt5VGk5cpLsmQKS0fUfwCU66ZuF9Gw8byviviXQ=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=ZJuV1cg80pgN5dVIrsTjC7nHNpCLFivnDjpwqkOACU+jgzrs95f/ObjU5069y94x6
+         lIYLvZ5Z7fUWPr+ln7f2YxRfxo0Zbx7YXvc/WRwt3Y5Gwp01ZAG03eVOmAmpcuqA7q
+         dmDoEZvV0iEhslx4g4bWqERTerzWbEQeJhtFz0iM=
+Received: by mail-qt1-f175.google.com with SMTP id c21so7185020qtj.12;
+        Wed, 25 Sep 2019 09:07:38 -0700 (PDT)
+X-Gm-Message-State: APjAAAVNM6tmq0uayl7fAteNRWeJ6dXHYFExP0h5hrs0FvkzxT12bph2
+        TFQWRgz0K9X/EdsaX38ux5jZh9kaAPZpWiKh7w==
+X-Google-Smtp-Source: APXvYqz1oy5m7mjvghNWjvvttiTqJZiM9hvPOK4OCMBp672J3JDiM/K63youpJW2QLzFXg+mEvd77PmoRL1xNiFzCqU=
+X-Received: by 2002:ac8:75c7:: with SMTP id z7mr19500qtq.136.1569427657263;
+ Wed, 25 Sep 2019 09:07:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="------------D83C4D73FAAE48C186E2C84F"
-Content-Language: ru
-X-77F55803: 260C666A7D66B36A5A78504BD2AC2941D965BF5F543491B39310B2C617C3E0EBC30ACDEED3B87C529097E6B2C7E7FAC7
-X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE745FB935E07B76C84EA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F790063738685E03609DCDB88638F802B75D45FF5571747095F342E8C7A0BC55FA0FE5FC4E5AE632E181840BA2C33F17729B9F689911C73EEFED21EE389733CBF5DBD5E913377AFFFEAFD269176DF2183F8FC7C0DEC8C2C8BCD2534D8941B15DA834481FCF19DD082D7633A0E7DDDDC251EA7DABA471835C12D1D977725E5C173C3A84C3E97D2AE7161E217F117882F4460429728AD0CFFFB425014E40A5AABA2AD371193AA81AA40904B5D9A18204E546F3947C241FAFF9BB01F7E7BA3038C0950A5D36C8A9BA7A39EFB766D187B4DA314F1B55BA3038C0950A5D36D5E8D9A59859A8B600E44CF7DE520BF03AA81AA40904B5D99449624AB7ADAF37F910319684D6E05D725E5C173C3A84C3375ACB23F92DE42536633A277C4D25776B0B6A749F1976AFC4224003CC836476C0CAF46E325F83A50BF2EBBBDD9D6B0F05F538519369F3743B503F486389A921A5CC5B56E945C8DA
-X-Mailru-Sender: 9157818B597D6E107E03AD0D443EDC13DE863694BD89343EF81C239AA93EEF9000680B3D8EF46AC98DD79C2AECECA6D3C77752E0C033A69ED4074B44CCDC8201E05E346907A1D06F3453F38A29522196
-X-Mras: OK
-X-77F55803: 5241C2F38277A35D7F9F52485CB584D7271FD7DF62800FDC8B1CC56BE943529A366C72D46E0C203207AD2BC72FA8EC4E951FA000EDE267C5
-X-Mailru-MI: 800
-X-Mras: OK
+References: <20190924181244.7159-1-nsaenzjulienne@suse.de> <CAL_Jsq+v+svTyna7UzQdRVqfNc5Z_bgWzxNRXv7-Wqv3NwDu2g@mail.gmail.com>
+ <d1a31a2ec8eb2f226b1fb41f6c24ffb47c3bf7c7.camel@suse.de>
+In-Reply-To: <d1a31a2ec8eb2f226b1fb41f6c24ffb47c3bf7c7.camel@suse.de>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Wed, 25 Sep 2019 11:07:25 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqKuz7WEB9zP6apZrdsC_8Q4OQmSuvqgLzJFPsZio0Z6=g@mail.gmail.com>
+Message-ID: <CAL_JsqKuz7WEB9zP6apZrdsC_8Q4OQmSuvqgLzJFPsZio0Z6=g@mail.gmail.com>
+Subject: Re: [PATCH 00/11] of: Fix DMA configuration for non-DT masters
+To:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Cc:     devicetree@vger.kernel.org, Frank Rowand <frowand.list@gmail.com>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        linux-wireless <linux-wireless@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        "open list:DMA GENERIC OFFLOAD ENGINE SUBSYSTEM" 
+        <dmaengine@vger.kernel.org>, etnaviv@lists.freedesktop.org,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        xen-devel@lists.xenproject.org, linux-tegra@vger.kernel.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-pci@vger.kernel.org, Matthias Brugger <mbrugger@suse.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        james.quinlan@broadcom.com, Stefan Wahren <wahrenst@gmx.net>,
+        Dan Williams <dan.j.williams@intel.com>,
+        freedreno <freedreno@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------D83C4D73FAAE48C186E2C84F
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+On Wed, Sep 25, 2019 at 9:53 AM Nicolas Saenz Julienne
+<nsaenzjulienne@suse.de> wrote:
+>
+> On Tue, 2019-09-24 at 16:59 -0500, Rob Herring wrote:
+> > On Tue, Sep 24, 2019 at 1:12 PM Nicolas Saenz Julienne
+> > <nsaenzjulienne@suse.de> wrote:
+> > > Hi All,
+> > > this series tries to address one of the issues blocking us from
+> > > upstreaming Broadcom's STB PCIe controller[1]. Namely, the fact that
+> > > devices not represented in DT which sit behind a PCI bus fail to get the
+> > > bus' DMA addressing constraints.
+> > >
+> > > This is due to the fact that of_dma_configure() assumes it's receiving a
+> > > DT node representing the device being configured, as opposed to the PCIe
+> > > bridge node we currently pass. This causes the code to directly jump
+> > > into PCI's parent node when checking for 'dma-ranges' and misses
+> > > whatever was set there.
+> > >
+> > > To address this I create a new API in OF - inspired from Robin Murphys
+> > > original proposal[2] - which accepts a bus DT node as it's input in
+> > > order to configure a device's DMA constraints. The changes go deep into
+> > > of/address.c's implementation, as a device being having a DT node
+> > > assumption was pretty strong.
+> > >
+> > > On top of this work, I also cleaned up of_dma_configure() removing its
+> > > redundant arguments and creating an alternative function for the special
+> > > cases
+> > > not applicable to either the above case or the default usage.
+> > >
+> > > IMO the resulting functions are more explicit. They will probably
+> > > surface some hacky usages that can be properly fixed as I show with the
+> > > DT fixes on the Layerscape platform.
+> > >
+> > > This was also tested on a Raspberry Pi 4 with a custom PCIe driver and
+> > > on a Seattle AMD board.
+> >
+> > Humm, I've been working on this issue too. Looks similar though yours
+> > has a lot more churn and there's some other bugs I've found.
+>
+> That's good news, and yes now that I see it, some stuff on my series is overly
+> complicated. Specially around of_translate_*().
+>
+> On top of that, you removed in of_dma_get_range():
+>
+> -       /*
+> -        * At least empty ranges has to be defined for parent node if
+> -        * DMA is supported
+> -        */
+> -       if (!ranges)
+> -               break;
+>
+> Which I assumed was bound to the standard and makes things easier.
 
-Hello!
-Please add my scan tables to your repository 
-https://git.linuxtv.org/dtv-scan-tables.git/
+The standard is whatever we say it is and what exists in the wild...
 
-path: root/dvb-t/ru-Perm
+Probably better for me to get the series posted for context, but the
+above is removed because we could be passing in the bus device/child
+node and checking for 'dma-ranges' rather than only the bus node.
+While this does mean 'dma-ranges' could be in a child node which is
+wrong, it simplifies the only caller of_dma_configure(). And really,
+there's no way to detect that error. Someone could call
+of_dma_configure(NULL, child, ...). Perhaps we could assert that
+'ranges' is present whenever 'dma-ranges' is.
 
-See attachment.
+Back to the standard, I think it can be summarized as a device's
+immediate parent (a bus node) must contain 'dma-ranges'. All the
+parent nodes of the bus node should also have 'dma-ranges', but
+missing is treated as empty (1:1 translation). 'dma-ranges' missing in
+all the parent nodes is also treated as 1:1 translation and no
+addressing restrictions.
 
+> > Can you test out this branch[1]. I don't have any h/w needing this,
+> > but wrote a unittest and tested with modified QEMU.
+>
+> I reviewed everything, I did find a minor issue, see the patch attached.
+>
+> Also I tested your branch both on an RPi4, with a PCI device that depends on
+> these changes and by comparing the OF debugs logs on a Layerscape board which
+> uses dma-ranges, dma-coherent and IOMMU. All works as expected.
+>
+> Will you send this series for v5.5? Please keep me in the loop, I'll review and
+> test the final version.
 
---------------D83C4D73FAAE48C186E2C84F
-Content-Type: text/plain; charset=ISO-8859-5; x-mac-type="0"; x-mac-creator="0";
- name="ru-Perm"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="ru-Perm"
+Yes, sending it out soon.
 
-IyBTY2FuIHRhYmxlcyBmb3IgRFZCLVQyIGNoYW5uZWxzIGluIFBlcm0gKFJ1c3NpYSkKIyBD
-cmVhdGVkIGZyb20gaHR0cHM6Ly9wZXJtLnJ0cnMucnUvdHYvY2hhbm5lbHMvCiMgQ29udHJp
-YnV0ZWQgYnk6INCQ0LvQtdC60YHQtdC5INCc0LjRhdCw0LnQu9C+0LIgPGNpdGl6ZW43NzdA
-bGlzdC5ydT4KIyBMYXN0IGNoYW5nZTogMjAxOS0wNC0zMAoKW9Cg0KLQoNChLTE6INCf0JXQ
-oNCS0KvQmSDQmtCQ0J3QkNCbLCDQnNCQ0KLQpyEsINCd0KLQkiwg0J/Qr9Ci0KvQmSDQmtCQ
-0J3QkNCbLCDQoNCe0KHQodCY0K8t0JosINCa0JDQoNCj0KHQldCb0KwsINCe0KLQoCwg0KLQ
-kiDQptC10L3RgtGALCDQktCV0KHQotCYINCk0JwsINCc0JDQr9CaXQogICAgREVMSVZFUllf
-U1lTVEVNID0gRFZCVDIKICAgIEZSRVFVRU5DWSA9IDQ5MDAwMDAwMAogICAgQkFORFdJRFRI
-X0haID0gODAwMDAwMAogICAgQ09ERV9SQVRFX0hQID0gQVVUTwogICAgQ09ERV9SQVRFX0xQ
-ID0gQVVUTwogICAgTU9EVUxBVElPTiA9IFFBTS9BVVRPCiAgICBUUkFOU01JU1NJT05fTU9E
-RSA9IEFVVE8KICAgIEdVQVJEX0lOVEVSVkFMID0gQVVUTwogICAgSElFUkFSQ0hZID0gTk9O
-RQogICAgSU5WRVJTSU9OID0gQVVUTwogICAgU1RSRUFNX0lEID0gMAoKW9Cg0KLQoNChLTE6
-INCg0J7QodCh0JjQry0xLCDQoNCw0LTQuNC+INCg0L7RgdGB0LjQuF0KICAgIERFTElWRVJZ
-X1NZU1RFTSA9IERWQlQyCiAgICBGUkVRVUVOQ1kgPSA0OTAwMDAwMDAKICAgIEJBTkRXSURU
-SF9IWiA9IDgwMDAwMDAKICAgIENPREVfUkFURV9IUCA9IEFVVE8KICAgIENPREVfUkFURV9M
-UCA9IEFVVE8KICAgIE1PRFVMQVRJT04gPSBRQU0vQVVUTwogICAgVFJBTlNNSVNTSU9OX01P
-REUgPSBBVVRPCiAgICBHVUFSRF9JTlRFUlZBTCA9IEFVVE8KICAgIEhJRVJBUkNIWSA9IE5P
-TkUKICAgIElOVkVSU0lPTiA9IEFVVE8KICAgIFNUUkVBTV9JRCA9IDEKClvQoNCi0KDQoS0x
-OiDQoNCe0KHQodCY0K8tMjRdCiAgICBERUxJVkVSWV9TWVNURU0gPSBEVkJUMgogICAgRlJF
-UVVFTkNZID0gNDkwMDAwMDAwCiAgICBCQU5EV0lEVEhfSFogPSA4MDAwMDAwCiAgICBDT0RF
-X1JBVEVfSFAgPSBBVVRPCiAgICBDT0RFX1JBVEVfTFAgPSBBVVRPCiAgICBNT0RVTEFUSU9O
-ID0gUUFNL0FVVE8KICAgIFRSQU5TTUlTU0lPTl9NT0RFID0gQVVUTwogICAgR1VBUkRfSU5U
-RVJWQUwgPSBBVVRPCiAgICBISUVSQVJDSFkgPSBOT05FCiAgICBJTlZFUlNJT04gPSBBVVRP
-CiAgICBTVFJFQU1fSUQgPSAyCgpb0KDQotCg0KEtMjog0KDQldCdINCi0JIsINCh0L/QsNGB
-LCDQodCi0KEsINCU0L7QvNCw0YjQvdC40LksINCi0JIzLCDQn9GP0YLQvdC40YbQsCwg0JfQ
-stC10LfQtNCwLCDQnNCY0KAsINCi0J3Qoiwg0JzQo9CXINCi0JJdCiAgICBERUxJVkVSWV9T
-WVNURU0gPSBEVkJUMgogICAgRlJFUVVFTkNZID0gNjk4MDAwMDAwCiAgICBCQU5EV0lEVEhf
-SFogPSA4MDAwMDAwCiAgICBDT0RFX1JBVEVfSFAgPSBBVVRPCiAgICBDT0RFX1JBVEVfTFAg
-PSBBVVRPCiAgICBNT0RVTEFUSU9OID0gUUFNL0FVVE8KICAgIFRSQU5TTUlTU0lPTl9NT0RF
-ID0gQVVUTwogICAgR1VBUkRfSU5URVJWQUwgPSBBVVRPCiAgICBISUVSQVJDSFkgPSBOT05F
-CiAgICBJTlZFUlNJT04gPSBBVVRPCiAgICBTVFJFQU1fSUQgPSAwCg==
---------------D83C4D73FAAE48C186E2C84F--
+Rob
