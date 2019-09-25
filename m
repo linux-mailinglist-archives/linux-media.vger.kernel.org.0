@@ -2,144 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D210BE0D0
-	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2019 17:08:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 829E7BE0E1
+	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2019 17:09:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727333AbfIYPII (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Sep 2019 11:08:08 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:51459 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726036AbfIYPII (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Sep 2019 11:08:08 -0400
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1iD8ti-0006RX-Q7; Wed, 25 Sep 2019 17:08:06 +0200
-Message-ID: <1569424085.6554.8.camel@pengutronix.de>
-Subject: Re: [PATCH v4 1/3] media: v4l2-subdev: add g_csi_active_lanes() op
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Jacopo Mondi <jacopo@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        Mats Randgaard <matrandg@cisco.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        kernel@pengutronix.de, Sakari Ailus <sakari.ailus@iki.fi>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Niklas =?ISO-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>,
-        Dave Stevenson <dave.stevenson@raspberrypi.org>
-Date:   Wed, 25 Sep 2019 17:08:05 +0200
-In-Reply-To: <20190925145125.yqeqmv7hnwlmojdl@uno.localdomain>
-References: <20190924114955.13132-1-p.zabel@pengutronix.de>
-         <20190924114955.13132-2-p.zabel@pengutronix.de>
-         <20190925134113.GA19093@pendragon.ideasonboard.com>
-         <20190925145125.yqeqmv7hnwlmojdl@uno.localdomain>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.22.6-1+deb9u2 
-Mime-Version: 1.0
+        id S2437335AbfIYPJV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Sep 2019 11:09:21 -0400
+Received: from foss.arm.com ([217.140.110.172]:51802 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2437241AbfIYPJU (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 25 Sep 2019 11:09:20 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 19E381000;
+        Wed, 25 Sep 2019 08:09:19 -0700 (PDT)
+Received: from [10.1.197.57] (e110467-lin.cambridge.arm.com [10.1.197.57])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3A1433F59C;
+        Wed, 25 Sep 2019 08:09:14 -0700 (PDT)
+Subject: Re: [PATCH 00/11] of: Fix DMA configuration for non-DT masters
+To:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     devicetree@vger.kernel.org, Frank Rowand <frowand.list@gmail.com>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        linux-wireless <linux-wireless@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        "open list:DMA GENERIC OFFLOAD ENGINE SUBSYSTEM" 
+        <dmaengine@vger.kernel.org>, etnaviv@lists.freedesktop.org,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        xen-devel@lists.xenproject.org, linux-tegra@vger.kernel.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-pci@vger.kernel.org, Matthias Brugger <mbrugger@suse.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        james.quinlan@broadcom.com, Stefan Wahren <wahrenst@gmx.net>,
+        Dan Williams <dan.j.williams@intel.com>,
+        freedreno <freedreno@lists.freedesktop.org>
+References: <20190924181244.7159-1-nsaenzjulienne@suse.de>
+ <CAL_Jsq+v+svTyna7UzQdRVqfNc5Z_bgWzxNRXv7-Wqv3NwDu2g@mail.gmail.com>
+ <d1a31a2ec8eb2f226b1fb41f6c24ffb47c3bf7c7.camel@suse.de>
+From:   Robin Murphy <robin.murphy@arm.com>
+Message-ID: <e404c65b-5a66-6f91-5b38-8bf89a7697b2@arm.com>
+Date:   Wed, 25 Sep 2019 16:09:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <d1a31a2ec8eb2f226b1fb41f6c24ffb47c3bf7c7.camel@suse.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
-
-On Wed, 2019-09-25 at 16:51 +0200, Jacopo Mondi wrote:
-> Hello,
->    sorry for having missed this
-
-Thank you and Laurent for completing the list of interested parties, I
-had completely forgotten about the frame descriptors.
-
-> On Wed, Sep 25, 2019 at 04:41:13PM +0300, Laurent Pinchart wrote:
-> > Hi Philipp,
-> > 
-> > (CC'ing Sakari, Jacopo, Kieran and Niklas)
-> > 
-> > Thank you for the patch.
-> > 
-> > On Tue, Sep 24, 2019 at 01:49:53PM +0200, Philipp Zabel wrote:
-> > > Add a subdevice video operation that allows to query the number
-> > > of data lanes a MIPI CSI-2 TX is actively transmitting on.
-> > > 
-> > > Suggested-by: Hans Verkuil <hverkuil@xs4all.nl>
-> > > Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
-> > > ---
-> > > New in v4.
-> > > ---
-> > >  include/media/v4l2-subdev.h | 3 +++
-> > >  1 file changed, 3 insertions(+)
-> > > 
-> > > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> > > index 71f1f2f0da53..bb71eedc38f6 100644
-> > > --- a/include/media/v4l2-subdev.h
-> > > +++ b/include/media/v4l2-subdev.h
-> > > @@ -411,6 +411,8 @@ struct v4l2_mbus_frame_desc {
-> > >   * @s_rx_buffer: set a host allocated memory buffer for the subdev. The subdev
-> > >   *	can adjust @size to a lower value and must not write more data to the
-> > >   *	buffer starting at @data than the original value of @size.
-> > > + *
-> > > + * @g_csi_active_lanes: Get number of currently active MIPI CSI-2 data lanes.
-> > >   */
-> > >  struct v4l2_subdev_video_ops {
-> > >  	int (*s_routing)(struct v4l2_subdev *sd, u32 input, u32 output, u32 config);
-> > > @@ -441,6 +443,7 @@ struct v4l2_subdev_video_ops {
-> > >  			     const struct v4l2_mbus_config *cfg);
-> > >  	int (*s_rx_buffer)(struct v4l2_subdev *sd, void *buf,
-> > >  			   unsigned int *size);
-> > > +	int (*g_csi_active_lanes)(struct v4l2_subdev *sd, u32 *lanes);
-> > 
-> > This shouldn't be a video operation but a pad operation, as a subdev
-> > could have multiple CSI-2 pads.
-> > 
-> > Furthermore, you need to define the semantics of this operation more
-> > precisely. When can it be called, when is the information valid ? Can
-> > the subdev change the number of lanes it supports at runtime ? If so,
-> > how are race conditions avoided ? All this needs to be documented.
-> > 
-> > Finally, the number of lanes is far from being the only information
-> > about a physical bus that could be interesting for a remote subdev. I
-> > would much prefer a more generic operation to retrieve bus
-> > information/configuration, with a data structure that we will be able to
-> > extend later.
-> > 
+On 25/09/2019 15:52, Nicolas Saenz Julienne wrote:
+> On Tue, 2019-09-24 at 16:59 -0500, Rob Herring wrote:
+>> On Tue, Sep 24, 2019 at 1:12 PM Nicolas Saenz Julienne
+>> <nsaenzjulienne@suse.de> wrote:
+>>> Hi All,
+>>> this series tries to address one of the issues blocking us from
+>>> upstreaming Broadcom's STB PCIe controller[1]. Namely, the fact that
+>>> devices not represented in DT which sit behind a PCI bus fail to get the
+>>> bus' DMA addressing constraints.
+>>>
+>>> This is due to the fact that of_dma_configure() assumes it's receiving a
+>>> DT node representing the device being configured, as opposed to the PCIe
+>>> bridge node we currently pass. This causes the code to directly jump
+>>> into PCI's parent node when checking for 'dma-ranges' and misses
+>>> whatever was set there.
+>>>
+>>> To address this I create a new API in OF - inspired from Robin Murphys
+>>> original proposal[2] - which accepts a bus DT node as it's input in
+>>> order to configure a device's DMA constraints. The changes go deep into
+>>> of/address.c's implementation, as a device being having a DT node
+>>> assumption was pretty strong.
+>>>
+>>> On top of this work, I also cleaned up of_dma_configure() removing its
+>>> redundant arguments and creating an alternative function for the special
+>>> cases
+>>> not applicable to either the above case or the default usage.
+>>>
+>>> IMO the resulting functions are more explicit. They will probably
+>>> surface some hacky usages that can be properly fixed as I show with the
+>>> DT fixes on the Layerscape platform.
+>>>
+>>> This was also tested on a Raspberry Pi 4 with a custom PCIe driver and
+>>> on a Seattle AMD board.
+>>
+>> Humm, I've been working on this issue too. Looks similar though yours
+>> has a lot more churn and there's some other bugs I've found.
 > 
-> For the record we tried to get those information from the frame
-> descriptor (the number of used data lanes and the clock
-> continous/non-continous information to be precise)
+> That's good news, and yes now that I see it, some stuff on my series is overly
+> complicated. Specially around of_translate_*().
 > 
-> This is the RFC series I sent
-> https://patchwork.kernel.org/project/linux-media/list/?series=92501
+> On top of that, you removed in of_dma_get_range():
 > 
-> Which depends on Sakari's patches:
-> https://patchwork.kernel.org/patch/10875871/
-> https://patchwork.kernel.org/patch/10875873/
+> -	/*
+> -	 * At least empty ranges has to be defined for parent node if
+> -	 * DMA is supported
+> -	 */
+> -	if (!ranges)
+> -		break;
 > 
-> The latest two were part of a much bigger series that tried to add
-> support for multiplexed streams. Honestly, it now seems to be that
-> part could be breakout without involving streams, and re-use that
-> portion to negotiate the csi-2 bus configuration. I might be wrong
-> though, and the two parts could not be separate easily (from a very
-> quick look, after months, it does not seem so).
+> Which I assumed was bound to the standard and makes things easier.
 > 
-> In the past I spoke against this solution as I would have preferred
-> leaving frame_desc alone and introduce a bus configuration operation.
-> I tried a few times and I ended up implementing g_mbus_format but on
-> pads and not video. Right now with Sakari's and Laurent's ack I would
-> say re-using frame_desc might actually work and get use a feature
-> which is needed by many (cc also Dave, as he had a similar issue with
-> TC358743 iirc)
+>> Can you test out this branch[1]. I don't have any h/w needing this,
+>> but wrote a unittest and tested with modified QEMU.
+> 
+> I reviewed everything, I did find a minor issue, see the patch attached.
 
-That looks like it should work just as well. If there is agreement to
-add the number of data lanes, (non-)continuous clock flag, and possibly
-the chosen link frequency v4l2_mbus_frame_desc, I'll happily dig up
-these patches and switch to .get_frame_desc().
+WRT that patch, the original intent of "force_dma" was purely to 
+consider a device DMA-capable regardless of the presence of 
+"dma-ranges". Expecting of_dma_configure() to do anything for a non-OF 
+device has always been bogus - magic paravirt devices which appear out 
+of nowhere and expect to be treated as genuine DMA masters are a 
+separate problem that we haven't really approached yet.
 
-regards
-Philipp
+Robin.
