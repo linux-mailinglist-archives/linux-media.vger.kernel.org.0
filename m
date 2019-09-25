@@ -2,26 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FBD3BE46C
-	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2019 20:15:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E23E8BE487
+	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2019 20:19:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408455AbfIYSP3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Sep 2019 14:15:29 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:60748 "EHLO
+        id S2440003AbfIYSTt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Sep 2019 14:19:49 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:60792 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2407511AbfIYSP2 (ORCPT
+        with ESMTP id S2437692AbfIYSTt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Sep 2019 14:15:28 -0400
+        Wed, 25 Sep 2019 14:19:49 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: koike)
-        with ESMTPSA id F2287260938
-Subject: Re: [PATCH] media: vimc: Implement get/set selection
-To:     Guilherme Alcarde Gallo <gagallo7@gmail.com>,
-        linux-media@vger.kernel.org
-Cc:     lkcamp@lists.libreplanetbr.org, mchehab@kernel.org,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <20190909040853.22466-1-gagallo7@gmail.com>
+        with ESMTPSA id D540628D21C
+Subject: Re: [ANN] Media sessions in Lyon in October: codecs
+To:     Jacopo Mondi <jacopo@jmondi.org>, Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Daniel Gomez <daniel@qtec.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Eugen Hristev <Eugen.Hristev@microchip.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <b3b2c3a6-43d6-ffbd-f94c-e6f92cad8a97@xs4all.nl>
+ <20190923150213.2ub26ys4mhpp2hm5@uno.localdomain>
 From:   Helen Koike <helen.koike@collabora.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=helen.koike@collabora.com; keydata=
@@ -98,364 +108,152 @@ Autocrypt: addr=helen.koike@collabora.com; keydata=
  iR1nXfMxENVYnM5ag7mBZyD/kru5W1Uj34L6AFaDMXFPwedSCpzzqUiHb0f+nYkfOodf5xy0
  46+3THy/NUS/ZZp/rI4F7Y77+MQPVg7vARfHHX1AxYUKfRVW5j88QUB70txn8Vgi1tDrOr4J
  eD+xr0CvIGa5lKqgQacQtGkpOpJ8zY4ObSvpNubey/qYUE3DCXD0n2Xxk4muTvqlkFpOYA==
-Message-ID: <7424ad6d-18bd-6876-b6b4-31b1edd61f2a@collabora.com>
-Date:   Wed, 25 Sep 2019 15:15:20 -0300
+Message-ID: <c3628d51-b362-d974-ed0b-f3021e17e22c@collabora.com>
+Date:   Wed, 25 Sep 2019 15:19:38 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <20190909040853.22466-1-gagallo7@gmail.com>
+In-Reply-To: <20190923150213.2ub26ys4mhpp2hm5@uno.localdomain>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-+Hans +Shuah
 
-Hi Guilherme and Danilo,
 
-Thank you for the patch, please see my comments below.
-
-On 9/9/19 1:08 AM, Guilherme Alcarde Gallo wrote:
-> Add support for the scaler subdevice to respond VIDIOC_G_SELECTION and
-> VIDIOC_S_SELECTION ioctls with the following targets:
-> V4L2_SEL_TGT_COMPOSE_BOUNDS and V4L2_SEL_TGT_CROP.
+On 9/23/19 12:02 PM, Jacopo Mondi wrote:
+> Hi Hans,
 > 
-> * Added new const struct crop_rect_default to initialize subdev scaler
->   properly.
-> * Make changes in sink pad format reflect the crop rectangle. E.g.
->   changing the frame format to a smaller size one can make the former
->   crop rectangle selects a non existing frame area. To solve this
->   situation the crop rectangle is clamped to the frame boundaries.
-> * Clamp crop rectangle respecting the sink bounds during set_selection
->   ioctl.
+> On Mon, Sep 23, 2019 at 04:12:55PM +0200, Hans Verkuil wrote:
+>> Hi all,
+>>
+>> Since we have three separate half-day sessions for different topics I decided
+>> to split the announcement for this in three emails as well, so these things
+>> can be discussed in separate threads.
+>>
+>> All sessions are in room Terreaux VIP Lounge - Level 0.
+>> There is a maximum of 15 people.
+>>
+>> The first session deals with the codec API and is on Tuesday morning from
+>> 8:30 (tentative, might change) to 12:00 (we have to vacate the room at that
+>> time).
+>>
+>> Confirmed attendees for this session:
+>>
+>> Boris Brezillon <boris.brezillon@collabora.com>
+>> Alexandre Courbot <acourbot@chromium.org>
+>> Nicolas Dufresne <nicolas@ndufresne.ca>
+>> Tomasz Figa <tfiga@chromium.org>
+>> Ezequiel Garcia <ezequiel@collabora.com>
+>> Daniel Gomez <daniel@qtec.com>
+>> Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+>> Eugen Hristev <Eugen.Hristev@microchip.com>
+>> Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+>> Helen Koike <helen.koike@collabora.com>
+>> Michael Tretter <m.tretter@pengutronix.de>
+>> Hans Verkuil <hverkuil@xs4all.nl>
+>>
+>> Tentative:
+>>
+>> Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>> Jacopo Mondi <jacopo@jmondi.org>
+>>
+>> Jacopo, please confirm if you want to attend this session. I didn't find
+>> an email with explicit confirmation, so it was probably done via irc. But since
+>> this session is getting close to capacity I would prefer to keep attendance to
+>> those are actually working with codecs (or will work with it in the near future).
 > 
-> Signed-off-by: Guilherme Alcarde Gallo <gagallo7@gmail.com>
-> Co-developed-by: Danilo Figueiredo Rocha <drocha.figueiredo@gmail.com>
-> Signed-off-by: Danilo Figueiredo Rocha <drocha.figueiredo@gmail.com>
-> 
-> ---
-> 
-> This patch is based on the monolithic vimc driver from the patchset
-> named "Collapse vimc into single monolithic driver"
-> https://patchwork.kernel.org/patch/11136201/
-> 
-> ---
-> 
->  drivers/media/platform/vimc/vimc-scaler.c | 148 +++++++++++++++++++---
->  1 file changed, 133 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/media/platform/vimc/vimc-scaler.c b/drivers/media/platform/vimc/vimc-scaler.c
-> index a5a0855ad9cd..b50d11e76a2b 100644
-> --- a/drivers/media/platform/vimc/vimc-scaler.c
-> +++ b/drivers/media/platform/vimc/vimc-scaler.c
-> @@ -18,6 +18,9 @@ MODULE_PARM_DESC(sca_mult, " the image size multiplier");
->  
->  #define MAX_ZOOM	8
->  
-> +#define VIMC_SCA_FMT_WIDTH_DEFAULT	640
-> +#define VIMC_SCA_FMT_HEIGHT_DEFAULT	480
-> +
->  struct vimc_sca_device {
->  	struct vimc_ent_device ved;
->  	struct v4l2_subdev sd;
-> @@ -26,6 +29,7 @@ struct vimc_sca_device {
->  	 * with the width and hight multiplied by mult
->  	 */
->  	struct v4l2_mbus_framefmt sink_fmt;
-> +	struct v4l2_rect crop_rect;
->  	/* Values calculated when the stream starts */
->  	u8 *src_frame;
->  	unsigned int src_line_size;
-> @@ -33,22 +37,33 @@ struct vimc_sca_device {
->  };
->  
->  static const struct v4l2_mbus_framefmt sink_fmt_default = {
-> -	.width = 640,
-> -	.height = 480,
-> +	.width = VIMC_SCA_FMT_WIDTH_DEFAULT,
-> +	.height = VIMC_SCA_FMT_HEIGHT_DEFAULT,
->  	.code = MEDIA_BUS_FMT_RGB888_1X24,
->  	.field = V4L2_FIELD_NONE,
->  	.colorspace = V4L2_COLORSPACE_DEFAULT,
->  };
->  
-> +static const struct v4l2_rect crop_rect_default = {
-> +	.width = VIMC_SCA_FMT_WIDTH_DEFAULT,
-> +	.height = VIMC_SCA_FMT_HEIGHT_DEFAULT,
-> +	.top = 0,
-> +	.left = 0,
-> +};
-> +
->  static int vimc_sca_init_cfg(struct v4l2_subdev *sd,
->  			     struct v4l2_subdev_pad_config *cfg)
->  {
->  	struct v4l2_mbus_framefmt *mf;
-> +	struct v4l2_rect *r;
->  	unsigned int i;
->  
->  	mf = v4l2_subdev_get_try_format(sd, cfg, 0);
->  	*mf = sink_fmt_default;
->  
-> +	r = v4l2_subdev_get_try_crop(sd, cfg, 0);
-> +	*r = crop_rect_default;
-> +
->  	for (i = 1; i < sd->entity.num_pads; i++) {
->  		mf = v4l2_subdev_get_try_format(sd, cfg, i);
->  		*mf = sink_fmt_default;
-> @@ -107,16 +122,21 @@ static int vimc_sca_get_fmt(struct v4l2_subdev *sd,
->  			    struct v4l2_subdev_format *format)
->  {
->  	struct vimc_sca_device *vsca = v4l2_get_subdevdata(sd);
-> +	struct v4l2_rect *crop_rect;
->  
->  	/* Get the current sink format */
-> -	format->format = (format->which == V4L2_SUBDEV_FORMAT_TRY) ?
-> -			 *v4l2_subdev_get_try_format(sd, cfg, 0) :
-> -			 vsca->sink_fmt;
-> +	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
-> +		format->format = *v4l2_subdev_get_try_format(sd, cfg, 0);
-> +		crop_rect = v4l2_subdev_get_try_crop(sd, cfg, 0);
-> +	} else {
-> +		format->format = vsca->sink_fmt;
-> +		crop_rect = &vsca->crop_rect;
-> +	}
->  
->  	/* Scale the frame size for the source pad */
->  	if (VIMC_IS_SRC(format->pad)) {
-> -		format->format.width = vsca->sink_fmt.width * sca_mult;
-> -		format->format.height = vsca->sink_fmt.height * sca_mult;
-> +		format->format.width = crop_rect->width * sca_mult;
-> +		format->format.height = crop_rect->height * sca_mult;
->  	}
->  
->  	return 0;
-> @@ -148,6 +168,7 @@ static int vimc_sca_set_fmt(struct v4l2_subdev *sd,
->  {
->  	struct vimc_sca_device *vsca = v4l2_get_subdevdata(sd);
->  	struct v4l2_mbus_framefmt *sink_fmt;
-> +	struct v4l2_rect *crop_rect;
->  
->  	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
->  		/* Do not change the format while stream is on */
-> @@ -155,8 +176,10 @@ static int vimc_sca_set_fmt(struct v4l2_subdev *sd,
->  			return -EBUSY;
->  
->  		sink_fmt = &vsca->sink_fmt;
-> +		crop_rect = &vsca->crop_rect;
->  	} else {
->  		sink_fmt = v4l2_subdev_get_try_format(sd, cfg, 0);
-> +		crop_rect = v4l2_subdev_get_try_crop(sd, cfg, 0);
->  	}
->  
->  	/*
-> @@ -165,12 +188,20 @@ static int vimc_sca_set_fmt(struct v4l2_subdev *sd,
->  	 */
->  	if (VIMC_IS_SRC(fmt->pad)) {
->  		fmt->format = *sink_fmt;
-> -		fmt->format.width = sink_fmt->width * sca_mult;
-> -		fmt->format.height = sink_fmt->height * sca_mult;
-> +		fmt->format.width = crop_rect->width * sca_mult;
-> +		fmt->format.height = crop_rect->height * sca_mult;
->  	} else {
->  		/* Set the new format in the sink pad */
->  		vimc_sca_adjust_sink_fmt(&fmt->format);
->  
-> +		crop_rect->width = clamp_t(u32, crop_rect->width,
-> +					   VIMC_FRAME_MIN_WIDTH,
-> +					   fmt->format.width) & ~1;
-> +
-> +		crop_rect->height = clamp_t(u32, crop_rect->height,
-> +					    VIMC_FRAME_MIN_HEIGHT,
-> +					    fmt->format.height) & ~1;
-> +
+> I'm not really working on codecs, so if you're running almost at full
+> capacity please feel free to re-assign my seat.
 
-You need to consider top and left of the crop rectangle to make this clamp.
+Same here, feel free to re-assign my seat.
 
-Lets say you have a 300x300 image and a crop rectangle to top=100,left=100,width=100,height=100.
-Then, if you set the image to 150x150, the crop rectangle should adjust to top=100,left=100,width=50,height=50.
-
-There is also the case if you set the sink image to 50x50, now the crop rectangle is outside the image,
-I'm not sure what should happen in this case, maybe you should just reset the crop rectangle to the image format.
-
-Hans, could you confirm what should be done here?
-
->  		dev_dbg(vsca->dev, "%s: sink format update: "
->  			"old:%dx%d (0x%x, %d, %d, %d, %d) "
->  			"new:%dx%d (0x%x, %d, %d, %d, %d)\n", vsca->sd.name,
-> @@ -189,12 +220,91 @@ static int vimc_sca_set_fmt(struct v4l2_subdev *sd,
->  	return 0;
->  }
->  
-> +static int vimc_sca_get_selection(struct v4l2_subdev *sd,
-> +				  struct v4l2_subdev_pad_config *cfg,
-> +				  struct v4l2_subdev_selection *sel)
-> +{
-> +	struct vimc_sca_device *vsca = v4l2_get_subdevdata(sd);
-> +
-> +	if (sel->which == V4L2_SUBDEV_FORMAT_TRY)
-> +		return -EINVAL;
-
-I think you could implement TRY already, you just need to use v4l2_subdev_get_try_crop() and v4l2_subdev_get_try_format()
-similar to what set/get format do.
-
-> +
-> +	if (vsca->src_frame)
-> +		return -EBUSY;
-> +
-> +	if (VIMC_IS_SRC(sel->pad))
-> +		return -EINVAL;
-> +
-> +	switch (sel->target) {
-> +	case V4L2_SEL_TGT_CROP:
-> +		sel->r = vsca->crop_rect;
-> +		break;
-> +	case V4L2_SEL_TGT_CROP_BOUNDS:
-> +		sel->r.left = 0;
-> +		sel->r.top = 0;
-> +		sel->r.width = vsca->sink_fmt.width;
-> +		sel->r.height = vsca->sink_fmt.height;
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int vimc_sca_set_selection(struct v4l2_subdev *sd,
-> +				  struct v4l2_subdev_pad_config *cfg,
-> +				  struct v4l2_subdev_selection *sel)
-> +{
-> +	struct vimc_sca_device *vsca = v4l2_get_subdevdata(sd);
-> +	struct v4l2_rect *vsca_crop_rect = &vsca->crop_rect;
-> +	struct v4l2_subdev_selection bound_sel = *sel;
-> +	int ret = 0;
-> +
-> +	if (sel->which == V4L2_SUBDEV_FORMAT_TRY)
-> +		return -EINVAL;
-
-Same thing here.
-
-> +
-> +	/* Do not change the format while stream is on */
-> +	if (vsca->src_frame)
-> +		return -EBUSY;
-> +
-> +	if (VIMC_IS_SRC(sel->pad))
-> +		return -EINVAL;
-> +
-> +	switch (sel->target) {
-> +	case V4L2_SEL_TGT_CROP:
-> +		/* Get the crop bounds to clamp the crop rectangle correctly */
-> +		bound_sel.target = V4L2_SEL_TGT_CROP_BOUNDS;
-> +		ret = vimc_sca_get_selection(sd, cfg, &bound_sel);
-> +		if (ret) {
-> +			pr_err("Error during call to vimc_sca_get_selection.");
-> +			return ret;
-> +		}
-> +
-> +		sel->r.width = clamp_t(u32, sel->r.width, VIMC_FRAME_MIN_WIDTH,
-> +				       bound_sel.r.width) & ~1;
-> +		sel->r.height = clamp_t(u32, sel->r.height,
-> +					VIMC_FRAME_MIN_HEIGHT,
-> +					bound_sel.r.height);
-
-You should also consider top/left to make this clamp.
-top and left should also be ajusted if they are set outside of the boundaries.
-
-> +		*vsca_crop_rect = sel->r;
-> +		break;
-> +	case V4L2_SEL_TGT_CROP_BOUNDS:
-> +		return -EINVAL;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static const struct v4l2_subdev_pad_ops vimc_sca_pad_ops = {
->  	.init_cfg		= vimc_sca_init_cfg,
->  	.enum_mbus_code		= vimc_sca_enum_mbus_code,
->  	.enum_frame_size	= vimc_sca_enum_frame_size,
->  	.get_fmt		= vimc_sca_get_fmt,
->  	.set_fmt		= vimc_sca_set_fmt,
-> +	.get_selection		= vimc_sca_get_selection,
-> +	.set_selection		= vimc_sca_set_selection,
->  };
->  
->  static int vimc_sca_s_stream(struct v4l2_subdev *sd, int enable)
-> @@ -213,11 +323,11 @@ static int vimc_sca_s_stream(struct v4l2_subdev *sd, int enable)
->  		vsca->bpp = vpix->bpp;
->  
->  		/* Calculate the width in bytes of the src frame */
-> -		vsca->src_line_size = vsca->sink_fmt.width *
-> +		vsca->src_line_size = vsca->crop_rect.width *
->  				      sca_mult * vsca->bpp;
->  
->  		/* Calculate the frame size of the source pad */
-> -		frame_size = vsca->src_line_size * vsca->sink_fmt.height *
-> +		frame_size = vsca->src_line_size * vsca->crop_rect.height *
->  			     sca_mult;
->  
->  		/* Allocate the frame buffer. Use vmalloc to be able to
-> @@ -259,11 +369,12 @@ static void vimc_sca_fill_pix(u8 *const ptr,
->  }
->  
->  static void vimc_sca_scale_pix(const struct vimc_sca_device *const vsca,
-> -			       const unsigned int lin, const unsigned int col,
-> +			       unsigned int lin, unsigned int col,
->  			       const u8 *const sink_frame)
->  {
->  	unsigned int i, j, index;
->  	const u8 *pixel;
-> +	const struct v4l2_rect crop_rect = vsca->crop_rect;
->  
->  	/* Point to the pixel value in position (lin, col) in the sink frame */
->  	index = VIMC_FRAME_INDEX(lin, col,
-> @@ -278,8 +389,10 @@ static void vimc_sca_scale_pix(const struct vimc_sca_device *const vsca,
->  	/* point to the place we are going to put the first pixel
->  	 * in the scaled src frame
->  	 */
-> +	lin -= crop_rect.top;
-> +	col -= crop_rect.left;
->  	index = VIMC_FRAME_INDEX(lin * sca_mult, col * sca_mult,
-> -				 vsca->sink_fmt.width * sca_mult, vsca->bpp);
-> +				 crop_rect.width * sca_mult, vsca->bpp);
->  
->  	dev_dbg(vsca->dev, "sca: %s: scale_pix src pos %dx%d, index %d\n",
->  		vsca->sd.name, lin * sca_mult, col * sca_mult, index);
-> @@ -309,10 +422,12 @@ static void vimc_sca_fill_src_frame(const struct vimc_sca_device *const vsca,
->  {
->  	unsigned int i, j;
->  
-
-Please remove this extra line.
-
-Thanks :)
+Thanks,
 Helen
 
-> +	const struct v4l2_rect r = vsca->crop_rect;
-> +
->  	/* Scale each pixel from the original sink frame */
->  	/* TODO: implement scale down, only scale up is supported for now */
-> -	for (i = 0; i < vsca->sink_fmt.height; i++)
-> -		for (j = 0; j < vsca->sink_fmt.width; j++)
-> +	for (i = r.top; i < r.top + r.height; i++)
-> +		for (j = r.left; j < r.left + r.width; j++)
->  			vimc_sca_scale_pix(vsca, i, j, sink_frame);
->  }
->  
-> @@ -382,5 +497,8 @@ struct vimc_ent_device *vimc_sca_add(struct vimc_device *vimc,
->  	/* Initialize the frame format */
->  	vsca->sink_fmt = sink_fmt_default;
->  
-> +	/* Initialize the crop selection */
-> +	vsca->crop_rect = crop_rect_default;
-> +
->  	return &vsca->ved;
->  }
 > 
+> If there are free seats I might flock in, but without contributing too
+> much to the discussions :)
+> 
+> Thanks
+>    j
+> 
+>>
+>> If I missed someone, or you are on the list but won't attend after all, then
+>> please let me know.
+>>
+>>
+>>
+>> Agenda:
+>>
+>> - Status of any pending patches related to codec support.
+>>
+>> - Requirements of moving codec drivers out of staging.
+>>
+>> - Finalize the stateful encoder API. There are two pieces that need
+>>   to be defined:
+>>
+>> 1) Setting the frame rate so bitrate control can make sense, since
+>>    they need to know this information. This is also relevant for the
+>>    stateless codec (and this may have to change on a per-frame basis
+>>    for stateless codecs!).
+>>
+>>    This can either be implemented via ENUM_FRAMEINTERVALS for the coded
+>>    pixelformats and S_PARM support, or we just add a new control for this.
+>>    E.g. V4L2_CID_MPEG_VIDEO_FRAME_INTERVAL (or perhaps FRAME_RATE). If we
+>>    go for a control, then we need to consider the unit. We can use a
+>>    fraction as well. See this series that puts in the foundation for that:
+>>    https://patchwork.linuxtv.org/cover/58857/
+>>
+>>    I am inclined to go with a control, since the semantics don't really
+>>    match ENUM_FRAMEINTERVALS/S_PARM. These ioctls still need to be supported
+>>    for legacy drivers. Open question: some drivers (mediatek, hva, coda)
+>>    require S_PARM(OUTPUT), some (venus) allow both S_PARM(CAPTURE) and
+>>    S_PARM(OUTPUT). I am inclined to allow both since this is not a CAPTURE
+>>    vs OUTPUT thing, it is global to both queues.
+>>
+>> 2) Interactions between OUTPUT and CAPTURE formats.
+>>
+>>    The main problem is what to do if the capture sizeimage is too small
+>>    for the OUTPUT resolution when streaming starts.
+>>
+>>    Proposal: width and height of S_FMT(OUTPUT) are used to
+>>    calculate a minimum sizeimage (app may request more). This is
+>>    driver-specific. (Is it? Or is this codec-specific?)
+>>
+>>    V4L2_FMT_FLAG_FIXED_RESOLUTION is always set for codec formats
+>>    for the encoder (i.e. we don't support mid-stream resolution
+>>    changes for now) and V4L2_EVENT_SOURCE_CHANGE is not
+>>    supported. See https://patchwork.linuxtv.org/patch/56478/ for
+>>    the patch adding this flag.
+>>
+>>    Of course, if we start to support mid-stream resolution
+>>    changes (or other changes that require a source change event),
+>>    then this flag should be dropped by the encoder driver and
+>>    documentation on how to handle the source change event should
+>>    be documented in the encoder spec. I prefer to postpone this
+>>    until we have an encoder than can actually do mid-stream
+>>    resolution changes.
+>>
+>>    If sizeimage of the OUTPUT is too small for the CAPTURE
+>>    resolution and V4L2_EVENT_SOURCE_CHANGE is not supported,
+>>    then the second STREAMON (either CAPTURE or OUTPUT) will
+>>    return -ENOMEM since there is not enough memory to do the
+>>    encode.
+>>
+>>    If V4L2_FMT_FLAG_FIXED_RESOLUTION is set (i.e. that should
+>>    be the case for all current encoders), then any bitrate controls
+>>    will be limited in range to what the current state (CAPTURE and
+>>    OUTPUT formats and frame rate) supports.
+>>
+>> - Stateless encoders?
+>>
+>> - Anything else? (I have a feeling I missed a codec-related topic, but
+>>   I can't find it in my mailbox)
+>>
+>> Regards,
+>>
+>> 	Hans
