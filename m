@@ -2,133 +2,188 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B80CBF4E0
-	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2019 16:16:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 93FFFBF51B
+	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2019 16:32:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727043AbfIZOQp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Sep 2019 10:16:45 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:46747 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726500AbfIZOQp (ORCPT
+        id S1727069AbfIZOcy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Sep 2019 10:32:54 -0400
+Received: from mail-io1-f67.google.com ([209.85.166.67]:39072 "EHLO
+        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726984AbfIZOcy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Sep 2019 10:16:45 -0400
-Received: from [IPv6:2001:420:44c1:2577:ecda:45b4:8d5:2e68] ([IPv6:2001:420:44c1:2577:ecda:45b4:8d5:2e68])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id DUZTiOrrKKKNGDUZWi6qaG; Thu, 26 Sep 2019 16:16:42 +0200
-Subject: Re: [PATCH 2/2] media: uapi: h264: clarify pic_order_cnt_bit_size
- field
-To:     Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        kernel@pengutronix.de
-References: <20190905131255.10150-1-p.zabel@pengutronix.de>
- <20190905131255.10150-2-p.zabel@pengutronix.de>
- <457642c2-7d77-5eab-4537-01151b474aa9@xs4all.nl>
- <1569506956.3011.7.camel@pengutronix.de>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <5df2e20e-b9e3-4a79-956e-e4d5c9f4a996@xs4all.nl>
-Date:   Thu, 26 Sep 2019 16:16:39 +0200
+        Thu, 26 Sep 2019 10:32:54 -0400
+Received: by mail-io1-f67.google.com with SMTP id a1so7109531ioc.6
+        for <linux-media@vger.kernel.org>; Thu, 26 Sep 2019 07:32:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=x1epx2+14seAC0bL8bquHz3k7HkVZCN5A34vqQ9JENQ=;
+        b=YEFTqdLLPM8AHYKqV+joCrZGaEW12fVcx4gONzilIeYImPsz4EQWn/etUXP0tg5mtB
+         yeZHLoHS3idUVqMsVywIgmuj2NbJRWM3T9S+6k572+T1k0AdLiU7lFRyzMXzGwDzA0Je
+         U277nPpgc+kqjhdyE0xG4vVPGET6CsuljFOmI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=x1epx2+14seAC0bL8bquHz3k7HkVZCN5A34vqQ9JENQ=;
+        b=NWsXNtoalTN6L4gYZNGP8hEZPrktWSKLmcmAK1JJd/NUylQhCqhES7f+QD5meESE+n
+         galNc2ZQHpClq4pr1csv4HFQTGhWw7LUotGhgRr4rm5+/pGw6NewWar9NsQ6R+ExEh/Q
+         /eI+wVjJetwq3fWlz/2aR0nD8prrb6UsfZi88GsE9iK944JHdLIkT5Za6bd5g3O+MNKg
+         TlNfqMbd/Y7btTorg1OZzs7vusovbrAywLoA0CWQmQeSJFcYDxWHYltvJ14t8g6crytv
+         f/yRAKXhyUAgFb55y63c+e0gqY/9TN1sENdMq6b5aeAIDeLOZNEFwSnb/o4zjffY/Zpi
+         b/7w==
+X-Gm-Message-State: APjAAAWE1Rbr/aJmE1ba5JCgfH211BSO6M07XFos3kCVti6tAwYHpljt
+        byxkAmh48kdMrtkB8KGTWVBSEw==
+X-Google-Smtp-Source: APXvYqxEi4pB4X6uRrcBoW+0thlkX7AmwBJ/Uc1bvoUAA6VvcyByfoWVAr+FHA7MXfsE8HfI7k0oIQ==
+X-Received: by 2002:a6b:c402:: with SMTP id y2mr3651727ioa.136.1569508373614;
+        Thu, 26 Sep 2019 07:32:53 -0700 (PDT)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id k66sm1494068iof.25.2019.09.26.07.32.52
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 26 Sep 2019 07:32:52 -0700 (PDT)
+Subject: Re: [PATCH 1/5] media: vimc: upon streaming, check that the pipeline
+ starts with a source entity
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        linux-media@vger.kernel.org
+Cc:     laurent.pinchart@ideasonboard.com, helen.koike@collabora.com,
+        ezequiel@collabora.com, andre.almeida@collabora.com,
+        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
+        "skh >> Shuah Khan" <skhan@linuxfoundation.org>
+References: <20190919203208.12515-1-dafna.hirschfeld@collabora.com>
+ <20190919203208.12515-2-dafna.hirschfeld@collabora.com>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <45a7e861-97ad-6149-610d-49bf8343215f@linuxfoundation.org>
+Date:   Thu, 26 Sep 2019 08:32:51 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <1569506956.3011.7.camel@pengutronix.de>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20190919203208.12515-2-dafna.hirschfeld@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfKrNdh/aYDmlK2FHf+JZqeIvoU3vsVrnaZJfe34/4XtUHtBrga/MfwtB7A+lrTiBjCIVKPQv9h0v2CB8FXEPKm7e/vgc2jTdn1AeLhCFCcg2xfzVYAZG
- zzm8p6C75cqKka5BW6MLQudbp0CSlfCZ0j+cE580poKX3njXGrpX8pyZ4VEvHY6kCxrormN27f54DJooFve736S+b5OKTrG/xfM0NkytBppjz4H4xoDMdrpR
- 0zs8d8XF7Xw31jFpygE8rAg46SrxRr3l2hdZ0iPbd5ZyRfMxX9DWGcI+F4BkOyWhQGjdFWuE16clRdr+FJU5+3dH7emxZFvT4HYloRvY/e1FFzX8AoJSk5Td
- RcTcLK607y+6kpEy9h/Mv0/UulrZXz/lFeZTzAIOrks5L+Q153LoFfNj2XnRs4kFwpF2Uj455r68L2TxfXCfe1IT41kuCYOUdJZPYd6vXtmQ0k26Xiuavz5A
- WpsotGunVcuP1WPInIE8+u8KuG8g1373Pixxrw==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 9/26/19 4:09 PM, Philipp Zabel wrote:
-> Hi Hans,
+On 9/19/19 2:32 PM, Dafna Hirschfeld wrote:
+> Userspace can disable links and create pipelines that
+> do not start with a source entity. Trying to stream
+> from such a pipeline should fail with -EPIPE
+> currently this is not handled and cause kernel crash.
 > 
-> On Thu, 2019-09-26 at 15:23 +0200, Hans Verkuil wrote:
->> On 9/5/19 3:12 PM, Philipp Zabel wrote:
->>> Since pic_order_cnt_bit_size is not a syntax element itself, explicitly
->>> state that it is the total size in bits of the pic_order_cnt_lsb,
->>> delta_pic_order_cnt_bottom, delta_pic_order_cnt[0], and
->>> delta_pic_order_cnt[1] syntax elements contained in the slice.
->>>
->>> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
->>> ---
->>>  Documentation/media/uapi/v4l/ext-ctrls-codec.rst | 3 ++-
->>>  1 file changed, 2 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
->>> index c281bc7ed1b3..08b49b2bbfa8 100644
->>> --- a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
->>> +++ b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
->>> @@ -1799,7 +1799,8 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
->>>        - Size in bits of the dec_ref_pic_marking() syntax element.
->>>      * - __u32
->>>        - ``pic_order_cnt_bit_size``
->>> -      -
->>> +      - Size in bits of the pic_order_cnt_lsb, delta_pic_order_cnt_bottom,
->>> +        delta_pic_order_cnt[0], and delta_pic_order_cnt[1] syntax elements.
->>
->> It's a little bit ambiguous: this field contains the size in bits of all these
->> fields combined, right? Not the size in bits of each field separately.
-> 
-> Yes.
-> 
->> I.e. if these fields are all 8 bits, then pic_order_cnt_bit_size is 4*8 and
->> not just 8.
-> 
-> The size of pic_order_cnt_lsb is determined by another field's value
-> (log2_max_pic_order_cnt_lsb_minus4), and the other three are
-> exponential-Golomb coded, so each can be of different length (including
-> zero).
-> 
->> I think this should be rephrased.
-> 
-> Ok, how about:
-> 
->  "Combined size in bits of the picture order count related syntax
->   elements: pic_order_cnt_lsb, delta_pic_order_cnt_bottom,
->   delta_pic_order_cnt[0], and delta_pic_order_cnt[1]."
 
-That's better.
+Minor: Can you make these 75 long. Makes it easier to read.
+
+> Reproducing the crash:
+> media-ctl -d0 -l "5:1->21:0[0]" -v
+> v4l2-ctl -z platform:vimc -d "RGB/YUV Capture" -v width=1920,height=1440
+> v4l2-ctl --stream-mmap --stream-count=100 -d /dev/video2
+
+I really would like to see the panic message so it can checked during
+testing.
+
+If you are fixing a panic, please include the panic info. in the future.
 
 > 
-> Actually, there's either pic_order_cnt_lsb + (optionally)
-> delta_pic_order_cnt_bottom present, or delta_pic_order_cnt[0] +
-> (optionally) delta_pic_order_cnt[1], never all four. Describing that in
-> the uapi docs seemed overly verbose, though.
-
-I agree.
-
-Regards,
-
-	Hans
-
- The relevant part in the
-> slice_header() syntax spec looks like this:
+> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> ---
+>   drivers/media/platform/vimc/vimc-streamer.c | 39 +++++++++++++++------
+>   1 file changed, 28 insertions(+), 11 deletions(-)
 > 
->   if (pic_order_cnt_type == 0) {
->     pic_order_cnt_lsb
->     if (bottom_field_pic_order_in_frame_present_flag && !field_pic_flag)
->       delta_pic_order_cnt_bottom
+> diff --git a/drivers/media/platform/vimc/vimc-streamer.c b/drivers/media/platform/vimc/vimc-streamer.c
+> index faa2879c25df..d0a9f8a0f26a 100644
+> --- a/drivers/media/platform/vimc/vimc-streamer.c
+> +++ b/drivers/media/platform/vimc/vimc-streamer.c
+> @@ -12,6 +12,19 @@
+>   
+>   #include "vimc-streamer.h"
+>   
+> +/**
+> + * Check if the entity has only source pads
+> + */
+> +static bool vimc_is_source(struct media_entity *ent)
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i < ent->num_pads; i++)
+> +		if (ent->pads[i].flags & MEDIA_PAD_FL_SINK)
+> +			return false;
+> +	return true;
+> +}
+> +
+
+Why not make this a common routine and add it to vimc-common.c?
+
+>   /**
+>    * vimc_get_source_entity - get the entity connected with the first sink pad
+>    *
+> @@ -82,14 +95,12 @@ static int vimc_streamer_pipeline_init(struct vimc_stream *stream,
+>   	struct media_entity *entity;
+>   	struct video_device *vdev;
+>   	struct v4l2_subdev *sd;
+> -	int ret = 0;
+> +	int ret = -EINVAL;
+>   
+>   	stream->pipe_size = 0;
+>   	while (stream->pipe_size < VIMC_STREAMER_PIPELINE_MAX_SIZE) {
+> -		if (!ved) {
+> -			vimc_streamer_pipeline_terminate(stream);
+> -			return -EINVAL;
+> -		}
+> +		if (!ved)
+> +			break;
+>   		stream->ved_pipeline[stream->pipe_size++] = ved;
+>   
+>   		if (is_media_entity_v4l2_subdev(ved->ent)) {
+> @@ -98,15 +109,22 @@ static int vimc_streamer_pipeline_init(struct vimc_stream *stream,
+>   			if (ret && ret != -ENOIOCTLCMD) {
+>   				pr_err("subdev_call error %s\n",
+>   				       ved->ent->name);
+
+While you are at it, can you make this a dev_err() instead? I think we
+have access to dev here.
+
+> -				vimc_streamer_pipeline_terminate(stream);
+> -				return ret;
+> +				break;
+>   			}
+>   		}
+>   
+>   		entity = vimc_get_source_entity(ved->ent);
+> -		/* Check if the end of the pipeline was reached*/
+> -		if (!entity)
+> +		/* Check if the end of the pipeline was reached */
+> +		if (!entity) {
+> +			/* the first entity of the pipe should be source only */
+> +			if (!vimc_is_source(ved->ent)) {
+> +				pr_err("first entity in the pipe '%s' is not a source\n",
+> +				       ved->ent->name);
+
+Same commnet about dev_err() here.
+
+> +				ret = -EPIPE;
+> +				break;
+> +			}
+>   			return 0;
+> +		}
+>   
+>   		/* Get the next device in the pipeline */
+>   		if (is_media_entity_v4l2_subdev(entity)) {
+> @@ -119,9 +137,8 @@ static int vimc_streamer_pipeline_init(struct vimc_stream *stream,
+>   			ved = video_get_drvdata(vdev);
+>   		}
+>   	}
+> -
+>   	vimc_streamer_pipeline_terminate(stream);
+> -	return -EINVAL;
+> +	return ret;
 >   }
->   if (pic_order_cnt_type == 1 && !delta_pic_order_always_zero_flag) {
->     delta_pic_order_cnt[0]
->     if (bottom_field_pic_order_in_frame_present_flag && !field_pic_flag)
->       delta_pic_order_cnt[1]
->   }
-> 
-> pic_order_cnt_bit_size is supposed to be the size in bits of this whole
-> block. pic_order_cnt_type and log2_max_pic_order_cnt_lsb_minus4 are from
-> the SPS header, bottom_field_pic_order_in_frame_present_flag is from the
-> PPS header, and field_pic_flag is contained earlier in the slice header.
-> 
-> regards
-> Philipp
+>   
+>   /**
 > 
 
+thanks,
+-- Shuah
