@@ -2,110 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 97B4ABF59C
-	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2019 17:14:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 66FB8BF5BD
+	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2019 17:19:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727219AbfIZPOK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Sep 2019 11:14:10 -0400
-Received: from smtprelay0180.hostedemail.com ([216.40.44.180]:41754 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726175AbfIZPOK (ORCPT
+        id S1727145AbfIZPTo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Sep 2019 11:19:44 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:33038 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726030AbfIZPTo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Sep 2019 11:14:10 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay02.hostedemail.com (Postfix) with ESMTP id D0F52127B;
-        Thu, 26 Sep 2019 15:14:08 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,:::::::::,RULES_HIT:41:355:379:599:960:968:973:982:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1542:1593:1594:1711:1730:1747:1777:1792:2194:2199:2393:2553:2559:2562:2693:2828:3138:3139:3140:3141:3142:3355:3622:3865:3866:3867:3868:3870:3871:3872:3873:3874:4250:4321:4605:5007:6117:6609:8531:9010:9040:10004:10400:10562:10848:11232:11658:11914:12296:12297:12555:12681:12740:12760:12895:13138:13141:13230:13231:13439:14096:14097:14659:14721:21080:21324:21433:21451:21627:21740:21819:30022:30046:30054:30060:30062:30080:30090:30091,0,RBL:113.22.183.150:@perches.com:.lbl8.mailshell.net-62.14.241.180 64.201.201.201,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:fn,MSBL:0,DNSBL:neutral,Custom_rules:0:0:0,LFtime:307,LUA_SUMMARY:none
-X-HE-Tag: jeans59_7b1a000bfa110
-X-Filterd-Recvd-Size: 3533
-Received: from XPS-9350 (unknown [113.22.183.150])
-        (Authenticated sender: joe@perches.com)
-        by omf05.hostedemail.com (Postfix) with ESMTPA;
-        Thu, 26 Sep 2019 15:14:05 +0000 (UTC)
-Message-ID: <4eca5297a213357995c05b90c74a8bc638f54f02.camel@perches.com>
-Subject: Re: [Ksummit-discuss] [PATCH] media: add a subsystem profile
- documentation
-From:   Joe Perches <joe@perches.com>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        ksummit-discuss@lists.linuxfoundation.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Date:   Thu, 26 Sep 2019 08:14:03 -0700
-In-Reply-To: <201909251127.D0C517171E@keescook>
-References: <156821693963.2951081.11214256396118531359.stgit@dwillia2-desk3.amr.corp.intel.com>
-         <434c05bddd2b364e607e565227487910a8dd9793.1568391461.git.mchehab+samsung@kernel.org>
-         <20190918123620.GA6306@pendragon.ideasonboard.com>
-         <20190918105728.24e7eb48@coco.lan> <20190919065447.GF2959@kadam>
-         <5d71311232fd6d4aa0fab038512eab933c13a722.camel@perches.com>
-         <201909251127.D0C517171E@keescook>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.32.1-2 
+        Thu, 26 Sep 2019 11:19:44 -0400
+Received: by mail-wm1-f66.google.com with SMTP id r17so6874007wme.0
+        for <linux-media@vger.kernel.org>; Thu, 26 Sep 2019 08:19:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=lCXAwCC0+Jd5Yo76APgU+nxrjhUlmGrglJVTlf8nMxE=;
+        b=XorwWKCX+ksw+jaR7Cfe6jDt+Qn4xDxQPKD7NKga4hrtDVBlar5i5ol4I6YagKvJRe
+         bS4xDpSc4gP+nFklah84/GF0o0hxDjY4LGtMe7dTQ3YQWhtg0UKKpgVcW3nxvqv3sJmg
+         z5YfXbMVtb9vMNAHyaiAFeqV4AIt856QHbFCC3rJQqcyGzxltBb1M+nvIIHD6vYlqE70
+         ianQnQqflOzjf2G9J26YDsBLvn2/YxZeix0OAhZ6pmJWd9alABagj3avaCA2971HC2an
+         7obNNfwcL+Ve3p3BDvz1T8Q44356X4zSPatBicHvFPdM/RXDi6RnMOhPPg8lEWPe+4v6
+         hQcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=lCXAwCC0+Jd5Yo76APgU+nxrjhUlmGrglJVTlf8nMxE=;
+        b=MZKw6/SnzdJy4gi04IdSWCO2ndMtkLeG+TRpICqpyGZ3d9KrGcxTbd1rUKKcn+nKqH
+         9Lc9XJ4msBlv5X+HCTZsO9De9wcTr5zyRdsS/emcSC5Y/qhBLhrzricmnhTsCDwEge1N
+         RjjYRg87RVg2GeaOv67qUaRPhuoCCKoMdNPE+n6X4j/Qbw2qBbGiLtb/138hvxq74/DE
+         sqttJvNN15RbsrCss4mpoY3vS/FVhBltti4h4Je64Xtz8jPJTQ9cq/be/0CN0fc+5xxi
+         X23vFagCGc6RK/xW4pvZ73MPYxW7VMj/QVs+C+nIyAcE+jMt5fltbSLzD7bHaSVf9BJS
+         vOQg==
+X-Gm-Message-State: APjAAAWPivi52jblQcMo3DwKI24CCQo5Hhu45nVbGj2iHY97rAiKmUw9
+        VYx7he6BKAo74g9fzi3i/c0=
+X-Google-Smtp-Source: APXvYqza4b6vqN8e+IhkomoX940+gJ45UTuvRU78z9/iaNiHFvC88ThuuX9R0j61xW18b9TORsXaMA==
+X-Received: by 2002:a1c:f602:: with SMTP id w2mr3349895wmc.145.1569511182305;
+        Thu, 26 Sep 2019 08:19:42 -0700 (PDT)
+Received: from sausagefarm ([65.39.69.237])
+        by smtp.gmail.com with ESMTPSA id g4sm4174095wrw.9.2019.09.26.08.19.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Sep 2019 08:19:41 -0700 (PDT)
+Date:   Thu, 26 Sep 2019 17:19:39 +0200
+From:   Jeeeun Evans <jeeeunevans@gmail.com>
+To:     rmfrfs@gmail.com, slongerbeam@gmail.com, p.zabel@pengutronix.de,
+        mchehab@kernel.org, gregkh@linuxfoundation.org,
+        shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+        festevam@gmail.com, linux-imx@nxp.com
+Cc:     linux-media@vger.kernel.org, devel@driverdev.osuosl.org
+Message-ID: <20190926151939.GA20175@sausagefarm>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 2019-09-25 at 11:40 -0700, Kees Cook wrote:
-> On Wed, Sep 25, 2019 at 10:13:37AM -0700, Joe Perches wrote:
-> > On Thu, 2019-09-19 at 09:56 +0300, Dan Carpenter wrote:
-> > > When I sent a patch, I use get_maintainer.pl then I add whoever the
-> > > wrote the commit from the Fixes tag.  Then I remove Colin King and Kees
-> > > Cook from the CC list because they worked all over the tree and I know
-> > > them.  I also normally remove LKML if there is another mailing list but
-> > > at least one subsystem uses LKML for patchwork so this isn't safe.
-> > > 
-> > > So the safest instructions are "Use get_matainer.pl and add the person
-> > > who wrote the commit in the Fixes tag".
-> > 
-> > Maybe add this:
-> > 
-> > Add the signers of any commit referenced in a "Fixes: <commit>" line
-> > of a patch description.
-> 
-> Oh yes please! I've always done this manually, so that's a nice bit of
-> automation. :)
-> 
-> Is "6" a safe lower bound here? I thought 12 was the way to go?
-[]
-> $ git log | egrep 'Fixes: [a-f0-9]{1,40}' | col2 | awk '{print length }' | sort | uniq -c | sort -n | tail
->     238 8
->     300 7
->     330 14
->     344 6
->     352 11
->     408 40
->     425 10
->     735 16
->    1866 13
->   31446 12
-> 
-> Hmpf, 6 is pretty high up there...
+linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org 
+Bcc: jeeeun.evans@codethink.co.uk
+Subject: [PATCH] staging: media: imx: Use devm_platform_ioremap_resource().
+Reply-To: 
 
-Yes, but your grep then col2 isn't right.
-You are counting all the 'Fixes: commit <foo>' output
-as 6 because that's the length of 'commit'.
+This patch fixes a warning by coccicheck:
+drivers/staging/media/imx/imx7-mipi-csis.c:973:1-12: WARNING: Use devm_platform_ioremap_resource for state -> regs
 
-I also think the length of the hex commit value doesn't
-matter much as it's got to be a specific single commit
-SHA1 anyway, otherwise the commit id lookup will fail.
+Use devm_platform_ioremap_resource helper which wraps platform_get_resource()
+and devm_ioremap_resource() together.
 
-> > > @@ -1031,6 +1040,7 @@ MAINTAINER field selection options:
-> >      --roles => show roles (status:subsystem, git-signer, list, etc...)
-> >      --rolestats => show roles and statistics (commits/total_commits, %)
-> >      --file-emails => add email addresses found in -f file (default: 0 (off))
-> > +    --fixes => for patches, add signatures of commits with 'Fixes: <commit>' (default: 1 (on))
-> 
-> Should "Tested-by" and "Co-developed-by" get added to @signature_tags ?
+Signed-off-by: Jeeeun Evans <jeeeunevans@gmail.com>
+---
+ drivers/staging/media/imx/imx7-mipi-csis.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-All "<foo>-by:" signatures are added.
-
-> @commit_authors is unused?
-
-Yes, authors are already required to sign-off so
-it's just duplicating already existing signatures.
-
+diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
+index 73d8354e618c..bf21db38441f 100644
+--- a/drivers/staging/media/imx/imx7-mipi-csis.c
++++ b/drivers/staging/media/imx/imx7-mipi-csis.c
+@@ -947,7 +947,6 @@ static void mipi_csis_debugfs_exit(struct csi_state *state)
+ static int mipi_csis_probe(struct platform_device *pdev)
+ {
+ 	struct device *dev = &pdev->dev;
+-	struct resource *mem_res;
+ 	struct csi_state *state;
+ 	int ret;
+ 
+@@ -969,8 +968,7 @@ static int mipi_csis_probe(struct platform_device *pdev)
+ 	mipi_csis_phy_init(state);
+ 	mipi_csis_phy_reset(state);
+ 
+-	mem_res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	state->regs = devm_ioremap_resource(dev, mem_res);
++	state->regs = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(state->regs))
+ 		return PTR_ERR(state->regs);
+ 
+-- 
+2.20.1
 
