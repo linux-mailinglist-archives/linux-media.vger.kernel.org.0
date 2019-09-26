@@ -2,170 +2,213 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E4D91BEBAC
-	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2019 07:40:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B5B0BEC42
+	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2019 08:58:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392299AbfIZFkH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Sep 2019 01:40:07 -0400
-Received: from mail-ot1-f48.google.com ([209.85.210.48]:45287 "EHLO
-        mail-ot1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392290AbfIZFkH (ORCPT
+        id S1727267AbfIZG6m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Sep 2019 02:58:42 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:40591 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727244AbfIZG6e (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Sep 2019 01:40:07 -0400
-Received: by mail-ot1-f48.google.com with SMTP id 41so900880oti.12
-        for <linux-media@vger.kernel.org>; Wed, 25 Sep 2019 22:40:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=4XDYBz6wmKWWXHYsbsWBn8kzvHSYqFW74Xb0Kq3/Lp4=;
-        b=IUxJhWRr3jE07XjkEE52nvcuJY/TG4qe0tjouYRXUTxwl5vFkkMu0piQyDR2wusXiA
-         k4mYrhgCtX1zBwg5QYwIumQDrYEeG9UUFgCehPba8xTJmFLO37ciekWxKVBUtA5gzq1j
-         NGAWAJU9ANV0Htaauegkjmm/avcGCeeo/YMCY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=4XDYBz6wmKWWXHYsbsWBn8kzvHSYqFW74Xb0Kq3/Lp4=;
-        b=gniu87W67z/zqt2yCmmtj3j+cPpDAlfe/sTtBqt0p2G9zvwpsnDF2sOjnwPgAaZPih
-         dFKsB8J3MHjC+86IWPq6K2UrQxZEfyND0GcyjUIUOuKuDIsJrZqSWHPO5muQRdUAXgA8
-         YZQd4pEjO25uL6v03daelBI72id6pisNMHZeF0mcSv+FsigIqdou4uU7NHq4k16S1cLm
-         2VWy/+qKxcnjDE5QFNCsww1onCAp4d85AjnJ9UjVDM+20cQv/eFaVnuE4/6PJMsGPWA4
-         dlLSKgB1HTbs+5Imp8hIP1C7qcyHOq4DNvFcJCHNNHDUezxzqMEwQUIfufB4n/SRiYNb
-         vPMA==
-X-Gm-Message-State: APjAAAXP4J5FlikuGpeO8UTfLqA1CGEHSzGx2zZTrh9Ih62slmRkgqRZ
-        RK/9GFOQj+XvP6I8/IP9BV29FsBhnlQ=
-X-Google-Smtp-Source: APXvYqyQKRvj0VpG9hkEflnNrLIMt/skBSl1Oo9mJU4acch5IQdcIrGCx+QOUfagv9XpROpbk2lT8Q==
-X-Received: by 2002:a9d:68c6:: with SMTP id i6mr1338694oto.350.1569476405634;
-        Wed, 25 Sep 2019 22:40:05 -0700 (PDT)
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com. [209.85.210.47])
-        by smtp.gmail.com with ESMTPSA id t12sm350682otl.35.2019.09.25.22.40.04
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Sep 2019 22:40:04 -0700 (PDT)
-Received: by mail-ot1-f47.google.com with SMTP id e11so935168otl.5
-        for <linux-media@vger.kernel.org>; Wed, 25 Sep 2019 22:40:04 -0700 (PDT)
-X-Received: by 2002:a05:6830:d5:: with SMTP id x21mr1291187oto.36.1569476404012;
- Wed, 25 Sep 2019 22:40:04 -0700 (PDT)
+        Thu, 26 Sep 2019 02:58:34 -0400
+Received: from [192.168.2.10] ([46.9.232.237])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id DNjPiJv8jKKNGDNjTi0iNT; Thu, 26 Sep 2019 08:58:31 +0200
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [RFC PATCH] media: rename VFL_TYPE_GRABBER to _VIDEO
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Message-ID: <54111b26-b5ff-6b4c-e13e-933180cd13f9@xs4all.nl>
+Date:   Thu, 26 Sep 2019 08:58:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <07f46758-66e3-5ac1-cc41-807a30f93359@xs4all.nl>
- <7f154b1ce154b75b352945cf05f6359393e9cc3b.camel@ndufresne.ca>
- <cd309f07-16c7-94bc-2de6-e0baa22080ff@ideasonboard.com> <20190923155709.GC5056@pendragon.ideasonboard.com>
- <336f155e-9f1c-1df8-2761-8136cf8d201e@linuxfoundation.org>
- <CAH1Ww+TS55RwJZVebvZnHtNXe7ECe7DARDiPtg_f4w+7a7z3FA@mail.gmail.com> <20190923184437.GH5056@pendragon.ideasonboard.com>
-In-Reply-To: <20190923184437.GH5056@pendragon.ideasonboard.com>
-From:   Alexandre Courbot <acourbot@chromium.org>
-Date:   Thu, 26 Sep 2019 14:39:52 +0900
-X-Gmail-Original-Message-ID: <CAPBb6MXRd8VLu=Wy9zLEOrN1NghW-XmDwYU2nkXLS1LRub-sAA@mail.gmail.com>
-Message-ID: <CAPBb6MXRd8VLu=Wy9zLEOrN1NghW-XmDwYU2nkXLS1LRub-sAA@mail.gmail.com>
-Subject: Re: [ANN] Media sessions in Lyon in October: libcamera
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Daniel Gomez <daniel@qtec.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Eugen Hristev <Eugen.Hristev@microchip.com>,
-        Dafna Hirschfeld <dafna3@gmail.com>,
-        Helen Koike <helen.koike@collabora.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfKdS4WjMIz7pOM1mDPcTchyusmdHmpT3nw26cFhLN8qZPpJrN7iINZx+c3xVklAR0+pa1HRRgROENsogsENkDVRM3ncBlN5k6A2ocu9aJ1JAAQU8fWvv
+ NNTwAZ0DmMDaX0c64/7i3tGKVnQvlgfB8ooLlHL8OD3AOviXbY2TNS9UTBQI0675qok+qNIRF2PNeA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Sep 24, 2019 at 3:44 AM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Shuah and Daniel,
->
-> On Mon, Sep 23, 2019 at 08:21:58PM +0200, Daniel Gomez wrote:
-> > On Mon, 23 Sep 2019 at 20:16, Shuah Khan wrote:
-> > > On 9/23/19 9:57 AM, Laurent Pinchart wrote:
-> > >> On Mon, Sep 23, 2019 at 04:03:54PM +0100, Kieran Bingham wrote:
-> > >>> On 23/09/2019 15:47, Nicolas Dufresne wrote:
-> > >>>> Le lundi 23 septembre 2019 =C3=A0 16:21 +0200, Hans Verkuil a =C3=
-=A9crit :
-> > >>>>> Hi all,
-> > >>>>>
-> > >>>>> Since we have three separate half-day sessions for different topi=
-cs I decided
-> > >>>>> to split the announcement for this in three emails as well, so th=
-ese things
-> > >>>>> can be discussed in separate threads.
-> > >>>>>
-> > >>>>> All sessions are in room Terreaux VIP Lounge - Level 0.
-> > >>>>> There is a maximum of 15 people.
-> > >>>>>
-> > >>>>> The second session deals with libcamera and is on Wednesday morni=
-ng
-> > >>>>> from 9:00 to 13:00.
-> > >>>>>
-> > >>>>> Attendees for this session:
-> > >>>>>
-> > >>>>> Kieran Bingham <kieran.bingham@ideasonboard.com>
-> > >>>
-> > >>> Unfortunately I can no longer attend ELCE.
-> > >>>
-> > >>> (My second baby will be a bit too new for an extended stay away fro=
-m home)
-> > >>>
-> > >>>>> Boris Brezillon <boris.brezillon@collabora.com>
-> > >>>>> Alexandre Courbot <acourbot@chromium.org>
-> > >>>>> Tomasz Figa <tfiga@chromium.org>
-> > >>>>> Ezequiel Garcia <ezequiel@collabora.com>
-> > >>>>> Daniel Gomez <daniel@qtec.com>
-> > >>>>> Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> > >>>>> Eugen Hristev <Eugen.Hristev@microchip.com>
-> > >>>>> Shuah Khan <skhan@linuxfoundation.org>
-> > >>>>> Helen Koike <helen.koike@collabora.com>
-> > >>>>> Jacopo Mondi <jacopo@jmondi.org>
-> > >>>>> Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > >>>>> Niklas S=C3=B6derlund <niklas.soderlund@ragnatech.se>
-> > >>>>> Hans Verkuil <hverkuil@xs4all.nl>
-> > >>>>>
-> > >>>>> If I missed someone, or you are on the list but won't attend afte=
-r all, then
-> > >>>>> please let me know.
-> > >>>>
-> > >>>> I would like to join this one to, as after ELCE I should have some=
- time
-> > >>>> to spend on this. I understand thought hat this would make use rea=
-ch
-> > >>>> the limit, let me know if there is any issues, I can spare my seat=
- if
-> > >>>> needed.
-> > >>>
-> > >>> You now have my seat, and I've just made you a required attendee to=
- go
-> > >>> in my place :-D
-> > >>
-> > >> Thank you for the offer Kieran.
-> > >>
-> > >> We're reaching the room capacity, and I know of several people who m=
-ay
-> > >> attend ELCE and would be beneficial for the discussions. If anyone i=
-n
-> > >> the above list only has a general curiosity about libcamera but does=
-n't
-> > >> expect to really contribute to the discussions, and would consider
-> > >> giving their seat if required, could you please let me know ?
-> >
-> > I would like to attend if possible since we are going to work with libc=
-amera
-> > but not sure how much I can contribute so, no problem to give my seat
-> > if necessary.
->
-> Thank you for the offers. My goal is to secure a seat for everybody who
-> is interested in attending, and I will make sure to let all parties know
-> of the success (or lack thereof) of that initiative as we get closer to
-> the event.
+We currently have the following devnode types:
 
-I won't be active on libcamera, so please feel free to assign my seat
-to someone who will be.
+enum vfl_devnode_type {
+        VFL_TYPE_GRABBER        = 0,
+        VFL_TYPE_VBI,
+        VFL_TYPE_RADIO,
+        VFL_TYPE_SUBDEV,
+        VFL_TYPE_SDR,
+        VFL_TYPE_TOUCH,
+        VFL_TYPE_MAX /* Shall be the last one */
+};
+
+They all make sense, except for the first: GRABBER really refers to /dev/videoX
+devices, which can be capture, output or m2m, so 'grabber' doesn't even refer to
+their function anymore.
+
+Let's call a spade a spade and rename this to VFL_TYPE_VIDEO.
+
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+This patch converts the core files. If others are OK with this, then I can post
+a full series that also converts all drivers that use it (very easy search-and-replace)
+and finally remove the old GRABBER enum.
+---
+ Documentation/media/kapi/v4l2-dev.rst                  |  4 ++--
+ .../translations/zh_CN/video4linux/v4l2-framework.txt  |  4 ++--
+ drivers/media/v4l2-core/v4l2-dev.c                     | 10 +++++-----
+ drivers/media/v4l2-core/v4l2-ioctl.c                   |  2 +-
+ include/media/v4l2-dev.h                               |  6 ++++--
+ samples/v4l/v4l2-pci-skeleton.c                        |  2 +-
+ 6 files changed, 15 insertions(+), 13 deletions(-)
+
+diff --git a/Documentation/media/kapi/v4l2-dev.rst b/Documentation/media/kapi/v4l2-dev.rst
+index 4c5a15c53dbf..63c064837c00 100644
+--- a/Documentation/media/kapi/v4l2-dev.rst
++++ b/Documentation/media/kapi/v4l2-dev.rst
+@@ -185,7 +185,7 @@ This will create the character device for you.
+
+ .. code-block:: c
+
+-	err = video_register_device(vdev, VFL_TYPE_GRABBER, -1);
++	err = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
+ 	if (err) {
+ 		video_device_release(vdev); /* or kfree(my_vdev); */
+ 		return err;
+@@ -201,7 +201,7 @@ types exist:
+ ========================== ====================	 ==============================
+ :c:type:`vfl_devnode_type` Device name		 Usage
+ ========================== ====================	 ==============================
+-``VFL_TYPE_GRABBER``       ``/dev/videoX``       for video input/output devices
++``VFL_TYPE_VIDEO``         ``/dev/videoX``       for video input/output devices
+ ``VFL_TYPE_VBI``           ``/dev/vbiX``         for vertical blank data (i.e.
+ 						 closed captions, teletext)
+ ``VFL_TYPE_RADIO``         ``/dev/radioX``       for radio tuners
+diff --git a/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt b/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt
+index 66c7c568bd86..9c39ee58ea50 100644
+--- a/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt
++++ b/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt
+@@ -649,7 +649,7 @@ video_device注册
+
+ 接下来你需要注册视频设备：这会为你创建一个字符设备。
+
+-	err = video_register_device(vdev, VFL_TYPE_GRABBER, -1);
++	err = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
+ 	if (err) {
+ 		video_device_release(vdev); /* or kfree(my_vdev); */
+ 		return err;
+@@ -660,7 +660,7 @@ video_device注册
+
+ 注册哪种设备是根据类型（type）参数。存在以下类型：
+
+-VFL_TYPE_GRABBER: 用于视频输入/输出设备的 videoX
++VFL_TYPE_VIDEO: 用于视频输入/输出设备的 videoX
+ VFL_TYPE_VBI: 用于垂直消隐数据的 vbiX (例如，隐藏式字幕，图文电视)
+ VFL_TYPE_RADIO: 用于广播调谐器的 radioX
+
+diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+index 4037689a945a..694108b12a27 100644
+--- a/drivers/media/v4l2-core/v4l2-dev.c
++++ b/drivers/media/v4l2-core/v4l2-dev.c
+@@ -535,7 +535,7 @@ static void determine_valid_ioctls(struct video_device *vdev)
+ {
+ 	DECLARE_BITMAP(valid_ioctls, BASE_VIDIOC_PRIVATE);
+ 	const struct v4l2_ioctl_ops *ops = vdev->ioctl_ops;
+-	bool is_vid = vdev->vfl_type == VFL_TYPE_GRABBER;
++	bool is_vid = vdev->vfl_type == VFL_TYPE_VIDEO;
+ 	bool is_vbi = vdev->vfl_type == VFL_TYPE_VBI;
+ 	bool is_radio = vdev->vfl_type == VFL_TYPE_RADIO;
+ 	bool is_sdr = vdev->vfl_type == VFL_TYPE_SDR;
+@@ -719,7 +719,7 @@ static void determine_valid_ioctls(struct video_device *vdev)
+ 			SET_VALID_IOCTL(ops, VIDIOC_G_AUDOUT, vidioc_g_audout);
+ 			SET_VALID_IOCTL(ops, VIDIOC_S_AUDOUT, vidioc_s_audout);
+ 		}
+-		if (ops->vidioc_g_parm || (vdev->vfl_type == VFL_TYPE_GRABBER &&
++		if (ops->vidioc_g_parm || (vdev->vfl_type == VFL_TYPE_VIDEO &&
+ 					ops->vidioc_g_std))
+ 			set_bit(_IOC_NR(VIDIOC_G_PARM), valid_ioctls);
+ 		SET_VALID_IOCTL(ops, VIDIOC_S_PARM, vidioc_s_parm);
+@@ -761,7 +761,7 @@ static int video_register_media_controller(struct video_device *vdev)
+ 	vdev->entity.function = MEDIA_ENT_F_UNKNOWN;
+
+ 	switch (vdev->vfl_type) {
+-	case VFL_TYPE_GRABBER:
++	case VFL_TYPE_VIDEO:
+ 		intf_type = MEDIA_INTF_T_V4L_VIDEO;
+ 		vdev->entity.function = MEDIA_ENT_F_IO_V4L;
+ 		break;
+@@ -869,7 +869,7 @@ int __video_register_device(struct video_device *vdev,
+
+ 	/* Part 1: check device type */
+ 	switch (type) {
+-	case VFL_TYPE_GRABBER:
++	case VFL_TYPE_VIDEO:
+ 		name_base = "video";
+ 		break;
+ 	case VFL_TYPE_VBI:
+@@ -913,7 +913,7 @@ int __video_register_device(struct video_device *vdev,
+ 	 * of 128-191 and just pick the first free minor there
+ 	 * (new style). */
+ 	switch (type) {
+-	case VFL_TYPE_GRABBER:
++	case VFL_TYPE_VIDEO:
+ 		minor_offset = 0;
+ 		minor_cnt = 64;
+ 		break;
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index 51b912743f0f..e87954fbcc0d 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -934,7 +934,7 @@ static int check_fmt(struct file *file, enum v4l2_buf_type type)
+ {
+ 	struct video_device *vfd = video_devdata(file);
+ 	const struct v4l2_ioctl_ops *ops = vfd->ioctl_ops;
+-	bool is_vid = vfd->vfl_type == VFL_TYPE_GRABBER;
++	bool is_vid = vfd->vfl_type == VFL_TYPE_VIDEO;
+ 	bool is_vbi = vfd->vfl_type == VFL_TYPE_VBI;
+ 	bool is_sdr = vfd->vfl_type == VFL_TYPE_SDR;
+ 	bool is_tch = vfd->vfl_type == VFL_TYPE_TOUCH;
+diff --git a/include/media/v4l2-dev.h b/include/media/v4l2-dev.h
+index 48531e57cc5a..5e7c0f8acd05 100644
+--- a/include/media/v4l2-dev.h
++++ b/include/media/v4l2-dev.h
+@@ -24,7 +24,8 @@
+ /**
+  * enum vfl_devnode_type - type of V4L2 device node
+  *
+- * @VFL_TYPE_GRABBER:	for video input/output devices
++ * @VFL_TYPE_VIDEO:	for video input/output devices
++ * @VFL_TYPE_GRABBER:	deprecated, same as VFL_TYPE_VIDEO
+  * @VFL_TYPE_VBI:	for vertical blank data (i.e. closed captions, teletext)
+  * @VFL_TYPE_RADIO:	for radio tuners
+  * @VFL_TYPE_SUBDEV:	for V4L2 subdevices
+@@ -33,7 +34,8 @@
+  * @VFL_TYPE_MAX:	number of VFL types, must always be last in the enum
+  */
+ enum vfl_devnode_type {
+-	VFL_TYPE_GRABBER	= 0,
++	VFL_TYPE_VIDEO,
++	VFL_TYPE_GRABBER = VFL_TYPE_VIDEO,
+ 	VFL_TYPE_VBI,
+ 	VFL_TYPE_RADIO,
+ 	VFL_TYPE_SUBDEV,
+diff --git a/samples/v4l/v4l2-pci-skeleton.c b/samples/v4l/v4l2-pci-skeleton.c
+index f6a551bd57ef..3fa6582b4a68 100644
+--- a/samples/v4l/v4l2-pci-skeleton.c
++++ b/samples/v4l/v4l2-pci-skeleton.c
+@@ -879,7 +879,7 @@ static int skeleton_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 	vdev->tvnorms = SKEL_TVNORMS;
+ 	video_set_drvdata(vdev, skel);
+
+-	ret = video_register_device(vdev, VFL_TYPE_GRABBER, -1);
++	ret = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
+ 	if (ret)
+ 		goto free_hdl;
+
+-- 
+2.23.0.rc1
+
+
