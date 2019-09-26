@@ -2,87 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 796EFBEF8A
-	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2019 12:25:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF4CFBEFF0
+	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2019 12:45:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726946AbfIZKZx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Sep 2019 06:25:53 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:36793 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726549AbfIZKZx (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Sep 2019 06:25:53 -0400
-Received: by mail-ot1-f68.google.com with SMTP id 67so1539163oto.3
-        for <linux-media@vger.kernel.org>; Thu, 26 Sep 2019 03:25:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9205qtO5rgO+Mc9mMWRmhXHMcT/ZxeEQONhYJXwNaFs=;
-        b=X86fH9V2DVlPhvWYrbe+2r19VAvs4Q6cIpB3ow/EzWzFTuRjdkwM1P+3yVX7m0dXfz
-         mYBLMaMtyUbUcb/pKse2TYF1laYEwyA5PrkpQpv0rmiwbti/pnD95GjXz760bY/y9Qda
-         zPWItmBuQdorrk/MGXYHBM9JBjwUpCU2asx2For15sW8QRibFTqThWHMs3cvA1AegbWl
-         LyrVfMFtnU35/Fb8KniUzrY2DCghBQMF+1fI5keGq4muislTj4UmXZPiiEuNsSMRZY2D
-         7DggiuuaDI6v7A3Iq1vjpB9GaSycegx4lSAneKheu0gJyUcrMpuLGFG+xSkXtqG9FunY
-         Ojfw==
-X-Gm-Message-State: APjAAAUrELDh8yJYhSPeSvuLL7jgDapnzm0J5EQPcI4+g7N+fP3AmrgE
-        oUzpSivMcsHssc+0upAEJxRkpVfBi96GCyB2V0Ss/Q==
-X-Google-Smtp-Source: APXvYqwHxy2CYz+AYJ5n9ZsnqqBlqfBnV5GpDthBdqi4SizNdhD/pAKBLd8d7hDV5Sa3/oi6FfEcqewcyRUD0Cc8bps=
-X-Received: by 2002:a9d:193:: with SMTP id e19mr1917568ote.107.1569493552703;
- Thu, 26 Sep 2019 03:25:52 -0700 (PDT)
-MIME-Version: 1.0
-References: <156821693963.2951081.11214256396118531359.stgit@dwillia2-desk3.amr.corp.intel.com>
- <434c05bddd2b364e607e565227487910a8dd9793.1568391461.git.mchehab+samsung@kernel.org>
- <20190918123620.GA6306@pendragon.ideasonboard.com> <20190918105728.24e7eb48@coco.lan>
- <20190919065447.GF2959@kadam> <5d71311232fd6d4aa0fab038512eab933c13a722.camel@perches.com>
-In-Reply-To: <5d71311232fd6d4aa0fab038512eab933c13a722.camel@perches.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 26 Sep 2019 12:25:41 +0200
-Message-ID: <CAMuHMdUcTKFmfFm_S+PXWVeS=pnFag832_W7asyvZ+TxP1yGAg@mail.gmail.com>
-Subject: Re: [Ksummit-discuss] [PATCH] media: add a subsystem profile documentation
-To:     Joe Perches <joe@perches.com>
-Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        ksummit <ksummit-discuss@lists.linuxfoundation.org>,
+        id S1725912AbfIZKpA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Sep 2019 06:45:00 -0400
+Received: from mx2.suse.de ([195.135.220.15]:58398 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725813AbfIZKo7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 26 Sep 2019 06:44:59 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 4D89AAFA7;
+        Thu, 26 Sep 2019 10:44:56 +0000 (UTC)
+Message-ID: <307b988d0c67fb1c42166eca12742bcfda09d92d.camel@suse.de>
+Subject: Re: [PATCH 00/11] of: Fix DMA configuration for non-DT masters
+From:   Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+To:     Rob Herring <robh+dt@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>
+Cc:     "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>, devicetree@vger.kernel.org,
+        Matthias Brugger <mbrugger@suse.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        linux-wireless <linux-wireless@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        etnaviv@lists.freedesktop.org,
+        "open list:DMA GENERIC OFFLOAD ENGINE SUBSYSTEM" 
+        <dmaengine@vger.kernel.org>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Stefan Wahren <wahrenst@gmx.net>, james.quinlan@broadcom.com,
+        linux-pci@vger.kernel.org, linux-tegra@vger.kernel.org,
+        xen-devel@lists.xenproject.org,
+        Dan Williams <dan.j.williams@intel.com>,
+        freedreno <freedreno@lists.freedesktop.org>,
         Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Date:   Thu, 26 Sep 2019 12:44:53 +0200
+In-Reply-To: <CAL_JsqKKYcHPnA80ZwLY=Sk3e5MqrimedUhWQ5+iuPZXQxYHdA@mail.gmail.com>
+References: <20190924181244.7159-1-nsaenzjulienne@suse.de>
+         <CAL_Jsq+v+svTyna7UzQdRVqfNc5Z_bgWzxNRXv7-Wqv3NwDu2g@mail.gmail.com>
+         <d1a31a2ec8eb2f226b1fb41f6c24ffb47c3bf7c7.camel@suse.de>
+         <e404c65b-5a66-6f91-5b38-8bf89a7697b2@arm.com>
+         <43fb5fe1de317d65a4edf592f88ea150c6e3b8cc.camel@suse.de>
+         <CAL_JsqLhx500cx3YLoC7HL1ux3bBpV+fEA2Qnk7D5RFGgiGzSw@mail.gmail.com>
+         <aa4c8d62-7990-e385-2bb1-cec55148f0a8@arm.com>
+         <CAL_JsqKKYcHPnA80ZwLY=Sk3e5MqrimedUhWQ5+iuPZXQxYHdA@mail.gmail.com>
+Content-Type: multipart/signed; micalg="pgp-sha256";
+        protocol="application/pgp-signature"; boundary="=-spHfnjbbIi+e7UZn+wYh"
+User-Agent: Evolution 3.32.4 
+MIME-Version: 1.0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Joe,
 
-On Wed, Sep 25, 2019 at 7:32 PM Joe Perches <joe@perches.com> wrote:
-> On Thu, 2019-09-19 at 09:56 +0300, Dan Carpenter wrote:
-> > When I sent a patch, I use get_maintainer.pl then I add whoever the
-> > wrote the commit from the Fixes tag.  Then I remove Colin King and Kees
-> > Cook from the CC list because they worked all over the tree and I know
-> > them.  I also normally remove LKML if there is another mailing list but
-> > at least one subsystem uses LKML for patchwork so this isn't safe.
-> >
-> > So the safest instructions are "Use get_matainer.pl and add the person
-> > who wrote the commit in the Fixes tag".
->
-> Maybe add this:
->
-> Add the signers of any commit referenced in a "Fixes: <commit>" line
-> of a patch description.
->
-> ---
->  scripts/get_maintainer.pl | 38 +++++++++++++++++++++++++++++++++++++-
->  1 file changed, 37 insertions(+), 1 deletion(-)
+--=-spHfnjbbIi+e7UZn+wYh
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks! I gave it a quick try for my first fix after returning from ER, and it
-did the right thing.
+> > > > Robin, have you looked into supporting multiple dma-ranges? It's th=
+e
+> > > > next thing
+> > > > we need for BCM STB's PCIe. I'll have a go at it myself if nothing =
+is in
+> > > > the
+> > > > works already.
+> > >=20
+> > > Multiple dma-ranges as far as configuring inbound windows should work
+> > > already other than the bug when there's any parent translation. But i=
+f
+> > > you mean supporting multiple DMA offsets and masks per device in the
+> > > DMA API, there's nothing in the works yet.
 
-Gr{oetje,eeting}s,
+Sorry, I meant supporting multiple DMA offsets[1]. I think I could still ma=
+ke
+it with a single DMA mask though.
 
-                        Geert
+> > There's also the in-between step of making of_dma_get_range() return a
+> > size based on all the dma-ranges entries rather than only the first one
+> > - otherwise, something like [1] can lead to pretty unworkable default
+> > masks. We implemented that when doing acpi_dma_get_range(), it's just
+> > that the OF counterpart never caught up.
+>=20
+> Right. I suppose we assume any holes in the ranges are addressable by
+> the device but won't get used for other reasons (such as no memory
+> there). However, to be correct, the range of the dma offset plus mask
+> would need to be within the min start and max end addresses. IOW,
+> while we need to round up (0xa_8000_0000 - 0x2c1c_0000) to the next
+> power of 2, the 'correct' thing to do is round down.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+IIUC I also have this issue on my list. The RPi4 PCIe block has an integrat=
+ion
+bug that only allows DMA to the lower 3GB. With dma-ranges of size 0xc000_0=
+000
+you get a 32bit DMA mask wich is not what you need. So far I faked it in th=
+e
+device-tree but I guess it be better to add an extra check in
+of_dma_configure(), decrease the mask and print some kind of warning statin=
+g
+that DMA addressing is suboptimal.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Regards,
+Nicolas
+
+[1] https://lkml.org/lkml/2018/9/19/641
+
+
+--=-spHfnjbbIi+e7UZn+wYh
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl2MlqUACgkQlfZmHno8
+x/6+gwgAlzKCB9vN8cCZUfRnnPT+EcYA2/s3oFjf1ar+/e5UsMfCNI5W7cJaKzg9
+w0PGZ5VKk5N0wpkGIpUjOYQ9J5PFZwu5bqsce0zWywlRlYCexKvzpQfkplWi0JuI
+cVAt9Sw5mle+ppW+x9T5UlBcHoCByuQDG9ga44Z7O4jrk/lIp7vK2fmSN3hIEcHV
+gUPxojWighnxCu+5COgwa182Ncfo3tTLw39oV8uiLOzxXxVkprxdxQHakXPoyg1o
+WH0OvR09u1lXZAQ1qKtOxHNgKcrNzpr69VBUL/WYvrSqKdg0EI8QRmkByk5cYgrC
+ztco//83y3fCRh8dEph0BSrKU3/vFA==
+=P2KB
+-----END PGP SIGNATURE-----
+
+--=-spHfnjbbIi+e7UZn+wYh--
+
