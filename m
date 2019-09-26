@@ -2,364 +2,456 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E2722BF9AB
-	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2019 20:55:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE6D9BF9B6
+	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2019 20:59:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728468AbfIZSzZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Sep 2019 14:55:25 -0400
-Received: from relay2-d.mail.gandi.net ([217.70.183.194]:54579 "EHLO
-        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726029AbfIZSzY (ORCPT
+        id S1728387AbfIZS7v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Sep 2019 14:59:51 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:36086 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728241AbfIZS7u (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Sep 2019 14:55:24 -0400
-X-Originating-IP: 37.176.121.220
-Received: from uno.localdomain (mob-37-176-121-220.net.vodafone.it [37.176.121.220])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 62F7640003;
-        Thu, 26 Sep 2019 18:55:16 +0000 (UTC)
-Date:   Thu, 26 Sep 2019 20:56:50 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        tfiga@google.com,
-        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>
-Subject: Re: [PATCH v2 09/10] media: i2c: ov5670: Report native size and crop
- bounds
-Message-ID: <20190926185650.yu32oa5gqxsat6zm@uno.localdomain>
-References: <20190827092339.8858-1-jacopo@jmondi.org>
- <20190827092339.8858-12-jacopo@jmondi.org>
- <db08aa45-922e-e477-9836-cbbc3f17ad8e@xs4all.nl>
- <20190829124055.zxiu7x6abxfhkzch@uno.localdomain>
- <0df4ef45-ba3f-98b9-878e-8cdd2bf307f6@xs4all.nl>
- <20190903130626.GR5475@paasikivi.fi.intel.com>
- <20190903164956.hyf326hyzmvpubdv@uno.localdomain>
- <053f799d-bba1-ccd0-a3f3-38286761608d@xs4all.nl>
+        Thu, 26 Sep 2019 14:59:50 -0400
+Received: by mail-io1-f65.google.com with SMTP id b136so9416989iof.3
+        for <linux-media@vger.kernel.org>; Thu, 26 Sep 2019 11:59:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=iV62GtEq2ahl1ms4SbZAYufi9w9mr3d4Dtrs0FUiPNU=;
+        b=CrKH1yuXeu9gm2Tfzli24lBCIwh9VddcZ6W1n62tvZfmSf0KjjU2J1QIit5I6YdD6v
+         aeVK9U2hsBAymXKtpMv6yH7cfnT9rm6vI9SB5Pe4cygfaJnP+Uep4h9uHAxVIecKbxeH
+         H6fRlvCaXKCCDpOlKkAyQnpiUEqyYh7DsGbqo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=iV62GtEq2ahl1ms4SbZAYufi9w9mr3d4Dtrs0FUiPNU=;
+        b=IIeFR0h+D38WJe11EwAc62HTEHILZemjNlLlZF3U0IsEn0MM4O+1H8YeGV+mEmxasX
+         27XIpKuOOdpv26Ak0zxqs1ACubIhkuREWtIZeOIFcjB3Pl5FTntpxduJMGgXfJfGbaME
+         W6Go1Af2mcmk6VIsYt12Pl8gy0Cy+dfNIExaTnhaeP256/19A+zVfnKXVhaODYdQAyZq
+         qtg8Kb0fgIH+X19SM/pRbFLotGrYH5+ZtI7E7kUvyFaRR4jghe1U+3DAo8CiH0VEVOy3
+         KdB+/JvJmhlBpV5TXRjk1qUNxquaWWTMDJsC+OwmBYRIPGD+bRv8PHU9jTxjaur9oKBe
+         GAcg==
+X-Gm-Message-State: APjAAAXPjGkzWEX58w3M0J45qQ0HG5QRacuDaSNlMX/iTpr+Y9fUpyCt
+        3XN8BlLzX+65H1Aca6lx67eRtg==
+X-Google-Smtp-Source: APXvYqzhikX1iFlLchn8LxCtR8YdBw90Cph/n3Lm69KjbMBj5YbbqfTypvGThSZXi0NK4fkgqRtxsQ==
+X-Received: by 2002:a02:ce2b:: with SMTP id v11mr4834069jar.134.1569524389435;
+        Thu, 26 Sep 2019 11:59:49 -0700 (PDT)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id d197sm1349003iog.15.2019.09.26.11.59.47
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 26 Sep 2019 11:59:48 -0700 (PDT)
+Subject: Re: [PATCH 2/5] docs: media: vimc: Documenting vimc topology
+ configuration using configfs
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        linux-media@vger.kernel.org
+Cc:     laurent.pinchart@ideasonboard.com, helen.koike@collabora.com,
+        ezequiel@collabora.com, andre.almeida@collabora.com,
+        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
+        Shuah Khan <skhan@linuxfoundation.org>
+References: <20190919203208.12515-1-dafna.hirschfeld@collabora.com>
+ <20190919203208.12515-3-dafna.hirschfeld@collabora.com>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <780d4bc9-b7a3-10c9-2123-df53376f7c7c@linuxfoundation.org>
+Date:   Thu, 26 Sep 2019 12:59:47 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="6nif5qjuvlkql74t"
-Content-Disposition: inline
-In-Reply-To: <053f799d-bba1-ccd0-a3f3-38286761608d@xs4all.nl>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20190919203208.12515-3-dafna.hirschfeld@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On 9/19/19 2:32 PM, Dafna Hirschfeld wrote:
+> Add explanation of how to use configfs in order to create a
+> vimc device with a given topology.
+> 
 
---6nif5qjuvlkql74t
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Can you add more detail on the problem configfs solves and what
+value it adds.
 
-Hi Hans, thanks for the lenghty reply
+> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> ---
+>   Documentation/media/v4l-drivers/vimc.dot |  28 ++-
+>   Documentation/media/v4l-drivers/vimc.rst | 240 ++++++++++++++++++++---
+>   2 files changed, 220 insertions(+), 48 deletions(-)
+> 
+> diff --git a/Documentation/media/v4l-drivers/vimc.dot b/Documentation/media/v4l-drivers/vimc.dot
+> index 57863a13fa39..e3b41ac2bc46 100644
+> --- a/Documentation/media/v4l-drivers/vimc.dot
+> +++ b/Documentation/media/v4l-drivers/vimc.dot
+> @@ -2,21 +2,15 @@
+>   
+>   digraph board {
+>   	rankdir=TB
+> -	n00000001 [label="{{} | Sensor A\n/dev/v4l-subdev0 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
+> -	n00000001:port0 -> n00000005:port0 [style=bold]
+> -	n00000001:port0 -> n0000000b [style=bold]
+> -	n00000003 [label="{{} | Sensor B\n/dev/v4l-subdev1 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
+> -	n00000003:port0 -> n00000008:port0 [style=bold]
+> -	n00000003:port0 -> n0000000f [style=bold]
+> -	n00000005 [label="{{<port0> 0} | Debayer A\n/dev/v4l-subdev2 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+> -	n00000005:port1 -> n00000017:port0
+> -	n00000008 [label="{{<port0> 0} | Debayer B\n/dev/v4l-subdev3 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+> -	n00000008:port1 -> n00000017:port0 [style=dashed]
+> -	n0000000b [label="Raw Capture 0\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
+> -	n0000000f [label="Raw Capture 1\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
+> -	n00000013 [label="RGB/YUV Input\n/dev/video2", shape=box, style=filled, fillcolor=yellow]
+> -	n00000013 -> n00000017:port0 [style=dashed]
+> -	n00000017 [label="{{<port0> 0} | Scaler\n/dev/v4l-subdev4 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+> -	n00000017:port1 -> n0000001a [style=bold]
+> -	n0000001a [label="RGB/YUV Capture\n/dev/video3", shape=box, style=filled, fillcolor=yellow]
+> +	n00000001 [label="cap-deb\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
+> +	n00000005 [label="cap-sen\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
+> +	n00000009 [label="cap-sca\n/dev/video2", shape=box, style=filled, fillcolor=yellow]
+> +	n0000000d [label="{{<port0> 0} | sca\n/dev/v4l-subdev0 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+> +	n0000000d:port1 -> n00000009 [style=bold]
+> +	n00000010 [label="{{<port0> 0} | deb\n/dev/v4l-subdev1 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+> +	n00000010:port1 -> n00000001 [style=bold]
+> +	n00000010:port1 -> n0000000d:port0 [style=bold]
+> +	n00000013 [label="{{} | sen\n/dev/v4l-subdev2 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
+> +	n00000013:port0 -> n00000005 [style=bold]
+> +	n00000013:port0 -> n00000010:port0 [style=bold]
+>   }
+> diff --git a/Documentation/media/v4l-drivers/vimc.rst b/Documentation/media/v4l-drivers/vimc.rst
+> index a582af0509ee..e5636883545f 100644
+> --- a/Documentation/media/v4l-drivers/vimc.rst
+> +++ b/Documentation/media/v4l-drivers/vimc.rst
+> @@ -1,45 +1,225 @@
+>   .. SPDX-License-Identifier: GPL-2.0
+>   
+> +==========================================
+>   The Virtual Media Controller Driver (vimc)
+>   ==========================================
+>   
+> -The vimc driver emulates complex video hardware using the V4L2 API and the Media
+> -API. It has a capture device and three subdevices: sensor, debayer and scaler.
+> +The vimc driver emulates complex video hardware topologies using the V4L2 API
+> +and the Media API. It has a capture device and three subdevices:
 
-On Thu, Sep 26, 2019 at 10:11:51AM +0200, Hans Verkuil wrote:
-> On 9/3/19 6:49 PM, Jacopo Mondi wrote:
-> > Hi Sakari, Hans,
-> >
-> > On Tue, Sep 03, 2019 at 04:06:26PM +0300, Sakari Ailus wrote:
-> >> Hi Hans, Jacopo,
-> >>
-> >> On Thu, Aug 29, 2019 at 02:55:30PM +0200, Hans Verkuil wrote:
-> >>> On 8/29/19 2:40 PM, Jacopo Mondi wrote:
-> >>>> HI Hans,
-> >>>>
-> >>>> On Thu, Aug 29, 2019 at 12:20:18PM +0200, Hans Verkuil wrote:
-> >>>>> On 8/27/19 11:23 AM, Jacopo Mondi wrote:
-> >>>>>> Report the native pixel array size and the crop bounds for the ov5=
-670
-> >>>>>> sensor driver.
-> >>>>>>
-> >>>>>> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> >>>>>> ---
-> >>>>>>  drivers/media/i2c/ov5670.c | 20 ++++++++++++++++++++
-> >>>>>>  1 file changed, 20 insertions(+)
-> >>>>>>
-> >>>>>> diff --git a/drivers/media/i2c/ov5670.c b/drivers/media/i2c/ov5670=
-=2Ec
-> >>>>>> index 2bc57e85f721..3e22fe9ccad1 100644
-> >>>>>> --- a/drivers/media/i2c/ov5670.c
-> >>>>>> +++ b/drivers/media/i2c/ov5670.c
-> >>>>>> @@ -2258,6 +2258,25 @@ static int ov5670_set_pad_format(struct v4l=
-2_subdev *sd,
-> >>>>>>  	return 0;
-> >>>>>>  }
-> >>>>>>
-> >>>>>> +static int ov5670_get_selection(struct v4l2_subdev *sd,
-> >>>>>> +				struct v4l2_subdev_pad_config *cfg,
-> >>>>>> +				struct v4l2_subdev_selection *sel)
-> >>>>>> +{
-> >>>>>> +	switch (sel->target) {
-> >>>>>> +	case V4L2_SEL_TGT_CROP_BOUNDS:
-> >>>>>> +	case V4L2_SEL_TGT_NATIVE_SIZE:
-> >>>>>> +		sel->r.left =3D 0;
-> >>>>>> +		sel->r.top =3D 0;
-> >>>>>> +		sel->r.width =3D 2592;
-> >>>>>> +		sel->r.height =3D 1944;
-> >>>>>
-> >>>>> Why do you need this?
-> >>>>>
-> >>>>
-> >>>> I need to expose the pixel array size and the active pixel area size,
-> >>>> and I interpreted the two above targets as the right place where to =
-do
-> >>>> so.
-> >>>
-> >>> That didn't answer my question :-)
-> >>>
-> >>> Why do you need to expose this? Who uses it for what purpose?
-> >>>
-> >>>>
-> >>>> At least for NATIVE_SIZE the documentation seems to match my
-> >>>> understanding:
-> >>>>
-> >>>> "The native size of the device, e.g. a sensor=E2=80=99s pixel array.=
- left and top
-> >>>> fields are zero for this target."
-> >>>
-> >>> Correct.
-> >>>
-> >>>>
-> >>>>
-> >>>>> Since the format can change for this and the next driver I think CR=
-OP_BOUNDS
-> >>>>> at least should match the current format.
-> >>>>>
-> >>>>
-> >>>> Ah, does it? It was not clear to me from the documentation, as it
-> >>>> suggested to me that target actually identifies the active pixel area
-> >>>>
-> >>>> "Bounds of the crop rectangle. All valid crop rectangles fit inside =
-the
-> >>>> crop bounds rectangle."
-> >>>>
-> >>>> It does not mention format, should this be updated?
-> >>>
-> >>> The problem is that for sensors it is indeed not clear.
-> >>>
-> >>> In principle the crop bounds matches the resolution that the sensor u=
-ses
-> >>> pre-scaling. So yes, that means that it is equal to the native size.
-> >>>
-> >>> But many sensors have a discrete list of supported formats and it is =
-not
-> >>> clear how they map each format to the actual sensor. If it is clearly=
- just
-> >>> done through binning or averaging, then all is fine.
-> >>
-> >> Sensor drivers do; sensors themselves support much, much more than most
-> >> drivers allow. But this is due to the nature of information available =
-to
-> >> the sensor driver developers, not really something that is trivial to
-> >> change.
-> >>
-> >>>
-> >>> If the formats have different aspect ratios, then it becomes a bit mo=
-re
-> >>> difficult how to relate the crop bounds with the format since you may=
- not
-> >>> know to which sensor area the current format corresponds.
-> >>>
-> >>> I have no clear answer for you, to be honest, but it can get tricky.
-> >>
-> >> I've suggested earlier that the crop and compose selection targets to =
-be
-> >> used to convey the cropping and binning (or scaling) that is done on t=
-he
-> >> sensor, in that order. In reality, there are usually more than one
-> >> (sometimes three) inside a sensor to crop, and often more than one pla=
-ce to
-> >> scale as well. So the driver would need to accommodate this.
-> >>
-> >> The modes come with both cropping and scaling configuration, and V4L2 =
-only
-> >> allows specifying one at a time. In principle an output size may be
-> >> achieved by scaling and cropping by different amounts, and as most dri=
-vers
-> >> use only the output format (size) in mode selection, the result could =
-be
-> >> ambiguous. In practice this hasn't been an actual issue.
-> >>
-> >> Better sensor drivers (such as smiapp) do not have this problem as the
-> >> configurations (cropping in three different places as well as binning =
-and
-> >> scaling) can be all independently configured. So with some luck this
-> >> problem could disappear in time with newer hardware and better hardware
-> >> documentation.
-> >>
-> >> I have no objections to providing the cropping and scaling information=
- to
-> >> the user space using the selection rectangles, albeit it's somewhat ag=
-ainst
-> >> the semantics currently. This approach would also require using compose
-> >> rectangles on the source pads which is not supported (documentation-wi=
-se)
-> >> at the moment, but it's better that way: it can be added now. There are
-> >> other, older, drivers such as omap3isp that configure scaling based on=
- the
-> >> source format configuration only.
-> >
-> > Thanks for all information here, but I think we've gone a bit far
-> > from my original point. The cropping and scaling informations you
-> > mention are, in my understanding, the portion of the pixel array which
-> > is fed to the ISP before scaling, and the result of the ISP
-> > binning/averaging respectively. Those information indeed depends on the
-> > desired capture resolution, the driver implementation, and the sensor
-> > capabilities.
-> >
-> > What I was interested in was just reporting to userspace the physical
-> > size of the active pixel array area, which should reasonably be
-> > defined as a sub-portion of the native pixel array, excluding the back
-> > calibration pixels.
-> >
-> > In one of the previous emails Hans suggested to use CROP_DEFAULT for
-> > that purpose, but in the documentation it is reported not to apply to
-> > subdevice :(
-> >
-> > Do we need a new target, similar to V4L2_SEL_TGT_NATIVE_SIZE that
-> > could maybe report multiple rectangles to accommodate cross-shaped
-> > sensors?
-> >
-> > Are the selection API the right place to report these information?
-> > With a control, it might be easier to report such a static
-> > information...
->
-> Sorry for the late follow-up.
->
-> I am uncomfortable with hacking something here. I strongly feel that we
-> are missing a proper API to configure a sensor.
->
-> If I look at video receivers (SDTV or HDTV), then in both cases you set up
-> the incoming video resolution with S_STD or S_DV_TIMINGS. This explicitly
-> defines the incoming image size and all crop/compose/scale operations
-> operate on that image size.
->
-> In my opinion we are missing an equivalent to that for sensors. I think t=
-he
-> original thinking was that sensors have a fixed pixel array, so there is
-> nothing to configure. But with cross-shaped sensors, binning/skipping,
-> sensors that just hide all the inner details and just report a set of
-> discrete framesizes, this is not actually trivial anymore.
->
-> And the odd thing is that our API does have discovery (at least to some
-> extent) of the various options through ENUM_FRAMESIZES, but does not let
-> you choose a specific variant. We abuse S_FMT for this, which is really
-> not the right ioctl to use since it defines what you want to receive in
-> memory after cropping/composing/scaling, not the initial image size before
-> all these operations take place.
->
-> Regarding binning and skipping: I never understood why this wasn't
-> configured using controls. Is there a reason why it was never implemented
-> like that?
->
-> If we had a Set Source Size operation (either a control, new ioctl or sel=
-ection
-> target) then you can use that to select a specific source size based on w=
-hat
-> ENUM_FRAMESIZES reports. Sensor drivers can choose to either enumerate
-> variants based on the cross-shape and binning/skipping, or just enumerate=
- variants
-> based on the cross-shape and add binning/skipping controls to explicitly =
-set
-> this up.
->
-> In any case, since you now know exactly which image size the sensor produ=
-ces,
-> you can set up all the selection rectangles associated with that correctl=
-y.
->
-> Since I am not a sensor expert I no doubt missed things, but in my view we
-> really need to see a sensor not as a fixed array, but as something more a=
-kin
-> to video receiver, i.e. you need to explicitly configure the video source
-> before cropping/composing/scaling takes place.
->
-> So in the example of a cross-shaped sensor ENUM_FRAMESIZES would report
-> two sizes (landscape/portrait), binning/cropping controls (optional, this
-> might be implicit in the enumerated framesizes), and after configuring all
-> this using the new API 'Set Source Size' (or whatever it will be called) =
-and
-> possible binning/skipping controls, the user can read various selection
-> targets to get all the needed information.
->
-> Any cropping/composing/scaling will be done based on the selected image s=
-ize
-> + binning/skipping.
+Add blank line in between - helps with readability
 
-If I'm not mistaken smiapp sensor driver models this by exposing
-multiple subdevices, one for the pixel array and additional ones for
-the scaler (and the CSI-2 TX port, iirc from my multiplexed stream
-support adventures). Sakari knows better for sure here...
+> +sensor, debayer and scaler. It exposes media devices through /dev/mediaX nodes,
+> +video capture devices through /dev/videoX and sub-devices through /dev/v4l-subdevX.
+> +
+> +
+> +To configure a media device of a given topology, a ConfigFS API is provided.
 
-Anyway, going towards a model where sensor expose several subdeves
-would allow to have one for each configurable part of the sensor
-processing pipeline, such as one for the raw pixel array (where one could
-support cross-shaped sensors as you have suggested), one for ISP input
-where to select the area of the pixel array to feed to the ISP, and one
-to model the final processing stage where to to get to the final
-image from, obtained through binning/skipping/averaging whatever and
-possibly by applying a composition rectangle or selecting the
-desired output format, if the sensor supports so.
+ConfigFS API enables the ability dynamically configure a media device
+and its topology. This will help customize topology for specific testing
+needs (?)
 
-Am I over-simplifying things here? I fear this is mostly frowned upon by
-the constant lack of decent documentation from sensor manufacturers,
-as most drivers still relies on magic blobs 'guaranteed to work' and
-often produced by some 'certified' tuning applications..
+Assuming that is the goal for this work.
 
-And yes, more burden on userspace, as right now most sensors are a single
-entity that gives you images in one format/resolution and that's it,
-but this clearly is showing limits. On this side, libcamera could be a
-great help and sensor-specific configurations will be offloaded there.
+> +
+> +Configuring a topology through ConfigFS (Experimental)
+> +======================================================
+> +
+> +.. note:: This API is under development and might change in the future. > +
+> +Mount configfs:
+> +::
+> +
+> +	$ mkdir /configfs
+> +	$ mount -t configfs none /configfs
+> +
+> +When loading the module, you will see a folder named vimc
+> +::
+> +
+> +	$ tree /configfs/
+> +	/configfs/
+> +	`-- vimc
+> +
+> +Creating a media device
+> +-----------------------
+> +
+> +To create a media device create a new folder under /configfs/vimc/
+Change this to:
 
-One quick consideration from my limited experience with sensors: the
-method used to obtain the final image from the portion of the pixel
-array fed to the ISP is not something often freely selectable. From
-the sensor I've seen the manuals of, to obtain a certain resolution
-you use averaging/binning, for another one skipping or direct crop of
-the full pixel array etc.. So I'm not sure a control would fit well here.
+How to create a media device or flip the sentence around:
 
-Again, I might be really simplifying things :)
+Create a folder under /configfs/vimc/ to create media device.
 
->
-> Re binning/skipping: one other option is to add a flags field to v4l2_frm=
-sizeenum
-> that reports if the reported size was achieved via binning and/or skippin=
-g.
->
+> +
+> +Example:
+> +::
+> +
+> +	$ mkdir /configfs/vimc/mdev
+> +	$ tree /configfs/vimc/mdev
+> +	/configfs/
+> +	`-- vimc
+> +	    `-- mdev
+> +	        `-- hotplug
+> +
+> +Creating entities
+> +-----------------
+> +
+> +To create an entity in the media device's topology, create a folder under
 
-Yes, but in this case that would be a read-only information, not sure
-what you would use it for
+Same comment as above.
 
-Thanks
-  j
+> +``/configfs/vimc/<mdev-name>/`` with the following format:
+> +
+> +	<entity-type>:<entity-name>
+> +
+> +Where <entity-type> is one of the following:
+> +
+> +- vimc-sensor
+> +- vimc-scaler
+> +- vimc-debayer
+> +- vimc-capture
+> +
+> +Example:
+> +::
+> +
+> +	$ mkdir /configfs/vimc/mdev/vimc-sensor:sen
+> +	$ mkdir /configfs/vimc/mdev/vimc-capture:cap-sen
+> +	$ tree /configfs/
+> +	/configfs/
+> +	`-- vimc
+> +	    `-- mdev
+> +		|-- hotplug
+> +		|-- vimc-capture:cap-sen
+> +		|   `-- pad:sink:0
+> +		`-- vimc-sensor:sen
+> +                    `-- pad:source:0
+> +
+> +Default folders are created under the entity directory for each pad of the entity.
+> +
+> +Creating links
+> +--------------
+> +
+> +To create a link between two entities, you should create a directory for the link
+> +under the source pad of the link and then set it to be a symbolic link to the sink pad:
 
-> You wouldn't need controls in that case.
->
-> Regards,
->
-> 	Hans
+Same comment as above.
 
---6nif5qjuvlkql74t
-Content-Type: application/pgp-signature; name="signature.asc"
+>   
+> -Topology
+> ---------
+> +Example:
+> +::
+> +
+> +	$ mkdir "/configfs/vimc/mdev/vimc-sensor:sen/pad:source:0/to-cap"
+> +	$ ln -s "/configfs/vimc/mdev/vimc-capture:cap-sen/pad:sink:0" "/configfs/vimc/mdev/vimc-sensor:sen/pad:source:0/to-cap"
+> +	$ tree /configfs
+> +	/configfs
+> +	`-- vimc
+> +	    `-- mdev
+> +	        |-- hotplug
+> +	        |-- vimc-capture:cap-sen
+> +	        |   `-- pad:sink:0
+> +	        `-- vimc-sensor:sen
+> +	            `-- pad:source:0
+> +	                `-- to-cap
+> +	                    |-- enabled
+> +	                    |-- immutable
+> +	                    `-- pad:sink:0 -> ../../../../../vimc/mdev/vimc-capture:cap-sen/pad:sink:0
+> +
+> +The `enabled` and `immutable` are two boolean attributes of the link corresponding to the link flags
+> +
+> +
+> +Flag values are described in :ref:`Documentation/media/uapi/mediactl/media-types.rst <media-link-flag>`
+> +( seek for ``MEDIA_LNK_FL_*``)
+> +
+> +1 - Enabled
+> +	Indicates that the link will be enabled when the media device is created.
+> +
+> +3 - Enabled and Immutable
+> +	Indicates that the link enabled state can't be modified at runtime.
+> +
+> +Change an attribute of the link by writing "on" or "1" to set it on , and "off" or "0" to set it off
 
------BEGIN PGP SIGNATURE-----
+You can change
 
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl2NCe4ACgkQcjQGjxah
-VjxwTA/8CgTlXKSAZhiQtBuyVf3O5uxwt9SXB4sFROCxCQe5x1GtFzs6uCCy+sqK
-igBkiiyTMRQ6CGJRuCKglVtZ8BKyW4inEMOIk4Y0n1+jCRhnyN0f6N0KRQaTJ52H
-gg698a4RW8XtJXMrtxrV8/MLvxltpnVGRFjs/Q4w8qZFUIr/MZ8mZOskewWFJshG
-mhvY14DP3kAs/mcNaLX2aqInLKvjvd/glFqK5z1Y3ZJ5z+1EdKZ6MWGdM6DQh0sI
-1sQaXis7YlV75l+086TbaoEk3M75GkixtEgkMBsw2bJzkkqdx6uBP1Ln3xeDLyG7
-oi1zP1YGjGz3gAbd7SazFN/t12lPspSgTMuO/5mDk9wPEG1PWSaROSgtDYPBbfY/
-JomgCMJ8PaYX3obRCZ5RP/7N3Q5IH0BMOoi6jecEeyArnTB+NlUHE8llmUUGXHXI
-PlriLwlNWwyrunIvX5h+9C5u12CN//cSXrCudCvYjFw1AHx5DsenyAhqvuUssReP
-LduacaaalzfhFTbo1kS8EMCHNJ09tBP+SIZJ2rFOfdQa3gnYE7ce/PLYkFgWKS7h
-8UkLfv4kwAx+rvZobNsx5CrGPo43YbubVFIxZsnXoQH9c6mQBgx+Cd/JutYzei5K
-VopMZkpylPAURAfPE5YU3qHLk3gYNLC8o9rsPGHiKiBy6p0of9Y=
-=yOGj
------END PGP SIGNATURE-----
+> +
+> +Example:
+> +::
+> +
+> +	$ echo "on" > /configfs/vimc/mdev/vimc-sensor:sen/pad:source:0/to-cap/immutable
+> +
+> +Activating/Deactivating device
+> +------------------------------
+> +
+> +To activate the device, write one of "plugged", "plug" or "1" to the file
 
---6nif5qjuvlkql74t--
+Same comment as above.
+
+> +``/configfs/vimc/<mdev-name>/hotplug``
+> +
+> +Example:
+> +::
+> +
+> +	$ echo 1 > /configfs/vimc/mdev/hotplug
+> +
+> +You should see a new node ``/dev/mediaX`` in your devfs.
+> +
+> +To deactivate the device, write one of "unplugged", "unplug" or "0" to the file
+> +``/configfs/vimc/<ndev-name>/hotplug``
+
+Same comment as above. In general don't start sentence with "To"
+
+> +
+> +Example:
+> +::
+> +
+> +	$ echo unplugged > /configfs/vimc/mdev/hotplug
+> +
+> +Topology Configuration - Full Example
+> +-------------------------------------
+> +
+> +Here is a full example of a simple topology configuration:
+> +
+> +.. code-block:: bash
+> +
+> +    # Creating the entities
+> +    mkdir "/configfs/vimc/mdev"
+> +    mkdir "/configfs/vimc/mdev/vimc-sensor:sen"
+> +    mkdir "/configfs/vimc/mdev/vimc-debayer:deb"
+> +    mkdir "/configfs/vimc/mdev/vimc-scaler:sca"
+> +    mkdir "/configfs/vimc/mdev/vimc-capture:cap-sca" #/dev/video2
+> +    mkdir "/configfs/vimc/mdev/vimc-capture:cap-sen" #/dev/video1
+> +    mkdir "/configfs/vimc/mdev/vimc-capture:cap-deb" #/dev/video0
+> +
+> +    # Creating the links
+> +    #sen -> deb
+> +    mkdir "/configfs/vimc/mdev/vimc-sensor:sen/pad:source:0/to-deb"
+> +    ln -s "/configfs/vimc/mdev/vimc-debayer:deb/pad:sink:0" "/configfs/vimc/mdev/vimc-sensor:sen/pad:source:0/to-deb"
+> +    echo on > "/configfs/vimc/mdev/vimc-sensor:sen/pad:source:0/to-deb/immutable"
+> +    echo on > "/configfs/vimc/mdev/vimc-sensor:sen/pad:source:0/to-deb/enabled"
+> +
+> +    #deb -> sca
+> +    mkdir "/configfs/vimc/mdev/vimc-debayer:deb/pad:source:1/to-sca"
+> +    ln -s "/configfs/vimc/mdev/vimc-scaler:sca/pad:sink:0" "/configfs/vimc/mdev/vimc-debayer:deb/pad:source:1/to-sca"
+> +    echo on > "/configfs/vimc/mdev/vimc-debayer:deb/pad:source:1/to-sca/immutable"
+> +    echo on > "/configfs/vimc/mdev/vimc-debayer:deb/pad:source:1/to-sca/enabled"
+> +
+> +    #sca -> cap-sca
+> +    mkdir "/configfs/vimc/mdev/vimc-scaler:sca/pad:source:1/to-cap"
+> +    ln -s "/configfs/vimc/mdev/vimc-capture:cap-sca/pad:sink:0" "/configfs/vimc/mdev/vimc-scaler:sca/pad:source:1/to-cap"
+> +    echo on > "/configfs/vimc/mdev/vimc-scaler:sca/pad:source:1/to-cap/immutable"
+> +    echo on > "/configfs/vimc/mdev/vimc-scaler:sca/pad:source:1/to-cap/enabled"
+> +
+> +    #sen -> cap-sen
+> +    mkdir "/configfs/vimc/mdev/vimc-sensor:sen/pad:source:0/to-cap"
+> +    ln -s "/configfs/vimc/mdev/vimc-capture:cap-sen/pad:sink:0" "/configfs/vimc/mdev/vimc-sensor:sen/pad:source:0/to-cap"
+> +    echo on > "/configfs/vimc/mdev/vimc-sensor:sen/pad:source:0/to-cap/immutable"
+> +    echo on > "/configfs/vimc/mdev/vimc-sensor:sen/pad:source:0/to-cap/enabled"
+> +
+> +    #deb -> cap-deb
+> +    mkdir "/configfs/vimc/mdev/vimc-debayer:deb/pad:source:1/to-cap"
+> +    ln -s "/configfs/vimc/mdev/vimc-capture:cap-deb/pad:sink:0" "/configfs/vimc/mdev/vimc-debayer:deb/pad:source:1/to-cap"
+> +    echo on > "/configfs/vimc/mdev/vimc-debayer:deb/pad:source:1/to-cap/immutable"
+> +    echo on > "/configfs/vimc/mdev/vimc-debayer:deb/pad:source:1/to-cap/enabled"
+>   
+> -The topology is hardcoded, although you could modify it in vimc-core and
+> -recompile the driver to achieve your own topology. This is the default topology:
+
+Does this mean, there is no default topology. I think default topology
+should still be an option even if it is a module option.
+
+>   
+>   .. _vimc_topology_graph:
+>   
+>   .. kernel-figure:: vimc.dot
+> -    :alt:   Diagram of the default media pipeline topology
+> +    :alt:   Diagram of the configured simple topology in the example
+>       :align: center
+>   
+> -    Media pipeline graph on vimc
+> +    Simple Media pipeline graph on vimc configured through configfs
+>   
+> -Configuring the topology
+> -~~~~~~~~~~~~~~~~~~~~~~~~
+> +Configuring the pipeline formats
+> +================================
+>   
+> -Each subdevice will come with its default configuration (pixelformat, height,
+> -width, ...). One needs to configure the topology in order to match the
+> +Each subdevice has a default format configuration (pixelformat, height,
+> +width, ...). You should configure the formats in order to match the
+>   configuration on each linked subdevice to stream frames through the pipeline.
+> -If the configuration doesn't match, the stream will fail. The ``v4l-utils``
+> +If the configuration doesn't match, streaming will fail. The ``v4l-utils``
+>   package is a bundle of user-space applications, that comes with ``media-ctl`` and
+
+replace "that comes with" with "which includes"
+
+> -``v4l2-ctl`` that can be used to configure the vimc configuration. This sequence
+> -of commands fits for the default topology:
+> +``v4l2-ctl`` that can be used to configure the formats of the entities. This sequence
+> +of commands fits the simple topology created in the full example of topology configuration:
+>   
+>   .. code-block:: bash
+>   
+> -        media-ctl -d platform:vimc -V '"Sensor A":0[fmt:SBGGR8_1X8/640x480]'
+> -        media-ctl -d platform:vimc -V '"Debayer A":0[fmt:SBGGR8_1X8/640x480]'
+> -        media-ctl -d platform:vimc -V '"Sensor B":0[fmt:SBGGR8_1X8/640x480]'
+> -        media-ctl -d platform:vimc -V '"Debayer B":0[fmt:SBGGR8_1X8/640x480]'
+> -        v4l2-ctl -z platform:vimc -d "RGB/YUV Capture" -v width=1920,height=1440
+> -        v4l2-ctl -z platform:vimc -d "Raw Capture 0" -v pixelformat=BA81
+> -        v4l2-ctl -z platform:vimc -d "Raw Capture 1" -v pixelformat=BA81
+> +	media-ctl -d platform:vimc-000 -V '"sen":0[fmt:SBGGR8_1X8/640x480]'
+> +	media-ctl -d platform:vimc-000 -V '"deb":0[fmt:SBGGR8_1X8/640x480]'
+> +	media-ctl -d platform:vimc-000 -V '"deb":1[fmt:RGB888_1X24/640x480]'
+> +	media-ctl -d platform:vimc-000 -V '"sca":0[fmt:RGB888_1X24/640x480]'
+> +	media-ctl -d platform:vimc-000 -V '"sca":1[fmt:RGB888_1X24/640x480]'
+> +	v4l2-ctl -z platform:vimc-000 -d "cap-sen" -v pixelformat=BA81
+> +	v4l2-ctl -z platform:vimc-000 -d "cap-deb" -v pixelformat=RGB3
+> +	# The default scaling value of the scaler is 3, so need to set its capture accordingly
+> +	v4l2-ctl -z platform:vimc -d "cap-sca" -v pixelformat=RGB3,width=1920,height=1440
+>   
+>   Subdevices
+>   ----------
+> @@ -61,8 +241,8 @@ vimc-debayer:
+>   	* 1 Pad source
+>   
+>   vimc-scaler:
+> -	Scale up the image by a factor of 3. E.g.: a 640x480 image becomes a
+> -        1920x1440 image. (this value can be configured, see at
+> +	Scales up the image by a factor of 3. E.g.: a 640x480 image becomes a
+> +        1920x1440 image. (this value can be configured, see
+>           `Module options`_).
+>   	Exposes:
+>   
+> @@ -77,12 +257,10 @@ vimc-capture:
+>   	* 1 Pad source
+>   
+>   
+> -        Module options
+> ----------------
+> -
+> -Vimc has a few module parameters to configure the driver.
+> +Module options
+> +==============
+>   
+> -        param=value
+> +Vimc has 2 module parameters to configure the driver.
+>   
+>   * ``sca_mult=<unsigned int>``
+>   
+> @@ -98,10 +276,10 @@ Vimc has a few module parameters to configure the driver.
+>           otherwise the next odd number is considered (the default value is 3).
+>   
+
+Keep this close to the top of the file and then add the configfs stuff.
+
+>   Source code documentation
+> --------------------------
+> +=========================
+>   
+>   vimc-streamer
+> -~~~~~~~~~~~~~
+> +-------------
+>   
+>   .. kernel-doc:: drivers/media/platform/vimc/vimc-streamer.h
+>      :internal:
+> 
+
+thanks,
+-- Shuah
