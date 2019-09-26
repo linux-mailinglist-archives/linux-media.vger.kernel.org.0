@@ -2,213 +2,407 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B5B0BEC42
-	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2019 08:58:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F6D2BEC71
+	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2019 09:19:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727267AbfIZG6m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Sep 2019 02:58:42 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:40591 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727244AbfIZG6e (ORCPT
+        id S1728409AbfIZHTB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Sep 2019 03:19:01 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:44341 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728268AbfIZHTB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Sep 2019 02:58:34 -0400
+        Thu, 26 Sep 2019 03:19:01 -0400
 Received: from [192.168.2.10] ([46.9.232.237])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id DNjPiJv8jKKNGDNjTi0iNT; Thu, 26 Sep 2019 08:58:31 +0200
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [RFC PATCH] media: rename VFL_TYPE_GRABBER to _VIDEO
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Message-ID: <54111b26-b5ff-6b4c-e13e-933180cd13f9@xs4all.nl>
-Date:   Thu, 26 Sep 2019 08:58:27 +0200
+        id DO3CiK37rKKNGDO3Fi0nzF; Thu, 26 Sep 2019 09:18:58 +0200
+Subject: Re: [PATCH] media: vimc: Implement get/set selection
+To:     Helen Koike <helen.koike@collabora.com>,
+        Guilherme Alcarde Gallo <gagallo7@gmail.com>,
+        linux-media@vger.kernel.org
+Cc:     lkcamp@lists.libreplanetbr.org, mchehab@kernel.org,
+        Shuah Khan <skhan@linuxfoundation.org>
+References: <20190909040853.22466-1-gagallo7@gmail.com>
+ <7424ad6d-18bd-6876-b6b4-31b1edd61f2a@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <4704948a-c0ec-ef83-0406-f0ee3a1eabba@xs4all.nl>
+Date:   Thu, 26 Sep 2019 09:18:54 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
+In-Reply-To: <7424ad6d-18bd-6876-b6b4-31b1edd61f2a@collabora.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfKdS4WjMIz7pOM1mDPcTchyusmdHmpT3nw26cFhLN8qZPpJrN7iINZx+c3xVklAR0+pa1HRRgROENsogsENkDVRM3ncBlN5k6A2ocu9aJ1JAAQU8fWvv
- NNTwAZ0DmMDaX0c64/7i3tGKVnQvlgfB8ooLlHL8OD3AOviXbY2TNS9UTBQI0675qok+qNIRF2PNeA==
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfEUJO5YpLk75+4RF40BcOut7/cDqeU1P37ytbPDLrinH9OwATHmwWn0xVEsPBXnaDTJWUdUGVAd4xeK8htatmpjKl3ozgvRb72d5IGZY8QfPu3umlb3m
+ V7fvp6+Bc5BwLb0jOVTbEGgGPtO4P+TvcnthKu6n25gXUr3/0NnkOQr5AngtiKanlul54r5xripWO47UUMHxCud4pfLdxjiAbkfNUxOepPkD4ibscOei3eAD
+ n1r5AerYy4a2XX0S46anWcmVrtAtjbYhrKDEQ0J6yery21drzRfA4s1H+KAltdkEmkuASbx34Z3E2z2zXJYzPXIUtmVlv5O0VoLPnAsqa0fGexZOywS6vMUA
+ 5EV0E2F0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-We currently have the following devnode types:
+On 9/25/19 8:15 PM, Helen Koike wrote:
+> +Hans +Shuah
+> 
+> Hi Guilherme and Danilo,
+> 
+> Thank you for the patch, please see my comments below.
+> 
+> On 9/9/19 1:08 AM, Guilherme Alcarde Gallo wrote:
+>> Add support for the scaler subdevice to respond VIDIOC_G_SELECTION and
+>> VIDIOC_S_SELECTION ioctls with the following targets:
+>> V4L2_SEL_TGT_COMPOSE_BOUNDS and V4L2_SEL_TGT_CROP.
+>>
+>> * Added new const struct crop_rect_default to initialize subdev scaler
+>>   properly.
+>> * Make changes in sink pad format reflect the crop rectangle. E.g.
+>>   changing the frame format to a smaller size one can make the former
+>>   crop rectangle selects a non existing frame area. To solve this
+>>   situation the crop rectangle is clamped to the frame boundaries.
+>> * Clamp crop rectangle respecting the sink bounds during set_selection
+>>   ioctl.
+>>
+>> Signed-off-by: Guilherme Alcarde Gallo <gagallo7@gmail.com>
+>> Co-developed-by: Danilo Figueiredo Rocha <drocha.figueiredo@gmail.com>
+>> Signed-off-by: Danilo Figueiredo Rocha <drocha.figueiredo@gmail.com>
+>>
+>> ---
+>>
+>> This patch is based on the monolithic vimc driver from the patchset
+>> named "Collapse vimc into single monolithic driver"
+>> https://patchwork.kernel.org/patch/11136201/
+>>
+>> ---
+>>
+>>  drivers/media/platform/vimc/vimc-scaler.c | 148 +++++++++++++++++++---
+>>  1 file changed, 133 insertions(+), 15 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/vimc/vimc-scaler.c b/drivers/media/platform/vimc/vimc-scaler.c
+>> index a5a0855ad9cd..b50d11e76a2b 100644
+>> --- a/drivers/media/platform/vimc/vimc-scaler.c
+>> +++ b/drivers/media/platform/vimc/vimc-scaler.c
+>> @@ -18,6 +18,9 @@ MODULE_PARM_DESC(sca_mult, " the image size multiplier");
+>>  
+>>  #define MAX_ZOOM	8
+>>  
+>> +#define VIMC_SCA_FMT_WIDTH_DEFAULT	640
+>> +#define VIMC_SCA_FMT_HEIGHT_DEFAULT	480
+>> +
+>>  struct vimc_sca_device {
+>>  	struct vimc_ent_device ved;
+>>  	struct v4l2_subdev sd;
+>> @@ -26,6 +29,7 @@ struct vimc_sca_device {
+>>  	 * with the width and hight multiplied by mult
+>>  	 */
+>>  	struct v4l2_mbus_framefmt sink_fmt;
+>> +	struct v4l2_rect crop_rect;
+>>  	/* Values calculated when the stream starts */
+>>  	u8 *src_frame;
+>>  	unsigned int src_line_size;
+>> @@ -33,22 +37,33 @@ struct vimc_sca_device {
+>>  };
+>>  
+>>  static const struct v4l2_mbus_framefmt sink_fmt_default = {
+>> -	.width = 640,
+>> -	.height = 480,
+>> +	.width = VIMC_SCA_FMT_WIDTH_DEFAULT,
+>> +	.height = VIMC_SCA_FMT_HEIGHT_DEFAULT,
+>>  	.code = MEDIA_BUS_FMT_RGB888_1X24,
+>>  	.field = V4L2_FIELD_NONE,
+>>  	.colorspace = V4L2_COLORSPACE_DEFAULT,
+>>  };
+>>  
+>> +static const struct v4l2_rect crop_rect_default = {
+>> +	.width = VIMC_SCA_FMT_WIDTH_DEFAULT,
+>> +	.height = VIMC_SCA_FMT_HEIGHT_DEFAULT,
+>> +	.top = 0,
+>> +	.left = 0,
+>> +};
+>> +
+>>  static int vimc_sca_init_cfg(struct v4l2_subdev *sd,
+>>  			     struct v4l2_subdev_pad_config *cfg)
+>>  {
+>>  	struct v4l2_mbus_framefmt *mf;
+>> +	struct v4l2_rect *r;
+>>  	unsigned int i;
+>>  
+>>  	mf = v4l2_subdev_get_try_format(sd, cfg, 0);
+>>  	*mf = sink_fmt_default;
+>>  
+>> +	r = v4l2_subdev_get_try_crop(sd, cfg, 0);
+>> +	*r = crop_rect_default;
+>> +
+>>  	for (i = 1; i < sd->entity.num_pads; i++) {
+>>  		mf = v4l2_subdev_get_try_format(sd, cfg, i);
+>>  		*mf = sink_fmt_default;
+>> @@ -107,16 +122,21 @@ static int vimc_sca_get_fmt(struct v4l2_subdev *sd,
+>>  			    struct v4l2_subdev_format *format)
+>>  {
+>>  	struct vimc_sca_device *vsca = v4l2_get_subdevdata(sd);
+>> +	struct v4l2_rect *crop_rect;
+>>  
+>>  	/* Get the current sink format */
+>> -	format->format = (format->which == V4L2_SUBDEV_FORMAT_TRY) ?
+>> -			 *v4l2_subdev_get_try_format(sd, cfg, 0) :
+>> -			 vsca->sink_fmt;
+>> +	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
+>> +		format->format = *v4l2_subdev_get_try_format(sd, cfg, 0);
+>> +		crop_rect = v4l2_subdev_get_try_crop(sd, cfg, 0);
+>> +	} else {
+>> +		format->format = vsca->sink_fmt;
+>> +		crop_rect = &vsca->crop_rect;
+>> +	}
+>>  
+>>  	/* Scale the frame size for the source pad */
+>>  	if (VIMC_IS_SRC(format->pad)) {
+>> -		format->format.width = vsca->sink_fmt.width * sca_mult;
+>> -		format->format.height = vsca->sink_fmt.height * sca_mult;
+>> +		format->format.width = crop_rect->width * sca_mult;
+>> +		format->format.height = crop_rect->height * sca_mult;
+>>  	}
+>>  
+>>  	return 0;
+>> @@ -148,6 +168,7 @@ static int vimc_sca_set_fmt(struct v4l2_subdev *sd,
+>>  {
+>>  	struct vimc_sca_device *vsca = v4l2_get_subdevdata(sd);
+>>  	struct v4l2_mbus_framefmt *sink_fmt;
+>> +	struct v4l2_rect *crop_rect;
+>>  
+>>  	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+>>  		/* Do not change the format while stream is on */
+>> @@ -155,8 +176,10 @@ static int vimc_sca_set_fmt(struct v4l2_subdev *sd,
+>>  			return -EBUSY;
+>>  
+>>  		sink_fmt = &vsca->sink_fmt;
+>> +		crop_rect = &vsca->crop_rect;
+>>  	} else {
+>>  		sink_fmt = v4l2_subdev_get_try_format(sd, cfg, 0);
+>> +		crop_rect = v4l2_subdev_get_try_crop(sd, cfg, 0);
+>>  	}
+>>  
+>>  	/*
+>> @@ -165,12 +188,20 @@ static int vimc_sca_set_fmt(struct v4l2_subdev *sd,
+>>  	 */
+>>  	if (VIMC_IS_SRC(fmt->pad)) {
+>>  		fmt->format = *sink_fmt;
+>> -		fmt->format.width = sink_fmt->width * sca_mult;
+>> -		fmt->format.height = sink_fmt->height * sca_mult;
+>> +		fmt->format.width = crop_rect->width * sca_mult;
+>> +		fmt->format.height = crop_rect->height * sca_mult;
+>>  	} else {
+>>  		/* Set the new format in the sink pad */
+>>  		vimc_sca_adjust_sink_fmt(&fmt->format);
+>>  
+>> +		crop_rect->width = clamp_t(u32, crop_rect->width,
+>> +					   VIMC_FRAME_MIN_WIDTH,
+>> +					   fmt->format.width) & ~1;
+>> +
+>> +		crop_rect->height = clamp_t(u32, crop_rect->height,
+>> +					    VIMC_FRAME_MIN_HEIGHT,
+>> +					    fmt->format.height) & ~1;
+>> +
+> 
+> You need to consider top and left of the crop rectangle to make this clamp.
+> 
+> Lets say you have a 300x300 image and a crop rectangle to top=100,left=100,width=100,height=100.
+> Then, if you set the image to 150x150, the crop rectangle should adjust to top=100,left=100,width=50,height=50.
+> 
+> There is also the case if you set the sink image to 50x50, now the crop rectangle is outside the image,
+> I'm not sure what should happen in this case, maybe you should just reset the crop rectangle to the image format.
+> 
+> Hans, could you confirm what should be done here?
 
-enum vfl_devnode_type {
-        VFL_TYPE_GRABBER        = 0,
-        VFL_TYPE_VBI,
-        VFL_TYPE_RADIO,
-        VFL_TYPE_SUBDEV,
-        VFL_TYPE_SDR,
-        VFL_TYPE_TOUCH,
-        VFL_TYPE_MAX /* Shall be the last one */
-};
+When you want to map an existing crop rectangle to a new, smaller image format, then
+you try to keep the crop width and height. So in the example above (changing the image
+to 150x150) the new crop would be top=50,left=50,width=100,height=100.
 
-They all make sense, except for the first: GRABBER really refers to /dev/videoX
-devices, which can be capture, output or m2m, so 'grabber' doesn't even refer to
-their function anymore.
+Use the functions in media/v4l2-rect.h for this (esp. v4l2_rect_map_inside).
 
-Let's call a spade a spade and rename this to VFL_TYPE_VIDEO.
+If you'd change the image size to 50x50, then the new crop would automatically become
+top=0,left=0,width=50,height=50. In other words, this does exactly what you want and
+always keeps a valid configuration.
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
-This patch converts the core files. If others are OK with this, then I can post
-a full series that also converts all drivers that use it (very easy search-and-replace)
-and finally remove the old GRABBER enum.
----
- Documentation/media/kapi/v4l2-dev.rst                  |  4 ++--
- .../translations/zh_CN/video4linux/v4l2-framework.txt  |  4 ++--
- drivers/media/v4l2-core/v4l2-dev.c                     | 10 +++++-----
- drivers/media/v4l2-core/v4l2-ioctl.c                   |  2 +-
- include/media/v4l2-dev.h                               |  6 ++++--
- samples/v4l/v4l2-pci-skeleton.c                        |  2 +-
- 6 files changed, 15 insertions(+), 13 deletions(-)
+Regards,
 
-diff --git a/Documentation/media/kapi/v4l2-dev.rst b/Documentation/media/kapi/v4l2-dev.rst
-index 4c5a15c53dbf..63c064837c00 100644
---- a/Documentation/media/kapi/v4l2-dev.rst
-+++ b/Documentation/media/kapi/v4l2-dev.rst
-@@ -185,7 +185,7 @@ This will create the character device for you.
+	Hans
 
- .. code-block:: c
-
--	err = video_register_device(vdev, VFL_TYPE_GRABBER, -1);
-+	err = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
- 	if (err) {
- 		video_device_release(vdev); /* or kfree(my_vdev); */
- 		return err;
-@@ -201,7 +201,7 @@ types exist:
- ========================== ====================	 ==============================
- :c:type:`vfl_devnode_type` Device name		 Usage
- ========================== ====================	 ==============================
--``VFL_TYPE_GRABBER``       ``/dev/videoX``       for video input/output devices
-+``VFL_TYPE_VIDEO``         ``/dev/videoX``       for video input/output devices
- ``VFL_TYPE_VBI``           ``/dev/vbiX``         for vertical blank data (i.e.
- 						 closed captions, teletext)
- ``VFL_TYPE_RADIO``         ``/dev/radioX``       for radio tuners
-diff --git a/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt b/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt
-index 66c7c568bd86..9c39ee58ea50 100644
---- a/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt
-+++ b/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt
-@@ -649,7 +649,7 @@ video_device注册
-
- 接下来你需要注册视频设备：这会为你创建一个字符设备。
-
--	err = video_register_device(vdev, VFL_TYPE_GRABBER, -1);
-+	err = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
- 	if (err) {
- 		video_device_release(vdev); /* or kfree(my_vdev); */
- 		return err;
-@@ -660,7 +660,7 @@ video_device注册
-
- 注册哪种设备是根据类型（type）参数。存在以下类型：
-
--VFL_TYPE_GRABBER: 用于视频输入/输出设备的 videoX
-+VFL_TYPE_VIDEO: 用于视频输入/输出设备的 videoX
- VFL_TYPE_VBI: 用于垂直消隐数据的 vbiX (例如，隐藏式字幕，图文电视)
- VFL_TYPE_RADIO: 用于广播调谐器的 radioX
-
-diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
-index 4037689a945a..694108b12a27 100644
---- a/drivers/media/v4l2-core/v4l2-dev.c
-+++ b/drivers/media/v4l2-core/v4l2-dev.c
-@@ -535,7 +535,7 @@ static void determine_valid_ioctls(struct video_device *vdev)
- {
- 	DECLARE_BITMAP(valid_ioctls, BASE_VIDIOC_PRIVATE);
- 	const struct v4l2_ioctl_ops *ops = vdev->ioctl_ops;
--	bool is_vid = vdev->vfl_type == VFL_TYPE_GRABBER;
-+	bool is_vid = vdev->vfl_type == VFL_TYPE_VIDEO;
- 	bool is_vbi = vdev->vfl_type == VFL_TYPE_VBI;
- 	bool is_radio = vdev->vfl_type == VFL_TYPE_RADIO;
- 	bool is_sdr = vdev->vfl_type == VFL_TYPE_SDR;
-@@ -719,7 +719,7 @@ static void determine_valid_ioctls(struct video_device *vdev)
- 			SET_VALID_IOCTL(ops, VIDIOC_G_AUDOUT, vidioc_g_audout);
- 			SET_VALID_IOCTL(ops, VIDIOC_S_AUDOUT, vidioc_s_audout);
- 		}
--		if (ops->vidioc_g_parm || (vdev->vfl_type == VFL_TYPE_GRABBER &&
-+		if (ops->vidioc_g_parm || (vdev->vfl_type == VFL_TYPE_VIDEO &&
- 					ops->vidioc_g_std))
- 			set_bit(_IOC_NR(VIDIOC_G_PARM), valid_ioctls);
- 		SET_VALID_IOCTL(ops, VIDIOC_S_PARM, vidioc_s_parm);
-@@ -761,7 +761,7 @@ static int video_register_media_controller(struct video_device *vdev)
- 	vdev->entity.function = MEDIA_ENT_F_UNKNOWN;
-
- 	switch (vdev->vfl_type) {
--	case VFL_TYPE_GRABBER:
-+	case VFL_TYPE_VIDEO:
- 		intf_type = MEDIA_INTF_T_V4L_VIDEO;
- 		vdev->entity.function = MEDIA_ENT_F_IO_V4L;
- 		break;
-@@ -869,7 +869,7 @@ int __video_register_device(struct video_device *vdev,
-
- 	/* Part 1: check device type */
- 	switch (type) {
--	case VFL_TYPE_GRABBER:
-+	case VFL_TYPE_VIDEO:
- 		name_base = "video";
- 		break;
- 	case VFL_TYPE_VBI:
-@@ -913,7 +913,7 @@ int __video_register_device(struct video_device *vdev,
- 	 * of 128-191 and just pick the first free minor there
- 	 * (new style). */
- 	switch (type) {
--	case VFL_TYPE_GRABBER:
-+	case VFL_TYPE_VIDEO:
- 		minor_offset = 0;
- 		minor_cnt = 64;
- 		break;
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index 51b912743f0f..e87954fbcc0d 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -934,7 +934,7 @@ static int check_fmt(struct file *file, enum v4l2_buf_type type)
- {
- 	struct video_device *vfd = video_devdata(file);
- 	const struct v4l2_ioctl_ops *ops = vfd->ioctl_ops;
--	bool is_vid = vfd->vfl_type == VFL_TYPE_GRABBER;
-+	bool is_vid = vfd->vfl_type == VFL_TYPE_VIDEO;
- 	bool is_vbi = vfd->vfl_type == VFL_TYPE_VBI;
- 	bool is_sdr = vfd->vfl_type == VFL_TYPE_SDR;
- 	bool is_tch = vfd->vfl_type == VFL_TYPE_TOUCH;
-diff --git a/include/media/v4l2-dev.h b/include/media/v4l2-dev.h
-index 48531e57cc5a..5e7c0f8acd05 100644
---- a/include/media/v4l2-dev.h
-+++ b/include/media/v4l2-dev.h
-@@ -24,7 +24,8 @@
- /**
-  * enum vfl_devnode_type - type of V4L2 device node
-  *
-- * @VFL_TYPE_GRABBER:	for video input/output devices
-+ * @VFL_TYPE_VIDEO:	for video input/output devices
-+ * @VFL_TYPE_GRABBER:	deprecated, same as VFL_TYPE_VIDEO
-  * @VFL_TYPE_VBI:	for vertical blank data (i.e. closed captions, teletext)
-  * @VFL_TYPE_RADIO:	for radio tuners
-  * @VFL_TYPE_SUBDEV:	for V4L2 subdevices
-@@ -33,7 +34,8 @@
-  * @VFL_TYPE_MAX:	number of VFL types, must always be last in the enum
-  */
- enum vfl_devnode_type {
--	VFL_TYPE_GRABBER	= 0,
-+	VFL_TYPE_VIDEO,
-+	VFL_TYPE_GRABBER = VFL_TYPE_VIDEO,
- 	VFL_TYPE_VBI,
- 	VFL_TYPE_RADIO,
- 	VFL_TYPE_SUBDEV,
-diff --git a/samples/v4l/v4l2-pci-skeleton.c b/samples/v4l/v4l2-pci-skeleton.c
-index f6a551bd57ef..3fa6582b4a68 100644
---- a/samples/v4l/v4l2-pci-skeleton.c
-+++ b/samples/v4l/v4l2-pci-skeleton.c
-@@ -879,7 +879,7 @@ static int skeleton_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 	vdev->tvnorms = SKEL_TVNORMS;
- 	video_set_drvdata(vdev, skel);
-
--	ret = video_register_device(vdev, VFL_TYPE_GRABBER, -1);
-+	ret = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
- 	if (ret)
- 		goto free_hdl;
-
--- 
-2.23.0.rc1
-
+> 
+>>  		dev_dbg(vsca->dev, "%s: sink format update: "
+>>  			"old:%dx%d (0x%x, %d, %d, %d, %d) "
+>>  			"new:%dx%d (0x%x, %d, %d, %d, %d)\n", vsca->sd.name,
+>> @@ -189,12 +220,91 @@ static int vimc_sca_set_fmt(struct v4l2_subdev *sd,
+>>  	return 0;
+>>  }
+>>  
+>> +static int vimc_sca_get_selection(struct v4l2_subdev *sd,
+>> +				  struct v4l2_subdev_pad_config *cfg,
+>> +				  struct v4l2_subdev_selection *sel)
+>> +{
+>> +	struct vimc_sca_device *vsca = v4l2_get_subdevdata(sd);
+>> +
+>> +	if (sel->which == V4L2_SUBDEV_FORMAT_TRY)
+>> +		return -EINVAL;
+> 
+> I think you could implement TRY already, you just need to use v4l2_subdev_get_try_crop() and v4l2_subdev_get_try_format()
+> similar to what set/get format do.
+> 
+>> +
+>> +	if (vsca->src_frame)
+>> +		return -EBUSY;
+>> +
+>> +	if (VIMC_IS_SRC(sel->pad))
+>> +		return -EINVAL;
+>> +
+>> +	switch (sel->target) {
+>> +	case V4L2_SEL_TGT_CROP:
+>> +		sel->r = vsca->crop_rect;
+>> +		break;
+>> +	case V4L2_SEL_TGT_CROP_BOUNDS:
+>> +		sel->r.left = 0;
+>> +		sel->r.top = 0;
+>> +		sel->r.width = vsca->sink_fmt.width;
+>> +		sel->r.height = vsca->sink_fmt.height;
+>> +		break;
+>> +	default:
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int vimc_sca_set_selection(struct v4l2_subdev *sd,
+>> +				  struct v4l2_subdev_pad_config *cfg,
+>> +				  struct v4l2_subdev_selection *sel)
+>> +{
+>> +	struct vimc_sca_device *vsca = v4l2_get_subdevdata(sd);
+>> +	struct v4l2_rect *vsca_crop_rect = &vsca->crop_rect;
+>> +	struct v4l2_subdev_selection bound_sel = *sel;
+>> +	int ret = 0;
+>> +
+>> +	if (sel->which == V4L2_SUBDEV_FORMAT_TRY)
+>> +		return -EINVAL;
+> 
+> Same thing here.
+> 
+>> +
+>> +	/* Do not change the format while stream is on */
+>> +	if (vsca->src_frame)
+>> +		return -EBUSY;
+>> +
+>> +	if (VIMC_IS_SRC(sel->pad))
+>> +		return -EINVAL;
+>> +
+>> +	switch (sel->target) {
+>> +	case V4L2_SEL_TGT_CROP:
+>> +		/* Get the crop bounds to clamp the crop rectangle correctly */
+>> +		bound_sel.target = V4L2_SEL_TGT_CROP_BOUNDS;
+>> +		ret = vimc_sca_get_selection(sd, cfg, &bound_sel);
+>> +		if (ret) {
+>> +			pr_err("Error during call to vimc_sca_get_selection.");
+>> +			return ret;
+>> +		}
+>> +
+>> +		sel->r.width = clamp_t(u32, sel->r.width, VIMC_FRAME_MIN_WIDTH,
+>> +				       bound_sel.r.width) & ~1;
+>> +		sel->r.height = clamp_t(u32, sel->r.height,
+>> +					VIMC_FRAME_MIN_HEIGHT,
+>> +					bound_sel.r.height);
+> 
+> You should also consider top/left to make this clamp.
+> top and left should also be ajusted if they are set outside of the boundaries.
+> 
+>> +		*vsca_crop_rect = sel->r;
+>> +		break;
+>> +	case V4L2_SEL_TGT_CROP_BOUNDS:
+>> +		return -EINVAL;
+>> +	default:
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +
+>>  static const struct v4l2_subdev_pad_ops vimc_sca_pad_ops = {
+>>  	.init_cfg		= vimc_sca_init_cfg,
+>>  	.enum_mbus_code		= vimc_sca_enum_mbus_code,
+>>  	.enum_frame_size	= vimc_sca_enum_frame_size,
+>>  	.get_fmt		= vimc_sca_get_fmt,
+>>  	.set_fmt		= vimc_sca_set_fmt,
+>> +	.get_selection		= vimc_sca_get_selection,
+>> +	.set_selection		= vimc_sca_set_selection,
+>>  };
+>>  
+>>  static int vimc_sca_s_stream(struct v4l2_subdev *sd, int enable)
+>> @@ -213,11 +323,11 @@ static int vimc_sca_s_stream(struct v4l2_subdev *sd, int enable)
+>>  		vsca->bpp = vpix->bpp;
+>>  
+>>  		/* Calculate the width in bytes of the src frame */
+>> -		vsca->src_line_size = vsca->sink_fmt.width *
+>> +		vsca->src_line_size = vsca->crop_rect.width *
+>>  				      sca_mult * vsca->bpp;
+>>  
+>>  		/* Calculate the frame size of the source pad */
+>> -		frame_size = vsca->src_line_size * vsca->sink_fmt.height *
+>> +		frame_size = vsca->src_line_size * vsca->crop_rect.height *
+>>  			     sca_mult;
+>>  
+>>  		/* Allocate the frame buffer. Use vmalloc to be able to
+>> @@ -259,11 +369,12 @@ static void vimc_sca_fill_pix(u8 *const ptr,
+>>  }
+>>  
+>>  static void vimc_sca_scale_pix(const struct vimc_sca_device *const vsca,
+>> -			       const unsigned int lin, const unsigned int col,
+>> +			       unsigned int lin, unsigned int col,
+>>  			       const u8 *const sink_frame)
+>>  {
+>>  	unsigned int i, j, index;
+>>  	const u8 *pixel;
+>> +	const struct v4l2_rect crop_rect = vsca->crop_rect;
+>>  
+>>  	/* Point to the pixel value in position (lin, col) in the sink frame */
+>>  	index = VIMC_FRAME_INDEX(lin, col,
+>> @@ -278,8 +389,10 @@ static void vimc_sca_scale_pix(const struct vimc_sca_device *const vsca,
+>>  	/* point to the place we are going to put the first pixel
+>>  	 * in the scaled src frame
+>>  	 */
+>> +	lin -= crop_rect.top;
+>> +	col -= crop_rect.left;
+>>  	index = VIMC_FRAME_INDEX(lin * sca_mult, col * sca_mult,
+>> -				 vsca->sink_fmt.width * sca_mult, vsca->bpp);
+>> +				 crop_rect.width * sca_mult, vsca->bpp);
+>>  
+>>  	dev_dbg(vsca->dev, "sca: %s: scale_pix src pos %dx%d, index %d\n",
+>>  		vsca->sd.name, lin * sca_mult, col * sca_mult, index);
+>> @@ -309,10 +422,12 @@ static void vimc_sca_fill_src_frame(const struct vimc_sca_device *const vsca,
+>>  {
+>>  	unsigned int i, j;
+>>  
+> 
+> Please remove this extra line.
+> 
+> Thanks :)
+> Helen
+> 
+>> +	const struct v4l2_rect r = vsca->crop_rect;
+>> +
+>>  	/* Scale each pixel from the original sink frame */
+>>  	/* TODO: implement scale down, only scale up is supported for now */
+>> -	for (i = 0; i < vsca->sink_fmt.height; i++)
+>> -		for (j = 0; j < vsca->sink_fmt.width; j++)
+>> +	for (i = r.top; i < r.top + r.height; i++)
+>> +		for (j = r.left; j < r.left + r.width; j++)
+>>  			vimc_sca_scale_pix(vsca, i, j, sink_frame);
+>>  }
+>>  
+>> @@ -382,5 +497,8 @@ struct vimc_ent_device *vimc_sca_add(struct vimc_device *vimc,
+>>  	/* Initialize the frame format */
+>>  	vsca->sink_fmt = sink_fmt_default;
+>>  
+>> +	/* Initialize the crop selection */
+>> +	vsca->crop_rect = crop_rect_default;
+>> +
+>>  	return &vsca->ved;
+>>  }
+>>
 
