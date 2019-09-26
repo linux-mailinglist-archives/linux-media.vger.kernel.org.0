@@ -2,175 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3258DBE751
-	for <lists+linux-media@lfdr.de>; Wed, 25 Sep 2019 23:33:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E4D91BEBAC
+	for <lists+linux-media@lfdr.de>; Thu, 26 Sep 2019 07:40:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727092AbfIYVdi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Sep 2019 17:33:38 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45994 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727058AbfIYVdh (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Sep 2019 17:33:37 -0400
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 95011222BD;
-        Wed, 25 Sep 2019 21:33:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569447215;
-        bh=TszXw7S5GIEzEo992EEMfz4W0WtzSxu1MBpaBhf4tmw=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=QlI2Sj1D5LJahPlbpQRPzC/Kfp42A3NwekR29GtyvfIPAZlvPN1zAfycydpBTfcd8
-         IvT8WVCyptqcO23hrQq7/1AbSsfzPRa68TLRQRP+hrXx+5Qsz/4M4CfEt25gMVn9on
-         EMq0EmayAeKNvnaIFqzE8CzGz5kGoSiMNjw4W64I=
-Received: by mail-qt1-f181.google.com with SMTP id m15so298885qtq.2;
-        Wed, 25 Sep 2019 14:33:35 -0700 (PDT)
-X-Gm-Message-State: APjAAAU/MDgYmsvDWUxhr0S/Q958v/NMn7J4JTGJNu6zn2KE6uwZuvLx
-        +uW755Pt4Q2Nc+sOQUjGxURuNzeHmiO1sPSfVA==
-X-Google-Smtp-Source: APXvYqy9YJ9VRUtFzrkZ+iKb5Tx5rlamJJuwaAKBRmCflwCEbYKpuVBbZPPVrEImTOCJgn8Jl5TlEwRQfbhe0HNZXOU=
-X-Received: by 2002:a0c:8a6d:: with SMTP id 42mr1647258qvu.138.1569447214653;
- Wed, 25 Sep 2019 14:33:34 -0700 (PDT)
+        id S2392299AbfIZFkH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Sep 2019 01:40:07 -0400
+Received: from mail-ot1-f48.google.com ([209.85.210.48]:45287 "EHLO
+        mail-ot1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2392290AbfIZFkH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 26 Sep 2019 01:40:07 -0400
+Received: by mail-ot1-f48.google.com with SMTP id 41so900880oti.12
+        for <linux-media@vger.kernel.org>; Wed, 25 Sep 2019 22:40:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=4XDYBz6wmKWWXHYsbsWBn8kzvHSYqFW74Xb0Kq3/Lp4=;
+        b=IUxJhWRr3jE07XjkEE52nvcuJY/TG4qe0tjouYRXUTxwl5vFkkMu0piQyDR2wusXiA
+         k4mYrhgCtX1zBwg5QYwIumQDrYEeG9UUFgCehPba8xTJmFLO37ciekWxKVBUtA5gzq1j
+         NGAWAJU9ANV0Htaauegkjmm/avcGCeeo/YMCY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=4XDYBz6wmKWWXHYsbsWBn8kzvHSYqFW74Xb0Kq3/Lp4=;
+        b=gniu87W67z/zqt2yCmmtj3j+cPpDAlfe/sTtBqt0p2G9zvwpsnDF2sOjnwPgAaZPih
+         dFKsB8J3MHjC+86IWPq6K2UrQxZEfyND0GcyjUIUOuKuDIsJrZqSWHPO5muQRdUAXgA8
+         YZQd4pEjO25uL6v03daelBI72id6pisNMHZeF0mcSv+FsigIqdou4uU7NHq4k16S1cLm
+         2VWy/+qKxcnjDE5QFNCsww1onCAp4d85AjnJ9UjVDM+20cQv/eFaVnuE4/6PJMsGPWA4
+         dlLSKgB1HTbs+5Imp8hIP1C7qcyHOq4DNvFcJCHNNHDUezxzqMEwQUIfufB4n/SRiYNb
+         vPMA==
+X-Gm-Message-State: APjAAAXP4J5FlikuGpeO8UTfLqA1CGEHSzGx2zZTrh9Ih62slmRkgqRZ
+        RK/9GFOQj+XvP6I8/IP9BV29FsBhnlQ=
+X-Google-Smtp-Source: APXvYqyQKRvj0VpG9hkEflnNrLIMt/skBSl1Oo9mJU4acch5IQdcIrGCx+QOUfagv9XpROpbk2lT8Q==
+X-Received: by 2002:a9d:68c6:: with SMTP id i6mr1338694oto.350.1569476405634;
+        Wed, 25 Sep 2019 22:40:05 -0700 (PDT)
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com. [209.85.210.47])
+        by smtp.gmail.com with ESMTPSA id t12sm350682otl.35.2019.09.25.22.40.04
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Sep 2019 22:40:04 -0700 (PDT)
+Received: by mail-ot1-f47.google.com with SMTP id e11so935168otl.5
+        for <linux-media@vger.kernel.org>; Wed, 25 Sep 2019 22:40:04 -0700 (PDT)
+X-Received: by 2002:a05:6830:d5:: with SMTP id x21mr1291187oto.36.1569476404012;
+ Wed, 25 Sep 2019 22:40:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190924181244.7159-1-nsaenzjulienne@suse.de> <CAL_Jsq+v+svTyna7UzQdRVqfNc5Z_bgWzxNRXv7-Wqv3NwDu2g@mail.gmail.com>
- <d1a31a2ec8eb2f226b1fb41f6c24ffb47c3bf7c7.camel@suse.de> <e404c65b-5a66-6f91-5b38-8bf89a7697b2@arm.com>
- <43fb5fe1de317d65a4edf592f88ea150c6e3b8cc.camel@suse.de> <CAL_JsqLhx500cx3YLoC7HL1ux3bBpV+fEA2Qnk7D5RFGgiGzSw@mail.gmail.com>
- <aa4c8d62-7990-e385-2bb1-cec55148f0a8@arm.com>
-In-Reply-To: <aa4c8d62-7990-e385-2bb1-cec55148f0a8@arm.com>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Wed, 25 Sep 2019 16:33:23 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqKKYcHPnA80ZwLY=Sk3e5MqrimedUhWQ5+iuPZXQxYHdA@mail.gmail.com>
-Message-ID: <CAL_JsqKKYcHPnA80ZwLY=Sk3e5MqrimedUhWQ5+iuPZXQxYHdA@mail.gmail.com>
-Subject: Re: [PATCH 00/11] of: Fix DMA configuration for non-DT masters
-To:     Robin Murphy <robin.murphy@arm.com>
-Cc:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        devicetree@vger.kernel.org, Matthias Brugger <mbrugger@suse.com>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        linux-wireless <linux-wireless@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        etnaviv@lists.freedesktop.org, linux-tegra@vger.kernel.org,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Stefan Wahren <wahrenst@gmx.net>, james.quinlan@broadcom.com,
-        linux-pci@vger.kernel.org,
-        "open list:DMA GENERIC OFFLOAD ENGINE SUBSYSTEM" 
-        <dmaengine@vger.kernel.org>, xen-devel@lists.xenproject.org,
-        Dan Williams <dan.j.williams@intel.com>,
-        freedreno <freedreno@lists.freedesktop.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
+References: <07f46758-66e3-5ac1-cc41-807a30f93359@xs4all.nl>
+ <7f154b1ce154b75b352945cf05f6359393e9cc3b.camel@ndufresne.ca>
+ <cd309f07-16c7-94bc-2de6-e0baa22080ff@ideasonboard.com> <20190923155709.GC5056@pendragon.ideasonboard.com>
+ <336f155e-9f1c-1df8-2761-8136cf8d201e@linuxfoundation.org>
+ <CAH1Ww+TS55RwJZVebvZnHtNXe7ECe7DARDiPtg_f4w+7a7z3FA@mail.gmail.com> <20190923184437.GH5056@pendragon.ideasonboard.com>
+In-Reply-To: <20190923184437.GH5056@pendragon.ideasonboard.com>
+From:   Alexandre Courbot <acourbot@chromium.org>
+Date:   Thu, 26 Sep 2019 14:39:52 +0900
+X-Gmail-Original-Message-ID: <CAPBb6MXRd8VLu=Wy9zLEOrN1NghW-XmDwYU2nkXLS1LRub-sAA@mail.gmail.com>
+Message-ID: <CAPBb6MXRd8VLu=Wy9zLEOrN1NghW-XmDwYU2nkXLS1LRub-sAA@mail.gmail.com>
+Subject: Re: [ANN] Media sessions in Lyon in October: libcamera
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Daniel Gomez <daniel@qtec.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Eugen Hristev <Eugen.Hristev@microchip.com>,
+        Dafna Hirschfeld <dafna3@gmail.com>,
+        Helen Koike <helen.koike@collabora.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Sep 25, 2019 at 11:52 AM Robin Murphy <robin.murphy@arm.com> wrote:
+On Tue, Sep 24, 2019 at 3:44 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
 >
-> On 25/09/2019 17:16, Rob Herring wrote:
-> > On Wed, Sep 25, 2019 at 10:30 AM Nicolas Saenz Julienne
-> > <nsaenzjulienne@suse.de> wrote:
-> >>
-> >> On Wed, 2019-09-25 at 16:09 +0100, Robin Murphy wrote:
-> >>> On 25/09/2019 15:52, Nicolas Saenz Julienne wrote:
-> >>>> On Tue, 2019-09-24 at 16:59 -0500, Rob Herring wrote:
-> >>>>> On Tue, Sep 24, 2019 at 1:12 PM Nicolas Saenz Julienne
-> >>>>> <nsaenzjulienne@suse.de> wrote:
-> >>>>>> Hi All,
-> >>>>>> this series tries to address one of the issues blocking us from
-> >>>>>> upstreaming Broadcom's STB PCIe controller[1]. Namely, the fact that
-> >>>>>> devices not represented in DT which sit behind a PCI bus fail to get the
-> >>>>>> bus' DMA addressing constraints.
-> >>>>>>
-> >>>>>> This is due to the fact that of_dma_configure() assumes it's receiving a
-> >>>>>> DT node representing the device being configured, as opposed to the PCIe
-> >>>>>> bridge node we currently pass. This causes the code to directly jump
-> >>>>>> into PCI's parent node when checking for 'dma-ranges' and misses
-> >>>>>> whatever was set there.
-> >>>>>>
-> >>>>>> To address this I create a new API in OF - inspired from Robin Murphys
-> >>>>>> original proposal[2] - which accepts a bus DT node as it's input in
-> >>>>>> order to configure a device's DMA constraints. The changes go deep into
-> >>>>>> of/address.c's implementation, as a device being having a DT node
-> >>>>>> assumption was pretty strong.
-> >>>>>>
-> >>>>>> On top of this work, I also cleaned up of_dma_configure() removing its
-> >>>>>> redundant arguments and creating an alternative function for the special
-> >>>>>> cases
-> >>>>>> not applicable to either the above case or the default usage.
-> >>>>>>
-> >>>>>> IMO the resulting functions are more explicit. They will probably
-> >>>>>> surface some hacky usages that can be properly fixed as I show with the
-> >>>>>> DT fixes on the Layerscape platform.
-> >>>>>>
-> >>>>>> This was also tested on a Raspberry Pi 4 with a custom PCIe driver and
-> >>>>>> on a Seattle AMD board.
-> >>>>>
-> >>>>> Humm, I've been working on this issue too. Looks similar though yours
-> >>>>> has a lot more churn and there's some other bugs I've found.
-> >>>>
-> >>>> That's good news, and yes now that I see it, some stuff on my series is
-> >>>> overly
-> >>>> complicated. Specially around of_translate_*().
-> >>>>
-> >>>> On top of that, you removed in of_dma_get_range():
-> >>>>
-> >>>> -   /*
-> >>>> -    * At least empty ranges has to be defined for parent node if
-> >>>> -    * DMA is supported
-> >>>> -    */
-> >>>> -   if (!ranges)
-> >>>> -           break;
-> >>>>
-> >>>> Which I assumed was bound to the standard and makes things easier.
-> >>>>
-> >>>>> Can you test out this branch[1]. I don't have any h/w needing this,
-> >>>>> but wrote a unittest and tested with modified QEMU.
-> >>>>
-> >>>> I reviewed everything, I did find a minor issue, see the patch attached.
-> >>>
-> >>> WRT that patch, the original intent of "force_dma" was purely to
-> >>> consider a device DMA-capable regardless of the presence of
-> >>> "dma-ranges". Expecting of_dma_configure() to do anything for a non-OF
-> >>> device has always been bogus - magic paravirt devices which appear out
-> >>> of nowhere and expect to be treated as genuine DMA masters are a
-> >>> separate problem that we haven't really approached yet.
-> >>
-> >> I agree it's clearly abusing the function. I have no problem with the behaviour
-> >> change if it's OK with you.
+> Hi Shuah and Daniel,
 >
-> Thinking about it, you could probably just remove that call from the Xen
-> DRM driver now anyway - since the dma-direct rework, we lost the ability
-> to set dma_dummy_ops by default, and NULL ops now represent what it
-> (presumably) wants.
-
-Not xen_dma_ops? In any case, I'll send out a patch for the the Xen
-folks to comment on.
-
-> >> Robin, have you looked into supporting multiple dma-ranges? It's the next thing
-> >> we need for BCM STB's PCIe. I'll have a go at it myself if nothing is in the
-> >> works already.
+> On Mon, Sep 23, 2019 at 08:21:58PM +0200, Daniel Gomez wrote:
+> > On Mon, 23 Sep 2019 at 20:16, Shuah Khan wrote:
+> > > On 9/23/19 9:57 AM, Laurent Pinchart wrote:
+> > >> On Mon, Sep 23, 2019 at 04:03:54PM +0100, Kieran Bingham wrote:
+> > >>> On 23/09/2019 15:47, Nicolas Dufresne wrote:
+> > >>>> Le lundi 23 septembre 2019 =C3=A0 16:21 +0200, Hans Verkuil a =C3=
+=A9crit :
+> > >>>>> Hi all,
+> > >>>>>
+> > >>>>> Since we have three separate half-day sessions for different topi=
+cs I decided
+> > >>>>> to split the announcement for this in three emails as well, so th=
+ese things
+> > >>>>> can be discussed in separate threads.
+> > >>>>>
+> > >>>>> All sessions are in room Terreaux VIP Lounge - Level 0.
+> > >>>>> There is a maximum of 15 people.
+> > >>>>>
+> > >>>>> The second session deals with libcamera and is on Wednesday morni=
+ng
+> > >>>>> from 9:00 to 13:00.
+> > >>>>>
+> > >>>>> Attendees for this session:
+> > >>>>>
+> > >>>>> Kieran Bingham <kieran.bingham@ideasonboard.com>
+> > >>>
+> > >>> Unfortunately I can no longer attend ELCE.
+> > >>>
+> > >>> (My second baby will be a bit too new for an extended stay away fro=
+m home)
+> > >>>
+> > >>>>> Boris Brezillon <boris.brezillon@collabora.com>
+> > >>>>> Alexandre Courbot <acourbot@chromium.org>
+> > >>>>> Tomasz Figa <tfiga@chromium.org>
+> > >>>>> Ezequiel Garcia <ezequiel@collabora.com>
+> > >>>>> Daniel Gomez <daniel@qtec.com>
+> > >>>>> Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> > >>>>> Eugen Hristev <Eugen.Hristev@microchip.com>
+> > >>>>> Shuah Khan <skhan@linuxfoundation.org>
+> > >>>>> Helen Koike <helen.koike@collabora.com>
+> > >>>>> Jacopo Mondi <jacopo@jmondi.org>
+> > >>>>> Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > >>>>> Niklas S=C3=B6derlund <niklas.soderlund@ragnatech.se>
+> > >>>>> Hans Verkuil <hverkuil@xs4all.nl>
+> > >>>>>
+> > >>>>> If I missed someone, or you are on the list but won't attend afte=
+r all, then
+> > >>>>> please let me know.
+> > >>>>
+> > >>>> I would like to join this one to, as after ELCE I should have some=
+ time
+> > >>>> to spend on this. I understand thought hat this would make use rea=
+ch
+> > >>>> the limit, let me know if there is any issues, I can spare my seat=
+ if
+> > >>>> needed.
+> > >>>
+> > >>> You now have my seat, and I've just made you a required attendee to=
+ go
+> > >>> in my place :-D
+> > >>
+> > >> Thank you for the offer Kieran.
+> > >>
+> > >> We're reaching the room capacity, and I know of several people who m=
+ay
+> > >> attend ELCE and would be beneficial for the discussions. If anyone i=
+n
+> > >> the above list only has a general curiosity about libcamera but does=
+n't
+> > >> expect to really contribute to the discussions, and would consider
+> > >> giving their seat if required, could you please let me know ?
 > >
-> > Multiple dma-ranges as far as configuring inbound windows should work
-> > already other than the bug when there's any parent translation. But if
-> > you mean supporting multiple DMA offsets and masks per device in the
-> > DMA API, there's nothing in the works yet.
+> > I would like to attend if possible since we are going to work with libc=
+amera
+> > but not sure how much I can contribute so, no problem to give my seat
+> > if necessary.
 >
-> There's also the in-between step of making of_dma_get_range() return a
-> size based on all the dma-ranges entries rather than only the first one
-> - otherwise, something like [1] can lead to pretty unworkable default
-> masks. We implemented that when doing acpi_dma_get_range(), it's just
-> that the OF counterpart never caught up.
+> Thank you for the offers. My goal is to secure a seat for everybody who
+> is interested in attending, and I will make sure to let all parties know
+> of the success (or lack thereof) of that initiative as we get closer to
+> the event.
 
-Right. I suppose we assume any holes in the ranges are addressable by
-the device but won't get used for other reasons (such as no memory
-there). However, to be correct, the range of the dma offset plus mask
-would need to be within the min start and max end addresses. IOW,
-while we need to round up (0xa_8000_0000 - 0x2c1c_0000) to the next
-power of 2, the 'correct' thing to do is round down.
-
-Rob
-
-> [1]
-> http://linux-arm.org/git?p=linux-rm.git;a=commitdiff;h=a2814af56b3486c2985a95540a88d8f9fa3a699f
+I won't be active on libcamera, so please feel free to assign my seat
+to someone who will be.
