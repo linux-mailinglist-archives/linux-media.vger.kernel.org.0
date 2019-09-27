@@ -2,153 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E621BFDCE
-	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2019 05:53:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C1841BFEBD
+	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2019 07:56:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728946AbfI0DxI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Sep 2019 23:53:08 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:46201 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727796AbfI0DxI (ORCPT
+        id S1725926AbfI0F4m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Sep 2019 01:56:42 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:52140 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725802AbfI0F4m (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Sep 2019 23:53:08 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:ed2d:8cc3:47ee:4733])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id DhJYiJ3CW9D4hDhJZiAE6U; Fri, 27 Sep 2019 05:53:05 +0200
-Message-ID: <5820b65bc30a9b086a73be4cb58c9e1e@smtp-cloud7.xs4all.net>
-Date:   Fri, 27 Sep 2019 05:53:04 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-X-CMAE-Envelope: MS4wfAD31BOWuAmHC5VtAZ9Vrq+4ghGnl6TqLQEbZlnVMu1oKuLRYA5LU2YUGNnvqNmDNjULJpVnSS77wKDORiS9P98QJpnFNdKZTlVbU5G1qsAYjJLgITwe
- Km2Z7rUJsX4pjUN8D8zBN+SGOQvpIBvWGVF4dJ2yoNpxYn94ySmsZrV47rcwB6cV0XRhcZCnHSXipcWoWkg4Lj6oufY3F30azfJdjy6lZLT87/XfnF5CNu6C
+        Fri, 27 Sep 2019 01:56:42 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: andrzej.p)
+        with ESMTPSA id 9DD2828D43C
+Subject: Re: [PATCH 2/5] docs: media: vimc: Documenting vimc topology
+ configuration using configfs
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        linux-media@vger.kernel.org
+Cc:     laurent.pinchart@ideasonboard.com, helen.koike@collabora.com,
+        ezequiel@collabora.com, andre.almeida@collabora.com,
+        skhan@linuxfoundation.org, kernel@collabora.com, dafna3@gmail.com
+References: <20190919203208.12515-1-dafna.hirschfeld@collabora.com>
+ <20190919203208.12515-3-dafna.hirschfeld@collabora.com>
+ <3cb0359d-aca7-ee79-350c-1065651ad245@xs4all.nl>
+ <22a9898032dac2031a9b38b876957a71727b1b49.camel@collabora.com>
+ <6f1ca1e8-5998-8aea-ccb6-ea25f0b36417@xs4all.nl>
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Message-ID: <6f1f004b-89ab-786e-7660-11e4d9193f6c@collabora.com>
+Date:   Fri, 27 Sep 2019 07:56:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <6f1ca1e8-5998-8aea-ccb6-ea25f0b36417@xs4all.nl>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hello All,
 
-Results of the daily build of media_tree:
+W dniu 23.09.2019 o 11:50, Hans Verkuil pisze:
+> On 9/23/19 11:29 AM, Dafna Hirschfeld wrote:
+>> On Fri, 2019-09-20 at 15:39 +0200, Hans Verkuil wrote:
+>>> On 9/19/19 10:32 PM, Dafna Hirschfeld wrote:
+>>>> Add explanation of how to use configfs in order to create a
+>>>> vimc device with a given topology.
+>>>>
+>>>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+>>>> ---
+>>>>   Documentation/media/v4l-drivers/vimc.dot |  28 ++-
+>>>>   Documentation/media/v4l-drivers/vimc.rst | 240 ++++++++++++++++++++---
+>>>>   2 files changed, 220 insertions(+), 48 deletions(-)
+>>>>
 
-date:			Fri Sep 27 05:00:11 CEST 2019
-media-tree git hash:	6f51fdfd8229d5358c2d6e272cf73478866e8ddc
-media_build git hash:	d75b29db1297d2475227cc8bada843542271e40d
-v4l-utils git hash:	a7bc8a9ddd452e54d80f0e557c0e31f209b54b76
-edid-decode git hash:	7696439db703eeca7248af6c3a17d2e19a9292ea
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 8634894b41454ef4215a3d4fd503305c720e761a
-host hardware:		x86_64
-host os:		5.2.0-2-amd64
+When adding new sysfs or configfs directories/files one should add
+appropriate entries to Documentation/ABI/*.
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2329, Succeeded: 2329, Failed: 0, Warnings: 0
-sparse: OK
-smatch: OK
+My feeling is that this patch should be merged with the patch actually
+enabling the configfs interface, which is patch 4/5. The reason is twofold.
 
-Detailed results are available here:
+The first is consistency: if a documentation for an interface is added
+in a different patch than the interface itself, then at the first of the
+two commits in question we either have a documentation for a non-existing
+interface, or an undocumented interface.
 
-http://www.xs4all.nl/~hverkuil/logs/Friday.log
+The second is that the documentation is not only for kernel developers
+but also for users who don't have the faintest idea of what code is
+inside the kernel, so even though patch 3/5 of this series adds
+the code implementing the interface, it is not available to users
+until patch 4/5.
 
-Detailed regression test results are available here:
+Regards,
 
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Andrzej
