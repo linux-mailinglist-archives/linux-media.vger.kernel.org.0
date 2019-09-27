@@ -2,52 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E9D7FC0CB3
-	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2019 22:37:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E347C0CB5
+	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2019 22:38:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727350AbfI0UhI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Sep 2019 16:37:08 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:43083 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725789AbfI0UhI (ORCPT
+        id S1728260AbfI0Uht (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Sep 2019 16:37:49 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:34065 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725789AbfI0Uht (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Sep 2019 16:37:08 -0400
-Received: by mail-oi1-f196.google.com with SMTP id t84so6298554oih.10;
-        Fri, 27 Sep 2019 13:37:07 -0700 (PDT)
+        Fri, 27 Sep 2019 16:37:49 -0400
+Received: by mail-ot1-f68.google.com with SMTP id m19so3420895otp.1;
+        Fri, 27 Sep 2019 13:37:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=RAIgD+KVKQMaXcKo0PziTz/C7vJQHz15LP8WFCSpXyo=;
-        b=XaghxHmZmJ7fL3q+NmLBGZg7dmgQ+/mtJxoIT5zWZ5aoF1NObZM1LE5Kwlilb4yHr+
-         pahBwvyPU3eb35OAoYY7+66lcaMdlRRqRIATyQunFYWZEO2xx3ie28ez1AhmNwJ3FR1a
-         urwBJn43UweVj1TDpXcYg29z+KWUIMC2R5sSzgwySjtsd3E5hesvyeuOLCgY/dXoaPkT
-         LxXvpsihkr7Mvbn/xQRteS7evPT/Ba4Z1e8K53QTIYSuTLf+rudONisrUye48z3ln/IL
-         LxGYRryaFA9/R+RD+w1Lp1Aq3HWY+B7twnTKTaIzFaAuliMRQ3v5herSOAefM7VnMEYJ
-         XLgg==
+        bh=5HzZ318c3cKkiQZfJLfcgZNuIY2hbgfJtqOlfqrb8Eg=;
+        b=euIPp8WcmzobZ1wRzyPahQI/sNqKCya1H0EszdAiMVqnNHWrXbWc12mwe0puRbaVB0
+         0151jIM2xe6rLQE24hGrMja4GiW7m0AGsUA7VpOYkpO3Dz1IplyVEJzXVopLTansA2kj
+         dUd5RTJXR/bg+JUmORd4LCDPnvfD/cQ8BIHmWzEvTR/Z81ZJv8Qj9giJzJ/A23GF0R/e
+         Q8AfEUSwwwRc70xNTW0JekF0+QlB//kmyTyyrl0AA4N63uiKZXn3GJ0Uj9ULwPcYAKya
+         1RWIxHwbqoNw64BSR64hZF6qHXdHfdz9uxYSKaLuZikq0gITazMFlvtJdqksDH84dhuR
+         ylmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=RAIgD+KVKQMaXcKo0PziTz/C7vJQHz15LP8WFCSpXyo=;
-        b=VttQNsQq3jpRbYLCn6i772oQUZm8XBX7EhEHJ12ZoP4JA7EFwuOrxm+5ZuA886q4m2
-         h/f7I8Oy8lkgJ6ouTcMXUoCwrJ2LAUiZDZyBzRIuyFx8SQovDLrI2mjQidxpMAARsIyf
-         ASyhFXThOC++P3EsG4Fi4hYSs09263X9hPL3z8b/PFi83wDeitDk3Z7YRkN0Rl3lLhcB
-         BsNfc7mL8QtItpkFnU+mP+abCOwpBuC+VOKLKlWyn73y835wbNhoBzDqZ8llHAtrjw+B
-         bNkevoVCerP9cDI/WGFe1hQNOLhsRVCbZf6u2hmUImy3dmEx/OPxAuLjOApFGt4y1sdX
-         pPTw==
-X-Gm-Message-State: APjAAAW5nMQ05++7UlIzBay0NeFYZZC3VCqTDr8WP39RMhLoX8BJ8GJ7
-        a6AIKeziFxWJuzrzNNR9VD7rtudRcnV9o7TPFZn4NrmqC9U=
-X-Google-Smtp-Source: APXvYqyzvqWMmEr0sDH1XpuL+EzY3nFF8uZqBdufzKzWysxxwjpxSQOFwpllG7yQchTFRGeddYLPDCHuQK0ORWE4Lgg=
-X-Received: by 2002:aca:d485:: with SMTP id l127mr8335882oig.162.1569616627588;
- Fri, 27 Sep 2019 13:37:07 -0700 (PDT)
+        bh=5HzZ318c3cKkiQZfJLfcgZNuIY2hbgfJtqOlfqrb8Eg=;
+        b=AjcwDrGOpGzZ+oSi8NQw/62IZtVfKkPKb8HYdCltMJLzNXq5Gd8meMQNlfq60R38Dm
+         /IJ8KkdCnf3Wa2ettQDOwrDDKnwYHjB8b1R1w/6XSlaZbYoVO6na3W/ZwCYmh/hWxD6y
+         +RyFBpQ7Nj6HClEvqiixu2zWIA3wqOgEgp5AHRaELBsT+4FDajSSh//O26kUvhrkZUlr
+         kIxS09AwjClDhm3+7EEGYCc3XCgV1pQ1Rys9CeYaTi8hzAZNjSmI9pB218nztDBQtvsk
+         NAy2xiAAqPSQq4GwblX38OlnkMoyuLlql1Hx8l3myFPXXW8+D9Uah9eqUl2Ash+wS2pI
+         qRRw==
+X-Gm-Message-State: APjAAAWwrUDlUuwTaYBI41ewHcBJZe5bey6LuKLVslmt2QXK+CFQw+EE
+        0NeQ/cXDQyTV0poh1IraJC8p71/kPidetaL6f3g=
+X-Google-Smtp-Source: APXvYqw6PImrq0c1y1VcQ7iuF4Ug5WxhWXn21mZr4P19hYblK8Q/2ovDB7x6QYfZXUtwnN0IJdGrQmVPNubZPTdCDWw=
+X-Received: by 2002:a9d:6a56:: with SMTP id h22mr4865024otn.176.1569616668476;
+ Fri, 27 Sep 2019 13:37:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190927184722.31989-1-bparrot@ti.com> <20190927184722.31989-8-bparrot@ti.com>
-In-Reply-To: <20190927184722.31989-8-bparrot@ti.com>
+References: <20190927184722.31989-1-bparrot@ti.com> <20190927184722.31989-6-bparrot@ti.com>
+In-Reply-To: <20190927184722.31989-6-bparrot@ti.com>
 From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 27 Sep 2019 21:36:41 +0100
-Message-ID: <CA+V-a8vY8pV8L2_JHM-AE=3h03arEtmxVhW_vh6r17pb2X3obA@mail.gmail.com>
-Subject: Re: [Patch v4 7/8] media: i2c: ov2659: Fix missing 720p register config
+Date:   Fri, 27 Sep 2019 21:37:22 +0100
+Message-ID: <CA+V-a8ss26F4nEFRDtXytn4ZPi==fMYdoe0JpEunURAYy9J99g@mail.gmail.com>
+Subject: Re: [Patch v4 5/8] media: dt-bindings: ov2659: add
+ powerdown/reset-gpios optional property
 To:     Benoit Parrot <bparrot@ti.com>
 Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -61,43 +62,46 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 On Fri, Sep 27, 2019 at 7:47 PM Benoit Parrot <bparrot@ti.com> wrote:
 >
-> The initial registers sequence is only loaded at probe
-> time. Afterward only the resolution and format specific
-> register are modified. Care must be taken to make sure
-> registers modified by one resolution setting are reverted
-> back when another resolution is programmed.
->
-> This was not done properly for the 720p case.
+> Add powerdown-gpios and reset-gpios to the list of optional properties
+> for the OV2659 camera sensor.
 >
 > Signed-off-by: Benoit Parrot <bparrot@ti.com>
 > ---
->  drivers/media/i2c/ov2659.c | 4 ++++
->  1 file changed, 4 insertions(+)
+>  Documentation/devicetree/bindings/media/i2c/ov2659.txt | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 >
 Acked-by: Lad, Prabhakar <prabhakar.csengg@gmail.com>
 
 Cheers,
 --Prabhakar Lad
 
-> diff --git a/drivers/media/i2c/ov2659.c b/drivers/media/i2c/ov2659.c
-> index 7d0baa386644..720310e0725d 100644
-> --- a/drivers/media/i2c/ov2659.c
-> +++ b/drivers/media/i2c/ov2659.c
-> @@ -412,10 +412,14 @@ static struct sensor_register ov2659_720p[] = {
->         { REG_TIMING_YINC, 0x11 },
->         { REG_TIMING_VERT_FORMAT, 0x80 },
->         { REG_TIMING_HORIZ_FORMAT, 0x00 },
-> +       { 0x370a, 0x12 },
->         { 0x3a03, 0xe8 },
->         { 0x3a09, 0x6f },
->         { 0x3a0b, 0x5d },
->         { 0x3a15, 0x9a },
-> +       { REG_VFIFO_READ_START_H, 0x00 },
-> +       { REG_VFIFO_READ_START_L, 0x80 },
-> +       { REG_ISP_CTRL02, 0x00 },
->         { REG_NULL, 0x00 },
->  };
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ov2659.txt b/Documentation/devicetree/bindings/media/i2c/ov2659.txt
+> index cabc7d827dfb..92989a619f29 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/ov2659.txt
+> +++ b/Documentation/devicetree/bindings/media/i2c/ov2659.txt
+> @@ -12,6 +12,12 @@ Required Properties:
+>  - clock-names: should be "xvclk".
+>  - link-frequencies: target pixel clock frequency.
 >
+> +Optional Properties:
+> +- powerdown-gpios: reference to the GPIO connected to the pwdn pin, if any.
+> +  Active high with internal pull down resistor.
+> +- reset-gpios: reference to the GPIO connected to the resetb pin, if any.
+> +  Active low with internal pull up resistor.
+> +
+>  For further reading on port node refer to
+>  Documentation/devicetree/bindings/media/video-interfaces.txt.
+>
+> @@ -27,6 +33,9 @@ Example:
+>                         clocks = <&clk_ov2659 0>;
+>                         clock-names = "xvclk";
+>
+> +                       powerdown-gpios = <&gpio6 14 GPIO_ACTIVE_HIGH>;
+> +                       reset-gpios = <&gpio6 15 GPIO_ACTIVE_LOW>;
+> +
+>                         port {
+>                                 ov2659_0: endpoint {
+>                                         remote-endpoint = <&vpfe_ep>;
 > --
 > 2.17.1
 >
