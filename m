@@ -2,169 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E8F5C0015
-	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2019 09:33:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C8A7FC0017
+	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2019 09:34:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726106AbfI0Hdt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Sep 2019 03:33:49 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:34885 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725820AbfI0Hdt (ORCPT
+        id S1726136AbfI0HeM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Sep 2019 03:34:12 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:42228 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726118AbfI0HeL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Sep 2019 03:33:49 -0400
-Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id Dkl5iK34r9D4hDkl9iAn9x; Fri, 27 Sep 2019 09:33:47 +0200
-Subject: Re: [PATCH 3/3] media: imx: fix media bus format enumeration
-To:     Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org
-Cc:     Steve Longerbeam <slongerbeam@gmail.com>, kernel@pengutronix.de
-References: <20190912160122.5545-1-p.zabel@pengutronix.de>
- <20190912160122.5545-3-p.zabel@pengutronix.de>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <d30091d5-5e45-9682-7c23-813eff2b42c5@xs4all.nl>
-Date:   Fri, 27 Sep 2019 09:33:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Fri, 27 Sep 2019 03:34:11 -0400
+Received: by mail-lj1-f196.google.com with SMTP id y23so1472166lje.9;
+        Fri, 27 Sep 2019 00:34:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=doszWGbeqJhGNmlXgnBna5EvgHabx/d6O/EtYtXDbwI=;
+        b=jEhyHybLYT0E1ol5FjBo36xmkuGWVFBC1mtbB6mIPywrkiYSa0gsRPKdYw7nAp4KQ6
+         Pj6xXEnWldEcHEmWdpg4k9ENupJSHIAqikbxKwCgPGCMZTu7bWSTZYdZGFfbVBV5Asvw
+         RwNXJKoOv4WGIeCAYh8TCP86fgEp1DBcV06euu3ajlr+1rCodsW3vE1KVQNzxnJ1rSx2
+         imtiTjVZamcO9MaSWiFv4AAU5Get7Sz11EHd290fJVJy3iPMJMdsA7LPWQsiPYIElUvh
+         KmLpXUYbJqUM5gUFcg/7i3UVyy7JPSazQ1CfexUgrfi4BXVF3mTf15/NBCa/lw8JTW/C
+         C4bg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=doszWGbeqJhGNmlXgnBna5EvgHabx/d6O/EtYtXDbwI=;
+        b=KunEMKm00BjWf2D1TiI0WMEDFYz7OC8xmLOSnM96I6bsKgANYPZ9zmCYJfrqzzVXyC
+         AinTc6kIv3AOGNQAwFn1DSH65qMPM5bT2ZFwXq1Ly167RPcHMqrwKUE0myI1C3LQJWkQ
+         aCKE53aqJoLGICdMR2/tnPESP1o4r9Vu1vuuA3T8UQfG1y+GBRpfvhU1kdRtAgAJbjI0
+         SlGG888zAsi6Tg2k51Rzt5MWqMgm94E17YrvzJPOjWIANWWgoS4eHVSZvtW06eTU0Hs7
+         qSn9meHkuphzLr4U5P4So7XTFMMV0wkL2eqKkEmxklxCdE/dlwCyYsMUCBN6vjpSN/oT
+         TCgw==
+X-Gm-Message-State: APjAAAXZT5lIhxoBv2q332TYNjWWhskWg6P4OyW9OTpD3rqjuPaupL/V
+        rcSVQ7I3U8SwGtFuYVZhRdaOnuquuOE2zI+mzG8=
+X-Google-Smtp-Source: APXvYqwQmtwsyouO3Zzfka6gwtQVJ/qWbnVInojMGIv1C/zgBRBYRQk0/5BM8MAxX2bww5KD5vkH92joSMy6tECIuws=
+X-Received: by 2002:a2e:9a89:: with SMTP id p9mr1841492lji.131.1569569649807;
+ Fri, 27 Sep 2019 00:34:09 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190912160122.5545-3-p.zabel@pengutronix.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfK6niBdUR9w4Zxoae6NUozH3E8qRHmOmn9klNYu/23l0mGEyd033o+v7f4vGs2yN/NbKvoes7WSTEGJ42BMM/n6+rAqF9CDcvE7/1RXnis2oU33ht3ed
- +racY83shwxhJu35m4vPtr+7gTyvPbIHE9jTbxhT18kPKJAXMez8rHH7XyHH9XCvs8gzpTUiMfD8+5ZZVvsYajDzhtODCq+jdz8SoCPibQWEzR896TZjpow4
- MHhbRo1NKZO7J60POfe+a5ipNZiK9Nkku0PuA/CvkKc=
+References: <20190920135137.10052-1-ricardo@ribalda.com> <20190920135137.10052-8-ricardo@ribalda.com>
+ <6e4c1969-a80d-4747-7a44-b7a46804fe12@xs4all.nl>
+In-Reply-To: <6e4c1969-a80d-4747-7a44-b7a46804fe12@xs4all.nl>
+From:   Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Date:   Fri, 27 Sep 2019 09:33:53 +0200
+Message-ID: <CAPybu_3ga6rJ8pzw3wAP=nMOHDqeQEWWa-reto7Xk_FzRFVLyw@mail.gmail.com>
+Subject: Re: [PATCH v6 7/7] media: imx214: Add new control with V4L2_CID_UNIT_CELL_SIZE
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 9/12/19 6:01 PM, Philipp Zabel wrote:
-> Iterate over all media bus formats, not just over the first format in
-> each imx_media_pixfmt entry.
-> 
-> Before:
-> 
->   $ v4l2-ctl -d $(media-ctl -e ipu1_csi0) --list-subdev-mbus-codes 0
->   ioctl: VIDIOC_SUBDEV_ENUM_MBUS_CODE (pad=0)
-> 	0x2006: MEDIA_BUS_FMT_UYVY8_2X8
-> 	0x2008: MEDIA_BUS_FMT_YUYV8_2X8
-> 	0x1008: MEDIA_BUS_FMT_RGB565_2X8_LE
-> 	0x100a: MEDIA_BUS_FMT_RGB888_1X24
-> 	0x100d: MEDIA_BUS_FMT_ARGB8888_1X32
-> 	0x3001: MEDIA_BUS_FMT_SBGGR8_1X8
-> 	0x3013: MEDIA_BUS_FMT_SGBRG8_1X8
-> 	0x3002: MEDIA_BUS_FMT_SGRBG8_1X8
-> 	0x3014: MEDIA_BUS_FMT_SRGGB8_1X8
-> 	0x3007: MEDIA_BUS_FMT_SBGGR10_1X10
-> 	0x300e: MEDIA_BUS_FMT_SGBRG10_1X10
-> 	0x300a: MEDIA_BUS_FMT_SGRBG10_1X10
-> 	0x300f: MEDIA_BUS_FMT_SRGGB10_1X10
-> 	0x2001: MEDIA_BUS_FMT_Y8_1X8
-> 	0x200a: MEDIA_BUS_FMT_Y10_1X10
-> 
-> After:
-> 
->   $ v4l2-ctl -d $(media-ctl -e ipu1_csi0) --list-subdev-mbus-codes 0
->   ioctl: VIDIOC_SUBDEV_ENUM_MBUS_CODE (pad=0)
-> 	0x2006: MEDIA_BUS_FMT_UYVY8_2X8
-> 	0x200f: MEDIA_BUS_FMT_UYVY8_1X16
-> 	0x2008: MEDIA_BUS_FMT_YUYV8_2X8
-> 	0x2011: MEDIA_BUS_FMT_YUYV8_1X16
-> 	0x1008: MEDIA_BUS_FMT_RGB565_2X8_LE
-> 	0x100a: MEDIA_BUS_FMT_RGB888_1X24
-> 	0x100c: MEDIA_BUS_FMT_RGB888_2X12_LE
-> 	0x100d: MEDIA_BUS_FMT_ARGB8888_1X32
-> 	0x3001: MEDIA_BUS_FMT_SBGGR8_1X8
-> 	0x3013: MEDIA_BUS_FMT_SGBRG8_1X8
-> 	0x3002: MEDIA_BUS_FMT_SGRBG8_1X8
-> 	0x3014: MEDIA_BUS_FMT_SRGGB8_1X8
-> 	0x3007: MEDIA_BUS_FMT_SBGGR10_1X10
-> 	0x3008: MEDIA_BUS_FMT_SBGGR12_1X12
-> 	0x3019: MEDIA_BUS_FMT_SBGGR14_1X14
-> 	0x301d: MEDIA_BUS_FMT_SBGGR16_1X16
-> 	0x300e: MEDIA_BUS_FMT_SGBRG10_1X10
-> 	0x3010: MEDIA_BUS_FMT_SGBRG12_1X12
-> 	0x301a: MEDIA_BUS_FMT_SGBRG14_1X14
-> 	0x301e: MEDIA_BUS_FMT_SGBRG16_1X16
-> 	0x300a: MEDIA_BUS_FMT_SGRBG10_1X10
-> 	0x3011: MEDIA_BUS_FMT_SGRBG12_1X12
-> 	0x301b: MEDIA_BUS_FMT_SGRBG14_1X14
-> 	0x301f: MEDIA_BUS_FMT_SGRBG16_1X16
-> 	0x300f: MEDIA_BUS_FMT_SRGGB10_1X10
-> 	0x3012: MEDIA_BUS_FMT_SRGGB12_1X12
-> 	0x301c: MEDIA_BUS_FMT_SRGGB14_1X14
-> 	0x3020: MEDIA_BUS_FMT_SRGGB16_1X16
-> 	0x2001: MEDIA_BUS_FMT_Y8_1X8
-> 	0x200a: MEDIA_BUS_FMT_Y10_1X10
-> 	0x2013: MEDIA_BUS_FMT_Y12_1X12
-> 
-> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
-> ---
->  drivers/staging/media/imx/imx-media-utils.c | 19 +++++++++++++++----
->  1 file changed, 15 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
-> index d61a8f4533dc..5f8604db4dd4 100644
-> --- a/drivers/staging/media/imx/imx-media-utils.c
-> +++ b/drivers/staging/media/imx/imx-media-utils.c
-> @@ -254,7 +254,7 @@ static int enum_format(u32 *fourcc, u32 *code, u32 index,
->  		       bool allow_bayer)
->  {
+Hi Hans
 
-This function is becoming confusing. I think you should add some comments explaining
-what the function does. Specifically the fourcc and code arguments.
+On Fri, 27 Sep 2019, 09:14 Hans Verkuil, <hverkuil-cisco@xs4all.nl> wrote:
+>
+> On 9/20/19 3:51 PM, Ricardo Ribalda Delgado wrote:
+> > From: Ricardo Ribalda Delgado <ribalda@kernel.org>
+> >
+> > According to the product brief, the unit cell size is 1120 nanometers^2.
+> >
+> > https://www.sony-semicon.co.jp/products_en/IS/sensor1/img/products/ProductBrief_IMX214_20150428.pdf
+> >
+> > Signed-off-by: Ricardo Ribalda Delgado <ribalda@kernel.org>
+> > ---
+> >  drivers/media/i2c/imx214.c | 12 ++++++++++++
+> >  1 file changed, 12 insertions(+)
+> >
+> > diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
+> > index 159a3a604f0e..57562e20c4ca 100644
+> > --- a/drivers/media/i2c/imx214.c
+> > +++ b/drivers/media/i2c/imx214.c
+> > @@ -47,6 +47,7 @@ struct imx214 {
+> >       struct v4l2_ctrl *pixel_rate;
+> >       struct v4l2_ctrl *link_freq;
+> >       struct v4l2_ctrl *exposure;
+> > +     struct v4l2_ctrl *unit_size;
+> >
+> >       struct regulator_bulk_data      supplies[IMX214_NUM_SUPPLIES];
+> >
+> > @@ -948,6 +949,13 @@ static int imx214_probe(struct i2c_client *client)
+> >       static const s64 link_freq[] = {
+> >               IMX214_DEFAULT_LINK_FREQ,
+> >       };
+> > +     struct v4l2_area unit_size = {
+> > +             .width = 1120,
+> > +             .height = 1120,
+> > +     };
+> > +     union v4l2_ctrl_ptr p_def = {
+> > +             .p_area = &unit_size,
+> > +     };
+>
+> Use static const for both.
+>
+> I think you should add a small static inline helper function to v4l2-ctrls.h that
+> takes a void pointer and returns a union v4l2_ctrl_ptr.
+>
+> Then you don't need to make a union v4l2_ctrl_ptr just to pass the unit_size pointer.
+>
 
-Can both be non-NULL? Or only one of the two? I think that if fourcc is non-NULL you
-enumerate over the V4L2 pixelformats, if code is non-NULL, then you enumerate over
-the mediabus codes.
+That sounds useful, but can we warantee for all the arches that
+sizeof(v4l2_ctrl_ptr) <= sizeof (void *)
 
-If so, then I think it would be easier to understand if you just make two functions:
-enum_formats and enum_codes, rather than trying to merge them into one.
+Of course, it sounds logic, that a union of pointers is the same size
+than a pointer... but you never know.
 
-Patches 1 and 2 of this series look good, so I'll take those.
+No matter what I will make the helper and resend. with all the changes
+from Jacopo
 
-Regards,
+Thanks!
 
-	Hans
+> Regards,
 
->  	const struct imx_media_pixfmt *fmt;
-> -	unsigned int i, j = 0;
-> +	unsigned int i, j, k = 0;
->  
->  	for (i = 0; i < ARRAY_SIZE(pixel_formats); i++) {
->  		fmt = &pixel_formats[i];
-> @@ -264,18 +264,29 @@ static int enum_format(u32 *fourcc, u32 *code, u32 index,
->  		    (!allow_bayer && fmt->bayer))
->  			continue;
->  
-> -		if (index == j)
-> +		if (fourcc && index == k)
->  			break;
->  
-> -		j++;
-> +		if (!code) {
-> +			k++;
-> +			continue;
-> +		}
-> +
-> +		for (j = 0; j < ARRAY_SIZE(fmt->codes) && fmt->codes[j]; j++) {
-> +			if (index == k)
-> +				goto out;
-> +
-> +			k++;
-> +		}
->  	}
->  	if (i == ARRAY_SIZE(pixel_formats))
->  		return -EINVAL;
->  
-> +out:
->  	if (fourcc)
->  		*fourcc = fmt->fourcc;
->  	if (code)
-> -		*code = fmt->codes[0];
-> +		*code = fmt->codes[j];
->  
->  	return 0;
->  }
-> 
 
+
+>
+>         Hans
+>
+> >       int ret;
+> >
+> >       ret = imx214_parse_fwnode(dev);
+> > @@ -1029,6 +1037,10 @@ static int imx214_probe(struct i2c_client *client)
+> >                                            V4L2_CID_EXPOSURE,
+> >                                            0, 3184, 1, 0x0c70);
+> >
+> > +     imx214->unit_size = v4l2_ctrl_new_std_compound(&imx214->ctrls,
+> > +                                                    NULL,
+> > +                                                    V4L2_CID_UNIT_CELL_SIZE,
+> > +                                                    p_def);
+> >       ret = imx214->ctrls.error;
+> >       if (ret) {
+> >               dev_err(&client->dev, "%s control init failed (%d)\n",
+> >
+>
