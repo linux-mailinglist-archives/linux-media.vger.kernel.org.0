@@ -2,49 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D64DC0705
-	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2019 16:09:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 19DD3C071F
+	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2019 16:16:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727088AbfI0OJQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Sep 2019 10:09:16 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:50713 "EHLO
+        id S1727154AbfI0OPr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Sep 2019 10:15:47 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:41593 "EHLO
         lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726926AbfI0OJQ (ORCPT
+        by vger.kernel.org with ESMTP id S1726540AbfI0OPr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Sep 2019 10:09:16 -0400
+        Fri, 27 Sep 2019 10:15:47 -0400
 Received: from [IPv6:2001:420:44c1:2577:2521:77be:ff76:8085] ([IPv6:2001:420:44c1:2577:2521:77be:ff76:8085])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id DqvniXz8FKKNGDqvriEAO9; Fri, 27 Sep 2019 16:09:15 +0200
+        id Dr25iY1oBKKNGDr29iECKo; Fri, 27 Sep 2019 16:15:45 +0200
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Dariusz Marcinkiewicz <darekm@google.com>
+Cc:     Shuah Khan <skhan@linuxfoundation.org>,
+        Helen Koike <helen.koike@collabora.com>
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [GIT PULL FOR v5.5] cec fixes and improvements
-Message-ID: <2db83ecb-d773-bec1-e00e-1ad0b6ccb7f0@xs4all.nl>
-Date:   Fri, 27 Sep 2019 16:09:11 +0200
+Subject: [GIT PULL FOR v5.5] vimc: Collapse component structure into a single
+ monolithic driver
+Message-ID: <6618e8ee-7ea8-6172-ac96-5228a769a3b3@xs4all.nl>
+Date:   Fri, 27 Sep 2019 16:15:41 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfDRjFpItBZRr0rk+bZefviJH606ny4XlBwG98juj3tQPlAI/SllmKP2/4d2EjAmAYhihpB0qyBYwRzNIy4aX3G7JmIf/dZd8qWqxH0dGJ090QDKqZ9fX
- R+xdpxPAIkOM6G/Ectd7enYU/+GyxARU49fUAptH6gJLbPeRVhCJi7hRk/l4AsCES2UHTpIHY8D1/yVJmEMO71Xv+T8ZYTc400wK00kjlofRFOWDe2WOBtAm
- XHut4tIswm94+uD0Vruy1a7TKsMbzV9ZB/LT4NXsua9Mq+hTELvtSRbQcfO+Ci/qoycvNiknBHVc03sVUQ5SIct5A9ERGoXG8MksDJUwAI4=
+X-CMAE-Envelope: MS4wfH7MpzN3Kb/0u+J3Cnvt6u7FJBRtXdNl5NbP0aJ6fUaxvSAbwA6geGyY3jm8qzQJkr0lLL52RTUxKn8pElT7XQWnKV/Cew42DbaK4h91V/FIhYfdNkVG
+ mVtUsPc2yGJH90NSKvc0Zd2f4RaJyo5Gx7Geqqy7wnpndHwRpC7NVGd9p/xAUeXSF819Mv4APxpg9EkIF57o0x1pa2elhLQTtTySfrj0dWiB8IDr334mjimc
+ HrIrXODOKRsO5rVFnfNypQqN8bxP6tHyIdSHAD6wSlwzUegsiB2RlrZmijbvXSNaALGzXUXbo5y489N7L9mmQHfHF8D/nNCk0GGEh5+rktNLRaMuerGNcCWe
+ M2zXs2m5ifnQ7CXtq2tFNqAZvAS8bQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Speaks for itself. This will require a change to the v4l-utils test-media script.
+A patch is ready for that to apply once this is merged.
 
-Here are various fixes and improvements for the CEC framework.
-
-In particular this enables the new CEC_ADAP_G_CONNECTOR_INFO ioctl that
-Dariusz has been working on.
-
-Once this is merged, v4l-utils will also need to be updated to use the
-new ioctl and the new UI_CMD defines: patches for that are ready to be
-applied once this lands.
+Various other upcoming vimc patches all depend on this going in first.
 
 Regards,
 
@@ -56,36 +53,32 @@ The following changes since commit 6f51fdfd8229d5358c2d6e272cf73478866e8ddc:
 
 are available in the Git repository at:
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.5a
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.5b
 
-for you to fetch changes up to 8d6802763bf5df69ddf254881a6c84381af9967a:
+for you to fetch changes up to 79d94c0816a617f40bc43ee7e7da14d73346a078:
 
-  cec-gpio: add notifier support (2019-09-26 16:13:01 +0200)
+  MAINTAINERS: Add reviewer to vimc driver (2019-09-20 11:06:36 +0200)
 
 ----------------------------------------------------------------
 Tag branch
 
 ----------------------------------------------------------------
-Dariusz Marcinkiewicz (2):
-      cec: expose the new connector info API
-      cec: document CEC_ADAP_G_CONNECTOR_INFO and capability
+Shuah Khan (5):
+      media: vimc: Collapse component structure into a single monolithic driver
+      media: vimc: Fix gpf in rmmod path when stream is active
+      vimc: move duplicated IS_SRC and IS_SINK to common header
+      doc: media: vimc: Update module parameter usage information
+      MAINTAINERS: Add reviewer to vimc driver
 
-Hans Verkuil (4):
-      uapi/linux/cec.h: add defines for the CEC UI Command Operand
-      cec/cec-adap.c: use new UI_CMD defines
-      cec.h: CEC_OP_REC_FLAG_ values were swapped
-      cec-gpio: add notifier support
-
- Documentation/media/uapi/cec/cec-funcs.rst                |   1 +
- Documentation/media/uapi/cec/cec-ioc-adap-g-caps.rst      |   6 ++-
- Documentation/media/uapi/cec/cec-ioc-adap-g-conn-info.rst | 105 +++++++++++++++++++++++++++++++++++++++
- Documentation/media/uapi/cec/cec-ioc-dqevent.rst          |   8 +++
- drivers/media/cec/cec-adap.c                              |  12 +++--
- drivers/media/cec/cec-api.c                               |  20 ++++++++
- drivers/media/cec/cec-core.c                              |   5 --
- drivers/media/platform/Kconfig                            |   1 +
- drivers/media/platform/cec-gpio/cec-gpio.c                |  41 ++++++++++++----
- include/media/cec.h                                       |  31 ------------
- include/uapi/linux/cec.h                                  | 133 +++++++++++++++++++++++++++++++++++++++++++++++++-
- 11 files changed, 312 insertions(+), 51 deletions(-)
- create mode 100644 Documentation/media/uapi/cec/cec-ioc-adap-g-conn-info.rst
+ Documentation/media/v4l-drivers/vimc.rst    |  12 ++--
+ MAINTAINERS                                 |   1 +
+ drivers/media/platform/vimc/Makefile        |   7 ++-
+ drivers/media/platform/vimc/vimc-capture.c  |  81 +++++-------------------
+ drivers/media/platform/vimc/vimc-common.c   |   3 +-
+ drivers/media/platform/vimc/vimc-common.h   |  58 +++++++++++++++++
+ drivers/media/platform/vimc/vimc-core.c     | 216 ++++++++++++++++++++++++++--------------------------------------
+ drivers/media/platform/vimc/vimc-debayer.c  |  85 +++++--------------------
+ drivers/media/platform/vimc/vimc-scaler.c   |  84 +++++--------------------
+ drivers/media/platform/vimc/vimc-sensor.c   |  74 ++++------------------
+ drivers/media/platform/vimc/vimc-streamer.c |   1 -
+ 11 files changed, 217 insertions(+), 405 deletions(-)
