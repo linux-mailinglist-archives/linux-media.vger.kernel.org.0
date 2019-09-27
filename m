@@ -2,361 +2,268 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C34FAC0095
-	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2019 10:03:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E5FEC0180
+	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2019 10:52:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726483AbfI0IDr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Sep 2019 04:03:47 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:43221 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725804AbfI0IDr (ORCPT
+        id S1726293AbfI0IwW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Sep 2019 04:52:22 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:46953 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726116AbfI0IwW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Sep 2019 04:03:47 -0400
-Received: from [192.168.2.10] ([46.9.232.237])
+        Fri, 27 Sep 2019 04:52:22 -0400
+Received: from [IPv6:2001:420:44c1:2577:2521:77be:ff76:8085] ([IPv6:2001:420:44c1:2577:2521:77be:ff76:8085])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id DlE5iKDvx9D4hDlE8iAutw; Fri, 27 Sep 2019 10:03:45 +0200
-Subject: Re: [PATCH 2/3] media: imx: fix and simplify pixel format enumeration
-To:     Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org
-Cc:     Steve Longerbeam <slongerbeam@gmail.com>, kernel@pengutronix.de
-References: <20190912160122.5545-1-p.zabel@pengutronix.de>
- <20190912160122.5545-2-p.zabel@pengutronix.de>
+        id Dlz5iKVuu9D4hDlz8iB8Im; Fri, 27 Sep 2019 10:52:19 +0200
+Subject: Re: [PATCH v10 13/14] media: tvp5150: add support to limit sdtv
+ standards
+To:     Marco Felsch <m.felsch@pengutronix.de>, mchehab@kernel.org,
+        sakari.ailus@linux.intel.com, hans.verkuil@cisco.com,
+        jacopo+renesas@jmondi.org, robh+dt@kernel.org,
+        laurent.pinchart@ideasonboard.com
+Cc:     devicetree@vger.kernel.org, kernel@pengutronix.de,
+        linux-media@vger.kernel.org
+References: <20190830101646.6530-1-m.felsch@pengutronix.de>
+ <20190830101646.6530-14-m.felsch@pengutronix.de>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <d4eaa1d4-6222-e259-14e7-4f35c4b64e0f@xs4all.nl>
-Date:   Fri, 27 Sep 2019 10:03:41 +0200
+Message-ID: <3a04cee0-0d2a-d727-8a88-61370e71db0f@xs4all.nl>
+Date:   Fri, 27 Sep 2019 10:52:14 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190912160122.5545-2-p.zabel@pengutronix.de>
+In-Reply-To: <20190830101646.6530-14-m.felsch@pengutronix.de>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfN8i9trnTbMiPlTZ5+SULNBEyOAAm/KkV7IMtuZOEZGyQ5kZsPT7coUnmtcGQ8rHGCiAy+yzPehVjfLTK0qlDpf12H2ZLWgmN8cySg84EqFH0l2AKBZY
- DwVFuad9o8Urd78Xv0B0kSUpoE5IMlkqJ4HGqWaFd4nWOn7lKs+qZ7lQyU/l877OrsWxyZm8Xwl7TdE5Mnf4iLLQAXnZ4uja7kbNz9856O6Vscutk92os+Hs
- gBJzF86d571wky/BNA3kUF1ECl5ucpzGShYYMWqMgG0=
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfF3BRl2u1yZmbbnwHfq074p2pdMBVJJ2hLK59/1Tj8gyttQcWKR+CJx2wG0p8r446aeBYyKDfFyXuTAHp6mZCCQuRwhlsb+4CTYCv5dU1wL2NGzViCSZ
+ /ayF6ffhhBjhZLxK46X+rR8Am1gLopMcSAEpnFNHcmL3UopK1fu+4glkwlzJ7DHmX0Fya1NV5alBCOek9gGynRuWkUv5EFhzApmzWn0kooM8C3J5GZUuU2+G
+ G/BuA+RLj8vi7IOIkZ+wgXY2+5VcC5oYGyEjUgHh/LXbDkRIGh+o8Q0Gcf+9sU+6tSUTsPCFhEJ/8I8MP+4gtRRX65879rECqXcRkh7BfJcaZQ+WEyWdb8jW
+ DzOV48dNKuQsG+/q4RT2qX9fPnJIxYamaKU0Lut32zySygMY832PdLfvYtIsM5EB4v3tgEVZsCcjx8nT5nx2LmbYa8M4+4z6CBxaCeRKaqFKArOJw7UgX4sd
+ jHvOeykJ8/mz7+fPPZW6Hi9t+FCM8/niVv/N6dKNFEUgOO0RrtfupSyyRtz9bmYzbrJZuKw1bkNIVdCwNQr4tlheStdUd0iNs8rLnW//sHs0JvapbHVOn+Ny
+ h+eKrPPByLja6rUeMpodDYq6jbf01fWX6z8dFvcrGfX8Lg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 9/12/19 6:01 PM, Philipp Zabel wrote:
-> Merge yuv_formats and rgb_formats into a single array. Always loop over
-> all entries, skipping those that are incompatible with the requested
-> enumeration. This simplifies the code, lets us get rid of the manual
-> counting of array entries, and stops accidentally ignoring some non-mbus
-> RGB formats.
-> 
-> Before:
-> 
->   $ v4l2-ctl -d /dev/video14 --list-formats-out
->   ioctl: VIDIOC_ENUM_FMT
-> 	Type: Video Output
-> 
-> 	[0]: 'UYVY' (UYVY 4:2:2)
-> 	[1]: 'YUYV' (YUYV 4:2:2)
-> 	[2]: 'YU12' (Planar YUV 4:2:0)
-> 	[3]: 'YV12' (Planar YVU 4:2:0)
-> 	[4]: '422P' (Planar YUV 4:2:2)
-> 	[5]: 'NV12' (Y/CbCr 4:2:0)
-> 	[6]: 'NV16' (Y/CbCr 4:2:2)
-> 	[7]: 'RGBP' (16-bit RGB 5-6-5)
-> 	[8]: 'RGB3' (24-bit RGB 8-8-8)
-> 	[9]: 'BX24' (32-bit XRGB 8-8-8-8)
-> 
-> After:
-> 
->   $ v4l2-ctl -d /dev/video14 --list-formats-out
->   ioctl: VIDIOC_ENUM_FMT
-> 	Type: Video Output
-> 
-> 	[0]: 'UYVY' (UYVY 4:2:2)
-> 	[1]: 'YUYV' (YUYV 4:2:2)
-> 	[2]: 'YU12' (Planar YUV 4:2:0)
-> 	[3]: 'YV12' (Planar YVU 4:2:0)
-> 	[4]: '422P' (Planar YUV 4:2:2)
-> 	[5]: 'NV12' (Y/CbCr 4:2:0)
-> 	[6]: 'NV16' (Y/CbCr 4:2:2)
-> 	[7]: 'RGBP' (16-bit RGB 5-6-5)
-> 	[8]: 'RGB3' (24-bit RGB 8-8-8)
-> 	[9]: 'BGR3' (24-bit BGR 8-8-8)
-> 	[10]: 'BX24' (32-bit XRGB 8-8-8-8)
-> 	[11]: 'XR24' (32-bit BGRX 8-8-8-8)
-> 	[12]: 'RX24' (32-bit XBGR 8-8-8-8)
-> 	[13]: 'XB24' (32-bit RGBX 8-8-8-8)
-> 
-> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
-> ---
->  drivers/staging/media/imx/imx-media-utils.c | 170 ++++++--------------
->  1 file changed, 45 insertions(+), 125 deletions(-)
-> 
-> diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
-> index 0788a1874557..d61a8f4533dc 100644
-> --- a/drivers/staging/media/imx/imx-media-utils.c
-> +++ b/drivers/staging/media/imx/imx-media-utils.c
-> @@ -9,12 +9,9 @@
->  
->  /*
->   * List of supported pixel formats for the subdevs.
-> - *
-> - * In all of these tables, the non-mbus formats (with no
-> - * mbus codes) must all fall at the end of the table.
->   */
-> -
-> -static const struct imx_media_pixfmt yuv_formats[] = {
-> +static const struct imx_media_pixfmt pixel_formats[] = {
-> +	/*** YUV formats start here ***/
->  	{
->  		.fourcc	= V4L2_PIX_FMT_UYVY,
->  		.codes  = {
-> @@ -31,12 +28,7 @@ static const struct imx_media_pixfmt yuv_formats[] = {
->  		},
->  		.cs     = IPUV3_COLORSPACE_YUV,
->  		.bpp    = 16,
-> -	},
-> -	/***
-> -	 * non-mbus YUV formats start here. NOTE! when adding non-mbus
-> -	 * formats, NUM_NON_MBUS_YUV_FORMATS must be updated below.
-> -	 ***/
-> -	{
-> +	}, {
->  		.fourcc	= V4L2_PIX_FMT_YUV420,
->  		.cs     = IPUV3_COLORSPACE_YUV,
->  		.bpp    = 12,
-> @@ -62,13 +54,7 @@ static const struct imx_media_pixfmt yuv_formats[] = {
->  		.bpp    = 16,
->  		.planar = true,
->  	},
-> -};
-> -
-> -#define NUM_NON_MBUS_YUV_FORMATS 5
-> -#define NUM_YUV_FORMATS ARRAY_SIZE(yuv_formats)
-> -#define NUM_MBUS_YUV_FORMATS (NUM_YUV_FORMATS - NUM_NON_MBUS_YUV_FORMATS)
-> -
-> -static const struct imx_media_pixfmt rgb_formats[] = {
-> +	/*** RGB formats start here ***/
->  	{
->  		.fourcc	= V4L2_PIX_FMT_RGB565,
->  		.codes  = {MEDIA_BUS_FMT_RGB565_2X8_LE},
-> @@ -83,12 +69,28 @@ static const struct imx_media_pixfmt rgb_formats[] = {
->  		},
->  		.cs     = IPUV3_COLORSPACE_RGB,
->  		.bpp    = 24,
-> +	}, {
-> +		.fourcc	= V4L2_PIX_FMT_BGR24,
-> +		.cs     = IPUV3_COLORSPACE_RGB,
-> +		.bpp    = 24,
->  	}, {
->  		.fourcc	= V4L2_PIX_FMT_XRGB32,
->  		.codes  = {MEDIA_BUS_FMT_ARGB8888_1X32},
->  		.cs     = IPUV3_COLORSPACE_RGB,
->  		.bpp    = 32,
->  		.ipufmt = true,
-> +	}, {
-> +		.fourcc	= V4L2_PIX_FMT_XBGR32,
-> +		.cs     = IPUV3_COLORSPACE_RGB,
-> +		.bpp    = 32,
-> +	}, {
-> +		.fourcc	= V4L2_PIX_FMT_BGRX32,
-> +		.cs     = IPUV3_COLORSPACE_RGB,
-> +		.bpp    = 32,
-> +	}, {
-> +		.fourcc	= V4L2_PIX_FMT_RGBX32,
-> +		.cs     = IPUV3_COLORSPACE_RGB,
-> +		.bpp    = 32,
->  	},
->  	/*** raw bayer and grayscale formats start here ***/
->  	{
-> @@ -175,33 +177,8 @@ static const struct imx_media_pixfmt rgb_formats[] = {
->  		.bpp    = 16,
->  		.bayer  = true,
->  	},
-> -	/***
-> -	 * non-mbus RGB formats start here. NOTE! when adding non-mbus
-> -	 * formats, NUM_NON_MBUS_RGB_FORMATS must be updated below.
-> -	 ***/
-> -	{
-> -		.fourcc	= V4L2_PIX_FMT_BGR24,
-> -		.cs     = IPUV3_COLORSPACE_RGB,
-> -		.bpp    = 24,
-> -	}, {
-> -		.fourcc	= V4L2_PIX_FMT_XBGR32,
-> -		.cs     = IPUV3_COLORSPACE_RGB,
-> -		.bpp    = 32,
-> -	}, {
-> -		.fourcc	= V4L2_PIX_FMT_BGRX32,
-> -		.cs     = IPUV3_COLORSPACE_RGB,
-> -		.bpp    = 32,
-> -	}, {
-> -		.fourcc	= V4L2_PIX_FMT_RGBX32,
-> -		.cs     = IPUV3_COLORSPACE_RGB,
-> -		.bpp    = 32,
-> -	},
->  };
->  
-> -#define NUM_NON_MBUS_RGB_FORMATS 2
-> -#define NUM_RGB_FORMATS ARRAY_SIZE(rgb_formats)
-> -#define NUM_MBUS_RGB_FORMATS (NUM_RGB_FORMATS - NUM_NON_MBUS_RGB_FORMATS)
-> -
->  static const struct imx_media_pixfmt ipu_yuv_formats[] = {
->  	{
->  		.fourcc = V4L2_PIX_FMT_YUV32,
-> @@ -240,20 +217,20 @@ static void init_mbus_colorimetry(struct v4l2_mbus_framefmt *mbus,
->  }
->  
->  static const
-> -struct imx_media_pixfmt *__find_format(u32 fourcc,
-> -				       u32 code,
-> -				       bool allow_non_mbus,
-> -				       bool allow_bayer,
-> -				       const struct imx_media_pixfmt *array,
-> -				       u32 array_size)
-> +struct imx_media_pixfmt *find_format(u32 fourcc,
-> +				     u32 code,
-> +				     enum codespace_sel cs_sel,
-> +				     bool allow_non_mbus,
-> +				     bool allow_bayer)
->  {
->  	const struct imx_media_pixfmt *fmt;
->  	int i, j;
->  
-> -	for (i = 0; i < array_size; i++) {
-> -		fmt = &array[i];
-> +	for (i = 0; i < ARRAY_SIZE(pixel_formats); i++) {
-> +		fmt = &pixel_formats[i];
->  
-> -		if ((!allow_non_mbus && !fmt->codes[0]) ||
-> +		if ((cs_sel != CS_SEL_ANY && fmt->cs != cs_sel) ||
+Hi Marco,
 
-I'm getting this compiler warnings:
+On 8/30/19 12:16 PM, Marco Felsch wrote:
+> The tvp5150 accepts NTSC(M,J,4.43), PAL (B,D,G,H,I,M,N) and SECAM video
+> data and is able to auto-detect the input signal. The auto-detection
+> does not work if the connector does not receive an input signal and the
+> tvp5150 might not be configured correctly. This misconfiguration leads
+> into wrong decoded video streams if the tvp5150 gets powered on before
+> the video signal is present.
+> 
+> Limit the supported sdtv standards according to the actual selected
+> connector to avoid a misconfiguration.
+> 
+> Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
 
-drivers/staging/media/imx/imx-media-utils.c: In function ‘find_format’:
-drivers/staging/media/imx/imx-media-utils.c:232:40: warning: comparison between ‘const enum ipu_color_space’ and ‘enum codespace_sel’
-[-Wenum-compare]
-  232 |   if ((cs_sel != CS_SEL_ANY && fmt->cs != cs_sel) ||
-      |                                        ^~
+checkpatch gave a bunch of warnings:
 
-> +		    (!allow_non_mbus && !fmt->codes[0]) ||
->  		    (!allow_bayer && fmt->bayer))
->  			continue;
->  
-> @@ -263,7 +240,7 @@ struct imx_media_pixfmt *__find_format(u32 fourcc,
->  		if (!code)
->  			continue;
->  
-> -		for (j = 0; fmt->codes[j]; j++) {
-> +		for (j = 0; j < ARRAY_SIZE(fmt->codes) && fmt->codes[j]; j++) {
->  			if (code == fmt->codes[j])
->  				return fmt;
->  		}
-> @@ -271,86 +248,29 @@ struct imx_media_pixfmt *__find_format(u32 fourcc,
->  	return NULL;
->  }
->  
-> -static const struct imx_media_pixfmt *find_format(u32 fourcc,
-> -						  u32 code,
-> -						  enum codespace_sel cs_sel,
-> -						  bool allow_non_mbus,
-> -						  bool allow_bayer)
-> -{
-> -	const struct imx_media_pixfmt *ret;
-> -
-> -	switch (cs_sel) {
-> -	case CS_SEL_YUV:
-> -		return __find_format(fourcc, code, allow_non_mbus, allow_bayer,
-> -				     yuv_formats, NUM_YUV_FORMATS);
-> -	case CS_SEL_RGB:
-> -		return __find_format(fourcc, code, allow_non_mbus, allow_bayer,
-> -				     rgb_formats, NUM_RGB_FORMATS);
-> -	case CS_SEL_ANY:
-> -		ret = __find_format(fourcc, code, allow_non_mbus, allow_bayer,
-> -				    yuv_formats, NUM_YUV_FORMATS);
-> -		if (ret)
-> -			return ret;
-> -		return __find_format(fourcc, code, allow_non_mbus, allow_bayer,
-> -				     rgb_formats, NUM_RGB_FORMATS);
-> -	default:
-> -		return NULL;
-> -	}
-> -}
-> -
->  static int enum_format(u32 *fourcc, u32 *code, u32 index,
->  		       enum codespace_sel cs_sel,
->  		       bool allow_non_mbus,
->  		       bool allow_bayer)
->  {
->  	const struct imx_media_pixfmt *fmt;
-> -	u32 mbus_yuv_sz = NUM_MBUS_YUV_FORMATS;
-> -	u32 mbus_rgb_sz = NUM_MBUS_RGB_FORMATS;
-> -	u32 yuv_sz = NUM_YUV_FORMATS;
-> -	u32 rgb_sz = NUM_RGB_FORMATS;
-> +	unsigned int i, j = 0;
->  
-> -	switch (cs_sel) {
-> -	case CS_SEL_YUV:
-> -		if (index >= yuv_sz ||
-> -		    (!allow_non_mbus && index >= mbus_yuv_sz))
-> -			return -EINVAL;
-> -		fmt = &yuv_formats[index];
-> -		break;
-> -	case CS_SEL_RGB:
-> -		if (index >= rgb_sz ||
-> -		    (!allow_non_mbus && index >= mbus_rgb_sz))
-> -			return -EINVAL;
-> -		fmt = &rgb_formats[index];
-> -		if (!allow_bayer && fmt->bayer)
-> -			return -EINVAL;
-> -		break;
-> -	case CS_SEL_ANY:
-> -		if (!allow_non_mbus) {
-> -			if (index >= mbus_yuv_sz) {
-> -				index -= mbus_yuv_sz;
-> -				if (index >= mbus_rgb_sz)
-> -					return -EINVAL;
-> -				fmt = &rgb_formats[index];
-> -				if (!allow_bayer && fmt->bayer)
-> -					return -EINVAL;
-> -			} else {
-> -				fmt = &yuv_formats[index];
-> -			}
-> -		} else {
-> -			if (index >= yuv_sz + rgb_sz)
-> -				return -EINVAL;
-> -			if (index >= yuv_sz) {
-> -				fmt = &rgb_formats[index - yuv_sz];
-> -				if (!allow_bayer && fmt->bayer)
-> -					return -EINVAL;
-> -			} else {
-> -				fmt = &yuv_formats[index];
-> -			}
-> -		}
-> -		break;
-> -	default:
-> -		return -EINVAL;
-> +	for (i = 0; i < ARRAY_SIZE(pixel_formats); i++) {
-> +		fmt = &pixel_formats[i];
-> +
-> +		if ((cs_sel != CS_SEL_ANY && fmt->cs != cs_sel) ||
+WARNING: line over 80 characters
+#97: FILE: drivers/media/i2c/tvp5150.c:1393:
++                       decoder->cur_connector->base.connector.analog.sdtv_stds);
 
-Same warning here.
+WARNING: line over 80 characters
+#107: FILE: drivers/media/i2c/tvp5150.c:1613:
++                               decoder->connectors[i].base.connector.analog.sdtv_stds);
 
-I'm dropping this patch, I'll only merge the first patch.
+CHECK: Alignment should match open parenthesis
+#107: FILE: drivers/media/i2c/tvp5150.c:1613:
++                       tvp5150_s_std(sd,
++                               decoder->connectors[i].base.connector.analog.sdtv_stds);
+
+I think it would be best to introduce a local pointer to
+decoder->connectors[i].base.connector.analog.
 
 Regards,
 
 	Hans
 
-> +		    (!allow_non_mbus && !fmt->codes[0]) ||
-> +		    (!allow_bayer && fmt->bayer))
-> +			continue;
-> +
-> +		if (index == j)
-> +			break;
-> +
-> +		j++;
->  	}
-> +	if (i == ARRAY_SIZE(pixel_formats))
-> +		return -EINVAL;
+> ---
+> [1] https://patchwork.kernel.org/cover/10794703/
+> 
+> v8:
+> - adapt commit message
+> - fix rebasing issue
+> - apdapt to new v4l2_fwnode_connector_analog naming
+> - fix cur_connector update during tvp5150_link_setup()
+>   -> Only update if we have of-connectors.
+> - fix supported_stds detection during tvp5150_s_std()
+>   -> use connectors_num to detect of-connectors presence
+> 
+> v5:
+> - probe() initialize supported tv-norms according the given connectors
+>   if they are available.
+> - check if media-controller is used. Don't limit the norm if it isn't
+>   used.
+> - add more logic to be smarter during connector changing so it is
+>   intuitiver for the user space.
+> 
+> v2-v4:
+> - nothing since the patch was squashed from series [1] into this
+>   series.
+> 
+>  drivers/media/i2c/tvp5150.c | 78 ++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 76 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/tvp5150.c b/drivers/media/i2c/tvp5150.c
+> index d7079809f33f..da7e7fe16f89 100644
+> --- a/drivers/media/i2c/tvp5150.c
+> +++ b/drivers/media/i2c/tvp5150.c
+> @@ -32,6 +32,13 @@
+>  #define TVP5150_MBUS_FMT	MEDIA_BUS_FMT_UYVY8_2X8
+>  #define TVP5150_FIELD		V4L2_FIELD_ALTERNATE
+>  #define TVP5150_COLORSPACE	V4L2_COLORSPACE_SMPTE170M
+> +#define TVP5150_STD_MASK	(V4L2_STD_NTSC     | \
+> +				 V4L2_STD_NTSC_443 | \
+> +				 V4L2_STD_PAL      | \
+> +				 V4L2_STD_PAL_M    | \
+> +				 V4L2_STD_PAL_N    | \
+> +				 V4L2_STD_PAL_Nc   | \
+> +				 V4L2_STD_SECAM)
 >  
->  	if (fourcc)
->  		*fourcc = fmt->fourcc;
+>  #define TVP5150_MAX_CONNECTORS	3 /* Check dt-bindings for more information */
+>  
+> @@ -64,6 +71,7 @@ struct tvp5150 {
+>  
+>  	struct media_pad pads[TVP5150_NUM_PADS];
+>  	struct tvp5150_connector connectors[TVP5150_MAX_CONNECTORS];
+> +	struct tvp5150_connector *cur_connector;
+>  	unsigned int connectors_num;
+>  
+>  	struct v4l2_ctrl_handler hdl;
+> @@ -783,17 +791,33 @@ static int tvp5150_g_std(struct v4l2_subdev *sd, v4l2_std_id *std)
+>  static int tvp5150_s_std(struct v4l2_subdev *sd, v4l2_std_id std)
+>  {
+>  	struct tvp5150 *decoder = to_tvp5150(sd);
+> +	struct tvp5150_connector *cur_con = decoder->cur_connector;
+> +	v4l2_std_id supported_stds;
+>  
+>  	if (decoder->norm == std)
+>  		return 0;
+>  
+> +	/* In case of no of-connectors are available no limitations are made */
+> +	if (!decoder->connectors_num)
+> +		supported_stds = V4L2_STD_ALL;
+> +	else
+> +		supported_stds = cur_con->base.connector.analog.sdtv_stds;
+> +
+> +	/*
+> +	 * Check if requested std or group of std's is/are supported by the
+> +	 * connector.
+> +	 */
+> +	if ((supported_stds & std) == 0)
+> +		return -EINVAL;
+> +
+>  	/* Change cropping height limits */
+>  	if (std & V4L2_STD_525_60)
+>  		decoder->rect.height = TVP5150_V_MAX_525_60;
+>  	else
+>  		decoder->rect.height = TVP5150_V_MAX_OTHERS;
+>  
+> -	decoder->norm = std;
+> +	/* Set only the specific supported std in case of group of std's. */
+> +	decoder->norm = supported_stds & std;
+>  
+>  	return tvp5150_set_std(sd, std);
+>  }
+> @@ -1331,6 +1355,8 @@ static int tvp5150_link_setup(struct media_entity *entity,
+>  			  TVP5150_BLACK_SCREEN, 0);
+>  
+>  	if (flags & MEDIA_LNK_FL_ENABLED) {
+> +		u32 new_norm;
+> +
+>  		/*
+>  		 * S-Video connector is conneted to both ports AIP1A and AIP1B.
+>  		 * Both links must be enabled in one-shot regardless which link
+> @@ -1342,6 +1368,29 @@ static int tvp5150_link_setup(struct media_entity *entity,
+>  			if (err)
+>  				return err;
+>  		}
+> +
+> +		if (!decoder->connectors_num)
+> +			return 0;
+> +
+> +		/* Update the current connector */
+> +		decoder->cur_connector =
+> +			container_of(remote, struct tvp5150_connector, pad);
+> +
+> +		/*
+> +		 * Do nothing if the new connector supports the same tv-norms as
+> +		 * the old one.
+> +		 */
+> +		new_norm = decoder->norm &
+> +			decoder->cur_connector->base.connector.analog.sdtv_stds;
+> +		if (decoder->norm == new_norm)
+> +			return 0;
+> +
+> +		/*
+> +		 * Fallback to the new connector tv-norms if we can't find any
+> +		 * common between the current tv-norm and the new one.
+> +		 */
+> +		tvp5150_s_std(sd, new_norm ? new_norm :
+> +			decoder->cur_connector->base.connector.analog.sdtv_stds);
+>  	}
+>  
+>  	return 0;
+> @@ -1559,6 +1608,9 @@ static int tvp5150_registered(struct v4l2_subdev *sd)
+>  				TVP5150_COMPOSITE1;
+>  
+>  			tvp5150_selmux(sd);
+> +			decoder->cur_connector = &decoder->connectors[i];
+> +			tvp5150_s_std(sd,
+> +				decoder->connectors[i].base.connector.analog.sdtv_stds);
+>  		}
+>  	}
+>  
+> @@ -1848,6 +1900,13 @@ tvp5150_add_connector(struct tvp5150 *decoder, struct device_node *np,
+>  		goto err;
+>  	}
+>  
+> +	if (!(vc->connector.analog.sdtv_stds & TVP5150_STD_MASK)) {
+> +		dev_err(dev, "Unsupported tv-norm on connector %s\n",
+> +			remote_np->name);
+> +		ret = -EINVAL;
+> +		goto err;
+> +	}
+> +
+>  	c->ent.flags = MEDIA_ENT_FL_CONNECTOR;
+>  	c->ent.name = vc->label;
+>  	c->ent.name = kasprintf(GFP_KERNEL, "%s %s", remote_np->name,
+> @@ -1945,6 +2004,7 @@ static int tvp5150_probe(struct i2c_client *c)
+>  	struct v4l2_subdev *sd;
+>  	struct device_node *np = c->dev.of_node;
+>  	struct regmap *map;
+> +	unsigned int i;
+>  	int res;
+>  
+>  	/* Check if the adapter supports the needed features */
+> @@ -1989,7 +2049,21 @@ static int tvp5150_probe(struct i2c_client *c)
+>  	if (res < 0)
+>  		return res;
+>  
+> -	core->norm = V4L2_STD_ALL;	/* Default is autodetect */
+> +	/*
+> +	 * Iterate over all available connectors in case they are supported and
+> +	 * successfully parsed. Fallback to default autodetect in case they
+> +	 * aren't supported.
+> +	 */
+> +	for (i = 0; i < core->connectors_num; i++) {
+> +		struct v4l2_fwnode_connector *vc;
+> +
+> +		vc = &core->connectors[i].base;
+> +		core->norm |= vc->connector.analog.sdtv_stds;
+> +	}
+> +
+> +	if (!core->connectors_num)
+> +		core->norm = V4L2_STD_ALL;
+> +
+>  	core->detected_norm = V4L2_STD_UNKNOWN;
+>  	core->input = TVP5150_COMPOSITE1;
+>  	core->enable = true;
 > 
 
