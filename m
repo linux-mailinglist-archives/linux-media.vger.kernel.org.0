@@ -2,66 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 123A2BFC08
-	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2019 01:44:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E621BFDCE
+	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2019 05:53:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729007AbfIZXoZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Sep 2019 19:44:25 -0400
-Received: from mail-pf1-f178.google.com ([209.85.210.178]:46994 "EHLO
-        mail-pf1-f178.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728441AbfIZXoY (ORCPT
+        id S1728946AbfI0DxI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Sep 2019 23:53:08 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:46201 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727796AbfI0DxI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Sep 2019 19:44:24 -0400
-Received: by mail-pf1-f178.google.com with SMTP id q5so411778pfg.13
-        for <linux-media@vger.kernel.org>; Thu, 26 Sep 2019 16:44:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=FvKMV/bxKsoYkz7CSWQIzwNFI/HMU0WxaCrL8r7AeEI=;
-        b=qKbAmujYxC8AKBNKcfSpZRQvZDHYey3xNzovKJpmWohF+U4r2G5xaHJaTB0DguCzyu
-         oaUvKVBmYTdvWYKHvGLtpwbUUgaoTJTtzTwsJebr2mONRKKNPvIFlqK9GUvgu3n9bmIX
-         jQ3sfWsE1wdB49JI39MGZC3maPMlRgJtU1jEEd9716RaqD4358b/2Itv/XAopGyxvour
-         tg9SdktbZ+RE1lLrgM027hHBA+JJcurRrUhy26NfV/KBDbAxmtIajt2w/CvnA3UKd4Lk
-         zQN6+R3Zdx3XVpTKNFm/pNTnoIIqYuqw5DCBIFJwYqZudy+X2brYep0kYKqR+7srXfSC
-         OFzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=FvKMV/bxKsoYkz7CSWQIzwNFI/HMU0WxaCrL8r7AeEI=;
-        b=jJQgbCKsO4PuQrpyUw1WfxDogwFP6wjSol5PNQSiceWq29dsdfqZgr+gnTIqYRzRHf
-         AfLIeU7QrUZN8cahA6wG5p/B8Wwj6X8WCPzkrhkxRTlCk/2iJSrt7aZZPZAen3sARph8
-         wh9Kh0iryJevP6KVHNUV91q4Ew+eOTgWTd354qi/OStbqf1dGbIToTz/D+g7rNDB2QRw
-         ZYczWBFPjsp2uiZzMD749IFXiiMGgi/6lHjDPP2nkRk/bKWsX2LqjHDLMHxtWaVW01E6
-         +sf76iB7Sn31lxwa3mDKmpM995TytEKpQj03gC1j45OZLJttt/9QFaRRwjyxINaJVAEE
-         G/Ug==
-X-Gm-Message-State: APjAAAVi/r6LH5b5nosNF3wMXS24dsxJGV7Gykd2WNDQrMHBvsc/z1Zp
-        SXEvE3KWmogxQCzBcP4MTMmtdJsYkAGuSTTfk61yctowr4I=
-X-Google-Smtp-Source: APXvYqzGBjxn+MYyMfFylgBUJ0OH6VO2XYLMxDNcvlKYgIvHJ0/D5e2zkikKqHZdieboyYiT8m3nsB7i/6tTmjjanz0=
-X-Received: by 2002:a63:b95a:: with SMTP id v26mr5972458pgo.244.1569541462234;
- Thu, 26 Sep 2019 16:44:22 -0700 (PDT)
-MIME-Version: 1.0
-From:   Dito Windyaksa <morpig2@gmail.com>
-Date:   Fri, 27 Sep 2019 06:44:10 +0700
-Message-ID: <CAGN+7qj4MWhm7Da2eWM+wiN+14p1To7gsbYavfbS2TkKTRO2Ag@mail.gmail.com>
-Subject: Elgato EyeTV Hybrid not detected
+        Thu, 26 Sep 2019 23:53:08 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:ed2d:8cc3:47ee:4733])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id DhJYiJ3CW9D4hDhJZiAE6U; Fri, 27 Sep 2019 05:53:05 +0200
+Message-ID: <5820b65bc30a9b086a73be4cb58c9e1e@smtp-cloud7.xs4all.net>
+Date:   Fri, 27 Sep 2019 05:53:04 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
 To:     linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: cron job: media_tree daily build: OK
+X-CMAE-Envelope: MS4wfAD31BOWuAmHC5VtAZ9Vrq+4ghGnl6TqLQEbZlnVMu1oKuLRYA5LU2YUGNnvqNmDNjULJpVnSS77wKDORiS9P98QJpnFNdKZTlVbU5G1qsAYjJLgITwe
+ Km2Z7rUJsX4pjUN8D8zBN+SGOQvpIBvWGVF4dJ2yoNpxYn94ySmsZrV47rcwB6cV0XRhcZCnHSXipcWoWkg4Lj6oufY3F30azfJdjy6lZLT87/XfnF5CNu6C
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi there,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-I recently bought an Elgato eyetv hybrid and found out that after
-hours of researching it has a different product id, thus not being
-detected.
+Results of the daily build of media_tree:
 
-Is there any guide/steps on how I can add my device to support it
-without waiting a kernel release?
+date:			Fri Sep 27 05:00:11 CEST 2019
+media-tree git hash:	6f51fdfd8229d5358c2d6e272cf73478866e8ddc
+media_build git hash:	d75b29db1297d2475227cc8bada843542271e40d
+v4l-utils git hash:	a7bc8a9ddd452e54d80f0e557c0e31f209b54b76
+edid-decode git hash:	7696439db703eeca7248af6c3a17d2e19a9292ea
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1-rc1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.5.1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 8634894b41454ef4215a3d4fd503305c720e761a
+host hardware:		x86_64
+host os:		5.2.0-2-amd64
 
-The result from lsusb shows that it is a YUANRD STK7700D. lsusb result is below:
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2329, Succeeded: 2329, Failed: 0, Warnings: 0
+sparse: OK
+smatch: OK
 
-https://pastebin.com/H65xn17h
+Detailed results are available here:
 
-Thanks!
+http://www.xs4all.nl/~hverkuil/logs/Friday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
