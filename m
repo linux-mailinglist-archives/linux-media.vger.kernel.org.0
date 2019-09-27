@@ -2,262 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DF24CC0CC8
-	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2019 22:44:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C7C1C0CDA
+	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2019 22:49:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728300AbfI0Unr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Sep 2019 16:43:47 -0400
-Received: from mail-lj1-f169.google.com ([209.85.208.169]:44156 "EHLO
-        mail-lj1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727253AbfI0Unq (ORCPT
+        id S1728273AbfI0UtI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Sep 2019 16:49:08 -0400
+Received: from mail-io1-f71.google.com ([209.85.166.71]:54600 "EHLO
+        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725789AbfI0UtH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Sep 2019 16:43:46 -0400
-Received: by mail-lj1-f169.google.com with SMTP id m13so3729339ljj.11
-        for <linux-media@vger.kernel.org>; Fri, 27 Sep 2019 13:43:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=A0GOiTYcakjAsLgMbhX6Gl6xJaZlx6KbV4y/K1peXEI=;
-        b=AR/Au2s+7lQ9sclq3bK8t01/TXhB7sbpX9bS2NjVaOFNB9gM40RN6jNnSE6aCyggh6
-         FjvHFo92laJsiTYib53OGFXorKCaGJGq2o7Xd21NwIzvufPNPiIM80dwd1WJWg/JSzYt
-         mtw5LG9ns1AnVpi9EpMeEOW0Iqjqo4XR+sda5JqPYXQOG0e5eZ2sebCAmXWYQwpxQkYj
-         g1G1uGXyn8lyAULLJeE9bhp+l9lJig6kbWHU0TOi0HHqnQ8GBuTvkwsshHCFRTkYVqDC
-         MYIM5h9MGyRmxdjAgngqBKF6LAXXj3KEWd+uPTrz+Tn6T2iSRv8vlCQ+7r9/CNaQxqCG
-         MUUQ==
+        Fri, 27 Sep 2019 16:49:07 -0400
+Received: by mail-io1-f71.google.com with SMTP id w8so14828808iod.21
+        for <linux-media@vger.kernel.org>; Fri, 27 Sep 2019 13:49:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=A0GOiTYcakjAsLgMbhX6Gl6xJaZlx6KbV4y/K1peXEI=;
-        b=ROC4Na1y5Y/Nf1PHd+/RGjx/duMVmPqYqWzcakUnFUOKuMM2xCdExYD6MpwV4JCZc2
-         nvtq3I6ZZWHBD6UnFSUf6kZnKqgTqn6LgT1AagsZ1f0BNWbDiKSzj1/qzKphAEolOQ9Z
-         uOLGC0LrfpynRWdhfc1OICTvFzmkhbrQhnTxnerNbKydQvtz37T8Fl7lN5EOf29RxdJT
-         WA8fG9si2AZmBL7p4z6xDIQsTtvun+bQvhkfaUEOlGaOXuWcW5KmorzAxrvibOCKOV3b
-         LrHYhoDkGBHqvKHbXh5vXmeeuMWGmKQwhJqKSLr95SuhvzzSTuo244DO7C0XFqKmSp23
-         z2hQ==
-X-Gm-Message-State: APjAAAVj33fkdHRESR55kvowaRZ30sTgsMn0OvF0wtoQN5Wm+UtBz8uF
-        zpYX/CSGLInrPx5+Vh8UrkUcqg==
-X-Google-Smtp-Source: APXvYqxdsX9RsMQgUiuSw434Z+l3kvSe89jRZ2Qm/1YwlVyDnT+ULtg7zMmNOQeGGubp2NFuaGnsgA==
-X-Received: by 2002:a2e:85d2:: with SMTP id h18mr4011053ljj.18.1569617021581;
-        Fri, 27 Sep 2019 13:43:41 -0700 (PDT)
-Received: from localhost (h-93-159.A463.priv.bahnhof.se. [46.59.93.159])
-        by smtp.gmail.com with ESMTPSA id k23sm657897ljk.93.2019.09.27.13.43.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Sep 2019 13:43:40 -0700 (PDT)
-Date:   Fri, 27 Sep 2019 22:43:40 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Tim Harvey <tharvey@gateworks.com>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Matthew Michilot <matthew.michilot@gmail.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] media: i2c: adv7180: fix adv7280 BT.656-4 compatibility
-Message-ID: <20190927204340.GB7409@bigcity.dyn.berto.se>
-References: <20190827215539.1286-1-mmichilot@gateworks.com>
- <cb3e9be4-9ce6-354f-bb7c-a4710edc1c1b@xs4all.nl>
- <20190829142931.GZ28351@bigcity.dyn.berto.se>
- <CAJ+vNU11HTcP8L5J2Xg+Rmhvb8JDYemhJxt-GaGG5Myk3n38Tw@mail.gmail.com>
- <20190927190454.GA7409@bigcity.dyn.berto.se>
- <CAJ+vNU2shAbnLO9TY4dtPupLxE4UFvNi9FXoFF4MfPbtbAZo=g@mail.gmail.com>
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=8QPGYslH7xbixxtcmS2ekXL3LroU9FXTwTMy0L8QLKo=;
+        b=MCavZ4cDaJGbYV3YKuDiZrHnFds0NiQP1iI/CBzYGQBcwW30bhhTQ9KDwt/0rOtjQV
+         NAY+t1ET5w/LSnyHC4zyKLEti3ga+JJ8QAZRJb64/PXg0UwvzLoP/id0ecBXzR7SY0ah
+         OdmJrcGrnf0UBBpR+9xNC3z6FFElJ7XNCYj4DlYAPLITt1fDmYsbLnGTLyriYzTaFE0f
+         5G6IvdNGJhf57vjvVxU1rUcymMVWQEdCcW5n+gNkEmjJwAjgFfc0GbHITYR1DYtHXz3g
+         acTIN7nplo9qzdwec+NBoerhMR9tbouZAflkM7la8bRALOz8iXtClTQI7bWJoevkoILX
+         Arfg==
+X-Gm-Message-State: APjAAAW4krad9dBC+v/l1S+PuekkqlrVAhLeUfjYdDk7ut3oXRiBLqVN
+        EVncDUFpaj/d+whuZs4efDVRgMAw9/0/ZlyVrzxxRMp9+AJw
+X-Google-Smtp-Source: APXvYqwaj1Tn71oNrrMA7u7UKwUOjnjcOeFlg5oqYNxT2GYRAB9HTR6oX0okRBTbf6yw17g3dkNq5N2nSfUaXOBMfvhpSNz/QVfa
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJ+vNU2shAbnLO9TY4dtPupLxE4UFvNi9FXoFF4MfPbtbAZo=g@mail.gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+X-Received: by 2002:a92:db0c:: with SMTP id b12mr6713082iln.27.1569617346753;
+ Fri, 27 Sep 2019 13:49:06 -0700 (PDT)
+Date:   Fri, 27 Sep 2019 13:49:06 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000063015a05938f04f0@google.com>
+Subject: WARNING in em28xx_init_extension
+From:   syzbot <syzbot+76929be61691e7b3904b@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        mchehab@kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tim,
+Hello,
 
-On 2019-09-27 12:26:40 -0700, Tim Harvey wrote:
-> On Fri, Sep 27, 2019 at 12:04 PM Niklas Söderlund
-> <niklas.soderlund@ragnatech.se> wrote:
-> >
-> > Hi Tim,
-> >
-> > Sorry for taking to so long to look at this.
-> >
-> > On 2019-09-23 15:04:47 -0700, Tim Harvey wrote:
-> > > On Thu, Aug 29, 2019 at 7:29 AM Niklas Söderlund
-> > > <niklas.soderlund@ragnatech.se> wrote:
-> > > >
-> > > > Hi,
-> > > >
-> > > > On 2019-08-29 13:43:49 +0200, Hans Verkuil wrote:
-> > > > > Adding Niklas.
-> > > > >
-> > > > > Niklas, can you take a look at this?
-> > > >
-> > > > I'm happy to have a look at this. I'm currently moving so all my boards
-> > > > are in a box somewhere. I hope to have my lab up and running next week,
-> > > > so if this is not urgent I will look at it then.
-> > > >
-> > >
-> > > Niklas,
-> > >
-> > > Have you looked at this yet? Without this patch the ADV7280A does not
-> > > output proper BT.656. We tested this on a Gateworks Ventana GW5404-G
-> > > which uses the ADV7280A connected to the IMX6 CSI parallel bus. I'm
-> > > hoping to see this get merged and perhaps backported to older kernels.
-> >
-> > I only have access to an adv7180 so I was unable to test this patch.
-> > After reviewing the documentation I think the patch is OK if what you
-> > want is to unconditionally switch the driver from outputting BT.656-3 to
-> > outputting BT.656-4.
-> >
-> > As this change would effect a large number of compat strings (adv7280,
-> > adv7280-m, adv7281, adv7281-m, adv7281-ma, adv7282, adv7282-m) and the
-> > goal is to back port it I'm a bit reluctant to adding my tag to this
-> > patch as I'm not sure if this will break other setups.
-> >
-> > From the documentation about the BT.656-4 register (address 0x04 bit 7):
-> >
-> >     Between Revision 3 and Revision 4 of the ITU-R BT.656 standards,
-> >     the ITU has changed the toggling position for the V bit within
-> >     the SAV EAV codes for NTSC. The ITU-R BT.656-4 standard
-> >     bit allows the user to select an output mode that is compliant
-> >     with either the previous or new standard. For further information,
-> >     visit the International Telecommunication Union website.
-> >
-> >     Note that the standard change only affects NTSC and has no
-> >     bearing on PAL.
-> >
-> >     When ITU-R BT.656-4 is 0 (default), the ITU-R BT.656-3
-> >     specification is used. The V bit goes low at EAV of Line 10
-> >     and Line 273.
-> >
-> >     When ITU-R BT.656-4 is 1, the ITU-R BT.656-4 specification is
-> >     used. The V bit goes low at EAV of Line 20 and Line 283.
-> >
-> > Do you know what effects such a change would bring? Looking at the
-> > driver BT.656-4 seems to be set unconditionally for some adv7180 chips.
-> >
-> 
-> Niklas,
-> 
-> Quite simply, we have a board that has an ADV7180 attached to the
-> parallel CSI of an IMX6 that worked fine with mainline drivers then
-> when we revised this board to attach an ADV7280A in the same way
-> capture failed to sync. Investigation showed that the NEWAVMODE
-> differed between the two.
+syzbot found the following crash on:
 
-I understand your problem, the driver configures adv7180 and adv7280 
-differently.
+HEAD commit:    2994c077 usb-fuzzer: main usb gadget fuzzer driver
+git tree:       https://github.com/google/kasan.git usb-fuzzer
+console output: https://syzkaller.appspot.com/x/log.txt?x=171c4be3600000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=69ddefac6929256a
+dashboard link: https://syzkaller.appspot.com/bug?extid=76929be61691e7b3904b
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=137d73bd600000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14f0c8cb600000
 
-> 
-> So if the point of the driver is to configure the variants in the same
-> way, this patch needs to be applied.
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+76929be61691e7b3904b@syzkaller.appspotmail.com
 
-I'm not sure that is the point of the driver. As the driver today 
-configures different compatible strings differently. Some as ITU-R 
-BT.656-3 and some as ITU-R BT.656-4, I can only assume there is a reason 
-for that.
+em28xx 1-1:0.221: Audio interface 221 found (Vendor Class)
+em28xx 1-1:0.221: unknown em28xx chip ID (0)
+em28xx 1-1:0.221: Config register raw data: 0xfffffffb
+em28xx 1-1:0.221: AC97 chip type couldn't be determined
+em28xx 1-1:0.221: No AC97 audio processor
+------------[ cut here ]------------
+list_add corruption. prev->next should be next (ffffffff87779de0), but was  
+ffffffff8352fdcc. (prev=ffff8881d2ecc240).
+WARNING: CPU: 1 PID: 83 at lib/list_debug.c:26 __list_add_valid+0x99/0xf0  
+lib/list_debug.c:26
+Kernel panic - not syncing: panic_on_warn set ...
+CPU: 1 PID: 83 Comm: kworker/1:2 Not tainted 5.3.0+ #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+Google 01/01/2011
+Workqueue: usb_hub_wq hub_event
+Call Trace:
+  __dump_stack lib/dump_stack.c:77 [inline]
+  dump_stack+0xca/0x13e lib/dump_stack.c:113
+  panic+0x2a3/0x6da kernel/panic.c:219
+  __warn.cold+0x20/0x4a kernel/panic.c:576
+  report_bug+0x262/0x2a0 lib/bug.c:186
+  fixup_bug arch/x86/kernel/traps.c:179 [inline]
+  fixup_bug arch/x86/kernel/traps.c:174 [inline]
+  do_error_trap+0x12b/0x1e0 arch/x86/kernel/traps.c:272
+  do_invalid_op+0x32/0x40 arch/x86/kernel/traps.c:291
+  invalid_op+0x23/0x30 arch/x86/entry/entry_64.S:1028
+RIP: 0010:__list_add_valid+0x99/0xf0 lib/list_debug.c:26
+Code: 48 c7 c7 60 06 db 85 e8 2a 7a 30 ff 0f 0b 48 83 c4 08 31 c0 5d 41 5c  
+c3 48 89 f1 48 c7 c7 20 07 db 85 4c 89 e6 e8 0c 7a 30 ff <0f> 0b 31 c0 eb  
+c5 48 89 f2 4c 89 e1 48 89 ee 48 c7 c7 a0 07 db 85
+RSP: 0018:ffff8881d93cf120 EFLAGS: 00010286
+RAX: 0000000000000000 RBX: ffff8881d2810120 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: ffffffff8128d3fd RDI: ffffed103b279e16
+RBP: ffff8881d2810240 R08: ffff8881d92a3000 R09: fffffbfff11f45af
+R10: fffffbfff11f45ae R11: ffffffff88fa2d77 R12: ffffffff87779de0
+R13: ffff8881d2810000 R14: ffff8881d281012c R15: ffff8881d2c84400
+  __list_add include/linux/list.h:60 [inline]
+  list_add_tail include/linux/list.h:93 [inline]
+  em28xx_init_extension+0x44/0x1f0  
+drivers/media/usb/em28xx/em28xx-core.c:1125
+  em28xx_init_dev.isra.0+0xa7b/0x15d8  
+drivers/media/usb/em28xx/em28xx-cards.c:3520
+  em28xx_usb_probe.cold+0xcac/0x2516  
+drivers/media/usb/em28xx/em28xx-cards.c:3869
+  usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
+  really_probe+0x281/0x6d0 drivers/base/dd.c:548
+  driver_probe_device+0x104/0x210 drivers/base/dd.c:721
+  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
+  bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+  __device_attach+0x217/0x360 drivers/base/dd.c:894
+  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+  device_add+0xae6/0x16f0 drivers/base/core.c:2201
+  usb_set_configuration+0xdf6/0x1670 drivers/usb/core/message.c:2023
+  generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
+  usb_probe_device+0x99/0x100 drivers/usb/core/driver.c:266
+  really_probe+0x281/0x6d0 drivers/base/dd.c:548
+  driver_probe_device+0x104/0x210 drivers/base/dd.c:721
+  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
+  bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+  __device_attach+0x217/0x360 drivers/base/dd.c:894
+  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+  device_add+0xae6/0x16f0 drivers/base/core.c:2201
+  usb_new_device.cold+0x6a4/0xe79 drivers/usb/core/hub.c:2536
+  hub_port_connect drivers/usb/core/hub.c:5098 [inline]
+  hub_port_connect_change drivers/usb/core/hub.c:5213 [inline]
+  port_event drivers/usb/core/hub.c:5359 [inline]
+  hub_event+0x1b5c/0x3640 drivers/usb/core/hub.c:5441
+  process_one_work+0x92b/0x1530 kernel/workqueue.c:2269
+  process_scheduled_works kernel/workqueue.c:2331 [inline]
+  worker_thread+0x7ab/0xe20 kernel/workqueue.c:2417
+  kthread+0x318/0x420 kernel/kthread.c:255
+  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+Kernel Offset: disabled
+Rebooting in 86400 seconds..
 
-> 
-> I would maintain that the adv7180 comes up with NEWAVMODE enabled and
-> in order to be compatible we must configure the adv7282 the same.
-> 
-> The same argument can be made for setting the V bit end position in
-> NTSC mode - its done for the adv7180 so for compatible output it
-> should be done for the adv7282.
 
-I understand that this is needed to make it a drop-in replacement for 
-the adv7180 in your use-case. But I'm not sure it is a good idea for 
-other users of the driver. What if someone is already using a adv7282 on 
-a board and depends on it providing ITU-R BT.656-3 and the old settings?
-If this patch is picked up there use-cases may break.
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-I'm not sure what the best way forward is I'm afraid. Looking at 
-video-interfaces.txt we have a device tree property bus-type which is 
-used to describe the bus is a BT.656 bus but not which revision of it.
-
-I'm not really found of driver specific bus descriptions, but maybe this 
-is a case where one might consider adding one? Hans what do you think?
-
-> 
-> > >
-> > > Regards,
-> > >
-> > > Tim
-> > >
-> > > > >
-> > > > > Regards,
-> > > > >
-> > > > >       Hans
-> > > > >
-> > > > > On 8/27/19 11:55 PM, Matthew Michilot wrote:
-> > > > > > From: Matthew Michilot <matthew.michilot@gmail.com>
-> > > > > >
-> > > > > > Captured video would be out of sync when using the adv7280 with
-> > > > > > the BT.656-4 protocol. Certain registers (0x04, 0x31, 0xE6) had to
-> > > > > > be configured properly to ensure BT.656-4 compatibility.
-> > > > > >
-> > > > > > An error in the adv7280 reference manual suggested that EAV/SAV mode
-> > > > > > was enabled by default, however upon inspecting register 0x31, it was
-> > > > > > determined to be disabled by default.
-> >
-> > The manual I have [1] states that NEWAVMODE is switched off by default.
-> > I'm only asking as I would like to know if there is an error in that
-> > datasheet or not.
-> >
-> > 1. https://www.analog.com/media/en/technical-documentation/user-guides/ADV7280_7281_7282_7283_UG-637.pdf
-> >
-> 
-> Table 99 in that document shows NEVAVMODE disabled on power-up
-> (0x31=0x02) yet Page 77 shows it enabled at power-up. Looking at an
-> actual device we find it is indeed disabled on powerup (0x31=0x02) so
-> Table 99 is correct, and Page 77 is not.
-> 
-> If you look at the ADV7180 datasheet
-> (https://www.analog.com/media/en/technical-documentation/data-sheets/ADV7180.pdf)
-> Table 105 shows NEWAVMODE enabled by default which is also reflected
-> in the register details on Page 91 and is what you find on an actual
-> device.
-> 
-> Regards,
-> 
-> Tim
-> 
-> -- 
-> 
-> 
-> CONFIDENTIALITY NOTICE: This email constitutes an electronic 
-> communication within the meaning of the Electronic Communications Privacy 
-> Act, 18 U.S.C. 2510, and its disclosure is strictly limited to the named 
-> recipient(s) intended by the sender of this message. This email, and any 
-> attachments, may contain confidential and/or proprietary information. If 
-> you are not a named recipient, any copying, using, disclosing or 
-> distributing to others the information in this email and attachments is 
-> STRICTLY PROHIBITED. If you have received this email in error, please 
-> notify the sender immediately and permanently delete the email, any 
-> attachments, and all copies thereof from any drives or storage media and 
-> destroy any printouts or hard copies of the email and attachments.
-> 
->  
-> 
-> 
-> EXPORT COMPLIANCE NOTICE: This email and any attachments may contain 
-> technical data subject to U.S export restrictions under the International 
-> Traffic in Arms Regulations (ITAR) or the Export Administration Regulations 
-> (EAR). Export or transfer of this technical data and/or related information 
-> to any foreign person(s) or entity(ies), either within the U.S. or outside 
-> of the U.S., may require advance export authorization by the appropriate 
-> U.S. Government agency prior to export or transfer. In addition, technical 
-> data may not be exported or transferred to certain countries or specified 
-> designated nationals identified by U.S. embargo controls without prior 
-> export authorization. By accepting this email and any attachments, all 
-> recipients confirm that they understand and will comply with all applicable 
-> ITAR, EAR and embargo compliance requirements.
-
--- 
-Regards,
-Niklas Söderlund
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this bug, for details see:
+https://goo.gl/tpsmEJ#testing-patches
