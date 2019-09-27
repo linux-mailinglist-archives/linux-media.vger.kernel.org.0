@@ -2,147 +2,287 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C7C1C0CDA
-	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2019 22:49:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 80AB9C0D0C
+	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2019 23:10:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728273AbfI0UtI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Sep 2019 16:49:08 -0400
-Received: from mail-io1-f71.google.com ([209.85.166.71]:54600 "EHLO
-        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725789AbfI0UtH (ORCPT
+        id S1726061AbfI0VKO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Sep 2019 17:10:14 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:39714 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725789AbfI0VKO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Sep 2019 16:49:07 -0400
-Received: by mail-io1-f71.google.com with SMTP id w8so14828808iod.21
-        for <linux-media@vger.kernel.org>; Fri, 27 Sep 2019 13:49:07 -0700 (PDT)
+        Fri, 27 Sep 2019 17:10:14 -0400
+Received: by mail-oi1-f194.google.com with SMTP id w144so6392108oia.6;
+        Fri, 27 Sep 2019 14:10:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=SrBJgeprlzWO9zx74wCPUtbrggQEGPmmoT/ZYf6mMxQ=;
+        b=rQRp19LEZBL47xcpsMYy/ljurXoac2Q3Jv5gJpnqoANyQCful26DEzqyrgdd39hpJa
+         1gdPiHv8RQMKeytRBXvKm97BrTMDV+YXHXgvkN0Nm4fTFd5649WmWuytE9fIAO9lS0Y3
+         4cNN4ZUfYaTXxTjWQ/tCjuKVXkexwuzo+e+JgKyBu66g8lBNrePSmXZ41CKKqYgVU//M
+         DJgGSSNXyISWjlhT7ZhWct3JDsZh25LyJNHIjMHEUAgp+eAZ5rxNWmi2Q8IQ4noIMUph
+         Z/YSttn/8yYd5N+Ol3oylmLnEpulZWdfIebzdbfOK+BGvq7KJmkqjMAQMG0C+g948eL6
+         AJfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=8QPGYslH7xbixxtcmS2ekXL3LroU9FXTwTMy0L8QLKo=;
-        b=MCavZ4cDaJGbYV3YKuDiZrHnFds0NiQP1iI/CBzYGQBcwW30bhhTQ9KDwt/0rOtjQV
-         NAY+t1ET5w/LSnyHC4zyKLEti3ga+JJ8QAZRJb64/PXg0UwvzLoP/id0ecBXzR7SY0ah
-         OdmJrcGrnf0UBBpR+9xNC3z6FFElJ7XNCYj4DlYAPLITt1fDmYsbLnGTLyriYzTaFE0f
-         5G6IvdNGJhf57vjvVxU1rUcymMVWQEdCcW5n+gNkEmjJwAjgFfc0GbHITYR1DYtHXz3g
-         acTIN7nplo9qzdwec+NBoerhMR9tbouZAflkM7la8bRALOz8iXtClTQI7bWJoevkoILX
-         Arfg==
-X-Gm-Message-State: APjAAAW4krad9dBC+v/l1S+PuekkqlrVAhLeUfjYdDk7ut3oXRiBLqVN
-        EVncDUFpaj/d+whuZs4efDVRgMAw9/0/ZlyVrzxxRMp9+AJw
-X-Google-Smtp-Source: APXvYqwaj1Tn71oNrrMA7u7UKwUOjnjcOeFlg5oqYNxT2GYRAB9HTR6oX0okRBTbf6yw17g3dkNq5N2nSfUaXOBMfvhpSNz/QVfa
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SrBJgeprlzWO9zx74wCPUtbrggQEGPmmoT/ZYf6mMxQ=;
+        b=FnFp89yTvoPIKWYYfoJxwgDe7AloUXIg3Ov56Lm8B8PGIXNaViJLDP3o9odqCasdj7
+         kUnXUsxgExqbRn+bpMmvYkXpWHIwzLl8fjOfpkD9NuAGR6j5TQ1LwKh/WR4OgaA94JTG
+         +HF4sYRes62CkdsT+t+Q7haMSDurAMuUDzuBrSFBanuqZabfnMnKQx4C6lvUy+rl6nOS
+         pvF3fJUkNcp0r8600DTuzN7d5gvE5BcNu/MnmLwB8fhVfZ6S6EeVNVzPfgfFJYaumfqF
+         9j8ayGMh1iBMmqmMFIk/lQ+A40uk9R8q9u08ECLcmzU7cQlh9LVzKfmrOmqd18de7rxM
+         QWUw==
+X-Gm-Message-State: APjAAAUWGUaSV+UFQ54GxlN5J/ThUMmVRQalKvu2/TXOJn5W2DaeNqDt
+        0TpJtouvm+2X2eQ/YQBc6KM3fUWRqGjO7M/40nK+RF+p
+X-Google-Smtp-Source: APXvYqxs3Nb7GR188DHFlE48xDmDO+XcrIWh9B8FK3P3au238W8pFb/OEOkd4c1rtsSyR6FSJSKTyntVN6ooSQq9K3M=
+X-Received: by 2002:aca:4e87:: with SMTP id c129mr8840475oib.7.1569618611688;
+ Fri, 27 Sep 2019 14:10:11 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 2002:a92:db0c:: with SMTP id b12mr6713082iln.27.1569617346753;
- Fri, 27 Sep 2019 13:49:06 -0700 (PDT)
-Date:   Fri, 27 Sep 2019 13:49:06 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000063015a05938f04f0@google.com>
-Subject: WARNING in em28xx_init_extension
-From:   syzbot <syzbot+76929be61691e7b3904b@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        mchehab@kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+References: <20190927184722.31989-1-bparrot@ti.com> <20190927184722.31989-7-bparrot@ti.com>
+In-Reply-To: <20190927184722.31989-7-bparrot@ti.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Fri, 27 Sep 2019 22:09:45 +0100
+Message-ID: <CA+V-a8vdjYoVxScjBAt5fb-sPWjsj53R8JpEfWt4Dvd5Kcr_0Q@mail.gmail.com>
+Subject: Re: [Patch v4 6/8] media: i2c: ov2659: Add powerdown/reset gpio handling
+To:     Benoit Parrot <bparrot@ti.com>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        devicetree@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Hi Benoit,
 
-syzbot found the following crash on:
+thank you for the patch.
 
-HEAD commit:    2994c077 usb-fuzzer: main usb gadget fuzzer driver
-git tree:       https://github.com/google/kasan.git usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=171c4be3600000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=69ddefac6929256a
-dashboard link: https://syzkaller.appspot.com/bug?extid=76929be61691e7b3904b
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=137d73bd600000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14f0c8cb600000
+On Fri, Sep 27, 2019 at 7:49 PM Benoit Parrot <bparrot@ti.com> wrote:
+>
+> On some board it is possible that the sensor 'powerdown' and or 'reset'
+> pin might be controlled by gpio instead of being tied.
+>
+> To implement we add pm_runtime support which will handle the power
+> up/down sequence when it is available otherwise the sensor will be
+> powered on at module insertion/probe and powered off at module removal.
+>
+> Now originally the driver assumed that the sensor would always stay
+> powered and keep its register setting. We cannot assume this anymore, so
+> every time we "power up" we need to re-program the initial registers
+> configuration first. This was previously done only at probe time.
+>
+> Signed-off-by: Benoit Parrot <bparrot@ti.com>
+> ---
+>  drivers/media/i2c/Kconfig  |  2 +-
+>  drivers/media/i2c/ov2659.c | 88 +++++++++++++++++++++++++++++++++++++-
+>  2 files changed, 87 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> index 7eee1812bba3..315c1d8bdb7b 100644
+> --- a/drivers/media/i2c/Kconfig
+> +++ b/drivers/media/i2c/Kconfig
+> @@ -634,7 +634,7 @@ config VIDEO_OV2640
+>  config VIDEO_OV2659
+>         tristate "OmniVision OV2659 sensor support"
+>         depends on VIDEO_V4L2 && I2C
+> -       depends on MEDIA_CAMERA_SUPPORT
+> +       depends on MEDIA_CAMERA_SUPPORT && GPIOLIB
+>         select V4L2_FWNODE
+>         help
+>           This is a Video4Linux2 sensor driver for the OmniVision
+> diff --git a/drivers/media/i2c/ov2659.c b/drivers/media/i2c/ov2659.c
+> index cd4625432264..7d0baa386644 100644
+> --- a/drivers/media/i2c/ov2659.c
+> +++ b/drivers/media/i2c/ov2659.c
+> @@ -22,9 +22,11 @@
+>
+>  #include <linux/clk.h>
+>  #include <linux/delay.h>
+> +#include <linux/gpio/consumer.h>
+>  #include <linux/i2c.h>
+>  #include <linux/module.h>
+>  #include <linux/of_graph.h>
+> +#include <linux/pm_runtime.h>
+>
+>  #include <media/i2c/ov2659.h>
+>  #include <media/v4l2-ctrls.h>
+> @@ -218,6 +220,11 @@ struct ov2659 {
+>         struct sensor_register *format_ctrl_regs;
+>         struct ov2659_pll_ctrl pll;
+>         int streaming;
+> +       /* used to control the sensor PWDN pin */
+> +       struct gpio_desc *pwdn_gpio;
+> +       /* used to control the sensor RESETB pin */
+> +       struct gpio_desc *resetb_gpio;
+> +       int on;
+>  };
+>
+>  static const struct sensor_register ov2659_init_regs[] = {
+> @@ -1184,10 +1191,19 @@ static int ov2659_s_stream(struct v4l2_subdev *sd, int on)
+>                 /* Stop Streaming Sequence */
+>                 ov2659_set_streaming(ov2659, 0);
+>                 ov2659->streaming = on;
+> +               pm_runtime_put(&client->dev);
+>                 goto unlock;
+>         }
+>
+> -       ret = ov2659_set_pixel_clock(ov2659);
+> +       ret = pm_runtime_get_sync(&client->dev);
+> +       if (ret < 0) {
+> +               pm_runtime_put_noidle(&client->dev);
+> +               goto unlock;
+> +       }
+> +
+> +       ret = ov2659_init(sd, 0);
+> +       if (!ret)
+> +               ret = ov2659_set_pixel_clock(ov2659);
+>         if (!ret)
+>                 ret = ov2659_set_frame_size(ov2659);
+>         if (!ret)
+> @@ -1229,6 +1245,9 @@ static int ov2659_s_ctrl(struct v4l2_ctrl *ctrl)
+>         struct ov2659 *ov2659 =
+>                         container_of(ctrl->handler, struct ov2659, ctrls);
+>
+> +       if (!ov2659->on)
+> +               return 0;
+> +
+why is this check only in s_ctrl() ? I think we could just drop this variable.
 
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+76929be61691e7b3904b@syzkaller.appspotmail.com
+Cheers,
+--Prabhakar
 
-em28xx 1-1:0.221: Audio interface 221 found (Vendor Class)
-em28xx 1-1:0.221: unknown em28xx chip ID (0)
-em28xx 1-1:0.221: Config register raw data: 0xfffffffb
-em28xx 1-1:0.221: AC97 chip type couldn't be determined
-em28xx 1-1:0.221: No AC97 audio processor
-------------[ cut here ]------------
-list_add corruption. prev->next should be next (ffffffff87779de0), but was  
-ffffffff8352fdcc. (prev=ffff8881d2ecc240).
-WARNING: CPU: 1 PID: 83 at lib/list_debug.c:26 __list_add_valid+0x99/0xf0  
-lib/list_debug.c:26
-Kernel panic - not syncing: panic_on_warn set ...
-CPU: 1 PID: 83 Comm: kworker/1:2 Not tainted 5.3.0+ #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-Google 01/01/2011
-Workqueue: usb_hub_wq hub_event
-Call Trace:
-  __dump_stack lib/dump_stack.c:77 [inline]
-  dump_stack+0xca/0x13e lib/dump_stack.c:113
-  panic+0x2a3/0x6da kernel/panic.c:219
-  __warn.cold+0x20/0x4a kernel/panic.c:576
-  report_bug+0x262/0x2a0 lib/bug.c:186
-  fixup_bug arch/x86/kernel/traps.c:179 [inline]
-  fixup_bug arch/x86/kernel/traps.c:174 [inline]
-  do_error_trap+0x12b/0x1e0 arch/x86/kernel/traps.c:272
-  do_invalid_op+0x32/0x40 arch/x86/kernel/traps.c:291
-  invalid_op+0x23/0x30 arch/x86/entry/entry_64.S:1028
-RIP: 0010:__list_add_valid+0x99/0xf0 lib/list_debug.c:26
-Code: 48 c7 c7 60 06 db 85 e8 2a 7a 30 ff 0f 0b 48 83 c4 08 31 c0 5d 41 5c  
-c3 48 89 f1 48 c7 c7 20 07 db 85 4c 89 e6 e8 0c 7a 30 ff <0f> 0b 31 c0 eb  
-c5 48 89 f2 4c 89 e1 48 89 ee 48 c7 c7 a0 07 db 85
-RSP: 0018:ffff8881d93cf120 EFLAGS: 00010286
-RAX: 0000000000000000 RBX: ffff8881d2810120 RCX: 0000000000000000
-RDX: 0000000000000000 RSI: ffffffff8128d3fd RDI: ffffed103b279e16
-RBP: ffff8881d2810240 R08: ffff8881d92a3000 R09: fffffbfff11f45af
-R10: fffffbfff11f45ae R11: ffffffff88fa2d77 R12: ffffffff87779de0
-R13: ffff8881d2810000 R14: ffff8881d281012c R15: ffff8881d2c84400
-  __list_add include/linux/list.h:60 [inline]
-  list_add_tail include/linux/list.h:93 [inline]
-  em28xx_init_extension+0x44/0x1f0  
-drivers/media/usb/em28xx/em28xx-core.c:1125
-  em28xx_init_dev.isra.0+0xa7b/0x15d8  
-drivers/media/usb/em28xx/em28xx-cards.c:3520
-  em28xx_usb_probe.cold+0xcac/0x2516  
-drivers/media/usb/em28xx/em28xx-cards.c:3869
-  usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
-  really_probe+0x281/0x6d0 drivers/base/dd.c:548
-  driver_probe_device+0x104/0x210 drivers/base/dd.c:721
-  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
-  bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
-  __device_attach+0x217/0x360 drivers/base/dd.c:894
-  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
-  device_add+0xae6/0x16f0 drivers/base/core.c:2201
-  usb_set_configuration+0xdf6/0x1670 drivers/usb/core/message.c:2023
-  generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
-  usb_probe_device+0x99/0x100 drivers/usb/core/driver.c:266
-  really_probe+0x281/0x6d0 drivers/base/dd.c:548
-  driver_probe_device+0x104/0x210 drivers/base/dd.c:721
-  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
-  bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
-  __device_attach+0x217/0x360 drivers/base/dd.c:894
-  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
-  device_add+0xae6/0x16f0 drivers/base/core.c:2201
-  usb_new_device.cold+0x6a4/0xe79 drivers/usb/core/hub.c:2536
-  hub_port_connect drivers/usb/core/hub.c:5098 [inline]
-  hub_port_connect_change drivers/usb/core/hub.c:5213 [inline]
-  port_event drivers/usb/core/hub.c:5359 [inline]
-  hub_event+0x1b5c/0x3640 drivers/usb/core/hub.c:5441
-  process_one_work+0x92b/0x1530 kernel/workqueue.c:2269
-  process_scheduled_works kernel/workqueue.c:2331 [inline]
-  worker_thread+0x7ab/0xe20 kernel/workqueue.c:2417
-  kthread+0x318/0x420 kernel/kthread.c:255
-  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
-Kernel Offset: disabled
-Rebooting in 86400 seconds..
-
-
----
-This bug is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this bug report. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this bug, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+>         switch (ctrl->id) {
+>         case V4L2_CID_TEST_PATTERN:
+>                 return ov2659_set_test_pattern(ov2659, ctrl->val);
+> @@ -1246,6 +1265,43 @@ static const char * const ov2659_test_pattern_menu[] = {
+>         "Vertical Color Bars",
+>  };
+>
+> +static int ov2659_power_off(struct device *dev)
+> +{
+> +       struct i2c_client *client = to_i2c_client(dev);
+> +       struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> +       struct ov2659 *ov2659 = to_ov2659(sd);
+> +
+> +       dev_dbg(&client->dev, "%s:\n", __func__);
+> +
+> +       gpiod_set_value(ov2659->pwdn_gpio, 1);
+> +
+> +       ov2659->on = false;
+> +
+> +       return 0;
+> +}
+> +
+> +static int ov2659_power_on(struct device *dev)
+> +{
+> +       struct i2c_client *client = to_i2c_client(dev);
+> +       struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> +       struct ov2659 *ov2659 = to_ov2659(sd);
+> +
+> +       dev_dbg(&client->dev, "%s:\n", __func__);
+> +
+> +       gpiod_set_value(ov2659->pwdn_gpio, 0);
+> +
+> +       if (ov2659->resetb_gpio) {
+> +               gpiod_set_value(ov2659->resetb_gpio, 1);
+> +               usleep_range(500, 1000);
+> +               gpiod_set_value(ov2659->resetb_gpio, 0);
+> +               usleep_range(3000, 5000);
+> +       }
+> +
+> +       ov2659->on = true;
+> +
+> +       return 0;
+> +}
+> +
+>  /* -----------------------------------------------------------------------------
+>   * V4L2 subdev internal operations
+>   */
+> @@ -1326,7 +1382,6 @@ static int ov2659_detect(struct v4l2_subdev *sd)
+>                         ret = -ENODEV;
+>                 } else {
+>                         dev_info(&client->dev, "Found OV%04X sensor\n", id);
+> -                       ret = ov2659_init(sd, 0);
+>                 }
+>         }
+>
+> @@ -1403,6 +1458,18 @@ static int ov2659_probe(struct i2c_client *client)
+>             ov2659->xvclk_frequency > 27000000)
+>                 return -EINVAL;
+>
+> +       /* Optional gpio don't fail if not present */
+> +       ov2659->pwdn_gpio = devm_gpiod_get_optional(&client->dev, "powerdown",
+> +                                                   GPIOD_OUT_LOW);
+> +       if (IS_ERR(ov2659->pwdn_gpio))
+> +               return PTR_ERR(ov2659->pwdn_gpio);
+> +
+> +       /* Optional gpio don't fail if not present */
+> +       ov2659->resetb_gpio = devm_gpiod_get_optional(&client->dev, "reset",
+> +                                                     GPIOD_OUT_HIGH);
+> +       if (IS_ERR(ov2659->resetb_gpio))
+> +               return PTR_ERR(ov2659->resetb_gpio);
+> +
+>         v4l2_ctrl_handler_init(&ov2659->ctrls, 2);
+>         ov2659->link_frequency =
+>                         v4l2_ctrl_new_std(&ov2659->ctrls, &ov2659_ctrl_ops,
+> @@ -1448,6 +1515,8 @@ static int ov2659_probe(struct i2c_client *client)
+>         ov2659->frame_size = &ov2659_framesizes[2];
+>         ov2659->format_ctrl_regs = ov2659_formats[0].format_ctrl_regs;
+>
+> +       ov2659_power_on(&client->dev);
+> +
+>         ret = ov2659_detect(sd);
+>         if (ret < 0)
+>                 goto error;
+> @@ -1461,10 +1530,15 @@ static int ov2659_probe(struct i2c_client *client)
+>
+>         dev_info(&client->dev, "%s sensor driver registered !!\n", sd->name);
+>
+> +       pm_runtime_set_active(&client->dev);
+> +       pm_runtime_enable(&client->dev);
+> +       pm_runtime_idle(&client->dev);
+> +
+>         return 0;
+>
+>  error:
+>         v4l2_ctrl_handler_free(&ov2659->ctrls);
+> +       ov2659_power_off(&client->dev);
+>         media_entity_cleanup(&sd->entity);
+>         mutex_destroy(&ov2659->lock);
+>         return ret;
+> @@ -1480,9 +1554,18 @@ static int ov2659_remove(struct i2c_client *client)
+>         media_entity_cleanup(&sd->entity);
+>         mutex_destroy(&ov2659->lock);
+>
+> +       pm_runtime_disable(&client->dev);
+> +       if (!pm_runtime_status_suspended(&client->dev))
+> +               ov2659_power_off(&client->dev);
+> +       pm_runtime_set_suspended(&client->dev);
+> +
+>         return 0;
+>  }
+>
+> +static const struct dev_pm_ops ov2659_pm_ops = {
+> +       SET_RUNTIME_PM_OPS(ov2659_power_off, ov2659_power_on, NULL)
+> +};
+> +
+>  static const struct i2c_device_id ov2659_id[] = {
+>         { "ov2659", 0 },
+>         { /* sentinel */ },
+> @@ -1500,6 +1583,7 @@ MODULE_DEVICE_TABLE(of, ov2659_of_match);
+>  static struct i2c_driver ov2659_i2c_driver = {
+>         .driver = {
+>                 .name   = DRIVER_NAME,
+> +               .pm     = &ov2659_pm_ops,
+>                 .of_match_table = of_match_ptr(ov2659_of_match),
+>         },
+>         .probe_new      = ov2659_probe,
+> --
+> 2.17.1
+>
