@@ -2,106 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E347C0CB5
-	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2019 22:38:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D9F4C0CBD
+	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2019 22:40:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728260AbfI0Uht (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Sep 2019 16:37:49 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:34065 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725789AbfI0Uht (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Sep 2019 16:37:49 -0400
-Received: by mail-ot1-f68.google.com with SMTP id m19so3420895otp.1;
-        Fri, 27 Sep 2019 13:37:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=5HzZ318c3cKkiQZfJLfcgZNuIY2hbgfJtqOlfqrb8Eg=;
-        b=euIPp8WcmzobZ1wRzyPahQI/sNqKCya1H0EszdAiMVqnNHWrXbWc12mwe0puRbaVB0
-         0151jIM2xe6rLQE24hGrMja4GiW7m0AGsUA7VpOYkpO3Dz1IplyVEJzXVopLTansA2kj
-         dUd5RTJXR/bg+JUmORd4LCDPnvfD/cQ8BIHmWzEvTR/Z81ZJv8Qj9giJzJ/A23GF0R/e
-         Q8AfEUSwwwRc70xNTW0JekF0+QlB//kmyTyyrl0AA4N63uiKZXn3GJ0Uj9ULwPcYAKya
-         1RWIxHwbqoNw64BSR64hZF6qHXdHfdz9uxYSKaLuZikq0gITazMFlvtJdqksDH84dhuR
-         ylmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5HzZ318c3cKkiQZfJLfcgZNuIY2hbgfJtqOlfqrb8Eg=;
-        b=AjcwDrGOpGzZ+oSi8NQw/62IZtVfKkPKb8HYdCltMJLzNXq5Gd8meMQNlfq60R38Dm
-         /IJ8KkdCnf3Wa2ettQDOwrDDKnwYHjB8b1R1w/6XSlaZbYoVO6na3W/ZwCYmh/hWxD6y
-         +RyFBpQ7Nj6HClEvqiixu2zWIA3wqOgEgp5AHRaELBsT+4FDajSSh//O26kUvhrkZUlr
-         kIxS09AwjClDhm3+7EEGYCc3XCgV1pQ1Rys9CeYaTi8hzAZNjSmI9pB218nztDBQtvsk
-         NAy2xiAAqPSQq4GwblX38OlnkMoyuLlql1Hx8l3myFPXXW8+D9Uah9eqUl2Ash+wS2pI
-         qRRw==
-X-Gm-Message-State: APjAAAWwrUDlUuwTaYBI41ewHcBJZe5bey6LuKLVslmt2QXK+CFQw+EE
-        0NeQ/cXDQyTV0poh1IraJC8p71/kPidetaL6f3g=
-X-Google-Smtp-Source: APXvYqw6PImrq0c1y1VcQ7iuF4Ug5WxhWXn21mZr4P19hYblK8Q/2ovDB7x6QYfZXUtwnN0IJdGrQmVPNubZPTdCDWw=
-X-Received: by 2002:a9d:6a56:: with SMTP id h22mr4865024otn.176.1569616668476;
- Fri, 27 Sep 2019 13:37:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190927184722.31989-1-bparrot@ti.com> <20190927184722.31989-6-bparrot@ti.com>
-In-Reply-To: <20190927184722.31989-6-bparrot@ti.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 27 Sep 2019 21:37:22 +0100
-Message-ID: <CA+V-a8ss26F4nEFRDtXytn4ZPi==fMYdoe0JpEunURAYy9J99g@mail.gmail.com>
-Subject: Re: [Patch v4 5/8] media: dt-bindings: ov2659: add
- powerdown/reset-gpios optional property
-To:     Benoit Parrot <bparrot@ti.com>
+        id S1728299AbfI0UkB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Sep 2019 16:40:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50842 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725789AbfI0UkB (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 27 Sep 2019 16:40:01 -0400
+Received: from localhost (lfbn-1-10718-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 283532146E;
+        Fri, 27 Sep 2019 20:39:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1569616800;
+        bh=rfFx7/Qa1NodMojkHqJ/WvpDVCYU/CvrlgV8M5WPv/k=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=RTduQbCyxIfWf6uf4IkSsNYcq/EKivPSFz6QRCOoEYU+m8ojJiQ3xaaBOrG+nAE4h
+         eurd1gJEHne+mfapdyUi6H/Z/2E2OUYb6dx2FqutcFJTAD9T69JFeQH1DrMtVi0Q5b
+         Gmjju86bidPHDScAFwWDGdMebfAKe+1yS8cN4nKM=
+Date:   Fri, 27 Sep 2019 22:39:57 +0200
+From:   Maxime Ripard <mripard@kernel.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        devicetree@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Daniel Gomez <daniel@qtec.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Eugen Hristev <Eugen.Hristev@microchip.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Helen Koike <helen.koike@collabora.com>,
+        Michael Tretter <m.tretter@pengutronix.de>
+Subject: Re: [ANN] Media sessions in Lyon in October: codecs
+Message-ID: <20190927203957.tmgdxny2hw5sdfxc@gilmour>
+References: <b3b2c3a6-43d6-ffbd-f94c-e6f92cad8a97@xs4all.nl>
+ <20190923150213.2ub26ys4mhpp2hm5@uno.localdomain>
+ <20190923161934.GF5056@pendragon.ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="uru5qpy3vry324gz"
+Content-Disposition: inline
+In-Reply-To: <20190923161934.GF5056@pendragon.ideasonboard.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Sep 27, 2019 at 7:47 PM Benoit Parrot <bparrot@ti.com> wrote:
->
-> Add powerdown-gpios and reset-gpios to the list of optional properties
-> for the OV2659 camera sensor.
->
-> Signed-off-by: Benoit Parrot <bparrot@ti.com>
-> ---
->  Documentation/devicetree/bindings/media/i2c/ov2659.txt | 9 +++++++++
->  1 file changed, 9 insertions(+)
->
-Acked-by: Lad, Prabhakar <prabhakar.csengg@gmail.com>
 
-Cheers,
---Prabhakar Lad
+--uru5qpy3vry324gz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/ov2659.txt b/Documentation/devicetree/bindings/media/i2c/ov2659.txt
-> index cabc7d827dfb..92989a619f29 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/ov2659.txt
-> +++ b/Documentation/devicetree/bindings/media/i2c/ov2659.txt
-> @@ -12,6 +12,12 @@ Required Properties:
->  - clock-names: should be "xvclk".
->  - link-frequencies: target pixel clock frequency.
+Hi,
+
+On Mon, Sep 23, 2019 at 07:19:34PM +0300, Laurent Pinchart wrote:
+> On Mon, Sep 23, 2019 at 05:02:13PM +0200, Jacopo Mondi wrote:
+> > On Mon, Sep 23, 2019 at 04:12:55PM +0200, Hans Verkuil wrote:
+> > > Hi all,
+> > >
+> > > Since we have three separate half-day sessions for different topics I decided
+> > > to split the announcement for this in three emails as well, so these things
+> > > can be discussed in separate threads.
+> > >
+> > > All sessions are in room Terreaux VIP Lounge - Level 0.
+> > > There is a maximum of 15 people.
+> > >
+> > > The first session deals with the codec API and is on Tuesday morning from
+> > > 8:30 (tentative, might change) to 12:00 (we have to vacate the room at that
+> > > time).
+> > >
+> > > Confirmed attendees for this session:
+> > >
+> > > Boris Brezillon <boris.brezillon@collabora.com>
+> > > Alexandre Courbot <acourbot@chromium.org>
+> > > Nicolas Dufresne <nicolas@ndufresne.ca>
+> > > Tomasz Figa <tfiga@chromium.org>
+> > > Ezequiel Garcia <ezequiel@collabora.com>
+> > > Daniel Gomez <daniel@qtec.com>
+> > > Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> > > Eugen Hristev <Eugen.Hristev@microchip.com>
+> > > Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > > Helen Koike <helen.koike@collabora.com>
+> > > Michael Tretter <m.tretter@pengutronix.de>
+> > > Hans Verkuil <hverkuil@xs4all.nl>
+> > >
+> > > Tentative:
+> > >
+> > > Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > Jacopo Mondi <jacopo@jmondi.org>
+> > >
+> > > Jacopo, please confirm if you want to attend this session. I didn't find
+> > > an email with explicit confirmation, so it was probably done via irc. But since
+> > > this session is getting close to capacity I would prefer to keep attendance to
+> > > those are actually working with codecs (or will work with it in the near future).
+> >
+> > I'm not really working on codecs, so if you're running almost at full
+> > capacity please feel free to re-assign my seat.
 >
-> +Optional Properties:
-> +- powerdown-gpios: reference to the GPIO connected to the pwdn pin, if any.
-> +  Active high with internal pull down resistor.
-> +- reset-gpios: reference to the GPIO connected to the resetb pin, if any.
-> +  Active low with internal pull up resistor.
-> +
->  For further reading on port node refer to
->  Documentation/devicetree/bindings/media/video-interfaces.txt.
->
-> @@ -27,6 +33,9 @@ Example:
->                         clocks = <&clk_ov2659 0>;
->                         clock-names = "xvclk";
->
-> +                       powerdown-gpios = <&gpio6 14 GPIO_ACTIVE_HIGH>;
-> +                       reset-gpios = <&gpio6 15 GPIO_ACTIVE_LOW>;
-> +
->                         port {
->                                 ov2659_0: endpoint {
->                                         remote-endpoint = <&vpfe_ep>;
-> --
-> 2.17.1
->
+> Same here. I think that Maxime Ripard, who isn't in the above list,
+> would be able to contribute more than I could.
+
+I wasn't sure I would be able to make it, but I can, so if it's still
+an option count me in :)
+
+Maxime
+
+--uru5qpy3vry324gz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXY5znQAKCRDj7w1vZxhR
+xbKNAP9XV69eLtLc39feWe6K/HAlTtHRlpZzBEQN0KfPpjY7EAD/cAefKVZETvho
+guavQ7/NoOzf5WBJgaKNr/af6kvndg4=
+=cGhm
+-----END PGP SIGNATURE-----
+
+--uru5qpy3vry324gz--
