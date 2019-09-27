@@ -2,58 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A5A4FC0738
-	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2019 16:23:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 366B9C0769
+	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2019 16:27:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727289AbfI0OXh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Sep 2019 10:23:37 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:44222 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727140AbfI0OXh (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Sep 2019 10:23:37 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtp (Exim 4.84_2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1iDr9h-0002qG-A8; Fri, 27 Sep 2019 14:23:33 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1iDrA1-0005IZ-8u; Fri, 27 Sep 2019 14:23:53 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.5] vimc: Collapse component structure into a single
-Date:   Fri, 27 Sep 2019 14:23:53 +0000
-Message-Id: <20190927142353.20326-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <6618e8ee-7ea8-6172-ac96-5228a769a3b3@xs4all.nl>
-References: 
+        id S1727983AbfI0O1F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Sep 2019 10:27:05 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:50307 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727959AbfI0O1F (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 27 Sep 2019 10:27:05 -0400
+Received: from [IPv6:2001:420:44c1:2577:2521:77be:ff76:8085] ([IPv6:2001:420:44c1:2577:2521:77be:ff76:8085])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id DrD2iY6OEKKNGDrD5iEFat; Fri, 27 Sep 2019 16:27:03 +0200
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [GIT PULL FOR v5.5] am437x-vpfe: overdue maintenance
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Benoit Parrot <bparrot@ti.com>
+Message-ID: <95a1c6a9-636f-66f4-0360-66105f22af57@xs4all.nl>
+Date:   Fri, 27 Sep 2019 16:27:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfM7/8j+2vtEJbCtyQds1Hf++wjVRLvHshVosDy4sTK/VhLOz+IQsOqvRqKY2K6M+KG33ilOJ8Wsr/ny8oNJs4GhYA04eOOmhpViFDjAeKSZKqoGERrt5
+ 1KqBpMULvokJmaNyFevrbyMAvyJf7jtgxCFYlzKV05mpEFPigwFFEyAKxyvZRl6HOmp+ddEcYHdhJYe5LK/U36ZNUf2bUBQhSsReVVVUUbA9FE0jZp1G2GkV
+ XaZXC2iyRV6GhNECCmdwT7r0JMNUyyNAxy5IHYxZsX36K6mahtNYBHKPfvL/e8NzbVPsgEVpISvL8kwNqzUcfw==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Various fixes for am437x-vpfe.
 
-Pull request: https://patchwork.linuxtv.org/patch/58970/
-Build log: https://builder.linuxtv.org/job/patchwork/17975/
-Build time: 00:03:42
-Link: https://lore.kernel.org/linux-media/6618e8ee-7ea8-6172-ac96-5228a769a3b3@xs4all.nl
+One special note: the last three patches adds new macros to be able to
+print a V4L2 fourcc in a standard way, both for kernel and userspace,
+and uses them in v4l2-ioctl.c and am437x.
 
-gpg: Signature made Fri 27 Sep 2019 02:10:06 PM UTC
-gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+If you have concerns about this and do not want to merge those patches
+without discussing this some more, then please just drop these last three
+patches.
 
-Summary: 1 patches and/or PDF generation with issues, being 0 at build time
+Regards,
 
-Error/warnings:
+	Hans
 
-patches/0002-media-vimc-Fix-gpf-in-rmmod-path-when-stream-is-acti.patch:20: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+The following changes since commit 6f51fdfd8229d5358c2d6e272cf73478866e8ddc:
 
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0002-media-vimc-Fix-gpf-in-rmmod-path-when-stream-is-acti.patch
-/var/lib/jenkins/workspace/patchwork/Documentation/media/v4l-drivers/vimc.rst:81: WARNING: Definition list ends without a blank line; unexpected unindent.
-/var/lib/jenkins/workspace/patchwork/Documentation/media/v4l-drivers/vimc.rst:64: WARNING: Unknown target name: "module options".
+  media: videobuf-core.c: poll_wait needs a non-NULL buf pointer (2019-09-05 06:26:57 -0300)
 
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.5c2
+
+for you to fetch changes up to 743d13880c0749ca61a40ec4c57ebeb60d06f9c6:
+
+  media: am437x-vpfe: Remove print_fourcc helper (2019-09-27 16:24:49 +0200)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Benoit Parrot (12):
+      media: am437x-vpfe: Fix missing first line
+      media: am437x-vpfe: Rework ISR routine for clarity
+      media: am437x-vpfe: Wait for end of frame before tear-down
+      media: am437x-vpfe: fix start streaming error path
+      media: am437x-vpfe: Streamlined vb2 buffer cleanup
+      media: am437x-vpfe: Setting STD to current value is not an error
+      media: am437x-vpfe: Use a per instance format array instead of a static one
+      media: am437x-vpfe: fix function trace debug log
+      media: am437x-vpfe: TRY_FMT ioctl is not really trying anything
+      media: am437x-vpfe: Remove per bus width static data
+      media: am437x-vpfe: Switch to SPDX Licensing
+      media: am437x-vpfe: Remove print_fourcc helper
+
+Dave Gerlach (1):
+      media: am437x-vpfe: Fix suspend path to always handle pinctrl config
+
+Hans Verkuil (1):
+      v4l2-ioctl.c: use new v4l2_fourcc_conv/args macros
+
+Sakari Ailus (1):
+      v4l: Add macros for printing V4L fourcc values
+
+ Documentation/media/videodev2.h.rst.exceptions   |   2 +
+ drivers/media/platform/am437x/am437x-vpfe.c      | 880 +++++++++++++++++++++++++----------------------------------
+ drivers/media/platform/am437x/am437x-vpfe.h      |  43 ++-
+ drivers/media/platform/am437x/am437x-vpfe_regs.h |  10 +-
+ drivers/media/v4l2-core/v4l2-ioctl.c             |  58 ++--
+ include/uapi/linux/videodev2.h                   |  27 ++
+ 6 files changed, 453 insertions(+), 567 deletions(-)
