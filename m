@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6368AC0CB0
-	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2019 22:36:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9D7FC0CB3
+	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2019 22:37:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728289AbfI0UgS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Sep 2019 16:36:18 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:33944 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725789AbfI0UgS (ORCPT
+        id S1727350AbfI0UhI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Sep 2019 16:37:08 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:43083 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725789AbfI0UhI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Sep 2019 16:36:18 -0400
-Received: by mail-ot1-f67.google.com with SMTP id m19so3417695otp.1;
-        Fri, 27 Sep 2019 13:36:17 -0700 (PDT)
+        Fri, 27 Sep 2019 16:37:08 -0400
+Received: by mail-oi1-f196.google.com with SMTP id t84so6298554oih.10;
+        Fri, 27 Sep 2019 13:37:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=8xPwfmJP0RHwPS/Q5mW1AWaMTmkYfq9HponGBK/XGjg=;
-        b=lPKC7Kwz+Fd7kiPmkVGht46oEWF23eIHKnXheSxin84SUFUk5/dlmn+GcGam6QBrvu
-         k5yjdAN4l1Dyu9WhlNwonl8dRIFODWTTQUDzx6yYnqKgZdjQQIHGyoxML+oe8/VNbipQ
-         td6G5HfbLzZg1Cz9yG+Ynab6uNLZB8la3p0YKO2N2PQO/tvRp7oyFWSHe8GAiM0P+k61
-         w7xr3s0oNI+2zOPuHiLqyCWuXk+VO+jilAugWag/8QTGZvnumu5BiQA9xA5vwiz1pKWq
-         JIFIT12dfJv1/1fHnFQiskTqjbmqR8cAZ4o4QvAApIrvX0BLTTUwbkNAOGwsu9ZtKEUk
-         d8Rw==
+        bh=RAIgD+KVKQMaXcKo0PziTz/C7vJQHz15LP8WFCSpXyo=;
+        b=XaghxHmZmJ7fL3q+NmLBGZg7dmgQ+/mtJxoIT5zWZ5aoF1NObZM1LE5Kwlilb4yHr+
+         pahBwvyPU3eb35OAoYY7+66lcaMdlRRqRIATyQunFYWZEO2xx3ie28ez1AhmNwJ3FR1a
+         urwBJn43UweVj1TDpXcYg29z+KWUIMC2R5sSzgwySjtsd3E5hesvyeuOLCgY/dXoaPkT
+         LxXvpsihkr7Mvbn/xQRteS7evPT/Ba4Z1e8K53QTIYSuTLf+rudONisrUye48z3ln/IL
+         LxGYRryaFA9/R+RD+w1Lp1Aq3HWY+B7twnTKTaIzFaAuliMRQ3v5herSOAefM7VnMEYJ
+         XLgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=8xPwfmJP0RHwPS/Q5mW1AWaMTmkYfq9HponGBK/XGjg=;
-        b=GAXT1s6IukexXNifjdZuBs1MQgbfzaT7tYBKXxSmFGAWr0mG6ByfPGTBsJLm6dd7Cz
-         A3FnQkT7rn503XhysbVaGw5epnO7wVIwS/nV7mrGYKanaMiaOfljy54iyLayLRq690rA
-         6XuE+JUmGWc6oH6kw3l23cV00m7i+H3hTeBsd+yTL0fwYjipKvmcVISaq4mbMld2vXXZ
-         zpJDGbMNza+H3sSBhH8uxypVN36wkqK5vywc4djiLBx+OPryn4o306wQwCRNYpLgGqEi
-         aGadcIy2os1qSDoTcciy+r5U/49o9JfvrE06ZqKPjOLHUgT7VfbxaEswHXNt+6ZK9vys
-         kXug==
-X-Gm-Message-State: APjAAAWbuD4HPg44vyjoFb7prxmINCS1H8ms2SsfweUGSKsEK0l4C8k2
-        K8SH44x5/t6Y1F89t2BrGep8X0OjqrsXH9AJlv8JnPGQ/Vk=
-X-Google-Smtp-Source: APXvYqx5WpbPvvkLRbb3w9N73YGeANP/8uEydwUPkM0M1z2nvDer7u8U1ZtVTab+k/5z4YJ13WkjV3EoCiFMr19ukVY=
-X-Received: by 2002:a9d:721e:: with SMTP id u30mr4998992otj.44.1569616577333;
- Fri, 27 Sep 2019 13:36:17 -0700 (PDT)
+        bh=RAIgD+KVKQMaXcKo0PziTz/C7vJQHz15LP8WFCSpXyo=;
+        b=VttQNsQq3jpRbYLCn6i772oQUZm8XBX7EhEHJ12ZoP4JA7EFwuOrxm+5ZuA886q4m2
+         h/f7I8Oy8lkgJ6ouTcMXUoCwrJ2LAUiZDZyBzRIuyFx8SQovDLrI2mjQidxpMAARsIyf
+         ASyhFXThOC++P3EsG4Fi4hYSs09263X9hPL3z8b/PFi83wDeitDk3Z7YRkN0Rl3lLhcB
+         BsNfc7mL8QtItpkFnU+mP+abCOwpBuC+VOKLKlWyn73y835wbNhoBzDqZ8llHAtrjw+B
+         bNkevoVCerP9cDI/WGFe1hQNOLhsRVCbZf6u2hmUImy3dmEx/OPxAuLjOApFGt4y1sdX
+         pPTw==
+X-Gm-Message-State: APjAAAW5nMQ05++7UlIzBay0NeFYZZC3VCqTDr8WP39RMhLoX8BJ8GJ7
+        a6AIKeziFxWJuzrzNNR9VD7rtudRcnV9o7TPFZn4NrmqC9U=
+X-Google-Smtp-Source: APXvYqyzvqWMmEr0sDH1XpuL+EzY3nFF8uZqBdufzKzWysxxwjpxSQOFwpllG7yQchTFRGeddYLPDCHuQK0ORWE4Lgg=
+X-Received: by 2002:aca:d485:: with SMTP id l127mr8335882oig.162.1569616627588;
+ Fri, 27 Sep 2019 13:37:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190927184722.31989-1-bparrot@ti.com> <20190927184722.31989-4-bparrot@ti.com>
-In-Reply-To: <20190927184722.31989-4-bparrot@ti.com>
+References: <20190927184722.31989-1-bparrot@ti.com> <20190927184722.31989-8-bparrot@ti.com>
+In-Reply-To: <20190927184722.31989-8-bparrot@ti.com>
 From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 27 Sep 2019 21:35:51 +0100
-Message-ID: <CA+V-a8tYwWfgngkTKnpA85byqMkxERFrG7_w+pbzTDvKVpPf-g@mail.gmail.com>
-Subject: Re: [Patch v4 3/8] media: i2c: ov2659: Cleanup include file list
+Date:   Fri, 27 Sep 2019 21:36:41 +0100
+Message-ID: <CA+V-a8vY8pV8L2_JHM-AE=3h03arEtmxVhW_vh6r17pb2X3obA@mail.gmail.com>
+Subject: Re: [Patch v4 7/8] media: i2c: ov2659: Fix missing 720p register config
 To:     Benoit Parrot <bparrot@ti.com>
 Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -61,15 +61,18 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 On Fri, Sep 27, 2019 at 7:47 PM Benoit Parrot <bparrot@ti.com> wrote:
 >
-> Several of include files listed are not explicitly needed.
-> If they are need then they are implicitly included.
+> The initial registers sequence is only loaded at probe
+> time. Afterward only the resolution and format specific
+> register are modified. Care must be taken to make sure
+> registers modified by one resolution setting are reverted
+> back when another resolution is programmed.
 >
-> Reduce the list of includes to an easier to manage list.
+> This was not done properly for the 720p case.
 >
 > Signed-off-by: Benoit Parrot <bparrot@ti.com>
 > ---
->  drivers/media/i2c/ov2659.c | 14 --------------
->  1 file changed, 14 deletions(-)
+>  drivers/media/i2c/ov2659.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 >
 Acked-by: Lad, Prabhakar <prabhakar.csengg@gmail.com>
 
@@ -77,39 +80,24 @@ Cheers,
 --Prabhakar Lad
 
 > diff --git a/drivers/media/i2c/ov2659.c b/drivers/media/i2c/ov2659.c
-> index efbe6dc720e2..f77320e8a60d 100644
+> index 7d0baa386644..720310e0725d 100644
 > --- a/drivers/media/i2c/ov2659.c
 > +++ b/drivers/media/i2c/ov2659.c
-> @@ -22,29 +22,15 @@
+> @@ -412,10 +412,14 @@ static struct sensor_register ov2659_720p[] = {
+>         { REG_TIMING_YINC, 0x11 },
+>         { REG_TIMING_VERT_FORMAT, 0x80 },
+>         { REG_TIMING_HORIZ_FORMAT, 0x00 },
+> +       { 0x370a, 0x12 },
+>         { 0x3a03, 0xe8 },
+>         { 0x3a09, 0x6f },
+>         { 0x3a0b, 0x5d },
+>         { 0x3a15, 0x9a },
+> +       { REG_VFIFO_READ_START_H, 0x00 },
+> +       { REG_VFIFO_READ_START_L, 0x80 },
+> +       { REG_ISP_CTRL02, 0x00 },
+>         { REG_NULL, 0x00 },
+>  };
 >
->  #include <linux/clk.h>
->  #include <linux/delay.h>
-> -#include <linux/err.h>
-> -#include <linux/init.h>
-> -#include <linux/interrupt.h>
-> -#include <linux/io.h>
->  #include <linux/i2c.h>
-> -#include <linux/kernel.h>
-> -#include <linux/media.h>
->  #include <linux/module.h>
-> -#include <linux/of.h>
->  #include <linux/of_graph.h>
-> -#include <linux/slab.h>
-> -#include <linux/uaccess.h>
-> -#include <linux/videodev2.h>
->
-> -#include <media/media-entity.h>
->  #include <media/i2c/ov2659.h>
-> -#include <media/v4l2-common.h>
->  #include <media/v4l2-ctrls.h>
-> -#include <media/v4l2-device.h>
->  #include <media/v4l2-event.h>
->  #include <media/v4l2-fwnode.h>
->  #include <media/v4l2-image-sizes.h>
-> -#include <media/v4l2-mediabus.h>
->  #include <media/v4l2-subdev.h>
->
->  #define DRIVER_NAME "ov2659"
 > --
 > 2.17.1
 >
