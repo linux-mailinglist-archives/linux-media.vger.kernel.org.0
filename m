@@ -2,121 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D1C1C0890
-	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2019 17:27:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34638C0B15
+	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2019 20:31:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727649AbfI0P1t (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Sep 2019 11:27:49 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:36565 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727366AbfI0P1s (ORCPT
+        id S1727205AbfI0SbK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Sep 2019 14:31:10 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:36966 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726321AbfI0SbJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Sep 2019 11:27:48 -0400
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id 9C71B8054F; Fri, 27 Sep 2019 17:27:31 +0200 (CEST)
-Date:   Fri, 27 Sep 2019 17:27:45 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        tfiga@google.com, Rob Herring <robh+dt@kernel.org>,
-        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 01/11] dt-bindings: video-interfaces: Document
- 'location' property
-Message-ID: <20190927152745.GA23113@amd>
-References: <20190912201055.13964-1-jacopo@jmondi.org>
- <20190912201055.13964-2-jacopo@jmondi.org>
+        Fri, 27 Sep 2019 14:31:09 -0400
+Received: by mail-oi1-f193.google.com with SMTP id i16so6030136oie.4;
+        Fri, 27 Sep 2019 11:31:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=6Dwlt6dTGHs+BuziwsOZqU0wxeCKDgQXfVKRH/TdFRQ=;
+        b=EELc4+q1M89Og+XVareDgv88cyvFuwhgs8GyMGn5d0lse99qFqUogsdmTp8afKr8VN
+         9tl8yBh+ezHejThi9N83SLIcroDqFwsvvG0UAuxibFvdqybdQtVe+UAiGTA9V7ls0zuW
+         W7Gn55YJ6WHPitMvzg8sYiQq0sdAqygcf8nGfdSxIdZI1H9j7zwcD0M2pDWq2+OgNnOv
+         n88zDVgyxp8HDguGCVz4Wk++rs0YSOMj/sfUNNi4ZvqY/1tycJByUU8tpPhDGGt/ZU42
+         5ed+PiS7aJLWoGt9YME8GA6YgcUBIG02LsvbL/pRYKuzkagrZQjzRYb0ef2HV8b8iuij
+         P1Vg==
+X-Gm-Message-State: APjAAAWG1N/GblYndroO4CSi/G2OKX/8gaGzXAJwbof0Hzm+3Eqb3nOx
+        WSP+Vd9rIS/bG/oIlXlZsg==
+X-Google-Smtp-Source: APXvYqxfTPOjoXw0r3K9xDZ396c+xBKOc4sDJsePcujHV58jUBs+kpOM2YeJOMmqzYt+9QKgSrRfXg==
+X-Received: by 2002:a05:6808:9b6:: with SMTP id e22mr7980788oig.51.1569609068628;
+        Fri, 27 Sep 2019 11:31:08 -0700 (PDT)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id 21sm1806756oin.26.2019.09.27.11.31.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Sep 2019 11:31:08 -0700 (PDT)
+Date:   Fri, 27 Sep 2019 13:31:07 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Xia Jiang <xia.jiang@mediatek.com>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rick Chang <rick.chang@mediatek.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Tomasz Figa <tfiga@chromium.org>, srv_heupstream@mediatek.com,
+        Xia Jiang <xia.jiang@mediatek.com>
+Subject: Re: [PATCH v3 1/5] media: dt-bindings: Add jpeg enc device tree node
+ document
+Message-ID: <20190927183107.GA16235@bogus>
+References: <20190924074303.22713-1-xia.jiang@mediatek.com>
+ <20190924074303.22713-2-xia.jiang@mediatek.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="+QahgC5+KEYLbs62"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190912201055.13964-2-jacopo@jmondi.org>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20190924074303.22713-2-xia.jiang@mediatek.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
---+QahgC5+KEYLbs62
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi!
-
-> Add the 'location' device property, used to specify a device mounting
-> position. The property is particularly meaningful for mobile devices
-> with a well defined usage orientation.
->=20
-> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+On Tue, 24 Sep 2019 15:43:00 +0800, Xia Jiang wrote:
+> Add jpeg enc device tree node document.
+> 
+> Signed-off-by: Xia Jiang <xia.jiang@mediatek.com>
 > ---
->  .../devicetree/bindings/media/video-interfaces.txt    | 11 +++++++++++
->  1 file changed, 11 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/media/video-interfaces.txt=
- b/Documentation/devicetree/bindings/media/video-interfaces.txt
-> index f884ada0bffc..e71b90a29d7a 100644
-> --- a/Documentation/devicetree/bindings/media/video-interfaces.txt
-> +++ b/Documentation/devicetree/bindings/media/video-interfaces.txt
-> @@ -89,6 +89,17 @@ Optional properties
->    but a number of degrees counter clockwise. Typical values are 0 and 180
->    (upside down).
->=20
-> +- location: The device, typically an image sensor or a flash LED, mounti=
-ng
-> +  location expressed as a position relative to the usage orientation of =
-the
-> +  system where the device is installed on.
-> +  Possible values are:
-> +  0 - Front. The device is mounted on the front facing side of the syste=
-m For
-> +  mobile devices such as smartphones, tablets and laptops the front side=
- is the
-> +  user facing side.
+> v3: change compatible to SoC specific compatible
+> 
+> v2: no changes
+> ---
+>  .../bindings/media/mediatek-jpeg-encoder.txt  | 37 +++++++++++++++++++
+>  1 file changed, 37 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek-jpeg-encoder.txt
+> 
 
-I don't think this is nearly enough of description. We have phones
-with displays and cameras at both sides, where both sides can be used
-to operate the system.
-
-We have phone with display spanning both sides -- Mi Max.
-
-https://www.idnes.cz/mobil/telefony/xiaomi-mi-mix-alpha-predstaveni.A190924=
-_105858_telefony_oma
-
-We have Galaxy Fold.
-
-https://www.samsung.com/global/galaxy/galaxy-fold/
-
-What is front side when device can be used in different
-configurations?
-
-Could we instead say that it is "main" vs "selfie" camera?
-
-Notebooks usually have just "selfie" camera, tablets often have
-both... DSLRs have just "main" camera.
-
-Best regards,
-
-									Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---+QahgC5+KEYLbs62
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iEYEARECAAYFAl2OKnEACgkQMOfwapXb+vKKAgCfYmjlA9n1hExHQbiCr02po1sr
-074AoIYkRdpXlF79DPVHouVBXtp4PSYj
-=c3we
------END PGP SIGNATURE-----
-
---+QahgC5+KEYLbs62--
+Reviewed-by: Rob Herring <robh@kernel.org>
