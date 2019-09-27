@@ -2,143 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FD9CC078F
-	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2019 16:30:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE05BC07A5
+	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2019 16:34:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727587AbfI0O26 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Sep 2019 10:28:58 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:35151 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727079AbfI0O26 (ORCPT
+        id S1727427AbfI0OeS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Sep 2019 10:34:18 -0400
+Received: from relay7-d.mail.gandi.net ([217.70.183.200]:55551 "EHLO
+        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726540AbfI0OeS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Sep 2019 10:28:58 -0400
-Received: from [IPv6:2001:420:44c1:2577:2521:77be:ff76:8085] ([IPv6:2001:420:44c1:2577:2521:77be:ff76:8085])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id DrEriY76LKKNGDrEuiEG4e; Fri, 27 Sep 2019 16:28:56 +0200
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [GIT PULL FOR v5.5] Various fixes/enhancements
-Message-ID: <e99ce728-5571-b043-c6c7-3d6d96c35870@xs4all.nl>
-Date:   Fri, 27 Sep 2019 16:28:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Fri, 27 Sep 2019 10:34:18 -0400
+X-Originating-IP: 86.250.200.211
+Received: from localhost.localdomain (lfbn-1-17395-211.w86-250.abo.wanadoo.fr [86.250.200.211])
+        (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 0EE6620019;
+        Fri, 27 Sep 2019 14:34:14 +0000 (UTC)
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@googlegroups.com
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Maxime Ripard <mripard@bootlin.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: [PATCH v8 0/3] HEVC/H.265 stateless support for V4L2 and Cedrus
+Date:   Fri, 27 Sep 2019 16:34:08 +0200
+Message-Id: <20190927143411.141526-1-paul.kocialkowski@bootlin.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfGMDI7pn0IezbZc2wtrXcUcTWDa1P0F1xtFHegUXoPUJxifQuUWHtkukY0KYNzKQNtJAK/Cca8mGUMmnJFwugxQyO+HAQ2Xax25xoDzFjRoGfbLXYZDy
- I1Qd13VGrRF5m1sqXG50wpqwZPq5moXDq9Mg7v4yQbJQl1kuNHDCKHQq8LB3xTIDETpEtRFWmovHHs4cBM4owrrkums3gpohij4No/xVRVOAfSERqGmO/TMk
- ov9iN4OtxiAFLuOdLE563QXIv5mUn40QiORYtFfwcgrc9BPNLhkYKKwQsaSDomL9
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 6f51fdfd8229d5358c2d6e272cf73478866e8ddc:
+HEVC/H.265 stateless support for V4L2 and Cedrus
 
-  media: videobuf-core.c: poll_wait needs a non-NULL buf pointer (2019-09-05 06:26:57 -0300)
+This is early support for HEVC/H.265 stateless decoding in V4L2,
+including both definitions and driver support for the Cedrus VPU
+driver, which concerns Allwinner devices.
 
-are available in the Git repository at:
+A specific pixel format is introduced for the HEVC slice format and
+controls are provided to pass the bitstream metadata to the decoder.
+Some bitstream extensions are intentionally not supported at this point.
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.5d
+Since this is the first proposal for stateless HEVC/H.265 support in
+V4L2, reviews and comments about the controls definitions are
+particularly welcome.
 
-for you to fetch changes up to ecccfa3b1f8a873e28758e111f533e2ef86d0eb2:
+On the Cedrus side, the H.265 implementation covers frame pictures
+with both uni-directional and bi-direction prediction modes (P/B
+slices). Field pictures (interleaved), scaling lists and 10-bit output
+are not supported at this point.
 
-  media: imx: enable V4L2_PIX_FMT_XBGR32, _BGRX32, and _RGBX32 (2019-09-27 09:54:06 +0200)
+Changes since v7:
+* Rebased on latest media tree;
+* Fixed holes in structures for cacheline alignment;
+* Added decode mode and start code controls
+  (only per-slice and no start code is supported at this point).
 
-----------------------------------------------------------------
-Tag branch
+Changes since v6:
+* Rebased on latest media tree from Hans;
+* Reordered some fields to avoid holes and multi-padding;
+* Updated the documentation.
 
-----------------------------------------------------------------
-Alexandre Courbot (2):
-      media: mtk-vcodec: vdec: set VPI IPI handler in one place
-      media: mtk-vcodec: vdec: clean up vidioc_vdec_s_fmt a bit
+Changes since v5:
+* Rebased atop latest next media tree;
+* Moved to flags instead of u8 fields;
+* Added padding to ensure 64-bit alignment
+  (tested with GDB on 32 and 64-bit architectures);
+* Reworked cedrus H.265 driver support a bit for flags;
+* Split off codec-specific control validation and init;
+* Added HEVC controls fields cleanup at std_validate to allow reliable
+  control comparison with memcmp;
+* Fixed various misc reported mistakes.
 
-Boris Brezillon (3):
-      media: hantro: h264: Fix a comment in b1_ref_list_cmp()
-      media: hantro: h264: Rename POC_CMP() into HANTRO_CMP()
-      media: hantro: h264: Fix the frame_num wraparound case
+Changes since v4:
+* Rebased atop latest H.254 series.
 
-Christophe JAILLET (1):
-      media: seco-cec: Add a missing 'release_region()' in an error handling path
+Changes since v3:
+* Updated commit messages;
+* Updated CID base to avoid conflicts;
+* Used cpu_to_le32 for packed le32 data;
+* Fixed misc minor issues in the drive code;
+* Made it clear in the docs that the API will evolve;
+* Made the pixfmt private and split commits about it.
 
-Colin Ian King (2):
-      media: s3c-camif: make array 'registers' static const, makes object smaller
-      media: em28xx: make various arrays static const, makes object smaller
+Changes since v2:
+* Moved headers to non-public API;
+* Added H265 capability for A64 and H5;
+* Moved docs to ext-ctrls-codec.rst;
+* Mentionned sections of the spec in the docs;
+* Added padding to control structures for 32-bit alignment;
+* Made write function use void/size in bytes;
+* Reduced the number of arguments to helpers when possible;
+* Removed PHYS_OFFSET since we already set PFN_OFFSET;
+* Added comments where suggested;
+* Moved to timestamp for references instead of index;
+* Fixed some style issues reported by checkpatch.
 
-Ezequiel Garcia (2):
-      media: hantro: Simplify macroblock macros
-      media: hantro: Simplify buffer helpers
+Changes since v1:
+* Added a H.265 capability to whitelist relevant platforms;
+* Switched over to tags instead of buffer indices in the DPB
+* Declared variable in their reduced scope as suggested;
+* Added the H.265/HEVC spec to the biblio;
+* Used in-doc references to the spec and the required APIs;
+* Removed debugging leftovers.
 
-Hans Verkuil (6):
-      cedrus: fill in bus_info for media device
-      cedrus: choose default pixelformat in try_fmt
-      cedrus: fix various format-related compliance issues
-      ext-ctrls-flash.rst: fix typo
-      v4l2-dv-timings.c: fix format string
-      vidioc-g-fbuf.rst: remove duplicate 'struct'
+Cheers!
 
-Jernej Skrabec (1):
-      media: vim2m: Fix abort issue
+Paul Kocialkowski (3):
+  media: v4l: Add definitions for HEVC stateless decoding
+  media: pixfmt: Document the HEVC slice pixel format
+  media: cedrus: Add HEVC/H.265 decoding support
 
-Kefeng Wang (1):
-      media: vim2m: Fix BUG_ON in vim2m_device_release()
+ Documentation/media/uapi/v4l/biblio.rst       |   9 +
+ .../media/uapi/v4l/ext-ctrls-codec.rst        | 553 +++++++++++++++-
+ .../media/uapi/v4l/pixfmt-compressed.rst      |  23 +
+ .../media/uapi/v4l/vidioc-queryctrl.rst       |  18 +
+ .../media/videodev2.h.rst.exceptions          |   3 +
+ drivers/media/v4l2-core/v4l2-ctrls.c          | 108 ++-
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
+ drivers/staging/media/sunxi/cedrus/Makefile   |   2 +-
+ drivers/staging/media/sunxi/cedrus/cedrus.c   |  52 +-
+ drivers/staging/media/sunxi/cedrus/cedrus.h   |  18 +
+ .../staging/media/sunxi/cedrus/cedrus_dec.c   |   9 +
+ .../staging/media/sunxi/cedrus/cedrus_h265.c  | 616 ++++++++++++++++++
+ .../staging/media/sunxi/cedrus/cedrus_hw.c    |   4 +
+ .../staging/media/sunxi/cedrus/cedrus_regs.h  | 271 ++++++++
+ .../staging/media/sunxi/cedrus/cedrus_video.c |  10 +
+ include/media/hevc-ctrls.h                    | 212 ++++++
+ include/media/v4l2-ctrls.h                    |   7 +
+ 17 files changed, 1907 insertions(+), 9 deletions(-)
+ create mode 100644 drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+ create mode 100644 include/media/hevc-ctrls.h
 
-Niklas Söderlund (5):
-      rcar-vin: Fix incorrect return statement in rvin_try_format()
-      rcar-vin: Make use of V4L2_FIELD_IS_INTERLACED() macro
-      rcar-vin: Rename rectangle holding the video source information
-      rcar-vin: Do not reset the crop and compose rectangles in s_fmt
-      rcar-vin: Add support for V4L2_FIELD_ALTERNATE
+-- 
+2.23.0
 
-Philipp Zabel (5):
-      media: hantro: streamline open, reuse error path
-      media: uapi: h264: clarify dec_ref_pic_marking_bit_size fields
-      media: uapi: h264: clarify V4L2_PIX_FMT_H264_SLICE format
-      media: uapi: h264: clarify num_ref_idx_l[01]_(default_)active fields
-      media: imx: enable V4L2_PIX_FMT_XBGR32, _BGRX32, and _RGBX32
-
-Vandana BN (1):
-      vivid: Set vid_cap_streaming and vid_out_streaming to true
-
-Yunfei Dong (1):
-      media: mtk-vcodec: vdec: fix incorrect pointer dereference
-
- Documentation/media/uapi/v4l/ext-ctrls-codec.rst       |  8 +++---
- Documentation/media/uapi/v4l/ext-ctrls-flash.rst       |  2 +-
- Documentation/media/uapi/v4l/pixfmt-compressed.rst     | 12 ++++++---
- Documentation/media/uapi/v4l/vidioc-g-fbuf.rst         |  2 +-
- drivers/media/platform/mtk-vcodec/mtk_vcodec_dec.c     | 20 +++++++++++----
- drivers/media/platform/mtk-vcodec/vdec/vdec_h264_if.c  |  1 -
- drivers/media/platform/mtk-vcodec/vdec/vdec_vp8_if.c   |  1 -
- drivers/media/platform/mtk-vcodec/vdec/vdec_vp9_if.c   |  1 -
- drivers/media/platform/mtk-vcodec/vdec_vpu_if.c        |  9 ++++++-
- drivers/media/platform/mtk-vcodec/vdec_vpu_if.h        |  9 -------
- drivers/media/platform/rcar-vin/rcar-dma.c             | 54 +++++++++++++++++++++------------------
- drivers/media/platform/rcar-vin/rcar-v4l2.c            | 65 +++++++++++++++++++++++------------------------
- drivers/media/platform/rcar-vin/rcar-vin.h             |  4 +--
- drivers/media/platform/s3c-camif/camif-regs.c          |  2 +-
- drivers/media/platform/seco-cec/seco-cec.c             |  1 +
- drivers/media/platform/vim2m.c                         |  4 +++
- drivers/media/platform/vivid/vivid-vid-cap.c           |  3 ---
- drivers/media/platform/vivid/vivid-vid-out.c           |  3 ---
- drivers/media/usb/em28xx/em28xx-dvb.c                  | 30 +++++++++++-----------
- drivers/media/v4l2-core/v4l2-dv-timings.c              |  2 +-
- drivers/staging/media/hantro/hantro.h                  | 20 +++------------
- drivers/staging/media/hantro/hantro_drv.c              | 16 ++++++------
- drivers/staging/media/hantro/hantro_g1_h264_dec.c      |  7 +++---
- drivers/staging/media/hantro/hantro_g1_mpeg2_dec.c     | 11 +++-----
- drivers/staging/media/hantro/hantro_g1_vp8_dec.c       | 11 ++++----
- drivers/staging/media/hantro/hantro_h1_jpeg_enc.c      |  4 +--
- drivers/staging/media/hantro/hantro_h264.c             | 64 +++++++++++++++++++++++++++++-----------------
- drivers/staging/media/hantro/hantro_hw.h               |  4 +--
- drivers/staging/media/hantro/rk3288_vpu_hw.c           | 16 ++++++------
- drivers/staging/media/hantro/rk3399_vpu_hw.c           | 12 ++++-----
- drivers/staging/media/hantro/rk3399_vpu_hw_jpeg_enc.c  |  4 +--
- drivers/staging/media/hantro/rk3399_vpu_hw_mpeg2_dec.c | 11 +++-----
- drivers/staging/media/hantro/rk3399_vpu_hw_vp8_dec.c   | 12 ++++-----
- drivers/staging/media/imx/imx-media-utils.c            | 10 +++++++-
- drivers/staging/media/sunxi/cedrus/cedrus.c            | 12 +++++++++
- drivers/staging/media/sunxi/cedrus/cedrus_video.c      | 74 +++++++++++++++++-------------------------------------
- drivers/staging/media/sunxi/cedrus/cedrus_video.h      |  1 +
- 37 files changed, 261 insertions(+), 261 deletions(-)
