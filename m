@@ -2,83 +2,327 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 19DD3C071F
-	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2019 16:16:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 06520C0722
+	for <lists+linux-media@lfdr.de>; Fri, 27 Sep 2019 16:17:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727154AbfI0OPr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Sep 2019 10:15:47 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:41593 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726540AbfI0OPr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Sep 2019 10:15:47 -0400
-Received: from [IPv6:2001:420:44c1:2577:2521:77be:ff76:8085] ([IPv6:2001:420:44c1:2577:2521:77be:ff76:8085])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id Dr25iY1oBKKNGDr29iECKo; Fri, 27 Sep 2019 16:15:45 +0200
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Shuah Khan <skhan@linuxfoundation.org>,
-        Helen Koike <helen.koike@collabora.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [GIT PULL FOR v5.5] vimc: Collapse component structure into a single
- monolithic driver
-Message-ID: <6618e8ee-7ea8-6172-ac96-5228a769a3b3@xs4all.nl>
-Date:   Fri, 27 Sep 2019 16:15:41 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1727154AbfI0ORO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Sep 2019 10:17:14 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:43675 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726540AbfI0ORN (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 27 Sep 2019 10:17:13 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtp (Exim 4.84_2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1iDr3G-0002Cp-54; Fri, 27 Sep 2019 14:16:54 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1iDr3Y-0003c4-Rw; Fri, 27 Sep 2019 14:17:13 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.5] cec fixes and improvements
+Date:   Fri, 27 Sep 2019 14:17:12 +0000
+Message-Id: <20190927141712.13847-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <2db83ecb-d773-bec1-e00e-1ad0b6ccb7f0@xs4all.nl>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfH7MpzN3Kb/0u+J3Cnvt6u7FJBRtXdNl5NbP0aJ6fUaxvSAbwA6geGyY3jm8qzQJkr0lLL52RTUxKn8pElT7XQWnKV/Cew42DbaK4h91V/FIhYfdNkVG
- mVtUsPc2yGJH90NSKvc0Zd2f4RaJyo5Gx7Geqqy7wnpndHwRpC7NVGd9p/xAUeXSF819Mv4APxpg9EkIF57o0x1pa2elhLQTtTySfrj0dWiB8IDr334mjimc
- HrIrXODOKRsO5rVFnfNypQqN8bxP6tHyIdSHAD6wSlwzUegsiB2RlrZmijbvXSNaALGzXUXbo5y489N7L9mmQHfHF8D/nNCk0GGEh5+rktNLRaMuerGNcCWe
- M2zXs2m5ifnQ7CXtq2tFNqAZvAS8bQ==
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Speaks for itself. This will require a change to the v4l-utils test-media script.
-A patch is ready for that to apply once this is merged.
+From: builder@linuxtv.org
 
-Various other upcoming vimc patches all depend on this going in first.
+Pull request: https://patchwork.linuxtv.org/patch/58969/
+Build log: https://builder.linuxtv.org/job/patchwork/17974/
+Build time: 00:06:33
+Link: https://lore.kernel.org/linux-media/2db83ecb-d773-bec1-e00e-1ad0b6ccb7f0@xs4all.nl
 
-Regards,
+gpg: Signature made Fri 27 Sep 2019 02:04:51 PM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
 
-	Hans
+Summary: 1 patches and/or PDF generation with issues, being 0 at build time
 
-The following changes since commit 6f51fdfd8229d5358c2d6e272cf73478866e8ddc:
+Error/warnings:
 
-  media: videobuf-core.c: poll_wait needs a non-NULL buf pointer (2019-09-05 06:26:57 -0300)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-select (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-up (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-down (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-left (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-right (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-right-up (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-right-down (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-left-up (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-left-down (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-device-root-menu (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-device-setup-menu (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-contents-menu (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-favorite-menu (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-back (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-media-top-menu (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-media-context-sensitive-menu (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-number-entry-mode (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-number-11 (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-number-12 (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-number-0-or-number-10 (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-number-1 (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-number-2 (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-number-3 (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-number-4 (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-number-5 (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-number-6 (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-number-7 (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-number-8 (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-number-9 (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-dot (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-enter (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-clear (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-next-favorite (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-channel-up (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-channel-down (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-previous-channel (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-sound-select (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-input-select (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-display-information (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-help (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-page-up (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-page-down (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-power (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-volume-up (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-volume-down (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-mute (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-play (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-stop (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-pause (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-record (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-rewind (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-fast-forward (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-eject (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-skip-forward (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-skip-backward (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-stop-record (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-pause-record (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-angle (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-sub-picture (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-video-on-demand (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-electronic-program-guide (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-timer-programming (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-initial-configuration (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-select-broadcast-type (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-select-sound-presentation (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-audio-description (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-internet (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-3d-mode (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-play-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-pause-play-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-record-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-pause-record-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-stop-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-mute-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-restore-volume-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-tune-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-select-media-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-select-av-input-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-select-audio-input-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-power-toggle-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-power-off-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-power-on-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-f1-blue- (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-f2-red (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-f3-green (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-f4-yellow (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-f5 (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-data (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-select (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-up (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-down (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-left (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-right (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-right-up (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-right-down (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-left-up (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-left-down (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-device-root-menu (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-device-setup-menu (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-contents-menu (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-favorite-menu (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-back (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-media-top-menu (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-media-context-sensitive-menu (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-number-entry-mode (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-number-11 (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-number-12 (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-number-0-or-number-10 (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-number-1 (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-number-2 (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-number-3 (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-number-4 (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-number-5 (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-number-6 (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-number-7 (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-number-8 (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-number-9 (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-dot (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-enter (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-clear (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-next-favorite (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-channel-up (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-channel-down (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-previous-channel (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-sound-select (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-input-select (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-display-information (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-help (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-page-up (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-page-down (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-power (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-volume-up (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-volume-down (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-mute (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-play (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-stop (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-pause (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-record (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-rewind (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-fast-forward (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-eject (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-skip-forward (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-skip-backward (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-stop-record (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-pause-record (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-angle (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-sub-picture (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-video-on-demand (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-electronic-program-guide (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-timer-programming (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-initial-configuration (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-select-broadcast-type (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-select-sound-presentation (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-audio-description (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-internet (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-3d-mode (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-play-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-pause-play-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-record-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-pause-record-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-stop-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-mute-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-restore-volume-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-tune-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-select-media-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-select-av-input-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-select-audio-input-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-power-toggle-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-power-off-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-power-on-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-f1-blue- (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-f2-red (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-f3-green (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-f4-yellow (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-f5 (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-data (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec_adap_g_connector_info (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-cap-connector-info (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-connector-type-no-connector (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-connector-type-drm (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-cap-connector-info (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec_adap_g_connector_info (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-select (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-up (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-down (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-left (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-right (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-right-up (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-right-down (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-left-up (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-left-down (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-device-root-menu (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-device-setup-menu (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-contents-menu (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-favorite-menu (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-back (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-media-top-menu (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-media-context-sensitive-menu (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-number-entry-mode (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-number-11 (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-number-12 (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-number-0-or-number-10 (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-number-1 (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-number-2 (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-number-3 (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-number-4 (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-number-5 (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-number-6 (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-number-7 (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-number-8 (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-number-9 (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-dot (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-enter (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-clear (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-next-favorite (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-channel-up (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-channel-down (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-previous-channel (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-sound-select (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-input-select (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-display-information (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-help (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-page-up (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-page-down (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-power (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-volume-up (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-volume-down (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-mute (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-play (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-stop (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-pause (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-record (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-rewind (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-fast-forward (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-eject (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-skip-forward (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-skip-backward (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-stop-record (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-pause-record (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-angle (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-sub-picture (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-video-on-demand (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-electronic-program-guide (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-timer-programming (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-initial-configuration (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-select-broadcast-type (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-select-sound-presentation (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-audio-description (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-internet (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-3d-mode (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-play-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-pause-play-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-record-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-pause-record-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-stop-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-mute-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-restore-volume-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-tune-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-select-media-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-select-av-input-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-select-audio-input-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-power-toggle-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-power-off-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-power-on-function (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-f1-blue- (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-f2-red (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-f3-green (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-f4-yellow (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-f5 (if the link has no caption the label must precede a section header)
+/var/lib/jenkins/workspace/patchwork/Documentation/output/cec.h.rst:6: WARNING: undefined label: cec-op-ui-cmd-data (if the link has no caption the label must precede a section header)
+patches/0005-cec-document-CEC_ADAP_G_CONNECTOR_INFO-and-capabilit.patch:10: WARNING: Co-developed-by: must be immediately followed by Signed-off-by:
+patches/0005-cec-document-CEC_ADAP_G_CONNECTOR_INFO-and-capabilit.patch:53: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
 
-are available in the Git repository at:
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0005-cec-document-CEC_ADAP_G_CONNECTOR_INFO-and-capabilit.patch
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.5b
-
-for you to fetch changes up to 79d94c0816a617f40bc43ee7e7da14d73346a078:
-
-  MAINTAINERS: Add reviewer to vimc driver (2019-09-20 11:06:36 +0200)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Shuah Khan (5):
-      media: vimc: Collapse component structure into a single monolithic driver
-      media: vimc: Fix gpf in rmmod path when stream is active
-      vimc: move duplicated IS_SRC and IS_SINK to common header
-      doc: media: vimc: Update module parameter usage information
-      MAINTAINERS: Add reviewer to vimc driver
-
- Documentation/media/v4l-drivers/vimc.rst    |  12 ++--
- MAINTAINERS                                 |   1 +
- drivers/media/platform/vimc/Makefile        |   7 ++-
- drivers/media/platform/vimc/vimc-capture.c  |  81 +++++-------------------
- drivers/media/platform/vimc/vimc-common.c   |   3 +-
- drivers/media/platform/vimc/vimc-common.h   |  58 +++++++++++++++++
- drivers/media/platform/vimc/vimc-core.c     | 216 ++++++++++++++++++++++++++--------------------------------------
- drivers/media/platform/vimc/vimc-debayer.c  |  85 +++++--------------------
- drivers/media/platform/vimc/vimc-scaler.c   |  84 +++++--------------------
- drivers/media/platform/vimc/vimc-sensor.c   |  74 ++++------------------
- drivers/media/platform/vimc/vimc-streamer.c |   1 -
- 11 files changed, 217 insertions(+), 405 deletions(-)
