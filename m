@@ -2,162 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 750B4C10E6
-	for <lists+linux-media@lfdr.de>; Sat, 28 Sep 2019 14:46:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E4C0CC1170
+	for <lists+linux-media@lfdr.de>; Sat, 28 Sep 2019 19:02:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726026AbfI1MqZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 28 Sep 2019 08:46:25 -0400
-Received: from relay4-d.mail.gandi.net ([217.70.183.196]:36243 "EHLO
-        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725857AbfI1MqY (ORCPT
+        id S1728396AbfI1RCV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 28 Sep 2019 13:02:21 -0400
+Received: from mail-io1-f68.google.com ([209.85.166.68]:35567 "EHLO
+        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725965AbfI1RCV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 28 Sep 2019 08:46:24 -0400
-X-Originating-IP: 79.19.63.71
-Received: from uno.localdomain (host71-63-dynamic.19-79-r.retail.telecomitalia.it [79.19.63.71])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 7159FE0003;
-        Sat, 28 Sep 2019 12:46:19 +0000 (UTC)
-Date:   Sat, 28 Sep 2019 14:48:01 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        tfiga@google.com, Rob Herring <robh+dt@kernel.org>,
-        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 01/11] dt-bindings: video-interfaces: Document
- 'location' property
-Message-ID: <20190928124801.q7h3jml3uqxorwze@uno.localdomain>
-References: <20190912201055.13964-1-jacopo@jmondi.org>
- <20190912201055.13964-2-jacopo@jmondi.org>
- <20190927152745.GA23113@amd>
+        Sat, 28 Sep 2019 13:02:21 -0400
+Received: by mail-io1-f68.google.com with SMTP id q10so26165414iop.2;
+        Sat, 28 Sep 2019 10:02:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=nsn5RNui/wYoQeLsfCsdYPJc8RIh0LlvrJMCZy9B00U=;
+        b=AcntU8ZiAQ7bhWMrePguPrbeqSmlkWHtPFCGV5GGeHxVP7OF0XMOx3YBUxQu4410Ck
+         euWaL9/ELTgVTlcfgLurn1uJaTjayTnlY77IP9s8yKgrkjSsREsXaroSb/3lDg1DITbB
+         cvO94OIBuuwFAQZkTdynxtpS/GSNaLqQcUkIBIPkWI/Un1U+6QWhsisd166twxDl3oae
+         AhtuQGT7EfGInKE8qbjsB/YAU5pYh1kMhS+NEYsghYQqbq/QuntqkZJDZCbix7qHU4+5
+         /SKFLMaavoPrR1x+ZpIjvjBsLU1HHmZPzPny1HLmlbjpQiT7P6xOJwRYaoQ9NxMvaL9g
+         OdrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=nsn5RNui/wYoQeLsfCsdYPJc8RIh0LlvrJMCZy9B00U=;
+        b=JerFAoBwWxIlB+lGkR+fVEz+HslfDe0tZCbMx0JHcZKbOXdRfnG4I2rVm+Mny4XUs4
+         0SXBFDsWHzkcbd/Xp9igNN+25ZVVWWnQG01FaQR9JKjW8k5MHFgOdeGpXpD03+j/l+95
+         64wb9RQX0SBOH968UilJfMyMakBbu+yOAiyDKly8up4FgqdJjUVb5nIkG9lf7pXIg2Tj
+         e5H+/ndYKd9mboR+dz96DTtiw+cliGEBfb/5nRqog+bsQb3d1CnmTc0TcuTeQGoKWPke
+         WMdkEdqAsPFqdl4l1Xf/W6sbzbFGAa+eTbnRkVCbXi66ATkSCWPryD0kTrAV3xlfJDG2
+         fgDg==
+X-Gm-Message-State: APjAAAWxPmCd1Jpu2BnDotfJ5KwjFjPsEEYATy2NDkzrY66iCU6n6ds5
+        7Bzuw8j9sRk8uKjgJGHtJ7q1ep2E+c2zHeyoK+g=
+X-Google-Smtp-Source: APXvYqwwGDcrpv4+NAWmHADNF9nBbxIW2FvhMJ0xaH9IqbF1LPUPImBbXHq4tWbdEONn6PBtEZltwB6XOVyFGJO+caI=
+X-Received: by 2002:a92:d206:: with SMTP id y6mr11816566ily.208.1569690140551;
+ Sat, 28 Sep 2019 10:02:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="uqjl4oaob5an46il"
-Content-Disposition: inline
-In-Reply-To: <20190927152745.GA23113@amd>
-User-Agent: NeoMutt/20180716
+References: <20190915184419.32184-1-lucmaga@gmail.com> <f9670de6-5586-0067-936e-87ebf8a20609@xs4all.nl>
+In-Reply-To: <f9670de6-5586-0067-936e-87ebf8a20609@xs4all.nl>
+From:   =?UTF-8?Q?Lucas_Magalh=C3=A3es?= <lucmaga@gmail.com>
+Date:   Sat, 28 Sep 2019 14:02:09 -0300
+Message-ID: <CAK0xOaFKmpazKwHmT74Kw2OCZ+y6KQC-h+KLTzThxS-3QxomEg@mail.gmail.com>
+Subject: Re: [PATCH v2] media: vimc: fla: Add virtual flash subdevice
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Helen Koike <helen.koike@collabora.com>,
+        edusbarretto@gmail.com, lkcamp@lists.libreplanetbr.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Hans,
 
---uqjl4oaob5an46il
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Thanks for the review. Sorry about the style mistakes, will be careful
+next time.
+Just a couple of questions.
 
-Hi Pavel,
-   thanks for input
-
-On Fri, Sep 27, 2019 at 05:27:45PM +0200, Pavel Machek wrote:
-> Hi!
+On Fri, Sep 20, 2019 at 8:32 AM Hans Verkuil <hverkuil@xs4all.nl> wrote:
 >
-> > Add the 'location' device property, used to specify a device mounting
-> > position. The property is particularly meaningful for mobile devices
-> > with a well defined usage orientation.
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > ---
-> >  .../devicetree/bindings/media/video-interfaces.txt    | 11 +++++++++++
-> >  1 file changed, 11 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/media/video-interfaces.txt b/Documentation/devicetree/bindings/media/video-interfaces.txt
-> > index f884ada0bffc..e71b90a29d7a 100644
-> > --- a/Documentation/devicetree/bindings/media/video-interfaces.txt
-> > +++ b/Documentation/devicetree/bindings/media/video-interfaces.txt
-> > @@ -89,6 +89,17 @@ Optional properties
-> >    but a number of degrees counter clockwise. Typical values are 0 and 180
-> >    (upside down).
-> >
-> > +- location: The device, typically an image sensor or a flash LED, mounting
-> > +  location expressed as a position relative to the usage orientation of the
-> > +  system where the device is installed on.
-> > +  Possible values are:
-> > +  0 - Front. The device is mounted on the front facing side of the system For
-> > +  mobile devices such as smartphones, tablets and laptops the front side is the
-> > +  user facing side.
+> > +static int vimc_fla_s_ctrl(struct v4l2_ctrl *c)
+> > +{
+> > +
+> > +     struct vimc_fla_device *vfla =
+> > +             container_of(c->handler, struct vimc_fla_device, hdl);
+> > +
+> > +     switch (c->id) {
+> > +     case V4L2_CID_FLASH_LED_MODE:
+> > +             vfla->led_mode = c->val;
+> > +             return 0;
+> > +     case V4L2_CID_FLASH_STROBE_SOURCE:
+> > +             vfla->strobe_source = c->val;
+> > +             return 0;
+> > +     case V4L2_CID_FLASH_STROBE:
+> > +             if (vfla->led_mode != V4L2_FLASH_LED_MODE_FLASH ||
+> > +                 vfla->strobe_source != V4L2_FLASH_STROBE_SOURCE_SOFTWARE){
+> > +                     return -EILSEQ;
+> > +             }
+> > +             vfla->is_strobe = true;
+> > +             vfla->kthread = kthread_run(vimc_fla_strobe_thread, vfla, "vimc-flash thread");
 >
-> I don't think this is nearly enough of description. We have phones
-> with displays and cameras at both sides, where both sides can be used
-> to operate the system.
+> What if the thread is already running?
 >
-> We have phone with display spanning both sides -- Mi Max.
+> I wonder what existing flash drivers do if V4L2_CID_FLASH_STROBE is called
+> repeatedly. Perhaps returning EBUSY if strobe is still active makes sense here.
 >
-> https://www.idnes.cz/mobil/telefony/xiaomi-mi-mix-alpha-predstaveni.A190924_105858_telefony_oma
+> It would also be a nice feature if keeping the strobe on for more than X seconds
+> would create a V4L2_FLASH_FAULT_LED_OVER_TEMPERATURE fault.
 >
-> We have Galaxy Fold.
+How would you expect this? At this point I will never cross the maximum timeout
+configured. I don't expect a driver to fail if I set a value within
+the configuration
+borders.
+
+> > +     v4l2_ctrl_new_std_menu(&vfla->hdl, &vimc_fla_ctrl_ops,
+> > +                            V4L2_CID_FLASH_LED_MODE,
+> > +                            V4L2_FLASH_LED_MODE_TORCH, ~0x7,
+> > +                            V4L2_FLASH_LED_MODE_NONE);
+> > +     v4l2_ctrl_new_std_menu(&vfla->hdl, &vimc_fla_ctrl_ops,
+> > +                            V4L2_CID_FLASH_STROBE_SOURCE, 0x1, ~0x3,
+> > +                            V4L2_FLASH_STROBE_SOURCE_SOFTWARE);
+> > +     v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
+> > +                       V4L2_CID_FLASH_STROBE, 0, 0, 0, 0);
+> > +     v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
+> > +                       V4L2_CID_FLASH_STROBE_STOP, 0, 0, 0, 0);
+> > +     v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
+> > +                       V4L2_CID_FLASH_TIMEOUT, 0,
+> > +                       VIMC_FLASH_TIMEOUT_MAX,
+> > +                       VIMC_FLASH_TIMEOUT_STEP,
+> > +                       VIMC_FLASH_TIMEOUT_STEP);
+> > +     v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
+> > +                       V4L2_CID_FLASH_TORCH_INTENSITY, 0, 255, 1, 255);
+> > +     v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
+> > +                       V4L2_CID_FLASH_INTENSITY, 0, 255, 1, 255);
+> > +     v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,V4L2_CID_FLASH_INDICATOR_INTENSITY
+> > +                       V4L2_CID_FLASH_INDICATOR_INTENSITY, 0, 255, 1, 255);
 >
-> https://www.samsung.com/global/galaxy/galaxy-fold/
+> Can you look at existing flash drivers and copy the min/max/step/def values?
 >
-> What is front side when device can be used in different
-> configurations?
->
-> Could we instead say that it is "main" vs "selfie" camera?
+> The values here are rather arbitrary. It would be nice if it was a bit more
+> realistic.
 
-I'm not sure the intended usage is something that belongs to DT. And
-'selfie' implies you have a device side facing you, most like the
-'front' one I have defined here.
+I didn't found any driver implementing
+V4L2_CID_FLASH_INDICATOR_INTENSITY. Do you have
+any examples for this? For the other ones I'm copying the lm3646 for
+the other ones.
 
-Not to mention again this devices are all but supported by mainline,
-which is just a partial justification as they might be an indication
-of a trend.
-
-There is no usable reference place, reference side, reference usage
-mode that applies to -all- devices in the world, not one I can think
-of.
-
-I still think defining a location property is not blocking any new
-extension that accommodate more advanced use cases. It's not like we're
-adding a "front-camera" property, it's a "location" and you can expand
-its accepted values with "front-when-device-folded" or whatever you
-need for future devices.
-
-In the description I mentioned the "usage orientation" to leave room
-for possible device-specific details in the definition of the values
-accepted by the property.
-
-> > +  location expressed as a position relative to the usage orientation of the
-> > +  system where the device is installed on.
-
-99% of devices in the world have a front and a back, as well as they
-have a top and a bottom. I still don't see why if a device does not
-simply has a front it cannot use something different. The property
-definition allows you to do so.
-
->
-> Notebooks usually have just "selfie" camera, tablets often have
-> both... DSLRs have just "main" camera.
->
-> Best regards,
->
-> 									Pavel
-> --
-> (english) http://www.livejournal.com/~pavelmachek
-> (cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
-
-
-
---uqjl4oaob5an46il
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl2PVoEACgkQcjQGjxah
-VjzVwg/9GtebVm4JTnsXoysCORM++4THPFOcYKouY/E4uZRVxqlnAc7x7MRIqTQt
-5De0iJJJwR6RM7iPtXbbeXuwnoShr2T8GqS3kAYVr6WmbHsrJ/eL7LEqietgsPii
-nnN0dGv3v6vbSWxrtshyxF3iwLohx7ecKiJxqtZ3ajcMvwPmkCyp185VSGtK7qyC
-S0yyP58ixWtnUo+FfKR3F5P9L2HCNjacX6WLKIAsO96j9RQyPjElNSEQQJuqpMpt
-wyZ1YGQW8OADrFsVzi69aRRtFuBOsjj7tXvB6KCLS6wdXQL0hfdB7VElWxjeCIEf
-ChSVg0fDyZFW2NAEhwd1opSSI0Xxd4/UecAuwQS9aQT0JWKfr0JQQ9tfVVpMC+8F
-LmyeFo9DmDF60Euwr4aebGSkLBZFcWPmk3MKSl8DLubiFPU45ZV+SCOc98V4stbN
-4ofhlXMTs2ERLFbGTNqW6UOa7/2xMV2Qu2kM/l9uRFOklwQvS+4g3APZ/P4khzZa
-CSPTRxUHm99Qm5wqpGvhqDX5wO3I0zra5Cr251l3alUHahuIlH4USxd0Qv6eIKHp
-2CBQ0achVkENFPPIEqOyrS0f4F1dA10jf3d9O8puKj0krTicXkAyIvrBM+gUb9A+
-XIfXOKoZ9afYJUPMwqjP++xbpWA0sMsJyiURM0CeUfjHBtkXpwI=
-=0fCI
------END PGP SIGNATURE-----
-
---uqjl4oaob5an46il--
+Regards,
+Lucas
