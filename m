@@ -2,136 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E4C0CC1170
-	for <lists+linux-media@lfdr.de>; Sat, 28 Sep 2019 19:02:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B207C1284
+	for <lists+linux-media@lfdr.de>; Sun, 29 Sep 2019 02:08:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728396AbfI1RCV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 28 Sep 2019 13:02:21 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:35567 "EHLO
+        id S1728784AbfI2AIs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 28 Sep 2019 20:08:48 -0400
+Received: from mail-io1-f68.google.com ([209.85.166.68]:39719 "EHLO
         mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725965AbfI1RCV (ORCPT
+        with ESMTP id S1728699AbfI2AIs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 28 Sep 2019 13:02:21 -0400
-Received: by mail-io1-f68.google.com with SMTP id q10so26165414iop.2;
-        Sat, 28 Sep 2019 10:02:21 -0700 (PDT)
+        Sat, 28 Sep 2019 20:08:48 -0400
+Received: by mail-io1-f68.google.com with SMTP id a1so27805223ioc.6;
+        Sat, 28 Sep 2019 17:08:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nsn5RNui/wYoQeLsfCsdYPJc8RIh0LlvrJMCZy9B00U=;
-        b=AcntU8ZiAQ7bhWMrePguPrbeqSmlkWHtPFCGV5GGeHxVP7OF0XMOx3YBUxQu4410Ck
-         euWaL9/ELTgVTlcfgLurn1uJaTjayTnlY77IP9s8yKgrkjSsREsXaroSb/3lDg1DITbB
-         cvO94OIBuuwFAQZkTdynxtpS/GSNaLqQcUkIBIPkWI/Un1U+6QWhsisd166twxDl3oae
-         AhtuQGT7EfGInKE8qbjsB/YAU5pYh1kMhS+NEYsghYQqbq/QuntqkZJDZCbix7qHU4+5
-         /SKFLMaavoPrR1x+ZpIjvjBsLU1HHmZPzPny1HLmlbjpQiT7P6xOJwRYaoQ9NxMvaL9g
-         OdrQ==
+         :cc:content-transfer-encoding;
+        bh=sySYmdanx8FlKrC5M/xI9bXiDTGnSPM1TKZx0s0iEwo=;
+        b=NCW2fQ1a9sQDlIZ42JYWNH4b+9nCYHx7SgpJedzFVmGdDYUOdftiPhz5nl+ecIx2tc
+         69+thtrjgPxpATNxzlS9HC2pyy5rsyp1OcjOtHD+XG1La+fhHzXEdB9n53Dv8GG31QC3
+         xJhFHwpUuf/bEDpMWXW16REZZgsBcy8QHE+OfWaCEIkcW+PiigdR0VFHKQIkEZBDRkV/
+         oAV5ON6xOEajtCEp8WEz6uAf0OHGoL99MYOrOb2gXf9vbuvoHCRMni96Y32jDLFCeZr0
+         jzSZpFfwHiedgy7aTTt86yjrWWO3EsGkbHxdtArtfqTh1S9UW9LvpTbpKRDDfxxsa1oL
+         SPaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nsn5RNui/wYoQeLsfCsdYPJc8RIh0LlvrJMCZy9B00U=;
-        b=JerFAoBwWxIlB+lGkR+fVEz+HslfDe0tZCbMx0JHcZKbOXdRfnG4I2rVm+Mny4XUs4
-         0SXBFDsWHzkcbd/Xp9igNN+25ZVVWWnQG01FaQR9JKjW8k5MHFgOdeGpXpD03+j/l+95
-         64wb9RQX0SBOH968UilJfMyMakBbu+yOAiyDKly8up4FgqdJjUVb5nIkG9lf7pXIg2Tj
-         e5H+/ndYKd9mboR+dz96DTtiw+cliGEBfb/5nRqog+bsQb3d1CnmTc0TcuTeQGoKWPke
-         WMdkEdqAsPFqdl4l1Xf/W6sbzbFGAa+eTbnRkVCbXi66ATkSCWPryD0kTrAV3xlfJDG2
-         fgDg==
-X-Gm-Message-State: APjAAAWxPmCd1Jpu2BnDotfJ5KwjFjPsEEYATy2NDkzrY66iCU6n6ds5
-        7Bzuw8j9sRk8uKjgJGHtJ7q1ep2E+c2zHeyoK+g=
-X-Google-Smtp-Source: APXvYqwwGDcrpv4+NAWmHADNF9nBbxIW2FvhMJ0xaH9IqbF1LPUPImBbXHq4tWbdEONn6PBtEZltwB6XOVyFGJO+caI=
-X-Received: by 2002:a92:d206:: with SMTP id y6mr11816566ily.208.1569690140551;
- Sat, 28 Sep 2019 10:02:20 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=sySYmdanx8FlKrC5M/xI9bXiDTGnSPM1TKZx0s0iEwo=;
+        b=GCCG1iNlzPEUujC9+g6nqBjPxiD36fg5RdOhYLI8nwD3qteRD48bpSw0H17B10idA+
+         rTymXx7n5adGN8ArlL7HAggKd1BCLG7SysoD7nJkma0yhLz84N82r7205kB/wCneumdR
+         vuq4xNSZKYb088u86lkcWMavD1rCojrSRLoDwZuzn+L4oAmM763vwN5xR2r1gqSds/nt
+         xfhDIcB4Tf1pN1zVhEoEASCDoQ4CQT2+QngILyr/BkyRHfztOfalEwR08CMd7w3HonEx
+         wkWSwDNijzNtoK6/axqNCENUACdHLiNHVBD2RSVtKCUC0WRxplYB7VCrMCmdMo1FUeA+
+         RUoA==
+X-Gm-Message-State: APjAAAVYrzCUH0886psRHLMjAFjYhmGGPhgDRRRtxf5jcU2Z1J+EUSUM
+        LPipMsM3UghVvCDrnfREiZWd9IdNpgCUSP5C7lo=
+X-Google-Smtp-Source: APXvYqxTyPZTUWBm7blYKJlUhNEilGHuqgwFewfkd2OZyk32KgEnEjohIti6fziLTNuPCQZbhFtJJNM7BJ+dhhYPeJI=
+X-Received: by 2002:a05:6e02:4ce:: with SMTP id f14mr12781454ils.278.1569715726965;
+ Sat, 28 Sep 2019 17:08:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190915184419.32184-1-lucmaga@gmail.com> <f9670de6-5586-0067-936e-87ebf8a20609@xs4all.nl>
-In-Reply-To: <f9670de6-5586-0067-936e-87ebf8a20609@xs4all.nl>
-From:   =?UTF-8?Q?Lucas_Magalh=C3=A3es?= <lucmaga@gmail.com>
-Date:   Sat, 28 Sep 2019 14:02:09 -0300
-Message-ID: <CAK0xOaFKmpazKwHmT74Kw2OCZ+y6KQC-h+KLTzThxS-3QxomEg@mail.gmail.com>
-Subject: Re: [PATCH v2] media: vimc: fla: Add virtual flash subdevice
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Helen Koike <helen.koike@collabora.com>,
-        edusbarretto@gmail.com, lkcamp@lists.libreplanetbr.org
+References: <20190927183650.31345-1-bparrot@ti.com> <20190927183650.31345-3-bparrot@ti.com>
+In-Reply-To: <20190927183650.31345-3-bparrot@ti.com>
+From:   Austin Kim <austinkernel.kim@gmail.com>
+Date:   Sun, 29 Sep 2019 09:08:37 +0900
+Message-ID: <CAOoBcBUd7reG=-WOq+Vq9SynZMJ81CWFZPN35MkmaQvquZ9xyg@mail.gmail.com>
+Subject: Re: [Patch 02/16] media: ti-vpe: vpe: Add missing null pointer checks
+To:     Benoit Parrot <bparrot@ti.com>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+2019=EB=85=84 9=EC=9B=94 28=EC=9D=BC (=ED=86=A0) =EC=98=A4=EC=A0=84 3:37, B=
+enoit Parrot <bparrot@ti.com>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
+>
+> A few NULL pointer checks were missing.
+> Add check with appropriate return code.
+>
+> Signed-off-by: Benoit Parrot <bparrot@ti.com>
+> ---
+>  drivers/media/platform/ti-vpe/vpe.c | 13 ++++++++++++-
+>  1 file changed, 12 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/media/platform/ti-vpe/vpe.c b/drivers/media/platform=
+/ti-vpe/vpe.c
+> index 5ba72445584d..56f60dbea15c 100644
+> --- a/drivers/media/platform/ti-vpe/vpe.c
+> +++ b/drivers/media/platform/ti-vpe/vpe.c
+> @@ -1537,6 +1537,8 @@ static int vpe_g_fmt(struct file *file, void *priv,=
+ struct v4l2_format *f)
+>                 return -EINVAL;
+>
+>         q_data =3D get_q_data(ctx, f->type);
+> +       if (!q_data)
+> +               return -EINVAL;
 
-Thanks for the review. Sorry about the style mistakes, will be careful
-next time.
-Just a couple of questions.
+With this commit, it seems that 'Null Pointer Dereference' could be
+avoidable even though 'get_q_data(ctx, f->type);' returns NULL.
 
-On Fri, Sep 20, 2019 at 8:32 AM Hans Verkuil <hverkuil@xs4all.nl> wrote:
->
-> > +static int vimc_fla_s_ctrl(struct v4l2_ctrl *c)
-> > +{
-> > +
-> > +     struct vimc_fla_device *vfla =
-> > +             container_of(c->handler, struct vimc_fla_device, hdl);
-> > +
-> > +     switch (c->id) {
-> > +     case V4L2_CID_FLASH_LED_MODE:
-> > +             vfla->led_mode = c->val;
-> > +             return 0;
-> > +     case V4L2_CID_FLASH_STROBE_SOURCE:
-> > +             vfla->strobe_source = c->val;
-> > +             return 0;
-> > +     case V4L2_CID_FLASH_STROBE:
-> > +             if (vfla->led_mode != V4L2_FLASH_LED_MODE_FLASH ||
-> > +                 vfla->strobe_source != V4L2_FLASH_STROBE_SOURCE_SOFTWARE){
-> > +                     return -EILSEQ;
-> > +             }
-> > +             vfla->is_strobe = true;
-> > +             vfla->kthread = kthread_run(vimc_fla_strobe_thread, vfla, "vimc-flash thread");
->
-> What if the thread is already running?
->
-> I wonder what existing flash drivers do if V4L2_CID_FLASH_STROBE is called
-> repeatedly. Perhaps returning EBUSY if strobe is still active makes sense here.
->
-> It would also be a nice feature if keeping the strobe on for more than X seconds
-> would create a V4L2_FLASH_FAULT_LED_OVER_TEMPERATURE fault.
->
-How would you expect this? At this point I will never cross the maximum timeout
-configured. I don't expect a driver to fail if I set a value within
-the configuration
-borders.
+* Original Code:
+        q_data =3D get_q_data(ctx, f->type);
+        // q_data =3D NULL;
 
-> > +     v4l2_ctrl_new_std_menu(&vfla->hdl, &vimc_fla_ctrl_ops,
-> > +                            V4L2_CID_FLASH_LED_MODE,
-> > +                            V4L2_FLASH_LED_MODE_TORCH, ~0x7,
-> > +                            V4L2_FLASH_LED_MODE_NONE);
-> > +     v4l2_ctrl_new_std_menu(&vfla->hdl, &vimc_fla_ctrl_ops,
-> > +                            V4L2_CID_FLASH_STROBE_SOURCE, 0x1, ~0x3,
-> > +                            V4L2_FLASH_STROBE_SOURCE_SOFTWARE);
-> > +     v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
-> > +                       V4L2_CID_FLASH_STROBE, 0, 0, 0, 0);
-> > +     v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
-> > +                       V4L2_CID_FLASH_STROBE_STOP, 0, 0, 0, 0);
-> > +     v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
-> > +                       V4L2_CID_FLASH_TIMEOUT, 0,
-> > +                       VIMC_FLASH_TIMEOUT_MAX,
-> > +                       VIMC_FLASH_TIMEOUT_STEP,
-> > +                       VIMC_FLASH_TIMEOUT_STEP);
-> > +     v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
-> > +                       V4L2_CID_FLASH_TORCH_INTENSITY, 0, 255, 1, 255);
-> > +     v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
-> > +                       V4L2_CID_FLASH_INTENSITY, 0, 255, 1, 255);
-> > +     v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,V4L2_CID_FLASH_INDICATOR_INTENSITY
-> > +                       V4L2_CID_FLASH_INDICATOR_INTENSITY, 0, 255, 1, 255);
->
-> Can you look at existing flash drivers and copy the min/max/step/def values?
->
-> The values here are rather arbitrary. It would be nice if it was a bit more
-> realistic.
+        pix->width =3D q_data->width;
+        // pix->width =3D  (NULL)->width;
+        // In this case, data abort would be raised.
 
-I didn't found any driver implementing
-V4L2_CID_FLASH_INDICATOR_INTENSITY. Do you have
-any examples for this? For the other ones I'm copying the lm3646 for
-the other ones.
-
-Regards,
-Lucas
+>
+>         pix->width =3D q_data->width;
+>         pix->height =3D q_data->height;
+> @@ -2001,6 +2003,8 @@ static int vpe_queue_setup(struct vb2_queue *vq,
+>         struct vpe_q_data *q_data;
+>
+>         q_data =3D get_q_data(ctx, vq->type);
+> +       if (!q_data)
+> +               return -EINVAL;
+>
+>         *nplanes =3D q_data->nplanes;
+>
+> @@ -2025,6 +2029,8 @@ static int vpe_buf_prepare(struct vb2_buffer *vb)
+>         vpe_dbg(ctx->dev, "type: %d\n", vb->vb2_queue->type);
+>
+>         q_data =3D get_q_data(ctx, vb->vb2_queue->type);
+> +       if (!q_data)
+> +               return -EINVAL;
+>         num_planes =3D q_data->nplanes;
+>
+>         if (vb->vb2_queue->type =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)=
+ {
+> @@ -2481,7 +2487,12 @@ static int vpe_probe(struct platform_device *pdev)
+>         mutex_init(&dev->dev_mutex);
+>
+>         dev->res =3D platform_get_resource_byname(pdev, IORESOURCE_MEM,
+> -                       "vpe_top");
+> +                                               "vpe_top");
+> +       if (!dev->res) {
+> +               dev_err(&pdev->dev, "missing 'vpe_top' resources data\n")=
+;
+> +               return -ENODEV;
+> +       }
+> +
+>         /*
+>          * HACK: we get resource info from device tree in the form of a l=
+ist of
+>          * VPE sub blocks, the driver currently uses only the base of vpe=
+_top
+> --
+> 2.17.1
+>
