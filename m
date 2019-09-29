@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B2FCC194A
-	for <lists+linux-media@lfdr.de>; Sun, 29 Sep 2019 22:01:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 035C1C194C
+	for <lists+linux-media@lfdr.de>; Sun, 29 Sep 2019 22:01:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729182AbfI2UBC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 29 Sep 2019 16:01:02 -0400
-Received: from mailoutvs49.siol.net ([185.57.226.240]:54096 "EHLO
+        id S1729235AbfI2UBI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 29 Sep 2019 16:01:08 -0400
+Received: from mailoutvs24.siol.net ([185.57.226.215]:54131 "EHLO
         mail.siol.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1729124AbfI2UBC (ORCPT
+        with ESMTP id S1729206AbfI2UBF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 29 Sep 2019 16:01:02 -0400
+        Sun, 29 Sep 2019 16:01:05 -0400
 Received: from localhost (localhost [127.0.0.1])
-        by mail.siol.net (Postfix) with ESMTP id 113EC5226F2;
-        Sun, 29 Sep 2019 22:01:00 +0200 (CEST)
+        by mail.siol.net (Postfix) with ESMTP id 6DEBB5222FC;
+        Sun, 29 Sep 2019 22:01:02 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at psrvmta10.zcs-production.pri
 Received: from mail.siol.net ([127.0.0.1])
         by localhost (psrvmta10.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id fCy5jAs5IWsj; Sun, 29 Sep 2019 22:00:59 +0200 (CEST)
+        with ESMTP id ntXmbZGGPwrd; Sun, 29 Sep 2019 22:01:02 +0200 (CEST)
 Received: from mail.siol.net (localhost [127.0.0.1])
-        by mail.siol.net (Postfix) with ESMTPS id 8A3685226EA;
-        Sun, 29 Sep 2019 22:00:59 +0200 (CEST)
+        by mail.siol.net (Postfix) with ESMTPS id 0DC7852233F;
+        Sun, 29 Sep 2019 22:01:02 +0200 (CEST)
 Received: from localhost.localdomain (cpe-86-58-59-25.static.triera.net [86.58.59.25])
         (Authenticated sender: 031275009)
-        by mail.siol.net (Postfix) with ESMTPSA id 27537522639;
-        Sun, 29 Sep 2019 22:00:57 +0200 (CEST)
+        by mail.siol.net (Postfix) with ESMTPSA id 9093E5226F6;
+        Sun, 29 Sep 2019 22:00:59 +0200 (CEST)
 From:   Jernej Skrabec <jernej.skrabec@siol.net>
 To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
         paul.kocialkowski@bootlin.com, mripard@kernel.org,
@@ -35,9 +35,9 @@ Cc:     gregkh@linuxfoundation.org, boris.brezillon@collabora.com,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org,
         ezequiel@collabora.com, jonas@kwiboo.se, jernej.skrabec@siol.net
-Subject: [PATCH v2 3/6] media: v4l2-mem2mem: add stateless_(try_)decoder_cmd ioctl helpers
-Date:   Sun, 29 Sep 2019 22:00:20 +0200
-Message-Id: <20190929200023.215831-4-jernej.skrabec@siol.net>
+Subject: [PATCH v2 4/6] media: cedrus: Detect first slice of a frame
+Date:   Sun, 29 Sep 2019 22:00:21 +0200
+Message-Id: <20190929200023.215831-5-jernej.skrabec@siol.net>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20190929200023.215831-1-jernej.skrabec@siol.net>
 References: <20190929200023.215831-1-jernej.skrabec@siol.net>
@@ -48,82 +48,47 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-These helpers are used by stateless codecs when they support multiple
-slices per frame and hold capture buffer flag is set. It's expected that
-all such codecs will use this code.
+When codec supports multiple slices in one frame, VPU has to know when
+first slice of each frame is being processed, presumably to correctly
+clear/set data in auxiliary buffers.
+
+Add first_slice field to cedrus_run structure and set it according to
+timestamps of capture and output buffers. If timestamps are different,
+it's first slice and viceversa.
 
 Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
 ---
- drivers/media/v4l2-core/v4l2-mem2mem.c | 35 ++++++++++++++++++++++++++
- include/media/v4l2-mem2mem.h           |  4 +++
- 2 files changed, 39 insertions(+)
+ drivers/staging/media/sunxi/cedrus/cedrus.h     | 1 +
+ drivers/staging/media/sunxi/cedrus/cedrus_dec.c | 2 ++
+ 2 files changed, 3 insertions(+)
 
-diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-=
-core/v4l2-mem2mem.c
-index 19937dd3c6f6..2677a07e4c9b 100644
---- a/drivers/media/v4l2-core/v4l2-mem2mem.c
-+++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
-@@ -1154,6 +1154,41 @@ int v4l2_m2m_ioctl_try_decoder_cmd(struct file *fi=
-le, void *fh,
- }
- EXPORT_SYMBOL_GPL(v4l2_m2m_ioctl_try_decoder_cmd);
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h b/drivers/stagin=
+g/media/sunxi/cedrus/cedrus.h
+index 2f017a651848..32cb38e541c6 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus.h
++++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
+@@ -70,6 +70,7 @@ struct cedrus_mpeg2_run {
+ struct cedrus_run {
+ 	struct vb2_v4l2_buffer	*src;
+ 	struct vb2_v4l2_buffer	*dst;
++	bool first_slice;
 =20
-+int v4l2_m2m_ioctl_stateless_try_decoder_cmd(struct file *file, void *fh=
-,
-+					     struct v4l2_decoder_cmd *dc)
-+{
-+	if (dc->cmd !=3D V4L2_DEC_CMD_FLUSH)
-+		return -EINVAL;
-+
-+	dc->flags =3D 0;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(v4l2_m2m_ioctl_stateless_try_decoder_cmd);
-+
-+int v4l2_m2m_ioctl_stateless_decoder_cmd(struct file *file, void *priv,
-+					 struct v4l2_decoder_cmd *dc)
-+{
-+	struct v4l2_fh *fh =3D file->private_data;
-+	struct vb2_v4l2_buffer *out_vb, *cap_vb;
-+	int ret;
-+
-+	ret =3D v4l2_m2m_ioctl_stateless_try_decoder_cmd(file, priv, dc);
-+	if (ret < 0)
-+		return ret;
-+
-+	out_vb =3D v4l2_m2m_last_src_buf(fh->m2m_ctx);
-+	cap_vb =3D v4l2_m2m_last_dst_buf(fh->m2m_ctx);
-+
-+	if (out_vb)
-+		out_vb->flags &=3D ~V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF;
-+	else if (cap_vb && cap_vb->is_held)
-+		v4l2_m2m_buf_done(cap_vb, VB2_BUF_STATE_DONE);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(v4l2_m2m_ioctl_stateless_decoder_cmd);
-+
- /*
-  * v4l2_file_operations helpers. It is assumed here same lock is used
-  * for the output and the capture buffer queue.
-diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2mem.h
-index c9fa96c8eed1..8ae2f56c7fa3 100644
---- a/include/media/v4l2-mem2mem.h
-+++ b/include/media/v4l2-mem2mem.h
-@@ -714,6 +714,10 @@ int v4l2_m2m_ioctl_try_encoder_cmd(struct file *file=
-, void *fh,
- 				   struct v4l2_encoder_cmd *ec);
- int v4l2_m2m_ioctl_try_decoder_cmd(struct file *file, void *fh,
- 				   struct v4l2_decoder_cmd *dc);
-+int v4l2_m2m_ioctl_stateless_try_decoder_cmd(struct file *file, void *fh=
-,
-+					     struct v4l2_decoder_cmd *dc);
-+int v4l2_m2m_ioctl_stateless_decoder_cmd(struct file *file, void *priv,
-+					 struct v4l2_decoder_cmd *dc);
- int v4l2_m2m_fop_mmap(struct file *file, struct vm_area_struct *vma);
- __poll_t v4l2_m2m_fop_poll(struct file *file, poll_table *wait);
+ 	union {
+ 		struct cedrus_h264_run	h264;
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c b/drivers/st=
+aging/media/sunxi/cedrus/cedrus_dec.c
+index 56ca4c9ad01c..e49c3396ca4d 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+@@ -31,6 +31,8 @@ void cedrus_device_run(void *priv)
 =20
+ 	run.src =3D v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
+ 	run.dst =3D v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
++	run.first_slice =3D !run.dst->vb2_buf.copied_timestamp ||
++		run.src->vb2_buf.timestamp !=3D run.dst->vb2_buf.timestamp;
+=20
+ 	/* Apply request(s) controls if needed. */
+ 	src_req =3D run.src->vb2_buf.req_obj.req;
 --=20
 2.23.0
 
