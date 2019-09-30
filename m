@@ -2,103 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 83A71C1C70
-	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2019 09:58:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 56923C1C94
+	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2019 10:11:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729232AbfI3H65 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Sep 2019 03:58:57 -0400
-Received: from mga02.intel.com ([134.134.136.20]:54652 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725767AbfI3H65 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Sep 2019 03:58:57 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 30 Sep 2019 00:58:56 -0700
-X-IronPort-AV: E=Sophos;i="5.64,565,1559545200"; 
-   d="scan'208";a="184757098"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 30 Sep 2019 00:58:53 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 83C6720343; Mon, 30 Sep 2019 10:58:51 +0300 (EEST)
-Date:   Mon, 30 Sep 2019 10:58:51 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        andriy.shevchenko@linux.intel.com,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nicolas Boichat <drinkcat@chromium.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Cao Bing Bu <bingbu.cao@intel.com>,
-        srv_heupstream <srv_heupstream@mediatek.com>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Sj Huang <sj.huang@mediatek.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Louis Kuo <louis.kuo@mediatek.com>, shengnan.wang@mediatek.com
-Subject: Re: [PATCH] media: i2c: ov5695: Modify the function of async
- register subdev related devices
-Message-ID: <20190930075851.GB19037@paasikivi.fi.intel.com>
-References: <20190927071824.18675-1-dongchun.zhu@mediatek.com>
- <20190927071824.18675-2-dongchun.zhu@mediatek.com>
- <CAAFQd5B1htFA1R92iQQ93dMQujkSWNqHkx94GG+bdUscRA4gDQ@mail.gmail.com>
+        id S1729922AbfI3ILF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Sep 2019 04:11:05 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:42451 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725767AbfI3ILE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 30 Sep 2019 04:11:04 -0400
+Received: from [192.168.2.10] ([46.9.232.237])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id EqldicaL79D4hEqlgiKoVb; Mon, 30 Sep 2019 10:11:02 +0200
+Subject: Re: [PATCH v2 0/6] media: cedrus: h264: Support multi-slice frames
+To:     Jernej Skrabec <jernej.skrabec@siol.net>, mchehab@kernel.org,
+        paul.kocialkowski@bootlin.com, mripard@kernel.org,
+        pawel@osciak.com, m.szyprowski@samsung.com,
+        kyungmin.park@samsung.com, tfiga@chromium.org, wens@csie.org
+Cc:     gregkh@linuxfoundation.org, boris.brezillon@collabora.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org,
+        ezequiel@collabora.com, jonas@kwiboo.se
+References: <20190929200023.215831-1-jernej.skrabec@siol.net>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <9ec1c07e-b0e8-f50c-7f46-df7ca303a5bc@xs4all.nl>
+Date:   Mon, 30 Sep 2019 10:10:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAFQd5B1htFA1R92iQQ93dMQujkSWNqHkx94GG+bdUscRA4gDQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190929200023.215831-1-jernej.skrabec@siol.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfK9IKuZNeGFEGO1ipU974FZ/22u7b0eHb52sOVTjDWar12s23xSk7+3/qAGZaBOAOIslIwDo31TGsQr/hao3CJLYeYsH4Skz//+KsV/33q5632Vxor0Q
+ t4Tkji1xtcf7hwG67KNTFDYRdVo2uQ591OX3mZdbTCca6XOdpC8VVuMTh7WHjR1TyD8qtLrp7HxYqYrHrN7Id71XtQFBpCIyo3sJid0lBgcxoo25VBmoKBy9
+ Nr046jks4iF//5HfqDbwQPEgRiIX5bNmxSrECW+67UpopUihzusX4rRYXiQHZrc/2IIBA3exeyT7hkDTPK+LSkNKvAvsUC00Ylj5E5HFK+YHAn282Va1G7zX
+ AMGknbLA17cEeMbREFO3L00c0zbhFlkMBxnEQBe3eHIbRlJMPYAbqIgfiWbgB5ahz2oG/8cj1DBSJGr48iIVTTi4YvbLyHaUd/qqnTi6qVk4ss4CWSWj7LZ9
+ 2JLc5F5cvfY3UcBm7Wk8fRs755HtOtRvInPRLIp8QzIo6NGStiPvvUa0DUs6ThUOtRqnMT8zW4AsTHgA/RZulXK+to07S+YIoqABQm9bbruKx9iguqi1/yuW
+ gM+TE6g2gkwUPnyhQFcjEmcn4Vq+7FFc+ea4oWewNURg2iOd/VI2LAYlp5pkVoT4acMj6GXO9ZIpDcXe5uj7NSOSesvXygOeGdF7iS+OGu30cdPW1FWrKzPH
+ ZexuRooJtfNwe+g2S6wzE5DBMEVIH9zp9ihXMvzqzEY3nNjvp51hhQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomasz, Dongchun,
-
-(Removed randomly cc'd people from distribution.)
-
-On Sat, Sep 28, 2019 at 09:17:11PM +0900, Tomasz Figa wrote:
-> On Fri, Sep 27, 2019 at 4:18 PM Dongchun Zhu <dongchun.zhu@mediatek.com> wrote:
-> >
-> > This patch adds support for registering a sensor sub-device to the async sub-device framework and parse set up common
-> > sensor related devices such as actuator/VCM.
+On 9/29/19 10:00 PM, Jernej Skrabec wrote:
+> This series adds support for decoding multi-slice H264 frames along with
+> support for V4L2_DEC_CMD_FLUSH and V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF.
 > 
-> nit: The description should be wrapped around the 80th column.
+> Code was tested by modified ffmpeg, which can be found here:
+> https://github.com/jernejsk/FFmpeg, branch mainline-test
+> It has to be configured with at least following options:
+> --enable-v4l2-request --enable-libudev --enable-libdrm
 > 
-> Sakari, do we need to resent or you could just rewrap when applying?
+> Samples used for testing:
+> http://jernej.libreelec.tv/videos/h264/BA1_FT_C.mp4
+> http://jernej.libreelec.tv/videos/h264/h264.mp4
+> 
+> Command line used for testing:
+> ffmpeg -hwaccel drm -hwaccel_device /dev/dri/card0 -i h264.mp4 -pix_fmt bgra -f fbdev /dev/fb0
+> 
+> Please note that V4L2_DEC_CMD_FLUSH was not tested because I'm
+> not sure how. ffmpeg follows exactly which slice is last in frame
+> and sets hold flag accordingly. Improper usage of hold flag would
+> corrupt ffmpeg assumptions and it would probably crash. Any ideas
+> how to test this are welcome!
 
-I'll rewrap.
+It can be tested partially at least: if ffmpeg tells you it is the last
+slice, then queue the slice with the HOLD flag set, then call FLUSH afterwards.
+This should clear the HOLD flag again. In this case the queued buffer is
+probably not yet processed, so the flag is cleared before the decode job starts.
+
+You can also try to add a sleep before calling FLUSH to see what happens
+if the last queued buffer is already decoded.
+
+Regards,
+
+	Hans
 
 > 
-> >
-> > Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
-> > ---
-> >  drivers/media/i2c/ov5695.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/media/i2c/ov5695.c b/drivers/media/i2c/ov5695.c
-> > index e65a943..b6ee62c 100644
-> > --- a/drivers/media/i2c/ov5695.c
-> > +++ b/drivers/media/i2c/ov5695.c
-> > @@ -1328,7 +1328,7 @@ static int ov5695_probe(struct i2c_client *client,
-> >                 goto err_power_off;
-> >  #endif
-> >
-> > -       ret = v4l2_async_register_subdev(sd);
-> > +       ret = v4l2_async_register_subdev_sensor_common(sd);
-> >         if (ret) {
-> >                 dev_err(dev, "v4l2 async register subdev failed\n");
-> >                 goto err_clean_entity;
-> > --
-> > 2.9.2
-> >
+> Thanks to Jonas for adjusting ffmpeg.
 > 
-> Otherwise:
+> Please let me know what you think.
 > 
-> Reviewed-by: Tomasz Figa <tfiga@chromium.org>
+> Best regards,
+> Jernej
+> 
+> Changes from v1:
+> - added Rb tags
+> - updated V4L2_DEC_CMD_FLUSH documentation
+> - updated first slice detection in Cedrus
+> - hold capture buffer flag is set according to source format
+> - added v4l m2m stateless_(try_)decoder_cmd ioctl helpers
+> 
+> Hans Verkuil (2):
+>   vb2: add V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF
+>   videodev2.h: add V4L2_DEC_CMD_FLUSH
+> 
+> Jernej Skrabec (4):
+>   media: v4l2-mem2mem: add stateless_(try_)decoder_cmd ioctl helpers
+>   media: cedrus: Detect first slice of a frame
+>   media: cedrus: h264: Support multiple slices per frame
+>   media: cedrus: Add support for holding capture buffer
+> 
+>  Documentation/media/uapi/v4l/buffer.rst       | 13 ++++++
+>  .../media/uapi/v4l/vidioc-decoder-cmd.rst     | 10 +++-
+>  .../media/uapi/v4l/vidioc-reqbufs.rst         |  6 +++
+>  .../media/videodev2.h.rst.exceptions          |  1 +
+>  .../media/common/videobuf2/videobuf2-v4l2.c   |  8 +++-
+>  drivers/media/v4l2-core/v4l2-mem2mem.c        | 35 ++++++++++++++
+>  drivers/staging/media/sunxi/cedrus/cedrus.h   |  1 +
+>  .../staging/media/sunxi/cedrus/cedrus_dec.c   | 11 +++++
+>  .../staging/media/sunxi/cedrus/cedrus_h264.c  | 11 ++++-
+>  .../staging/media/sunxi/cedrus/cedrus_hw.c    |  8 ++--
+>  .../staging/media/sunxi/cedrus/cedrus_video.c | 14 ++++++
+>  include/media/v4l2-mem2mem.h                  | 46 +++++++++++++++++++
+>  include/media/videobuf2-core.h                |  3 ++
+>  include/media/videobuf2-v4l2.h                |  5 ++
+>  include/uapi/linux/videodev2.h                | 14 ++++--
+>  15 files changed, 175 insertions(+), 11 deletions(-)
+> 
 
-Thanks!
-
--- 
-Sakari Ailus
-sakari.ailus@linux.intel.com
