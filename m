@@ -2,108 +2,203 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 69E2AC253B
-	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2019 18:36:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8096DC255F
+	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2019 18:44:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732265AbfI3QgK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Sep 2019 12:36:10 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:55094 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731459AbfI3QgK (ORCPT
+        id S1732376AbfI3QoL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Sep 2019 12:44:11 -0400
+Received: from mailoutvs40.siol.net ([185.57.226.231]:40847 "EHLO
+        mail.siol.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727767AbfI3QoL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Sep 2019 12:36:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=UWQiVDLYiRGcNlJcUhsM1uiwFgTPXa9ToDA5YpcNSbk=; b=lNuuMEcVXyAceTbuEy764dxpl
-        HUgqZiiEbmofF4MDJ1hAwuw9kZCZRd3rHUuYr0xiZwp/XWyUyeEyzkIY0dOGlOIUhcezVXCb38Urk
-        IzbWyNtRF2Q4H5RYRqsi7HpzOzyov9rxtWmDxHzE+qIIxy1QfCpiSEOb5wH03iyD5fmkvI2k5aull
-        HM8yffgOXpYZ49EaKlJWcwguHEXoVskB1F7J08CHBFHqPo4MGx+O/q/jLX0TEVTe6fbxEulvBoAl0
-        EmKjR0K+rj1Wycfivc4UwdKJ+bcQ21EuGkNpoZqaa2GgVkXlY0PzdhOs/6ZHBM0ztmZ7eF8NhOCd5
-        I4sFyx3zg==;
-Received: from [179.95.58.188] (helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
-        id 1iEyee-00070i-BN; Mon, 30 Sep 2019 16:36:08 +0000
-Date:   Mon, 30 Sep 2019 13:36:03 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Johan Hovold <johan@kernel.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Pete Zaitcev <zaitcev@redhat.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/4] USB: fix runtime PM after driver unbind
-Message-ID: <20190930133603.0192f809@coco.lan>
-In-Reply-To: <20190930161205.18803-1-johan@kernel.org>
-References: <20190930161205.18803-1-johan@kernel.org>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Mon, 30 Sep 2019 12:44:11 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.siol.net (Postfix) with ESMTP id B709D522D81;
+        Mon, 30 Sep 2019 18:44:06 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at psrvmta10.zcs-production.pri
+Received: from mail.siol.net ([127.0.0.1])
+        by localhost (psrvmta10.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id vqC7iU5JIcxQ; Mon, 30 Sep 2019 18:44:06 +0200 (CEST)
+Received: from mail.siol.net (localhost [127.0.0.1])
+        by mail.siol.net (Postfix) with ESMTPS id 29769522DC4;
+        Mon, 30 Sep 2019 18:44:06 +0200 (CEST)
+Received: from jernej-laptop.localnet (cpe-86-58-59-25.static.triera.net [86.58.59.25])
+        (Authenticated sender: jernej.skrabec@siol.net)
+        by mail.siol.net (Postfix) with ESMTPA id 4CE41522DBF;
+        Mon, 30 Sep 2019 18:44:03 +0200 (CEST)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     mchehab@kernel.org, paul.kocialkowski@bootlin.com,
+        mripard@kernel.org, pawel@osciak.com, m.szyprowski@samsung.com,
+        kyungmin.park@samsung.com, tfiga@chromium.org, wens@csie.org,
+        gregkh@linuxfoundation.org, boris.brezillon@collabora.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org,
+        ezequiel@collabora.com, jonas@kwiboo.se
+Subject: Re: [PATCH v2 6/6] media: cedrus: Add support for holding capture buffer
+Date:   Mon, 30 Sep 2019 18:44:02 +0200
+Message-ID: <2089312.Gnm7pnLf18@jernej-laptop>
+In-Reply-To: <4fb20c41-7cc1-32c9-b5b9-2e86b5e74201@xs4all.nl>
+References: <20190929200023.215831-1-jernej.skrabec@siol.net> <20190929200023.215831-7-jernej.skrabec@siol.net> <4fb20c41-7cc1-32c9-b5b9-2e86b5e74201@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Mon, 30 Sep 2019 18:12:01 +0200
-Johan Hovold <johan@kernel.org> escreveu:
-
-> A recent change in USB core broke runtime-PM after driver unbind in
-> several drivers (when counting all USB serial drivers). Specifically,
-> drivers which took care not modify the runtime-PM usage counter after
-> their disconnect callback had returned, would now fail to be suspended
-> when a driver is later bound.
+Dne ponedeljek, 30. september 2019 ob 10:14:32 CEST je Hans Verkuil 
+napisal(a):
+> On 9/29/19 10:00 PM, Jernej Skrabec wrote:
+> > When frame contains multiple slices and driver works in slice mode, it's
+> > more efficient to hold capture buffer in queue until all slices of a
+> > same frame are decoded.
+> > 
+> > Add support for that to Cedrus driver by exposing and implementing
+> > V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF capability.
+> > 
+> > Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
+> > ---
+> > 
+> >  drivers/staging/media/sunxi/cedrus/cedrus_dec.c   |  9 +++++++++
+> >  drivers/staging/media/sunxi/cedrus/cedrus_hw.c    |  8 +++++---
+> >  drivers/staging/media/sunxi/cedrus/cedrus_video.c | 14 ++++++++++++++
+> >  3 files changed, 28 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> > b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c index
+> > e49c3396ca4d..67f7d4326fc1 100644
+> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> > @@ -31,6 +31,14 @@ void cedrus_device_run(void *priv)
+> > 
+> >  	run.src = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
+> >  	run.dst = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
+> > 
+> > +
+> > +	if (v4l2_m2m_release_capture_buf(run.src, run.dst)) {
+> > +		v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
+> > +		v4l2_m2m_buf_done(run.dst, VB2_BUF_STATE_DONE);
+> > +		run.dst = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
+> > +	}
+> > +	run.dst->is_held = run.src->flags & 
+V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF;
+> > +
+> > 
+> >  	run.first_slice = !run.dst->vb2_buf.copied_timestamp ||
+> >  	
+> >  		run.src->vb2_buf.timestamp != run.dst-
+>vb2_buf.timestamp;
+> > 
+> > @@ -46,6 +54,7 @@ void cedrus_device_run(void *priv)
+> > 
+> >  			V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS);
+> >  		
+> >  		run.mpeg2.quantization = cedrus_find_control_data(ctx,
+> >  		
+> >  			V4L2_CID_MPEG_VIDEO_MPEG2_QUANTIZATION);
+> > 
+> > +		run.dst->is_held = false;
+> > 
+> >  		break;
+> >  	
+> >  	case V4L2_PIX_FMT_H264_SLICE:
+> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> > b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c index
+> > fc8579b90dab..b466041c25db 100644
+> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> > @@ -122,7 +122,7 @@ static irqreturn_t cedrus_irq(int irq, void *data)
+> > 
+> >  	dev->dec_ops[ctx->current_codec]->irq_clear(ctx);
+> >  	
+> >  	src_buf = v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
+> > 
+> > -	dst_buf = v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
+> > +	dst_buf = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
+> > 
+> >  	if (!src_buf || !dst_buf) {
+> >  	
+> >  		v4l2_err(&dev->v4l2_dev,
+> > 
+> > @@ -136,8 +136,10 @@ static irqreturn_t cedrus_irq(int irq, void *data)
+> > 
+> >  		state = VB2_BUF_STATE_DONE;
+> >  	
+> >  	v4l2_m2m_buf_done(src_buf, state);
+> > 
+> > -	v4l2_m2m_buf_done(dst_buf, state);
+> > -
+> > +	if (!dst_buf->is_held) {
+> > +		v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
+> > +		v4l2_m2m_buf_done(dst_buf, state);
+> > +	}
+> > 
+> >  	v4l2_m2m_job_finish(ctx->dev->m2m_dev, ctx->fh.m2m_ctx);
+> >  	
+> >  	return IRQ_HANDLED;
+> > 
+> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> > b/drivers/staging/media/sunxi/cedrus/cedrus_video.c index
+> > 3ec3a2db790c..82198b2bb081 100644
+> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> > @@ -303,6 +303,17 @@ static int cedrus_s_fmt_vid_out(struct file *file,
+> > void *priv,> 
+> >  	ctx->src_fmt = f->fmt.pix;
+> > 
+> > +	switch (ctx->src_fmt.pixelformat) {
+> > +	case V4L2_PIX_FMT_H264_SLICE:
+> > +		vq->subsystem_flags |=
+> > +			VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF;
+> > +		break;
+> > +	default:
+> > +		vq->subsystem_flags &=
+> > +			
+(u32)~VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF;
 > 
-> I guess Greg could take all of these directly through his tree, unless
-> the media maintainers disagree.
+> Why the u32 cast?
 
-Patches look ok and I'm fine if they go via Greg's tree. So:
+To prevent warnings on arm64 such as reported here:
+https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg1620796.html
 
-Acked-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+But I'm not sure if this aplies for this case. I compiled kernel for arm64 but 
+there is no warning without this cast with my configuration. I guess I can 
+remove it.
 
-Yet, on a quick look on media:
-
-	$ git grep -l usb_.*pm drivers/media/usb/
-	drivers/media/usb/cpia2/cpia2_usb.c
-	drivers/media/usb/dvb-usb-v2/az6007.c
-	drivers/media/usb/dvb-usb-v2/dvb_usb.h
-	drivers/media/usb/dvb-usb-v2/dvb_usb_core.c
-	drivers/media/usb/gspca/gspca.c
-	drivers/media/usb/gspca/gspca.h
-	drivers/media/usb/siano/smsusb.c
-	drivers/media/usb/stkwebcam/stk-webcam.c
-	drivers/media/usb/usbvision/usbvision-i2c.c
-	drivers/media/usb/uvc/uvc_driver.c
-	drivers/media/usb/uvc/uvc_v4l2.c
-	drivers/media/usb/zr364xx/zr364xx.c
-
-There are other drivers beside stkwebcam with has some PM routines.
-
-Ok, only two (stkwebcam and uvcvideo) uses usb_autopm_get_interface() and
-usb_autopm_put_interface(), but I'm wondering if the others are doing the
-right thing, as their implementation are probably older.
+Best regards,
+Jernej
 
 > 
-> Johan
+> Regards,
 > 
+> 	Hans
 > 
-> Johan Hovold (4):
->   USB: usb-skeleton: fix runtime PM after driver unbind
->   USB: usblp: fix runtime PM after driver unbind
->   USB: serial: fix runtime PM after driver unbind
->   media: stkwebcam: fix runtime PM after driver unbind
-> 
->  drivers/media/usb/stkwebcam/stk-webcam.c | 3 +--
->  drivers/usb/class/usblp.c                | 8 +++++---
->  drivers/usb/serial/usb-serial.c          | 5 +----
->  drivers/usb/usb-skeleton.c               | 8 +++-----
->  4 files changed, 10 insertions(+), 14 deletions(-)
-> 
+> > +		break;
+> > +	}
+> > +
+> > 
+> >  	/* Propagate colorspace information to capture. */
+> >  	ctx->dst_fmt.colorspace = f->fmt.pix.colorspace;
+> >  	ctx->dst_fmt.xfer_func = f->fmt.pix.xfer_func;
+> > 
+> > @@ -336,6 +347,9 @@ const struct v4l2_ioctl_ops cedrus_ioctl_ops = {
+> > 
+> >  	.vidioc_streamon		= v4l2_m2m_ioctl_streamon,
+> >  	.vidioc_streamoff		= v4l2_m2m_ioctl_streamoff,
+> > 
+> > +	.vidioc_try_decoder_cmd		= 
+v4l2_m2m_ioctl_stateless_try_decoder_cmd,
+> > +	.vidioc_decoder_cmd		= 
+v4l2_m2m_ioctl_stateless_decoder_cmd,
+> > +
+> > 
+> >  	.vidioc_subscribe_event		= v4l2_ctrl_subscribe_event,
+> >  	.vidioc_unsubscribe_event	= v4l2_event_unsubscribe,
+> >  
+> >  };
 
 
 
-Thanks,
-Mauro
+
