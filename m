@@ -2,114 +2,185 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DDA7C226F
-	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2019 15:51:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65053C232E
+	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2019 16:26:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731406AbfI3Nup (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Sep 2019 09:50:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40610 "EHLO mail.kernel.org"
+        id S1731717AbfI3OZd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Sep 2019 10:25:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50602 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729738AbfI3Nup (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Sep 2019 09:50:45 -0400
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1731635AbfI3OZd (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 30 Sep 2019 10:25:33 -0400
+Received: from localhost (lfbn-1-10718-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 377B3218DE;
-        Mon, 30 Sep 2019 13:50:44 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id D396021855;
+        Mon, 30 Sep 2019 14:25:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1569851444;
-        bh=OIbZsPSF9qroZ0kz/LZxanDyoEYFB6HCUHmhhGKKq8k=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=J8CyQdV6pCZnRDKG8N78sgAXNG4CxpVQcDB1HXZqdjOl45nFqHuI0N7YyyTmoJO9S
-         enamULt2Px7Uq1qrwglFxrbHnkwlZHmwwwt5s7jxVv63r4FMNyBRu/XQ/ExjSuo8iN
-         gyUxgEeMW9LMI3VHq3OhjuVw3/BvFvEBdk6tXVSw=
-Received: by mail-lf1-f53.google.com with SMTP id u28so7093976lfc.5;
-        Mon, 30 Sep 2019 06:50:44 -0700 (PDT)
-X-Gm-Message-State: APjAAAXQUGBwE3xTED+55GFAip14ZXIaHdkqxrhwKOyzWbdRc4sF5etk
-        CHK1LSenSZU7r7tO2h6nN31aE94PTkewm/1nY4U=
-X-Google-Smtp-Source: APXvYqwVXh3xte/Qq+8kD2of/JzjRnkrT5ai7bQgRPTC8HxeWB5/Vq/4zTEr70WWOxMCWiqzOA7j5K25m/1BgMyTIZ0=
-X-Received: by 2002:ac2:51a7:: with SMTP id f7mr11285925lfk.119.1569851442393;
- Mon, 30 Sep 2019 06:50:42 -0700 (PDT)
+        s=default; t=1569853532;
+        bh=nKQBhQTptd/B3mSn4I5e5Hi5ft8M5gemc3t2or8uZso=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=UYcLWTFA2NaG2Uhhas4KGvVVdWrCplM3xapCYc6VkFSABZwZXA/uiO6xwEvx2Qclj
+         Gjc+S6OZ+yInphg0Oce/5e5kDc31quJQOUEpAgstzCVkhx3+gJfsHCQb6ThHEqTTaa
+         A6YblXrsc/Kap+nSkR0kEIVK9Lumxg9pExOjxUw0=
+Date:   Mon, 30 Sep 2019 16:25:29 +0200
+From:   Maxime Ripard <mripard@kernel.org>
+To:     Jernej Skrabec <jernej.skrabec@siol.net>
+Cc:     wens@csie.org, robh+dt@kernel.org, mark.rutland@arm.com,
+        mchehab@kernel.org, hverkuil@xs4all.nl, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-sunxi@googlegroups.com
+Subject: Re: [PATCH v2 0/6] media: Introduce Allwinner H3 deinterlace driver
+Message-ID: <20190930142529.7b2x3bmu6723dctm@gilmour>
+References: <20190929161653.160158-1-jernej.skrabec@siol.net>
 MIME-Version: 1.0
-References: <20190930101841.19630-1-ribalda@kernel.org> <20190930101841.19630-8-ribalda@kernel.org>
- <aa6ace11-9697-d3d9-907c-83b3398d8f5e@xs4all.nl>
-In-Reply-To: <aa6ace11-9697-d3d9-907c-83b3398d8f5e@xs4all.nl>
-From:   Ricardo Ribalda Delgado <ribalda@kernel.org>
-Date:   Mon, 30 Sep 2019 15:50:25 +0200
-X-Gmail-Original-Message-ID: <CAPybu_3vCpUzc8SxQUuYZpQmf-OrMx9ck=Wj3xv_5C0SzzBgWA@mail.gmail.com>
-Message-ID: <CAPybu_3vCpUzc8SxQUuYZpQmf-OrMx9ck=Wj3xv_5C0SzzBgWA@mail.gmail.com>
-Subject: Re: [PATCH v8 7/8] media: v4l2-ctrl: Add new helper v4l2_ctrl_ptr_from_void
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="boflox5qes4r6omb"
+Content-Disposition: inline
+In-Reply-To: <20190929161653.160158-1-jernej.skrabec@siol.net>
+User-Agent: NeoMutt/20180716
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans
 
-Thanks for the review
+--boflox5qes4r6omb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Mon, Sep 30, 2019 at 3:07 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->
-> On 9/30/19 12:18 PM, Ricardo Ribalda Delgado wrote:
-> > This helper function simplifies the code by not needing a union
-> > v4l2_ctrl_ptr and an assignment every time we need to use
-> > a ctrl_ptr.
-> >
-> > Suggested-by: Hans Verkuil <hverkuil@xs4all.nl>
-> > Signed-off-by: Ricardo Ribalda Delgado <ribalda@kernel.org>
-> > ---
-> >  include/media/v4l2-ctrls.h | 11 +++++++++++
-> >  1 file changed, 11 insertions(+)
-> >
-> > diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-> > index c42f164e2c9e..d69cfdffd41d 100644
-> > --- a/include/media/v4l2-ctrls.h
-> > +++ b/include/media/v4l2-ctrls.h
-> > @@ -73,6 +73,17 @@ union v4l2_ctrl_ptr {
-> >       void *p;
-> >  };
-> >
-> > +/**
-> > + * v4l2_ctrl_ptr() - Helper function to return a v4l2_ctrl_ptr from a
-> > + * void pointer
-> > + * @ptr:     The void pointer
-> > + */
-> > +static inline union v4l2_ctrl_ptr v4l2_ctrl_ptr_from_void(void *ptr)
->
-> Mismatch between function name and the comment above.
->
-> But _from_void is not a good name, since it's from a void pointer.
->
-> How about: v4l2_ctrl_ptr_create(void *ptr)
->
-> since you create a v4l2_ctrl_ptr.
->
-> Regards,
->
->         Hans
+Hi,
 
-After talking on IRC:
-
-Will fix both changes and resend v9 after v5.4-rc1 is merged back into
-the media tree.
-
-Thanks again!
-
+On Sun, Sep 29, 2019 at 06:16:47PM +0200, Jernej Skrabec wrote:
+> Starting with H3, Allwinner began to include standalone deinterlace
+> core in multimedia oriented SoCs. This patch series introduces support
+> for it. Note that new SoCs, like H6, have radically different (updated)
+> deinterlace core, which will need a new driver.
 >
-> > +{
-> > +     BUILD_BUG_ON(sizeof(union v4l2_ctrl_ptr) != sizeof(void *));
-> > +     return (union v4l2_ctrl_ptr) ptr;
-> > +}
-> > +
-> >  /**
-> >   * struct v4l2_ctrl_ops - The control operations that the driver has to provide.
-> >   *
-> >
+> v4l2-compliance report:
+> v4l2-compliance SHA: dece02f862f38d8f866230ca9f1015cb93ddfac4, 32 bits
 >
+> Compliance test for sun8i-di device /dev/video0:
+>
+> Driver Info:
+>         Driver name      : sun8i-di
+>         Card type        : sun8i-di
+>         Bus info         : platform:sun8i-di
+>         Driver version   : 5.3.0
+>         Capabilities     : 0x84208000
+>                 Video Memory-to-Memory
+>                 Streaming
+>                 Extended Pix Format
+>                 Device Capabilities
+>         Device Caps      : 0x04208000
+>                 Video Memory-to-Memory
+>                 Streaming
+>                 Extended Pix Format
+>
+> Required ioctls:
+>         test VIDIOC_QUERYCAP: OK
+>
+> Allow for multiple opens:
+>         test second /dev/video0 open: OK
+>         test VIDIOC_QUERYCAP: OK
+>         test VIDIOC_G/S_PRIORITY: OK
+>         test for unlimited opens: OK
+>
+> Debug ioctls:
+>         test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+>         test VIDIOC_LOG_STATUS: OK (Not Supported)
+>
+> Input ioctls:
+>         test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+>         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>         test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+>         test VIDIOC_ENUMAUDIO: OK (Not Supported)
+>         test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+>         test VIDIOC_G/S_AUDIO: OK (Not Supported)
+>         Inputs: 0 Audio Inputs: 0 Tuners: 0
+>
+> Output ioctls:
+>         test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+>         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>         test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+>         test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+>         test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+>         Outputs: 0 Audio Outputs: 0 Modulators: 0
+>
+> Input/Output configuration ioctls:
+>         test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+>         test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+>         test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+>         test VIDIOC_G/S_EDID: OK (Not Supported)
+>
+> Control ioctls:
+>         test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+>         test VIDIOC_QUERYCTRL: OK (Not Supported)
+>         test VIDIOC_G/S_CTRL: OK (Not Supported)
+>         test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+>         test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+>         test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+>         Standard Controls: 0 Private Controls: 0
+>
+> Format ioctls:
+>         test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+>         test VIDIOC_G/S_PARM: OK (Not Supported)
+>         test VIDIOC_G_FBUF: OK (Not Supported)
+>         test VIDIOC_G_FMT: OK
+>         test VIDIOC_TRY_FMT: OK
+>         test VIDIOC_S_FMT: OK
+>         test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+>         test Cropping: OK (Not Supported)
+>         test Composing: OK (Not Supported)
+>         test Scaling: OK
+>
+> Codec ioctls:
+>         test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+>         test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+>         test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+>
+> Buffer ioctls:
+>         test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+>         test VIDIOC_EXPBUF: OK
+>         test Requests: OK (Not Supported)
+>
+> Total for sun8i-di device /dev/video0: 44, Succeeded: 44, Failed: 0, Warnings: 0
+>
+> Please take a look.
+>
+> Best regards,
+> Jernej
+>
+> Changes from v1:
+> - updated Maxime's e-mail in DT binding
+> - removed "items" for single item in DT binding
+> - implemented power management
+> - replaced regmap with direct io access
+> - set exclusive clock rate
+> - renamed DEINTERLACE_FRM_CTRL_COEF_CTRL to DEINTERLACE_FRM_CTRL_COEF_ACCESS
+>
+> Jernej Skrabec (6):
+>   dt-bindings: bus: sunxi: Add H3 MBUS compatible
+>   clk: sunxi-ng: h3: Export MBUS clock
+>   ARM: dts: sunxi: h3/h5: Add MBUS controller node
+>   dt-bindings: media: Add Allwinner H3 Deinterlace binding
+>   media: sun4i: Add H3 deinterlace driver
+>   dts: arm: sun8i: h3: Enable deinterlace unit
+
+I'm fine with all the dt-bindings / dt patches, so you can add my
+Acked-by on those.
+
+Maxime
+
+--boflox5qes4r6omb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXZIQWQAKCRDj7w1vZxhR
+xVrrAP95BvBjx5D+oV3oe3nrrkwjKQeFkYqSNUiiKAZDSGDZnAEAnW5FCkLRnxuA
+5+5trRlcF70qySyqsWs0534ctqwJ0wQ=
+=AK5h
+-----END PGP SIGNATURE-----
+
+--boflox5qes4r6omb--
