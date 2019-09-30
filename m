@@ -2,100 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A7B3C1ECD
-	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2019 12:19:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 50FE6C2056
+	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2019 14:06:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730723AbfI3KS7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Sep 2019 06:18:59 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:40888 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730708AbfI3KS7 (ORCPT
+        id S1730352AbfI3MGb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Sep 2019 08:06:31 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:39970 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728214AbfI3MGa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Sep 2019 06:18:59 -0400
-Received: by mail-lj1-f195.google.com with SMTP id 7so8822796ljw.7;
-        Mon, 30 Sep 2019 03:18:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=b2dEZ5VveeCRyXH+CovRffyZBiPh0RcTQuJCALACFyo=;
-        b=KTyKHSWrrlMe+pJZAstb/2g9DIdKJ2SElSnnOL4ZmF8KvrXVrCO91z2zA4WtYrrOs2
-         TNKqmqXzV4koMJKLPpKDmTr8ZimNx4ikbgadHfLdkwWJqAQunQfoD/zNN9gXlukQ39p5
-         TmpRC2DeWzlCC7LMPPtdqiQYpzmtxu9GkDNzhtOWs3CJOJpekoealrzSZlkvjD2qKdJ/
-         JrdAy1Z34iC/rz1KTZ8y97tp4WMK8erW6d8TbqOJy2NzWOpa0/nXoGObXYh886x4sG7Y
-         gVxJw3pltbPjc6UIKROq5h908M9/28LQVesDKwmQ5sG+q1aYo3Y2CYaN2O++tVQnMHeU
-         4ghQ==
-X-Gm-Message-State: APjAAAUO5DzzIUNQOVROlJdXQ0j11eOfBC5R5xhUbW75oDMQjgQIARla
-        qw3UQyM9ng8TnQdN4bRbEPdbsDH0yLw=
-X-Google-Smtp-Source: APXvYqw+wTlt7ZcKy04xZEFUiYRT+L2HdloGEnfYj5G76OV5ksfPvsv0WZY9b0/mrDQNHG7s8oPTuA==
-X-Received: by 2002:a2e:42c9:: with SMTP id h70mr11258722ljf.88.1569838735490;
-        Mon, 30 Sep 2019 03:18:55 -0700 (PDT)
-Received: from neopili.qtec.com (cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
-        by smtp.gmail.com with ESMTPSA id z8sm3805970lfg.18.2019.09.30.03.18.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Sep 2019 03:18:54 -0700 (PDT)
-From:   Ricardo Ribalda Delgado <ribalda@kernel.org>
-To:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Ricardo Ribalda Delgado <ribalda@kernel.org>
-Subject: [PATCH v8 8/8] media: imx214: Add new control with V4L2_CID_UNIT_CELL_SIZE
-Date:   Mon, 30 Sep 2019 12:18:41 +0200
-Message-Id: <20190930101841.19630-9-ribalda@kernel.org>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20190930101841.19630-1-ribalda@kernel.org>
-References: <20190930101841.19630-1-ribalda@kernel.org>
+        Mon, 30 Sep 2019 08:06:30 -0400
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x8UC6R0p096091;
+        Mon, 30 Sep 2019 07:06:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1569845188;
+        bh=zfTEs4ijJTUqGGuCuLCj2ZRBbvInnJColLZXtXR91xc=;
+        h=Date:From:To:CC:Subject:References:In-Reply-To;
+        b=eiGf6nnC/e6TuIhw9868LrR/8FIVxqvLagovzrJt4K9BXszIvTjvvVH9zL4aLzPu0
+         DDCOylveIYEIVgi99HT51YnvuYDaeTFh1AMvvopJgpju46YA9WMVQL5nc7poYkAc54
+         5EXu7W8oxM6NqfzXZwDZJGQY8CV7SdP6OaPApuuQ=
+Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x8UC6R0L052716
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 30 Sep 2019 07:06:27 -0500
+Received: from DFLE109.ent.ti.com (10.64.6.30) by DFLE113.ent.ti.com
+ (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Mon, 30
+ Sep 2019 07:06:18 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Mon, 30 Sep 2019 07:06:18 -0500
+Received: from ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with SMTP id x8UC6R1P026246;
+        Mon, 30 Sep 2019 07:06:27 -0500
+Date:   Mon, 30 Sep 2019 07:08:38 -0500
+From:   Benoit Parrot <bparrot@ti.com>
+To:     "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+CC:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [Patch v4 4/8] media: i2c: ov2659: fix s_stream return value
+Message-ID: <20190930120838.vdmmglkbp226hhfq@ti.com>
+References: <20190927184722.31989-1-bparrot@ti.com>
+ <20190927184722.31989-5-bparrot@ti.com>
+ <CA+V-a8t3h6+2a8QWKWNwROJRz546rGbUyXs5ez9wtH6AQ-euPA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <CA+V-a8t3h6+2a8QWKWNwROJRz546rGbUyXs5ez9wtH6AQ-euPA@mail.gmail.com>
+User-Agent: NeoMutt/20171215
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-According to the product brief, the unit cell size is 1120 nanometers^2.
+Lad, Prabhakar <prabhakar.csengg@gmail.com> wrote on Fri [2019-Sep-27 21:33:28 +0100]:
+> Hi Benoit,
+> 
+> thank you for the patch.
+> 
+> On Fri, Sep 27, 2019 at 7:46 PM Benoit Parrot <bparrot@ti.com> wrote:
+> >
+> > In ov2659_s_stream() return value for invoked function should be checked
+> > and propagated.
+> >
+> > Signed-off-by: Benoit Parrot <bparrot@ti.com>
+> > ---
+> >  drivers/media/i2c/ov2659.c | 11 +++++++----
+> >  1 file changed, 7 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/drivers/media/i2c/ov2659.c b/drivers/media/i2c/ov2659.c
+> > index f77320e8a60d..cd4625432264 100644
+> > --- a/drivers/media/i2c/ov2659.c
+> > +++ b/drivers/media/i2c/ov2659.c
+> > @@ -1187,10 +1187,13 @@ static int ov2659_s_stream(struct v4l2_subdev *sd, int on)
+> >                 goto unlock;
+> >         }
+> >
+> > -       ov2659_set_pixel_clock(ov2659);
+> > -       ov2659_set_frame_size(ov2659);
+> > -       ov2659_set_format(ov2659);
+> > -       ov2659_set_streaming(ov2659, 1);
+> > +       ret = ov2659_set_pixel_clock(ov2659);
+> > +       if (!ret)
+> > +               ret = ov2659_set_frame_size(ov2659);
+> > +       if (!ret)
+> > +               ret = ov2659_set_format(ov2659);
+> > +       if (!ret)
+> > +               ov2659_set_streaming(ov2659, 1);
+> >         ov2659->streaming = on;
+> >
+> the "ov2659->streaming = on;" should only be set if above calls
+> succeed, otherwise we might hit -EBUSY during set_fmt.
 
-https://www.sony-semicon.co.jp/products_en/IS/sensor1/img/products/ProductBrief_IMX214_20150428.pdf
+Thanks, good catch.
 
-Signed-off-by: Ricardo Ribalda Delgado <ribalda@kernel.org>
----
- drivers/media/i2c/imx214.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Benoit
 
-diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
-index 159a3a604f0e..4d9879f60dfb 100644
---- a/drivers/media/i2c/imx214.c
-+++ b/drivers/media/i2c/imx214.c
-@@ -47,6 +47,7 @@ struct imx214 {
- 	struct v4l2_ctrl *pixel_rate;
- 	struct v4l2_ctrl *link_freq;
- 	struct v4l2_ctrl *exposure;
-+	struct v4l2_ctrl *unit_size;
- 
- 	struct regulator_bulk_data	supplies[IMX214_NUM_SUPPLIES];
- 
-@@ -948,6 +949,10 @@ static int imx214_probe(struct i2c_client *client)
- 	static const s64 link_freq[] = {
- 		IMX214_DEFAULT_LINK_FREQ,
- 	};
-+	static const struct v4l2_area unit_size = {
-+		.width = 1120,
-+		.height = 1120,
-+	};
- 	int ret;
- 
- 	ret = imx214_parse_fwnode(dev);
-@@ -1029,6 +1034,10 @@ static int imx214_probe(struct i2c_client *client)
- 					     V4L2_CID_EXPOSURE,
- 					     0, 3184, 1, 0x0c70);
- 
-+	imx214->unit_size = v4l2_ctrl_new_std_compound(&imx214->ctrls,
-+				NULL,
-+				V4L2_CID_UNIT_CELL_SIZE,
-+				v4l2_ctrl_ptr_from_void((void *)&unit_size));
- 	ret = imx214->ctrls.error;
- 	if (ret) {
- 		dev_err(&client->dev, "%s control init failed (%d)\n",
--- 
-2.23.0
-
+> 
+> Cheers,
+> --Prabhakar Lad
+> 
+> >  unlock:
+> > --
+> > 2.17.1
+> >
