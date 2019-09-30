@@ -2,99 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BDA0C19A1
-	for <lists+linux-media@lfdr.de>; Sun, 29 Sep 2019 23:40:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1868DC1AB8
+	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2019 06:30:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729205AbfI2VkY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 29 Sep 2019 17:40:24 -0400
-Received: from jp.dhs.org ([62.251.46.73]:59936 "EHLO jpvw.nl"
-        rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726390AbfI2VkY (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 29 Sep 2019 17:40:24 -0400
-Received: from localhost ([127.0.0.1] helo=jpvw.nl)
-        by jpvw.nl with esmtp (Exim 4.92)
-        (envelope-from <jp@jpvw.nl>)
-        id 1iEgvQ-0001uO-6a; Sun, 29 Sep 2019 23:40:16 +0200
-Subject: Re: [PATCH 1/1] media: dvbsky: use a single mutex and state buffers
- for all R/W ops
-To:     Andrei Koshkosh <andreykosh000@mail.ru>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, Sean Young <sean@mess.org>,
-        =?UTF-8?Q?Stefan_Br=c3=bcns?= <stefan.bruens@rwth-aachen.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-kernel@vger.kernel.org
-References: <1569744245-23030-1-git-send-email-andreykosh000@mail.ru>
-From:   JP <jp@jpvw.nl>
-Message-ID: <fa7cfdba-42b3-bcc2-7e61-f4108c07529d@jpvw.nl>
-Date:   Sun, 29 Sep 2019 23:40:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1725995AbfI3EaV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Sep 2019 00:30:21 -0400
+Received: from mail-ot1-f52.google.com ([209.85.210.52]:44940 "EHLO
+        mail-ot1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725765AbfI3EaV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 30 Sep 2019 00:30:21 -0400
+Received: by mail-ot1-f52.google.com with SMTP id 21so7123455otj.11
+        for <linux-media@vger.kernel.org>; Sun, 29 Sep 2019 21:30:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=vUmXUA+fbcqORWWYQ1xxORS1tm+ozwjVXpF/lUdJk1Y=;
+        b=byeOd+OY+HCkUtlweXRx1mRXW5Bwp82nugGhsbc53UOE0DkyhYuYQ47gmttNwEAcBY
+         dJJCKIupwWnpEtb4G/bmsrAWPU6x2/sEuRsoCyTXCnHLRfC49lmBPqGhhoUn8HxU8h25
+         WY5CZYp+R95T58WGbymAZRnS1EpAIKeXymPUbLjSvIaq1rQ1TX0uVZ2aYW0Lu4DB89Z6
+         s8kLinklKZrkzNNic6wXsN6KDGdLBNSi8vaOjf+DGqWOhdOmXM0msaBuBeVox5Wrtg8K
+         eIWkd9RpXbxobP4b/xXvqe+FDFKG9qiedEUjsjtijujo9Rc4uIOCvo5FroIMN+ZG8mRa
+         /4iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=vUmXUA+fbcqORWWYQ1xxORS1tm+ozwjVXpF/lUdJk1Y=;
+        b=pph8PPko/zO4EEtm09rmxUgiQVeaZmziUmFYyTvmRM0C+DB6QgfLRSJkQITkxzq8YK
+         cVqireQCCHQrfeGQ/HkJl5A90qPHFVlZpfSzw5nWK781pJbDpINj0N8LflWmVj5LIWIp
+         159G14C9R+CDNoT6bC61kDgxS7yjtv5xrQ0em9xkQnzXZ7TOBgkyNW0UHSnORFLv/zHJ
+         f+FR5x3ZrEj8AI1rYOyhQL3do7EiY5K4zbQkwdmNAipooOh1E5c+t3ghm4M9uB3efp/O
+         jQMJNi8Iat9tOPz8c2Ic56KnlcIyuBqiJKpgYNi9K8fXXmfQz+xvgHcjV726kjWlaTyG
+         NpJw==
+X-Gm-Message-State: APjAAAXf/6/ibLiySNNfofJGhCJ5fICbiDJHaZjGmIrlAY9umlK2wPVd
+        ns0Y8Hr2jlRsOfwZiRKKDpjHYtm3
+X-Google-Smtp-Source: APXvYqxoyx4M7JpmcsyTrot4ClQsSuyA5AO0wpInu1PnHLaaMyBpBh6ugoFRT6lxALEitO46XKqdeQ==
+X-Received: by 2002:a05:6830:1bda:: with SMTP id v26mr12611969ota.139.1569817820444;
+        Sun, 29 Sep 2019 21:30:20 -0700 (PDT)
+Received: from rYz3n.attlocal.net ([2600:1700:210:3790::40])
+        by smtp.googlemail.com with ESMTPSA id w20sm3509017otq.72.2019.09.29.21.30.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 29 Sep 2019 21:30:19 -0700 (PDT)
+From:   Jiunn Chang <c0d1n61at3@gmail.com>
+To:     linux-media@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Cc:     hverkuil@xs4all.nl
+Subject: [PATCH v3 0/3] cec-compliance: tuner control
+Date:   Sun, 29 Sep 2019 23:30:14 -0500
+Message-Id: <20190930043017.474025-1-c0d1n61at3@gmail.com>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20190924192445.93575-1-c0d1n61at3@gmail.com>
+References: <20190924192445.93575-1-c0d1n61at3@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <1569744245-23030-1-git-send-email-andreykosh000@mail.ru>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This works very well for me.
-(and please see unrelated comment below)
+This patch series implements analog tuner step increment/decrement as well as
+performs cec-compliance tests.  Tests where refactored into a single function,
+tuner_ctl_test(), to test all tuner features.
 
-On 9/29/19 10:04 AM, Andrei Koshkosh wrote:
-> Signed-off-by: Andrei Koshkosh <andreykosh000@mail.ru>
-> ---
->   drivers/media/usb/dvb-usb-v2/dvbsky.c | 16 ++++++++--------
->   1 file changed, 8 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/media/usb/dvb-usb-v2/dvbsky.c b/drivers/media/usb/dvb-usb-v2/dvbsky.c
-> index c41e10b..6a118a0 100644
-> --- a/drivers/media/usb/dvb-usb-v2/dvbsky.c
-> +++ b/drivers/media/usb/dvb-usb-v2/dvbsky.c
-> @@ -22,7 +22,6 @@ MODULE_PARM_DESC(disable_rc, "Disable inbuilt IR receiver.");
->   DVB_DEFINE_MOD_OPT_ADAPTER_NR(adapter_nr);
->   
->   struct dvbsky_state {
-> -	struct mutex stream_mutex;
->   	u8 ibuf[DVBSKY_BUF_LEN];
->   	u8 obuf[DVBSKY_BUF_LEN];
->   	u8 last_lock;
-> @@ -61,16 +60,18 @@ static int dvbsky_stream_ctrl(struct dvb_usb_device *d, u8 onoff)
->   {
->   	struct dvbsky_state *state = d_to_priv(d);
->   	int ret;
-> -	u8 obuf_pre[3] = { 0x37, 0, 0 };
-> -	u8 obuf_post[3] = { 0x36, 3, 0 };
-> +	static u8 obuf_pre[3] = { 0x37, 0, 0 };
-> +	static u8 obuf_post[3] = { 0x36, 3, 0 };
->   
-> -	mutex_lock(&state->stream_mutex);
-> -	ret = dvbsky_usb_generic_rw(d, obuf_pre, 3, NULL, 0);
-> +	mutex_lock(&d->usb_mutex);
-> +	memcpy(state->obuf, obuf_pre, 3);
-> +	ret = dvb_usbv2_generic_write_locked(d, state->obuf, 3);
->   	if (!ret && onoff) {
->   		msleep(20);
-> -		ret = dvbsky_usb_generic_rw(d, obuf_post, 3, NULL, 0);
-> +		memcpy(state->obuf, obuf_post, 3);
-> +		ret = dvb_usbv2_generic_write_locked(d, state->obuf, 3);
->   	}
-> -	mutex_unlock(&state->stream_mutex);
-> +	mutex_unlock(&d->usb_mutex);
->   	return ret;
->   }
->   
-> @@ -599,7 +600,6 @@ static int dvbsky_init(struct dvb_usb_device *d)
->   	if (ret)
->   		return ret;
->   	*/
-commented-out code has call to non-existing function.
+---
 
-> -	mutex_init(&state->stream_mutex);
->   
->   	state->last_lock = 0;
->   
-Thanks,
-Jan Pieter.
+Changes made since v2:
+  - Fix bugs for tuner emulation
+  - Add freq_idx to cec-follower state
+  - Refactor tuner tests into a single tuner_ctl_test()
+
+Changes made since v1:
+  - Remove redundant error checking
+  - Add circular wrap logic to tuner step increment/decrement
+
+Jiunn Chang (3):
+  cec-follower: fix bugs for tuner emulation
+  cec-follower: add tuner step increment/decrement
+  cec-compliance: refactor tuner control tests
+
+ utils/cec-compliance/cec-test.cpp   | 184 ++++++++--------------------
+ utils/cec-follower/cec-follower.cpp |   2 +-
+ utils/cec-follower/cec-follower.h   |   3 +-
+ utils/cec-follower/cec-tuner.cpp    |  93 +++++++++++---
+ 4 files changed, 135 insertions(+), 147 deletions(-)
+
+-- 
+2.23.0
+
