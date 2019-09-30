@@ -2,33 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B2BD2C1E3E
-	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2019 11:39:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5304DC1E49
+	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2019 11:39:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730588AbfI3JjT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Sep 2019 05:39:19 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:59479 "EHLO
+        id S1730594AbfI3JjZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Sep 2019 05:39:25 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:54385 "EHLO
         metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730564AbfI3JjS (ORCPT
+        with ESMTP id S1730556AbfI3JjO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Sep 2019 05:39:18 -0400
+        Mon, 30 Sep 2019 05:39:14 -0400
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.lab.pengutronix.de)
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <mfe@pengutronix.de>)
-        id 1iEs96-0002RY-7f; Mon, 30 Sep 2019 11:39:08 +0200
+        id 1iEs92-0002RZ-7x; Mon, 30 Sep 2019 11:39:04 +0200
 Received: from mfe by dude02.lab.pengutronix.de with local (Exim 4.92)
         (envelope-from <mfe@pengutronix.de>)
-        id 1iEs90-0005uY-Hy; Mon, 30 Sep 2019 11:39:02 +0200
+        id 1iEs90-0005ua-Ie; Mon, 30 Sep 2019 11:39:02 +0200
 From:   Marco Felsch <m.felsch@pengutronix.de>
 To:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
         hans.verkuil@cisco.com, jacopo+renesas@jmondi.org,
         robh+dt@kernel.org, laurent.pinchart@ideasonboard.com
 Cc:     devicetree@vger.kernel.org, kernel@pengutronix.de,
-        linux-media@vger.kernel.org
-Subject: [PATCH v11 09/15] media: tvp5150: add FORMAT_TRY support for get/set selection handlers
-Date:   Mon, 30 Sep 2019 11:38:54 +0200
-Message-Id: <20190930093900.16524-10-m.felsch@pengutronix.de>
+        linux-media@vger.kernel.org,
+        Michael Tretter <m.tretter@pengutronix.de>
+Subject: [PATCH v11 10/15] media: tvp5150: initialize subdev before parsing device tree
+Date:   Mon, 30 Sep 2019 11:38:55 +0200
+Message-Id: <20190930093900.16524-11-m.felsch@pengutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190930093900.16524-1-m.felsch@pengutronix.de>
 References: <20190930093900.16524-1-m.felsch@pengutronix.de>
@@ -43,231 +44,45 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Since commit 10d5509c8d50 ("[media] v4l2: remove g/s_crop from video ops")
-the 'which' field for set/get_selection must be FORMAT_ACTIVE. There is
-no way to try different selections. The patch adds a helper function to
-select the correct selection memory space (sub-device file handle or
-driver state) which will be set/returned.
+From: Michael Tretter <m.tretter@pengutronix.de>
 
-The selection rectangle is updated if the format is FORMAT_ACTIVE and
-the rectangle position and/or size differs from the current set
-rectangle.
+There are several debug prints in the tvp5150_parse_dt() function, which
+do not print the prefix, because the v4l2_subdev is not initialized, yet.
 
+Initialize the v4l2_subdev before parsing the device tree to fix the
+debug messages.
+
+Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
 Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
 ---
-Changelog:
-v11:
-- s/__tvp5150_get_pad_crop/tvp5150_get_pad_crop/
-- s/__tvp5150_set_selection/tvp5150_set_hw_selection/
-- drop inline for tvp5150_set_hw_selection
-- fix allignment issue
-
-v10:
-- __tvp5150_get_pad_crop: drop confusing fall-through
-- set_selection: fix FORMAT_TRY handling if CONFIG_VIDEO_V4L2_SUBDEV_API
-                 is disabled. Adapt sel->r and return 0.
-v8:
-- adapt commit message
-- remove wrong FORMAT_TRY handling for tvp5150_fill_fmt() handling
-- return 0 during set_selection if FORMAT_TRY was requested and
-  CONFIG_VIDEO_V4L2_SUBDEV_API is disabled
-- return -EINVAL during get_selection if FORMAT_TRY was requested and
-  CONFIG_VIDEO_V4L2_SUBDEV_API is disabled
-v7:
-- __tvp5150_get_pad_crop(): return error on default case
-- simplify __tvp5150_get_pad_crop() error handling
-- tvp5150_set_selection() squash __tvp5150_set_selection() execution
-  conditions
-v6:
-nothing
-v5:
- - handle stub for v4l2_subdev_get_try_crop() internal since commit
-   ("media: v4l2-subdev: add stubs for v4l2_subdev_get_try_*")
-   isn't anymore part of this series.
- - add error handling of __tvp5150_get_pad_crop()
-v4:
- - fix merge conflict due to rebase on top of media-tree/master
- - __tvp5150_get_pad_crop(): cosmetic alignment fixes
----
- drivers/media/i2c/tvp5150.c | 113 ++++++++++++++++++++++++++----------
- 1 file changed, 81 insertions(+), 32 deletions(-)
+ drivers/media/i2c/tvp5150.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/media/i2c/tvp5150.c b/drivers/media/i2c/tvp5150.c
-index 3de935036a4e..69697c00dbd7 100644
+index 69697c00dbd7..dda9f0a2995f 100644
 --- a/drivers/media/i2c/tvp5150.c
 +++ b/drivers/media/i2c/tvp5150.c
-@@ -19,6 +19,7 @@
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-fwnode.h>
- #include <media/v4l2-mc.h>
-+#include <media/v4l2-rect.h>
+@@ -1959,6 +1959,9 @@ static int tvp5150_probe(struct i2c_client *c)
  
- #include "tvp5150_reg.h"
+ 	core->regmap = map;
+ 	sd = &core->sd;
++	v4l2_i2c_subdev_init(sd, c, &tvp5150_ops);
++	sd->internal_ops = &tvp5150_internal_ops;
++	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
  
-@@ -995,6 +996,25 @@ static void tvp5150_set_default(v4l2_std_id std, struct v4l2_rect *crop)
- 		crop->height = TVP5150_V_MAX_OTHERS;
- }
+ 	if (IS_ENABLED(CONFIG_OF) && np) {
+ 		res = tvp5150_parse_dt(core, np);
+@@ -1971,10 +1974,6 @@ static int tvp5150_probe(struct i2c_client *c)
+ 		core->mbus_type = V4L2_MBUS_BT656;
+ 	}
  
-+static struct v4l2_rect *
-+tvp5150_get_pad_crop(struct tvp5150 *decoder,
-+		     struct v4l2_subdev_pad_config *cfg, unsigned int pad,
-+		     enum v4l2_subdev_format_whence which)
-+{
-+	switch (which) {
-+	case V4L2_SUBDEV_FORMAT_ACTIVE:
-+		return &decoder->rect;
-+	case V4L2_SUBDEV_FORMAT_TRY:
-+#if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
-+		return v4l2_subdev_get_try_crop(&decoder->sd, cfg, pad);
-+#else
-+		return ERR_PTR(-EINVAL);
-+#endif
-+	default:
-+		return ERR_PTR(-EINVAL);
-+	}
-+}
-+
- static int tvp5150_fill_fmt(struct v4l2_subdev *sd,
- 			    struct v4l2_subdev_pad_config *cfg,
- 			    struct v4l2_subdev_format *format)
-@@ -1019,17 +1039,51 @@ static int tvp5150_fill_fmt(struct v4l2_subdev *sd,
- 	return 0;
- }
- 
-+unsigned int tvp5150_get_hmax(struct v4l2_subdev *sd)
-+{
-+	struct tvp5150 *decoder = to_tvp5150(sd);
-+	v4l2_std_id std;
-+
-+	/* Calculate height based on current standard */
-+	if (decoder->norm == V4L2_STD_ALL)
-+		std = tvp5150_read_std(sd);
-+	else
-+		std = decoder->norm;
-+
-+	return (std & V4L2_STD_525_60) ?
-+		TVP5150_V_MAX_525_60 : TVP5150_V_MAX_OTHERS;
-+}
-+
-+static void tvp5150_set_hw_selection(struct v4l2_subdev *sd,
-+				     struct v4l2_rect *rect)
-+{
-+	struct tvp5150 *decoder = to_tvp5150(sd);
-+	unsigned int hmax = tvp5150_get_hmax(sd);
-+
-+	regmap_write(decoder->regmap, TVP5150_VERT_BLANKING_START, rect->top);
-+	regmap_write(decoder->regmap, TVP5150_VERT_BLANKING_STOP,
-+		     rect->top + rect->height - hmax);
-+	regmap_write(decoder->regmap, TVP5150_ACT_VD_CROP_ST_MSB,
-+		     rect->left >> TVP5150_CROP_SHIFT);
-+	regmap_write(decoder->regmap, TVP5150_ACT_VD_CROP_ST_LSB,
-+		     rect->left | (1 << TVP5150_CROP_SHIFT));
-+	regmap_write(decoder->regmap, TVP5150_ACT_VD_CROP_STP_MSB,
-+		     (rect->left + rect->width - TVP5150_MAX_CROP_LEFT) >>
-+		     TVP5150_CROP_SHIFT);
-+	regmap_write(decoder->regmap, TVP5150_ACT_VD_CROP_STP_LSB,
-+		     rect->left + rect->width - TVP5150_MAX_CROP_LEFT);
-+}
-+
- static int tvp5150_set_selection(struct v4l2_subdev *sd,
- 				 struct v4l2_subdev_pad_config *cfg,
- 				 struct v4l2_subdev_selection *sel)
- {
- 	struct tvp5150 *decoder = to_tvp5150(sd);
- 	struct v4l2_rect *rect = &sel->r;
--	v4l2_std_id std;
--	int hmax;
-+	struct v4l2_rect *crop;
-+	unsigned int hmax;
- 
--	if (sel->which != V4L2_SUBDEV_FORMAT_ACTIVE ||
--	    sel->target != V4L2_SEL_TGT_CROP)
-+	if (sel->target != V4L2_SEL_TGT_CROP)
- 		return -EINVAL;
- 
- 	dev_dbg_lvl(sd->dev, 1, debug, "%s left=%d, top=%d, width=%d, height=%d\n",
-@@ -1038,17 +1092,7 @@ static int tvp5150_set_selection(struct v4l2_subdev *sd,
- 	/* tvp5150 has some special limits */
- 	rect->left = clamp(rect->left, 0, TVP5150_MAX_CROP_LEFT);
- 	rect->top = clamp(rect->top, 0, TVP5150_MAX_CROP_TOP);
+-	v4l2_i2c_subdev_init(sd, c, &tvp5150_ops);
+-	sd->internal_ops = &tvp5150_internal_ops;
+-	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
 -
--	/* Calculate height based on current standard */
--	if (decoder->norm == V4L2_STD_ALL)
--		std = tvp5150_read_std(sd);
--	else
--		std = decoder->norm;
--
--	if (std & V4L2_STD_525_60)
--		hmax = TVP5150_V_MAX_525_60;
--	else
--		hmax = TVP5150_V_MAX_OTHERS;
-+	hmax = tvp5150_get_hmax(sd);
- 
- 	/*
- 	 * alignments:
-@@ -1061,20 +1105,23 @@ static int tvp5150_set_selection(struct v4l2_subdev *sd,
- 			      hmax - TVP5150_MAX_CROP_TOP - rect->top,
- 			      hmax - rect->top, 0, 0);
- 
--	regmap_write(decoder->regmap, TVP5150_VERT_BLANKING_START, rect->top);
--	regmap_write(decoder->regmap, TVP5150_VERT_BLANKING_STOP,
--		     rect->top + rect->height - hmax);
--	regmap_write(decoder->regmap, TVP5150_ACT_VD_CROP_ST_MSB,
--		     rect->left >> TVP5150_CROP_SHIFT);
--	regmap_write(decoder->regmap, TVP5150_ACT_VD_CROP_ST_LSB,
--		     rect->left | (1 << TVP5150_CROP_SHIFT));
--	regmap_write(decoder->regmap, TVP5150_ACT_VD_CROP_STP_MSB,
--		     (rect->left + rect->width - TVP5150_MAX_CROP_LEFT) >>
--		     TVP5150_CROP_SHIFT);
--	regmap_write(decoder->regmap, TVP5150_ACT_VD_CROP_STP_LSB,
--		     rect->left + rect->width - TVP5150_MAX_CROP_LEFT);
-+	if (!IS_ENABLED(CONFIG_VIDEO_V4L2_SUBDEV_API) &&
-+	    sel->which == V4L2_SUBDEV_FORMAT_TRY)
-+		return 0;
-+
-+	crop = tvp5150_get_pad_crop(decoder, cfg, sel->pad, sel->which);
-+	if (IS_ERR(crop))
-+		return PTR_ERR(crop);
-+
-+	/*
-+	 * Update output image size if the selection (crop) rectangle size or
-+	 * position has been modified.
-+	 */
-+	if (sel->which == V4L2_SUBDEV_FORMAT_ACTIVE &&
-+	    !v4l2_rect_equal(rect, crop))
-+		tvp5150_set_hw_selection(sd, rect);
- 
--	decoder->rect = *rect;
-+	*crop = *rect;
- 
- 	return 0;
- }
-@@ -1084,11 +1131,9 @@ static int tvp5150_get_selection(struct v4l2_subdev *sd,
- 				 struct v4l2_subdev_selection *sel)
- {
- 	struct tvp5150 *decoder = container_of(sd, struct tvp5150, sd);
-+	struct v4l2_rect *crop;
- 	v4l2_std_id std;
- 
--	if (sel->which != V4L2_SUBDEV_FORMAT_ACTIVE)
--		return -EINVAL;
--
- 	switch (sel->target) {
- 	case V4L2_SEL_TGT_CROP_BOUNDS:
- 		sel->r.left = 0;
-@@ -1106,7 +1151,11 @@ static int tvp5150_get_selection(struct v4l2_subdev *sd,
- 			sel->r.height = TVP5150_V_MAX_OTHERS;
- 		return 0;
- 	case V4L2_SEL_TGT_CROP:
--		sel->r = decoder->rect;
-+		crop = tvp5150_get_pad_crop(decoder, cfg, sel->pad,
-+					    sel->which);
-+		if (IS_ERR(crop))
-+			return PTR_ERR(crop);
-+		sel->r = *crop;
- 		return 0;
- 	default:
- 		return -EINVAL;
+ 	res = tvp5150_mc_init(core);
+ 	if (res)
+ 		return res;
 -- 
 2.20.1
 
