@@ -2,47 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 80B76C1EA4
-	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2019 12:07:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D9567C1EA7
+	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2019 12:07:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730639AbfI3KGu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Sep 2019 06:06:50 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:43129 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726329AbfI3KGu (ORCPT
+        id S1730548AbfI3KGy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Sep 2019 06:06:54 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:44099 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730646AbfI3KGx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Sep 2019 06:06:50 -0400
-Received: by mail-lj1-f195.google.com with SMTP id n14so8758691ljj.10;
-        Mon, 30 Sep 2019 03:06:48 -0700 (PDT)
+        Mon, 30 Sep 2019 06:06:53 -0400
+Received: by mail-lf1-f67.google.com with SMTP id q11so6537100lfc.11;
+        Mon, 30 Sep 2019 03:06:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Ktnq7xkHoJ1ZWnUKlDDdlNDPJ4T3Et1IvqzPSJZiEIM=;
-        b=NaJHW3d7iLAQh+cPcW+r7jEPEZKgugQ3x0IwgB1Sg4ebZ3f/Z305H4hT/TIaUe59Hn
-         3AhHzzmNo1l1P76nbzy23lLd4EynxlXORkaZkTv6jeEF66Q9sp5t3ep9ttPwcuKq2HuS
-         wGL1pI2jcFRo3ZSvw6ba0buHj33uVqtlocVuXF5jUMl5KShx0z0CmxHBOwz3Bzgcvims
-         o/TGHZd3XGAroelqAqM2wKs4cjlxGfVARwfq5ljxSxDomyDiCsS/mnBg11V6ExUMG93j
-         FjMguHQ2sqaCqg/sWS18ieGySw0u0tMy1Tx7tSoE5zoQiJaIXO1+GphkIHX7IuYjgekL
-         1f1Q==
-X-Gm-Message-State: APjAAAVXt5TPhqHd8fYGg48NR053AwnS2UUKYM0lGhvzBx+fytuaF6FM
-        oPlvYZeB5jIZbyCRsTIDY7c=
-X-Google-Smtp-Source: APXvYqx5er287eVPmhJgbMadOEazef529ZrcpOhPYb5YPbBtXjwF8CgAuH4l3VyRjUClNZ+Ppbr2TQ==
-X-Received: by 2002:a2e:9943:: with SMTP id r3mr11885352ljj.171.1569838007896;
-        Mon, 30 Sep 2019 03:06:47 -0700 (PDT)
+        bh=6p4YV1zw75GWQJusYr45Q284S6H3/JdTSqt0G1D+1gg=;
+        b=BjonJ9ILw6RRwjTiFrMIaj31RuzaZ7miY3RaFcljK9HcLoJvFct7uD95kaaQExRYAI
+         SjGl2MjoY78TR7LvDTHkHvHn+H14nTWCAovboJGNcrWyTeVRrj65OqZUG0eMSF20BgCC
+         xbAy5yPoLrZuPr8GiyoMsoxwR54U3zSBk/0BEUrlxCpnKSp/kJ7xRyS/ukxay4UPoUlK
+         OyE2YCkQer8X1/doOMTVIW/Bt8oXE8r7gAV+ZwtY0co51uQ/NY4CSTibXbDGxxeyI8qH
+         i2dVe8xKrIgi/kFrZtqbghCCscM7Kj44sFA2piMkL/Rap53zC6x3igXOJQzTft1WWYUv
+         s/Hw==
+X-Gm-Message-State: APjAAAUj9xli6OB72l+227CwJwdBTbn9/g2oq76XQehB6onNSOCjL9k3
+        OWoe7VXbTTA7Oh9PovyYa8g=
+X-Google-Smtp-Source: APXvYqw8zda0A2oGUqGRrQwHDEkBvqQbk1BCAQE49t7Bs4nPMb0eS+4MQGxGU8w7NDRgi4KJJG/5+g==
+X-Received: by 2002:ac2:4c2b:: with SMTP id u11mr10400224lfq.179.1569838009497;
+        Mon, 30 Sep 2019 03:06:49 -0700 (PDT)
 Received: from neopili.qtec.com (cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
-        by smtp.gmail.com with ESMTPSA id z72sm3091580ljb.98.2019.09.30.03.06.46
+        by smtp.gmail.com with ESMTPSA id z72sm3091580ljb.98.2019.09.30.03.06.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Sep 2019 03:06:46 -0700 (PDT)
+        Mon, 30 Sep 2019 03:06:48 -0700 (PDT)
 From:   Ricardo Ribalda Delgado <ribalda@kernel.org>
 To:     Philipp Zabel <p.zabel@pengutronix.de>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Cc:     Ricardo Ribalda Delgado <ribalda@kernel.org>
-Subject: [PATCH v7 5/8] media: add V4L2_CID_UNIT_CELL_SIZE control
-Date:   Mon, 30 Sep 2019 12:06:33 +0200
-Message-Id: <20190930100636.18318-6-ribalda@kernel.org>
+Subject: [PATCH v7 6/8] Documentation: media: Describe V4L2_CID_UNIT_CELL_SIZE
+Date:   Mon, 30 Sep 2019 12:06:34 +0200
+Message-Id: <20190930100636.18318-7-ribalda@kernel.org>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20190930100636.18318-1-ribalda@kernel.org>
 References: <20190930100636.18318-1-ribalda@kernel.org>
@@ -53,53 +53,32 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This control returns the unit cell size in nanometres. The struct provides
-the width and the height in separated fields to take into consideration
-asymmetric pixels and/or hardware binning.
-This control is required for automatic calibration of sensors/cameras.
+New control to pass to userspace the width/height of a pixel. Which is
+needed for calibration and lens selection.
 
 Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
 Signed-off-by: Ricardo Ribalda Delgado <ribalda@kernel.org>
 ---
- drivers/media/v4l2-core/v4l2-ctrls.c | 5 +++++
- include/uapi/linux/v4l2-controls.h   | 1 +
- 2 files changed, 6 insertions(+)
+ Documentation/media/uapi/v4l/ext-ctrls-image-source.rst | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-index b9a46f536406..f626f9983408 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-@@ -996,6 +996,7 @@ const char *v4l2_ctrl_get_name(u32 id)
- 	case V4L2_CID_AUTO_FOCUS_RANGE:		return "Auto Focus, Range";
- 	case V4L2_CID_PAN_SPEED:		return "Pan, Speed";
- 	case V4L2_CID_TILT_SPEED:		return "Tilt, Speed";
-+	case V4L2_CID_UNIT_CELL_SIZE:		return "Unit Cell Size";
+diff --git a/Documentation/media/uapi/v4l/ext-ctrls-image-source.rst b/Documentation/media/uapi/v4l/ext-ctrls-image-source.rst
+index 2c3ab5796d76..033672dcb43d 100644
+--- a/Documentation/media/uapi/v4l/ext-ctrls-image-source.rst
++++ b/Documentation/media/uapi/v4l/ext-ctrls-image-source.rst
+@@ -55,3 +55,12 @@ Image Source Control IDs
  
- 	/* FM Radio Modulator controls */
- 	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
-@@ -1377,6 +1378,10 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
- 	case V4L2_CID_MPEG_VIDEO_VP8_FRAME_HEADER:
- 		*type = V4L2_CTRL_TYPE_VP8_FRAME_HEADER;
- 		break;
-+	case V4L2_CID_UNIT_CELL_SIZE:
-+		*type = V4L2_CTRL_TYPE_AREA;
-+		*flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+		break;
- 	default:
- 		*type = V4L2_CTRL_TYPE_INTEGER;
- 		break;
-diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-index a2669b79b294..5a7bedee2b0e 100644
---- a/include/uapi/linux/v4l2-controls.h
-+++ b/include/uapi/linux/v4l2-controls.h
-@@ -1034,6 +1034,7 @@ enum v4l2_jpeg_chroma_subsampling {
- #define V4L2_CID_TEST_PATTERN_GREENR		(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 5)
- #define V4L2_CID_TEST_PATTERN_BLUE		(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 6)
- #define V4L2_CID_TEST_PATTERN_GREENB		(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 7)
-+#define V4L2_CID_UNIT_CELL_SIZE			(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 8)
- 
- 
- /* Image processing controls */
+ ``V4L2_CID_TEST_PATTERN_GREENB (integer)``
+     Test pattern green (next to blue) colour component.
++
++``V4L2_CID_UNIT_CELL_SIZE (struct)``
++    This control returns the unit cell size in nanometres. The struct
++    :c:type:`v4l2_area` provides the width and the height in separated
++    fields to take into consideration asymmetric pixels and/or hardware
++    binning.
++    The unit cell consists of the whole area of the pixel, sensitive and
++    non-sensitive.
++    This control is required for automatic calibration sensors/cameras.
 -- 
 2.23.0
 
