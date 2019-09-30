@@ -2,86 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 66698C1D17
-	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2019 10:24:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 13A97C1D3B
+	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2019 10:35:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729959AbfI3IXL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Sep 2019 04:23:11 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:55114 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726425AbfI3IXL (ORCPT
+        id S1729852AbfI3IfL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Sep 2019 04:35:11 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:60509 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726008AbfI3IfL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Sep 2019 04:23:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=eUrejGB2jTrsHWK+x65Vhx7Oqte2kExU80wcqs9+O8c=; b=N9do07O7Hzkk3KQpRo+5O9qvD
-        xUqHFklPpKe6Nqgjf9GIXkTCmoIIBqy7SCTn9cO4AhsCLaWx7Fo4plAN0peHey6S5Ze6ZI1ioQCSG
-        7/pvOrAQX7qGR/n5OuzA2EOjNwln0V+QIDECng/YOS2wSeMg0aYN3xJ6ww6ppblIsMchevEv3zyrj
-        +LimRELxYS6JWSsoXKz86g0BRriyXwuCY1T3SFFiZdDr6HDlnU53vGW5DJtcuBTY0LE9G0ZY/nOrF
-        0fmQCibgFDj/m0T9TByR7ikb8b9KZoVuMV0guPOZ4mXr0CcIbTs5WbyhWrgjFx6LcVbiPhmTEuciQ
-        73/duYuaA==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.92.2 #3 (Red Hat Linux))
-        id 1iEqxa-0001og-GL; Mon, 30 Sep 2019 08:23:10 +0000
-Date:   Mon, 30 Sep 2019 01:23:10 -0700
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Nicolas Boichat <drinkcat@chromium.org>
-Cc:     Shik Chen <shik@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>, notify@kernel.org,
-        Keiichi Watanabe <keiichiw@chromium.org>,
-        Ricky Liang <jcliang@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        lkml <linux-kernel@vger.kernel.org>,
-        kieran.bingham@ideasonboard.com, Vlastimil Babka <vbabka@suse.cz>,
-        Christoph Lameter <cl@linux.com>,
-        Christoph Hellwig <hch@infradead.org>
-Subject: Re: [PATCH] media: uvcvideo: Use streaming DMA APIs to transfer
- buffers
-Message-ID: <20190930082310.GA1750@infradead.org>
-References: <20190802131226.123800-1-shik@chromium.org>
- <CANMq1KD3Pth7LNnVqxSesx3kSFte0eR5JqEBETv45s_9_YKWHw@mail.gmail.com>
+        Mon, 30 Sep 2019 04:35:11 -0400
+Received: from [192.168.2.10] ([46.9.232.237])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id Er97ickak9D4hEr9AiKwJr; Mon, 30 Sep 2019 10:35:09 +0200
+Subject: Re: [Patch 07/16] media: ti-vpe: vpe: fix a v4l2-compliance failure
+ causing a kernel panic
+To:     Benoit Parrot <bparrot@ti.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20190927183650.31345-1-bparrot@ti.com>
+ <20190927183650.31345-8-bparrot@ti.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <1a7c5929-15f1-8f04-1212-42f064654742@xs4all.nl>
+Date:   Mon, 30 Sep 2019 10:35:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANMq1KD3Pth7LNnVqxSesx3kSFte0eR5JqEBETv45s_9_YKWHw@mail.gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <20190927183650.31345-8-bparrot@ti.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfPpSIcYiSAgzWnPTLjqebCnZzwLOTGR29IhC1Xy1FZFqcZI+bgnIcCkzy/Xw8wyJnezhiG2+4BRHkrWkv/+Ps5qEYxzxijeoIS8WFAIHr6635UWy5mk4
+ o9xUOXz5UzJa60TCCO3xrXJ+htn93ySXbL/n51im3Zo2GnoP6MAFp6lCs0+n03P1MWhPqzJrv3M1mw/tcYSfyAHYSTF0+3cAAyQ9LFcXMdZleIJAOECCUtU4
+ inn62VIPhUVZGLMoZyytEXgk4SQewxyl/5UfB0ZQ704ZRHg2xxIQ35T6Rl9NnUJ9
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Sep 28, 2019 at 11:33:16AM +0800, Nicolas Boichat wrote:
-> > +static gfp_t uvc_alloc_gfp_flags(struct device *dev)
-> > +{
-> > +       u64 mask = dma_get_mask(dev);
-> > +
-> > +       if (dev->bus_dma_mask)
-> > +               mask &= dev->bus_dma_mask;
-> > +
-> > +       if (mask < DMA_BIT_MASK(32) && IS_ENABLED(CONFIG_ZONE_DMA))
-> > +               return GFP_DMA;
-> > +
-> > +       if (mask < DMA_BIT_MASK(64)) {
-> > +               if (IS_ENABLED(CONFIG_ZONE_DMA32))
-> > +                       return GFP_DMA32;
+On 9/27/19 8:36 PM, Benoit Parrot wrote:
+> v4l2-compliance fails with this message:
 > 
-> We're hitting issues with this on 64-bit ARM platform, where
-> ZONE_DMA32 is enabled (default), the kmalloc allocation with GFP_DMA32
-> fails.
+>    warn: v4l2-test-formats.cpp(717): \
+>    	TRY_FMT cannot handle an invalid pixelformat.
+>    test VIDIOC_TRY_FMT: FAIL
 > 
-> There is no slab cache for GFP_DMA32, so those calls are expected to
-> fail, AFAICT there are no other (working) kmalloc(..., .. | GFP_DMA32)
-> users in the kernel, so I don't think we want to add a cache. If this
-> helps, some discussion here why the cache wasn't added:
-> https://lore.kernel.org/patchwork/patch/1009563/#1198622
+> This causes the following kernel panic:
+> 
+> Unable to handle kernel paging request at virtual address 56595561
+> pgd = ecd80e00
+> *pgd=00000000
+> Internal error: Oops: 205 [#1] PREEMPT SMP ARM
+> ...
+> CPU: 0 PID: 930 Comm: v4l2-compliance Not tainted \
+> 	4.14.62-01715-gc8cd67f49a19 #1
+> Hardware name: Generic DRA72X (Flattened Device Tree)
+> task: ece44d80 task.stack: ecc6e000
+> PC is at __vpe_try_fmt+0x18c/0x2a8 [ti_vpe]
+> LR is at 0x8
+> 
+> Because the driver fails to properly check the 'num_planes' values for
+> proper ranges it ends up accessing out of bound data causing the kernel
+> panic.
+> 
+> Since this driver only handle single or dual plane pixel format, make
+> sure the provided value does not exceed 2 planes.
+> 
+> Signed-off-by: Benoit Parrot <bparrot@ti.com>
+> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> ---
+>  drivers/media/platform/ti-vpe/vpe.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/ti-vpe/vpe.c b/drivers/media/platform/ti-vpe/vpe.c
+> index bbbf11174e16..1278d457f753 100644
+> --- a/drivers/media/platform/ti-vpe/vpe.c
+> +++ b/drivers/media/platform/ti-vpe/vpe.c
+> @@ -1650,7 +1650,7 @@ static int __vpe_try_fmt(struct vpe_ctx *ctx, struct v4l2_format *f,
+>  			      &pix->height, MIN_H, MAX_H, H_ALIGN,
+>  			      S_ALIGN);
+>  
+> -	if (!pix->num_planes)
+> +	if (!pix->num_planes || pix->num_planes > 2)
+>  		pix->num_planes = fmt->coplanar ? 2 : 1;
+>  	else if (pix->num_planes > 1 && !fmt->coplanar)
+>  		pix->num_planes = 1;
+> 
 
-And drivers really have no business looking at the dma mask.  I have
-a plan for dma_alloc_pages API that could replace that cruft, but
-until then please use GFP_KERNEL and let the dma subsystem bounce
-buffer if needed.
+This looks weird.
+
+Why not just unconditionally do:
+
+	pix->num_planes = fmt->coplanar ? 2 : 1;
+
+Regards,
+
+	Hans
