@@ -2,33 +2,33 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 69B36C1E3B
-	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2019 11:39:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 49DCFC1E31
+	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2019 11:39:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730584AbfI3JjR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Sep 2019 05:39:17 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:33645 "EHLO
+        id S1730574AbfI3JjO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Sep 2019 05:39:14 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:53363 "EHLO
         metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730571AbfI3JjP (ORCPT
+        with ESMTP id S1730510AbfI3JjN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Sep 2019 05:39:15 -0400
+        Mon, 30 Sep 2019 05:39:13 -0400
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.lab.pengutronix.de)
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <mfe@pengutronix.de>)
-        id 1iEs96-0002Ra-7m; Mon, 30 Sep 2019 11:39:08 +0200
+        id 1iEs96-0002Rb-8q; Mon, 30 Sep 2019 11:39:08 +0200
 Received: from mfe by dude02.lab.pengutronix.de with local (Exim 4.92)
         (envelope-from <mfe@pengutronix.de>)
-        id 1iEs90-0005ud-Jg; Mon, 30 Sep 2019 11:39:02 +0200
+        id 1iEs90-0005uh-KM; Mon, 30 Sep 2019 11:39:02 +0200
 From:   Marco Felsch <m.felsch@pengutronix.de>
 To:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
         hans.verkuil@cisco.com, jacopo+renesas@jmondi.org,
         robh+dt@kernel.org, laurent.pinchart@ideasonboard.com
 Cc:     devicetree@vger.kernel.org, kernel@pengutronix.de,
-        linux-media@vger.kernel.org
-Subject: [PATCH v11 11/15] media: tvp5150: add s_power callback
-Date:   Mon, 30 Sep 2019 11:38:56 +0200
-Message-Id: <20190930093900.16524-12-m.felsch@pengutronix.de>
+        linux-media@vger.kernel.org, Rob Herring <robh@kernel.org>
+Subject: [PATCH v11 12/15] media: dt-bindings: tvp5150: cleanup bindings stlye
+Date:   Mon, 30 Sep 2019 11:38:57 +0200
+Message-Id: <20190930093900.16524-13-m.felsch@pengutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190930093900.16524-1-m.felsch@pengutronix.de>
 References: <20190930093900.16524-1-m.felsch@pengutronix.de>
@@ -43,72 +43,76 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Don't en-/disable the interrupts during s_stream because someone can
-disable the stream but wants to get informed if the stream is locked
-again. So keep the interrupts enabled the whole time the pipeline is
-opened.
+Use underlines to highlight optional and required properties. This is
+quite common for all bindings. Align descriptions and start sentence
+with uppercase letter. Also reword the usage of the required
+endpoint properties for the output port in case BT.656 should be used.
 
 Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+Reviewed-by: Rob Herring <robh@kernel.org>
 ---
- drivers/media/i2c/tvp5150.c | 23 +++++++++++++++++------
- 1 file changed, 17 insertions(+), 6 deletions(-)
+ .../devicetree/bindings/media/i2c/tvp5150.txt | 30 +++++++++++--------
+ 1 file changed, 17 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/media/i2c/tvp5150.c b/drivers/media/i2c/tvp5150.c
-index dda9f0a2995f..4afe2093b950 100644
---- a/drivers/media/i2c/tvp5150.c
-+++ b/drivers/media/i2c/tvp5150.c
-@@ -1356,11 +1356,26 @@ static const struct media_entity_operations tvp5150_sd_media_ops = {
- /****************************************************************************
- 			I2C Command
-  ****************************************************************************/
-+static int tvp5150_s_power(struct  v4l2_subdev *sd, int on)
-+{
-+	struct tvp5150 *decoder = to_tvp5150(sd);
-+	unsigned int val = 0;
+diff --git a/Documentation/devicetree/bindings/media/i2c/tvp5150.txt b/Documentation/devicetree/bindings/media/i2c/tvp5150.txt
+index 28b64ad149ef..cc98b38c7e73 100644
+--- a/Documentation/devicetree/bindings/media/i2c/tvp5150.txt
++++ b/Documentation/devicetree/bindings/media/i2c/tvp5150.txt
+@@ -5,12 +5,14 @@ The TVP5150 and TVP5151 are video decoders that convert baseband NTSC and PAL
+ with discrete syncs or 8-bit ITU-R BT.656 with embedded syncs output formats.
+ 
+ Required Properties:
+-- compatible: value must be "ti,tvp5150"
+-- reg: I2C slave address
++====================
++- compatible:	Value must be "ti,tvp5150".
++- reg:		I2C slave address.
+ 
+ Optional Properties:
+-- pdn-gpios: phandle for the GPIO connected to the PDN pin, if any.
+-- reset-gpios: phandle for the GPIO connected to the RESETB pin, if any.
++====================
++- pdn-gpios:	Phandle for the GPIO connected to the PDN pin, if any.
++- reset-gpios:	Phandle for the GPIO connected to the RESETB pin, if any.
+ 
+ The device node must contain one 'port' child node per device physical input
+ and output port, in accordance with the video interface bindings defined in
+@@ -24,9 +26,8 @@ are numbered as follows
+ 	  Y-OUT		src		2
+ 
+ The device node must contain at least one sink port and the src port. Each input
+-port must be linked to an endpoint defined in
+-Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt. The
+-port/connector layout is as follows
++port must be linked to an endpoint defined in [1]. The port/connector layout is
++as follows
+ 
+ tvp-5150 port@0 (AIP1A)
+ 	endpoint@0 -----------> Comp0-Con  port
+@@ -38,14 +39,17 @@ tvp-5150 port@2
+ 	endpoint (video bitstream output at YOUT[0-7] parallel bus)
+ 
+ Required Endpoint Properties for parallel synchronization on output port:
++=========================================================================
+ 
+-- hsync-active: active state of the HSYNC signal. Must be <1> (HIGH).
+-- vsync-active: active state of the VSYNC signal. Must be <1> (HIGH).
+-- field-even-active: field signal level during the even field data
+-  transmission. Must be <0>.
++- hsync-active:		Active state of the HSYNC signal. Must be <1> (HIGH).
++- vsync-active:		Active state of the VSYNC signal. Must be <1> (HIGH).
++- field-even-active:	Field signal level during the even field data
++			transmission. Must be <0>.
+ 
+-If none of hsync-active, vsync-active and field-even-active is specified,
+-the endpoint is assumed to use embedded BT.656 synchronization.
++Note: Do not specify any of these properties if you want to use the embedded
++      BT.656 synchronization.
 +
-+	if (on)
-+		val = TVP5150_INT_A_LOCK;
-+
-+	if (decoder->irq)
-+		/* Enable / Disable lock interrupt */
-+		regmap_update_bits(decoder->regmap, TVP5150_INT_ENABLE_REG_A,
-+				   TVP5150_INT_A_LOCK, val);
-+
-+	return 0;
-+}
++[1] Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt.
  
- static int tvp5150_s_stream(struct v4l2_subdev *sd, int enable)
- {
- 	struct tvp5150 *decoder = to_tvp5150(sd);
--	unsigned int mask, val = 0, int_val = 0;
-+	unsigned int mask, val = 0;
+ Example - three input sources:
  
- 	mask = TVP5150_MISC_CTL_YCBCR_OE | TVP5150_MISC_CTL_SYNC_OE |
- 	       TVP5150_MISC_CTL_CLOCK_OE;
-@@ -1373,15 +1388,10 @@ static int tvp5150_s_stream(struct v4l2_subdev *sd, int enable)
- 			val = decoder->lock ? decoder->oe : 0;
- 		else
- 			val = decoder->oe;
--		int_val = TVP5150_INT_A_LOCK;
- 		v4l2_subdev_notify_event(&decoder->sd, &tvp5150_ev_fmt);
- 	}
- 
- 	regmap_update_bits(decoder->regmap, TVP5150_MISC_CTL, mask, val);
--	if (decoder->irq)
--		/* Enable / Disable lock interrupt */
--		regmap_update_bits(decoder->regmap, TVP5150_INT_ENABLE_REG_A,
--				   TVP5150_INT_A_LOCK, int_val);
- 
- 	return 0;
- }
-@@ -1580,6 +1590,7 @@ static const struct v4l2_subdev_core_ops tvp5150_core_ops = {
- 	.g_register = tvp5150_g_register,
- 	.s_register = tvp5150_s_register,
- #endif
-+	.s_power = tvp5150_s_power,
- };
- 
- static const struct v4l2_subdev_tuner_ops tvp5150_tuner_ops = {
 -- 
 2.20.1
 
