@@ -2,89 +2,148 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A8271C2773
-	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2019 22:58:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 186C0C2979
+	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2019 00:27:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729960AbfI3U5A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Sep 2019 16:57:00 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:39213 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727118AbfI3U5A (ORCPT
+        id S1728983AbfI3W1j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Sep 2019 18:27:39 -0400
+Received: from mailoutvs39.siol.net ([185.57.226.230]:46718 "EHLO
+        mail.siol.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726858AbfI3W1i (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Sep 2019 16:57:00 -0400
-Received: by mail-wm1-f65.google.com with SMTP id v17so886457wml.4
-        for <linux-media@vger.kernel.org>; Mon, 30 Sep 2019 13:56:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:from:message-id:date:user-agent
-         :mime-version:content-language:content-transfer-encoding;
-        bh=Zi3umXY8bU1XCNrXcBAW2t4v9e1DRxyR/5+aASqsAbM=;
-        b=dyInIZ+eSdUXgRe0hNR1hgdKU26nXsWbyeNj0OdNj5qgXrxeDlpkuhDgb4rf1XDS6L
-         H1yaITQ8lapi6TgoA2eboHJaBSkLs6HkVImoD/YpdyL80csAM6mpIy5+qCZ6QBT8lhH7
-         mqLB48Utmpi3ml/yr+LqSdOoG1rxCb8pvRsNEdo6TjadIc+2I3zcIYabmT9baGvTcayH
-         rXdDwwWxUTrc25bvS63MkkRICsFC65cQZTzz2dzPd6G5LT8uJXLLuBcVbsRmdYYxXc/W
-         BL9gUQwoIN59fqI6PWx8vOw60vsKlJBVhSWvp1kXnXn8+IIh2M0XQMCRPSFXGJkpubcC
-         7Hnw==
-X-Gm-Message-State: APjAAAXZeawry5x8vPTpO3QTu635XFYfzB23P1VyCjC0KjzBONFk1Af8
-        AuUww6AezjTLnnGyklYQ6cpU7sxV
-X-Google-Smtp-Source: APXvYqzrpaZZT5CTrGG4kfuHfbK4rrlnQ67f6PjTZH9iV9HZxd2zO6KH6me5t46POmZlMNTiqBNiPg==
-X-Received: by 2002:a1c:7519:: with SMTP id o25mr231080wmc.16.1569863632885;
-        Mon, 30 Sep 2019 10:13:52 -0700 (PDT)
-Received: from ?IPv6:2620:10d:c0c1:1609:54:45db:20c6:d537? ([2620:10d:c092:200::1:c43d])
-        by smtp.gmail.com with ESMTPSA id y186sm230154wmd.26.2019.09.30.10.13.51
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 30 Sep 2019 10:13:52 -0700 (PDT)
-Subject: [PATCH] edid-decode: Avoid division by zero
-To:     linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl
-From:   Breno Leitao <leitao@debian.org>
-Message-ID: <cc88ca6d-5608-5381-74b9-008c2a32afb3@debian.org>
-Date:   Mon, 30 Sep 2019 18:13:51 +0100
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
- Gecko/20100101 Thunderbird/60.9.0
+        Mon, 30 Sep 2019 18:27:38 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.siol.net (Postfix) with ESMTP id 4E1E9521949;
+        Tue,  1 Oct 2019 00:27:35 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at psrvmta10.zcs-production.pri
+Received: from mail.siol.net ([127.0.0.1])
+        by localhost (psrvmta10.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id ptcGB7QC91-1; Tue,  1 Oct 2019 00:27:34 +0200 (CEST)
+Received: from mail.siol.net (localhost [127.0.0.1])
+        by mail.siol.net (Postfix) with ESMTPS id A502F522D91;
+        Tue,  1 Oct 2019 00:27:34 +0200 (CEST)
+Received: from jernej-laptop.localnet (cpe-86-58-59-25.static.triera.net [86.58.59.25])
+        (Authenticated sender: jernej.skrabec@siol.net)
+        by mail.siol.net (Postfix) with ESMTPA id 19572521949;
+        Tue,  1 Oct 2019 00:27:33 +0200 (CEST)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     mchehab@kernel.org, paul.kocialkowski@bootlin.com,
+        mripard@kernel.org, pawel@osciak.com, m.szyprowski@samsung.com,
+        kyungmin.park@samsung.com, tfiga@chromium.org, wens@csie.org,
+        gregkh@linuxfoundation.org, boris.brezillon@collabora.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org,
+        ezequiel@collabora.com, jonas@kwiboo.se
+Subject: Re: [PATCH v2 0/6] media: cedrus: h264: Support multi-slice frames
+Date:   Tue, 01 Oct 2019 00:27:32 +0200
+Message-ID: <4342181.Ehiz7mZe5m@jernej-laptop>
+In-Reply-To: <9ec1c07e-b0e8-f50c-7f46-df7ca303a5bc@xs4all.nl>
+References: <20190929200023.215831-1-jernej.skrabec@siol.net> <9ec1c07e-b0e8-f50c-7f46-df7ca303a5bc@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There are some weird monitors that returns invalid data, as zeroed
-Horizontal/Vertical Active/Blanking.
+Dne ponedeljek, 30. september 2019 ob 10:10:48 CEST je Hans Verkuil 
+napisal(a):
+> On 9/29/19 10:00 PM, Jernej Skrabec wrote:
+> > This series adds support for decoding multi-slice H264 frames along with
+> > support for V4L2_DEC_CMD_FLUSH and V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF.
+> > 
+> > Code was tested by modified ffmpeg, which can be found here:
+> > https://github.com/jernejsk/FFmpeg, branch mainline-test
+> > It has to be configured with at least following options:
+> > --enable-v4l2-request --enable-libudev --enable-libdrm
+> > 
+> > Samples used for testing:
+> > http://jernej.libreelec.tv/videos/h264/BA1_FT_C.mp4
+> > http://jernej.libreelec.tv/videos/h264/h264.mp4
+> > 
+> > Command line used for testing:
+> > ffmpeg -hwaccel drm -hwaccel_device /dev/dri/card0 -i h264.mp4 -pix_fmt
+> > bgra -f fbdev /dev/fb0
+> > 
+> > Please note that V4L2_DEC_CMD_FLUSH was not tested because I'm
+> > not sure how. ffmpeg follows exactly which slice is last in frame
+> > and sets hold flag accordingly. Improper usage of hold flag would
+> > corrupt ffmpeg assumptions and it would probably crash. Any ideas
+> > how to test this are welcome!
+> 
+> It can be tested partially at least: if ffmpeg tells you it is the last
+> slice, then queue the slice with the HOLD flag set, then call FLUSH
+> afterwards. This should clear the HOLD flag again. In this case the queued
+> buffer is probably not yet processed, so the flag is cleared before the
+> decode job starts.
+> 
+> You can also try to add a sleep before calling FLUSH to see what happens
+> if the last queued buffer is already decoded.
 
-This causes edid-decode to crash with a divsion by error exception. This
-simple patch avoids so, checking for the divisor before proceeding.
+Ok, I tried following code:
+https://github.com/jernejsk/FFmpeg/blob/flush_test/libavcodec/
+v4l2_request.c#L220-L233
 
-Signed-off-by: Breno Leitao <leitao@debian.org>
----
- edid-decode.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+But results are not good. It seems that out_vb in flush command is always NULL 
+and so it always marks capture buffer as done, which leads to kernel warnings.
 
-diff --git a/edid-decode.c b/edid-decode.c
-index 7442f8a..4b2cef8 100644
---- a/edid-decode.c
-+++ b/edid-decode.c
-@@ -1022,6 +1022,17 @@ static int detailed_block(const unsigned char *x,
-int in_extension)
- 		break;
- 	}
+dmesg output with debugging messages is here: http://ix.io/1Ks8
 
-+	if ((ha + hbl) == 0 ||
-+	    (va + vbl) == 0) {
-+		printf("Invalid data. Refusing to continue.\n"
-+		       "Horizontal Active %4d\n"
-+		       "Horizontal Blanking %4d\n"
-+		       "Vertical Active %4d\n"
-+		       "Vertical Blanking %4d\n",
-+		       ha, hbl, va, vbl);
-+		return 0;
-+	}
-+
- 	pixclk_khz = (x[0] + (x[1] << 8)) * 10;
- 	refresh = (pixclk_khz * 1000) / ((ha + hbl) * (va + vbl));
- 	printf("Detailed mode: Clock %.3f MHz, %d mm x %d mm\n"
--- 
-2.17.1
+Currently I'm not sure what is going on. Shouldn't be output buffer queued and 
+waiting to MEDIA_REQUEST_IOC_QUEUE which is executed after flush command as it 
+can be seen from ffmpeg code linked above?
+
+Best regards,
+Jernej
+
+> 
+> Regards,
+> 
+> 	Hans
+> 
+> > Thanks to Jonas for adjusting ffmpeg.
+> > 
+> > Please let me know what you think.
+> > 
+> > Best regards,
+> > Jernej
+> > 
+> > Changes from v1:
+> > - added Rb tags
+> > - updated V4L2_DEC_CMD_FLUSH documentation
+> > - updated first slice detection in Cedrus
+> > - hold capture buffer flag is set according to source format
+> > - added v4l m2m stateless_(try_)decoder_cmd ioctl helpers
+> > 
+> > Hans Verkuil (2):
+> >   vb2: add V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF
+> >   videodev2.h: add V4L2_DEC_CMD_FLUSH
+> > 
+> > Jernej Skrabec (4):
+> >   media: v4l2-mem2mem: add stateless_(try_)decoder_cmd ioctl helpers
+> >   media: cedrus: Detect first slice of a frame
+> >   media: cedrus: h264: Support multiple slices per frame
+> >   media: cedrus: Add support for holding capture buffer
+> >  
+> >  Documentation/media/uapi/v4l/buffer.rst       | 13 ++++++
+> >  .../media/uapi/v4l/vidioc-decoder-cmd.rst     | 10 +++-
+> >  .../media/uapi/v4l/vidioc-reqbufs.rst         |  6 +++
+> >  .../media/videodev2.h.rst.exceptions          |  1 +
+> >  .../media/common/videobuf2/videobuf2-v4l2.c   |  8 +++-
+> >  drivers/media/v4l2-core/v4l2-mem2mem.c        | 35 ++++++++++++++
+> >  drivers/staging/media/sunxi/cedrus/cedrus.h   |  1 +
+> >  .../staging/media/sunxi/cedrus/cedrus_dec.c   | 11 +++++
+> >  .../staging/media/sunxi/cedrus/cedrus_h264.c  | 11 ++++-
+> >  .../staging/media/sunxi/cedrus/cedrus_hw.c    |  8 ++--
+> >  .../staging/media/sunxi/cedrus/cedrus_video.c | 14 ++++++
+> >  include/media/v4l2-mem2mem.h                  | 46 +++++++++++++++++++
+> >  include/media/videobuf2-core.h                |  3 ++
+> >  include/media/videobuf2-v4l2.h                |  5 ++
+> >  include/uapi/linux/videodev2.h                | 14 ++++--
+> >  15 files changed, 175 insertions(+), 11 deletions(-)
+
+
 
 
