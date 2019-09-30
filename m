@@ -2,91 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3ED62C24EE
-	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2019 18:14:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69E2AC253B
+	for <lists+linux-media@lfdr.de>; Mon, 30 Sep 2019 18:36:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732246AbfI3QNB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Sep 2019 12:13:01 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:39099 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732198AbfI3QNA (ORCPT
+        id S1732265AbfI3QgK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Sep 2019 12:36:10 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:55094 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731459AbfI3QgK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Sep 2019 12:13:00 -0400
-Received: by mail-lf1-f65.google.com with SMTP id 72so7482353lfh.6;
-        Mon, 30 Sep 2019 09:12:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=KXfl4ww2DrWF3pEnl8LcNO7G+susED8wh9HsxIg0JQw=;
-        b=M4uQ+uA3fD0ziLfOUH7Zf0ikcuehxgwFrpIjo7/66z67aCaCQhxJNpiHA1R3MZ6lld
-         Pc4yaYkk28A2czKYX24Z+32tyuOb64T1DnbHDh4LgOCj77hqo2hKp6UcZDzCYG03049Z
-         H0NvdmFo6PGKtM66IPfVXELySp758/4qp0IIAMaEJx5yMr0pI/d4lQar6szpW8vQ0wtf
-         e9lyYdDYX97spZnasNnNdYjVFVO0ga9JFlRk39lWjMzGOnuMBrDRzwykbjBZnXlOyqmp
-         VgNAf0O+RAp/3Hsfl3iMCP2PxYyjaWsYdx/WykhnL33lH1oBZsP5dL1SwOwM9gqQgC9l
-         ttoQ==
-X-Gm-Message-State: APjAAAVg1c9QTOizr7iadxGj2ow96aUiADt7WpaXJgY1EXEo7R5b89Gw
-        C0Q74ITIscWYz8JyKxwUG04=
-X-Google-Smtp-Source: APXvYqwrLdfKkzjvjreL0RNH/iUPmuMtOzANmSTvmM0nPK7ujkTyEPLdzjwvfColyZhp8/frTUwJ/Q==
-X-Received: by 2002:ac2:5504:: with SMTP id j4mr12388515lfk.186.1569859977680;
-        Mon, 30 Sep 2019 09:12:57 -0700 (PDT)
-Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
-        by smtp.gmail.com with ESMTPSA id t16sm3457875ljj.29.2019.09.30.09.12.53
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 30 Sep 2019 09:12:55 -0700 (PDT)
-Received: from johan by xi.terra with local (Exim 4.92.2)
-        (envelope-from <johan@xi.terra>)
-        id 1iEyIG-0004ue-EZ; Mon, 30 Sep 2019 18:13:00 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Pete Zaitcev <zaitcev@redhat.com>,
+        Mon, 30 Sep 2019 12:36:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=UWQiVDLYiRGcNlJcUhsM1uiwFgTPXa9ToDA5YpcNSbk=; b=lNuuMEcVXyAceTbuEy764dxpl
+        HUgqZiiEbmofF4MDJ1hAwuw9kZCZRd3rHUuYr0xiZwp/XWyUyeEyzkIY0dOGlOIUhcezVXCb38Urk
+        IzbWyNtRF2Q4H5RYRqsi7HpzOzyov9rxtWmDxHzE+qIIxy1QfCpiSEOb5wH03iyD5fmkvI2k5aull
+        HM8yffgOXpYZ49EaKlJWcwguHEXoVskB1F7J08CHBFHqPo4MGx+O/q/jLX0TEVTe6fbxEulvBoAl0
+        EmKjR0K+rj1Wycfivc4UwdKJ+bcQ21EuGkNpoZqaa2GgVkXlY0PzdhOs/6ZHBM0ztmZ7eF8NhOCd5
+        I4sFyx3zg==;
+Received: from [179.95.58.188] (helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
+        id 1iEyee-00070i-BN; Mon, 30 Sep 2019 16:36:08 +0000
+Date:   Mon, 30 Sep 2019 13:36:03 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Pete Zaitcev <zaitcev@redhat.com>,
         Alan Stern <stern@rowland.harvard.edu>,
         linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
-        stable <stable@vger.kernel.org>
-Subject: [PATCH 4/4] media: stkwebcam: fix runtime PM after driver unbind
-Date:   Mon, 30 Sep 2019 18:12:05 +0200
-Message-Id: <20190930161205.18803-5-johan@kernel.org>
-X-Mailer: git-send-email 2.23.0
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/4] USB: fix runtime PM after driver unbind
+Message-ID: <20190930133603.0192f809@coco.lan>
 In-Reply-To: <20190930161205.18803-1-johan@kernel.org>
 References: <20190930161205.18803-1-johan@kernel.org>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Since commit c2b71462d294 ("USB: core: Fix bug caused by duplicate
-interface PM usage counter") USB drivers must always balance their
-runtime PM gets and puts, including when the driver has already been
-unbound from the interface.
+Em Mon, 30 Sep 2019 18:12:01 +0200
+Johan Hovold <johan@kernel.org> escreveu:
 
-Leaving the interface with a positive PM usage counter would prevent a
-later bound driver from suspending the device.
+> A recent change in USB core broke runtime-PM after driver unbind in
+> several drivers (when counting all USB serial drivers). Specifically,
+> drivers which took care not modify the runtime-PM usage counter after
+> their disconnect callback had returned, would now fail to be suspended
+> when a driver is later bound.
+> 
+> I guess Greg could take all of these directly through his tree, unless
+> the media maintainers disagree.
 
-Fixes: c2b71462d294 ("USB: core: Fix bug caused by duplicate interface PM usage counter")
-Cc: stable <stable@vger.kernel.org>
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
- drivers/media/usb/stkwebcam/stk-webcam.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Patches look ok and I'm fine if they go via Greg's tree. So:
 
-diff --git a/drivers/media/usb/stkwebcam/stk-webcam.c b/drivers/media/usb/stkwebcam/stk-webcam.c
-index be8041e3e6b8..b0cfa4c1f8cc 100644
---- a/drivers/media/usb/stkwebcam/stk-webcam.c
-+++ b/drivers/media/usb/stkwebcam/stk-webcam.c
-@@ -643,8 +643,7 @@ static int v4l_stk_release(struct file *fp)
- 		dev->owner = NULL;
- 	}
- 
--	if (is_present(dev))
--		usb_autopm_put_interface(dev->interface);
-+	usb_autopm_put_interface(dev->interface);
- 	mutex_unlock(&dev->lock);
- 	return v4l2_fh_release(fp);
- }
--- 
-2.23.0
+Acked-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
+Yet, on a quick look on media:
+
+	$ git grep -l usb_.*pm drivers/media/usb/
+	drivers/media/usb/cpia2/cpia2_usb.c
+	drivers/media/usb/dvb-usb-v2/az6007.c
+	drivers/media/usb/dvb-usb-v2/dvb_usb.h
+	drivers/media/usb/dvb-usb-v2/dvb_usb_core.c
+	drivers/media/usb/gspca/gspca.c
+	drivers/media/usb/gspca/gspca.h
+	drivers/media/usb/siano/smsusb.c
+	drivers/media/usb/stkwebcam/stk-webcam.c
+	drivers/media/usb/usbvision/usbvision-i2c.c
+	drivers/media/usb/uvc/uvc_driver.c
+	drivers/media/usb/uvc/uvc_v4l2.c
+	drivers/media/usb/zr364xx/zr364xx.c
+
+There are other drivers beside stkwebcam with has some PM routines.
+
+Ok, only two (stkwebcam and uvcvideo) uses usb_autopm_get_interface() and
+usb_autopm_put_interface(), but I'm wondering if the others are doing the
+right thing, as their implementation are probably older.
+
+> 
+> Johan
+> 
+> 
+> Johan Hovold (4):
+>   USB: usb-skeleton: fix runtime PM after driver unbind
+>   USB: usblp: fix runtime PM after driver unbind
+>   USB: serial: fix runtime PM after driver unbind
+>   media: stkwebcam: fix runtime PM after driver unbind
+> 
+>  drivers/media/usb/stkwebcam/stk-webcam.c | 3 +--
+>  drivers/usb/class/usblp.c                | 8 +++++---
+>  drivers/usb/serial/usb-serial.c          | 5 +----
+>  drivers/usb/usb-skeleton.c               | 8 +++-----
+>  4 files changed, 10 insertions(+), 14 deletions(-)
+> 
+
+
+
+Thanks,
+Mauro
