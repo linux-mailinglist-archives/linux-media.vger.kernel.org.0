@@ -2,90 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D943C2EA5
-	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2019 10:10:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 54736C2EC7
+	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2019 10:23:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726863AbfJAIK2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Oct 2019 04:10:28 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:44624 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726148AbfJAIK1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Oct 2019 04:10:27 -0400
-Received: by mail-wr1-f68.google.com with SMTP id z9so1113554wrl.11
-        for <linux-media@vger.kernel.org>; Tue, 01 Oct 2019 01:10:26 -0700 (PDT)
+        id S1732964AbfJAIXS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Oct 2019 04:23:18 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:38664 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726672AbfJAIXR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Oct 2019 04:23:17 -0400
+Received: by mail-lj1-f195.google.com with SMTP id b20so12369110ljj.5;
+        Tue, 01 Oct 2019 01:23:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:cc:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=QODAYoQNjm0v3EljDUhEZRTkaH6gq4dep1WVdwR+vzQ=;
-        b=uHTAzFT8VZJOFpjlA4XRyZspFsVX7DTLCuW0G4+Hkfr4ebmmqZk9PrA9RhhFUDnR71
-         Dv9+qfkIR2zbIedZSoHayYFDysifXoXZl+klJ8daSb+TIQfwlzBqQD3/dBYKV0S7p/5b
-         X8AX/Hx75LlTapo8GG8iov1cat5c0DqgvYeAqZhPdJ69F8HIFanVE9Va0a+SaabFRZSC
-         YwpF1FntiKJ1T6Ii7us8qVSOiR24B+WWMAhiepnQcnxXFfFPcDLHv+gQq/WV3XLwCXGw
-         k2S5C1BuFSNxRKUdLCiko/vO5WbZjGIcvOcyhbVg/bV30KOQmDdVOaidW1lfaRC2hxYA
-         Ec1w==
-X-Gm-Message-State: APjAAAUuVxOSSY62V1QAsACpomJa0JGiJNxiHZqzMf6fYn445O0kzn66
-        q9DeVXbAVStjmCUkFq48kHHBfti1
-X-Google-Smtp-Source: APXvYqy4Ss2bIGUOnvyeXZE9TDhT7Wznp/o+3p5x5li5+cnZGcP2aq+PEqjOyWnYg8OqJPaRtxAwtw==
-X-Received: by 2002:a05:6000:1632:: with SMTP id v18mr17577309wrb.61.1569917425473;
-        Tue, 01 Oct 2019 01:10:25 -0700 (PDT)
-Received: from ?IPv6:2620:10d:c0c1:1609:54:45db:20c6:d537? ([2620:10d:c092:200::1:486c])
-        by smtp.gmail.com with ESMTPSA id c18sm17200638wrn.45.2019.10.01.01.10.23
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=39RhDSMZRJbAMEubpivc7sb2S4Q4zvVL3vDz0kDKunQ=;
+        b=apGeQcXrcJwa17iebDwOvQb1D2jFDABi+i3Y5e9mtrhu6R+cDl5hZidWE+hmdrUnj6
+         rC85MF3HgBo9uVwoXdwuZandJbtq6UfLt0U1jzPbr5Or7eDtBfGtoEPxwszZ+9831772
+         dFin7XkBaqyuES7uwR34j9cvvwR9sWeeH+qzGbUcJAAVqZhCY3Vc9HOguPGHiUxeNPT3
+         R9tPPEfKUYRee84EeqgrYEcE5SPfNZ5S572tpzBcXqC1YQis9nT4UpBIOnP/dIazrysF
+         IUR1YzG/X2BX+AteRzwng7nejqDQ4uxfk0bPiEk38EYNOjezfD6Kvsfh1cO+mJnDb0fQ
+         d+kg==
+X-Gm-Message-State: APjAAAVXA+i5xp/AWmzwaCjHxUjSgbLbD8IhUgx1JdgYHOF7/Rh85kjs
+        0+DEgiZDjRIeLE7ahy/JSNw=
+X-Google-Smtp-Source: APXvYqwodPNS5oQBgRnLFOd73QE2r4CIJZzLiTOY6/q38+5ENMLIBmOyPaOGzVyvR0NyQ54cKXksoQ==
+X-Received: by 2002:a2e:96d5:: with SMTP id d21mr14700661ljj.187.1569918195316;
+        Tue, 01 Oct 2019 01:23:15 -0700 (PDT)
+Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
+        by smtp.gmail.com with ESMTPSA id h25sm4836377lfj.81.2019.10.01.01.23.14
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 01 Oct 2019 01:10:24 -0700 (PDT)
-Subject: [PATCH v2] edid-decode: Avoid division by zero
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-References: <cc88ca6d-5608-5381-74b9-008c2a32afb3@debian.org>
- <ca1fd80c-02d1-f793-0906-239f020eac65@xs4all.nl>
-Cc:     linux-media@vger.kernel.org
-From:   Breno Leitao <leitao@debian.org>
-Message-ID: <e9bae40c-9a2c-067b-d547-cd1f1a528e25@debian.org>
-Date:   Tue, 1 Oct 2019 09:10:23 +0100
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
- Gecko/20100101 Thunderbird/60.9.0
+        Tue, 01 Oct 2019 01:23:14 -0700 (PDT)
+Received: from johan by xi.terra with local (Exim 4.92.2)
+        (envelope-from <johan@kernel.org>)
+        id 1iFDRK-00005F-1V; Tue, 01 Oct 2019 10:23:22 +0200
+Date:   Tue, 1 Oct 2019 10:23:22 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Johan Hovold <johan@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Pete Zaitcev <zaitcev@redhat.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/4] USB: fix runtime PM after driver unbind
+Message-ID: <20191001082322.GH13531@localhost>
+References: <20190930161205.18803-1-johan@kernel.org>
+ <20190930133603.0192f809@coco.lan>
 MIME-Version: 1.0
-In-Reply-To: <ca1fd80c-02d1-f793-0906-239f020eac65@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190930133603.0192f809@coco.lan>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There are some weird monitors that returns invalid data, as zeroed
-Horizontal/Vertical Active/Blanking.
+On Mon, Sep 30, 2019 at 01:36:03PM -0300, Mauro Carvalho Chehab wrote:
+> Em Mon, 30 Sep 2019 18:12:01 +0200
+> Johan Hovold <johan@kernel.org> escreveu:
+> 
+> > A recent change in USB core broke runtime-PM after driver unbind in
+> > several drivers (when counting all USB serial drivers). Specifically,
+> > drivers which took care not modify the runtime-PM usage counter after
+> > their disconnect callback had returned, would now fail to be suspended
+> > when a driver is later bound.
+> > 
+> > I guess Greg could take all of these directly through his tree, unless
+> > the media maintainers disagree.
+> 
+> Patches look ok and I'm fine if they go via Greg's tree. So:
+> 
+> Acked-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-This causes edid-decode to crash with a division by zero exception. This simple
-patch avoids so, checking for the divisor before proceeding.
+Thanks for taking a look.
 
-Signed-off-by: Breno Leitao <leitao@debian.org>
----
- edid-decode.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+> Yet, on a quick look on media:
+> 
+> 	$ git grep -l usb_.*pm drivers/media/usb/
+> 	drivers/media/usb/cpia2/cpia2_usb.c
+> 	drivers/media/usb/dvb-usb-v2/az6007.c
+> 	drivers/media/usb/dvb-usb-v2/dvb_usb.h
+> 	drivers/media/usb/dvb-usb-v2/dvb_usb_core.c
+> 	drivers/media/usb/gspca/gspca.c
+> 	drivers/media/usb/gspca/gspca.h
+> 	drivers/media/usb/siano/smsusb.c
+> 	drivers/media/usb/stkwebcam/stk-webcam.c
+> 	drivers/media/usb/usbvision/usbvision-i2c.c
+> 	drivers/media/usb/uvc/uvc_driver.c
+> 	drivers/media/usb/uvc/uvc_v4l2.c
+> 	drivers/media/usb/zr364xx/zr364xx.c
+> 
+> There are other drivers beside stkwebcam with has some PM routines.
 
-diff --git a/edid-decode.c b/edid-decode.c
-index 7442f8a..b932179 100644
---- a/edid-decode.c
-+++ b/edid-decode.c
-@@ -1022,6 +1022,16 @@ static int detailed_block(const unsigned char *x, int in_extension)
- 		break;
- 	}
- 
-+	if (!ha || !hbl || !va || !vbl) {
-+		printf("Invalid Detailing Timings:\n"
-+		       "Horizontal Active %4d\n"
-+		       "Horizontal Blanking %4d\n"
-+		       "Vertical Active %4d\n"
-+		       "Vertical Blanking %4d\n",
-+		       ha, hbl, va, vbl);
-+		return 0;
-+	}
-+
- 	pixclk_khz = (x[0] + (x[1] << 8)) * 10;
- 	refresh = (pixclk_khz * 1000) / ((ha + hbl) * (va + vbl));
- 	printf("Detailed mode: Clock %.3f MHz, %d mm x %d mm\n"
--- 
-2.17.1
+Yeah, but that may be for system-wide suspend.
 
+> Ok, only two (stkwebcam and uvcvideo) uses usb_autopm_get_interface() and
+> usb_autopm_put_interface(), but I'm wondering if the others are doing the
+> right thing, as their implementation are probably older.
+
+Right, only these two support runtime PM through USB core (autosuspend).
+
+In fact, I see now that stkwebcam fails to set the supports_autosuspend
+flag in its usb_driver struct, so runtime PM has never actually been
+enabled for this driver either. But I guess it doesn't hurt to fix
+missing puts if someones wants to try enabling it, if not only for
+documentation purposes and avoiding copy-paste proliferation.
+
+Lots of legacy...
+
+Johan
