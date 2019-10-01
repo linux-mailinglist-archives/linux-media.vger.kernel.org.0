@@ -2,145 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 302DFC2E75
-	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2019 09:57:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D943C2EA5
+	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2019 10:10:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727838AbfJAH5J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Oct 2019 03:57:09 -0400
-Received: from mga17.intel.com ([192.55.52.151]:10537 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726672AbfJAH5J (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 1 Oct 2019 03:57:09 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 01 Oct 2019 00:57:08 -0700
-X-IronPort-AV: E=Sophos;i="5.64,570,1559545200"; 
-   d="scan'208";a="185104735"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 01 Oct 2019 00:57:06 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 62B0521ACC; Tue,  1 Oct 2019 10:57:04 +0300 (EEST)
-Date:   Tue, 1 Oct 2019 10:57:04 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Benoit Parrot <bparrot@ti.com>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [Patch 1/3] media: ov5640: add PIXEL_RATE control
-Message-ID: <20191001075704.GA5449@paasikivi.fi.intel.com>
-References: <20190925152301.21645-1-bparrot@ti.com>
- <20190925152301.21645-2-bparrot@ti.com>
+        id S1726863AbfJAIK2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Oct 2019 04:10:28 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:44624 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726148AbfJAIK1 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Oct 2019 04:10:27 -0400
+Received: by mail-wr1-f68.google.com with SMTP id z9so1113554wrl.11
+        for <linux-media@vger.kernel.org>; Tue, 01 Oct 2019 01:10:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=QODAYoQNjm0v3EljDUhEZRTkaH6gq4dep1WVdwR+vzQ=;
+        b=uHTAzFT8VZJOFpjlA4XRyZspFsVX7DTLCuW0G4+Hkfr4ebmmqZk9PrA9RhhFUDnR71
+         Dv9+qfkIR2zbIedZSoHayYFDysifXoXZl+klJ8daSb+TIQfwlzBqQD3/dBYKV0S7p/5b
+         X8AX/Hx75LlTapo8GG8iov1cat5c0DqgvYeAqZhPdJ69F8HIFanVE9Va0a+SaabFRZSC
+         YwpF1FntiKJ1T6Ii7us8qVSOiR24B+WWMAhiepnQcnxXFfFPcDLHv+gQq/WV3XLwCXGw
+         k2S5C1BuFSNxRKUdLCiko/vO5WbZjGIcvOcyhbVg/bV30KOQmDdVOaidW1lfaRC2hxYA
+         Ec1w==
+X-Gm-Message-State: APjAAAUuVxOSSY62V1QAsACpomJa0JGiJNxiHZqzMf6fYn445O0kzn66
+        q9DeVXbAVStjmCUkFq48kHHBfti1
+X-Google-Smtp-Source: APXvYqy4Ss2bIGUOnvyeXZE9TDhT7Wznp/o+3p5x5li5+cnZGcP2aq+PEqjOyWnYg8OqJPaRtxAwtw==
+X-Received: by 2002:a05:6000:1632:: with SMTP id v18mr17577309wrb.61.1569917425473;
+        Tue, 01 Oct 2019 01:10:25 -0700 (PDT)
+Received: from ?IPv6:2620:10d:c0c1:1609:54:45db:20c6:d537? ([2620:10d:c092:200::1:486c])
+        by smtp.gmail.com with ESMTPSA id c18sm17200638wrn.45.2019.10.01.01.10.23
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 01 Oct 2019 01:10:24 -0700 (PDT)
+Subject: [PATCH v2] edid-decode: Avoid division by zero
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+References: <cc88ca6d-5608-5381-74b9-008c2a32afb3@debian.org>
+ <ca1fd80c-02d1-f793-0906-239f020eac65@xs4all.nl>
+Cc:     linux-media@vger.kernel.org
+From:   Breno Leitao <leitao@debian.org>
+Message-ID: <e9bae40c-9a2c-067b-d547-cd1f1a528e25@debian.org>
+Date:   Tue, 1 Oct 2019 09:10:23 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+ Gecko/20100101 Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190925152301.21645-2-bparrot@ti.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <ca1fd80c-02d1-f793-0906-239f020eac65@xs4all.nl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benoit,
+There are some weird monitors that returns invalid data, as zeroed
+Horizontal/Vertical Active/Blanking.
 
-On Wed, Sep 25, 2019 at 10:22:59AM -0500, Benoit Parrot wrote:
-> Add v4l2 controls to report the pixel rates of each mode. This is
-> needed by some CSI2 receiver in order to perform proper DPHY
-> configuration.
-> 
-> Signed-off-by: Benoit Parrot <bparrot@ti.com>
-> ---
->  drivers/media/i2c/ov5640.c | 25 +++++++++++++++++++++++++
->  1 file changed, 25 insertions(+)
-> 
-> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-> index 500d9bbff10b..c2a44f30d56e 100644
-> --- a/drivers/media/i2c/ov5640.c
-> +++ b/drivers/media/i2c/ov5640.c
-> @@ -193,6 +193,9 @@ struct ov5640_mode_info {
->  
->  struct ov5640_ctrls {
->  	struct v4l2_ctrl_handler handler;
-> +	struct {
-> +		struct v4l2_ctrl *pixel_rate;
-> +	};
->  	struct {
->  		struct v4l2_ctrl *auto_exp;
->  		struct v4l2_ctrl *exposure;
-> @@ -241,6 +244,7 @@ struct ov5640_dev {
->  	const struct ov5640_mode_info *last_mode;
->  	enum ov5640_frame_rate current_fr;
->  	struct v4l2_fract frame_interval;
-> +	u64 pixel_rate;
->  
->  	struct ov5640_ctrls ctrls;
->  
-> @@ -2202,6 +2206,7 @@ static int ov5640_set_fmt(struct v4l2_subdev *sd,
->  	const struct ov5640_mode_info *new_mode;
->  	struct v4l2_mbus_framefmt *mbus_fmt = &format->format;
->  	struct v4l2_mbus_framefmt *fmt;
-> +	u64 rate;
->  	int ret;
->  
->  	if (format->pad != 0)
-> @@ -2233,6 +2238,12 @@ static int ov5640_set_fmt(struct v4l2_subdev *sd,
->  	if (mbus_fmt->code != sensor->fmt.code)
->  		sensor->pending_fmt_change = true;
->  
-> +	rate = sensor->current_mode->vtot * sensor->current_mode->htot;
-> +	rate *= ov5640_framerates[sensor->current_fr];
-> +	sensor->pixel_rate = rate;
-> +
-> +	__v4l2_ctrl_s_ctrl_int64(sensor->ctrls.pixel_rate,
-> +				 sensor->pixel_rate);
->  out:
->  	mutex_unlock(&sensor->lock);
->  	return ret;
-> @@ -2657,6 +2668,13 @@ static int ov5640_init_controls(struct ov5640_dev *sensor)
->  	/* we can use our own mutex for the ctrl lock */
->  	hdl->lock = &sensor->lock;
->  
-> +	/* Clock related controls */
-> +	ctrls->pixel_rate =
-> +		v4l2_ctrl_new_std(hdl, ops,
-> +				  V4L2_CID_PIXEL_RATE, 0, INT_MAX, 1,
-> +				  55969920);
+This causes edid-decode to crash with a division by zero exception. This simple
+patch avoids so, checking for the divisor before proceeding.
 
-Could you calculate this value instead of using a seemingly random number?
+Signed-off-by: Breno Leitao <leitao@debian.org>
+---
+ edid-decode.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-> +	ctrls->pixel_rate->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> +
->  	/* Auto/manual white balance */
->  	ctrls->auto_wb = v4l2_ctrl_new_std(hdl, ops,
->  					   V4L2_CID_AUTO_WHITE_BALANCE,
-> @@ -2782,6 +2800,7 @@ static int ov5640_s_frame_interval(struct v4l2_subdev *sd,
->  	struct ov5640_dev *sensor = to_ov5640_dev(sd);
->  	const struct ov5640_mode_info *mode;
->  	int frame_rate, ret = 0;
-> +	u64 rate;
->  
->  	if (fi->pad != 0)
->  		return -EINVAL;
-> @@ -2816,6 +2835,12 @@ static int ov5640_s_frame_interval(struct v4l2_subdev *sd,
->  		sensor->frame_interval = fi->interval;
->  		sensor->current_mode = mode;
->  		sensor->pending_mode_change = true;
-> +
-> +		rate = sensor->current_mode->vtot * sensor->current_mode->htot;
-> +		rate *= ov5640_framerates[sensor->current_fr];
-> +		sensor->pixel_rate = rate;
-
-I think it'd be better to have a function to calculate the value instead of
-duplicating the code here.
-
-> +		__v4l2_ctrl_s_ctrl_int64(sensor->ctrls.pixel_rate,
-> +					 sensor->pixel_rate);
->  	}
->  out:
->  	mutex_unlock(&sensor->lock);
-
+diff --git a/edid-decode.c b/edid-decode.c
+index 7442f8a..b932179 100644
+--- a/edid-decode.c
++++ b/edid-decode.c
+@@ -1022,6 +1022,16 @@ static int detailed_block(const unsigned char *x, int in_extension)
+ 		break;
+ 	}
+ 
++	if (!ha || !hbl || !va || !vbl) {
++		printf("Invalid Detailing Timings:\n"
++		       "Horizontal Active %4d\n"
++		       "Horizontal Blanking %4d\n"
++		       "Vertical Active %4d\n"
++		       "Vertical Blanking %4d\n",
++		       ha, hbl, va, vbl);
++		return 0;
++	}
++
+ 	pixclk_khz = (x[0] + (x[1] << 8)) * 10;
+ 	refresh = (pixclk_khz * 1000) / ((ha + hbl) * (va + vbl));
+ 	printf("Detailed mode: Clock %.3f MHz, %d mm x %d mm\n"
 -- 
-Kind regards,
+2.17.1
 
-Sakari Ailus
-sakari.ailus@linux.intel.com
