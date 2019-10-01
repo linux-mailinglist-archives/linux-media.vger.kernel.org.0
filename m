@@ -2,26 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9850EC3E69
-	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2019 19:19:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D008FC3E7B
+	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2019 19:23:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727670AbfJARTP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Oct 2019 13:19:15 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:43742 "EHLO
+        id S1729172AbfJARXH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Oct 2019 13:23:07 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:43762 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727675AbfJARTP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Oct 2019 13:19:15 -0400
+        with ESMTP id S1727650AbfJARXH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Oct 2019 13:23:07 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: koike)
-        with ESMTPSA id 7E27A28AE05
-Subject: Re: [PATCH 1/3] media: vimc: initialize vim entity pointers to NULL
+        with ESMTPSA id BB66A28BA86
+Subject: Re: [PATCH 2/3] media: vimc: sensor: register subdevice only after
+ initialization
 To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
         linux-media@vger.kernel.org
 Cc:     ezequiel@collabora.com, andre.almeida@collabora.com,
         skhan@linuxfoundation.org, hverkuil@xs4all.nl,
         kernel@collabora.com, dafna3@gmail.com
 References: <20191001165022.16263-1-dafna.hirschfeld@collabora.com>
- <20191001165022.16263-2-dafna.hirschfeld@collabora.com>
+ <20191001165022.16263-3-dafna.hirschfeld@collabora.com>
 From:   Helen Koike <helen.koike@collabora.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=helen.koike@collabora.com; keydata=
@@ -98,78 +99,81 @@ Autocrypt: addr=helen.koike@collabora.com; keydata=
  iR1nXfMxENVYnM5ag7mBZyD/kru5W1Uj34L6AFaDMXFPwedSCpzzqUiHb0f+nYkfOodf5xy0
  46+3THy/NUS/ZZp/rI4F7Y77+MQPVg7vARfHHX1AxYUKfRVW5j88QUB70txn8Vgi1tDrOr4J
  eD+xr0CvIGa5lKqgQacQtGkpOpJ8zY4ObSvpNubey/qYUE3DCXD0n2Xxk4muTvqlkFpOYA==
-Message-ID: <d2d5bf0d-1a21-1363-9450-ff1783f1790e@collabora.com>
-Date:   Tue, 1 Oct 2019 14:19:06 -0300
+Message-ID: <e9adf093-7919-0b73-8864-ac11b48d390f@collabora.com>
+Date:   Tue, 1 Oct 2019 14:22:59 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <20191001165022.16263-2-dafna.hirschfeld@collabora.com>
+In-Reply-To: <20191001165022.16263-3-dafna.hirschfeld@collabora.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dafna,
+
 
 On 10/1/19 1:50 PM, Dafna Hirschfeld wrote:
-> since NULL value for vimc entity pointer indicates
-> that entity creation failed and this is tested, the
-> pointers should be initialized to NULL.
-
-Nice catch :)
-
+> vimc_sen_add function first registers the subdevice and then
+> calls tpg_alloc. If tpg_alloc fails it unregisters the subdevice
+> and then frees vsen, this cause double free since the release
+> callback that follows subdevice unregistration also frees vsen.
 > 
 > Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+
+Acked-by: Helen Koike <helen.koike@collabora.com>
+
 > ---
->  drivers/media/platform/vimc/vimc-core.c | 8 +++-----
->  1 file changed, 3 insertions(+), 5 deletions(-)
+>  drivers/media/platform/vimc/vimc-sensor.c | 20 ++++++++++----------
+>  1 file changed, 10 insertions(+), 10 deletions(-)
 > 
-> diff --git a/drivers/media/platform/vimc/vimc-core.c b/drivers/media/platform/vimc/vimc-core.c
-> index 6e3e5c91ae39..32a79e578b78 100644
-> --- a/drivers/media/platform/vimc/vimc-core.c
-> +++ b/drivers/media/platform/vimc/vimc-core.c
-> @@ -160,19 +160,17 @@ static int vimc_create_links(struct vimc_device *vimc)
->  static int vimc_add_subdevs(struct vimc_device *vimc)
->  {
->  	unsigned int i;
-> -	struct vimc_ent_device *ved;
->  
->  	for (i = 0; i < vimc->pipe_cfg->num_ents; i++) {
->  		dev_dbg(&vimc->pdev.dev, "new entity for %s\n",
->  			vimc->pipe_cfg->ents[i].name);
-> -		ved = vimc->pipe_cfg->ents[i].add(vimc,
-> +		vimc->ent_devs[i] = vimc->pipe_cfg->ents[i].add(vimc,
->  					vimc->pipe_cfg->ents[i].name);
-> -		if (!ved) {
-> +		if (!vimc->ent_devs[i]) {
->  			dev_err(&vimc->pdev.dev, "add new entity for %s\n",
->  				vimc->pipe_cfg->ents[i].name);
->  			return -EINVAL;
->  		}
-> -		vimc->ent_devs[i] = ved;
->  	}
->  	return 0;
->  }
-
-I believe just the kcalloc bellow should fix the issue.
-But if you want to do this cleanup anyway, I would suggest sending a separate patch for it.
-
-> @@ -199,7 +197,7 @@ static int vimc_register_devices(struct vimc_device *vimc)
+> diff --git a/drivers/media/platform/vimc/vimc-sensor.c b/drivers/media/platform/vimc/vimc-sensor.c
+> index 46dc6a535abe..ee2306c08569 100644
+> --- a/drivers/media/platform/vimc/vimc-sensor.c
+> +++ b/drivers/media/platform/vimc/vimc-sensor.c
+> @@ -358,6 +358,13 @@ struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
+>  		goto err_free_vsen;
 >  	}
 >  
->  	/* allocate ent_devs */
-> -	vimc->ent_devs = kmalloc_array(vimc->pipe_cfg->num_ents,
-> +	vimc->ent_devs = kcalloc(vimc->pipe_cfg->num_ents,
->  				       sizeof(*vimc->ent_devs),
->  				       GFP_KERNEL);
-
-Could you fix the alignment of the params here?
-
-Thanks
-Helen
-
->  	if (!vimc->ent_devs)
+> +	/* Initialize the test pattern generator */
+> +	tpg_init(&vsen->tpg, vsen->mbus_format.width,
+> +		 vsen->mbus_format.height);
+> +	ret = tpg_alloc(&vsen->tpg, VIMC_FRAME_MAX_WIDTH);
+> +	if (ret)
+> +		goto err_free_hdl;
+> +
+>  	/* Initialize ved and sd */
+>  	ret = vimc_ent_sd_register(&vsen->ved, &vsen->sd, v4l2_dev,
+>  				   vcfg_name,
+> @@ -365,7 +372,7 @@ struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
+>  				   (const unsigned long[1]) {MEDIA_PAD_FL_SOURCE},
+>  				   &vimc_sen_int_ops, &vimc_sen_ops);
+>  	if (ret)
+> -		goto err_free_hdl;
+> +		goto err_free_tpg;
+>  
+>  	vsen->ved.process_frame = vimc_sen_process_frame;
+>  	vsen->dev = &vimc->pdev.dev;
+> @@ -373,17 +380,10 @@ struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
+>  	/* Initialize the frame format */
+>  	vsen->mbus_format = fmt_default;
+>  
+> -	/* Initialize the test pattern generator */
+> -	tpg_init(&vsen->tpg, vsen->mbus_format.width,
+> -		 vsen->mbus_format.height);
+> -	ret = tpg_alloc(&vsen->tpg, VIMC_FRAME_MAX_WIDTH);
+> -	if (ret)
+> -		goto err_unregister_ent_sd;
+> -
+>  	return &vsen->ved;
+>  
+> -err_unregister_ent_sd:
+> -	vimc_ent_sd_unregister(&vsen->ved,  &vsen->sd);
+> +err_free_tpg:
+> +	tpg_free(&vsen->tpg);
+>  err_free_hdl:
+>  	v4l2_ctrl_handler_free(&vsen->hdl);
+>  err_free_vsen:
 > 
