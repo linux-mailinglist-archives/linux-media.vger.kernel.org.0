@@ -2,27 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F4FDC3EA6
-	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2019 19:33:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 953EBC3EAF
+	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2019 19:35:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727242AbfJARdp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Oct 2019 13:33:45 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:43848 "EHLO
+        id S1730839AbfJARfi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Oct 2019 13:35:38 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:43958 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725792AbfJARdp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Oct 2019 13:33:45 -0400
+        with ESMTP id S1725951AbfJARfh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Oct 2019 13:35:37 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: koike)
-        with ESMTPSA id 9B22F28A16B
-Subject: Re: [PATCH 3/3] media: vimc: move media_entity_cleanup to release
- callbacks
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        with ESMTPSA id A893128A820
+Subject: Re: [PATCH 1/3] media: vimc: initialize vim entity pointers to NULL
+To:     Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
         linux-media@vger.kernel.org
 Cc:     ezequiel@collabora.com, andre.almeida@collabora.com,
         skhan@linuxfoundation.org, hverkuil@xs4all.nl,
         kernel@collabora.com, dafna3@gmail.com
 References: <20191001165022.16263-1-dafna.hirschfeld@collabora.com>
- <20191001165022.16263-4-dafna.hirschfeld@collabora.com>
+ <20191001165022.16263-2-dafna.hirschfeld@collabora.com>
+ <d2d5bf0d-1a21-1363-9450-ff1783f1790e@collabora.com>
+ <f5120bc3-9fe8-e8ec-af2c-c24331031885@collabora.com>
 From:   Helen Koike <helen.koike@collabora.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=helen.koike@collabora.com; keydata=
@@ -99,115 +101,91 @@ Autocrypt: addr=helen.koike@collabora.com; keydata=
  iR1nXfMxENVYnM5ag7mBZyD/kru5W1Uj34L6AFaDMXFPwedSCpzzqUiHb0f+nYkfOodf5xy0
  46+3THy/NUS/ZZp/rI4F7Y77+MQPVg7vARfHHX1AxYUKfRVW5j88QUB70txn8Vgi1tDrOr4J
  eD+xr0CvIGa5lKqgQacQtGkpOpJ8zY4ObSvpNubey/qYUE3DCXD0n2Xxk4muTvqlkFpOYA==
-Message-ID: <07c9c0e7-2444-e59e-8825-bb03d3cb4302@collabora.com>
-Date:   Tue, 1 Oct 2019 14:33:37 -0300
+Message-ID: <34c85156-418c-cd00-78ad-b80cfc5832be@collabora.com>
+Date:   Tue, 1 Oct 2019 14:35:29 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <20191001165022.16263-4-dafna.hirschfeld@collabora.com>
+In-Reply-To: <f5120bc3-9fe8-e8ec-af2c-c24331031885@collabora.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dafna,
 
-Thanks for your patch
 
-On 10/1/19 1:50 PM, Dafna Hirschfeld wrote:
-> according to the docs, this function must be called during
-> the cleanup phase after unregistering the entity.
+On 10/1/19 2:25 PM, Andrzej Pietrasiewicz wrote:
+> Hi Dafna, hi Helen,
 > 
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-
-Acked-by: Helen Koike <helen.koike@collabora.com>
-
-I just have one note below.
-
-> ---
->  drivers/media/platform/vimc/vimc-capture.c | 2 +-
->  drivers/media/platform/vimc/vimc-common.c  | 1 -
->  drivers/media/platform/vimc/vimc-debayer.c | 1 +
->  drivers/media/platform/vimc/vimc-scaler.c  | 1 +
->  drivers/media/platform/vimc/vimc-sensor.c  | 1 +
->  5 files changed, 4 insertions(+), 2 deletions(-)
+> W dniu 01.10.2019 o 19:19, Helen Koike pisze:
+>> Hi Dafna,
+>>
+>> On 10/1/19 1:50 PM, Dafna Hirschfeld wrote:
+>>> since NULL value for vimc entity pointer indicates
+>>> that entity creation failed and this is tested, the
+>>> pointers should be initialized to NULL.
+>>
+>> Nice catch :)
+>>
+>>>
+>>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+>>> ---
+>>>   drivers/media/platform/vimc/vimc-core.c | 8 +++-----
+>>>   1 file changed, 3 insertions(+), 5 deletions(-)
+>>>
+>>> diff --git a/drivers/media/platform/vimc/vimc-core.c b/drivers/media/platform/vimc/vimc-core.c
+>>> index 6e3e5c91ae39..32a79e578b78 100644
+>>> --- a/drivers/media/platform/vimc/vimc-core.c
+>>> +++ b/drivers/media/platform/vimc/vimc-core.c
+>>> @@ -160,19 +160,17 @@ static int vimc_create_links(struct vimc_device *vimc)
+>>>   static int vimc_add_subdevs(struct vimc_device *vimc)
+>>>   {
+>>>       unsigned int i;
+>>> -    struct vimc_ent_device *ved;
+>>>         for (i = 0; i < vimc->pipe_cfg->num_ents; i++) {
+>>>           dev_dbg(&vimc->pdev.dev, "new entity for %s\n",
+>>>               vimc->pipe_cfg->ents[i].name);
+>>> -        ved = vimc->pipe_cfg->ents[i].add(vimc,
+>>> +        vimc->ent_devs[i] = vimc->pipe_cfg->ents[i].add(vimc,
+>>>                       vimc->pipe_cfg->ents[i].name);
+>>> -        if (!ved) {
+>>> +        if (!vimc->ent_devs[i]) {
+>>>               dev_err(&vimc->pdev.dev, "add new entity for %s\n",
+>>>                   vimc->pipe_cfg->ents[i].name);
+>>>               return -EINVAL;
+>>>           }
+>>> -        vimc->ent_devs[i] = ved;
+>>>       }
+>>>       return 0;
+>>>   }
+>>
+>> I believe just the kcalloc bellow should fix the issue.
+>> But if you want to do this cleanup anyway, I would suggest sending a separate patch for it.
+>>
+>>> @@ -199,7 +197,7 @@ static int vimc_register_devices(struct vimc_device *vimc)
+>>>       }
+>>>         /* allocate ent_devs */
+>>> -    vimc->ent_devs = kmalloc_array(vimc->pipe_cfg->num_ents,
+>>> +    vimc->ent_devs = kcalloc(vimc->pipe_cfg->num_ents,
+>>>                          sizeof(*vimc->ent_devs),
+>>>                          GFP_KERNEL);
+>>
+>> Could you fix the alignment of the params here?
 > 
-> diff --git a/drivers/media/platform/vimc/vimc-capture.c b/drivers/media/platform/vimc/vimc-capture.c
-> index 602f80323031..5f353c20e605 100644
-> --- a/drivers/media/platform/vimc/vimc-capture.c
-> +++ b/drivers/media/platform/vimc/vimc-capture.c
-> @@ -330,6 +330,7 @@ static void vimc_cap_release(struct video_device *vdev)
->  	struct vimc_cap_device *vcap =
->  		container_of(vdev, struct vimc_cap_device, vdev);
->  
-> +	media_entity_cleanup(vcap->ved.ent);
->  	vimc_pads_cleanup(vcap->ved.pads);
->  	kfree(vcap);
->  }
-> @@ -340,7 +341,6 @@ void vimc_cap_rm(struct vimc_device *vimc, struct vimc_ent_device *ved)
->  
->  	vcap = container_of(ved, struct vimc_cap_device, ved);
->  	vb2_queue_release(&vcap->queue);
-> -	media_entity_cleanup(ved->ent);
->  	video_unregister_device(&vcap->vdev);
->  }
->  
-> diff --git a/drivers/media/platform/vimc/vimc-common.c b/drivers/media/platform/vimc/vimc-common.c
-> index a3120f4f7a90..999bc353fb10 100644
-> --- a/drivers/media/platform/vimc/vimc-common.c
-> +++ b/drivers/media/platform/vimc/vimc-common.c
-> @@ -423,7 +423,6 @@ EXPORT_SYMBOL_GPL(vimc_ent_sd_register);
->  
->  void vimc_ent_sd_unregister(struct vimc_ent_device *ved, struct v4l2_subdev *sd)
+> Isn't the above change (kmalloc_array() to kcalloc()) alone enough
+> to ensure the promise from the patch title is fulfilled?
 
-Could you get rid of this function as well?
-There is no point in keeping it anymore, feel free to send in another patch.
+I fully agree. That is why I mentioned above in "I believe just the kcalloc bellow should fix the issue."
+Sorry if I wasn't clear.
 
 Thanks
 Helen
 
->  {
-> -	media_entity_cleanup(ved->ent);
->  	v4l2_device_unregister_subdev(sd);
->  }
->  EXPORT_SYMBOL_GPL(vimc_ent_sd_unregister);
-> diff --git a/drivers/media/platform/vimc/vimc-debayer.c b/drivers/media/platform/vimc/vimc-debayer.c
-> index feac47d79449..e1bad6713cde 100644
-> --- a/drivers/media/platform/vimc/vimc-debayer.c
-> +++ b/drivers/media/platform/vimc/vimc-debayer.c
-> @@ -477,6 +477,7 @@ static void vimc_deb_release(struct v4l2_subdev *sd)
->  	struct vimc_deb_device *vdeb =
->  				container_of(sd, struct vimc_deb_device, sd);
->  
-> +	media_entity_cleanup(vdeb->ved.ent);
->  	vimc_pads_cleanup(vdeb->ved.pads);
->  	kfree(vdeb);
->  }
-> diff --git a/drivers/media/platform/vimc/vimc-scaler.c b/drivers/media/platform/vimc/vimc-scaler.c
-> index a6a3cc5be872..1982bc089af5 100644
-> --- a/drivers/media/platform/vimc/vimc-scaler.c
-> +++ b/drivers/media/platform/vimc/vimc-scaler.c
-> @@ -336,6 +336,7 @@ static void vimc_sca_release(struct v4l2_subdev *sd)
->  	struct vimc_sca_device *vsca =
->  				container_of(sd, struct vimc_sca_device, sd);
->  
-> +	media_entity_cleanup(vsca->ved.ent);
->  	vimc_pads_cleanup(vsca->ved.pads);
->  	kfree(vsca);
->  }
-> diff --git a/drivers/media/platform/vimc/vimc-sensor.c b/drivers/media/platform/vimc/vimc-sensor.c
-> index ee2306c08569..63fe024ccea5 100644
-> --- a/drivers/media/platform/vimc/vimc-sensor.c
-> +++ b/drivers/media/platform/vimc/vimc-sensor.c
-> @@ -291,6 +291,7 @@ static void vimc_sen_release(struct v4l2_subdev *sd)
->  
->  	v4l2_ctrl_handler_free(&vsen->hdl);
->  	tpg_free(&vsen->tpg);
-> +	media_entity_cleanup(vsen->ved.ent);
->  	vimc_pads_cleanup(vsen->ved.pads);
->  	kfree(vsen);
->  }
+
 > 
+> In other words, why remove the "ved" local variable in vimc_add_subdevs()?
+> 
+> Andrzej
