@@ -2,144 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B66CC2C5E
-	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2019 05:47:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A39ADC2CEE
+	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2019 07:33:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727645AbfJADro (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Sep 2019 23:47:44 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:50045 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726590AbfJADrn (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Sep 2019 23:47:43 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:ece7:a680:ba1b:aa21])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id F98WipMjTz6EAF98XiPSBo; Tue, 01 Oct 2019 05:47:41 +0200
-Message-ID: <b19034627b927e2e4fe5abe771076018@smtp-cloud9.xs4all.net>
-Date:   Tue, 01 Oct 2019 05:47:40 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfAp0a3olQ891QTbRTu5oacOc1k81VwtlmPOcmNgIGrA3kG4yNIoYQhn25rLGDQaBlFKMVH3Ot/rYbLaZEw5Smwo1Jf7tG62YCNX1ma1le7g6kmuuM4RD
- zkFhXgpGWPgqjFzeVxCiE6lm5bdslFZ459JL1a+C0GWk+gGbV6QSjp7yTTXQf7nNy3yyf+1vkifSQgePq8Ip4SsG+KOvG/1qjBGspEut48CcqbSLxC3jo/Is
+        id S1729929AbfJAFdZ convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Tue, 1 Oct 2019 01:33:25 -0400
+Received: from mailoutvs48.siol.net ([185.57.226.239]:46752 "EHLO
+        mail.siol.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725817AbfJAFdY (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Oct 2019 01:33:24 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.siol.net (Postfix) with ESMTP id 01FBE5214A7;
+        Tue,  1 Oct 2019 07:33:19 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at psrvmta10.zcs-production.pri
+Received: from mail.siol.net ([127.0.0.1])
+        by localhost (psrvmta10.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id C3Ar8QFXxW9r; Tue,  1 Oct 2019 07:33:19 +0200 (CEST)
+Received: from mail.siol.net (localhost [127.0.0.1])
+        by mail.siol.net (Postfix) with ESMTPS id 4E5C25214C3;
+        Tue,  1 Oct 2019 07:33:19 +0200 (CEST)
+Received: from jernej-laptop.localnet (cpe-86-58-59-25.static.triera.net [86.58.59.25])
+        (Authenticated sender: jernej.skrabec@siol.net)
+        by mail.siol.net (Postfix) with ESMTPA id E624C5214A7;
+        Tue,  1 Oct 2019 07:33:17 +0200 (CEST)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     mchehab@kernel.org, paul.kocialkowski@bootlin.com,
+        mripard@kernel.org, pawel@osciak.com, m.szyprowski@samsung.com,
+        kyungmin.park@samsung.com, tfiga@chromium.org, wens@csie.org,
+        gregkh@linuxfoundation.org, boris.brezillon@collabora.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org,
+        ezequiel@collabora.com, jonas@kwiboo.se
+Subject: Re: [PATCH v2 0/6] media: cedrus: h264: Support multi-slice frames
+Date:   Tue, 01 Oct 2019 07:33:17 +0200
+Message-ID: <1947541.RCUY4WSgCv@jernej-laptop>
+In-Reply-To: <eb127b9a-e226-d230-67b5-069795bd76fb@xs4all.nl>
+References: <20190929200023.215831-1-jernej.skrabec@siol.net> <4342181.Ehiz7mZe5m@jernej-laptop> <eb127b9a-e226-d230-67b5-069795bd76fb@xs4all.nl>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Dne torek, 01. oktober 2019 ob 00:43:34 CEST je Hans Verkuil napisal(a):
+> On 10/1/19 12:27 AM, Jernej Škrabec wrote:
+> > Dne ponedeljek, 30. september 2019 ob 10:10:48 CEST je Hans Verkuil
+> > 
+> > napisal(a):
+> >> On 9/29/19 10:00 PM, Jernej Skrabec wrote:
+> >>> This series adds support for decoding multi-slice H264 frames along with
+> >>> support for V4L2_DEC_CMD_FLUSH and V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF.
+> >>> 
+> >>> Code was tested by modified ffmpeg, which can be found here:
+> >>> https://github.com/jernejsk/FFmpeg, branch mainline-test
+> >>> It has to be configured with at least following options:
+> >>> --enable-v4l2-request --enable-libudev --enable-libdrm
+> >>> 
+> >>> Samples used for testing:
+> >>> http://jernej.libreelec.tv/videos/h264/BA1_FT_C.mp4
+> >>> http://jernej.libreelec.tv/videos/h264/h264.mp4
+> >>> 
+> >>> Command line used for testing:
+> >>> ffmpeg -hwaccel drm -hwaccel_device /dev/dri/card0 -i h264.mp4 -pix_fmt
+> >>> bgra -f fbdev /dev/fb0
+> >>> 
+> >>> Please note that V4L2_DEC_CMD_FLUSH was not tested because I'm
+> >>> not sure how. ffmpeg follows exactly which slice is last in frame
+> >>> and sets hold flag accordingly. Improper usage of hold flag would
+> >>> corrupt ffmpeg assumptions and it would probably crash. Any ideas
+> >>> how to test this are welcome!
+> >> 
+> >> It can be tested partially at least: if ffmpeg tells you it is the last
+> >> slice, then queue the slice with the HOLD flag set, then call FLUSH
+> >> afterwards. This should clear the HOLD flag again. In this case the
+> >> queued
+> >> buffer is probably not yet processed, so the flag is cleared before the
+> >> decode job starts.
+> >> 
+> >> You can also try to add a sleep before calling FLUSH to see what happens
+> >> if the last queued buffer is already decoded.
+> > 
+> > Ok, I tried following code:
+> > https://github.com/jernejsk/FFmpeg/blob/flush_test/libavcodec/
+> > v4l2_request.c#L220-L233
+> > 
+> > But results are not good. It seems that out_vb in flush command is always
+> > NULL and so it always marks capture buffer as done, which leads to kernel
+> > warnings.
+> > 
+> > dmesg output with debugging messages is here: http://ix.io/1Ks8
+> > 
+> > Currently I'm not sure what is going on. Shouldn't be output buffer queued
+> > and waiting to MEDIA_REQUEST_IOC_QUEUE which is executed after flush
+> > command as it can be seen from ffmpeg code linked above?
+> 
+> Argh, I forgot about the fact that this uses requests.
+> 
+> The FLUSH should happen *after* the MEDIA_REQUEST_IOC_QUEUE ioctl. Otherwise
+> it has no effect. As long as the request hasn't been queued, the buffer is
+> also not queued to the driver, so out_vb will indeed be NULL.
 
-Results of the daily build of media_tree:
+It's better, but still not working. Currently ffmpeg sometimes reports such 
+messages: https://pastebin.com/raw/9tVVtc20 This is dmesg output: http://
+ix.io/1L1L
 
-date:			Tue Oct  1 05:00:11 CEST 2019
-media-tree git hash:	54ecb8f7028c5eb3d740bb82b0f1d90f2df63c5c
-media_build git hash:	d75b29db1297d2475227cc8bada843542271e40d
-v4l-utils git hash:	6c9c63d98d60a4478d0e2a2f45fe0e54793f5582
-edid-decode git hash:	7696439db703eeca7248af6c3a17d2e19a9292ea
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 300d85fb65a4cba461ce002ac40bb9fad4152087
-host hardware:		x86_64
-host os:		5.2.0-2-amd64
+It seems to me like a race condition. Sometimes flush works as indendent and 
+sometimes it influences next frame.
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: ERRORS
-linux-3.10.108-x86_64: ERRORS
-linux-3.11.10-i686: ERRORS
-linux-3.11.10-x86_64: ERRORS
-linux-3.12.74-i686: ERRORS
-linux-3.12.74-x86_64: ERRORS
-linux-3.13.11-i686: ERRORS
-linux-3.13.11-x86_64: ERRORS
-linux-3.14.79-i686: ERRORS
-linux-3.14.79-x86_64: ERRORS
-linux-3.15.10-i686: ERRORS
-linux-3.15.10-x86_64: ERRORS
-linux-3.16.63-i686: ERRORS
-linux-3.16.63-x86_64: ERRORS
-linux-3.17.8-i686: ERRORS
-linux-3.17.8-x86_64: ERRORS
-linux-3.18.136-i686: ERRORS
-linux-3.18.136-x86_64: ERRORS
-linux-3.19.8-i686: ERRORS
-linux-3.19.8-x86_64: ERRORS
-linux-4.0.9-i686: ERRORS
-linux-4.0.9-x86_64: ERRORS
-linux-4.1.52-i686: ERRORS
-linux-4.1.52-x86_64: ERRORS
-linux-4.2.8-i686: ERRORS
-linux-4.2.8-x86_64: ERRORS
-linux-4.3.6-i686: ERRORS
-linux-4.3.6-x86_64: ERRORS
-linux-4.4.167-i686: ERRORS
-linux-4.4.167-x86_64: ERRORS
-linux-4.5.7-i686: ERRORS
-linux-4.5.7-x86_64: ERRORS
-linux-4.6.7-i686: ERRORS
-linux-4.6.7-x86_64: ERRORS
-linux-4.7.10-i686: ERRORS
-linux-4.7.10-x86_64: ERRORS
-linux-4.8.17-i686: ERRORS
-linux-4.8.17-x86_64: ERRORS
-linux-4.9.162-i686: ERRORS
-linux-4.9.162-x86_64: ERRORS
-linux-4.10.17-i686: ERRORS
-linux-4.10.17-x86_64: ERRORS
-linux-4.11.12-i686: ERRORS
-linux-4.11.12-x86_64: ERRORS
-linux-4.12.14-i686: ERRORS
-linux-4.12.14-x86_64: ERRORS
-linux-4.13.16-i686: ERRORS
-linux-4.13.16-x86_64: ERRORS
-linux-4.14.105-i686: ERRORS
-linux-4.14.105-x86_64: ERRORS
-linux-4.15.18-i686: ERRORS
-linux-4.15.18-x86_64: ERRORS
-linux-4.16.18-i686: ERRORS
-linux-4.16.18-x86_64: ERRORS
-linux-4.17.19-i686: ERRORS
-linux-4.17.19-x86_64: ERRORS
-linux-4.18.20-i686: ERRORS
-linux-4.18.20-x86_64: ERRORS
-linux-4.19.28-i686: ERRORS
-linux-4.19.28-x86_64: ERRORS
-linux-4.20.15-i686: ERRORS
-linux-4.20.15-x86_64: ERRORS
-linux-5.0.15-i686: ERRORS
-linux-5.0.15-x86_64: ERRORS
-linux-5.1.1-i686: ERRORS
-linux-5.1.1-x86_64: ERRORS
-linux-5.2.1-i686: ERRORS
-linux-5.2.1-x86_64: ERRORS
-linux-5.3.1-i686: ERRORS
-linux-5.3.1-x86_64: ERRORS
-linux-5.4-rc1-i686: OK
-linux-5.4-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2329, Succeeded: 2329, Failed: 0, Warnings: 1
-sparse: OK
-smatch: ERRORS
+Best regards,
+Jernje
 
-Logs weren't copied as they are too large (12900 kB)
+> 
+> Sorry for the confusion.
+> 
+> Regards,
+> 
+> 	Hans
+> 
+> > Best regards,
+> > Jernej
+> > 
+> >> Regards,
+> >> 
+> >> 	Hans
+> >> 	
+> >>> Thanks to Jonas for adjusting ffmpeg.
+> >>> 
+> >>> Please let me know what you think.
+> >>> 
+> >>> Best regards,
+> >>> Jernej
+> >>> 
+> >>> Changes from v1:
+> >>> - added Rb tags
+> >>> - updated V4L2_DEC_CMD_FLUSH documentation
+> >>> - updated first slice detection in Cedrus
+> >>> - hold capture buffer flag is set according to source format
+> >>> - added v4l m2m stateless_(try_)decoder_cmd ioctl helpers
+> >>> 
+> >>> Hans Verkuil (2):
+> >>>   vb2: add V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF
+> >>>   videodev2.h: add V4L2_DEC_CMD_FLUSH
+> >>> 
+> >>> Jernej Skrabec (4):
+> >>>   media: v4l2-mem2mem: add stateless_(try_)decoder_cmd ioctl helpers
+> >>>   media: cedrus: Detect first slice of a frame
+> >>>   media: cedrus: h264: Support multiple slices per frame
+> >>>   media: cedrus: Add support for holding capture buffer
+> >>>  
+> >>>  Documentation/media/uapi/v4l/buffer.rst       | 13 ++++++
+> >>>  .../media/uapi/v4l/vidioc-decoder-cmd.rst     | 10 +++-
+> >>>  .../media/uapi/v4l/vidioc-reqbufs.rst         |  6 +++
+> >>>  .../media/videodev2.h.rst.exceptions          |  1 +
+> >>>  .../media/common/videobuf2/videobuf2-v4l2.c   |  8 +++-
+> >>>  drivers/media/v4l2-core/v4l2-mem2mem.c        | 35 ++++++++++++++
+> >>>  drivers/staging/media/sunxi/cedrus/cedrus.h   |  1 +
+> >>>  .../staging/media/sunxi/cedrus/cedrus_dec.c   | 11 +++++
+> >>>  .../staging/media/sunxi/cedrus/cedrus_h264.c  | 11 ++++-
+> >>>  .../staging/media/sunxi/cedrus/cedrus_hw.c    |  8 ++--
+> >>>  .../staging/media/sunxi/cedrus/cedrus_video.c | 14 ++++++
+> >>>  include/media/v4l2-mem2mem.h                  | 46 +++++++++++++++++++
+> >>>  include/media/videobuf2-core.h                |  3 ++
+> >>>  include/media/videobuf2-v4l2.h                |  5 ++
+> >>>  include/uapi/linux/videodev2.h                | 14 ++++--
+> >>>  15 files changed, 175 insertions(+), 11 deletions(-)
 
-The Media Infrastructure API from this daily build is here:
 
-http://www.xs4all.nl/~hverkuil/spec/index.html
+
+
