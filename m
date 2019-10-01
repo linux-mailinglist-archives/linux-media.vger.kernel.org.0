@@ -2,95 +2,188 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B2EAC2F36
-	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2019 10:49:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B119C2F4C
+	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2019 10:52:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733195AbfJAItX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Oct 2019 04:49:23 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:44381 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733162AbfJAItW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Oct 2019 04:49:22 -0400
-Received: by mail-lj1-f196.google.com with SMTP id m13so12409800ljj.11;
-        Tue, 01 Oct 2019 01:49:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Ca/INmDFVsC6VnPl4lbuo+UeGmswEkRdIM5NeHHd3ug=;
-        b=Ww2Ryi3ltsDgPMrNrUxlUd1YCrtKo4JXAq66jwhEe5NhT3hH6bvP3PCNYNTXWWH/km
-         rnASuR5wZ/e7lFdrzlwDbZwYGPdCB1pLom4PU5IGqCn0HUOzyhRoNuFZ3zS1Qv1Q0BlI
-         OubmPXEvOAjpE2tmNxkggcT8p1DJPrSJ1bMKcXjdACiBJJFLIThbGNKqPbrIOjgdiSS8
-         LLDdlphbJv0NC6KwYkn9T4+FhtqkWLBm8pMy78ACj4K7jpypqmXY02NCz7ip5kgwuByZ
-         5odw/nPiZojdsFm7CCzljDuNapnvdx7u9/whkX0NFc8gNnqDp5VBYs2YZfzyCKKpQvKR
-         /Wlw==
-X-Gm-Message-State: APjAAAVQRnLGLiV7f6pH4I/zY1gt915BUquHgIQDjPfyMusTTv2k0uYo
-        aUCRfvfq32JcZqMNBFnp6Jk=
-X-Google-Smtp-Source: APXvYqx6zk0AODtqV62ey8fF5pZauaelQT9dehzN+xR3TYKKj5ckKfHYTVe4n8+ixmC52JRbSN1mxQ==
-X-Received: by 2002:a2e:4296:: with SMTP id h22mr15418860ljf.208.1569919760229;
-        Tue, 01 Oct 2019 01:49:20 -0700 (PDT)
-Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
-        by smtp.gmail.com with ESMTPSA id h12sm3880087ljg.24.2019.10.01.01.49.16
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 01 Oct 2019 01:49:18 -0700 (PDT)
-Received: from johan by xi.terra with local (Exim 4.92.2)
-        (envelope-from <johan@xi.terra>)
-        id 1iFDqX-0000XP-BP; Tue, 01 Oct 2019 10:49:25 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Pete Zaitcev <zaitcev@redhat.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
-        stable <stable@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Subject: [PATCH v2 4/4] media: stkwebcam: fix runtime PM after driver unbind
-Date:   Tue,  1 Oct 2019 10:49:08 +0200
-Message-Id: <20191001084908.2003-5-johan@kernel.org>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191001084908.2003-1-johan@kernel.org>
-References: <20191001084908.2003-1-johan@kernel.org>
+        id S1729802AbfJAIwv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Oct 2019 04:52:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35036 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726672AbfJAIwv (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 1 Oct 2019 04:52:51 -0400
+Received: from localhost (lfbn-1-10718-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 872D82133F;
+        Tue,  1 Oct 2019 08:52:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1569919970;
+        bh=TYXtlG+fiA+pF3jSsz1tPLK5DQwytXD+ciUdbJAWuhk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Pcq6+VW4s9nKnunOdT0D2PQSwt06qFkxoutKMOh6lfzCjv0B+CUXME6uoPjRpjMRG
+         1KExkyTabs+UJgSqaLRPYZyj4KicHav4PbAdLBmqDsnfYA2BQWDSdDQP66AhfCHpH9
+         fl8DS+0XLZDHcBytry97Ks7aXl8rbOpD6/Wa2SQM=
+Date:   Tue, 1 Oct 2019 10:52:46 +0200
+From:   Maxime Ripard <mripard@kernel.org>
+To:     Chen-Yu Tsai <wens@csie.org>
+Cc:     Hans Verkuil <hans.verkuil@cisco.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH v6 1/5] dt-bindings: media: Add Allwinner A10 CSI binding
+Message-ID: <20191001085246.55srb62bpfc6jhtu@gilmour>
+References: <cover.34bcd988943a26671681eaf849aacab51fab1cfe.1562847292.git-series.maxime.ripard@bootlin.com>
+ <110dd9ff1784c29fa16304825a41d1603a33f166.1562847292.git-series.maxime.ripard@bootlin.com>
+ <CAGb2v64nx2AuWZN+RxCneE0pqvXr_d7u6mQ+=nCHv2VJ1MNtrQ@mail.gmail.com>
+ <CAGb2v66Sin9HZ+QENegLQ3d7iiy278niwdr9rEZ0HwUfeQNFRQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="xnpqoekd4qgpls3t"
+Content-Disposition: inline
+In-Reply-To: <CAGb2v66Sin9HZ+QENegLQ3d7iiy278niwdr9rEZ0HwUfeQNFRQ@mail.gmail.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Since commit c2b71462d294 ("USB: core: Fix bug caused by duplicate
-interface PM usage counter") USB drivers must always balance their
-runtime PM gets and puts, including when the driver has already been
-unbound from the interface.
 
-Leaving the interface with a positive PM usage counter would prevent a
-later bound driver from suspending the device.
+--xnpqoekd4qgpls3t
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Note that runtime PM has never actually been enabled for this driver
-since the support_autosuspend flag in its usb_driver struct is not set.
+Hi,
 
-Fixes: c2b71462d294 ("USB: core: Fix bug caused by duplicate interface PM usage counter")
-Cc: stable <stable@vger.kernel.org>
-Acked-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
- drivers/media/usb/stkwebcam/stk-webcam.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Thanks for looking into this.
 
-diff --git a/drivers/media/usb/stkwebcam/stk-webcam.c b/drivers/media/usb/stkwebcam/stk-webcam.c
-index be8041e3e6b8..b0cfa4c1f8cc 100644
---- a/drivers/media/usb/stkwebcam/stk-webcam.c
-+++ b/drivers/media/usb/stkwebcam/stk-webcam.c
-@@ -643,8 +643,7 @@ static int v4l_stk_release(struct file *fp)
- 		dev->owner = NULL;
- 	}
- 
--	if (is_present(dev))
--		usb_autopm_put_interface(dev->interface);
-+	usb_autopm_put_interface(dev->interface);
- 	mutex_unlock(&dev->lock);
- 	return v4l2_fh_release(fp);
- }
--- 
-2.23.0
+On Sun, Sep 15, 2019 at 04:54:16PM +0800, Chen-Yu Tsai wrote:
+> On Thu, Aug 15, 2019 at 4:34 PM Chen-Yu Tsai <wens@csie.org> wrote:
+> >
+> > Hi,
+> >
+> > Sorry for chiming in so late.
+> >
+> > On Thu, Jul 11, 2019 at 8:15 PM Maxime Ripard <maxime.ripard@bootlin.com> wrote:
+> > >
+> > > The Allwinner A10 CMOS Sensor Interface is a camera capture interface also
+> > > used in later (A10s, A13, A20, R8 and GR8) SoCs.
+> > >
+> > > On some SoCs, like the A10, there's multiple instances of that controller,
+> > > with one instance supporting more channels and having an ISP.
+> > >
+> > > Reviewed-by: Rob Herring <robh@kernel.org>
+> > > Signed-off-by: Maxime Ripard <maxime.ripard@bootlin.com>
+> > > ---
+> > >  Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml | 94 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+> > >  1 file changed, 94 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml
+> > > new file mode 100644
+> > > index 000000000000..97c9fc3b5050
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml
+> > > @@ -0,0 +1,94 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/arm/allwinner,sun4i-a10-csi.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Allwinner A10 CMOS Sensor Interface (CSI) Device Tree Bindings
+> > > +
+> > > +maintainers:
+> > > +  - Chen-Yu Tsai <wens@csie.org>
+> > > +  - Maxime Ripard <maxime.ripard@bootlin.com>
+> > > +
+> > > +description: |-
+> > > +  The Allwinner A10 and later has a CMOS Sensor Interface to retrieve
+> > > +  frames from a parallel or BT656 sensor.
+> > > +
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    oneOf:
+> > > +      - items:
+> > > +          - enum:
+> > > +              - allwinner,sun7i-a20-csi0
+> > > +          - const: allwinner,sun4i-a10-csi0
+> >
+> > CSI0 on the A10 has an ISP. Do we know if the one in the A20 does
+> > as well? It certainly doesn't say so in the user manual. If not,
+> > then we can't claim that A20 CSI0 is compatible with A10 CSI0.
+> >
+> > > +
+> > > +      - items:
+> > > +          - const: allwinner,sun4i-a10-csi0
+> > > +
+> > > +  reg:
+> > > +    maxItems: 1
+> > > +
+> > > +  interrupts:
+> > > +    maxItems: 1
+> > > +
+> > > +  clocks:
+> > > +    items:
+> > > +      - description: The CSI interface clock
+> > > +      - description: The CSI module clock
+> > > +      - description: The CSI ISP clock
+> > > +      - description: The CSI DRAM clock
+> > > +
+> > > +  clock-names:
+> > > +    items:
+> > > +      - const: bus
+> > > +      - const: mod
+> >
+> > I doubt this actually is a module clock. Based on the usage in your
+> > device tree patch, and the csi driver in the old linux-sunxi kernel,
+> > the clock rate is set to 24 MHz, or whatever the sensor requires for
+> > MCLK.
+>
+> I'm working on adding support for this on the R40, and it seems with
+> this SoC the picture is much clearer. It has the same CSI interface
+> block, but the CCU has the clocks correctly named. We have:
+>
+>   - CSI_MCLK0
+>   - CSI_MCLK1
+>   - CSI_SCLK
+>
+> in addition to the bus clocks.
+>
+> The CSI section also explains the clock signals:
+>
+>     6.1.3.2. Clock Sources
+>     Two Clocks need to be configured for CSI controller. CSI0/1_MCLK
+>     provides the master clock for sensor and other devices. CSI_SCLK
+>     is the top clock for the whole CSI module.
+>
+> So it would seem the ISP clock we currently have in the DT is simply
+> the module clock shared by all CSI-related hardware blocks, and the
+> module clock is bogus.
 
+I don't think it is. It looks like there's no ISP in the R40 CSI
+controllers, so that would mean that we don't have an ISP clock, and
+the SCLK is the module clock.
+
+Does that make sense?
+
+Maxime
+
+--xnpqoekd4qgpls3t
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXZMT3gAKCRDj7w1vZxhR
+xS3GAQChjJb/Uh7KohG6iZVuImDjv2jvfjSVwaddzLEzegEoVwD/RqeeW3t/PRw3
+H9mwot1F7alalXIAAbHRVcaRaKwlXQE=
+=vdGi
+-----END PGP SIGNATURE-----
+
+--xnpqoekd4qgpls3t--
