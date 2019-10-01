@@ -2,192 +2,293 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DA51C43AF
-	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 00:19:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A28AC44A3
+	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 01:52:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728781AbfJAWTU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Oct 2019 18:19:20 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:41139 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725988AbfJAWTU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Oct 2019 18:19:20 -0400
-Received: by mail-lj1-f194.google.com with SMTP id f5so15054136ljg.8;
-        Tue, 01 Oct 2019 15:19:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=oMnTWIkEFx7hV55d8HRQu4uB51SHbkOs+8qRO4hsJAg=;
-        b=lXMslVfz7D8gI9mo1A6A7CFLlOvvNOzKTULQyZx+3MprJpFQSceMODLbDPEWFctAPt
-         jdav5cHZwKLJ0zq03R9SPpX4DlK3b0AboPx7ScTZ6GQXs1w1gOrzCYpfLIQdJi/POq5e
-         RPpJf0hJGI6Teq8zpjwpLdsgH2Cvw92RksrnhhZl8dF98s29ee0gDiAxdgU6v0kEKgmn
-         E797CFH0clXE/pantveJ8+GX9vEvNdIjgfeDuSGv4H6Y825dnFZN2diZDQw12CnslPWB
-         xRdB8ya9rZ9YIjVvIbPUezcXiUA3JKxm+uguAJvArtPXxqFXyDy20o7YTgZREjAucMVv
-         HRbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=oMnTWIkEFx7hV55d8HRQu4uB51SHbkOs+8qRO4hsJAg=;
-        b=c596HXm44236KyNs5GZE4CpOUJDhUW58z7GrqNowRNgjY8/c0tCyPwkg/1PkX08GWE
-         JRYx4fdzp+YEpd3xHdm0spgRxZ0d5OXqSFBlMT9AntoXaoqxoOxMEg2O4ns6k/bc7D7B
-         UsII77PguvodJPmMvnULxo/z4gADOP7SmCpkWUFgQsbclBk55HbGMExwHEYYf5AfthE9
-         RyYsuX+XA2i0NZ69vxT00Ytl8E5LX1PreCKPnWjoum8WgR7Qcyjix59b5Oxe8HmObVnL
-         rM6bMOm2aEFAhX+OlNg4KloDkMsi+4pRLULTpU5kxCnmO2SYPCeRPic2gf5pGesVZuQe
-         MriQ==
-X-Gm-Message-State: APjAAAVPqkhPo4LBKJq55DB6tpaex+AVxQH2NdH2HO9zo/P5jY6sVxbp
-        IqxvXx7/N1oMpL5clH9+xrdSawIy/ZFKdWL6vik=
-X-Google-Smtp-Source: APXvYqweBJ5toKrdcq0StVEbNJ9J/cYfYJDUQ8PAkdbREU0S7AVdKsQxGACvp49bFkNQF6eUP3KyjngCeUD0nmidRkw=
-X-Received: by 2002:a2e:b0d1:: with SMTP id g17mr108184ljl.238.1569968357000;
- Tue, 01 Oct 2019 15:19:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <CANL0fFSGG_+R2zbf-9MxVLJMTMgc+-fwSoLCqS1qc+jWo-zNLA@mail.gmail.com>
- <20190219213003.l7hzy2emdsxe4izy@gofer.mess.org>
-In-Reply-To: <20190219213003.l7hzy2emdsxe4izy@gofer.mess.org>
-From:   Gonsolo <gonsolo@gmail.com>
-Date:   Wed, 2 Oct 2019 00:19:05 +0200
-Message-ID: <CANL0fFRnEaapgm3oiDQmZb6qeAr4pwyhofZXA0mbmq=o4PPUDg@mail.gmail.com>
-Subject: Re: DVB-T2 Stick
-To:     Sean Young <sean@mess.org>
-Cc:     crope@iki.fi, linux-media@vger.kernel.org,
+        id S1727772AbfJAXwL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Oct 2019 19:52:11 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:36468 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726137AbfJAXwL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Oct 2019 19:52:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=a74goTc45cdDIZjS1+lDcy3LFWmOrq6bWCL1X6Vr13k=; b=jlqfjqEkYvJQ5ZEtZwZZDXha5
+        jrV7dfMCU1l6q8WMz0yH3w3qtJ/3VvN/j/x8tW3C9eYeBgYvb28CkOAY34/m52n3kCqONkzUvMoIV
+        B78Q6HCg0RmQggpW7o6hrg9vHAOTW7FYHxM+49UIyUVp51civiUMjKPOcHQFkk25X5Mh4h3Bjkj35
+        wqsPu/JMk6KTb4qe2cYjLUnCfBhlh1coql32yWxI4c4uKwyux+rcMFf0+4qfpK6YLy7irPvPdo8Qk
+        sYSQ9sSx7X19RzzmWV09YZHl6Cy5wBBW7Hs4xfYMht044liRrzwRqLCMXouIiE3KIVX5HcWbRE0pT
+        jp4nBmz8Q==;
+Received: from 177.157.127.95.dynamic.adsl.gvt.net.br ([177.157.127.95] helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
+        id 1iFRw6-0002VD-Ub; Tue, 01 Oct 2019 23:52:07 +0000
+Date:   Tue, 1 Oct 2019 20:52:03 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Gonsolo <gonsolo@gmail.com>
+Cc:     Sean Young <sean@mess.org>, crope@iki.fi,
+        linux-media@vger.kernel.org,
         Linux Kernel <linux-kernel@vger.kernel.org>
-Content-Type: multipart/mixed; boundary="0000000000003ac0f70593e0be20"
+Subject: Re: DVB-T2 Stick
+Message-ID: <20191001205203.4b1a5fb6@coco.lan>
+In-Reply-To: <CANL0fFRnEaapgm3oiDQmZb6qeAr4pwyhofZXA0mbmq=o4PPUDg@mail.gmail.com>
+References: <CANL0fFSGG_+R2zbf-9MxVLJMTMgc+-fwSoLCqS1qc+jWo-zNLA@mail.gmail.com>
+        <20190219213003.l7hzy2emdsxe4izy@gofer.mess.org>
+        <CANL0fFRnEaapgm3oiDQmZb6qeAr4pwyhofZXA0mbmq=o4PPUDg@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---0000000000003ac0f70593e0be20
-Content-Type: text/plain; charset="UTF-8"
+Em Wed, 2 Oct 2019 00:19:05 +0200
+Gonsolo <gonsolo@gmail.com> escreveu:
 
-Hi!
+> Hi!
+> 
+> > Secondly there are lots of coding style issues, see:
+> > https://www.kernel.org/doc/html/v4.10/process/coding-style.html
+> 
+> I addressed most of these except one "#if 0" warning from checkpatch.
+> 
+> > I'm afraid there are many problems with this patch. First of all it looks
+> > like support was added for a si2168 tuner but it looks like it will break
+> > for any other si2157-type device.
+> 
+> 
+> Can you give me a hint how to proceed here? I don't know much about
+> DVB tuners or kernel development.
+> 
+> I attached the cleaned-up patch for 5.4.0-rc1
 
-> Secondly there are lots of coding style issues, see:
-> https://www.kernel.org/doc/html/v4.10/process/coding-style.html
+First of all, don't attach a patch. Instead, just send it with a decent
+emailer (with won't mangle whitespaces) or use git send-email...
 
-I addressed most of these except one "#if 0" warning from checkpatch.
+Also, please read the Developer's section of our wiki page:
 
-> I'm afraid there are many problems with this patch. First of all it looks
-> like support was added for a si2168 tuner but it looks like it will break
-> for any other si2157-type device.
+	https://linuxtv.org/wiki/index.php/Developer_section
 
+In special, the "Submitting your work" part of it.
 
-Can you give me a hint how to proceed here? I don't know much about
-DVB tuners or kernel development.
+> 
+> Thanks,
+> g
+> From 6cada6442207a67202e73721692aced665b8fdf0 Mon Sep 17 00:00:00 2001
+> From: Gon Solo <gonsolo@gmail.com>
+> Date: Tue, 1 Oct 2019 21:59:44 +0200
+> Subject: [PATCH] DVB-T2 with coding style updates.
+> 
+> ---
+>  drivers/media/tuners/si2157.c         | 44 ++++++++++++++++++++++---
+>  drivers/media/tuners/si2157_priv.h    |  8 +++++
+>  drivers/media/usb/dvb-usb-v2/af9035.c | 47 ++++++++++++++++++++++++++-
+>  3 files changed, 93 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/media/tuners/si2157.c b/drivers/media/tuners/si2157.c
+> index e87040d6eca7..af50e721281b 100644
+> --- a/drivers/media/tuners/si2157.c
+> +++ b/drivers/media/tuners/si2157.c
+> @@ -75,7 +75,7 @@ static int si2157_init(struct dvb_frontend *fe)
+>  	struct si2157_cmd cmd;
+>  	const struct firmware *fw;
+>  	const char *fw_name;
+> -	unsigned int uitmp, chip_id;
+> +	unsigned int uitmp;
+>  
+>  	dev_dbg(&client->dev, "\n");
+>  
+> @@ -117,7 +117,7 @@ static int si2157_init(struct dvb_frontend *fe)
+>  		if (ret)
+>  			goto err;
+>  	}
+> -
+> +#if 0
+>  	/* query chip revision */
+>  	memcpy(cmd.args, "\x02", 1);
+>  	cmd.wlen = 1;
+> @@ -138,6 +138,8 @@ static int si2157_init(struct dvb_frontend *fe)
+>  	#define SI2141_A10 ('A' << 24 | 41 << 16 | '1' << 8 | '0' << 0)
+>  
+>  	switch (chip_id) {
+> +#endif
+> +	switch (dev->chip_id) {
 
-I attached the cleaned-up patch for 5.4.0-rc1
+You shouldn't just blindly comment out some code, as this will very likely 
+break support for all other devices supported by the driver...
+
+>  	case SI2158_A20:
+>  	case SI2148_A20:
+>  		fw_name = SI2158_A20_FIRMWARE;
+> @@ -161,9 +163,9 @@ static int si2157_init(struct dvb_frontend *fe)
+>  		goto err;
+>  	}
+>  
+> -	dev_info(&client->dev, "found a 'Silicon Labs Si21%d-%c%c%c'\n",
+> -			cmd.args[2], cmd.args[1], cmd.args[3], cmd.args[4]);
+> -
+> +//	dev_info(&client->dev, "found a 'Silicon Labs Si21%d-%c%c%c'\n",
+> +//			cmd.args[2], cmd.args[1], cmd.args[3], cmd.args[4]);
+> +//
+>  	if (fw_name == NULL)
+>  		goto skip_fw_download;
+>  
+> @@ -456,6 +458,38 @@ static int si2157_probe(struct i2c_client *client,
+>  	memcpy(&fe->ops.tuner_ops, &si2157_ops, sizeof(struct dvb_tuner_ops));
+>  	fe->tuner_priv = client;
+>  
+> +	/* power up */
+> +	if (dev->chiptype == SI2157_CHIPTYPE_SI2146) {
+> +		memcpy(cmd.args, "\xc0\x05\x01\x00\x00\x0b\x00\x00\x01", 9);
+> +		cmd.wlen = 9;
+> +	} else {
+> +		memcpy(cmd.args,
+> +		"\xc0\x00\x0c\x00\x00\x01\x01\x01\x01\x01\x01\x02\x00\x00\x01",
+> +		15);
+> +		cmd.wlen = 15;
+> +	}
+> +	cmd.rlen = 1;
+> +	ret = si2157_cmd_execute(client, &cmd);
+> +	if (ret)
+> +		goto err;
+> +	/* query chip revision */
+> +	/* hack: do it here because after the si2168 gets 0101, commands will
+> +	 * still be executed here but no result
+> +	 */
+> +	memcpy(cmd.args, "\x02", 1);
+> +	cmd.wlen = 1;
+> +	cmd.rlen = 13;
+> +	ret = si2157_cmd_execute(client, &cmd);
+> +	if (ret)
+> +		goto err_kfree;
+> +	dev->chip_id = cmd.args[1] << 24 |
+> +		cmd.args[2] << 16 |
+> +		cmd.args[3] << 8 |
+> +		cmd.args[4] << 0;
+> +	dev_info(&client->dev, "found a 'Silicon Labs Si21%d-%c%c%c'\n",
+> +		cmd.args[2], cmd.args[1], cmd.args[3], cmd.args[4]);
+> +
+> +
+
+... yet, looking on what you've done, it seems that you're actually
+adding support for a different tuner at the si2157 driver.
+
+If this is the case, this should be on a separate patch, and in a way
+that it will become clear that it won't break support for any existing
+device.
+
+Also, please remove the dead code, instead of commenting it out.
+
+>  #ifdef CONFIG_MEDIA_CONTROLLER
+>  	if (cfg->mdev) {
+>  		dev->mdev = cfg->mdev;
+> diff --git a/drivers/media/tuners/si2157_priv.h b/drivers/media/tuners/si2157_priv.h
+> index 2bda903358da..0f4090e184e9 100644
+> --- a/drivers/media/tuners/si2157_priv.h
+> +++ b/drivers/media/tuners/si2157_priv.h
+> @@ -28,6 +28,7 @@ struct si2157_dev {
+>  	u8 chiptype;
+>  	u8 if_port;
+>  	u32 if_frequency;
+> +	u32 chip_id;
+>  	struct delayed_work stat_work;
+>  
+>  #if defined(CONFIG_MEDIA_CONTROLLER)
+> @@ -43,6 +44,13 @@ struct si2157_dev {
+>  #define SI2157_CHIPTYPE_SI2141 2
+>  #define SI2157_CHIPTYPE_SI2177 3
+>  
+> +#define SI2158_A20 ('A' << 24 | 58 << 16 | '2' << 8 | '0' << 0)
+> +#define SI2148_A20 ('A' << 24 | 48 << 16 | '2' << 8 | '0' << 0)
+> +#define SI2157_A30 ('A' << 24 | 57 << 16 | '3' << 8 | '0' << 0)
+> +#define SI2147_A30 ('A' << 24 | 47 << 16 | '3' << 8 | '0' << 0)
+> +#define SI2146_A10 ('A' << 24 | 46 << 16 | '1' << 8 | '0' << 0)
+> +#define SI2141_A10 ('A' << 24 | 41 << 16 | '1' << 8 | '0' << 0)
+> +
+>  /* firmware command struct */
+>  #define SI2157_ARGLEN      30
+>  struct si2157_cmd {
+> diff --git a/drivers/media/usb/dvb-usb-v2/af9035.c b/drivers/media/usb/dvb-usb-v2/af9035.c
+> index 3afd18733614..5b7a00cdcbd8 100644
+> --- a/drivers/media/usb/dvb-usb-v2/af9035.c
+> +++ b/drivers/media/usb/dvb-usb-v2/af9035.c
+> @@ -1206,7 +1206,50 @@ static int it930x_frontend_attach(struct dvb_usb_adapter *adap)
+>  	struct si2168_config si2168_config;
+>  	struct i2c_adapter *adapter;
+>  
+> -	dev_dbg(&intf->dev, "adap->id=%d\n", adap->id);
+> +	//dev_dbg(&intf->dev, "adap->id=%d\n", adap->id);
+> +	dev_dbg(&intf->dev, "%s  adap->id=%d\n", __func__, adap->id);
+
+Why did you do such change? dev_dbg can already print the function, and
+much more. See:
+
+	https://lwn.net/Articles/434833/
+
+> +
+> +	/* I2C master bus 2 clock speed 300k */
+> +	ret = af9035_wr_reg(d, 0x00f6a7, 0x07);
+> +	if (ret < 0)
+> +		goto err;
+> +
+> +	/* I2C master bus 1,3 clock speed 300k */
+> +	ret = af9035_wr_reg(d, 0x00f103, 0x07);
+> +	if (ret < 0)
+> +		goto err;
+> +
+> +	/* set gpio11 low */
+> +	ret = af9035_wr_reg_mask(d, 0xd8d4, 0x01, 0x01);
+> +	if (ret < 0)
+> +		goto err;
+> +
+> +	ret = af9035_wr_reg_mask(d, 0xd8d5, 0x01, 0x01);
+> +	if (ret < 0)
+> +		goto err;
+> +
+> +	ret = af9035_wr_reg_mask(d, 0xd8d3, 0x01, 0x01);
+> +	if (ret < 0)
+> +		goto err;
+> +
+> +	/* Tuner enable using gpiot2_en, gpiot2_on and gpiot2_o (reset) */
+> +	ret = af9035_wr_reg_mask(d, 0xd8b8, 0x01, 0x01);
+> +	if (ret < 0)
+> +		goto err;
+> +
+> +	ret = af9035_wr_reg_mask(d, 0xd8b9, 0x01, 0x01);
+> +	if (ret < 0)
+> +		goto err;
+> +
+> +	ret = af9035_wr_reg_mask(d, 0xd8b7, 0x00, 0x01);
+> +	if (ret < 0)
+> +		goto err;
+> +
+> +	msleep(200);
+> +
+> +	ret = af9035_wr_reg_mask(d, 0xd8b7, 0x01, 0x01);
+> +	if (ret < 0)
+> +		goto err;
+
+The above seems specific for your device. You need to check if the device
+is USB_VID_DEXATEK, running the code only on such case.
+
+>  
+>  	/* I2C master bus 2 clock speed 300k */
+>  	ret = af9035_wr_reg(d, 0x00f6a7, 0x07);
+> @@ -2118,6 +2161,8 @@ static const struct usb_device_id af9035_id_table[] = {
+>  
+>  	/* IT930x devices */
+>  	{ DVB_USB_DEVICE(USB_VID_ITETECH, USB_PID_ITETECH_IT9303,
+> +	{ DVB_USB_DEVICE(USB_VID_DEXATEK, 0x0100,
+> +		&it930x_props, "Logilink VG0022A", NULL) },
+>  		&it930x_props, "ITE 9303 Generic", NULL) },
+>  	{ DVB_USB_DEVICE(USB_VID_AVERMEDIA, USB_PID_AVERMEDIA_TD310,
+>  		&it930x_props, "AVerMedia TD310 DVB-T2", NULL) },
+
 
 Thanks,
-g
-
---0000000000003ac0f70593e0be20
-Content-Type: text/x-patch; charset="US-ASCII"; 
-	name="0001-DVB-T2-with-coding-style-updates.patch"
-Content-Disposition: attachment; 
-	filename="0001-DVB-T2-with-coding-style-updates.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_k18elxx70>
-X-Attachment-Id: f_k18elxx70
-
-RnJvbSA2Y2FkYTY0NDIyMDdhNjcyMDJlNzM3MjE2OTJhY2VkNjY1YjhmZGYwIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBHb24gU29sbyA8Z29uc29sb0BnbWFpbC5jb20+CkRhdGU6IFR1
-ZSwgMSBPY3QgMjAxOSAyMTo1OTo0NCArMDIwMApTdWJqZWN0OiBbUEFUQ0hdIERWQi1UMiB3aXRo
-IGNvZGluZyBzdHlsZSB1cGRhdGVzLgoKLS0tCiBkcml2ZXJzL21lZGlhL3R1bmVycy9zaTIxNTcu
-YyAgICAgICAgIHwgNDQgKysrKysrKysrKysrKysrKysrKysrKy0tLQogZHJpdmVycy9tZWRpYS90
-dW5lcnMvc2kyMTU3X3ByaXYuaCAgICB8ICA4ICsrKysrCiBkcml2ZXJzL21lZGlhL3VzYi9kdmIt
-dXNiLXYyL2FmOTAzNS5jIHwgNDcgKysrKysrKysrKysrKysrKysrKysrKysrKystCiAzIGZpbGVz
-IGNoYW5nZWQsIDkzIGluc2VydGlvbnMoKyksIDYgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEv
-ZHJpdmVycy9tZWRpYS90dW5lcnMvc2kyMTU3LmMgYi9kcml2ZXJzL21lZGlhL3R1bmVycy9zaTIx
-NTcuYwppbmRleCBlODcwNDBkNmVjYTcuLmFmNTBlNzIxMjgxYiAxMDA2NDQKLS0tIGEvZHJpdmVy
-cy9tZWRpYS90dW5lcnMvc2kyMTU3LmMKKysrIGIvZHJpdmVycy9tZWRpYS90dW5lcnMvc2kyMTU3
-LmMKQEAgLTc1LDcgKzc1LDcgQEAgc3RhdGljIGludCBzaTIxNTdfaW5pdChzdHJ1Y3QgZHZiX2Zy
-b250ZW5kICpmZSkKIAlzdHJ1Y3Qgc2kyMTU3X2NtZCBjbWQ7CiAJY29uc3Qgc3RydWN0IGZpcm13
-YXJlICpmdzsKIAljb25zdCBjaGFyICpmd19uYW1lOwotCXVuc2lnbmVkIGludCB1aXRtcCwgY2hp
-cF9pZDsKKwl1bnNpZ25lZCBpbnQgdWl0bXA7CiAKIAlkZXZfZGJnKCZjbGllbnQtPmRldiwgIlxu
-Iik7CiAKQEAgLTExNyw3ICsxMTcsNyBAQCBzdGF0aWMgaW50IHNpMjE1N19pbml0KHN0cnVjdCBk
-dmJfZnJvbnRlbmQgKmZlKQogCQlpZiAocmV0KQogCQkJZ290byBlcnI7CiAJfQotCisjaWYgMAog
-CS8qIHF1ZXJ5IGNoaXAgcmV2aXNpb24gKi8KIAltZW1jcHkoY21kLmFyZ3MsICJceDAyIiwgMSk7
-CiAJY21kLndsZW4gPSAxOwpAQCAtMTM4LDYgKzEzOCw4IEBAIHN0YXRpYyBpbnQgc2kyMTU3X2lu
-aXQoc3RydWN0IGR2Yl9mcm9udGVuZCAqZmUpCiAJI2RlZmluZSBTSTIxNDFfQTEwICgnQScgPDwg
-MjQgfCA0MSA8PCAxNiB8ICcxJyA8PCA4IHwgJzAnIDw8IDApCiAKIAlzd2l0Y2ggKGNoaXBfaWQp
-IHsKKyNlbmRpZgorCXN3aXRjaCAoZGV2LT5jaGlwX2lkKSB7CiAJY2FzZSBTSTIxNThfQTIwOgog
-CWNhc2UgU0kyMTQ4X0EyMDoKIAkJZndfbmFtZSA9IFNJMjE1OF9BMjBfRklSTVdBUkU7CkBAIC0x
-NjEsOSArMTYzLDkgQEAgc3RhdGljIGludCBzaTIxNTdfaW5pdChzdHJ1Y3QgZHZiX2Zyb250ZW5k
-ICpmZSkKIAkJZ290byBlcnI7CiAJfQogCi0JZGV2X2luZm8oJmNsaWVudC0+ZGV2LCAiZm91bmQg
-YSAnU2lsaWNvbiBMYWJzIFNpMjElZC0lYyVjJWMnXG4iLAotCQkJY21kLmFyZ3NbMl0sIGNtZC5h
-cmdzWzFdLCBjbWQuYXJnc1szXSwgY21kLmFyZ3NbNF0pOwotCisvLwlkZXZfaW5mbygmY2xpZW50
-LT5kZXYsICJmb3VuZCBhICdTaWxpY29uIExhYnMgU2kyMSVkLSVjJWMlYydcbiIsCisvLwkJCWNt
-ZC5hcmdzWzJdLCBjbWQuYXJnc1sxXSwgY21kLmFyZ3NbM10sIGNtZC5hcmdzWzRdKTsKKy8vCiAJ
-aWYgKGZ3X25hbWUgPT0gTlVMTCkKIAkJZ290byBza2lwX2Z3X2Rvd25sb2FkOwogCkBAIC00NTYs
-NiArNDU4LDM4IEBAIHN0YXRpYyBpbnQgc2kyMTU3X3Byb2JlKHN0cnVjdCBpMmNfY2xpZW50ICpj
-bGllbnQsCiAJbWVtY3B5KCZmZS0+b3BzLnR1bmVyX29wcywgJnNpMjE1N19vcHMsIHNpemVvZihz
-dHJ1Y3QgZHZiX3R1bmVyX29wcykpOwogCWZlLT50dW5lcl9wcml2ID0gY2xpZW50OwogCisJLyog
-cG93ZXIgdXAgKi8KKwlpZiAoZGV2LT5jaGlwdHlwZSA9PSBTSTIxNTdfQ0hJUFRZUEVfU0kyMTQ2
-KSB7CisJCW1lbWNweShjbWQuYXJncywgIlx4YzBceDA1XHgwMVx4MDBceDAwXHgwYlx4MDBceDAw
-XHgwMSIsIDkpOworCQljbWQud2xlbiA9IDk7CisJfSBlbHNlIHsKKwkJbWVtY3B5KGNtZC5hcmdz
-LAorCQkiXHhjMFx4MDBceDBjXHgwMFx4MDBceDAxXHgwMVx4MDFceDAxXHgwMVx4MDFceDAyXHgw
-MFx4MDBceDAxIiwKKwkJMTUpOworCQljbWQud2xlbiA9IDE1OworCX0KKwljbWQucmxlbiA9IDE7
-CisJcmV0ID0gc2kyMTU3X2NtZF9leGVjdXRlKGNsaWVudCwgJmNtZCk7CisJaWYgKHJldCkKKwkJ
-Z290byBlcnI7CisJLyogcXVlcnkgY2hpcCByZXZpc2lvbiAqLworCS8qIGhhY2s6IGRvIGl0IGhl
-cmUgYmVjYXVzZSBhZnRlciB0aGUgc2kyMTY4IGdldHMgMDEwMSwgY29tbWFuZHMgd2lsbAorCSAq
-IHN0aWxsIGJlIGV4ZWN1dGVkIGhlcmUgYnV0IG5vIHJlc3VsdAorCSAqLworCW1lbWNweShjbWQu
-YXJncywgIlx4MDIiLCAxKTsKKwljbWQud2xlbiA9IDE7CisJY21kLnJsZW4gPSAxMzsKKwlyZXQg
-PSBzaTIxNTdfY21kX2V4ZWN1dGUoY2xpZW50LCAmY21kKTsKKwlpZiAocmV0KQorCQlnb3RvIGVy
-cl9rZnJlZTsKKwlkZXYtPmNoaXBfaWQgPSBjbWQuYXJnc1sxXSA8PCAyNCB8CisJCWNtZC5hcmdz
-WzJdIDw8IDE2IHwKKwkJY21kLmFyZ3NbM10gPDwgOCB8CisJCWNtZC5hcmdzWzRdIDw8IDA7CisJ
-ZGV2X2luZm8oJmNsaWVudC0+ZGV2LCAiZm91bmQgYSAnU2lsaWNvbiBMYWJzIFNpMjElZC0lYyVj
-JWMnXG4iLAorCQljbWQuYXJnc1syXSwgY21kLmFyZ3NbMV0sIGNtZC5hcmdzWzNdLCBjbWQuYXJn
-c1s0XSk7CisKKwogI2lmZGVmIENPTkZJR19NRURJQV9DT05UUk9MTEVSCiAJaWYgKGNmZy0+bWRl
-dikgewogCQlkZXYtPm1kZXYgPSBjZmctPm1kZXY7CmRpZmYgLS1naXQgYS9kcml2ZXJzL21lZGlh
-L3R1bmVycy9zaTIxNTdfcHJpdi5oIGIvZHJpdmVycy9tZWRpYS90dW5lcnMvc2kyMTU3X3ByaXYu
-aAppbmRleCAyYmRhOTAzMzU4ZGEuLjBmNDA5MGUxODRlOSAxMDA2NDQKLS0tIGEvZHJpdmVycy9t
-ZWRpYS90dW5lcnMvc2kyMTU3X3ByaXYuaAorKysgYi9kcml2ZXJzL21lZGlhL3R1bmVycy9zaTIx
-NTdfcHJpdi5oCkBAIC0yOCw2ICsyOCw3IEBAIHN0cnVjdCBzaTIxNTdfZGV2IHsKIAl1OCBjaGlw
-dHlwZTsKIAl1OCBpZl9wb3J0OwogCXUzMiBpZl9mcmVxdWVuY3k7CisJdTMyIGNoaXBfaWQ7CiAJ
-c3RydWN0IGRlbGF5ZWRfd29yayBzdGF0X3dvcms7CiAKICNpZiBkZWZpbmVkKENPTkZJR19NRURJ
-QV9DT05UUk9MTEVSKQpAQCAtNDMsNiArNDQsMTMgQEAgc3RydWN0IHNpMjE1N19kZXYgewogI2Rl
-ZmluZSBTSTIxNTdfQ0hJUFRZUEVfU0kyMTQxIDIKICNkZWZpbmUgU0kyMTU3X0NISVBUWVBFX1NJ
-MjE3NyAzCiAKKyNkZWZpbmUgU0kyMTU4X0EyMCAoJ0EnIDw8IDI0IHwgNTggPDwgMTYgfCAnMicg
-PDwgOCB8ICcwJyA8PCAwKQorI2RlZmluZSBTSTIxNDhfQTIwICgnQScgPDwgMjQgfCA0OCA8PCAx
-NiB8ICcyJyA8PCA4IHwgJzAnIDw8IDApCisjZGVmaW5lIFNJMjE1N19BMzAgKCdBJyA8PCAyNCB8
-IDU3IDw8IDE2IHwgJzMnIDw8IDggfCAnMCcgPDwgMCkKKyNkZWZpbmUgU0kyMTQ3X0EzMCAoJ0En
-IDw8IDI0IHwgNDcgPDwgMTYgfCAnMycgPDwgOCB8ICcwJyA8PCAwKQorI2RlZmluZSBTSTIxNDZf
-QTEwICgnQScgPDwgMjQgfCA0NiA8PCAxNiB8ICcxJyA8PCA4IHwgJzAnIDw8IDApCisjZGVmaW5l
-IFNJMjE0MV9BMTAgKCdBJyA8PCAyNCB8IDQxIDw8IDE2IHwgJzEnIDw8IDggfCAnMCcgPDwgMCkK
-KwogLyogZmlybXdhcmUgY29tbWFuZCBzdHJ1Y3QgKi8KICNkZWZpbmUgU0kyMTU3X0FSR0xFTiAg
-ICAgIDMwCiBzdHJ1Y3Qgc2kyMTU3X2NtZCB7CmRpZmYgLS1naXQgYS9kcml2ZXJzL21lZGlhL3Vz
-Yi9kdmItdXNiLXYyL2FmOTAzNS5jIGIvZHJpdmVycy9tZWRpYS91c2IvZHZiLXVzYi12Mi9hZjkw
-MzUuYwppbmRleCAzYWZkMTg3MzM2MTQuLjViN2EwMGNkY2JkOCAxMDA2NDQKLS0tIGEvZHJpdmVy
-cy9tZWRpYS91c2IvZHZiLXVzYi12Mi9hZjkwMzUuYworKysgYi9kcml2ZXJzL21lZGlhL3VzYi9k
-dmItdXNiLXYyL2FmOTAzNS5jCkBAIC0xMjA2LDcgKzEyMDYsNTAgQEAgc3RhdGljIGludCBpdDkz
-MHhfZnJvbnRlbmRfYXR0YWNoKHN0cnVjdCBkdmJfdXNiX2FkYXB0ZXIgKmFkYXApCiAJc3RydWN0
-IHNpMjE2OF9jb25maWcgc2kyMTY4X2NvbmZpZzsKIAlzdHJ1Y3QgaTJjX2FkYXB0ZXIgKmFkYXB0
-ZXI7CiAKLQlkZXZfZGJnKCZpbnRmLT5kZXYsICJhZGFwLT5pZD0lZFxuIiwgYWRhcC0+aWQpOwor
-CS8vZGV2X2RiZygmaW50Zi0+ZGV2LCAiYWRhcC0+aWQ9JWRcbiIsIGFkYXAtPmlkKTsKKwlkZXZf
-ZGJnKCZpbnRmLT5kZXYsICIlcyAgYWRhcC0+aWQ9JWRcbiIsIF9fZnVuY19fLCBhZGFwLT5pZCk7
-CisKKwkvKiBJMkMgbWFzdGVyIGJ1cyAyIGNsb2NrIHNwZWVkIDMwMGsgKi8KKwlyZXQgPSBhZjkw
-MzVfd3JfcmVnKGQsIDB4MDBmNmE3LCAweDA3KTsKKwlpZiAocmV0IDwgMCkKKwkJZ290byBlcnI7
-CisKKwkvKiBJMkMgbWFzdGVyIGJ1cyAxLDMgY2xvY2sgc3BlZWQgMzAwayAqLworCXJldCA9IGFm
-OTAzNV93cl9yZWcoZCwgMHgwMGYxMDMsIDB4MDcpOworCWlmIChyZXQgPCAwKQorCQlnb3RvIGVy
-cjsKKworCS8qIHNldCBncGlvMTEgbG93ICovCisJcmV0ID0gYWY5MDM1X3dyX3JlZ19tYXNrKGQs
-IDB4ZDhkNCwgMHgwMSwgMHgwMSk7CisJaWYgKHJldCA8IDApCisJCWdvdG8gZXJyOworCisJcmV0
-ID0gYWY5MDM1X3dyX3JlZ19tYXNrKGQsIDB4ZDhkNSwgMHgwMSwgMHgwMSk7CisJaWYgKHJldCA8
-IDApCisJCWdvdG8gZXJyOworCisJcmV0ID0gYWY5MDM1X3dyX3JlZ19tYXNrKGQsIDB4ZDhkMywg
-MHgwMSwgMHgwMSk7CisJaWYgKHJldCA8IDApCisJCWdvdG8gZXJyOworCisJLyogVHVuZXIgZW5h
-YmxlIHVzaW5nIGdwaW90Ml9lbiwgZ3Bpb3QyX29uIGFuZCBncGlvdDJfbyAocmVzZXQpICovCisJ
-cmV0ID0gYWY5MDM1X3dyX3JlZ19tYXNrKGQsIDB4ZDhiOCwgMHgwMSwgMHgwMSk7CisJaWYgKHJl
-dCA8IDApCisJCWdvdG8gZXJyOworCisJcmV0ID0gYWY5MDM1X3dyX3JlZ19tYXNrKGQsIDB4ZDhi
-OSwgMHgwMSwgMHgwMSk7CisJaWYgKHJldCA8IDApCisJCWdvdG8gZXJyOworCisJcmV0ID0gYWY5
-MDM1X3dyX3JlZ19tYXNrKGQsIDB4ZDhiNywgMHgwMCwgMHgwMSk7CisJaWYgKHJldCA8IDApCisJ
-CWdvdG8gZXJyOworCisJbXNsZWVwKDIwMCk7CisKKwlyZXQgPSBhZjkwMzVfd3JfcmVnX21hc2so
-ZCwgMHhkOGI3LCAweDAxLCAweDAxKTsKKwlpZiAocmV0IDwgMCkKKwkJZ290byBlcnI7CiAKIAkv
-KiBJMkMgbWFzdGVyIGJ1cyAyIGNsb2NrIHNwZWVkIDMwMGsgKi8KIAlyZXQgPSBhZjkwMzVfd3Jf
-cmVnKGQsIDB4MDBmNmE3LCAweDA3KTsKQEAgLTIxMTgsNiArMjE2MSw4IEBAIHN0YXRpYyBjb25z
-dCBzdHJ1Y3QgdXNiX2RldmljZV9pZCBhZjkwMzVfaWRfdGFibGVbXSA9IHsKIAogCS8qIElUOTMw
-eCBkZXZpY2VzICovCiAJeyBEVkJfVVNCX0RFVklDRShVU0JfVklEX0lURVRFQ0gsIFVTQl9QSURf
-SVRFVEVDSF9JVDkzMDMsCisJeyBEVkJfVVNCX0RFVklDRShVU0JfVklEX0RFWEFURUssIDB4MDEw
-MCwKKwkJJml0OTMweF9wcm9wcywgIkxvZ2lsaW5rIFZHMDAyMkEiLCBOVUxMKSB9LAogCQkmaXQ5
-MzB4X3Byb3BzLCAiSVRFIDkzMDMgR2VuZXJpYyIsIE5VTEwpIH0sCiAJeyBEVkJfVVNCX0RFVklD
-RShVU0JfVklEX0FWRVJNRURJQSwgVVNCX1BJRF9BVkVSTUVESUFfVEQzMTAsCiAJCSZpdDkzMHhf
-cHJvcHMsICJBVmVyTWVkaWEgVEQzMTAgRFZCLVQyIiwgTlVMTCkgfSwKLS0gCjIuMjAuMQoK
---0000000000003ac0f70593e0be20--
+Mauro
