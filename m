@@ -2,194 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EE3B7C2C49
-	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2019 05:18:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B66CC2C5E
+	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2019 05:47:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732515AbfJADS2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Sep 2019 23:18:28 -0400
-Received: from mail-io1-f66.google.com ([209.85.166.66]:39071 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731164AbfJADS2 (ORCPT
+        id S1727645AbfJADro (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Sep 2019 23:47:44 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:50045 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726590AbfJADrn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Sep 2019 23:18:28 -0400
-Received: by mail-io1-f66.google.com with SMTP id a1so44107606ioc.6
-        for <linux-media@vger.kernel.org>; Mon, 30 Sep 2019 20:18:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=t7E+4Xrsw0Aoybon1FHcfixdSiyeFKAL53bGRD1eWpM=;
-        b=tfMz/UCwstaSgaRPkxyQH3rBNLACZib8148Nlxd4wjkJvgJlEYGFjCt7g1A6nKQVyG
-         LFISIfE4BnI0TPbShgnl7hmvjwb3mmhfdkRkVfulA2ROZFtclU9K2yeYFQHS4WkmQUgV
-         MuGgKPgumSFe2Ulr7iyhs2cWiAHtLVfhYkaizJSZo3K9m5V6hqDWGUIJ01DSPN8xzkz3
-         OMn9T1m31W8CCUFtTLYspIdH/C3IPuNJalfKfzhf32cWNtFObulUpcFW4iithqt+oRqe
-         ODlFD2s8aATH/1t+pTW/3GpWSm/iLkjAOywxNJWEJv1GK5Vpqatoh+4sD2k2AN9VHErT
-         VkuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=t7E+4Xrsw0Aoybon1FHcfixdSiyeFKAL53bGRD1eWpM=;
-        b=fIE+cIRqlvhB5oJ56dBA+f87IK7ACogOIHvMGd8Mka6u61xNkeSex7u1m2DOWLiPXG
-         KnZ9WuVCDbAsCfq8DsEq+pEE7fNen/HqMDK5MM79LFoeXsUhvGymJyVIvtRbF6KmKyj+
-         Hx2pqreY9qwYsqlbMCehqBvFrOxzj87/YgcdPx2d9La2CmcE1JyhiIouzraLjTYbsuug
-         klzswmSLGO+Iw8uZ+yFuq9+7oZRVIFZji2wtFFtMGc3tV6xahmt3sm9AyjtKpiQMKGNx
-         +yVh6UEKA/4XoAzGJbldXoVsj0NJsGzHehF6wBAMVYYGmrZmJbjOg2XoDxlyRAOJIyYJ
-         5UNg==
-X-Gm-Message-State: APjAAAW+n9gpMV3CCm76DG2EKSNTEaVl3aROE+c5Kit3fXHWLkbAECwf
-        yB7N4XYwvDa/jWmObOfDQTgXSitm
-X-Google-Smtp-Source: APXvYqyk1l3UQvIzzzjulReYqISKm13I/eDJ9KuRnILAbYYTLWulZMZByCIwrOIayR3ZrhkrAgdVWA==
-X-Received: by 2002:a6b:e50b:: with SMTP id y11mr18271948ioc.161.1569899907253;
-        Mon, 30 Sep 2019 20:18:27 -0700 (PDT)
-Received: from rYz3n.attlocal.net ([2600:1700:210:3790::40])
-        by smtp.googlemail.com with ESMTPSA id l82sm8719452ilh.23.2019.09.30.20.18.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Sep 2019 20:18:26 -0700 (PDT)
-From:   Jiunn Chang <c0d1n61at3@gmail.com>
-To:     linux-media@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Cc:     hverkuil@xs4all.nl
-Subject: [PATCH v4 3/3] cec-compliance: add tuner control test
-Date:   Mon, 30 Sep 2019 22:18:23 -0500
-Message-Id: <20191001031823.312020-4-c0d1n61at3@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20190930043017.474025-1-c0d1n61at3@gmail.com>
-References: <20190930043017.474025-1-c0d1n61at3@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Mon, 30 Sep 2019 23:47:43 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:ece7:a680:ba1b:aa21])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id F98WipMjTz6EAF98XiPSBo; Tue, 01 Oct 2019 05:47:41 +0200
+Message-ID: <b19034627b927e2e4fe5abe771076018@smtp-cloud9.xs4all.net>
+Date:   Tue, 01 Oct 2019 05:47:40 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfAp0a3olQ891QTbRTu5oacOc1k81VwtlmPOcmNgIGrA3kG4yNIoYQhn25rLGDQaBlFKMVH3Ot/rYbLaZEw5Smwo1Jf7tG62YCNX1ma1le7g6kmuuM4RD
+ zkFhXgpGWPgqjFzeVxCiE6lm5bdslFZ459JL1a+C0GWk+gGbV6QSjp7yTTXQf7nNy3yyf+1vkifSQgePq8Ip4SsG+KOvG/1qjBGspEut48CcqbSLxC3jo/Is
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add test for new features added to cec-follower.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Analog tuner control test tuner_ctl_test():
-  - give analog tuner status
-  - select tuner analog service
-  - analog tuner step features
+Results of the daily build of media_tree:
 
-Signed-off-by: Jiunn Chang <c0d1n61at3@gmail.com>
----
- utils/cec-compliance/cec-test.cpp | 91 +++++++++++++++++++++++++++++++
- 1 file changed, 91 insertions(+)
+date:			Tue Oct  1 05:00:11 CEST 2019
+media-tree git hash:	54ecb8f7028c5eb3d740bb82b0f1d90f2df63c5c
+media_build git hash:	d75b29db1297d2475227cc8bada843542271e40d
+v4l-utils git hash:	6c9c63d98d60a4478d0e2a2f45fe0e54793f5582
+edid-decode git hash:	7696439db703eeca7248af6c3a17d2e19a9292ea
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1-rc1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.5.1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 300d85fb65a4cba461ce002ac40bb9fad4152087
+host hardware:		x86_64
+host os:		5.2.0-2-amd64
 
-diff --git a/utils/cec-compliance/cec-test.cpp b/utils/cec-compliance/cec-test.cpp
-index aece546c..17f72cc6 100644
---- a/utils/cec-compliance/cec-test.cpp
-+++ b/utils/cec-compliance/cec-test.cpp
-@@ -16,6 +16,7 @@
- #include <sys/ioctl.h>
- #include <config.h>
- #include <sstream>
-+#include <vector>
- 
- #include "cec-compliance.h"
- 
-@@ -722,6 +723,95 @@ static struct remote_subtest deck_ctl_subtests[] = {
-   TODO: These are very rudimentary tests which should be expanded.
-  */
- 
-+static int tuner_ctl_test(struct node *node, unsigned me, unsigned la, bool interactive)
-+{
-+	struct cec_msg msg = {};
-+	struct cec_op_tuner_device_info info = {};
-+	std::vector<struct cec_op_tuner_device_info> info_vec;
-+	__u16 start_freq;
-+
-+	cec_msg_init(&msg, me, la);
-+	cec_msg_give_tuner_device_status(&msg, true, CEC_OP_STATUS_REQ_ONCE);
-+	fail_on_test(!transmit_timeout(node, &msg));
-+	fail_on_test(timed_out(&msg));
-+	if (unrecognized_op(&msg))
-+		return NOTSUPPORTED;
-+	if (refused(&msg))
-+		return REFUSED;
-+	cec_ops_tuner_device_status(&msg, &info);
-+	start_freq = info.analog.ana_freq;
-+	info_vec.push_back(info);
-+
-+	while (1) {
-+		struct cec_op_tuner_device_info new_info;
-+
-+		cec_msg_init(&msg, me, la);
-+		cec_msg_tuner_step_increment(&msg);
-+		fail_on_test(!transmit_timeout(node, &msg));
-+		if (unrecognized_op(&msg))
-+			return NOTSUPPORTED;
-+		if (refused(&msg))
-+			return REFUSED;
-+		cec_msg_init(&msg, me, la);
-+		cec_msg_give_tuner_device_status(&msg, true, CEC_OP_STATUS_REQ_ONCE);
-+		fail_on_test(!transmit_timeout(node, &msg));
-+		fail_on_test(timed_out(&msg));
-+		if (unrecognized_op(&msg))
-+			return NOTSUPPORTED;
-+		if (refused(&msg))
-+			return REFUSED;
-+		cec_ops_tuner_device_status(&msg, &new_info);
-+		if (new_info.analog.ana_freq == start_freq)
-+			break;
-+		if (new_info.analog.ana_freq == info_vec.back().analog.ana_freq) {
-+			warn("Tuner channel step increment does not wrap.\n");
-+			break;
-+		}
-+		info_vec.push_back(new_info);
-+	}
-+
-+	
-+	for (std::vector<struct cec_op_tuner_device_info>::iterator iter = info_vec.begin();
-+			iter != info_vec.end(); iter++) {
-+		struct cec_op_tuner_device_info current;
-+
-+		cec_msg_init(&msg, me, la);
-+		cec_msg_select_analogue_service(&msg, iter->analog.ana_bcast_type,
-+			iter->analog.ana_freq, iter->analog.bcast_system);
-+		fail_on_test(!transmit_timeout(node, &msg));
-+		if (unrecognized_op(&msg))
-+			return NOTSUPPORTED;
-+		if (refused(&msg))
-+			return REFUSED;
-+		cec_msg_init(&msg, me, la);
-+		cec_msg_give_tuner_device_status(&msg, true, CEC_OP_STATUS_REQ_ONCE);
-+		fail_on_test(!transmit_timeout(node, &msg));
-+		fail_on_test(timed_out(&msg));
-+		if (unrecognized_op(&msg))
-+			return NOTSUPPORTED;
-+		if (refused(&msg))
-+			return REFUSED;
-+		cec_ops_tuner_device_status(&msg, &current);
-+		fail_on_test(current.analog.ana_freq != iter->analog.ana_freq);
-+		if (iter->is_analog) {
-+			float freq_mhz = (iter->analog.ana_freq * 625) / 10000;
-+			info("Analog channel freq: %.2f MHz\n", freq_mhz);
-+		}
-+	}
-+
-+	cec_msg_init(&msg, me, la);
-+	cec_msg_select_analogue_service(&msg, 3, 16000, 9);
-+	fail_on_test(!transmit_timeout(node, &msg));
-+	if (unrecognized_op(&msg))
-+		return NOTSUPPORTED;
-+	if (refused(&msg))
-+		return REFUSED;
-+	fail_on_test(!cec_msg_status_is_abort(&msg));
-+	fail_on_test(abort_reason(&msg) != CEC_OP_ABORT_INVALID_OP);
-+
-+	return 0;
-+}
-+
- static int tuner_ctl_give_status(struct node *node, unsigned me, unsigned la, bool interactive)
- {
- 	struct cec_msg msg = {};
-@@ -885,6 +975,7 @@ static int tuner_ctl_step_inc(struct node *node, unsigned me, unsigned la, bool
- }
- 
- static struct remote_subtest tuner_ctl_subtests[] = {
-+	{ "Tuner Control", CEC_LOG_ADDR_MASK_TUNER | CEC_LOG_ADDR_MASK_TV, tuner_ctl_test },
- 	{ "Give Tuner Device Status", CEC_LOG_ADDR_MASK_TUNER, tuner_ctl_give_status },
- 	{ "Select Analogue Service", CEC_LOG_ADDR_MASK_TUNER, tuner_ctl_sel_analog_service },
- 	{ "Select Digital Service", CEC_LOG_ADDR_MASK_TUNER, tuner_ctl_sel_digital_service },
--- 
-2.23.0
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: ERRORS
+linux-3.10.108-x86_64: ERRORS
+linux-3.11.10-i686: ERRORS
+linux-3.11.10-x86_64: ERRORS
+linux-3.12.74-i686: ERRORS
+linux-3.12.74-x86_64: ERRORS
+linux-3.13.11-i686: ERRORS
+linux-3.13.11-x86_64: ERRORS
+linux-3.14.79-i686: ERRORS
+linux-3.14.79-x86_64: ERRORS
+linux-3.15.10-i686: ERRORS
+linux-3.15.10-x86_64: ERRORS
+linux-3.16.63-i686: ERRORS
+linux-3.16.63-x86_64: ERRORS
+linux-3.17.8-i686: ERRORS
+linux-3.17.8-x86_64: ERRORS
+linux-3.18.136-i686: ERRORS
+linux-3.18.136-x86_64: ERRORS
+linux-3.19.8-i686: ERRORS
+linux-3.19.8-x86_64: ERRORS
+linux-4.0.9-i686: ERRORS
+linux-4.0.9-x86_64: ERRORS
+linux-4.1.52-i686: ERRORS
+linux-4.1.52-x86_64: ERRORS
+linux-4.2.8-i686: ERRORS
+linux-4.2.8-x86_64: ERRORS
+linux-4.3.6-i686: ERRORS
+linux-4.3.6-x86_64: ERRORS
+linux-4.4.167-i686: ERRORS
+linux-4.4.167-x86_64: ERRORS
+linux-4.5.7-i686: ERRORS
+linux-4.5.7-x86_64: ERRORS
+linux-4.6.7-i686: ERRORS
+linux-4.6.7-x86_64: ERRORS
+linux-4.7.10-i686: ERRORS
+linux-4.7.10-x86_64: ERRORS
+linux-4.8.17-i686: ERRORS
+linux-4.8.17-x86_64: ERRORS
+linux-4.9.162-i686: ERRORS
+linux-4.9.162-x86_64: ERRORS
+linux-4.10.17-i686: ERRORS
+linux-4.10.17-x86_64: ERRORS
+linux-4.11.12-i686: ERRORS
+linux-4.11.12-x86_64: ERRORS
+linux-4.12.14-i686: ERRORS
+linux-4.12.14-x86_64: ERRORS
+linux-4.13.16-i686: ERRORS
+linux-4.13.16-x86_64: ERRORS
+linux-4.14.105-i686: ERRORS
+linux-4.14.105-x86_64: ERRORS
+linux-4.15.18-i686: ERRORS
+linux-4.15.18-x86_64: ERRORS
+linux-4.16.18-i686: ERRORS
+linux-4.16.18-x86_64: ERRORS
+linux-4.17.19-i686: ERRORS
+linux-4.17.19-x86_64: ERRORS
+linux-4.18.20-i686: ERRORS
+linux-4.18.20-x86_64: ERRORS
+linux-4.19.28-i686: ERRORS
+linux-4.19.28-x86_64: ERRORS
+linux-4.20.15-i686: ERRORS
+linux-4.20.15-x86_64: ERRORS
+linux-5.0.15-i686: ERRORS
+linux-5.0.15-x86_64: ERRORS
+linux-5.1.1-i686: ERRORS
+linux-5.1.1-x86_64: ERRORS
+linux-5.2.1-i686: ERRORS
+linux-5.2.1-x86_64: ERRORS
+linux-5.3.1-i686: ERRORS
+linux-5.3.1-x86_64: ERRORS
+linux-5.4-rc1-i686: OK
+linux-5.4-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2329, Succeeded: 2329, Failed: 0, Warnings: 1
+sparse: OK
+smatch: ERRORS
 
+Logs weren't copied as they are too large (12900 kB)
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
