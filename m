@@ -2,84 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A5420C2FAE
-	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2019 11:09:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 92ED3C2FD5
+	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2019 11:15:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729544AbfJAJJz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Oct 2019 05:09:55 -0400
-Received: from gofer.mess.org ([88.97.38.141]:57177 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728892AbfJAJJz (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 1 Oct 2019 05:09:55 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 41796C6460; Tue,  1 Oct 2019 10:09:54 +0100 (BST)
-Date:   Tue, 1 Oct 2019 10:09:54 +0100
-From:   Sean Young <sean@mess.org>
-To:     Jisheng Zhang <Jisheng.Zhang@synaptics.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Benson Gui <Benson.Gui@synaptics.com>
-Subject: Re: [PATCH] media: rc-map: Sort rc map name MACROs
-Message-ID: <20191001090953.GA15901@gofer.mess.org>
-References: <20190830152143.4ad42aeb@xhacker.debian>
+        id S2387500AbfJAJPg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Oct 2019 05:15:36 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:50910 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1733274AbfJAJPg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Oct 2019 05:15:36 -0400
+Received: by mail-wm1-f66.google.com with SMTP id 5so2464346wmg.0
+        for <linux-media@vger.kernel.org>; Tue, 01 Oct 2019 02:15:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=ltV/tC3v9KNCDbUJn2viJ5mopeL0Put02YkmWly2hXA=;
+        b=IS47GgcRtPqYvDWS962VJgwc0D2ovCBV/Za7Ecf9jjveK1hyD8KU1j9sHg4nB4yAAR
+         g9agDWWEpHRuoRuCQBOiBzXDRFklVHilQy6/JANBq1EQnVLw0qECqVNAN2DhS+CVm439
+         d79OdMf/T4gNecsh4nPFhAC9dFOZr3k2bp9PSvH7jk/Akd7qm/5g5uEXRUmqK2xN/43f
+         aUspCFnqTFSxj5i8oc/X+33Qnvww8HlgtQrTPBu+pVxgpB86K49KZgIIqFHmA28mjbuU
+         ssGoKms2dP10YEyYdYDhYyWdbWu3hedU9E0ZLiuAZHHeGQcK6OVALFFga6sGRv0dsqmK
+         XDuQ==
+X-Gm-Message-State: APjAAAVts99NSJXe7pvLAhUoCC1vSEOMEb3O4wv4RlzoP5U5qrsEaVYr
+        UYylGw9tUalsApmAfvntSqI1yN+N
+X-Google-Smtp-Source: APXvYqxQEtMTDBLXFfX6oVT3P4WH1P4lwDrZ1RmOCTpwR/eJMpyDsT10B//7vqTARVDc0ymYHDvJoA==
+X-Received: by 2002:a7b:c44d:: with SMTP id l13mr2635393wmi.160.1569921333855;
+        Tue, 01 Oct 2019 02:15:33 -0700 (PDT)
+Received: from ?IPv6:2620:10d:c0c1:1609:54:45db:20c6:d537? ([2620:10d:c092:200::1:486c])
+        by smtp.gmail.com with ESMTPSA id f3sm12780563wrq.53.2019.10.01.02.15.32
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 01 Oct 2019 02:15:33 -0700 (PDT)
+Subject: Re: [PATCH v2] edid-decode: Avoid division by zero
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org
+References: <cc88ca6d-5608-5381-74b9-008c2a32afb3@debian.org>
+ <ca1fd80c-02d1-f793-0906-239f020eac65@xs4all.nl>
+ <e9bae40c-9a2c-067b-d547-cd1f1a528e25@debian.org>
+ <3f362e23-7cf9-e93b-8c88-b7b6c5197230@xs4all.nl>
+From:   Breno Leitao <leitao@debian.org>
+Message-ID: <94eae8a9-54bb-8110-b6b8-ef4bca2e7fc8@debian.org>
+Date:   Tue, 1 Oct 2019 10:15:31 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+ Gecko/20100101 Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190830152143.4ad42aeb@xhacker.debian>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <3f362e23-7cf9-e93b-8c88-b7b6c5197230@xs4all.nl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Hi Hans,
 
-On Fri, Aug 30, 2019 at 07:33:08AM +0000, Jisheng Zhang wrote:
-> Except RC_MAP_SU3000 and RC_MAP_HAUPPAUGE, others are alphabetically
-> sorted. Sort names alphabetically.
+On 01/10/2019 09:39, Hans Verkuil wrote:
+> On 10/1/19 10:10 AM, Breno Leitao wrote:
+>> There are some weird monitors that returns invalid data, as zeroed
+>> Horizontal/Vertical Active/Blanking.
 > 
-> Signed-off-by: Jisheng Zhang <Jisheng.Zhang@synaptics.com>
-> ---
->  include/media/rc-map.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> Do you have an EDID that does this? I'd like to add it to the collection
+> of EDIDs in edid-decode.
+
+Yes, This is an example. Is this what you want?
+
+# cat /sys/devices/pci0000:00/0000:00:02.0/drm/card0/card0-HDMI-A-1/edid | hexdump
+0000000 ff00 ffff ffff 00ff 8f15 4600 72f0 0000
+0000010 171e 0301 6680 7839 602a a19d 4954 269b
+0000020 470f 234a 0008 c081 4081 8081 0095 00b3
+0000030 c0d1 c08b 0101 3a02 1880 3871 402d 2c58
+0000040 0045 3dfa 0032 1e00 2166 aa56 0051 301e
+0000050 8f46 0033 3dfa 0032 1e00 0000 fd00 3000
+0000060 1f3e 0f50 0a00 2020 2020 2020 0000 fe00
+0000070 3100 3242 3343 3050 3430 3035 200a a101
+0000080 0302 401b 1647 0431 0119 1803 0923 0707
+0000090 0183 0000 0366 000c 0020 0180 001d 2e7c
+00000a0 a090 1a60 401e 2030 0036 0ba2 0032 1a00
+00000b0 0000 f700 0a00 ca00 60e0 0000 0000 0000
+00000c0 0000 0000 fc00 4500 4f4c 4520 3454 3036
+00000d0 4c30 2020 0000 0000 0000 0000 0000 0000
+00000e0 0000 0000 0000 0000 0000 0000 0000 0000
+00000f0 0000 0000 0000 0000 0000 0000 0000 c100
+0000100
+
 > 
-> diff --git a/include/media/rc-map.h b/include/media/rc-map.h
-> index bebd3c4c6338..af71b08be9f2 100644
-> --- a/include/media/rc-map.h
-> +++ b/include/media/rc-map.h
-> @@ -215,6 +215,7 @@ struct rc_map *rc_map_get(const char *name);
->  #define RC_MAP_GENIUS_TVGO_A11MCE        "rc-genius-tvgo-a11mce"
->  #define RC_MAP_GOTVIEW7135               "rc-gotview7135"
->  #define RC_MAP_HAUPPAUGE_NEW             "rc-hauppauge"
-> +#define RC_MAP_HAUPPAUGE                 "rc-hauppauge"
->  #define RC_MAP_HISI_POPLAR               "rc-hisi-poplar"
->  #define RC_MAP_HISI_TV_DEMO              "rc-hisi-tv-demo"
->  #define RC_MAP_IMON_MCE                  "rc-imon-mce"
-> @@ -253,13 +254,13 @@ struct rc_map *rc_map_get(const char *name);
->  #define RC_MAP_PROTEUS_2309              "rc-proteus-2309"
->  #define RC_MAP_PURPLETV                  "rc-purpletv"
->  #define RC_MAP_PV951                     "rc-pv951"
-> -#define RC_MAP_HAUPPAUGE                 "rc-hauppauge"
->  #define RC_MAP_RC5_TV                    "rc-rc5-tv"
->  #define RC_MAP_RC6_MCE                   "rc-rc6-mce"
->  #define RC_MAP_REAL_AUDIO_220_32_KEYS    "rc-real-audio-220-32-keys"
->  #define RC_MAP_REDDO                     "rc-reddo"
->  #define RC_MAP_SNAPSTREAM_FIREFLY        "rc-snapstream-firefly"
->  #define RC_MAP_STREAMZAP                 "rc-streamzap"
-> +#define RC_MAP_SU3000                    "rc-su3000"
->  #define RC_MAP_TANGO                     "rc-tango"
->  #define RC_MAP_TBS_NEC                   "rc-tbs-nec"
->  #define RC_MAP_TECHNISAT_TS35            "rc-technisat-ts35"
-> @@ -282,7 +283,6 @@ struct rc_map *rc_map_get(const char *name);
->  #define RC_MAP_VIDEOMATE_TV_PVR          "rc-videomate-tv-pvr"
->  #define RC_MAP_WINFAST                   "rc-winfast"
->  #define RC_MAP_WINFAST_USBII_DELUXE      "rc-winfast-usbii-deluxe"
-> -#define RC_MAP_SU3000                    "rc-su3000"
->  #define RC_MAP_XBOX_DVD                  "rc-xbox-dvd"
->  #define RC_MAP_ZX_IRDEC                  "rc-zx-irdec"
+> Some more nitpicks below:
+> 
+>>
+>> This causes edid-decode to crash with a division by zero exception. This simple
+>> patch avoids so, checking for the divisor before proceeding.
+>>
+>> Signed-off-by: Breno Leitao <leitao@debian.org>
+>> ---
+>>  edid-decode.c | 10 ++++++++++
+>>  1 file changed, 10 insertions(+)
+>>
+>> diff --git a/edid-decode.c b/edid-decode.c
+>> index 7442f8a..b932179 100644
+>> --- a/edid-decode.c
+>> +++ b/edid-decode.c
+>> @@ -1022,6 +1022,16 @@ static int detailed_block(const unsigned char *x, int in_extension)
+>>  		break;
+>>  	}
+>>  
+>> +	if (!ha || !hbl || !va || !vbl) {
+>> +		printf("Invalid Detailing Timings:\n"
+> 
+> Detailing -> Detailed
+> 
+>> +		       "Horizontal Active %4d\n"
+>> +		       "Horizontal Blanking %4d\n"
+> 
+> This can be a bit more concise:
+> 
+> 			"Horizontal Active/Blanking: %d/%d\n"
+> 
+>> +		       "Vertical Active %4d\n"
+>> +		       "Vertical Blanking %4d\n",
+> 
+> Ditto.
 
-I'm afraid this doesn't make the list sorted. RC_MAP_X96MAX sorts before
-RC_MAP_XBOX_DVD and RC_MAP_PIXELVIEW before RC_MAP_PIXELVIEW_NEW.
-
-Thanks,
-Sean
+Ok, let me change it and send a v3.
