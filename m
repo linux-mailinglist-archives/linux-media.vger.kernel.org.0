@@ -2,112 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D37C5C2EE6
-	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2019 10:32:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFD80C2EFE
+	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2019 10:39:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733007AbfJAIcn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Oct 2019 04:32:43 -0400
-Received: from retiisi.org.uk ([95.216.213.190]:48312 "EHLO
-        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727361AbfJAIcn (ORCPT
+        id S1729457AbfJAIjb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Oct 2019 04:39:31 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:47275 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727274AbfJAIja (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 1 Oct 2019 04:32:43 -0400
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 853DF634C87
-        for <linux-media@vger.kernel.org>; Tue,  1 Oct 2019 11:32:18 +0300 (EEST)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1iFDZx-0001q2-0s
-        for linux-media@vger.kernel.org; Tue, 01 Oct 2019 11:32:17 +0300
-Date:   Tue, 1 Oct 2019 11:32:17 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL for 5.5] Sensor driver patches
-Message-ID: <20191001083216.GC896@valkosipuli.retiisi.org.uk>
+        Tue, 1 Oct 2019 04:39:30 -0400
+Received: from [IPv6:2001:420:44c1:2577:10df:bfa0:cde1:e23a] ([IPv6:2001:420:44c1:2577:10df:bfa0:cde1:e23a])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id FDgqikleh9D4hFDguiQfeX; Tue, 01 Oct 2019 10:39:28 +0200
+Subject: Re: [PATCH v2] edid-decode: Avoid division by zero
+To:     Breno Leitao <leitao@debian.org>
+Cc:     linux-media@vger.kernel.org
+References: <cc88ca6d-5608-5381-74b9-008c2a32afb3@debian.org>
+ <ca1fd80c-02d1-f793-0906-239f020eac65@xs4all.nl>
+ <e9bae40c-9a2c-067b-d547-cd1f1a528e25@debian.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <3f362e23-7cf9-e93b-8c88-b7b6c5197230@xs4all.nl>
+Date:   Tue, 1 Oct 2019 10:39:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <e9bae40c-9a2c-067b-d547-cd1f1a528e25@debian.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfDkqxH3yTs0kWTkYX35XAJANsW2HSiTqn44/ITzoQruL0KBAlJbaafGLnwB1NnesBv5T7JtP8r1NHBS/X/AbwIbfO/hW6HTP4uyqS+LuszgnbXkBchQ4
+ DTYb7N7sJDFL8YYmF7Jt6p/CaKgqm17lFP0oqvCZ2SRYgo2UjOCB2ScOMNS9V7gbY/lMJWi7Rg12ScGWUEcGnfgylKcUgvxO7r8d2KwfZ4KNlRrSkZeZDwdM
+ zTBOD0myQw+hSK50A4JJvAvIOdQ/NkGU4yDJfRTVIZZZbcOwAYl2+2GQ2FYhNHo/h+2j4QHU7OXSlv99TX8kwjBxRM3aXwmGnZqNknB91cE=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+On 10/1/19 10:10 AM, Breno Leitao wrote:
+> There are some weird monitors that returns invalid data, as zeroed
+> Horizontal/Vertical Active/Blanking.
 
-Here's the first pile of sensor driver patches for 5.5. There's mostly
-sensor driver patches but no new drivers.
+Do you have an EDID that does this? I'd like to add it to the collection
+of EDIDs in edid-decode.
 
-Please pull.
+Some more nitpicks below:
 
+> 
+> This causes edid-decode to crash with a division by zero exception. This simple
+> patch avoids so, checking for the divisor before proceeding.
+> 
+> Signed-off-by: Breno Leitao <leitao@debian.org>
+> ---
+>  edid-decode.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/edid-decode.c b/edid-decode.c
+> index 7442f8a..b932179 100644
+> --- a/edid-decode.c
+> +++ b/edid-decode.c
+> @@ -1022,6 +1022,16 @@ static int detailed_block(const unsigned char *x, int in_extension)
+>  		break;
+>  	}
+>  
+> +	if (!ha || !hbl || !va || !vbl) {
+> +		printf("Invalid Detailing Timings:\n"
 
-The following changes since commit 54ecb8f7028c5eb3d740bb82b0f1d90f2df63c5c:
+Detailing -> Detailed
 
-  Linux 5.4-rc1 (2019-09-30 10:35:40 -0700)
+> +		       "Horizontal Active %4d\n"
+> +		       "Horizontal Blanking %4d\n"
 
-are available in the Git repository at:
+This can be a bit more concise:
 
-  git://linuxtv.org/sailus/media_tree.git tags/for-5.5-1-signed
+			"Horizontal Active/Blanking: %d/%d\n"
 
-for you to fetch changes up to dc18c70466bbddb18091d248c0cf0c9e1625111e:
+> +		       "Vertical Active %4d\n"
+> +		       "Vertical Blanking %4d\n",
 
-  media: i2c: ov2659: Switch to SPDX Licensing (2019-10-01 10:25:49 +0300)
+Ditto.
 
-----------------------------------------------------------------
-Sensor + driver + framework patches for 5.5
+> +		       ha, hbl, va, vbl);
+> +		return 0;
+> +	}
+> +
+>  	pixclk_khz = (x[0] + (x[1] << 8)) * 10;
+>  	refresh = (pixclk_khz * 1000) / ((ha + hbl) * (va + vbl));
+>  	printf("Detailed mode: Clock %.3f MHz, %d mm x %d mm\n"
+> 
 
-----------------------------------------------------------------
-Benoit Parrot (8):
-      media: i2c: ov2659: Fix for image wrap-around in lower resolution
-      media: i2c: ov2659: Fix sensor detection to actually fail when device is not present
-      media: i2c: ov2659: Cleanup include file list
-      media: i2c: ov2659: fix s_stream return value
-      media: dt-bindings: ov2659: add powerdown/reset-gpios optional property
-      media: i2c: ov2659: Add powerdown/reset gpio handling
-      media: i2c: ov2659: Fix missing 720p register config
-      media: i2c: ov2659: Switch to SPDX Licensing
+Regards,
 
-Colin Ian King (2):
-      media: i2c: mt9m001: make array init_regs static, makes object smaller
-      media: s3c-camif: make array 'registers' static const, makes object smaller
-
-Dongchun Zhu (1):
-      media: i2c: ov5695: Modify the function of async register subdev related devices
-
-Janusz Krzysztofik (9):
-      media: ov6650: Fix MODULE_DESCRIPTION
-      media: ov6650: Fix control handler not freed on init error
-      media: ov6650: Fix crop rectangle alignment not passed back
-      media: ov6650: Fix incorrect use of JPEG colorspace
-      media: ov6650: Fix some format attributes not under control
-      media: ov6650: Fix .get_fmt() V4L2_SUBDEV_FORMAT_TRY support
-      media: ov6650: Fix default format not applied on device probe
-      media: ov6650: Fix stored frame format not in sync with hardware
-      media: ov6650: Fix stored crop rectangle not in sync with hardware
-
-Sakari Ailus (2):
-      v4l: Put camera sensor, lens and flash drivers under MEDIA_CAMERA_SUPPORT
-      v4l: fwnode: Make v4l2_fwnode_endpoint_free() safer
-
-YueHaibing (1):
-      media: max2175: Fix build error without CONFIG_REGMAP_I2C
-
-zhengbin (1):
-      media: mc-device.c: fix memleak in media_device_register_entity
-
- .../devicetree/bindings/media/i2c/ov2659.txt       |   9 ++
- drivers/media/i2c/Kconfig                          |  54 ++------
- drivers/media/i2c/mt9m001.c                        |   2 +-
- drivers/media/i2c/ov2659.c                         | 139 +++++++++++++++------
- drivers/media/i2c/ov5695.c                         |   2 +-
- drivers/media/i2c/ov6650.c                         | 137 ++++++++++++--------
- drivers/media/mc/mc-device.c                       |  65 +++++-----
- drivers/media/platform/s3c-camif/camif-regs.c      |   2 +-
- drivers/media/v4l2-core/v4l2-fwnode.c              |   1 +
- 9 files changed, 247 insertions(+), 164 deletions(-)
-
--- 
-Sakari Ailus
+	Hans
