@@ -2,95 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CFD80C2EFE
-	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2019 10:39:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB323C2F3C
+	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2019 10:49:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729457AbfJAIjb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Oct 2019 04:39:31 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:47275 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727274AbfJAIja (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 1 Oct 2019 04:39:30 -0400
-Received: from [IPv6:2001:420:44c1:2577:10df:bfa0:cde1:e23a] ([IPv6:2001:420:44c1:2577:10df:bfa0:cde1:e23a])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id FDgqikleh9D4hFDguiQfeX; Tue, 01 Oct 2019 10:39:28 +0200
-Subject: Re: [PATCH v2] edid-decode: Avoid division by zero
-To:     Breno Leitao <leitao@debian.org>
-Cc:     linux-media@vger.kernel.org
-References: <cc88ca6d-5608-5381-74b9-008c2a32afb3@debian.org>
- <ca1fd80c-02d1-f793-0906-239f020eac65@xs4all.nl>
- <e9bae40c-9a2c-067b-d547-cd1f1a528e25@debian.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <3f362e23-7cf9-e93b-8c88-b7b6c5197230@xs4all.nl>
-Date:   Tue, 1 Oct 2019 10:39:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1732765AbfJAItU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Oct 2019 04:49:20 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:36879 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726148AbfJAItU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Oct 2019 04:49:20 -0400
+Received: by mail-lj1-f195.google.com with SMTP id l21so12461577lje.4;
+        Tue, 01 Oct 2019 01:49:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HA6BOTuvv8pcHm8tehLJmXVXIQIbxIkiRW0rNiff8Fc=;
+        b=EqvR4IYCWWp7f96oxI/cp8Vn1kNHhSVVebuxSuIeOLqa7gBG39GSRGSo4ND+w2EKEU
+         IIXQyq5Oo9XJR0jK4mGpfU7qyWlOTnauIbUomQWXJHaZ6Gi2eaxarHjCKaCIPHC5mWm0
+         /FMge46s113SZkFaVfe/jUbn6eNXerPJta9mNxy/PoYKTnz5XfZ+QP2fHo9hMrc6AbPc
+         rqAocWW62DxgrR6SgKjsiK+AK0XzSuJR79FeUWmJ/etchz76Rm2HI6TItclFG0qrwSmE
+         0EYztaqZHQvjYfBu3drPu+w3Buuf7Qi/olnNZZ8SdcX4Ka8fuDcMpGCGlHjad4DThD+C
+         Tnng==
+X-Gm-Message-State: APjAAAVwHoTdVsyvvCAC6vSq8n5Gqr48AQ0rsHe0LJ5r/K/hyRHBsWPT
+        7SY0Yun9GVN/BTwpZtzPhPU=
+X-Google-Smtp-Source: APXvYqzkIETn5pkp7Rrs2hkbj/rr8CAiMh2InNvloMxxIYy4hVUpST9y/PTpBc7n37kGM4OfK8bFYQ==
+X-Received: by 2002:a2e:2e13:: with SMTP id u19mr15564208lju.112.1569919757596;
+        Tue, 01 Oct 2019 01:49:17 -0700 (PDT)
+Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
+        by smtp.gmail.com with ESMTPSA id m15sm3954239ljg.97.2019.10.01.01.49.16
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 01 Oct 2019 01:49:16 -0700 (PDT)
+Received: from johan by xi.terra with local (Exim 4.92.2)
+        (envelope-from <johan@xi.terra>)
+        id 1iFDqW-0000X6-VU; Tue, 01 Oct 2019 10:49:25 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Pete Zaitcev <zaitcev@redhat.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
+Subject: [PATCH v2 0/4] USB: fix runtime PM after driver unbind
+Date:   Tue,  1 Oct 2019 10:49:04 +0200
+Message-Id: <20191001084908.2003-1-johan@kernel.org>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <e9bae40c-9a2c-067b-d547-cd1f1a528e25@debian.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfDkqxH3yTs0kWTkYX35XAJANsW2HSiTqn44/ITzoQruL0KBAlJbaafGLnwB1NnesBv5T7JtP8r1NHBS/X/AbwIbfO/hW6HTP4uyqS+LuszgnbXkBchQ4
- DTYb7N7sJDFL8YYmF7Jt6p/CaKgqm17lFP0oqvCZ2SRYgo2UjOCB2ScOMNS9V7gbY/lMJWi7Rg12ScGWUEcGnfgylKcUgvxO7r8d2KwfZ4KNlRrSkZeZDwdM
- zTBOD0myQw+hSK50A4JJvAvIOdQ/NkGU4yDJfRTVIZZZbcOwAYl2+2GQ2FYhNHo/h+2j4QHU7OXSlv99TX8kwjBxRM3aXwmGnZqNknB91cE=
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/1/19 10:10 AM, Breno Leitao wrote:
-> There are some weird monitors that returns invalid data, as zeroed
-> Horizontal/Vertical Active/Blanking.
+A recent change in USB core broke runtime-PM after driver unbind in
+several drivers (when counting all USB serial drivers). Specifically,
+drivers which took care not modify the runtime-PM usage counter after
+their disconnect callback had returned, would now fail to be suspended
+when a driver is later bound.
 
-Do you have an EDID that does this? I'd like to add it to the collection
-of EDIDs in edid-decode.
+Greg, feel free to pick these up directly. The media patch has been
+acked by Mauro.
 
-Some more nitpicks below:
+Johan
 
-> 
-> This causes edid-decode to crash with a division by zero exception. This simple
-> patch avoids so, checking for the divisor before proceeding.
-> 
-> Signed-off-by: Breno Leitao <leitao@debian.org>
-> ---
->  edid-decode.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> 
-> diff --git a/edid-decode.c b/edid-decode.c
-> index 7442f8a..b932179 100644
-> --- a/edid-decode.c
-> +++ b/edid-decode.c
-> @@ -1022,6 +1022,16 @@ static int detailed_block(const unsigned char *x, int in_extension)
->  		break;
->  	}
->  
-> +	if (!ha || !hbl || !va || !vbl) {
-> +		printf("Invalid Detailing Timings:\n"
 
-Detailing -> Detailed
+v2
+ - rebase on usb-next, I had a conflicting change to usb-skeleton in my
+   tree
+ - add Mauro's ack to the media patch
 
-> +		       "Horizontal Active %4d\n"
-> +		       "Horizontal Blanking %4d\n"
 
-This can be a bit more concise:
+Johan Hovold (4):
+  USB: usb-skeleton: fix runtime PM after driver unbind
+  USB: usblp: fix runtime PM after driver unbind
+  USB: serial: fix runtime PM after driver unbind
+  media: stkwebcam: fix runtime PM after driver unbind
 
-			"Horizontal Active/Blanking: %d/%d\n"
+ drivers/media/usb/stkwebcam/stk-webcam.c | 3 +--
+ drivers/usb/class/usblp.c                | 8 +++++---
+ drivers/usb/serial/usb-serial.c          | 5 +----
+ drivers/usb/usb-skeleton.c               | 8 +++-----
+ 4 files changed, 10 insertions(+), 14 deletions(-)
 
-> +		       "Vertical Active %4d\n"
-> +		       "Vertical Blanking %4d\n",
+-- 
+2.23.0
 
-Ditto.
-
-> +		       ha, hbl, va, vbl);
-> +		return 0;
-> +	}
-> +
->  	pixclk_khz = (x[0] + (x[1] << 8)) * 10;
->  	refresh = (pixclk_khz * 1000) / ((ha + hbl) * (va + vbl));
->  	printf("Detailed mode: Clock %.3f MHz, %d mm x %d mm\n"
-> 
-
-Regards,
-
-	Hans
