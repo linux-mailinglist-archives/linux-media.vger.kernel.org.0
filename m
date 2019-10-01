@@ -2,132 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CC21C4111
-	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2019 21:34:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 437AFC41AC
+	for <lists+linux-media@lfdr.de>; Tue,  1 Oct 2019 22:18:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726771AbfJATdb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Oct 2019 15:33:31 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:41782 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726747AbfJATdb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Oct 2019 15:33:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=M2686iCZDbGByhU1Xj0t3yqq1XUWSbDScCHoAjLveG4=; b=fvPRAisdUrEL4lty1lGDNeOBV
-        8v86arxhgN2oOtTWaeRPd7lXD/+JF+f3clCYzY05NQzuUVMiGbYNqLos+zHoV8nbc/xmZAJ7moIRI
-        E0uCsuoyeC35brjkFr7fFN8NdfEZPEKAG47sUyXFspPHjKgr8ERTdW0mej6cin2oGlLshJfEECKw7
-        19UA5/rTyhiD6Tcxw1GTi9E19WHjdp2+FkhmIW+XRKOiSwOfx+nFlUIhH8svB3apZunYU5hnAnCGq
-        pjCn6/M2PBUu89yrG1NLqpCOi0jDJ7vIiq36nZCIpNFTvIy0nH33nYHecN6A/K3X7YkXiJNg6vDRO
-        u6984mXrQ==;
-Received: from 177.157.127.95.dynamic.adsl.gvt.net.br ([177.157.127.95] helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
-        id 1iFNtq-0000sM-B6; Tue, 01 Oct 2019 19:33:30 +0000
-Date:   Tue, 1 Oct 2019 16:33:26 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+        id S1727066AbfJAUSz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Oct 2019 16:18:55 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:49192 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1726068AbfJAUSz (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Oct 2019 16:18:55 -0400
+Received: (qmail 8138 invoked by uid 2102); 1 Oct 2019 16:18:54 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 1 Oct 2019 16:18:54 -0400
+Date:   Tue, 1 Oct 2019 16:18:54 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
 To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Benoit Parrot <bparrot@ti.com>
-Subject: Re: [GIT PULL FOR v5.5] am437x-vpfe: overdue maintenance
-Message-ID: <20191001163326.37d665bb@coco.lan>
-In-Reply-To: <95a1c6a9-636f-66f4-0360-66105f22af57@xs4all.nl>
-References: <95a1c6a9-636f-66f4-0360-66105f22af57@xs4all.nl>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+cc:     linux-media@vger.kernel.org, USB list <linux-usb@vger.kernel.org>,
+        <syzkaller-bugs@googlegroups.com>
+Subject: [PATCH 1/2] media: usbvision: Fix invalid accesses after device
+ disconnect
+Message-ID: <Pine.LNX.4.44L0.1910011611300.1991-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Fri, 27 Sep 2019 16:27:00 +0200
-Hans Verkuil <hverkuil-cisco@xs4all.nl> escreveu:
+The syzbot fuzzer found two invalid-access bugs in the usbvision
+driver.  These bugs occur when userspace keeps the device file open
+after the device has been disconnected and usbvision_disconnect() has
+set usbvision->dev to NULL:
 
-> Various fixes for am437x-vpfe.
-> 
-> One special note: the last three patches adds new macros to be able to
-> print a V4L2 fourcc in a standard way, both for kernel and userspace,
-> and uses them in v4l2-ioctl.c and am437x.
-> 
-> If you have concerns about this and do not want to merge those patches
-> without discussing this some more, then please just drop these last three
-> patches.
+	When the device file is closed, usbvision_radio_close() tries
+	to issue a usb_set_interface() call, passing the NULL pointer
+	as its first argument.
 
-I looked at the patch with introduced the fourcc. While I like the idea,
-IMHO, the implementation should be improved. Instead of adding obscure
-subsystem-specific magic strings to be added at printk() lines, it should,
-instead, add a new macro to be handled by printk, properly documenting
-it at:
+	If userspace performs a querycap ioctl call, vidioc_querycap()
+	calls usb_make_path() with the same NULL pointer.
 
-	Documentation/core-api/printk-formats.rst
+This patch fixes the problems by making the appropriate tests
+beforehand.  Note that vidioc_querycap() is protected by
+usbvision->v4l2_lock, acquired in a higher layer of the V4L2
+subsystem.
 
-There are other subsystems with macros there, like the network subsystem.
-So, I suspect that it shouldn't be hard to add something like "%pCC"
-with would properly print the fourcc.
+Reported-and-tested-by: syzbot+7fa38a608b1075dfd634@syzkaller.appspotmail.com
+Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
+CC: <stable@vger.kernel.org>
 
-So, I'm dropping the last 3 patches on this series applying the
-remaining ones.
+---
 
-Regards,
-Mauro
+[as1919]
 
-> 
-> Regards,
-> 
-> 	Hans
-> 
-> The following changes since commit 6f51fdfd8229d5358c2d6e272cf73478866e8ddc:
-> 
->   media: videobuf-core.c: poll_wait needs a non-NULL buf pointer (2019-09-05 06:26:57 -0300)
-> 
-> are available in the Git repository at:
-> 
->   git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.5c2
-> 
-> for you to fetch changes up to 743d13880c0749ca61a40ec4c57ebeb60d06f9c6:
-> 
->   media: am437x-vpfe: Remove print_fourcc helper (2019-09-27 16:24:49 +0200)
-> 
-> ----------------------------------------------------------------
-> Tag branch
-> 
-> ----------------------------------------------------------------
-> Benoit Parrot (12):
->       media: am437x-vpfe: Fix missing first line
->       media: am437x-vpfe: Rework ISR routine for clarity
->       media: am437x-vpfe: Wait for end of frame before tear-down
->       media: am437x-vpfe: fix start streaming error path
->       media: am437x-vpfe: Streamlined vb2 buffer cleanup
->       media: am437x-vpfe: Setting STD to current value is not an error
->       media: am437x-vpfe: Use a per instance format array instead of a static one
->       media: am437x-vpfe: fix function trace debug log
->       media: am437x-vpfe: TRY_FMT ioctl is not really trying anything
->       media: am437x-vpfe: Remove per bus width static data
->       media: am437x-vpfe: Switch to SPDX Licensing
->       media: am437x-vpfe: Remove print_fourcc helper
-> 
-> Dave Gerlach (1):
->       media: am437x-vpfe: Fix suspend path to always handle pinctrl config
-> 
-> Hans Verkuil (1):
->       v4l2-ioctl.c: use new v4l2_fourcc_conv/args macros
-> 
-> Sakari Ailus (1):
->       v4l: Add macros for printing V4L fourcc values
-> 
->  Documentation/media/videodev2.h.rst.exceptions   |   2 +
->  drivers/media/platform/am437x/am437x-vpfe.c      | 880 +++++++++++++++++++++++++----------------------------------
->  drivers/media/platform/am437x/am437x-vpfe.h      |  43 ++-
->  drivers/media/platform/am437x/am437x-vpfe_regs.h |  10 +-
->  drivers/media/v4l2-core/v4l2-ioctl.c             |  58 ++--
->  include/uapi/linux/videodev2.h                   |  27 ++
->  6 files changed, 453 insertions(+), 567 deletions(-)
+ drivers/media/usb/usbvision/usbvision-video.c |    6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
+Index: usb-devel/drivers/media/usb/usbvision/usbvision-video.c
+===================================================================
+--- usb-devel.orig/drivers/media/usb/usbvision/usbvision-video.c
++++ usb-devel/drivers/media/usb/usbvision/usbvision-video.c
+@@ -453,6 +453,9 @@ static int vidioc_querycap(struct file *
+ {
+ 	struct usb_usbvision *usbvision = video_drvdata(file);
+ 
++	if (!usbvision->dev)
++		return -ENODEV;
++
+ 	strscpy(vc->driver, "USBVision", sizeof(vc->driver));
+ 	strscpy(vc->card,
+ 		usbvision_device_data[usbvision->dev_model].model_string,
+@@ -1111,7 +1114,8 @@ static int usbvision_radio_close(struct
+ 	mutex_lock(&usbvision->v4l2_lock);
+ 	/* Set packet size to 0 */
+ 	usbvision->iface_alt = 0;
+-	usb_set_interface(usbvision->dev, usbvision->iface,
++	if (usbvision->dev)
++		usb_set_interface(usbvision->dev, usbvision->iface,
+ 				    usbvision->iface_alt);
+ 
+ 	usbvision_audio_off(usbvision);
 
-
-Thanks,
-Mauro
