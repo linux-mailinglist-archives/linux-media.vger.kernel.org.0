@@ -2,152 +2,198 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 42B11C90D5
-	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 20:29:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A1809C911B
+	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 20:49:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728839AbfJBS2L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Oct 2019 14:28:11 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:43682 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726076AbfJBS2L (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Oct 2019 14:28:11 -0400
-Received: by mail-pg1-f196.google.com with SMTP id v27so12326847pgk.10;
-        Wed, 02 Oct 2019 11:28:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=izcdKMTlTPXdg1rZpK9PkNPTeAL5ACc5p0aT6ECn+3o=;
-        b=nr6ZKcXN/729CI5YvKkqVc0Bz2wyp7AqMiNJbnneIbJ2S8a6/RpgT+vQxveooa1g8o
-         Tzstjrebdj0ch6CBEQIhLHedt+Meqh8poQODSN2lg0OykjXXZCvv3ItaPXFO7ZImXqcW
-         RuKmutNc32nfhTfdTSE+Gn+FP0hyvVehIb12ZNHr5rdWDezRIrhU/4qCY2koq02vv9hS
-         0JYsKwzPEkKLeHC0o1yMLr4lNeC7nIidqjJQlgZ17X3hwG7uMGUGlb0FYDKstybAoxSN
-         PuzGKEISFL71Mt9LOzHTLH19Bi/ikZqtSvsTTAUBs/9/pSrhf3mQrJw/Bi+Y2mWPIur/
-         yzHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=izcdKMTlTPXdg1rZpK9PkNPTeAL5ACc5p0aT6ECn+3o=;
-        b=pmsHGoI1ePqZE8TLIu0Dey8pVqh1NIIj/A8bMidf6zGs1MH2FE1AqnpVY91B+3CLt4
-         8BheWaKNwiIe64AuVFIJOqTmRF+wchCvko/tc6ceKJuIY8xNxd18XG4w7zxqtj7bOmQM
-         23z+BEWQzE3U6Kc5/wR3Ro7gBJr/RNPvTtzVCBwWjkobkxurHdBt8LgZEXKKObj/ijfp
-         V1Z9ByZuI2uY3INWNDsKubaNPWcLw4eDL/a8pIDp789JIRi43c9zAMNUZiMvu13fc4ug
-         oD3vwMBWsm5OejBjBXsSYU+mE8l75Yv7FuI+nl6TSMi5293fIXUyqTuPChzLR1LiXXB7
-         3y7Q==
-X-Gm-Message-State: APjAAAWttjPq1lnPKLQ3CMBX0r/izgeFIFB8DCBRwvf1KTLBlY3nuQVw
-        rLq29wRs+YQEyzQLoW9cqqNMYGeN
-X-Google-Smtp-Source: APXvYqwrs3FB89RH0+kgXBF3ejwmYPZLTgHaLNuUiXE1AjcShSZR76+3xPYW28RCBcE0p63294782w==
-X-Received: by 2002:a17:90a:c214:: with SMTP id e20mr5758828pjt.81.1570040889544;
-        Wed, 02 Oct 2019 11:28:09 -0700 (PDT)
-Received: from [10.69.78.41] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id b14sm162486pfi.95.2019.10.02.11.28.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Oct 2019 11:28:08 -0700 (PDT)
-Subject: Re: [PATCH 00/11] of: Fix DMA configuration for non-DT masters
-To:     Robin Murphy <robin.murphy@arm.com>,
-        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>, devicetree@vger.kernel.org,
-        Matthias Brugger <mbrugger@suse.com>,
-        Frank Rowand <frowand.list@gmail.com>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        linux-wireless <linux-wireless@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        etnaviv@lists.freedesktop.org,
-        "open list:DMA GENERIC OFFLOAD ENGINE SUBSYSTEM" 
-        <dmaengine@vger.kernel.org>, Stefan Wahren <wahrenst@gmx.net>,
-        james.quinlan@broadcom.com, linux-pci@vger.kernel.org,
-        linux-tegra@vger.kernel.org, xen-devel@lists.xenproject.org,
-        Dan Williams <dan.j.williams@intel.com>,
-        freedreno <freedreno@lists.freedesktop.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-References: <20190924181244.7159-1-nsaenzjulienne@suse.de>
- <CAL_Jsq+v+svTyna7UzQdRVqfNc5Z_bgWzxNRXv7-Wqv3NwDu2g@mail.gmail.com>
- <d1a31a2ec8eb2f226b1fb41f6c24ffb47c3bf7c7.camel@suse.de>
- <e404c65b-5a66-6f91-5b38-8bf89a7697b2@arm.com>
- <43fb5fe1de317d65a4edf592f88ea150c6e3b8cc.camel@suse.de>
- <CAL_JsqLhx500cx3YLoC7HL1ux3bBpV+fEA2Qnk7D5RFGgiGzSw@mail.gmail.com>
- <aa4c8d62-7990-e385-2bb1-cec55148f0a8@arm.com>
- <CAL_JsqKKYcHPnA80ZwLY=Sk3e5MqrimedUhWQ5+iuPZXQxYHdA@mail.gmail.com>
- <307b988d0c67fb1c42166eca12742bcfda09d92d.camel@suse.de>
- <c27a51e1-1adf-ae6a-dc67-ae76222a1163@arm.com>
-From:   Florian Fainelli <f.fainelli@gmail.com>
-Message-ID: <fbae48ca-fbd4-e32b-e874-92b5bba5df4d@gmail.com>
-Date:   Wed, 2 Oct 2019 11:28:06 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+        id S1728908AbfJBStc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Oct 2019 14:49:32 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:57672 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726708AbfJBStb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Oct 2019 14:49:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=wUnZwvjJy/SR7Md0G0Vpiggc+QNzc3d1y1Epk6yyVOQ=; b=NfFebkNuyhWz+OlrPzkAYibBD
+        PliwIEkOqDDImq5rCfEtNVZaKDiYZbPCnkbdcRiGiwvlEq/7q30bqpZwo7VstjIDfZ7s6P+Lwm0yK
+        uhnYmiqZvEp1U3cMCX0Tf67QlY7x+imM0XoZlAO1YmAOVy/Q1wqASuuYyVqWUfjn/5J0n50yda98x
+        OgDHTv2//ougLpujno0I3yD/dKRVR7soAM4MzD0vFnYd0ZuKqF6ZKK0m18bVe5AfW1NycSprT15GE
+        3bAJUBdedNAZytALygECAWvHr/ZzLxMp85LcEsybuM7ejEnJhj9F5Gxll4EGeEiSgOxa2Xz0HTxZ8
+        Vy4Iz1T9w==;
+Received: from 177.133.68.49.dynamic.adsl.gvt.net.br ([177.133.68.49] helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
+        id 1iFjgk-0002rx-IW; Wed, 02 Oct 2019 18:49:26 +0000
+Date:   Wed, 2 Oct 2019 15:49:22 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     JP <jp@jpvw.nl>, crope@iki.fi
+Cc:     Gonsolo <gonsolo@gmail.com>, Sean Young <sean@mess.org>,
+        linux-media@vger.kernel.org,
+        Linux Kernel <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] si2157: Add support for Logilink VG0022A.
+Message-ID: <20191002154922.7f1cfc76@coco.lan>
+In-Reply-To: <29ab2e43-4374-a3ea-6ae1-a4267867eaa4@jpvw.nl>
+References: <20191001205203.4b1a5fb6@coco.lan>
+        <20191002141359.30166-1-gonsolo@gmail.com>
+        <20191002141359.30166-2-gonsolo@gmail.com>
+        <20191002142744.GA3475@gofer.mess.org>
+        <CANL0fFS9TGKJH2rfkXzak78BaLazTNO7GoZhSb4vLBsDrmz3FQ@mail.gmail.com>
+        <20191002150650.GA4227@gofer.mess.org>
+        <CANL0fFRoL6NxOCbNC=XjQ6LDkeeqAayaLUbm9xARWX9ttqfPFg@mail.gmail.com>
+        <29ab2e43-4374-a3ea-6ae1-a4267867eaa4@jpvw.nl>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <c27a51e1-1adf-ae6a-dc67-ae76222a1163@arm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Em Wed, 2 Oct 2019 19:23:02 +0200
+JP <jp@jpvw.nl> escreveu:
 
-
-On 9/26/2019 4:20 AM, Robin Murphy wrote:
-> On 2019-09-26 11:44 am, Nicolas Saenz Julienne wrote:
->>>>>> Robin, have you looked into supporting multiple dma-ranges? It's the
->>>>>> next thing
->>>>>> we need for BCM STB's PCIe. I'll have a go at it myself if nothing
->>>>>> is in
->>>>>> the
->>>>>> works already.
->>>>>
->>>>> Multiple dma-ranges as far as configuring inbound windows should work
->>>>> already other than the bug when there's any parent translation. But if
->>>>> you mean supporting multiple DMA offsets and masks per device in the
->>>>> DMA API, there's nothing in the works yet.
->>
->> Sorry, I meant supporting multiple DMA offsets[1]. I think I could
->> still make
->> it with a single DMA mask though.
+> Hi all.
 > 
-> The main problem for supporting that case in general is the disgusting
-> carving up of the physical memory map you may have to do to guarantee
-> that a single buffer allocation cannot ever span two windows with
-> different offsets. I don't think we ever reached a conclusion on whether
-> that was even achievable in practice.
+> On 10/2/19 5:21 PM, Gonsolo wrote:
+> > Hi!
+> >  
+> >> Antti has some great suggestions in that thread:
+> >>          https://lkml.org/lkml/2017/5/24/245
+> >>
+> >> Also note https://lkml.org/lkml/2017/5/26/357 if you have access to a
+> >> logic analyser.  
+> > I read that thread. Unfortunately I'm not a hardware engineer nor do I
+> > have access to a logic analyser, just the device and a remote hope not
+> > to keep my custom 4.13 kernel forever or to have to buy a new DVB T2
+> > device. :(
+> > In the above thread it is mentioned that even the Windows driver
+> > receives the ffff's so maybe it is a hardware bug?  
+> Looks like it is:
+> http://lkml.iu.edu/hypermail/linux/kernel/1710.3/03205.html
 
-It is with the Broadcom STB SoCs which have between 1 and 3 memory
-controllers depending on the SoC, and multiple dma-ranges cells for PCIe
-as a consequence.
+Hmm... changing the pull-up register will very likely change the
+timings.
 
-Each memory controller has a different physical address aperture in the
-CPU's physical address map (e.g.: MEMC0 is 0x0 - 0x3fff_ffff, MEMC1
-0x4000_0000 - 0x7ffff_ffff and MEMC2 0x8000_0000 - 0xbfff_ffff, not
-counting the extension regions above 4GB), and while the CPU is
-scheduled and arbitrated the same way across all memory controllers
-(thus making it virtually UMA, almost) having a buffer span two memory
-controllers would be problematic because the memory controllers do not
-know how to guarantee the transaction ordering and buffer data
-consistency in both DRAM itself and for other memory controller clients,
-like PCIe.
+There's a logic at the driver that changes the I2C bus speed to
+300k (with is non-standard):
 
-We historically had to reserve the last 4KB of each memory controller to
-avoid problematic controllers like EHCI to prefetch beyond the end of a
-memory controller's populated memory and that also incidentally takes
-care of never having a buffer cross a controller boundary. Either you
-can allocate the entire buffer on a given memory controller, or you
-cannot allocate memory at all on that zone/region and another one must
-be found (or there is no more memory and there is a genuine OOM).
 
-The way we reserve memory right now is based on the first patch
-submitted by Jim:
+		/* I2C master bus 2 clock speed 300k */
+		ret = af9035_wr_reg(d, 0x00f6a7, 0x07);
+		if (ret < 0)
+			goto err;
 
-https://lore.kernel.org/patchwork/patch/988469/
+		/* I2C master bus 1,3 clock speed 300k */
+		ret = af9035_wr_reg(d, 0x00f103, 0x07);
+		if (ret < 0)
+			goto err;
 
-whereby we read the memory node's "reg" property and we map the physical
-addresses to the memory controller configuration read from the specific
-registers in the CPU's Bus Interface Unit (where the memory controller
-apertures are architecturally defined) and then we use that to call
-memblock_reserve() (not part of that patch, it should be though).
--- 
-Florian
+Perhaps if we reduce the bus speed to 100k, the device will work
+without the hacks.
+
+I don't have af9035 datasheets. Perhaps Antti could shed some
+light about how to change the speed to 100k, but on a quick search 
+at the Internet, I found this:
+
+	https://lore.kernel.org/linux-media/1312539895.2763.33.camel@Jason-Linux/
+
+With has a comment that explains how the I2C speed is calculated on those
+ITE devices:
+
+	#define    p_reg_one_cycle_counter_tuner	0xF103
+
+	/* Define I2C master speed, the default value 0x07 means 366KHz (1000000000 / (24.4 * 16 * User_I2C_SPEED)). */
+	#define User_I2C_SPEED 0x07
+
+	error =
+	    it9135_write_reg(data, 0, PROCESSOR_LINK,
+			     p_reg_one_cycle_counter_tuner, User_I2C_SPEED);
+
+So, in summary, the value for the I2C speed register is given by:
+
+	I2C_speed_register = (1000000000 / (24.4 * 16 * I2C_speed))
+
+So, for 100 kbps, the I2C speed register should be set with a value
+close to ~25,6.
+
+Doing the reverse math, we have:
+
+	I2C_speed_register = 25 -> I2C_speed = 102,46 kbps
+	I2C_speed_register = 26 -> I2C_speed = 98,52 kbps
+
+So, if we do:
+
+		/* I2C master bus 2 clock speed ~100k */
+		ret = af9035_wr_reg(d, 0x00f6a7, 26);
+		if (ret < 0)
+			goto err;
+
+		/* I2C master bus 1,3 clock speed ~100k */
+		ret = af9035_wr_reg(d, 0x00f103, 26);
+		if (ret < 0)
+			goto err;
+
+The bus speed will reduce to 98,52 kbps, with is a typical nominal
+value for I2C tuners and other devices. With that, the device should 
+probably work fine without needing to replace the pull up resistor.
+
+Ok, tuner firmware load would be ~3,7 times slower, but this is
+something that we do just once need a firmware). 
+
+All other I2C messages are short enough to not cause any real difference.
+
+
+Could you please test the enclosing patch and see if, with that, you
+can remove the hacks you added for the tuner probe to work?
+
+Regards,
+Mauro
+
+[PATCH] media: af9035: slow down I2C bus speed on it930x devices
+
+We have a few reports about tuner probing instability with
+some it930x devices.
+
+As it is better safe than sorry, let's slow down the I2C,
+using the formula found at an old patch:
+
+https://lore.kernel.org/linux-media/1312539895.2763.33.camel@Jason-Linux/
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+
+diff --git a/drivers/media/usb/dvb-usb-v2/af9035.c b/drivers/media/usb/dvb-usb-v2/af9035.c
+index 3afd18733614..df2c75b84be8 100644
+--- a/drivers/media/usb/dvb-usb-v2/af9035.c
++++ b/drivers/media/usb/dvb-usb-v2/af9035.c
+@@ -1197,6 +1197,9 @@ static int af9035_frontend_attach(struct dvb_usb_adapter *adap)
+ 	return ret;
+ }
+ 
++/* I2C speed register = (1000000000 / (24.4 * 16 * I2C_speed)) */
++#define I2C_SPEED_REGISTER 26
++
+ static int it930x_frontend_attach(struct dvb_usb_adapter *adap)
+ {
+ 	struct state *state = adap_to_priv(adap);
+@@ -1208,13 +1211,13 @@ static int it930x_frontend_attach(struct dvb_usb_adapter *adap)
+ 
+ 	dev_dbg(&intf->dev, "adap->id=%d\n", adap->id);
+ 
+-	/* I2C master bus 2 clock speed 300k */
+-	ret = af9035_wr_reg(d, 0x00f6a7, 0x07);
++	/* I2C master bus 2 clock speed ~100k */
++	ret = af9035_wr_reg(d, 0x00f6a7, I2C_SPEED_REGISTER);
+ 	if (ret < 0)
+ 		goto err;
+ 
+-	/* I2C master bus 1,3 clock speed 300k */
+-	ret = af9035_wr_reg(d, 0x00f103, 0x07);
++	/* I2C master bus 1,3 clock speed ~100k */
++	ret = af9035_wr_reg(d, 0x00f103, I2C_SPEED_REGISTER);
+ 	if (ret < 0)
+ 		goto err;
+ 
+
