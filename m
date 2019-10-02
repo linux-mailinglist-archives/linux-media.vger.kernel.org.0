@@ -2,94 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E6E9AC4AB2
-	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 11:38:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E8B8C4AC7
+	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 11:48:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726728AbfJBJiA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Oct 2019 05:38:00 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:58854 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726397AbfJBJiA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Oct 2019 05:38:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=g/WUAYfXMrYpXdQQJRf6Fhcbc8Avznhf2nXFDJSjsjw=; b=ojtHKvjN5m3G+yp00hN4OjPA5
-        2TBOQk2XEcRdXwaRtw1sEkmjlTFC059k0A9r/+CWYMN32dAvsJdAox1VgiQIG7CJgPV4q0uitW+gw
-        wvH49S8IR/p4dR6xyVsz7HcKiH2cWU8gwhanYMKDhAbjZZRMFi30N+NotQj0x71VXL8px2daG+Tjk
-        I7DdfWu7P5Oju0S6E66mLdm1AsbDzJgNijPT/cA00MkLgZCvyjjfTw309JQt43zlVF3+/jL98cmyg
-        1aUQ6XVSpd7+3r6zFhJxs1gLerP9SrpcO9yBsa5PlPb5ohAOaoyoXfcFISR9L+qVjmQpxc3yuSxJF
-        nprqsAkGw==;
-Received: from 177.157.127.95.dynamic.adsl.gvt.net.br ([177.157.127.95] helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
-        id 1iFb4A-0006Ah-PO; Wed, 02 Oct 2019 09:37:08 +0000
-Date:   Wed, 2 Oct 2019 06:36:58 -0300
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: Build failed in Jenkins: v4l-utils #43
-Message-ID: <20191002063658.3771c1fa@coco.lan>
-In-Reply-To: <6a1df171-bd07-5eef-1917-4171fb3bc359@xs4all.nl>
-References: <1586568084.1.1570004204603.JavaMail.jenkins@builder.linuxtv.org>
-        <6a1df171-bd07-5eef-1917-4171fb3bc359@xs4all.nl>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1726478AbfJBJsP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Oct 2019 05:48:15 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:43817 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726354AbfJBJsP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Oct 2019 05:48:15 -0400
+Received: by mail-wr1-f65.google.com with SMTP id q17so18853544wrx.10
+        for <linux-media@vger.kernel.org>; Wed, 02 Oct 2019 02:48:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:subject:date:message-id;
+        bh=rFUo0wL7r9rOV0bdfOWH9wO7Z+8/KHqte+nYimGmjnA=;
+        b=yA+z2vS+DAyEINXIQoI9hvtVrmYzhxJSf/+pi6KcZ/spJtDxzKpqOaDs+CsI9KO6ce
+         jL1Rw3bt/WE2vWrfRpPQ7xujn5smKXw+HDnefWwr4fZ9SeH5NIO1xovlIFVXFzGnGf1w
+         Q64tH9LYiG88TCZPC9U7KwN2dxJbDWEbK60dRpdxpBXsn8ybmZIALBGj5IwvKq2BVl/B
+         XoZdjuFngcgOBMxZCddKAGlkwYAEFbLbUVRjs4RxhvGN1J7v+RwgZO3EYTDMSb4jn5E9
+         YVhUAKTKMcHvrpUaBHmntfOSKWnj1paHkpeqgR3sr7qtwP2vxaB8yepYeXWldB63bFF1
+         iIsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=rFUo0wL7r9rOV0bdfOWH9wO7Z+8/KHqte+nYimGmjnA=;
+        b=NMA4A0/Mxx0k5xFGjl9PexwL1qkbT0UD63V5ZD49lNjabRhnlPsxEw0qNCbfUHZQmJ
+         rDD15zBMvruEZt+NIvxELrsF4/1HDCnsgahcXDcGazSi/lOlvRpjq+AUMdl1oxWiFO0a
+         T+B6CA34nhL50qulf82MA2UXX7iQ9qiQJiBlGOfS37Nhkg5d6l4rhUSTH7AQLnje3sGS
+         8jYhsN2XyuMzfpV4gXo0k30v08ELLPwDdAKNsXOi4WXLrWC2fvArhxDTwXl0HbvRoJar
+         EgAWigwLLRe07wBxylkHbAiAZCfEVZ4BxRkYaFP1Y8wwU8m8Y5ZBjADA2Qs/f5jICwF8
+         At2g==
+X-Gm-Message-State: APjAAAUPGa2cmZqyKK1e6LWOFrvZpkjZ5YlUIeIYPCtG6wyVmc8ZNLrI
+        DAd8UtzAzV1uD9W7fnWpR8lVkYZr7gY=
+X-Google-Smtp-Source: APXvYqyLYwnZHoc47rojVOzkTC+eyYZgWoSVQsdr2ayOFbFYZYKpPiLHmmhyTNsy2CNT9V2INK1dXQ==
+X-Received: by 2002:adf:b3d2:: with SMTP id x18mr2072713wrd.264.1570009693343;
+        Wed, 02 Oct 2019 02:48:13 -0700 (PDT)
+Received: from mms-0440.qualcomm.mm-sol.com ([37.157.136.206])
+        by smtp.gmail.com with ESMTPSA id g24sm17118865wrb.35.2019.10.02.02.48.12
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Oct 2019 02:48:12 -0700 (PDT)
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL for v5.5] Venus updates
+Date:   Wed,  2 Oct 2019 12:47:43 +0300
+Message-Id: <20191002094743.28589-1-stanimir.varbanov@linaro.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Wed, 2 Oct 2019 10:25:02 +0200
-Hans Verkuil <hverkuil@xs4all.nl> escreveu:
+Hi Mauro,
 
-> Hi Mauro,
-> 
-> On 10/2/19 10:16 AM, Jenkins Builder Robot wrote:
-> > See <https://builder.linuxtv.org/job/v4l-utils/43/display/redirect?page=changes>
-> > 
-> > Changes:
-> > 
-> > [hverkuil-cisco] keytable: add new generated keymaps
-> > 
-> > [hverkuil-cisco] msg2ctl.pl: add newline after log_msg
-> > 
-> > [hverkuil-cisco] cec-follower: drop the hardcoded UI commands list
-> > 
-> > [hverkuil-cisco] cec-ctl/cec-log: use new CEC_OP_UI_CMD defines  
-> 
-> You need to remove utils/cec-follower/cec-log.h.
-> 
-> This file was generated but the generated file is now called cec-log-gen.h.
-> A new cec-log.h was also added to utils/common as a companion to cec-log.cpp.
-> 
-> Unfortunately, the old cec-log.h clashes with the new cec-log.h. And since
-> the old cec-log.h was generated and so is not part of the git repo it is
-> not removed as part of a 'git pull'.
-> 
-> Anyway, just remove utils/cec-follower/cec-log.h and it compiles again.
+The Venus driver updates include:
 
-I manually removed the file at the builder and at the slave machines and
-asked for a new build. The build now succeeded.
+* three fixes: fail to suspend, enum frameinterval issue with encoder
+and frequency table modifications for v3 to handle performance issues.
+* two new features: interconnect bandwidth support on v4 and more precise
+clock-scaling on v4.
 
-That's said, we should really avoid disruptive changes like that, fixing
-the building system for it to do the right thing, as users of the v4l-utils 
-will also face the same issue if they update their git trees.
+Please pull.
 
-At any time, a clean git update with something similar to:
+regards,
+Stan
 
-	git remote update
-	git fetch origin
-	git reset --hard origin/master
-	./bootstrap.sh
-	./configure
-	make
+The following changes since commit 503e59365dd134b2c63864f14e2de0476284b003:
 
-should work.
+  media: i2c: ov2659: Switch to SPDX Licensing (2019-10-01 17:39:16 -0300)
 
-Regards,
-Mauro
+are available in the Git repository at:
+
+  git://linuxtv.org/svarbanov/media_tree.git tags/venus-for-v5.5
+
+for you to fetch changes up to 122742a5edf5a5dff7526ff064ccddf627c27dcd:
+
+  venus: Update clock scaling (2019-10-02 11:24:41 +0300)
+
+----------------------------------------------------------------
+Venus updates for v5.5
+
+----------------------------------------------------------------
+Aniket Masule (2):
+      venus: Add codec data table
+      venus: Update clock scaling
+
+Loic Poulain (1):
+      venus: core: Fix msm8996 frequency table
+
+Stanimir Varbanov (3):
+      venus: Use on-chip interconnect API
+      venus: venc: Fix enum frameintervals
+      venus: Fix occasionally failures to suspend
+
+ drivers/media/platform/Kconfig                |   1 +
+ drivers/media/platform/qcom/venus/core.c      |  56 +++++-
+ drivers/media/platform/qcom/venus/core.h      |  30 ++++
+ drivers/media/platform/qcom/venus/helpers.c   | 246 ++++++++++++++++++++++++--
+ drivers/media/platform/qcom/venus/helpers.h   |   3 +-
+ drivers/media/platform/qcom/venus/hfi_venus.c |   6 +
+ drivers/media/platform/qcom/venus/vdec.c      |   8 +-
+ drivers/media/platform/qcom/venus/venc.c      |  27 ++-
+ 8 files changed, 346 insertions(+), 31 deletions(-)
