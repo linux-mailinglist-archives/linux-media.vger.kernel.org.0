@@ -2,176 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 59892C904D
-	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 19:58:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 42B11C90D5
+	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 20:29:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728145AbfJBR6I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Oct 2019 13:58:08 -0400
-Received: from iolanthe.rowland.org ([192.131.102.54]:39130 "HELO
-        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1726708AbfJBR6H (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Oct 2019 13:58:07 -0400
-Received: (qmail 5129 invoked by uid 2102); 2 Oct 2019 13:58:06 -0400
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 2 Oct 2019 13:58:06 -0400
-Date:   Wed, 2 Oct 2019 13:58:06 -0400 (EDT)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@iolanthe.rowland.org
-To:     Tim Harvey <tharvey@gateworks.com>
-cc:     linux-media <linux-media@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>
-Subject: Re: PureThermal2 UVC video camera: Failed to submit URB 0 (-28)
-In-Reply-To: <CAJ+vNU32WbBd8BuHmojDh4adEemT57qviM12AeeiC8yFVNUgmg@mail.gmail.com>
-Message-ID: <Pine.LNX.4.44L0.1910021343290.1552-100000@iolanthe.rowland.org>
+        id S1728839AbfJBS2L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Oct 2019 14:28:11 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:43682 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726076AbfJBS2L (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Oct 2019 14:28:11 -0400
+Received: by mail-pg1-f196.google.com with SMTP id v27so12326847pgk.10;
+        Wed, 02 Oct 2019 11:28:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=izcdKMTlTPXdg1rZpK9PkNPTeAL5ACc5p0aT6ECn+3o=;
+        b=nr6ZKcXN/729CI5YvKkqVc0Bz2wyp7AqMiNJbnneIbJ2S8a6/RpgT+vQxveooa1g8o
+         Tzstjrebdj0ch6CBEQIhLHedt+Meqh8poQODSN2lg0OykjXXZCvv3ItaPXFO7ZImXqcW
+         RuKmutNc32nfhTfdTSE+Gn+FP0hyvVehIb12ZNHr5rdWDezRIrhU/4qCY2koq02vv9hS
+         0JYsKwzPEkKLeHC0o1yMLr4lNeC7nIidqjJQlgZ17X3hwG7uMGUGlb0FYDKstybAoxSN
+         PuzGKEISFL71Mt9LOzHTLH19Bi/ikZqtSvsTTAUBs/9/pSrhf3mQrJw/Bi+Y2mWPIur/
+         yzHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=izcdKMTlTPXdg1rZpK9PkNPTeAL5ACc5p0aT6ECn+3o=;
+        b=pmsHGoI1ePqZE8TLIu0Dey8pVqh1NIIj/A8bMidf6zGs1MH2FE1AqnpVY91B+3CLt4
+         8BheWaKNwiIe64AuVFIJOqTmRF+wchCvko/tc6ceKJuIY8xNxd18XG4w7zxqtj7bOmQM
+         23z+BEWQzE3U6Kc5/wR3Ro7gBJr/RNPvTtzVCBwWjkobkxurHdBt8LgZEXKKObj/ijfp
+         V1Z9ByZuI2uY3INWNDsKubaNPWcLw4eDL/a8pIDp789JIRi43c9zAMNUZiMvu13fc4ug
+         oD3vwMBWsm5OejBjBXsSYU+mE8l75Yv7FuI+nl6TSMi5293fIXUyqTuPChzLR1LiXXB7
+         3y7Q==
+X-Gm-Message-State: APjAAAWttjPq1lnPKLQ3CMBX0r/izgeFIFB8DCBRwvf1KTLBlY3nuQVw
+        rLq29wRs+YQEyzQLoW9cqqNMYGeN
+X-Google-Smtp-Source: APXvYqwrs3FB89RH0+kgXBF3ejwmYPZLTgHaLNuUiXE1AjcShSZR76+3xPYW28RCBcE0p63294782w==
+X-Received: by 2002:a17:90a:c214:: with SMTP id e20mr5758828pjt.81.1570040889544;
+        Wed, 02 Oct 2019 11:28:09 -0700 (PDT)
+Received: from [10.69.78.41] ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id b14sm162486pfi.95.2019.10.02.11.28.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 02 Oct 2019 11:28:08 -0700 (PDT)
+Subject: Re: [PATCH 00/11] of: Fix DMA configuration for non-DT masters
+To:     Robin Murphy <robin.murphy@arm.com>,
+        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+        Rob Herring <robh+dt@kernel.org>
+Cc:     "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>, devicetree@vger.kernel.org,
+        Matthias Brugger <mbrugger@suse.com>,
+        Frank Rowand <frowand.list@gmail.com>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        linux-wireless <linux-wireless@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        etnaviv@lists.freedesktop.org,
+        "open list:DMA GENERIC OFFLOAD ENGINE SUBSYSTEM" 
+        <dmaengine@vger.kernel.org>, Stefan Wahren <wahrenst@gmx.net>,
+        james.quinlan@broadcom.com, linux-pci@vger.kernel.org,
+        linux-tegra@vger.kernel.org, xen-devel@lists.xenproject.org,
+        Dan Williams <dan.j.williams@intel.com>,
+        freedreno <freedreno@lists.freedesktop.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+References: <20190924181244.7159-1-nsaenzjulienne@suse.de>
+ <CAL_Jsq+v+svTyna7UzQdRVqfNc5Z_bgWzxNRXv7-Wqv3NwDu2g@mail.gmail.com>
+ <d1a31a2ec8eb2f226b1fb41f6c24ffb47c3bf7c7.camel@suse.de>
+ <e404c65b-5a66-6f91-5b38-8bf89a7697b2@arm.com>
+ <43fb5fe1de317d65a4edf592f88ea150c6e3b8cc.camel@suse.de>
+ <CAL_JsqLhx500cx3YLoC7HL1ux3bBpV+fEA2Qnk7D5RFGgiGzSw@mail.gmail.com>
+ <aa4c8d62-7990-e385-2bb1-cec55148f0a8@arm.com>
+ <CAL_JsqKKYcHPnA80ZwLY=Sk3e5MqrimedUhWQ5+iuPZXQxYHdA@mail.gmail.com>
+ <307b988d0c67fb1c42166eca12742bcfda09d92d.camel@suse.de>
+ <c27a51e1-1adf-ae6a-dc67-ae76222a1163@arm.com>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+Message-ID: <fbae48ca-fbd4-e32b-e874-92b5bba5df4d@gmail.com>
+Date:   Wed, 2 Oct 2019 11:28:06 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+In-Reply-To: <c27a51e1-1adf-ae6a-dc67-ae76222a1163@arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 2 Oct 2019, Tim Harvey wrote:
 
-> On Tue, Oct 1, 2019 at 12:19 PM Alan Stern <stern@rowland.harvard.edu> wrote:
-> >
-> > On Tue, 1 Oct 2019, Tim Harvey wrote:
-> >
-> > > On Thu, Sep 26, 2019 at 3:47 PM Tim Harvey <tharvey@gateworks.com> wrote:
-> > > >
-> > > > Greetings,
-> > > >
-> > > > I'm running into an issue with a USB UVC Full speed camera, the
-> > > > PureThermal2 [1] on an IMX6 based ARM board.
-> > > >
-> > > > What I find is that I get two video devices registered (the first one
-> > > > is the expected device, and I'm not clear what the 2nd one is). When I
-> > > > try to capture a single frame I get 'Failed to submit URB 0 (-28)'
-> > > > which historically has been due to a bandwidth issue. I encounter this
-> > > > on the IMX6 EHCI host as well as the OTG host when no other devices
-> > > > are connected (no hubs either). I've tested with both a 4.20 kernel
-> > > > and a 5.3 kernel.
-> > > >
-> > > > If I plug this device into another board I have based on an OcteonTX
-> > > > ARM64 cpu with a fairly modern 4.14 kernel and I find that a single
-> > > > video device gets registered and I can capture just fine.
-> > > >
-> > > > Here are some details:
-> > > > lsusb reports: 1e4e:0100 Cubeternet WebCam
-> > > >
-> > > > working system with 4.14 kernel hot-inserting the camera:
-> > > > [  495.163276] usb 1-1.2: new full-speed USB device number 6 using xhci_hcd
-> > > > [  495.291685] uvcvideo: Found UVC 1.00 device PureThermal (fw:v1.2.2)
-> > > > (1e4e:0100)
-> > > > [  495.300543] input: PureThermal (fw:v1.2.2): PureTh as
-> > > > /devices/platform/soc@0/848000000000.pci/pci0000:00/0000:00:10.0/usb1/1-1/1-1.2/1-1.2:1.0/input/input1
-> > > > [  496.731214] usb 1-1.2: USB disconnect, device number 6
-> > > > [  496.987294] usb 1-1.2: new full-speed USB device number 7 using xhci_hcd
-> > > > [  497.115683] uvcvideo: Found UVC 1.00 device PureThermal (fw:v1.2.2)
-> > > > (1e4e:0100)
-> > > > [  497.124182] input: PureThermal (fw:v1.2.2): PureTh as
-> > > > /devices/platform/soc@0/848000000000.pci/pci0000:00/0000:00:10.0/usb1/1-1/1-1.2/1-1.2:1.0/input/input2
-> >
-> > ...
-> >
-> > > > I'm also not clear why the device enumerates then disconnects and
-> > > > enumerates again when plugged in but this happens on the system it
-> > > > works on as well and I've seen similar things with other devices.
-> >
-> > Perhaps some process opens the camera's device file, does something to
-> > cause the camera to disconnect and reconnect, but then doesn't close
-> > the file.
+
+On 9/26/2019 4:20 AM, Robin Murphy wrote:
+> On 2019-09-26 11:44 am, Nicolas Saenz Julienne wrote:
+>>>>>> Robin, have you looked into supporting multiple dma-ranges? It's the
+>>>>>> next thing
+>>>>>> we need for BCM STB's PCIe. I'll have a go at it myself if nothing
+>>>>>> is in
+>>>>>> the
+>>>>>> works already.
+>>>>>
+>>>>> Multiple dma-ranges as far as configuring inbound windows should work
+>>>>> already other than the bug when there's any parent translation. But if
+>>>>> you mean supporting multiple DMA offsets and masks per device in the
+>>>>> DMA API, there's nothing in the works yet.
+>>
+>> Sorry, I meant supporting multiple DMA offsets[1]. I think I could
+>> still make
+>> it with a single DMA mask though.
 > 
-> Alan,
-> 
-> I found that the '2 devices' is because of a kernel commit in 4.16
-> that adds support for UVC metadata: 088ead2 media: uvcvideo: Add a
-> metadata device node. I can comment out the call to
-> uvc_meta_register() and the 2nd device goes away but the first (and
-> only) v4l2 capture device still has the same issue.
+> The main problem for supporting that case in general is the disgusting
+> carving up of the physical memory map you may have to do to guarantee
+> that a single buffer allocation cannot ever span two windows with
+> different offsets. I don't think we ever reached a conclusion on whether
+> that was even achievable in practice.
 
-Okay, that explains that.
+It is with the Broadcom STB SoCs which have between 1 and 3 memory
+controllers depending on the SoC, and multiple dma-ranges cells for PCIe
+as a consequence.
 
-> > > I have found that if I enumerate the camera through a PCIe based XHCI
-> > > host controller it still registers the 2 v4l2 devices but in this case
-> > > I can capture fine. So it would appear that this has something to do
-> > > with the IMX6 ci_hdrc controller. The -ENOSPC is getting returned from
-> > > drivers/usb/host/ehci-sched.c:iso_stream_schedule()
-> > >
-> > > I feel perhaps this is something basic I don't understand regarding
-> > > USB URB scheduling but I don't get why it occurs on the IMX6 ci_hdrc
-> > > controller on not an XHCI controller.
-> >
-> > It's probably related to differences between the drivers.  What shows
-> > up in /sys/kernel/debug/usb/devices with the camera plugged in?
-> >
-> 
-> Here's some more debugging including /sys/kernel/debug/usb/devices:
-> ~# cat /sys/kernel/debug/usb/devices
-> 
-> T:  Bus=01 Lev=00 Prnt=00 Port=00 Cnt=00 Dev#=  1 Spd=480  MxCh= 1
-> B:  Alloc=  0/800 us ( 0%), #Int=  0, #Iso=  0
-> D:  Ver= 2.00 Cls=09(hub  ) Sub=00 Prot=01 MxPS=64 #Cfgs=  1
-> P:  Vendor=1d6b ProdID=0002 Rev= 5.03
-> S:  Manufacturer=Linux 5.3.0-00157-g651f7f9-dirty ehci_hcd
-> S:  Product=EHCI Host Controller
-> S:  SerialNumber=ci_hdrc.0
-> C:* #Ifs= 1 Cfg#= 1 Atr=e0 MxPwr=  0mA
-> I:* If#= 0 Alt= 0 #EPs= 1 Cls=09(hub  ) Sub=00 Prot=00 Driver=hub
-> E:  Ad=81(I) Atr=03(Int.) MxPS=   4 Ivl=256ms
-> 
-> T:  Bus=01 Lev=01 Prnt=01 Port=00 Cnt=01 Dev#=  2 Spd=12   MxCh= 0
-> D:  Ver= 2.00 Cls=ef(misc ) Sub=02 Prot=01 MxPS=64 #Cfgs=  1
-> P:  Vendor=1e4e ProdID=0100 Rev= 2.00
-> S:  Manufacturer=GroupGets
-> S:  Product=PureThermal (fw:v1.2.2)
-> S:  SerialNumber=801f001c-5102-3038-3835-393400000000
-> C:* #Ifs= 2 Cfg#= 1 Atr=80 MxPwr=100mA
-> A:  FirstIf#= 0 IfCount= 2 Cls=0e(video) Sub=03 Prot=00
-> I:* If#= 0 Alt= 0 #EPs= 1 Cls=0e(video) Sub=01 Prot=00 Driver=uvcvideo
-> E:  Ad=82(I) Atr=03(Int.) MxPS=   8 Ivl=32ms
-> I:* If#= 1 Alt= 0 #EPs= 0 Cls=0e(video) Sub=02 Prot=00 Driver=uvcvideo
-> I:  If#= 1 Alt= 1 #EPs= 1 Cls=0e(video) Sub=02 Prot=00 Driver=uvcvideo
-> E:  Ad=81(I) Atr=01(Isoc) MxPS= 962 Ivl=1ms
+Each memory controller has a different physical address aperture in the
+CPU's physical address map (e.g.: MEMC0 is 0x0 - 0x3fff_ffff, MEMC1
+0x4000_0000 - 0x7ffff_ffff and MEMC2 0x8000_0000 - 0xbfff_ffff, not
+counting the extension regions above 4GB), and while the CPU is
+scheduled and arbitrated the same way across all memory controllers
+(thus making it virtually UMA, almost) having a buffer span two memory
+controllers would be problematic because the memory controllers do not
+know how to guarantee the transaction ordering and buffer data
+consistency in both DRAM itself and for other memory controller clients,
+like PCIe.
 
-So the camera is the only device on the bus (aside from the root hub).  
-And it asks for an 8-byte interrupt endpoint together with a 962-byte
-isochronous endpoint.
+We historically had to reserve the last 4KB of each memory controller to
+avoid problematic controllers like EHCI to prefetch beyond the end of a
+memory controller's populated memory and that also incidentally takes
+care of never having a buffer cross a controller boundary. Either you
+can allocate the entire buffer on a given memory controller, or you
+cannot allocate memory at all on that zone/region and another one must
+be found (or there is no more memory and there is a genuine OOM).
 
-That explains the problem.  ehci-hcd (the same code manages ChipIdea
-controllers) doesn't do a good job of handling high-bandwidth periodic
-requests for full-speed devices, particularly when isochronous and
-interrupt endpoints are both present.
+The way we reserve memory right now is based on the first patch
+submitted by Jim:
 
-> So regardless of resolution/frame-size the device is requesting 962
-> byte USB frame bandwidth which should be just fine for USB full speed
-> in iso mode (max 1023). I'm not sure why the bandwidth reservation
-> fails.
+https://lore.kernel.org/patchwork/patch/988469/
 
-Yes, that amount of data is fine for full-speed USB.  But handling 
-full-speed devices attached to a high-speed controller isn't easy, and 
-ehci-hcd isn't able to make use of all the possible bandwidth.  In 
-fact, you'd be better off attaching the camera to a full-speed USB 1.1 
-controller, if one were available for your system.
-
-xHCI controllers, on the other hand, handle all the scheduling issues
-in hardware so the driver doesn't have to deal with them.  Evidently
-the ones you tried don't have any trouble in this situation.
-
-> Apparently the RaspberryPi 4 has this same issue:
-> https://github.com/raspberrypi/linux/issues/3136. The same thread
-> mentions that most USB full speed devices have fall-back endpoint
-> max-packet sizes that allow for reduced bandwidth reservations (but
-> this camera does not).
-> 
-> I get the same results regardless of CONFIG_USB_EHCI_TT_NEWSCHED enabled or not.
-
-And indeed, the same problem will occur whenever this device is 
-attached to an EHCI controller on a Linux-based system, unless somebody 
-goes to the trouble of improving the driver.  (It's tremendously 
-complicated -- the spec puts almost all the burden on the software 
-rather than the hardware/firmware -- and probably not worth the effort 
-of trying to do it correctly.  I wouldn't be surprised if adding proper 
-support for this would double the size of the driver.)
-
-Alan Stern
-
+whereby we read the memory node's "reg" property and we map the physical
+addresses to the memory controller configuration read from the specific
+registers in the CPU's Bus Interface Unit (where the memory controller
+apertures are architecturally defined) and then we use that to call
+memblock_reserve() (not part of that patch, it should be though).
+-- 
+Florian
