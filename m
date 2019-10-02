@@ -2,229 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A8FD3C8C87
-	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 17:15:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 28C42C8CC9
+	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 17:23:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727498AbfJBPO6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Oct 2019 11:14:58 -0400
-Received: from mx08-00178001.pphosted.com ([91.207.212.93]:1730 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725893AbfJBPO6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 2 Oct 2019 11:14:58 -0400
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
-        by mx08-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x92F121c012976;
-        Wed, 2 Oct 2019 17:14:49 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
- : date : message-id : mime-version : content-type; s=STMicroelectronics;
- bh=CXGmlan+Wj/viRlSDj38Z4Gh2UXNOjV1C65oThvMrZk=;
- b=GnzWAk19LFjuVyNSgWxys4YVKDpI2bCBXnIPLnprFkLfz2HqvHpTG2CGPcGU1Y2iFG67
- Vw8q+q6kraaBxdSVCl7jm5973IHFDbvdNzy4vZVoj8CE2LSzwoVR9TLuuhmixa7fhs6/
- MsQgGHoDB/N6/GXYlHcioXG7a2nCZvoWrVj4fyq24AtboTPTh3tVUJy64qWstB+m/dRk
- +BrQA93CnJu2oGeP9T/I2pezgL7jNFSRdnbGpCw0Ouu2YYsSvaetoEukSSb+r2RCvozQ
- m41oWHUih1oTJcnbHeTvoo+k2mE20H6ql2KoNBj41ZJhxh1LDoe63Wmq9qvgvrAoWrgj wg== 
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-        by mx08-00178001.pphosted.com with ESMTP id 2v9vnafnx7-1
-        (version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
-        Wed, 02 Oct 2019 17:14:49 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 002C24B;
-        Wed,  2 Oct 2019 15:14:45 +0000 (GMT)
-Received: from Webmail-eu.st.com (Safex1hubcas24.st.com [10.75.90.94])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 387E92D3764;
-        Wed,  2 Oct 2019 17:14:45 +0200 (CEST)
-Received: from SAFEX1HUBCAS22.st.com (10.75.90.92) by Safex1hubcas24.st.com
- (10.75.90.94) with Microsoft SMTP Server (TLS) id 14.3.439.0; Wed, 2 Oct 2019
- 17:14:45 +0200
-Received: from localhost (10.201.20.122) by Webmail-ga.st.com (10.75.90.48)
- with Microsoft SMTP Server (TLS) id 14.3.439.0; Wed, 2 Oct 2019 17:14:44
- +0200
-From:   Benjamin Gaignard <benjamin.gaignard@st.com>
-To:     <mchehab@kernel.org>, <robh+dt@kernel.org>,
-        <alexandre.torgue@st.com>, <hugues.fruchet@st.com>
-CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>,
-        Benjamin Gaignard <benjamin.gaignard@st.com>
-Subject: [PATCH] dt-bindings: media: Convert stm32 dcmi bindings to json-schema
-Date:   Wed, 2 Oct 2019 17:14:42 +0200
-Message-ID: <20191002151442.15428-1-benjamin.gaignard@st.com>
-X-Mailer: git-send-email 2.15.0
+        id S1728640AbfJBPWK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Oct 2019 11:22:10 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:45477 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726744AbfJBPWK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Oct 2019 11:22:10 -0400
+Received: by mail-lj1-f193.google.com with SMTP id q64so17534177ljb.12;
+        Wed, 02 Oct 2019 08:22:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=iDEPt6fjgHL7+p8ibgn9j5TS7/CiziFdZZ+Jw8P2Ha0=;
+        b=eMYu0gZkB0iPQR/AR+ftQCPPlyIKByq4XCOBicKsrFZZKOo7nioQs42tND2dtkyoLT
+         nVYnt7maHCx6oo1hqHWfs28hP4YxPlUDzC3H5NLpsY2AqLPSyAWT1avNaDZB2bKCsE6A
+         NsrZRPXMtttUwAOqihl+agWqIl4rMHQXyI1eEFpCLCltRvLj5q5kcmijN3dbCfPHAfrV
+         NcTO/DC/458btzX59ivDAknuYIgGBgni/Wa233fYgOxkM/8TM28P/pp7ObQ5vHjMxfJ8
+         OeLYgmbBwx9NjphaowimrRQONct2ihpJdb8YqwlY3c5BLC6ZTQtcfiM9PNLOz9yU0KMu
+         sd+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=iDEPt6fjgHL7+p8ibgn9j5TS7/CiziFdZZ+Jw8P2Ha0=;
+        b=Y0xMNA4+xhvLm0QULUySDcLwJ+gj8ibe3yOXtF9uPaXROZVSwffjBt/OGviMIqUBV5
+         O+Txs+jOhvszzQjGuLuY7llSxTo2LXuTUGrZmabh48Et9+heCsiUSsa6oIgrEnwB+B7C
+         VYciZo6m1ww3tTi8x+n6S4y8H3/7EXDPiM91LJUYS91HWclOTAqOwwMIUfPhOllDL7LM
+         So4hF88nfhdENrpG3cU4OZ+W1dI7IN/9P4L6Bsmu/FVy++pMH/tEGiFRD44n7g6PTkO7
+         vl/hHqKATX/Krfcd5LGCjSmb3zE1WlBTRumPqk8rE+fZquYiugJHM5Oll/ZtSNWKgMSY
+         bqWA==
+X-Gm-Message-State: APjAAAUNcNpPu2g6v1kUfUrVW5/xqXzkKZ+wo/fKCLeOkRXYbp+I75cQ
+        azatfWVa9fFzdAJRhSO9RzX2CtTIInJX/zzAQ6s=
+X-Google-Smtp-Source: APXvYqyMk83sNBFMSpFJjLyFPbRQRRvRC01LF+1jGIBpgQL9suyzVZ1Ize5PK38bRwRwc1ii6BBum2J0RxeuDyngGjI=
+X-Received: by 2002:a2e:530d:: with SMTP id h13mr2770783ljb.109.1570029727746;
+ Wed, 02 Oct 2019 08:22:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.201.20.122]
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,1.0.8
- definitions=2019-10-02_07:2019-10-01,2019-10-02 signatures=0
+References: <20191001205203.4b1a5fb6@coco.lan> <20191002141359.30166-1-gonsolo@gmail.com>
+ <20191002141359.30166-2-gonsolo@gmail.com> <20191002142744.GA3475@gofer.mess.org>
+ <CANL0fFS9TGKJH2rfkXzak78BaLazTNO7GoZhSb4vLBsDrmz3FQ@mail.gmail.com> <20191002150650.GA4227@gofer.mess.org>
+In-Reply-To: <20191002150650.GA4227@gofer.mess.org>
+From:   Gonsolo <gonsolo@gmail.com>
+Date:   Wed, 2 Oct 2019 17:21:56 +0200
+Message-ID: <CANL0fFRoL6NxOCbNC=XjQ6LDkeeqAayaLUbm9xARWX9ttqfPFg@mail.gmail.com>
+Subject: Re: [PATCH] si2157: Add support for Logilink VG0022A.
+To:     Sean Young <sean@mess.org>
+Cc:     mchehab+samsung@kernel.org, crope@iki.fi,
+        linux-media@vger.kernel.org,
+        Linux Kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Convert the STM32 dcmi binding to DT schema format using json-schema
+Hi!
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@st.com>
----
- .../devicetree/bindings/media/st,stm32-dcmi.txt    | 45 ----------
- .../devicetree/bindings/media/st,stm32-dcmi.yaml   | 97 ++++++++++++++++++++++
- 2 files changed, 97 insertions(+), 45 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/media/st,stm32-dcmi.txt
- create mode 100644 Documentation/devicetree/bindings/media/st,stm32-dcmi.yaml
+> Antti has some great suggestions in that thread:
+>         https://lkml.org/lkml/2017/5/24/245
+>
+> Also note https://lkml.org/lkml/2017/5/26/357 if you have access to a
+> logic analyser.
 
-diff --git a/Documentation/devicetree/bindings/media/st,stm32-dcmi.txt b/Documentation/devicetree/bindings/media/st,stm32-dcmi.txt
-deleted file mode 100644
-index 3122ded82eb4..000000000000
---- a/Documentation/devicetree/bindings/media/st,stm32-dcmi.txt
-+++ /dev/null
-@@ -1,45 +0,0 @@
--STMicroelectronics STM32 Digital Camera Memory Interface (DCMI)
--
--Required properties:
--- compatible: "st,stm32-dcmi"
--- reg: physical base address and length of the registers set for the device
--- interrupts: should contain IRQ line for the DCMI
--- resets: reference to a reset controller,
--          see Documentation/devicetree/bindings/reset/st,stm32-rcc.txt
--- clocks: list of clock specifiers, corresponding to entries in
--          the clock-names property
--- clock-names: must contain "mclk", which is the DCMI peripherial clock
--- pinctrl: the pincontrol settings to configure muxing properly
--           for pins that connect to DCMI device.
--           See Documentation/devicetree/bindings/pinctrl/st,stm32-pinctrl.yaml.
--- dmas: phandle to DMA controller node,
--        see Documentation/devicetree/bindings/dma/stm32-dma.txt
--- dma-names: must contain "tx", which is the transmit channel from DCMI to DMA
--
--DCMI supports a single port node with parallel bus. It should contain one
--'port' child node with child 'endpoint' node. Please refer to the bindings
--defined in Documentation/devicetree/bindings/media/video-interfaces.txt.
--
--Example:
--
--	dcmi: dcmi@50050000 {
--		compatible = "st,stm32-dcmi";
--		reg = <0x50050000 0x400>;
--		interrupts = <78>;
--		resets = <&rcc STM32F4_AHB2_RESET(DCMI)>;
--		clocks = <&rcc 0 STM32F4_AHB2_CLOCK(DCMI)>;
--		clock-names = "mclk";
--		pinctrl-names = "default";
--		pinctrl-0 = <&dcmi_pins>;
--		dmas = <&dma2 1 1 0x414 0x3>;
--		dma-names = "tx";
--		port {
--			dcmi_0: endpoint {
--				remote-endpoint = <...>;
--				bus-width = <8>;
--				hsync-active = <0>;
--				vsync-active = <0>;
--				pclk-sample = <1>;
--			};
--		};
--	};
-diff --git a/Documentation/devicetree/bindings/media/st,stm32-dcmi.yaml b/Documentation/devicetree/bindings/media/st,stm32-dcmi.yaml
-new file mode 100644
-index 000000000000..50e8cfed06f3
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/st,stm32-dcmi.yaml
-@@ -0,0 +1,97 @@
-+# SPDX-License-Identifier: GPL-2.0
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/st,stm32-dcmi.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: STMicroelectronics STM32 Digital Camera Memory Interface (DCMI) binding
-+
-+maintainers:
-+  - Hugues Fruchet <hugues.fruchet@st.com>
-+
-+properties:
-+  compatible:
-+    const: st,stm32-dcmi
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  clocks:
-+    items:
-+      - description: Module Clock
-+
-+  clock-names:
-+    items:
-+      - const: mclk
-+
-+  pinctrl-names: true
-+
-+  dmas:
-+    description:
-+      One DMA channel specifier following the convention outlined
-+      in bindings/dma/dma.txt
-+    maxItems: 1
-+
-+  dma-names:
-+    description:
-+      There must be one channel named "tx" for transmit
-+    maxItems: 1
-+    additionalItems: true
-+    items:
-+      - const: tx
-+
-+  resets:
-+        maxItems: 1
-+
-+  port:
-+    type: object
-+    description:
-+      DCMI supports a single port node with parallel bus. It should contain
-+      one 'port' child node with child 'endpoint' node. Please refer to the
-+      bindings defined in
-+      Documentation/devicetree/bindings/media/video-interfaces.txt.
-+
-+patternProperties:
-+  "^pinctrl-[0-9]+$": true
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - clocks
-+  - clock-names
-+  - resets
-+  - dmas
-+  - dma-names
-+  - port
-+    
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/clock/stm32mp1-clks.h>
-+    #include <dt-bindings/reset/stm32mp1-resets.h>
-+    dcmi: dcmi@4c006000 {
-+        compatible = "st,stm32-dcmi";
-+        reg = <0x4c006000 0x400>;
-+        interrupts = <GIC_SPI 78 IRQ_TYPE_LEVEL_HIGH>;
-+        resets = <&rcc CAMITF_R>;
-+        clocks = <&rcc DCMI>;
-+        clock-names = "mclk";
-+        dmas = <&dmamux1 75 0x400 0x0d>;
-+        dma-names = "tx";
-+
-+        port {
-+             dcmi_0: endpoint {
-+                   remote-endpoint = <&ov5640_0>;
-+                   bus-width = <8>;
-+                   hsync-active = <0>;
-+                   vsync-active = <0>;
-+                   pclk-sample = <1>;
-+             };
-+        };
-+    };
-+
-+...
+I read that thread. Unfortunately I'm not a hardware engineer nor do I
+have access to a logic analyser, just the device and a remote hope not
+to keep my custom 4.13 kernel forever or to have to buy a new DVB T2
+device. :(
+In the above thread it is mentioned that even the Windows driver
+receives the ffff's so maybe it is a hardware bug?
+
+I'd love to see this driver upstream but I have no idea how to
+proceed. Any suggestions?
+
 -- 
-2.15.0
-
+g
