@@ -2,101 +2,297 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E1002C4A0E
-	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 10:56:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA77EC4A29
+	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 11:01:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727259AbfJBI4w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Oct 2019 04:56:52 -0400
-Received: from retiisi.org.uk ([95.216.213.190]:59028 "EHLO
-        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726250AbfJBI4w (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 2 Oct 2019 04:56:52 -0400
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 3BA00634C87;
-        Wed,  2 Oct 2019 11:56:24 +0300 (EEST)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1iFaQo-00028Q-LB; Wed, 02 Oct 2019 11:56:22 +0300
-Date:   Wed, 2 Oct 2019 11:56:22 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        jacopo+renesas@jmondi.org, kieran.bingham+renesas@ideasonboard.com,
-        laurent.pinchart+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: i2c: max9286: Pass default bus type when parsing
- fwnode endpoint
-Message-ID: <20191002085622.GN896@valkosipuli.retiisi.org.uk>
-References: <20191001145503.5170-1-manivannan.sadhasivam@linaro.org>
- <20191002075432.bkee4fl6cfcr25iv@uno.localdomain>
+        id S1726321AbfJBJBb convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Wed, 2 Oct 2019 05:01:31 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:36826 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726287AbfJBJBb (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 2 Oct 2019 05:01:31 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtp (Exim 4.84_2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1iFaVh-0000Na-3W; Wed, 02 Oct 2019 09:01:25 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1iFaW3-0003TZ-HF; Wed, 02 Oct 2019 09:01:47 +0000
+Date:   Wed, 2 Oct 2019 09:01:47 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <786551029.2.1570006907525.JavaMail.jenkins@builder.linuxtv.org>
+In-Reply-To: <1586568084.1.1570004204603.JavaMail.jenkins@builder.linuxtv.org>
+References: <1586568084.1.1570004204603.JavaMail.jenkins@builder.linuxtv.org>
+Subject: Build failed in Jenkins: v4l-utils #44
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191002075432.bkee4fl6cfcr25iv@uno.localdomain>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: v4l-utils
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo, Manivannan,
+See <https://builder.linuxtv.org/job/v4l-utils/44/display/redirect?page=changes>
 
-On Wed, Oct 02, 2019 at 09:54:32AM +0200, Jacopo Mondi wrote:
-> Hello Manivannan,
-> 
-> On Tue, Oct 01, 2019 at 08:25:03PM +0530, Manivannan Sadhasivam wrote:
-> > The caller of v4l2_fwnode_endpoint_alloc_parse() is expected to pass a
-> > valid bus_type parameter for proper working of this API. Hence, pass
-> > V4L2_MBUS_CSI2_DPHY as the bus_type parameter as this driver only supports
-> > MIPI CSI2 for now. Without this commit, the API fails on 96Boards
-> > Dragonboard410c connected to MAX9286 deserializer.
-> >
-> > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> > ---
-> >
-> > This patch depends on the latest "MAX9286 GMSL Support" series posted
-> > by Kieran Bingham.
-> >
-> >  drivers/media/i2c/max9286.c | 4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> > index 9390edf5ad9c..6e1299f15493 100644
-> > --- a/drivers/media/i2c/max9286.c
-> > +++ b/drivers/media/i2c/max9286.c
-> > @@ -976,7 +976,9 @@ static int max9286_parse_dt(struct max9286_device *max9286)
-> >
-> >  		/* For the source endpoint just parse the bus configuration. */
-> >  		if (ep.port == MAX9286_SRC_PAD) {
-> > -			struct v4l2_fwnode_endpoint vep;
-> > +			struct v4l2_fwnode_endpoint vep = {
-> > +				.bus_type = V4L2_MBUS_CSI2_DPHY
-> > +			};
-> 
-> Isn't the bus_type just an hint ? __v4l2_fwnode_endpoint_parse()
-> should try to parse CSI2 first, and should be able to to deduct the bus
-> type from the properties specified in DT...
+Changes:
 
-It's basically telling the V4L2 fwnode parser to parse that bus only, and
-not guess what the caller wanted.
+[hverkuil-cisco] cec utils: support CEC_ADAP_G_CONNECTOR_INFO
 
-This is what drivers should actually be doing. It also allows setting the
-defaults that many drivers declare in their DT bindings but very few
-actually implement.
 
-> 
-> Anyway, I'm not against this change, the contrary actually, I'm just
-> afraid it might hide some more subtile bug, as we don't need this on
-> our platforms...
-
-I'd expect it to be safer this way, as there's no guessing involved.
-
--- 
-Regards,
-
-Sakari Ailus
+------------------------------------------
+[...truncated 1.09 MB...]
+   ^~~~~~~
+   log_msg
+In file included from cec-follower.h:25,
+                 from cec-follower.cpp:21:
+./cec-log.h:800:16: error: ‘arg_u8’ was not declared in this scope
+ #define arg_on arg_u8
+                ^~~~~~
+./cec-log.h:2584:12: note: in expansion of macro ‘arg_on’
+   log_arg(&arg_on, "on", on);
+            ^~~~~~
+./cec-log.h:800:16: note: suggested alternative: ‘arg_on’
+ #define arg_on arg_u8
+                ^~~~~~
+./cec-log.h:2584:12: note: in expansion of macro ‘arg_on’
+   log_arg(&arg_on, "on", on);
+            ^~~~~~
+In file included from cec-follower.h:25,
+                 from cec-follower.cpp:21:
+./cec-log.h:2584:3: error: ‘log_arg’ was not declared in this scope
+   log_arg(&arg_on, "on", on);
+   ^~~~~~~
+./cec-log.h:2584:3: note: suggested alternative: ‘log_msg’
+   log_arg(&arg_on, "on", on);
+   ^~~~~~~
+   log_msg
+In file included from cec-follower.h:25,
+                 from cec-follower.cpp:21:
+./cec-log.h:800:16: error: ‘arg_u8’ was not declared in this scope
+ #define arg_on arg_u8
+                ^~~~~~
+./cec-log.h:2594:12: note: in expansion of macro ‘arg_on’
+   log_arg(&arg_on, "on", on);
+            ^~~~~~
+./cec-log.h:800:16: note: suggested alternative: ‘arg_on’
+ #define arg_on arg_u8
+                ^~~~~~
+./cec-log.h:2594:12: note: in expansion of macro ‘arg_on’
+   log_arg(&arg_on, "on", on);
+            ^~~~~~
+In file included from cec-follower.h:25,
+                 from cec-follower.cpp:21:
+./cec-log.h:2594:3: error: ‘log_arg’ was not declared in this scope
+   log_arg(&arg_on, "on", on);
+   ^~~~~~~
+./cec-log.h:2594:3: note: suggested alternative: ‘log_msg’
+   log_arg(&arg_on, "on", on);
+   ^~~~~~~
+   log_msg
+In file included from cec-follower.h:25,
+                 from cec-follower.cpp:21:
+./cec-log.h:818:21: error: ‘arg_u8’ was not declared in this scope
+ #define arg_minutes arg_u8
+                     ^~~~~~
+./cec-log.h:2603:12: note: in expansion of macro ‘arg_minutes’
+   log_arg(&arg_minutes, "minutes", minutes);
+            ^~~~~~~~~~~
+./cec-log.h:818:21: note: suggested alternative: ‘arg_on’
+ #define arg_minutes arg_u8
+                     ^~~~~~
+./cec-log.h:2603:12: note: in expansion of macro ‘arg_minutes’
+   log_arg(&arg_minutes, "minutes", minutes);
+            ^~~~~~~~~~~
+In file included from cec-follower.h:25,
+                 from cec-follower.cpp:21:
+./cec-log.h:2603:3: error: ‘log_arg’ was not declared in this scope
+   log_arg(&arg_minutes, "minutes", minutes);
+   ^~~~~~~
+./cec-log.h:2603:3: note: suggested alternative: ‘log_msg’
+   log_arg(&arg_minutes, "minutes", minutes);
+   ^~~~~~~
+   log_msg
+In file included from cec-follower.h:25,
+                 from cec-follower.cpp:21:
+./cec-log.h:811:18: error: ‘arg_string’ was not declared in this scope
+ #define arg_time arg_string
+                  ^~~~~~~~~~
+./cec-log.h:2611:12: note: in expansion of macro ‘arg_time’
+   log_arg(&arg_time, "time", time);
+            ^~~~~~~~
+./cec-log.h:811:18: note: suggested alternative: ‘arg_time’
+ #define arg_time arg_string
+                  ^~~~~~~~~~
+./cec-log.h:2611:12: note: in expansion of macro ‘arg_time’
+   log_arg(&arg_time, "time", time);
+            ^~~~~~~~
+In file included from cec-follower.h:25,
+                 from cec-follower.cpp:21:
+./cec-log.h:2611:3: error: ‘log_arg’ was not declared in this scope
+   log_arg(&arg_time, "time", time);
+   ^~~~~~~
+./cec-log.h:2611:3: note: suggested alternative: ‘log_msg’
+   log_arg(&arg_time, "time", time);
+   ^~~~~~~
+   log_msg
+In file included from cec-follower.h:25,
+                 from cec-follower.cpp:21:
+./cec-log.h:811:18: error: ‘arg_string’ was not declared in this scope
+ #define arg_time arg_string
+                  ^~~~~~~~~~
+./cec-log.h:2619:12: note: in expansion of macro ‘arg_time’
+   log_arg(&arg_time, "time", time);
+            ^~~~~~~~
+./cec-log.h:811:18: note: suggested alternative: ‘arg_time’
+ #define arg_time arg_string
+                  ^~~~~~~~~~
+./cec-log.h:2619:12: note: in expansion of macro ‘arg_time’
+   log_arg(&arg_time, "time", time);
+            ^~~~~~~~
+In file included from cec-follower.h:25,
+                 from cec-follower.cpp:21:
+./cec-log.h:2619:3: error: ‘log_arg’ was not declared in this scope
+   log_arg(&arg_time, "time", time);
+   ^~~~~~~
+./cec-log.h:2619:3: note: suggested alternative: ‘log_msg’
+   log_arg(&arg_time, "time", time);
+   ^~~~~~~
+   log_msg
+./cec-log.h:2630:3: error: ‘log_arg’ was not declared in this scope
+   log_arg(&arg_htng_input_src, "htng-input-src", htng_input_src);
+   ^~~~~~~
+./cec-log.h:2630:3: note: suggested alternative: ‘log_msg’
+   log_arg(&arg_htng_input_src, "htng-input-src", htng_input_src);
+   ^~~~~~~
+   log_msg
+In file included from cec-follower.h:25,
+                 from cec-follower.cpp:21:
+./cec-log.h:579:19: error: ‘arg_u16’ was not declared in this scope
+ #define arg_major arg_u16
+                   ^~~~~~~
+./cec-log.h:2632:12: note: in expansion of macro ‘arg_major’
+   log_arg(&arg_major, "major", major);
+            ^~~~~~~~~
+./cec-log.h:579:19: note: suggested alternative: ‘arg_osd’
+ #define arg_major arg_u16
+                   ^~~~~~~
+./cec-log.h:2632:12: note: in expansion of macro ‘arg_major’
+   log_arg(&arg_major, "major", major);
+            ^~~~~~~~~
+./cec-log.h:801:17: error: ‘arg_u8’ was not declared in this scope
+ #define arg_vol arg_u8
+                 ^~~~~~
+./cec-log.h:2642:12: note: in expansion of macro ‘arg_vol’
+   log_arg(&arg_vol, "vol", vol);
+            ^~~~~~~
+./cec-log.h:801:17: note: suggested alternative: ‘arg_on’
+ #define arg_vol arg_u8
+                 ^~~~~~
+./cec-log.h:2642:12: note: in expansion of macro ‘arg_vol’
+   log_arg(&arg_vol, "vol", vol);
+            ^~~~~~~
+In file included from cec-follower.h:25,
+                 from cec-follower.cpp:21:
+./cec-log.h:2642:3: error: ‘log_arg’ was not declared in this scope
+   log_arg(&arg_vol, "vol", vol);
+   ^~~~~~~
+./cec-log.h:2642:3: note: suggested alternative: ‘log_msg’
+   log_arg(&arg_vol, "vol", vol);
+   ^~~~~~~
+   log_msg
+./cec-log.h:2662:3: error: ‘log_arg’ was not declared in this scope
+   log_arg(&arg_htng_chan_type, "htng-chan-type", htng_chan_type);
+   ^~~~~~~
+./cec-log.h:2662:3: note: suggested alternative: ‘log_msg’
+   log_arg(&arg_htng_chan_type, "htng-chan-type", htng_chan_type);
+   ^~~~~~~
+   log_msg
+In file included from cec-follower.h:25,
+                 from cec-follower.cpp:21:
+./cec-log.h:831:18: error: ‘arg_u16’ was not declared in this scope
+ #define arg_freq arg_u16
+                  ^~~~~~~
+./cec-log.h:2665:12: note: in expansion of macro ‘arg_freq’
+   log_arg(&arg_freq, "freq", freq);
+            ^~~~~~~~
+./cec-log.h:831:18: note: suggested alternative: ‘arg_osd’
+ #define arg_freq arg_u16
+                  ^~~~~~~
+./cec-log.h:2665:12: note: in expansion of macro ‘arg_freq’
+   log_arg(&arg_freq, "freq", freq);
+            ^~~~~~~~
+In file included from cec-follower.h:25,
+                 from cec-follower.cpp:21:
+./cec-log.h:2679:3: error: ‘log_arg’ was not declared in this scope
+   log_arg(&arg_htng_chan_type, "htng-chan-type", htng_chan_type);
+   ^~~~~~~
+./cec-log.h:2679:3: note: suggested alternative: ‘log_msg’
+   log_arg(&arg_htng_chan_type, "htng-chan-type", htng_chan_type);
+   ^~~~~~~
+   log_msg
+In file included from cec-follower.h:25,
+                 from cec-follower.cpp:21:
+./cec-log.h:792:18: error: ‘arg_u16’ was not declared in this scope
+ #define arg_chan arg_u16
+                  ^~~~~~~
+./cec-log.h:2681:12: note: in expansion of macro ‘arg_chan’
+   log_arg(&arg_chan, "chan", chan);
+            ^~~~~~~~
+./cec-log.h:792:18: note: suggested alternative: ‘arg_osd’
+ #define arg_chan arg_u16
+                  ^~~~~~~
+./cec-log.h:2681:12: note: in expansion of macro ‘arg_chan’
+   log_arg(&arg_chan, "chan", chan);
+            ^~~~~~~~
+In file included from cec-follower.h:25,
+                 from cec-follower.cpp:21:
+./cec-log.h:2702:3: error: ‘log_arg’ was not declared in this scope
+   log_arg(&arg_htng_ext_chan_type, "htng-ext-chan-type", htng_ext_chan_type);
+   ^~~~~~~
+./cec-log.h:2702:3: note: suggested alternative: ‘log_msg’
+   log_arg(&arg_htng_ext_chan_type, "htng-ext-chan-type", htng_ext_chan_type);
+   ^~~~~~~
+   log_msg
+In file included from cec-follower.h:25,
+                 from cec-follower.cpp:21:
+./cec-log.h:831:18: error: ‘arg_u16’ was not declared in this scope
+ #define arg_freq arg_u16
+                  ^~~~~~~
+./cec-log.h:2705:12: note: in expansion of macro ‘arg_freq’
+   log_arg(&arg_freq, "freq", freq);
+            ^~~~~~~~
+./cec-log.h:831:18: note: suggested alternative: ‘arg_osd’
+ #define arg_freq arg_u16
+                  ^~~~~~~
+./cec-log.h:2705:12: note: in expansion of macro ‘arg_freq’
+   log_arg(&arg_freq, "freq", freq);
+            ^~~~~~~~
+In file included from cec-follower.h:25,
+                 from cec-follower.cpp:21:
+./cec-log.h:2719:3: error: ‘log_htng_unknown_msg’ was not declared in this scope
+   log_htng_unknown_msg(msg);
+   ^~~~~~~~~~~~~~~~~~~~
+./cec-log.h:2719:3: note: suggested alternative: ‘log_htng_msg’
+   log_htng_unknown_msg(msg);
+   ^~~~~~~~~~~~~~~~~~~~
+   log_htng_msg
+In file included from cec-follower.h:25,
+                 from cec-follower.cpp:21:
+./cec-log.h: At global scope:
+./cec-log.h:861:29: warning: ‘messages’ defined but not used [-Wunused-variable]
+ static const struct message messages[] = {
+                             ^~~~~~~~
+make[3]: *** [Makefile:607: cec_follower-cec-follower.o] Error 1
+make[3]: Leaving directory '<https://builder.linuxtv.org/job/v4l-utils/ws/utils/cec-follower'>
+make[2]: *** [Makefile:481: all-recursive] Error 1
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/v4l-utils/ws/utils'>
+make[1]: *** [Makefile:590: all-recursive] Error 1
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/v4l-utils/ws/'>
+make: *** [Makefile:517: all] Error 2
+Build step 'Execute shell' marked build as failure
