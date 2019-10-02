@@ -2,161 +2,175 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C0FC2C8A96
-	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 16:08:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CDE0C8A99
+	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 16:10:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727849AbfJBOIa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Oct 2019 10:08:30 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:34778 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726200AbfJBOIa (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Oct 2019 10:08:30 -0400
-Received: from pendragon.ideasonboard.com (unknown [132.205.230.1])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C95F12BB;
-        Wed,  2 Oct 2019 16:08:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1570025308;
-        bh=TJlBmVA72I0BlAu5M/rbWZ4bVZPDshWR/fw5Gbs/f1U=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Us704h4NrqLGVnNWZH+jrSS7X4udG0Rcb7/Vpfj4eSAFdxYzrj3hD4br2h1kTjR0D
-         6wD5fsqrPAcpWkLuVFdWRbbVibVGvn7zaS7znPjAD0MXeXwQx5qPiZJhMcwYDrYHpp
-         hCH/ujuonW0nOvWMKc6fGpu4H/IBWfegp5y8pypM=
-Date:   Wed, 2 Oct 2019 17:08:14 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sergey Zakharchenko <szakharchenko@digital-loggers.com>
-Cc:     linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Martin Bodo <martin@digital-loggers.com>,
-        "Logan, Peter" <peter.logan@intel.com>,
-        Auke Kok <auke-jan.h.kok@intel.com>,
-        Sergey Zakharchenko <doublef.mobile@gmail.com>
-Subject: Re: [PATCH v2] media: uvcvideo: Add a quirk to force GEO GC6500
- Camera bits-per-pixel value
-Message-ID: <20191002140814.GB5262@pendragon.ideasonboard.com>
-References: <201910021929.ij7Rrmvk%lkp@intel.com>
- <20191002130102.97852-1-szakharchenko@digital-loggers.com>
+        id S1726214AbfJBOKC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Oct 2019 10:10:02 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:34812 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726087AbfJBOKC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Oct 2019 10:10:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=9LDJy3q59M41dHEIhdF3uB5UxiWzohmUQUFHM1ReXac=; b=MBJM4pPG0qDmFJptL5AHhTivW
+        Kk0ulg4cFVSZFJLu8yPCtV8huiQzG3rx9vUOOW3Ir3xSsnGRGeZwLvheVu6deRJMgjiLR0pIyvKek
+        oiShNMDSuhascBKqQu/QCE5YwneLuxbWBTCTDcIYEh2qZiXJmKGQiuT93yQ+TFzs8ynhseMUmM6oI
+        a3r6w/NWxKR1quOx++Vh4CFr1Y18Ox+cQAy5D50JStUxE25xEVa3e8ex2dTuKlWzKHwjjW25jwSzv
+        e4GWkjWn20aKFbdVfO9PPAGD7orIaYGHPxPL3fUhamn83ny1O290i/6cyG2dghaiOIsC9ZWsIBb5m
+        qj5O22AyA==;
+Received: from 177.157.127.95.dynamic.adsl.gvt.net.br ([177.157.127.95] helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
+        id 1iFfKL-0007Gl-Gi; Wed, 02 Oct 2019 14:10:01 +0000
+Date:   Wed, 2 Oct 2019 11:09:58 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: venus: venc: Fix enum frameintervals - was: [GIT PULL for v5.5]
+ Venus updates, take 2
+Message-ID: <20191002110958.2835d1ac@coco.lan>
+In-Reply-To: <20191002112953.16642-1-stanimir.varbanov@linaro.org>
+References: <20191002112953.16642-1-stanimir.varbanov@linaro.org>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20191002130102.97852-1-szakharchenko@digital-loggers.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sergey,
+Em Wed,  2 Oct 2019 14:29:53 +0300
+Stanimir Varbanov <stanimir.varbanov@linaro.org> escreveu:
 
-Thank you for the patch.
-
-On Wed, Oct 02, 2019 at 01:01:02PM +0000, Sergey Zakharchenko wrote:
-> This device does not function correctly in raw mode in kernel
-> versions validating buffer sizes in bulk mode. It erroneously
-> announces 16 bits per pixel instead of 12 for NV12 format, so it
-> needs this quirk to fix computed frame size and avoid legitimate
-> frames getting discarded.
+> Hi Mauro,
 > 
-> Signed-off-by: Sergey Zakharchenko <szakharchenko@digital-loggers.com>
+> The Venus driver updates include:
+> 
+> * three fixes: fail to suspend, enum frameinterval issue with encoder
+> and frequency table modifications for v3 to handle performance issues.
+> * two new features: interconnect bandwidth support on v4 and more precise
+> clock-scaling on v4.
+> 
+> Please pull.
+>
+> Stanimir Varbanov (3):
+>       venus: venc: Fix enum frameintervals
+
+> From c430fca8f2b9b7274a1186f85b69c469378dbd8a Mon Sep 17 00:00:00 2001
+> From: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+> Date: Tue, 22 Jan 2019 12:53:22 +0200
+> Subject: venus: venc: Fix enum frameintervals
+> To: Linux Media Mailing List <linux-media@vger.kernel.org>
+> Cc: Mauro Carvalho Chehab <mchehab@infradead.org>
+> 
+> This fixes an issue when setting the encoder framerate because of
+> missing precision. Now the frameinterval type is changed to
+> TYPE_CONTINUOUS and step = 1. Also the math is changed when
+> framerate property is called - the firmware side expects the
+> framerate in Q16 values.
+> 
+> Signed-off-by: Loic Poulain <loic.poulain@linaro.org>
+> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
 > ---
->  drivers/media/usb/uvc/uvc_driver.c | 27 +++++++++++++++++++++++++++
->  drivers/media/usb/uvc/uvcvideo.h   |  1 +
->  2 files changed, 28 insertions(+)
+>  drivers/media/platform/qcom/venus/venc.c | 23 ++++++++++++++++-------
+>  1 file changed, 16 insertions(+), 7 deletions(-)
 > 
-> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> index 66ee168ddc7e..23f62456946d 100644
-> --- a/drivers/media/usb/uvc/uvc_driver.c
-> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> @@ -446,10 +446,12 @@ static int uvc_parse_format(struct uvc_device *dev,
->  	struct usb_host_interface *alts = intf->cur_altsetting;
->  	struct uvc_format_desc *fmtdesc;
->  	struct uvc_frame *frame;
-> +	const struct v4l2_format_info *info;
->  	const unsigned char *start = buffer;
->  	unsigned int width_multiplier = 1;
->  	unsigned int interval;
->  	unsigned int i, n;
-> +	unsigned int div;
->  	u8 ftype;
+> diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
+> index 1b7fb2d5887c..d0a97754ef18 100644
+> --- a/drivers/media/platform/qcom/venus/venc.c
+> +++ b/drivers/media/platform/qcom/venus/venc.c
+> @@ -22,6 +22,7 @@
+>  #include "venc.h"
 >  
->  	format->type = buffer[2];
-> @@ -497,6 +499,18 @@ static int uvc_parse_format(struct uvc_device *dev,
->  			}
->  		}
+>  #define NUM_B_FRAMES_MAX	4
+> +#define FRAMERATE_FACTOR	BIT(16)
 >  
-> +		/* Some devices report bpp that doesn't match the format. */
-> +		if (dev->quirks & UVC_QUIRK_FORCE_BPP) {
-> +			info = v4l2_format_info(format->fcc);
-> +			if (info) {
-> +				div = info->hdiv * info->vdiv;
-> +				n = info->bpp[0] * div;
-> +				for (i = 1; i < info->comp_planes; i++)
-> +					n += info->bpp[i];
-> +				format->bpp = DIV_ROUND_UP(8 * n, div);
-> +			}
-> +		}
+>  /*
+>   * Three resons to keep MPLANE formats (despite that the number of planes
+> @@ -576,7 +577,7 @@ static int venc_enum_frameintervals(struct file *file, void *fh,
+>  	struct venus_inst *inst = to_inst(file);
+>  	const struct venus_format *fmt;
+>  
+> -	fival->type = V4L2_FRMIVAL_TYPE_STEPWISE;
+> +	fival->type = V4L2_FRMIVAL_TYPE_CONTINUOUS;
+>  
+>  	fmt = find_format(inst, fival->pixel_format,
+>  			  V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
+> @@ -599,12 +600,12 @@ static int venc_enum_frameintervals(struct file *file, void *fh,
+>  	    fival->height < frame_height_min(inst))
+>  		return -EINVAL;
+>  
+> -	fival->stepwise.min.numerator = 1;
+> -	fival->stepwise.min.denominator = frate_max(inst);
+> -	fival->stepwise.max.numerator = 1;
+> -	fival->stepwise.max.denominator = frate_min(inst);
+> +	fival->stepwise.min.numerator = FRAMERATE_FACTOR;
+> +	fival->stepwise.min.denominator = frate_max(inst) * FRAMERATE_FACTOR;
+> +	fival->stepwise.max.numerator = FRAMERATE_FACTOR;
+> +	fival->stepwise.max.denominator = frate_min(inst) * FRAMERATE_FACTOR;
 
-Do you think it would make sense to do this by default, without
-requiring a quirk ? Or are there cases where this calculation would lead
-to incorrect results while the bpp reported by the camera would be right
-?
+Hmm... this change seems plain wrong to me... Why do you want to change
+the numerator? I mean:
 
+	1/frame_min(inst)
+
+is equal to:
+
+	(const * 1) / (const * frame_min(inst))
+
+Also, on every other driver, the returned fractions are normalized.
+
+>  	fival->stepwise.step.numerator = 1;
+> -	fival->stepwise.step.denominator = frate_max(inst);
+> +	fival->stepwise.step.denominator = 1;
+>  
+>  	return 0;
+>  }
+> @@ -649,6 +650,7 @@ static int venc_set_properties(struct venus_inst *inst)
+>  	struct hfi_quantization quant;
+>  	struct hfi_quantization_range quant_range;
+>  	u32 ptype, rate_control, bitrate, profile = 0, level = 0;
+> +	u64 framerate;
+>  	int ret;
+>  
+>  	ret = venus_helper_set_work_mode(inst, VIDC_WORK_MODE_2);
+> @@ -659,9 +661,16 @@ static int venc_set_properties(struct venus_inst *inst)
+>  	if (ret)
+>  		return ret;
+>  
+> +	framerate = inst->timeperframe.denominator * FRAMERATE_FACTOR;
+> +	/* next line is to round up */
+> +	framerate += inst->timeperframe.numerator - 1;
+> +	do_div(framerate, inst->timeperframe.numerator);
 > +
->  		if (buffer[2] == UVC_VS_FORMAT_UNCOMPRESSED) {
->  			ftype = UVC_VS_FRAME_UNCOMPRESSED;
->  		} else {
-> @@ -2384,6 +2398,10 @@ static const struct uvc_device_info uvc_quirk_force_y8 = {
->  	.quirks = UVC_QUIRK_FORCE_Y8,
->  };
+>  	ptype = HFI_PROPERTY_CONFIG_FRAME_RATE;
+>  	frate.buffer_type = HFI_BUFFER_OUTPUT;
+> -	frate.framerate = inst->fps * (1 << 16);
+> +	frate.framerate = framerate;
+> +	if (frate.framerate > frate_max(inst) * FRAMERATE_FACTOR)
+> +		frate.framerate = frate_max(inst) * FRAMERATE_FACTOR;
+
+You should not assume that userspace will be multiplying by the
+frame factor. I mean, the driver should work the same way, no matter
+if userspace is setting the framerate as:
+
+	1/30, 2/60, ... n/(n *30)
+
+
 >  
-> +static const struct uvc_device_info uvc_quirk_force_bpp = {
-> +	.quirks = UVC_QUIRK_FORCE_BPP,
-> +};
-> +
->  #define UVC_INFO_QUIRK(q) (kernel_ulong_t)&(struct uvc_device_info){.quirks = q}
->  #define UVC_INFO_META(m) (kernel_ulong_t)&(struct uvc_device_info) \
->  	{.meta_format = m}
-> @@ -2869,6 +2887,15 @@ static const struct usb_device_id uvc_ids[] = {
->  	  .bInterfaceSubClass	= 1,
->  	  .bInterfaceProtocol	= 0,
->  	  .driver_info		= UVC_INFO_META(V4L2_META_FMT_D4XX) },
-> +	/* GEO Semiconductor GC6500 */
-> +	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
-> +				| USB_DEVICE_ID_MATCH_INT_INFO,
-> +	  .idVendor		= 0x29fe,
-> +	  .idProduct		= 0x4d53,
-
-Could you please keep the entries sorted by idVendor/idProduct ?
-
-> +	  .bInterfaceClass	= USB_CLASS_VIDEO,
-> +	  .bInterfaceSubClass	= 1,
-> +	  .bInterfaceProtocol	= 0,
-> +	  .driver_info		= (kernel_ulong_t)&uvc_quirk_force_bpp },
-
-As this is the only device using this quirk, you can drop
-uvc_quirk_force_bpp and use
-
-	.driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_FORCE_BPP) },
-
->  	/* Generic USB Video Class */
->  	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_UNDEFINED) },
->  	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_15) },
-> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> index c7c1baa90dea..24e3d8c647e7 100644
-> --- a/drivers/media/usb/uvc/uvcvideo.h
-> +++ b/drivers/media/usb/uvc/uvcvideo.h
-> @@ -198,6 +198,7 @@
->  #define UVC_QUIRK_RESTRICT_FRAME_RATE	0x00000200
->  #define UVC_QUIRK_RESTORE_CTRLS_ON_INIT	0x00000400
->  #define UVC_QUIRK_FORCE_Y8		0x00000800
-> +#define UVC_QUIRK_FORCE_BPP		0x00001000
->  
->  /* Format flags */
->  #define UVC_FMT_FLAG_COMPRESSED		0x00000001
+>  	ret = hfi_session_set_property(inst, ptype, &frate);
+>  	if (ret)
+> -- 
+> 2.21.0
 > 
-> base-commit: 20a438d53fd9d12a894161bc56cbeab7a9993c39
-> prerequisite-patch-id: 521eb9602d395ea667eecc75cd2273b59cd3ed76
 
--- 
-Regards,
 
-Laurent Pinchart
+
+
+Thanks,
+Mauro
