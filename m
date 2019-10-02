@@ -2,136 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 18CAFC8AA2
-	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 16:12:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B884C8AA7
+	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 16:14:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726435AbfJBOMu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Oct 2019 10:12:50 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:40321 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726635AbfJBOMt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Oct 2019 10:12:49 -0400
-Received: by mail-lj1-f196.google.com with SMTP id 7so17276240ljw.7
-        for <linux-media@vger.kernel.org>; Wed, 02 Oct 2019 07:12:48 -0700 (PDT)
+        id S1727662AbfJBOOM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Oct 2019 10:14:12 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:42140 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727632AbfJBOOM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Oct 2019 10:14:12 -0400
+Received: by mail-wr1-f66.google.com with SMTP id n14so19834443wrw.9;
+        Wed, 02 Oct 2019 07:14:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=MKzB4Xgzx1wF7f/qvVY70hAbC4oof1oHaCdrSwdO7fI=;
-        b=fpoAU7w6+4T6zlaVRmDzxDmltvSwSN8JFMn9sAtjN3uMOhYh0MxzlxMda4ucgIC4M0
-         DXxwnkFnEU54IYz+qFYrZOAJ/zY3V6cXd37n1FCIzgvQ+3AtdLrvN32XwU45ic0HHeB7
-         sCWnZcjIctkHf4UYAWXSDumwblRotHBrfLfATQdJA+4Lk7yNIhzOdH5LO1muMc7RCCgR
-         EdVhqdJmOlOajpcZ4HvCLX4q3nvRmjkdeo4JQzOc8pyI+0CF2NQssBvjYSzxCZ94Hf34
-         3aesx9CKk+Mjzh+RtY6UFuxMArVvz21gYnVxIJA+P2IFUoADxLPQlobabivOnZH+fnFa
-         nNuA==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=X+k0rmIpLeQyFw0vbDJkaiBHIsea4EqTqF7yRc5LC68=;
+        b=kuJHU1eBC9EH5NS4R3KNt1jizAkrXvS8rIKPDsFDr7NiMTpLFxbD7sOfBdif8jA897
+         KzcegkqgCNJDfLed+7DNqOoCVH9EEJG6hqv5zf+T5CeV45FZvOCpjC7RzVk8HwT4AoiY
+         bJkD4ImtYDcUkctVTHtIJzP6lBXErpNd6/iBrGEOidfUlH+1j25FSRkmRpIsHecPAJBz
+         a4rLcKek+Zuxy4lAbXALA28FiTn5PkEB/qTJ3fxhJAWUzACpVg0kfCSQ43E8FT6FIt1w
+         NAvtrJNgLFUpz0Du4HuRCsTLofCOEcuuXlA4PCRF+6ih9vNy0g+2IkgSv+Z0DKyXHpEu
+         KTkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=MKzB4Xgzx1wF7f/qvVY70hAbC4oof1oHaCdrSwdO7fI=;
-        b=m17RCyiEnVCMtfNg49p2CdNQcKFFSe72DFDTcWWkSHjZebLvLpm9pavHqK4bVj2HTa
-         oDoTRPQ2g9sfvDzXXXc2EUa/rx1+Q3PUJKmAOsBkY0HhII54NSFE6Hq7gUCfoqQ35T1I
-         USk13IfR7lHut5ay0Ojr99RpXuhOG5exEPZxi/05UIQ3xX+RvfI/Nxx6K2EW/BO23Hot
-         WO2A0+NovK0Bl/hSAP34rsMd1gjOP57JGBnU4SauhPTWHmVKA3L2xNCoGFwR/hV+gOxd
-         7RtQtLoUPdDz9LiZD3jBw4934tiafkUwWJIN7uj4EUdMTBS7qvOPPRZPDrEoU6uuCvPm
-         8JTQ==
-X-Gm-Message-State: APjAAAUVl/VfJOs2vM5S1AGtxL5/ZLSwt9z70RRj77cA8aQxYxo4bQxj
-        9WeNsvYrjQDG9pEQvyiC6Kv+PEhvZqE=
-X-Google-Smtp-Source: APXvYqzRkCAM8UWH4xxqHRRrz2Y2WCxBidH2dNxB7BquzKx2pcO8O/DHgmZEx/6DcOYb8uygwRrvaA==
-X-Received: by 2002:a2e:9750:: with SMTP id f16mr2648305ljj.239.1570025567094;
-        Wed, 02 Oct 2019 07:12:47 -0700 (PDT)
-Received: from [192.168.27.209] ([37.157.136.206])
-        by smtp.googlemail.com with ESMTPSA id z16sm5458759ljz.72.2019.10.02.07.12.46
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 02 Oct 2019 07:12:46 -0700 (PDT)
-Subject: Re: [GIT PULL for v5.5] Venus updates, take 2
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     linux-media@vger.kernel.org
-References: <20191002112953.16642-1-stanimir.varbanov@linaro.org>
- <20191002110150.1c6336a3@coco.lan>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <751dc692-929b-101d-00cc-08db1e55cff0@linaro.org>
-Date:   Wed, 2 Oct 2019 17:12:44 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=X+k0rmIpLeQyFw0vbDJkaiBHIsea4EqTqF7yRc5LC68=;
+        b=jUQL0FYJNOryROga9ASrEID4ZxrA094f+R83aK1GhrKBa+j7PfUN3S3I50LsMbErwz
+         zt/cY5WHplxlwbYkaXnTMuDVkqkUf0tF/YJyUyH/sSAmwA+ur/lhYJB618sFmcO0CFBk
+         mgjqcxA3Zjp31zrA0CCEvNms5eVCkApI6D0J3Ca300A30zQzrLurR0vNBFwqLSYjBMA4
+         yNx/zY7bnf3voNu2wKz84NWn1Vyp6VqoooiArd/ldipj7JuQ5yyxo3a+DyVJTMGPVMXR
+         qwhfVzLl1qYnlHWFFHZrOd3uy4n0d0JuKgs+qCVTVnpX9dj7f2yMDf4vunpObcuiW+pD
+         7tQA==
+X-Gm-Message-State: APjAAAWT2soHELplgOSTA+UOyeY84VIeOwfVVF6eAnOfiZIDSO5NEkRS
+        5V3I5BVRbVQB/3GgKu1GNAOOLsD8Mk0=
+X-Google-Smtp-Source: APXvYqzGD3LZdWkLWw0XHJ+8vdGo4lU6akKYPh/9G4s89S7f7Yu8kvL6OF6LOwbAqkwWV57TdO7loA==
+X-Received: by 2002:adf:dc03:: with SMTP id t3mr3246679wri.27.1570025648273;
+        Wed, 02 Oct 2019 07:14:08 -0700 (PDT)
+Received: from Limone.filmuniversitaet.de ([195.37.64.251])
+        by smtp.googlemail.com with ESMTPSA id d193sm8781121wmd.0.2019.10.02.07.14.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Oct 2019 07:14:07 -0700 (PDT)
+From:   Gon Solo <gonsolo@gmail.com>
+To:     mchehab+samsung@kernel.org
+Cc:     sean@mess.org, crope@iki.fi, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Gon Solo <gonsolo@gmail.com>
+Subject: [PATCH] si2157: Add support for Logilink VG0022A.
+Date:   Wed,  2 Oct 2019 16:13:58 +0200
+Message-Id: <20191002141359.30166-1-gonsolo@gmail.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191001205203.4b1a5fb6@coco.lan>
+References: <20191001205203.4b1a5fb6@coco.lan>
 MIME-Version: 1.0
-In-Reply-To: <20191002110150.1c6336a3@coco.lan>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Dear Mauro!
 
-On 10/2/19 5:01 PM, Mauro Carvalho Chehab wrote:
-> Em Wed,  2 Oct 2019 14:29:53 +0300
-> Stanimir Varbanov <stanimir.varbanov@linaro.org> escreveu:
-> 
->> Hi Mauro,
->>
->> The Venus driver updates include:
->>
->> * three fixes: fail to suspend, enum frameinterval issue with encoder
->> and frequency table modifications for v3 to handle performance issues.
->> * two new features: interconnect bandwidth support on v4 and more precise
->> clock-scaling on v4.
->>
->> Please pull.
->>
->> Changes since v1:
->> Fixed checkpatch error/warn in 0003-venus-venc-Fix-enum-frameintervals.patch
->>
->> regards,
->> Stan
->>
->> The following changes since commit 503e59365dd134b2c63864f14e2de0476284b003:
->>
->>   media: i2c: ov2659: Switch to SPDX Licensing (2019-10-01 17:39:16 -0300)
->>
->> are available in the Git repository at:
->>
->>   git://linuxtv.org/svarbanov/media_tree.git tags/venus-for-v5.5
->>
->> for you to fetch changes up to e8938a0b5beb6f0fafc921010375cda64a5a4592:
->>
->>   venus: Update clock scaling (2019-10-02 14:17:23 +0300)
->>
->> ----------------------------------------------------------------
->> Venus updates for v5.5
->>
->> ----------------------------------------------------------------
->> Aniket Masule (2):
->>       venus: Add codec data table
->>       venus: Update clock scaling
->>
->> Loic Poulain (1):
->>       venus: core: Fix msm8996 frequency table
->>
->> Stanimir Varbanov (3):
->>       venus: Use on-chip interconnect API
->>       venus: venc: Fix enum frameintervals
->>       venus: Fix occasionally failures to suspend
-> 
-> Hmm... I'm not seeing the patches at the ML. Please always send them
-> to the ML, in order for them to be properly reviewed.
+Thanks for your reply, I tried to address most of your concerns,
+so please bear with me (especially this is my first email with
+git send-email). :)
 
-All patches are posted on linux-media at least, maybe the problem is
-because I changed patch subject to start with upper-case instead of
-lower-case in pull request.
+> First of all, don't attach a patch. Instead, just send it with a decent
+> emailer (with won't mangle whitespaces) or use git send-email...
 
-> 
-> Btw, I have some issues related to this patch:
-> 
-> 	venus: venc: Fix enum frameintervals
-> 
-> Thanks,
-> Mauro
-> 
+Done.
 
--- 
-regards,
-Stan
+> You shouldn't just blindly comment out some code, as this will very likely
+> break support for all other devices supported by the driver...
+
+Done. I extracted power_up into its own function, chip querying is now
+done in probe. I don't have enough knowledge about hardware to do the
+right thing on my own. If there is anybody willing to guide me I will
+spend some time on it.
+
+The original patch where the problem is discussed is
+https://lkml.kernel.org/lkml/1489616530-4025-1-git-send-email-andreas@kemnade.info
+
+> ... yet, looking on what you've done, it seems that you're actually
+> adding support for a different tuner at the si2157 driver.
+> If this is the case, this should be on a separate patch, and in a way
+> that it will become clear that it won't break support for any existing
+> device.
+
+I'm not entirely sure how to split this up. Can you give some advice?
+
+> Why did you do such change? dev_dbg can already print the function, and
+> much more. See:
+
+Thanks for the link. I removed these lines.
+
+> The above seems specific for your device. You need to check if the device
+> is USB_VID_DEXATEK, running the code only on such case.
+
+Done. Though I'm not sure whether I did it the right way.
+
+Thanks for all the advice, I hope this will be included eventually.
+g
+
