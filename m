@@ -2,209 +2,216 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DDDA8C928E
-	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 21:42:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C7F14C9383
+	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 23:31:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726546AbfJBTmn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Oct 2019 15:42:43 -0400
-Received: from mail-wr1-f53.google.com ([209.85.221.53]:42272 "EHLO
-        mail-wr1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726002AbfJBTmn (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Oct 2019 15:42:43 -0400
-Received: by mail-wr1-f53.google.com with SMTP id n14so329398wrw.9
-        for <linux-media@vger.kernel.org>; Wed, 02 Oct 2019 12:42:39 -0700 (PDT)
+        id S1728769AbfJBVbR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Oct 2019 17:31:17 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:34696 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728102AbfJBVbQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Oct 2019 17:31:16 -0400
+Received: by mail-wm1-f66.google.com with SMTP id y135so5822244wmc.1
+        for <linux-media@vger.kernel.org>; Wed, 02 Oct 2019 14:31:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gateworks-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=amsVCAETqOF7Kkjzf7Ol8ialzJf8utlQOXmnDHL4Tjc=;
-        b=FlXs08/LjCMruTAiHk2TCbUMK2VSfiOI0d1eIksvMhYG2iZFo1U4O8iUSJeTedBAQn
-         rsnXCQnLIkcDg2DMY/xUnwNFjLbC4e1Jy3Z4jbucL40TPyN6Jfyh32ZAweqFuCbwCqJM
-         B/UwFSFqnQi2znKziWFbW89o8GpSTLnFByu3Fz4cJ3dE2F3/7C7rb24YKQegKKh/eYtJ
-         RP7uOe9t2XHcRwyzXJG7aHRi/vMJzZgevEIzJn+PuBbbFSN5xojDrGqL0M8yI8aD+rV+
-         6mNDKrLE6Fm+J0cCoOFZGiaX66mDgh5rp8De9Nt/Rj687FUHlftENyl70iNPxe/4r++u
-         P8xA==
+         :cc:content-transfer-encoding;
+        bh=D56EsFq+yogK9cZiFVw/DPVTGWBKef8F8jcSR/AKQ3g=;
+        b=ndXGQW8dDRe7QL3ebDDBLuk+VCzPs2kCAhtNkD6GN7Id6Nm107AddEb5XrRS6xOGs5
+         3ewGtj1pU625UJJaF89Fi7YTjOkMNSwKq80EtosEuFY6nlPD2YEqZAbgZVheDMYUDh7X
+         1YcsZPJZ3z8ITpVWHpZNqJglyvmrL42bVATwKnjZdLXBVFMIpNuvFcGL0hTt8dvdcAlP
+         XPNAbid0yeHa+Vb27VSVWI3ZAnWhkbQJ3NiCa6TCDcIFSemhhI/qJmB2EzTjALlEe3ER
+         Spy4z4mT4mZRXKmGJBdpOPM0RvFKv7Q0Xm176Ps/A0nEfgnTTvj9MEn8jzb7J7YLnDg0
+         JQpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=amsVCAETqOF7Kkjzf7Ol8ialzJf8utlQOXmnDHL4Tjc=;
-        b=A6u+W37l+cmOJOVSljOQD3kF1b0Kv6TDt3+efCi4hiuuHa7k9uk16L0FWjA7PsyGEU
-         96NXiEmcb2sUHghfeHMphbPVLqdq8keEVyX/JxLxdKAYGUXMoM+Lohx1jX04HyQxjatc
-         ED2RyQhUpLpplQrXpce5tf52cM4I7yZQIU23AyfcEdg9QjsC1i+iwnG88mgQbcKG+9G3
-         G9dhhCC31hy17wAbJUE2agOxKG51tQN7Y7ULtJtB78XEaGYrHnnX6+wDFhw3r1rYzgZR
-         NA8erC7u2QwNEI1urW8nWFd26lSmG4gGYUCaJfdYsenxGcblRwer+ErzTkvXUDafk3kb
-         uatw==
-X-Gm-Message-State: APjAAAWJ3xkHrPcddYWZn+lF5/YNilBAjvPI9s4HyzgxiQ4Gc/zEUc+C
-        nOT1heR6h/T+T6fwWHNRH922lcFb/HsgGBCEy/qNintf
-X-Google-Smtp-Source: APXvYqydP5o+xJ6MnWhcS3wcH9OA7pIb54YBgjOJcSAneHIVOajeBvrikOS56USoDoveX0vwKx0Eav/gErEVLh78e0I=
-X-Received: by 2002:adf:e591:: with SMTP id l17mr4336229wrm.199.1570045358212;
- Wed, 02 Oct 2019 12:42:38 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=D56EsFq+yogK9cZiFVw/DPVTGWBKef8F8jcSR/AKQ3g=;
+        b=kE7cFcj8DM0Ga3N0LXTSUIbdjfK7ON8ZQh3M+Dyvm28fvtzZ7qIbHxB4hudXQ9VUoU
+         noeM1/wboWjqD7ynP0wE9wzOD3XsKbKvH6UVPlIlS8zy9K6U0IBbPJ9893ne0KYzxywc
+         peXkXEbpsZA2M7/RLWzZERMMqLdJoyvFzskhBmTqB2CWjNxf6xO7VsftkvU9hWibzN/L
+         wLXKtZ0v8CmgpBUHKW2PBfME853LUylG90ndtBgtPerBxbnHs6C/lhCFGxb1wIvftweA
+         J5jV7274qO2+rnRryPeBCCax4bYTIYNhLEKt08SC+rK8JuBCqh9iK/2lR/D4apLI6Hrc
+         PGFA==
+X-Gm-Message-State: APjAAAWJTEYduKx1ce4i47g/MQA8xfd2L+aphou7IkczJRGyqYyq3UT9
+        VgrTx6/wH+ajRKbRU+Wxuqy6tVK0w1mgva876+aQ9Q==
+X-Google-Smtp-Source: APXvYqz2QZS7BdayHg+2SnsBWPxtjj5tVeN8+qLN0rDo7mEdZlszS3Ep4dzs9PAR6oOiJROuk6NKNpPxhN37ESfhQ9c=
+X-Received: by 2002:a05:600c:2059:: with SMTP id p25mr4659990wmg.50.1570051871886;
+ Wed, 02 Oct 2019 14:31:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAJ+vNU32WbBd8BuHmojDh4adEemT57qviM12AeeiC8yFVNUgmg@mail.gmail.com>
- <Pine.LNX.4.44L0.1910021343290.1552-100000@iolanthe.rowland.org>
-In-Reply-To: <Pine.LNX.4.44L0.1910021343290.1552-100000@iolanthe.rowland.org>
+References: <20190827215539.1286-1-mmichilot@gateworks.com>
+ <cb3e9be4-9ce6-354f-bb7c-a4710edc1c1b@xs4all.nl> <20190829142931.GZ28351@bigcity.dyn.berto.se>
+ <CAJ+vNU11HTcP8L5J2Xg+Rmhvb8JDYemhJxt-GaGG5Myk3n38Tw@mail.gmail.com>
+ <20190927190454.GA7409@bigcity.dyn.berto.se> <CAJ+vNU2shAbnLO9TY4dtPupLxE4UFvNi9FXoFF4MfPbtbAZo=g@mail.gmail.com>
+ <20190927204340.GB7409@bigcity.dyn.berto.se>
+In-Reply-To: <20190927204340.GB7409@bigcity.dyn.berto.se>
 From:   Tim Harvey <tharvey@gateworks.com>
-Date:   Wed, 2 Oct 2019 12:42:27 -0700
-Message-ID: <CAJ+vNU194rZZRjQxSjN6OXXWBEgniHcO1=g==rPwcumKqhh1hA@mail.gmail.com>
-Subject: Re: PureThermal2 UVC video camera: Failed to submit URB 0 (-28)
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     linux-media <linux-media@vger.kernel.org>,
-        linux-usb@vger.kernel.org
+Date:   Wed, 2 Oct 2019 14:31:00 -0700
+Message-ID: <CAJ+vNU2=cXvi3f67igJX03rONodaPkuSRPS=x9WPSxwLnOEUvA@mail.gmail.com>
+Subject: Re: [PATCH] media: i2c: adv7180: fix adv7280 BT.656-4 compatibility
+To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Matthew Michilot <matthew.michilot@gmail.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        Steve Longerbeam <slongerbeam@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Oct 2, 2019 at 10:58 AM Alan Stern <stern@rowland.harvard.edu> wrote:
+On Fri, Sep 27, 2019 at 1:43 PM Niklas S=C3=B6derlund
+<niklas.soderlund@ragnatech.se> wrote:
 >
-> On Wed, 2 Oct 2019, Tim Harvey wrote:
+> Hi Tim,
 >
-> > On Tue, Oct 1, 2019 at 12:19 PM Alan Stern <stern@rowland.harvard.edu> wrote:
+> On 2019-09-27 12:26:40 -0700, Tim Harvey wrote:
+> > On Fri, Sep 27, 2019 at 12:04 PM Niklas S=C3=B6derlund
+> > <niklas.soderlund@ragnatech.se> wrote:
 > > >
-> > > On Tue, 1 Oct 2019, Tim Harvey wrote:
+> > > Hi Tim,
 > > >
-> > > > On Thu, Sep 26, 2019 at 3:47 PM Tim Harvey <tharvey@gateworks.com> wrote:
-> > > > >
-> > > > > Greetings,
-> > > > >
-> > > > > I'm running into an issue with a USB UVC Full speed camera, the
-> > > > > PureThermal2 [1] on an IMX6 based ARM board.
-> > > > >
-> > > > > What I find is that I get two video devices registered (the first one
-> > > > > is the expected device, and I'm not clear what the 2nd one is). When I
-> > > > > try to capture a single frame I get 'Failed to submit URB 0 (-28)'
-> > > > > which historically has been due to a bandwidth issue. I encounter this
-> > > > > on the IMX6 EHCI host as well as the OTG host when no other devices
-> > > > > are connected (no hubs either). I've tested with both a 4.20 kernel
-> > > > > and a 5.3 kernel.
-> > > > >
-> > > > > If I plug this device into another board I have based on an OcteonTX
-> > > > > ARM64 cpu with a fairly modern 4.14 kernel and I find that a single
-> > > > > video device gets registered and I can capture just fine.
-> > > > >
-> > > > > Here are some details:
-> > > > > lsusb reports: 1e4e:0100 Cubeternet WebCam
-> > > > >
-> > > > > working system with 4.14 kernel hot-inserting the camera:
-> > > > > [  495.163276] usb 1-1.2: new full-speed USB device number 6 using xhci_hcd
-> > > > > [  495.291685] uvcvideo: Found UVC 1.00 device PureThermal (fw:v1.2.2)
-> > > > > (1e4e:0100)
-> > > > > [  495.300543] input: PureThermal (fw:v1.2.2): PureTh as
-> > > > > /devices/platform/soc@0/848000000000.pci/pci0000:00/0000:00:10.0/usb1/1-1/1-1.2/1-1.2:1.0/input/input1
-> > > > > [  496.731214] usb 1-1.2: USB disconnect, device number 6
-> > > > > [  496.987294] usb 1-1.2: new full-speed USB device number 7 using xhci_hcd
-> > > > > [  497.115683] uvcvideo: Found UVC 1.00 device PureThermal (fw:v1.2.2)
-> > > > > (1e4e:0100)
-> > > > > [  497.124182] input: PureThermal (fw:v1.2.2): PureTh as
-> > > > > /devices/platform/soc@0/848000000000.pci/pci0000:00/0000:00:10.0/usb1/1-1/1-1.2/1-1.2:1.0/input/input2
+> > > Sorry for taking to so long to look at this.
 > > >
-> > > ...
-> > >
-> > > > > I'm also not clear why the device enumerates then disconnects and
-> > > > > enumerates again when plugged in but this happens on the system it
-> > > > > works on as well and I've seen similar things with other devices.
-> > >
-> > > Perhaps some process opens the camera's device file, does something to
-> > > cause the camera to disconnect and reconnect, but then doesn't close
-> > > the file.
-> >
-> > Alan,
-> >
-> > I found that the '2 devices' is because of a kernel commit in 4.16
-> > that adds support for UVC metadata: 088ead2 media: uvcvideo: Add a
-> > metadata device node. I can comment out the call to
-> > uvc_meta_register() and the 2nd device goes away but the first (and
-> > only) v4l2 capture device still has the same issue.
->
-> Okay, that explains that.
->
-> > > > I have found that if I enumerate the camera through a PCIe based XHCI
-> > > > host controller it still registers the 2 v4l2 devices but in this case
-> > > > I can capture fine. So it would appear that this has something to do
-> > > > with the IMX6 ci_hdrc controller. The -ENOSPC is getting returned from
-> > > > drivers/usb/host/ehci-sched.c:iso_stream_schedule()
+> > > On 2019-09-23 15:04:47 -0700, Tim Harvey wrote:
+> > > > On Thu, Aug 29, 2019 at 7:29 AM Niklas S=C3=B6derlund
+> > > > <niklas.soderlund@ragnatech.se> wrote:
+> > > > >
+> > > > > Hi,
+> > > > >
+> > > > > On 2019-08-29 13:43:49 +0200, Hans Verkuil wrote:
+> > > > > > Adding Niklas.
+> > > > > >
+> > > > > > Niklas, can you take a look at this?
+> > > > >
+> > > > > I'm happy to have a look at this. I'm currently moving so all my =
+boards
+> > > > > are in a box somewhere. I hope to have my lab up and running next=
+ week,
+> > > > > so if this is not urgent I will look at it then.
+> > > > >
 > > > >
-> > > > I feel perhaps this is something basic I don't understand regarding
-> > > > USB URB scheduling but I don't get why it occurs on the IMX6 ci_hdrc
-> > > > controller on not an XHCI controller.
+> > > > Niklas,
+> > > >
+> > > > Have you looked at this yet? Without this patch the ADV7280A does n=
+ot
+> > > > output proper BT.656. We tested this on a Gateworks Ventana GW5404-=
+G
+> > > > which uses the ADV7280A connected to the IMX6 CSI parallel bus. I'm
+> > > > hoping to see this get merged and perhaps backported to older kerne=
+ls.
 > > >
-> > > It's probably related to differences between the drivers.  What shows
-> > > up in /sys/kernel/debug/usb/devices with the camera plugged in?
+> > > I only have access to an adv7180 so I was unable to test this patch.
+> > > After reviewing the documentation I think the patch is OK if what you
+> > > want is to unconditionally switch the driver from outputting BT.656-3=
+ to
+> > > outputting BT.656-4.
+> > >
+> > > As this change would effect a large number of compat strings (adv7280=
+,
+> > > adv7280-m, adv7281, adv7281-m, adv7281-ma, adv7282, adv7282-m) and th=
+e
+> > > goal is to back port it I'm a bit reluctant to adding my tag to this
+> > > patch as I'm not sure if this will break other setups.
+> > >
+> > > From the documentation about the BT.656-4 register (address 0x04 bit =
+7):
+> > >
+> > >     Between Revision 3 and Revision 4 of the ITU-R BT.656 standards,
+> > >     the ITU has changed the toggling position for the V bit within
+> > >     the SAV EAV codes for NTSC. The ITU-R BT.656-4 standard
+> > >     bit allows the user to select an output mode that is compliant
+> > >     with either the previous or new standard. For further information=
+,
+> > >     visit the International Telecommunication Union website.
+> > >
+> > >     Note that the standard change only affects NTSC and has no
+> > >     bearing on PAL.
+> > >
+> > >     When ITU-R BT.656-4 is 0 (default), the ITU-R BT.656-3
+> > >     specification is used. The V bit goes low at EAV of Line 10
+> > >     and Line 273.
+> > >
+> > >     When ITU-R BT.656-4 is 1, the ITU-R BT.656-4 specification is
+> > >     used. The V bit goes low at EAV of Line 20 and Line 283.
+> > >
+> > > Do you know what effects such a change would bring? Looking at the
+> > > driver BT.656-4 seems to be set unconditionally for some adv7180 chip=
+s.
 > > >
 > >
-> > Here's some more debugging including /sys/kernel/debug/usb/devices:
-> > ~# cat /sys/kernel/debug/usb/devices
+> > Niklas,
 > >
-> > T:  Bus=01 Lev=00 Prnt=00 Port=00 Cnt=00 Dev#=  1 Spd=480  MxCh= 1
-> > B:  Alloc=  0/800 us ( 0%), #Int=  0, #Iso=  0
-> > D:  Ver= 2.00 Cls=09(hub  ) Sub=00 Prot=01 MxPS=64 #Cfgs=  1
-> > P:  Vendor=1d6b ProdID=0002 Rev= 5.03
-> > S:  Manufacturer=Linux 5.3.0-00157-g651f7f9-dirty ehci_hcd
-> > S:  Product=EHCI Host Controller
-> > S:  SerialNumber=ci_hdrc.0
-> > C:* #Ifs= 1 Cfg#= 1 Atr=e0 MxPwr=  0mA
-> > I:* If#= 0 Alt= 0 #EPs= 1 Cls=09(hub  ) Sub=00 Prot=00 Driver=hub
-> > E:  Ad=81(I) Atr=03(Int.) MxPS=   4 Ivl=256ms
+> > Quite simply, we have a board that has an ADV7180 attached to the
+> > parallel CSI of an IMX6 that worked fine with mainline drivers then
+> > when we revised this board to attach an ADV7280A in the same way
+> > capture failed to sync. Investigation showed that the NEWAVMODE
+> > differed between the two.
+>
+> I understand your problem, the driver configures adv7180 and adv7280
+> differently.
+>
 > >
-> > T:  Bus=01 Lev=01 Prnt=01 Port=00 Cnt=01 Dev#=  2 Spd=12   MxCh= 0
-> > D:  Ver= 2.00 Cls=ef(misc ) Sub=02 Prot=01 MxPS=64 #Cfgs=  1
-> > P:  Vendor=1e4e ProdID=0100 Rev= 2.00
-> > S:  Manufacturer=GroupGets
-> > S:  Product=PureThermal (fw:v1.2.2)
-> > S:  SerialNumber=801f001c-5102-3038-3835-393400000000
-> > C:* #Ifs= 2 Cfg#= 1 Atr=80 MxPwr=100mA
-> > A:  FirstIf#= 0 IfCount= 2 Cls=0e(video) Sub=03 Prot=00
-> > I:* If#= 0 Alt= 0 #EPs= 1 Cls=0e(video) Sub=01 Prot=00 Driver=uvcvideo
-> > E:  Ad=82(I) Atr=03(Int.) MxPS=   8 Ivl=32ms
-> > I:* If#= 1 Alt= 0 #EPs= 0 Cls=0e(video) Sub=02 Prot=00 Driver=uvcvideo
-> > I:  If#= 1 Alt= 1 #EPs= 1 Cls=0e(video) Sub=02 Prot=00 Driver=uvcvideo
-> > E:  Ad=81(I) Atr=01(Isoc) MxPS= 962 Ivl=1ms
+> > So if the point of the driver is to configure the variants in the same
+> > way, this patch needs to be applied.
 >
-> So the camera is the only device on the bus (aside from the root hub).
-> And it asks for an 8-byte interrupt endpoint together with a 962-byte
-> isochronous endpoint.
+> I'm not sure that is the point of the driver. As the driver today
+> configures different compatible strings differently. Some as ITU-R
+> BT.656-3 and some as ITU-R BT.656-4, I can only assume there is a reason
+> for that.
 >
-> That explains the problem.  ehci-hcd (the same code manages ChipIdea
-> controllers) doesn't do a good job of handling high-bandwidth periodic
-> requests for full-speed devices, particularly when isochronous and
-> interrupt endpoints are both present.
->
-> > So regardless of resolution/frame-size the device is requesting 962
-> > byte USB frame bandwidth which should be just fine for USB full speed
-> > in iso mode (max 1023). I'm not sure why the bandwidth reservation
-> > fails.
->
-> Yes, that amount of data is fine for full-speed USB.  But handling
-> full-speed devices attached to a high-speed controller isn't easy, and
-> ehci-hcd isn't able to make use of all the possible bandwidth.  In
-> fact, you'd be better off attaching the camera to a full-speed USB 1.1
-> controller, if one were available for your system.
->
-> xHCI controllers, on the other hand, handle all the scheduling issues
-> in hardware so the driver doesn't have to deal with them.  Evidently
-> the ones you tried don't have any trouble in this situation.
->
-> > Apparently the RaspberryPi 4 has this same issue:
-> > https://github.com/raspberrypi/linux/issues/3136. The same thread
-> > mentions that most USB full speed devices have fall-back endpoint
-> > max-packet sizes that allow for reduced bandwidth reservations (but
-> > this camera does not).
 > >
-> > I get the same results regardless of CONFIG_USB_EHCI_TT_NEWSCHED enabled or not.
+> > I would maintain that the adv7180 comes up with NEWAVMODE enabled and
+> > in order to be compatible we must configure the adv7282 the same.
+> >
+> > The same argument can be made for setting the V bit end position in
+> > NTSC mode - its done for the adv7180 so for compatible output it
+> > should be done for the adv7282.
 >
-> And indeed, the same problem will occur whenever this device is
-> attached to an EHCI controller on a Linux-based system, unless somebody
-> goes to the trouble of improving the driver.  (It's tremendously
-> complicated -- the spec puts almost all the burden on the software
-> rather than the hardware/firmware -- and probably not worth the effort
-> of trying to do it correctly.  I wouldn't be surprised if adding proper
-> support for this would double the size of the driver.)
+> I understand that this is needed to make it a drop-in replacement for
+> the adv7180 in your use-case. But I'm not sure it is a good idea for
+> other users of the driver. What if someone is already using a adv7282 on
+> a board and depends on it providing ITU-R BT.656-3 and the old settings?
+> If this patch is picked up there use-cases may break.
+>
+> I'm not sure what the best way forward is I'm afraid. Looking at
+> video-interfaces.txt we have a device tree property bus-type which is
+> used to describe the bus is a BT.656 bus but not which revision of it.
+>
+> I'm not really found of driver specific bus descriptions, but maybe this
+> is a case where one might consider adding one? Hans what do you think?
 >
 
-Alan,
+Niklas / Hans,
 
-Thanks for explaining this - its incredibly helpful!
+Thanks for the feedback. I thought that the goal of any 'compatible'
+device should be to be configured identically. If that's not the case
+then we need more discussion for sure.
+
+There are 3 registers being changed by this patch which do the
+following for the adv7182/adv7280/adv7181/adv7282:
+- change output from BT656-3 to BT656-4 (as the driver does this for adv718=
+0)
+- enable NEWAVMODE meaning EAV/SAV codes are configurable (new code
+but adv7180 enables this by power-on default and adv7280 does not)
+- configure V bit end count (to be what adv7180 uses; this isn't used
+if NEWAVMODE is disabled)
+
+So its not only the question of how to decide to configure BT656-3 vs
+BT656-4 but how to deal with differences in the EAV/SAV codes. I'm not
+an expert so I don't know what configuration is BT656 compliant and of
+course without knowing who is using these devices we can't tell what
+would break even if we fix something that may be misconfigured already
+(or even completely unused).
+
+I'm cc'ing Steve Longerbeam as well as at one point he was suggesting
+adding a 'newavmode' property to the adv7180 bindings and likely
+recalls the discussions there.
 
 Tim
