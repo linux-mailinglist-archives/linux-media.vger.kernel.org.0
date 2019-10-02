@@ -2,121 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 747B1C9147
-	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 21:04:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DAECC917E
+	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 21:11:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728793AbfJBTEG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Oct 2019 15:04:06 -0400
-Received: from mail-io1-f68.google.com ([209.85.166.68]:34657 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726076AbfJBTEF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Oct 2019 15:04:05 -0400
-Received: by mail-io1-f68.google.com with SMTP id q1so59542510ion.1;
-        Wed, 02 Oct 2019 12:04:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=St/5Yx9IAdho5qVopBMcN0+NvHaC/UJiWRlETASobFI=;
-        b=kaUlL3j6+0GmaCUe6vpBY5PoTGdlqVWCuZBArGh4SbLS0unPdcxIETP2WXDtya3J/7
-         Pk9jW8ioH0dWaNgAUdcsqjSe+ptGhqMISbLg5dm+hvb2S+u4qcUVzhr7JGR/hZWaA3Tl
-         aXOf2pISMsJzFG4lPCx/mZi0cditrZ3P6CdICEdcy25sACwFF9VVvPYz+D8H5IZNf+zk
-         wH9Sj8+S7I2eWwhlTFkk9rL3mkHlmq7nkou3hRNkTXV6lADFcrRg59W1EymyGTJkhzZW
-         PHG8mN8uvM3vyGO4Cki8S/OHDQPNUuwvGsQDV+DUOF9zHFcrVJJ6ayS4j3yml5T2RHr/
-         RgtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=St/5Yx9IAdho5qVopBMcN0+NvHaC/UJiWRlETASobFI=;
-        b=LoB6OUaFeI6sDHNdbS0CsMOzJ2agxfMQBPilN3iJ2ruNoVYG18GNajwBkCEswu269W
-         FSC5oeU0lcDTPSXLdseU3xJasMkweWldA5me7XMiX0ZiDxKqcBE8E8rI7xhhK27s8sH6
-         R5Kiu6S/B3wUeeRMvRNWaQV8Tio9zen+1YdPvCjSR2gsqk21uq5z3X0IL2ihZQLaVjum
-         VPliQyMmqf58ru58hzf/u19wOZIlgcteHjFfMEPu99QZAEQ37UPmGW0671/3fOI28W7e
-         kKeFQBAFF/YDbMPtfBTTs4j3jxN08A7tJ8QzJ9N5dF0H5HYJSXXci9RaxmgNJxScgOlE
-         TPZw==
-X-Gm-Message-State: APjAAAWAbaiUygYbsXNDl0CdU/MPe91X2g4OIZe2Rj3uqcZUdqRBLR9y
-        obmDnWTZH8kx3L7X3cQnSGtfO1sPeviGdhTetL4=
-X-Google-Smtp-Source: APXvYqyBDRqzCOURp0bIg87hcNlK+OwvFnOdUWlJtXBAuGTiO64hQFSh/cP5qStkleVFnxHHNCRKAk8bKbmsvDUw5BU=
-X-Received: by 2002:a92:3314:: with SMTP id a20mr5448246ilf.276.1570043044661;
- Wed, 02 Oct 2019 12:04:04 -0700 (PDT)
-MIME-Version: 1.0
-References: <20181221011752.25627-1-sre@kernel.org> <4f47f7f2-3abb-856c-4db5-675caf8057c7@xs4all.nl>
- <20190319133154.7tbfafy7pguzw2tk@earth.universe>
-In-Reply-To: <20190319133154.7tbfafy7pguzw2tk@earth.universe>
-From:   Adam Ford <aford173@gmail.com>
-Date:   Wed, 2 Oct 2019 14:03:52 -0500
-Message-ID: <CAHCN7xLffcvC0LVnfrhf4cA=y1PRMx+COa3c8rBm1xOj179vEA@mail.gmail.com>
-Subject: Re: [PATCH 00/14] Add support for FM radio in hcill and kill TI_ST
-To:     Sebastian Reichel <sre@kernel.org>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Marcel Holtmann <marcel@holtmann.org>,
-        Tony Lindgren <tony@atomide.com>,
-        Rob Herring <robh@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        "open list:BLUETOOTH DRIVERS" <linux-bluetooth@vger.kernel.org>,
+        id S1728510AbfJBTJZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Oct 2019 15:09:25 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:38544 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729369AbfJBTIV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Oct 2019 15:08:21 -0400
+Received: from pendragon.ideasonboard.com (unknown [132.205.229.212])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C9F232BB;
+        Wed,  2 Oct 2019 21:08:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1570043299;
+        bh=2bctw1IJ9Ns8CBUAHy20yJpmEISXz+Eqe/9J6CKHKTc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=MwopaARhx4nM+kSkI/jZ8TdgPb0PRQLQXQ3kEKbslzz8y3TJvdP4jMTmPWpJ/t2RW
+         Amg8pJHOxjYmZO/PNPVq+m+3LzCOQG4lnizJXvXD1aauY/0jAu9L/6EHGfyJD6vlle
+         0OveV+6E0PQpBFFe0t5CxJlCYEhSAR+SYu5QpsN8=
+Date:   Wed, 2 Oct 2019 22:08:05 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sergey Zakharchenko <doublef.mobile@gmail.com>
+Cc:     Sergey Zakharchenko <szakharchenko@digital-loggers.com>,
         linux-media@vger.kernel.org,
-        Linux-OMAP <linux-omap@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Martin Bodo <martin@digital-loggers.com>,
+        "Logan, Peter" <peter.logan@intel.com>,
+        Auke Kok <auke-jan.h.kok@intel.com>
+Subject: Re: [PATCH v2] media: uvcvideo: Add a quirk to force GEO GC6500
+ Camera bits-per-pixel value
+Message-ID: <20191002190805.GG5262@pendragon.ideasonboard.com>
+References: <201910021929.ij7Rrmvk%lkp@intel.com>
+ <20191002130102.97852-1-szakharchenko@digital-loggers.com>
+ <20191002140814.GB5262@pendragon.ideasonboard.com>
+ <CADYCxoOzwRQctuVaqEx40WgFLo4PY0sV4R11r+pn+Wu0jLzPng@mail.gmail.com>
+ <CADYCxoNTBmX8RYf18xmX0B8xD_LvNJbZ5buyAgo5E9v14B3S_A@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CADYCxoNTBmX8RYf18xmX0B8xD_LvNJbZ5buyAgo5E9v14B3S_A@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Mar 19, 2019 at 8:33 AM Sebastian Reichel <sre@kernel.org> wrote:
->
-> Hi Hans,
->
-> On Thu, Mar 14, 2019 at 09:20:10AM +0100, Hans Verkuil wrote:
-> > On 12/21/18 2:17 AM, Sebastian Reichel wrote:
-> > > This moves all remaining users of the legacy TI_ST driver to hcill (patches
-> > > 1-3). Then patches 4-7 convert wl128x-radio driver to a standard platform
-> > > device driver with support for multiple instances. Patch 7 will result in
-> > > (userless) TI_ST driver no longer supporting radio at runtime. Patch 8-11 do
-> > > some cleanups in the wl128x-radio driver. Finally patch 12 removes the TI_ST
-> > > specific parts from wl128x-radio and adds the required infrastructure to use it
-> > > with the serdev hcill driver instead. The remaining patches 13 and 14 remove
-> > > the old TI_ST code.
-> > >
-> > > The new code has been tested on the Motorola Droid 4. For testing the audio
-> > > should be configured to route Ext to Speaker or Headphone. Then you need to
-> > > plug headphone, since its cable is used as antenna. For testing there is a
-> > > 'radio' utility packages in Debian. When you start the utility you need to
-> > > specify a frequency, since initial get_frequency returns an error:
+Hi Sergey,
+
+On Wed, Oct 02, 2019 at 09:15:45PM +0400, Sergey Zakharchenko wrote:
+> Sergey Zakharchenko <doublef.mobile@gmail.com>:
+> > Laurent Pinchart <laurent.pinchart@ideasonboard.com>:
+> > > Do you think it would make sense to do this by default, without
+> > > requiring a quirk ? Or are there cases where this calculation would lead
+> > > to incorrect results while the bpp reported by the camera would be right
+> > > ?
 > >
-> > What is the status of this series?
-> >
-> > Based on some of the replies (from Adam Ford in particular) it appears that
-> > this isn't ready to be merged, so is a v2 planned?
->
-> Yes, a v2 is planned, but I'm super busy at the moment. I don't
-> expect to send something for this merge window. Neither LogicPD
-> nor IGEP use FM radio, so I can just remove FM support from the
-> TI_ST framework. Converting those platforms to hci_ll can be done
-> in a different patchset.
->
+> > The loop is a simplified version of the v4l2_fill_pixfmt() loop. The
+> > calculation might need some checking, and might be invalid, in case
+> > block_w/block_h format fields are significant (not 0 and not 1),
+> > because then effective bits-per-pixel would seemingly be fractional,
+> > and depend on the image dimensions if they weren't aligned; however I
+> > see no formats using the block_w/block_h fields defined so far.
+> 
+> It's likely possible to directly replace the bpp-using computation in
+> https://github.com/torvalds/linux/blob/2874c5fd284268364ece81a7bd936f3c8168e567/drivers/media/usb/uvc/uvc_driver.c#L636
+> with a call to v4l2_fill_pixfmt() and the sizeimage it returns.
+> However, bpp is used elsewhere, and it's hard to tell what it should
+> be taken to be to in the hypothetical exotic cases I'm considering, so
+> I'm reluctant to go that route.
 
-Sebastian,
+Would it make sense to split the calculation from v4l2_fill_pixfmt() to
+a helper function that the UVC driver could call ?
 
-After a bunch of testing, I think the issue I was having was the BTS
-file being pulled in from linux-firmware.  I was able to successfully
-load a BTS file that I have from Logic PD with working BLE and BT
-working together.  I have to run some tests, but if you wouldn't mind
-re-basing your code and pushing it again for review, I can most likely
-add my 'tested-by'
-I am not sure who to discuss my perceived bug in the BTS blob.  I have
-to go find the old BTS editor and see if I can determine the cause,
-but the fact that I can use the BTS file that corresponds to the FCC
-certified file that Logic PD used is more important to me than using
-the generic BTS file provided by TI, however it would be nice for the
-reference BTS file to operate without error.
+> I'm going to send v3 in an hour unless there are other suggestions.
 
-adam
-> If that was the only issue there would be a v2 already. But Marcel
-> Holtmann suggested to pass the custom packet data through the BT
-> subsystem, which is non-trivial (at least for me) :)
->
-> -- Sebastian
+-- 
+Regards,
+
+Laurent Pinchart
