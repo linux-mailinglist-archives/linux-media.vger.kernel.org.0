@@ -2,84 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C4DC0C8A2F
-	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 15:49:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C4948C8A6A
+	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 16:02:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728107AbfJBNtc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Oct 2019 09:49:32 -0400
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:32894 "EHLO
-        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728102AbfJBNta (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Oct 2019 09:49:30 -0400
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x92DnTMF033263;
-        Wed, 2 Oct 2019 08:49:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1570024169;
-        bh=Lsv3CynxT1kV96mwsveg3FYq/dwgSUzVOlWSLR+kDp4=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=Qm4K/ER6s05wyTEK7fEU8sYbKvDDg+dk7DWbGLlgjP1wKxr1mSI6DelBSWMPH7x1u
-         WkbQzn8wtzGiWFCZxJLOqOZ/TwEBipO4DLVn1qRrSX5MHNVr3LMn/fRHkTjgJ8rmJP
-         WgDS7yRbOPNnf/LyrKZA3Zdf45l9XexbcDmJFTY0=
-Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x92DnTF9120706
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 2 Oct 2019 08:49:29 -0500
-Received: from DLEE112.ent.ti.com (157.170.170.23) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Wed, 2 Oct
- 2019 08:49:18 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Wed, 2 Oct 2019 08:49:18 -0500
-Received: from uda0869644b.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id x92DnOmB035733;
-        Wed, 2 Oct 2019 08:49:28 -0500
-From:   Benoit Parrot <bparrot@ti.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Benoit Parrot <bparrot@ti.com>
-Subject: [Patch v2 3/3] media: ov5640: Make 2592x1944 mode only available at 15 fps
-Date:   Wed, 2 Oct 2019 08:51:34 -0500
-Message-ID: <20191002135134.12273-4-bparrot@ti.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191002135134.12273-1-bparrot@ti.com>
-References: <20191002135134.12273-1-bparrot@ti.com>
+        id S1727264AbfJBOCD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Oct 2019 10:02:03 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:55474 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726200AbfJBOCD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Oct 2019 10:02:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=LSTJEae0r4HCV1UMS0Q90a+iWwcMpTqsJ2UWDqYjtcw=; b=tq+ejJHe2MZUsANJPVpaiT6Q0
+        Izfji4iK7tyKCJaZU1cxR23XIP5K020Fbw5oIcjhTMY6CXK+ltSUKREgJnc24vqj/6FHtKrjAVjHa
+        0bI+v1rd/vujsbIEo1RZX2SF5E86QM7TunlvYBiT5G+IfhFXINRg7ZnujdxXKA1hGOkidIspjl1OZ
+        C+WTiuDhh4GkVPlc/WNcpdcNlynK6iEJEOA+9OncZmjBIl0eJrftzHU8D9CKTmbiwhryb1DALAvYW
+        Ip01ij+a3QvSFuVnNQFVZOAaPkAViaRsnQgNFcjPCohJoes1K14MgAmDIn13Qxed7fJjaXCX7uk0x
+        11/f9LpUA==;
+Received: from 177.157.127.95.dynamic.adsl.gvt.net.br ([177.157.127.95] helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
+        id 1iFfCc-00048p-Vm; Wed, 02 Oct 2019 14:02:03 +0000
+Date:   Wed, 2 Oct 2019 11:01:59 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [GIT PULL for v5.5] Venus updates, take 2
+Message-ID: <20191002110150.1c6336a3@coco.lan>
+In-Reply-To: <20191002112953.16642-1-stanimir.varbanov@linaro.org>
+References: <20191002112953.16642-1-stanimir.varbanov@linaro.org>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The sensor data sheet clearly state that 2592x1944 only works at 15 fps
-make sure we don't try to miss configure the pll out of acceptable
-range.
+Em Wed,  2 Oct 2019 14:29:53 +0300
+Stanimir Varbanov <stanimir.varbanov@linaro.org> escreveu:
 
-Signed-off-by: Benoit Parrot <bparrot@ti.com>
----
- drivers/media/i2c/ov5640.c | 5 +++++
- 1 file changed, 5 insertions(+)
+> Hi Mauro,
+> 
+> The Venus driver updates include:
+> 
+> * three fixes: fail to suspend, enum frameinterval issue with encoder
+> and frequency table modifications for v3 to handle performance issues.
+> * two new features: interconnect bandwidth support on v4 and more precise
+> clock-scaling on v4.
+> 
+> Please pull.
+> 
+> Changes since v1:
+> Fixed checkpatch error/warn in 0003-venus-venc-Fix-enum-frameintervals.patch
+> 
+> regards,
+> Stan
+> 
+> The following changes since commit 503e59365dd134b2c63864f14e2de0476284b003:
+> 
+>   media: i2c: ov2659: Switch to SPDX Licensing (2019-10-01 17:39:16 -0300)
+> 
+> are available in the Git repository at:
+> 
+>   git://linuxtv.org/svarbanov/media_tree.git tags/venus-for-v5.5
+> 
+> for you to fetch changes up to e8938a0b5beb6f0fafc921010375cda64a5a4592:
+> 
+>   venus: Update clock scaling (2019-10-02 14:17:23 +0300)
+> 
+> ----------------------------------------------------------------
+> Venus updates for v5.5
+> 
+> ----------------------------------------------------------------
+> Aniket Masule (2):
+>       venus: Add codec data table
+>       venus: Update clock scaling
+> 
+> Loic Poulain (1):
+>       venus: core: Fix msm8996 frequency table
+> 
+> Stanimir Varbanov (3):
+>       venus: Use on-chip interconnect API
+>       venus: venc: Fix enum frameintervals
+>       venus: Fix occasionally failures to suspend
 
-diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-index 103a4e8f88e1..d5b0be2c7a0a 100644
---- a/drivers/media/i2c/ov5640.c
-+++ b/drivers/media/i2c/ov5640.c
-@@ -1613,6 +1613,11 @@ ov5640_find_mode(struct ov5640_dev *sensor, enum ov5640_frame_rate fr,
- 	    !(mode->hact == 640 && mode->vact == 480))
- 		return NULL;
- 
-+	/* 2592x1944 only works at 15fps */
-+	if (fr != OV5640_15_FPS &&
-+	    (mode->hact == 2592 && mode->vact == 1944))
-+		return NULL;
-+
- 	return mode;
- }
- 
--- 
-2.17.1
+Hmm... I'm not seeing the patches at the ML. Please always send them
+to the ML, in order for them to be properly reviewed.
 
+Btw, I have some issues related to this patch:
+
+	venus: venc: Fix enum frameintervals
+
+Thanks,
+Mauro
