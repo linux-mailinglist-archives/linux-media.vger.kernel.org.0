@@ -2,301 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 51F82C4943
-	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 10:16:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB6F5C4951
+	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 10:20:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727591AbfJBIQ3 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 2 Oct 2019 04:16:29 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:60372 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726710AbfJBIQ3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 2 Oct 2019 04:16:29 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtp (Exim 4.84_2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1iFZo6-0003vj-F4; Wed, 02 Oct 2019 08:16:22 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1iFZoS-0002gZ-Jn; Wed, 02 Oct 2019 08:16:44 +0000
-Date:   Wed, 2 Oct 2019 08:16:44 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <1586568084.1.1570004204603.JavaMail.jenkins@builder.linuxtv.org>
-Subject: Build failed in Jenkins: v4l-utils #43
+        id S1727675AbfJBIUZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Oct 2019 04:20:25 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:36067 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727652AbfJBIUY (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Oct 2019 04:20:24 -0400
+Received: by mail-wr1-f68.google.com with SMTP id y19so18536506wrd.3
+        for <linux-media@vger.kernel.org>; Wed, 02 Oct 2019 01:20:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=7wzUFXF7wK9XYz2rOpybUs704S8i3ga6y6oP1J1Vz28=;
+        b=b6kEri6nb09ILkYxLII5zQNpcvQ8qiIJOKYRnROpWqXK62dnms9uC94NF6MJicHIVx
+         CaXWEbI30xm/rV+EPbdTAOZ3sVMb0LIxFgpXjzeYllJjRBkkKSR7jVTV3BPtt7iVXvNr
+         t/fXqodsJLe1LvifG3G2+IWyFnWpP/a30KvdSZrlmxkNkrFYYNNAgpcH0W7MZjKEm7nD
+         BKNH2IaSMTyDERRXlknkauXl80Qr/FmSPGbZnEoPMrgd3vnYclt1oUjofByLcmf4+zqe
+         5Tld+K4IGwc5NBsTIM8892i3Pw6Sc4v5rCxH8C/2lq85YitjchhRPtCvMsjdv1IyUpn6
+         Lfjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+         :message-id:date:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=7wzUFXF7wK9XYz2rOpybUs704S8i3ga6y6oP1J1Vz28=;
+        b=X9Ydnv/NQNre8QaH0+AFHYSNWKw1VvU0qHOXYHfQb2zlvDcW/1WIMSiqPa/0ixecKb
+         Rk+Ha27wK867J6AXgWgSTKEGnNNfpzJZ9t/kBLOWYkd/zP+28zWR5ICRsCIZuQnOvIBo
+         mRSBNoLDm1o1x94rL24n17OTOxj0smM7Ii7aOD2MrN0NYPsROd6LoT6AbeRjiQ5VEA5T
+         WisrCqL2llIwW8B3CHUyOwonoRx1gwYbFwzTc3LKjPqi5MhSPV/WjfgjAXpQcwi3rBCq
+         p0NWXGaFq+isdR36F7+DEcD/wErBiD1WNfj3MCP9bJe8i1anNGdsQNl3ntbV5SoB+Y/h
+         8K+w==
+X-Gm-Message-State: APjAAAWKVzGFKUKzXUjhD4GHZYhDs96xet6Dz19czoHA5CKCJYuw1Nwo
+        kXof4eyD0KFoOKW8iq6sHIblWg==
+X-Google-Smtp-Source: APXvYqx71p2MA7x5bcV4o/uxfUyeXTsg9DVALYdknfhfxmJX2WlklOH73Ug2nD6XwyGdR2gFI7aQrw==
+X-Received: by 2002:a5d:4f0b:: with SMTP id c11mr1622832wru.63.1570004421123;
+        Wed, 02 Oct 2019 01:20:21 -0700 (PDT)
+Received: from [10.44.66.8] ([212.45.67.2])
+        by smtp.googlemail.com with ESMTPSA id t6sm9487103wmf.8.2019.10.02.01.20.19
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 02 Oct 2019 01:20:20 -0700 (PDT)
+Subject: Re: [PATCH v2 1/2] venus: use on-chip interconnect API
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     Vikash Garodia <vgarodia@codeaurora.org>,
+        Andy Gross <agross@kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>
+References: <20190912082948.22836-1-stanimir.varbanov@linaro.org>
+ <20190912082948.22836-2-stanimir.varbanov@linaro.org>
+From:   Georgi Djakov <georgi.djakov@linaro.org>
+Openpgp: preference=signencrypt
+Autocrypt: addr=georgi.djakov@linaro.org; prefer-encrypt=mutual; keydata=
+ mQINBFjTuRcBEACyAOVzghvyN19Sa/Nit4LPBWkICi5W20p6bwiZvdjhtuh50H5q4ktyxJtp
+ 1+s8dMSa/j58hAWhrc2SNL3fttOCo+MM1bQWwe8uMBQJP4swgXf5ZUYkSssQlXxGKqBSbWLB
+ uFHOOBTzaQBaNgsdXo+mQ1h8UCgM0zQOmbs2ort8aHnH2i65oLs5/Xgv/Qivde/FcFtvEFaL
+ 0TZ7odM67u+M32VetH5nBVPESmnEDjRBPw/DOPhFBPXtal53ZFiiRr6Bm1qKVu3dOEYXHHDt
+ nF13gB+vBZ6x5pjl02NUEucSHQiuCc2Aaavo6xnuBc3lnd4z/xk6GLBqFP3P/eJ56eJv4d0B
+ 0LLgQ7c1T3fU4/5NDRRCnyk6HJ5+HSxD4KVuluj0jnXW4CKzFkKaTxOp7jE6ZD/9Sh74DM8v
+ etN8uwDjtYsM07I3Szlh/I+iThxe/4zVtUQsvgXjwuoOOBWWc4m4KKg+W4zm8bSCqrd1DUgL
+ f67WiEZgvN7tPXEzi84zT1PiUOM98dOnmREIamSpKOKFereIrKX2IcnZn8jyycE12zMkk+Sc
+ ASMfXhfywB0tXRNmzsywdxQFcJ6jblPNxscnGMh2VlY2rezmqJdcK4G4Lprkc0jOHotV/6oJ
+ mj9h95Ouvbq5TDHx+ERn8uytPygDBR67kNHs18LkvrEex/Z1cQARAQABtChHZW9yZ2kgRGph
+ a292IDxnZW9yZ2kuZGpha292QGxpbmFyby5vcmc+iQI+BBMBAgAoBQJY07kXAhsDBQkHhM4A
+ BgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRCyi/eZcnWWUuvsD/4miikUeAO6fU2Xy3fT
+ l7RUCeb2Uuh1/nxYoE1vtXcow6SyAvIVTD32kHXucJJfYy2zFzptWpvD6Sa0Sc58qe4iLY4j
+ M54ugOYK7XeRKkQHFqqR2T3g/toVG1BOLS2atooXEU+8OFbpLkBXbIdItqJ1M1SEw8YgKmmr
+ JlLAaKMq3hMb5bDQx9erq7PqEKOB/Va0nNu17IL58q+Q5Om7S1x54Oj6LiG/9kNOxQTklOQZ
+ t61oW1Ewjbl325fW0/Lk0QzmfLCrmGXXiedFEMRLCJbVImXVKdIt/Ubk6SAAUrA5dFVNBzm2
+ L8r+HxJcfDeEpdOZJzuwRyFnH96u1Xz+7X2V26zMU6Wl2+lhvr2Tj7spxjppR+nuFiybQq7k
+ MIwyEF0mb75RLhW33sdGStCZ/nBsXIGAUS7OBj+a5fm47vQKv6ekg60oRTHWysFSJm1mlRyq
+ exhI6GwUo5GM/vE36rIPSJFRRgkt6nynoba/1c4VXxfhok2rkP0x3CApJ5RimbvITTnINY0o
+ CU6f1ng1I0A1UTi2YcLjFq/gmCdOHExT4huywfu1DDf0p1xDyPA1FJaii/gJ32bBP3zK53hM
+ dj5S7miqN7F6ZpvGSGXgahQzkGyYpBR5pda0m0k8drV2IQn+0W8Qwh4XZ6/YdfI81+xyFlXc
+ CJjljqsMCJW6PdgEH7kCDQRY07kXARAAvupGd4Jdd8zRRiF+jMpv6ZGz8L55Di1fl1YRth6m
+ lIxYTLwGf0/p0oDLIRldKswena3fbWh5bbTMkJmRiOQ/hffhPSNSyyh+WQeLY2kzl6geiHxD
+ zbw37e2hd3rWAEfVFEXOLnmenaUeJFyhA3Wd8OLdRMuoV+RaLhNfeHctiEn1YGy2gLCq4VNb
+ 4Wj5hEzABGO7+LZ14hdw3hJIEGKtQC65Jh/vTayGD+qdwedhINnIqslk9tCQ33a+jPrCjXLW
+ X29rcgqigzsLHH7iVHWA9R5Aq7pCy5hSFsl4NBn1uV6UHlyOBUuiHBDVwTIAUnZ4S8EQiwgv
+ WQxEkXEWLM850V+G6R593yZndTr3yydPgYv0xEDACd6GcNLR/x8mawmHKzNmnRJoOh6Rkfw2
+ fSiVGesGo83+iYq0NZASrXHAjWgtZXO1YwjW9gCQ2jYu9RGuQM8zIPY1VDpQ6wJtjO/KaOLm
+ NehSR2R6tgBJK7XD9it79LdbPKDKoFSqxaAvXwWgXBj0Oz+Y0BqfClnAbxx3kYlSwfPHDFYc
+ R/ppSgnbR5j0Rjz/N6Lua3S42MDhQGoTlVkgAi1btbdV3qpFE6jglJsJUDlqnEnwf03EgjdJ
+ 6KEh0z57lyVcy5F/EUKfTAMZweBnkPo+BF2LBYn3Qd+CS6haZAWaG7vzVJu4W/mPQzsAEQEA
+ AYkCJQQYAQIADwUCWNO5FwIbDAUJB4TOAAAKCRCyi/eZcnWWUhlHD/0VE/2x6lKh2FGP+QHH
+ UTKmiiwtMurYKJsSJlQx0T+j/1f+zYkY3MDX+gXa0d0xb4eFv8WNlEjkcpSPFr+pQ7CiAI33
+ 99kAVMQEip/MwoTYvM9NXSMTpyRJ/asnLeqa0WU6l6Z9mQ41lLzPFBAJ21/ddT4xeBDv0dxM
+ GqaH2C6bSnJkhSfSja9OxBe+F6LIAZgCFzlogbmSWmUdLBg+sh3K6aiBDAdZPUMvGHzHK3fj
+ gHK4GqGCFK76bFrHQYgiBOrcR4GDklj4Gk9osIfdXIAkBvRGw8zg1zzUYwMYk+A6v40gBn00
+ OOB13qJe9zyKpReWMAhg7BYPBKIm/qSr82aIQc4+FlDX2Ot6T/4tGUDr9MAHaBKFtVyIqXBO
+ xOf0vQEokkUGRKWBE0uA3zFVRfLiT6NUjDQ0vdphTnsdA7h01MliZLQ2lLL2Mt5lsqU+6sup
+ Tfql1omgEpjnFsPsyFebzcKGbdEr6vySGa3Cof+miX06hQXKe99a5+eHNhtZJcMAIO89wZmj
+ 7ayYJIXFqjl/X0KBcCbiAl4vbdBw1bqFnO4zd1lMXKVoa29UHqby4MPbQhjWNVv9kqp8A39+
+ E9xw890l1xdERkjVKX6IEJu2hf7X3MMl9tOjBK6MvdOUxvh1bNNmXh7OlBL1MpJYY/ydIm3B
+ KEmKjLDvB0pePJkdTw==
+Message-ID: <c1e242ee-f7ec-de35-d5ae-9964473d473e@linaro.org>
+Date:   Wed, 2 Oct 2019 11:20:18 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: v4l-utils
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
+In-Reply-To: <20190912082948.22836-2-stanimir.varbanov@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/v4l-utils/43/display/redirect?page=changes>
+Hi Stan,
 
-Changes:
+On 9/12/19 01:29, Stanimir Varbanov wrote:
+> This aims to add a requests for bandwidth scaling depending
+> on the resolution and framerate (macroblocks per second). The
+> exact value of the requested bandwidth is get from a
+> pre-calculated tables for encoder and decoder.
+> 
+> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
 
-[hverkuil-cisco] keytable: add new generated keymaps
+Acked-by: Georgi Djakov <georgi.djakov@linaro.org>
 
-[hverkuil-cisco] msg2ctl.pl: add newline after log_msg
-
-[hverkuil-cisco] cec-follower: drop the hardcoded UI commands list
-
-[hverkuil-cisco] cec-ctl/cec-log: use new CEC_OP_UI_CMD defines
-
-
-------------------------------------------
-[...truncated 1.10 MB...]
-   ^~~~~~~
-   log_msg
-In file included from cec-follower.h:25,
-                 from cec-follower.cpp:21:
-./cec-log.h:800:16: error: ‘arg_u8’ was not declared in this scope
- #define arg_on arg_u8
-                ^~~~~~
-./cec-log.h:2584:12: note: in expansion of macro ‘arg_on’
-   log_arg(&arg_on, "on", on);
-            ^~~~~~
-./cec-log.h:800:16: note: suggested alternative: ‘arg_on’
- #define arg_on arg_u8
-                ^~~~~~
-./cec-log.h:2584:12: note: in expansion of macro ‘arg_on’
-   log_arg(&arg_on, "on", on);
-            ^~~~~~
-In file included from cec-follower.h:25,
-                 from cec-follower.cpp:21:
-./cec-log.h:2584:3: error: ‘log_arg’ was not declared in this scope
-   log_arg(&arg_on, "on", on);
-   ^~~~~~~
-./cec-log.h:2584:3: note: suggested alternative: ‘log_msg’
-   log_arg(&arg_on, "on", on);
-   ^~~~~~~
-   log_msg
-In file included from cec-follower.h:25,
-                 from cec-follower.cpp:21:
-./cec-log.h:800:16: error: ‘arg_u8’ was not declared in this scope
- #define arg_on arg_u8
-                ^~~~~~
-./cec-log.h:2594:12: note: in expansion of macro ‘arg_on’
-   log_arg(&arg_on, "on", on);
-            ^~~~~~
-./cec-log.h:800:16: note: suggested alternative: ‘arg_on’
- #define arg_on arg_u8
-                ^~~~~~
-./cec-log.h:2594:12: note: in expansion of macro ‘arg_on’
-   log_arg(&arg_on, "on", on);
-            ^~~~~~
-In file included from cec-follower.h:25,
-                 from cec-follower.cpp:21:
-./cec-log.h:2594:3: error: ‘log_arg’ was not declared in this scope
-   log_arg(&arg_on, "on", on);
-   ^~~~~~~
-./cec-log.h:2594:3: note: suggested alternative: ‘log_msg’
-   log_arg(&arg_on, "on", on);
-   ^~~~~~~
-   log_msg
-In file included from cec-follower.h:25,
-                 from cec-follower.cpp:21:
-./cec-log.h:818:21: error: ‘arg_u8’ was not declared in this scope
- #define arg_minutes arg_u8
-                     ^~~~~~
-./cec-log.h:2603:12: note: in expansion of macro ‘arg_minutes’
-   log_arg(&arg_minutes, "minutes", minutes);
-            ^~~~~~~~~~~
-./cec-log.h:818:21: note: suggested alternative: ‘arg_on’
- #define arg_minutes arg_u8
-                     ^~~~~~
-./cec-log.h:2603:12: note: in expansion of macro ‘arg_minutes’
-   log_arg(&arg_minutes, "minutes", minutes);
-            ^~~~~~~~~~~
-In file included from cec-follower.h:25,
-                 from cec-follower.cpp:21:
-./cec-log.h:2603:3: error: ‘log_arg’ was not declared in this scope
-   log_arg(&arg_minutes, "minutes", minutes);
-   ^~~~~~~
-./cec-log.h:2603:3: note: suggested alternative: ‘log_msg’
-   log_arg(&arg_minutes, "minutes", minutes);
-   ^~~~~~~
-   log_msg
-In file included from cec-follower.h:25,
-                 from cec-follower.cpp:21:
-./cec-log.h:811:18: error: ‘arg_string’ was not declared in this scope
- #define arg_time arg_string
-                  ^~~~~~~~~~
-./cec-log.h:2611:12: note: in expansion of macro ‘arg_time’
-   log_arg(&arg_time, "time", time);
-            ^~~~~~~~
-./cec-log.h:811:18: note: suggested alternative: ‘arg_time’
- #define arg_time arg_string
-                  ^~~~~~~~~~
-./cec-log.h:2611:12: note: in expansion of macro ‘arg_time’
-   log_arg(&arg_time, "time", time);
-            ^~~~~~~~
-In file included from cec-follower.h:25,
-                 from cec-follower.cpp:21:
-./cec-log.h:2611:3: error: ‘log_arg’ was not declared in this scope
-   log_arg(&arg_time, "time", time);
-   ^~~~~~~
-./cec-log.h:2611:3: note: suggested alternative: ‘log_msg’
-   log_arg(&arg_time, "time", time);
-   ^~~~~~~
-   log_msg
-In file included from cec-follower.h:25,
-                 from cec-follower.cpp:21:
-./cec-log.h:811:18: error: ‘arg_string’ was not declared in this scope
- #define arg_time arg_string
-                  ^~~~~~~~~~
-./cec-log.h:2619:12: note: in expansion of macro ‘arg_time’
-   log_arg(&arg_time, "time", time);
-            ^~~~~~~~
-./cec-log.h:811:18: note: suggested alternative: ‘arg_time’
- #define arg_time arg_string
-                  ^~~~~~~~~~
-./cec-log.h:2619:12: note: in expansion of macro ‘arg_time’
-   log_arg(&arg_time, "time", time);
-            ^~~~~~~~
-In file included from cec-follower.h:25,
-                 from cec-follower.cpp:21:
-./cec-log.h:2619:3: error: ‘log_arg’ was not declared in this scope
-   log_arg(&arg_time, "time", time);
-   ^~~~~~~
-./cec-log.h:2619:3: note: suggested alternative: ‘log_msg’
-   log_arg(&arg_time, "time", time);
-   ^~~~~~~
-   log_msg
-./cec-log.h:2630:3: error: ‘log_arg’ was not declared in this scope
-   log_arg(&arg_htng_input_src, "htng-input-src", htng_input_src);
-   ^~~~~~~
-./cec-log.h:2630:3: note: suggested alternative: ‘log_msg’
-   log_arg(&arg_htng_input_src, "htng-input-src", htng_input_src);
-   ^~~~~~~
-   log_msg
-In file included from cec-follower.h:25,
-                 from cec-follower.cpp:21:
-./cec-log.h:579:19: error: ‘arg_u16’ was not declared in this scope
- #define arg_major arg_u16
-                   ^~~~~~~
-./cec-log.h:2632:12: note: in expansion of macro ‘arg_major’
-   log_arg(&arg_major, "major", major);
-            ^~~~~~~~~
-./cec-log.h:579:19: note: suggested alternative: ‘arg_osd’
- #define arg_major arg_u16
-                   ^~~~~~~
-./cec-log.h:2632:12: note: in expansion of macro ‘arg_major’
-   log_arg(&arg_major, "major", major);
-            ^~~~~~~~~
-./cec-log.h:801:17: error: ‘arg_u8’ was not declared in this scope
- #define arg_vol arg_u8
-                 ^~~~~~
-./cec-log.h:2642:12: note: in expansion of macro ‘arg_vol’
-   log_arg(&arg_vol, "vol", vol);
-            ^~~~~~~
-./cec-log.h:801:17: note: suggested alternative: ‘arg_on’
- #define arg_vol arg_u8
-                 ^~~~~~
-./cec-log.h:2642:12: note: in expansion of macro ‘arg_vol’
-   log_arg(&arg_vol, "vol", vol);
-            ^~~~~~~
-In file included from cec-follower.h:25,
-                 from cec-follower.cpp:21:
-./cec-log.h:2642:3: error: ‘log_arg’ was not declared in this scope
-   log_arg(&arg_vol, "vol", vol);
-   ^~~~~~~
-./cec-log.h:2642:3: note: suggested alternative: ‘log_msg’
-   log_arg(&arg_vol, "vol", vol);
-   ^~~~~~~
-   log_msg
-./cec-log.h:2662:3: error: ‘log_arg’ was not declared in this scope
-   log_arg(&arg_htng_chan_type, "htng-chan-type", htng_chan_type);
-   ^~~~~~~
-./cec-log.h:2662:3: note: suggested alternative: ‘log_msg’
-   log_arg(&arg_htng_chan_type, "htng-chan-type", htng_chan_type);
-   ^~~~~~~
-   log_msg
-In file included from cec-follower.h:25,
-                 from cec-follower.cpp:21:
-./cec-log.h:831:18: error: ‘arg_u16’ was not declared in this scope
- #define arg_freq arg_u16
-                  ^~~~~~~
-./cec-log.h:2665:12: note: in expansion of macro ‘arg_freq’
-   log_arg(&arg_freq, "freq", freq);
-            ^~~~~~~~
-./cec-log.h:831:18: note: suggested alternative: ‘arg_osd’
- #define arg_freq arg_u16
-                  ^~~~~~~
-./cec-log.h:2665:12: note: in expansion of macro ‘arg_freq’
-   log_arg(&arg_freq, "freq", freq);
-            ^~~~~~~~
-In file included from cec-follower.h:25,
-                 from cec-follower.cpp:21:
-./cec-log.h:2679:3: error: ‘log_arg’ was not declared in this scope
-   log_arg(&arg_htng_chan_type, "htng-chan-type", htng_chan_type);
-   ^~~~~~~
-./cec-log.h:2679:3: note: suggested alternative: ‘log_msg’
-   log_arg(&arg_htng_chan_type, "htng-chan-type", htng_chan_type);
-   ^~~~~~~
-   log_msg
-In file included from cec-follower.h:25,
-                 from cec-follower.cpp:21:
-./cec-log.h:792:18: error: ‘arg_u16’ was not declared in this scope
- #define arg_chan arg_u16
-                  ^~~~~~~
-./cec-log.h:2681:12: note: in expansion of macro ‘arg_chan’
-   log_arg(&arg_chan, "chan", chan);
-            ^~~~~~~~
-./cec-log.h:792:18: note: suggested alternative: ‘arg_osd’
- #define arg_chan arg_u16
-                  ^~~~~~~
-./cec-log.h:2681:12: note: in expansion of macro ‘arg_chan’
-   log_arg(&arg_chan, "chan", chan);
-            ^~~~~~~~
-In file included from cec-follower.h:25,
-                 from cec-follower.cpp:21:
-./cec-log.h:2702:3: error: ‘log_arg’ was not declared in this scope
-   log_arg(&arg_htng_ext_chan_type, "htng-ext-chan-type", htng_ext_chan_type);
-   ^~~~~~~
-./cec-log.h:2702:3: note: suggested alternative: ‘log_msg’
-   log_arg(&arg_htng_ext_chan_type, "htng-ext-chan-type", htng_ext_chan_type);
-   ^~~~~~~
-   log_msg
-In file included from cec-follower.h:25,
-                 from cec-follower.cpp:21:
-./cec-log.h:831:18: error: ‘arg_u16’ was not declared in this scope
- #define arg_freq arg_u16
-                  ^~~~~~~
-./cec-log.h:2705:12: note: in expansion of macro ‘arg_freq’
-   log_arg(&arg_freq, "freq", freq);
-            ^~~~~~~~
-./cec-log.h:831:18: note: suggested alternative: ‘arg_osd’
- #define arg_freq arg_u16
-                  ^~~~~~~
-./cec-log.h:2705:12: note: in expansion of macro ‘arg_freq’
-   log_arg(&arg_freq, "freq", freq);
-            ^~~~~~~~
-In file included from cec-follower.h:25,
-                 from cec-follower.cpp:21:
-./cec-log.h:2719:3: error: ‘log_htng_unknown_msg’ was not declared in this scope
-   log_htng_unknown_msg(msg);
-   ^~~~~~~~~~~~~~~~~~~~
-./cec-log.h:2719:3: note: suggested alternative: ‘log_htng_msg’
-   log_htng_unknown_msg(msg);
-   ^~~~~~~~~~~~~~~~~~~~
-   log_htng_msg
-In file included from cec-follower.h:25,
-                 from cec-follower.cpp:21:
-./cec-log.h: At global scope:
-./cec-log.h:861:29: warning: ‘messages’ defined but not used [-Wunused-variable]
- static const struct message messages[] = {
-                             ^~~~~~~~
-make[3]: *** [Makefile:607: cec_follower-cec-follower.o] Error 1
-make[3]: Leaving directory '<https://builder.linuxtv.org/job/v4l-utils/ws/utils/cec-follower'>
-make[2]: *** [Makefile:481: all-recursive] Error 1
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/v4l-utils/ws/utils'>
-make[1]: *** [Makefile:590: all-recursive] Error 1
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/v4l-utils/ws/'>
-make: *** [Makefile:517: all] Error 2
-Build step 'Execute shell' marked build as failure
+Thanks,
+Georgi
