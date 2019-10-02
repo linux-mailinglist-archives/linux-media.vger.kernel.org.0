@@ -2,122 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AC6C7C4A07
-	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 10:55:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE872C49FD
+	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 10:52:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726458AbfJBIzN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Oct 2019 04:55:13 -0400
-Received: from [68.65.227.210] ([68.65.227.210]:63382 "EHLO
-        lan.digital-loggers.com" rhost-flags-FAIL-FAIL-OK-OK)
-        by vger.kernel.org with ESMTP id S1725852AbfJBIzM (ORCPT
+        id S1726246AbfJBIwU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Oct 2019 04:52:20 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:43911 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725852AbfJBIwU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 2 Oct 2019 04:55:12 -0400
-X-Greylist: delayed 454 seconds by postgrey-1.27 at vger.kernel.org; Wed, 02 Oct 2019 04:55:12 EDT
-From:   Sergey Zakharchenko <szakharchenko@digital-loggers.com>
-To:     linux-media@vger.kernel.org
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Martin Bodo <martin@digital-loggers.com>,
-        "Logan, Peter" <peter.logan@intel.com>,
-        Auke Kok <auke-jan.h.kok@intel.com>,
-        Sergey Zakharchenko <doublef.mobil@gmail.com>,
-        Sergey Zakharchenko <szakharchenko@digital-loggers.com>
-Subject: [PATCH] media: uvcvideo: Add a quirk to force GEO GC6500 Camera bits-per-pixel value
-Date:   Wed,  2 Oct 2019 08:47:23 +0000
-Message-Id: <20191002084723.76329-1-szakharchenko@digital-loggers.com>
-X-Mailer: git-send-email 2.9.2
+        Wed, 2 Oct 2019 04:52:20 -0400
+Received: from [192.168.2.10] ([46.9.232.237])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id FaMpivBssop0AFaMti3hJ4; Wed, 02 Oct 2019 10:52:19 +0200
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Jiunn Chang <c0d1n61at3@gmail.com>,
+        Vandana B N <bnvandana@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [ANN] v4l-utils: remove utils/cec-follower/cec-log.h after a 'git
+ pull'
+Message-ID: <ff10119d-4b39-8179-16f1-e6d96a345b0d@xs4all.nl>
+Date:   Wed, 2 Oct 2019 10:52:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfEtpynDlcSvlrAiuYtv+2Mh97mtzrtPRkLITseGGd2MfQ6m5fL0PAAnTDizZhSv1aeS+Fq6NXBQGmtkLMHLWlGSpwHGOETKDCO+pT8HDm/efCZZPo3El
+ 7049WrSfQ5ErO2kFQzHv8L9b0QutE1vEMf/PrtMI8r1DkAMmmhG0yautZZAuvER/ddc0D1xsTImy+Du0crypbvWJBKr41nfjLWFk6tEu9TLqkMiWTcgwUDwS
+ gf89ZVnLX10TXa+1Yc0Z/w==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This device does not function correctly in raw mode in kernel
-versions validating buffer sizes in bulk mode. It erroneously
-announces 16 bits per pixel instead of 12 for NV12 format, so it
-needs this quirk to fix computed frame size and avoid legitimate
-frames getting discarded.
+Just a heads up: I synced v4l-utils with the latest media_tree master branch,
+and that required some reorganization for the CEC utilities.
 
-Signed-off-by: Sergey Zakharchenko <szakharchenko@digital-loggers.com>
----
- drivers/media/usb/uvc/uvc_driver.c | 27 +++++++++++++++++++++++++++
- drivers/media/usb/uvc/uvcvideo.h   |  1 +
- 2 files changed, 28 insertions(+)
+If you do a 'git pull' in an existing v4l-utils repo, then it will fail to
+build due to an orphaned utils/cec-follower/cec-log.h file. Just remove it and
+it will compile again.
 
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index 66ee168ddc7e..ffb3bc0992cc 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -446,10 +446,12 @@ static int uvc_parse_format(struct uvc_device *dev,
- 	struct usb_host_interface *alts = intf->cur_altsetting;
- 	struct uvc_format_desc *fmtdesc;
- 	struct uvc_frame *frame;
-+	const struct v4l2_format_info *info;
- 	const unsigned char *start = buffer;
- 	unsigned int width_multiplier = 1;
- 	unsigned int interval;
- 	unsigned int i, n;
-+	unsigned int div;
- 	u8 ftype;
- 
- 	format->type = buffer[2];
-@@ -497,6 +499,18 @@ static int uvc_parse_format(struct uvc_device *dev,
- 			}
- 		}
- 
-+		/* Some devices report bpp that doesn't match the format. */
-+		if (dev->quirks & UVC_QUIRK_FORCE_BPP) {
-+			info = v4l2_format_info(format->fcc);
-+			if (info) {
-+				div = info->hdiv * info->vdiv;
-+				n = info->bpp[i] * div;
-+				for (i = 1; i < info->comp_planes; i++)
-+					n += info->bpp[i];
-+				format->bpp = DIV_ROUND_UP(8 * n, div);
-+			}
-+		}
-+
- 		if (buffer[2] == UVC_VS_FORMAT_UNCOMPRESSED) {
- 			ftype = UVC_VS_FRAME_UNCOMPRESSED;
- 		} else {
-@@ -2384,6 +2398,10 @@ static const struct uvc_device_info uvc_quirk_force_y8 = {
- 	.quirks = UVC_QUIRK_FORCE_Y8,
- };
- 
-+static const struct uvc_device_info uvc_quirk_force_bpp = {
-+	.quirks = UVC_QUIRK_FORCE_BPP,
-+};
-+
- #define UVC_INFO_QUIRK(q) (kernel_ulong_t)&(struct uvc_device_info){.quirks = q}
- #define UVC_INFO_META(m) (kernel_ulong_t)&(struct uvc_device_info) \
- 	{.meta_format = m}
-@@ -2869,6 +2887,15 @@ static const struct usb_device_id uvc_ids[] = {
- 	  .bInterfaceSubClass	= 1,
- 	  .bInterfaceProtocol	= 0,
- 	  .driver_info		= UVC_INFO_META(V4L2_META_FMT_D4XX) },
-+	/* GEO Semiconductor GC6500 */
-+	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
-+				| USB_DEVICE_ID_MATCH_INT_INFO,
-+	  .idVendor		= 0x29fe,
-+	  .idProduct		= 0x4d53,
-+	  .bInterfaceClass	= USB_CLASS_VIDEO,
-+	  .bInterfaceSubClass	= 1,
-+	  .bInterfaceProtocol	= 0,
-+	  .driver_info		= (kernel_ulong_t)&uvc_quirk_force_bpp },
- 	/* Generic USB Video Class */
- 	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_UNDEFINED) },
- 	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_15) },
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index c7c1baa90dea..24e3d8c647e7 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -198,6 +198,7 @@
- #define UVC_QUIRK_RESTRICT_FRAME_RATE	0x00000200
- #define UVC_QUIRK_RESTORE_CTRLS_ON_INIT	0x00000400
- #define UVC_QUIRK_FORCE_Y8		0x00000800
-+#define UVC_QUIRK_FORCE_BPP		0x00001000
- 
- /* Format flags */
- #define UVC_FMT_FLAG_COMPRESSED		0x00000001
--- 
-2.23.0
+utils/cec-follower/cec-log.h was a generated file, but this generated file is now
+named cec-log-gen.h. A new utils/common/cec-log.h header was also introduced, so
+cec-follower sources now include the old generated cec-log.h instead of the version
+in utils/common.
 
+Of course, if you do a fresh git clone, then you won't have this problem.
+
+Apologies for this.
+
+Regards,
+
+	Hans
