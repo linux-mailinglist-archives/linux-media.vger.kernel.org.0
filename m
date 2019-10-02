@@ -2,80 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C12F4C8907
-	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 14:50:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B53B3C891E
+	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 15:01:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725951AbfJBMuT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Oct 2019 08:50:19 -0400
-Received: from aer-iport-1.cisco.com ([173.38.203.51]:63133 "EHLO
-        aer-iport-1.cisco.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725765AbfJBMuT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Oct 2019 08:50:19 -0400
-X-Greylist: delayed 428 seconds by postgrey-1.27 at vger.kernel.org; Wed, 02 Oct 2019 08:50:19 EDT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=cisco.com; i=@cisco.com; l=1294; q=dns/txt; s=iport;
-  t=1570020619; x=1571230219;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=azYyqHIYzV26XDIjpKQ5qhK+INsrRrWYZtnuE1wO6nk=;
-  b=MGwx3pwMHA0tJBcIlL9Fb1gz0cP5cUYmWAOpbB9bdBkuI1EEQxRchqXS
-   KT9myCHZquTU448wTQ3scgFKxyeZxHWxhdtZhFYw7+cgbWOA1ULg9mNWD
-   CUOEb19wvqK5nAlfMoMoZcvQcXbGeE8+CEXxMRmoz1Iqu1+Keh8gtOemJ
-   4=;
-X-IronPort-AV: E=Sophos;i="5.64,574,1559520000"; 
-   d="scan'208";a="17548536"
-Received: from aer-iport-nat.cisco.com (HELO aer-core-1.cisco.com) ([173.38.203.22])
-  by aer-iport-1.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 02 Oct 2019 12:43:10 +0000
-Received: from localhost.rd.cisco.com ([10.47.76.245])
-        by aer-core-1.cisco.com (8.15.2/8.15.2) with ESMTP id x92Ch9t7029812;
-        Wed, 2 Oct 2019 12:43:10 GMT
-From:   Johan Korsnes <jkorsnes@cisco.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     linux-media@vger.kernel.org, Johan Korsnes <jkorsnes@cisco.com>
-Subject: [PATCH] drivers: video: hdmi: log ext colorimetry applicability
-Date:   Wed,  2 Oct 2019 14:42:26 +0200
-Message-Id: <20191002124226.21458-1-jkorsnes@cisco.com>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Outbound-SMTP-Client: 10.47.76.245, [10.47.76.245]
-X-Outbound-Node: aer-core-1.cisco.com
+        id S1726931AbfJBNBh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Oct 2019 09:01:37 -0400
+Received: from [68.65.227.210] ([68.65.227.210]:62909 "EHLO
+        lan.digital-loggers.com" rhost-flags-FAIL-FAIL-OK-OK)
+        by vger.kernel.org with ESMTP id S1726239AbfJBNBh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 2 Oct 2019 09:01:37 -0400
+From:   Sergey Zakharchenko <szakharchenko@digital-loggers.com>
+To:     linux-media@vger.kernel.org
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Martin Bodo <martin@digital-loggers.com>,
+        "Logan, Peter" <peter.logan@intel.com>,
+        Auke Kok <auke-jan.h.kok@intel.com>,
+        Sergey Zakharchenko <doublef.mobile@gmail.com>,
+        Sergey Zakharchenko <szakharchenko@digital-loggers.com>
+Subject: [PATCH v2] media: uvcvideo: Add a quirk to force GEO GC6500 Camera bits-per-pixel value
+Date:   Wed,  2 Oct 2019 13:01:02 +0000
+Message-Id: <20191002130102.97852-1-szakharchenko@digital-loggers.com>
+X-Mailer: git-send-email 2.9.2
+In-Reply-To: <201910021929.ij7Rrmvk%lkp@intel.com>
+References: <201910021929.ij7Rrmvk%lkp@intel.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When logging the AVI InfoFrame, clearly indicate whether or not the
-extended colorimetry attribute is active. This is only the case when
-the AVI InfoFrame colorimetry attribute is set to extended. [0]
+This device does not function correctly in raw mode in kernel
+versions validating buffer sizes in bulk mode. It erroneously
+announces 16 bits per pixel instead of 12 for NV12 format, so it
+needs this quirk to fix computed frame size and avoid legitimate
+frames getting discarded.
 
-[0] CTA-861-G section 6.4 page 57
-
-Signed-off-by: Johan Korsnes <jkorsnes@cisco.com>
+Signed-off-by: Sergey Zakharchenko <szakharchenko@digital-loggers.com>
 ---
- drivers/video/hdmi.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/media/usb/uvc/uvc_driver.c | 27 +++++++++++++++++++++++++++
+ drivers/media/usb/uvc/uvcvideo.h   |  1 +
+ 2 files changed, 28 insertions(+)
 
-diff --git a/drivers/video/hdmi.c b/drivers/video/hdmi.c
-index f29db728ff29..a709e38a53ca 100644
---- a/drivers/video/hdmi.c
-+++ b/drivers/video/hdmi.c
-@@ -682,8 +682,14 @@ static void hdmi_avi_infoframe_log(const char *level,
- 	hdmi_log("    active aspect: %s\n",
- 			hdmi_active_aspect_get_name(frame->active_aspect));
- 	hdmi_log("    itc: %s\n", frame->itc ? "IT Content" : "No Data");
--	hdmi_log("    extended colorimetry: %s\n",
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index 66ee168ddc7e..23f62456946d 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -446,10 +446,12 @@ static int uvc_parse_format(struct uvc_device *dev,
+ 	struct usb_host_interface *alts = intf->cur_altsetting;
+ 	struct uvc_format_desc *fmtdesc;
+ 	struct uvc_frame *frame;
++	const struct v4l2_format_info *info;
+ 	const unsigned char *start = buffer;
+ 	unsigned int width_multiplier = 1;
+ 	unsigned int interval;
+ 	unsigned int i, n;
++	unsigned int div;
+ 	u8 ftype;
+ 
+ 	format->type = buffer[2];
+@@ -497,6 +499,18 @@ static int uvc_parse_format(struct uvc_device *dev,
+ 			}
+ 		}
+ 
++		/* Some devices report bpp that doesn't match the format. */
++		if (dev->quirks & UVC_QUIRK_FORCE_BPP) {
++			info = v4l2_format_info(format->fcc);
++			if (info) {
++				div = info->hdiv * info->vdiv;
++				n = info->bpp[0] * div;
++				for (i = 1; i < info->comp_planes; i++)
++					n += info->bpp[i];
++				format->bpp = DIV_ROUND_UP(8 * n, div);
++			}
++		}
 +
-+	if (frame->colorimetry == HDMI_COLORIMETRY_EXTENDED)
-+		hdmi_log("    extended colorimetry: %s\n",
- 			hdmi_extended_colorimetry_get_name(frame->extended_colorimetry));
-+	else
-+		hdmi_log("    extended colorimetry: N/A (0x%x)\n",
-+			frame->extended_colorimetry);
+ 		if (buffer[2] == UVC_VS_FORMAT_UNCOMPRESSED) {
+ 			ftype = UVC_VS_FRAME_UNCOMPRESSED;
+ 		} else {
+@@ -2384,6 +2398,10 @@ static const struct uvc_device_info uvc_quirk_force_y8 = {
+ 	.quirks = UVC_QUIRK_FORCE_Y8,
+ };
+ 
++static const struct uvc_device_info uvc_quirk_force_bpp = {
++	.quirks = UVC_QUIRK_FORCE_BPP,
++};
 +
- 	hdmi_log("    quantization range: %s\n",
- 			hdmi_quantization_range_get_name(frame->quantization_range));
- 	hdmi_log("    nups: %s\n", hdmi_nups_get_name(frame->nups));
+ #define UVC_INFO_QUIRK(q) (kernel_ulong_t)&(struct uvc_device_info){.quirks = q}
+ #define UVC_INFO_META(m) (kernel_ulong_t)&(struct uvc_device_info) \
+ 	{.meta_format = m}
+@@ -2869,6 +2887,15 @@ static const struct usb_device_id uvc_ids[] = {
+ 	  .bInterfaceSubClass	= 1,
+ 	  .bInterfaceProtocol	= 0,
+ 	  .driver_info		= UVC_INFO_META(V4L2_META_FMT_D4XX) },
++	/* GEO Semiconductor GC6500 */
++	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
++				| USB_DEVICE_ID_MATCH_INT_INFO,
++	  .idVendor		= 0x29fe,
++	  .idProduct		= 0x4d53,
++	  .bInterfaceClass	= USB_CLASS_VIDEO,
++	  .bInterfaceSubClass	= 1,
++	  .bInterfaceProtocol	= 0,
++	  .driver_info		= (kernel_ulong_t)&uvc_quirk_force_bpp },
+ 	/* Generic USB Video Class */
+ 	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_UNDEFINED) },
+ 	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_15) },
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index c7c1baa90dea..24e3d8c647e7 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -198,6 +198,7 @@
+ #define UVC_QUIRK_RESTRICT_FRAME_RATE	0x00000200
+ #define UVC_QUIRK_RESTORE_CTRLS_ON_INIT	0x00000400
+ #define UVC_QUIRK_FORCE_Y8		0x00000800
++#define UVC_QUIRK_FORCE_BPP		0x00001000
+ 
+ /* Format flags */
+ #define UVC_FMT_FLAG_COMPRESSED		0x00000001
+
+base-commit: 20a438d53fd9d12a894161bc56cbeab7a9993c39
+prerequisite-patch-id: 521eb9602d395ea667eecc75cd2273b59cd3ed76
 -- 
-2.20.1
+2.23.0
 
