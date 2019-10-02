@@ -2,336 +2,301 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F4A0C4929
-	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 10:07:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 51F82C4943
+	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 10:16:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727536AbfJBIHs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Oct 2019 04:07:48 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:45747 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727532AbfJBIHr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Oct 2019 04:07:47 -0400
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1iFZfd-0002Fu-ON; Wed, 02 Oct 2019 10:07:37 +0200
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1iFZfb-0007XM-W3; Wed, 02 Oct 2019 10:07:35 +0200
-Date:   Wed, 2 Oct 2019 10:07:35 +0200
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
-        hans.verkuil@cisco.com, jacopo+renesas@jmondi.org,
-        robh+dt@kernel.org, laurent.pinchart@ideasonboard.com,
-        devicetree@vger.kernel.org, kernel@pengutronix.de,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v10 03/14] media: v4l2-fwnode: add initial connector
- parsing support
-Message-ID: <20191002080735.yyoxo5wg35t7k26x@pengutronix.de>
-References: <20190830101646.6530-1-m.felsch@pengutronix.de>
- <20190830101646.6530-4-m.felsch@pengutronix.de>
- <20191002070303.GK896@valkosipuli.retiisi.org.uk>
+        id S1727591AbfJBIQ3 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Wed, 2 Oct 2019 04:16:29 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:60372 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726710AbfJBIQ3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 2 Oct 2019 04:16:29 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtp (Exim 4.84_2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1iFZo6-0003vj-F4; Wed, 02 Oct 2019 08:16:22 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1iFZoS-0002gZ-Jn; Wed, 02 Oct 2019 08:16:44 +0000
+Date:   Wed, 2 Oct 2019 08:16:44 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <1586568084.1.1570004204603.JavaMail.jenkins@builder.linuxtv.org>
+Subject: Build failed in Jenkins: v4l-utils #43
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191002070303.GK896@valkosipuli.retiisi.org.uk>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 10:04:30 up 137 days, 14:22, 90 users,  load average: 0.01, 0.04,
- 0.02
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: v4l-utils
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+See <https://builder.linuxtv.org/job/v4l-utils/43/display/redirect?page=changes>
 
-On 19-10-02 10:03, Sakari Ailus wrote:
-> Hi Marco,
-> 
-> On Fri, Aug 30, 2019 at 12:16:35PM +0200, Marco Felsch wrote:
-> > The patch adds the initial connector parsing code, so we can move from a
-> > driver specific parsing code to a generic one. Currently only the
-> > generic fields and the analog-connector specific fields are parsed. Parsing
-> > the other connector specific fields can be added by a simple callbacks.
-> > 
-> > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> > ---
-> > [1] https://patchwork.kernel.org/cover/10794703/
-> > 
-> > v10:
-> > - drop V4L2_CONN_HDMI support
-> > - adapt pr_err msg to reflect new state (-> connector is unkown)
-> > 
-> > v9:
-> > - Fix leading semicolon found by kbuild semicolon.cocci
-> > 
-> > v8:
-> > - V4L2_CON_* -> V4L2_CONN_*
-> > - tvnorms -> sdtv-standards
-> > - adapt to new v4l2_fwnode_connector_analog member
-> > - return error in case of V4L2_CONN_HDMI
-> > 
-> > v7:
-> > @Jacopo: I dropped your r b tag becuase of the amount of changes I
-> > made..
-> > 
-> > - drop unnecessary comments
-> > - fix commet style
-> > - s/v4l2_fwnode_connector_conv.name/v4l2_fwnode_connector_conv.compatible/
-> > - make label size variable and drop V4L2_CONNECTOR_MAX_LABEL usage
-> > - do not assign a default label in case of no label was specified
-> > - remove useless /* fall through */ comments
-> > - add support for N connector links
-> > - rename local variables to be more meaningful
-> > - adjust kernedoc
-> > - add v4l2_fwnode_connector_free()
-> > - improve error handling (use different error values)
-> > - make use of pr_warn_once()
-> > 
-> > v6:
-> > - use unsigned count var
-> > - fix comment and style issues
-> > - place '/* fall through */' to correct places
-> > - fix error handling and cleanup by releasing fwnode
-> > - drop vga and dvi parsing support as those connectors are rarely used
-> >   these days
-> > 
-> > v5:
-> > - s/strlcpy/strscpy/
-> > 
-> > v2-v4:
-> > - nothing since the patch was squashed from series [1] into this
-> >   series.
-> > 
-> >  drivers/media/v4l2-core/v4l2-fwnode.c | 129 ++++++++++++++++++++++++++
-> >  include/media/v4l2-fwnode.h           |  38 ++++++++
-> >  2 files changed, 167 insertions(+)
-> > 
-> > diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
-> > index 3bd1888787eb..0bfa7cbf78df 100644
-> > --- a/drivers/media/v4l2-core/v4l2-fwnode.c
-> > +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
-> > @@ -595,6 +595,135 @@ void v4l2_fwnode_put_link(struct v4l2_fwnode_link *link)
-> >  }
-> >  EXPORT_SYMBOL_GPL(v4l2_fwnode_put_link);
-> >  
-> > +static const struct v4l2_fwnode_connector_conv {
-> > +	enum v4l2_connector_type type;
-> > +	const char *compatible;
-> > +} connectors[] = {
-> > +	{
-> > +		.type = V4L2_CONN_COMPOSITE,
-> > +		.compatible = "composite-video-connector",
-> > +	}, {
-> > +		.type = V4L2_CONN_SVIDEO,
-> > +		.compatible = "svideo-connector",
-> > +	},
-> > +};
-> > +
-> > +static enum v4l2_connector_type
-> > +v4l2_fwnode_string_to_connector_type(const char *con_str)
-> > +{
-> > +	unsigned int i;
-> > +
-> > +	for (i = 0; i < ARRAY_SIZE(connectors); i++)
-> > +		if (!strcmp(con_str, connectors[i].compatible))
-> > +			return connectors[i].type;
-> > +
-> > +	return V4L2_CONN_UNKNOWN;
-> > +}
-> > +
-> > +static int
-> > +v4l2_fwnode_connector_parse_analog(struct fwnode_handle *fwnode,
-> > +				   struct v4l2_fwnode_connector *vc)
-> > +{
-> > +	u32 stds;
-> > +	int ret;
-> > +
-> > +	ret = fwnode_property_read_u32(fwnode, "sdtv-standards", &stds);
-> > +
-> > +	/* The property is optional. */
-> > +	vc->connector.analog.sdtv_stds = ret ? V4L2_STD_ALL : stds;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +void v4l2_fwnode_connector_free(struct v4l2_fwnode_connector *connector)
-> > +{
-> > +	unsigned int i;
-> > +
-> > +	if (IS_ERR_OR_NULL(connector))
-> > +		return;
-> > +
-> > +	for (i = 0; i < connector->nr_of_links; i++)
-> > +		v4l2_fwnode_put_link(&connector->links[i]);
-> > +	kfree(connector->links);
-> 
-> Please assign connector->links NULL here, and nr_of_links to zero.
+Changes:
 
-Okay, I can do that.
+[hverkuil-cisco] keytable: add new generated keymaps
 
-> > +}
-> > +EXPORT_SYMBOL_GPL(v4l2_fwnode_connector_free);
-> > +
-> > +int v4l2_fwnode_connector_alloc_parse(struct fwnode_handle *fwnode,
-> > +				      struct v4l2_fwnode_connector *connector)
-> > +{
-> > +	struct fwnode_handle *remote_pp, *remote_ep;
-> > +	const char *type_name;
-> > +	unsigned int i = 0, ep_num = 0;
-> > +	int err;
-> > +
-> > +	memset(connector, 0, sizeof(*connector));
-> > +
-> > +	remote_pp = fwnode_graph_get_remote_port_parent(fwnode);
-> 
-> How do you know a remote endpoint is a connector, and not another device's
-> endpoint?
+[hverkuil-cisco] msg2ctl.pl: add newline after log_msg
 
-Well, I think that the caller won't use this function if it isn't a
-connector. If it helps I can check if the compatible of the remote ends
-with "-connector".
+[hverkuil-cisco] cec-follower: drop the hardcoded UI commands list
 
-Regards,
-  Marco
+[hverkuil-cisco] cec-ctl/cec-log: use new CEC_OP_UI_CMD defines
 
-> > +	if (!remote_pp)
-> > +		return -ENOLINK;
-> > +
-> > +	/* Parse all common properties first. */
-> > +	fwnode_graph_for_each_endpoint(remote_pp, remote_ep)
-> > +		ep_num++;
-> > +
-> > +	connector->nr_of_links = ep_num;
-> > +	connector->links = kmalloc_array(ep_num, sizeof(*connector->links),
-> > +					 GFP_KERNEL);
-> > +	if (!connector->links) {
-> > +		err = -ENOMEM;
-> > +		goto err_put_fwnode;
-> > +	}
-> > +
-> > +	fwnode_graph_for_each_endpoint(remote_pp, remote_ep) {
-> > +		err = v4l2_fwnode_parse_link(remote_ep, &connector->links[i]);
-> > +		if (err) {
-> > +			fwnode_handle_put(remote_ep);
-> > +			goto err_free_links;
-> > +		}
-> > +		i++;
-> > +	}
-> > +
-> > +	/*
-> > +	 * Links reference counting guarantees access -> no duplication needed
-> > +	 */
-> > +	fwnode_property_read_string(remote_pp, "label", &connector->label);
-> > +
-> > +	/* The connector-type is stored within the compatible string. */
-> > +	err = fwnode_property_read_string(remote_pp, "compatible", &type_name);
-> > +	if (err) {
-> > +		err = -EINVAL;
-> > +		goto err_free_links;
-> > +	}
-> > +	connector->type = v4l2_fwnode_string_to_connector_type(type_name);
-> > +
-> > +	/* Now parse the connector specific properties. */
-> > +	switch (connector->type) {
-> > +	case V4L2_CONN_COMPOSITE:
-> > +	case V4L2_CONN_SVIDEO:
-> > +		err = v4l2_fwnode_connector_parse_analog(remote_pp, connector);
-> > +		break;
-> > +	case V4L2_CONN_UNKNOWN:
-> > +	default:
-> > +		pr_err("Unknown connector type\n");
-> > +		err = -EINVAL;
-> > +		goto err_free_links;
-> > +	}
-> > +
-> > +	fwnode_handle_put(remote_pp);
-> > +
-> > +	return err;
-> > +
-> > +err_free_links:
-> > +	for (i = 0; i < ep_num; i++)
-> > +		v4l2_fwnode_put_link(&connector->links[i]);
-> > +	kfree(connector->links);
-> > +err_put_fwnode:
-> > +	fwnode_handle_put(remote_pp);
-> > +
-> > +	return err;
-> > +}
-> > +EXPORT_SYMBOL_GPL(v4l2_fwnode_connector_alloc_parse);
-> > +
-> >  static int
-> >  v4l2_async_notifier_fwnode_parse_endpoint(struct device *dev,
-> >  					  struct v4l2_async_notifier *notifier,
-> > diff --git a/include/media/v4l2-fwnode.h b/include/media/v4l2-fwnode.h
-> > index 65da646b579e..800302aa84d8 100644
-> > --- a/include/media/v4l2-fwnode.h
-> > +++ b/include/media/v4l2-fwnode.h
-> > @@ -276,6 +276,44 @@ int v4l2_fwnode_parse_link(struct fwnode_handle *fwnode,
-> >   */
-> >  void v4l2_fwnode_put_link(struct v4l2_fwnode_link *link);
-> >  
-> > +/**
-> > + * v4l2_fwnode_connector_free() - free the V4L2 connector acquired by
-> > + * v4l2_fwnode_parse_connector()
-> > + * @connector: the V4L2 connector the resources of which are to be released
-> > + *
-> > + * Drop references to the connection link partners and free the memory allocated
-> > + * by v4l2_fwnode_parse_connector() call.
-> > + *
-> > + * It is safe to call this function with NULL argument or on a V4L2 connector
-> > + * the parsing of which failed.
-> > + */
-> > +void v4l2_fwnode_connector_free(struct v4l2_fwnode_connector *connector);
-> > +
-> > +/**
-> > + * v4l2_fwnode_parse_connector() - parse the connector on endpoint
-> > + * @fwnode: pointer to the endpoint's fwnode handle where the connector is
-> > + *          connected to
-> > + * @connector: pointer to the V4L2 fwnode connector data structure
-> > + *
-> > + * Fill the connector data structure with the connector type, label, all found
-> > + * links between the host and the connector as well as connector specific data.
-> > + * Since the label is optional it can be %NULL if no one was found.
-> > + *
-> > + * A reference is taken to both the connector and the connector destination
-> > + * where the connector belongs to. This must be dropped when no longer needed.
-> > + * Also the memory it has allocated to store the variable size data must be
-> > + * freed. Both dropping the references and freeing the memory is done by
-> > + * v4l2_fwnode_connector_free().
-> > + *
-> > + * Return:
-> > + * * %0 on success or a negative error code on failure:
-> > + * * %-ENOMEM if memory allocation failed
-> > + * * %-ENOLINK if the connector can't be found
-> > + * * %-EINVAL on parsing failure
-> > + */
-> > +int v4l2_fwnode_connector_alloc_parse(struct fwnode_handle *fwnode,
-> > +				      struct v4l2_fwnode_connector *connector);
-> > +
-> >  /**
-> >   * typedef parse_endpoint_func - Driver's callback function to be called on
-> >   *	each V4L2 fwnode endpoint.
-> 
-> -- 
-> Kind regards,
-> 
-> Sakari Ailus
-> 
 
--- 
-Pengutronix e.K.                           |                             |
-Industrial Linux Solutions                 | http://www.pengutronix.de/  |
-Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+------------------------------------------
+[...truncated 1.10 MB...]
+   ^~~~~~~
+   log_msg
+In file included from cec-follower.h:25,
+                 from cec-follower.cpp:21:
+./cec-log.h:800:16: error: ‘arg_u8’ was not declared in this scope
+ #define arg_on arg_u8
+                ^~~~~~
+./cec-log.h:2584:12: note: in expansion of macro ‘arg_on’
+   log_arg(&arg_on, "on", on);
+            ^~~~~~
+./cec-log.h:800:16: note: suggested alternative: ‘arg_on’
+ #define arg_on arg_u8
+                ^~~~~~
+./cec-log.h:2584:12: note: in expansion of macro ‘arg_on’
+   log_arg(&arg_on, "on", on);
+            ^~~~~~
+In file included from cec-follower.h:25,
+                 from cec-follower.cpp:21:
+./cec-log.h:2584:3: error: ‘log_arg’ was not declared in this scope
+   log_arg(&arg_on, "on", on);
+   ^~~~~~~
+./cec-log.h:2584:3: note: suggested alternative: ‘log_msg’
+   log_arg(&arg_on, "on", on);
+   ^~~~~~~
+   log_msg
+In file included from cec-follower.h:25,
+                 from cec-follower.cpp:21:
+./cec-log.h:800:16: error: ‘arg_u8’ was not declared in this scope
+ #define arg_on arg_u8
+                ^~~~~~
+./cec-log.h:2594:12: note: in expansion of macro ‘arg_on’
+   log_arg(&arg_on, "on", on);
+            ^~~~~~
+./cec-log.h:800:16: note: suggested alternative: ‘arg_on’
+ #define arg_on arg_u8
+                ^~~~~~
+./cec-log.h:2594:12: note: in expansion of macro ‘arg_on’
+   log_arg(&arg_on, "on", on);
+            ^~~~~~
+In file included from cec-follower.h:25,
+                 from cec-follower.cpp:21:
+./cec-log.h:2594:3: error: ‘log_arg’ was not declared in this scope
+   log_arg(&arg_on, "on", on);
+   ^~~~~~~
+./cec-log.h:2594:3: note: suggested alternative: ‘log_msg’
+   log_arg(&arg_on, "on", on);
+   ^~~~~~~
+   log_msg
+In file included from cec-follower.h:25,
+                 from cec-follower.cpp:21:
+./cec-log.h:818:21: error: ‘arg_u8’ was not declared in this scope
+ #define arg_minutes arg_u8
+                     ^~~~~~
+./cec-log.h:2603:12: note: in expansion of macro ‘arg_minutes’
+   log_arg(&arg_minutes, "minutes", minutes);
+            ^~~~~~~~~~~
+./cec-log.h:818:21: note: suggested alternative: ‘arg_on’
+ #define arg_minutes arg_u8
+                     ^~~~~~
+./cec-log.h:2603:12: note: in expansion of macro ‘arg_minutes’
+   log_arg(&arg_minutes, "minutes", minutes);
+            ^~~~~~~~~~~
+In file included from cec-follower.h:25,
+                 from cec-follower.cpp:21:
+./cec-log.h:2603:3: error: ‘log_arg’ was not declared in this scope
+   log_arg(&arg_minutes, "minutes", minutes);
+   ^~~~~~~
+./cec-log.h:2603:3: note: suggested alternative: ‘log_msg’
+   log_arg(&arg_minutes, "minutes", minutes);
+   ^~~~~~~
+   log_msg
+In file included from cec-follower.h:25,
+                 from cec-follower.cpp:21:
+./cec-log.h:811:18: error: ‘arg_string’ was not declared in this scope
+ #define arg_time arg_string
+                  ^~~~~~~~~~
+./cec-log.h:2611:12: note: in expansion of macro ‘arg_time’
+   log_arg(&arg_time, "time", time);
+            ^~~~~~~~
+./cec-log.h:811:18: note: suggested alternative: ‘arg_time’
+ #define arg_time arg_string
+                  ^~~~~~~~~~
+./cec-log.h:2611:12: note: in expansion of macro ‘arg_time’
+   log_arg(&arg_time, "time", time);
+            ^~~~~~~~
+In file included from cec-follower.h:25,
+                 from cec-follower.cpp:21:
+./cec-log.h:2611:3: error: ‘log_arg’ was not declared in this scope
+   log_arg(&arg_time, "time", time);
+   ^~~~~~~
+./cec-log.h:2611:3: note: suggested alternative: ‘log_msg’
+   log_arg(&arg_time, "time", time);
+   ^~~~~~~
+   log_msg
+In file included from cec-follower.h:25,
+                 from cec-follower.cpp:21:
+./cec-log.h:811:18: error: ‘arg_string’ was not declared in this scope
+ #define arg_time arg_string
+                  ^~~~~~~~~~
+./cec-log.h:2619:12: note: in expansion of macro ‘arg_time’
+   log_arg(&arg_time, "time", time);
+            ^~~~~~~~
+./cec-log.h:811:18: note: suggested alternative: ‘arg_time’
+ #define arg_time arg_string
+                  ^~~~~~~~~~
+./cec-log.h:2619:12: note: in expansion of macro ‘arg_time’
+   log_arg(&arg_time, "time", time);
+            ^~~~~~~~
+In file included from cec-follower.h:25,
+                 from cec-follower.cpp:21:
+./cec-log.h:2619:3: error: ‘log_arg’ was not declared in this scope
+   log_arg(&arg_time, "time", time);
+   ^~~~~~~
+./cec-log.h:2619:3: note: suggested alternative: ‘log_msg’
+   log_arg(&arg_time, "time", time);
+   ^~~~~~~
+   log_msg
+./cec-log.h:2630:3: error: ‘log_arg’ was not declared in this scope
+   log_arg(&arg_htng_input_src, "htng-input-src", htng_input_src);
+   ^~~~~~~
+./cec-log.h:2630:3: note: suggested alternative: ‘log_msg’
+   log_arg(&arg_htng_input_src, "htng-input-src", htng_input_src);
+   ^~~~~~~
+   log_msg
+In file included from cec-follower.h:25,
+                 from cec-follower.cpp:21:
+./cec-log.h:579:19: error: ‘arg_u16’ was not declared in this scope
+ #define arg_major arg_u16
+                   ^~~~~~~
+./cec-log.h:2632:12: note: in expansion of macro ‘arg_major’
+   log_arg(&arg_major, "major", major);
+            ^~~~~~~~~
+./cec-log.h:579:19: note: suggested alternative: ‘arg_osd’
+ #define arg_major arg_u16
+                   ^~~~~~~
+./cec-log.h:2632:12: note: in expansion of macro ‘arg_major’
+   log_arg(&arg_major, "major", major);
+            ^~~~~~~~~
+./cec-log.h:801:17: error: ‘arg_u8’ was not declared in this scope
+ #define arg_vol arg_u8
+                 ^~~~~~
+./cec-log.h:2642:12: note: in expansion of macro ‘arg_vol’
+   log_arg(&arg_vol, "vol", vol);
+            ^~~~~~~
+./cec-log.h:801:17: note: suggested alternative: ‘arg_on’
+ #define arg_vol arg_u8
+                 ^~~~~~
+./cec-log.h:2642:12: note: in expansion of macro ‘arg_vol’
+   log_arg(&arg_vol, "vol", vol);
+            ^~~~~~~
+In file included from cec-follower.h:25,
+                 from cec-follower.cpp:21:
+./cec-log.h:2642:3: error: ‘log_arg’ was not declared in this scope
+   log_arg(&arg_vol, "vol", vol);
+   ^~~~~~~
+./cec-log.h:2642:3: note: suggested alternative: ‘log_msg’
+   log_arg(&arg_vol, "vol", vol);
+   ^~~~~~~
+   log_msg
+./cec-log.h:2662:3: error: ‘log_arg’ was not declared in this scope
+   log_arg(&arg_htng_chan_type, "htng-chan-type", htng_chan_type);
+   ^~~~~~~
+./cec-log.h:2662:3: note: suggested alternative: ‘log_msg’
+   log_arg(&arg_htng_chan_type, "htng-chan-type", htng_chan_type);
+   ^~~~~~~
+   log_msg
+In file included from cec-follower.h:25,
+                 from cec-follower.cpp:21:
+./cec-log.h:831:18: error: ‘arg_u16’ was not declared in this scope
+ #define arg_freq arg_u16
+                  ^~~~~~~
+./cec-log.h:2665:12: note: in expansion of macro ‘arg_freq’
+   log_arg(&arg_freq, "freq", freq);
+            ^~~~~~~~
+./cec-log.h:831:18: note: suggested alternative: ‘arg_osd’
+ #define arg_freq arg_u16
+                  ^~~~~~~
+./cec-log.h:2665:12: note: in expansion of macro ‘arg_freq’
+   log_arg(&arg_freq, "freq", freq);
+            ^~~~~~~~
+In file included from cec-follower.h:25,
+                 from cec-follower.cpp:21:
+./cec-log.h:2679:3: error: ‘log_arg’ was not declared in this scope
+   log_arg(&arg_htng_chan_type, "htng-chan-type", htng_chan_type);
+   ^~~~~~~
+./cec-log.h:2679:3: note: suggested alternative: ‘log_msg’
+   log_arg(&arg_htng_chan_type, "htng-chan-type", htng_chan_type);
+   ^~~~~~~
+   log_msg
+In file included from cec-follower.h:25,
+                 from cec-follower.cpp:21:
+./cec-log.h:792:18: error: ‘arg_u16’ was not declared in this scope
+ #define arg_chan arg_u16
+                  ^~~~~~~
+./cec-log.h:2681:12: note: in expansion of macro ‘arg_chan’
+   log_arg(&arg_chan, "chan", chan);
+            ^~~~~~~~
+./cec-log.h:792:18: note: suggested alternative: ‘arg_osd’
+ #define arg_chan arg_u16
+                  ^~~~~~~
+./cec-log.h:2681:12: note: in expansion of macro ‘arg_chan’
+   log_arg(&arg_chan, "chan", chan);
+            ^~~~~~~~
+In file included from cec-follower.h:25,
+                 from cec-follower.cpp:21:
+./cec-log.h:2702:3: error: ‘log_arg’ was not declared in this scope
+   log_arg(&arg_htng_ext_chan_type, "htng-ext-chan-type", htng_ext_chan_type);
+   ^~~~~~~
+./cec-log.h:2702:3: note: suggested alternative: ‘log_msg’
+   log_arg(&arg_htng_ext_chan_type, "htng-ext-chan-type", htng_ext_chan_type);
+   ^~~~~~~
+   log_msg
+In file included from cec-follower.h:25,
+                 from cec-follower.cpp:21:
+./cec-log.h:831:18: error: ‘arg_u16’ was not declared in this scope
+ #define arg_freq arg_u16
+                  ^~~~~~~
+./cec-log.h:2705:12: note: in expansion of macro ‘arg_freq’
+   log_arg(&arg_freq, "freq", freq);
+            ^~~~~~~~
+./cec-log.h:831:18: note: suggested alternative: ‘arg_osd’
+ #define arg_freq arg_u16
+                  ^~~~~~~
+./cec-log.h:2705:12: note: in expansion of macro ‘arg_freq’
+   log_arg(&arg_freq, "freq", freq);
+            ^~~~~~~~
+In file included from cec-follower.h:25,
+                 from cec-follower.cpp:21:
+./cec-log.h:2719:3: error: ‘log_htng_unknown_msg’ was not declared in this scope
+   log_htng_unknown_msg(msg);
+   ^~~~~~~~~~~~~~~~~~~~
+./cec-log.h:2719:3: note: suggested alternative: ‘log_htng_msg’
+   log_htng_unknown_msg(msg);
+   ^~~~~~~~~~~~~~~~~~~~
+   log_htng_msg
+In file included from cec-follower.h:25,
+                 from cec-follower.cpp:21:
+./cec-log.h: At global scope:
+./cec-log.h:861:29: warning: ‘messages’ defined but not used [-Wunused-variable]
+ static const struct message messages[] = {
+                             ^~~~~~~~
+make[3]: *** [Makefile:607: cec_follower-cec-follower.o] Error 1
+make[3]: Leaving directory '<https://builder.linuxtv.org/job/v4l-utils/ws/utils/cec-follower'>
+make[2]: *** [Makefile:481: all-recursive] Error 1
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/v4l-utils/ws/utils'>
+make[1]: *** [Makefile:590: all-recursive] Error 1
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/v4l-utils/ws/'>
+make: *** [Makefile:517: all] Error 2
+Build step 'Execute shell' marked build as failure
