@@ -2,82 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DAECC917E
-	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 21:11:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B9AF2C9210
+	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 21:15:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728510AbfJBTJZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Oct 2019 15:09:25 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:38544 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729369AbfJBTIV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Oct 2019 15:08:21 -0400
-Received: from pendragon.ideasonboard.com (unknown [132.205.229.212])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C9F232BB;
-        Wed,  2 Oct 2019 21:08:18 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1570043299;
-        bh=2bctw1IJ9Ns8CBUAHy20yJpmEISXz+Eqe/9J6CKHKTc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=MwopaARhx4nM+kSkI/jZ8TdgPb0PRQLQXQ3kEKbslzz8y3TJvdP4jMTmPWpJ/t2RW
-         Amg8pJHOxjYmZO/PNPVq+m+3LzCOQG4lnizJXvXD1aauY/0jAu9L/6EHGfyJD6vlle
-         0OveV+6E0PQpBFFe0t5CxJlCYEhSAR+SYu5QpsN8=
-Date:   Wed, 2 Oct 2019 22:08:05 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sergey Zakharchenko <doublef.mobile@gmail.com>
-Cc:     Sergey Zakharchenko <szakharchenko@digital-loggers.com>,
-        linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Martin Bodo <martin@digital-loggers.com>,
-        "Logan, Peter" <peter.logan@intel.com>,
-        Auke Kok <auke-jan.h.kok@intel.com>
-Subject: Re: [PATCH v2] media: uvcvideo: Add a quirk to force GEO GC6500
- Camera bits-per-pixel value
-Message-ID: <20191002190805.GG5262@pendragon.ideasonboard.com>
-References: <201910021929.ij7Rrmvk%lkp@intel.com>
- <20191002130102.97852-1-szakharchenko@digital-loggers.com>
- <20191002140814.GB5262@pendragon.ideasonboard.com>
- <CADYCxoOzwRQctuVaqEx40WgFLo4PY0sV4R11r+pn+Wu0jLzPng@mail.gmail.com>
- <CADYCxoNTBmX8RYf18xmX0B8xD_LvNJbZ5buyAgo5E9v14B3S_A@mail.gmail.com>
+        id S1730242AbfJBTNy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Oct 2019 15:13:54 -0400
+Received: from mail-qk1-f195.google.com ([209.85.222.195]:44146 "EHLO
+        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730237AbfJBTNx (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Oct 2019 15:13:53 -0400
+Received: by mail-qk1-f195.google.com with SMTP id u22so16171767qkk.11;
+        Wed, 02 Oct 2019 12:13:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=G8NWVG2Dj1ye1ZiHmvRqpD/iCq2t/RLgtgsIODbe7OE=;
+        b=XpU2xaZKa7aZb7z1Jg/sOj5mLG3ZeMtLPAWhAC0WjPz34AsolA24J1YMqbeDF2uZtO
+         QYzO8usjLx+zwvqfiB3v8q45pGGNZyJ9gxcXb0DSgszLCpGDpz7MUm0c4IFUyE3WwdxH
+         4ty06CA9J+9dNx2ZHlD0OoH5bPdnAAkVEHt59WrDWoAgDo0WpYKBJ+vmZ86ZdtIhEbXz
+         FVvh+SUdLusEEYZ93gEhdSFKhybOLhjsMAvf/jKhQy/HW/1Bk/SVIx6J/aMZ3CDKQw8q
+         Fz/olC8EAW9HlfNE8Zgs1Oga2GQpJPh2gkk02FBtSIoP7o+GBUIIXsNJTcMqKOETnMBL
+         jmkw==
+X-Gm-Message-State: APjAAAWD6GKzk6afxv7WvUcRqQ0YeHK6ExZbaqssHCfesTSBTy5fR2oV
+        VXcV1KCJD8XrbHROZ8yb7A==
+X-Google-Smtp-Source: APXvYqxszfM5XF4Zum05FRGxqeN+JvSBLD1JzZOlm54uzBxlFDENqackZ5zy7IoeeOGbKAU9cJbZAg==
+X-Received: by 2002:a37:a446:: with SMTP id n67mr420047qke.132.1570043632918;
+        Wed, 02 Oct 2019 12:13:52 -0700 (PDT)
+Received: from localhost ([132.205.229.212])
+        by smtp.gmail.com with ESMTPSA id m136sm60797qke.78.2019.10.02.12.13.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Oct 2019 12:13:52 -0700 (PDT)
+Date:   Wed, 2 Oct 2019 14:13:52 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Maxime Ripard <mripard@kernel.org>
+Cc:     Mark Rutland <mark.rutland@arm.com>,
+        Frank Rowand <frowand.list@gmail.com>, mchehab@kernel.org,
+        sean@mess.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH] dt-bindings: media: rc: Fix redundant string
+Message-ID: <20191002191352.GA17132@bogus>
+References: <20191002144400.114541-1-mripard@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CADYCxoNTBmX8RYf18xmX0B8xD_LvNJbZ5buyAgo5E9v14B3S_A@mail.gmail.com>
+In-Reply-To: <20191002144400.114541-1-mripard@kernel.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sergey,
-
-On Wed, Oct 02, 2019 at 09:15:45PM +0400, Sergey Zakharchenko wrote:
-> Sergey Zakharchenko <doublef.mobile@gmail.com>:
-> > Laurent Pinchart <laurent.pinchart@ideasonboard.com>:
-> > > Do you think it would make sense to do this by default, without
-> > > requiring a quirk ? Or are there cases where this calculation would lead
-> > > to incorrect results while the bpp reported by the camera would be right
-> > > ?
-> >
-> > The loop is a simplified version of the v4l2_fill_pixfmt() loop. The
-> > calculation might need some checking, and might be invalid, in case
-> > block_w/block_h format fields are significant (not 0 and not 1),
-> > because then effective bits-per-pixel would seemingly be fractional,
-> > and depend on the image dimensions if they weren't aligned; however I
-> > see no formats using the block_w/block_h fields defined so far.
+On Wed,  2 Oct 2019 16:44:00 +0200, Maxime Ripard wrote:
+> The linux,rc-map-name property is described using an enum, yet a value has
+> been put in that enum twice, resulting in a warning. Let's fix that.
 > 
-> It's likely possible to directly replace the bpp-using computation in
-> https://github.com/torvalds/linux/blob/2874c5fd284268364ece81a7bd936f3c8168e567/drivers/media/usb/uvc/uvc_driver.c#L636
-> with a call to v4l2_fill_pixfmt() and the sizeimage it returns.
-> However, bpp is used elsewhere, and it's hard to tell what it should
-> be taken to be to in the hypothetical exotic cases I'm considering, so
-> I'm reluctant to go that route.
+> Fixes: 7c31b9d67342 ("media: dt-bindings: media: Add YAML schemas for the generic RC bindings")
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>  Documentation/devicetree/bindings/media/rc.yaml | 1 -
+>  1 file changed, 1 deletion(-)
+> 
 
-Would it make sense to split the calculation from v4l2_fill_pixfmt() to
-a helper function that the UVC driver could call ?
+Applied, thanks.
 
-> I'm going to send v3 in an hour unless there are other suggestions.
-
--- 
-Regards,
-
-Laurent Pinchart
+Rob
