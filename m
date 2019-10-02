@@ -2,202 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4926AC8BD1
-	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 16:50:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D3B70C8C23
+	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 16:54:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728256AbfJBOuD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Oct 2019 10:50:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53198 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726411AbfJBOuD (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 2 Oct 2019 10:50:03 -0400
-Received: from localhost (lfbn-1-10718-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 472C921783;
-        Wed,  2 Oct 2019 14:50:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1570027801;
-        bh=M7UkPJXq9H6M3nCO21dFOZssYBGb+N4Rj34f9TMo3R0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=eY+F/uctqOLMsPma/j86mCVci1GwKGInB1KwOwb8m0JUR+g3HS22Kc+nPtR2Sl70d
-         Swcsi+IPt0QsJj62CVu2ji3Oi6RxuMzT7m/echlOwCCvEN0sWhsImSf0xKEI8WA58k
-         fUIu9xZEPs2HnJZ6RHz4kh6a6yQGBSgyjhoSviT4=
-Date:   Wed, 2 Oct 2019 16:49:59 +0200
-From:   Maxime Ripard <mripard@kernel.org>
-To:     Chen-Yu Tsai <wens@csie.org>
-Cc:     Hans Verkuil <hans.verkuil@cisco.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH v6 1/5] dt-bindings: media: Add Allwinner A10 CSI binding
-Message-ID: <20191002144959.vg2rpbdauzbzvkcx@gilmour>
-References: <cover.34bcd988943a26671681eaf849aacab51fab1cfe.1562847292.git-series.maxime.ripard@bootlin.com>
- <110dd9ff1784c29fa16304825a41d1603a33f166.1562847292.git-series.maxime.ripard@bootlin.com>
- <CAGb2v64nx2AuWZN+RxCneE0pqvXr_d7u6mQ+=nCHv2VJ1MNtrQ@mail.gmail.com>
- <CAGb2v66Sin9HZ+QENegLQ3d7iiy278niwdr9rEZ0HwUfeQNFRQ@mail.gmail.com>
- <20191001085246.55srb62bpfc6jhtu@gilmour>
- <CAGb2v66-Nak6RgtXYwOE6_nqHsOkLMh1G7CWJMDND1YzrywmHA@mail.gmail.com>
+        id S1727135AbfJBOyx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Oct 2019 10:54:53 -0400
+Received: from mail-vk1-f175.google.com ([209.85.221.175]:34672 "EHLO
+        mail-vk1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725747AbfJBOyw (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Oct 2019 10:54:52 -0400
+Received: by mail-vk1-f175.google.com with SMTP id d126so4383153vkb.1
+        for <linux-media@vger.kernel.org>; Wed, 02 Oct 2019 07:54:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=cTNU2QdY7xS3AqARhhtWIF99bezUFT0DWNXAG4BhYao=;
+        b=AL1Px05k1xNmXAnuG4S1ivQSwaIMO1Y9mmqPX8G8yPOE33szgf2lpiijq/JRQLxwIY
+         9GEn9NPmJAEOzwzGBgzWdTQjsNlvPN5byYWbf7s46yV9AWgPrzKea8uNOppACzqb/nAt
+         yS90RLOZYBsfVJ7t/iAmMnEwf1ReP0kAYrEqqfBSmAkZnIkGgCy3Hsos0pyZBCEwSS+x
+         CMhGz9HZZyTQqUMpGeLJZSTYCyFPicicLxwfeyNV+BWU7ip+6kQaDwEUs+QbpGlafw/V
+         0qRWtJ5ULZ30XnSvESGiHeRLV84JsEQnSF5d3tfDCJwGMKv0FdujmjNEynqBR5nTyu8g
+         yo9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cTNU2QdY7xS3AqARhhtWIF99bezUFT0DWNXAG4BhYao=;
+        b=hBU+xeJsVjxAT7B5HYtVKbb/VEYzuBktlULckUlTR2hp30lgG9z889KoZ4cRqsClG1
+         wSlltPPc6KGAGQFi1r2uPRmhizp2jlnNxDgWpptrFkg35/vZTbj9znIgGlHauFdgXNEG
+         EdVFXvMCdt0QgpySA7nD97RYLGPIm1jctdN7oPgeoq+g3z0WQVhl20uYW4y27i41TBNu
+         wo9l4dMnBYY9XDNOyWwZXgebEtODHjN4PHFmWxSWO7xW+bAgkrIJ30qp+hXrPW8FzQgN
+         uv04Lrgwv2bsPIQF5BadtWPDihNNqll7KCS6mBZWdSqpHM4h/xLaIkj65O7VTI1TggEf
+         AThA==
+X-Gm-Message-State: APjAAAVChWeWP7w69Sij+X8e4+ZpMxiSi1eWonxW6za0rAoaaNf1/Ib3
+        rxQhCy89p/IWzjMvXZpb9UA3FcsLI8zGf46UUK0=
+X-Google-Smtp-Source: APXvYqwNzv20JyctGQovUz45DIvNazhYzT4CMOswRmTMqDu/gJmhRlr/euWv7ajNWX4MPFod1A5d2WnPsux6tkkszws=
+X-Received: by 2002:a1f:5243:: with SMTP id g64mr2222234vkb.26.1570028091599;
+ Wed, 02 Oct 2019 07:54:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="ci3xbatgbsxlfsb3"
-Content-Disposition: inline
-In-Reply-To: <CAGb2v66-Nak6RgtXYwOE6_nqHsOkLMh1G7CWJMDND1YzrywmHA@mail.gmail.com>
-User-Agent: NeoMutt/20180716
+References: <201910021929.ij7Rrmvk%lkp@intel.com> <20191002130102.97852-1-szakharchenko@digital-loggers.com>
+ <20191002140814.GB5262@pendragon.ideasonboard.com>
+In-Reply-To: <20191002140814.GB5262@pendragon.ideasonboard.com>
+From:   Sergey Zakharchenko <doublef.mobile@gmail.com>
+Date:   Wed, 2 Oct 2019 18:54:39 +0400
+Message-ID: <CADYCxoOzwRQctuVaqEx40WgFLo4PY0sV4R11r+pn+Wu0jLzPng@mail.gmail.com>
+Subject: Re: [PATCH v2] media: uvcvideo: Add a quirk to force GEO GC6500
+ Camera bits-per-pixel value
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Sergey Zakharchenko <szakharchenko@digital-loggers.com>,
+        linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Martin Bodo <martin@digital-loggers.com>,
+        "Logan, Peter" <peter.logan@intel.com>,
+        Auke Kok <auke-jan.h.kok@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Laurent,
 
---ci3xbatgbsxlfsb3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Laurent Pinchart <laurent.pinchart@ideasonboard.com>:
+> Do you think it would make sense to do this by default, without
+> requiring a quirk ? Or are there cases where this calculation would lead
+> to incorrect results while the bpp reported by the camera would be right
+> ?
 
-Hi,
+I don't nearly have the experience with a broad range of webcams
+required to answer this question. At the very least that would tax
+well-behaved cameras with a tiny but unnecessary bit of initial
+computations.
 
-On Tue, Oct 01, 2019 at 05:04:40PM +0800, Chen-Yu Tsai wrote:
-> On Tue, Oct 1, 2019 at 4:52 PM Maxime Ripard <mripard@kernel.org> wrote:
-> >
-> > Hi,
-> >
-> > Thanks for looking into this.
-> >
-> > On Sun, Sep 15, 2019 at 04:54:16PM +0800, Chen-Yu Tsai wrote:
-> > > On Thu, Aug 15, 2019 at 4:34 PM Chen-Yu Tsai <wens@csie.org> wrote:
-> > > >
-> > > > Hi,
-> > > >
-> > > > Sorry for chiming in so late.
-> > > >
-> > > > On Thu, Jul 11, 2019 at 8:15 PM Maxime Ripard <maxime.ripard@bootlin.com> wrote:
-> > > > >
-> > > > > The Allwinner A10 CMOS Sensor Interface is a camera capture interface also
-> > > > > used in later (A10s, A13, A20, R8 and GR8) SoCs.
-> > > > >
-> > > > > On some SoCs, like the A10, there's multiple instances of that controller,
-> > > > > with one instance supporting more channels and having an ISP.
-> > > > >
-> > > > > Reviewed-by: Rob Herring <robh@kernel.org>
-> > > > > Signed-off-by: Maxime Ripard <maxime.ripard@bootlin.com>
-> > > > > ---
-> > > > >  Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml | 94 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
-> > > > >  1 file changed, 94 insertions(+)
-> > > > >  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml
-> > > > >
-> > > > > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml
-> > > > > new file mode 100644
-> > > > > index 000000000000..97c9fc3b5050
-> > > > > --- /dev/null
-> > > > > +++ b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml
-> > > > > @@ -0,0 +1,94 @@
-> > > > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > > > > +%YAML 1.2
-> > > > > +---
-> > > > > +$id: http://devicetree.org/schemas/arm/allwinner,sun4i-a10-csi.yaml#
-> > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > > +
-> > > > > +title: Allwinner A10 CMOS Sensor Interface (CSI) Device Tree Bindings
-> > > > > +
-> > > > > +maintainers:
-> > > > > +  - Chen-Yu Tsai <wens@csie.org>
-> > > > > +  - Maxime Ripard <maxime.ripard@bootlin.com>
-> > > > > +
-> > > > > +description: |-
-> > > > > +  The Allwinner A10 and later has a CMOS Sensor Interface to retrieve
-> > > > > +  frames from a parallel or BT656 sensor.
-> > > > > +
-> > > > > +
-> > > > > +properties:
-> > > > > +  compatible:
-> > > > > +    oneOf:
-> > > > > +      - items:
-> > > > > +          - enum:
-> > > > > +              - allwinner,sun7i-a20-csi0
-> > > > > +          - const: allwinner,sun4i-a10-csi0
-> > > >
-> > > > CSI0 on the A10 has an ISP. Do we know if the one in the A20 does
-> > > > as well? It certainly doesn't say so in the user manual. If not,
-> > > > then we can't claim that A20 CSI0 is compatible with A10 CSI0.
-> > > >
-> > > > > +
-> > > > > +      - items:
-> > > > > +          - const: allwinner,sun4i-a10-csi0
-> > > > > +
-> > > > > +  reg:
-> > > > > +    maxItems: 1
-> > > > > +
-> > > > > +  interrupts:
-> > > > > +    maxItems: 1
-> > > > > +
-> > > > > +  clocks:
-> > > > > +    items:
-> > > > > +      - description: The CSI interface clock
-> > > > > +      - description: The CSI module clock
-> > > > > +      - description: The CSI ISP clock
-> > > > > +      - description: The CSI DRAM clock
-> > > > > +
-> > > > > +  clock-names:
-> > > > > +    items:
-> > > > > +      - const: bus
-> > > > > +      - const: mod
-> > > >
-> > > > I doubt this actually is a module clock. Based on the usage in your
-> > > > device tree patch, and the csi driver in the old linux-sunxi kernel,
-> > > > the clock rate is set to 24 MHz, or whatever the sensor requires for
-> > > > MCLK.
-> > >
-> > > I'm working on adding support for this on the R40, and it seems with
-> > > this SoC the picture is much clearer. It has the same CSI interface
-> > > block, but the CCU has the clocks correctly named. We have:
-> > >
-> > >   - CSI_MCLK0
-> > >   - CSI_MCLK1
-> > >   - CSI_SCLK
-> > >
-> > > in addition to the bus clocks.
-> > >
-> > > The CSI section also explains the clock signals:
-> > >
-> > >     6.1.3.2. Clock Sources
-> > >     Two Clocks need to be configured for CSI controller. CSI0/1_MCLK
-> > >     provides the master clock for sensor and other devices. CSI_SCLK
-> > >     is the top clock for the whole CSI module.
-> > >
-> > > So it would seem the ISP clock we currently have in the DT is simply
-> > > the module clock shared by all CSI-related hardware blocks, and the
-> > > module clock is bogus.
-> >
-> > I don't think it is. It looks like there's no ISP in the R40 CSI
-> > controllers, so that would mean that we don't have an ISP clock, and
-> > the SCLK is the module clock.
-> >
-> > Does that make sense?
+The loop is a simplified version of the v4l2_fill_pixfmt() loop. The
+calculation might need some checking, and might be invalid, in case
+block_w/block_h format fields are significant (not 0 and not 1),
+because then effective bits-per-pixel would seemingly be fractional,
+and depend on the image dimensions if they weren't aligned; however I
+see no formats using the block_w/block_h fields defined so far.
+
+AFAICT the division should need no rounding for the raw formats
+currently listed; just being cautious there.
+
+> Could you please keep the entries sorted by idVendor/idProduct ?
+> As this is the only device using this quirk, you can drop
+> uvc_quirk_force_bpp and use
 >
-> Right. That's another way to put it. The point is I believe the
-> CSI[01]_CLK clocks on the A10/A20 are simply the MCLK outputs.
+>         .driver_info            = UVC_INFO_QUIRK(UVC_QUIRK_FORCE_BPP) },
 
-Looking at the Allwinner BSP again, it looks like you're right. I'll
-send some patches to remove that clock from the binding.
+All makes sense and will be adjusted, thanks for the review!
 
-Thanks!
-Maxime
+Best regards,
 
---ci3xbatgbsxlfsb3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXZS5FwAKCRDj7w1vZxhR
-xcsgAP9qc0COV67+Hl3wJfkscyqUVifCgbluweo1QS6EiFrDggD/factOgnJNhXe
-mZ+HTQ7UXodlm8GoSOzwo9mNt9KC1AA=
-=TTvP
------END PGP SIGNATURE-----
-
---ci3xbatgbsxlfsb3--
+--
+Sergey Zakharchenko
+Digital Loggers, Inc.
