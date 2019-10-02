@@ -2,73 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 98945C4A8F
-	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 11:23:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5068BC4AAA
+	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 11:30:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726411AbfJBJXY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Oct 2019 05:23:24 -0400
-Received: from retiisi.org.uk ([95.216.213.190]:59296 "EHLO
-        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725848AbfJBJXY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 2 Oct 2019 05:23:24 -0400
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 1CA45634C87;
-        Wed,  2 Oct 2019 12:22:56 +0300 (EEST)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1iFaqU-000293-Iq; Wed, 02 Oct 2019 12:22:54 +0300
-Date:   Wed, 2 Oct 2019 12:22:54 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     frederic.chen@mediatek.com
-Cc:     hans.verkuil@cisco.com, laurent.pinchart+renesas@ideasonboard.com,
-        tfiga@chromium.org, matthias.bgg@gmail.com, mchehab@kernel.org,
-        yuzhao@chromium.org, zwisler@chromium.org,
-        linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, Sean.Cheng@mediatek.com,
-        sj.huang@mediatek.com, christie.yu@mediatek.com,
-        holmes.chiou@mediatek.com, Jerry-ch.Chen@mediatek.com,
-        jungo.lin@mediatek.com, Rynn.Wu@mediatek.com,
-        linux-media@vger.kernel.org, srv_heupstream@mediatek.com,
-        devicetree@vger.kernel.org, shik@chromium.org,
-        suleiman@chromium.org, Allan.Yang@mediatek.com
-Subject: Re: [RFC PATCH V3 1/5] dt-bindings: mt8183: Added DIP dt-bindings
-Message-ID: <20191002092254.GQ896@valkosipuli.retiisi.org.uk>
-References: <20190909192244.9367-1-frederic.chen@mediatek.com>
- <20190909192244.9367-2-frederic.chen@mediatek.com>
+        id S1726462AbfJBJaD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Oct 2019 05:30:03 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:39992 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726227AbfJBJaD (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 2 Oct 2019 05:30:03 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtp (Exim 4.84_2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1iFaxN-0003VR-E5; Wed, 02 Oct 2019 09:30:01 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1iFaxj-0003xi-Ro; Wed, 02 Oct 2019 09:30:23 +0000
+Date:   Wed, 2 Oct 2019 09:30:23 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <838817409.3.1570008623849.JavaMail.jenkins@builder.linuxtv.org>
+In-Reply-To: <786551029.2.1570006907525.JavaMail.jenkins@builder.linuxtv.org>
+References: <786551029.2.1570006907525.JavaMail.jenkins@builder.linuxtv.org>
+Subject: Jenkins build is back to normal : v4l-utils #45
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190909192244.9367-2-frederic.chen@mediatek.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: v4l-utils
+X-Jenkins-Result: SUCCESS
+Auto-submitted: auto-generated
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Frederic,
+See <https://builder.linuxtv.org/job/v4l-utils/45/display/redirect>
 
-On Tue, Sep 10, 2019 at 03:22:40AM +0800, frederic.chen@mediatek.com wrote:
-> From: Frederic Chen <frederic.chen@mediatek.com>
-> 
-> This patch adds DT binding documentation for the Digital Image
-> Processing (DIP) unit of camera ISP system on Mediatek's SoCs.
-> 
-> It depends on the SCP and MDP 3 patch as following:
-> 
-> 1. dt-bindings: Add a binding for Mediatek SCP
->    https://patchwork.kernel.org/patch/11027247/
-> 2. dt-binding: mt8183: Add Mediatek MDP3 dt-bindings
->    https://patchwork.kernel.org/patch/10945603/
-> 
-> Signed-off-by: Frederic Chen <frederic.chen@mediatek.com>
-> ---
->  .../bindings/media/mediatek,mt8183-dip.txt    | 40 +++++++++++++++++++
-
-Could you add a MAINTAINERS entry for this, please? Same for the driver.
-
--- 
-Sakari Ailus
