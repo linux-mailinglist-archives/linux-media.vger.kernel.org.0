@@ -2,293 +2,310 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A28AC44A3
-	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 01:52:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55AD4C451E
+	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 02:46:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727772AbfJAXwL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Oct 2019 19:52:11 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:36468 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726137AbfJAXwL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Oct 2019 19:52:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=a74goTc45cdDIZjS1+lDcy3LFWmOrq6bWCL1X6Vr13k=; b=jlqfjqEkYvJQ5ZEtZwZZDXha5
-        jrV7dfMCU1l6q8WMz0yH3w3qtJ/3VvN/j/x8tW3C9eYeBgYvb28CkOAY34/m52n3kCqONkzUvMoIV
-        B78Q6HCg0RmQggpW7o6hrg9vHAOTW7FYHxM+49UIyUVp51civiUMjKPOcHQFkk25X5Mh4h3Bjkj35
-        wqsPu/JMk6KTb4qe2cYjLUnCfBhlh1coql32yWxI4c4uKwyux+rcMFf0+4qfpK6YLy7irPvPdo8Qk
-        sYSQ9sSx7X19RzzmWV09YZHl6Cy5wBBW7Hs4xfYMht044liRrzwRqLCMXouIiE3KIVX5HcWbRE0pT
-        jp4nBmz8Q==;
-Received: from 177.157.127.95.dynamic.adsl.gvt.net.br ([177.157.127.95] helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
-        id 1iFRw6-0002VD-Ub; Tue, 01 Oct 2019 23:52:07 +0000
-Date:   Tue, 1 Oct 2019 20:52:03 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Gonsolo <gonsolo@gmail.com>
-Cc:     Sean Young <sean@mess.org>, crope@iki.fi,
-        linux-media@vger.kernel.org,
-        Linux Kernel <linux-kernel@vger.kernel.org>
-Subject: Re: DVB-T2 Stick
-Message-ID: <20191001205203.4b1a5fb6@coco.lan>
-In-Reply-To: <CANL0fFRnEaapgm3oiDQmZb6qeAr4pwyhofZXA0mbmq=o4PPUDg@mail.gmail.com>
-References: <CANL0fFSGG_+R2zbf-9MxVLJMTMgc+-fwSoLCqS1qc+jWo-zNLA@mail.gmail.com>
-        <20190219213003.l7hzy2emdsxe4izy@gofer.mess.org>
-        <CANL0fFRnEaapgm3oiDQmZb6qeAr4pwyhofZXA0mbmq=o4PPUDg@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726931AbfJBAqw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Oct 2019 20:46:52 -0400
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:45747 "EHLO
+        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726096AbfJBAqw (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Oct 2019 20:46:52 -0400
+Received: by mail-qt1-f193.google.com with SMTP id c21so24090240qtj.12;
+        Tue, 01 Oct 2019 17:46:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oJYo+2YrZFrURp+dw1LN51NQNRW+Zh0NsUghlL3466Y=;
+        b=GPCiLpj2fXQtFGPmSw1rxQzoewd582oZnfj37gUMphKpDPY69RlJpSaoOdyAhD+FJE
+         RhBbHIkV8TdLrk4yFB2p2A4lFqEo9b+TLpoQVj16+inlZpvuBBFEr5MmpS9/pYfw8U/L
+         Dgwy7RjavW0uNGwrCWNz2uUTf1woZWSu7ESNEbiaxsqkEqDkBntaK32MAfVkYt7bSD4c
+         JxrFxYN+b10xpxKwMWSbD87zDd+/kYg97wFkEPWlz/rmSEMmLbtlGTq7FFFrAW8R1SjL
+         MM06txWC070KLzgjzcRSDlVmNFlzq6DRe0kvVibcRPDpY9d6e21+gFgh0TcZvxqndUdV
+         z1pQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oJYo+2YrZFrURp+dw1LN51NQNRW+Zh0NsUghlL3466Y=;
+        b=AAWDkfZGV1+HU191MWqKBaFkBgUL7adPoOMCLkxcjQRoaCe3ML2YAQE/KCHUF5rEpt
+         fzHE1cl3ibvkoyu8ssxBlRtKrPR2Yn8LxJ2ijJRuBYggQCnB0++g7OA7Lr7Zj/WxVP8E
+         8Y3jf51/4ybMViDz4Dz1ryc5W173AsbpqAbwufV+k9hKnszpetkSZhXi+QwTUcH1BckE
+         3X6HTs7KsIm9/Y2s2jaVIKOyh4D5PVBbLUcU1fnpSg/zRPha3RI0k/Z3GUn+W8d4CrwL
+         juC31an0yFfOqCh24cmM1OQMLebKdU+hUhoutUaqSiddUIUtsUhQi0Fl70PTO4rroPmz
+         hbiA==
+X-Gm-Message-State: APjAAAXSrWMCTly83/E2oJmWsf8PkFOHcRsy5gY38KWn5GS6+ttYhJNl
+        Brn3Yx121h/7/whCk3idT+s=
+X-Google-Smtp-Source: APXvYqx58AlZqZQCgIC7W3TietGx3KRF1OEr4JhjlUJiriztB5CYezFh844ocmbSWQ0cOjPl9Mz0iQ==
+X-Received: by 2002:ac8:544:: with SMTP id c4mr1364646qth.179.1569977209248;
+        Tue, 01 Oct 2019 17:46:49 -0700 (PDT)
+Received: from Arthur-ArchMBP.ic.unicamp.br (wifi-177-220-85-222.wifi.ic.unicamp.br. [177.220.85.222])
+        by smtp.gmail.com with ESMTPSA id 20sm8623539qkn.4.2019.10.01.17.46.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Oct 2019 17:46:48 -0700 (PDT)
+From:   Arthur Moraes do Lago <arthurmoraeslago@gmail.com>
+To:     lkcamp@lists.libreplanetbr.org, mchehab@kernel.org,
+        skhan@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
+        andrealmeid@collabora.com, laispc19@gmail.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        arthurmoraeslago@gmail.com
+Subject: [PATCH v4] media: vimc: Implement debayer control for mean window size
+Date:   Tue,  1 Oct 2019 21:46:33 -0300
+Message-Id: <20191002004633.21490-1-arthurmoraeslago@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Wed, 2 Oct 2019 00:19:05 +0200
-Gonsolo <gonsolo@gmail.com> escreveu:
+Add mean window size parameter for debayer filter as a control in
+vimc-debayer.
 
-> Hi!
-> 
-> > Secondly there are lots of coding style issues, see:
-> > https://www.kernel.org/doc/html/v4.10/process/coding-style.html
-> 
-> I addressed most of these except one "#if 0" warning from checkpatch.
-> 
-> > I'm afraid there are many problems with this patch. First of all it looks
-> > like support was added for a si2168 tuner but it looks like it will break
-> > for any other si2157-type device.
-> 
-> 
-> Can you give me a hint how to proceed here? I don't know much about
-> DVB tuners or kernel development.
-> 
-> I attached the cleaned-up patch for 5.4.0-rc1
+vimc-debayer was patched to allow changing mean window parameter
+of the filter without needing to reload the driver. The parameter
+can now be set using a v4l2-ctl control(mean_window_size).
 
-First of all, don't attach a patch. Instead, just send it with a decent
-emailer (with won't mangle whitespaces) or use git send-email...
+Co-developed-by: Laís Pessine do Carmo <laispc19@gmail.com>
+Signed-off-by: Laís Pessine do Carmo <laispc19@gmail.com>
+Signed-off-by: Arthur Moraes do Lago <arthurmoraeslago@gmail.com>
+---
+Changes in V2:
+ - Updated documentation
+ - Added v4l2_subev_core_ops to solve errors in v4l2-ctl compliance test
+ - Changed control naming to follow English capitalization rules
+ - Rebased to Shuah Khan's newest patch series 171283
+    ("Collapse vimc single monolithic driver")
+ - Change maximum value for mean window size
+Changes in V3:
+ - Renamed debayer control
+ - Fixed typo in documentation
+ - Freed control handler in vimc_deb_release
+Changes in V4:
+ - Removed unecessary function and checking for setting the control
 
-Also, please read the Developer's section of our wiki page:
+We had originally intended to leave that bit of code checking if the
+value is being set to make it similar to what's done in vimc-sensor,
+and in case some extra caution is needed when chaging control in the
+future. But I guess they really were not necessary.
 
-	https://linuxtv.org/wiki/index.php/Developer_section
+Thanks!
 
-In special, the "Submitting your work" part of it.
+---
+ Documentation/media/v4l-drivers/vimc.rst   | 10 +--
+ drivers/media/platform/vimc/vimc-common.h  |  1 +
+ drivers/media/platform/vimc/vimc-debayer.c | 81 ++++++++++++++++++----
+ 3 files changed, 71 insertions(+), 21 deletions(-)
 
-> 
-> Thanks,
-> g
-> From 6cada6442207a67202e73721692aced665b8fdf0 Mon Sep 17 00:00:00 2001
-> From: Gon Solo <gonsolo@gmail.com>
-> Date: Tue, 1 Oct 2019 21:59:44 +0200
-> Subject: [PATCH] DVB-T2 with coding style updates.
-> 
-> ---
->  drivers/media/tuners/si2157.c         | 44 ++++++++++++++++++++++---
->  drivers/media/tuners/si2157_priv.h    |  8 +++++
->  drivers/media/usb/dvb-usb-v2/af9035.c | 47 ++++++++++++++++++++++++++-
->  3 files changed, 93 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/media/tuners/si2157.c b/drivers/media/tuners/si2157.c
-> index e87040d6eca7..af50e721281b 100644
-> --- a/drivers/media/tuners/si2157.c
-> +++ b/drivers/media/tuners/si2157.c
-> @@ -75,7 +75,7 @@ static int si2157_init(struct dvb_frontend *fe)
->  	struct si2157_cmd cmd;
->  	const struct firmware *fw;
->  	const char *fw_name;
-> -	unsigned int uitmp, chip_id;
-> +	unsigned int uitmp;
->  
->  	dev_dbg(&client->dev, "\n");
->  
-> @@ -117,7 +117,7 @@ static int si2157_init(struct dvb_frontend *fe)
->  		if (ret)
->  			goto err;
->  	}
-> -
-> +#if 0
->  	/* query chip revision */
->  	memcpy(cmd.args, "\x02", 1);
->  	cmd.wlen = 1;
-> @@ -138,6 +138,8 @@ static int si2157_init(struct dvb_frontend *fe)
->  	#define SI2141_A10 ('A' << 24 | 41 << 16 | '1' << 8 | '0' << 0)
->  
->  	switch (chip_id) {
-> +#endif
-> +	switch (dev->chip_id) {
+diff --git a/Documentation/media/v4l-drivers/vimc.rst b/Documentation/media/v4l-drivers/vimc.rst
+index a582af0509ee..28646c76dad5 100644
+--- a/Documentation/media/v4l-drivers/vimc.rst
++++ b/Documentation/media/v4l-drivers/vimc.rst
+@@ -80,9 +80,7 @@ vimc-capture:
+         Module options
+ ---------------
+ 
+-Vimc has a few module parameters to configure the driver.
+-
+-        param=value
++Vimc has a module parameter to configure the driver.
+ 
+ * ``sca_mult=<unsigned int>``
+ 
+@@ -91,12 +89,6 @@ Vimc has a few module parameters to configure the driver.
+         original one. Currently, only supports scaling up (the default value
+         is 3).
+ 
+-* ``deb_mean_win_size=<unsigned int>``
+-
+-        Window size to calculate the mean. Note: the window size needs to be an
+-        odd number, as the main pixel stays in the center of the window,
+-        otherwise the next odd number is considered (the default value is 3).
+-
+ Source code documentation
+ -------------------------
+ 
+diff --git a/drivers/media/platform/vimc/vimc-common.h b/drivers/media/platform/vimc/vimc-common.h
+index 236412ad7548..3a5102ddf794 100644
+--- a/drivers/media/platform/vimc/vimc-common.h
++++ b/drivers/media/platform/vimc/vimc-common.h
+@@ -19,6 +19,7 @@
+ #define VIMC_CID_VIMC_BASE		(0x00f00000 | 0xf000)
+ #define VIMC_CID_VIMC_CLASS		(0x00f00000 | 1)
+ #define VIMC_CID_TEST_PATTERN		(VIMC_CID_VIMC_BASE + 0)
++#define VIMC_CID_MEAN_WIN_SIZE		(VIMC_CID_VIMC_BASE + 1)
+ 
+ #define VIMC_FRAME_MAX_WIDTH 4096
+ #define VIMC_FRAME_MAX_HEIGHT 2160
+diff --git a/drivers/media/platform/vimc/vimc-debayer.c b/drivers/media/platform/vimc/vimc-debayer.c
+index 37f3767db469..ba0af4b2fb9b 100644
+--- a/drivers/media/platform/vimc/vimc-debayer.c
++++ b/drivers/media/platform/vimc/vimc-debayer.c
+@@ -11,17 +11,12 @@
+ #include <linux/platform_device.h>
+ #include <linux/vmalloc.h>
+ #include <linux/v4l2-mediabus.h>
++#include <media/v4l2-ctrls.h>
++#include <media/v4l2-event.h>
+ #include <media/v4l2-subdev.h>
+ 
+ #include "vimc-common.h"
+ 
+-static unsigned int deb_mean_win_size = 3;
+-module_param(deb_mean_win_size, uint, 0000);
+-MODULE_PARM_DESC(deb_mean_win_size, " the window size to calculate the mean.\n"
+-	"NOTE: the window size needs to be an odd number, as the main pixel "
+-	"stays in the center of the window, otherwise the next odd number "
+-	"is considered");
+-
+ enum vimc_deb_rgb_colors {
+ 	VIMC_DEB_RED = 0,
+ 	VIMC_DEB_GREEN = 1,
+@@ -46,6 +41,8 @@ struct vimc_deb_device {
+ 	u8 *src_frame;
+ 	const struct vimc_deb_pix_map *sink_pix_map;
+ 	unsigned int sink_bpp;
++	unsigned int mean_win_size;
++	struct v4l2_ctrl_handler hdl;
+ };
+ 
+ static const struct v4l2_mbus_framefmt sink_fmt_default = {
+@@ -346,11 +343,18 @@ static int vimc_deb_s_stream(struct v4l2_subdev *sd, int enable)
+ 	return 0;
+ }
+ 
++static const struct v4l2_subdev_core_ops vimc_deb_core_ops = {
++	.log_status = v4l2_ctrl_subdev_log_status,
++	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
++	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
++};
++
+ static const struct v4l2_subdev_video_ops vimc_deb_video_ops = {
+ 	.s_stream = vimc_deb_s_stream,
+ };
+ 
+ static const struct v4l2_subdev_ops vimc_deb_ops = {
++	.core = &vimc_deb_core_ops,
+ 	.pad = &vimc_deb_pad_ops,
+ 	.video = &vimc_deb_video_ops,
+ };
+@@ -384,7 +388,7 @@ static void vimc_deb_calc_rgb_sink(struct vimc_deb_device *vdeb,
+ 	 * the top left corner of the mean window (considering the current
+ 	 * pixel as the center)
+ 	 */
+-	seek = deb_mean_win_size / 2;
++	seek = vdeb->mean_win_size / 2;
+ 
+ 	/* Sum the values of the colors in the mean window */
+ 
+@@ -471,14 +475,33 @@ static void *vimc_deb_process_frame(struct vimc_ent_device *ved,
+ 		}
+ 
+ 	return vdeb->src_frame;
++}
++
++static int vimc_deb_s_ctrl(struct v4l2_ctrl *ctrl)
++{
++	struct vimc_deb_device *vdeb =
++		container_of(ctrl->handler, struct vimc_deb_device, hdl);
+ 
++	switch (ctrl->id) {
++	case VIMC_CID_MEAN_WIN_SIZE:
++		vdeb->mean_win_size = ctrl->val;
++		break;
++	default:
++		return -EINVAL;
++	}
++	return 0;
+ }
+ 
++static const struct v4l2_ctrl_ops vimc_deb_ctrl_ops = {
++	.s_ctrl = vimc_deb_s_ctrl,
++};
++
+ static void vimc_deb_release(struct v4l2_subdev *sd)
+ {
+ 	struct vimc_deb_device *vdeb =
+ 				container_of(sd, struct vimc_deb_device, sd);
+ 
++	v4l2_ctrl_handler_free(&vdeb->hdl);
+ 	vimc_pads_cleanup(vdeb->ved.pads);
+ 	kfree(vdeb);
+ }
+@@ -495,6 +518,24 @@ void vimc_deb_rm(struct vimc_device *vimc, struct vimc_ent_device *ved)
+ 	vimc_ent_sd_unregister(ved, &vdeb->sd);
+ }
+ 
++static const struct v4l2_ctrl_config vimc_deb_ctrl_class = {
++	.flags = V4L2_CTRL_FLAG_READ_ONLY | V4L2_CTRL_FLAG_WRITE_ONLY,
++	.id = VIMC_CID_VIMC_CLASS,
++	.name = "VIMC Controls",
++	.type = V4L2_CTRL_TYPE_CTRL_CLASS,
++};
++
++static const struct v4l2_ctrl_config vimc_deb_ctrl_mean_win_size = {
++	.ops = &vimc_deb_ctrl_ops,
++	.id = VIMC_CID_MEAN_WIN_SIZE,
++	.name = "Debayer Mean Window Size",
++	.type = V4L2_CTRL_TYPE_INTEGER,
++	.min = 1,
++	.max = 25,
++	.step = 2,
++	.def = 3,
++};
++
+ struct vimc_ent_device *vimc_deb_add(struct vimc_device *vimc,
+ 				     const char *vcfg_name)
+ {
+@@ -507,6 +548,16 @@ struct vimc_ent_device *vimc_deb_add(struct vimc_device *vimc,
+ 	if (!vdeb)
+ 		return NULL;
+ 
++	/* Create controls: */
++	v4l2_ctrl_handler_init(&vdeb->hdl, 2);
++	v4l2_ctrl_new_custom(&vdeb->hdl, &vimc_deb_ctrl_class, NULL);
++	v4l2_ctrl_new_custom(&vdeb->hdl, &vimc_deb_ctrl_mean_win_size, NULL);
++	vdeb->sd.ctrl_handler = &vdeb->hdl;
++	if (vdeb->hdl.error) {
++		ret = vdeb->hdl.error;
++		goto err_free_vdeb;
++	}
++
+ 	/* Initialize ved and sd */
+ 	ret = vimc_ent_sd_register(&vdeb->ved, &vdeb->sd, v4l2_dev,
+ 				   vcfg_name,
+@@ -514,13 +565,12 @@ struct vimc_ent_device *vimc_deb_add(struct vimc_device *vimc,
+ 				   (const unsigned long[2]) {MEDIA_PAD_FL_SINK,
+ 				   MEDIA_PAD_FL_SOURCE},
+ 				   &vimc_deb_int_ops, &vimc_deb_ops);
+-	if (ret) {
+-		kfree(vdeb);
+-		return NULL;
+-	}
++	if (ret)
++		goto err_free_hdl;
+ 
+ 	vdeb->ved.process_frame = vimc_deb_process_frame;
+ 	vdeb->dev = &vimc->pdev.dev;
++	vdeb->mean_win_size = vimc_deb_ctrl_mean_win_size.def;
+ 
+ 	/* Initialize the frame format */
+ 	vdeb->sink_fmt = sink_fmt_default;
+@@ -534,4 +584,11 @@ struct vimc_ent_device *vimc_deb_add(struct vimc_device *vimc,
+ 	vdeb->set_rgb_src = vimc_deb_set_rgb_mbus_fmt_rgb888_1x24;
+ 
+ 	return &vdeb->ved;
++
++err_free_hdl:
++	v4l2_ctrl_handler_free(&vdeb->hdl);
++err_free_vdeb:
++	kfree(vdeb);
++
++	return NULL;
+ }
+-- 
+2.23.0
 
-You shouldn't just blindly comment out some code, as this will very likely 
-break support for all other devices supported by the driver...
-
->  	case SI2158_A20:
->  	case SI2148_A20:
->  		fw_name = SI2158_A20_FIRMWARE;
-> @@ -161,9 +163,9 @@ static int si2157_init(struct dvb_frontend *fe)
->  		goto err;
->  	}
->  
-> -	dev_info(&client->dev, "found a 'Silicon Labs Si21%d-%c%c%c'\n",
-> -			cmd.args[2], cmd.args[1], cmd.args[3], cmd.args[4]);
-> -
-> +//	dev_info(&client->dev, "found a 'Silicon Labs Si21%d-%c%c%c'\n",
-> +//			cmd.args[2], cmd.args[1], cmd.args[3], cmd.args[4]);
-> +//
->  	if (fw_name == NULL)
->  		goto skip_fw_download;
->  
-> @@ -456,6 +458,38 @@ static int si2157_probe(struct i2c_client *client,
->  	memcpy(&fe->ops.tuner_ops, &si2157_ops, sizeof(struct dvb_tuner_ops));
->  	fe->tuner_priv = client;
->  
-> +	/* power up */
-> +	if (dev->chiptype == SI2157_CHIPTYPE_SI2146) {
-> +		memcpy(cmd.args, "\xc0\x05\x01\x00\x00\x0b\x00\x00\x01", 9);
-> +		cmd.wlen = 9;
-> +	} else {
-> +		memcpy(cmd.args,
-> +		"\xc0\x00\x0c\x00\x00\x01\x01\x01\x01\x01\x01\x02\x00\x00\x01",
-> +		15);
-> +		cmd.wlen = 15;
-> +	}
-> +	cmd.rlen = 1;
-> +	ret = si2157_cmd_execute(client, &cmd);
-> +	if (ret)
-> +		goto err;
-> +	/* query chip revision */
-> +	/* hack: do it here because after the si2168 gets 0101, commands will
-> +	 * still be executed here but no result
-> +	 */
-> +	memcpy(cmd.args, "\x02", 1);
-> +	cmd.wlen = 1;
-> +	cmd.rlen = 13;
-> +	ret = si2157_cmd_execute(client, &cmd);
-> +	if (ret)
-> +		goto err_kfree;
-> +	dev->chip_id = cmd.args[1] << 24 |
-> +		cmd.args[2] << 16 |
-> +		cmd.args[3] << 8 |
-> +		cmd.args[4] << 0;
-> +	dev_info(&client->dev, "found a 'Silicon Labs Si21%d-%c%c%c'\n",
-> +		cmd.args[2], cmd.args[1], cmd.args[3], cmd.args[4]);
-> +
-> +
-
-... yet, looking on what you've done, it seems that you're actually
-adding support for a different tuner at the si2157 driver.
-
-If this is the case, this should be on a separate patch, and in a way
-that it will become clear that it won't break support for any existing
-device.
-
-Also, please remove the dead code, instead of commenting it out.
-
->  #ifdef CONFIG_MEDIA_CONTROLLER
->  	if (cfg->mdev) {
->  		dev->mdev = cfg->mdev;
-> diff --git a/drivers/media/tuners/si2157_priv.h b/drivers/media/tuners/si2157_priv.h
-> index 2bda903358da..0f4090e184e9 100644
-> --- a/drivers/media/tuners/si2157_priv.h
-> +++ b/drivers/media/tuners/si2157_priv.h
-> @@ -28,6 +28,7 @@ struct si2157_dev {
->  	u8 chiptype;
->  	u8 if_port;
->  	u32 if_frequency;
-> +	u32 chip_id;
->  	struct delayed_work stat_work;
->  
->  #if defined(CONFIG_MEDIA_CONTROLLER)
-> @@ -43,6 +44,13 @@ struct si2157_dev {
->  #define SI2157_CHIPTYPE_SI2141 2
->  #define SI2157_CHIPTYPE_SI2177 3
->  
-> +#define SI2158_A20 ('A' << 24 | 58 << 16 | '2' << 8 | '0' << 0)
-> +#define SI2148_A20 ('A' << 24 | 48 << 16 | '2' << 8 | '0' << 0)
-> +#define SI2157_A30 ('A' << 24 | 57 << 16 | '3' << 8 | '0' << 0)
-> +#define SI2147_A30 ('A' << 24 | 47 << 16 | '3' << 8 | '0' << 0)
-> +#define SI2146_A10 ('A' << 24 | 46 << 16 | '1' << 8 | '0' << 0)
-> +#define SI2141_A10 ('A' << 24 | 41 << 16 | '1' << 8 | '0' << 0)
-> +
->  /* firmware command struct */
->  #define SI2157_ARGLEN      30
->  struct si2157_cmd {
-> diff --git a/drivers/media/usb/dvb-usb-v2/af9035.c b/drivers/media/usb/dvb-usb-v2/af9035.c
-> index 3afd18733614..5b7a00cdcbd8 100644
-> --- a/drivers/media/usb/dvb-usb-v2/af9035.c
-> +++ b/drivers/media/usb/dvb-usb-v2/af9035.c
-> @@ -1206,7 +1206,50 @@ static int it930x_frontend_attach(struct dvb_usb_adapter *adap)
->  	struct si2168_config si2168_config;
->  	struct i2c_adapter *adapter;
->  
-> -	dev_dbg(&intf->dev, "adap->id=%d\n", adap->id);
-> +	//dev_dbg(&intf->dev, "adap->id=%d\n", adap->id);
-> +	dev_dbg(&intf->dev, "%s  adap->id=%d\n", __func__, adap->id);
-
-Why did you do such change? dev_dbg can already print the function, and
-much more. See:
-
-	https://lwn.net/Articles/434833/
-
-> +
-> +	/* I2C master bus 2 clock speed 300k */
-> +	ret = af9035_wr_reg(d, 0x00f6a7, 0x07);
-> +	if (ret < 0)
-> +		goto err;
-> +
-> +	/* I2C master bus 1,3 clock speed 300k */
-> +	ret = af9035_wr_reg(d, 0x00f103, 0x07);
-> +	if (ret < 0)
-> +		goto err;
-> +
-> +	/* set gpio11 low */
-> +	ret = af9035_wr_reg_mask(d, 0xd8d4, 0x01, 0x01);
-> +	if (ret < 0)
-> +		goto err;
-> +
-> +	ret = af9035_wr_reg_mask(d, 0xd8d5, 0x01, 0x01);
-> +	if (ret < 0)
-> +		goto err;
-> +
-> +	ret = af9035_wr_reg_mask(d, 0xd8d3, 0x01, 0x01);
-> +	if (ret < 0)
-> +		goto err;
-> +
-> +	/* Tuner enable using gpiot2_en, gpiot2_on and gpiot2_o (reset) */
-> +	ret = af9035_wr_reg_mask(d, 0xd8b8, 0x01, 0x01);
-> +	if (ret < 0)
-> +		goto err;
-> +
-> +	ret = af9035_wr_reg_mask(d, 0xd8b9, 0x01, 0x01);
-> +	if (ret < 0)
-> +		goto err;
-> +
-> +	ret = af9035_wr_reg_mask(d, 0xd8b7, 0x00, 0x01);
-> +	if (ret < 0)
-> +		goto err;
-> +
-> +	msleep(200);
-> +
-> +	ret = af9035_wr_reg_mask(d, 0xd8b7, 0x01, 0x01);
-> +	if (ret < 0)
-> +		goto err;
-
-The above seems specific for your device. You need to check if the device
-is USB_VID_DEXATEK, running the code only on such case.
-
->  
->  	/* I2C master bus 2 clock speed 300k */
->  	ret = af9035_wr_reg(d, 0x00f6a7, 0x07);
-> @@ -2118,6 +2161,8 @@ static const struct usb_device_id af9035_id_table[] = {
->  
->  	/* IT930x devices */
->  	{ DVB_USB_DEVICE(USB_VID_ITETECH, USB_PID_ITETECH_IT9303,
-> +	{ DVB_USB_DEVICE(USB_VID_DEXATEK, 0x0100,
-> +		&it930x_props, "Logilink VG0022A", NULL) },
->  		&it930x_props, "ITE 9303 Generic", NULL) },
->  	{ DVB_USB_DEVICE(USB_VID_AVERMEDIA, USB_PID_AVERMEDIA_TD310,
->  		&it930x_props, "AVerMedia TD310 DVB-T2", NULL) },
-
-
-Thanks,
-Mauro
