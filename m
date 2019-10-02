@@ -2,243 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EC99C8B2E
-	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 16:27:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 04123C8B48
+	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 16:30:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727185AbfJBO1r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Oct 2019 10:27:47 -0400
-Received: from gofer.mess.org ([88.97.38.141]:53001 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725747AbfJBO1r (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 2 Oct 2019 10:27:47 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id C8415C63B4; Wed,  2 Oct 2019 15:27:44 +0100 (BST)
-Date:   Wed, 2 Oct 2019 15:27:44 +0100
-From:   Sean Young <sean@mess.org>
-To:     Gon Solo <gonsolo@gmail.com>
-Cc:     mchehab+samsung@kernel.org, crope@iki.fi,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] si2157: Add support for Logilink VG0022A.
-Message-ID: <20191002142744.GA3475@gofer.mess.org>
-References: <20191001205203.4b1a5fb6@coco.lan>
- <20191002141359.30166-1-gonsolo@gmail.com>
- <20191002141359.30166-2-gonsolo@gmail.com>
+        id S1726374AbfJBOas (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Oct 2019 10:30:48 -0400
+Received: from relay6-d.mail.gandi.net ([217.70.183.198]:39081 "EHLO
+        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726019AbfJBOar (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Oct 2019 10:30:47 -0400
+X-Originating-IP: 2.224.242.101
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 91CCBC0002;
+        Wed,  2 Oct 2019 14:30:43 +0000 (UTC)
+Date:   Wed, 2 Oct 2019 16:32:26 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Benoit Parrot <bparrot@ti.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        hugues.fruchet@st.com
+Subject: Re: [Patch 1/3] media: ov5640: add PIXEL_RATE control
+Message-ID: <20191002143226.psrcocsjs2wtiydd@uno.localdomain>
+References: <20190925152301.21645-1-bparrot@ti.com>
+ <20190925152301.21645-2-bparrot@ti.com>
+ <20191001075704.GA5449@paasikivi.fi.intel.com>
+ <20191001162341.f2o7ruar2nifl5ws@ti.com>
+ <20191002075951.afp2xligspqat4ew@uno.localdomain>
+ <20191002121438.g3re6v54q4hit2wv@ti.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="kof3u5wcyurirvhq"
 Content-Disposition: inline
-In-Reply-To: <20191002141359.30166-2-gonsolo@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191002121438.g3re6v54q4hit2wv@ti.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Oct 02, 2019 at 04:13:59PM +0200, Gon Solo wrote:
 
-You need a message and a Signed-off-by: here.
+--kof3u5wcyurirvhq
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-> ---
->  drivers/media/tuners/si2157.c         | 68 +++++++++++++++++----------
->  drivers/media/tuners/si2157_priv.h    |  1 +
->  drivers/media/usb/dvb-usb-v2/af9035.c | 47 ++++++++++++++++++
->  3 files changed, 90 insertions(+), 26 deletions(-)
-> 
-> diff --git a/drivers/media/tuners/si2157.c b/drivers/media/tuners/si2157.c
-> index e87040d6eca7..8f9df2485d51 100644
-> --- a/drivers/media/tuners/si2157.c
-> +++ b/drivers/media/tuners/si2157.c
-> @@ -66,6 +66,24 @@ static int si2157_cmd_execute(struct i2c_client *client, struct si2157_cmd *cmd)
->  	return ret;
->  }
->  
-> +static int si2157_power_up(struct si2157_dev *dev, struct i2c_client *client)
-> +{
-> +	struct si2157_cmd cmd;
-> +
-> +	if (dev->chiptype == SI2157_CHIPTYPE_SI2146) {
-> +		memcpy(cmd.args, "\xc0\x05\x01\x00\x00\x0b\x00\x00\x01", 9);
-> +		cmd.wlen = 9;
-> +	} else if (dev->chiptype == SI2157_CHIPTYPE_SI2141) {
-> +		memcpy(cmd.args, "\xc0\x00\x0d\x0e\x00\x01\x01\x01\x01\x03", 10);
-> +		cmd.wlen = 10;
-> +	} else {
-> +		memcpy(cmd.args, "\xc0\x00\x0c\x00\x00\x01\x01\x01\x01\x01\x01\x02\x00\x00\x01", 15);
-> +		cmd.wlen = 15;
-> +	}
-> +	cmd.rlen = 1;
-> +	return si2157_cmd_execute(client, &cmd);
-> +}
-> +
->  static int si2157_init(struct dvb_frontend *fe)
->  {
->  	struct i2c_client *client = fe->tuner_priv;
-> @@ -75,7 +93,7 @@ static int si2157_init(struct dvb_frontend *fe)
->  	struct si2157_cmd cmd;
->  	const struct firmware *fw;
->  	const char *fw_name;
-> -	unsigned int uitmp, chip_id;
-> +	unsigned int uitmp;
->  
->  	dev_dbg(&client->dev, "\n");
->  
-> @@ -93,19 +111,7 @@ static int si2157_init(struct dvb_frontend *fe)
->  	if (uitmp == dev->if_frequency / 1000)
->  		goto warm;
->  
-> -	/* power up */
-> -	if (dev->chiptype == SI2157_CHIPTYPE_SI2146) {
-> -		memcpy(cmd.args, "\xc0\x05\x01\x00\x00\x0b\x00\x00\x01", 9);
-> -		cmd.wlen = 9;
-> -	} else if (dev->chiptype == SI2157_CHIPTYPE_SI2141) {
-> -		memcpy(cmd.args, "\xc0\x00\x0d\x0e\x00\x01\x01\x01\x01\x03", 10);
-> -		cmd.wlen = 10;
-> -	} else {
-> -		memcpy(cmd.args, "\xc0\x00\x0c\x00\x00\x01\x01\x01\x01\x01\x01\x02\x00\x00\x01", 15);
-> -		cmd.wlen = 15;
-> -	}
-> -	cmd.rlen = 1;
-> -	ret = si2157_cmd_execute(client, &cmd);
-> +	ret = si2157_power_up(dev, client);
->  	if (ret)
->  		goto err;
->  
-> @@ -118,17 +124,6 @@ static int si2157_init(struct dvb_frontend *fe)
->  			goto err;
->  	}
->  
-> -	/* query chip revision */
-> -	memcpy(cmd.args, "\x02", 1);
-> -	cmd.wlen = 1;
-> -	cmd.rlen = 13;
-> -	ret = si2157_cmd_execute(client, &cmd);
-> -	if (ret)
-> -		goto err;
-> -
-> -	chip_id = cmd.args[1] << 24 | cmd.args[2] << 16 | cmd.args[3] << 8 |
-> -			cmd.args[4] << 0;
-> -
->  	#define SI2177_A30 ('A' << 24 | 77 << 16 | '3' << 8 | '0' << 0)
->  	#define SI2158_A20 ('A' << 24 | 58 << 16 | '2' << 8 | '0' << 0)
->  	#define SI2148_A20 ('A' << 24 | 48 << 16 | '2' << 8 | '0' << 0)
-> @@ -137,7 +132,7 @@ static int si2157_init(struct dvb_frontend *fe)
->  	#define SI2146_A10 ('A' << 24 | 46 << 16 | '1' << 8 | '0' << 0)
->  	#define SI2141_A10 ('A' << 24 | 41 << 16 | '1' << 8 | '0' << 0)
->  
-> -	switch (chip_id) {
-> +	switch (dev->chip_id) {
->  	case SI2158_A20:
->  	case SI2148_A20:
->  		fw_name = SI2158_A20_FIRMWARE;
-> @@ -456,6 +451,27 @@ static int si2157_probe(struct i2c_client *client,
->  	memcpy(&fe->ops.tuner_ops, &si2157_ops, sizeof(struct dvb_tuner_ops));
->  	fe->tuner_priv = client;
->  
-> +	ret = si2157_power_up(dev, client);
-> +	if (ret)
-> +		goto err;
-> +	/* query chip revision */
-> +	/* hack: do it here because after the si2168 gets 0101, commands will
-> +	 * still be executed here but no result
+Hi Benoit,
 
-I don't understand. What problem are you seeing here? Why can't you do a
-query chip revision first?
+On Wed, Oct 02, 2019 at 07:14:38AM -0500, Benoit Parrot wrote:
+> Hi Jacopo,
+>
+> Maybe, I miss spoke when I mentioned a helper I did not intent a framework
+> level generic function. Just a function to help in this case :)
 
-This needs resolving of course.
+Yes indeed, the discussion thread I linked here was mostly interesting
+because Hugues tried to do the same for LINK_FREQ iirc, and there
+where some usefult pointers.
 
-> +	 */
-> +	memcpy(cmd.args, "\x02", 1);
-> +	cmd.wlen = 1;
-> +	cmd.rlen = 13;
-> +	ret = si2157_cmd_execute(client, &cmd);
-> +	if (ret)
-> +		goto err_kfree;
-> +	dev->chip_id = cmd.args[1] << 24 |
-> +		cmd.args[2] << 16 |
-> +		cmd.args[3] << 8 |
-> +		cmd.args[4] << 0;
-> +	dev_info(&client->dev, "found a 'Silicon Labs Si21%d-%c%c%c'\n",
-> +		cmd.args[2], cmd.args[1], cmd.args[3], cmd.args[4]);
-> +
-> +
->  #ifdef CONFIG_MEDIA_CONTROLLER
->  	if (cfg->mdev) {
->  		dev->mdev = cfg->mdev;
-> diff --git a/drivers/media/tuners/si2157_priv.h b/drivers/media/tuners/si2157_priv.h
-> index 2bda903358da..9ab7c88b01b4 100644
-> --- a/drivers/media/tuners/si2157_priv.h
-> +++ b/drivers/media/tuners/si2157_priv.h
-> @@ -28,6 +28,7 @@ struct si2157_dev {
->  	u8 chiptype;
->  	u8 if_port;
->  	u32 if_frequency;
-> +	u32 chip_id;
->  	struct delayed_work stat_work;
->  
->  #if defined(CONFIG_MEDIA_CONTROLLER)
-> diff --git a/drivers/media/usb/dvb-usb-v2/af9035.c b/drivers/media/usb/dvb-usb-v2/af9035.c
-> index 3afd18733614..83e243df59b9 100644
-> --- a/drivers/media/usb/dvb-usb-v2/af9035.c
-> +++ b/drivers/media/usb/dvb-usb-v2/af9035.c
-> @@ -1246,6 +1246,51 @@ static int it930x_frontend_attach(struct dvb_usb_adapter *adap)
->  
->  	msleep(200);
->  
-> +	if (le16_to_cpu(d->udev->descriptor.idVendor) == USB_VID_DEXATEK) {
-> +
-> +		ret = af9035_wr_reg_mask(d, 0xd8b7, 0x01, 0x01);
-> +		if (ret < 0)
-> +			goto err;
-> +
-> +		/* I2C master bus 2 clock speed 300k */
-> +		ret = af9035_wr_reg(d, 0x00f6a7, 0x07);
-> +		if (ret < 0)
-> +			goto err;
-> +
-> +		/* I2C master bus 1,3 clock speed 300k */
-> +		ret = af9035_wr_reg(d, 0x00f103, 0x07);
-> +		if (ret < 0)
-> +			goto err;
-> +
-> +		/* set gpio11 low */
-> +		ret = af9035_wr_reg_mask(d, 0xd8d4, 0x01, 0x01);
-> +		if (ret < 0)
-> +			goto err;
-> +
-> +		ret = af9035_wr_reg_mask(d, 0xd8d5, 0x01, 0x01);
-> +		if (ret < 0)
-> +			goto err;
-> +
-> +		ret = af9035_wr_reg_mask(d, 0xd8d3, 0x01, 0x01);
-> +		if (ret < 0)
-> +			goto err;
-> +
-> +		/* Tuner enable using gpiot2_en, gpiot2_on and gpiot2_o (reset) */
-> +		ret = af9035_wr_reg_mask(d, 0xd8b8, 0x01, 0x01);
-> +		if (ret < 0)
-> +			goto err;
-> +
-> +		ret = af9035_wr_reg_mask(d, 0xd8b9, 0x01, 0x01);
-> +		if (ret < 0)
-> +			goto err;
-> +
-> +		ret = af9035_wr_reg_mask(d, 0xd8b7, 0x00, 0x01);
-> +		if (ret < 0)
-> +			goto err;
-> +
-> +		msleep(200);
-> +	}
-> +
->  	ret = af9035_wr_reg_mask(d, 0xd8b7, 0x01, 0x01);
->  	if (ret < 0)
->  		goto err;
-> @@ -2119,6 +2164,8 @@ static const struct usb_device_id af9035_id_table[] = {
->  	/* IT930x devices */
->  	{ DVB_USB_DEVICE(USB_VID_ITETECH, USB_PID_ITETECH_IT9303,
->  		&it930x_props, "ITE 9303 Generic", NULL) },
-> +	{ DVB_USB_DEVICE(USB_VID_DEXATEK, 0x0100,
-> +		&it930x_props, "Logilink VG0022A", NULL) },
->  	{ DVB_USB_DEVICE(USB_VID_AVERMEDIA, USB_PID_AVERMEDIA_TD310,
->  		&it930x_props, "AVerMedia TD310 DVB-T2", NULL) },
->  	{ }
-> -- 
-> 2.20.1
+>
+> That being said, I re-read the thread you mentioned. And as Hughes pointed
+> out dynamically generating a "working" link frequency value which can be
+> used by a CSI2 receiver to properly configure its PHY is not trivial.
+>
+> When I created this patch, I also had another to add V4L2_CID_LINK_FREQ
+> support. I am testing this against the TI CAL CSI2 receiver, which already
+> uses the V4L2_CID_PIXEL_RATE value for that purpose, so I also had a patch
+> to add support for V4L2_CID_LINK_FREQ to that driver as well.
+>
+> Unfortunately, similar to Hughes' findings I was not able to make it "work"
+> with all supported resolution/framerate.
+
+As reported by Hugues findings, the PLL calculation procedure might be
+faulty, and the actuall frequencies on the bus are different from the
+calculated ones.
+
+I wish I had more time to re-look at that, as they worked for my and
+Sam's use case, but deserve some rework.
+
+>
+> Unlike my V4L2_CID_PIXEL_RATE solution which now works in all mode with the
+> same receiver.
+>
+
+It seems to me you're reporting a fixed rate. It might make your
+receiver happy, but does not report what is acutally put on the bus.
+Am I missing something ?
+
+> So long story short I dropped the V4L2_CID_LINK_FREQ patch and focused on
+> V4L2_CID_PIXEL_RATE instead.
+>
+
+As Sakari pointed out, going from one to the other is trivial and
+could be done on top.
+
+Thanks
+   j
+
+> Regard,
+> Benoit
+>
+> Jacopo Mondi <jacopo@jmondi.org> wrote on Wed [2019-Oct-02 09:59:51 +0200]:
+> > Hi Benoit,
+> >   +Hugues
+> >
+> > If you're considering an helper, this thread might be useful to you:
+> > https://patchwork.kernel.org/patch/11019673/
+> >
+> > Thanks
+> >    j
+> >
+>
+>
+
+--kof3u5wcyurirvhq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl2UtPoACgkQcjQGjxah
+VjzuFhAAsWYgqaIr7PXgThGYiKp6BKXEWAlDPNxdgqz/qJIA3Lu/Vh94Q3RPmk91
+DaXn712XpeCv/lM4Z658bKPedhwKpze0kcoYK1E9/51Yde/5IEjf/WUSEJVvvpPY
+wdWqdAkwbeStd4uLDAHmy63ZOFqPWrA3gvYJbiZoBjDMz+lbfkxadC5vHKLMAZ9E
+ZBB2WjJsGpggxIqtyhH2qdI9akIqqfe17d1JfU1dacnAEM3PJ8TGcCky10Jg0xQr
+Ced86LUDDO1WI3ORKmzshEBXLFUW5t0hT5FnuloJClHAiTcZ4TbBo8HUYgTb81yq
+RqiurkEUaycHrgNriQ8KjblwNT0VLpL42+nbDYvjUH2qAC1pLQGsdRgKsTkCXgj2
+k3lSU4nUd/rXg5o9f2l3F6T5Yubl88l1qeYOtosmpsiIoJLCyQySDEvZvNQ+O093
+QV8k3tuy26nwzLpGN9lZO3skYwm6KKuEbyEZUKVDu2RUI5rX097Ea0Gl31/41/jO
+8TCPVuX2diAmO3ZbLMafUmlO7YJsXMx41cOCP4BeUsEPfXcjnObr/TkH3XtMrD0m
+BFUJZTKqBjYR/8x4T+1vH4Lfswi/Pj+uypI9FVamy5wN4LwRoQVbYUJI1zKsmcDc
+JIC0GIQRyX/h7Ice0YCFP361mHbz0ZQ9avvcAS7MlRhcVDofRMM=
+=medk
+-----END PGP SIGNATURE-----
+
+--kof3u5wcyurirvhq--
