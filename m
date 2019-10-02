@@ -2,187 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 684FFC86C0
-	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 12:56:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 160C9C86C9
+	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 12:56:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726921AbfJBK4H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Oct 2019 06:56:07 -0400
-Received: from mga12.intel.com ([192.55.52.136]:2158 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726694AbfJBK4H (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 2 Oct 2019 06:56:07 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 02 Oct 2019 03:56:07 -0700
-X-IronPort-AV: E=Sophos;i="5.64,574,1559545200"; 
-   d="scan'208";a="216414918"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 02 Oct 2019 03:56:02 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id E87CC20976; Wed,  2 Oct 2019 13:55:59 +0300 (EEST)
-Date:   Wed, 2 Oct 2019 13:55:59 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Jungo Lin <jungo.lin@mediatek.com>, tfiga@chromium.org,
-        laurent.pinchart+renesas@ideasonboard.com, matthias.bgg@gmail.com,
-        mchehab@kernel.org, linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, srv_heupstream@mediatek.com,
-        Sean.Cheng@mediatek.com, sj.huang@mediatek.com,
-        christie.yu@mediatek.com, frederic.chen@mediatek.com,
-        Jerry-ch.Chen@mediatek.com, frankie.chiu@mediatek.com,
-        seraph.huang@mediatek.com, ryan.yu@mediatek.com,
-        Rynn.Wu@mediatek.com, yuzhao@chromium.org, zwisler@chromium.org,
-        shik@chromium.org, suleiman@chromium.org
-Subject: Re: [RFC,V2,07/11] media: platform: Add Mediatek ISP P1 private
- control
-Message-ID: <20191002105559.GC972@paasikivi.fi.intel.com>
-References: <jungo.lin@mediatek.com>
- <20190510015755.51495-8-jungo.lin@mediatek.com>
- <49a8ba54-aba4-1915-6732-987a58e8bd3c@xs4all.nl>
+        id S1728057AbfJBK46 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Oct 2019 06:56:58 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:48681 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726157AbfJBK46 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 2 Oct 2019 06:56:58 -0400
+Received: from [IPv6:2001:420:44c1:2577:9d1d:ff1f:dc58:e8af] ([IPv6:2001:420:44c1:2577:9d1d:ff1f:dc58:e8af])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id FcJQid4aAjZ8vFcJTihZAL; Wed, 02 Oct 2019 12:56:55 +0200
+Subject: Re: Build failed in Jenkins: v4l-utils #43
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+References: <1586568084.1.1570004204603.JavaMail.jenkins@builder.linuxtv.org>
+ <6a1df171-bd07-5eef-1917-4171fb3bc359@xs4all.nl>
+ <20191002063658.3771c1fa@coco.lan>
+ <90907ad0-6fe3-5293-aeeb-44ecdfb840da@xs4all.nl>
+ <20191002074106.6fc8c73a@coco.lan>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <65018c99-7fff-b3ff-dabf-77d73a2daba5@xs4all.nl>
+Date:   Wed, 2 Oct 2019 12:56:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <49a8ba54-aba4-1915-6732-987a58e8bd3c@xs4all.nl>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191002074106.6fc8c73a@coco.lan>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfGEfy9V43NKw97HUCIctSi6OVVxLYXVacL/CokGgDsdzwD04YafRe3ndpNx+j3iJ2Mk7vspolJhe3PjMAGvtpChGvmRmkslN/pThoG29IGqY8vXgGAdQ
+ mE+ZWTdtoGa/ktikKBYc2K2q6IqxLxrTfVNZTctkLNrPBQmU+JSF6NVKU3/Ik/th1tWiIndrfkt1EnRkN/BzNYRuCd97ah4OI2OvDDKxXWtEWREFxpFBA/qd
+ 7Zj+rmy2VVrB4GupU5t2sj0AW8z9E4n22qklPZZgYPtRFFjy4Oy8L8sc3ePsbSeu3KCUzAmNMk0ULCRoKExjWQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jungo, Hans,
+On 10/2/19 12:41 PM, Mauro Carvalho Chehab wrote:
+> Em Wed, 2 Oct 2019 11:49:20 +0200
+> Hans Verkuil <hverkuil@xs4all.nl> escreveu:
+> 
+>> On 10/2/19 11:36 AM, Mauro Carvalho Chehab wrote:
+>>> Em Wed, 2 Oct 2019 10:25:02 +0200
+>>> Hans Verkuil <hverkuil@xs4all.nl> escreveu:
+>>>   
+>>>> Hi Mauro,
+>>>>
+>>>> On 10/2/19 10:16 AM, Jenkins Builder Robot wrote:  
+>>>>> See <https://builder.linuxtv.org/job/v4l-utils/43/display/redirect?page=changes>
+>>>>>
+>>>>> Changes:
+>>>>>
+>>>>> [hverkuil-cisco] keytable: add new generated keymaps
+>>>>>
+>>>>> [hverkuil-cisco] msg2ctl.pl: add newline after log_msg
+>>>>>
+>>>>> [hverkuil-cisco] cec-follower: drop the hardcoded UI commands list
+>>>>>
+>>>>> [hverkuil-cisco] cec-ctl/cec-log: use new CEC_OP_UI_CMD defines    
+>>>>
+>>>> You need to remove utils/cec-follower/cec-log.h.
+>>>>
+>>>> This file was generated but the generated file is now called cec-log-gen.h.
+>>>> A new cec-log.h was also added to utils/common as a companion to cec-log.cpp.
+>>>>
+>>>> Unfortunately, the old cec-log.h clashes with the new cec-log.h. And since
+>>>> the old cec-log.h was generated and so is not part of the git repo it is
+>>>> not removed as part of a 'git pull'.
+>>>>
+>>>> Anyway, just remove utils/cec-follower/cec-log.h and it compiles again.  
+>>>
+>>> I manually removed the file at the builder and at the slave machines and
+>>> asked for a new build. The build now succeeded.
+>>>
+>>> That's said, we should really avoid disruptive changes like that, fixing
+>>> the building system for it to do the right thing, as users of the v4l-utils 
+>>> will also face the same issue if they update their git trees.
+>>>
+>>> At any time, a clean git update with something similar to:
+>>>
+>>> 	git remote update
+>>> 	git fetch origin
+>>> 	git reset --hard origin/master
+>>> 	./bootstrap.sh
+>>> 	./configure
+>>> 	make
+>>>
+>>> should work.
+>>>
+>>> Regards,
+>>> Mauro
+>>>   
+>>
+>> Yes, I discovered it too late. That said, I'm not sure what to do about
+>> it since the old generated file is not under the control of git.
+>>
+>> A 'make distclean' before the 'git fetch' would remove it, but after the
+>> update it is just an orphaned file.
+>>
+>> I've actually added a 'make distclean' in my daily build scripts.
+> 
+> That's a very bad idea. The builds should check and pinpoint to
+> regressions at the building system too.
+> 
+> If I understand the problem, you're saying that now cec-log.h depends on
+> the generated cec-log-gen.h, right?
+> 
+> If so, this could be easily fixable by adding an explicit dependency
+> rule to the Makefile.am, like:
+> 
+> 	cec-log.h: cec-log-gen.h
 
-On Mon, May 13, 2019 at 10:46:46AM +0200, Hans Verkuil wrote:
-> On 5/10/19 3:58 AM, Jungo Lin wrote:
-...
-> > +struct v4l2_ctrl_config mtk_cam_controls[] = {
-> > +	{
-> > +	.ops = &mtk_cam_dev_ctrl_ops,
-> > +	.id = V4L2_CID_PRIVATE_GET_BIN_INFO,
-> 
-> Don't use "PRIVATE" in the name. I'd replace that with MTK to indicate
-> that this is mediatek-specific. Same for the next control below.
-> 
-> > +	.name = "MTK CAM GET BIN INFO",
-> > +	.type = V4L2_CTRL_TYPE_INTEGER,
-> > +	.min = (IMG_MIN_WIDTH << 16) | IMG_MIN_HEIGHT,
-> > +	.max = (IMG_MAX_WIDTH << 16) | IMG_MAX_HEIGHT,
-> > +	.step = 1,
-> > +	.def = (IMG_MAX_WIDTH << 16) | IMG_MAX_HEIGHT,
-> > +	.flags = V4L2_CTRL_FLAG_READ_ONLY | V4L2_CTRL_FLAG_VOLATILE,
-> 
-> Don't mix width and height. I recommend splitting this into two controls.
-> 
-> Sakari might have an opinion on this as well.
-> 
-> > +	},
-> > +	{
-> > +	.ops = &mtk_cam_dev_ctrl_ops,
-> > +	.id = V4L2_CID_PRIVATE_RAW_PATH,
-> > +	.name = "MTK CAM RAW PATH",
-> > +	.type = V4L2_CTRL_TYPE_BOOLEAN,
-> > +	.min = 0,
-> > +	.max = 1,
-> > +	.step = 1,
-> > +	.def = 1,
-> > +	},
-> 
-> RAW_PATH is a very vague name. If it is 0, then it is pure raw, and if it
-> is 1, then it is 'processing raw'? If so, call it "Processing Raw".
+No, cec-log.h has nothing to do with cec-log-gen.h.
 
-Jungo: what's the purpose of 
+utils/cec-follower/cec-log.h was a generated file, and badly named.
 
-> 
-> Although you have to describe in the header or here what that means.
-> 
-> Private controls should be well documented.
-> 
-> > +};
-> > +
-> > +int mtk_cam_ctrl_init(struct mtk_cam_dev *cam_dev,
-> > +		      struct v4l2_ctrl_handler *hdl)
-> > +{
-> > +	unsigned int i;
-> > +
-> > +	/* Initialized HW controls, allow V4L2_CID_MTK_CAM_MAX ctrls */
-> > +	v4l2_ctrl_handler_init(hdl, V4L2_CID_MTK_CAM_MAX);
-> > +	if (hdl->error) {
-> > +		v4l2_ctrl_handler_free(hdl);
-> > +		return hdl->error;
-> > +	}
-> > +
-> > +	for (i = 0; i < ARRAY_SIZE(mtk_cam_controls); i++)
-> > +		v4l2_ctrl_new_custom(hdl, &mtk_cam_controls[i], cam_dev);
-> > +
-> > +	dev_dbg(&cam_dev->pdev->dev, "%s done", __func__);
-> > +	return 0;
-> > +}
-> > diff --git a/drivers/media/platform/mtk-isp/isp_50/cam/mtk_cam-ctrl.h b/drivers/media/platform/mtk-isp/isp_50/cam/mtk_cam-ctrl.h
-> > new file mode 100644
-> > index 000000000000..74a6538c81ac
-> > --- /dev/null
-> > +++ b/drivers/media/platform/mtk-isp/isp_50/cam/mtk_cam-ctrl.h
-> > @@ -0,0 +1,32 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +/*
-> > + * Copyright (c) 2018 MediaTek Inc.
-> > + * Author: Ryan Yu <ryan.yu@mediatek.com>
-> > + *
-> > + * This program is free software; you can redistribute it and/or modify
-> > + * it under the terms of the GNU General Public License version 2 as
-> > + * published by the Free Software Foundation.
-> > + *
-> > + * This program is distributed in the hope that it will be useful,
-> > + * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> > + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-> > + * GNU General Public License for more details.
-> > + */
-> > +
-> > +#ifndef __MTK_CAM_CTRL_H__
-> > +#define __MTK_CAM_CTRL_H__
-> > +
-> > +#include <media/v4l2-ctrls.h>
-> > +
-> > +#define V4L2_CID_MTK_CAM_PRIVATE_CAM  V4L2_CID_USER_MTK_CAM_BASE
-> > +#define V4L2_CID_PRIVATE_GET_BIN_INFO \
-> > +	(V4L2_CID_MTK_CAM_PRIVATE_CAM + 1)
-> > +#define V4L2_CID_PRIVATE_RAW_PATH \
-> > +	(V4L2_CID_MTK_CAM_PRIVATE_CAM + 2)
-> 
-> These last two defines can be on a single line.
-> 
-> They need to be documented in the header.
-> 
-> > +
-> > +#define V4L2_CID_MTK_CAM_MAX	16
-> > +
-> > +int mtk_cam_ctrl_init(struct mtk_cam_dev *cam_dev,
-> > +		      struct v4l2_ctrl_handler *hdl);
-> > +
-> > +#endif /* __MTK_CAM_CTRL_H__ */
-> > diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> > index 06479f2fb3ae..cbe8f5f7782b 100644
-> > --- a/include/uapi/linux/v4l2-controls.h
-> > +++ b/include/uapi/linux/v4l2-controls.h
-> > @@ -192,6 +192,10 @@ enum v4l2_colorfx {
-> >   * We reserve 16 controls for this driver. */
-> >  #define V4L2_CID_USER_IMX_BASE			(V4L2_CID_USER_BASE + 0x10b0)
-> >  
-> > +/* The base for the mediatek ISP Pass 1 driver controls */
-> > +/* We reserve 16 controls for this driver. */
-> > +#define V4L2_CID_USER_MTK_CAM_BASE		(V4L2_CID_USER_BASE + 0x10c0)
-> > +
-> >  /* MPEG-class control IDs */
-> >  /* The MPEG controls are applicable to all codec controls
-> >   * and the 'MPEG' part of the define is historical */
-> > 
-> 
-> Regards,
-> 
-> 	Hans
+So this was renamed to cec-log-gen.h.
 
--- 
-Sakari Ailus
-sakari.ailus@linux.intel.com
+In addition, a new header utils/common/cec-log.h was added containing
+prototypes for utils/common/cec-log.cpp.
+
+So after a git pull you end up with two cec-log.h headers:
+
+utils/common/cec-log.h and the orphaned utils/cec-follower/cec-log.h.
+
+Unfortunately, the orphaned cec-log.h is included instead of the one
+in utils/common.
+
+I'm looking at reorganizing the way this works so perhaps this issue
+will go away soon.
+
+Regards,
+
+	Hans
