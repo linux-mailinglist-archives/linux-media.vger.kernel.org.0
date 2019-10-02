@@ -2,296 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 64834C4B97
-	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 12:37:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B3DEDC4BEA
+	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 12:41:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727993AbfJBKhr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Oct 2019 06:37:47 -0400
-Received: from retiisi.org.uk ([95.216.213.190]:59752 "EHLO
-        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726330AbfJBKhr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 2 Oct 2019 06:37:47 -0400
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 42D02634C89;
-        Wed,  2 Oct 2019 13:37:17 +0300 (EEST)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1iFc0R-0002AN-Nb; Wed, 02 Oct 2019 13:37:15 +0300
-Date:   Wed, 2 Oct 2019 13:37:15 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc:     mchehab@kernel.org, robh+dt@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        c.barrett@framos.com, a.brela@framos.com
-Subject: Re: [PATCH v3 2/3] media: i2c: Add IMX290 CMOS image sensor driver
-Message-ID: <20191002103715.GR896@valkosipuli.retiisi.org.uk>
-References: <20190830091943.22646-1-manivannan.sadhasivam@linaro.org>
- <20190830091943.22646-3-manivannan.sadhasivam@linaro.org>
- <20190923092209.GL5525@valkosipuli.retiisi.org.uk>
- <20191001184200.GA7739@Mani-XPS-13-9360>
+        id S1726184AbfJBKlK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Oct 2019 06:41:10 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:59122 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725851AbfJBKlK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Oct 2019 06:41:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=K8NTwmVbZXIDEenHzpqtkedFBqezWRvxmlBHp3Hj0pQ=; b=Y+XRyf9G0kMhMTCYVRpLHtfdY
+        +05aw70lKOz9fCWQiz+k7aXWHWP/xQzMhixJE/nVQkUYGCyEzMrToDAGtQZwuTjzFaHXVy0mXEjf0
+        QrYPF/4ERMlaxT66Snhq0O+S/Bb3C6Y22QaYLSATMsurRfO7RsBXCO47zZS+OzdDN4FzAQdhPG5U5
+        d7r7jZCEJi7p66EcCjdq46TiOlF52phDZDzxGFAGlSyuJKBW0jAitTvuJUfXUqtOxRooEBB1dnL7R
+        qMFhnfacDNMgf7xR/etJzroL/oK5DDo4vPj4tHTH4dao+thCEolsQN4uBWCXsPaf+eVEMFNbcfF5t
+        /fvq4b2Bw==;
+Received: from 177.157.127.95.dynamic.adsl.gvt.net.br ([177.157.127.95] helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
+        id 1iFc4D-0005CV-WE; Wed, 02 Oct 2019 10:41:10 +0000
+Date:   Wed, 2 Oct 2019 07:41:06 -0300
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: Build failed in Jenkins: v4l-utils #43
+Message-ID: <20191002074106.6fc8c73a@coco.lan>
+In-Reply-To: <90907ad0-6fe3-5293-aeeb-44ecdfb840da@xs4all.nl>
+References: <1586568084.1.1570004204603.JavaMail.jenkins@builder.linuxtv.org>
+        <6a1df171-bd07-5eef-1917-4171fb3bc359@xs4all.nl>
+        <20191002063658.3771c1fa@coco.lan>
+        <90907ad0-6fe3-5293-aeeb-44ecdfb840da@xs4all.nl>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191001184200.GA7739@Mani-XPS-13-9360>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Manivannan,
+Em Wed, 2 Oct 2019 11:49:20 +0200
+Hans Verkuil <hverkuil@xs4all.nl> escreveu:
 
-On Wed, Oct 02, 2019 at 12:12:00AM +0530, Manivannan Sadhasivam wrote:
-> Hi Sakari,
+> On 10/2/19 11:36 AM, Mauro Carvalho Chehab wrote:
+> > Em Wed, 2 Oct 2019 10:25:02 +0200
+> > Hans Verkuil <hverkuil@xs4all.nl> escreveu:
+> >   
+> >> Hi Mauro,
+> >>
+> >> On 10/2/19 10:16 AM, Jenkins Builder Robot wrote:  
+> >>> See <https://builder.linuxtv.org/job/v4l-utils/43/display/redirect?page=changes>
+> >>>
+> >>> Changes:
+> >>>
+> >>> [hverkuil-cisco] keytable: add new generated keymaps
+> >>>
+> >>> [hverkuil-cisco] msg2ctl.pl: add newline after log_msg
+> >>>
+> >>> [hverkuil-cisco] cec-follower: drop the hardcoded UI commands list
+> >>>
+> >>> [hverkuil-cisco] cec-ctl/cec-log: use new CEC_OP_UI_CMD defines    
+> >>
+> >> You need to remove utils/cec-follower/cec-log.h.
+> >>
+> >> This file was generated but the generated file is now called cec-log-gen.h.
+> >> A new cec-log.h was also added to utils/common as a companion to cec-log.cpp.
+> >>
+> >> Unfortunately, the old cec-log.h clashes with the new cec-log.h. And since
+> >> the old cec-log.h was generated and so is not part of the git repo it is
+> >> not removed as part of a 'git pull'.
+> >>
+> >> Anyway, just remove utils/cec-follower/cec-log.h and it compiles again.  
+> > 
+> > I manually removed the file at the builder and at the slave machines and
+> > asked for a new build. The build now succeeded.
+> > 
+> > That's said, we should really avoid disruptive changes like that, fixing
+> > the building system for it to do the right thing, as users of the v4l-utils 
+> > will also face the same issue if they update their git trees.
+> > 
+> > At any time, a clean git update with something similar to:
+> > 
+> > 	git remote update
+> > 	git fetch origin
+> > 	git reset --hard origin/master
+> > 	./bootstrap.sh
+> > 	./configure
+> > 	make
+> > 
+> > should work.
+> > 
+> > Regards,
+> > Mauro
+> >   
 > 
-> On Mon, Sep 23, 2019 at 12:22:09PM +0300, Sakari Ailus wrote:
-> > Hi Manivannan,
-> > 
-> > On Fri, Aug 30, 2019 at 02:49:42PM +0530, Manivannan Sadhasivam wrote:
-> > > Add driver for Sony IMX290 CMOS image sensor driver. The driver only
-> > > supports I2C interface for programming and MIPI CSI-2 for sensor output.
-> > > 
-> > > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> > > ---
-> > >  drivers/media/i2c/Kconfig  |  11 +
-> > >  drivers/media/i2c/Makefile |   1 +
-> > >  drivers/media/i2c/imx290.c | 881 +++++++++++++++++++++++++++++++++++++
-> > >  3 files changed, 893 insertions(+)
-> > >  create mode 100644 drivers/media/i2c/imx290.c
-> > > 
-> > > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> > > index 79ce9ec6fc1b..4ebb80b18748 100644
-> > > --- a/drivers/media/i2c/Kconfig
-> > > +++ b/drivers/media/i2c/Kconfig
-> > > @@ -595,6 +595,17 @@ config VIDEO_IMX274
-> > >  	  This is a V4L2 sensor driver for the Sony IMX274
-> > >  	  CMOS image sensor.
-> > >  
-> > > +config VIDEO_IMX290
-> > > +	tristate "Sony IMX290 sensor support"
-> > > +	depends on I2C && VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API
-> > > +	depends on MEDIA_CAMERA_SUPPORT
-> > 
-> > Please drop this line. It will be redundant very soon.
-> > 
+> Yes, I discovered it too late. That said, I'm not sure what to do about
+> it since the old generated file is not under the control of git.
 > 
-> okay.
+> A 'make distclean' before the 'git fetch' would remove it, but after the
+> update it is just an orphaned file.
 > 
-> > > +	help
-> > > +	  This is a Video4Linux2 sensor driver for the Sony
-> > > +	  IMX290 camera sensor.
-> > > +
-> > > +	  To compile this driver as a module, choose M here: the
-> > > +	  module will be called imx290.
-> > > +
-> > >  config VIDEO_IMX319
-> > >  	tristate "Sony IMX319 sensor support"
-> > >  	depends on I2C && VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API
-> > > diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-> > > index fd4ea86dedd5..04411ddb4922 100644
-> > > --- a/drivers/media/i2c/Makefile
-> > > +++ b/drivers/media/i2c/Makefile
-> > > @@ -111,6 +111,7 @@ obj-$(CONFIG_VIDEO_TC358743)	+= tc358743.o
-> > >  obj-$(CONFIG_VIDEO_IMX214)	+= imx214.o
-> > >  obj-$(CONFIG_VIDEO_IMX258)	+= imx258.o
-> > >  obj-$(CONFIG_VIDEO_IMX274)	+= imx274.o
-> > > +obj-$(CONFIG_VIDEO_IMX290)	+= imx290.o
-> > >  obj-$(CONFIG_VIDEO_IMX319)	+= imx319.o
-> > >  obj-$(CONFIG_VIDEO_IMX355)	+= imx355.o
-> > >  obj-$(CONFIG_VIDEO_ST_MIPID02) += st-mipid02.o
-> > > diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-> > > new file mode 100644
-> > > index 000000000000..db5bb0d69eb8
-> > > --- /dev/null
-> > > +++ b/drivers/media/i2c/imx290.c
-> > > @@ -0,0 +1,881 @@
-> > > +// SPDX-License-Identifier: GPL-2.0
-> > > +/*
-> > > + * Sony IMX290 CMOS Image Sensor Driver
-> > > + *
-> > > + * Copyright (C) 2019 FRAMOS GmbH.
-> > > + *
-> > > + * Copyright (C) 2019 Linaro Ltd.
-> > > + * Author: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> > > + */
-> > > +
-> > > +#include <linux/clk.h>
-> > > +#include <linux/delay.h>
-> > > +#include <linux/gpio/consumer.h>
-> > > +#include <linux/i2c.h>
-> > > +#include <linux/module.h>
-> > > +#include <linux/pm_runtime.h>
-> > > +#include <linux/regmap.h>
-> > > +#include <linux/regulator/consumer.h>
-> > > +#include <media/media-entity.h>
-> > > +#include <media/v4l2-ctrls.h>
-> > > +#include <media/v4l2-device.h>
-> > > +#include <media/v4l2-fwnode.h>
-> > > +#include <media/v4l2-subdev.h>
-> > > +
-> > > +#define IMX290_STANDBY 0x3000
-> > > +#define IMX290_REGHOLD 0x3001
-> > > +#define IMX290_XMSTA 0x3002
-> > > +#define IMX290_GAIN 0x3014
-> > > +
-> > > +#define IMX290_DEFAULT_LINK_FREQ 445500000
-> > > +
-> > > +static const char * const imx290_supply_name[] = {
-> > > +	"vdda",
-> > > +	"vddd",
-> > > +	"vdddo",
-> > > +};
-> > > +
-> > > +#define IMX290_NUM_SUPPLIES ARRAY_SIZE(imx290_supply_name)
-> > > +
-> > > +struct imx290_regval {
-> > > +	u16 reg;
-> > > +	u8 val;
-> > > +};
-> > > +
-> > > +struct imx290_mode {
-> > > +	u32 width;
-> > > +	u32 height;
-> > > +	u32 pixel_rate;
-> > > +	u32 link_freq_index;
-> > > +
-> > > +	const struct imx290_regval *data;
-> > > +	u32 data_size;
-> > > +};
-> > > +
-> > > +struct imx290 {
-> > > +	struct device *dev;
-> > > +	struct clk *xclk;
-> > > +	struct regmap *regmap;
-> > > +
-> > > +	struct v4l2_subdev sd;
-> > > +	struct v4l2_fwnode_endpoint ep;
-> > > +	struct media_pad pad;
-> > > +	struct v4l2_mbus_framefmt current_format;
-> > > +	const struct imx290_mode *current_mode;
-> > > +
-> > > +	struct regulator_bulk_data supplies[IMX290_NUM_SUPPLIES];
-> > > +	struct gpio_desc *rst_gpio;
-> > > +
-> > > +	struct v4l2_ctrl_handler ctrls;
-> > > +	struct v4l2_ctrl *link_freq;
-> > > +	struct v4l2_ctrl *pixel_rate;
-> > > +
-> > > +	struct mutex lock;
-> > > +};
-> > > +
-> > > +struct imx290_pixfmt {
-> > > +	u32 code;
-> > > +};
-> > > +
-> > > +static const struct imx290_pixfmt imx290_formats[] = {
-> > > +	{ MEDIA_BUS_FMT_SRGGB10_1X10 },
-> > 
-> > You have a single format here. You don't need the entire array, do you?
-> > 
-> > Unless you have plans to add more, that is.
-> > 
-> 
-> Yes, the sensor supports RAW12 format as well and it will be added once
-> this driver is merged.
+> I've actually added a 'make distclean' in my daily build scripts.
 
-Ok. 
+That's a very bad idea. The builds should check and pinpoint to
+regressions at the building system too.
 
-> 
-> > > +};
-> > > +
-> > > +static struct regmap_config imx290_regmap_config = {
+If I understand the problem, you're saying that now cec-log.h depends on
+the generated cec-log-gen.h, right?
 
-Should this be const, too?
+If so, this could be easily fixable by adding an explicit dependency
+rule to the Makefile.am, like:
 
-> > > +	.reg_bits = 16,
-> > > +	.val_bits = 8,
-> > > +	.cache_type = REGCACHE_RBTREE,
-> > > +};
+	cec-log.h: cec-log-gen.h
 
-...
-
-> > > +static int imx290_write_buffered_reg(struct imx290 *imx290, u16 address_low,
-> > > +				     u8 nr_regs, u32 value)
-> > > +{
-> > > +	unsigned int i;
-> > > +	int ret;
-> > > +
-> > > +	ret = imx290_write_reg(imx290, IMX290_REGHOLD, 0x01);
-> > > +	if (ret) {
-> > > +		dev_err(imx290->dev, "Error setting hold register\n");
-> > > +		return ret;
-> > > +	}
-> > > +
-> > > +	for (i = 0; i < nr_regs; i++) {
-> > > +		ret = imx290_write_reg(imx290, address_low + i,
-> > > +				       (u8)(value >> (i * 8)));
-> > > +		if (ret) {
-> > > +			dev_err(imx290->dev, "Error writing buffered registers\n");
-> > > +			return ret;
-> > > +		}
-> > > +	}
-> > > +
-> > > +	ret = imx290_write_reg(imx290, IMX290_REGHOLD, 0x00);
-> > > +	if (ret) {
-> > > +		dev_err(imx290->dev, "Error setting hold register\n");
-> > > +		return ret;
-> > > +	}
-> > > +
-> > > +	return ret;
-> > > +}
-> > > +
-> > > +static int imx290_set_gain(struct imx290 *imx290, u32 value)
-> > > +{
-> > > +	int ret;
-> > > +
-> > > +	u32 adjusted_value = (value * 10) / 3;
-> > 
-> > What's the purpose of this? Why not to use the value directly?
-> > 
-> 
-> The gain register accepts the value 10/3 of the actual gain required. Hence,
-> we need to manually do the calculation before updating the value. I can
-> add a comment here to clarify.
-
-It's better to use the register value directly. Otherwise the granularity
-won't be available to the user space.
-
-> 
-> > > +
-> > > +	ret = imx290_write_buffered_reg(imx290, IMX290_GAIN, 1, adjusted_value);
-> > > +	if (ret)
-> > > +		dev_err(imx290->dev, "Unable to write gain\n");
-> > > +
-> > > +	return ret;
-> > > +}
-> > > +
-> > > +static int imx290_set_power_on(struct imx290 *imx290)
-> > > +{
-> > > +	int ret;
-> > > +
-> > > +	ret = clk_prepare_enable(imx290->xclk);
-> > 
-> > Please move the code from this function to the runtime PM runtime suspend
-> > callback. The same for imx290_set_power_off().
-> > 
-> 
-> May I know why? I think since this is being used only once, you're suggesting
-> to move to the callback function itself but please see the comment below. I
-> will reuse this function to power on the device during probe.
-
-Yes, you can call the same function from probe, even if it's used as a
-runtime PM callback.
-
-There's no need to have a function that acts as a wrapper for calling it
-with a different type of an argument.
-
--- 
-Kind regards,
-
-Sakari Ailus
+Thanks,
+Mauro
