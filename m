@@ -2,107 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CF89AC88C9
-	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 14:39:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE17EC88E2
+	for <lists+linux-media@lfdr.de>; Wed,  2 Oct 2019 14:40:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726992AbfJBMiz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Oct 2019 08:38:55 -0400
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:53928 "EHLO
-        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726152AbfJBMiz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Oct 2019 08:38:55 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x92Cch5D014533;
-        Wed, 2 Oct 2019 07:38:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1570019923;
-        bh=6k/1/L8qVzBnkiN3DQ8sBlvddq0xsy4C1W0U2GgT2tc=;
-        h=Date:From:To:CC:Subject:References:In-Reply-To;
-        b=ckjObRSwAAxO4JX5G88yKRjMZ2g/hf5dGI8dK+zvxCOePp/Voa9SMYMVL3p0SMoUa
-         NTf2aN8lVDrriaLaQg2fgPtJIwNJSdY8IyPpdueORyrhttt8C8ba1MoRwkVUDpFr44
-         HhoiBQ5NeUiyVtK8SDoBqBy4etam5Lw1B8YwTBHM=
-Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x92CchlD007388
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 2 Oct 2019 07:38:43 -0500
-Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Wed, 2 Oct
- 2019 07:38:43 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Wed, 2 Oct 2019 07:38:43 -0500
-Received: from ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with SMTP id x92Cch6J093041;
-        Wed, 2 Oct 2019 07:38:43 -0500
-Date:   Wed, 2 Oct 2019 07:40:54 -0500
-From:   Benoit Parrot <bparrot@ti.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-CC:     Jacopo Mondi <jacopo@jmondi.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <hugues.fruchet@st.com>
-Subject: Re: [Patch 1/3] media: ov5640: add PIXEL_RATE control
-Message-ID: <20191002124054.gqw5l6tdyxqalpod@ti.com>
-References: <20190925152301.21645-1-bparrot@ti.com>
- <20190925152301.21645-2-bparrot@ti.com>
- <20191001075704.GA5449@paasikivi.fi.intel.com>
- <20191001162341.f2o7ruar2nifl5ws@ti.com>
- <20191002075951.afp2xligspqat4ew@uno.localdomain>
- <20191002121438.g3re6v54q4hit2wv@ti.com>
- <20191002123513.GI972@paasikivi.fi.intel.com>
+        id S1727191AbfJBMkj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Oct 2019 08:40:39 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:54364 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726992AbfJBMkj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Oct 2019 08:40:39 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id E8C50289C67
+Message-ID: <d2ecfe4f0a730246903a7035d813c23afb9fb4b2.camel@collabora.com>
+Subject: Re: [PATCHv2 1/2] v4l: Add macros for printing V4L fourcc values
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
+Cc:     Dave Stevenson <dave.stevenson@raspberrypi.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Date:   Wed, 02 Oct 2019 09:40:31 -0300
+In-Reply-To: <20190916100433.24367-2-hverkuil-cisco@xs4all.nl>
+References: <20190916100433.24367-1-hverkuil-cisco@xs4all.nl>
+         <20190916100433.24367-2-hverkuil-cisco@xs4all.nl>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20191002123513.GI972@paasikivi.fi.intel.com>
-User-Agent: NeoMutt/20171215
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Sakari Ailus <sakari.ailus@linux.intel.com> wrote on Wed [2019-Oct-02 15:35:13 +0300]:
-> Hi Benoit,
+On Mon, 2019-09-16 at 12:04 +0200, Hans Verkuil wrote:
+> From: Sakari Ailus <sakari.ailus@linux.intel.com>
 > 
-> On Wed, Oct 02, 2019 at 07:14:38AM -0500, Benoit Parrot wrote:
-> > Hi Jacopo,
-> > 
-> > Maybe, I miss spoke when I mentioned a helper I did not intent a framework
-> > level generic function. Just a function to help in this case :)
-> > 
-> > That being said, I re-read the thread you mentioned. And as Hughes pointed
-> > out dynamically generating a "working" link frequency value which can be
-> > used by a CSI2 receiver to properly configure its PHY is not trivial.
-> > 
-> > When I created this patch, I also had another to add V4L2_CID_LINK_FREQ
-> > support. I am testing this against the TI CAL CSI2 receiver, which already
-> > uses the V4L2_CID_PIXEL_RATE value for that purpose, so I also had a patch
-> > to add support for V4L2_CID_LINK_FREQ to that driver as well.
-> > 
-> > Unfortunately, similar to Hughes' findings I was not able to make it "work"
-> > with all supported resolution/framerate.
-> > 
-> > Unlike my V4L2_CID_PIXEL_RATE solution which now works in all mode with the
-> > same receiver.
-> > 
-> > So long story short I dropped the V4L2_CID_LINK_FREQ patch and focused on
-> > V4L2_CID_PIXEL_RATE instead.
+> Add two macros that facilitate printing V4L fourcc values with printf
+> family of functions. v4l2_fourcc_conv provides the printf conversion
+> specifier for printing formats and v4l2_fourcc_args provides the actual
+> arguments for that conversion specifier.
 > 
-> It shouldn't make a difference which one you use; if you know the bus type
-> (and if it's CSI-2 with D-PHY, number of lanes and how many bits per pixel
-> the media bus format has), you can convert fairly trivially between the
-> two.
-
-Sakari,
-
-Yes I get that, but at this point as they say I will leave that as an
-exercise to the reader...
-
-Benoit
-
+> These macros are useful in both user and kernel code whenever you want
+> to report a pixelformat, therefore put them into videodev2.h.
 > 
-> -- 
-> Sakari Ailus
-> sakari.ailus@linux.intel.com
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> [hverkuil-cisco@xs4all.nl: rename v4l2_fourcc_to_conv to v4l2_fourcc_args]
+> [hverkuil-cisco@xs4all.nl: add () around ? : expression]
+> [hverkuil-cisco@xs4all.nl: add comment about fourcc reuse]
+> [hverkuil-cisco@xs4all.nl: update Documentation/media/videodev2.h.rst.exceptions]
+> ---
+>  .../media/videodev2.h.rst.exceptions          |  2 ++
+>  include/uapi/linux/videodev2.h                | 27 +++++++++++++++++++
+>  2 files changed, 29 insertions(+)
+> 
+> diff --git a/Documentation/media/videodev2.h.rst.exceptions b/Documentation/media/videodev2.h.rst.exceptions
+> index adeb6b7a15cb..35eb513d82a6 100644
+> --- a/Documentation/media/videodev2.h.rst.exceptions
+> +++ b/Documentation/media/videodev2.h.rst.exceptions
+> @@ -508,6 +508,8 @@ ignore define VIDEO_MAX_FRAME
+>  ignore define VIDEO_MAX_PLANES
+>  ignore define v4l2_fourcc
+>  ignore define v4l2_fourcc_be
+> +ignore define v4l2_fourcc_conv
+> +ignore define v4l2_fourcc_args
+>  ignore define V4L2_FIELD_HAS_TOP
+>  ignore define V4L2_FIELD_HAS_BOTTOM
+>  ignore define V4L2_FIELD_HAS_BOTH
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 530638dffd93..aa8acbdc88c9 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -82,6 +82,33 @@
+>  	((__u32)(a) | ((__u32)(b) << 8) | ((__u32)(c) << 16) | ((__u32)(d) << 24))
+>  #define v4l2_fourcc_be(a, b, c, d)	(v4l2_fourcc(a, b, c, d) | (1U << 31))
+>  
+> +/**
+> + * v4l2_fourcc_conv - Printf fourcc conversion specifiers for V4L2 formats
+> + *
+> + * Use as part of the format string. The values are obtained using
+> + * @v4l2_fourcc_args macro.
+> + *
+> + * Example ("format" is the V4L2 pixelformat in __u32):
+> + *
+> + * printf("V4L2 format is: " v4l2_fourcc_conv "\n", v4l2_fourcc_args(format);
+> + */
+> +#define v4l2_fourcc_conv "%c%c%c%c%s"
+> +
+> +/**
+> + * v4l2_fourcc_args - Arguments for V4L2 fourcc format conversion
+> + *
+> + * @fourcc: V4L2 pixelformat, as in __u32
+> + *
+> + * Yields to a comma-separated list of arguments for printf that matches with
+> + * conversion specifiers provided by @v4l2_fourcc_conv.
+> + *
+> + * Note that v4l2_fourcc_args reuses fourcc, so this can't be an expression
+> + * with side-effects.
+> + */
+> +#define v4l2_fourcc_args(fourcc)					\
+> +	(fourcc) & 0x7f, ((fourcc) >> 8) & 0x7f, ((fourcc) >> 16) & 0x7f, \
+> +	((fourcc) >> 24) & 0x7f, ((fourcc) & (1 << 31) ? "-BE" : "")
+> +
+>  /*
+>   *	E N U M S
+>   */
+
+Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
+
+Thanks,
+Ezequiel
+
