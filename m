@@ -2,42 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EC48CA073
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2019 16:37:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B9F9CA090
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2019 16:46:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727697AbfJCOhS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Oct 2019 10:37:18 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:44112 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726199AbfJCOhS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Oct 2019 10:37:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=R+P9ukKf1Oss2N4Zb6s1vlRCppIrkd4GHmZSumbBLZ4=; b=bmWt2JAzrlzKxl+LojcXmfjiQ
-        wlZ4OZWr/A/ftB8epuYX/x9TEWdjVsRYQegEjazlcH4c3cxZ84VjU7HmFC8/MihjBsXzaFYHoE7PW
-        R3WhIm0YZS3JOrlEZj+lyWT4UvME7L+saG5PNc1v1QR8WbixfvKledxfkGWRMxGdZ2COGnewPdqGT
-        p+M8cjRk7TG/jykL8floDcUF4mxO2VhnOWwPDgH4GLq2ArB3RCA3cCe/JZfxrGTLy2au+NqyTHiwW
-        X+dxT6B1wRqNYvvUe4Vq4qCIXGiUMglj/uJCKdSOsbi5Fp7pg9hnX2FwFu3jYOzBjK4E1mX86HQWn
-        OXMfwnfPQ==;
-Received: from 177.133.68.49.dynamic.adsl.gvt.net.br ([177.133.68.49] helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
-        id 1iG2EH-00035b-8t; Thu, 03 Oct 2019 14:37:17 +0000
-Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.2)
-        (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1iG2EE-0003l6-Fe; Thu, 03 Oct 2019 11:37:14 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Sergey Kozlov <serjk@netup.ru>, Abylay Ospan <aospan@netup.ru>
-Subject: [PATCH] media: cxd2841er: avoid too many status inquires
-Date:   Thu,  3 Oct 2019 11:37:13 -0300
-Message-Id: <deda32250ad32078b98eb41eb09d6d20050a6f9c.1570113429.git.mchehab+samsung@kernel.org>
-X-Mailer: git-send-email 2.21.0
+        id S1730391AbfJCOqn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Oct 2019 10:46:43 -0400
+Received: from mail-lj1-f169.google.com ([209.85.208.169]:33556 "EHLO
+        mail-lj1-f169.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727337AbfJCOqn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Oct 2019 10:46:43 -0400
+Received: by mail-lj1-f169.google.com with SMTP id a22so3111815ljd.0
+        for <linux-media@vger.kernel.org>; Thu, 03 Oct 2019 07:46:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=qtec.com; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kGap1M7x7siN59Y9bN/tco7EI3h7G/haqxZKUl5gYRg=;
+        b=FoesvKeMUXHzkF/GBKAQ5aP0RSh5oB5ciSDaUTgRofajHkduvQXqC0wxyYBlkhpV2p
+         1DNAvittZ3Z05OJT3OH3qn7IbkawPyCmLl/l8nbTT9KSypL7d+2D2H7vMmQFCv9+bXBz
+         EFDCLRnSGEpfWXiqHscjq5zxjRrr1ST+rGmVU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kGap1M7x7siN59Y9bN/tco7EI3h7G/haqxZKUl5gYRg=;
+        b=O36dgSgzzERtb4qWKCdx7C1rwZb5aSlkNvLUkFEDKi3zgBSUqMDOvGQ3qk7p6ub2xM
+         s14NEZ7StWbO+/pUwOoh3+Vh3xyHOE0kuIZ6IzJGkelR6zkdg+kBKKoEGVS14KPhCA+9
+         BlGvhQlbhwmsWqE5qaecQoG0YZ6BkKyCg/HyvF1RjpsFMs8C+BW7h2nUYHJEXeKCbSsh
+         EKMUtpTEKGb2/3tPyjtv1xzeXXHkTd2goOzxyaNfZlcDr9TTd/xABvw0ZLvMIN2htdRY
+         ZC1k1nyETmkPXLo6KxZs2a8vVjfb1YwIT4yydMjQPKjCPjnAXCt0HMYjL7ZLlkHFyUn/
+         SQQw==
+X-Gm-Message-State: APjAAAUx8GcTVa1fuy59xY8cUwZq8xMWh1sn1rxU8AxWJnw4O1uhYEED
+        U5hxi3jT4F/MaBX4qrkC7D+gmQ==
+X-Google-Smtp-Source: APXvYqyhdEVfVFTOA5zS/DnVqxR9zl8+LnWWWMZ8K7de/LbLzfU+inkqP9BD34T0KaV45RO+4JiAjw==
+X-Received: by 2002:a2e:91d0:: with SMTP id u16mr6303059ljg.164.1570113999499;
+        Thu, 03 Oct 2019 07:46:39 -0700 (PDT)
+Received: from turia.qtec.com (cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
+        by smtp.gmail.com with ESMTPSA id p27sm503900lfo.95.2019.10.03.07.46.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Oct 2019 07:46:38 -0700 (PDT)
+From:   Daniel Gomez <daniel@qtec.com>
+To:     Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Daniel Gomez <daniel@qtec.com>
+Subject: [PATCH] media: imx214: Fix stop streaming
+Date:   Thu,  3 Oct 2019 16:46:24 +0200
+Message-Id: <20191003144624.17899-1-daniel@qtec.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -45,133 +57,84 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-As reported at:
-	https://tvheadend.org/issues/5625
+Stop video streaming when requested.
 
-Retrieving certain status can cause discontinuity issues.
+When s_stream is called to stop the video streaming, if/else condition calls
+start_streaming function instead of the one for stopping it.
 
-Prevent that by adding a timeout to each status logic.
-
-Currently, the timeout is estimated based at the channel
-bandwidth. There are other parameters that may also affect
-the timeout, but that would require a per-delivery system
-calculus and probably more information about how cxd2481er
-works, with we don't have.
-
-So, do a poor man's best guess.
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Fixes: 436190596241 ("media: imx214: Add imx214 camera sensor driver")
+Signed-off-by: Daniel Gomez <daniel@qtec.com>
 ---
- drivers/media/dvb-frontends/cxd2841er.c | 54 +++++++++++++++++++++++++
- 1 file changed, 54 insertions(+)
 
-diff --git a/drivers/media/dvb-frontends/cxd2841er.c b/drivers/media/dvb-frontends/cxd2841er.c
-index 1b30cf570803..c75e63b9cfa7 100644
---- a/drivers/media/dvb-frontends/cxd2841er.c
-+++ b/drivers/media/dvb-frontends/cxd2841er.c
-@@ -60,6 +60,13 @@ struct cxd2841er_priv {
- 	enum cxd2841er_xtal		xtal;
- 	enum fe_caps caps;
- 	u32				flags;
-+
-+	unsigned long			ber_interval;
-+	unsigned long			ucb_interval;
-+
-+	unsigned long			ber_time;
-+	unsigned long			ucb_time;
-+	unsigned long			snr_time;
- };
- 
- static const struct cxd2841er_cnr_data s_cn_data[] = {
-@@ -1941,6 +1948,10 @@ static void cxd2841er_read_ber(struct dvb_frontend *fe)
- 	struct cxd2841er_priv *priv = fe->demodulator_priv;
- 	u32 ret, bit_error = 0, bit_count = 0;
- 
-+	if (priv->ber_time &&
-+	   (!time_after(jiffies, priv->ber_time)))
-+		return;
-+
- 	dev_dbg(&priv->i2c->dev, "%s()\n", __func__);
- 	switch (p->delivery_system) {
- 	case SYS_DVBC_ANNEX_A:
-@@ -1978,6 +1989,19 @@ static void cxd2841er_read_ber(struct dvb_frontend *fe)
- 		p->post_bit_error.stat[0].scale = FE_SCALE_NOT_AVAILABLE;
- 		p->post_bit_count.stat[0].scale = FE_SCALE_NOT_AVAILABLE;
- 	}
-+
-+	/*
-+	 * If the per-delivery system doesn't specify, set a default timeout
-+	 * that will wait for 10^7 bits or 1 second
-+	 */
-+	if (!priv->ber_interval && p->bandwidth_hz) {
-+		priv->ber_interval = (10000000) / (p->bandwidth_hz / 1000);
-+	}
-+
-+	if (priv->ber_interval < 1000)
-+		priv->ber_interval = 1000;
-+
-+	priv->ber_time = jiffies + msecs_to_jiffies(priv->ber_interval);
- }
- 
- static void cxd2841er_read_signal_strength(struct dvb_frontend *fe)
-@@ -2037,6 +2061,13 @@ static void cxd2841er_read_snr(struct dvb_frontend *fe)
- 	struct dtv_frontend_properties *p = &fe->dtv_property_cache;
- 	struct cxd2841er_priv *priv = fe->demodulator_priv;
- 
-+	if (priv->snr_time &&
-+	   (!time_after(jiffies, priv->snr_time)))
-+		return;
-+
-+	/* Preventing asking SNR more than once per second */
-+	priv->snr_time = jiffies + msecs_to_jiffies(1000);
-+
- 	dev_dbg(&priv->i2c->dev, "%s()\n", __func__);
- 	switch (p->delivery_system) {
- 	case SYS_DVBC_ANNEX_A:
-@@ -2081,6 +2112,10 @@ static void cxd2841er_read_ucblocks(struct dvb_frontend *fe)
- 	struct cxd2841er_priv *priv = fe->demodulator_priv;
- 	u32 ucblocks = 0;
- 
-+	if (priv->ucb_time &&
-+	   (!time_after(jiffies, priv->ucb_time)))
-+		return;
-+
- 	dev_dbg(&priv->i2c->dev, "%s()\n", __func__);
- 	switch (p->delivery_system) {
- 	case SYS_DVBC_ANNEX_A:
-@@ -2105,6 +2140,18 @@ static void cxd2841er_read_ucblocks(struct dvb_frontend *fe)
- 
- 	p->block_error.stat[0].scale = FE_SCALE_COUNTER;
- 	p->block_error.stat[0].uvalue = ucblocks;
-+
-+	/*
-+	 * If the per-delivery system doesn't specify, set a default timeout
-+	 * that will wait for 100 packets or 1 second
-+	 */
-+	if (!priv->ucb_interval && p->bandwidth_hz)
-+		priv->ucb_interval = (100 * 204 * 1000 * 8) / p->bandwidth_hz;
-+
-+	if (priv->ucb_interval < 1000)
-+		priv->ucb_interval = 1000;
-+
-+	priv->ucb_time = jiffies + msecs_to_jiffies(priv->ucb_interval);
- }
- 
- static int cxd2841er_dvbt2_set_profile(
-@@ -3360,6 +3407,13 @@ static int cxd2841er_set_frontend_s(struct dvb_frontend *fe)
- 	p->post_bit_error.stat[0].scale = FE_SCALE_NOT_AVAILABLE;
- 	p->post_bit_count.stat[0].scale = FE_SCALE_NOT_AVAILABLE;
- 
-+	/* Reset the wait for jiffies logic */
-+	priv->ber_interval = 0;
-+	priv->ucb_interval = 0;
-+	priv->ber_time = 0;
-+	priv->ucb_time = 0;
-+	priv->snr_time = 0;
-+
- 	return ret;
- }
- 
--- 
-2.21.0
+You can find some logs before/after running in the hardware. Notice 0x100
+register is for starting/stopping the video streaming from the imx214 sensor.
+
+* Before patch:
+
+# media-ctl -d /dev/media0 -l '"msm_csiphy0":1->"msm_csid0":0[1],"msm_csid0":1->"msm_ispif0":0[1],"msm_ispif0":1->"msm_vfe0_rdi0":0[1]'
+# media-ctl -d /dev/media0 -V '"imx214 3-001a":0[fmt:SRGGB10/1920x1080],"msm_csiphy0":0[fmt:SRGGB10/1920x1080],"msm_csid0":0[fmt:SRGGB10/1920x1080],"msm_ispif0":0[fmt:SRGGB10/1920x1080],"msm_vfe0_rdi0":0[fmt:SRGGB10/1920x1080]'
+# yavta -f SRGGB10P -s 1920x1080 -n 1 --capture=5 /dev/v4l/by-path/platform-a34000.camss-video-index0
+Device /dev/v4l/by-path/platform-a34000.camss-video-index0 opened.
+Device `Qualcomm Camera Subsystem' on `platform:a34000.camss' (driver 'qcom-camss') supports video, capture, with mplanes.
+Video format set: SRGGB10P (41415270) 1920x1080 field none, 1 planes:
+ * Stride 2400, buffer size 2592000
+Video format: SRGGB10P (41415270) 1920x1080 field none, 1 planes:
+ * Stride 2400, buffer size 2592000
+1 buffers requested.
+length: 1 offset: 4093609832 timestamp type/source: mono/EoF
+Buffer 0/0 mapped at address 0xffff84b6b000.
+0 (0) [-] none 0 2592000 B 30.682759 30.705111 4.697 fps ts mono/EoF
+1 (0) [-] none 1 2592000 B 30.749391 30.771609 15.008 fps ts mono/EoF
+2 (0) [-] none 2 2592000 B 30.816042 30.838225 15.004 fps ts mono/EoF
+3 (0) [-] none 3 2592000 B 30.882690 30.904992 15.004 fps ts mono/EoF
+4 (0) [-] none 4 2592000 B 30.949333 30.971543 15.005 fps ts mono/EoF
+Captured 5 frames in 0.501681 seconds (9.966480 fps, 0.000000 B/s).
+1 buffers released.
+# v4l2-dbg -d /dev/v4l-subdev19 -g 0x100
+ioctl: VIDIOC_DBG_G_REGISTER
+Register 0x00000100 = 1h (1d  00000001b)
+
+* After patch:
+
+# media-ctl -d /dev/media0 -l '"msm_csiphy0":1->"msm_csid0":0[1],"msm_csid0":1->"msm_ispif0":0[1],"msm_ispif0":1->"msm_vfe0_rdi0":0[1]'
+# media-ctl -d /dev/media0 -V '"imx214 3-001a":0[fmt:SRGGB10/1920x1080],"msm_csiphy0":0[fmt:SRGGB10/1920x1080],"msm_csid0":0[fmt:SRGGB10/1920x1080],"msm_ispif0":0[fmt:SRGGB10/1920x1080],"msm_vfe0_rdi0":0[fmt:SRGGB10/1920x1080]'
+# yavta -f SRGGB10P -s 1920x1080 -n 1 --capture=5 /dev/v4l/by-path/platform-a34000.camss-video-index0
+Device /dev/v4l/by-path/platform-a34000.camss-video-index0 opened.
+Device `Qualcomm Camera Subsystem' on `platform:a34000.camss' (driver 'qcom-camss') supports video, capture, with mplanes.
+Video format set: SRGGB10P (41415270) 1920x1080 field none, 1 planes:
+ * Stride 2400, buffer size 2592000
+Video format: SRGGB10P (41415270) 1920x1080 field none, 1 planes:
+ * Stride 2400, buffer size 2592000
+1 buffers requested.
+length: 1 offset: 3764913896 timestamp type/source: mono/EoF
+Buffer 0/0 mapped at address 0xffffb62f7000.
+0 (0) [-] none 0 2592000 B 31.283473 31.306390 4.697 fps ts mono/EoF
+1 (0) [-] none 1 2592000 B 31.350115 31.372475 15.006 fps ts mono/EoF
+2 (0) [-] none 2 2592000 B 31.416765 31.439728 15.004 fps ts mono/EoF
+3 (0) [-] none 3 2592000 B 31.483410 31.505791 15.005 fps ts mono/EoF
+4 (0) [-] none 4 2592000 B 31.550058 31.573025 15.004 fps ts mono/EoF
+Captured 5 frames in 0.502440 seconds (9.951430 fps, 0.000000 B/s).
+1 buffers released.
+# v4l2-dbg -d /dev/v4l-subdev19 -g 0x100
+ioctl: VIDIOC_DBG_G_REGISTER
+Register 0x00000100 = 0h (0d  00000000b)
+
+ drivers/media/i2c/imx214.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
+index 159a3a604f0e..24659cb0d083 100644
+--- a/drivers/media/i2c/imx214.c
++++ b/drivers/media/i2c/imx214.c
+@@ -785,7 +785,7 @@ static int imx214_s_stream(struct v4l2_subdev *subdev, int enable)
+ 		if (ret < 0)
+ 			goto err_rpm_put;
+ 	} else {
+-		ret = imx214_start_streaming(imx214);
++		ret = imx214_stop_streaming(imx214);
+ 		if (ret < 0)
+ 			goto err_rpm_put;
+ 		pm_runtime_put(imx214->dev);
+--
+2.20.1
 
