@@ -2,163 +2,198 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 11AFEC997F
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2019 10:06:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D0FA0C99EB
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2019 10:30:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728219AbfJCIGr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Oct 2019 04:06:47 -0400
-Received: from mail-wm1-f53.google.com ([209.85.128.53]:55328 "EHLO
-        mail-wm1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726811AbfJCIGq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Oct 2019 04:06:46 -0400
-Received: by mail-wm1-f53.google.com with SMTP id a6so1452842wma.5;
-        Thu, 03 Oct 2019 01:06:45 -0700 (PDT)
+        id S1728079AbfJCIaP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Oct 2019 04:30:15 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:44324 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727357AbfJCIaP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Oct 2019 04:30:15 -0400
+Received: by mail-lf1-f66.google.com with SMTP id q11so1092765lfc.11
+        for <linux-media@vger.kernel.org>; Thu, 03 Oct 2019 01:30:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=hRPQHGpHdN0l1FAcvIRZnhu1XvTqhWoSJcInIbDzpP8=;
-        b=s8wHPDY794bA14cj37soblRocJonom101d0wSedC+Wb8RTr85KpabUe56OjDjtVwlB
-         t8iy8ZiztPeiuvUcrsDxx5+6C8PQJI8bJ7TW6CwUqaofMfaeboFC2uSsJLrND12eXF+b
-         rJ5NVfi0UyOJeP/k+XbyoQW2VtTcNUF9rmjrv1VL9KPuLhNFfV2VCrBHAYk/8fa2TveP
-         h/5ST67yh0Ro8l/EGuVVlqqh3tvq1yU9qU3vAgJJ6GKJ9yxwyU9sNib0vsvTSwNdeYai
-         hQkM5XHTZIQjt+lZmLCpGJx8xM6JTTcbusYgVFjYk+7zcMfOJibWS+Nzq4oR4luOUpHr
-         vN7A==
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=+mhnw60zOlslfr3Z5bOz20vhrIEY/BCAZF11zDcGHTo=;
+        b=u+0UI8NS3DZHzoA3XH2LdDbfcdPBe0PNFnTjBWkSohK8q5hztZGdknpMQZ18s7oyBa
+         BRjHfF2OcohXqGKaPTwuOVdMOogPgXUX/45/wwSl0AIeMvLns1Hcb5L0hFqUqEP8ZsaN
+         ED9dcDYoTCVRhF8BdiRL/L5MX7EEYKsKnCAVijwY56zgzM04tdjYu0ZW3BPMo0vpqE9A
+         DgAcCEqO/VW93J6XgHf8yl7ooeiG8aqwY1u3EKqG++aA+xL0dFgmJtDboKVbNsBAj6wb
+         QAsGcVpgo/ENX6UizrOk0rEkgMkQeYTvdMXRQ26Rxp7U0lL4BykPzRcqanaRYIxrZCp0
+         7f0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=hRPQHGpHdN0l1FAcvIRZnhu1XvTqhWoSJcInIbDzpP8=;
-        b=BLhnVGytjXkmlDV2RxDnS896lssop6PdAflwE5DtRsMZJHSoHmJufynScU6jG64gpD
-         HSRgBKQ51Hjb5++z6FIttmqecx8Y/H3HJgwettMg0Zr85lr1CS6D34vxOvOvGCwcp4Cd
-         g2BpU7UnQz9j0MFpVOIJP4Rzsxdq5qRZYuYLzeTirYCzQUaUywbtlN8NhpMRMtXGrXe3
-         31EpNOWhtM7lThkGvWzdDrrfQC3xtDnU0aZIJFzV0GElX1afJh0fwxk8pVDfyqSZyRmY
-         8o1BkzfDJdt7pkzvcJGJ31wG2VEJRfSLJYcLPZQ7F5NLXeQN7Icj5gFJoYdhMcFVy4ud
-         A4aQ==
-X-Gm-Message-State: APjAAAX8HiDfU9gDK//7n4MuNz3s97NpXHxUnSLcmXWc5nvlHYXC+LEE
-        K5ODhIevRm5xmezIHmtt1Eg=
-X-Google-Smtp-Source: APXvYqyXTMBlLg6zaaBxaLMwu+/Ofs/SNMofugEGi2lz5gtU0zaSi0l/IFy3CNQ4THnNrH2qqaxHrw==
-X-Received: by 2002:a7b:c10b:: with SMTP id w11mr5664345wmi.108.1570090004442;
-        Thu, 03 Oct 2019 01:06:44 -0700 (PDT)
-Received: from localhost.localdomain ([46.114.33.168])
-        by smtp.googlemail.com with ESMTPSA id w7sm2355064wmd.22.2019.10.03.01.06.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Oct 2019 01:06:43 -0700 (PDT)
-From:   Gon Solo <gonsolo@gmail.com>
-To:     mchehab+samsung@kernel.org
-Cc:     sean@mess.org, crope@iki.fi, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Gon Solo <gonsolo@gmail.com>
-Subject: [PATCH 1/1] Test Mauros timing patch.
-Date:   Thu,  3 Oct 2019 10:06:20 +0200
-Message-Id: <20191003080620.3885-2-gonsolo@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191002154922.7f1cfc76@coco.lan>
-References: <20191002154922.7f1cfc76@coco.lan>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=+mhnw60zOlslfr3Z5bOz20vhrIEY/BCAZF11zDcGHTo=;
+        b=t1jUu3P3aBH7UbG+0uGQglp5FP6IHFMFZ9C+9kJY4R6XFtF2JrCAaaZSPIRk9wzyfQ
+         9XbSWSSGiCZPjuU+/BXgzvg2bIxHGox6J9160QXP/vFe1NeKMN8ChUlz4yLU2fc3Cqwo
+         MgTKesQu5fTT4xL3rUBu7wrQlQywWut0pW2Nq4TOVVgnV/h9MAzL/hMKJOStuw7PLpbr
+         JabZ91tlEUFfk0zKTfk3LWFDDUyXSBteOJNh4y+49cZOQS8eO03ts87/OP/LAxL4EEow
+         w7ELH3/dsmu+HUId/P4mStZdIZr4D/WgOSSgx7H7ru7z34nf1DtDqmmwTURUuavVqDrD
+         +U4A==
+X-Gm-Message-State: APjAAAW03We3bt56Kr4v+WcCH7p20JhxuJ7HjirYRHjL2xC9hBg4dm4s
+        DEQmgJPdebgF1BFfcKlrFmt+0C+hkbM=
+X-Google-Smtp-Source: APXvYqxhKqLJ1Z2f71GUNdp1CkL8cy5bIaRN65o/xvQPEV+XiTpJRZlflpZBCjHMxKz0z1y2vI/mYA==
+X-Received: by 2002:a19:810:: with SMTP id 16mr4906792lfi.110.1570091411801;
+        Thu, 03 Oct 2019 01:30:11 -0700 (PDT)
+Received: from [192.168.27.209] ([37.157.136.206])
+        by smtp.googlemail.com with ESMTPSA id e29sm369128ljb.105.2019.10.03.01.30.10
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 03 Oct 2019 01:30:11 -0700 (PDT)
+Subject: Re: venus: venc: Fix enum frameintervals - was: [GIT PULL for v5.5]
+ Venus updates, take 2
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Cc:     linux-media@vger.kernel.org
+References: <20191002112953.16642-1-stanimir.varbanov@linaro.org>
+ <20191002110958.2835d1ac@coco.lan>
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Message-ID: <59991fdf-4530-cbc5-7b6c-2de08ea06312@linaro.org>
+Date:   Thu, 3 Oct 2019 11:30:09 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191002110958.2835d1ac@coco.lan>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Signed-off-by: Gon Solo <gonsolo@gmail.com>
----
- drivers/media/tuners/si2157.c         | 32 ++++++++++++++++-----------
- drivers/media/usb/dvb-usb-v2/af9035.c | 14 ++++++++----
- 2 files changed, 29 insertions(+), 17 deletions(-)
+Hi Mauro,
 
-diff --git a/drivers/media/tuners/si2157.c b/drivers/media/tuners/si2157.c
-index d389f1fc237a..9e20727b7e84 100644
---- a/drivers/media/tuners/si2157.c
-+++ b/drivers/media/tuners/si2157.c
-@@ -75,6 +75,24 @@ static int si2157_cmd_execute(struct i2c_client *client, struct si2157_cmd *cmd)
- 	return ret;
- }
- 
-+static int si2157_power_up(struct si2157_dev *dev, struct i2c_client *client)
-+{
-+	struct si2157_cmd cmd;
-+
-+	if (dev->chiptype == SI2157_CHIPTYPE_SI2146) {
-+		memcpy(cmd.args, "\xc0\x05\x01\x00\x00\x0b\x00\x00\x01", 9);
-+		cmd.wlen = 9;
-+	} else if (dev->chiptype == SI2157_CHIPTYPE_SI2141) {
-+		memcpy(cmd.args, "\xc0\x00\x0d\x0e\x00\x01\x01\x01\x01\x03", 10);
-+		cmd.wlen = 10;
-+	} else {
-+		memcpy(cmd.args, "\xc0\x00\x0c\x00\x00\x01\x01\x01\x01\x01\x01\x02\x00\x00\x01", 15);
-+		cmd.wlen = 15;
-+	}
-+	cmd.rlen = 1;
-+	return si2157_cmd_execute(client, &cmd);
-+}
-+
- static int si2157_init(struct dvb_frontend *fe)
- {
- 	struct i2c_client *client = fe->tuner_priv;
-@@ -102,19 +120,7 @@ static int si2157_init(struct dvb_frontend *fe)
- 	if (uitmp == dev->if_frequency / 1000)
- 		goto warm;
- 
--	/* power up */
--	if (dev->chiptype == SI2157_CHIPTYPE_SI2146) {
--		memcpy(cmd.args, "\xc0\x05\x01\x00\x00\x0b\x00\x00\x01", 9);
--		cmd.wlen = 9;
--	} else if (dev->chiptype == SI2157_CHIPTYPE_SI2141) {
--		memcpy(cmd.args, "\xc0\x00\x0d\x0e\x00\x01\x01\x01\x01\x03", 10);
--		cmd.wlen = 10;
--	} else {
--		memcpy(cmd.args, "\xc0\x00\x0c\x00\x00\x01\x01\x01\x01\x01\x01\x02\x00\x00\x01", 15);
--		cmd.wlen = 15;
--	}
--	cmd.rlen = 1;
--	ret = si2157_cmd_execute(client, &cmd);
-+	ret = si2157_power_up(dev, client);
- 	if (ret)
- 		goto err;
- 
-diff --git a/drivers/media/usb/dvb-usb-v2/af9035.c b/drivers/media/usb/dvb-usb-v2/af9035.c
-index 80d3bd3a0f24..c4d4994e0079 100644
---- a/drivers/media/usb/dvb-usb-v2/af9035.c
-+++ b/drivers/media/usb/dvb-usb-v2/af9035.c
-@@ -1207,6 +1207,9 @@ static int af9035_frontend_attach(struct dvb_usb_adapter *adap)
- 	return ret;
- }
- 
-+/* I2C speed register = (1000000000 / (24.4 * 16 * I2C_speed)) */
-+#define I2C_SPEED_REGISTER 26
-+
- static int it930x_frontend_attach(struct dvb_usb_adapter *adap)
- {
- 	struct state *state = adap_to_priv(adap);
-@@ -1575,13 +1578,13 @@ static int it930x_tuner_attach(struct dvb_usb_adapter *adap)
- 
- 	dev_dbg(&intf->dev, "adap->id=%d\n", adap->id);
- 
--	/* I2C master bus 2 clock speed 300k */
--	ret = af9035_wr_reg(d, 0x00f6a7, 0x07);
-+	/* I2C master bus 2 clock speed ~100k */
-+	ret = af9035_wr_reg(d, 0x00f6a7, I2C_SPEED_REGISTER);
- 	if (ret < 0)
- 		goto err;
- 
--	/* I2C master bus 1,3 clock speed 300k */
--	ret = af9035_wr_reg(d, 0x00f103, 0x07);
-+	/* I2C master bus 1,3 clock speed ~100k */
-+	ret = af9035_wr_reg(d, 0x00f103, I2C_SPEED_REGISTER);
- 	if (ret < 0)
- 		goto err;
- 
-@@ -2128,6 +2131,9 @@ static const struct usb_device_id af9035_id_table[] = {
- 	/* IT930x devices */
- 	{ DVB_USB_DEVICE(USB_VID_ITETECH, USB_PID_ITETECH_IT9303,
- 		&it930x_props, "ITE 9303 Generic", NULL) },
-+
-+	{ DVB_USB_DEVICE(USB_VID_DEXATEK, 0x0100,
-+		&it930x_props, "Logilink VG0022A", NULL) },
- 	{ }
- };
- MODULE_DEVICE_TABLE(usb, af9035_id_table);
+On 10/2/19 5:09 PM, Mauro Carvalho Chehab wrote:
+> Em Wed,  2 Oct 2019 14:29:53 +0300
+> Stanimir Varbanov <stanimir.varbanov@linaro.org> escreveu:
+> 
+>> Hi Mauro,
+>>
+>> The Venus driver updates include:
+>>
+>> * three fixes: fail to suspend, enum frameinterval issue with encoder
+>> and frequency table modifications for v3 to handle performance issues.
+>> * two new features: interconnect bandwidth support on v4 and more precise
+>> clock-scaling on v4.
+>>
+>> Please pull.
+>>
+>> Stanimir Varbanov (3):
+>>       venus: venc: Fix enum frameintervals
+> 
+>> From c430fca8f2b9b7274a1186f85b69c469378dbd8a Mon Sep 17 00:00:00 2001
+>> From: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+>> Date: Tue, 22 Jan 2019 12:53:22 +0200
+>> Subject: venus: venc: Fix enum frameintervals
+>> To: Linux Media Mailing List <linux-media@vger.kernel.org>
+>> Cc: Mauro Carvalho Chehab <mchehab@infradead.org>
+>>
+>> This fixes an issue when setting the encoder framerate because of
+>> missing precision. Now the frameinterval type is changed to
+>> TYPE_CONTINUOUS and step = 1. Also the math is changed when
+>> framerate property is called - the firmware side expects the
+>> framerate in Q16 values.
+>>
+>> Signed-off-by: Loic Poulain <loic.poulain@linaro.org>
+>> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+>> ---
+>>  drivers/media/platform/qcom/venus/venc.c | 23 ++++++++++++++++-------
+>>  1 file changed, 16 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
+>> index 1b7fb2d5887c..d0a97754ef18 100644
+>> --- a/drivers/media/platform/qcom/venus/venc.c
+>> +++ b/drivers/media/platform/qcom/venus/venc.c
+>> @@ -22,6 +22,7 @@
+>>  #include "venc.h"
+>>  
+>>  #define NUM_B_FRAMES_MAX	4
+>> +#define FRAMERATE_FACTOR	BIT(16)
+>>  
+>>  /*
+>>   * Three resons to keep MPLANE formats (despite that the number of planes
+>> @@ -576,7 +577,7 @@ static int venc_enum_frameintervals(struct file *file, void *fh,
+>>  	struct venus_inst *inst = to_inst(file);
+>>  	const struct venus_format *fmt;
+>>  
+>> -	fival->type = V4L2_FRMIVAL_TYPE_STEPWISE;
+>> +	fival->type = V4L2_FRMIVAL_TYPE_CONTINUOUS;
+>>  
+>>  	fmt = find_format(inst, fival->pixel_format,
+>>  			  V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
+>> @@ -599,12 +600,12 @@ static int venc_enum_frameintervals(struct file *file, void *fh,
+>>  	    fival->height < frame_height_min(inst))
+>>  		return -EINVAL;
+>>  
+>> -	fival->stepwise.min.numerator = 1;
+>> -	fival->stepwise.min.denominator = frate_max(inst);
+>> -	fival->stepwise.max.numerator = 1;
+>> -	fival->stepwise.max.denominator = frate_min(inst);
+>> +	fival->stepwise.min.numerator = FRAMERATE_FACTOR;
+>> +	fival->stepwise.min.denominator = frate_max(inst) * FRAMERATE_FACTOR;
+>> +	fival->stepwise.max.numerator = FRAMERATE_FACTOR;
+>> +	fival->stepwise.max.denominator = frate_min(inst) * FRAMERATE_FACTOR;
+> 
+> Hmm... this change seems plain wrong to me... Why do you want to change
+> the numerator? I mean:
+> 
+> 	1/frame_min(inst)
+> 
+> is equal to:
+> 
+> 	(const * 1) / (const * frame_min(inst))
+> 
+> Also, on every other driver, the returned fractions are normalized.
+
+Agree, this looks suspicious. I will drop this patch from pull request.
+
+I will look into the other drivers once again.
+
+> 
+>>  	fival->stepwise.step.numerator = 1;
+>> -	fival->stepwise.step.denominator = frate_max(inst);
+>> +	fival->stepwise.step.denominator = 1;
+>>  
+>>  	return 0;
+>>  }
+>> @@ -649,6 +650,7 @@ static int venc_set_properties(struct venus_inst *inst)
+>>  	struct hfi_quantization quant;
+>>  	struct hfi_quantization_range quant_range;
+>>  	u32 ptype, rate_control, bitrate, profile = 0, level = 0;
+>> +	u64 framerate;
+>>  	int ret;
+>>  
+>>  	ret = venus_helper_set_work_mode(inst, VIDC_WORK_MODE_2);
+>> @@ -659,9 +661,16 @@ static int venc_set_properties(struct venus_inst *inst)
+>>  	if (ret)
+>>  		return ret;
+>>  
+>> +	framerate = inst->timeperframe.denominator * FRAMERATE_FACTOR;
+>> +	/* next line is to round up */
+>> +	framerate += inst->timeperframe.numerator - 1;
+>> +	do_div(framerate, inst->timeperframe.numerator);
+>> +
+>>  	ptype = HFI_PROPERTY_CONFIG_FRAME_RATE;
+>>  	frate.buffer_type = HFI_BUFFER_OUTPUT;
+>> -	frate.framerate = inst->fps * (1 << 16);
+>> +	frate.framerate = framerate;
+>> +	if (frate.framerate > frate_max(inst) * FRAMERATE_FACTOR)
+>> +		frate.framerate = frate_max(inst) * FRAMERATE_FACTOR;
+> 
+> You should not assume that userspace will be multiplying by the
+> frame factor. I mean, the driver should work the same way, no matter
+> if userspace is setting the framerate as:
+> 
+> 	1/30, 2/60, ... n/(n *30)
+
+Agreed.
+
 -- 
-2.20.1
-
+regards,
+Stan
