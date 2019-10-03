@@ -2,68 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 57B97CAE9C
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2019 20:54:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 347AFCAEDB
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2019 21:08:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731203AbfJCSyH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Oct 2019 14:54:07 -0400
-Received: from mail-lf1-f54.google.com ([209.85.167.54]:35509 "EHLO
-        mail-lf1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731156AbfJCSyG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Oct 2019 14:54:06 -0400
-Received: by mail-lf1-f54.google.com with SMTP id w6so2665321lfl.2;
-        Thu, 03 Oct 2019 11:54:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ez0vzBljWTiUPJRxq3ritD9VFDP65l68//xJ/PQjSxI=;
-        b=U/gGVbwNV43oHYk7RIPPBJCgz+p2rrcsYzuJpOwD+Mk06lXD9aN2/i11uAWciGMYSB
-         OJfRfDG7TdG3Khr+oyKys2GbFWJyvcVlXsiBOLbavdAmF9EPQ/oEoUefOpU+yBP7rNaN
-         DKBKWRugLhYD7ZvnSfnO+qcALKFuGr9JWfvqSlSvFhpAO7YQwtJNIRV9LFd1NONWC7Lu
-         e7lFW0YlAtb3lBDLrnoltkXB9NOvme0b2pTMRV/M4/UqR8i6hQx8h/kGfv9C4Ps3kfCB
-         Q+5phyABewioDuyHdTMq/EmQWLUm+5AsYgASDR/o/+XcejJiXux35wpJdlUAtw2NUn2e
-         FDpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ez0vzBljWTiUPJRxq3ritD9VFDP65l68//xJ/PQjSxI=;
-        b=HSymdIMux+4shIYsRlypZv9IeHSgVc878PZncSxT56A1LIQK5PGGgX/2tYZMpAoAQG
-         QrZVy18sQh8c0cAuYxcZEFoo0kWDtrnm3aGxh9Mk8cke2hwp7ncDSit7X7FQg32Bky1F
-         Chu/QD+uAZS5oTz+ttLonwcq8XQGNXZ4eenRW7dmoJKjwzqOMo55uhtcVB+fAYiT/vET
-         zoCxZUEHgKsVhe2E0+tiA3kMarYLvmt7JddO5Dmxv0Rb1ZBiiWv/yIR35zphv6WZbSqG
-         HvacQg4wjSBNhB4g5U08O0jO6M1mLJN6NaYTCKAJISw0HVNOaLifMErDg2HD8+fcKtVN
-         RoDw==
-X-Gm-Message-State: APjAAAXNmmTeivI2a5gv3az7h+s6F1kUL61Mwv+e7mHfgYkcTkva62SX
-        7vMi8QBF1oOatujX41QOQPVZoA/0n+aAqqyGR2Q=
-X-Google-Smtp-Source: APXvYqzLSIL88hKc/1DZsmk78o7/GSxZOq5xQ5KEQ4s3VjpkYMsiUxNM8gN26fBeAgPFTpmmgq0K6d8T/9Aee9tCnuU=
-X-Received: by 2002:ac2:50cb:: with SMTP id h11mr6600212lfm.170.1570128843620;
- Thu, 03 Oct 2019 11:54:03 -0700 (PDT)
+        id S1732321AbfJCTI6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Oct 2019 15:08:58 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:45062 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732289AbfJCTI6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Oct 2019 15:08:58 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 0B9C528C499
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     kernel@collabora.com, Tomasz Figa <tfiga@chromium.org>,
+        linux-rockchip@lists.infradead.org,
+        Heiko Stuebner <heiko@sntech.de>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Chris Healy <cphealy@gmail.com>, linux-kernel@vger.kernel.org,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Subject: [PATCH v2 0/4] Enable Hantro G1 post-processor
+Date:   Thu,  3 Oct 2019 16:08:29 -0300
+Message-Id: <20191003190833.29046-1-ezequiel@collabora.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-References: <29ab2e43-4374-a3ea-6ae1-a4267867eaa4@jpvw.nl> <20191002154922.7f1cfc76@coco.lan>
- <CANL0fFRJZBfEDWK_c2w1TomvB5-i4g09LopyJUbO5NtOwKdDTg@mail.gmail.com>
- <20191003080539.2b13c03b@coco.lan> <CANL0fFSmvEEJhnA=qjTuEPr4N8q8eWLeYC5du+OoTMxe1Gnh5Q@mail.gmail.com>
- <20191003120238.75811da6@coco.lan> <20191003160336.GA5125@Limone>
- <20191003130909.01d29b77@coco.lan> <20191003162326.GA2727@Limone>
- <20191003144225.0137bf6c@coco.lan> <20191003183200.GA2631@Limone>
- <e468b867-1b45-8220-a5d2-ac40fdb4e0e6@jpvw.nl> <CANL0fFS7OEzpgCaHqXdYQYitKzrcfBd0B00K0_KASTDSHV=VBw@mail.gmail.com>
-In-Reply-To: <CANL0fFS7OEzpgCaHqXdYQYitKzrcfBd0B00K0_KASTDSHV=VBw@mail.gmail.com>
-From:   Gonsolo <gonsolo@gmail.com>
-Date:   Thu, 3 Oct 2019 20:53:49 +0200
-Message-ID: <CANL0fFT4hYdp6+XV4q_ZagMB4RWc1sru2JXm6T=XczCNdBfXJw@mail.gmail.com>
-Subject: Re: [PATCH] si2157: Add support for Logilink VG0022A.
-To:     JP <jp@jpvw.nl>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>, crope@iki.fi,
-        Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
-        Linux Kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-I also tried to add a msleep(1000) after the si2168 firmware upload;
-no difference.
+Hi all,
 
-g
+The Hantro G1 VPU post-processor block can be pipelined with
+the decoder hardware, allowing to perform operations such as
+color conversion, scaling, rotation, cropping, among others.
+
+When the post-processor is enabled, the decoder hardware
+gets its own set of NV12 buffers (the native decoder format),
+and the post-processor is the owner of the CAPTURE buffers.
+
+This allows the application get processed
+(scaled, converted, etc) buffers, completely transparently.
+
+This feature is implemented by exposing the post-processed pixel
+formats on ENUM_FMT. When the application sets a pixel format
+other than NV12, and if the post-processor is MC-linked,
+the driver will make use of it, transparently.
+
+On this v2, the media controller API is now required
+to "enable" (aka link, in topology jargon) the post-processor.
+Therefore, applications now have to explicitly request this feature.
+
+For instance, the post-processor is enabled using the media-ctl
+tool:
+
+media-ctl -l "'decoder':1 -> 'rockchip,rk3288-vpu-dec':0[0]"
+media-ctl -l "'postproc':1 -> 'rockchip,rk3288-vpu-dec':0[1]"
+
+v4l2-ctl -d 1 --list-formats
+ioctl: VIDIOC_ENUM_FMT
+	Type: Video Capture Multiplanar
+
+	[0]: 'NV12' (Y/CbCr 4:2:0)
+	[1]: 'YUYV' (YUYV 4:2:2)
+
+Patches 1 and 2 are simply cleanups needed to easier integrate the
+post-processor. Patch 2 is a bit invasive, but it's a step
+forward towards merging the implementation for RK3399 and RK3288.
+
+Patch 3 re-works the media-topology, making the decoder
+a v4l2_subdevice, instead of a bare entity. This allows
+to introduce a more accurate of the decoder+post-processor complex.
+
+Patch 4 introduces the post-processing support.
+
+This is tested on RK3288 platforms with MPEG-2, VP8 and
+H264 streams, decoding to YUY2 surfaces. For now, this series
+is only adding support for NV12-to-YUY2 conversion.
+
+The design and implementation is quite different from v1:
+
+* The decoder->post-processor topology is now exposed
+  explicitly and applications need to configure the pipeline.
+  By default, the decoder is enabled and the post-processor
+  is disabled.
+
+* RGB post-processing output has been dropped. We might
+  add this in the future, but for now, it seems it would
+  make the code more complex without a use-case in mind.
+  RGB is much more memory-consuming so less attractive
+  than YUV, and modern GPUs and display controllers support YUV.
+
+* The post-processor implementation still supports RK3288
+  only. However, a generic register infrastructure is introduced
+  to make addition of other variants such as RK3399 really easy.
+
+Ezequiel Garcia (4):
+  media: hantro: Cleanup format negotiation helpers
+  media: hantro: mpeg2_dec: Re-use common register macros
+  media: hantro: Rework media topology
+  media: hantro: Support color conversion via post-processing
+
+ drivers/staging/media/hantro/Makefile         |   1 +
+ drivers/staging/media/hantro/hantro.h         | 105 +++++-
+ drivers/staging/media/hantro/hantro_drv.c     | 336 ++++++++++++++----
+ .../staging/media/hantro/hantro_g1_h264_dec.c |   2 +-
+ .../media/hantro/hantro_g1_mpeg2_dec.c        | 188 ++++------
+ drivers/staging/media/hantro/hantro_g1_regs.h | 109 ++++--
+ .../staging/media/hantro/hantro_g1_vp8_dec.c  |   2 +-
+ drivers/staging/media/hantro/hantro_h264.c    |   6 +-
+ drivers/staging/media/hantro/hantro_hw.h      |  13 +
+ .../staging/media/hantro/hantro_postproc.c    | 141 ++++++++
+ drivers/staging/media/hantro/hantro_v4l2.c    | 116 ++++--
+ drivers/staging/media/hantro/rk3288_vpu_hw.c  |  10 +
+ 12 files changed, 754 insertions(+), 275 deletions(-)
+ create mode 100644 drivers/staging/media/hantro/hantro_postproc.c
+
+-- 
+2.22.0
+
