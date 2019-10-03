@@ -2,166 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 67131C98FD
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2019 09:27:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AFBD6C9902
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2019 09:30:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728138AbfJCH1C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Oct 2019 03:27:02 -0400
-Received: from mail-pg1-f196.google.com ([209.85.215.196]:44163 "EHLO
-        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725892AbfJCH1B (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Oct 2019 03:27:01 -0400
-Received: by mail-pg1-f196.google.com with SMTP id i14so1172895pgt.11
-        for <linux-media@vger.kernel.org>; Thu, 03 Oct 2019 00:26:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:user-agent:in-reply-to:references:mime-version
-         :content-transfer-encoding:subject:to:cc:from:message-id;
-        bh=IVr7iCQ0cHeNyNwPRuU5jCxRdkEqJuzZ+TVTYQ7Mnp4=;
-        b=KJOoeEVbMXRr2W1fgcNTlyDaex0VQ3Ba2U2xe2RMUPXgiwzZU02fevNV0NSR5ZnC1K
-         sjB4AJxqFFvCEPCJhEI6BooZ5yl6/Q6EvhMyblDp4qmbFuNAKMuzllOpMhooEGzHMssh
-         Ur0d98VTS+WXGooohEQRDLI88ewpGWZSDH6bX9i7v/WSolJkadOHFEF1p7X59TE4DYmz
-         Ec6yRLbsnCRXuRC+avSoRUlcDpzIWO8LM5Q7EV6ppA/dXZiCeLeYYxP0q6ZBNK6OjFIn
-         iYE0KOBw3k4jHM8PgDAT+lARJhCsSYN8VyDEiOP7eL8Q/SCn+UhsNp6VeGbeYrCsXrbN
-         VICQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:user-agent:in-reply-to:references
-         :mime-version:content-transfer-encoding:subject:to:cc:from
-         :message-id;
-        bh=IVr7iCQ0cHeNyNwPRuU5jCxRdkEqJuzZ+TVTYQ7Mnp4=;
-        b=AS5l2B4/GSnyuemvpEGZpeP0eE6CgNLHOmNgE972smaKD7CDM/RaquHbCBjoJTq6n3
-         ySzzH8U2/NNRi0RSsWw41zI+qffYt5U6ee17RX9limT5MD3ZaOMc85cG6p8bpd/Pn4NU
-         0ElkdYVEujHB7xi1IIBl9A/FY7Cw5Xbx3S49/vOqnlAbrkQSue5K0V8FOVUy0X0tzNJt
-         uUuNvMmYRHc+5bE2/0oB5Fa7qu8TKF2pCuC7JdGd3x5ZmRUOvXg4dzLXOHjhDb5MWXbr
-         2Y96anNJFi75xvnXXLwsqQYbnu5f/lCRf16RtPBdOtXAggYweOtWdjv5ebDBU0Ogwsk9
-         XAmw==
-X-Gm-Message-State: APjAAAWpHTWPOOUU7hfewWAvsIILkd0JDjgxSN6h8D20Lt3GgibJrE4D
-        bWyLltfznnk0RwVkPQf/jD0U
-X-Google-Smtp-Source: APXvYqybPBUNXzjIAvdhsZUlz4yV8jJBXb+GFM9eK9pzjSoe7b60QfMcTAatnjNLj9/2jmJS/axrCw==
-X-Received: by 2002:a63:fe56:: with SMTP id x22mr5720985pgj.423.1570087618720;
-        Thu, 03 Oct 2019 00:26:58 -0700 (PDT)
-Received: from ?IPv6:2405:204:7341:7bd7:48be:62db:2019:7e4d? ([2405:204:7341:7bd7:48be:62db:2019:7e4d])
-        by smtp.gmail.com with ESMTPSA id e9sm1377846pgs.86.2019.10.03.00.26.57
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 03 Oct 2019 00:26:58 -0700 (PDT)
-Date:   Thu, 03 Oct 2019 12:56:48 +0530
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20191003071646.GZ896@valkosipuli.retiisi.org.uk>
-References: <20190830091943.22646-1-manivannan.sadhasivam@linaro.org> <20190830091943.22646-3-manivannan.sadhasivam@linaro.org> <20190923092209.GL5525@valkosipuli.retiisi.org.uk> <20191001184200.GA7739@Mani-XPS-13-9360> <20191002103715.GR896@valkosipuli.retiisi.org.uk> <20191003053338.GA7868@Mani-XPS-13-9360> <20191003071646.GZ896@valkosipuli.retiisi.org.uk>
+        id S1727849AbfJCHaP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Oct 2019 03:30:15 -0400
+Received: from relay12.mail.gandi.net ([217.70.178.232]:38729 "EHLO
+        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726167AbfJCHaP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Oct 2019 03:30:15 -0400
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay12.mail.gandi.net (Postfix) with ESMTPSA id 7F46720000E;
+        Thu,  3 Oct 2019 07:30:12 +0000 (UTC)
+Date:   Thu, 3 Oct 2019 09:31:55 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Benoit Parrot <bparrot@ti.com>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [Patch v2 3/3] media: ov5640: Make 2592x1944 mode only available
+ at 15 fps
+Message-ID: <20191003073155.4sl3jkmobnm53tm2@uno.localdomain>
+References: <20191002135134.12273-1-bparrot@ti.com>
+ <20191002135134.12273-4-bparrot@ti.com>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 2/3] media: i2c: Add IMX290 CMOS image sensor driver
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-CC:     mchehab@kernel.org, robh+dt@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        c.barrett@framos.com, a.brela@framos.com
-From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Message-ID: <3FAB5E91-9FD2-4052-881B-E4B18D44D33B@linaro.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="n5rftw743bmspsmn"
+Content-Disposition: inline
+In-Reply-To: <20191002135134.12273-4-bparrot@ti.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,=20
 
-On 3 October 2019 12:46:46 PM IST, Sakari Ailus <sakari=2Eailus@iki=2Efi> =
-wrote:
->Hi Manivannan,
+--n5rftw743bmspsmn
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+
+Hi Benoit,
+
+On Wed, Oct 02, 2019 at 08:51:34AM -0500, Benoit Parrot wrote:
+> The sensor data sheet clearly state that 2592x1944 only works at 15 fps
+> make sure we don't try to miss configure the pll out of acceptable
+> range.
+
+The datasheet clearly indicates that 15 fps is the maximum achievable
+rate with that resolution, so I guess preventing it from being set
+to anything faster than that it's acceptable.
 >
->On Thu, Oct 03, 2019 at 11:03:38AM +0530, Manivannan Sadhasivam wrote:
->=2E=2E=2E=2E
->> > > > > +static int imx290_set_gain(struct imx290 *imx290, u32 value)
->> > > > > +{
->> > > > > +	int ret;
->> > > > > +
->> > > > > +	u32 adjusted_value =3D (value * 10) / 3;
->> > > >=20
->> > > > What's the purpose of this? Why not to use the value directly?
->> > > >=20
->> > >=20
->> > > The gain register accepts the value 10/3 of the actual gain
->required=2E Hence,
->> > > we need to manually do the calculation before updating the value=2E
->I can
->> > > add a comment here to clarify=2E
->> >=20
->> > It's better to use the register value directly=2E Otherwise the
->granularity
->> > won't be available to the user space=2E
->> >=20
->>=20
->> The sensor datasheet clearly defines that the 10/3'rd of the expected
->gain
->> should be set to this register=2E So, IMO we should be setting the
->value as
+> Signed-off-by: Benoit Parrot <bparrot@ti.com>
+> ---
+>  drivers/media/i2c/ov5640.c | 5 +++++
+>  1 file changed, 5 insertions(+)
 >
->The unit of that gain is decibels, but the controls do not have a unit=2E
->Register value is really preferred here=2E
+> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+> index 103a4e8f88e1..d5b0be2c7a0a 100644
+> --- a/drivers/media/i2c/ov5640.c
+> +++ b/drivers/media/i2c/ov5640.c
+> @@ -1613,6 +1613,11 @@ ov5640_find_mode(struct ov5640_dev *sensor, enum ov5640_frame_rate fr,
+>  	    !(mode->hact == 640 && mode->vact == 480))
+>  		return NULL;
+>
+> +	/* 2592x1944 only works at 15fps */
+> +	if (fr != OV5640_15_FPS &&
+
+As long as 15 fps is the lower framerate declared in
+ov5640_framerates[] this is ok, but I would make this condition a
+check for "fr  > OV5640_15_FPS" so that it's safe for future
+extensions.
+
+(And I would check for the resolution first then FPS, so you check
+the most unlikely condition first, but that's really a minor
+optimization).
+
+With the above small details addressed
+Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+
+Thanks
+   j
+
+> +	    (mode->hact == 2592 && mode->vact == 1944))
+> +		return NULL;
+> +
+>  	return mode;
+>  }
+>
+> --
+> 2.17.1
 >
 
-Hmm, okay=2E Will just pass the value directly=2E=20
+--n5rftw743bmspsmn
+Content-Type: application/pgp-signature; name="signature.asc"
 
->> mentioned in the datasheet=2E I agree that we are missing the userspace
->> granularity here but sticking to the device limitation shouldn't be a
->problem=2E
->> As I said, I'll add a comment here to clarify=2E
->
->The comment isn't visible in the uAPI=2E
->
+-----BEGIN PGP SIGNATURE-----
 
-Yes=2E It would be good to have the units passed onto the userspace someho=
-w like it is done in IIO=2E Then we don't need to fiddle in the driver for =
-mismatch=2E Something consider in future=2E=2E=2E=20
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl2Vo+sACgkQcjQGjxah
+VjyJKw/9Gz/lz6Mb9xgW4HAr0QAEBl3gR9e2mbU14RmyMNI78KyX+Ygnl9b6rllZ
+FKl36MewrCwPiVFbOWcOtCTNuoCC+I4t7HZCCR+cY/sSJmSm/jspU7RvJ/5dR4xU
+t4HdpbARvjSjII6jicou6wcQlEo4NCkhuQuerzZPWXoZBcJ5dq3NfadWlvcqJVcP
+3RuSt65oOxchYT7FjnqTyOrVyf6+z5XLAYCmhqDweDYR3VhGeJB/+OGqYSQ0SYnz
+OmWm6pvpa38+Bo0IGgK8drYCP5rzKlSV0yNnjrxy21XOvW8wLTZXvsPG/8fnupvd
+OSEczRur15CJLm/J23FnTbTGrJFivvT8LqQeKr748dSvDIZRQgELO3UiDhntV5fr
+Vv7rTIBx0VyGhprM8p3ZDB/JFcxE02Cz1Y/wpjV+ccbfxwXGMg4vbTSwwzCWS1/7
+kYi+EX8Qc2jJ0v5KWDpn1Zbz2zH7klvD5KMcxP/KvMX/1uIOObCZMedukzDuwdwD
+BCdaSKbiyW//QS8ZkCKv39NnyA1qSiBtH2gwzhKBoH6eHrplumD4JPJZXvfxoOGj
+J1nJCmgQ8xUP8W6l8qe09aiE+W5jS+tY+++UrgN6vIuMONmE2kMea0TM4NkcIntZ
+9lDuCK2XhHRpULsvLKfeWNgBSCnQFQgyVH6n/RaQCLKqE0qe7SM=
+=r89m
+-----END PGP SIGNATURE-----
 
->>=20
->> > >=20
->> > > > > +
->> > > > > +	ret =3D imx290_write_buffered_reg(imx290, IMX290_GAIN, 1,
->adjusted_value);
->> > > > > +	if (ret)
->> > > > > +		dev_err(imx290->dev, "Unable to write gain\n");
->> > > > > +
->> > > > > +	return ret;
->> > > > > +}
->> > > > > +
->> > > > > +static int imx290_set_power_on(struct imx290 *imx290)
->> > > > > +{
->> > > > > +	int ret;
->> > > > > +
->> > > > > +	ret =3D clk_prepare_enable(imx290->xclk);
->> > > >=20
->> > > > Please move the code from this function to the runtime PM
->runtime suspend
->> > > > callback=2E The same for imx290_set_power_off()=2E
->> > > >=20
->> > >=20
->> > > May I know why? I think since this is being used only once,
->you're suggesting
->> > > to move to the callback function itself but please see the
->comment below=2E I
->> > > will reuse this function to power on the device during probe=2E
->> >=20
->> > Yes, you can call the same function from probe, even if it's used
->as a
->> > runtime PM callback=2E
->> >=20
->> > There's no need to have a function that acts as a wrapper for
->calling it
->> > with a different type of an argument=2E
->> >=20
->>=20
->> You mean directly calling imx290_runtime_resume() from probe is fine?
->
->Yes=2E Feel free to call it e=2Eg=2E imx290_power_on or something=2E
-
-Okay=2E=20
-
-Thanks,=20
-Mani
-
---=20
-Sent from my Android device with K-9 Mail=2E Please excuse my brevity=2E
+--n5rftw743bmspsmn--
