@@ -2,783 +2,146 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 17A06C9F12
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2019 15:06:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E0A2C9F7E
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2019 15:33:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729524AbfJCNGe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Oct 2019 09:06:34 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:34171 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729486AbfJCNGe (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 3 Oct 2019 09:06:34 -0400
-Received: from [IPv6:2001:420:44c1:2577:6d0e:6b32:a8b6:66d9] ([IPv6:2001:420:44c1:2577:6d0e:6b32:a8b6:66d9])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id G0oMi2oLrop0AG0oPi8BEE; Thu, 03 Oct 2019 15:06:30 +0200
-Subject: Re: [PATCH v2 2/2] vivid: Add metadata output support
-To:     Vandana BN <bnvandana@gmail.com>, linux-media@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-References: <9439560a-dbc7-9aeb-a27b-314ace85dc81@xs4all.nl>
- <20191003110858.7120-1-bnvandana@gmail.com>
- <20191003110858.7120-3-bnvandana@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <b595eede-43dd-294f-e9e5-4a5799ed5ebd@xs4all.nl>
-Date:   Thu, 3 Oct 2019 15:06:26 +0200
+        id S1730411AbfJCNdS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Oct 2019 09:33:18 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:41376 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729728AbfJCNdR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Oct 2019 09:33:17 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: koike)
+        with ESMTPSA id DD8BB28FC91
+Subject: Re: [PATCH v2 1/5] media: vimc: initialize vim entity pointers to
+ NULL
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        linux-media@vger.kernel.org
+Cc:     ezequiel@collabora.com, andre.almeida@collabora.com,
+        skhan@linuxfoundation.org, hverkuil@xs4all.nl,
+        kernel@collabora.com, dafna3@gmail.com
+References: <20191003104409.15756-1-dafna.hirschfeld@collabora.com>
+ <20191003104409.15756-2-dafna.hirschfeld@collabora.com>
+From:   Helen Koike <helen.koike@collabora.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=helen.koike@collabora.com; keydata=
+ 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
+Message-ID: <6b150ecc-50dd-0b70-7c73-eabac6f9be45@collabora.com>
+Date:   Thu, 3 Oct 2019 10:33:09 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <20191003110858.7120-3-bnvandana@gmail.com>
+In-Reply-To: <20191003104409.15756-2-dafna.hirschfeld@collabora.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfMxm/pkMbYmDvjuZLkIIxo4mD8n7kTuWn9DKMRIqGxe/rKaDUKG3Coc58xDc8ZbU1VrFlcJizgdlxowpMRsu8ShesQlbNWuDF08RF9PKFx3bUjMBiuAv
- Va1UT52L8Swz3Lb+lqzmDvUpJHnXmqwD6s1wZyCRMwv81YJg6j7+BtOuL2CMaAUo/rT7hh5KiWlyx/R+v3tFh2tiZgF5BWxACd/NOxM7kreNUht4abdKhQmp
- DU5iE2nu487c8hLkfnv5ToOUTm+gf1u5yRgU/vkWsN3Mtx8KaIbWtPM//CNvq25sGhg50df5W6UcAahtpIdtudNtwVB+ufbkiMK28jayhjvzYTafq6RVvC6C
- BpE7e3sJH1K1SbgRbaysTW4V+/YMcg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/3/19 1:08 PM, Vandana BN wrote:
-> Support metadata output in vivid driver.
-> Metadata output is used to set brightness, contrast, saturation
-> and hue.
-> Adds new files for metadata output.
+
+
+On 10/3/19 7:44 AM, Dafna Hirschfeld wrote:
+> since NULL value for vimc entity pointer indicates
+> that entity creation failed and this is tested, the
+> pointers should be initialized to NULL.
 > 
-> Signed-off-by: Vandana BN <bnvandana@gmail.com>
+> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+
+Acked-by: Helen Koike <helen.koike@collabora.com>
+
 > ---
->  drivers/media/platform/vivid/Makefile         |   2 +-
->  drivers/media/platform/vivid/vivid-core.c     |  98 +++++++++-
->  drivers/media/platform/vivid/vivid-core.h     |  10 +
->  drivers/media/platform/vivid/vivid-ctrls.c    |  14 +-
->  .../media/platform/vivid/vivid-kthread-out.c  |  50 ++++-
->  drivers/media/platform/vivid/vivid-meta-out.c | 174 ++++++++++++++++++
->  drivers/media/platform/vivid/vivid-meta-out.h |  25 +++
->  drivers/media/platform/vivid/vivid-vid-out.c  |   5 +-
->  8 files changed, 366 insertions(+), 12 deletions(-)
->  create mode 100644 drivers/media/platform/vivid/vivid-meta-out.c
->  create mode 100644 drivers/media/platform/vivid/vivid-meta-out.h
+>  drivers/media/platform/vimc/vimc-core.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/media/platform/vivid/Makefile b/drivers/media/platform/vivid/Makefile
-> index af94abf9bce6..e8a50c506dc9 100644
-> --- a/drivers/media/platform/vivid/Makefile
-> +++ b/drivers/media/platform/vivid/Makefile
-> @@ -3,7 +3,7 @@ vivid-objs := vivid-core.o vivid-ctrls.o vivid-vid-common.o vivid-vbi-gen.o \
->  		vivid-vid-cap.o vivid-vid-out.o vivid-kthread-cap.o vivid-kthread-out.o \
->  		vivid-radio-rx.o vivid-radio-tx.o vivid-radio-common.o \
->  		vivid-rds-gen.o vivid-sdr-cap.o vivid-vbi-cap.o vivid-vbi-out.o \
-> -		vivid-osd.o vivid-meta-cap.o
-> +		vivid-osd.o vivid-meta-cap.o vivid-meta-out.o
->  ifeq ($(CONFIG_VIDEO_VIVID_CEC),y)
->    vivid-objs += vivid-cec.o
->  endif
-> diff --git a/drivers/media/platform/vivid/vivid-core.c b/drivers/media/platform/vivid/vivid-core.c
-> index 97ab197bdec0..7f08e8ae5446 100644
-> --- a/drivers/media/platform/vivid/vivid-core.c
-> +++ b/drivers/media/platform/vivid/vivid-core.c
-> @@ -38,6 +38,7 @@
->  #include "vivid-cec.h"
->  #include "vivid-ctrls.h"
->  #include "vivid-meta-cap.h"
-> +#include "vivid-meta-out.h"
->  
->  #define VIVID_MODULE_NAME "vivid"
->  
-> @@ -84,6 +85,10 @@ static int meta_cap_nr[VIVID_MAX_DEVS] = { [0 ... (VIVID_MAX_DEVS - 1)] = -1 };
->  module_param_array(meta_cap_nr, int, NULL, 0444);
->  MODULE_PARM_DESC(meta_cap_nr, " videoX start number, -1 is autodetect");
->  
-> +static int meta_out_nr[VIVID_MAX_DEVS] = { [0 ... (VIVID_MAX_DEVS - 1)] = -1 };
-> +module_param_array(meta_out_nr, int, NULL, 0444);
-> +MODULE_PARM_DESC(meta_out_nr, " videoX start number, -1 is autodetect");
-> +
->  static int ccs_cap_mode[VIVID_MAX_DEVS] = { [0 ... (VIVID_MAX_DEVS - 1)] = -1 };
->  module_param_array(ccs_cap_mode, int, NULL, 0444);
->  MODULE_PARM_DESC(ccs_cap_mode, " capture crop/compose/scale mode:\n"
-> @@ -105,10 +110,10 @@ MODULE_PARM_DESC(multiplanar, " 1 (default) creates a single planar device, 2 cr
->   * vbi-out + vid-out + meta-cap
->   */
->  static unsigned int node_types[VIVID_MAX_DEVS] = {
-> -	[0 ... (VIVID_MAX_DEVS - 1)] = 0x21d3d
-> +	[0 ... (VIVID_MAX_DEVS - 1)] = 0x61d3d
->  };
->  module_param_array(node_types, uint, NULL, 0444);
-> -MODULE_PARM_DESC(node_types, " node types, default is 0x1d3d. Bitmask with the following meaning:\n"
-> +MODULE_PARM_DESC(node_types, " node types, default is 0x61d3d. Bitmask with the following meaning:\n"
->  			     "\t\t    bit 0: Video Capture node\n"
->  			     "\t\t    bit 2-3: VBI Capture node: 0 = none, 1 = raw vbi, 2 = sliced vbi, 3 = both\n"
->  			     "\t\t    bit 4: Radio Receiver node\n"
-> @@ -117,7 +122,8 @@ MODULE_PARM_DESC(node_types, " node types, default is 0x1d3d. Bitmask with the f
->  			     "\t\t    bit 10-11: VBI Output node: 0 = none, 1 = raw vbi, 2 = sliced vbi, 3 = both\n"
->  			     "\t\t    bit 12: Radio Transmitter node\n"
->  			     "\t\t    bit 16: Framebuffer for testing overlays\n"
-> -			     "\t\t    bit 17: Metadata Capture node\n");
-> +			     "\t\t    bit 17: Metadata Capture node\n"
-> +			     "\t\t    bit 18: Metadata Output node\n");
->  
->  /* Default: 4 inputs */
->  static unsigned num_inputs[VIVID_MAX_DEVS] = { [0 ... (VIVID_MAX_DEVS - 1)] = 4 };
-> @@ -216,7 +222,8 @@ static int vidioc_querycap(struct file *file, void  *priv,
->  	cap->capabilities = dev->vid_cap_caps | dev->vid_out_caps |
->  		dev->vbi_cap_caps | dev->vbi_out_caps |
->  		dev->radio_rx_caps | dev->radio_tx_caps |
-> -		dev->sdr_cap_caps | dev->meta_cap_caps | V4L2_CAP_DEVICE_CAPS;
-> +		dev->sdr_cap_caps | dev->meta_cap_caps |
-> +		dev->meta_out_caps | V4L2_CAP_DEVICE_CAPS;
->  	return 0;
->  }
->  
-> @@ -445,7 +452,8 @@ static bool vivid_is_last_user(struct vivid_dev *dev)
->  			vivid_is_in_use(&dev->sdr_cap_dev) +
->  			vivid_is_in_use(&dev->radio_rx_dev) +
->  			vivid_is_in_use(&dev->radio_tx_dev) +
-> -			vivid_is_in_use(&dev->meta_cap_dev);
-> +			vivid_is_in_use(&dev->meta_cap_dev) +
-> +			vivid_is_in_use(&dev->meta_out_dev);
->  
->  	return uses == 1;
->  }
-> @@ -472,6 +480,7 @@ static int vivid_fop_release(struct file *file)
->  		set_bit(V4L2_FL_REGISTERED, &dev->radio_rx_dev.flags);
->  		set_bit(V4L2_FL_REGISTERED, &dev->radio_tx_dev.flags);
->  		set_bit(V4L2_FL_REGISTERED, &dev->meta_cap_dev.flags);
-> +		set_bit(V4L2_FL_REGISTERED, &dev->meta_out_dev.flags);
->  	}
->  	mutex_unlock(&dev->mutex);
->  	if (file->private_data == dev->overlay_cap_owner)
-> @@ -622,6 +631,11 @@ static const struct v4l2_ioctl_ops vivid_ioctl_ops = {
->  	.vidioc_g_fmt_meta_cap		= vidioc_g_fmt_meta_cap,
->  	.vidioc_s_fmt_meta_cap		= vidioc_g_fmt_meta_cap,
->  	.vidioc_try_fmt_meta_cap	= vidioc_g_fmt_meta_cap,
-> +
-> +	.vidioc_enum_fmt_meta_out       = vidioc_enum_fmt_meta_out,
-> +	.vidioc_g_fmt_meta_out          = vidioc_g_fmt_meta_out,
-> +	.vidioc_s_fmt_meta_out          = vidioc_g_fmt_meta_out,
-> +	.vidioc_try_fmt_meta_out        = vidioc_g_fmt_meta_out,
->  };
->  
->  /* -----------------------------------------------------------------
-> @@ -839,6 +853,9 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
->  	/* do we create a meta capture device */
->  	dev->has_meta_cap = node_type & 0x20000;
->  
-> +	/* do we create a metadata output device */
-> +	dev->has_meta_out = node_type & 0x40000;
-> +
->  	/* end detecting feature set */
->  
->  	if (dev->has_vid_cap) {
-> @@ -905,6 +922,13 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
->  		if (in_type_counter[TV])
->  			dev->meta_cap_caps |= V4L2_CAP_TUNER;
->  	}
-> +	/* set up the capablilities of meta output device*/
-> +	if (dev->has_meta_out) {
-> +		dev->meta_out_caps = V4L2_CAP_META_OUTPUT |
-> +				     V4L2_CAP_STREAMING | V4L2_CAP_READWRITE;
-> +		if (dev->has_audio_outputs)
-> +			dev->meta_out_caps |= V4L2_CAP_AUDIO;
-> +	}
->  
->  	ret = -ENOMEM;
->  	/* initialize the test pattern generator */
-> @@ -976,6 +1000,9 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
->  		v4l2_disable_ioctl(&dev->vbi_out_dev, VIDIOC_S_AUDOUT);
->  		v4l2_disable_ioctl(&dev->vbi_out_dev, VIDIOC_G_AUDOUT);
->  		v4l2_disable_ioctl(&dev->vbi_out_dev, VIDIOC_ENUMAUDOUT);
-> +		v4l2_disable_ioctl(&dev->meta_out_dev, VIDIOC_S_AUDOUT);
-> +		v4l2_disable_ioctl(&dev->meta_out_dev, VIDIOC_G_AUDOUT);
-> +		v4l2_disable_ioctl(&dev->meta_out_dev, VIDIOC_ENUMAUDOUT);
->  	}
->  	if (!in_type_counter[TV] && !in_type_counter[SVID]) {
->  		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_S_STD);
-> @@ -1035,6 +1062,8 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
->  	v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_ENUM_FRAMEINTERVALS);
->  	v4l2_disable_ioctl(&dev->vbi_out_dev, VIDIOC_S_FREQUENCY);
->  	v4l2_disable_ioctl(&dev->vbi_out_dev, VIDIOC_G_FREQUENCY);
-> +	v4l2_disable_ioctl(&dev->meta_out_dev, VIDIOC_S_FREQUENCY);
-> +	v4l2_disable_ioctl(&dev->meta_out_dev, VIDIOC_G_FREQUENCY);
->  
->  	/* configure internal data */
->  	dev->fmt_cap = &vivid_formats[0];
-> @@ -1118,6 +1147,7 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
->  	INIT_LIST_HEAD(&dev->vbi_out_active);
->  	INIT_LIST_HEAD(&dev->sdr_cap_active);
->  	INIT_LIST_HEAD(&dev->meta_cap_active);
-> +	INIT_LIST_HEAD(&dev->meta_out_active);
->  
->  	INIT_LIST_HEAD(&dev->cec_work_list);
->  	spin_lock_init(&dev->cec_slock);
-> @@ -1286,6 +1316,27 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
->  			goto unreg_dev;
+> diff --git a/drivers/media/platform/vimc/vimc-core.c b/drivers/media/platform/vimc/vimc-core.c
+> index 6e3e5c91ae39..b8add4087652 100644
+> --- a/drivers/media/platform/vimc/vimc-core.c
+> +++ b/drivers/media/platform/vimc/vimc-core.c
+> @@ -199,9 +199,8 @@ static int vimc_register_devices(struct vimc_device *vimc)
 >  	}
 >  
-> +	if (dev->has_meta_out) {
-> +		/* initialize vbi_out queue */
-> +		q = &dev->vb_meta_out_q;
-> +		q->type = V4L2_BUF_TYPE_META_OUTPUT;
-> +		q->io_modes = VB2_MMAP | VB2_DMABUF | VB2_WRITE;
-> +		if (!allocator)
-> +			q->io_modes |= VB2_USERPTR;
-> +		q->drv_priv = dev;
-> +		q->buf_struct_size = sizeof(struct vivid_buffer);
-> +		q->ops = &vivid_meta_out_qops;
-> +		q->mem_ops = vivid_mem_ops[allocator];
-> +		q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
-> +		q->min_buffers_needed = 2;
-> +		q->lock = &dev->mutex;
-> +		q->dev = dev->v4l2_dev.dev;
-> +		q->supports_requests = true;
-> +		ret = vb2_queue_init(q);
-> +		if (ret)
-> +			goto unreg_dev;
-> +	}
-> +
->  #ifdef CONFIG_VIDEO_VIVID_CEC
->  	if (dev->has_vid_cap && in_type_counter[HDMI]) {
->  		struct cec_adapter *adap;
-> @@ -1327,6 +1378,7 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
->  	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_radio_tx);
->  	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_sdr_cap);
->  	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_meta_cap);
-> +	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_meta_out);/* is this needed */
-
-Strictly speaking this is not needed. But it is a good idea to still add it.
-The function won't do anything, but if a control for meta_out is added later,
-then it will be handled correctly here.
-
-So just drop the comment.
-
+>  	/* allocate ent_devs */
+> -	vimc->ent_devs = kmalloc_array(vimc->pipe_cfg->num_ents,
+> -				       sizeof(*vimc->ent_devs),
+> -				       GFP_KERNEL);
+> +	vimc->ent_devs = kcalloc(vimc->pipe_cfg->num_ents,
+> +				 sizeof(*vimc->ent_devs), GFP_KERNEL);
+>  	if (!vimc->ent_devs)
+>  		goto err_v4l2_unregister;
 >  
->  	/* finally start creating the device nodes */
->  	if (dev->has_vid_cap) {
-> @@ -1583,6 +1635,36 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
->  			  video_device_node_name(vfd));
->  	}
->  
-> +	if (dev->has_meta_out) {
-> +		vfd = &dev->meta_out_dev;
-> +		snprintf(vfd->name, sizeof(vfd->name),
-> +			 "vivid-%03d-meta-out", inst);
-> +		vfd->vfl_dir = VFL_DIR_TX;
-> +		vfd->fops = &vivid_fops;
-> +		vfd->ioctl_ops = &vivid_ioctl_ops;
-> +		vfd->device_caps = dev->meta_out_caps;
-> +		vfd->release = video_device_release_empty;
-> +		vfd->v4l2_dev = &dev->v4l2_dev;
-> +		vfd->queue = &dev->vb_meta_out_q;
-> +		vfd->lock = &dev->mutex;
-> +		vfd->tvnorms = tvnorms_out;
-> +		video_set_drvdata(vfd, dev);
-> +#ifdef CONFIG_MEDIA_CONTROLLER
-> +		dev->meta_out_pad.flags = MEDIA_PAD_FL_SOURCE;
-> +		ret = media_entity_pads_init(&vfd->entity, 1,
-> +					     &dev->meta_out_pad);
-> +		if (ret)
-> +			goto unreg_dev;
-> +#endif
-> +		ret = video_register_device(vfd, VFL_TYPE_GRABBER,
-> +					    meta_out_nr[inst]);
-> +		if (ret < 0)
-> +			goto unreg_dev;
-> +		v4l2_info(&dev->v4l2_dev,
-> +			  "V4L2 metadata output device registered as %s\n",
-> +			  video_device_node_name(vfd));
-> +	}
-> +
->  #ifdef CONFIG_MEDIA_CONTROLLER
->  	/* Register the media device */
->  	ret = media_device_register(&dev->mdev);
-> @@ -1599,6 +1681,7 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
->  	return 0;
->  
->  unreg_dev:
-> +	video_unregister_device(&dev->meta_out_dev);
->  	video_unregister_device(&dev->meta_cap_dev);
->  	video_unregister_device(&dev->radio_tx_dev);
->  	video_unregister_device(&dev->radio_rx_dev);
-> @@ -1721,6 +1804,11 @@ static int vivid_remove(struct platform_device *pdev)
->  				  video_device_node_name(&dev->meta_cap_dev));
->  			video_unregister_device(&dev->meta_cap_dev);
->  		}
-> +		if (dev->has_meta_out) {
-> +			v4l2_info(&dev->v4l2_dev, "unregistering %s\n",
-> +				  video_device_node_name(&dev->meta_out_dev));
-> +			video_unregister_device(&dev->meta_out_dev);
-> +		}
->  		cec_unregister_adapter(dev->cec_rx_adap);
->  		for (j = 0; j < MAX_OUTPUTS; j++)
->  			cec_unregister_adapter(dev->cec_tx_adap[j]);
-> diff --git a/drivers/media/platform/vivid/vivid-core.h b/drivers/media/platform/vivid/vivid-core.h
-> index fd601345a17c..d57066ed31f0 100644
-> --- a/drivers/media/platform/vivid/vivid-core.h
-> +++ b/drivers/media/platform/vivid/vivid-core.h
-> @@ -132,6 +132,7 @@ struct vivid_dev {
->  	struct media_pad		vbi_out_pad;
->  	struct media_pad		sdr_cap_pad;
->  	struct media_pad		meta_cap_pad;
-> +	struct media_pad		meta_out_pad;
->  #endif
->  	struct v4l2_ctrl_handler	ctrl_hdl_user_gen;
->  	struct v4l2_ctrl_handler	ctrl_hdl_user_vid;
-> @@ -156,6 +157,8 @@ struct vivid_dev {
->  	struct v4l2_ctrl_handler	ctrl_hdl_sdr_cap;
->  	struct video_device		meta_cap_dev;
->  	struct v4l2_ctrl_handler	ctrl_hdl_meta_cap;
-> +	struct video_device		meta_out_dev;
-> +	struct v4l2_ctrl_handler	ctrl_hdl_meta_out;
->  
->  	spinlock_t			slock;
->  	struct mutex			mutex;
-> @@ -169,6 +172,7 @@ struct vivid_dev {
->  	u32				radio_rx_caps;
->  	u32				radio_tx_caps;
->  	u32				meta_cap_caps;
-> +	u32				meta_out_caps;
->  
->  	/* supported features */
->  	bool				multiplanar;
-> @@ -195,6 +199,7 @@ struct vivid_dev {
->  	bool				has_sdr_cap;
->  	bool				has_fb;
->  	bool				has_meta_cap;
-> +	bool				has_meta_out;
->  
->  	bool				can_loop_video;
->  
-> @@ -432,6 +437,8 @@ struct vivid_dev {
->  	struct list_head		vid_out_active;
->  	struct vb2_queue		vb_vbi_out_q;
->  	struct list_head		vbi_out_active;
-> +	struct vb2_queue		vb_meta_out_q;
-> +	struct list_head		meta_out_active;
->  
->  	/* video loop precalculated rectangles */
->  
-> @@ -472,6 +479,9 @@ struct vivid_dev {
->  	u32				vbi_out_seq_count;
->  	bool				vbi_out_streaming;
->  	bool				stream_sliced_vbi_out;
-> +	u32				meta_out_seq_start;
-> +	u32				meta_out_seq_count;
-> +	bool				meta_out_streaming;
->  
->  	/* SDR capture */
->  	struct vb2_queue		vb_sdr_cap_q;
-> diff --git a/drivers/media/platform/vivid/vivid-ctrls.c b/drivers/media/platform/vivid/vivid-ctrls.c
-> index 2ab6a680485c..a7d42e139a4f 100644
-> --- a/drivers/media/platform/vivid/vivid-ctrls.c
-> +++ b/drivers/media/platform/vivid/vivid-ctrls.c
-> @@ -114,7 +114,7 @@ static int vivid_user_gen_s_ctrl(struct v4l2_ctrl *ctrl)
->  		clear_bit(V4L2_FL_REGISTERED, &dev->radio_rx_dev.flags);
->  		clear_bit(V4L2_FL_REGISTERED, &dev->radio_tx_dev.flags);
->  		clear_bit(V4L2_FL_REGISTERED, &dev->meta_cap_dev.flags);
-> -		clear_bit(V4L2_FL_REGISTERED, &dev->meta_cap_dev.flags);
-> +		clear_bit(V4L2_FL_REGISTERED, &dev->meta_out_dev.flags);
->  		break;
->  	case VIVID_CID_BUTTON:
->  		dev->button_pressed = 30;
-> @@ -1493,6 +1493,7 @@ int vivid_create_controls(struct vivid_dev *dev, bool show_ccs_cap,
->  	struct v4l2_ctrl_handler *hdl_radio_tx = &dev->ctrl_hdl_radio_tx;
->  	struct v4l2_ctrl_handler *hdl_sdr_cap = &dev->ctrl_hdl_sdr_cap;
->  	struct v4l2_ctrl_handler *hdl_meta_cap = &dev->ctrl_hdl_meta_cap;
-> +	struct v4l2_ctrl_handler *hdl_meta_out = &dev->ctrl_hdl_meta_out;
->  
->  	struct v4l2_ctrl_config vivid_ctrl_dv_timings = {
->  		.ops = &vivid_vid_cap_ctrl_ops,
-> @@ -1534,6 +1535,8 @@ int vivid_create_controls(struct vivid_dev *dev, bool show_ccs_cap,
->  	v4l2_ctrl_new_custom(hdl_sdr_cap, &vivid_ctrl_class, NULL);
->  	v4l2_ctrl_handler_init(hdl_meta_cap, 2);
->  	v4l2_ctrl_new_custom(hdl_meta_cap, &vivid_ctrl_class, NULL);
-> +	v4l2_ctrl_handler_init(hdl_meta_out, 2);
-> +	v4l2_ctrl_new_custom(hdl_meta_out, &vivid_ctrl_class, NULL);
->  
->  	/* User Controls */
->  	dev->volume = v4l2_ctrl_new_std(hdl_user_aud, NULL,
-> @@ -1879,7 +1882,13 @@ int vivid_create_controls(struct vivid_dev *dev, bool show_ccs_cap,
->  			return hdl_meta_cap->error;
->  		dev->meta_cap_dev.ctrl_handler = hdl_meta_cap;
->  	}
-> -
-> +	if (dev->has_meta_out) {
-> +		v4l2_ctrl_add_handler(hdl_meta_out, hdl_user_gen, NULL, false);
-> +		v4l2_ctrl_add_handler(hdl_meta_out, hdl_streaming, NULL, false);
-> +		if (hdl_meta_out->error)
-> +			return hdl_meta_out->error;
-> +		dev->meta_out_dev.ctrl_handler = hdl_meta_out;
-> +	}
->  	return 0;
->  }
->  
-> @@ -1900,4 +1909,5 @@ void vivid_free_controls(struct vivid_dev *dev)
->  	v4l2_ctrl_handler_free(&dev->ctrl_hdl_loop_cap);
->  	v4l2_ctrl_handler_free(&dev->ctrl_hdl_fb);
->  	v4l2_ctrl_handler_free(&dev->ctrl_hdl_meta_cap);
-> +	v4l2_ctrl_handler_free(&dev->ctrl_hdl_meta_out);
->  }
-> diff --git a/drivers/media/platform/vivid/vivid-kthread-out.c b/drivers/media/platform/vivid/vivid-kthread-out.c
-> index ce5bcda2348c..d63addb062d1 100644
-> --- a/drivers/media/platform/vivid/vivid-kthread-out.c
-> +++ b/drivers/media/platform/vivid/vivid-kthread-out.c
-> @@ -38,11 +38,13 @@
->  #include "vivid-osd.h"
->  #include "vivid-ctrls.h"
->  #include "vivid-kthread-out.h"
-> +#include "vivid-meta-out.h"
->  
->  static void vivid_thread_vid_out_tick(struct vivid_dev *dev)
->  {
->  	struct vivid_buffer *vid_out_buf = NULL;
->  	struct vivid_buffer *vbi_out_buf = NULL;
-> +	struct vivid_buffer *meta_out_buf = NULL;
->  
->  	dprintk(dev, 1, "Video Output Thread Tick\n");
->  
-> @@ -69,9 +71,15 @@ static void vivid_thread_vid_out_tick(struct vivid_dev *dev)
->  					 struct vivid_buffer, list);
->  		list_del(&vbi_out_buf->list);
->  	}
-> +	if (!list_empty(&dev->meta_out_active) &&
-> +	    (dev->meta_out_seq_count & 1)) {
-> +		meta_out_buf = list_entry(dev->meta_out_active.next,
-> +					  struct vivid_buffer, list);
-> +		list_del(&meta_out_buf->list);
-> +	}
->  	spin_unlock(&dev->slock);
->  
-> -	if (!vid_out_buf && !vbi_out_buf)
-> +	if (!vid_out_buf && !vbi_out_buf && !meta_out_buf)
->  		return;
->  
->  	if (vid_out_buf) {
-> @@ -111,6 +119,21 @@ static void vivid_thread_vid_out_tick(struct vivid_dev *dev)
->  		dprintk(dev, 2, "vbi_out buffer %d done\n",
->  			vbi_out_buf->vb.vb2_buf.index);
->  	}
-> +	if (meta_out_buf) {
-> +		v4l2_ctrl_request_setup(meta_out_buf->vb.vb2_buf.req_obj.req,
-> +					&dev->ctrl_hdl_meta_out);
-> +		v4l2_ctrl_request_complete(meta_out_buf->vb.vb2_buf.req_obj.req,
-> +					   &dev->ctrl_hdl_meta_out);
-> +		vivid_meta_out_process(dev, meta_out_buf);
-> +		meta_out_buf->vb.sequence = dev->meta_out_seq_count;
-> +		meta_out_buf->vb.vb2_buf.timestamp =
-> +			ktime_get_ns() + dev->time_wrap_offset;
-> +		vb2_buffer_done(&meta_out_buf->vb.vb2_buf, dev->dqbuf_error ?
-> +				VB2_BUF_STATE_ERROR : VB2_BUF_STATE_DONE);
-> +		dprintk(dev, 2, "meta_out buffer %d done\n",
-> +			meta_out_buf->vb.vb2_buf.index);
-> +	}
-> +
->  	dev->dqbuf_error = false;
->  }
->  
-> @@ -136,6 +159,7 @@ static int vivid_thread_vid_out(void *data)
->  		dev->out_seq_count = 0xffffff80U;
->  	dev->jiffies_vid_out = jiffies;
->  	dev->vid_out_seq_start = dev->vbi_out_seq_start = 0;
-> +	dev->meta_out_seq_start = 0;
->  	dev->out_seq_resync = false;
->  
->  	for (;;) {
-> @@ -178,6 +202,7 @@ static int vivid_thread_vid_out(void *data)
->  		dev->out_seq_count = buffers_since_start + dev->out_seq_offset;
->  		dev->vid_out_seq_count = dev->out_seq_count - dev->vid_out_seq_start;
->  		dev->vbi_out_seq_count = dev->out_seq_count - dev->vbi_out_seq_start;
-> +		dev->meta_out_seq_count = dev->out_seq_count - dev->meta_out_seq_start;
->  
->  		vivid_thread_vid_out_tick(dev);
->  		mutex_unlock(&dev->mutex);
-> @@ -229,8 +254,10 @@ int vivid_start_generating_vid_out(struct vivid_dev *dev, bool *pstreaming)
->  
->  		if (pstreaming == &dev->vid_out_streaming)
->  			dev->vid_out_seq_start = seq_count;
-> -		else
-> +		else if (pstreaming == &dev->vbi_out_streaming)
->  			dev->vbi_out_seq_start = seq_count;
-> +		else
-> +			dev->meta_out_seq_start = seq_count;
->  		*pstreaming = true;
->  		return 0;
->  	}
-> @@ -239,6 +266,7 @@ int vivid_start_generating_vid_out(struct vivid_dev *dev, bool *pstreaming)
->  	dev->jiffies_vid_out = jiffies;
->  	dev->vid_out_seq_start = dev->seq_wrap * 128;
->  	dev->vbi_out_seq_start = dev->seq_wrap * 128;
-> +	dev->meta_out_seq_start = dev->seq_wrap * 128;
->  
->  	dev->kthread_vid_out = kthread_run(vivid_thread_vid_out, dev,
->  			"%s-vid-out", dev->v4l2_dev.name);
-> @@ -296,7 +324,23 @@ void vivid_stop_generating_vid_out(struct vivid_dev *dev, bool *pstreaming)
->  		}
->  	}
->  
-> -	if (dev->vid_out_streaming || dev->vbi_out_streaming)
-> +	if (pstreaming == &dev->meta_out_streaming) {
-> +		while (!list_empty(&dev->meta_out_active)) {
-> +			struct vivid_buffer *buf;
-> +
-> +			buf = list_entry(dev->meta_out_active.next,
-> +					 struct vivid_buffer, list);
-> +			list_del(&buf->list);
-> +			v4l2_ctrl_request_complete(buf->vb.vb2_buf.req_obj.req,
-> +						   &dev->ctrl_hdl_meta_out);
-> +			vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
-> +			dprintk(dev, 2, "meta_out buffer %d done\n",
-> +				buf->vb.vb2_buf.index);
-> +		}
-> +	}
-> +
-> +	if (dev->vid_out_streaming || dev->vbi_out_streaming ||
-> +	    dev->meta_out_streaming)
->  		return;
->  
->  	/* shutdown control thread */
-> diff --git a/drivers/media/platform/vivid/vivid-meta-out.c b/drivers/media/platform/vivid/vivid-meta-out.c
-> new file mode 100644
-> index 000000000000..e127757dd21d
-> --- /dev/null
-> +++ b/drivers/media/platform/vivid/vivid-meta-out.c
-> @@ -0,0 +1,174 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * vivid-meta-out.c - meta output support functions.
-> + */
-> +
-> +#include <linux/errno.h>
-> +#include <linux/kernel.h>
-> +#include <linux/videodev2.h>
-> +#include <media/v4l2-common.h>
-> +#include <linux/usb/video.h>
-> +
-> +#include "vivid-core.h"
-> +#include "vivid-kthread-out.h"
-> +#include "vivid-meta-out.h"
-> +
-> +static int meta_out_queue_setup(struct vb2_queue *vq, unsigned int *nbuffers,
-> +				unsigned int *nplanes, unsigned int sizes[],
-> +				struct device *alloc_devs[])
-> +{
-> +	struct vivid_dev *dev = vb2_get_drv_priv(vq);
-> +	unsigned int size =  sizeof(struct vivid_meta_out_buf);
-> +
-> +	if (!vivid_is_webcam(dev))
-> +		return -EINVAL;
-> +
-> +	if (*nplanes) {
-> +		if (sizes[0] < size)
-> +			return -EINVAL;
-> +	} else {
-> +		sizes[0] = size;
-> +	}
-> +
-> +	if (vq->num_buffers + *nbuffers < 2)
-> +		*nbuffers = 2 - vq->num_buffers;
-> +
-> +	*nplanes = 1;
-> +	return 0;
-> +}
-> +
-> +static int meta_out_buf_prepare(struct vb2_buffer *vb)
-> +{
-> +	struct vivid_dev *dev = vb2_get_drv_priv(vb->vb2_queue);
-> +	unsigned int size = sizeof(struct vivid_meta_out_buf);
-> +
-> +	dprintk(dev, 1, "%s\n", __func__);
-> +
-> +	if (dev->buf_prepare_error) {
-> +		/*
-> +		 * Error injection: test what happens if buf_prepare() returns
-> +		 * an error.
-> +		 */
-> +		dev->buf_prepare_error = false;
-> +		return -EINVAL;
-> +	}
-> +	if (vb2_plane_size(vb, 0) < size) {
-> +		dprintk(dev, 1, "%s data will not fit into plane (%lu < %u)\n",
-> +			__func__, vb2_plane_size(vb, 0), size);
-> +		return -EINVAL;
-> +	}
-> +	vb2_set_plane_payload(vb, 0, size);
-> +
-> +	return 0;
-> +}
-> +
-> +static void meta_out_buf_queue(struct vb2_buffer *vb)
-> +{
-> +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-> +	struct vivid_dev *dev = vb2_get_drv_priv(vb->vb2_queue);
-> +	struct vivid_buffer *buf = container_of(vbuf, struct vivid_buffer, vb);
-> +
-> +	dprintk(dev, 1, "%s\n", __func__);
-> +
-> +	spin_lock(&dev->slock);
-> +	list_add_tail(&buf->list, &dev->meta_out_active);
-> +	spin_unlock(&dev->slock);
-> +}
-> +
-> +static int meta_out_start_streaming(struct vb2_queue *vq, unsigned int count)
-> +{
-> +	struct vivid_dev *dev = vb2_get_drv_priv(vq);
-> +	int err;
-> +
-> +	dprintk(dev, 1, "%s\n", __func__);
-> +	dev->meta_out_seq_count = 0;
-> +	if (dev->start_streaming_error) {
-> +		dev->start_streaming_error = false;
-> +		err = -EINVAL;
-> +	} else {
-> +		err = vivid_start_generating_vid_out(dev,
-> +						     &dev->meta_out_streaming);
-> +	}
-> +	if (err) {
-> +		struct vivid_buffer *buf, *tmp;
-> +
-> +		list_for_each_entry_safe(buf, tmp,
-> +					 &dev->meta_out_active, list) {
-> +			list_del(&buf->list);
-> +			vb2_buffer_done(&buf->vb.vb2_buf,
-> +					VB2_BUF_STATE_QUEUED);
-> +		}
-> +	}
-> +	return err;
-> +}
-> +
-> +/* abort streaming and wait for last buffer */
-> +static void meta_out_stop_streaming(struct vb2_queue *vq)
-> +{
-> +	struct vivid_dev *dev = vb2_get_drv_priv(vq);
-> +
-> +	dprintk(dev, 1, "%s\n", __func__);
-> +	vivid_stop_generating_vid_out(dev, &dev->meta_out_streaming);
-> +}
-> +
-> +static void meta_out_buf_request_complete(struct vb2_buffer *vb)
-> +{
-> +	struct vivid_dev *dev = vb2_get_drv_priv(vb->vb2_queue);
-> +
-> +	v4l2_ctrl_request_complete(vb->req_obj.req, &dev->ctrl_hdl_meta_out);
-> +}
-> +
-> +const struct vb2_ops vivid_meta_out_qops = {
-> +	.queue_setup            = meta_out_queue_setup,
-> +	.buf_prepare            = meta_out_buf_prepare,
-> +	.buf_queue              = meta_out_buf_queue,
-> +	.start_streaming        = meta_out_start_streaming,
-> +	.stop_streaming         = meta_out_stop_streaming,
-> +	.buf_request_complete   = meta_out_buf_request_complete,
-> +	.wait_prepare           = vb2_ops_wait_prepare,
-> +	.wait_finish            = vb2_ops_wait_finish,
-> +};
-> +
-> +int vidioc_enum_fmt_meta_out(struct file *file, void  *priv,
-> +			     struct v4l2_fmtdesc *f)
-> +{
-> +	struct vivid_dev *dev = video_drvdata(file);
-> +
-> +	if (!vivid_is_webcam(dev))
-> +		return -EINVAL;
-
-For now keep this webcam specific. But in a later follow-up patch I
-think this restriction should be lifted since the contents of the
-metadata applies to all types of video capture.
-
-> +
-> +	if (f->index > 0)
-> +		return -EINVAL;
-> +
-> +	f->type = V4L2_BUF_TYPE_META_OUTPUT;
-> +	f->pixelformat = V4L2_META_FMT_VIVID;/* V4L2_META_FMT_UVC */
-
-Left-over comment, can be dropped.
-
-> +	return 0;
-> +}
-> +
-> +int vidioc_g_fmt_meta_out(struct file *file, void *priv,
-> +			  struct v4l2_format *f)
-> +{
-> +	struct vivid_dev *dev = video_drvdata(file);
-> +	struct v4l2_meta_format *meta = &f->fmt.meta;
-> +
-> +	if (!vivid_is_webcam(dev) || !dev->has_meta_out)
-> +		return -EINVAL;
-> +
-> +	meta->dataformat = V4L2_META_FMT_VIVID;
-> +	meta->buffersize = sizeof(struct vivid_meta_out_buf);
-> +	return 0;
-> +}
-> +
-> +void vivid_meta_out_process(struct vivid_dev *dev,
-> +			    struct vivid_buffer *buf)
-> +{
-> +	struct vivid_meta_out_buf *meta = vb2_plane_vaddr(&buf->vb.vb2_buf, 0);
-> +
-> +	tpg_s_brightness(&dev->tpg, meta->brightness);
-> +	tpg_s_contrast(&dev->tpg, meta->contrast);
-> +	tpg_s_saturation(&dev->tpg, meta->saturation);
-> +	tpg_s_hue(&dev->tpg, meta->hue);
-> +	dprintk(dev, 2, " %s brightness %u contrast %u saturation %u hue %d\n",
-> +		__func__, meta->brightness, meta->contrast,
-> +		meta->saturation, meta->hue);
-> +}
-> diff --git a/drivers/media/platform/vivid/vivid-meta-out.h b/drivers/media/platform/vivid/vivid-meta-out.h
-> new file mode 100644
-> index 000000000000..0c639b7c2842
-> --- /dev/null
-> +++ b/drivers/media/platform/vivid/vivid-meta-out.h
-> @@ -0,0 +1,25 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * vivid-meta-out.h - meta output support functions.
-> + */
-> +#ifndef _VIVID_META_OUT_H_
-> +#define _VIVID_META_OUT_H_
-> +
-> +struct vivid_meta_out_buf {
-> +	u16	brightness;
-> +	u16	contrast;
-> +	u16	saturation;
-> +	s16	hue;
-> +};
-> +
-> +void vivid_meta_out_process(struct vivid_dev *dev, struct vivid_buffer *buf);
-> +int vidioc_enum_fmt_meta_out(struct file *file, void  *priv,
-> +			     struct v4l2_fmtdesc *f);
-> +int vidioc_g_fmt_meta_out(struct file *file, void *priv,
-> +			  struct v4l2_format *f);
-> +int vidioc_s_fmt_meta_out(struct file *file, void *priv,
-> +			  struct v4l2_format *f);
-> +
-> +extern const struct vb2_ops vivid_meta_out_qops;
-> +
-> +#endif
-> diff --git a/drivers/media/platform/vivid/vivid-vid-out.c b/drivers/media/platform/vivid/vivid-vid-out.c
-> index a0364ac497f9..ee3446e3217c 100644
-> --- a/drivers/media/platform/vivid/vivid-vid-out.c
-> +++ b/drivers/media/platform/vivid/vivid-vid-out.c
-> @@ -1079,7 +1079,9 @@ int vidioc_s_output(struct file *file, void *priv, unsigned o)
->  	if (o == dev->output)
->  		return 0;
->  
-> -	if (vb2_is_busy(&dev->vb_vid_out_q) || vb2_is_busy(&dev->vb_vbi_out_q))
-> +	if (vb2_is_busy(&dev->vb_vid_out_q) ||
-> +	    vb2_is_busy(&dev->vb_vbi_out_q) ||
-> +	    vb2_is_busy(&dev->vb_meta_out_q))
->  		return -EBUSY;
->  
->  	dev->output = o;
-> @@ -1090,6 +1092,7 @@ int vidioc_s_output(struct file *file, void *priv, unsigned o)
->  		dev->vid_out_dev.tvnorms = 0;
->  
->  	dev->vbi_out_dev.tvnorms = dev->vid_out_dev.tvnorms;
-> +	dev->meta_out_dev.tvnorms = dev->vid_out_dev.tvnorms;
->  	vivid_update_format_out(dev);
->  
->  	v4l2_ctrl_activate(dev->ctrl_display_present, vivid_is_hdmi_out(dev));
 > 
-
-Regards,
-
-	Hans
