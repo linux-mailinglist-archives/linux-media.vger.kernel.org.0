@@ -2,101 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F1E38CA00C
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2019 16:06:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C8093CA03C
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2019 16:23:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730172AbfJCOGC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Oct 2019 10:06:02 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:39996 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730114AbfJCOGC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Oct 2019 10:06:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=g5ZI7dzXc6DzdoiPhmhftNfql4ZQHg2viebNXmQcCkQ=; b=e2riPOA0ky61D/JeXl4NU791k
-        Mb5LkuuosQPgMBB6vmxhq3Tq2v8pRqruZDMU8402qmhQFDEy6klXdTbNfMqw2kGpQFUQNJmuNxM8k
-        tPHUD9eP81bo64My3g28MdiBj5Rf8hxpBFMZq3VfhqPMQd5/1PYjI8uPiFh6qMeh868q8ZzKGPu3Q
-        cZoQ8KwqRCEVQGfkdD27/3FL/y8qiJRsuQIKyYOntBLFQFMcQ4R7WUMCKuBep0jF1QTFUlAeZ6C8i
-        oQIYhhwl3u0SJ9LJNvq/ZJ7WCDjQ43OJ/wnUE/3cvZLrXmE3/mnTU6F2QCoPD3BQwoi3G5YABx+rT
-        mdvVYrLGQ==;
-Received: from 177.133.68.49.dynamic.adsl.gvt.net.br ([177.133.68.49] helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
-        id 1iG1jv-000161-V2; Thu, 03 Oct 2019 14:05:56 +0000
-Date:   Thu, 3 Oct 2019 11:05:51 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Gonsolo <gonsolo@gmail.com>
-Cc:     JP <jp@jpvw.nl>, crope@iki.fi, Sean Young <sean@mess.org>,
-        linux-media@vger.kernel.org,
-        Linux Kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] si2157: Add support for Logilink VG0022A.
-Message-ID: <20191003110551.19f06922@coco.lan>
-In-Reply-To: <CANL0fFQR4KDU5PKeedK6wF45nSTu6dUyz_MBwmP1QsJxYQAWNg@mail.gmail.com>
-References: <20191002150650.GA4227@gofer.mess.org>
-        <CANL0fFRoL6NxOCbNC=XjQ6LDkeeqAayaLUbm9xARWX9ttqfPFg@mail.gmail.com>
-        <29ab2e43-4374-a3ea-6ae1-a4267867eaa4@jpvw.nl>
-        <20191002154922.7f1cfc76@coco.lan>
-        <CANL0fFRJZBfEDWK_c2w1TomvB5-i4g09LopyJUbO5NtOwKdDTg@mail.gmail.com>
-        <CANL0fFTwJ4yRO+5q6WkL0+DtwdrRti6r_WY1intisYJhs5En8w@mail.gmail.com>
-        <20191003081742.0933264b@coco.lan>
-        <CANL0fFTtHn4ocL4BD4cVKhVzjLhnQ0a45yq5x4MxWAVu-tD8sw@mail.gmail.com>
-        <20191003094904.3aa5fdc7@coco.lan>
-        <20191003095237.2efa0e7f@coco.lan>
-        <20191003130224.GA2596@Limone>
-        <CANL0fFQR4KDU5PKeedK6wF45nSTu6dUyz_MBwmP1QsJxYQAWNg@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1730457AbfJCOX1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Oct 2019 10:23:27 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:42330 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728660AbfJCOX1 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 3 Oct 2019 10:23:27 -0400
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id D5EA4634C87;
+        Thu,  3 Oct 2019 17:22:53 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1iG20K-0002Jr-5h; Thu, 03 Oct 2019 17:22:52 +0300
+Date:   Thu, 3 Oct 2019 17:22:52 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc:     mchehab@kernel.org, robh+dt@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        c.barrett@framos.com, a.brela@framos.com
+Subject: Re: [PATCH v3 2/3] media: i2c: Add IMX290 CMOS image sensor driver
+Message-ID: <20191003142252.GI896@valkosipuli.retiisi.org.uk>
+References: <20190830091943.22646-1-manivannan.sadhasivam@linaro.org>
+ <20190830091943.22646-3-manivannan.sadhasivam@linaro.org>
+ <20190923092209.GL5525@valkosipuli.retiisi.org.uk>
+ <20191001184200.GA7739@Mani-XPS-13-9360>
+ <20191002103715.GR896@valkosipuli.retiisi.org.uk>
+ <20191003053338.GA7868@Mani-XPS-13-9360>
+ <20191003071646.GZ896@valkosipuli.retiisi.org.uk>
+ <3FAB5E91-9FD2-4052-881B-E4B18D44D33B@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3FAB5E91-9FD2-4052-881B-E4B18D44D33B@linaro.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Thu, 3 Oct 2019 15:53:30 +0200
-Gonsolo <gonsolo@gmail.com> escreveu:
+Hi Manivannan,
 
-> Hi!
+On Thu, Oct 03, 2019 at 12:56:48PM +0530, Manivannan Sadhasivam wrote:
+> >> mentioned in the datasheet. I agree that we are missing the userspace
+> >> granularity here but sticking to the device limitation shouldn't be a
+> >problem.
+> >> As I said, I'll add a comment here to clarify.
+> >
+> >The comment isn't visible in the uAPI.
+> >
 > 
-> I tried downloading a new firmware via
-> 
->        case SI_BOGUS:
-> -               dev_info(&client->dev, "Bogus chip version, trying
-> with no firmware\n");
-> -               fw_name = NULL;
-> +               dev_info(&client->dev, "Bogus chip version, trying
-> with new firmware\n");
-> +               fw_name = SI2157_A30_FIRMWARE;
->                 break;
-> 
-> which I downloaded from
-> 
-> +               //
-> https://github.com/CoreELEC/dvb-firmware/blob/master/firmware/dvb-tuner-si2157-a30-01.fw
-> 
-> resulting in
-> 
-> [  209.312086] si2168 1-0067: downloading firmware from file
-> 'dvb-demod-si2168-b40-01.fw'
-> [  211.535097] si2168 1-0067: firmware version: B 4.0.25
-> [  211.554938] si2157 2-0063: Bogus chip version, trying with new firmware
-> [  211.554944] si2157 2-0063: found a 'Silicon Labs Si21255-\xff\xff\xff'
-> [  211.557978] si2157 2-0063: downloading firmware from file
-> 'dvb-tuner-si2157-a30-01.fw'
-> [  215.739092] si2157 2-0063: rebooting tuner...
-> [  215.755271] si2157 2-0063: querying firmware version...
-> [  215.760756] si2157 2-0063: firmware version: \xff.\xff.255
-> 
-> . So even with a new firmware the queried numbers are bogus.
+> Yes. It would be good to have the units passed onto the userspace somehow
+> like it is done in IIO. Then we don't need to fiddle in the driver for
+> mismatch. Something consider in future...
 
-Try to reduce the bus speed to 10kbps
-> 
-> g
+Yes, I agree. But that is not trivial to do in any sort of even remotely
+generic way.
 
-
-
-Thanks,
-Mauro
+-- 
+Sakari Ailus
