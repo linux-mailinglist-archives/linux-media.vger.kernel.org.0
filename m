@@ -2,57 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 180DDC9D22
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2019 13:24:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2AB7C9D4E
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2019 13:33:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729870AbfJCLXx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Oct 2019 07:23:53 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:55301 "EHLO www.linuxtv.org"
+        id S1730074AbfJCLbQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Oct 2019 07:31:16 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:55592 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729304AbfJCLXw (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 3 Oct 2019 07:23:52 -0400
+        id S1729912AbfJCLbQ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 3 Oct 2019 07:31:16 -0400
 Received: from builder.linuxtv.org ([140.211.167.10])
         by www.linuxtv.org with esmtp (Exim 4.84_2)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1iFzCz-0003au-Ny; Thu, 03 Oct 2019 11:23:45 +0000
+        id 1iFzKE-00044S-HD; Thu, 03 Oct 2019 11:31:14 +0000
 Received: from [127.0.0.1] (helo=builder.linuxtv.org)
         by builder.linuxtv.org with esmtp (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1iFzDM-0000Ez-D7; Thu, 03 Oct 2019 11:24:08 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.5] Two cec fixes
-Date:   Thu,  3 Oct 2019 11:24:08 +0000
-Message-Id: <20191003112408.884-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <df1e93e3-25d9-6ff3-4ad2-2293c2feeddc@xs4all.nl>
-References: 
+        id 1iFzKb-0000RA-EA; Thu, 03 Oct 2019 11:31:37 +0000
+Date:   Thu, 3 Oct 2019 11:31:37 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <1905774064.2.1570102297427.JavaMail.jenkins@builder.linuxtv.org>
+In-Reply-To: <313765717.1.1570095997647.JavaMail.jenkins@builder.linuxtv.org>
+References: <313765717.1.1570095997647.JavaMail.jenkins@builder.linuxtv.org>
+Subject: Jenkins build is back to normal : v4l-utils #52
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: v4l-utils
+X-Jenkins-Result: SUCCESS
+Auto-submitted: auto-generated
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
-
-Pull request: https://patchwork.linuxtv.org/patch/59161/
-Build log: https://builder.linuxtv.org/job/patchwork/18798/
-Build time: 00:03:26
-Link: https://lore.kernel.org/linux-media/df1e93e3-25d9-6ff3-4ad2-2293c2feeddc@xs4all.nl
-
-gpg: Signature made Thu 03 Oct 2019 11:08:51 AM UTC
-gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
-
-Summary: 2 patches and/or PDF generation with issues, being 0 at build time
-
-Error/warnings:
-
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0001-cec-funcs.h-add-status_req-checks.patch
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0002-cec-funcs.h-use-new-CEC_OP_UI_CMD-defines.patch
+See <https://builder.linuxtv.org/job/v4l-utils/52/display/redirect?page=changes>
 
