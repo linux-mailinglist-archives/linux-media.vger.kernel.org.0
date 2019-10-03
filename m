@@ -2,100 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DEB48CA0D8
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2019 17:02:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A3B1FCA0DA
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2019 17:02:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727302AbfJCPCX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Oct 2019 11:02:23 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:49199 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725874AbfJCPCX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 3 Oct 2019 11:02:23 -0400
-Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id G2cTi3U1Eop0AG2cWi8jqb; Thu, 03 Oct 2019 17:02:21 +0200
-Subject: Re: [PATCH] drivers: video: hdmi: log ext colorimetry applicability
-To:     =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
-        Johan Korsnes <jkorsnes@cisco.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
-References: <20191003071549.31272-1-jkorsnes@cisco.com>
- <20191003134417.GF1208@intel.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <52313559-8b8f-1f4d-a341-a2f1ff10bc0f@xs4all.nl>
-Date:   Thu, 3 Oct 2019 17:02:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1728322AbfJCPCr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Oct 2019 11:02:47 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:49210 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725874AbfJCPCr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Oct 2019 11:02:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=iDiKFMnCR5MdkrHnhWyU1C4se5pT9RPpBC2qGDIvyXg=; b=akM85PrbRT4gLr/T0NKqrRY8n
+        TjMlrka0vDjhqnSjdfBu/OrXYlVEBk2p9c3Bl2W+JVTlxHDVaIjuEVw4ZV+zBmg+FvrwPwv1HsYOO
+        hB68f7OrEqDp3LfErsSxTRmU8UahoFSBLGML8dJEwUuUlL7G5njbJZ5jIMuUEYDRE7ycPFUmdeilC
+        4OjaHNR1scd9XivcwyfFaOpLmW3Xug5YVHe+unYdh38giHQYPMl32glC/IEV0AQu/cDW7VkmrwWL6
+        kTluNEoSGdV79eDQaniqh5VliLSTGIaxvS+a6ARGKnA0ocRbpzqRcC+LronI0v097sdj2jCJwXBLf
+        Zxa9W4pcQ==;
+Received: from 177.133.68.49.dynamic.adsl.gvt.net.br ([177.133.68.49] helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
+        id 1iG2ct-0003bc-6b; Thu, 03 Oct 2019 15:02:43 +0000
+Date:   Thu, 3 Oct 2019 12:02:38 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Gonsolo <gonsolo@gmail.com>
+Cc:     JP <jp@jpvw.nl>, crope@iki.fi, Sean Young <sean@mess.org>,
+        linux-media@vger.kernel.org,
+        Linux Kernel <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] si2157: Add support for Logilink VG0022A.
+Message-ID: <20191003120238.75811da6@coco.lan>
+In-Reply-To: <CANL0fFSmvEEJhnA=qjTuEPr4N8q8eWLeYC5du+OoTMxe1Gnh5Q@mail.gmail.com>
+References: <20191001205203.4b1a5fb6@coco.lan>
+        <20191002141359.30166-1-gonsolo@gmail.com>
+        <20191002141359.30166-2-gonsolo@gmail.com>
+        <20191002142744.GA3475@gofer.mess.org>
+        <CANL0fFS9TGKJH2rfkXzak78BaLazTNO7GoZhSb4vLBsDrmz3FQ@mail.gmail.com>
+        <20191002150650.GA4227@gofer.mess.org>
+        <CANL0fFRoL6NxOCbNC=XjQ6LDkeeqAayaLUbm9xARWX9ttqfPFg@mail.gmail.com>
+        <29ab2e43-4374-a3ea-6ae1-a4267867eaa4@jpvw.nl>
+        <20191002154922.7f1cfc76@coco.lan>
+        <CANL0fFRJZBfEDWK_c2w1TomvB5-i4g09LopyJUbO5NtOwKdDTg@mail.gmail.com>
+        <20191003080539.2b13c03b@coco.lan>
+        <CANL0fFSmvEEJhnA=qjTuEPr4N8q8eWLeYC5du+OoTMxe1Gnh5Q@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20191003134417.GF1208@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfD8+jPTyj6pY1Rh0zJlS6TiPAOwM/O2lNxzABDT/71Zq+Ewyc7XarVFgKo9lfw3LNkCGxe15VZtNxD6BnSOf+nqpCIWg6U9qKoD154km1f8zAcSJHpYv
- 2mpE31GXMulfahAeh1iSwiWxWM4rDj2Pf3Ji2YpfaF49nbtq+R9dWzhSvKB/9kEwttmgjmoeFIsdImiocTaZJPwZFr6stQkEYsQ6h46MWsINNXnhlClMZr+K
- HasxgFj9fcwPZRkTslV8QkYPxsAIt8OHe0biMZZvIB+/1LNvjXygUlDN4YszJiEHi/sRlKHusicAXs2ZoYKqJQ==
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/3/19 3:44 PM, Ville Syrjälä wrote:
-> On Thu, Oct 03, 2019 at 09:15:49AM +0200, Johan Korsnes wrote:
->> When logging the AVI InfoFrame, clearly indicate whether or not the
->> extended colorimetry attribute is active. This is only the case when
->> the AVI InfoFrame colorimetry attribute is set to extended. [0]
->>
->> [0] CTA-861-G section 6.4 page 57
->>
->> Signed-off-by: Johan Korsnes <jkorsnes@cisco.com>
->> ---
->>  drivers/video/hdmi.c | 8 +++++++-
->>  1 file changed, 7 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/video/hdmi.c b/drivers/video/hdmi.c
->> index f29db728ff29..a709e38a53ca 100644
->> --- a/drivers/video/hdmi.c
->> +++ b/drivers/video/hdmi.c
->> @@ -682,8 +682,14 @@ static void hdmi_avi_infoframe_log(const char *level,
->>  	hdmi_log("    active aspect: %s\n",
->>  			hdmi_active_aspect_get_name(frame->active_aspect));
->>  	hdmi_log("    itc: %s\n", frame->itc ? "IT Content" : "No Data");
->> -	hdmi_log("    extended colorimetry: %s\n",
->> +
->> +	if (frame->colorimetry == HDMI_COLORIMETRY_EXTENDED)
->> +		hdmi_log("    extended colorimetry: %s\n",
->>  			hdmi_extended_colorimetry_get_name(frame->extended_colorimetry));
->> +	else
->> +		hdmi_log("    extended colorimetry: N/A (0x%x)\n",
->> +			frame->extended_colorimetry);
+Em Thu, 3 Oct 2019 17:00:08 +0200
+Gonsolo <gonsolo@gmail.com> escreveu:
+
+> > So, I would add a msleep() somewhere after the firmware update.  
 > 
-> Yeah, seems fine. Might make the logs a bit less confusing at least.
+> I tried that to no avail:
 > 
-> Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+>         release_firmware(fw);
+> +       msleep(1000);
 > 
-> PS. would be nice it someone were to extend this code to deal with the
-> ACE bits too. Do you have plans/interest in doing that?
-
-If we tackle this, then it would be part of a larger effort in updating
-this code. There are more fields missing in other InfoFrames as well.
-
-So yes, we have interest in this, but no, there are no plans :-)
-
-Regards,
-
-	Hans
-
-> 
->> +
->>  	hdmi_log("    quantization range: %s\n",
->>  			hdmi_quantization_range_get_name(frame->quantization_range));
->>  	hdmi_log("    nups: %s\n", hdmi_nups_get_name(frame->nups));
->> -- 
->> 2.20.1
->>
->> _______________________________________________
->> dri-devel mailing list
->> dri-devel@lists.freedesktop.org
->> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> [  107.903918] si2157 2-0063: firmware version: \xff.\xff.255
+> [  107.903920] si2157 2-0063: querying chip revision...
+> [  107.906970] si2157 2-0063: chip revision: 255.255.255.255
 > 
 
+With the original patch you proposed, what are the logs?
+
+
+Thanks,
+Mauro
