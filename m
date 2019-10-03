@@ -2,162 +2,182 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CE96CA0ED
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2019 17:10:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C015CA0F9
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2019 17:15:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728864AbfJCPKi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Oct 2019 11:10:38 -0400
-Received: from rcdn-iport-3.cisco.com ([173.37.86.74]:15648 "EHLO
-        rcdn-iport-3.cisco.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726364AbfJCPKi (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Oct 2019 11:10:38 -0400
-X-Greylist: delayed 426 seconds by postgrey-1.27 at vger.kernel.org; Thu, 03 Oct 2019 11:10:37 EDT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=cisco.com; i=@cisco.com; l=2726; q=dns/txt; s=iport;
-  t=1570115437; x=1571325037;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=LDysDnIMWI/2cJ508I6cFmliiZyQgZ6rHPJmAof8t38=;
-  b=CAFClu8fM1FyO1F+jGqKXVXXdyC3Yo20aRrts+Zh25Yya0hEb1peAJKg
-   AH4tO6o0LG5b1yy0kXVvrc/HrLWhnFNyuVHSylPJV9BKMEI1pv0AMi4zX
-   uxgK95jCfHVb/h5nZN8VKmn47pBpSkWchYFExNuszPCoqfF0a293Sz3qg
-   c=;
-IronPort-PHdr: =?us-ascii?q?9a23=3AQYKrPhGO8+M6SRUSxUdw0J1GYnJ96bzpIg4Y7I?=
- =?us-ascii?q?YmgLtSc6Oluo7vJ1Hb+e4z1Q3SRYuO7fVChqKWqK3mVWEaqbe5+HEZON0pNV?=
- =?us-ascii?q?cejNkO2QkpAcqLE0r+efzpaDYhGslZfFRk5Hq8d0NSHZW2ag=3D=3D?=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0CyAABpDZZd/40NJK1lHAEBAQQBAQw?=
- =?us-ascii?q?EAQGBVQUBAQsBgUpQA4FDIAQLKoQig0cDikaCNyWXeIEugSQDVAkBAQEMAQE?=
- =?us-ascii?q?tAgEBhEACF4IuIzYHDgIDCQEBBAEBAQIBBQRthS0MhUsBAQEBAgESEQQNDAE?=
- =?us-ascii?q?BNwEPAgEIDgoCAiYCAgIwFRACBAENBSKDAIFrAw4PAaNKAoE4iGF1fzOCfQE?=
- =?us-ascii?q?BBYUIGIIXCYEMKAGMDRiBQD+BOAyCXz6EDU6CdoJYjQKCaY5njmoKgiOVEgY?=
- =?us-ascii?q?bmUCOK5kxAgQCBAUCDgEBBYFZATGBWHAVgydQEBSBTwwXg1CKU3SBKY1gglQ?=
- =?us-ascii?q?BAQ?=
-X-IronPort-AV: E=Sophos;i="5.67,252,1566864000"; 
-   d="scan'208";a="627753930"
-Received: from alln-core-8.cisco.com ([173.36.13.141])
-  by rcdn-iport-3.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 03 Oct 2019 15:03:12 +0000
-Received: from XCH-ALN-015.cisco.com (xch-aln-015.cisco.com [173.36.7.25])
-        by alln-core-8.cisco.com (8.15.2/8.15.2) with ESMTPS id x93F3Cna010498
-        (version=TLSv1.2 cipher=AES256-SHA bits=256 verify=FAIL);
-        Thu, 3 Oct 2019 15:03:12 GMT
-Received: from xhs-rtp-002.cisco.com (64.101.210.229) by XCH-ALN-015.cisco.com
- (173.36.7.25) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 3 Oct
- 2019 10:03:12 -0500
-Received: from xhs-rtp-001.cisco.com (64.101.210.228) by xhs-rtp-002.cisco.com
- (64.101.210.229) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 3 Oct
- 2019 11:03:11 -0400
-Received: from NAM04-SN1-obe.outbound.protection.outlook.com (64.101.32.56) by
- xhs-rtp-001.cisco.com (64.101.210.228) with Microsoft SMTP Server (TLS) id
- 15.0.1473.3 via Frontend Transport; Thu, 3 Oct 2019 11:03:11 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DRYwpYCuJNdDXAbvRP89nHnJPReamTHDsszXM4SiNIumEnXHxTbMSTYubqgD6r94lSRvTU9LyeA9BDmVK5q+/tsjtHSELo9pV4LU+Wn7/+wTBWS9lv/a5McL9iYeu9cn64BaB10ggVXkOcSZOLJqOYj7rjNdUa11TgZYPasNJEP3FE37klowpT/iSLhOITj8FJ9zgbV/4c/imvGYCTNIou5gHPjUgGjmTsKw0dT0x52D9VUqZvLBLJ7fyiiJjRKmsOY1vvV6djF8eb/cSsT0WAW+jVbQSPJwV//tlJl+T3l5XEEAZjKVscztfsazuD2PAl9BZbJ+JymBLczhWqRMVQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LDysDnIMWI/2cJ508I6cFmliiZyQgZ6rHPJmAof8t38=;
- b=VPQl2YI6cvnq/gIq4T/bcrKpODCAjgfRZtK/rfk2cOF6UZR5LExuCnjvZf+VJ6P+xfKMe6blyHvN8Kzt9EvOVBHRYrB3/O6pSW/rOLct8EBD166jN6+ohhZeY8SZCaZH58mrUJeahJ8ORb91CF6O2MjOnp35sESC/1dJeVmlwpJhvWi86bqgrumqhQ8xukWV0D2lQPiNh3mq2+pynFddvR2IqU/s4HIcmmU7SfBg4+6HhDhIXtihJOauEESZJ5bpi14gOGe/E+jLztkxI8h3wbb2VHAVTjEiP8YXB+ZULBxtO9uK515PG50Nx/KpcNn9UI+vqBFBlE59m9ykJ7WwJQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cisco.com; dmarc=pass action=none header.from=cisco.com;
- dkim=pass header.d=cisco.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cisco.onmicrosoft.com;
- s=selector2-cisco-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LDysDnIMWI/2cJ508I6cFmliiZyQgZ6rHPJmAof8t38=;
- b=COYTgSh1tBpS4rkhNwIVItKo3m9yBAIFeEAXZHvUOM4hRQib8o3ii9EZOQtWi0m11CPpSj2w2JN36TDezlEbScxYyfHfUy4hnjLkoJKtjOojiD3b/lB5KFDe07rCu14rSeanZUaMrD7raDTiADwMkkTRKGkv0UKsJaLOa5wXjt8=
-Received: from DM5PR1101MB2140.namprd11.prod.outlook.com (10.174.104.137) by
- DM5PR1101MB2284.namprd11.prod.outlook.com (10.174.108.14) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2305.20; Thu, 3 Oct 2019 15:03:10 +0000
-Received: from DM5PR1101MB2140.namprd11.prod.outlook.com
- ([fe80::9511:5547:ff62:72e6]) by DM5PR1101MB2140.namprd11.prod.outlook.com
- ([fe80::9511:5547:ff62:72e6%7]) with mapi id 15.20.2305.023; Thu, 3 Oct 2019
- 15:03:10 +0000
-From:   "Johan Korsnes (jkorsnes)" <jkorsnes@cisco.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-CC:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Subject: Re: [PATCH] drivers: video: hdmi: log ext colorimetry applicability
-Thread-Topic: [PATCH] drivers: video: hdmi: log ext colorimetry applicability
-Thread-Index: AQHVebpwiYPUJFa2nk+tYdVtmvLfh6dJAv0AgAAA5IA=
-Date:   Thu, 3 Oct 2019 15:03:10 +0000
-Message-ID: <b2fef514-4161-3c13-cf8e-1b378f5e1f22@cisco.com>
-References: <20191003071549.31272-1-jkorsnes@cisco.com>
- <3d11335d-8e5c-f062-91f5-fb3bf87c77b9@xs4all.nl>
-In-Reply-To: <3d11335d-8e5c-f062-91f5-fb3bf87c77b9@xs4all.nl>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=jkorsnes@cisco.com; 
-x-originating-ip: [2001:420:44c1:2576:6778:78a3:599f:41d0]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 230f96f8-7201-4630-c60d-08d74812ce51
-x-ms-traffictypediagnostic: DM5PR1101MB2284:
-x-microsoft-antispam-prvs: <DM5PR1101MB22842925307C48AC69113614D79F0@DM5PR1101MB2284.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:409;
-x-forefront-prvs: 01792087B6
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(346002)(366004)(39860400002)(136003)(376002)(396003)(189003)(199004)(6486002)(486006)(6436002)(229853002)(305945005)(36756003)(186003)(31696002)(4326008)(86362001)(316002)(6506007)(31686004)(256004)(14444005)(102836004)(53546011)(46003)(6512007)(2501003)(7736002)(25786009)(110136005)(71190400001)(71200400001)(99286004)(478600001)(8676002)(8936002)(6116002)(81156014)(14454004)(2906002)(81166006)(64756008)(66446008)(66556008)(476003)(91956017)(76116006)(11346002)(66946007)(2616005)(66476007)(446003)(6246003)(5660300002)(76176011);DIR:OUT;SFP:1101;SCL:1;SRVR:DM5PR1101MB2284;H:DM5PR1101MB2140.namprd11.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
-received-spf: None (protection.outlook.com: cisco.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: mTfSEldoZIyrIbqMHKNQNk4Es/lTKI45ssXhQaWAhWiTv4JV3/oT+498lBJXASZqotNMDpz/mea2XwUQet3MPxBoYAx6Qo4yONXAUXHfNUQpV0hl8kruX6CvIHUW7BW5dcalPJikLT6ug6AdorCQGxlHvIEBeKjreQJMp5/rx7fijs1S7jtXdREzDH+moIEbFSS2lXMFhSRCVk+MWVlLD4neduu2EVQQ8dwxp2qGAWTuBXQMPJoYxeR/+k29mPjv0QQSBsYNv0SFY9je9+JFiv1v6M9GfyR1qfq2H+zPPkJQtFMZ01ctghHJX/+QeWmWhPjJUWe84M/81MbA7/Akbv8YoQnx1UK1Pk/pVNkXjr/UElMYzXJm2DT/kpBlGGUvtLQv4mX6Omd9U3ylzrrkN/lNDoQW9Mc78Bh+Ompqhv8=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <87EC658BF4CFCF4C8193ACA04997D8A2@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        id S1729891AbfJCPPJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Oct 2019 11:15:09 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:42676 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726364AbfJCPPI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Oct 2019 11:15:08 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: koike)
+        with ESMTPSA id C2BD128FD74
+Subject: Re: [PATCH v2 3/5] media: vimc: sensor: register subdevice only after
+ initialization
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        linux-media@vger.kernel.org
+Cc:     ezequiel@collabora.com, andre.almeida@collabora.com,
+        skhan@linuxfoundation.org, hverkuil@xs4all.nl,
+        kernel@collabora.com, dafna3@gmail.com
+References: <20191003104409.15756-1-dafna.hirschfeld@collabora.com>
+ <20191003104409.15756-4-dafna.hirschfeld@collabora.com>
+From:   Helen Koike <helen.koike@collabora.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=helen.koike@collabora.com; keydata=
+ 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
+Message-ID: <a1eff5ed-e386-f72c-7275-7aa1d15ce148@collabora.com>
+Date:   Thu, 3 Oct 2019 12:14:59 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.7.2
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 230f96f8-7201-4630-c60d-08d74812ce51
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Oct 2019 15:03:10.3531
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 5ae1af62-9505-4097-a69a-c1553ef7840e
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: w+nTPzCoReRbzH9LeoZUaPhqN/RHWTB2C1YuRnxP5+xKQf0JSb0HMWPYq85G2Uq6A3LscfLoewmT6yVpnMUuJA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1101MB2284
-X-OriginatorOrg: cisco.com
-X-Outbound-SMTP-Client: 173.36.7.25, xch-aln-015.cisco.com
-X-Outbound-Node: alln-core-8.cisco.com
+In-Reply-To: <20191003104409.15756-4-dafna.hirschfeld@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-T24gMDMvMTAvMjAxOSAxNi41OSwgSGFucyBWZXJrdWlsIHdyb3RlOg0KPiBPbiAxMC8zLzE5IDk6
-MTUgQU0sIEpvaGFuIEtvcnNuZXMgd3JvdGU6DQo+PiBXaGVuIGxvZ2dpbmcgdGhlIEFWSSBJbmZv
-RnJhbWUsIGNsZWFybHkgaW5kaWNhdGUgd2hldGhlciBvciBub3QgdGhlDQo+PiBleHRlbmRlZCBj
-b2xvcmltZXRyeSBhdHRyaWJ1dGUgaXMgYWN0aXZlLiBUaGlzIGlzIG9ubHkgdGhlIGNhc2Ugd2hl
-bg0KPj4gdGhlIEFWSSBJbmZvRnJhbWUgY29sb3JpbWV0cnkgYXR0cmlidXRlIGlzIHNldCB0byBl
-eHRlbmRlZC4gWzBdDQo+Pg0KPj4gWzBdIENUQS04NjEtRyBzZWN0aW9uIDYuNCBwYWdlIDU3DQo+
-Pg0KPj4gU2lnbmVkLW9mZi1ieTogSm9oYW4gS29yc25lcyA8amtvcnNuZXNAY2lzY28uY29tPg0K
-Pj4gLS0tDQo+PiAgZHJpdmVycy92aWRlby9oZG1pLmMgfCA4ICsrKysrKystDQo+PiAgMSBmaWxl
-IGNoYW5nZWQsIDcgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQ0KPj4NCj4+IGRpZmYgLS1n
-aXQgYS9kcml2ZXJzL3ZpZGVvL2hkbWkuYyBiL2RyaXZlcnMvdmlkZW8vaGRtaS5jDQo+PiBpbmRl
-eCBmMjlkYjcyOGZmMjkuLmE3MDllMzhhNTNjYSAxMDA2NDQNCj4+IC0tLSBhL2RyaXZlcnMvdmlk
-ZW8vaGRtaS5jDQo+PiArKysgYi9kcml2ZXJzL3ZpZGVvL2hkbWkuYw0KPj4gQEAgLTY4Miw4ICs2
-ODIsMTQgQEAgc3RhdGljIHZvaWQgaGRtaV9hdmlfaW5mb2ZyYW1lX2xvZyhjb25zdCBjaGFyICps
-ZXZlbCwNCj4+ICAJaGRtaV9sb2coIiAgICBhY3RpdmUgYXNwZWN0OiAlc1xuIiwNCj4+ICAJCQlo
-ZG1pX2FjdGl2ZV9hc3BlY3RfZ2V0X25hbWUoZnJhbWUtPmFjdGl2ZV9hc3BlY3QpKTsNCj4+ICAJ
-aGRtaV9sb2coIiAgICBpdGM6ICVzXG4iLCBmcmFtZS0+aXRjID8gIklUIENvbnRlbnQiIDogIk5v
-IERhdGEiKTsNCj4+IC0JaGRtaV9sb2coIiAgICBleHRlbmRlZCBjb2xvcmltZXRyeTogJXNcbiIs
-DQo+PiArDQo+PiArCWlmIChmcmFtZS0+Y29sb3JpbWV0cnkgPT0gSERNSV9DT0xPUklNRVRSWV9F
-WFRFTkRFRCkNCj4+ICsJCWhkbWlfbG9nKCIgICAgZXh0ZW5kZWQgY29sb3JpbWV0cnk6ICVzXG4i
-LA0KPj4gIAkJCWhkbWlfZXh0ZW5kZWRfY29sb3JpbWV0cnlfZ2V0X25hbWUoZnJhbWUtPmV4dGVu
-ZGVkX2NvbG9yaW1ldHJ5KSk7DQo+PiArCWVsc2UNCj4+ICsJCWhkbWlfbG9nKCIgICAgZXh0ZW5k
-ZWQgY29sb3JpbWV0cnk6IE4vQSAoMHgleClcbiIsDQo+PiArCQkJZnJhbWUtPmV4dGVuZGVkX2Nv
-bG9yaW1ldHJ5KTsNCj4+ICsNCj4+ICAJaGRtaV9sb2coIiAgICBxdWFudGl6YXRpb24gcmFuZ2U6
-ICVzXG4iLA0KPj4gIAkJCWhkbWlfcXVhbnRpemF0aW9uX3JhbmdlX2dldF9uYW1lKGZyYW1lLT5x
-dWFudGl6YXRpb25fcmFuZ2UpKTsNCj4+ICAJaGRtaV9sb2coIiAgICBudXBzOiAlc1xuIiwgaGRt
-aV9udXBzX2dldF9uYW1lKGZyYW1lLT5udXBzKSk7DQo+Pg0KPiANCj4gSSBqdXN0IHJlYWxpemVk
-IHRoYXQgdGhlcmUgYXJlIG1vcmUgZmllbGRzIGxpa2UgdGhhdDoNCj4gDQo+IGNvbnRlbnRfdHlw
-ZSBpcyBvbmx5IHZhbGlkIGlmIGl0YyA9PSB0cnVlDQo+IA0KPiBxdWFudGl6YXRpb25fcmFuZ2Ug
-aXMgb25seSB2YWxpZCBpZiBjb2xvcnNwYWNlIGlzIFJHQg0KPiANCj4geWNjX3F1YW50aXphdGlv
-bl9yYW5nZSBpcyBvbmx5IHZhbGlkIGlmIGNvbG9yc3BhY2UgaXMgWUNDDQo+IA0KPiBDYW4geW91
-IG1ha2UgYSB2MiB3aGVyZSB0aGVzZSBmaWVsZHMgYXJlIGhhbmRsZWQgaW4gdGhlIHNhbWUgd2F5
-Pw0KPiBUaGF0IHdvdWxkIHJlYWxseSBoZWxwIHJlZHVjZSB0aGUgY29uZnVzaW9uIHdoZW4gbG9n
-Z2luZyB0aGUNCj4gQVZJIEluZm9GcmFtZS4NCg0KSSB3aWxsIG1ha2UgYSB2MiBoYW5kbGluZyB0
-aGVzZSBjYXNlcyBhcyB3ZWxsOyB0aGFua3MgZm9yIHBvaW50aW5nIGl0DQpvdXQuDQoNCkJlc3Qg
-cmVnYXJkcywNCkpvaGFuDQoNCj4gDQo+IFJlZ2FyZHMsDQo+IA0KPiAJSGFucw0KPiANCg0K
+Hi Dafna,
+
+Could you just rename the title tags to "media: vimc: sen: " to follow the
+model of the other commits?
+
+Thanks
+Helen
+
+On 10/3/19 7:44 AM, Dafna Hirschfeld wrote:
+> vimc_sen_add function first registers the subdevice and then
+> calls tpg_alloc. If tpg_alloc fails it unregisters the subdevice
+> and then frees vsen, this cause double free since the release
+> callback that follows subdevice unregistration also frees vsen.
+> 
+> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> Acked-by: Helen Koike <helen.koike@collabora.com>
+> ---
+>  drivers/media/platform/vimc/vimc-sensor.c | 20 ++++++++++----------
+>  1 file changed, 10 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/media/platform/vimc/vimc-sensor.c b/drivers/media/platform/vimc/vimc-sensor.c
+> index 46dc6a535abe..ee2306c08569 100644
+> --- a/drivers/media/platform/vimc/vimc-sensor.c
+> +++ b/drivers/media/platform/vimc/vimc-sensor.c
+> @@ -358,6 +358,13 @@ struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
+>  		goto err_free_vsen;
+>  	}
+>  
+> +	/* Initialize the test pattern generator */
+> +	tpg_init(&vsen->tpg, vsen->mbus_format.width,
+> +		 vsen->mbus_format.height);
+> +	ret = tpg_alloc(&vsen->tpg, VIMC_FRAME_MAX_WIDTH);
+> +	if (ret)
+> +		goto err_free_hdl;
+> +
+>  	/* Initialize ved and sd */
+>  	ret = vimc_ent_sd_register(&vsen->ved, &vsen->sd, v4l2_dev,
+>  				   vcfg_name,
+> @@ -365,7 +372,7 @@ struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
+>  				   (const unsigned long[1]) {MEDIA_PAD_FL_SOURCE},
+>  				   &vimc_sen_int_ops, &vimc_sen_ops);
+>  	if (ret)
+> -		goto err_free_hdl;
+> +		goto err_free_tpg;
+>  
+>  	vsen->ved.process_frame = vimc_sen_process_frame;
+>  	vsen->dev = &vimc->pdev.dev;
+> @@ -373,17 +380,10 @@ struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
+>  	/* Initialize the frame format */
+>  	vsen->mbus_format = fmt_default;
+>  
+> -	/* Initialize the test pattern generator */
+> -	tpg_init(&vsen->tpg, vsen->mbus_format.width,
+> -		 vsen->mbus_format.height);
+> -	ret = tpg_alloc(&vsen->tpg, VIMC_FRAME_MAX_WIDTH);
+> -	if (ret)
+> -		goto err_unregister_ent_sd;
+> -
+>  	return &vsen->ved;
+>  
+> -err_unregister_ent_sd:
+> -	vimc_ent_sd_unregister(&vsen->ved,  &vsen->sd);
+> +err_free_tpg:
+> +	tpg_free(&vsen->tpg);
+>  err_free_hdl:
+>  	v4l2_ctrl_handler_free(&vsen->hdl);
+>  err_free_vsen:
+> 
