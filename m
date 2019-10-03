@@ -2,120 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 28C16C9E0C
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2019 14:07:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 59784C9E25
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2019 14:12:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728915AbfJCMG4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Oct 2019 08:06:56 -0400
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:54680 "EHLO
-        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728234AbfJCMG4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Oct 2019 08:06:56 -0400
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x93C6pXX012402;
-        Thu, 3 Oct 2019 07:06:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1570104411;
-        bh=fIgeJdEZxeUHDYtIIEIg9Wo4Rny89F3Ow23zWdC1F0A=;
-        h=Date:From:To:CC:Subject:References:In-Reply-To;
-        b=RTG4/tZ7CqcXeaBvlrenopT0+I30vfNXrumomGwdsUPczLjuRRVeuAp4ni5QRbd4T
-         rcbeYrvyOPcSK7gUS77lryPhzY/aAAVVkOkQVznGqWJvHED/Gn2m1LkvB4aQssX+PB
-         n6MR8WKARX1f2+JIZK0tR4zrXYh4Hlnw6iV646F8=
-Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x93C6pNu107500
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 3 Oct 2019 07:06:51 -0500
-Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Thu, 3 Oct
- 2019 07:06:39 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Thu, 3 Oct 2019 07:06:50 -0500
-Received: from ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with SMTP id x93C6oR5005970;
-        Thu, 3 Oct 2019 07:06:50 -0500
-Date:   Thu, 3 Oct 2019 07:09:02 -0500
-From:   Benoit Parrot <bparrot@ti.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-CC:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: Re: [Patch v2 3/3] media: ov5640: Make 2592x1944 mode only available
- at 15 fps
-Message-ID: <20191003120902.wd3w2qmiry5bpa4h@ti.com>
-References: <20191002135134.12273-1-bparrot@ti.com>
- <20191002135134.12273-4-bparrot@ti.com>
- <20191003073155.4sl3jkmobnm53tm2@uno.localdomain>
+        id S1729831AbfJCMML (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Oct 2019 08:12:11 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:60598 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729733AbfJCMML (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Oct 2019 08:12:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=Z6z+KsbbvfNDmZ8hWhm3ZrpQ2X1uMleoDabYVy67j9Q=; b=js3Fmk4c6buCzxnUeBl6k2K0M
+        MN2liDvDktfLQ1nJX89ieB+sCpLVkGxzYRQHUs1Jv6G/MBpSCY0mUpSjCSxCuL2T3MQrEVbpG2uW9
+        b3/1trU0q9tTzqyTuUJ1vurX5dOyhA18s/dtvs0R/wYceaWSW7Mgem1HQcZs0ePkrMf26RrXKaetF
+        W6pg3esZATuDHnToGMg8IYo5+7UX+4qn4mXLfxpqgwQMKCdDsCMwWo5DQCMTFidVqkOsOTztJrITU
+        fxCP51Dp7LFiNakWNO0jehMcyBDUAJQrvQFdtKR/AL9rHla3yfBHRy+H2NQfOXwQFmdOOLCz4v34I
+        tkDohY8vQ==;
+Received: from 177.133.68.49.dynamic.adsl.gvt.net.br ([177.133.68.49] helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
+        id 1iFzxl-000839-MY; Thu, 03 Oct 2019 12:12:06 +0000
+Date:   Thu, 3 Oct 2019 09:12:01 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Gon Solo <gonsolo@gmail.com>
+Cc:     JP <jp@jpvw.nl>, crope@iki.fi, Sean Young <sean@mess.org>,
+        linux-media@vger.kernel.org,
+        Linux Kernel <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] si2157: Add support for Logilink VG0022A.
+Message-ID: <20191003091201.7e94c617@coco.lan>
+In-Reply-To: <20191003120143.GA2995@Limone>
+References: <20191002141359.30166-2-gonsolo@gmail.com>
+        <20191002142744.GA3475@gofer.mess.org>
+        <CANL0fFS9TGKJH2rfkXzak78BaLazTNO7GoZhSb4vLBsDrmz3FQ@mail.gmail.com>
+        <20191002150650.GA4227@gofer.mess.org>
+        <CANL0fFRoL6NxOCbNC=XjQ6LDkeeqAayaLUbm9xARWX9ttqfPFg@mail.gmail.com>
+        <29ab2e43-4374-a3ea-6ae1-a4267867eaa4@jpvw.nl>
+        <20191002154922.7f1cfc76@coco.lan>
+        <CANL0fFRJZBfEDWK_c2w1TomvB5-i4g09LopyJUbO5NtOwKdDTg@mail.gmail.com>
+        <CANL0fFTwJ4yRO+5q6WkL0+DtwdrRti6r_WY1intisYJhs5En8w@mail.gmail.com>
+        <20191003081742.0933264b@coco.lan>
+        <20191003120143.GA2995@Limone>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20191003073155.4sl3jkmobnm53tm2@uno.localdomain>
-User-Agent: NeoMutt/20171215
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Jacopo Mondi <jacopo@jmondi.org> wrote on Thu [2019-Oct-03 09:31:55 +0200]:
-> Hi Benoit,
-> 
-> On Wed, Oct 02, 2019 at 08:51:34AM -0500, Benoit Parrot wrote:
-> > The sensor data sheet clearly state that 2592x1944 only works at 15 fps
-> > make sure we don't try to miss configure the pll out of acceptable
-> > range.
-> 
-> The datasheet clearly indicates that 15 fps is the maximum achievable
-> rate with that resolution, so I guess preventing it from being set
-> to anything faster than that it's acceptable.
-> >
-> > Signed-off-by: Benoit Parrot <bparrot@ti.com>
-> > ---
-> >  drivers/media/i2c/ov5640.c | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> >
-> > diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-> > index 103a4e8f88e1..d5b0be2c7a0a 100644
-> > --- a/drivers/media/i2c/ov5640.c
-> > +++ b/drivers/media/i2c/ov5640.c
-> > @@ -1613,6 +1613,11 @@ ov5640_find_mode(struct ov5640_dev *sensor, enum ov5640_frame_rate fr,
-> >  	    !(mode->hact == 640 && mode->vact == 480))
-> >  		return NULL;
-> >
-> > +	/* 2592x1944 only works at 15fps */
-> > +	if (fr != OV5640_15_FPS &&
-> 
-> As long as 15 fps is the lower framerate declared in
-> ov5640_framerates[] this is ok, but I would make this condition a
-> check for "fr  > OV5640_15_FPS" so that it's safe for future
-> extensions.
-> 
-> (And I would check for the resolution first then FPS, so you check
-> the most unlikely condition first, but that's really a minor
-> optimization).
+Em Thu, 3 Oct 2019 14:01:43 +0200
+Gon Solo <gonsolo@gmail.com> escreveu:
 
-Ah, very good I'll change that.
-
-Benoit
-
+> Hi!
 > 
-> With the above small details addressed
-> Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
-> 
-> Thanks
->    j
-> 
-> > +	    (mode->hact == 2592 && mode->vact == 1944))
-> > +		return NULL;
-> > +
-> >  	return mode;
-> >  }
-> >
-> > --
-> > 2.17.1
-> >
+>  
+> > Btw, could you please try the enclosed hack and post the results?  
+>  
+> [  210.178948] si2168 1-0067: downloading firmware from file 'dvb-demod-si2168-b40-01.fw'
+> [  212.404011] si2168 1-0067: firmware version: B 4.0.25
+> [  212.656467] si2157 2-0063: Needed to wait 100 ms to get chip version
+> [  212.656470] si2157 2-0063: Unable to retrieve chip version
 
+well, you could try to increase the timeout - although 100 ms seems a lot
+of time to me.
 
+Thanks,
+Mauro
