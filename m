@@ -2,195 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C664ECA0CA
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2019 16:59:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 66BD0CA0CE
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2019 17:00:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727127AbfJCO7Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Oct 2019 10:59:25 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:48748 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726508AbfJCO7Z (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Oct 2019 10:59:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=vdX9bsZUwU/FQfv93r67PyIlLem9UgwThvV7CbTnmm0=; b=bos1Nau+3EF1eL2JAHapN20Dr
-        FbGKAjehRXptqOnogLAVXhYUV7FsCFAqZVflnOfmrZqjcYOcRva7hAe9Ks6DvqHz+PU6REscf5a1R
-        C/jRFXbpPB69LjcdY9FGM/4m4H9Cqc3R4IinHlCGEFmcERpsRvb5gTZVuZn01h8gxUQLzECQsRxOA
-        Fxbr+ykhUULGyDEp9Vr9dJVi2XlXy2SzrI3vxBa6es9gBKhzOaBKyD6dwpVTDR4an8Eh9FRoN7Jp1
-        kTa6Zi4GJJZKrJDZ+UIP6qKCvYVJEHLSIzrP10E1W7APVGYVo/VVw3aZQzm1ZcmkABC8GsoU9pJgR
-        73NSiXfTA==;
-Received: from 177.133.68.49.dynamic.adsl.gvt.net.br ([177.133.68.49] helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
-        id 1iG2Zh-000219-4G; Thu, 03 Oct 2019 14:59:25 +0000
-Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.2)
-        (envelope-from <mchehab@bombadil.infradead.org>)
-        id 1iG2Ze-0003v2-Pm; Thu, 03 Oct 2019 11:59:22 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Sergey Kozlov <serjk@netup.ru>, Abylay Ospan <aospan@netup.ru>,
-        stable@vger.kernel.org
-Subject: [PATCH] media: cxd2841er: avoid too many status inquires
-Date:   Thu,  3 Oct 2019 11:59:22 -0300
-Message-Id: <6251e730c1517d1bbc11c5eb803177f6a71b3d9c.1570114759.git.mchehab+samsung@kernel.org>
-X-Mailer: git-send-email 2.21.0
+        id S1727326AbfJCPAG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Oct 2019 11:00:06 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:34675 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726393AbfJCPAG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 3 Oct 2019 11:00:06 -0400
+Received: from [192.168.2.10] ([46.9.232.237])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id G2aEi3TBOop0AG2aHi8jEM; Thu, 03 Oct 2019 17:00:04 +0200
+Subject: Re: [PATCH] drivers: video: hdmi: log ext colorimetry applicability
+To:     Johan Korsnes <jkorsnes@cisco.com>, dri-devel@lists.freedesktop.org
+Cc:     linux-media@vger.kernel.org
+References: <20191003071549.31272-1-jkorsnes@cisco.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <3d11335d-8e5c-f062-91f5-fb3bf87c77b9@xs4all.nl>
+Date:   Thu, 3 Oct 2019 16:59:58 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191003071549.31272-1-jkorsnes@cisco.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfKDkvMUeIn38ureWIwWMm33yN0MHYKU+4LnlBRDGrKBrH1fZG3iyKkvzqtMn7rEGttWC1u9qg42KbH6iL607wPofKbpFlq9kB8bgA421spce97zTBRN0
+ HEFZR4vldaCjqMIcnEEw9WT02eRZ5YRp9YLFFZHtTilZ5yC12fX4UjHhDOEmWXzPg2Gdy1EtVhFhSsA53gbuYoATRm6B8fVtN75ZdIIO9cLEZjtNcB9QOdHE
+ 2TKA2onWe16C9aJUs+LB3Q==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-As reported at:
-	https://tvheadend.org/issues/5625
+On 10/3/19 9:15 AM, Johan Korsnes wrote:
+> When logging the AVI InfoFrame, clearly indicate whether or not the
+> extended colorimetry attribute is active. This is only the case when
+> the AVI InfoFrame colorimetry attribute is set to extended. [0]
+> 
+> [0] CTA-861-G section 6.4 page 57
+> 
+> Signed-off-by: Johan Korsnes <jkorsnes@cisco.com>
+> ---
+>  drivers/video/hdmi.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/video/hdmi.c b/drivers/video/hdmi.c
+> index f29db728ff29..a709e38a53ca 100644
+> --- a/drivers/video/hdmi.c
+> +++ b/drivers/video/hdmi.c
+> @@ -682,8 +682,14 @@ static void hdmi_avi_infoframe_log(const char *level,
+>  	hdmi_log("    active aspect: %s\n",
+>  			hdmi_active_aspect_get_name(frame->active_aspect));
+>  	hdmi_log("    itc: %s\n", frame->itc ? "IT Content" : "No Data");
+> -	hdmi_log("    extended colorimetry: %s\n",
+> +
+> +	if (frame->colorimetry == HDMI_COLORIMETRY_EXTENDED)
+> +		hdmi_log("    extended colorimetry: %s\n",
+>  			hdmi_extended_colorimetry_get_name(frame->extended_colorimetry));
+> +	else
+> +		hdmi_log("    extended colorimetry: N/A (0x%x)\n",
+> +			frame->extended_colorimetry);
+> +
+>  	hdmi_log("    quantization range: %s\n",
+>  			hdmi_quantization_range_get_name(frame->quantization_range));
+>  	hdmi_log("    nups: %s\n", hdmi_nups_get_name(frame->nups));
+> 
 
-Retrieving certain status can cause discontinuity issues.
+I just realized that there are more fields like that:
 
-Prevent that by adding a timeout to each status logic.
+content_type is only valid if itc == true
 
-Currently, the timeout is estimated based at the channel
-bandwidth. There are other parameters that may also affect
-the timeout, but that would require a per-delivery system
-calculus and probably more information about how cxd2481er
-works, with we don't have.
+quantization_range is only valid if colorspace is RGB
 
-So, do a poor man's best guess.
+ycc_quantization_range is only valid if colorspace is YCC
 
-Cc: stable@vger.kernel.org
-Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
----
- drivers/media/dvb-frontends/cxd2841er.c | 59 +++++++++++++++++++++++++
- 1 file changed, 59 insertions(+)
+Can you make a v2 where these fields are handled in the same way?
+That would really help reduce the confusion when logging the
+AVI InfoFrame.
 
-diff --git a/drivers/media/dvb-frontends/cxd2841er.c b/drivers/media/dvb-frontends/cxd2841er.c
-index 1b30cf570803..71428b0d2620 100644
---- a/drivers/media/dvb-frontends/cxd2841er.c
-+++ b/drivers/media/dvb-frontends/cxd2841er.c
-@@ -60,6 +60,13 @@ struct cxd2841er_priv {
- 	enum cxd2841er_xtal		xtal;
- 	enum fe_caps caps;
- 	u32				flags;
-+
-+	unsigned long			ber_interval;
-+	unsigned long			ucb_interval;
-+
-+	unsigned long			ber_time;
-+	unsigned long			ucb_time;
-+	unsigned long			snr_time;
- };
- 
- static const struct cxd2841er_cnr_data s_cn_data[] = {
-@@ -1941,12 +1948,20 @@ static void cxd2841er_read_ber(struct dvb_frontend *fe)
- 	struct cxd2841er_priv *priv = fe->demodulator_priv;
- 	u32 ret, bit_error = 0, bit_count = 0;
- 
-+	if (priv->ber_time &&
-+	   (!time_after(jiffies, priv->ber_time)))
-+		return;
-+
- 	dev_dbg(&priv->i2c->dev, "%s()\n", __func__);
- 	switch (p->delivery_system) {
- 	case SYS_DVBC_ANNEX_A:
- 	case SYS_DVBC_ANNEX_B:
- 	case SYS_DVBC_ANNEX_C:
- 		ret = cxd2841er_read_ber_c(priv, &bit_error, &bit_count);
-+
-+		if (!priv->ber_interval && p->symbol_rate)
-+			priv->ber_interval = (10000000) / (p->symbol_rate / 1000);
-+
- 		break;
- 	case SYS_ISDBT:
- 		ret = cxd2841er_read_ber_i(priv, &bit_error, &bit_count);
-@@ -1978,6 +1993,18 @@ static void cxd2841er_read_ber(struct dvb_frontend *fe)
- 		p->post_bit_error.stat[0].scale = FE_SCALE_NOT_AVAILABLE;
- 		p->post_bit_count.stat[0].scale = FE_SCALE_NOT_AVAILABLE;
- 	}
-+
-+	/*
-+	 * If the per-delivery system doesn't specify, set a default timeout
-+	 * that will wait for ~12.5 seconds for 8MHz channels
-+	 */
-+	if (!priv->ber_interval && p->bandwidth_hz)
-+		priv->ber_interval = (100000000) / (p->bandwidth_hz / 1000);
-+
-+	if (priv->ber_interval < 1000)
-+		priv->ber_interval = 1000;
-+
-+	priv->ber_time = jiffies + msecs_to_jiffies(priv->ber_interval);
- }
- 
- static void cxd2841er_read_signal_strength(struct dvb_frontend *fe)
-@@ -2037,6 +2064,13 @@ static void cxd2841er_read_snr(struct dvb_frontend *fe)
- 	struct dtv_frontend_properties *p = &fe->dtv_property_cache;
- 	struct cxd2841er_priv *priv = fe->demodulator_priv;
- 
-+	if (priv->snr_time &&
-+	   (!time_after(jiffies, priv->snr_time)))
-+		return;
-+
-+	/* Preventing asking SNR more than once per second */
-+	priv->snr_time = jiffies + msecs_to_jiffies(1000);
-+
- 	dev_dbg(&priv->i2c->dev, "%s()\n", __func__);
- 	switch (p->delivery_system) {
- 	case SYS_DVBC_ANNEX_A:
-@@ -2081,12 +2115,18 @@ static void cxd2841er_read_ucblocks(struct dvb_frontend *fe)
- 	struct cxd2841er_priv *priv = fe->demodulator_priv;
- 	u32 ucblocks = 0;
- 
-+	if (priv->ucb_time &&
-+	   (!time_after(jiffies, priv->ucb_time)))
-+		return;
-+
- 	dev_dbg(&priv->i2c->dev, "%s()\n", __func__);
- 	switch (p->delivery_system) {
- 	case SYS_DVBC_ANNEX_A:
- 	case SYS_DVBC_ANNEX_B:
- 	case SYS_DVBC_ANNEX_C:
- 		cxd2841er_read_packet_errors_c(priv, &ucblocks);
-+		if (!priv->ucb_interval && p->symbol_rate)
-+		    priv->ucb_interval = (100 * 204 * 1000 * 8) / p->symbol_rate;
- 		break;
- 	case SYS_DVBT:
- 		cxd2841er_read_packet_errors_t(priv, &ucblocks);
-@@ -2105,6 +2145,18 @@ static void cxd2841er_read_ucblocks(struct dvb_frontend *fe)
- 
- 	p->block_error.stat[0].scale = FE_SCALE_COUNTER;
- 	p->block_error.stat[0].uvalue = ucblocks;
-+
-+	/*
-+	 * If the per-delivery system doesn't specify, set a default timeout
-+	 * that will wait 20-30 seconds
-+	 */
-+	if (!priv->ucb_interval && p->bandwidth_hz)
-+		priv->ucb_interval = (100 * 204 * 1000 * 8) / p->bandwidth_hz;
-+
-+	if (priv->ucb_interval < 1000)
-+		priv->ucb_interval = 1000;
-+
-+	priv->ucb_time = jiffies + msecs_to_jiffies(priv->ucb_interval);
- }
- 
- static int cxd2841er_dvbt2_set_profile(
-@@ -3360,6 +3412,13 @@ static int cxd2841er_set_frontend_s(struct dvb_frontend *fe)
- 	p->post_bit_error.stat[0].scale = FE_SCALE_NOT_AVAILABLE;
- 	p->post_bit_count.stat[0].scale = FE_SCALE_NOT_AVAILABLE;
- 
-+	/* Reset the wait for jiffies logic */
-+	priv->ber_interval = 0;
-+	priv->ucb_interval = 0;
-+	priv->ber_time = 0;
-+	priv->ucb_time = 0;
-+	priv->snr_time = 0;
-+
- 	return ret;
- }
- 
--- 
-2.21.0
+Regards,
 
+	Hans
