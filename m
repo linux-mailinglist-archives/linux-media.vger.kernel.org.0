@@ -2,90 +2,200 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7FDB4CA051
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2019 16:29:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69E2CCA065
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2019 16:32:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730124AbfJCO33 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Oct 2019 10:29:29 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:34938 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726393AbfJCO33 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Oct 2019 10:29:29 -0400
-Received: by mail-lj1-f195.google.com with SMTP id m7so3023968lji.2;
-        Thu, 03 Oct 2019 07:29:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=pPX6hZuTAKscoMR2pVUc6O2c3J5blh2oSncwZUdgBs0=;
-        b=QNx2/2uEq3OIs68G+c7YaycV7Fq+Ty/tmEsjmJN2O1wK/L20mVZIg0TgD0Vn3YJDiU
-         44bumczvzhdkqZxYEV+Wyi37+06A8HeOnIcCFakx2Hi1/YEiHklQ2hQLtPqeHx5eNU6E
-         EDcU7okyDqkMBR7RycSpw2Dt5H/qjbL0qmzyXkybR+T4SOMn3cpb7SlqkPMqmKX+2wTM
-         gGnWt/PhrMniousn5W2B73m4sVahsXS/JGg9lLt5TegpnytwEmbboAvkZa02rvfgPslD
-         5wN/h5ZOt1fYdJuWgpEk5vhPx6WL2PGhmqbO1Sl6/rtyhDXsxn1tez9+/Ev+6IcD5GhO
-         YN3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=pPX6hZuTAKscoMR2pVUc6O2c3J5blh2oSncwZUdgBs0=;
-        b=Lc1BNJf0n6t6XOWg7zNXfdp9SGz4moSG5d3DNVSVsNzed9Pcayp0TEV/WuYZ86KYM2
-         6HxxsgXNR5GINhg1l04fU+VA3CCHAXdnJTVGYtZwqFkrePRHVSEyQDGyMwGOjnAQYx74
-         9F1VXP62ou2rypi/GaPvXP5uWeC1GvxiAweGxUZyVK/iAomYD5mYhK0fXpd3QLuasegC
-         t70GeAhHM/Pg2F+YljUXreeDSYd8jxGiWLOrP8K1SlkUamWMlK5zuiE2jdpRsk5nvdA3
-         JlC5M8tYOEWs0nNnoVqJawm+YXLtg93A34bKh3lv+A9JbgISi8BXcsW/xTtIXI08fLjL
-         v0WA==
-X-Gm-Message-State: APjAAAUXgkFmscF7oOdlGX7Ntv8vBfAB6ufy0fEcjaNUTWEYQVNMWJ6U
-        vG9xyb6xfaZjEf2UUQP5+DRQOpuWmCJJfIiuLIQ=
-X-Google-Smtp-Source: APXvYqzrcxzFW/+/EqjTje5qh9q51U5wuUGgGdtKJsVPYwQHr3s96kYVhvW2iDIi5EcJCY8ThfZEOB8n0in7gNpCt0U=
-X-Received: by 2002:a2e:7d0d:: with SMTP id y13mr6366997ljc.170.1570112966775;
- Thu, 03 Oct 2019 07:29:26 -0700 (PDT)
+        id S1728762AbfJCOcu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Oct 2019 10:32:50 -0400
+Received: from mga12.intel.com ([192.55.52.136]:57319 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726393AbfJCOcu (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 3 Oct 2019 10:32:50 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 03 Oct 2019 07:32:49 -0700
+X-IronPort-AV: E=Sophos;i="5.67,252,1566889200"; 
+   d="scan'208";a="196362792"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 03 Oct 2019 07:32:47 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id A83F320F75; Thu,  3 Oct 2019 17:32:44 +0300 (EEST)
+Date:   Thu, 3 Oct 2019 17:32:44 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Benoit Parrot <bparrot@ti.com>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [Patch v2 1/3] media: ov5640: add PIXEL_RATE control
+Message-ID: <20191003143244.GC14917@paasikivi.fi.intel.com>
+References: <20191002135134.12273-1-bparrot@ti.com>
+ <20191002135134.12273-2-bparrot@ti.com>
+ <20191003071714.zyldxfoollm26o4u@uno.localdomain>
+ <20191003072251.GA14917@paasikivi.fi.intel.com>
+ <20191003120741.h2k5hcqjqxnu6ts6@ti.com>
 MIME-Version: 1.0
-References: <20191002150650.GA4227@gofer.mess.org> <CANL0fFRoL6NxOCbNC=XjQ6LDkeeqAayaLUbm9xARWX9ttqfPFg@mail.gmail.com>
- <29ab2e43-4374-a3ea-6ae1-a4267867eaa4@jpvw.nl> <20191002154922.7f1cfc76@coco.lan>
- <CANL0fFRJZBfEDWK_c2w1TomvB5-i4g09LopyJUbO5NtOwKdDTg@mail.gmail.com>
- <CANL0fFTwJ4yRO+5q6WkL0+DtwdrRti6r_WY1intisYJhs5En8w@mail.gmail.com>
- <20191003081742.0933264b@coco.lan> <CANL0fFTtHn4ocL4BD4cVKhVzjLhnQ0a45yq5x4MxWAVu-tD8sw@mail.gmail.com>
- <20191003094904.3aa5fdc7@coco.lan> <20191003095237.2efa0e7f@coco.lan>
- <20191003130224.GA2596@Limone> <CANL0fFQR4KDU5PKeedK6wF45nSTu6dUyz_MBwmP1QsJxYQAWNg@mail.gmail.com>
- <20191003110551.19f06922@coco.lan>
-In-Reply-To: <20191003110551.19f06922@coco.lan>
-From:   Gonsolo <gonsolo@gmail.com>
-Date:   Thu, 3 Oct 2019 16:29:15 +0200
-Message-ID: <CANL0fFSPxJO597qyt9SgYaqAPxkP4P-R1ZuvdmOtav9KEX5qsQ@mail.gmail.com>
-Subject: Re: [PATCH] si2157: Add support for Logilink VG0022A.
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     JP <jp@jpvw.nl>, crope@iki.fi, Sean Young <sean@mess.org>,
-        linux-media@vger.kernel.org,
-        Linux Kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191003120741.h2k5hcqjqxnu6ts6@ti.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-> Try to reduce the bus speed to 10kbps
+Hi Benoit,
 
-Nope:
+On Thu, Oct 03, 2019 at 07:07:41AM -0500, Benoit Parrot wrote:
+> Sakari Ailus <sakari.ailus@linux.intel.com> wrote on Thu [2019-Oct-03 10:22:51 +0300]:
+> > Hi Jacopo, Benoit,
+> > 
+> > On Thu, Oct 03, 2019 at 09:17:14AM +0200, Jacopo Mondi wrote:
+> > > Hi Benoit,
+> > > 
+> > > On Wed, Oct 02, 2019 at 08:51:32AM -0500, Benoit Parrot wrote:
+> > > > Add v4l2 controls to report the pixel rates of each mode. This is
+> > > > needed by some CSI2 receiver in order to perform proper DPHY
+> > > > configuration.
+> > > >
+> > > > Signed-off-by: Benoit Parrot <bparrot@ti.com>
+> > > > ---
+> > > >  drivers/media/i2c/ov5640.c | 25 +++++++++++++++++++++++++
+> > > >  1 file changed, 25 insertions(+)
+> > > >
+> > > > diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+> > > > index 500d9bbff10b..5198dc887400 100644
+> > > > --- a/drivers/media/i2c/ov5640.c
+> > > > +++ b/drivers/media/i2c/ov5640.c
+> > > > @@ -193,6 +193,9 @@ struct ov5640_mode_info {
+> > > >
+> > > >  struct ov5640_ctrls {
+> > > >  	struct v4l2_ctrl_handler handler;
+> > > > +	struct {
+> > > > +		struct v4l2_ctrl *pixel_rate;
+> > > > +	};
+> > > 
+> > > Do you need to wrap this v4l2_ctrl in it's own unnamed struct? Other
+> > > controls here declared in this way are clustered and, if I'm not
+> > > mistaken, using unnamed struct to wrap them is just a typographically
+> > > nice way to convey that. I think your new control could be declared
+> > > without a wrapping struct { }.
+> > > 
+> > > >  	struct {
+> > > >  		struct v4l2_ctrl *auto_exp;
+> > > >  		struct v4l2_ctrl *exposure;
+> > > > @@ -2194,6 +2197,16 @@ static int ov5640_try_fmt_internal(struct v4l2_subdev *sd,
+> > > >  	return 0;
+> > > >  }
+> > > >
+> > > > +static u64 ov5640_calc_pixel_rate(struct ov5640_dev *sensor)
+> > > > +{
+> > > > +	u64 rate;
+> > > > +
+> > > > +	rate = sensor->current_mode->vtot * sensor->current_mode->htot;
+> > > > +	rate *= ov5640_framerates[sensor->current_fr];
+> > > > +
+> > > > +	return rate;
+> > > > +}
+> > > > +
+> > > 
+> > > Just to point out this is the -theoretical- pixel rate, and might be
+> > > quite different from the one calculated by the clock tree tuning
+> > > procedure (which should be updated to match Hugues' latest findings).
+> > 
+> > Hmm. Considering the xclk rate may be pretty much anything, I'd suppose
+> > the value above would only be correct for a given xclk rate.
+> 
+> I am not sure about that, different xclk rate might yield slightly
+> different byte clock, but all in all the resolution and framerate pretty
+> much dictate the end result, no?
 
-#define I2C_SPEED_REGISTER 260  // ~10k
+Interestingly, the driver determines the PLL configuration based on the
+pixels per line and lines per frame (including blanking) and the frames per
+seconds. I guess it's always been like that in this driver.
 
-[  117.860961] si2168 1-0067: downloading firmware from file
-'dvb-demod-si2168-b40-01.fw'
-[  118.958355] si2168 1-0067: firmware version: B 4.0.25
-[  118.968882] si2157 2-0063: Bogus chip version, trying with new firmware
-[  118.968888] si2157 2-0063: found a 'Silicon Labs Si21255-\xff\xff\xff'
-[  118.972005] si2157 2-0063: downloading firmware from file
-'dvb-tuner-si2157-a30-01.fw'
-[  121.154130] si2157 2-0063: rebooting tuner...
-[  121.169626] si2157 2-0063: querying firmware version...
-[  121.172799] si2157 2-0063: firmware version: \xff.\xff.255
-[  121.172803] si2157 2-0063: querying chip revision...
-[  121.175911] si2157 2-0063: chip revision: 255.255.255.255
+So I agree the target frame rate can be used for this.
 
-g
+You could change ov5640_set_mode() to use this function as well to avoid
+doing the same calculation twice in different places in the driver. Up to
+you.
 
-
+> 
+> > 
+> > Could this be simply calculated from the clock tree configuration, to get
+> > the right value in all cases?
+> 
+> It probably could, and as I said earlier I gave it a try and failed, since
+> the theoretical value worked for me that's what I went with. Those are the
+> same values that Maxime's patch referred to. (dfbfb7aa832cdb media: ov5640:
+> Compute the clock rate at runtime).
+> 
+> Here I am just "publishing it".
+> 
+> Benoit
+> 
+> > 
+> > > 
+> > > >  static int ov5640_set_fmt(struct v4l2_subdev *sd,
+> > > >  			  struct v4l2_subdev_pad_config *cfg,
+> > > >  			  struct v4l2_subdev_format *format)
+> > > > @@ -2233,6 +2246,8 @@ static int ov5640_set_fmt(struct v4l2_subdev *sd,
+> > > >  	if (mbus_fmt->code != sensor->fmt.code)
+> > > >  		sensor->pending_fmt_change = true;
+> > > >
+> > > > +	__v4l2_ctrl_s_ctrl_int64(sensor->ctrls.pixel_rate,
+> > > > +				 ov5640_calc_pixel_rate(sensor));
+> > > >  out:
+> > > >  	mutex_unlock(&sensor->lock);
+> > > >  	return ret;
+> > > > @@ -2657,6 +2672,13 @@ static int ov5640_init_controls(struct ov5640_dev *sensor)
+> > > >  	/* we can use our own mutex for the ctrl lock */
+> > > >  	hdl->lock = &sensor->lock;
+> > > >
+> > > > +	/* Clock related controls */
+> > > > +	ctrls->pixel_rate =
+> > > > +		v4l2_ctrl_new_std(hdl, ops,
+> > > 
+> > > If you like it better, this could fit in 1 line
+> > > 
+> > > 	ctrls->pixel_rate = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_PIXEL_RATE,
+> > > 					      0, INT_MAX, 1,
+> > > 					      ov5640_calc_pixel_rate(sensor)
+> > > 
+> > > Thanks
+> > >    j
+> > > 
+> > > > +				  V4L2_CID_PIXEL_RATE, 0, INT_MAX, 1,
+> > > > +				  ov5640_calc_pixel_rate(sensor));
+> > > 
+> > > 
+> > > > +	ctrls->pixel_rate->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> > 
+> > Note that ctrls->pixel_rate is NULL if e.g. memory allocation fails when
+> > creating the control.
+> > 
+> > > > +
+> > > >  	/* Auto/manual white balance */
+> > > >  	ctrls->auto_wb = v4l2_ctrl_new_std(hdl, ops,
+> > > >  					   V4L2_CID_AUTO_WHITE_BALANCE,
+> > > > @@ -2816,6 +2838,9 @@ static int ov5640_s_frame_interval(struct v4l2_subdev *sd,
+> > > >  		sensor->frame_interval = fi->interval;
+> > > >  		sensor->current_mode = mode;
+> > > >  		sensor->pending_mode_change = true;
+> > > > +
+> > > > +		__v4l2_ctrl_s_ctrl_int64(sensor->ctrls.pixel_rate,
+> > > > +					 ov5640_calc_pixel_rate(sensor));
+> > > >  	}
+> > > >  out:
+> > > >  	mutex_unlock(&sensor->lock);
+> > 
+> > -- 
+> > Regards,
+> > 
+> > Sakari Ailus
+> > sakari.ailus@linux.intel.com
 
 -- 
-g
+Sakari Ailus
+sakari.ailus@linux.intel.com
