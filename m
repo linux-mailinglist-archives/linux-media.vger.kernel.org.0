@@ -2,138 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 636B9C9BCC
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2019 12:11:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 441EBC9BDF
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2019 12:15:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726523AbfJCKLF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Oct 2019 06:11:05 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:35534 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725827AbfJCKLF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Oct 2019 06:11:05 -0400
-Received: by mail-wm1-f68.google.com with SMTP id y21so1830831wmi.0
-        for <linux-media@vger.kernel.org>; Thu, 03 Oct 2019 03:11:03 -0700 (PDT)
+        id S1728531AbfJCKNq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Oct 2019 06:13:46 -0400
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:38715 "EHLO
+        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725827AbfJCKNp (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Oct 2019 06:13:45 -0400
+Received: by mail-qt1-f194.google.com with SMTP id j31so2770945qta.5;
+        Thu, 03 Oct 2019 03:13:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=Agp3EuCiHKloFtoDdFx7HfkDvZvPVf/H6q4TAYxz6CI=;
-        b=bwvTvYDJReiwmJp2S7ZqvMjhEmKjoex5iMyTxFucuHRs0ZbdKakeVhxE9IICGIkm0x
-         A20K319BRbtdDBLRMXAvTYm4kvpalfbEJGAAahpUUx8TrBZ6+OOLI2MOIgWqngA6Nvfm
-         amCMfOtGR1nGf56uFPFBKGr7hLD5yPX2mjVXboqvHBBzCQ7GPEaWfAXuoTTUTZIwYXcR
-         35RaRs0k3SMA6BruWzKlMjyAhq9CWD3cLjLrk58zsgTGCsS87sFoMxw/nFQkMXqUROxK
-         aWBZKglYevfBPjZ5ppmsuRG3PCDt4LFBHULJNGX9reOIJOngr1Qjbb6/8/BSWzdPzeZY
-         A+Og==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=zRmRJN8gbGe7JsDiP8BYKFBP5BEQqwbz/PHKZujLW60=;
+        b=epPG/membyZKgagNXMf0uJWB8XjF81/2Dwq/im/BdTqSFTPsQBLQfrNivaoTa9NmOF
+         dsg6R0r4b1+vf8DQZ0n/0ZjUYSkR9aVR1wUIliI3cQ5ggBIzQdJtixMwpMispp0X0+qa
+         tKMN2ehB5fEi1rAf2abpSDiq+0Nbwp6kM03xVFrVOPV86UqoaRNHRM/D8bVcPbHfJBrK
+         0kGnC8k2qTAwpCbsnkkEXz7bTc8OPm9UPqUjsdKaRsTWvDsd7b5t4u6oUiq0ZxSWADf6
+         F6Bis1quh2lth1GiFc5eE12C7aOb2h3foKMok3ldmOKYgToc94REhv43Z7tEbi2J8hfL
+         AndQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=Agp3EuCiHKloFtoDdFx7HfkDvZvPVf/H6q4TAYxz6CI=;
-        b=d678CHn1BVba/A0HWC+bmgphTWXdmKlZuPeaU2tqv5sDFb8LrO/FzH/hjXtNYw5vBK
-         uM7qOcHJGIryDyfi+UB/Br0lqO4ZdmqxkyrQYeC8sE/Fz01NxJJAKit+lJR/FtO81VCJ
-         1WJW+6VW1XzFK6HPAxoLmz1yIsjjOJMxVysHvgy0K9n/Xs7FcCVV1iDw6wOQmz+f6f+C
-         ukdnF1Fpy7mQOJDEKrh8vg94B/MAXcjrNRZO2WiOy1KiDiPPdWiwIycNZnxhRBK5rTwB
-         7FhSKfKIwY1xy6BBGQHLLG7CxGQATHCMX5h4GFei+3D3eQBShzPl4EyDHwfk9v8bCD6J
-         fExg==
-X-Gm-Message-State: APjAAAW4CtOirec9hr2oZNUzTfakbe4rXifS5p+/mTUgtKNfKXVPw3Jo
-        Wv3hE8G4xtwsWSrF85na696AlA5dR0Y=
-X-Google-Smtp-Source: APXvYqzJEe+cftUJ1kllSXzNpyWW3AZy2P+PuyxK2u9CSOz45mbnGblihdd5B81JvweyNd18y0w6gA==
-X-Received: by 2002:a1c:1bcf:: with SMTP id b198mr6780636wmb.0.1570097462511;
-        Thu, 03 Oct 2019 03:11:02 -0700 (PDT)
-Received: from mms-0440.qualcomm.mm-sol.com ([37.157.136.206])
-        by smtp.gmail.com with ESMTPSA id z189sm2355054wmc.25.2019.10.03.03.11.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Oct 2019 03:11:01 -0700 (PDT)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     linux-media@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Loic Poulain <loic.poulain@linaro.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: [PATCH v4] venus: venc: Fix enum frameintervals
-Date:   Thu,  3 Oct 2019 13:10:38 +0300
-Message-Id: <20191003101038.13732-1-stanimir.varbanov@linaro.org>
-X-Mailer: git-send-email 2.17.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=zRmRJN8gbGe7JsDiP8BYKFBP5BEQqwbz/PHKZujLW60=;
+        b=hfW3tw9Ap3gBh+Bdg2Nt/W1cu01hP8UksW/9uVSbL64krH7HiNHq6yQiHQirTO2282
+         FOs+69wyj95GSxPx1zAy3Uokm06ssoxxvIp7neZGko5ipML07k35MQrIlaCXct0u0cj4
+         JyjGEn66qRhcN8U2weBzLZ34o6CzSIZtNxeRvg9imEJLgpgqpYmcIFYxpFKn0sm/bQWl
+         lZNd1Taf4H7IG5E7+boLGhg+1MIUDm20Ht7zgH+k6Yt2PsK5SGg36Z9uNlx8E4lcVPHE
+         F9E5O0racxnYvLj3hbDsxzwg1rMwWFXU7Agw5aDU3DCd5wY4T3UsaAsdYHurZvNlLR/C
+         JoYA==
+X-Gm-Message-State: APjAAAUP/SK6/T0TYRlt+60O/d7PebBXWr1Ycfbb9pBXWL86gWtetjWv
+        ZsNKLlRt6ivf/L1CsZkN1irqlfH8ogO58dPsIx+Vg/Mi80A=
+X-Google-Smtp-Source: APXvYqxEDszLeMOiHKaxeg7RngcGH1UbDQJtfPWW0sPv1p/4D6xV6yi5BiqqFYluYKMDrd3Mq1kWhlWK5wXO9jPSljI=
+X-Received: by 2002:ac8:4712:: with SMTP id f18mr4241086qtp.313.1570097624646;
+ Thu, 03 Oct 2019 03:13:44 -0700 (PDT)
+MIME-Version: 1.0
+References: <20191001205203.4b1a5fb6@coco.lan> <20191002141359.30166-1-gonsolo@gmail.com>
+ <20191002141359.30166-2-gonsolo@gmail.com> <20191002142744.GA3475@gofer.mess.org>
+ <CANL0fFS9TGKJH2rfkXzak78BaLazTNO7GoZhSb4vLBsDrmz3FQ@mail.gmail.com>
+ <20191002150650.GA4227@gofer.mess.org> <CANL0fFRoL6NxOCbNC=XjQ6LDkeeqAayaLUbm9xARWX9ttqfPFg@mail.gmail.com>
+ <29ab2e43-4374-a3ea-6ae1-a4267867eaa4@jpvw.nl> <20191002154922.7f1cfc76@coco.lan>
+In-Reply-To: <20191002154922.7f1cfc76@coco.lan>
+From:   Gonsolo <gonsolo@gmail.com>
+Date:   Thu, 3 Oct 2019 12:13:33 +0200
+Message-ID: <CANL0fFRJZBfEDWK_c2w1TomvB5-i4g09LopyJUbO5NtOwKdDTg@mail.gmail.com>
+Subject: Re: [PATCH] si2157: Add support for Logilink VG0022A.
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     JP <jp@jpvw.nl>, crope@iki.fi, Sean Young <sean@mess.org>,
+        linux-media@vger.kernel.org,
+        Linux Kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This fixes an issue when setting the encoder framerate because of
-missing precision. Now the frameinterval type is changed to
-TYPE_CONTINUOUS and step = 1. Also the math is changed when
-framerate property is called - the firmware side expects the
-framerate in Q16 values.
+Hi!
 
-Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
----
+> Could you please test the enclosing patch and see if, with that, you
+> can remove the hacks you added for the tuner probe to work?
 
-Changes since v3:
-Keep min/max numerator one, and divide frate(max/min) to frame
-factor (returned framerate max/min capabilities are in range
-1 to 120fps but in Q16 i.e. 65536 to 7864320).
+I tested again on a vanilla media_tree with Mauro's patch attached.
+Doesn't work. Dmesg output:
 
- drivers/media/platform/qcom/venus/venc.c | 17 ++++++++++++-----
- 1 file changed, 12 insertions(+), 5 deletions(-)
+[    0.788387] kernel: usb 1-1: new high-speed USB device number 2
+using ehci-pci
+[    0.792384] kernel: usb 2-1: new high-speed USB device number 2
+using xhci_hcd
+[    0.944937] kernel: usb 2-1: New USB device found, idVendor=1d19,
+idProduct=0100, bcdDevice= 1.00
+[    0.944939] kernel: usb 2-1: New USB device strings: Mfr=1,
+Product=2, SerialNumber=3
+[    0.944940] kernel: usb 2-1: Product: TS Aggregator
+[    0.944941] kernel: usb 2-1: Manufacturer: ITE Tech., Inc.
+[    0.944942] kernel: usb 2-1: SerialNumber: AF0102020700001
 
-diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-index 1b7fb2d5887c..133ff7eceb83 100644
---- a/drivers/media/platform/qcom/venus/venc.c
-+++ b/drivers/media/platform/qcom/venus/venc.c
-@@ -22,6 +22,7 @@
- #include "venc.h"
- 
- #define NUM_B_FRAMES_MAX	4
-+#define FRAMERATE_FACTOR	BIT(16)
- 
- /*
-  * Three resons to keep MPLANE formats (despite that the number of planes
-@@ -576,7 +577,7 @@ static int venc_enum_frameintervals(struct file *file, void *fh,
- 	struct venus_inst *inst = to_inst(file);
- 	const struct venus_format *fmt;
- 
--	fival->type = V4L2_FRMIVAL_TYPE_STEPWISE;
-+	fival->type = V4L2_FRMIVAL_TYPE_CONTINUOUS;
- 
- 	fmt = find_format(inst, fival->pixel_format,
- 			  V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
-@@ -600,11 +601,11 @@ static int venc_enum_frameintervals(struct file *file, void *fh,
- 		return -EINVAL;
- 
- 	fival->stepwise.min.numerator = 1;
--	fival->stepwise.min.denominator = frate_max(inst);
-+	fival->stepwise.min.denominator = frate_max(inst) / FRAMERATE_FACTOR;
- 	fival->stepwise.max.numerator = 1;
--	fival->stepwise.max.denominator = frate_min(inst);
-+	fival->stepwise.max.denominator = frate_min(inst) / FRAMERATE_FACTOR;
- 	fival->stepwise.step.numerator = 1;
--	fival->stepwise.step.denominator = frate_max(inst);
-+	fival->stepwise.step.denominator = 1;
- 
- 	return 0;
- }
-@@ -649,6 +650,7 @@ static int venc_set_properties(struct venus_inst *inst)
- 	struct hfi_quantization quant;
- 	struct hfi_quantization_range quant_range;
- 	u32 ptype, rate_control, bitrate, profile = 0, level = 0;
-+	u64 framerate;
- 	int ret;
- 
- 	ret = venus_helper_set_work_mode(inst, VIDC_WORK_MODE_2);
-@@ -659,9 +661,14 @@ static int venc_set_properties(struct venus_inst *inst)
- 	if (ret)
- 		return ret;
- 
-+	framerate = inst->timeperframe.denominator * FRAMERATE_FACTOR;
-+	/* next line is to round up */
-+	framerate += inst->timeperframe.numerator - 1;
-+	do_div(framerate, inst->timeperframe.numerator);
-+
- 	ptype = HFI_PROPERTY_CONFIG_FRAME_RATE;
- 	frate.buffer_type = HFI_BUFFER_OUTPUT;
--	frate.framerate = inst->fps * (1 << 16);
-+	frate.framerate = framerate;
- 
- 	ret = hfi_session_set_property(inst, ptype, &frate);
- 	if (ret)
--- 
-2.17.1
+I then also used the following (additional) patch:
 
+@@ -2119,6 +2122,8 @@ static const struct usb_device_id af9035_id_table[] = {
+        /* IT930x devices */
+        { DVB_USB_DEVICE(USB_VID_ITETECH, USB_PID_ITETECH_IT9303,
+                &it930x_props, "ITE 9303 Generic", NULL) },
++       { DVB_USB_DEVICE(USB_VID_DEXATEK, 0x0100,
++               &it930x_props, "Logilink VG0022A", NULL) },
+        { DVB_USB_DEVICE(USB_VID_AVERMEDIA, USB_PID_AVERMEDIA_TD310,
+                &it930x_props, "AVerMedia TD310 DVB-T2", NULL) },
+        { }
+
+Which gives the following output:
+
+[    5.380989] si2168 1-0067: Silicon Labs Si2168-B40 successfully identified
+[    5.380991] si2168 1-0067: firmware version: B 4.0.2
+[    5.381013] usb 2-1: DVB: registering adapter 0 frontend 0 (Silicon
+Labs Si2168)...
+[    5.381018] dvbdev: dvb_create_media_entity: media entity 'Silicon
+Labs Si2168' registered.
+[    5.390058] checking generic (e0000000 410000) vs hw (e0000000 10000000)
+[    5.390062] fb0: switching to inteldrmfb from EFI VGA
+[    5.390268] Console: switching to colour dummy device 80x25
+[    5.390281] i915 0000:00:02.0: vgaarb: deactivate vga console
+[    5.393438] si2157 2-0063: Silicon Labs Si2147/2148/2157/2158
+successfully attached
+
+But when I try to use VLC I get the following:
+
+[  457.677363] si2168 1-0067: downloading firmware from file
+'dvb-demod-si2168-b40-01.fw'
+[  458.631034] si2168 1-0067: firmware version: B 4.0.11
+[  458.650309] si2157 2-0063: unknown chip version Si21255-\xff\xff\xff
+
+Now I'm trying other timings.
+
+Thanks,
+g
