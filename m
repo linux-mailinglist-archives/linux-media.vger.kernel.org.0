@@ -2,154 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CE633C970D
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2019 05:54:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 64F9EC97D8
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2019 07:16:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728593AbfJCDys (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Oct 2019 23:54:48 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:57009 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727385AbfJCDys (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 2 Oct 2019 23:54:48 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:894e:7fd7:a44f:e97c])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id FsCSijtzjjZ8vFsCTilX6v; Thu, 03 Oct 2019 05:54:45 +0200
-Message-ID: <d8c73ecac76a0cbf608812747cd4f5e6@smtp-cloud7.xs4all.net>
-Date:   Thu, 03 Oct 2019 05:54:44 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-X-CMAE-Envelope: MS4wfDZGhCXE/S6NQs3XalAPBAaTKcZYJ1moy61hOzi8nCqXAA+z0XcX2ZjWShhsAptRQVYJ1+yCZrs/N4phb43bjZ4/wyOKsgMO7+ApukGfSUEBfMFro8Y6
- cZX8UMjOxULDhsr/oTITejdHXoZFxfUwta2PLasQwkjSwaBA2RfbX/FFkfv3yxRp9/jlsChMChIb+aFx6oMdcMf6rPJBpXQyJaLtnIaGk4rcj3nY0Ozt8Q2j
+        id S1725997AbfJCFQP convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Thu, 3 Oct 2019 01:16:15 -0400
+Received: from mailoutvs23.siol.net ([185.57.226.214]:42844 "EHLO
+        mail.siol.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725497AbfJCFQP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Oct 2019 01:16:15 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.siol.net (Postfix) with ESMTP id 2941F520E78;
+        Thu,  3 Oct 2019 07:16:11 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at psrvmta11.zcs-production.pri
+Received: from mail.siol.net ([127.0.0.1])
+        by localhost (psrvmta11.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id uo2TMQr76LRD; Thu,  3 Oct 2019 07:16:10 +0200 (CEST)
+Received: from mail.siol.net (localhost [127.0.0.1])
+        by mail.siol.net (Postfix) with ESMTPS id C1F2D521B43;
+        Thu,  3 Oct 2019 07:16:10 +0200 (CEST)
+Received: from jernej-laptop.localnet (cpe-86-58-59-25.static.triera.net [86.58.59.25])
+        (Authenticated sender: jernej.skrabec@siol.net)
+        by mail.siol.net (Postfix) with ESMTPA id 35AA5521111;
+        Thu,  3 Oct 2019 07:16:10 +0200 (CEST)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     mripard@kernel.org, mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        gregkh@linuxfoundation.org, wens@csie.org,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] media: cedrus: Fix H264 default reference index count
+Date:   Thu, 03 Oct 2019 07:16:09 +0200
+Message-ID: <12199603.8LrTjBMqpV@jernej-laptop>
+In-Reply-To: <20191002220650.GB24151@aptenodytes>
+References: <20191002193553.1633467-1-jernej.skrabec@siol.net> <20191002193553.1633467-3-jernej.skrabec@siol.net> <20191002220650.GB24151@aptenodytes>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Dne četrtek, 03. oktober 2019 ob 00:06:50 CEST je Paul Kocialkowski 
+napisal(a):
+> Hi,
+> 
+> On Wed 02 Oct 19, 21:35, Jernej Skrabec wrote:
+> > Reference index count in VE_H264_PPS should come from PPS control.
+> > However, this is not really important, because reference index count is
+> > in our case always overridden by that from slice header.
+> 
+> Thanks for the fixup!
+> 
+> Our libva userspace and v4l2-request testing tool currently don't provide
+> this, but I have a pending merge request adding it for the hantro so it's
+> good to go.
 
-Results of the daily build of media_tree:
+Actually, I think this is just cosmetic and it would work even if it would be 
+always 0. We always override this number in SHS2 register with 
+VE_H264_SHS2_NUM_REF_IDX_ACTIVE_OVRD flag and recently there was a patch merged 
+to clarify that value in slice parameters should be the one that's set on 
+default value if override flag is not set in bitstream:
+https://git.linuxtv.org/media_tree.git/commit/?
+id=187ef7c5c78153acdce8c8714e5918b1018c710b
 
-date:			Thu Oct  3 05:00:10 CEST 2019
-media-tree git hash:	503e59365dd134b2c63864f14e2de0476284b003
-media_build git hash:	cdf64c34183872bfe98d1ea504e3f57e5cf66c9c
-v4l-utils git hash:	406a4b24752e0d4bc6f2903546efd5f1a7506609
-edid-decode git hash:	7d26052f7245664df96079845601ced5335fb2d7
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: fb74d4453fd4f857830399be9778a571221bee04
-host hardware:		x86_64
-host os:		5.2.0-2-amd64
+Well, we could always compare default and value in slice parameters, but I 
+really don't see the benefit of doing that extra work.
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4-rc1-i686: OK
-linux-5.4-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2329, Succeeded: 2329, Failed: 0, Warnings: 0
-sparse: OK
+Best regards,
+Jernej
 
-Detailed results are available here:
+> 
+> Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> 
+> Cheers,
+> 
+> Paul
+> 
+> > Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
+> > ---
+> > 
+> >  drivers/staging/media/sunxi/cedrus/cedrus_h264.c | 8 ++------
+> >  1 file changed, 2 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> > b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c index
+> > bd848146eada..4a0e69855c7f 100644
+> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> > @@ -364,12 +364,8 @@ static void cedrus_set_params(struct cedrus_ctx *ctx,
+> > 
+> >  	// picture parameters
+> >  	reg = 0;
+> > 
+> > -	/*
+> > -	 * FIXME: the kernel headers are allowing the default value to
+> > -	 * be passed, but the libva doesn't give us that.
+> > -	 */
+> > -	reg |= (slice->num_ref_idx_l0_active_minus1 & 0x1f) << 10;
+> > -	reg |= (slice->num_ref_idx_l1_active_minus1 & 0x1f) << 5;
+> > +	reg |= (pps->num_ref_idx_l0_default_active_minus1 & 0x1f) << 10;
+> > +	reg |= (pps->num_ref_idx_l1_default_active_minus1 & 0x1f) << 5;
+> > 
+> >  	reg |= (pps->weighted_bipred_idc & 0x3) << 2;
+> >  	if (pps->flags & V4L2_H264_PPS_FLAG_ENTROPY_CODING_MODE)
+> >  	
+> >  		reg |= VE_H264_PPS_ENTROPY_CODING_MODE;
 
-http://www.xs4all.nl/~hverkuil/logs/Thursday.log
 
-Detailed regression test results are available here:
 
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
 
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
