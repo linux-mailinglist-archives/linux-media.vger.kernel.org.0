@@ -2,107 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 88096C9FB3
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2019 15:43:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 57668C9FC3
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2019 15:44:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730614AbfJCNnD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Oct 2019 09:43:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53954 "EHLO mail.kernel.org"
+        id S1727611AbfJCNoU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Oct 2019 09:44:20 -0400
+Received: from mga11.intel.com ([192.55.52.93]:57930 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729655AbfJCNnD (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 3 Oct 2019 09:43:03 -0400
-Received: from earth.universe (dyndsl-037-138-174-173.ewe-ip-backbone.de [37.138.174.173])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7DD3520830;
-        Thu,  3 Oct 2019 13:43:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1570110181;
-        bh=abRlt0tWQx8wHRdQAm2ffKGRAzb4Fb6wF3dHUvT+a9g=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=01ipPJ1T73AEkeXxjuzYiLpHcOBEyTJfYrMMQhaz23nOkeBj8M2bp0l5wNdDlW/pz
-         h6BIJihrVbI5rHohhty4QxkbD+afipPAZJUoAEq3lXB5lo8Yq36///mKoT0ZtgtHfF
-         kA3T1fpfZr1rLEbIb7Wt6Ep6mhD7Vl+3Na3KgkSw=
-Received: by earth.universe (Postfix, from userid 1000)
-        id 71EB23C0CA1; Thu,  3 Oct 2019 15:42:59 +0200 (CEST)
-Date:   Thu, 3 Oct 2019 15:42:59 +0200
-From:   Sebastian Reichel <sre@kernel.org>
-To:     Adam Ford <aford173@gmail.com>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Marcel Holtmann <marcel@holtmann.org>,
-        Tony Lindgren <tony@atomide.com>,
-        Rob Herring <robh@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        "open list:BLUETOOTH DRIVERS" <linux-bluetooth@vger.kernel.org>,
-        linux-media@vger.kernel.org,
-        Linux-OMAP <linux-omap@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 00/14] Add support for FM radio in hcill and kill TI_ST
-Message-ID: <20191003134259.bmrhgkvvkyjdvsr3@earth.universe>
-References: <20181221011752.25627-1-sre@kernel.org>
- <4f47f7f2-3abb-856c-4db5-675caf8057c7@xs4all.nl>
- <20190319133154.7tbfafy7pguzw2tk@earth.universe>
- <CAHCN7xLffcvC0LVnfrhf4cA=y1PRMx+COa3c8rBm1xOj179vEA@mail.gmail.com>
+        id S1726119AbfJCNoU (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 3 Oct 2019 09:44:20 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 03 Oct 2019 06:44:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.67,252,1566889200"; 
+   d="scan'208";a="205623986"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+  by fmsmga001.fm.intel.com with SMTP; 03 Oct 2019 06:44:17 -0700
+Received: by stinkbox (sSMTP sendmail emulation); Thu, 03 Oct 2019 16:44:17 +0300
+Date:   Thu, 3 Oct 2019 16:44:17 +0300
+From:   Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To:     Johan Korsnes <jkorsnes@cisco.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH] drivers: video: hdmi: log ext colorimetry applicability
+Message-ID: <20191003134417.GF1208@intel.com>
+References: <20191003071549.31272-1-jkorsnes@cisco.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="3hs23bfjj5434d43"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <CAHCN7xLffcvC0LVnfrhf4cA=y1PRMx+COa3c8rBm1xOj179vEA@mail.gmail.com>
-User-Agent: NeoMutt/20180716
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191003071549.31272-1-jkorsnes@cisco.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Thu, Oct 03, 2019 at 09:15:49AM +0200, Johan Korsnes wrote:
+> When logging the AVI InfoFrame, clearly indicate whether or not the
+> extended colorimetry attribute is active. This is only the case when
+> the AVI InfoFrame colorimetry attribute is set to extended. [0]
+> 
+> [0] CTA-861-G section 6.4 page 57
+> 
+> Signed-off-by: Johan Korsnes <jkorsnes@cisco.com>
+> ---
+>  drivers/video/hdmi.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/video/hdmi.c b/drivers/video/hdmi.c
+> index f29db728ff29..a709e38a53ca 100644
+> --- a/drivers/video/hdmi.c
+> +++ b/drivers/video/hdmi.c
+> @@ -682,8 +682,14 @@ static void hdmi_avi_infoframe_log(const char *level,
+>  	hdmi_log("    active aspect: %s\n",
+>  			hdmi_active_aspect_get_name(frame->active_aspect));
+>  	hdmi_log("    itc: %s\n", frame->itc ? "IT Content" : "No Data");
+> -	hdmi_log("    extended colorimetry: %s\n",
+> +
+> +	if (frame->colorimetry == HDMI_COLORIMETRY_EXTENDED)
+> +		hdmi_log("    extended colorimetry: %s\n",
+>  			hdmi_extended_colorimetry_get_name(frame->extended_colorimetry));
+> +	else
+> +		hdmi_log("    extended colorimetry: N/A (0x%x)\n",
+> +			frame->extended_colorimetry);
 
---3hs23bfjj5434d43
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Yeah, seems fine. Might make the logs a bit less confusing at least.
 
-Hi Adam,
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-On Wed, Oct 02, 2019 at 02:03:52PM -0500, Adam Ford wrote:
-> On Tue, Mar 19, 2019 at 8:33 AM Sebastian Reichel <sre@kernel.org> wrote:
-> After a bunch of testing, I think the issue I was having was the BTS
-> file being pulled in from linux-firmware.  I was able to successfully
-> load a BTS file that I have from Logic PD with working BLE and BT
-> working together.  I have to run some tests, but if you wouldn't mind
-> re-basing your code and pushing it again for review, I can most likely
-> add my 'tested-by'.
->
-> I am not sure who to discuss my perceived bug in the BTS blob.  I have
-> to go find the old BTS editor and see if I can determine the cause,
-> but the fact that I can use the BTS file that corresponds to the FCC
-> certified file that Logic PD used is more important to me than using
-> the generic BTS file provided by TI, however it would be nice for the
-> reference BTS file to operate without error.
+PS. would be nice it someone were to extend this code to deal with the
+ACE bits too. Do you have plans/interest in doing that?
 
-nice :) I just send a rebased partial series. I need some more time
-for the FM radio part (I plan to work on that within the next 3
-weeks).
+> +
+>  	hdmi_log("    quantization range: %s\n",
+>  			hdmi_quantization_range_get_name(frame->quantization_range));
+>  	hdmi_log("    nups: %s\n", hdmi_nups_get_name(frame->nups));
+> -- 
+> 2.20.1
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
--- Sebastian
-
---3hs23bfjj5434d43
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAl2V+t4ACgkQ2O7X88g7
-+pqntw//XWtlZbSO/mbBluBjdqneqq8If142mAI8pY6Z1yv9hZV4H4ybUiS4czE8
-5aWvAeye7uUZYbj85bELesffkWiKDShkT2K0mmfnY+apgcRRRsGhNMVN0+lNOHrV
-Ekm2sVokpe+BKHu2hPPiCTsMMSfd4Z6Xga7KeClQJgJFYtmst3e4/k0pTTNNu9tV
-O6J1j+baQzjiJEs7rz24vIrE6PoSvYmh8VRzOv2VwZ3kfcABu2vnz1JPxCSJvDfD
-swO2nW3uZiMdeTDvI027iHCWupdkCc+XReqVHKu7VhiwnEiUg/8YuUxFL43bnFvY
-vVRhJarFYkTvarwA2d1phCPH8DfH+uQ3nvFhpCjHUs+5KEEYWmiZhxkC7urL6xFY
-KvvKQVm0bvNnWtHLOSwrkQD0nRVYEAm3Cjk9DtnwjMemVs7F1vYq9OA6u6GDflty
-FSBlOZMplAA34TzvS3AcFjnKwzfmQqp43britTK1k+FDWcsBM2NWBN6aEOfcxmTs
-hGmFfOOzckx2cf6xPnkkjhzpvMsZHWMcdKp67MWBJxglOBMRpvY+0+JtaXbvDoXQ
-p7GfLTdLP7xkCMcTwXLFD6VvN2lbLioCPBQXCY+HbZ9AseDrHZlSzIM4MXE8nr/v
-qRQ8UFg2GG+KfwxV5uM4IEFOfAdPAtCcWClbYvmcOsJxrbBmqt4=
-=MOKK
------END PGP SIGNATURE-----
-
---3hs23bfjj5434d43--
+-- 
+Ville Syrjälä
+Intel
