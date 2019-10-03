@@ -2,73 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 353DFCAF6C
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2019 21:40:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7596ACAF79
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2019 21:44:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387631AbfJCTkn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Oct 2019 15:40:43 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:39258 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729264AbfJCTkm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Oct 2019 15:40:42 -0400
-Received: by mail-lj1-f194.google.com with SMTP id y3so4068476ljj.6;
-        Thu, 03 Oct 2019 12:40:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=pSL4QLkrsIA0GWMBtimnD0jqvoSHa6naCjCGLwOOIBE=;
-        b=hS7K1kByEdZ1Al4+4rw4E3jAvr/pnLNoku7kN1SRVM1RM+lOdRNhu5eu5CToOMxt00
-         fGIBHJZVWgRe9ms716THfTdypLrLczOQti++xhontjhDZkF0nQBqxfC1Ok7kIXp7Wt54
-         6GT9f2NDpa04oVNzIc6SBxrT9v8cMLi7dKQI9zwe27mcc2O24dLGIczZ1FppMkrImoVy
-         cUb4/U3oR+nBQrk+SdAIFZD8x58cZ/Cb9GJ8cnkhETzdJfPl6d3Li0jWzuh6lwCU3XdQ
-         bqDdTTTDw1lu5FVjm0a1rbfWKgfwYQw9LgTjgMmwW8M3R4wGJEBLHWFihSqXyuL/4fEr
-         ZIMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=pSL4QLkrsIA0GWMBtimnD0jqvoSHa6naCjCGLwOOIBE=;
-        b=uMTL3gYsFOyfxXl5sIR0KHdJ2a3HgOkaM0AApMX4w+oGL/A8aem7wWpen7GNdkAbpF
-         knX6CZwApY7lfjoMiHWBPVhS4BcSNTMofZIBzMRFwPSaqh/meCEqmQaTO/p0jtVhkvwt
-         MMXA71clQHyA9zauvPL/gdBaRRdAiQVoHccyG2Qym4pp4FcYei4qRWSbatKXdEvtLHz4
-         H+nDJ8DMUSytwiFC/oS/qnqgx2/5P8cmTPjS3MC3L5wJgApTbhVnteBldln5+zxYmRih
-         RoFJoIqFSxcv8qHCZn8J2QQSgyh8n7TsejbHCPQS2AfFo8fBB59YsfiT6t1Cl5xk/tib
-         KYeA==
-X-Gm-Message-State: APjAAAUsQqYcmRI+ZAhH+5HjwpmQbTUtvu2lY2oL3Zoj+bJOIIAoBN6b
-        XGpQZr1kIvo2uw5VXqI4sN12Fq2WFDU27+XscQI=
-X-Google-Smtp-Source: APXvYqy5h5JwyW6moKpyZAad5fkQZ8tBNXSZxYVrgBzBaroaenrdAruQ0irXcreNxmc398SHyuMwLn1J0D6vHVBHHPg=
-X-Received: by 2002:a2e:4258:: with SMTP id p85mr7168646lja.172.1570131640635;
- Thu, 03 Oct 2019 12:40:40 -0700 (PDT)
-MIME-Version: 1.0
-References: <29ab2e43-4374-a3ea-6ae1-a4267867eaa4@jpvw.nl> <20191002154922.7f1cfc76@coco.lan>
- <CANL0fFRJZBfEDWK_c2w1TomvB5-i4g09LopyJUbO5NtOwKdDTg@mail.gmail.com>
- <20191003080539.2b13c03b@coco.lan> <CANL0fFSmvEEJhnA=qjTuEPr4N8q8eWLeYC5du+OoTMxe1Gnh5Q@mail.gmail.com>
- <20191003120238.75811da6@coco.lan> <20191003160336.GA5125@Limone>
- <20191003130909.01d29b77@coco.lan> <20191003162326.GA2727@Limone>
- <20191003144225.0137bf6c@coco.lan> <20191003183200.GA2631@Limone>
- <e468b867-1b45-8220-a5d2-ac40fdb4e0e6@jpvw.nl> <CANL0fFQms9oyec_1UevbJ7aLp+KNJ3h6UhGEbqrnCNO286rbGg@mail.gmail.com>
-In-Reply-To: <CANL0fFQms9oyec_1UevbJ7aLp+KNJ3h6UhGEbqrnCNO286rbGg@mail.gmail.com>
-From:   Gonsolo <gonsolo@gmail.com>
-Date:   Thu, 3 Oct 2019 21:40:28 +0200
-Message-ID: <CANL0fFQCax1XHMaVj6Hvwe3JMzreH2w-dP-efr5VyGAc7Vd9aA@mail.gmail.com>
-Subject: Re: [PATCH] si2157: Add support for Logilink VG0022A.
-To:     JP <jp@jpvw.nl>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>, crope@iki.fi,
-        Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
+        id S1730779AbfJCToe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Oct 2019 15:44:34 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:42986 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729580AbfJCToe (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Oct 2019 15:44:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=ttWMlw4HnFeQ+0ShXax9UG8yhmd1VJraa+/bhHxK4KI=; b=FIolBXXTFgNpfPbK4whbS7l8z
+        0vVHAg0AafJK41BpVscAA9e/1dgfzZn9JUELGEZXL70FHVjcnQbvFU9q0vxCwW9j+ySzanvqr+W37
+        0iEXMb0SpHh4kwVJFGC7GpPMmoxh2A2+zSzjB3NTnpngqQnNCF7OrjZuA1XlOzOcjdDlNx58u5e7m
+        nhjw97vdYErY8BpepEV9tOb2WDyNYGDB0riToNauVhrpr9O+snGKEney6opb3lrUAJ2kFJv1g7WLS
+        6/YCasftOLlzooM92LgLhgyhJ4cp2GaPkoOC56OKSELlvpNUDIkSApVDcilMiF4cEtUrebefV+TAd
+        DrR/dMiVg==;
+Received: from 177.133.68.49.dynamic.adsl.gvt.net.br ([177.133.68.49] helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
+        id 1iG71a-0003lj-K2; Thu, 03 Oct 2019 19:44:31 +0000
+Date:   Thu, 3 Oct 2019 16:44:26 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Gonsolo <gonsolo@gmail.com>
+Cc:     JP <jp@jpvw.nl>, crope@iki.fi, Sean Young <sean@mess.org>,
+        linux-media@vger.kernel.org,
         Linux Kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH] si2157: Add support for Logilink VG0022A.
+Message-ID: <20191003164426.6da8538f@coco.lan>
+In-Reply-To: <20191003163914.7c384d36@coco.lan>
+References: <29ab2e43-4374-a3ea-6ae1-a4267867eaa4@jpvw.nl>
+        <20191002154922.7f1cfc76@coco.lan>
+        <CANL0fFRJZBfEDWK_c2w1TomvB5-i4g09LopyJUbO5NtOwKdDTg@mail.gmail.com>
+        <20191003080539.2b13c03b@coco.lan>
+        <CANL0fFSmvEEJhnA=qjTuEPr4N8q8eWLeYC5du+OoTMxe1Gnh5Q@mail.gmail.com>
+        <20191003120238.75811da6@coco.lan>
+        <20191003160336.GA5125@Limone>
+        <20191003130909.01d29b77@coco.lan>
+        <20191003162326.GA2727@Limone>
+        <20191003144225.0137bf6c@coco.lan>
+        <20191003183200.GA2631@Limone>
+        <e468b867-1b45-8220-a5d2-ac40fdb4e0e6@jpvw.nl>
+        <CANL0fFQms9oyec_1UevbJ7aLp+KNJ3h6UhGEbqrnCNO286rbGg@mail.gmail.com>
+        <20191003163914.7c384d36@coco.lan>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From si2168.c:808:
-               /* Sometimes firmware returns bogus value */
-                if (utmp1 == 0xffff)
-                        utmp1 = 0;
+Em Thu, 3 Oct 2019 16:39:14 -0300
+Mauro Carvalho Chehab <mchehab+samsung@kernel.org> escreveu:
 
-Maybe we can include my "bogus" hack to get at least Logilink running.
-Maybe with an info message to tell users what is going on.
+> Em Thu, 3 Oct 2019 21:19:16 +0200
+> Gonsolo <gonsolo@gmail.com> escreveu:
+> 
+> > > try other firmware?
+> > > http://palosaari.fi/linux/v4l-dvb/firmware/Si2168/    
+> > 
+> > I tried all of them. No difference.  
+> 
+> Maybe the vendor of this device wrote a different firmware. That happens.
 
-g
+Two additional comments:
+
+1) The firmware file is likely at the Windows driver for this device
+(probably using a different format). It should be possible to get
+it from there. 
+
+2) Another possibility would be to add a way to tell the si2168 driver
+to not try to load a firmware, using the original one. That would
+require adding a field at si2168_config to allow signalizing to it
+that it should not try to load a firmware file, and add a quirk at
+the af9035 that would set such flag for Logilink VG0022A.
+
+Option (1) is the best one.
+
+Thanks,
+Mauro
