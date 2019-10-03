@@ -2,76 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 06F92CA0CF
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2019 17:00:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DEB48CA0D8
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2019 17:02:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728322AbfJCPAW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Oct 2019 11:00:22 -0400
-Received: from mail-lf1-f53.google.com ([209.85.167.53]:42834 "EHLO
-        mail-lf1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726393AbfJCPAV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Oct 2019 11:00:21 -0400
-Received: by mail-lf1-f53.google.com with SMTP id c195so2088641lfg.9;
-        Thu, 03 Oct 2019 08:00:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=yB5LF7A305R8PQxrkpeVFlJLp/mPklNVDD54WJQ3Ii0=;
-        b=bI03SsN7PbRsIdC5K5W66wuY8OExs4aeA+s+J7CaHtb6wph3WYeZK1EJScZTY4gIME
-         X0ZUyq7PJBAI92QmtAidpMjwrvBisIRKPgpxjUCiMeiyoSoHmPYEAjnMAKpdbpVK3nxS
-         FLM7oQH7EMslWVCJVLpfZ+pwsWdvOa3mcw6DWgaTex5NtbeI+5HvgpH6jVHG6V95nIT1
-         o4XBQr3/q9x/nDv2XoNk0kABZZ5CdzkKOShuFjX52apaDR0T71qCkJygTm4PCSWoGxno
-         YzdURWV+htIoar7PqkPAa3xa/m2VzdZWe0e0AcpiXYotRBLXEMGjkCrNqwTWAYDhgLol
-         f6jQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=yB5LF7A305R8PQxrkpeVFlJLp/mPklNVDD54WJQ3Ii0=;
-        b=r/x7IvSl4VIz+oLA10tiUa1/Q7TD+nTgJT8TU0OWnpM+WDaW2QV0QYLUgsqdAfaIv6
-         FxAOs9eSK6gE693EcpYXccxZCB387ItuTwK6Nw8qtzSVP0+Yi6VZFyCJzn6P0hq/TNo6
-         309E9YVc19bv5hZFJsAYb5lGAzs0YZNAl11XGD1SNhB2EuuE8mKXdLOhWPKRFR+1SUwH
-         NJaqpbX1+YauQ2cC7QTQB14y/FqLLjZlNZKsmeSEa5qZeYnXJOecEGHmR1Ne+Jbg59zJ
-         6dTGzY0Ma4v40sCjoB+zs0RW7KerLjsx6DfxYfyf7/zmseJqNaZ2gimZfhFUVHnzls6O
-         v01A==
-X-Gm-Message-State: APjAAAWFZiKBZ7MY8EXHfI4140igQPxMOSVGc3+G2g5sIC7cTMVG5POB
-        PPY43GutOvLxNtKqfByF0HGHNTtruhU5kaiZlSzXaNlsvCk=
-X-Google-Smtp-Source: APXvYqx5FRbSXns4apVBZQ+nkUILPeLrJUJeCZ+6rysm8ehC/28YFz+PSJywZXySb63DzBQT057IH95zcLV6PBS/ErE=
-X-Received: by 2002:a19:431e:: with SMTP id q30mr5984033lfa.171.1570114819456;
- Thu, 03 Oct 2019 08:00:19 -0700 (PDT)
+        id S1727302AbfJCPCX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Oct 2019 11:02:23 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:49199 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725874AbfJCPCX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 3 Oct 2019 11:02:23 -0400
+Received: from [192.168.2.10] ([46.9.232.237])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id G2cTi3U1Eop0AG2cWi8jqb; Thu, 03 Oct 2019 17:02:21 +0200
+Subject: Re: [PATCH] drivers: video: hdmi: log ext colorimetry applicability
+To:     =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+        Johan Korsnes <jkorsnes@cisco.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
+References: <20191003071549.31272-1-jkorsnes@cisco.com>
+ <20191003134417.GF1208@intel.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <52313559-8b8f-1f4d-a341-a2f1ff10bc0f@xs4all.nl>
+Date:   Thu, 3 Oct 2019 17:02:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20191001205203.4b1a5fb6@coco.lan> <20191002141359.30166-1-gonsolo@gmail.com>
- <20191002141359.30166-2-gonsolo@gmail.com> <20191002142744.GA3475@gofer.mess.org>
- <CANL0fFS9TGKJH2rfkXzak78BaLazTNO7GoZhSb4vLBsDrmz3FQ@mail.gmail.com>
- <20191002150650.GA4227@gofer.mess.org> <CANL0fFRoL6NxOCbNC=XjQ6LDkeeqAayaLUbm9xARWX9ttqfPFg@mail.gmail.com>
- <29ab2e43-4374-a3ea-6ae1-a4267867eaa4@jpvw.nl> <20191002154922.7f1cfc76@coco.lan>
- <CANL0fFRJZBfEDWK_c2w1TomvB5-i4g09LopyJUbO5NtOwKdDTg@mail.gmail.com> <20191003080539.2b13c03b@coco.lan>
-In-Reply-To: <20191003080539.2b13c03b@coco.lan>
-From:   Gonsolo <gonsolo@gmail.com>
-Date:   Thu, 3 Oct 2019 17:00:08 +0200
-Message-ID: <CANL0fFSmvEEJhnA=qjTuEPr4N8q8eWLeYC5du+OoTMxe1Gnh5Q@mail.gmail.com>
-Subject: Re: [PATCH] si2157: Add support for Logilink VG0022A.
-To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     JP <jp@jpvw.nl>, crope@iki.fi, Sean Young <sean@mess.org>,
-        linux-media@vger.kernel.org,
-        Linux Kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20191003134417.GF1208@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfD8+jPTyj6pY1Rh0zJlS6TiPAOwM/O2lNxzABDT/71Zq+Ewyc7XarVFgKo9lfw3LNkCGxe15VZtNxD6BnSOf+nqpCIWg6U9qKoD154km1f8zAcSJHpYv
+ 2mpE31GXMulfahAeh1iSwiWxWM4rDj2Pf3Ji2YpfaF49nbtq+R9dWzhSvKB/9kEwttmgjmoeFIsdImiocTaZJPwZFr6stQkEYsQ6h46MWsINNXnhlClMZr+K
+ HasxgFj9fcwPZRkTslV8QkYPxsAIt8OHe0biMZZvIB+/1LNvjXygUlDN4YszJiEHi/sRlKHusicAXs2ZoYKqJQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-> So, I would add a msleep() somewhere after the firmware update.
+On 10/3/19 3:44 PM, Ville Syrjälä wrote:
+> On Thu, Oct 03, 2019 at 09:15:49AM +0200, Johan Korsnes wrote:
+>> When logging the AVI InfoFrame, clearly indicate whether or not the
+>> extended colorimetry attribute is active. This is only the case when
+>> the AVI InfoFrame colorimetry attribute is set to extended. [0]
+>>
+>> [0] CTA-861-G section 6.4 page 57
+>>
+>> Signed-off-by: Johan Korsnes <jkorsnes@cisco.com>
+>> ---
+>>  drivers/video/hdmi.c | 8 +++++++-
+>>  1 file changed, 7 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/video/hdmi.c b/drivers/video/hdmi.c
+>> index f29db728ff29..a709e38a53ca 100644
+>> --- a/drivers/video/hdmi.c
+>> +++ b/drivers/video/hdmi.c
+>> @@ -682,8 +682,14 @@ static void hdmi_avi_infoframe_log(const char *level,
+>>  	hdmi_log("    active aspect: %s\n",
+>>  			hdmi_active_aspect_get_name(frame->active_aspect));
+>>  	hdmi_log("    itc: %s\n", frame->itc ? "IT Content" : "No Data");
+>> -	hdmi_log("    extended colorimetry: %s\n",
+>> +
+>> +	if (frame->colorimetry == HDMI_COLORIMETRY_EXTENDED)
+>> +		hdmi_log("    extended colorimetry: %s\n",
+>>  			hdmi_extended_colorimetry_get_name(frame->extended_colorimetry));
+>> +	else
+>> +		hdmi_log("    extended colorimetry: N/A (0x%x)\n",
+>> +			frame->extended_colorimetry);
+> 
+> Yeah, seems fine. Might make the logs a bit less confusing at least.
+> 
+> Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> 
+> PS. would be nice it someone were to extend this code to deal with the
+> ACE bits too. Do you have plans/interest in doing that?
 
-I tried that to no avail:
+If we tackle this, then it would be part of a larger effort in updating
+this code. There are more fields missing in other InfoFrames as well.
 
-        release_firmware(fw);
-+       msleep(1000);
+So yes, we have interest in this, but no, there are no plans :-)
 
-[  107.903918] si2157 2-0063: firmware version: \xff.\xff.255
-[  107.903920] si2157 2-0063: querying chip revision...
-[  107.906970] si2157 2-0063: chip revision: 255.255.255.255
+Regards,
 
--- 
-g
+	Hans
+
+> 
+>> +
+>>  	hdmi_log("    quantization range: %s\n",
+>>  			hdmi_quantization_range_get_name(frame->quantization_range));
+>>  	hdmi_log("    nups: %s\n", hdmi_nups_get_name(frame->nups));
+>> -- 
+>> 2.20.1
+>>
+>> _______________________________________________
+>> dri-devel mailing list
+>> dri-devel@lists.freedesktop.org
+>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> 
+
