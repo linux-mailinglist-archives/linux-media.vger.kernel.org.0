@@ -2,200 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 69E2CCA065
-	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2019 16:32:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1EC48CA073
+	for <lists+linux-media@lfdr.de>; Thu,  3 Oct 2019 16:37:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728762AbfJCOcu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Oct 2019 10:32:50 -0400
-Received: from mga12.intel.com ([192.55.52.136]:57319 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726393AbfJCOcu (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 3 Oct 2019 10:32:50 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 03 Oct 2019 07:32:49 -0700
-X-IronPort-AV: E=Sophos;i="5.67,252,1566889200"; 
-   d="scan'208";a="196362792"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 03 Oct 2019 07:32:47 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id A83F320F75; Thu,  3 Oct 2019 17:32:44 +0300 (EEST)
-Date:   Thu, 3 Oct 2019 17:32:44 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Benoit Parrot <bparrot@ti.com>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [Patch v2 1/3] media: ov5640: add PIXEL_RATE control
-Message-ID: <20191003143244.GC14917@paasikivi.fi.intel.com>
-References: <20191002135134.12273-1-bparrot@ti.com>
- <20191002135134.12273-2-bparrot@ti.com>
- <20191003071714.zyldxfoollm26o4u@uno.localdomain>
- <20191003072251.GA14917@paasikivi.fi.intel.com>
- <20191003120741.h2k5hcqjqxnu6ts6@ti.com>
+        id S1727697AbfJCOhS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Oct 2019 10:37:18 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:44112 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726199AbfJCOhS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Oct 2019 10:37:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=R+P9ukKf1Oss2N4Zb6s1vlRCppIrkd4GHmZSumbBLZ4=; b=bmWt2JAzrlzKxl+LojcXmfjiQ
+        wlZ4OZWr/A/ftB8epuYX/x9TEWdjVsRYQegEjazlcH4c3cxZ84VjU7HmFC8/MihjBsXzaFYHoE7PW
+        R3WhIm0YZS3JOrlEZj+lyWT4UvME7L+saG5PNc1v1QR8WbixfvKledxfkGWRMxGdZ2COGnewPdqGT
+        p+M8cjRk7TG/jykL8floDcUF4mxO2VhnOWwPDgH4GLq2ArB3RCA3cCe/JZfxrGTLy2au+NqyTHiwW
+        X+dxT6B1wRqNYvvUe4Vq4qCIXGiUMglj/uJCKdSOsbi5Fp7pg9hnX2FwFu3jYOzBjK4E1mX86HQWn
+        OXMfwnfPQ==;
+Received: from 177.133.68.49.dynamic.adsl.gvt.net.br ([177.133.68.49] helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
+        id 1iG2EH-00035b-8t; Thu, 03 Oct 2019 14:37:17 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.2)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1iG2EE-0003l6-Fe; Thu, 03 Oct 2019 11:37:14 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Sergey Kozlov <serjk@netup.ru>, Abylay Ospan <aospan@netup.ru>
+Subject: [PATCH] media: cxd2841er: avoid too many status inquires
+Date:   Thu,  3 Oct 2019 11:37:13 -0300
+Message-Id: <deda32250ad32078b98eb41eb09d6d20050a6f9c.1570113429.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191003120741.h2k5hcqjqxnu6ts6@ti.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benoit,
+As reported at:
+	https://tvheadend.org/issues/5625
 
-On Thu, Oct 03, 2019 at 07:07:41AM -0500, Benoit Parrot wrote:
-> Sakari Ailus <sakari.ailus@linux.intel.com> wrote on Thu [2019-Oct-03 10:22:51 +0300]:
-> > Hi Jacopo, Benoit,
-> > 
-> > On Thu, Oct 03, 2019 at 09:17:14AM +0200, Jacopo Mondi wrote:
-> > > Hi Benoit,
-> > > 
-> > > On Wed, Oct 02, 2019 at 08:51:32AM -0500, Benoit Parrot wrote:
-> > > > Add v4l2 controls to report the pixel rates of each mode. This is
-> > > > needed by some CSI2 receiver in order to perform proper DPHY
-> > > > configuration.
-> > > >
-> > > > Signed-off-by: Benoit Parrot <bparrot@ti.com>
-> > > > ---
-> > > >  drivers/media/i2c/ov5640.c | 25 +++++++++++++++++++++++++
-> > > >  1 file changed, 25 insertions(+)
-> > > >
-> > > > diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-> > > > index 500d9bbff10b..5198dc887400 100644
-> > > > --- a/drivers/media/i2c/ov5640.c
-> > > > +++ b/drivers/media/i2c/ov5640.c
-> > > > @@ -193,6 +193,9 @@ struct ov5640_mode_info {
-> > > >
-> > > >  struct ov5640_ctrls {
-> > > >  	struct v4l2_ctrl_handler handler;
-> > > > +	struct {
-> > > > +		struct v4l2_ctrl *pixel_rate;
-> > > > +	};
-> > > 
-> > > Do you need to wrap this v4l2_ctrl in it's own unnamed struct? Other
-> > > controls here declared in this way are clustered and, if I'm not
-> > > mistaken, using unnamed struct to wrap them is just a typographically
-> > > nice way to convey that. I think your new control could be declared
-> > > without a wrapping struct { }.
-> > > 
-> > > >  	struct {
-> > > >  		struct v4l2_ctrl *auto_exp;
-> > > >  		struct v4l2_ctrl *exposure;
-> > > > @@ -2194,6 +2197,16 @@ static int ov5640_try_fmt_internal(struct v4l2_subdev *sd,
-> > > >  	return 0;
-> > > >  }
-> > > >
-> > > > +static u64 ov5640_calc_pixel_rate(struct ov5640_dev *sensor)
-> > > > +{
-> > > > +	u64 rate;
-> > > > +
-> > > > +	rate = sensor->current_mode->vtot * sensor->current_mode->htot;
-> > > > +	rate *= ov5640_framerates[sensor->current_fr];
-> > > > +
-> > > > +	return rate;
-> > > > +}
-> > > > +
-> > > 
-> > > Just to point out this is the -theoretical- pixel rate, and might be
-> > > quite different from the one calculated by the clock tree tuning
-> > > procedure (which should be updated to match Hugues' latest findings).
-> > 
-> > Hmm. Considering the xclk rate may be pretty much anything, I'd suppose
-> > the value above would only be correct for a given xclk rate.
-> 
-> I am not sure about that, different xclk rate might yield slightly
-> different byte clock, but all in all the resolution and framerate pretty
-> much dictate the end result, no?
+Retrieving certain status can cause discontinuity issues.
 
-Interestingly, the driver determines the PLL configuration based on the
-pixels per line and lines per frame (including blanking) and the frames per
-seconds. I guess it's always been like that in this driver.
+Prevent that by adding a timeout to each status logic.
 
-So I agree the target frame rate can be used for this.
+Currently, the timeout is estimated based at the channel
+bandwidth. There are other parameters that may also affect
+the timeout, but that would require a per-delivery system
+calculus and probably more information about how cxd2481er
+works, with we don't have.
 
-You could change ov5640_set_mode() to use this function as well to avoid
-doing the same calculation twice in different places in the driver. Up to
-you.
+So, do a poor man's best guess.
 
-> 
-> > 
-> > Could this be simply calculated from the clock tree configuration, to get
-> > the right value in all cases?
-> 
-> It probably could, and as I said earlier I gave it a try and failed, since
-> the theoretical value worked for me that's what I went with. Those are the
-> same values that Maxime's patch referred to. (dfbfb7aa832cdb media: ov5640:
-> Compute the clock rate at runtime).
-> 
-> Here I am just "publishing it".
-> 
-> Benoit
-> 
-> > 
-> > > 
-> > > >  static int ov5640_set_fmt(struct v4l2_subdev *sd,
-> > > >  			  struct v4l2_subdev_pad_config *cfg,
-> > > >  			  struct v4l2_subdev_format *format)
-> > > > @@ -2233,6 +2246,8 @@ static int ov5640_set_fmt(struct v4l2_subdev *sd,
-> > > >  	if (mbus_fmt->code != sensor->fmt.code)
-> > > >  		sensor->pending_fmt_change = true;
-> > > >
-> > > > +	__v4l2_ctrl_s_ctrl_int64(sensor->ctrls.pixel_rate,
-> > > > +				 ov5640_calc_pixel_rate(sensor));
-> > > >  out:
-> > > >  	mutex_unlock(&sensor->lock);
-> > > >  	return ret;
-> > > > @@ -2657,6 +2672,13 @@ static int ov5640_init_controls(struct ov5640_dev *sensor)
-> > > >  	/* we can use our own mutex for the ctrl lock */
-> > > >  	hdl->lock = &sensor->lock;
-> > > >
-> > > > +	/* Clock related controls */
-> > > > +	ctrls->pixel_rate =
-> > > > +		v4l2_ctrl_new_std(hdl, ops,
-> > > 
-> > > If you like it better, this could fit in 1 line
-> > > 
-> > > 	ctrls->pixel_rate = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_PIXEL_RATE,
-> > > 					      0, INT_MAX, 1,
-> > > 					      ov5640_calc_pixel_rate(sensor)
-> > > 
-> > > Thanks
-> > >    j
-> > > 
-> > > > +				  V4L2_CID_PIXEL_RATE, 0, INT_MAX, 1,
-> > > > +				  ov5640_calc_pixel_rate(sensor));
-> > > 
-> > > 
-> > > > +	ctrls->pixel_rate->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> > 
-> > Note that ctrls->pixel_rate is NULL if e.g. memory allocation fails when
-> > creating the control.
-> > 
-> > > > +
-> > > >  	/* Auto/manual white balance */
-> > > >  	ctrls->auto_wb = v4l2_ctrl_new_std(hdl, ops,
-> > > >  					   V4L2_CID_AUTO_WHITE_BALANCE,
-> > > > @@ -2816,6 +2838,9 @@ static int ov5640_s_frame_interval(struct v4l2_subdev *sd,
-> > > >  		sensor->frame_interval = fi->interval;
-> > > >  		sensor->current_mode = mode;
-> > > >  		sensor->pending_mode_change = true;
-> > > > +
-> > > > +		__v4l2_ctrl_s_ctrl_int64(sensor->ctrls.pixel_rate,
-> > > > +					 ov5640_calc_pixel_rate(sensor));
-> > > >  	}
-> > > >  out:
-> > > >  	mutex_unlock(&sensor->lock);
-> > 
-> > -- 
-> > Regards,
-> > 
-> > Sakari Ailus
-> > sakari.ailus@linux.intel.com
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ drivers/media/dvb-frontends/cxd2841er.c | 54 +++++++++++++++++++++++++
+ 1 file changed, 54 insertions(+)
 
+diff --git a/drivers/media/dvb-frontends/cxd2841er.c b/drivers/media/dvb-frontends/cxd2841er.c
+index 1b30cf570803..c75e63b9cfa7 100644
+--- a/drivers/media/dvb-frontends/cxd2841er.c
++++ b/drivers/media/dvb-frontends/cxd2841er.c
+@@ -60,6 +60,13 @@ struct cxd2841er_priv {
+ 	enum cxd2841er_xtal		xtal;
+ 	enum fe_caps caps;
+ 	u32				flags;
++
++	unsigned long			ber_interval;
++	unsigned long			ucb_interval;
++
++	unsigned long			ber_time;
++	unsigned long			ucb_time;
++	unsigned long			snr_time;
+ };
+ 
+ static const struct cxd2841er_cnr_data s_cn_data[] = {
+@@ -1941,6 +1948,10 @@ static void cxd2841er_read_ber(struct dvb_frontend *fe)
+ 	struct cxd2841er_priv *priv = fe->demodulator_priv;
+ 	u32 ret, bit_error = 0, bit_count = 0;
+ 
++	if (priv->ber_time &&
++	   (!time_after(jiffies, priv->ber_time)))
++		return;
++
+ 	dev_dbg(&priv->i2c->dev, "%s()\n", __func__);
+ 	switch (p->delivery_system) {
+ 	case SYS_DVBC_ANNEX_A:
+@@ -1978,6 +1989,19 @@ static void cxd2841er_read_ber(struct dvb_frontend *fe)
+ 		p->post_bit_error.stat[0].scale = FE_SCALE_NOT_AVAILABLE;
+ 		p->post_bit_count.stat[0].scale = FE_SCALE_NOT_AVAILABLE;
+ 	}
++
++	/*
++	 * If the per-delivery system doesn't specify, set a default timeout
++	 * that will wait for 10^7 bits or 1 second
++	 */
++	if (!priv->ber_interval && p->bandwidth_hz) {
++		priv->ber_interval = (10000000) / (p->bandwidth_hz / 1000);
++	}
++
++	if (priv->ber_interval < 1000)
++		priv->ber_interval = 1000;
++
++	priv->ber_time = jiffies + msecs_to_jiffies(priv->ber_interval);
+ }
+ 
+ static void cxd2841er_read_signal_strength(struct dvb_frontend *fe)
+@@ -2037,6 +2061,13 @@ static void cxd2841er_read_snr(struct dvb_frontend *fe)
+ 	struct dtv_frontend_properties *p = &fe->dtv_property_cache;
+ 	struct cxd2841er_priv *priv = fe->demodulator_priv;
+ 
++	if (priv->snr_time &&
++	   (!time_after(jiffies, priv->snr_time)))
++		return;
++
++	/* Preventing asking SNR more than once per second */
++	priv->snr_time = jiffies + msecs_to_jiffies(1000);
++
+ 	dev_dbg(&priv->i2c->dev, "%s()\n", __func__);
+ 	switch (p->delivery_system) {
+ 	case SYS_DVBC_ANNEX_A:
+@@ -2081,6 +2112,10 @@ static void cxd2841er_read_ucblocks(struct dvb_frontend *fe)
+ 	struct cxd2841er_priv *priv = fe->demodulator_priv;
+ 	u32 ucblocks = 0;
+ 
++	if (priv->ucb_time &&
++	   (!time_after(jiffies, priv->ucb_time)))
++		return;
++
+ 	dev_dbg(&priv->i2c->dev, "%s()\n", __func__);
+ 	switch (p->delivery_system) {
+ 	case SYS_DVBC_ANNEX_A:
+@@ -2105,6 +2140,18 @@ static void cxd2841er_read_ucblocks(struct dvb_frontend *fe)
+ 
+ 	p->block_error.stat[0].scale = FE_SCALE_COUNTER;
+ 	p->block_error.stat[0].uvalue = ucblocks;
++
++	/*
++	 * If the per-delivery system doesn't specify, set a default timeout
++	 * that will wait for 100 packets or 1 second
++	 */
++	if (!priv->ucb_interval && p->bandwidth_hz)
++		priv->ucb_interval = (100 * 204 * 1000 * 8) / p->bandwidth_hz;
++
++	if (priv->ucb_interval < 1000)
++		priv->ucb_interval = 1000;
++
++	priv->ucb_time = jiffies + msecs_to_jiffies(priv->ucb_interval);
+ }
+ 
+ static int cxd2841er_dvbt2_set_profile(
+@@ -3360,6 +3407,13 @@ static int cxd2841er_set_frontend_s(struct dvb_frontend *fe)
+ 	p->post_bit_error.stat[0].scale = FE_SCALE_NOT_AVAILABLE;
+ 	p->post_bit_count.stat[0].scale = FE_SCALE_NOT_AVAILABLE;
+ 
++	/* Reset the wait for jiffies logic */
++	priv->ber_interval = 0;
++	priv->ucb_interval = 0;
++	priv->ber_time = 0;
++	priv->ucb_time = 0;
++	priv->snr_time = 0;
++
+ 	return ret;
+ }
+ 
 -- 
-Sakari Ailus
-sakari.ailus@linux.intel.com
+2.21.0
+
