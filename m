@@ -2,49 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E6D0DCC0A5
-	for <lists+linux-media@lfdr.de>; Fri,  4 Oct 2019 18:29:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AAA72CC076
+	for <lists+linux-media@lfdr.de>; Fri,  4 Oct 2019 18:27:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730185AbfJDQ3G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Oct 2019 12:29:06 -0400
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:35278 "EHLO
-        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730621AbfJDQ1w (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Oct 2019 12:27:52 -0400
+        id S1730836AbfJDQ1y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Oct 2019 12:27:54 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:60602 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730787AbfJDQ1x (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Oct 2019 12:27:53 -0400
 Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x94GRpMs008079;
-        Fri, 4 Oct 2019 11:27:51 -0500
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x94GRqBt081551;
+        Fri, 4 Oct 2019 11:27:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1570206471;
-        bh=HuKfbtAS6502L4aeFWxqTkMVjLR2uSz+eszYj8624Hc=;
+        s=ti-com-17Q1; t=1570206472;
+        bh=sTsSEmn5cWa+cgT3qecweduiY1OYBm5Hf9RAoJ207OA=;
         h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=YBtBGsVwsdpj3T2SbtO8zLAudU1ayPe/aTgT21sXeZPEI7+BgqL+tWsjIxcbCCx+F
-         Zn4i2jY5pKZZMznEkkOXfRbm3Xv6Z1jDkhLf3rfCGRq1RJ9yzHNn/9zzfzNThkJJNK
-         rMiG9sL3Dvl0rwxXgVAfVnt9fdgNtHRxvdn2ySVo=
-Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x94GRp1D055919
+        b=zPBxYO0dWojex5ltAIWwl2xc8K8hqNSElJBubDwD1CS+Og3l0v2Oi1UNrDQWoZDdL
+         xUC8CgsSUcac7VvFYww3TxtfET4C1ZucO+fOKNFYmd/vdw/h5y6PQTqoXvgwjr2fIh
+         Z2xB4MgW217qg935o8wt9MowbbDsCMWPi+NjkuAY=
+Received: from DLEE104.ent.ti.com (dlee104.ent.ti.com [157.170.170.34])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x94GRq5X055952
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 4 Oct 2019 11:27:51 -0500
-Received: from DLEE114.ent.ti.com (157.170.170.25) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
+        Fri, 4 Oct 2019 11:27:52 -0500
+Received: from DLEE111.ent.ti.com (157.170.170.22) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Fri, 4 Oct
- 2019 11:27:50 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
+ 2019 11:27:52 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE111.ent.ti.com
+ (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Fri, 4 Oct 2019 11:27:50 -0500
+ Frontend Transport; Fri, 4 Oct 2019 11:27:51 -0500
 Received: from uda0869644b.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x94GRgA8028904;
-        Fri, 4 Oct 2019 11:27:51 -0500
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x94GRgA9028904;
+        Fri, 4 Oct 2019 11:27:52 -0500
 From:   Benoit Parrot <bparrot@ti.com>
 To:     Hans Verkuil <hverkuil@xs4all.nl>
 CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Nikhil Devshatwar <nikhil.nd@ti.com>,
+        <linux-kernel@vger.kernel.org>, Ram Prasad <x0038811@ti.com>,
         Benoit Parrot <bparrot@ti.com>
-Subject: [Patch v2 06/21] media: ti-vpe: Add support for NV21 format
-Date:   Fri, 4 Oct 2019 11:29:37 -0500
-Message-ID: <20191004162952.4963-7-bparrot@ti.com>
+Subject: [Patch v2 07/21] media: ti-vpe: Set MAX height supported to 2048 pixels
+Date:   Fri, 4 Oct 2019 11:29:38 -0500
+Message-ID: <20191004162952.4963-8-bparrot@ti.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191004162952.4963-1-bparrot@ti.com>
 References: <20191004162952.4963-1-bparrot@ti.com>
@@ -56,164 +55,34 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Nikhil Devshatwar <nikhil.nd@ti.com>
+From: Ram Prasad <x0038811@ti.com>
 
-In NV21 format, the chroma plane is written to memory such that the U
-and V components are swapped for NV12.
+VPE's max height supported MAX_H is set to 1184 which is the
+padded height from VC1 decoder output.
 
-Create a new entry in the VPDMA formats to describe the correct data
-types used in the data descriptors.
+In case of 90, 270 degree rotated video processing, input to
+VPE will be 1080x1920, 720x1280 etc and MAX_H needs to be set
+correct value. Setting MAX_H to 2048 as worst case height.
 
-Update all checks for NV12 and add NV21 there as well.
-
-Add support for V4L2_PIX_FMT_NV21 format for both capture and output
-streams.
-
-Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
+Signed-off-by: Ram Prasad <x0038811@ti.com>
 Signed-off-by: Benoit Parrot <bparrot@ti.com>
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
 ---
- drivers/media/platform/ti-vpe/vpdma.c      | 11 ++++++--
- drivers/media/platform/ti-vpe/vpdma.h      |  1 +
- drivers/media/platform/ti-vpe/vpdma_priv.h |  1 +
- drivers/media/platform/ti-vpe/vpe.c        | 29 +++++++++++++++++-----
- 4 files changed, 34 insertions(+), 8 deletions(-)
+ drivers/media/platform/ti-vpe/vpe.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/ti-vpe/vpdma.c b/drivers/media/platform/ti-vpe/vpdma.c
-index 53d27cd6e10a..817d287c8138 100644
---- a/drivers/media/platform/ti-vpe/vpdma.c
-+++ b/drivers/media/platform/ti-vpe/vpdma.c
-@@ -56,6 +56,11 @@ const struct vpdma_data_format vpdma_yuv_fmts[] = {
- 		.data_type	= DATA_TYPE_C420,
- 		.depth		= 4,
- 	},
-+	[VPDMA_DATA_FMT_CB420] = {
-+		.type		= VPDMA_DATA_FMT_TYPE_YUV,
-+		.data_type	= DATA_TYPE_CB420,
-+		.depth		= 4,
-+	},
- 	[VPDMA_DATA_FMT_YCR422] = {
- 		.type		= VPDMA_DATA_FMT_TYPE_YUV,
- 		.data_type	= DATA_TYPE_YCR422,
-@@ -825,7 +830,8 @@ void vpdma_rawchan_add_out_dtd(struct vpdma_desc_list *list, int width,
- 	channel = next_chan = raw_vpdma_chan;
- 
- 	if (fmt->type == VPDMA_DATA_FMT_TYPE_YUV &&
--			fmt->data_type == DATA_TYPE_C420) {
-+	    (fmt->data_type == DATA_TYPE_C420 ||
-+	     fmt->data_type == DATA_TYPE_CB420)) {
- 		rect.height >>= 1;
- 		rect.top >>= 1;
- 		depth = 8;
-@@ -893,7 +899,8 @@ void vpdma_add_in_dtd(struct vpdma_desc_list *list, int width,
- 	channel = next_chan = chan_info[chan].num;
- 
- 	if (fmt->type == VPDMA_DATA_FMT_TYPE_YUV &&
--			fmt->data_type == DATA_TYPE_C420) {
-+	    (fmt->data_type == DATA_TYPE_C420 ||
-+	     fmt->data_type == DATA_TYPE_CB420)) {
- 		rect.height >>= 1;
- 		rect.top >>= 1;
- 		depth = 8;
-diff --git a/drivers/media/platform/ti-vpe/vpdma.h b/drivers/media/platform/ti-vpe/vpdma.h
-index 28bc94129348..bce17329c4c9 100644
---- a/drivers/media/platform/ti-vpe/vpdma.h
-+++ b/drivers/media/platform/ti-vpe/vpdma.h
-@@ -71,6 +71,7 @@ enum vpdma_yuv_formats {
- 	VPDMA_DATA_FMT_C444,
- 	VPDMA_DATA_FMT_C422,
- 	VPDMA_DATA_FMT_C420,
-+	VPDMA_DATA_FMT_CB420,
- 	VPDMA_DATA_FMT_YCR422,
- 	VPDMA_DATA_FMT_YC444,
- 	VPDMA_DATA_FMT_CRY422,
-diff --git a/drivers/media/platform/ti-vpe/vpdma_priv.h b/drivers/media/platform/ti-vpe/vpdma_priv.h
-index c488609bc162..d8ae3e1cd54d 100644
---- a/drivers/media/platform/ti-vpe/vpdma_priv.h
-+++ b/drivers/media/platform/ti-vpe/vpdma_priv.h
-@@ -92,6 +92,7 @@
- #define DATA_TYPE_C444				0x4
- #define DATA_TYPE_C422				0x5
- #define DATA_TYPE_C420				0x6
-+#define DATA_TYPE_CB420				0x16
- #define DATA_TYPE_YC444				0x8
- #define DATA_TYPE_YCB422			0x7
- #define DATA_TYPE_YCR422			0x17
 diff --git a/drivers/media/platform/ti-vpe/vpe.c b/drivers/media/platform/ti-vpe/vpe.c
-index 5d0ec5f7ca25..f3ee9ff87927 100644
+index f3ee9ff87927..bbbf11174e16 100644
 --- a/drivers/media/platform/ti-vpe/vpe.c
 +++ b/drivers/media/platform/ti-vpe/vpe.c
-@@ -248,6 +248,14 @@ static struct vpe_fmt vpe_formats[] = {
- 				    &vpdma_yuv_fmts[VPDMA_DATA_FMT_C420],
- 				  },
- 	},
-+	{
-+		.fourcc		= V4L2_PIX_FMT_NV21,
-+		.types		= VPE_FMT_TYPE_CAPTURE | VPE_FMT_TYPE_OUTPUT,
-+		.coplanar	= 1,
-+		.vpdma_fmt	= { &vpdma_yuv_fmts[VPDMA_DATA_FMT_Y420],
-+				    &vpdma_yuv_fmts[VPDMA_DATA_FMT_CB420],
-+				  },
-+	},
- 	{
- 		.fourcc		= V4L2_PIX_FMT_YUYV,
- 		.types		= VPE_FMT_TYPE_CAPTURE | VPE_FMT_TYPE_OUTPUT,
-@@ -686,7 +694,8 @@ static void set_cfg_modes(struct vpe_ctx *ctx)
- 	 * Cfg Mode 1: YUV422 source, disable upsampler, DEI is de-interlacing.
- 	 */
+@@ -52,7 +52,7 @@
+ #define MIN_W		32
+ #define MIN_H		32
+ #define MAX_W		2048
+-#define MAX_H		1184
++#define MAX_H		2048
  
--	if (fmt->fourcc == V4L2_PIX_FMT_NV12)
-+	if (fmt->fourcc == V4L2_PIX_FMT_NV12 ||
-+	    fmt->fourcc == V4L2_PIX_FMT_NV21)
- 		cfg_mode = 0;
- 
- 	write_field(us1_reg0, cfg_mode, VPE_US_MODE_MASK, VPE_US_MODE_SHIFT);
-@@ -701,7 +710,8 @@ static void set_line_modes(struct vpe_ctx *ctx)
- 	struct vpe_fmt *fmt = ctx->q_data[Q_DATA_SRC].fmt;
- 	int line_mode = 1;
- 
--	if (fmt->fourcc == V4L2_PIX_FMT_NV12)
-+	if (fmt->fourcc == V4L2_PIX_FMT_NV12 ||
-+	    fmt->fourcc == V4L2_PIX_FMT_NV21)
- 		line_mode = 0;		/* double lines to line buffer */
- 
- 	/* regs for now */
-@@ -763,7 +773,8 @@ static void set_dst_registers(struct vpe_ctx *ctx)
- 	 */
- 	val |= VPE_DS_SRC_DEI_SCALER | VPE_CSC_SRC_DEI_SCALER;
- 
--	if (fmt->fourcc != V4L2_PIX_FMT_NV12)
-+	if (fmt->fourcc != V4L2_PIX_FMT_NV12 &&
-+	    fmt->fourcc != V4L2_PIX_FMT_NV21)
- 		val |= VPE_DS_BYPASS;
- 
- 	mmr_adb->out_fmt_reg[0] = val;
-@@ -1129,8 +1140,13 @@ static void add_in_dtd(struct vpe_ctx *ctx, int port)
- 
- 			if (field) {
- 				int height = q_data->height / 2;
--				int bpp = fmt->fourcc == V4L2_PIX_FMT_NV12 ?
--						1 : (vpdma_fmt->depth >> 3);
-+				int bpp;
-+
-+				if (fmt->fourcc == V4L2_PIX_FMT_NV12 ||
-+				    fmt->fourcc == V4L2_PIX_FMT_NV21)
-+					bpp = 1;
-+				else
-+					bpp = vpdma_fmt->depth >> 3;
- 
- 				if (plane)
- 					height /= 2;
-@@ -1148,7 +1164,8 @@ static void add_in_dtd(struct vpe_ctx *ctx, int port)
- 	frame_width = q_data->c_rect.width;
- 	frame_height = q_data->c_rect.height;
- 
--	if (p_data->vb_part && fmt->fourcc == V4L2_PIX_FMT_NV12)
-+	if (p_data->vb_part && (fmt->fourcc == V4L2_PIX_FMT_NV12 ||
-+				fmt->fourcc == V4L2_PIX_FMT_NV21))
- 		frame_height /= 2;
- 
- 	vpdma_add_in_dtd(&ctx->desc_list, q_data->width, stride,
+ /* required alignments */
+ #define S_ALIGN		0	/* multiple of 1 */
 -- 
 2.17.1
 
