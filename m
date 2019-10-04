@@ -2,135 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B4EFCB979
-	for <lists+linux-media@lfdr.de>; Fri,  4 Oct 2019 13:48:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B39CCB980
+	for <lists+linux-media@lfdr.de>; Fri,  4 Oct 2019 13:50:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729638AbfJDLso (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Oct 2019 07:48:44 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:36608 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726393AbfJDLso (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Oct 2019 07:48:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=mnhO/nnICthVIGWRwbzfA3SGJPmjfckRidHYDF4L3oQ=; b=Sn3+G/Bmqb1r1sKhZ6LNVCJvG
-        nLE4pJ+FZMo8h87W9IhAKmFZJNbWOYqwGLWRp+eHd/Xr0mTOkd6MCSQUFgXQS10CMk9OVeXcgljBA
-        kDvgNI0E2AePp116s9p4M2eQLjYxuXkB2+XmrOLGnmGGe8Hdps/eloj7qBOrF8EpmGxs17QLEVQBt
-        eiFAAyr6EkSPcjw7yosgyXllHa7pEs5h4IV477HP9bAewabASOSJET+GBudQ9Ov+q6befMyc6Ibfu
-        W/aBeAwUPpSbK447V7LMe3AYXU/3svreiLi9PFHPEstwSRnGnmO7ZTLCUS3SEumkV3PTD5sjNs1Lf
-        IZCWnohLg==;
-Received: from 177.133.68.49.dynamic.adsl.gvt.net.br ([177.133.68.49] helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
-        id 1iGM4g-0001Mj-Vi; Fri, 04 Oct 2019 11:48:43 +0000
-Date:   Fri, 4 Oct 2019 08:48:39 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Cc:     linux-media@vger.kernel.org,
-        Loic Poulain <loic.poulain@linaro.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>
-Subject: Re: [PATCH v4] venus: venc: Fix enum frameintervals
-Message-ID: <20191004084839.7e278fcd@coco.lan>
-In-Reply-To: <20191003101038.13732-1-stanimir.varbanov@linaro.org>
-References: <20191003101038.13732-1-stanimir.varbanov@linaro.org>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1729366AbfJDLup (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Oct 2019 07:50:45 -0400
+Received: from jpvw.nl ([80.127.100.2]:49920 "EHLO jpvw.nl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728357AbfJDLup (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 4 Oct 2019 07:50:45 -0400
+Received: from localhost ([127.0.0.1] helo=jpvw.nl)
+        by jpvw.nl with esmtp (Exim 4.92)
+        (envelope-from <jp@jpvw.nl>)
+        id 1iGM6d-0005JL-F7; Fri, 04 Oct 2019 13:50:43 +0200
+Subject: Re: [PATCH] si2157: Add support for Logilink VG0022A.
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Gonsolo <gonsolo@gmail.com>
+Cc:     crope@iki.fi, Sean Young <sean@mess.org>,
+        linux-media@vger.kernel.org,
+        Linux Kernel <linux-kernel@vger.kernel.org>
+References: <29ab2e43-4374-a3ea-6ae1-a4267867eaa4@jpvw.nl>
+ <20191002154922.7f1cfc76@coco.lan>
+ <CANL0fFRJZBfEDWK_c2w1TomvB5-i4g09LopyJUbO5NtOwKdDTg@mail.gmail.com>
+ <20191003080539.2b13c03b@coco.lan>
+ <CANL0fFSmvEEJhnA=qjTuEPr4N8q8eWLeYC5du+OoTMxe1Gnh5Q@mail.gmail.com>
+ <20191003120238.75811da6@coco.lan> <20191003160336.GA5125@Limone>
+ <20191003130909.01d29b77@coco.lan> <20191003162326.GA2727@Limone>
+ <20191003144225.0137bf6c@coco.lan> <20191003183200.GA2631@Limone>
+ <e468b867-1b45-8220-a5d2-ac40fdb4e0e6@jpvw.nl>
+ <CANL0fFQms9oyec_1UevbJ7aLp+KNJ3h6UhGEbqrnCNO286rbGg@mail.gmail.com>
+ <20191003163914.7c384d36@coco.lan> <20191003164426.6da8538f@coco.lan>
+ <CANL0fFRSNbUhcik7rnhjZ0qUe-tZyzcjY+M1J_iGzUa5jNc9_A@mail.gmail.com>
+ <20191003170329.3624f7f2@coco.lan>
+From:   JP <jp@jpvw.nl>
+Message-ID: <23d9856c-cc12-7212-9126-90d80f67abfb@jpvw.nl>
+Date:   Fri, 4 Oct 2019 13:50:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20191003170329.3624f7f2@coco.lan>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Thu,  3 Oct 2019 13:10:38 +0300
-Stanimir Varbanov <stanimir.varbanov@linaro.org> escreveu:
-
-> This fixes an issue when setting the encoder framerate because of
-> missing precision. Now the frameinterval type is changed to
-> TYPE_CONTINUOUS and step = 1. Also the math is changed when
-> framerate property is called - the firmware side expects the
-> framerate in Q16 values.
-> 
-> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-
-Didn't test the patch, but just reviewing the code, this version
-looks OK on my eyes.
-
-> ---
-> 
-> Changes since v3:
-> Keep min/max numerator one, and divide frate(max/min) to frame
-> factor (returned framerate max/min capabilities are in range
-> 1 to 120fps but in Q16 i.e. 65536 to 7864320).
-> 
->  drivers/media/platform/qcom/venus/venc.c | 17 ++++++++++++-----
->  1 file changed, 12 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-> index 1b7fb2d5887c..133ff7eceb83 100644
-> --- a/drivers/media/platform/qcom/venus/venc.c
-> +++ b/drivers/media/platform/qcom/venus/venc.c
-> @@ -22,6 +22,7 @@
->  #include "venc.h"
->  
->  #define NUM_B_FRAMES_MAX	4
-> +#define FRAMERATE_FACTOR	BIT(16)
->  
->  /*
->   * Three resons to keep MPLANE formats (despite that the number of planes
-> @@ -576,7 +577,7 @@ static int venc_enum_frameintervals(struct file *file, void *fh,
->  	struct venus_inst *inst = to_inst(file);
->  	const struct venus_format *fmt;
->  
-> -	fival->type = V4L2_FRMIVAL_TYPE_STEPWISE;
-> +	fival->type = V4L2_FRMIVAL_TYPE_CONTINUOUS;
->  
->  	fmt = find_format(inst, fival->pixel_format,
->  			  V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
-> @@ -600,11 +601,11 @@ static int venc_enum_frameintervals(struct file *file, void *fh,
->  		return -EINVAL;
->  
->  	fival->stepwise.min.numerator = 1;
-> -	fival->stepwise.min.denominator = frate_max(inst);
-> +	fival->stepwise.min.denominator = frate_max(inst) / FRAMERATE_FACTOR;
->  	fival->stepwise.max.numerator = 1;
-> -	fival->stepwise.max.denominator = frate_min(inst);
-> +	fival->stepwise.max.denominator = frate_min(inst) / FRAMERATE_FACTOR;
->  	fival->stepwise.step.numerator = 1;
-> -	fival->stepwise.step.denominator = frate_max(inst);
-> +	fival->stepwise.step.denominator = 1;
->  
->  	return 0;
->  }
-> @@ -649,6 +650,7 @@ static int venc_set_properties(struct venus_inst *inst)
->  	struct hfi_quantization quant;
->  	struct hfi_quantization_range quant_range;
->  	u32 ptype, rate_control, bitrate, profile = 0, level = 0;
-> +	u64 framerate;
->  	int ret;
->  
->  	ret = venus_helper_set_work_mode(inst, VIDC_WORK_MODE_2);
-> @@ -659,9 +661,14 @@ static int venc_set_properties(struct venus_inst *inst)
->  	if (ret)
->  		return ret;
->  
-> +	framerate = inst->timeperframe.denominator * FRAMERATE_FACTOR;
-> +	/* next line is to round up */
-> +	framerate += inst->timeperframe.numerator - 1;
-> +	do_div(framerate, inst->timeperframe.numerator);
-> +
->  	ptype = HFI_PROPERTY_CONFIG_FRAME_RATE;
->  	frate.buffer_type = HFI_BUFFER_OUTPUT;
-> -	frate.framerate = inst->fps * (1 << 16);
-> +	frate.framerate = framerate;
->  
->  	ret = hfi_session_set_property(inst, ptype, &frate);
->  	if (ret)
 
 
+On 10/3/19 10:03 PM, Mauro Carvalho Chehab wrote:
+> Em Thu, 3 Oct 2019 21:51:35 +0200
+> Gonsolo <gonsolo@gmail.com> escreveu:
+>
+>>> 1) The firmware file is likely at the Windows driver for this device
+>>> (probably using a different format). It should be possible to get
+>>> it from there.
+>> If you tell me how I'm willing to do this. :)
+> I don't know. I was not the one that extracted the firmware. I guess
+> Antti did it.
+>
+> I suspect that there are some comments about that in the past at the
+> ML. seek at lore.kernel.org.
+>
+>>> 2) Another possibility would be to add a way to tell the si2168 driver
+>>> to not try to load a firmware, using the original one. That would
+>>> require adding a field at si2168_config to allow signalizing to it
+>>> that it should not try to load a firmware file, and add a quirk at
+>>> the af9035 that would set such flag for Logilink VG0022A.
+>> I don't get this. Which firmware, si2168 or si2157?
+> The one that it is causing the problem. If I understood well, the
+> culprit was the si2168 firmware.
+>
+>> I'm still for option 3: If there is a bogus chip revision number it's
+>> likely the VG0022A and we can safely set fw to NULL, in which case
+>> everything works.
+>> All already working devices will continue to work as before.
+>> With a low probability there are other devices that will return 0xffff
+>> but a) they didn't work until now and b) they receive a clear message
+>> that they return bogus numbers and this works just for the VG0022A, in
+>> which case this hardware can be tested.
+>> At last, *my* VG0022A will work without a custom kernel which I'm a
+>> big fan of. :))
+>>
+>> Are there any counterarguments except that it is not the cleanest
+>> solution in the universe? ;)
+> That's a really bad solution. Returning 0xff is what happens when
+> things go wrong during I2C transfers. Several problems can cause it,
+> including device misfunction. Every time someone comes with a patch
+> trying to ignore it, things go sideways for other devices (existing
+> or future ones).
+>
+> Ignoring errors is always a bad idea.
+add module param say 'gonso_hack_vg0022a'
+if true, act on error by setting a flag
+if this flag is set don't load firmware
 
-Thanks,
-Mauro
+Jan Pieter.
