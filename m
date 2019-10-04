@@ -2,179 +2,287 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BE36ACBCCE
-	for <lists+linux-media@lfdr.de>; Fri,  4 Oct 2019 16:16:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 02ECCCBDC9
+	for <lists+linux-media@lfdr.de>; Fri,  4 Oct 2019 16:47:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388780AbfJDOQQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Oct 2019 10:16:16 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:56956 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388625AbfJDOQQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Oct 2019 10:16:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=K76rJjsu5T7wRFe+vxEucJGUKWukcF9Mf7Z+aHg/kGY=; b=Znj5r4fbqgACzD42wqy8FZid8
-        uKoOt2+rsNU8KbfIVn6n3B6XEunKgI2VaurTbovQmtDzMI/gKLhEL22etJ/mJJdZVbrvGFX8y+ir+
-        6a23ww7Vds3AwyGlMx2DskKBj4RuIwE7egCSQavobzgA/zOn7MkG7BxFn1/cYuZBIzrOH4AibkSy+
-        UIDWxARxyA/EP5c1jGCDQSv7vKY81zDbRxutdTb1lOEwv88X66AW1ucb1Qpf20os389gTxTfr6Auk
-        ssJm6kpWBA9ng+PlxFWWx/BB3Q7jSXyfrt8Ue/k9r/tPJdOkks6TEC/EFFMghApjuPD+hSFogq/86
-        QP4LOCpcw==;
-Received: from 177.133.68.49.dynamic.adsl.gvt.net.br ([177.133.68.49] helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
-        id 1iGONQ-0008T8-Pb; Fri, 04 Oct 2019 14:16:13 +0000
-Date:   Fri, 4 Oct 2019 11:16:08 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     JP <jp@jpvw.nl>
-Cc:     Gonsolo <gonsolo@gmail.com>, crope@iki.fi,
-        Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
-        Linux Kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] si2157: Add support for Logilink VG0022A.
-Message-ID: <20191004111608.74fdf94a@coco.lan>
-In-Reply-To: <4c7ed533-55dc-534d-7fc0-0acc766daa27@jpvw.nl>
-References: <29ab2e43-4374-a3ea-6ae1-a4267867eaa4@jpvw.nl>
-        <20191002154922.7f1cfc76@coco.lan>
-        <CANL0fFRJZBfEDWK_c2w1TomvB5-i4g09LopyJUbO5NtOwKdDTg@mail.gmail.com>
-        <20191003080539.2b13c03b@coco.lan>
-        <CANL0fFSmvEEJhnA=qjTuEPr4N8q8eWLeYC5du+OoTMxe1Gnh5Q@mail.gmail.com>
-        <20191003120238.75811da6@coco.lan>
-        <20191003160336.GA5125@Limone>
-        <20191003130909.01d29b77@coco.lan>
-        <20191003162326.GA2727@Limone>
-        <20191003144225.0137bf6c@coco.lan>
-        <20191003183200.GA2631@Limone>
-        <e468b867-1b45-8220-a5d2-ac40fdb4e0e6@jpvw.nl>
-        <CANL0fFQms9oyec_1UevbJ7aLp+KNJ3h6UhGEbqrnCNO286rbGg@mail.gmail.com>
-        <20191003163914.7c384d36@coco.lan>
-        <20191003164426.6da8538f@coco.lan>
-        <CANL0fFRSNbUhcik7rnhjZ0qUe-tZyzcjY+M1J_iGzUa5jNc9_A@mail.gmail.com>
-        <20191003170329.3624f7f2@coco.lan>
-        <23d9856c-cc12-7212-9126-90d80f67abfb@jpvw.nl>
-        <20191004090855.14e418ed@coco.lan>
-        <4c7ed533-55dc-534d-7fc0-0acc766daa27@jpvw.nl>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S2389226AbfJDOrY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Oct 2019 10:47:24 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:54439 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389449AbfJDOrX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Oct 2019 10:47:23 -0400
+Received: by mail-wm1-f65.google.com with SMTP id p7so6135793wmp.4
+        for <linux-media@vger.kernel.org>; Fri, 04 Oct 2019 07:47:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9118eAxchplUEC3wD7+/3Rk7lFGR/BWjlZfUOnVUzi4=;
+        b=aOqqM0bS+MNrX5woXn55Y6mMlkKHv2N9o9db3txnnVtJ/nke80mmIWIvF4LFxgztWp
+         aCHW21RbuNKSOtkC2usNceZWmNQbVMu3vio8AU9aQ9vtSghL/TKWzE+AUkrXsLt+MjoO
+         FOJUV+BMsGCYjhIVsUXKaYWhHd2pBoKNWaZS9gRabsmXtcLEUIdClfZjBFskufa6VUoB
+         55W9zLTKDh3op8RIV4/ZkippwzLFEH+aOL/1E8TeiDqnhD71GN2semNSMNCdy36DLtzW
+         OhM0GoKQXTnGj/o24dpb6aA8ODMjONBmawqhnT/jjTkfqXF5vDCYf9/TsV0/7Ub0KjXM
+         212w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9118eAxchplUEC3wD7+/3Rk7lFGR/BWjlZfUOnVUzi4=;
+        b=DueEcDAc6GiTvWQhr/TOzM4Xcjecgxql+WIMPtS85/055qK2/MRC2R6BWlWm1vdx1s
+         UCIIOSIE5JTg8s5ozc6vryopEE3VApZi3Hz5vtrgFFT3sGjeDzQC0nTWirTW5DkRbvoV
+         BGk2+0tQWv/s9s/kUMWJOrCTXB2T4NlU+uCHtwC2xRwyVfvXrbLYXrhCgeaYyNZBzJ8v
+         QyLbzrRRsUTEiRNi31jH/VnzshcCxqiPwemlSt+UEcOen/MwP4P/RIHhpHXLS6/rjaYY
+         QHGhaWZvdIgS8ICz221lclD5x2RBWkUpThScSvz8kLEspA6yayJBzfrMrqnavrZso0jx
+         7NFQ==
+X-Gm-Message-State: APjAAAUExa8zptCk7Pg76c9Krh2chfPYu/+r6rJjocpLbqAYAwLR8jnQ
+        fSih9E1aKZ7nWWF4UsTy+pnMCw==
+X-Google-Smtp-Source: APXvYqzxGEB/Jmd5uNbft2qfT6qV6TItO3w9WvQSn/rY8jn52H+gVkuWobFmoGKb7/SQ8cXphGH4lA==
+X-Received: by 2002:a7b:cd08:: with SMTP id f8mr10287319wmj.87.1570200441202;
+        Fri, 04 Oct 2019 07:47:21 -0700 (PDT)
+Received: from bender.baylibre.local (lmontsouris-657-1-212-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
+        by smtp.gmail.com with ESMTPSA id y5sm7994776wma.14.2019.10.04.07.47.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Oct 2019 07:47:20 -0700 (PDT)
+From:   Neil Armstrong <narmstrong@baylibre.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Christian Hewitt <christianshewitt@gmail.com>,
+        linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Neil Armstrong <narmstrong@baylibre.com>
+Subject: [PATCH] media: meson/ao-cec: move cec_notifier_cec_adap_register after hw setup
+Date:   Fri,  4 Oct 2019 16:47:19 +0200
+Message-Id: <20191004144719.11006-1-narmstrong@baylibre.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Fri, 4 Oct 2019 15:50:18 +0200
-JP <jp@jpvw.nl> escreveu:
+When probed after the HDMI notifier, calling cec_notifier_cec_adap_register()
+calls the enable() adapter callback, but the HW is not yet set up.
 
-> On 10/4/19 2:08 PM, Mauro Carvalho Chehab wrote:
-> > Em Fri, 4 Oct 2019 13:50:43 +0200
-> > JP <jp@jpvw.nl> escreveu:
-> > =20
-> >> On 10/3/19 10:03 PM, Mauro Carvalho Chehab wrote: =20
-> >>> Em Thu, 3 Oct 2019 21:51:35 +0200
-> >>> Gonsolo <gonsolo@gmail.com> escreveu:
-> >>>    =20
-> >>>>> 1) The firmware file is likely at the Windows driver for this device
-> >>>>> (probably using a different format). It should be possible to get
-> >>>>> it from there. =20
-> >>>> If you tell me how I'm willing to do this. :) =20
-> >>> I don't know. I was not the one that extracted the firmware. I guess
-> >>> Antti did it.
-> >>>
-> >>> I suspect that there are some comments about that in the past at the
-> >>> ML. seek at lore.kernel.org.
-> >>>    =20
-> >>>>> 2) Another possibility would be to add a way to tell the si2168 dri=
-ver
-> >>>>> to not try to load a firmware, using the original one. That would
-> >>>>> require adding a field at si2168_config to allow signalizing to it
-> >>>>> that it should not try to load a firmware file, and add a quirk at
-> >>>>> the af9035 that would set such flag for Logilink VG0022A. =20
-> >>>> I don't get this. Which firmware, si2168 or si2157? =20
-> >>> The one that it is causing the problem. If I understood well, the
-> >>> culprit was the si2168 firmware.
-> >>>    =20
-> >>>> I'm still for option 3: If there is a bogus chip revision number it's
-> >>>> likely the VG0022A and we can safely set fw to NULL, in which case
-> >>>> everything works.
-> >>>> All already working devices will continue to work as before.
-> >>>> With a low probability there are other devices that will return 0xff=
-ff
-> >>>> but a) they didn't work until now and b) they receive a clear message
-> >>>> that they return bogus numbers and this works just for the VG0022A, =
-in
-> >>>> which case this hardware can be tested.
-> >>>> At last, *my* VG0022A will work without a custom kernel which I'm a
-> >>>> big fan of. :))
-> >>>>
-> >>>> Are there any counterarguments except that it is not the cleanest
-> >>>> solution in the universe? ;) =20
-> >>> That's a really bad solution. Returning 0xff is what happens when
-> >>> things go wrong during I2C transfers. Several problems can cause it,
-> >>> including device misfunction. Every time someone comes with a patch
-> >>> trying to ignore it, things go sideways for other devices (existing
-> >>> or future ones).
-> >>>
-> >>> Ignoring errors is always a bad idea. =20
-> >> add module param say 'gonso_hack_vg0022a'
-> >> if true, act on error by setting a flag
-> >> if this flag is set don't load firmware =20
-> > Adding a module param should be the last resort, only when there's
-> > no way for the driver to autodetect. =20
-> Remember the guy reported the hw fix? Could be that
-> only some receiver units are affected. Therefore=C2=A0 the
-> module param.
->=20
-> The hw fix was original 4k7 and 10k added. That looks
-> like 3k3 total and all 3 chips on the bus work. 10k per
-> chip. Now Gon reported that said bus works with 2 chips
-> active on a faulty device with 4k7 resistor, which is 2
-> times 10k. It looks same hw error to me.
+Moving cec_notifier_cec_adap_register() right before cec_register_adapter()
+fixes the following crash:
+Ignoring spurious kernel translation fault at virtual address 0000000000000008
+[...]
+Hardware name: Khadas VIM (DT)
+[...]
+pc : __do_kernel_fault+0xdc/0x120
+lr : __do_kernel_fault+0xdc/0x120
+[...]
+Call trace:
+ __do_kernel_fault+0xdc/0x120
+ do_page_fault+0x180/0x458
+ do_translation_fault+0x64/0x70
+ do_mem_abort+0x3c/0x98
+ el1_da+0x20/0x94
+ meson_ao_cec_adap_enable+0x30/0x218 [ao_cec]
+ __cec_s_phys_addr+0x184/0x270
+ cec_s_phys_addr+0x44/0x60
+ cec_notifier_cec_adap_register+0x68/0x90
+ meson_ao_cec_probe+0xb0/0x288 [ao_cec]
+[...]
+ el0_svc_compat+0x8/0x10
 
-I'm not so sure. From the reports from Gonsolo, in the case of=20
-this specific issue with VG0022A, the device is not unstable. It is=20
-just that it works fine with the vendor-provided firmware, while it=20
-breaks with the new one.
+Reported-by: Christian Hewitt <christianshewitt@gmail.com>
+Suggested-by: Hans Verkuil <hverkuil@xs4all.nl>
+Fixes: 20958f9d5c48 ("media: meson/ao-cec: use cec_notifier_cec_adap_(un)register")
+Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+---
+ drivers/media/platform/meson/ao-cec-g12a.c | 36 +++++++++++-----------
+ drivers/media/platform/meson/ao-cec.c      | 30 +++++++++---------
+ 2 files changed, 33 insertions(+), 33 deletions(-)
 
-We don't know that the same thing would happen with the original
-reported bug. The only way to be sure would be to obtain the same
-hardware from the original post and test it to check if the device
-has issues without replacing the resistor.
+diff --git a/drivers/media/platform/meson/ao-cec-g12a.c b/drivers/media/platform/meson/ao-cec-g12a.c
+index 3b39e875292e..3d8fe854feb0 100644
+--- a/drivers/media/platform/meson/ao-cec-g12a.c
++++ b/drivers/media/platform/meson/ao-cec-g12a.c
+@@ -662,34 +662,27 @@ static int meson_ao_cec_g12a_probe(struct platform_device *pdev)
+ 	if (IS_ERR(ao_cec->adap))
+ 		return PTR_ERR(ao_cec->adap);
+ 
+-	ao_cec->notify = cec_notifier_cec_adap_register(hdmi_dev, NULL,
+-							ao_cec->adap);
+-	if (!ao_cec->notify) {
+-		ret = -ENOMEM;
+-		goto out_probe_adapter;
+-	}
+-
+ 	ao_cec->adap->owner = THIS_MODULE;
+ 
+ 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+ 	base = devm_ioremap_resource(&pdev->dev, res);
+ 	if (IS_ERR(base)) {
+ 		ret = PTR_ERR(base);
+-		goto out_probe_notify;
++		goto out_probe_adapter;
+ 	}
+ 
+ 	ao_cec->regmap = devm_regmap_init_mmio(&pdev->dev, base,
+ 					       &meson_ao_cec_g12a_regmap_conf);
+ 	if (IS_ERR(ao_cec->regmap)) {
+ 		ret = PTR_ERR(ao_cec->regmap);
+-		goto out_probe_notify;
++		goto out_probe_adapter;
+ 	}
+ 
+ 	ao_cec->regmap_cec = devm_regmap_init(&pdev->dev, NULL, ao_cec,
+ 					   &meson_ao_cec_g12a_cec_regmap_conf);
+ 	if (IS_ERR(ao_cec->regmap_cec)) {
+ 		ret = PTR_ERR(ao_cec->regmap_cec);
+-		goto out_probe_notify;
++		goto out_probe_adapter;
+ 	}
+ 
+ 	irq = platform_get_irq(pdev, 0);
+@@ -699,45 +692,52 @@ static int meson_ao_cec_g12a_probe(struct platform_device *pdev)
+ 					0, NULL, ao_cec);
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "irq request failed\n");
+-		goto out_probe_notify;
++		goto out_probe_adapter;
+ 	}
+ 
+ 	ao_cec->oscin = devm_clk_get(&pdev->dev, "oscin");
+ 	if (IS_ERR(ao_cec->oscin)) {
+ 		dev_err(&pdev->dev, "oscin clock request failed\n");
+ 		ret = PTR_ERR(ao_cec->oscin);
+-		goto out_probe_notify;
++		goto out_probe_adapter;
+ 	}
+ 
+ 	ret = meson_ao_cec_g12a_setup_clk(ao_cec);
+ 	if (ret)
+-		goto out_probe_notify;
++		goto out_probe_adapter;
+ 
+ 	ret = clk_prepare_enable(ao_cec->core);
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "core clock enable failed\n");
+-		goto out_probe_notify;
++		goto out_probe_adapter;
+ 	}
+ 
+ 	device_reset_optional(&pdev->dev);
+ 
+ 	platform_set_drvdata(pdev, ao_cec);
+ 
++	ao_cec->notify = cec_notifier_cec_adap_register(hdmi_dev, NULL,
++							ao_cec->adap);
++	if (!ao_cec->notify) {
++		ret = -ENOMEM;
++		goto out_probe_core_clk;
++	}
++
+ 	ret = cec_register_adapter(ao_cec->adap, &pdev->dev);
+ 	if (ret < 0)
+-		goto out_probe_core_clk;
++		goto out_probe_notify;
+ 
+ 	/* Setup Hardware */
+ 	regmap_write(ao_cec->regmap, CECB_GEN_CNTL_REG, CECB_GEN_CNTL_RESET);
+ 
+ 	return 0;
+ 
+-out_probe_core_clk:
+-	clk_disable_unprepare(ao_cec->core);
+-
+ out_probe_notify:
+ 	cec_notifier_cec_adap_unregister(ao_cec->notify);
+ 
++out_probe_core_clk:
++	clk_disable_unprepare(ao_cec->core);
++
+ out_probe_adapter:
+ 	cec_delete_adapter(ao_cec->adap);
+ 
+diff --git a/drivers/media/platform/meson/ao-cec.c b/drivers/media/platform/meson/ao-cec.c
+index 64ed549bf012..03600e8b3ef0 100644
+--- a/drivers/media/platform/meson/ao-cec.c
++++ b/drivers/media/platform/meson/ao-cec.c
+@@ -624,20 +624,13 @@ static int meson_ao_cec_probe(struct platform_device *pdev)
+ 	if (IS_ERR(ao_cec->adap))
+ 		return PTR_ERR(ao_cec->adap);
+ 
+-	ao_cec->notify = cec_notifier_cec_adap_register(hdmi_dev, NULL,
+-							ao_cec->adap);
+-	if (!ao_cec->notify) {
+-		ret = -ENOMEM;
+-		goto out_probe_adapter;
+-	}
+-
+ 	ao_cec->adap->owner = THIS_MODULE;
+ 
+ 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+ 	ao_cec->base = devm_ioremap_resource(&pdev->dev, res);
+ 	if (IS_ERR(ao_cec->base)) {
+ 		ret = PTR_ERR(ao_cec->base);
+-		goto out_probe_notify;
++		goto out_probe_adapter;
+ 	}
+ 
+ 	irq = platform_get_irq(pdev, 0);
+@@ -647,20 +640,20 @@ static int meson_ao_cec_probe(struct platform_device *pdev)
+ 					0, NULL, ao_cec);
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "irq request failed\n");
+-		goto out_probe_notify;
++		goto out_probe_adapter;
+ 	}
+ 
+ 	ao_cec->core = devm_clk_get(&pdev->dev, "core");
+ 	if (IS_ERR(ao_cec->core)) {
+ 		dev_err(&pdev->dev, "core clock request failed\n");
+ 		ret = PTR_ERR(ao_cec->core);
+-		goto out_probe_notify;
++		goto out_probe_adapter;
+ 	}
+ 
+ 	ret = clk_prepare_enable(ao_cec->core);
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "core clock enable failed\n");
+-		goto out_probe_notify;
++		goto out_probe_adapter;
+ 	}
+ 
+ 	ret = clk_set_rate(ao_cec->core, CEC_CLK_RATE);
+@@ -674,9 +667,16 @@ static int meson_ao_cec_probe(struct platform_device *pdev)
+ 	ao_cec->pdev = pdev;
+ 	platform_set_drvdata(pdev, ao_cec);
+ 
++	ao_cec->notify = cec_notifier_cec_adap_register(hdmi_dev, NULL,
++							ao_cec->adap);
++	if (!ao_cec->notify) {
++		ret = -ENOMEM;
++		goto out_probe_clk;
++	}
++
+ 	ret = cec_register_adapter(ao_cec->adap, &pdev->dev);
+ 	if (ret < 0)
+-		goto out_probe_clk;
++		goto out_probe_notify;
+ 
+ 	/* Setup Hardware */
+ 	writel_relaxed(CEC_GEN_CNTL_RESET,
+@@ -684,12 +684,12 @@ static int meson_ao_cec_probe(struct platform_device *pdev)
+ 
+ 	return 0;
+ 
+-out_probe_clk:
+-	clk_disable_unprepare(ao_cec->core);
+-
+ out_probe_notify:
+ 	cec_notifier_cec_adap_unregister(ao_cec->notify);
+ 
++out_probe_clk:
++	clk_disable_unprepare(ao_cec->core);
++
+ out_probe_adapter:
+ 	cec_delete_adapter(ao_cec->adap);
+ 
+-- 
+2.22.0
 
-Even the original reporter can't help, as his device was modified,
-and the issue won't be there anymore.
-
-Btw, if we end by noticing this bug happening on other it931x
-device models, we could simply disable firmware load for all of them,
-but we need more tests and reports before changing the behavior for
-other models, as older firmwares may have other problems.
-
-> > Making af9035 to detect vg0022a is quite simple.
-> >
-> > Considering this device's entry:
-> >
-> > 	{ DVB_USB_DEVICE(USB_VID_DEXATEK, 0x0100,
-> > 		&it930x_props, "Logilink VG0022A", NULL) },
-> >
-> > the check, at af9035 would be:
-> >
-> > 	if (le16_to_cpu(d->udev->descriptor.idVendor) =3D=3D USB_VID_DEXATEK &&
-> > 	    le16_to_cpu(d->udev->descriptor.idProduct) =3D=3D 0x0100)
-> > 		/* do something to disable firmware load */
-> >
-> > So, no need to add any load time parameter.
-> >
-> > It should be noticed that a change just at af9035 won't work, as the
-> > firmware is updated by si2168 driver. So, the caller code needs to
-> > pass a config parameter to si2168 driver. =20
-
-> If it is a failing pull-up resistor on only some individual receiver
-> units, this seems overkill to me. In my proposal I did not realized
-> this change in the demod driver was needed.
-
-Agreed, but we have no means to know that until someone buys other
-units of the VG0022A and do tests with and without the patch.
-
-Thanks,
-Mauro
