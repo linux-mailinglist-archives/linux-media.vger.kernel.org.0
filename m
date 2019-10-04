@@ -2,154 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DC89CB397
-	for <lists+linux-media@lfdr.de>; Fri,  4 Oct 2019 05:52:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E81C6CB3A3
+	for <lists+linux-media@lfdr.de>; Fri,  4 Oct 2019 06:05:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387608AbfJDDwI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Oct 2019 23:52:08 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:53665 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2387565AbfJDDwI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 3 Oct 2019 23:52:08 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:e9cb:c718:d0ff:bf58])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id GEdQi672Jop0AGEdSi9mQj; Fri, 04 Oct 2019 05:52:06 +0200
-Message-ID: <5d4e5c738b7f0fa6e53c0cfc13bab5ce@smtp-cloud8.xs4all.net>
-Date:   Fri, 04 Oct 2019 05:52:04 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-X-CMAE-Envelope: MS4wfC/EXIv5ng3OwHywDmsWkepSOz8xzbMu8BtO0JwktsyL9capK6W2LQ0UxdI8fF7XI2eCuc+rxN9kWLvgU6cWyUaCgKC7L4WEpQqYDUymZcUwHrg+BDro
- cyMU54HSG3As77u9Yp2WlAYGQd4d3kp+NJB+8+RKbTDW/rpUfx01kXJhwr8xPO3/jszoWSjPpvj158xayKcN3984fdpEKVtbGk+u6Pp1+kGirhY+HxbM4f5x
+        id S1727813AbfJDEFJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Oct 2019 00:05:09 -0400
+Received: from mail-ot1-f49.google.com ([209.85.210.49]:40707 "EHLO
+        mail-ot1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726927AbfJDEFI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Oct 2019 00:05:08 -0400
+Received: by mail-ot1-f49.google.com with SMTP id y39so4210841ota.7
+        for <linux-media@vger.kernel.org>; Thu, 03 Oct 2019 21:05:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=FQYbhdJOmf85+vZmL78dS40nCOHSpAbHe/eRQiTKcmM=;
+        b=vLcGAFdNuwxx1s6RmZzH+5G7kpu/USj4hy89inhynZ0FCTfHOoc5J1cBal5MyZuOGE
+         qcZmmfupRzgM+RPZzey+7ezali/0nPBI9W1aegrW/Ndt/7k7VAC65ydp5XzT4GyxqSZi
+         T0qdLVaA7/y0qDzGrVTOsxHgMldRs7NbBNlaxNNW3n8djJM33xxKSREQ3sNbmA6sujCl
+         VnAz1J0uAr5+i60dcAyiuPWyrw7UGYgPfm+S3ThJCXvMfqYXDp1h3lwf2JtmH9bjTSFI
+         4mEoDBiDMXE1X5o/imvfWTo70QgFcF7578TRjUcAo7N1Upvv24w9Q4NJz0ui4U40RTGb
+         oMFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=FQYbhdJOmf85+vZmL78dS40nCOHSpAbHe/eRQiTKcmM=;
+        b=j86wm4hQ5ShyJCGv1TzSzRWmf/+/OR01vP8bE5jbFpu96rXsRpSq2TO8dakuAvtHl/
+         gfdT5xlG9bQKdrc40Mlu/UvGwnUyskdkRoZA0BQB0Gvr3litoEAJVDUGUrv8/gTiQe/c
+         NVf+C7pXfw62HIM7YkZJsM9PaV608JztPz/v4C5Vj8nSiJSdSS2C7UgiD2BFRbAEOwez
+         K4a8dNNc1lAF5dyFJ6XaXA+XsA5BpGlXqXuo2JhKRl1VoZvMIbuIw8o7v6202WKrckNT
+         lbaJgRwZooJE1J0/5g6AUd5IBSEnhyRF94QNmbBMrZJTOKUQwPvjCc/BlmQug7PGlUGQ
+         APGg==
+X-Gm-Message-State: APjAAAVFe8L+s/Kbv5MfkNyw2j2rqVOiOAOT8S1Uvolka1TdQX0vGOtU
+        mEWFrS5ezKFmeP8xnCKbNVntEcbX
+X-Google-Smtp-Source: APXvYqyFI5LLnKwz0UdS1x3d/QmSuoAbNxR8nNSDJP99B9evTgT9knmtYeVTxekdlZjlkAV5pY0ThA==
+X-Received: by 2002:a05:6830:44f:: with SMTP id d15mr8554254otc.115.1570161907608;
+        Thu, 03 Oct 2019 21:05:07 -0700 (PDT)
+Received: from rYz3n.attlocal.net ([2600:1700:210:3790::40])
+        by smtp.googlemail.com with ESMTPSA id z14sm1386166oic.13.2019.10.03.21.05.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Oct 2019 21:05:06 -0700 (PDT)
+From:   Jiunn Chang <c0d1n61at3@gmail.com>
+To:     linux-media@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Cc:     hverkuil@xs4all.nl
+Subject: [PATCH v6 0/1] cec-compliance: tuner control
+Date:   Thu,  3 Oct 2019 23:05:05 -0500
+Message-Id: <20191004040506.31488-1-c0d1n61at3@gmail.com>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20191003031816.168985-1-c0d1n61at3@gmail.com>
+References: <20191003031816.168985-1-c0d1n61at3@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+This patch series implements analog tuner step features and cec-compliance tests.
+Added tuner_ctl_test() to test new tuner features implemented in the cec-follower.
 
-Results of the daily build of media_tree:
+---
 
-date:			Fri Oct  4 05:00:10 CEST 2019
-media-tree git hash:	503e59365dd134b2c63864f14e2de0476284b003
-media_build git hash:	cdf64c34183872bfe98d1ea504e3f57e5cf66c9c
-v4l-utils git hash:	2f43a70765b775030a0e4d1a0ac28ec3dc5f16de
-edid-decode git hash:	7d26052f7245664df96079845601ced5335fb2d7
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: fb74d4453fd4f857830399be9778a571221bee04
-host hardware:		x86_64
-host os:		5.2.0-2-amd64
+Changes made since v5:
+  - Add missing fail_on_test(cec_msg_status_is_abort(&msg)): hverkuil
+  - Remove redundant test unrecognized_op(&msg): hverkuil
+  - Refactor tuner_ctl_test to use memcmp(): hverkuil
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4-rc1-i686: OK
-linux-5.4-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2328, Succeeded: 2328, Failed: 0, Warnings: 0
-sparse: OK
+Changes made since v4:
+  - Add TOT_ANALOG_FREQS macro: hverkuil
+  - Rename function to analog_update_tuner_dev_info(): hverkuil
+  - Set freq_idx in analog_update_tuner_dev_info(): hverkuil
+  - Reuse info variable in tuner_ctl_test(): hverkuil
+  - Refactor tuner_ctl_test() to leverage timed_out_or_abort() and
+    abort_reason(): hverkuil
 
-Detailed results are available here:
+changes made since v3:
+  - Correct commit message for tuner emulation bug fix
+  - Refactor analog_get_nearest_freq_idx() to return freq index
+  - Refactor analog_get_type_system_idx() to set device info
+  - Add macro ARRAY_SIZE_ANA_FREQS
+  - Refactor tuner_ctl_test() to use std::vector
 
-http://www.xs4all.nl/~hverkuil/logs/Friday.log
+Changes made since v2:
+  - Fix bugs for tuner emulation
+  - Add freq_idx to cec-follower state
+  - Refactor tuner tests into a single tuner_ctl_test()
 
-Detailed regression test results are available here:
+Changes made since v1:
+  - Remove redundant error checking
+  - Add circular wrap logic to tuner step increment/decrement
 
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+Jiunn Chang (1):
+  Add test for new features in cec-follower
 
-Full logs are available here:
+ utils/cec-compliance/cec-test.cpp | 75 +++++++++++++++++++++++++++++++
+ 1 file changed, 75 insertions(+)
 
-http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
+-- 
+2.23.0
 
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
