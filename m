@@ -2,68 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DC0CFCB58E
-	for <lists+linux-media@lfdr.de>; Fri,  4 Oct 2019 09:59:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D594FCB5A7
+	for <lists+linux-media@lfdr.de>; Fri,  4 Oct 2019 10:03:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729949AbfJDH7R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Oct 2019 03:59:17 -0400
-Received: from mail-ed1-f54.google.com ([209.85.208.54]:36225 "EHLO
-        mail-ed1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729727AbfJDH7R (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Oct 2019 03:59:17 -0400
-Received: by mail-ed1-f54.google.com with SMTP id h2so5009922edn.3
-        for <linux-media@vger.kernel.org>; Fri, 04 Oct 2019 00:59:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=qtec.com; s=google;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=5yv5KZsUIb1/TqKbzmdWx5plLwHOTkXFlZjdLOR7hHY=;
-        b=DYAjC35o+POrIYKXPtnArTUp/92oSxlf7ZzNGQMHJdkgBQOD+wX5UCf1udz5v2An17
-         Fq6Ol+SljUObvqcMiVrEsqLZUeVxTFqNQlg1+lA128Du03gs0qxKM4QGQtgGcMInF1xK
-         w9FzDsdoVRpPVzZnPKNocS2EaQsvWr9p4tuzc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=5yv5KZsUIb1/TqKbzmdWx5plLwHOTkXFlZjdLOR7hHY=;
-        b=p5kyvrdFWtYpx73jpoTA2tHPNciAmR8xRoIP19Wkj4/rmSzu9Yv2OMrYjRzPiyPQKo
-         FYZs4ea5Vib61u8JNf3ojQzU75/0ggX75PKIJE9j4IFsl0q+WzfZsZOe8OQFHd8abEuu
-         FYETdtQiUX/sa9fOp6zYuhB64BGJFhfm7aWEgcePps9Amv69Uv1IxkPNYL6nHIVwX9Bx
-         3oByF+Y/po0cTeW41sqYoUL8kUB2qbctb6oLs7OOLFL4guqy2kLTgpNhtj7cm9DCZaXV
-         Z4wHg0Q3dsBYYiUTha07BZIA/suIUDnYDsFR/cu9tmsUqQXI89dC6iKGMNDgTvdbq29F
-         EAYw==
-X-Gm-Message-State: APjAAAWytngtjGEGznJFOdm9t+Dn3OnGtZsQJnkeMOtXAnLdLBwCiv4j
-        FLWoVyBplRYt3aBzv5hJzpSO8vsTNh9NEGwIFJALnA==
-X-Google-Smtp-Source: APXvYqxY9dMcQhK57WddmzgPlIv7AEnBcQqE1PI4SzPvsPMymsaAyqSHt5+HpoyC4sP5Tuh/XA3LBms0QKMqNZK1RJo=
-X-Received: by 2002:aa7:df8e:: with SMTP id b14mr13972033edy.65.1570175956000;
- Fri, 04 Oct 2019 00:59:16 -0700 (PDT)
+        id S1730410AbfJDIDg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Oct 2019 04:03:36 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:53207 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729752AbfJDIDf (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 4 Oct 2019 04:03:35 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtp (Exim 4.84_2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1iGIYh-0004WC-6L; Fri, 04 Oct 2019 08:03:27 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1iGIZ4-0000ou-5o; Fri, 04 Oct 2019 08:03:50 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL for v5.5] Venus updates, take 3
+Date:   Fri,  4 Oct 2019 08:03:49 +0000
+Message-Id: <20191004080349.3110-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191004075617.17328-1-stanimir.varbanov@linaro.org>
+References: 
 MIME-Version: 1.0
-From:   Daniel Gomez <daniel@qtec.com>
-Date:   Fri, 4 Oct 2019 09:59:05 +0200
-Message-ID: <CAH1Ww+RT=W9zhbv8A-gQscCPq5jWHOX3SFFeU07cXBngKH4C3Q@mail.gmail.com>
-Subject: VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL: continuous frame interval
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>, sakari.ailus@linux.intel.com
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi all,
+From: builder@linuxtv.org
 
-We are developing a v4l2 subdevice driver to be able to support the imx378
-sensor and upstream it. But we would like to have a continuous frame
-interval and the
-current VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL ioctl implementation doesn't
-support it.
+Pull request: https://patchwork.linuxtv.org/patch/59184/
+Build log: https://builder.linuxtv.org/job/patchwork/18922/
+Build time: 00:03:40
+Link: https://lore.kernel.org/linux-media/20191004075617.17328-1-stanimir.varbanov@linaro.org
 
-How can we proceed here? Can we maybe add the limits by using the reserved area
-of v4l2_subdev_frame_interval_enum struct? Something similar to
-v4l2_subdev_frame_size_enum is doing with continuous frame size.
+gpg: Signature made Fri 04 Oct 2019 07:45:14 AM UTC
+gpg:                using RSA key E1558C2497CE3CCC2B5AA30F25B55FC81B7035F2
+gpg: Good signature from "Stanimir Varbanov <stanimir.varbanov@linaro.org>" [unknown]
+gpg: WARNING: This key is not certified with a trusted signature!
+gpg:          There is no indication that the signature belongs to the owner.
+Primary key fingerprint: 34CF E039 8A16 AD93 18FD  D5E8 A6D0 26D8 E358 14D4
+     Subkey fingerprint: E155 8C24 97CE 3CCC 2B5A  A30F 25B5 5FC8 1B70 35F2
 
-I guess it would also need to adapt v4l2-ctl, v4l2-compliance and so on but not
-really sure about the whole impact in linuxtv/linux-media of this need.
-
-Thanks in advance,
-Daniel
+Summary: no issues
