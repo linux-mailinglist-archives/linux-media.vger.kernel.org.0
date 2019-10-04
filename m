@@ -2,85 +2,311 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 81404CB8CB
-	for <lists+linux-media@lfdr.de>; Fri,  4 Oct 2019 12:59:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E06EACB8DF
+	for <lists+linux-media@lfdr.de>; Fri,  4 Oct 2019 13:04:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730844AbfJDK7m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Oct 2019 06:59:42 -0400
-Received: from retiisi.org.uk ([95.216.213.190]:52746 "EHLO
-        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726082AbfJDK7m (ORCPT
+        id S1728322AbfJDLEc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Oct 2019 07:04:32 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:41173 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725788AbfJDLEb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 4 Oct 2019 06:59:42 -0400
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 59937634C87;
-        Fri,  4 Oct 2019 13:59:04 +0300 (EEST)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1iGLIc-0002PR-Nb; Fri, 04 Oct 2019 13:59:02 +0300
-Date:   Fri, 4 Oct 2019 13:59:02 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc:     mchehab@kernel.org, robh+dt@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        c.barrett@framos.com, a.brela@framos.com
-Subject: Re: [PATCH v4 2/2] media: i2c: Add IMX290 CMOS image sensor driver
-Message-ID: <20191004105902.GM896@valkosipuli.retiisi.org.uk>
-References: <20191003095503.12614-1-manivannan.sadhasivam@linaro.org>
- <20191003095503.12614-3-manivannan.sadhasivam@linaro.org>
- <20191004092336.GL896@valkosipuli.retiisi.org.uk>
- <20191004101902.GA19685@mani>
+        Fri, 4 Oct 2019 07:04:31 -0400
+Received: from [192.168.2.10] ([46.9.232.237])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id GLNoiwY6vjZ8vGLNritbDB; Fri, 04 Oct 2019 13:04:27 +0200
+To:     Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Dariusz Marcinkiewicz <darekm@google.com>,
+        =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCH] cec: add cec_adapter to cec_notifier_cec_adap_unregister()
+Message-ID: <e9fc8740-6be6-43a7-beee-ce2d7b54936e@xs4all.nl>
+Date:   Fri, 4 Oct 2019 13:04:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191004101902.GA19685@mani>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfLWRQlKmNlblcHEPumlVlIq2ryrGKGuDgOxOWi0YRflICRmoNPGlqPmPTfu+cZX+ahQy/jgjpI0kdIEctXAvXeuVY9N8KqdZ5yOaJW2K5jRP7GsCYxQH
+ VIl6DtYOtZqW5376lUbAPODFKnq+j0D/1ZO2QPexVf15Oo14aIuYH4CrudsMyHUl3V97x/UCRyhBlv0/vjqwYozWLhdTMkHYWnCOJKJXv6vJmUph05oG+hIx
+ oNTjlwlLzmITL/eXUc3Z3HC6zCoQgxXILZn9rBsk0486xvkQDwuHpi53z+f5rk/ohQXu8571CJ3JDWSzmbxA+P/Q3cRH+bCpr2M1xPfg4mI=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Manivannan,
+It is possible for one HDMI connector to have multiple CEC adapters. The
+typical real-world scenario is that where one adapter is used when the device
+is in standby, and one that's better/smarter when the device is powered up.
 
-On Fri, Oct 04, 2019 at 03:49:02PM +0530, Manivannan Sadhasivam wrote:
-> Hi Sakari,
-> 
-> On Fri, Oct 04, 2019 at 12:23:36PM +0300, Sakari Ailus wrote:
-> > Hi Manivannan,
-> > 
-> > On Thu, Oct 03, 2019 at 03:25:03PM +0530, Manivannan Sadhasivam wrote:
-> > > Add driver for Sony IMX290 CMOS image sensor driver. The driver only
-> > > supports I2C interface for programming and MIPI CSI-2 for sensor output.
-> > > 
-> > > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> > 
-> > Could you remove the unneeded ret variable from imx290_power_on() and
-> > unneeded goto in the same function?
-> >
-> 
-> yep, sure.
->  
-> > The MAINTAINERS entry belongs to the first patch adding new files.
-> > 
-> 
-> You mean the bindings patch? If then, sorry no. Usually the devicetree bindings
-> belongs to a separate patch and that is what perferred by Rob. I prefer the
-> MAINTAINERS entry in a separate patch but I've seen subsystems maintainers
-> asking to squash it with the driver patch. But squashing it with bindings
-> patch seems weird to me.
+The cec-notifier changes were made with that in mind, but I missed that in
+order to support this you need to tell cec_notifier_cec_adap_unregister()
+which adapter you are unregistering from the notifier.
 
-This has been an established practice at least in the media tree. The
-MAINTAINERS change is small, and bindings come before the driver. And the
-MAINTAINERS change needs to come no later than files are being added, or a
-checkpatch.pl warning follows --- which is entirely reasonable. You could
-put the MAINTAINERS change to a separate patch, yes, but I personally think
-it fits fine with the DT binding patch.
+Add this additional argument. It is currently unused, but once all drivers
+use this, the CEC core will be adapted for these use-cases.
 
--- 
-Regards,
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+This patch should go in via the drm subsystem since all CEC adapters in the
+drm subsystem have been converted to use cec_notifier_cec_adap_unregister().
+The media subsystem still has older drm drivers that weren't converted to use
+cec_notifier_cec_adap_unregister().
 
-Sakari Ailus
+This will only be a problem if a new CEC adapter driver is added to the media
+subsystem for v5.5, but I am not aware of any plans for that. Should it happen,
+then that just means that the media subsystem needs to resolve a fairly trivial
+merge conflict.
+
+Ville, Mauro, can you review/ack?
+---
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
+index ac1e001d0882..70ab4fbdc23e 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
+@@ -285,7 +285,7 @@ static int dw_hdmi_cec_probe(struct platform_device *pdev)
+
+ 	ret = cec_register_adapter(cec->adap, pdev->dev.parent);
+ 	if (ret < 0) {
+-		cec_notifier_cec_adap_unregister(cec->notify);
++		cec_notifier_cec_adap_unregister(cec->notify, cec->adap);
+ 		return ret;
+ 	}
+
+@@ -302,7 +302,7 @@ static int dw_hdmi_cec_remove(struct platform_device *pdev)
+ {
+ 	struct dw_hdmi_cec *cec = platform_get_drvdata(pdev);
+
+-	cec_notifier_cec_adap_unregister(cec->notify);
++	cec_notifier_cec_adap_unregister(cec->notify, cec->adap);
+ 	cec_unregister_adapter(cec->adap);
+
+ 	return 0;
+diff --git a/drivers/gpu/drm/i2c/tda9950.c b/drivers/gpu/drm/i2c/tda9950.c
+index a5a75bdeb7a5..5b03fdd1eaa4 100644
+--- a/drivers/gpu/drm/i2c/tda9950.c
++++ b/drivers/gpu/drm/i2c/tda9950.c
+@@ -465,7 +465,7 @@ static int tda9950_probe(struct i2c_client *client,
+
+ 	ret = cec_register_adapter(priv->adap, priv->hdmi);
+ 	if (ret < 0) {
+-		cec_notifier_cec_adap_unregister(priv->notify);
++		cec_notifier_cec_adap_unregister(priv->notify, priv->adap);
+ 		return ret;
+ 	}
+
+@@ -482,7 +482,7 @@ static int tda9950_remove(struct i2c_client *client)
+ {
+ 	struct tda9950_priv *priv = i2c_get_clientdata(client);
+
+-	cec_notifier_cec_adap_unregister(priv->notify);
++	cec_notifier_cec_adap_unregister(priv->notify, priv->adap);
+ 	cec_unregister_adapter(priv->adap);
+
+ 	return 0;
+diff --git a/drivers/media/cec/cec-notifier.c b/drivers/media/cec/cec-notifier.c
+index 4d82a5522072..7cf42b133dbc 100644
+--- a/drivers/media/cec/cec-notifier.c
++++ b/drivers/media/cec/cec-notifier.c
+@@ -153,13 +153,14 @@ cec_notifier_cec_adap_register(struct device *hdmi_dev, const char *conn_name,
+ }
+ EXPORT_SYMBOL_GPL(cec_notifier_cec_adap_register);
+
+-void cec_notifier_cec_adap_unregister(struct cec_notifier *n)
++void cec_notifier_cec_adap_unregister(struct cec_notifier *n,
++				      struct cec_adapter *adap)
+ {
+ 	if (!n)
+ 		return;
+
+ 	mutex_lock(&n->lock);
+-	n->cec_adap->notifier = NULL;
++	adap->notifier = NULL;
+ 	n->cec_adap = NULL;
+ 	n->callback = NULL;
+ 	mutex_unlock(&n->lock);
+diff --git a/drivers/media/platform/cros-ec-cec/cros-ec-cec.c b/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
+index 4a3b3810fd89..f048e8994785 100644
+--- a/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
++++ b/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
+@@ -314,7 +314,8 @@ static int cros_ec_cec_probe(struct platform_device *pdev)
+ 	return 0;
+
+ out_probe_notify:
+-	cec_notifier_cec_adap_unregister(cros_ec_cec->notify);
++	cec_notifier_cec_adap_unregister(cros_ec_cec->notify,
++					 cros_ec_cec->adap);
+ out_probe_adapter:
+ 	cec_delete_adapter(cros_ec_cec->adap);
+ 	return ret;
+@@ -335,7 +336,8 @@ static int cros_ec_cec_remove(struct platform_device *pdev)
+ 		return ret;
+ 	}
+
+-	cec_notifier_cec_adap_unregister(cros_ec_cec->notify);
++	cec_notifier_cec_adap_unregister(cros_ec_cec->notify,
++					 cros_ec_cec->adap);
+ 	cec_unregister_adapter(cros_ec_cec->adap);
+
+ 	return 0;
+diff --git a/drivers/media/platform/meson/ao-cec-g12a.c b/drivers/media/platform/meson/ao-cec-g12a.c
+index 3b39e875292e..70f875b4a01e 100644
+--- a/drivers/media/platform/meson/ao-cec-g12a.c
++++ b/drivers/media/platform/meson/ao-cec-g12a.c
+@@ -736,7 +736,7 @@ static int meson_ao_cec_g12a_probe(struct platform_device *pdev)
+ 	clk_disable_unprepare(ao_cec->core);
+
+ out_probe_notify:
+-	cec_notifier_cec_adap_unregister(ao_cec->notify);
++	cec_notifier_cec_adap_unregister(ao_cec->notify, ao_cec->adap);
+
+ out_probe_adapter:
+ 	cec_delete_adapter(ao_cec->adap);
+@@ -752,7 +752,7 @@ static int meson_ao_cec_g12a_remove(struct platform_device *pdev)
+
+ 	clk_disable_unprepare(ao_cec->core);
+
+-	cec_notifier_cec_adap_unregister(ao_cec->notify);
++	cec_notifier_cec_adap_unregister(ao_cec->notify, ao_cec->adap);
+
+ 	cec_unregister_adapter(ao_cec->adap);
+
+diff --git a/drivers/media/platform/meson/ao-cec.c b/drivers/media/platform/meson/ao-cec.c
+index 64ed549bf012..92859a6d006f 100644
+--- a/drivers/media/platform/meson/ao-cec.c
++++ b/drivers/media/platform/meson/ao-cec.c
+@@ -688,7 +688,7 @@ static int meson_ao_cec_probe(struct platform_device *pdev)
+ 	clk_disable_unprepare(ao_cec->core);
+
+ out_probe_notify:
+-	cec_notifier_cec_adap_unregister(ao_cec->notify);
++	cec_notifier_cec_adap_unregister(ao_cec->notify, ao_cec->adap);
+
+ out_probe_adapter:
+ 	cec_delete_adapter(ao_cec->adap);
+@@ -704,7 +704,7 @@ static int meson_ao_cec_remove(struct platform_device *pdev)
+
+ 	clk_disable_unprepare(ao_cec->core);
+
+-	cec_notifier_cec_adap_unregister(ao_cec->notify);
++	cec_notifier_cec_adap_unregister(ao_cec->notify, ao_cec->adap);
+ 	cec_unregister_adapter(ao_cec->adap);
+
+ 	return 0;
+diff --git a/drivers/media/platform/s5p-cec/s5p_cec.c b/drivers/media/platform/s5p-cec/s5p_cec.c
+index 6ddcc35b0bbd..2a3e7ffefe0a 100644
+--- a/drivers/media/platform/s5p-cec/s5p_cec.c
++++ b/drivers/media/platform/s5p-cec/s5p_cec.c
+@@ -239,7 +239,7 @@ static int s5p_cec_probe(struct platform_device *pdev)
+ 	return 0;
+
+ err_notifier:
+-	cec_notifier_cec_adap_unregister(cec->notifier);
++	cec_notifier_cec_adap_unregister(cec->notifier, cec->adap);
+
+ err_delete_adapter:
+ 	cec_delete_adapter(cec->adap);
+@@ -250,7 +250,7 @@ static int s5p_cec_remove(struct platform_device *pdev)
+ {
+ 	struct s5p_cec_dev *cec = platform_get_drvdata(pdev);
+
+-	cec_notifier_cec_adap_unregister(cec->notifier);
++	cec_notifier_cec_adap_unregister(cec->notifier, cec->adap);
+ 	cec_unregister_adapter(cec->adap);
+ 	pm_runtime_disable(&pdev->dev);
+ 	return 0;
+diff --git a/drivers/media/platform/seco-cec/seco-cec.c b/drivers/media/platform/seco-cec/seco-cec.c
+index 9cd60fe1867c..54b0d51e9c55 100644
+--- a/drivers/media/platform/seco-cec/seco-cec.c
++++ b/drivers/media/platform/seco-cec/seco-cec.c
+@@ -671,7 +671,7 @@ static int secocec_probe(struct platform_device *pdev)
+ 	return ret;
+
+ err_notifier:
+-	cec_notifier_cec_adap_unregister(secocec->notifier);
++	cec_notifier_cec_adap_unregister(secocec->notifier, secocec->cec_adap);
+ err_delete_adapter:
+ 	cec_delete_adapter(secocec->cec_adap);
+ err:
+@@ -692,7 +692,7 @@ static int secocec_remove(struct platform_device *pdev)
+
+ 		dev_dbg(&pdev->dev, "IR disabled");
+ 	}
+-	cec_notifier_cec_adap_unregister(secocec->notifier);
++	cec_notifier_cec_adap_unregister(secocec->notifier, secocec->cec_adap);
+ 	cec_unregister_adapter(secocec->cec_adap);
+
+ 	release_region(BRA_SMB_BASE_ADDR, 7);
+diff --git a/drivers/media/platform/sti/cec/stih-cec.c b/drivers/media/platform/sti/cec/stih-cec.c
+index 8118c7365d3f..f0c73e64b586 100644
+--- a/drivers/media/platform/sti/cec/stih-cec.c
++++ b/drivers/media/platform/sti/cec/stih-cec.c
+@@ -359,7 +359,7 @@ static int stih_cec_probe(struct platform_device *pdev)
+ 	return 0;
+
+ err_notifier:
+-	cec_notifier_cec_adap_unregister(cec->notifier);
++	cec_notifier_cec_adap_unregister(cec->notifier, cec->adap);
+
+ err_delete_adapter:
+ 	cec_delete_adapter(cec->adap);
+@@ -370,7 +370,7 @@ static int stih_cec_remove(struct platform_device *pdev)
+ {
+ 	struct stih_cec *cec = platform_get_drvdata(pdev);
+
+-	cec_notifier_cec_adap_unregister(cec->notifier);
++	cec_notifier_cec_adap_unregister(cec->notifier, cec->adap);
+ 	cec_unregister_adapter(cec->adap);
+
+ 	return 0;
+diff --git a/drivers/media/platform/tegra-cec/tegra_cec.c b/drivers/media/platform/tegra-cec/tegra_cec.c
+index a632602131f2..a99caac59f44 100644
+--- a/drivers/media/platform/tegra-cec/tegra_cec.c
++++ b/drivers/media/platform/tegra-cec/tegra_cec.c
+@@ -409,7 +409,7 @@ static int tegra_cec_probe(struct platform_device *pdev)
+ 	return 0;
+
+ err_notifier:
+-	cec_notifier_cec_adap_unregister(cec->notifier);
++	cec_notifier_cec_adap_unregister(cec->notifier, cec->adap);
+ err_adapter:
+ 	cec_delete_adapter(cec->adap);
+ err_clk:
+@@ -423,7 +423,7 @@ static int tegra_cec_remove(struct platform_device *pdev)
+
+ 	clk_disable_unprepare(cec->clk);
+
+-	cec_notifier_cec_adap_unregister(cec->notifier);
++	cec_notifier_cec_adap_unregister(cec->notifier, cec->adap);
+ 	cec_unregister_adapter(cec->adap);
+
+ 	return 0;
+diff --git a/include/media/cec-notifier.h b/include/media/cec-notifier.h
+index f161f8a493ac..985afea1ee36 100644
+--- a/include/media/cec-notifier.h
++++ b/include/media/cec-notifier.h
+@@ -93,8 +93,10 @@ cec_notifier_cec_adap_register(struct device *hdmi_dev, const char *conn_name,
+  * cec_notifier_cec_adap_unregister - decrease refcount and delete when the
+  * refcount reaches 0.
+  * @n: notifier. If NULL, then this function does nothing.
++ * @adap: the cec adapter that registered this notifier.
+  */
+-void cec_notifier_cec_adap_unregister(struct cec_notifier *n);
++void cec_notifier_cec_adap_unregister(struct cec_notifier *n,
++				      struct cec_adapter *adap);
+
+ /**
+  * cec_notifier_set_phys_addr - set a new physical address.
+@@ -160,7 +162,8 @@ cec_notifier_cec_adap_register(struct device *hdmi_dev, const char *conn_name,
+ 	return (struct cec_notifier *)0xdeadfeed;
+ }
+
+-static inline void cec_notifier_cec_adap_unregister(struct cec_notifier *n)
++static inline void cec_notifier_cec_adap_unregister(struct cec_notifier *n,
++						    struct cec_adapter *adap)
+ {
+ }
+
