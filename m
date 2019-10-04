@@ -2,112 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D0DE1CB589
-	for <lists+linux-media@lfdr.de>; Fri,  4 Oct 2019 09:56:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC0CFCB58E
+	for <lists+linux-media@lfdr.de>; Fri,  4 Oct 2019 09:59:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728462AbfJDH4j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Oct 2019 03:56:39 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:43568 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725932AbfJDH4j (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Oct 2019 03:56:39 -0400
-Received: by mail-wr1-f68.google.com with SMTP id j18so5073258wrq.10
-        for <linux-media@vger.kernel.org>; Fri, 04 Oct 2019 00:56:37 -0700 (PDT)
+        id S1729949AbfJDH7R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Oct 2019 03:59:17 -0400
+Received: from mail-ed1-f54.google.com ([209.85.208.54]:36225 "EHLO
+        mail-ed1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729727AbfJDH7R (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Oct 2019 03:59:17 -0400
+Received: by mail-ed1-f54.google.com with SMTP id h2so5009922edn.3
+        for <linux-media@vger.kernel.org>; Fri, 04 Oct 2019 00:59:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:subject:date:message-id;
-        bh=T0aTsWBtnsgUbgK2GTLviu/j9pyACv0Bs5fMxNMRJmA=;
-        b=OSAvUs3vZZMiqxaOA44/aEXn5qp3/C+ZVbc2wDlv20UwXzwClX7cy+LOgMb252Au8B
-         IYM3+Y9fkJnvh6Gm6Yf0ozKSd9PJOQwoiyQkcdSnD9VMr97G9zLb8jvcQxopJxI71GjW
-         HD0XJeiuvZ6GlLiH2NQZDpS6jsFFvLfyrg72x0Yd3cw5owUNBW5c7dvyvaGlf9W1bUkK
-         hnthKUHzmRd6LrleD7/85bL9ONNv0horLFG5U5FlsjHNyuMfgLtj00szT8mvw2AfDajg
-         LNlqHisVq0JFkWPMYr9jdI0QGgqhJL9lOBUE0NjmuC8xElbtM65Mkb9L+cFpwOwie1wC
-         ie6w==
+        d=qtec.com; s=google;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=5yv5KZsUIb1/TqKbzmdWx5plLwHOTkXFlZjdLOR7hHY=;
+        b=DYAjC35o+POrIYKXPtnArTUp/92oSxlf7ZzNGQMHJdkgBQOD+wX5UCf1udz5v2An17
+         Fq6Ol+SljUObvqcMiVrEsqLZUeVxTFqNQlg1+lA128Du03gs0qxKM4QGQtgGcMInF1xK
+         w9FzDsdoVRpPVzZnPKNocS2EaQsvWr9p4tuzc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id;
-        bh=T0aTsWBtnsgUbgK2GTLviu/j9pyACv0Bs5fMxNMRJmA=;
-        b=d1RZmTt4uPTdfg7OUESoUvUcH1ullL5MuBel7JA3ZxMl7i9e1RPF1kxcsmf7Qxn9em
-         Cht2dMchNHgOarT41wYg2zmYGoseE5BM3BMPSvuhDg6+KpUpwM1Og6Fum1Wjky4E445a
-         cbQ3IEqbzWZDe0PYd552WnNPgy3cj1wVq0jWqd2CV25pZ6Y3EA/BIFOo6R8DPv2I+G+v
-         H+Ozx2ZFUiXr7fGdrTM7lBJUFwM7WN/Py5kgrtX28jrX98AB0ZJRxmlV7y7OaTT0u79A
-         rzYntMiWVuzDKStCGytO/QB8KJnCFRADn7NLAOBJFLsbZVgaiQOKdbP047sYMT1UBpNR
-         4xPQ==
-X-Gm-Message-State: APjAAAVGNwD5e9oAAnPzCfDPssrIb8YiViLkbUfpVel74s7z0argz0us
-        hf9p3Y/eYjXttADvACxsZBUs8FyB2fg=
-X-Google-Smtp-Source: APXvYqyytoXJ+2HFXHwGoUnG52wyY5UOfYNdHAJu4M9sigdYloGsqfSP7zXrR2qQS/659GpqSjnFHw==
-X-Received: by 2002:a5d:5111:: with SMTP id s17mr9560782wrt.59.1570175796475;
-        Fri, 04 Oct 2019 00:56:36 -0700 (PDT)
-Received: from mms-0440.qualcomm.mm-sol.com ([37.157.136.206])
-        by smtp.gmail.com with ESMTPSA id p7sm6018681wma.34.2019.10.04.00.56.34
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Oct 2019 00:56:35 -0700 (PDT)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL for v5.5] Venus updates, take 3
-Date:   Fri,  4 Oct 2019 10:56:17 +0300
-Message-Id: <20191004075617.17328-1-stanimir.varbanov@linaro.org>
-X-Mailer: git-send-email 2.17.1
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=5yv5KZsUIb1/TqKbzmdWx5plLwHOTkXFlZjdLOR7hHY=;
+        b=p5kyvrdFWtYpx73jpoTA2tHPNciAmR8xRoIP19Wkj4/rmSzu9Yv2OMrYjRzPiyPQKo
+         FYZs4ea5Vib61u8JNf3ojQzU75/0ggX75PKIJE9j4IFsl0q+WzfZsZOe8OQFHd8abEuu
+         FYETdtQiUX/sa9fOp6zYuhB64BGJFhfm7aWEgcePps9Amv69Uv1IxkPNYL6nHIVwX9Bx
+         3oByF+Y/po0cTeW41sqYoUL8kUB2qbctb6oLs7OOLFL4guqy2kLTgpNhtj7cm9DCZaXV
+         Z4wHg0Q3dsBYYiUTha07BZIA/suIUDnYDsFR/cu9tmsUqQXI89dC6iKGMNDgTvdbq29F
+         EAYw==
+X-Gm-Message-State: APjAAAWytngtjGEGznJFOdm9t+Dn3OnGtZsQJnkeMOtXAnLdLBwCiv4j
+        FLWoVyBplRYt3aBzv5hJzpSO8vsTNh9NEGwIFJALnA==
+X-Google-Smtp-Source: APXvYqxY9dMcQhK57WddmzgPlIv7AEnBcQqE1PI4SzPvsPMymsaAyqSHt5+HpoyC4sP5Tuh/XA3LBms0QKMqNZK1RJo=
+X-Received: by 2002:aa7:df8e:: with SMTP id b14mr13972033edy.65.1570175956000;
+ Fri, 04 Oct 2019 00:59:16 -0700 (PDT)
+MIME-Version: 1.0
+From:   Daniel Gomez <daniel@qtec.com>
+Date:   Fri, 4 Oct 2019 09:59:05 +0200
+Message-ID: <CAH1Ww+RT=W9zhbv8A-gQscCPq5jWHOX3SFFeU07cXBngKH4C3Q@mail.gmail.com>
+Subject: VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL: continuous frame interval
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>, sakari.ailus@linux.intel.com
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Hi all,
 
-The Venus driver updates include:
+We are developing a v4l2 subdevice driver to be able to support the imx378
+sensor and upstream it. But we would like to have a continuous frame
+interval and the
+current VIDIOC_SUBDEV_ENUM_FRAME_INTERVAL ioctl implementation doesn't
+support it.
 
-* two fixes: fail to suspend and frequency table modifications for v3 to 
-handle performance issues.
-* two new features: interconnect bandwidth support on v4 and more precise
-clock-scaling on v4.
+How can we proceed here? Can we maybe add the limits by using the reserved area
+of v4l2_subdev_frame_interval_enum struct? Something similar to
+v4l2_subdev_frame_size_enum is doing with continuous frame size.
 
-Please pull.
+I guess it would also need to adapt v4l2-ctl, v4l2-compliance and so on but not
+really sure about the whole impact in linuxtv/linux-media of this need.
 
-Changes since v2:
-Dropped "venus: venc: Fix enum frameintervals" patch. I send a new version
-here [1]. If it gets reviewed and tested and if the time permits I will
-send a new pull request for it.
-
-[1] https://patchwork.linuxtv.org/patch/59149/
-
-regards,
-Stan
-
-The following changes since commit 503e59365dd134b2c63864f14e2de0476284b003:
-
-  media: i2c: ov2659: Switch to SPDX Licensing (2019-10-01 17:39:16 -0300)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/svarbanov/media_tree.git tags/venus-for-v5.5-take3
-
-for you to fetch changes up to b9909ff52973ce39af3f29dc93cbbeee19efec54:
-
-  venus: Update clock scaling (2019-10-04 10:42:55 +0300)
-
-----------------------------------------------------------------
-Venus updates for v5.5
-
-----------------------------------------------------------------
-Aniket Masule (2):
-      venus: Add codec data table
-      venus: Update clock scaling
-
-Loic Poulain (1):
-      venus: core: Fix msm8996 frequency table
-
-Stanimir Varbanov (2):
-      venus: Use on-chip interconnect API
-      venus: Fix occasionally failures to suspend
-
- drivers/media/platform/Kconfig                |   1 +
- drivers/media/platform/qcom/venus/core.c      |  56 +++++-
- drivers/media/platform/qcom/venus/core.h      |  30 ++++
- drivers/media/platform/qcom/venus/helpers.c   | 246 ++++++++++++++++++++++++--
- drivers/media/platform/qcom/venus/helpers.h   |   3 +-
- drivers/media/platform/qcom/venus/hfi_venus.c |   6 +
- drivers/media/platform/qcom/venus/vdec.c      |   8 +-
- drivers/media/platform/qcom/venus/venc.c      |   4 +
- 8 files changed, 330 insertions(+), 24 deletions(-)
+Thanks in advance,
+Daniel
