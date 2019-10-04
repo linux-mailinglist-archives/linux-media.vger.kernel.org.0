@@ -2,137 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7663ACB9F3
-	for <lists+linux-media@lfdr.de>; Fri,  4 Oct 2019 14:09:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 43F89CBA43
+	for <lists+linux-media@lfdr.de>; Fri,  4 Oct 2019 14:22:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730817AbfJDMJF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Oct 2019 08:09:05 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:54112 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729189AbfJDMJF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Oct 2019 08:09:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=Qv8kGhW91Tax4P4e+bafmAL2gzBdpy9269d1P/vaNO8=; b=eP+zYvje3k8HF64RmwOEKGW9F
-        LIIn7DE8YtLWjFpFcXSkSqrgmkJl2KBlNWeZtDm4SBlmOiK+K8IdbJsPq+QIHwZEN2Hp1irBMVTaq
-        /eN14/263q86D9TOFe56L1tIZ5e97p1gf5vRhq9FhY8nPP7HVvxi0x3G/H5lYhizkiUvNfKO1g0di
-        oAxF4CpJZqebs5TVWo1GML9Bc0jNBTINU0hE7WeJ+Jwo0F27LvOnifSSakzvOuCr7c10QYBsM/lKw
-        q39WnSGSJ00XwUvfnpqPTTnYSejelMMIApBkTKavEXUT27SVjWQDn5vjweFvDGAcuOAjQ5fSHzeUA
-        gWXlZumRQ==;
-Received: from 177.133.68.49.dynamic.adsl.gvt.net.br ([177.133.68.49] helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
-        id 1iGMOJ-0006iY-9q; Fri, 04 Oct 2019 12:08:59 +0000
-Date:   Fri, 4 Oct 2019 09:08:55 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     JP <jp@jpvw.nl>
-Cc:     Gonsolo <gonsolo@gmail.com>, crope@iki.fi,
-        Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
-        Linux Kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] si2157: Add support for Logilink VG0022A.
-Message-ID: <20191004090855.14e418ed@coco.lan>
-In-Reply-To: <23d9856c-cc12-7212-9126-90d80f67abfb@jpvw.nl>
-References: <29ab2e43-4374-a3ea-6ae1-a4267867eaa4@jpvw.nl>
-        <20191002154922.7f1cfc76@coco.lan>
-        <CANL0fFRJZBfEDWK_c2w1TomvB5-i4g09LopyJUbO5NtOwKdDTg@mail.gmail.com>
-        <20191003080539.2b13c03b@coco.lan>
-        <CANL0fFSmvEEJhnA=qjTuEPr4N8q8eWLeYC5du+OoTMxe1Gnh5Q@mail.gmail.com>
-        <20191003120238.75811da6@coco.lan>
-        <20191003160336.GA5125@Limone>
-        <20191003130909.01d29b77@coco.lan>
-        <20191003162326.GA2727@Limone>
-        <20191003144225.0137bf6c@coco.lan>
-        <20191003183200.GA2631@Limone>
-        <e468b867-1b45-8220-a5d2-ac40fdb4e0e6@jpvw.nl>
-        <CANL0fFQms9oyec_1UevbJ7aLp+KNJ3h6UhGEbqrnCNO286rbGg@mail.gmail.com>
-        <20191003163914.7c384d36@coco.lan>
-        <20191003164426.6da8538f@coco.lan>
-        <CANL0fFRSNbUhcik7rnhjZ0qUe-tZyzcjY+M1J_iGzUa5jNc9_A@mail.gmail.com>
-        <20191003170329.3624f7f2@coco.lan>
-        <23d9856c-cc12-7212-9126-90d80f67abfb@jpvw.nl>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1730009AbfJDMWC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Oct 2019 08:22:02 -0400
+Received: from mail-pf1-f173.google.com ([209.85.210.173]:37676 "EHLO
+        mail-pf1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729844AbfJDMWB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Oct 2019 08:22:01 -0400
+Received: by mail-pf1-f173.google.com with SMTP id y5so3818240pfo.4
+        for <linux-media@vger.kernel.org>; Fri, 04 Oct 2019 05:22:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=01yVsoKoYq7ZPKYAtyMMFcSk++LgCexu03pTs4V/dbc=;
+        b=tZijpD5FwU0e/HhfbN4auOuNlbqzPeBMH6Co7/RCeHC1YcZxhKI8yV7APXRwto39Ok
+         EW3Enu9ZR5np/FUrrKIkU26nSELpIXFX8o7ju3nnSaezC6xZoQ4QmDOobSCEozTqn7yW
+         5eZfRpiwa5xL9DyQslgZ0s8MWFaJI0tni2u1Y8p3viyf967rkXebtpcXoOymIdquSqTg
+         gGMEWz1bc0obKiHFp0lGGteY8bmV1Esv3xsmclKrbibJxTAY0Guxi7TPuMaqdFo5pTD3
+         t1fuls2wMU6hzTlUmX5+FGI8BPxPgzgiMwJtM7ddABCKn3YszWgeQ/M+9G2UA+ev3D7H
+         wHRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=01yVsoKoYq7ZPKYAtyMMFcSk++LgCexu03pTs4V/dbc=;
+        b=kKMRMSCWBdyh0DDxZbWSOS0f9Ls4feKFue07vUqsjBKz6Z79IWHWtmXWx0zJkSueHQ
+         qFxCxaULD5gwj2VEaHZL8CeJ9A0YQDBm1p1Iupm24Nq6iDDyhu0VAA/8p3r2lwXfRAVz
+         88xooeU/tffHlrX1yTHV4pKe8MqE8P95hQafl6W9IJWhkhPDUas/9oJhow4wr1H3Gn8/
+         WkJZuQJLoYvm2mrd3EYqjGu1QjbUIJjFgFQGWDRRL48VWhzn8zNUkcy/k6BpqtBQDzC9
+         /pjUi3iyW0nOj3RmaSn4DY1lYP3eoI6nD5ksz3Zu/xf8JF12H1RH4Qy1/mMp8qeIjHu1
+         Cf6A==
+X-Gm-Message-State: APjAAAX9F/GgLznBy3rNkytyFp1alFevrsW0+KC1xclcggBgE1yqIqE/
+        mCA6GNNJQPvRpU2RNntAiegNcAr7
+X-Google-Smtp-Source: APXvYqyYwvGxyiPtpl48EDsmkP8/VDB0ZoSfLinJKch1oPiCxcoceZR1rwmaV2wFCxJ1Bay7m8ifVw==
+X-Received: by 2002:a63:1c65:: with SMTP id c37mr14939955pgm.31.1570191720381;
+        Fri, 04 Oct 2019 05:22:00 -0700 (PDT)
+Received: from bnva-HP-Pavilion-g6-Notebook-PC.domain.name ([117.241.195.107])
+        by smtp.gmail.com with ESMTPSA id c11sm8420096pfj.114.2019.10.04.05.21.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Oct 2019 05:21:59 -0700 (PDT)
+From:   Vandana BN <bnvandana@gmail.com>
+To:     linux-media@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Cc:     hverkuil@xs4all.nl, Vandana BN <bnvandana@gmail.com>
+Subject: [PATCH v2] Documentation:media:v4l2:Add vivid metadata doc
+Date:   Fri,  4 Oct 2019 17:51:52 +0530
+Message-Id: <20191004122152.32378-1-bnvandana@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <3db91bd0-cfdd-6453-6e70-8567ac94d68e@xs4all.nl>
+References: <3db91bd0-cfdd-6453-6e70-8567ac94d68e@xs4all.nl>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Fri, 4 Oct 2019 13:50:43 +0200
-JP <jp@jpvw.nl> escreveu:
+Adds new file for describing new metadata format V4L2_META_FMT_VIVID added in vivid driver.
 
-> On 10/3/19 10:03 PM, Mauro Carvalho Chehab wrote:
-> > Em Thu, 3 Oct 2019 21:51:35 +0200
-> > Gonsolo <gonsolo@gmail.com> escreveu:
-> >  
-> >>> 1) The firmware file is likely at the Windows driver for this device
-> >>> (probably using a different format). It should be possible to get
-> >>> it from there.  
-> >> If you tell me how I'm willing to do this. :)  
-> > I don't know. I was not the one that extracted the firmware. I guess
-> > Antti did it.
-> >
-> > I suspect that there are some comments about that in the past at the
-> > ML. seek at lore.kernel.org.
-> >  
-> >>> 2) Another possibility would be to add a way to tell the si2168 driver
-> >>> to not try to load a firmware, using the original one. That would
-> >>> require adding a field at si2168_config to allow signalizing to it
-> >>> that it should not try to load a firmware file, and add a quirk at
-> >>> the af9035 that would set such flag for Logilink VG0022A.  
-> >> I don't get this. Which firmware, si2168 or si2157?  
-> > The one that it is causing the problem. If I understood well, the
-> > culprit was the si2168 firmware.
-> >  
-> >> I'm still for option 3: If there is a bogus chip revision number it's
-> >> likely the VG0022A and we can safely set fw to NULL, in which case
-> >> everything works.
-> >> All already working devices will continue to work as before.
-> >> With a low probability there are other devices that will return 0xffff
-> >> but a) they didn't work until now and b) they receive a clear message
-> >> that they return bogus numbers and this works just for the VG0022A, in
-> >> which case this hardware can be tested.
-> >> At last, *my* VG0022A will work without a custom kernel which I'm a
-> >> big fan of. :))
-> >>
-> >> Are there any counterarguments except that it is not the cleanest
-> >> solution in the universe? ;)  
-> > That's a really bad solution. Returning 0xff is what happens when
-> > things go wrong during I2C transfers. Several problems can cause it,
-> > including device misfunction. Every time someone comes with a patch
-> > trying to ignore it, things go sideways for other devices (existing
-> > or future ones).
-> >
-> > Ignoring errors is always a bad idea.  
-> add module param say 'gonso_hack_vg0022a'
-> if true, act on error by setting a flag
-> if this flag is set don't load firmware
+Signed-off-by: Vandana BN <bnvandana@gmail.com>
+---
+ Documentation/media/uapi/v4l/meta-formats.rst |  1 +
+ .../media/uapi/v4l/pixfmt-meta-vivid.rst      | 43 +++++++++++++++++++
+ 2 files changed, 44 insertions(+)
+ create mode 100644 Documentation/media/uapi/v4l/pixfmt-meta-vivid.rst
 
-Adding a module param should be the last resort, only when there's
-no way for the driver to autodetect.
+diff --git a/Documentation/media/uapi/v4l/meta-formats.rst b/Documentation/media/uapi/v4l/meta-formats.rst
+index b10ca9ee3968..74c8659ee9d6 100644
+--- a/Documentation/media/uapi/v4l/meta-formats.rst
++++ b/Documentation/media/uapi/v4l/meta-formats.rst
+@@ -24,3 +24,4 @@ These formats are used for the :ref:`metadata` interface only.
+     pixfmt-meta-uvc
+     pixfmt-meta-vsp1-hgo
+     pixfmt-meta-vsp1-hgt
++    pixfmt-meta-vivid
+diff --git a/Documentation/media/uapi/v4l/pixfmt-meta-vivid.rst b/Documentation/media/uapi/v4l/pixfmt-meta-vivid.rst
+new file mode 100644
+index 000000000000..68f9df623064
+--- /dev/null
++++ b/Documentation/media/uapi/v4l/pixfmt-meta-vivid.rst
+@@ -0,0 +1,43 @@
++.. Permission is granted to copy, distribute and/or modify this
++.. document under the terms of the GNU Free Documentation License,
++.. Version 1.1 or any later version published by the Free Software
++.. Foundation, with no Invariant Sections, no Front-Cover Texts
++.. and no Back-Cover Texts. A copy of the license is included at
++.. Documentation/media/uapi/fdl-appendix.rst.
++..
++.. TODO: replace it to GFDL-1.1-or-later WITH no-invariant-sections
++
++.. _v4l2-meta-fmt-vivid:
++
++*******************************
++V4L2_META_FMT_VIVID ('VIVD')
++*******************************
++
++VIVID Metadata Format
++
++
++Description
++===========
++
++This describes the metadata format used by the vivid driver.
++
++It sets Brightness, Saturation, Contrast and Hue, each of which maps to
++corresponding controls of the vivid driver with respect to the range and default values.
++
++It contains the following fields:
++
++.. flat-table:: VIVID Metadata
++    :widths: 1 4
++    :header-rows:  1
++    :stub-columns: 0
++
++    * - Field
++      - Description
++    * - u16 brightness;
++      - Image brightness, the value is in the range 0 to 255, with the default value as 128.
++    * - u16 contrast;
++      - Image contrast, the value is in the range 0 to 255, with the default value as 128.
++    * - u16 saturation;
++      - Image color saturation, the value is in the range 0 to 255, with the default value as 128.
++    * - s16 hue;
++      - Image color balance, the value is in the range -128 to 128, with the default value as 0.
+-- 
+2.17.1
 
-Making af9035 to detect vg0022a is quite simple.
-
-Considering this device's entry:
-
-	{ DVB_USB_DEVICE(USB_VID_DEXATEK, 0x0100,
-		&it930x_props, "Logilink VG0022A", NULL) },
-
-the check, at af9035 would be:
-
-	if (le16_to_cpu(d->udev->descriptor.idVendor) == USB_VID_DEXATEK &&
-	    le16_to_cpu(d->udev->descriptor.idProduct) == 0x0100)
-		/* do something to disable firmware load */
-
-So, no need to add any load time parameter.
-
-It should be noticed that a change just at af9035 won't work, as the
-firmware is updated by si2168 driver. So, the caller code needs to
-pass a config parameter to si2168 driver.
-
-Thanks,
-Mauro
