@@ -2,125 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8923FCD1F2
-	for <lists+linux-media@lfdr.de>; Sun,  6 Oct 2019 14:47:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B173CD1F4
+	for <lists+linux-media@lfdr.de>; Sun,  6 Oct 2019 14:48:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726360AbfJFMrv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 6 Oct 2019 08:47:51 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:58278 "EHLO
+        id S1726379AbfJFMs1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 6 Oct 2019 08:48:27 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:58286 "EHLO
         bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726320AbfJFMrv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 6 Oct 2019 08:47:51 -0400
+        with ESMTP id S1726320AbfJFMs1 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 6 Oct 2019 08:48:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        d=infradead.org; s=bombadil.20170209; h=Sender:Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=EQxs7UAr4CnzUomLs1YiJG7nRToLAEt56G43OwRcCEE=; b=h+a5SoiPbtN3xBYjVpQ3l3Wvd
-        XJ+tXaLbuHPQPMBGGpiV7Mv4T1gWgpGiUjTDqZsWyfoJmt5FEXsWPigNNSC+NgSyxdzbRwQeiNCmR
-        ERtXCr7+k88uYHOaIORDBTdOEV+hC+q/9fppduYMg/FhfILmyF6ZOpEewVCzXLZLwzOBmVCsyawAA
-        rb+lfl70wOlmWb5MfAlgfilfoPswhf6WUOXIPdoWnMPJbg6P/OlySoY1CfCT3fxIS2BJGFQyfvRKW
-        0IBWE02ECBybu/GVn87gbd+ZuWs5fxf/awDQuINCvnw0fNOdI9TGAGCugVDvdBKnlG3MgmZqix2BI
-        z1gdWk9SQ==;
-Received: from 179.187.109.114.dynamic.adsl.gvt.net.br ([179.187.109.114] helo=coco.lan)
+         bh=5L+UtHGxmsqJF12bOpo0CEFdDEP3YC5S7HF3N/tK/wA=; b=mhE5t+wwsKFvEOw4pOlwPaN5R
+        r8pV3z5ZgCfOknAAAjofAOsP6aSflk2cLrRSy4sLq+HaXEkcUNsYyHyTc7F3s41mChzsqafRhBUnq
+        1PECg3f80pUQrvr1FigKPAt8wIAoLua9txoVZkI+HlFobCAdxPoIcXOwGy/BIF/pimD+Zb5o82Fvs
+        kflFMUXAprz0cqcK7rCqkUM4GOOcvbRKrslM3DdE+1qrRaORY53HquO83rhUg9cNKghe7r57qxsXF
+        reDVM8OT2/9qBUdgaTabDDT5rqDkf1x7uvD4MYpg/uV2w0DKafZ88/N2kkdJu48LCBIZqiTAZ8rhQ
+        aEpTCg8uA==;
+Received: from 179.187.109.114.dynamic.adsl.gvt.net.br ([179.187.109.114] helo=bombadil.infradead.org)
         by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
-        id 1iH5wz-0006uq-F8; Sun, 06 Oct 2019 12:47:49 +0000
-Date:   Sun, 6 Oct 2019 09:47:43 -0300
+        id 1iH5xa-0006wg-La; Sun, 06 Oct 2019 12:48:26 +0000
+Received: from mchehab by bombadil.infradead.org with local (Exim 4.92.3)
+        (envelope-from <mchehab@bombadil.infradead.org>)
+        id 1iH5xY-0001Ta-Bd; Sun, 06 Oct 2019 09:48:24 -0300
 From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Daniel Scheller <d.scheller.oss@gmail.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Sergey Kozlov <serjk@netup.ru>, Abylay Ospan <aospan@netup.ru>,
-        stable@vger.kernel.org
-Subject: Re: [PATCH v3] media: cxd2841er: avoid too many status inquires
-Message-ID: <20191006094743.494555bc@coco.lan>
-In-Reply-To: <20191005100205.01459123@lt530>
-References: <deda32250ad32078b98eb41eb09d6d20050a6f9c.1570113429.git.mchehab+samsung@kernel.org>
-        <483cecc9f65b03ad3cd54aea09ecd9819c3dc6db.1570197700.git.mchehab+samsung@kernel.org>
-        <20191005100205.01459123@lt530>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Sergey Kozlov <serjk@netup.ru>, Abylay Ospan <aospan@netup.ru>
+Subject: [PATCH] media: cxd2841er: avoid too many status inquires
+Date:   Sun,  6 Oct 2019 09:48:23 -0300
+Message-Id: <44699c92e5bf28b736d07d45e82ee7e21eccc506.1570366100.git.mchehab+samsung@kernel.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Sat, 5 Oct 2019 10:02:05 +0200
-Daniel Scheller <d.scheller.oss@gmail.com> escreveu:
+I2C ops are expensive, as the I2C bus typical speed is 100kbps.
 
-> Am Fri,  4 Oct 2019 11:02:28 -0300
-> schrieb Mauro Carvalho Chehab <mchehab+samsung@kernel.org>:
-> 
-> > As reported at:
-> > 	https://tvheadend.org/issues/5625
-> > 
-> > Retrieving certain status can cause discontinuity issues.
-> > 
-> > Prevent that by adding a timeout to each status logic.
-> > 
-> > Currently, the timeout is estimated based at the channel
-> > bandwidth. There are other parameters that may also affect
-> > the timeout, but that would require a per-delivery system
-> > calculus and probably more information about how cxd2481er
-> > works, with we don't have.
-> > 
-> > So, do a poor man's best guess.  
-> 
-> Such hardware quirk hack should clearly be enabled by a (new) config
-> flag (see the bits at the top of cxd2841er.h) which consumer drivers
-> can set if there are known issues with them. The reported issue is
-> nothing every piece of hardware with a cxd28xx demod soldered on has -
-> I believe the JokerTV devices which Abylay originally made this driver
-> for suffers from this and at least the Digital Devices C/C2/T/T2/I
-> boards (cxd2837/43/54) definitely don't have any issues (and I use them
-> regularily in my TVheadend server which is frequently used).
-> 
-> So please hide this behind a flag named ie. "CXD2841ER_STAT_TIMEOUT"
-> and enable that in the USB drivers which the affected USB sticks use.
+Also, stats reading take some time, as it requires to retrieve a
+certain number of packets to complete.
 
-I see your point.
+While we don't know the minimal for CXD2841er, trying to do it
+too quickly is still a very bad idea.
 
-There are a few things to consider here, though:
+So, add some sanity logic there, preventing to retrieve stats
+faster than one second.
 
-1) I2C bus calls are expensive, as the bus speed is typically 100kbps.
-   Doing such ops too fast is known to have caused issues in the past
-   with other frontends.
+This shouldn't cause any issues with well behavior apps, as they
+usually take stats on a polling rate slower than 1 second.
 
-   So, a good practice, followed by almost all frontends, is to have 
-   some logic that would prevent calling stats too fast;
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ drivers/media/dvb-frontends/cxd2841er.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-2) Obtaining stats like BER, UCB, block error count and even S/N ratio takes
-   time, as the frontend need to wait for enough data to arrive, in order to
-   update the internal registers. At best, calling stats too fast will
-   just make the frontend return a previously cached value, just spending
-   I2C bus bandwidth for nothing.
+diff --git a/drivers/media/dvb-frontends/cxd2841er.c b/drivers/media/dvb-frontends/cxd2841er.c
+index 1b30cf570803..758c95bc3b11 100644
+--- a/drivers/media/dvb-frontends/cxd2841er.c
++++ b/drivers/media/dvb-frontends/cxd2841er.c
+@@ -60,6 +60,7 @@ struct cxd2841er_priv {
+ 	enum cxd2841er_xtal		xtal;
+ 	enum fe_caps caps;
+ 	u32				flags;
++	unsigned long			stats_time;
+ };
+ 
+ static const struct cxd2841er_cnr_data s_cn_data[] = {
+@@ -3279,9 +3280,15 @@ static int cxd2841er_get_frontend(struct dvb_frontend *fe,
+ 		p->strength.stat[0].scale = FE_SCALE_NOT_AVAILABLE;
+ 
+ 	if (status & FE_HAS_LOCK) {
++		if (priv->stats_time &&
++		    (!time_after(jiffies, priv->stats_time)))
++			return 0;
++
++		/* Prevent retrieving stats faster than once per second */
++		priv->stats_time = jiffies + msecs_to_jiffies(1000);
++
+ 		cxd2841er_read_snr(fe);
+ 		cxd2841er_read_ucblocks(fe);
+-
+ 		cxd2841er_read_ber(fe);
+ 	} else {
+ 		p->cnr.stat[0].scale = FE_SCALE_NOT_AVAILABLE;
+@@ -3360,6 +3367,9 @@ static int cxd2841er_set_frontend_s(struct dvb_frontend *fe)
+ 	p->post_bit_error.stat[0].scale = FE_SCALE_NOT_AVAILABLE;
+ 	p->post_bit_count.stat[0].scale = FE_SCALE_NOT_AVAILABLE;
+ 
++	/* Reset the wait for jiffies logic */
++	priv->stats_time = 0;
++
+ 	return ret;
+ }
+ 
+-- 
+2.21.0
 
-3) If you look at the cxd2880 driver, wrote by Sony developers, you'll
-   see that it has a complex logic to estimate the time where the
-   next stats value is available. I bet that the timings calculated there
-   would be similar to the minimal time to obtain a reliable measure also
-   on cxd2841er.
-
-4) The cxd2841er can't do any real estimation right now, as it tunes
-   into a channel using auto mode and it misses the code that would
-   retrieve the tuning parameters and would allow to properly estimate
-   the bit rate of the received stream.
-
-5) With regards to the tvheadend issue, I've been talking with the
-   reporter at the IRC channel, sending him some patches to test.
-   After some tests, I'm pretty sure that the issue is not Kernel
-   related, but, instead, there's something broken at tvheadend
-   (at least at the version he is using) that it is causing troubles
-   when using the DVBv5 stats API.
-
-With all the above considerations, I agree with you that this patch
-should not be applied. Yet, we should at least apply a patch that would
-prevent retrieving the stats registers too fast.
-
-I'm sending a new version in a few.
-
-Thanks,
-Mauro
