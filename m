@@ -2,129 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 612D1CE927
-	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2019 18:27:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C8C99CE92A
+	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2019 18:27:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728672AbfJGQ1Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Oct 2019 12:27:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34468 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727801AbfJGQ1Q (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 7 Oct 2019 12:27:16 -0400
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8F319206C0;
-        Mon,  7 Oct 2019 16:27:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1570465635;
-        bh=qkPwaifvDP84GW7cD+F3JRfGMTnA8T3MOxCOa4QrBpU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=1fPp3LLq8WpQ3cVRHDVr1luJR17NmuqeTva4l2taEfkyZ1QAwT8/xIu2UEiWgRi5b
-         EpAJTPPWL72mKGJqgZlHdhKbmvyW3gcWiN5QWC/teWy1c6/Ppe7o0FShfQIgo+UunD
-         vg9v5LjwZ5tKqn9FIIdIO6E4esYz5aQm2I1qvNww=
-Date:   Mon, 7 Oct 2019 17:27:10 +0100
-From:   Will Deacon <will@kernel.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        andreyknvl@google.com, Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>, stable@vger.kernel.org
-Subject: Re: [PATCH] media: uvc: Avoid cyclic entity chains due to malformed
- USB descriptors
-Message-ID: <20191007162709.3vrtbcpoymmnqikl@willie-the-truck>
-References: <20191002112753.21630-1-will@kernel.org>
- <20191002130913.GA5262@pendragon.ideasonboard.com>
- <20191002131928.yp5r4tyvtvwvuoba@willie-the-truck>
- <20191002185604.GF5262@pendragon.ideasonboard.com>
+        id S1728763AbfJGQ1l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Oct 2019 12:27:41 -0400
+Received: from relay1-d.mail.gandi.net ([217.70.183.193]:53959 "EHLO
+        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728429AbfJGQ1k (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Oct 2019 12:27:40 -0400
+X-Originating-IP: 2.224.242.101
+Received: from uno.lan (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 8C3B1240008;
+        Mon,  7 Oct 2019 16:27:37 +0000 (UTC)
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        tfiga@google.com, pavel@ucw.cz
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
+        linux-media@vger.kernel.org (open list:MEDIA INPUT INFRASTRUCTURE
+        (V4L/DVB))
+Subject: [PATCH v4 00/11]  media: Report camera sensor properties
+Date:   Mon,  7 Oct 2019 18:29:02 +0200
+Message-Id: <20191007162913.250743-1-jacopo@jmondi.org>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191002185604.GF5262@pendragon.ideasonboard.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hello, fourth iteration following:
 
-Sorry for the delay, I got tied up with other patches.
+"media: v4l2-ctrls: Add camera sensor location"
+https://patchwork.kernel.org/project/linux-media/list/?series=160901
+"[v2,00/10] media: Report camera sensor properties
+https://patchwork.kernel.org/cover/11116443/
+"[PATCH v3 00/11] media: Report camera sensor properties"
+https://patchwork.kernel.org/project/linux-media/list/?series=173571
 
-On Wed, Oct 02, 2019 at 09:56:04PM +0300, Laurent Pinchart wrote:
-> On Wed, Oct 02, 2019 at 02:19:29PM +0100, Will Deacon wrote:
-> > > uvc_scan_chain_forward() is then called (from uvc_scan_chain()), and
-> > > iterates over all entities connected to the entity being scanned.
-> > > 
-> > > 	while (1) {
-> > > 		forward = uvc_entity_by_reference(chain->dev, entity->id,
-> > > 			forward);
-> > 
-> > Yes.
-> > 
-> > > At this point forward may be equal to entity, if entity references
-> > > itself.
-> > 
-> > Correct -- that's indicative of a malformed entity which we want to reject,
-> > right?
-> 
-> Right. We can reject the whole chain in that case. There's one case
-> where we still want to succeed though, which is handled by
-> uvc_scan_fallback().
-> 
-> Looking at the code, uvc_scan_device() does
-> 
->                 if (uvc_scan_chain(chain, term) < 0) {
->                         kfree(chain);
->                         continue;
->                 }
-> 
-> It seems that's missing removal of all entities that would have been
-> successfully added to the chain. This prevents, I think,
-> uvc_scan_fallback() from working properly in some cases.
+I here included Hans' comments. Most notable changes
 
-I started trying to hack something up here, but I'm actually not sure
-there's anything to do!
+v3 -> v4:
+- Minor reword in documentation of location and rotation properties
+- Fix V4L2_CID_CAMERA_SENSOR_ROTATION control documentation
+- Renamed helper in v4l2_ctrl_new_fwnode_properties()
+v2->v3:
+- Expand 'rotation' property description
+- s/device/system in properties description to make them applicable to
+  cameras and flash LEDs
+- Expand the rotation control description
+- Split helper to parse properties and helper to register properties
+- Drop the example coreboot patch that add properties to the Soraka device
+  ACPI tables
 
-I agree that 'uvc_scan_chain()' can fail after adding entities to the
-chain, however, 'uvc_scan_fallback()' allocates a new chain and calls
-only 'uvc_scan_chain_entity()' to add entities to it. This doesn't fail
-on pre-existing 'list_head' structures, so the dangling pointers shouldn't
-pose a problem there. My patch only adds the checks to
-'uvc_scan_chain_forward()' and 'uvc_scan_chain_backward()', neither of
-which are invoked on the fallback path.
+I know there are still doubts the two properties might well apply to
+modern devices with movable cameras, but I still think they cover 99% of devices
+out there at the moment.
 
-The fallback also seems like a best-effort thing, since it isn't even
-invoked if we managed to initialise *any* chains successfully.
+Thanks
+   j
 
-Does that make sense, or did you have another failure case in mind?
+Jacopo Mondi (11):
+  dt-bindings: video-interfaces: Document 'location' property
+  media: v4l2-ctrl: Document V4L2_CID_CAMERA_SENSOR_LOCATION
+  dt-bindings: video-interface: Expand rotation description
+  media: v4l2-ctrl: Document V4L2_CID_CAMERA_SENSOR_ROTATION
+  media: v4l2-ctrls: Add camera location and rotation
+  media: v4l2-fwnode: Add helper to parse device properties
+  include: v4l2-ctrl: Sort forward declarations
+  media: v4l2-ctrls: Sort includes alphabetically
+  media: v4l2-ctrls: Add helper to register properties
+  media: i2c: ov5670: Parse and register properties
+  media: i2c: ov13858: Parse and register properties
 
-> > > 		if (forward == NULL)
-> > > 			break;
-> > > 		if (forward == prev)
-> > > 			continue;
-> > > 		if (forward->chain.next || forward->chain.prev) {
-> > > 			uvc_trace(UVC_TRACE_DESCR, "Found reference to "
-> > > 				"entity %d already in chain.\n", forward->id);
-> > > 			return -EINVAL;
-> > > 		}
-> > > 
-> > > But then this check should trigger, as forward == entity and entity is
-> > > in the chain's list of entities.
-> > 
-> > Right, but this code is added by my patch, no? In mainline, the code only
-> > has the first two checks, which both end up comparing against NULL the first
-> > time around:
-> > 
-> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/media/usb/uvc/uvc_driver.c#n1489
-> > 
-> > Or are you referring to somewhere else?
-> 
-> Oops. This is embarassing... :-) You're of course right. The second hunk
-> seems fine too, even if I would have preferred centralising the check in
-> a single place. That should be possible, but it would involve
-> refactoring that isn't worth it at the moment.
+ .../bindings/media/video-interfaces.txt       |  21 ++-
+ .../media/uapi/v4l/ext-ctrls-camera.rst       | 148 ++++++++++++++++++
+ drivers/media/i2c/ov13858.c                   |  11 ++
+ drivers/media/i2c/ov5670.c                    |  12 ++
+ drivers/media/v4l2-core/v4l2-ctrls.c          |  52 +++++-
+ drivers/media/v4l2-core/v4l2-fwnode.c         |  42 +++++
+ include/media/v4l2-ctrls.h                    |  34 +++-
+ include/media/v4l2-fwnode.h                   |  48 ++++++
+ include/uapi/linux/v4l2-controls.h            |   7 +
+ 9 files changed, 363 insertions(+), 12 deletions(-)
 
-Agreed, thanks.
+--
+2.23.0
 
-Will
