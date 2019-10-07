@@ -2,18 +2,18 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 66DFECEAE8
-	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2019 19:47:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C3B8CCEAEB
+	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2019 19:47:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729174AbfJGRq4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Oct 2019 13:46:56 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:60832 "EHLO
+        id S1729236AbfJGRrB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Oct 2019 13:47:01 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:60854 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728031AbfJGRq4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Oct 2019 13:46:56 -0400
+        with ESMTP id S1728031AbfJGRrA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Oct 2019 13:47:00 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id 5BA2928D41F
+        with ESMTPSA id 3C5F428D406
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     linux-media@vger.kernel.org
 Cc:     kernel@collabora.com,
@@ -26,10 +26,11 @@ Cc:     kernel@collabora.com,
         Boris Brezillon <boris.brezillon@collabora.com>,
         Alexandre Courbot <acourbot@chromium.org>,
         fbuergisser@chromium.org, linux-kernel@vger.kernel.org,
-        Douglas Anderson <dianders@chromium.org>
-Subject: [PATCH v2 for 5.4 2/4] media: hantro: Fix H264 max frmsize supported on RK3288
-Date:   Mon,  7 Oct 2019 14:45:03 -0300
-Message-Id: <20191007174505.10681-3-ezequiel@collabora.com>
+        Douglas Anderson <dianders@chromium.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Subject: [PATCH v2 for 5.4 3/4] media: hantro: Fix motion vectors usage condition
+Date:   Mon,  7 Oct 2019 14:45:04 -0300
+Message-Id: <20191007174505.10681-4-ezequiel@collabora.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20191007174505.10681-1-ezequiel@collabora.com>
 References: <20191007174505.10681-1-ezequiel@collabora.com>
@@ -40,37 +41,39 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Jonas Karlman <jonas@kwiboo.se>
+From: Francois Buergisser <fbuergisser@chromium.org>
 
-TRM specify supported image size 48x48 to 4096x2304 at step size 16 pixels,
-change frmsize max_width/max_height to match TRM.
+The setting of the motion vectors usage and the setting of motion
+vectors address are currently done under different conditions.
 
-Fixes: 760327930e10 ("media: hantro: Enable H264 decoding on rk3288")
-Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+When decoding pre-recorded videos, this results of leaving the motion
+vectors address unset, resulting in faulty memory accesses. Fix it
+by using the same condition everywhere, which matches the profiles
+that support motion vectors.
+
+Fixes: dea0a82f3d22 ("media: hantro: Add support for H264 decoding on G1")
+Signed-off-by: Francois Buergisser <fbuergisser@chromium.org>
+Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 ---
 v2:
-* No changes.
+* New patch.
 
- drivers/staging/media/hantro/rk3288_vpu_hw.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/media/hantro/hantro_g1_h264_dec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/hantro/rk3288_vpu_hw.c b/drivers/staging/media/hantro/rk3288_vpu_hw.c
-index 6bfcc47d1e58..ebb017b8a334 100644
---- a/drivers/staging/media/hantro/rk3288_vpu_hw.c
-+++ b/drivers/staging/media/hantro/rk3288_vpu_hw.c
-@@ -67,10 +67,10 @@ static const struct hantro_fmt rk3288_vpu_dec_fmts[] = {
- 		.max_depth = 2,
- 		.frmsize = {
- 			.min_width = 48,
--			.max_width = 3840,
-+			.max_width = 4096,
- 			.step_width = H264_MB_DIM,
- 			.min_height = 48,
--			.max_height = 2160,
-+			.max_height = 2304,
- 			.step_height = H264_MB_DIM,
- 		},
- 	},
+diff --git a/drivers/staging/media/hantro/hantro_g1_h264_dec.c b/drivers/staging/media/hantro/hantro_g1_h264_dec.c
+index 7ab534936843..c92460407613 100644
+--- a/drivers/staging/media/hantro/hantro_g1_h264_dec.c
++++ b/drivers/staging/media/hantro/hantro_g1_h264_dec.c
+@@ -35,7 +35,7 @@ static void set_params(struct hantro_ctx *ctx)
+ 	if (sps->flags & V4L2_H264_SPS_FLAG_MB_ADAPTIVE_FRAME_FIELD)
+ 		reg |= G1_REG_DEC_CTRL0_SEQ_MBAFF_E;
+ 	reg |= G1_REG_DEC_CTRL0_PICORD_COUNT_E;
+-	if (dec_param->nal_ref_idc)
++	if (sps->profile_idc > 66)
+ 		reg |= G1_REG_DEC_CTRL0_WRITE_MVS_E;
+ 
+ 	if (!(sps->flags & V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY) &&
 -- 
 2.22.0
 
