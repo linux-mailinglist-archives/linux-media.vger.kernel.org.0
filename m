@@ -2,148 +2,229 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F641CE6B9
-	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2019 17:09:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CA3B0CE6AC
+	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2019 17:09:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728620AbfJGPJT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Oct 2019 11:09:19 -0400
-Received: from mail-io1-f70.google.com ([209.85.166.70]:46909 "EHLO
-        mail-io1-f70.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729275AbfJGPJK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Oct 2019 11:09:10 -0400
-Received: by mail-io1-f70.google.com with SMTP id t11so27220102ioc.13
-        for <linux-media@vger.kernel.org>; Mon, 07 Oct 2019 08:09:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=7KCg+f7TeFzvMI7Bp08YWruXFv6ujw5ZPTj7NmS2ZBg=;
-        b=eA5qoxIxJ3J7APQhzovEJXdmbV8NWvxagTZK8Ql3CMulkHdWoQacwIq90eC4tFsl++
-         WWnD9obE+xQ3yz1zViLec0yKRaeN0AA/hBEJu6Pjdzo1gs58337P/bMuNBQM1xPYEaMd
-         El3o7a6QpsMmVBggisyVRPmDPydcGPNUsXaLgU9wepk5yj12nl11HRw9DL64woEU/KB9
-         mD2AnZZsmGkQPeM87Q3u/2bHFEwVf0+uaU2IabXhRc5MhhDTSJh/FbJ/ZxzIuxDCwIQH
-         N1Ik6/H/MUC3LuPjO2gb6z+RMHlea61AkgOcM9gF3+bEtU1Fk8lCS2YqZy3KRTcq/ztX
-         z2DQ==
-X-Gm-Message-State: APjAAAVysbNqXlO6l9f+7QRngND5m+hw0FK0zahgPUHvDxv5wF9joeA4
-        YC7+LqDnpzeoaEXUgwnxEz+ZF+math/7+wCEHHj2zWeSAEVy
-X-Google-Smtp-Source: APXvYqy7907YtOP193BqGe7qgENG1Enn1wt1Y4XWrAph4wkpHB4HgDQWbMZWedSuacnxilIEoIu/O8hykW5g6i3TstOFZwjCKt4K
+        id S1729215AbfJGPIv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Oct 2019 11:08:51 -0400
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:40518 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727753AbfJGPHr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Oct 2019 11:07:47 -0400
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x97F7bXo004145;
+        Mon, 7 Oct 2019 10:07:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1570460857;
+        bh=AANL6dhtcM/ZhXE+HydbDtW2kXOWUAgsERUnaK7AKrk=;
+        h=From:To:CC:Subject:Date;
+        b=gUPIw9Nlh5/08D5VbW2vb+AP4MU/5k4iLrA4p/KfRVdg/IcNaF6IL/gZI3J5IpFwd
+         nimd1a4C5GxRgbnwKlV40zqUSONyb6Ap2bc3xZtcm/JGSGIWlBnJLsv6WFoUI1shdw
+         PUyW+JUu3n54dLHeagwl6mDkgyghs1y81thfh4zU=
+Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x97F7btv023625
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 7 Oct 2019 10:07:37 -0500
+Received: from DFLE110.ent.ti.com (10.64.6.31) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Mon, 7 Oct
+ 2019 10:07:34 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE110.ent.ti.com
+ (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Mon, 7 Oct 2019 10:07:36 -0500
+Received: from uda0869644b.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x97F7aF6055156;
+        Mon, 7 Oct 2019 10:07:36 -0500
+From:   Benoit Parrot <bparrot@ti.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, Benoit Parrot <bparrot@ti.com>
+Subject: [Patch v3 00/21] media: vpe: maintenance
+Date:   Mon, 7 Oct 2019 10:09:48 -0500
+Message-ID: <20191007151009.22095-1-bparrot@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-Received: by 2002:a6b:7a06:: with SMTP id h6mr12529506iom.231.1570460948347;
- Mon, 07 Oct 2019 08:09:08 -0700 (PDT)
-Date:   Mon, 07 Oct 2019 08:09:08 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000f5c33b0594536e77@google.com>
-Subject: kernel BUG at kernel/time/timer.c:LINE! (4)
-From:   syzbot <syzbot+f49d12d34f2321cf4df2@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        mchehab@kernel.org, sean@mess.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+This a collection of backlog patches I have been carrying for the VPE
+driver.
 
-syzbot found the following crash on:
+It adds supports for SEQ_BT as well as NV21.
+And fixes a number of issues both through v4l2-compliance and normal
+usage.
 
-HEAD commit:    58d5f26a usb-fuzzer: main usb gadget fuzzer driver
-git tree:       https://github.com/google/kasan.git usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=11e5b20d600000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=aa5dac3cda4ffd58
-dashboard link: https://syzkaller.appspot.com/bug?extid=f49d12d34f2321cf4df2
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13d9c713600000
+Changes since v2:
+- Fix a type causing a compile error
+- Address Hans' comment on the v4l2_common patches
+- Rework patch 16 a bit to limit the expanded use of fmt.pix_mp and use
+  a local pointer whenever possible.
+- Reworked csc_set_coeff() to use the updated format_info helper and
+  also to properly handle the v4l2_format type passed as arguments
 
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+f49d12d34f2321cf4df2@syzkaller.appspotmail.com
+Changes since v1:
+- Added a missing from my first set fixing a Makefile issue
+- Added a csc table fix to match the technical specification
+- Base on Hans' comment I reworked the last two patches which
+  yielded one more patch
+- This also led me to create additional patches to the
+  v4l2_format_info table to simplify pixel encoding lookup
 
-------------[ cut here ]------------
-kernel BUG at kernel/time/timer.c:956!
-invalid opcode: 0000 [#1] SMP KASAN
-CPU: 0 PID: 0 Comm: swapper/0 Not tainted 5.4.0-rc1+ #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-Google 01/01/2011
-RIP: 0010:__mod_timer kernel/time/timer.c:956 [inline]
-RIP: 0010:__mod_timer kernel/time/timer.c:949 [inline]
-RIP: 0010:mod_timer+0x5a2/0xb50 kernel/time/timer.c:1100
-Code: 45 10 c7 44 24 14 ff ff ff ff 48 89 44 24 08 48 8d 45 20 48 c7 44 24  
-18 00 00 00 00 48 89 04 24 e9 5a fc ff ff e8 ae ce 0e 00 <0f> 0b e8 a7 ce  
-0e 00 4c 89 74 24 20 e9 37 fe ff ff e8 98 ce 0e 00
-RSP: 0018:ffff8881db209930 EFLAGS: 00010006
-RAX: ffffffff86c2b200 RBX: 00000000ffffa688 RCX: ffffffff83efc583
-RDX: 0000000000000100 RSI: ffffffff812f4d82 RDI: ffff8881d2356200
-RBP: ffff8881d23561e8 R08: ffffffff86c2b200 R09: ffffed103a46abeb
-R10: ffffed103a46abea R11: ffff8881d2355f53 R12: dffffc0000000000
-R13: 1ffff1103b64132d R14: ffff8881d2355f50 R15: 0000000000000006
-FS:  0000000000000000(0000) GS:ffff8881db200000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f75e2799000 CR3: 00000001d3b07000 CR4: 00000000001406f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
-  <IRQ>
-  imon_touch_event drivers/media/rc/imon.c:1348 [inline]
-  imon_incoming_packet.isra.0+0x2546/0x2f10 drivers/media/rc/imon.c:1603
-  usb_rx_callback_intf0+0x151/0x1e0 drivers/media/rc/imon.c:1734
-  __usb_hcd_giveback_urb+0x1f2/0x470 drivers/usb/core/hcd.c:1654
-  usb_hcd_giveback_urb+0x368/0x420 drivers/usb/core/hcd.c:1719
-  dummy_timer+0x120f/0x2fa2 drivers/usb/gadget/udc/dummy_hcd.c:1965
-  call_timer_fn+0x179/0x650 kernel/time/timer.c:1404
-  expire_timers kernel/time/timer.c:1449 [inline]
-  __run_timers kernel/time/timer.c:1773 [inline]
-  __run_timers kernel/time/timer.c:1740 [inline]
-  run_timer_softirq+0x5e3/0x1490 kernel/time/timer.c:1786
-  __do_softirq+0x221/0x912 kernel/softirq.c:292
-  invoke_softirq kernel/softirq.c:373 [inline]
-  irq_exit+0x178/0x1a0 kernel/softirq.c:413
-  exiting_irq arch/x86/include/asm/apic.h:536 [inline]
-  smp_apic_timer_interrupt+0x12f/0x500 arch/x86/kernel/apic/apic.c:1137
-  apic_timer_interrupt+0xf/0x20 arch/x86/entry/entry_64.S:830
-  </IRQ>
-RIP: 0010:default_idle+0x28/0x2e0 arch/x86/kernel/process.c:581
-Code: 90 90 41 56 41 55 65 44 8b 2d 44 3a 8f 7a 41 54 55 53 0f 1f 44 00 00  
-e8 36 ee d0 fb e9 07 00 00 00 0f 00 2d fa dd 4f 00 fb f4 <65> 44 8b 2d 20  
-3a 8f 7a 0f 1f 44 00 00 5b 5d 41 5c 41 5d 41 5e c3
-RSP: 0018:ffffffff86c07da8 EFLAGS: 00000246 ORIG_RAX: ffffffffffffff13
-RAX: 0000000000000007 RBX: ffffffff86c2b200 RCX: 0000000000000000
-RDX: 0000000000000000 RSI: 0000000000000006 RDI: ffffffff86c2ba4c
-RBP: fffffbfff0d85640 R08: ffffffff86c2b200 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
-R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
-  cpuidle_idle_call kernel/sched/idle.c:154 [inline]
-  do_idle+0x3b6/0x500 kernel/sched/idle.c:263
-  cpu_startup_entry+0x14/0x20 kernel/sched/idle.c:355
-  start_kernel+0x82a/0x864 init/main.c:784
-  secondary_startup_64+0xa4/0xb0 arch/x86/kernel/head_64.S:241
-Modules linked in:
----[ end trace 3b8169377985e706 ]---
-RIP: 0010:__mod_timer kernel/time/timer.c:956 [inline]
-RIP: 0010:__mod_timer kernel/time/timer.c:949 [inline]
-RIP: 0010:mod_timer+0x5a2/0xb50 kernel/time/timer.c:1100
-Code: 45 10 c7 44 24 14 ff ff ff ff 48 89 44 24 08 48 8d 45 20 48 c7 44 24  
-18 00 00 00 00 48 89 04 24 e9 5a fc ff ff e8 ae ce 0e 00 <0f> 0b e8 a7 ce  
-0e 00 4c 89 74 24 20 e9 37 fe ff ff e8 98 ce 0e 00
-RSP: 0018:ffff8881db209930 EFLAGS: 00010006
-RAX: ffffffff86c2b200 RBX: 00000000ffffa688 RCX: ffffffff83efc583
-RDX: 0000000000000100 RSI: ffffffff812f4d82 RDI: ffff8881d2356200
-RBP: ffff8881d23561e8 R08: ffffffff86c2b200 R09: ffffed103a46abeb
-R10: ffffed103a46abea R11: ffff8881d2355f53 R12: dffffc0000000000
-R13: 1ffff1103b64132d R14: ffff8881d2355f50 R15: 0000000000000006
-FS:  0000000000000000(0000) GS:ffff8881db200000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f75e2799000 CR3: 00000001d3b07000 CR4: 00000000001406f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+======================================
+v4l2-compliance SHA: 5b168dc8473911227890526bad26553d9e8ff81b, 32 bits
 
+Compliance test for vpe device /dev/video0:
 
----
-This bug is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+Driver Info:
+	Driver name      : vpe
+	Card type        : vpe
+	Bus info         : platform:vpe
+	Driver version   : 5.4.0
+	Capabilities     : 0x84204000
+		Video Memory-to-Memory Multiplanar
+		Streaming
+		Extended Pix Format
+		Device Capabilities
+	Device Caps      : 0x04204000
+		Video Memory-to-Memory Multiplanar
+		Streaming
+		Extended Pix Format
 
-syzbot will keep track of this bug report. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this bug, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+Required ioctls:
+	test VIDIOC_QUERYCAP: OK
+
+Allow for multiple opens:
+	test second /dev/video0 open: OK
+	test VIDIOC_QUERYCAP: OK
+	test VIDIOC_G/S_PRIORITY: OK
+	test for unlimited opens: OK
+
+Debug ioctls:
+	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+	test VIDIOC_QUERYCTRL: OK
+	test VIDIOC_G/S_CTRL: OK
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 1 Private Controls: 1
+
+Format ioctls:
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK
+	test VIDIOC_TRY_FMT: OK
+	test VIDIOC_S_FMT: OK
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK
+	test Composing: OK
+	test Scaling: OK
+
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+		warn: v4l2-test-buffers.cpp(683): VIDIOC_CREATE_BUFS not supported
+		warn: v4l2-test-buffers.cpp(683): VIDIOC_CREATE_BUFS not supported
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+	test VIDIOC_EXPBUF: OK
+	test Requests: OK (Not Supported)
+
+Test input 0:
+
+Streaming ioctls:
+	test read/write: OK (Not Supported)
+	test blocking wait: OK
+	Video Capture Multiplanar: Captured 58 buffers    
+	test MMAP (no poll): OK
+	Video Capture Multiplanar: Captured 58 buffers    
+	test MMAP (select): OK
+	Video Capture Multiplanar: Captured 58 buffers    
+	test MMAP (epoll): OK
+	test USERPTR (no poll): OK (Not Supported)
+	test USERPTR (select): OK (Not Supported)
+	test DMABUF: Cannot test, specify --expbuf-device
+
+Total for vpe device /dev/video0: 51, Succeeded: 51, Failed: 0, Warnings: 2
+======================================
+
+Benoit Parrot (18):
+  media: ti-vpe: Fix a parallel build issue
+  media: ti-vpe: vpe: Fix Motion Vector vpdma stride
+  media: ti-vpe: vpe: Add missing null pointer checks
+  media: ti-vpe: vpe: Remove unnecessary use of container_of
+  media: ti-vpe: vpe: fix a v4l2-compliance failure causing a kernel
+    panic
+  media: ti-vpe: vpe: fix a v4l2-compliance warning about invalid pixel
+    format
+  media: ti-vpe: vpe: Make sure YUYV is set as default format
+  media: ti-vpe: vpe: fix a v4l2-compliance failure about invalid
+    sizeimage
+  media: ti-vpe: vpe: fix a v4l2-compliance failure about frame sequence
+    number
+  media: ti-vpe: vpe: ensure buffers are cleaned up properly in abort
+    cases
+  media: ti-vpe: vpdma: Use fixed type for address in descriptor
+  media: ti-vpe: Set the DMA mask and coherent mask
+  media: ti-vpe: vpe: use standard struct instead of duplicating fields
+  media: ti-vpe: vpe: fix v4l2_compliance issue related to xfer_func
+  media: ti-vpe: csc: rgb-to-yuv HD full range coeff are wrong
+  media: v4l2-common: add pixel encoding support
+  media: v4l2-common: add RGB565 and RGB55 to v4l2_format_info
+  media: ti-vpe: vpe: don't rely on colorspace member for conversion
+
+Nikhil Devshatwar (2):
+  media: ti-vpe: Add support for SEQ_BT
+  media: ti-vpe: Add support for NV21 format
+
+Ram Prasad (1):
+  media: ti-vpe: Set MAX height supported to 2048 pixels
+
+ drivers/media/platform/Makefile            |   4 +-
+ drivers/media/platform/ti-vpe/csc.c        | 254 ++++++++-----
+ drivers/media/platform/ti-vpe/csc.h        |   4 +-
+ drivers/media/platform/ti-vpe/vpdma.c      |  11 +-
+ drivers/media/platform/ti-vpe/vpdma.h      |   2 +
+ drivers/media/platform/ti-vpe/vpdma_priv.h |   5 +-
+ drivers/media/platform/ti-vpe/vpe.c        | 394 ++++++++++++---------
+ drivers/media/v4l2-core/v4l2-common.c      | 128 +++----
+ include/media/v4l2-common.h                |  33 +-
+ 9 files changed, 520 insertions(+), 315 deletions(-)
+
+-- 
+2.17.1
+
