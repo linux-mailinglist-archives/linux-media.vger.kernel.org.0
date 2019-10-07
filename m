@@ -2,47 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D5303CE67B
-	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2019 17:07:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB949CE68D
+	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2019 17:09:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728273AbfJGPHv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Oct 2019 11:07:51 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:56216 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728907AbfJGPHu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Oct 2019 11:07:50 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x97F7nIf067938;
-        Mon, 7 Oct 2019 10:07:49 -0500
+        id S1728965AbfJGPHx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Oct 2019 11:07:53 -0400
+Received: from lelv0143.ext.ti.com ([198.47.23.248]:37398 "EHLO
+        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728923AbfJGPHx (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Oct 2019 11:07:53 -0400
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x97F7oLM066248;
+        Mon, 7 Oct 2019 10:07:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1570460869;
-        bh=PU8cOk4sbUjypaoxvrI4OhIdWem2VYqd9AB7zyslLUU=;
+        s=ti-com-17Q1; t=1570460870;
+        bh=FSYboD3JqHG1wzgmeZLkIKXYQEnzeuEpUNa4uQ9WH1Q=;
         h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=qwDHTvnC+aH/h+7cOmTrue5297C3JffSSyYWWjF79s2wcD+QmhY6iNYxnFFonNznS
-         NjvEzUopzWDBc1152Tb3OqPeC3e5MC0LiiBaw2fQbWrZcDFS/sV/rFuQ8oEDhwMxa/
-         DU/3P0osfXnusqsDEbzZAo+qfMPDc+x5m2CMEXYI=
-Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x97F7nY0043088
+        b=kvnnQxrhXfYaGhXQLG458QGKuKSPFU5XNxorOvbGmmDCJJqt5XyyBvDlr8BthW4fv
+         kYvBKmpZlHrVuriDJK3XWaXFnPZHzA4UINBq7mcK/saAuxlIEJF122pje1KiOHKUVV
+         x1K38W+JqNGO8J3NVjC978H5fbB/JoxgYQskydOQ=
+Received: from DFLE108.ent.ti.com (dfle108.ent.ti.com [10.64.6.29])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x97F7oZv023787
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 7 Oct 2019 10:07:49 -0500
-Received: from DFLE113.ent.ti.com (10.64.6.34) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
+        Mon, 7 Oct 2019 10:07:50 -0500
+Received: from DFLE114.ent.ti.com (10.64.6.35) by DFLE108.ent.ti.com
+ (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Mon, 7 Oct
- 2019 10:07:47 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
+ 2019 10:07:48 -0500
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Mon, 7 Oct 2019 10:07:47 -0500
+ Frontend Transport; Mon, 7 Oct 2019 10:07:50 -0500
 Received: from uda0869644b.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x97F7aFK055156;
-        Mon, 7 Oct 2019 10:07:49 -0500
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x97F7aFL055156;
+        Mon, 7 Oct 2019 10:07:50 -0500
 From:   Benoit Parrot <bparrot@ti.com>
 To:     Hans Verkuil <hverkuil@xs4all.nl>
 CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, Benoit Parrot <bparrot@ti.com>
-Subject: [Patch v3 14/21] media: ti-vpe: vpdma: Use fixed type for address in descriptor
-Date:   Mon, 7 Oct 2019 10:10:02 -0500
-Message-ID: <20191007151009.22095-15-bparrot@ti.com>
+Subject: [Patch v3 15/21] media: ti-vpe: Set the DMA mask and coherent mask
+Date:   Mon, 7 Oct 2019 10:10:03 -0500
+Message-ID: <20191007151009.22095-16-bparrot@ti.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191007151009.22095-1-bparrot@ti.com>
 References: <20191007151009.22095-1-bparrot@ti.com>
@@ -54,35 +54,33 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Using dma_addr_t as the type to hold address inside of a fix sized
-descriptor used by the vpdma firmware is prone to fail when the expected
-width is 32 bits and suddenly when CONFIG_LPAE is enabled the data size
-is now 64 bits shifted the remaining members of the descriptor in memory
-which confuses the firmware.
+VPE uses VPDMA (built-in dma engine) to transfer data to and from the IP
+and memory. VPDMA expect 32 bits addresses. To make sure that is always
+the case set the DMA mask and coherent mask for the device.
 
 Signed-off-by: Benoit Parrot <bparrot@ti.com>
 ---
- drivers/media/platform/ti-vpe/vpdma_priv.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/platform/ti-vpe/vpe.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/media/platform/ti-vpe/vpdma_priv.h b/drivers/media/platform/ti-vpe/vpdma_priv.h
-index d8ae3e1cd54d..0bbee45338bd 100644
---- a/drivers/media/platform/ti-vpe/vpdma_priv.h
-+++ b/drivers/media/platform/ti-vpe/vpdma_priv.h
-@@ -166,11 +166,11 @@ struct vpdma_dtd {
- 		u32		xfer_length_height;
- 		u32		w1;
- 	};
--	dma_addr_t		start_addr;
-+	u32			start_addr;
- 	u32			pkt_ctl;
- 	union {
- 		u32		frame_width_height;	/* inbound */
--		dma_addr_t	desc_write_addr;	/* outbound */
-+		u32		desc_write_addr;	/* outbound */
- 	};
- 	union {
- 		u32		start_h_v;		/* inbound */
+diff --git a/drivers/media/platform/ti-vpe/vpe.c b/drivers/media/platform/ti-vpe/vpe.c
+index ad9d8b559cad..d7f8eb901475 100644
+--- a/drivers/media/platform/ti-vpe/vpe.c
++++ b/drivers/media/platform/ti-vpe/vpe.c
+@@ -2517,6 +2517,13 @@ static int vpe_probe(struct platform_device *pdev)
+ 	struct vpe_dev *dev;
+ 	int ret, irq, func;
+ 
++	ret = dma_coerce_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
++	if (ret) {
++		dev_err(&pdev->dev,
++			"32-bit consistent DMA enable failed\n");
++		return ret;
++	}
++
+ 	dev = devm_kzalloc(&pdev->dev, sizeof(*dev), GFP_KERNEL);
+ 	if (!dev)
+ 		return -ENOMEM;
 -- 
 2.17.1
 
