@@ -2,45 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A143CE33B
+	by mail.lfdr.de (Postfix) with ESMTP id 9DBA2CE33C
 	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2019 15:22:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728249AbfJGNVL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Oct 2019 09:21:11 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:42512 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728189AbfJGNVL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Oct 2019 09:21:11 -0400
-Received: by mail-lj1-f193.google.com with SMTP id y23so13599815lje.9;
-        Mon, 07 Oct 2019 06:21:09 -0700 (PDT)
+        id S1728328AbfJGNVN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Oct 2019 09:21:13 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:37014 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728235AbfJGNVM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Oct 2019 09:21:12 -0400
+Received: by mail-lf1-f68.google.com with SMTP id w67so9267555lff.4;
+        Mon, 07 Oct 2019 06:21:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
         bh=GX+ni17mNRYs8d+zDraCFt5XjyO8QrKC7e0GjBCgxpI=;
-        b=ZrpnlfpoajhMTGD+dc7ahQIpQCzOyJR5LL9BNxN+LKiXujzPYb7w2/gT8bXXqBvlcf
-         2CBKvCMsQWwSLwDW4GMNDVcKGIsm69209KTkTlrFvEAphMPlMQFhK2enJmhei0jxGPpo
-         6/TmB5JwKj0/397PRQsotnqAFvyA86EI2wOHVKFLhpVWo5m0iUbxcXsAyW7T7TlpgsRH
-         IhQ2CGwBoUbSegvpaFIpn4tJJa98kDX8DP+GPG1aPOea8FJysR/vc80hb6y4nP5bVrLf
-         f1j0cumOAnF98L/BpDWvgnSrbip3D8BN+LJMyE8gTZHwez0OyghphKhL72Ac0BIg0++Q
-         MjHA==
-X-Gm-Message-State: APjAAAUVSl4l4pbVer9RZLX3g0GEIZATqbOVf43fOQKL336Pe5iPglOw
-        KlT3oyjxyu4RUIQIRRU1m1gvvsiSTHc=
-X-Google-Smtp-Source: APXvYqwTiyl7vXh7wBWQ+wrgodTUPtVV+DuJLHve45RSomE4YPDtbhkZ7EGbf6WB5oMfjWwBY+58Og==
-X-Received: by 2002:a2e:9185:: with SMTP id f5mr16724482ljg.235.1570454468658;
-        Mon, 07 Oct 2019 06:21:08 -0700 (PDT)
+        b=CHYrG2G8fWBGdJvgo67uDoIed/9CPtwZPTYTNmjRF9kZFAu2rdIFyrO9ixoD1IcKkQ
+         kscz1pUoiQxOtb6Cf2hgDC4GEx1X1FENNT7kcdpQpua3+bWbhADJfBCkWizWtzqVko1l
+         iMiC+jkj3j++4/Hp3GLOCe145LAefo9txz3HF8RO1iD0up8c1/2mgx+w6fVRxoPvQFeN
+         feqCDHrrcSEycsRn0yMjNFqaIVivh8F2Jczw5PfS789CdElZYHk1kK5ekwn14jUvD95W
+         DkcA1Vl9p0Bc9k0g5kAI6eKbvRkQkw2L06VIsySsg+5ubrLjXch2QjzzKOYhzN43iBJM
+         3wFg==
+X-Gm-Message-State: APjAAAV1OPAeKq7h/bhc6hlhHqEsXr4noHt+TorhWL11ZICvPnabg6F4
+        +bNxpfWdS0hllHK706GqYKI=
+X-Google-Smtp-Source: APXvYqwlE8mz5IqyFoGHNe1iuu0hWCBGRHHravGVWOyYThgV5dMLWivqXmj1Cc/4oxMSs0RrQq+SSg==
+X-Received: by 2002:ac2:48af:: with SMTP id u15mr17147302lfg.75.1570454470551;
+        Mon, 07 Oct 2019 06:21:10 -0700 (PDT)
 Received: from neopili.qtec.com (cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
-        by smtp.gmail.com with ESMTPSA id z14sm2687360lfh.30.2019.10.07.06.21.06
+        by smtp.gmail.com with ESMTPSA id z14sm2687360lfh.30.2019.10.07.06.21.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Oct 2019 06:21:07 -0700 (PDT)
+        Mon, 07 Oct 2019 06:21:09 -0700 (PDT)
 From:   Ricardo Ribalda Delgado <ribalda@kernel.org>
 To:     Pavel Machek <pavel@ucw.cz>, Sakari Ailus <sakari.ailus@iki.fi>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     Ricardo Ribalda Delgado <ribalda@kernel.org>
-Subject: [PATCH v7 3/6] ad5820: Add support for enable pin
-Date:   Mon,  7 Oct 2019 15:20:43 +0200
-Message-Id: <20191007132050.27298-6-ribalda@kernel.org>
+Subject: [PATCH v7 3/6] media: ad5820: Add support for enable pin
+Date:   Mon,  7 Oct 2019 15:20:44 +0200
+Message-Id: <20191007132050.27298-7-ribalda@kernel.org>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191007132050.27298-1-ribalda@kernel.org>
 References: <20191007132050.27298-1-ribalda@kernel.org>
