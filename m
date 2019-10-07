@@ -2,173 +2,285 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 56325CE8CC
-	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2019 18:12:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 066E4CE915
+	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2019 18:24:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728506AbfJGQMo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Oct 2019 12:12:44 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:59904 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727711AbfJGQMo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Oct 2019 12:12:44 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: koike)
-        with ESMTPSA id 6326328EF64
-Subject: Re: [Lkcamp] [RFC PATCH] media: vimc: vimc_pix_map_fmt_info() can be
- static
-To:     =?UTF-8?Q?Andr=c3=a9_Almeida?= <andrealmeida@riseup.net>,
-        kbuild test robot <lkp@intel.com>,
-        "Carlos E. C. Barbosa" <climacobarbosacee@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, lkcamp@lists.libreplanetbr.org,
-        kbuild-all@01.org, Shuah Khan <skhan@linuxfoundation.org>,
+        id S1728599AbfJGQY0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Oct 2019 12:24:26 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:39956 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728198AbfJGQYZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Oct 2019 12:24:25 -0400
+Received: by mail-wr1-f68.google.com with SMTP id h4so7342702wrv.7
+        for <linux-media@vger.kernel.org>; Mon, 07 Oct 2019 09:24:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Dw4Q3iBxabTSuwssTar7XV7AeyC0rgIGm++0r9dtNq4=;
+        b=o9h2UfSfMMdaP8yEwRAYjGUQPaT9wNK89isvxEgaAkfRy/5Wnx9JTN9mtLgIrOpIpi
+         WaKphTjWSYCnL3K9PDgp7H8H5PU53Aj4aN+s0XW7jhnyCDUG1OkPjNOb8l0NMud8+pB/
+         pm3cQC3xNMOvDoXtkWLVuNr/AGdke4jOeXEXVtEWNuPaj1HE/V1hyTVr8drcaZtUxshu
+         ZOW79w0q6LUZYTIZn+rox1/s7MTILuhUYWU5ykSoUixrWymGq6acXUC/2SVOWfnU3Yih
+         eAv2FQqH9xmgyQQrHCj1TzvRh2fJaZT4WHoIPW20mU4JNeSkDsZnUHgcuDWi1ennPX4s
+         bzDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Dw4Q3iBxabTSuwssTar7XV7AeyC0rgIGm++0r9dtNq4=;
+        b=qOBcSLHWgLhZN10PIT5eQs6zEBBSdhCHskcJ5BdiBNahConebP3Sz6wzU8Tu4HNSbv
+         ZyHgIVGNMcItp2b492E9s3n3Whqk2MWzWGmtHhTFfkN4TxQ3zhmik2NGhcYoCw84/YMV
+         dKhYGafry1iDEk1dqTiSdunXhQnTEj71xWSxBZIpO1PgxqIgwusJaGVQHc9WfpcSEnSp
+         Z0DVLmyqCmcGphE5rQsNZwPuUgi3FoqxyHc+PCPtfGta9JfGDhsb6NknC8a1YSRoYpK9
+         rY8eXYoPltOfcZp/6fZV+nWN0Gf9NkfAtBKUSeib+/XAcvQDuM7kEIEMsl6OrziYKhM8
+         c3IQ==
+X-Gm-Message-State: APjAAAUyeK4S0QcHNtwM2AAeIE1S8M1+rxkvplRSfReH/tl1gpwKWoP6
+        1dcLWxtweeTNStPKvhpiw+u68SmZAgg=
+X-Google-Smtp-Source: APXvYqzy3HWKvkWd4yf5lnZVkl2tnDc30Nqy8uFpA3W44ablPXn6tPIdFLvyEWxwoAJsX2qG5SFh4g==
+X-Received: by 2002:adf:ec91:: with SMTP id z17mr24462935wrn.346.1570465462487;
+        Mon, 07 Oct 2019 09:24:22 -0700 (PDT)
+Received: from [192.168.0.31] (abo-99-183-68.mtp.modulonet.fr. [85.68.183.99])
+        by smtp.gmail.com with ESMTPSA id u1sm40608wmc.38.2019.10.07.09.24.21
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 07 Oct 2019 09:24:21 -0700 (PDT)
+Subject: Re: [PATCH 0/2] media: meson: vdec: Add compliant H264 support
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-References: <20191005211136.552305-1-carlosecb@tutanota.com>
- <20191006002805.i2gbquub7egjczhx@332d0cec05f4>
- <28ba4406-c231-e589-2eeb-bca5da5d3245@collabora.com>
- <28f23bab-4284-cb45-579f-32fd6b78c3e1@riseup.net>
-From:   Helen Koike <helen.koike@collabora.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=helen.koike@collabora.com; keydata=
- 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
-Message-ID: <fe7f95e9-8eb9-5ca2-50de-fdda966946ff@collabora.com>
-Date:   Mon, 7 Oct 2019 13:12:32 -0300
+        Hans Verkuil <hans.verkuil@cisco.com>
+Cc:     Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org
+References: <20191007145909.29979-1-mjourdan@baylibre.com>
+ <8563127e-fe2c-a633-556b-8a883cebb171@xs4all.nl>
+From:   Maxime Jourdan <mjourdan@baylibre.com>
+Message-ID: <977c48e8-8275-c96a-688b-ccfbb873eb79@baylibre.com>
+Date:   Mon, 7 Oct 2019 18:24:21 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <28f23bab-4284-cb45-579f-32fd6b78c3e1@riseup.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <8563127e-fe2c-a633-556b-8a883cebb171@xs4all.nl>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: tl
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-
-On 10/7/19 12:18 PM, André Almeida wrote:
-> Hi Helen,
+On 07/10/2019 17:12, Hans Verkuil wrote:
+> On 10/7/19 4:59 PM, Maxime Jourdan wrote:
+>> Hello,
+>>
+>> This patch series aims to bring H.264 support as well as compliance update
+>> to the amlogic stateful video decoder driver.
+>>
+>> There is 1 issue that remains currently:
+>>
+>>   - The following codepath had to be commented out from v4l2-compliance as
+>> it led to stalling:
+>>
+>> if (node->codec_mask & STATEFUL_DECODER) {
+>> 	struct v4l2_decoder_cmd cmd;
+>> 	buffer buf_cap(m2m_q);
+>>
+>> 	memset(&cmd, 0, sizeof(cmd));
+>> 	cmd.cmd = V4L2_DEC_CMD_STOP;
+>>
+>> 	/* No buffers are queued, call STREAMON, then STOP */
+>> 	fail_on_test(node->streamon(q.g_type()));
+>> 	fail_on_test(node->streamon(m2m_q.g_type()));
+>> 	fail_on_test(doioctl(node, VIDIOC_DECODER_CMD, &cmd));
+>>
+>> 	fail_on_test(buf_cap.querybuf(node, 0));
+>> 	fail_on_test(buf_cap.qbuf(node));
+>> 	fail_on_test(buf_cap.dqbuf(node));
+>> 	fail_on_test(!(buf_cap.g_flags() & V4L2_BUF_FLAG_LAST));
+>> 	for (unsigned p = 0; p < buf_cap.g_num_planes(); p++)
+>> 		fail_on_test(buf_cap.g_bytesused(p));
+>> 	fail_on_test(node->streamoff(q.g_type()));
+>> 	fail_on_test(node->streamoff(m2m_q.g_type()));
+>>
+>> 	/* Call STREAMON, queue one CAPTURE buffer, then STOP */
+>> 	fail_on_test(node->streamon(q.g_type()));
+>> 	fail_on_test(node->streamon(m2m_q.g_type()));
+>> 	fail_on_test(buf_cap.querybuf(node, 0));
+>> 	fail_on_test(buf_cap.qbuf(node));
+>> 	fail_on_test(doioctl(node, VIDIOC_DECODER_CMD, &cmd));
+>>
+>> 	fail_on_test(buf_cap.dqbuf(node));
+>> 	fail_on_test(!(buf_cap.g_flags() & V4L2_BUF_FLAG_LAST));
+>> 	for (unsigned p = 0; p < buf_cap.g_num_planes(); p++)
+>> 		fail_on_test(buf_cap.g_bytesused(p));
+>> 	fail_on_test(node->streamoff(q.g_type()));
+>> 	fail_on_test(node->streamoff(m2m_q.g_type()));
+>> }
+>>
+>> The reason for this is because the driver has a limitation where all
+>> capturebuffers must be queued to the driver before STREAMON is effective.
+>> The firmware needs to know in advance what all the buffers are before
+>> starting to decode.
+>> This limitation is enforced via q->min_buffers_needed.
+>> As such, in this compliance codepath, STREAMON is never actually called
+>> driver-side and there is a stall on fail_on_test(buf_cap.dqbuf(node));
 > 
-> On 10/5/19 10:36 PM, Helen Koike wrote:
->> Hi Carlos,
->>
->> On 10/5/19 9:28 PM, kbuild test robot wrote:
->>> Fixes: 4d124d159dff ("media: vimc: get pixformat info from v4l2_format_info to avoid code repetition")
->> Usually, the Fixes flag is used for something that is already accepted in mainline.
->> If you want to fix anything in the previous version of the patch you sent, you should update the last patch
->> and re-send it as a new version, i.e. [PATCH v2], adding a change log just after the 3 dashes to explain
->> what you changed.
+> That's interesting. I will have to look more closely at this.
 > 
-> The author of this commit is the "kbuild test robot" rather than Carlos,
-> it was generated automatically to fix a warning the robot found at
-> Carlos commit :)
-
-Ah, thanks André for the heads up, I didn't notice it, sorry about that Carlos.
-
-Helen
-
+>>
+>>
+>> One last detail: V4L2_FMT_FLAG_DYN_RESOLUTION is currently not recognized
+>> by v4l2-compliance, so it was left out for the test. However, it is
+>> present in the patch series.
 > 
->> Check this example:
+> It is definitely recognized by v4l2-compliance.
+> 
 >>
->> https://www.spinics.net/lists/linux-media/msg158251.html
+>> The second patch has 3 "Alignment should match open parenthesis" lines
+>> where I preferred to keep them that way.
 >>
->> Let me know if you need help!
->> And thanks for working on this :)
->> Helen
+>> Thanks Stanimir for sharing your HDR file creation tools, this was very
+>> helpful :).
 >>
->>> Signed-off-by: kbuild test robot <lkp@intel.com>
->>> ---
->>>  vimc-common.c |    2 +-
->>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/media/platform/vimc/vimc-common.c b/drivers/media/platform/vimc/vimc-common.c
->>> index 9ea698810e1a1..c37442aba70b1 100644
->>> --- a/drivers/media/platform/vimc/vimc-common.c
->>> +++ b/drivers/media/platform/vimc/vimc-common.c
->>> @@ -118,7 +118,7 @@ static struct vimc_pix_map_fmt vimc_pix_map_fmt_list[] = {
->>>  	},
->>>  };
->>>  
->>> -struct vimc_pix_map vimc_pix_map_fmt_info(struct vimc_pix_map_fmt *vfmt)
->>> +static struct vimc_pix_map vimc_pix_map_fmt_info(struct vimc_pix_map_fmt *vfmt)
->>>  {
->>>  
->>>  	struct vimc_pix_map vpix = {
->>>
->> _______________________________________________
->> Lkcamp mailing list
->> Lkcamp@lists.libreplanetbr.org
->> https://lists.libreplanetbr.org/mailman/listinfo/lkcamp
+>> Maxime
+>>
+>> # v4l2-compliance --stream-from-hdr test-25fps.h264.hdr -s250
+>> v4l2-compliance SHA: a162244d47d4bb01d0692da879dce5a070f118e7, 64 bits
+> 
+> But this SHA isn't in the v4l-utils repo, so this makes me wonder where you
+> got this repo from.
+> 
+
+I am based off the hverkuil/vicodec branch. The SHA I am on is actually 
+05387265053bc6f9 ("test-media: add vicodec tests"), but it wasn't 
+updated as I found out it requires a new bootstrap to refresh the SHA. 
+Maybe some rebasing at some point got rid of a162244d.
+
+I started fresh and ran it again. As you can see, 
+V4L2_FMT_FLAG_DYN_RESOLUTION is still problematic (removing it makes all 
+the checks pass):
+
+-------------------------------
+# v4l2-compliance --stream-from-hdr test-25fps.h264.hdr -s250
+v4l2-compliance SHA: 05387265053bc6f9c8c98e112543adb28ae39cfa, 64 bits
+
+Compliance test for meson-vdec device /dev/video0:
+
+Driver Info:
+	Driver name      : meson-vdec
+	Card type        : Amlogic Video Decoder
+	Bus info         : platform:meson-vdec
+	Driver version   : 5.4.0
+	Capabilities     : 0x84204000
+		Video Memory-to-Memory Multiplanar
+		Streaming
+		Extended Pix Format
+		Device Capabilities
+	Device Caps      : 0x04204000
+		Video Memory-to-Memory Multiplanar
+		Streaming
+		Extended Pix Format
+	Detected Stateful Decoder
+
+Required ioctls:
+	test VIDIOC_QUERYCAP: OK
+
+Allow for multiple opens:
+	test second /dev/video0 open: OK
+	test VIDIOC_QUERYCAP: OK
+	test VIDIOC_G/S_PRIORITY: OK
+	test for unlimited opens: OK
+
+Debug ioctls:
+	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+	test VIDIOC_QUERYCTRL: OK
+	test VIDIOC_G/S_CTRL: OK
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 2 Private Controls: 0
+
+Format ioctls:
+		fail: v4l2-test-formats.cpp(263): unknown flag 00000009 returned
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: FAIL
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+		fail: v4l2-test-formats.cpp(457): pixelformat 34363248 (H264) for 
+buftype 10 not reported by ENUM_FMT
+	test VIDIOC_G_FMT: FAIL
+		fail: v4l2-test-formats.cpp(457): pixelformat 34363248 (H264) for 
+buftype 10 not reported by ENUM_FMT
+	test VIDIOC_TRY_FMT: FAIL
+		fail: v4l2-test-formats.cpp(457): pixelformat 3247504d (MPG2) for 
+buftype 10 not reported by ENUM_FMT
+	test VIDIOC_S_FMT: FAIL
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK
+
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK
+
+Buffer ioctls:
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+	test VIDIOC_EXPBUF: OK
+	test Requests: OK (Not Supported)
+
+Test input 0:
+
+Streaming ioctls:
+	test read/write: OK (Not Supported)
+	test blocking wait: OK
+	Video Capture Multiplanar: Captured 250 buffers
+	test MMAP (select): OK
+	Video Capture Multiplanar: Captured 250 buffers
+	test MMAP (epoll): OK
+	test USERPTR (select): OK (Not Supported)
+	test DMABUF: Cannot test, specify --expbuf-device
+
+Total for meson-vdec device /dev/video0: 49, Succeeded: 45, Failed: 4, 
+Warnings: 0
+
+-------------------------------
+
+Should I be using another branch than vicodec ?
+
+
+> Regards,
+> 
+> 	Hans
+> 
