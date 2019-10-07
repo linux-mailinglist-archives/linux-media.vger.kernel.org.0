@@ -2,99 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E000CE66F
-	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2019 17:07:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8142FCE6BE
+	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2019 17:09:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728641AbfJGPGz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Oct 2019 11:06:55 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:40161 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728603AbfJGPGy (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Oct 2019 11:06:54 -0400
-Received: by mail-lj1-f195.google.com with SMTP id 7so14063598ljw.7;
-        Mon, 07 Oct 2019 08:06:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=pmVOhqPV32NcE6/VgCf74tZc8Nj51x40T3jhqugB4as=;
-        b=TRWYkwkpgSPiRjKPy7XOhSTGN33f5oXhUOsnZkIejWwy/7/X81vvcWeo+GKHZsSUnp
-         E3GHUBRYro6UKk8LrXrpqN0+qd86i6RKf4dAUYkIc07/3E4gCbZShiNrNCzjuhOJa0M6
-         MON8JdgQg4qJ1LQqrKbpOAk1ZjD7nok8Eu2IS2lB5+AAr4YJM1F19YqS8YXiLDJHj9S9
-         xsTyW2h2UXIlVs0iQ3G1Jbd7C4q2x4J2NTf0m8oP1pNctsPR9nBX++Dm5Njvdkd0dcNI
-         fwG8ck28eRgmWZkTeg+jty5X1pqS7+YHBIZTq2DKnMwRyTn9mcRs6bhADHkiPF06fzAv
-         +h7A==
-X-Gm-Message-State: APjAAAVV4cmWImA+r2gtittKyQFZiLTddQ0g5XUbcEGHO3jKX2srFikh
-        fUKAzvtbToD6MLkhjFJm4jc=
-X-Google-Smtp-Source: APXvYqwK7DNQQdsfY9M8U1S6wADiMibc8D0R/IKBzbxZdTUIZvO0h2ZdKVAPY1QBihaCvYiJN5ndAA==
-X-Received: by 2002:a05:651c:154:: with SMTP id c20mr18307067ljd.83.1570460812200;
-        Mon, 07 Oct 2019 08:06:52 -0700 (PDT)
-Received: from neopili.qtec.com (cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
-        by smtp.gmail.com with ESMTPSA id n2sm3145517ljj.30.2019.10.07.08.06.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Oct 2019 08:06:50 -0700 (PDT)
-From:   Ricardo Ribalda Delgado <ribalda@kernel.org>
-To:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Ricardo Ribalda Delgado <ribalda@kernel.org>
-Subject: [PATCH v12 8/8] media: imx214: Add new control with V4L2_CID_UNIT_CELL_SIZE
-Date:   Mon,  7 Oct 2019 17:06:36 +0200
-Message-Id: <20191007150636.16458-9-ribalda@kernel.org>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191007150636.16458-1-ribalda@kernel.org>
-References: <20191007150636.16458-1-ribalda@kernel.org>
+        id S1729259AbfJGPJF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Oct 2019 11:09:05 -0400
+Received: from iolanthe.rowland.org ([192.131.102.54]:60244 "HELO
+        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with SMTP id S1728138AbfJGPJF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Oct 2019 11:09:05 -0400
+Received: (qmail 4331 invoked by uid 2102); 7 Oct 2019 11:09:04 -0400
+Received: from localhost (sendmail-bs@127.0.0.1)
+  by localhost with SMTP; 7 Oct 2019 11:09:04 -0400
+Date:   Mon, 7 Oct 2019 11:09:04 -0400 (EDT)
+From:   Alan Stern <stern@rowland.harvard.edu>
+X-X-Sender: stern@iolanthe.rowland.org
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+cc:     linux-media@vger.kernel.org, USB list <linux-usb@vger.kernel.org>,
+        <syzkaller-bugs@googlegroups.com>
+Subject: [PATCH 1/2 RESEND] media: usbvision: Fix invalid accesses after
+ device disconnect
+Message-ID: <Pine.LNX.4.44L0.1910071100170.1513-100000@iolanthe.rowland.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-According to the product brief, the unit cell size is 1120 nanometers^2.
+The syzbot fuzzer found two invalid-access bugs in the usbvision
+driver.  These bugs occur when userspace keeps the device file open
+after the device has been disconnected and usbvision_disconnect() has
+set usbvision->dev to NULL:
 
-https://www.sony-semicon.co.jp/products_en/IS/sensor1/img/products/ProductBrief_IMX214_20150428.pdf
+	When the device file is closed, usbvision_radio_close() tries
+	to issue a usb_set_interface() call, passing the NULL pointer
+	as its first argument.
 
-Signed-off-by: Ricardo Ribalda Delgado <ribalda@kernel.org>
+	If userspace performs a querycap ioctl call, vidioc_querycap()
+	calls usb_make_path() with the same NULL pointer.
+
+This patch fixes the problems by making the appropriate tests
+beforehand.  Note that vidioc_querycap() is protected by
+usbvision->v4l2_lock, acquired in a higher layer of the V4L2
+subsystem.
+
+Reported-and-tested-by: syzbot+7fa38a608b1075dfd634@syzkaller.appspotmail.com
+Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
+CC: <stable@vger.kernel.org>
+
 ---
- drivers/media/i2c/imx214.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
 
-diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
-index 159a3a604f0e..adcaaa8c86d1 100644
---- a/drivers/media/i2c/imx214.c
-+++ b/drivers/media/i2c/imx214.c
-@@ -47,6 +47,7 @@ struct imx214 {
- 	struct v4l2_ctrl *pixel_rate;
- 	struct v4l2_ctrl *link_freq;
- 	struct v4l2_ctrl *exposure;
-+	struct v4l2_ctrl *unit_size;
+[as1919]
+
+ drivers/media/usb/usbvision/usbvision-video.c |    6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+Index: usb-devel/drivers/media/usb/usbvision/usbvision-video.c
+===================================================================
+--- usb-devel.orig/drivers/media/usb/usbvision/usbvision-video.c
++++ usb-devel/drivers/media/usb/usbvision/usbvision-video.c
+@@ -453,6 +453,9 @@ static int vidioc_querycap(struct file *
+ {
+ 	struct usb_usbvision *usbvision = video_drvdata(file);
  
- 	struct regulator_bulk_data	supplies[IMX214_NUM_SUPPLIES];
++	if (!usbvision->dev)
++		return -ENODEV;
++
+ 	strscpy(vc->driver, "USBVision", sizeof(vc->driver));
+ 	strscpy(vc->card,
+ 		usbvision_device_data[usbvision->dev_model].model_string,
+@@ -1111,7 +1114,8 @@ static int usbvision_radio_close(struct
+ 	mutex_lock(&usbvision->v4l2_lock);
+ 	/* Set packet size to 0 */
+ 	usbvision->iface_alt = 0;
+-	usb_set_interface(usbvision->dev, usbvision->iface,
++	if (usbvision->dev)
++		usb_set_interface(usbvision->dev, usbvision->iface,
+ 				    usbvision->iface_alt);
  
-@@ -948,6 +949,10 @@ static int imx214_probe(struct i2c_client *client)
- 	static const s64 link_freq[] = {
- 		IMX214_DEFAULT_LINK_FREQ,
- 	};
-+	static const struct v4l2_area unit_size = {
-+		.width = 1120,
-+		.height = 1120,
-+	};
- 	int ret;
- 
- 	ret = imx214_parse_fwnode(dev);
-@@ -1029,6 +1034,10 @@ static int imx214_probe(struct i2c_client *client)
- 					     V4L2_CID_EXPOSURE,
- 					     0, 3184, 1, 0x0c70);
- 
-+	imx214->unit_size = v4l2_ctrl_new_std_compound(&imx214->ctrls,
-+				NULL,
-+				V4L2_CID_UNIT_CELL_SIZE,
-+				v4l2_ctrl_ptr_create((void *)&unit_size));
- 	ret = imx214->ctrls.error;
- 	if (ret) {
- 		dev_err(&client->dev, "%s control init failed (%d)\n",
--- 
-2.23.0
+ 	usbvision_audio_off(usbvision);
 
