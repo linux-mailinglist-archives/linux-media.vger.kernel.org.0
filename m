@@ -2,94 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C6F1CCE547
-	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2019 16:31:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D68ECE570
+	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2019 16:39:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727711AbfJGObr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Oct 2019 10:31:47 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:50845 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727324AbfJGObr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 7 Oct 2019 10:31:47 -0400
-Received: from [IPv6:2001:983:e9a7:1:3d61:cdd2:8085:cc8] ([IPv6:2001:983:e9a7:1:3d61:cdd2:8085:cc8])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id HU36iQ6Ndop0AHU37iInUz; Mon, 07 Oct 2019 16:31:45 +0200
-Subject: Re: [PATCH v9] vivid: Add metadata capture support
-To:     Vandana BN <bnvandana@gmail.com>, linux-media@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-References: <0e9fb478-18b7-22a4-2eaf-c19ae57678e0@xs4all.nl>
- <20191004102457.27611-1-bnvandana@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <96d53360-5520-f253-db8e-995bf5920746@xs4all.nl>
-Date:   Mon, 7 Oct 2019 16:31:44 +0200
+        id S1727589AbfJGOi7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Oct 2019 10:38:59 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:43317 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726334AbfJGOi7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Oct 2019 10:38:59 -0400
+Received: by mail-lj1-f196.google.com with SMTP id n14so13906055ljj.10
+        for <linux-media@vger.kernel.org>; Mon, 07 Oct 2019 07:38:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=F4Ty+1qbx7fp2IOThQZa5p1hnninGpZKNUIn0Vlr5gA=;
+        b=Qtyu1kzD9LwmbmAVo6V+ZkqowQVFtwCMupTjz5pN4PdMpRaUyQOQskM5F3xvBdzT2k
+         vSOz0NdSY44Qx1HzL2p25ysaIj9dwF+TrJvuWeRNWsp9KUtOC15K8SuHZXyMPXJcEI66
+         Vx0M4vAGLMi+UavZCUqa+EIjhkeyVHQiqIacaUjrwDkCgr5fucbcdI9kEhn5k9+b483V
+         hJY7/zvKMEgD86CSANP/jDy9BWN1xzeQPmRqIFjBhNMdIlJ06PFVEF3PwvUTlberngGI
+         LS3Us0oLb/1wc2XgDV+MBCOIoa22ksznoKnb0CIERo7GNhZHo4Gp7S38PO2iW+UBY1J+
+         45yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=F4Ty+1qbx7fp2IOThQZa5p1hnninGpZKNUIn0Vlr5gA=;
+        b=iml9XxZcC2TR+sB0S3z7EUvGUdz53hZbZQBRq1DI9Wo6JQBOApMzWIE4sYQUNozUYb
+         Xpm0GFnU50u/+Vzo7ksVxVch/WpjXC1a7Tq+RtB6GlIiF3xmpq7OjrHNCyv3a1oaIy+T
+         DlDJS9rpESPOgkUHTs8B3kEsDzAtuEww+0D/04bGjTeEMrvWJ6vMpuzL5pdJk6xGzjQd
+         Hlw8HeH7IQyFYogzKcsn6rSeP6kHXqpP+As2IKBrIB2djaQdgWVuc4FdSf7dh/0CCjri
+         of3jq5RVFLIMoA+yGz1OYlHf+8vcDTtQ6LI+RxGsnqm6euzslfdpjExLXTZW56cq20nk
+         8tfg==
+X-Gm-Message-State: APjAAAU1zvG1D0yiBBGaZWdEqAzfSVCv4+rjRy/fBJTbsgIiDXBkp2tM
+        xQVESZCIIl05cC7VduQvIexnPw==
+X-Google-Smtp-Source: APXvYqyrzQHE9XMk37hzyE9ZaZmWpxtZxck4/tx3aRmKe0OABFskZ5aA58/d7741xgH0hxNIap2qdg==
+X-Received: by 2002:a2e:8199:: with SMTP id e25mr15282464ljg.246.1570459137409;
+        Mon, 07 Oct 2019 07:38:57 -0700 (PDT)
+Received: from [192.168.27.209] ([37.157.136.206])
+        by smtp.googlemail.com with ESMTPSA id z26sm3181004lji.79.2019.10.07.07.38.55
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 07 Oct 2019 07:38:56 -0700 (PDT)
+Subject: Re: [PATCH] media: venus: fix build on 32bit environments
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@infradead.org>,
+        Andy Gross <agross@kernel.org>, linux-arm-msm@vger.kernel.org
+References: <f8b266dea8594c046bd545ca1f497bfc1658835d.1570455418.git.mchehab+samsung@kernel.org>
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Message-ID: <2f22ff7f-0e47-b03f-75bf-a9822afb0507@linaro.org>
+Date:   Mon, 7 Oct 2019 17:38:53 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20191004102457.27611-1-bnvandana@gmail.com>
+In-Reply-To: <f8b266dea8594c046bd545ca1f497bfc1658835d.1570455418.git.mchehab+samsung@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfANsqTalFBuhwe1HuzdV8Zxd3fi92IRYYV5P2XceoTF3eL7aU7IuqQLCMsS6OMrd/lkvkiyb5UlqU3fsDNcpEGVRGjRYAN1CUqmAjNDzzpQkeyogo1ln
- PAcLrAAGHoJ3MLGIbuXVHqk5cEF7dE82Qfthl77Aq053G6/C87yZSYrAzKA7TRtqvn8yK3Udnpy/fdIcXHxNlvnPsTeUZu8qjScRgkMFKaQwN/huGkwBTTfm
- sE0p4IvHk0HFxbwAIr0PlIhZLUcfpokJT2cdfMEG7xukZYMcP59lCJVaG5vK7MFwHQsb8oJgevA1U3A0I59p+RsjMwT18V4ZmqJnOP/5+ZumArDlQ/fAjjw9
- D1K1IJJc319VpPBjipYtTG0hAEN5Yg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/4/19 12:24 PM, Vandana BN wrote:
-> +void vivid_meta_cap_fillbuff(struct vivid_dev *dev,
-> +			     struct vivid_buffer *buf, u32 soe)
+Hi Mauro,
 
-soe should have been a u64 since f_time is a u64.
+Thanks for the fix!
 
-> +{
-> +	struct vivid_uvc_meta_buf *meta = vb2_plane_vaddr(&buf->vb.vb2_buf, 0);
-> +	int buf_off = 0;
+On 10/7/19 4:37 PM, Mauro Carvalho Chehab wrote:
+> As reported by jenkins@linuxtv.org, the build with i386 fails
+> with:
+> 
+> 	ld: drivers/media/platform/qcom/venus/helpers.o: in function `venus_helper_load_scale_clocks':
+> 	(.text+0x1d77): undefined reference to `__udivdi3'
+> 	ld: (.text+0x1dce): undefined reference to `__udivdi3'
+> 	make: *** [Makefile:1094: vmlinux] Error 1
+> 
+> That's because it divides an u32 bit integer by a u64 one.
+
+General question, shouldn't such errors been catch from builder on the
+pull request?
+
+> 
+> Fix it by explicitly callind do_div.
+> 
+> That's said, why fps is a 64 bits integer?
+
+I don't have other explanation than - just to avoid casting after the
+math in vdec/venc_s_parm() functions.
+
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> ---
+>  drivers/media/platform/qcom/venus/helpers.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
+> index 5ea5d90f8e5f..09fa87e3c0a0 100644
+> --- a/drivers/media/platform/qcom/venus/helpers.c
+> +++ b/drivers/media/platform/qcom/venus/helpers.c
+> @@ -522,8 +522,14 @@ static unsigned long calculate_inst_freq(struct venus_inst *inst,
+>  	unsigned long vpp_freq = 0, vsp_freq = 0;
+>  	u64 fps = inst->fps;
+>  	u32 mbs_per_sec;
+> +	u64 tmp;
 > +
-> +	buf->vb.sequence = dev->meta_cap_seq_count;
-> +	if (dev->field_cap == V4L2_FIELD_ALTERNATE)
-> +		buf->vb.sequence /= 2;
-> +	memset(meta, 1, vb2_plane_size(&buf->vb.vb2_buf, 0));
-> +
-> +	meta->ns = ktime_get_ns();
-> +	meta->sof = buf->vb.sequence * 30;
-> +	meta->length = sizeof(*meta) - offsetof(struct vivid_uvc_meta_buf, length);
-> +	meta->flags = UVC_STREAM_EOH | UVC_STREAM_EOF;
-> +
-> +	if ((buf->vb.sequence % 2) == 0)
-> +		meta->flags |= UVC_STREAM_FID;
-> +
-> +	dprintk(dev, 2, "%s ns:%llu sof:%4d len:%u flags: 0x%02x",
-> +		__func__, meta->ns, meta->sof, meta->length, meta->flags);
-> +	if (dev->meta_pts) {
-> +		meta->flags |= UVC_STREAM_PTS;
-> +		meta->buf[0] = soe / VIVID_META_CLOCK_UNIT;
 
-Use div_u64() here.
-
-> +		buf_off = 4;
-> +		dprintk(dev, 2, " pts: %u\n", *(__u32 *)(meta->buf));
-> +	}
-> +
-> +	if (dev->meta_scr) {
-> +		meta->flags |= UVC_STREAM_SCR;
-> +		meta->buf[buf_off] = (soe + dev->cap_frame_eof_offset)
-> +					/ VIVID_META_CLOCK_UNIT;
-
-Same here (and this is the cause of the kbuild error).
+you have extra blank line here.
 
 > +
-> +		meta->buf[buf_off + 4] = (buf->vb.sequence * 30) % 1000;
-> +		dprintk(dev, 2, " stc: %u, sof counter: %u\n",
-> +			*(__u32 *)(meta->buf + buf_off),
-> +			*(__u16 *)(meta->buf + buf_off + 4));
-> +	}
-> +	dprintk(dev, 2, "\n");
-> +}
+> +	tmp = load_per_instance(inst);
+> +	do_div(tmp, inst->fps);
+> +
+> +	mbs_per_sec = (u32)tmp;
+>  
+> -	mbs_per_sec = load_per_instance(inst) / inst->fps;
+>  	vpp_freq = mbs_per_sec * inst->clk_data.codec_freq_data->vpp_freq;
+>  	/* 21 / 20 is overhead factor */
+>  	vpp_freq += vpp_freq / 20;
+> 
 
-Regards,
+I guess this fix should be squashed with the commit which introduce it :(
 
-	Hans
+Note taken, always build patches on i386 :/
+
+-- 
+regards,
+Stan
