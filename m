@@ -2,157 +2,469 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 80542CEBFF
-	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2019 20:34:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 76F11CEC7A
+	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2019 21:10:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728330AbfJGSeA convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Mon, 7 Oct 2019 14:34:00 -0400
-Received: from mail-oln040092072071.outbound.protection.outlook.com ([40.92.72.71]:17542
-        "EHLO EUR03-VE1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728081AbfJGSd7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 7 Oct 2019 14:33:59 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PzC+CtRz8zApziSU6RaGpNLSv5IMrDPgfE4oXxHtt5AxwE9ZbUyNMWM2aQkm4dfMlkTi3E9Z3he6Y6zYJeCcZnaHp0SMhLmUZxsPbFymR26e3daNXIcFn1q3NlT+MJwMXJUVkvDuUERz0v8KHUktoYhzFpXGs/F/Qe1pykOxmDVmbAvWo5a62vtmLZqcSinmIWYS6TOq0++CNlEoLP04cYJuCwsYFZOIISzx2Po86BkCzN7bwr8Fcjxrn8zWOfT9SFurm1eqrTdLeRynPGHqfhZ1yZt7RCWMfNYoopr2v41Ysc7TavfZ7Eg9aImcWh1xX9Hs8KyInzDqrEyTwAPUWA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gv/rWJhNzSxfYffBOdNDgTZKoNhZl/1l0r+f1m1j2SQ=;
- b=ds0o4tZr0qtPaB/bqDF+k9Nj7guMaP4BJGb8jHsh+/TBLzT/IBjQxXvG1c2WKo5imGC+u2la5J82s6aUzarTjMKnuoNVJ2G2GV4ddCMqdGM3HkSvGKbRScLxHrv/nW60qb2HClXwU/wUZRvj6gP21YyMku+m7IuLN/uKrmKuBvx0HGA0Ziq09+rh2FhRHvI5xJIsS2lHTRpeNwpRGUsE/++rSjeca9U9Lri1C1aHdajRssqn6A6fhSCR6ugYcI5HZURkbELsgJ4IYo/cMoKwF7qQ4bXz6InfmdfIFZkqavXouZq5kVrVGyBcSUrS8JfOmTSFTEp0dPJewhGPFImL7A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-Received: from AM5EUR03FT023.eop-EUR03.prod.protection.outlook.com
- (10.152.16.58) by AM5EUR03HT008.eop-EUR03.prod.protection.outlook.com
- (10.152.16.102) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.2305.15; Mon, 7 Oct
- 2019 18:33:53 +0000
-Received: from HE1PR06MB4011.eurprd06.prod.outlook.com (10.152.16.55) by
- AM5EUR03FT023.mail.protection.outlook.com (10.152.16.169) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.2305.15 via Frontend Transport; Mon, 7 Oct 2019 18:33:53 +0000
-Received: from HE1PR06MB4011.eurprd06.prod.outlook.com
- ([fe80::5c5a:1160:a2e0:43d8]) by HE1PR06MB4011.eurprd06.prod.outlook.com
- ([fe80::5c5a:1160:a2e0:43d8%4]) with mapi id 15.20.2305.023; Mon, 7 Oct 2019
- 18:33:52 +0000
-From:   Jonas Karlman <jonas@kwiboo.se>
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-CC:     "kernel@collabora.com" <kernel@collabora.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        "linux-rockchip@lists.infradead.org" 
-        <linux-rockchip@lists.infradead.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        "fbuergisser@chromium.org" <fbuergisser@chromium.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Douglas Anderson <dianders@chromium.org>
-Subject: Re: [PATCH v2 for 5.4 3/4] media: hantro: Fix motion vectors usage
- condition
-Thread-Topic: [PATCH v2 for 5.4 3/4] media: hantro: Fix motion vectors usage
- condition
-Thread-Index: AQHVfTc5j58jepLQQEujLcDcYkaduadPgRaA
-Date:   Mon, 7 Oct 2019 18:33:52 +0000
-Message-ID: <HE1PR06MB4011204B3FC2DAABB4BD1BACAC9B0@HE1PR06MB4011.eurprd06.prod.outlook.com>
-References: <20191007174505.10681-1-ezequiel@collabora.com>
- <20191007174505.10681-4-ezequiel@collabora.com>
-In-Reply-To: <20191007174505.10681-4-ezequiel@collabora.com>
-Accept-Language: sv-SE, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR05CA0221.eurprd05.prod.outlook.com
- (2603:10a6:3:fa::21) To HE1PR06MB4011.eurprd06.prod.outlook.com
- (2603:10a6:7:9c::32)
-x-incomingtopheadermarker: OriginalChecksum:49284390698F95E349DEB478EB2430A8870D4DB416F62A400A8F266140FFC451;UpperCasedChecksum:4F92DD6035FE886F19CD68B67CA8F12580B75676CED0F81661C49F4223916D9C;SizeAsReceived:8137;Count:50
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tmn:  [3e3yQm2qrRRttsWuOTk9jkZyALgVhhVF]
-x-microsoft-original-message-id: <f89199a9-0b23-343c-7456-d003ecedce2d@kwiboo.se>
-x-ms-publictraffictype: Email
-x-incomingheadercount: 50
-x-eopattributedmessage: 0
-x-ms-traffictypediagnostic: AM5EUR03HT008:
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: wyoIY13z+kw+xTtJwBbf+Am7TOKkl1qpmUuxROSTL+cqkjmiMbR2ftH4GR3wAMuYXlpOvzRPRx3A35cH9VFGayKYOjpBaBmVzf+ffN1ONC6J0NR1mVpOXp3UszProbQbtn6Lrgr1kdlyTEQQ7NNgpn6aBXq1XQLb26vtqkgd7ySHMATYmd+2RKC7IYJ60zMc
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="Windows-1252"
-Content-ID: <940378B8E35A0A4AAADCC3F80571F034@eurprd06.prod.outlook.com>
-Content-Transfer-Encoding: 8BIT
+        id S1728330AbfJGTKJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Oct 2019 15:10:09 -0400
+Received: from mailoutvs48.siol.net ([185.57.226.239]:59043 "EHLO
+        mail.siol.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1728079AbfJGTKI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Oct 2019 15:10:08 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.siol.net (Postfix) with ESMTP id EA424521E2F;
+        Mon,  7 Oct 2019 21:01:08 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at psrvmta09.zcs-production.pri
+Received: from mail.siol.net ([127.0.0.1])
+        by localhost (psrvmta09.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id dW8YKP7WwunV; Mon,  7 Oct 2019 21:01:08 +0200 (CEST)
+Received: from mail.siol.net (localhost [127.0.0.1])
+        by mail.siol.net (Postfix) with ESMTPS id E446852208F;
+        Mon,  7 Oct 2019 21:01:07 +0200 (CEST)
+Received: from jernej-laptop.localnet (cpe-86-58-59-25.static.triera.net [86.58.59.25])
+        (Authenticated sender: jernej.skrabec@siol.net)
+        by mail.siol.net (Postfix) with ESMTPA id C766E521E2F;
+        Mon,  7 Oct 2019 21:01:06 +0200 (CEST)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     mchehab@kernel.org, paul.kocialkowski@bootlin.com,
+        mripard@kernel.org, pawel@osciak.com, m.szyprowski@samsung.com,
+        kyungmin.park@samsung.com, tfiga@chromium.org, wens@csie.org,
+        gregkh@linuxfoundation.org, boris.brezillon@collabora.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org,
+        ezequiel@collabora.com, jonas@kwiboo.se
+Subject: Re: [PATCH v2 0/6] media: cedrus: h264: Support multi-slice frames
+Date:   Mon, 07 Oct 2019 21:01:06 +0200
+Message-ID: <2785635.uIalc63MVP@jernej-laptop>
+In-Reply-To: <5ec43907-cb6f-1527-f6ec-9fffc768d9ef@xs4all.nl>
+References: <20190929200023.215831-1-jernej.skrabec@siol.net> <5ec43907-cb6f-1527-f6ec-9fffc768d9ef@xs4all.nl>
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6d69403e-8247-4b01-23bb-08d74b54e68b
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Oct 2019 18:33:52.7590
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Internet
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5EUR03HT008
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2019-10-07 19:45, Ezequiel Garcia wrote:
-> From: Francois Buergisser <fbuergisser@chromium.org>
->
-> The setting of the motion vectors usage and the setting of motion
-> vectors address are currently done under different conditions.
->
-> When decoding pre-recorded videos, this results of leaving the motion
-> vectors address unset, resulting in faulty memory accesses. Fix it
-> by using the same condition everywhere, which matches the profiles
-> that support motion vectors.
+Dne ponedeljek, 07. oktober 2019 ob 12:44:24 CEST je Hans Verkuil napisal(a):
+> Hi Jernej,
+> 
+> On 9/29/19 10:00 PM, Jernej Skrabec wrote:
+> > This series adds support for decoding multi-slice H264 frames along with
+> > support for V4L2_DEC_CMD_FLUSH and V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF.
+> > 
+> > Code was tested by modified ffmpeg, which can be found here:
+> > https://github.com/jernejsk/FFmpeg, branch mainline-test
+> > It has to be configured with at least following options:
+> > --enable-v4l2-request --enable-libudev --enable-libdrm
+> > 
+> > Samples used for testing:
+> > http://jernej.libreelec.tv/videos/h264/BA1_FT_C.mp4
+> > http://jernej.libreelec.tv/videos/h264/h264.mp4
+> > 
+> > Command line used for testing:
+> > ffmpeg -hwaccel drm -hwaccel_device /dev/dri/card0 -i h264.mp4 -pix_fmt
+> > bgra -f fbdev /dev/fb0
+> > 
+> > Please note that V4L2_DEC_CMD_FLUSH was not tested because I'm
+> > not sure how. ffmpeg follows exactly which slice is last in frame
+> > and sets hold flag accordingly. Improper usage of hold flag would
+> > corrupt ffmpeg assumptions and it would probably crash. Any ideas
+> > how to test this are welcome!
+> > 
+> > Thanks to Jonas for adjusting ffmpeg.
+> > 
+> > Please let me know what you think.
+> > 
+> > Best regards,
+> > Jernej
+> > 
+> > Changes from v1:
+> > - added Rb tags
+> > - updated V4L2_DEC_CMD_FLUSH documentation
+> > - updated first slice detection in Cedrus
+> > - hold capture buffer flag is set according to source format
+> > - added v4l m2m stateless_(try_)decoder_cmd ioctl helpers
+> > 
+> > Hans Verkuil (2):
+> >   vb2: add V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF
+> >   videodev2.h: add V4L2_DEC_CMD_FLUSH
+> > 
+> > Jernej Skrabec (4):
+> >   media: v4l2-mem2mem: add stateless_(try_)decoder_cmd ioctl helpers
+> >   media: cedrus: Detect first slice of a frame
+> >   media: cedrus: h264: Support multiple slices per frame
+> >   media: cedrus: Add support for holding capture buffer
+> >  
+> >  Documentation/media/uapi/v4l/buffer.rst       | 13 ++++++
+> >  .../media/uapi/v4l/vidioc-decoder-cmd.rst     | 10 +++-
+> >  .../media/uapi/v4l/vidioc-reqbufs.rst         |  6 +++
+> >  .../media/videodev2.h.rst.exceptions          |  1 +
+> >  .../media/common/videobuf2/videobuf2-v4l2.c   |  8 +++-
+> >  drivers/media/v4l2-core/v4l2-mem2mem.c        | 35 ++++++++++++++
+> >  drivers/staging/media/sunxi/cedrus/cedrus.h   |  1 +
+> >  .../staging/media/sunxi/cedrus/cedrus_dec.c   | 11 +++++
+> >  .../staging/media/sunxi/cedrus/cedrus_h264.c  | 11 ++++-
+> >  .../staging/media/sunxi/cedrus/cedrus_hw.c    |  8 ++--
+> >  .../staging/media/sunxi/cedrus/cedrus_video.c | 14 ++++++
+> >  include/media/v4l2-mem2mem.h                  | 46 +++++++++++++++++++
+> >  include/media/videobuf2-core.h                |  3 ++
+> >  include/media/videobuf2-v4l2.h                |  5 ++
+> >  include/uapi/linux/videodev2.h                | 14 ++++--
+> >  15 files changed, 175 insertions(+), 11 deletions(-)
+> 
+> I didn't want to make a v3 of this series, instead I hacked this patch that
+> will hopefully do all the locking right.
+> 
+> Basically I moved all the 'held' related code into v4l2-mem2mem under
+> job_spinlock. This simplifies the driver code as well.
+> 
+> But this is a hack that sits on top of this series. If your ffmpeg tests are
+> now successful, then I'll turn this into a proper series with correct
+> documentation (a lot of the comments are now wrong with this patch, so just
+> ignore that).
 
-This does not fully match hantro sdk:
+Thanks for looking into this! With small fix mentioned below, it works! Note 
+that both scenarios I tested (flushing during decoding and flushing after 
+decoding is finished) are focused on capture queue. In order to trigger output 
+queue flush, ffmpeg would need to queue multiple jobs and call flush before they 
+are all processed. This is not something I can do at this time. Maybe Jonas 
+can help with modifying ffmpeg appropriately. However, code for case seems 
+correct to me.
 
-  enable direct MV writing and POC tables for high/main streams.
-  enable it also for any "baseline" stream which have main/high tools enabled.
+> 
+> Regards,
+> 
+> 	Hans
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c
+> b/drivers/media/v4l2-core/v4l2-mem2mem.c index 2677a07e4c9b..f81a8f2465ab
+> 100644
+> --- a/drivers/media/v4l2-core/v4l2-mem2mem.c
+> +++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
+> @@ -412,25 +412,24 @@ static void v4l2_m2m_cancel_job(struct v4l2_m2m_ctx
+> *m2m_ctx) }
+>  }
+> 
+> -void v4l2_m2m_job_finish(struct v4l2_m2m_dev *m2m_dev,
+> -			 struct v4l2_m2m_ctx *m2m_ctx)
+> +static bool _v4l2_m2m_job_finish(struct v4l2_m2m_dev *m2m_dev,
+> +			  struct v4l2_m2m_ctx *m2m_ctx)
+>  {
+> -	unsigned long flags;
+> -
+> -	spin_lock_irqsave(&m2m_dev->job_spinlock, flags);
+>  	if (!m2m_dev->curr_ctx || m2m_dev->curr_ctx != m2m_ctx) {
+> -		spin_unlock_irqrestore(&m2m_dev->job_spinlock, flags);
+>  		dprintk("Called by an instance not currently 
+running\n");
+> -		return;
+> +		return false;
+>  	}
+> 
+>  	list_del(&m2m_dev->curr_ctx->queue);
+>  	m2m_dev->curr_ctx->job_flags &= ~(TRANS_QUEUED | TRANS_RUNNING);
+>  	wake_up(&m2m_dev->curr_ctx->finished);
+>  	m2m_dev->curr_ctx = NULL;
+> +	return true;
+> +}
+> 
+> -	spin_unlock_irqrestore(&m2m_dev->job_spinlock, flags);
+> -
+> +static void v4l2_m2m_job_next(struct v4l2_m2m_dev *m2m_dev,
+> +		       struct v4l2_m2m_ctx *m2m_ctx)
+> +{
+>  	/* This instance might have more buffers ready, but since we do not
+>  	 * allow more than one job on the job_queue per instance, each has
+>  	 * to be scheduled separately after the previous one finishes. */
+> @@ -441,8 +440,113 @@ void v4l2_m2m_job_finish(struct v4l2_m2m_dev *m2m_dev,
+> */
+>  	schedule_work(&m2m_dev->job_work);
+>  }
+> +
+> +void v4l2_m2m_job_finish(struct v4l2_m2m_dev *m2m_dev,
+> +			 struct v4l2_m2m_ctx *m2m_ctx)
+> +{
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&m2m_dev->job_spinlock, flags);
+> +	if (!_v4l2_m2m_job_finish(m2m_dev, m2m_ctx)) {
+> +		spin_unlock_irqrestore(&m2m_dev->job_spinlock, flags);
+> +		return;
+> +	}
+> +	spin_unlock_irqrestore(&m2m_dev->job_spinlock, flags);
+> +
+> +	v4l2_m2m_job_next(m2m_dev, m2m_ctx);
+> +}
+>  EXPORT_SYMBOL(v4l2_m2m_job_finish);
+> 
+> +void v4l2_m2m_job_finish_held(struct v4l2_m2m_dev *m2m_dev,
+> +			 struct v4l2_m2m_ctx *m2m_ctx,
+> +			 enum vb2_buffer_state state)
+> +{
+> +	struct vb2_v4l2_buffer *src_buf, *dst_buf;
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&m2m_dev->job_spinlock, flags);
+> +	src_buf = v4l2_m2m_src_buf_remove(m2m_ctx);
+> +	dst_buf = v4l2_m2m_next_dst_buf(m2m_ctx);
+> +
+> +	if (!src_buf || !dst_buf) {
+> +		pr_err("Missing source and/or destination buffers\n");
+> +		spin_unlock_irqrestore(&m2m_dev->job_spinlock, flags);
+> +		return;
+> +	}
+> +	v4l2_m2m_buf_done(src_buf, state);
+> +	if (!dst_buf->is_held) {
+> +		v4l2_m2m_dst_buf_remove(m2m_ctx);
+> +		v4l2_m2m_buf_done(dst_buf, state);
+> +	}
+> +	if (!_v4l2_m2m_job_finish(m2m_dev, m2m_ctx)) {
+> +		spin_unlock_irqrestore(&m2m_dev->job_spinlock, flags);
+> +		return;
+> +	}
+> +	spin_unlock_irqrestore(&m2m_dev->job_spinlock, flags);
+> +
+> +	v4l2_m2m_job_next(m2m_dev, m2m_ctx);
+> +}
+> +EXPORT_SYMBOL(v4l2_m2m_job_finish_held);
+> +
+> +/**
+> + * v4l2_m2m_release_capture_buf() - check if the capture buffer should be
+> + * released
+> + *
+> + * @out_vb: the output buffer
+> + * @cap_vb: the capture buffer
+> + *
+> + * This helper function returns true if the current capture buffer should
+> + * be released to vb2. This is the case if the output buffer specified that
+> + * the capture buffer should be held (i.e. not returned to vb2) AND if the
+> + * timestamp of the capture buffer differs from the output buffer
+> timestamp. + *
+> + * This helper is to be called at the start of the device_run callback:
+> + *
+> + * .. code-block:: c
+> + *
+> + *	if (v4l2_m2m_release_capture_buf(out_vb, cap_vb)) {
+> + *		v4l2_m2m_dst_buf_remove(m2m_ctx);
+> + *		v4l2_m2m_buf_done(cap_vb, VB2_BUF_STATE_DONE);
+> + *		cap_vb = v4l2_m2m_next_dst_buf(m2m_ctx);
+> + *	}
+> + *	cap_vb->is_held = out_vb->flags & 
+V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF;
+> + *
+> + *	...
+> + *
+> + *	v4l2_m2m_buf_done(out_vb, VB2_BUF_STATE_DONE);
+> + *	if (!cap_vb->is_held) {
+> + *		v4l2_m2m_dst_buf_remove(m2m_ctx);
+> + *		v4l2_m2m_buf_done(cap_vb, VB2_BUF_STATE_DONE);
+> + *	}
+> + *
+> + * This allows for multiple output buffers to be used to fill in a single
+> + * capture buffer. This is typically used by stateless decoders where
+> + * multiple e.g. H.264 slices contribute to a single decoded frame.
+> + */
+> +struct vb2_v4l2_buffer *v4l2_m2m_release_capture_buf(struct v4l2_m2m_ctx
+> *m2m_ctx) +{
+> +	struct v4l2_m2m_dev *m2m_dev = m2m_ctx->m2m_dev;
+> +	struct vb2_v4l2_buffer *src, *dst;
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&m2m_dev->job_spinlock, flags);
+> +	src = v4l2_m2m_next_src_buf(m2m_ctx);
+> +	dst = v4l2_m2m_next_dst_buf(m2m_ctx);
+> +
+> +	if (dst->is_held && dst->vb2_buf.copied_timestamp &&
+> +	    src->vb2_buf.timestamp != dst->vb2_buf.timestamp) {
+> +		dst->is_held = false;
+> +		v4l2_m2m_dst_buf_remove(m2m_ctx);
+> +		v4l2_m2m_buf_done(dst, VB2_BUF_STATE_DONE);
+> +		dst = v4l2_m2m_next_dst_buf(m2m_ctx);
+> +	}
+> +	dst->is_held = src->flags & V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF;
+> +	src->flags &= ~V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF;
+> +	spin_unlock_irqrestore(&m2m_dev->job_spinlock, flags);
+> +	return dst;
+> +}
+> +EXPORT_SYMBOL(v4l2_m2m_release_capture_buf);
+> +
+>  int v4l2_m2m_reqbufs(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
+>  		     struct v4l2_requestbuffers *reqbufs)
+>  {
+> @@ -1171,19 +1275,28 @@ int v4l2_m2m_ioctl_stateless_decoder_cmd(struct file
+> *file, void *priv, {
+>  	struct v4l2_fh *fh = file->private_data;
+>  	struct vb2_v4l2_buffer *out_vb, *cap_vb;
+> +	struct v4l2_m2m_dev *m2m_dev = fh->m2m_ctx->m2m_dev;
+> +	unsigned long flags;
+>  	int ret;
+> 
+>  	ret = v4l2_m2m_ioctl_stateless_try_decoder_cmd(file, priv, dc);
+>  	if (ret < 0)
+>  		return ret;
+> 
+> +	spin_lock_irqsave(&m2m_dev->job_spinlock, flags);
+>  	out_vb = v4l2_m2m_last_src_buf(fh->m2m_ctx);
+>  	cap_vb = v4l2_m2m_last_dst_buf(fh->m2m_ctx);
+> 
+> -	if (out_vb)
+> +	if (out_vb && (out_vb->flags & V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF)) 
+{
+>  		out_vb->flags &= ~V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF;
+> -	else if (cap_vb && cap_vb->is_held)
+> -		v4l2_m2m_buf_done(cap_vb, VB2_BUF_STATE_DONE);
+> +	} else if (cap_vb && cap_vb->is_held) {
+> +		cap_vb->is_held = false;
+> +		if (m2m_dev->curr_ctx) {
 
-  (sps->profile_idc > 66 && sps->constrained_set0_flag == 0) ||
-  sps->frame_mbs_only_flag != 1 ||
-  sps->chroma_format_idc != 1 ||
-  sps->scaling_matrix_present_flag != 0 ||
-  pps->entropy_coding_mode_flag != 0 ||
-  pps->weighted_pred_flag != 0 ||
-  pps->weighted_bi_pred_idc != 0 ||
-  pps->transform8x8_flag != 0 ||
-  pps->scaling_matrix_present_flag != 0
+Above condition should be negated.
 
-Above check is used when DIR_MV_BASE should be written.
-And WRITE_MVS_E is set to nal_ref_idc != 0 when above is true.
+Best regards,
+Jernej
 
-I think it may be safer to always set DIR_MV_BASE and keep the existing nal_ref_idc check for WRITE_MVS_E.
-(That is what I did in my "media: hantro: H264 fixes and improvements" series, v2 is incoming)
-Or have you found any video that is having issues in such case?
+> +			v4l2_m2m_dst_buf_remove(fh->m2m_ctx);
+> +			v4l2_m2m_buf_done(cap_vb, 
+VB2_BUF_STATE_DONE);
+> +		}
+> +	}
+> +	spin_unlock_irqrestore(&m2m_dev->job_spinlock, flags);
+> 
+>  	return 0;
+>  }
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c index
+> 67f7d4326fc1..4e30f263b427 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> @@ -30,14 +30,7 @@ void cedrus_device_run(void *priv)
+>  	struct media_request *src_req;
+> 
+>  	run.src = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
+> -	run.dst = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
+> -
+> -	if (v4l2_m2m_release_capture_buf(run.src, run.dst)) {
+> -		v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
+> -		v4l2_m2m_buf_done(run.dst, VB2_BUF_STATE_DONE);
+> -		run.dst = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
+> -	}
+> -	run.dst->is_held = run.src->flags & 
+V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF;
+> +	run.dst = v4l2_m2m_release_capture_buf(ctx->fh.m2m_ctx);
+> 
+>  	run.first_slice = !run.dst->vb2_buf.copied_timestamp ||
+>  		run.src->vb2_buf.timestamp != run.dst-
+>vb2_buf.timestamp;
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c index
+> 99fedec80224..242cad82cc8c 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> @@ -103,7 +103,6 @@ static irqreturn_t cedrus_irq(int irq, void *data)
+>  {
+>  	struct cedrus_dev *dev = data;
+>  	struct cedrus_ctx *ctx;
+> -	struct vb2_v4l2_buffer *src_buf, *dst_buf;
+>  	enum vb2_buffer_state state;
+>  	enum cedrus_irq_status status;
+> 
+> @@ -121,26 +120,12 @@ static irqreturn_t cedrus_irq(int irq, void *data)
+>  	dev->dec_ops[ctx->current_codec]->irq_disable(ctx);
+>  	dev->dec_ops[ctx->current_codec]->irq_clear(ctx);
+> 
+> -	src_buf = v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
+> -	dst_buf = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
+> -
+> -	if (!src_buf || !dst_buf) {
+> -		v4l2_err(&dev->v4l2_dev,
+> -			 "Missing source and/or destination 
+buffers\n");
+> -		return IRQ_HANDLED;
+> -	}
+> -
+>  	if (status == CEDRUS_IRQ_ERROR)
+>  		state = VB2_BUF_STATE_ERROR;
+>  	else
+>  		state = VB2_BUF_STATE_DONE;
+> 
+> -	v4l2_m2m_buf_done(src_buf, state);
+> -	if (!dst_buf->is_held) {
+> -		v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
+> -		v4l2_m2m_buf_done(dst_buf, state);
+> -	}
+> -	v4l2_m2m_job_finish(ctx->dev->m2m_dev, ctx->fh.m2m_ctx);
+> +	v4l2_m2m_job_finish_held(ctx->dev->m2m_dev, ctx->fh.m2m_ctx, state);
+> 
+>  	return IRQ_HANDLED;
+>  }
+> diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2mem.h
+> index 8ae2f56c7fa3..48ca7d3eaa3d 100644
+> --- a/include/media/v4l2-mem2mem.h
+> +++ b/include/media/v4l2-mem2mem.h
+> @@ -173,6 +173,10 @@ void v4l2_m2m_try_schedule(struct v4l2_m2m_ctx
+> *m2m_ctx); void v4l2_m2m_job_finish(struct v4l2_m2m_dev *m2m_dev,
+>  			 struct v4l2_m2m_ctx *m2m_ctx);
+> 
+> +void v4l2_m2m_job_finish_held(struct v4l2_m2m_dev *m2m_dev,
+> +			 struct v4l2_m2m_ctx *m2m_ctx,
+> +			 enum vb2_buffer_state state);
+> +
+>  static inline void
+>  v4l2_m2m_buf_done(struct vb2_v4l2_buffer *buf, enum vb2_buffer_state state)
+> {
+> @@ -644,47 +648,7 @@ void v4l2_m2m_buf_copy_metadata(const struct
+> vb2_v4l2_buffer *out_vb, struct vb2_v4l2_buffer *cap_vb,
+>  				bool copy_frame_flags);
+> 
+> -/**
+> - * v4l2_m2m_release_capture_buf() - check if the capture buffer should be
+> - * released
+> - *
+> - * @out_vb: the output buffer
+> - * @cap_vb: the capture buffer
+> - *
+> - * This helper function returns true if the current capture buffer should
+> - * be released to vb2. This is the case if the output buffer specified that
+> - * the capture buffer should be held (i.e. not returned to vb2) AND if the
+> - * timestamp of the capture buffer differs from the output buffer
+> timestamp. - *
+> - * This helper is to be called at the start of the device_run callback:
+> - *
+> - * .. code-block:: c
+> - *
+> - *	if (v4l2_m2m_release_capture_buf(out_vb, cap_vb)) {
+> - *		v4l2_m2m_dst_buf_remove(m2m_ctx);
+> - *		v4l2_m2m_buf_done(cap_vb, VB2_BUF_STATE_DONE);
+> - *		cap_vb = v4l2_m2m_next_dst_buf(m2m_ctx);
+> - *	}
+> - *	cap_vb->is_held = out_vb->flags & 
+V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF;
+> - *
+> - *	...
+> - *
+> - *	v4l2_m2m_buf_done(out_vb, VB2_BUF_STATE_DONE);
+> - *	if (!cap_vb->is_held) {
+> - *		v4l2_m2m_dst_buf_remove(m2m_ctx);
+> - *		v4l2_m2m_buf_done(cap_vb, VB2_BUF_STATE_DONE);
+> - *	}
+> - *
+> - * This allows for multiple output buffers to be used to fill in a single
+> - * capture buffer. This is typically used by stateless decoders where
+> - * multiple e.g. H.264 slices contribute to a single decoded frame.
+> - */
+> -static inline bool v4l2_m2m_release_capture_buf(const struct
+> vb2_v4l2_buffer *out_vb, -					
+	const struct vb2_v4l2_buffer *cap_vb)
+> -{
+> -	return cap_vb->is_held && cap_vb->vb2_buf.copied_timestamp &&
+> -	       out_vb->vb2_buf.timestamp != cap_vb->vb2_buf.timestamp;
+> -}
+> +struct vb2_v4l2_buffer *v4l2_m2m_release_capture_buf(struct v4l2_m2m_ctx
+> *m2m_ctx);
+> 
+>  /* v4l2 request helper */
 
-Regards,
-Jonas
 
->
-> Fixes: dea0a82f3d22 ("media: hantro: Add support for H264 decoding on G1")
-> Signed-off-by: Francois Buergisser <fbuergisser@chromium.org>
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> ---
-> v2:
-> * New patch.
->
->  drivers/staging/media/hantro/hantro_g1_h264_dec.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/staging/media/hantro/hantro_g1_h264_dec.c b/drivers/staging/media/hantro/hantro_g1_h264_dec.c
-> index 7ab534936843..c92460407613 100644
-> --- a/drivers/staging/media/hantro/hantro_g1_h264_dec.c
-> +++ b/drivers/staging/media/hantro/hantro_g1_h264_dec.c
-> @@ -35,7 +35,7 @@ static void set_params(struct hantro_ctx *ctx)
->  	if (sps->flags & V4L2_H264_SPS_FLAG_MB_ADAPTIVE_FRAME_FIELD)
->  		reg |= G1_REG_DEC_CTRL0_SEQ_MBAFF_E;
->  	reg |= G1_REG_DEC_CTRL0_PICORD_COUNT_E;
-> -	if (dec_param->nal_ref_idc)
-> +	if (sps->profile_idc > 66)
->  		reg |= G1_REG_DEC_CTRL0_WRITE_MVS_E;
->  
->  	if (!(sps->flags & V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY) &&
+
 
