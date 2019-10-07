@@ -2,45 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DBA2CE33C
-	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2019 15:22:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9111CCE33E
+	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2019 15:22:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728328AbfJGNVN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Oct 2019 09:21:13 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:37014 "EHLO
+        id S1728414AbfJGNVQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Oct 2019 09:21:16 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:37019 "EHLO
         mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728235AbfJGNVM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Oct 2019 09:21:12 -0400
-Received: by mail-lf1-f68.google.com with SMTP id w67so9267555lff.4;
-        Mon, 07 Oct 2019 06:21:11 -0700 (PDT)
+        with ESMTP id S1728337AbfJGNVP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Oct 2019 09:21:15 -0400
+Received: by mail-lf1-f68.google.com with SMTP id w67so9267647lff.4;
+        Mon, 07 Oct 2019 06:21:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=GX+ni17mNRYs8d+zDraCFt5XjyO8QrKC7e0GjBCgxpI=;
-        b=CHYrG2G8fWBGdJvgo67uDoIed/9CPtwZPTYTNmjRF9kZFAu2rdIFyrO9ixoD1IcKkQ
-         kscz1pUoiQxOtb6Cf2hgDC4GEx1X1FENNT7kcdpQpua3+bWbhADJfBCkWizWtzqVko1l
-         iMiC+jkj3j++4/Hp3GLOCe145LAefo9txz3HF8RO1iD0up8c1/2mgx+w6fVRxoPvQFeN
-         feqCDHrrcSEycsRn0yMjNFqaIVivh8F2Jczw5PfS789CdElZYHk1kK5ekwn14jUvD95W
-         DkcA1Vl9p0Bc9k0g5kAI6eKbvRkQkw2L06VIsySsg+5ubrLjXch2QjzzKOYhzN43iBJM
-         3wFg==
-X-Gm-Message-State: APjAAAV1OPAeKq7h/bhc6hlhHqEsXr4noHt+TorhWL11ZICvPnabg6F4
-        +bNxpfWdS0hllHK706GqYKI=
-X-Google-Smtp-Source: APXvYqwlE8mz5IqyFoGHNe1iuu0hWCBGRHHravGVWOyYThgV5dMLWivqXmj1Cc/4oxMSs0RrQq+SSg==
-X-Received: by 2002:ac2:48af:: with SMTP id u15mr17147302lfg.75.1570454470551;
-        Mon, 07 Oct 2019 06:21:10 -0700 (PDT)
+        bh=RtunKeo/Z/Gny4X+yFZnXKaRyWAlxIelYmZYNvgXgHc=;
+        b=Ka5bOMMFJ/ZtuOb7sfZzbQVHCDB9ieZBWcybhs0o7p2HT5/c7YYfbYzB8uFc3tECiV
+         ihOtsMEI2B9JFYaja39ed+gX6i72rHW0//AGpJfPc8bhltEz0e9JE9N87IckWvDjt8qI
+         bWoO1nwqqwUS4ZrxWL+NQhAXZwun7uwqPsRqEvanlKH3Kd43giJiJvcgehm8XJB/ZuHt
+         RDXSAPXN3cwSQp61B3zEPS0CJmWq6oVU6dfvaS/hSChRqfbSxvZ1ZEIF9YGWDtjK8G3i
+         F7tm8LVUHS4pKUkvy6T/sDoPuUQqcOTug41Migk6yXmFzNjGN/cfRKbg+I/qqSNl1EI9
+         13vg==
+X-Gm-Message-State: APjAAAUPhTaaoePV19ff3jnqK1Y7/Ut+dW3RaLef8iAdaGjHHQ9BcNoA
+        XkI8/+k7xLYmDDCmhJpfnZQ=
+X-Google-Smtp-Source: APXvYqz5Ank+tQbMh1INUagugHlpRR8z9/MgJYX3dFe2x4wABZiMRjkJRW5Yv+VHcApQQ7hb/2QDOw==
+X-Received: by 2002:ac2:4902:: with SMTP id n2mr17058988lfi.0.1570454472955;
+        Mon, 07 Oct 2019 06:21:12 -0700 (PDT)
 Received: from neopili.qtec.com (cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
-        by smtp.gmail.com with ESMTPSA id z14sm2687360lfh.30.2019.10.07.06.21.08
+        by smtp.gmail.com with ESMTPSA id z14sm2687360lfh.30.2019.10.07.06.21.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Oct 2019 06:21:09 -0700 (PDT)
+        Mon, 07 Oct 2019 06:21:11 -0700 (PDT)
 From:   Ricardo Ribalda Delgado <ribalda@kernel.org>
 To:     Pavel Machek <pavel@ucw.cz>, Sakari Ailus <sakari.ailus@iki.fi>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Ricardo Ribalda Delgado <ribalda@kernel.org>
-Subject: [PATCH v7 3/6] media: ad5820: Add support for enable pin
-Date:   Mon,  7 Oct 2019 15:20:44 +0200
-Message-Id: <20191007132050.27298-7-ribalda@kernel.org>
+Cc:     Ricardo Ribalda Delgado <ribalda@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: [PATCH v7 4/6] ad5820: Add support for of-autoload
+Date:   Mon,  7 Oct 2019 15:20:45 +0200
+Message-Id: <20191007132050.27298-8-ribalda@kernel.org>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191007132050.27298-1-ribalda@kernel.org>
 References: <20191007132050.27298-1-ribalda@kernel.org>
@@ -51,95 +52,45 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This patch adds support for a programmable enable pin. It can be used in
-situations where the ANA-vcc is not configurable (dummy-regulator), or
-just to have a more fine control of the power saving.
+Since kernel 4.16, i2c devices with DT compatible tag are modprobed
+using their DT modalias.
+Without this patch, if this driver is build as module it would never
+be autoprobed.
 
-The use of the enable pin is optional.
+There is no need to mask it with CONFIG_OF to allow ACPI loading, this
+also builds find with CONFIG_OF=n.
 
 Signed-off-by: Ricardo Ribalda Delgado <ribalda@kernel.org>
 Acked-by: Pavel Machek <pavel@ucw.cz>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/i2c/Kconfig  |  2 +-
- drivers/media/i2c/ad5820.c | 17 +++++++++++++++++
- 2 files changed, 18 insertions(+), 1 deletion(-)
+ drivers/media/i2c/ad5820.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 78dc64d7b0e7..30d460844dff 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -975,7 +975,7 @@ if MEDIA_CAMERA_SUPPORT
- 
- config VIDEO_AD5820
- 	tristate "AD5820 lens voice coil support"
--	depends on I2C && VIDEO_V4L2 && MEDIA_CONTROLLER
-+	depends on GPIOLIB && I2C && VIDEO_V4L2 && MEDIA_CONTROLLER
- 	help
- 	  This is a driver for the AD5820 camera lens voice coil.
- 	  It is used for example in Nokia N900 (RX-51).
 diff --git a/drivers/media/i2c/ad5820.c b/drivers/media/i2c/ad5820.c
-index 7a49651f4d1f..76aab651f217 100644
+index 76aab651f217..5651609e5095 100644
 --- a/drivers/media/i2c/ad5820.c
 +++ b/drivers/media/i2c/ad5820.c
-@@ -19,6 +19,7 @@
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/regulator/consumer.h>
-+#include <linux/gpio/consumer.h>
+@@ -364,12 +364,19 @@ static const struct i2c_device_id ad5820_id_table[] = {
+ };
+ MODULE_DEVICE_TABLE(i2c, ad5820_id_table);
  
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
-@@ -47,6 +48,8 @@ struct ad5820_device {
- 	u32 focus_ramp_time;
- 	u32 focus_ramp_mode;
- 
-+	struct gpio_desc *enable_gpio;
++static const struct of_device_id ad5820_of_table[] = {
++	{ .compatible = "adi,ad5820" },
++	{ }
++};
++MODULE_DEVICE_TABLE(of, ad5820_of_table);
 +
- 	struct mutex power_lock;
- 	int power_count;
+ static SIMPLE_DEV_PM_OPS(ad5820_pm, ad5820_suspend, ad5820_resume);
  
-@@ -114,6 +117,8 @@ static int ad5820_power_off(struct ad5820_device *coil, bool standby)
- 		ret = ad5820_update_hw(coil);
- 	}
- 
-+	gpiod_set_value_cansleep(coil->enable_gpio, 0);
-+
- 	ret2 = regulator_disable(coil->vana);
- 	if (ret)
- 		return ret;
-@@ -128,6 +133,8 @@ static int ad5820_power_on(struct ad5820_device *coil, bool restore)
- 	if (ret < 0)
- 		return ret;
- 
-+	gpiod_set_value_cansleep(coil->enable_gpio, 1);
-+
- 	if (restore) {
- 		/* Restore the hardware settings. */
- 		coil->standby = false;
-@@ -138,6 +145,7 @@ static int ad5820_power_on(struct ad5820_device *coil, bool restore)
- 	return 0;
- 
- fail:
-+	gpiod_set_value_cansleep(coil->enable_gpio, 0);
- 	coil->standby = true;
- 	regulator_disable(coil->vana);
- 
-@@ -304,6 +312,15 @@ static int ad5820_probe(struct i2c_client *client,
- 		return ret;
- 	}
- 
-+	coil->enable_gpio = devm_gpiod_get_optional(&client->dev, "enable",
-+						    GPIOD_OUT_LOW);
-+	if (IS_ERR(coil->enable_gpio)) {
-+		ret = PTR_ERR(coil->enable_gpio);
-+		if (ret != -EPROBE_DEFER)
-+			dev_err(&client->dev, "could not get enable gpio\n");
-+		return ret;
-+	}
-+
- 	mutex_init(&coil->power_lock);
- 
- 	v4l2_i2c_subdev_init(&coil->subdev, client, &ad5820_ops);
+ static struct i2c_driver ad5820_i2c_driver = {
+ 	.driver		= {
+ 		.name	= AD5820_NAME,
+ 		.pm	= &ad5820_pm,
++		.of_match_table = ad5820_of_table,
+ 	},
+ 	.probe		= ad5820_probe,
+ 	.remove		= ad5820_remove,
 -- 
 2.23.0
 
