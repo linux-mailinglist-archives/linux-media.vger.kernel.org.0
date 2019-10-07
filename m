@@ -2,492 +2,269 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F05C0CE699
-	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2019 17:09:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07BA0CE6D7
+	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2019 17:11:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729076AbfJGPIP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Oct 2019 11:08:15 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:35886 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728989AbfJGPH4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Oct 2019 11:07:56 -0400
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x97F7tQ4047060;
-        Mon, 7 Oct 2019 10:07:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1570460875;
-        bh=Na031nRtTpHgNLRhoS3VHTXJIvSFYmmw4PDQkJk43X8=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=TlWDpIIAue3+sDf+aMw++I1+JaUVlwKox2+RCIoXEi/egdbsPCSb7qHAx0IHcUYny
-         pkqAlE1xV2qU64pg/26G7Pc2kyMFjHgHDum1VpfabCzrmO9ONv5e03H+m+I4f8694V
-         tjaOdqFgux71hYFuhWEw8shjdkaF6YSoFpAGmZJA=
-Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x97F7tXY025704
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 7 Oct 2019 10:07:55 -0500
-Received: from DFLE101.ent.ti.com (10.64.6.22) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Mon, 7 Oct
- 2019 10:07:53 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE101.ent.ti.com
- (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Mon, 7 Oct 2019 10:07:55 -0500
-Received: from uda0869644b.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x97F7aFR055156;
-        Mon, 7 Oct 2019 10:07:55 -0500
-From:   Benoit Parrot <bparrot@ti.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Benoit Parrot <bparrot@ti.com>
-Subject: [Patch v3 21/21] media: ti-vpe: vpe: don't rely on colorspace member for conversion
-Date:   Mon, 7 Oct 2019 10:10:09 -0500
-Message-ID: <20191007151009.22095-22-bparrot@ti.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191007151009.22095-1-bparrot@ti.com>
-References: <20191007151009.22095-1-bparrot@ti.com>
+        id S1728511AbfJGPJh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Oct 2019 11:09:37 -0400
+Received: from plasma31.jpberlin.de ([80.241.56.82]:31685 "EHLO
+        plasma31.jpberlin.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728059AbfJGPJg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Oct 2019 11:09:36 -0400
+Received: from spamfilter04.heinlein-hosting.de (spamfilter04.heinlein-hosting.de [80.241.56.122])
+        by plasma.jpberlin.de (Postfix) with ESMTP id 5DF8D100F19;
+        Mon,  7 Oct 2019 17:09:30 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from plasma.jpberlin.de ([80.241.56.76])
+        by spamfilter04.heinlein-hosting.de (spamfilter04.heinlein-hosting.de [80.241.56.122]) (amavisd-new, port 10030)
+        with ESMTP id p9hzL830Ikjt; Mon,  7 Oct 2019 17:09:28 +0200 (CEST)
+Received: from webmail.opensynergy.com (unknown [217.66.60.5])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "webmail.opensynergy.com", Issuer "GeoTrust EV RSA CA 2018" (not verified))
+        (Authenticated sender: opensynergy@jpberlin.de)
+        by plasma.jpberlin.de (Postfix) with ESMTPSA id 55D66100F0F;
+        Mon,  7 Oct 2019 17:09:28 +0200 (CEST)
+Received: from os-lin-dmo.localnet (10.25.255.1) by MXS02.open-synergy.com
+ (10.25.10.18) with Microsoft SMTP Server (TLS) id 14.3.468.0; Mon, 7 Oct 2019
+ 17:09:27 +0200
+From:   Dmitry Morozov <dmitry.morozov@opensynergy.com>
+To:     Tomasz Figa <tfiga@chromium.org>
+CC:     <virtio-dev@lists.oasis-open.org>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Keiichi Watanabe <keiichiw@chromium.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        <alexlau@chromium.org>, <dgreid@chromium.org>,
+        =?ISO-8859-1?Q?St=E9phane?= Marchesin <marcheu@chromium.org>,
+        Pawel Osciak <posciak@chromium.org>, <stevensd@chromium.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [virtio-dev] [PATCH] [RFC RESEND] vdec: Add virtio video decode device specification
+Date:   Mon, 7 Oct 2019 17:09:27 +0200
+Message-ID: <4037801.MZecyecTDs@os-lin-dmo>
+Organization: OpenSynergy
+In-Reply-To: <CAAFQd5DZbJfEZco_fXj+jPusmj1WaMQnai2kvbuv=ZSXAz93hw@mail.gmail.com>
+References: <20190919093404.182015-1-keiichiw@chromium.org> <2489202.SRFmCUqmCE@os-lin-dmo> <CAAFQd5DZbJfEZco_fXj+jPusmj1WaMQnai2kvbuv=ZSXAz93hw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Originating-IP: [10.25.255.1]
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Up to now VPE was relying on the colorspace value of struct v4l2_format
-as an indication to perform color space conversion from YUV to RGB or
-not.
+Hi Tomasz,
 
-Instead we should used the source/destination fourcc codes as a more
-reliable indication to perform color space conversion or not.
+On Montag, 7. Oktober 2019 16:14:13 CEST Tomasz Figa wrote:
+> Hi Dmitry,
+> 
+> On Mon, Oct 7, 2019 at 11:01 PM Dmitry Morozov
+> 
+> <dmitry.morozov@opensynergy.com> wrote:
+> > Hello,
+> > 
+> > We at OpenSynergy are also working on an abstract paravirtualized video
+> > streaming device that operates input and/or output data buffers and can be
+> > used as a generic video decoder/encoder/input/output device.
+> > 
+> > We would be glad to share our thoughts and contribute to the discussion.
+> > Please see some comments regarding buffer allocation inline.
+> > 
+> > Best regards,
+> > Dmitry.
+> > 
+> > On Samstag, 5. Oktober 2019 08:08:12 CEST Tomasz Figa wrote:
+> > > Hi Gerd,
+> > > 
+> > > On Mon, Sep 23, 2019 at 5:56 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+> > > >   Hi,
+> > > >   
+> > > > > Our prototype implementation uses [4], which allows the virtio-vdec
+> > > > > device to use buffers allocated by virtio-gpu device.
+> > > > > 
+> > > > > [4] https://lkml.org/lkml/2019/9/12/157
+> > > 
+> > > First of all, thanks for taking a look at this RFC and for valuable
+> > > feedback. Sorry for the late reply.
+> > > 
+> > > For reference, Keiichi is working with me and David Stevens on
+> > > accelerated video support for virtual machines and integration with
+> > > other virtual devices, like virtio-gpu for rendering or our
+> > > currently-downstream virtio-wayland for display (I believe there is
+> > > ongoing work to solve this problem in upstream too).
+> > > 
+> > > > Well.  I think before even discussing the protocol details we need a
+> > > > reasonable plan for buffer handling.  I think using virtio-gpu buffers
+> > > > should be an optional optimization and not a requirement.  Also the
+> > > > motivation for that should be clear (Let the host decoder write
+> > > > directly
+> > > > to virtio-gpu resources, to display video without copying around the
+> > > > decoded framebuffers from one device to another).
+> > > 
+> > > Just to make sure we're on the same page, what would the buffers come
+> > > from if we don't use this optimization?
+> > > 
+> > > I can imagine a setup like this;
+> > > 
+> > >  1) host device allocates host memory appropriate for usage with host
+> > > 
+> > > video decoder,
+> > > 
+> > >  2) guest driver allocates arbitrary guest pages for storage
+> > > 
+> > > accessible to the guest software,
+> > > 
+> > >  3) guest userspace writes input for the decoder to guest pages,
+> > >  4) guest driver passes the list of pages for the input and output
+> > > 
+> > > buffers to the host device
+> > > 
+> > >  5) host device copies data from input guest pages to host buffer
+> > >  6) host device runs the decoding
+> > >  7) host device copies decoded frame to output guest pages
+> > >  8) guest userspace can access decoded frame from those pages; back to 3
+> > > 
+> > > Is that something you have in mind?
+> > 
+> > While GPU side allocations can be useful (especially in case of decoder),
+> > it could be more practical to stick to driver side allocations. This is
+> > also due to the fact that paravirtualized encoders and cameras are not
+> > necessarily require a GPU device.
+> > 
+> > Also, the v4l2 framework already features convenient helpers for CMA and
+> > SG
+> > allocations. The buffers can be used in the same manner as in virtio-gpu:
+> > buffers are first attached to an already allocated buffer/resource
+> > descriptor and then are made available for processing by the device using
+> > a dedicated command from the driver.
+> 
+> First of all, thanks a lot for your input. This is a relatively new
+> area of virtualization and we definitely need to collect various
+> possible perspectives in the discussion.
+> 
+> From Chrome OS point of view, there are several aspects for which the
+> guest side allocation doesn't really work well:
+> 1) host-side hardware has a lot of specific low level allocation
+> requirements, like alignments, paddings, address space limitations and
+> so on, which is not something that can be (easily) taught to the guest
+> OS,
+I couldn't agree more. There are some changes by Greg to add support for 
+querying GPU buffer metadata. Probably those changes could be integrated with 
+'a framework for cross-device buffer sharing' (something that Greg mentioned 
+earlier in the thread and that would totally make sense).
 
-To do so, we rework the csc module to use "struct v4l2_format *" as
-parameters, and reorganize the coefficients tables in a more logical
-way.
+> 2) allocation system is designed to be centralized, like Android
+> gralloc, because there is almost never a case when a buffer is to be
+> used only with 1 specific device. 99% of the cases are pipelines like
+> decoder -> GPU/display, camera -> encoder + GPU/display, GPU ->
+> encoder and so on, which means that allocations need to take into
+> account multiple hardware constraints.
+> 3) protected content decoding: the memory for decoded video frames
+> must not be accessible to the guest at all
+This looks like a valid use case. Would it also be possible for instance to 
+allocate mem from a secure ION heap on the guest and then to provide the sgt 
+to the device? We don't necessarily need to map that sgt for guest access.
 
-Signed-off-by: Benoit Parrot <bparrot@ti.com>
----
- drivers/media/platform/ti-vpe/csc.c | 254 +++++++++++++++++++---------
- drivers/media/platform/ti-vpe/csc.h |   4 +-
- drivers/media/platform/ti-vpe/vpe.c |  25 ++-
- 3 files changed, 184 insertions(+), 99 deletions(-)
+Best regards,
+Dmitry.
 
-diff --git a/drivers/media/platform/ti-vpe/csc.c b/drivers/media/platform/ti-vpe/csc.c
-index f0c45d187b5f..bd923bee4a31 100644
---- a/drivers/media/platform/ti-vpe/csc.c
-+++ b/drivers/media/platform/ti-vpe/csc.c
-@@ -15,76 +15,96 @@
- #include <linux/platform_device.h>
- #include <linux/slab.h>
- #include <linux/videodev2.h>
-+#include <media/v4l2-common.h>
- 
- #include "csc.h"
- 
- /*
-- * 16 coefficients in the order:
-+ * 12 coefficients in the order:
-  * a0, b0, c0, a1, b1, c1, a2, b2, c2, d0, d1, d2
-- * (we may need to pass non-default values from user space later on, we might
-- * need to make the coefficient struct more easy to populate)
-  */
--struct colorspace_coeffs {
--	u16	sd[12];
--	u16	hd[12];
-+struct quantization {
-+	u16	coeff[12];
- };
- 
--/* VIDEO_RANGE: limited range, GRAPHICS_RANGE: full range */
--#define	CSC_COEFFS_VIDEO_RANGE_Y2R	0
--#define	CSC_COEFFS_GRAPHICS_RANGE_Y2R	1
--#define	CSC_COEFFS_VIDEO_RANGE_R2Y	2
--#define	CSC_COEFFS_GRAPHICS_RANGE_R2Y	3
-+struct colorspace {
-+	struct quantization limited;
-+	struct quantization full;
-+};
-+
-+struct encoding_direction {
-+	struct colorspace r601;
-+	struct colorspace r709;
-+};
-+
-+struct csc_coeffs {
-+	struct encoding_direction y2r;
-+	struct encoding_direction r2y;
-+};
- 
- /* default colorspace coefficients */
--static struct colorspace_coeffs colorspace_coeffs[4] = {
--	[CSC_COEFFS_VIDEO_RANGE_Y2R] = {
--		{
--			/* SDTV */
--			0x0400, 0x0000, 0x057D, 0x0400, 0x1EA7, 0x1D35,
--			0x0400, 0x06EF, 0x1FFE, 0x0D40, 0x0210, 0x0C88,
-+static struct csc_coeffs csc_coeffs = {
-+	.y2r = {
-+		.r601 = {
-+			.limited = {
-+				{	/* SDTV */
-+				0x0400, 0x0000, 0x057D, 0x0400, 0x1EA7, 0x1D35,
-+				0x0400, 0x06EF, 0x1FFE, 0x0D40, 0x0210, 0x0C88,
-+				}
-+			},
-+			.full = {
-+				{	/* SDTV */
-+				0x04A8, 0x1FFE, 0x0662, 0x04A8, 0x1E6F, 0x1CBF,
-+				0x04A8, 0x0812, 0x1FFF, 0x0C84, 0x0220, 0x0BAC,
-+				}
-+			},
- 		},
--		{
--			/* HDTV */
--			0x0400, 0x0000, 0x0629, 0x0400, 0x1F45, 0x1E2B,
--			0x0400, 0x0742, 0x0000, 0x0CEC, 0x0148, 0x0C60,
-+		.r709 = {
-+			.limited = {
-+				{	/* HDTV */
-+				0x0400, 0x0000, 0x0629, 0x0400, 0x1F45, 0x1E2B,
-+				0x0400, 0x0742, 0x0000, 0x0CEC, 0x0148, 0x0C60,
-+				}
-+			},
-+			.full = {
-+				{	/* HDTV */
-+				0x04A8, 0x0000, 0x072C, 0x04A8, 0x1F26, 0x1DDE,
-+				0x04A8, 0x0873, 0x0000, 0x0C20, 0x0134, 0x0B7C,
-+				}
-+			},
- 		},
- 	},
--	[CSC_COEFFS_GRAPHICS_RANGE_Y2R] = {
--		{
--			/* SDTV */
--			0x04A8, 0x1FFE, 0x0662, 0x04A8, 0x1E6F, 0x1CBF,
--			0x04A8, 0x0812, 0x1FFF, 0x0C84, 0x0220, 0x0BAC,
-+	.r2y = {
-+		.r601 = {
-+			.limited = {
-+				{	/* SDTV */
-+				0x0132, 0x0259, 0x0075, 0x1F50, 0x1EA5, 0x020B,
-+				0x020B, 0x1E4A, 0x1FAB, 0x0000, 0x0200, 0x0200,
-+				}
-+			},
-+			.full = {
-+				{	/* SDTV */
-+				0x0107, 0x0204, 0x0064, 0x1F68, 0x1ED6, 0x01C2,
-+				0x01C2, 0x1E87, 0x1FB7, 0x0040, 0x0200, 0x0200,
-+				}
-+			},
- 		},
--		{
--			/* HDTV */
--			0x04A8, 0x0000, 0x072C, 0x04A8, 0x1F26, 0x1DDE,
--			0x04A8, 0x0873, 0x0000, 0x0C20, 0x0134, 0x0B7C,
--		},
--	},
--	[CSC_COEFFS_VIDEO_RANGE_R2Y] = {
--		{
--			/* SDTV */
--			0x0132, 0x0259, 0x0075, 0x1F50, 0x1EA5, 0x020B,
--			0x020B, 0x1E4A, 0x1FAB, 0x0000, 0x0200, 0x0200,
--		},
--		{
--			/* HDTV */
--			0x00DA, 0x02DC, 0x004A, 0x1F88, 0x1E6C, 0x020C,
--			0x020C, 0x1E24, 0x1FD0, 0x0000, 0x0200, 0x0200,
--		},
--	},
--	[CSC_COEFFS_GRAPHICS_RANGE_R2Y] = {
--		{
--			/* SDTV */
--			0x0107, 0x0204, 0x0064, 0x1F68, 0x1ED6, 0x01C2,
--			0x01C2, 0x1E87, 0x1FB7, 0x0040, 0x0200, 0x0200,
--		},
--		{
--			/* HDTV */
--			0x00bb, 0x0275, 0x003f, 0x1f99, 0x1ea5, 0x01c2,
--			0x01c2, 0x1e67, 0x1fd7, 0x0040, 0x0200, 0x0200,
-+		.r709 = {
-+			.limited = {
-+				{	/* HDTV */
-+				0x00DA, 0x02DC, 0x004A, 0x1F88, 0x1E6C, 0x020C,
-+				0x020C, 0x1E24, 0x1FD0, 0x0000, 0x0200, 0x0200,
-+				}
-+			},
-+			.full = {
-+				{	/* HDTV */
-+				0x00bb, 0x0275, 0x003f, 0x1f99, 0x1ea5, 0x01c2,
-+				0x01c2, 0x1e67, 0x1fd7, 0x0040, 0x0200, 0x0200,
-+				}
-+			},
- 		},
- 	},
-+
- };
- 
- void csc_dump_regs(struct csc_data *csc)
-@@ -117,46 +137,114 @@ EXPORT_SYMBOL(csc_set_coeff_bypass);
-  * set the color space converter coefficient shadow register values
-  */
- void csc_set_coeff(struct csc_data *csc, u32 *csc_reg0,
--		enum v4l2_colorspace src_colorspace,
--		enum v4l2_colorspace dst_colorspace)
-+		   struct v4l2_format *src_fmt, struct v4l2_format *dst_fmt)
- {
- 	u32 *csc_reg5 = csc_reg0 + 5;
- 	u32 *shadow_csc = csc_reg0;
--	struct colorspace_coeffs *sd_hd_coeffs;
- 	u16 *coeff, *end_coeff;
--	enum v4l2_colorspace yuv_colorspace;
--	int sel = 0;
--
--	/*
--	 * support only graphics data range(full range) for now, a control ioctl
--	 * would be nice here
--	 */
--	/* Y2R */
--	if (dst_colorspace == V4L2_COLORSPACE_SRGB &&
--			(src_colorspace == V4L2_COLORSPACE_SMPTE170M ||
--			src_colorspace == V4L2_COLORSPACE_REC709)) {
-+	const struct v4l2_pix_format *pix;
-+	const struct v4l2_pix_format_mplane *mp;
-+	const struct v4l2_format_info *src_finfo, *dst_finfo;
-+	enum v4l2_ycbcr_encoding src_ycbcr_enc, dst_ycbcr_enc;
-+	enum v4l2_quantization src_quantization, dst_quantization;
-+	u32 src_pixelformat, dst_pixelformat;
-+
-+	switch (src_fmt->type) {
-+	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
-+		pix = &src_fmt->fmt.pix;
-+		src_pixelformat = pix->pixelformat;
-+		src_ycbcr_enc = pix->ycbcr_enc;
-+		src_quantization = pix->quantization;
-+		break;
-+	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
-+	default:
-+		mp = &src_fmt->fmt.pix_mp;
-+		src_pixelformat = mp->pixelformat;
-+		src_ycbcr_enc = mp->ycbcr_enc;
-+		src_quantization = mp->quantization;
-+		break;
-+	}
-+
-+	switch (dst_fmt->type) {
-+	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
-+		pix = &dst_fmt->fmt.pix;
-+		dst_pixelformat = pix->pixelformat;
-+		dst_ycbcr_enc = pix->ycbcr_enc;
-+		dst_quantization = pix->quantization;
-+		break;
-+	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
-+	default:
-+		mp = &dst_fmt->fmt.pix_mp;
-+		dst_pixelformat = mp->pixelformat;
-+		dst_ycbcr_enc = mp->ycbcr_enc;
-+		dst_quantization = mp->quantization;
-+		break;
-+	}
-+
-+	src_finfo = v4l2_format_info(src_pixelformat);
-+	dst_finfo = v4l2_format_info(dst_pixelformat);
-+
-+	if (v4l2_is_format_yuv(src_finfo) &&
-+	    v4l2_is_format_rgb(dst_finfo)) {
- 		/* Y2R */
--		sel = 1;
--		yuv_colorspace = src_colorspace;
--	} else if ((dst_colorspace == V4L2_COLORSPACE_SMPTE170M ||
--			dst_colorspace == V4L2_COLORSPACE_REC709) &&
--			src_colorspace == V4L2_COLORSPACE_SRGB) {
-+
-+		/*
-+		 * These are not the standard default values but are
-+		 * set this way for historical compatibility
-+		 */
-+		if (src_ycbcr_enc == V4L2_YCBCR_ENC_DEFAULT)
-+			src_ycbcr_enc = V4L2_YCBCR_ENC_601;
-+
-+		if (src_quantization == V4L2_QUANTIZATION_DEFAULT)
-+			src_quantization = V4L2_QUANTIZATION_FULL_RANGE;
-+
-+		if (src_ycbcr_enc == V4L2_YCBCR_ENC_601) {
-+			if (src_quantization == V4L2_QUANTIZATION_FULL_RANGE)
-+				coeff = csc_coeffs.y2r.r601.full.coeff;
-+			else
-+				coeff = csc_coeffs.y2r.r601.limited.coeff;
-+		} else if (src_ycbcr_enc == V4L2_YCBCR_ENC_709) {
-+			if (src_quantization == V4L2_QUANTIZATION_FULL_RANGE)
-+				coeff = csc_coeffs.y2r.r709.full.coeff;
-+			else
-+				coeff = csc_coeffs.y2r.r709.limited.coeff;
-+		} else {
-+			/* Should never reach this, but it keeps gcc happy */
-+			coeff = csc_coeffs.y2r.r601.full.coeff;
-+		}
-+	} else if (v4l2_is_format_rgb(src_finfo) &&
-+		   v4l2_is_format_yuv(dst_finfo)) {
- 		/* R2Y */
--		sel = 3;
--		yuv_colorspace = dst_colorspace;
-+
-+		/*
-+		 * These are not the standard default values but are
-+		 * set this way for historical compatibility
-+		 */
-+		if (dst_ycbcr_enc == V4L2_YCBCR_ENC_DEFAULT)
-+			dst_ycbcr_enc = V4L2_YCBCR_ENC_601;
-+
-+		if (dst_quantization == V4L2_QUANTIZATION_DEFAULT)
-+			dst_quantization = V4L2_QUANTIZATION_FULL_RANGE;
-+
-+		if (dst_ycbcr_enc == V4L2_YCBCR_ENC_601) {
-+			if (dst_quantization == V4L2_QUANTIZATION_FULL_RANGE)
-+				coeff = csc_coeffs.r2y.r601.full.coeff;
-+			else
-+				coeff = csc_coeffs.r2y.r601.limited.coeff;
-+		} else if (dst_ycbcr_enc == V4L2_YCBCR_ENC_709) {
-+			if (dst_quantization == V4L2_QUANTIZATION_FULL_RANGE)
-+				coeff = csc_coeffs.r2y.r709.full.coeff;
-+			else
-+				coeff = csc_coeffs.r2y.r709.limited.coeff;
-+		} else {
-+			/* Should never reach this, but it keeps gcc happy */
-+			coeff = csc_coeffs.y2r.r601.full.coeff;
-+		}
- 	} else {
- 		*csc_reg5 |= CSC_BYPASS;
- 		return;
- 	}
- 
--	sd_hd_coeffs = &colorspace_coeffs[sel];
--
--	/* select between SD or HD coefficients */
--	if (yuv_colorspace == V4L2_COLORSPACE_SMPTE170M)
--		coeff = sd_hd_coeffs->sd;
--	else
--		coeff = sd_hd_coeffs->hd;
--
- 	end_coeff = coeff + 12;
- 
- 	for (; coeff < end_coeff; coeff += 2)
-diff --git a/drivers/media/platform/ti-vpe/csc.h b/drivers/media/platform/ti-vpe/csc.h
-index de9a58af2ca8..af2e86bccf57 100644
---- a/drivers/media/platform/ti-vpe/csc.h
-+++ b/drivers/media/platform/ti-vpe/csc.h
-@@ -58,8 +58,8 @@ struct csc_data {
- void csc_dump_regs(struct csc_data *csc);
- void csc_set_coeff_bypass(struct csc_data *csc, u32 *csc_reg5);
- void csc_set_coeff(struct csc_data *csc, u32 *csc_reg0,
--		enum v4l2_colorspace src_colorspace,
--		enum v4l2_colorspace dst_colorspace);
-+		   struct v4l2_format *src_fmt, struct v4l2_format *dst_fmt);
-+
- struct csc_data *csc_create(struct platform_device *pdev, const char *res_name);
- 
- #endif
-diff --git a/drivers/media/platform/ti-vpe/vpe.c b/drivers/media/platform/ti-vpe/vpe.c
-index 7c74b21e0164..1bd0d15ed8e0 100644
---- a/drivers/media/platform/ti-vpe/vpe.c
-+++ b/drivers/media/platform/ti-vpe/vpe.c
-@@ -756,12 +756,12 @@ static void set_src_registers(struct vpe_ctx *ctx)
- static void set_dst_registers(struct vpe_ctx *ctx)
- {
- 	struct vpe_mmr_adb *mmr_adb = ctx->mmr_adb.addr;
--	struct v4l2_pix_format_mplane *pix;
- 	struct vpe_fmt *fmt = ctx->q_data[Q_DATA_DST].fmt;
-+	const struct v4l2_format_info *finfo;
- 	u32 val = 0;
- 
--	pix = &ctx->q_data[Q_DATA_DST].format.fmt.pix_mp;
--	if (pix->colorspace == V4L2_COLORSPACE_SRGB) {
-+	finfo = v4l2_format_info(fmt->fourcc);
-+	if (v4l2_is_format_rgb(finfo)) {
- 		val |= VPE_RGB_OUT_SELECT;
- 		vpdma_set_bg_color(ctx->dev->vpdma,
- 			(struct vpdma_data_format *)fmt->vpdma_fmt[0], 0xff);
-@@ -865,14 +865,12 @@ static int set_srcdst_params(struct vpe_ctx *ctx)
- 	unsigned int dst_w = d_q_data->c_rect.width;
- 	unsigned int dst_h = d_q_data->c_rect.height;
- 	struct v4l2_pix_format_mplane *spix;
--	struct v4l2_pix_format_mplane *dpix;
- 	size_t mv_buf_size;
- 	int ret;
- 
- 	ctx->sequence = 0;
- 	ctx->field = V4L2_FIELD_TOP;
- 	spix = &s_q_data->format.fmt.pix_mp;
--	dpix = &d_q_data->format.fmt.pix_mp;
- 
- 	if ((s_q_data->flags & Q_IS_INTERLACED) &&
- 			!(d_q_data->flags & Q_IS_INTERLACED)) {
-@@ -909,7 +907,7 @@ static int set_srcdst_params(struct vpe_ctx *ctx)
- 	set_dei_regs(ctx);
- 
- 	csc_set_coeff(ctx->dev->csc, &mmr_adb->csc_regs[0],
--		      spix->colorspace, dpix->colorspace);
-+		      &s_q_data->format, &d_q_data->format);
- 
- 	sc_set_hs_coeffs(ctx->dev->sc, ctx->sc_coeff_h.addr, src_w, dst_w);
- 	sc_set_vs_coeffs(ctx->dev->sc, ctx->sc_coeff_v.addr, src_h, dst_h);
-@@ -1215,9 +1213,9 @@ static void device_run(void *priv)
- 	struct sc_data *sc = ctx->dev->sc;
- 	struct vpe_q_data *d_q_data = &ctx->q_data[Q_DATA_DST];
- 	struct vpe_q_data *s_q_data = &ctx->q_data[Q_DATA_SRC];
--	struct v4l2_pix_format_mplane *dpix;
-+	const struct v4l2_format_info *d_finfo;
- 
--	dpix = &d_q_data->format.fmt.pix_mp;
-+	d_finfo = v4l2_format_info(d_q_data->fmt->fourcc);
- 
- 	if (ctx->deinterlacing && s_q_data->flags & Q_IS_SEQ_XX &&
- 	    ctx->sequence % 2 == 0) {
-@@ -1290,7 +1288,7 @@ static void device_run(void *priv)
- 	if (ctx->deinterlacing)
- 		add_out_dtd(ctx, VPE_PORT_MV_OUT);
- 
--	if (dpix->colorspace == V4L2_COLORSPACE_SRGB) {
-+	if (v4l2_is_format_rgb(d_finfo)) {
- 		add_out_dtd(ctx, VPE_PORT_RGB_OUT);
- 	} else {
- 		add_out_dtd(ctx, VPE_PORT_LUMA_OUT);
-@@ -1332,7 +1330,7 @@ static void device_run(void *priv)
- 	}
- 
- 	/* sync on channel control descriptors for output ports */
--	if (dpix->colorspace == V4L2_COLORSPACE_SRGB) {
-+	if (v4l2_is_format_rgb(d_finfo)) {
- 		vpdma_add_sync_on_channel_ctd(&ctx->desc_list,
- 			VPE_CHAN_RGB_OUT);
- 	} else {
-@@ -1603,6 +1601,7 @@ static int __vpe_try_fmt(struct vpe_ctx *ctx, struct v4l2_format *f,
- 	unsigned int w_align;
- 	int i, depth, depth_bytes, height;
- 	unsigned int stride = 0;
-+	const struct v4l2_format_info *finfo;
- 
- 	if (!fmt || !(fmt->types & type)) {
- 		vpe_dbg(ctx->dev, "Fourcc format (0x%08x) invalid.\n",
-@@ -1662,6 +1661,7 @@ static int __vpe_try_fmt(struct vpe_ctx *ctx, struct v4l2_format *f,
- 		pix->num_planes = 1;
- 
- 	pix->pixelformat = fmt->fourcc;
-+	finfo = v4l2_format_info(fmt->fourcc);
- 
- 	/*
- 	 * For the actual image parameters, we need to consider the field
-@@ -1673,10 +1673,7 @@ static int __vpe_try_fmt(struct vpe_ctx *ctx, struct v4l2_format *f,
- 		height = pix->height;
- 
- 	if (!pix->colorspace) {
--		if (fmt->fourcc == V4L2_PIX_FMT_RGB24 ||
--				fmt->fourcc == V4L2_PIX_FMT_BGR24 ||
--				fmt->fourcc == V4L2_PIX_FMT_RGB32 ||
--				fmt->fourcc == V4L2_PIX_FMT_BGR32) {
-+		if (v4l2_is_format_rgb(finfo)) {
- 			pix->colorspace = V4L2_COLORSPACE_SRGB;
- 		} else {
- 			if (height > 1280)	/* HD */
+> 
+> That said, the common desktop Linux model bases on allocating from the
+> producer device (which is why videobuf2 has allocation capability) and
+> we definitely need to consider this model, even if we just think about
+> Linux V4L2 compliance. That's why I'm suggesting the unified memory
+> handling based on guest physical addresses, which would handle both
+> guest-allocated and host-allocated memory.
+> 
+> Best regards,
+> Tomasz
+> 
+> > > > Referencing virtio-gpu buffers needs a better plan than just re-using
+> > > > virtio-gpu resource handles.  The handles are device-specific.  What
+> > > > if
+> > > > there are multiple virtio-gpu devices present in the guest?
+> > > > 
+> > > > I think we need a framework for cross-device buffer sharing.  One
+> > > > possible option would be to have some kind of buffer registry, where
+> > > > buffers can be registered for cross-device sharing and get a unique
+> > > > id (a uuid maybe?).  Drivers would typically register buffers on
+> > > > dma-buf export.
+> > > 
+> > > This approach could possibly let us handle this transparently to
+> > > importers, which would work for guest kernel subsystems that rely on
+> > > the ability to handle buffers like native memory (e.g. having a
+> > > sgtable or DMA address) for them.
+> > > 
+> > > How about allocating guest physical addresses for memory corresponding
+> > > to those buffers? On the virtio-gpu example, that could work like
+> > > 
+> > > this:
+> > >  - by default a virtio-gpu buffer has only a resource handle,
+> > >  - VIRTIO_GPU_RESOURCE_EXPORT command could be called to have the
+> > > 
+> > > virtio-gpu device export the buffer to a host framework (inside the
+> > > VMM) that would allocate guest page addresses for it, which the
+> > > command would return in a response to the guest,
+> > > 
+> > >  - virtio-gpu driver could then create a regular DMA-buf object for
+> > > 
+> > > such memory, because it's just backed by pages (even though they may
+> > > not be accessible to the guest; just like in the case of TrustZone
+> > > memory protection on bare metal systems),
+> > > 
+> > >  - any consumer would be able to handle such buffer like a regular
+> > > 
+> > > guest memory, passing low-level scatter-gather tables to the host as
+> > > buffer descriptors - this would nicely integrate with the basic case
+> > > without buffer sharing, as described above.
+> > > 
+> > > Another interesting side effect of the above approach would be the
+> > > ease of integration with virtio-iommu. If the virtio master device is
+> > > put behind a virtio-iommu, the guest page addresses become the input
+> > > to iommu page tables and IOVA addresses go to the host via the virtio
+> > > master device protocol, inside the low-level scatter-gather tables.
+> > > 
+> > > What do you think?
+> > > 
+> > > Best regards,
+> > > Tomasz
+> > > 
+> > > > Another option would be to pass around both buffer handle and buffer
+> > > > owner, i.e. instead of "u32 handle" have something like this:
+> > > > 
+> > > > struct buffer_reference {
+> > > > 
+> > > >         enum device_type; /* pci, virtio-mmio, ... */
+> > > >         union device_address {
+> > > >         
+> > > >                 struct pci_address pci_addr;
+> > > >                 u64 virtio_mmio_addr;
+> > > >                 [ ... ]
+> > > >         
+> > > >         };
+> > > >         u64 device_buffer_handle; /* device-specific, virtio-gpu could
+> > > >         use
+> > > >         resource ids here */>
+> > > > 
+> > > > };
+> > > > 
+> > > > cheers,
+> > > > 
+> > > >   Gerd
+> > > 
+> > > ---------------------------------------------------------------------
+> > > To unsubscribe, e-mail: virtio-dev-unsubscribe@lists.oasis-open.org
+> > > For additional commands, e-mail: virtio-dev-help@lists.oasis-open.org
 -- 
-2.17.1
+
+Dmitry Morozov
+Senior Software Engineer
+
+OpenSynergy GmbH
+Rotherstr. 20, 10245 Berlin
+
+Phone:    +49 30 60 98 54 0 - 910
+Fax:      +49 30 60 98 54 0 - 99
+
 
