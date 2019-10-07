@@ -2,265 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 42F4FCE96A
-	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2019 18:39:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8237ECE9D2
+	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2019 18:49:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727975AbfJGQjb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Oct 2019 12:39:31 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:33749 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727801AbfJGQja (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 7 Oct 2019 12:39:30 -0400
-Received: from [IPv6:2001:983:e9a7:1:3d61:cdd2:8085:cc8] ([IPv6:2001:983:e9a7:1:3d61:cdd2:8085:cc8])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id HW2eiOSEUjZ8vHW2gi7zin; Mon, 07 Oct 2019 18:39:26 +0200
-Subject: Re: [PATCH 0/2] media: meson: vdec: Add compliant H264 support
-To:     Maxime Jourdan <mjourdan@baylibre.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>
-Cc:     Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org
-References: <20191007145909.29979-1-mjourdan@baylibre.com>
- <8563127e-fe2c-a633-556b-8a883cebb171@xs4all.nl>
- <977c48e8-8275-c96a-688b-ccfbb873eb79@baylibre.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <65a88bfc-d82b-1487-7983-507149b11673@xs4all.nl>
-Date:   Mon, 7 Oct 2019 18:39:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1728688AbfJGQtG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Oct 2019 12:49:06 -0400
+Received: from conssluserg-06.nifty.com ([210.131.2.91]:63063 "EHLO
+        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728139AbfJGQtG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Oct 2019 12:49:06 -0400
+X-Greylist: delayed 45485 seconds by postgrey-1.27 at vger.kernel.org; Mon, 07 Oct 2019 12:49:04 EDT
+Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com [209.85.221.171]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id x97GmZqd019698;
+        Tue, 8 Oct 2019 01:48:35 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com x97GmZqd019698
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1570466916;
+        bh=y8kJOcEkslZAk6vscewNCsiqfVNW7HLOUn33XrjSX/8=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=aXYdfkT/lgvsiWWfLjWAPX0ggr0leZTUeugZDoWrJ3v1WO1pQggaUnuJJxxqDD33P
+         akR1Nz+raADcws3tEpXHnNGRGt21pZLBFZ6wNWsc31Wx/kMBfuDfUflzUJfMtG7v6Q
+         I1enx8WdkLA1WKIhMd04HK7MThbk932x/DBZOT4r3ynbjvMpb6iflWIWFJz/gpnwCZ
+         7sXW6tj0+SZ0R1Ir26uyUZ3zGsACkW54cZN0Hm1L+uQzk2o+PQ/BgxUyIqrg9047bF
+         rwmVM6HLM13vfjOTKLXQs797gmP3pgikdlUBuefD80ZBe0Pj1usplMjlHYtByqD3OZ
+         vW9bSR2haFsuQ==
+X-Nifty-SrcIP: [209.85.221.171]
+Received: by mail-vk1-f171.google.com with SMTP id f1so3117312vkh.9;
+        Mon, 07 Oct 2019 09:48:35 -0700 (PDT)
+X-Gm-Message-State: APjAAAWUIg6L5+ycpHtZOrB28TMHIaZQPFZfEM9k2l6fmFU+Zumacbtl
+        otGyje+3sZ5Ql/MsrHwSidZaiZQLT+pQWPKQDWI=
+X-Google-Smtp-Source: APXvYqz7ukzVlMcJueOvYoOURcSnxC1SoQJMDggO8QxxUau2yVIUqwN1Rp39wa8jRdIxVVo8igICcocuPeFehW+TIOc=
+X-Received: by 2002:a1f:5243:: with SMTP id g64mr14817662vkb.26.1570466914476;
+ Mon, 07 Oct 2019 09:48:34 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <977c48e8-8275-c96a-688b-ccfbb873eb79@baylibre.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfAYWwkY21vUQ4hMBzTqUalGNECuzHryLQUgGuC+6WIiNO/bIa1y2BCfZm5QxVI/sD0uCN7Q6YC/GGX6sb7ctrGb3Xbg+szGIikN+9j/u0zky7NZHc4Nu
- gqf485fh7XN7sBR0uTJP9XsTT94pL69JP+Dnwm0V3YxDbAG1KzC50rKk6zyyBlILMnsLkiXcAohKI+P6CNEZA9HyTcrSOLaJdYRjwC4CQO4fceijo1BGpcj3
- 3UCKu9Ov5FzvewmjwxOosEOhyC1XKXGMBI4wiFjNYbE/vp7nn3U6g1AeNlaFVgImph2sz5a/0lD6Li2Jxwj5RNj7gOUj1WkrmYmTLVKtJaUxFTsrwgQ8Dfz7
- dXsZaNIjkT4q4p4vqUzg7SE+cvYARCrQDkZgw/e08UuGSwsARzxnWgj9yIzY+Svtp2pcKv34siAUrttKrSrMJzhgx/9rBH0PVvAafmbXFt8jkU/uAutNNQmi
- MV4qLCboblApxNj7b6OHEUQvvD2IJM9UPbfYSDFCXfHHdqzbNwL82PuDreyyhxF5djJoaKWuXE6gLlZTpefqbYQQ+hjm70JS9EEOPvhCSNH6sJ/nasu1nauq
- QWAUwElfB8oZlSFy4hiz4Qwifvw5u4FZz5pLg/VV1D/410BTfXm30iE/A+rpoBLMlQwmeP/GW1J+JA1fGoiKPWzz
+References: <20191007040935.23436-1-yamada.masahiro@socionext.com> <CAK8P3a0g5iEtbFGk2BE6x3GrE5=zXngecLFUVFPWFqL3NZUwhg@mail.gmail.com>
+In-Reply-To: <CAK8P3a0g5iEtbFGk2BE6x3GrE5=zXngecLFUVFPWFqL3NZUwhg@mail.gmail.com>
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+Date:   Tue, 8 Oct 2019 01:47:58 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASQ32R1-tqGDjnGYwMuOo=+SZMhzb7T39F-nKzr+=NaNQ@mail.gmail.com>
+Message-ID: <CAK7LNASQ32R1-tqGDjnGYwMuOo=+SZMhzb7T39F-nKzr+=NaNQ@mail.gmail.com>
+Subject: Re: [RFC PATCH] media: videodev2.h: include <linux/time.h> instead of <sys/time.h>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Pablo Neira Ayuso <pablo@netfilter.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/7/19 6:24 PM, Maxime Jourdan wrote:
-> On 07/10/2019 17:12, Hans Verkuil wrote:
->> On 10/7/19 4:59 PM, Maxime Jourdan wrote:
->>> Hello,
->>>
->>> This patch series aims to bring H.264 support as well as compliance update
->>> to the amlogic stateful video decoder driver.
->>>
->>> There is 1 issue that remains currently:
->>>
->>>   - The following codepath had to be commented out from v4l2-compliance as
->>> it led to stalling:
->>>
->>> if (node->codec_mask & STATEFUL_DECODER) {
->>>     struct v4l2_decoder_cmd cmd;
->>>     buffer buf_cap(m2m_q);
->>>
->>>     memset(&cmd, 0, sizeof(cmd));
->>>     cmd.cmd = V4L2_DEC_CMD_STOP;
->>>
->>>     /* No buffers are queued, call STREAMON, then STOP */
->>>     fail_on_test(node->streamon(q.g_type()));
->>>     fail_on_test(node->streamon(m2m_q.g_type()));
->>>     fail_on_test(doioctl(node, VIDIOC_DECODER_CMD, &cmd));
->>>
->>>     fail_on_test(buf_cap.querybuf(node, 0));
->>>     fail_on_test(buf_cap.qbuf(node));
->>>     fail_on_test(buf_cap.dqbuf(node));
->>>     fail_on_test(!(buf_cap.g_flags() & V4L2_BUF_FLAG_LAST));
->>>     for (unsigned p = 0; p < buf_cap.g_num_planes(); p++)
->>>         fail_on_test(buf_cap.g_bytesused(p));
->>>     fail_on_test(node->streamoff(q.g_type()));
->>>     fail_on_test(node->streamoff(m2m_q.g_type()));
->>>
->>>     /* Call STREAMON, queue one CAPTURE buffer, then STOP */
->>>     fail_on_test(node->streamon(q.g_type()));
->>>     fail_on_test(node->streamon(m2m_q.g_type()));
->>>     fail_on_test(buf_cap.querybuf(node, 0));
->>>     fail_on_test(buf_cap.qbuf(node));
->>>     fail_on_test(doioctl(node, VIDIOC_DECODER_CMD, &cmd));
->>>
->>>     fail_on_test(buf_cap.dqbuf(node));
->>>     fail_on_test(!(buf_cap.g_flags() & V4L2_BUF_FLAG_LAST));
->>>     for (unsigned p = 0; p < buf_cap.g_num_planes(); p++)
->>>         fail_on_test(buf_cap.g_bytesused(p));
->>>     fail_on_test(node->streamoff(q.g_type()));
->>>     fail_on_test(node->streamoff(m2m_q.g_type()));
->>> }
->>>
->>> The reason for this is because the driver has a limitation where all
->>> capturebuffers must be queued to the driver before STREAMON is effective.
->>> The firmware needs to know in advance what all the buffers are before
->>> starting to decode.
->>> This limitation is enforced via q->min_buffers_needed.
->>> As such, in this compliance codepath, STREAMON is never actually called
->>> driver-side and there is a stall on fail_on_test(buf_cap.dqbuf(node));
->>
->> That's interesting. I will have to look more closely at this.
->>
->>>
->>>
->>> One last detail: V4L2_FMT_FLAG_DYN_RESOLUTION is currently not recognized
->>> by v4l2-compliance, so it was left out for the test. However, it is
->>> present in the patch series.
->>
->> It is definitely recognized by v4l2-compliance.
->>
->>>
->>> The second patch has 3 "Alignment should match open parenthesis" lines
->>> where I preferred to keep them that way.
->>>
->>> Thanks Stanimir for sharing your HDR file creation tools, this was very
->>> helpful :).
->>>
->>> Maxime
->>>
->>> # v4l2-compliance --stream-from-hdr test-25fps.h264.hdr -s250
->>> v4l2-compliance SHA: a162244d47d4bb01d0692da879dce5a070f118e7, 64 bits
->>
->> But this SHA isn't in the v4l-utils repo, so this makes me wonder where you
->> got this repo from.
->>
-> 
-> I am based off the hverkuil/vicodec branch. The SHA I am on is actually 05387265053bc6f9 ("test-media: add vicodec tests"), but it wasn't updated as I found out it requires a new bootstrap to refresh
-> the SHA. Maybe some rebasing at some point got rid of a162244d.
+Hi Arnd,
 
-Don't use the hverkuil/vicodec branch. Everything there has been merged into the
-regular v4l-utils repo some time ago. So just clone git://linuxtv.org/v4l-utils.git
-and use that.
+On Tue, Oct 8, 2019 at 12:26 AM Arnd Bergmann <arnd@arndb.de> wrote:
+>
+> On Mon, Oct 7, 2019 at 6:10 AM Masahiro Yamada
+> <yamada.masahiro@socionext.com> wrote:
+> >
+> > Currently, linux/videodev.h is excluded from the UAPI header test since
+> > it is not self-contained. Building it for user-space would fail.
+> >
+>
+> >
+> > Replacing <sys/time.h> with <linux/time.h> solves it, and allow more
+> > headers to join the UAPI header test.
+> >
+> > Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+> > ---
+> >
+> > I am not 100% sure about the compatibility
+> > between <sys/time.h> and <linux/time.h>, hence RFC.
+> >
+> > But, if they were not compatible,
+> > I guess it would have broken already.
+> >
+> > I CCed Arnd Bergmann, who might have a better insight.
+> >
+> > A related comment is here:
+> > https://lkml.org/lkml/2019/6/4/1046
+>
+> I don't think this can work, there are multiple problems here:
+>
+> * linux/time.h is still incompatible with sys/time.h, so any application
+>   tries to include both sys/time.h and linux/videodev2.h now also
+>   gets the compile-time error.
 
-Regards,
+You are right.
+I am so stupidly screwed up. Palm face...
 
-	Hans
+Please ignore this patch,
+and thank you for your expert comments!
 
-> 
-> I started fresh and ran it again. As you can see, V4L2_FMT_FLAG_DYN_RESOLUTION is still problematic (removing it makes all the checks pass):
-> 
-> -------------------------------
-> # v4l2-compliance --stream-from-hdr test-25fps.h264.hdr -s250
-> v4l2-compliance SHA: 05387265053bc6f9c8c98e112543adb28ae39cfa, 64 bits
-> 
-> Compliance test for meson-vdec device /dev/video0:
-> 
-> Driver Info:
->     Driver name      : meson-vdec
->     Card type        : Amlogic Video Decoder
->     Bus info         : platform:meson-vdec
->     Driver version   : 5.4.0
->     Capabilities     : 0x84204000
->         Video Memory-to-Memory Multiplanar
->         Streaming
->         Extended Pix Format
->         Device Capabilities
->     Device Caps      : 0x04204000
->         Video Memory-to-Memory Multiplanar
->         Streaming
->         Extended Pix Format
->     Detected Stateful Decoder
-> 
-> Required ioctls:
->     test VIDIOC_QUERYCAP: OK
-> 
-> Allow for multiple opens:
->     test second /dev/video0 open: OK
->     test VIDIOC_QUERYCAP: OK
->     test VIDIOC_G/S_PRIORITY: OK
->     test for unlimited opens: OK
-> 
-> Debug ioctls:
->     test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
->     test VIDIOC_LOG_STATUS: OK (Not Supported)
-> 
-> Input ioctls:
->     test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
->     test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->     test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
->     test VIDIOC_ENUMAUDIO: OK (Not Supported)
->     test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
->     test VIDIOC_G/S_AUDIO: OK (Not Supported)
->     Inputs: 0 Audio Inputs: 0 Tuners: 0
-> 
-> Output ioctls:
->     test VIDIOC_G/S_MODULATOR: OK (Not Supported)
->     test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->     test VIDIOC_ENUMAUDOUT: OK (Not Supported)
->     test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
->     test VIDIOC_G/S_AUDOUT: OK (Not Supported)
->     Outputs: 0 Audio Outputs: 0 Modulators: 0
-> 
-> Input/Output configuration ioctls:
->     test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
->     test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
->     test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
->     test VIDIOC_G/S_EDID: OK (Not Supported)
-> 
-> Control ioctls:
->     test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
->     test VIDIOC_QUERYCTRL: OK
->     test VIDIOC_G/S_CTRL: OK
->     test VIDIOC_G/S/TRY_EXT_CTRLS: OK
->     test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
->     test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
->     Standard Controls: 2 Private Controls: 0
-> 
-> Format ioctls:
->         fail: v4l2-test-formats.cpp(263): unknown flag 00000009 returned
->     test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: FAIL
->     test VIDIOC_G/S_PARM: OK (Not Supported)
->     test VIDIOC_G_FBUF: OK (Not Supported)
->         fail: v4l2-test-formats.cpp(457): pixelformat 34363248 (H264) for buftype 10 not reported by ENUM_FMT
->     test VIDIOC_G_FMT: FAIL
->         fail: v4l2-test-formats.cpp(457): pixelformat 34363248 (H264) for buftype 10 not reported by ENUM_FMT
->     test VIDIOC_TRY_FMT: FAIL
->         fail: v4l2-test-formats.cpp(457): pixelformat 3247504d (MPG2) for buftype 10 not reported by ENUM_FMT
->     test VIDIOC_S_FMT: FAIL
->     test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
->     test Cropping: OK (Not Supported)
->     test Composing: OK (Not Supported)
->     test Scaling: OK
-> 
-> Codec ioctls:
->     test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
->     test VIDIOC_G_ENC_INDEX: OK (Not Supported)
->     test VIDIOC_(TRY_)DECODER_CMD: OK
-> 
-> Buffer ioctls:
->     test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
->     test VIDIOC_EXPBUF: OK
->     test Requests: OK (Not Supported)
-> 
-> Test input 0:
-> 
-> Streaming ioctls:
->     test read/write: OK (Not Supported)
->     test blocking wait: OK
->     Video Capture Multiplanar: Captured 250 buffers
->     test MMAP (select): OK
->     Video Capture Multiplanar: Captured 250 buffers
->     test MMAP (epoll): OK
->     test USERPTR (select): OK (Not Supported)
->     test DMABUF: Cannot test, specify --expbuf-device
-> 
-> Total for meson-vdec device /dev/video0: 49, Succeeded: 45, Failed: 4, Warnings: 0
-> 
-> -------------------------------
-> 
-> Should I be using another branch than vicodec ?
-> 
-> 
->> Regards,
->>
->>     Hans
->>
 
+>
+> * The definition of 'struct timespec' in the kernel headers may in
+>   fact be different from the one in the libc, and we do want to use
+>   the one from the C library here, otherwise different parts of the
+>   application may use incompatible struct layouts.
+>
+> Fixing this correctly depends on one of the remaining y2038
+> patches that we still have to revisit. There are two aspects that
+> we should address:
+>
+> 1. The v4l subsystem needs to be changed to handle both the
+>     old and the new 32-bit layout for timespec (and timeval). Both
+>     Hans and I have created patches for this in the past, but they
+>     were never completed and merged.
+>
+> 2. The definition of 'struct timespec' in the kernel headers needs
+>    to be removed after every user of this struct is gone from
+>    the kernel. In internal kernel code, the replacement is
+>    timespec64 or ktime_t, and in user space interfaces, the
+>    correct replacement is one of __kernel_timespec (the 64-bit
+>    version), __kernel_old_timespec (the traditional layout) or
+>    timespec (from the libc headers).
+>
+>         Arnd
+
+
+
+--
+Best Regards
+
+Masahiro Yamada
