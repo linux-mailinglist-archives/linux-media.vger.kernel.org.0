@@ -2,86 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DA448CE936
-	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2019 18:28:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F97ECE951
+	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2019 18:34:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728956AbfJGQ16 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Oct 2019 12:27:58 -0400
-Received: from relay1-d.mail.gandi.net ([217.70.183.193]:32875 "EHLO
-        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728429AbfJGQ16 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Oct 2019 12:27:58 -0400
-X-Originating-IP: 2.224.242.101
-Received: from uno.lan (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id B59AA240013;
-        Mon,  7 Oct 2019 16:27:55 +0000 (UTC)
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        id S1727931AbfJGQeI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Oct 2019 12:34:08 -0400
+Received: from muru.com ([72.249.23.125]:35666 "EHLO muru.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727801AbfJGQeI (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 7 Oct 2019 12:34:08 -0400
+Received: from atomide.com (localhost [127.0.0.1])
+        by muru.com (Postfix) with ESMTPS id 5653C80A5;
+        Mon,  7 Oct 2019 16:34:41 +0000 (UTC)
+Date:   Mon, 7 Oct 2019 09:34:04 -0700
+From:   Tony Lindgren <tony@atomide.com>
+To:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Michael Allwright <allsey87@gmail.com>
+Cc:     Michael Allwright <michael.allwright@upb.de>,
+        linux-media@vger.kernel.org,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        tfiga@google.com, pavel@ucw.cz
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
-        linux-media@vger.kernel.org (open list:MEDIA INPUT INFRASTRUCTURE
-        (V4L/DVB))
-Subject: [PATCH v4 11/11] media: i2c: ov13858: Parse and register properties
-Date:   Mon,  7 Oct 2019 18:29:13 +0200
-Message-Id: <20191007162913.250743-12-jacopo@jmondi.org>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191007162913.250743-1-jacopo@jmondi.org>
-References: <20191007162913.250743-1-jacopo@jmondi.org>
+        Mauro Carvalho Chehab <mchehab@osg.samsung.com>,
+        Arnd Bergmann <arnd@arndb.de>, Tero Kristo <t-kristo@ti.com>,
+        linux-omap@vger.kernel.org
+Subject: Re: [PATCH RFC] DT support for omap4-iss
+Message-ID: <20191007163404.GZ5607@atomide.com>
+References: <CALcgO_6UXp-Xqwim8WpLXz7XWAEpejipR7JNQc0TdH0ETL4JYQ@mail.gmail.com>
+ <20190628110441.42gdqidkg5csuxai@valkosipuli.retiisi.org.uk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190628110441.42gdqidkg5csuxai@valkosipuli.retiisi.org.uk>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Parse device properties and register controls for them using the newly
-introduced helpers.
+Hi,
 
-Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
----
- drivers/media/i2c/ov13858.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+* Sakari Ailus <sakari.ailus@iki.fi> [190628 11:05]:
+> Hi Michael,
+> 
+> On Mon, Aug 10, 2015 at 05:16:30PM +0200, Michael Allwright wrote:
+> > Hi All,
+> > 
+> > The following PRELIMINARY patch adds DT support to the OMAP4 ISS. It
+> > also fixes some problems a have found along the way. It is tightly
+> > modelled after the omap3-isp media platform driver. This patch is a
+> > work in progress as I would like feedback. It contains debugging
+> > messages that need to be removed, as well as disgusting abuses of the
+> > C language as required (i.e. clk_core_fake and clk_fake).
+> 
+> We'd like to restart the effort adding DT support for this driver. Would
+> you be able to, if not address the comments, at least resend your old patch
+> with your Signed-off-by: line so we could make use of what you've already
+> done?
 
-diff --git a/drivers/media/i2c/ov13858.c b/drivers/media/i2c/ov13858.c
-index aac6f77afa0f..2ef5fb5cf519 100644
---- a/drivers/media/i2c/ov13858.c
-+++ b/drivers/media/i2c/ov13858.c
-@@ -7,6 +7,7 @@
- #include <linux/pm_runtime.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
-+#include <media/v4l2-fwnode.h>
- 
- #define OV13858_REG_VALUE_08BIT		1
- #define OV13858_REG_VALUE_16BIT		2
-@@ -1589,6 +1590,7 @@ static const struct v4l2_subdev_internal_ops ov13858_internal_ops = {
- static int ov13858_init_controls(struct ov13858 *ov13858)
- {
- 	struct i2c_client *client = v4l2_get_subdevdata(&ov13858->sd);
-+	struct v4l2_fwnode_device_properties props;
- 	struct v4l2_ctrl_handler *ctrl_hdlr;
- 	s64 exposure_max;
- 	s64 vblank_def;
-@@ -1666,6 +1668,15 @@ static int ov13858_init_controls(struct ov13858 *ov13858)
- 		goto error;
- 	}
- 
-+	ret = v4l2_fwnode_device_parse(&client->dev, &props);
-+	if (ret)
-+		return ret;
-+
-+	ret = v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, &ov13858_ctrl_ops,
-+					      &props);
-+	if (ret)
-+		return ret;
-+
- 	ov13858->sd.ctrl_handler = ctrl_hdlr;
- 
- 	return 0;
--- 
-2.23.0
+I think this email no longer works for Michael? Adding another
+one from commit at [0] below.
 
+Michael, care to email that patch to the lists with your
+Signed-off-by so Sakari can use it? Or at least reply with
+your Signed-off-by to this thread :)
+
+Regards,
+
+Tony
+
+[0] https://github.com/allsey87/meta-builderbot/blob/master/recipes-kernel/linux/linux-stable-4.16/0008-omap4iss-Fix-multiple-bugs-and-use-device-tree.patch
