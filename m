@@ -2,163 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D5BDBCDBB4
-	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2019 08:02:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ACC5BCDC84
+	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2019 09:43:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726969AbfJGGCU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Oct 2019 02:02:20 -0400
-Received: from mailoutvs27.siol.net ([185.57.226.218]:53473 "EHLO
-        mail.siol.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726889AbfJGGCU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Oct 2019 02:02:20 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.siol.net (Zimbra) with ESMTP id 9592A521630;
-        Mon,  7 Oct 2019 08:02:16 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at psrvmta12.zcs-production.pri
-Received: from mail.siol.net ([127.0.0.1])
-        by localhost (psrvmta12.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id vcF-zkhEbduB; Mon,  7 Oct 2019 08:02:16 +0200 (CEST)
-Received: from mail.siol.net (localhost [127.0.0.1])
-        by mail.siol.net (Zimbra) with ESMTPS id 2224752160B;
-        Mon,  7 Oct 2019 08:02:16 +0200 (CEST)
-Received: from jernej-laptop.localnet (cpe-86-58-59-25.static.triera.net [86.58.59.25])
-        (Authenticated sender: jernej.skrabec@siol.net)
-        by mail.siol.net (Zimbra) with ESMTPA id 4A222521630;
-        Mon,  7 Oct 2019 08:02:13 +0200 (CEST)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     mchehab@kernel.org, paul.kocialkowski@bootlin.com,
-        mripard@kernel.org, pawel@osciak.com, m.szyprowski@samsung.com,
-        kyungmin.park@samsung.com, tfiga@chromium.org, wens@csie.org,
-        gregkh@linuxfoundation.org, boris.brezillon@collabora.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org,
-        ezequiel@collabora.com, jonas@kwiboo.se
-Subject: Re: [PATCH v2 3/6] media: v4l2-mem2mem: add stateless_(try_)decoder_cmd ioctl helpers
-Date:   Mon, 07 Oct 2019 08:02:12 +0200
-Message-ID: <2840939.OS9t7MgvnY@jernej-laptop>
-In-Reply-To: <6c7eeaf1-18bb-1c7e-7938-a3eb5af100b6@xs4all.nl>
-References: <20190929200023.215831-1-jernej.skrabec@siol.net> <20190929200023.215831-4-jernej.skrabec@siol.net> <6c7eeaf1-18bb-1c7e-7938-a3eb5af100b6@xs4all.nl>
+        id S1727126AbfJGHnA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Oct 2019 03:43:00 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:52425 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726202AbfJGHnA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 7 Oct 2019 03:43:00 -0400
+Received: from [IPv6:2001:983:e9a7:1:3d61:cdd2:8085:cc8] ([IPv6:2001:983:e9a7:1:3d61:cdd2:8085:cc8])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id HNfViKC4UjZ8vHNfWi52hQ; Mon, 07 Oct 2019 09:42:58 +0200
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Neil Armstrong <narmstrong@baylibre.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT FIXES FOR v5.4] Regression fix for meson CEC drivers
+Message-ID: <19c02424-d128-2f56-8e4e-04f11e9e381c@xs4all.nl>
+Date:   Mon, 7 Oct 2019 09:42:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfFR95dzZG+UtIW+bks6aL/AAXBj9azGK9cbRx3GN1BqwCCfyYFHxHz4wOWQcKk717E3ns3VgLuOd4eWKpCmcdFBqLy4dgLKsAZ6QaLhzTR3vQT0AxDai
+ im6pIVopz/A11xs+kBZAohjfF0jubKsFrMRZSEg4kQs0FSdzx7+02DE1XmH6afTo8aqbzfSA2iwhwvCBIRbPb2z/WPBDEu/8ZTCqtgI0uxmgZjHj7xJohQvM
+ IcBTxmJiav6pU8a0eoNV5kf1DeRkqEsjTZoIJ2LyBKcbCVFGtWj6zgMG5WkxrY6M/s11115oB8ikpCsb047e4Q==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dne petek, 04. oktober 2019 ob 11:21:12 CEST je Hans Verkuil napisal(a):
-> On 9/29/19 10:00 PM, Jernej Skrabec wrote:
-> > These helpers are used by stateless codecs when they support multiple
-> > slices per frame and hold capture buffer flag is set. It's expected that
-> > all such codecs will use this code.
-> > 
-> > Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
-> > ---
-> > 
-> >  drivers/media/v4l2-core/v4l2-mem2mem.c | 35 ++++++++++++++++++++++++++
-> >  include/media/v4l2-mem2mem.h           |  4 +++
-> >  2 files changed, 39 insertions(+)
-> > 
-> > diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c
-> > b/drivers/media/v4l2-core/v4l2-mem2mem.c index 19937dd3c6f6..2677a07e4c9b
-> > 100644
-> > --- a/drivers/media/v4l2-core/v4l2-mem2mem.c
-> > +++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
-> > @@ -1154,6 +1154,41 @@ int v4l2_m2m_ioctl_try_decoder_cmd(struct file
-> > *file, void *fh,> 
-> >  }
-> >  EXPORT_SYMBOL_GPL(v4l2_m2m_ioctl_try_decoder_cmd);
-> > 
-> > +int v4l2_m2m_ioctl_stateless_try_decoder_cmd(struct file *file, void *fh,
-> > +					     struct 
-v4l2_decoder_cmd *dc)
-> > +{
-> > +	if (dc->cmd != V4L2_DEC_CMD_FLUSH)
-> > +		return -EINVAL;
-> > +
-> > +	dc->flags = 0;
-> > +
-> > +	return 0;
-> > +}
-> > +EXPORT_SYMBOL_GPL(v4l2_m2m_ioctl_stateless_try_decoder_cmd);
-> > +
-> > +int v4l2_m2m_ioctl_stateless_decoder_cmd(struct file *file, void *priv,
-> > +					 struct 
-v4l2_decoder_cmd *dc)
-> > +{
-> > +	struct v4l2_fh *fh = file->private_data;
-> > +	struct vb2_v4l2_buffer *out_vb, *cap_vb;
-> > +	int ret;
-> > +
-> > +	ret = v4l2_m2m_ioctl_stateless_try_decoder_cmd(file, priv, dc);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	out_vb = v4l2_m2m_last_src_buf(fh->m2m_ctx);
-> > +	cap_vb = v4l2_m2m_last_dst_buf(fh->m2m_ctx);
-> 
-> I think this should be v4l2_m2m_next_dst_buf. If multiple capture buffers
-> were queued up, then it can only be the first capture buffer that can be
-> 'HELD'.
+The following changes since commit 503e59365dd134b2c63864f14e2de0476284b003:
 
-I'm pretty sure v4l2_m2m_last_dst_buf() is correct. We want to affect last job 
-in the queue, all jobs before are already properly handled by comparing 
-timestamps.
+  media: i2c: ov2659: Switch to SPDX Licensing (2019-10-01 17:39:16 -0300)
 
-> 
-> This might solve the race condition you saw with ffmpeg.
+are available in the Git repository at:
 
-This actually doesn't change anything. ffmpeg currently queues only one job and 
-then waits until it's executed. In this case it actually doesn't matter if 
-"last" or "next" variant is used.
+  git://linuxtv.org/hverkuil/media_tree.git tags/fix-v5.4a
 
-Best regards,
-Jernej
+for you to fetch changes up to 9b99475a1b930856b9a15ef2b83aad0fed74b889:
 
-> 
-> Regards,
-> 
-> 	Hans
-> 
-> > +
-> > +	if (out_vb)
-> > +		out_vb->flags &= ~V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF;
-> > +	else if (cap_vb && cap_vb->is_held)
-> > +		v4l2_m2m_buf_done(cap_vb, VB2_BUF_STATE_DONE);
-> > +
-> > +	return 0;
-> > +}
-> > +EXPORT_SYMBOL_GPL(v4l2_m2m_ioctl_stateless_decoder_cmd);
-> > +
-> > 
-> >  /*
-> >  
-> >   * v4l2_file_operations helpers. It is assumed here same lock is used
-> >   * for the output and the capture buffer queue.
-> > 
-> > diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2mem.h
-> > index c9fa96c8eed1..8ae2f56c7fa3 100644
-> > --- a/include/media/v4l2-mem2mem.h
-> > +++ b/include/media/v4l2-mem2mem.h
-> > @@ -714,6 +714,10 @@ int v4l2_m2m_ioctl_try_encoder_cmd(struct file *file,
-> > void *fh,> 
-> >  				   struct v4l2_encoder_cmd *ec);
-> >  
-> >  int v4l2_m2m_ioctl_try_decoder_cmd(struct file *file, void *fh,
-> >  
-> >  				   struct v4l2_decoder_cmd *dc);
-> > 
-> > +int v4l2_m2m_ioctl_stateless_try_decoder_cmd(struct file *file, void *fh,
-> > +					     struct 
-v4l2_decoder_cmd *dc);
-> > +int v4l2_m2m_ioctl_stateless_decoder_cmd(struct file *file, void *priv,
-> > +					 struct 
-v4l2_decoder_cmd *dc);
-> > 
-> >  int v4l2_m2m_fop_mmap(struct file *file, struct vm_area_struct *vma);
-> >  __poll_t v4l2_m2m_fop_poll(struct file *file, poll_table *wait);
+  media: meson/ao-cec: move cec_notifier_cec_adap_register after hw setup (2019-10-07 09:34:05 +0200)
 
+----------------------------------------------------------------
+Tag branch
 
+----------------------------------------------------------------
+Neil Armstrong (1):
+      media: meson/ao-cec: move cec_notifier_cec_adap_register after hw setup
 
-
+ drivers/media/platform/meson/ao-cec-g12a.c | 36 ++++++++++++++++++------------------
+ drivers/media/platform/meson/ao-cec.c      | 30 +++++++++++++++---------------
+ 2 files changed, 33 insertions(+), 33 deletions(-)
