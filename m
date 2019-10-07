@@ -2,194 +2,334 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CD642CDE68
-	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2019 11:44:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A6A1CDE71
+	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2019 11:45:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727347AbfJGJo0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Oct 2019 05:44:26 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:50589 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726010AbfJGJo0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 7 Oct 2019 05:44:26 -0400
-Received: from [IPv6:2001:983:e9a7:1:3d61:cdd2:8085:cc8] ([IPv6:2001:983:e9a7:1:3d61:cdd2:8085:cc8])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id HPZ0iLENKjZ8vHPZ1i5nUm; Mon, 07 Oct 2019 11:44:24 +0200
-Subject: Re: [PATCH v2 3/6] media: v4l2-mem2mem: add
- stateless_(try_)decoder_cmd ioctl helpers
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To:     =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@siol.net>
-Cc:     mchehab@kernel.org, paul.kocialkowski@bootlin.com,
-        mripard@kernel.org, pawel@osciak.com, m.szyprowski@samsung.com,
-        kyungmin.park@samsung.com, tfiga@chromium.org, wens@csie.org,
-        gregkh@linuxfoundation.org, boris.brezillon@collabora.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org,
-        ezequiel@collabora.com, jonas@kwiboo.se
-References: <20190929200023.215831-1-jernej.skrabec@siol.net>
- <20190929200023.215831-4-jernej.skrabec@siol.net>
- <6c7eeaf1-18bb-1c7e-7938-a3eb5af100b6@xs4all.nl>
- <2840939.OS9t7MgvnY@jernej-laptop>
- <cce04c8e-8211-0fdc-bd62-650aceeb3af1@xs4all.nl>
-Message-ID: <bc9e3e73-c2aa-c70e-5d81-f77d1bf898e7@xs4all.nl>
-Date:   Mon, 7 Oct 2019 11:44:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1727537AbfJGJpn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Oct 2019 05:45:43 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:32912 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727506AbfJGJpn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Oct 2019 05:45:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=tdUiGvAGimHW/S+sZVPg2XUlDCd7dRZRMyjfnFD47SA=; b=IG0RGY9yOJzM4RtM81iQUF08h
+        2mRj7mx80HIL9oYtbHXz4vnybFwmdK1tdYLAt5oUcEdHgWvYVqXhspdsgJyhbH1yW7Xmv769GYeec
+        7l670wQP+vJWJPs1uSd+dOuVRVV1s9IzA7HeJqogEmpmduTTETyo0p3AmCvpqI7sJEi1vJdHnZ2sA
+        /U05sqpFg7IT0nGBE0cZ4Eq8SaYlWTaKEtvRAJFH/OBThreD0og/K4YpvJKs6Hw+9aK1JrSpghdOD
+        i2KLZXQoJVsJDoz5ueqdUoUBXsMMzyLVAY4hrHUqTMp5AEFdOSaqznSQc0Gos4F4Um0VlSUT4BhAk
+        4hZ6buZiw==;
+Received: from [179.95.33.153] (helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
+        id 1iHPaH-0007Ze-7Y; Mon, 07 Oct 2019 09:45:41 +0000
+Date:   Mon, 7 Oct 2019 06:45:36 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Dariusz Marcinkiewicz <darekm@google.com>,
+        Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Subject: Re: [PATCH] cec: add cec_adapter to
+ cec_notifier_cec_adap_unregister()
+Message-ID: <20191007064536.3cc5f9ad@coco.lan>
+In-Reply-To: <e9fc8740-6be6-43a7-beee-ce2d7b54936e@xs4all.nl>
+References: <e9fc8740-6be6-43a7-beee-ce2d7b54936e@xs4all.nl>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <cce04c8e-8211-0fdc-bd62-650aceeb3af1@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfBhg/py6knYnvxMkJcNfVQ+HaYw1/5QCmKHnBYtRPv76Qm2AoD1c/Ql55QjfH0qG5LPLO1GSLVNPHUFKeJlbTOeuOz7RbyBpURJPL14hyhGGupB0RNCp
- mRKRFdLcj/L52Oxde2u3TfEr9XaNfGHsAfgV3C9SN6kvhZPBjvcMRd2eXePmKr43x76IDztL9jl7Dykw8+7wOgOqBbqyzKD/MvQMpZWjCL2WX4WiYdtGjDNW
- x3QLglAwFbVgyGcn8zmLoFn469yVAP1AmOwY58Uy7WCNxhvofVAyc1vfsn7nRUhcXIyQl4A75L9SrOVWvBmCqnQV/7UHRidLfMr8rRUgQG74dIvpwmdfLLit
- IaYQp/ZbAe8g2wf39hvt5sqMeccaLxo9liVvx9p1BplHSykj/XUSSx3kjsSxRwjidSSl2jJ+p6GRxT8Mq8NhNXihAyHMQxgRl1qwKyVg8V3uJZDNT1En7ndD
- TvT7Y3o2lD7kjTOx773li/ShhTUO03Rb0KNWN41ZondLwOtrhdk5dxRy9Eyo9e5Vhgf/SsMTasQ4t8y0FyNBURY6pCECM2eWv/PZMHLjG8zcJ52tHccbu2tH
- tY0NliwdJTMkxVb+CloozwUHKG+iE/sWOBPGHVPFZNf7GWk+VxncTNjC5dRKV2Z70y7FOkttLisWv60oWmTItcad0A7cUiU0vmc+vjIPK/aFo2CHsXfIQKwS
- n3t0r5yi3Q3mokY5rkoTseCC7cQTmcLVGgd4q0IT33WoLzcGwXvedEEybcr92xfrbIjFv49/SFv3ACNBnaGGelMyhxZZv0ps8jMRvSvrJAXWcVbVMNPcABz2
- 2qJ/vX1ll17fLGgpykc=
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/7/19 10:32 AM, Hans Verkuil wrote:
-> On 10/7/19 8:02 AM, Jernej Škrabec wrote:
->> Dne petek, 04. oktober 2019 ob 11:21:12 CEST je Hans Verkuil napisal(a):
->>> On 9/29/19 10:00 PM, Jernej Skrabec wrote:
->>>> These helpers are used by stateless codecs when they support multiple
->>>> slices per frame and hold capture buffer flag is set. It's expected that
->>>> all such codecs will use this code.
->>>>
->>>> Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
->>>> ---
->>>>
->>>>  drivers/media/v4l2-core/v4l2-mem2mem.c | 35 ++++++++++++++++++++++++++
->>>>  include/media/v4l2-mem2mem.h           |  4 +++
->>>>  2 files changed, 39 insertions(+)
->>>>
->>>> diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c
->>>> b/drivers/media/v4l2-core/v4l2-mem2mem.c index 19937dd3c6f6..2677a07e4c9b
->>>> 100644
->>>> --- a/drivers/media/v4l2-core/v4l2-mem2mem.c
->>>> +++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
->>>> @@ -1154,6 +1154,41 @@ int v4l2_m2m_ioctl_try_decoder_cmd(struct file
->>>> *file, void *fh,> 
->>>>  }
->>>>  EXPORT_SYMBOL_GPL(v4l2_m2m_ioctl_try_decoder_cmd);
->>>>
->>>> +int v4l2_m2m_ioctl_stateless_try_decoder_cmd(struct file *file, void *fh,
->>>> +					     struct 
->> v4l2_decoder_cmd *dc)
->>>> +{
->>>> +	if (dc->cmd != V4L2_DEC_CMD_FLUSH)
->>>> +		return -EINVAL;
->>>> +
->>>> +	dc->flags = 0;
->>>> +
->>>> +	return 0;
->>>> +}
->>>> +EXPORT_SYMBOL_GPL(v4l2_m2m_ioctl_stateless_try_decoder_cmd);
->>>> +
->>>> +int v4l2_m2m_ioctl_stateless_decoder_cmd(struct file *file, void *priv,
->>>> +					 struct 
->> v4l2_decoder_cmd *dc)
->>>> +{
->>>> +	struct v4l2_fh *fh = file->private_data;
->>>> +	struct vb2_v4l2_buffer *out_vb, *cap_vb;
->>>> +	int ret;
->>>> +
->>>> +	ret = v4l2_m2m_ioctl_stateless_try_decoder_cmd(file, priv, dc);
->>>> +	if (ret < 0)
->>>> +		return ret;
->>>> +
->>>> +	out_vb = v4l2_m2m_last_src_buf(fh->m2m_ctx);
->>>> +	cap_vb = v4l2_m2m_last_dst_buf(fh->m2m_ctx);
->>>
->>> I think this should be v4l2_m2m_next_dst_buf. If multiple capture buffers
->>> were queued up, then it can only be the first capture buffer that can be
->>> 'HELD'.
->>
->> I'm pretty sure v4l2_m2m_last_dst_buf() is correct. We want to affect last job 
->> in the queue, all jobs before are already properly handled by comparing 
->> timestamps.
-> 
-> You're absolutely right.
-> 
->>
->>>
->>> This might solve the race condition you saw with ffmpeg.
->>
->> This actually doesn't change anything. ffmpeg currently queues only one job and 
->> then waits until it's executed. In this case it actually doesn't matter if 
->> "last" or "next" variant is used.
-> 
-> Can you debug this a bit further? I don't want to merge this unless we know what's
-> going wrong with ffmpeg.
-> 
-> I suspect it is a race condition. I'll reply to patch 6/6 with more info.
+Em Fri, 4 Oct 2019 13:04:24 +0200
+Hans Verkuil <hverkuil@xs4all.nl> escreveu:
 
-I've decided to make a v3 of this series. There are major locking issues with this
-and this will require a bit of rework.
-
-Regards,
-
-	Hans
-
+> It is possible for one HDMI connector to have multiple CEC adapters. The
+> typical real-world scenario is that where one adapter is used when the device
+> is in standby, and one that's better/smarter when the device is powered up.
 > 
-> Regards,
+> The cec-notifier changes were made with that in mind, but I missed that in
+> order to support this you need to tell cec_notifier_cec_adap_unregister()
+> which adapter you are unregistering from the notifier.
 > 
-> 	Hans
+> Add this additional argument. It is currently unused, but once all drivers
+> use this, the CEC core will be adapted for these use-cases.
 > 
->>
->> Best regards,
->> Jernej
->>
->>>
->>> Regards,
->>>
->>> 	Hans
->>>
->>>> +
->>>> +	if (out_vb)
->>>> +		out_vb->flags &= ~V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF;
->>>> +	else if (cap_vb && cap_vb->is_held)
->>>> +		v4l2_m2m_buf_done(cap_vb, VB2_BUF_STATE_DONE);
->>>> +
->>>> +	return 0;
->>>> +}
->>>> +EXPORT_SYMBOL_GPL(v4l2_m2m_ioctl_stateless_decoder_cmd);
->>>> +
->>>>
->>>>  /*
->>>>  
->>>>   * v4l2_file_operations helpers. It is assumed here same lock is used
->>>>   * for the output and the capture buffer queue.
->>>>
->>>> diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2mem.h
->>>> index c9fa96c8eed1..8ae2f56c7fa3 100644
->>>> --- a/include/media/v4l2-mem2mem.h
->>>> +++ b/include/media/v4l2-mem2mem.h
->>>> @@ -714,6 +714,10 @@ int v4l2_m2m_ioctl_try_encoder_cmd(struct file *file,
->>>> void *fh,> 
->>>>  				   struct v4l2_encoder_cmd *ec);
->>>>  
->>>>  int v4l2_m2m_ioctl_try_decoder_cmd(struct file *file, void *fh,
->>>>  
->>>>  				   struct v4l2_decoder_cmd *dc);
->>>>
->>>> +int v4l2_m2m_ioctl_stateless_try_decoder_cmd(struct file *file, void *fh,
->>>> +					     struct 
->> v4l2_decoder_cmd *dc);
->>>> +int v4l2_m2m_ioctl_stateless_decoder_cmd(struct file *file, void *priv,
->>>> +					 struct 
->> v4l2_decoder_cmd *dc);
->>>>
->>>>  int v4l2_m2m_fop_mmap(struct file *file, struct vm_area_struct *vma);
->>>>  __poll_t v4l2_m2m_fop_poll(struct file *file, poll_table *wait);
->>
->>
->>
->>
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> ---
+> This patch should go in via the drm subsystem since all CEC adapters in the
+> drm subsystem have been converted to use cec_notifier_cec_adap_unregister().
+> The media subsystem still has older drm drivers that weren't converted to use
+> cec_notifier_cec_adap_unregister().
+> 
+> This will only be a problem if a new CEC adapter driver is added to the media
+> subsystem for v5.5, but I am not aware of any plans for that. Should it happen,
+> then that just means that the media subsystem needs to resolve a fairly trivial
+> merge conflict.
+> 
+> Ville, Mauro, can you review/ack?
+
+Yeah, feel free to merge this via DRM:
+
+Acked-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+
+
+> ---
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
+> index ac1e001d0882..70ab4fbdc23e 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
+> @@ -285,7 +285,7 @@ static int dw_hdmi_cec_probe(struct platform_device *pdev)
+> 
+>  	ret = cec_register_adapter(cec->adap, pdev->dev.parent);
+>  	if (ret < 0) {
+> -		cec_notifier_cec_adap_unregister(cec->notify);
+> +		cec_notifier_cec_adap_unregister(cec->notify, cec->adap);
+>  		return ret;
+>  	}
+> 
+> @@ -302,7 +302,7 @@ static int dw_hdmi_cec_remove(struct platform_device *pdev)
+>  {
+>  	struct dw_hdmi_cec *cec = platform_get_drvdata(pdev);
+> 
+> -	cec_notifier_cec_adap_unregister(cec->notify);
+> +	cec_notifier_cec_adap_unregister(cec->notify, cec->adap);
+>  	cec_unregister_adapter(cec->adap);
+> 
+>  	return 0;
+> diff --git a/drivers/gpu/drm/i2c/tda9950.c b/drivers/gpu/drm/i2c/tda9950.c
+> index a5a75bdeb7a5..5b03fdd1eaa4 100644
+> --- a/drivers/gpu/drm/i2c/tda9950.c
+> +++ b/drivers/gpu/drm/i2c/tda9950.c
+> @@ -465,7 +465,7 @@ static int tda9950_probe(struct i2c_client *client,
+> 
+>  	ret = cec_register_adapter(priv->adap, priv->hdmi);
+>  	if (ret < 0) {
+> -		cec_notifier_cec_adap_unregister(priv->notify);
+> +		cec_notifier_cec_adap_unregister(priv->notify, priv->adap);
+>  		return ret;
+>  	}
+> 
+> @@ -482,7 +482,7 @@ static int tda9950_remove(struct i2c_client *client)
+>  {
+>  	struct tda9950_priv *priv = i2c_get_clientdata(client);
+> 
+> -	cec_notifier_cec_adap_unregister(priv->notify);
+> +	cec_notifier_cec_adap_unregister(priv->notify, priv->adap);
+>  	cec_unregister_adapter(priv->adap);
+> 
+>  	return 0;
+> diff --git a/drivers/media/cec/cec-notifier.c b/drivers/media/cec/cec-notifier.c
+> index 4d82a5522072..7cf42b133dbc 100644
+> --- a/drivers/media/cec/cec-notifier.c
+> +++ b/drivers/media/cec/cec-notifier.c
+> @@ -153,13 +153,14 @@ cec_notifier_cec_adap_register(struct device *hdmi_dev, const char *conn_name,
+>  }
+>  EXPORT_SYMBOL_GPL(cec_notifier_cec_adap_register);
+> 
+> -void cec_notifier_cec_adap_unregister(struct cec_notifier *n)
+> +void cec_notifier_cec_adap_unregister(struct cec_notifier *n,
+> +				      struct cec_adapter *adap)
+>  {
+>  	if (!n)
+>  		return;
+> 
+>  	mutex_lock(&n->lock);
+> -	n->cec_adap->notifier = NULL;
+> +	adap->notifier = NULL;
+>  	n->cec_adap = NULL;
+>  	n->callback = NULL;
+>  	mutex_unlock(&n->lock);
+> diff --git a/drivers/media/platform/cros-ec-cec/cros-ec-cec.c b/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
+> index 4a3b3810fd89..f048e8994785 100644
+> --- a/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
+> +++ b/drivers/media/platform/cros-ec-cec/cros-ec-cec.c
+> @@ -314,7 +314,8 @@ static int cros_ec_cec_probe(struct platform_device *pdev)
+>  	return 0;
+> 
+>  out_probe_notify:
+> -	cec_notifier_cec_adap_unregister(cros_ec_cec->notify);
+> +	cec_notifier_cec_adap_unregister(cros_ec_cec->notify,
+> +					 cros_ec_cec->adap);
+>  out_probe_adapter:
+>  	cec_delete_adapter(cros_ec_cec->adap);
+>  	return ret;
+> @@ -335,7 +336,8 @@ static int cros_ec_cec_remove(struct platform_device *pdev)
+>  		return ret;
+>  	}
+> 
+> -	cec_notifier_cec_adap_unregister(cros_ec_cec->notify);
+> +	cec_notifier_cec_adap_unregister(cros_ec_cec->notify,
+> +					 cros_ec_cec->adap);
+>  	cec_unregister_adapter(cros_ec_cec->adap);
+> 
+>  	return 0;
+> diff --git a/drivers/media/platform/meson/ao-cec-g12a.c b/drivers/media/platform/meson/ao-cec-g12a.c
+> index 3b39e875292e..70f875b4a01e 100644
+> --- a/drivers/media/platform/meson/ao-cec-g12a.c
+> +++ b/drivers/media/platform/meson/ao-cec-g12a.c
+> @@ -736,7 +736,7 @@ static int meson_ao_cec_g12a_probe(struct platform_device *pdev)
+>  	clk_disable_unprepare(ao_cec->core);
+> 
+>  out_probe_notify:
+> -	cec_notifier_cec_adap_unregister(ao_cec->notify);
+> +	cec_notifier_cec_adap_unregister(ao_cec->notify, ao_cec->adap);
+> 
+>  out_probe_adapter:
+>  	cec_delete_adapter(ao_cec->adap);
+> @@ -752,7 +752,7 @@ static int meson_ao_cec_g12a_remove(struct platform_device *pdev)
+> 
+>  	clk_disable_unprepare(ao_cec->core);
+> 
+> -	cec_notifier_cec_adap_unregister(ao_cec->notify);
+> +	cec_notifier_cec_adap_unregister(ao_cec->notify, ao_cec->adap);
+> 
+>  	cec_unregister_adapter(ao_cec->adap);
+> 
+> diff --git a/drivers/media/platform/meson/ao-cec.c b/drivers/media/platform/meson/ao-cec.c
+> index 64ed549bf012..92859a6d006f 100644
+> --- a/drivers/media/platform/meson/ao-cec.c
+> +++ b/drivers/media/platform/meson/ao-cec.c
+> @@ -688,7 +688,7 @@ static int meson_ao_cec_probe(struct platform_device *pdev)
+>  	clk_disable_unprepare(ao_cec->core);
+> 
+>  out_probe_notify:
+> -	cec_notifier_cec_adap_unregister(ao_cec->notify);
+> +	cec_notifier_cec_adap_unregister(ao_cec->notify, ao_cec->adap);
+> 
+>  out_probe_adapter:
+>  	cec_delete_adapter(ao_cec->adap);
+> @@ -704,7 +704,7 @@ static int meson_ao_cec_remove(struct platform_device *pdev)
+> 
+>  	clk_disable_unprepare(ao_cec->core);
+> 
+> -	cec_notifier_cec_adap_unregister(ao_cec->notify);
+> +	cec_notifier_cec_adap_unregister(ao_cec->notify, ao_cec->adap);
+>  	cec_unregister_adapter(ao_cec->adap);
+> 
+>  	return 0;
+> diff --git a/drivers/media/platform/s5p-cec/s5p_cec.c b/drivers/media/platform/s5p-cec/s5p_cec.c
+> index 6ddcc35b0bbd..2a3e7ffefe0a 100644
+> --- a/drivers/media/platform/s5p-cec/s5p_cec.c
+> +++ b/drivers/media/platform/s5p-cec/s5p_cec.c
+> @@ -239,7 +239,7 @@ static int s5p_cec_probe(struct platform_device *pdev)
+>  	return 0;
+> 
+>  err_notifier:
+> -	cec_notifier_cec_adap_unregister(cec->notifier);
+> +	cec_notifier_cec_adap_unregister(cec->notifier, cec->adap);
+> 
+>  err_delete_adapter:
+>  	cec_delete_adapter(cec->adap);
+> @@ -250,7 +250,7 @@ static int s5p_cec_remove(struct platform_device *pdev)
+>  {
+>  	struct s5p_cec_dev *cec = platform_get_drvdata(pdev);
+> 
+> -	cec_notifier_cec_adap_unregister(cec->notifier);
+> +	cec_notifier_cec_adap_unregister(cec->notifier, cec->adap);
+>  	cec_unregister_adapter(cec->adap);
+>  	pm_runtime_disable(&pdev->dev);
+>  	return 0;
+> diff --git a/drivers/media/platform/seco-cec/seco-cec.c b/drivers/media/platform/seco-cec/seco-cec.c
+> index 9cd60fe1867c..54b0d51e9c55 100644
+> --- a/drivers/media/platform/seco-cec/seco-cec.c
+> +++ b/drivers/media/platform/seco-cec/seco-cec.c
+> @@ -671,7 +671,7 @@ static int secocec_probe(struct platform_device *pdev)
+>  	return ret;
+> 
+>  err_notifier:
+> -	cec_notifier_cec_adap_unregister(secocec->notifier);
+> +	cec_notifier_cec_adap_unregister(secocec->notifier, secocec->cec_adap);
+>  err_delete_adapter:
+>  	cec_delete_adapter(secocec->cec_adap);
+>  err:
+> @@ -692,7 +692,7 @@ static int secocec_remove(struct platform_device *pdev)
+> 
+>  		dev_dbg(&pdev->dev, "IR disabled");
+>  	}
+> -	cec_notifier_cec_adap_unregister(secocec->notifier);
+> +	cec_notifier_cec_adap_unregister(secocec->notifier, secocec->cec_adap);
+>  	cec_unregister_adapter(secocec->cec_adap);
+> 
+>  	release_region(BRA_SMB_BASE_ADDR, 7);
+> diff --git a/drivers/media/platform/sti/cec/stih-cec.c b/drivers/media/platform/sti/cec/stih-cec.c
+> index 8118c7365d3f..f0c73e64b586 100644
+> --- a/drivers/media/platform/sti/cec/stih-cec.c
+> +++ b/drivers/media/platform/sti/cec/stih-cec.c
+> @@ -359,7 +359,7 @@ static int stih_cec_probe(struct platform_device *pdev)
+>  	return 0;
+> 
+>  err_notifier:
+> -	cec_notifier_cec_adap_unregister(cec->notifier);
+> +	cec_notifier_cec_adap_unregister(cec->notifier, cec->adap);
+> 
+>  err_delete_adapter:
+>  	cec_delete_adapter(cec->adap);
+> @@ -370,7 +370,7 @@ static int stih_cec_remove(struct platform_device *pdev)
+>  {
+>  	struct stih_cec *cec = platform_get_drvdata(pdev);
+> 
+> -	cec_notifier_cec_adap_unregister(cec->notifier);
+> +	cec_notifier_cec_adap_unregister(cec->notifier, cec->adap);
+>  	cec_unregister_adapter(cec->adap);
+> 
+>  	return 0;
+> diff --git a/drivers/media/platform/tegra-cec/tegra_cec.c b/drivers/media/platform/tegra-cec/tegra_cec.c
+> index a632602131f2..a99caac59f44 100644
+> --- a/drivers/media/platform/tegra-cec/tegra_cec.c
+> +++ b/drivers/media/platform/tegra-cec/tegra_cec.c
+> @@ -409,7 +409,7 @@ static int tegra_cec_probe(struct platform_device *pdev)
+>  	return 0;
+> 
+>  err_notifier:
+> -	cec_notifier_cec_adap_unregister(cec->notifier);
+> +	cec_notifier_cec_adap_unregister(cec->notifier, cec->adap);
+>  err_adapter:
+>  	cec_delete_adapter(cec->adap);
+>  err_clk:
+> @@ -423,7 +423,7 @@ static int tegra_cec_remove(struct platform_device *pdev)
+> 
+>  	clk_disable_unprepare(cec->clk);
+> 
+> -	cec_notifier_cec_adap_unregister(cec->notifier);
+> +	cec_notifier_cec_adap_unregister(cec->notifier, cec->adap);
+>  	cec_unregister_adapter(cec->adap);
+> 
+>  	return 0;
+> diff --git a/include/media/cec-notifier.h b/include/media/cec-notifier.h
+> index f161f8a493ac..985afea1ee36 100644
+> --- a/include/media/cec-notifier.h
+> +++ b/include/media/cec-notifier.h
+> @@ -93,8 +93,10 @@ cec_notifier_cec_adap_register(struct device *hdmi_dev, const char *conn_name,
+>   * cec_notifier_cec_adap_unregister - decrease refcount and delete when the
+>   * refcount reaches 0.
+>   * @n: notifier. If NULL, then this function does nothing.
+> + * @adap: the cec adapter that registered this notifier.
+>   */
+> -void cec_notifier_cec_adap_unregister(struct cec_notifier *n);
+> +void cec_notifier_cec_adap_unregister(struct cec_notifier *n,
+> +				      struct cec_adapter *adap);
+> 
+>  /**
+>   * cec_notifier_set_phys_addr - set a new physical address.
+> @@ -160,7 +162,8 @@ cec_notifier_cec_adap_register(struct device *hdmi_dev, const char *conn_name,
+>  	return (struct cec_notifier *)0xdeadfeed;
+>  }
+> 
+> -static inline void cec_notifier_cec_adap_unregister(struct cec_notifier *n)
+> +static inline void cec_notifier_cec_adap_unregister(struct cec_notifier *n,
+> +						    struct cec_adapter *adap)
+>  {
+>  }
 > 
 
+
+
+Thanks,
+Mauro
