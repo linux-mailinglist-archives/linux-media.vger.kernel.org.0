@@ -2,161 +2,255 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C2CE3CE629
-	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2019 16:55:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0CB1CE640
+	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2019 16:59:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728019AbfJGOz4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Oct 2019 10:55:56 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:39550 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727745AbfJGOz4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Oct 2019 10:55:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=LI8Q7C2YNukIfIFd7788eQ9/nEw1eNwIpCEuAzlBXMQ=; b=fi59Cnpgab24evPFQ2hyZ0kzs
-        PDB8c118mbcq0CDZLerYic5EKSe7j1fhBe9iwfGT6HD4DMxPiqGLizL/95ut7eJWW+YBsOXTMrDbB
-        yQiLqPZm8fgliYRTt1fDCNGKLPSNarE/uwOtuCIoca/1/QsOvTG1gPStfsZTrOYejaLWApEjDex0j
-        pkdaI6LM9GNPYpjeyNfqtVUkJOK14LqqW2ll7gU4MAZvcoHV6U/92a9666A8p0jqyREc0gjnvFucy
-        mtrL6ekwYOlsjOzogP9jWbQ02mRKkxH71QQo/DVAdUCnYy2FhY5jGwBCn3G344nznaRR1+h6zI3JD
-        ayQaU+4dw==;
-Received: from [179.95.33.153] (helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
-        id 1iHUQV-0000KH-KQ; Mon, 07 Oct 2019 14:55:56 +0000
-Date:   Mon, 7 Oct 2019 11:55:51 -0300
-From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@infradead.org>,
-        Andy Gross <agross@kernel.org>, linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH] media: venus: fix build on 32bit environments
-Message-ID: <20191007115551.4619fb62@coco.lan>
-In-Reply-To: <2f22ff7f-0e47-b03f-75bf-a9822afb0507@linaro.org>
-References: <f8b266dea8594c046bd545ca1f497bfc1658835d.1570455418.git.mchehab+samsung@kernel.org>
-        <2f22ff7f-0e47-b03f-75bf-a9822afb0507@linaro.org>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1728469AbfJGO7O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Oct 2019 10:59:14 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:38715 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726334AbfJGO7O (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Oct 2019 10:59:14 -0400
+Received: by mail-wr1-f68.google.com with SMTP id w12so15732136wro.5
+        for <linux-media@vger.kernel.org>; Mon, 07 Oct 2019 07:59:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vilLtZV/3cPsoe5D69Ef7zst8isSbKkZO1Y1Pm2Cqc0=;
+        b=u/ZpKjhiowf7PaElE2EEAF3J1csGr2KdXAdpJBm5Bqp5+gVCtF+RjNgXVVX/8doKuG
+         MZB9nb/r7aEgcTsvukW26bmUM4TTvAeIUcpgCRclwlZsktjVekazM6PukdKTEeOE9x7f
+         RA33Af5AZf5DPiTdnlC1dsqVuaS6ViHr9A36NaQdFCcqaLU7byvVVYii0IcgC4Hgt5mh
+         Np2vU5IQ9wiIiixACVf/xecLxBHPQfpEdMgpAbHP//jzIyJC3i6hlFAktoQj9TdwgOFk
+         Zj3YbXhJQ5Xdh0YPwoaNmcmtiTZedSyRqNj3NNHyAmcoQcohKs/BsSWI9EBJI5fMJ78r
+         PWLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vilLtZV/3cPsoe5D69Ef7zst8isSbKkZO1Y1Pm2Cqc0=;
+        b=hmsY6EjeT+kYBo4UNXgiap0y76zI1Nj8foOey4Qa9wttXvmJgD58Sx3ISwFAd2E1G7
+         C+2cbB3R+9++j3i0SYOIYkrV5beoT9TAZtLENd6xypt9MYJ76yvw71B/aRURPPEivBz9
+         T7+azidwPyhyj/nGVyGy/zdMJ9zDWwCiMK0KRchvYr6KHU9KrUcZCDHrpkqFwkl2i+6m
+         sEkxlJgG86aCZ0Q+TOklPuALWE2khtJO0+bv5MOCifTBPLeR2dE0uaBJRaDf0Z2QFv2E
+         Spy8a/nMcTGFavCFW+h3BlgqOrpelIlHnyS9TdcdCldBeJAInf+RmtFuRfnrm8OwhThV
+         2wdw==
+X-Gm-Message-State: APjAAAW88ouUEA59FjszDI8gMpeb3uGfF9WuqFTrMd+At4e23s8F9PkI
+        2VnnvIwmt0PZ6zcfG/T2GvPFrQ==
+X-Google-Smtp-Source: APXvYqwdvMHMACemynEre5GbAwLLqQxaKlJYDmTZ3Mj9Oua30AmbMMMNpmeE3UZ3a1Oj6FKt8FXVrQ==
+X-Received: by 2002:adf:f348:: with SMTP id e8mr15404455wrp.237.1570460351453;
+        Mon, 07 Oct 2019 07:59:11 -0700 (PDT)
+Received: from mjourdan-pc.numericable.fr (abo-99-183-68.mtp.modulonet.fr. [85.68.183.99])
+        by smtp.gmail.com with ESMTPSA id d4sm19348985wrq.22.2019.10.07.07.59.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Oct 2019 07:59:10 -0700 (PDT)
+From:   Maxime Jourdan <mjourdan@baylibre.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>
+Cc:     Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org
+Subject: [PATCH 0/2] media: meson: vdec: Add compliant H264 support
+Date:   Mon,  7 Oct 2019 16:59:07 +0200
+Message-Id: <20191007145909.29979-1-mjourdan@baylibre.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Mon, 7 Oct 2019 17:38:53 +0300
-Stanimir Varbanov <stanimir.varbanov@linaro.org> escreveu:
+Hello,
 
-> Hi Mauro,
-> 
-> Thanks for the fix!
-> 
-> On 10/7/19 4:37 PM, Mauro Carvalho Chehab wrote:
-> > As reported by jenkins@linuxtv.org, the build with i386 fails
-> > with:
-> > 
-> > 	ld: drivers/media/platform/qcom/venus/helpers.o: in function `venus_helper_load_scale_clocks':
-> > 	(.text+0x1d77): undefined reference to `__udivdi3'
-> > 	ld: (.text+0x1dce): undefined reference to `__udivdi3'
-> > 	make: *** [Makefile:1094: vmlinux] Error 1
-> > 
-> > That's because it divides an u32 bit integer by a u64 one.  
-> 
-> General question, shouldn't such errors been catch from builder on the
-> pull request?
+This patch series aims to bring H.264 support as well as compliance update
+to the amlogic stateful video decoder driver.
 
-No, the pull request builder just builds drivers/media automatically
-when a patch arrives patchwork.
+There is 1 issue that remains currently:
 
-This error only happens after a full build, when it tries to linkedit
-vmlinux.
+ - The following codepath had to be commented out from v4l2-compliance as
+it led to stalling:
 
-Due to time contraints, the complete build is done only after merging 
-stuff at patchwork, as it may take hours to build for the platforms we
-care.
+if (node->codec_mask & STATEFUL_DECODER) {
+	struct v4l2_decoder_cmd cmd;
+	buffer buf_cap(m2m_q);
 
-My long term would be to push patches on a temporary tree, with would
-start the builders. Only after all builders finish without issues, the
-master one would be updated.
+	memset(&cmd, 0, sizeof(cmd));
+	cmd.cmd = V4L2_DEC_CMD_STOP;
 
-In thesis, jenkins supports it via pipelines. Basically, I would need to
-setup a pipeline that:
+	/* No buffers are queued, call STREAMON, then STOP */
+	fail_on_test(node->streamon(q.g_type()));
+	fail_on_test(node->streamon(m2m_q.g_type()));
+	fail_on_test(doioctl(node, VIDIOC_DECODER_CMD, &cmd));
 
-1) it would fetch the latest tree on a common repository;
+	fail_on_test(buf_cap.querybuf(node, 0));
+	fail_on_test(buf_cap.qbuf(node));
+	fail_on_test(buf_cap.dqbuf(node));
+	fail_on_test(!(buf_cap.g_flags() & V4L2_BUF_FLAG_LAST));
+	for (unsigned p = 0; p < buf_cap.g_num_planes(); p++)
+		fail_on_test(buf_cap.g_bytesused(p));
+	fail_on_test(node->streamoff(q.g_type()));
+	fail_on_test(node->streamoff(m2m_q.g_type()));
 
-2) for each arch/config we support, it will start a builder;
+	/* Call STREAMON, queue one CAPTURE buffer, then STOP */
+	fail_on_test(node->streamon(q.g_type()));
+	fail_on_test(node->streamon(m2m_q.g_type()));
+	fail_on_test(buf_cap.querybuf(node, 0));
+	fail_on_test(buf_cap.qbuf(node));
+	fail_on_test(doioctl(node, VIDIOC_DECODER_CMD, &cmd));
 
-3) after all builder process finishes, it will check if all builds
-   went smoothly;
+	fail_on_test(buf_cap.dqbuf(node));
+	fail_on_test(!(buf_cap.g_flags() & V4L2_BUF_FLAG_LAST));
+	for (unsigned p = 0; p < buf_cap.g_num_planes(); p++)
+		fail_on_test(buf_cap.g_bytesused(p));
+	fail_on_test(node->streamoff(q.g_type()));
+	fail_on_test(node->streamoff(m2m_q.g_type()));
+}
 
-4) if everything runs smoothly, do a git fetch to the "permanent"
-tree.
-
-I quickly looked at Jenkins docs a few times: setting it doesn't
-seem to be trivial, as it envolves learning a macro language that 
-Jenkins uses internally. 
-
-I failed to find a good documentation about the language it uses, and
-was unable to find any example of a similar setup. All examples I
-saw assumes that the tasks at the pipeline will use the same workspace.
-
-I intend to seek for some time to better understand the pipeline
-settings on Jenkins in the future.
-
-> > Fix it by explicitly callind do_div.
-> > 
-> > That's said, why fps is a 64 bits integer?  
-> 
-> I don't have other explanation than - just to avoid casting after the
-> math in vdec/venc_s_parm() functions.
-
-IMO, avoiding the do_div() would be better than avoid the casting, but
-that's your call.
-
-> > 
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-> > ---
-> >  drivers/media/platform/qcom/venus/helpers.c | 8 +++++++-
-> >  1 file changed, 7 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
-> > index 5ea5d90f8e5f..09fa87e3c0a0 100644
-> > --- a/drivers/media/platform/qcom/venus/helpers.c
-> > +++ b/drivers/media/platform/qcom/venus/helpers.c
-> > @@ -522,8 +522,14 @@ static unsigned long calculate_inst_freq(struct venus_inst *inst,
-> >  	unsigned long vpp_freq = 0, vsp_freq = 0;
-> >  	u64 fps = inst->fps;
-> >  	u32 mbs_per_sec;
-> > +	u64 tmp;
-> > +  
-> 
-> you have extra blank line here.
-
-Ok, I'll remove it.
-
-> 
-> > +
-> > +	tmp = load_per_instance(inst);
-> > +	do_div(tmp, inst->fps);
-> > +
-> > +	mbs_per_sec = (u32)tmp;
-> >  
-> > -	mbs_per_sec = load_per_instance(inst) / inst->fps;
-> >  	vpp_freq = mbs_per_sec * inst->clk_data.codec_freq_data->vpp_freq;
-> >  	/* 21 / 20 is overhead factor */
-> >  	vpp_freq += vpp_freq / 20;
-> >   
-> 
-> I guess this fix should be squashed with the commit which introduce it :(
-
-Too late for that.
-
-> Note taken, always build patches on i386 :/
-> 
+The reason for this is because the driver has a limitation where all
+capturebuffers must be queued to the driver before STREAMON is effective.
+The firmware needs to know in advance what all the buffers are before
+starting to decode.
+This limitation is enforced via q->min_buffers_needed.
+As such, in this compliance codepath, STREAMON is never actually called
+driver-side and there is a stall on fail_on_test(buf_cap.dqbuf(node));
 
 
+One last detail: V4L2_FMT_FLAG_DYN_RESOLUTION is currently not recognized
+by v4l2-compliance, so it was left out for the test. However, it is
+present in the patch series.
 
-Thanks,
-Mauro
+The second patch has 3 "Alignment should match open parenthesis" lines
+where I preferred to keep them that way.
+
+Thanks Stanimir for sharing your HDR file creation tools, this was very
+helpful :).
+
+Maxime
+
+# v4l2-compliance --stream-from-hdr test-25fps.h264.hdr -s250
+v4l2-compliance SHA: a162244d47d4bb01d0692da879dce5a070f118e7, 64 bits
+
+Compliance test for meson-vdec device /dev/video0:
+
+Driver Info:
+	Driver name      : meson-vdec
+	Card type        : Amlogic Video Decoder
+	Bus info         : platform:meson-vdec
+	Driver version   : 5.4.0
+	Capabilities     : 0x84204000
+		Video Memory-to-Memory Multiplanar
+		Streaming
+		Extended Pix Format
+		Device Capabilities
+	Device Caps      : 0x04204000
+		Video Memory-to-Memory Multiplanar
+		Streaming
+		Extended Pix Format
+	Detected Stateful Decoder
+
+Required ioctls:
+	test VIDIOC_QUERYCAP: OK
+
+Allow for multiple opens:
+	test second /dev/video0 open: OK
+	test VIDIOC_QUERYCAP: OK
+	test VIDIOC_G/S_PRIORITY: OK
+	test for unlimited opens: OK
+
+Debug ioctls:
+	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+	test VIDIOC_QUERYCTRL: OK
+	test VIDIOC_G/S_CTRL: OK
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 2 Private Controls: 0
+
+Format ioctls:
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK
+	test VIDIOC_TRY_FMT: OK
+	test VIDIOC_S_FMT: OK
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK
+
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK
+
+Buffer ioctls:
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+	test VIDIOC_EXPBUF: OK
+	test Requests: OK (Not Supported)
+
+Test input 0:
+
+Streaming ioctls:
+	test read/write: OK (Not Supported)
+	test blocking wait: OK
+	Video Capture Multiplanar: Captured 250 buffers   
+	test MMAP (select): OK
+	Video Capture Multiplanar: Captured 250 buffers   
+	test MMAP (epoll): OK
+	test USERPTR (select): OK (Not Supported)
+	test DMABUF: Cannot test, specify --expbuf-device
+
+Total for meson-vdec device /dev/video0: 49, Succeeded: 49, Failed: 0, Warnings: 0
+
+Maxime Jourdan (2):
+  media: meson: vdec: bring up to compliance
+  media: meson: vdec: add H.264 decoding support
+
+ drivers/staging/media/meson/vdec/Makefile     |   2 +-
+ drivers/staging/media/meson/vdec/codec_h264.c | 482 ++++++++++++++++++
+ drivers/staging/media/meson/vdec/codec_h264.h |  14 +
+ drivers/staging/media/meson/vdec/esparser.c   |  34 +-
+ drivers/staging/media/meson/vdec/vdec.c       |  70 ++-
+ drivers/staging/media/meson/vdec/vdec.h       |  14 +-
+ .../staging/media/meson/vdec/vdec_helpers.c   |  85 ++-
+ .../staging/media/meson/vdec/vdec_helpers.h   |   6 +-
+ .../staging/media/meson/vdec/vdec_platform.c  |  43 ++
+ 9 files changed, 654 insertions(+), 96 deletions(-)
+ create mode 100644 drivers/staging/media/meson/vdec/codec_h264.c
+ create mode 100644 drivers/staging/media/meson/vdec/codec_h264.h
+
+-- 
+2.23.0
+
