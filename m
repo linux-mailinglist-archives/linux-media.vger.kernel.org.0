@@ -2,395 +2,769 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9608ACE528
-	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2019 16:24:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 149ACCE534
+	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2019 16:26:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727715AbfJGOYL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Oct 2019 10:24:11 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:54315 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727324AbfJGOYL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Oct 2019 10:24:11 -0400
-Received: by mail-wm1-f68.google.com with SMTP id p7so12913380wmp.4
-        for <linux-media@vger.kernel.org>; Mon, 07 Oct 2019 07:24:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=AE38g4f74pNaCnncys3irDMBJWhjndNB7tf17zIZyCc=;
-        b=p+p8Cb+Po397IHZoJDsAqQJ5W6bQt4myUDm0LuoOKFsDxToPRyn0yo9nAECe7hXcDo
-         Gv/bZ7QcwOnyLm5zxVVDlqXZdPwPpmTmmVXLRsezC4chIS4Hklg2kwPakuC8ODjdKftp
-         IZbfHTSPz3POzphgMN6LlwUZXFcf45cO/S2XMbG1cNzpWA5cMj0SLbjnW/9QpnWNKDBb
-         0sp7zLFLCNA7PHYSB2KpvwZTaGW8NGyX7S8K2BGYrIVeMZUI3mVKJAYYWj8vtbvxhYLC
-         M5X1N+Q3znpQGsVDhrnlC8xQ3Nd9fGaYXE/46w2zLeGot0FuhXmfb7OMrHBkBsv3OL93
-         TzzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=AE38g4f74pNaCnncys3irDMBJWhjndNB7tf17zIZyCc=;
-        b=XLI86SHB8Pz3E+z84bHk47sJu/G0vDvd6Z7CjBbuexwg5514+nR9pkJX/shURMCioa
-         xHjh5M+ygHLL6y6vkuMDcTqkDu47q/78QF1x24FLg/1a+sLFDO1MglcUZGIN+fFHrLbe
-         ZSTZ17RDVRh4lIasSRz9nuq4ssJOAFXpeJvd+iZLkIdnh/dh8o41Mzz3cCUSs8qduhFY
-         MCGRg+oeQ9iGmTIYzusenBThNYtWzWkAegDs3rAiWy5D5lGMAk4VRMFhcwU6ZTcGR5Pf
-         zoitH+1WOhc5ArpP9xC33PYPiYq31YGN4aUJcn5ktinZkBtBnSRmKkJ5/pa464SVtSiy
-         JS8A==
-X-Gm-Message-State: APjAAAV21IxiR1/IM1MzNQrqyN0Sq08y+F2u7mfiLi7LB3eJRrUhrad2
-        nXK6ghobwPM75VaJeRB17opWsqQdg3+IgnFtwIBSD7Y+
-X-Google-Smtp-Source: APXvYqzZUYXwGPA67EVKf/1QNJ+aEf/Pmb7cR+QWMetEg80dYnYfe3+5wuG7BWG2gms/2HHG3Yq6k6ghW2UzqhpFuj4=
-X-Received: by 2002:a7b:c404:: with SMTP id k4mr22384922wmi.90.1570458247299;
- Mon, 07 Oct 2019 07:24:07 -0700 (PDT)
+        id S1727951AbfJGO01 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Oct 2019 10:26:27 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:46829 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727324AbfJGO00 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 7 Oct 2019 10:26:26 -0400
+Received: from [IPv6:2001:983:e9a7:1:3d61:cdd2:8085:cc8] ([IPv6:2001:983:e9a7:1:3d61:cdd2:8085:cc8])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id HTxtiQ4VLop0AHTxuiImCf; Mon, 07 Oct 2019 16:26:22 +0200
+Subject: Re: [PATCH v3 2/2] vivid: Add metadata output support
+To:     Vandana BN <bnvandana@gmail.com>, linux-media@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+References: <787ff1cb-dde3-800a-9dde-68f1db5e4897@xs4all.nl>
+ <20191004120837.31614-1-bnvandana@gmail.com>
+ <20191004120837.31614-3-bnvandana@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <a95022bb-1c6c-5f91-9169-65a06ff87148@xs4all.nl>
+Date:   Mon, 7 Oct 2019 16:26:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20190827092339.8858-1-jacopo@jmondi.org> <20190827092339.8858-12-jacopo@jmondi.org>
- <db08aa45-922e-e477-9836-cbbc3f17ad8e@xs4all.nl> <20190829124055.zxiu7x6abxfhkzch@uno.localdomain>
- <0df4ef45-ba3f-98b9-878e-8cdd2bf307f6@xs4all.nl> <20190903130626.GR5475@paasikivi.fi.intel.com>
- <20190903164956.hyf326hyzmvpubdv@uno.localdomain> <053f799d-bba1-ccd0-a3f3-38286761608d@xs4all.nl>
- <20190926185650.yu32oa5gqxsat6zm@uno.localdomain>
-In-Reply-To: <20190926185650.yu32oa5gqxsat6zm@uno.localdomain>
-From:   Tomasz Figa <tfiga@google.com>
-Date:   Mon, 7 Oct 2019 23:23:55 +0900
-Message-ID: <CAAFQd5DAG0YYyJAfQomUESrO4qnEBrwFBr74fS-oSxG+1mhi0A@mail.gmail.com>
-Subject: Re: [PATCH v2 09/10] media: i2c: ov5670: Report native size and crop bounds
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20191004120837.31614-3-bnvandana@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfLvP6AGOtMfM7nBRannv5iQACZMCOvahxr7LHFeXWGtnGzSdCW8L2ldL0QRBfoWuU4gmmSJlcoIh4ijyb5KutVR3Ncux/+A6nx+EhwY0H4vyyWvbZ8HP
+ kuakk11Kgx036gmaq8gk7j3x8f1Fh56wnQyH1HjXnH2iuIQHo2QxPAYVPbdZ9vut+OlVfcDYh8E0vKTn/IYNnfxfVkTAjzBUtwMP8TPXj+HIg2RLD2oDVdbP
+ zF3KLBgFGT4kp4vuH4NvQZBLdpVQ26UfmjdBNCFTpkm3b/ePxGmuPX2TteErLd6Em4RRzijzwK7LWxXN8EpUfIdjGjPoYuuiRwgWQ6RaiffdmJ9ql4F2KEhA
+ Z0YpDPG+f4qfgm/n7ee8PZNA71AbJg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Sep 27, 2019 at 3:55 AM Jacopo Mondi <jacopo@jmondi.org> wrote:
->
-> Hi Hans, thanks for the lenghty reply
->
-> On Thu, Sep 26, 2019 at 10:11:51AM +0200, Hans Verkuil wrote:
-> > On 9/3/19 6:49 PM, Jacopo Mondi wrote:
-> > > Hi Sakari, Hans,
-> > >
-> > > On Tue, Sep 03, 2019 at 04:06:26PM +0300, Sakari Ailus wrote:
-> > >> Hi Hans, Jacopo,
-> > >>
-> > >> On Thu, Aug 29, 2019 at 02:55:30PM +0200, Hans Verkuil wrote:
-> > >>> On 8/29/19 2:40 PM, Jacopo Mondi wrote:
-> > >>>> HI Hans,
-> > >>>>
-> > >>>> On Thu, Aug 29, 2019 at 12:20:18PM +0200, Hans Verkuil wrote:
-> > >>>>> On 8/27/19 11:23 AM, Jacopo Mondi wrote:
-> > >>>>>> Report the native pixel array size and the crop bounds for the o=
-v5670
-> > >>>>>> sensor driver.
-> > >>>>>>
-> > >>>>>> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > >>>>>> ---
-> > >>>>>>  drivers/media/i2c/ov5670.c | 20 ++++++++++++++++++++
-> > >>>>>>  1 file changed, 20 insertions(+)
-> > >>>>>>
-> > >>>>>> diff --git a/drivers/media/i2c/ov5670.c b/drivers/media/i2c/ov56=
-70.c
-> > >>>>>> index 2bc57e85f721..3e22fe9ccad1 100644
-> > >>>>>> --- a/drivers/media/i2c/ov5670.c
-> > >>>>>> +++ b/drivers/media/i2c/ov5670.c
-> > >>>>>> @@ -2258,6 +2258,25 @@ static int ov5670_set_pad_format(struct v=
-4l2_subdev *sd,
-> > >>>>>>        return 0;
-> > >>>>>>  }
-> > >>>>>>
-> > >>>>>> +static int ov5670_get_selection(struct v4l2_subdev *sd,
-> > >>>>>> +                              struct v4l2_subdev_pad_config *cf=
-g,
-> > >>>>>> +                              struct v4l2_subdev_selection *sel=
-)
-> > >>>>>> +{
-> > >>>>>> +      switch (sel->target) {
-> > >>>>>> +      case V4L2_SEL_TGT_CROP_BOUNDS:
-> > >>>>>> +      case V4L2_SEL_TGT_NATIVE_SIZE:
-> > >>>>>> +              sel->r.left =3D 0;
-> > >>>>>> +              sel->r.top =3D 0;
-> > >>>>>> +              sel->r.width =3D 2592;
-> > >>>>>> +              sel->r.height =3D 1944;
-> > >>>>>
-> > >>>>> Why do you need this?
-> > >>>>>
-> > >>>>
-> > >>>> I need to expose the pixel array size and the active pixel area si=
-ze,
-> > >>>> and I interpreted the two above targets as the right place where t=
-o do
-> > >>>> so.
-> > >>>
-> > >>> That didn't answer my question :-)
-> > >>>
-> > >>> Why do you need to expose this? Who uses it for what purpose?
-> > >>>
-> > >>>>
-> > >>>> At least for NATIVE_SIZE the documentation seems to match my
-> > >>>> understanding:
-> > >>>>
-> > >>>> "The native size of the device, e.g. a sensor=E2=80=99s pixel arra=
-y. left and top
-> > >>>> fields are zero for this target."
-> > >>>
-> > >>> Correct.
-> > >>>
-> > >>>>
-> > >>>>
-> > >>>>> Since the format can change for this and the next driver I think =
-CROP_BOUNDS
-> > >>>>> at least should match the current format.
-> > >>>>>
-> > >>>>
-> > >>>> Ah, does it? It was not clear to me from the documentation, as it
-> > >>>> suggested to me that target actually identifies the active pixel a=
-rea
-> > >>>>
-> > >>>> "Bounds of the crop rectangle. All valid crop rectangles fit insid=
-e the
-> > >>>> crop bounds rectangle."
-> > >>>>
-> > >>>> It does not mention format, should this be updated?
-> > >>>
-> > >>> The problem is that for sensors it is indeed not clear.
-> > >>>
-> > >>> In principle the crop bounds matches the resolution that the sensor=
- uses
-> > >>> pre-scaling. So yes, that means that it is equal to the native size=
-.
-> > >>>
-> > >>> But many sensors have a discrete list of supported formats and it i=
-s not
-> > >>> clear how they map each format to the actual sensor. If it is clear=
-ly just
-> > >>> done through binning or averaging, then all is fine.
-> > >>
-> > >> Sensor drivers do; sensors themselves support much, much more than m=
-ost
-> > >> drivers allow. But this is due to the nature of information availabl=
-e to
-> > >> the sensor driver developers, not really something that is trivial t=
-o
-> > >> change.
-> > >>
-> > >>>
-> > >>> If the formats have different aspect ratios, then it becomes a bit =
-more
-> > >>> difficult how to relate the crop bounds with the format since you m=
-ay not
-> > >>> know to which sensor area the current format corresponds.
-> > >>>
-> > >>> I have no clear answer for you, to be honest, but it can get tricky=
-.
-> > >>
-> > >> I've suggested earlier that the crop and compose selection targets t=
-o be
-> > >> used to convey the cropping and binning (or scaling) that is done on=
- the
-> > >> sensor, in that order. In reality, there are usually more than one
-> > >> (sometimes three) inside a sensor to crop, and often more than one p=
-lace to
-> > >> scale as well. So the driver would need to accommodate this.
-> > >>
-> > >> The modes come with both cropping and scaling configuration, and V4L=
-2 only
-> > >> allows specifying one at a time. In principle an output size may be
-> > >> achieved by scaling and cropping by different amounts, and as most d=
-rivers
-> > >> use only the output format (size) in mode selection, the result coul=
-d be
-> > >> ambiguous. In practice this hasn't been an actual issue.
-> > >>
-> > >> Better sensor drivers (such as smiapp) do not have this problem as t=
-he
-> > >> configurations (cropping in three different places as well as binnin=
-g and
-> > >> scaling) can be all independently configured. So with some luck this
-> > >> problem could disappear in time with newer hardware and better hardw=
-are
-> > >> documentation.
-> > >>
-> > >> I have no objections to providing the cropping and scaling informati=
-on to
-> > >> the user space using the selection rectangles, albeit it's somewhat =
-against
-> > >> the semantics currently. This approach would also require using comp=
-ose
-> > >> rectangles on the source pads which is not supported (documentation-=
-wise)
-> > >> at the moment, but it's better that way: it can be added now. There =
-are
-> > >> other, older, drivers such as omap3isp that configure scaling based =
-on the
-> > >> source format configuration only.
-> > >
-> > > Thanks for all information here, but I think we've gone a bit far
-> > > from my original point. The cropping and scaling informations you
-> > > mention are, in my understanding, the portion of the pixel array whic=
-h
-> > > is fed to the ISP before scaling, and the result of the ISP
-> > > binning/averaging respectively. Those information indeed depends on t=
-he
-> > > desired capture resolution, the driver implementation, and the sensor
-> > > capabilities.
-> > >
-> > > What I was interested in was just reporting to userspace the physical
-> > > size of the active pixel array area, which should reasonably be
-> > > defined as a sub-portion of the native pixel array, excluding the bac=
-k
-> > > calibration pixels.
-> > >
-> > > In one of the previous emails Hans suggested to use CROP_DEFAULT for
-> > > that purpose, but in the documentation it is reported not to apply to
-> > > subdevice :(
-> > >
-> > > Do we need a new target, similar to V4L2_SEL_TGT_NATIVE_SIZE that
-> > > could maybe report multiple rectangles to accommodate cross-shaped
-> > > sensors?
-> > >
-> > > Are the selection API the right place to report these information?
-> > > With a control, it might be easier to report such a static
-> > > information...
-> >
-> > Sorry for the late follow-up.
-> >
-> > I am uncomfortable with hacking something here. I strongly feel that we
-> > are missing a proper API to configure a sensor.
-> >
-> > If I look at video receivers (SDTV or HDTV), then in both cases you set=
- up
-> > the incoming video resolution with S_STD or S_DV_TIMINGS. This explicit=
-ly
-> > defines the incoming image size and all crop/compose/scale operations
-> > operate on that image size.
-> >
-> > In my opinion we are missing an equivalent to that for sensors. I think=
- the
-> > original thinking was that sensors have a fixed pixel array, so there i=
-s
-> > nothing to configure. But with cross-shaped sensors, binning/skipping,
-> > sensors that just hide all the inner details and just report a set of
-> > discrete framesizes, this is not actually trivial anymore.
-> >
-> > And the odd thing is that our API does have discovery (at least to some
-> > extent) of the various options through ENUM_FRAMESIZES, but does not le=
-t
-> > you choose a specific variant. We abuse S_FMT for this, which is really
-> > not the right ioctl to use since it defines what you want to receive in
-> > memory after cropping/composing/scaling, not the initial image size bef=
-ore
-> > all these operations take place.
-> >
-> > Regarding binning and skipping: I never understood why this wasn't
-> > configured using controls. Is there a reason why it was never implement=
-ed
-> > like that?
-> >
-> > If we had a Set Source Size operation (either a control, new ioctl or s=
-election
-> > target) then you can use that to select a specific source size based on=
- what
-> > ENUM_FRAMESIZES reports. Sensor drivers can choose to either enumerate
-> > variants based on the cross-shape and binning/skipping, or just enumera=
-te variants
-> > based on the cross-shape and add binning/skipping controls to explicitl=
-y set
-> > this up.
-> >
-> > In any case, since you now know exactly which image size the sensor pro=
-duces,
-> > you can set up all the selection rectangles associated with that correc=
-tly.
-> >
-> > Since I am not a sensor expert I no doubt missed things, but in my view=
- we
-> > really need to see a sensor not as a fixed array, but as something more=
- akin
-> > to video receiver, i.e. you need to explicitly configure the video sour=
-ce
-> > before cropping/composing/scaling takes place.
-> >
-> > So in the example of a cross-shaped sensor ENUM_FRAMESIZES would report
-> > two sizes (landscape/portrait), binning/cropping controls (optional, th=
-is
-> > might be implicit in the enumerated framesizes), and after configuring =
-all
-> > this using the new API 'Set Source Size' (or whatever it will be called=
-) and
-> > possible binning/skipping controls, the user can read various selection
-> > targets to get all the needed information.
-> >
-> > Any cropping/composing/scaling will be done based on the selected image=
- size
-> > + binning/skipping.
->
-> If I'm not mistaken smiapp sensor driver models this by exposing
-> multiple subdevices, one for the pixel array and additional ones for
-> the scaler (and the CSI-2 TX port, iirc from my multiplexed stream
-> support adventures). Sakari knows better for sure here...
->
-> Anyway, going towards a model where sensor expose several subdeves
-> would allow to have one for each configurable part of the sensor
-> processing pipeline, such as one for the raw pixel array (where one could
-> support cross-shaped sensors as you have suggested), one for ISP input
-> where to select the area of the pixel array to feed to the ISP, and one
-> to model the final processing stage where to to get to the final
-> image from, obtained through binning/skipping/averaging whatever and
-> possibly by applying a composition rectangle or selecting the
-> desired output format, if the sensor supports so.
->
-> Am I over-simplifying things here? I fear this is mostly frowned upon by
-> the constant lack of decent documentation from sensor manufacturers,
-> as most drivers still relies on magic blobs 'guaranteed to work' and
-> often produced by some 'certified' tuning applications..
->
+On 10/4/19 2:08 PM, Vandana BN wrote:
+> Support metadata output in vivid driver.
+> Metadata output is used to set brightness, contrast, saturation
+> and hue.
+> Adds new files for metadata output.
+> 
+> Signed-off-by: Vandana BN <bnvandana@gmail.com>
+> ---
+>  drivers/media/platform/vivid/Makefile         |   2 +-
+>  drivers/media/platform/vivid/vivid-core.c     |  98 +++++++++-
+>  drivers/media/platform/vivid/vivid-core.h     |  10 +
+>  drivers/media/platform/vivid/vivid-ctrls.c    |  12 +-
+>  .../media/platform/vivid/vivid-kthread-out.c  |  50 ++++-
+>  drivers/media/platform/vivid/vivid-meta-out.c | 174 ++++++++++++++++++
+>  drivers/media/platform/vivid/vivid-meta-out.h |  25 +++
+>  drivers/media/platform/vivid/vivid-vid-out.c  |   5 +-
+>  8 files changed, 365 insertions(+), 11 deletions(-)
+>  create mode 100644 drivers/media/platform/vivid/vivid-meta-out.c
+>  create mode 100644 drivers/media/platform/vivid/vivid-meta-out.h
+> 
+> diff --git a/drivers/media/platform/vivid/Makefile b/drivers/media/platform/vivid/Makefile
+> index af94abf9bce6..e8a50c506dc9 100644
+> --- a/drivers/media/platform/vivid/Makefile
+> +++ b/drivers/media/platform/vivid/Makefile
+> @@ -3,7 +3,7 @@ vivid-objs := vivid-core.o vivid-ctrls.o vivid-vid-common.o vivid-vbi-gen.o \
+>  		vivid-vid-cap.o vivid-vid-out.o vivid-kthread-cap.o vivid-kthread-out.o \
+>  		vivid-radio-rx.o vivid-radio-tx.o vivid-radio-common.o \
+>  		vivid-rds-gen.o vivid-sdr-cap.o vivid-vbi-cap.o vivid-vbi-out.o \
+> -		vivid-osd.o vivid-meta-cap.o
+> +		vivid-osd.o vivid-meta-cap.o vivid-meta-out.o
+>  ifeq ($(CONFIG_VIDEO_VIVID_CEC),y)
+>    vivid-objs += vivid-cec.o
+>  endif
+> diff --git a/drivers/media/platform/vivid/vivid-core.c b/drivers/media/platform/vivid/vivid-core.c
+> index 97ab197bdec0..2c1f7f99c628 100644
+> --- a/drivers/media/platform/vivid/vivid-core.c
+> +++ b/drivers/media/platform/vivid/vivid-core.c
+> @@ -38,6 +38,7 @@
+>  #include "vivid-cec.h"
+>  #include "vivid-ctrls.h"
+>  #include "vivid-meta-cap.h"
+> +#include "vivid-meta-out.h"
+>  
+>  #define VIVID_MODULE_NAME "vivid"
+>  
+> @@ -84,6 +85,10 @@ static int meta_cap_nr[VIVID_MAX_DEVS] = { [0 ... (VIVID_MAX_DEVS - 1)] = -1 };
+>  module_param_array(meta_cap_nr, int, NULL, 0444);
+>  MODULE_PARM_DESC(meta_cap_nr, " videoX start number, -1 is autodetect");
+>  
+> +static int meta_out_nr[VIVID_MAX_DEVS] = { [0 ... (VIVID_MAX_DEVS - 1)] = -1 };
+> +module_param_array(meta_out_nr, int, NULL, 0444);
+> +MODULE_PARM_DESC(meta_out_nr, " videoX start number, -1 is autodetect");
+> +
+>  static int ccs_cap_mode[VIVID_MAX_DEVS] = { [0 ... (VIVID_MAX_DEVS - 1)] = -1 };
+>  module_param_array(ccs_cap_mode, int, NULL, 0444);
+>  MODULE_PARM_DESC(ccs_cap_mode, " capture crop/compose/scale mode:\n"
+> @@ -105,10 +110,10 @@ MODULE_PARM_DESC(multiplanar, " 1 (default) creates a single planar device, 2 cr
+>   * vbi-out + vid-out + meta-cap
+>   */
+>  static unsigned int node_types[VIVID_MAX_DEVS] = {
+> -	[0 ... (VIVID_MAX_DEVS - 1)] = 0x21d3d
+> +	[0 ... (VIVID_MAX_DEVS - 1)] = 0x61d3d
+>  };
+>  module_param_array(node_types, uint, NULL, 0444);
+> -MODULE_PARM_DESC(node_types, " node types, default is 0x1d3d. Bitmask with the following meaning:\n"
+> +MODULE_PARM_DESC(node_types, " node types, default is 0x61d3d. Bitmask with the following meaning:\n"
+>  			     "\t\t    bit 0: Video Capture node\n"
+>  			     "\t\t    bit 2-3: VBI Capture node: 0 = none, 1 = raw vbi, 2 = sliced vbi, 3 = both\n"
+>  			     "\t\t    bit 4: Radio Receiver node\n"
+> @@ -117,7 +122,8 @@ MODULE_PARM_DESC(node_types, " node types, default is 0x1d3d. Bitmask with the f
+>  			     "\t\t    bit 10-11: VBI Output node: 0 = none, 1 = raw vbi, 2 = sliced vbi, 3 = both\n"
+>  			     "\t\t    bit 12: Radio Transmitter node\n"
+>  			     "\t\t    bit 16: Framebuffer for testing overlays\n"
+> -			     "\t\t    bit 17: Metadata Capture node\n");
+> +			     "\t\t    bit 17: Metadata Capture node\n"
+> +			     "\t\t    bit 18: Metadata Output node\n");
+>  
+>  /* Default: 4 inputs */
+>  static unsigned num_inputs[VIVID_MAX_DEVS] = { [0 ... (VIVID_MAX_DEVS - 1)] = 4 };
+> @@ -216,7 +222,8 @@ static int vidioc_querycap(struct file *file, void  *priv,
+>  	cap->capabilities = dev->vid_cap_caps | dev->vid_out_caps |
+>  		dev->vbi_cap_caps | dev->vbi_out_caps |
+>  		dev->radio_rx_caps | dev->radio_tx_caps |
+> -		dev->sdr_cap_caps | dev->meta_cap_caps | V4L2_CAP_DEVICE_CAPS;
+> +		dev->sdr_cap_caps | dev->meta_cap_caps |
+> +		dev->meta_out_caps | V4L2_CAP_DEVICE_CAPS;
+>  	return 0;
+>  }
+>  
+> @@ -445,7 +452,8 @@ static bool vivid_is_last_user(struct vivid_dev *dev)
+>  			vivid_is_in_use(&dev->sdr_cap_dev) +
+>  			vivid_is_in_use(&dev->radio_rx_dev) +
+>  			vivid_is_in_use(&dev->radio_tx_dev) +
+> -			vivid_is_in_use(&dev->meta_cap_dev);
+> +			vivid_is_in_use(&dev->meta_cap_dev) +
+> +			vivid_is_in_use(&dev->meta_out_dev);
+>  
+>  	return uses == 1;
+>  }
+> @@ -472,6 +480,7 @@ static int vivid_fop_release(struct file *file)
+>  		set_bit(V4L2_FL_REGISTERED, &dev->radio_rx_dev.flags);
+>  		set_bit(V4L2_FL_REGISTERED, &dev->radio_tx_dev.flags);
+>  		set_bit(V4L2_FL_REGISTERED, &dev->meta_cap_dev.flags);
+> +		set_bit(V4L2_FL_REGISTERED, &dev->meta_out_dev.flags);
+>  	}
+>  	mutex_unlock(&dev->mutex);
+>  	if (file->private_data == dev->overlay_cap_owner)
+> @@ -622,6 +631,11 @@ static const struct v4l2_ioctl_ops vivid_ioctl_ops = {
+>  	.vidioc_g_fmt_meta_cap		= vidioc_g_fmt_meta_cap,
+>  	.vidioc_s_fmt_meta_cap		= vidioc_g_fmt_meta_cap,
+>  	.vidioc_try_fmt_meta_cap	= vidioc_g_fmt_meta_cap,
+> +
+> +	.vidioc_enum_fmt_meta_out       = vidioc_enum_fmt_meta_out,
+> +	.vidioc_g_fmt_meta_out          = vidioc_g_fmt_meta_out,
+> +	.vidioc_s_fmt_meta_out          = vidioc_g_fmt_meta_out,
+> +	.vidioc_try_fmt_meta_out        = vidioc_g_fmt_meta_out,
+>  };
+>  
+>  /* -----------------------------------------------------------------
+> @@ -839,6 +853,9 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+>  	/* do we create a meta capture device */
+>  	dev->has_meta_cap = node_type & 0x20000;
+>  
+> +	/* do we create a metadata output device */
+> +	dev->has_meta_out = node_type & 0x40000;
+> +
+>  	/* end detecting feature set */
+>  
+>  	if (dev->has_vid_cap) {
+> @@ -905,6 +922,13 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+>  		if (in_type_counter[TV])
+>  			dev->meta_cap_caps |= V4L2_CAP_TUNER;
+>  	}
+> +	/* set up the capablilities of meta output device*/
 
-I can only add that even though we usually have the right
-documentation, there are still specific blessed (certified?) register
-combinations that sensor and SoC vendor support and if we use anything
-else, we're on our own.
+nitpick: capablilities -> capabilities
 
-> And yes, more burden on userspace, as right now most sensors are a single
-> entity that gives you images in one format/resolution and that's it,
-> but this clearly is showing limits. On this side, libcamera could be a
-> great help and sensor-specific configurations will be offloaded there.
->
-> One quick consideration from my limited experience with sensors: the
-> method used to obtain the final image from the portion of the pixel
-> array fed to the ISP is not something often freely selectable. From
-> the sensor I've seen the manuals of, to obtain a certain resolution
-> you use averaging/binning, for another one skipping or direct crop of
-> the full pixel array etc.. So I'm not sure a control would fit well here.
->
-> Again, I might be really simplifying things :)
->
+And add space before */
 
-Modelling various processing bits with a proper topology surely sounds
-reasonable. However I think we may need to lay some educational
-groundwork first to switch the mindsets from register array-based
-pseudo-drivers to proper drivers.
+> +	if (dev->has_meta_out) {
+> +		dev->meta_out_caps = V4L2_CAP_META_OUTPUT |
+> +				     V4L2_CAP_STREAMING | V4L2_CAP_READWRITE;
+> +		if (dev->has_audio_outputs)
+> +			dev->meta_out_caps |= V4L2_CAP_AUDIO;
+> +	}
+>  
+>  	ret = -ENOMEM;
+>  	/* initialize the test pattern generator */
+> @@ -976,6 +1000,9 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+>  		v4l2_disable_ioctl(&dev->vbi_out_dev, VIDIOC_S_AUDOUT);
+>  		v4l2_disable_ioctl(&dev->vbi_out_dev, VIDIOC_G_AUDOUT);
+>  		v4l2_disable_ioctl(&dev->vbi_out_dev, VIDIOC_ENUMAUDOUT);
+> +		v4l2_disable_ioctl(&dev->meta_out_dev, VIDIOC_S_AUDOUT);
+> +		v4l2_disable_ioctl(&dev->meta_out_dev, VIDIOC_G_AUDOUT);
+> +		v4l2_disable_ioctl(&dev->meta_out_dev, VIDIOC_ENUMAUDOUT);
+>  	}
+>  	if (!in_type_counter[TV] && !in_type_counter[SVID]) {
+>  		v4l2_disable_ioctl(&dev->vid_cap_dev, VIDIOC_S_STD);
+> @@ -1035,6 +1062,8 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+>  	v4l2_disable_ioctl(&dev->vid_out_dev, VIDIOC_ENUM_FRAMEINTERVALS);
+>  	v4l2_disable_ioctl(&dev->vbi_out_dev, VIDIOC_S_FREQUENCY);
+>  	v4l2_disable_ioctl(&dev->vbi_out_dev, VIDIOC_G_FREQUENCY);
+> +	v4l2_disable_ioctl(&dev->meta_out_dev, VIDIOC_S_FREQUENCY);
+> +	v4l2_disable_ioctl(&dev->meta_out_dev, VIDIOC_G_FREQUENCY);
+>  
+>  	/* configure internal data */
+>  	dev->fmt_cap = &vivid_formats[0];
+> @@ -1118,6 +1147,7 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+>  	INIT_LIST_HEAD(&dev->vbi_out_active);
+>  	INIT_LIST_HEAD(&dev->sdr_cap_active);
+>  	INIT_LIST_HEAD(&dev->meta_cap_active);
+> +	INIT_LIST_HEAD(&dev->meta_out_active);
+>  
+>  	INIT_LIST_HEAD(&dev->cec_work_list);
+>  	spin_lock_init(&dev->cec_slock);
+> @@ -1286,6 +1316,27 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+>  			goto unreg_dev;
+>  	}
+>  
+> +	if (dev->has_meta_out) {
+> +		/* initialize vbi_out queue */
+> +		q = &dev->vb_meta_out_q;
+> +		q->type = V4L2_BUF_TYPE_META_OUTPUT;
+> +		q->io_modes = VB2_MMAP | VB2_DMABUF | VB2_WRITE;
+> +		if (!allocator)
+> +			q->io_modes |= VB2_USERPTR;
+> +		q->drv_priv = dev;
+> +		q->buf_struct_size = sizeof(struct vivid_buffer);
+> +		q->ops = &vivid_meta_out_qops;
+> +		q->mem_ops = vivid_mem_ops[allocator];
+> +		q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+> +		q->min_buffers_needed = 2;
 
-Best regards,
-Tomasz
+I think it would be safe to set this to 1. Otherwise queueing just a single
+buffer would not actually activate this feature, since it expects at least
+two buffers. That's unexpected.
 
-> >
-> > Re binning/skipping: one other option is to add a flags field to v4l2_f=
-rmsizeenum
-> > that reports if the reported size was achieved via binning and/or skipp=
-ing.
-> >
->
-> Yes, but in this case that would be a read-only information, not sure
-> what you would use it for
->
-> Thanks
->   j
->
-> > You wouldn't need controls in that case.
-> >
-> > Regards,
-> >
-> >       Hans
+> +		q->lock = &dev->mutex;
+> +		q->dev = dev->v4l2_dev.dev;
+> +		q->supports_requests = true;
+> +		ret = vb2_queue_init(q);
+> +		if (ret)
+> +			goto unreg_dev;
+> +	}
+> +
+>  #ifdef CONFIG_VIDEO_VIVID_CEC
+>  	if (dev->has_vid_cap && in_type_counter[HDMI]) {
+>  		struct cec_adapter *adap;
+> @@ -1327,6 +1378,7 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+>  	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_radio_tx);
+>  	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_sdr_cap);
+>  	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_meta_cap);
+> +	v4l2_ctrl_handler_setup(&dev->ctrl_hdl_meta_out);
+>  
+>  	/* finally start creating the device nodes */
+>  	if (dev->has_vid_cap) {
+> @@ -1583,6 +1635,36 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+>  			  video_device_node_name(vfd));
+>  	}
+>  
+> +	if (dev->has_meta_out) {
+> +		vfd = &dev->meta_out_dev;
+> +		snprintf(vfd->name, sizeof(vfd->name),
+> +			 "vivid-%03d-meta-out", inst);
+> +		vfd->vfl_dir = VFL_DIR_TX;
+> +		vfd->fops = &vivid_fops;
+> +		vfd->ioctl_ops = &vivid_ioctl_ops;
+> +		vfd->device_caps = dev->meta_out_caps;
+> +		vfd->release = video_device_release_empty;
+> +		vfd->v4l2_dev = &dev->v4l2_dev;
+> +		vfd->queue = &dev->vb_meta_out_q;
+> +		vfd->lock = &dev->mutex;
+> +		vfd->tvnorms = tvnorms_out;
+> +		video_set_drvdata(vfd, dev);
+> +#ifdef CONFIG_MEDIA_CONTROLLER
+> +		dev->meta_out_pad.flags = MEDIA_PAD_FL_SOURCE;
+> +		ret = media_entity_pads_init(&vfd->entity, 1,
+> +					     &dev->meta_out_pad);
+> +		if (ret)
+> +			goto unreg_dev;
+> +#endif
+> +		ret = video_register_device(vfd, VFL_TYPE_GRABBER,
+> +					    meta_out_nr[inst]);
+> +		if (ret < 0)
+> +			goto unreg_dev;
+> +		v4l2_info(&dev->v4l2_dev,
+> +			  "V4L2 metadata output device registered as %s\n",
+> +			  video_device_node_name(vfd));
+> +	}
+> +
+>  #ifdef CONFIG_MEDIA_CONTROLLER
+>  	/* Register the media device */
+>  	ret = media_device_register(&dev->mdev);
+> @@ -1599,6 +1681,7 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+>  	return 0;
+>  
+>  unreg_dev:
+> +	video_unregister_device(&dev->meta_out_dev);
+>  	video_unregister_device(&dev->meta_cap_dev);
+>  	video_unregister_device(&dev->radio_tx_dev);
+>  	video_unregister_device(&dev->radio_rx_dev);
+> @@ -1721,6 +1804,11 @@ static int vivid_remove(struct platform_device *pdev)
+>  				  video_device_node_name(&dev->meta_cap_dev));
+>  			video_unregister_device(&dev->meta_cap_dev);
+>  		}
+> +		if (dev->has_meta_out) {
+> +			v4l2_info(&dev->v4l2_dev, "unregistering %s\n",
+> +				  video_device_node_name(&dev->meta_out_dev));
+> +			video_unregister_device(&dev->meta_out_dev);
+> +		}
+>  		cec_unregister_adapter(dev->cec_rx_adap);
+>  		for (j = 0; j < MAX_OUTPUTS; j++)
+>  			cec_unregister_adapter(dev->cec_tx_adap[j]);
+> diff --git a/drivers/media/platform/vivid/vivid-core.h b/drivers/media/platform/vivid/vivid-core.h
+> index fd601345a17c..d57066ed31f0 100644
+> --- a/drivers/media/platform/vivid/vivid-core.h
+> +++ b/drivers/media/platform/vivid/vivid-core.h
+> @@ -132,6 +132,7 @@ struct vivid_dev {
+>  	struct media_pad		vbi_out_pad;
+>  	struct media_pad		sdr_cap_pad;
+>  	struct media_pad		meta_cap_pad;
+> +	struct media_pad		meta_out_pad;
+>  #endif
+>  	struct v4l2_ctrl_handler	ctrl_hdl_user_gen;
+>  	struct v4l2_ctrl_handler	ctrl_hdl_user_vid;
+> @@ -156,6 +157,8 @@ struct vivid_dev {
+>  	struct v4l2_ctrl_handler	ctrl_hdl_sdr_cap;
+>  	struct video_device		meta_cap_dev;
+>  	struct v4l2_ctrl_handler	ctrl_hdl_meta_cap;
+> +	struct video_device		meta_out_dev;
+> +	struct v4l2_ctrl_handler	ctrl_hdl_meta_out;
+>  
+>  	spinlock_t			slock;
+>  	struct mutex			mutex;
+> @@ -169,6 +172,7 @@ struct vivid_dev {
+>  	u32				radio_rx_caps;
+>  	u32				radio_tx_caps;
+>  	u32				meta_cap_caps;
+> +	u32				meta_out_caps;
+>  
+>  	/* supported features */
+>  	bool				multiplanar;
+> @@ -195,6 +199,7 @@ struct vivid_dev {
+>  	bool				has_sdr_cap;
+>  	bool				has_fb;
+>  	bool				has_meta_cap;
+> +	bool				has_meta_out;
+>  
+>  	bool				can_loop_video;
+>  
+> @@ -432,6 +437,8 @@ struct vivid_dev {
+>  	struct list_head		vid_out_active;
+>  	struct vb2_queue		vb_vbi_out_q;
+>  	struct list_head		vbi_out_active;
+> +	struct vb2_queue		vb_meta_out_q;
+> +	struct list_head		meta_out_active;
+>  
+>  	/* video loop precalculated rectangles */
+>  
+> @@ -472,6 +479,9 @@ struct vivid_dev {
+>  	u32				vbi_out_seq_count;
+>  	bool				vbi_out_streaming;
+>  	bool				stream_sliced_vbi_out;
+> +	u32				meta_out_seq_start;
+> +	u32				meta_out_seq_count;
+> +	bool				meta_out_streaming;
+>  
+>  	/* SDR capture */
+>  	struct vb2_queue		vb_sdr_cap_q;
+> diff --git a/drivers/media/platform/vivid/vivid-ctrls.c b/drivers/media/platform/vivid/vivid-ctrls.c
+> index 36e5944b51bb..b250fc3764e2 100644
+> --- a/drivers/media/platform/vivid/vivid-ctrls.c
+> +++ b/drivers/media/platform/vivid/vivid-ctrls.c
+> @@ -1494,6 +1494,7 @@ int vivid_create_controls(struct vivid_dev *dev, bool show_ccs_cap,
+>  	struct v4l2_ctrl_handler *hdl_radio_tx = &dev->ctrl_hdl_radio_tx;
+>  	struct v4l2_ctrl_handler *hdl_sdr_cap = &dev->ctrl_hdl_sdr_cap;
+>  	struct v4l2_ctrl_handler *hdl_meta_cap = &dev->ctrl_hdl_meta_cap;
+> +	struct v4l2_ctrl_handler *hdl_meta_out = &dev->ctrl_hdl_meta_out;
+>  
+>  	struct v4l2_ctrl_config vivid_ctrl_dv_timings = {
+>  		.ops = &vivid_vid_cap_ctrl_ops,
+> @@ -1535,6 +1536,8 @@ int vivid_create_controls(struct vivid_dev *dev, bool show_ccs_cap,
+>  	v4l2_ctrl_new_custom(hdl_sdr_cap, &vivid_ctrl_class, NULL);
+>  	v4l2_ctrl_handler_init(hdl_meta_cap, 2);
+>  	v4l2_ctrl_new_custom(hdl_meta_cap, &vivid_ctrl_class, NULL);
+> +	v4l2_ctrl_handler_init(hdl_meta_out, 2);
+> +	v4l2_ctrl_new_custom(hdl_meta_out, &vivid_ctrl_class, NULL);
+>  
+>  	/* User Controls */
+>  	dev->volume = v4l2_ctrl_new_std(hdl_user_aud, NULL,
+> @@ -1880,7 +1883,13 @@ int vivid_create_controls(struct vivid_dev *dev, bool show_ccs_cap,
+>  			return hdl_meta_cap->error;
+>  		dev->meta_cap_dev.ctrl_handler = hdl_meta_cap;
+>  	}
+> -
+> +	if (dev->has_meta_out) {
+> +		v4l2_ctrl_add_handler(hdl_meta_out, hdl_user_gen, NULL, false);
+> +		v4l2_ctrl_add_handler(hdl_meta_out, hdl_streaming, NULL, false);
+> +		if (hdl_meta_out->error)
+> +			return hdl_meta_out->error;
+> +		dev->meta_out_dev.ctrl_handler = hdl_meta_out;
+> +	}
+>  	return 0;
+>  }
+>  
+> @@ -1901,4 +1910,5 @@ void vivid_free_controls(struct vivid_dev *dev)
+>  	v4l2_ctrl_handler_free(&dev->ctrl_hdl_loop_cap);
+>  	v4l2_ctrl_handler_free(&dev->ctrl_hdl_fb);
+>  	v4l2_ctrl_handler_free(&dev->ctrl_hdl_meta_cap);
+> +	v4l2_ctrl_handler_free(&dev->ctrl_hdl_meta_out);
+>  }
+> diff --git a/drivers/media/platform/vivid/vivid-kthread-out.c b/drivers/media/platform/vivid/vivid-kthread-out.c
+> index ce5bcda2348c..d63addb062d1 100644
+> --- a/drivers/media/platform/vivid/vivid-kthread-out.c
+> +++ b/drivers/media/platform/vivid/vivid-kthread-out.c
+> @@ -38,11 +38,13 @@
+>  #include "vivid-osd.h"
+>  #include "vivid-ctrls.h"
+>  #include "vivid-kthread-out.h"
+> +#include "vivid-meta-out.h"
+>  
+>  static void vivid_thread_vid_out_tick(struct vivid_dev *dev)
+>  {
+>  	struct vivid_buffer *vid_out_buf = NULL;
+>  	struct vivid_buffer *vbi_out_buf = NULL;
+> +	struct vivid_buffer *meta_out_buf = NULL;
+>  
+>  	dprintk(dev, 1, "Video Output Thread Tick\n");
+>  
+> @@ -69,9 +71,15 @@ static void vivid_thread_vid_out_tick(struct vivid_dev *dev)
+>  					 struct vivid_buffer, list);
+>  		list_del(&vbi_out_buf->list);
+>  	}
+> +	if (!list_empty(&dev->meta_out_active) &&
+> +	    (dev->meta_out_seq_count & 1)) {
+> +		meta_out_buf = list_entry(dev->meta_out_active.next,
+> +					  struct vivid_buffer, list);
+> +		list_del(&meta_out_buf->list);
+> +	}
+>  	spin_unlock(&dev->slock);
+>  
+> -	if (!vid_out_buf && !vbi_out_buf)
+> +	if (!vid_out_buf && !vbi_out_buf && !meta_out_buf)
+>  		return;
+>  
+>  	if (vid_out_buf) {
+> @@ -111,6 +119,21 @@ static void vivid_thread_vid_out_tick(struct vivid_dev *dev)
+>  		dprintk(dev, 2, "vbi_out buffer %d done\n",
+>  			vbi_out_buf->vb.vb2_buf.index);
+>  	}
+> +	if (meta_out_buf) {
+> +		v4l2_ctrl_request_setup(meta_out_buf->vb.vb2_buf.req_obj.req,
+> +					&dev->ctrl_hdl_meta_out);
+> +		v4l2_ctrl_request_complete(meta_out_buf->vb.vb2_buf.req_obj.req,
+> +					   &dev->ctrl_hdl_meta_out);
+> +		vivid_meta_out_process(dev, meta_out_buf);
+> +		meta_out_buf->vb.sequence = dev->meta_out_seq_count;
+> +		meta_out_buf->vb.vb2_buf.timestamp =
+> +			ktime_get_ns() + dev->time_wrap_offset;
+> +		vb2_buffer_done(&meta_out_buf->vb.vb2_buf, dev->dqbuf_error ?
+> +				VB2_BUF_STATE_ERROR : VB2_BUF_STATE_DONE);
+> +		dprintk(dev, 2, "meta_out buffer %d done\n",
+> +			meta_out_buf->vb.vb2_buf.index);
+> +	}
+> +
+>  	dev->dqbuf_error = false;
+>  }
+>  
+> @@ -136,6 +159,7 @@ static int vivid_thread_vid_out(void *data)
+>  		dev->out_seq_count = 0xffffff80U;
+>  	dev->jiffies_vid_out = jiffies;
+>  	dev->vid_out_seq_start = dev->vbi_out_seq_start = 0;
+> +	dev->meta_out_seq_start = 0;
+>  	dev->out_seq_resync = false;
+>  
+>  	for (;;) {
+> @@ -178,6 +202,7 @@ static int vivid_thread_vid_out(void *data)
+>  		dev->out_seq_count = buffers_since_start + dev->out_seq_offset;
+>  		dev->vid_out_seq_count = dev->out_seq_count - dev->vid_out_seq_start;
+>  		dev->vbi_out_seq_count = dev->out_seq_count - dev->vbi_out_seq_start;
+> +		dev->meta_out_seq_count = dev->out_seq_count - dev->meta_out_seq_start;
+>  
+>  		vivid_thread_vid_out_tick(dev);
+>  		mutex_unlock(&dev->mutex);
+> @@ -229,8 +254,10 @@ int vivid_start_generating_vid_out(struct vivid_dev *dev, bool *pstreaming)
+>  
+>  		if (pstreaming == &dev->vid_out_streaming)
+>  			dev->vid_out_seq_start = seq_count;
+> -		else
+> +		else if (pstreaming == &dev->vbi_out_streaming)
+>  			dev->vbi_out_seq_start = seq_count;
+> +		else
+> +			dev->meta_out_seq_start = seq_count;
+>  		*pstreaming = true;
+>  		return 0;
+>  	}
+> @@ -239,6 +266,7 @@ int vivid_start_generating_vid_out(struct vivid_dev *dev, bool *pstreaming)
+>  	dev->jiffies_vid_out = jiffies;
+>  	dev->vid_out_seq_start = dev->seq_wrap * 128;
+>  	dev->vbi_out_seq_start = dev->seq_wrap * 128;
+> +	dev->meta_out_seq_start = dev->seq_wrap * 128;
+>  
+>  	dev->kthread_vid_out = kthread_run(vivid_thread_vid_out, dev,
+>  			"%s-vid-out", dev->v4l2_dev.name);
+> @@ -296,7 +324,23 @@ void vivid_stop_generating_vid_out(struct vivid_dev *dev, bool *pstreaming)
+>  		}
+>  	}
+>  
+> -	if (dev->vid_out_streaming || dev->vbi_out_streaming)
+> +	if (pstreaming == &dev->meta_out_streaming) {
+> +		while (!list_empty(&dev->meta_out_active)) {
+> +			struct vivid_buffer *buf;
+> +
+> +			buf = list_entry(dev->meta_out_active.next,
+> +					 struct vivid_buffer, list);
+> +			list_del(&buf->list);
+> +			v4l2_ctrl_request_complete(buf->vb.vb2_buf.req_obj.req,
+> +						   &dev->ctrl_hdl_meta_out);
+> +			vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
+> +			dprintk(dev, 2, "meta_out buffer %d done\n",
+> +				buf->vb.vb2_buf.index);
+> +		}
+> +	}
+> +
+> +	if (dev->vid_out_streaming || dev->vbi_out_streaming ||
+> +	    dev->meta_out_streaming)
+>  		return;
+>  
+>  	/* shutdown control thread */
+> diff --git a/drivers/media/platform/vivid/vivid-meta-out.c b/drivers/media/platform/vivid/vivid-meta-out.c
+> new file mode 100644
+> index 000000000000..ff8a039aba72
+> --- /dev/null
+> +++ b/drivers/media/platform/vivid/vivid-meta-out.c
+> @@ -0,0 +1,174 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * vivid-meta-out.c - meta output support functions.
+> + */
+> +
+> +#include <linux/errno.h>
+> +#include <linux/kernel.h>
+> +#include <linux/videodev2.h>
+> +#include <media/v4l2-common.h>
+> +#include <linux/usb/video.h>
+> +
+> +#include "vivid-core.h"
+> +#include "vivid-kthread-out.h"
+> +#include "vivid-meta-out.h"
+> +
+> +static int meta_out_queue_setup(struct vb2_queue *vq, unsigned int *nbuffers,
+> +				unsigned int *nplanes, unsigned int sizes[],
+> +				struct device *alloc_devs[])
+> +{
+> +	struct vivid_dev *dev = vb2_get_drv_priv(vq);
+> +	unsigned int size =  sizeof(struct vivid_meta_out_buf);
+> +
+> +	if (!vivid_is_webcam(dev))
+> +		return -EINVAL;
+> +
+> +	if (*nplanes) {
+> +		if (sizes[0] < size)
+> +			return -EINVAL;
+> +	} else {
+> +		sizes[0] = size;
+> +	}
+> +
+> +	if (vq->num_buffers + *nbuffers < 2)
+> +		*nbuffers = 2 - vq->num_buffers;
+> +
+> +	*nplanes = 1;
+> +	return 0;
+> +}
+> +
+> +static int meta_out_buf_prepare(struct vb2_buffer *vb)
+> +{
+> +	struct vivid_dev *dev = vb2_get_drv_priv(vb->vb2_queue);
+> +	unsigned int size = sizeof(struct vivid_meta_out_buf);
+> +
+> +	dprintk(dev, 1, "%s\n", __func__);
+> +
+> +	if (dev->buf_prepare_error) {
+> +		/*
+> +		 * Error injection: test what happens if buf_prepare() returns
+> +		 * an error.
+> +		 */
+> +		dev->buf_prepare_error = false;
+> +		return -EINVAL;
+> +	}
+> +	if (vb2_plane_size(vb, 0) < size) {
+> +		dprintk(dev, 1, "%s data will not fit into plane (%lu < %u)\n",
+> +			__func__, vb2_plane_size(vb, 0), size);
+> +		return -EINVAL;
+> +	}
+> +	vb2_set_plane_payload(vb, 0, size);
+> +
+> +	return 0;
+> +}
+> +
+> +static void meta_out_buf_queue(struct vb2_buffer *vb)
+> +{
+> +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+> +	struct vivid_dev *dev = vb2_get_drv_priv(vb->vb2_queue);
+> +	struct vivid_buffer *buf = container_of(vbuf, struct vivid_buffer, vb);
+> +
+> +	dprintk(dev, 1, "%s\n", __func__);
+> +
+> +	spin_lock(&dev->slock);
+> +	list_add_tail(&buf->list, &dev->meta_out_active);
+> +	spin_unlock(&dev->slock);
+> +}
+> +
+> +static int meta_out_start_streaming(struct vb2_queue *vq, unsigned int count)
+> +{
+> +	struct vivid_dev *dev = vb2_get_drv_priv(vq);
+> +	int err;
+> +
+> +	dprintk(dev, 1, "%s\n", __func__);
+> +	dev->meta_out_seq_count = 0;
+> +	if (dev->start_streaming_error) {
+> +		dev->start_streaming_error = false;
+> +		err = -EINVAL;
+> +	} else {
+> +		err = vivid_start_generating_vid_out(dev,
+> +						     &dev->meta_out_streaming);
+> +	}
+> +	if (err) {
+> +		struct vivid_buffer *buf, *tmp;
+> +
+> +		list_for_each_entry_safe(buf, tmp,
+> +					 &dev->meta_out_active, list) {
+> +			list_del(&buf->list);
+> +			vb2_buffer_done(&buf->vb.vb2_buf,
+> +					VB2_BUF_STATE_QUEUED);
+> +		}
+> +	}
+> +	return err;
+> +}
+> +
+> +/* abort streaming and wait for last buffer */
+> +static void meta_out_stop_streaming(struct vb2_queue *vq)
+> +{
+> +	struct vivid_dev *dev = vb2_get_drv_priv(vq);
+> +
+> +	dprintk(dev, 1, "%s\n", __func__);
+> +	vivid_stop_generating_vid_out(dev, &dev->meta_out_streaming);
+> +}
+> +
+> +static void meta_out_buf_request_complete(struct vb2_buffer *vb)
+> +{
+> +	struct vivid_dev *dev = vb2_get_drv_priv(vb->vb2_queue);
+> +
+> +	v4l2_ctrl_request_complete(vb->req_obj.req, &dev->ctrl_hdl_meta_out);
+> +}
+> +
+> +const struct vb2_ops vivid_meta_out_qops = {
+> +	.queue_setup            = meta_out_queue_setup,
+> +	.buf_prepare            = meta_out_buf_prepare,
+> +	.buf_queue              = meta_out_buf_queue,
+> +	.start_streaming        = meta_out_start_streaming,
+> +	.stop_streaming         = meta_out_stop_streaming,
+> +	.buf_request_complete   = meta_out_buf_request_complete,
+> +	.wait_prepare           = vb2_ops_wait_prepare,
+> +	.wait_finish            = vb2_ops_wait_finish,
+> +};
+> +
+> +int vidioc_enum_fmt_meta_out(struct file *file, void  *priv,
+> +			     struct v4l2_fmtdesc *f)
+> +{
+> +	struct vivid_dev *dev = video_drvdata(file);
+> +
+> +	if (!vivid_is_webcam(dev))
+> +		return -EINVAL;
+> +
+> +	if (f->index > 0)
+> +		return -EINVAL;
+> +
+> +	f->type = V4L2_BUF_TYPE_META_OUTPUT;
+> +	f->pixelformat = V4L2_META_FMT_VIVID;
+> +	return 0;
+> +}
+> +
+> +int vidioc_g_fmt_meta_out(struct file *file, void *priv,
+> +			  struct v4l2_format *f)
+> +{
+> +	struct vivid_dev *dev = video_drvdata(file);
+> +	struct v4l2_meta_format *meta = &f->fmt.meta;
+> +
+> +	if (!vivid_is_webcam(dev) || !dev->has_meta_out)
+> +		return -EINVAL;
+> +
+> +	meta->dataformat = V4L2_META_FMT_VIVID;
+> +	meta->buffersize = sizeof(struct vivid_meta_out_buf);
+> +	return 0;
+> +}
+> +
+> +void vivid_meta_out_process(struct vivid_dev *dev,
+> +			    struct vivid_buffer *buf)
+> +{
+> +	struct vivid_meta_out_buf *meta = vb2_plane_vaddr(&buf->vb.vb2_buf, 0);
+> +
+> +	tpg_s_brightness(&dev->tpg, meta->brightness);
+> +	tpg_s_contrast(&dev->tpg, meta->contrast);
+> +	tpg_s_saturation(&dev->tpg, meta->saturation);
+> +	tpg_s_hue(&dev->tpg, meta->hue);
+> +	dprintk(dev, 2, " %s brightness %u contrast %u saturation %u hue %d\n",
+> +		__func__, meta->brightness, meta->contrast,
+> +		meta->saturation, meta->hue);
+> +}
+> diff --git a/drivers/media/platform/vivid/vivid-meta-out.h b/drivers/media/platform/vivid/vivid-meta-out.h
+> new file mode 100644
+> index 000000000000..0c639b7c2842
+> --- /dev/null
+> +++ b/drivers/media/platform/vivid/vivid-meta-out.h
+> @@ -0,0 +1,25 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * vivid-meta-out.h - meta output support functions.
+> + */
+> +#ifndef _VIVID_META_OUT_H_
+> +#define _VIVID_META_OUT_H_
+> +
+> +struct vivid_meta_out_buf {
+> +	u16	brightness;
+> +	u16	contrast;
+> +	u16	saturation;
+> +	s16	hue;
+> +};
+> +
+> +void vivid_meta_out_process(struct vivid_dev *dev, struct vivid_buffer *buf);
+> +int vidioc_enum_fmt_meta_out(struct file *file, void  *priv,
+> +			     struct v4l2_fmtdesc *f);
+> +int vidioc_g_fmt_meta_out(struct file *file, void *priv,
+> +			  struct v4l2_format *f);
+> +int vidioc_s_fmt_meta_out(struct file *file, void *priv,
+> +			  struct v4l2_format *f);
+> +
+> +extern const struct vb2_ops vivid_meta_out_qops;
+> +
+> +#endif
+> diff --git a/drivers/media/platform/vivid/vivid-vid-out.c b/drivers/media/platform/vivid/vivid-vid-out.c
+> index a0364ac497f9..ee3446e3217c 100644
+> --- a/drivers/media/platform/vivid/vivid-vid-out.c
+> +++ b/drivers/media/platform/vivid/vivid-vid-out.c
+> @@ -1079,7 +1079,9 @@ int vidioc_s_output(struct file *file, void *priv, unsigned o)
+>  	if (o == dev->output)
+>  		return 0;
+>  
+> -	if (vb2_is_busy(&dev->vb_vid_out_q) || vb2_is_busy(&dev->vb_vbi_out_q))
+> +	if (vb2_is_busy(&dev->vb_vid_out_q) ||
+> +	    vb2_is_busy(&dev->vb_vbi_out_q) ||
+> +	    vb2_is_busy(&dev->vb_meta_out_q))
+>  		return -EBUSY;
+>  
+>  	dev->output = o;
+> @@ -1090,6 +1092,7 @@ int vidioc_s_output(struct file *file, void *priv, unsigned o)
+>  		dev->vid_out_dev.tvnorms = 0;
+>  
+>  	dev->vbi_out_dev.tvnorms = dev->vid_out_dev.tvnorms;
+> +	dev->meta_out_dev.tvnorms = dev->vid_out_dev.tvnorms;
+>  	vivid_update_format_out(dev);
+>  
+>  	v4l2_ctrl_activate(dev->ctrl_display_present, vivid_is_hdmi_out(dev));
+> 
+
+Regards,
+
+	Hans
