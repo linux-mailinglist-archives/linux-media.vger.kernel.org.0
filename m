@@ -2,301 +2,444 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 34E05CEF09
-	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2019 00:24:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 497E2CEF82
+	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2019 01:17:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729548AbfJGWYe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Oct 2019 18:24:34 -0400
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:42308 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728654AbfJGWYe (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Oct 2019 18:24:34 -0400
-Received: by mail-qt1-f194.google.com with SMTP id w14so21681243qto.9
-        for <linux-media@vger.kernel.org>; Mon, 07 Oct 2019 15:24:32 -0700 (PDT)
+        id S1729440AbfJGXRU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Oct 2019 19:17:20 -0400
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:46419 "EHLO
+        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729145AbfJGXRU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Oct 2019 19:17:20 -0400
+Received: by mail-qt1-f196.google.com with SMTP id u22so21869151qtq.13;
+        Mon, 07 Oct 2019 16:17:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=RK3MkEj8PGDpZM4qGIUwJyiQPKKNaTdinYUgGQ2cRuQ=;
-        b=luO51nobLc/HR1MhOn2eauv5ivystuQefKr4UobbVmO3LyY2z10X9y94MkUPoNq7b8
-         4OE9Ur2XID6YNEv1rt8E4HGjZ1c1yJMrl1C6jYCrmv+vM/7gwjOBkL3N3gaEBjux5g9w
-         7/wsjVSgV6G2Yy5IQ9YEDnvm8wsni4PubgGgbmJfslziIcPddWCmv82HHJ/1sQWBobXQ
-         mMMVHb3LraD/ER02ZSCD/CA5WLmLerH2A3xUS0jDFIbQwkep9viBJ/DLC7JZJ7Rp23h3
-         Uq4uejMS1gdlHLQywHQDaHIY1SC8SArQSi2IDu6VT9j9076ftR6rNmq+kolY1rrzg1pt
-         jeLA==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=IaS4SvPI45yDASGgPA0MR5GDu2HWprEyugIRxy5AF38=;
+        b=bapJKVCyKZa5vv5p1iRW9jWrpLSD/c7Eu6a6+nqTKYH0bCpbf4RnBNBlqdIqQE+BlB
+         K/eTb4F2CaqXRCT/YvVvRIBcSo05ODA76vJPJbAP7yHBD8ndPDX3ZRueZhrPE7skL80y
+         1Q3/cR/t1rxTamDhUswk0eUfVvZpVgVQpnGt7Iag5Ma/4ZJenVNr4Dq9o0/hVZskTTh2
+         HYJib4frOtydJ541j7nvYTgTgU7EQ8hP3JwqveSlN7xvmDJnrWzEKQ7PWZG98w0fBRET
+         1uIfGMSLNgceuAzgjsk2MuF9hB/NGkRykEqMGVXFjMe+Rmi4HwR286RCRhbV5n/buMZz
+         ZE3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=RK3MkEj8PGDpZM4qGIUwJyiQPKKNaTdinYUgGQ2cRuQ=;
-        b=aXAlwKK1xuWcDE6KwNjAF7Sq5FwCaBUqUH8RZeF2Vt94Ig7ICMxdoB5qL+QlWGS3jn
-         HlIYw0YiKBJBSt/BmqjnesqP67OD0NllxjrdYvBW46J6RaOzu43d86dPcF+QPKNkt2ey
-         yBAPDbFb7zLan9DLqR48nBtpnUiAN1DGxKZeJLhOR3M57P0ebrO+rkYcFZYQUfpTuzx7
-         wTWgf09B1U8bvqXJQ77Ms+mbsFFbjMJuz4LXziuwD8z5P9MvNYxlOKSiP9iHoZd91qI8
-         S+4G/wAP/oiX/0SleQoQqC/zbpTzALHrt0y7/Fl0A13FsGGfo8b3rd009gv9D/cle+py
-         TG1g==
-X-Gm-Message-State: APjAAAVRLXk6KAc5nQ2vs4ze/XgjO1gSNUzCDeU2Nn51rEAYjgSX4nxC
-        JBVP5hrkHpFK0Zo5VaQsPWP+ww==
-X-Google-Smtp-Source: APXvYqyIE6f0szdWnyCjeRXniQNwDz6OwccnXrEiSw/rYIJAbvjk4poI0Y2FHfx4Nfph4Tt1QjfNbg==
-X-Received: by 2002:ac8:7b2e:: with SMTP id l14mr32665885qtu.11.1570487071278;
-        Mon, 07 Oct 2019 15:24:31 -0700 (PDT)
-Received: from skullcanyon ([192.222.193.21])
-        by smtp.gmail.com with ESMTPSA id j17sm7804573qki.99.2019.10.07.15.24.29
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=IaS4SvPI45yDASGgPA0MR5GDu2HWprEyugIRxy5AF38=;
+        b=rSAMRhTRKHp204l3L+jL5qH3S3xtbV9cICqU5HgfhAhlgaGAhf+IJ8CTW6TcyiKzpz
+         On5K2nl2/1kngo2aoS4dnVFtOaRqDI+gf3F35LvoRo38xgD+lRS41MbP9LhKjP8pI4wm
+         Q3KtUiqmFm/puySkv9Va/+R6e50XpZS70WzYZCiaLwS8Q4PK9Q7TZ+rXUa4tmvFcOwUn
+         KrI23d0b8/nFk21fj+omggYFV5/qXhHClmq0ptqipzjl5WTnVZN1IJLJLKey6zQ5je//
+         h/WfnQgnBV9QfkW96EOfCFNbqp1wvatU/34BOXTs4vTdadbP3GsDgB4Z/tO/tk+HeRPl
+         YCBQ==
+X-Gm-Message-State: APjAAAXit+41ii7WBzhK10ptdeNsu93/6P53GPjaPpruxjvVuCndx/CV
+        4O8BOu4DjEhoRyU4jxPAqP7gKdck30c=
+X-Google-Smtp-Source: APXvYqwJ9Oke9J3Qv6c7mH0vRKhzWS46GZMqlBpnaUGfJU8epLYqNkkToLRG1QLF4GaD+kzFDAM6Zw==
+X-Received: by 2002:a0c:acbb:: with SMTP id m56mr29779075qvc.93.1570490238466;
+        Mon, 07 Oct 2019 16:17:18 -0700 (PDT)
+Received: from localhost.localdomain (189-47-91-141.dsl.telesp.net.br. [189.47.91.141])
+        by smtp.gmail.com with ESMTPSA id w6sm7673780qkj.136.2019.10.07.16.17.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Oct 2019 15:24:30 -0700 (PDT)
-Message-ID: <99bdf91baf8aab145fb5f8824cdf44e5ba2b97b3.camel@ndufresne.ca>
-Subject: Re: [ANN] Media sessions in Lyon in October: codecs
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Daniel Gomez <daniel@qtec.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Eugen Hristev <Eugen.Hristev@microchip.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Helen Koike <helen.koike@collabora.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Date:   Mon, 07 Oct 2019 18:24:28 -0400
-In-Reply-To: <CAPybu_0eS6t8ELdmnfAwJXvp6Mq6wCjo-R8ONrUkLvaa5tiL9w@mail.gmail.com>
-References: <b3b2c3a6-43d6-ffbd-f94c-e6f92cad8a97@xs4all.nl>
-         <CAAFQd5Bk+C=wDr-PpRhUnyuRjKppaZE79MXEvH65q-D5LxN1cg@mail.gmail.com>
-         <a827fa679b141849298e7a22da9e0fa5fa70e981.camel@ndufresne.ca>
-         <CAPybu_3nuqEa5FcosvQGu48cEpH-H_5OEF6wgucJhFbzTSu4TA@mail.gmail.com>
-         <CAAFQd5D5xWtiPXSFSknuOhvDt27q=x1R=dt7J5WBReATry=-xg@mail.gmail.com>
-         <CAPybu_0eS6t8ELdmnfAwJXvp6Mq6wCjo-R8ONrUkLvaa5tiL9w@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
+        Mon, 07 Oct 2019 16:17:15 -0700 (PDT)
+From:   =?UTF-8?q?Lucas=20A=2E=20M=2E=20Magalh=C3=A3es?= 
+        <lucmaga@gmail.com>
+To:     linux-media@vger.kernel.org
+Cc:     hverkuil@xs4all.nl, linux-kernel@vger.kernel.org,
+        helen.koike@collabora.com, edusbarretto@gmail.com,
+        lkcamp@lists.libreplanetbr.org,
+        "Lucas A . M . Magalhaes" <lucmaga@gmail.com>
+Subject: [PATCH v3] media: vimc: fla: Add virtual flash subdevice
+Date:   Mon,  7 Oct 2019 20:17:11 -0300
+Message-Id: <20191007231711.29902-1-lucmaga@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le lundi 07 octobre 2019 à 13:44 +0200, Ricardo Ribalda Delgado a
-écrit :
-> HI Tomasz
-> 
-> On Mon, Oct 7, 2019 at 11:43 AM Tomasz Figa <tfiga@chromium.org> wrote:
-> > Hi Ricardo,
-> > 
-> > On Mon, Oct 7, 2019 at 6:22 PM Ricardo Ribalda Delgado
-> > <ricardo.ribalda@gmail.com> wrote:
-> > > HI Nicolas
-> > > 
-> > > Sorry to hijack the thread. Do you know if anyone at AMD is working on
-> > > making a v4l driver for the encoder? Or they want to continue with
-> > > their mesa approach?
-> > > 
-> > > Converting a mesa-vappi to v4l is something doable by the mortals?
-> > > Just changing the API or is a complete rewrite of the code?
-> > 
-> > Do you know what kind of hardware that is?
-> 
-> AMD VCE
-> 
-> https://en.wikipedia.org/wiki/Video_Coding_Engine
-> 
-> 
-> > Is it a fully integrated smart encoder that manages everything
-> > internally or a "simplified" one like Rockchip or Intel, which need a
-> > lot of assistance from the software, like bitrate control and
-> > bitstream assembly?
-> 
-> For what I can read from the documentation it looks more like the
-> intel, with plenty of knobs to play around, and support for  custom
-> motion estimation and all the other fancy stuff.
-> 
-> > Also, is the encoder an integral part of the GPU or a distinct block
-> > that can operate independently of the GPU driver? While it should be
-> > possible to chain a V4L2 driver of the AMDGPU DRM driver, the VAAPI
-> > model is kind of established for encoders that are closely tied with
-> > the GPU.
-> 
-> My concern about vaapi is the complexity of the stack, to "simply"
-> encode a video you need mesa and llvm. It would be nicer with a v4l2
-> m2m driver and gstreamer.... But i can see that it can get complicated
-> if the vce shares resources with the other parts of the gpu.
+From: Lucas A. M. Magalhaes <lucmaga@gmail.com>
 
-Best is to grab someone working on this in Mesa or at AMD. The GPU
-based accelerators often uses shaders to complete the work. And shaders
-need to be compiled, hence the you need LLVM or ACO.
+Add a virtual subdevice to simulate the flash control API.
+Those are the supported controls:
+v4l2-ctl -d /dev/v4l-subdev6 -L
+Flash Controls
 
-regards,
-Nicolas
+                       led_mode 0x009c0901 (menu)   : min=0 max=2 default=1 value=1
+                                0: Off
+                                1: Flash
+                                2: Torch
+                  strobe_source 0x009c0902 (menu)   : min=0 max=1 default=0 value=0
+                                0: Software
+                                1: External
+                         strobe 0x009c0903 (button) : flags=write-only, execute-on-write
+                    stop_strobe 0x009c0904 (button) : flags=write-only, execute-on-write
+                  strobe_status 0x009c0905 (bool)   : default=0 value=0 flags=read-only
+                 strobe_timeout 0x009c0906 (int)    : min=50 max=400 step=50 default=50 value=400
+           intensity_flash_mode 0x009c0907 (int)    : min=23040 max=1499600 step=11718 default=23040 value=23040
+           intensity_torch_mode 0x009c0908 (int)    : min=2530 max=187100 step=1460 default=2530 value=2530
+            intensity_indicator 0x009c0909 (int)    : min=0 max=255 step=1 default=0 value=0
+                         faults 0x009c090a (bitmask): max=0x00000002 default=0x00000000 value=0x00000000
 
-> 
-> 
-> Thanks!
-> 
-> 
-> > Best regards,
-> > Tomasz
-> > 
-> > > Best regards!
-> > > 
-> > > On Mon, Oct 7, 2019 at 2:05 AM Nicolas Dufresne <nicolas@ndufresne.ca> wrote:
-> > > > Le jeudi 26 septembre 2019 à 19:21 +0900, Tomasz Figa a écrit :
-> > > > > On Mon, Sep 23, 2019 at 11:13 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
-> > > > > > Hi all,
-> > > > > > 
-> > > > > > Since we have three separate half-day sessions for different topics I decided
-> > > > > > to split the announcement for this in three emails as well, so these things
-> > > > > > can be discussed in separate threads.
-> > > > > > 
-> > > > > > All sessions are in room Terreaux VIP Lounge - Level 0.
-> > > > > > There is a maximum of 15 people.
-> > > > > > 
-> > > > > > The first session deals with the codec API and is on Tuesday morning from
-> > > > > > 8:30 (tentative, might change) to 12:00 (we have to vacate the room at that
-> > > > > > time).
-> > > > > > 
-> > > > > > Confirmed attendees for this session:
-> > > > > > 
-> > > > > > Boris Brezillon <boris.brezillon@collabora.com>
-> > > > > > Alexandre Courbot <acourbot@chromium.org>
-> > > > > > Nicolas Dufresne <nicolas@ndufresne.ca>
-> > > > > > Tomasz Figa <tfiga@chromium.org>
-> > > > > > Ezequiel Garcia <ezequiel@collabora.com>
-> > > > > > Daniel Gomez <daniel@qtec.com>
-> > > > > > Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> > > > > > Eugen Hristev <Eugen.Hristev@microchip.com>
-> > > > > > Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > > > > > Helen Koike <helen.koike@collabora.com>
-> > > > > > Michael Tretter <m.tretter@pengutronix.de>
-> > > > > > Hans Verkuil <hverkuil@xs4all.nl>
-> > > > > > 
-> > > > > > Tentative:
-> > > > > > 
-> > > > > > Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > > > Jacopo Mondi <jacopo@jmondi.org>
-> > > > > > 
-> > > > > > Jacopo, please confirm if you want to attend this session. I didn't find
-> > > > > > an email with explicit confirmation, so it was probably done via irc. But since
-> > > > > > this session is getting close to capacity I would prefer to keep attendance to
-> > > > > > those are actually working with codecs (or will work with it in the near future).
-> > > > > > 
-> > > > > > If I missed someone, or you are on the list but won't attend after all, then
-> > > > > > please let me know.
-> > > > > > 
-> > > > > > 
-> > > > > > 
-> > > > > > Agenda:
-> > > > > > 
-> > > > > > - Status of any pending patches related to codec support.
-> > > > > > 
-> > > > > > - Requirements of moving codec drivers out of staging.
-> > > > > > 
-> > > > > > - Finalize the stateful encoder API. There are two pieces that need
-> > > > > >   to be defined:
-> > > > > > 
-> > > > > > 1) Setting the frame rate so bitrate control can make sense, since
-> > > > > >    they need to know this information. This is also relevant for the
-> > > > > >    stateless codec (and this may have to change on a per-frame basis
-> > > > > >    for stateless codecs!).
-> > > > > > 
-> > > > > >    This can either be implemented via ENUM_FRAMEINTERVALS for the coded
-> > > > > >    pixelformats and S_PARM support, or we just add a new control for this.
-> > > > > >    E.g. V4L2_CID_MPEG_VIDEO_FRAME_INTERVAL (or perhaps FRAME_RATE). If we
-> > > > > >    go for a control, then we need to consider the unit. We can use a
-> > > > > >    fraction as well. See this series that puts in the foundation for that:
-> > > > > >    https://patchwork.linuxtv.org/cover/58857/
-> > > > > > 
-> > > > > >    I am inclined to go with a control, since the semantics don't really
-> > > > > >    match ENUM_FRAMEINTERVALS/S_PARM. These ioctls still need to be supported
-> > > > > >    for legacy drivers. Open question: some drivers (mediatek, hva, coda)
-> > > > > >    require S_PARM(OUTPUT), some (venus) allow both S_PARM(CAPTURE) and
-> > > > > >    S_PARM(OUTPUT). I am inclined to allow both since this is not a CAPTURE
-> > > > > >    vs OUTPUT thing, it is global to both queues.
-> > > > > > 
-> > > > > > 2) Interactions between OUTPUT and CAPTURE formats.
-> > > > > > 
-> > > > > >    The main problem is what to do if the capture sizeimage is too small
-> > > > > >    for the OUTPUT resolution when streaming starts.
-> > > > > > 
-> > > > > >    Proposal: width and height of S_FMT(OUTPUT) are used to
-> > > > > >    calculate a minimum sizeimage (app may request more). This is
-> > > > > >    driver-specific. (Is it? Or is this codec-specific?)
-> > > > > > 
-> > > > > >    V4L2_FMT_FLAG_FIXED_RESOLUTION is always set for codec formats
-> > > > > >    for the encoder (i.e. we don't support mid-stream resolution
-> > > > > >    changes for now) and V4L2_EVENT_SOURCE_CHANGE is not
-> > > > > >    supported. See https://patchwork.linuxtv.org/patch/56478/ for
-> > > > > >    the patch adding this flag.
-> > > > > > 
-> > > > > >    Of course, if we start to support mid-stream resolution
-> > > > > >    changes (or other changes that require a source change event),
-> > > > > >    then this flag should be dropped by the encoder driver and
-> > > > > >    documentation on how to handle the source change event should
-> > > > > >    be documented in the encoder spec. I prefer to postpone this
-> > > > > >    until we have an encoder than can actually do mid-stream
-> > > > > >    resolution changes.
-> > > > > > 
-> > > > > >    If sizeimage of the OUTPUT is too small for the CAPTURE
-> > > > > >    resolution and V4L2_EVENT_SOURCE_CHANGE is not supported,
-> > > > > >    then the second STREAMON (either CAPTURE or OUTPUT) will
-> > > > > >    return -ENOMEM since there is not enough memory to do the
-> > > > > >    encode.
-> > > > > > 
-> > > > > >    If V4L2_FMT_FLAG_FIXED_RESOLUTION is set (i.e. that should
-> > > > > >    be the case for all current encoders), then any bitrate controls
-> > > > > >    will be limited in range to what the current state (CAPTURE and
-> > > > > >    OUTPUT formats and frame rate) supports.
-> > > > > > 
-> > > > > > - Stateless encoders?
-> > > > > 
-> > > > > This could indeed be a good topic. The hantro driver currently only
-> > > > > supports JPEG encoding, but the hardware also supports H.264 and VP8
-> > > > > at least. It, however, handles only the core parts of the encoding,
-> > > > > i.e. generating the actual encoded frames (slices) without headers. It
-> > > > > also doesn't do any bitrate control or scene change detection on its
-> > > > > own and expects quality parameters (QP) or keyframe requests to come
-> > > > > from the software.
-> > > > > 
-> > > > > I'm not sure if there is any other hardware with similar constraints
-> > > > > that could use V4L2, but I believe the Intel video encoder supported
-> > > > > by VAAPI has a similar design.
-> > > > 
-> > > > I'll try to gather some information next week about that to prepare a
-> > > > little. As of now, we have the Rockchip mpp library and the ChromeOS
-> > > > version (which is reusing the previous one code). Then the Intel and
-> > > > AMD VAAPI drivers (which is implemented in FFMPEG and GStreamer).
-> > > > 
-> > > > Maybe Paul can provide some known information about the CEDRUS (if
-> > > > any), even though this is probably harder to gather. We can also study
-> > > > software encoders like OpenH264, x264, libvpx etc. to see if there is a
-> > > > trend of parameters between the state manager and the low level
-> > > > encoders.
-> > > > 
-> > > > Overall goal are, I believe (draft):
-> > > >  - Find out if there is a common set of per frame encoding parameter
-> > > >  - Find out if bitrate control can be reused for multiple HW
-> > > >  - Decide if we do in-kernel bitrate control or not
-> > > >  - Decide if we keep bitstream header crafting external (unlike Hantro
-> > > > JPEG encoder. but like VAAPI)
-> > > >  - Decide if we provide (and maintain) a libv4l2 plugin like ChromeOS
-> > > > folks opted for.
-> > > > 
-> > > > > Best regards,
-> > > > > Tomasz
-> > > > > 
-> > > > > > - Anything else? (I have a feeling I missed a codec-related topic, but
-> > > > > >   I can't find it in my mailbox)
-> > > > > > 
-> > > > > > Regards,
-> > > > > > 
-> > > > > >         Hans
-> > > 
-> > > --
-> > > Ricardo Ribalda
-> 
-> 
-> --
-> Ricardo Ribalda
+Co-authored-by: Eduardo Barretto <edusbarretto@gmail.com>
+Signed-off-by: Eduardo Barretto <edusbarretto@gmail.com>
+Signed-off-by: Lucas A. M. Magalhães <lucmaga@gmail.com>
+
+---
+Hi,
+
+I've copied some values from another driver (lm3646) to make it more
+realistic, as suggested by Hans. All values except for
+V4L2_CID_FLASH_INDICATOR_INTENSITY, which I couldn't find any
+implementation.
+
+The v4l-compliance is failing. From the documentation
+V4L2_CID_FLASH_STROBE should just work if the
+V4L2_CID_FLASH_STROBE_SOURCE is "Software" and the
+V4L2_CID_FLASH_LED_MODE is "Flash", otherwise it should fail. With the
+standard values configured for the V4L2_CID_FLASH_STROBE will not fail.
+But during the tests v4l-compliance sets V4L2_CID_FLASH_LED_MODE to
+"Torch" and V4L2_CID_FLASH_STROBE_SOURCE to "External" which makes
+V4L2_CID_FLASH_STROBE to fail. How do I proceed? Should the
+v4l-compliance be changed?
+
+Changes in v3:
+	- Fix style errors
+	- Use more realistic numbers for the controllers
+	- Change from kthread to workqueue
+	- Change commit message for the new controllers values
+
+Changes in v2:
+	- Fix v4l2-complience errors
+	- Add V4L2_CID_FLASH_STROBE_STATUS behavior
+	- Add V4L2_CID_FLASH_STROBE restrictions
+	- Remove vimc_fla_g_volatile_ctrl
+	- Remove unnecessarie V4L2_CID_FLASH_CLASS
+	- Change varables names
+
+ drivers/media/platform/vimc/Makefile      |   2 +-
+ drivers/media/platform/vimc/vimc-common.c |   2 +
+ drivers/media/platform/vimc/vimc-common.h |   4 +
+ drivers/media/platform/vimc/vimc-core.c   |   5 +
+ drivers/media/platform/vimc/vimc-flash.c  | 248 ++++++++++++++++++++++
+ 5 files changed, 260 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/media/platform/vimc/vimc-flash.c
+
+diff --git a/drivers/media/platform/vimc/Makefile b/drivers/media/platform/vimc/Makefile
+index a53b2b532e9f..e759bbb04b14 100644
+--- a/drivers/media/platform/vimc/Makefile
++++ b/drivers/media/platform/vimc/Makefile
+@@ -1,6 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0
+ vimc-y := vimc-core.o vimc-common.o vimc-streamer.o vimc-capture.o \
+-		vimc-debayer.o vimc-scaler.o vimc-sensor.o
++		vimc-debayer.o vimc-scaler.o vimc-sensor.o vimc-flash.o
+ 
+ obj-$(CONFIG_VIDEO_VIMC) += vimc.o
+ 
+diff --git a/drivers/media/platform/vimc/vimc-common.c b/drivers/media/platform/vimc/vimc-common.c
+index a3120f4f7a90..cb786de75573 100644
+--- a/drivers/media/platform/vimc/vimc-common.c
++++ b/drivers/media/platform/vimc/vimc-common.c
+@@ -203,6 +203,8 @@ struct media_pad *vimc_pads_init(u16 num_pads, const unsigned long *pads_flag)
+ 	struct media_pad *pads;
+ 	unsigned int i;
+ 
++	if (!num_pads)
++		return NULL;
+ 	/* Allocate memory for the pads */
+ 	pads = kcalloc(num_pads, sizeof(*pads), GFP_KERNEL);
+ 	if (!pads)
+diff --git a/drivers/media/platform/vimc/vimc-common.h b/drivers/media/platform/vimc/vimc-common.h
+index 698db7c07645..19815f0f4d40 100644
+--- a/drivers/media/platform/vimc/vimc-common.h
++++ b/drivers/media/platform/vimc/vimc-common.h
+@@ -169,6 +169,10 @@ struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
+ 				     const char *vcfg_name);
+ void vimc_sen_rm(struct vimc_device *vimc, struct vimc_ent_device *ved);
+ 
++struct vimc_ent_device *vimc_fla_add(struct vimc_device *vimc,
++				     const char *vcfg_name);
++void vimc_fla_rm(struct vimc_device *vimc, struct vimc_ent_device *ved);
++
+ /**
+  * vimc_pads_init - initialize pads
+  *
+diff --git a/drivers/media/platform/vimc/vimc-core.c b/drivers/media/platform/vimc/vimc-core.c
+index 6e3e5c91ae39..5f6c750d3d8d 100644
+--- a/drivers/media/platform/vimc/vimc-core.c
++++ b/drivers/media/platform/vimc/vimc-core.c
+@@ -91,6 +91,11 @@ static struct vimc_ent_config ent_config[] = {
+ 		.add = vimc_cap_add,
+ 		.rm = vimc_cap_rm,
+ 	},
++	{
++		.name = "Flash Controller",
++		.add = vimc_fla_add,
++		.rm = vimc_fla_rm,
++	}
+ };
+ 
+ static const struct vimc_ent_link ent_links[] = {
+diff --git a/drivers/media/platform/vimc/vimc-flash.c b/drivers/media/platform/vimc/vimc-flash.c
+new file mode 100644
+index 000000000000..3918beecec57
+--- /dev/null
++++ b/drivers/media/platform/vimc/vimc-flash.c
+@@ -0,0 +1,248 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * vimc-flash.c Virtual Media Controller Driver
++ *
++ * Copyright (C) 2019
++ * Contributors: Lucas A. M. Magalhães <lamm@lucmaga.dev>
++ *               Eduardo Barretto <edusbarretto@gmail.com>
++ *
++ */
++
++#include <linux/delay.h>
++#include <linux/workqueue.h>
++#include <linux/sched.h>
++#include <linux/vmalloc.h>
++#include <media/v4l2-ctrls.h>
++#include <media/v4l2-event.h>
++#include <media/v4l2-subdev.h>
++
++#include "vimc-common.h"
++
++/*
++ * Flash timeout in ms
++ */
++#define VIMC_FLASH_TIMEOUT_MS_MIN 50
++#define VIMC_FLASH_TIMEOUT_MS_MAX 400
++#define VIMC_FLASH_TIMEOUT_MS_STEP 50
++
++/*
++ * Torch intencity in uA
++ */
++#define VIMC_FLASH_TORCH_UA_MIN 2530
++#define VIMC_FLASH_TORCH_UA_MAX 187100
++#define VIMC_FLASH_TORCH_UA_STEP 1460
++
++/*
++ * Flash intencity in uA
++ */
++#define VIMC_FLASH_FLASH_UA_MIN 23040
++#define VIMC_FLASH_FLASH_UA_MAX 1499600
++#define VIMC_FLASH_FLASH_UA_STEP 11718
++
++struct vimc_fla_device {
++	struct vimc_ent_device ved;
++	struct v4l2_subdev sd;
++	struct v4l2_ctrl_handler hdl;
++	int strobe_source;
++	bool is_strobe;
++	int led_mode;
++	int indicator_intensity;
++	int torch_intensity;
++	int flash_intensity;
++	u64 timeout;
++	u64 last_strobe;
++	struct workqueue_struct *wq;
++	struct work_struct work;
++	struct v4l2_ctrl *strobe_status_ctl;
++};
++
++static void vimc_fla_strobe_work(struct work_struct *work)
++{
++	struct vimc_fla_device *vfla =
++		container_of(work, struct vimc_fla_device, work);
++	v4l2_ctrl_s_ctrl(vfla->strobe_status_ctl, true);
++	vfla->last_strobe = ktime_get_ns();
++	while (vfla->is_strobe &&
++	       vfla->last_strobe + vfla->timeout > ktime_get_ns()) {
++		msleep_interruptible(VIMC_FLASH_TIMEOUT_MS_STEP);
++	}
++	v4l2_ctrl_s_ctrl(vfla->strobe_status_ctl, false);
++}
++
++static int vimc_fla_s_ctrl(struct v4l2_ctrl *c)
++{
++	struct vimc_fla_device *vfla =
++		container_of(c->handler, struct vimc_fla_device, hdl);
++
++	switch (c->id) {
++	case V4L2_CID_FLASH_LED_MODE:
++		vfla->led_mode = c->val;
++		return 0;
++	case V4L2_CID_FLASH_STROBE_SOURCE:
++		vfla->strobe_source = c->val;
++		return 0;
++	case V4L2_CID_FLASH_STROBE:
++		if (vfla->led_mode != V4L2_FLASH_LED_MODE_FLASH ||
++		    vfla->strobe_source != V4L2_FLASH_STROBE_SOURCE_SOFTWARE){
++			return -EINVAL;
++		}
++		queue_work(vfla->wq, &vfla->work);
++		return 0;
++	case V4L2_CID_FLASH_STROBE_STATUS:
++		vfla->is_strobe = c->val;
++		return 0;
++	case V4L2_CID_FLASH_STROBE_STOP:
++		vfla->is_strobe = false;
++		return 0;
++	case V4L2_CID_FLASH_TIMEOUT:
++		vfla->timeout = c->val * 1000000; /* MS to NS */
++		return 0;
++	case V4L2_CID_FLASH_INTENSITY:
++		vfla->flash_intensity = c->val;
++		return 0;
++	case V4L2_CID_FLASH_TORCH_INTENSITY:
++		vfla->torch_intensity = c->val;
++		return 0;
++	case V4L2_CID_FLASH_INDICATOR_INTENSITY:
++		vfla->indicator_intensity = c->val;
++		return 0;
++	default:
++		return -EINVAL;
++	}
++	return 0;
++}
++
++static const struct v4l2_ctrl_ops vimc_fla_ctrl_ops = {
++	.s_ctrl = vimc_fla_s_ctrl,
++};
++
++static const struct v4l2_subdev_core_ops vimc_fla_core_ops = {
++	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
++	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
++};
++
++static const struct v4l2_subdev_ops vimc_fla_ops = {
++	.core = &vimc_fla_core_ops,
++};
++
++static void vimc_fla_release(struct v4l2_subdev *sd)
++{
++	struct vimc_fla_device *vfla =
++				container_of(sd, struct vimc_fla_device, sd);
++
++	v4l2_ctrl_handler_free(&vfla->hdl);
++	kfree(vfla);
++}
++
++static const struct v4l2_subdev_internal_ops vimc_fla_int_ops = {
++	.release = vimc_fla_release,
++};
++
++/* initialize device */
++struct vimc_ent_device *vimc_fla_add(struct vimc_device *vimc,
++				     const char *vcfg_name)
++{
++	struct v4l2_device *v4l2_dev = &vimc->v4l2_dev;
++	struct vimc_fla_device *vfla;
++	int ret;
++
++	/* Allocate the vfla struct */
++	vfla = kzalloc(sizeof(*vfla), GFP_KERNEL);
++	if (!vfla)
++		return NULL;
++
++	v4l2_ctrl_handler_init(&vfla->hdl, 4);
++	v4l2_ctrl_new_std_menu(&vfla->hdl, &vimc_fla_ctrl_ops,
++			       V4L2_CID_FLASH_LED_MODE,
++			       V4L2_FLASH_LED_MODE_TORCH, ~0x7,
++			       V4L2_FLASH_LED_MODE_FLASH);
++	v4l2_ctrl_new_std_menu(&vfla->hdl, &vimc_fla_ctrl_ops,
++			       V4L2_CID_FLASH_STROBE_SOURCE, 0x1, ~0x3,
++			       V4L2_FLASH_STROBE_SOURCE_SOFTWARE);
++	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
++			  V4L2_CID_FLASH_STROBE, 0, 0, 0, 0);
++	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
++			  V4L2_CID_FLASH_STROBE_STOP, 0, 0, 0, 0);
++	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
++			  V4L2_CID_FLASH_TIMEOUT, VIMC_FLASH_TIMEOUT_MS_MIN,
++			  VIMC_FLASH_TIMEOUT_MS_MAX,
++			  VIMC_FLASH_TIMEOUT_MS_STEP,
++			  VIMC_FLASH_TIMEOUT_MS_MIN);
++	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
++			  V4L2_CID_FLASH_TORCH_INTENSITY,
++			  VIMC_FLASH_TORCH_UA_MIN,
++			  VIMC_FLASH_TORCH_UA_MAX,
++			  VIMC_FLASH_TORCH_UA_STEP,
++			  VIMC_FLASH_TORCH_UA_MIN);
++	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
++			  V4L2_CID_FLASH_INTENSITY,
++			  VIMC_FLASH_FLASH_UA_MIN,
++			  VIMC_FLASH_FLASH_UA_MAX,
++			  VIMC_FLASH_FLASH_UA_STEP,
++			  VIMC_FLASH_FLASH_UA_MIN);
++	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
++			  V4L2_CID_FLASH_INDICATOR_INTENSITY,
++			  0,
++			  255,
++			  1,
++			  0);
++	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
++			  V4L2_CID_FLASH_STROBE_STATUS, 0, 1, 1, 0);
++	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
++			  V4L2_CID_FLASH_FAULT, 0,
++			  V4L2_FLASH_FAULT_TIMEOUT, 0, 0);
++	vfla->sd.ctrl_handler = &vfla->hdl;
++	if (vfla->hdl.error) {
++		ret = vfla->hdl.error;
++		goto err_free_vfla;
++	}
++	vfla->strobe_status_ctl = v4l2_ctrl_find(&vfla->hdl,
++						 V4L2_CID_FLASH_STROBE_STATUS);
++
++	/* Initialize ved and sd */
++	ret = vimc_ent_sd_register(&vfla->ved, &vfla->sd, v4l2_dev,
++				   vcfg_name,
++				   MEDIA_ENT_F_FLASH, 0, NULL,
++				   &vimc_fla_int_ops, &vimc_fla_ops);
++	if (ret)
++		goto err_free_hdl;
++
++	/* Create processing workqueue */
++	vfla->wq = alloc_workqueue("%s", 0, 0, "vimc-flash thread");
++	if (!vfla->wq)
++		goto err_unregister;
++
++	INIT_WORK(&vfla->work, vimc_fla_strobe_work);
++	/* Initialize standard values */
++	vfla->indicator_intensity = 0;
++	vfla->torch_intensity = 0;
++	vfla->flash_intensity = 0;
++	vfla->is_strobe = false;
++	vfla->timeout = 0;
++	vfla->last_strobe = 0;
++	vfla->strobe_source = V4L2_FLASH_STROBE_SOURCE_SOFTWARE;
++	vfla->led_mode = V4L2_FLASH_LED_MODE_FLASH;
++
++	return &vfla->ved;
++
++err_unregister:
++	vimc_ent_sd_unregister(&vfla->ved, &vfla->sd);
++err_free_hdl:
++	v4l2_ctrl_handler_free(&vfla->hdl);
++err_free_vfla:
++	kfree(vfla);
++
++	return NULL;
++}
++
++void vimc_fla_rm(struct vimc_device *vimc, struct vimc_ent_device *ved)
++{
++	struct vimc_fla_device *vfla;
++
++	if (!ved)
++		return;
++
++	vfla = container_of(ved, struct vimc_fla_device, ved);
++	destroy_workqueue(vfla->wq);
++	vimc_ent_sd_unregister(ved, &vfla->sd);
++}
+-- 
+2.23.0
 
