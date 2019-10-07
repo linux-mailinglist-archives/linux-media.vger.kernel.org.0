@@ -2,114 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F801CDF3B
-	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2019 12:26:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 50FD4CDF6E
+	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2019 12:36:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727518AbfJGK0S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Oct 2019 06:26:18 -0400
-Received: from mx07-00178001.pphosted.com ([62.209.51.94]:41413 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727262AbfJGK0R (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 7 Oct 2019 06:26:17 -0400
-Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x97AKml6026153;
-        Mon, 7 Oct 2019 12:25:57 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-type; s=STMicroelectronics;
- bh=cIh/B+QlT5Ufq0muAI8MFIZVmvtKiiVeIQjxYFeHv4U=;
- b=LqwFvsFeAgqwBt7UYWHD+Wuf+stCjxWldXnL+ZqqyTjv9PukoK6gjeJKuhHN9HtbFVk/
- qINdmJ8SJp4VZEqHmX8HX/OR77VCCUuep5iwlHbpCQWiz6LmXWlQaz8SRLbONPSU5q7f
- u5QLwVf799PJGBZoVV6fPP6+SEP+pv9mUyv98wqICqgKGn2A94yONlyyI7KdQFyNqdG8
- 9zLr5o5ct1m4k2jtoSx/F0kDFB2tW9EcrQESlnfGgWY3iqekCks4uvtZvOsjgzpa0Zb9
- cyZF3E7mbm2nk9Ev6T7CqfrdURgjwdJhs5igOpnTtDmBAgj0UPQO5hiatsex1g1i1Gjl /g== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 2vegxvhrn6-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 07 Oct 2019 12:25:57 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id EB15210002A;
-        Mon,  7 Oct 2019 12:25:56 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id DC7722BFE0A;
-        Mon,  7 Oct 2019 12:25:56 +0200 (CEST)
-Received: from localhost (10.75.127.50) by SFHDAG3NODE2.st.com (10.75.127.8)
- with Microsoft SMTP Server (TLS) id 15.0.1347.2; Mon, 7 Oct 2019 12:25:56
- +0200
-From:   Alexandre Torgue <alexandre.torgue@st.com>
-To:     Maxime Ripard <mripard@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Alexandru Ardelean <alexaundru.ardelean@analog.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>
-CC:     <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        <linux-media@vger.kernel.org>, <netdev@vger.kernel.org>
-Subject: [PATCH 3/3] dt-bindings: regulator: Fix yaml verification for fixed-regulator schema
-Date:   Mon, 7 Oct 2019 12:25:52 +0200
-Message-ID: <20191007102552.19808-4-alexandre.torgue@st.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191007102552.19808-1-alexandre.torgue@st.com>
-References: <20191007102552.19808-1-alexandre.torgue@st.com>
+        id S1727376AbfJGKgq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Oct 2019 06:36:46 -0400
+Received: from gofer.mess.org ([88.97.38.141]:33981 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727252AbfJGKgq (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 7 Oct 2019 06:36:46 -0400
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 7EE1BC63B1; Mon,  7 Oct 2019 11:36:45 +0100 (BST)
+From:   Sean Young <sean@mess.org>
+To:     linux-media@vger.kernel.org
+Subject: [PATCH] media: imon_raw: simplify loop
+Date:   Mon,  7 Oct 2019 11:36:45 +0100
+Message-Id: <20191007103645.32065-1-sean@mess.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.75.127.50]
-X-ClientProxiedBy: SFHDAG6NODE1.st.com (10.75.127.16) To SFHDAG3NODE2.st.com
- (10.75.127.8)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,1.0.8
- definitions=2019-10-07_02:2019-10-07,2019-10-07 signatures=0
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This commit fixes an issue seen during yaml check ("make dt_binding_check").
-Compatible didn't seem to be seen as a string.
+The code for pulse and space is the same so remove duplication.
 
-Reported issue:
-"properties:compatible:enum:0: {'const': 'regulator-fixed'}
-is not of type 'string'"
-And
-"properties:compatible:enum:1: {'const': 'regulator-fixed-clock'}
-is not of type 'string'"
+Signed-off-by: Sean Young <sean@mess.org>
+---
+ drivers/media/rc/imon_raw.c | 22 ++++------------------
+ 1 file changed, 4 insertions(+), 18 deletions(-)
 
-Fixes: 9c86d003d620 ("dt-bindings: regulator: add regulator-fixed-clock binding")
-Signed-off-by: Alexandre Torgue <alexandre.torgue@st.com>
-
-diff --git a/Documentation/devicetree/bindings/regulator/fixed-regulator.yaml b/Documentation/devicetree/bindings/regulator/fixed-regulator.yaml
-index a78150c47aa2..7725cedf1538 100644
---- a/Documentation/devicetree/bindings/regulator/fixed-regulator.yaml
-+++ b/Documentation/devicetree/bindings/regulator/fixed-regulator.yaml
-@@ -22,16 +22,20 @@ allOf:
- if:
-   properties:
-     compatible:
-+      allOf:
-+        - $ref: "/schemas/types.yaml#/definitions/string"
-       contains:
--        const: regulator-fixed-clock
-+        const: "regulator-fixed-clock"
-   required:
-     - clocks
+diff --git a/drivers/media/rc/imon_raw.c b/drivers/media/rc/imon_raw.c
+index d4aedcf76418..aae0a3cc9479 100644
+--- a/drivers/media/rc/imon_raw.c
++++ b/drivers/media/rc/imon_raw.c
+@@ -57,32 +57,18 @@ static void imon_ir_data(struct imon *imon)
+ 		 * fls will tell us the highest bit set plus 1 (or 0 if no
+ 		 * bits are set).
+ 		 */
++		rawir.pulse = !rawir.pulse;
+ 		bit = fls64(data & (BIT_ULL(offset) - 1));
+ 		if (bit < offset) {
+-			dev_dbg(imon->dev, "pulse: %d bits", offset - bit);
+-			rawir.pulse = true;
++			dev_dbg(imon->dev, "%s: %d bits",
++				rawir.pulse ? "pulse" : "space", offset - bit);
+ 			rawir.duration = (offset - bit) * BIT_DURATION;
+ 			ir_raw_event_store_with_filter(imon->rcdev, &rawir);
  
- properties:
-   compatible:
-+    allOf:
-+      - $ref: "/schemas/types.yaml#/definitions/string"
-     enum:
--      - const: regulator-fixed
--      - const: regulator-fixed-clock
-+      - "regulator-fixed"
-+      - "regulator-fixed-clock"
+-			if (bit == 0)
+-				break;
+-
+ 			offset = bit;
+ 		}
  
-   regulator-name: true
+-		/*
+-		 * Find highest clear bit which is less than offset.
+-		 *
+-		 * Just invert the data and use same trick as above.
+-		 */
+-		bit = fls64(~data & (BIT_ULL(offset) - 1));
+-		dev_dbg(imon->dev, "space: %d bits", offset - bit);
+-
+-		rawir.pulse = false;
+-		rawir.duration = (offset - bit) * BIT_DURATION;
+-		ir_raw_event_store_with_filter(imon->rcdev, &rawir);
+-
+-		offset = bit;
++		data = ~data;
+ 	} while (offset > 0);
  
+ 	if (packet_no == 0x0a && !imon->rcdev->idle) {
 -- 
-2.17.1
+2.21.0
 
