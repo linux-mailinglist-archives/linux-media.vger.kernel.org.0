@@ -2,201 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5056BCDAE9
-	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2019 06:20:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D5BDBCDBB4
+	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2019 08:02:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726960AbfJGEUb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Oct 2019 00:20:31 -0400
-Received: from condef-05.nifty.com ([202.248.20.70]:53781 "EHLO
-        condef-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725954AbfJGEUb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Oct 2019 00:20:31 -0400
-X-Greylist: delayed 386 seconds by postgrey-1.27 at vger.kernel.org; Mon, 07 Oct 2019 00:20:30 EDT
-Received: from conuserg-09.nifty.com ([10.126.8.72])by condef-05.nifty.com with ESMTP id x974B08A013841
-        for <linux-media@vger.kernel.org>; Mon, 7 Oct 2019 13:11:00 +0900
-Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-09.nifty.com with ESMTP id x9749g3X018731;
-        Mon, 7 Oct 2019 13:09:42 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com x9749g3X018731
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1570421383;
-        bh=Qc7kdQEQSeKLCS/0wAc93VS/IctKNqs8VpX26LsuFE8=;
-        h=From:To:Cc:Subject:Date:From;
-        b=A/5d4dVIrqN2WaWhbcE02/wOFnI0M06+MISGepHGVg4j0vPmj2QAzi6Ii95u/qmqi
-         kCEltsICPi5l3akHJ8G7v/NybUuquWnBddU3XXM/glsFo/ocAbRKjjSBCdYdLr7dg2
-         ivepUNDchYZSJAtDPs1xe8jMf4+RrIXn610OdYvCFcVsKrPaEQeEzGoHkZ54DLu51m
-         24F0QEn3ZBq6Yu6Ik7V18BCezhTEQS0BwRBSr7KXPRsx8eoTuOGx8EQ1pJIptwTNE3
-         knUGeHE9y7FTGFJnXI/IUkhy1RT0Hn433mPRqZNxJ2wM1yMOHqR7549Svb7XGHKdBE
-         1vtpSootLRSaA==
-X-Nifty-SrcIP: [153.142.97.92]
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Pablo Neira Ayuso <pablo@netfilter.org>,
-        Sam Ravnborg <sam@ravnborg.org>, linux-kernel@vger.kernel.org
-Subject: [RFC PATCH] media: videodev2.h: include <linux/time.h> instead of <sys/time.h>
-Date:   Mon,  7 Oct 2019 13:09:35 +0900
-Message-Id: <20191007040935.23436-1-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.17.1
+        id S1726969AbfJGGCU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Oct 2019 02:02:20 -0400
+Received: from mailoutvs27.siol.net ([185.57.226.218]:53473 "EHLO
+        mail.siol.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726889AbfJGGCU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Oct 2019 02:02:20 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.siol.net (Zimbra) with ESMTP id 9592A521630;
+        Mon,  7 Oct 2019 08:02:16 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at psrvmta12.zcs-production.pri
+Received: from mail.siol.net ([127.0.0.1])
+        by localhost (psrvmta12.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id vcF-zkhEbduB; Mon,  7 Oct 2019 08:02:16 +0200 (CEST)
+Received: from mail.siol.net (localhost [127.0.0.1])
+        by mail.siol.net (Zimbra) with ESMTPS id 2224752160B;
+        Mon,  7 Oct 2019 08:02:16 +0200 (CEST)
+Received: from jernej-laptop.localnet (cpe-86-58-59-25.static.triera.net [86.58.59.25])
+        (Authenticated sender: jernej.skrabec@siol.net)
+        by mail.siol.net (Zimbra) with ESMTPA id 4A222521630;
+        Mon,  7 Oct 2019 08:02:13 +0200 (CEST)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     mchehab@kernel.org, paul.kocialkowski@bootlin.com,
+        mripard@kernel.org, pawel@osciak.com, m.szyprowski@samsung.com,
+        kyungmin.park@samsung.com, tfiga@chromium.org, wens@csie.org,
+        gregkh@linuxfoundation.org, boris.brezillon@collabora.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org,
+        ezequiel@collabora.com, jonas@kwiboo.se
+Subject: Re: [PATCH v2 3/6] media: v4l2-mem2mem: add stateless_(try_)decoder_cmd ioctl helpers
+Date:   Mon, 07 Oct 2019 08:02:12 +0200
+Message-ID: <2840939.OS9t7MgvnY@jernej-laptop>
+In-Reply-To: <6c7eeaf1-18bb-1c7e-7938-a3eb5af100b6@xs4all.nl>
+References: <20190929200023.215831-1-jernej.skrabec@siol.net> <20190929200023.215831-4-jernej.skrabec@siol.net> <6c7eeaf1-18bb-1c7e-7938-a3eb5af100b6@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Currently, linux/videodev.h is excluded from the UAPI header test since
-it is not self-contained. Building it for user-space would fail.
+Dne petek, 04. oktober 2019 ob 11:21:12 CEST je Hans Verkuil napisal(a):
+> On 9/29/19 10:00 PM, Jernej Skrabec wrote:
+> > These helpers are used by stateless codecs when they support multiple
+> > slices per frame and hold capture buffer flag is set. It's expected that
+> > all such codecs will use this code.
+> > 
+> > Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
+> > ---
+> > 
+> >  drivers/media/v4l2-core/v4l2-mem2mem.c | 35 ++++++++++++++++++++++++++
+> >  include/media/v4l2-mem2mem.h           |  4 +++
+> >  2 files changed, 39 insertions(+)
+> > 
+> > diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c
+> > b/drivers/media/v4l2-core/v4l2-mem2mem.c index 19937dd3c6f6..2677a07e4c9b
+> > 100644
+> > --- a/drivers/media/v4l2-core/v4l2-mem2mem.c
+> > +++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
+> > @@ -1154,6 +1154,41 @@ int v4l2_m2m_ioctl_try_decoder_cmd(struct file
+> > *file, void *fh,> 
+> >  }
+> >  EXPORT_SYMBOL_GPL(v4l2_m2m_ioctl_try_decoder_cmd);
+> > 
+> > +int v4l2_m2m_ioctl_stateless_try_decoder_cmd(struct file *file, void *fh,
+> > +					     struct 
+v4l2_decoder_cmd *dc)
+> > +{
+> > +	if (dc->cmd != V4L2_DEC_CMD_FLUSH)
+> > +		return -EINVAL;
+> > +
+> > +	dc->flags = 0;
+> > +
+> > +	return 0;
+> > +}
+> > +EXPORT_SYMBOL_GPL(v4l2_m2m_ioctl_stateless_try_decoder_cmd);
+> > +
+> > +int v4l2_m2m_ioctl_stateless_decoder_cmd(struct file *file, void *priv,
+> > +					 struct 
+v4l2_decoder_cmd *dc)
+> > +{
+> > +	struct v4l2_fh *fh = file->private_data;
+> > +	struct vb2_v4l2_buffer *out_vb, *cap_vb;
+> > +	int ret;
+> > +
+> > +	ret = v4l2_m2m_ioctl_stateless_try_decoder_cmd(file, priv, dc);
+> > +	if (ret < 0)
+> > +		return ret;
+> > +
+> > +	out_vb = v4l2_m2m_last_src_buf(fh->m2m_ctx);
+> > +	cap_vb = v4l2_m2m_last_dst_buf(fh->m2m_ctx);
+> 
+> I think this should be v4l2_m2m_next_dst_buf. If multiple capture buffers
+> were queued up, then it can only be the first capture buffer that can be
+> 'HELD'.
 
-------------------------(build log1 begin)------------------------
+I'm pretty sure v4l2_m2m_last_dst_buf() is correct. We want to affect last job 
+in the queue, all jobs before are already properly handled by comparing 
+timestamps.
 
-  CC      usr/include/linux/videodev2.h.s
-In file included from <command-line>:32:0:
-./usr/include/linux/videodev2.h:2320:20: error: field ‘timestamp’ has incomplete type
-  struct timespec   timestamp;
-                    ^~~~~~~~~
+> 
+> This might solve the race condition you saw with ffmpeg.
 
--------------------------(build log1 end)-------------------------
+This actually doesn't change anything. ffmpeg currently queues only one job and 
+then waits until it's executed. In this case it actually doesn't matter if 
+"last" or "next" variant is used.
 
-The in-kernel timespec definition exists in include/uapi/linux/time.h,
-but just including <linux/time.h> causes a lot of redefinition errors.
+Best regards,
+Jernej
 
-------------------------(build log2 begin)------------------------
-
-  CC      usr/include/linux/videodev2.h.s
-In file included from ./usr/include/linux/videodev2.h:63:0,
-                 from <command-line>:32:
-./usr/include/linux/time.h:16:8: error: redefinition of ‘struct timeval’
- struct timeval {
-        ^~~~~~~
-In file included from /usr/include/x86_64-linux-gnu/sys/time.h:25:0,
-                 from ./usr/include/linux/videodev2.h:60,
-                 from <command-line>:32:
-/usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h:8:8: note: originally defined here
- struct timeval
-        ^~~~~~~
-In file included from ./usr/include/linux/videodev2.h:63:0,
-                 from <command-line>:32:
-./usr/include/linux/time.h:30:0: warning: "ITIMER_REAL" redefined
- #define ITIMER_REAL  0
-
-In file included from ./usr/include/linux/videodev2.h:60:0,
-                 from <command-line>:32:
-/usr/include/x86_64-linux-gnu/sys/time.h:92:0: note: this is the location of the previous definition
- #define ITIMER_REAL ITIMER_REAL
-
-In file included from ./usr/include/linux/videodev2.h:63:0,
-                 from <command-line>:32:
-./usr/include/linux/time.h:31:0: warning: "ITIMER_VIRTUAL" redefined
- #define ITIMER_VIRTUAL  1
-
-In file included from ./usr/include/linux/videodev2.h:60:0,
-                 from <command-line>:32:
-/usr/include/x86_64-linux-gnu/sys/time.h:95:0: note: this is the location of the previous definition
- #define ITIMER_VIRTUAL ITIMER_VIRTUAL
-
-In file included from ./usr/include/linux/videodev2.h:63:0,
-                 from <command-line>:32:
-./usr/include/linux/time.h:32:0: warning: "ITIMER_PROF" redefined
- #define ITIMER_PROF  2
-
-In file included from ./usr/include/linux/videodev2.h:60:0,
-                 from <command-line>:32:
-/usr/include/x86_64-linux-gnu/sys/time.h:99:0: note: this is the location of the previous definition
- #define ITIMER_PROF ITIMER_PROF
-
-In file included from ./usr/include/linux/videodev2.h:63:0,
-                 from <command-line>:32:
-./usr/include/linux/time.h:39:8: error: redefinition of ‘struct itimerval’
- struct itimerval {
-        ^~~~~~~~~
-In file included from ./usr/include/linux/videodev2.h:60:0,
-                 from <command-line>:32:
-/usr/include/x86_64-linux-gnu/sys/time.h:104:8: note: originally defined here
- struct itimerval
-        ^~~~~~~~~
-
--------------------------(build log2 end)-------------------------
-
-Replacing <sys/time.h> with <linux/time.h> solves it, and allow more
-headers to join the UAPI header test.
-
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
----
-
-I am not 100% sure about the compatibility
-between <sys/time.h> and <linux/time.h>, hence RFC.
-
-But, if they were not compatible,
-I guess it would have broken already.
-
-I CCed Arnd Bergmann, who might have a better insight.
-
-A related comment is here:
-https://lkml.org/lkml/2019/6/4/1046
+> 
+> Regards,
+> 
+> 	Hans
+> 
+> > +
+> > +	if (out_vb)
+> > +		out_vb->flags &= ~V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF;
+> > +	else if (cap_vb && cap_vb->is_held)
+> > +		v4l2_m2m_buf_done(cap_vb, VB2_BUF_STATE_DONE);
+> > +
+> > +	return 0;
+> > +}
+> > +EXPORT_SYMBOL_GPL(v4l2_m2m_ioctl_stateless_decoder_cmd);
+> > +
+> > 
+> >  /*
+> >  
+> >   * v4l2_file_operations helpers. It is assumed here same lock is used
+> >   * for the output and the capture buffer queue.
+> > 
+> > diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2mem.h
+> > index c9fa96c8eed1..8ae2f56c7fa3 100644
+> > --- a/include/media/v4l2-mem2mem.h
+> > +++ b/include/media/v4l2-mem2mem.h
+> > @@ -714,6 +714,10 @@ int v4l2_m2m_ioctl_try_encoder_cmd(struct file *file,
+> > void *fh,> 
+> >  				   struct v4l2_encoder_cmd *ec);
+> >  
+> >  int v4l2_m2m_ioctl_try_decoder_cmd(struct file *file, void *fh,
+> >  
+> >  				   struct v4l2_decoder_cmd *dc);
+> > 
+> > +int v4l2_m2m_ioctl_stateless_try_decoder_cmd(struct file *file, void *fh,
+> > +					     struct 
+v4l2_decoder_cmd *dc);
+> > +int v4l2_m2m_ioctl_stateless_decoder_cmd(struct file *file, void *priv,
+> > +					 struct 
+v4l2_decoder_cmd *dc);
+> > 
+> >  int v4l2_m2m_fop_mmap(struct file *file, struct vm_area_struct *vma);
+> >  __poll_t v4l2_m2m_fop_poll(struct file *file, poll_table *wait);
 
 
- include/uapi/linux/videodev2.h | 4 +---
- usr/include/Makefile           | 7 -------
- 2 files changed, 1 insertion(+), 10 deletions(-)
 
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 530638dffd93..2571130aa1ca 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -57,11 +57,9 @@
- #ifndef _UAPI__LINUX_VIDEODEV2_H
- #define _UAPI__LINUX_VIDEODEV2_H
- 
--#ifndef __KERNEL__
--#include <sys/time.h>
--#endif
- #include <linux/compiler.h>
- #include <linux/ioctl.h>
-+#include <linux/time.h>
- #include <linux/types.h>
- #include <linux/v4l2-common.h>
- #include <linux/v4l2-controls.h>
-diff --git a/usr/include/Makefile b/usr/include/Makefile
-index 57b20f7b6729..dafa6cb9b07e 100644
---- a/usr/include/Makefile
-+++ b/usr/include/Makefile
-@@ -23,7 +23,6 @@ header-test- += asm/shmbuf.h
- header-test- += asm/signal.h
- header-test- += asm/ucontext.h
- header-test- += drm/vmwgfx_drm.h
--header-test- += linux/am437x-vpfe.h
- header-test- += linux/android/binder.h
- header-test- += linux/android/binderfs.h
- header-test-$(CONFIG_CPU_BIG_ENDIAN) += linux/byteorder/big_endian.h
-@@ -33,13 +32,10 @@ header-test- += linux/elfcore.h
- header-test- += linux/errqueue.h
- header-test- += linux/fsmap.h
- header-test- += linux/hdlc/ioctl.h
--header-test- += linux/ivtv.h
- header-test- += linux/kexec.h
--header-test- += linux/matroxfb.h
- header-test- += linux/netfilter_ipv4/ipt_LOG.h
- header-test- += linux/netfilter_ipv6/ip6t_LOG.h
- header-test- += linux/nfc.h
--header-test- += linux/omap3isp.h
- header-test- += linux/omapfb.h
- header-test- += linux/patchkey.h
- header-test- += linux/phonet.h
-@@ -49,9 +45,6 @@ header-test- += linux/sctp.h
- header-test- += linux/signal.h
- header-test- += linux/sysctl.h
- header-test- += linux/usb/audio.h
--header-test- += linux/v4l2-mediabus.h
--header-test- += linux/v4l2-subdev.h
--header-test- += linux/videodev2.h
- header-test- += linux/vm_sockets.h
- header-test- += sound/asequencer.h
- header-test- += sound/asoc.h
--- 
-2.17.1
 
