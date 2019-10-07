@@ -2,565 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DB746CDCB2
-	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2019 09:57:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6E14CDCCA
+	for <lists+linux-media@lfdr.de>; Mon,  7 Oct 2019 10:03:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727459AbfJGH5b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Oct 2019 03:57:31 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:36585 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727028AbfJGH5b (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 7 Oct 2019 03:57:31 -0400
-Received: from [IPv6:2001:983:e9a7:1:3d61:cdd2:8085:cc8] ([IPv6:2001:983:e9a7:1:3d61:cdd2:8085:cc8])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id HNtWiKJa1jZ8vHNtYi57vy; Mon, 07 Oct 2019 09:57:28 +0200
-Subject: Re: [Patch v2 16/21] media: ti-vpe: vpe: use standard struct instead
- of duplicating fields
+        id S1727467AbfJGIDZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Oct 2019 04:03:25 -0400
+Received: from mga01.intel.com ([192.55.52.88]:38910 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726889AbfJGIDZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 7 Oct 2019 04:03:25 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Oct 2019 01:03:24 -0700
+X-IronPort-AV: E=Sophos;i="5.67,265,1566889200"; 
+   d="scan'208";a="344666799"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 07 Oct 2019 01:03:22 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 46DD920B1D; Mon,  7 Oct 2019 11:03:20 +0300 (EEST)
+Date:   Mon, 7 Oct 2019 11:03:20 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     Benoit Parrot <bparrot@ti.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20191004162952.4963-1-bparrot@ti.com>
- <20191004162952.4963-17-bparrot@ti.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <cb01914f-3bca-2558-2b07-86ddbfc9626e@xs4all.nl>
-Date:   Mon, 7 Oct 2019 09:57:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [Patch v3 1/3] media: ov5640: add PIXEL_RATE control
+Message-ID: <20191007080320.GG14917@paasikivi.fi.intel.com>
+References: <20191004172418.2339-1-bparrot@ti.com>
+ <20191004172418.2339-2-bparrot@ti.com>
 MIME-Version: 1.0
-In-Reply-To: <20191004162952.4963-17-bparrot@ti.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfMN0rZr5WJtSRL06B/RW028+oBA9fyLJo1UMYYrOuslOOTr942kmDRwSXoGvl0Nphab8+lF++3Cc9l+hjDdWhlvR7NwqpicfJ7t3j4TQ91aXPIVk/RRj
- kcmO+8mLjftWLzUlnd6g47si+MWb+kjzuo8ceEZGeYA0Oyuj7upNL7jmOmY4GRf5YKocTmmEk4qbWGTLanPK+RQaaYocwm1HqD2VdfFNq4pAjvqfU/BiqpV5
- yCfNfIpTEe3lPwco82AYu2KpB+6bz+Fh0C0zCdiY5/jAY0E+JcJ7JGN4y+ojXc8wtR0fdR0r97iobtStXqKUzJxhG+lmfB40KySLaex0Zf5e5szn1j7ns/I1
- b/FJIFYzuWVpxNRicwxjuSwg0R0IJg==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191004172418.2339-2-bparrot@ti.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/4/19 6:29 PM, Benoit Parrot wrote:
-> For each queue we need to maintain resolutions, pixel format,
-> bytesperline, sizeimage, colorspace, etc.
-> 
-> Instead of manually adding more entries in the vpe_q_data struct, it is
-> better to just add a "struct v4l2_format" member and use that to store
-> all needed information.
-> 
-> Signed-off-by: Benoit Parrot <bparrot@ti.com>
-> ---
->  drivers/media/platform/ti-vpe/vpe.c | 185 ++++++++++++++--------------
->  1 file changed, 91 insertions(+), 94 deletions(-)
-> 
-> diff --git a/drivers/media/platform/ti-vpe/vpe.c b/drivers/media/platform/ti-vpe/vpe.c
-> index d7f8eb901475..5b1e9908fff2 100644
-> --- a/drivers/media/platform/ti-vpe/vpe.c
-> +++ b/drivers/media/platform/ti-vpe/vpe.c
-> @@ -319,14 +319,9 @@ static struct vpe_fmt vpe_formats[] = {
->   * there is one source queue and one destination queue for each m2m context.
->   */
->  struct vpe_q_data {
-> -	unsigned int		width;				/* frame width */
-> -	unsigned int		height;				/* frame height */
-> -	unsigned int		nplanes;			/* Current number of planes */
-> -	unsigned int		bytesperline[VPE_MAX_PLANES];	/* bytes per line in memory */
-> -	enum v4l2_colorspace	colorspace;
-> -	enum v4l2_field		field;				/* supported field value */
-> +	/* current v4l2 format info */
-> +	struct v4l2_format	format;
+On Fri, Oct 04, 2019 at 12:24:16PM -0500, Benoit Parrot wrote:
+> @@ -2657,6 +2669,12 @@ static int ov5640_init_controls(struct ov5640_dev *sensor)
+>  	/* we can use our own mutex for the ctrl lock */
+>  	hdl->lock = &sensor->lock;
+>  
+> +	/* Clock related controls */
+> +	ctrls->pixel_rate = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_PIXEL_RATE,
+> +					      0, INT_MAX, 1,
+> +					      ov5640_calc_pixel_rate(sensor));
+> +	ctrls->pixel_rate->flags |= V4L2_CTRL_FLAG_READ_ONLY;
 
-Wouldn't it make more sense to use struct v4l2_pix_format_mplane? That avoid having to
-use the '.fmt.pix_mp' sequence every time you need to access it.
+Please check ctrls->pixel_rate first; it may be NULL here.
 
-Regards,
-
-	Hans
-
->  	unsigned int		flags;
-> -	unsigned int		sizeimage[VPE_MAX_PLANES];	/* image size in memory */
->  	struct v4l2_rect	c_rect;				/* crop/compose rectangle */
->  	struct vpe_fmt		*fmt;				/* format info */
->  };
-> @@ -761,7 +756,8 @@ static void set_src_registers(struct vpe_ctx *ctx)
->  static void set_dst_registers(struct vpe_ctx *ctx)
->  {
->  	struct vpe_mmr_adb *mmr_adb = ctx->mmr_adb.addr;
-> -	enum v4l2_colorspace clrspc = ctx->q_data[Q_DATA_DST].colorspace;
-> +	enum v4l2_colorspace clrspc =
-> +			ctx->q_data[Q_DATA_DST].format.fmt.pix_mp.colorspace;
->  	struct vpe_fmt *fmt = ctx->q_data[Q_DATA_DST].fmt;
->  	u32 val = 0;
->  
-> @@ -868,11 +864,15 @@ static int set_srcdst_params(struct vpe_ctx *ctx)
->  	unsigned int src_h = s_q_data->c_rect.height;
->  	unsigned int dst_w = d_q_data->c_rect.width;
->  	unsigned int dst_h = d_q_data->c_rect.height;
-> +	struct v4l2_pix_format_mplane *spix;
-> +	struct v4l2_pix_format_mplane *dpix;
->  	size_t mv_buf_size;
->  	int ret;
->  
->  	ctx->sequence = 0;
->  	ctx->field = V4L2_FIELD_TOP;
-> +	spix = &s_q_data->format.fmt.pix_mp;
-> +	dpix = &d_q_data->format.fmt.pix_mp;
->  
->  	if ((s_q_data->flags & Q_IS_INTERLACED) &&
->  			!(d_q_data->flags & Q_IS_INTERLACED)) {
-> @@ -887,9 +887,9 @@ static int set_srcdst_params(struct vpe_ctx *ctx)
->  		 * extra space will not be used by the de-interlacer, but will
->  		 * ensure that vpdma operates correctly
->  		 */
-> -		bytes_per_line = ALIGN((s_q_data->width * mv->depth) >> 3,
-> -					VPDMA_STRIDE_ALIGN);
-> -		mv_buf_size = bytes_per_line * s_q_data->height;
-> +		bytes_per_line = ALIGN((spix->width * mv->depth) >> 3,
-> +				       VPDMA_STRIDE_ALIGN);
-> +		mv_buf_size = bytes_per_line * spix->height;
->  
->  		ctx->deinterlacing = true;
->  		src_h <<= 1;
-> @@ -909,7 +909,7 @@ static int set_srcdst_params(struct vpe_ctx *ctx)
->  	set_dei_regs(ctx);
->  
->  	csc_set_coeff(ctx->dev->csc, &mmr_adb->csc_regs[0],
-> -		s_q_data->colorspace, d_q_data->colorspace);
-> +		      spix->colorspace, dpix->colorspace);
->  
->  	sc_set_hs_coeffs(ctx->dev->sc, ctx->sc_coeff_h.addr, src_w, dst_w);
->  	sc_set_vs_coeffs(ctx->dev->sc, ctx->sc_coeff_v.addr, src_h, dst_h);
-> @@ -1023,6 +1023,7 @@ static void add_out_dtd(struct vpe_ctx *ctx, int port)
->  	struct vpe_fmt *fmt = q_data->fmt;
->  	const struct vpdma_data_format *vpdma_fmt;
->  	int mv_buf_selector = !ctx->src_mv_buf_selector;
-> +	struct v4l2_pix_format_mplane *pix;
->  	dma_addr_t dma_addr;
->  	u32 flags = 0;
->  	u32 offset = 0;
-> @@ -1032,21 +1033,23 @@ static void add_out_dtd(struct vpe_ctx *ctx, int port)
->  		vpdma_fmt = &vpdma_misc_fmts[VPDMA_DATA_FMT_MV];
->  		dma_addr = ctx->mv_buf_dma[mv_buf_selector];
->  		q_data = &ctx->q_data[Q_DATA_SRC];
-> -		stride = ALIGN((q_data->width * vpdma_fmt->depth) >> 3,
-> +		pix = &q_data->format.fmt.pix_mp;
-> +		stride = ALIGN((pix->width * vpdma_fmt->depth) >> 3,
->  			       VPDMA_STRIDE_ALIGN);
->  	} else {
->  		/* to incorporate interleaved formats */
->  		int plane = fmt->coplanar ? p_data->vb_part : 0;
->  
-> +		pix = &q_data->format.fmt.pix_mp;
->  		vpdma_fmt = fmt->vpdma_fmt[plane];
->  		/*
->  		 * If we are using a single plane buffer and
->  		 * we need to set a separate vpdma chroma channel.
->  		 */
-> -		if (q_data->nplanes == 1 && plane) {
-> +		if (pix->num_planes == 1 && plane) {
->  			dma_addr = vb2_dma_contig_plane_dma_addr(vb, 0);
->  			/* Compute required offset */
-> -			offset = q_data->bytesperline[0] * q_data->height;
-> +			offset = pix->plane_fmt[0].bytesperline * pix->height;
->  		} else {
->  			dma_addr = vb2_dma_contig_plane_dma_addr(vb, plane);
->  			/* Use address as is, no offset */
-> @@ -1060,7 +1063,7 @@ static void add_out_dtd(struct vpe_ctx *ctx, int port)
->  		}
->  		/* Apply the offset */
->  		dma_addr += offset;
-> -		stride = q_data->bytesperline[VPE_LUMA];
-> +		stride = pix->plane_fmt[VPE_LUMA].bytesperline;
->  	}
->  
->  	if (q_data->flags & Q_DATA_FRAME_1D)
-> @@ -1071,7 +1074,7 @@ static void add_out_dtd(struct vpe_ctx *ctx, int port)
->  	vpdma_set_max_size(ctx->dev->vpdma, VPDMA_MAX_SIZE1,
->  			   MAX_W, MAX_H);
->  
-> -	vpdma_add_out_dtd(&ctx->desc_list, q_data->width,
-> +	vpdma_add_out_dtd(&ctx->desc_list, pix->width,
->  			  stride, &q_data->c_rect,
->  			  vpdma_fmt, dma_addr, MAX_OUT_WIDTH_REG1,
->  			  MAX_OUT_HEIGHT_REG1, p_data->channel, flags);
-> @@ -1084,6 +1087,7 @@ static void add_in_dtd(struct vpe_ctx *ctx, int port)
->  	struct vb2_buffer *vb = &ctx->src_vbs[p_data->vb_index]->vb2_buf;
->  	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
->  	struct vpe_fmt *fmt = q_data->fmt;
-> +	struct v4l2_pix_format_mplane *pix;
->  	const struct vpdma_data_format *vpdma_fmt;
->  	int mv_buf_selector = ctx->src_mv_buf_selector;
->  	int field = vbuf->field == V4L2_FIELD_BOTTOM;
-> @@ -1093,10 +1097,11 @@ static void add_in_dtd(struct vpe_ctx *ctx, int port)
->  	u32 offset = 0;
->  	u32 stride;
->  
-> +	pix = &q_data->format.fmt.pix_mp;
->  	if (port == VPE_PORT_MV_IN) {
->  		vpdma_fmt = &vpdma_misc_fmts[VPDMA_DATA_FMT_MV];
->  		dma_addr = ctx->mv_buf_dma[mv_buf_selector];
-> -		stride = ALIGN((q_data->width * vpdma_fmt->depth) >> 3,
-> +		stride = ALIGN((pix->width * vpdma_fmt->depth) >> 3,
->  			       VPDMA_STRIDE_ALIGN);
->  	} else {
->  		/* to incorporate interleaved formats */
-> @@ -1107,10 +1112,10 @@ static void add_in_dtd(struct vpe_ctx *ctx, int port)
->  		 * If we are using a single plane buffer and
->  		 * we need to set a separate vpdma chroma channel.
->  		 */
-> -		if (q_data->nplanes == 1 && plane) {
-> +		if (pix->num_planes == 1 && plane) {
->  			dma_addr = vb2_dma_contig_plane_dma_addr(vb, 0);
->  			/* Compute required offset */
-> -			offset = q_data->bytesperline[0] * q_data->height;
-> +			offset = pix->plane_fmt[0].bytesperline * pix->height;
->  		} else {
->  			dma_addr = vb2_dma_contig_plane_dma_addr(vb, plane);
->  			/* Use address as is, no offset */
-> @@ -1124,7 +1129,7 @@ static void add_in_dtd(struct vpe_ctx *ctx, int port)
->  		}
->  		/* Apply the offset */
->  		dma_addr += offset;
-> -		stride = q_data->bytesperline[VPE_LUMA];
-> +		stride = pix->plane_fmt[VPE_LUMA].bytesperline;
->  
->  		/*
->  		 * field used in VPDMA desc  = 0 (top) / 1 (bottom)
-> @@ -1144,7 +1149,7 @@ static void add_in_dtd(struct vpe_ctx *ctx, int port)
->  			field = (field + p_data->vb_index + ctx->sequence) % 2;
->  
->  			if (field) {
-> -				int height = q_data->height / 2;
-> +				int height = pix->height / 2;
->  				int bpp;
->  
->  				if (fmt->fourcc == V4L2_PIX_FMT_NV12 ||
-> @@ -1156,7 +1161,7 @@ static void add_in_dtd(struct vpe_ctx *ctx, int port)
->  				if (plane)
->  					height /= 2;
->  
-> -				dma_addr += q_data->width * height * bpp;
-> +				dma_addr += pix->width * height * bpp;
->  			}
->  		}
->  	}
-> @@ -1173,7 +1178,7 @@ static void add_in_dtd(struct vpe_ctx *ctx, int port)
->  				fmt->fourcc == V4L2_PIX_FMT_NV21))
->  		frame_height /= 2;
->  
-> -	vpdma_add_in_dtd(&ctx->desc_list, q_data->width, stride,
-> +	vpdma_add_in_dtd(&ctx->desc_list, pix->width, stride,
->  			 &q_data->c_rect, vpdma_fmt, dma_addr,
->  			 p_data->channel, field, flags, frame_width,
->  			 frame_height, 0, 0);
-> @@ -1282,7 +1287,7 @@ static void device_run(void *priv)
->  	if (ctx->deinterlacing)
->  		add_out_dtd(ctx, VPE_PORT_MV_OUT);
->  
-> -	if (d_q_data->colorspace == V4L2_COLORSPACE_SRGB) {
-> +	if (d_q_data->format.fmt.pix_mp.colorspace == V4L2_COLORSPACE_SRGB) {
->  		add_out_dtd(ctx, VPE_PORT_RGB_OUT);
->  	} else {
->  		add_out_dtd(ctx, VPE_PORT_LUMA_OUT);
-> @@ -1324,7 +1329,7 @@ static void device_run(void *priv)
->  	}
->  
->  	/* sync on channel control descriptors for output ports */
-> -	if (d_q_data->colorspace == V4L2_COLORSPACE_SRGB) {
-> +	if (d_q_data->format.fmt.pix_mp.colorspace == V4L2_COLORSPACE_SRGB) {
->  		vpdma_add_sync_on_channel_ctd(&ctx->desc_list,
->  			VPE_CHAN_RGB_OUT);
->  	} else {
-> @@ -1559,7 +1564,6 @@ static int vpe_g_fmt(struct file *file, void *priv, struct v4l2_format *f)
->  	struct vpe_ctx *ctx = file->private_data;
->  	struct vb2_queue *vq;
->  	struct vpe_q_data *q_data;
-> -	int i;
->  
->  	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
->  	if (!vq)
-> @@ -1569,27 +1573,15 @@ static int vpe_g_fmt(struct file *file, void *priv, struct v4l2_format *f)
->  	if (!q_data)
->  		return -EINVAL;
->  
-> -	pix->width = q_data->width;
-> -	pix->height = q_data->height;
-> -	pix->pixelformat = q_data->fmt->fourcc;
-> -	pix->field = q_data->field;
-> +	*f = q_data->format;
->  
-> -	if (V4L2_TYPE_IS_OUTPUT(f->type)) {
-> -		pix->colorspace = q_data->colorspace;
-> -	} else {
-> +	if (!V4L2_TYPE_IS_OUTPUT(f->type)) {
->  		struct vpe_q_data *s_q_data;
->  
->  		/* get colorspace from the source queue */
->  		s_q_data = get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
->  
-> -		pix->colorspace = s_q_data->colorspace;
-> -	}
-> -
-> -	pix->num_planes = q_data->nplanes;
-> -
-> -	for (i = 0; i < pix->num_planes; i++) {
-> -		pix->plane_fmt[i].bytesperline = q_data->bytesperline[i];
-> -		pix->plane_fmt[i].sizeimage = q_data->sizeimage[i];
-> +		pix->colorspace = s_q_data->format.fmt.pix_mp.colorspace;
->  	}
->  
->  	return 0;
-> @@ -1736,10 +1728,8 @@ static int vpe_try_fmt(struct file *file, void *priv, struct v4l2_format *f)
->  static int __vpe_s_fmt(struct vpe_ctx *ctx, struct v4l2_format *f)
->  {
->  	struct v4l2_pix_format_mplane *pix = &f->fmt.pix_mp;
-> -	struct v4l2_plane_pix_format *plane_fmt;
->  	struct vpe_q_data *q_data;
->  	struct vb2_queue *vq;
-> -	int i;
->  
->  	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
->  	if (!vq)
-> @@ -1755,29 +1745,18 @@ static int __vpe_s_fmt(struct vpe_ctx *ctx, struct v4l2_format *f)
->  		return -EINVAL;
->  
->  	q_data->fmt		= find_format(f);
-> -	q_data->width		= pix->width;
-> -	q_data->height		= pix->height;
-> -	q_data->colorspace	= pix->colorspace;
-> -	q_data->field		= pix->field;
-> -	q_data->nplanes		= pix->num_planes;
-> -
-> -	for (i = 0; i < pix->num_planes; i++) {
-> -		plane_fmt = &pix->plane_fmt[i];
-> -
-> -		q_data->bytesperline[i]	= plane_fmt->bytesperline;
-> -		q_data->sizeimage[i]	= plane_fmt->sizeimage;
-> -	}
-> +	q_data->format = *f;
->  
->  	q_data->c_rect.left	= 0;
->  	q_data->c_rect.top	= 0;
-> -	q_data->c_rect.width	= q_data->width;
-> -	q_data->c_rect.height	= q_data->height;
-> +	q_data->c_rect.width	= pix->width;
-> +	q_data->c_rect.height	= pix->height;
->  
-> -	if (q_data->field == V4L2_FIELD_ALTERNATE)
-> +	if (q_data->format.fmt.pix_mp.field == V4L2_FIELD_ALTERNATE)
->  		q_data->flags |= Q_DATA_INTERLACED_ALTERNATE;
-> -	else if (q_data->field == V4L2_FIELD_SEQ_TB)
-> +	else if (q_data->format.fmt.pix_mp.field == V4L2_FIELD_SEQ_TB)
->  		q_data->flags |= Q_DATA_INTERLACED_SEQ_TB;
-> -	else if (q_data->field == V4L2_FIELD_SEQ_BT)
-> +	else if (q_data->format.fmt.pix_mp.field == V4L2_FIELD_SEQ_BT)
->  		q_data->flags |= Q_DATA_INTERLACED_SEQ_BT;
->  	else
->  		q_data->flags &= ~Q_IS_INTERLACED;
-> @@ -1787,11 +1766,11 @@ static int __vpe_s_fmt(struct vpe_ctx *ctx, struct v4l2_format *f)
->  		q_data->c_rect.height /= 2;
->  
->  	vpe_dbg(ctx->dev, "Setting format for type %d, wxh: %dx%d, fmt: %d bpl_y %d",
-> -		f->type, q_data->width, q_data->height, q_data->fmt->fourcc,
-> -		q_data->bytesperline[VPE_LUMA]);
-> -	if (q_data->nplanes == 2)
-> +		f->type, pix->width, pix->height, pix->pixelformat,
-> +		pix->plane_fmt[0].bytesperline);
-> +	if (pix->num_planes == 2)
->  		vpe_dbg(ctx->dev, " bpl_uv %d\n",
-> -			q_data->bytesperline[VPE_CHROMA]);
-> +			pix->plane_fmt[1].bytesperline);
->  
->  	return 0;
->  }
-> @@ -1820,6 +1799,7 @@ static int vpe_s_fmt(struct file *file, void *priv, struct v4l2_format *f)
->  static int __vpe_try_selection(struct vpe_ctx *ctx, struct v4l2_selection *s)
->  {
->  	struct vpe_q_data *q_data;
-> +	struct v4l2_pix_format_mplane *pix;
->  	int height;
->  
->  	if ((s->type != V4L2_BUF_TYPE_VIDEO_CAPTURE) &&
-> @@ -1830,6 +1810,8 @@ static int __vpe_try_selection(struct vpe_ctx *ctx, struct v4l2_selection *s)
->  	if (!q_data)
->  		return -EINVAL;
->  
-> +	pix = &q_data->format.fmt.pix_mp;
 > +
->  	switch (s->target) {
->  	case V4L2_SEL_TGT_COMPOSE:
->  		/*
-> @@ -1860,23 +1842,23 @@ static int __vpe_try_selection(struct vpe_ctx *ctx, struct v4l2_selection *s)
->  	 * the field height, not the buffer height
->  	 */
->  	if (q_data->flags & Q_IS_SEQ_XX)
-> -		height = q_data->height / 2;
-> +		height = pix->height / 2;
->  	else
-> -		height = q_data->height;
-> +		height = pix->height;
->  
->  	if (s->r.top < 0 || s->r.left < 0) {
->  		vpe_err(ctx->dev, "negative values for top and left\n");
->  		s->r.top = s->r.left = 0;
->  	}
->  
-> -	v4l_bound_align_image(&s->r.width, MIN_W, q_data->width, 1,
-> +	v4l_bound_align_image(&s->r.width, MIN_W, pix->width, 1,
->  		&s->r.height, MIN_H, height, H_ALIGN, S_ALIGN);
->  
->  	/* adjust left/top if cropping rectangle is out of bounds */
-> -	if (s->r.left + s->r.width > q_data->width)
-> -		s->r.left = q_data->width - s->r.width;
-> -	if (s->r.top + s->r.height > q_data->height)
-> -		s->r.top = q_data->height - s->r.height;
-> +	if (s->r.left + s->r.width > pix->width)
-> +		s->r.left = pix->width - s->r.width;
-> +	if (s->r.top + s->r.height > pix->height)
-> +		s->r.top = pix->height - s->r.height;
->  
->  	return 0;
->  }
-> @@ -1886,6 +1868,7 @@ static int vpe_g_selection(struct file *file, void *fh,
->  {
->  	struct vpe_ctx *ctx = file->private_data;
->  	struct vpe_q_data *q_data;
-> +	struct v4l2_pix_format_mplane *pix;
->  	bool use_c_rect = false;
->  
->  	if ((s->type != V4L2_BUF_TYPE_VIDEO_CAPTURE) &&
-> @@ -1896,6 +1879,8 @@ static int vpe_g_selection(struct file *file, void *fh,
->  	if (!q_data)
->  		return -EINVAL;
->  
-> +	pix = &q_data->format.fmt.pix_mp;
-> +
->  	switch (s->target) {
->  	case V4L2_SEL_TGT_COMPOSE_DEFAULT:
->  	case V4L2_SEL_TGT_COMPOSE_BOUNDS:
-> @@ -1934,8 +1919,8 @@ static int vpe_g_selection(struct file *file, void *fh,
->  		 */
->  		s->r.left = 0;
->  		s->r.top = 0;
-> -		s->r.width = q_data->width;
-> -		s->r.height = q_data->height;
-> +		s->r.width = pix->width;
-> +		s->r.height = pix->height;
->  	}
->  
->  	return 0;
-> @@ -2043,14 +2028,14 @@ static int vpe_queue_setup(struct vb2_queue *vq,
->  	if (!q_data)
->  		return -EINVAL;
->  
-> -	*nplanes = q_data->nplanes;
-> +	*nplanes = q_data->format.fmt.pix_mp.num_planes;
->  
->  	for (i = 0; i < *nplanes; i++)
-> -		sizes[i] = q_data->sizeimage[i];
-> +		sizes[i] = q_data->format.fmt.pix_mp.plane_fmt[i].sizeimage;
->  
->  	vpe_dbg(ctx->dev, "get %d buffer(s) of size %d", *nbuffers,
->  		sizes[VPE_LUMA]);
-> -	if (q_data->nplanes == 2)
-> +	if (*nplanes == 2)
->  		vpe_dbg(ctx->dev, " and %d\n", sizes[VPE_CHROMA]);
->  
->  	return 0;
-> @@ -2061,14 +2046,16 @@ static int vpe_buf_prepare(struct vb2_buffer *vb)
->  	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
->  	struct vpe_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
->  	struct vpe_q_data *q_data;
-> -	int i, num_planes;
-> +	struct v4l2_pix_format_mplane *pix;
-> +	int i;
->  
->  	vpe_dbg(ctx->dev, "type: %d\n", vb->vb2_queue->type);
->  
->  	q_data = get_q_data(ctx, vb->vb2_queue->type);
->  	if (!q_data)
->  		return -EINVAL;
-> -	num_planes = q_data->nplanes;
-> +
-> +	pix = &q_data->format.fmt.pix_mp;
->  
->  	if (vb->vb2_queue->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
->  		if (!(q_data->flags & Q_IS_INTERLACED)) {
-> @@ -2082,18 +2069,18 @@ static int vpe_buf_prepare(struct vb2_buffer *vb)
->  		}
->  	}
->  
-> -	for (i = 0; i < num_planes; i++) {
-> -		if (vb2_plane_size(vb, i) < q_data->sizeimage[i]) {
-> +	for (i = 0; i < pix->num_planes; i++) {
-> +		if (vb2_plane_size(vb, i) < pix->plane_fmt[i].sizeimage) {
->  			vpe_err(ctx->dev,
->  				"data will not fit into plane (%lu < %lu)\n",
->  				vb2_plane_size(vb, i),
-> -				(long) q_data->sizeimage[i]);
-> +				(long) pix->plane_fmt[i].sizeimage);
->  			return -EINVAL;
->  		}
->  	}
->  
-> -	for (i = 0; i < num_planes; i++)
-> -		vb2_set_plane_payload(vb, i, q_data->sizeimage[i]);
-> +	for (i = 0; i < pix->num_planes; i++)
-> +		vb2_set_plane_payload(vb, i, pix->plane_fmt[i].sizeimage);
->  
->  	return 0;
->  }
-> @@ -2278,6 +2265,7 @@ static int vpe_open(struct file *file)
->  	struct vpe_q_data *s_q_data;
->  	struct v4l2_ctrl_handler *hdl;
->  	struct vpe_ctx *ctx;
-> +	struct v4l2_pix_format_mplane *pix;
->  	int ret;
->  
->  	vpe_dbg(dev, "vpe_open\n");
-> @@ -2326,23 +2314,32 @@ static int vpe_open(struct file *file)
->  	v4l2_ctrl_handler_setup(hdl);
->  
->  	s_q_data = &ctx->q_data[Q_DATA_SRC];
-> +	pix = &s_q_data->format.fmt.pix_mp;
->  	s_q_data->fmt = __find_format(V4L2_PIX_FMT_YUYV);
-> -	s_q_data->width = 1920;
-> -	s_q_data->height = 1080;
-> -	s_q_data->nplanes = 1;
-> -	s_q_data->bytesperline[VPE_LUMA] = (s_q_data->width *
-> +	pix->pixelformat = s_q_data->fmt->fourcc;
-> +	s_q_data->format.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
-> +	pix->width = 1920;
-> +	pix->height = 1080;
-> +	pix->num_planes = 1;
-> +	pix->plane_fmt[VPE_LUMA].bytesperline = (pix->width *
->  			s_q_data->fmt->vpdma_fmt[VPE_LUMA]->depth) >> 3;
-> -	s_q_data->sizeimage[VPE_LUMA] = (s_q_data->bytesperline[VPE_LUMA] *
-> -			s_q_data->height);
-> -	s_q_data->colorspace = V4L2_COLORSPACE_REC709;
-> -	s_q_data->field = V4L2_FIELD_NONE;
-> +	pix->plane_fmt[VPE_LUMA].sizeimage =
-> +			pix->plane_fmt[VPE_LUMA].bytesperline *
-> +			pix->height;
-> +	pix->colorspace = V4L2_COLORSPACE_REC709;
-> +	pix->xfer_func = V4L2_XFER_FUNC_DEFAULT;
-> +	pix->ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
-> +	pix->quantization = V4L2_QUANTIZATION_DEFAULT;
-> +	pix->field = V4L2_FIELD_NONE;
->  	s_q_data->c_rect.left = 0;
->  	s_q_data->c_rect.top = 0;
-> -	s_q_data->c_rect.width = s_q_data->width;
-> -	s_q_data->c_rect.height = s_q_data->height;
-> +	s_q_data->c_rect.width = pix->width;
-> +	s_q_data->c_rect.height = pix->height;
->  	s_q_data->flags = 0;
->  
->  	ctx->q_data[Q_DATA_DST] = *s_q_data;
-> +	ctx->q_data[Q_DATA_DST].format.type =
-> +			V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
->  
->  	set_dei_shadow_registers(ctx);
->  	set_src_registers(ctx);
-> 
+>  	/* Auto/manual white balance */
+>  	ctrls->auto_wb = v4l2_ctrl_new_std(hdl, ops,
+>  					   V4L2_CID_AUTO_WHITE_BALANCE,
 
+-- 
+Sakari Ailus
+sakari.ailus@linux.intel.com
