@@ -2,164 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F482CF140
-	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2019 05:29:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DBCA7CF162
+	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2019 05:42:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729965AbfJHD3k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Oct 2019 23:29:40 -0400
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:46849 "EHLO
-        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729860AbfJHD3i (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Oct 2019 23:29:38 -0400
-Received: by mail-ed1-f65.google.com with SMTP id t3so14284873edw.13
-        for <linux-media@vger.kernel.org>; Mon, 07 Oct 2019 20:29:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=EvafDVJviid1Lod+sDu0bEw60oGKxGZ5GVF0o7ApXbk=;
-        b=Bqopbd1fSDtzVkQJrSaKPt8f5oWAzVJy4oUD3Au2A8ZU2xbsPXki7QEQ6F8ZTZSZHz
-         V2zz9TR2KCF5Ma3jlofSqdC+ChNfxdcaa07+hMltQlqqZRRE21I+gpOzAJJLkuhBAzq5
-         rZ5Z0ip3O/EYiXMt0uDz40T+TuPpnGDBil6u4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=EvafDVJviid1Lod+sDu0bEw60oGKxGZ5GVF0o7ApXbk=;
-        b=QGz0/BN++Rcmn183BrodMrfWmPbyrNyIEYsTKYil/6+mb0Pzyh5pMwV4mLNhobwvVo
-         nWGU4RQ2/R+L/skNcbRhkYtWKAYagGY1967APFFumHH0RjsCrQW7SfVswUARfgaq4q/Z
-         wq/1PY4O0Z3iaWx2P71Kip630zKNPdtmADLtar+o0JEfdC61g1V5Buk2HzBdeGts3v04
-         27cbLuWHWAhTcV0WwzwcGb2trvhCMbekX3hVW+Aqb1tamn76BipmkXs0nnBdj5YZnsjp
-         H7VtDFAiYBCK7MWZltBzG9RWjmurY/9wDIrJVvEXFvW9DaDbaCAuvp70kuauBXrfcQ1H
-         Lz4A==
-X-Gm-Message-State: APjAAAVpUmHMGtEFwqvj/dMcmg4VRFBrEr5+FdNi8XVSv/+oAAoTXdS9
-        g5cMoxlCnGPB489YrPolgLkBMqvwoJKs+Q==
-X-Google-Smtp-Source: APXvYqya8mCPaKu5txruoniJLnYZEvDruCead87H4AJm6YDjIZGE8MxbtezYW5eLyOviU96xSm7Dag==
-X-Received: by 2002:a17:906:b742:: with SMTP id fx2mr27079878ejb.205.1570505375917;
-        Mon, 07 Oct 2019 20:29:35 -0700 (PDT)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com. [209.85.128.54])
-        by smtp.gmail.com with ESMTPSA id f15sm62308ejy.82.2019.10.07.20.29.34
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Oct 2019 20:29:34 -0700 (PDT)
-Received: by mail-wm1-f54.google.com with SMTP id y21so1492676wmi.0
-        for <linux-media@vger.kernel.org>; Mon, 07 Oct 2019 20:29:34 -0700 (PDT)
-X-Received: by 2002:a1c:a516:: with SMTP id o22mr1979936wme.116.1570505374139;
- Mon, 07 Oct 2019 20:29:34 -0700 (PDT)
-MIME-Version: 1.0
-References: <20191007174505.10681-1-ezequiel@collabora.com>
- <20191007174505.10681-4-ezequiel@collabora.com> <HE1PR06MB4011204B3FC2DAABB4BD1BACAC9B0@HE1PR06MB4011.eurprd06.prod.outlook.com>
-In-Reply-To: <HE1PR06MB4011204B3FC2DAABB4BD1BACAC9B0@HE1PR06MB4011.eurprd06.prod.outlook.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Tue, 8 Oct 2019 12:29:22 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5BEPO3nicr1PzRNWoVEzsvKvv5AkqoMVh2AG7qST+bZdA@mail.gmail.com>
-Message-ID: <CAAFQd5BEPO3nicr1PzRNWoVEzsvKvv5AkqoMVh2AG7qST+bZdA@mail.gmail.com>
-Subject: Re: [PATCH v2 for 5.4 3/4] media: hantro: Fix motion vectors usage condition
-To:     Jonas Karlman <jonas@kwiboo.se>
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "kernel@collabora.com" <kernel@collabora.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        "linux-rockchip@lists.infradead.org" 
-        <linux-rockchip@lists.infradead.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        "fbuergisser@chromium.org" <fbuergisser@chromium.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Douglas Anderson <dianders@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S1729860AbfJHDm3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Oct 2019 23:42:29 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:37809 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729772AbfJHDm3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 7 Oct 2019 23:42:29 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:a406:d42:889e:ff00])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id HgOIiSESIjZ8vHgOJi9hiy; Tue, 08 Oct 2019 05:42:27 +0200
+Message-ID: <a8a62ab035f666b4dda2a81fa2283c53@smtp-cloud7.xs4all.net>
+Date:   Tue, 08 Oct 2019 05:42:25 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfJKQWtToKQ6Fa3DDr8MXGzDEEYGjXSXxT91bKuVmXIAEFJDghqS2PQ6oz0TlIV/PHhLwBgB7qxQN372ajXFraTsTLc9r9y6vizIFUXT6Dq8V0VM8cB3I
+ A+QepCDauhA/1Wrd0bvTz4FCnwVBfyfK2H5prtZYjD8wXBHRq61o2LKcINgwx6xUzfSFQAwNkmJiCo6y4BoE1wt2kvIN6trY9tDXlNU8Bo0fjJ+9z0dxTdRQ
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jonas,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On Tue, Oct 8, 2019 at 3:33 AM Jonas Karlman <jonas@kwiboo.se> wrote:
->
-> On 2019-10-07 19:45, Ezequiel Garcia wrote:
-> > From: Francois Buergisser <fbuergisser@chromium.org>
-> >
-> > The setting of the motion vectors usage and the setting of motion
-> > vectors address are currently done under different conditions.
-> >
-> > When decoding pre-recorded videos, this results of leaving the motion
-> > vectors address unset, resulting in faulty memory accesses. Fix it
-> > by using the same condition everywhere, which matches the profiles
-> > that support motion vectors.
->
-> This does not fully match hantro sdk:
->
->   enable direct MV writing and POC tables for high/main streams.
->   enable it also for any "baseline" stream which have main/high tools enabled.
->
->   (sps->profile_idc > 66 && sps->constrained_set0_flag == 0) ||
->   sps->frame_mbs_only_flag != 1 ||
->   sps->chroma_format_idc != 1 ||
->   sps->scaling_matrix_present_flag != 0 ||
->   pps->entropy_coding_mode_flag != 0 ||
->   pps->weighted_pred_flag != 0 ||
->   pps->weighted_bi_pred_idc != 0 ||
->   pps->transform8x8_flag != 0 ||
->   pps->scaling_matrix_present_flag != 0
+Results of the daily build of media_tree:
 
-Thanks for double checking this. I can confirm that it's what Hantro
-SDK does indeed.
+date:			Tue Oct  8 05:00:12 CEST 2019
+media-tree git hash:	4a9fbcbbf069a54e4ceaf36689846400e408640f
+media_build git hash:	cdf64c34183872bfe98d1ea504e3f57e5cf66c9c
+v4l-utils git hash:	e8c0f0c869778a7db691b2924fe9f3d5dd24dc11
+edid-decode git hash:	7d26052f7245664df96079845601ced5335fb2d7
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1-rc1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.5.1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: fb74d4453fd4f857830399be9778a571221bee04
+host hardware:		x86_64
+host os:		5.2.0-3-amd64
 
-However, would a stream with sps->profile_idc <= 66 and those other
-conditions met be still a compliant stream?
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: ERRORS
+linux-3.10.108-x86_64: ERRORS
+linux-3.11.10-i686: ERRORS
+linux-3.11.10-x86_64: ERRORS
+linux-3.12.74-i686: ERRORS
+linux-3.12.74-x86_64: ERRORS
+linux-3.13.11-i686: ERRORS
+linux-3.13.11-x86_64: ERRORS
+linux-3.14.79-i686: ERRORS
+linux-3.14.79-x86_64: ERRORS
+linux-3.15.10-i686: ERRORS
+linux-3.15.10-x86_64: ERRORS
+linux-3.16.63-i686: ERRORS
+linux-3.16.63-x86_64: ERRORS
+linux-3.17.8-i686: ERRORS
+linux-3.17.8-x86_64: ERRORS
+linux-3.18.136-i686: ERRORS
+linux-3.18.136-x86_64: ERRORS
+linux-3.19.8-i686: ERRORS
+linux-3.19.8-x86_64: ERRORS
+linux-4.0.9-i686: ERRORS
+linux-4.0.9-x86_64: ERRORS
+linux-4.1.52-i686: ERRORS
+linux-4.1.52-x86_64: ERRORS
+linux-4.2.8-i686: ERRORS
+linux-4.2.8-x86_64: ERRORS
+linux-4.3.6-i686: ERRORS
+linux-4.3.6-x86_64: ERRORS
+linux-4.4.167-i686: ERRORS
+linux-4.4.167-x86_64: ERRORS
+linux-4.5.7-i686: ERRORS
+linux-4.5.7-x86_64: ERRORS
+linux-4.6.7-i686: ERRORS
+linux-4.6.7-x86_64: ERRORS
+linux-4.7.10-i686: ERRORS
+linux-4.7.10-x86_64: ERRORS
+linux-4.8.17-i686: ERRORS
+linux-4.8.17-x86_64: ERRORS
+linux-4.9.162-i686: ERRORS
+linux-4.9.162-x86_64: ERRORS
+linux-4.10.17-i686: ERRORS
+linux-4.10.17-x86_64: ERRORS
+linux-4.11.12-i686: ERRORS
+linux-4.11.12-x86_64: ERRORS
+linux-4.12.14-i686: ERRORS
+linux-4.12.14-x86_64: ERRORS
+linux-4.13.16-i686: ERRORS
+linux-4.13.16-x86_64: ERRORS
+linux-4.14.105-i686: ERRORS
+linux-4.14.105-x86_64: ERRORS
+linux-4.15.18-i686: ERRORS
+linux-4.15.18-x86_64: ERRORS
+linux-4.16.18-i686: ERRORS
+linux-4.16.18-x86_64: ERRORS
+linux-4.17.19-i686: ERRORS
+linux-4.17.19-x86_64: ERRORS
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4-rc1-i686: OK
+linux-5.4-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2328, Succeeded: 2328, Failed: 0, Warnings: 1
+sparse: OK
 
->
-> Above check is used when DIR_MV_BASE should be written.
-> And WRITE_MVS_E is set to nal_ref_idc != 0 when above is true.
->
-> I think it may be safer to always set DIR_MV_BASE and keep the existing nal_ref_idc check for WRITE_MVS_E.
+Detailed results are available here:
 
-That might have a performance penalty or some other side effects,
-though. Otherwise Hantro SDK wouldn't have enable it conditionally.
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
 
-> (That is what I did in my "media: hantro: H264 fixes and improvements" series, v2 is incoming)
-> Or have you found any video that is having issues in such case?
+Detailed regression test results are available here:
 
-We've been running the code with sps->profile_idc > 66 in production
-for 4 years and haven't seen any reports of a stream that wasn't
-decoded correctly.
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
 
-If we decide to go with a different behavior, I'd suggest thoroughly
-verifying the behavior on a big number of streams, including some
-performance measurements.
+Full logs are available here:
 
-Best regards,
-Tomasz
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
 
->
-> Regards,
-> Jonas
->
-> >
-> > Fixes: dea0a82f3d22 ("media: hantro: Add support for H264 decoding on G1")
-> > Signed-off-by: Francois Buergisser <fbuergisser@chromium.org>
-> > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > ---
-> > v2:
-> > * New patch.
-> >
-> >  drivers/staging/media/hantro/hantro_g1_h264_dec.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/staging/media/hantro/hantro_g1_h264_dec.c b/drivers/staging/media/hantro/hantro_g1_h264_dec.c
-> > index 7ab534936843..c92460407613 100644
-> > --- a/drivers/staging/media/hantro/hantro_g1_h264_dec.c
-> > +++ b/drivers/staging/media/hantro/hantro_g1_h264_dec.c
-> > @@ -35,7 +35,7 @@ static void set_params(struct hantro_ctx *ctx)
-> >       if (sps->flags & V4L2_H264_SPS_FLAG_MB_ADAPTIVE_FRAME_FIELD)
-> >               reg |= G1_REG_DEC_CTRL0_SEQ_MBAFF_E;
-> >       reg |= G1_REG_DEC_CTRL0_PICORD_COUNT_E;
-> > -     if (dec_param->nal_ref_idc)
-> > +     if (sps->profile_idc > 66)
-> >               reg |= G1_REG_DEC_CTRL0_WRITE_MVS_E;
-> >
-> >       if (!(sps->flags & V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY) &&
->
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
