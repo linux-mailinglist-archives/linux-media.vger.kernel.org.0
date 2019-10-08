@@ -2,149 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 96BD8CF5C3
-	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2019 11:13:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB4C6CF5F4
+	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2019 11:25:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729831AbfJHJN0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Oct 2019 05:13:26 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:42940 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729624AbfJHJNZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Oct 2019 05:13:25 -0400
-Received: from dhcp-172-31-174-146.wireless.concordia.ca (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: bbrezillon)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 09F3528F7F5;
-        Tue,  8 Oct 2019 10:13:23 +0100 (BST)
-Date:   Tue, 8 Oct 2019 11:13:20 +0200
-From:   Boris Brezillon <boris.brezillon@collabora.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Hirokazu Honda <hiroh@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Brian Starkey <Brian.Starkey@arm.com>, kernel@collabora.com
-Subject: Re: [RFC PATCH v2 0/7] media: v4l2: Add extended fmt and buffer
- ioctls
-Message-ID: <20191008111320.7b2352b2@dhcp-172-31-174-146.wireless.concordia.ca>
-In-Reply-To: <20191008091119.7294-1-boris.brezillon@collabora.com>
-References: <20191008091119.7294-1-boris.brezillon@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1729767AbfJHJZ5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Oct 2019 05:25:57 -0400
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:34401 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729440AbfJHJZ5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Oct 2019 05:25:57 -0400
+Received: by mail-ed1-f65.google.com with SMTP id p10so15033260edq.1
+        for <linux-media@vger.kernel.org>; Tue, 08 Oct 2019 02:25:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=8FLTNDeQpw5ic8RVn6DsnVa758Xb9dG4nxfxq0sKO2E=;
+        b=LAZ46mJUFAxcnWOyo+nJpPksfRTymGrZL6YYd+E7a+cjrRURnGcoF6tYsGF/NUCFT+
+         e1MS6jNo3DWKh0PAxOG0QL72CXSoMolMNu2qvX/p7ubl3LSBto/qHVvPn5MN6KYnlY/X
+         CJ4yTrWPX2y4MzrTK3h+DfQDr8/xcyWDvi6KY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to:user-agent;
+        bh=8FLTNDeQpw5ic8RVn6DsnVa758Xb9dG4nxfxq0sKO2E=;
+        b=l3YM/ZStXFnj2KcMhp0TeeI7Pv1U8toGkn71yy5Jr2oadGUvDyshiP9zPXhysw3kgw
+         TqN2OeJD1wDgYG8NbpqAYOL558a9uGwimZvt17JGikeuGQF2gTGDercv7AX+sDdf0NZ2
+         Psfn4k683R05GvB9jTlAbpuI8wt74S8noo0atRKdJaHU6QrXaKLf4By+l6uWXf0Az85V
+         idkH+fGhrxoAY3PKEJ5OKQVr0kGy6ave8zRaJUdGNOuzsRjD9DiyUj2+TdxeaheHtZ21
+         M/vAvfVACrhd78CbDRakad5m5qB9+U3vxQ4A/IlTvdpYZyRZczCoWWQNXDaEKNcFaua+
+         eWew==
+X-Gm-Message-State: APjAAAWl9OhwMSO5Y/BPHuqt6IIo+co637WHLR6z586Aqt5qChGDO86O
+        bEN/d7+RE1hysMqf+TTpwlYS8w==
+X-Google-Smtp-Source: APXvYqxZSLLTGUD1CwFlRjRk0T91rOBLKbkbtn+YdWvMVYfBnJL3PUkaczNDbRLz4gJs02C4wNw6yw==
+X-Received: by 2002:a17:906:b298:: with SMTP id q24mr27677774ejz.168.1570526755266;
+        Tue, 08 Oct 2019 02:25:55 -0700 (PDT)
+Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net. [212.51.149.96])
+        by smtp.gmail.com with ESMTPSA id g15sm3721014edp.0.2019.10.08.02.25.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Oct 2019 02:25:54 -0700 (PDT)
+Date:   Tue, 8 Oct 2019 11:25:52 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Christian =?iso-8859-1?Q?K=F6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>
+Cc:     daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+        sumit.semwal@linaro.org, linaro-mm-sig@lists.linaro.org,
+        linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH 2/4] drm/ttm: use the parent resv for ghost objects v2
+Message-ID: <20191008092552.GG16989@phenom.ffwll.local>
+References: <20190829142917.13058-1-christian.koenig@amd.com>
+ <20190829142917.13058-3-christian.koenig@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190829142917.13058-3-christian.koenig@amd.com>
+X-Operating-System: Linux phenom 5.2.0-2-amd64 
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue,  8 Oct 2019 11:11:13 +0200
-Boris Brezillon <boris.brezillon@collabora.com> wrote:
+On Thu, Aug 29, 2019 at 04:29:15PM +0200, Christian König wrote:
+> This way we can even pipeline imported BO evictions.
+> 
+> v2: Limit this to only cases when the parent object uses a separate
+>     reservation object as well. This fixes another OOM problem.
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
 
-Oops, forgot to update the subject. Should be:
+Since I read quite a bit of ttm I figured I'll review this too, but I'm
+totally lost. And git blame gives me at best commits with one-liner commit
+messages, and the docs aren't explaining much at all either (and generally
+they didn't get updated at all with all the changes in the past years). 
 
-"[RFC PATCH v3 0/6] media: v4l2: Add extended fmt and buffer ioctls"
+I have a vague idea of what you're doing here, but not enough to do review
+with any confidence. And from other ttm patches from amd it feels a lot
+like we have essentially a bus factor of 1 for all things ttm :-/
+-Daniel
 
-> Hello,
+> ---
+>  drivers/gpu/drm/ttm/ttm_bo_util.c | 16 +++++++++-------
+>  1 file changed, 9 insertions(+), 7 deletions(-)
 > 
-> This RFC follows the discussion started by Hans [1] a few months back.
-> It does not try to address all the problem reported in this thread but
-> instead focuses on the FMT and BUF(S) ioctls.
-> 
-> Note that my primary goal is to unify handling for multiplanar and
-> singleplanar formats and extend things to support the "single dmabuf
-> storing all pixel planes" issue.
-> 
-> This version received a bit more testing than the previous one (added
-> new tests to v4l2-compliance [2] to make sure EXT ioctls work as
-> expected and also checked that !ext -> ext wrappers work correctly by
-> running the old tests). Note that I'm not planning to post those
-> v4l-utils patches on the ML until we've settled down on the userspace
-> API, unless I'm explicitly asked to do so.
-> 
-> Right now I'm focusing on the case I was primarily interested in:
-> single dmabuf storing all pixel planes (each being at a different
-> offset), and it seems that patching the VB2 core to support that is
-> not a trivial task.
-> 
-> So here are a few questions for V4L/DMABUF experts:
-> - Can the same dmabuf be mapped several times. I think it's okay apart
->   from the extra/needless time spent doing cache maintenance
->   operations, but there might be issues if an IOMMU is involved
->   (duplicate mappings?). If it's not okay, then we need to find a
->   solution to only attach/map the DMABUF once when it's used for
->   several planes (this is what I tried to do here [3], but I'm not
->   entirely happy with the implementation and started to investigate
->   another approach here [4]).
-> - How should we pass the offset to drivers that were previously using
->   the get_cookie() (or the dma_sg wrapper) to retrieve an sg table.
->   Adding the offset to the dma_addr or vaddr for vmalloc or dma-contig
->   case can be done in the core, but for an sg-table it's a bit more
->   complicated. Should drivers access this piece of information
->   directly from vb2_plane->dbuf_offset? And in that case, how do we
->   make sure drivers don't simply ignore the offset and assume it's
->   always zero? 
-> 
-> Few words about the feedback I got from Brian and Nicolas on my v1:
-> 
-> - modifier field has been moved to v4l2_ext_format as suggested
-> - v4l2_timecode is still not present in v4l2_ext_buffer, but can be
->   added back thanks to the extra reserved space
-> - the ENUMFMT is left as is for now, because I think we want Maxime's
->   work on DRM/V4L format unification to land before reworking the
->   ioctl (exposing extra info about the format and not only the 4CC
->   code?). That also means that there's currently no way to know which
->   modifiers are supported
-> - EXT_FMT/EXT_BUF capability flags to detect whether new ioctls are
->   supported or not have not been added yet
-> 
-> Nothing has changed in v3, just rebased patches on top of media/master
-> so we can discuss it during the Media Summit.
-> 
-> Regards,
-> 
-> Boris
-> 
-> [1]https://www.mail-archive.com/linux-media@vger.kernel.org/msg135729.html
-> [2]https://github.com/bbrezillon/v4l-utils/commits/master
-> [3]https://github.com/bbrezillon/linux/commit/4882435f80b05a61827649d55cc0f0cee79680a7
-> [4]https://github.com/bbrezillon/linux/commit/a415216c6aaab2d51f0bd62270b994c8196ddd90
-> 
-> Boris Brezillon (5):
->   media: v4l2: Extend pixel formats to unify single/multi-planar
->     handling (and more)
->   media: videobuf2: Expose helpers to implement the _ext_fmt and
->     _ext_buf hooks
->   media: mediabus: Add an helper to convert a ext_pix format to an
->     mbus_fmt
->   media: vivid: Convert the capture and output drivers to
->     EXT_FMT/EXT_BUF
->   media: vimc: Implement the ext_fmt and ext_buf hooks
-> 
-> Hans Verkuil (1):
->   media: v4l2: Add extended buffer operations
-> 
->  .../media/common/videobuf2/videobuf2-core.c   |    2 +
->  .../media/common/videobuf2/videobuf2-v4l2.c   |  534 ++++----
->  drivers/media/platform/vimc/vimc-capture.c    |   65 +-
->  drivers/media/platform/vimc/vimc-common.c     |    4 +-
->  drivers/media/platform/vimc/vimc-common.h     |    2 +-
->  drivers/media/platform/vivid/vivid-core.c     |   30 +-
->  drivers/media/platform/vivid/vivid-vid-cap.c  |  171 +--
->  drivers/media/platform/vivid/vivid-vid-cap.h  |   15 +-
->  drivers/media/platform/vivid/vivid-vid-out.c  |  195 +--
->  drivers/media/platform/vivid/vivid-vid-out.h  |   15 +-
->  drivers/media/v4l2-core/v4l2-dev.c            |   54 +-
->  drivers/media/v4l2-core/v4l2-ioctl.c          | 1127 +++++++++++++++--
->  include/media/v4l2-ioctl.h                    |   63 +
->  include/media/v4l2-mediabus.h                 |   22 +
->  include/media/videobuf2-core.h                |    6 +-
->  include/media/videobuf2-v4l2.h                |   26 +-
->  include/uapi/linux/videodev2.h                |  211 +++
->  17 files changed, 1897 insertions(+), 645 deletions(-)
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> index fe81c565e7ef..2ebe9fe7f6c8 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo_util.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
+> @@ -517,7 +517,9 @@ static int ttm_buffer_object_transfer(struct ttm_buffer_object *bo,
+>  	kref_init(&fbo->base.kref);
+>  	fbo->base.destroy = &ttm_transfered_destroy;
+>  	fbo->base.acc_size = 0;
+> -	fbo->base.base.resv = &fbo->base.base._resv;
+> +	if (bo->base.resv == &bo->base._resv)
+> +		fbo->base.base.resv = &fbo->base.base._resv;
+> +
+>  	dma_resv_init(fbo->base.base.resv);
+>  	ret = dma_resv_trylock(fbo->base.base.resv);
+>  	WARN_ON(!ret);
+> @@ -716,7 +718,7 @@ int ttm_bo_move_accel_cleanup(struct ttm_buffer_object *bo,
+>  		if (ret)
+>  			return ret;
+>  
+> -		dma_resv_add_excl_fence(ghost_obj->base.resv, fence);
+> +		dma_resv_add_excl_fence(&ghost_obj->base._resv, fence);
+>  
+>  		/**
+>  		 * If we're not moving to fixed memory, the TTM object
+> @@ -729,7 +731,7 @@ int ttm_bo_move_accel_cleanup(struct ttm_buffer_object *bo,
+>  		else
+>  			bo->ttm = NULL;
+>  
+> -		ttm_bo_unreserve(ghost_obj);
+> +		dma_resv_unlock(&ghost_obj->base._resv);
+>  		ttm_bo_put(ghost_obj);
+>  	}
+>  
+> @@ -772,7 +774,7 @@ int ttm_bo_pipeline_move(struct ttm_buffer_object *bo,
+>  		if (ret)
+>  			return ret;
+>  
+> -		dma_resv_add_excl_fence(ghost_obj->base.resv, fence);
+> +		dma_resv_add_excl_fence(&ghost_obj->base._resv, fence);
+>  
+>  		/**
+>  		 * If we're not moving to fixed memory, the TTM object
+> @@ -785,7 +787,7 @@ int ttm_bo_pipeline_move(struct ttm_buffer_object *bo,
+>  		else
+>  			bo->ttm = NULL;
+>  
+> -		ttm_bo_unreserve(ghost_obj);
+> +		dma_resv_unlock(&ghost_obj->base._resv);
+>  		ttm_bo_put(ghost_obj);
+>  
+>  	} else if (from->flags & TTM_MEMTYPE_FLAG_FIXED) {
+> @@ -841,7 +843,7 @@ int ttm_bo_pipeline_gutting(struct ttm_buffer_object *bo)
+>  	if (ret)
+>  		return ret;
+>  
+> -	ret = dma_resv_copy_fences(ghost->base.resv, bo->base.resv);
+> +	ret = dma_resv_copy_fences(&ghost->base._resv, bo->base.resv);
+>  	/* Last resort, wait for the BO to be idle when we are OOM */
+>  	if (ret)
+>  		ttm_bo_wait(bo, false, false);
+> @@ -850,7 +852,7 @@ int ttm_bo_pipeline_gutting(struct ttm_buffer_object *bo)
+>  	bo->mem.mem_type = TTM_PL_SYSTEM;
+>  	bo->ttm = NULL;
+>  
+> -	ttm_bo_unreserve(ghost);
+> +	dma_resv_unlock(&ghost->base._resv);
+>  	ttm_bo_put(ghost);
+>  
+>  	return 0;
+> -- 
+> 2.17.1
 > 
 
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
