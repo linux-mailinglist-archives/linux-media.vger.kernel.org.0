@@ -2,21 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2AC45CF5BC
-	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2019 11:11:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 96BD8CF5C3
+	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2019 11:13:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729944AbfJHJLa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Oct 2019 05:11:30 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:42916 "EHLO
+        id S1729831AbfJHJN0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Oct 2019 05:13:26 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:42940 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729893AbfJHJL3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Oct 2019 05:11:29 -0400
-Received: from localhost.localdomain (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+        with ESMTP id S1729624AbfJHJNZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Oct 2019 05:13:25 -0400
+Received: from dhcp-172-31-174-146.wireless.concordia.ca (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
         (Authenticated sender: bbrezillon)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 866AB28F7F9;
-        Tue,  8 Oct 2019 10:11:27 +0100 (BST)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 09F3528F7F5;
+        Tue,  8 Oct 2019 10:13:23 +0100 (BST)
+Date:   Tue, 8 Oct 2019 11:13:20 +0200
 From:   Boris Brezillon <boris.brezillon@collabora.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hans.verkuil@cisco.com>,
@@ -25,247 +26,125 @@ To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
 Cc:     Tomasz Figa <tfiga@chromium.org>,
         Hirokazu Honda <hiroh@chromium.org>,
         Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Brian Starkey <Brian.Starkey@arm.com>, kernel@collabora.com,
-        Boris Brezillon <boris.brezillon@collabora.com>
-Subject: [RFC PATCH v3 6/6] media: vimc: Implement the ext_fmt and ext_buf hooks
-Date:   Tue,  8 Oct 2019 11:11:19 +0200
-Message-Id: <20191008091119.7294-7-boris.brezillon@collabora.com>
-X-Mailer: git-send-email 2.21.0
+        Brian Starkey <Brian.Starkey@arm.com>, kernel@collabora.com
+Subject: Re: [RFC PATCH v2 0/7] media: v4l2: Add extended fmt and buffer
+ ioctls
+Message-ID: <20191008111320.7b2352b2@dhcp-172-31-174-146.wireless.concordia.ca>
 In-Reply-To: <20191008091119.7294-1-boris.brezillon@collabora.com>
 References: <20191008091119.7294-1-boris.brezillon@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Convert the driver to the _ext_fmt and _ext_buf API.
+On Tue,  8 Oct 2019 11:11:13 +0200
+Boris Brezillon <boris.brezillon@collabora.com> wrote:
 
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
----
-Changes in v3:
-- Rebased on top of media/master (post 5.4-rc1)
+Oops, forgot to update the subject. Should be:
 
-Changes in v2:
-- New patch
----
- drivers/media/platform/vimc/vimc-capture.c | 65 +++++++++++-----------
- drivers/media/platform/vimc/vimc-common.c  |  4 +-
- drivers/media/platform/vimc/vimc-common.h  |  2 +-
- 3 files changed, 36 insertions(+), 35 deletions(-)
+"[RFC PATCH v3 0/6] media: v4l2: Add extended fmt and buffer ioctls"
 
-diff --git a/drivers/media/platform/vimc/vimc-capture.c b/drivers/media/platform/vimc/vimc-capture.c
-index 602f80323031..8a9d0039bf6e 100644
---- a/drivers/media/platform/vimc/vimc-capture.c
-+++ b/drivers/media/platform/vimc/vimc-capture.c
-@@ -16,7 +16,7 @@ struct vimc_cap_device {
- 	struct vimc_ent_device ved;
- 	struct video_device vdev;
- 	struct device *dev;
--	struct v4l2_pix_format format;
-+	struct v4l2_ext_pix_format format;
- 	struct vb2_queue queue;
- 	struct list_head buf_list;
- 	/*
-@@ -32,12 +32,13 @@ struct vimc_cap_device {
- 	struct vimc_stream stream;
- };
- 
--static const struct v4l2_pix_format fmt_default = {
-+static const struct v4l2_ext_pix_format fmt_default = {
- 	.width = 640,
- 	.height = 480,
- 	.pixelformat = V4L2_PIX_FMT_RGB24,
- 	.field = V4L2_FIELD_NONE,
- 	.colorspace = V4L2_COLORSPACE_DEFAULT,
-+	.num_planes = 1,
- };
- 
- struct vimc_cap_buffer {
-@@ -63,7 +64,7 @@ static int vimc_cap_querycap(struct file *file, void *priv,
- }
- 
- static void vimc_cap_get_format(struct vimc_ent_device *ved,
--				struct v4l2_pix_format *fmt)
-+				struct v4l2_ext_pix_format *fmt)
- {
- 	struct vimc_cap_device *vcap = container_of(ved, struct vimc_cap_device,
- 						    ved);
-@@ -72,19 +73,18 @@ static void vimc_cap_get_format(struct vimc_ent_device *ved,
- }
- 
- static int vimc_cap_g_fmt_vid_cap(struct file *file, void *priv,
--				  struct v4l2_format *f)
-+				  struct v4l2_ext_pix_format *f)
- {
- 	struct vimc_cap_device *vcap = video_drvdata(file);
- 
--	f->fmt.pix = vcap->format;
-+	*f = vcap->format;
- 
- 	return 0;
- }
- 
- static int vimc_cap_try_fmt_vid_cap(struct file *file, void *priv,
--				    struct v4l2_format *f)
-+				    struct v4l2_ext_pix_format *format)
- {
--	struct v4l2_pix_format *format = &f->fmt.pix;
- 	const struct vimc_pix_map *vpix;
- 
- 	format->width = clamp_t(u32, format->width, VIMC_FRAME_MIN_WIDTH,
-@@ -99,8 +99,10 @@ static int vimc_cap_try_fmt_vid_cap(struct file *file, void *priv,
- 		vpix = vimc_pix_map_by_pixelformat(format->pixelformat);
- 	}
- 	/* TODO: Add support for custom bytesperline values */
--	format->bytesperline = format->width * vpix->bpp;
--	format->sizeimage = format->bytesperline * format->height;
-+	format->num_planes = 1;
-+	format->plane_fmt[0].bytesperline = format->width * vpix->bpp;
-+	format->plane_fmt[0].sizeimage = format->plane_fmt[0].bytesperline *
-+					 format->height;
- 
- 	if (format->field == V4L2_FIELD_ANY)
- 		format->field = fmt_default.field;
-@@ -111,7 +113,7 @@ static int vimc_cap_try_fmt_vid_cap(struct file *file, void *priv,
- }
- 
- static int vimc_cap_s_fmt_vid_cap(struct file *file, void *priv,
--				  struct v4l2_format *f)
-+				  struct v4l2_ext_pix_format *f)
- {
- 	struct vimc_cap_device *vcap = video_drvdata(file);
- 	int ret;
-@@ -133,12 +135,10 @@ static int vimc_cap_s_fmt_vid_cap(struct file *file, void *priv,
- 		vcap->format.quantization, vcap->format.xfer_func,
- 		vcap->format.ycbcr_enc,
- 		/* new */
--		f->fmt.pix.width, f->fmt.pix.height,
--		f->fmt.pix.pixelformat,	f->fmt.pix.colorspace,
--		f->fmt.pix.quantization, f->fmt.pix.xfer_func,
--		f->fmt.pix.ycbcr_enc);
-+		f->width, f->height, f->pixelformat, f->colorspace,
-+		f->quantization, f->xfer_func, f->ycbcr_enc);
- 
--	vcap->format = f->fmt.pix;
-+	vcap->format = *f;
- 
- 	return 0;
- }
-@@ -193,19 +193,19 @@ static const struct v4l2_file_operations vimc_cap_fops = {
- static const struct v4l2_ioctl_ops vimc_cap_ioctl_ops = {
- 	.vidioc_querycap = vimc_cap_querycap,
- 
--	.vidioc_g_fmt_vid_cap = vimc_cap_g_fmt_vid_cap,
--	.vidioc_s_fmt_vid_cap = vimc_cap_s_fmt_vid_cap,
--	.vidioc_try_fmt_vid_cap = vimc_cap_try_fmt_vid_cap,
-+	.vidioc_g_ext_fmt_vid_cap = vimc_cap_g_fmt_vid_cap,
-+	.vidioc_s_ext_fmt_vid_cap = vimc_cap_s_fmt_vid_cap,
-+	.vidioc_try_ext_fmt_vid_cap = vimc_cap_try_fmt_vid_cap,
- 	.vidioc_enum_fmt_vid_cap = vimc_cap_enum_fmt_vid_cap,
- 	.vidioc_enum_framesizes = vimc_cap_enum_framesizes,
- 
- 	.vidioc_reqbufs = vb2_ioctl_reqbufs,
--	.vidioc_create_bufs = vb2_ioctl_create_bufs,
--	.vidioc_prepare_buf = vb2_ioctl_prepare_buf,
--	.vidioc_querybuf = vb2_ioctl_querybuf,
--	.vidioc_qbuf = vb2_ioctl_qbuf,
--	.vidioc_dqbuf = vb2_ioctl_dqbuf,
--	.vidioc_expbuf = vb2_ioctl_expbuf,
-+	.vidioc_ext_create_bufs = vb2_ioctl_ext_create_bufs,
-+	.vidioc_ext_prepare_buf = vb2_ioctl_ext_prepare_buf,
-+	.vidioc_ext_querybuf = vb2_ioctl_ext_querybuf,
-+	.vidioc_ext_qbuf = vb2_ioctl_ext_qbuf,
-+	.vidioc_ext_dqbuf = vb2_ioctl_ext_dqbuf,
-+	.vidioc_ext_expbuf = vb2_ioctl_ext_expbuf,
- 	.vidioc_streamon = vb2_ioctl_streamon,
- 	.vidioc_streamoff = vb2_ioctl_streamoff,
- };
-@@ -286,10 +286,11 @@ static int vimc_cap_queue_setup(struct vb2_queue *vq, unsigned int *nbuffers,
- 	struct vimc_cap_device *vcap = vb2_get_drv_priv(vq);
- 
- 	if (*nplanes)
--		return sizes[0] < vcap->format.sizeimage ? -EINVAL : 0;
-+		return sizes[0] < vcap->format.plane_fmt[0].sizeimage ?
-+		       -EINVAL : 0;
- 	/* We don't support multiplanes for now */
- 	*nplanes = 1;
--	sizes[0] = vcap->format.sizeimage;
-+	sizes[0] = vcap->format.plane_fmt[0].sizeimage;
- 
- 	return 0;
- }
-@@ -297,7 +298,7 @@ static int vimc_cap_queue_setup(struct vb2_queue *vq, unsigned int *nbuffers,
- static int vimc_cap_buffer_prepare(struct vb2_buffer *vb)
- {
- 	struct vimc_cap_device *vcap = vb2_get_drv_priv(vb->vb2_queue);
--	unsigned long size = vcap->format.sizeimage;
-+	unsigned long size = vcap->format.plane_fmt[0].sizeimage;
- 
- 	if (vb2_plane_size(vb, 0) < size) {
- 		dev_err(vcap->dev, "%s: buffer too small (%lu < %lu)\n",
-@@ -374,11 +375,11 @@ static void *vimc_cap_process_frame(struct vimc_ent_device *ved,
- 
- 	vbuf = vb2_plane_vaddr(&vimc_buf->vb2.vb2_buf, 0);
- 
--	memcpy(vbuf, frame, vcap->format.sizeimage);
-+	memcpy(vbuf, frame, vcap->format.plane_fmt[0].sizeimage);
- 
- 	/* Set it as ready */
- 	vb2_set_plane_payload(&vimc_buf->vb2.vb2_buf, 0,
--			      vcap->format.sizeimage);
-+			      vcap->format.plane_fmt[0].sizeimage);
- 	vb2_buffer_done(&vimc_buf->vb2.vb2_buf, VB2_BUF_STATE_DONE);
- 	return NULL;
- }
-@@ -443,9 +444,9 @@ struct vimc_ent_device *vimc_cap_add(struct vimc_device *vimc,
- 	/* Set default frame format */
- 	vcap->format = fmt_default;
- 	vpix = vimc_pix_map_by_pixelformat(vcap->format.pixelformat);
--	vcap->format.bytesperline = vcap->format.width * vpix->bpp;
--	vcap->format.sizeimage = vcap->format.bytesperline *
--				 vcap->format.height;
-+	vcap->format.plane_fmt[0].bytesperline = vcap->format.width * vpix->bpp;
-+	vcap->format.plane_fmt[0].sizeimage = vcap->format.plane_fmt[0].bytesperline *
-+					      vcap->format.height;
- 
- 	/* Fill the vimc_ent_device struct */
- 	vcap->ved.ent = &vcap->vdev.entity;
-diff --git a/drivers/media/platform/vimc/vimc-common.c b/drivers/media/platform/vimc/vimc-common.c
-index a3120f4f7a90..c10cb3e9b934 100644
---- a/drivers/media/platform/vimc/vimc-common.c
-+++ b/drivers/media/platform/vimc/vimc-common.c
-@@ -268,14 +268,14 @@ static int vimc_get_mbus_format(struct media_pad *pad,
- 							 entity);
- 		struct vimc_ent_device *ved = video_get_drvdata(vdev);
- 		const struct vimc_pix_map *vpix;
--		struct v4l2_pix_format vdev_fmt;
-+		struct v4l2_ext_pix_format vdev_fmt;
- 
- 		if (!ved->vdev_get_format)
- 			return -ENOIOCTLCMD;
- 
- 		ved->vdev_get_format(ved, &vdev_fmt);
- 		vpix = vimc_pix_map_by_pixelformat(vdev_fmt.pixelformat);
--		v4l2_fill_mbus_format(&fmt->format, &vdev_fmt, vpix->code);
-+		v4l2_fill_mbus_format_ext(&fmt->format, &vdev_fmt, vpix->code);
- 	} else {
- 		return -EINVAL;
- 	}
-diff --git a/drivers/media/platform/vimc/vimc-common.h b/drivers/media/platform/vimc/vimc-common.h
-index 698db7c07645..21bbe31c8029 100644
---- a/drivers/media/platform/vimc/vimc-common.h
-+++ b/drivers/media/platform/vimc/vimc-common.h
-@@ -113,7 +113,7 @@ struct vimc_ent_device {
- 	void * (*process_frame)(struct vimc_ent_device *ved,
- 				const void *frame);
- 	void (*vdev_get_format)(struct vimc_ent_device *ved,
--			      struct v4l2_pix_format *fmt);
-+				struct v4l2_ext_pix_format *fmt);
- };
- 
- /**
--- 
-2.21.0
+> Hello,
+> 
+> This RFC follows the discussion started by Hans [1] a few months back.
+> It does not try to address all the problem reported in this thread but
+> instead focuses on the FMT and BUF(S) ioctls.
+> 
+> Note that my primary goal is to unify handling for multiplanar and
+> singleplanar formats and extend things to support the "single dmabuf
+> storing all pixel planes" issue.
+> 
+> This version received a bit more testing than the previous one (added
+> new tests to v4l2-compliance [2] to make sure EXT ioctls work as
+> expected and also checked that !ext -> ext wrappers work correctly by
+> running the old tests). Note that I'm not planning to post those
+> v4l-utils patches on the ML until we've settled down on the userspace
+> API, unless I'm explicitly asked to do so.
+> 
+> Right now I'm focusing on the case I was primarily interested in:
+> single dmabuf storing all pixel planes (each being at a different
+> offset), and it seems that patching the VB2 core to support that is
+> not a trivial task.
+> 
+> So here are a few questions for V4L/DMABUF experts:
+> - Can the same dmabuf be mapped several times. I think it's okay apart
+>   from the extra/needless time spent doing cache maintenance
+>   operations, but there might be issues if an IOMMU is involved
+>   (duplicate mappings?). If it's not okay, then we need to find a
+>   solution to only attach/map the DMABUF once when it's used for
+>   several planes (this is what I tried to do here [3], but I'm not
+>   entirely happy with the implementation and started to investigate
+>   another approach here [4]).
+> - How should we pass the offset to drivers that were previously using
+>   the get_cookie() (or the dma_sg wrapper) to retrieve an sg table.
+>   Adding the offset to the dma_addr or vaddr for vmalloc or dma-contig
+>   case can be done in the core, but for an sg-table it's a bit more
+>   complicated. Should drivers access this piece of information
+>   directly from vb2_plane->dbuf_offset? And in that case, how do we
+>   make sure drivers don't simply ignore the offset and assume it's
+>   always zero? 
+> 
+> Few words about the feedback I got from Brian and Nicolas on my v1:
+> 
+> - modifier field has been moved to v4l2_ext_format as suggested
+> - v4l2_timecode is still not present in v4l2_ext_buffer, but can be
+>   added back thanks to the extra reserved space
+> - the ENUMFMT is left as is for now, because I think we want Maxime's
+>   work on DRM/V4L format unification to land before reworking the
+>   ioctl (exposing extra info about the format and not only the 4CC
+>   code?). That also means that there's currently no way to know which
+>   modifiers are supported
+> - EXT_FMT/EXT_BUF capability flags to detect whether new ioctls are
+>   supported or not have not been added yet
+> 
+> Nothing has changed in v3, just rebased patches on top of media/master
+> so we can discuss it during the Media Summit.
+> 
+> Regards,
+> 
+> Boris
+> 
+> [1]https://www.mail-archive.com/linux-media@vger.kernel.org/msg135729.html
+> [2]https://github.com/bbrezillon/v4l-utils/commits/master
+> [3]https://github.com/bbrezillon/linux/commit/4882435f80b05a61827649d55cc0f0cee79680a7
+> [4]https://github.com/bbrezillon/linux/commit/a415216c6aaab2d51f0bd62270b994c8196ddd90
+> 
+> Boris Brezillon (5):
+>   media: v4l2: Extend pixel formats to unify single/multi-planar
+>     handling (and more)
+>   media: videobuf2: Expose helpers to implement the _ext_fmt and
+>     _ext_buf hooks
+>   media: mediabus: Add an helper to convert a ext_pix format to an
+>     mbus_fmt
+>   media: vivid: Convert the capture and output drivers to
+>     EXT_FMT/EXT_BUF
+>   media: vimc: Implement the ext_fmt and ext_buf hooks
+> 
+> Hans Verkuil (1):
+>   media: v4l2: Add extended buffer operations
+> 
+>  .../media/common/videobuf2/videobuf2-core.c   |    2 +
+>  .../media/common/videobuf2/videobuf2-v4l2.c   |  534 ++++----
+>  drivers/media/platform/vimc/vimc-capture.c    |   65 +-
+>  drivers/media/platform/vimc/vimc-common.c     |    4 +-
+>  drivers/media/platform/vimc/vimc-common.h     |    2 +-
+>  drivers/media/platform/vivid/vivid-core.c     |   30 +-
+>  drivers/media/platform/vivid/vivid-vid-cap.c  |  171 +--
+>  drivers/media/platform/vivid/vivid-vid-cap.h  |   15 +-
+>  drivers/media/platform/vivid/vivid-vid-out.c  |  195 +--
+>  drivers/media/platform/vivid/vivid-vid-out.h  |   15 +-
+>  drivers/media/v4l2-core/v4l2-dev.c            |   54 +-
+>  drivers/media/v4l2-core/v4l2-ioctl.c          | 1127 +++++++++++++++--
+>  include/media/v4l2-ioctl.h                    |   63 +
+>  include/media/v4l2-mediabus.h                 |   22 +
+>  include/media/videobuf2-core.h                |    6 +-
+>  include/media/videobuf2-v4l2.h                |   26 +-
+>  include/uapi/linux/videodev2.h                |  211 +++
+>  17 files changed, 1897 insertions(+), 645 deletions(-)
+> 
 
