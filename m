@@ -2,65 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 32BAECFA13
+	by mail.lfdr.de (Postfix) with ESMTP id 9B3FCCFA14
 	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2019 14:39:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730923AbfJHMir (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Oct 2019 08:38:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37518 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730694AbfJHMiq (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 8 Oct 2019 08:38:46 -0400
-Received: from localhost (unknown [89.205.136.155])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 374482070B;
-        Tue,  8 Oct 2019 12:38:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1570538325;
-        bh=5jyR2aunmnx/KUpswmJ5Ko60ltn0ViqTwRLPlVma8YE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=R50pLwqIPWvn/qF5BWUABdDTrtC8oJK4Y3/3i+74pbAl8abTJ7FiHInm1Tq7J8RKv
-         lz+gl/e96FARB8H+3KV7+h1BF6UXSaU2wXo/qNcWFc1shsyCjEEIWtbxSxMtZxH6wI
-         6zYcWCAie+RkPzzRrlS8XvJ3FRv/OCx9ZDIg9gNQ=
-Date:   Tue, 8 Oct 2019 14:38:41 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     hariprasad@osuosl.org, Kelam@osuosl.org, hariprasad.kelam@gmail.com
-Cc:     devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
-        Maxime Ripard <mripard@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH] staging: media: sunxi: make use of
- devm_platform_ioremap_resource
-Message-ID: <20191008123841.GC2763989@kroah.com>
-References: <1570517975-32648-1-git-send-email-hariprasad.kelam@gmail.com>
+        id S1730915AbfJHMi4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Oct 2019 08:38:56 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:43883 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730859AbfJHMi4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Oct 2019 08:38:56 -0400
+Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.pengutronix.de.)
+        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1iHolS-00047F-LU; Tue, 08 Oct 2019 14:38:54 +0200
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     linux-media@vger.kernel.org
+Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Jonas Karlman <jonas@kwiboo.se>, kernel@pengutronix.de
+Subject: [PATCH] media: hantro: relax s_fmt(out) busy error
+Date:   Tue,  8 Oct 2019 14:38:50 +0200
+Message-Id: <20191008123850.641-1-p.zabel@pengutronix.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1570517975-32648-1-git-send-email-hariprasad.kelam@gmail.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Oct 08, 2019 at 12:29:34PM +0530, hariprasad@osuosl.org wrote:
-> From: Hariprasad Kelam <hariprasad.kelam@gmail.com>
-> 
-> fix below issue reported by coccicheck
-> drivers/staging//media/sunxi/cedrus/cedrus_hw.c:229:1-10: WARNING: Use
-> devm_platform_ioremap_resource for dev -> base
-> 
-> Signed-off-by: Hariprasad Kelam <hariprasad.kelam@gmail.com>
-> ---
->  drivers/staging/media/sunxi/cedrus/cedrus_hw.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
+Setting the output format resets the capture queue, so we return -EBUSY
+while the capture queue has buffers allocated. If capture dimensions
+and pixel format don't change though, we can allow setting the output
+format without reallocating the capture queue.
 
-I've dropped all of your patches, please fix up your tool and resend
-this as a patch series so we know what order to apply them in.
+Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+---
+This applies on top of https://patchwork.linuxtv.org/patch/59337/
+("media: hantro: Fix s_fmt for dynamic resolution changes").
+---
+ drivers/staging/media/hantro/hantro_v4l2.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
-thanks,
+diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
+index 586d243cc3cc..05c3edce27a9 100644
+--- a/drivers/staging/media/hantro/hantro_v4l2.c
++++ b/drivers/staging/media/hantro/hantro_v4l2.c
+@@ -368,7 +368,7 @@ vidioc_s_fmt_out_mplane(struct file *file, void *priv, struct v4l2_format *f)
+ 	struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
+ 	struct hantro_ctx *ctx = fh_to_ctx(priv);
+ 	struct vb2_queue *vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
+-	const struct hantro_fmt *formats;
++	const struct hantro_fmt *raw_vpu_fmt, *formats;
+ 	unsigned int num_fmts;
+ 	int ret;
+ 
+@@ -394,8 +394,16 @@ vidioc_s_fmt_out_mplane(struct file *file, void *priv, struct v4l2_format *f)
+ 		 */
+ 		peer_vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
+ 					  V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
+-		if (vb2_is_busy(peer_vq))
+-			return -EBUSY;
++		if (vb2_is_busy(peer_vq)) {
++			formats = hantro_get_formats(ctx, &num_fmts);
++			raw_vpu_fmt = hantro_get_default_fmt(formats, num_fmts,
++							     false);
++
++			if (ctx->dst_fmt.width != pix_mp->width ||
++			    ctx->dst_fmt.height != pix_mp->height ||
++			    ctx->dst_fmt.pixelformat != raw_vpu_fmt->fourcc)
++				return -EBUSY;
++		}
+ 	} else {
+ 		/*
+ 		 * The encoder doesn't admit a format change if
+-- 
+2.20.1
 
-greg k-h
