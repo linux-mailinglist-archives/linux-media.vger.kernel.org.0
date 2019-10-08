@@ -2,168 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D5490CFB63
-	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2019 15:34:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F13FCFB68
+	for <lists+linux-media@lfdr.de>; Tue,  8 Oct 2019 15:36:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730970AbfJHNeU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Oct 2019 09:34:20 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:46548 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730301AbfJHNeT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Oct 2019 09:34:19 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dafna)
-        with ESMTPSA id 80F9228FC04
-Message-ID: <de9004d5fc9d18684537914dffaf4c95fbf15de5.camel@collabora.com>
-Subject: Re: [PATCH 1/5] media: vimc: upon streaming, check that the
- pipeline starts with a source entity
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-To:     Shuah Khan <skhan@linuxfoundation.org>, linux-media@vger.kernel.org
-Cc:     laurent.pinchart@ideasonboard.com, helen.koike@collabora.com,
-        ezequiel@collabora.com, andre.almeida@collabora.com,
-        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com
-Date:   Tue, 08 Oct 2019 15:34:14 +0200
-In-Reply-To: <45a7e861-97ad-6149-610d-49bf8343215f@linuxfoundation.org>
-References: <20190919203208.12515-1-dafna.hirschfeld@collabora.com>
-         <20190919203208.12515-2-dafna.hirschfeld@collabora.com>
-         <45a7e861-97ad-6149-610d-49bf8343215f@linuxfoundation.org>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.30.5-1.1 
+        id S1731052AbfJHNf7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Oct 2019 09:35:59 -0400
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:45668 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731033AbfJHNf7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Oct 2019 09:35:59 -0400
+Received: by mail-ed1-f66.google.com with SMTP id h33so15606092edh.12
+        for <linux-media@vger.kernel.org>; Tue, 08 Oct 2019 06:35:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=wVJ+FdvHdUxX6dsy0E9HRzVQZtw18J8A0S6Zbzj9c3A=;
+        b=VacZJkEpr6vNQChW84ZDLffmdyv2F5KBVlSX6V6+3u3r61JaKwuJb1QDBo7WQDcuoz
+         pt6qJK64/P1c84WHfPWhlytaoYQB22MGuMPxPGGZrUgyA/VXV2CCHUMuc5v8CxcuaDd4
+         iMO9Yu4g8ypa+ZmBhQOErn4DQqw2h96jqrU2A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=wVJ+FdvHdUxX6dsy0E9HRzVQZtw18J8A0S6Zbzj9c3A=;
+        b=dRupQgziRgHm4ZB4JuuG3fy3dXrn+J3jECtw+26euj6MyO/MG/3dh8ZfxNlHAIe3BF
+         O/r+jIvNGlCjeHUox0300KvtafD2Gg4yQ4GHrrZ8WjQDxdYwnb05GWHCJEUo7r7ljw/J
+         ntWaEqncvmQ/AgXfikfDD64iZoFithweJwXfDbuCs5FN/fmbcwnU//U2JLtQyLVaycQO
+         2ZrOSz6V/+PU2aDERQhOXepOtdXQNkmjclqttlFH2Kva/GurROzXlMphAnGjJcqSytYs
+         G212/u1HsF970biv6ZjyBEcXEE9pnN4KLu/foBUNGDdUWc0DPi02dmttr+QChrw6INT6
+         gmeA==
+X-Gm-Message-State: APjAAAVoMxJYDD5xOxbXROOVKFsbcm3Yc+Kc1UKgLpEpy+uF+op45yx9
+        ptLMzdLWsq5gZ6L9642HhWEf4wdf5LiuPA==
+X-Google-Smtp-Source: APXvYqzIp2a3YN8V99zueCk5t+mHomkCUd8Up0oo+X75esC143jHDmd/szle5XzE4IlQrqMrEF7YsQ==
+X-Received: by 2002:a17:906:1152:: with SMTP id i18mr29082216eja.113.1570541755463;
+        Tue, 08 Oct 2019 06:35:55 -0700 (PDT)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com. [209.85.221.43])
+        by smtp.gmail.com with ESMTPSA id os27sm2288494ejb.18.2019.10.08.06.35.54
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Oct 2019 06:35:54 -0700 (PDT)
+Received: by mail-wr1-f43.google.com with SMTP id v8so19467284wrt.2
+        for <linux-media@vger.kernel.org>; Tue, 08 Oct 2019 06:35:54 -0700 (PDT)
+X-Received: by 2002:a5d:4b47:: with SMTP id w7mr20720607wrs.7.1570541754161;
+ Tue, 08 Oct 2019 06:35:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <20191007174505.10681-1-ezequiel@collabora.com>
+ <20191007174505.10681-3-ezequiel@collabora.com> <CAAFQd5BNu2ea3ei_imHmEwmdna0+iiSbQSv_SBsdHfP4Uh1h4Q@mail.gmail.com>
+ <HE1PR06MB4011EC9E93ECBB6773252247AC9A0@HE1PR06MB4011.eurprd06.prod.outlook.com>
+ <CAAFQd5CWoAP1psrEW6bVMkRmhFeTvFKtDSLjT7nefc2YiFovqQ@mail.gmail.com>
+In-Reply-To: <CAAFQd5CWoAP1psrEW6bVMkRmhFeTvFKtDSLjT7nefc2YiFovqQ@mail.gmail.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Tue, 8 Oct 2019 22:35:42 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5AYCiKcA9pGc44L3gGHLPx6iMSb7KywkO8OqVv4gS8KvQ@mail.gmail.com>
+Message-ID: <CAAFQd5AYCiKcA9pGc44L3gGHLPx6iMSb7KywkO8OqVv4gS8KvQ@mail.gmail.com>
+Subject: Re: [PATCH v2 for 5.4 2/4] media: hantro: Fix H264 max frmsize
+ supported on RK3288
+To:     Jonas Karlman <jonas@kwiboo.se>
+Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "kernel@collabora.com" <kernel@collabora.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        "fbuergisser@chromium.org" <fbuergisser@chromium.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Douglas Anderson <dianders@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
-Thanks for the review,
+On Tue, Oct 8, 2019 at 7:42 PM Tomasz Figa <tfiga@chromium.org> wrote:
+>
+> On Tue, Oct 8, 2019 at 3:31 PM Jonas Karlman <jonas@kwiboo.se> wrote:
+> >
+> > On 2019-10-08 07:27, Tomasz Figa wrote:
+> > > Hi Ezequiel, Jonas,
+> > >
+> > > On Tue, Oct 8, 2019 at 2:46 AM Ezequiel Garcia <ezequiel@collabora.com> wrote:
+> > >> From: Jonas Karlman <jonas@kwiboo.se>
+> > >>
+> > >> TRM specify supported image size 48x48 to 4096x2304 at step size 16 pixels,
+> > >> change frmsize max_width/max_height to match TRM.
+> > >>
+> > >> Fixes: 760327930e10 ("media: hantro: Enable H264 decoding on rk3288")
+> > >> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+> > >> ---
+> > >> v2:
+> > >> * No changes.
+> > >>
+> > >>  drivers/staging/media/hantro/rk3288_vpu_hw.c | 4 ++--
+> > >>  1 file changed, 2 insertions(+), 2 deletions(-)
+> > >>
+> > >> diff --git a/drivers/staging/media/hantro/rk3288_vpu_hw.c b/drivers/staging/media/hantro/rk3288_vpu_hw.c
+> > >> index 6bfcc47d1e58..ebb017b8a334 100644
+> > >> --- a/drivers/staging/media/hantro/rk3288_vpu_hw.c
+> > >> +++ b/drivers/staging/media/hantro/rk3288_vpu_hw.c
+> > >> @@ -67,10 +67,10 @@ static const struct hantro_fmt rk3288_vpu_dec_fmts[] = {
+> > >>                 .max_depth = 2,
+> > >>                 .frmsize = {
+> > >>                         .min_width = 48,
+> > >> -                       .max_width = 3840,
+> > >> +                       .max_width = 4096,
+> > >>                         .step_width = H264_MB_DIM,
+> > >>                         .min_height = 48,
+> > >> -                       .max_height = 2160,
+> > >> +                       .max_height = 2304,
+> > > This doesn't match the datasheet I have, which is RK3288 Datasheet Rev
+> > > 1.4 and which has the values as in current code. What's the one you
+> > > got the values from?
+> >
+> > The RK3288 TRM vcodec chapter from [1], unknown revision and date, lists 48x48 to 4096x2304 step size 16 pixels under 25.5.1 H.264 decoder.
+> >
+> > I can also confirm that one of my test samples (PUPPIES BATH IN 4K) is 4096x2304 and can be decoded after this patch.
+> > However the decoding speed is not optimal at 400Mhz, if I recall correctly you need to set the VPU1 clock to 600Mhz for 4K decoding on RK3288.
+> >
+> > I am not sure if I should include a v2 of this patch in my v2 series, as-is this patch do not apply on master (H264_MB_DIM has changed to MB_DIM in master).
+> >
+> > [1] http://www.t-firefly.com/download/firefly-rk3288/docs/TRM/rk3288-chapter-25-video-encoder-decoder-unit-(vcodec).pdf
+>
+> I checked the RK3288 TRM V1.1 too and it refers to 3840x2160@24fps as
+> the maximum.
+>
+> As for performance, we've actually been getting around 33 fps at 400
+> MHz with 3840x2160 on our devices (the old RK3288 Asus Chromebook
+> Flip).
+>
+> I guess we might want to check that with Hantro.
 
-On Thu, 2019-09-26 at 08:32 -0600, Shuah Khan wrote:
-> On 9/19/19 2:32 PM, Dafna Hirschfeld wrote:
-> > Userspace can disable links and create pipelines that
-> > do not start with a source entity. Trying to stream
-> > from such a pipeline should fail with -EPIPE
-> > currently this is not handled and cause kernel crash.
-> > 
-> 
-> Minor: Can you make these 75 long. Makes it easier to read.
-> 
-> > Reproducing the crash:
-> > media-ctl -d0 -l "5:1->21:0[0]" -v
-> > v4l2-ctl -z platform:vimc -d "RGB/YUV Capture" -v width=1920,height=1440
-> > v4l2-ctl --stream-mmap --stream-count=100 -d /dev/video2
-> 
-> I really would like to see the panic message so it can checked during
-> testing.
-> 
-> If you are fixing a panic, please include the panic info. in the future.
-> 
-> > Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> > ---
-> >   drivers/media/platform/vimc/vimc-streamer.c | 39 +++++++++++++++------
-> >   1 file changed, 28 insertions(+), 11 deletions(-)
-> > 
-> > diff --git a/drivers/media/platform/vimc/vimc-streamer.c b/drivers/media/platform/vimc/vimc-streamer.c
-> > index faa2879c25df..d0a9f8a0f26a 100644
-> > --- a/drivers/media/platform/vimc/vimc-streamer.c
-> > +++ b/drivers/media/platform/vimc/vimc-streamer.c
-> > @@ -12,6 +12,19 @@
-> >   
-> >   #include "vimc-streamer.h"
-> >   
-> > +/**
-> > + * Check if the entity has only source pads
-> > + */
-> > +static bool vimc_is_source(struct media_entity *ent)
-> > +{
-> > +	int i;
-> > +
-> > +	for (i = 0; i < ent->num_pads; i++)
-> > +		if (ent->pads[i].flags & MEDIA_PAD_FL_SINK)
-> > +			return false;
-> > +	return true;
-> > +}
-> > +
-> 
-> Why not make this a common routine and add it to vimc-common.c?
-> 
-> >   /**
-> >    * vimc_get_source_entity - get the entity connected with the first sink pad
-> >    *
-> > @@ -82,14 +95,12 @@ static int vimc_streamer_pipeline_init(struct vimc_stream *stream,
-> >   	struct media_entity *entity;
-> >   	struct video_device *vdev;
-> >   	struct v4l2_subdev *sd;
-> > -	int ret = 0;
-> > +	int ret = -EINVAL;
-> >   
-> >   	stream->pipe_size = 0;
-> >   	while (stream->pipe_size < VIMC_STREAMER_PIPELINE_MAX_SIZE) {
-> > -		if (!ved) {
-> > -			vimc_streamer_pipeline_terminate(stream);
-> > -			return -EINVAL;
-> > -		}
-> > +		if (!ved)
-> > +			break;
-> >   		stream->ved_pipeline[stream->pipe_size++] = ved;
-> >   
-> >   		if (is_media_entity_v4l2_subdev(ved->ent)) {
-> > @@ -98,15 +109,22 @@ static int vimc_streamer_pipeline_init(struct vimc_stream *stream,
-> >   			if (ret && ret != -ENOIOCTLCMD) {
-> >   				pr_err("subdev_call error %s\n",
-> >   				       ved->ent->name);
-> 
-> While you are at it, can you make this a dev_err() instead? I think we
-> have access to dev here.
+Could you check the value of bits 10:0 in register at 0x0c8? That
+should be the maximum supported stream width in the units of 16
+pixels.
 
-Actually, there is no access to dev here. It can be sent to the function as
-an argument from the vimc-capture.c code, but maybe a better solution is to move the dev
-pointer of every vimc entity to the common `vimc_ent_dev ved` field, since all entities have a pointer to it.
-
-Thanks,
-Dafna
-> 
-> > -				vimc_streamer_pipeline_terminate(stream);
-> > -				return ret;
-> > +				break;
-> >   			}
-> >   		}
-> >   
-> >   		entity = vimc_get_source_entity(ved->ent);
-> > -		/* Check if the end of the pipeline was reached*/
-> > -		if (!entity)
-> > +		/* Check if the end of the pipeline was reached */
-> > +		if (!entity) {
-> > +			/* the first entity of the pipe should be source only */
-> > +			if (!vimc_is_source(ved->ent)) {
-> > +				pr_err("first entity in the pipe '%s' is not a source\n",
-> > +				       ved->ent->name);
-> 
-> Same commnet about dev_err() here.
-> 
-> > +				ret = -EPIPE;
-> > +				break;
-> > +			}
-> >   			return 0;
-> > +		}
-> >   
-> >   		/* Get the next device in the pipeline */
-> >   		if (is_media_entity_v4l2_subdev(entity)) {
-> > @@ -119,9 +137,8 @@ static int vimc_streamer_pipeline_init(struct vimc_stream *stream,
-> >   			ved = video_get_drvdata(vdev);
-> >   		}
-> >   	}
-> > -
-> >   	vimc_streamer_pipeline_terminate(stream);
-> > -	return -EINVAL;
-> > +	return ret;
-> >   }
-> >   
-> >   /**
-> > 
-> 
-> thanks,
-> -- Shuah
-
+Best regards,
+Tomasz
