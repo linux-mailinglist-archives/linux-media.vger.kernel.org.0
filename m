@@ -2,100 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E1A1FD11B2
-	for <lists+linux-media@lfdr.de>; Wed,  9 Oct 2019 16:49:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ABF4AD11E2
+	for <lists+linux-media@lfdr.de>; Wed,  9 Oct 2019 16:59:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730503AbfJIOtW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Oct 2019 10:49:22 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:50275 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728019AbfJIOtW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 9 Oct 2019 10:49:22 -0400
-Received: from [IPv6:2001:983:e9a7:1:2801:e038:f2c3:e060] ([IPv6:2001:983:e9a7:1:2801:e038:f2c3:e060])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id IDHDihfQajZ8vIDHEiIaRr; Wed, 09 Oct 2019 16:49:20 +0200
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Jiunn Chang <c0d1n61at3@gmail.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH] cec-pin: add 'received' callback
-Message-ID: <dc12566b-2fec-6735-cdbc-089e22e536c0@xs4all.nl>
-Date:   Wed, 9 Oct 2019 16:49:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1731145AbfJIO7O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Oct 2019 10:59:14 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:33576 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1729471AbfJIO7O (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 9 Oct 2019 10:59:14 -0400
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id 57B842A8682FA63FD9AB;
+        Wed,  9 Oct 2019 22:59:11 +0800 (CST)
+Received: from linux-ibm.site (10.175.102.37) by
+ DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
+ 14.3.439.0; Wed, 9 Oct 2019 22:59:03 +0800
+From:   zhong jiang <zhongjiang@huawei.com>
+To:     <mchehab@kernel.org>, <sean@mess.org>, <hansverk@cisco.com>,
+        <daniel.vetter@ffwll.ch>
+CC:     <linux-media@vger.kernel.org>, <zhongjiang@huawei.com>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH v2 0/4] media: Use DIV_ROUND_CLOSEST directly 
+Date:   Wed, 9 Oct 2019 22:55:21 +0800
+Message-ID: <1570632925-14926-1-git-send-email-zhongjiang@huawei.com>
+X-Mailer: git-send-email 1.7.12.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfEfEzjn5b5tbe2ibNSTcQbCyI2gP+gIywLmqHqeAz5wrrxRCTuLcCUFnKlV2OwxIxXcj1v2luHkpgg2fgI/fpoFGqQUJYDzOvq8lhpFr7RrD8uFzsvJe
- D8NDbyDqjXybtjtqzq/o8HbKKDF1l4DtD6O+MCX1DZ7fEUTBJneJHktAvMoyQPw/X45QGgkqzLF9ui7vvOSTy6iAEtUlHIUHbfTjmxc1iI7gkGDu0R8nncB6
- EYMJH9ZRA4Gn+HwzJPZ+TzddWMwsYLehrbQx0Vf/aJr4KSjdtBtxYC1MJJ40GKF3y8uWNoERkeGhP8yY9DOtTA==
+Content-Type: text/plain
+X-Originating-IP: [10.175.102.37]
+X-CFilter-Loop: Reflected
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Drivers that use the CEC pin framework have no way of processing messages
-themselves by providing the 'received' callback. This is present in cec_ops,
-but not in cec_pin_ops.
+With the help of Coccinelle. I find some place that DIV_ROUND_CLOSEST
+can replace it directly.
 
-Add support for this callback.
+v1->v2:
+   patch 1: remove mt312_div() to use the DIV_ROUND_CLOSEST directly.
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
-diff --git a/drivers/media/cec/cec-pin.c b/drivers/media/cec/cec-pin.c
-index 8f987bc0dd88..660fe111f540 100644
---- a/drivers/media/cec/cec-pin.c
-+++ b/drivers/media/cec/cec-pin.c
-@@ -1279,6 +1279,15 @@ static void cec_pin_adap_free(struct cec_adapter *adap)
- 	kfree(pin);
- }
+zhong jiang (4):
+  media: dvb-frontends: Use DIV_ROUND_CLOSEST directly to make it
+    readable
+  media: tuners/qm1d1c0042: Use DIV_ROUND_CLOSEST directly to make it
+    readable
+  media: uvcvideo: Use DIV_ROUND_CLOSEST directly to make it readable
+  media: v4l2-dv-timings: Use DIV_ROUND_CLOSEST directly to make it
+    readable
 
-+static int cec_pin_received(struct cec_adapter *adap, struct cec_msg *msg)
-+{
-+	struct cec_pin *pin = adap->pin;
-+
-+	if (pin->ops->received)
-+		return pin->ops->received(adap, msg);
-+	return -ENOMSG;
-+}
-+
- void cec_pin_changed(struct cec_adapter *adap, bool value)
- {
- 	struct cec_pin *pin = adap->pin;
-@@ -1301,6 +1310,7 @@ static const struct cec_adap_ops cec_pin_adap_ops = {
- 	.error_inj_parse_line = cec_pin_error_inj_parse_line,
- 	.error_inj_show = cec_pin_error_inj_show,
- #endif
-+	.received = cec_pin_received,
- };
+ drivers/media/dvb-frontends/mt312.c       | 14 +++++---------
+ drivers/media/tuners/qm1d1c0042.c         |  2 +-
+ drivers/media/usb/uvc/uvc_ctrl.c          |  4 ++--
+ drivers/media/v4l2-core/v4l2-dv-timings.c |  2 +-
+ 4 files changed, 9 insertions(+), 13 deletions(-)
 
- struct cec_adapter *cec_pin_allocate_adapter(const struct cec_pin_ops *pin_ops,
-diff --git a/include/media/cec-pin.h b/include/media/cec-pin.h
-index 604e79cb6cbf..88c8b016eb09 100644
---- a/include/media/cec-pin.h
-+++ b/include/media/cec-pin.h
-@@ -29,8 +29,11 @@
-  *		an error if negative. If NULL or -ENOTTY is returned,
-  *		then this is not supported.
-  *
-- * These operations are used by the cec pin framework to manipulate
-- * the CEC pin.
-+ * @received:	optional. High-level CEC message callback. Allows the driver
-+ *		to process CEC messages.
-+ *
-+ * These operations (except for the @received op) are used by the
-+ * cec pin framework to manipulate the CEC pin.
-  */
- struct cec_pin_ops {
- 	bool (*read)(struct cec_adapter *adap);
-@@ -42,6 +45,9 @@ struct cec_pin_ops {
- 	void (*status)(struct cec_adapter *adap, struct seq_file *file);
- 	int  (*read_hpd)(struct cec_adapter *adap);
- 	int  (*read_5v)(struct cec_adapter *adap);
-+
-+	/* High-level CEC message callback */
-+	int (*received)(struct cec_adapter *adap, struct cec_msg *msg);
- };
+-- 
+1.7.12.4
 
- /**
