@@ -2,154 +2,328 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BE7FD0623
-	for <lists+linux-media@lfdr.de>; Wed,  9 Oct 2019 05:54:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC215D0624
+	for <lists+linux-media@lfdr.de>; Wed,  9 Oct 2019 05:56:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727696AbfJIDyJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Oct 2019 23:54:09 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:53333 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726490AbfJIDyJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 8 Oct 2019 23:54:09 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:2801:e038:f2c3:e060])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id I335icfVrjZ8vI337iFUKY; Wed, 09 Oct 2019 05:54:05 +0200
-Message-ID: <6fcd6d4138a61ce8359eaacad10f0522@smtp-cloud7.xs4all.net>
-Date:   Wed, 09 Oct 2019 05:54:03 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-X-CMAE-Envelope: MS4wfEqG8E64uD81elUEyBYzmuayG5NeLlODrLFfmYPex8qEqqMc/8HrjFYPz16GcOclxynMQvnmPU8jpczxMJY5DAJJuHzBpADM/qteOHIq8ZLTlHHQ114H
- 7jKGEO/VQSt5hQ3fN89s3rd1OPdhSDVGsdpbFAtqz0/kIdx10E9QZ1c4uHzK99NS5MpCqJZ2oYThCoKq7vJoDM0cggJqZaM/1HSE3JPL2ZSnA8CGEr+bjq2d
+        id S1727766AbfJID4D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Oct 2019 23:56:03 -0400
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:46128 "EHLO
+        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726490AbfJID4C (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Oct 2019 23:56:02 -0400
+Received: by mail-ed1-f68.google.com with SMTP id t3so665229edw.13
+        for <linux-media@vger.kernel.org>; Tue, 08 Oct 2019 20:56:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Y5YnTWb78NuPCzr7YfOxZSg25TdqjOEtY6nJ641vJyc=;
+        b=VJPilnegXdH0sPfUyOVbb84kmsw2hViH78ft5LdmxGgBA59KUHIb9wZN2kPMXBLC1D
+         /9A8QHIRRDHyvwEXah7gNA12hwMeIUIIoog5CJcJOZ0+gVni/Vpo8TKkSzFX6mwKGiio
+         GspZTRbFeCLcg0bncYMU4AIMonkCAh7gr0XE8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Y5YnTWb78NuPCzr7YfOxZSg25TdqjOEtY6nJ641vJyc=;
+        b=M92l3KQkOJtV46Cne/3E5KGAgdTGn/zd7QcpXYChZ8B42WXSotjrBVcx2QqCF0M4tK
+         hhqn1DCVDD+n4qRbpGu+/rg+QwInjZbse6ytc8sRt3hseqWNT2iEvtNvdmpGvq4iN1Bq
+         psr6t0vkcZscIUr+6eVUgPcF3r4CdJsyTa/ApMLwdWoR7TBsNMrLIHQVlinbpaUK36Qm
+         9vsuFjsrB3ujkENSdvpOkVqN2Q4HNzISskLyN8ZdXDfpHbD1yBrhyQXj4iP1iHYETUwo
+         btqaoVFnSv3kJhjP89dv+R3MDZ8ZWFLn4zTz/qsgQdiAdRFFx7N79HVhzWFMYhYyiSXK
+         hpgg==
+X-Gm-Message-State: APjAAAVhwe/mRwWl8+HXxxfZHPwNoIFX5Itkx3nR581K34oTcKQfJ0Vq
+        YWv0Cv7jggq8SnLCFPp+jO3GDvCK0dW36w==
+X-Google-Smtp-Source: APXvYqwlJStShodLjPJy27wiAWBmijk4Zn74dV67TY6sC2zcR2BPf8/jxVkvfx++Uz2sGBBH6yUF2Q==
+X-Received: by 2002:a17:906:c78e:: with SMTP id cw14mr880483ejb.67.1570593359863;
+        Tue, 08 Oct 2019 20:55:59 -0700 (PDT)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com. [209.85.128.46])
+        by smtp.gmail.com with ESMTPSA id h38sm149721edh.13.2019.10.08.20.55.58
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Oct 2019 20:55:59 -0700 (PDT)
+Received: by mail-wm1-f46.google.com with SMTP id p7so654515wmp.4
+        for <linux-media@vger.kernel.org>; Tue, 08 Oct 2019 20:55:58 -0700 (PDT)
+X-Received: by 2002:a1c:e404:: with SMTP id b4mr889345wmh.90.1570593357873;
+ Tue, 08 Oct 2019 20:55:57 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190919093404.182015-1-keiichiw@chromium.org>
+ <2489202.SRFmCUqmCE@os-lin-dmo> <CAAFQd5DZbJfEZco_fXj+jPusmj1WaMQnai2kvbuv=ZSXAz93hw@mail.gmail.com>
+ <4037801.MZecyecTDs@os-lin-dmo>
+In-Reply-To: <4037801.MZecyecTDs@os-lin-dmo>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Wed, 9 Oct 2019 12:55:45 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5CfNK1oisDaOWaW+9NTQOLn1EHPrPzvxMPcSxLkBgv3Ww@mail.gmail.com>
+Message-ID: <CAAFQd5CfNK1oisDaOWaW+9NTQOLn1EHPrPzvxMPcSxLkBgv3Ww@mail.gmail.com>
+Subject: Re: [virtio-dev] [PATCH] [RFC RESEND] vdec: Add virtio video decode
+ device specification
+To:     Dmitry Morozov <dmitry.morozov@opensynergy.com>,
+        Gerd Hoffmann <kraxel@redhat.com>, stevensd@chromium.org
+Cc:     virtio-dev@lists.oasis-open.org,
+        Keiichi Watanabe <keiichiw@chromium.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        alexlau@chromium.org, dgreid@chromium.org,
+        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
+        Pawel Osciak <posciak@chromium.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Tue, Oct 8, 2019 at 12:09 AM Dmitry Morozov
+<dmitry.morozov@opensynergy.com> wrote:
+>
+> Hi Tomasz,
+>
+> On Montag, 7. Oktober 2019 16:14:13 CEST Tomasz Figa wrote:
+> > Hi Dmitry,
+> >
+> > On Mon, Oct 7, 2019 at 11:01 PM Dmitry Morozov
+> >
+> > <dmitry.morozov@opensynergy.com> wrote:
+> > > Hello,
+> > >
+> > > We at OpenSynergy are also working on an abstract paravirtualized video
+> > > streaming device that operates input and/or output data buffers and can be
+> > > used as a generic video decoder/encoder/input/output device.
+> > >
+> > > We would be glad to share our thoughts and contribute to the discussion.
+> > > Please see some comments regarding buffer allocation inline.
+> > >
+> > > Best regards,
+> > > Dmitry.
+> > >
+> > > On Samstag, 5. Oktober 2019 08:08:12 CEST Tomasz Figa wrote:
+> > > > Hi Gerd,
+> > > >
+> > > > On Mon, Sep 23, 2019 at 5:56 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+> > > > >   Hi,
+> > > > >
+> > > > > > Our prototype implementation uses [4], which allows the virtio-vdec
+> > > > > > device to use buffers allocated by virtio-gpu device.
+> > > > > >
+> > > > > > [4] https://lkml.org/lkml/2019/9/12/157
+> > > >
+> > > > First of all, thanks for taking a look at this RFC and for valuable
+> > > > feedback. Sorry for the late reply.
+> > > >
+> > > > For reference, Keiichi is working with me and David Stevens on
+> > > > accelerated video support for virtual machines and integration with
+> > > > other virtual devices, like virtio-gpu for rendering or our
+> > > > currently-downstream virtio-wayland for display (I believe there is
+> > > > ongoing work to solve this problem in upstream too).
+> > > >
+> > > > > Well.  I think before even discussing the protocol details we need a
+> > > > > reasonable plan for buffer handling.  I think using virtio-gpu buffers
+> > > > > should be an optional optimization and not a requirement.  Also the
+> > > > > motivation for that should be clear (Let the host decoder write
+> > > > > directly
+> > > > > to virtio-gpu resources, to display video without copying around the
+> > > > > decoded framebuffers from one device to another).
+> > > >
+> > > > Just to make sure we're on the same page, what would the buffers come
+> > > > from if we don't use this optimization?
+> > > >
+> > > > I can imagine a setup like this;
+> > > >
+> > > >  1) host device allocates host memory appropriate for usage with host
+> > > >
+> > > > video decoder,
+> > > >
+> > > >  2) guest driver allocates arbitrary guest pages for storage
+> > > >
+> > > > accessible to the guest software,
+> > > >
+> > > >  3) guest userspace writes input for the decoder to guest pages,
+> > > >  4) guest driver passes the list of pages for the input and output
+> > > >
+> > > > buffers to the host device
+> > > >
+> > > >  5) host device copies data from input guest pages to host buffer
+> > > >  6) host device runs the decoding
+> > > >  7) host device copies decoded frame to output guest pages
+> > > >  8) guest userspace can access decoded frame from those pages; back to 3
+> > > >
+> > > > Is that something you have in mind?
+> > >
+> > > While GPU side allocations can be useful (especially in case of decoder),
+> > > it could be more practical to stick to driver side allocations. This is
+> > > also due to the fact that paravirtualized encoders and cameras are not
+> > > necessarily require a GPU device.
+> > >
+> > > Also, the v4l2 framework already features convenient helpers for CMA and
+> > > SG
+> > > allocations. The buffers can be used in the same manner as in virtio-gpu:
+> > > buffers are first attached to an already allocated buffer/resource
+> > > descriptor and then are made available for processing by the device using
+> > > a dedicated command from the driver.
+> >
+> > First of all, thanks a lot for your input. This is a relatively new
+> > area of virtualization and we definitely need to collect various
+> > possible perspectives in the discussion.
+> >
+> > From Chrome OS point of view, there are several aspects for which the
+> > guest side allocation doesn't really work well:
+> > 1) host-side hardware has a lot of specific low level allocation
+> > requirements, like alignments, paddings, address space limitations and
+> > so on, which is not something that can be (easily) taught to the guest
+> > OS,
+> I couldn't agree more. There are some changes by Greg to add support for
+> querying GPU buffer metadata. Probably those changes could be integrated with
+> 'a framework for cross-device buffer sharing' (something that Greg mentioned
+> earlier in the thread and that would totally make sense).
+>
 
-Results of the daily build of media_tree:
+Did you mean one of Gerd's proposals?
 
-date:			Wed Oct  9 05:00:11 CEST 2019
-media-tree git hash:	219031a6e7dff52a066e8b074adc0697f501e3d3
-media_build git hash:	afb27b4820fd670aed06d56c6a1dde56318453f1
-v4l-utils git hash:	fd74ecee9020fcf80b3b9628f277d9311b443395
-edid-decode git hash:	7d26052f7245664df96079845601ced5335fb2d7
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: fb74d4453fd4f857830399be9778a571221bee04
-host hardware:		x86_64
-host os:		5.2.0-3-amd64
+I think we need some clarification there, as it's not clear to me
+whether the framework is host-side, guest-side or both. The approach I
+suggested would rely on a host-side framework and guest-side wouldn't
+need any special handling for sharing, because the memory would behave
+as on bare metal.
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4-rc1-i686: OK
-linux-5.4-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2328, Succeeded: 2328, Failed: 0, Warnings: 0
-sparse: OK
+However allocation would still need some special API to express high
+level buffer parameters and delegate the exact allocation requirements
+to the host. Currently virtio-gpu already has such interface and also
+has a DRM driver, which were the 2 main reasons for us to use it as
+the allocator in Chrome OS. (minigbm/cros_gralloc are implemented on
+top of the Linux DRM API)
 
-Detailed results are available here:
+> > 2) allocation system is designed to be centralized, like Android
+> > gralloc, because there is almost never a case when a buffer is to be
+> > used only with 1 specific device. 99% of the cases are pipelines like
+> > decoder -> GPU/display, camera -> encoder + GPU/display, GPU ->
+> > encoder and so on, which means that allocations need to take into
+> > account multiple hardware constraints.
+> > 3) protected content decoding: the memory for decoded video frames
+> > must not be accessible to the guest at all
+> This looks like a valid use case. Would it also be possible for instance to
+> allocate mem from a secure ION heap on the guest and then to provide the sgt
+> to the device? We don't necessarily need to map that sgt for guest access.
 
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
+Could you elaborate on how that would work? Would the secure ION heap
+implementation use some protocol to request the allocation from the
+host?
 
-Detailed regression test results are available here:
+Another aspect is that on Chrome OS we don't support pre-reserved
+carveout heaps, so we need this memory to be allocated by the host
+dynamically.
 
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
+>
+> Best regards,
+> Dmitry.
+>
+> >
+> > That said, the common desktop Linux model bases on allocating from the
+> > producer device (which is why videobuf2 has allocation capability) and
+> > we definitely need to consider this model, even if we just think about
+> > Linux V4L2 compliance. That's why I'm suggesting the unified memory
+> > handling based on guest physical addresses, which would handle both
+> > guest-allocated and host-allocated memory.
+> >
+> > Best regards,
+> > Tomasz
+> >
+> > > > > Referencing virtio-gpu buffers needs a better plan than just re-using
+> > > > > virtio-gpu resource handles.  The handles are device-specific.  What
+> > > > > if
+> > > > > there are multiple virtio-gpu devices present in the guest?
+> > > > >
+> > > > > I think we need a framework for cross-device buffer sharing.  One
+> > > > > possible option would be to have some kind of buffer registry, where
+> > > > > buffers can be registered for cross-device sharing and get a unique
+> > > > > id (a uuid maybe?).  Drivers would typically register buffers on
+> > > > > dma-buf export.
+> > > >
+> > > > This approach could possibly let us handle this transparently to
+> > > > importers, which would work for guest kernel subsystems that rely on
+> > > > the ability to handle buffers like native memory (e.g. having a
+> > > > sgtable or DMA address) for them.
+> > > >
+> > > > How about allocating guest physical addresses for memory corresponding
+> > > > to those buffers? On the virtio-gpu example, that could work like
+> > > >
+> > > > this:
+> > > >  - by default a virtio-gpu buffer has only a resource handle,
+> > > >  - VIRTIO_GPU_RESOURCE_EXPORT command could be called to have the
+> > > >
+> > > > virtio-gpu device export the buffer to a host framework (inside the
+> > > > VMM) that would allocate guest page addresses for it, which the
+> > > > command would return in a response to the guest,
+> > > >
+> > > >  - virtio-gpu driver could then create a regular DMA-buf object for
+> > > >
+> > > > such memory, because it's just backed by pages (even though they may
+> > > > not be accessible to the guest; just like in the case of TrustZone
+> > > > memory protection on bare metal systems),
+> > > >
+> > > >  - any consumer would be able to handle such buffer like a regular
+> > > >
+> > > > guest memory, passing low-level scatter-gather tables to the host as
+> > > > buffer descriptors - this would nicely integrate with the basic case
+> > > > without buffer sharing, as described above.
+> > > >
+> > > > Another interesting side effect of the above approach would be the
+> > > > ease of integration with virtio-iommu. If the virtio master device is
+> > > > put behind a virtio-iommu, the guest page addresses become the input
+> > > > to iommu page tables and IOVA addresses go to the host via the virtio
+> > > > master device protocol, inside the low-level scatter-gather tables.
+> > > >
+> > > > What do you think?
+> > > >
 
-Full logs are available here:
+I was recently thinking about emulating real devices, like a USB
+camera (via an emulated USB host controller) and realized that this
+approach would also make it possible for such hardware to share
+buffers with virtio (or paravirtualized in general) devices in a
+zero-copy manner, because the memory would be described as on a native
+system, using a scatter-gather list of DMA addresses.
 
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
+Best regards,
+Tomasz
 
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+> > > > Best regards,
+> > > > Tomasz
+> > > >
+> > > > > Another option would be to pass around both buffer handle and buffer
+> > > > > owner, i.e. instead of "u32 handle" have something like this:
+> > > > >
+> > > > > struct buffer_reference {
+> > > > >
+> > > > >         enum device_type; /* pci, virtio-mmio, ... */
+> > > > >         union device_address {
+> > > > >
+> > > > >                 struct pci_address pci_addr;
+> > > > >                 u64 virtio_mmio_addr;
+> > > > >                 [ ... ]
+> > > > >
+> > > > >         };
+> > > > >         u64 device_buffer_handle; /* device-specific, virtio-gpu could
+> > > > >         use
+> > > > >         resource ids here */>
+> > > > >
+> > > > > };
+> > > > >
+> > > > > cheers,
+> > > > >
+> > > > >   Gerd
+> > > >
+> > > > ---------------------------------------------------------------------
+> > > > To unsubscribe, e-mail: virtio-dev-unsubscribe@lists.oasis-open.org
+> > > > For additional commands, e-mail: virtio-dev-help@lists.oasis-open.org
+> --
+>
+> Dmitry Morozov
+> Senior Software Engineer
+>
+> OpenSynergy GmbH
+> Rotherstr. 20, 10245 Berlin
+>
+> Phone:    +49 30 60 98 54 0 - 910
+> Fax:      +49 30 60 98 54 0 - 99
+>
+>
