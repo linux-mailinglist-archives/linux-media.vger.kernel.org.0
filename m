@@ -2,100 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D4EDCD11F9
-	for <lists+linux-media@lfdr.de>; Wed,  9 Oct 2019 17:02:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 768D9D131F
+	for <lists+linux-media@lfdr.de>; Wed,  9 Oct 2019 17:40:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731616AbfJIPCD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Oct 2019 11:02:03 -0400
-Received: from mail-io1-f65.google.com ([209.85.166.65]:42812 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731345AbfJIPCC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Oct 2019 11:02:02 -0400
-Received: by mail-io1-f65.google.com with SMTP id n197so5621046iod.9;
-        Wed, 09 Oct 2019 08:02:02 -0700 (PDT)
+        id S1730490AbfJIPk4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Oct 2019 11:40:56 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:36437 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729471AbfJIPk4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Oct 2019 11:40:56 -0400
+Received: by mail-wm1-f65.google.com with SMTP id m18so3130945wmc.1
+        for <linux-media@vger.kernel.org>; Wed, 09 Oct 2019 08:40:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=Z4AULEV/1OkpdS8GLMgMKJd/N77GZOnH9zsY4Or4awY=;
-        b=C9/GlktKQq+UhJCklxy/wjmeurDA98BmMhZJF7gWghXkqGR5TwN2McupN4XJSGPt7p
-         d4GAYgQHni4sRNU6dIxV2d2TiDaFHyILSeioe/6tunKhDQBXHPGcHbBT+vLwzK2qdJLH
-         tghQKUJCnN9+QMmBJYc6ZLPvYzeZ7KKC3s5WhSPBmr3C3crVaUDmM6GGClE569a54Y/g
-         E4UDfk5+xalXRAZHa7BUVza7co5w4JjVFtUjvtxKV3+DikfksDmsoBVYusgkBMBaEfzI
-         i5owPMLt583bhrZtQUHNrDb2LLSP2j1RQGoyhyDSSyeHMqiqbWVuSEjIVRauhRtmYc+q
-         djPQ==
+        d=gateworks-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=k1ysaNPyjVIpkPTRGVpJMmoS8rEDds5bU2aYG3OnQVs=;
+        b=0G+VBRRypPK9qozAM53WMt6f4AFkUi9syqT5bqnClYaKIEOKSJq5/zrg7ZXpm/DMJp
+         18qL9vuvnZIVVp81LG8e6KCc580HH2e4axaJHQ34Jq1fCeeKUE7uQ8mt35Dl2QajEu6x
+         /lo9m6SCvJsqhFy5fHyW4jdldc0+NiiWcr/TqKyd4QSOE+fnXGBIAy1IB4PE5M0B9pM/
+         mlfAvwFwV8ybLKPcXRrkYPOYSq9GhiN7jRXtiTnHdlfb1hYyHcNQshXGUP4JYn9rQUrj
+         ek1wNYRZTItbELCRXKpKXAAiIvygP3xX5pXb19pR4ZGsJ/baupbdrvOGrPDYX2dVBipw
+         3lPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=Z4AULEV/1OkpdS8GLMgMKJd/N77GZOnH9zsY4Or4awY=;
-        b=nhaS8DKwj5fP7dp08tO5afuDFBpLloF6h/aB+elat1o6/QJuzeTGYV5hIFAaLVkDCU
-         jKJzWBNFBhwuoa4x/czHJTlOCXTk1EbXA8QYTyHbNexxlSnIHpnRnP+XWswY9hhtlmHW
-         tFSpgwL+jTvhJTZAVHDEmPaRFnbZS76smaTSzIpbs0LfihBZ5UzyAr0f+cQLbRG0peiN
-         6oCzq1Y6uMYuFUj8cbaoAOQhKtpgtARX+NIqOlVhH7DZRDccgOGoy1O3kscpc93g3xFe
-         3ck2Jnc0C0rQuHB5+yciB2RqVNSkhdvlf0Fjpno1ugtKf3uNmCFDr8ptR+O3sfLaaDK2
-         w/BA==
-X-Gm-Message-State: APjAAAW01ft1pT5MBdao+ccHYRckOWu1WLMl2FGI/75OsTZJcCiZZ5HQ
-        FlP0JJS3lRS/WZk2NUV0GP4=
-X-Google-Smtp-Source: APXvYqwil7LDiZE5RwUQR46RyNkw6ou97UIC4KBDGqdtGNtTWZlQ2CgXipbFbCGXn/Tkj0Y4Ueq2zA==
-X-Received: by 2002:a6b:8b56:: with SMTP id n83mr3724862iod.200.1570633321809;
-        Wed, 09 Oct 2019 08:02:01 -0700 (PDT)
-Received: from cs-dulles.cs.umn.edu (cs-dulles.cs.umn.edu. [128.101.35.54])
-        by smtp.googlemail.com with ESMTPSA id t9sm1157429iop.86.2019.10.09.08.02.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Oct 2019 08:02:01 -0700 (PDT)
-From:   Navid Emamdoost <navid.emamdoost@gmail.com>
-To:     hverkuil@xs4all.nl
-Cc:     emamd001@umn.edu, smccaman@umn.edu, kjlu@umn.edu,
-        Navid Emamdoost <navid.emamdoost@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Richard Fontana <rfontana@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Allison Randal <allison@lohutok.net>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] media: usb: fix memory leak in af9005_identify_state
-Date:   Wed,  9 Oct 2019 10:01:47 -0500
-Message-Id: <20191009150150.1087-1-navid.emamdoost@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <6de2396d-eaa4-5cb4-9a1d-f253503bcf48@xs4all.nl>
-References: <6de2396d-eaa4-5cb4-9a1d-f253503bcf48@xs4all.nl>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=k1ysaNPyjVIpkPTRGVpJMmoS8rEDds5bU2aYG3OnQVs=;
+        b=S8D4cprsctoSh7d9nn5flD3rxT+/TpeK61X+cE6mQxXJnbb6OX1Pd6wAtCMmq77P+l
+         qFT3DcWk5LhKxF/Ybgbl6FBxW5kaqT/FlQp8qwIovyOs9xHcp9QBTAt+x2xHpMqFJjL+
+         Bq5PBYgrIWqAqbjHlB9Y/O9VxRn9KkimERX7UqQLySfVeEvjHHhk8RA3Xd9ydy9Qj56c
+         9O7U2X7OqxTJ+zvvv2tI6ViY9tuurseS9Mts60s2MHMT/5uRvXfVRhUwrW+vDdbcLd5O
+         35nDvqkHOFL/+pK+tfvQG45ITmzrIhca89ywa7AlY5RdhDgzr7Av+o6JaT/czzgEeNhn
+         gVpA==
+X-Gm-Message-State: APjAAAVu9WJGZRLsZdlOmrsCaKkdMLQKkLN5Qk+fm/1/C9u6MdX35m35
+        fqlwTK/dWLZddugEFRjPNDK0ofOyuw3SY8+mrIeMhQ==
+X-Google-Smtp-Source: APXvYqwZ0+ODessWTIdl1eISyy+bXbZm6bOCAdGxrKIHlfPk8N4oN9csWw2sjfD5IsnExOc94QGLclelXHRd86tGtqI=
+X-Received: by 2002:a1c:9ecf:: with SMTP id h198mr3102207wme.45.1570635653470;
+ Wed, 09 Oct 2019 08:40:53 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAOMZO5B2kO7_xmA2jmqkH5cxE4hW+TYJhont-rtq0Jck3GKA0g@mail.gmail.com>
+ <ba4541a2-9f91-afb6-57e8-84d51de61061@gmail.com> <CAOMZO5BRxvY2=8md7mo0ygsFXdrk2CVYrN_L5q-TQU_AhWCdgg@mail.gmail.com>
+ <ca2d67ed-9da1-7579-05d1-4c912bbf8093@gmail.com> <CAOMZO5Cc9sJN+uP5ZAbcAsGoEKH_jN2v0hiCrMrHqj5Qci_Sew@mail.gmail.com>
+ <CAOMZO5DmD5V+nT9QhWKTNHe+UydmQP=PJgxZopj7cm9YjEx68A@mail.gmail.com>
+ <CAJ+vNU0EFWA66cnB+1ze-=vMr=WBWuV_=m6+DF_xQ6gng3J-bQ@mail.gmail.com>
+ <CAOMZO5ATZw80cz6WsNUxWfgsqqX-R6A6SKz7tFQa=Tdy2ynWJA@mail.gmail.com>
+ <CAJ+vNU1X6kCeA=CVcGqEU4DCH8ZO_EwdARpyuXdGVMH_Uu7+7w@mail.gmail.com> <CAOMZO5Ct_-wjJnb9ktp7KDcAbhajjuRxWEDYfR-13x-9ZJut6w@mail.gmail.com>
+In-Reply-To: <CAOMZO5Ct_-wjJnb9ktp7KDcAbhajjuRxWEDYfR-13x-9ZJut6w@mail.gmail.com>
+From:   Tim Harvey <tharvey@gateworks.com>
+Date:   Wed, 9 Oct 2019 08:40:42 -0700
+Message-ID: <CAJ+vNU3FUvB_a1TxxjvtKbC9xg6-VbD+3PE6-5uEwgOwXn6WvQ@mail.gmail.com>
+Subject: Re: ADV7180 Capture with i.MX53
+To:     Fabio Estevam <festevam@gmail.com>
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-media <linux-media@vger.kernel.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In af9005_identify_state when returning -EIO the allocated buffer should
-be released. Replace the "return -EIO" with assignment into ret and move
-deb_info() under a check.
+On Tue, Oct 8, 2019 at 4:48 PM Fabio Estevam <festevam@gmail.com> wrote:
+>
+> Hi Tim,
+>
+> On Tue, Oct 8, 2019 at 6:01 PM Tim Harvey <tharvey@gateworks.com> wrote:
+>
+> > Ok that's strange indeed. I did recently test 5.3 on a Gateworks IMX6
+> > board with ADV7180 and the one patch to drop the first few frames and
+> > its stable. What does your testing show on an IMX6 and do you know
+>
+> I will give it a try on a imx6q-sabreauto board for comparison.
+>
+> > when it may have broken for IMX53?
+>
+> i.MX53 capture is relatively new and this is my first time trying to
+> get it to work with mainline.
+>
+> I assume I should do something similar to your
+> https://raw.githubusercontent.com/Gateworks/media-ctl-setup/master/media-ctl-setup
+> script, more especifically the mode 3 setup where you have:
+>
 
-Fixes: af4e067e1dcf ("V4L/DVB (5625): Add support for the AF9005 demodulator from Afatech")
-Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
----
-Changes in v2:
-	-- Reused the error handling to release buf
-	-- Added Fixes tag
----
- drivers/media/usb/dvb-usb/af9005.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+I struggled with coming up with a way to easily document all the
+variations with our boards as we have several different boards that
+have an adv7180 using different CSI ports and then you also have to
+deal with the differences between IMX6SDL and IMX6Q. The script was
+the best solution I could come up with but if you read through it its
+pretty complicated.
 
-diff --git a/drivers/media/usb/dvb-usb/af9005.c b/drivers/media/usb/dvb-usb/af9005.c
-index 02697d86e8c1..bc6e7659c37b 100644
---- a/drivers/media/usb/dvb-usb/af9005.c
-+++ b/drivers/media/usb/dvb-usb/af9005.c
-@@ -975,9 +975,10 @@ static int af9005_identify_state(struct usb_device *udev,
- 		*cold = 1;
- 	else if (reply == 0x02)
- 		*cold = 0;
--	else
--		return -EIO;
--	deb_info("Identify state cold = %d\n", *cold);
-+	else
-+		ret = -EIO;
-+	if (!ret)
-+		deb_info("Identify state cold = %d\n", *cold);
- 
- err:
- 	kfree(buf);
--- 
-2.17.1
+> case "$SENS" in
+> adv7180)
+> fmt "'$SENSOR':0 [fmt:UYVY2X8/$res field:alternate]"
+> fmt "'ipu${IPU}_csi${CSI}_mux':$((p+1)) [fmt:UYVY2X8/$res]"
+> # rec709 config at CSI pad 0
+> fmt "'ipu${IPU}_csi${CSI}':0 [fmt:$fmt field:$field colorspace:rec709
+> ycbcr:709]"
+> # CSI src pad output is frame height
+> h=$((h*2))
+> res=${w}x${h}
+> fmt "'ipu${IPU}_csi${CSI}':1 [fmt:AYUV32/$res]"
+> fmt "'ipu${IPU}_vdic':2 [fmt:AYUV32/$res field:none]"
+> fmt "'ipu${IPU}_ic_prp':2 [fmt:AYUV32/$res field:none]"
+> fmt "'$EP':1 [fmt:AYUV32/$res]"
+> ;;
+>
+> Why do you multiple h by 2?
 
+The input the the CSI is a field of 240 lines but the vdic will
+combine these and have 480 lines. I don't recall exactly why but for
+this to propagate properly you need to set the 480 lines on the csi
+output.
+
+>
+> > I do have a discussion going on here about NEWAVMODE and BT.656-3 vs
+> > BT.656-4. I wonder if its something to do with that as that issue
+> > causes rolling video on IMX6 with ADV7280:
+> > https://patchwork.kernel.org/patch/11117579/
+>
+> Tested this patch, but it did not help.
+
+That patch won't affect adv7180 but I wonder if the issues you are
+having have to do with something like this. The adv7180_init function
+will set BT.656-4 mode and adjust V bit end position for NTSC... I
+don't know if that's consistent with the IMX53 CSI needs? There are
+lots of little tweaks that can be made to the EAV/SAV codes and its
+not clear to me how to deal with compat issues like i have run into
+with the adv7280 config not being compatible with the IMX6 CSI needs.
+
+Tim
