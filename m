@@ -2,94 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C2FFAD0EFF
-	for <lists+linux-media@lfdr.de>; Wed,  9 Oct 2019 14:42:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88CE3D0F3D
+	for <lists+linux-media@lfdr.de>; Wed,  9 Oct 2019 14:54:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730662AbfJIMmI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Oct 2019 08:42:08 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:40335 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727878AbfJIMmI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 9 Oct 2019 08:42:08 -0400
-Received: from [IPv6:2001:983:e9a7:1:2801:e038:f2c3:e060] ([IPv6:2001:983:e9a7:1:2801:e038:f2c3:e060])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id IBI4igcHMjZ8vIBI5iHvcM; Wed, 09 Oct 2019 14:42:06 +0200
-Subject: Re: [PATCH] media: usb: fix memory leak in af9005_identify_state
-To:     Navid Emamdoost <navid.emamdoost@gmail.com>
-Cc:     emamd001@umn.edu, smccaman@umn.edu, kjlu@umn.edu,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Richard Fontana <rfontana@redhat.com>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20190913235505.9164-1-navid.emamdoost@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <6de2396d-eaa4-5cb4-9a1d-f253503bcf48@xs4all.nl>
-Date:   Wed, 9 Oct 2019 14:42:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1731212AbfJIMys (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Oct 2019 08:54:48 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:53976 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730757AbfJIMys (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Oct 2019 08:54:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=k5TxblSZf2IuXWK7WL2O815ZfD+uD0inXCDcm1S7FoI=; b=tisLDzszi0X6OWW++ayPEDQ7f
+        tvCQ72kYedXEXf6w0+mmECXepSg1K8MaEsyhlJTytdr7SNYz8swKiItIvkn1GjXPi2QvvcHsv3rXm
+        SydPOEfntcL4CX3DEmU3sakbmMPoRletbjyurt9jxlKOCZ6zsmYlpsGIcJJkBljDeQWudgCFWFAB5
+        Z4ZAvnN+MzarzP+zQs/7+3MuG3DDdZ4fHtGPgGye+MqwiumJQIiOfkAZxWY6fs/ZMv3sEXmZa7MFp
+        Ic92R18eKW8SqxCdn8DOFherE28vaETfQ7hCT6q7qAyoyQ5KMNUK9OM9WZyR9L8d67uvWkqwyYpLj
+        5791pxU+Q==;
+Received: from 177.205.100.4.dynamic.adsl.gvt.net.br ([177.205.100.4] helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.2 #3 (Red Hat Linux))
+        id 1iIBUM-0002v7-4W; Wed, 09 Oct 2019 12:54:46 +0000
+Date:   Wed, 9 Oct 2019 09:54:40 -0300
+From:   Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+To:     Stephen Boyd <swboyd@chromium.org>
+Cc:     linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 02/10] media: renesas-ceu: Use
+ of_device_get_match_data()
+Message-ID: <20191009095440.6e834ecf@coco.lan>
+In-Reply-To: <20191004214334.149976-3-swboyd@chromium.org>
+References: <20191004214334.149976-1-swboyd@chromium.org>
+        <20191004214334.149976-3-swboyd@chromium.org>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20190913235505.9164-1-navid.emamdoost@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfLR4WciaWbeoS3Yos5GxYJIYmG+CkYSY8MFAZMNwyIwy02S+lvjZoCiLqmMKLJ2sRxGrxxUf3YlVIh9spOObjW6Mkn5GfPcOMxFjS1Zgsf0cE27gHNQ4
- DLUUwKKFKlE8HLFtAoNyittqEOj3kUymYF3smqo/zy7tlaYXz0yjRNlbTmM01Dpz4ePxCDOUyDIFxBBhgHzaJCsztqz5R4nbfBbW0lwqljj1H6FhSIKDhr0q
- zQsM3v03AJ8zgOzt7Ggv5brZeMSN3sgVcGxe9rVnuKRjB0fIji/GZfa1IrSdlCl8gWf2pf+80vwctq/Mx4RcGrcPQCFtR3UnWg2yZ0H/nyooiWjcTIdiq8hh
- 9Ms+LrJj1CREbX5wQvZnqre4qWPnLsGBNfib6P0BnaXegoOloH7hZDJp+7Vo9b9Ab5Zj1X4OD8ogxvJRgJfJxX8fuaiGxLgJECMz1hJ3TVPulzrJjB8tlttJ
- +ooedRqTkwoiAsA1MA1+uC18DWVG0oRIle8bnZiCtbWVYBYMQELB9gUVmRqqVXZ5Ymj0nT/yxuSClLWoa/2sXQpjaKOa7eY9yebZs35ADAnwcqvP9cCL87El
- e1eSKTu7aYWpIzXDOIsi28Y7
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 9/14/19 1:55 AM, Navid Emamdoost wrote:
-> In af9005_identify_state when returning -EIO the allocated buffer should
-> be released.
+Em Fri,  4 Oct 2019 14:43:26 -0700
+Stephen Boyd <swboyd@chromium.org> escreveu:
+
+> This driver can use the replacement API instead of calling
+> of_match_device() and then dereferencing the pointer that is returned.
+> This nicely avoids referencing the match table when it is undefined with
+> configurations where CONFIG_OF=n.
 > 
-> Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+> Cc: Jacopo Mondi <jacopo@jmondi.org>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: Rob Herring <robh+dt@kernel.org>
+> Cc: Frank Rowand <frowand.list@gmail.com>
+> Cc: <linux-media@vger.kernel.org>
+> Cc: <linux-renesas-soc@vger.kernel.org>
+> Signed-off-by: Stephen Boyd <swboyd@chromium.org>
 > ---
->  drivers/media/usb/dvb-usb/af9005.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/media/usb/dvb-usb/af9005.c b/drivers/media/usb/dvb-usb/af9005.c
-> index 02697d86e8c1..aee500beaab6 100644
-> --- a/drivers/media/usb/dvb-usb/af9005.c
-> +++ b/drivers/media/usb/dvb-usb/af9005.c
-> @@ -975,8 +975,10 @@ static int af9005_identify_state(struct usb_device *udev,
->  		*cold = 1;
->  	else if (reply == 0x02)
->  		*cold = 0;
-> -	else
-> +	else {
-> +		kfree(buf);
->  		return -EIO;
-> +	}
+> Please ack or pick for immediate merge so the last patch can be merged.
 
-Why not just set ret = -EIO; here?
+Feel free to merge it via your tree:
 
-You only need to add a
+Acked-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
-	if (!ret)
->  	deb_info("Identify state cold = %d\n", *cold);
 
-before this line.
-
-So this becomes:
-
-        else
-                ret = -EIO;
-        if (!ret)
-                deb_info("Identify state cold = %d\n", *cold);
-
-Regards,
-
-	Hans
-
+> 
+>  drivers/media/platform/renesas-ceu.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/renesas-ceu.c b/drivers/media/platform/renesas-ceu.c
+> index 197b3991330d..60518bbc2cd5 100644
+> --- a/drivers/media/platform/renesas-ceu.c
+> +++ b/drivers/media/platform/renesas-ceu.c
+> @@ -1679,7 +1679,7 @@ static int ceu_probe(struct platform_device *pdev)
+>  	v4l2_async_notifier_init(&ceudev->notifier);
 >  
->  err:
-> 
+>  	if (IS_ENABLED(CONFIG_OF) && dev->of_node) {
+> -		ceu_data = of_match_device(ceu_of_match, dev)->data;
+> +		ceu_data = of_device_get_match_data(dev);
+>  		num_subdevs = ceu_parse_dt(ceudev);
+>  	} else if (dev->platform_data) {
+>  		/* Assume SH4 if booting with platform data. */
 
+
+
+Thanks,
+Mauro
