@@ -2,328 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EC215D0624
-	for <lists+linux-media@lfdr.de>; Wed,  9 Oct 2019 05:56:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 53DD0D0660
+	for <lists+linux-media@lfdr.de>; Wed,  9 Oct 2019 06:19:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727766AbfJID4D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Oct 2019 23:56:03 -0400
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:46128 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726490AbfJID4C (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Oct 2019 23:56:02 -0400
-Received: by mail-ed1-f68.google.com with SMTP id t3so665229edw.13
-        for <linux-media@vger.kernel.org>; Tue, 08 Oct 2019 20:56:01 -0700 (PDT)
+        id S1726716AbfJIETF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Oct 2019 00:19:05 -0400
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:34503 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726490AbfJIETF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Oct 2019 00:19:05 -0400
+Received: by mail-ed1-f65.google.com with SMTP id p10so757836edq.1
+        for <linux-media@vger.kernel.org>; Tue, 08 Oct 2019 21:19:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Y5YnTWb78NuPCzr7YfOxZSg25TdqjOEtY6nJ641vJyc=;
-        b=VJPilnegXdH0sPfUyOVbb84kmsw2hViH78ft5LdmxGgBA59KUHIb9wZN2kPMXBLC1D
-         /9A8QHIRRDHyvwEXah7gNA12hwMeIUIIoog5CJcJOZ0+gVni/Vpo8TKkSzFX6mwKGiio
-         GspZTRbFeCLcg0bncYMU4AIMonkCAh7gr0XE8=
+        bh=DeNM3zjEIiaayCi2HBeZAJ08J5xZy7j5lb8ADAS/0Kg=;
+        b=D44aT+iVuM7FFPNgwJOiMi82sPscJIKOem7KOW574s1qnhFZ1uFtNkSRHCiHBAkpwd
+         BzK6bLk4VxGOW/W3u8AI0A9FCE9jL5nNmfoZ7sDqwtUUhTooqbwAgLSOtbRvz35DzJ10
+         NGwCifHAi18fffE36DwH2TH8qF31HDlGmwkC0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Y5YnTWb78NuPCzr7YfOxZSg25TdqjOEtY6nJ641vJyc=;
-        b=M92l3KQkOJtV46Cne/3E5KGAgdTGn/zd7QcpXYChZ8B42WXSotjrBVcx2QqCF0M4tK
-         hhqn1DCVDD+n4qRbpGu+/rg+QwInjZbse6ytc8sRt3hseqWNT2iEvtNvdmpGvq4iN1Bq
-         psr6t0vkcZscIUr+6eVUgPcF3r4CdJsyTa/ApMLwdWoR7TBsNMrLIHQVlinbpaUK36Qm
-         9vsuFjsrB3ujkENSdvpOkVqN2Q4HNzISskLyN8ZdXDfpHbD1yBrhyQXj4iP1iHYETUwo
-         btqaoVFnSv3kJhjP89dv+R3MDZ8ZWFLn4zTz/qsgQdiAdRFFx7N79HVhzWFMYhYyiSXK
-         hpgg==
-X-Gm-Message-State: APjAAAVhwe/mRwWl8+HXxxfZHPwNoIFX5Itkx3nR581K34oTcKQfJ0Vq
-        YWv0Cv7jggq8SnLCFPp+jO3GDvCK0dW36w==
-X-Google-Smtp-Source: APXvYqwlJStShodLjPJy27wiAWBmijk4Zn74dV67TY6sC2zcR2BPf8/jxVkvfx++Uz2sGBBH6yUF2Q==
-X-Received: by 2002:a17:906:c78e:: with SMTP id cw14mr880483ejb.67.1570593359863;
-        Tue, 08 Oct 2019 20:55:59 -0700 (PDT)
+        bh=DeNM3zjEIiaayCi2HBeZAJ08J5xZy7j5lb8ADAS/0Kg=;
+        b=WrV5ORIT3uMDHNc9EuVXHOiELRtKBnH0+c9LGL70I6PDCRYso2nSVJ+RulHXc3J7rQ
+         89jO1S4PJxD58jtesrs4kdkRx3Qxr0soCLz0PtnImwFnbxJsjJU6ak0ztM4cGEm/uBi/
+         S8NHWHo1FmLX7mj6rOel3avT0WmvrGTERHQQpR6pcCWnUxmdVT8qBmpcgZmvZrCFKioF
+         T8RRwxdKLrx+tUB6C2jWY/+6NPhJ56nz2q2zaWio7QFV7BEaXQnq5AfjSDDFDeFVZwZw
+         yRjjklsqusD/vJhH0mJZA3VX0GMrPQBukVUvXyqORdUbQPv8TvEy4gGEzdjBCkHkDjK2
+         dcCA==
+X-Gm-Message-State: APjAAAX/8JDqHNkj7v1GUN08t3Q5djo8ccRd2ssfNMaNIwtzxE1ZPV9y
+        942qf1ys7+2894gXnFxhrP5Lu2PHyCTtcQ==
+X-Google-Smtp-Source: APXvYqxduBhVcTBxBzu1wL7JNFz/DEdXGp4fMjwUl9yZexuDgXL+Q8btxWFquLlam63tHX0Ds3UJOQ==
+X-Received: by 2002:a05:6402:19b4:: with SMTP id o20mr1200023edz.10.1570594741990;
+        Tue, 08 Oct 2019 21:19:01 -0700 (PDT)
 Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com. [209.85.128.46])
-        by smtp.gmail.com with ESMTPSA id h38sm149721edh.13.2019.10.08.20.55.58
+        by smtp.gmail.com with ESMTPSA id t30sm162516edt.91.2019.10.08.21.19.01
         for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Oct 2019 20:55:59 -0700 (PDT)
-Received: by mail-wm1-f46.google.com with SMTP id p7so654515wmp.4
-        for <linux-media@vger.kernel.org>; Tue, 08 Oct 2019 20:55:58 -0700 (PDT)
-X-Received: by 2002:a1c:e404:: with SMTP id b4mr889345wmh.90.1570593357873;
- Tue, 08 Oct 2019 20:55:57 -0700 (PDT)
+        Tue, 08 Oct 2019 21:19:01 -0700 (PDT)
+Received: by mail-wm1-f46.google.com with SMTP id i16so704362wmd.3
+        for <linux-media@vger.kernel.org>; Tue, 08 Oct 2019 21:19:01 -0700 (PDT)
+X-Received: by 2002:a1c:e404:: with SMTP id b4mr948434wmh.90.1570594740815;
+ Tue, 08 Oct 2019 21:19:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190919093404.182015-1-keiichiw@chromium.org>
- <2489202.SRFmCUqmCE@os-lin-dmo> <CAAFQd5DZbJfEZco_fXj+jPusmj1WaMQnai2kvbuv=ZSXAz93hw@mail.gmail.com>
- <4037801.MZecyecTDs@os-lin-dmo>
-In-Reply-To: <4037801.MZecyecTDs@os-lin-dmo>
+References: <20191008123850.641-1-p.zabel@pengutronix.de> <CAHD77HmL-m9TgZJ7GO=E_gBW=Av9D68AY1FTuxBM2sUSQgNPSQ@mail.gmail.com>
+ <1570545836.18914.10.camel@pengutronix.de>
+In-Reply-To: <1570545836.18914.10.camel@pengutronix.de>
 From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Wed, 9 Oct 2019 12:55:45 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5CfNK1oisDaOWaW+9NTQOLn1EHPrPzvxMPcSxLkBgv3Ww@mail.gmail.com>
-Message-ID: <CAAFQd5CfNK1oisDaOWaW+9NTQOLn1EHPrPzvxMPcSxLkBgv3Ww@mail.gmail.com>
-Subject: Re: [virtio-dev] [PATCH] [RFC RESEND] vdec: Add virtio video decode
- device specification
-To:     Dmitry Morozov <dmitry.morozov@opensynergy.com>,
-        Gerd Hoffmann <kraxel@redhat.com>, stevensd@chromium.org
-Cc:     virtio-dev@lists.oasis-open.org,
-        Keiichi Watanabe <keiichiw@chromium.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        alexlau@chromium.org, dgreid@chromium.org,
-        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Daniel Vetter <daniel@ffwll.ch>
+Date:   Wed, 9 Oct 2019 13:18:48 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5DfcEg7Vnvxpb0uwUqRC=jp_ZizefDxZ5XL=zM0Bg_XsA@mail.gmail.com>
+Message-ID: <CAAFQd5DfcEg7Vnvxpb0uwUqRC=jp_ZizefDxZ5XL=zM0Bg_XsA@mail.gmail.com>
+Subject: Re: [PATCH] media: hantro: relax s_fmt(out) busy error
+To:     Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Sasha Hauer <kernel@pengutronix.de>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Oct 8, 2019 at 12:09 AM Dmitry Morozov
-<dmitry.morozov@opensynergy.com> wrote:
+On Tue, Oct 8, 2019 at 11:44 PM Philipp Zabel <p.zabel@pengutronix.de> wrote:
 >
 > Hi Tomasz,
 >
-> On Montag, 7. Oktober 2019 16:14:13 CEST Tomasz Figa wrote:
-> > Hi Dmitry,
+> On Tue, 2019-10-08 at 23:05 +0900, Tomasz Figa wrote:
+> > Hi Philipp,
 > >
-> > On Mon, Oct 7, 2019 at 11:01 PM Dmitry Morozov
+> > On Tue, Oct 8, 2019 at 9:38 PM Philipp Zabel <p.zabel@pengutronix.de> wrote:
+> > >
+> > > Setting the output format resets the capture queue, so we return -EBUSY
+> > > while the capture queue has buffers allocated. If capture dimensions
+> > > and pixel format don't change though, we can allow setting the output
+> > > format without reallocating the capture queue.
+> > >
+> > > Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+> > > ---
+> > > This applies on top of https://patchwork.linuxtv.org/patch/59337/
+> > > ("media: hantro: Fix s_fmt for dynamic resolution changes").
+> > > ---
+> > >  drivers/staging/media/hantro/hantro_v4l2.c | 14 +++++++++++---
+> > >  1 file changed, 11 insertions(+), 3 deletions(-)
+> > >
+> > > diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
+> > > index 586d243cc3cc..05c3edce27a9 100644
+> > > --- a/drivers/staging/media/hantro/hantro_v4l2.c
+> > > +++ b/drivers/staging/media/hantro/hantro_v4l2.c
+> > > @@ -368,7 +368,7 @@ vidioc_s_fmt_out_mplane(struct file *file, void *priv, struct v4l2_format *f)
+> > >         struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
+> > >         struct hantro_ctx *ctx = fh_to_ctx(priv);
+> > >         struct vb2_queue *vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
+> > > -       const struct hantro_fmt *formats;
+> > > +       const struct hantro_fmt *raw_vpu_fmt, *formats;
+> > >         unsigned int num_fmts;
+> > >         int ret;
+> > >
+> > > @@ -394,8 +394,16 @@ vidioc_s_fmt_out_mplane(struct file *file, void *priv, struct v4l2_format *f)
+> > >                  */
+> > >                 peer_vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
+> > >                                           V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
+> > > -               if (vb2_is_busy(peer_vq))
+> > > -                       return -EBUSY;
+> > > +               if (vb2_is_busy(peer_vq)) {
+> > > +                       formats = hantro_get_formats(ctx, &num_fmts);
+> > > +                       raw_vpu_fmt = hantro_get_default_fmt(formats, num_fmts,
+> > > +                                                            false);
+> > > +
+> > > +                       if (ctx->dst_fmt.width != pix_mp->width ||
+> > > +                           ctx->dst_fmt.height != pix_mp->height ||
+> > > +                           ctx->dst_fmt.pixelformat != raw_vpu_fmt->fourcc)
 > >
-> > <dmitry.morozov@opensynergy.com> wrote:
-> > > Hello,
-> > >
-> > > We at OpenSynergy are also working on an abstract paravirtualized video
-> > > streaming device that operates input and/or output data buffers and can be
-> > > used as a generic video decoder/encoder/input/output device.
-> > >
-> > > We would be glad to share our thoughts and contribute to the discussion.
-> > > Please see some comments regarding buffer allocation inline.
-> > >
-> > > Best regards,
-> > > Dmitry.
-> > >
-> > > On Samstag, 5. Oktober 2019 08:08:12 CEST Tomasz Figa wrote:
-> > > > Hi Gerd,
-> > > >
-> > > > On Mon, Sep 23, 2019 at 5:56 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
-> > > > >   Hi,
-> > > > >
-> > > > > > Our prototype implementation uses [4], which allows the virtio-vdec
-> > > > > > device to use buffers allocated by virtio-gpu device.
-> > > > > >
-> > > > > > [4] https://lkml.org/lkml/2019/9/12/157
-> > > >
-> > > > First of all, thanks for taking a look at this RFC and for valuable
-> > > > feedback. Sorry for the late reply.
-> > > >
-> > > > For reference, Keiichi is working with me and David Stevens on
-> > > > accelerated video support for virtual machines and integration with
-> > > > other virtual devices, like virtio-gpu for rendering or our
-> > > > currently-downstream virtio-wayland for display (I believe there is
-> > > > ongoing work to solve this problem in upstream too).
-> > > >
-> > > > > Well.  I think before even discussing the protocol details we need a
-> > > > > reasonable plan for buffer handling.  I think using virtio-gpu buffers
-> > > > > should be an optional optimization and not a requirement.  Also the
-> > > > > motivation for that should be clear (Let the host decoder write
-> > > > > directly
-> > > > > to virtio-gpu resources, to display video without copying around the
-> > > > > decoded framebuffers from one device to another).
-> > > >
-> > > > Just to make sure we're on the same page, what would the buffers come
-> > > > from if we don't use this optimization?
-> > > >
-> > > > I can imagine a setup like this;
-> > > >
-> > > >  1) host device allocates host memory appropriate for usage with host
-> > > >
-> > > > video decoder,
-> > > >
-> > > >  2) guest driver allocates arbitrary guest pages for storage
-> > > >
-> > > > accessible to the guest software,
-> > > >
-> > > >  3) guest userspace writes input for the decoder to guest pages,
-> > > >  4) guest driver passes the list of pages for the input and output
-> > > >
-> > > > buffers to the host device
-> > > >
-> > > >  5) host device copies data from input guest pages to host buffer
-> > > >  6) host device runs the decoding
-> > > >  7) host device copies decoded frame to output guest pages
-> > > >  8) guest userspace can access decoded frame from those pages; back to 3
-> > > >
-> > > > Is that something you have in mind?
-> > >
-> > > While GPU side allocations can be useful (especially in case of decoder),
-> > > it could be more practical to stick to driver side allocations. This is
-> > > also due to the fact that paravirtualized encoders and cameras are not
-> > > necessarily require a GPU device.
-> > >
-> > > Also, the v4l2 framework already features convenient helpers for CMA and
-> > > SG
-> > > allocations. The buffers can be used in the same manner as in virtio-gpu:
-> > > buffers are first attached to an already allocated buffer/resource
-> > > descriptor and then are made available for processing by the device using
-> > > a dedicated command from the driver.
-> >
-> > First of all, thanks a lot for your input. This is a relatively new
-> > area of virtualization and we definitely need to collect various
-> > possible perspectives in the discussion.
-> >
-> > From Chrome OS point of view, there are several aspects for which the
-> > guest side allocation doesn't really work well:
-> > 1) host-side hardware has a lot of specific low level allocation
-> > requirements, like alignments, paddings, address space limitations and
-> > so on, which is not something that can be (easily) taught to the guest
-> > OS,
-> I couldn't agree more. There are some changes by Greg to add support for
-> querying GPU buffer metadata. Probably those changes could be integrated with
-> 'a framework for cross-device buffer sharing' (something that Greg mentioned
-> earlier in the thread and that would totally make sense).
+> > First of all, thanks for the patch! I'd like to ask you to clarify a few things:
+> > 1) What's the use case for S_FMT(OUTPUT) without changing neither
+> > resolution nor pixelformat?
+>
+> Userspace that currently does not follow the stateless codec spec
+> correctly, and allocates capture buffers before setting the output
+> format because libva:
+>
+> https://github.com/bootlin/libva-v4l2-request/pull/26
+>
+> It would be better to lazily allocate the capture buffers when the
+> context is spun up there, it just seemed strange that S_FMT(OUTPUT)
+> would error even with identical parameters.
 >
 
-Did you mean one of Gerd's proposals?
+How does the userspace know the right resolution of buffers to
+allocate? Note that in general there is no guarantee that it's equal
+to stream coded size, as there may be driver-specific alignments
+involved.
 
-I think we need some clarification there, as it's not clear to me
-whether the framework is host-side, guest-side or both. The approach I
-suggested would rely on a host-side framework and guest-side wouldn't
-need any special handling for sharing, because the memory would behave
-as on bare metal.
+Regardless of that, in the stateful spec the resolution of the CAPTURE
+queue can change even if the queue has buffers allocated already, i.e.
+when there is a dynamic resolution change. Maybe we should be
+consistent with that behavior and disallow only pixelformat changes?
+That would require careful synchronization in the driver, though, to
+reject any already queued incompatible buffers, but could speed up
+handling of resolution changes thanks to the ability to have big
+enough buffers preallocated.
 
-However allocation would still need some special API to express high
-level buffer parameters and delegate the exact allocation requirements
-to the host. Currently virtio-gpu already has such interface and also
-has a DRM driver, which were the 2 main reasons for us to use it as
-the allocator in Chrome OS. (minigbm/cros_gralloc are implemented on
-top of the Linux DRM API)
-
-> > 2) allocation system is designed to be centralized, like Android
-> > gralloc, because there is almost never a case when a buffer is to be
-> > used only with 1 specific device. 99% of the cases are pipelines like
-> > decoder -> GPU/display, camera -> encoder + GPU/display, GPU ->
-> > encoder and so on, which means that allocations need to take into
-> > account multiple hardware constraints.
-> > 3) protected content decoding: the memory for decoded video frames
-> > must not be accessible to the guest at all
-> This looks like a valid use case. Would it also be possible for instance to
-> allocate mem from a secure ION heap on the guest and then to provide the sgt
-> to the device? We don't necessarily need to map that sgt for guest access.
-
-Could you elaborate on how that would work? Would the secure ION heap
-implementation use some protocol to request the allocation from the
-host?
-
-Another aspect is that on Chrome OS we don't support pre-reserved
-carveout heaps, so we need this memory to be allocated by the host
-dynamically.
-
+> > 2) Is it correct to compare dst_fmt with pix_fmt? My understanding is
+> > that width/height of the OUTPUT queue is the coded size of the stream
+> > (a stream parameter), while width/height of the CAPTURE queue is the
+> > frame buffer size, which can be different from the stream coded size.
+> > Perhaps we should compare with ctx->src_fmt instead?
 >
-> Best regards,
-> Dmitry.
->
-> >
-> > That said, the common desktop Linux model bases on allocating from the
-> > producer device (which is why videobuf2 has allocation capability) and
-> > we definitely need to consider this model, even if we just think about
-> > Linux V4L2 compliance. That's why I'm suggesting the unified memory
-> > handling based on guest physical addresses, which would handle both
-> > guest-allocated and host-allocated memory.
-> >
-> > Best regards,
-> > Tomasz
-> >
-> > > > > Referencing virtio-gpu buffers needs a better plan than just re-using
-> > > > > virtio-gpu resource handles.  The handles are device-specific.  What
-> > > > > if
-> > > > > there are multiple virtio-gpu devices present in the guest?
-> > > > >
-> > > > > I think we need a framework for cross-device buffer sharing.  One
-> > > > > possible option would be to have some kind of buffer registry, where
-> > > > > buffers can be registered for cross-device sharing and get a unique
-> > > > > id (a uuid maybe?).  Drivers would typically register buffers on
-> > > > > dma-buf export.
-> > > >
-> > > > This approach could possibly let us handle this transparently to
-> > > > importers, which would work for guest kernel subsystems that rely on
-> > > > the ability to handle buffers like native memory (e.g. having a
-> > > > sgtable or DMA address) for them.
-> > > >
-> > > > How about allocating guest physical addresses for memory corresponding
-> > > > to those buffers? On the virtio-gpu example, that could work like
-> > > >
-> > > > this:
-> > > >  - by default a virtio-gpu buffer has only a resource handle,
-> > > >  - VIRTIO_GPU_RESOURCE_EXPORT command could be called to have the
-> > > >
-> > > > virtio-gpu device export the buffer to a host framework (inside the
-> > > > VMM) that would allocate guest page addresses for it, which the
-> > > > command would return in a response to the guest,
-> > > >
-> > > >  - virtio-gpu driver could then create a regular DMA-buf object for
-> > > >
-> > > > such memory, because it's just backed by pages (even though they may
-> > > > not be accessible to the guest; just like in the case of TrustZone
-> > > > memory protection on bare metal systems),
-> > > >
-> > > >  - any consumer would be able to handle such buffer like a regular
-> > > >
-> > > > guest memory, passing low-level scatter-gather tables to the host as
-> > > > buffer descriptors - this would nicely integrate with the basic case
-> > > > without buffer sharing, as described above.
-> > > >
-> > > > Another interesting side effect of the above approach would be the
-> > > > ease of integration with virtio-iommu. If the virtio master device is
-> > > > put behind a virtio-iommu, the guest page addresses become the input
-> > > > to iommu page tables and IOVA addresses go to the host via the virtio
-> > > > master device protocol, inside the low-level scatter-gather tables.
-> > > >
-> > > > What do you think?
-> > > >
+> A call to hantro_reset_raw_fmt() will set dst_fmt width/height to
+> src_fmt width/height later in this function, so this should make no
+> difference.
 
-I was recently thinking about emulating real devices, like a USB
-camera (via an emulated USB host controller) and realized that this
-approach would also make it possible for such hardware to share
-buffers with virtio (or paravirtualized in general) devices in a
-zero-copy manner, because the memory would be described as on a native
-system, using a scatter-gather list of DMA addresses.
+Okay, so basically the failure condition is whether the destination
+format would change after this function. I guess it makes sense if we
+decide to go with such behavior.
+
+Comparing source and destination formats in the code is at least
+confusing, though. It relies on the current driver behavior to use the
+same framebuffer size as stream coded size, but they are not
+equivalent in general. Perhaps we could have a comment there?
 
 Best regards,
 Tomasz
-
-> > > > Best regards,
-> > > > Tomasz
-> > > >
-> > > > > Another option would be to pass around both buffer handle and buffer
-> > > > > owner, i.e. instead of "u32 handle" have something like this:
-> > > > >
-> > > > > struct buffer_reference {
-> > > > >
-> > > > >         enum device_type; /* pci, virtio-mmio, ... */
-> > > > >         union device_address {
-> > > > >
-> > > > >                 struct pci_address pci_addr;
-> > > > >                 u64 virtio_mmio_addr;
-> > > > >                 [ ... ]
-> > > > >
-> > > > >         };
-> > > > >         u64 device_buffer_handle; /* device-specific, virtio-gpu could
-> > > > >         use
-> > > > >         resource ids here */>
-> > > > >
-> > > > > };
-> > > > >
-> > > > > cheers,
-> > > > >
-> > > > >   Gerd
-> > > >
-> > > > ---------------------------------------------------------------------
-> > > > To unsubscribe, e-mail: virtio-dev-unsubscribe@lists.oasis-open.org
-> > > > For additional commands, e-mail: virtio-dev-help@lists.oasis-open.org
-> --
->
-> Dmitry Morozov
-> Senior Software Engineer
->
-> OpenSynergy GmbH
-> Rotherstr. 20, 10245 Berlin
->
-> Phone:    +49 30 60 98 54 0 - 910
-> Fax:      +49 30 60 98 54 0 - 99
->
->
