@@ -2,284 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CFEFD04B6
-	for <lists+linux-media@lfdr.de>; Wed,  9 Oct 2019 02:19:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BE7FD0623
+	for <lists+linux-media@lfdr.de>; Wed,  9 Oct 2019 05:54:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729863AbfJIATw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Oct 2019 20:19:52 -0400
-Received: from mail4.protonmail.ch ([185.70.40.27]:38073 "EHLO
-        mail4.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729737AbfJIATw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Oct 2019 20:19:52 -0400
-Date:   Wed, 09 Oct 2019 00:19:39 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=default; t=1570580388;
-        bh=Pk16gMa118Iu1VfU/h0xvGQpmsAZeNQsokMPARk0/Dk=;
-        h=Date:To:From:Cc:Reply-To:Subject:Feedback-ID:From;
-        b=iu/kapwxe2Stx6b2fJvZ8jN/sc7l5guZHuKD8Wc5SMfC4jpN3dFuHBj5VYlUGtc/b
-         GO71WXl8pO7jV5yT/W1pfLGszIBC37IWt69XfxER34+BxeznaK3ZFYvmaDQxgyoiY2
-         54Uu5TjnxCxLBDXpzDBmWti25/jmmB/clMjnBZ4o=
+        id S1727696AbfJIDyJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Oct 2019 23:54:09 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:53333 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726490AbfJIDyJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 8 Oct 2019 23:54:09 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:2801:e038:f2c3:e060])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id I335icfVrjZ8vI337iFUKY; Wed, 09 Oct 2019 05:54:05 +0200
+Message-ID: <6fcd6d4138a61ce8359eaacad10f0522@smtp-cloud7.xs4all.net>
+Date:   Wed, 09 Oct 2019 05:54:03 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
 To:     linux-media@vger.kernel.org
-From:   =?UTF-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
-        <nfraprado@protonmail.com>
-Cc:     Helen Koike <helen.koike@collabora.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        linux-kernel@vger.kernel.org, lkcamp@lists.libreplanetbr.org
-Reply-To: =?UTF-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
-          <nfraprado@protonmail.com>
-Subject: [PATCH v2] media: vimc: Make capture devices and subdevices use different link_validates
-Message-ID: <20191009001854.2253748-1-nfraprado@protonmail.com>
-Feedback-ID: cwTKJQq-dqva77NrgNeIaWzOvcDQqfI9VSy7DoyJdvgY6-nEE7fD-E-3GiKFHexW4OBWbzutmMZN6q4SflMDRw==:Ext:ProtonMail
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM autolearn=ham
-        autolearn_force=no version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.protonmail.ch
+Subject: cron job: media_tree daily build: OK
+X-CMAE-Envelope: MS4wfEqG8E64uD81elUEyBYzmuayG5NeLlODrLFfmYPex8qEqqMc/8HrjFYPz16GcOclxynMQvnmPU8jpczxMJY5DAJJuHzBpADM/qteOHIq8ZLTlHHQ114H
+ 7jKGEO/VQSt5hQ3fN89s3rd1OPdhSDVGsdpbFAtqz0/kIdx10E9QZ1c4uHzK99NS5MpCqJZ2oYThCoKq7vJoDM0cggJqZaM/1HSE3JPL2ZSnA8CGEr+bjq2d
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Instead of validating the links to capture devices and subdevices with
-the same function, use the default v4l function for links between
-subdevices and only use a different function for validating between
-capture device and subdevice.
-This change should also ease future work to associate multiple mbus
-codes for the same pixelformat in vimc_pix_map.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-These changes were tested with
-v4l2-compliance SHA: 3f806630e2ecbcebe31872b865c5c4b42f111a99, 64 bits
-and passed all tests:
-Grand Total for vimc device /dev/media0: 451, Succeeded: 451, Failed: 0, Wa=
-rnings: 0
+Results of the daily build of media_tree:
 
-Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@protonmail.com>
----
-Changes in v2:
-- Remove blank lines
-- Rename vimc_cap_link_validate to vimc_vdev_link_validate and move it back=
- to
-  vimc-common.c
-- Fix style issue on vimc_get_pix_format header
-- Remove vimc_get_pix_format declaration from vimc-common.h
+date:			Wed Oct  9 05:00:11 CEST 2019
+media-tree git hash:	219031a6e7dff52a066e8b074adc0697f501e3d3
+media_build git hash:	afb27b4820fd670aed06d56c6a1dde56318453f1
+v4l-utils git hash:	fd74ecee9020fcf80b3b9628f277d9311b443395
+edid-decode git hash:	7d26052f7245664df96079845601ced5335fb2d7
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1-rc1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.5.1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: fb74d4453fd4f857830399be9778a571221bee04
+host hardware:		x86_64
+host os:		5.2.0-3-amd64
 
- drivers/media/platform/vimc/vimc-capture.c |  2 +-
- drivers/media/platform/vimc/vimc-common.c  | 86 +++++++++++-----------
- drivers/media/platform/vimc/vimc-common.h  |  4 +-
- 3 files changed, 46 insertions(+), 46 deletions(-)
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4-rc1-i686: OK
+linux-5.4-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2328, Succeeded: 2328, Failed: 0, Warnings: 0
+sparse: OK
 
-diff --git a/drivers/media/platform/vimc/vimc-capture.c b/drivers/media/pla=
-tform/vimc/vimc-capture.c
-index 602f80323031..75daebd625a8 100644
---- a/drivers/media/platform/vimc/vimc-capture.c
-+++ b/drivers/media/platform/vimc/vimc-capture.c
-@@ -322,7 +322,7 @@ static const struct vb2_ops vimc_cap_qops =3D {
- };
-=20
- static const struct media_entity_operations vimc_cap_mops =3D {
--=09.link_validate=09=09=3D vimc_link_validate,
-+=09.link_validate=09=09=3D vimc_vdev_link_validate,
- };
-=20
- static void vimc_cap_release(struct video_device *vdev)
-diff --git a/drivers/media/platform/vimc/vimc-common.c b/drivers/media/plat=
-form/vimc/vimc-common.c
-index a3120f4f7a90..a67813e750d9 100644
---- a/drivers/media/platform/vimc/vimc-common.c
-+++ b/drivers/media/platform/vimc/vimc-common.c
-@@ -247,35 +247,35 @@ int vimc_pipeline_s_stream(struct media_entity *ent, =
-int enable)
- }
- EXPORT_SYMBOL_GPL(vimc_pipeline_s_stream);
-=20
--static int vimc_get_mbus_format(struct media_pad *pad,
--=09=09=09=09struct v4l2_subdev_format *fmt)
-+int vimc_get_pix_format(struct media_pad *pad, struct v4l2_pix_format *fmt=
-)
- {
- =09if (is_media_entity_v4l2_subdev(pad->entity)) {
- =09=09struct v4l2_subdev *sd =3D
- =09=09=09media_entity_to_v4l2_subdev(pad->entity);
-+=09=09struct v4l2_subdev_format sd_fmt;
-+=09=09const struct vimc_pix_map *pix_map;
- =09=09int ret;
-=20
--=09=09fmt->which =3D V4L2_SUBDEV_FORMAT_ACTIVE;
--=09=09fmt->pad =3D pad->index;
-+=09=09sd_fmt.which =3D V4L2_SUBDEV_FORMAT_ACTIVE;
-+=09=09sd_fmt.pad =3D pad->index;
-=20
--=09=09ret =3D v4l2_subdev_call(sd, pad, get_fmt, NULL, fmt);
-+=09=09ret =3D v4l2_subdev_call(sd, pad, get_fmt, NULL, &sd_fmt);
- =09=09if (ret)
- =09=09=09return ret;
-=20
-+=09=09v4l2_fill_pix_format(fmt, &sd_fmt.format);
-+=09=09pix_map =3D vimc_pix_map_by_code(sd_fmt.format.code);
-+=09=09fmt->pixelformat =3D pix_map->pixelformat;
- =09} else if (is_media_entity_v4l2_video_device(pad->entity)) {
- =09=09struct video_device *vdev =3D container_of(pad->entity,
- =09=09=09=09=09=09=09 struct video_device,
- =09=09=09=09=09=09=09 entity);
- =09=09struct vimc_ent_device *ved =3D video_get_drvdata(vdev);
--=09=09const struct vimc_pix_map *vpix;
--=09=09struct v4l2_pix_format vdev_fmt;
-=20
- =09=09if (!ved->vdev_get_format)
- =09=09=09return -ENOIOCTLCMD;
-=20
--=09=09ved->vdev_get_format(ved, &vdev_fmt);
--=09=09vpix =3D vimc_pix_map_by_pixelformat(vdev_fmt.pixelformat);
--=09=09v4l2_fill_mbus_format(&fmt->format, &vdev_fmt, vpix->code);
-+=09=09ved->vdev_get_format(ved, fmt);
- =09} else {
- =09=09return -EINVAL;
- =09}
-@@ -283,16 +283,16 @@ static int vimc_get_mbus_format(struct media_pad *pad=
-,
- =09return 0;
- }
-=20
--int vimc_link_validate(struct media_link *link)
-+int vimc_vdev_link_validate(struct media_link *link)
- {
--=09struct v4l2_subdev_format source_fmt, sink_fmt;
-+=09struct v4l2_pix_format source_fmt, sink_fmt;
- =09int ret;
-=20
--=09ret =3D vimc_get_mbus_format(link->source, &source_fmt);
-+=09ret =3D vimc_get_pix_format(link->source, &source_fmt);
- =09if (ret)
- =09=09return ret;
-=20
--=09ret =3D vimc_get_mbus_format(link->sink, &sink_fmt);
-+=09ret =3D vimc_get_pix_format(link->sink, &sink_fmt);
- =09if (ret)
- =09=09return ret;
-=20
-@@ -301,21 +301,21 @@ int vimc_link_validate(struct media_link *link)
- =09=09"%s:snk:%dx%d (0x%x, %d, %d, %d, %d)\n",
- =09=09/* src */
- =09=09link->source->entity->name,
--=09=09source_fmt.format.width, source_fmt.format.height,
--=09=09source_fmt.format.code, source_fmt.format.colorspace,
--=09=09source_fmt.format.quantization, source_fmt.format.xfer_func,
--=09=09source_fmt.format.ycbcr_enc,
-+=09=09source_fmt.width, source_fmt.height,
-+=09=09source_fmt.pixelformat, source_fmt.colorspace,
-+=09=09source_fmt.quantization, source_fmt.xfer_func,
-+=09=09source_fmt.ycbcr_enc,
- =09=09/* sink */
- =09=09link->sink->entity->name,
--=09=09sink_fmt.format.width, sink_fmt.format.height,
--=09=09sink_fmt.format.code, sink_fmt.format.colorspace,
--=09=09sink_fmt.format.quantization, sink_fmt.format.xfer_func,
--=09=09sink_fmt.format.ycbcr_enc);
--
--=09/* The width, height and code must match. */
--=09if (source_fmt.format.width !=3D sink_fmt.format.width
--=09    || source_fmt.format.height !=3D sink_fmt.format.height
--=09    || source_fmt.format.code !=3D sink_fmt.format.code)
-+=09=09sink_fmt.width, sink_fmt.height,
-+=09=09sink_fmt.pixelformat, sink_fmt.colorspace,
-+=09=09sink_fmt.quantization, sink_fmt.xfer_func,
-+=09=09sink_fmt.ycbcr_enc);
-+
-+=09/* The width, height and pixelformat must match. */
-+=09if (source_fmt.width !=3D sink_fmt.width
-+=09    || source_fmt.height !=3D sink_fmt.height
-+=09    || source_fmt.pixelformat !=3D sink_fmt.pixelformat)
- =09=09return -EPIPE;
-=20
- =09/*
-@@ -323,44 +323,44 @@ int vimc_link_validate(struct media_link *link)
- =09 * to support interlaced hardware connected to bridges that support
- =09 * progressive formats only.
- =09 */
--=09if (source_fmt.format.field !=3D sink_fmt.format.field &&
--=09    sink_fmt.format.field !=3D V4L2_FIELD_NONE)
-+=09if (source_fmt.field !=3D sink_fmt.field &&
-+=09    sink_fmt.field !=3D V4L2_FIELD_NONE)
- =09=09return -EPIPE;
-=20
- =09/*
- =09 * If colorspace is DEFAULT, then assume all the colorimetry is also
- =09 * DEFAULT, return 0 to skip comparing the other colorimetry parameters
- =09 */
--=09if (source_fmt.format.colorspace =3D=3D V4L2_COLORSPACE_DEFAULT
--=09    || sink_fmt.format.colorspace =3D=3D V4L2_COLORSPACE_DEFAULT)
-+=09if (source_fmt.colorspace =3D=3D V4L2_COLORSPACE_DEFAULT
-+=09    || sink_fmt.colorspace =3D=3D V4L2_COLORSPACE_DEFAULT)
- =09=09return 0;
-=20
- =09/* Colorspace must match. */
--=09if (source_fmt.format.colorspace !=3D sink_fmt.format.colorspace)
-+=09if (source_fmt.colorspace !=3D sink_fmt.colorspace)
- =09=09return -EPIPE;
-=20
- =09/* Colorimetry must match if they are not set to DEFAULT */
--=09if (source_fmt.format.ycbcr_enc !=3D V4L2_YCBCR_ENC_DEFAULT
--=09    && sink_fmt.format.ycbcr_enc !=3D V4L2_YCBCR_ENC_DEFAULT
--=09    && source_fmt.format.ycbcr_enc !=3D sink_fmt.format.ycbcr_enc)
-+=09if (source_fmt.ycbcr_enc !=3D V4L2_YCBCR_ENC_DEFAULT
-+=09    && sink_fmt.ycbcr_enc !=3D V4L2_YCBCR_ENC_DEFAULT
-+=09    && source_fmt.ycbcr_enc !=3D sink_fmt.ycbcr_enc)
- =09=09return -EPIPE;
-=20
--=09if (source_fmt.format.quantization !=3D V4L2_QUANTIZATION_DEFAULT
--=09    && sink_fmt.format.quantization !=3D V4L2_QUANTIZATION_DEFAULT
--=09    && source_fmt.format.quantization !=3D sink_fmt.format.quantization=
-)
-+=09if (source_fmt.quantization !=3D V4L2_QUANTIZATION_DEFAULT
-+=09    && sink_fmt.quantization !=3D V4L2_QUANTIZATION_DEFAULT
-+=09    && source_fmt.quantization !=3D sink_fmt.quantization)
- =09=09return -EPIPE;
-=20
--=09if (source_fmt.format.xfer_func !=3D V4L2_XFER_FUNC_DEFAULT
--=09    && sink_fmt.format.xfer_func !=3D V4L2_XFER_FUNC_DEFAULT
--=09    && source_fmt.format.xfer_func !=3D sink_fmt.format.xfer_func)
-+=09if (source_fmt.xfer_func !=3D V4L2_XFER_FUNC_DEFAULT
-+=09    && sink_fmt.xfer_func !=3D V4L2_XFER_FUNC_DEFAULT
-+=09    && source_fmt.xfer_func !=3D sink_fmt.xfer_func)
- =09=09return -EPIPE;
-=20
- =09return 0;
- }
--EXPORT_SYMBOL_GPL(vimc_link_validate);
-+EXPORT_SYMBOL_GPL(vimc_vdev_link_validate);
-=20
- static const struct media_entity_operations vimc_ent_sd_mops =3D {
--=09.link_validate =3D vimc_link_validate,
-+=09.link_validate =3D v4l2_subdev_link_validate,
- };
-=20
- int vimc_ent_sd_register(struct vimc_ent_device *ved,
-diff --git a/drivers/media/platform/vimc/vimc-common.h b/drivers/media/plat=
-form/vimc/vimc-common.h
-index 698db7c07645..145cee076bd7 100644
---- a/drivers/media/platform/vimc/vimc-common.h
-+++ b/drivers/media/platform/vimc/vimc-common.h
-@@ -264,12 +264,12 @@ void vimc_ent_sd_unregister(struct vimc_ent_device *v=
-ed,
- =09=09=09    struct v4l2_subdev *sd);
-=20
- /**
-- * vimc_link_validate - validates a media link
-+ * vimc_vdev_link_validate - validates a media link
-  *
-  * @link: pointer to &struct media_link
-  *
-  * This function calls validates if a media link is valid for streaming.
-  */
--int vimc_link_validate(struct media_link *link);
-+int vimc_vdev_link_validate(struct media_link *link);
-=20
- #endif
---=20
-2.23.0
+Detailed results are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
 
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
