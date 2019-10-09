@@ -2,86 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 376ABD0ED7
-	for <lists+linux-media@lfdr.de>; Wed,  9 Oct 2019 14:33:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2FFAD0EFF
+	for <lists+linux-media@lfdr.de>; Wed,  9 Oct 2019 14:42:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730933AbfJIMc7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Oct 2019 08:32:59 -0400
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:43818 "EHLO
-        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727029AbfJIMc7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Oct 2019 08:32:59 -0400
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x99CWfZZ083947;
-        Wed, 9 Oct 2019 07:32:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1570624361;
-        bh=wy74BV+gADxjYq84q/3icEqfPmppjgnaKhtU7G9oYJM=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=yuh5FDLTaWIkFnM/ECeh1Gucupgc11l0TsYvbWxZxIrVMv/ua5k3ONVZoGs4CTwRS
-         3Mq04p2jAnku+Djw/x8Y6NjxtbwjwlN+fgHc6TTBVTQklkEeaTMQH8ShUL5vmrFPg4
-         gaONubkEn9so8UAclt9I6Rtuymp0Hg9Kh4DNI1Fw=
-Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
-        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x99CWf4p090522
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 9 Oct 2019 07:32:41 -0500
-Received: from DLEE102.ent.ti.com (157.170.170.32) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Wed, 9 Oct
- 2019 07:32:37 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE102.ent.ti.com
- (157.170.170.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Wed, 9 Oct 2019 07:32:37 -0500
-Received: from uda0869644b.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id x99CWbNS081004;
-        Wed, 9 Oct 2019 07:32:40 -0500
-From:   Benoit Parrot <bparrot@ti.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-CC:     Jacopo Mondi <jacopo@jmondi.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Benoit Parrot <bparrot@ti.com>
-Subject: [Patch v4 3/3] media: ov5640: Make 2592x1944 mode only available at 15 fps
-Date:   Wed, 9 Oct 2019 07:35:10 -0500
-Message-ID: <20191009123510.19106-4-bparrot@ti.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191009123510.19106-1-bparrot@ti.com>
-References: <20191009123510.19106-1-bparrot@ti.com>
+        id S1730662AbfJIMmI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Oct 2019 08:42:08 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:40335 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727878AbfJIMmI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 9 Oct 2019 08:42:08 -0400
+Received: from [IPv6:2001:983:e9a7:1:2801:e038:f2c3:e060] ([IPv6:2001:983:e9a7:1:2801:e038:f2c3:e060])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id IBI4igcHMjZ8vIBI5iHvcM; Wed, 09 Oct 2019 14:42:06 +0200
+Subject: Re: [PATCH] media: usb: fix memory leak in af9005_identify_state
+To:     Navid Emamdoost <navid.emamdoost@gmail.com>
+Cc:     emamd001@umn.edu, smccaman@umn.edu, kjlu@umn.edu,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Richard Fontana <rfontana@redhat.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190913235505.9164-1-navid.emamdoost@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <6de2396d-eaa4-5cb4-9a1d-f253503bcf48@xs4all.nl>
+Date:   Wed, 9 Oct 2019 14:42:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+In-Reply-To: <20190913235505.9164-1-navid.emamdoost@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfLR4WciaWbeoS3Yos5GxYJIYmG+CkYSY8MFAZMNwyIwy02S+lvjZoCiLqmMKLJ2sRxGrxxUf3YlVIh9spOObjW6Mkn5GfPcOMxFjS1Zgsf0cE27gHNQ4
+ DLUUwKKFKlE8HLFtAoNyittqEOj3kUymYF3smqo/zy7tlaYXz0yjRNlbTmM01Dpz4ePxCDOUyDIFxBBhgHzaJCsztqz5R4nbfBbW0lwqljj1H6FhSIKDhr0q
+ zQsM3v03AJ8zgOzt7Ggv5brZeMSN3sgVcGxe9rVnuKRjB0fIji/GZfa1IrSdlCl8gWf2pf+80vwctq/Mx4RcGrcPQCFtR3UnWg2yZ0H/nyooiWjcTIdiq8hh
+ 9Ms+LrJj1CREbX5wQvZnqre4qWPnLsGBNfib6P0BnaXegoOloH7hZDJp+7Vo9b9Ab5Zj1X4OD8ogxvJRgJfJxX8fuaiGxLgJECMz1hJ3TVPulzrJjB8tlttJ
+ +ooedRqTkwoiAsA1MA1+uC18DWVG0oRIle8bnZiCtbWVYBYMQELB9gUVmRqqVXZ5Ymj0nT/yxuSClLWoa/2sXQpjaKOa7eY9yebZs35ADAnwcqvP9cCL87El
+ e1eSKTu7aYWpIzXDOIsi28Y7
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The sensor data sheet clearly state that 2592x1944 only works at 15 fps
-make sure we don't try to miss configure the pll out of acceptable
-range.
+On 9/14/19 1:55 AM, Navid Emamdoost wrote:
+> In af9005_identify_state when returning -EIO the allocated buffer should
+> be released.
+> 
+> Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
+> ---
+>  drivers/media/usb/dvb-usb/af9005.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/usb/dvb-usb/af9005.c b/drivers/media/usb/dvb-usb/af9005.c
+> index 02697d86e8c1..aee500beaab6 100644
+> --- a/drivers/media/usb/dvb-usb/af9005.c
+> +++ b/drivers/media/usb/dvb-usb/af9005.c
+> @@ -975,8 +975,10 @@ static int af9005_identify_state(struct usb_device *udev,
+>  		*cold = 1;
+>  	else if (reply == 0x02)
+>  		*cold = 0;
+> -	else
+> +	else {
+> +		kfree(buf);
+>  		return -EIO;
+> +	}
 
-Signed-off-by: Benoit Parrot <bparrot@ti.com>
-Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
----
- drivers/media/i2c/ov5640.c | 5 +++++
- 1 file changed, 5 insertions(+)
+Why not just set ret = -EIO; here?
 
-diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-index 065c9b61ecbd..5e495c833d32 100644
---- a/drivers/media/i2c/ov5640.c
-+++ b/drivers/media/i2c/ov5640.c
-@@ -1611,6 +1611,11 @@ ov5640_find_mode(struct ov5640_dev *sensor, enum ov5640_frame_rate fr,
- 	    !(mode->hact == 640 && mode->vact == 480))
- 		return NULL;
- 
-+	/* 2592x1944 only works at 15fps max */
-+	if ((mode->hact == 2592 && mode->vact == 1944) &&
-+	    fr > OV5640_15_FPS)
-+		return NULL;
-+
- 	return mode;
- }
- 
--- 
-2.17.1
+You only need to add a
+
+	if (!ret)
+>  	deb_info("Identify state cold = %d\n", *cold);
+
+before this line.
+
+So this becomes:
+
+        else
+                ret = -EIO;
+        if (!ret)
+                deb_info("Identify state cold = %d\n", *cold);
+
+Regards,
+
+	Hans
+
+>  
+>  err:
+> 
 
