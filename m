@@ -2,184 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 711F8D0F4D
-	for <lists+linux-media@lfdr.de>; Wed,  9 Oct 2019 14:58:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E8284D0F7E
+	for <lists+linux-media@lfdr.de>; Wed,  9 Oct 2019 15:03:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731192AbfJIM6y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Oct 2019 08:58:54 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:56147 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730490AbfJIM6x (ORCPT
+        id S1731138AbfJINCP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Oct 2019 09:02:15 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:53031 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730901AbfJINCP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 9 Oct 2019 08:58:53 -0400
+        Wed, 9 Oct 2019 09:02:15 -0400
 Received: from [IPv6:2001:983:e9a7:1:2801:e038:f2c3:e060] ([IPv6:2001:983:e9a7:1:2801:e038:f2c3:e060])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id IBYIigkvMjZ8vIBYJiI0ib; Wed, 09 Oct 2019 14:58:52 +0200
-Subject: Re: [PATCH 2/2 RESEND] media: usbvision: Fix races among open, close,
- and disconnect
-To:     Alan Stern <stern@rowland.harvard.edu>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, USB list <linux-usb@vger.kernel.org>,
-        syzkaller-bugs@googlegroups.com
-References: <Pine.LNX.4.44L0.1910071109050.1513-100000@iolanthe.rowland.org>
+        id IBbYigmgKjZ8vIBbZiI1pc; Wed, 09 Oct 2019 15:02:13 +0200
+Subject: Re: [PATCH] staging: media: Fix alignment to match open parenthesis
+To:     Amol Grover <frextrite@gmail.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-kernel@vger.kernel.org
+References: <20190911165655.GA22041@Debian.gxnx00eri1wudnlrc5f3ppaydc.bx.internal.cloudapp.net>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <ab4a8b5f-24c9-ddf9-9cd7-885fb9e33e9f@xs4all.nl>
-Date:   Wed, 9 Oct 2019 14:58:50 +0200
+Message-ID: <27da1d8b-09fc-8d23-5213-f0c352ee615d@xs4all.nl>
+Date:   Wed, 9 Oct 2019 15:02:12 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <Pine.LNX.4.44L0.1910071109050.1513-100000@iolanthe.rowland.org>
+In-Reply-To: <20190911165655.GA22041@Debian.gxnx00eri1wudnlrc5f3ppaydc.bx.internal.cloudapp.net>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfE9BN3Lh7/znjnC5OrS+EXQ4xHMoNTUsF5/lwupTlzb3tF6ob2L0q3DMXA4smni/HOrt2hcW8N/mSw3eT4AYY40UdUf/kDwSMEQPe1V0cAIO3j9LEmxr
- zzqXM99mRxEHnA8HDku99onvEmRyGi0QFEQo8d5qNPj1JFQWb4LVrtkJDCEqAmxrl5VV+fzrJGCJg2iGmZIvF8V8YUG+/BAstQdnJhUdq0mvotcRli3VRdri
- FXUD/Dzbq2FbiGIkWcnEAS61jsH5cw6+QJrH671EFEv7/eBzpwz1N6TpfDTnJl+Vu3vg+ZA2vjO/byKFHQ0JvtAxnCzuxMrvrfb1mIpJpiQCJJKO8kAY/3Ya
- jPelHWZOOZrMzYGaJy/dQuqAoKAbJPpdrbgPSdfnJLpwBJQDhkIxzvWtEw2UUxfL8Kez1Xs0JLGcXEsooYT1X5Q3JskTwA==
+X-CMAE-Envelope: MS4wfD9xGs8YOYZuV2WnHUMHNDzu/rb3+CIh2AtNp5uss+ux5BI/fVCKdjPT2bWBacECXDWhk3Hf31un/fG+RhxxTg16tusrwCrpOJ0ZB00szu2mhkTClY/7
+ 4f/V7rNk74jiJaH6t5+c8ix9wYWAf6YeUbzUkHV2JnW+cTZPHuPJ3lVFR3i/jv61sKvcaLlKjl/tzm5D9yporFfLKj2nBVr2IrmBak8yeIsFkuhAj9xiCM91
+ Z+cRkBjrpP8E2WbB4vAqd75vw430EJLKXor3vg9m3ojfPtWHJ/v2eMboHFtgpWQr0tAGn8xY9Q5cFFsmQqiPkqptDi2B3Y/+PRKEJ0p2ZD/8ycjSPdIyfaQe
+ htaGq53QKeHef36+PMxMMCqaowIiuqtRuscWoIXQrw6JYJrNfbXFu6w57kVcLWUJDZG8uPDX8NUJhncy+TLQwnp5XfxTV3uKA1y+PKQb8x9P0yUzbdFnkE9F
+ qUEN4JH7dJojP8BJmCY4Fnfu4lhGPkhATd2J2d9LbzXXqW3iQAA7kw2N2wt7BhA6uavtrk6fXcPkokAZ
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/7/19 5:09 PM, Alan Stern wrote:
-> Visual inspection of the usbvision driver shows that it suffers from
-> three races between its open, close, and disconnect handlers.  In
-> particular, the driver is careful to update its usbvision->user and
-> usbvision->remove_pending flags while holding the private mutex, but:
-> 
-> 	usbvision_v4l2_close() and usbvision_radio_close() don't hold
-> 	the mutex while they check the value of
-> 	usbvision->remove_pending;
-> 
-> 	usbvision_disconnect() doesn't hold the mutex while checking
-> 	the value of usbvision->user; and
-> 
-> 	also, usbvision_v4l2_open() and usbvision_radio_open() don't
-> 	check whether the device has been unplugged before allowing
-> 	the user to open the device files.
-> 
-> Each of these can potentially lead to usbvision_release() being called
-> twice and use-after-free errors.
-> 
-> This patch fixes the races by reading the flags while the mutex is
-> still held and checking for pending removes before allowing an open to
-> succeed.
+Hi Amol,
 
-I suspect usbvision is full of races like that. It isn't using the proper
-frameworks to take care of this. The problem is that it's old hardware and
-nobody really cares about reworking the driver.
+For future reference: always include the driver name in the subject.
 
-I'll take the patch, but if there is anyone interested in doing work on
-this driver, then let me know. Otherwise I might just deprecate it.
+I've added "imx: " to the subject for you, so no need to resend, but
+the driver name is important information.
 
 Regards,
 
 	Hans
 
+On 9/11/19 6:56 PM, Amol Grover wrote:
+> CHECK: Alignment should match open parenthesis
 > 
-> Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
-> CC: <stable@vger.kernel.org>
-> 
+> Signed-off-by: Amol Grover <frextrite@gmail.com>
 > ---
+>  drivers/staging/media/imx/imx-media-csi.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> [as1920]
-> 
-> 
->  drivers/media/usb/usbvision/usbvision-video.c |   21 ++++++++++++++++++---
->  1 file changed, 18 insertions(+), 3 deletions(-)
-> 
-> Index: usb-devel/drivers/media/usb/usbvision/usbvision-video.c
-> ===================================================================
-> --- usb-devel.orig/drivers/media/usb/usbvision/usbvision-video.c
-> +++ usb-devel/drivers/media/usb/usbvision/usbvision-video.c
-> @@ -314,6 +314,10 @@ static int usbvision_v4l2_open(struct fi
->  	if (mutex_lock_interruptible(&usbvision->v4l2_lock))
->  		return -ERESTARTSYS;
+> diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
+> index 367e39f5b382..773b3d6964cf 100644
+> --- a/drivers/staging/media/imx/imx-media-csi.c
+> +++ b/drivers/staging/media/imx/imx-media-csi.c
+> @@ -627,8 +627,8 @@ static int csi_idmac_start(struct csi_priv *priv)
+>  	}
 >  
-> +	if (usbvision->remove_pending) {
-> +		err_code = -ENODEV;
-> +		goto unlock;
-> +	}
->  	if (usbvision->user) {
->  		err_code = -EBUSY;
->  	} else {
-> @@ -377,6 +381,7 @@ unlock:
->  static int usbvision_v4l2_close(struct file *file)
->  {
->  	struct usb_usbvision *usbvision = video_drvdata(file);
-> +	int r;
+>  	priv->nfb4eof_irq = ipu_idmac_channel_irq(priv->ipu,
+> -						 priv->idmac_ch,
+> -						 IPU_IRQ_NFB4EOF);
+> +						  priv->idmac_ch,
+> +						  IPU_IRQ_NFB4EOF);
+>  	ret = devm_request_irq(priv->dev, priv->nfb4eof_irq,
+>  			       csi_idmac_nfb4eof_interrupt, 0,
+>  			       "imx-smfc-nfb4eof", priv);
+> @@ -1472,7 +1472,7 @@ static void csi_try_fmt(struct csi_priv *priv,
+>  			imx_media_enum_mbus_format(&code, 0,
+>  						   CS_SEL_ANY, false);
+>  			*cc = imx_media_find_mbus_format(code,
+> -							CS_SEL_ANY, false);
+> +							 CS_SEL_ANY, false);
+>  			sdformat->format.code = (*cc)->codes[0];
+>  		}
 >  
->  	PDEBUG(DBG_IO, "close");
->  
-> @@ -391,9 +396,10 @@ static int usbvision_v4l2_close(struct f
->  	usbvision_scratch_free(usbvision);
->  
->  	usbvision->user--;
-> +	r = usbvision->remove_pending;
->  	mutex_unlock(&usbvision->v4l2_lock);
->  
-> -	if (usbvision->remove_pending) {
-> +	if (r) {
->  		printk(KERN_INFO "%s: Final disconnect\n", __func__);
->  		usbvision_release(usbvision);
->  		return 0;
-> @@ -1076,6 +1082,11 @@ static int usbvision_radio_open(struct f
->  
->  	if (mutex_lock_interruptible(&usbvision->v4l2_lock))
->  		return -ERESTARTSYS;
-> +
-> +	if (usbvision->remove_pending) {
-> +		err_code = -ENODEV;
-> +		goto out;
-> +	}
->  	err_code = v4l2_fh_open(file);
->  	if (err_code)
->  		goto out;
-> @@ -1108,6 +1119,7 @@ out:
->  static int usbvision_radio_close(struct file *file)
->  {
->  	struct usb_usbvision *usbvision = video_drvdata(file);
-> +	int r;
->  
->  	PDEBUG(DBG_IO, "");
->  
-> @@ -1121,9 +1133,10 @@ static int usbvision_radio_close(struct
->  	usbvision_audio_off(usbvision);
->  	usbvision->radio = 0;
->  	usbvision->user--;
-> +	r = usbvision->remove_pending;
->  	mutex_unlock(&usbvision->v4l2_lock);
->  
-> -	if (usbvision->remove_pending) {
-> +	if (r) {
->  		printk(KERN_INFO "%s: Final disconnect\n", __func__);
->  		v4l2_fh_release(file);
->  		usbvision_release(usbvision);
-> @@ -1555,6 +1568,7 @@ err_usb:
->  static void usbvision_disconnect(struct usb_interface *intf)
->  {
->  	struct usb_usbvision *usbvision = to_usbvision(usb_get_intfdata(intf));
-> +	int u;
->  
->  	PDEBUG(DBG_PROBE, "");
->  
-> @@ -1571,13 +1585,14 @@ static void usbvision_disconnect(struct
->  	v4l2_device_disconnect(&usbvision->v4l2_dev);
->  	usbvision_i2c_unregister(usbvision);
->  	usbvision->remove_pending = 1;	/* Now all ISO data will be ignored */
-> +	u = usbvision->user;
->  
->  	usb_put_dev(usbvision->dev);
->  	usbvision->dev = NULL;	/* USB device is no more */
->  
->  	mutex_unlock(&usbvision->v4l2_lock);
->  
-> -	if (usbvision->user) {
-> +	if (u) {
->  		printk(KERN_INFO "%s: In use, disconnect pending\n",
->  		       __func__);
->  		wake_up_interruptible(&usbvision->wait_frame);
-> 
-> 
 > 
 
