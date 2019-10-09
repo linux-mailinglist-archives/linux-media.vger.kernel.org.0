@@ -2,148 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B9E29D11E8
-	for <lists+linux-media@lfdr.de>; Wed,  9 Oct 2019 16:59:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA32ED11EE
+	for <lists+linux-media@lfdr.de>; Wed,  9 Oct 2019 17:01:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731590AbfJIO76 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Oct 2019 10:59:58 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:50230 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729644AbfJIO76 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 9 Oct 2019 10:59:58 -0400
-Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x99Ew8Fe140298;
-        Wed, 9 Oct 2019 10:59:39 -0400
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com [169.62.189.11])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 2vhekx80vb-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 09 Oct 2019 10:59:39 -0400
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
-        by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id x99Et8vR012341;
-        Wed, 9 Oct 2019 14:59:38 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
-        by ppma03dal.us.ibm.com with ESMTP id 2vejt7k694-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 09 Oct 2019 14:59:38 +0000
-Received: from b03ledav003.gho.boulder.ibm.com (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
-        by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x99ExbKJ42533202
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 9 Oct 2019 14:59:37 GMT
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 7A11D6A047;
-        Wed,  9 Oct 2019 14:59:37 +0000 (GMT)
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id D40166A04F;
-        Wed,  9 Oct 2019 14:59:36 +0000 (GMT)
-Received: from [9.41.103.158] (unknown [9.41.103.158])
-        by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
-        Wed,  9 Oct 2019 14:59:36 +0000 (GMT)
-Subject: Re: [PATCH] media: aspeed: clear garbage interrupts
-To:     Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>,
-        Eddie James <eajames@linux.ibm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>
-Cc:     openbmc@lists.ozlabs.org, Jae Hyun Yoo <jae.hyun.yoo@intel.com>,
-        linux-aspeed@lists.ozlabs.org, linux-media@vger.kernel.org
-References: <20190926222743.18546-1-jae.hyun.yoo@linux.intel.com>
-From:   Eddie James <eajames@linux.vnet.ibm.com>
-Message-ID: <90573930-c53b-9954-99e4-9b37e0661025@linux.vnet.ibm.com>
-Date:   Wed, 9 Oct 2019 09:59:36 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1731133AbfJIPBA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Oct 2019 11:01:00 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:41304 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729644AbfJIPBA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Oct 2019 11:01:00 -0400
+Received: by mail-io1-f65.google.com with SMTP id n26so5623428ioj.8;
+        Wed, 09 Oct 2019 08:01:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Qg77rKEV8sqoLJ5jhRaIbmkXA6q29h9mmik7MN3d40o=;
+        b=DBFu8F8pitsJc/XeCuYmIOmz/XeDfO8iPVA5qBl0Hng0UDpOL5c85YOX10xJ/DBJDM
+         H4f78gzVwHqM1KZF97D5vu6jvUtumy0W9niJ+VX6xMTuS+VpULdhVQPqrznKVSo9KcC1
+         1awuWTNRBljBx9Fu6ns5Ju2PoxcE8kRnb05yz7IsI7cIXgsdG734iOjuBbHL/M43bKu7
+         8mlnOVhYASOcJQgv4QlT8A6V4TsHwLn/lScfytU5PtpwJ7Y0owJeL9CXwpoHaTu7tZsZ
+         yyxK+lN12zN6fKmqYRlDgDh4/rTMBfM0BvMpDXvtRAtBuncjeG7yXEHH+4X67COdXw0a
+         wn9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Qg77rKEV8sqoLJ5jhRaIbmkXA6q29h9mmik7MN3d40o=;
+        b=s0VD+56FWGTjTAiWdfn+2JlCgDwffpNhG92JQFAINqVNjV5pvCL4xBfkQS+hNAwoGw
+         0r9ayFq0BK3qro5bapuP3a+Ubcq0QAMtNAG0tNAqcS/klWzXqnlW59ygUEvyCZmZpck5
+         EmxJGgFA3Thesw3UNn9bvtcMBh5LT+ROJU8pZtIaTYBUeboLV4Lb3IqzlLUbfBcp2zs1
+         awJxo7gmtym6OSxx03C3r/Y/Xswqgmy9uvLl0Ae2uaGtzQ1L03X3KrwVe7+iVCcdPtgu
+         7QBVG1ObLGJl0iLOjyy53ZNoqcSqF+DTlI8oB1PJYtg2t3Ivrb8W4GykAs3gU3GwMu64
+         4aTA==
+X-Gm-Message-State: APjAAAWmlDplDyXHz5wOH5VSJz7oXDENIUku4ZlCmEPsAkz6AQzPw3sj
+        Q1pYibyGILuL9pIzRyJqrH/wrz7mnZVjEMHlTFI=
+X-Google-Smtp-Source: APXvYqw93Pdi9hgF7K3HQPP09GXqR3W0N7qXz2FnTwPB5ntxxhR0Ilu7PEHpEagAUY05ysSuXX5kkMLZK+pHevvrnW8=
+X-Received: by 2002:a5e:8711:: with SMTP id y17mr3922522ioj.227.1570633259375;
+ Wed, 09 Oct 2019 08:00:59 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190926222743.18546-1-jae.hyun.yoo@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-10-09_06:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=898 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1908290000 definitions=main-1910090142
+References: <20190913235505.9164-1-navid.emamdoost@gmail.com> <6de2396d-eaa4-5cb4-9a1d-f253503bcf48@xs4all.nl>
+In-Reply-To: <6de2396d-eaa4-5cb4-9a1d-f253503bcf48@xs4all.nl>
+From:   Navid Emamdoost <navid.emamdoost@gmail.com>
+Date:   Wed, 9 Oct 2019 10:00:48 -0500
+Message-ID: <CAEkB2ESWm2woq6LLxOUGaLVwszg4uRNMmVEatnPXsyu1XDvSvA@mail.gmail.com>
+Subject: Re: [PATCH] media: usb: fix memory leak in af9005_identify_state
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Navid Emamdoost <emamd001@umn.edu>,
+        Stephen McCamant <smccaman@umn.edu>, Kangjie Lu <kjlu@umn.edu>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Richard Fontana <rfontana@redhat.com>,
+        Kate Stewart <kstewart@linuxfoundation.org>,
+        linux-media@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Hans,
 
-On 9/26/19 5:27 PM, Jae Hyun Yoo wrote:
-> From: Jae Hyun Yoo <jae.hyun.yoo@intel.com>
+On Wed, Oct 9, 2019 at 7:42 AM Hans Verkuil <hverkuil@xs4all.nl> wrote:
 >
-> CAPTURE_COMPLETE and FRAME_COMPLETE interrupts come even when these
-> are disabled in the VE_INTERRUPT_CTRL register and eventually this
-> behavior causes disabling irq itself like below:
-
-
-Thanks!
-
-Reviewed-by: Eddie James <eajames@linux.ibm.com>
-
-
+> On 9/14/19 1:55 AM, Navid Emamdoost wrote:
+> > In af9005_identify_state when returning -EIO the allocated buffer should
+> > be released.
+> >
+> > Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
+> > ---
+> >  drivers/media/usb/dvb-usb/af9005.c | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/media/usb/dvb-usb/af9005.c b/drivers/media/usb/dvb-usb/af9005.c
+> > index 02697d86e8c1..aee500beaab6 100644
+> > --- a/drivers/media/usb/dvb-usb/af9005.c
+> > +++ b/drivers/media/usb/dvb-usb/af9005.c
+> > @@ -975,8 +975,10 @@ static int af9005_identify_state(struct usb_device *udev,
+> >               *cold = 1;
+> >       else if (reply == 0x02)
+> >               *cold = 0;
+> > -     else
+> > +     else {
+> > +             kfree(buf);
+> >               return -EIO;
+> > +     }
 >
-> [10055.108784] irq 23: nobody cared (try booting with the "irqpoll" option)
-> [10055.115525] CPU: 0 PID: 331 Comm: swampd Tainted: G        W         5.3.0-4fde000-dirty-d683e2e #1
-> [10055.124565] Hardware name: Generic DT based system
-> [10055.129355] Backtrace:
-> [10055.131854] [<80107d7c>] (dump_backtrace) from [<80107fb0>] (show_stack+0x20/0x24)
-> [10055.139431]  r7:00000017 r6:00000001 r5:00000000 r4:9d51dc00
-> [10055.145120] [<80107f90>] (show_stack) from [<8074bf50>] (dump_stack+0x20/0x28)
-> [10055.152361] [<8074bf30>] (dump_stack) from [<80150ffc>] (__report_bad_irq+0x40/0xc0)
-> [10055.160109] [<80150fbc>] (__report_bad_irq) from [<80150f2c>] (note_interrupt+0x23c/0x294)
-> [10055.168374]  r9:015b6e60 r8:00000000 r7:00000017 r6:00000001 r5:00000000 r4:9d51dc00
-> [10055.176136] [<80150cf0>] (note_interrupt) from [<8014df1c>] (handle_irq_event_percpu+0x88/0x98)
-> [10055.184835]  r10:7eff7910 r9:015b6e60 r8:00000000 r7:9d417600 r6:00000001 r5:00000002
-> [10055.192657]  r4:9d51dc00 r3:00000000
-> [10055.196248] [<8014de94>] (handle_irq_event_percpu) from [<8014df64>] (handle_irq_event+0x38/0x4c)
-> [10055.205113]  r5:80b56d50 r4:9d51dc00
-> [10055.208697] [<8014df2c>] (handle_irq_event) from [<80151f1c>] (handle_level_irq+0xbc/0x12c)
-> [10055.217037]  r5:80b56d50 r4:9d51dc00
-> [10055.220623] [<80151e60>] (handle_level_irq) from [<8014d4b8>] (generic_handle_irq+0x30/0x44)
-> [10055.229052]  r5:80b56d50 r4:00000017
-> [10055.232648] [<8014d488>] (generic_handle_irq) from [<8014d524>] (__handle_domain_irq+0x58/0xb4)
-> [10055.241356] [<8014d4cc>] (__handle_domain_irq) from [<801021e4>] (avic_handle_irq+0x68/0x70)
-> [10055.249797]  r9:015b6e60 r8:00c5387d r7:00c5387d r6:ffffffff r5:9dd33fb0 r4:9d402380
-> [10055.257539] [<8010217c>] (avic_handle_irq) from [<80101e34>] (__irq_usr+0x54/0x80)
-> [10055.265105] Exception stack(0x9dd33fb0 to 0x9dd33ff8)
-> [10055.270152] 3fa0:                                     015d0530 00000000 00000000 015d0538
-> [10055.278328] 3fc0: 015d0530 015b6e60 00000000 00000000 0052c5d0 015b6e60 7eff7910 7eff7918
-> [10055.286496] 3fe0: 76ce5614 7eff7908 0050e2f4 76a3a08c 20000010 ffffffff
-> [10055.293104]  r5:20000010 r4:76a3a08c
-> [10055.296673] handlers:
-> [10055.298967] [<79f218a5>] irq_default_primary_handler threaded [<1de88514>] aspeed_video_irq
-> [10055.307344] Disabling IRQ #23
+> Why not just set ret = -EIO; here?
 >
-> To fix this issue, this commit makes the interrupt handler clear
-> these garbage interrupts. This driver enables and uses only
-> COMP_COMPLETE interrupt instead for frame handling.
+This makes sense. I will send a v2.
+
+> You only need to add a
 >
-> Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@intel.com>
-> ---
->   drivers/media/platform/aspeed-video.c | 10 ++++++++++
->   1 file changed, 10 insertions(+)
+>         if (!ret)
+> >       deb_info("Identify state cold = %d\n", *cold);
 >
-> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
-> index eb12f3793062..e842f99d20a9 100644
-> --- a/drivers/media/platform/aspeed-video.c
-> +++ b/drivers/media/platform/aspeed-video.c
-> @@ -606,6 +606,16 @@ static irqreturn_t aspeed_video_irq(int irq, void *arg)
->   			aspeed_video_start_frame(video);
->   	}
->   
-> +	/*
-> +	 * CAPTURE_COMPLETE and FRAME_COMPLETE interrupts come even when these
-> +	 * are disabled in the VE_INTERRUPT_CTRL register so clear them to
-> +	 * prevent unnecessary interrupt calls.
-> +	 */
-> +	if (sts & VE_INTERRUPT_CAPTURE_COMPLETE)
-> +		sts &= ~VE_INTERRUPT_CAPTURE_COMPLETE;
-> +	if (sts & VE_INTERRUPT_FRAME_COMPLETE)
-> +		sts &= ~VE_INTERRUPT_FRAME_COMPLETE;
-> +
->   	return sts ? IRQ_NONE : IRQ_HANDLED;
->   }
->   
+> before this line.
+>
+> So this becomes:
+>
+>         else
+>                 ret = -EIO;
+>         if (!ret)
+>                 deb_info("Identify state cold = %d\n", *cold);
+>
+> Regards,
+>
+>         Hans
+>
+> >
+> >  err:
+> >
+>
+
+
+-- 
+Navid.
