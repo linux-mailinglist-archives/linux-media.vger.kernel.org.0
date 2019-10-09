@@ -2,169 +2,236 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 53DD0D0660
-	for <lists+linux-media@lfdr.de>; Wed,  9 Oct 2019 06:19:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2CB30D06AC
+	for <lists+linux-media@lfdr.de>; Wed,  9 Oct 2019 06:40:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726716AbfJIETF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Oct 2019 00:19:05 -0400
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:34503 "EHLO
-        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726490AbfJIETF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Oct 2019 00:19:05 -0400
-Received: by mail-ed1-f65.google.com with SMTP id p10so757836edq.1
-        for <linux-media@vger.kernel.org>; Tue, 08 Oct 2019 21:19:03 -0700 (PDT)
+        id S1729618AbfJIEkY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Oct 2019 00:40:24 -0400
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:37971 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729040AbfJIEkX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Oct 2019 00:40:23 -0400
+Received: by mail-ed1-f66.google.com with SMTP id l21so764670edr.5
+        for <linux-media@vger.kernel.org>; Tue, 08 Oct 2019 21:40:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=DeNM3zjEIiaayCi2HBeZAJ08J5xZy7j5lb8ADAS/0Kg=;
-        b=D44aT+iVuM7FFPNgwJOiMi82sPscJIKOem7KOW574s1qnhFZ1uFtNkSRHCiHBAkpwd
-         BzK6bLk4VxGOW/W3u8AI0A9FCE9jL5nNmfoZ7sDqwtUUhTooqbwAgLSOtbRvz35DzJ10
-         NGwCifHAi18fffE36DwH2TH8qF31HDlGmwkC0=
+        bh=mCig5kgLkC+F5fuhEJGg04MH+YglNUctBHKrOOKma9M=;
+        b=S8y8Gz2QhYzsjljUGQOUyUFRPAoMO8uF9ZLL+t8vGZgW5Ml6gm4Im86UTJ5w5cpKTd
+         kNcdzQhH44b6gx7NrfrVHMdzzkYtp9dEc65X/MxihS7s5TvcVuf1ILC4z1eCkqOI6C5z
+         zFbfFbFpQGGlxuPUGeS7XtJI8Gj8i2w/eFtBU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=DeNM3zjEIiaayCi2HBeZAJ08J5xZy7j5lb8ADAS/0Kg=;
-        b=WrV5ORIT3uMDHNc9EuVXHOiELRtKBnH0+c9LGL70I6PDCRYso2nSVJ+RulHXc3J7rQ
-         89jO1S4PJxD58jtesrs4kdkRx3Qxr0soCLz0PtnImwFnbxJsjJU6ak0ztM4cGEm/uBi/
-         S8NHWHo1FmLX7mj6rOel3avT0WmvrGTERHQQpR6pcCWnUxmdVT8qBmpcgZmvZrCFKioF
-         T8RRwxdKLrx+tUB6C2jWY/+6NPhJ56nz2q2zaWio7QFV7BEaXQnq5AfjSDDFDeFVZwZw
-         yRjjklsqusD/vJhH0mJZA3VX0GMrPQBukVUvXyqORdUbQPv8TvEy4gGEzdjBCkHkDjK2
-         dcCA==
-X-Gm-Message-State: APjAAAX/8JDqHNkj7v1GUN08t3Q5djo8ccRd2ssfNMaNIwtzxE1ZPV9y
-        942qf1ys7+2894gXnFxhrP5Lu2PHyCTtcQ==
-X-Google-Smtp-Source: APXvYqxduBhVcTBxBzu1wL7JNFz/DEdXGp4fMjwUl9yZexuDgXL+Q8btxWFquLlam63tHX0Ds3UJOQ==
-X-Received: by 2002:a05:6402:19b4:: with SMTP id o20mr1200023edz.10.1570594741990;
-        Tue, 08 Oct 2019 21:19:01 -0700 (PDT)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com. [209.85.128.46])
-        by smtp.gmail.com with ESMTPSA id t30sm162516edt.91.2019.10.08.21.19.01
+        bh=mCig5kgLkC+F5fuhEJGg04MH+YglNUctBHKrOOKma9M=;
+        b=KM3/VpYsdMgnNi3eQTG9mTAuvEC61aOLo163w4WZZiDrI2le/9Hi4PEJt0A28k+dkl
+         qXBzwIXaAdEYuljmMStqhmIs5kC9h7QzFNBdW0fDxN4MwbEW9qyzJmFVujvU1Yvh4luP
+         DUQvhSU7lb6VrBGmdG0MYrCEe0SxhIJVVK4SVgM49SJ2PkKMb7RSNtXvHElhZAXZghyl
+         lAvlpa3wUAXNrRNU3heOQ+2qHfZFwXsMpaJDc/55SqC4XXxcRdXYpGcx5+X47S3fsyon
+         t+op7C5OpgpQjuLXMoWPlxh5FmSEInvccpvH4TH2lTCOubLVA/3fuQycTYzTQlyW7z2F
+         E55A==
+X-Gm-Message-State: APjAAAX3jmGvJAWbxJaBy/oBApyfXt+muX1TVpD5A+v9uBBNUpAVmzgA
+        kUYQRmeFcqoMm3IQcVIs1jMvApAGiKyw6w==
+X-Google-Smtp-Source: APXvYqw59ucVaJ9Eo/FZNCn1Aay3QvK4xxj6AVLzxsFedf4sHgPT9CwB/+P7sFJdZX340WNE1lk2oA==
+X-Received: by 2002:a50:a781:: with SMTP id i1mr1224319edc.17.1570596021477;
+        Tue, 08 Oct 2019 21:40:21 -0700 (PDT)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com. [209.85.221.47])
+        by smtp.gmail.com with ESMTPSA id b7sm164445eda.67.2019.10.08.21.40.18
         for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Oct 2019 21:19:01 -0700 (PDT)
-Received: by mail-wm1-f46.google.com with SMTP id i16so704362wmd.3
-        for <linux-media@vger.kernel.org>; Tue, 08 Oct 2019 21:19:01 -0700 (PDT)
-X-Received: by 2002:a1c:e404:: with SMTP id b4mr948434wmh.90.1570594740815;
- Tue, 08 Oct 2019 21:19:00 -0700 (PDT)
+        Tue, 08 Oct 2019 21:40:20 -0700 (PDT)
+Received: by mail-wr1-f47.google.com with SMTP id j11so937610wrp.1
+        for <linux-media@vger.kernel.org>; Tue, 08 Oct 2019 21:40:18 -0700 (PDT)
+X-Received: by 2002:adf:dd8b:: with SMTP id x11mr1053323wrl.113.1570596018449;
+ Tue, 08 Oct 2019 21:40:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191008123850.641-1-p.zabel@pengutronix.de> <CAHD77HmL-m9TgZJ7GO=E_gBW=Av9D68AY1FTuxBM2sUSQgNPSQ@mail.gmail.com>
- <1570545836.18914.10.camel@pengutronix.de>
-In-Reply-To: <1570545836.18914.10.camel@pengutronix.de>
+References: <20190905072142.14606-1-dongchun.zhu@mediatek.com> <20190905072142.14606-3-dongchun.zhu@mediatek.com>
+In-Reply-To: <20190905072142.14606-3-dongchun.zhu@mediatek.com>
 From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Wed, 9 Oct 2019 13:18:48 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5DfcEg7Vnvxpb0uwUqRC=jp_ZizefDxZ5XL=zM0Bg_XsA@mail.gmail.com>
-Message-ID: <CAAFQd5DfcEg7Vnvxpb0uwUqRC=jp_ZizefDxZ5XL=zM0Bg_XsA@mail.gmail.com>
-Subject: Re: [PATCH] media: hantro: relax s_fmt(out) busy error
-To:     Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Sasha Hauer <kernel@pengutronix.de>
+Date:   Wed, 9 Oct 2019 13:40:07 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5A9mn+695CZdYoXzuQodQqC=p8dstbdFAkOCCHKMUtg-w@mail.gmail.com>
+Message-ID: <CAAFQd5A9mn+695CZdYoXzuQodQqC=p8dstbdFAkOCCHKMUtg-w@mail.gmail.com>
+Subject: Re: [V2, 2/2] media: i2c: Add DW9768 VCM driver
+To:     Dongchun Zhu <dongchun.zhu@mediatek.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        andriy.shevchenko@linux.intel.com,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Nicolas Boichat <drinkcat@chromium.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Cao Bing Bu <bingbu.cao@intel.com>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
+        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
+        Sj Huang <sj.huang@mediatek.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        devicetree@vger.kernel.org, sam.hung@mediatek.com,
+        shengnan.wang@mediatek.com
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Oct 8, 2019 at 11:44 PM Philipp Zabel <p.zabel@pengutronix.de> wrote:
+Hi Dongchun,
+
+On Thu, Sep 5, 2019 at 4:22 PM <dongchun.zhu@mediatek.com> wrote:
 >
-> Hi Tomasz,
+> From: Dongchun Zhu <dongchun.zhu@mediatek.com>
 >
-> On Tue, 2019-10-08 at 23:05 +0900, Tomasz Figa wrote:
-> > Hi Philipp,
-> >
-> > On Tue, Oct 8, 2019 at 9:38 PM Philipp Zabel <p.zabel@pengutronix.de> wrote:
-> > >
-> > > Setting the output format resets the capture queue, so we return -EBUSY
-> > > while the capture queue has buffers allocated. If capture dimensions
-> > > and pixel format don't change though, we can allow setting the output
-> > > format without reallocating the capture queue.
-> > >
-> > > Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
-> > > ---
-> > > This applies on top of https://patchwork.linuxtv.org/patch/59337/
-> > > ("media: hantro: Fix s_fmt for dynamic resolution changes").
-> > > ---
-> > >  drivers/staging/media/hantro/hantro_v4l2.c | 14 +++++++++++---
-> > >  1 file changed, 11 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
-> > > index 586d243cc3cc..05c3edce27a9 100644
-> > > --- a/drivers/staging/media/hantro/hantro_v4l2.c
-> > > +++ b/drivers/staging/media/hantro/hantro_v4l2.c
-> > > @@ -368,7 +368,7 @@ vidioc_s_fmt_out_mplane(struct file *file, void *priv, struct v4l2_format *f)
-> > >         struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
-> > >         struct hantro_ctx *ctx = fh_to_ctx(priv);
-> > >         struct vb2_queue *vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
-> > > -       const struct hantro_fmt *formats;
-> > > +       const struct hantro_fmt *raw_vpu_fmt, *formats;
-> > >         unsigned int num_fmts;
-> > >         int ret;
-> > >
-> > > @@ -394,8 +394,16 @@ vidioc_s_fmt_out_mplane(struct file *file, void *priv, struct v4l2_format *f)
-> > >                  */
-> > >                 peer_vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
-> > >                                           V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
-> > > -               if (vb2_is_busy(peer_vq))
-> > > -                       return -EBUSY;
-> > > +               if (vb2_is_busy(peer_vq)) {
-> > > +                       formats = hantro_get_formats(ctx, &num_fmts);
-> > > +                       raw_vpu_fmt = hantro_get_default_fmt(formats, num_fmts,
-> > > +                                                            false);
-> > > +
-> > > +                       if (ctx->dst_fmt.width != pix_mp->width ||
-> > > +                           ctx->dst_fmt.height != pix_mp->height ||
-> > > +                           ctx->dst_fmt.pixelformat != raw_vpu_fmt->fourcc)
-> >
-> > First of all, thanks for the patch! I'd like to ask you to clarify a few things:
-> > 1) What's the use case for S_FMT(OUTPUT) without changing neither
-> > resolution nor pixelformat?
+> This patch adds a V4L2 sub-device driver for DW9768 lens voice coil,
+> and provides control to set the desired focus.
 >
-> Userspace that currently does not follow the stateless codec spec
-> correctly, and allocates capture buffers before setting the output
-> format because libva:
+> The DW9768 is a 10 bit DAC with 100mA output current sink capability
+> from Dongwoon, designed for linear control of voice coil motor,
+> and controlled via I2C serial interface.
 >
-> https://github.com/bootlin/libva-v4l2-request/pull/26
->
-> It would be better to lazily allocate the capture buffers when the
-> context is spun up there, it just seemed strange that S_FMT(OUTPUT)
-> would error even with identical parameters.
+> Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
+> ---
+>  MAINTAINERS                |   1 +
+>  drivers/media/i2c/Kconfig  |  10 ++
+>  drivers/media/i2c/Makefile |   1 +
+>  drivers/media/i2c/dw9768.c | 349 +++++++++++++++++++++++++++++++++++++++++++++
+>  4 files changed, 361 insertions(+)
+>  create mode 100644 drivers/media/i2c/dw9768.c
 >
 
-How does the userspace know the right resolution of buffers to
-allocate? Note that in general there is no guarantee that it's equal
-to stream coded size, as there may be driver-specific alignments
-involved.
+Please see my further comments inline.
 
-Regardless of that, in the stateful spec the resolution of the CAPTURE
-queue can change even if the queue has buffers allocated already, i.e.
-when there is a dynamic resolution change. Maybe we should be
-consistent with that behavior and disallow only pixelformat changes?
-That would require careful synchronization in the driver, though, to
-reject any already queued incompatible buffers, but could speed up
-handling of resolution changes thanks to the ability to have big
-enough buffers preallocated.
+[snip]
+> +struct regval_list {
+> +       unsigned char reg_num;
+> +       unsigned char value;
 
-> > 2) Is it correct to compare dst_fmt with pix_fmt? My understanding is
-> > that width/height of the OUTPUT queue is the coded size of the stream
-> > (a stream parameter), while width/height of the CAPTURE queue is the
-> > frame buffer size, which can be different from the stream coded size.
-> > Perhaps we should compare with ctx->src_fmt instead?
->
-> A call to hantro_reset_raw_fmt() will set dst_fmt width/height to
-> src_fmt width/height later in this function, so this should make no
-> difference.
+nit: Since we have strictly sized values here, should we use u8 for
+both fields instead?
 
-Okay, so basically the failure condition is whether the destination
-format would change after this function. I guess it makes sense if we
-decide to go with such behavior.
+> +};
+> +
+> +static struct regval_list dw9768_init_regs[] = {
+> +       {0x02, 0x02},
+> +       {DW9768_CMD_DELAY, DW9768_CMD_DELAY},
+> +       {0x06, 0x41},
+> +       {0x07, 0x39},
+> +       {DW9768_CMD_DELAY, DW9768_CMD_DELAY},
+> +};
+> +
+> +static struct regval_list dw9768_release_regs[] = {
+> +       {0x02, 0x00},
+> +       {DW9768_CMD_DELAY, DW9768_CMD_DELAY},
+> +       {0x01, 0x00},
+> +       {DW9768_CMD_DELAY, DW9768_CMD_DELAY},
+> +};
+> +
+> +static int dw9768_write_smbus(struct dw9768 *dw9768, unsigned char reg,
+> +                             unsigned char value)
 
-Comparing source and destination formats in the code is at least
-confusing, though. It relies on the current driver behavior to use the
-same framebuffer size as stream coded size, but they are not
-equivalent in general. Perhaps we could have a comment there?
+Should we use u8 for the last two arguments here as well?
+
+> +{
+> +       struct i2c_client *client = v4l2_get_subdevdata(&dw9768->sd);
+> +       int ret;
+> +
+> +       if (reg == DW9768_CMD_DELAY  && value == DW9768_CMD_DELAY)
+> +               usleep_range(DW9768_CTRL_DELAY_US,
+> +                            DW9768_CTRL_DELAY_US + 100);
+
+ret will be uninitialized if we go this path.
+
+> +       else
+> +               ret = i2c_smbus_write_byte_data(client, reg, value);
+> +       return ret;
+> +}
+> +
+> +static int dw9768_write_array(struct dw9768 *dw9768, struct regval_list *vals,
+> +                             u32 len)
+
+Since len is an array size, should we use size_t instead?
+
+> +{
+> +       unsigned int i;
+
+size_t?
+
+> +       int ret;
+> +
+> +       for (i = 0; i < len; i++) {
+> +               ret = dw9768_write_smbus(dw9768, vals->reg_num, vals->value);
+
+This should refer to vals[i] instead.
+
+> +               if (ret < 0)
+> +                       return ret;
+> +       }
+> +       return 0;
+> +}
+> +
+> +static int dw9768_set_position(struct dw9768 *dw9768, u16 val)
+> +{
+> +       struct i2c_client *client = v4l2_get_subdevdata(&dw9768->sd);
+> +       u8 addr[2];
+> +
+> +       addr[0] = (val >> DW9768_DAC_SHIFT) & DW9768_REG_MASK_MSB;
+> +       addr[1] = val & DW9768_REG_MASK_LSB;
+> +
+> +       return i2c_smbus_write_block_data(client, DW9768_SET_POSITION_ADDR,
+> +                                         ARRAY_SIZE(addr), addr);
+
+As we discovered earlier, i2c_smbus_write_block_data() uses a
+different protocol from what we expected. Please change to
+i2c_smbus_write_word_data(), as per our downstream changes.
+
+> +}
+> +
+> +static int dw9768_release(struct dw9768 *dw9768)
+> +{
+> +       return dw9768_write_array(dw9768, dw9768_release_regs,
+> +                                 ARRAY_SIZE(dw9768_release_regs));
+> +}
+> +
+> +static int dw9768_init(struct dw9768 *dw9768)
+> +{
+> +       return dw9768_write_array(dw9768, dw9768_init_regs,
+> +                                 ARRAY_SIZE(dw9768_init_regs));
+> +}
+> +
+> +/* Power handling */
+> +static int dw9768_power_off(struct dw9768 *dw9768)
+> +{
+> +       struct i2c_client *client = v4l2_get_subdevdata(&dw9768->sd);
+> +       int ret;
+> +
+> +       ret = dw9768_release(dw9768);
+> +       if (ret)
+> +               dev_err(&client->dev, "dw9768 release failed!\n");
+> +
+> +       ret = regulator_disable(dw9768->vin);
+> +       if (ret)
+> +               return ret;
+> +
+> +       return regulator_disable(dw9768->vdd);
+> +}
+> +
+> +static int dw9768_power_on(struct dw9768 *dw9768)
+> +{
+> +       int ret;
+> +
+> +       ret = regulator_enable(dw9768->vin);
+> +       if (ret < 0)
+> +               return ret;
+> +
+> +       ret = regulator_enable(dw9768->vdd);
+> +       if (ret < 0)
+> +               return ret;
+
+There is at least T_opr = 200 us of delay needed here. Would you be
+able to add a comment and a corresponding usleep_range() call? I guess
+the range of (300, 400) would be enough on the safe side.
 
 Best regards,
 Tomasz
