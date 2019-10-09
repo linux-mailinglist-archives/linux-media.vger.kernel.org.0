@@ -2,403 +2,560 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 44E9AD116E
-	for <lists+linux-media@lfdr.de>; Wed,  9 Oct 2019 16:39:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 034A5D11A1
+	for <lists+linux-media@lfdr.de>; Wed,  9 Oct 2019 16:44:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731507AbfJIOjL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Oct 2019 10:39:11 -0400
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:35083 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729491AbfJIOjL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Oct 2019 10:39:11 -0400
-Received: by mail-ed1-f67.google.com with SMTP id v8so2277319eds.2
-        for <linux-media@vger.kernel.org>; Wed, 09 Oct 2019 07:39:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=DwZtdwlwJwHB4Og+axV05bA7jVqB3gQGGLTlsSz/Www=;
-        b=A9Y69ZpMGWcGbTu7ZfuQjdWNSL0da14BghllPPYiwKbJZ9NVAnmMJCQKdnbXE0BZFK
-         tILQXsrpZ5CrFFr/MjRutce0F4XeZUTUMdVmvfC3JLCP/ncJE6TFwSexGF3n1FQwAbEU
-         ggXXGrhTKJOEZeF5pa9gbl4mvO7ENEGS9vbic=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to:user-agent;
-        bh=DwZtdwlwJwHB4Og+axV05bA7jVqB3gQGGLTlsSz/Www=;
-        b=aQ8CaWgu39Ou5i8V06ZImPFcP10sg+LNrzHxWNvbr6R878d6yO1CdaHaHn8A8LUzTN
-         IId5Phfo3CarX63sZJq5EJSmqM4UxskQe4CDoYcZZfHxZyovopfkZbORsREJ6GdvKoqr
-         K36mr29zgyCvm2Ohn2jrQLdX5oXuNjIeyw7jHy/dEZvnzKNE/FOxQHEhI+gXtZ3DTJdx
-         4D3jCaBs0J7li/izaAZ3+0eo2LqQ35pXIy6sdLXpEj98eCvsIvbwN81Ybrgt3dDUoJWC
-         prt0iq1/ZHk/zg88QrFQOWSvu9jl59x/vbcutfjlMvTZEiWMhZOPMPtnZ+Ia4wfvWo0t
-         PD7g==
-X-Gm-Message-State: APjAAAW9BkVsk1+jPRcOypq7jExIrnljtRxPivLCE2/46ffc9wjC9r6Z
-        82qWta/+qAHJ9MAWo62GXmRzFRtO5Uo=
-X-Google-Smtp-Source: APXvYqx9DDBtRquEOQt6q8DYsAdvyIZ+4fE+RikOtaQUlPJq/UJJ9LuxS5jA26BCRQFqxiZsOF862A==
-X-Received: by 2002:a17:907:20c5:: with SMTP id qq5mr3149830ejb.96.1570631946767;
-        Wed, 09 Oct 2019 07:39:06 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net. [212.51.149.96])
-        by smtp.gmail.com with ESMTPSA id i30sm380641ede.32.2019.10.09.07.39.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Oct 2019 07:39:05 -0700 (PDT)
-Date:   Wed, 9 Oct 2019 16:39:03 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     christian.koenig@amd.com
-Cc:     Daniel Vetter <daniel@ffwll.ch>, Gerd Hoffmann <kraxel@redhat.com>,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        chris@chris-wilson.co.uk, sumit.semwal@linaro.org
-Subject: Re: [PATCH 1/3] dma-buf: add dma_resv_ctx for deadlock handling
-Message-ID: <20191009143903.GZ16989@phenom.ffwll.local>
-References: <20190918175525.49441-1-christian.koenig@amd.com>
- <20191008151639.GP16989@phenom.ffwll.local>
- <44f5b8d8-f29b-5b33-b12d-610aba515272@gmail.com>
+        id S1731290AbfJIOok convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Wed, 9 Oct 2019 10:44:40 -0400
+Received: from mailoutvs60.siol.net ([185.57.226.251]:44801 "EHLO
+        mail.siol.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1730674AbfJIOoj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Oct 2019 10:44:39 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.siol.net (Zimbra) with ESMTP id 9E06C524BC9;
+        Wed,  9 Oct 2019 16:44:32 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at psrvmta12.zcs-production.pri
+Received: from mail.siol.net ([127.0.0.1])
+        by localhost (psrvmta12.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id TfScaFaVbSPy; Wed,  9 Oct 2019 16:44:31 +0200 (CEST)
+Received: from mail.siol.net (localhost [127.0.0.1])
+        by mail.siol.net (Zimbra) with ESMTPS id 7EFFF524C3C;
+        Wed,  9 Oct 2019 16:44:31 +0200 (CEST)
+Received: from jernej-laptop.localnet (cpe-86-58-59-25.static.triera.net [86.58.59.25])
+        (Authenticated sender: jernej.skrabec@siol.net)
+        by mail.siol.net (Zimbra) with ESMTPA id 0BADC524BC9;
+        Wed,  9 Oct 2019 16:44:30 +0200 (CEST)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     mchehab@kernel.org, paul.kocialkowski@bootlin.com,
+        mripard@kernel.org, pawel@osciak.com, m.szyprowski@samsung.com,
+        kyungmin.park@samsung.com, tfiga@chromium.org, wens@csie.org,
+        gregkh@linuxfoundation.org, boris.brezillon@collabora.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org,
+        ezequiel@collabora.com, jonas@kwiboo.se
+Subject: Re: [PATCH v2 0/6] media: cedrus: h264: Support multi-slice frames
+Date:   Wed, 09 Oct 2019 16:44:29 +0200
+Message-ID: <2146778.PlJYLztgos@jernej-laptop>
+In-Reply-To: <aa44957d-38e5-b799-2837-624a7cbbb3bb@xs4all.nl>
+References: <20190929200023.215831-1-jernej.skrabec@siol.net> <2785635.uIalc63MVP@jernej-laptop> <aa44957d-38e5-b799-2837-624a7cbbb3bb@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <44f5b8d8-f29b-5b33-b12d-610aba515272@gmail.com>
-X-Operating-System: Linux phenom 5.2.0-2-amd64 
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Oct 09, 2019 at 03:21:06PM +0200, Christian König wrote:
-> Am 08.10.19 um 17:16 schrieb Daniel Vetter:
-> > On Wed, Sep 18, 2019 at 07:55:23PM +0200, Christian König wrote:
-> > > The ww_mutex framework allows for detecting deadlocks when multiple
-> > > threads try to acquire the same set of locks in different order.
-> > > 
-> > > The problem is that handling those deadlocks was the burden of the user of
-> > > the ww_mutex implementation and at least some users didn't got that right
-> > > on the first try.
-> > > 
-> > > So introduce a new dma_resv_ctx object which can be used to
-> > > simplify the deadlock handling. This is done by tracking all locked
-> > > dma_resv objects in the context as well as the last contended object.
-> > > 
-> > > When a deadlock occurse we now unlock all previously locked objects and
-> > > acquire the contended lock in the slow path. After this is done -EDEADLK
-> > > is still returned to signal that all other locks now need to be
-> > > re-acquired again.
-> > > 
-> > > Signed-off-by: Christian König <christian.koenig@amd.com>
-> > I pondered this quite a bit, some thoughts:
+Dne sreda, 09. oktober 2019 ob 12:18:45 CEST je Hans Verkuil napisal(a):
+> On 10/7/19 9:01 PM, Jernej Å krabec wrote:
+> > Dne ponedeljek, 07. oktober 2019 ob 12:44:24 CEST je Hans Verkuil 
+napisal(a):
+> >> Hi Jernej,
+> >> 
+> >> On 9/29/19 10:00 PM, Jernej Skrabec wrote:
+> >>> This series adds support for decoding multi-slice H264 frames along with
+> >>> support for V4L2_DEC_CMD_FLUSH and V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF.
+> >>> 
+> >>> Code was tested by modified ffmpeg, which can be found here:
+> >>> https://github.com/jernejsk/FFmpeg, branch mainline-test
+> >>> It has to be configured with at least following options:
+> >>> --enable-v4l2-request --enable-libudev --enable-libdrm
+> >>> 
+> >>> Samples used for testing:
+> >>> http://jernej.libreelec.tv/videos/h264/BA1_FT_C.mp4
+> >>> http://jernej.libreelec.tv/videos/h264/h264.mp4
+> >>> 
+> >>> Command line used for testing:
+> >>> ffmpeg -hwaccel drm -hwaccel_device /dev/dri/card0 -i h264.mp4 -pix_fmt
+> >>> bgra -f fbdev /dev/fb0
+> >>> 
+> >>> Please note that V4L2_DEC_CMD_FLUSH was not tested because I'm
+> >>> not sure how. ffmpeg follows exactly which slice is last in frame
+> >>> and sets hold flag accordingly. Improper usage of hold flag would
+> >>> corrupt ffmpeg assumptions and it would probably crash. Any ideas
+> >>> how to test this are welcome!
+> >>> 
+> >>> Thanks to Jonas for adjusting ffmpeg.
+> >>> 
+> >>> Please let me know what you think.
+> >>> 
+> >>> Best regards,
+> >>> Jernej
+> >>> 
+> >>> Changes from v1:
+> >>> - added Rb tags
+> >>> - updated V4L2_DEC_CMD_FLUSH documentation
+> >>> - updated first slice detection in Cedrus
+> >>> - hold capture buffer flag is set according to source format
+> >>> - added v4l m2m stateless_(try_)decoder_cmd ioctl helpers
+> >>> 
+> >>> Hans Verkuil (2):
+> >>>   vb2: add V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF
+> >>>   videodev2.h: add V4L2_DEC_CMD_FLUSH
+> >>> 
+> >>> Jernej Skrabec (4):
+> >>>   media: v4l2-mem2mem: add stateless_(try_)decoder_cmd ioctl helpers
+> >>>   media: cedrus: Detect first slice of a frame
+> >>>   media: cedrus: h264: Support multiple slices per frame
+> >>>   media: cedrus: Add support for holding capture buffer
+> >>>  
+> >>>  Documentation/media/uapi/v4l/buffer.rst       | 13 ++++++
+> >>>  .../media/uapi/v4l/vidioc-decoder-cmd.rst     | 10 +++-
+> >>>  .../media/uapi/v4l/vidioc-reqbufs.rst         |  6 +++
+> >>>  .../media/videodev2.h.rst.exceptions          |  1 +
+> >>>  .../media/common/videobuf2/videobuf2-v4l2.c   |  8 +++-
+> >>>  drivers/media/v4l2-core/v4l2-mem2mem.c        | 35 ++++++++++++++
+> >>>  drivers/staging/media/sunxi/cedrus/cedrus.h   |  1 +
+> >>>  .../staging/media/sunxi/cedrus/cedrus_dec.c   | 11 +++++
+> >>>  .../staging/media/sunxi/cedrus/cedrus_h264.c  | 11 ++++-
+> >>>  .../staging/media/sunxi/cedrus/cedrus_hw.c    |  8 ++--
+> >>>  .../staging/media/sunxi/cedrus/cedrus_video.c | 14 ++++++
+> >>>  include/media/v4l2-mem2mem.h                  | 46 +++++++++++++++++++
+> >>>  include/media/videobuf2-core.h                |  3 ++
+> >>>  include/media/videobuf2-v4l2.h                |  5 ++
+> >>>  include/uapi/linux/videodev2.h                | 14 ++++--
+> >>>  15 files changed, 175 insertions(+), 11 deletions(-)
+> >> 
+> >> I didn't want to make a v3 of this series, instead I hacked this patch
+> >> that
+> >> will hopefully do all the locking right.
+> >> 
+> >> Basically I moved all the 'held' related code into v4l2-mem2mem under
+> >> job_spinlock. This simplifies the driver code as well.
+> >> 
+> >> But this is a hack that sits on top of this series. If your ffmpeg tests
+> >> are now successful, then I'll turn this into a proper series with
+> >> correct documentation (a lot of the comments are now wrong with this
+> >> patch, so just ignore that).
 > > 
-> > - doing this over dma-buf means we can only use this for the ww_mutx
-> >    dance, not for anything else. Which means we need another layer on top
-> >    for shared execbuf utils (which Gerd has started looking into, but I
-> >    felt like not quite the right approach yet in his first draft series).
-> 
-> Yes, and I actually realized that this won't work on the dma_resv layer as
-> well.
-> 
-> We need to base this on GEM to be able to do the correct ref/unref the
-> locked objects.
-> 
-> > - With the ttm/gem merger we could just put this into drm_gem_object, and
-> >    ttm/gem helpers could still use it. Plus we could build some shared
-> >    execbuf utils on top of this, by essentially merging ttm_operation_ctx
-> >    into drm_gem_operation_ctx. I think this would also simplify the ttm
-> >    parameters a bit, since currently the ttm_operation_ctx doesn't have an
-> >    explicit pointer to the ww_acquire_ctx (which feels like an oversight to
-> >    me).
-> 
-> That ttm_operation_ctx doesn't contain a ww_acquire_ctx is intentional and
-> mandatory for correct operation.
-> 
-> See for swapping things out from the MM callbacks you can't work with a
-> ww_acquire_ctx and instead need to use trylock.
-> 
-> When you need a ww_acquire_ctx you can get that from the buffer object you
-> try to allocate space for.
-
-Hm I've seen that trick, and I'm not sure I like it. Imo an explicit
-pointer that tells you which acquire_ctx to use, with the clear meaning
-that if the pointer is NULL then only trylock is ok, would be a lot
-cleaner. At least for execbuf utils the acquire_ctx is really central and
-really should be in there somehow. Or embed it and have a flag whether
-it's ok to use it or not.
-
-Other plan would be to make sure that acquire_ctx and non-acquire_ctx
-(i.e. mmu/shrinker callbacks) are clearly separate paths. That might be the
-even better option going forward, since mixing them up leads to a huge
-mess ime.
-
-> > - Aside, quick question: Any reason why struct amdgpu_cs_parser doesn't
-> >    subclass ttm_operation_ctx? From my naive understanding this would make
-> >    tons of sense ...
-> 
-> amdgpu_cs_parser is already overloaded with to much crap which actually
-> should be temporary allocated on the stack.
-> 
-> > - Maybe we could even build some lru/eviction helpers on top, perhaps with
-> >    two lists, one for the set of buffers in the execbuf, the other for
-> >    additional buffers we've reserved as part of the eviction dance (to
-> >    solve the TODO in ttm_mem_evict_wait_busy).
-> 
-> That's what I'm currently working on, but some driver still need the
-> struct_mutex for GEM ref/unref which is complicating things a bit.
-> 
-> So prototyping that in TTM BOs first before I move on to using the
-> underlying GEM object.
-> 
-> > - Only downside would be that drivers outside of drivers/gpu won't be able
-> >    to use these helpers. I don't see any immediate nor near-future need for
-> >    that. All other drivers use so little memory they don't need to
-> >    participate in the multi-lock dance, they just pin the few buffers they
-> >    need and call it a day.
-> 
-> I can live with that.
-
-Ok, sounds like we're agreing on all this. And I think once your series
-here has landed, Gerd could rebase his execbuf helpers on top and we can
-see what color suits them to get them landed.
--Daniel
-
-> 
-> Regards,
-> Christian.
-> 
+> > Thanks for looking into this! With small fix mentioned below, it works!
+> > Note that both scenarios I tested (flushing during decoding and flushing
+> > after decoding is finished) are focused on capture queue. In order to
+> > trigger output queue flush, ffmpeg would need to queue multiple jobs and
+> > call flush before they are all processed. This is not something I can do
+> > at this time. Maybe Jonas can help with modifying ffmpeg appropriately.
+> > However, code for case seems correct to me.
 > > 
-> > Ofc not everything above would need to be done right away, that's more
-> > ideas for todo.rst entries to make sure we all agree on the rough
-> > direction.
+> >> Regards,
+> >> 
+> >> 	Hans
+> >> 
+> >> diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c
+> >> b/drivers/media/v4l2-core/v4l2-mem2mem.c index 2677a07e4c9b..f81a8f2465ab
+> >> 100644
+> >> --- a/drivers/media/v4l2-core/v4l2-mem2mem.c
+> >> +++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
+> >> @@ -412,25 +412,24 @@ static void v4l2_m2m_cancel_job(struct v4l2_m2m_ctx
+> >> *m2m_ctx) }
+> >> 
+> >>  }
+> >> 
+> >> -void v4l2_m2m_job_finish(struct v4l2_m2m_dev *m2m_dev,
+> >> -			 struct v4l2_m2m_ctx *m2m_ctx)
+> >> +static bool _v4l2_m2m_job_finish(struct v4l2_m2m_dev *m2m_dev,
+> >> +			  struct v4l2_m2m_ctx *m2m_ctx)
+> >> 
+> >>  {
+> >> 
+> >> -	unsigned long flags;
+> >> -
+> >> -	spin_lock_irqsave(&m2m_dev->job_spinlock, flags);
+> >> 
+> >>  	if (!m2m_dev->curr_ctx || m2m_dev->curr_ctx != m2m_ctx) {
+> >> 
+> >> -		spin_unlock_irqrestore(&m2m_dev->job_spinlock, flags);
+> >> 
+> >>  		dprintk("Called by an instance not currently
 > > 
-> > Thoughts?
+> > running\n");
 > > 
-> > Also adding Gerd Hoffmann, since he looked into this.
+> >> -		return;
+> >> +		return false;
+> >> 
+> >>  	}
+> >>  	
+> >>  	list_del(&m2m_dev->curr_ctx->queue);
+> >>  	m2m_dev->curr_ctx->job_flags &= ~(TRANS_QUEUED | TRANS_RUNNING);
+> >>  	wake_up(&m2m_dev->curr_ctx->finished);
+> >>  	m2m_dev->curr_ctx = NULL;
+> >> 
+> >> +	return true;
+> >> +}
+> >> 
+> >> -	spin_unlock_irqrestore(&m2m_dev->job_spinlock, flags);
+> >> -
+> >> +static void v4l2_m2m_job_next(struct v4l2_m2m_dev *m2m_dev,
+> >> +		       struct v4l2_m2m_ctx *m2m_ctx)
+> >> +{
+> >> 
+> >>  	/* This instance might have more buffers ready, but since we do not
+> >>  	
+> >>  	 * allow more than one job on the job_queue per instance, each has
+> >>  	 * to be scheduled separately after the previous one finishes. */
+> >> 
+> >> @@ -441,8 +440,113 @@ void v4l2_m2m_job_finish(struct v4l2_m2m_dev
+> >> *m2m_dev, */
+> >> 
+> >>  	schedule_work(&m2m_dev->job_work);
+> >>  
+> >>  }
+> >> 
+> >> +
+> >> +void v4l2_m2m_job_finish(struct v4l2_m2m_dev *m2m_dev,
+> >> +			 struct v4l2_m2m_ctx *m2m_ctx)
+> >> +{
+> >> +	unsigned long flags;
+> >> +
+> >> +	spin_lock_irqsave(&m2m_dev->job_spinlock, flags);
+> >> +	if (!_v4l2_m2m_job_finish(m2m_dev, m2m_ctx)) {
+> >> +		spin_unlock_irqrestore(&m2m_dev->job_spinlock, flags);
+> >> +		return;
+> >> +	}
+> >> +	spin_unlock_irqrestore(&m2m_dev->job_spinlock, flags);
+> >> +
+> >> +	v4l2_m2m_job_next(m2m_dev, m2m_ctx);
+> >> +}
+> >> 
+> >>  EXPORT_SYMBOL(v4l2_m2m_job_finish);
+> >> 
+> >> +void v4l2_m2m_job_finish_held(struct v4l2_m2m_dev *m2m_dev,
+> >> +			 struct v4l2_m2m_ctx *m2m_ctx,
+> >> +			 enum vb2_buffer_state state)
+> >> +{
+> >> +	struct vb2_v4l2_buffer *src_buf, *dst_buf;
+> >> +	unsigned long flags;
+> >> +
+> >> +	spin_lock_irqsave(&m2m_dev->job_spinlock, flags);
+> >> +	src_buf = v4l2_m2m_src_buf_remove(m2m_ctx);
+> >> +	dst_buf = v4l2_m2m_next_dst_buf(m2m_ctx);
+> >> +
+> >> +	if (!src_buf || !dst_buf) {
+> >> +		pr_err("Missing source and/or destination buffers\n");
+> >> +		spin_unlock_irqrestore(&m2m_dev->job_spinlock, flags);
+> >> +		return;
+> >> +	}
+> >> +	v4l2_m2m_buf_done(src_buf, state);
+> >> +	if (!dst_buf->is_held) {
+> >> +		v4l2_m2m_dst_buf_remove(m2m_ctx);
+> >> +		v4l2_m2m_buf_done(dst_buf, state);
+> >> +	}
+> >> +	if (!_v4l2_m2m_job_finish(m2m_dev, m2m_ctx)) {
+> >> +		spin_unlock_irqrestore(&m2m_dev->job_spinlock, flags);
+> >> +		return;
+> >> +	}
+> >> +	spin_unlock_irqrestore(&m2m_dev->job_spinlock, flags);
+> >> +
+> >> +	v4l2_m2m_job_next(m2m_dev, m2m_ctx);
+> >> +}
+> >> +EXPORT_SYMBOL(v4l2_m2m_job_finish_held);
+> >> +
+> >> +/**
+> >> + * v4l2_m2m_release_capture_buf() - check if the capture buffer should
+> >> be
+> >> + * released
+> >> + *
+> >> + * @out_vb: the output buffer
+> >> + * @cap_vb: the capture buffer
+> >> + *
+> >> + * This helper function returns true if the current capture buffer
+> >> should
+> >> + * be released to vb2. This is the case if the output buffer specified
+> >> that + * the capture buffer should be held (i.e. not returned to vb2)
+> >> AND if the + * timestamp of the capture buffer differs from the output
+> >> buffer timestamp. + *
+> >> + * This helper is to be called at the start of the device_run callback:
+> >> + *
+> >> + * .. code-block:: c
+> >> + *
+> >> + *	if (v4l2_m2m_release_capture_buf(out_vb, cap_vb)) {
+> >> + *		v4l2_m2m_dst_buf_remove(m2m_ctx);
+> >> + *		v4l2_m2m_buf_done(cap_vb, VB2_BUF_STATE_DONE);
+> >> + *		cap_vb = v4l2_m2m_next_dst_buf(m2m_ctx);
+> >> + *	}
+> >> + *	cap_vb->is_held = out_vb->flags &
 > > 
-> > Cheers, Daniel
-> > > ---
-> > >   drivers/dma-buf/Makefile       |   2 +-
-> > >   drivers/dma-buf/dma-resv-ctx.c | 108 +++++++++++++++++++++++++++++++++
-> > >   include/linux/dma-resv-ctx.h   |  68 +++++++++++++++++++++
-> > >   include/linux/dma-resv.h       |   1 +
-> > >   4 files changed, 178 insertions(+), 1 deletion(-)
-> > >   create mode 100644 drivers/dma-buf/dma-resv-ctx.c
-> > >   create mode 100644 include/linux/dma-resv-ctx.h
-> > > 
-> > > diff --git a/drivers/dma-buf/Makefile b/drivers/dma-buf/Makefile
-> > > index 03479da06422..da7701c85de2 100644
-> > > --- a/drivers/dma-buf/Makefile
-> > > +++ b/drivers/dma-buf/Makefile
-> > > @@ -1,6 +1,6 @@
-> > >   # SPDX-License-Identifier: GPL-2.0-only
-> > >   obj-y := dma-buf.o dma-fence.o dma-fence-array.o dma-fence-chain.o \
-> > > -	 dma-resv.o seqno-fence.o
-> > > +	 dma-resv.o dma-resv-ctx.o seqno-fence.o
-> > >   obj-$(CONFIG_SYNC_FILE)		+= sync_file.o
-> > >   obj-$(CONFIG_SW_SYNC)		+= sw_sync.o sync_debug.o
-> > >   obj-$(CONFIG_UDMABUF)		+= udmabuf.o
-> > > diff --git a/drivers/dma-buf/dma-resv-ctx.c b/drivers/dma-buf/dma-resv-ctx.c
-> > > new file mode 100644
-> > > index 000000000000..cad10fa6f80b
-> > > --- /dev/null
-> > > +++ b/drivers/dma-buf/dma-resv-ctx.c
-> > > @@ -0,0 +1,108 @@
-> > > +// SPDX-License-Identifier: GPL-2.0-only
-> > > +/*
-> > > + * Copyright 2019 Advanced Micro Devices, Inc.
-> > > + *
-> > > + * Permission is hereby granted, free of charge, to any person obtaining a
-> > > + * copy of this software and associated documentation files (the "Software"),
-> > > + * to deal in the Software without restriction, including without limitation
-> > > + * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-> > > + * and/or sell copies of the Software, and to permit persons to whom the
-> > > + * Software is furnished to do so, subject to the following conditions:
-> > > + *
-> > > + * The above copyright notice and this permission notice shall be included in
-> > > + * all copies or substantial portions of the Software.
-> > > + *
-> > > + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-> > > + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-> > > + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-> > > + * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
-> > > + * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-> > > + * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-> > > + * OTHER DEALINGS IN THE SOFTWARE.
-> > > + *
-> > > + * Authors:
-> > > + *	Christian König <christian.koenig@amd.com>
-> > > + */
-> > > +
-> > > +#include <linux/dma-resv-ctx.h>
-> > > +
-> > > +/**
-> > > + * dma_resv_ctx_init - initialize a reservation context
-> > > + * @ctx: the context to initialize
-> > > + *
-> > > + * Start using this reservation context to lock reservation objects for update.
-> > > + */
-> > > +void dma_resv_ctx_init(struct dma_resv_ctx *ctx)
-> > > +{
-> > > +	ww_acquire_init(&ctx->base, &reservation_ww_class);
-> > > +	init_llist_head(&ctx->locked);
-> > > +	ctx->contended = NULL;
-> > > +}
-> > > +EXPORT_SYMBOL(dma_resv_ctx_init);
-> > > +
-> > > +/**
-> > > + * dma_resv_ctx_unlock_all - unlock all reservation objects
-> > > + * @ctx: the context which holds the reservation objects
-> > > + *
-> > > + * Unlocks all reservation objects locked with this context.
-> > > + */
-> > > +void dma_resv_ctx_unlock_all(struct dma_resv_ctx *ctx)
-> > > +{
-> > > +	struct dma_resv *obj, *next;
-> > > +
-> > > +	if (ctx->contended)
-> > > +		dma_resv_unlock(ctx->contended);
-> > > +	ctx->contended = NULL;
-> > > +
-> > > +	llist_for_each_entry_safe(obj, next, ctx->locked.first, locked)
-> > > +		ww_mutex_unlock(&obj->lock);
-> > > +	init_llist_head(&ctx->locked);
-> > > +}
-> > > +EXPORT_SYMBOL(dma_resv_ctx_unlock_all);
-> > > +
-> > > +/**
-> > > + * dma_resv_ctx_lock - lock a reservation object with deadlock handling
-> > > + * @ctx: the context which should be used to lock the object
-> > > + * @obj: the object which needs to be locked
-> > > + * @interruptible: if we should wait interruptible
-> > > + *
-> > > + * Use @ctx to lock the reservation object. If a deadlock is detected we backoff
-> > > + * by releasing all locked objects and use the slow path to lock the reservation
-> > > + * object. After successfully locking in the slow path -EDEADLK is returned to
-> > > + * signal that all other locks must be re-taken as well.
-> > > + */
-> > > +int dma_resv_ctx_lock(struct dma_resv_ctx *ctx, struct dma_resv *obj,
-> > > +		      bool interruptible)
-> > > +{
-> > > +	int ret = 0;
-> > > +
-> > > +	if (unlikely(ctx->contended == obj))
-> > > +		ctx->contended = NULL;
-> > > +	else if (interruptible)
-> > > +		ret = dma_resv_lock_interruptible(obj, &ctx->base);
-> > > +	else
-> > > +		ret = dma_resv_lock(obj, &ctx->base);
-> > > +
-> > > +	if (likely(!ret)) {
-> > > +		/* don't use llist_add here, we have separate locking */
-> > > +		obj->locked.next = ctx->locked.first;
-> > > +		ctx->locked.first = &obj->locked;
-> > > +		return 0;
-> > > +	}
-> > > +	if (unlikely(ret != -EDEADLK))
-> > > +		return ret;
-> > > +
-> > > +	dma_resv_ctx_unlock_all(ctx);
-> > > +
-> > > +	if (interruptible) {
-> > > +		ret = dma_resv_lock_slow_interruptible(obj, &ctx->base);
-> > > +		if (unlikely(ret))
-> > > +			return ret;
-> > > +	} else {
-> > > +		dma_resv_lock_slow(obj, &ctx->base);
-> > > +	}
-> > > +
-> > > +	ctx->contended = obj;
-> > > +	return -EDEADLK;
-> > > +}
-> > > +EXPORT_SYMBOL(dma_resv_ctx_lock);
-> > > diff --git a/include/linux/dma-resv-ctx.h b/include/linux/dma-resv-ctx.h
-> > > new file mode 100644
-> > > index 000000000000..86473de65167
-> > > --- /dev/null
-> > > +++ b/include/linux/dma-resv-ctx.h
-> > > @@ -0,0 +1,68 @@
-> > > +// SPDX-License-Identifier: GPL-2.0-only
-> > > +/*
-> > > + * Copyright 2019 Advanced Micro Devices, Inc.
-> > > + *
-> > > + * Permission is hereby granted, free of charge, to any person obtaining a
-> > > + * copy of this software and associated documentation files (the "Software"),
-> > > + * to deal in the Software without restriction, including without limitation
-> > > + * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-> > > + * and/or sell copies of the Software, and to permit persons to whom the
-> > > + * Software is furnished to do so, subject to the following conditions:
-> > > + *
-> > > + * The above copyright notice and this permission notice shall be included in
-> > > + * all copies or substantial portions of the Software.
-> > > + *
-> > > + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-> > > + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-> > > + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-> > > + * THE COPYRIGHT HOLDER(S) OR AUTHOR(S) BE LIABLE FOR ANY CLAIM, DAMAGES OR
-> > > + * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-> > > + * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-> > > + * OTHER DEALINGS IN THE SOFTWARE.
-> > > + *
-> > > + * Authors:
-> > > + *	Christian König <christian.koenig@amd.com>
-> > > + */
-> > > +
-> > > +#ifndef _LINUX_DMA_RESV_CTX_H
-> > > +#define _LINUX_DMA_RESV_CTX_H
-> > > +
-> > > +#include <linux/llist.h>
-> > > +#include <linux/dma-resv.h>
-> > > +
-> > > +/**
-> > > + * struct dma_resv_ctx - context to lock reservation objects
-> > > + * @base: ww_acquire_ctx used for deadlock detection
-> > > + * @locked: list of dma_resv objects locked in this context
-> > > + * @contended: contended dma_resv object
-> > > + */
-> > > +struct dma_resv_ctx {
-> > > +	struct ww_acquire_ctx base;
-> > > +	struct llist_head locked;
-> > > +	struct dma_resv *contended;
-> > > +};
-> > > +
-> > > +/**
-> > > + * dma_resv_ctx_done - wrapper for ww_acquire_done
-> > > + * @ctx: the reservation context which is done with locking
-> > > + */
-> > > +static inline void dma_resv_ctx_done(struct dma_resv_ctx *ctx)
-> > > +{
-> > > +	ww_acquire_done(&ctx->base);
-> > > +}
-> > > +
-> > > +/**
-> > > + * dma_resv_ctx_fini - wrapper for ww_acquire_fini
-> > > + * @ctx: the reservation context which is finished
-> > > + */
-> > > +static inline void dma_resv_ctx_fini(struct dma_resv_ctx *ctx)
-> > > +{
-> > > +	ww_acquire_fini(&ctx->base);
-> > > +}
-> > > +
-> > > +void dma_resv_ctx_init(struct dma_resv_ctx *ctx);
-> > > +void dma_resv_ctx_unlock_all(struct dma_resv_ctx *ctx);
-> > > +int dma_resv_ctx_lock(struct dma_resv_ctx *ctx, struct dma_resv *obj,
-> > > +		      bool interruptible);
-> > > +
-> > > +#endif /* _LINUX_DMA_RESV_CTX_H */
-> > > diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
-> > > index ee50d10f052b..1267822c2669 100644
-> > > --- a/include/linux/dma-resv.h
-> > > +++ b/include/linux/dma-resv.h
-> > > @@ -71,6 +71,7 @@ struct dma_resv_list {
-> > >    */
-> > >   struct dma_resv {
-> > >   	struct ww_mutex lock;
-> > > +	struct llist_node locked;
-> > >   	seqcount_t seq;
-> > >   	struct dma_fence __rcu *fence_excl;
-> > > -- 
-> > > 2.17.1
-> > > 
+> > V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF;
+> > 
+> >> + *
+> >> + *	...
+> >> + *
+> >> + *	v4l2_m2m_buf_done(out_vb, VB2_BUF_STATE_DONE);
+> >> + *	if (!cap_vb->is_held) {
+> >> + *		v4l2_m2m_dst_buf_remove(m2m_ctx);
+> >> + *		v4l2_m2m_buf_done(cap_vb, VB2_BUF_STATE_DONE);
+> >> + *	}
+> >> + *
+> >> + * This allows for multiple output buffers to be used to fill in a
+> >> single
+> >> + * capture buffer. This is typically used by stateless decoders where
+> >> + * multiple e.g. H.264 slices contribute to a single decoded frame.
+> >> + */
+> >> +struct vb2_v4l2_buffer *v4l2_m2m_release_capture_buf(struct v4l2_m2m_ctx
+> >> *m2m_ctx) +{
+> >> +	struct v4l2_m2m_dev *m2m_dev = m2m_ctx->m2m_dev;
+> >> +	struct vb2_v4l2_buffer *src, *dst;
+> >> +	unsigned long flags;
+> >> +
+> >> +	spin_lock_irqsave(&m2m_dev->job_spinlock, flags);
+> >> +	src = v4l2_m2m_next_src_buf(m2m_ctx);
+> >> +	dst = v4l2_m2m_next_dst_buf(m2m_ctx);
+> >> +
+> >> +	if (dst->is_held && dst->vb2_buf.copied_timestamp &&
+> >> +	    src->vb2_buf.timestamp != dst->vb2_buf.timestamp) {
+> >> +		dst->is_held = false;
+> >> +		v4l2_m2m_dst_buf_remove(m2m_ctx);
+> >> +		v4l2_m2m_buf_done(dst, VB2_BUF_STATE_DONE);
+> >> +		dst = v4l2_m2m_next_dst_buf(m2m_ctx);
+> >> +	}
+> >> +	dst->is_held = src->flags & V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF;
+> >> +	src->flags &= ~V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF;
+> >> +	spin_unlock_irqrestore(&m2m_dev->job_spinlock, flags);
+> >> +	return dst;
+> >> +}
+> >> +EXPORT_SYMBOL(v4l2_m2m_release_capture_buf);
+> >> +
+> >> 
+> >>  int v4l2_m2m_reqbufs(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
+> >>  
+> >>  		     struct v4l2_requestbuffers *reqbufs)
+> >>  
+> >>  {
+> >> 
+> >> @@ -1171,19 +1275,28 @@ int v4l2_m2m_ioctl_stateless_decoder_cmd(struct
+> >> file *file, void *priv, {
+> >> 
+> >>  	struct v4l2_fh *fh = file->private_data;
+> >>  	struct vb2_v4l2_buffer *out_vb, *cap_vb;
+> >> 
+> >> +	struct v4l2_m2m_dev *m2m_dev = fh->m2m_ctx->m2m_dev;
+> >> +	unsigned long flags;
+> >> 
+> >>  	int ret;
+> >>  	
+> >>  	ret = v4l2_m2m_ioctl_stateless_try_decoder_cmd(file, priv, dc);
+> >>  	if (ret < 0)
+> >>  	
+> >>  		return ret;
+> >> 
+> >> +	spin_lock_irqsave(&m2m_dev->job_spinlock, flags);
+> >> 
+> >>  	out_vb = v4l2_m2m_last_src_buf(fh->m2m_ctx);
+> >>  	cap_vb = v4l2_m2m_last_dst_buf(fh->m2m_ctx);
+> >> 
+> >> -	if (out_vb)
+> >> +	if (out_vb && (out_vb->flags & V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF))
+> > 
+> > {
+> > 
+> >>  		out_vb->flags &= ~V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF;
+> >> 
+> >> -	else if (cap_vb && cap_vb->is_held)
+> >> -		v4l2_m2m_buf_done(cap_vb, VB2_BUF_STATE_DONE);
+> >> +	} else if (cap_vb && cap_vb->is_held) {
+> >> +		cap_vb->is_held = false;
+> >> +		if (m2m_dev->curr_ctx) {
+> > 
+> > Above condition should be negated.
 > 
+> Close. It should check that this buffer isn't currently being processed.
+> So:
+> 
+> 		if (m2m_dev->curr_ctx != fh->m2m_ctx) {
+> 
+> Can you test with this change? If this works, then I'll post a proper
+> series for this.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+I confirm that it works.
+
+Best regards,
+Jernej
+
+> 
+> Thanks!
+> 
+> 	Hans
+> 
+> > Best regards,
+> > Jernej
+> > 
+> >> +			v4l2_m2m_dst_buf_remove(fh->m2m_ctx);
+> >> +			v4l2_m2m_buf_done(cap_vb,
+> > 
+> > VB2_BUF_STATE_DONE);
+> > 
+> >> +		}
+> >> +	}
+> >> +	spin_unlock_irqrestore(&m2m_dev->job_spinlock, flags);
+> >> 
+> >>  	return 0;
+> >>  
+> >>  }
+> >> 
+> >> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> >> b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c index
+> >> 67f7d4326fc1..4e30f263b427 100644
+> >> --- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> >> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> >> @@ -30,14 +30,7 @@ void cedrus_device_run(void *priv)
+> >> 
+> >>  	struct media_request *src_req;
+> >>  	
+> >>  	run.src = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
+> >> 
+> >> -	run.dst = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
+> >> -
+> >> -	if (v4l2_m2m_release_capture_buf(run.src, run.dst)) {
+> >> -		v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
+> >> -		v4l2_m2m_buf_done(run.dst, VB2_BUF_STATE_DONE);
+> >> -		run.dst = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
+> >> -	}
+> >> -	run.dst->is_held = run.src->flags &
+> > 
+> > V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF;
+> > 
+> >> +	run.dst = v4l2_m2m_release_capture_buf(ctx->fh.m2m_ctx);
+> >> 
+> >>  	run.first_slice = !run.dst->vb2_buf.copied_timestamp ||
+> >>  	
+> >>  		run.src->vb2_buf.timestamp != run.dst-
+> >> 
+> >> vb2_buf.timestamp;
+> >> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> >> b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c index
+> >> 99fedec80224..242cad82cc8c 100644
+> >> --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> >> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> >> @@ -103,7 +103,6 @@ static irqreturn_t cedrus_irq(int irq, void *data)
+> >> 
+> >>  {
+> >>  
+> >>  	struct cedrus_dev *dev = data;
+> >>  	struct cedrus_ctx *ctx;
+> >> 
+> >> -	struct vb2_v4l2_buffer *src_buf, *dst_buf;
+> >> 
+> >>  	enum vb2_buffer_state state;
+> >>  	enum cedrus_irq_status status;
+> >> 
+> >> @@ -121,26 +120,12 @@ static irqreturn_t cedrus_irq(int irq, void *data)
+> >> 
+> >>  	dev->dec_ops[ctx->current_codec]->irq_disable(ctx);
+> >>  	dev->dec_ops[ctx->current_codec]->irq_clear(ctx);
+> >> 
+> >> -	src_buf = v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
+> >> -	dst_buf = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
+> >> -
+> >> -	if (!src_buf || !dst_buf) {
+> >> -		v4l2_err(&dev->v4l2_dev,
+> >> -			 "Missing source and/or destination
+> > 
+> > buffers\n");
+> > 
+> >> -		return IRQ_HANDLED;
+> >> -	}
+> >> -
+> >> 
+> >>  	if (status == CEDRUS_IRQ_ERROR)
+> >>  	
+> >>  		state = VB2_BUF_STATE_ERROR;
+> >>  	
+> >>  	else
+> >>  	
+> >>  		state = VB2_BUF_STATE_DONE;
+> >> 
+> >> -	v4l2_m2m_buf_done(src_buf, state);
+> >> -	if (!dst_buf->is_held) {
+> >> -		v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
+> >> -		v4l2_m2m_buf_done(dst_buf, state);
+> >> -	}
+> >> -	v4l2_m2m_job_finish(ctx->dev->m2m_dev, ctx->fh.m2m_ctx);
+> >> +	v4l2_m2m_job_finish_held(ctx->dev->m2m_dev, ctx->fh.m2m_ctx, 
+state);
+> >> 
+> >>  	return IRQ_HANDLED;
+> >>  
+> >>  }
+> >> 
+> >> diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2mem.h
+> >> index 8ae2f56c7fa3..48ca7d3eaa3d 100644
+> >> --- a/include/media/v4l2-mem2mem.h
+> >> +++ b/include/media/v4l2-mem2mem.h
+> >> @@ -173,6 +173,10 @@ void v4l2_m2m_try_schedule(struct v4l2_m2m_ctx
+> >> *m2m_ctx); void v4l2_m2m_job_finish(struct v4l2_m2m_dev *m2m_dev,
+> >> 
+> >>  			 struct v4l2_m2m_ctx *m2m_ctx);
+> >> 
+> >> +void v4l2_m2m_job_finish_held(struct v4l2_m2m_dev *m2m_dev,
+> >> +			 struct v4l2_m2m_ctx *m2m_ctx,
+> >> +			 enum vb2_buffer_state state);
+> >> +
+> >> 
+> >>  static inline void
+> >>  v4l2_m2m_buf_done(struct vb2_v4l2_buffer *buf, enum vb2_buffer_state
+> >>  state)
+> >> 
+> >> {
+> >> @@ -644,47 +648,7 @@ void v4l2_m2m_buf_copy_metadata(const struct
+> >> vb2_v4l2_buffer *out_vb, struct vb2_v4l2_buffer *cap_vb,
+> >> 
+> >>  				bool copy_frame_flags);
+> >> 
+> >> -/**
+> >> - * v4l2_m2m_release_capture_buf() - check if the capture buffer should
+> >> be
+> >> - * released
+> >> - *
+> >> - * @out_vb: the output buffer
+> >> - * @cap_vb: the capture buffer
+> >> - *
+> >> - * This helper function returns true if the current capture buffer
+> >> should
+> >> - * be released to vb2. This is the case if the output buffer specified
+> >> that - * the capture buffer should be held (i.e. not returned to vb2)
+> >> AND if the - * timestamp of the capture buffer differs from the output
+> >> buffer timestamp. - *
+> >> - * This helper is to be called at the start of the device_run callback:
+> >> - *
+> >> - * .. code-block:: c
+> >> - *
+> >> - *	if (v4l2_m2m_release_capture_buf(out_vb, cap_vb)) {
+> >> - *		v4l2_m2m_dst_buf_remove(m2m_ctx);
+> >> - *		v4l2_m2m_buf_done(cap_vb, VB2_BUF_STATE_DONE);
+> >> - *		cap_vb = v4l2_m2m_next_dst_buf(m2m_ctx);
+> >> - *	}
+> >> - *	cap_vb->is_held = out_vb->flags &
+> > 
+> > V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF;
+> > 
+> >> - *
+> >> - *	...
+> >> - *
+> >> - *	v4l2_m2m_buf_done(out_vb, VB2_BUF_STATE_DONE);
+> >> - *	if (!cap_vb->is_held) {
+> >> - *		v4l2_m2m_dst_buf_remove(m2m_ctx);
+> >> - *		v4l2_m2m_buf_done(cap_vb, VB2_BUF_STATE_DONE);
+> >> - *	}
+> >> - *
+> >> - * This allows for multiple output buffers to be used to fill in a
+> >> single
+> >> - * capture buffer. This is typically used by stateless decoders where
+> >> - * multiple e.g. H.264 slices contribute to a single decoded frame.
+> >> - */
+> >> -static inline bool v4l2_m2m_release_capture_buf(const struct
+> >> vb2_v4l2_buffer *out_vb, -
+> >> 
+> > 	const struct vb2_v4l2_buffer *cap_vb)
+> > 	
+> >> -{
+> >> -	return cap_vb->is_held && cap_vb->vb2_buf.copied_timestamp &&
+> >> -	       out_vb->vb2_buf.timestamp != cap_vb->vb2_buf.timestamp;
+> >> -}
+> >> +struct vb2_v4l2_buffer *v4l2_m2m_release_capture_buf(struct v4l2_m2m_ctx
+> >> *m2m_ctx);
+> >> 
+> >>  /* v4l2 request helper */
+
+
+
+
