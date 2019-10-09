@@ -2,215 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EF2D0D0CE6
-	for <lists+linux-media@lfdr.de>; Wed,  9 Oct 2019 12:37:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B70AED0CFB
+	for <lists+linux-media@lfdr.de>; Wed,  9 Oct 2019 12:43:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729320AbfJIKhW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Oct 2019 06:37:22 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:49825 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726579AbfJIKhW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 9 Oct 2019 06:37:22 -0400
-Received: from [IPv6:2001:983:e9a7:1:2801:e038:f2c3:e060] ([IPv6:2001:983:e9a7:1:2801:e038:f2c3:e060])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id I9LKibmEEop0AI9LLiOw8P; Wed, 09 Oct 2019 12:37:19 +0200
-Subject: Re: [PATCH v2] media: cec-adap: add debounce support when setting an
- invalid phys addr
-To:     Jonas Karlman <jonas@kwiboo.se>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <DB6PR06MB400724D0DD41B208D405F44FACBF0@DB6PR06MB4007.eurprd06.prod.outlook.com>
- <HE1PR06MB40115700084D1D875673D60EAC9D0@HE1PR06MB4011.eurprd06.prod.outlook.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <e1ea769e-f3d0-767e-9671-86d6d107b49c@xs4all.nl>
-Date:   Wed, 9 Oct 2019 12:37:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1730807AbfJIKnA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Oct 2019 06:43:00 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:45318 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727035AbfJIKnA (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 9 Oct 2019 06:43:00 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtp (Exim 4.84_2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1iI9Qe-0004pe-W9; Wed, 09 Oct 2019 10:42:49 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1iI9R4-0004VO-87; Wed, 09 Oct 2019 10:43:14 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.5] ti-vpe maintenance, add
+Date:   Wed,  9 Oct 2019 10:43:14 +0000
+Message-Id: <20191009104314.17277-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <e74ba649-28a5-a936-531c-aa2e0419384f@xs4all.nl>
+References: 
 MIME-Version: 1.0
-In-Reply-To: <HE1PR06MB40115700084D1D875673D60EAC9D0@HE1PR06MB4011.eurprd06.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfB6tmS3eQjyUK1ZE74PH7TgesnJiWQN8a3HrnmTeueCrjXg61xMu6d3En0Iie/HgTnEYI8X4ZBodTT03m0ib5nr07DMBSsEqYWWovSFHk9XiwXoFXQL5
- FD5LzbG+0NGdWI2OvVX3Zp9DhhVnEqbNM9GVVXu5osGK1SbnFGLoUBAVgLXPtwCLwO1XuZ+MFFBdC8CL7Rrllrum++oZy4i3LtmjGoaEQwIwtiueG7D9sSs1
- 3lXhFcr91qxQhViz67bGVlVGAxeHeRvQpfJsZdURaPpTULGMoS4EcPVovJtOTOlxI4IYFXQJKUqgwlD98ICiVyE14BJE31Oniw6LQun1xiMSGiyjf9KlSHu+
- UC/+aMKAXrBRgEQ1jLc9KkaTjLMpLA==
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jonas,
+From: builder@linuxtv.org
 
-On 10/1/19 10:52 PM, Jonas Karlman wrote:
-> When EDID is refreshed, HDMI cable is unplugged/replugged or
-> an AVR is power cycled the CEC phys addr gets invalidated.
-> 
-> This can cause some disruption of CEC communication when
-> adapter is being reconfigured.
-> 
-> Add a debounce module option that can be used to debounce setting
-> an invalid phys addr. Default is not to use debouncing.
-> 
-> Using a configured debounce of e.g. 5000 ms, cec reconfiguring
-> could be avoided when AVR was power cycled on my setup.
-> 
-> Power off AVR (default cec.debounce=0):
-> [  101.536866] cec-dw_hdmi: new physical address f.f.f.f
-> [  102.495686] cec-dw_hdmi: new physical address 2.1.0.0
-> [  102.495913] cec-dw_hdmi: physical address: 2.1.0.0, claim 1 logical addresses
-> [  102.628574] cec-dw_hdmi: config: la 1 pa 2.1.0.0
-> [  105.130115] cec-dw_hdmi: new physical address f.f.f.f
-> [  106.979705] cec-dw_hdmi: new physical address 2.1.0.0
-> [  106.979872] cec-dw_hdmi: physical address: 2.1.0.0, claim 1 logical addresses
-> [  107.112399] cec-dw_hdmi: config: la 1 pa 2.1.0.0
-> [  108.979408] cec-dw_hdmi: reported physical address 2.0.0.0 for logical address 5
-> [  109.205386] cec-dw_hdmi: reported physical address 2.0.0.0 for logical address 11
-> 
-> Power on AVR (default cec.debounce=0):
-> [  158.398447] cec-dw_hdmi: new physical address f.f.f.f
-> [  161.977714] cec-dw_hdmi: new physical address 2.1.0.0
-> [  161.978766] cec-dw_hdmi: physical address: 2.1.0.0, claim 1 logical addresses
-> [  162.115624] cec-dw_hdmi: config: la 1 pa 2.1.0.0
-> [  162.402750] cec-dw_hdmi: new physical address f.f.f.f
-> [  162.403389] cec-dw_hdmi: cec_transmit_msg_fh: adapter is unconfigured
-> [  162.886757] cec-dw_hdmi: new physical address 2.1.0.0
-> [  162.886964] cec-dw_hdmi: physical address: 2.1.0.0, claim 1 logical addresses
-> [  163.510725] cec-dw_hdmi: config: la 1 pa 2.1.0.0
-> [  173.034200] cec-dw_hdmi: message 10 89 02 05 timed out
-> 
-> Power off AVR (cec.debounce=5000):
-> [  251.720471] cec-dw_hdmi: reported physical address 2.0.0.0 for logical address 5
-> [  251.922432] cec-dw_hdmi: reported physical address 2.0.0.0 for logical address 11
-> 
-> Power on AVR (cec.debounce=5000):
-> [  291.154262] cec-dw_hdmi: reported physical address 2.0.0.0 for logical address 5
-> [  291.296199] cec-dw_hdmi: reported physical address 2.0.0.0 for logical address 11
-> 
-> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-> ---
->  drivers/media/cec/cec-adap.c |  9 ++++++++-
->  drivers/media/cec/cec-core.c | 18 ++++++++++++++++++
->  drivers/media/cec/cec-priv.h |  1 +
->  include/media/cec.h          |  2 ++
->  4 files changed, 29 insertions(+), 1 deletion(-)
+Pull request: https://patchwork.linuxtv.org/patch/59359/
+Build log: https://builder.linuxtv.org/job/patchwork/19655/
+Build time: 00:33:03
+Link: https://lore.kernel.org/linux-media/e74ba649-28a5-a936-531c-aa2e0419384f@xs4all.nl
 
-This patch looks pretty good. It's surprisingly little code for a feature like this,
-nice!
+gpg: Signature made Wed 09 Oct 2019 10:01:01 AM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
 
-This module option should be documented in Documentation/media/uapi/cec/cec-intro.rst.
-Make a section "1.1 Debouncing" that explains this module option.
+Summary: 9 patches and/or PDF generation with issues, being 0 at build time
 
-I also have one code comment:
+Error/warnings:
 
-> 
-> diff --git a/drivers/media/cec/cec-adap.c b/drivers/media/cec/cec-adap.c
-> index 5ef7daeb8cbd..4c94f6da526b 100644
-> --- a/drivers/media/cec/cec-adap.c
-> +++ b/drivers/media/cec/cec-adap.c
-> @@ -1593,8 +1593,15 @@ void cec_s_phys_addr(struct cec_adapter *adap, u16 phys_addr, bool block)
->  	if (IS_ERR_OR_NULL(adap))
->  		return;
->  
-> +	cancel_delayed_work_sync(&adap->debounce_work);
-> +
->  	mutex_lock(&adap->lock);
-> -	__cec_s_phys_addr(adap, phys_addr, block);
-> +	if (cec_debounce > 0 && !block && phys_addr == CEC_PHYS_ADDR_INVALID &&
-> +	    adap->phys_addr != phys_addr)
-> +		schedule_delayed_work(&adap->debounce_work,
-> +				      msecs_to_jiffies(cec_debounce));
-> +	else
-> +		__cec_s_phys_addr(adap, phys_addr, block);
->  	mutex_unlock(&adap->lock);
->  }
->  EXPORT_SYMBOL_GPL(cec_s_phys_addr);
-> diff --git a/drivers/media/cec/cec-core.c b/drivers/media/cec/cec-core.c
-> index 9c610e1e99b8..fa93a724d7aa 100644
-> --- a/drivers/media/cec/cec-core.c
-> +++ b/drivers/media/cec/cec-core.c
-> @@ -28,6 +28,10 @@ static bool debug_phys_addr;
->  module_param(debug_phys_addr, bool, 0644);
->  MODULE_PARM_DESC(debug_phys_addr, "add CEC_CAP_PHYS_ADDR if set");
->  
-> +int cec_debounce;
-> +module_param_named(debounce, cec_debounce, int, 0644);
-> +MODULE_PARM_DESC(debounce, "debounce invalid phys addr");
 
-This should say: "invalid physical address debounce time in ms"
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0001-media-v4l2-core-Implement-v4l2_ctrl_new_std_compound.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0001-media-v4l2-core-Implement-v4l2_ctrl_new_std_compound.patch
+patches/0001-media-v4l2-core-Implement-v4l2_ctrl_new_std_compound.patch:119: CHECK: Alignment should match open parenthesis
+patches/0001-media-v4l2-core-Implement-v4l2_ctrl_new_std_compound.patch:199: WARNING: Missing Signed-off-by: line by nominal patch author 'Ricardo Ribalda Delgado <ricardo@ribalda.com>'
 
-I also recommend renaming 'debounce' to 'debounce_ms' to signal that this
-is in ms.
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0005-media-add-V4L2_CID_UNIT_CELL_SIZE-control.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0005-media-add-V4L2_CID_UNIT_CELL_SIZE-control.patch
+patches/0005-media-add-V4L2_CID_UNIT_CELL_SIZE-control.patch:50: WARNING: line over 80 characters
 
-Regards,
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0008-media-imx214-Add-new-control-with-V4L2_CID_UNIT_CELL.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0008-media-imx214-Add-new-control-with-V4L2_CID_UNIT_CELL.patch
+patches/0008-media-imx214-Add-new-control-with-V4L2_CID_UNIT_CELL.patch:8: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+patches/0008-media-imx214-Add-new-control-with-V4L2_CID_UNIT_CELL.patch:44: CHECK: Alignment should match open parenthesis
 
-	Hans
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0010-media-ti-vpe-vpe-Fix-Motion-Vector-vpdma-stride.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0010-media-ti-vpe-vpe-Fix-Motion-Vector-vpdma-stride.patch
+patches/0010-media-ti-vpe-vpe-Fix-Motion-Vector-vpdma-stride.patch:6: WARNING: Unknown commit id '52831a418fa6', maybe rebased or not pulled?
+patches/0010-media-ti-vpe-vpe-Fix-Motion-Vector-vpdma-stride.patch:7: WARNING: Unknown commit id '8c1e4fa17e92', maybe rebased or not pulled?
+patches/0010-media-ti-vpe-vpe-Fix-Motion-Vector-vpdma-stride.patch:12: WARNING: Unknown commit id '44f98adf71a8', maybe rebased or not pulled?
+patches/0010-media-ti-vpe-vpe-Fix-Motion-Vector-vpdma-stride.patch:15: WARNING: Unknown commit id '52831a418fa6', maybe rebased or not pulled?
+patches/0010-media-ti-vpe-vpe-Fix-Motion-Vector-vpdma-stride.patch:16: WARNING: Unknown commit id '8c1e4fa17e92', maybe rebased or not pulled?
 
-> +
->  static dev_t cec_dev_t;
->  
->  /* Active devices */
-> @@ -174,6 +178,8 @@ static void cec_devnode_unregister(struct cec_adapter *adap)
->  	devnode->unregistered = true;
->  	mutex_unlock(&devnode->lock);
->  
-> +	cancel_delayed_work_sync(&adap->debounce_work);
-> +
->  	mutex_lock(&adap->lock);
->  	__cec_s_phys_addr(adap, CEC_PHYS_ADDR_INVALID, false);
->  	__cec_s_log_addrs(adap, NULL, false);
-> @@ -250,6 +256,17 @@ static const struct file_operations cec_error_inj_fops = {
->  };
->  #endif
->  
-> +static void cec_s_phys_addr_debounce(struct work_struct *work)
-> +{
-> +	struct delayed_work *delayed_work = to_delayed_work(work);
-> +	struct cec_adapter *adap =
-> +		container_of(delayed_work, struct cec_adapter, debounce_work);
-> +
-> +	mutex_lock(&adap->lock);
-> +	__cec_s_phys_addr(adap, CEC_PHYS_ADDR_INVALID, false);
-> +	mutex_unlock(&adap->lock);
-> +}
-> +
->  struct cec_adapter *cec_allocate_adapter(const struct cec_adap_ops *ops,
->  					 void *priv, const char *name, u32 caps,
->  					 u8 available_las)
-> @@ -293,6 +310,7 @@ struct cec_adapter *cec_allocate_adapter(const struct cec_adap_ops *ops,
->  	INIT_LIST_HEAD(&adap->transmit_queue);
->  	INIT_LIST_HEAD(&adap->wait_queue);
->  	init_waitqueue_head(&adap->kthread_waitq);
-> +	INIT_DELAYED_WORK(&adap->debounce_work, cec_s_phys_addr_debounce);
->  
->  	/* adap->devnode initialization */
->  	INIT_LIST_HEAD(&adap->devnode.fhs);
-> diff --git a/drivers/media/cec/cec-priv.h b/drivers/media/cec/cec-priv.h
-> index 7bdf855aaecd..65176294fcf0 100644
-> --- a/drivers/media/cec/cec-priv.h
-> +++ b/drivers/media/cec/cec-priv.h
-> @@ -27,6 +27,7 @@ static inline bool msg_is_raw(const struct cec_msg *msg)
->  
->  /* cec-core.c */
->  extern int cec_debug;
-> +extern int cec_debounce;
->  int cec_get_device(struct cec_devnode *devnode);
->  void cec_put_device(struct cec_devnode *devnode);
->  
-> diff --git a/include/media/cec.h b/include/media/cec.h
-> index 4d59387bc61b..4d96ece01ba2 100644
-> --- a/include/media/cec.h
-> +++ b/include/media/cec.h
-> @@ -195,6 +195,8 @@ struct cec_adapter {
->  	wait_queue_head_t kthread_waitq;
->  	wait_queue_head_t waitq;
->  
-> +	struct delayed_work debounce_work;
-> +
->  	const struct cec_adap_ops *ops;
->  	void *priv;
->  	u32 capabilities;
-> 
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0018-media-ti-vpe-vpe-Make-sure-YUYV-is-set-as-default-fo.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0018-media-ti-vpe-vpe-Make-sure-YUYV-is-set-as-default-fo.patch
+patches/0018-media-ti-vpe-vpe-Make-sure-YUYV-is-set-as-default-fo.patch:15: WARNING: Unknown commit id '94ed726e8e01', maybe rebased or not pulled?
+
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0019-media-ti-vpe-vpe-fix-a-v4l2-compliance-failure-about.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0019-media-ti-vpe-vpe-fix-a-v4l2-compliance-failure-about.patch
+patches/0019-media-ti-vpe-vpe-fix-a-v4l2-compliance-failure-about.patch:38: WARNING: line over 80 characters
+
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0024-media-ti-vpe-vpe-use-standard-struct-instead-of-dupl.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0024-media-ti-vpe-vpe-use-standard-struct-instead-of-dupl.patch
+patches/0024-media-ti-vpe-vpe-use-standard-struct-instead-of-dupl.patch:386: CHECK: Alignment should match open parenthesis
+
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0027-media-v4l2-common-add-pixel-encoding-support.patch
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:47: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:48: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:49: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:50: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:51: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:52: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:53: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:54: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:55: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:56: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:57: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:58: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:59: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:60: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:61: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:68: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:69: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:70: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:71: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:87: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:88: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:89: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:90: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:91: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:92: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:94: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:95: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:96: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:97: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:98: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:99: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:113: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:114: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:115: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:116: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:117: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:118: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:120: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:121: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:122: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:123: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:146: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:147: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:148: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:149: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:150: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:151: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:152: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:153: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:154: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:155: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:156: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:157: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:158: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:159: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:160: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:161: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:162: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:163: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:164: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:165: WARNING: line over 80 characters
+
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0028-media-v4l2-common-add-RGB565-and-RGB55-to-v4l2_forma.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0028-media-v4l2-common-add-RGB565-and-RGB55-to-v4l2_forma.patch
+patches/0028-media-v4l2-common-add-RGB565-and-RGB55-to-v4l2_forma.patch:22: WARNING: line over 80 characters
+patches/0028-media-v4l2-common-add-RGB565-and-RGB55-to-v4l2_forma.patch:23: WARNING: line over 80 characters
 
