@@ -2,70 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E378AD2E43
-	for <lists+linux-media@lfdr.de>; Thu, 10 Oct 2019 18:03:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AA7EAD2E56
+	for <lists+linux-media@lfdr.de>; Thu, 10 Oct 2019 18:07:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726065AbfJJQDK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Oct 2019 12:03:10 -0400
-Received: from mail-qk1-f196.google.com ([209.85.222.196]:37967 "EHLO
-        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725901AbfJJQDK (ORCPT
+        id S1726091AbfJJQHT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Oct 2019 12:07:19 -0400
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:41042 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725901AbfJJQHT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Oct 2019 12:03:10 -0400
-Received: by mail-qk1-f196.google.com with SMTP id x4so2159544qkx.5
-        for <linux-media@vger.kernel.org>; Thu, 10 Oct 2019 09:03:09 -0700 (PDT)
+        Thu, 10 Oct 2019 12:07:19 -0400
+Received: by mail-qt1-f195.google.com with SMTP id v52so9449334qtb.8
+        for <linux-media@vger.kernel.org>; Thu, 10 Oct 2019 09:07:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id;
-        bh=Gq2K1MPahReKFxfny0U/21k67CRMM0zxuVsY+LkC+cc=;
-        b=nFz1tXA+EeJxEVkmyRpOHfU39bZnzBSlFJ9cA8vgyPQd0DQn7th2VNm8+NKa7wBoI7
-         86e4a9ypgzw7h2FQszf7cuwcs7MpJdNm2uipkC19Zj4vodsNawxGXWn69MqulF4kCJoT
-         eSqkH+pqBN4TGDx9A0LR442NoAHCLMlnRAwaMv/2N+Tec125zBtehi1/dR0ce93SOx7j
-         OZ9VNXoJZ/EmEl5Y5JOyu57z4Ggj6qMEDtZizpj26D8k309GN83QJvNGziTHNjT4wzKP
-         Hpd1xYiZ1AT4HlASoAORJJXJ9tu31N1KFhuOa/yevNheyhHmxNBMNtrby59+n0ginFIy
-         0ZYg==
+        bh=jYm8XhNB7JMR/Pm6CJQvzwbJZVmCWwrXqEJrweKEEQM=;
+        b=f0vRKDaBLZEa50Al5F+yyka9zdOfYkG3Bn5WYvE2Wk77I0vw2k4L+l7d4DsZLjjavP
+         MuMjCAuygxFchevG4DQfRehv5h6Fw7GWzhSucrTkMuSfDWf0KVOxPm9pbGvS+rI139Wy
+         ZNzXgBqn0UlDPPfb5jNSWtXvknQAKlSO7+g610zCBkDAn36IqTM8vAd2IW3U2U6r6ew4
+         I7yfNLIBJtqsfHe5yo+wMHhP2K9vf9RfC+n05Pm6Mdr9H69cc19sOMyXrQP6rgW3FcW1
+         Yf4P26bWGOx9FdIAc4QhyDDoN3qrl5lQULq1wPzwJj89CzqrxMrEaGvLgwwqKgyGvqJs
+         SpZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=Gq2K1MPahReKFxfny0U/21k67CRMM0zxuVsY+LkC+cc=;
-        b=nKXN2fG0WZ2FAPKrGkUvjxF98kfcRknANUgjWzjfUmEeoS9a1sHp6jKXmSAL3l9ZXK
-         zD2VChH1bblENques65nlpJYrhuvVjI0QouYVmueKQuHFu3mMaNeVQh2D8GW8g8w9U0U
-         u+qEVAXPUPdXRo0LrOuWzH37BHuHkhOMlh10IqWOxdPdbnCO+1z9UGBlijenZ7O+5FDw
-         RVHrd4ZkQH0268c4aPWF9XU95mvFvAhaq2IJc1IgCwssyn/V455ldcMPgdNZybEf7A7K
-         DEneq+tNUQXxyoOpC1qLr6ir4yHrP1aCD6V6eD17/YIhlKN4+zxBhUtU5iLlMbFppG0w
-         SAeg==
-X-Gm-Message-State: APjAAAWTRezmrv7aEYSOOpVpgtn8X3NWK/wSiK/l9gE4E7D7TU7o8gaW
-        qUm+Ac7lpkkyIqToUNptmbMvzUra
-X-Google-Smtp-Source: APXvYqzWRRn3WDVXCQRM3YFJpbvoo1UpU9Wvfzj0R3WUw4uhsp74OVGUizFKOJgj+l78sGaH4iW+Kw==
-X-Received: by 2002:a37:8d05:: with SMTP id p5mr10246882qkd.271.1570723388964;
-        Thu, 10 Oct 2019 09:03:08 -0700 (PDT)
+        bh=jYm8XhNB7JMR/Pm6CJQvzwbJZVmCWwrXqEJrweKEEQM=;
+        b=VszIs2EToZ0SmgQW0NhKfuwfFShzRuQSlP6kg5UGJDU2bilIA1rhl89KEjkM4XMmnm
+         vleB4xTG7cdDBnQiBvn+VPhrp3DXIpP6x5Kb3aNUQ1udiYmi8dV4iEKV7XTXD8rNpQR5
+         uw9mXSzi7nKb6CY0kSAGaQXfeTtA2i0BhNNle3QjTuyBPsg29ZlHiI5dabGlEGtBxjYQ
+         pMUOgfcADYS2xNpTQ31pj7TLRMbm9vP2k6riTYXh6Il5pm2QdkpfWk2gN+z+ISZfV4hN
+         lfHy+MKuGBN9akUE7Su5VLoYBtq4sUZFF9eCtfxzDxnBBMXxIsB2ecrxQ69n2NzPLxZ/
+         IC/Q==
+X-Gm-Message-State: APjAAAWCgimlHBiFW3C2VluTmQ21RuTTTh7rGGTvD7/L/wwMUK+OON29
+        sIJ0lAULpCBFjw0rwAyw90c=
+X-Google-Smtp-Source: APXvYqw/ZPKguCXuWJR3IfdPY0LU9T9yMPtdsMAjzJYtcSFgbMQnohrH2L9SvaKePJHRWpx4hSlkfg==
+X-Received: by 2002:ac8:306e:: with SMTP id g43mr11631912qte.392.1570723638724;
+        Thu, 10 Oct 2019 09:07:18 -0700 (PDT)
 Received: from fabio-Latitude-E5450.nxp.com ([177.221.114.206])
-        by smtp.gmail.com with ESMTPSA id i66sm2736008qkb.105.2019.10.10.09.03.06
+        by smtp.gmail.com with ESMTPSA id j2sm2564079qki.15.2019.10.10.09.07.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Oct 2019 09:03:08 -0700 (PDT)
+        Thu, 10 Oct 2019 09:07:17 -0700 (PDT)
 From:   Fabio Estevam <festevam@gmail.com>
 To:     hverkuil-cisco@xs4all.nl
 Cc:     mchehab@kernel.org, lars@metafoo.de, slongerbeam@gmail.com,
         tharvey@gateworks.com, linux-media@vger.kernel.org,
         Fabio Estevam <festevam@gmail.com>
-Subject: [PATCH] media: adv7180: Move 'chip found' message a bit further
-Date:   Thu, 10 Oct 2019 13:02:59 -0300
-Message-Id: <20191010160259.21362-1-festevam@gmail.com>
+Subject: [PATCH v2] media: adv7180: Move 'chip found' message a bit further
+Date:   Thu, 10 Oct 2019 13:07:03 -0300
+Message-Id: <20191010160703.21493-1-festevam@gmail.com>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Currently the "chip found" found message is shown even in the
-case where the I2C address is wrongly passed in the device tree,
-which is misleading.
+Currently the "chip found" message is shown even in the case where the
+I2C address is wrongly passed in the device tree, which is misleading.
 
 To avoid such problem, move this message after real I2C transactions
-have been made and we are certain that the adv7180 is really present.
+have been successfully made and we are certain that the adv7180 is
+really present.
 
 Signed-off-by: Fabio Estevam <festevam@gmail.com>
 ---
+Changes since v1:
+- Remove an extra "found" word from commit log.
+- Add "have been successfully "
+
  drivers/media/i2c/adv7180.c | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
