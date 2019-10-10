@@ -2,113 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 28E4FD2C38
-	for <lists+linux-media@lfdr.de>; Thu, 10 Oct 2019 16:15:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E5E03D2C57
+	for <lists+linux-media@lfdr.de>; Thu, 10 Oct 2019 16:24:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726167AbfJJOPI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Oct 2019 10:15:08 -0400
-Received: from mx08-00178001.pphosted.com ([91.207.212.93]:40592 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726037AbfJJOPH (ORCPT
+        id S1726319AbfJJOYb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Oct 2019 10:24:31 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:44714 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725991AbfJJOYb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Oct 2019 10:15:07 -0400
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-        by mx08-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x9AE64WR013966;
-        Thu, 10 Oct 2019 16:07:26 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type : content-id
- : content-transfer-encoding : mime-version; s=STMicroelectronics;
- bh=7yWUXL9Rc0acEqWqS7CkOitYwbC3Jm+sq0bKkZ4qLec=;
- b=1Zmb9dc0kz4QQ+jGoKss208+6ply1VtAYDEuo168rNTXbHccPV5ZMe7qFZ4R1MK+bBQS
- rB3Ak1s5zz7YQPGpUsTT+wUx6uF4z7uqQ4PUuqDTlKTTI+jeT5wOiVotCM6ciOCp90fX
- 2aohlrOx2BQ9OKP2QmgrysZJuDVboIZRcBbcOV8huyW2/EXVtTLy5BdLTwriXBVkQIjB
- qqUoTxiq/nm9zMwcl02s9rLnH+oXcj1qSLdWqPlCKADfVhY5Ridk1JgfSC4HruswpcYd
- QQ9ww6pS6dAqxgDHGDJGnRBzqOkKMiLUotvHuUbrKvf9TsqfOgFmPqXrdhLOiE3hSCzx pQ== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx08-00178001.pphosted.com with ESMTP id 2vej2pmev3-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 10 Oct 2019 16:07:26 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 69AFB100038;
-        Thu, 10 Oct 2019 16:07:24 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag5node2.st.com [10.75.127.14])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 2D0AF212523;
-        Thu, 10 Oct 2019 16:07:24 +0200 (CEST)
-Received: from SFHDAG5NODE3.st.com (10.75.127.15) by SFHDAG5NODE2.st.com
- (10.75.127.14) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 10 Oct
- 2019 16:07:23 +0200
-Received: from SFHDAG5NODE3.st.com ([fe80::7c09:5d6b:d2c7:5f47]) by
- SFHDAG5NODE3.st.com ([fe80::7c09:5d6b:d2c7:5f47%20]) with mapi id
- 15.00.1473.003; Thu, 10 Oct 2019 16:07:23 +0200
-From:   Fabien DESSENNE <fabien.dessenne@st.com>
-To:     Johan Hovold <johan@kernel.org>, Rob Clark <robdclark@gmail.com>,
-        "Sean Paul" <sean@poorly.run>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "Harald Freudenberger" <freude@linux.ibm.com>
-CC:     David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
-        "Heiko Carstens" <heiko.carstens@de.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable <stable@vger.kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Mauro Carvalho Chehab <mchehab@osg.samsung.com>
-Subject: Re: [PATCH 2/4] media: bdisp: fix memleak on release
-Thread-Topic: [PATCH 2/4] media: bdisp: fix memleak on release
-Thread-Index: AQHVf2yqC/jYoGn80Ees298jOdJYjqdTx7KA
-Date:   Thu, 10 Oct 2019 14:07:23 +0000
-Message-ID: <5cb3040c-8c6a-ee38-be4f-b83fa9d98686@st.com>
-References: <20191010131333.23635-1-johan@kernel.org>
- <20191010131333.23635-3-johan@kernel.org>
-In-Reply-To: <20191010131333.23635-3-johan@kernel.org>
-Accept-Language: fr-FR, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.75.127.45]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <09FA797EF141D1488C813B9ADD032BE3@st.com>
-Content-Transfer-Encoding: base64
+        Thu, 10 Oct 2019 10:24:31 -0400
+Received: by mail-wr1-f65.google.com with SMTP id z9so8144742wrl.11
+        for <linux-media@vger.kernel.org>; Thu, 10 Oct 2019 07:24:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=o4qf/PYpPuvWlngglfD/8X1UFMC1O9J7iKZhY9prYg4=;
+        b=FPcLbe4AdWKRiJr6Q7mtsm5QS2vA7XVjEggWIA7Me84I4HXwCV7AJ46hHu7tmCTQE3
+         tU+suEgww8Sg8UU2zLb75yLleCiRWrP+ieYHAPQE4p0DHGPBxDleHiI8V/ZD+FDh0PiK
+         IlTz5bkImP11tn0CKaZRpvyOhHzWoP4asppEiG24jAncSNbrGjiWizjje3FqNult1nsO
+         ByUwPCIEGRWyfqqTRH/1k8+88vUFkp49A7ouuCgF9q/7nyY9P+6lU6LcM7yGw3Syn8pO
+         eKEdn/KNwgYz+ihFfo3AL8ImuMPw/VzCIBrF1v3M/2LoznFm7vVC5P0HKGr78MP6ypFL
+         kCpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+         :message-id:date:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=o4qf/PYpPuvWlngglfD/8X1UFMC1O9J7iKZhY9prYg4=;
+        b=AfCRHoaiRh5zjhmaY1nFunOJL+q5A8WqnvLpwCTPaINBi65YPxuxe/MXKRoFVEMn7K
+         W92gKdVOnn17OtyY+I71mxOW3sPxud0ca4Ub4D0q5LWQiD+HsxUrEnIblu20iNf3ICls
+         NbHXi/6wFu748dCWeX4DFC1wL1ioLDfxOoLj5Fg7MWKCFahSjgUOJjHOWC4sRGTocNyr
+         TRw9efyvLwDD+aoiuA39fl0Dmc2E+J1vGWQkfVq16t4G4dk/XVvbSzIPVXeiEMtSHtCt
+         90zUPmueA2oMmo8eSyJM5ddYFfEHoq1fgOOhP52BUvnbrRMTtFCORJj5Ys0lbjkHDW3B
+         cG9Q==
+X-Gm-Message-State: APjAAAXHNDkUs0y4MtrcnZLVfoxvn1BAQC/uGIBez0nCveTeO6CFi1bh
+        zOJAnohLQQbpxneCBh+rMXNhsA==
+X-Google-Smtp-Source: APXvYqxhwHySsiHy6ZqNSNJ3JDm1rpco/wXWY28bmBUGhrutNZwf9raK5CUOtKYqwFKB3rjdozb90g==
+X-Received: by 2002:a5d:6250:: with SMTP id m16mr8735063wrv.322.1570717468321;
+        Thu, 10 Oct 2019 07:24:28 -0700 (PDT)
+Received: from [10.44.66.8] ([212.45.67.2])
+        by smtp.googlemail.com with ESMTPSA id g3sm7683012wro.14.2019.10.10.07.24.27
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 10 Oct 2019 07:24:27 -0700 (PDT)
+Subject: Re: [PATCH v2 2/2] arm64: dts: sdm845: Add interconnect properties
+ for Venus
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        Vikash Garodia <vgarodia@codeaurora.org>,
+        Andy Gross <agross@kernel.org>,
+        David Dai <daidavid1@codeaurora.org>
+References: <20190912082948.22836-1-stanimir.varbanov@linaro.org>
+ <20190912082948.22836-3-stanimir.varbanov@linaro.org>
+From:   Georgi Djakov <georgi.djakov@linaro.org>
+Openpgp: preference=signencrypt
+Autocrypt: addr=georgi.djakov@linaro.org; prefer-encrypt=mutual; keydata=
+ mQINBFjTuRcBEACyAOVzghvyN19Sa/Nit4LPBWkICi5W20p6bwiZvdjhtuh50H5q4ktyxJtp
+ 1+s8dMSa/j58hAWhrc2SNL3fttOCo+MM1bQWwe8uMBQJP4swgXf5ZUYkSssQlXxGKqBSbWLB
+ uFHOOBTzaQBaNgsdXo+mQ1h8UCgM0zQOmbs2ort8aHnH2i65oLs5/Xgv/Qivde/FcFtvEFaL
+ 0TZ7odM67u+M32VetH5nBVPESmnEDjRBPw/DOPhFBPXtal53ZFiiRr6Bm1qKVu3dOEYXHHDt
+ nF13gB+vBZ6x5pjl02NUEucSHQiuCc2Aaavo6xnuBc3lnd4z/xk6GLBqFP3P/eJ56eJv4d0B
+ 0LLgQ7c1T3fU4/5NDRRCnyk6HJ5+HSxD4KVuluj0jnXW4CKzFkKaTxOp7jE6ZD/9Sh74DM8v
+ etN8uwDjtYsM07I3Szlh/I+iThxe/4zVtUQsvgXjwuoOOBWWc4m4KKg+W4zm8bSCqrd1DUgL
+ f67WiEZgvN7tPXEzi84zT1PiUOM98dOnmREIamSpKOKFereIrKX2IcnZn8jyycE12zMkk+Sc
+ ASMfXhfywB0tXRNmzsywdxQFcJ6jblPNxscnGMh2VlY2rezmqJdcK4G4Lprkc0jOHotV/6oJ
+ mj9h95Ouvbq5TDHx+ERn8uytPygDBR67kNHs18LkvrEex/Z1cQARAQABtChHZW9yZ2kgRGph
+ a292IDxnZW9yZ2kuZGpha292QGxpbmFyby5vcmc+iQI+BBMBAgAoBQJY07kXAhsDBQkHhM4A
+ BgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRCyi/eZcnWWUuvsD/4miikUeAO6fU2Xy3fT
+ l7RUCeb2Uuh1/nxYoE1vtXcow6SyAvIVTD32kHXucJJfYy2zFzptWpvD6Sa0Sc58qe4iLY4j
+ M54ugOYK7XeRKkQHFqqR2T3g/toVG1BOLS2atooXEU+8OFbpLkBXbIdItqJ1M1SEw8YgKmmr
+ JlLAaKMq3hMb5bDQx9erq7PqEKOB/Va0nNu17IL58q+Q5Om7S1x54Oj6LiG/9kNOxQTklOQZ
+ t61oW1Ewjbl325fW0/Lk0QzmfLCrmGXXiedFEMRLCJbVImXVKdIt/Ubk6SAAUrA5dFVNBzm2
+ L8r+HxJcfDeEpdOZJzuwRyFnH96u1Xz+7X2V26zMU6Wl2+lhvr2Tj7spxjppR+nuFiybQq7k
+ MIwyEF0mb75RLhW33sdGStCZ/nBsXIGAUS7OBj+a5fm47vQKv6ekg60oRTHWysFSJm1mlRyq
+ exhI6GwUo5GM/vE36rIPSJFRRgkt6nynoba/1c4VXxfhok2rkP0x3CApJ5RimbvITTnINY0o
+ CU6f1ng1I0A1UTi2YcLjFq/gmCdOHExT4huywfu1DDf0p1xDyPA1FJaii/gJ32bBP3zK53hM
+ dj5S7miqN7F6ZpvGSGXgahQzkGyYpBR5pda0m0k8drV2IQn+0W8Qwh4XZ6/YdfI81+xyFlXc
+ CJjljqsMCJW6PdgEH7kCDQRY07kXARAAvupGd4Jdd8zRRiF+jMpv6ZGz8L55Di1fl1YRth6m
+ lIxYTLwGf0/p0oDLIRldKswena3fbWh5bbTMkJmRiOQ/hffhPSNSyyh+WQeLY2kzl6geiHxD
+ zbw37e2hd3rWAEfVFEXOLnmenaUeJFyhA3Wd8OLdRMuoV+RaLhNfeHctiEn1YGy2gLCq4VNb
+ 4Wj5hEzABGO7+LZ14hdw3hJIEGKtQC65Jh/vTayGD+qdwedhINnIqslk9tCQ33a+jPrCjXLW
+ X29rcgqigzsLHH7iVHWA9R5Aq7pCy5hSFsl4NBn1uV6UHlyOBUuiHBDVwTIAUnZ4S8EQiwgv
+ WQxEkXEWLM850V+G6R593yZndTr3yydPgYv0xEDACd6GcNLR/x8mawmHKzNmnRJoOh6Rkfw2
+ fSiVGesGo83+iYq0NZASrXHAjWgtZXO1YwjW9gCQ2jYu9RGuQM8zIPY1VDpQ6wJtjO/KaOLm
+ NehSR2R6tgBJK7XD9it79LdbPKDKoFSqxaAvXwWgXBj0Oz+Y0BqfClnAbxx3kYlSwfPHDFYc
+ R/ppSgnbR5j0Rjz/N6Lua3S42MDhQGoTlVkgAi1btbdV3qpFE6jglJsJUDlqnEnwf03EgjdJ
+ 6KEh0z57lyVcy5F/EUKfTAMZweBnkPo+BF2LBYn3Qd+CS6haZAWaG7vzVJu4W/mPQzsAEQEA
+ AYkCJQQYAQIADwUCWNO5FwIbDAUJB4TOAAAKCRCyi/eZcnWWUhlHD/0VE/2x6lKh2FGP+QHH
+ UTKmiiwtMurYKJsSJlQx0T+j/1f+zYkY3MDX+gXa0d0xb4eFv8WNlEjkcpSPFr+pQ7CiAI33
+ 99kAVMQEip/MwoTYvM9NXSMTpyRJ/asnLeqa0WU6l6Z9mQ41lLzPFBAJ21/ddT4xeBDv0dxM
+ GqaH2C6bSnJkhSfSja9OxBe+F6LIAZgCFzlogbmSWmUdLBg+sh3K6aiBDAdZPUMvGHzHK3fj
+ gHK4GqGCFK76bFrHQYgiBOrcR4GDklj4Gk9osIfdXIAkBvRGw8zg1zzUYwMYk+A6v40gBn00
+ OOB13qJe9zyKpReWMAhg7BYPBKIm/qSr82aIQc4+FlDX2Ot6T/4tGUDr9MAHaBKFtVyIqXBO
+ xOf0vQEokkUGRKWBE0uA3zFVRfLiT6NUjDQ0vdphTnsdA7h01MliZLQ2lLL2Mt5lsqU+6sup
+ Tfql1omgEpjnFsPsyFebzcKGbdEr6vySGa3Cof+miX06hQXKe99a5+eHNhtZJcMAIO89wZmj
+ 7ayYJIXFqjl/X0KBcCbiAl4vbdBw1bqFnO4zd1lMXKVoa29UHqby4MPbQhjWNVv9kqp8A39+
+ E9xw890l1xdERkjVKX6IEJu2hf7X3MMl9tOjBK6MvdOUxvh1bNNmXh7OlBL1MpJYY/ydIm3B
+ KEmKjLDvB0pePJkdTw==
+Message-ID: <3c222f45-2db7-42a7-c79a-492bb587c331@linaro.org>
+Date:   Thu, 10 Oct 2019 17:24:26 +0300
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,1.0.8
- definitions=2019-10-10_05:2019-10-10,2019-10-10 signatures=0
+In-Reply-To: <20190912082948.22836-3-stanimir.varbanov@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGkgSm9oYW4NCg0KVGhhbmsgeW91IGZvciB0aGUgcGF0Y2gNCg0KQlINCg0KRmFiaWVuDQoNCg0K
-T24gMTAvMTAvMjAxOSAzOjEzIFBNLCBKb2hhbiBIb3ZvbGQgd3JvdGU6DQo+IElmIGEgcHJvY2Vz
-cyBpcyBpbnRlcnJ1cHRlZCB3aGlsZSBhY2Nlc3NpbmcgdGhlIHZpZGVvIGRldmljZSBhbmQgdGhl
-DQo+IGRldmljZSBsb2NrIGlzIGNvbnRlbmRlZCwgcmVsZWFzZSgpIGNvdWxkIHJldHVybiBlYXJs
-eSBhbmQgZmFpbCB0byBmcmVlDQo+IHJlbGF0ZWQgcmVzb3VyY2VzLg0KPg0KPiBOb3RlIHRoYXQg
-dGhlIHJldHVybiB2YWx1ZSBvZiB0aGUgdjRsMiByZWxlYXNlIGZpbGUgb3BlcmF0aW9uIGlzDQo+
-IGlnbm9yZWQuDQo+DQo+IEZpeGVzOiAyOGZmZWViYmI3YmQgKCJbbWVkaWFdIGJkaXNwOiAyRCBi
-bGl0dGVyIGRyaXZlciB1c2luZyB2NGwyIG1lbTJtZW0gZnJhbWV3b3JrIikNCj4gQ2M6IHN0YWJs
-ZSA8c3RhYmxlQHZnZXIua2VybmVsLm9yZz4gICAgICMgNC4yDQo+IENjOiBGYWJpZW4gRGVzc2Vu
-bmUgPGZhYmllbi5kZXNzZW5uZUBzdC5jb20+DQo+IENjOiBIYW5zIFZlcmt1aWwgPGhhbnMudmVy
-a3VpbEBjaXNjby5jb20+DQo+IENjOiBNYXVybyBDYXJ2YWxobyBDaGVoYWIgPG1jaGVoYWJAb3Nn
-LnNhbXN1bmcuY29tPg0KPiBTaWduZWQtb2ZmLWJ5OiBKb2hhbiBIb3ZvbGQgPGpvaGFuQGtlcm5l
-bC5vcmc+DQpSZXZpZXdlZC1ieTogRmFiaWVuIERlc3Nlbm5lIDxmYWJpZW4uZGVzc2VubmVAc3Qu
-Y29tPg0KPiAtLS0NCj4gICBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL3N0aS9iZGlzcC9iZGlzcC12
-NGwyLmMgfCAzICstLQ0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMiBkZWxl
-dGlvbnMoLSkNCj4NCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vc3RpL2Jk
-aXNwL2JkaXNwLXY0bDIuYyBiL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vc3RpL2JkaXNwL2JkaXNw
-LXY0bDIuYw0KPiBpbmRleCBlOTBmMWJhMzA1NzQuLjY3NWI1ZjJiNGMyZSAxMDA2NDQNCj4gLS0t
-IGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9zdGkvYmRpc3AvYmRpc3AtdjRsMi5jDQo+ICsrKyBi
-L2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vc3RpL2JkaXNwL2JkaXNwLXY0bDIuYw0KPiBAQCAtNjUx
-LDggKzY1MSw3IEBAIHN0YXRpYyBpbnQgYmRpc3BfcmVsZWFzZShzdHJ1Y3QgZmlsZSAqZmlsZSkN
-Cj4gICANCj4gICAJZGV2X2RiZyhiZGlzcC0+ZGV2LCAiJXNcbiIsIF9fZnVuY19fKTsNCj4gICAN
-Cj4gLQlpZiAobXV0ZXhfbG9ja19pbnRlcnJ1cHRpYmxlKCZiZGlzcC0+bG9jaykpDQo+IC0JCXJl
-dHVybiAtRVJFU1RBUlRTWVM7DQo+ICsJbXV0ZXhfbG9jaygmYmRpc3AtPmxvY2spOw0KPiAgIA0K
-PiAgIAl2NGwyX20ybV9jdHhfcmVsZWFzZShjdHgtPmZoLm0ybV9jdHgpOw0KPiAgIA==
+On 9/12/19 11:29, Stanimir Varbanov wrote:
+> Populate Venus DT node with interconnect properties.
+> 
+> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+> ---
+>  arch/arm64/boot/dts/qcom/sdm845.dtsi | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/sdm845.dtsi b/arch/arm64/boot/dts/qcom/sdm845.dtsi
+> index 0323e3da190a..567bfc89bd77 100644
+> --- a/arch/arm64/boot/dts/qcom/sdm845.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sdm845.dtsi
+> @@ -2039,6 +2039,9 @@
+>  			iommus = <&apps_smmu 0x10a0 0x8>,
+>  				 <&apps_smmu 0x10b0 0x0>;
+>  			memory-region = <&venus_mem>;
+> +			interconnects = <&rsc_hlos MASTER_VIDEO_P0 &rsc_hlos SLAVE_EBI1>,
+> +					<&rsc_hlos MASTER_APPSS_PROC &rsc_hlos SLAVE_VENUS_CFG>;
+> +			interconnect-names = "video-mem", "cpu-cfg";
+>  
+>  			video-core0 {
+>  				compatible = "venus-decoder";
+> 
+
+The patch look fine to me, but David is currently working on some patches that
+split the rsc_hlos node into multiple DT nodes (for each NoC). So maybe wait
+until we conclude on that first and then add Venus as user in DT.
+
+Thanks,
+Georgi
