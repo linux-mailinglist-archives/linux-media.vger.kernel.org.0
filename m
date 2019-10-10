@@ -2,123 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A7137D2981
-	for <lists+linux-media@lfdr.de>; Thu, 10 Oct 2019 14:31:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55991D2A5F
+	for <lists+linux-media@lfdr.de>; Thu, 10 Oct 2019 15:07:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731230AbfJJMa7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Oct 2019 08:30:59 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:43717 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726923AbfJJMa7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Oct 2019 08:30:59 -0400
-Received: from [IPv6:2001:983:e9a7:1:bc04:8998:8ec1:1871] ([IPv6:2001:983:e9a7:1:bc04:8998:8ec1:1871])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id IXapijC3Zop0AIXaqiTpFU; Thu, 10 Oct 2019 14:30:57 +0200
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Ricardo Ribalda Delgado <ribalda@kernel.org>,
-        Benoit Parrot <bparrot@ti.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL v2 FOR v5.5] ti-vpe maintenance, add
- V4L2_CTRL_TYPE_AREA/V4L2_CID_UNIT_CELL_SIZE
-Message-ID: <494470cf-7de0-d5bd-a448-390f4b2d14dc@xs4all.nl>
-Date:   Thu, 10 Oct 2019 14:30:55 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S2387710AbfJJNH1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Oct 2019 09:07:27 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:58999 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727788AbfJJNH1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 10 Oct 2019 09:07:27 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtp (Exim 4.84_2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1iIYA6-0008Sc-75; Thu, 10 Oct 2019 13:07:22 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1iIYAV-0000IZ-F2; Thu, 10 Oct 2019 13:07:47 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL v2 FOR v5.5] ti-vpe maintenance, add
+Date:   Thu, 10 Oct 2019 13:07:47 +0000
+Message-Id: <20191010130747.1106-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <494470cf-7de0-d5bd-a448-390f4b2d14dc@xs4all.nl>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfO4A6UoPAPq26stBtazronbhtxjAqnh8U5iy9SZALZ2OPI1y0PVB/Py5dX3uwO7zOGcle4QAtJWGLM3+i0oM8NOGHtXqUPS68BiMJnpIZN7So4UA7U9y
- Knh/5hHcWhJhLsdemElRDf1Ek5icsIlJs1SOQ4B9iMf1d89261qVg7inub3I/o0w4l5POFUWu56loMg0aGS8fV+Ul4ebl3asCJ/bRcWpD8r4dz8YOZl6vnBl
- 6HCWkFYBt3sbSnfpFktnDdB9lNhJquI1TzVHP4fC0BhhJVJoxDEDxa5ME7xL8kOuQvAAlx11SXsaKYiX872wKGpbocEYAq/o+HTPlli2M30=
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This PR adds support for V4L2_CID_UNIT_CELL_SIZE and the V4L2_CTRL_TYPE_AREA
-control type. It also adds support for providing a default value for compound
-controls (will be useful for stateless codec support as well).
+From: builder@linuxtv.org
 
-It also adds a maintenance series for ti-vpe. Note the addition of a pixel
-encoding enum for v4l2_format_info.
+Pull request: https://patchwork.linuxtv.org/patch/59388/
+Build log: https://builder.linuxtv.org/job/patchwork/19812/
+Build time: 00:27:21
+Link: https://lore.kernel.org/linux-media/494470cf-7de0-d5bd-a448-390f4b2d14dc@xs4all.nl
 
-Changes since the previous PR:
+error: FETCH_HEAD: cannot verify a non-tag object of type commit.
 
-- Fixed up some mismatched email addresses
-- Fixed up some incorrect commit IDs in 'Fixes:' lines
+Summary: 7 patches and/or PDF generation with issues, being 0 at build time
 
-Regards,
+Error/warnings:
 
-	Hans
 
-The following changes since commit 219031a6e7dff52a066e8b074adc0697f501e3d3:
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0001-media-v4l2-core-Implement-v4l2_ctrl_new_std_compound.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0001-media-v4l2-core-Implement-v4l2_ctrl_new_std_compound.patch
+patches/0001-media-v4l2-core-Implement-v4l2_ctrl_new_std_compound.patch:119: CHECK: Alignment should match open parenthesis
 
-  media: venus: fix build on 32bit environments (2019-10-08 13:46:36 -0300)
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0005-media-add-V4L2_CID_UNIT_CELL_SIZE-control.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0005-media-add-V4L2_CID_UNIT_CELL_SIZE-control.patch
+patches/0005-media-add-V4L2_CID_UNIT_CELL_SIZE-control.patch:50: WARNING: line over 80 characters
 
-are available in the Git repository at:
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0008-media-imx214-Add-new-control-with-V4L2_CID_UNIT_CELL.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0008-media-imx214-Add-new-control-with-V4L2_CID_UNIT_CELL.patch
+patches/0008-media-imx214-Add-new-control-with-V4L2_CID_UNIT_CELL.patch:8: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+patches/0008-media-imx214-Add-new-control-with-V4L2_CID_UNIT_CELL.patch:44: CHECK: Alignment should match open parenthesis
 
-  git://linuxtv.org/hverkuil/media_tree.git for-v5.5h
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0019-media-ti-vpe-vpe-fix-a-v4l2-compliance-failure-about.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0019-media-ti-vpe-vpe-fix-a-v4l2-compliance-failure-about.patch
+patches/0019-media-ti-vpe-vpe-fix-a-v4l2-compliance-failure-about.patch:38: WARNING: line over 80 characters
 
-for you to fetch changes up to 2558d9369e6430360bcf14236f7b0c52c4d66094:
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0024-media-ti-vpe-vpe-use-standard-struct-instead-of-dupl.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0024-media-ti-vpe-vpe-use-standard-struct-instead-of-dupl.patch
+patches/0024-media-ti-vpe-vpe-use-standard-struct-instead-of-dupl.patch:386: CHECK: Alignment should match open parenthesis
 
-  media: ti-vpe: vpe: don't rely on colorspace member for conversion (2019-10-10 14:26:45 +0200)
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0027-media-v4l2-common-add-pixel-encoding-support.patch
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:47: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:48: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:49: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:50: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:51: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:52: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:53: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:54: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:55: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:56: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:57: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:58: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:59: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:60: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:61: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:68: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:69: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:70: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:71: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:87: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:88: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:89: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:90: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:91: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:92: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:94: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:95: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:96: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:97: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:98: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:99: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:113: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:114: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:115: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:116: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:117: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:118: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:120: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:121: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:122: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:123: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:146: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:147: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:148: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:149: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:150: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:151: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:152: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:153: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:154: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:155: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:156: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:157: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:158: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:159: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:160: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:161: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:162: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:163: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:164: WARNING: line over 80 characters
+patches/0027-media-v4l2-common-add-pixel-encoding-support.patch:165: WARNING: line over 80 characters
 
-----------------------------------------------------------------
-Benoit Parrot (18):
-      media: ti-vpe: Fix a parallel build issue
-      media: ti-vpe: vpe: Fix Motion Vector vpdma stride
-      media: ti-vpe: vpe: Add missing null pointer checks
-      media: ti-vpe: vpe: Remove unnecessary use of container_of
-      media: ti-vpe: vpe: fix a v4l2-compliance failure causing a kernel panic
-      media: ti-vpe: vpe: fix a v4l2-compliance warning about invalid pixel format
-      media: ti-vpe: vpe: Make sure YUYV is set as default format
-      media: ti-vpe: vpe: fix a v4l2-compliance failure about invalid sizeimage
-      media: ti-vpe: vpe: fix a v4l2-compliance failure about frame sequence number
-      media: ti-vpe: vpe: ensure buffers are cleaned up properly in abort cases
-      media: ti-vpe: vpdma: Use fixed type for address in descriptor
-      media: ti-vpe: Set the DMA mask and coherent mask
-      media: ti-vpe: vpe: use standard struct instead of duplicating fields
-      media: ti-vpe: vpe: fix v4l2_compliance issue related to xfer_func
-      media: ti-vpe: csc: rgb-to-yuv HD full range coeff are wrong
-      media: v4l2-common: add pixel encoding support
-      media: v4l2-common: add RGB565 and RGB55 to v4l2_format_info
-      media: ti-vpe: vpe: don't rely on colorspace member for conversion
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0028-media-v4l2-common-add-RGB565-and-RGB55-to-v4l2_forma.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0028-media-v4l2-common-add-RGB565-and-RGB55-to-v4l2_forma.patch
+patches/0028-media-v4l2-common-add-RGB565-and-RGB55-to-v4l2_forma.patch:22: WARNING: line over 80 characters
+patches/0028-media-v4l2-common-add-RGB565-and-RGB55-to-v4l2_forma.patch:23: WARNING: line over 80 characters
 
-Nikhil Devshatwar (2):
-      media: ti-vpe: Add support for SEQ_BT
-      media: ti-vpe: Add support for NV21 format
-
-Ram Prasad (1):
-      media: ti-vpe: Set MAX height supported to 2048 pixels
-
-Ricardo Ribalda Delgado (8):
-      media: v4l2-core: Implement v4l2_ctrl_new_std_compound
-      Documentation: v4l2_ctrl_new_std_compound
-      media: add V4L2_CTRL_TYPE_AREA control type
-      Documentation: media: Document V4L2_CTRL_TYPE_AREA
-      media: add V4L2_CID_UNIT_CELL_SIZE control
-      Documentation: media: Describe V4L2_CID_UNIT_CELL_SIZE
-      media: v4l2-ctrl: Add new helper v4l2_ctrl_ptr_create
-      media: imx214: Add new control with V4L2_CID_UNIT_CELL_SIZE
-
- Documentation/media/kapi/v4l2-controls.rst              |   9 ++
- Documentation/media/uapi/v4l/ext-ctrls-image-source.rst |  10 ++
- Documentation/media/uapi/v4l/vidioc-queryctrl.rst       |   6 +
- Documentation/media/videodev2.h.rst.exceptions          |   1 +
- drivers/media/i2c/imx214.c                              |   9 ++
- drivers/media/platform/Makefile                         |   4 +-
- drivers/media/platform/ti-vpe/csc.c                     | 254 ++++++++++++++++++++----------
- drivers/media/platform/ti-vpe/csc.h                     |   4 +-
- drivers/media/platform/ti-vpe/vpdma.c                   |  11 +-
- drivers/media/platform/ti-vpe/vpdma.h                   |   2 +
- drivers/media/platform/ti-vpe/vpdma_priv.h              |   5 +-
- drivers/media/platform/ti-vpe/vpe.c                     | 394 ++++++++++++++++++++++++++++-------------------
- drivers/media/v4l2-core/v4l2-common.c                   | 128 +++++++--------
- drivers/media/v4l2-core/v4l2-ctrls.c                    |  76 ++++++++-
- include/media/v4l2-common.h                             |  33 +++-
- include/media/v4l2-ctrls.h                              |  76 +++++++++
- include/uapi/linux/v4l2-controls.h                      |   1 +
- include/uapi/linux/videodev2.h                          |   6 +
- 18 files changed, 707 insertions(+), 322 deletions(-)
