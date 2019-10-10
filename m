@@ -2,108 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D183D2847
-	for <lists+linux-media@lfdr.de>; Thu, 10 Oct 2019 13:42:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 577ACD2855
+	for <lists+linux-media@lfdr.de>; Thu, 10 Oct 2019 13:45:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733084AbfJJLmZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Oct 2019 07:42:25 -0400
-Received: from bombadil.infradead.org ([198.137.202.133]:39704 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726523AbfJJLmZ (ORCPT
+        id S1727489AbfJJLos (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Oct 2019 07:44:48 -0400
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:44496 "EHLO
+        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726523AbfJJLor (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Oct 2019 07:42:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=uzxYnoeO9th5PZbje/sBiPsvtuK+49seDd9d1KDUDZQ=; b=SAvCTEZNTEei01z9glEp+Tphh
-        LuqlgccpL7qGgrBq68NENFcA4+adFSRYIXRgakpUqcYgkTHMw0QtxS56GU2Z9gT46L5bLw+heygUg
-        aYEilXemSkBRnNwGEiHGC6PtSxIQO9WTch+6MzsCe2g97MwD5dTRCYaidFD6vId7NRcJqpK8NBC0c
-        2VY8KhdqxW7TTbcxBXlz2QSIdM7QjWON98/kP2+mqtWMuBTknhbGt9BVJyjXS/0lQjKgygAUufs3M
-        g2ReWFjeDyFkX7BH8ECPrA2zfpqdMCpVw5VeJPaTjQBvVC+sSHoikI40lPGWQjqwOlkpE4K18s7qu
-        et5M5t9Rw==;
-Received: from 177.205.100.4.dynamic.adsl.gvt.net.br ([177.205.100.4] helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iIWps-0004ks-Bv; Thu, 10 Oct 2019 11:42:24 +0000
-Date:   Thu, 10 Oct 2019 08:42:20 -0300
-From:   Mauro Carvalho Chehab <mchehab@infradead.org>
-To:     Gon Solo <gonsolo@gmail.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        JP <jp@jpvw.nl>, crope@iki.fi, Sean Young <sean@mess.org>,
-        Linux Kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/4] media: si2168: use bits instead of bool for flags
-Message-ID: <20191010084220.1fa8e1fc@coco.lan>
-In-Reply-To: <20191010083423.3fff672f@coco.lan>
-References: <20191004090855.14e418ed@coco.lan>
-        <2942b7ca9ecf86b6bff75c10ccfca25c173c3f0d.1570194906.git.mchehab+samsung@kernel.org>
-        <20191010105544.GA6507@Limone>
-        <20191010083423.3fff672f@coco.lan>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Thu, 10 Oct 2019 07:44:47 -0400
+Received: by mail-ed1-f68.google.com with SMTP id r16so5135737edq.11;
+        Thu, 10 Oct 2019 04:44:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=1IeTS6OtaGl5r6kl4QmygEE+/0UdRFkwKzXgXVrqazc=;
+        b=gF6XnRs9Zto3s9HYwDC5Zil9rW4OO51oO/A+LSgFP1z6gcfXlBWGz495Nd8jf0NnPP
+         P6Yw1LlLJDbUDmHfcjim696KDyol7o1w8DHWW8de8pvTZTmuSf6WaHGunlfI1KO/tlCH
+         Vq7PaVEB3hotxLb8O4ZUgoGgqH4IuBgTOP/Th7U4GEPPUQyuYeu6YH2btN0+nTdi4757
+         rIOUzqt8i6n0QwkZDbkWaUVvhwzS24kYGrCHLBbht37r0zE06EycLMkTXbMusrBjMbI8
+         7oTNn93nzr47OvYOdVj+QnM0MNnEd4tDVhlLtGR+mE8KtAhWKmwq8ABJOFtOZ1yJ4FMZ
+         OAEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=1IeTS6OtaGl5r6kl4QmygEE+/0UdRFkwKzXgXVrqazc=;
+        b=r4JnBngrxW6DjUedHa8x70irNGcPapHYPspbM0Hm80S/1DKTf1srbAA1ycs7Q9IIjD
+         Qy+1I4+JRwcA+tO3FQmyNYrwv+qYS2J/SRsgajYofWyuBERmUT+SZbZeBukJyNMdPt7N
+         EiLiKrcaAyVCIJVw5s1JdQGGeaZve25618l2qDPI7uBGcdFfDIUDBQacjdcamlrM4wyj
+         ywadtwOv+3FqOt2tw11pWbLD+RWODxBRvsyW+ExGyhq28ACub4HvEyPRs4SPfXfwtC/v
+         E6MQuGOmI4XpHC+HzgdFY8VFe6AZ4rEzYqv0CgCAcWzCcfqJPOubEkVrlNKkaoafkqbR
+         l2ZA==
+X-Gm-Message-State: APjAAAUrxAuZftlpBPooRJiRIPY+2vRMjCsqYwCV2aDvGnwiQKDUfyPZ
+        t0RWMDrSKOT21NPDYtwcPjU=
+X-Google-Smtp-Source: APXvYqzh0ZScc5ATh9Zv+GUeRhfisrqwWOlOzjMrpFrVIiUawgUEGk1kjvJD3EE7H/T88BplgiF1JA==
+X-Received: by 2002:a50:9a46:: with SMTP id o64mr7764794edb.191.1570707884368;
+        Thu, 10 Oct 2019 04:44:44 -0700 (PDT)
+Received: from Limone ([46.114.37.24])
+        by smtp.gmail.com with ESMTPSA id jo12sm659875ejb.7.2019.10.10.04.44.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Oct 2019 04:44:43 -0700 (PDT)
+Date:   Thu, 10 Oct 2019 13:44:40 +0200
+From:   Gon Solo <gonsolo@gmail.com>
+To:     mchehab+samsung@kernel.org
+Cc:     linux-media@vger.kernel.org, mchehab@infradead.org, jp@jpvw.nl,
+        crope@iki.fi, sean@mess.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/4] Add support for Logilink VG0022A.
+Message-ID: <20191010114440.GA7902@Limone>
+References: <20191010091848.GA2898@Limone>
+ <20191010095103.3803-5-gonsolo@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <mchehab@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191010095103.3803-5-gonsolo@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Thu, 10 Oct 2019 08:34:23 -0300
-Mauro Carvalho Chehab <mchehab+samsung@kernel.org> escreveu:
+Hi!
 
-> Em Thu, 10 Oct 2019 12:55:44 +0200
-> Gon Solo <gonsolo@gmail.com> escreveu:
+> "When the [...] firmware that came with the device is replaced
+> by a new one, any I2C data received from the tuner will be
+> replaced by 0xff.
 > 
-> > On Fri, Oct 04, 2019 at 10:15:22AM -0300, Mauro Carvalho Chehab wrote:  
-> > > Using bool on struct is not recommended, as it wastes lots of
-> > > space. So, instead, let's use bits.    
-> > 
-> > Wouldn't "bool b:1;" even be better? I performed a little test:
-
-> > Result:
-> > 
-> > bit_uints: 4
-> > bit_bools: 1
-
-> > I know with different types within the struct it looks different, but
-> > still.  
+> Probably, the vendor firmware has some patch specifically
+> designed for this device. So, we can't replace by the generic
+> firmware.
 > 
-> No. In practice, the compiler will add 3 bytes of pad after bit_bools
-> (on 32-bit archs), due to performance reasons.
+> The right solution would be to extract the [...] firmware from
+> the original driver and ask the driver to load the specifically
+> designed firmware, but, while we don't have that, the next best
+> solution is to just keep the original firmware at the device."
+ 
+The information in the patch is not totally correct. It is the
+si2168(!) firmware download that confuses things, not the one for the
+si2157. The si2157 seems to have no firmware and the problem is
+that we used to bail out because we didn't recognize the bogus
+chip id. The following patch corrects this.
 
-Btw, if you want to test, just add something after the bits, and you'll
-see that it will now report the PAD bytes too:
+Signed-off-by: <andreas.wendleder@gmail.com>
 
-struct bit_uints {
-	unsigned int a0:1;
-	unsigned int a1:1;
-	unsigned int a2:1;
-	unsigned int a3:1;
-	unsigned int a4:1;
-	unsigned int a5:1;
-	unsigned int a6:1;
-	unsigned int a7:1;
-
-	int i;
-};
-
-struct bit_bools {
-	bool a0:1;
-	bool a1:1;
-	bool a2:1;
-	bool a3:1;
-	bool a4:1;
-	bool a5:1;
-	bool a6:1;
-	bool a7:1;
-
-	int i;
-};
-
-bit_uints: 8
-bit_bools: 8
-
-Thanks,
-Mauro
+diff --git a/drivers/media/usb/dvb-usb-v2/af9035.c b/drivers/media/usb/dvb-usb-v2/af9035.c
+index 792667ee5ebc..5a2943e2932b 100644
+--- a/drivers/media/usb/dvb-usb-v2/af9035.c
++++ b/drivers/media/usb/dvb-usb-v2/af9035.c
+@@ -1621,17 +1621,20 @@ static int it930x_tuner_attach(struct dvb_usb_adapter *adap)
+ 	si2157_config.fe = adap->fe[0];
+ 
+ 	/*
+-	 * HACK: The Logilink VG0022A has a bug: when the si2157
++	 * HACK: The Logilink VG0022A has a bug: When the si2168
+ 	 * firmware that came with the device is replaced by a new
+ 	 * one, the I2C transfers to the tuner will return just 0xff.
+ 	 *
+ 	 * Probably, the vendor firmware has some patch specifically
+ 	 * designed for this device. So, we can't replace by the
+ 	 * generic firmware. The right solution would be to extract
+-	 * the si2157 firmware from the original driver and ask the
++	 * the si2157/68 firmware from the original driver and ask the
+ 	 * driver to load the specifically designed firmware, but,
+ 	 * while we don't have that, the next best solution is to just
+ 	 * keep the original firmware at the device.
++	 *
++	 * Or, the Windows driver includes the same hack and doesn't
++	 * bail out on bogus chip ids.
+ 	 */
+ 	if (le16_to_cpu(d->udev->descriptor.idVendor) == USB_VID_DEXATEK &&
+ 	    le16_to_cpu(d->udev->descriptor.idProduct) == 0x0100)
