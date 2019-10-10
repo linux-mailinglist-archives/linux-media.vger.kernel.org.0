@@ -2,19 +2,19 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 52A59D2A80
+	by mail.lfdr.de (Postfix) with ESMTP id 805BDD2A82
 	for <lists+linux-media@lfdr.de>; Thu, 10 Oct 2019 15:12:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388063AbfJJNL6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S2388064AbfJJNL6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Thu, 10 Oct 2019 09:11:58 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:34775 "EHLO
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:38285 "EHLO
         lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2388048AbfJJNL5 (ORCPT
+        by vger.kernel.org with ESMTP id S2388051AbfJJNL5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Thu, 10 Oct 2019 09:11:57 -0400
 Received: from marune.fritz.box ([IPv6:2001:983:e9a7:1:bc04:8998:8ec1:1871])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id IYESijV5zop0AIYEViU37h; Thu, 10 Oct 2019 15:11:55 +0200
+        id IYESijV5zop0AIYEViU37u; Thu, 10 Oct 2019 15:11:55 +0200
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
 Cc:     =?UTF-8?q?Jernej=20=C5=A0krabec?= <jernej.skrabec@siol.net>,
@@ -22,9 +22,9 @@ Cc:     =?UTF-8?q?Jernej=20=C5=A0krabec?= <jernej.skrabec@siol.net>,
         mripard@kernel.org, tfiga@chromium.org, jonas@kwiboo.se,
         Ezequiel Garcia <ezequiel@collabora.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCHv3 6/8] media: cedrus: Detect first slice of a frame
-Date:   Thu, 10 Oct 2019 15:11:50 +0200
-Message-Id: <20191010131152.68984-7-hverkuil-cisco@xs4all.nl>
+Subject: [PATCHv3 7/8] media: cedrus: h264: Support multiple slices per frame
+Date:   Thu, 10 Oct 2019 15:11:51 +0200
+Message-Id: <20191010131152.68984-8-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191010131152.68984-1-hverkuil-cisco@xs4all.nl>
 References: <20191010131152.68984-1-hverkuil-cisco@xs4all.nl>
@@ -42,45 +42,53 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Jernej Skrabec <jernej.skrabec@siol.net>
 
-When codec supports multiple slices in one frame, VPU has to know when
-first slice of each frame is being processed, presumably to correctly
-clear/set data in auxiliary buffers.
+With recent changes, support for decoding multi-slice frames can be
+easily added now.
 
-Add first_slice field to cedrus_run structure and set it according to
-the new_frame boolean of the context.
+Signal VPU if current slice is first in frame or not and add information
+about first macroblock coordinates.
 
 Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
-[hverkuil-cisco@xs4all.nl: rewritten to use the new_frame bool]
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/staging/media/sunxi/cedrus/cedrus.h     | 1 +
- drivers/staging/media/sunxi/cedrus/cedrus_dec.c | 1 +
- 2 files changed, 2 insertions(+)
+ drivers/staging/media/sunxi/cedrus/cedrus_h264.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h b/drivers/staging/media/sunxi/cedrus/cedrus.h
-index 2f017a651848..32cb38e541c6 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus.h
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
-@@ -70,6 +70,7 @@ struct cedrus_mpeg2_run {
- struct cedrus_run {
- 	struct vb2_v4l2_buffer	*src;
- 	struct vb2_v4l2_buffer	*dst;
-+	bool first_slice;
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+index d6a782703c9b..3ffb5494cff6 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+@@ -301,6 +301,8 @@ static void cedrus_set_params(struct cedrus_ctx *ctx,
+ 	dma_addr_t src_buf_addr;
+ 	u32 offset = slice->header_bit_size;
+ 	u32 len = (slice->size * 8) - offset;
++	unsigned int pic_width_in_mbs;
++	bool mbaff_pic;
+ 	u32 reg;
  
- 	union {
- 		struct cedrus_h264_run	h264;
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-index 56ca4c9ad01c..7d3dd31e8190 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-@@ -31,6 +31,7 @@ void cedrus_device_run(void *priv)
+ 	cedrus_write(dev, VE_H264_VLD_LEN, len);
+@@ -370,12 +372,20 @@ static void cedrus_set_params(struct cedrus_ctx *ctx,
+ 		reg |= VE_H264_SPS_DIRECT_8X8_INFERENCE;
+ 	cedrus_write(dev, VE_H264_SPS, reg);
  
- 	run.src = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
- 	run.dst = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
-+	run.first_slice = ctx->fh.m2m_ctx->new_frame;
- 
- 	/* Apply request(s) controls if needed. */
- 	src_req = run.src->vb2_buf.req_obj.req;
++	mbaff_pic = !(slice->flags & V4L2_H264_SLICE_FLAG_FIELD_PIC) &&
++		    (sps->flags & V4L2_H264_SPS_FLAG_MB_ADAPTIVE_FRAME_FIELD);
++	pic_width_in_mbs = sps->pic_width_in_mbs_minus1 + 1;
++
+ 	// slice parameters
+ 	reg = 0;
++	reg |= ((slice->first_mb_in_slice % pic_width_in_mbs) & 0xff) << 24;
++	reg |= (((slice->first_mb_in_slice / pic_width_in_mbs) *
++		 (mbaff_pic + 1)) & 0xff) << 16;
+ 	reg |= decode->nal_ref_idc ? BIT(12) : 0;
+ 	reg |= (slice->slice_type & 0xf) << 8;
+ 	reg |= slice->cabac_init_idc & 0x3;
+-	reg |= VE_H264_SHS_FIRST_SLICE_IN_PIC;
++	if (run->first_slice)
++		reg |= VE_H264_SHS_FIRST_SLICE_IN_PIC;
+ 	if (slice->flags & V4L2_H264_SLICE_FLAG_FIELD_PIC)
+ 		reg |= VE_H264_SHS_FIELD_PIC;
+ 	if (slice->flags & V4L2_H264_SLICE_FLAG_BOTTOM_FIELD)
 -- 
 2.23.0
 
