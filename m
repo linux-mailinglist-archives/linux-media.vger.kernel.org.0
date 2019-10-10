@@ -2,19 +2,19 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D7CAD2A81
+	by mail.lfdr.de (Postfix) with ESMTP id 39ECBD2A7E
 	for <lists+linux-media@lfdr.de>; Thu, 10 Oct 2019 15:12:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388062AbfJJNL6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Oct 2019 09:11:58 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:53711 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2388012AbfJJNL5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
+        id S2388058AbfJJNL5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Thu, 10 Oct 2019 09:11:57 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:44391 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2388036AbfJJNL4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 10 Oct 2019 09:11:56 -0400
 Received: from marune.fritz.box ([IPv6:2001:983:e9a7:1:bc04:8998:8ec1:1871])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id IYESijV5zop0AIYEViU37H; Thu, 10 Oct 2019 15:11:55 +0200
+        id IYESijV5zop0AIYEViU37R; Thu, 10 Oct 2019 15:11:55 +0200
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
 Cc:     =?UTF-8?q?Jernej=20=C5=A0krabec?= <jernej.skrabec@siol.net>,
@@ -22,9 +22,9 @@ Cc:     =?UTF-8?q?Jernej=20=C5=A0krabec?= <jernej.skrabec@siol.net>,
         mripard@kernel.org, tfiga@chromium.org, jonas@kwiboo.se,
         Ezequiel Garcia <ezequiel@collabora.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCHv3 4/8] media: v4l2-mem2mem: add stateless_(try_)decoder_cmd ioctl helpers
-Date:   Thu, 10 Oct 2019 15:11:48 +0200
-Message-Id: <20191010131152.68984-5-hverkuil-cisco@xs4all.nl>
+Subject: [PATCHv3 5/8] v4l2-mem2mem: add new_frame detection
+Date:   Thu, 10 Oct 2019 15:11:49 +0200
+Message-Id: <20191010131152.68984-6-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191010131152.68984-1-hverkuil-cisco@xs4all.nl>
 References: <20191010131152.68984-1-hverkuil-cisco@xs4all.nl>
@@ -40,98 +40,70 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Jernej Skrabec <jernej.skrabec@siol.net>
+Drivers that support VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF
+typically want to know if a new frame is started (i.e. the first
+slice is about to be processed). Add a new_frame bool to v4l2_m2m_ctx
+and set it accordingly.
 
-These helpers are used by stateless codecs when they support multiple
-slices per frame and hold capture buffer flag is set. It's expected that
-all such codecs will use this code.
-
-Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
-Co-developed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/media/v4l2-core/v4l2-mem2mem.c | 53 ++++++++++++++++++++++++++
- include/media/v4l2-mem2mem.h           |  4 ++
- 2 files changed, 57 insertions(+)
+ drivers/media/v4l2-core/v4l2-mem2mem.c | 11 +++++++++--
+ include/media/v4l2-mem2mem.h           |  7 +++++++
+ 2 files changed, 16 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
-index 3a8a2ebaf5e3..5cad205eed08 100644
+index 5cad205eed08..55205c1563d7 100644
 --- a/drivers/media/v4l2-core/v4l2-mem2mem.c
 +++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
-@@ -1218,6 +1218,59 @@ int v4l2_m2m_ioctl_try_decoder_cmd(struct file *file, void *fh,
- }
- EXPORT_SYMBOL_GPL(v4l2_m2m_ioctl_try_decoder_cmd);
+@@ -319,8 +319,10 @@ static void __v4l2_m2m_try_queue(struct v4l2_m2m_dev *m2m_dev,
+ 		goto job_unlock;
+ 	}
  
-+int v4l2_m2m_ioctl_stateless_try_decoder_cmd(struct file *file, void *fh,
-+					     struct v4l2_decoder_cmd *dc)
-+{
-+	if (dc->cmd != V4L2_DEC_CMD_FLUSH)
-+		return -EINVAL;
+-	if (src && dst &&
+-	    dst->is_held && dst->vb2_buf.copied_timestamp &&
++	m2m_ctx->new_frame = true;
 +
-+	dc->flags = 0;
++	if (src && dst && dst->is_held &&
++	    dst->vb2_buf.copied_timestamp &&
+ 	    dst->vb2_buf.timestamp != src->vb2_buf.timestamp) {
+ 		dst->is_held = false;
+ 		v4l2_m2m_dst_buf_remove(m2m_ctx);
+@@ -333,6 +335,11 @@ static void __v4l2_m2m_try_queue(struct v4l2_m2m_dev *m2m_dev,
+ 		}
+ 	}
+ 
++	if (src && dst && (m2m_ctx->cap_q_ctx.q.subsystem_flags &
++			   VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF))
++		m2m_ctx->new_frame = !dst->vb2_buf.copied_timestamp ||
++			dst->vb2_buf.timestamp != src->vb2_buf.timestamp;
 +
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(v4l2_m2m_ioctl_stateless_try_decoder_cmd);
-+
-+int v4l2_m2m_ioctl_stateless_decoder_cmd(struct file *file, void *priv,
-+					 struct v4l2_decoder_cmd *dc)
-+{
-+	struct v4l2_fh *fh = file->private_data;
-+	struct vb2_v4l2_buffer *out_vb, *cap_vb;
-+	struct v4l2_m2m_dev *m2m_dev = fh->m2m_ctx->m2m_dev;
-+	unsigned long flags;
-+	int ret;
-+
-+	ret = v4l2_m2m_ioctl_stateless_try_decoder_cmd(file, priv, dc);
-+	if (ret < 0)
-+		return ret;
-+
-+	spin_lock_irqsave(&m2m_dev->job_spinlock, flags);
-+	out_vb = v4l2_m2m_last_src_buf(fh->m2m_ctx);
-+	cap_vb = v4l2_m2m_last_dst_buf(fh->m2m_ctx);
-+
-+	/*
-+	 * If there is an out buffer pending, then clear any HOLD flag.
-+	 *
-+	 * By clearing this flag we ensure that when this output
-+	 * buffer is processed any held capture buffer will be released.
-+	 */
-+	if (out_vb) {
-+		out_vb->flags &= ~V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF;
-+	} else if (cap_vb && cap_vb->is_held) {
-+		/*
-+		 * If there were no output buffers, but there is a
-+		 * capture buffer that is held, then release that
-+		 * buffer.
-+		 */
-+		cap_vb->is_held = false;
-+		v4l2_m2m_dst_buf_remove(fh->m2m_ctx);
-+		v4l2_m2m_buf_done(cap_vb, VB2_BUF_STATE_DONE);
-+	}
-+	spin_unlock_irqrestore(&m2m_dev->job_spinlock, flags);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(v4l2_m2m_ioctl_stateless_decoder_cmd);
-+
- /*
-  * v4l2_file_operations helpers. It is assumed here same lock is used
-  * for the output and the capture buffer queue.
+ 	if (m2m_dev->m2m_ops->job_ready
+ 		&& (!m2m_dev->m2m_ops->job_ready(m2m_ctx->priv))) {
+ 		dprintk("Driver not ready\n");
 diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2mem.h
-index 229d9f5d4370..3d9e48ed8817 100644
+index 3d9e48ed8817..1d85e24791e4 100644
 --- a/include/media/v4l2-mem2mem.h
 +++ b/include/media/v4l2-mem2mem.h
-@@ -701,6 +701,10 @@ int v4l2_m2m_ioctl_try_encoder_cmd(struct file *file, void *fh,
- 				   struct v4l2_encoder_cmd *ec);
- int v4l2_m2m_ioctl_try_decoder_cmd(struct file *file, void *fh,
- 				   struct v4l2_decoder_cmd *dc);
-+int v4l2_m2m_ioctl_stateless_try_decoder_cmd(struct file *file, void *fh,
-+					     struct v4l2_decoder_cmd *dc);
-+int v4l2_m2m_ioctl_stateless_decoder_cmd(struct file *file, void *priv,
-+					 struct v4l2_decoder_cmd *dc);
- int v4l2_m2m_fop_mmap(struct file *file, struct vm_area_struct *vma);
- __poll_t v4l2_m2m_fop_poll(struct file *file, poll_table *wait);
+@@ -75,6 +75,11 @@ struct v4l2_m2m_queue_ctx {
+  * struct v4l2_m2m_ctx - Memory to memory context structure
+  *
+  * @q_lock: struct &mutex lock
++ * @new_frame: valid in the device_run callback: if true, then this
++ *		starts a new frame; if false, then this is a new slice
++ *		for an existing frame. This is always true unless
++ *		V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF is set, which
++ *		indicates slicing support.
+  * @m2m_dev: opaque pointer to the internal data to handle M2M context
+  * @cap_q_ctx: Capture (output to memory) queue context
+  * @out_q_ctx: Output (input from memory) queue context
+@@ -91,6 +96,8 @@ struct v4l2_m2m_ctx {
+ 	/* optional cap/out vb2 queues lock */
+ 	struct mutex			*q_lock;
+ 
++	bool				new_frame;
++
+ 	/* internal use only */
+ 	struct v4l2_m2m_dev		*m2m_dev;
  
 -- 
 2.23.0
