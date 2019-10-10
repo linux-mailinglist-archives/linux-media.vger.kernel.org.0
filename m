@@ -2,125 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9EAEED2DFC
-	for <lists+linux-media@lfdr.de>; Thu, 10 Oct 2019 17:44:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E378AD2E43
+	for <lists+linux-media@lfdr.de>; Thu, 10 Oct 2019 18:03:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726007AbfJJPo1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Oct 2019 11:44:27 -0400
-Received: from mail-qt1-f196.google.com ([209.85.160.196]:46505 "EHLO
-        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725901AbfJJPo1 (ORCPT
+        id S1726065AbfJJQDK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Oct 2019 12:03:10 -0400
+Received: from mail-qk1-f196.google.com ([209.85.222.196]:37967 "EHLO
+        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725901AbfJJQDK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Oct 2019 11:44:27 -0400
-Received: by mail-qt1-f196.google.com with SMTP id u22so9308893qtq.13
-        for <linux-media@vger.kernel.org>; Thu, 10 Oct 2019 08:44:26 -0700 (PDT)
+        Thu, 10 Oct 2019 12:03:10 -0400
+Received: by mail-qk1-f196.google.com with SMTP id x4so2159544qkx.5
+        for <linux-media@vger.kernel.org>; Thu, 10 Oct 2019 09:03:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id;
-        bh=wne/uQF1RDK/LcdWEsIHm5m9khu31Sn08bzpLKHvHN8=;
-        b=WIJcU4Uc4PZ3+rI9bWqZYXcfcasS9g7de+rifPOVF+uCrjwXkZJG7XyD1fOOTLzVKB
-         +vffztJTwZKrzPrf9XrXApnoGpMrTDF0mOkNgVST2+OaPeav9ADIeYYT4VHQ7JSPSTtH
-         YuK8hmEy/gQIWAunB9MhsECcQ4Mfgb+5CmFxkQcKajrsLcL7RLxk804ki+SbSYp/uSlG
-         rq9jJnNCGXUlRazN70a0vtXQX4Jv2qhf8g3TibYl6uE6NN7UOiItBIYn6I5aIrdCmnLW
-         N5BhboNrnQ/9UOu7UTS7eIxDUwr46BS5r9tPrZLDckyK33JKDc8eJ1HPZaIHDqw5mALq
-         dMvQ==
+        bh=Gq2K1MPahReKFxfny0U/21k67CRMM0zxuVsY+LkC+cc=;
+        b=nFz1tXA+EeJxEVkmyRpOHfU39bZnzBSlFJ9cA8vgyPQd0DQn7th2VNm8+NKa7wBoI7
+         86e4a9ypgzw7h2FQszf7cuwcs7MpJdNm2uipkC19Zj4vodsNawxGXWn69MqulF4kCJoT
+         eSqkH+pqBN4TGDx9A0LR442NoAHCLMlnRAwaMv/2N+Tec125zBtehi1/dR0ce93SOx7j
+         OZ9VNXoJZ/EmEl5Y5JOyu57z4Ggj6qMEDtZizpj26D8k309GN83QJvNGziTHNjT4wzKP
+         Hpd1xYiZ1AT4HlASoAORJJXJ9tu31N1KFhuOa/yevNheyhHmxNBMNtrby59+n0ginFIy
+         0ZYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=wne/uQF1RDK/LcdWEsIHm5m9khu31Sn08bzpLKHvHN8=;
-        b=IDjuJs0ithYeyT/5+44Efe5ShkMFvZscZ0a9RJgMlnN8tiSChbEExTW4IlPVvp+oPR
-         oRuhchCcQkZ0xjkKSmebVgDYLAGBOEAyW/0ZQ1N+ZYUmZ1SsolKW6TqaV+rNTDCKTxa6
-         EPoepsrgTVUGu93Ms8YeIb0ROuuFMUSM8d0Hmi3doIeiiF17VllTEUfFj0gFPvv60jiv
-         6GwQ7guhENvoohgwiZVEtfH4ZkBiP/6Plvpl131U/pMLFK85UKUEh+J5WGy7vkUws8CC
-         ISmGU/6VKX1nJxu58vjHDVTcvrtR8x8UFpXt34ICNy/gixFe1CrpWAx1KMKD/NJZXzi6
-         zTWQ==
-X-Gm-Message-State: APjAAAVPnqvc14/TnUl/xoVNhkR4YAMzERyjEpN2fqrEbq728kTfLRXH
-        3W0SJspi+gGjsJnCmuM2q9s=
-X-Google-Smtp-Source: APXvYqy8claqrOCM5tB5cxzsdVZhjtdP8LfRginWAoc4EKvqoo/qqXYPIY4tPFUAcfPVpFLi4A04Kw==
-X-Received: by 2002:aed:29e7:: with SMTP id o94mr10908122qtd.161.1570722266153;
-        Thu, 10 Oct 2019 08:44:26 -0700 (PDT)
+        bh=Gq2K1MPahReKFxfny0U/21k67CRMM0zxuVsY+LkC+cc=;
+        b=nKXN2fG0WZ2FAPKrGkUvjxF98kfcRknANUgjWzjfUmEeoS9a1sHp6jKXmSAL3l9ZXK
+         zD2VChH1bblENques65nlpJYrhuvVjI0QouYVmueKQuHFu3mMaNeVQh2D8GW8g8w9U0U
+         u+qEVAXPUPdXRo0LrOuWzH37BHuHkhOMlh10IqWOxdPdbnCO+1z9UGBlijenZ7O+5FDw
+         RVHrd4ZkQH0268c4aPWF9XU95mvFvAhaq2IJc1IgCwssyn/V455ldcMPgdNZybEf7A7K
+         DEneq+tNUQXxyoOpC1qLr6ir4yHrP1aCD6V6eD17/YIhlKN4+zxBhUtU5iLlMbFppG0w
+         SAeg==
+X-Gm-Message-State: APjAAAWTRezmrv7aEYSOOpVpgtn8X3NWK/wSiK/l9gE4E7D7TU7o8gaW
+        qUm+Ac7lpkkyIqToUNptmbMvzUra
+X-Google-Smtp-Source: APXvYqzWRRn3WDVXCQRM3YFJpbvoo1UpU9Wvfzj0R3WUw4uhsp74OVGUizFKOJgj+l78sGaH4iW+Kw==
+X-Received: by 2002:a37:8d05:: with SMTP id p5mr10246882qkd.271.1570723388964;
+        Thu, 10 Oct 2019 09:03:08 -0700 (PDT)
 Received: from fabio-Latitude-E5450.nxp.com ([177.221.114.206])
-        by smtp.gmail.com with ESMTPSA id 207sm2176339qkh.33.2019.10.10.08.44.23
+        by smtp.gmail.com with ESMTPSA id i66sm2736008qkb.105.2019.10.10.09.03.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Oct 2019 08:44:25 -0700 (PDT)
+        Thu, 10 Oct 2019 09:03:08 -0700 (PDT)
 From:   Fabio Estevam <festevam@gmail.com>
 To:     hverkuil-cisco@xs4all.nl
-Cc:     mchehab@kernel.org, slongerbeam@gmail.com, p.zabel@pengutronix.de,
-        linux-media@vger.kernel.org, tharvey@gateworks.com,
+Cc:     mchehab@kernel.org, lars@metafoo.de, slongerbeam@gmail.com,
+        tharvey@gateworks.com, linux-media@vger.kernel.org,
         Fabio Estevam <festevam@gmail.com>
-Subject: [PATCH] media: imx.rst: Update the imx6-sabreauto ADV7180 instructions
-Date:   Thu, 10 Oct 2019 12:44:17 -0300
-Message-Id: <20191010154417.9437-1-festevam@gmail.com>
+Subject: [PATCH] media: adv7180: Move 'chip found' message a bit further
+Date:   Thu, 10 Oct 2019 13:02:59 -0300
+Message-Id: <20191010160259.21362-1-festevam@gmail.com>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In kernel 5.3.x the I2C bus that the adv7180 is under has changed from
-bus 3 to 4 and the ipu_csi0_mux numbers has also changed as shown by
-the kernel log below: 
+Currently the "chip found" found message is shown even in the
+case where the I2C address is wrongly passed in the device tree,
+which is misleading.
 
-[    5.159423] imx-media: ipu1_csi0_mux:5 -> ipu1_csi0:0
-[    5.164618] imx-media: ipu1_csi1_mux:5 -> ipu1_csi1:0
-[    5.169953] imx-media: adv7180 4-0021:0 -> ipu1_csi0_mux:4
-
-Update the instructions accordingly.
-
-Also, in the last line pass the fmt field explicitly as done in the
-previous lines.
+To avoid such problem, move this message after real I2C transactions
+have been made and we are certain that the adv7180 is really present.
 
 Signed-off-by: Fabio Estevam <festevam@gmail.com>
 ---
- Documentation/media/v4l-drivers/imx.rst | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ drivers/media/i2c/adv7180.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/media/v4l-drivers/imx.rst b/Documentation/media/v4l-drivers/imx.rst
-index 1d7eb8c7bd5c..75430cd2f222 100644
---- a/Documentation/media/v4l-drivers/imx.rst
-+++ b/Documentation/media/v4l-drivers/imx.rst
-@@ -530,12 +530,12 @@ NTSC, or 'alternate'):
- .. code-block:: none
+diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
+index e780969cc2f2..15fe65a2863d 100644
+--- a/drivers/media/i2c/adv7180.c
++++ b/drivers/media/i2c/adv7180.c
+@@ -1309,9 +1309,6 @@ static int adv7180_probe(struct i2c_client *client,
+ 	if (!i2c_check_functionality(client->adapter, I2C_FUNC_SMBUS_BYTE_DATA))
+ 		return -EIO;
  
-    # Setup links
--   media-ctl -l "'adv7180 3-0021':0 -> 'ipu1_csi0_mux':1[1]"
--   media-ctl -l "'ipu1_csi0_mux':2 -> 'ipu1_csi0':0[1]"
-+   media-ctl -l "'adv7180 4-0021':0 -> 'ipu1_csi0_mux':4[1]"
-+   media-ctl -l "'ipu1_csi0_mux':5 -> 'ipu1_csi0':0[1]"
-    media-ctl -l "'ipu1_csi0':2 -> 'ipu1_csi0 capture':0[1]"
-    # Configure pads
--   media-ctl -V "'adv7180 3-0021':0 [fmt:UYVY2X8/720x480 field:seq-bt]"
--   media-ctl -V "'ipu1_csi0_mux':2 [fmt:UYVY2X8/720x480]"
-+   media-ctl -V "'adv7180 4-0021':0 [fmt:UYVY2X8/720x480 field:seq-bt]"
-+   media-ctl -V "'ipu1_csi0_mux':5 [fmt:UYVY2X8/720x480]"
-    media-ctl -V "'ipu1_csi0':2 [fmt:AYUV32/720x480]"
-    # Configure "ipu1_csi0 capture" interface (assumed at /dev/video4)
-    v4l2-ctl -d4 --set-fmt-video=field=interlaced_bt
-@@ -553,19 +553,19 @@ at its output pad:
- .. code-block:: none
+-	v4l_info(client, "chip found @ 0x%02x (%s)\n",
+-		 client->addr, client->adapter->name);
+-
+ 	state = devm_kzalloc(&client->dev, sizeof(*state), GFP_KERNEL);
+ 	if (state == NULL)
+ 		return -ENOMEM;
+@@ -1370,6 +1367,9 @@ static int adv7180_probe(struct i2c_client *client,
+ 	if (ret)
+ 		goto err_media_entity_cleanup;
  
-    # Setup links
--   media-ctl -l "'adv7180 3-0021':0 -> 'ipu1_csi0_mux':1[1]"
--   media-ctl -l "'ipu1_csi0_mux':2 -> 'ipu1_csi0':0[1]"
-+   media-ctl -l "'adv7180 4-0021':0 -> 'ipu1_csi0_mux':4[1]"
-+   media-ctl -l "'ipu1_csi0_mux':5 -> 'ipu1_csi0':0[1]"
-    media-ctl -l "'ipu1_csi0':1 -> 'ipu1_vdic':0[1]"
-    media-ctl -l "'ipu1_vdic':2 -> 'ipu1_ic_prp':0[1]"
-    media-ctl -l "'ipu1_ic_prp':2 -> 'ipu1_ic_prpvf':0[1]"
-    media-ctl -l "'ipu1_ic_prpvf':1 -> 'ipu1_ic_prpvf capture':0[1]"
-    # Configure pads
--   media-ctl -V "'adv7180 3-0021':0 [fmt:UYVY2X8/720x576 field:seq-tb]"
--   media-ctl -V "'ipu1_csi0_mux':2 [fmt:UYVY2X8/720x576]"
-+   media-ctl -V "'adv7180 4-0021':0 [fmt:UYVY2X8/720x576 field:seq-tb]"
-+   media-ctl -V "'ipu1_csi0_mux':5 [fmt:UYVY2X8/720x576]"
-    media-ctl -V "'ipu1_csi0':1 [fmt:AYUV32/720x576]"
-    media-ctl -V "'ipu1_vdic':2 [fmt:AYUV32/720x576 field:none]"
-    media-ctl -V "'ipu1_ic_prp':2 [fmt:AYUV32/720x576 field:none]"
--   media-ctl -V "'ipu1_ic_prpvf':1 [fmt:$outputfmt field:none]"
-+   media-ctl -V "'ipu1_ic_prpvf':1 [fmt:AYUV32/720x576 field:none]"
- 
- Streaming can then begin on the capture device node at
- "ipu1_ic_prpvf capture". The v4l2-ctl tool can be used to select any
++	v4l_info(client, "chip found @ 0x%02x (%s)\n",
++		 client->addr, client->adapter->name);
++
+ 	if (state->irq) {
+ 		ret = request_threaded_irq(client->irq, NULL, adv7180_irq,
+ 					   IRQF_ONESHOT | IRQF_TRIGGER_FALLING,
 -- 
 2.17.1
 
