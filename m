@@ -2,90 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DE96D3C81
-	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2019 11:36:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 61AE2D3C96
+	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2019 11:43:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727314AbfJKJg1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Oct 2019 05:36:27 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:40853 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726585AbfJKJg1 (ORCPT
+        id S1727352AbfJKJnb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Oct 2019 05:43:31 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:36633 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727167AbfJKJnb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Oct 2019 05:36:27 -0400
-Received: by mail-lf1-f66.google.com with SMTP id d17so6561890lfa.7;
-        Fri, 11 Oct 2019 02:36:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=qlK9gLf5RoF6ICNJqAb4e5paI/AKdb6mnn7W5mQFGS0=;
-        b=ASYBycLtttb85mOEqujHjzNaJ1CBKftLEp8d9y0oEDIEg56PY0AlVEV4Ol+wk1U/Cp
-         sWycuGXNr1FiYjukc3Ru2DwLEb2yoA2pun0hPCkOa3a8BBYnLwvx4EQitas/NCsFkD8y
-         VBQF1q+kSn09L2HW2g7VWhzaUnjf6ms7MtD59j/LPu2AF8V4OHdjKt7V7rkTC7JLyfiv
-         6Xib6TV0vtZXhi6POBowySVhzIRSgRjsgUpPHq83lt1Fc9xicb1av41EK5fcFz6KIuOw
-         8lQDihilkl+S5Ox9DVpxGBo9WiGxteli+fT+YyxdahSeWeyOJm8vaSEJ9yFUrgnpFg0Y
-         4oGA==
-X-Gm-Message-State: APjAAAU6KZOks7h0u718r1E/ud3Qe+V6eR/AvkiSbBVv1J4ZozBOp0Gv
-        svMHFBpMFUInmPMrGbwjaLA=
-X-Google-Smtp-Source: APXvYqzjdCwjHmD1OUcUAPcjISlrTMTsyvKPvNaG5NGSDzSHzWzFAkSASl1KZH637V4hkoJQOY7nGw==
-X-Received: by 2002:a19:23cc:: with SMTP id j195mr8266076lfj.91.1570786584009;
-        Fri, 11 Oct 2019 02:36:24 -0700 (PDT)
-Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
-        by smtp.gmail.com with ESMTPSA id c16sm1961403lfj.8.2019.10.11.02.36.22
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 11 Oct 2019 02:36:23 -0700 (PDT)
-Received: from johan by xi.terra with local (Exim 4.92.2)
-        (envelope-from <johan@kernel.org>)
-        id 1iIrLd-0007T3-Ez; Fri, 11 Oct 2019 11:36:34 +0200
-Date:   Fri, 11 Oct 2019 11:36:33 +0200
-From:   Johan Hovold <johan@kernel.org>
-To:     Daniel Vetter <daniel@ffwll.ch>
-Cc:     Johan Hovold <johan@kernel.org>, Rob Clark <robdclark@gmail.com>,
-        Sean Paul <sean@poorly.run>,
-        Fabien Dessenne <fabien.dessenne@st.com>,
+        Fri, 11 Oct 2019 05:43:31 -0400
+Received: from [IPv6:2001:983:e9a7:1:611e:26b3:263e:a49f] ([IPv6:2001:983:e9a7:1:611e:26b3:263e:a49f])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id IrSCixrlejZ8vIrSDiROSP; Fri, 11 Oct 2019 11:43:28 +0200
+Subject: Re: [RESEND PATCH v2 0/4] media: rockchip: Add the rkvdec driver
+To:     Boris Brezillon <boris.brezillon@collabora.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Harald Freudenberger <freude@linux.ibm.com>,
-        David Airlie <airlied@linux.ie>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-s390@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>
-Subject: Re: [PATCH 0/4] treewide: fix interrupted release
-Message-ID: <20191011093633.GD27819@localhost>
-References: <20191010131333.23635-1-johan@kernel.org>
- <20191010135043.GA16989@phenom.ffwll.local>
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org
+Cc:     Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        devicetree@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>, kernel@collabora.com,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        linux-rockchip@lists.infradead.org,
+        Heiko Stuebner <heiko@sntech.de>
+References: <20191011093342.3471-1-boris.brezillon@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <ea218a89-d844-4c56-595a-7359af3ef031@xs4all.nl>
+Date:   Fri, 11 Oct 2019 11:43:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191010135043.GA16989@phenom.ffwll.local>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <20191011093342.3471-1-boris.brezillon@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfGns4vyZwiSBPAvKunZeMisPm7fE5uIsriqWgYBihGwOUfuwGbQOTfOucakywQovqt+7xYagXzxO0ny/Ix5vxPUNgBEjwPmC154foKKcUpHaWToXAlsB
+ gAjZbIj6m6HFBaTCVsrm3rbngPLlLlsqGebj37mDoyuS4ii15Umfs/WCX3hmcliu9Ou0A7+tit+llsJ3Cn4Ry6N9sDortrJCSZPk5nVI+6MFEJCJk4fcVwky
+ y/1eHy7EjBrMv1QZUxpVASNI+pdRsWMmvMMjsi7S3bBFdlGPN7tF6PcMgBnQ8s8bS3DrzSpKnDzZeByL0FboDyPeQvmLZK2tKHAe/b1Doy7Mz77b7x+d0e8Z
+ 3fy8l3jjhOnh7zUrrXEJdXB8eMXfrkLC0S2A2Zt5Z8mbONRCtsxfIUUSe2wSr7vl57Kq52w4Z4geqzuPepbAZHuosDGqzCJHox62xPqF/XuGHjgKWrxUTWDr
+ KZlDyeAKSccRBKYg19N/O1WuAfSVGfMaITgzn8iZwpIylifbovYm4y6kzW9xgdCYTeEHsud/ftSiskzMhE5f4l1mra+4WHe1l/XHANUYKVOpHO6xq1+gcFHw
+ w04m8/Hr9JxySMfii9/d2RGM51Rkhyr/wDt+oK4EoFlyrvUpCLhcAZdh3CN1lnI19ujI/CM1kVUSmm0+ejptFadneMB8Qn32wQWuWznNjdSdnJxfb1JEMUPO
+ /wARGa7WFiYTA6KMHytdpIlN9VmK6Y8pd1JNqzqps8inHcUsck6JXCPyIjr4Fn/OlTs5+5O8HjqRgLhz/2vrz5/C7KRF7Ha9E+J85Z2wmWIUxjTDDNhMHfHR
+ kO+BrKs9/sRQ9GJx4Mg=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Oct 10, 2019 at 03:50:43PM +0200, Daniel Vetter wrote:
-> On Thu, Oct 10, 2019 at 03:13:29PM +0200, Johan Hovold wrote:
-> > Two old USB drivers had a bug in them which could lead to memory leaks
-> > if an interrupted process raced with a disconnect event.
-> > 
-> > Turns out we had a few more driver in other subsystems with the same
-> > kind of bug in them.
+On 10/11/19 11:33 AM, Boris Brezillon wrote:
+> Hello,
+> 
+> Sorry for the noise, I forgot to Cc the DT maintainers/ML on my last
+> attempt.
+> 
+> This is v2 of the rkvdec driver which was initially posted as part of
+> my RFC adding codec helpers.
+> For this version, I decided to get rid of the helper stuff which is
+> likely to take some more time to settle. The patchset now contains a
+> proper DT binding doc.
+> 
+> Note that this implementation is likely to be adjusted based on the
+> outcome of the 'scaling matrix order' [1] and 'dynamic resolution
+> changes' [2] discussions, but I thought it'd be worth posting this
+> version to start getting feeback.
 
-> Random funny idea: Could we do some debug annotations (akin to
-> might_sleep) that splats when you might_sleep_interruptible somewhere
-> where interruptible sleeps are generally a bad idea? Like in
-> fops->release?
+I assume this version of the driver does not (yet?) support slicing?
 
-There's nothing wrong with interruptible sleep in fops->release per se,
-it's just that drivers cannot return -ERESTARTSYS and friends and expect
-to be called again later.
+Core slicing support is part of this series:
 
-The return value from release() is ignored by vfs, and adding a splat in
-__fput() to catch these buggy drivers might be overkill.
+https://patchwork.linuxtv.org/cover/59415/
 
-Johan
+Regards,
+
+	Hans
+
+> 
+> Regards,
+> 
+> Boris
+> 
+> [1]https://patchwork.kernel.org/cover/11125207/
+> [2]https://lkml.org/lkml/2019/9/3/1033
+> 
+> Boris Brezillon (4):
+>   media: vb2: Add a helper to get the vb2 buffer attached to a request
+>   media: dt-bindings: rockchip: Document RK3399 Video Decoder bindings
+>   media: rockchip: Add the rkvdec driver
+>   arm64: dts: rockchip: rk3399: Define the rockchip Video Decoder node
+> 
+>  .../bindings/media/rockchip,vdec.yaml         |   71 ++
+>  arch/arm64/boot/dts/rockchip/rk3399.dtsi      |   14 +-
+>  .../media/common/videobuf2/videobuf2-core.c   |   23 +
+>  drivers/staging/media/Kconfig                 |    2 +
+>  drivers/staging/media/Makefile                |    1 +
+>  drivers/staging/media/rockchip/Kconfig        |   16 +
+>  drivers/staging/media/rockchip/Makefile       |    2 +
+>  drivers/staging/media/rockchip/vdec/Kconfig   |   14 +
+>  drivers/staging/media/rockchip/vdec/Makefile  |    3 +
+>  .../staging/media/rockchip/vdec/rkvdec-h264.c |  960 +++++++++++++++
+>  .../staging/media/rockchip/vdec/rkvdec-regs.h |  306 +++++
+>  drivers/staging/media/rockchip/vdec/rkvdec.c  | 1089 +++++++++++++++++
+>  drivers/staging/media/rockchip/vdec/rkvdec.h  |  131 ++
+>  include/media/videobuf2-core.h                |   11 +
+>  14 files changed, 2642 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/devicetree/bindings/media/rockchip,vdec.yaml
+>  create mode 100644 drivers/staging/media/rockchip/Kconfig
+>  create mode 100644 drivers/staging/media/rockchip/Makefile
+>  create mode 100644 drivers/staging/media/rockchip/vdec/Kconfig
+>  create mode 100644 drivers/staging/media/rockchip/vdec/Makefile
+>  create mode 100644 drivers/staging/media/rockchip/vdec/rkvdec-h264.c
+>  create mode 100644 drivers/staging/media/rockchip/vdec/rkvdec-regs.h
+>  create mode 100644 drivers/staging/media/rockchip/vdec/rkvdec.c
+>  create mode 100644 drivers/staging/media/rockchip/vdec/rkvdec.h
+> 
+
