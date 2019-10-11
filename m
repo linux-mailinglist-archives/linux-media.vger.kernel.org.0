@@ -2,159 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7AE54D397F
-	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2019 08:45:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 80097D39D6
+	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2019 09:08:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727167AbfJKGpv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Oct 2019 02:45:51 -0400
-Received: from mga09.intel.com ([134.134.136.24]:55931 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726481AbfJKGpv (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Oct 2019 02:45:51 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Oct 2019 23:45:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,283,1566889200"; 
-   d="scan'208";a="193443518"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by fmsmga008.fm.intel.com with ESMTP; 10 Oct 2019 23:45:49 -0700
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1iIogO-0001rk-Go; Fri, 11 Oct 2019 14:45:48 +0800
-Date:   Fri, 11 Oct 2019 14:45:12 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: [ragnatech:media-tree] BUILD SUCCESS
- 3ff3a712a9eabb3d7bf52c263dd1ece054345df4
-Message-ID: <5da024f8.KwpkXO9IXc37ZPgE%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S1727346AbfJKHII convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Fri, 11 Oct 2019 03:08:08 -0400
+Received: from mailoutvs11.siol.net ([185.57.226.202]:38831 "EHLO
+        mail.siol.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726679AbfJKHII (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 11 Oct 2019 03:08:08 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.siol.net (Postfix) with ESMTP id B7D4A520C00;
+        Fri, 11 Oct 2019 09:08:04 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at psrvmta09.zcs-production.pri
+Received: from mail.siol.net ([127.0.0.1])
+        by localhost (psrvmta09.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id 5r1OjYe0xja7; Fri, 11 Oct 2019 09:08:04 +0200 (CEST)
+Received: from mail.siol.net (localhost [127.0.0.1])
+        by mail.siol.net (Postfix) with ESMTPS id 3DB31520B8A;
+        Fri, 11 Oct 2019 09:08:04 +0200 (CEST)
+Received: from jernej-laptop.localnet (unknown [89.216.49.66])
+        (Authenticated sender: jernej.skrabec@siol.net)
+        by mail.siol.net (Postfix) with ESMTPA id E86AF520E04;
+        Fri, 11 Oct 2019 09:08:02 +0200 (CEST)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        mripard@kernel.org, tfiga@chromium.org, jonas@kwiboo.se,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Subject: Re: [PATCHv3 0/8] media: cedrus: h264: Support multi-slice frames
+Date:   Fri, 11 Oct 2019 09:07:36 +0200
+Message-ID: <8631386.LGH57gnQEz@jernej-laptop>
+In-Reply-To: <20191010131152.68984-1-hverkuil-cisco@xs4all.nl>
+References: <20191010131152.68984-1-hverkuil-cisco@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://git.ragnatech.se/linux  media-tree
-branch HEAD: 3ff3a712a9eabb3d7bf52c263dd1ece054345df4  media: ti-vpe: vpe: don't rely on colorspace member for conversion
+Dne četrtek, 10. oktober 2019 ob 15:11:44 CEST je Hans Verkuil napisal(a):
+> This series adds support for decoding multi-slice H264 frames along with
+> support for V4L2_DEC_CMD_FLUSH and V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF.
+> 
+> This has only been compile-tested. Jernej, can you test with ffmpeg?
 
-elapsed time: 803m
+Sure, but not before Tuesday, unfortunatelly.
 
-configs tested: 105
+Best regards,
+Jernej
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+> 
+> This series is based on
+> https://www.spinics.net/lists/linux-media/msg158081.html plus ideas from
+> https://www.spinics.net/lists/linux-media/msg158625.html.
+> 
+> Changes since v2:
+> 
+> - Move the code to detect if a capture buffer is done to
+>   the v4l2-mem2mem core framework.
+> - Move the first-slice detection to the core as well.
+> - Add a new v4l2_m2m_buf_done_and_job_finish() function that
+>   finishes a job taking held capture buffers into account.
+>   Marking buffers as done and finishing the job has to be
+>   done with job_spinlock held to avoid race conditions with
+>   v4l2_m2m_ioctl_stateless_decoder_cmd().
+> - v4l2_m2m_ioctl_stateless_decoder_cmd takes the job_spinlock
+>   to prevent race conditions.
+> 
+> Regards,
+> 
+>         Hans
+> 
+> Hans Verkuil (4):
+>   vb2: add V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF
+>   v4l2-mem2mem: support held capture buffers
+>   videodev2.h: add V4L2_DEC_CMD_FLUSH
+>   v4l2-mem2mem: add new_frame detection
+> 
+> Jernej Skrabec (4):
+>   media: v4l2-mem2mem: add stateless_(try_)decoder_cmd ioctl helpers
+>   media: cedrus: Detect first slice of a frame
+>   media: cedrus: h264: Support multiple slices per frame
+>   media: cedrus: Add support for holding capture buffer
+> 
+>  Documentation/media/uapi/v4l/buffer.rst       |  13 ++
+>  .../media/uapi/v4l/vidioc-decoder-cmd.rst     |  10 +-
+>  .../media/uapi/v4l/vidioc-reqbufs.rst         |   6 +
+>  .../media/videodev2.h.rst.exceptions          |   1 +
+>  .../media/common/videobuf2/videobuf2-v4l2.c   |  12 +-
+>  drivers/media/v4l2-core/v4l2-mem2mem.c        | 188 +++++++++++++++---
+>  drivers/staging/media/sunxi/cedrus/cedrus.h   |   1 +
+>  .../staging/media/sunxi/cedrus/cedrus_dec.c   |   1 +
+>  .../staging/media/sunxi/cedrus/cedrus_h264.c  |  12 +-
+>  .../staging/media/sunxi/cedrus/cedrus_hw.c    |  16 +-
+>  .../staging/media/sunxi/cedrus/cedrus_video.c |  14 ++
+>  include/media/v4l2-mem2mem.h                  |  44 +++-
+>  include/media/videobuf2-core.h                |   3 +
+>  include/media/videobuf2-v4l2.h                |   5 +
+>  include/uapi/linux/videodev2.h                |  14 +-
+>  15 files changed, 283 insertions(+), 57 deletions(-)
 
-i386                   randconfig-d002-201940
-x86_64                 randconfig-d002-201940
-x86_64                 randconfig-d004-201940
-h8300                     edosk2674_defconfig
-h8300                    h8300h-sim_defconfig
-h8300                       h8s-sim_defconfig
-m68k                             allmodconfig
-m68k                       m5475evb_defconfig
-m68k                          multi_defconfig
-m68k                           sun3_defconfig
-arm                              allmodconfig
-arm64                            allmodconfig
-x86_64                           allyesconfig
-i386                             allmodconfig
-ia64                             alldefconfig
-ia64                             allmodconfig
-ia64                              allnoconfig
-ia64                                defconfig
-arc                              allyesconfig
-arc                                 defconfig
-microblaze                      mmu_defconfig
-microblaze                    nommu_defconfig
-powerpc                           allnoconfig
-powerpc                             defconfig
-powerpc                       ppc64_defconfig
-i386                             alldefconfig
-i386                              allnoconfig
-i386                                defconfig
-parisc                            allnoconfig
-parisc                         b180_defconfig
-parisc                        c3000_defconfig
-parisc                              defconfig
-c6x                              allyesconfig
-c6x                        evmc6678_defconfig
-nios2                         10m50_defconfig
-nios2                         3c120_defconfig
-openrisc                    or1ksim_defconfig
-openrisc                 simple_smp_defconfig
-xtensa                       common_defconfig
-xtensa                          iss_defconfig
-x86_64                                    lkp
-x86_64                                   rhel
-x86_64                               rhel-7.6
-x86_64                              fedora-25
-x86_64                                  kexec
-um                                  defconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-x86_64                 randconfig-d001-201940
-x86_64                 randconfig-d003-201940
-i386                   randconfig-d001-201940
-i386                   randconfig-d003-201940
-i386                   randconfig-d004-201940
-x86_64                 randconfig-a004-201940
-x86_64                 randconfig-a001-201940
-i386                   randconfig-a002-201940
-x86_64                 randconfig-a002-201940
-i386                   randconfig-a001-201940
-i386                   randconfig-a003-201940
-i386                   randconfig-a004-201940
-x86_64                 randconfig-a003-201940
-arm                               allnoconfig
-arm                         at91_dt_defconfig
-arm                           efm32_defconfig
-arm                          exynos_defconfig
-arm                        multi_v5_defconfig
-arm                        multi_v7_defconfig
-arm                        shmobile_defconfig
-arm                           sunxi_defconfig
-arm64                             allnoconfig
-arm64                            allyesconfig
-arm64                               defconfig
-mips                           32r2_defconfig
-mips                         64r6el_defconfig
-mips                             allmodconfig
-mips                              allnoconfig
-mips                      fuloong2e_defconfig
-mips                      malta_kvm_defconfig
-sh                               allmodconfig
-sh                                allnoconfig
-sh                          rsk7269_defconfig
-sh                  sh7785lcr_32bit_defconfig
-sh                            titan_defconfig
-x86_64                 randconfig-c001-201940
-x86_64                 randconfig-c002-201940
-x86_64                 randconfig-c003-201940
-x86_64                 randconfig-c004-201940
-i386                   randconfig-c001-201940
-i386                   randconfig-c002-201940
-i386                   randconfig-c003-201940
-i386                   randconfig-c004-201940
-s390                             allmodconfig
-s390                              allnoconfig
-s390                          debug_defconfig
-s390                                defconfig
-x86_64                           allmodconfig
-alpha                               defconfig
-nds32                             allnoconfig
-nds32                               defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-sparc                               defconfig
-sparc64                          allmodconfig
-sparc64                           allnoconfig
-sparc64                             defconfig
 
----
-0-DAY kernel test infrastructure                Open Source Technology Center
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+
+
