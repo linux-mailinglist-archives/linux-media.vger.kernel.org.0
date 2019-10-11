@@ -2,114 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C6799D3BF0
-	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2019 11:10:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 77A5BD3BF3
+	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2019 11:11:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726869AbfJKJKK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Oct 2019 05:10:10 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:60870 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726585AbfJKJKK (ORCPT
+        id S1727003AbfJKJLJ convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Fri, 11 Oct 2019 05:11:09 -0400
+Received: from mailoutvs25.siol.net ([185.57.226.216]:53110 "EHLO
+        mail.siol.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726585AbfJKJLJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Oct 2019 05:10:10 -0400
-Received: from localhost.localdomain (unknown [IPv6:2a01:e0a:2c:6930:b93f:9fae:b276:a89a])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: bbrezillon)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id E2B4E290D52;
-        Fri, 11 Oct 2019 10:10:08 +0100 (BST)
-From:   Boris Brezillon <boris.brezillon@collabora.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>, kernel@collabora.com,
+        Fri, 11 Oct 2019 05:11:09 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.siol.net (Postfix) with ESMTP id 03E57521083;
+        Fri, 11 Oct 2019 11:11:07 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at psrvmta10.zcs-production.pri
+Received: from mail.siol.net ([127.0.0.1])
+        by localhost (psrvmta10.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id eqfg6fAq5YmG; Fri, 11 Oct 2019 11:11:06 +0200 (CEST)
+Received: from mail.siol.net (localhost [127.0.0.1])
+        by mail.siol.net (Postfix) with ESMTPS id 9EB2252108F;
+        Fri, 11 Oct 2019 11:11:06 +0200 (CEST)
+Received: from jernej-laptop.localnet (unknown [89.216.49.66])
+        (Authenticated sender: jernej.skrabec@siol.net)
+        by mail.siol.net (Postfix) with ESMTPA id EA4CB520BD8;
+        Fri, 11 Oct 2019 11:11:05 +0200 (CEST)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org,
         Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        linux-rockchip@lists.infradead.org,
-        Heiko Stuebner <heiko@sntech.de>,
-        Boris Brezillon <boris.brezillon@collabora.com>
-Subject: [PATCH v2 1/4] media: vb2: Add a helper to get the vb2 buffer attached to a request
-Date:   Fri, 11 Oct 2019 11:09:36 +0200
-Message-Id: <20191011090939.1377-2-boris.brezillon@collabora.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191011090939.1377-1-boris.brezillon@collabora.com>
-References: <20191011090939.1377-1-boris.brezillon@collabora.com>
+        mripard@kernel.org, tfiga@chromium.org, jonas@kwiboo.se,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Subject: Re: [PATCHv3 7/8] media: cedrus: h264: Support multiple slices per frame
+Date:   Fri, 11 Oct 2019 11:11:02 +0200
+Message-ID: <9696944.LNMW5gGE19@jernej-laptop>
+In-Reply-To: <20191010131152.68984-8-hverkuil-cisco@xs4all.nl>
+References: <20191010131152.68984-1-hverkuil-cisco@xs4all.nl> <20191010131152.68984-8-hverkuil-cisco@xs4all.nl>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-vb2_request_get_buf() returns the N-th buffer attached to a media
-request.
+Dne četrtek, 10. oktober 2019 ob 15:11:51 CEST je Hans Verkuil napisal(a):
+> From: Jernej Skrabec <jernej.skrabec@siol.net>
+> 
+> With recent changes, support for decoding multi-slice frames can be
+> easily added now.
+> 
+> Signal VPU if current slice is first in frame or not and add information
+> about first macroblock coordinates.
+> 
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> ---
+>  drivers/staging/media/sunxi/cedrus/cedrus_h264.c | 12 +++++++++++-
+>  1 file changed, 11 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c index
+> d6a782703c9b..3ffb5494cff6 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> @@ -301,6 +301,8 @@ static void cedrus_set_params(struct cedrus_ctx *ctx,
+>  	dma_addr_t src_buf_addr;
+>  	u32 offset = slice->header_bit_size;
+>  	u32 len = (slice->size * 8) - offset;
+> +	unsigned int pic_width_in_mbs;
+> +	bool mbaff_pic;
+>  	u32 reg;
+> 
+>  	cedrus_write(dev, VE_H264_VLD_LEN, len);
+> @@ -370,12 +372,20 @@ static void cedrus_set_params(struct cedrus_ctx *ctx,
+>  		reg |= VE_H264_SPS_DIRECT_8X8_INFERENCE;
+>  	cedrus_write(dev, VE_H264_SPS, reg);
+> 
+> +	mbaff_pic = !(slice->flags & V4L2_H264_SLICE_FLAG_FIELD_PIC) &&
+> +		    (sps->flags & 
+V4L2_H264_SPS_FLAG_MB_ADAPTIVE_FRAME_FIELD);
+> +	pic_width_in_mbs = sps->pic_width_in_mbs_minus1 + 1;
+> +
+>  	// slice parameters
+>  	reg = 0;
+> +	reg |= ((slice->first_mb_in_slice % pic_width_in_mbs) & 0xff) << 24;
+> +	reg |= (((slice->first_mb_in_slice / pic_width_in_mbs) *
+> +		 (mbaff_pic + 1)) & 0xff) << 16;
+>  	reg |= decode->nal_ref_idc ? BIT(12) : 0;
+>  	reg |= (slice->slice_type & 0xf) << 8;
+>  	reg |= slice->cabac_init_idc & 0x3;
+> -	reg |= VE_H264_SHS_FIRST_SLICE_IN_PIC;
+> +	if (run->first_slice)
 
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
----
-Changes in v2:
-* Adjust the kernel doc as suggested by Hans
----
- .../media/common/videobuf2/videobuf2-core.c   | 23 +++++++++++++++++++
- include/media/videobuf2-core.h                | 11 +++++++++
- 2 files changed, 34 insertions(+)
+Now that first_slice (ctx->fh.m2m_ctx->new_frame) flag depends on 
+subsystem_flags, I think patch 7 and 8 should be merged, otherwise this patch 
+won't work on it's own.
 
-diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-index 4489744fbbd9..c4c7980dcb0d 100644
---- a/drivers/media/common/videobuf2/videobuf2-core.c
-+++ b/drivers/media/common/videobuf2/videobuf2-core.c
-@@ -1416,6 +1416,29 @@ unsigned int vb2_request_buffer_cnt(struct media_request *req)
- }
- EXPORT_SYMBOL_GPL(vb2_request_buffer_cnt);
- 
-+struct vb2_buffer *vb2_request_get_buf(struct media_request *req,
-+				       unsigned int n)
-+{
-+	struct media_request_object *obj;
-+	struct vb2_buffer *buf = NULL;
-+	unsigned int nbufs = 0;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&req->lock, flags);
-+	list_for_each_entry(obj, &req->objects, list) {
-+		if (!vb2_request_object_is_buffer(obj) ||
-+		    nbufs++ < n)
-+			continue;
-+
-+		buf = container_of(obj, struct vb2_buffer, req_obj);
-+		break;
-+	}
-+	spin_unlock_irqrestore(&req->lock, flags);
-+
-+	return buf;
-+}
-+EXPORT_SYMBOL_GPL(vb2_request_get_buf);
-+
- int vb2_core_prepare_buf(struct vb2_queue *q, unsigned int index, void *pb)
- {
- 	struct vb2_buffer *vb;
-diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
-index 640aabe69450..d363476712dd 100644
---- a/include/media/videobuf2-core.h
-+++ b/include/media/videobuf2-core.h
-@@ -1222,4 +1222,15 @@ bool vb2_request_object_is_buffer(struct media_request_object *obj);
-  */
- unsigned int vb2_request_buffer_cnt(struct media_request *req);
- 
-+/**
-+ * vb2_request_get_buf() - return the buffer at index @idx
-+ *
-+ * @req:	the request.
-+ * @n:		search for the Nth buffer in the req object list
-+ *
-+ * Return a vb2 buffer or NULL if there's no buffer at the specified position
-+ */
-+struct vb2_buffer *vb2_request_get_buf(struct media_request *req,
-+				       unsigned int n);
-+
- #endif /* _MEDIA_VIDEOBUF2_CORE_H */
--- 
-2.21.0
+Best regards,
+Jernej
+
+> +		reg |= VE_H264_SHS_FIRST_SLICE_IN_PIC;
+>  	if (slice->flags & V4L2_H264_SLICE_FLAG_FIELD_PIC)
+>  		reg |= VE_H264_SHS_FIELD_PIC;
+>  	if (slice->flags & V4L2_H264_SLICE_FLAG_BOTTOM_FIELD)
+
+
+
 
