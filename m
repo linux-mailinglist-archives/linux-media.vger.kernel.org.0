@@ -2,172 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 192D9D4004
-	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2019 14:56:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 589E6D40B6
+	for <lists+linux-media@lfdr.de>; Fri, 11 Oct 2019 15:13:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728033AbfJKM4b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Oct 2019 08:56:31 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:35518 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727589AbfJKM4b (ORCPT
+        id S1728309AbfJKNMt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Oct 2019 09:12:49 -0400
+Received: from mx08-00178001.pphosted.com ([91.207.212.93]:46368 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727950AbfJKNMt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Oct 2019 08:56:31 -0400
-Received: from dhcp-172-31-174-146.wireless.concordia.ca (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: bbrezillon)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id B259C290FCB;
-        Fri, 11 Oct 2019 13:56:28 +0100 (BST)
-Date:   Fri, 11 Oct 2019 14:56:25 +0200
-From:   Boris Brezillon <boris.brezillon@collabora.com>
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        devicetree@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>, kernel@collabora.com,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        Heiko Stuebner <heiko@sntech.de>
-Subject: Re: [RESEND PATCH v2 2/4] media: dt-bindings: rockchip: Document
- RK3399 Video Decoder bindings
-Message-ID: <20191011145625.694238b1@dhcp-172-31-174-146.wireless.concordia.ca>
-In-Reply-To: <CAL_JsqL_6xPyb4kTDR3dbLc4Uptwox=1F4zaGjHVmahNyk25=w@mail.gmail.com>
-References: <20191011093342.3471-1-boris.brezillon@collabora.com>
-        <20191011093342.3471-3-boris.brezillon@collabora.com>
-        <CAL_JsqL_6xPyb4kTDR3dbLc4Uptwox=1F4zaGjHVmahNyk25=w@mail.gmail.com>
-Organization: Collabora
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Fri, 11 Oct 2019 09:12:49 -0400
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+        by mx08-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x9BD6HRY025650;
+        Fri, 11 Oct 2019 15:12:38 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-type; s=STMicroelectronics;
+ bh=PWduPs3pmXgoDQ3rhQPq+MwH5Bty4MTM7xJsS5IAIeM=;
+ b=ejGC399U6Tnz8nmHJ9yJotwtZtlPXZUDPGRyrPGLzyYfIRdlGjCTsGimeyuXs77gDxoJ
+ xdtGKejSWEYJnO3R7v2aue1+oP5r2/jPkyI9kAg+PkQB1QnAYthQTYH5uyvfKGTFAtSl
+ ypSuaQ/92dVytI8/bJ9EzDWPljmexR+Pg+9agla8XHPMZfKJ4rt8rj8cBAYpdujAyqTe
+ pZ2FJH68iPBc1eIJiQ6WZQayre4WZuuyOz13zNHW1AR5lK9dEmd94eOzLmLKftoqtszi
+ jySfOAh//e2UM5L+fvw07VqRHEem7jpswLb2zrhdXKA77uN2NnjoIEKU69ZYDGKGZOH9 3g== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx08-00178001.pphosted.com with ESMTP id 2vej2ptd96-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 11 Oct 2019 15:12:38 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id EBDFF10002A;
+        Fri, 11 Oct 2019 15:12:37 +0200 (CEST)
+Received: from Webmail-eu.st.com (Safex1hubcas22.st.com [10.75.90.92])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id B8EF02BEC5E;
+        Fri, 11 Oct 2019 15:12:37 +0200 (CEST)
+Received: from SAFEX1HUBCAS24.st.com (10.75.90.95) by Safex1hubcas22.st.com
+ (10.75.90.92) with Microsoft SMTP Server (TLS) id 14.3.439.0; Fri, 11 Oct
+ 2019 15:12:37 +0200
+Received: from localhost (10.201.20.122) by webmail-ga.st.com (10.75.90.48)
+ with Microsoft SMTP Server (TLS) id 14.3.439.0; Fri, 11 Oct 2019 15:12:37
+ +0200
+From:   Benjamin Gaignard <benjamin.gaignard@st.com>
+To:     <mchehab@kernel.org>, <robh+dt@kernel.org>, <mark.rutland@arm.com>,
+        <alexandre.torgue@st.com>, <hverkuil-cisco@xs4all.nl>,
+        <hugues.fruchet@st.com>
+CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>,
+        Benjamin Gaignard <benjamin.gaignard@st.com>
+Subject: [PATCH v2] dt-bindings: media: Convert stm32 cec bindings to json-schema
+Date:   Fri, 11 Oct 2019 15:12:33 +0200
+Message-ID: <20191011131234.24290-1-benjamin.gaignard@st.com>
+X-Mailer: git-send-email 2.15.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-Originating-IP: [10.201.20.122]
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,1.0.8
+ definitions=2019-10-11_08:2019-10-10,2019-10-11 signatures=0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 11 Oct 2019 07:50:16 -0500
-Rob Herring <robh+dt@kernel.org> wrote:
+Convert the STM32 cec binding to DT schema format using json-schema
 
-> On Fri, Oct 11, 2019 at 4:33 AM Boris Brezillon
-> <boris.brezillon@collabora.com> wrote:
-> >
-> > Document the Rockchip RK3399 Video Decoder bindings.  
-> 
-> You need some more headers for the example (or drop defines):
-> 
-> Error: Documentation/devicetree/bindings/media/rockchip,vdec.example.dts:23.28-29
-> syntax error
-> FATAL ERROR: Unable to parse input tree
-> scripts/Makefile.lib:321: recipe for target
-> 'Documentation/devicetree/bindings/media/rockchip,vdec.example.dt.yaml'
-> failed
-> make[1]: *** [Documentation/devicetree/bindings/media/rockchip,vdec.example.dt.yaml]
-> Error 1
-> Makefile:1282: recipe for target 'dt_binding_check' failed
-> make: *** [dt_binding_check] Error 2
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@st.com>
+---
+changes in v2:
+- use BSD-2-Clause license
+- add additionalProperties: false
+- remove pinctrl-names and pinctrl-[0-9]
 
-Will fix that. BTW, I tried running make dtbs_check and faced a few
-errors on other yaml files (which is why I ended up sending the patch
-without fully validating the schema). Maybe those have been fixed (I'm
-based on the media tree which is based on 5.4-rc1).
+ .../devicetree/bindings/media/st,stm32-cec.txt     | 19 --------
+ .../devicetree/bindings/media/st,stm32-cec.yaml    | 54 ++++++++++++++++++++++
+ 2 files changed, 54 insertions(+), 19 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/st,stm32-cec.txt
+ create mode 100644 Documentation/devicetree/bindings/media/st,stm32-cec.yaml
 
-Oh, and I also noticed that the generated example has
-#address-cells = <1>, #size-cells = <1> in the parent node, while my
-example expects <2>. Is there any way I can specify that somewhere, or
-should I just tweak the example to use 1 cell instead?
-
-> 
-> >
-> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> > ---
-> >  .../bindings/media/rockchip,vdec.yaml         | 71 +++++++++++++++++++
-> >  1 file changed, 71 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/rockchip,vdec.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/media/rockchip,vdec.yaml b/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
-> > new file mode 100644
-> > index 000000000000..7167c3d6a389
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/rockchip,vdec.yaml
-> > @@ -0,0 +1,71 @@
-> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/media/rockchip,vdec.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Rockchip Video Decoder (VDec) Device Tree Bindings
-> > +
-> > +maintainers:
-> > +  - Heiko Stuebner <heiko@sntech.de>
-> > +
-> > +description: |-
-> > +  The Rockchip rk3399 has a stateless Video Decoder that can decodes H.264,
-> > +  HEVC an VP9 streams.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: rockchip,rk3399-vdec
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  interrupts:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    items:
-> > +      - description: The Video Decoder AXI interface clock
-> > +      - description: The Video Decoder AHB interface clock
-> > +      - description: The Video Decoded CABAC clock
-> > +      - description: The Video Decoder core clock
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: aclk
-> > +      - const: iface
-> > +      - const: cabac
-> > +      - const: core
-> > +
-> > +  power-domains:
-> > +    maxItems: 1
-> > +
-> > +  iommus:
-> > +    maxItems: 1
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - interrupts
-> > +  - clocks
-> > +  - clock-names
-> > +  - power-domains
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > +
-> > +    vdec: video-codec@ff660000 {
-> > +        compatible = "rockchip,rk3399-vdec";
-> > +        reg = <0x0 0xff660000 0x0 0x400>;
-> > +        interrupts = <GIC_SPI 116 IRQ_TYPE_LEVEL_HIGH 0>;
-> > +        clocks = <&cru ACLK_VDU>, <&cru HCLK_VDU>,
-> > +                 <&cru SCLK_VDU_CA>, <&cru SCLK_VDU_CORE>;
-> > +        clock-names = "aclk", "iface", "cabac", "core";
-> > +        power-domains = <&power RK3399_PD_VDU>;
-> > +        iommus = <&vdec_mmu>;
-> > +    };
-> > +
-> > +...
-> > --
-> > 2.21.0
-> >  
+diff --git a/Documentation/devicetree/bindings/media/st,stm32-cec.txt b/Documentation/devicetree/bindings/media/st,stm32-cec.txt
+deleted file mode 100644
+index 6be2381c180d..000000000000
+--- a/Documentation/devicetree/bindings/media/st,stm32-cec.txt
++++ /dev/null
+@@ -1,19 +0,0 @@
+-STMicroelectronics STM32 CEC driver
+-
+-Required properties:
+- - compatible : value should be "st,stm32-cec"
+- - reg : Physical base address of the IP registers and length of memory
+-	 mapped region.
+- - clocks : from common clock binding: handle to CEC clocks
+- - clock-names : from common clock binding: must be "cec" and "hdmi-cec".
+- - interrupts : CEC interrupt number to the CPU.
+-
+-Example for stm32f746:
+-
+-cec: cec@40006c00 {
+-	compatible = "st,stm32-cec";
+-	reg = <0x40006C00 0x400>;
+-	interrupts = <94>;
+-	clocks = <&rcc 0 STM32F7_APB1_CLOCK(CEC)>, <&rcc 1 CLK_HDMI_CEC>;
+-	clock-names = "cec", "hdmi-cec";
+-};
+diff --git a/Documentation/devicetree/bindings/media/st,stm32-cec.yaml b/Documentation/devicetree/bindings/media/st,stm32-cec.yaml
+new file mode 100644
+index 000000000000..e3ff7b077ff6
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/st,stm32-cec.yaml
+@@ -0,0 +1,54 @@
++# SPDX-License-Identifier: BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/st,stm32-cec.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: STMicroelectronics STM32 CEC bindings
++
++maintainers:
++  - Benjamin Gaignard <benjamin.gaignard@st.com>
++  - Yannick Fertre <yannick.fertre@st.com>
++
++properties:
++  compatible:
++    const: st,stm32-cec
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: Module Clock
++      - description: Bus Clock
++
++  clock-names:
++    items:
++      - const: cec
++      - const: hdmi-cec
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - clock-names
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/clock/stm32mp1-clks.h>
++    cec: cec@40006c00 {
++        compatible = "st,stm32-cec";
++        reg = <0x40006c00 0x400>;
++        interrupts = <GIC_SPI 94 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&rcc CEC_K>, <&clk_lse>;
++        clock-names = "cec", "hdmi-cec";
++    };
++
++...
+-- 
+2.15.0
 
