@@ -2,58 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D67CCD5649
+	by mail.lfdr.de (Postfix) with ESMTP id 038BBD5647
 	for <lists+linux-media@lfdr.de>; Sun, 13 Oct 2019 14:52:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729294AbfJMMwF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 13 Oct 2019 08:52:05 -0400
-Received: from mail-lj1-f195.google.com ([209.85.208.195]:43117 "EHLO
-        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729187AbfJMMvw (ORCPT
+        id S1729269AbfJMMwB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 13 Oct 2019 08:52:01 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:36402 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729130AbfJMMvw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Sun, 13 Oct 2019 08:51:52 -0400
-Received: by mail-lj1-f195.google.com with SMTP id n14so13949444ljj.10;
-        Sun, 13 Oct 2019 05:51:49 -0700 (PDT)
+Received: by mail-lj1-f194.google.com with SMTP id v24so13989241ljj.3;
+        Sun, 13 Oct 2019 05:51:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=N5xwppzxLfD235nBWm/2lMus5/8Z/i+yMzV4wj9LsE4=;
-        b=VV1QMnkZm/jSR163JgojCsqmbsoTL0r+24dV0TYzmuH85a/7PzgVyXdS+WGMo8S3rI
-         zxl9zUy2vFcWgYSoX8j7nk51PSSUGZ4f1xM4FTP+OuBKtu3Rc8yGcGbhX0nK+LITod+m
-         I4hy8cBdfQSLF4lqpq7mMHeekhc7b+WHRmWNJJGq9o4BmioWQFCWjOYQ07n47wEdHD9n
-         NULXj71kKHVwCw6jmURC8ooqBH6dOgUCOgNVL1hWugH1McsLd14owdWwgfE89cNZ5ZUK
-         FnW3KE2IUyXI3b4oIB1xEE+G8oeWluzjMMreMAeLObhytzgtFbcYw99/GKcK9652h7Ft
-         3ofA==
+        bh=70J2v6uWAhiRGhg1LXaKeSs3P933eEPAxMOkaLLVTnY=;
+        b=CTN2oK77tCXIp720Tnm8zkekHhQBJtobWchPYrfMyK/GFp7krlrQI3QPlGQQdMa8rQ
+         yWEE5ax0nTomURXqRGy+yictEzflVUhQTLYeWQIjl8XGG1BMh0TwRHHQEOBkbnwAInuR
+         jmncYHfrYCW79noHYBnbKD4TagFNatditDVTbPOWqLNHs3UntOSW9Lhv4czHTsfr4fN7
+         3bogGRaCfNNcGrvgQIFmGbDBVwOt3zmLSoeLvQeef9C+kwlUUc5SLuadjwGQcdsZsyCT
+         MFO1qptRggyLm0lBTaO+XeNuB2+30uOYNXqfnpXJeVdpC/vy7fcpwE+P2xYvQBY0RFAf
+         q5PA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=N5xwppzxLfD235nBWm/2lMus5/8Z/i+yMzV4wj9LsE4=;
-        b=gnCgX57tJKSmiZhxlZc3vIuzxmOb5mh5/WbLXMC/BwKogFLF/TVr2CVk8COTpnE4Uh
-         bI4Dbf7k/ZI4W70q3DAIGYz4cCJyVpo3tEf2FQL8RKq++D5SIe0LtQtkJagYP1rVZbBN
-         mMNHqc3ybnQ7W9gB+cdGuH7H2swh98Juqu33bK/Koxkah5B5rOlQzYLHjpDzP0I07Pl8
-         lD973zRvxbdK4W3J2l/q1pro4OJfr26XMERONMVA1HYoC2UQjQqjUakwV5MSPyW/N0tW
-         ZxQMEt0Z9E4FPKTPL+FuCDXx9cLAAtkWWu4vb3Y8aD9s0Qnt69AW6z1ja5pbHHvEUXGs
-         FITA==
-X-Gm-Message-State: APjAAAVjq5ZsUJr0nla56XdIVrEyBqUmRBjzngVzZq99olQRg4zyZZIG
-        AOwSIb/Ccot/ibaV3o0fvxQ=
-X-Google-Smtp-Source: APXvYqzXMz8SnBPIqokeFzd8nC9MNXRRuEHd2i6zONnC9nXuFWMjoh43nA50NaOh/HPRUev76wvT2A==
-X-Received: by 2002:a2e:207:: with SMTP id 7mr15412581ljc.248.1570971109117;
-        Sun, 13 Oct 2019 05:51:49 -0700 (PDT)
+        bh=70J2v6uWAhiRGhg1LXaKeSs3P933eEPAxMOkaLLVTnY=;
+        b=mEscd4FmiYY5ea2AGJqyeiQu8UPznQ6pVMdgF/v8XsZ/5pDnOrKIUkmJKsy59doz+a
+         bm6XGIKwCZH7uCOp+voRrxtrF5Kz966FJX8gbmoNwd3zyd87NOAGwbfHCjpjwRVsjIb1
+         xy6W1KOoUSXsLRXkNKjoklihr0GPLoBLZlHS/RJDaLsh4RT47W4dJlFvJMzEhS+a5ovR
+         VoSM4wdxmKi9CsLwB7YTTgtZ/CEDvnpMfgfU9x3iC5q2M6hSzcYmkEZI78DTq/+p4u75
+         B/6q5V0EKcaZZJf9I4+qLb0A8ehtCKrPV6w/KYjIQ4nBIMFtsvv1gwNN31nZ9UaT78M1
+         dhIw==
+X-Gm-Message-State: APjAAAXQt1da8p8VWCH9AcnrdR57XCc0jQU99rmkF/82dIa8/vYTyxvE
+        Yx3JqinCoXQqJ8MeCytzPoc=
+X-Google-Smtp-Source: APXvYqyEk7Pf5/iDdl4rfqrTpep8lZSSS1xJoS2maMB+X6qF2Rtv9Y9Pa++ZBfEoDtLZk4YUWuEmmg==
+X-Received: by 2002:a2e:6101:: with SMTP id v1mr15628226ljb.122.1570971110374;
+        Sun, 13 Oct 2019 05:51:50 -0700 (PDT)
 Received: from z50.gdansk-morena.vectranet.pl (109241207190.gdansk.vectranet.pl. [109.241.207.190])
-        by smtp.gmail.com with ESMTPSA id m18sm3327243lfb.73.2019.10.13.05.51.47
+        by smtp.gmail.com with ESMTPSA id m18sm3327243lfb.73.2019.10.13.05.51.49
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 13 Oct 2019 05:51:48 -0700 (PDT)
+        Sun, 13 Oct 2019 05:51:49 -0700 (PDT)
 From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Subject: [PATCH 4/6] media: ov6650: Don't reapply pixel clock divisor on format change
-Date:   Sun, 13 Oct 2019 14:50:48 +0200
-Message-Id: <20191013125050.4153-5-jmkrzyszt@gmail.com>
+Subject: [PATCH 5/6] media: ov6650: Drop unused .pclk_max field
+Date:   Sun, 13 Oct 2019 14:50:49 +0200
+Message-Id: <20191013125050.4153-6-jmkrzyszt@gmail.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191013125050.4153-1-jmkrzyszt@gmail.com>
 References: <20191013125050.4153-1-jmkrzyszt@gmail.com>
@@ -64,67 +64,43 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-As calculation of pixel clock hardware divisor no longer depends on
-mbus format specific maximum pixel clock, there is no need to reapply
-the divisor on format change.  Drop related code from ov6650_s_fmt()
-helper.
-
-Since a master clock hardware divisor, so far applied only together
-with the pixel clock divisor in a single operation, will no longer be
-applied from ov6650_s_fmt(), apply it, still using a hardcoded value
-for now, from  ov6650_prog_dflt() helper so hardware is still
-initialised correctly on device probe.
+This field of the driver private structure is no longer used, drop it.
 
 Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
 ---
- drivers/media/i2c/ov6650.c | 17 +++--------------
- 1 file changed, 3 insertions(+), 14 deletions(-)
+ drivers/media/i2c/ov6650.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
 diff --git a/drivers/media/i2c/ov6650.c b/drivers/media/i2c/ov6650.c
-index 61ddd4ea4c26..e95ea132ef06 100644
+index e95ea132ef06..f4723c0b5c70 100644
 --- a/drivers/media/i2c/ov6650.c
 +++ b/drivers/media/i2c/ov6650.c
-@@ -564,8 +564,7 @@ static int ov6650_s_fmt(struct v4l2_subdev *sd, struct v4l2_mbus_framefmt *mf)
- 		.r.height = mf->height << half_scale,
- 	};
- 	u32 code = mf->code;
--	unsigned long mclk, pclk;
--	u8 coma_set = 0, coma_mask = 0, coml_set, coml_mask, clkrc;
-+	u8 coma_set = 0, coma_mask = 0, coml_set, coml_mask;
- 	int ret;
- 
- 	/* select color matrix configuration for given color encoding */
-@@ -635,21 +634,9 @@ static int ov6650_s_fmt(struct v4l2_subdev *sd, struct v4l2_mbus_framefmt *mf)
- 		coma_mask |= COMA_QCIF;
+@@ -197,7 +197,6 @@ struct ov6650 {
+ 	struct v4l2_clk		*clk;
+ 	bool			half_scale;	/* scale down output by 2 */
+ 	struct v4l2_rect	rect;		/* sensor cropping window */
+-	unsigned long		pclk_max;	/* from resolution and format */
+ 	struct v4l2_fract	tpf;		/* as requested with s_frame_interval */
+ 	u32 code;
+ };
+@@ -618,17 +617,14 @@ static int ov6650_s_fmt(struct v4l2_subdev *sd, struct v4l2_mbus_framefmt *mf)
+ 			code == MEDIA_BUS_FMT_SBGGR8_1X8) {
+ 		coml_mask = COML_ONE_CHANNEL;
+ 		coml_set = 0;
+-		priv->pclk_max = 4000000;
+ 	} else {
+ 		coml_mask = 0;
+ 		coml_set = COML_ONE_CHANNEL;
+-		priv->pclk_max = 8000000;
  	}
  
--	clkrc = CLKRC_12MHz;
--	mclk = 12000000;
--	dev_dbg(&client->dev, "using 12MHz input clock\n");
--
--	clkrc |= to_clkrc(priv->tpf.numerator);
--
--	pclk = priv->pclk_max / GET_CLKRC_DIV(clkrc);
--	dev_dbg(&client->dev, "pixel clock divider: %ld.%ld\n",
--			mclk / pclk, 10 * mclk % pclk / pclk);
--
- 	ret = ov6650_set_selection(sd, NULL, &sel);
- 	if (!ret)
- 		ret = ov6650_reg_rmw(client, REG_COMA, coma_set, coma_mask);
--	if (!ret)
--		ret = ov6650_reg_write(client, REG_CLKRC, clkrc);
- 	if (!ret) {
- 		priv->half_scale = half_scale;
- 
-@@ -798,6 +785,8 @@ static int ov6650_prog_dflt(struct i2c_client *client)
- 	dev_dbg(&client->dev, "initializing\n");
- 
- 	ret = ov6650_reg_write(client, REG_COMA, 0);	/* ~COMA_RESET */
-+	if (!ret)
-+		ret = ov6650_reg_write(client, REG_CLKRC, CLKRC_12MHz);
- 	if (!ret)
- 		ret = ov6650_reg_rmw(client, REG_COMB, 0, COMB_BAND_FILTER);
- 
+ 	if (half_scale) {
+ 		dev_dbg(&client->dev, "max resolution: QCIF\n");
+ 		coma_set |= COMA_QCIF;
+-		priv->pclk_max /= 2;
+ 	} else {
+ 		dev_dbg(&client->dev, "max resolution: CIF\n");
+ 		coma_mask |= COMA_QCIF;
 -- 
 2.21.0
 
