@@ -2,201 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D2994D5642
-	for <lists+linux-media@lfdr.de>; Sun, 13 Oct 2019 14:51:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1902AD576D
+	for <lists+linux-media@lfdr.de>; Sun, 13 Oct 2019 20:45:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729235AbfJMMv4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 13 Oct 2019 08:51:56 -0400
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:46763 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729188AbfJMMvx (ORCPT
+        id S1728903AbfJMSpj convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Sun, 13 Oct 2019 14:45:39 -0400
+Received: from smtp-out-mk-2.talktalk.net ([212.74.114.22]:58720 "EHLO
+        mk-outbound-2.mail.uk.tiscali.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728239AbfJMSpj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 13 Oct 2019 08:51:53 -0400
-Received: by mail-lf1-f67.google.com with SMTP id t8so9918764lfc.13;
-        Sun, 13 Oct 2019 05:51:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=7xCq5J+OfyTULb+8V1WcTAauQxnh+VYppr0SjYzFpH8=;
-        b=oswxuqjBzvBckACKPIK1IwNha2bWQzHzGSDOY3Z29T+jHXdjLuN0nWeaAHPh1VO6TL
-         P7lOkvMo4Ci1kb57FogbNNsrXXYEsUgWoZXxuJqVDL4iFr22zEApS5isYaTNgJAaBjAU
-         bkMy2gUwtAcbkUnn04Zb8k6y2LPwAqTxIoa4ZPjevty6ait+ZmzAOClX0J5dmOvEhl0L
-         gBRwn+U7RYQt1voGewYQG/zP14zxYO2qFVOBRwnbcs90HbmpMAGOileth0Qpygnhl5QL
-         VDVOdVnoVPQnPXdXrpPYHIBSyaAv/CDZP0tT4LgRg2tEg1/ySDTr5ruwXETox752RGTS
-         kQTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=7xCq5J+OfyTULb+8V1WcTAauQxnh+VYppr0SjYzFpH8=;
-        b=U9zykbAeirtD2Xvrn+hnc2NmRAtN26MKf47mjBYCk4P7glXNcxxYwiiNhgKohU0bl+
-         c9ACoqSsNtxmpAfV0X+vHMaN9Xr1Ivi1wjfx4AZJKUETVwpguEf3B/hnCgawqZxhS2nG
-         k5kc8W0s1PT33iTTIbX9p7UH49ylTLUH9RRX2XtCjM172gSLLQPCYIXDzS0O4W1lrDcf
-         9XHRtUe/VM/uwyiRWNDgyTgV0D1jNpq26bAcfRZS+stK6ZqI/H9YccVJ7f131Hm07YQK
-         NIw6TVRdUgOCc+l0ngKLmNFcsdBaDk2d/qX6zw9tOP15xPiN69lYQZ3Rc/VQMq3w1rqE
-         8iSA==
-X-Gm-Message-State: APjAAAVtPcZoFKx/x8GtBroUAU8HM0f9afZcaALuFWutPFwhZWvRf/VP
-        rkIMpQtJ/Y8N74za4DXqUcw=
-X-Google-Smtp-Source: APXvYqyl4sKhCoSBzphYXAukd2baCSImv4MOnEM7J5VEaqwqvUSGrU6E5atg3VoIY0m6ERDptQqbmA==
-X-Received: by 2002:ac2:528f:: with SMTP id q15mr8769271lfm.25.1570971111538;
-        Sun, 13 Oct 2019 05:51:51 -0700 (PDT)
-Received: from z50.gdansk-morena.vectranet.pl (109241207190.gdansk.vectranet.pl. [109.241.207.190])
-        by smtp.gmail.com with ESMTPSA id m18sm3327243lfb.73.2019.10.13.05.51.50
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 13 Oct 2019 05:51:50 -0700 (PDT)
-From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Subject: [PATCH 6/6] media: ov6650: Fix arbitrary selection of master clock rate
-Date:   Sun, 13 Oct 2019 14:50:50 +0200
-Message-Id: <20191013125050.4153-7-jmkrzyszt@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191013125050.4153-1-jmkrzyszt@gmail.com>
-References: <20191013125050.4153-1-jmkrzyszt@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Sun, 13 Oct 2019 14:45:39 -0400
+Received: from [192.168.1.89] ([82.22.16.195])
+        by smtp.talktalk.net with SMTP
+        id JiQUipD1D574lJiQUilpll; Sun, 13 Oct 2019 19:17:06 +0100
+X-Originating-IP: [82.22.16.195]
+X-Spam: 0
+X-OAuthority: v=2.3 cv=cuTlbGwi c=1 sm=1 tr=0 a=P8GiAPQqIUPV+hjRTWZ0OA==:117
+ a=P8GiAPQqIUPV+hjRTWZ0OA==:17 a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19
+ a=IkcTkHD0fZMA:10 a=VwQbUJbxAAAA:8 a=yZ8chm76AAAA:8 a=uGKf9n03fcRfgvmj5CwA:9
+ a=QEXdDO2ut3YA:10 a=AjGcO6oz07-iQ99wixmX:22 a=d_f39n0F5IwZPrvwsx53:22
+Content-Type: text/plain; charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 9.3 \(3124\))
+Subject: Re: v4l-utils  undefined symbol: dvb_dev_alloc
+From:   _ _ _ _ _ <clangers@toucansurf.com>
+In-Reply-To: <20191012150220.1bff18ed@coco.lan>
+Date:   Sun, 13 Oct 2019 19:45:36 +0100
+Cc:     linux-media@vger.kernel.org
+Content-Transfer-Encoding: 8BIT
+Message-Id: <2FBA3FCF-6ADA-42F2-A422-8BA602AD7B01@toucansurf.com>
+References: <35A2C1D4-DE40-490C-AFE6-E426EC1EC0AC@toucansurf.com> <20191012150220.1bff18ed@coco.lan>
+To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+X-Mailer: Apple Mail (2.3124)
+X-CMAE-Envelope: MS4wfGBrdu7NRLi+VRWMpxI1mV6/nLJzJsq3uZEFVxnJsjoaneqFgDMKxTCDwZoxA6GEi2Bvl7EcroTJylidXPgrnL+Twd9UQ2V8Fm3X3gCKxKjJHvmVfCaM
+ ZuVcAR054f1/xU2TQz/X/1LgIs7+GjXqbPXoaih/bsy9E+AIITC0P/uPG5EBurORCbCM51QMZdTacFtffJ+ae4WCu38EQUdw1+YqT5d2oJBbRxYld2s66xMO
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-A hardcoded 12 MHz master clock frequency has been assumed since
-conversion of the driver from soc_camera sensor to a standalone V4L2
-subdevice by commit 23a52386fabe ("media: ov6650: convert to standalone
-v4l2 subdevice").  Fix it.
+I originally built using
+./configure --prefix=/usr --sysconfdir=/etc --disable-static && make
 
-Define a static table of supported master clock rates (fix misnamed
-symbol while being at it), then use v4l2_clk_get/set_rate() to obtain
-a clock rate matching one of those supported.  On success, apply
-respective master clock hardware divisor provided by the matching
-element of the table.
+so adapting your instructions and putting /usr/lib in /etc/ld.so.conf.d/local.conf and then executing ldconfig were the essential steps that fixed it.
 
-Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
----
- drivers/media/i2c/ov6650.c | 64 ++++++++++++++++++++++++++++++++++----
- 1 file changed, 58 insertions(+), 6 deletions(-)
+Thanks.
 
-diff --git a/drivers/media/i2c/ov6650.c b/drivers/media/i2c/ov6650.c
-index f4723c0b5c70..13fd7c4699b2 100644
---- a/drivers/media/i2c/ov6650.c
-+++ b/drivers/media/i2c/ov6650.c
-@@ -124,7 +124,7 @@
- 
- #define DEF_AECH		0x4D
- 
--#define CLKRC_6MHz		0x00
-+#define CLKRC_8MHz		0x00
- #define CLKRC_12MHz		0x40
- #define CLKRC_16MHz		0x80
- #define CLKRC_24MHz		0xc0
-@@ -201,6 +201,29 @@ struct ov6650 {
- 	u32 code;
- };
- 
-+struct ov6650_xclk {
-+	unsigned long	rate;
-+	u8		clkrc;
-+};
-+
-+static const struct ov6650_xclk ov6650_xclk[] = {
-+{
-+	.rate	= 8000000,
-+	.clkrc	= CLKRC_8MHz,
-+},
-+{
-+	.rate	= 12000000,
-+	.clkrc	= CLKRC_12MHz,
-+},
-+{
-+	.rate	= 16000000,
-+	.clkrc	= CLKRC_16MHz,
-+},
-+{
-+	.rate	= 24000000,
-+	.clkrc	= CLKRC_24MHz,
-+},
-+};
- 
- static u32 ov6650_codes[] = {
- 	MEDIA_BUS_FMT_YUYV8_2X8,
-@@ -774,7 +797,7 @@ static int ov6650_reset(struct i2c_client *client)
- }
- 
- /* program default register values */
--static int ov6650_prog_dflt(struct i2c_client *client)
-+static int ov6650_prog_dflt(struct i2c_client *client, u8 clkrc)
- {
- 	int ret;
- 
-@@ -782,7 +805,7 @@ static int ov6650_prog_dflt(struct i2c_client *client)
- 
- 	ret = ov6650_reg_write(client, REG_COMA, 0);	/* ~COMA_RESET */
- 	if (!ret)
--		ret = ov6650_reg_write(client, REG_CLKRC, CLKRC_12MHz);
-+		ret = ov6650_reg_write(client, REG_CLKRC, clkrc);
- 	if (!ret)
- 		ret = ov6650_reg_rmw(client, REG_COMB, 0, COMB_BAND_FILTER);
- 
-@@ -793,8 +816,10 @@ static int ov6650_video_probe(struct v4l2_subdev *sd)
- {
- 	struct i2c_client *client = v4l2_get_subdevdata(sd);
- 	struct ov6650 *priv = to_ov6650(client);
--	u8		pidh, pidl, midh, midl;
--	int		ret;
-+	const struct ov6650_xclk *xclk;
-+	unsigned long rate;
-+	u8 pidh, pidl, midh, midl;
-+	int i, ret;
- 
- 	priv->clk = v4l2_clk_get(&client->dev, NULL);
- 	if (IS_ERR(priv->clk)) {
-@@ -803,6 +828,33 @@ static int ov6650_video_probe(struct v4l2_subdev *sd)
- 		return ret;
- 	}
- 
-+	rate = v4l2_clk_get_rate(priv->clk);
-+	for (i = 0; rate && i < ARRAY_SIZE(ov6650_xclk); i++) {
-+		if (rate != ov6650_xclk[i].rate)
-+			continue;
-+
-+		xclk = &ov6650_xclk[i];
-+		dev_info(&client->dev, "using host default clock rate %lukHz\n",
-+			 rate / 1000);
-+		break;
-+	}
-+	for (i = 0; !xclk && i < ARRAY_SIZE(ov6650_xclk); i++) {
-+		ret = v4l2_clk_set_rate(priv->clk, ov6650_xclk[i].rate);
-+		if (ret || v4l2_clk_get_rate(priv->clk) != ov6650_xclk[i].rate)
-+			continue;
-+
-+		xclk = &ov6650_xclk[i];
-+		dev_info(&client->dev, "using negotiated clock rate %lukHz\n",
-+			 xclk->rate / 1000);
-+		break;
-+	}
-+	if (!xclk) {
-+		dev_err(&client->dev, "unable to get supported clock rate\n");
-+		if (!ret)
-+			ret = -EINVAL;
-+		goto eclkput;
-+	}
-+
- 	ret = ov6650_s_power(sd, 1);
- 	if (ret < 0)
- 		goto eclkput;
-@@ -836,7 +888,7 @@ static int ov6650_video_probe(struct v4l2_subdev *sd)
- 
- 	ret = ov6650_reset(client);
- 	if (!ret)
--		ret = ov6650_prog_dflt(client);
-+		ret = ov6650_prog_dflt(client, xclk->clkrc);
- 	if (!ret) {
- 		struct v4l2_mbus_framefmt mf = ov6650_def_fmt;
- 
--- 
-2.21.0
+> On 12 Oct 2019, at 19:02, Mauro Carvalho Chehab <mchehab+samsung@kernel.org> wrote:
+> 
+> Em Sat, 12 Oct 2019 18:28:41 +0100
+> _ _ _ _ _ <clangers@toucansurf.com> escreveu:
+> 
+>> I've been waiting for a working version of DVB-S2 capable tools and utilities to appear in a stable release of Mint, but  it hasn't happened yet, so I decided to build the latest stable v4l-utils from source.
+>> 
+>> I built v4l-utils version 1.18.0 on Linux Mint 18.3
+>> 
+>> the compilation process appeared to run through OK with only 9 warnings (see below), but the resulting executables fail due to a lib ref issue.
+>> configure: WARNING: doxygen not found - will not generate any doxygen documentation
+>> configure: WARNING: libelf library not available
+>> configure: WARNING: Qt5 or higher is not available
+>> configure: WARNING: ALSA library not available
+>>  CC       control/libv4lconvert_la-libv4lcontrol.lo
+>> control/libv4lcontrol.c: In function ‘v4lcontrol_create’:
+>> control/libv4lcontrol.c:728:3: warning: ignoring return value of ‘ftruncate’, declared with attribute warn_unused_result [-Wunused-result]
+>>   ftruncate(shm_fd, V4LCONTROL_SHM_SIZE);
+>>   ^
+>> libtool: warning: relinking 'libv4l2.la'
+>> libtool: warning: relinking 'v4l2convert.la'
+>> libtool: warning: relinking 'libv4l1.la'
+>> libtool: warning: relinking 'v4l1compat.la'
+>> 
+>> Most of these look insignificant but the fifth one looks a bit worrying.
+> 
+> Shouldn't have any real consequence. it is just because there's nothing
+> like:
+> 
+> 	ret = ftruncate(...)
+> 	if (ret) {
+> 		/* some error handling logic */
+> 	}
+> 
+>> 
+>> End result :-
+>> 
+>> stupiduser@somehost ~ $ gcc --version
+>> gcc (Ubuntu 5.4.0-6ubuntu1~16.04.11) 5.4.0 2016060
+>> 
+>> stupiduser@somehost ~ $ dvbv5-scan -V
+>> dvbv5-scan version 1.18.0
+>> 
+>> stupiduser@somehost ~ $ dvbv5-scan /usr/share/dvb/dvb-s/Astra-28.2E
+>> dvbv5-scan: symbol lookup error: dvbv5-scan: undefined symbol: dvb_dev_alloc
+>> 
+>> stupiduser@somehost ~ $ dvb-fe-tool -m -a0 
+>> dvb-fe-tool: symbol lookup error: dvb-fe-tool: undefined symbol: dvb_dev_alloc
+> 
+> Probably you have an older version of DVB libraries installed on
+> your machine. It is trying to use the older library when you try
+> to run it.
+> 
+> There are some ways of solving it:
+> 
+> 1) Make configure to override the old library with:
+> 
+> 	./configure --prefix=/usr
+> 
+> (the default is to install it at /usr/local)
+> 
+> 2) Ensure that the dynamic linker will use the libraries from
+> /usr/local
+> 
+> Depending on how your distro is set, you could need to add a
+> new file at /etc/ld.so.conf.d/, in order to teach the dynamic
+> linker to use the /usr/local/lib directory to seek for libraries.
+> 
+> For example, create a "/etc/ld.so.conf.d/local.conf" file, and make the
+> system use it by running, as root:
+> 
+> 	# echo "/usr/local/lib" > /etc/ld.so.conf.d/local.conf
+> 	# ldconfig 
+> 
+> PS.: You may need to remove a previous install of the V4L and DVB
+> libs, in order to avoid any conflicts.
+> 
+> 3) use the environment var LD_LIBRARY_PATH in order to add 
+> /usr/local/lib to the list of directories it will seek for a 
+> library.
+> 
+> Thanks,
+> Mauro
 
