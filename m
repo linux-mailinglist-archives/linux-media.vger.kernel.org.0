@@ -2,58 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 24E86D5645
-	for <lists+linux-media@lfdr.de>; Sun, 13 Oct 2019 14:52:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D67CCD5649
+	for <lists+linux-media@lfdr.de>; Sun, 13 Oct 2019 14:52:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729202AbfJMMvw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 13 Oct 2019 08:51:52 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:37463 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728349AbfJMMvu (ORCPT
+        id S1729294AbfJMMwF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 13 Oct 2019 08:52:05 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:43117 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729187AbfJMMvw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 13 Oct 2019 08:51:50 -0400
-Received: by mail-lf1-f66.google.com with SMTP id w67so9959056lff.4;
-        Sun, 13 Oct 2019 05:51:48 -0700 (PDT)
+        Sun, 13 Oct 2019 08:51:52 -0400
+Received: by mail-lj1-f195.google.com with SMTP id n14so13949444ljj.10;
+        Sun, 13 Oct 2019 05:51:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=jqZhIjSnGaQkCto65LI2ltagzMepKonmREX9kN29OzI=;
-        b=MCEH99lMhnFs50GY5tA5FlYHtFeRCvWmbyyz8e8MusYGDwyijf4jpLoH2zKXE/RZlB
-         myQPdSDfg82aOhlsyHiPBbuFSOyAm8f5hL0P5oK+r2cNnw90t1xANBt5e6XqUzRjX5FY
-         fm7oO8VT17rsiLtHamC1LfFV+MSKh6nPGlOewZLdmBQVLMMoJ0/7hCpabCqdm7AiPYCO
-         xj7R6mx7GqjGQhkGX7sMz6tsddvgeUVhOYR2W20NZ4fgGUksu9KKzRpNDuo/DBh0cdcg
-         3jP6K48q/ZqESAkFzvDBRE6Z5jfNphoLNtg2/9cWwfExB9ZAgOgkLcEWX+h4f1SSlb/W
-         K/dA==
+        bh=N5xwppzxLfD235nBWm/2lMus5/8Z/i+yMzV4wj9LsE4=;
+        b=VV1QMnkZm/jSR163JgojCsqmbsoTL0r+24dV0TYzmuH85a/7PzgVyXdS+WGMo8S3rI
+         zxl9zUy2vFcWgYSoX8j7nk51PSSUGZ4f1xM4FTP+OuBKtu3Rc8yGcGbhX0nK+LITod+m
+         I4hy8cBdfQSLF4lqpq7mMHeekhc7b+WHRmWNJJGq9o4BmioWQFCWjOYQ07n47wEdHD9n
+         NULXj71kKHVwCw6jmURC8ooqBH6dOgUCOgNVL1hWugH1McsLd14owdWwgfE89cNZ5ZUK
+         FnW3KE2IUyXI3b4oIB1xEE+G8oeWluzjMMreMAeLObhytzgtFbcYw99/GKcK9652h7Ft
+         3ofA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=jqZhIjSnGaQkCto65LI2ltagzMepKonmREX9kN29OzI=;
-        b=toLEpWnbVNHln7HfAMUmaMAHIEz4SxYAzv91rT28xX+C/5n8HX6fuiozuZSGFkH1vF
-         YjSaqthZG88Ros1pLx010p2dyfmCfJR43UnF8xooGchD4JD7serdgmnYIfhqO6Ginabz
-         MkRv05AdIDxqu4DHCVopYvq3LMiAxVnLrWNVYBV+UyGnNpE0uhAyDcHK/NKYJ/lsRg4G
-         R9XqctywWCrqEIkXqPTn0tof9cwu0JpTqYWpDQvZGlNNN4alk3jtkDpBZs2MbS1Wyzea
-         3BQ/J7qVd6xVYn2UZTb9sG4DzQhatg7vtX+3Hvbw2rydG8zrofU0Rx1JZzVqr3NL4f9j
-         rqaA==
-X-Gm-Message-State: APjAAAWDWKzSUWPikNEiAH3/e/dA4vnwkdL3KA19QqZSrZuRIlrn9Vhr
-        IOlloB4tgi0ChcRCOGb+vx8=
-X-Google-Smtp-Source: APXvYqyxwDLf3f0ZqrDsWwDPE6BLC8VpoJvSBbJ1n3RMjNQ8rcK8iCDnxU1Sz/yqn1JVoxx2POf1ZA==
-X-Received: by 2002:ac2:5629:: with SMTP id b9mr15393804lff.32.1570971107842;
-        Sun, 13 Oct 2019 05:51:47 -0700 (PDT)
+        bh=N5xwppzxLfD235nBWm/2lMus5/8Z/i+yMzV4wj9LsE4=;
+        b=gnCgX57tJKSmiZhxlZc3vIuzxmOb5mh5/WbLXMC/BwKogFLF/TVr2CVk8COTpnE4Uh
+         bI4Dbf7k/ZI4W70q3DAIGYz4cCJyVpo3tEf2FQL8RKq++D5SIe0LtQtkJagYP1rVZbBN
+         mMNHqc3ybnQ7W9gB+cdGuH7H2swh98Juqu33bK/Koxkah5B5rOlQzYLHjpDzP0I07Pl8
+         lD973zRvxbdK4W3J2l/q1pro4OJfr26XMERONMVA1HYoC2UQjQqjUakwV5MSPyW/N0tW
+         ZxQMEt0Z9E4FPKTPL+FuCDXx9cLAAtkWWu4vb3Y8aD9s0Qnt69AW6z1ja5pbHHvEUXGs
+         FITA==
+X-Gm-Message-State: APjAAAVjq5ZsUJr0nla56XdIVrEyBqUmRBjzngVzZq99olQRg4zyZZIG
+        AOwSIb/Ccot/ibaV3o0fvxQ=
+X-Google-Smtp-Source: APXvYqzXMz8SnBPIqokeFzd8nC9MNXRRuEHd2i6zONnC9nXuFWMjoh43nA50NaOh/HPRUev76wvT2A==
+X-Received: by 2002:a2e:207:: with SMTP id 7mr15412581ljc.248.1570971109117;
+        Sun, 13 Oct 2019 05:51:49 -0700 (PDT)
 Received: from z50.gdansk-morena.vectranet.pl (109241207190.gdansk.vectranet.pl. [109.241.207.190])
-        by smtp.gmail.com with ESMTPSA id m18sm3327243lfb.73.2019.10.13.05.51.46
+        by smtp.gmail.com with ESMTPSA id m18sm3327243lfb.73.2019.10.13.05.51.47
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 13 Oct 2019 05:51:47 -0700 (PDT)
+        Sun, 13 Oct 2019 05:51:48 -0700 (PDT)
 From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Subject: [PATCH 3/6] media: ov6650: Simplify clock divisor calculation
-Date:   Sun, 13 Oct 2019 14:50:47 +0200
-Message-Id: <20191013125050.4153-4-jmkrzyszt@gmail.com>
+Subject: [PATCH 4/6] media: ov6650: Don't reapply pixel clock divisor on format change
+Date:   Sun, 13 Oct 2019 14:50:48 +0200
+Message-Id: <20191013125050.4153-5-jmkrzyszt@gmail.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191013125050.4153-1-jmkrzyszt@gmail.com>
 References: <20191013125050.4153-1-jmkrzyszt@gmail.com>
@@ -64,96 +64,67 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-As appears from an analysis of to_clkrc() helper code after its
-pclk_limit argument has been dropped, its result no longer depends on
-another argument - pclk_max.  Moreover, assuming that a constant value
-of FRAME_RATE_MAX is always used as a denominator of the only
-significant argument left - a struct v4l2_fract, the result in fact
-depends only on the numerator value of that argument.  As a further
-consequence, it no longer makes sense to recalculate frame intervals by
-converting them forth and back with a GET_CLKRC_DIV(to_clkrc(tpf))
-construct.
+As calculation of pixel clock hardware divisor no longer depends on
+mbus format specific maximum pixel clock, there is no need to reapply
+the divisor on format change.  Drop related code from ov6650_s_fmt()
+helper.
 
-Drop use of GET_CLKRC_DIV() on results of to_clkrc() where possible -
-use the frame interval value directly.  Furthermore, replace the
-to_clkrc() helper function with a simple macro and update its users to
-always use FRAME_RATE_MAX as frame interval denominator and pass only
-its numerator as an argument.
+Since a master clock hardware divisor, so far applied only together
+with the pixel clock divisor in a single operation, will no longer be
+applied from ov6650_s_fmt(), apply it, still using a hardcoded value
+for now, from  ov6650_prog_dflt() helper so hardware is still
+initialised correctly on device probe.
 
 Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
 ---
- drivers/media/i2c/ov6650.c | 29 +++++------------------------
- 1 file changed, 5 insertions(+), 24 deletions(-)
+ drivers/media/i2c/ov6650.c | 17 +++--------------
+ 1 file changed, 3 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/media/i2c/ov6650.c b/drivers/media/i2c/ov6650.c
-index a50244401491..61ddd4ea4c26 100644
+index 61ddd4ea4c26..e95ea132ef06 100644
 --- a/drivers/media/i2c/ov6650.c
 +++ b/drivers/media/i2c/ov6650.c
-@@ -545,18 +545,7 @@ static bool is_unscaled_ok(int width, int height, struct v4l2_rect *rect)
- 	return width > rect->width >> 1 || height > rect->height >> 1;
- }
+@@ -564,8 +564,7 @@ static int ov6650_s_fmt(struct v4l2_subdev *sd, struct v4l2_mbus_framefmt *mf)
+ 		.r.height = mf->height << half_scale,
+ 	};
+ 	u32 code = mf->code;
+-	unsigned long mclk, pclk;
+-	u8 coma_set = 0, coma_mask = 0, coml_set, coml_mask, clkrc;
++	u8 coma_set = 0, coma_mask = 0, coml_set, coml_mask;
+ 	int ret;
  
--static u8 to_clkrc(struct v4l2_fract *timeperframe, unsigned long pclk_max)
--{
--	unsigned long pclk;
+ 	/* select color matrix configuration for given color encoding */
+@@ -635,21 +634,9 @@ static int ov6650_s_fmt(struct v4l2_subdev *sd, struct v4l2_mbus_framefmt *mf)
+ 		coma_mask |= COMA_QCIF;
+ 	}
+ 
+-	clkrc = CLKRC_12MHz;
+-	mclk = 12000000;
+-	dev_dbg(&client->dev, "using 12MHz input clock\n");
 -
--	if (timeperframe->numerator && timeperframe->denominator)
--		pclk = pclk_max * timeperframe->denominator /
--				(FRAME_RATE_MAX * timeperframe->numerator);
--	else
--		pclk = pclk_max;
+-	clkrc |= to_clkrc(priv->tpf.numerator);
 -
--	return (pclk_max - 1) / pclk;
--}
-+#define to_clkrc(div)	((div) - 1)
- 
- /* set the format we will capture in */
- static int ov6650_s_fmt(struct v4l2_subdev *sd, struct v4l2_mbus_framefmt *mf)
-@@ -650,7 +639,7 @@ static int ov6650_s_fmt(struct v4l2_subdev *sd, struct v4l2_mbus_framefmt *mf)
- 	mclk = 12000000;
- 	dev_dbg(&client->dev, "using 12MHz input clock\n");
- 
--	clkrc |= to_clkrc(&priv->tpf, priv->pclk_max);
-+	clkrc |= to_clkrc(priv->tpf.numerator);
- 
- 	pclk = priv->pclk_max / GET_CLKRC_DIV(clkrc);
- 	dev_dbg(&client->dev, "pixel clock divider: %ld.%ld\n",
-@@ -749,9 +738,7 @@ static int ov6650_g_frame_interval(struct v4l2_subdev *sd,
- 	struct i2c_client *client = v4l2_get_subdevdata(sd);
- 	struct ov6650 *priv = to_ov6650(client);
- 
--	ival->interval.numerator = GET_CLKRC_DIV(to_clkrc(&priv->tpf,
--							  priv->pclk_max));
--	ival->interval.denominator = FRAME_RATE_MAX;
-+	ival->interval = priv->tpf;
- 
- 	dev_dbg(&client->dev, "Frame interval: %u/%u s\n",
- 		ival->interval.numerator, ival->interval.denominator);
-@@ -766,7 +753,6 @@ static int ov6650_s_frame_interval(struct v4l2_subdev *sd,
- 	struct ov6650 *priv = to_ov6650(client);
- 	struct v4l2_fract *tpf = &ival->interval;
- 	int div, ret;
--	u8 clkrc;
- 
- 	if (tpf->numerator == 0 || tpf->denominator == 0)
- 		div = 1;  /* Reset to full rate */
-@@ -778,14 +764,9 @@ static int ov6650_s_frame_interval(struct v4l2_subdev *sd,
- 	else if (div > GET_CLKRC_DIV(CLKRC_DIV_MASK))
- 		div = GET_CLKRC_DIV(CLKRC_DIV_MASK);
- 
--	tpf->numerator = div;
--	tpf->denominator = FRAME_RATE_MAX;
+-	pclk = priv->pclk_max / GET_CLKRC_DIV(clkrc);
+-	dev_dbg(&client->dev, "pixel clock divider: %ld.%ld\n",
+-			mclk / pclk, 10 * mclk % pclk / pclk);
 -
--	clkrc = to_clkrc(tpf, priv->pclk_max);
--
--	ret = ov6650_reg_rmw(client, REG_CLKRC, clkrc, CLKRC_DIV_MASK);
-+	ret = ov6650_reg_rmw(client, REG_CLKRC, to_clkrc(div), CLKRC_DIV_MASK);
+ 	ret = ov6650_set_selection(sd, NULL, &sel);
+ 	if (!ret)
+ 		ret = ov6650_reg_rmw(client, REG_COMA, coma_set, coma_mask);
+-	if (!ret)
+-		ret = ov6650_reg_write(client, REG_CLKRC, clkrc);
  	if (!ret) {
--		priv->tpf.numerator = GET_CLKRC_DIV(clkrc);
-+		priv->tpf.numerator = div;
- 		priv->tpf.denominator = FRAME_RATE_MAX;
+ 		priv->half_scale = half_scale;
  
- 		*tpf = priv->tpf;
+@@ -798,6 +785,8 @@ static int ov6650_prog_dflt(struct i2c_client *client)
+ 	dev_dbg(&client->dev, "initializing\n");
+ 
+ 	ret = ov6650_reg_write(client, REG_COMA, 0);	/* ~COMA_RESET */
++	if (!ret)
++		ret = ov6650_reg_write(client, REG_CLKRC, CLKRC_12MHz);
+ 	if (!ret)
+ 		ret = ov6650_reg_rmw(client, REG_COMB, 0, COMB_BAND_FILTER);
+ 
 -- 
 2.21.0
 
