@@ -2,127 +2,181 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 94EA9D5793
-	for <lists+linux-media@lfdr.de>; Sun, 13 Oct 2019 21:09:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E154D5883
+	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2019 00:10:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729486AbfJMTJF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 13 Oct 2019 15:09:05 -0400
-Received: from mga01.intel.com ([192.55.52.88]:60017 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728481AbfJMTJF (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 13 Oct 2019 15:09:05 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 13 Oct 2019 12:09:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.67,293,1566889200"; 
-   d="scan'208";a="396281304"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 13 Oct 2019 12:09:01 -0700
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1iJjEj-000BTC-3u; Mon, 14 Oct 2019 03:09:01 +0800
-Date:   Mon, 14 Oct 2019 03:08:22 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Boris Brezillon <boris.brezillon@collabora.com>
-Cc:     kbuild-all@lists.01.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        linux-media@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        devicetree@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>, kernel@collabora.com,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        linux-rockchip@lists.infradead.org,
+        id S1729431AbfJMWKQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 13 Oct 2019 18:10:16 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:59016 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727632AbfJMWKQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sun, 13 Oct 2019 18:10:16 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: nicolas)
+        with ESMTPSA id 8213226CDB7
+Message-ID: <0d40f89059cd5aba96adcdd24340636df3315592.camel@collabora.com>
+Subject: Re: [PATCH v2 for 5.4 2/4] media: hantro: Fix H264 max frmsize
+ supported on RK3288
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Reply-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To:     Tomasz Figa <tfiga@chromium.org>, Jonas Karlman <jonas@kwiboo.se>
+Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "kernel@collabora.com" <kernel@collabora.com>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
         Heiko Stuebner <heiko@sntech.de>,
-        Boris Brezillon <boris.brezillon@collabora.com>
-Subject: Re: [RESEND PATCH v2 3/4] media: rockchip: Add the rkvdec driver
-Message-ID: <201910140242.ys3UylA0%lkp@intel.com>
-References: <20191011093342.3471-4-boris.brezillon@collabora.com>
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        "fbuergisser@chromium.org" <fbuergisser@chromium.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Douglas Anderson <dianders@chromium.org>
+Date:   Sun, 13 Oct 2019 18:10:09 -0400
+In-Reply-To: <CAAFQd5DEhHF+_oO_0ZKS1mi26hJ-JueFxXfdpyQ3ATzMW5Czaw@mail.gmail.com>
+References: <20191007174505.10681-1-ezequiel@collabora.com>
+         <20191007174505.10681-3-ezequiel@collabora.com>
+         <CAAFQd5BNu2ea3ei_imHmEwmdna0+iiSbQSv_SBsdHfP4Uh1h4Q@mail.gmail.com>
+         <HE1PR06MB4011EC9E93ECBB6773252247AC9A0@HE1PR06MB4011.eurprd06.prod.outlook.com>
+         <CAAFQd5CWoAP1psrEW6bVMkRmhFeTvFKtDSLjT7nefc2YiFovqQ@mail.gmail.com>
+         <CAAFQd5AYCiKcA9pGc44L3gGHLPx6iMSb7KywkO8OqVv4gS8KvQ@mail.gmail.com>
+         <CAAFQd5AQXGX_2gmKLfymH5mLG-uVh-v+XXtGXzbfzYzVVV42mA@mail.gmail.com>
+         <HE1PR06MB4011B897EA5497659A19BCC6AC9A0@HE1PR06MB4011.eurprd06.prod.outlook.com>
+         <CAAFQd5DEhHF+_oO_0ZKS1mi26hJ-JueFxXfdpyQ3ATzMW5Czaw@mail.gmail.com>
+Organization: Collabora
+Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature";
+        boundary="=-aUI3xDCIDb8TpAefVVVl"
+User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191011093342.3471-4-boris.brezillon@collabora.com>
-X-Patchwork-Hint: ignore
-User-Agent: NeoMutt/20170113 (1.7.2)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Boris,
 
-I love your patch! Perhaps something to improve:
+--=-aUI3xDCIDb8TpAefVVVl
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-[auto build test WARNING on linuxtv-media/master]
-[cannot apply to v5.4-rc2 next-20191011]
-[if your patch is applied to the wrong git tree, please drop us a note to help
-improve the system. BTW, we also suggest to use '--base' option to specify the
-base tree in git format-patch, please see https://stackoverflow.com/a/37406982]
+Le jeudi 10 octobre 2019 =C3=A0 16:23 +0900, Tomasz Figa a =C3=A9crit :
+> On Tue, Oct 8, 2019 at 11:12 PM Jonas Karlman <jonas@kwiboo.se> wrote:
+> > On 2019-10-08 15:53, Tomasz Figa wrote:
+> > > On Tue, Oct 8, 2019 at 10:35 PM Tomasz Figa <tfiga@chromium.org> wrot=
+e:
+> > > > On Tue, Oct 8, 2019 at 7:42 PM Tomasz Figa <tfiga@chromium.org> wro=
+te:
+> > > > > On Tue, Oct 8, 2019 at 3:31 PM Jonas Karlman <jonas@kwiboo.se> wr=
+ote:
+> > > > > > On 2019-10-08 07:27, Tomasz Figa wrote:
+> > > > > > > Hi Ezequiel, Jonas,
+> > > > > > >=20
+> > > > > > > On Tue, Oct 8, 2019 at 2:46 AM Ezequiel Garcia <ezequiel@coll=
+abora.com> wrote:
+> > > > > > > > From: Jonas Karlman <jonas@kwiboo.se>
+> > > > > > > >=20
+> > > > > > > > TRM specify supported image size 48x48 to 4096x2304 at step=
+ size 16 pixels,
+> > > > > > > > change frmsize max_width/max_height to match TRM.
+> > > > > > > >=20
+> > > > > > > > Fixes: 760327930e10 ("media: hantro: Enable H264 decoding o=
+n rk3288")
+> > > > > > > > Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+> > > > > > > > ---
+> > > > > > > > v2:
+> > > > > > > > * No changes.
+> > > > > > > >=20
+> > > > > > > >  drivers/staging/media/hantro/rk3288_vpu_hw.c | 4 ++--
+> > > > > > > >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > > > > > > >=20
+> > > > > > > > diff --git a/drivers/staging/media/hantro/rk3288_vpu_hw.c b=
+/drivers/staging/media/hantro/rk3288_vpu_hw.c
+> > > > > > > > index 6bfcc47d1e58..ebb017b8a334 100644
+> > > > > > > > --- a/drivers/staging/media/hantro/rk3288_vpu_hw.c
+> > > > > > > > +++ b/drivers/staging/media/hantro/rk3288_vpu_hw.c
+> > > > > > > > @@ -67,10 +67,10 @@ static const struct hantro_fmt rk3288_v=
+pu_dec_fmts[] =3D {
+> > > > > > > >                 .max_depth =3D 2,
+> > > > > > > >                 .frmsize =3D {
+> > > > > > > >                         .min_width =3D 48,
+> > > > > > > > -                       .max_width =3D 3840,
+> > > > > > > > +                       .max_width =3D 4096,
+> > > > > > > >                         .step_width =3D H264_MB_DIM,
+> > > > > > > >                         .min_height =3D 48,
+> > > > > > > > -                       .max_height =3D 2160,
+> > > > > > > > +                       .max_height =3D 2304,
+> > > > > > > This doesn't match the datasheet I have, which is RK3288 Data=
+sheet Rev
+> > > > > > > 1.4 and which has the values as in current code. What's the o=
+ne you
+> > > > > > > got the values from?
+> > > > > > The RK3288 TRM vcodec chapter from [1], unknown revision and da=
+te, lists 48x48 to 4096x2304 step size 16 pixels under 25.5.1 H.264 decoder=
+.
+> > > > > >=20
+> > > > > > I can also confirm that one of my test samples (PUPPIES BATH IN=
+ 4K) is 4096x2304 and can be decoded after this patch.
+> > > > > > However the decoding speed is not optimal at 400Mhz, if I recal=
+l correctly you need to set the VPU1 clock to 600Mhz for 4K decoding on RK3=
+288.
+> > > > > >=20
+> > > > > > I am not sure if I should include a v2 of this patch in my v2 s=
+eries, as-is this patch do not apply on master (H264_MB_DIM has changed to =
+MB_DIM in master).
+> > > > > >=20
+> > > > > > [1] http://www.t-firefly.com/download/firefly-rk3288/docs/TRM/r=
+k3288-chapter-25-video-encoder-decoder-unit-(vcodec).pdf
+> > > > > I checked the RK3288 TRM V1.1 too and it refers to 3840x2160@24fp=
+s as
+> > > > > the maximum.
+> > > > >=20
+> > > > > As for performance, we've actually been getting around 33 fps at =
+400
+> > > > > MHz with 3840x2160 on our devices (the old RK3288 Asus Chromebook
+> > > > > Flip).
+> > > > >=20
+> > > > > I guess we might want to check that with Hantro.
+> > > > Could you check the value of bits 10:0 in register at 0x0c8? That
+> > > > should be the maximum supported stream width in the units of 16
+> > > > pixels.
+> > > Correction: The unit is 1 pixel and there are additional 2 most
+> > > significant bits at 0x0d8, 15:14.
+> >=20
+> > I will check this later tonight when I have access to my devices.
+> > The PUPPIES BATH IN 4K (4096x2304) sample decoded without issue using r=
+ockchip 4.4 BSP kernel and mpp last time I tested.
+> >=20
+> > The vcodec driver in 4.4 BSP kernel use 300/400 Mhz as default clock ra=
+te and will change to 600 Mhz when width is over 2560, see [1]:
+> >   raise frequency for resolution larger than 1440p avc
+> >=20
+> > [1] https://github.com/rockchip-linux/kernel/blob/develop-4.4/drivers/v=
+ideo/rockchip/vcodec/vcodec_service.c#L2551-L2570
+>=20
+> How comes it works for us well at 400 MHz? Better DRAM? Differences in
+> how Vcodec BSP handles the hardware that somehow make the decoding
+> slower?
 
-url:    https://github.com/0day-ci/linux/commits/Boris-Brezillon/media-rockchip-Add-the-rkvdec-driver/20191013-235029
-base:   git://linuxtv.org/media_tree.git master
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.1-rc1-43-g0ccb3b4-dirty
-        make ARCH=x86_64 allmodconfig
-        make C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__'
+FWIW, here on the mainline driver, on RK3288, playing a 4K30 sample
+(probably the max for this one) get stuck at 20fps with 400MHz. So
+600MHz would in theory be perfect to reach 30fps. That being said,
+different stream yield different performance with H264 and other
+CODECs, so doing a completely objective evaluation is hard.
 
-If you fix the issue, kindly add following tag
-Reported-by: kbuild test robot <lkp@intel.com>
+>=20
+> Best regards,
+> Tomasz
 
+--=-aUI3xDCIDb8TpAefVVVl
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
 
-sparse warnings: (new ones prefixed by >>)
+-----BEGIN PGP SIGNATURE-----
 
->> drivers/staging/media/rockchip/vdec/rkvdec.c:498:22: sparse: sparse: symbol 'rkvdec_queue_ops' was not declared. Should it be static?
---
->> drivers/staging/media/rockchip/vdec/rkvdec-h264.c:698:19: sparse: sparse: symbol 'get_ref_buf' was not declared. Should it be static?
->> drivers/staging/media/rockchip/vdec/rkvdec.h:112:36: sparse: sparse: shift too big (32) for type int
->> drivers/staging/media/rockchip/vdec/rkvdec.h:115:21: sparse: sparse: shift too big (32) for type unsigned int
-   drivers/staging/media/rockchip/vdec/rkvdec.h:116:39: sparse: sparse: shift too big (4294967268) for type int
-   drivers/staging/media/rockchip/vdec/rkvdec.h:116:39: sparse: sparse: shift too big (4294967276) for type int
-   drivers/staging/media/rockchip/vdec/rkvdec.h:116:39: sparse: sparse: shift too big (4294967277) for type int
-   drivers/staging/media/rockchip/vdec/rkvdec.h:116:39: sparse: sparse: shift too big (4294967279) for type int
-   drivers/staging/media/rockchip/vdec/rkvdec.h:116:39: sparse: sparse: shift too big (4294967282) for type int
-   drivers/staging/media/rockchip/vdec/rkvdec.h:116:39: sparse: sparse: shift too big (4294967285) for type int
-   drivers/staging/media/rockchip/vdec/rkvdec.h:116:39: sparse: sparse: shift too big (4294967286) for type int
-   drivers/staging/media/rockchip/vdec/rkvdec.h:116:39: sparse: sparse: shift too big (4294967290) for type int
-   drivers/staging/media/rockchip/vdec/rkvdec.h:116:39: sparse: sparse: shift too big (4294967295) for type int
-   drivers/staging/media/rockchip/vdec/rkvdec.h:116:39: sparse: sparse: shift too big (4294967269) for type int
-   drivers/staging/media/rockchip/vdec/rkvdec.h:116:39: sparse: sparse: shift too big (4294967270) for type int
-   drivers/staging/media/rockchip/vdec/rkvdec.h:116:39: sparse: sparse: shift too big (4294967279) for type int
-   drivers/staging/media/rockchip/vdec/rkvdec.h:116:39: sparse: sparse: shift too big (4294967288) for type int
-   drivers/staging/media/rockchip/vdec/rkvdec.h:116:39: sparse: sparse: shift too big (4294967289) for type int
-   drivers/staging/media/rockchip/vdec/rkvdec.h:116:39: sparse: sparse: shift too big (4294967290) for type int
-   drivers/staging/media/rockchip/vdec/rkvdec.h:116:39: sparse: sparse: shift too big (4294967291) for type int
->> drivers/staging/media/rockchip/vdec/rkvdec.h:112:36: sparse: sparse: shift too big (32) for type int
->> drivers/staging/media/rockchip/vdec/rkvdec.h:115:21: sparse: sparse: shift too big (32) for type unsigned int
-   drivers/staging/media/rockchip/vdec/rkvdec.h:116:39: sparse: sparse: shift too big (4294967272) for type int
-   drivers/staging/media/rockchip/vdec/rkvdec.h:116:39: sparse: sparse: shift too big (4294967277) for type int
-   drivers/staging/media/rockchip/vdec/rkvdec.h:116:39: sparse: sparse: shift too big (4294967278) for type int
-   drivers/staging/media/rockchip/vdec/rkvdec.h:116:39: sparse: sparse: shift too big (4294967279) for type int
-   drivers/staging/media/rockchip/vdec/rkvdec.h:116:39: sparse: sparse: shift too big (4294967284) for type int
-   drivers/staging/media/rockchip/vdec/rkvdec.h:116:39: sparse: sparse: shift too big (4294967289) for type int
-   drivers/staging/media/rockchip/vdec/rkvdec.h:116:39: sparse: sparse: shift too big (4294967290) for type int
-   drivers/staging/media/rockchip/vdec/rkvdec.h:116:39: sparse: sparse: shift too big (4294967292) for type int
-   drivers/staging/media/rockchip/vdec/rkvdec.h:116:39: sparse: sparse: shift too big (4294967273) for type int
-   drivers/staging/media/rockchip/vdec/rkvdec.h:116:39: sparse: sparse: shift too big (4294967278) for type int
-   drivers/staging/media/rockchip/vdec/rkvdec.h:116:39: sparse: sparse: shift too big (4294967279) for type int
-   drivers/staging/media/rockchip/vdec/rkvdec.h:116:39: sparse: sparse: shift too big (4294967280) for type int
-   drivers/staging/media/rockchip/vdec/rkvdec.h:116:39: sparse: sparse: shift too big (4294967281) for type int
-   drivers/staging/media/rockchip/vdec/rkvdec.h:116:39: sparse: sparse: shift too big (4294967282) for type int
-   drivers/staging/media/rockchip/vdec/rkvdec.h:116:39: sparse: sparse: shift too big (4294967287) for type int
-   drivers/staging/media/rockchip/vdec/rkvdec.h:116:39: sparse: sparse: shift too big (4294967288) for type int
-   drivers/staging/media/rockchip/vdec/rkvdec.h:119:36: sparse: sparse: shift too big (32) for type int
+iF0EABECAB0WIQSScpfJiL+hb5vvd45xUwItrAaoHAUCXaOgwQAKCRBxUwItrAao
+HAQ6AKDOBNbKhIm8UP7JoDVLpGqHjnQ8OQCgrkRiP/+Ii99dH1c26VQtoefYlTk=
+=fZQf
+-----END PGP SIGNATURE-----
 
-Please review and possibly fold the followup patch.
+--=-aUI3xDCIDb8TpAefVVVl--
 
----
-0-DAY kernel test infrastructure                Open Source Technology Center
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
