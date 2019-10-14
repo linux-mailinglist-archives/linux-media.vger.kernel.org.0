@@ -2,96 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 219F5D5CA4
-	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2019 09:51:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7ED1BD5D6F
+	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2019 10:29:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729979AbfJNHve (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Oct 2019 03:51:34 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:50051 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727038AbfJNHve (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Oct 2019 03:51:34 -0400
-Received: from [IPv6:2001:983:e9a7:1:9cd4:edb1:3831:f13d] ([IPv6:2001:983:e9a7:1:9cd4:edb1:3831:f13d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id Jv8ZiFGrCop0AJv8aicxLH; Mon, 14 Oct 2019 09:51:32 +0200
-Subject: Re: [PATCH v7 7/9] drm: tegra: use cec_notifier_conn_(un)register
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Dariusz Marcinkiewicz <darekm@google.com>,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20190814104520.6001-1-darekm@google.com>
- <20190814104520.6001-8-darekm@google.com>
- <f0e99db8-3329-f272-e139-a7c713f200ea@xs4all.nl> <20190828093820.GE2917@ulmo>
- <2eed5ed3-85f3-4c19-4dd2-3d8432829c2a@xs4all.nl>
- <20190828115400.GA30919@ulmo>
- <3f7fe51a-8958-a425-f5fd-01df5301d6b2@xs4all.nl>
-Message-ID: <cf936882-155c-90d3-2a10-728699392c6d@xs4all.nl>
-Date:   Mon, 14 Oct 2019 09:51:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1730434AbfJNI3O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Oct 2019 04:29:14 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56478 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725936AbfJNI3O (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 14 Oct 2019 04:29:14 -0400
+Received: from dragon (li937-157.members.linode.com [45.56.119.157])
+        (using TLSv1.2 with cipher DHE-RSA-AES128-SHA (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 975F220673;
+        Mon, 14 Oct 2019 08:28:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1571041752;
+        bh=4xRYNc1AsGeEeRyhMqeyE0eI5lZWBeRZlGnQlsC3iT8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=poW3FdOhnfzxFqeIBCD96TFK9ogf+8ey1lA8yG5SXAHL0D+X3YPBSgIrE4MospI+Z
+         hb7zs1kMA8wdggiEu844GDKWPb4Rcib/9/G/2T7FwutmRJD3ym78J+PHMeoJEufODN
+         RPspDY69Cl+C4TjFoM9KzAMs5IyG7dvkprUUGz3U=
+Date:   Mon, 14 Oct 2019 16:28:49 +0800
+From:   Shawn Guo <shawnguo@kernel.org>
+To:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Cc:     robh+dt@kernel.org, devicetree@vger.kernel.org,
+        frowand.list@gmail.com, linux-arm-kernel@lists.infradead.org,
+        linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, dmaengine@vger.kernel.org,
+        etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        xen-devel@lists.xenproject.org, linux-tegra@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
+        Li Yang <leoyang.li@nxp.com>, mbrugger@suse.com,
+        robin.murphy@arm.com, f.fainelli@gmail.com,
+        james.quinlan@broadcom.com, wahrenst@gmx.net,
+        Mark Rutland <mark.rutland@arm.com>
+Subject: Re: [PATCH 07/11] dts: arm64: layerscape: add dma-ranges property to
+ qoric-mc node
+Message-ID: <20191014082847.GH12262@dragon>
+References: <20190924181244.7159-1-nsaenzjulienne@suse.de>
+ <20190924181244.7159-8-nsaenzjulienne@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <3f7fe51a-8958-a425-f5fd-01df5301d6b2@xs4all.nl>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfGbuU7DDL7KyVME5FwCzYOw1TzZkGOvsTJjVw3Y0FGCy76Zxyq86vy8M0cacjLOF97XRpO5TyMuyREZUqJ1gvYIVTn3BkMk8NgDLygSg5pLmNj0uLZHI
- zn0hiVOQwcHxc9kGe1rNGatQhAvo8quCB0MSphrw4m1sOAzkavW2DGhyAIXnLrAPSzw2TJeKzGiOJtsTN/0aE0BHgfSLoKH98o7Vqp56Ww3482ioh5a2HD8R
- 1fFPY20AX8HLdSqMwybPLfyXeWhvm2ZmKB/HsSbGI/jDJ3qjxSUy8n6UTMUGZRzEP1shWNNJEBUaE5vvOu3C7v6q7f0CTaH804/+4+BbujVv3NCf1zYWM1Lg
- dOPGrU3pxHJIW8g9+Vk+UtUVJ5QaVZUmgppcn8WZjti3uZ54pf6aCwJmWcM6wkIcpmttTPPB0/lT0HBN3kmFuwGdDeoAh/1rWePMcnqWbfOz8naI7geFIdYz
- tTKLc++ubZgOMQuqhU5nri+CbdSKDH6o4H2QfQTasmug1a7YYdLfl1tzsr7P4gbH2XvQixfvpgHC3F+USUk8icIahPy3Hzuhzvv08g==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190924181244.7159-8-nsaenzjulienne@suse.de>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Thierry,
-
-Another reminder :-)
-
-If you want me to do this, then just let me know!
-
-Regards,
-
-	Hans
-
-On 10/4/19 10:48 AM, Hans Verkuil wrote:
-> Hi Thierry,
+On Tue, Sep 24, 2019 at 08:12:38PM +0200, Nicolas Saenz Julienne wrote:
+> qoriq-mc's dpmacs DMA configuration is inherited from their parent node,
+> which acts a bus in this regard. So far it maked all devices as
+> dma-coherent but no dma-ranges recommendation is made.
 > 
-> Just a reminder: this patch hasn't been merged yet for v5.5.
+> The truth is that the underlying interconnect has DMA constraints, so
+> add an empty dma-ranges in qoriq-mc's node in order for DT's DMA
+> configuration code to get the DMA constraints from it.
 > 
-> Thanks!
-> 
-> 	Hans
-> 
-> On 8/28/19 1:54 PM, Thierry Reding wrote:
->> On Wed, Aug 28, 2019 at 12:06:34PM +0200, Hans Verkuil wrote:
->>> On 8/28/19 11:38 AM, Thierry Reding wrote:
->>>> On Wed, Aug 28, 2019 at 10:09:30AM +0200, Hans Verkuil wrote:
->>>>> Thierry,
->>>>>
->>>>> Can you review this patch?
->>>>>
->>>>> Thanks!
->>>>>
->>>>> 	Hans
->>>>
->>>> Did you want me to pick this up into the drm/tegra tree? Or do you want
->>>> to pick it up into your tree?
->>>
->>> Can you pick it up for the next cycle? As you mentioned, we missed the
->>> deadline for 5.4, so this feature won't be enabled in the public CEC API
->>> until 5.5.
->>>
->>> Thanks!
->>
->> Sure, will do.
->>
->> Thierry
->>
-> 
+> Signed-off-by: Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
 
+Updated subject prefix as 'arm64: dts: ...', and applied the patch.
+
+Shawn
+
+> ---
+> 
+>  arch/arm64/boot/dts/freescale/fsl-ls1088a.dtsi | 1 +
+>  arch/arm64/boot/dts/freescale/fsl-ls208xa.dtsi | 1 +
+>  arch/arm64/boot/dts/freescale/fsl-lx2160a.dtsi | 1 +
+>  3 files changed, 3 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/freescale/fsl-ls1088a.dtsi b/arch/arm64/boot/dts/freescale/fsl-ls1088a.dtsi
+> index c676d0771762..f0d0b6145b72 100644
+> --- a/arch/arm64/boot/dts/freescale/fsl-ls1088a.dtsi
+> +++ b/arch/arm64/boot/dts/freescale/fsl-ls1088a.dtsi
+> @@ -698,6 +698,7 @@
+>  			      <0x00000000 0x08340000 0 0x40000>; /* MC control reg */
+>  			msi-parent = <&its>;
+>  			iommu-map = <0 &smmu 0 0>;	/* This is fixed-up by u-boot */
+> +			dma-ranges;
+>  			dma-coherent;
+>  			#address-cells = <3>;
+>  			#size-cells = <1>;
+> diff --git a/arch/arm64/boot/dts/freescale/fsl-ls208xa.dtsi b/arch/arm64/boot/dts/freescale/fsl-ls208xa.dtsi
+> index 7a0be8eaa84a..fd6036b7865c 100644
+> --- a/arch/arm64/boot/dts/freescale/fsl-ls208xa.dtsi
+> +++ b/arch/arm64/boot/dts/freescale/fsl-ls208xa.dtsi
+> @@ -340,6 +340,7 @@
+>  			      <0x00000000 0x08340000 0 0x40000>; /* MC control reg */
+>  			msi-parent = <&its>;
+>  			iommu-map = <0 &smmu 0 0>;	/* This is fixed-up by u-boot */
+> +			dma-ranges;
+>  			dma-coherent;
+>  			#address-cells = <3>;
+>  			#size-cells = <1>;
+> diff --git a/arch/arm64/boot/dts/freescale/fsl-lx2160a.dtsi b/arch/arm64/boot/dts/freescale/fsl-lx2160a.dtsi
+> index 408e0ecdce6a..3735bb139cb2 100644
+> --- a/arch/arm64/boot/dts/freescale/fsl-lx2160a.dtsi
+> +++ b/arch/arm64/boot/dts/freescale/fsl-lx2160a.dtsi
+> @@ -868,6 +868,7 @@
+>  			msi-parent = <&its>;
+>  			/* iommu-map property is fixed up by u-boot */
+>  			iommu-map = <0 &smmu 0 0>;
+> +			dma-ranges;
+>  			dma-coherent;
+>  			#address-cells = <3>;
+>  			#size-cells = <1>;
+> -- 
+> 2.23.0
+> 
