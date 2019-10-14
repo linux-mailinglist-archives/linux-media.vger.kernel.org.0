@@ -2,159 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E4AFAD58F1
-	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2019 02:16:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DD28D597A
+	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2019 04:09:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729504AbfJNAQb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 13 Oct 2019 20:16:31 -0400
-Received: from bin-mail-out-06.binero.net ([195.74.38.229]:30336 "EHLO
-        bin-mail-out-06.binero.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729359AbfJNAQb (ORCPT
+        id S1729750AbfJNCJ5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 13 Oct 2019 22:09:57 -0400
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:35835 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729494AbfJNCJ4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 13 Oct 2019 20:16:31 -0400
-X-Halon-ID: af99f8c2-ee17-11e9-837a-0050569116f7
-Authorized-sender: niklas@soderlund.pp.se
-Received: from bismarck.berto.se (unknown [84.172.88.101])
-        by bin-vsp-out-03.atm.binero.net (Halon) with ESMTPA
-        id af99f8c2-ee17-11e9-837a-0050569116f7;
-        Mon, 14 Oct 2019 02:15:12 +0200 (CEST)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Simon Horman <horms+renesas@verge.net.au>
-Subject: [PATCH v2 2/2] rcar-vin: Add support for outputting NV12
-Date:   Mon, 14 Oct 2019 02:16:15 +0200
-Message-Id: <20191014001615.2865301-3-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191014001615.2865301-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20191014001615.2865301-1-niklas.soderlund+renesas@ragnatech.se>
+        Sun, 13 Oct 2019 22:09:56 -0400
+Received: by mail-pg1-f196.google.com with SMTP id p30so9154304pgl.2;
+        Sun, 13 Oct 2019 19:09:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JkHBk/oYXM6517BAgEL0tKLuS2H0cul0uF9oC7gkoSI=;
+        b=g0CNjKkzhyTA61CsKBL3iHOy8nLVAGAa3cJ5rCVNL1BN+SBG/vzrLhjUGkRWjlW/W0
+         JYqfPxA6SiW5JscfbYjjGHVZCvtO2L2VsjMdTxS4Dsl4DjKC8ayzmiJQWoTbhBT7D8WE
+         1nvvRVtDYtCHKCeL8BGlrTZLFtoh3u5sueL5Vl/vNPFo/McUdpIRVF4gCoIpllmVEvJU
+         HRaocmIeVyO8KOnVOBLQcUxlioZMDUmElvLXCmb9oPSEQxijkgkLsFfvDZ9jazraowWd
+         3/+Y2aSR5tO2k5Gk4bDv5iiQwuCl8swt9p+GtEtxsxJ+oiySHwRe6POlJwI6CIiyuq9X
+         nAMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JkHBk/oYXM6517BAgEL0tKLuS2H0cul0uF9oC7gkoSI=;
+        b=V/Eom9+6u4QGz881xwyAkKkyDHb9r9lTqrjjONf7SVjRAzMMrPeCQsv0wOUb2Ra1rg
+         UVGLygOgDY635Kmw8gnSy7IbQvXRD6pxwbkfIHZT4cIcDns8WogQDqjwYEYOadztS6iP
+         nPwudrp3tkM9S5LCbgt62WNJtpGCbz8rBYlBuSnV7PeTcuPQAfghU0ayIwcfh8nU1Kx1
+         O0jvAf8bjEPSBbkcOsi8ec5FnFYU35YqoUkRGs72WKP+baC6hR/tIWMlqIL0iW/lUXCs
+         Su48sb5Y55dhyVpu8xHbInPfAsod9yzPClaA4+JPOxiIWHU215Lt3V3d2HaHxQ+MV4RT
+         0n5w==
+X-Gm-Message-State: APjAAAX+132Csx/k5AvVa4ZWGjgtKNBBTFuPy3Q9lRWbgNKH2R1cq9TL
+        Y2kfUVdnbGWPO78nsXgQFgM=
+X-Google-Smtp-Source: APXvYqyHAW0ZGrxC+x3fqBgDGqyUuLIvlW9MkiUlzXZSZrs3uS94Jw7zBKKzmWK2wSSKmIEzfOXIOw==
+X-Received: by 2002:a17:90a:be09:: with SMTP id a9mr8687157pjs.5.1571018996018;
+        Sun, 13 Oct 2019 19:09:56 -0700 (PDT)
+Received: from suzukaze.ipads-lab.se.sjtu.edu.cn ([89.31.126.54])
+        by smtp.gmail.com with ESMTPSA id q128sm16589880pga.24.2019.10.13.19.09.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 13 Oct 2019 19:09:55 -0700 (PDT)
+From:   Chuhong Yuan <hslester96@gmail.com>
+Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Chuhong Yuan <hslester96@gmail.com>
+Subject: [PATCH] media: imx7-mipi-csis: Add a check for devm_regulator_get
+Date:   Mon, 14 Oct 2019 10:08:48 +0800
+Message-Id: <20191014020847.9203-1-hslester96@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Most Gen3 boards can output frames in NV12 format, add support for this
-with a runtime check that the running hardware supports it.
+devm_regulator_get may return an error but mipi_csis_phy_init misses
+a check for it.
+This may lead to problems when regulator_set_voltage uses the unchecked
+pointer.
+This patch adds a check for devm_regulator_get to avoid potential risk.
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Reviewed-by: Simon Horman <horms+renesas@verge.net.au>
+Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
 ---
- drivers/media/platform/rcar-vin/rcar-dma.c  |  5 ++-
- drivers/media/platform/rcar-vin/rcar-v4l2.c | 39 +++++++++++++++++----
- 2 files changed, 37 insertions(+), 7 deletions(-)
+ drivers/staging/media/imx/imx7-mipi-csis.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-index af4f774149f08597..cf9029efeb0450cb 100644
---- a/drivers/media/platform/rcar-vin/rcar-dma.c
-+++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-@@ -118,6 +118,7 @@
- #define VNDMR_ABIT		(1 << 2)
- #define VNDMR_DTMD_YCSEP	(1 << 1)
- #define VNDMR_DTMD_ARGB		(1 << 0)
-+#define VNDMR_DTMD_YCSEP_420	(3 << 0)
- 
- /* Video n Data Mode Register 2 bits */
- #define VNDMR2_VPS		(1 << 30)
-@@ -701,11 +702,13 @@ static int rvin_setup(struct rvin_dev *vin)
- 	 * Output format
- 	 */
- 	switch (vin->format.pixelformat) {
-+	case V4L2_PIX_FMT_NV12:
- 	case V4L2_PIX_FMT_NV16:
- 		rvin_write(vin,
- 			   ALIGN(vin->format.bytesperline * vin->format.height,
- 				 0x80), VNUVAOF_REG);
--		dmr = VNDMR_DTMD_YCSEP;
-+		dmr = vin->format.pixelformat == V4L2_PIX_FMT_NV12 ?
-+			VNDMR_DTMD_YCSEP_420 : VNDMR_DTMD_YCSEP;
- 		output_is_yuv = true;
- 		break;
- 	case V4L2_PIX_FMT_YUYV:
-diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-index 13b7cd5d2e40415a..9e2e63ffcc47acad 100644
---- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-+++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-@@ -30,6 +30,10 @@
-  */
- 
- static const struct rvin_video_format rvin_formats[] = {
-+	{
-+		.fourcc			= V4L2_PIX_FMT_NV12,
-+		.bpp			= 1,
-+	},
- 	{
- 		.fourcc			= V4L2_PIX_FMT_NV16,
- 		.bpp			= 1,
-@@ -72,6 +76,9 @@ const struct rvin_video_format *rvin_format_from_pixel(struct rvin_dev *vin,
- 	if (vin->info->model == RCAR_M1 && pixelformat == V4L2_PIX_FMT_XBGR32)
- 		return NULL;
- 
-+	if (pixelformat == V4L2_PIX_FMT_NV12 && !vin->info->nv12)
-+		return NULL;
-+
- 	for (i = 0; i < ARRAY_SIZE(rvin_formats); i++)
- 		if (rvin_formats[i].fourcc == pixelformat)
- 			return rvin_formats + i;
-@@ -90,17 +97,29 @@ static u32 rvin_format_bytesperline(struct rvin_dev *vin,
- 	if (WARN_ON(!fmt))
- 		return -EINVAL;
- 
--	align = pix->pixelformat == V4L2_PIX_FMT_NV16 ? 0x20 : 0x10;
-+	switch (pix->pixelformat) {
-+	case V4L2_PIX_FMT_NV12:
-+	case V4L2_PIX_FMT_NV16:
-+		align = 0x20;
-+		break;
-+	default:
-+		align = 0x10;
-+		break;
-+	}
- 
- 	return ALIGN(pix->width, align) * fmt->bpp;
- }
- 
- static u32 rvin_format_sizeimage(struct v4l2_pix_format *pix)
+diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
+index 73d8354e618c..9a07b54c4ab1 100644
+--- a/drivers/staging/media/imx/imx7-mipi-csis.c
++++ b/drivers/staging/media/imx/imx7-mipi-csis.c
+@@ -350,6 +350,8 @@ static void mipi_csis_sw_reset(struct csi_state *state)
+ static int mipi_csis_phy_init(struct csi_state *state)
  {
--	if (pix->pixelformat == V4L2_PIX_FMT_NV16)
-+	switch (pix->pixelformat) {
-+	case V4L2_PIX_FMT_NV12:
-+		return pix->bytesperline * pix->height * 3 / 2;
-+	case V4L2_PIX_FMT_NV16:
- 		return pix->bytesperline * pix->height * 2;
--
--	return pix->bytesperline * pix->height;
-+	default:
-+		return pix->bytesperline * pix->height;
-+	}
- }
+ 	state->mipi_phy_regulator = devm_regulator_get(state->dev, "phy");
++	if (IS_ERR(state->mipi_phy_regulator))
++		return PTR_ERR(state->mipi_phy_regulator);
  
- static void rvin_format_align(struct rvin_dev *vin, struct v4l2_pix_format *pix)
-@@ -124,8 +143,16 @@ static void rvin_format_align(struct rvin_dev *vin, struct v4l2_pix_format *pix)
- 		break;
- 	}
- 
--	/* HW limit width to a multiple of 32 (2^5) for NV16 else 2 (2^1) */
--	walign = vin->format.pixelformat == V4L2_PIX_FMT_NV16 ? 5 : 1;
-+	/* HW limit width to a multiple of 32 (2^5) for NV12/16 else 2 (2^1) */
-+	switch (vin->format.pixelformat) {
-+	case V4L2_PIX_FMT_NV12:
-+	case V4L2_PIX_FMT_NV16:
-+		walign = 5;
-+		break;
-+	default:
-+		walign = 1;
-+		break;
-+	}
- 
- 	/* Limit to VIN capabilities */
- 	v4l_bound_align_image(&pix->width, 2, vin->info->max_width, walign,
+ 	return regulator_set_voltage(state->mipi_phy_regulator, 1000000,
+ 				     1000000);
 -- 
-2.23.0
+2.20.1
 
