@@ -2,150 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 24AC3D5A29
-	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2019 06:17:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ADC95D5B3E
+	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2019 08:19:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726553AbfJNERa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Oct 2019 00:17:30 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:43563 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726528AbfJNER3 (ORCPT
+        id S1729978AbfJNGS6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Oct 2019 02:18:58 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:31622 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729979AbfJNGS5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Oct 2019 00:17:29 -0400
-Received: by mail-oi1-f193.google.com with SMTP id t84so12654833oih.10
-        for <linux-media@vger.kernel.org>; Sun, 13 Oct 2019 21:17:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=X0ckv9MyFSRrRa+kve9VmKUuD31KAbsV3QWsugo4Enc=;
-        b=VYSnK6Lmfc86z5nnsHhJZxT4ILgpGJspF89MYrnuztseIlZvtgB36/VbToQVk+EDso
-         G3XEiqzI3Ra2kobmYwpex9pf0mJRcm0HSdU2jJgojKQ7UFISRGTUaOWA5BbSa7cpOc8b
-         QF30aw/CqfZnL9gy/KNt/eNrK9+k54UH4gTKV3Dn1Ol4cYCWc6tjlBObmLxOCEZf35md
-         d7oj0ezAwKpkqd9UADip9leq62CsjZRKa/tTK0yx1Wr97u+yRT/t5Ah0ilBV4kdWgfq5
-         tHPI+s9afJJuhKBITmB5jHcPmcr8UFAxSkbw5+EhPSQr95+JwvPlmKMegVlC0CrwSf0/
-         GNMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=X0ckv9MyFSRrRa+kve9VmKUuD31KAbsV3QWsugo4Enc=;
-        b=t2WreTBWrYzvZG57tr5mdrhHID2wTxbm4eJ2JY+3w0a4GiDdXj2bNaMEgAO+0n3q6c
-         a6YFltFdX7HQ90FWR2GygfGwLnk/p9Bk0/j+Yz6L8Oo31ytwLOA0RvI9KH9qgNBGfIml
-         9JOfVoLF/3/uaQ3zm8fBdolk6U8Gs4wkw+FMdAZtjktuaN1Fgccsju1cUknF58DisOYG
-         VbLxTkO29OnU3un/4k5BYa+suVlN0UOQcKChZlr02lJ+70lcfF/8uR2nU+kBzkfth0Cr
-         WoFuyv5aSjscDCLEeW5jcDNNxhG6rzh+gDtCow5k2ZxlwPXi2O34RCFG7AbM6AstMF6J
-         /VLw==
-X-Gm-Message-State: APjAAAW/vOnIJIpqIh5n+lImyR+qgznhfaoPcNtGWjMykP3pBjuxlnwz
-        5oAymLy0HRo0Mv8SCgmyChS8g0RZ
-X-Google-Smtp-Source: APXvYqwWf54l7uDj6YS/IqpqG+PqfLC55TDF7FnThv9qsYOXDE7hF5yWM/bVBbdeT/pKK9yR76kgRA==
-X-Received: by 2002:aca:b445:: with SMTP id d66mr21753118oif.111.1571026648744;
-        Sun, 13 Oct 2019 21:17:28 -0700 (PDT)
-Received: from rYz3n.attlocal.net ([2600:1700:210:3790::40])
-        by smtp.googlemail.com with ESMTPSA id l19sm4887918oie.22.2019.10.13.21.17.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Oct 2019 21:17:28 -0700 (PDT)
-From:   Jiunn Chang <c0d1n61at3@gmail.com>
-To:     linux-media@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Cc:     hverkuil@xs4all.nl
-Subject: [PATCH 8/8] cec-compliance: add digital tuner control testing
-Date:   Sun, 13 Oct 2019 23:17:21 -0500
-Message-Id: <20191014041721.52025-9-c0d1n61at3@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191014041721.52025-1-c0d1n61at3@gmail.com>
-References: <20191014041721.52025-1-c0d1n61at3@gmail.com>
+        Mon, 14 Oct 2019 02:18:57 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x9E67Mwi139988
+        for <linux-media@vger.kernel.org>; Mon, 14 Oct 2019 02:18:56 -0400
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2vmdhfgc5p-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-media@vger.kernel.org>; Mon, 14 Oct 2019 02:18:56 -0400
+Received: from localhost
+        by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-media@vger.kernel.org> from <heiko.carstens@de.ibm.com>;
+        Mon, 14 Oct 2019 07:18:53 +0100
+Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
+        by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Mon, 14 Oct 2019 07:18:49 +0100
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
+        by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x9E6Im7a40567074
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 14 Oct 2019 06:18:48 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 039EC4CCB7;
+        Mon, 14 Oct 2019 06:18:48 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 6D2404CC9B;
+        Mon, 14 Oct 2019 06:18:47 +0000 (GMT)
+Received: from osiris (unknown [9.152.212.85])
+        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Mon, 14 Oct 2019 06:18:47 +0000 (GMT)
+Date:   Mon, 14 Oct 2019 08:18:46 +0200
+From:   Heiko Carstens <heiko.carstens@de.ibm.com>
+To:     Johan Hovold <johan@kernel.org>
+Cc:     Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+        Fabien Dessenne <fabien.dessenne@st.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Harald Freudenberger <freude@linux.ibm.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-s390@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        stable <stable@vger.kernel.org>,
+        Martin Schwidefsky <schwidefsky@de.ibm.com>
+Subject: Re: [PATCH 4/4] s390/zcrypt: fix memleak at release
+References: <20191010131333.23635-1-johan@kernel.org>
+ <20191010131333.23635-5-johan@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191010131333.23635-5-johan@kernel.org>
+X-TM-AS-GCONF: 00
+x-cbid: 19101406-0008-0000-0000-00000321CE1C
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19101406-0009-0000-0000-00004A40DEC6
+Message-Id: <20191014061846.GA6834@osiris>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-10-14_05:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=5 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=923 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1908290000 definitions=main-1910140060
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tuner_ctl_test() will now test both digital and analog services.  There
-are a total of 98 channels, 18 digital and 81 analog with digital
-proceeding analog.
+On Thu, Oct 10, 2019 at 03:13:33PM +0200, Johan Hovold wrote:
+> If a process is interrupted while accessing the crypto device and the
+> global ap_perms_mutex is contented, release() could return early and
+> fail to free related resources.
+> 
+> Fixes: 00fab2350e6b ("s390/zcrypt: multiple zcrypt device nodes support")
+> Cc: stable <stable@vger.kernel.org>     # 4.19
+> Cc: Harald Freudenberger <freude@linux.ibm.com>
+> Cc: Martin Schwidefsky <schwidefsky@de.ibm.com>
+> Signed-off-by: Johan Hovold <johan@kernel.org>
+> ---
+>  drivers/s390/crypto/zcrypt_api.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 
-Signed-off-by: Jiunn Chang <c0d1n61at3@gmail.com>
----
- utils/cec-compliance/cec-test.cpp | 50 +++++++++++++++++++++++++++++--
- 1 file changed, 48 insertions(+), 2 deletions(-)
-
-diff --git a/utils/cec-compliance/cec-test.cpp b/utils/cec-compliance/cec-test.cpp
-index 1fd0ea92..bc89c317 100644
---- a/utils/cec-compliance/cec-test.cpp
-+++ b/utils/cec-compliance/cec-test.cpp
-@@ -769,8 +769,11 @@ static int tuner_ctl_test(struct node *node, unsigned me, unsigned la, bool inte
- 	for (std::vector<struct cec_op_tuner_device_info>::iterator iter = info_vec.begin();
- 			iter != info_vec.end(); iter++) {
- 		cec_msg_init(&msg, me, la);
--		cec_msg_select_analogue_service(&msg, iter->analog.ana_bcast_type,
--			iter->analog.ana_freq, iter->analog.bcast_system);
-+		if (iter->is_analog)
-+			cec_msg_select_analogue_service(&msg, iter->analog.ana_bcast_type,
-+				iter->analog.ana_freq, iter->analog.bcast_system);
-+		else
-+			cec_msg_select_digital_service(&msg, &iter->digital);
- 		fail_on_test(!transmit_timeout(node, &msg));
- 		fail_on_test(cec_msg_status_is_abort(&msg));
- 		cec_msg_init(&msg, me, la);
-@@ -784,6 +787,39 @@ static int tuner_ctl_test(struct node *node, unsigned me, unsigned la, bool inte
- 			double freq_mhz = (iter->analog.ana_freq * 625) / 10000.0;
- 
- 			info("Analog channel freq: %.2f MHz\n", freq_mhz);
-+		} else {
-+			__u8 system = iter->digital.dig_bcast_system;
-+
-+			switch (system) {
-+			case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_ARIB_BS:
-+			case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_ARIB_T: {
-+				__u16 tsid = iter->digital.arib.transport_id;
-+				__u16 sid = iter->digital.arib.service_id;
-+				__u16 onid = iter->digital.arib.orig_network_id;
-+
-+				info("ARIB digital channel TSID: %u, SID: %u, ONID: %u", tsid, sid, onid);
-+				break;
-+			}
-+			case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_ATSC_SAT:
-+			case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_ATSC_T: {
-+				__u16 tsid = iter->digital.atsc.transport_id;
-+				__u16 pn = iter->digital.atsc.program_number;
-+
-+				info("ATSC digital channel TSID: %u, Program Number: %u", tsid, pn);
-+				break;
-+			}
-+			case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_DVB_S2:
-+			case CEC_OP_DIG_SERVICE_BCAST_SYSTEM_DVB_T: {
-+				__u16 tsid = iter->digital.dvb.transport_id;
-+				__u16 sid = iter->digital.dvb.service_id;
-+				__u16 onid = iter->digital.dvb.orig_network_id;
-+
-+				info("DVB digital channel TSID: %u, SID: %u, ONID: %u", tsid, sid, onid);
-+				break;
-+			}
-+			default:
-+				break;
-+			}
- 		}
- 	}
- 
-@@ -792,6 +828,16 @@ static int tuner_ctl_test(struct node *node, unsigned me, unsigned la, bool inte
- 	fail_on_test(!transmit_timeout(node, &msg));
- 	fail_on_test(!cec_msg_status_is_abort(&msg));
- 	fail_on_test(abort_reason(&msg) != CEC_OP_ABORT_INVALID_OP);
-+	cec_msg_init(&msg, me, la);
-+	info.digital.service_id_method = CEC_OP_SERVICE_ID_METHOD_BY_DIG_ID;
-+	info.digital.dig_bcast_system = CEC_OP_DIG_SERVICE_BCAST_SYSTEM_DVB_S2;
-+	info.digital.dvb.transport_id = 0;
-+	info.digital.dvb.service_id = 0;
-+	info.digital.dvb.orig_network_id = 0;
-+	cec_msg_select_digital_service(&msg, &info.digital);
-+	fail_on_test(!transmit_timeout(node, &msg));
-+	fail_on_test(!cec_msg_status_is_abort(&msg));
-+	fail_on_test(abort_reason(&msg) != CEC_OP_ABORT_INVALID_OP);
- 
- 	return 0;
- }
--- 
-2.23.0
+Applied, thanks!
 
