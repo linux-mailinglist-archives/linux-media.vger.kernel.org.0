@@ -2,96 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D2259D64DA
-	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2019 16:14:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0D0CD66F8
+	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2019 18:13:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732554AbfJNOOc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Oct 2019 10:14:32 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:33156 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732330AbfJNOOc (ORCPT
+        id S2387977AbfJNQNT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Oct 2019 12:13:19 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:34974 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730030AbfJNQNT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Oct 2019 10:14:32 -0400
-Received: by mail-lj1-f194.google.com with SMTP id a22so16837141ljd.0;
-        Mon, 14 Oct 2019 07:14:30 -0700 (PDT)
+        Mon, 14 Oct 2019 12:13:19 -0400
+Received: by mail-lf1-f68.google.com with SMTP id w6so12224397lfl.2;
+        Mon, 14 Oct 2019 09:13:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=cuSCXY7MyqvuURIbUyovz0gGBG/KVjSu575UROxamTY=;
-        b=PYpJQoQ0LcJdRDOkUGxNy9JCyOrrhH1JhRxZPy5+SPJcqBLvnueDHL9bH7ckreRsnh
-         NjGP1w4fzUUKrvaq2laP6zOwrcel1npwnlT3dzcLwWAlBtLOC9rFMoG6zDVpezNhKyQH
-         UpZACmnSWzBNnpEkl2AM+fkYmVoPRgYRqCfDLDPis7yGrbswGKxH5yoyArxfafGu+Oza
-         iypcRl7/QQoQ91RiyBynxFKZuX6GSKmhk7ZxL/Sc4xmLjMvbP+GXSFnjpBbw/N63fInb
-         +O70UF/7MBNTSrC1jw4y6P/hfxtEcfMvh1gSQsAO9t1tUIJ0L56+BKsne7W7WdacQrFQ
-         +ZQg==
-X-Gm-Message-State: APjAAAWZrRZoD+1T0aMAD/7fwpQFe983Qr84IFtlbzK+ZRk51L7whKmF
-        v8Dofw0j/+r36HTUZidE6GI=
-X-Google-Smtp-Source: APXvYqyg4aRm5D2Q7Zm/L6BTkCMdAktgcO/vIK5TXw5ZzA7DDHbs0dpppACfhxx6hNT6O7nJv8B9Mg==
-X-Received: by 2002:a05:651c:338:: with SMTP id b24mr9220276ljp.65.1571062469740;
-        Mon, 14 Oct 2019 07:14:29 -0700 (PDT)
-Received: from neopili.qtec.com (cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
-        by smtp.gmail.com with ESMTPSA id k21sm4143995lfm.68.2019.10.14.07.14.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Oct 2019 07:14:28 -0700 (PDT)
-From:   Ricardo Ribalda Delgado <ribalda@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Ricardo Ribalda Delgado <ribalda@kernel.org>
-Subject: [PATCH] media: v4l2-ctrl: Add p_def to v4l2_ctrl_config
-Date:   Mon, 14 Oct 2019 16:14:27 +0200
-Message-Id: <20191014141427.30708-1-ribalda@kernel.org>
-X-Mailer: git-send-email 2.23.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=YHnMAZs14fJi1NNz2NtD+GzNSsWEq3noMLIQejJbPKU=;
+        b=toH9VV3wIiWhb/2qHvQHVe+jWgxZmwSsmZS57GensCyN++iU9E+LykRN0Ln+cTA3KY
+         dwzm5i6h6jXjiL6dp2lKbQtTVPEBGYvaqWG+zX3yKSTluqFm3BrklQT2G+q1b2iXIO7I
+         p9l312WUWBvjU9wLMG9MLJtlNJXqxKKiECobN92aIMmY5yoPduxzxXHgNpUGwDvKEpRu
+         VWq4U5dEOzbevlOoYQgfTJkAkeAJ2kKO8+U4Jy01yz9cmKjtVjYZ4BXLoHyx6GUzUs7n
+         DQy/qbWucgwNONBbD10gdcSN1fKeUvtgNZtv4JOEhDHWCDRMamEjq8OKl/dfc6Kmu5xl
+         qDBw==
+X-Gm-Message-State: APjAAAUSPIzgN3OCpX5H+rlkAte+JKd7NKhZnU1b0TxXrLgxBPtVne/y
+        G39hULvg8/BJZXR8PyCNvdw=
+X-Google-Smtp-Source: APXvYqwDP0lRYsp3cJGX83F+AoNpiKoRwb/MliBNk6cC6YR1rKI1uNyUAt7eBJo+pCIcoF5AbQU7Mg==
+X-Received: by 2002:ac2:5a06:: with SMTP id q6mr16772533lfn.59.1571069596454;
+        Mon, 14 Oct 2019 09:13:16 -0700 (PDT)
+Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
+        by smtp.gmail.com with ESMTPSA id 126sm5526559lfh.45.2019.10.14.09.13.14
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 14 Oct 2019 09:13:14 -0700 (PDT)
+Received: from johan by xi.terra with local (Exim 4.92.2)
+        (envelope-from <johan@kernel.org>)
+        id 1iK2yM-00051m-6W; Mon, 14 Oct 2019 18:13:26 +0200
+Date:   Mon, 14 Oct 2019 18:13:26 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Daniel Vetter <daniel@ffwll.ch>
+Cc:     Johan Hovold <johan@kernel.org>, Rob Clark <robdclark@gmail.com>,
+        Sean Paul <sean@poorly.run>,
+        Fabien Dessenne <fabien.dessenne@st.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Harald Freudenberger <freude@linux.ibm.com>,
+        David Airlie <airlied@linux.ie>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-s390@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>
+Subject: Re: [PATCH 0/4] treewide: fix interrupted release
+Message-ID: <20191014161326.GO13531@localhost>
+References: <20191010131333.23635-1-johan@kernel.org>
+ <20191010135043.GA16989@phenom.ffwll.local>
+ <20191011093633.GD27819@localhost>
+ <20191014084847.GD11828@phenom.ffwll.local>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191014084847.GD11828@phenom.ffwll.local>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This allows setting the default value on compound controls created via
-v4l2_ctrl_new_custom.
+On Mon, Oct 14, 2019 at 10:48:47AM +0200, Daniel Vetter wrote:
+> On Fri, Oct 11, 2019 at 11:36:33AM +0200, Johan Hovold wrote:
+> > On Thu, Oct 10, 2019 at 03:50:43PM +0200, Daniel Vetter wrote:
+> > > On Thu, Oct 10, 2019 at 03:13:29PM +0200, Johan Hovold wrote:
+> > > > Two old USB drivers had a bug in them which could lead to memory leaks
+> > > > if an interrupted process raced with a disconnect event.
+> > > > 
+> > > > Turns out we had a few more driver in other subsystems with the same
+> > > > kind of bug in them.
+> > 
+> > > Random funny idea: Could we do some debug annotations (akin to
+> > > might_sleep) that splats when you might_sleep_interruptible somewhere
+> > > where interruptible sleeps are generally a bad idea? Like in
+> > > fops->release?
+> > 
+> > There's nothing wrong with interruptible sleep in fops->release per se,
+> > it's just that drivers cannot return -ERESTARTSYS and friends and expect
+> > to be called again later.
+> 
+> Do you have a legit usecase for interruptible sleeps in fops->release?
 
-Signed-off-by: Ricardo Ribalda Delgado <ribalda@kernel.org>
----
- drivers/media/v4l2-core/v4l2-ctrls.c | 2 +-
- include/media/v4l2-ctrls.h           | 2 ++
- 2 files changed, 3 insertions(+), 1 deletion(-)
+The tty layer depends on this for example when waiting for buffered
+writes to complete (something which may never happen when using flow
+control).
 
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-index bf50d37ef6c1..12cf38f73f7b 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-@@ -2583,7 +2583,7 @@ struct v4l2_ctrl *v4l2_ctrl_new_custom(struct v4l2_ctrl_handler *hdl,
- 			type, min, max,
- 			is_menu ? cfg->menu_skip_mask : step, def,
- 			cfg->dims, cfg->elem_size,
--			flags, qmenu, qmenu_int, ptr_null, priv);
-+			flags, qmenu, qmenu_int, cfg->p_def, priv);
- 	if (ctrl)
- 		ctrl->is_private = cfg->is_private;
- 	return ctrl;
-diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-index 26205ba3a0a0..2fca5b823961 100644
---- a/include/media/v4l2-ctrls.h
-+++ b/include/media/v4l2-ctrls.h
-@@ -375,6 +375,7 @@ struct v4l2_ctrl_handler {
-  * @max:	The control's maximum value.
-  * @step:	The control's step value for non-menu controls.
-  * @def:	The control's default value.
-+ * @p_def:	The control's default value for compound controls.
-  * @dims:	The size of each dimension.
-  * @elem_size:	The size in bytes of the control.
-  * @flags:	The control's flags.
-@@ -403,6 +404,7 @@ struct v4l2_ctrl_config {
- 	s64 max;
- 	u64 step;
- 	s64 def;
-+	union v4l2_ctrl_ptr p_def;
- 	u32 dims[V4L2_CTRL_MAX_DIMS];
- 	u32 elem_size;
- 	u32 flags;
--- 
-2.23.0
+> I'm not even sure killable is legit in there, since it's an fd, not a
+> process context ...
 
+It will be run in process context in many cases, and for ttys we're good
+AFAICT.
+
+> > The return value from release() is ignored by vfs, and adding a splat in
+> > __fput() to catch these buggy drivers might be overkill.
+> 
+> Ime once you have a handful of instances of a broken pattern, creating a
+> check for it (under a debug option only ofc) is very much justified.
+> Otherwise they just come back to life like the undead, all the time. And
+> there's a _lot_ of fops->release callbacks in the kernel.
+
+Yeah, you have a point.
+
+But take tty again as an example, the close tty operation called from
+release() is declared void so there's no propagated return value for vfs
+to check.
+
+It may even be better to fix up the 100 or so callbacks potentially
+returning non-zero and make fops->release void so that the compiler
+would help us catch any future bugs and also serve as a hint for
+developers that returning errnos from fops->release is probably not
+what you want to do.
+
+But that's a lot of churn of course.
+
+Johan
