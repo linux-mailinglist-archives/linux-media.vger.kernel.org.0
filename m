@@ -2,113 +2,248 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EE763D6AF9
-	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2019 22:58:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC6D4D6B4E
+	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2019 23:36:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731804AbfJNU66 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Oct 2019 16:58:58 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:48422 "EHLO
+        id S1731901AbfJNVgk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Oct 2019 17:36:40 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:48596 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730335AbfJNU66 (ORCPT
+        with ESMTP id S1731408AbfJNVgk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Oct 2019 16:58:58 -0400
-Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DF3F6324;
-        Mon, 14 Oct 2019 22:58:56 +0200 (CEST)
+        Mon, 14 Oct 2019 17:36:40 -0400
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 47950324;
+        Mon, 14 Oct 2019 23:36:37 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1571086737;
-        bh=HYfTXbHtaZH/kPTwzFuZ+Jr4Cwa+eWxh5vg7pwrr024=;
+        s=mail; t=1571088997;
+        bh=qkA8A1P4HFXMswsTumj1GuBdA/NjXHRNHGuPmgtgCUQ=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=UbpnkaJe/Gl+uJUlzJO57UlG2g9aBfHUvLAvIE6ncWVSzR1Lc/l/knu6HCWm0zXSM
-         Jx+Nm1hf2t3ctyin6+YWnpDI4aKYZbhj/aDXnjaN8//pFI07ILLzDOKh77Gwqu5fxM
-         WaHDuZMAn2DIBbSvA4HYW0+Rfegt1fqFA7G6+x7s=
-Date:   Mon, 14 Oct 2019 23:58:54 +0300
+        b=cNpuuRBz3nO4+oRAQMfASRp5W+bm6I6UkNB2tVXPASIuzcTwIQJLMyXh8T0/7eVqa
+         d3+DUwjehfJWnniTsE3Y9Cvu3MZWpI/VuNXTaMAx8IZiezzIjP8iMzgOFmjaV3uJXF
+         xIZjNIcQOf+eb3m1PcsMlWe5xI4CDyNlR+CyL5hQ=
+Date:   Tue, 15 Oct 2019 00:36:34 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2] rcar-vin: Do not enumerate unsupported pixel formats
-Message-ID: <20191014205854.GD23442@pendragon.ideasonboard.com>
-References: <20191014000750.2863254-1-niklas.soderlund+renesas@ragnatech.se>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, Vandana BN <bnvandana@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: Re: [PATCHv6 1/3] v4l2-core: correctly validate video and metadata
+ ioctls
+Message-ID: <20191014213634.GE23442@pendragon.ideasonboard.com>
+References: <20191014084021.54191-1-hverkuil-cisco@xs4all.nl>
+ <20191014084021.54191-2-hverkuil-cisco@xs4all.nl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191014000750.2863254-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20191014084021.54191-2-hverkuil-cisco@xs4all.nl>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Niklas,
+Hi Hans,
 
-Thank you for the patch.
+Tank you for the patch.
 
-On Mon, Oct 14, 2019 at 02:07:50AM +0200, Niklas Söderlund wrote:
-> If a pixel format is not supported by the hardware NULL is returned by
-> rvin_format_from_pixel() for that fourcc. Verify that the pixel format
-> is supported using this or skip it when enumerating.
+On Mon, Oct 14, 2019 at 10:40:19AM +0200, Hans Verkuil wrote:
+> From: Vandana BN <bnvandana@gmail.com>
 > 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> If the type is VFL_TYPE_GRABBER, then also check device_caps
+> to see if the video device supports video and/or metadata and
+> disable unneeded ioctls.
+> 
+> Without this change, format ioctls for both video and metadata devices
+> could be called on both device nodes. This is true for other ioctls as
+> well, even if the device supports only video or metadata.
+> 
+> Metadata devices act similar to VBI devices w.r.t. which ioctls should
+> be enabled. This makes sense since VBI *is* metadata.
+> 
+> Signed-off-by: Vandana BN <bnvandana@gmail.com>
+> Co-Developed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 > ---
->  drivers/media/platform/rcar-vin/rcar-v4l2.c | 20 +++++++++++++++-----
->  1 file changed, 15 insertions(+), 5 deletions(-)
+>  drivers/media/v4l2-core/v4l2-dev.c   | 62 +++++++++++++++++-----------
+>  drivers/media/v4l2-core/v4l2-ioctl.c | 16 +++++--
+>  2 files changed, 52 insertions(+), 26 deletions(-)
 > 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> index 9a9b89c0dc0b3be4..13b7cd5d2e40415a 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> @@ -296,12 +296,22 @@ static int rvin_g_fmt_vid_cap(struct file *file, void *priv,
->  static int rvin_enum_fmt_vid_cap(struct file *file, void *priv,
->  				 struct v4l2_fmtdesc *f)
+> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+> index 4037689a945a..1bf543932e4f 100644
+> --- a/drivers/media/v4l2-core/v4l2-dev.c
+> +++ b/drivers/media/v4l2-core/v4l2-dev.c
+> @@ -533,13 +533,23 @@ static int get_index(struct video_device *vdev)
+>   */
+>  static void determine_valid_ioctls(struct video_device *vdev)
 >  {
-> -	if (f->index >= ARRAY_SIZE(rvin_formats))
-> -		return -EINVAL;
-> -
-> -	f->pixelformat = rvin_formats[f->index].fourcc;
-> +	struct rvin_dev *vin = video_drvdata(file);
-> +	unsigned int i;
-> +	int matched;
-> +
-> +	matched = -1;
-> +	for (i = 0; i < ARRAY_SIZE(rvin_formats); i++) {
-> +		if (rvin_format_from_pixel(vin, rvin_formats[i].fourcc))
-> +			matched++;
-> +
-> +		if (matched == f->index) {
-> +			f->pixelformat = rvin_formats[i].fourcc;
-> +			return 0;
-> +		}
+> +	const u32 vid_caps = V4L2_CAP_VIDEO_CAPTURE |
+> +			     V4L2_CAP_VIDEO_CAPTURE_MPLANE |
+> +			     V4L2_CAP_VIDEO_OUTPUT |
+> +			     V4L2_CAP_VIDEO_OUTPUT_MPLANE |
+> +			     V4L2_CAP_VIDEO_M2M | V4L2_CAP_VIDEO_M2M_MPLANE;
+> +	const u32 meta_caps = V4L2_CAP_META_CAPTURE |
+> +			      V4L2_CAP_META_OUTPUT;
+>  	DECLARE_BITMAP(valid_ioctls, BASE_VIDIOC_PRIVATE);
+>  	const struct v4l2_ioctl_ops *ops = vdev->ioctl_ops;
+> -	bool is_vid = vdev->vfl_type == VFL_TYPE_GRABBER;
+> +	bool is_vid = vdev->vfl_type == VFL_TYPE_GRABBER &&
+> +		      (vdev->device_caps & vid_caps);
+>  	bool is_vbi = vdev->vfl_type == VFL_TYPE_VBI;
+>  	bool is_radio = vdev->vfl_type == VFL_TYPE_RADIO;
+>  	bool is_sdr = vdev->vfl_type == VFL_TYPE_SDR;
+>  	bool is_tch = vdev->vfl_type == VFL_TYPE_TOUCH;
+> +	bool is_meta = vdev->vfl_type == VFL_TYPE_GRABBER &&
+> +		       (vdev->device_caps & meta_caps);
+>  	bool is_rx = vdev->vfl_dir != VFL_DIR_TX;
+>  	bool is_tx = vdev->vfl_dir != VFL_DIR_RX;
+>  
+> @@ -587,39 +597,31 @@ static void determine_valid_ioctls(struct video_device *vdev)
+>  		set_bit(_IOC_NR(VIDIOC_ENUM_FREQ_BANDS), valid_ioctls);
+>  
+>  	if (is_vid || is_tch) {
+> -		/* video and metadata specific ioctls */
+> +		/* video and touch specific ioctls */
+>  		if ((is_rx && (ops->vidioc_enum_fmt_vid_cap ||
+> -			       ops->vidioc_enum_fmt_vid_overlay ||
+> -			       ops->vidioc_enum_fmt_meta_cap)) ||
+> -		    (is_tx && (ops->vidioc_enum_fmt_vid_out ||
+> -			       ops->vidioc_enum_fmt_meta_out)))
+> +			       ops->vidioc_enum_fmt_vid_overlay)) ||
+> +		    (is_tx && ops->vidioc_enum_fmt_vid_out))
+>  			set_bit(_IOC_NR(VIDIOC_ENUM_FMT), valid_ioctls);
+>  		if ((is_rx && (ops->vidioc_g_fmt_vid_cap ||
+>  			       ops->vidioc_g_fmt_vid_cap_mplane ||
+> -			       ops->vidioc_g_fmt_vid_overlay ||
+> -			       ops->vidioc_g_fmt_meta_cap)) ||
+> +			       ops->vidioc_g_fmt_vid_overlay)) ||
+>  		    (is_tx && (ops->vidioc_g_fmt_vid_out ||
+>  			       ops->vidioc_g_fmt_vid_out_mplane ||
+> -			       ops->vidioc_g_fmt_vid_out_overlay ||
+> -			       ops->vidioc_g_fmt_meta_out)))
+> +			       ops->vidioc_g_fmt_vid_out_overlay)))
+>  			 set_bit(_IOC_NR(VIDIOC_G_FMT), valid_ioctls);
+>  		if ((is_rx && (ops->vidioc_s_fmt_vid_cap ||
+>  			       ops->vidioc_s_fmt_vid_cap_mplane ||
+> -			       ops->vidioc_s_fmt_vid_overlay ||
+> -			       ops->vidioc_s_fmt_meta_cap)) ||
+> +			       ops->vidioc_s_fmt_vid_overlay)) ||
+>  		    (is_tx && (ops->vidioc_s_fmt_vid_out ||
+>  			       ops->vidioc_s_fmt_vid_out_mplane ||
+> -			       ops->vidioc_s_fmt_vid_out_overlay ||
+> -			       ops->vidioc_s_fmt_meta_out)))
+> +			       ops->vidioc_s_fmt_vid_out_overlay)))
+>  			 set_bit(_IOC_NR(VIDIOC_S_FMT), valid_ioctls);
+>  		if ((is_rx && (ops->vidioc_try_fmt_vid_cap ||
+>  			       ops->vidioc_try_fmt_vid_cap_mplane ||
+> -			       ops->vidioc_try_fmt_vid_overlay ||
+> -			       ops->vidioc_try_fmt_meta_cap)) ||
+> +			       ops->vidioc_try_fmt_vid_overlay)) ||
+>  		    (is_tx && (ops->vidioc_try_fmt_vid_out ||
+>  			       ops->vidioc_try_fmt_vid_out_mplane ||
+> -			       ops->vidioc_try_fmt_vid_out_overlay ||
+> -			       ops->vidioc_try_fmt_meta_out)))
+> +			       ops->vidioc_try_fmt_vid_out_overlay)))
+>  			 set_bit(_IOC_NR(VIDIOC_TRY_FMT), valid_ioctls);
+>  		SET_VALID_IOCTL(ops, VIDIOC_OVERLAY, vidioc_overlay);
+>  		SET_VALID_IOCTL(ops, VIDIOC_G_FBUF, vidioc_g_fbuf);
+> @@ -641,7 +643,21 @@ static void determine_valid_ioctls(struct video_device *vdev)
+>  			set_bit(_IOC_NR(VIDIOC_S_CROP), valid_ioctls);
+>  		SET_VALID_IOCTL(ops, VIDIOC_G_SELECTION, vidioc_g_selection);
+>  		SET_VALID_IOCTL(ops, VIDIOC_S_SELECTION, vidioc_s_selection);
+> -	} else if (is_vbi) {
 > +	}
 
-I wonder if the following would be more readable ?
+Here you allow for is_vid and is_meta to be both true.
 
-	struct rvin_dev *vin = video_drvdata(file);
-	unsigned int index = f->index;
-	unsigned int i;
+> +	if (is_meta && is_rx) {
+> +		/* metadata capture specific ioctls */
+> +		SET_VALID_IOCTL(ops, VIDIOC_ENUM_FMT, vidioc_enum_fmt_meta_cap);
+> +		SET_VALID_IOCTL(ops, VIDIOC_G_FMT, vidioc_g_fmt_meta_cap);
+> +		SET_VALID_IOCTL(ops, VIDIOC_S_FMT, vidioc_s_fmt_meta_cap);
+> +		SET_VALID_IOCTL(ops, VIDIOC_TRY_FMT, vidioc_try_fmt_meta_cap);
+> +	} else if (is_meta && is_tx) {
+> +		/* metadata output specific ioctls */
+> +		SET_VALID_IOCTL(ops, VIDIOC_ENUM_FMT, vidioc_enum_fmt_meta_out);
+> +		SET_VALID_IOCTL(ops, VIDIOC_G_FMT, vidioc_g_fmt_meta_out);
+> +		SET_VALID_IOCTL(ops, VIDIOC_S_FMT, vidioc_s_fmt_meta_out);
+> +		SET_VALID_IOCTL(ops, VIDIOC_TRY_FMT, vidioc_try_fmt_meta_out);
+> +	}
 
-	for (i = 0; i < ARRAY_SIZE(rvin_formats); i++) {
-		if (rvin_format_from_pixel(vin, rvin_formats[i].fourcc))
-			continue;
+And here for is_vbi to be true as well. But further down (not shown in
+this patch), is_sdr is still considered to be mutually exclusive with
+is_vbi. This is a bit confusing, even if I think it's correct.
 
-		if (index-- == 0) {
-			f->pixelformat = rvin_formats[i].fourcc;
-			return 0;
-		}
-	}
- 
-	return -EINVAL;
-
-In any case,
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> -	return 0;
-> +	return -EINVAL;
->  }
+> +	if (is_vbi) {
+>  		/* vbi specific ioctls */
+>  		if ((is_rx && (ops->vidioc_g_fmt_vbi_cap ||
+>  			       ops->vidioc_g_fmt_sliced_vbi_cap)) ||
+> @@ -681,8 +697,8 @@ static void determine_valid_ioctls(struct video_device *vdev)
+>  			set_bit(_IOC_NR(VIDIOC_TRY_FMT), valid_ioctls);
+>  	}
 >  
->  static int rvin_g_selection(struct file *file, void *fh,
+> -	if (is_vid || is_vbi || is_sdr || is_tch) {
+> -		/* ioctls valid for video, metadata, vbi or sdr */
+> +	if (is_vid || is_vbi || is_sdr || is_tch || is_meta) {
+> +		/* ioctls valid for video, vbi, sdr, touch and metadata */
+>  		SET_VALID_IOCTL(ops, VIDIOC_REQBUFS, vidioc_reqbufs);
+>  		SET_VALID_IOCTL(ops, VIDIOC_QUERYBUF, vidioc_querybuf);
+>  		SET_VALID_IOCTL(ops, VIDIOC_QBUF, vidioc_qbuf);
+> @@ -694,8 +710,8 @@ static void determine_valid_ioctls(struct video_device *vdev)
+>  		SET_VALID_IOCTL(ops, VIDIOC_STREAMOFF, vidioc_streamoff);
+>  	}
+>  
+> -	if (is_vid || is_vbi || is_tch) {
+> -		/* ioctls valid for video or vbi */
+> +	if (is_vid || is_vbi || is_tch || is_meta) {
+> +		/* ioctls valid for video, vbi, touch and metadata */
+
+Are all those ioctls valid for metadata ?
+
+>  		if (ops->vidioc_s_std)
+>  			set_bit(_IOC_NR(VIDIOC_ENUMSTD), valid_ioctls);
+>  		SET_VALID_IOCTL(ops, VIDIOC_S_STD, vidioc_s_std);
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index 51b912743f0f..20b3107dd4e8 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -932,12 +932,22 @@ static int check_ext_ctrls(struct v4l2_ext_controls *c, int allow_priv)
+>  
+>  static int check_fmt(struct file *file, enum v4l2_buf_type type)
+>  {
+> +	const u32 vid_caps = V4L2_CAP_VIDEO_CAPTURE |
+> +			     V4L2_CAP_VIDEO_CAPTURE_MPLANE |
+> +			     V4L2_CAP_VIDEO_OUTPUT |
+> +			     V4L2_CAP_VIDEO_OUTPUT_MPLANE |
+> +			     V4L2_CAP_VIDEO_M2M | V4L2_CAP_VIDEO_M2M_MPLANE;
+> +	const u32 meta_caps = V4L2_CAP_META_CAPTURE |
+> +			      V4L2_CAP_META_OUTPUT;
+>  	struct video_device *vfd = video_devdata(file);
+>  	const struct v4l2_ioctl_ops *ops = vfd->ioctl_ops;
+> -	bool is_vid = vfd->vfl_type == VFL_TYPE_GRABBER;
+> +	bool is_vid = vfd->vfl_type == VFL_TYPE_GRABBER &&
+> +		      (vfd->device_caps & vid_caps);
+>  	bool is_vbi = vfd->vfl_type == VFL_TYPE_VBI;
+>  	bool is_sdr = vfd->vfl_type == VFL_TYPE_SDR;
+>  	bool is_tch = vfd->vfl_type == VFL_TYPE_TOUCH;
+> +	bool is_meta = vfd->vfl_type == VFL_TYPE_GRABBER &&
+> +		       (vfd->device_caps & meta_caps);
+>  	bool is_rx = vfd->vfl_dir != VFL_DIR_TX;
+>  	bool is_tx = vfd->vfl_dir != VFL_DIR_RX;
+>  
+> @@ -996,11 +1006,11 @@ static int check_fmt(struct file *file, enum v4l2_buf_type type)
+>  			return 0;
+>  		break;
+>  	case V4L2_BUF_TYPE_META_CAPTURE:
+> -		if (is_vid && is_rx && ops->vidioc_g_fmt_meta_cap)
+> +		if (is_meta && is_rx && ops->vidioc_g_fmt_meta_cap)
+>  			return 0;
+>  		break;
+>  	case V4L2_BUF_TYPE_META_OUTPUT:
+> -		if (is_vid && is_tx && ops->vidioc_g_fmt_meta_out)
+> +		if (is_meta && is_tx && ops->vidioc_g_fmt_meta_out)
+>  			return 0;
+>  		break;
+>  	default:
 
 -- 
 Regards,
