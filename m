@@ -2,74 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 54E49D61E5
-	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2019 14:01:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DFEAD622C
+	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2019 14:17:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731867AbfJNMBI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Oct 2019 08:01:08 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:42983 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731643AbfJNMBI (ORCPT
+        id S1731881AbfJNMRZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Oct 2019 08:17:25 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:42265 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727948AbfJNMRY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Oct 2019 08:01:08 -0400
-Received: from [IPv6:2001:983:e9a7:1:c8e8:9e43:7e19:64a2] ([IPv6:2001:983:e9a7:1:c8e8:9e43:7e19:64a2])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id Jz29iHOy9op0AJz2AielHW; Mon, 14 Oct 2019 14:01:06 +0200
-Subject: [PATCHv6 4/3] v4l2-dev: disable frequency and tuner ioctls for touch
-To:     linux-media@vger.kernel.org
-Cc:     Vandana BN <bnvandana@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20191014084021.54191-1-hverkuil-cisco@xs4all.nl>
- <20191014084021.54191-4-hverkuil-cisco@xs4all.nl>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <44ce4b09-9452-37d5-f7c4-26a26b4adfd7@xs4all.nl>
-Date:   Mon, 14 Oct 2019 14:01:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Mon, 14 Oct 2019 08:17:24 -0400
+Received: by mail-wr1-f66.google.com with SMTP id n14so19422637wrw.9;
+        Mon, 14 Oct 2019 05:17:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=dQgT5H/Xc9q+3AtDVp2JNpLmcY62zJNWlUUwGtmQ0Wo=;
+        b=JWn/gz6zswsVuo5VIsfT3FXmgtFAz/Uqwy63Qq/Ua2Vd92gl5Iy9jzykSzF2aV4Lhi
+         2tooIsOVGIw2mrcgajZiU3L41ihUA7yDWsBBdjtnYaedrQC6yoZ6eIXFnyQ5fZRo+qm7
+         X+y+YW7Oea7C7ZOesXyDyQA5sVQFToRwhs4MjcfMzM4w4Zc5VTi80JHh0OkOYKTw/A9A
+         jWQShjNFBkRQWuEKjiDwzFqV9pdRTql9HP0YEvYII8M2M0f1X35eo6DMZCChf3hYEX7L
+         5MAVhVtmsJeFaML+hOAoh+ZdM1sUIOAcL2L/HYad2XoVI9ipraBxCz+XyPA25Lrc4tBj
+         +cDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=dQgT5H/Xc9q+3AtDVp2JNpLmcY62zJNWlUUwGtmQ0Wo=;
+        b=l2zREVgTPGZRG3d0SCADYUB8zoEQNlRP+6uQD+M53Y/k6+RyTYhE5NUtp9LhGcGJgC
+         zm4oiR34oR8AO7n2CAl2h3FmezboLWhMQ6Do9GM4sV/uRoyOC1OExqdfaU9/XIF0qcet
+         Qk0TPaLnzyIqxdsxRhCJH7PYXjH48JQJnaLkhB1XJ1b735c6aOgTm8vABS37TR2dJ9rV
+         Xtxl8yRdVJ4WH8wtzgREDwYwpzEoI9v3vE/XrOM6vHNebYbWSr2EfzwnnJRILm1F7OTC
+         9RcDgPM9QI8XY8JRMiUoYklSwazJcpwo+qZYl1saYFLkW6NQCEgh7duee4K4Gag0KKWO
+         rVlw==
+X-Gm-Message-State: APjAAAXYeD7KOnpQIBAubkvOk6zZVvK2WQeMsDGYw9Sie/zbvluRoljy
+        Oiw/KiPDkHaHWniS9MznorA=
+X-Google-Smtp-Source: APXvYqzetdo3YCN8COK0mky4NkK9+49LZYZHk+TML/4W+y8fO3M80yj+cto3H+SDIORaGJrSA+Getw==
+X-Received: by 2002:adf:ea07:: with SMTP id q7mr8912608wrm.102.1571055442619;
+        Mon, 14 Oct 2019 05:17:22 -0700 (PDT)
+Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
+        by smtp.gmail.com with ESMTPSA id b130sm28589013wmh.12.2019.10.14.05.17.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Oct 2019 05:17:20 -0700 (PDT)
+Date:   Mon, 14 Oct 2019 14:17:19 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Dariusz Marcinkiewicz <darekm@google.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        hverkuil-cisco@xs4all.nl, David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 7/9] drm: tegra: use cec_notifier_conn_(un)register
+Message-ID: <20191014121719.GB422231@ulmo>
+References: <20190814104520.6001-1-darekm@google.com>
+ <20190814104520.6001-8-darekm@google.com>
 MIME-Version: 1.0
-In-Reply-To: <20191014084021.54191-4-hverkuil-cisco@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfOR8KjTOTC9S83NImHDFDq+j6+pP3DKEB97PNVyNct7a228gjHjFh69XYMnJKyo9VawEPZkqpUA1luR74K3iuzTM8x3bqb+g+EAp4T/h9DCEeEPGskCG
- nL2/+JdTgS3dIbEhIKVe+mi2JAicblFvgRnn8/HWXm+2fvgGN9/KKka4ffD4MhOl3bTApDWnMQApjvDogqGjAiNFAzDEpa2HhrTDp4d/C9P0QMANVpQe+4RU
- 3rQrHco9TnUZPM0XrHO3KV08tHtsu/3C9t1aBjiJC2NyrGHHt3yR8Vja6GBmhe2SC6q45mcBJmBvXaExzC4lc9+uBBpqv0cM9Segq1MwMaDjjXgKhMzXdvsk
- ++rgWGXKDu6dowR5j9Kyks8t+BFK4Gu2KmAbQSTrFgiwfNrxql8=
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="b5gNqxB1S1yM7hjW"
+Content-Disposition: inline
+In-Reply-To: <20190814104520.6001-8-darekm@google.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Touch devices have obviously no tuner, so don't attempt to enable those ioctls
-for such devices.
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
-diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
-index cec588b04711..da42d172714a 100644
---- a/drivers/media/v4l2-core/v4l2-dev.c
-+++ b/drivers/media/v4l2-core/v4l2-dev.c
-@@ -581,8 +581,10 @@ static void determine_valid_ioctls(struct video_device *vdev)
- 		set_bit(_IOC_NR(VIDIOC_TRY_EXT_CTRLS), valid_ioctls);
- 	if (vdev->ctrl_handler || ops->vidioc_querymenu)
- 		set_bit(_IOC_NR(VIDIOC_QUERYMENU), valid_ioctls);
--	SET_VALID_IOCTL(ops, VIDIOC_G_FREQUENCY, vidioc_g_frequency);
--	SET_VALID_IOCTL(ops, VIDIOC_S_FREQUENCY, vidioc_s_frequency);
-+	if (!is_tch) {
-+		SET_VALID_IOCTL(ops, VIDIOC_G_FREQUENCY, vidioc_g_frequency);
-+		SET_VALID_IOCTL(ops, VIDIOC_S_FREQUENCY, vidioc_s_frequency);
-+	}
- 	SET_VALID_IOCTL(ops, VIDIOC_LOG_STATUS, vidioc_log_status);
- #ifdef CONFIG_VIDEO_ADV_DEBUG
- 	set_bit(_IOC_NR(VIDIOC_DBG_G_CHIP_INFO), valid_ioctls);
-@@ -754,7 +756,7 @@ static void determine_valid_ioctls(struct video_device *vdev)
- 		SET_VALID_IOCTL(ops, VIDIOC_G_MODULATOR, vidioc_g_modulator);
- 		SET_VALID_IOCTL(ops, VIDIOC_S_MODULATOR, vidioc_s_modulator);
- 	}
--	if (is_rx) {
-+	if (is_rx && !is_tch) {
- 		/* receiver only ioctls */
- 		SET_VALID_IOCTL(ops, VIDIOC_G_TUNER, vidioc_g_tuner);
- 		SET_VALID_IOCTL(ops, VIDIOC_S_TUNER, vidioc_s_tuner);
+--b5gNqxB1S1yM7hjW
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Aug 14, 2019 at 12:45:05PM +0200, Dariusz Marcinkiewicz wrote:
+> Use the new cec_notifier_conn_(un)register() functions to
+> (un)register the notifier for the HDMI connector, and fill in
+> the cec_connector_info.
+>=20
+> Changes since v4:
+> 	- only create a CEC notifier for HDMI connectors
+>=20
+> Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
+> Tested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> ---
+>  drivers/gpu/drm/tegra/output.c | 28 +++++++++++++++++++++-------
+>  1 file changed, 21 insertions(+), 7 deletions(-)
+
+Applied, thanks.
+
+Thierry
+
+--b5gNqxB1S1yM7hjW
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl2kZ08ACgkQ3SOs138+
+s6HRvA/9FCMG8xuBzW58WQPgv7upIyoGmbyjXMcB+GZHiu/ziLojFw2/6AHUVgWv
+vUdbN79pMwLpJ/6fyDlltaeB6y9U4KSJ1B8+0CzAivrc454O/AflNVE/Eq+GNvWY
+bZSicV3BhRfZcQ99FpApoX/RR+RWqJgSCw7FGRFPnV6zODoHzTrceTABesfyajku
+uG15X+iKJn+BLWnXBGUCzJAVOmDARdUipNrGZX+sz0YlWTEw7RHMrKWyErmjy0AE
+HUUsxB5jLFZu5oBii2NangwZCb4vyGsFSmxHYeUzKVeg1bSymdvN9tPbDARY3084
+KWbqqQ52vZD2dNDWQbzWAKWyFYffjBT88FdfZVM1RGTlR//6cFk3takN7xoKCHjv
+E2zXdDb9jj8dhoJZrEUN/D9XB18jsDMU88+5zpsmNTTd0kBhzbNg1bqhoYCXyfsj
+wRsTfHhicnPWBPEUyLhukyWiAqYDoOzCkPylPMe+YRte+n3ENh+BqUAGkwW9gyZJ
+x7efFoQs4mCeEFcNl5A4a/DHaqH5q9FY3+193To/+lHXsH9vMFlner04WTp0UTa3
+Vk6xW57T9XvbY/dLcA80HLQWcObfsIgLPRinUhs/ZKTIrvEhZImWIKQqX+vqYLkQ
+3Tri2+gUpeODIShnLlTJ8T7LEMB9FfxuLVy10DsX4faZW/WiF9M=
+=igMm
+-----END PGP SIGNATURE-----
+
+--b5gNqxB1S1yM7hjW--
