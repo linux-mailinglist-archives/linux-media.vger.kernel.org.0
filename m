@@ -2,114 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DFEAD622C
-	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2019 14:17:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D9B4D6230
+	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2019 14:19:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731881AbfJNMRZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Oct 2019 08:17:25 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:42265 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727948AbfJNMRY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Oct 2019 08:17:24 -0400
-Received: by mail-wr1-f66.google.com with SMTP id n14so19422637wrw.9;
-        Mon, 14 Oct 2019 05:17:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=dQgT5H/Xc9q+3AtDVp2JNpLmcY62zJNWlUUwGtmQ0Wo=;
-        b=JWn/gz6zswsVuo5VIsfT3FXmgtFAz/Uqwy63Qq/Ua2Vd92gl5Iy9jzykSzF2aV4Lhi
-         2tooIsOVGIw2mrcgajZiU3L41ihUA7yDWsBBdjtnYaedrQC6yoZ6eIXFnyQ5fZRo+qm7
-         X+y+YW7Oea7C7ZOesXyDyQA5sVQFToRwhs4MjcfMzM4w4Zc5VTi80JHh0OkOYKTw/A9A
-         jWQShjNFBkRQWuEKjiDwzFqV9pdRTql9HP0YEvYII8M2M0f1X35eo6DMZCChf3hYEX7L
-         5MAVhVtmsJeFaML+hOAoh+ZdM1sUIOAcL2L/HYad2XoVI9ipraBxCz+XyPA25Lrc4tBj
-         +cDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=dQgT5H/Xc9q+3AtDVp2JNpLmcY62zJNWlUUwGtmQ0Wo=;
-        b=l2zREVgTPGZRG3d0SCADYUB8zoEQNlRP+6uQD+M53Y/k6+RyTYhE5NUtp9LhGcGJgC
-         zm4oiR34oR8AO7n2CAl2h3FmezboLWhMQ6Do9GM4sV/uRoyOC1OExqdfaU9/XIF0qcet
-         Qk0TPaLnzyIqxdsxRhCJH7PYXjH48JQJnaLkhB1XJ1b735c6aOgTm8vABS37TR2dJ9rV
-         Xtxl8yRdVJ4WH8wtzgREDwYwpzEoI9v3vE/XrOM6vHNebYbWSr2EfzwnnJRILm1F7OTC
-         9RcDgPM9QI8XY8JRMiUoYklSwazJcpwo+qZYl1saYFLkW6NQCEgh7duee4K4Gag0KKWO
-         rVlw==
-X-Gm-Message-State: APjAAAXYeD7KOnpQIBAubkvOk6zZVvK2WQeMsDGYw9Sie/zbvluRoljy
-        Oiw/KiPDkHaHWniS9MznorA=
-X-Google-Smtp-Source: APXvYqzetdo3YCN8COK0mky4NkK9+49LZYZHk+TML/4W+y8fO3M80yj+cto3H+SDIORaGJrSA+Getw==
-X-Received: by 2002:adf:ea07:: with SMTP id q7mr8912608wrm.102.1571055442619;
-        Mon, 14 Oct 2019 05:17:22 -0700 (PDT)
-Received: from localhost (p2E5BE2CE.dip0.t-ipconnect.de. [46.91.226.206])
-        by smtp.gmail.com with ESMTPSA id b130sm28589013wmh.12.2019.10.14.05.17.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Oct 2019 05:17:20 -0700 (PDT)
-Date:   Mon, 14 Oct 2019 14:17:19 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Dariusz Marcinkiewicz <darekm@google.com>
-Cc:     dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        hverkuil-cisco@xs4all.nl, David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 7/9] drm: tegra: use cec_notifier_conn_(un)register
-Message-ID: <20191014121719.GB422231@ulmo>
-References: <20190814104520.6001-1-darekm@google.com>
- <20190814104520.6001-8-darekm@google.com>
+        id S1729708AbfJNMTR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Oct 2019 08:19:17 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47612 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726304AbfJNMTR (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 14 Oct 2019 08:19:17 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 08EC1A3CD62;
+        Mon, 14 Oct 2019 12:19:16 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-43.ams2.redhat.com [10.36.116.43])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 3B72360BE2;
+        Mon, 14 Oct 2019 12:19:15 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+        id 2C8F816E2D; Mon, 14 Oct 2019 14:19:14 +0200 (CEST)
+Date:   Mon, 14 Oct 2019 14:19:14 +0200
+From:   Gerd Hoffmann <kraxel@redhat.com>
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     Keiichi Watanabe <keiichiw@chromium.org>,
+        virtio-dev@lists.oasis-open.org,
+        Alexandre Courbot <acourbot@chromium.org>,
+        alexlau@chromium.org, dgreid@chromium.org,
+        =?utf-8?B?U3TDqXBoYW5l?= Marchesin <marcheu@chromium.org>,
+        Pawel Osciak <posciak@chromium.org>, stevensd@chromium.org,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [virtio-dev] [PATCH] [RFC RESEND] vdec: Add virtio video decode
+ device specification
+Message-ID: <20191014121914.lyptm3gdmekvcu6v@sirius.home.kraxel.org>
+References: <20190919093404.182015-1-keiichiw@chromium.org>
+ <20190923085637.bsaevedklweijgya@sirius.home.kraxel.org>
+ <CAAFQd5Ba-REZU9=rdm3J6NRqqeAUFdCV7SJ_WdO2BHyKNBN7TQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="b5gNqxB1S1yM7hjW"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190814104520.6001-8-darekm@google.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+In-Reply-To: <CAAFQd5Ba-REZU9=rdm3J6NRqqeAUFdCV7SJ_WdO2BHyKNBN7TQ@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.6.2 (mx1.redhat.com [10.5.110.68]); Mon, 14 Oct 2019 12:19:16 +0000 (UTC)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+> > Well.  I think before even discussing the protocol details we need a
+> > reasonable plan for buffer handling.  I think using virtio-gpu buffers
+> > should be an optional optimization and not a requirement.  Also the
+> > motivation for that should be clear (Let the host decoder write directly
+> > to virtio-gpu resources, to display video without copying around the
+> > decoded framebuffers from one device to another).
+> 
+> Just to make sure we're on the same page, what would the buffers come
+> from if we don't use this optimization?
+> 
+> I can imagine a setup like this;
+>  1) host device allocates host memory appropriate for usage with host
+> video decoder,
+>  2) guest driver allocates arbitrary guest pages for storage
+> accessible to the guest software,
+>  3) guest userspace writes input for the decoder to guest pages,
+>  4) guest driver passes the list of pages for the input and output
+> buffers to the host device
+>  5) host device copies data from input guest pages to host buffer
+>  6) host device runs the decoding
+>  7) host device copies decoded frame to output guest pages
+>  8) guest userspace can access decoded frame from those pages; back to 3
+> 
+> Is that something you have in mind?
 
---b5gNqxB1S1yM7hjW
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I don't have any specific workflow in mind.
 
-On Wed, Aug 14, 2019 at 12:45:05PM +0200, Dariusz Marcinkiewicz wrote:
-> Use the new cec_notifier_conn_(un)register() functions to
-> (un)register the notifier for the HDMI connector, and fill in
-> the cec_connector_info.
->=20
-> Changes since v4:
-> 	- only create a CEC notifier for HDMI connectors
->=20
-> Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
-> Tested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> ---
->  drivers/gpu/drm/tegra/output.c | 28 +++++++++++++++++++++-------
->  1 file changed, 21 insertions(+), 7 deletions(-)
+If you want display the decoded video frames you want use dma-bufs shared
+by video decoder and gpu, right?  So the userspace application (video
+player probably) would create the buffers using one of the drivers,
+export them as dma-buf, then import them into the other driver.  Just
+like you would do on physical hardware.  So, when using virtio-gpu
+buffers:
 
-Applied, thanks.
+  (1) guest app creates buffers using virtio-gpu.
+  (2) guest app exports virtio-gpu buffers buffers as dma-buf.
+  (3) guest app imports the dma-bufs into virtio-vdec.
+  (4) guest app asks the virtio-vdec driver to write the decoded
+      frames into the dma-bufs.
+  (5) guest app asks the virtio-gpu driver to display the decoded
+      frame.
 
-Thierry
+The guest video decoder driver passes the dma-buf pages to the host, and
+it is the host driver's job to fill the buffer.  How this is done
+exactly might depend on hardware capabilities (whenever a host-allocated
+bounce buffer is needed or whenever the hardware can decode directly to
+the dma-buf passed by the guest driver) and is an implementation detail.
 
---b5gNqxB1S1yM7hjW
-Content-Type: application/pgp-signature; name="signature.asc"
+Now, with cross-device sharing added the virtio-gpu would attach some
+kind of identifier to the dma-buf, virtio-vdec could fetch the
+identifier and pass it to the host too, and the host virtio-vdec device
+can use the identifier to get a host dma-buf handle for the (virtio-gpu)
+buffer.  Ask the host video decoder driver to import the host dma-buf.
+If it all worked fine it can ask the host hardware to decode directly to
+the host virtio-gpu resource.
 
------BEGIN PGP SIGNATURE-----
+> > Referencing virtio-gpu buffers needs a better plan than just re-using
+> > virtio-gpu resource handles.  The handles are device-specific.  What if
+> > there are multiple virtio-gpu devices present in the guest?
+> >
+> > I think we need a framework for cross-device buffer sharing.  One
+> > possible option would be to have some kind of buffer registry, where
+> > buffers can be registered for cross-device sharing and get a unique
+> > id (a uuid maybe?).  Drivers would typically register buffers on
+> > dma-buf export.
+> 
+> This approach could possibly let us handle this transparently to
+> importers, which would work for guest kernel subsystems that rely on
+> the ability to handle buffers like native memory (e.g. having a
+> sgtable or DMA address) for them.
+> 
+> How about allocating guest physical addresses for memory corresponding
+> to those buffers? On the virtio-gpu example, that could work like
+> this:
+>  - by default a virtio-gpu buffer has only a resource handle,
+>  - VIRTIO_GPU_RESOURCE_EXPORT command could be called to have the
+> virtio-gpu device export the buffer to a host framework (inside the
+> VMM) that would allocate guest page addresses for it, which the
+> command would return in a response to the guest,
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl2kZ08ACgkQ3SOs138+
-s6HRvA/9FCMG8xuBzW58WQPgv7upIyoGmbyjXMcB+GZHiu/ziLojFw2/6AHUVgWv
-vUdbN79pMwLpJ/6fyDlltaeB6y9U4KSJ1B8+0CzAivrc454O/AflNVE/Eq+GNvWY
-bZSicV3BhRfZcQ99FpApoX/RR+RWqJgSCw7FGRFPnV6zODoHzTrceTABesfyajku
-uG15X+iKJn+BLWnXBGUCzJAVOmDARdUipNrGZX+sz0YlWTEw7RHMrKWyErmjy0AE
-HUUsxB5jLFZu5oBii2NangwZCb4vyGsFSmxHYeUzKVeg1bSymdvN9tPbDARY3084
-KWbqqQ52vZD2dNDWQbzWAKWyFYffjBT88FdfZVM1RGTlR//6cFk3takN7xoKCHjv
-E2zXdDb9jj8dhoJZrEUN/D9XB18jsDMU88+5zpsmNTTd0kBhzbNg1bqhoYCXyfsj
-wRsTfHhicnPWBPEUyLhukyWiAqYDoOzCkPylPMe+YRte+n3ENh+BqUAGkwW9gyZJ
-x7efFoQs4mCeEFcNl5A4a/DHaqH5q9FY3+193To/+lHXsH9vMFlner04WTp0UTa3
-Vk6xW57T9XvbY/dLcA80HLQWcObfsIgLPRinUhs/ZKTIrvEhZImWIKQqX+vqYLkQ
-3Tri2+gUpeODIShnLlTJ8T7LEMB9FfxuLVy10DsX4faZW/WiF9M=
-=igMm
------END PGP SIGNATURE-----
+Hmm, the cross-device buffer sharing framework I have in mind would
+basically be a buffer registry.  virtio-gpu would create buffers as
+usual, create a identifier somehow (details to be hashed out), attach
+the identifier to the dma-buf so it can be used as outlined above.
 
---b5gNqxB1S1yM7hjW--
+Also note that the guest manages the address space, so the host can't
+simply allocate guest page addresses.  Mapping host virtio-gpu resources
+into guest address space is planned, it'll most likely use a pci memory
+bar to reserve some address space.  The host can map resources into that
+pci bar, on guest request.
+
+>  - virtio-gpu driver could then create a regular DMA-buf object for
+> such memory, because it's just backed by pages (even though they may
+> not be accessible to the guest; just like in the case of TrustZone
+> memory protection on bare metal systems),
+
+Hmm, well, pci memory bars are *not* backed by pages.  Maybe we can use
+Documentation/driver-api/pci/p2pdma.rst though.  With that we might be
+able to lookup buffers using device and dma address, without explicitly
+creating some identifier.  Not investigated yet in detail.
+
+cheers,
+  Gerd
+
