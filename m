@@ -2,130 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C479ED5E8C
-	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2019 11:19:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 04AAFD5E97
+	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2019 11:20:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730677AbfJNJTo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Oct 2019 05:19:44 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:47445 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730585AbfJNJTo (ORCPT
+        id S1730770AbfJNJUk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Oct 2019 05:20:40 -0400
+Received: from mx07-00178001.pphosted.com ([62.209.51.94]:23132 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730397AbfJNJUk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Oct 2019 05:19:44 -0400
-Received: from [IPv6:2001:983:e9a7:1:9cd4:edb1:3831:f13d] ([IPv6:2001:983:e9a7:1:9cd4:edb1:3831:f13d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id JwVxiFoZtop0AJwVyidOPF; Mon, 14 Oct 2019 11:19:42 +0200
-Subject: Re: [PATCH 3/8] cec-follower: create digital ARIB channels
-To:     Jiunn Chang <c0d1n61at3@gmail.com>, linux-media@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-References: <20191014041721.52025-1-c0d1n61at3@gmail.com>
- <20191014041721.52025-4-c0d1n61at3@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <e27c1e7d-fc56-d4a7-68bb-fd000b33b160@xs4all.nl>
-Date:   Mon, 14 Oct 2019 11:19:41 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Mon, 14 Oct 2019 05:20:40 -0400
+Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x9E9BQ3F027216;
+        Mon, 14 Oct 2019 11:20:25 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-type; s=STMicroelectronics;
+ bh=SJX1WTguEpkXxZ96S9hCxl3iKdotKPilW/FNR+qQW64=;
+ b=e1BGKH3/O71t42mvkIBFhPsa2Cs2yEFGWhYKxcfbJ+kQpj/0sXvuEcm8IcrvlbuKZ7xk
+ fLj4Vtk8jY4Vesb3iKGVOC0MrQ462+1fbj0/N6wYVya3cO+wWF1j34t/SBniOdzgRfwP
+ s7m4OzsQ/3wR+MpNVxNelePa7TuaGhUYcYysU9PiY0GTfb6xUoUGdRpruZnrBr3VEEn2
+ rY+7frr8UuUzJkJx39niwTRNLF4Yfno6tmlUzWaxSRIaAVOy5bhkoO5L7Xxrh2riPIUn
+ 1BFMQkzpM2N8Q8ZCVZFSu9/UAq8pppKHxTbtDvnZKtoktrVWgLWA11R0ujPF8uJ8KAMZ JQ== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 2vk4a11dx9-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 14 Oct 2019 11:20:25 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 5239210002A;
+        Mon, 14 Oct 2019 11:20:24 +0200 (CEST)
+Received: from Webmail-eu.st.com (Safex1hubcas24.st.com [10.75.90.94])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 410232B8C56;
+        Mon, 14 Oct 2019 11:20:24 +0200 (CEST)
+Received: from SAFEX1HUBCAS22.st.com (10.75.90.93) by Safex1hubcas24.st.com
+ (10.75.90.94) with Microsoft SMTP Server (TLS) id 14.3.439.0; Mon, 14 Oct
+ 2019 11:20:24 +0200
+Received: from localhost (10.201.20.122) by Webmail-ga.st.com (10.75.90.48)
+ with Microsoft SMTP Server (TLS) id 14.3.439.0; Mon, 14 Oct 2019 11:20:23
+ +0200
+From:   Benjamin Gaignard <benjamin.gaignard@st.com>
+To:     <mchehab@kernel.org>, <robh+dt@kernel.org>, <mark.rutland@arm.com>,
+        <alexandre.torgue@st.com>, <yannick.fertre@st.com>,
+        <philippe.cornu@st.com>, <hugues.fruchet@st.com>
+CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>,
+        Benjamin Gaignard <benjamin.gaignard@st.com>
+Subject: [PATCH v3] dt-bindings: media: Convert stm32 cec bindings to json-schema
+Date:   Mon, 14 Oct 2019 11:20:20 +0200
+Message-ID: <20191014092021.24020-1-benjamin.gaignard@st.com>
+X-Mailer: git-send-email 2.15.0
 MIME-Version: 1.0
-In-Reply-To: <20191014041721.52025-4-c0d1n61at3@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfKN5oFCo5EVOHvoe+HbLJIs9kpMaRTSdoD3zmwZnpmgtmfCFqwNCHkzqH4fbU0xkI31QilSKhuoiI7XIpuWwf8Rpd8A4D2mWQyjQUtStcmYxlJfCExvl
- oiJNazZX2eKWiSiHPmZpPasBsYNHdRrqmrlAys6hBUDKMVXHSiEIBQtfStdfeVVA3gu0VYzkQCAQ5edPIAB7Jw0JNu7lSGzyEuNIO/gK44uOguXibEdE2aXM
- 1dDW5U3M0/jjXyJxxQPmN6GyBuflQ6PXuguACTHpi/H3k5ig5g2NsL6L58F4lSckIfo/SV/9QSjQecc9NhE+aUF4h5x8+l0h/d4uQN4k5W0DG9DHRpfjuS3F
- MIDvDfBtbBubn5WWgLHbxNJXvwkbmQ==
+Content-Type: text/plain
+X-Originating-IP: [10.201.20.122]
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,1.0.8
+ definitions=2019-10-14_06:2019-10-10,2019-10-14 signatures=0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/14/19 6:17 AM, Jiunn Chang wrote:
-> This table will allow proper testing of digital tuner control features.
-> There are three channels per TSID/ONID/SID combination along with channel
-> data for the following digital ARIB broadcast systems:
->   - ARIB-BS
->   - ARIB-T
-> 
-> Signed-off-by: Jiunn Chang <c0d1n61at3@gmail.com>
-> ---
->  utils/cec-follower/cec-tuner.cpp | 52 ++++++++++++++++++++++++++++++++
->  1 file changed, 52 insertions(+)
-> 
-> diff --git a/utils/cec-follower/cec-tuner.cpp b/utils/cec-follower/cec-tuner.cpp
-> index 3a71a890..4fd65876 100644
-> --- a/utils/cec-follower/cec-tuner.cpp
-> +++ b/utils/cec-follower/cec-tuner.cpp
-> @@ -9,8 +9,60 @@
->  #include "cec-follower.h"
->  
->  #define NUM_ANALOG_FREQS 3
-> +#define NUM_DIGITAL_CHANS 3
->  #define TOT_ANALOG_FREQS (sizeof(analog_freqs_khz) / sizeof(analog_freqs_khz[0][0][0]))
->  
-> +struct service_info {
-> +	unsigned tsid;
-> +	unsigned onid;
-> +	unsigned sid;
-> +	unsigned fmt;
-> +	unsigned major;
-> +	unsigned minor;
-> +};
-> +
-> +/*
-> + * This table contains the digital television channels for ARIB (ISDB).  There
-> + * are a total of three channels that are identified by digital IDs or by
-> + * channel.
-> + *
-> + * CEC 17 of the 1.4 specification lists the available digital identification
-> + * methods, IDs, and channel data.
-> + *
-> + * Digital channel data for ARIB-BS is from:
-> + *
-> + * https://sichbopvr.com/frequency-tables/19-20E
-> + *
-> + * No public data was found for ARIB-BS so data is just copied.
-> + *
-> + * Digital channel data for ARIB-T is from:
-> + *
-> + * https://sichbopvr.com/frequency-tables/Brazil/Rio%20de%20Janeiro/Rio%20De%20Janeiro
-> + */
-> +static const struct service_info digital_arib_data[2][1][NUM_DIGITAL_CHANS] =
+Convert the STM32 cec binding to DT schema format using json-schema
 
-Just drop the [1] here and in the next two patches. For all bcast systems you just
-have one satellite and one terrestrial system, since we decided not to have two
-satellite bcast systems.
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@st.com>
+---
+changes in v3:
+- use (GPL-2.0-only OR BSD-2-Clause) license
 
-So we can just cut out the [1] bit since it doesn't really make sense anymore.
+changes in v2:
+- use BSD-2-Clause license
+- add additionalProperties: false
+- remove pinctrl-names and pinctrl-[0-9]
 
-Regards,
+ .../devicetree/bindings/media/st,stm32-cec.txt     | 19 --------
+ .../devicetree/bindings/media/st,stm32-cec.yaml    | 54 ++++++++++++++++++++++
+ 2 files changed, 54 insertions(+), 19 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/st,stm32-cec.txt
+ create mode 100644 Documentation/devicetree/bindings/media/st,stm32-cec.yaml
 
-	Hans
-
-> +{
-> +	// satellite
-> +	{
-> +		// arib-bs
-> +		{
-> +			// tsid, onid, sid, fmt, major, minor
-> +			{ 1032, 1, 30203, 1, 0, 30203 },
-> +			{ 1046, 1, 30505, 1, 0, 30505 },
-> +			{ 1060, 1, 30609, 1, 0, 30609 }
-> +		}
-> +	},
-> +	// terrestrial
-> +	{
-> +		// arib-t
-> +		{
-> +			// tsid, onid, sid, fmt, major, minor
-> +			{ 1519, 1519, 48608, 1, 0, 48608 },
-> +			{ 1624, 1624, 51992, 1, 0, 51992 },
-> +			{ 1905, 1905, 60960, 1, 0, 60960 }
-> +		}
-> +	}
-> +};
-> +
->  /*
->   * This table contains analog television channel frequencies in KHz.  There are
->   * a total of three frequencies per analog broadcast type and broadcast system.
-> 
+diff --git a/Documentation/devicetree/bindings/media/st,stm32-cec.txt b/Documentation/devicetree/bindings/media/st,stm32-cec.txt
+deleted file mode 100644
+index 6be2381c180d..000000000000
+--- a/Documentation/devicetree/bindings/media/st,stm32-cec.txt
++++ /dev/null
+@@ -1,19 +0,0 @@
+-STMicroelectronics STM32 CEC driver
+-
+-Required properties:
+- - compatible : value should be "st,stm32-cec"
+- - reg : Physical base address of the IP registers and length of memory
+-	 mapped region.
+- - clocks : from common clock binding: handle to CEC clocks
+- - clock-names : from common clock binding: must be "cec" and "hdmi-cec".
+- - interrupts : CEC interrupt number to the CPU.
+-
+-Example for stm32f746:
+-
+-cec: cec@40006c00 {
+-	compatible = "st,stm32-cec";
+-	reg = <0x40006C00 0x400>;
+-	interrupts = <94>;
+-	clocks = <&rcc 0 STM32F7_APB1_CLOCK(CEC)>, <&rcc 1 CLK_HDMI_CEC>;
+-	clock-names = "cec", "hdmi-cec";
+-};
+diff --git a/Documentation/devicetree/bindings/media/st,stm32-cec.yaml b/Documentation/devicetree/bindings/media/st,stm32-cec.yaml
+new file mode 100644
+index 000000000000..d75019c093a4
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/st,stm32-cec.yaml
+@@ -0,0 +1,54 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/st,stm32-cec.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: STMicroelectronics STM32 CEC bindings
++
++maintainers:
++  - Benjamin Gaignard <benjamin.gaignard@st.com>
++  - Yannick Fertre <yannick.fertre@st.com>
++
++properties:
++  compatible:
++    const: st,stm32-cec
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: Module Clock
++      - description: Bus Clock
++
++  clock-names:
++    items:
++      - const: cec
++      - const: hdmi-cec
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - clock-names
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/clock/stm32mp1-clks.h>
++    cec: cec@40006c00 {
++        compatible = "st,stm32-cec";
++        reg = <0x40006c00 0x400>;
++        interrupts = <GIC_SPI 94 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&rcc CEC_K>, <&clk_lse>;
++        clock-names = "cec", "hdmi-cec";
++    };
++
++...
+-- 
+2.15.0
 
