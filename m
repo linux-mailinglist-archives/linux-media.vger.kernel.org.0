@@ -2,85 +2,183 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BC252D6838
-	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2019 19:18:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E6EBD684D
+	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2019 19:20:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388277AbfJNRS1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Oct 2019 13:18:27 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:42686 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729997AbfJNRS1 (ORCPT
+        id S2388480AbfJNRUI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Oct 2019 13:20:08 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:36451 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731347AbfJNRUI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Oct 2019 13:18:27 -0400
-Received: by mail-oi1-f196.google.com with SMTP id i185so14346424oif.9;
-        Mon, 14 Oct 2019 10:18:25 -0700 (PDT)
+        Mon, 14 Oct 2019 13:20:08 -0400
+Received: by mail-wm1-f66.google.com with SMTP id m18so17538317wmc.1
+        for <linux-media@vger.kernel.org>; Mon, 14 Oct 2019 10:20:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=SNvp6+uJ5iM8LlAFujTZw8UcsZkEhJWlIlTVLIOPnjc=;
+        b=uJyOWX5BkxolbwT6AYMP4TJgW8ilXSog5hlugApL88JFltwDKGUfLgATfr92hMfmqO
+         W2ehs4i8wvgJVGI+CL//nhpmYwdnMxz5ceOKiiR/TkvxTbhLk/UoIoOD/QRaWBM7E4O7
+         Ja2fIF7HE/k7Q+3BU36EgCQU1Ay55W/RHjG5CKTgq5O6o9U61/mC7Th0KLmbKayPeFPZ
+         ew98GxNR/K21AGm+W+U1SfW8wYSVjgCiGrI7STKrV/e2mQufrfNbg6maKYq+12N6+dWl
+         ODasoybiJVsncNtONCiyY8nJgtHsVho5k7++HzqgSiiUwne7/pymOkED6GMzp/ExzsqG
+         cU0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=woBF22Zo3gSgEXnFBjrpZBAJnkenQ3ulqN1pWDAJfBI=;
-        b=iIaJnSY5r6Ahxx8YoZjrnS4jLJmWxbdiN93xBV+bw4yS1Poo3t+GPpFmRCZwtvtMSr
-         MB02bQhArwCrXHzOlHK7msZlH+HGM3CXzv9gNxRhn5gHI1Oxeac5y+q1KbOi/clRC5+d
-         QKSfJw4nLvapU4GrZHY5I6o6DY82B0j61ArVo4HFNvI/tBzBY7OyJxR344reZk17Iw4K
-         KPOTPDV9fKizD2cOI2HRtQR27y7p8oJlM5m1icDC9SzHEJT6xfJp/2SqV6mQ4PPDlxhK
-         GW17Nqq4OXFuKCDQo1e9y0HbLr/UBBlEx3p7EbEIuQ8dW/kAbo+ZsMUrEmMqnb11Iv2u
-         RaKg==
-X-Gm-Message-State: APjAAAV03sYNDmX0I5SmnavEiK6BieYt+Lkd8fASLgOCzd3V+MGjUfON
-        0+QhO1RBLq1cl85SDawbDA==
-X-Google-Smtp-Source: APXvYqyr/1vK3/H8M3hQGrLJtcS3+95Pa3jcICVvxpRAUDlmEdNi7d5eXvtMuY3v1sivDQUgc/Dw4w==
-X-Received: by 2002:aca:4994:: with SMTP id w142mr25900821oia.88.1571073505046;
-        Mon, 14 Oct 2019 10:18:25 -0700 (PDT)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id v6sm5638740oie.4.2019.10.14.10.18.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Oct 2019 10:18:24 -0700 (PDT)
-Date:   Mon, 14 Oct 2019 12:18:22 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Benjamin Gaignard <benjamin.gaignard@st.com>
-Cc:     mchehab@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com,
-        alexandre.torgue@st.com, yannick.fertre@st.com,
-        philippe.cornu@st.com, hugues.fruchet@st.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Benjamin Gaignard <benjamin.gaignard@st.com>
-Subject: Re: [PATCH v3] dt-bindings: media: Convert stm32 dcmi bindings to
- json-schema
-Message-ID: <20191014171822.GA7421@bogus>
-References: <20191014092021.24020-1-benjamin.gaignard@st.com>
- <20191014092021.24020-2-benjamin.gaignard@st.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=SNvp6+uJ5iM8LlAFujTZw8UcsZkEhJWlIlTVLIOPnjc=;
+        b=tJ632Oh1tKxoyRBzwywy2YtZkg57EsQuBpPKnTU6aACqrWtqXFNub2pRiEgqPPYdiK
+         cwxvR2phAQfxbwwhHw5xNXnED/ba80WdtL8J3Y5ukaNlr5d+fOYdQgXiQ/Y/Iq2cbf1P
+         pPenInO3lHCauDaJzwny8N0Tz8Vv8USyQFR+FU/p7MgoymzbJWQ4botZmj3RSS1ZUH7B
+         3+P42P9yWiVQtQlHaXeP8SS1hFl5cqjD8t0zSkgHOn09U7uagE42PbzgOgj+D6eEZgnp
+         0HU1fgxa3l0Hb+EkK9WmIzGh/LykmFlUWO31YIxDyjPM+9XUlydyE8GXoXY11RDdnqlN
+         sHcA==
+X-Gm-Message-State: APjAAAXO+kOzyx0KizL9R8LXg0Y7a4bu/LKtbwne+f2BYYsqTV2LW/9v
+        FHl9k3zqmdt441HOFaeHfq5nY8lZ
+X-Google-Smtp-Source: APXvYqxawlzhvPVx5s7Sbs6vJ6F33FvxtOPpA9WfHm22ArmEQfKNzmSTdeXYRoXx8jbc96w3UgaB0A==
+X-Received: by 2002:a1c:1901:: with SMTP id 1mr15815262wmz.28.1571073605972;
+        Mon, 14 Oct 2019 10:20:05 -0700 (PDT)
+Received: from [172.30.89.1] (sjewanfw1-nat.mentorg.com. [139.181.7.34])
+        by smtp.gmail.com with ESMTPSA id z9sm20118292wrp.26.2019.10.14.10.20.03
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 14 Oct 2019 10:20:05 -0700 (PDT)
+Subject: Re: [PATCH v2 3/3] media: imx.rst: Provide instructions for the
+ i.MX6DL sabreauto
+To:     Fabio Estevam <festevam@gmail.com>, hverkuil-cisco@xs4all.nl
+Cc:     mchehab@kernel.org, p.zabel@pengutronix.de, tharvey@gateworks.com,
+        linux-media@vger.kernel.org
+References: <20191014135424.7000-1-festevam@gmail.com>
+ <20191014135424.7000-3-festevam@gmail.com>
+From:   Steve Longerbeam <slongerbeam@gmail.com>
+Message-ID: <dd72d8a5-3067-b640-12b6-052d3ecf57ca@gmail.com>
+Date:   Mon, 14 Oct 2019 10:20:01 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191014092021.24020-2-benjamin.gaignard@st.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191014135424.7000-3-festevam@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 14 Oct 2019 11:20:21 +0200, Benjamin Gaignard wrote:
-> Convert the STM32 dcmi binding to DT schema format using json-schema
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@st.com>
+Hi Fabio,
+
+On 10/14/19 6:54 AM, Fabio Estevam wrote:
+> The i.MX6DL sabreauto has different numbering on the I2C bus and
+> I2C muxes compared to the i.MX6Q as shown in the kernel log below:
+>
+> [    5.159423] imx-media: ipu1_csi0_mux:5 -> ipu1_csi0:0
+> [    5.164618] imx-media: ipu1_csi1_mux:5 -> ipu1_csi1:0
+> [    5.169953] imx-media: adv7180 4-0021:0 -> ipu1_csi0_mux:4
+>
+> To avoid confusion, add an entry that shows how to setup the links and
+> configure the pads that are specific to the i.MX6DL sabreauto.
+>
+> Signed-off-by: Fabio Estevam <festevam@gmail.com>
 > ---
-> changes in v3:
-> -use (GPL-2.0-only OR BSD-2-Clause) license
-> 
-> changes in v2:
-> - use BSD-2-Clause license
-> - remove useless dma descriptions
-> - fix clock property
-> - add additionalProperties: false
-> - fix reset indentation
-> 
->  .../devicetree/bindings/media/st,stm32-dcmi.txt    | 45 -----------
->  .../devicetree/bindings/media/st,stm32-dcmi.yaml   | 86 ++++++++++++++++++++++
->  2 files changed, 86 insertions(+), 45 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/media/st,stm32-dcmi.txt
->  create mode 100644 Documentation/devicetree/bindings/media/st,stm32-dcmi.yaml
-> 
+> Changes since v1:
+> - Add a new entry for the mx6dl sabreauto
+>
+>   Documentation/media/v4l-drivers/imx.rst | 57 +++++++++++++++++++++++++
+>   1 file changed, 57 insertions(+)
+>
+> diff --git a/Documentation/media/v4l-drivers/imx.rst b/Documentation/media/v4l-drivers/imx.rst
+> index 36e8d1226ac6..6a9dad8b050b 100644
+> --- a/Documentation/media/v4l-drivers/imx.rst
+> +++ b/Documentation/media/v4l-drivers/imx.rst
+> @@ -572,6 +572,63 @@ supported YUV or RGB pixelformat on the capture device node.
+>   This platform accepts Composite Video analog inputs to the ADV7180 on
+>   Ain1 (connector J42).
+>   
+> +i.MX6DL SabreAuto with ADV7180 decoder
+> +--------------------------------------
+> +
+> +On the i.MX6DL SabreAuto, an on-board ADV7180 SD decoder is connected to the
+> +parallel bus input on the internal video mux to IPU1 CSI0.
+> +
+> +The following example configures a pipeline to capture from the ADV7180
+> +video decoder, assuming NTSC 720x480 input signals, using simple
+> +interweave (unconverted and without motion compensation). The adv7180
+> +must output sequential or alternating fields (field type 'seq-bt' for
+> +NTSC, or 'alternate'):
+> +
+> +.. code-block:: none
+> +
+> +   # Setup links
+> +   media-ctl -l "'adv7180 4-0021':0 -> 'ipu1_csi0_mux':4[1]"
+> +   media-ctl -l "'ipu1_csi0_mux':5 -> 'ipu1_csi0':0[1]"
+> +   media-ctl -l "'ipu1_csi0':2 -> 'ipu1_csi0 capture':0[1]"
+> +   # Configure pads
+> +   media-ctl -V "'adv7180 4-0021':0 [fmt:UYVY2X8/720x480 field:seq-bt]"
+> +   media-ctl -V "'ipu1_csi0_mux':5 [fmt:UYVY2X8/720x480]"
+> +   media-ctl -V "'ipu1_csi0':2 [fmt:AYUV32/720x480]"
+> +   # Configure "ipu1_csi0 capture" interface (assumed at /dev/video4)
+> +   v4l2-ctl -d4 --set-fmt-video=field=interlaced_bt
+> +
+> +Streaming can then begin on /dev/video4. The v4l2-ctl tool can also be
+> +used to select any supported YUV pixelformat on /dev/video4.
+> +
+> +This example configures a pipeline to capture from the ADV7180
+> +video decoder, assuming PAL 720x576 input signals, with Motion
+> +Compensated de-interlacing. The adv7180 must output sequential or
+> +alternating fields (field type 'seq-tb' for PAL, or 'alternate').
+> +
+> +.. code-block:: none
+> +
+> +   # Setup links
+> +   media-ctl -l "'adv7180 4-0021':0 -> 'ipu1_csi0_mux':4[1]"
+> +   media-ctl -l "'ipu1_csi0_mux':5 -> 'ipu1_csi0':0[1]"
+> +   media-ctl -l "'ipu1_csi0':1 -> 'ipu1_vdic':0[1]"
+> +   media-ctl -l "'ipu1_vdic':2 -> 'ipu1_ic_prp':0[1]"
+> +   media-ctl -l "'ipu1_ic_prp':2 -> 'ipu1_ic_prpvf':0[1]"
+> +   media-ctl -l "'ipu1_ic_prpvf':1 -> 'ipu1_ic_prpvf capture':0[1]"
+> +   # Configure pads
+> +   media-ctl -V "'adv7180 3-0021':0 [fmt:UYVY2X8/720x576 field:seq-tb]"
 
-Applied, thanks.
+should be "'adv7180 4-0021:0".
 
-Rob
+> +   media-ctl -V "'ipu1_csi0_mux':2 [fmt:UYVY2X8/720x576]"
+
+should be "'ipu1_csi0_mux':5".
+
+> +   media-ctl -V "'ipu1_csi0':1 [fmt:AYUV32/720x576]"
+> +   media-ctl -V "'ipu1_vdic':2 [fmt:AYUV32/720x576 field:none]"
+> +   media-ctl -V "'ipu1_ic_prp':2 [fmt:AYUV32/720x576 field:none]"
+> +   media-ctl -V "'ipu1_ic_prpvf':1 [fmt:AYUV32/720x576 field:none]"
+
+Please add (after above line):
+
+# Configure "ipu1_ic_prpvf capture" interface (assumed at /dev/video1)
+    v4l2-ctl -d1 --set-fmt-video=field=none
+
+> +
+> +Streaming can then begin on the capture device node at
+> +"ipu1_ic_prpvf capture". The v4l2-ctl tool can be used to select any
+> +supported YUV or RGB pixelformat on the capture device node.
+> +
+
+Please replace above paragraph with:
+
+Streaming can then begin on /dev/video1. The v4l2-ctl tool can also be
+used to select any supported YUV pixelformat on /dev/video1.
+
+If you don't mind while you are on this, can you please add this 
+v4l2-ctl step to the i.MX6Q PAL example, it is missing there as well.
+
+Steve
+
+
+> +This platform accepts Composite Video analog inputs to the ADV7180 on
+> +Ain1 (connector J42).
+> +
+>   SabreSD with MIPI CSI-2 OV5640
+>   ------------------------------
+>   
+
