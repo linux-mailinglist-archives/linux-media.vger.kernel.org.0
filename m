@@ -2,98 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ADC95D5B3E
-	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2019 08:19:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 219F5D5CA4
+	for <lists+linux-media@lfdr.de>; Mon, 14 Oct 2019 09:51:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729978AbfJNGS6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Oct 2019 02:18:58 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:31622 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729979AbfJNGS5 (ORCPT
+        id S1729979AbfJNHve (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Oct 2019 03:51:34 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:50051 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727038AbfJNHve (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Oct 2019 02:18:57 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x9E67Mwi139988
-        for <linux-media@vger.kernel.org>; Mon, 14 Oct 2019 02:18:56 -0400
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2vmdhfgc5p-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-media@vger.kernel.org>; Mon, 14 Oct 2019 02:18:56 -0400
-Received: from localhost
-        by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-media@vger.kernel.org> from <heiko.carstens@de.ibm.com>;
-        Mon, 14 Oct 2019 07:18:53 +0100
-Received: from b06avi18878370.portsmouth.uk.ibm.com (9.149.26.194)
-        by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Mon, 14 Oct 2019 07:18:49 +0100
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
-        by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x9E6Im7a40567074
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 14 Oct 2019 06:18:48 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 039EC4CCB7;
-        Mon, 14 Oct 2019 06:18:48 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 6D2404CC9B;
-        Mon, 14 Oct 2019 06:18:47 +0000 (GMT)
-Received: from osiris (unknown [9.152.212.85])
-        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Mon, 14 Oct 2019 06:18:47 +0000 (GMT)
-Date:   Mon, 14 Oct 2019 08:18:46 +0200
-From:   Heiko Carstens <heiko.carstens@de.ibm.com>
-To:     Johan Hovold <johan@kernel.org>
-Cc:     Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
-        Fabien Dessenne <fabien.dessenne@st.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Harald Freudenberger <freude@linux.ibm.com>,
+        Mon, 14 Oct 2019 03:51:34 -0400
+Received: from [IPv6:2001:983:e9a7:1:9cd4:edb1:3831:f13d] ([IPv6:2001:983:e9a7:1:9cd4:edb1:3831:f13d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id Jv8ZiFGrCop0AJv8aicxLH; Mon, 14 Oct 2019 09:51:32 +0200
+Subject: Re: [PATCH v7 7/9] drm: tegra: use cec_notifier_conn_(un)register
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Dariusz Marcinkiewicz <darekm@google.com>,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
         David Airlie <airlied@linux.ie>,
         Daniel Vetter <daniel@ffwll.ch>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-s390@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable <stable@vger.kernel.org>,
-        Martin Schwidefsky <schwidefsky@de.ibm.com>
-Subject: Re: [PATCH 4/4] s390/zcrypt: fix memleak at release
-References: <20191010131333.23635-1-johan@kernel.org>
- <20191010131333.23635-5-johan@kernel.org>
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20190814104520.6001-1-darekm@google.com>
+ <20190814104520.6001-8-darekm@google.com>
+ <f0e99db8-3329-f272-e139-a7c713f200ea@xs4all.nl> <20190828093820.GE2917@ulmo>
+ <2eed5ed3-85f3-4c19-4dd2-3d8432829c2a@xs4all.nl>
+ <20190828115400.GA30919@ulmo>
+ <3f7fe51a-8958-a425-f5fd-01df5301d6b2@xs4all.nl>
+Message-ID: <cf936882-155c-90d3-2a10-728699392c6d@xs4all.nl>
+Date:   Mon, 14 Oct 2019 09:51:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191010131333.23635-5-johan@kernel.org>
-X-TM-AS-GCONF: 00
-x-cbid: 19101406-0008-0000-0000-00000321CE1C
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19101406-0009-0000-0000-00004A40DEC6
-Message-Id: <20191014061846.GA6834@osiris>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-10-14_05:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=5 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=923 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1908290000 definitions=main-1910140060
+In-Reply-To: <3f7fe51a-8958-a425-f5fd-01df5301d6b2@xs4all.nl>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfGbuU7DDL7KyVME5FwCzYOw1TzZkGOvsTJjVw3Y0FGCy76Zxyq86vy8M0cacjLOF97XRpO5TyMuyREZUqJ1gvYIVTn3BkMk8NgDLygSg5pLmNj0uLZHI
+ zn0hiVOQwcHxc9kGe1rNGatQhAvo8quCB0MSphrw4m1sOAzkavW2DGhyAIXnLrAPSzw2TJeKzGiOJtsTN/0aE0BHgfSLoKH98o7Vqp56Ww3482ioh5a2HD8R
+ 1fFPY20AX8HLdSqMwybPLfyXeWhvm2ZmKB/HsSbGI/jDJ3qjxSUy8n6UTMUGZRzEP1shWNNJEBUaE5vvOu3C7v6q7f0CTaH804/+4+BbujVv3NCf1zYWM1Lg
+ dOPGrU3pxHJIW8g9+Vk+UtUVJ5QaVZUmgppcn8WZjti3uZ54pf6aCwJmWcM6wkIcpmttTPPB0/lT0HBN3kmFuwGdDeoAh/1rWePMcnqWbfOz8naI7geFIdYz
+ tTKLc++ubZgOMQuqhU5nri+CbdSKDH6o4H2QfQTasmug1a7YYdLfl1tzsr7P4gbH2XvQixfvpgHC3F+USUk8icIahPy3Hzuhzvv08g==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Oct 10, 2019 at 03:13:33PM +0200, Johan Hovold wrote:
-> If a process is interrupted while accessing the crypto device and the
-> global ap_perms_mutex is contented, release() could return early and
-> fail to free related resources.
-> 
-> Fixes: 00fab2350e6b ("s390/zcrypt: multiple zcrypt device nodes support")
-> Cc: stable <stable@vger.kernel.org>     # 4.19
-> Cc: Harald Freudenberger <freude@linux.ibm.com>
-> Cc: Martin Schwidefsky <schwidefsky@de.ibm.com>
-> Signed-off-by: Johan Hovold <johan@kernel.org>
-> ---
->  drivers/s390/crypto/zcrypt_api.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+Thierry,
 
-Applied, thanks!
+Another reminder :-)
+
+If you want me to do this, then just let me know!
+
+Regards,
+
+	Hans
+
+On 10/4/19 10:48 AM, Hans Verkuil wrote:
+> Hi Thierry,
+> 
+> Just a reminder: this patch hasn't been merged yet for v5.5.
+> 
+> Thanks!
+> 
+> 	Hans
+> 
+> On 8/28/19 1:54 PM, Thierry Reding wrote:
+>> On Wed, Aug 28, 2019 at 12:06:34PM +0200, Hans Verkuil wrote:
+>>> On 8/28/19 11:38 AM, Thierry Reding wrote:
+>>>> On Wed, Aug 28, 2019 at 10:09:30AM +0200, Hans Verkuil wrote:
+>>>>> Thierry,
+>>>>>
+>>>>> Can you review this patch?
+>>>>>
+>>>>> Thanks!
+>>>>>
+>>>>> 	Hans
+>>>>
+>>>> Did you want me to pick this up into the drm/tegra tree? Or do you want
+>>>> to pick it up into your tree?
+>>>
+>>> Can you pick it up for the next cycle? As you mentioned, we missed the
+>>> deadline for 5.4, so this feature won't be enabled in the public CEC API
+>>> until 5.5.
+>>>
+>>> Thanks!
+>>
+>> Sure, will do.
+>>
+>> Thierry
+>>
+> 
 
