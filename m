@@ -2,95 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E6E18D7AB5
-	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2019 18:01:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 814F0D7AD3
+	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2019 18:07:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387412AbfJOQBG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Oct 2019 12:01:06 -0400
-Received: from mail-qk1-f193.google.com ([209.85.222.193]:33851 "EHLO
-        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731936AbfJOQBG (ORCPT
+        id S1727501AbfJOQH7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Oct 2019 12:07:59 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:32825 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727421AbfJOQH6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Oct 2019 12:01:06 -0400
-Received: by mail-qk1-f193.google.com with SMTP id q203so19667108qke.1
-        for <linux-media@vger.kernel.org>; Tue, 15 Oct 2019 09:01:05 -0700 (PDT)
+        Tue, 15 Oct 2019 12:07:58 -0400
+Received: by mail-wr1-f65.google.com with SMTP id b9so24595759wrs.0
+        for <linux-media@vger.kernel.org>; Tue, 15 Oct 2019 09:07:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=bqomNJEQP+6JG6lhDyw8WOx0GH2movrYVMkAVxI04lI=;
-        b=jxlBOMQMNcaSoOUpLgJn+4vbbHmd4UMotZOGwvB04O9+BrMByjBcIhmOinDpt8gH23
-         KJBgPoAKhkGoROQHnk9pg3eW3IZm1PRCavpdK0ou3N2FWRT2TffWA+JuqvOZsFWyeB6O
-         enyox4HpoQ54MPVNKj+J4Jw18GtlQF3cYibLx/JV4x2P0lPJC6BRiraVn9JbcdGDzzKE
-         6hG6ZQ/adrMOrLAs163Jnc+l6FtcsEm28CUuZKLHsAtaElAwlL5eH0pqkfTT42jDJL5M
-         nAlTdaiZ3KKoLPqoErQ1DBmNTIPaMRjFPjE/dRtq3rFXW5D0/NouZcNMx0MGqgpNwePf
-         RjGQ==
+        d=gateworks-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+le0M9/4n5UhYnsCppOwr6SCGBhqAkxkpa4KhDbXJKc=;
+        b=zEtgCIMhMBLZzPPtDCU68n+07tF4BtuaDTzhfoWMJA346BezexUsTA46QyPzQRqFCo
+         +slxAyZOKmRFBepJOsvrfkFw6EQXBbj4SEHwdqZqNL+258a3liSCzryRxW6HL316BQTD
+         016C4dIUnrl+BZMmRsZQNST7+s6+gf7k6xDZ+BtIhLt0Q13iUhrpJcfYRfMf7NkSmX0d
+         Zb+TdocPfZKX4uC1AGxyPfUM+tfG5higXOM+0XQqjW4qg7Ob/2NmeZsFhQ2tyhN8X8zl
+         PPwQ875fQwAfV+GvZc4/3Ht47APA8oglzVKruATktWiC/UpAZn2JHrshpt1dRA8309QS
+         KHOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=bqomNJEQP+6JG6lhDyw8WOx0GH2movrYVMkAVxI04lI=;
-        b=VeacLCVy62tI2BJF1XNKY9St26deGnOmh0B3ryxsuh4h/HyeDgU2uLTznzT/Wn1wtS
-         T9uK9qZQXpHx+FIrdIhiuYv9aEe4nZasH6vNU1a0wxP5optMcT0nispC19Sw3nPf/2E3
-         yJrgzypByTAn3/XUMuDjiiQGCbqL41LOYcgR1rBDzg95pOLd6+CZwqXfTV7UXhOjJ2a9
-         CxI6s/yESFih+12Weh2wX3Reg0V6ysw3uymBQD96m6ZSnQNXlwTdv4puuHWKS0i91YvA
-         1cRGtJdHJXKIebrDjtsX5K+8vK1SkAR7UQnRfAuuwFtDIqM9EiWRGdzAz0wmcUWdVv8A
-         fL9w==
-X-Gm-Message-State: APjAAAW+iUYIt9BWUE1UMhs5xG4RtWYdpdjMUe6okdx85UUDYDbedztJ
-        oOruKtcirNmNTB0TKZEs/js=
-X-Google-Smtp-Source: APXvYqxGqol6nxM8K7a027ynAQ4AK67y1zjzqufH99ggOhHJ43M3Ptv40IU6W4UWHejC3f8+D4TQrw==
-X-Received: by 2002:a37:aaca:: with SMTP id t193mr230426qke.66.1571155265282;
-        Tue, 15 Oct 2019 09:01:05 -0700 (PDT)
-Received: from fabio-Latitude-E5450.nxp.com ([177.221.114.206])
-        by smtp.gmail.com with ESMTPSA id n21sm10304930qka.83.2019.10.15.09.01.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Oct 2019 09:01:04 -0700 (PDT)
-From:   Fabio Estevam <festevam@gmail.com>
-To:     hverkuil-cisco@xs4all.nl
-Cc:     mchehab@kernel.org, slongerbeam@gmail.com, tharvey@gateworks.com,
-        p.zabel@pengutronix.de, linux-media@vger.kernel.org,
-        Fabio Estevam <festevam@gmail.com>
-Subject: [PATCH v3 4/4] media: imx.rst: Pass the v4l2-ctl configuration
-Date:   Tue, 15 Oct 2019 13:00:42 -0300
-Message-Id: <20191015160042.28113-4-festevam@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191015160042.28113-1-festevam@gmail.com>
-References: <20191015160042.28113-1-festevam@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+le0M9/4n5UhYnsCppOwr6SCGBhqAkxkpa4KhDbXJKc=;
+        b=JT02wwOLx0RJga8cs2gq2sfumBLmTW+RnAlIVwNqJBeSpgwr3ILfosOdlhZ9XLfrEZ
+         J6uvS3TFFBfAsRUBO912dkhyYqAo+ufMMsFjX/IUJ8ADqFcRlWhaOsnJeqgW+KtiJ/Pp
+         S1vHWcPiSoOuRaTbDXNrMaC4RWNoGHwXlyx4JcHh8xEACYtsJAi6MqlWhmdZPJR3HS2h
+         bDiXC/IjdbzKMPtFTfOwUUEPTPjWPFnr2g8bI4AcRb8FDKm1DOyGwM48OQuCOymJFU9M
+         8TKYeWPn6WwI3zq7S+5VisBX8Y1rarqXJjDhQKqA9JHJnsb9Sm+OB8fwCXJDLO0CpcI6
+         yI0g==
+X-Gm-Message-State: APjAAAWteQfYTaelAQIFkY+lW1B+eG7EV+31pt1xzDF92PEh7T4hBbqE
+        RnupRvV7iyi7uDQIHU5kWHED0VOQBSru8IcBPsRGRA==
+X-Google-Smtp-Source: APXvYqyq+Ui0chwUTJb/RuOyaHQtvv22kGYhUhjjTxsZog8KlpfcNgC4OWQ5gO0GrhRlaDDaYePFei5bmDIoRfQwiCU=
+X-Received: by 2002:adf:94e2:: with SMTP id 89mr680019wrr.259.1571155676687;
+ Tue, 15 Oct 2019 09:07:56 -0700 (PDT)
+MIME-Version: 1.0
+References: <20191010154417.9437-1-festevam@gmail.com> <0f7a7910-8652-7a95-1f04-e25278ec05aa@gmail.com>
+ <593b540b-d5f9-63ba-becc-0902dc5d7900@gmail.com> <CAOMZO5BgnbfFSmu7HEWtaT9Gexb-u13ZxzWEN-+Hw9eMfuC+LQ@mail.gmail.com>
+ <CAJ+vNU2fJ_eGMwQH7-HmO_==5p3Uuscv6S2fG_NY67J2o8OG+g@mail.gmail.com> <CAOMZO5ABOV+Z7FenZykU82w-yUvae6zm6d6inN8SYrhViudYnA@mail.gmail.com>
+In-Reply-To: <CAOMZO5ABOV+Z7FenZykU82w-yUvae6zm6d6inN8SYrhViudYnA@mail.gmail.com>
+From:   Tim Harvey <tharvey@gateworks.com>
+Date:   Tue, 15 Oct 2019 09:07:42 -0700
+Message-ID: <CAJ+vNU22JmDQ+tyRFSQgM_wp-pgfE7gOt2i3QbdOJp0KuDXfRQ@mail.gmail.com>
+Subject: Re: [PATCH] media: imx.rst: Update the imx6-sabreauto ADV7180 instructions
+To:     Fabio Estevam <festevam@gmail.com>
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-media <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Pass the v4l2-ctl configuration for the imx6q-sabreauto PAL
-example for completeness and consistency. 
+On Tue, Oct 15, 2019 at 8:53 AM Fabio Estevam <festevam@gmail.com> wrote:
+>
+> Hi Tim,
+>
+> On Tue, Oct 15, 2019 at 12:49 PM Tim Harvey <tharvey@gateworks.com> wrote:
+>
+> > Fabio,
+> >
+> > I assume your seeing the same rolling video issue on capture unless
+> > you discard the first few 'corrupt' frames? I'm still wondering how we
+> > can address this properly upstream.
+>
+> On i.MX53 I still get the rolling video even if I discard the few
+> corrupt frames.
+>
+> I tested the same i.MX53 hardware with a vendor 2.6.35 kernel and it
+> captures correctly, no scrolling at all.
 
-Suggested-by: Steve Longerbeam <slongerbeam@gmail.com>
-Signed-off-by: Fabio Estevam <festevam@gmail.com>
----
-Changes since v2:
-- Newly introduced patch
+Right, I understand there is something else going on with the i.MX53
+but what about the i.MX6 testing related to these patches?
 
- Documentation/media/v4l-drivers/imx.rst | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+Regarding the i.MX53 as you have a kernel that does work you could
+start looking for i2c register differences and csi config differences
+between the two kernels. I discovered an issue with the adv7280 by
+comparing i2c register dumps.
 
-diff --git a/Documentation/media/v4l-drivers/imx.rst b/Documentation/media/v4l-drivers/imx.rst
-index aab68d8ef2c9..1246573c1019 100644
---- a/Documentation/media/v4l-drivers/imx.rst
-+++ b/Documentation/media/v4l-drivers/imx.rst
-@@ -564,10 +564,11 @@ alternating fields (field type 'seq-tb' for PAL, or 'alternate').
-    media-ctl -V "'ipu1_vdic':2 [fmt:AYUV32/720x576 field:none]"
-    media-ctl -V "'ipu1_ic_prp':2 [fmt:AYUV32/720x576 field:none]"
-    media-ctl -V "'ipu1_ic_prpvf':1 [fmt:AYUV32/720x576 field:none]"
-+   # Configure "ipu1_ic_prpvf capture" interface (assumed at /dev/video2)
-+   v4l2-ctl -d2 --set-fmt-video=field=none
- 
--Streaming can then begin on the capture device node at
--"ipu1_ic_prpvf capture". The v4l2-ctl tool can be used to select any
--supported YUV or RGB pixelformat on the capture device node.
-+Streaming can then begin on /dev/video2. The v4l2-ctl tool can also be
-+used to select any supported YUV pixelformat on /dev/video2.
- 
- This platform accepts Composite Video analog inputs to the ADV7180 on
- Ain1 (connector J42).
--- 
-2.17.1
-
+Tim
