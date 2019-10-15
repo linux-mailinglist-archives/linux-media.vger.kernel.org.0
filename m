@@ -2,96 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CC85D80C5
-	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2019 22:13:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 042AAD80DD
+	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2019 22:19:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733083AbfJOUNW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Oct 2019 16:13:22 -0400
-Received: from valentin-vidic.from.hr ([94.229.67.141]:39569 "EHLO
-        valentin-vidic.from.hr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727962AbfJOUNW (ORCPT
+        id S1726775AbfJOUTa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Oct 2019 16:19:30 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:58386 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726252AbfJOUTa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Oct 2019 16:13:22 -0400
-X-Greylist: delayed 595 seconds by postgrey-1.27 at vger.kernel.org; Tue, 15 Oct 2019 16:13:20 EDT
-X-Virus-Scanned: Debian amavisd-new at valentin-vidic.from.hr
-Received: by valentin-vidic.from.hr (Postfix, from userid 1000)
-        id E1BD43BE3; Tue, 15 Oct 2019 22:03:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-        d=valentin-vidic.from.hr; s=2017; t=1571169799;
-        bh=GNW9Czf7yHedMIXjsdbi4/E3nPQNjtWoitMkwGeBl9o=;
-        h=From:To:Cc:Subject:Date:From;
-        b=c12IzmZmgL7MloSQbPKwaAOioP7OdqFUXrG5GDqBdtCwrldWW16CM/pwvc5c6c+gg
-         PLr1D50uYht8OOtNyvEqwgQmUxP+4b/+/BgXknXLwhDuTiEABD56QegzysCZLaQr5A
-         b8GfT5MmW1/7Jl84JQr2sHtcQPIO9RFuR+OZNv0oo7PJ7WV6wpBBZtdlOgaPfJvcW1
-         YM6zf9nJAsNahA2mq1A99Y7XiDq0W53/xYG3q3l/Ci3n9DKBO7B/kRa4IHT+R6hW5y
-         G98M8fb6qVw1pb+CfEbCBPZNLQsO5dYB8uHL4K1qsf5W4R5p2t6HUr2YUlNanmPJyb
-         Bp6ekw0Xnc7aw==
-From:   Valentin Vidic <vvidic@valentin-vidic.from.hr>
-To:     Michael Krufky <mkrufky@linuxtv.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Valentin Vidic <vvidic@valentin-vidic.from.hr>,
-        syzbot+98730b985cad4931a552@syzkaller.appspotmail.com
-Subject: [PATCH] media: cxusb: fix uninitialized local variable
-Date:   Tue, 15 Oct 2019 22:03:15 +0200
-Message-Id: <20191015200315.28830-1-vvidic@valentin-vidic.from.hr>
-X-Mailer: git-send-email 2.20.1
+        Tue, 15 Oct 2019 16:19:30 -0400
+Received: from pendragon.ideasonboard.com (dfj612yhrgyx302h3jwwy-3.rev.dnainternet.fi [IPv6:2001:14ba:21f5:5b00:ce28:277f:58d7:3ca4])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 32BC3324;
+        Tue, 15 Oct 2019 22:19:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1571170768;
+        bh=ANnfdi/tTnen/XQiJfSTwoDMKG6nWKFpsp5gb9d5Adg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=uXUJvEvFz461Dy1AP6FweROvg29D3d7BVjUQp4wsvk8YS9Yk2vuVxowwQlOwdVvWQ
+         y+p+0on3HbfZeD659nQBIfJ6uGZHzfJZdftH6cDgO411gyBs8P9JBHSobb3rB6My8a
+         2H5Jfcy1gWUhLShVogofYuWaNxJUPQMXLlerm+TM=
+Date:   Tue, 15 Oct 2019 23:19:25 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, Vandana BN <bnvandana@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: Re: [PATCHv6 0/3] v4l2-core: improve ioctl validation
+Message-ID: <20191015201925.GD19403@pendragon.ideasonboard.com>
+References: <20191014084021.54191-1-hverkuil-cisco@xs4all.nl>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20191014084021.54191-1-hverkuil-cisco@xs4all.nl>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Make sure ircode does not contain random values if the call to
-cxusb_ctrl_msg fails for some reason.
+On Mon, Oct 14, 2019 at 10:40:18AM +0200, Hans Verkuil wrote:
+> This supersedes https://www.mail-archive.com/linux-media@vger.kernel.org/msg150027.html
+> based on feedback from Laurent:
+> 
+> https://www.mail-archive.com/linux-media@vger.kernel.org/msg150117.html
+> 
+> and Sakari:
+> 
+> https://www.mail-archive.com/linux-media@vger.kernel.org/msg150129.html
+> 
+> This v6 only moves some code from patch 1 to patch 3, the final code
+> is the same as for v5. I plan to make a PR for this very soon together
+> with the vivid metadata patches that need this.
+> 
+> Regards,
+> 
+> 	Hans
+> 
+> Changes in v6:
+> 
+> Patch 1/3 dropped the check against GRABBER for the g_parm ioctl,
+> but that is too early: this should be done in patch 3/3 where this
+> code no longer applies to touch devices (which was the reason for
+> the GRABBER test).
+> 
+> Changes in v5:
+> 
+> I now check if a GRABBER device is a video or metadata device
+> (or both!) by checking device_caps.
+> 
+> 
+> Hans Verkuil (2):
+>   v4l2-dev: simplify the SDR checks
+>   v4l2-dev: fix is_tch checks
+> 
+> Vandana BN (1):
+>   v4l2-core: correctly validate video and metadata ioctls
 
-Reported-by: syzbot+98730b985cad4931a552@syzkaller.appspotmail.com
-Signed-off-by: Valentin Vidic <vvidic@valentin-vidic.from.hr>
----
- drivers/media/usb/dvb-usb/cxusb.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+For the whole series,
 
-diff --git a/drivers/media/usb/dvb-usb/cxusb.c b/drivers/media/usb/dvb-usb/cxusb.c
-index f02fa0a67aa4..afcd88dd96c0 100644
---- a/drivers/media/usb/dvb-usb/cxusb.c
-+++ b/drivers/media/usb/dvb-usb/cxusb.c
-@@ -519,7 +519,7 @@ static int cxusb_d680_dmb_streaming_ctrl(struct dvb_usb_adapter *adap,
- 
- static int cxusb_rc_query(struct dvb_usb_device *d)
- {
--	u8 ircode[4];
-+	u8 ircode[4] = { 0 };
- 
- 	cxusb_ctrl_msg(d, CMD_GET_IR_CODE, NULL, 0, ircode, 4);
- 
-@@ -531,7 +531,7 @@ static int cxusb_rc_query(struct dvb_usb_device *d)
- 
- static int cxusb_bluebird2_rc_query(struct dvb_usb_device *d)
- {
--	u8 ircode[4];
-+	u8 ircode[4] = { 0 };
- 	struct i2c_msg msg = {
- 		.addr = 0x6b,
- 		.flags = I2C_M_RD,
-@@ -550,7 +550,7 @@ static int cxusb_bluebird2_rc_query(struct dvb_usb_device *d)
- 
- static int cxusb_d680_dmb_rc_query(struct dvb_usb_device *d)
- {
--	u8 ircode[2];
-+	u8 ircode[2] = { 0 };
- 
- 	if (cxusb_ctrl_msg(d, 0x10, NULL, 0, ircode, 2) < 0)
- 		return 0;
-@@ -989,7 +989,7 @@ static int cxusb_dee1601_frontend_attach(struct dvb_usb_adapter *adap)
- 
- static int cxusb_dualdig4_frontend_attach(struct dvb_usb_adapter *adap)
- {
--	u8 ircode[4];
-+	u8 ircode[4] = { 0 };
- 	int i;
- 	struct i2c_msg msg = {
- 		.addr = 0x6b,
+Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> 
+>  drivers/media/v4l2-core/v4l2-dev.c   | 104 ++++++++++++++++-----------
+>  drivers/media/v4l2-core/v4l2-ioctl.c |  16 ++++-
+>  2 files changed, 75 insertions(+), 45 deletions(-)
+> 
+
 -- 
-2.20.1
+Regards,
 
+Laurent Pinchart
