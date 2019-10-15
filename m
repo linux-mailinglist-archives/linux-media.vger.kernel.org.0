@@ -2,106 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FD1BD7ED2
-	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2019 20:22:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 373D4D7FAC
+	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2019 21:12:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388944AbfJOSWx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Oct 2019 14:22:53 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:37931 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388941AbfJOSWx (ORCPT
+        id S1729205AbfJOTMC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Oct 2019 15:12:02 -0400
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:46483 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728832AbfJOTMC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Oct 2019 14:22:53 -0400
-Received: by mail-wm1-f67.google.com with SMTP id 3so100143wmi.3
-        for <linux-media@vger.kernel.org>; Tue, 15 Oct 2019 11:22:52 -0700 (PDT)
+        Tue, 15 Oct 2019 15:12:02 -0400
+Received: by mail-lj1-f195.google.com with SMTP id d1so21364156ljl.13
+        for <linux-media@vger.kernel.org>; Tue, 15 Oct 2019 12:12:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=FFPV1qwu3ftxAdjW8RQSaSHHhbDsC+9OSe/rOAAXNyM=;
-        b=txmclpqXMuJOOIXlXca0+mOAChTWps0GC2pJ2hA0UguYa1MIYWI6JaC5gnvZIq9Raq
-         iWFegin+i+U+SB79KW6SUrZs8rENodVpgv4vmAcpEDJcG0iX4UruYwL4KWlpDN+8w/jW
-         lOXhv8FNSfdQE2T+jgNd/khHVgo0rpLiG0pSd3mmcSB/FYR28FSjFaAgDA8Q/47Ohose
-         EbPfK6ZLd3Ft6d2ZG35lvBoyGE/1KNlRDE8XmMqI13dhUldsPVSCltTg1y+qsweXPZRg
-         9gVyP5/LGDQClW2piucKORr5mYyZ6LWJ4L8r+7R25FvKDcN+5xbU0yJ1Dzu4qgbal7nN
-         X6Ng==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=0kczTeQUMovnAwIbIyAAWu4y3vqob8h/6PTvuFRVH9s=;
+        b=QcMgEU+ypuVKV0dMUBmzODs3XIMf6HMjun7cShannT9r93CtychsivP5Co2/LE7Sg0
+         mI6czF1MYDrKRWM/wXdGX0IRt3X/7uHTdj+UZpBhxiXyqN9e9HyPkwUneyBDH5rTv5oJ
+         3EoWD6E7sJuo0PSNoe+wDGoIX8u1Ny6O8zZivdrmRFN3dHNdtPSMxRdzXWhwhIbSRUY0
+         VTgQX+Q9AHOtiRWEholnbpmpyD0/aW1qJ4DzaGn+0zu0Fe9Bn/cLySLZtZmK9SpfsEde
+         zEriLVgkZkvZZ/QeQm4n47+XdOekrNcwlssjOotLX4xoB/TlXrlWKCwKZl0RdCpzbULK
+         QKyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=FFPV1qwu3ftxAdjW8RQSaSHHhbDsC+9OSe/rOAAXNyM=;
-        b=n2Ob6tTi5uxSQ9pUZh3NVxl1Uv8H5Xl1ZrR4lmrDzS9lGvR0aVGrJJPMqUusqtTFZV
-         MyfU2aV51rDUhDPVNkmHjxmz2FNGspZNAo20lyr/A3CKpmIgAbdFLIwg0uwolAwGRiVf
-         2Feoh+0Ys7wJ7dIr/mxTltlkNBYLZFst7ZVkhkTozE0pLD6I6u/s3unOCi0wLAvGfTDt
-         4gTeyX1xVtY3JZzF0K2awF0wXKZLmN4Fo1wXdEoTXW4PcQ/ifo3DV/D+RPy5Yj1c7klw
-         ZY6UJq8TWLl8XOqTTPF7GjvQWFFK04gglbWXNABTcjg4c0BQD4KrvvOLCgnJ2161Ow/y
-         bIbg==
-X-Gm-Message-State: APjAAAXPPVfcf+7n88JttFv7awnuLvtXi2B8sXzPrF6i0EFHR9bojZYN
-        6ovT8RGUvQOwQnQXyh6So+BhtiZA
-X-Google-Smtp-Source: APXvYqzId/LUNx0ZDRCLC7pC2wsOMgQ+jd9wADqPVSJBlY9LHvn79moCWQWgyd5yp1hxlHUpuwsdJA==
-X-Received: by 2002:a1c:ac02:: with SMTP id v2mr16533257wme.85.1571163771045;
-        Tue, 15 Oct 2019 11:22:51 -0700 (PDT)
-Received: from [172.30.89.60] (sjewanfw1-nat.mentorg.com. [139.181.7.34])
-        by smtp.gmail.com with ESMTPSA id n15sm20249186wrw.47.2019.10.15.11.22.49
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 15 Oct 2019 11:22:50 -0700 (PDT)
-Subject: Re: [PATCH v3 4/4] media: imx.rst: Pass the v4l2-ctl configuration
-To:     Fabio Estevam <festevam@gmail.com>, hverkuil-cisco@xs4all.nl
-Cc:     mchehab@kernel.org, tharvey@gateworks.com, p.zabel@pengutronix.de,
-        linux-media@vger.kernel.org
-References: <20191015160042.28113-1-festevam@gmail.com>
- <20191015160042.28113-4-festevam@gmail.com>
-From:   Steve Longerbeam <slongerbeam@gmail.com>
-Message-ID: <3d9285cd-5895-c709-e96e-1d6c88544c75@gmail.com>
-Date:   Tue, 15 Oct 2019 11:22:47 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0kczTeQUMovnAwIbIyAAWu4y3vqob8h/6PTvuFRVH9s=;
+        b=Q61p1JlZP1+FUuc0tHA88/fVnTg59XsYmvDHSjBqmycLrLRhQ5Og5XrLTMRA9chLVT
+         C94ZzqzYgZMH/oBR8ISW/Z49+It5szgf1G9iuNegfz1UTMn4+0tI2pT97DlKJ4AhuQBn
+         BYtlQ+9mKj//A7H2kzFPbqhJ6VC0gWqiQqCUhWo4o2lx8mcrIkMjyDZaePaWu05Irih8
+         BU2YvcggjOwO44id6t0NcGgJro/aBLXms7B56BW5ITrhn6U9LJPn50TA4DlCvHlSlpM8
+         wCuJOzledIMhCOCLUrUlRy1XSuexEtg1qaJlXVdaNreHGmiq2lhd1x9qfCuasp9B1364
+         +85A==
+X-Gm-Message-State: APjAAAXCebBSIoXTP0pOc/zWukCB/uxLliWm7oirA9NlPhXYCyjFXAyq
+        3OhYe8Fc40upkW3Xf90s7/jLCHf6s/SzZUyTqIQ=
+X-Google-Smtp-Source: APXvYqwXIWTOXOGNFtKH6kW7vFm3gXrI2lXjpB09gZoDcodQc9yYgwXNTibOkZidWmewcXVoW4Rl2bw+DHijMJZibfg=
+X-Received: by 2002:a2e:42d6:: with SMTP id h83mr22735998ljf.21.1571166720194;
+ Tue, 15 Oct 2019 12:12:00 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20191015160042.28113-4-festevam@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+References: <20191010154417.9437-1-festevam@gmail.com> <0f7a7910-8652-7a95-1f04-e25278ec05aa@gmail.com>
+ <593b540b-d5f9-63ba-becc-0902dc5d7900@gmail.com> <CAOMZO5BgnbfFSmu7HEWtaT9Gexb-u13ZxzWEN-+Hw9eMfuC+LQ@mail.gmail.com>
+ <CAJ+vNU2fJ_eGMwQH7-HmO_==5p3Uuscv6S2fG_NY67J2o8OG+g@mail.gmail.com>
+ <CAOMZO5ABOV+Z7FenZykU82w-yUvae6zm6d6inN8SYrhViudYnA@mail.gmail.com>
+ <CAJ+vNU22JmDQ+tyRFSQgM_wp-pgfE7gOt2i3QbdOJp0KuDXfRQ@mail.gmail.com>
+ <CAOMZO5Dcv9fz=A8nTsvVsvu7+LNag2Sj03tJyFQKgpt_1B6Dwg@mail.gmail.com>
+ <CAJ+vNU1+oS1wFav4W2g0f6XGCP3oqEwzxyvrN3fkggNSBau0Tg@mail.gmail.com>
+ <CAOMZO5AMbAHmoYFLQbZbzBjMkmTsPkPctU-OqArPk3_PvtznjA@mail.gmail.com> <2acc57d6-da43-866b-fc01-e5e59af413ac@gmail.com>
+In-Reply-To: <2acc57d6-da43-866b-fc01-e5e59af413ac@gmail.com>
+From:   Fabio Estevam <festevam@gmail.com>
+Date:   Tue, 15 Oct 2019 16:11:55 -0300
+Message-ID: <CAOMZO5B5+_3FxUfgzMJzDH-myfXEQgxT8vfa-0L8cYFK8uhsuQ@mail.gmail.com>
+Subject: Re: [PATCH] media: imx.rst: Update the imx6-sabreauto ADV7180 instructions
+To:     Steve Longerbeam <slongerbeam@gmail.com>
+Cc:     Tim Harvey <tharvey@gateworks.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-media <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Steve,
 
+On Tue, Oct 15, 2019 at 3:19 PM Steve Longerbeam <slongerbeam@gmail.com> wrote:
 
-On 10/15/19 9:00 AM, Fabio Estevam wrote:
-> Pass the v4l2-ctl configuration for the imx6q-sabreauto PAL
-> example for completeness and consistency.
+> I submitted the ICAP driver patch quite a while ago, it was ~2 yrs ago I
+> think. Can't seem to find the link unfortunately.
 >
-> Suggested-by: Steve Longerbeam <slongerbeam@gmail.com>
-> Signed-off-by: Fabio Estevam <festevam@gmail.com>
-
-Acked-by: Steve Longerbeam<slongerbeam@gmail.com>
-
-> ---
-> Changes since v2:
-> - Newly introduced patch
+> I'll work on updating the driver and retesting, and try resubmitting again.
 >
->   Documentation/media/v4l-drivers/imx.rst | 7 ++++---
->   1 file changed, 4 insertions(+), 3 deletions(-)
+> Most of the hooks are present in imx-media-fim.c to use the hardware
+> input capture to measure frame intervals. The only missing piece is the
+> ICAP driver itself.
 >
-> diff --git a/Documentation/media/v4l-drivers/imx.rst b/Documentation/media/v4l-drivers/imx.rst
-> index aab68d8ef2c9..1246573c1019 100644
-> --- a/Documentation/media/v4l-drivers/imx.rst
-> +++ b/Documentation/media/v4l-drivers/imx.rst
-> @@ -564,10 +564,11 @@ alternating fields (field type 'seq-tb' for PAL, or 'alternate').
->      media-ctl -V "'ipu1_vdic':2 [fmt:AYUV32/720x576 field:none]"
->      media-ctl -V "'ipu1_ic_prp':2 [fmt:AYUV32/720x576 field:none]"
->      media-ctl -V "'ipu1_ic_prpvf':1 [fmt:AYUV32/720x576 field:none]"
-> +   # Configure "ipu1_ic_prpvf capture" interface (assumed at /dev/video2)
-> +   v4l2-ctl -d2 --set-fmt-video=field=none
->   
-> -Streaming can then begin on the capture device node at
-> -"ipu1_ic_prpvf capture". The v4l2-ctl tool can be used to select any
-> -supported YUV or RGB pixelformat on the capture device node.
-> +Streaming can then begin on /dev/video2. The v4l2-ctl tool can also be
-> +used to select any supported YUV pixelformat on /dev/video2.
->   
->   This platform accepts Composite Video analog inputs to the ADV7180 on
->   Ain1 (connector J42).
+> The FIM is explained in the imx.rst doc. It is configured and enabled
+> via v4l2 controls. It will report a v4l2_event to userspace during
 
+Thanks for the explanation.
+
+I read through imx.rst, but it was not clear for me how to actually
+configure/enable it via v4l2 controls.
+
+Could you please provide an example on how I can configure/enable FIM?
+
+Also, would you have an example on how to achieve the following
+behavior explained at imx.rst?
+
+"If the FIM detects a bad frame interval, the ipuX_csiY subdev will
+send the event
+V4L2_EVENT_IMX_FRAME_INTERVAL_ERROR. Userland can register with
+the FIM event notification on the ipuX_csiY subdev device node.
+Userland can issue a streaming restart when this event is received
+to correct the rolling/split image."
+
+Thanks
