@@ -2,114 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 524EED77D2
-	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2019 15:59:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8B05D77FC
+	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2019 16:06:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732279AbfJON7h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Oct 2019 09:59:37 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:45792 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728880AbfJON7h (ORCPT
+        id S1732423AbfJOOGn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Oct 2019 10:06:43 -0400
+Received: from plasma6.jpberlin.de ([80.241.56.68]:47641 "EHLO
+        plasma6.jpberlin.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732292AbfJOOGn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Oct 2019 09:59:37 -0400
-Received: by mail-pg1-f193.google.com with SMTP id r1so11021772pgj.12;
-        Tue, 15 Oct 2019 06:59:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=OQHiqCpXSZVn47ppjdn/hXFH8fLHSyXwnH+G+uWWB+o=;
-        b=PG4f7wI6q1dk3mWzLjlecyFFuvz+MvCpjU3+a7kNFzGR7+KG8pztW0pVXuGsU77+pv
-         Tg8rtN7LMGYs4zKs5btLmvUm9LQLkZFr1ldniygmnAf3ZgCm9oFHL6dB761IEtafw71x
-         r3p2EZl05GyvwaCibRuHibodBjLm20HnBo6IOoMtdRGvCnJioNod0RqSRazny9zmXdhC
-         Uny2R0HlAZj0hbtVf7G6mF+mVYMM3XRrXP+dOS/N5qdk8e4e5Kl+fi2fD7iP3JkslAfb
-         w3FCwwCDNbH/NTKTNlx57+tap11uYFOB8Lf2DKSvM/LBpQb/kx/Wf/o/vIupQc7uS0MP
-         DnaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=OQHiqCpXSZVn47ppjdn/hXFH8fLHSyXwnH+G+uWWB+o=;
-        b=Z5oifoVmYrONmFabLHNvCrsBTYk6cavgt3QHasbvhnRV0LXHcvUB4IlnE4i9Z5FVnC
-         cnYQhvt4+aqrXTwezx6OV/1MeJdRdNVLYf5Sgpvo19LfsGkRwSPq7/qFnvggDJMIIJ8/
-         i7XbKdrTnqpBC53YuHDJgRJn9mANkcRhvYHG9TWm8qfi4mtbOhzITrV0+vnsbCvbxY29
-         nY3eFz1cgsZ4FNnwfHSNVFBqMuYUIGe42KJlzfgZaR1JDu6I7aiTaUkTP8l5Zn//Pf4M
-         wRm8IOAu3ItlTNE/SPkXNlGF+eALvN/bz2H5h0/Rn2RKNyMdpsgQonO1ALD9TyQWiqxr
-         +7XA==
-X-Gm-Message-State: APjAAAVqhsKLjaVZT5fgaCAsGScQDDBn0BzY9wOdxeWc0pO6ODfJuhDQ
-        DOdG7bzSDiYWQJ8DqITE7m4=
-X-Google-Smtp-Source: APXvYqyXWaPbhXkHRvEhA4Oc8Ytcwswmvg4C2Aw1yEvsNR9Wkx6j5txbHhxZQ54W+B9d7pRnyjZ1/g==
-X-Received: by 2002:a17:90a:1617:: with SMTP id n23mr43135972pja.75.1571147976272;
-        Tue, 15 Oct 2019 06:59:36 -0700 (PDT)
-Received: from suzukaze.ipads-lab.se.sjtu.edu.cn ([89.31.126.54])
-        by smtp.gmail.com with ESMTPSA id m123sm24503127pfb.133.2019.10.15.06.59.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Oct 2019 06:59:35 -0700 (PDT)
-From:   Chuhong Yuan <hslester96@gmail.com>
-Cc:     Rui Miguel Silva <rmfrfs@gmail.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Chuhong Yuan <hslester96@gmail.com>
-Subject: [PATCH v2] media: imx7-mipi-csis: Add a check for devm_regulator_get
-Date:   Tue, 15 Oct 2019 21:59:15 +0800
-Message-Id: <20191015135915.6530-1-hslester96@gmail.com>
-X-Mailer: git-send-email 2.20.1
+        Tue, 15 Oct 2019 10:06:43 -0400
+Received: from spamfilter03.heinlein-hosting.de (spamfilter03.heinlein-hosting.de [80.241.56.117])
+        by plasma.jpberlin.de (Postfix) with ESMTP id 7E66BA547F;
+        Tue, 15 Oct 2019 16:06:39 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from plasma.jpberlin.de ([80.241.56.68])
+        by spamfilter03.heinlein-hosting.de (spamfilter03.heinlein-hosting.de [80.241.56.117]) (amavisd-new, port 10030)
+        with ESMTP id EEjfXqOcFOqP; Tue, 15 Oct 2019 16:06:38 +0200 (CEST)
+Received: from webmail.opensynergy.com (unknown [217.66.60.5])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "webmail.opensynergy.com", Issuer "GeoTrust EV RSA CA 2018" (not verified))
+        (Authenticated sender: opensynergy@jpberlin.de)
+        by plasma.jpberlin.de (Postfix) with ESMTPSA id 764EAA05D5;
+        Tue, 15 Oct 2019 16:06:37 +0200 (CEST)
+Received: from os-lin-dmo.localnet (10.25.255.1) by MXS02.open-synergy.com
+ (10.25.10.18) with Microsoft SMTP Server (TLS) id 14.3.468.0; Tue, 15 Oct
+ 2019 16:06:36 +0200
+From:   Dmitry Morozov <dmitry.morozov@opensynergy.com>
+To:     Gerd Hoffmann <kraxel@redhat.com>
+CC:     Tomasz Figa <tfiga@chromium.org>, <stevensd@chromium.org>,
+        <virtio-dev@lists.oasis-open.org>,
+        Keiichi Watanabe <keiichiw@chromium.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        <alexlau@chromium.org>, <dgreid@chromium.org>,
+        =?ISO-8859-1?Q?St=E9phane?= Marchesin <marcheu@chromium.org>,
+        Pawel Osciak <posciak@chromium.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [virtio-dev] [PATCH] [RFC RESEND] vdec: Add virtio video decode device specification
+Date:   Tue, 15 Oct 2019 16:06:36 +0200
+Message-ID: <9670471.GKRsIjc3Fr@os-lin-dmo>
+Organization: OpenSynergy
+In-Reply-To: <20191015075422.yeknnqlsy3nun44r@sirius.home.kraxel.org>
+References: <20190919093404.182015-1-keiichiw@chromium.org> <12599990.jpbsygJuY9@os-lin-dmo> <20191015075422.yeknnqlsy3nun44r@sirius.home.kraxel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Originating-IP: [10.25.255.1]
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-devm_regulator_get may return an error but mipi_csis_phy_init misses
-a check for it.
-This may lead to problems when regulator_set_voltage uses the unchecked
-pointer.
-This patch adds a check for devm_regulator_get to avoid potential risk.
+Hello Gerd,
 
-Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
----
-Changes in v2:
-  - Add a check in mipi_csis_probe for the modified mipi_csis_phy_init.
+On Dienstag, 15. Oktober 2019 09:54:22 CEST Gerd Hoffmann wrote:
+> On Mon, Oct 14, 2019 at 03:05:03PM +0200, Dmitry Morozov wrote:
+> > On Montag, 14. Oktober 2019 14:34:43 CEST Gerd Hoffmann wrote:
+> > >   Hi,
+> > >   
+> > > > My take on this (for a decoder) would be to allocate memory for output
+> > > > buffers from a secure ION heap, import in the v4l2 driver, and then to
+> > > > provide those to the device using virtio. The device side then uses
+> > > > the
+> > > > dmabuf framework to make the buffers accessible for the hardware. I'm
+> > > > not
+> > > > sure about that, it's just an idea.
+> > > 
+> > > Virtualization aside, how does the complete video decoding workflow
+> > > work?  I assume along the lines of ...
+> > > 
+> > >   (1) allocate buffer for decoded video frames (from ion).
+> > >   (2) export those buffers as dma-buf.
+> > >   (3) import dma-buf to video decoder.
+> > >   (4) import dma-buf to gpu.
+> > > 
+> > > ... to establish buffers shared between video decoder and gpu?
+> > > 
+> > > Then feed the video stream into the decoder, which decodes into the ion
+> > > buffers?  Ask the gpu to scanout the ion buffers to show the video?
+> > > 
+> > > cheers,
+> > > 
+> > >   Gerd
+> > 
+> > Yes, exactly.
+> > 
+> > [decoder]
+> > 1) Input buffers are allocated using  VIDIOC_*BUFS.
+> 
+> Ok.
+> 
+> > 2) Output buffers are allocated in a guest specific manner (ION, gbm).
+> 
+> Who decides whenever ION or gbm is used?  The phrase "secure ION heap"
+> used above sounds like using ION is required for decoding drm-protected
+> content.
 
- drivers/staging/media/imx/imx7-mipi-csis.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+I mention the secure ION heap to address this Chrome OS related point:
+> 3) protected content decoding: the memory for decoded video frames
+> must not be accessible to the guest at all
 
-diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
-index 73d8354e618c..e8a6acaa969e 100644
---- a/drivers/staging/media/imx/imx7-mipi-csis.c
-+++ b/drivers/staging/media/imx/imx7-mipi-csis.c
-@@ -350,6 +350,8 @@ static void mipi_csis_sw_reset(struct csi_state *state)
- static int mipi_csis_phy_init(struct csi_state *state)
- {
- 	state->mipi_phy_regulator = devm_regulator_get(state->dev, "phy");
-+	if (IS_ERR(state->mipi_phy_regulator))
-+		return PTR_ERR(state->mipi_phy_regulator);
- 
- 	return regulator_set_voltage(state->mipi_phy_regulator, 1000000,
- 				     1000000);
-@@ -966,7 +968,10 @@ static int mipi_csis_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
--	mipi_csis_phy_init(state);
-+	ret = mipi_csis_phy_init(state);
-+	if (ret < 0)
-+		return ret;
-+
- 	mipi_csis_phy_reset(state);
- 
- 	mem_res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--- 
-2.20.1
+There was an RFC to implement a secure memory allocation framework, but 
+apparently it was not accepted: https://lwn.net/Articles/661549/.
+
+In case of Android, it allocates GPU buffers for output frames, so it is the 
+gralloc implementation who decides how to allocate memory. It can use some 
+dedicated ION heap or can use libgbm. It can also be some proprietary 
+implementation.
+
+> 
+> So, do we have to worry about ION here?  Or can we just use gbm?
+
+If we replace vendor specific code in the Android guest and provide a way to 
+communicate meatdata for buffer allocations from the device to the driver, we 
+can use gbm. In the PC world it might be easier.
+
+> 
+> [ Note: don't know much about ion, other than that it is used by
+>         android, is in staging right now and patches to move it
+>         out of staging are floating around @ dri-devel ]
+> 
+> > 3) Both input and output buffers are exported as dma-bufs.
+> > 4) The backing storage of both inputs and outputs is made available to the
+> > device.
+> > 5) Decoder hardware writes to output buffers directly.
+> 
+> As expected.
+> 
+> > 6) Back to the guest side, the output dma-bufs are used by (virtio-) gpu.
+> 
+> Ok.  So, virtio-gpu has support for dma-buf exports (in drm-misc-next,
+> should land upstream in kernel 5.5).  dma-buf imports are not that
+> simple unfortunately.  When using the gbm allocation route dma-buf
+> exports are good enough though.
+>
+> The virtio-gpu resources have both a host buffer and a guest buffer[1]
+> Data can be copied using the DRM_IOCTL_VIRTGPU_TRANSFER_{FROM,TO}_HOST
+> ioctls.  The dma-buf export will export the guest buffer (which lives
+> in guest ram).
+> 
+> It would make sense for the decoded video to go directly to the host
+> buffer though.  First because we want avoid copying the video frames for
+> performance reasons, and second because we might not be able to copy
+> video frames (drm ...).
+> 
+> This is where the buffer registry idea comes in.  Attach a (host)
+> identifier to (guest) dma-bufs, which then allows host device emulation
+> share buffers, i.e. virtio-vdec device emulation could decode to a
+> dma-buf it got from virtio-gpu device emulation.
+
+Yes. Also, as I mentioned above, in case of gbm the buffers already can 
+originate from GPU.
+
+Best regards,
+Dmitry.
+
+> 
+> Alternatively we could use virtual ION (or whatever it becomes after
+> de-staging) for buffer management, with both virtio-vdec and virtio-gpu
+> importing dma-bufs from virtual ION on both guest and host side.
+> 
+> cheers,
+>   Gerd
+> 
+> [1] support for shared buffers is in progress.
+
+
 
