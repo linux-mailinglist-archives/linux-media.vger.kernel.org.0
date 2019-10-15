@@ -2,118 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A897BD7AA9
-	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2019 17:58:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5521CD7AB2
+	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2019 18:00:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732717AbfJOP6W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Oct 2019 11:58:22 -0400
-Received: from mailoutvs8.siol.net ([185.57.226.199]:56061 "EHLO mail.siol.net"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726231AbfJOP6W (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Oct 2019 11:58:22 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.siol.net (Postfix) with ESMTP id DDF90523B1B;
-        Tue, 15 Oct 2019 17:58:17 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at psrvmta10.zcs-production.pri
-Received: from mail.siol.net ([127.0.0.1])
-        by localhost (psrvmta10.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id NsoSFTlSzvY1; Tue, 15 Oct 2019 17:58:17 +0200 (CEST)
-Received: from mail.siol.net (localhost [127.0.0.1])
-        by mail.siol.net (Postfix) with ESMTPS id 7B70C523B57;
-        Tue, 15 Oct 2019 17:58:17 +0200 (CEST)
-Received: from jernej-laptop.localnet (cpe-86-58-59-25.static.triera.net [86.58.59.25])
-        (Authenticated sender: jernej.skrabec@siol.net)
-        by mail.siol.net (Postfix) with ESMTPA id AEF47523B1B;
-        Tue, 15 Oct 2019 17:58:16 +0200 (CEST)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        mripard@kernel.org, tfiga@chromium.org, jonas@kwiboo.se,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Subject: Re: [PATCHv4 0/6] media: cedrus: h264: Support multi-slice frames
-Date:   Tue, 15 Oct 2019 17:58:16 +0200
-Message-ID: <2098405.rfSs0az2Eu@jernej-laptop>
-In-Reply-To: <20191011093245.33366-1-hverkuil-cisco@xs4all.nl>
-References: <20191011093245.33366-1-hverkuil-cisco@xs4all.nl>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+        id S1731373AbfJOQAy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Oct 2019 12:00:54 -0400
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:37082 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726231AbfJOQAy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 15 Oct 2019 12:00:54 -0400
+Received: by mail-qt1-f195.google.com with SMTP id n17so11927121qtr.4
+        for <linux-media@vger.kernel.org>; Tue, 15 Oct 2019 09:00:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=nVqrz98oY1dHStSXJAO5WqcsucAEGj9JBq48FimaBIM=;
+        b=GSwutxy+g9Ss/nhDDGLKgNoGwBrg9T87PpYKN9tX8QKmIwninaAJMVekvN5VLgYsNC
+         C4DN8A0hTDi7D0ID145X/vu7Ino6pO3prhzCJxlQU5LYaT0o79XZzVUnBkUGcgIpkSSk
+         V+YHKh7wwbYLfwJgrHVz4GAGL/tiZ+8nGpHE8HVvWQYC/Yh1+K9MkPeSnuOMqBXhHD6Y
+         RdQxe6Ot6jISnONG9xRZ7EkpR8ZveS5hJwKw+DdqLlEdgdf4Zw1+xlyYrDIS1JdDBxkw
+         GSWQizy5wEF199eRWeuw1RZBqSZVbcZEaHzCM1D4TsKMz08hKbpnpuGe8ujrtA/8pSSd
+         5euQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=nVqrz98oY1dHStSXJAO5WqcsucAEGj9JBq48FimaBIM=;
+        b=M4t2DtAmPJnPioMC5V7oVVUC4SfR3DfNvPwNT97nY/8onkY9CwzCvu33XqXIsqpGKe
+         m8lRCm9obYzuYlN8F1qQi1NAWGytalv6BuCtW2Vg9PFSOQPMLJDtbjHL3gvFRV00xd4W
+         G4X+1/5oPDbNqb2zsDRX5Plg9YmGDno5MLlU2u5z+D20sRQFvgMIRbhciSZ4wQgz7Pkm
+         53XMewZxhSAc1/lKgghumlSNh4CX7U8JwHsmiy4ZYUYQ4MghHACi44IiPXTLL9jCxwUX
+         v+sphJ3DrNZXsc9LGBFRALqjFV+FvJr/3eySkT/+sKJ85AQLqFeaY1Sjp5EKhxv8NNFA
+         Hq0Q==
+X-Gm-Message-State: APjAAAWvszlRDQ+LNAPvh5DvG3rk33nrCxTZuaqQNwMUWhXzgLyu6t7j
+        PyQhz38fFqq9GPjQenGwC9LBHdFdTUw=
+X-Google-Smtp-Source: APXvYqz5kp1WrsvNQ0Jx5kCJLKbGEMCbrlA2o4LpvKD8sTBekXEpAq+Fiw7aJQWHmJ4gXRY/WZg8kg==
+X-Received: by 2002:ac8:6793:: with SMTP id b19mr6768151qtp.354.1571155253043;
+        Tue, 15 Oct 2019 09:00:53 -0700 (PDT)
+Received: from fabio-Latitude-E5450.nxp.com ([177.221.114.206])
+        by smtp.gmail.com with ESMTPSA id n21sm10304930qka.83.2019.10.15.09.00.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Oct 2019 09:00:52 -0700 (PDT)
+From:   Fabio Estevam <festevam@gmail.com>
+To:     hverkuil-cisco@xs4all.nl
+Cc:     mchehab@kernel.org, slongerbeam@gmail.com, tharvey@gateworks.com,
+        p.zabel@pengutronix.de, linux-media@vger.kernel.org,
+        Fabio Estevam <festevam@gmail.com>
+Subject: [PATCH v3 1/4] media: imx.rst: Specify the sabreauto variant
+Date:   Tue, 15 Oct 2019 13:00:39 -0300
+Message-Id: <20191015160042.28113-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dne petek, 11. oktober 2019 ob 11:32:39 CEST je Hans Verkuil napisal(a):
-> This series adds support for decoding multi-slice H264 frames along with
-> support for V4L2_DEC_CMD_FLUSH and V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF.
-> 
-> This has only been compile-tested. Jernej, can you test with ffmpeg?
+Improve the documentation by specifying that the instructions
+are related to the i.MX6Q sabreauto variant.
 
-Tested and it works. Thanks!
+This avoids confusion if someone follows these steps on a i.MX6DL
+sabreauto, which has different numbering on the I2C bus and
+I2C muxes.
 
-You can add:
-Tested-by: Jernej Skrabec <jernej.skrabec@siol.net>
+Signed-off-by: Fabio Estevam <festevam@gmail.com>
+Acked-by: Steve Longerbeam <slongerbeam@gmail.com>
+---
+Changes since v2:
+- None
 
-to any patch you find appropriate.
+ Documentation/media/v4l-drivers/imx.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Best regards,
-Jernej
-
-> 
-> This series is based on
-> https://www.spinics.net/lists/linux-media/msg158081.html plus ideas from
-> https://www.spinics.net/lists/linux-media/msg158625.html.
-> 
-> Changes since v3:
-> 
-> - Fix two 'unused variable' warnings in patch 2.
-> - Dropped patch 6/8 since this is no longer needed.
-> - Combined patches 7/8 and 8/8.
-> - Dropped an unnecessary cast in 8/8.
-> 
-> Changes since v2:
-> 
-> - Move the code to detect if a capture buffer is done to
->   the v4l2-mem2mem core framework.
-> - Move the first-slice detection to the core as well.
-> - Add a new v4l2_m2m_buf_done_and_job_finish() function that
->   finishes a job taking held capture buffers into account.
->   Marking buffers as done and finishing the job has to be
->   done with job_spinlock held to avoid race conditions with
->   v4l2_m2m_ioctl_stateless_decoder_cmd().
-> - v4l2_m2m_ioctl_stateless_decoder_cmd takes the job_spinlock
->   to prevent race conditions.
-> 
-> Regards,
-> 
->         Hans
-> 
-> Hans Verkuil (4):
->   vb2: add V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF
->   v4l2-mem2mem: support held capture buffers
->   videodev2.h: add V4L2_DEC_CMD_FLUSH
->   v4l2-mem2mem: add new_frame detection
-> 
-> Jernej Skrabec (2):
->   media: v4l2-mem2mem: add stateless_(try_)decoder_cmd ioctl helpers
->   media: cedrus: h264: Support multiple slices per frame
-> 
->  Documentation/media/uapi/v4l/buffer.rst       |  13 ++
->  .../media/uapi/v4l/vidioc-decoder-cmd.rst     |  10 +-
->  .../media/uapi/v4l/vidioc-reqbufs.rst         |   6 +
->  .../media/videodev2.h.rst.exceptions          |   1 +
->  .../media/common/videobuf2/videobuf2-v4l2.c   |  12 +-
->  drivers/media/v4l2-core/v4l2-mem2mem.c        | 190 +++++++++++++++---
->  .../staging/media/sunxi/cedrus/cedrus_h264.c  |  12 +-
->  .../staging/media/sunxi/cedrus/cedrus_hw.c    |  16 +-
->  .../staging/media/sunxi/cedrus/cedrus_video.c |  14 ++
->  include/media/v4l2-mem2mem.h                  |  44 +++-
->  include/media/videobuf2-core.h                |   3 +
->  include/media/videobuf2-v4l2.h                |   5 +
->  include/uapi/linux/videodev2.h                |  14 +-
->  13 files changed, 282 insertions(+), 58 deletions(-)
-
-
-
+diff --git a/Documentation/media/v4l-drivers/imx.rst b/Documentation/media/v4l-drivers/imx.rst
+index 1d7eb8c7bd5c..3d72e411b93d 100644
+--- a/Documentation/media/v4l-drivers/imx.rst
++++ b/Documentation/media/v4l-drivers/imx.rst
+@@ -515,10 +515,10 @@ Streaming can then begin independently on the capture device nodes
+ be used to select any supported YUV pixelformat on the capture device
+ nodes, including planar.
+ 
+-SabreAuto with ADV7180 decoder
+-------------------------------
++i.MX6Q SabreAuto with ADV7180 decoder
++-------------------------------------
+ 
+-On the SabreAuto, an on-board ADV7180 SD decoder is connected to the
++On the i.MX6Q SabreAuto, an on-board ADV7180 SD decoder is connected to the
+ parallel bus input on the internal video mux to IPU1 CSI0.
+ 
+ The following example configures a pipeline to capture from the ADV7180
+-- 
+2.17.1
 
