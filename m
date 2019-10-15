@@ -2,97 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7CF74D786F
-	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2019 16:27:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A06DCD78C7
+	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2019 16:37:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732713AbfJOO1c (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Oct 2019 10:27:32 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:44146 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732710AbfJOO1c (ORCPT
+        id S1732807AbfJOOhF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Oct 2019 10:37:05 -0400
+Received: from vsp-unauthed02.binero.net ([195.74.38.227]:7645 "EHLO
+        vsp-unauthed02.binero.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732712AbfJOOhA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Oct 2019 10:27:32 -0400
-Received: by mail-lj1-f193.google.com with SMTP id m13so20434940ljj.11
-        for <linux-media@vger.kernel.org>; Tue, 15 Oct 2019 07:27:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=r6wokyxgmz1CH4AYG9M6WGEBZNGfasrsS5Z0VdPHhII=;
-        b=TjB+IGC9TNXHfUD+bPaS76M3IQQ9F7gulCuGtgNs2j7JCcnc8AWH6oPCCfO0hX8bG+
-         DAqjisENL40t+enQ+1je0yBuW9i8iHtpoL0/HhAuXotvPTeOBG4QV99pc3y3WjNKzGb4
-         kl1C6PcjDle7rnnVXeSftmi/BfePebdnqCRBitHtRX5ZAdZtFD+0JksHUoIK0m+swKDF
-         HYuC/b089qpbSPMDpoSW3tFch1UP+yZB9qXAQC8m+G4h1toVdquviiPgkUeBqeUscG6w
-         yoIZ3EJlUntELi8pPlcNcjmorTW79QRzLvOSEj5hQkq7M5xZspTF1zBDxj8pMuJ4wDSd
-         u0Cg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=r6wokyxgmz1CH4AYG9M6WGEBZNGfasrsS5Z0VdPHhII=;
-        b=X4bafRGSBUUJ6ffV2Sjh6oOLuu8zPy9U/7pIBNGEo5lw2g32WugUfsYxurz/oX4Kzi
-         LURYx2946Doz4GSyhJo2E+ZV0jLpuoLRLRjZpAzLF5Sgzy/j6s0LnFkGWA09FzNWHluz
-         aFl/duhh8okC8+pt33kr+Nu7d4XPSL37+dqKPOLmuTOSgirFLPNxuaVOHO4TOhmqSvNg
-         KwkfnuI+F0fQx5hGbSrcCXBV2WcLuL0JHcPIPgXTB+9VF1DCXpov69bX+Xh3zjSdewMD
-         jzoo7Tkr44Pwkz3oe3Y/Xf48caMnIWQsXJciUpkgK+IZNaV5MrV/zkKiKH5b6CJjFI4W
-         YYfA==
-X-Gm-Message-State: APjAAAXKt2GYEgTosvhDIXDuCHo9cLecVmnqc+4JoSfD5RHjT5mcI88g
-        BmDGQ6/R0svdJtHMzmZkk2EUzHDKluu7LvdrNj0=
-X-Google-Smtp-Source: APXvYqzsqb8VZbhR3Wgp5FMzurWUy6/QcC2GbPi+dJrZVHztwPrItieUiK1B/939nzf2WJWDyEqGnsqMj/qh2jVomjg=
-X-Received: by 2002:a2e:b4d5:: with SMTP id r21mr22098830ljm.149.1571149650422;
- Tue, 15 Oct 2019 07:27:30 -0700 (PDT)
+        Tue, 15 Oct 2019 10:37:00 -0400
+X-Halon-ID: ffc6f0d1-ef58-11e9-837a-0050569116f7
+Authorized-sender: niklas@soderlund.pp.se
+Received: from bismarck.berto.se (unknown [84.172.88.101])
+        by bin-vsp-out-03.atm.binero.net (Halon) with ESMTPA
+        id ffc6f0d1-ef58-11e9-837a-0050569116f7;
+        Tue, 15 Oct 2019 16:35:36 +0200 (CEST)
+From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Helen Koike <helen.koike@collabora.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH 0/3] v4l2-dev/ioctl: Add V4L2_CAP_IO_MC
+Date:   Tue, 15 Oct 2019 16:35:49 +0200
+Message-Id: <20191015143552.317669-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-References: <20191014135424.7000-1-festevam@gmail.com> <20191014135424.7000-3-festevam@gmail.com>
- <dd72d8a5-3067-b640-12b6-052d3ecf57ca@gmail.com>
-In-Reply-To: <dd72d8a5-3067-b640-12b6-052d3ecf57ca@gmail.com>
-From:   Fabio Estevam <festevam@gmail.com>
-Date:   Tue, 15 Oct 2019 11:27:26 -0300
-Message-ID: <CAOMZO5BCkrdm=nibu1W0pLMKor1A__G2AkuBxJEQ6D9LSqxmTw@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] media: imx.rst: Provide instructions for the
- i.MX6DL sabreauto
-To:     Steve Longerbeam <slongerbeam@gmail.com>
-Cc:     hverkuil-cisco@xs4all.nl,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Tim Harvey <tharvey@gateworks.com>,
-        linux-media <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Steve,
+Hi,
 
-On Mon, Oct 14, 2019 at 2:20 PM Steve Longerbeam <slongerbeam@gmail.com> wrote:
+First of this series is based on work done by Helen in 2017 [1], I have 
+synced with her that it's OK for me to takeover the work.
 
-> should be "'adv7180 4-0021:0".
+This series aims to reduce the amount of boiler plate code in video 
+device drivers who's inputs and/or outputs are controlled by the Media 
+Controller instead of the V4L2 API.
 
-Will fix it.
+Patch 1/3 adds the core parts of this change by adding a new video 
+device capability flag V4L2_CAP_IO_MC which if set provides helper 
+implementations for the get, set and enum inputs and outputs ioctrls 
+freeing the video device driver from the need to implement them.
 
-> should be "'ipu1_csi0_mux':5".
+Patch 2/3 and 3/3 converts the R-Car VIN and Intel IPU3 drivers to use 
+this new flag and delete the now redundant boiler plate code. I'm sure 
+more video device drivers can make use of this new flag but as I can 
+only test on these two platforms I have limited my changes to those.
 
-Will fix it.
+1. https://patchwork.linuxtv.org/patch/41857/
 
-> > +   media-ctl -V "'ipu1_csi0':1 [fmt:AYUV32/720x576]"
-> > +   media-ctl -V "'ipu1_vdic':2 [fmt:AYUV32/720x576 field:none]"
-> > +   media-ctl -V "'ipu1_ic_prp':2 [fmt:AYUV32/720x576 field:none]"
-> > +   media-ctl -V "'ipu1_ic_prpvf':1 [fmt:AYUV32/720x576 field:none]"
->
-> Please add (after above line):
->
-> # Configure "ipu1_ic_prpvf capture" interface (assumed at /dev/video1)
->     v4l2-ctl -d1 --set-fmt-video=field=none
+Niklas Söderlund (3):
+  v4l2-dev/ioctl: Add V4L2_CAP_IO_MC
+  rcar-vin: Make use of V4L2_CAP_IO_MC
+  staging/intel-ipu3: Make use of V4L2_CAP_IO_MC
 
-Will add it and will change it to /dev/video2, which is the correct
-interface on imx6dl-sabreuto.
+ .../media/uapi/v4l/vidioc-querycap.rst        |  3 +
+ .../media/videodev2.h.rst.exceptions          |  1 +
+ drivers/media/platform/rcar-vin/rcar-v4l2.c   | 17 +---
+ drivers/media/v4l2-core/v4l2-dev.c            | 24 +++--
+ drivers/media/v4l2-core/v4l2-ioctl.c          | 87 ++++++++++++++++++-
+ drivers/staging/media/ipu3/ipu3-v4l2.c        | 60 +------------
+ include/uapi/linux/videodev2.h                |  2 +
+ 7 files changed, 110 insertions(+), 84 deletions(-)
 
-> If you don't mind while you are on this, can you please add this
-> v4l2-ctl step to the i.MX6Q PAL example, it is missing there as well.
+-- 
+2.23.0
 
-Yes, I can add it.
-
-What is the video device node for "ipu1_ic_prpvf capture" on the imx6q
-sabreauto?
-
-Thanks
