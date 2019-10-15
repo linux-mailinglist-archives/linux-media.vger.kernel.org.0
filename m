@@ -2,137 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 493DFD7087
-	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2019 09:54:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CDA5AD7150
+	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2019 10:42:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727646AbfJOHyY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Oct 2019 03:54:24 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59492 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727332AbfJOHyY (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Oct 2019 03:54:24 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 17158BCFE2;
-        Tue, 15 Oct 2019 07:54:24 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-43.ams2.redhat.com [10.36.116.43])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 2716C19C7F;
-        Tue, 15 Oct 2019 07:54:23 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-        id 47EDA11AAA; Tue, 15 Oct 2019 09:54:22 +0200 (CEST)
-Date:   Tue, 15 Oct 2019 09:54:22 +0200
-From:   Gerd Hoffmann <kraxel@redhat.com>
-To:     Dmitry Morozov <dmitry.morozov@opensynergy.com>
-Cc:     Tomasz Figa <tfiga@chromium.org>, stevensd@chromium.org,
-        virtio-dev@lists.oasis-open.org,
-        Keiichi Watanabe <keiichiw@chromium.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        alexlau@chromium.org, dgreid@chromium.org,
-        =?utf-8?B?U3TDqXBoYW5l?= Marchesin <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [virtio-dev] [PATCH] [RFC RESEND] vdec: Add virtio video decode
- device specification
-Message-ID: <20191015075422.yeknnqlsy3nun44r@sirius.home.kraxel.org>
-References: <20190919093404.182015-1-keiichiw@chromium.org>
- <15135216.K0K410U5qv@os-lin-dmo>
- <20191014123443.ey3yfdnr43kplqaq@sirius.home.kraxel.org>
- <12599990.jpbsygJuY9@os-lin-dmo>
+        id S1729354AbfJOImX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Oct 2019 04:42:23 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:36774 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728808AbfJOImX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 15 Oct 2019 04:42:23 -0400
+Received: by mail-wr1-f65.google.com with SMTP id y19so22768314wrd.3;
+        Tue, 15 Oct 2019 01:42:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=references:user-agent:from:to:cc:subject:in-reply-to:date
+         :message-id:mime-version;
+        bh=Alk2iYvP1zhS1Vsxyz1ENDltR7DNnK/DdAFNKV0PUVw=;
+        b=HPC6BuNV8j9u4GZjxKCxoY5RREbeSrCviqnJSe7bX9+Mz4/Ou/Y9YJfCz9D6x5YDJN
+         FPfze7R3WjjunFuZ7BTxjlj9zeZRJzIv5QwElj6bGpHm80r1uAkybYsje5HSVM+2NFwg
+         okWGBK3N+IHtYpPvyQqh8PWgleHiWLfaTVIU08wX80EZFskkvb87rkGeRvnDWfk89KCu
+         IgJWRobMxvlThOjJFQ8cTYimw/cyOOpegxEHHwfkSkuivf2kzEL9dFf5lp0/093hBmrI
+         I+I7fkoLrJo0gxg6wqlRIw4tvg+AF768tPLChUkL43L+S3EzP1I5VV2vB2RtSVkqAj5v
+         MBHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:references:user-agent:from:to:cc:subject
+         :in-reply-to:date:message-id:mime-version;
+        bh=Alk2iYvP1zhS1Vsxyz1ENDltR7DNnK/DdAFNKV0PUVw=;
+        b=ps/EiD5Oidh1J1DYTls4Dg/ok70CqpyMgwosf4Ev8vje3zAAcWFGSFUQKcDMMCuOZ2
+         E4gOzmaMS57165hpzIyMDLXg0JHYK/XlnAKxew8Y1/Z+LB02iJkowftxzRjs+3jrYQkj
+         my57eYoD3x/cU/UvP33m1i60NCxyJnfano/A9PvQ9kJIgFRZDOzy+a6RdSkhC6po6WEW
+         YP0Y46s4MU2HOTim2r0flgrYTSvQdr+T9D77v9EoWY5Gsg01OPfFb5CdMP4WYnP9SMPU
+         ANPXSa14Sc3P/46O98BqxI+iXvVsFLRbiuQ+vKLlmq75k5xGwsQQC86TGgIKfJnswkJj
+         ipaA==
+X-Gm-Message-State: APjAAAUf9stWBnSgpXNiEHurro8O/Zvfhrtu0flPLWO6R+Eg1PbitrvP
+        MkEXm6TkLqXDIxODwoOseu6jojrj
+X-Google-Smtp-Source: APXvYqx2bycIPnDtHKFh/xJsJXsS+Tg6XyXhmAOeu2Ar9KLDQ3WxO6d6EJTK67tMcZ2zx3XYKeedhw==
+X-Received: by 2002:adf:e40c:: with SMTP id g12mr30931259wrm.216.1571128939235;
+        Tue, 15 Oct 2019 01:42:19 -0700 (PDT)
+Received: from arch-late (a109-49-46-234.cpe.netcabo.pt. [109.49.46.234])
+        by smtp.gmail.com with ESMTPSA id u10sm19454220wmm.0.2019.10.15.01.42.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Oct 2019 01:42:17 -0700 (PDT)
+References: <20191014020847.9203-1-hslester96@gmail.com>
+User-agent: mu4e 1.2.0; emacs 27.0.50
+From:   Rui Miguel Silva <rmfrfs@gmail.com>
+To:     Chuhong Yuan <hslester96@gmail.com>
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: imx7-mipi-csis: Add a check for devm_regulator_get
+In-reply-to: <20191014020847.9203-1-hslester96@gmail.com>
+Date:   Tue, 15 Oct 2019 09:42:16 +0100
+Message-ID: <m3sgnuv1qv.fsf@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <12599990.jpbsygJuY9@os-lin-dmo>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.26]); Tue, 15 Oct 2019 07:54:24 +0000 (UTC)
+Content-Type: text/plain
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Oct 14, 2019 at 03:05:03PM +0200, Dmitry Morozov wrote:
-> 
-> On Montag, 14. Oktober 2019 14:34:43 CEST Gerd Hoffmann wrote:
-> >   Hi,
-> > 
-> > > My take on this (for a decoder) would be to allocate memory for output
-> > > buffers from a secure ION heap, import in the v4l2 driver, and then to
-> > > provide those to the device using virtio. The device side then uses the
-> > > dmabuf framework to make the buffers accessible for the hardware. I'm not
-> > > sure about that, it's just an idea.
-> > 
-> > Virtualization aside, how does the complete video decoding workflow
-> > work?  I assume along the lines of ...
-> > 
-> >   (1) allocate buffer for decoded video frames (from ion).
-> >   (2) export those buffers as dma-buf.
-> >   (3) import dma-buf to video decoder.
-> >   (4) import dma-buf to gpu.
-> > 
-> > ... to establish buffers shared between video decoder and gpu?
-> > 
-> > Then feed the video stream into the decoder, which decodes into the ion
-> > buffers?  Ask the gpu to scanout the ion buffers to show the video?
-> > 
-> > cheers,
-> >   Gerd
-> 
-> Yes, exactly.
-> 
-> [decoder]
-> 1) Input buffers are allocated using  VIDIOC_*BUFS.
+Hi Chuhong,
+Thanks for the patch.
 
-Ok.
+On Mon 14 Oct 2019 at 03:08, Chuhong Yuan wrote:
+> devm_regulator_get may return an error but mipi_csis_phy_init misses
+> a check for it.
+> This may lead to problems when regulator_set_voltage uses the unchecked
+> pointer.
+> This patch adds a check for devm_regulator_get to avoid potential risk.
+>
+> Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
+> ---
+>  drivers/staging/media/imx/imx7-mipi-csis.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
+> index 73d8354e618c..9a07b54c4ab1 100644
+> --- a/drivers/staging/media/imx/imx7-mipi-csis.c
+> +++ b/drivers/staging/media/imx/imx7-mipi-csis.c
+> @@ -350,6 +350,8 @@ static void mipi_csis_sw_reset(struct csi_state *state)
+>  static int mipi_csis_phy_init(struct csi_state *state)
+>  {
+>  	state->mipi_phy_regulator = devm_regulator_get(state->dev, "phy");
+> +	if (IS_ERR(state->mipi_phy_regulator))
+> +		return PTR_ERR(state->mipi_phy_regulator);
 
-> 2) Output buffers are allocated in a guest specific manner (ION, gbm).
+This regulator is marked as mandatory in the device tree entry,
+however it looks good to me to have this check, even because it
+can return -EPROBE_DEFER and we need to retry.
 
-Who decides whenever ION or gbm is used?  The phrase "secure ION heap"
-used above sounds like using ION is required for decoding drm-protected
-content.
+But for that we may need to extend this patch to make the caller
+of this (mipi_csis_probe), to also really care about the returned
+code.
 
-So, do we have to worry about ION here?  Or can we just use gbm?
+Cheers,
+   Rui
 
-[ Note: don't know much about ion, other than that it is used by
-        android, is in staging right now and patches to move it
-        out of staging are floating around @ dri-devel ]
+>
+>  	return regulator_set_voltage(state->mipi_phy_regulator, 1000000,
+>  				     1000000);
 
-> 3) Both input and output buffers are exported as dma-bufs.
-> 4) The backing storage of both inputs and outputs is made available to the 
-> device.
-> 5) Decoder hardware writes to output buffers directly.
-
-As expected.
-
-> 6) Back to the guest side, the output dma-bufs are used by (virtio-) gpu.
-
-Ok.  So, virtio-gpu has support for dma-buf exports (in drm-misc-next,
-should land upstream in kernel 5.5).  dma-buf imports are not that
-simple unfortunately.  When using the gbm allocation route dma-buf
-exports are good enough though.
-
-The virtio-gpu resources have both a host buffer and a guest buffer[1]
-Data can be copied using the DRM_IOCTL_VIRTGPU_TRANSFER_{FROM,TO}_HOST
-ioctls.  The dma-buf export will export the guest buffer (which lives
-in guest ram).
-
-It would make sense for the decoded video to go directly to the host
-buffer though.  First because we want avoid copying the video frames for
-performance reasons, and second because we might not be able to copy
-video frames (drm ...).
-
-This is where the buffer registry idea comes in.  Attach a (host)
-identifier to (guest) dma-bufs, which then allows host device emulation
-share buffers, i.e. virtio-vdec device emulation could decode to a
-dma-buf it got from virtio-gpu device emulation.
-
-Alternatively we could use virtual ION (or whatever it becomes after
-de-staging) for buffer management, with both virtio-vdec and virtio-gpu
-importing dma-bufs from virtual ION on both guest and host side.
-
-cheers,
-  Gerd
-
-[1] support for shared buffers is in progress.
