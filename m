@@ -2,230 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1745CD7D2E
-	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2019 19:16:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 82935D7EC1
+	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2019 20:19:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730407AbfJORQh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Oct 2019 13:16:37 -0400
-Received: from mailoutvs54.siol.net ([185.57.226.245]:55851 "EHLO
-        mail.siol.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726277AbfJORQh (ORCPT
+        id S1729110AbfJOSTt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Oct 2019 14:19:49 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:33653 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726358AbfJOSTt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Oct 2019 13:16:37 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.siol.net (Postfix) with ESMTP id 7E4B2523C5E;
-        Tue, 15 Oct 2019 19:16:34 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at psrvmta10.zcs-production.pri
-Received: from mail.siol.net ([127.0.0.1])
-        by localhost (psrvmta10.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id tekc9kbQB2L2; Tue, 15 Oct 2019 19:16:34 +0200 (CEST)
-Received: from mail.siol.net (localhost [127.0.0.1])
-        by mail.siol.net (Postfix) with ESMTPS id E7563523C61;
-        Tue, 15 Oct 2019 19:16:33 +0200 (CEST)
-Received: from jernej-laptop.localnet (cpe-86-58-59-25.static.triera.net [86.58.59.25])
-        (Authenticated sender: jernej.skrabec@siol.net)
-        by mail.siol.net (Postfix) with ESMTPA id DA296523C5E;
-        Tue, 15 Oct 2019 19:16:32 +0200 (CEST)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     mripard@kernel.org, mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        gregkh@linuxfoundation.org, wens@csie.org,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] media: cedrus: Fix decoding for some H264 videos
-Date:   Tue, 15 Oct 2019 19:16:32 +0200
-Message-ID: <1916783.jTTlJIDQL9@jernej-laptop>
-In-Reply-To: <20191002215442.GA24151@aptenodytes>
-References: <20191002193553.1633467-1-jernej.skrabec@siol.net> <20191002193553.1633467-2-jernej.skrabec@siol.net> <20191002215442.GA24151@aptenodytes>
+        Tue, 15 Oct 2019 14:19:49 -0400
+Received: by mail-wr1-f68.google.com with SMTP id b9so25064207wrs.0
+        for <linux-media@vger.kernel.org>; Tue, 15 Oct 2019 11:19:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=dgHs48+e2bNI5daUXhyZ4dG/lP9cMhRWRsatKAr0WOE=;
+        b=p+94Vqha13MMQYZ7ewkwE5Lpftv8zJSDhajCEUxCXcfrEoifvUGztaLHKskj2wXkAu
+         0jVMJlEbb0ayOjIIq+TlXcNPL4Smj0ZdfFbDASheH3MIc1eD2UJRqpAWCMJPtoFa25S4
+         B7xBoqEtrRKuWiMhQ3PQOR0/tRsx9GP39SYpPuwyj3LMyOhsDt3+XJv1rPUXvWnYDJBR
+         w5GD9e/Ezk8Tfka416XDTIr/RIGZ1v66HnF6KwJWcrOYEzGPXUBPZcPS5AErR2xqlJsI
+         AceYipC4/Xlc2qT73kXeexRC3RQKk2hSIwYdc8sYaoJfwGuIky8qZu6pkcI8MVs6hA1d
+         Lv2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=dgHs48+e2bNI5daUXhyZ4dG/lP9cMhRWRsatKAr0WOE=;
+        b=Gb0zbL1urUAq+7dKaLDyY5784WaUQPXrkVFN4GNOFU+ejMgH5JB43B5UocVrkvDsmw
+         smxJmXRo8MR8g4dcSXU7iO8iJwwUD8n2XfAhBUn8x1Wqrn3uy3YhWdj6kzFeWt6+ubOv
+         GyHZwr0Y3ZkewOdHbxoOF6VpYPXd5XqqIWsHxWsVZ85bHJ6nvc9kOd8+Cqh9Sa4+IihY
+         hV8FFght5QCaoLXkS5Umce+LzS9of50VH08J/UhcLUgqe+N2EwgyzRcx71BjnKnuDJAc
+         w7YFWORII61O4ktPBrYAYT5JvEYSGUp4Z9aWOjjW1n/MDmFW52ZfjKVKyH5dJ/zX9cvp
+         bYPA==
+X-Gm-Message-State: APjAAAVZyJWecpRcX0RoIHufW3N9EJOVpRHr5sEGqKs+2T44+VXLWCPY
+        XcPb5osP8E5yvJNhPPuLhYJou7Se
+X-Google-Smtp-Source: APXvYqyQlJe9W3/6M7520tJvf1eGa4Ze7nWsppG1FqN6HzKfyERfllfdWcEZ/xpU+w7vzyf9nCctRw==
+X-Received: by 2002:adf:fa47:: with SMTP id y7mr32161792wrr.93.1571163586506;
+        Tue, 15 Oct 2019 11:19:46 -0700 (PDT)
+Received: from [172.30.89.60] (sjewanfw1-nat.mentorg.com. [139.181.7.34])
+        by smtp.gmail.com with ESMTPSA id y3sm32311534wro.36.2019.10.15.11.19.44
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 15 Oct 2019 11:19:45 -0700 (PDT)
+Subject: Re: [PATCH] media: imx.rst: Update the imx6-sabreauto ADV7180
+ instructions
+To:     Fabio Estevam <festevam@gmail.com>,
+        Tim Harvey <tharvey@gateworks.com>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-media <linux-media@vger.kernel.org>
+References: <20191010154417.9437-1-festevam@gmail.com>
+ <0f7a7910-8652-7a95-1f04-e25278ec05aa@gmail.com>
+ <593b540b-d5f9-63ba-becc-0902dc5d7900@gmail.com>
+ <CAOMZO5BgnbfFSmu7HEWtaT9Gexb-u13ZxzWEN-+Hw9eMfuC+LQ@mail.gmail.com>
+ <CAJ+vNU2fJ_eGMwQH7-HmO_==5p3Uuscv6S2fG_NY67J2o8OG+g@mail.gmail.com>
+ <CAOMZO5ABOV+Z7FenZykU82w-yUvae6zm6d6inN8SYrhViudYnA@mail.gmail.com>
+ <CAJ+vNU22JmDQ+tyRFSQgM_wp-pgfE7gOt2i3QbdOJp0KuDXfRQ@mail.gmail.com>
+ <CAOMZO5Dcv9fz=A8nTsvVsvu7+LNag2Sj03tJyFQKgpt_1B6Dwg@mail.gmail.com>
+ <CAJ+vNU1+oS1wFav4W2g0f6XGCP3oqEwzxyvrN3fkggNSBau0Tg@mail.gmail.com>
+ <CAOMZO5AMbAHmoYFLQbZbzBjMkmTsPkPctU-OqArPk3_PvtznjA@mail.gmail.com>
+From:   Steve Longerbeam <slongerbeam@gmail.com>
+Message-ID: <2acc57d6-da43-866b-fc01-e5e59af413ac@gmail.com>
+Date:   Tue, 15 Oct 2019 11:19:41 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+In-Reply-To: <CAOMZO5AMbAHmoYFLQbZbzBjMkmTsPkPctU-OqArPk3_PvtznjA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi!
-
-Sorry for late reponse, technical issues...
-
-Dne sreda, 02. oktober 2019 ob 23:54:47 CEST je Paul Kocialkowski napisal(a):
-> Hi,
-> 
-> On Wed 02 Oct 19, 21:35, Jernej Skrabec wrote:
-> > It seems that for some H264 videos at least one bitstream parsing
-> > trigger must be called in order to be decoded correctly. There is no
-> > explanation why this helps, but it was observed that two sample videos
-> > with this fix are now decoded correctly and there is no regression with
-> > others.
-> 
-> I understand there might be some magic going on under the hood here, but I
-> would be interested in trying to understand what's really going on.
-
-Me too.
-
-> 
-> For instance, comparing register dumps of the whole H264 block before/after
-> calling the hardware parser could help, and comparing that to using the
-> previous code (without hardware parsing).
-
-Please understand that I was working on this on and off for almost half a year 
-and checked many times all register values. At one point I tried libvdpau-
-sunxi which has no problem with sample video.  Still, all relevant register 
-values were the same. In a desperate attempt, I tried with HW header parsing 
-which magically solved the issue. After that, I reused values provided in 
-controls and then finally I made minimal solution as suggested in this patch. 
-
-> 
-> I could try and have a look if you have an available sample for testing the
-> erroneous case!
-
-Of course: http://jernej.libreelec.tv/videos/h264/test.mkv
-
-> 
-> Another minor thing: do you have some idea of whether the udelay call adds
-> significant delay in the process?
-
-I didn't notice any issue with it. Do you have any better idea? I just didn't 
-want to make empty loop and udelay is the shortest delay that is provided by 
-the kernel API.
-
-Best regards,
-Jernej
-
-> 
-> Cheers and thanks for the patch!
-> 
-> Paul
-> 
-> > Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
-> > ---
-> > 
-> >  .../staging/media/sunxi/cedrus/cedrus_h264.c  | 30 +++++++++++++++++--
-> >  .../staging/media/sunxi/cedrus/cedrus_regs.h  |  3 ++
-> >  2 files changed, 30 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> > b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c index
-> > d6a782703c9b..bd848146eada 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> > @@ -6,6 +6,7 @@
-> > 
-> >   * Copyright (c) 2018 Bootlin
-> >   */
-> > 
-> > +#include <linux/delay.h>
-> > 
-> >  #include <linux/types.h>
-> >  
-> >  #include <media/videobuf2-dma-contig.h>
-> > 
-> > @@ -289,6 +290,28 @@ static void cedrus_write_pred_weight_table(struct
-> > cedrus_ctx *ctx,> 
-> >  	}
-> >  
-> >  }
-> > 
-> > +/*
-> > + * It turns out that using VE_H264_VLD_OFFSET to skip bits is not
-> > reliable. In + * rare cases frame is not decoded correctly. However,
-> > setting offset to 0 and + * skipping appropriate amount of bits with
-> > flush bits trigger always works. + */
-> > +static void cedrus_skip_bits(struct cedrus_dev *dev, int num)
-> > +{
-> > +	int count = 0;
-> > +
-> > +	while (count < num) {
-> > +		int tmp = min(num - count, 32);
-> > 
-> > +
-> > +		cedrus_write(dev, VE_H264_TRIGGER_TYPE,
-> > +			     VE_H264_TRIGGER_TYPE_FLUSH_BITS |
-> > +			     VE_H264_TRIGGER_TYPE_N_BITS(tmp));
-> > +		while (cedrus_read(dev, VE_H264_STATUS) & 
-VE_H264_STATUS_VLD_BUSY)
-> > +			udelay(1);
-> > +
-> > +		count += tmp;
-> > +	}
-> > +}
-> > +
-> > 
-> >  static void cedrus_set_params(struct cedrus_ctx *ctx,
-> >  
-> >  			      struct cedrus_run *run)
-> >  
-> >  {
-> > 
-> > @@ -299,12 +322,11 @@ static void cedrus_set_params(struct cedrus_ctx
-> > *ctx,
-> > 
-> >  	struct vb2_buffer *src_buf = &run->src->vb2_buf;
-> >  	struct cedrus_dev *dev = ctx->dev;
-> >  	dma_addr_t src_buf_addr;
-> > 
-> > -	u32 offset = slice->header_bit_size;
-> > -	u32 len = (slice->size * 8) - offset;
-> > +	u32 len = slice->size * 8;
-> > 
-> >  	u32 reg;
-> >  	
-> >  	cedrus_write(dev, VE_H264_VLD_LEN, len);
-> > 
-> > -	cedrus_write(dev, VE_H264_VLD_OFFSET, offset);
-> > +	cedrus_write(dev, VE_H264_VLD_OFFSET, 0);
-> > 
-> >  	src_buf_addr = vb2_dma_contig_plane_dma_addr(src_buf, 0);
-> >  	cedrus_write(dev, VE_H264_VLD_END,
-> > 
-> > @@ -323,6 +345,8 @@ static void cedrus_set_params(struct cedrus_ctx *ctx,
-> > 
-> >  	cedrus_write(dev, VE_H264_TRIGGER_TYPE,
-> >  	
-> >  		     VE_H264_TRIGGER_TYPE_INIT_SWDEC);
-> > 
-> > +	cedrus_skip_bits(dev, slice->header_bit_size);
-> > +
-> > 
-> >  	if (((pps->flags & V4L2_H264_PPS_FLAG_WEIGHTED_PRED) &&
-> >  	
-> >  	     (slice->slice_type == V4L2_H264_SLICE_TYPE_P ||
-> >  	     
-> >  	      slice->slice_type == V4L2_H264_SLICE_TYPE_SP)) ||
-> > 
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-> > b/drivers/staging/media/sunxi/cedrus/cedrus_regs.h index
-> > 3329f9aaf975..b52926a54025 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-> > @@ -538,13 +538,16 @@
-> > 
-> >  					 
-VE_H264_CTRL_SLICE_DECODE_INT)
-> >  
-> >  #define VE_H264_TRIGGER_TYPE		0x224
-> > 
-> > +#define VE_H264_TRIGGER_TYPE_N_BITS(x)		(((x) & 0x3f) << 8)
-> > 
-> >  #define VE_H264_TRIGGER_TYPE_AVC_SLICE_DECODE	(8 << 0)
-> >  #define VE_H264_TRIGGER_TYPE_INIT_SWDEC		(7 << 0)
-> > 
-> > +#define VE_H264_TRIGGER_TYPE_FLUSH_BITS		(3 << 0)
-> > 
-> >  #define VE_H264_STATUS			0x228
-> >  #define VE_H264_STATUS_VLD_DATA_REQ_INT		
-VE_H264_CTRL_VLD_DATA_REQ_INT
-> >  #define VE_H264_STATUS_DECODE_ERR_INT		
-VE_H264_CTRL_DECODE_ERR_INT
-> >  #define VE_H264_STATUS_SLICE_DECODE_INT		
-VE_H264_CTRL_SLICE_DECODE_INT
-> > 
-> > +#define VE_H264_STATUS_VLD_BUSY			BIT(8)
-> > 
-> >  #define VE_H264_STATUS_INT_MASK			
-VE_H264_CTRL_INT_MASK
 
 
+On 10/15/19 9:42 AM, Fabio Estevam wrote:
+> On Tue, Oct 15, 2019 at 1:33 PM Tim Harvey <tharvey@gateworks.com> wrote:
+>
+>> Right, because this re-creates the initial issue. Upon any signal lock
+>> you would need to throw away the first few frames. I wish I knew the
+>> proper way to deal with this.
+> I thought this was handled by drivers/staging/media/imx/imx-media-fim.c
+>
+> On imx6-sabreauto we do have the input capture pins configured in the
+> pinctrl entries, but I don't see any driver handling it.
+>
+> Also, drivers/staging/media/imx/imx-media-fim.c driver has  a #ifdef
+> CONFIG_IMX_GPT_ICAP to deal with the input capture case, but such
+> config symbol does not exist in mainline.
+>
+> It seems we still need the input capture support to be able to
+> measuring frame intervals.
+>
+> Maybe Steve can shed some light on this?
 
+I submitted the ICAP driver patch quite a while ago, it was ~2 yrs ago I 
+think. Can't seem to find the link unfortunately.
+
+I'll work on updating the driver and retesting, and try resubmitting again.
+
+Most of the hooks are present in imx-media-fim.c to use the hardware 
+input capture to measure frame intervals. The only missing piece is the 
+ICAP driver itself.
+
+The FIM is explained in the imx.rst doc. It is configured and enabled 
+via v4l2 controls. It will report a v4l2_event to userspace during 
+streaming when a bad frame interval is detected. The rolling video / 
+vsync problem caused by the initial corrupt frames from the adv718x 
+produces bad frame intervals, thus the FIM event can be used to restart 
+streaming, which will correct vsync (as long as the bad initial frames 
+are skipped, which is the other piece of this problem that needs an 
+acceptable solution).
+
+The FIM can still be used now, without input capture support, but it is 
+marking frame intervals using the monotonic time in the dma completion 
+irq handler, which is not always accurate due to irq latency, depending 
+on system load. So this method can sometimes report bad frame interval 
+events that aren't real.
+
+Steve
 
