@@ -2,154 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4306CD6DF3
-	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2019 05:52:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B09BDD6FAD
+	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2019 08:45:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728037AbfJODwI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Oct 2019 23:52:08 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:44879 "EHLO
+        id S1726236AbfJOGpA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Oct 2019 02:45:00 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:37709 "EHLO
         lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727647AbfJODwI (ORCPT
+        by vger.kernel.org with ESMTP id S1726052AbfJOGpA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Oct 2019 23:52:08 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:c8e8:9e43:7e19:64a2])
+        Tue, 15 Oct 2019 02:45:00 -0400
+Received: from [192.168.2.10] ([46.9.232.237])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id KDsSiMyyyop0AKDsTiiIzB; Tue, 15 Oct 2019 05:52:05 +0200
-Message-ID: <74a2a03e3366e2df8804f3b3cbb3857c@smtp-cloud8.xs4all.net>
-Date:   Tue, 15 Oct 2019 05:52:04 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfFIrRDxp5WNO+ouzrUnhWDdu47VBFHjrwrKvDuXWoxV8PeNO4+CXgw+8xa9zPRUuDXLTkXnoCbEY5huKEYzEongt7FK/FwUeB3yPlCA3rO5jEh04az1J
- KxOSfMaWdRcTJNNU8XMoIoOCHmzO/FCOA6QnASCwNoy87wTJeTTMznk8AnmO2TYgX91bcyTBLSy4cvWLnFdQMg0VZukMS6W7j/ETi45vlGrLK0MB4nJoqZ24
+        id KGZiiNu7fop0AKGZmiiqdn; Tue, 15 Oct 2019 08:44:58 +0200
+Subject: Re: [PATCHv6 3/3] v4l2-dev: fix is_tch checks
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, Vandana BN <bnvandana@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+References: <20191014084021.54191-1-hverkuil-cisco@xs4all.nl>
+ <20191014084021.54191-4-hverkuil-cisco@xs4all.nl>
+ <20191014214221.GG23442@pendragon.ideasonboard.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <7e1e1ec2-6521-bbac-9e4c-b338e12ebfa4@xs4all.nl>
+Date:   Tue, 15 Oct 2019 08:44:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <20191014214221.GG23442@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfBylimrFCGtb5loHEmAQRp20dvzXy6/k0zNQTta1mdlhWlI3ZiZx1j8/YT+Q47qyBeWOkicWCONppeg4BsjYeYnC9gmKZEYeMI2rfD15Qw6/Fp/FNdkN
+ W83txwYNUJUbiSdpevU6virpYOTc6hjdWh3+uiZGEz1dgq0F0+9mhghPyidhkDEAZS5aqmpTboOek7H72tOYDh//v4FwS4o5jbax58lsyuzmOzUtizpIvy8k
+ Vdw297QF2bqIvbpCQXTqqUjxkwMkyzz26CT8g5aVPHsrP4txM18hTCcgiQdI+AU0xon7FiKCYOxM/R9lFareJA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On 10/14/19 11:42 PM, Laurent Pinchart wrote:
+> Hi Hans,
+> 
+> Thank you for the patch.
+> 
+> On Mon, Oct 14, 2019 at 10:40:21AM +0200, Hans Verkuil wrote:
+>> Touch devices mark too many ioctls as valid. Restrict the list of
+>> valid ioctls for touch devices.
+>>
+>> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>> ---
+>>  drivers/media/v4l2-core/v4l2-dev.c | 24 ++++++++++++++++++------
+>>  1 file changed, 18 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+>> index 27fb96a6c2a8..cec588b04711 100644
+>> --- a/drivers/media/v4l2-core/v4l2-dev.c
+>> +++ b/drivers/media/v4l2-core/v4l2-dev.c
+>> @@ -596,8 +596,8 @@ static void determine_valid_ioctls(struct video_device *vdev)
+>>  	if (ops->vidioc_enum_freq_bands || ops->vidioc_g_tuner || ops->vidioc_g_modulator)
+>>  		set_bit(_IOC_NR(VIDIOC_ENUM_FREQ_BANDS), valid_ioctls);
+>>  
+>> -	if (is_vid || is_tch) {
+>> -		/* video and touch specific ioctls */
+>> +	if (is_vid) {
+>> +		/* video specific ioctls */
+>>  		if ((is_rx && (ops->vidioc_enum_fmt_vid_cap ||
+>>  			       ops->vidioc_enum_fmt_vid_overlay)) ||
+>>  		    (is_tx && ops->vidioc_enum_fmt_vid_out))
+>> @@ -675,6 +675,19 @@ static void determine_valid_ioctls(struct video_device *vdev)
+>>  			       ops->vidioc_try_fmt_sliced_vbi_out)))
+>>  			set_bit(_IOC_NR(VIDIOC_TRY_FMT), valid_ioctls);
+>>  		SET_VALID_IOCTL(ops, VIDIOC_G_SLICED_VBI_CAP, vidioc_g_sliced_vbi_cap);
+>> +	} else if (is_tch) {
+>> +		/* touch specific ioctls */
+>> +		SET_VALID_IOCTL(ops, VIDIOC_ENUM_FMT, vidioc_enum_fmt_vid_cap);
+>> +		SET_VALID_IOCTL(ops, VIDIOC_G_FMT, vidioc_g_fmt_vid_cap);
+>> +		SET_VALID_IOCTL(ops, VIDIOC_S_FMT, vidioc_s_fmt_vid_cap);
+>> +		SET_VALID_IOCTL(ops, VIDIOC_TRY_FMT, vidioc_try_fmt_vid_cap);
+>> +		SET_VALID_IOCTL(ops, VIDIOC_ENUM_FRAMESIZES, vidioc_enum_framesizes);
+>> +		SET_VALID_IOCTL(ops, VIDIOC_ENUM_FRAMEINTERVALS, vidioc_enum_frameintervals);
+>> +		SET_VALID_IOCTL(ops, VIDIOC_ENUMINPUT, vidioc_enum_input);
+>> +		SET_VALID_IOCTL(ops, VIDIOC_G_INPUT, vidioc_g_input);
+>> +		SET_VALID_IOCTL(ops, VIDIOC_S_INPUT, vidioc_s_input);
+>> +		SET_VALID_IOCTL(ops, VIDIOC_G_PARM, vidioc_g_parm);
+>> +		SET_VALID_IOCTL(ops, VIDIOC_S_PARM, vidioc_s_parm);
+>>  	} else if (is_sdr && is_rx) {
+>>  		/* SDR receiver specific ioctls */
+>>  		SET_VALID_IOCTL(ops, VIDIOC_ENUM_FMT, vidioc_enum_fmt_sdr_cap);
+>> @@ -702,8 +715,8 @@ static void determine_valid_ioctls(struct video_device *vdev)
+>>  		SET_VALID_IOCTL(ops, VIDIOC_STREAMOFF, vidioc_streamoff);
+>>  	}
+>>  
+>> -	if (is_vid || is_vbi || is_tch || is_meta) {
+>> -		/* ioctls valid for video, vbi, touch and metadata */
+>> +	if (is_vid || is_vbi || is_meta) {
+>> +		/* ioctls valid for video, vbi and metadata */
+>>  		if (ops->vidioc_s_std)
+>>  			set_bit(_IOC_NR(VIDIOC_ENUMSTD), valid_ioctls);
+>>  		SET_VALID_IOCTL(ops, VIDIOC_S_STD, vidioc_s_std);
+>> @@ -727,8 +740,7 @@ static void determine_valid_ioctls(struct video_device *vdev)
+>>  			SET_VALID_IOCTL(ops, VIDIOC_G_AUDOUT, vidioc_g_audout);
+>>  			SET_VALID_IOCTL(ops, VIDIOC_S_AUDOUT, vidioc_s_audout);
+>>  		}
+>> -		if (ops->vidioc_g_parm || (vdev->vfl_type == VFL_TYPE_GRABBER &&
+>> -					ops->vidioc_g_std))
+>> +		if (ops->vidioc_g_parm || ops->vidioc_g_std)
+>>  			set_bit(_IOC_NR(VIDIOC_G_PARM), valid_ioctls);
+> 
+> This will become potentially valid for VBI devices, is it intended ?
 
-Results of the daily build of media_tree:
+Actually, it wasn't intended, but it is correct :-)
 
-date:			Tue Oct 15 05:00:10 CEST 2019
-media-tree git hash:	3ff3a712a9eabb3d7bf52c263dd1ece054345df4
-media_build git hash:	afb27b4820fd670aed06d56c6a1dde56318453f1
-v4l-utils git hash:	ba5fe02c1b597bfcf99dcce4ced31dba8b30f318
-edid-decode git hash:	44d1587353df864f40ead960b0ac596005724b8f
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: fb74d4453fd4f857830399be9778a571221bee04
-host hardware:		x86_64
-host os:		5.2.0-3-amd64
+VBI devices can have G_STD, and therefor G_PARM.
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4-rc1-i686: OK
-linux-5.4-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS: Final Summary: 2328, Succeeded: 2326, Failed: 2, Warnings: 0
-sparse: OK
+> 
+>>  		SET_VALID_IOCTL(ops, VIDIOC_S_PARM, vidioc_s_parm);
+>>  		SET_VALID_IOCTL(ops, VIDIOC_S_DV_TIMINGS, vidioc_s_dv_timings);
+> 
 
-Detailed results are available here:
+Regards,
 
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+	Hans
