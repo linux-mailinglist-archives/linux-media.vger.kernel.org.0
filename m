@@ -2,89 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4BBBDD71A6
-	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2019 10:59:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFB2AD71DD
+	for <lists+linux-media@lfdr.de>; Tue, 15 Oct 2019 11:12:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727898AbfJOI7F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Oct 2019 04:59:05 -0400
-Received: from gofer.mess.org ([88.97.38.141]:46145 "EHLO gofer.mess.org"
+        id S1726320AbfJOJMl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Oct 2019 05:12:41 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:57213 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726335AbfJOI7F (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Oct 2019 04:59:05 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 0BEEFC6391; Tue, 15 Oct 2019 09:59:03 +0100 (BST)
-Date:   Tue, 15 Oct 2019 09:59:03 +0100
-From:   Sean Young <sean@mess.org>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v5.5] DVB/RC (II)
-Message-ID: <20191015085903.GA11348@gofer.mess.org>
+        id S1725815AbfJOJMl (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 15 Oct 2019 05:12:41 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtp (Exim 4.84_2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1iKIsY-0001Rn-Ul; Tue, 15 Oct 2019 09:12:31 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1iKIt0-0005hP-7X; Tue, 15 Oct 2019 09:12:58 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.5] DVB/RC (II)
+Date:   Tue, 15 Oct 2019 09:12:58 +0000
+Message-Id: <20191015091258.21866-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191015085903.GA11348@gofer.mess.org>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+From: builder@linuxtv.org
 
-We have a new keymap, new usb IDs, some minor cleanups and the DVB fixes
-you wrote.
+Pull request: https://patchwork.linuxtv.org/patch/59470/
+Build log: https://builder.linuxtv.org/job/patchwork/20509/
+Build time: 00:12:40
+Link: https://lore.kernel.org/linux-media/20191015085903.GA11348@gofer.mess.org
 
-Thanks,
+gpg: Signature made Tue 15 Oct 2019 08:53:26 AM UTC
+gpg:                using RSA key A624251A26084A9ED9E4C8B6425F639D3960FA9E
+gpg:                issuer "sean@mess.org"
+gpg: Good signature from "Sean Young <sean@mess.org>" [full]
 
-Sean
+Summary: 2 patches and/or PDF generation with issues, being 0 at build time
 
-The following changes since commit 3ff3a712a9eabb3d7bf52c263dd1ece054345df4:
+Error/warnings:
 
-  media: ti-vpe: vpe: don't rely on colorspace member for conversion (2019-10-10 13:54:22 -0300)
 
-are available in the Git repository at:
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0005-media-rc-add-keymap-for-Tronsmart-Vega-S95-S96-remot.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0005-media-rc-add-keymap-for-Tronsmart-Vega-S95-S96-remot.patch
+patches/0005-media-rc-add-keymap-for-Tronsmart-Vega-S95-S96-remot.patch:31: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
 
-  git://linuxtv.org/syoung/media_tree.git tags/v5.5ii
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0007-media-cxusb-detect-cxusb_ctrl_msg-error-in-query.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0007-media-cxusb-detect-cxusb_ctrl_msg-error-in-query.patch
+patches/0007-media-cxusb-detect-cxusb_ctrl_msg-error-in-query.patch:42: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
 
-for you to fetch changes up to 34c982dfacb381ac0984b4ded082deb35e9c5dc0:
-
-  media: cxd2841er: avoid too many status inquires (2019-10-14 16:02:18 +0100)
-
-----------------------------------------------------------------
-5.5 II
-
-----------------------------------------------------------------
-Christian Hewitt (1):
-      media: rc: add keymap for Tronsmart Vega S95/S96 remote
-
-Jisheng Zhang (1):
-      media: rc-map: Sort rc map name MACROs
-
-Mauro Carvalho Chehab (2):
-      media: mb86a20s: make the bit rate estimation function more generic
-      media: cxd2841er: avoid too many status inquires
-
-Sean Young (1):
-      media: imon_raw: simplify loop
-
-Thomas Voegtle (1):
-      media: dvbsky: add support for eyeTV Geniatech T2 lite
-
-Vito Caputo (1):
-      media: cxusb: detect cxusb_ctrl_msg error in query
-
-zhong jiang (2):
-      media: dvb-frontends: Use DIV_ROUND_CLOSEST directly to make it readable
-      media: tuners/qm1d1c0042: Use DIV_ROUND_CLOSEST directly to make it readable
-
- drivers/media/dvb-frontends/cxd2841er.c | 12 +++++++-
- drivers/media/dvb-frontends/mb86a20s.c  | 54 ++++++++++++++-------------------
- drivers/media/dvb-frontends/mt312.c     | 13 +++-----
- drivers/media/rc/imon_raw.c             | 22 +++-----------
- drivers/media/rc/keymaps/Makefile       |  1 +
- drivers/media/rc/keymaps/rc-vega-s9x.c  | 54 +++++++++++++++++++++++++++++++++
- drivers/media/tuners/qm1d1c0042.c       |  2 +-
- drivers/media/usb/dvb-usb-v2/dvbsky.c   |  3 ++
- drivers/media/usb/dvb-usb/cxusb.c       |  3 +-
- include/media/dvb-usb-ids.h             |  1 +
- include/media/rc-map.h                  | 23 +++++++-------
- 11 files changed, 116 insertions(+), 72 deletions(-)
- create mode 100644 drivers/media/rc/keymaps/rc-vega-s9x.c
