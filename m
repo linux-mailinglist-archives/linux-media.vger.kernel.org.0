@@ -2,72 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CC8CD892E
-	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2019 09:15:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DAA73D8B29
+	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2019 10:38:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729887AbfJPHPE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Oct 2019 03:15:04 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:33440 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726408AbfJPHPD (ORCPT
+        id S2391558AbfJPIh5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Oct 2019 04:37:57 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:46482 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727091AbfJPIh5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Oct 2019 03:15:03 -0400
-Received: by mail-oi1-f195.google.com with SMTP id a15so19168482oic.0;
-        Wed, 16 Oct 2019 00:15:03 -0700 (PDT)
+        Wed, 16 Oct 2019 04:37:57 -0400
+Received: by mail-pg1-f194.google.com with SMTP id e15so5848451pgu.13
+        for <linux-media@vger.kernel.org>; Wed, 16 Oct 2019 01:37:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=WWx1FFGKOuJRMtTkmthoLwPW2Kzf5U2CvR5+YTbodjA=;
+        b=xAo6znHjl9Ltmw0vFumuJohwKsXKRXzV5r7dKsvyLhx07WH33ymhlFmV5JYx4A6Q/P
+         dwNiGyzV4LQPENRdjWLcE+KhysJS+FpDi7o7o1LqTO89hSS/57UbHIwL9OkUrBtm9d9Z
+         seJvCEGO6N7Z5WbVVOV4j1xbr+cxt2cddiTtV825tcj+vOPJuzATkOhvRzXgOIOYOkEO
+         j2iZyGrgrp5+fE48Ue6kUdwTtf+itGbLbuv1nBwIjSmnDorusk8z1dCLe8vzNLvzqh9A
+         yk9JYyZhinPISSSBTv7ZRuQzRp9Oan1cEIyciN76kcIEluvWjdvQo/Lb+u7966xVJ8PC
+         oBHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=HRYpCLt3Zu2Jol0KfAG/CiW7D1ttFW6PzRiG7cHGNLA=;
-        b=pCS3MwHv81JoEA1XuCi65BNRNeQme2w9veQoLyqfFlmrLYkgV3p8E6G8/iNAr8z9M8
-         HUr8XnR81jBn+MTMOivJ0CGh/5zWOLsHdY1Z0T+qwtd0PQM5kaYw0uXqqLi3qEFUxf7V
-         IcP/eZut7RHEiPcmfaVFrohu41K/epOrXOH9QWoQQ17AA1gvx6P5w1YD9CN1kN2NNHcK
-         aj1fVVUK85q5PaMSsroPAu20VZic9ilKxzaE6cMPWQ2xY1BvpF/nsRvFFSI6fi2Qt6KF
-         Dt3QwA+JWqbPHeBzhvNvioKi24/LmYq4K22c5BJvP468THNa78A592C46S+MWM6IREs5
-         JMNw==
-X-Gm-Message-State: APjAAAW117TlC4q4/tFlww3LBSslreW3xUsZYV3aluqUUdzPOMsOPsT+
-        HG6mAjDJgrHLFOvyRda0BtG7gxBdUx4r+iA+Tw4=
-X-Google-Smtp-Source: APXvYqwEnucWD/2pkPt36+F5Q4ljE9C+21OYu/+zrGayOTIy2kHFtKteeshcN4BPrwKB8ccFmzqRkd4auXw0EBBcubo=
-X-Received: by 2002:a05:6808:3b4:: with SMTP id n20mr2089571oie.131.1571210102814;
- Wed, 16 Oct 2019 00:15:02 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=WWx1FFGKOuJRMtTkmthoLwPW2Kzf5U2CvR5+YTbodjA=;
+        b=nsB3pH6SuJm3kNHJn714uLzUGAB4ztQ27BZmIoSBfki3wsoyHehV9Sgt9nGaxIzv8R
+         cE1WTeF6+d/bV20wmgSfVUvwAXhBQEkxqLClMQwziGqk3zdKoC8ZeEWQnqXdwUlkuu9G
+         KWqIQefqJqKJtkC60UMdJ/aEJaIFhnM614XGVqBy0frlgw4Xzdwfs0H35LgdnUGp1r+o
+         coZ1yMJv1LeSCCSNtlin4pWxpxJbGLI/wOmzSSvUXyl6gYq34j2Qh0RK9Nk2y5ZaqlBA
+         n9pBWjrNcIjUEd5BjsMgtt0b6vd23ODE7lzyhnH+Zhp0cfo7h6vlUXeB42nNSLh5zJuj
+         tVVg==
+X-Gm-Message-State: APjAAAVOiBh7pm4PxR5858oWCoMhi9hTNnH1/yHv9QkFaCzb1WppLE+r
+        Z0FZcxYtZB3TcVyvEax2g1bj
+X-Google-Smtp-Source: APXvYqywjX6EG0Vqzgqg0Uy+SXn8Ybru/4U99k3x4yloIPg3KKmXpn26QBKc4s/l+yy1i0k3CZZVSw==
+X-Received: by 2002:a17:90a:246e:: with SMTP id h101mr3523435pje.133.1571215076312;
+        Wed, 16 Oct 2019 01:37:56 -0700 (PDT)
+Received: from Mani-XPS-13-9360 ([2409:4072:6099:7d36:58bc:3eb9:a64a:7942])
+        by smtp.gmail.com with ESMTPSA id v8sm4594520pje.6.2019.10.16.01.37.50
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 16 Oct 2019 01:37:55 -0700 (PDT)
+Date:   Wed, 16 Oct 2019 14:07:48 +0530
+From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     mchehab@kernel.org, sakari.ailus@iki.fi,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        c.barrett@framos.com, a.brela@framos.com
+Subject: Re: [PATCH 1/2] dt-bindings: media: i2c: Add IMX296 CMOS sensor
+ binding
+Message-ID: <20191016083748.GA2288@Mani-XPS-13-9360>
+References: <20191011035613.13598-1-manivannan.sadhasivam@linaro.org>
+ <20191011035613.13598-2-manivannan.sadhasivam@linaro.org>
+ <20191015224554.GA5634@bogus>
 MIME-Version: 1.0
-References: <1571137078-28922-1-git-send-email-biju.das@bp.renesas.com> <1571137078-28922-5-git-send-email-biju.das@bp.renesas.com>
-In-Reply-To: <1571137078-28922-5-git-send-email-biju.das@bp.renesas.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 16 Oct 2019 09:14:51 +0200
-Message-ID: <CAMuHMdVGrT4fsB=x=FzMoJhBtQ_r6SuYF-wZ9BJMfkxP=HXNNg@mail.gmail.com>
-Subject: Re: [PATCH 4/4] media: rcar-csi2: Enable support for R8A774B1
-To:     Biju Das <biju.das@bp.renesas.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Simon Horman <horms@verge.net.au>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191015224554.GA5634@bogus>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Oct 15, 2019 at 12:58 PM Biju Das <biju.das@bp.renesas.com> wrote:
-> Add the MIPI CSI-2 driver support for RZ/G2N(R8A774B1) SoC.
-> The CSI-2 module of RZ/G2N is similar to R-Car M3-N.
->
-> Signed-off-by: Biju Das <biju.das@bp.renesas.com>
+Hi Rob,
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+On Tue, Oct 15, 2019 at 05:45:54PM -0500, Rob Herring wrote:
+> On Fri, Oct 11, 2019 at 09:26:12AM +0530, Manivannan Sadhasivam wrote:
+> > Add devicetree binding for IMX296 CMOS image sensor.
+> > 
+> > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> > ---
+> >  .../devicetree/bindings/media/i2c/imx296.txt  | 55 +++++++++++++++++++
+> >  1 file changed, 55 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/imx296.txt
+> 
+> You should know by now, use DT schema format please.
+> 
 
-Gr{oetje,eeting}s,
+I know for other subsystems but by having a vague look at the existing bindings
+I thought media subsystem is still using .txt. But I now see few yaml bindings
+in linux-next and will switch over this.
 
-                        Geert
+Btw, is it mandatory now to use YAML bindings for all subsystems? I don't
+see any issue (instead I prefer) but I remember that you defer to the preference
+of the subsystem maintainers before!
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/imx296.txt b/Documentation/devicetree/bindings/media/i2c/imx296.txt
+> > new file mode 100644
+> > index 000000000000..25d3b15162c1
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/i2c/imx296.txt
+> > @@ -0,0 +1,55 @@
+> > +* Sony IMX296 1/2.8-Inch CMOS Image Sensor
+> > +
+> > +The Sony IMX296 is a 1/2.9-Inch active pixel type CMOS Solid-state image
+> > +sensor with square pixel array and 1.58 M effective pixels. This chip features
+> > +a global shutter with variable charge-integration time. It is programmable
+> > +through I2C and 4-wire interfaces. The sensor output is available via CSI-2
+> > +serial data output (1 Lane).
+> > +
+> > +Required Properties:
+> > +- compatible: Should be "sony,imx296"
+> > +- reg: I2C bus address of the device
+> > +- clocks: Reference to the mclk clock.
+> > +- clock-names: Should be "mclk".
+> > +- clock-frequency: Frequency of the mclk clock in Hz.
+> > +- vddo-supply: Interface power supply.
+> > +- vdda-supply: Analog power supply.
+> > +- vddd-supply: Digital power supply.
+> > +
+> > +Optional Properties:
+> > +- reset-gpios: Sensor reset GPIO
+> > +
+> > +The imx296 device node should contain one 'port' child node with
+> > +an 'endpoint' subnode. For further reading on port node refer to
+> > +Documentation/devicetree/bindings/media/video-interfaces.txt.
+> > +
+> > +Required Properties on endpoint:
+> > +- data-lanes: check ../video-interfaces.txt
+> 
+> This should only be required when not using all the lanes on the device.
+> 
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+This is a bit weird! How will someone know how many lanes the device is using
+by looking at the binding? He can anyway refer the datasheet but still...
+
+> > +- remote-endpoint: check ../video-interfaces.txt
+> 
+> Don't really need to document this.
+> 
+
+okay.
+
+Thanks,
+Mani
+
+> > +
+> > +Example:
+> > +	&i2c1 {
+> > +		...
+> > +		imx296: camera-sensor@1a {
+> > +			compatible = "sony,imx296";
+> > +			reg = <0x1a>;
+> > +
+> > +			reset-gpios = <&msmgpio 35 GPIO_ACTIVE_LOW>;
+> > +			pinctrl-names = "default";
+> > +			pinctrl-0 = <&camera_rear_default>;
+> > +
+> > +			clocks = <&gcc GCC_CAMSS_MCLK0_CLK>;
+> > +			clock-names = "mclk";
+> > +			clock-frequency = <37125000>;
+> > +
+> > +			vddo-supply = <&camera_vddo_1v8>;
+> > +			vdda-supply = <&camera_vdda_3v3>;
+> > +			vddd-supply = <&camera_vddd_1v2>;
+> > +
+> > +			port {
+> > +				imx296_ep: endpoint {
+> > +					data-lanes = <1>;
+> > +					remote-endpoint = <&csiphy0_ep>;
+> > +				};
+> > +			};
+> > +		};
+> > -- 
+> > 2.17.1
+> > 
