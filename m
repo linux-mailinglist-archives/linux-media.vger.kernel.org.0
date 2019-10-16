@@ -2,119 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D3B4D8C22
-	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2019 11:06:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B1AED8CF7
+	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2019 11:52:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391866AbfJPJGu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Oct 2019 05:06:50 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:45407 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727399AbfJPJGt (ORCPT
+        id S2392149AbfJPJwx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Oct 2019 05:52:53 -0400
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:45309 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729546AbfJPJwx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Oct 2019 05:06:49 -0400
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1iKfGO-0005Bp-Li; Wed, 16 Oct 2019 11:06:36 +0200
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1iKfGG-00081t-Jv; Wed, 16 Oct 2019 11:06:28 +0200
-Date:   Wed, 16 Oct 2019 11:06:28 +0200
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Chuhong Yuan <hslester96@gmail.com>
-Cc:     devel@driverdev.osuosl.org, Fabio Estevam <festevam@gmail.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        linux-kernel@vger.kernel.org, Rui Miguel Silva <rmfrfs@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v2] media: imx7-mipi-csis: Add a check for
- devm_regulator_get
-Message-ID: <20191016090628.7l5u4ytdqr2jlasg@pengutronix.de>
-References: <20191015135915.6530-1-hslester96@gmail.com>
+        Wed, 16 Oct 2019 05:52:53 -0400
+Received: by mail-pf1-f196.google.com with SMTP id y72so14363806pfb.12
+        for <linux-media@vger.kernel.org>; Wed, 16 Oct 2019 02:52:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=QWF8mjNiT97Y4Yu34Asbv40t0M1Iiy1fzG350OTTfxo=;
+        b=OyRfN2AjU/zwDJtW2CPORsAfs4PwytUhC1ypdFgrGTCPuc9R0BBosbQYcKeQygIPKr
+         McZ+W/bCqe+m0bPl9mQgFre61jTN5Q1sn4X45qbx3++tLN5BT+XkQgBAIAPNMLXDVPbX
+         KmGPXIXdxE11LT3plJ2aMbVA7eU+XFKFeg3JA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=QWF8mjNiT97Y4Yu34Asbv40t0M1Iiy1fzG350OTTfxo=;
+        b=BWylAgqs+jlC137DwQRnD1sARnT5JznGTSL2qBJzWh8VzrtwFIwFzcY0zLPZhCjtJo
+         JSZsGN4H7YAvoXZD0UdK+7Bl8/bo5IkgMtK+VwRW+sXZqCKg1ZuZ3BQ39mGN3aasFax4
+         0cgePfsKQVSpLJcaE/Bsawn560X+g/egOY4MUReWLZ5s2SwWsIKdi9SPaHXwJiU6XqJD
+         KZiE7QfPJ8l2j3SJm5lX9PngW+UPPgkHy+36abRmU1wGSSgt90HMICNvDeBH89mNipOx
+         XQMN27IQ3zqwV5GsRpwmLuOMWVGOsWu2RuKEAdwQdBuJlOd3YR8fZe7W8NDsq48jq4gD
+         8k6g==
+X-Gm-Message-State: APjAAAWi82ZXlkEoscy99qQp1RmOLZ08ViAk3x8tuYmBb+sTVvw7UAEm
+        pByV//L1rnl4R5fMLGPI5xH1qw==
+X-Google-Smtp-Source: APXvYqzMYt1/QR51QpPbDB/T2Np2kF1ttwoTTGshOFnZ92nrBInOM49017vQwrwHKqikCFhoRTKq+g==
+X-Received: by 2002:a62:3441:: with SMTP id b62mr42023107pfa.12.1571219570728;
+        Wed, 16 Oct 2019 02:52:50 -0700 (PDT)
+Received: from acourbot.tok.corp.google.com ([2401:fa00:8f:203:93d9:de4d:e834:3086])
+        by smtp.gmail.com with ESMTPSA id g20sm24199694pfo.73.2019.10.16.02.52.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Oct 2019 02:52:49 -0700 (PDT)
+From:   Alexandre Courbot <acourbot@chromium.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Alexandre Courbot <gnurou@gmail.com>
+Subject: [PATCH] media: Documentation: v4l: fix section depth
+Date:   Wed, 16 Oct 2019 18:52:39 +0900
+Message-Id: <20191016095239.132921-1-acourbot@chromium.org>
+X-Mailer: git-send-email 2.23.0.700.g56cf767bdb-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191015135915.6530-1-hslester96@gmail.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 11:05:27 up 151 days, 15:23, 101 users,  load average: 0.19, 0.20,
- 0.10
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Chuhong,
+The request API documentation introduced a new section which should have
+been a subsection. Fix this.
 
-On 19-10-15 21:59, Chuhong Yuan wrote:
-> devm_regulator_get may return an error but mipi_csis_phy_init misses
-> a check for it.
-> This may lead to problems when regulator_set_voltage uses the unchecked
-> pointer.
-> This patch adds a check for devm_regulator_get to avoid potential risk.
-> 
-> Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
-> ---
-> Changes in v2:
->   - Add a check in mipi_csis_probe for the modified mipi_csis_phy_init.
+Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
+Signed-off-by: Alexandre Courbot <gnurou@gmail.com>
+---
+ Documentation/media/uapi/mediactl/request-api.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Did you miss the check for -EPROBE_DEFER?
-
-Regards,
-  Marco
-
-> 
->  drivers/staging/media/imx/imx7-mipi-csis.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
-> index 73d8354e618c..e8a6acaa969e 100644
-> --- a/drivers/staging/media/imx/imx7-mipi-csis.c
-> +++ b/drivers/staging/media/imx/imx7-mipi-csis.c
-> @@ -350,6 +350,8 @@ static void mipi_csis_sw_reset(struct csi_state *state)
->  static int mipi_csis_phy_init(struct csi_state *state)
->  {
->  	state->mipi_phy_regulator = devm_regulator_get(state->dev, "phy");
-> +	if (IS_ERR(state->mipi_phy_regulator))
-> +		return PTR_ERR(state->mipi_phy_regulator);
->  
->  	return regulator_set_voltage(state->mipi_phy_regulator, 1000000,
->  				     1000000);
-> @@ -966,7 +968,10 @@ static int mipi_csis_probe(struct platform_device *pdev)
->  		return ret;
->  	}
->  
-> -	mipi_csis_phy_init(state);
-> +	ret = mipi_csis_phy_init(state);
-> +	if (ret < 0)
-> +		return ret;
-> +
->  	mipi_csis_phy_reset(state);
->  
->  	mem_res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -- 
-> 2.20.1
-> 
-> 
-> 
-
+diff --git a/Documentation/media/uapi/mediactl/request-api.rst b/Documentation/media/uapi/mediactl/request-api.rst
+index a74c82d95609..01abe8103bdd 100644
+--- a/Documentation/media/uapi/mediactl/request-api.rst
++++ b/Documentation/media/uapi/mediactl/request-api.rst
+@@ -53,8 +53,8 @@ with different configurations in advance, knowing that the configuration will be
+ applied when needed to get the expected result. Configuration values at the time
+ of request completion are also available for reading.
+ 
+-Usage
+-=====
++General Usage
++-------------
+ 
+ The Request API extends the Media Controller API and cooperates with
+ subsystem-specific APIs to support request usage. At the Media Controller
 -- 
-Pengutronix e.K.                           |                             |
-Industrial Linux Solutions                 | http://www.pengutronix.de/  |
-Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+2.23.0
+
