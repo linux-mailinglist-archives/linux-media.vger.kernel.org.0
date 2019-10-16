@@ -2,97 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EF6BD946D
-	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2019 16:55:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D6364D950A
+	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2019 17:08:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405269AbfJPOzR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Oct 2019 10:55:17 -0400
-Received: from mail-lj1-f193.google.com ([209.85.208.193]:46393 "EHLO
-        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2393064AbfJPOzR (ORCPT
+        id S2404746AbfJPPIF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Oct 2019 11:08:05 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:47429 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726214AbfJPPIE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Oct 2019 10:55:17 -0400
-Received: by mail-lj1-f193.google.com with SMTP id d1so24289500ljl.13;
-        Wed, 16 Oct 2019 07:55:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=CCfz1udCO4iU6up5+Db3Z9kSOI2I8n3Hfy4n2+SvpRY=;
-        b=takbKn32OG50f1p4knweJWiwgRgPnfxD2vsyEH8Uk3G/HwwfWBxHD2Nfgkb3RzPhic
-         uj2tYi08BTUIbQ5ZTxaqUpQcF1Lgji+4PEQZsAoOiIVl2sRVyallxwveoUPv01gf8R0N
-         bnU9EUFHvhZR1aI8JPL4SPn45elVxFO325yqm5+GwpUqTdEzNTXXuadyt5kKsnTc9F5J
-         s+s0Yexd4gp5OqvTgjR3WqIeGMju95elZaSoGXnRvyHKH6GijMjBGdmkmFfNUTVjfVqR
-         9RnwCODDV7Ylo7NTunagt/rHAjdJw1sw9iqeo0vW3C9hWV7N3LiqqyjCVRbqxEKAsQGP
-         TDxQ==
-X-Gm-Message-State: APjAAAULQTmzczk67gRtx24S4+1qag9z0qZBunykthxptN3joPNYeTqk
-        qxqzRSKZ8RbgVBdbqtC9fKc=
-X-Google-Smtp-Source: APXvYqxG7CI/8BsMPfBrwI63mtNVIjtRqJP90lwXOJZwjbrevduVUxHrUTjcKYOmD3FI1WkaNy2tKA==
-X-Received: by 2002:a2e:c42:: with SMTP id o2mr25138621ljd.166.1571237714980;
-        Wed, 16 Oct 2019 07:55:14 -0700 (PDT)
-Received: from neopili.qtec.com (cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
-        by smtp.gmail.com with ESMTPSA id u8sm7726251lfb.36.2019.10.16.07.55.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Oct 2019 07:55:13 -0700 (PDT)
-From:   Ricardo Ribalda Delgado <ribalda@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Ricardo Ribalda Delgado <ribalda@kernel.org>
-Subject: [PATCH v2] media: v4l2-ctrl: Add p_def to v4l2_ctrl_config
-Date:   Wed, 16 Oct 2019 16:55:12 +0200
-Message-Id: <20191016145512.24747-1-ribalda@kernel.org>
-X-Mailer: git-send-email 2.23.0
+        Wed, 16 Oct 2019 11:08:04 -0400
+Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1iKkuA-0007tm-42; Wed, 16 Oct 2019 17:08:02 +0200
+Message-ID: <a020830817e4be787067aa82d56331979d80f53e.camel@pengutronix.de>
+Subject: Re: [PATCH] media: uapi: h264: clarify
+ num_ref_idx_l[01]_(default_)active fields
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Tomasz Figa <tfiga@chromium.org>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Sasha Hauer <kernel@pengutronix.de>
+Date:   Wed, 16 Oct 2019 17:08:00 +0200
+In-Reply-To: <20191016133756.GB325584@aptenodytes>
+References: <20190905114210.9232-1-p.zabel@pengutronix.de>
+         <20191003211247.GC3927@aptenodytes>
+         <CAAFQd5BG5_up_Ov7GU3qcB5NCjWcnP4Da0GKWJTuRzGr-WEa4g@mail.gmail.com>
+         <20191005133920.GB19943@aptenodytes>
+         <CAAFQd5AE8=bzQH+i4EoKYpB8RkprnWEAW0=8xS=fCa7Y4Hsfaw@mail.gmail.com>
+         <20191005141228.GC19943@aptenodytes>
+         <CAAFQd5BTff65TyMbLi+L8ejmC7CchRMt-iZ7mQnBuZn117ARvQ@mail.gmail.com>
+         <20191016133756.GB325584@aptenodytes>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This allows setting the default value on compound controls created via
-v4l2_ctrl_new_custom.
+On Wed, 2019-10-16 at 15:37 +0200, Paul Kocialkowski wrote:
+[...]
+> > > The bottomline is that we have use cases for each of the two set of fields
+> > > independently, so I feel like this is reason enough to avoid mixing them
+> > > together.
+> > 
+> > What do you mean by mixing together? Hardware parsing the slices
+> > always uses num_ref_idx_l[01]_default_active_minus1 from the PPS.
+> > Hardware not parsing the slices always sets override to 1 and uses
+> > num_ref_idx_l[01]_active_minus1 from the slice header struct.
+> 
+> To summarize, what I don't understand is why it's worth re-purposing
+> the slice header's num_ref_idx_l[01]_active_minus1 to contain
+> num_ref_idx_l[01]_default_active_minus1 when the flag is not set in the initial
+> bitstream instead of exposing the flag.
+> 
+> There's hardware (like cedrus) which takes both fields and the flag directly
+> in-registers, so it's really not a simplification here. And even in cases where
+> the hardware only takes one field, I believe that the downside of re-purposing
+> the field of the control is much greater than the benefit of the supposed
+> simplification.
+> 
+> I know this sounds quite futile, but I thought there was an implicit agreement
+> that controls must stick as close as possible to the bitstream. This is an
+> occurence where we are diverging for no particularly strong reason.
 
-Signed-off-by: Ricardo Ribalda Delgado <ribalda@kernel.org>
----
- drivers/media/v4l2-core/v4l2-ctrls.c | 3 ++-
- include/media/v4l2-ctrls.h           | 2 ++
- 2 files changed, 4 insertions(+), 1 deletion(-)
+FWIW, I agree with Paul on this. That drivers for codecs which do not
+parse the slice headers always completely ignore the
+num_ref_idx_l[01]_default_active_minus1 fields, but instead expect the
+num_ref_idx_l[01]_active_minus1 field to be repurposed to contain the
+default values if the corresponding fields do not exist in the slice
+header (that is, when the num_ref_idx_active_override_flag is not set),
+confused me at first [1].
 
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-index bf50d37ef6c1..939aa110daa0 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-@@ -2583,7 +2583,8 @@ struct v4l2_ctrl *v4l2_ctrl_new_custom(struct v4l2_ctrl_handler *hdl,
- 			type, min, max,
- 			is_menu ? cfg->menu_skip_mask : step, def,
- 			cfg->dims, cfg->elem_size,
--			flags, qmenu, qmenu_int, ptr_null, priv);
-+			flags, qmenu, qmenu_int,
-+			v4l2_ctrl_ptr_create((void *)cfg->p_def), priv);
- 	if (ctrl)
- 		ctrl->is_private = cfg->is_private;
- 	return ctrl;
-diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-index 26205ba3a0a0..d08d19a4ae34 100644
---- a/include/media/v4l2-ctrls.h
-+++ b/include/media/v4l2-ctrls.h
-@@ -375,6 +375,7 @@ struct v4l2_ctrl_handler {
-  * @max:	The control's maximum value.
-  * @step:	The control's step value for non-menu controls.
-  * @def:	The control's default value.
-+ * @p_def:	The control's default value for compound controls.
-  * @dims:	The size of each dimension.
-  * @elem_size:	The size in bytes of the control.
-  * @flags:	The control's flags.
-@@ -403,6 +404,7 @@ struct v4l2_ctrl_config {
- 	s64 max;
- 	u64 step;
- 	s64 def;
-+	const void *p_def;
- 	u32 dims[V4L2_CTRL_MAX_DIMS];
- 	u32 elem_size;
- 	u32 flags;
--- 
-2.23.0
+This seems to follow what libva does [2], and it does simplify drivers a
+tiny bit, but I'd still prefer to explicitly have the
+num_ref_idx_active_override_flag contained in the API, and to have the
+num_ref_idx_l[01]_active_minus1 fields only be used for
+num_ref_idx_l[01]_active_minus1, and not have them sometimes contain the
+values of another field.
+
+[1] https://patchwork.linuxtv.org/patch/58580/
+[2] https://github.com/intel/libva/blob/95eb8cf469367b532b391042fa0e77ca513ac94e/va/va.h#L3138
+
+> Expecting that userspace does this pre-processing of fields feels quite
+> counter-intuitive and confusing for people wishing to use the API, too.
+> One would certainly naively expect that the fields in the controls carry the
+> same meaning as in the bitstream when they have the same name.
+
+I certainly naively did.
+
+regards
+Philipp
 
