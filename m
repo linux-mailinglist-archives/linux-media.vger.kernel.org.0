@@ -2,103 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AE48CD8BCB
-	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2019 10:53:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E6A07D8BE9
+	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2019 10:56:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391712AbfJPIxh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Oct 2019 04:53:37 -0400
-Received: from gofer.mess.org ([88.97.38.141]:44443 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2391694AbfJPIxh (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Oct 2019 04:53:37 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 6D812C6389; Wed, 16 Oct 2019 09:53:34 +0100 (BST)
-Date:   Wed, 16 Oct 2019 09:53:34 +0100
-From:   Sean Young <sean@mess.org>
-To:     Valentin Vidic <vvidic@valentin-vidic.from.hr>
-Cc:     Michael Krufky <mkrufky@linuxtv.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        syzbot+98730b985cad4931a552@syzkaller.appspotmail.com
-Subject: Re: [PATCH] media: cxusb: fix uninitialized local variable
-Message-ID: <20191016085334.GA1345@gofer.mess.org>
-References: <20191015200315.28830-1-vvidic@valentin-vidic.from.hr>
+        id S1730142AbfJPI4n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Oct 2019 04:56:43 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:3779 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726968AbfJPI4n (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 16 Oct 2019 04:56:43 -0400
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.58])
+        by Forcepoint Email with ESMTP id 452EDFC2962ADAF91686;
+        Wed, 16 Oct 2019 16:56:41 +0800 (CST)
+Received: from localhost (10.133.213.239) by DGGEMS413-HUB.china.huawei.com
+ (10.3.19.213) with Microsoft SMTP Server id 14.3.439.0; Wed, 16 Oct 2019
+ 16:56:30 +0800
+From:   YueHaibing <yuehaibing@huawei.com>
+To:     <mripard@kernel.org>, <paul.kocialkowski@bootlin.com>,
+        <mchehab@kernel.org>, <gregkh@linuxfoundation.org>, <wens@csie.org>
+CC:     <linux-media@vger.kernel.org>, <devel@driverdev.osuosl.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, YueHaibing <yuehaibing@huawei.com>
+Subject: [PATCH -next] staging: media: cedrus: use devm_platform_ioremap_resource() to simplify code
+Date:   Wed, 16 Oct 2019 16:56:04 +0800
+Message-ID: <20191016085604.21076-1-yuehaibing@huawei.com>
+X-Mailer: git-send-email 2.10.2.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191015200315.28830-1-vvidic@valentin-vidic.from.hr>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain
+X-Originating-IP: [10.133.213.239]
+X-CFilter-Loop: Reflected
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Valentin,
+Use devm_platform_ioremap_resource() to simplify the code a bit.
+This is detected by coccinelle.
 
-Thank you for your patch.
+Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+---
+ drivers/staging/media/sunxi/cedrus/cedrus_hw.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-On Tue, Oct 15, 2019 at 10:03:15PM +0200, Valentin Vidic wrote:
-> Make sure ircode does not contain random values if the call to
-> cxusb_ctrl_msg fails for some reason.
-> 
-> Reported-by: syzbot+98730b985cad4931a552@syzkaller.appspotmail.com
-> Signed-off-by: Valentin Vidic <vvidic@valentin-vidic.from.hr>
-> ---
->  drivers/media/usb/dvb-usb/cxusb.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/usb/dvb-usb/cxusb.c b/drivers/media/usb/dvb-usb/cxusb.c
-> index f02fa0a67aa4..afcd88dd96c0 100644
-> --- a/drivers/media/usb/dvb-usb/cxusb.c
-> +++ b/drivers/media/usb/dvb-usb/cxusb.c
-> @@ -519,7 +519,7 @@ static int cxusb_d680_dmb_streaming_ctrl(struct dvb_usb_adapter *adap,
->  
->  static int cxusb_rc_query(struct dvb_usb_device *d)
->  {
-> -	u8 ircode[4];
-> +	u8 ircode[4] = { 0 };
->  
->  	cxusb_ctrl_msg(d, CMD_GET_IR_CODE, NULL, 0, ircode, 4);
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+index a942cd9..f19b87c 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+@@ -146,7 +146,6 @@ static irqreturn_t cedrus_irq(int irq, void *data)
+ int cedrus_hw_probe(struct cedrus_dev *dev)
+ {
+ 	const struct cedrus_variant *variant;
+-	struct resource *res;
+ 	int irq_dec;
+ 	int ret;
+ 
+@@ -225,8 +224,7 @@ int cedrus_hw_probe(struct cedrus_dev *dev)
+ 		goto err_sram;
+ 	}
+ 
+-	res = platform_get_resource(dev->pdev, IORESOURCE_MEM, 0);
+-	dev->base = devm_ioremap_resource(dev->dev, res);
++	dev->base = devm_platform_ioremap_resource(dev->pdev, 0);
+ 	if (IS_ERR(dev->base)) {
+ 		dev_err(dev->dev, "Failed to map registers\n");
+ 
+-- 
+2.7.4
 
-The correct to do here is check the return value of cxusb_ctrl_msg() and
-to not proceed if it failed, rather than assume the value of 0.
 
-Also note that:
-
-	https://patchwork.linuxtv.org/patch/59448/
-
-Is already being merged.
-
-Thanks
-Sean
-
->  
-> @@ -531,7 +531,7 @@ static int cxusb_rc_query(struct dvb_usb_device *d)
->  
->  static int cxusb_bluebird2_rc_query(struct dvb_usb_device *d)
->  {
-> -	u8 ircode[4];
-> +	u8 ircode[4] = { 0 };
->  	struct i2c_msg msg = {
->  		.addr = 0x6b,
->  		.flags = I2C_M_RD,
-> @@ -550,7 +550,7 @@ static int cxusb_bluebird2_rc_query(struct dvb_usb_device *d)
->  
->  static int cxusb_d680_dmb_rc_query(struct dvb_usb_device *d)
->  {
-> -	u8 ircode[2];
-> +	u8 ircode[2] = { 0 };
->  
->  	if (cxusb_ctrl_msg(d, 0x10, NULL, 0, ircode, 2) < 0)
->  		return 0;
-> @@ -989,7 +989,7 @@ static int cxusb_dee1601_frontend_attach(struct dvb_usb_adapter *adap)
->  
->  static int cxusb_dualdig4_frontend_attach(struct dvb_usb_adapter *adap)
->  {
-> -	u8 ircode[4];
-> +	u8 ircode[4] = { 0 };
->  	int i;
->  	struct i2c_msg msg = {
->  		.addr = 0x6b,
-> -- 
-> 2.20.1
