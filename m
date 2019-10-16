@@ -2,105 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D6364D950A
-	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2019 17:08:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0187D95B8
+	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2019 17:37:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404746AbfJPPIF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Oct 2019 11:08:05 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:47429 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726214AbfJPPIE (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Oct 2019 11:08:04 -0400
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1iKkuA-0007tm-42; Wed, 16 Oct 2019 17:08:02 +0200
-Message-ID: <a020830817e4be787067aa82d56331979d80f53e.camel@pengutronix.de>
-Subject: Re: [PATCH] media: uapi: h264: clarify
- num_ref_idx_l[01]_(default_)active fields
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Tomasz Figa <tfiga@chromium.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Sasha Hauer <kernel@pengutronix.de>
-Date:   Wed, 16 Oct 2019 17:08:00 +0200
-In-Reply-To: <20191016133756.GB325584@aptenodytes>
-References: <20190905114210.9232-1-p.zabel@pengutronix.de>
-         <20191003211247.GC3927@aptenodytes>
-         <CAAFQd5BG5_up_Ov7GU3qcB5NCjWcnP4Da0GKWJTuRzGr-WEa4g@mail.gmail.com>
-         <20191005133920.GB19943@aptenodytes>
-         <CAAFQd5AE8=bzQH+i4EoKYpB8RkprnWEAW0=8xS=fCa7Y4Hsfaw@mail.gmail.com>
-         <20191005141228.GC19943@aptenodytes>
-         <CAAFQd5BTff65TyMbLi+L8ejmC7CchRMt-iZ7mQnBuZn117ARvQ@mail.gmail.com>
-         <20191016133756.GB325584@aptenodytes>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.30.5-1.1 
+        id S2405095AbfJPPhL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Oct 2019 11:37:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49386 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726707AbfJPPhL (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 16 Oct 2019 11:37:11 -0400
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D380320854;
+        Wed, 16 Oct 2019 15:37:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1571240230;
+        bh=kewc2DHCxPax0/As8Dys1vVHnw4VcjP7TAGHyJnCm3U=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=e/1YPbJN2q6MW1B2PLR7tF/VsizhEwRlx2jWIO+PGFB7nQsA+W3L40aNX+4e4meou
+         wa/+akdLGCSd3lnmxG/a2oDCPp8YqydfEk55ZXTBrL+IvmsriSRm3L+997cCx7LmxW
+         Z2M2v6ABbRZpirXk12MlNjgDzpkMsCRBLE+G0AWI=
+Received: by mail-yb1-f178.google.com with SMTP id z125so7950690ybc.4;
+        Wed, 16 Oct 2019 08:37:09 -0700 (PDT)
+X-Gm-Message-State: APjAAAXDlckBGDKsUMz91BzM7EjuDlnABHKZ2OVLfzoVYopfY1nnBVDV
+        xLnmX7IY+dlY6X6n3Qibly2NDvmfd0nzVoaf6Q==
+X-Google-Smtp-Source: APXvYqyQKovpJMvdc7d8KZIJ6YAr98uicEeI6atpwgB7s7JZpNePYfmdWhWwkMnddX4aoxlCOjiIRZ54XNh3gZE8uQE=
+X-Received: by 2002:a25:7543:: with SMTP id q64mr27841489ybc.414.1571240229011;
+ Wed, 16 Oct 2019 08:37:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+References: <20191009175628.20570-1-bparrot@ti.com> <20191009175628.20570-2-bparrot@ti.com>
+ <20191015222947.GA13388@bogus> <20191016132239.ufptwl44ktmhvylo@ti.com>
+In-Reply-To: <20191016132239.ufptwl44ktmhvylo@ti.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Wed, 16 Oct 2019 10:36:54 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqKAGE=CytS89ET+r4+mSGfYPR5FMRUo2_jjVTZgW9o=Nw@mail.gmail.com>
+Message-ID: <CAL_JsqKAGE=CytS89ET+r4+mSGfYPR5FMRUo2_jjVTZgW9o=Nw@mail.gmail.com>
+Subject: Re: [Patch 1/3] dt-bindings: media: ti-vpe: Document VPE driver
+To:     Benoit Parrot <bparrot@ti.com>
+Cc:     Tony Lindgren <tony@atomide.com>, Tero Kristo <t-kristo@ti.com>,
+        linux-omap <linux-omap@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        devicetree@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 2019-10-16 at 15:37 +0200, Paul Kocialkowski wrote:
+On Wed, Oct 16, 2019 at 8:20 AM Benoit Parrot <bparrot@ti.com> wrote:
+>
+> Rob Herring <robh@kernel.org> wrote on Tue [2019-Oct-15 17:29:47 -0500]:
+> > On Wed, Oct 09, 2019 at 12:56:26PM -0500, Benoit Parrot wrote:
+> > > Device Tree bindings for the Video Processing Engine (VPE) driver.
+> > >
+> > > Signed-off-by: Benoit Parrot <bparrot@ti.com>
+> > > ---
+> > >  .../devicetree/bindings/media/ti-vpe.txt      | 48 +++++++++++++++++++
+> > >  MAINTAINERS                                   |  1 +
+> > >  2 files changed, 49 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/media/ti-vpe.txt
+> >
+> > Please convert to DT schema format.
+>
+> I can do that.
+> Before posting/merging a .yaml, are we supposed to be able to pass these?
+> # make dt_binding_check
+> # make dtbs_check
+
+Only dt_binding_check needs to be warning free. It is good to test
+your schema with dtbs_check and make sure any warnings seem valid.
+
+> Because currently with 5.4-rc3 these fails.
+
+Yeah, still waiting on regulator and media fixes. :( linux-next is fixed.
+
+> Is there a way to run these "test command" target a specific .yaml and not
+> the whole set?
+
+Yes, it's documented in writing-schema.rst. Use DT_SCHEMA_FILES  to
+test just your schema file.
+
 [...]
-> > > The bottomline is that we have use cases for each of the two set of fields
-> > > independently, so I feel like this is reason enough to avoid mixing them
-> > > together.
-> > 
-> > What do you mean by mixing together? Hardware parsing the slices
-> > always uses num_ref_idx_l[01]_default_active_minus1 from the PPS.
-> > Hardware not parsing the slices always sets override to 1 and uses
-> > num_ref_idx_l[01]_active_minus1 from the slice header struct.
-> 
-> To summarize, what I don't understand is why it's worth re-purposing
-> the slice header's num_ref_idx_l[01]_active_minus1 to contain
-> num_ref_idx_l[01]_default_active_minus1 when the flag is not set in the initial
-> bitstream instead of exposing the flag.
-> 
-> There's hardware (like cedrus) which takes both fields and the flag directly
-> in-registers, so it's really not a simplification here. And even in cases where
-> the hardware only takes one field, I believe that the downside of re-purposing
-> the field of the control is much greater than the benefit of the supposed
-> simplification.
-> 
-> I know this sounds quite futile, but I thought there was an implicit agreement
-> that controls must stick as close as possible to the bitstream. This is an
-> occurence where we are diverging for no particularly strong reason.
 
-FWIW, I agree with Paul on this. That drivers for codecs which do not
-parse the slice headers always completely ignore the
-num_ref_idx_l[01]_default_active_minus1 fields, but instead expect the
-num_ref_idx_l[01]_active_minus1 field to be repurposed to contain the
-default values if the corresponding fields do not exist in the slice
-header (that is, when the num_ref_idx_active_override_flag is not set),
-confused me at first [1].
+> > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > index 8598f49fa2c8..63dcda51f8ae 100644
+> > > --- a/MAINTAINERS
+> > > +++ b/MAINTAINERS
+> > > @@ -16299,6 +16299,7 @@ W:  http://linuxtv.org/
+> > >  Q: http://patchwork.linuxtv.org/project/linux-media/list/
+> > >  S: Maintained
+> > >  F: drivers/media/platform/ti-vpe/
+> > > +F: Documentation/devicetree/bindings/media/ti-vpe.txt
+>
+> Now with the dt_schemas, I noticed that the maintainer's name is part of
+> the yaml file. Do we still need to add this to the MAINTAINERS file as
+> well?
 
-This seems to follow what libva does [2], and it does simplify drivers a
-tiny bit, but I'd still prefer to explicitly have the
-num_ref_idx_active_override_flag contained in the API, and to have the
-num_ref_idx_l[01]_active_minus1 fields only be used for
-num_ref_idx_l[01]_active_minus1, and not have them sometimes contain the
-values of another field.
+Within the schema is really preparation for having schema outside of
+the kernel tree and because lots of bindings don't have a MAINTAINERS
+entry. So yes, you can still have both.
 
-[1] https://patchwork.linuxtv.org/patch/58580/
-[2] https://github.com/intel/libva/blob/95eb8cf469367b532b391042fa0e77ca513ac94e/va/va.h#L3138
-
-> Expecting that userspace does this pre-processing of fields feels quite
-> counter-intuitive and confusing for people wishing to use the API, too.
-> One would certainly naively expect that the fields in the controls carry the
-> same meaning as in the bitstream when they have the same name.
-
-I certainly naively did.
-
-regards
-Philipp
-
+Rob
