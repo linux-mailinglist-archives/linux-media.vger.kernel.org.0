@@ -2,93 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D2BEAD91E0
-	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2019 15:01:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A5CD3D91F2
+	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2019 15:04:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393404AbfJPNB6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Oct 2019 09:01:58 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:45961 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2393401AbfJPNB6 (ORCPT
+        id S2405284AbfJPNEH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Oct 2019 09:04:07 -0400
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:46715 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2405282AbfJPNEH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Oct 2019 09:01:58 -0400
-Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id Kiw5iHjriPduvKiw8ir5bW; Wed, 16 Oct 2019 15:01:56 +0200
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.5] Various fixes/improvements
-Message-ID: <cb6f7dfe-8e7c-5fa9-e287-22daa356bbbe@xs4all.nl>
-Date:   Wed, 16 Oct 2019 15:01:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Wed, 16 Oct 2019 09:04:07 -0400
+Received: by mail-lf1-f68.google.com with SMTP id t8so17378195lfc.13
+        for <linux-media@vger.kernel.org>; Wed, 16 Oct 2019 06:04:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4tKh7FyZX2RwCgxyhDE2zFW4ZYb9Rcpw88p4ZR/ogtA=;
+        b=CRKx36eTCOojfGXYIlWggEmPXOkyCjYVJNUB9YwLzcRaVzdqkXYQnLXGr1a3ZvekWV
+         oXYA39pMU+DuRsdjGRz9GCBEOHAYWHXAlJ+/wfktpFbejWmGQz3cfGrDwa28O5trkc/b
+         LXUn5mkzTqBcbPPHke8D7mrbcR9bZHMTCCDsShNQuPZ1qMsxa7ALNGN/Mz39gMTVEG3Z
+         L76dwDmBhO4VLQXKbz5buE7YUGIoWy1NqGwyUEY9JIEL+DLoMCapW+11aFJmAwVuJPso
+         p/E5o2e+DA19lWeNAn8H2AI+DDyGSt8rvi5LgwnoZ+2BOyu5pgWOj39mnt6/OKq8gQmi
+         y5Vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4tKh7FyZX2RwCgxyhDE2zFW4ZYb9Rcpw88p4ZR/ogtA=;
+        b=Bhj4zVZEC667R/yakLxdXliBHYxxlUvPV3ZiIrBqzLQkKY0Vj6tNjH3ewG+dEr8/6R
+         74PR/38yUFxqOSGhN3+/apCLWtReCLFH1EcB3Ig21Qjji9pyKt3bX/k98fCetWy1DocJ
+         TSfIRgn0gGE97ab7G4ffsTXTPIyarq9bSngCY1ZyZNx6p3hWgup9SwT1X7aMQnBSH2bx
+         rxn7LLjbERPrPKdbNpl7F2DJp9wLrmFh8R3ilTL2w5oczV9Rw2aNg6cviVAI0Iruvx3n
+         ZxH/nWwz0AI4lEXFva/CKcojv5uqU1a7dirOb+PN4mAXnJDdsHl1DPCDFLm9f9Q84Gr3
+         iC5Q==
+X-Gm-Message-State: APjAAAWfImcP9HhLJB3xU0LHXViAj6ps9Z7wikb0zooAcCO7Xhi64lLJ
+        2UP1Lwq4aI/LvHqccvHOG02Pvx3Els4aXtc3J5E=
+X-Google-Smtp-Source: APXvYqweQAN/S4ka/KAHzqQADPzchbiWg7CBjUX1i0uqmgKEFR57S4+k4u9CdanAsKE/vNERyQppnkEehi6NYnVWX7g=
+X-Received: by 2002:a19:855:: with SMTP id 82mr5780727lfi.44.1571231044801;
+ Wed, 16 Oct 2019 06:04:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfBThlernRAe81h9lEXvIwj+dcr5gGDDSAwHbJWq6NUyAEL+2AaxWsj/s1+5S+lidRVoSXoVygW2Qa4aKLog2r1fyo2/tos1KBGsVwaJYG2kAHqgrD4qO
- 5E/uKaIkVOqm+t98Z2tZPmLd5H/4jlVRXOT75o7tMuS9m6u5wdb28UKTSc4Yj7dbm2LluTpWIGztbw==
+References: <20191010154417.9437-1-festevam@gmail.com> <0f7a7910-8652-7a95-1f04-e25278ec05aa@gmail.com>
+ <593b540b-d5f9-63ba-becc-0902dc5d7900@gmail.com> <CAOMZO5BgnbfFSmu7HEWtaT9Gexb-u13ZxzWEN-+Hw9eMfuC+LQ@mail.gmail.com>
+ <CAJ+vNU2fJ_eGMwQH7-HmO_==5p3Uuscv6S2fG_NY67J2o8OG+g@mail.gmail.com>
+ <CAOMZO5ABOV+Z7FenZykU82w-yUvae6zm6d6inN8SYrhViudYnA@mail.gmail.com>
+ <CAJ+vNU22JmDQ+tyRFSQgM_wp-pgfE7gOt2i3QbdOJp0KuDXfRQ@mail.gmail.com>
+ <CAOMZO5Dcv9fz=A8nTsvVsvu7+LNag2Sj03tJyFQKgpt_1B6Dwg@mail.gmail.com>
+ <CAJ+vNU1+oS1wFav4W2g0f6XGCP3oqEwzxyvrN3fkggNSBau0Tg@mail.gmail.com>
+ <CAOMZO5AMbAHmoYFLQbZbzBjMkmTsPkPctU-OqArPk3_PvtznjA@mail.gmail.com>
+ <2acc57d6-da43-866b-fc01-e5e59af413ac@gmail.com> <CAOMZO5B5+_3FxUfgzMJzDH-myfXEQgxT8vfa-0L8cYFK8uhsuQ@mail.gmail.com>
+ <e41aa4d6-b84f-33ab-0738-e4f14d582172@gmail.com>
+In-Reply-To: <e41aa4d6-b84f-33ab-0738-e4f14d582172@gmail.com>
+From:   Fabio Estevam <festevam@gmail.com>
+Date:   Wed, 16 Oct 2019 10:04:02 -0300
+Message-ID: <CAOMZO5BAsNzngLF2=1h38j0KYdvGLankQwzZ8tpG68sKSvaboQ@mail.gmail.com>
+Subject: Re: [PATCH] media: imx.rst: Update the imx6-sabreauto ADV7180 instructions
+To:     Steve Longerbeam <slongerbeam@gmail.com>
+Cc:     Tim Harvey <tharvey@gateworks.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-media <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 3ff3a712a9eabb3d7bf52c263dd1ece054345df4:
+Hi Steve,
 
-  media: ti-vpe: vpe: don't rely on colorspace member for conversion (2019-10-10 13:54:22 -0300)
+On Tue, Oct 15, 2019 at 10:18 PM Steve Longerbeam <slongerbeam@gmail.com> wrote:
 
-are available in the Git repository at:
+> Here's a quick example that uses the end-of-frame method to measure fi's
+> (all other FIM controls are left at the default values):
+>
+> v4l2-ctl -d0 --set-ctrl=fim_enable=1
+> # disable input capture method
+> v4l2-ctl -d0 --set-ctrl=fim_input_capture_edge=0
+> v4l2-ctl -d0 --stream-mmap
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.5k
+What needs to be done for 'fim_enable' to be available?
 
-for you to fetch changes up to 8e56688b19f963844ee93991a863e048abda2f3e:
+I am using a mx6dl-sabreauto, and this is what I get:
 
-  media: cec-gpio: Use CONFIG_PREEMPTION (2019-10-16 14:38:29 +0200)
+# v4l2-ctl -d2 --set-ctrl=fim_enable=1
+unknown control 'fim_enable'
 
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Alexandre Courbot (1):
-      media: Documentation: v4l: fix section depth
-
-Christophe JAILLET (1):
-      media: i2c: adv7842: make array cri static and const, makes object smaller
-
-Colin Ian King (2):
-      media: ti-vpe: vpe: use r2y instead of y2r, copy-paste error
-      media: gspca: remove redundant assignment to variable ret
-
-Fabio Estevam (5):
-      media: adv7180: Only print 'chip found' message on successful probe
-      media: imx.rst: Specify the sabreauto variant
-      media: imx.rst: Provide a real example for the output format
-      media: imx.rst: Provide instructions for the i.MX6DL sabreauto
-      media: imx.rst: Pass the v4l2-ctl configuration
-
-Hans Verkuil (1):
-      cec-pin: add 'received' callback
-
-Jae Hyun Yoo (3):
-      media: aspeed: refine hsync/vsync polarity setting logic
-      media: aspeed: set hsync and vsync polarities to normal before starting mode detection
-      media: aspeed: clear garbage interrupts
-
-Navid Emamdoost (1):
-      media: usb: fix memory leak in af9005_identify_state
-
-Sebastian Andrzej Siewior (1):
-      media: cec-gpio: Use CONFIG_PREEMPTION
-
- Documentation/media/uapi/mediactl/request-api.rst |  4 +--
- Documentation/media/v4l-drivers/imx.rst           | 75 ++++++++++++++++++++++++++++++++++++++++++++-------
- drivers/media/cec/cec-pin.c                       | 10 +++++++
- drivers/media/i2c/adv7180.c                       |  6 ++---
- drivers/media/i2c/adv7842.c                       |  4 +--
- drivers/media/platform/Kconfig                    |  2 +-
- drivers/media/platform/aspeed-video.c             | 55 ++++++++++++++++++++++---------------
- drivers/media/platform/ti-vpe/csc.c               |  2 +-
- drivers/media/usb/dvb-usb/af9005.c                |  5 ++--
- drivers/media/usb/gspca/stv0680.c                 |  2 +-
- include/media/cec-pin.h                           | 10 +++++--
- 11 files changed, 130 insertions(+), 45 deletions(-)
+Thanks
