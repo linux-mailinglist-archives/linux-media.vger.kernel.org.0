@@ -2,124 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 50894D970D
-	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2019 18:22:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB325D986B
+	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2019 19:26:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406143AbfJPQWi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Oct 2019 12:22:38 -0400
-Received: from pandora.armlinux.org.uk ([78.32.30.218]:59866 "EHLO
-        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727451AbfJPQWi (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Oct 2019 12:22:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=mrJvn3liV+DZQU5EJ5RJHD7FS7q5mla25X7BFGETVL8=; b=YgsBjABZYZX1KmRFqvLFkXUsN
-        RBzZl0s67H5XDBRxy3ej4NMVKuWvb60ijdPj/iyk8siXmgfIHvNKvB4C7N1QxBr7zsDbcJO+5oitu
-        2zkj3pJ/cTjaGyFiwWD7fJDhuZN9KqikpxPZdB2NpM6vIiDDPP+NguiQW8qwUJC2eA9mcIIWQDu9R
-        rSOsUqdsVfsRUPMP4oGZ0DXIoWDlynqbELDZchU9fU6615HxG6w15Av2sLUMSiaxO/ynf8JwkiCNd
-        gEv+sZegWk55vEM24YIFx8bUsGFSgNw8HIP3Oxn78Ab8h6ucA6o/gUte2253/o+tga3h95hd7P5gy
-        ocFQA9VBg==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:55454)
-        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
-        (Exim 4.90_1)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1iKm4H-0003Un-TL; Wed, 16 Oct 2019 17:22:34 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1iKm4G-0007Hf-VR; Wed, 16 Oct 2019 17:22:33 +0100
-Date:   Wed, 16 Oct 2019 17:22:32 +0100
-From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org,
-        Dariusz Marcinkiewicz <darekm@google.com>,
-        dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCHv8 2/2] drm: tda998x: set the connector info
-Message-ID: <20191016162232.GY25745@shell.armlinux.org.uk>
-References: <20191016133916.21475-1-hverkuil-cisco@xs4all.nl>
- <20191016133916.21475-3-hverkuil-cisco@xs4all.nl>
+        id S1730640AbfJPR0F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Oct 2019 13:26:05 -0400
+Received: from gofer.mess.org ([88.97.38.141]:37999 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726731AbfJPR0F (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 16 Oct 2019 13:26:05 -0400
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 69EE7C6358; Wed, 16 Oct 2019 18:19:15 +0100 (BST)
+Date:   Wed, 16 Oct 2019 18:19:15 +0100
+From:   Sean Young <sean@mess.org>
+To:     linux-media@vger.kernel.org
+Cc:     Vito Caputo <vcaputo@pengaru.com>
+Subject: [PATCH] media: imon: invalid dereference in imon_touch_event
+Message-ID: <20191016171915.GA10573@gofer.mess.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191016133916.21475-3-hverkuil-cisco@xs4all.nl>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Oct 16, 2019 at 03:39:16PM +0200, Hans Verkuil wrote:
-> From: Dariusz Marcinkiewicz <darekm@google.com>
-> 
-> Fill in the cec_connector_info when calling cec_notifier_conn_register().
-> 
-> Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
-> Tested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> ---
->  drivers/gpu/drm/i2c/tda998x_drv.c | 31 ++++++++++++++++++-------------
->  1 file changed, 18 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i2c/tda998x_drv.c b/drivers/gpu/drm/i2c/tda998x_drv.c
-> index 8262b44b776e..b0620842fa3a 100644
-> --- a/drivers/gpu/drm/i2c/tda998x_drv.c
-> +++ b/drivers/gpu/drm/i2c/tda998x_drv.c
-> @@ -1337,6 +1337,8 @@ static int tda998x_connector_init(struct tda998x_priv *priv,
->  				  struct drm_device *drm)
->  {
->  	struct drm_connector *connector = &priv->connector;
-> +	struct cec_connector_info conn_info;
-> +	struct cec_notifier *notifier;
->  	int ret;
->  
->  	connector->interlace_allowed = 1;
-> @@ -1353,6 +1355,17 @@ static int tda998x_connector_init(struct tda998x_priv *priv,
->  	if (ret)
->  		return ret;
->  
-> +	cec_fill_conn_info_from_drm(&conn_info, connector);
-> +
-> +	notifier = cec_notifier_conn_register(priv->cec_glue.parent,
-> +					      NULL, &conn_info);
-> +	if (!notifier)
-> +		return -ENOMEM;
-> +
-> +	mutex_lock(&priv->cec_notify_mutex);
-> +	priv->cec_notify = notifier;
-> +	mutex_unlock(&priv->cec_notify_mutex);
+The touch timer is set up in intf1. If the second interface does not exist,
+the timer and touch input device are not setup and we get the following
+error, when touch events are reported via intf0.
 
-As per my previous comments, this is a single-copy atomic operation.
-Either priv->cec_notify is set or it isn't; there is no intermediate
-value.  It can't be set to a value until cec_notifier_conn_register()
-has completed.  So the lock doesn't help.
+Reported-by: syzbot+f49d12d34f2321cf4df2@syzkaller.appspotmail.com
+Signed-off-by: Sean Young <sean@mess.org>
+---
+ drivers/media/rc/imon.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-> +
->  	drm_connector_attach_encoder(&priv->connector,
->  				     priv->bridge.encoder);
->  
-> @@ -1372,6 +1385,11 @@ static void tda998x_bridge_detach(struct drm_bridge *bridge)
->  {
->  	struct tda998x_priv *priv = bridge_to_tda998x_priv(bridge);
->  
-> +	mutex_lock(&priv->cec_notify_mutex);
-> +	cec_notifier_conn_unregister(priv->cec_notify);
-> +	priv->cec_notify = NULL;
-> +	mutex_unlock(&priv->cec_notify_mutex);
-
-This is the only case where the lock makes sense - to ensure that any
-of the cec_notifier_set_phys_addr*() functions aren't called
-concurrently with it.  However, there's no locking around the instance
-in tda998x_connector_get_modes(), so have you ensured that that
-function can't be called concurrently?
-
-Thanks.
-
+diff --git a/drivers/media/rc/imon.c b/drivers/media/rc/imon.c
+index b8d96c50a804..ed95244da894 100644
+--- a/drivers/media/rc/imon.c
++++ b/drivers/media/rc/imon.c
+@@ -1627,8 +1627,7 @@ static void imon_incoming_packet(struct imon_context *ictx,
+ 	spin_unlock_irqrestore(&ictx->kc_lock, flags);
+ 
+ 	/* send touchscreen events through input subsystem if touchpad data */
+-	if (ictx->display_type == IMON_DISPLAY_TYPE_VGA && len == 8 &&
+-	    buf[7] == 0x86) {
++	if (ictx->touch && len == 8 && buf[7] == 0x86) {
+ 		imon_touch_event(ictx, buf);
+ 		return;
+ 
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTC broadband for 0.8mile line in suburbia: sync at 12.1Mbps down 622kbps up
-According to speedtest.net: 11.9Mbps down 500kbps up
+2.21.0
+
