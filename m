@@ -2,106 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 92E83D8FB9
-	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2019 13:39:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98F30D8FFB
+	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2019 13:51:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728500AbfJPLj6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Oct 2019 07:39:58 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:33545 "EHLO
+        id S2391019AbfJPLvU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Oct 2019 07:51:20 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:60087 "EHLO
         lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726752AbfJPLj5 (ORCPT
+        by vger.kernel.org with ESMTP id S1727249AbfJPLvU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Oct 2019 07:39:57 -0400
+        Wed, 16 Oct 2019 07:51:20 -0400
 Received: from [192.168.2.10] ([46.9.232.237])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id KhehiHBWoPduvKheliqjVW; Wed, 16 Oct 2019 13:39:55 +0200
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@siol.net>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Tomasz Figa <tfiga@chromium.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.5] Add slicing support + spec for stateless decoders
-Message-ID: <02bfac01-d6ba-1eca-efc6-1dbfcc712dc0@xs4all.nl>
-Date:   Wed, 16 Oct 2019 13:39:51 +0200
+        id KhpiiHG0xPduvKhpmiqmHK; Wed, 16 Oct 2019 13:51:18 +0200
+Subject: Re: [PATCH 30/34] media: cec-gpio: Use CONFIG_PREEMPTION
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+To:     Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        linux-kernel@vger.kernel.org
+Cc:     tglx@linutronix.de, Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+References: <20191015191821.11479-1-bigeasy@linutronix.de>
+ <20191015191821.11479-31-bigeasy@linutronix.de>
+ <6897ccdb-e2b7-7739-e6b9-872306895a4f@xs4all.nl>
+Message-ID: <23950aea-3972-64fd-9493-d7f9f81db9d2@xs4all.nl>
+Date:   Wed, 16 Oct 2019 13:51:14 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
+In-Reply-To: <6897ccdb-e2b7-7739-e6b9-872306895a4f@xs4all.nl>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfGse9GeQQ4IoDae5QSkiOv1sIKCx4rdLvCObX8OaM90RXbBcCAto4n5UBmpAA0cHCCgTSSZGbXtDnZlmOj0b2h0PuOo7vyY5hBSE272fytQMlemIheSG
- sp8UbvKhBpvst3Zb4jHGDRkeyM/BjbaySrOHc0KEr8dPaNn77ICo9AJE27W8SB5oOmUm/lic6mddQN/FeEpbxVr5ChWv6lL0DnO3LDmtQCeEMP1LXW9rPsSp
- zrlEtYGnOF3gXkA67cxGLTbgYlnnom3SEhlnbqrd3Fg=
+X-CMAE-Envelope: MS4wfIhXhW4TPSxZDRTyavvaBBxDjxQ3w/5OPf+azD6t1mKrv3YBVixNbFesDUWQ20mwLMrmpuOtI4gGZ6dyZVy+Mdz9uB4VL/PNrICANdiPIDS2btItFSd7
+ HF1xvg59w+Do0TVnerO5l5RZvzBBt0yfQ8woDHOm92X92/0oYhQ91lqp+PyKmdY8K5es7YiBFfW7TLZV5jus40pkHajDBkKLF2dzKXMPiRkXsSZJ+PIZB3LE
+ 3c3UuU10gc97Pkic5w9ScBhXdwFhwh1Br26+rqWwt2CoY2yjZqtTgLOBahSnus8L61GjmZ+AYz42MBif4AoDnw==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This series adds support for H.264 slicing to the cedrus driver. This is done by
-adding a new buffer flag V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF that stateless decoders
-have to set when queueing the output buffer to indicate that this output buffer
-contains a compressed slice and so the capture buffer the slice is decoded into
-should not be marked as DONE since more slices are expected.
+On 10/15/19 9:53 PM, Hans Verkuil wrote:
+> On 10/15/19 9:18 PM, Sebastian Andrzej Siewior wrote:
+>> CONFIG_PREEMPTION is selected by CONFIG_PREEMPT and by CONFIG_PREEMPT_RT.
+>> Both PREEMPT and PREEMPT_RT require the same functionality which today
+>> depends on CONFIG_PREEMPT.
+>>
+>> Switch the Kconfig dependency to CONFIG_PREEMPTION.
+>>
+>> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+>> Cc: linux-media@vger.kernel.org
+>> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> 
+> Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-Also add a new decoder command V4L2_DEC_CMD_FLUSH to handle the corner case where
-there are no more slices to decode, but there is still a capture buffer pending.
-
-Add support for all this to the m2m framework and add support for slicing to the
-cedrus driver. Many thanks to Jernej for working on the cedrus slicing support and
-testing these patches!
-
-Since slicing was the final missing piece, it is now time to add the stateless
-decoder spec as well to the V4L2 Specification.
-
-Many thanks to Alexandre and Tomasz and the many others who contributed to this.
+Do you want me to take this patch? Just checking.
 
 Regards,
 
 	Hans
 
-The following changes since commit 3ff3a712a9eabb3d7bf52c263dd1ece054345df4:
+> 
+> Thanks!
+> 
+> 	Hans
+> 
+>> ---
+>>  drivers/media/platform/Kconfig | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+>> index f1f61419fd292..56d4c1e91c276 100644
+>> --- a/drivers/media/platform/Kconfig
+>> +++ b/drivers/media/platform/Kconfig
+>> @@ -585,7 +585,7 @@ config VIDEO_MESON_G12A_AO_CEC
+>>  
+>>  config CEC_GPIO
+>>  	tristate "Generic GPIO-based CEC driver"
+>> -	depends on PREEMPT || COMPILE_TEST
+>> +	depends on PREEMPTION || COMPILE_TEST
+>>  	select CEC_CORE
+>>  	select CEC_PIN
+>>  	select GPIOLIB
+>>
+> 
 
-  media: ti-vpe: vpe: don't rely on colorspace member for conversion (2019-10-10 13:54:22 -0300)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.5j
-
-for you to fetch changes up to b6f4140fcee87196dca7edf512de352a1d50fa62:
-
-  media: docs-rst: Document m2m stateless video decoder interface (2019-10-16 12:56:31 +0200)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Alexandre Courbot (1):
-      media: docs-rst: Document m2m stateless video decoder interface
-
-Hans Verkuil (4):
-      vb2: add V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF
-      v4l2-mem2mem: support held capture buffers
-      videodev2.h: add V4L2_DEC_CMD_FLUSH
-      v4l2-mem2mem: add new_frame detection
-
-Jernej Skrabec (2):
-      media: v4l2-mem2mem: add stateless_(try_)decoder_cmd ioctl helpers
-      media: cedrus: h264: Support multiple slices per frame
-
- Documentation/media/uapi/v4l/buffer.rst                |  13 ++
- Documentation/media/uapi/v4l/dev-mem2mem.rst           |   1 +
- Documentation/media/uapi/v4l/dev-stateless-decoder.rst | 424 +++++++++++++++++++++++++++++++++++++++++++++
- Documentation/media/uapi/v4l/vidioc-decoder-cmd.rst    |  10 +-
- Documentation/media/uapi/v4l/vidioc-reqbufs.rst        |   6 +
- Documentation/media/videodev2.h.rst.exceptions         |   1 +
- drivers/media/common/videobuf2/videobuf2-v4l2.c        |  12 +-
- drivers/media/v4l2-core/v4l2-mem2mem.c                 | 190 ++++++++++++++++----
- drivers/staging/media/sunxi/cedrus/cedrus_h264.c       |  12 +-
- drivers/staging/media/sunxi/cedrus/cedrus_hw.c         |  16 +-
- drivers/staging/media/sunxi/cedrus/cedrus_video.c      |  14 ++
- include/media/v4l2-mem2mem.h                           |  44 ++++-
- include/media/videobuf2-core.h                         |   3 +
- include/media/videobuf2-v4l2.h                         |   5 +
- include/uapi/linux/videodev2.h                         |  14 +-
- 15 files changed, 707 insertions(+), 58 deletions(-)
- create mode 100644 Documentation/media/uapi/v4l/dev-stateless-decoder.rst
