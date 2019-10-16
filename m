@@ -2,90 +2,205 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A5CD3D91F2
-	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2019 15:04:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF888D9216
+	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2019 15:13:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405284AbfJPNEH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Oct 2019 09:04:07 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:46715 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405282AbfJPNEH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Oct 2019 09:04:07 -0400
-Received: by mail-lf1-f68.google.com with SMTP id t8so17378195lfc.13
-        for <linux-media@vger.kernel.org>; Wed, 16 Oct 2019 06:04:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=4tKh7FyZX2RwCgxyhDE2zFW4ZYb9Rcpw88p4ZR/ogtA=;
-        b=CRKx36eTCOojfGXYIlWggEmPXOkyCjYVJNUB9YwLzcRaVzdqkXYQnLXGr1a3ZvekWV
-         oXYA39pMU+DuRsdjGRz9GCBEOHAYWHXAlJ+/wfktpFbejWmGQz3cfGrDwa28O5trkc/b
-         LXUn5mkzTqBcbPPHke8D7mrbcR9bZHMTCCDsShNQuPZ1qMsxa7ALNGN/Mz39gMTVEG3Z
-         L76dwDmBhO4VLQXKbz5buE7YUGIoWy1NqGwyUEY9JIEL+DLoMCapW+11aFJmAwVuJPso
-         p/E5o2e+DA19lWeNAn8H2AI+DDyGSt8rvi5LgwnoZ+2BOyu5pgWOj39mnt6/OKq8gQmi
-         y5Vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4tKh7FyZX2RwCgxyhDE2zFW4ZYb9Rcpw88p4ZR/ogtA=;
-        b=Bhj4zVZEC667R/yakLxdXliBHYxxlUvPV3ZiIrBqzLQkKY0Vj6tNjH3ewG+dEr8/6R
-         74PR/38yUFxqOSGhN3+/apCLWtReCLFH1EcB3Ig21Qjji9pyKt3bX/k98fCetWy1DocJ
-         TSfIRgn0gGE97ab7G4ffsTXTPIyarq9bSngCY1ZyZNx6p3hWgup9SwT1X7aMQnBSH2bx
-         rxn7LLjbERPrPKdbNpl7F2DJp9wLrmFh8R3ilTL2w5oczV9Rw2aNg6cviVAI0Iruvx3n
-         ZxH/nWwz0AI4lEXFva/CKcojv5uqU1a7dirOb+PN4mAXnJDdsHl1DPCDFLm9f9Q84Gr3
-         iC5Q==
-X-Gm-Message-State: APjAAAWfImcP9HhLJB3xU0LHXViAj6ps9Z7wikb0zooAcCO7Xhi64lLJ
-        2UP1Lwq4aI/LvHqccvHOG02Pvx3Els4aXtc3J5E=
-X-Google-Smtp-Source: APXvYqweQAN/S4ka/KAHzqQADPzchbiWg7CBjUX1i0uqmgKEFR57S4+k4u9CdanAsKE/vNERyQppnkEehi6NYnVWX7g=
-X-Received: by 2002:a19:855:: with SMTP id 82mr5780727lfi.44.1571231044801;
- Wed, 16 Oct 2019 06:04:04 -0700 (PDT)
+        id S2393496AbfJPNNA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Oct 2019 09:13:00 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35874 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2391688AbfJPNNA (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 16 Oct 2019 09:13:00 -0400
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 08FAE20663;
+        Wed, 16 Oct 2019 13:12:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1571231579;
+        bh=6GG8zdFDGvDo1qQWy36D+1Jipp0x6MbzMPgPTobpQkw=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=vzGhS4eNYC4y5D4VIwdgigaWt4LpEqp5Nk4oVLKC86OAHEgvPVIkLvAFN7DCBzHk4
+         7VqQxjfjfI73apKQM1G6FsvXEagQwi+8Vfwgzd6FJjYa29OMEs70GlvlrGrx9ZMt9X
+         56uDTECXtzn3SRfIGFz3uybYyKInWHf39Uevf2H0=
+Received: by mail-lf1-f46.google.com with SMTP id u16so4868699lfq.3;
+        Wed, 16 Oct 2019 06:12:58 -0700 (PDT)
+X-Gm-Message-State: APjAAAUUUCFYIFczfjKerp8kQtL32g3QWkc2wSzOtLXUUdvh+w5w1TQ8
+        n6chkUsr+1IqGKMfz3gyJgxJPne2y5m6BsK7Xqw=
+X-Google-Smtp-Source: APXvYqzT/N1cgrtXrDQrRHPj8eWvyv0iVr9e24iJo8IYb5hDG7elRD/rbAMkzuCcQ5vyaQZogAGXBJQGD33R9ZUtQHo=
+X-Received: by 2002:a19:4f4c:: with SMTP id a12mr1541261lfk.18.1571231577169;
+ Wed, 16 Oct 2019 06:12:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191010154417.9437-1-festevam@gmail.com> <0f7a7910-8652-7a95-1f04-e25278ec05aa@gmail.com>
- <593b540b-d5f9-63ba-becc-0902dc5d7900@gmail.com> <CAOMZO5BgnbfFSmu7HEWtaT9Gexb-u13ZxzWEN-+Hw9eMfuC+LQ@mail.gmail.com>
- <CAJ+vNU2fJ_eGMwQH7-HmO_==5p3Uuscv6S2fG_NY67J2o8OG+g@mail.gmail.com>
- <CAOMZO5ABOV+Z7FenZykU82w-yUvae6zm6d6inN8SYrhViudYnA@mail.gmail.com>
- <CAJ+vNU22JmDQ+tyRFSQgM_wp-pgfE7gOt2i3QbdOJp0KuDXfRQ@mail.gmail.com>
- <CAOMZO5Dcv9fz=A8nTsvVsvu7+LNag2Sj03tJyFQKgpt_1B6Dwg@mail.gmail.com>
- <CAJ+vNU1+oS1wFav4W2g0f6XGCP3oqEwzxyvrN3fkggNSBau0Tg@mail.gmail.com>
- <CAOMZO5AMbAHmoYFLQbZbzBjMkmTsPkPctU-OqArPk3_PvtznjA@mail.gmail.com>
- <2acc57d6-da43-866b-fc01-e5e59af413ac@gmail.com> <CAOMZO5B5+_3FxUfgzMJzDH-myfXEQgxT8vfa-0L8cYFK8uhsuQ@mail.gmail.com>
- <e41aa4d6-b84f-33ab-0738-e4f14d582172@gmail.com>
-In-Reply-To: <e41aa4d6-b84f-33ab-0738-e4f14d582172@gmail.com>
-From:   Fabio Estevam <festevam@gmail.com>
-Date:   Wed, 16 Oct 2019 10:04:02 -0300
-Message-ID: <CAOMZO5BAsNzngLF2=1h38j0KYdvGLankQwzZ8tpG68sKSvaboQ@mail.gmail.com>
-Subject: Re: [PATCH] media: imx.rst: Update the imx6-sabreauto ADV7180 instructions
-To:     Steve Longerbeam <slongerbeam@gmail.com>
-Cc:     Tim Harvey <tharvey@gateworks.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-media <linux-media@vger.kernel.org>
+References: <20191014141427.30708-1-ribalda@kernel.org> <f03e39da-2fe0-b1af-c409-8460c2fc5e9f@xs4all.nl>
+ <CAPybu_1xBCVdcHKOwDFoM8wkrXWRSuFO1vUuB6Kp0rD6BREs1Q@mail.gmail.com>
+ <0e98973c-96a8-dc2e-295f-225ab3b1eae0@xs4all.nl> <CAPybu_1to=P0s491p4pbaZMy+YAG88R5sORsvKQy9gKBL49f_w@mail.gmail.com>
+ <77204a05-34a5-f6f1-460f-bddaa8f2bb5c@xs4all.nl>
+In-Reply-To: <77204a05-34a5-f6f1-460f-bddaa8f2bb5c@xs4all.nl>
+From:   Ricardo Ribalda Delgado <ribalda@kernel.org>
+Date:   Wed, 16 Oct 2019 15:12:41 +0200
+X-Gmail-Original-Message-ID: <CAPybu_3o9LLk2fHJPk7DmwKVB2Fubftdu+7VL=U6TM03rHTTiw@mail.gmail.com>
+Message-ID: <CAPybu_3o9LLk2fHJPk7DmwKVB2Fubftdu+7VL=U6TM03rHTTiw@mail.gmail.com>
+Subject: Re: [PATCH] media: v4l2-ctrl: Add p_def to v4l2_ctrl_config
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Steve,
+Hi Hans
 
-On Tue, Oct 15, 2019 at 10:18 PM Steve Longerbeam <slongerbeam@gmail.com> wrote:
-
-> Here's a quick example that uses the end-of-frame method to measure fi's
-> (all other FIM controls are left at the default values):
+On Wed, Oct 16, 2019 at 2:43 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wro=
+te:
 >
-> v4l2-ctl -d0 --set-ctrl=fim_enable=1
-> # disable input capture method
-> v4l2-ctl -d0 --set-ctrl=fim_input_capture_edge=0
-> v4l2-ctl -d0 --stream-mmap
+> On 10/16/19 2:39 PM, Ricardo Ribalda Delgado wrote:
+> > Hi Hans:
+> >
+> > On Wed, Oct 16, 2019 at 2:32 PM Hans Verkuil <hverkuil-cisco@xs4all.nl>=
+ wrote:
+> >>
+> >> On 10/16/19 2:20 PM, Ricardo Ribalda Delgado wrote:
+> >>> Hi Hans
+> >>>
+> >>> Not that awkward, the user has to use the brand new
+> >>> v4l2_ctrl_ptr_create() ;). But if you prefer void * I can make the
+> >>> change.
+> >>
+> >> Well, a struct v4l2_ctrl_config is typically a static const, so you ca=
+n't use
+> >> v4l2_ctrl_ptr_create().
+> >>
+> >> Hmm, perhaps it is as easy as:
+> >>
+> >> static const struct v4l2_area def_area =3D {
+> >>         ...
+> >> };
+> >>
+> >> static const struct v4l2_ctrl_config ctrl =3D {
+> >>         ...
+> >>
+> >>         .p_def.p_area =3D &def_area,
+> >>         ...
+> >> };
+> >>
+> >> Can you do a quick compile check that I am not overlooking anything?
+> >>
+> >> If this works, then I'll take this patch.
+> >
+> > Testing with gcc 9.2.1
+> >
+> > This works fine, no warning/error:
+> >
+> > static struct v4l2_area unit_size =3D {
+> > .width =3D UNIT_SIZE,
+> > .height =3D UNIT_SIZE,
+> > };
+> > static struct v4l2_ctrl_config area_ctrl =3D {
+> > .type =3D V4L2_CTRL_TYPE_AREA,
+> > .flags =3D V4L2_CTRL_FLAG_READ_ONLY,
+> > .p_def.p_area =3D &unit_size,
+> > };
+> >
+> > but if unit_size is set as CONST:
+> > static const struct v4l2_area
+> >
+> > Then:
+> > drivers/qtec/qtec_sony.c: In function =E2=80=98qtec_sony_probe=E2=80=99=
+:
+> > drivers/qtec/qtec_sony.c:3151:19: warning: initialization discards
+> > =E2=80=98const=E2=80=99 qualifier from pointer target type [-Wdiscarded=
+-qualifiers]
+> >  3151 |   .p_def.p_area =3D &unit_size,
+> >       |
+>
+> Hmm. So we need a const void *p_def instead.
+>
 
-What needs to be done for 'fim_enable' to be available?
+If we make p_def in ctrl_config const then this will fail:
 
-I am using a mx6dl-sabreauto, and this is what I get:
+drivers/qtec/qtec_sony.c:3273:18: error: assignment of read-only member =E2=
+=80=98p_def=E2=80=99
+ 3273 |  area_ctrl.p_def =3D v4l2_ctrl_ptr_create((void *)&unit_size);
 
-# v4l2-ctl -d2 --set-ctrl=fim_enable=1
-unknown control 'fim_enable'
 
-Thanks
+I think we need to leave it as in the proposed patch.
+
+> Regards,
+>
+>         Hans
+>
+> >
+> >>
+> >> Regards,
+> >>
+> >>         Hans
+> >>
+> >>>
+> >>> Regards
+> >>>
+> >>> On Wed, Oct 16, 2019 at 2:17 PM Hans Verkuil <hverkuil-cisco@xs4all.n=
+l> wrote:
+> >>>>
+> >>>> On 10/14/19 4:14 PM, Ricardo Ribalda Delgado wrote:
+> >>>>> This allows setting the default value on compound controls created =
+via
+> >>>>> v4l2_ctrl_new_custom.
+> >>>>>
+> >>>>> Signed-off-by: Ricardo Ribalda Delgado <ribalda@kernel.org>
+> >>>>> ---
+> >>>>>  drivers/media/v4l2-core/v4l2-ctrls.c | 2 +-
+> >>>>>  include/media/v4l2-ctrls.h           | 2 ++
+> >>>>>  2 files changed, 3 insertions(+), 1 deletion(-)
+> >>>>>
+> >>>>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v=
+4l2-core/v4l2-ctrls.c
+> >>>>> index bf50d37ef6c1..12cf38f73f7b 100644
+> >>>>> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
+> >>>>> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+> >>>>> @@ -2583,7 +2583,7 @@ struct v4l2_ctrl *v4l2_ctrl_new_custom(struct=
+ v4l2_ctrl_handler *hdl,
+> >>>>>                       type, min, max,
+> >>>>>                       is_menu ? cfg->menu_skip_mask : step, def,
+> >>>>>                       cfg->dims, cfg->elem_size,
+> >>>>> -                     flags, qmenu, qmenu_int, ptr_null, priv);
+> >>>>> +                     flags, qmenu, qmenu_int, cfg->p_def, priv);
+> >>>>>       if (ctrl)
+> >>>>>               ctrl->is_private =3D cfg->is_private;
+> >>>>>       return ctrl;
+> >>>>> diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.=
+h
+> >>>>> index 26205ba3a0a0..2fca5b823961 100644
+> >>>>> --- a/include/media/v4l2-ctrls.h
+> >>>>> +++ b/include/media/v4l2-ctrls.h
+> >>>>> @@ -375,6 +375,7 @@ struct v4l2_ctrl_handler {
+> >>>>>   * @max:     The control's maximum value.
+> >>>>>   * @step:    The control's step value for non-menu controls.
+> >>>>>   * @def:     The control's default value.
+> >>>>> + * @p_def:   The control's default value for compound controls.
+> >>>>>   * @dims:    The size of each dimension.
+> >>>>>   * @elem_size:       The size in bytes of the control.
+> >>>>>   * @flags:   The control's flags.
+> >>>>> @@ -403,6 +404,7 @@ struct v4l2_ctrl_config {
+> >>>>>       s64 max;
+> >>>>>       u64 step;
+> >>>>>       s64 def;
+> >>>>> +     union v4l2_ctrl_ptr p_def;
+> >>>>>       u32 dims[V4L2_CTRL_MAX_DIMS];
+> >>>>>       u32 elem_size;
+> >>>>>       u32 flags;
+> >>>>>
+> >>>>
+> >>>> I'm not sure about this. It might be a bit awkward to initialize p_d=
+ef given that it is a union.
+> >>>>
+> >>>> Perhaps a simple void pointer would be easier?
+> >>>>
+> >>>> Regards,
+> >>>>
+> >>>>         Hans
+> >>
+>
