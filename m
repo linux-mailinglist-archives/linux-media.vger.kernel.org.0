@@ -2,83 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 45448D8EA8
-	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2019 12:53:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 70C20D8EB6
+	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2019 12:56:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730697AbfJPKxj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Oct 2019 06:53:39 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:46727 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726083AbfJPKxj (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Oct 2019 06:53:39 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtp (Exim 4.84_2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1iKgvt-0005G2-KR; Wed, 16 Oct 2019 10:53:33 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1iKgwL-0000fi-QM; Wed, 16 Oct 2019 10:54:01 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.5] vivid: add metadata capture/output support
-Date:   Wed, 16 Oct 2019 10:54:01 +0000
-Message-Id: <20191016105401.2541-1-jenkins@linuxtv.org>
+        id S2390318AbfJPK4U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Oct 2019 06:56:20 -0400
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:42130 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730251AbfJPK4U (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 16 Oct 2019 06:56:20 -0400
+Received: by mail-pf1-f194.google.com with SMTP id q12so14482389pff.9;
+        Wed, 16 Oct 2019 03:56:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=gvBJmdm/y0qneuBUivymKny+YKAZ1hnIBVUrDzRfAMY=;
+        b=eB0K7G6aSD0aLTiq84kb+arRKYxrikpQEExHPmvnHAVCgkrTQhC8t3ejGB9jZSfUy5
+         Rq+ByXYHgvaX3HGYV+sXCgUuuBfXL7u0S2Wfv50wyd1AeE/zLGBQoLks6l9oq2ubPSU9
+         tf8yvtHBWuNDtuYNoKvhXZkY354bsu+oliCnbkThAR7p1npgU7HxmMIIq4lgDNYNSOjO
+         OK4XaH074YjHhO6y80ESh7+LmKzYr1BezfeVah6S8Pc7hYlTD9BoX719RjmK9L8Bh+tm
+         S1YKnGlI+O0IzO7ppyncZ2AzUjbUPSe2bk4uuCb2eVnpA5N01yYDDFuHkteGAi5jop57
+         VbKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=gvBJmdm/y0qneuBUivymKny+YKAZ1hnIBVUrDzRfAMY=;
+        b=Wx4sDFJRG8zpsH0DJDzbCdRBJt37zT8yD/yc05vT6gzjGirTg+oz8GaozCaMJsKsHK
+         UQcPyJorhq5eFXpaE6z6RS5aMqw4xwZBTaCObh+uKRTnZrO56BMjx81PmYtPKmjnltgy
+         Nu1d4XLL6dER4zzgIgtzGNuRUmI8Dr3fpx/ga+JsBMFkpwQ+4UUJLHQz5HxcG52qqUaW
+         J7C6lswPfL5520BeJybEFMSTDxsnS+lOxUnyNhlhowODZlcKbI3LdJb/c/uXTZUSntqm
+         ZVvF8F4Wg82AUtM5Y/QRn0JuCT5AkJ6B1oC6KUOcXd8t7YuAUcBYPvJDt4dy5NBSuAQe
+         v11Q==
+X-Gm-Message-State: APjAAAXowJ+tTWEjh3vI2GW8DctR8OYqsKNFiWYnQci/jbNYWn6L7afn
+        doQz5r7n3SPudxx/hG+JNb4=
+X-Google-Smtp-Source: APXvYqzzapAlCLligsGVrbR/hk0VUwWMKMZiilQtFQXYsYcTFiLZ8eXPGVUihvj4/sYjRN2T6As1dg==
+X-Received: by 2002:a63:3304:: with SMTP id z4mr44315923pgz.225.1571223379149;
+        Wed, 16 Oct 2019 03:56:19 -0700 (PDT)
+Received: from suzukaze.ipads-lab.se.sjtu.edu.cn ([89.31.126.54])
+        by smtp.gmail.com with ESMTPSA id t68sm23055026pgt.61.2019.10.16.03.56.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Oct 2019 03:56:18 -0700 (PDT)
+From:   Chuhong Yuan <hslester96@gmail.com>
+Cc:     Mickael Guene <mickael.guene@st.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Chuhong Yuan <hslester96@gmail.com>
+Subject: [PATCH] media: st-mipid02: add a check for devm_gpiod_get_optional
+Date:   Wed, 16 Oct 2019 18:56:04 +0800
+Message-Id: <20191016105604.8036-1-hslester96@gmail.com>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <5364cdbc-ccea-addd-3849-c4f9e26023fb@xs4all.nl>
-References: 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+mipid02_probe misses a check for devm_gpiod_get_optional and may miss
+the failure.
+Add a check to fix the problem.
 
-Pull request: https://patchwork.linuxtv.org/patch/59498/
-Build log: https://builder.linuxtv.org/job/patchwork/20663/
-Build time: 00:13:22
-Link: https://lore.kernel.org/linux-media/5364cdbc-ccea-addd-3849-c4f9e26023fb@xs4all.nl
+Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
+---
+ drivers/media/i2c/st-mipid02.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-gpg: Signature made Wed 16 Oct 2019 10:27:36 AM UTC
-gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
-
-Summary: 5 patches and/or PDF generation with issues, being 0 at build time
-
-Error/warnings:
-
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0003-v4l2-dev-fix-is_tch-checks.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0003-v4l2-dev-fix-is_tch-checks.patch
-patches/0003-v4l2-dev-fix-is_tch-checks.patch:40: WARNING: line over 80 characters
-patches/0003-v4l2-dev-fix-is_tch-checks.patch:41: WARNING: line over 80 characters
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0005-vivid-Add-metadata-capture-support.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0005-vivid-Add-metadata-capture-support.patch
-patches/0005-vivid-Add-metadata-capture-support.patch:530: WARNING: line over 80 characters
-patches/0005-vivid-Add-metadata-capture-support.patch:539: WARNING: line over 80 characters
-patches/0005-vivid-Add-metadata-capture-support.patch:552: WARNING: line over 80 characters
-patches/0005-vivid-Add-metadata-capture-support.patch:562: WARNING: line over 80 characters
-patches/0005-vivid-Add-metadata-capture-support.patch:612: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-patches/0005-vivid-Add-metadata-capture-support.patch:791: WARNING: line over 80 characters
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0006-Documentation-media-v4l2-Add-vivid-metadata-doc.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0006-Documentation-media-v4l2-Add-vivid-metadata-doc.patch
-patches/0006-Documentation-media-v4l2-Add-vivid-metadata-doc.patch:6: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-patches/0006-Documentation-media-v4l2-Add-vivid-metadata-doc.patch:26: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-patches/0006-Documentation-media-v4l2-Add-vivid-metadata-doc.patch:31: WARNING: Missing or malformed SPDX-License-Identifier tag in line 1
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0007-v4l2-core-Add-new-metadata-format.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0007-v4l2-core-Add-new-metadata-format.patch
-patches/0007-v4l2-core-Add-new-metadata-format.patch:23: ERROR: trailing statements should be on next line
-patches/0007-v4l2-core-Add-new-metadata-format.patch:35: WARNING: line over 80 characters
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0008-vivid-Add-metadata-output-support.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0008-vivid-Add-metadata-output-support.patch
-patches/0008-vivid-Add-metadata-output-support.patch:435: WARNING: line over 80 characters
-patches/0008-vivid-Add-metadata-output-support.patch:485: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+diff --git a/drivers/media/i2c/st-mipid02.c b/drivers/media/i2c/st-mipid02.c
+index 81285b8d5cfb..d38e888b0a43 100644
+--- a/drivers/media/i2c/st-mipid02.c
++++ b/drivers/media/i2c/st-mipid02.c
+@@ -971,6 +971,9 @@ static int mipid02_probe(struct i2c_client *client)
+ 	bridge->reset_gpio = devm_gpiod_get_optional(dev, "reset",
+ 						     GPIOD_OUT_HIGH);
+ 
++	if (IS_ERR(bridge->reset_gpio))
++		return PTR_ERR(bridge->reset_gpio);
++
+ 	ret = mipid02_get_regulators(bridge);
+ 	if (ret) {
+ 		dev_err(dev, "failed to get regulators %d", ret);
+-- 
+2.20.1
 
