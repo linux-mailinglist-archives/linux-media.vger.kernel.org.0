@@ -2,89 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 70C20D8EB6
-	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2019 12:56:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 92E83D8FB9
+	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2019 13:39:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390318AbfJPK4U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Oct 2019 06:56:20 -0400
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:42130 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730251AbfJPK4U (ORCPT
+        id S1728500AbfJPLj6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Oct 2019 07:39:58 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:33545 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726752AbfJPLj5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Oct 2019 06:56:20 -0400
-Received: by mail-pf1-f194.google.com with SMTP id q12so14482389pff.9;
-        Wed, 16 Oct 2019 03:56:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=gvBJmdm/y0qneuBUivymKny+YKAZ1hnIBVUrDzRfAMY=;
-        b=eB0K7G6aSD0aLTiq84kb+arRKYxrikpQEExHPmvnHAVCgkrTQhC8t3ejGB9jZSfUy5
-         Rq+ByXYHgvaX3HGYV+sXCgUuuBfXL7u0S2Wfv50wyd1AeE/zLGBQoLks6l9oq2ubPSU9
-         tf8yvtHBWuNDtuYNoKvhXZkY354bsu+oliCnbkThAR7p1npgU7HxmMIIq4lgDNYNSOjO
-         OK4XaH074YjHhO6y80ESh7+LmKzYr1BezfeVah6S8Pc7hYlTD9BoX719RjmK9L8Bh+tm
-         S1YKnGlI+O0IzO7ppyncZ2AzUjbUPSe2bk4uuCb2eVnpA5N01yYDDFuHkteGAi5jop57
-         VbKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=gvBJmdm/y0qneuBUivymKny+YKAZ1hnIBVUrDzRfAMY=;
-        b=Wx4sDFJRG8zpsH0DJDzbCdRBJt37zT8yD/yc05vT6gzjGirTg+oz8GaozCaMJsKsHK
-         UQcPyJorhq5eFXpaE6z6RS5aMqw4xwZBTaCObh+uKRTnZrO56BMjx81PmYtPKmjnltgy
-         Nu1d4XLL6dER4zzgIgtzGNuRUmI8Dr3fpx/ga+JsBMFkpwQ+4UUJLHQz5HxcG52qqUaW
-         J7C6lswPfL5520BeJybEFMSTDxsnS+lOxUnyNhlhowODZlcKbI3LdJb/c/uXTZUSntqm
-         ZVvF8F4Wg82AUtM5Y/QRn0JuCT5AkJ6B1oC6KUOcXd8t7YuAUcBYPvJDt4dy5NBSuAQe
-         v11Q==
-X-Gm-Message-State: APjAAAXowJ+tTWEjh3vI2GW8DctR8OYqsKNFiWYnQci/jbNYWn6L7afn
-        doQz5r7n3SPudxx/hG+JNb4=
-X-Google-Smtp-Source: APXvYqzzapAlCLligsGVrbR/hk0VUwWMKMZiilQtFQXYsYcTFiLZ8eXPGVUihvj4/sYjRN2T6As1dg==
-X-Received: by 2002:a63:3304:: with SMTP id z4mr44315923pgz.225.1571223379149;
-        Wed, 16 Oct 2019 03:56:19 -0700 (PDT)
-Received: from suzukaze.ipads-lab.se.sjtu.edu.cn ([89.31.126.54])
-        by smtp.gmail.com with ESMTPSA id t68sm23055026pgt.61.2019.10.16.03.56.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Oct 2019 03:56:18 -0700 (PDT)
-From:   Chuhong Yuan <hslester96@gmail.com>
-Cc:     Mickael Guene <mickael.guene@st.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Chuhong Yuan <hslester96@gmail.com>
-Subject: [PATCH] media: st-mipid02: add a check for devm_gpiod_get_optional
-Date:   Wed, 16 Oct 2019 18:56:04 +0800
-Message-Id: <20191016105604.8036-1-hslester96@gmail.com>
-X-Mailer: git-send-email 2.20.1
+        Wed, 16 Oct 2019 07:39:57 -0400
+Received: from [192.168.2.10] ([46.9.232.237])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id KhehiHBWoPduvKheliqjVW; Wed, 16 Oct 2019 13:39:55 +0200
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@siol.net>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Tomasz Figa <tfiga@chromium.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.5] Add slicing support + spec for stateless decoders
+Message-ID: <02bfac01-d6ba-1eca-efc6-1dbfcc712dc0@xs4all.nl>
+Date:   Wed, 16 Oct 2019 13:39:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfGse9GeQQ4IoDae5QSkiOv1sIKCx4rdLvCObX8OaM90RXbBcCAto4n5UBmpAA0cHCCgTSSZGbXtDnZlmOj0b2h0PuOo7vyY5hBSE272fytQMlemIheSG
+ sp8UbvKhBpvst3Zb4jHGDRkeyM/BjbaySrOHc0KEr8dPaNn77ICo9AJE27W8SB5oOmUm/lic6mddQN/FeEpbxVr5ChWv6lL0DnO3LDmtQCeEMP1LXW9rPsSp
+ zrlEtYGnOF3gXkA67cxGLTbgYlnnom3SEhlnbqrd3Fg=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-mipid02_probe misses a check for devm_gpiod_get_optional and may miss
-the failure.
-Add a check to fix the problem.
+This series adds support for H.264 slicing to the cedrus driver. This is done by
+adding a new buffer flag V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF that stateless decoders
+have to set when queueing the output buffer to indicate that this output buffer
+contains a compressed slice and so the capture buffer the slice is decoded into
+should not be marked as DONE since more slices are expected.
 
-Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
----
- drivers/media/i2c/st-mipid02.c | 3 +++
- 1 file changed, 3 insertions(+)
+Also add a new decoder command V4L2_DEC_CMD_FLUSH to handle the corner case where
+there are no more slices to decode, but there is still a capture buffer pending.
 
-diff --git a/drivers/media/i2c/st-mipid02.c b/drivers/media/i2c/st-mipid02.c
-index 81285b8d5cfb..d38e888b0a43 100644
---- a/drivers/media/i2c/st-mipid02.c
-+++ b/drivers/media/i2c/st-mipid02.c
-@@ -971,6 +971,9 @@ static int mipid02_probe(struct i2c_client *client)
- 	bridge->reset_gpio = devm_gpiod_get_optional(dev, "reset",
- 						     GPIOD_OUT_HIGH);
- 
-+	if (IS_ERR(bridge->reset_gpio))
-+		return PTR_ERR(bridge->reset_gpio);
-+
- 	ret = mipid02_get_regulators(bridge);
- 	if (ret) {
- 		dev_err(dev, "failed to get regulators %d", ret);
--- 
-2.20.1
+Add support for all this to the m2m framework and add support for slicing to the
+cedrus driver. Many thanks to Jernej for working on the cedrus slicing support and
+testing these patches!
 
+Since slicing was the final missing piece, it is now time to add the stateless
+decoder spec as well to the V4L2 Specification.
+
+Many thanks to Alexandre and Tomasz and the many others who contributed to this.
+
+Regards,
+
+	Hans
+
+The following changes since commit 3ff3a712a9eabb3d7bf52c263dd1ece054345df4:
+
+  media: ti-vpe: vpe: don't rely on colorspace member for conversion (2019-10-10 13:54:22 -0300)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.5j
+
+for you to fetch changes up to b6f4140fcee87196dca7edf512de352a1d50fa62:
+
+  media: docs-rst: Document m2m stateless video decoder interface (2019-10-16 12:56:31 +0200)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Alexandre Courbot (1):
+      media: docs-rst: Document m2m stateless video decoder interface
+
+Hans Verkuil (4):
+      vb2: add V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF
+      v4l2-mem2mem: support held capture buffers
+      videodev2.h: add V4L2_DEC_CMD_FLUSH
+      v4l2-mem2mem: add new_frame detection
+
+Jernej Skrabec (2):
+      media: v4l2-mem2mem: add stateless_(try_)decoder_cmd ioctl helpers
+      media: cedrus: h264: Support multiple slices per frame
+
+ Documentation/media/uapi/v4l/buffer.rst                |  13 ++
+ Documentation/media/uapi/v4l/dev-mem2mem.rst           |   1 +
+ Documentation/media/uapi/v4l/dev-stateless-decoder.rst | 424 +++++++++++++++++++++++++++++++++++++++++++++
+ Documentation/media/uapi/v4l/vidioc-decoder-cmd.rst    |  10 +-
+ Documentation/media/uapi/v4l/vidioc-reqbufs.rst        |   6 +
+ Documentation/media/videodev2.h.rst.exceptions         |   1 +
+ drivers/media/common/videobuf2/videobuf2-v4l2.c        |  12 +-
+ drivers/media/v4l2-core/v4l2-mem2mem.c                 | 190 ++++++++++++++++----
+ drivers/staging/media/sunxi/cedrus/cedrus_h264.c       |  12 +-
+ drivers/staging/media/sunxi/cedrus/cedrus_hw.c         |  16 +-
+ drivers/staging/media/sunxi/cedrus/cedrus_video.c      |  14 ++
+ include/media/v4l2-mem2mem.h                           |  44 ++++-
+ include/media/videobuf2-core.h                         |   3 +
+ include/media/videobuf2-v4l2.h                         |   5 +
+ include/uapi/linux/videodev2.h                         |  14 +-
+ 15 files changed, 707 insertions(+), 58 deletions(-)
+ create mode 100644 Documentation/media/uapi/v4l/dev-stateless-decoder.rst
