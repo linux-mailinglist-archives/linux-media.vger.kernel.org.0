@@ -2,178 +2,323 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 90CD2D92D9
-	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2019 15:47:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8629DD9321
+	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2019 15:56:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732432AbfJPNr7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Oct 2019 09:47:59 -0400
-Received: from mail-eopbgr800085.outbound.protection.outlook.com ([40.107.80.85]:49356
-        "EHLO NAM03-DM3-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728253AbfJPNr6 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Oct 2019 09:47:58 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RPdWFDNBLsTR/RZfaS4d++c3z1XMZmo3idQkWTTmwAHsXxlqOKLjF8P2F5OObBKv/UIBat2yY+UoCcHsqTvlZopqEnabS7sC3c2Y27mI2BTf6Dxwp4t/5IblQf9RC9PmUcFolylO2QOmiqJDdKRe+WIRaz5IgYdtqfL41mu7+Hi8BXSX0ZJAPqQB2Ue4Xf7x1xhhlZTafo0BcvnPglhV0TmH7vUSxO5fktXCXs+6KyCA2YSo1XadDuWIX6tjskU+GuZ3wg5v1OJpLyHn+/DfcsAji0HV1oJcR6XQQMZq4BH/7hyTOxbKSY4urBJHDBcpbB7wYnI4X2cYP+xBimZlkg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=o8t4lP2cPA0Zqzu++7YBVIN+OT5H+2Mb1twwvh5AHfE=;
- b=mLbCV6QwZGntt189Mj6uRz9eD9aPxsKUMJMl8lTses4lzd9/5Cu6Kcrg3Z02fh15NGYODDFi4/oXoQR3uLjuZi9gCaeJBMx9xem61WT2ExCRBecVWGBtUMvbFetDuihhpZg6pI9dmA+Wy/b6sgUXKywn7LqwzMIMfMSTTjnWS9hoJeO4+HiGJZbfWCSaEU4D80bbRtREGr+oO8BM21M9I/uxI/1qtIEytMYeHK++zOQhnOdmIPQ7fC7bTC1/Ii0DBidT9v2weQIFG+1dZGS1JwIbJv0TtPzQaQ/iKBHg5i17vs8cNxyhuGfhTUKQGSf2MVKN80GzC5XcfF1js37Qcg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=o8t4lP2cPA0Zqzu++7YBVIN+OT5H+2Mb1twwvh5AHfE=;
- b=m1rSE99mpGGJcY20K8Ww8+hZ+UO3ynwgWmFY8B0zy5zeYCxz0D4o7k7Uwmx6/6rzAmMeePhFqL27scYLfzJv2B8r5OSmgap09EnT/6JevPeu1Xn4UAK78JsMsRtgtlwj781Yd3Aul3Zp5jvCwXpGz4Xd2ZLpI+HR9qGPtZdMCqU=
-Received: from DM5PR12MB1705.namprd12.prod.outlook.com (10.175.88.22) by
- DM5PR12MB1340.namprd12.prod.outlook.com (10.168.238.15) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2347.21; Wed, 16 Oct 2019 13:46:16 +0000
-Received: from DM5PR12MB1705.namprd12.prod.outlook.com
- ([fe80::7428:f6b3:a0b1:a02e]) by DM5PR12MB1705.namprd12.prod.outlook.com
- ([fe80::7428:f6b3:a0b1:a02e%10]) with mapi id 15.20.2347.023; Wed, 16 Oct
- 2019 13:46:16 +0000
-From:   "Koenig, Christian" <Christian.Koenig@amd.com>
-To:     Daniel Vetter <daniel@ffwll.ch>
-CC:     "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
-        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Subject: Re: [PATCH 1/4] dma-buf: change DMA-buf locking convention
-Thread-Topic: [PATCH 1/4] dma-buf: change DMA-buf locking convention
-Thread-Index: AQHVbVPkWzky0N2Xn0SoVd76Go5NWKcvz5eAgAAJGwCAAAL9AIAABfgAgAARP4CAAAK6gIAKqtQAgAx+LwCACXMKgIAM48yA
-Date:   Wed, 16 Oct 2019 13:46:16 +0000
-Message-ID: <511490ca-4370-6e31-8c73-13fbe3f9d893@amd.com>
-References: <88f748d2-43de-ae2a-b895-40d8b3be5c78@gmail.com>
- <20190917123150.GM3958@phenom.ffwll.local>
- <da55aa8d-f2b8-0428-ed22-23dc17f71d77@amd.com>
- <20190917131320.GU3958@phenom.ffwll.local>
- <e0e50037-df08-86e3-e8b2-768683e5cce0@amd.com>
- <20190917134524.GY3958@phenom.ffwll.local>
- <7de46ca8-8cb5-d545-42ad-6a7cb4cf753a@amd.com>
- <CAKMK7uFc6CKyF-dW6FE7Hzdz5La7N265DZu_PR7=rKXFjg4QBw@mail.gmail.com>
- <97bb8f03-7fa3-6e61-a1ff-0ffcadbc1a39@amd.com>
- <be8abe51-05f5-bd06-2633-0d32828e0e43@amd.com>
- <20191008085543.GF16989@phenom.ffwll.local>
-In-Reply-To: <20191008085543.GF16989@phenom.ffwll.local>
-Accept-Language: de-DE, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+        id S2405552AbfJPN42 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Oct 2019 09:56:28 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:40337 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2388087AbfJPN41 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 16 Oct 2019 09:56:27 -0400
+Received: from [192.168.2.10] ([46.9.232.237])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id KjmmiI6AMPduvKjmpirIwq; Wed, 16 Oct 2019 15:56:24 +0200
+Subject: Re: [PATCH 1/3] v4l2-dev/ioctl: Add V4L2_CAP_IO_MC
+To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Helen Koike <helen.koike@collabora.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org
+References: <20191015143552.317669-1-niklas.soderlund+renesas@ragnatech.se>
+ <20191015143552.317669-2-niklas.soderlund+renesas@ragnatech.se>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <accb1fbe-5358-e8a8-9305-ebe75285d655@xs4all.nl>
+Date:   Wed, 16 Oct 2019 15:56:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
-x-originating-ip: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-x-clientproxiedby: AM0PR05CA0095.eurprd05.prod.outlook.com
- (2603:10a6:208:136::35) To DM5PR12MB1705.namprd12.prod.outlook.com
- (2603:10b6:3:10c::22)
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=Christian.Koenig@amd.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 3e002787-817e-4c1e-2a55-08d7523f371f
-x-ms-office365-filtering-ht: Tenant
-x-ms-traffictypediagnostic: DM5PR12MB1340:
-x-microsoft-antispam-prvs: <DM5PR12MB134016CA5D4309D3B442C91383920@DM5PR12MB1340.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 0192E812EC
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(366004)(396003)(346002)(39860400002)(376002)(136003)(199004)(189003)(5024004)(316002)(6116002)(256004)(14444005)(31686004)(7736002)(14454004)(305945005)(478600001)(71200400001)(71190400001)(2906002)(66946007)(6436002)(229853002)(8676002)(31696002)(8936002)(81156014)(81166006)(66476007)(66556008)(66446008)(64756008)(6486002)(86362001)(25786009)(186003)(36756003)(6246003)(6512007)(6916009)(102836004)(65956001)(65806001)(66574012)(6506007)(4326008)(386003)(99286004)(76176011)(11346002)(52116002)(446003)(2616005)(58126008)(486006)(5660300002)(476003)(46003)(54906003);DIR:OUT;SFP:1101;SCL:1;SRVR:DM5PR12MB1340;H:DM5PR12MB1705.namprd12.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: amd.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: rszp62OGkYeVkIOwuSk8MoYngybQ1jEZzPnvAgaO+ykDeiRQcI9h/CugIv7IAspc+YHBzeM96/L56TWXGLPhBfA29bxO3YJr0AkfyvCKAAI0OkDanpFicHQ4BF8SZIFpaTsE5+7r1/7HW8BxaYSxXoCe2xuC6ucpRnJwNpLJ7m+/tKPDSSelCTULWhLxF+no/eUDbvFLYMOOCVNTF5xHy9+iY/GIQQaukFYKxxrwrvuvWcKQqpMP5/YeSIqJUVkuEMSP6n0efEV8ouo4w1cjvUls2LyzV/mIHLbOHndqC7aLEtPiSCI8CtohyRrD7JwARsz9XGp4GgiFG7gUEj21tYmKpr0YIA6hwjKRSBEpSqhg+lu/8aK7iuuTaQ102cDGj9pf8ehSX5LVia4UzltEm9V+T+lTYTEB056B9lDyAFM=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <9FF41094360BD0418CBB9F35E6C1B0B7@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3e002787-817e-4c1e-2a55-08d7523f371f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Oct 2019 13:46:16.0549
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: xfAlDt+Z5jCO1Tr/ggCBphytGAO30PnJUrg/NAsM8j4DQsF5bz5TwUBzFhOzm4QP
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1340
+In-Reply-To: <20191015143552.317669-2-niklas.soderlund+renesas@ragnatech.se>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfNmXdb3xI3CcOXP1URvMht7CRjP/W6F20kRoRGoAfcTvp2A7BXbnT83GUQbh2fSfbITyTif4i1oWy+ZVravWwJ42POrxq5Z30i/lTvBAMEmUAE1eLzj/
+ bJERZQ5wqqES+GsB1ZZxjfwkQgxZJH1diuh1NPoMkrC28fAJdrI4P+K8MyKcpp39vmByWeOPkvFIim0107mr69Mjsr3jPDUaikJ0qE9+Il2KfRkDa1oVcJSV
+ dhgLBfCRtsqgc6NaMAM95LgRbjsJhfQdIBCTWHjpTkyAHApPWHuGf2y3ts7jimZqZ36B3B86LaWQYQ/mE/tvoKiWhB2p8xaCu5n2yKC3Q6aZ/xE6BHUlEmu8
+ azaJdzoI9g7qiFrSwPqhevsihpGK8RniQ4jWKksOivfgN2dCvm+dCtmEb7hR/Kn0NgYiVQBD
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-QW0gMDguMTAuMTkgdW0gMTA6NTUgc2NocmllYiBEYW5pZWwgVmV0dGVyOg0KPiBPbiBXZWQsIE9j
-dCAwMiwgMjAxOSBhdCAwODozNzo1MEFNICswMDAwLCBLb2VuaWcsIENocmlzdGlhbiB3cm90ZToN
-Cj4+IEhpIERhbmllbCwNCj4+DQo+PiBvbmNlIG1vcmUgYSBwaW5nIG9uIHRoaXMuIEFueSBtb3Jl
-IGNvbW1lbnRzIG9yIGNhbiB3ZSBnZXQgaXQgY29taXR0ZWQ/DQo+IFNvcnJ5IGdvdCBhIGJpdCBz
-bWFzaGVkIHBhc3Qgd2Vla3MsIGJ1dCBzaG91bGQgYmUgcmVzdXJyZWN0ZWQgbm93IGJhY2sNCj4g
-ZnJvbSB4ZGMuDQoNCkFuZCBhbnkgbW9yZSB0aG91Z2h0cyBvbiB0aGlzPyBJIG1lYW4gd2UgYXJl
-IGJsb2NrZWQgZm9yIG1vbnRoIG9uIHRoaXMgDQpub3cgOigNCg0KVGhhbmtzLA0KQ2hyaXN0aWFu
-Lg0KDQo+IC1EYW5pZWwNCj4+IFRoYW5rcywNCj4+IENocmlzdGlhbi4NCj4+DQo+PiBBbSAyNC4w
-OS4xOSB1bSAxMTo1MCBzY2hyaWViIENocmlzdGlhbiBLw7ZuaWc6DQo+Pj4gQW0gMTcuMDkuMTkg
-dW0gMTY6NTYgc2NocmllYiBEYW5pZWwgVmV0dGVyOg0KPj4+PiBbU05JUF0NCj4+Pj4+Pj4+Pj4+
-Pj4+ICDCoMKgwqDCoMKgICvCoMKgwqAgLyogV2hlbiBlaXRoZXIgdGhlIGltcG9ydGVyIG9yIHRo
-ZSBleHBvcnRlcg0KPj4+Pj4+Pj4+Pj4+Pj4gY2FuJ3QgaGFuZGxlIGR5bmFtaWMNCj4+Pj4+Pj4+
-Pj4+Pj4+ICvCoMKgwqDCoCAqIG1hcHBpbmdzIHdlIGNhY2hlIHRoZSBtYXBwaW5nIGhlcmUgdG8g
-YXZvaWQgaXNzdWVzDQo+Pj4+Pj4+Pj4+Pj4+PiB3aXRoIHRoZQ0KPj4+Pj4+Pj4+Pj4+Pj4gK8Kg
-wqDCoMKgICogcmVzZXJ2YXRpb24gb2JqZWN0IGxvY2suDQo+Pj4+Pj4+Pj4+Pj4+PiArwqDCoMKg
-wqAgKi8NCj4+Pj4+Pj4+Pj4+Pj4+ICvCoMKgwqAgaWYgKGRtYV9idWZfYXR0YWNobWVudF9pc19k
-eW5hbWljKGF0dGFjaCkgIT0NCj4+Pj4+Pj4+Pj4+Pj4+ICvCoMKgwqDCoMKgwqDCoCBkbWFfYnVm
-X2lzX2R5bmFtaWMoZG1hYnVmKSkgew0KPj4+Pj4+Pj4+Pj4+Pj4gK8KgwqDCoMKgwqDCoMKgIHN0
-cnVjdCBzZ190YWJsZSAqc2d0Ow0KPj4+Pj4+Pj4+Pj4+Pj4gKw0KPj4+Pj4+Pj4+Pj4+Pj4gK8Kg
-wqDCoMKgwqDCoMKgIGlmIChkbWFfYnVmX2lzX2R5bmFtaWMoYXR0YWNoLT5kbWFidWYpKQ0KPj4+
-Pj4+Pj4+Pj4+Pj4gKyBkbWFfcmVzdl9sb2NrKGF0dGFjaC0+ZG1hYnVmLT5yZXN2LCBOVUxMKTsN
-Cj4+Pj4+Pj4+Pj4+Pj4+ICsNCj4+Pj4+Pj4+Pj4+Pj4+ICvCoMKgwqDCoMKgwqDCoCBzZ3QgPSBk
-bWFidWYtPm9wcy0+bWFwX2RtYV9idWYoYXR0YWNoLA0KPj4+Pj4+Pj4+Pj4+Pj4gRE1BX0JJRElS
-RUNUSU9OQUwpOw0KPj4+Pj4+Pj4+Pj4+PiBOb3cgd2UncmUgYmFjayB0byBlbmZvcmNpbmcgRE1B
-X0JJREksIHdoaWNoIHdvcmtzIG5pY2VseQ0KPj4+Pj4+Pj4+Pj4+PiBhcm91bmQgdGhlDQo+Pj4+
-Pj4+Pj4+Pj4+IGxvY2tpbmcgcGFpbiwgYnV0IGFwcGFyZW50bHkgdXBzZXRzIHRoZSBhcm0tc29j
-IGZvbGtzIHdobw0KPj4+Pj4+Pj4+Pj4+PiB3YW50IHRvDQo+Pj4+Pj4+Pj4+Pj4+IGNvbnRyb2wN
-Cj4+Pj4+Pj4+Pj4+Pj4gdGhpcyBiZXR0ZXIuDQo+Pj4+Pj4+Pj4+Pj4gVGFrZSBhbm90aGVyIGxv
-b2sgYXQgZG1hX2J1Zl9tYXBfYXR0YWNobWVudCgpLCB3ZSBzdGlsbCB0cnkNCj4+Pj4+Pj4+Pj4+
-PiB0byBnZXQgdGhlDQo+Pj4+Pj4+Pj4+Pj4gY2FjaGluZyB0aGVyZSBmb3IgQVJNLg0KPj4+Pj4+
-Pj4+Pj4+DQo+Pj4+Pj4+Pj4+Pj4gV2hhdCB3ZSBkbyBoZXJlIGlzIHRvIGJpZGlyZWN0aW9uYWxs
-eSBtYXAgdGhlIGJ1ZmZlciB0byBhdm9pZA0KPj4+Pj4+Pj4+Pj4+IHRoZQ0KPj4+Pj4+Pj4+Pj4+
-IGxvY2tpbmcgaHlkcmEgd2hlbiBpbXBvcnRlciBhbmQgZXhwb3J0ZXIgZGlzYWdyZWUgb24gbG9j
-a2luZy4NCj4+Pj4+Pj4+Pj4+Pg0KPj4+Pj4+Pj4+Pj4+IFNvIHRoZSBBUk0gZm9sa3MgY2FuIGVh
-c2lseSBhdm9pZCB0aGF0IGJ5IHN3aXRjaGluZyB0bw0KPj4+Pj4+Pj4+Pj4+IGR5bmFtaWMgbG9j
-a2luZw0KPj4+Pj4+Pj4+Pj4+IGZvciBib3RoLg0KPj4+Pj4+Pj4+PiBTbyB5b3Ugc3RpbGwgYnJl
-YWsgdGhlIGNvbnRyYWN0IGJldHdlZW4gaW1wb3J0ZXIgYW5kIGV4cG9ydGVyLA0KPj4+Pj4+Pj4+
-PiBleGNlcHQgbm90DQo+Pj4+Pj4+Pj4+IGZvciBhbnl0aGluZyB0aGF0J3MgcnVuIGluIGludGVs
-LWdmeC1jaSBzbyBhbGwgaXMgZ29vZD8NCj4+Pj4+Pj4+PiBObywgdGhlIGNvbnRyYWN0IGJldHdl
-ZW4gaW1wb3J0ZXIgYW5kIGV4cG9ydGVyIHN0YXlzIGV4YWN0bHkgdGhlDQo+Pj4+Pj4+Pj4gc2Ft
-ZSBpdA0KPj4+Pj4+Pj4+IGlzIGN1cnJlbnRseSBhcyBsb25nIGFzIHlvdSBkb24ndCBzd2l0Y2gg
-dG8gZHluYW1pYyBkbWEtYnVmDQo+Pj4+Pj4+Pj4gaGFuZGxpbmcuDQo+Pj4+Pj4+Pj4NCj4+Pj4+
-Pj4+PiBUaGVyZSBpcyBubyBmdW5jdGlvbmFsIGNoYW5nZSBmb3IgdGhlIEFSTSBmb2xrcyBoZXJl
-LiBUaGUgb25seQ0KPj4+Pj4+Pj4+IGNoYW5nZQ0KPj4+Pj4+Pj4+IHdoaWNoIHRha2VzIGVmZmVj
-dCBpcyBiZXR3ZWVuIGk5MTUgYW5kIGFtZGdwdSBhbmQgdGhhdCBpcyBwZXJmZWN0bHkNCj4+Pj4+
-Pj4+PiBjb3ZlcmVkIGJ5IGludGVsLWdmeC1jaS4NCj4+Pj4+Pj4+IFRoZXJlJ3MgcGVvcGxlIHdo
-byB3YW50IHRvIHJ1biBhbWRncHUgb24gQVJNPw0KPj4+Pj4+PiBTdXJlIHRoZXJlIGFyZSwgd2Ug
-ZXZlbiByZWNlbnRseSBmaXhlZCBzb21lIGJ1Z3MgZm9yIHRoaXMuDQo+Pj4+Pj4+DQo+Pj4+Pj4+
-IEJ1dCBhcyBmYXIgYXMgSSBrbm93IHRoZXJlIGlzIG5vIG9uZSBjdXJyZW50bHkgd2hpY2ggaXMg
-YWZmZWN0IGJ5DQo+Pj4+Pj4+IHRoaXMNCj4+Pj4+Pj4gY2hhbmdlIG9uIEFSTSB3aXRoIGFtZGdw
-dS4NCj4+Pj4+PiBCdXQgZG9uJ3QgeW91IGJyZWFrIHRoZW0gd2l0aCB0aGlzIG5vdz8NCj4+Pj4+
-IE5vLCB3ZSBzZWUgdGhlIGJpZGlyZWN0aW9uYWwgYXR0YWNobWVudCBhcyBjb21wYXRpYmxlIHdp
-dGggdGhlIG90aGVyDQo+Pj4+PiBvbmVzLg0KPj4+Pj4NCj4+Pj4+PiBhbWRncHUgd2lsbCBzb29u
-IHNldCB0aGUgZHluYW1pYyBmbGFnIG9uIGV4cG9ydHMsIHdoaWNoIGZvcmNlcyB0aGUNCj4+Pj4+
-PiBjYWNoaW5nDQo+Pj4+Pj4gYXQgY3JlYXRlIHRpbWUgKHRvIGF2b2lkIHRoZSBsb2NraW5nIGZ1
-biksIHdoaWNoIHdpbGwgdGhlbiByZXN1bHQgaW4gYQ0KPj4+Pj4+IEVCVVNZIGF0IG1hcF9hdHRh
-Y2htZW50IHRpbWUgYmVjYXVzZSB3ZSBoYXZlIGEgY2FjaGVkIG1hcHBpbmcsIGJ1dA0KPj4+Pj4+
-IGl0J3MNCj4+Pj4+PiB0aGUgd3JvbmcgdHlwZS4NCj4+Pj4+IFNlZSB0aGUgY2hlY2sgaW4gZG1h
-X2J1Zl9tYXBfYXR0YWNobWVudCgpOg0KPj4+Pj4NCj4+Pj4+ICDCoMKgwqDCoMKgIGlmIChhdHRh
-Y2gtPmRpciAhPSBkaXJlY3Rpb24gJiYgYXR0YWNoLT5kaXIgIT0gRE1BX0JJRElSRUNUSU9OQUwp
-DQo+Pj4+PiAgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiBFUlJfUFRSKC1FQlVTWSk7DQo+Pj4+
-IEhtLCBJIG1pc3JlYWQgdGhpcy4gU28geWVhaCBzaG91bGQgd29yaywgKy8tIHRoZSBpc3N1ZSB0
-aGF0IHdlIG1pZ2h0DQo+Pj4+IG5vdCBmbHVzaCBlbm91Z2guIEJ1dCBJIGd1ZXNzIHRoYXQgY2Fu
-IGJlIGZpeGVkIHdoZW5ldmVyLCBpdCdzIG5vdA0KPj4+PiBsaWtlIGRtYS1hcGkgc2VtYW50aWNz
-IGFyZSBhIGdyZWF0IGZpdCBmb3IgdXMuIE1heWJlIGEgZml4bWUgY29tbWVudA0KPj4+PiB3b3Vs
-ZCBiZSB1c2VmdWwgaGVyZSAuLi4gSSdsbCBsb29rIGF0IHRoaXMgdG9tb3Jyb3cgb3Igc28gYmVj
-YXVzZSBhdG0NCj4+Pj4gYnJhaW4gaXMgc2xvdywgSSdtIGRvd24gd2l0aCB0aGUgdXN1YWwgcG9z
-dC1jb25mZXJlbmNlIGNvbGQgaXQgc2VlbXMNCj4+Pj4gOi0vDQo+Pj4gSG9wZSB5b3VyIGFyZSBm
-ZWVsaW5nIGJldHRlciBub3csIGFkZGluZyBhIGNvbW1lbnQgaXMgb2YgY291cnNlIG5vdCBhDQo+
-Pj4gcHJvYmxlbS4NCj4+Pg0KPj4+IFdpdGggdGhhdCBmaXhlZCBjYW4gSSBnZXQgYW4gcmV2aWV3
-ZWQtYnkgb3IgYXQgbGVhc3QgYW5kIGFja2VkLWJ5Pw0KPj4+DQo+Pj4gSSB3YW50IHRvIGxhbmQg
-YXQgbGVhc3Qgc29tZSBwYXJ0cyBvZiB0aG9zZSBjaGFuZ2VzIG5vdy4NCj4+Pg0KPj4+IFJlZ2Fy
-ZHMsDQo+Pj4gQ2hyaXN0aWFuLg0KPj4+DQo+Pj4+IC1EYW5pZWwNCj4+Pj4NCg0K
+On 10/15/19 4:35 PM, Niklas Söderlund wrote:
+> Add a video device capability flag to indicate that its inputs and/or
+> outputs are controlled by the Media Controller instead of the V4L2 API.
+> When this flag is set, ioctls for get, set and enum inputs and outputs
+> are automatically enabled and programmed to call helper function
+> 
+> Signed-off-by: Helen Koike <helen.koike@collabora.com>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+>  .../media/uapi/v4l/vidioc-querycap.rst        |  3 +
+>  .../media/videodev2.h.rst.exceptions          |  1 +
+>  drivers/media/v4l2-core/v4l2-dev.c            | 24 +++--
+>  drivers/media/v4l2-core/v4l2-ioctl.c          | 87 ++++++++++++++++++-
+>  include/uapi/linux/videodev2.h                |  2 +
+>  5 files changed, 107 insertions(+), 10 deletions(-)
+> 
+> diff --git a/Documentation/media/uapi/v4l/vidioc-querycap.rst b/Documentation/media/uapi/v4l/vidioc-querycap.rst
+> index 5f9930195d624c73..8b621ecb906afe96 100644
+> --- a/Documentation/media/uapi/v4l/vidioc-querycap.rst
+> +++ b/Documentation/media/uapi/v4l/vidioc-querycap.rst
+> @@ -264,6 +264,9 @@ specification the ioctl returns an ``EINVAL`` error code.
+>      * - ``V4L2_CAP_TOUCH``
+>        - 0x10000000
+>        - This is a touch device.
+> +    * - ``V4L2_CAP_IO_MC``
+> +      - 0x20000000
+> +      - The inputs and/or outputs of this device are controlled by the Media Controller see :ref:`media_controller`.
+>      * - ``V4L2_CAP_DEVICE_CAPS``
+>        - 0x80000000
+>        - The driver fills the ``device_caps`` field. This capability can
+> diff --git a/Documentation/media/videodev2.h.rst.exceptions b/Documentation/media/videodev2.h.rst.exceptions
+> index b58e381bdf7bd38a..6c78a79fa45de283 100644
+> --- a/Documentation/media/videodev2.h.rst.exceptions
+> +++ b/Documentation/media/videodev2.h.rst.exceptions
+> @@ -173,6 +173,7 @@ replace define V4L2_CAP_STREAMING device-capabilities
+>  replace define V4L2_CAP_META_OUTPUT device-capabilities
+>  replace define V4L2_CAP_DEVICE_CAPS device-capabilities
+>  replace define V4L2_CAP_TOUCH device-capabilities
+> +replace define V4L2_CAP_IO_MC device-capabilities
+>  
+>  # V4L2 pix flags
+>  replace define V4L2_PIX_FMT_PRIV_MAGIC :c:type:`v4l2_pix_format`
+> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+> index 4037689a945a5330..851e645414600941 100644
+> --- a/drivers/media/v4l2-core/v4l2-dev.c
+> +++ b/drivers/media/v4l2-core/v4l2-dev.c
+> @@ -702,22 +702,34 @@ static void determine_valid_ioctls(struct video_device *vdev)
+>  		SET_VALID_IOCTL(ops, VIDIOC_G_STD, vidioc_g_std);
+>  		if (is_rx) {
+>  			SET_VALID_IOCTL(ops, VIDIOC_QUERYSTD, vidioc_querystd);
+> -			SET_VALID_IOCTL(ops, VIDIOC_ENUMINPUT, vidioc_enum_input);
+> -			SET_VALID_IOCTL(ops, VIDIOC_G_INPUT, vidioc_g_input);
+> -			SET_VALID_IOCTL(ops, VIDIOC_S_INPUT, vidioc_s_input);
+>  			SET_VALID_IOCTL(ops, VIDIOC_ENUMAUDIO, vidioc_enumaudio);
+>  			SET_VALID_IOCTL(ops, VIDIOC_G_AUDIO, vidioc_g_audio);
+>  			SET_VALID_IOCTL(ops, VIDIOC_S_AUDIO, vidioc_s_audio);
+>  			SET_VALID_IOCTL(ops, VIDIOC_QUERY_DV_TIMINGS, vidioc_query_dv_timings);
+>  			SET_VALID_IOCTL(ops, VIDIOC_S_EDID, vidioc_s_edid);
+> +			if (vdev->device_caps & V4L2_CAP_IO_MC) {
+> +				set_bit(_IOC_NR(VIDIOC_ENUMINPUT), valid_ioctls);
+> +				set_bit(_IOC_NR(VIDIOC_G_INPUT), valid_ioctls);
+> +				set_bit(_IOC_NR(VIDIOC_S_INPUT), valid_ioctls);
+> +			} else {
+> +				SET_VALID_IOCTL(ops, VIDIOC_ENUMINPUT, vidioc_enum_input);
+> +				SET_VALID_IOCTL(ops, VIDIOC_G_INPUT, vidioc_g_input);
+> +				SET_VALID_IOCTL(ops, VIDIOC_S_INPUT, vidioc_s_input);
+> +			}
+>  		}
+>  		if (is_tx) {
+> -			SET_VALID_IOCTL(ops, VIDIOC_ENUMOUTPUT, vidioc_enum_output);
+> -			SET_VALID_IOCTL(ops, VIDIOC_G_OUTPUT, vidioc_g_output);
+> -			SET_VALID_IOCTL(ops, VIDIOC_S_OUTPUT, vidioc_s_output);
+>  			SET_VALID_IOCTL(ops, VIDIOC_ENUMAUDOUT, vidioc_enumaudout);
+>  			SET_VALID_IOCTL(ops, VIDIOC_G_AUDOUT, vidioc_g_audout);
+>  			SET_VALID_IOCTL(ops, VIDIOC_S_AUDOUT, vidioc_s_audout);
+> +			if (vdev->device_caps & V4L2_CAP_IO_MC) {
+> +				set_bit(_IOC_NR(VIDIOC_ENUMOUTPUT), valid_ioctls);
+> +				set_bit(_IOC_NR(VIDIOC_G_OUTPUT), valid_ioctls);
+> +				set_bit(_IOC_NR(VIDIOC_S_OUTPUT), valid_ioctls);
+> +			} else {
+> +				SET_VALID_IOCTL(ops, VIDIOC_ENUMOUTPUT, vidioc_enum_output);
+> +				SET_VALID_IOCTL(ops, VIDIOC_G_OUTPUT, vidioc_g_output);
+> +				SET_VALID_IOCTL(ops, VIDIOC_S_OUTPUT, vidioc_s_output);
+> +			}
+>  		}
+>  		if (ops->vidioc_g_parm || (vdev->vfl_type == VFL_TYPE_GRABBER &&
+>  					ops->vidioc_g_std))
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index 51b912743f0f4f6f..e4d2ec4ccd49f65e 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1075,6 +1075,72 @@ static int v4l_querycap(const struct v4l2_ioctl_ops *ops,
+>  	return ret;
+>  }
+>  
+> +static int v4l2_ioctl_enum_input_mc(struct file *file, void *priv,
+> +				    struct v4l2_input *i)
+> +{
+> +	struct video_device *vfd = video_devdata(file);
+> +
+> +	if (i->index > 0)
+> +		return -EINVAL;
+> +
+> +	memset(i, 0, sizeof(*i));
+> +	strlcpy(i->name, vfd->name, sizeof(i->name));
+> +	i->type = V4L2_INPUT_TYPE_CAMERA;
+
+Does this...
+
+> +
+> +	return 0;
+> +}
+> +
+> +static int v4l2_ioctl_enum_output_mc(struct file *file, void *priv,
+> +				     struct v4l2_output *o)
+> +{
+> +	struct video_device *vfd = video_devdata(file);
+> +
+> +	if (o->index > 0)
+> +		return -EINVAL;
+> +
+> +	memset(o, 0, sizeof(*o));
+> +	strlcpy(o->name, vfd->name, sizeof(o->name));
+> +	o->type = V4L2_OUTPUT_TYPE_ANALOG;
+
+... and this make sense for devices like this?
+
+I was wondering if we shouldn't make aliases:
+
+	V4L2_INPUT_TYPE_VIDEO = V4L2_INPUT_TYPE_CAMERA,
+
+and
+
+	V4L2_OUTPUT_TYPE_VIDEO = V4L2_OUTPUT_TYPE_ANALOG,
+
+This wouldn't change the API, but it avoids using these really outdated
+CAMERA/ANALOG words.
+
+But it is perhaps something for a separate patch.
+
+> +
+> +	return 0;
+> +}
+> +
+> +static int v4l2_ioctl_g_input_mc(struct file *file, void *priv, unsigned int *i)
+> +{
+> +	*i = 0;
+> +	return 0;
+> +}
+> +#define v4l2_ioctl_g_output_mc v4l2_ioctl_g_input_mc
+> +
+> +static int v4l2_ioctl_s_input_mc(struct file *file, void *priv, unsigned int i)
+> +{
+> +	return i ? -EINVAL : 0;
+> +}
+
+These could be exported: it is very common to have just one input or output,
+and many drivers have such trivial implementations.
+
+Calling it v4l2_ioctl_g/s_single_input and making it available for everyone would
+be nice.
+
+Alternatively (and perhaps even better?) drivers can just leave ops_vidioc_g/s_in/output
+to NULL and in that case the core assumes that there is just a single input/output.
+
+> +#define v4l2_ioctl_s_output_mc v4l2_ioctl_s_input_mc
+> +
+> +
+> +static int v4l_g_input(const struct v4l2_ioctl_ops *ops,
+> +		       struct file *file, void *fh, void *arg)
+> +{
+> +	struct video_device *vfd = video_devdata(file);
+> +
+> +	if (vfd->device_caps & V4L2_CAP_IO_MC)
+> +		return v4l2_ioctl_g_input_mc(file, fh, arg);
+> +
+> +	return ops->vidioc_g_input(file, fh, arg);
+> +}
+> +
+> +static int v4l_g_output(const struct v4l2_ioctl_ops *ops,
+> +		       struct file *file, void *fh, void *arg)
+> +{
+> +	struct video_device *vfd = video_devdata(file);
+> +
+> +	if (vfd->device_caps & V4L2_CAP_IO_MC)
+> +		return v4l2_ioctl_g_output_mc(file, fh, arg);
+> +
+> +	return ops->vidioc_g_output(file, fh, arg);
+> +}
+> +
+>  static int v4l_s_input(const struct v4l2_ioctl_ops *ops,
+>  				struct file *file, void *fh, void *arg)
+>  {
+> @@ -1084,12 +1150,21 @@ static int v4l_s_input(const struct v4l2_ioctl_ops *ops,
+>  	ret = v4l_enable_media_source(vfd);
+>  	if (ret)
+>  		return ret;
+> +
+> +	if (vfd->device_caps & V4L2_CAP_IO_MC)
+> +		return v4l2_ioctl_s_input_mc(file, fh, *(unsigned int *)arg);
+> +
+>  	return ops->vidioc_s_input(file, fh, *(unsigned int *)arg);
+>  }
+>  
+>  static int v4l_s_output(const struct v4l2_ioctl_ops *ops,
+>  				struct file *file, void *fh, void *arg)
+>  {
+> +	struct video_device *vfd = video_devdata(file);
+> +
+> +	if (vfd->device_caps & V4L2_CAP_IO_MC)
+> +		return v4l2_ioctl_s_output_mc(file, fh, *(unsigned int *)arg);
+> +
+>  	return ops->vidioc_s_output(file, fh, *(unsigned int *)arg);
+>  }
+>  
+> @@ -1133,6 +1208,9 @@ static int v4l_enuminput(const struct v4l2_ioctl_ops *ops,
+>  	if (is_valid_ioctl(vfd, VIDIOC_S_STD))
+>  		p->capabilities |= V4L2_IN_CAP_STD;
+>  
+> +	if (vfd->device_caps & V4L2_CAP_IO_MC)
+> +		return v4l2_ioctl_enum_input_mc(file, fh, p);
+> +
+>  	return ops->vidioc_enum_input(file, fh, p);
+>  }
+>  
+> @@ -1151,6 +1229,9 @@ static int v4l_enumoutput(const struct v4l2_ioctl_ops *ops,
+>  	if (is_valid_ioctl(vfd, VIDIOC_S_STD))
+>  		p->capabilities |= V4L2_OUT_CAP_STD;
+>  
+> +	if (vfd->device_caps & V4L2_CAP_IO_MC)
+> +		return v4l2_ioctl_enum_output_mc(file, fh, p);
+> +
+>  	return ops->vidioc_enum_output(file, fh, p);
+>  }
+>  
+> @@ -2663,10 +2744,8 @@ DEFINE_V4L_STUB_FUNC(expbuf)
+>  DEFINE_V4L_STUB_FUNC(g_std)
+>  DEFINE_V4L_STUB_FUNC(g_audio)
+>  DEFINE_V4L_STUB_FUNC(s_audio)
+> -DEFINE_V4L_STUB_FUNC(g_input)
+>  DEFINE_V4L_STUB_FUNC(g_edid)
+>  DEFINE_V4L_STUB_FUNC(s_edid)
+> -DEFINE_V4L_STUB_FUNC(g_output)
+>  DEFINE_V4L_STUB_FUNC(g_audout)
+>  DEFINE_V4L_STUB_FUNC(s_audout)
+>  DEFINE_V4L_STUB_FUNC(g_jpegcomp)
+> @@ -2715,11 +2794,11 @@ static const struct v4l2_ioctl_info v4l2_ioctls[] = {
+>  	IOCTL_INFO(VIDIOC_S_AUDIO, v4l_stub_s_audio, v4l_print_audio, INFO_FL_PRIO),
+>  	IOCTL_INFO(VIDIOC_QUERYCTRL, v4l_queryctrl, v4l_print_queryctrl, INFO_FL_CTRL | INFO_FL_CLEAR(v4l2_queryctrl, id)),
+>  	IOCTL_INFO(VIDIOC_QUERYMENU, v4l_querymenu, v4l_print_querymenu, INFO_FL_CTRL | INFO_FL_CLEAR(v4l2_querymenu, index)),
+> -	IOCTL_INFO(VIDIOC_G_INPUT, v4l_stub_g_input, v4l_print_u32, 0),
+> +	IOCTL_INFO(VIDIOC_G_INPUT, v4l_g_input, v4l_print_u32, 0),
+>  	IOCTL_INFO(VIDIOC_S_INPUT, v4l_s_input, v4l_print_u32, INFO_FL_PRIO),
+>  	IOCTL_INFO(VIDIOC_G_EDID, v4l_stub_g_edid, v4l_print_edid, INFO_FL_ALWAYS_COPY),
+>  	IOCTL_INFO(VIDIOC_S_EDID, v4l_stub_s_edid, v4l_print_edid, INFO_FL_PRIO | INFO_FL_ALWAYS_COPY),
+> -	IOCTL_INFO(VIDIOC_G_OUTPUT, v4l_stub_g_output, v4l_print_u32, 0),
+> +	IOCTL_INFO(VIDIOC_G_OUTPUT, v4l_g_output, v4l_print_u32, 0),
+>  	IOCTL_INFO(VIDIOC_S_OUTPUT, v4l_s_output, v4l_print_u32, INFO_FL_PRIO),
+>  	IOCTL_INFO(VIDIOC_ENUMOUTPUT, v4l_enumoutput, v4l_print_enumoutput, INFO_FL_CLEAR(v4l2_output, index)),
+>  	IOCTL_INFO(VIDIOC_G_AUDOUT, v4l_stub_g_audout, v4l_print_audioout, 0),
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index b3c0961b62a0cba7..8c86f6f5b3d06b26 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -487,6 +487,8 @@ struct v4l2_capability {
+>  
+>  #define V4L2_CAP_TOUCH                  0x10000000  /* Is a touch device */
+>  
+> +#define V4L2_CAP_IO_MC			0x20000000  /* Is input/output controlled by the media controller */
+> +
+>  #define V4L2_CAP_DEVICE_CAPS            0x80000000  /* sets device capabilities field */
+>  
+>  /*
+> 
+
+Regards,
+
+	Hans
