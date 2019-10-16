@@ -2,188 +2,196 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FD2AD9248
-	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2019 15:20:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65B61D9269
+	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2019 15:26:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393572AbfJPNUI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Oct 2019 09:20:08 -0400
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:48022 "EHLO
-        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388141AbfJPNUI (ORCPT
+        id S2393627AbfJPN0K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Oct 2019 09:26:10 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:36397 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1732443AbfJPN0K (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Oct 2019 09:20:08 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x9GDK2GC110727;
-        Wed, 16 Oct 2019 08:20:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1571232002;
-        bh=pn1VJ6hcp1F1tZLG4xpI8lS3IUjFzRCxzxKnmp0Jaq0=;
-        h=Date:From:To:CC:Subject:References:In-Reply-To;
-        b=KxCHByEfMBLsRmBAXWWcNQCupC/BZCNyKovmhaDakle728gy820EYYpkqCx+5Gxz+
-         J6ADvghlRoDdaFgX1JeCBynrO9CXqIUI354FGvtcr/PNJYwGAzY8Jkb5P6vfvtSitX
-         6K/r3+FOBiSWAevhohiFBj5UMuPEShDYjikPgM/k=
-Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x9GDK2Jl111013
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 16 Oct 2019 08:20:02 -0500
-Received: from DFLE111.ent.ti.com (10.64.6.32) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Wed, 16
- Oct 2019 08:20:01 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Wed, 16 Oct 2019 08:20:01 -0500
-Received: from ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with SMTP id x9GDK1N8027346;
-        Wed, 16 Oct 2019 08:20:01 -0500
-Date:   Wed, 16 Oct 2019 08:22:39 -0500
-From:   Benoit Parrot <bparrot@ti.com>
-To:     Rob Herring <robh@kernel.org>
-CC:     Tony Lindgren <tony@atomide.com>, Tero Kristo <t-kristo@ti.com>,
-        <linux-omap@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [Patch 1/3] dt-bindings: media: ti-vpe: Document VPE driver
-Message-ID: <20191016132239.ufptwl44ktmhvylo@ti.com>
-References: <20191009175628.20570-1-bparrot@ti.com>
- <20191009175628.20570-2-bparrot@ti.com>
- <20191015222947.GA13388@bogus>
+        Wed, 16 Oct 2019 09:26:10 -0400
+Received: from [192.168.2.10] ([46.9.232.237])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id KjJUiHtixPduvKjJXirBb5; Wed, 16 Oct 2019 15:26:07 +0200
+Subject: Re: [PATCH] media: v4l2-ctrl: Add p_def to v4l2_ctrl_config
+To:     Ricardo Ribalda Delgado <ribalda@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+References: <20191014141427.30708-1-ribalda@kernel.org>
+ <f03e39da-2fe0-b1af-c409-8460c2fc5e9f@xs4all.nl>
+ <CAPybu_1xBCVdcHKOwDFoM8wkrXWRSuFO1vUuB6Kp0rD6BREs1Q@mail.gmail.com>
+ <0e98973c-96a8-dc2e-295f-225ab3b1eae0@xs4all.nl>
+ <CAPybu_1to=P0s491p4pbaZMy+YAG88R5sORsvKQy9gKBL49f_w@mail.gmail.com>
+ <77204a05-34a5-f6f1-460f-bddaa8f2bb5c@xs4all.nl>
+ <CAPybu_3o9LLk2fHJPk7DmwKVB2Fubftdu+7VL=U6TM03rHTTiw@mail.gmail.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <cc62a328-a33c-ec1d-8a41-489fcb937bfe@xs4all.nl>
+Date:   Wed, 16 Oct 2019 15:26:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20191015222947.GA13388@bogus>
-User-Agent: NeoMutt/20171215
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+In-Reply-To: <CAPybu_3o9LLk2fHJPk7DmwKVB2Fubftdu+7VL=U6TM03rHTTiw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfD5L3PK8Rhge9PgBedx/YG8pCaM0ANDqx1DI/aA5MHI2j3+pD6zF9MT/qR7iIxvf49ojpSX6v9I9Mgkw/SF14b8l9ZIhJOci/GCjqM2uJLBq6ho00Vkc
+ Z6rFCHXKnYmjRk2336xgUhbtnOrC106gPkwULvMqN8K/rqC+yQHNja8W83U9B84ANIV52V82Akzw5LI3hryhkrffb8TOquUlGJXrGX79AiL8JlO/p+0Z8aMD
+ eU1pYx20/Aa0bFnHzNm6oS5bncs0GsVmO4kO3q3B3txUTnj6ik9/cA0RFIO2lSaD
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Rob Herring <robh@kernel.org> wrote on Tue [2019-Oct-15 17:29:47 -0500]:
-> On Wed, Oct 09, 2019 at 12:56:26PM -0500, Benoit Parrot wrote:
-> > Device Tree bindings for the Video Processing Engine (VPE) driver.
-> > 
-> > Signed-off-by: Benoit Parrot <bparrot@ti.com>
-> > ---
-> >  .../devicetree/bindings/media/ti-vpe.txt      | 48 +++++++++++++++++++
-> >  MAINTAINERS                                   |  1 +
-> >  2 files changed, 49 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/ti-vpe.txt
+On 10/16/19 3:12 PM, Ricardo Ribalda Delgado wrote:
+> Hi Hans
 > 
-> Please convert to DT schema format.
-
-I can do that.
-Before posting/merging a .yaml, are we supposed to be able to pass these?
-# make dt_binding_check
-# make dtbs_check
-
-Because currently with 5.4-rc3 these fails.
-
-Is there a way to run these "test command" target a specific .yaml and not
-the whole set?
-
+> On Wed, Oct 16, 2019 at 2:43 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+>>
+>> On 10/16/19 2:39 PM, Ricardo Ribalda Delgado wrote:
+>>> Hi Hans:
+>>>
+>>> On Wed, Oct 16, 2019 at 2:32 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+>>>>
+>>>> On 10/16/19 2:20 PM, Ricardo Ribalda Delgado wrote:
+>>>>> Hi Hans
+>>>>>
+>>>>> Not that awkward, the user has to use the brand new
+>>>>> v4l2_ctrl_ptr_create() ;). But if you prefer void * I can make the
+>>>>> change.
+>>>>
+>>>> Well, a struct v4l2_ctrl_config is typically a static const, so you can't use
+>>>> v4l2_ctrl_ptr_create().
+>>>>
+>>>> Hmm, perhaps it is as easy as:
+>>>>
+>>>> static const struct v4l2_area def_area = {
+>>>>         ...
+>>>> };
+>>>>
+>>>> static const struct v4l2_ctrl_config ctrl = {
+>>>>         ...
+>>>>
+>>>>         .p_def.p_area = &def_area,
+>>>>         ...
+>>>> };
+>>>>
+>>>> Can you do a quick compile check that I am not overlooking anything?
+>>>>
+>>>> If this works, then I'll take this patch.
+>>>
+>>> Testing with gcc 9.2.1
+>>>
+>>> This works fine, no warning/error:
+>>>
+>>> static struct v4l2_area unit_size = {
+>>> .width = UNIT_SIZE,
+>>> .height = UNIT_SIZE,
+>>> };
+>>> static struct v4l2_ctrl_config area_ctrl = {
+>>> .type = V4L2_CTRL_TYPE_AREA,
+>>> .flags = V4L2_CTRL_FLAG_READ_ONLY,
+>>> .p_def.p_area = &unit_size,
+>>> };
+>>>
+>>> but if unit_size is set as CONST:
+>>> static const struct v4l2_area
+>>>
+>>> Then:
+>>> drivers/qtec/qtec_sony.c: In function ‘qtec_sony_probe’:
+>>> drivers/qtec/qtec_sony.c:3151:19: warning: initialization discards
+>>> ‘const’ qualifier from pointer target type [-Wdiscarded-qualifiers]
+>>>  3151 |   .p_def.p_area = &unit_size,
+>>>       |
+>>
+>> Hmm. So we need a const void *p_def instead.
+>>
 > 
-> > 
-> > diff --git a/Documentation/devicetree/bindings/media/ti-vpe.txt b/Documentation/devicetree/bindings/media/ti-vpe.txt
-> > new file mode 100644
-> > index 000000000000..b2942fa8c3ea
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/ti-vpe.txt
-> > @@ -0,0 +1,48 @@
-> > +Texas Instruments DRA7x VIDEO PROCESSING ENGINE (VPE)
-> > +------------------------------------------------------
-> > +
-> > +The Video Processing Engine (VPE) is a key component for image post
-> > +processing applications. VPE consist of a single memory to memory
-> > +path which can perform chroma up/down sampling, deinterlacing,
-> > +scaling and color space conversion.
-> > +
-> > +Required properties:
-> > +- compatible: must be "ti,vpe"
+> If we make p_def in ctrl_config const then this will fail:
 > 
-> Needs to have SoC specific compatibles.
+> drivers/qtec/qtec_sony.c:3273:18: error: assignment of read-only member ‘p_def’
+>  3273 |  area_ctrl.p_def = v4l2_ctrl_ptr_create((void *)&unit_size);
 
-Yes, I'll fix that.
+area_ctrl should be const as well, I think. And then initialize this field in
+the structure with .p_def.p_area = &unit_size,
 
-> 
-> > +- reg:	physical base address and length of the registers set for the 4
-> > +	memory regions required;
-> > +- reg-names: name associated with the memory regions described is <reg>;
-> 
-> The names need to be documented.
+Regards,
 
-Ok.
-
-> 
-> > +- interrupts: should contain IRQ line for VPE;
-> > +
-> > +Example:
-> > +
-> > +	target-module@1d0010 {                  /* 0x489d0000, ap 27 30.0 */
-> > +		compatible = "ti,sysc-omap4", "ti,sysc";
-> > +		reg = <0x1d0010 0x4>;
-> > +		reg-names = "sysc";
-> > +		ti,sysc-midle = <SYSC_IDLE_FORCE>,
-> > +				<SYSC_IDLE_NO>,
-> > +				<SYSC_IDLE_SMART>;
-> > +		ti,sysc-sidle = <SYSC_IDLE_FORCE>,
-> > +				<SYSC_IDLE_NO>,
-> > +				<SYSC_IDLE_SMART>;
-> > +		clocks = <&vpe_clkctrl DRA7_VPE_VPE_CLKCTRL 0>;
-> > +		clock-names = "fck";
-> > +		#address-cells = <1>;
-> > +		#size-cells = <1>;
-> > +		ranges = <0x0 0x1d0000 0x10000>;
-> 
-> All this is outside the scope of this binding.
-
-OK I was not sure if the whole interconnect thing was needed in the example
-or not.
+	Hans
 
 > 
-> > +
-> > +		vpe: vpe@0 {
-> > +			compatible = "ti,vpe";
-> > +			reg = <0x0000 0x120>,
-> > +			      <0x0700 0x80>,
-> > +			      <0x5700 0x18>,
-> > +			      <0xd000 0x400>;
-> > +			reg-names = "vpe_top",
-> > +				    "sc",
-> > +				    "csc",
-> > +				    "vpdma";
-> > +			interrupts = <GIC_SPI 354 IRQ_TYPE_LEVEL_HIGH>;
 > 
-> > +			#address-cells = <1>;
-> > +			#size-cells = <0>;
+> I think we need to leave it as in the proposed patch.
 > 
-> Not documented, nor needed as there are no child nodes.
+>> Regards,
+>>
+>>         Hans
+>>
+>>>
+>>>>
+>>>> Regards,
+>>>>
+>>>>         Hans
+>>>>
+>>>>>
+>>>>> Regards
+>>>>>
+>>>>> On Wed, Oct 16, 2019 at 2:17 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+>>>>>>
+>>>>>> On 10/14/19 4:14 PM, Ricardo Ribalda Delgado wrote:
+>>>>>>> This allows setting the default value on compound controls created via
+>>>>>>> v4l2_ctrl_new_custom.
+>>>>>>>
+>>>>>>> Signed-off-by: Ricardo Ribalda Delgado <ribalda@kernel.org>
+>>>>>>> ---
+>>>>>>>  drivers/media/v4l2-core/v4l2-ctrls.c | 2 +-
+>>>>>>>  include/media/v4l2-ctrls.h           | 2 ++
+>>>>>>>  2 files changed, 3 insertions(+), 1 deletion(-)
+>>>>>>>
+>>>>>>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+>>>>>>> index bf50d37ef6c1..12cf38f73f7b 100644
+>>>>>>> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
+>>>>>>> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+>>>>>>> @@ -2583,7 +2583,7 @@ struct v4l2_ctrl *v4l2_ctrl_new_custom(struct v4l2_ctrl_handler *hdl,
+>>>>>>>                       type, min, max,
+>>>>>>>                       is_menu ? cfg->menu_skip_mask : step, def,
+>>>>>>>                       cfg->dims, cfg->elem_size,
+>>>>>>> -                     flags, qmenu, qmenu_int, ptr_null, priv);
+>>>>>>> +                     flags, qmenu, qmenu_int, cfg->p_def, priv);
+>>>>>>>       if (ctrl)
+>>>>>>>               ctrl->is_private = cfg->is_private;
+>>>>>>>       return ctrl;
+>>>>>>> diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
+>>>>>>> index 26205ba3a0a0..2fca5b823961 100644
+>>>>>>> --- a/include/media/v4l2-ctrls.h
+>>>>>>> +++ b/include/media/v4l2-ctrls.h
+>>>>>>> @@ -375,6 +375,7 @@ struct v4l2_ctrl_handler {
+>>>>>>>   * @max:     The control's maximum value.
+>>>>>>>   * @step:    The control's step value for non-menu controls.
+>>>>>>>   * @def:     The control's default value.
+>>>>>>> + * @p_def:   The control's default value for compound controls.
+>>>>>>>   * @dims:    The size of each dimension.
+>>>>>>>   * @elem_size:       The size in bytes of the control.
+>>>>>>>   * @flags:   The control's flags.
+>>>>>>> @@ -403,6 +404,7 @@ struct v4l2_ctrl_config {
+>>>>>>>       s64 max;
+>>>>>>>       u64 step;
+>>>>>>>       s64 def;
+>>>>>>> +     union v4l2_ctrl_ptr p_def;
+>>>>>>>       u32 dims[V4L2_CTRL_MAX_DIMS];
+>>>>>>>       u32 elem_size;
+>>>>>>>       u32 flags;
+>>>>>>>
+>>>>>>
+>>>>>> I'm not sure about this. It might be a bit awkward to initialize p_def given that it is a union.
+>>>>>>
+>>>>>> Perhaps a simple void pointer would be easier?
+>>>>>>
+>>>>>> Regards,
+>>>>>>
+>>>>>>         Hans
+>>>>
+>>
 
-Yeah, I'll remove that.
-
-> 
-> > +		};
-> > +	};
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 8598f49fa2c8..63dcda51f8ae 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -16299,6 +16299,7 @@ W:	http://linuxtv.org/
-> >  Q:	http://patchwork.linuxtv.org/project/linux-media/list/
-> >  S:	Maintained
-> >  F:	drivers/media/platform/ti-vpe/
-> > +F:	Documentation/devicetree/bindings/media/ti-vpe.txt
-
-Now with the dt_schemas, I noticed that the maintainer's name is part of
-the yaml file. Do we still need to add this to the MAINTAINERS file as
-well?
-
-Benoit
-
-
-> >  
-> >  TI WILINK WIRELESS DRIVERS
-> >  L:	linux-wireless@vger.kernel.org
-> > -- 
-> > 2.17.1
-> > 
