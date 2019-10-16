@@ -2,91 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A10ED8CFB
-	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2019 11:54:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B440BD8D11
+	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2019 11:57:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404339AbfJPJx6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Oct 2019 05:53:58 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:36338 "EHLO
+        id S2392099AbfJPJ5m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Oct 2019 05:57:42 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:36366 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404266AbfJPJx6 (ORCPT
+        with ESMTP id S1728556AbfJPJ5m (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Oct 2019 05:53:58 -0400
+        Wed, 16 Oct 2019 05:57:42 -0400
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8361443E;
-        Wed, 16 Oct 2019 11:53:55 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0DD1543E
+        for <linux-media@vger.kernel.org>; Wed, 16 Oct 2019 11:57:40 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1571219635;
-        bh=gjcnDXgTaHH8i0rQWIk9tmPvMqWjkUNsCfrg0iTzX/U=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=BjNRpsJlVWhEN2gh2yeS7XLz3wM+GhoW+gTtqVPxOvthF6gcJDbUAfd6owFXi7IBC
-         M+7+h31pY9s8i/nlfZWjSj92dvu1HLAOw+5QWPHnmHlrS1q1wmxsFBuIw33JDUOugs
-         o9CqGq9H5Oy1FnBCXb+66ZIBJfklmfTCCa8cK9ws=
-Date:   Wed, 16 Oct 2019 12:53:52 +0300
+        s=mail; t=1571219861;
+        bh=9Fvv7sUetuyQEqZHmIeP7mkJdn6+hs2DrAm3bqdXosE=;
+        h=Date:From:To:Subject:From;
+        b=parbI5ysDJUiTQ4ojaBVDXR+F+G7rQnoowyJ66+w2WibKoPTZnw9ney4Mwu93er2+
+         rnwTOE1S9YJ4LEoQQP+3r7YkNHRbKp2Xxgcnbu0+283MUqaaab5ZT9X22Df7rqUMw0
+         KiZsCBFZq3aYSbgXdit2nLj11g16zh2OOP+rg8YE=
+Date:   Wed, 16 Oct 2019 12:57:38 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hariprasad Kelam <hariprasad.kelam@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: media: make use of
- devm_platform_ioremap_resource
-Message-ID: <20191016095352.GA5175@pendragon.ideasonboard.com>
-References: <1570517752-30991-1-git-send-email-hariprasad.kelam@gmail.com>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL FOR v5.5] uvcvideo and omap4iss fixes
+Message-ID: <20191016095738.GB5175@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1570517752-30991-1-git-send-email-hariprasad.kelam@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Hariprasad,
+Hi Mauro,
 
-Thank you for the patch.
+The following changes since commit 3ff3a712a9eabb3d7bf52c263dd1ece054345df4:
 
-As the patch only touches the omap4iss driver, you could have made the
-subject line a bit more specific, for instance "staging: media:
-omap4iss: Use devm_platform_ioremap_resource". No big deal though.
+  media: ti-vpe: vpe: don't rely on colorspace member for conversion (2019-10-10 13:54:22 -0300)
 
-On Tue, Oct 08, 2019 at 12:25:51PM +0530, hariprasadKelamhariprasad.kelam@gmail.com wrote:
-> From: Hariprasad Kelam <hariprasad.kelam@gmail.com>
-> 
-> fix below issue reported by coccicheck
-> drivers/staging//media/omap4iss/iss.c:915:1-15: WARNING: Use
-> devm_platform_ioremap_resource for iss -> regs [ res ]
-> 
-> Signed-off-by: Hariprasad Kelam <hariprasad.kelam@gmail.com>
+are available in the Git repository at:
 
-The change looks good to me.
+  git://linuxtv.org/pinchartl/media.git tags/v4l2-next-20191016
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+for you to fetch changes up to 3852c5c20448eb08142a9eee6fc6caa12a7d55d8:
 
-and applied to my tree for v5.5.
+  staging: media: Make use of devm_platform_ioremap_resource (2019-10-16 12:54:08 +0300)
 
-> ---
->  drivers/staging/media/omap4iss/iss.c | 6 +-----
->  1 file changed, 1 insertion(+), 5 deletions(-)
-> 
-> diff --git a/drivers/staging/media/omap4iss/iss.c b/drivers/staging/media/omap4iss/iss.c
-> index 1a966cb..6fb60b5 100644
-> --- a/drivers/staging/media/omap4iss/iss.c
-> +++ b/drivers/staging/media/omap4iss/iss.c
-> @@ -908,11 +908,7 @@ static int iss_map_mem_resource(struct platform_device *pdev,
->  				struct iss_device *iss,
->  				enum iss_mem_resources res)
->  {
-> -	struct resource *mem;
-> -
-> -	mem = platform_get_resource(pdev, IORESOURCE_MEM, res);
-> -
-> -	iss->regs[res] = devm_ioremap_resource(iss->dev, mem);
-> +	iss->regs[res] = devm_platform_ioremap_resource(pdev, res);
->  
->  	return PTR_ERR_OR_ZERO(iss->regs[res]);
->  }
+----------------------------------------------------------------
+- uvcvideo miscellaneous fixes
+- omap4iss miscellaneous fixes
+
+----------------------------------------------------------------
+Christophe JAILLET (1):
+      media: uvcvideo: Fix a typo in UVC_METATADA_BUF_SIZE
+
+Hariprasad Kelam (1):
+      staging: media: Make use of devm_platform_ioremap_resource
+
+Laurent Pinchart (1):
+      media: uvcvideo: Fix error path in control parsing failure
+
+Nachammai Karuppiah (1):
+      staging: media: omap4iss: Replace NULL comparison.
+
+ drivers/media/usb/uvc/uvc_driver.c         | 28 +++++++++++++++-------------
+ drivers/media/usb/uvc/uvc_metadata.c       |  4 ++--
+ drivers/media/usb/uvc/uvc_queue.c          |  2 +-
+ drivers/media/usb/uvc/uvcvideo.h           |  2 +-
+ drivers/staging/media/omap4iss/iss.c       |  6 +-----
+ drivers/staging/media/omap4iss/iss_video.c |  4 ++--
+ 6 files changed, 22 insertions(+), 24 deletions(-)
 
 -- 
 Regards,
