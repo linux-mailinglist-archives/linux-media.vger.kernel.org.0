@@ -2,152 +2,189 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 90B30D99BF
-	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2019 21:11:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E43F0D9A14
+	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2019 21:28:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390711AbfJPTLN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Oct 2019 15:11:13 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:39148 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728944AbfJPTLM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Oct 2019 15:11:12 -0400
-Received: by mail-wm1-f66.google.com with SMTP id v17so3947146wml.4
-        for <linux-media@vger.kernel.org>; Wed, 16 Oct 2019 12:11:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=Fch1xvA9Gjezerjg5S30azMCXyOonAH5W2UW1B5A1Rk=;
-        b=aEpW1b7Mt17YWaoMV7zTTm7MFJj6NUCQt+pEUJpCFWweOHcVuLx5/FWwUPh+YJGilL
-         lyTkBv7fRyDKm5qNRGhiIPxUKqDWXYufJBU75tMZU1rT9AooBadRv4ffgkgoWBpVvtxF
-         xvwBtFkTNGrFQLmT25YRh97vL3GnVwtQ2mztLG55J13l+dXIZNUFhbNazP4fsjv1uRCD
-         HBrTyNNr1mXYjWgXbTeZIo3Nakjro98WrgriG5vFBb8GxIWx7Y/1/j4T2LDlGpk/SySQ
-         CGkJNfPqoUZdyMptcNRdwGtbSPP3XPe4fUBWZfUxci0/RKnt43b9gLckn/fU1TPeA7pu
-         k4+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=Fch1xvA9Gjezerjg5S30azMCXyOonAH5W2UW1B5A1Rk=;
-        b=L/1a24YmJklUWXXcCuIARTnq2U2941s0Gj56/ltUpE2+3WMezGaP5LHuLIQmtDIs/z
-         WYTSyQh8nu7pitSRi7HVO+lgOtPodqzQpMOcGdDiuKIYT6/wL3G4uG2yiLOJcb6IJwip
-         TAksKFWDJzknwp90Lz2Zy3EZXx8IpVu/to+v8Dm+bb09gkxTAbyVnIIonACh+dpf027C
-         uLn1WV5tViZInri8r7Ss98iJ/fyef6iRUYUlvpv7FY6R38uR4V8kF1zYrq+5i7ImuinO
-         I8LXk3F4cgaWDQA5CG+tdheFm5YU6BCpEufOIT+RNMq7xUHS+DbB7WHRLW2iKMa8Yqay
-         E2bA==
-X-Gm-Message-State: APjAAAXEyTU+tPkI1p/mcgRx055Prk0gYJlMp40dG34MijugJPvocr+q
-        LPmp/cAkUfnUHLQjMztIdw1NiDmV
-X-Google-Smtp-Source: APXvYqwom19Vd+ifreJovhWoHWo7r8ggkgv0gmXtA/lCUgXWE/p25punQXeH4kOForowSbtNxCF4fw==
-X-Received: by 2002:a05:600c:253:: with SMTP id 19mr4432356wmj.158.1571253069803;
-        Wed, 16 Oct 2019 12:11:09 -0700 (PDT)
-Received: from [172.30.88.162] (sjewanfw1-nat.mentorg.com. [139.181.7.34])
-        by smtp.gmail.com with ESMTPSA id z142sm4431668wmc.24.2019.10.16.12.11.07
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 16 Oct 2019 12:11:09 -0700 (PDT)
-Subject: Re: [PATCH] media: imx.rst: Update the imx6-sabreauto ADV7180
- instructions
-To:     Fabio Estevam <festevam@gmail.com>
-Cc:     Tim Harvey <tharvey@gateworks.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-media <linux-media@vger.kernel.org>
-References: <20191010154417.9437-1-festevam@gmail.com>
- <0f7a7910-8652-7a95-1f04-e25278ec05aa@gmail.com>
- <593b540b-d5f9-63ba-becc-0902dc5d7900@gmail.com>
- <CAOMZO5BgnbfFSmu7HEWtaT9Gexb-u13ZxzWEN-+Hw9eMfuC+LQ@mail.gmail.com>
- <CAJ+vNU2fJ_eGMwQH7-HmO_==5p3Uuscv6S2fG_NY67J2o8OG+g@mail.gmail.com>
- <CAOMZO5ABOV+Z7FenZykU82w-yUvae6zm6d6inN8SYrhViudYnA@mail.gmail.com>
- <CAJ+vNU22JmDQ+tyRFSQgM_wp-pgfE7gOt2i3QbdOJp0KuDXfRQ@mail.gmail.com>
- <CAOMZO5Dcv9fz=A8nTsvVsvu7+LNag2Sj03tJyFQKgpt_1B6Dwg@mail.gmail.com>
- <CAJ+vNU1+oS1wFav4W2g0f6XGCP3oqEwzxyvrN3fkggNSBau0Tg@mail.gmail.com>
- <CAOMZO5AMbAHmoYFLQbZbzBjMkmTsPkPctU-OqArPk3_PvtznjA@mail.gmail.com>
- <2acc57d6-da43-866b-fc01-e5e59af413ac@gmail.com>
- <CAOMZO5B5+_3FxUfgzMJzDH-myfXEQgxT8vfa-0L8cYFK8uhsuQ@mail.gmail.com>
- <e41aa4d6-b84f-33ab-0738-e4f14d582172@gmail.com>
- <CAOMZO5BAsNzngLF2=1h38j0KYdvGLankQwzZ8tpG68sKSvaboQ@mail.gmail.com>
- <8b2f0c05-8e4f-72d9-d37f-c41936fcfd07@gmail.com>
- <CAOMZO5D4R+ta6By2Th5WF9THKXuzjFV8cLxPw+zyj-Kv4k=7kA@mail.gmail.com>
-From:   Steve Longerbeam <slongerbeam@gmail.com>
-Message-ID: <7431d1dc-10fc-0880-01ed-cf75b5ace704@gmail.com>
-Date:   Wed, 16 Oct 2019 12:11:05 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S2406555AbfJPT2W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Oct 2019 15:28:22 -0400
+Received: from mailoutvs7.siol.net ([185.57.226.198]:46283 "EHLO mail.siol.net"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1730794AbfJPT2W (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 16 Oct 2019 15:28:22 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.siol.net (Postfix) with ESMTP id A1E315240D7;
+        Wed, 16 Oct 2019 21:28:17 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at psrvmta11.zcs-production.pri
+Received: from mail.siol.net ([127.0.0.1])
+        by localhost (psrvmta11.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id ICK6a2hQkFqB; Wed, 16 Oct 2019 21:28:17 +0200 (CEST)
+Received: from mail.siol.net (localhost [127.0.0.1])
+        by mail.siol.net (Postfix) with ESMTPS id 2C624522B23;
+        Wed, 16 Oct 2019 21:28:17 +0200 (CEST)
+Received: from localhost.localdomain (cpe-86-58-59-25.static.triera.net [86.58.59.25])
+        (Authenticated sender: 031275009)
+        by mail.siol.net (Postfix) with ESMTPSA id 8A38B5240D7;
+        Wed, 16 Oct 2019 21:28:13 +0200 (CEST)
+From:   Jernej Skrabec <jernej.skrabec@siol.net>
+To:     mripard@kernel.org, wens@csie.org
+Cc:     robh+dt@kernel.org, mark.rutland@arm.com, mchehab@kernel.org,
+        hverkuil@xs4all.nl, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-sunxi@googlegroups.com
+Subject: [PATCH v3 0/6] media: Introduce Allwinner H3 deinterlace driver
+Date:   Wed, 16 Oct 2019 21:28:01 +0200
+Message-Id: <20191016192807.1278987-1-jernej.skrabec@siol.net>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <CAOMZO5D4R+ta6By2Th5WF9THKXuzjFV8cLxPw+zyj-Kv4k=7kA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Starting with H3, Allwinner began to include standalone deinterlace
+core in multimedia oriented SoCs. This patch series introduces support
+for it. Note that new SoCs, like H6, have radically different (updated)
+deinterlace core, which will need a new driver.
 
+v4l2-compliance report:
+v4l2-compliance SHA: dece02f862f38d8f866230ca9f1015cb93ddfac4, 32 bits
 
-On 10/16/19 11:54 AM, Fabio Estevam wrote:
-> On Wed, Oct 16, 2019 at 2:31 PM Steve Longerbeam <slongerbeam@gmail.com> wrote:
->
->> If /dev/video2 is the "ipu1_ic_prpvf capture" node, it's because FIM is
->> not yet available on those nodes. The FIM is only available on the
->> "ipuX_csiY capture" nodes. It's on my plate to fix that.
-> On a 5.3.6 kernel on imx6dl-sabreauto:
->
-> # v4l2-ctl --list-devices
-> imx-media (platform:imx-media):
->          /dev/media0
->
-> imx-media-capture (platform:ipu1_csi0):
->          /dev/video0
->
-> imx-media-capture (platform:ipu1_csi1):
->          /dev/video3
+Compliance test for sun8i-di device /dev/video0:
 
-FIM is available on the above nodes (/dev/video0 and /dev/video3), after 
-enabling links to them. So please try:
+Driver Info:
+        Driver name      : sun8i-di
+        Card type        : sun8i-di
+        Bus info         : platform:sun8i-di
+        Driver version   : 5.3.0
+        Capabilities     : 0x84208000
+                Video Memory-to-Memory
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x04208000
+                Video Memory-to-Memory
+                Streaming
+                Extended Pix Format
 
-# media-ctl -l "'ipu1_csi0':2 -> 'ipu1_csi0 capture':0[1]"
-# v4l2-ctl -d0  --list-ctrls
+Required ioctls:
+        test VIDIOC_QUERYCAP: OK
 
-# media-ctl -l "'ipu1_csi1':2 -> 'ipu1_csi1 capture':0[1]"
-# v4l2-ctl -d3  --list-ctrls
+Allow for multiple opens:
+        test second /dev/video0 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
 
-Steve
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
 
->
-> imx-media-capture (platform:ipu1_ic_prpenc):
->          /dev/video1
->
-> imx-media-capture (platform:ipu1_ic_prpvf):
->          /dev/video2
->
->
-> # v4l2-ctl -d0  --list-ctrls
-> # v4l2-ctl -d1  --list-ctrls
-> # v4l2-ctl -d2  --list-ctrls
->
-> User Controls
->
->                       brightness 0x00980900 (int)    : min=-128 max=127 step=1 dr
->                         contrast 0x00980901 (int)    : min=0 max=255 step=1 defar
->                       saturation 0x00980902 (int)    : min=0 max=255 step=1 defar
->                              hue 0x00980903 (int)    : min=-127 max=128 step=1 dr
->                  horizontal_flip 0x00980914 (bool)   : default=0 value=0
->                    vertical_flip 0x00980915 (bool)   : default=0 value=0
->                           rotate 0x00980922 (int)    : min=0 max=270 step=90 deft
->                   fast_switching 0x00981970 (bool)   : default=0 value=0
->
-> Image Processing Controls
->
->               deinterlacing_mode 0x009f0904 (menu)   : min=0 max=3 default=3 val3
-> # v4l2-ctl -d3  --list-ctrls
-> #
->
-> I cannot see the FIM controls appearing in any device here.
->
-> Anything I am missing?
->
-> Thanks
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+        test VIDIOC_QUERYCTRL: OK (Not Supported)
+        test VIDIOC_G/S_CTRL: OK (Not Supported)
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 0 Private Controls: 0
+
+Format ioctls:
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+        test Composing: OK (Not Supported)
+        test Scaling: OK
+
+Codec ioctls:
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+
+Total for sun8i-di device /dev/video0: 44, Succeeded: 44, Failed: 0, Warn=
+ings: 0
+
+Please take a look.
+
+Best regards,
+Jernej
+
+Changes from v2:
+- added acked-by and review-by tags
+- fixed schema path in H3 deinterlace binding
+- moved busy check after format args check
+
+Changes from v1:
+- updated Maxime's e-mail in DT binding
+- removed "items" for single item in DT binding
+- implemented power management
+- replaced regmap with direct io access
+- set exclusive clock rate
+- renamed DEINTERLACE_FRM_CTRL_COEF_CTRL to DEINTERLACE_FRM_CTRL_COEF_ACC=
+ESS
+
+Jernej Skrabec (6):
+  dt-bindings: bus: sunxi: Add H3 MBUS compatible
+  clk: sunxi-ng: h3: Export MBUS clock
+  ARM: dts: sunxi: h3/h5: Add MBUS controller node
+  dt-bindings: media: Add Allwinner H3 Deinterlace binding
+  media: sun4i: Add H3 deinterlace driver
+  dts: arm: sun8i: h3: Enable deinterlace unit
+
+ .../bindings/arm/sunxi/sunxi-mbus.txt         |    1 +
+ .../media/allwinner,sun8i-h3-deinterlace.yaml |   75 ++
+ MAINTAINERS                                   |    7 +
+ arch/arm/boot/dts/sun8i-h3.dtsi               |   13 +
+ arch/arm/boot/dts/sunxi-h3-h5.dtsi            |    9 +
+ drivers/clk/sunxi-ng/ccu-sun8i-h3.h           |    4 -
+ drivers/media/platform/sunxi/Kconfig          |    1 +
+ drivers/media/platform/sunxi/Makefile         |    1 +
+ drivers/media/platform/sunxi/sun8i-di/Kconfig |   11 +
+ .../media/platform/sunxi/sun8i-di/Makefile    |    2 +
+ .../media/platform/sunxi/sun8i-di/sun8i-di.c  | 1020 +++++++++++++++++
+ .../media/platform/sunxi/sun8i-di/sun8i-di.h  |  237 ++++
+ include/dt-bindings/clock/sun8i-h3-ccu.h      |    2 +-
+ 13 files changed, 1378 insertions(+), 5 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun=
+8i-h3-deinterlace.yaml
+ create mode 100644 drivers/media/platform/sunxi/sun8i-di/Kconfig
+ create mode 100644 drivers/media/platform/sunxi/sun8i-di/Makefile
+ create mode 100644 drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
+ create mode 100644 drivers/media/platform/sunxi/sun8i-di/sun8i-di.h
+
+--=20
+2.23.0
 
