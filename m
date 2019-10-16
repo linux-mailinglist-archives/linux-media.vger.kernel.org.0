@@ -2,107 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A6432D9A73
-	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2019 21:51:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FF9AD9A8A
+	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2019 21:58:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733219AbfJPTvT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Oct 2019 15:51:19 -0400
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:32985 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727148AbfJPTvT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Oct 2019 15:51:19 -0400
-Received: by mail-lj1-f196.google.com with SMTP id a22so32687ljd.0
-        for <linux-media@vger.kernel.org>; Wed, 16 Oct 2019 12:51:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=8bEod88CLzsZI3n/8qHoLTp0cKY9WriwdeZU1wlmZgw=;
-        b=hASD8wxmvy4avZqqZJGiGxOlX+YZn8jhGkxew9p9wOtF7xbpo8WfxQwd+/23+2R4jQ
-         cfCtoAV15GhifgwtunU0OfvSsBG3LY9YPvYxTHwNEl/D1EBA6a0igkOIw6qN2PgE5/qK
-         oxqAiem7Ei1dH3xMNK11mr56f1uyGe517ZQvjNUDKEHqODGMYaJXpF4PJ2QbvyuRwU19
-         rijzlidiR73ogmvICJ+UZQz4XL1OXcLyoMwOzc7TbkZblW5+iN/5PPnpcJnz8SoEGJgv
-         XhvT78dShyQtI7V/nUr/sWE225V2JIrQkNaHAeJ5RZklvtMFGtd87obTFEXX8iDJ9Rfc
-         S09A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=8bEod88CLzsZI3n/8qHoLTp0cKY9WriwdeZU1wlmZgw=;
-        b=HrEqC5qJy9NvtV77tYIGiiOH8sID83LBtDeeNDBDLMHAK+/dVd0Q2sb/bgSyxb8x5+
-         aACIf732p+mUwkMKpvNL8WgOCw7NPZ9ioivfQOoygVZRXLMAnIP9qsHwtXBmnOdIdNA7
-         Ip7jB+FHfwarLcaBcgpvluXfC6DPELLp4Kjvd48sk/Mvez/75dvTYEMfZgXB5EqmABaR
-         klZo6l3KvRr97Q6SENNIO5CFy3Qk5DH9uMe+IqLvWXD1TOuHK0smySlG3lKZ6xBiKUI8
-         W2RYdsvIfNyi1+qFD/3rzG5iRuXSPjleJhfb+/dU1g1yow+PNi2gW0cZu7hVsMVNbxAO
-         rIMQ==
-X-Gm-Message-State: APjAAAW8J+PiNQwfMCAiRQ6ZfzOTiydv5Vjjt/auNMRilo/vjPw/RS+e
-        dpqGVD1/VYaaS6OZKahrXV1+d/oUoVrHYbkQ3ebKbX9qXu0=
-X-Google-Smtp-Source: APXvYqy1981wpcFm7R9ykoZoTw7eCcwk+OFcuY/g0WGtj5FXEHkkG5ybFzuJzK+MI5ue7NrIeFex4GxJibK8oKfWekw=
-X-Received: by 2002:a2e:b4d5:: with SMTP id r21mr26487660ljm.149.1571255477292;
- Wed, 16 Oct 2019 12:51:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <20191010154417.9437-1-festevam@gmail.com> <0f7a7910-8652-7a95-1f04-e25278ec05aa@gmail.com>
- <593b540b-d5f9-63ba-becc-0902dc5d7900@gmail.com> <CAOMZO5BgnbfFSmu7HEWtaT9Gexb-u13ZxzWEN-+Hw9eMfuC+LQ@mail.gmail.com>
- <CAJ+vNU2fJ_eGMwQH7-HmO_==5p3Uuscv6S2fG_NY67J2o8OG+g@mail.gmail.com>
- <CAOMZO5ABOV+Z7FenZykU82w-yUvae6zm6d6inN8SYrhViudYnA@mail.gmail.com>
- <CAJ+vNU22JmDQ+tyRFSQgM_wp-pgfE7gOt2i3QbdOJp0KuDXfRQ@mail.gmail.com>
- <CAOMZO5Dcv9fz=A8nTsvVsvu7+LNag2Sj03tJyFQKgpt_1B6Dwg@mail.gmail.com>
- <CAJ+vNU1+oS1wFav4W2g0f6XGCP3oqEwzxyvrN3fkggNSBau0Tg@mail.gmail.com>
- <CAOMZO5AMbAHmoYFLQbZbzBjMkmTsPkPctU-OqArPk3_PvtznjA@mail.gmail.com>
- <2acc57d6-da43-866b-fc01-e5e59af413ac@gmail.com> <CAOMZO5B5+_3FxUfgzMJzDH-myfXEQgxT8vfa-0L8cYFK8uhsuQ@mail.gmail.com>
- <e41aa4d6-b84f-33ab-0738-e4f14d582172@gmail.com> <CAOMZO5BAsNzngLF2=1h38j0KYdvGLankQwzZ8tpG68sKSvaboQ@mail.gmail.com>
- <8b2f0c05-8e4f-72d9-d37f-c41936fcfd07@gmail.com> <CAOMZO5D4R+ta6By2Th5WF9THKXuzjFV8cLxPw+zyj-Kv4k=7kA@mail.gmail.com>
- <7431d1dc-10fc-0880-01ed-cf75b5ace704@gmail.com>
-In-Reply-To: <7431d1dc-10fc-0880-01ed-cf75b5ace704@gmail.com>
-From:   Fabio Estevam <festevam@gmail.com>
-Date:   Wed, 16 Oct 2019 16:51:05 -0300
-Message-ID: <CAOMZO5CqZyUA0qRBV2LBBq4JEtcQCfuj2qBaBUVpkxTvoC+-Pg@mail.gmail.com>
-Subject: Re: [PATCH] media: imx.rst: Update the imx6-sabreauto ADV7180 instructions
-To:     Steve Longerbeam <slongerbeam@gmail.com>
-Cc:     Tim Harvey <tharvey@gateworks.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        id S2394608AbfJPT6J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Oct 2019 15:58:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47862 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730603AbfJPT6J (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 16 Oct 2019 15:58:09 -0400
+Received: from localhost.localdomain (236.31.169.217.in-addr.arpa [217.169.31.236])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 85AE620854;
+        Wed, 16 Oct 2019 19:58:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1571255888;
+        bh=KnWKox1ckFoEimqememAveWk3yHSqDBp0C3b6PADDAk=;
+        h=From:To:Cc:Subject:Date:From;
+        b=JcFfPNPUEDTlHB46sojRDjODfA6KVQxSZAMf8CX8m5/CiOctAi3wbkuR+pCJmdQRh
+         bnoZ4Ecgoa0nUZ0rGeiBH3XA6ifS6v4yIj4ZhhPteeLXtSSzgepnHBXSTCCYUJke13
+         cQ/i5RXMj1YV8Y4BV2wpH2daQnVto/GcWtE2u730=
+From:   Will Deacon <will@kernel.org>
+To:     linux-media@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, andreyknvl@google.com,
+        Will Deacon <will@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-media <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>, stable@vger.kernel.org
+Subject: [RESEND PATCH] media: uvc: Avoid cyclic entity chains due to malformed USB descriptors
+Date:   Wed, 16 Oct 2019 20:58:00 +0100
+Message-Id: <20191016195800.22099-1-will@kernel.org>
+X-Mailer: git-send-email 2.11.0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Steve,
+Way back in 2017, fuzzing the 4.14-rc2 USB stack with syzkaller kicked
+up the following WARNING from the UVC chain scanning code:
 
-On Wed, Oct 16, 2019 at 4:11 PM Steve Longerbeam <slongerbeam@gmail.com> wrote:
+  | list_add double add: new=ffff880069084010, prev=ffff880069084010,
+  | next=ffff880067d22298.
+  | ------------[ cut here ]------------
+  | WARNING: CPU: 1 PID: 1846 at lib/list_debug.c:31 __list_add_valid+0xbd/0xf0
+  | Modules linked in:
+  | CPU: 1 PID: 1846 Comm: kworker/1:2 Not tainted
+  | 4.14.0-rc2-42613-g1488251d1a98 #238
+  | Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS Bochs 01/01/2011
+  | Workqueue: usb_hub_wq hub_event
+  | task: ffff88006b01ca40 task.stack: ffff880064358000
+  | RIP: 0010:__list_add_valid+0xbd/0xf0 lib/list_debug.c:29
+  | RSP: 0018:ffff88006435ddd0 EFLAGS: 00010286
+  | RAX: 0000000000000058 RBX: ffff880067d22298 RCX: 0000000000000000
+  | RDX: 0000000000000058 RSI: ffffffff85a58800 RDI: ffffed000c86bbac
+  | RBP: ffff88006435dde8 R08: 1ffff1000c86ba52 R09: 0000000000000000
+  | R10: 0000000000000002 R11: 0000000000000000 R12: ffff880069084010
+  | R13: ffff880067d22298 R14: ffff880069084010 R15: ffff880067d222a0
+  | FS:  0000000000000000(0000) GS:ffff88006c900000(0000) knlGS:0000000000000000
+  | CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+  | CR2: 0000000020004ff2 CR3: 000000006b447000 CR4: 00000000000006e0
+  | Call Trace:
+  |  __list_add ./include/linux/list.h:59
+  |  list_add_tail+0x8c/0x1b0 ./include/linux/list.h:92
+  |  uvc_scan_chain_forward.isra.8+0x373/0x416
+  | drivers/media/usb/uvc/uvc_driver.c:1471
+  |  uvc_scan_chain drivers/media/usb/uvc/uvc_driver.c:1585
+  |  uvc_scan_device drivers/media/usb/uvc/uvc_driver.c:1769
+  |  uvc_probe+0x77f2/0x8f00 drivers/media/usb/uvc/uvc_driver.c:2104
 
-> FIM is available on the above nodes (/dev/video0 and /dev/video3), after
-> enabling links to them. So please try:
->
-> # media-ctl -l "'ipu1_csi0':2 -> 'ipu1_csi0 capture':0[1]"
-> # v4l2-ctl -d0  --list-ctrls
->
-> # media-ctl -l "'ipu1_csi1':2 -> 'ipu1_csi1 capture':0[1]"
-> # v4l2-ctl -d3  --list-ctrls
+Looking into the output from usbmon, the interesting part is the
+following data packet:
 
-Thanks. This makes the FIM controls to appear.
+  ffff880069c63e00 30710169 C Ci:1:002:0 0 143 = 09028f00 01030080
+  00090403 00000e01 00000924 03000103 7c003328 010204db
 
-However, if I run the following configuration so that I can get
-Gstreamer pipeline to run (gst-launch-1.0 v4l2src device=/dev/video2 !
-kmssink) then FIM does not appear.
+If we drop the lead configuration and interface descriptors, we're left
+with an output terminal descriptor describing a generic display:
 
-# media-ctl -l "'adv7180 4-0021':0 -> 'ipu1_csi0_mux':4[1]"
-media-ctl -l "'ipu1_csi0_mux':5 -> 'ipu1_csi0':0[1]";
-media-ctl -l "'ipu1_csi0':1 -> 'ipu1_vdic':0[1]"
-media-ctl -l "'ipu1_vdic':2 -> 'ipu1_ic_prp':0[1]"
-media-ctl -l "'ipu1_ic_prp':2 -> 'ipu1_ic_prpvf':0[1]"
-media-ctl -l "'ipu1_ic_prpvf':1 -> 'ipu1_ic_prpvf capture':0[1]"
+  /* Output terminal descriptor */
+  buf[0]	09
+  buf[1]	24
+  buf[2]	03	/* UVC_VC_OUTPUT_TERMINAL */
+  buf[3]	00	/* ID */
+  buf[4]	01	/* type == 0x0301 (UVC_OTT_DISPLAY) */
+  buf[5]	03
+  buf[6]	7c
+  buf[7]	00	/* source ID refers to self! */
+  buf[8]	33
 
-But I think this behavior is expected according to your previous explanation:
+The problem with this descriptor is that it is self-referential: the
+source ID of 0 matches itself! This causes the 'struct uvc_entity'
+representing the display to be added to its chain list twice during
+'uvc_scan_chain()': once via 'uvc_scan_chain_entity()' when it is
+processed directly from the 'dev->entities' list and then again
+immediately afterwards when trying to follow the source ID in
+'uvc_scan_chain_forward()'
 
-"If /dev/video2 is the "ipu1_ic_prpvf capture" node, it's because FIM is
-not yet available on those nodes. The FIM is only available on the
-"ipuX_csiY capture" nodes. It's on my plate to fix that."
+Add a check before adding an entity to a chain list to ensure that the
+entity is not already part of a chain.
 
-Thanks for your patience in clarifying this.
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Dmitry Vyukov <dvyukov@google.com>
+Cc: Kostya Serebryany <kcc@google.com>
+Cc: <stable@vger.kernel.org>
+Fixes: c0efd232929c ("V4L/DVB (8145a): USB Video Class driver")
+Reported-by: Andrey Konovalov <andreyknvl@google.com>
+Link: https://lore.kernel.org/linux-media/CAAeHK+z+Si69jUR+N-SjN9q4O+o5KFiNManqEa-PjUta7EOb7A@mail.gmail.com/
+Signed-off-by: Will Deacon <will@kernel.org>
+---
 
-Cheers
+Resending since I don't think any material changes are required to address
+the comments on the previous posting:
+
+http://lkml.kernel.org/r/20191002112753.21630-1-will@kernel.org
+
+ drivers/media/usb/uvc/uvc_driver.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index 66ee168ddc7e..e24420b1750a 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -1493,6 +1493,11 @@ static int uvc_scan_chain_forward(struct uvc_video_chain *chain,
+ 			break;
+ 		if (forward == prev)
+ 			continue;
++		if (forward->chain.next || forward->chain.prev) {
++			uvc_trace(UVC_TRACE_DESCR, "Found reference to "
++				"entity %d already in chain.\n", forward->id);
++			return -EINVAL;
++		}
+ 
+ 		switch (UVC_ENTITY_TYPE(forward)) {
+ 		case UVC_VC_EXTENSION_UNIT:
+@@ -1574,6 +1579,13 @@ static int uvc_scan_chain_backward(struct uvc_video_chain *chain,
+ 				return -1;
+ 			}
+ 
++			if (term->chain.next || term->chain.prev) {
++				uvc_trace(UVC_TRACE_DESCR, "Found reference to "
++					"entity %d already in chain.\n",
++					term->id);
++				return -EINVAL;
++			}
++
+ 			if (uvc_trace_param & UVC_TRACE_PROBE)
+ 				printk(KERN_CONT " %d", term->id);
+ 
+-- 
+2.23.0.700.g56cf767bdb-goog
+
