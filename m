@@ -2,71 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E6A07D8BE9
-	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2019 10:56:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D3B4D8C22
+	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2019 11:06:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730142AbfJPI4n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Oct 2019 04:56:43 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:3779 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726968AbfJPI4n (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Oct 2019 04:56:43 -0400
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id 452EDFC2962ADAF91686;
-        Wed, 16 Oct 2019 16:56:41 +0800 (CST)
-Received: from localhost (10.133.213.239) by DGGEMS413-HUB.china.huawei.com
- (10.3.19.213) with Microsoft SMTP Server id 14.3.439.0; Wed, 16 Oct 2019
- 16:56:30 +0800
-From:   YueHaibing <yuehaibing@huawei.com>
-To:     <mripard@kernel.org>, <paul.kocialkowski@bootlin.com>,
-        <mchehab@kernel.org>, <gregkh@linuxfoundation.org>, <wens@csie.org>
-CC:     <linux-media@vger.kernel.org>, <devel@driverdev.osuosl.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, YueHaibing <yuehaibing@huawei.com>
-Subject: [PATCH -next] staging: media: cedrus: use devm_platform_ioremap_resource() to simplify code
-Date:   Wed, 16 Oct 2019 16:56:04 +0800
-Message-ID: <20191016085604.21076-1-yuehaibing@huawei.com>
-X-Mailer: git-send-email 2.10.2.windows.1
+        id S2391866AbfJPJGu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Oct 2019 05:06:50 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:45407 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727399AbfJPJGt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 16 Oct 2019 05:06:49 -0400
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1iKfGO-0005Bp-Li; Wed, 16 Oct 2019 11:06:36 +0200
+Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1iKfGG-00081t-Jv; Wed, 16 Oct 2019 11:06:28 +0200
+Date:   Wed, 16 Oct 2019 11:06:28 +0200
+From:   Marco Felsch <m.felsch@pengutronix.de>
+To:     Chuhong Yuan <hslester96@gmail.com>
+Cc:     devel@driverdev.osuosl.org, Fabio Estevam <festevam@gmail.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        linux-kernel@vger.kernel.org, Rui Miguel Silva <rmfrfs@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v2] media: imx7-mipi-csis: Add a check for
+ devm_regulator_get
+Message-ID: <20191016090628.7l5u4ytdqr2jlasg@pengutronix.de>
+References: <20191015135915.6530-1-hslester96@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.133.213.239]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191015135915.6530-1-hslester96@gmail.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 11:05:27 up 151 days, 15:23, 101 users,  load average: 0.19, 0.20,
+ 0.10
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use devm_platform_ioremap_resource() to simplify the code a bit.
-This is detected by coccinelle.
+Hi Chuhong,
 
-Signed-off-by: YueHaibing <yuehaibing@huawei.com>
----
- drivers/staging/media/sunxi/cedrus/cedrus_hw.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+On 19-10-15 21:59, Chuhong Yuan wrote:
+> devm_regulator_get may return an error but mipi_csis_phy_init misses
+> a check for it.
+> This may lead to problems when regulator_set_voltage uses the unchecked
+> pointer.
+> This patch adds a check for devm_regulator_get to avoid potential risk.
+> 
+> Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
+> ---
+> Changes in v2:
+>   - Add a check in mipi_csis_probe for the modified mipi_csis_phy_init.
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-index a942cd9..f19b87c 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-@@ -146,7 +146,6 @@ static irqreturn_t cedrus_irq(int irq, void *data)
- int cedrus_hw_probe(struct cedrus_dev *dev)
- {
- 	const struct cedrus_variant *variant;
--	struct resource *res;
- 	int irq_dec;
- 	int ret;
- 
-@@ -225,8 +224,7 @@ int cedrus_hw_probe(struct cedrus_dev *dev)
- 		goto err_sram;
- 	}
- 
--	res = platform_get_resource(dev->pdev, IORESOURCE_MEM, 0);
--	dev->base = devm_ioremap_resource(dev->dev, res);
-+	dev->base = devm_platform_ioremap_resource(dev->pdev, 0);
- 	if (IS_ERR(dev->base)) {
- 		dev_err(dev->dev, "Failed to map registers\n");
- 
+Did you miss the check for -EPROBE_DEFER?
+
+Regards,
+  Marco
+
+> 
+>  drivers/staging/media/imx/imx7-mipi-csis.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
+> index 73d8354e618c..e8a6acaa969e 100644
+> --- a/drivers/staging/media/imx/imx7-mipi-csis.c
+> +++ b/drivers/staging/media/imx/imx7-mipi-csis.c
+> @@ -350,6 +350,8 @@ static void mipi_csis_sw_reset(struct csi_state *state)
+>  static int mipi_csis_phy_init(struct csi_state *state)
+>  {
+>  	state->mipi_phy_regulator = devm_regulator_get(state->dev, "phy");
+> +	if (IS_ERR(state->mipi_phy_regulator))
+> +		return PTR_ERR(state->mipi_phy_regulator);
+>  
+>  	return regulator_set_voltage(state->mipi_phy_regulator, 1000000,
+>  				     1000000);
+> @@ -966,7 +968,10 @@ static int mipi_csis_probe(struct platform_device *pdev)
+>  		return ret;
+>  	}
+>  
+> -	mipi_csis_phy_init(state);
+> +	ret = mipi_csis_phy_init(state);
+> +	if (ret < 0)
+> +		return ret;
+> +
+>  	mipi_csis_phy_reset(state);
+>  
+>  	mem_res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> -- 
+> 2.20.1
+> 
+> 
+> 
+
 -- 
-2.7.4
-
-
+Pengutronix e.K.                           |                             |
+Industrial Linux Solutions                 | http://www.pengutronix.de/  |
+Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
