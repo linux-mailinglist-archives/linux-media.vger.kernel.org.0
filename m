@@ -2,106 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A4C75D8E0D
-	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2019 12:36:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 45448D8EA8
+	for <lists+linux-media@lfdr.de>; Wed, 16 Oct 2019 12:53:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390448AbfJPKgh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 16 Oct 2019 06:36:37 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:38309 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728559AbfJPKgh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 16 Oct 2019 06:36:37 -0400
-Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id KgfPiILSQbEWCKgfSiYuEl; Wed, 16 Oct 2019 12:36:35 +0200
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Vandana B N <bnvandana@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.5] vivid: add metadata capture/output support
-Message-ID: <5364cdbc-ccea-addd-3849-c4f9e26023fb@xs4all.nl>
-Date:   Wed, 16 Oct 2019 12:36:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1730697AbfJPKxj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 16 Oct 2019 06:53:39 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:46727 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726083AbfJPKxj (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 16 Oct 2019 06:53:39 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtp (Exim 4.84_2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1iKgvt-0005G2-KR; Wed, 16 Oct 2019 10:53:33 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1iKgwL-0000fi-QM; Wed, 16 Oct 2019 10:54:01 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.5] vivid: add metadata capture/output support
+Date:   Wed, 16 Oct 2019 10:54:01 +0000
+Message-Id: <20191016105401.2541-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <5364cdbc-ccea-addd-3849-c4f9e26023fb@xs4all.nl>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfMEZWsC2eGm49XCiCpGtIIRhTmh29T1Wwm7+fl5rqcQQ0+N1X7mFcvKoo60vaGfNsdT8JY/Silq5TrHbgeCnDFHv7ReX6xUp3g8eALhL7m3XJjpo35dc
- A7WOOSbTaC30DkQCOC6Y7N8ugkfoOCnOAQ5dI7Cz4UKwL/XyWRfsGc1ATRjqkThDjV9xaujrDP/AIrn9gP7hmm1MF/gXBK2d9Ss=
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This series adds vivid metadata capture and output support. While working on
-that it was discovered that the v4l2 core didn't correctly validate the ioctls
-in the case of the vivid driver that has a complex mix of V4L2 devices and
-various video inputs, each with different properties.
+From: builder@linuxtv.org
 
-Some other cleanups were also done in that code to simplify the logic and
-the ioctl validation for touch devices was also improved.
+Pull request: https://patchwork.linuxtv.org/patch/59498/
+Build log: https://builder.linuxtv.org/job/patchwork/20663/
+Build time: 00:13:22
+Link: https://lore.kernel.org/linux-media/5364cdbc-ccea-addd-3849-c4f9e26023fb@xs4all.nl
 
-Many thanks to Vandana for working on this as part of the Linux Kernel
-Mentorship Program.
+gpg: Signature made Wed 16 Oct 2019 10:27:36 AM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
 
-Note: the v4l2-compliance test will fail for the metadata output. To make that
-work this patch is needed: https://patchwork.linuxtv.org/patch/59480/
+Summary: 5 patches and/or PDF generation with issues, being 0 at build time
 
-Once this series is merged I'll apply that patch as well to v4l-utils.
+Error/warnings:
 
-Regards,
 
-	Hans
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0003-v4l2-dev-fix-is_tch-checks.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0003-v4l2-dev-fix-is_tch-checks.patch
+patches/0003-v4l2-dev-fix-is_tch-checks.patch:40: WARNING: line over 80 characters
+patches/0003-v4l2-dev-fix-is_tch-checks.patch:41: WARNING: line over 80 characters
 
-The following changes since commit 503e59365dd134b2c63864f14e2de0476284b003:
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0005-vivid-Add-metadata-capture-support.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0005-vivid-Add-metadata-capture-support.patch
+patches/0005-vivid-Add-metadata-capture-support.patch:530: WARNING: line over 80 characters
+patches/0005-vivid-Add-metadata-capture-support.patch:539: WARNING: line over 80 characters
+patches/0005-vivid-Add-metadata-capture-support.patch:552: WARNING: line over 80 characters
+patches/0005-vivid-Add-metadata-capture-support.patch:562: WARNING: line over 80 characters
+patches/0005-vivid-Add-metadata-capture-support.patch:612: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+patches/0005-vivid-Add-metadata-capture-support.patch:791: WARNING: line over 80 characters
 
-  media: i2c: ov2659: Switch to SPDX Licensing (2019-10-01 17:39:16 -0300)
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0006-Documentation-media-v4l2-Add-vivid-metadata-doc.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0006-Documentation-media-v4l2-Add-vivid-metadata-doc.patch
+patches/0006-Documentation-media-v4l2-Add-vivid-metadata-doc.patch:6: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+patches/0006-Documentation-media-v4l2-Add-vivid-metadata-doc.patch:26: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+patches/0006-Documentation-media-v4l2-Add-vivid-metadata-doc.patch:31: WARNING: Missing or malformed SPDX-License-Identifier tag in line 1
 
-are available in the Git repository at:
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0007-v4l2-core-Add-new-metadata-format.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0007-v4l2-core-Add-new-metadata-format.patch
+patches/0007-v4l2-core-Add-new-metadata-format.patch:23: ERROR: trailing statements should be on next line
+patches/0007-v4l2-core-Add-new-metadata-format.patch:35: WARNING: line over 80 characters
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.5f
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0008-vivid-Add-metadata-output-support.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0008-vivid-Add-metadata-output-support.patch
+patches/0008-vivid-Add-metadata-output-support.patch:435: WARNING: line over 80 characters
+patches/0008-vivid-Add-metadata-output-support.patch:485: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
 
-for you to fetch changes up to 952f6951ad9416f70a3fbf20a9285fef86bbbeef:
-
-  vivid: Add metadata output support (2019-10-16 12:14:06 +0200)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Hans Verkuil (3):
-      v4l2-dev: simplify the SDR checks
-      v4l2-dev: fix is_tch checks
-      v4l2-dev: disable frequency and tuner ioctls for touch
-
-Vandana BN (5):
-      v4l2-core: correctly validate video and metadata ioctls
-      vivid: Add metadata capture support
-      Documentation:media:v4l2:Add vivid metadata doc
-      v4l2-core: Add new metadata format
-      vivid: Add metadata output support
-
- Documentation/media/uapi/v4l/meta-formats.rst      |   1 +
- Documentation/media/uapi/v4l/pixfmt-meta-vivid.rst |  43 +++++++++++
- drivers/media/platform/vivid/Makefile              |   2 +-
- drivers/media/platform/vivid/vivid-core.c          | 197 ++++++++++++++++++++++++++++++++++++++++++++++--
- drivers/media/platform/vivid/vivid-core.h          |  24 ++++++
- drivers/media/platform/vivid/vivid-ctrls.c         |  75 ++++++++++++++++++
- drivers/media/platform/vivid/vivid-kthread-cap.c   |  54 +++++++++++--
- drivers/media/platform/vivid/vivid-kthread-out.c   |  49 +++++++++++-
- drivers/media/platform/vivid/vivid-meta-cap.c      | 201 +++++++++++++++++++++++++++++++++++++++++++++++++
- drivers/media/platform/vivid/vivid-meta-cap.h      |  29 +++++++
- drivers/media/platform/vivid/vivid-meta-out.c      | 174 ++++++++++++++++++++++++++++++++++++++++++
- drivers/media/platform/vivid/vivid-meta-out.h      |  25 ++++++
- drivers/media/platform/vivid/vivid-vid-cap.c       |   5 +-
- drivers/media/platform/vivid/vivid-vid-out.c       |   5 +-
- drivers/media/v4l2-core/v4l2-dev.c                 | 112 ++++++++++++++++-----------
- drivers/media/v4l2-core/v4l2-ioctl.c               |  17 ++++-
- include/uapi/linux/videodev2.h                     |   1 +
- 17 files changed, 948 insertions(+), 66 deletions(-)
- create mode 100644 Documentation/media/uapi/v4l/pixfmt-meta-vivid.rst
- create mode 100644 drivers/media/platform/vivid/vivid-meta-cap.c
- create mode 100644 drivers/media/platform/vivid/vivid-meta-cap.h
- create mode 100644 drivers/media/platform/vivid/vivid-meta-out.c
- create mode 100644 drivers/media/platform/vivid/vivid-meta-out.h
