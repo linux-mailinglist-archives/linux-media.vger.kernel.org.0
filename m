@@ -2,160 +2,299 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 879D4DA72C
-	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2019 10:24:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 55547DA786
+	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2019 10:40:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408211AbfJQIYF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Oct 2019 04:24:05 -0400
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:43541 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387581AbfJQIYF (ORCPT
+        id S2408209AbfJQIkt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Oct 2019 04:40:49 -0400
+Received: from mailgw01.mediatek.com ([210.61.82.183]:31106 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S2388788AbfJQIks (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Oct 2019 04:24:05 -0400
-Received: by mail-ed1-f67.google.com with SMTP id r9so1023938edl.10
-        for <linux-media@vger.kernel.org>; Thu, 17 Oct 2019 01:24:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=EMtb6RxR3NIioeXGn4qhRnliwKyFeIZaT/dUZJyME6g=;
-        b=bfb3BgZ1zirdOQocWLerH+3qrhQAJukLdt9f02Tj7S5lJ4fyEfXrnUZyrPb4gYZm1w
-         VmtGsansHPyMyeePrdh9ZnQZ8gcuggKFGWRcNCnC7ZGQyTODuRk55nAdq/MyAiFE+ZGC
-         UVGowYsXuKP8KbRuzFmCkEUs4szfrm4sLC5XQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=EMtb6RxR3NIioeXGn4qhRnliwKyFeIZaT/dUZJyME6g=;
-        b=o39gVAsfBYuZvhCS3husRGt2Euj9TDXmu5d8EfmPmYtpF6aLJTcvHfovklumZ7ZiaS
-         1fX9dE/5VK3+1UPLbzo1rm4cVxnzgx8VzgbQnT8qSXZLJZdHwh545a//z3sQwY0BQpey
-         LosDnmUJ91MifEeYR41j7hIqhcHyQfMu5kUvvFPyIlfegMBXTYfAfYftvO4iUA59b09j
-         Ais0EG7GJ6DbWQzj7yLr3u1fh4DfC8xWI8YPHO9aBOxLugiv1mloynqdM0KVrxiw5Sla
-         V8P54b4D1hf62c6tG8bbm/Eskc36kqGYk+QVHk4D4wym4DI7pd0DPl5ci4ygMjcac5wL
-         dOUw==
-X-Gm-Message-State: APjAAAUeg/rH3649PP0In7N7c9nhQUQBhwhpQbcMky2j6+D8oBE7rQzM
-        J7zgE1zbsecyo3YDuSoZcpZg1uFUEec0tg==
-X-Google-Smtp-Source: APXvYqzxTtmRO/WJ9gpDy9UrvKjyLIj4VhzteMxqz6fp3KP9cpbxd8Dc9RNgu488Hmb8KgB9Sr7I/g==
-X-Received: by 2002:a17:906:e2ce:: with SMTP id gr14mr2226179ejb.229.1571300643243;
-        Thu, 17 Oct 2019 01:24:03 -0700 (PDT)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com. [209.85.221.53])
-        by smtp.gmail.com with ESMTPSA id r18sm69127edx.94.2019.10.17.01.24.01
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Oct 2019 01:24:02 -0700 (PDT)
-Received: by mail-wr1-f53.google.com with SMTP id l10so840791wrb.2
-        for <linux-media@vger.kernel.org>; Thu, 17 Oct 2019 01:24:01 -0700 (PDT)
-X-Received: by 2002:adf:dd8b:: with SMTP id x11mr1866183wrl.113.1571300640894;
- Thu, 17 Oct 2019 01:24:00 -0700 (PDT)
+        Thu, 17 Oct 2019 04:40:48 -0400
+X-UUID: be1c6daf401b476c93a7dceb163d73fa-20191017
+X-UUID: be1c6daf401b476c93a7dceb163d73fa-20191017
+Received: from mtkcas09.mediatek.inc [(172.21.101.178)] by mailgw01.mediatek.com
+        (envelope-from <xia.jiang@mediatek.com>)
+        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+        with ESMTP id 645656944; Thu, 17 Oct 2019 16:40:37 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Thu, 17 Oct 2019 16:40:34 +0800
+Received: from localhost.localdomain (10.17.3.153) by mtkcas08.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Thu, 17 Oct 2019 16:40:33 +0800
+From:   Xia Jiang <xia.jiang@mediatek.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rick Chang <rick.chang@mediatek.com>
+CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Tomasz Figa <tfiga@chromium.org>, <srv_heupstream@mediatek.com>
+Subject: [PATCH v4 0/5] Add support for mt2701 JPEG ENC support
+Date:   Thu, 17 Oct 2019 16:40:28 +0800
+Message-ID: <20191017084033.28299-1-xia.jiang@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-References: <20190919093404.182015-1-keiichiw@chromium.org>
- <20190923085637.bsaevedklweijgya@sirius.home.kraxel.org> <CAAFQd5Ba-REZU9=rdm3J6NRqqeAUFdCV7SJ_WdO2BHyKNBN7TQ@mail.gmail.com>
- <20191014121914.lyptm3gdmekvcu6v@sirius.home.kraxel.org> <CAAFQd5CaxYoXQ6z4pmdTG3FDN8ccEk3sHMnSkoNwL2==hk6znQ@mail.gmail.com>
- <20191017074416.wrndxdwntynqmpm4@sirius.home.kraxel.org>
-In-Reply-To: <20191017074416.wrndxdwntynqmpm4@sirius.home.kraxel.org>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Thu, 17 Oct 2019 17:23:49 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5Dh-VE2v=uX1bqKywwELxrH1a9wsRAine2=AVe3gQFt4w@mail.gmail.com>
-Message-ID: <CAAFQd5Dh-VE2v=uX1bqKywwELxrH1a9wsRAine2=AVe3gQFt4w@mail.gmail.com>
-Subject: Re: [virtio-dev] [PATCH] [RFC RESEND] vdec: Add virtio video decode
- device specification
-To:     Gerd Hoffmann <kraxel@redhat.com>
-Cc:     Keiichi Watanabe <keiichiw@chromium.org>,
-        virtio-dev@lists.oasis-open.org,
-        Alexandre Courbot <acourbot@chromium.org>,
-        alexlau@chromium.org, dgreid@chromium.org,
-        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        David Stevens <stevensd@chromium.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-MTK:  N
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Oct 17, 2019 at 4:44 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
->
->   Hi,
->
-> > > Also note that the guest manages the address space, so the host can't
-> > > simply allocate guest page addresses.
-> >
-> > Is this really true? I'm not an expert in this area, but on a bare
-> > metal system it's the hardware or firmware that sets up the various
-> > physical address allocations on a hardware level and most of the time
-> > most of the addresses are already pre-assigned in hardware (like the
-> > DRAM base, various IOMEM spaces, etc.).
->
-> Yes, the firmware does it.  Same in a VM, ovmf or seabios (which runs
-> inside the guest) typically does it.  And sometimes the linux kernel
-> too.
->
-> > I think that means that we could have a reserved region that could be
-> > used by the host for dynamic memory hot-plug-like operation. The
-> > reference to memory hot-plug here is fully intentional, we could even
-> > use this feature of Linux to get struct pages for such memory if we
-> > really wanted.
->
-> We try to avoid such quirks whenever possible.  Negotiating such things
-> between qemu and firmware can be done if really needed (and actually is
-> done for memory hotplug support), but it's an extra interface which
-> needs maintenance.
->
-> > > Mapping host virtio-gpu resources
-> > > into guest address space is planned, it'll most likely use a pci memory
-> > > bar to reserve some address space.  The host can map resources into that
-> > > pci bar, on guest request.
-> >
-> > Sounds like a viable option too. Do you have a pointer to some
-> > description on how this would work on both host and guest side?
->
-> Some early code:
->   https://git.kraxel.org/cgit/qemu/log/?h=sirius/virtio-gpu-memory-v2
->   https://git.kraxel.org/cgit/linux/log/?h=drm-virtio-memory-v2
->
-> Branches have other stuff too, look for "hostmem" commits.
->
-> Not much code yet beyond creating a pci bar on the host and detecting
-> presence in the guest.
->
-> On the host side qemu would create subregions inside the hostmem memory
-> region for the resources.
->
-> Oh the guest side we can ioremap stuff, like vram.
->
-> > > Hmm, well, pci memory bars are *not* backed by pages.  Maybe we can use
-> > > Documentation/driver-api/pci/p2pdma.rst though.  With that we might be
-> > > able to lookup buffers using device and dma address, without explicitly
-> > > creating some identifier.  Not investigated yet in detail.
-> >
-> > Not backed by pages as in "struct page", but those are still regular
-> > pages of the physical address space.
->
-> Well, maybe not.  Host gem object could live in device memory, and if we
-> map them into the guest ...
+This patchset add support for mt2701 JPEG ENC support.
 
-That's an interesting scenario, but in that case would we still want
-to map it into the guest? I think in such case may need to have some
-shadow buffer in regular RAM and that's already implemented in
-virtio-gpu.
+This is the compliance test result for jpeg dec and enc.
 
->
-> > That said, currently the sg_table interface is only able to describe
-> > physical memory using struct page pointers.  It's been a long standing
-> > limitation affecting even bare metal systems, so perhaps it's just the
-> > right time to make them possible to use some other identifiers, like
-> > PFNs?
->
-> I doubt you can handle pci memory bars like regular ram when it comes to
-> dma and iommu support.  There is a reason we have p2pdma in the first
-> place ...
+The JPEG dec log:                                           
+------------------------------------------------------------
+v4l2-compliance -d /dev/video0                                                     
+v4l2-compliance SHA: b51e9a8a74eed6da15127fe5eadf515914347f76, 32 bits             
+                                                                                   
+Compliance test for mtk-jpeg device /dev/video0:                                   
+                                                                                   
+Driver Info:                                                                       
+        Driver name      : mtk-jpeg                                                
+        Card type        : mtk-jpeg decoder                                        
+        Bus info         : platform:15004000.jpegdec                               
+        Driver version   : 5.4.0                                                   
+        Capabilities     : 0x84204000                                              
+                Video Memory-to-Memory Multiplanar                                 
+                Streaming                                                          
+                Extended Pix Format                                                
+                Device Capabilities                                                
+        Device Caps      : 0x04204000                                              
+                Video Memory-to-Memory Multiplanar                                 
+                Streaming                                                          
+                Extended Pix Format                                                
+        Detected JPEG Decoder                                                      
+                                                                                   
+Required ioctls:                                                                   
+        test VIDIOC_QUERYCAP: OK                                                   
+                                                                                   
+Allow for multiple opens:                                                          
+        test second /dev/video0 open: OK                                           
+        test VIDIOC_QUERYCAP: OK                                                   
+        test VIDIOC_G/S_PRIORITY: OK                                               
+        test for unlimited opens: OK                                               
+                                                                                   
+Debug ioctls:                                                                      
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)                           
+        test VIDIOC_LOG_STATUS: OK (Not Supported)                                 
+                                                                                   
+Input ioctls:                                                                      
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)                  
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)                              
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)                             
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)                                  
+        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)                              
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)                                  
+        Inputs: 0 Audio Inputs: 0 Tuners: 0                                        
+                                                                                   
+Output ioctls:                                                                     
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)                              
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)                              
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)                                 
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)                             
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)                                 
+        Outputs: 0 Audio Outputs: 0 Modulators: 0                                  
+                                                                                   
+Input/Output configuration ioctls:                                                 
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)                         
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)                  
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)                             
+        test VIDIOC_G/S_EDID: OK (Not Supported)                                   
+                                                                                   
+Control ioctls:                                                                    
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK                                   
+        test VIDIOC_QUERYCTRL: OK                                                  
+        test VIDIOC_G/S_CTRL: OK                                                   
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK                                          
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)                
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)                               
+        Standard Controls: 0 Private Controls: 0                                   
+                                                                                   
+Format ioctls:                                                                     
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK                         
+        test VIDIOC_G/S_PARM: OK (Not Supported)                                   
+        test VIDIOC_G_FBUF: OK (Not Supported)                                     
+        test VIDIOC_G_FMT: OK                                                      
+        test VIDIOC_TRY_FMT: OK                                                    
+        test VIDIOC_S_FMT: OK                                                      
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)                           
+        test Cropping: OK                                                          
+        test Composing: OK                                                         
+        test Scaling: OK                                                           
+                                                                                   
+Codec ioctls:                                                                      
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)                          
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)                                
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)                          
+                                                                                   
+Buffer ioctls:                                                                     
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK                               
+        test VIDIOC_EXPBUF: OK                                                     
+        test Requests: OK (Not Supported)                                          
+                                                                                   
+Total for mtk-jpeg device /dev/video0: 44, Succeeded: 44, Failed: 0, Warnings: 0   
+------------------------------------------------------------
 
-The thing is that such bars would be actually backed by regular host
-RAM. Do we really need the complexity of real PCI bar handling for
-that?
+The JPEG enc log:
 
-Best regards,
-Tomasz
+------------------------------------------------------------
+v4l2-compliance -d /dev/video1 
+v4l2-compliance SHA: b51e9a8a74eed6da15127fe5eadf515914347f76, 32 bits
+
+Compliance test for mtk-jpeg device /dev/video1:
+
+Driver Info:
+        Driver name      : mtk-jpeg
+        Card type        : mtk-jpeg encoder
+        Bus info         : platform:1500a000.jpegenc
+        Driver version   : 5.4.0
+        Capabilities     : 0x84204000
+                Video Memory-to-Memory Multiplanar
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x04204000
+                Video Memory-to-Memory Multiplanar
+                Streaming
+                Extended Pix Format
+        Detected JPEG Encoder
+
+Required ioctls:
+        test VIDIOC_QUERYCAP: OK
+
+Allow for multiple opens:
+        test second /dev/video1 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+        test VIDIOC_QUERYCTRL: OK
+        test VIDIOC_G/S_CTRL: OK
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 4 Private Controls: 0
+
+Format ioctls:
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK
+        test Composing: OK
+        test Scaling: OK (Not Supported)
+
+Codec ioctls:
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+
+Total for mtk-jpeg device /dev/video1: 44, Succeeded: 44, Failed: 0, Warnings: 0
+------------------------------------------------------------
+
+Change compared to v3:
+-put original v4l2-compliance bug fix in a separate patch.
+-split mtk_jpeg_try_fmt_mplane() to two functions, one for encoder, one
+ for decoder.
+-split mtk_jpeg_set_default_params() to two functions, one for encoder,
+ one for decoder.
+-add cropping support for encoder in g/s_selection ioctls.
+-cancle v3 patch 'media:v4l2-ctrl: Add jpeg enc exif mode control',
+ because that exif information can use V4L2_JPEG_ACTIVE_MARKER_APP1
+ annotation: Exif metadata are restricted in size to 64kB in JPEG
+ images because according to the specification this information be
+ contained within a single JPEG APP1 segment (from wikipedia).
+-change MTK_JPEG_MAX_WIDTH/MTK_JPEG_MAX_HEIGH from 8192 to 65535 by
+ specification.
+-move width shifting operation behind aligning operation in
+ mtk_jpeg_try_enc_fmt_mplane() for bug fix.
+-fix user abuseing data_offset issue for DMABUF in
+ mtk_jpeg_set_enc_src().
+-fix kbuild warings: change MTK_JPEG_MIN_HEIGHT/MTK_JPEG_MAX_HEIGHT and
+                     MTK_JPEG_MIN_WIDTH/MTK_JPEG_MAX_WIDTH from int
+                     type to unsigned int type.
+                     fix msleadingly indented of 'else'.
+
+Xia Jiang (5):
+  media: dt-bindings: Add jpeg enc device tree node document
+  arm: dts: Add jpeg enc device tree node
+  media: platform: Rename jpeg dec file name
+  media: platform: Fix v4l2-compliance test bug
+  media: platform: Add jpeg dec/enc feature
+
+ .../bindings/media/mediatek-jpeg-encoder.txt  |  37 +
+ arch/arm/boot/dts/mt2701.dtsi                 |  13 +
+ drivers/media/platform/mtk-jpeg/Makefile      |   5 +-
+ .../media/platform/mtk-jpeg/mtk_jpeg_core.c   | 746 ++++++++++++++----
+ .../media/platform/mtk-jpeg/mtk_jpeg_core.h   | 123 ++-
+ .../{mtk_jpeg_hw.c => mtk_jpeg_dec_hw.c}      |   2 +-
+ .../{mtk_jpeg_hw.h => mtk_jpeg_dec_hw.h}      |   9 +-
+ ...{mtk_jpeg_parse.c => mtk_jpeg_dec_parse.c} |   2 +-
+ ...{mtk_jpeg_parse.h => mtk_jpeg_dec_parse.h} |   2 +-
+ .../{mtk_jpeg_reg.h => mtk_jpeg_dec_reg.h}    |   0
+ .../media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c | 175 ++++
+ .../media/platform/mtk-jpeg/mtk_jpeg_enc_hw.h |  60 ++
+ .../platform/mtk-jpeg/mtk_jpeg_enc_reg.h      |  49 ++
+ 13 files changed, 1069 insertions(+), 154 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek-jpeg-encoder.txt
+ rename drivers/media/platform/mtk-jpeg/{mtk_jpeg_hw.c => mtk_jpeg_dec_hw.c} (99%)
+ rename drivers/media/platform/mtk-jpeg/{mtk_jpeg_hw.h => mtk_jpeg_dec_hw.h} (91%)
+ rename drivers/media/platform/mtk-jpeg/{mtk_jpeg_parse.c => mtk_jpeg_dec_parse.c} (98%)
+ rename drivers/media/platform/mtk-jpeg/{mtk_jpeg_parse.h => mtk_jpeg_dec_parse.h} (92%)
+ rename drivers/media/platform/mtk-jpeg/{mtk_jpeg_reg.h => mtk_jpeg_dec_reg.h} (100%)
+ create mode 100644 drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c
+ create mode 100644 drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.h
+ create mode 100644 drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_reg.h
+
+-- 
+2.18.0
+
+
+
