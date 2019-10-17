@@ -2,174 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 79DC3DA701
-	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2019 10:11:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 879D4DA72C
+	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2019 10:24:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438529AbfJQILz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Oct 2019 04:11:55 -0400
-Received: from pandora.armlinux.org.uk ([78.32.30.218]:42680 "EHLO
-        pandora.armlinux.org.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392882AbfJQILz (ORCPT
+        id S2408211AbfJQIYF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Oct 2019 04:24:05 -0400
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:43541 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387581AbfJQIYF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Oct 2019 04:11:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=dzLnOrt1nuGs46l9b8BTW2NtHNU4uEBVTZK5sdtYbAQ=; b=dHhKeSLS7U7Bc4TgpbRYyjnjW
-        eqt84EvWYVA7hKBP3arphPl01u0DngJHcSRQfLmxigKM7pzZ3/ovLWqpIPEg2exfW2QMdgzfj6SNd
-        ifPqqzxWa5TFjD++mV3etIiWOI9i+hP03WFdQnlm55LWHPXXl6Ln7o7yisaC3EG7GnJp7yUUwaOks
-        4mX7oKvtjsmaOAIXoGzC/9jLWGVKcBmgUu4LhS7MP3xNKItWvvcOdlfs92u1lxabiPzn/bLToBz8r
-        hDrPuzihVgFmoFwQ68fQ+54kSnhrSaz/ycbDazN3DqslkHskhz55RZKyIh8goiPgyTJ2vUndvjHnd
-        lErUVdW3A==;
-Received: from shell.armlinux.org.uk ([2002:4e20:1eda:1:5054:ff:fe00:4ec]:51356)
-        by pandora.armlinux.org.uk with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
-        (Exim 4.90_1)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1iL0su-0007cp-BL; Thu, 17 Oct 2019 09:11:48 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1iL0sq-00082l-3a; Thu, 17 Oct 2019 09:11:44 +0100
-Date:   Thu, 17 Oct 2019 09:11:44 +0100
-From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        Dariusz Marcinkiewicz <darekm@google.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCHv9 2/2] drm: tda998x: set the connector info
-Message-ID: <20191017081143.GA25745@shell.armlinux.org.uk>
-References: <20191017072842.16793-1-hverkuil-cisco@xs4all.nl>
- <20191017072842.16793-3-hverkuil-cisco@xs4all.nl>
+        Thu, 17 Oct 2019 04:24:05 -0400
+Received: by mail-ed1-f67.google.com with SMTP id r9so1023938edl.10
+        for <linux-media@vger.kernel.org>; Thu, 17 Oct 2019 01:24:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=EMtb6RxR3NIioeXGn4qhRnliwKyFeIZaT/dUZJyME6g=;
+        b=bfb3BgZ1zirdOQocWLerH+3qrhQAJukLdt9f02Tj7S5lJ4fyEfXrnUZyrPb4gYZm1w
+         VmtGsansHPyMyeePrdh9ZnQZ8gcuggKFGWRcNCnC7ZGQyTODuRk55nAdq/MyAiFE+ZGC
+         UVGowYsXuKP8KbRuzFmCkEUs4szfrm4sLC5XQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=EMtb6RxR3NIioeXGn4qhRnliwKyFeIZaT/dUZJyME6g=;
+        b=o39gVAsfBYuZvhCS3husRGt2Euj9TDXmu5d8EfmPmYtpF6aLJTcvHfovklumZ7ZiaS
+         1fX9dE/5VK3+1UPLbzo1rm4cVxnzgx8VzgbQnT8qSXZLJZdHwh545a//z3sQwY0BQpey
+         LosDnmUJ91MifEeYR41j7hIqhcHyQfMu5kUvvFPyIlfegMBXTYfAfYftvO4iUA59b09j
+         Ais0EG7GJ6DbWQzj7yLr3u1fh4DfC8xWI8YPHO9aBOxLugiv1mloynqdM0KVrxiw5Sla
+         V8P54b4D1hf62c6tG8bbm/Eskc36kqGYk+QVHk4D4wym4DI7pd0DPl5ci4ygMjcac5wL
+         dOUw==
+X-Gm-Message-State: APjAAAUeg/rH3649PP0In7N7c9nhQUQBhwhpQbcMky2j6+D8oBE7rQzM
+        J7zgE1zbsecyo3YDuSoZcpZg1uFUEec0tg==
+X-Google-Smtp-Source: APXvYqzxTtmRO/WJ9gpDy9UrvKjyLIj4VhzteMxqz6fp3KP9cpbxd8Dc9RNgu488Hmb8KgB9Sr7I/g==
+X-Received: by 2002:a17:906:e2ce:: with SMTP id gr14mr2226179ejb.229.1571300643243;
+        Thu, 17 Oct 2019 01:24:03 -0700 (PDT)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com. [209.85.221.53])
+        by smtp.gmail.com with ESMTPSA id r18sm69127edx.94.2019.10.17.01.24.01
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Oct 2019 01:24:02 -0700 (PDT)
+Received: by mail-wr1-f53.google.com with SMTP id l10so840791wrb.2
+        for <linux-media@vger.kernel.org>; Thu, 17 Oct 2019 01:24:01 -0700 (PDT)
+X-Received: by 2002:adf:dd8b:: with SMTP id x11mr1866183wrl.113.1571300640894;
+ Thu, 17 Oct 2019 01:24:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191017072842.16793-3-hverkuil-cisco@xs4all.nl>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20190919093404.182015-1-keiichiw@chromium.org>
+ <20190923085637.bsaevedklweijgya@sirius.home.kraxel.org> <CAAFQd5Ba-REZU9=rdm3J6NRqqeAUFdCV7SJ_WdO2BHyKNBN7TQ@mail.gmail.com>
+ <20191014121914.lyptm3gdmekvcu6v@sirius.home.kraxel.org> <CAAFQd5CaxYoXQ6z4pmdTG3FDN8ccEk3sHMnSkoNwL2==hk6znQ@mail.gmail.com>
+ <20191017074416.wrndxdwntynqmpm4@sirius.home.kraxel.org>
+In-Reply-To: <20191017074416.wrndxdwntynqmpm4@sirius.home.kraxel.org>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Thu, 17 Oct 2019 17:23:49 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5Dh-VE2v=uX1bqKywwELxrH1a9wsRAine2=AVe3gQFt4w@mail.gmail.com>
+Message-ID: <CAAFQd5Dh-VE2v=uX1bqKywwELxrH1a9wsRAine2=AVe3gQFt4w@mail.gmail.com>
+Subject: Re: [virtio-dev] [PATCH] [RFC RESEND] vdec: Add virtio video decode
+ device specification
+To:     Gerd Hoffmann <kraxel@redhat.com>
+Cc:     Keiichi Watanabe <keiichiw@chromium.org>,
+        virtio-dev@lists.oasis-open.org,
+        Alexandre Courbot <acourbot@chromium.org>,
+        alexlau@chromium.org, dgreid@chromium.org,
+        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
+        Pawel Osciak <posciak@chromium.org>,
+        David Stevens <stevensd@chromium.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Oct 17, 2019 at 09:28:42AM +0200, Hans Verkuil wrote:
-> From: Dariusz Marcinkiewicz <darekm@google.com>
-> 
-> Fill in the cec_connector_info when calling cec_notifier_conn_register().
-> 
-> Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
-> Tested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> ---
->  drivers/gpu/drm/i2c/tda998x_drv.c | 33 +++++++++++++++++++++++--------
->  1 file changed, 25 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i2c/tda998x_drv.c b/drivers/gpu/drm/i2c/tda998x_drv.c
-> index dde8decb52a6..b0620842fa3a 100644
-> --- a/drivers/gpu/drm/i2c/tda998x_drv.c
-> +++ b/drivers/gpu/drm/i2c/tda998x_drv.c
-> @@ -82,6 +82,9 @@ struct tda998x_priv {
->  	u8 audio_port_enable[AUDIO_ROUTE_NUM];
->  	struct tda9950_glue cec_glue;
->  	struct gpio_desc *calib;
-> +
-> +	/* protect cec_notify */
-> +	struct mutex cec_notify_mutex;
->  	struct cec_notifier *cec_notify;
->  };
->  
-> @@ -805,8 +808,11 @@ static irqreturn_t tda998x_irq_thread(int irq, void *data)
->  				tda998x_edid_delay_start(priv);
->  			} else {
->  				schedule_work(&priv->detect_work);
-> +
-> +				mutex_lock(&priv->cec_notify_mutex);
->  				cec_notifier_phys_addr_invalidate(
->  						priv->cec_notify);
-> +				mutex_unlock(&priv->cec_notify_mutex);
->  			}
->  
->  			handled = true;
-> @@ -1331,6 +1337,8 @@ static int tda998x_connector_init(struct tda998x_priv *priv,
->  				  struct drm_device *drm)
->  {
->  	struct drm_connector *connector = &priv->connector;
-> +	struct cec_connector_info conn_info;
-> +	struct cec_notifier *notifier;
->  	int ret;
->  
->  	connector->interlace_allowed = 1;
-> @@ -1347,6 +1355,17 @@ static int tda998x_connector_init(struct tda998x_priv *priv,
->  	if (ret)
->  		return ret;
->  
-> +	cec_fill_conn_info_from_drm(&conn_info, connector);
-> +
-> +	notifier = cec_notifier_conn_register(priv->cec_glue.parent,
-> +					      NULL, &conn_info);
-> +	if (!notifier)
-> +		return -ENOMEM;
-> +
-> +	mutex_lock(&priv->cec_notify_mutex);
-> +	priv->cec_notify = notifier;
-> +	mutex_unlock(&priv->cec_notify_mutex);
+On Thu, Oct 17, 2019 at 4:44 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+>   Hi,
+>
+> > > Also note that the guest manages the address space, so the host can't
+> > > simply allocate guest page addresses.
+> >
+> > Is this really true? I'm not an expert in this area, but on a bare
+> > metal system it's the hardware or firmware that sets up the various
+> > physical address allocations on a hardware level and most of the time
+> > most of the addresses are already pre-assigned in hardware (like the
+> > DRAM base, various IOMEM spaces, etc.).
+>
+> Yes, the firmware does it.  Same in a VM, ovmf or seabios (which runs
+> inside the guest) typically does it.  And sometimes the linux kernel
+> too.
+>
+> > I think that means that we could have a reserved region that could be
+> > used by the host for dynamic memory hot-plug-like operation. The
+> > reference to memory hot-plug here is fully intentional, we could even
+> > use this feature of Linux to get struct pages for such memory if we
+> > really wanted.
+>
+> We try to avoid such quirks whenever possible.  Negotiating such things
+> between qemu and firmware can be done if really needed (and actually is
+> done for memory hotplug support), but it's an extra interface which
+> needs maintenance.
+>
+> > > Mapping host virtio-gpu resources
+> > > into guest address space is planned, it'll most likely use a pci memory
+> > > bar to reserve some address space.  The host can map resources into that
+> > > pci bar, on guest request.
+> >
+> > Sounds like a viable option too. Do you have a pointer to some
+> > description on how this would work on both host and guest side?
+>
+> Some early code:
+>   https://git.kraxel.org/cgit/qemu/log/?h=sirius/virtio-gpu-memory-v2
+>   https://git.kraxel.org/cgit/linux/log/?h=drm-virtio-memory-v2
+>
+> Branches have other stuff too, look for "hostmem" commits.
+>
+> Not much code yet beyond creating a pci bar on the host and detecting
+> presence in the guest.
+>
+> On the host side qemu would create subregions inside the hostmem memory
+> region for the resources.
+>
+> Oh the guest side we can ioremap stuff, like vram.
+>
+> > > Hmm, well, pci memory bars are *not* backed by pages.  Maybe we can use
+> > > Documentation/driver-api/pci/p2pdma.rst though.  With that we might be
+> > > able to lookup buffers using device and dma address, without explicitly
+> > > creating some identifier.  Not investigated yet in detail.
+> >
+> > Not backed by pages as in "struct page", but those are still regular
+> > pages of the physical address space.
+>
+> Well, maybe not.  Host gem object could live in device memory, and if we
+> map them into the guest ...
 
-You haven't taken on board what I said about the mutex in this
-instance.
+That's an interesting scenario, but in that case would we still want
+to map it into the guest? I think in such case may need to have some
+shadow buffer in regular RAM and that's already implemented in
+virtio-gpu.
 
-> +
->  	drm_connector_attach_encoder(&priv->connector,
->  				     priv->bridge.encoder);
->  
-> @@ -1366,6 +1385,11 @@ static void tda998x_bridge_detach(struct drm_bridge *bridge)
->  {
->  	struct tda998x_priv *priv = bridge_to_tda998x_priv(bridge);
->  
-> +	mutex_lock(&priv->cec_notify_mutex);
-> +	cec_notifier_conn_unregister(priv->cec_notify);
-> +	priv->cec_notify = NULL;
-> +	mutex_unlock(&priv->cec_notify_mutex);
-> +
->  	drm_connector_cleanup(&priv->connector);
->  }
->  
-> @@ -1789,8 +1813,6 @@ static void tda998x_destroy(struct device *dev)
->  	cancel_work_sync(&priv->detect_work);
->  
->  	i2c_unregister_device(priv->cec);
-> -
-> -	cec_notifier_conn_unregister(priv->cec_notify);
->  }
->  
->  static int tda998x_create(struct device *dev)
-> @@ -1811,6 +1833,7 @@ static int tda998x_create(struct device *dev)
->  	mutex_init(&priv->mutex);	/* protect the page access */
->  	mutex_init(&priv->audio_mutex); /* protect access from audio thread */
->  	mutex_init(&priv->edid_mutex);
-> +	mutex_init(&priv->cec_notify_mutex);
->  	INIT_LIST_HEAD(&priv->bridge.list);
->  	init_waitqueue_head(&priv->edid_delay_waitq);
->  	timer_setup(&priv->edid_delay_timer, tda998x_edid_delay_done, 0);
-> @@ -1915,12 +1938,6 @@ static int tda998x_create(struct device *dev)
->  		cec_write(priv, REG_CEC_RXSHPDINTENA, CEC_RXSHPDLEV_HPD);
->  	}
->  
-> -	priv->cec_notify = cec_notifier_conn_register(dev, NULL, NULL);
-> -	if (!priv->cec_notify) {
-> -		ret = -ENOMEM;
-> -		goto fail;
-> -	}
-> -
->  	priv->cec_glue.parent = dev;
->  	priv->cec_glue.data = priv;
->  	priv->cec_glue.init = tda998x_cec_hook_init;
-> -- 
-> 2.23.0
-> 
-> 
+>
+> > That said, currently the sg_table interface is only able to describe
+> > physical memory using struct page pointers.  It's been a long standing
+> > limitation affecting even bare metal systems, so perhaps it's just the
+> > right time to make them possible to use some other identifiers, like
+> > PFNs?
+>
+> I doubt you can handle pci memory bars like regular ram when it comes to
+> dma and iommu support.  There is a reason we have p2pdma in the first
+> place ...
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTC broadband for 0.8mile line in suburbia: sync at 12.1Mbps down 622kbps up
-According to speedtest.net: 11.9Mbps down 500kbps up
+The thing is that such bars would be actually backed by regular host
+RAM. Do we really need the complexity of real PCI bar handling for
+that?
+
+Best regards,
+Tomasz
