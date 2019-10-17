@@ -2,142 +2,161 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 12378DA6C7
-	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2019 09:51:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 71A3DDA6EB
+	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2019 10:06:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392882AbfJQHvf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Oct 2019 03:51:35 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:58019 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728735AbfJQHvf (ORCPT
+        id S2403841AbfJQIGY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Oct 2019 04:06:24 -0400
+Received: from mail-ed1-f65.google.com ([209.85.208.65]:41618 "EHLO
+        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727791AbfJQIGY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Oct 2019 03:51:35 -0400
-Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id L0ZEiNQokPduvL0ZHitZi9; Thu, 17 Oct 2019 09:51:32 +0200
-Subject: Re: [PATCH v3 5/6] media: sun4i: Add H3 deinterlace driver
-To:     Jernej Skrabec <jernej.skrabec@siol.net>, mripard@kernel.org,
-        wens@csie.org
-Cc:     robh+dt@kernel.org, mark.rutland@arm.com, mchehab@kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-sunxi@googlegroups.com
-References: <20191016192807.1278987-1-jernej.skrabec@siol.net>
- <20191016192807.1278987-6-jernej.skrabec@siol.net>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <d768b2bc-a942-03a6-253d-4bcc31f1b11e@xs4all.nl>
-Date:   Thu, 17 Oct 2019 09:51:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Thu, 17 Oct 2019 04:06:24 -0400
+Received: by mail-ed1-f65.google.com with SMTP id f20so991611edv.8
+        for <linux-media@vger.kernel.org>; Thu, 17 Oct 2019 01:06:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=HrXzI59kSFWh8A0YCE3/Vu/m0YTemF22LKXq17LU8ac=;
+        b=DLjlf/sSFGYeyj13Vp74uqYyk+d4+Ox0Tg5+1d63p3r/3N+gAVlbYA9tPC9lFQ3Tdy
+         NKAR4YIxFzHj0K9gMd4aXi7/kmMNF9Aei541RQwoXYeNzzMD+BEz6x1ZyUAv+MgoT7S8
+         yKPz2EGC4aMm43PFLGUY3qKIpCwXW+lbelSms=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=HrXzI59kSFWh8A0YCE3/Vu/m0YTemF22LKXq17LU8ac=;
+        b=IEEGW0x34PNIqR8g+aTsdC7DnYpNkNzEQ8D8FoxMVScd4EFTBtr8j64j6pZfgBbEK5
+         bRT3/P2seBaL1Z46240vORs1jZcKANr+LXpgPNyqsln5U88QYybJigTzGXxiy6mzDbcv
+         pAAPecfviwRTnuaIAyxZNETY0TqUWZFdKbg208TKM+Uo9edXzNg/DjMYFvfHHZMnqxfX
+         MPG69+Z0NLw5yYd3mIdjF8NvDYyDpABmIOZJKH7XJFidkOFVp3niiMPghVJtThZujtvS
+         m1mQzDg4A07+WsdRspp5OhftzJhg2L9ATxYPH5Es+SUqNlz5p99xATYRA2Rc07SKPnpS
+         xhRA==
+X-Gm-Message-State: APjAAAUx0Lm0uGsz57SBkc2VSBUb51z1sdTkvtC6W5V+bgdBsbBkGVnn
+        WNd0hf/ycKlILlF2mW3mqfgJwwMACPlqNw==
+X-Google-Smtp-Source: APXvYqwg18RON7FfkB0SezVaYSKC4OHYNuY6mJeYpujIrOQl0XfcTPvr3we111VDKbtFs2irVCg/8g==
+X-Received: by 2002:a17:906:6d08:: with SMTP id m8mr2220503ejr.150.1571299581612;
+        Thu, 17 Oct 2019 01:06:21 -0700 (PDT)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com. [209.85.221.43])
+        by smtp.gmail.com with ESMTPSA id b7sm73730eda.67.2019.10.17.01.06.19
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Oct 2019 01:06:20 -0700 (PDT)
+Received: by mail-wr1-f43.google.com with SMTP id p14so1199456wro.4
+        for <linux-media@vger.kernel.org>; Thu, 17 Oct 2019 01:06:19 -0700 (PDT)
+X-Received: by 2002:a5d:6283:: with SMTP id k3mr1756292wru.46.1571299579113;
+ Thu, 17 Oct 2019 01:06:19 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20191016192807.1278987-6-jernej.skrabec@siol.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfFzjUTWPxOlTU4hlEoCPjG/vSnr5xKQMF8XCQ+SW2mlaLMTpQxaZ4EILqCiVCuh6PT0/ZGWxxDnt9eqTiqgrU30Ii5IcSv5qXVgZKrKwRQi+3s/KXvlH
- cW3X33jRHUWkl54rP0BkXftU0szeQJ0072L78iJO5WHkMZWfgWh3+Eu0GlW9LYPLUreGywKDX382EmsMo//teqCpW8UzBd3qtfur6RZwyfW/PVnpXHTX8w54
- 3NATx7a3KgEanmyT+7lBoLehSIZJPcE3ExuqcJ85gypFZE3mPBaYNeWWbhMdOjn9xy72VKc7+rhYNrXfCbI4r1GAWenmaRGgPck9UZ/QvmmnKfCv6MfEjGzF
- mCa2bWuWOcPyvM0/TmOQgX5PPXzDQLe+f2LNK1WgOHJKCM3W4NGwSwCyk+GUWKj7cdJF40IruCU3/x3I05XQifPut6thHfBVH4LS/N5AEienYd4m/Ga7z/2p
- H1UtYUZCGmnxHATQJZxlSooZhRP/qiBbjU3WvKAlGacH643rIINbhwIy/mE=
+References: <20190919093404.182015-1-keiichiw@chromium.org>
+ <12599990.jpbsygJuY9@os-lin-dmo> <20191015075422.yeknnqlsy3nun44r@sirius.home.kraxel.org>
+ <9670471.GKRsIjc3Fr@os-lin-dmo>
+In-Reply-To: <9670471.GKRsIjc3Fr@os-lin-dmo>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Thu, 17 Oct 2019 17:06:06 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5D_dq6HyXfAYCG9dhuRg6onrJDoecXqf0As+e91wpVzfg@mail.gmail.com>
+Message-ID: <CAAFQd5D_dq6HyXfAYCG9dhuRg6onrJDoecXqf0As+e91wpVzfg@mail.gmail.com>
+Subject: Re: [virtio-dev] [PATCH] [RFC RESEND] vdec: Add virtio video decode
+ device specification
+To:     Dmitry Morozov <dmitry.morozov@opensynergy.com>,
+        Gerd Hoffmann <kraxel@redhat.com>
+Cc:     David Stevens <stevensd@chromium.org>,
+        virtio-dev@lists.oasis-open.org,
+        Keiichi Watanabe <keiichiw@chromium.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        alexlau@chromium.org, dgreid@chromium.org,
+        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
+        Pawel Osciak <posciak@chromium.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/16/19 9:28 PM, Jernej Skrabec wrote:
-> Allwinner H3 SoC contains deinterlace unit, which has several modes of
-> operation - bypass, weave, bob and mixed (advanced) mode. I don't know
-> how mixed mode works, but according to Allwinner it gives best results,
-> so they use it exclusively. Currently this mode is also hardcoded here.
-> 
-> For each interleaved frame queued, this driver produces 2 deinterlaced
-> frames. Deinterlaced frames are based on 2 consequtive output buffers,
-> except for the first 2, where same output buffer is given to peripheral
-> as current and previous.
-> 
-> There is no documentation for this core, so register layout and fixed
-> values were taken from BSP driver.
-> 
-> I'm not sure if maximum size of the image unit is capable to process is
-> governed by size of "flag" buffers, frequency or it really is some HW
-> limitation. Currently driver can process full HD image in ~15ms (7.5ms
-> for each capture buffer), which allows to process 1920x1080@60i video
-> smoothly in real time.
-> 
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
-> ---
->  MAINTAINERS                                   |    7 +
->  drivers/media/platform/sunxi/Kconfig          |    1 +
->  drivers/media/platform/sunxi/Makefile         |    1 +
->  drivers/media/platform/sunxi/sun8i-di/Kconfig |   11 +
->  .../media/platform/sunxi/sun8i-di/Makefile    |    2 +
->  .../media/platform/sunxi/sun8i-di/sun8i-di.c  | 1020 +++++++++++++++++
->  .../media/platform/sunxi/sun8i-di/sun8i-di.h  |  237 ++++
->  7 files changed, 1279 insertions(+)
->  create mode 100644 drivers/media/platform/sunxi/sun8i-di/Kconfig
->  create mode 100644 drivers/media/platform/sunxi/sun8i-di/Makefile
->  create mode 100644 drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
->  create mode 100644 drivers/media/platform/sunxi/sun8i-di/sun8i-di.h
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index c7b48525822a..c375455125fb 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -4646,6 +4646,13 @@ M:	"Maciej W. Rozycki" <macro@linux-mips.org>
->  S:	Maintained
->  F:	drivers/net/fddi/defxx.*
->  
-> +DEINTERLACE DRIVERS FOR ALLWINNER H3
-> +M:	Jernej Skrabec <jernej.skrabec@siol.net>
-> +L:	linux-media@vger.kernel.org
-> +T:	git git://linuxtv.org/media_tree.git
-> +S:	Maintained
-> +F:	drivers/media/platform/sunxi/sun8i-di/
-> +
->  DELL SMBIOS DRIVER
->  M:	Pali Rohár <pali.rohar@gmail.com>
->  M:	Mario Limonciello <mario.limonciello@dell.com>
-> diff --git a/drivers/media/platform/sunxi/Kconfig b/drivers/media/platform/sunxi/Kconfig
-> index 71808e93ac2e..d7a5621bf327 100644
-> --- a/drivers/media/platform/sunxi/Kconfig
-> +++ b/drivers/media/platform/sunxi/Kconfig
-> @@ -1,2 +1,3 @@
->  source "drivers/media/platform/sunxi/sun4i-csi/Kconfig"
->  source "drivers/media/platform/sunxi/sun6i-csi/Kconfig"
-> +source "drivers/media/platform/sunxi/sun8i-di/Kconfig"
+On Tue, Oct 15, 2019 at 11:06 PM Dmitry Morozov
+<dmitry.morozov@opensynergy.com> wrote:
+>
+> Hello Gerd,
+>
+> On Dienstag, 15. Oktober 2019 09:54:22 CEST Gerd Hoffmann wrote:
+> > On Mon, Oct 14, 2019 at 03:05:03PM +0200, Dmitry Morozov wrote:
+> > > On Montag, 14. Oktober 2019 14:34:43 CEST Gerd Hoffmann wrote:
+> > > >   Hi,
+> > > >
+> > > > > My take on this (for a decoder) would be to allocate memory for output
+> > > > > buffers from a secure ION heap, import in the v4l2 driver, and then to
+> > > > > provide those to the device using virtio. The device side then uses
+> > > > > the
+> > > > > dmabuf framework to make the buffers accessible for the hardware. I'm
+> > > > > not
+> > > > > sure about that, it's just an idea.
+> > > >
+> > > > Virtualization aside, how does the complete video decoding workflow
+> > > > work?  I assume along the lines of ...
+> > > >
+> > > >   (1) allocate buffer for decoded video frames (from ion).
+> > > >   (2) export those buffers as dma-buf.
+> > > >   (3) import dma-buf to video decoder.
+> > > >   (4) import dma-buf to gpu.
+> > > >
+> > > > ... to establish buffers shared between video decoder and gpu?
+> > > >
+> > > > Then feed the video stream into the decoder, which decodes into the ion
+> > > > buffers?  Ask the gpu to scanout the ion buffers to show the video?
+> > > >
+> > > > cheers,
+> > > >
+> > > >   Gerd
+> > >
+> > > Yes, exactly.
+> > >
+> > > [decoder]
+> > > 1) Input buffers are allocated using  VIDIOC_*BUFS.
+> >
+> > Ok.
+> >
+> > > 2) Output buffers are allocated in a guest specific manner (ION, gbm).
+> >
+> > Who decides whenever ION or gbm is used?  The phrase "secure ION heap"
+> > used above sounds like using ION is required for decoding drm-protected
+> > content.
+>
+> I mention the secure ION heap to address this Chrome OS related point:
+> > 3) protected content decoding: the memory for decoded video frames
+> > must not be accessible to the guest at all
+>
+> There was an RFC to implement a secure memory allocation framework, but
+> apparently it was not accepted: https://lwn.net/Articles/661549/.
+>
+> In case of Android, it allocates GPU buffers for output frames, so it is the
+> gralloc implementation who decides how to allocate memory. It can use some
+> dedicated ION heap or can use libgbm. It can also be some proprietary
+> implementation.
+>
+> >
+> > So, do we have to worry about ION here?  Or can we just use gbm?
+>
+> If we replace vendor specific code in the Android guest and provide a way to
+> communicate meatdata for buffer allocations from the device to the driver, we
+> can use gbm. In the PC world it might be easier.
+>
+> >
+> > [ Note: don't know much about ion, other than that it is used by
+> >         android, is in staging right now and patches to move it
+> >         out of staging are floating around @ dri-devel ]
 
-This is a m2m driver, so this belongs in drivers/media/platform/Kconfig in the
-Memory-to-memory section.
+Chrome OS has cros_gralloc, which is an open source implementation of
+gralloc on top of minigbm (which itself is built on top of the Linux
+DRM interfaces). It's not limited to Chrome OS and I believe Intel
+also uses it for their native Android setups. With that, we could
+completely disregard ION, but I feel like it's not a core problem
+here. Whoever wants to use ION should be still able to do so if they
+back the allocations with guest pages or memory coming from the host
+using some other interface and it can be described using an identifier
+compatible with what we're discussing here.
 
-> diff --git a/drivers/media/platform/sunxi/Makefile b/drivers/media/platform/sunxi/Makefile
-> index a05127529006..3878cb4efdc2 100644
-> --- a/drivers/media/platform/sunxi/Makefile
-> +++ b/drivers/media/platform/sunxi/Makefile
-> @@ -1,2 +1,3 @@
->  obj-y		+= sun4i-csi/
->  obj-y		+= sun6i-csi/
-> +obj-y		+= sun8i-di/
-> diff --git a/drivers/media/platform/sunxi/sun8i-di/Kconfig b/drivers/media/platform/sunxi/sun8i-di/Kconfig
-> new file mode 100644
-> index 000000000000..dbd77a61e3b3
-> --- /dev/null
-> +++ b/drivers/media/platform/sunxi/sun8i-di/Kconfig
-> @@ -0,0 +1,11 @@
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +config VIDEO_SUN8I_DEINTERLACE
-> +	tristate "Allwinner Deinterlace driver"
-> +	depends on VIDEO_DEV && VIDEO_V4L2
-> +	depends on HAS_DMA
-> +	depends on OF
-> +	depends on PM
-> +	select VIDEOBUF2_DMA_CONTIG
-> +	select V4L2_MEM2MEM_DEV
-> +	help
-> +	   Support for the Allwinner Deinterlace unit found on some SoCs.
-
-Shouldn't this depend on ARCH_SUNXI || COMPILE_TEST?
-And also on COMMON_CLK?
-
-Regards,
-
-	Hans
+Best regards,
+Tomasz
