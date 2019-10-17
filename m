@@ -2,181 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C9B47DA679
-	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2019 09:29:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 943D8DA69E
+	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2019 09:44:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387545AbfJQH3w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Oct 2019 03:29:52 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:33675 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731498AbfJQH3u (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Oct 2019 03:29:50 -0400
-Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id L0ECiNJ4GPduvL0EFitUjh; Thu, 17 Oct 2019 09:29:48 +0200
-Subject: Re: [PATCHv8 1/2] drm: tda998x: use cec_notifier_conn_(un)register
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To:     Russell King - ARM Linux admin <linux@armlinux.org.uk>
-Cc:     linux-media@vger.kernel.org,
-        Dariusz Marcinkiewicz <darekm@google.com>,
-        dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20191016133916.21475-1-hverkuil-cisco@xs4all.nl>
- <20191016133916.21475-2-hverkuil-cisco@xs4all.nl>
- <20191016161417.GX25745@shell.armlinux.org.uk>
- <cef1582a-7198-7331-cd2b-1b30ad8dd47b@xs4all.nl>
-Message-ID: <fa6b354a-2a56-d612-f034-20323b2f55e5@xs4all.nl>
-Date:   Thu, 17 Oct 2019 09:29:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S2438445AbfJQHoT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Oct 2019 03:44:19 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49334 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2389017AbfJQHoS (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 17 Oct 2019 03:44:18 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id 58BD851EF6;
+        Thu, 17 Oct 2019 07:44:18 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-43.ams2.redhat.com [10.36.116.43])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id BD472100EBDD;
+        Thu, 17 Oct 2019 07:44:17 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+        id EF04A11AAA; Thu, 17 Oct 2019 09:44:16 +0200 (CEST)
+Date:   Thu, 17 Oct 2019 09:44:16 +0200
+From:   Gerd Hoffmann <kraxel@redhat.com>
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     Keiichi Watanabe <keiichiw@chromium.org>,
+        virtio-dev@lists.oasis-open.org,
+        Alexandre Courbot <acourbot@chromium.org>,
+        alexlau@chromium.org, dgreid@chromium.org,
+        =?utf-8?B?U3TDqXBoYW5l?= Marchesin <marcheu@chromium.org>,
+        Pawel Osciak <posciak@chromium.org>,
+        David Stevens <stevensd@chromium.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [virtio-dev] [PATCH] [RFC RESEND] vdec: Add virtio video decode
+ device specification
+Message-ID: <20191017074416.wrndxdwntynqmpm4@sirius.home.kraxel.org>
+References: <20190919093404.182015-1-keiichiw@chromium.org>
+ <20190923085637.bsaevedklweijgya@sirius.home.kraxel.org>
+ <CAAFQd5Ba-REZU9=rdm3J6NRqqeAUFdCV7SJ_WdO2BHyKNBN7TQ@mail.gmail.com>
+ <20191014121914.lyptm3gdmekvcu6v@sirius.home.kraxel.org>
+ <CAAFQd5CaxYoXQ6z4pmdTG3FDN8ccEk3sHMnSkoNwL2==hk6znQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <cef1582a-7198-7331-cd2b-1b30ad8dd47b@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfJYnk5+tCJsnu2ep58E5QMj/aObGXKVMuPXWsd5cg6dprT5StnmLlKrOSHhVYkDhoYKpFOC8AIAhod8FUC/s2ymO6kQwld4BgI/b3z0hGeU5ImT6G19T
- jJtbvXAcjEkw00czmklsOQ1u0/+9LMa01P3wjCFMEeLX+zlhfUrcG+kuXkfeGmSNgIso9FLTJyJ/BAN/t+Xa/i/OHTZoBaT/Uhg7kKbmCISZ2yto3//LykS2
- GxVvZfSTNtMYe27KyV18KolVDrtwvvvQz8g7gVKR3ojZhzgw6/6bJGEOAqrthZQMgQ4mcX+kTjskqXC1FGOt73f+mBTIFrLpMVZ/CYf7a/wMZqdVeCeWR9Wm
- 4JjwZMidKGfJPFafKkYfLEOVqaF7/Q==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAAFQd5CaxYoXQ6z4pmdTG3FDN8ccEk3sHMnSkoNwL2==hk6znQ@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.30]); Thu, 17 Oct 2019 07:44:18 +0000 (UTC)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/17/19 9:03 AM, Hans Verkuil wrote:
-> On 10/16/19 6:14 PM, Russell King - ARM Linux admin wrote:
->> On Wed, Oct 16, 2019 at 03:39:15PM +0200, Hans Verkuil wrote:
->>> From: Dariusz Marcinkiewicz <darekm@google.com>
->>>
->>> Use the new cec_notifier_conn_(un)register() functions to
->>> (un)register the notifier for the HDMI connector.
->>>
->>> Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
->>> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->>
->> Please explain in detail what this mutex actually achieves.
-> 
-> Dariusz, since you're the author, can you reply to Russell?
-> 
-> If this is going to be a delaying factor, then I'll post a new version
-> without the mutex that just replaces the cec_notifier API.
+  Hi,
 
-I decided to post a v9, moving the mutex to the second patch, which should
-make the first patch acceptable to everyone for v5.5.
+> > Also note that the guest manages the address space, so the host can't
+> > simply allocate guest page addresses.
+> 
+> Is this really true? I'm not an expert in this area, but on a bare
+> metal system it's the hardware or firmware that sets up the various
+> physical address allocations on a hardware level and most of the time
+> most of the addresses are already pre-assigned in hardware (like the
+> DRAM base, various IOMEM spaces, etc.).
 
-Regards,
+Yes, the firmware does it.  Same in a VM, ovmf or seabios (which runs
+inside the guest) typically does it.  And sometimes the linux kernel
+too.
 
-	Hans
+> I think that means that we could have a reserved region that could be
+> used by the host for dynamic memory hot-plug-like operation. The
+> reference to memory hot-plug here is fully intentional, we could even
+> use this feature of Linux to get struct pages for such memory if we
+> really wanted.
 
+We try to avoid such quirks whenever possible.  Negotiating such things
+between qemu and firmware can be done if really needed (and actually is
+done for memory hotplug support), but it's an extra interface which
+needs maintenance.
+
+> > Mapping host virtio-gpu resources
+> > into guest address space is planned, it'll most likely use a pci memory
+> > bar to reserve some address space.  The host can map resources into that
+> > pci bar, on guest request.
 > 
-> Regards,
+> Sounds like a viable option too. Do you have a pointer to some
+> description on how this would work on both host and guest side?
+
+Some early code:
+  https://git.kraxel.org/cgit/qemu/log/?h=sirius/virtio-gpu-memory-v2
+  https://git.kraxel.org/cgit/linux/log/?h=drm-virtio-memory-v2
+
+Branches have other stuff too, look for "hostmem" commits.
+
+Not much code yet beyond creating a pci bar on the host and detecting
+presence in the guest.
+
+On the host side qemu would create subregions inside the hostmem memory
+region for the resources.
+
+Oh the guest side we can ioremap stuff, like vram.
+
+> > Hmm, well, pci memory bars are *not* backed by pages.  Maybe we can use
+> > Documentation/driver-api/pci/p2pdma.rst though.  With that we might be
+> > able to lookup buffers using device and dma address, without explicitly
+> > creating some identifier.  Not investigated yet in detail.
 > 
-> 	Hans
-> 
->>
->>> ---
->>>  drivers/gpu/drm/i2c/tda998x_drv.c | 21 ++++++++++++++++-----
->>>  1 file changed, 16 insertions(+), 5 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/i2c/tda998x_drv.c b/drivers/gpu/drm/i2c/tda998x_drv.c
->>> index 84c6d4c91c65..8262b44b776e 100644
->>> --- a/drivers/gpu/drm/i2c/tda998x_drv.c
->>> +++ b/drivers/gpu/drm/i2c/tda998x_drv.c
->>> @@ -82,6 +82,9 @@ struct tda998x_priv {
->>>  	u8 audio_port_enable[AUDIO_ROUTE_NUM];
->>>  	struct tda9950_glue cec_glue;
->>>  	struct gpio_desc *calib;
->>> +
->>> +	/* protect cec_notify */
->>> +	struct mutex cec_notify_mutex;
->>>  	struct cec_notifier *cec_notify;
->>>  };
->>>  
->>> @@ -805,8 +808,11 @@ static irqreturn_t tda998x_irq_thread(int irq, void *data)
->>>  				tda998x_edid_delay_start(priv);
->>>  			} else {
->>>  				schedule_work(&priv->detect_work);
->>> -				cec_notifier_set_phys_addr(priv->cec_notify,
->>> -						   CEC_PHYS_ADDR_INVALID);
->>> +
->>> +				mutex_lock(&priv->cec_notify_mutex);
->>> +				cec_notifier_phys_addr_invalidate(
->>> +						priv->cec_notify);
->>> +				mutex_unlock(&priv->cec_notify_mutex);
->>>  			}
->>>  
->>>  			handled = true;
->>> @@ -1790,8 +1796,10 @@ static void tda998x_destroy(struct device *dev)
->>>  
->>>  	i2c_unregister_device(priv->cec);
->>>  
->>> -	if (priv->cec_notify)
->>> -		cec_notifier_put(priv->cec_notify);
->>> +	mutex_lock(&priv->cec_notify_mutex);
->>> +	cec_notifier_conn_unregister(priv->cec_notify);
->>> +	priv->cec_notify = NULL;
->>> +	mutex_unlock(&priv->cec_notify_mutex);
->>
->> By the time we get here:
->>
->> 1) The interrupt has been freed (which is a synchronous operation)
->>    tda998x_irq_thread() can't be called and can't be running, and
->>    therefore cec_notifier_phys_addr_invalidate() also can't be called
->>    or be running.
->> 2) You don't touch the cec_notifier_set_phys_addr_from_edid() site;
->>    if there's any case that _might_ possibly conflict, it is that one.
->> 3) tda998x_destroy() and tda998x_create() can't be called concurrently
->>    in any case; the driver model guarantees that ->probe and ->remove
->>    for the same device are serialised.
->>
->>>  }
->>>  
->>>  static int tda998x_create(struct device *dev)
->>> @@ -1812,6 +1820,7 @@ static int tda998x_create(struct device *dev)
->>>  	mutex_init(&priv->mutex);	/* protect the page access */
->>>  	mutex_init(&priv->audio_mutex); /* protect access from audio thread */
->>>  	mutex_init(&priv->edid_mutex);
->>> +	mutex_init(&priv->cec_notify_mutex);
->>>  	INIT_LIST_HEAD(&priv->bridge.list);
->>>  	init_waitqueue_head(&priv->edid_delay_waitq);
->>>  	timer_setup(&priv->edid_delay_timer, tda998x_edid_delay_done, 0);
->>> @@ -1916,7 +1925,9 @@ static int tda998x_create(struct device *dev)
->>>  		cec_write(priv, REG_CEC_RXSHPDINTENA, CEC_RXSHPDLEV_HPD);
->>>  	}
->>>  
->>> -	priv->cec_notify = cec_notifier_get(dev);
->>> +	mutex_lock(&priv->cec_notify_mutex);
->>> +	priv->cec_notify = cec_notifier_conn_register(dev, NULL, NULL);
->>> +	mutex_unlock(&priv->cec_notify_mutex);
->>
->> and:
->>
->> 4) priv->cec_notify will be NULL here until such time that
->>    cec_notifier_conn_register() has returned.  If the mutex is trying
->>    to protect something, it's very unclear what it is.
->>    
->> Trying to guess what it's protecting against:
->>
->> - Is it protecting against NULL priv->cec_notify?  No, because it can
->>   be NULL just before we take the lock.
->> - Is it protecting the internals of cec_notifier_conn_register()
->>   against the other calls - no, because priv->cec_notify will be NULL
->>   until the function has finished.
->> - Is it protecting the write to priv->cec_notify?  Maybe, but that
->>   doesn't need any protection - architectures are single-copy atomic,
->>   which means that a pointer is either written or it is not written.
->>   Therefore, it will either be NULL (the state before the call is made)
->>   or it will be set correctly (after the call has completed.)
->>
->> So, all in all, I don't see what this lock is doing, and I think it
->> should be removed.
->>
->> If it's necessary for a future change (which may or may not be merged)
->> then the lock should be part of that future change, because the change
->> proposed by this patch certainly does not need it.
->>
->> Thanks.
->>
-> 
+> Not backed by pages as in "struct page", but those are still regular
+> pages of the physical address space.
+
+Well, maybe not.  Host gem object could live in device memory, and if we
+map them into the guest ...
+
+> That said, currently the sg_table interface is only able to describe
+> physical memory using struct page pointers.  It's been a long standing
+> limitation affecting even bare metal systems, so perhaps it's just the
+> right time to make them possible to use some other identifiers, like
+> PFNs?
+
+I doubt you can handle pci memory bars like regular ram when it comes to
+dma and iommu support.  There is a reason we have p2pdma in the first
+place ...
+
+cheers,
+  Gerd
 
