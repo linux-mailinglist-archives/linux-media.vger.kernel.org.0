@@ -2,78 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 87390DA9A8
-	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2019 12:13:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 06917DA9D9
+	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2019 12:22:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408745AbfJQKNG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Oct 2019 06:13:06 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34424 "EHLO mx1.redhat.com"
+        id S2392702AbfJQKWl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Oct 2019 06:22:41 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36460 "EHLO mx1.redhat.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726632AbfJQKNG (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Oct 2019 06:13:06 -0400
+        id S1726248AbfJQKWk (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 17 Oct 2019 06:22:40 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id B6CDB44BD1;
-        Thu, 17 Oct 2019 10:13:05 +0000 (UTC)
+        by mx1.redhat.com (Postfix) with ESMTPS id 7A49E308624A;
+        Thu, 17 Oct 2019 10:22:40 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-43.ams2.redhat.com [10.36.116.43])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 36A535D712;
-        Thu, 17 Oct 2019 10:13:05 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 2D56161F21;
+        Thu, 17 Oct 2019 10:22:40 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-        id 66EC811AAA; Thu, 17 Oct 2019 12:13:04 +0200 (CEST)
-Date:   Thu, 17 Oct 2019 12:13:04 +0200
+        id 629E311AAA; Thu, 17 Oct 2019 12:22:39 +0200 (CEST)
+Date:   Thu, 17 Oct 2019 12:22:39 +0200
 From:   Gerd Hoffmann <kraxel@redhat.com>
 To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Dmitry Morozov <dmitry.morozov@opensynergy.com>,
-        David Stevens <stevensd@chromium.org>,
+Cc:     Keiichi Watanabe <keiichiw@chromium.org>,
         virtio-dev@lists.oasis-open.org,
-        Keiichi Watanabe <keiichiw@chromium.org>,
         Alexandre Courbot <acourbot@chromium.org>,
         alexlau@chromium.org, dgreid@chromium.org,
         =?utf-8?B?U3TDqXBoYW5l?= Marchesin <marcheu@chromium.org>,
         Pawel Osciak <posciak@chromium.org>,
+        David Stevens <stevensd@chromium.org>,
         Hans Verkuil <hverkuil@xs4all.nl>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
         Daniel Vetter <daniel@ffwll.ch>
 Subject: Re: [virtio-dev] [PATCH] [RFC RESEND] vdec: Add virtio video decode
  device specification
-Message-ID: <20191017101304.pbjoj3knyveuacqm@sirius.home.kraxel.org>
+Message-ID: <20191017102239.7ekykhe5ngbsqabz@sirius.home.kraxel.org>
 References: <20190919093404.182015-1-keiichiw@chromium.org>
- <4037801.MZecyecTDs@os-lin-dmo>
- <CAAFQd5CfNK1oisDaOWaW+9NTQOLn1EHPrPzvxMPcSxLkBgv3Ww@mail.gmail.com>
- <15135216.K0K410U5qv@os-lin-dmo>
- <CAAFQd5DuChujakwmhtQ8v2CSLFqVYjLz9eGHuqrQnJ7apft+3Q@mail.gmail.com>
- <20191017071952.s3dq2oxdiy3khp5w@sirius.home.kraxel.org>
- <CAAFQd5ByuyTDqwiBeT7U7cVA8omOPGRRxb2tB8=J-u7WYU-urQ@mail.gmail.com>
+ <20190923085637.bsaevedklweijgya@sirius.home.kraxel.org>
+ <CAAFQd5Ba-REZU9=rdm3J6NRqqeAUFdCV7SJ_WdO2BHyKNBN7TQ@mail.gmail.com>
+ <20191014121914.lyptm3gdmekvcu6v@sirius.home.kraxel.org>
+ <CAAFQd5CaxYoXQ6z4pmdTG3FDN8ccEk3sHMnSkoNwL2==hk6znQ@mail.gmail.com>
+ <20191017074416.wrndxdwntynqmpm4@sirius.home.kraxel.org>
+ <CAAFQd5Dh-VE2v=uX1bqKywwELxrH1a9wsRAine2=AVe3gQFt4w@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAAFQd5ByuyTDqwiBeT7U7cVA8omOPGRRxb2tB8=J-u7WYU-urQ@mail.gmail.com>
+In-Reply-To: <CAAFQd5Dh-VE2v=uX1bqKywwELxrH1a9wsRAine2=AVe3gQFt4w@mail.gmail.com>
 User-Agent: NeoMutt/20180716
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.30]); Thu, 17 Oct 2019 10:13:06 +0000 (UTC)
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.49]); Thu, 17 Oct 2019 10:22:40 +0000 (UTC)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-  Hi,
+> > I doubt you can handle pci memory bars like regular ram when it comes to
+> > dma and iommu support.  There is a reason we have p2pdma in the first
+> > place ...
+> 
+> The thing is that such bars would be actually backed by regular host
+> RAM. Do we really need the complexity of real PCI bar handling for
+> that?
 
-> That could be still a guest physical address. Like on a bare metal
-> system with TrustZone, there could be physical memory that is not
-> accessible to the CPU.
+Well, taking shortcuts because of virtualization-specific assumptions
+already caused problems in the past.  See the messy iommu handling we
+have in virtio-pci for example.
 
-Hmm.  Yes, maybe.  We could use the dma address of the (first page of
-the) guest buffer.  In case of a secure buffer the guest has no access
-to the guest buffer would be unused, but it would at least make sure
-that things don't crash in case someone tries to map & access the
-buffer.
+So I don't feel like going the "we know it's just normal pages, so lets
+simplify things" route.
 
-The host should be able to figure the corresponding host buffer from the
-guest buffer address.
-
-When running drm-misc-next you should be able to test whenever that'll
-actually work without any virtio-gpu driver changes.
+Beside that hostmap isn't important for secure buffers, we wouldn't
+allow the guest mapping them anyway ;)
 
 cheers,
   Gerd
