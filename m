@@ -2,127 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 943D8DA69E
-	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2019 09:44:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B61DCDA6AF
+	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2019 09:48:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438445AbfJQHoT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Oct 2019 03:44:19 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49334 "EHLO mx1.redhat.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389017AbfJQHoS (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Oct 2019 03:44:18 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mx1.redhat.com (Postfix) with ESMTPS id 58BD851EF6;
-        Thu, 17 Oct 2019 07:44:18 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-43.ams2.redhat.com [10.36.116.43])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id BD472100EBDD;
-        Thu, 17 Oct 2019 07:44:17 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-        id EF04A11AAA; Thu, 17 Oct 2019 09:44:16 +0200 (CEST)
-Date:   Thu, 17 Oct 2019 09:44:16 +0200
-From:   Gerd Hoffmann <kraxel@redhat.com>
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Keiichi Watanabe <keiichiw@chromium.org>,
-        virtio-dev@lists.oasis-open.org,
-        Alexandre Courbot <acourbot@chromium.org>,
-        alexlau@chromium.org, dgreid@chromium.org,
-        =?utf-8?B?U3TDqXBoYW5l?= Marchesin <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        David Stevens <stevensd@chromium.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [virtio-dev] [PATCH] [RFC RESEND] vdec: Add virtio video decode
- device specification
-Message-ID: <20191017074416.wrndxdwntynqmpm4@sirius.home.kraxel.org>
-References: <20190919093404.182015-1-keiichiw@chromium.org>
- <20190923085637.bsaevedklweijgya@sirius.home.kraxel.org>
- <CAAFQd5Ba-REZU9=rdm3J6NRqqeAUFdCV7SJ_WdO2BHyKNBN7TQ@mail.gmail.com>
- <20191014121914.lyptm3gdmekvcu6v@sirius.home.kraxel.org>
- <CAAFQd5CaxYoXQ6z4pmdTG3FDN8ccEk3sHMnSkoNwL2==hk6znQ@mail.gmail.com>
+        id S2404644AbfJQHsc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Oct 2019 03:48:32 -0400
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:33600 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387930AbfJQHsb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 17 Oct 2019 03:48:31 -0400
+Received: by mail-ed1-f66.google.com with SMTP id c4so979823edl.0;
+        Thu, 17 Oct 2019 00:48:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8B+VL6RjXg5KMDSHhbVjjx3TQz+ogXFR8+wGExPxeGQ=;
+        b=qOCBOGJLloO3vmyqaRI+6T72uldMbOQsHidQ6BRi2voae07zuY8uRplwWLvQULhXAq
+         EnhD5ORTI/u17427MXfItSfVk86MDBU2dRcWm4hlr8ZZFxwSiYp/c6XF6OARVLEZviYF
+         kGTgQFbtkjVo5BmhvtD9Ee7JuVIglLO4jxCUh2Vy7l0CRUXmrRdydt+Xihue/MAH9X6y
+         ghpJmSx2ExE8r65ZdJyXWNBAbaIwqAnRojflSTV30kOrfqBZep5b0CJjh+9y0zRwVtMA
+         djKD41iFnE5eKX1WXfVJR+OR8RaZvcbkt4GRNePH2E8fbIc6XIY2gOoCtwGbg/Ab6/ZL
+         rM/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8B+VL6RjXg5KMDSHhbVjjx3TQz+ogXFR8+wGExPxeGQ=;
+        b=lIETvUVjsKDYQI7Wn0ZB8lGELC7af379TRY4FRJ40FAiFnr2WS+nOCcdSpUPWrQNKJ
+         kWc0XyKkj4EJZPM4vI3lBmhfCfNXS/9brRLHei0Taz+cSrzKbljoNauqFM92beGSgd8Z
+         P32kWWZr5bDrooCV1T7vJjIRz54bZClTNgn5LYtTwntqlYUOovdpc148ta0JitqGF5Zf
+         P5M2cRhCeJGaBIr57uMzQIaCAjM5YoEbm5lBA95SbyZiBX6hW+7htyuBgjuLqGfn/s2u
+         G1s2rFZ0PrjawD5zSI7WZICvaC1GUytffsQly9UZ4xAm4nJqxLQ8OMabGQ9vRQUZ8JT+
+         G+6Q==
+X-Gm-Message-State: APjAAAWW/L5nYV3Lo/9jpisMd3GdA3k+tsKRtZSY89sTdlhRKWZJP+x1
+        nam7tDGFRw36bg+2+yr2aaSQyCLmCwztFyP02AjNO20m
+X-Google-Smtp-Source: APXvYqzLkBj4wrmLsp0uHhkF+gPgoWTWlVybA1KoNGKYa6VGb9+7wEs3hq1+1i16D7MxY4U9nT+RrTGKqmUpwpVle+c=
+X-Received: by 2002:aa7:d410:: with SMTP id z16mr2360627edq.40.1571298509980;
+ Thu, 17 Oct 2019 00:48:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAFQd5CaxYoXQ6z4pmdTG3FDN8ccEk3sHMnSkoNwL2==hk6znQ@mail.gmail.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.30]); Thu, 17 Oct 2019 07:44:18 +0000 (UTC)
+References: <20191016105604.8036-1-hslester96@gmail.com> <8de93390-ae04-4278-bb34-aa175c659c23@st.com>
+In-Reply-To: <8de93390-ae04-4278-bb34-aa175c659c23@st.com>
+From:   Chuhong Yuan <hslester96@gmail.com>
+Date:   Thu, 17 Oct 2019 15:48:19 +0800
+Message-ID: <CANhBUQ0MvXYm4iLcx5gWyq=0VMmafRAJ7TsTtUuOT0YwgBcAOA@mail.gmail.com>
+Subject: Re: [PATCH] media: st-mipid02: add a check for devm_gpiod_get_optional
+To:     Mickael GUENE <mickael.guene@st.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-  Hi,
+On Thu, Oct 17, 2019 at 1:43 PM Mickael GUENE <mickael.guene@st.com> wrote:
+>
+> Hello Chuhong,
+>
+>  Is this check necessary ?
+> since looking into code it seems to me devm_gpiod_get_optional() can only
+> return NULL in case of error due to following check in devm_gpiod_get_index_optional()
+>         if (IS_ERR(desc)) {
+>                 if (PTR_ERR(desc) == -ENOENT)
+>                         return NULL;
+>         }
+>  And in that case reset_gpio is not used
+>
 
-> > Also note that the guest manages the address space, so the host can't
-> > simply allocate guest page addresses.
-> 
-> Is this really true? I'm not an expert in this area, but on a bare
-> metal system it's the hardware or firmware that sets up the various
-> physical address allocations on a hardware level and most of the time
-> most of the addresses are already pre-assigned in hardware (like the
-> DRAM base, various IOMEM spaces, etc.).
+The problem may not be a null return value, but a returned error,
+which is a minus value,
+like -EPROBE_DEFER or -EINVAL returned by gpiod_find in gpiod_get_index.
+In these cases, devm_gpiod_get_index_optional will not return null but
+return the error.
+Therefore, this check is necessary.
 
-Yes, the firmware does it.  Same in a VM, ovmf or seabios (which runs
-inside the guest) typically does it.  And sometimes the linux kernel
-too.
-
-> I think that means that we could have a reserved region that could be
-> used by the host for dynamic memory hot-plug-like operation. The
-> reference to memory hot-plug here is fully intentional, we could even
-> use this feature of Linux to get struct pages for such memory if we
-> really wanted.
-
-We try to avoid such quirks whenever possible.  Negotiating such things
-between qemu and firmware can be done if really needed (and actually is
-done for memory hotplug support), but it's an extra interface which
-needs maintenance.
-
-> > Mapping host virtio-gpu resources
-> > into guest address space is planned, it'll most likely use a pci memory
-> > bar to reserve some address space.  The host can map resources into that
-> > pci bar, on guest request.
-> 
-> Sounds like a viable option too. Do you have a pointer to some
-> description on how this would work on both host and guest side?
-
-Some early code:
-  https://git.kraxel.org/cgit/qemu/log/?h=sirius/virtio-gpu-memory-v2
-  https://git.kraxel.org/cgit/linux/log/?h=drm-virtio-memory-v2
-
-Branches have other stuff too, look for "hostmem" commits.
-
-Not much code yet beyond creating a pci bar on the host and detecting
-presence in the guest.
-
-On the host side qemu would create subregions inside the hostmem memory
-region for the resources.
-
-Oh the guest side we can ioremap stuff, like vram.
-
-> > Hmm, well, pci memory bars are *not* backed by pages.  Maybe we can use
-> > Documentation/driver-api/pci/p2pdma.rst though.  With that we might be
-> > able to lookup buffers using device and dma address, without explicitly
-> > creating some identifier.  Not investigated yet in detail.
-> 
-> Not backed by pages as in "struct page", but those are still regular
-> pages of the physical address space.
-
-Well, maybe not.  Host gem object could live in device memory, and if we
-map them into the guest ...
-
-> That said, currently the sg_table interface is only able to describe
-> physical memory using struct page pointers.  It's been a long standing
-> limitation affecting even bare metal systems, so perhaps it's just the
-> right time to make them possible to use some other identifiers, like
-> PFNs?
-
-I doubt you can handle pci memory bars like regular ram when it comes to
-dma and iommu support.  There is a reason we have p2pdma in the first
-place ...
-
-cheers,
-  Gerd
-
+> Regards
+> Mickael
+>
+> On 10/16/19 12:56, Chuhong Yuan wrote:
+> > mipid02_probe misses a check for devm_gpiod_get_optional and may miss
+> > the failure.
+> > Add a check to fix the problem.
+> >
+> > Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
+> > ---
+> >  drivers/media/i2c/st-mipid02.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
+> > diff --git a/drivers/media/i2c/st-mipid02.c b/drivers/media/i2c/st-mipid02.c
+> > index 81285b8d5cfb..d38e888b0a43 100644
+> > --- a/drivers/media/i2c/st-mipid02.c
+> > +++ b/drivers/media/i2c/st-mipid02.c
+> > @@ -971,6 +971,9 @@ static int mipid02_probe(struct i2c_client *client)
+> >       bridge->reset_gpio = devm_gpiod_get_optional(dev, "reset",
+> >                                                    GPIOD_OUT_HIGH);
+> >
+> > +     if (IS_ERR(bridge->reset_gpio))
+> > +             return PTR_ERR(bridge->reset_gpio);
+> > +
+> >       ret = mipid02_get_regulators(bridge);
+> >       if (ret) {
+> >               dev_err(dev, "failed to get regulators %d", ret);
+> >
