@@ -2,53 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2792BDA83F
-	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2019 11:27:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4480DA844
+	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2019 11:27:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408481AbfJQJ0w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Oct 2019 05:26:52 -0400
-Received: from mail-il1-f193.google.com ([209.85.166.193]:42590 "EHLO
-        mail-il1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732676AbfJQJ0w (ORCPT
+        id S2408500AbfJQJ17 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Oct 2019 05:27:59 -0400
+Received: from mail-io1-f65.google.com ([209.85.166.65]:34349 "EHLO
+        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2392048AbfJQJ16 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Oct 2019 05:26:52 -0400
-Received: by mail-il1-f193.google.com with SMTP id o18so1336161ilo.9
-        for <linux-media@vger.kernel.org>; Thu, 17 Oct 2019 02:26:50 -0700 (PDT)
+        Thu, 17 Oct 2019 05:27:58 -0400
+Received: by mail-io1-f65.google.com with SMTP id q1so2173396ion.1
+        for <linux-media@vger.kernel.org>; Thu, 17 Oct 2019 02:27:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=nRLZ7Rr8tp8Mq4v4Jt3Xijcjhr4FGUmBPYVDLUM8wn0=;
-        b=HGC/4O8Icx41ulssxVeEOoYJau1t6GHm/Xrxotkr1aNIpeevmJ/nc+CyzyNoiyljOl
-         AeRNDlFi9FDGc6cN2BxFCoGJC7Juqs5uhV48AyvpknCzZ5iQxCX37HbvpLOTnEsIAYXp
-         L0o8/WzW+KZg6A/h4/H008AFz2TWdsBtS96L40VwzfhFlo/iLLNdqCNWmtmRAH7mbqrL
-         XNpgQqrcFX/9bIUjZrgVNRsRCAyA7bMyfquLgAJAM9Luz9L21ZoIYWFiM12jKBxwZeRD
-         NeLRxZColvSufT8G4IP2VjmZ4n8scmLAc/kyDX29fY8yWbJo2RD5o7fF/NhyKyLXxWaE
-         evXQ==
+        bh=Wz0s1QqmOeptIc8QDhBt7HC6sJO7YJ7zLXDUi4doZPk=;
+        b=Foqzw9J94qCGPQO9L5YG9Ug/B89psLZVCfzDwThDaWpXM1m6Z9KLaeRKoGYZgtGBdk
+         2P4uJdqhp7qjDJwB0+jDKee9bK1zFkBLXmcONRP0/BI3xsTIBojJDM1wHUAT+WB2TqN0
+         OlUiCXAqF03ZMpZWTxMR3PMDqHOORF8aDC1gj0AK2+jPU9+HrVhIDrhJCiSo5n+ogNpq
+         6QZF8hXjkUy5MhMsHfg6cuqmhv5Hgdf8FDFVzbfjouY9tfRag7pJKwLcB8UZ0SWWIsU6
+         oHcdAn4Sc6iYQetMI/pk3Kwxak0zlM8ms1iMFBUXvyaJudG8xpnQif+8lfxuPNGGrvUB
+         E/GA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=nRLZ7Rr8tp8Mq4v4Jt3Xijcjhr4FGUmBPYVDLUM8wn0=;
-        b=ZY+1LrcnH2BzrcqLXUlvgvUEYVq0byDvn/6zfXrfIBUQQCtePW5pd/fuyE3mD+LVt0
-         WL5h1Do+jVgKS9RnsSLy2piniR/IAmdoyWaHbB8xAZg5VwfTnJuwfcRGFz0MHyMzDpel
-         dZeR/Uv7SwNL9oxNxHIxxNV6kqWzYrJnmmqwCv+dMZVChdG2gaAXZQpgihPx99Db+QDZ
-         gxp0ip4SAw7JKmO/59FxLNhhVtupTfNjSXXrOr0McR9v+M0Q94WYu3ymtmgMsMdhm0Lt
-         0lkHmNRpQAHoYJWVgDBhSc7ISdQEBh+oKY0kCutQXAPHWD6sUU0WOmaAkwDvPjtxABLs
-         6v4g==
-X-Gm-Message-State: APjAAAXatEk7U0N8jD0yHDF+S+B/9GBpd+GhuTyx3bdn2PmeFIm46oRA
-        9CExhWTFjP4v8R7c9RcE6uR1ke8pHp7wKLfC6XO5nmwM
-X-Google-Smtp-Source: APXvYqwvFnl1pJUCxBm3rg+u5BW+kRlRtJDNeCg3Rj2qz3EZm/jNzduKcJuBTKT6GmSwahOdkmLh6Y5KOuzDaf7WKdc=
-X-Received: by 2002:a92:1507:: with SMTP id v7mr2313737ilk.37.1571304409584;
- Thu, 17 Oct 2019 02:26:49 -0700 (PDT)
+        bh=Wz0s1QqmOeptIc8QDhBt7HC6sJO7YJ7zLXDUi4doZPk=;
+        b=V+2sDAzcu+SSflOslsGSUgwNHcMWhwkcWdVOKyItyjyACr+vCEFI9yTldWjtaHuizA
+         R9wu75p4qA+la8vTRY9Nj/ReH1l3B4hPYPmvSUlf+p4T8CmQZqZtGjqBwGH3nCcYIJXV
+         lkqNiMbPWJ7JpPt07a6AeEcWgdw2E6Kpzv0fnLVzeqC7RgzJ3XL4ydaM4rN1rsMDaYTY
+         k4lbBmN/a6hHax8hxjNIx0F4kxIH/W16hfyIJzFqS/xuYkKyZwRY8+VhvCRbJENt7mkd
+         Qtlk63c4xcAGhXo6YFG5eJrwBxN7jxwUrI9weXLf12NtM/HS4/pFSKP98tn/Wf1K58WI
+         259g==
+X-Gm-Message-State: APjAAAWOxya1VdDxXRc3Wcb+egyioawy6h3FossGxyP2NC8zYoSyhH1s
+        E8UwMId06MIIPROQJE5do8ezutO91u0yjLTVHrp99g==
+X-Google-Smtp-Source: APXvYqyCypBNp/qrkKZeUbF89wkGSXv7oZv1mPOUdE3uOZg1Y7knp3N/y33iKlpj4tJ7/tcpUtcNwx/X4Nbjlw0guxM=
+X-Received: by 2002:a6b:c8d2:: with SMTP id y201mr1821211iof.284.1571304477717;
+ Thu, 17 Oct 2019 02:27:57 -0700 (PDT)
 MIME-Version: 1.0
 References: <20191016133916.21475-1-hverkuil-cisco@xs4all.nl>
- <20191016133916.21475-3-hverkuil-cisco@xs4all.nl> <20191016162232.GY25745@shell.armlinux.org.uk>
-In-Reply-To: <20191016162232.GY25745@shell.armlinux.org.uk>
+ <20191016133916.21475-2-hverkuil-cisco@xs4all.nl> <20191016161417.GX25745@shell.armlinux.org.uk>
+In-Reply-To: <20191016161417.GX25745@shell.armlinux.org.uk>
 From:   Dariusz Marcinkiewicz <darekm@google.com>
-Date:   Thu, 17 Oct 2019 11:26:38 +0200
-Message-ID: <CALFZZQEL_YFEJWw557p-uV14APthSoTn61tY59yXZEPioxPSfw@mail.gmail.com>
-Subject: Re: [PATCHv8 2/2] drm: tda998x: set the connector info
+Date:   Thu, 17 Oct 2019 11:27:46 +0200
+Message-ID: <CALFZZQGewe4vSTcXUjYsep6oT9wZTyQRr8-kzVVbNVSoirwG3A@mail.gmail.com>
+Subject: Re: [PATCHv8 1/2] drm: tda998x: use cec_notifier_conn_(un)register
 To:     Russell King - ARM Linux admin <linux@armlinux.org.uk>
 Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
@@ -60,68 +60,30 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Russel.
-
-On Wed, Oct 16, 2019 at 6:22 PM Russell King - ARM Linux admin
+On Wed, Oct 16, 2019 at 6:14 PM Russell King - ARM Linux admin
 <linux@armlinux.org.uk> wrote:
 >
-...
-> > --- a/drivers/gpu/drm/i2c/tda998x_drv.c
-> > +++ b/drivers/gpu/drm/i2c/tda998x_drv.c
-> > @@ -1337,6 +1337,8 @@ static int tda998x_connector_init(struct tda998x_priv *priv,
-> >                                 struct drm_device *drm)
-> >  {
-> >       struct drm_connector *connector = &priv->connector;
-> > +     struct cec_connector_info conn_info;
-> > +     struct cec_notifier *notifier;
-> >       int ret;
+> On Wed, Oct 16, 2019 at 03:39:15PM +0200, Hans Verkuil wrote:
+> > From: Dariusz Marcinkiewicz <darekm@google.com>
 > >
-> >       connector->interlace_allowed = 1;
-> > @@ -1353,6 +1355,17 @@ static int tda998x_connector_init(struct tda998x_priv *priv,
-> >       if (ret)
-> >               return ret;
+> > Use the new cec_notifier_conn_(un)register() functions to
+> > (un)register the notifier for the HDMI connector.
 > >
-> > +     cec_fill_conn_info_from_drm(&conn_info, connector);
-> > +
-> > +     notifier = cec_notifier_conn_register(priv->cec_glue.parent,
-> > +                                           NULL, &conn_info);
-> > +     if (!notifier)
-> > +             return -ENOMEM;
-> > +
-> > +     mutex_lock(&priv->cec_notify_mutex);
-> > +     priv->cec_notify = notifier;
-> > +     mutex_unlock(&priv->cec_notify_mutex);
+> > Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
+> > Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 >
-> As per my previous comments, this is a single-copy atomic operation.
-> Either priv->cec_notify is set or it isn't; there is no intermediate
-> value.  It can't be set to a value until cec_notifier_conn_register()
-> has completed.  So the lock doesn't help.
+> Please explain in detail what this mutex actually achieves.
 >
 ....
-> > +
-> >       drm_connector_attach_encoder(&priv->connector,
-> >                                    priv->bridge.encoder);
-> >
-> > @@ -1372,6 +1385,11 @@ static void tda998x_bridge_detach(struct drm_bridge *bridge)
-...
-> > +     mutex_lock(&priv->cec_notify_mutex);
-> > +     cec_notifier_conn_unregister(priv->cec_notify);
-> > +     priv->cec_notify = NULL;
-> > +     mutex_unlock(&priv->cec_notify_mutex);
+> So, all in all, I don't see what this lock is doing, and I think it
+> should be removed.
 >
-> This is the only case where the lock makes sense - to ensure that any
-> of the cec_notifier_set_phys_addr*() functions aren't called
-> concurrently with it.  However, there's no locking around the instance
-> in tda998x_connector_get_modes(), so have you ensured that that
-> function can't be called concurrently?
+> If it's necessary for a future change (which may or may not be merged)
+> then the lock should be part of that future change, because the change
+> proposed by this patch certainly does not need it.
 >
-I assumed that tda998x_connector_get_modes does not need to be
-synchronized as it belongs to the connector that gets cleaned up here.
-But, on a closer look, I don't think that this assumption necessarily
-holds.
 
-If this patch is to be merged, I can send an update that:
-- strips locking from tda998x_connector_init,
-- in tda998x_connector_get_modes calls cec_notifier* with the lock held.
+Yes, with the change being split into 2 patches like that, the mutex
+is not needed here.
 
-Thank you!
+Thank you.
