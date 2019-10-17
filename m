@@ -2,145 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 61529DA6F9
-	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2019 10:10:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 31D9ADA702
+	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2019 10:11:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408184AbfJQIKk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Oct 2019 04:10:40 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:51089 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392882AbfJQIKj (ORCPT
+        id S2438643AbfJQIL4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Oct 2019 04:11:56 -0400
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:33120 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2408175AbfJQIL4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Oct 2019 04:10:39 -0400
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1iL0rg-0005Vf-3w; Thu, 17 Oct 2019 10:10:32 +0200
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1iL0rd-0005p9-Jl; Thu, 17 Oct 2019 10:10:29 +0200
-Date:   Thu, 17 Oct 2019 10:10:29 +0200
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Rui Miguel Silva <rmfrfs@gmail.com>
-Cc:     Chuhong Yuan <hslester96@gmail.com>, devel@driverdev.osuosl.org,
-        Fabio Estevam <festevam@gmail.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        linux-kernel@vger.kernel.org, NXP Linux Team <linux-imx@nxp.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v2] media: imx7-mipi-csis: Add a check for
- devm_regulator_get
-Message-ID: <20191017081029.q2czy7y5zlbj4ogr@pengutronix.de>
-References: <20191015135915.6530-1-hslester96@gmail.com>
- <20191016090628.7l5u4ytdqr2jlasg@pengutronix.de>
- <m336fsst40.fsf@gmail.com>
+        Thu, 17 Oct 2019 04:11:56 -0400
+Received: by mail-ed1-f67.google.com with SMTP id c4so1032049edl.0
+        for <linux-media@vger.kernel.org>; Thu, 17 Oct 2019 01:11:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=hAaDphIXcbmeNKLuFPVaieGBYOFPq6cAzb7Icl+ZA6E=;
+        b=ToKN6lVy9PXjXqrSIDYVJvWw0QhzEYW5LDGOeBugTWof/bkE44aUTpE+m70cR96nWi
+         kvdDPZ3N6fSyK3kcGDhqIv8xHT1CgMcvCFEZ0KPLga82JeWnw1uOpm5GIkbto+4NKSbE
+         D60OfGn9+6gSei4btV0Oc3VY5/7LMhRdnu/yM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hAaDphIXcbmeNKLuFPVaieGBYOFPq6cAzb7Icl+ZA6E=;
+        b=EfpsI4lnu+3BZG38utY7JwruaqZwbkU2EyIqFir4XCJVGQn0lL9CtmK8NYNamXbvyx
+         S3OG75Z0E9MvjjDFQKtBJgxJTJ+rqTMBRtM8q16B887717mPFUA6OdSrmXEsA1QTWIPO
+         DvpN8iRr1+X4iEzcQQ3NwXQUwfqKDD3Lht4LwKunRZsZkEuD/OqUCZ2Yyw3YAokQ9Igl
+         vF58b4I+u6W9U6oc6TM+5r1zFzOJGqpNno3dbyhSaRp1yPhDZ5/7X5pm62rCRs8hPYt+
+         SaYobgD2Ah3SPSQXFvA015AuD49WiU2qZ+x0BVNkNlMyTuo1fkAiD0A74eItl6MFnAbq
+         ySxg==
+X-Gm-Message-State: APjAAAXp64loHi+PsG8uBJG/+dr+X+tU1QyP4qn9zJZzRc4ZDzbNJVOg
+        YnjcBCJFFHLR07uN52tN7jMtWMENtDmHsw==
+X-Google-Smtp-Source: APXvYqyURHeA/NHY86r2K/FukTGBbUMsRFAQhgqlKAXnwea811VnfXTfIu/0yfF1ukEqvY9STuO17w==
+X-Received: by 2002:a17:907:393:: with SMTP id ss19mr2267201ejb.62.1571299912745;
+        Thu, 17 Oct 2019 01:11:52 -0700 (PDT)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com. [209.85.128.44])
+        by smtp.gmail.com with ESMTPSA id j9sm71581edt.15.2019.10.17.01.11.50
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Oct 2019 01:11:51 -0700 (PDT)
+Received: by mail-wm1-f44.google.com with SMTP id 7so1528455wme.1
+        for <linux-media@vger.kernel.org>; Thu, 17 Oct 2019 01:11:50 -0700 (PDT)
+X-Received: by 2002:a1c:2e50:: with SMTP id u77mr1830102wmu.64.1571299910437;
+ Thu, 17 Oct 2019 01:11:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <m336fsst40.fsf@gmail.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 10:04:20 up 152 days, 14:22, 99 users,  load average: 0.12, 0.11,
- 0.05
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+References: <20190919093404.182015-1-keiichiw@chromium.org>
+ <4037801.MZecyecTDs@os-lin-dmo> <CAAFQd5CfNK1oisDaOWaW+9NTQOLn1EHPrPzvxMPcSxLkBgv3Ww@mail.gmail.com>
+ <15135216.K0K410U5qv@os-lin-dmo> <CAAFQd5DuChujakwmhtQ8v2CSLFqVYjLz9eGHuqrQnJ7apft+3Q@mail.gmail.com>
+ <20191017071952.s3dq2oxdiy3khp5w@sirius.home.kraxel.org>
+In-Reply-To: <20191017071952.s3dq2oxdiy3khp5w@sirius.home.kraxel.org>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Thu, 17 Oct 2019 17:11:38 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5ByuyTDqwiBeT7U7cVA8omOPGRRxb2tB8=J-u7WYU-urQ@mail.gmail.com>
+Message-ID: <CAAFQd5ByuyTDqwiBeT7U7cVA8omOPGRRxb2tB8=J-u7WYU-urQ@mail.gmail.com>
+Subject: Re: [virtio-dev] [PATCH] [RFC RESEND] vdec: Add virtio video decode
+ device specification
+To:     Gerd Hoffmann <kraxel@redhat.com>
+Cc:     Dmitry Morozov <dmitry.morozov@opensynergy.com>,
+        David Stevens <stevensd@chromium.org>,
+        virtio-dev@lists.oasis-open.org,
+        Keiichi Watanabe <keiichiw@chromium.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        alexlau@chromium.org, dgreid@chromium.org,
+        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
+        Pawel Osciak <posciak@chromium.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rui,
+On Thu, Oct 17, 2019 at 4:19 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+>   Hi,
+>
+> > That said, Chrome OS would use a similar model, except that we don't
+> > use ION. We would likely use minigbm backed by virtio-gpu to allocate
+> > appropriate secure buffers for us and then import them to the V4L2
+> > driver.
+>
+> What exactly is a "secure buffer"?  I guess a gem object where read
+> access is not allowed, only scanout to display?  Who enforces this?
+> The hardware?  Or the kernel driver?
 
-On 19-10-16 14:43, Rui Miguel Silva wrote:
-> Hi Marco,
-> On Wed 16 Oct 2019 at 10:06, Marco Felsch wrote:
-> > Hi Chuhong,
-> >
-> > On 19-10-15 21:59, Chuhong Yuan wrote:
-> >> devm_regulator_get may return an error but mipi_csis_phy_init misses
-> >> a check for it.
-> >> This may lead to problems when regulator_set_voltage uses the unchecked
-> >> pointer.
-> >> This patch adds a check for devm_regulator_get to avoid potential risk.
-> >>
-> >> Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
-> >> ---
-> >> Changes in v2:
-> >>   - Add a check in mipi_csis_probe for the modified mipi_csis_phy_init.
-> >
-> > Did you miss the check for -EPROBE_DEFER?
-> >
-> 
-> I think nothing special is really needed to do in case of
-> EPROBE_DEFER, or am I missing something?
-> It just return to probe and probe returns also. I just talked
-> about it because it was not cover in the original code.
+In general, it's a buffer which can be accessed only by a specific set
+of entities. The set depends on the use case and the level of security
+you want to achieve. In Chrome OS we at least want to make such
+buffers completely inaccessible for the guest, enforced by the VMM,
+for example by not installing corresponding memory into the guest
+address space (and not allowing transfers if the virtio-gpu shadow
+buffer model is used).
 
-Yes, your are right... I shouldn't comment on anything I read with one
-eye. Sorry.
+Beyond that, the host memory itself could be further protected by some
+hardware mechanisms or another hypervisor running above the host OS,
+like in the ARM TrustZone model. That shouldn't matter for a VM guest,
+though.
 
-Regards,
-  Marco
+>
+> It might make sense for virtio-gpu to know that concept, to allow guests
+> ask for secure buffers.
+>
+> And of course we'll need some way to pass around identifiers for these
+> (and maybe other) buffers (from virtio-gpu device via guest drivers to
+> virtio-vdec device).  virtio-gpu guest driver could generate a uuid for
+> that, attach it to the dma-buf and also notify the host so qemu can
+> maintain a uuid -> buffer lookup table.
 
-> ---
-> Cheers,
-> 	Rui
-> 
-> >
-> > Regards,
-> >   Marco
-> >
-> >>
-> >>  drivers/staging/media/imx/imx7-mipi-csis.c | 8 +++++++-
-> >>  1 file changed, 7 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
-> >> index 73d8354e618c..e8a6acaa969e 100644
-> >> --- a/drivers/staging/media/imx/imx7-mipi-csis.c
-> >> +++ b/drivers/staging/media/imx/imx7-mipi-csis.c
-> >> @@ -350,6 +350,8 @@ static void mipi_csis_sw_reset(struct csi_state *state)
-> >>  static int mipi_csis_phy_init(struct csi_state *state)
-> >>  {
-> >>  	state->mipi_phy_regulator = devm_regulator_get(state->dev, "phy");
-> >> +	if (IS_ERR(state->mipi_phy_regulator))
-> >> +		return PTR_ERR(state->mipi_phy_regulator);
-> >>
-> >>  	return regulator_set_voltage(state->mipi_phy_regulator, 1000000,
-> >>  				     1000000);
-> >> @@ -966,7 +968,10 @@ static int mipi_csis_probe(struct platform_device *pdev)
-> >>  		return ret;
-> >>  	}
-> >>
-> >> -	mipi_csis_phy_init(state);
-> >> +	ret = mipi_csis_phy_init(state);
-> >> +	if (ret < 0)
-> >> +		return ret;
-> >> +
-> >>  	mipi_csis_phy_reset(state);
-> >>
-> >>  	mem_res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> >> --
-> >> 2.20.1
-> >>
-> >>
-> >>
-> 
-> 
+That could be still a guest physical address. Like on a bare metal
+system with TrustZone, there could be physical memory that is not
+accessible to the CPU.
 
--- 
-Pengutronix e.K.                           |                             |
-Industrial Linux Solutions                 | http://www.pengutronix.de/  |
-Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+Best regards,
+Tomasz
