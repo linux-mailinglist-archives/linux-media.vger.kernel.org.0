@@ -2,263 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 96FAEDA5B0
-	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2019 08:40:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF5B7DA5BB
+	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2019 08:43:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392365AbfJQGkw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Oct 2019 02:40:52 -0400
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:42699 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726891AbfJQGkv (ORCPT
+        id S2407834AbfJQGnb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Oct 2019 02:43:31 -0400
+Received: from mail-pl1-f172.google.com ([209.85.214.172]:46861 "EHLO
+        mail-pl1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726891AbfJQGnb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Oct 2019 02:40:51 -0400
-Received: by mail-ed1-f67.google.com with SMTP id y91so805308ede.9
-        for <linux-media@vger.kernel.org>; Wed, 16 Oct 2019 23:40:48 -0700 (PDT)
+        Thu, 17 Oct 2019 02:43:31 -0400
+Received: by mail-pl1-f172.google.com with SMTP id q24so623903plr.13
+        for <linux-media@vger.kernel.org>; Wed, 16 Oct 2019 23:43:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=fN5cj8tY6ee1/l/G/O9/Nvmot1sjwBqddYJ9bLt2QzY=;
-        b=f+DaEjyD5npzlKLSq+SBLVHK5QyE3ydFu8oGw+R62/Qh2nrrQfhIJI98/Y/6gN1vMZ
-         XoTj1OLAFDfBWxc1DrRZq9WvyrPSIl/YHmUznzqUY6QVvXoKhoRHa3etaXK/CvmPgA5B
-         o831KPzswVezVGVB+14XNhCD1xv9ZZEXrS3u8=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=GUVwmMWs+NFlwsRyyMUic0tAt1lmwPLXgtIetiZT8JU=;
+        b=t3gqADDiZ0uyssnk6nftb9UKY/+p7nnMTQ2e3wNxjQkGO2YpA/Y0aUYR/BL3pugp/m
+         7nn4kxL1g/rsC4sQCicRdJIWotHzgZ8aIRxGvgIN4/91hfZ9yN1yDn4FOMZTo/7tPBFN
+         IXql7HF08VcCPpjM5Wobc2ZwqJ0r19ZkAcHc31Fr5iIw1utZaFJLrXnuqMZeIhyCKmV5
+         wd1iaoobU3fxc/wFpvkJWDtPJvPtqP79b1xWOTWA1nlGCwa8PqFpAoLuTyHo3n9YIJIO
+         E9EpXbZKfxbOgLHyhwifsGQkNk8SfKpfPlR1DKOyimBtJk2U8orgYogf7DI8E8snWRxB
+         dSbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=fN5cj8tY6ee1/l/G/O9/Nvmot1sjwBqddYJ9bLt2QzY=;
-        b=JyxsaEAYrbYWS8Lxz9cxpbI6vYtmrAs0tGD+hzAUJ/Qa8E+xIOS9jYXQu4K1F3qnvE
-         Zz+8XHFb6MoekCNRIWN8xmyD+TNJn7/l+zNxfmTveEv5SQVMZ50JnZ5u92FyiKmPqyJE
-         FSl4KdVpGkKbqNSIEe+oez+mBzY9SiS7l5DqiJasOVlECv7aJ78Ov3vGEBPKTLg7Fc6c
-         nsv8q6aDo3rMqD40Rq6oSb0rXo6fI0Qs40J4XWdwuIty91CzKDsy0sfMlulZUSr6z1h8
-         PHh7PHSIeuvtxPJv3YFjeqzmxVtXbxJtGnryS/MzKaHWR2Rb7w+wYCT3rtPWMjMXW4UM
-         S3Ag==
-X-Gm-Message-State: APjAAAVOwQpvySRV60m4xuzKhFzUcHQOVSt/M9sM53pmYyi5+zsMWN1k
-        3SXYM5cyJpc0WTCNXD/fFfDm/r3ixSSA+g==
-X-Google-Smtp-Source: APXvYqykNvOmFVlsKA3uR6/vTSKYO/slFKBDfw48gRRTIXNYypZTVMvksr2UuTQnl/dTO67l14SVBw==
-X-Received: by 2002:a05:6402:1687:: with SMTP id a7mr2086778edv.222.1571294448220;
-        Wed, 16 Oct 2019 23:40:48 -0700 (PDT)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com. [209.85.221.41])
-        by smtp.gmail.com with ESMTPSA id b12sm60574edq.75.2019.10.16.23.40.47
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Oct 2019 23:40:48 -0700 (PDT)
-Received: by mail-wr1-f41.google.com with SMTP id b9so934692wrs.0
-        for <linux-media@vger.kernel.org>; Wed, 16 Oct 2019 23:40:47 -0700 (PDT)
-X-Received: by 2002:adf:fc42:: with SMTP id e2mr1604487wrs.100.1571294447194;
- Wed, 16 Oct 2019 23:40:47 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190919093404.182015-1-keiichiw@chromium.org>
- <4037801.MZecyecTDs@os-lin-dmo> <CAAFQd5CfNK1oisDaOWaW+9NTQOLn1EHPrPzvxMPcSxLkBgv3Ww@mail.gmail.com>
- <15135216.K0K410U5qv@os-lin-dmo>
-In-Reply-To: <15135216.K0K410U5qv@os-lin-dmo>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Thu, 17 Oct 2019 15:40:35 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5DuChujakwmhtQ8v2CSLFqVYjLz9eGHuqrQnJ7apft+3Q@mail.gmail.com>
-Message-ID: <CAAFQd5DuChujakwmhtQ8v2CSLFqVYjLz9eGHuqrQnJ7apft+3Q@mail.gmail.com>
-Subject: Re: [virtio-dev] [PATCH] [RFC RESEND] vdec: Add virtio video decode
- device specification
-To:     Dmitry Morozov <dmitry.morozov@opensynergy.com>
-Cc:     Gerd Hoffmann <kraxel@redhat.com>, stevensd@chromium.org,
-        virtio-dev@lists.oasis-open.org,
-        Keiichi Watanabe <keiichiw@chromium.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        alexlau@chromium.org, dgreid@chromium.org,
-        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=GUVwmMWs+NFlwsRyyMUic0tAt1lmwPLXgtIetiZT8JU=;
+        b=PqteTZCesULwktJORB874WGlO/3T7/9peGvRQCRCgXGFRbt30jsb+yAVaGKfS+THS5
+         4G9BpG569mCXzRYWiRxGoCc6sNErGXBSmpckfEkKj372Tn/ZGBX7PMV1DF+cq/lVH+qS
+         wXyFg6iVbEPpML88vmfbxODmF+M9yf9uBYiBMzhfKAzYs+l+MoUj5KG+YV8Kpj+14y3P
+         6E4gmzKPNHGrjrf0F0m8LoMU3ffgGZzjkx5T1UIJWvy01F1PTLLE2nlb+49kHWM0Cmqy
+         skqQjuyZi9VZuI2gEDPmKoNiUih1yQ58bQLKn/ltLqqSfnMIxawAorzKnPZqpyNHM1SU
+         ZBgg==
+X-Gm-Message-State: APjAAAXMHYTDALEr+y2UpPD1qhWkZHqTxmSxwrJ0rKYwPGlKhes2Jlc6
+        ITCYe0/53WTdSPUMCuomjh+Y8/rC
+X-Google-Smtp-Source: APXvYqz1aQoN4b1Za7gtHXkea+RZG4cMR8JRQlvI0nO3Cj7UbkO2z/J1aAspTobYmMo3CoEtL25Sdw==
+X-Received: by 2002:a17:902:7885:: with SMTP id q5mr2226365pll.317.1571294610171;
+        Wed, 16 Oct 2019 23:43:30 -0700 (PDT)
+Received: from bnva-HP-Pavilion-g6-Notebook-PC.domain.name ([61.1.209.17])
+        by smtp.gmail.com with ESMTPSA id f6sm1222003pfq.169.2019.10.16.23.43.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Oct 2019 23:43:29 -0700 (PDT)
+From:   Vandana BN <bnvandana@gmail.com>
+To:     linux-media@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Cc:     hverkuil@xs4all.nl, Vandana BN <bnvandana@gmail.com>
+Subject: [PATCH v3] Documentation:media:v4l2:Add vivid metadata doc
+Date:   Thu, 17 Oct 2019 12:13:08 +0530
+Message-Id: <20191017064308.5924-1-bnvandana@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20191016164503.01b9f037@coco.lan>
+References: <20191016164503.01b9f037@coco.lan>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Oct 11, 2019 at 5:54 PM Dmitry Morozov
-<dmitry.morozov@opensynergy.com> wrote:
->
-> Hi Tomasz,
->
-> On Mittwoch, 9. Oktober 2019 05:55:45 CEST Tomasz Figa wrote:
-> > On Tue, Oct 8, 2019 at 12:09 AM Dmitry Morozov
-> >
-> > <dmitry.morozov@opensynergy.com> wrote:
-> > > Hi Tomasz,
-> > >
-> > > On Montag, 7. Oktober 2019 16:14:13 CEST Tomasz Figa wrote:
-> > > > Hi Dmitry,
-> > > >
-> > > > On Mon, Oct 7, 2019 at 11:01 PM Dmitry Morozov
-> > > >
-> > > > <dmitry.morozov@opensynergy.com> wrote:
-> > > > > Hello,
-> > > > >
-> > > > > We at OpenSynergy are also working on an abstract paravirtualized
-> > > > > video
-> > > > > streaming device that operates input and/or output data buffers and
-> > > > > can be
-> > > > > used as a generic video decoder/encoder/input/output device.
-> > > > >
-> > > > > We would be glad to share our thoughts and contribute to the
-> > > > > discussion.
-> > > > > Please see some comments regarding buffer allocation inline.
-> > > > >
-> > > > > Best regards,
-> > > > > Dmitry.
-> > > > >
-> > > > > On Samstag, 5. Oktober 2019 08:08:12 CEST Tomasz Figa wrote:
-> > > > > > Hi Gerd,
-> > > > > >
-> > > > > > On Mon, Sep 23, 2019 at 5:56 PM Gerd Hoffmann <kraxel@redhat.com>
-> wrote:
-> > > > > > >   Hi,
-> > > > > > >
-> > > > > > > > Our prototype implementation uses [4], which allows the
-> > > > > > > > virtio-vdec
-> > > > > > > > device to use buffers allocated by virtio-gpu device.
-> > > > > > > >
-> > > > > > > > [4] https://lkml.org/lkml/2019/9/12/157
-> > > > > >
-> > > > > > First of all, thanks for taking a look at this RFC and for valuable
-> > > > > > feedback. Sorry for the late reply.
-> > > > > >
-> > > > > > For reference, Keiichi is working with me and David Stevens on
-> > > > > > accelerated video support for virtual machines and integration with
-> > > > > > other virtual devices, like virtio-gpu for rendering or our
-> > > > > > currently-downstream virtio-wayland for display (I believe there is
-> > > > > > ongoing work to solve this problem in upstream too).
-> > > > > >
-> > > > > > > Well.  I think before even discussing the protocol details we need
-> > > > > > > a
-> > > > > > > reasonable plan for buffer handling.  I think using virtio-gpu
-> > > > > > > buffers
-> > > > > > > should be an optional optimization and not a requirement.  Also
-> > > > > > > the
-> > > > > > > motivation for that should be clear (Let the host decoder write
-> > > > > > > directly
-> > > > > > > to virtio-gpu resources, to display video without copying around
-> > > > > > > the
-> > > > > > > decoded framebuffers from one device to another).
-> > > > > >
-> > > > > > Just to make sure we're on the same page, what would the buffers
-> > > > > > come
-> > > > > > from if we don't use this optimization?
-> > > > > >
-> > > > > > I can imagine a setup like this;
-> > > > > >
-> > > > > >  1) host device allocates host memory appropriate for usage with
-> > > > > >  host
-> > > > > >
-> > > > > > video decoder,
-> > > > > >
-> > > > > >  2) guest driver allocates arbitrary guest pages for storage
-> > > > > >
-> > > > > > accessible to the guest software,
-> > > > > >
-> > > > > >  3) guest userspace writes input for the decoder to guest pages,
-> > > > > >  4) guest driver passes the list of pages for the input and output
-> > > > > >
-> > > > > > buffers to the host device
-> > > > > >
-> > > > > >  5) host device copies data from input guest pages to host buffer
-> > > > > >  6) host device runs the decoding
-> > > > > >  7) host device copies decoded frame to output guest pages
-> > > > > >  8) guest userspace can access decoded frame from those pages; back
-> > > > > >  to 3
-> > > > > >
-> > > > > > Is that something you have in mind?
-> > > > >
-> > > > > While GPU side allocations can be useful (especially in case of
-> > > > > decoder),
-> > > > > it could be more practical to stick to driver side allocations. This
-> > > > > is
-> > > > > also due to the fact that paravirtualized encoders and cameras are not
-> > > > > necessarily require a GPU device.
-> > > > >
-> > > > > Also, the v4l2 framework already features convenient helpers for CMA
-> > > > > and
-> > > > > SG
-> > > > > allocations. The buffers can be used in the same manner as in
-> > > > > virtio-gpu:
-> > > > > buffers are first attached to an already allocated buffer/resource
-> > > > > descriptor and then are made available for processing by the device
-> > > > > using
-> > > > > a dedicated command from the driver.
-> > > >
-> > > > First of all, thanks a lot for your input. This is a relatively new
-> > > > area of virtualization and we definitely need to collect various
-> > > > possible perspectives in the discussion.
-> > > >
-> > > > From Chrome OS point of view, there are several aspects for which the
-> > > > guest side allocation doesn't really work well:
-> > > > 1) host-side hardware has a lot of specific low level allocation
-> > > > requirements, like alignments, paddings, address space limitations and
-> > > > so on, which is not something that can be (easily) taught to the guest
-> > > > OS,
-> > >
-> > > I couldn't agree more. There are some changes by Greg to add support for
-> > > querying GPU buffer metadata. Probably those changes could be integrated
-> > > with 'a framework for cross-device buffer sharing' (something that Greg
-> > > mentioned earlier in the thread and that would totally make sense).
-> >
-> > Did you mean one of Gerd's proposals?
-> >
-> > I think we need some clarification there, as it's not clear to me
-> > whether the framework is host-side, guest-side or both. The approach I
-> > suggested would rely on a host-side framework and guest-side wouldn't
-> > need any special handling for sharing, because the memory would behave
-> > as on bare metal.
-> >
-> > However allocation would still need some special API to express high
-> > level buffer parameters and delegate the exact allocation requirements
-> > to the host. Currently virtio-gpu already has such interface and also
-> > has a DRM driver, which were the 2 main reasons for us to use it as
-> > the allocator in Chrome OS. (minigbm/cros_gralloc are implemented on
-> > top of the Linux DRM API)
-> >
-> Yes, it was about Gerd's proposals. To be honest, I was considering guest
-> allocations only. The operation flow in that case might look in more or less
-> the same way: the driver (GPU, Codec/Camera) first allocates a resource
-> descriptor on the host side. Than the driver uses the framework from above (so
-> support on both sides might be required) to request buffer metadata and does
-> allocations on the guest side accordingly. Then it attaches backing storage to
-> the host resource.
-> > > > 2) allocation system is designed to be centralized, like Android
-> > > > gralloc, because there is almost never a case when a buffer is to be
-> > > > used only with 1 specific device. 99% of the cases are pipelines like
-> > > > decoder -> GPU/display, camera -> encoder + GPU/display, GPU ->
-> > > > encoder and so on, which means that allocations need to take into
-> > > > account multiple hardware constraints.
-> > > > 3) protected content decoding: the memory for decoded video frames
-> > > > must not be accessible to the guest at all
-> > >
-> > > This looks like a valid use case. Would it also be possible for instance
-> > > to
-> > > allocate mem from a secure ION heap on the guest and then to provide the
-> > > sgt to the device? We don't necessarily need to map that sgt for guest
-> > > access.
-> > Could you elaborate on how that would work? Would the secure ION heap
-> > implementation use some protocol to request the allocation from the
-> > host?
-> >
-> > Another aspect is that on Chrome OS we don't support pre-reserved
-> > carveout heaps, so we need this memory to be allocated by the host
-> > dynamically.
-> >
-> My take on this (for a decoder) would be to allocate memory for output buffers
-> from a secure ION heap, import in the v4l2 driver, and then to provide those
-> to the device using virtio. The device side then uses the dmabuf framework to
-> make the buffers accessible for the hardware. I'm not sure about that, it's
-> just an idea.
+Adds new file for describing new metadata format V4L2_META_FMT_VIVID added in vivid driver.
 
-Where is the secure ION heap implemented? On the host or on the guest?
-If the latter, how is it ensured that it's really secure?
+Signed-off-by: Vandana BN <bnvandana@gmail.com>
+---
+Change in V3 - modified pixfmt-meta-vivid.rst to have dual GFDL and GPL license.
+---
+ Documentation/media/uapi/v4l/meta-formats.rst |  1 +
+ .../media/uapi/v4l/pixfmt-meta-vivid.rst      | 60 +++++++++++++++++++
+ 2 files changed, 61 insertions(+)
+ create mode 100644 Documentation/media/uapi/v4l/pixfmt-meta-vivid.rst
 
-That said, Chrome OS would use a similar model, except that we don't
-use ION. We would likely use minigbm backed by virtio-gpu to allocate
-appropriate secure buffers for us and then import them to the V4L2
-driver.
+diff --git a/Documentation/media/uapi/v4l/meta-formats.rst b/Documentation/media/uapi/v4l/meta-formats.rst
+index b10ca9ee3968..74c8659ee9d6 100644
+--- a/Documentation/media/uapi/v4l/meta-formats.rst
++++ b/Documentation/media/uapi/v4l/meta-formats.rst
+@@ -24,3 +24,4 @@ These formats are used for the :ref:`metadata` interface only.
+     pixfmt-meta-uvc
+     pixfmt-meta-vsp1-hgo
+     pixfmt-meta-vsp1-hgt
++    pixfmt-meta-vivid
+diff --git a/Documentation/media/uapi/v4l/pixfmt-meta-vivid.rst b/Documentation/media/uapi/v4l/pixfmt-meta-vivid.rst
+new file mode 100644
+index 000000000000..eed20eaefe24
+--- /dev/null
++++ b/Documentation/media/uapi/v4l/pixfmt-meta-vivid.rst
+@@ -0,0 +1,60 @@
++.. This file is dual-licensed: you can use it either under the terms
++.. of the GPL 2.0 or the GFDL 1.1+ license, at your option. Note that this
++.. dual licensing only applies to this file, and not this project as a
++.. whole.
++..
++.. a) This file is free software; you can redistribute it and/or
++..    modify it under the terms of the GNU General Public License as
++..    published by the Free Software Foundation version 2 of
++..    the License.
++..
++..    This file is distributed in the hope that it will be useful,
++..    but WITHOUT ANY WARRANTY; without even the implied warranty of
++..    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++..    GNU General Public License for more details.
++..
++.. Or, alternatively,
++..
++.. b) Permission is granted to copy, distribute and/or modify this
++..    document under the terms of the GNU Free Documentation License,
++..    Version 1.1 or any later version published by the Free Software
++..    Foundation, with no Invariant Sections, no Front-Cover Texts
++..    and no Back-Cover Texts. A copy of the license is included at
++..    Documentation/media/uapi/fdl-appendix.rst.
++..
++.. TODO: replace it to GPL-2.0 OR GFDL-1.1-or-later WITH no-invariant-sections
++
++.. _v4l2-meta-fmt-vivid:
++
++*******************************
++V4L2_META_FMT_VIVID ('VIVD')
++*******************************
++
++VIVID Metadata Format
++
++
++Description
++===========
++
++This describes metadata format used by the vivid driver.
++
++It sets Brightness, Saturation, Contrast and Hue, each of which maps to
++corresponding controls of the vivid driver with respect to the range and default values.
++
++It contains the following fields:
++
++.. flat-table:: VIVID Metadata
++    :widths: 1 4
++    :header-rows:  1
++    :stub-columns: 0
++
++    * - Field
++      - Description
++    * - u16 brightness;
++      - Image brightness, the value is in the range 0 to 255, with the default value as 128.
++    * - u16 contrast;
++      - Image contrast, the value is in the range 0 to 255, with the default value as 128.
++    * - u16 saturation;
++      - Image color saturation, the value is in the range 0 to 255, with the default value as 128.
++    * - s16 hue;
++      - Image color balance, the value is in the range -128 to 128, with the default value as 0.
+-- 
+2.17.1
 
-Best regards,
-Tomasz
