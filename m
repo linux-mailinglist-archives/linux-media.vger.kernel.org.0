@@ -2,123 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B455DA906
-	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2019 11:46:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87390DA9A8
+	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2019 12:13:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392771AbfJQJqp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Oct 2019 05:46:45 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:46585 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726299AbfJQJqo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Oct 2019 05:46:44 -0400
-Received: by mail-wr1-f65.google.com with SMTP id o18so1526600wrv.13;
-        Thu, 17 Oct 2019 02:46:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=references:user-agent:from:to:cc:subject:in-reply-to:date
-         :message-id:mime-version;
-        bh=HKy0scgKD2Yqtf85mglqediv2brLo+GCB1Q93X6euAo=;
-        b=WuaWhX4a2YttbDW1uaoNrQa8MGElT2XHF+EH1vrh+FhKdJ7zerR1iOBaQLR9V4And+
-         erCM0k4fsG6I7tXe/gPaplriKFpi/DpIms4+UWhyO2pqsec85FYZ7IV8Q/U9D7EZSpEd
-         t0jAjzctzu/mzoif0XszF32ycjQ0+Nx0WpFXKbaDOIfwcWtyPV0ercNjE40OrDdqKyk0
-         pnOkfP29TCzKCCAo+9GQwF15UJ+hZ02YJ3UgvX/Rt8LB6aK+PeYivQUHZDhlHDY/eidf
-         82uy2VQ8ZWMCPe2sNLnAlOBcYmCOk8DP9tForqbHLWTLfhZVKYG7+m4Jsu5aiHRmkO7Y
-         qOyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:references:user-agent:from:to:cc:subject
-         :in-reply-to:date:message-id:mime-version;
-        bh=HKy0scgKD2Yqtf85mglqediv2brLo+GCB1Q93X6euAo=;
-        b=Klfd3UWZDrHsk2MV6fPNStIXBtgXKvGQJ4adyw3xhbdUXNnVx+q+exblCYpvjrgyuX
-         10IJwFqh1bhn7YpSAEBecBdTPyY630yyEptsGhUAXk1z03y+zn0MKCVT7Ml9uSxq/smW
-         Oym+CrT6A4e+XsIVA2S4jLSmSo0jJbizKHLEgUZEO9Vth2z+DQOHnu53WeZTp1jQ9HA6
-         nNvbpvi1nadDzZ5bgMe1NMZPjvdLYXRlaFqcq/qHizqBGlZN1bjXuFnCIAPQirlC6ZIj
-         Zr+0IMM5eKMc+D20tuvoIf1GqCOK47AwrU0lKm7MwipO4wFFM9gCTeLThj/0OTuR8Zax
-         IxtA==
-X-Gm-Message-State: APjAAAWL6ZsRM/e4eiG9u1xE82Ph+euxUGO+oSdTUmaSgtjy/mT5O4Oo
-        AbXBbd0wuo7zE9lPLPrU78p2qKJBbcU=
-X-Google-Smtp-Source: APXvYqxrXHe+FRRJ2WwWs57//iOV5M+rIWiIDpk9WzExeUemaBkFY9x6xk6p7+jfLAgGOzcY00CGjQ==
-X-Received: by 2002:adf:f547:: with SMTP id j7mr2346059wrp.26.1571305601811;
-        Thu, 17 Oct 2019 02:46:41 -0700 (PDT)
-Received: from arch-late (a109-49-46-234.cpe.netcabo.pt. [109.49.46.234])
-        by smtp.gmail.com with ESMTPSA id w17sm1678983wra.34.2019.10.17.02.46.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Oct 2019 02:46:41 -0700 (PDT)
-References: <20191015135915.6530-1-hslester96@gmail.com>
-User-agent: mu4e 1.2.0; emacs 27.0.50
-From:   Rui Miguel Silva <rmfrfs@gmail.com>
-To:     Chuhong Yuan <hslester96@gmail.com>
-Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] media: imx7-mipi-csis: Add a check for
- devm_regulator_get
-In-reply-to: <20191015135915.6530-1-hslester96@gmail.com>
-Date:   Thu, 17 Oct 2019 10:46:38 +0100
-Message-ID: <m3zhhzr9fl.fsf@gmail.com>
+        id S2408745AbfJQKNG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Oct 2019 06:13:06 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34424 "EHLO mx1.redhat.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726632AbfJQKNG (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 17 Oct 2019 06:13:06 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mx1.redhat.com (Postfix) with ESMTPS id B6CDB44BD1;
+        Thu, 17 Oct 2019 10:13:05 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-43.ams2.redhat.com [10.36.116.43])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 36A535D712;
+        Thu, 17 Oct 2019 10:13:05 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+        id 66EC811AAA; Thu, 17 Oct 2019 12:13:04 +0200 (CEST)
+Date:   Thu, 17 Oct 2019 12:13:04 +0200
+From:   Gerd Hoffmann <kraxel@redhat.com>
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     Dmitry Morozov <dmitry.morozov@opensynergy.com>,
+        David Stevens <stevensd@chromium.org>,
+        virtio-dev@lists.oasis-open.org,
+        Keiichi Watanabe <keiichiw@chromium.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        alexlau@chromium.org, dgreid@chromium.org,
+        =?utf-8?B?U3TDqXBoYW5l?= Marchesin <marcheu@chromium.org>,
+        Pawel Osciak <posciak@chromium.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [virtio-dev] [PATCH] [RFC RESEND] vdec: Add virtio video decode
+ device specification
+Message-ID: <20191017101304.pbjoj3knyveuacqm@sirius.home.kraxel.org>
+References: <20190919093404.182015-1-keiichiw@chromium.org>
+ <4037801.MZecyecTDs@os-lin-dmo>
+ <CAAFQd5CfNK1oisDaOWaW+9NTQOLn1EHPrPzvxMPcSxLkBgv3Ww@mail.gmail.com>
+ <15135216.K0K410U5qv@os-lin-dmo>
+ <CAAFQd5DuChujakwmhtQ8v2CSLFqVYjLz9eGHuqrQnJ7apft+3Q@mail.gmail.com>
+ <20191017071952.s3dq2oxdiy3khp5w@sirius.home.kraxel.org>
+ <CAAFQd5ByuyTDqwiBeT7U7cVA8omOPGRRxb2tB8=J-u7WYU-urQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAAFQd5ByuyTDqwiBeT7U7cVA8omOPGRRxb2tB8=J-u7WYU-urQ@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16 (mx1.redhat.com [10.5.110.30]); Thu, 17 Oct 2019 10:13:06 +0000 (UTC)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Chuhong,
-many thanks for the patch.
+  Hi,
 
-On Tue 15 Oct 2019 at 14:59, Chuhong Yuan wrote:
-> devm_regulator_get may return an error but mipi_csis_phy_init misses
-> a check for it.
-> This may lead to problems when regulator_set_voltage uses the unchecked
-> pointer.
-> This patch adds a check for devm_regulator_get to avoid potential risk.
->
-> Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
+> That could be still a guest physical address. Like on a bare metal
+> system with TrustZone, there could be physical memory that is not
+> accessible to the CPU.
 
-Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
+Hmm.  Yes, maybe.  We could use the dma address of the (first page of
+the) guest buffer.  In case of a secure buffer the guest has no access
+to the guest buffer would be unused, but it would at least make sure
+that things don't crash in case someone tries to map & access the
+buffer.
 
----
-Cheers,
-	Rui
+The host should be able to figure the corresponding host buffer from the
+guest buffer address.
 
-> ---
-> Changes in v2:
->   - Add a check in mipi_csis_probe for the modified mipi_csis_phy_init.
->
->  drivers/staging/media/imx/imx7-mipi-csis.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
-> index 73d8354e618c..e8a6acaa969e 100644
-> --- a/drivers/staging/media/imx/imx7-mipi-csis.c
-> +++ b/drivers/staging/media/imx/imx7-mipi-csis.c
-> @@ -350,6 +350,8 @@ static void mipi_csis_sw_reset(struct csi_state *state)
->  static int mipi_csis_phy_init(struct csi_state *state)
->  {
->  	state->mipi_phy_regulator = devm_regulator_get(state->dev, "phy");
-> +	if (IS_ERR(state->mipi_phy_regulator))
-> +		return PTR_ERR(state->mipi_phy_regulator);
->
->  	return regulator_set_voltage(state->mipi_phy_regulator, 1000000,
->  				     1000000);
-> @@ -966,7 +968,10 @@ static int mipi_csis_probe(struct platform_device *pdev)
->  		return ret;
->  	}
->
-> -	mipi_csis_phy_init(state);
-> +	ret = mipi_csis_phy_init(state);
-> +	if (ret < 0)
-> +		return ret;
-> +
->  	mipi_csis_phy_reset(state);
->
->  	mem_res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+When running drm-misc-next you should be able to test whenever that'll
+actually work without any virtio-gpu driver changes.
+
+cheers,
+  Gerd
+
