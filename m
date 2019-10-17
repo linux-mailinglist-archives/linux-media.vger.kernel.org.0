@@ -2,151 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DB9BDB16D
-	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2019 17:47:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 40ED8DB2C9
+	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2019 18:50:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387823AbfJQPrT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Oct 2019 11:47:19 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:45330 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729750AbfJQPrT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Oct 2019 11:47:19 -0400
-Received: by mail-wr1-f68.google.com with SMTP id r5so2903636wrm.12
-        for <linux-media@vger.kernel.org>; Thu, 17 Oct 2019 08:47:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=3GRtuO3oVh4aU6o2afMFBsZVP5fzeIY8pAqk7hldhDI=;
-        b=yssNdFFn8R7FTS39ffV4YMhGIBCb0jBXQ35jJX83CEebwrbRAIAtGxHCx5uBqe1II0
-         2k6DA0p1Gd1baWgOxk8XC5PfANBekTceFbCr9OpUxHeJVfZSzNHY4DrqfihA9AbF6RV/
-         AAhRuqZ6X5LdtUqIY/TCeCVBKC4rb7P1G3FFpBa9WaeY0fUCN/9VnaS9DHVsFrL7UfdV
-         oCwvNP69l4xZ8uicUlRxuH2KncztU8fvqoOCiPo18EhJn8XJI8Bq/16PP4GvOOJfs2Yz
-         FCf/V2QN71lSaFqwEYTDCGSl5aDMEhKqixOkZrg+ttChaJc5/KHltnRoH91cQdbuaEhm
-         qOMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=3GRtuO3oVh4aU6o2afMFBsZVP5fzeIY8pAqk7hldhDI=;
-        b=L01Xqd9zS/sJy+N1dZug0TDT1VPJKAtscElVpgrNROw0B2076vCVeW13lEV2aTAs50
-         iIzGXS6WzS8AN4IJlAOS9OFWCjt9Q+ChMFjEA560vgpz2Lp7S2JIWyVW/Elu8iLn7adT
-         AnPNpD7pzLUJXjd/kFituacKUh/PpakCDeFYJY1QtWI/h0l0pDt2EwSUx86E+85kEDJz
-         VMlYkSrGQM3HgmD2r/WU+0FCIQ+vxowJc2FlIEmGOSr1pgkFaiOQu3lIiSI6vhOITJZR
-         zFYvAoJYV5Zksvq+RPIwyUayT60578ptW799SbuD0RuAhMJ+a+TwphNJW/Wofc2dcrGY
-         ts+g==
-X-Gm-Message-State: APjAAAXm76l7yRHXqgVqs5OTJoSIOhOnTzEfp+1mmB0rHfshb8Mwv/r8
-        IYm/W1gVZ7RGfKNO89zw0yx4GOYhZjE=
-X-Google-Smtp-Source: APXvYqzFxnBtthPDQ49l5Js2Bvr5fCSljE6ftXmjn7Q7vvrmgYjzmckrqyKkmL0Q4i3nSBAA0hxMxA==
-X-Received: by 2002:a5d:6787:: with SMTP id v7mr3806240wru.392.1571327237617;
-        Thu, 17 Oct 2019 08:47:17 -0700 (PDT)
-Received: from [192.168.27.209] ([37.157.136.206])
-        by smtp.googlemail.com with ESMTPSA id z9sm2727966wrv.1.2019.10.17.08.47.16
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 17 Oct 2019 08:47:16 -0700 (PDT)
-Subject: Re: [PATCH v4] venus: venc: Fix enum frameintervals
-To:     Loic Poulain <loic.poulain@linaro.org>
-Cc:     linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>
-References: <20191003101038.13732-1-stanimir.varbanov@linaro.org>
- <50eb3902-fe10-5952-8bdf-9b6b9ac37c62@linaro.org>
- <CAMZdPi8D8WQJJ5U15_4A4HgXjJNUR2BOGZJUc85wgX+=QsTZ0w@mail.gmail.com>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <92e1234e-174a-3fa5-f77c-ae0072bd22c2@linaro.org>
-Date:   Thu, 17 Oct 2019 18:47:15 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S2503030AbfJQQus convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Thu, 17 Oct 2019 12:50:48 -0400
+Received: from mailoutvs8.siol.net ([185.57.226.199]:55111 "EHLO mail.siol.net"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2394336AbfJQQus (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 17 Oct 2019 12:50:48 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.siol.net (Postfix) with ESMTP id 30B93521752;
+        Thu, 17 Oct 2019 18:50:44 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at psrvmta09.zcs-production.pri
+Received: from mail.siol.net ([127.0.0.1])
+        by localhost (psrvmta09.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id ctlfp8DRqJtw; Thu, 17 Oct 2019 18:50:43 +0200 (CEST)
+Received: from mail.siol.net (localhost [127.0.0.1])
+        by mail.siol.net (Postfix) with ESMTPS id AAB075217B6;
+        Thu, 17 Oct 2019 18:50:43 +0200 (CEST)
+Received: from jernej-laptop.localnet (cpe-86-58-59-25.static.triera.net [86.58.59.25])
+        (Authenticated sender: jernej.skrabec@siol.net)
+        by mail.siol.net (Postfix) with ESMTPA id D71F4521752;
+        Thu, 17 Oct 2019 18:50:42 +0200 (CEST)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     mripard@kernel.org, wens@csie.org, robh+dt@kernel.org,
+        mark.rutland@arm.com, mchehab@kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-sunxi@googlegroups.com
+Subject: Re: [PATCH v3 5/6] media: sun4i: Add H3 deinterlace driver
+Date:   Thu, 17 Oct 2019 18:50:42 +0200
+Message-ID: <1811024.Ag6lDGI2hk@jernej-laptop>
+In-Reply-To: <d768b2bc-a942-03a6-253d-4bcc31f1b11e@xs4all.nl>
+References: <20191016192807.1278987-1-jernej.skrabec@siol.net> <20191016192807.1278987-6-jernej.skrabec@siol.net> <d768b2bc-a942-03a6-253d-4bcc31f1b11e@xs4all.nl>
 MIME-Version: 1.0
-In-Reply-To: <CAMZdPi8D8WQJJ5U15_4A4HgXjJNUR2BOGZJUc85wgX+=QsTZ0w@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Loic,
-
-On 10/17/19 6:08 PM, Loic Poulain wrote:
-> Hi Stanimir,
+Dne četrtek, 17. oktober 2019 ob 09:51:28 CEST je Hans Verkuil napisal(a):
+> On 10/16/19 9:28 PM, Jernej Skrabec wrote:
+> > Allwinner H3 SoC contains deinterlace unit, which has several modes of
+> > operation - bypass, weave, bob and mixed (advanced) mode. I don't know
+> > how mixed mode works, but according to Allwinner it gives best results,
+> > so they use it exclusively. Currently this mode is also hardcoded here.
+> > 
+> > For each interleaved frame queued, this driver produces 2 deinterlaced
+> > frames. Deinterlaced frames are based on 2 consequtive output buffers,
+> > except for the first 2, where same output buffer is given to peripheral
+> > as current and previous.
+> > 
+> > There is no documentation for this core, so register layout and fixed
+> > values were taken from BSP driver.
+> > 
+> > I'm not sure if maximum size of the image unit is capable to process is
+> > governed by size of "flag" buffers, frequency or it really is some HW
+> > limitation. Currently driver can process full HD image in ~15ms (7.5ms
+> > for each capture buffer), which allows to process 1920x1080@60i video
+> > smoothly in real time.
+> > 
+> > Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
+> > ---
+> > 
+> >  MAINTAINERS                                   |    7 +
+> >  drivers/media/platform/sunxi/Kconfig          |    1 +
+> >  drivers/media/platform/sunxi/Makefile         |    1 +
+> >  drivers/media/platform/sunxi/sun8i-di/Kconfig |   11 +
+> >  .../media/platform/sunxi/sun8i-di/Makefile    |    2 +
+> >  .../media/platform/sunxi/sun8i-di/sun8i-di.c  | 1020 +++++++++++++++++
+> >  .../media/platform/sunxi/sun8i-di/sun8i-di.h  |  237 ++++
+> >  7 files changed, 1279 insertions(+)
+> >  create mode 100644 drivers/media/platform/sunxi/sun8i-di/Kconfig
+> >  create mode 100644 drivers/media/platform/sunxi/sun8i-di/Makefile
+> >  create mode 100644 drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
+> >  create mode 100644 drivers/media/platform/sunxi/sun8i-di/sun8i-di.h
+> > 
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index c7b48525822a..c375455125fb 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -4646,6 +4646,13 @@ M:	"Maciej W. Rozycki" <macro@linux-mips.org>
+> > 
+> >  S:	Maintained
+> >  F:	drivers/net/fddi/defxx.*
+> > 
+> > +DEINTERLACE DRIVERS FOR ALLWINNER H3
+> > +M:	Jernej Skrabec <jernej.skrabec@siol.net>
+> > +L:	linux-media@vger.kernel.org
+> > +T:	git git://linuxtv.org/media_tree.git
+> > +S:	Maintained
+> > +F:	drivers/media/platform/sunxi/sun8i-di/
+> > +
+> > 
+> >  DELL SMBIOS DRIVER
+> >  M:	Pali Rohár <pali.rohar@gmail.com>
+> >  M:	Mario Limonciello <mario.limonciello@dell.com>
+> > 
+> > diff --git a/drivers/media/platform/sunxi/Kconfig
+> > b/drivers/media/platform/sunxi/Kconfig index 71808e93ac2e..d7a5621bf327
+> > 100644
+> > --- a/drivers/media/platform/sunxi/Kconfig
+> > +++ b/drivers/media/platform/sunxi/Kconfig
+> > @@ -1,2 +1,3 @@
+> > 
+> >  source "drivers/media/platform/sunxi/sun4i-csi/Kconfig"
+> >  source "drivers/media/platform/sunxi/sun6i-csi/Kconfig"
+> > 
+> > +source "drivers/media/platform/sunxi/sun8i-di/Kconfig"
 > 
-> On Thu, 3 Oct 2019 at 12:15, Stanimir Varbanov
-> <stanimir.varbanov@linaro.org> wrote:
->>
->> I have tested this on db410c with following gst pipeline:
->>
->> gst-launch-1.0 -v videotestsrc !
->> video/x-raw,format=NV12,width=1280,height=960,framerate=24/1 !
->> v4l2h264enc
->> extra-controls="controls,h264_profile=4,h264_level="5",video_bitrate=10000000;"
->> ! filesink location=gstenc.h264
->>
->> Loic, could you give it a try on db820c too?
->>
->> Here is the info on the bug which I try to fix with current patch:
->>
->> https://bugs.96boards.org/show_bug.cgi?id=513
->>
->> On 10/3/19 1:10 PM, Stanimir Varbanov wrote:
->>> This fixes an issue when setting the encoder framerate because of
->>> missing precision. Now the frameinterval type is changed to
->>> TYPE_CONTINUOUS and step = 1. Also the math is changed when
->>> framerate property is called - the firmware side expects the
->>> framerate in Q16 values.
->>>
->>> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
->>> ---
->>>
->>> Changes since v3:
->>> Keep min/max numerator one, and divide frate(max/min) to frame
->>> factor (returned framerate max/min capabilities are in range
->>> 1 to 120fps but in Q16 i.e. 65536 to 7864320).
->>>
->>>  drivers/media/platform/qcom/venus/venc.c | 17 ++++++++++++-----
->>>  1 file changed, 12 insertions(+), 5 deletions(-)
->>>
->>> diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
->>> index 1b7fb2d5887c..133ff7eceb83 100644
->>> --- a/drivers/media/platform/qcom/venus/venc.c
->>> +++ b/drivers/media/platform/qcom/venus/venc.c
->>> @@ -22,6 +22,7 @@
->>>  #include "venc.h"
->>>
->>>  #define NUM_B_FRAMES_MAX     4
->>> +#define FRAMERATE_FACTOR     BIT(16)
->>>
->>>  /*
->>>   * Three resons to keep MPLANE formats (despite that the number of planes
->>> @@ -576,7 +577,7 @@ static int venc_enum_frameintervals(struct file *file, void *fh,
->>>       struct venus_inst *inst = to_inst(file);
->>>       const struct venus_format *fmt;
->>>
->>> -     fival->type = V4L2_FRMIVAL_TYPE_STEPWISE;
->>> +     fival->type = V4L2_FRMIVAL_TYPE_CONTINUOUS;
->>>
->>>       fmt = find_format(inst, fival->pixel_format,
->>>                         V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
->>> @@ -600,11 +601,11 @@ static int venc_enum_frameintervals(struct file *file, void *fh,
->>>               return -EINVAL;
->>>
->>>       fival->stepwise.min.numerator = 1;
->>> -     fival->stepwise.min.denominator = frate_max(inst);
->>> +     fival->stepwise.min.denominator = frate_max(inst) / FRAMERATE_FACTOR;
+> This is a m2m driver, so this belongs in drivers/media/platform/Kconfig in
+> the Memory-to-memory section.
 > 
-> On 820c frate_max() returns 120 set denominator to 0, and causes
-> gstreamer failure.
+> > diff --git a/drivers/media/platform/sunxi/Makefile
+> > b/drivers/media/platform/sunxi/Makefile index a05127529006..3878cb4efdc2
+> > 100644
+> > --- a/drivers/media/platform/sunxi/Makefile
+> > +++ b/drivers/media/platform/sunxi/Makefile
+> > @@ -1,2 +1,3 @@
+> > 
+> >  obj-y		+= sun4i-csi/
+> >  obj-y		+= sun6i-csi/
+> > 
+> > +obj-y		+= sun8i-di/
+> > diff --git a/drivers/media/platform/sunxi/sun8i-di/Kconfig
+> > b/drivers/media/platform/sunxi/sun8i-di/Kconfig new file mode 100644
+> > index 000000000000..dbd77a61e3b3
+> > --- /dev/null
+> > +++ b/drivers/media/platform/sunxi/sun8i-di/Kconfig
+> > @@ -0,0 +1,11 @@
+> > +# SPDX-License-Identifier: GPL-2.0-only
+> > +config VIDEO_SUN8I_DEINTERLACE
+> > +	tristate "Allwinner Deinterlace driver"
+> > +	depends on VIDEO_DEV && VIDEO_V4L2
+> > +	depends on HAS_DMA
+> > +	depends on OF
+> > +	depends on PM
+> > +	select VIDEOBUF2_DMA_CONTIG
+> > +	select V4L2_MEM2MEM_DEV
+> > +	help
+> > +	   Support for the Allwinner Deinterlace unit found on some SoCs.
+> 
+> Shouldn't this depend on ARCH_SUNXI || COMPILE_TEST?
+> And also on COMMON_CLK?
 
-OK, thanks!
+Yes to both. Also I don't see a reason why it would depend on HAS_DMA, so I 
+will remove that.
 
-We have two options
-- unify frate_min/max() to return in Q16 depending on the hfi version
-- or move frame_factor in frate_min/max() and return the framerate (1..120)
+Best regards,
+Jernej
+
+> 
+> Regards,
+> 
+> 	Hans
 
 
--- 
-regards,
-Stan
+
+
