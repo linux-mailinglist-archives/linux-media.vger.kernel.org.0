@@ -2,186 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 63CD8DABCB
-	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2019 14:15:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 533B5DABE6
+	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2019 14:24:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393088AbfJQMPz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Oct 2019 08:15:55 -0400
-Received: from mail.kapsi.fi ([91.232.154.25]:53481 "EHLO mail.kapsi.fi"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731634AbfJQMPz (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Oct 2019 08:15:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-         s=20161220; h=Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:
-        References:To:Subject:Sender:Reply-To:Cc:Content-Transfer-Encoding:Content-ID
-        :Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:
-        Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe
-        :List-Post:List-Owner:List-Archive;
-        bh=twhSvuCN7qBP8yV0alNeK8pU3KPZ1B6B0ABJ/1XVFgQ=; b=Nrrx1jelxlm2MWr7W/DGNPP8dv
-        1FCOlw/Xvn1BE0Q4CKGYKTQdtE/t9CFWW9CfaUR4fvHknLcGwC5/hOYsWnK+aEld3wPG3l9feUSgH
-        IP865jSd4MicQEos7tpdcRN32pwExKFDH7IbHj0dXKiJ4pszb8i0rR6ggijaDbRFSwk38D74GiaoR
-        tHalg4lP9Xb32n+hyFbWrEWnkGFkXMraHQiEG1CmpGMGe6gnt16YW+x0qCEPOiAwQNm3rQ7c0+BIb
-        viNA9MxYsKn/JvQBcHlhBtQnyTBpxf5ZvvX/gNeMBF8VCZV6eow/VNpIwZGmdXrLg6u1imNbFckiQ
-        AMD+4Pwg==;
-Received: from dvbz8cyyyyyyyyyyyyt3t-3.rev.dnainternet.fi ([2001:14ba:8869:c100::42f] helo=localhost.localdomain)
-        by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.89)
-        (envelope-from <crope@iki.fi>)
-        id 1iL4h6-000355-5r; Thu, 17 Oct 2019 15:15:52 +0300
-Subject: Re: Logilink VG0022A firmware/si2157 probe
-To:     Sean Young <sean@mess.org>, linux-media@vger.kernel.org
-References: <20191017090837.GA26546@gofer.mess.org>
-From:   Antti Palosaari <crope@iki.fi>
-Message-ID: <07eae3df-5df1-eda4-8142-b228dc34b16c@iki.fi>
-Date:   Thu, 17 Oct 2019 15:15:51 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
-MIME-Version: 1.0
-In-Reply-To: <20191017090837.GA26546@gofer.mess.org>
-Content-Type: multipart/mixed;
- boundary="------------F888F70E36FDA36B00C8960C"
+        id S2406086AbfJQMYL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Oct 2019 08:24:11 -0400
+Received: from mx07-00178001.pphosted.com ([62.209.51.94]:29160 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728554AbfJQMYL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 17 Oct 2019 08:24:11 -0400
+Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id x9HC6GwX019539;
+        Thu, 17 Oct 2019 14:24:05 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-type : content-id
+ : content-transfer-encoding : mime-version; s=STMicroelectronics;
+ bh=TGt1UZEWqcZi9YT+7fgtBx5eJzJbTWv2BIm+L25kpBw=;
+ b=L0Ta2upc63+LesPIf9zpg5X8gjJxtnke98PPYmA2N4SR0CFzxFvDxkBfI5lKQdAIrMQQ
+ /TlLhBkwRrQjhNmawVaYTD3sv0uJ2Lkmq8QBc7tX2le8YWtLQeEbIlWYWyLkBhZDEvKj
+ rMT4KbtUsKV3Z55je4eKqpjNCHehl3ocYOgL4m7vwiD/EZEBV8xaPCwE6S+R6hyT86Gy
+ ljLdE8fP56sKG0hQOWCxtxuVhOMnABJUJ2vwtbEq/9rvjvWD49EOasls/g70j37ayYF2
+ o5/rKhyjj92iBak0FNBABooiOvipeQ4meet5usgG4o4dnDaBhn4Ad2Qb6ASys9Gio5MZ eQ== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 2vk4a1kt9c-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 17 Oct 2019 14:24:05 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 0248110002A;
+        Thu, 17 Oct 2019 14:24:05 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag5node1.st.com [10.75.127.13])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id E7F832D378B;
+        Thu, 17 Oct 2019 14:24:04 +0200 (CEST)
+Received: from SFHDAG5NODE3.st.com (10.75.127.15) by SFHDAG5NODE1.st.com
+ (10.75.127.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 17 Oct
+ 2019 14:24:04 +0200
+Received: from SFHDAG5NODE3.st.com ([fe80::7c09:5d6b:d2c7:5f47]) by
+ SFHDAG5NODE3.st.com ([fe80::7c09:5d6b:d2c7:5f47%20]) with mapi id
+ 15.00.1473.003; Thu, 17 Oct 2019 14:24:04 +0200
+From:   Mickael GUENE <mickael.guene@st.com>
+To:     Chuhong Yuan <hslester96@gmail.com>
+CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] media: st-mipid02: add a check for
+ devm_gpiod_get_optional
+Thread-Topic: [PATCH] media: st-mipid02: add a check for
+ devm_gpiod_get_optional
+Thread-Index: AQHVhBBYvH4VqO4jG0ud7QMMFFTos6deMe0AgAAi54CAAE0LAA==
+Date:   Thu, 17 Oct 2019 12:24:04 +0000
+Message-ID: <f42c4bea-8991-434f-48b4-bfbccfd29701@st.com>
+References: <20191016105604.8036-1-hslester96@gmail.com>
+ <8de93390-ae04-4278-bb34-aa175c659c23@st.com>
+ <CANhBUQ0MvXYm4iLcx5gWyq=0VMmafRAJ7TsTtUuOT0YwgBcAOA@mail.gmail.com>
+In-Reply-To: <CANhBUQ0MvXYm4iLcx5gWyq=0VMmafRAJ7TsTtUuOT0YwgBcAOA@mail.gmail.com>
+Accept-Language: fr-FR, en-US
 Content-Language: en-US
-X-SA-Exim-Connect-IP: 2001:14ba:8869:c100::42f
-X-SA-Exim-Mail-From: crope@iki.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.75.127.44]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <EA298225B701124C81442B57DE375669@st.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,1.0.8
+ definitions=2019-10-17_04:2019-10-17,2019-10-17 signatures=0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------F888F70E36FDA36B00C8960C
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
-Hello,
-
-On 10/17/19 12:08 PM, Sean Young wrote:
-> Hi Antti,
-> 
-> I have a Logilink VG0022A device which is an af9035.c type device (with
-> ITE 9xxx frontned). The probe of the si2146 tuner fails and returns 0xffs.
-> 
-> Now I would like to work on fixing this. Mauro suggested the firmware might
-> be incorrect. Any tips on extracting the firmware? I can try and dump
-> usb traffic from Windows and see what firmware is being used there. How did
-> you extract the firmware?
-> 
-> Any other suggestions for this device? You might be able to save me a lot
-> of time since you have experience with these types of devices, I do not.
-
-Extracting firmware is done almost always by following steps:
-1) take sniffs from the some bus (usb/i2c)
-2) identify firmware download section, detect it starting point and 
-ending point ~few first and last bytes
-3) find that firmware binary located inside of binary driver
-  * grep, hexeditor, etc
-  * example LANG=C grep -obUaP "\x08\x05\x00" driver.sys
-4) use dd command to copy firmware blob from binary driver to separate 
-file (you need to know firmware location and length inside binary)
-
-
-It is also possible to dump firmware to file from bus sniffs too, but it 
-requires writing some simple script. Dumping it from the binary driver 
-is usually still most easiest way.
-
-At some point I downloaded bunch of drivers to find out multiple 
-firmware versions for si2168 and made simple script to ease things. 
-Script is attached.
-
-
-After all, I suspect root of issue may be still be buggy i2c...
-
-
-regards
-Antti
-
--- 
-http://palosaari.fi/
-
---------------F888F70E36FDA36B00C8960C
-Content-Type: text/x-python; charset=UTF-8;
- name="si2168_extract_firmware.py"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="si2168_extract_firmware.py"
-
-#!/usr/bin/env python
-# Silicon Labs Si2168 firmware extractor.
-# Copyright (C) 2015 Antti Palosaari <crope@iki.fi>
-# Usage: si2168_extract_firmware.py binary_driver_name.sys
-
-import sys
-import struct
-import md5
-
-fread = file(sys.argv[1], 'rb')
-binary = fread.read()
-offset = 0
-
-# Known firmware md5 and its version
-fw_ver_tab = {
-    '02c9b1e751f362621c649ea831410b61' : '4.0.7',
-    'b2670d8ae5e3369fc71edbb98cdd8f6e' : '4.0.11',
-    '8dfc2483d90282bbb05817fbbc282376' : '4.0.19',
-    'c8e089c351e9834060e962356f8697b8' : '4.0.25',
-}
-
-while True:
-    # Match 17-byte firmware header
-    # 04 01 00 00 00 00 9a 41 05 1b af 33 02 1b 3e 7d 2a | A20 (not supported)
-    # 08 05 00 xx xx xx xx xx xx 00 00 00 00 00 00 00 00 | B40
-    offset = binary.find('\x08\x05\x00', offset)
-    if offset == -1:
-        print "Done"
-        break
-
-    if (binary[offset + 9:offset + 17] != '\x00\x00\x00\x00\x00\x00\x00\x00'):
-        offset = offset + 1
-        continue
-
-    print "Possible 17-byte Si2168-B40 firmware header found at 0x%x" % (offset)
-
-    fw_filename = 'dvb-demod-si2168-b40-01.fw_' + str(offset)
-    fw_write = open(fw_filename, 'wb')
-    fw_md5 = md5.new()
-
-    while True:
-        fields = struct.unpack("B", binary[offset])
-        fw_data_len = fields[0]
-        # Firmware chunk first byte tells bytes to upload - 16 is max
-        if fw_data_len == 0 or fw_data_len > 16:
-            break
-
-        # Check remaining (unused) bytes on firmware 17-byte chunk are all zero
-        data_valid = True
-        for x in range(offset + fw_data_len + 1, offset + 17):
-            if (binary[x] != '\x00'):
-                data_valid = False
-                break
-
-        if data_valid == False:
-            break
-
-        # Firmware chunk validated, write it to file
-        fw_write.write(binary[offset + 0:offset + 17])
-        fw_md5.update(binary[offset + 0:offset + 17])
-        offset = offset + 17
-
-    fw_write.close()
-
-    if fw_md5.hexdigest() in fw_ver_tab:
-        fw_ver = fw_ver_tab[fw_md5.hexdigest()]
-    else:
-        fw_ver = '<unknown>'
-
-    print "Firmware md5 '%s'" % (fw_md5.hexdigest())
-    print "Firmware version '%s'" % (fw_ver)
-    print "Firmware stored to file '%s'" % (fw_filename)
-
-    offset = offset + 1
-
-fread.close()
-
-
---------------F888F70E36FDA36B00C8960C--
+SGVsbG8gQ2h1aG9uZywNCg0KIFNvcnJ5IEkgbWlzc2VkICdpZiAoUFRSX0VSUihkZXNjKSA9PSAt
+RU5PRU5UKScgY2hlY2sgLi4uLg0KIENhbiB5b3UgaW4gdGhpcyBjYXNlIGFkZCBhbiBlcnJvciBt
+ZXNzYWdlID8NCg0KUmVnYXJkcw0KTWlja2FlbA0KIA0KT24gMTAvMTcvMTkgMDk6NDgsIENodWhv
+bmcgWXVhbiB3cm90ZToNCj4gT24gVGh1LCBPY3QgMTcsIDIwMTkgYXQgMTo0MyBQTSBNaWNrYWVs
+IEdVRU5FIDxtaWNrYWVsLmd1ZW5lQHN0LmNvbT4gd3JvdGU6DQo+Pg0KPj4gSGVsbG8gQ2h1aG9u
+ZywNCj4+DQo+PiAgSXMgdGhpcyBjaGVjayBuZWNlc3NhcnkgPw0KPj4gc2luY2UgbG9va2luZyBp
+bnRvIGNvZGUgaXQgc2VlbXMgdG8gbWUgZGV2bV9ncGlvZF9nZXRfb3B0aW9uYWwoKSBjYW4gb25s
+eQ0KPj4gcmV0dXJuIE5VTEwgaW4gY2FzZSBvZiBlcnJvciBkdWUgdG8gZm9sbG93aW5nIGNoZWNr
+IGluIGRldm1fZ3Bpb2RfZ2V0X2luZGV4X29wdGlvbmFsKCkNCj4+ICAgICAgICAgaWYgKElTX0VS
+UihkZXNjKSkgew0KPj4gICAgICAgICAgICAgICAgIGlmIChQVFJfRVJSKGRlc2MpID09IC1FTk9F
+TlQpDQo+PiAgICAgICAgICAgICAgICAgICAgICAgICByZXR1cm4gTlVMTDsNCj4+ICAgICAgICAg
+fQ0KPj4gIEFuZCBpbiB0aGF0IGNhc2UgcmVzZXRfZ3BpbyBpcyBub3QgdXNlZA0KPj4NCj4gDQo+
+IFRoZSBwcm9ibGVtIG1heSBub3QgYmUgYSBudWxsIHJldHVybiB2YWx1ZSwgYnV0IGEgcmV0dXJu
+ZWQgZXJyb3IsDQo+IHdoaWNoIGlzIGEgbWludXMgdmFsdWUsDQo+IGxpa2UgLUVQUk9CRV9ERUZF
+UiBvciAtRUlOVkFMIHJldHVybmVkIGJ5IGdwaW9kX2ZpbmQgaW4gZ3Bpb2RfZ2V0X2luZGV4Lg0K
+PiBJbiB0aGVzZSBjYXNlcywgZGV2bV9ncGlvZF9nZXRfaW5kZXhfb3B0aW9uYWwgd2lsbCBub3Qg
+cmV0dXJuIG51bGwgYnV0DQo+IHJldHVybiB0aGUgZXJyb3IuDQo+IFRoZXJlZm9yZSwgdGhpcyBj
+aGVjayBpcyBuZWNlc3NhcnkuDQo+IA0KPj4gUmVnYXJkcw0KPj4gTWlja2FlbA0KPj4NCj4+IE9u
+IDEwLzE2LzE5IDEyOjU2LCBDaHVob25nIFl1YW4gd3JvdGU6DQo+Pj4gbWlwaWQwMl9wcm9iZSBt
+aXNzZXMgYSBjaGVjayBmb3IgZGV2bV9ncGlvZF9nZXRfb3B0aW9uYWwgYW5kIG1heSBtaXNzDQo+
+Pj4gdGhlIGZhaWx1cmUuDQo+Pj4gQWRkIGEgY2hlY2sgdG8gZml4IHRoZSBwcm9ibGVtLg0KPj4+
+DQo+Pj4gU2lnbmVkLW9mZi1ieTogQ2h1aG9uZyBZdWFuIDxoc2xlc3Rlcjk2QGdtYWlsLmNvbT4N
+Cj4+PiAtLS0NCj4+PiAgZHJpdmVycy9tZWRpYS9pMmMvc3QtbWlwaWQwMi5jIHwgMyArKysNCj4+
+PiAgMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKQ0KPj4+DQo+Pj4gZGlmZiAtLWdpdCBh
+L2RyaXZlcnMvbWVkaWEvaTJjL3N0LW1pcGlkMDIuYyBiL2RyaXZlcnMvbWVkaWEvaTJjL3N0LW1p
+cGlkMDIuYw0KPj4+IGluZGV4IDgxMjg1YjhkNWNmYi4uZDM4ZTg4OGIwYTQzIDEwMDY0NA0KPj4+
+IC0tLSBhL2RyaXZlcnMvbWVkaWEvaTJjL3N0LW1pcGlkMDIuYw0KPj4+ICsrKyBiL2RyaXZlcnMv
+bWVkaWEvaTJjL3N0LW1pcGlkMDIuYw0KPj4+IEBAIC05NzEsNiArOTcxLDkgQEAgc3RhdGljIGlu
+dCBtaXBpZDAyX3Byb2JlKHN0cnVjdCBpMmNfY2xpZW50ICpjbGllbnQpDQo+Pj4gICAgICAgYnJp
+ZGdlLT5yZXNldF9ncGlvID0gZGV2bV9ncGlvZF9nZXRfb3B0aW9uYWwoZGV2LCAicmVzZXQiLA0K
+Pj4+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIEdQ
+SU9EX09VVF9ISUdIKTsNCj4+Pg0KPj4+ICsgICAgIGlmIChJU19FUlIoYnJpZGdlLT5yZXNldF9n
+cGlvKSkNCj4+PiArICAgICAgICAgICAgIHJldHVybiBQVFJfRVJSKGJyaWRnZS0+cmVzZXRfZ3Bp
+byk7DQo+Pj4gKw0KPj4+ICAgICAgIHJldCA9IG1pcGlkMDJfZ2V0X3JlZ3VsYXRvcnMoYnJpZGdl
+KTsNCj4+PiAgICAgICBpZiAocmV0KSB7DQo+Pj4gICAgICAgICAgICAgICBkZXZfZXJyKGRldiwg
+ImZhaWxlZCB0byBnZXQgcmVndWxhdG9ycyAlZCIsIHJldCk7DQo+Pj4=
