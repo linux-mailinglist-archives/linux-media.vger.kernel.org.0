@@ -2,83 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 70277DA654
-	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2019 09:22:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D540DA66A
+	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2019 09:26:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404931AbfJQHWC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Oct 2019 03:22:02 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:54333 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727132AbfJQHWC (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Oct 2019 03:22:02 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtp (Exim 4.84_2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1iL06e-0006zC-FN; Thu, 17 Oct 2019 07:21:56 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1iL076-0002FA-HQ; Thu, 17 Oct 2019 07:22:24 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.5 (v2)] vivid: add metadata capture/output support
-Date:   Thu, 17 Oct 2019 07:22:23 +0000
-Message-Id: <20191017072224.8583-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <1074d944-de6e-7483-3337-ca9acd1b1c55@xs4all.nl>
-References: 
+        id S2408148AbfJQH0s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Oct 2019 03:26:48 -0400
+Received: from relay4-d.mail.gandi.net ([217.70.183.196]:55633 "EHLO
+        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404931AbfJQH0s (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 17 Oct 2019 03:26:48 -0400
+X-Originating-IP: 86.250.200.211
+Received: from aptenodytes (lfbn-1-17395-211.w86-250.abo.wanadoo.fr [86.250.200.211])
+        (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 0F2BAE0008;
+        Thu, 17 Oct 2019 07:26:45 +0000 (UTC)
+Date:   Thu, 17 Oct 2019 09:26:45 +0200
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     YueHaibing <yuehaibing@huawei.com>
+Cc:     mripard@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
+        wens@csie.org, linux-media@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH -next] staging: media: cedrus: use
+ devm_platform_ioremap_resource() to simplify code
+Message-ID: <20191017072645.GA2778@aptenodytes>
+References: <20191016085604.21076-1-yuehaibing@huawei.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="9jxsPFA5p3P2qPhR"
+Content-Disposition: inline
+In-Reply-To: <20191016085604.21076-1-yuehaibing@huawei.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
 
-Pull request: https://patchwork.linuxtv.org/patch/59516/
-Build log: https://builder.linuxtv.org/job/patchwork/20785/
-Build time: 00:21:46
-Link: https://lore.kernel.org/linux-media/1074d944-de6e-7483-3337-ca9acd1b1c55@xs4all.nl
+--9jxsPFA5p3P2qPhR
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-gpg: Signature made Thu 17 Oct 2019 06:51:01 AM UTC
-gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+Hi,
 
-Summary: 5 patches and/or PDF generation with issues, being 0 at build time
+On Wed 16 Oct 19, 16:56, YueHaibing wrote:
+> Use devm_platform_ioremap_resource() to simplify the code a bit.
+> This is detected by coccinelle.
 
-Error/warnings:
+This is still:
+Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
+Please collect the tag in your next version, if there's a need for one.
 
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0003-v4l2-dev-fix-is_tch-checks.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0003-v4l2-dev-fix-is_tch-checks.patch
-patches/0003-v4l2-dev-fix-is_tch-checks.patch:40: WARNING: line over 80 characters
-patches/0003-v4l2-dev-fix-is_tch-checks.patch:41: WARNING: line over 80 characters
+Cheers,
 
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0005-vivid-Add-metadata-capture-support.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0005-vivid-Add-metadata-capture-support.patch
-patches/0005-vivid-Add-metadata-capture-support.patch:530: WARNING: line over 80 characters
-patches/0005-vivid-Add-metadata-capture-support.patch:539: WARNING: line over 80 characters
-patches/0005-vivid-Add-metadata-capture-support.patch:552: WARNING: line over 80 characters
-patches/0005-vivid-Add-metadata-capture-support.patch:562: WARNING: line over 80 characters
-patches/0005-vivid-Add-metadata-capture-support.patch:612: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-patches/0005-vivid-Add-metadata-capture-support.patch:791: WARNING: line over 80 characters
+Paul
 
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0006-Documentation-media-v4l2-Add-vivid-metadata-doc.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0006-Documentation-media-v4l2-Add-vivid-metadata-doc.patch
-patches/0006-Documentation-media-v4l2-Add-vivid-metadata-doc.patch:6: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-patches/0006-Documentation-media-v4l2-Add-vivid-metadata-doc.patch:26: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-patches/0006-Documentation-media-v4l2-Add-vivid-metadata-doc.patch:31: WARNING: Missing or malformed SPDX-License-Identifier tag in line 1
+> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
+> ---
+>  drivers/staging/media/sunxi/cedrus/cedrus_hw.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+>=20
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c b/drivers/sta=
+ging/media/sunxi/cedrus/cedrus_hw.c
+> index a942cd9..f19b87c 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> @@ -146,7 +146,6 @@ static irqreturn_t cedrus_irq(int irq, void *data)
+>  int cedrus_hw_probe(struct cedrus_dev *dev)
+>  {
+>  	const struct cedrus_variant *variant;
+> -	struct resource *res;
+>  	int irq_dec;
+>  	int ret;
+> =20
+> @@ -225,8 +224,7 @@ int cedrus_hw_probe(struct cedrus_dev *dev)
+>  		goto err_sram;
+>  	}
+> =20
+> -	res =3D platform_get_resource(dev->pdev, IORESOURCE_MEM, 0);
+> -	dev->base =3D devm_ioremap_resource(dev->dev, res);
+> +	dev->base =3D devm_platform_ioremap_resource(dev->pdev, 0);
+>  	if (IS_ERR(dev->base)) {
+>  		dev_err(dev->dev, "Failed to map registers\n");
+> =20
+> --=20
+> 2.7.4
+>=20
+>=20
 
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0007-v4l2-core-Add-new-metadata-format.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0007-v4l2-core-Add-new-metadata-format.patch
-patches/0007-v4l2-core-Add-new-metadata-format.patch:23: ERROR: trailing statements should be on next line
-patches/0007-v4l2-core-Add-new-metadata-format.patch:35: WARNING: line over 80 characters
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
 
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0008-vivid-Add-metadata-output-support.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0008-vivid-Add-metadata-output-support.patch
-patches/0008-vivid-Add-metadata-output-support.patch:435: WARNING: line over 80 characters
-patches/0008-vivid-Add-metadata-output-support.patch:485: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+--9jxsPFA5p3P2qPhR
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl2oF7UACgkQ3cLmz3+f
+v9EItgf9GvoiVbIh3tmX/jiHYvuTXM7tm9aRYWoFX7LVixCUoe6h+o7qBdsHSBks
+RxI0BSWHEEieShZlIK0Fyof7bx04lEbJc072Bp31b6xFJxdQ1w+xatMjwfh5bILZ
+jcAHPnMwKntbmetL8qPB2pDcq//vDYvGOkN73ZqFPO8kCU6rYxX0+Y/Eaw0be7EB
+2Duq2Rm0E7OswN9jebQ4fm4tpt4bZj4qX7h4tUkwFKGpzzt4jYyaqpr5jQ7Bw1LK
+nyn5TAVJPA9P+Mo5P59R+2E4HX6DKma2jy5lRSnZddG2iR1F3kh1MbOs1qUothp4
+PvvSH42W4cFR1G5Q+dbvEK4UAWOqQA==
+=pqsv
+-----END PGP SIGNATURE-----
+
+--9jxsPFA5p3P2qPhR--
