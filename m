@@ -2,108 +2,187 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 95E02DAA2D
-	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2019 12:40:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4E79DAA3E
+	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2019 12:47:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408920AbfJQKkX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Oct 2019 06:40:23 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:38425 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389582AbfJQKkX (ORCPT
+        id S2408964AbfJQKrX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Oct 2019 06:47:23 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:59049 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2408933AbfJQKrW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Oct 2019 06:40:23 -0400
-Received: by mail-wr1-f68.google.com with SMTP id o15so1327266wru.5
-        for <linux-media@vger.kernel.org>; Thu, 17 Oct 2019 03:40:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=4/6DDVX5d7vla6YdRzzXi4A/aTsU47xXCqt0sHgvNJI=;
-        b=b7uU5/qVvchaiINd/RS0pySCibpjekZMTg/nCw+/HXBI9+Pgl7stu+UXnaTclMwT2c
-         1eSJ6U8y/kb8M1WgcPZOLSTv6OXOcO25YZcQZG2grBznUUDslBfqnFr9Jlw/4MLtKFPD
-         7aA7N4g/X4vxA9wQOr6VyDwq4TihE4t4c4sDW44y7O4yXnVgH1sLhn5Nja2QNct+rj3F
-         K0z8IIOiatmGjZycmkdmpMbojJoje8yEnfzRdaJDKnTCTvw9HSQesdS7n8mrM7dn7Kmb
-         tP7FGCYPvfvjF2uD16kWYro16YyetybjigpBNCUbWxJHvm5vKma38U0cAvyntr+HK2Ot
-         qQ1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4/6DDVX5d7vla6YdRzzXi4A/aTsU47xXCqt0sHgvNJI=;
-        b=dj/lot9WzPVC8v2eXC1+TMBWCcuhq54oYxNDDQqqR0OxLcv5RyZymfS6RkL4Lok3fS
-         uKTs/dXMIRD8LZ1t5oilxNB0jzqCUxJRuuBid+5ZtsRu8s7hO9Dyawph/dG31pkRJG/R
-         qG3rEnaQFlhQzOxtOcSasOlZHuPDRAnpDvx/ARdqDKbDaGDp6I19PZHFyR1BSPPswaJf
-         ZSE3BSnAkOu3aLayDAwHCVPjSL9BTKFnm3YhKomviAuaOaI++hHR2e9V04c+DNOlq2Wn
-         cOD1gUBkkzbsCBg7q3GQOyIJIAH2Qtdfc2QvEqx6kG1Gg2RlV9aX+hNv231yExnVBT08
-         ieAQ==
-X-Gm-Message-State: APjAAAV2NQV06tTa+VOjZBOFMzwg4S0bOUkJaPADWQl0b4Uv4sh2fjub
-        kv9tOP2tEH4jqveqOG8WAYYVBi0t3umFEOKxCLvKew==
-X-Google-Smtp-Source: APXvYqyC2edEc9qfn+I1WvpyzxwBarwmlWbf4ewvcSmG/uzwfHbxRt8+59/qqTKVy660i6Wd6+svULPi91Gp2L9gNog=
-X-Received: by 2002:adf:dd8b:: with SMTP id x11mr2393112wrl.113.1571308820493;
- Thu, 17 Oct 2019 03:40:20 -0700 (PDT)
+        Thu, 17 Oct 2019 06:47:22 -0400
+Received: from [IPv6:2001:420:44c1:2577:5195:3526:c85b:688a]
+ ([IPv6:2001:420:44c1:2577:5195:3526:c85b:688a])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id L3JMi1W9So1ZhL3JPi6VuG; Thu, 17 Oct 2019 12:47:20 +0200
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [ANN v3] Media sessions in Lyon in October: codecs
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Daniel Gomez <daniel@qtec.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Eugen Hristev <Eugen.Hristev@microchip.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Helen Koike <helen.koike@collabora.com>,
+        Michael Tretter <m.tretter@pengutronix.de>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Maxime Ripard <mripard@kernel.org>
+Message-ID: <c8380b43-2742-f1cb-0fb9-2c3c90e29a33@xs4all.nl>
+Date:   Thu, 17 Oct 2019 12:47:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20191011103902.3145-1-wuxy@bitland.com.cn>
-In-Reply-To: <20191011103902.3145-1-wuxy@bitland.com.cn>
-From:   Tomasz Figa <tfiga@google.com>
-Date:   Thu, 17 Oct 2019 19:40:08 +0900
-Message-ID: <CAAFQd5Btb22tdJD74bmwYqaCYukeoX=aRUdoobpBdXX1W67LdQ@mail.gmail.com>
-Subject: Re: [PATCH] media: ov5695: enable vsync pin output
-To:     wuxy@bitland.com.cn
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        dongchun.zhu@mediatek.corp-partner.google.com,
-        Nicolas Boichat <drinkcat@google.com>,
-        wuxy <wuxy@bitland.corp-partner.google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfNVjCuJwZYIOlU2aL16pOJObN+r/+Y+hq3ysaZsrKliyO/ESJcxFE92G5r8if3YuJJWv0WYhKQcBUxueoozLBtCFmvM26FiccGN6Kf2EcGZCRffjzCTi
+ Os+ScoCnu0R7CRVbNEPE7x2iv42UhBVbn6DLNA3bsB1pY/abBcYfqXl57tFkE7yVZ4WyBjMOoQMX79qL7BdzkPS3r+ydH6NyN0sCk4ibz/jq+kDPtAOz44ZD
+ 4CjDs7WAOVSWA4Fdk0iv0VOHUxSnb7T9l61mBzOGv32lENo1pjF5yMy6Y4xp3UMDuCrafUrDnxBSvdNzaf/DuX2iV4f2h7VzmctbP/guLofdP7mLMtuDrRqC
+ KyxEqxKj1lXGuyHiklcZNhenDyBP2JyynAm7qDkkB7L23+rBD042U+LuVgY+ZGY2HrOrZacIp87YVpm2gzt7ir7jNjSjL/NskyH/NTDeCVeUdojhqyGyxc1/
+ /5ijSo8Fnv94Imm44gusLwnEbOgUfEIObIFISm7THn+l0ur+pohK5KFgZc8uFF9Uu0Ec4lcaA3ZrKoTeHhllPAAhbaW9Ncu5emJbYG/XOtvyW/2r+4L1u7bD
+ q+kyHJ0mwZ1s2IYWltO5WnxJEJw5vc/qf8FJ9R4wC3SDqDSy9JBZEce3OBEyp2O8/N6PTEqizsBX7bJ74VrohZRe2cVHgTnBe5DOgcIrkpoovJI7fJaxvcW6
+ LZjU8B2TYt59bQRLnt6357lucpKJuNUi/oTA1HJEt/AojtBRsSFFuoOZrUsey9caEjxSAyoiba2P3Q0qdpiTSkOggpikFud/NB733ZG3mUXHgc2sNzlOPhBu
+ V3jTXl89+PTHOmRRahMzjLYdLMpZvH9zNCy5IAwmy/jZQYxOZUDjX+kBd29raNfaC4JL/75Q//BZNP0Fy1o=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Xingyu,
+(Updated Maxime's email address in v3)
 
-On Fri, Oct 11, 2019 at 7:39 PM <wuxy@bitland.com.cn> wrote:
->
-> From: wuxy <wuxy@bitland.corp-partner.google.com>
->
+Hi all,
 
-Thanks for the patch! Please see my comments inline.
+Since we have three separate half-day sessions for different topics I decided
+to split the announcement for this in three emails as well, so these things
+can be discussed in separate threads.
 
-> For Kukui project, the ov5695 vsync signal needs to
-> be set to output,from ov5695 datasheet,the related
-> register control methods as follows:
->
-> 0x3002 Bit[7] FISIN/VSYNC output enable
-> 0x3010 Bit[7] enable FISIN/VSYNC as GPIO controlled by register
-> 0x3008 Bit[7] register control FISIN/VSYNC output
->
-> TEST= boot to shell
->
-> Signed-off-by: Xingyu Wu <wuxy@bitland.corp-partner.google.com>
-> ---
->  drivers/media/i2c/ov5695.c | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/drivers/media/i2c/ov5695.c b/drivers/media/i2c/ov5695.c
-> index 34b7046d9702..71f0eae6037b 100644
-> --- a/drivers/media/i2c/ov5695.c
-> +++ b/drivers/media/i2c/ov5695.c
-> @@ -300,6 +300,9 @@ static const struct regval ov5695_global_regs[] = {
->   * mipi_datarate per lane 840Mbps
->   */
->  static const struct regval ov5695_2592x1944_regs[] = {
-> +       {0x3002, 0x80},
+All sessions are in room Terreaux VIP Lounge - Level 0.
+There is a maximum of 15 people.
 
-The original value of 0xa1 that was in ov5695_global_regs[], has the
-0x80 bit set already.
+The first session deals with the codec API and is on Tuesday morning from
+8:30 to 12:00 (we have to vacate the room at that time). Note that 8:30
+start time!
 
-> +       {0x3008, 0x80},
-> +       {0x3010, 0x80},
+Confirmed attendees for this session:
 
-Doesn't this configure the pin to an always-1 output GPIO? I believe
-the correct settings for both bits should be 0 and 0 for the pin to be
-driven by the hardware vsync generator.
+Boris Brezillon <boris.brezillon@collabora.com>
+Alexandre Courbot <acourbot@chromium.org>
+Nicolas Dufresne <nicolas@ndufresne.ca>
+Tomasz Figa <tfiga@chromium.org>
+Ezequiel Garcia <ezequiel@collabora.com>
+Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Maxime Ripard <maxime.ripard@bootlin.com>
+Dave Stevenson <dave.stevenson@raspberrypi.org>
+Michael Tretter <m.tretter@pengutronix.de>
+Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Hans Verkuil <hverkuil@xs4all.nl>
 
-Best regards,
-Tomasz
+Please let me know asap if I missed someone, or if you are listed, but
+can't join for some reason.
+
+There are three seats left, and I have five on the 'just interested'
+list:
+
+Daniel Gomez <daniel@qtec.com>
+Eugen Hristev <Eugen.Hristev@microchip.com>
+Helen Koike <helen.koike@collabora.com>
+Jacopo Mondi <jacopo@jmondi.org>
+Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+If you still want to join, please mail me. First come, first served :-)
+
+Agenda:
+
+Note: I didn't assign start times, we'll just go through these items one-by-one.
+
+- Status of any pending patches related to codec support.
+  I'll provide a list of those patches by the end of next week so we
+  can go through them.
+
+- Requirements of moving codec drivers out of staging.
+
+- Finalize the stateful encoder API. There are two pieces that need
+  to be defined:
+
+  1) Setting the frame rate so bitrate control can make sense, since
+     they need to know this information. This is also relevant for the
+     stateless codec (and this may have to change on a per-frame basis
+     for stateless codecs!).
+
+     This can either be implemented via ENUM_FRAMEINTERVALS for the coded
+     pixelformats plus S_PARM support, or we just add a new control for this.
+     E.g. V4L2_CID_MPEG_VIDEO_FRAME_INTERVAL using struct v4l2_fract.
+
+     I am inclined to go with a control, since the semantics don't really
+     match ENUM_FRAMEINTERVALS/S_PARM. These ioctls still need to be supported
+     for legacy drivers. Open question: some drivers (mediatek, hva, coda)
+     require S_PARM(OUTPUT), some (venus) allow both S_PARM(CAPTURE) and
+     S_PARM(OUTPUT). I am inclined to allow both since this is not a CAPTURE
+     vs OUTPUT thing, it is global to both queues.
+
+  2) Interactions between OUTPUT and CAPTURE formats.
+
+     The main problem is what to do if the capture sizeimage is too small
+     for the OUTPUT resolution when streaming starts.
+
+     Proposal: width and height of S_FMT(OUTPUT) plus max-bitrate plus frame
+     interval plus key frame interval info are used to calculate a minimum
+     CAPTURE sizeimage (app may request more). This is codec-specific, I think,
+     so it should be possible to provide helper functions for this.
+
+     However, it may be quite difficult to make a good calculation. I just
+     don't know enough to determine this.
+
+     V4L2_FMT_FLAG_DYN_RESOLUTION is always cleared for codec formats
+     for the encoder (i.e. we don't support mid-stream resolution
+     changes for now) and V4L2_EVENT_SOURCE_CHANGE is not
+     supported.
+
+     Of course, if we start to support mid-stream resolution
+     changes (or other changes that require a source change event),
+     then this flag should be set by the encoder driver and
+     documentation on how to handle the source change event should
+     be documented in the encoder spec. I prefer to postpone this
+     until we have an encoder than can actually do mid-stream
+     resolution changes.
+
+     If sizeimage of the OUTPUT is too small for the CAPTURE
+     resolution and V4L2_EVENT_SOURCE_CHANGE is not supported,
+     then the second STREAMON (either CAPTURE or OUTPUT) will
+     return -ENOMEM since there is not enough memory to do the
+     encode.
+
+     If V4L2_FMT_FLAG_DYN_RESOLUTION is cleared (i.e. that is
+     the case for all current encoders), then any bitrate controls
+     will be limited in range to what the current state (CAPTURE and
+     OUTPUT formats and frame interval) supports.
+
+- Stateless encoder support
+
+  Overall goals:
+
+  - Find out if there is a common set of per frame encoding parameters
+  - Find out if bitrate control can be reused for multiple HW
+  - Decide if we do in-kernel bitrate control or not
+  - Decide if we keep bitstream header crafting external (unlike Hantro
+    JPEG encoder, but like VAAPI)
+  - Decide if we provide (and maintain) a libv4l2 plugin like ChromeOS
+    folks opted for.
+
+  I hope Nicolas and Tomasz can prepare for this.
+
+  The one requirement that Cisco would have for these devices is that
+  we must be able to do per-frame bitrate control from userspace.
+
+Regards,
+
+	Hans
