@@ -2,115 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D540DA66A
-	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2019 09:26:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E8D94DA66D
+	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2019 09:28:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408148AbfJQH0s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Oct 2019 03:26:48 -0400
-Received: from relay4-d.mail.gandi.net ([217.70.183.196]:55633 "EHLO
-        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404931AbfJQH0s (ORCPT
+        id S2387419AbfJQH2u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Oct 2019 03:28:50 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:42107 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726696AbfJQH2t (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Oct 2019 03:26:48 -0400
-X-Originating-IP: 86.250.200.211
-Received: from aptenodytes (lfbn-1-17395-211.w86-250.abo.wanadoo.fr [86.250.200.211])
-        (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 0F2BAE0008;
-        Thu, 17 Oct 2019 07:26:45 +0000 (UTC)
-Date:   Thu, 17 Oct 2019 09:26:45 +0200
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     YueHaibing <yuehaibing@huawei.com>
-Cc:     mripard@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
-        wens@csie.org, linux-media@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH -next] staging: media: cedrus: use
- devm_platform_ioremap_resource() to simplify code
-Message-ID: <20191017072645.GA2778@aptenodytes>
-References: <20191016085604.21076-1-yuehaibing@huawei.com>
+        Thu, 17 Oct 2019 03:28:49 -0400
+Received: from tschai.fritz.box ([46.9.232.237])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id L0DCiNIhkPduvL0DGitUVh; Thu, 17 Oct 2019 09:28:46 +0200
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Cc:     dri-devel@lists.freedesktop.org,
+        Dariusz Marcinkiewicz <darekm@google.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Russell King <linux@armlinux.org.uk>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: [PATCHv9 0/2] drm: tda998x: use cec_notifier_conn_(un)register
+Date:   Thu, 17 Oct 2019 09:28:40 +0200
+Message-Id: <20191017072842.16793-1-hverkuil-cisco@xs4all.nl>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="9jxsPFA5p3P2qPhR"
-Content-Disposition: inline
-In-Reply-To: <20191016085604.21076-1-yuehaibing@huawei.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfGFAX9zU26r6wlHNsYbLI+OSAqNLGbGKkUn9xVdyWxOVKD4TD5psA+QsWHW2HCyNizsE4ILeAgH+Y4I5r7hgR9GYDZk7ZrgQoAgTHN+rxRqAilBBB2cJ
+ EUHnL9WnsYDfBdxnPn5QskfzTTss4modadeWrlHXk76lv+sITN37JgdoRh2jre6EuQp7XNEZVnM23Zd+FOkQcFemDk5l5WWLdKWHvl/WDNUcBRkOLidhYAmz
+ UDdmtW7hn5tpP7WPScLpRsrugTf4inzQWh9fc15f3fzTO43+NZ4vj8lCK6N+NWv4fGnkCwr5AiyP7LhevXI2O+2Xctfj7Umbf3/JVZw+CloZ5CBWU29OypOl
+ fUSZ+YJgswsfpSQp3e7jjNXeuFe6AA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+This splits the previous v7.2 patch (1) into two parts: one that replaces
+cec_notifier_get/put by cec_notifier_conn_(un)register, and one that
+sets the connector info.
 
---9jxsPFA5p3P2qPhR
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+That second patch moves the CEC notifier code to tda998x_bridge_detach,
+but Laurent is making changes in that area and prefers that this isn't
+implemented yet.
 
-Hi,
+Dariusz, can you comment on the use of the mutex in the second patch?
+This second patch won't be merged for v5.5 so you can take your time :-)
 
-On Wed 16 Oct 19, 16:56, YueHaibing wrote:
-> Use devm_platform_ioremap_resource() to simplify the code a bit.
-> This is detected by coccinelle.
+But the replacement of the cec_notifier_get/put functions is something
+that needs to be finished for v5.5.
 
-This is still:
-Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+By splitting this patch up I can merge the first half, but delay the
+second half. This tda driver just won't be able to report the connector
+information in the meantime.
 
-Please collect the tag in your next version, if there's a need for one.
+Changes since v8:
 
-Cheers,
+- Moved the mutex addition to the second patch where I think it actually
+  belongs.
 
-Paul
+Regards,
 
-> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
-> ---
->  drivers/staging/media/sunxi/cedrus/cedrus_hw.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
->=20
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c b/drivers/sta=
-ging/media/sunxi/cedrus/cedrus_hw.c
-> index a942cd9..f19b87c 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> @@ -146,7 +146,6 @@ static irqreturn_t cedrus_irq(int irq, void *data)
->  int cedrus_hw_probe(struct cedrus_dev *dev)
->  {
->  	const struct cedrus_variant *variant;
-> -	struct resource *res;
->  	int irq_dec;
->  	int ret;
-> =20
-> @@ -225,8 +224,7 @@ int cedrus_hw_probe(struct cedrus_dev *dev)
->  		goto err_sram;
->  	}
-> =20
-> -	res =3D platform_get_resource(dev->pdev, IORESOURCE_MEM, 0);
-> -	dev->base =3D devm_ioremap_resource(dev->dev, res);
-> +	dev->base =3D devm_platform_ioremap_resource(dev->pdev, 0);
->  	if (IS_ERR(dev->base)) {
->  		dev_err(dev->dev, "Failed to map registers\n");
-> =20
-> --=20
-> 2.7.4
->=20
->=20
+	Hans
 
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+(1) https://patchwork.linuxtv.org/patch/58464/
 
---9jxsPFA5p3P2qPhR
-Content-Type: application/pgp-signature; name="signature.asc"
+Dariusz Marcinkiewicz (2):
+  drm: tda998x: use cec_notifier_conn_(un)register
+  drm: tda998x: set the connector info
 
------BEGIN PGP SIGNATURE-----
+ drivers/gpu/drm/i2c/tda998x_drv.c | 38 ++++++++++++++++++++++---------
+ 1 file changed, 27 insertions(+), 11 deletions(-)
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl2oF7UACgkQ3cLmz3+f
-v9EItgf9GvoiVbIh3tmX/jiHYvuTXM7tm9aRYWoFX7LVixCUoe6h+o7qBdsHSBks
-RxI0BSWHEEieShZlIK0Fyof7bx04lEbJc072Bp31b6xFJxdQ1w+xatMjwfh5bILZ
-jcAHPnMwKntbmetL8qPB2pDcq//vDYvGOkN73ZqFPO8kCU6rYxX0+Y/Eaw0be7EB
-2Duq2Rm0E7OswN9jebQ4fm4tpt4bZj4qX7h4tUkwFKGpzzt4jYyaqpr5jQ7Bw1LK
-nyn5TAVJPA9P+Mo5P59R+2E4HX6DKma2jy5lRSnZddG2iR1F3kh1MbOs1qUothp4
-PvvSH42W4cFR1G5Q+dbvEK4UAWOqQA==
-=pqsv
------END PGP SIGNATURE-----
+-- 
+2.23.0
 
---9jxsPFA5p3P2qPhR--
