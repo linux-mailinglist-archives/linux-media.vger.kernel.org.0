@@ -2,147 +2,193 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D695DB4B1
-	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2019 19:48:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D03DEDB653
+	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2019 20:37:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394803AbfJQRsw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Oct 2019 13:48:52 -0400
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:35996 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388397AbfJQRsw (ORCPT
+        id S2441295AbfJQSht (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Oct 2019 14:37:49 -0400
+Received: from mailoutvs40.siol.net ([185.57.226.231]:37932 "EHLO
+        mail.siol.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S2390864AbfJQSht (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Oct 2019 13:48:52 -0400
-Received: by mail-ed1-f66.google.com with SMTP id h2so2475506edn.3
-        for <linux-media@vger.kernel.org>; Thu, 17 Oct 2019 10:48:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=qA1FV2SShAhO4HJceYdFIaShDaqJxU3NPe6CxCrjdF8=;
-        b=UQ/oBkOnsR2jNdbXGCA50XjdanFuhsc3LYWAmRJ0vXylGXqCbprQm1HQoopcOesrt+
-         u20gOR4oW4MP5pASmWG+/tmCL1uOYmX8C12T98KJ9mHpfNb7F3IfD+3jtuURhToRF/mg
-         e6PYtwYwgajB3I7cAdIfAwFHmmU5CkD9/S+/Em9pHmd+6Nx+M931iZP+W3dzbDfmEky4
-         gG9oyjey6fyHWO49qrppyisVLKNw0JC2AWC5Jzkhbda05zZCxjktk9K7wUT8e1uX9XPV
-         FfM22vyXm1E3k0Ines2TDzNMDqYlpQFMzQ3iZGvbNmvlr0YrlKpSRJcGg1P7dLbv29Ga
-         1Ttw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qA1FV2SShAhO4HJceYdFIaShDaqJxU3NPe6CxCrjdF8=;
-        b=mb3pa/JdmXtG6HRNgjK49SkzoVJyW0vksoV+JJD93MJQkQK6HrILYd6bW7lx1Qzs8T
-         LO7TpDSTxS6LcpbQ68Z43tKYIxhTSoeE6kciUJ5yaZJomjlbZPT4nebd0mO8q3C2uut5
-         8InBZGexwbcmlVqqvqf3G/R5je7dXpEVW+ejC5NpHmBef6v35Ix4+rjNyJH35K5dK1IQ
-         0OCTW+XLZXsNBLABR8H1voPafG0Fbl03SemshGI+ctmzQFK2u7efOuHJz5ci0bge5y3m
-         IfVcTMrtVXrKj08LtYmIMkHnj78l0n1SQHg7hSCF/e446h2HZjL6keNsJT0wFJtwMzYB
-         kC1g==
-X-Gm-Message-State: APjAAAWAAC0FKbEFUm4NM9HeXJUqrOS0DgN2DGPm7v9NGGtcjH3M2ZeD
-        0/qJ2iTX5CCETStvClUpWnEfa7+wg18PPYoTQpepxQ==
-X-Google-Smtp-Source: APXvYqyA6G2zo9+EZZoj+C27brXJJTiIYyFXiJVUXjePW5zIVv3zRSNwZkCKcJpEWybnxn4A4avLP84SvMdF7ZgmuMQ=
-X-Received: by 2002:aa7:c603:: with SMTP id h3mr5173020edq.44.1571334530324;
- Thu, 17 Oct 2019 10:48:50 -0700 (PDT)
+        Thu, 17 Oct 2019 14:37:49 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.siol.net (Postfix) with ESMTP id 31B38525415;
+        Thu, 17 Oct 2019 20:37:45 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at psrvmta10.zcs-production.pri
+Received: from mail.siol.net ([127.0.0.1])
+        by localhost (psrvmta10.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id OdR0LpAX-qoC; Thu, 17 Oct 2019 20:37:44 +0200 (CEST)
+Received: from mail.siol.net (localhost [127.0.0.1])
+        by mail.siol.net (Postfix) with ESMTPS id A0F16525317;
+        Thu, 17 Oct 2019 20:37:44 +0200 (CEST)
+Received: from localhost.localdomain (cpe-86-58-59-25.static.triera.net [86.58.59.25])
+        (Authenticated sender: 031275009)
+        by mail.siol.net (Postfix) with ESMTPSA id 2584A52524F;
+        Thu, 17 Oct 2019 20:37:44 +0200 (CEST)
+From:   Jernej Skrabec <jernej.skrabec@siol.net>
+To:     mripard@kernel.org, wens@csie.org
+Cc:     robh+dt@kernel.org, mark.rutland@arm.com, mchehab@kernel.org,
+        hverkuil@xs4all.nl, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-sunxi@googlegroups.com
+Subject: [PATCH v4 0/6] media: Introduce Allwinner H3 deinterlace driver
+Date:   Thu, 17 Oct 2019 20:37:32 +0200
+Message-Id: <20191017183738.68069-1-jernej.skrabec@siol.net>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-References: <20191003101038.13732-1-stanimir.varbanov@linaro.org>
- <50eb3902-fe10-5952-8bdf-9b6b9ac37c62@linaro.org> <CAMZdPi8D8WQJJ5U15_4A4HgXjJNUR2BOGZJUc85wgX+=QsTZ0w@mail.gmail.com>
- <92e1234e-174a-3fa5-f77c-ae0072bd22c2@linaro.org>
-In-Reply-To: <92e1234e-174a-3fa5-f77c-ae0072bd22c2@linaro.org>
-From:   Loic Poulain <loic.poulain@linaro.org>
-Date:   Thu, 17 Oct 2019 19:50:08 +0200
-Message-ID: <CAMZdPi-52+tpBZ8OzW0mA4844yLS-8O472izAmKXcZZ+jh+oqQ@mail.gmail.com>
-Subject: Re: [PATCH v4] venus: venc: Fix enum frameintervals
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Cc:     linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Stanimir,
+Starting with H3, Allwinner began to include standalone deinterlace
+core in multimedia oriented SoCs. This patch series introduces support
+for it. Note that new SoCs, like H6, have radically different (updated)
+deinterlace core, which will need a new driver.
 
-On Thu, 17 Oct 2019 at 17:47, Stanimir Varbanov
-<stanimir.varbanov@linaro.org> wrote:
->
-> Hi Loic,
->
-> On 10/17/19 6:08 PM, Loic Poulain wrote:
-> > Hi Stanimir,
-> >
-> > On Thu, 3 Oct 2019 at 12:15, Stanimir Varbanov
-> > <stanimir.varbanov@linaro.org> wrote:
-> >>
-> >> I have tested this on db410c with following gst pipeline:
-> >>
-> >> gst-launch-1.0 -v videotestsrc !
-> >> video/x-raw,format=NV12,width=1280,height=960,framerate=24/1 !
-> >> v4l2h264enc
-> >> extra-controls="controls,h264_profile=4,h264_level="5",video_bitrate=10000000;"
-> >> ! filesink location=gstenc.h264
-> >>
-> >> Loic, could you give it a try on db820c too?
-> >>
-> >> Here is the info on the bug which I try to fix with current patch:
-> >>
-> >> https://bugs.96boards.org/show_bug.cgi?id=513
-> >>
-> >> On 10/3/19 1:10 PM, Stanimir Varbanov wrote:
-> >>> This fixes an issue when setting the encoder framerate because of
-> >>> missing precision. Now the frameinterval type is changed to
-> >>> TYPE_CONTINUOUS and step = 1. Also the math is changed when
-> >>> framerate property is called - the firmware side expects the
-> >>> framerate in Q16 values.
-> >>>
-> >>> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-> >>> ---
-> >>>
-> >>> Changes since v3:
-> >>> Keep min/max numerator one, and divide frate(max/min) to frame
-> >>> factor (returned framerate max/min capabilities are in range
-> >>> 1 to 120fps but in Q16 i.e. 65536 to 7864320).
-> >>>
-> >>>  drivers/media/platform/qcom/venus/venc.c | 17 ++++++++++++-----
-> >>>  1 file changed, 12 insertions(+), 5 deletions(-)
-> >>>
-> >>> diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-> >>> index 1b7fb2d5887c..133ff7eceb83 100644
-> >>> --- a/drivers/media/platform/qcom/venus/venc.c
-> >>> +++ b/drivers/media/platform/qcom/venus/venc.c
-> >>> @@ -22,6 +22,7 @@
-> >>>  #include "venc.h"
-> >>>
-> >>>  #define NUM_B_FRAMES_MAX     4
-> >>> +#define FRAMERATE_FACTOR     BIT(16)
-> >>>
-> >>>  /*
-> >>>   * Three resons to keep MPLANE formats (despite that the number of planes
-> >>> @@ -576,7 +577,7 @@ static int venc_enum_frameintervals(struct file *file, void *fh,
-> >>>       struct venus_inst *inst = to_inst(file);
-> >>>       const struct venus_format *fmt;
-> >>>
-> >>> -     fival->type = V4L2_FRMIVAL_TYPE_STEPWISE;
-> >>> +     fival->type = V4L2_FRMIVAL_TYPE_CONTINUOUS;
-> >>>
-> >>>       fmt = find_format(inst, fival->pixel_format,
-> >>>                         V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
-> >>> @@ -600,11 +601,11 @@ static int venc_enum_frameintervals(struct file *file, void *fh,
-> >>>               return -EINVAL;
-> >>>
-> >>>       fival->stepwise.min.numerator = 1;
-> >>> -     fival->stepwise.min.denominator = frate_max(inst);
-> >>> +     fival->stepwise.min.denominator = frate_max(inst) / FRAMERATE_FACTOR;
-> >
-> > On 820c frate_max() returns 120 set denominator to 0, and causes
-> > gstreamer failure.
->
-> OK, thanks!
->
-> We have two options
-> - unify frate_min/max() to return in Q16 depending on the hfi version
-> - or move frame_factor in frate_min/max() and return the framerate (1..120)
+v4l2-compliance report:
+v4l2-compliance SHA: dece02f862f38d8f866230ca9f1015cb93ddfac4, 32 bits
 
-No strong preference...
+Compliance test for sun8i-di device /dev/video0:
 
-Regards,
-Loic
+Driver Info:
+        Driver name      : sun8i-di
+        Card type        : sun8i-di
+        Bus info         : platform:sun8i-di
+        Driver version   : 5.3.0
+        Capabilities     : 0x84208000
+                Video Memory-to-Memory
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x04208000
+                Video Memory-to-Memory
+                Streaming
+                Extended Pix Format
+
+Required ioctls:
+        test VIDIOC_QUERYCAP: OK
+
+Allow for multiple opens:
+        test second /dev/video0 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+        test VIDIOC_QUERYCTRL: OK (Not Supported)
+        test VIDIOC_G/S_CTRL: OK (Not Supported)
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 0 Private Controls: 0
+
+Format ioctls:
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+        test Composing: OK (Not Supported)
+        test Scaling: OK
+
+Codec ioctls:
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+
+Total for sun8i-di device /dev/video0: 44, Succeeded: 44, Failed: 0, Warn=
+ings: 0
+
+Please take a look.
+
+Best regards,
+Jernej
+
+Changes from v3:
+- added Maxime's a-b tag
+- moved and fixed Kconfig entry
+- put clk_set_rate_exclusive() and it's counterpart in PM callbacks
+
+Changes from v2:
+- added acked-by and review-by tags
+- fixed schema path in H3 deinterlace binding
+- moved busy check after format args check
+
+Changes from v1:
+- updated Maxime's e-mail in DT binding
+- removed "items" for single item in DT binding
+- implemented power management
+- replaced regmap with direct io access
+- set exclusive clock rate
+- renamed DEINTERLACE_FRM_CTRL_COEF_CTRL to DEINTERLACE_FRM_CTRL_COEF_ACC=
+ESS
+
+Jernej Skrabec (6):
+  dt-bindings: bus: sunxi: Add H3 MBUS compatible
+  clk: sunxi-ng: h3: Export MBUS clock
+  ARM: dts: sunxi: h3/h5: Add MBUS controller node
+  dt-bindings: media: Add Allwinner H3 Deinterlace binding
+  media: sun4i: Add H3 deinterlace driver
+  dts: arm: sun8i: h3: Enable deinterlace unit
+
+ .../bindings/arm/sunxi/sunxi-mbus.txt         |    1 +
+ .../media/allwinner,sun8i-h3-deinterlace.yaml |   75 ++
+ MAINTAINERS                                   |    7 +
+ arch/arm/boot/dts/sun8i-h3.dtsi               |   13 +
+ arch/arm/boot/dts/sunxi-h3-h5.dtsi            |    9 +
+ drivers/clk/sunxi-ng/ccu-sun8i-h3.h           |    4 -
+ drivers/media/platform/Kconfig                |   12 +
+ drivers/media/platform/sunxi/Makefile         |    1 +
+ .../media/platform/sunxi/sun8i-di/Makefile    |    2 +
+ .../media/platform/sunxi/sun8i-di/sun8i-di.c  | 1028 +++++++++++++++++
+ .../media/platform/sunxi/sun8i-di/sun8i-di.h  |  237 ++++
+ include/dt-bindings/clock/sun8i-h3-ccu.h      |    2 +-
+ 12 files changed, 1386 insertions(+), 5 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun=
+8i-h3-deinterlace.yaml
+ create mode 100644 drivers/media/platform/sunxi/sun8i-di/Makefile
+ create mode 100644 drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
+ create mode 100644 drivers/media/platform/sunxi/sun8i-di/sun8i-di.h
+
+--=20
+2.23.0
+
