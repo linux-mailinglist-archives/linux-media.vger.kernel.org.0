@@ -2,211 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3917ADA5DA
-	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2019 08:58:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 81B24DA5E9
+	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2019 09:03:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392778AbfJQG6d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Oct 2019 02:58:33 -0400
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:35918 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392691AbfJQG6d (ORCPT
+        id S2407887AbfJQHDl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Oct 2019 03:03:41 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:41643 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2407886AbfJQHDl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Oct 2019 02:58:33 -0400
-Received: by mail-ed1-f68.google.com with SMTP id h2so860185edn.3
-        for <linux-media@vger.kernel.org>; Wed, 16 Oct 2019 23:58:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=a9y8Nj5c4v4TkS3xMjD4gJHxBq1AgFzCneRQOylYTvU=;
-        b=ggK2MPxFfnkRaBsVuXI1r7KnMEyM7Ij10KypHZ812U7vtKSwIxI4qBWHwacpnsrtUF
-         J0fa9jVTGD7zEX/9s6YNT3/cf0GLjXmXO8T+pQwHpuP4hvRaa2g8qsS/OIas7+CBO2OF
-         kxo1MrGN+LdljF3CdtWa6fNov0aIw80ajq4z4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=a9y8Nj5c4v4TkS3xMjD4gJHxBq1AgFzCneRQOylYTvU=;
-        b=SR3/yQjM/oHykRASfYzwHc0w+UvUqiUs/kSZGBAa/sTm4OXPmYScCftyLcdOW3/21U
-         ax3Yh60kWUhUAaDe5gfgvv73MJhLpfHsSPQ+ttvCHxXVlJ2vaxTuTggcj8HeIfHb2QE/
-         BfPBM5ItBNYgwnvypppM+RsgpyZQFeMq9YlDFs1Il1rZVOMBNR99Xr0O8D7L3zjA0mnU
-         O/RBlPR/eijwlAwUwvghCkMsD/wwnTYvoA4EgBh0Skw2urshTIxsiRc0QI/WX3P9QDlT
-         4DhfC6KE3F7bQyjMyC5sankFFm/xZi/9DvSWNxlhX5VNfmaOxlcSxc9lPJLNTosJjmm5
-         VLmQ==
-X-Gm-Message-State: APjAAAW3XFMi8r1aCsnnmuyHA3llXiZqDixQ5W5Z0MUkuDstUb7vsfZJ
-        S5hf001wOeob/YnusD9d8hAcCupjlNJubQ==
-X-Google-Smtp-Source: APXvYqxJTygQ5I2TYk9EMg6j4/qRLPcsS6UuuP2WOPu/jWOPK5kmQCQEPv5rRaBxIw68CMhEEAZtqg==
-X-Received: by 2002:a50:f198:: with SMTP id x24mr2248309edl.238.1571295509960;
-        Wed, 16 Oct 2019 23:58:29 -0700 (PDT)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com. [209.85.221.45])
-        by smtp.gmail.com with ESMTPSA id bc28sm67408edb.63.2019.10.16.23.58.28
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Oct 2019 23:58:28 -0700 (PDT)
-Received: by mail-wr1-f45.google.com with SMTP id r3so964672wrj.6
-        for <linux-media@vger.kernel.org>; Wed, 16 Oct 2019 23:58:28 -0700 (PDT)
-X-Received: by 2002:adf:f3c9:: with SMTP id g9mr1521626wrp.7.1571295508158;
- Wed, 16 Oct 2019 23:58:28 -0700 (PDT)
+        Thu, 17 Oct 2019 03:03:41 -0400
+Received: from [192.168.2.10] ([46.9.232.237])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id KzotiN9VfPduvKzowitP8g; Thu, 17 Oct 2019 09:03:38 +0200
+Subject: Re: [PATCHv8 1/2] drm: tda998x: use cec_notifier_conn_(un)register
+To:     Russell King - ARM Linux admin <linux@armlinux.org.uk>
+Cc:     linux-media@vger.kernel.org,
+        Dariusz Marcinkiewicz <darekm@google.com>,
+        dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20191016133916.21475-1-hverkuil-cisco@xs4all.nl>
+ <20191016133916.21475-2-hverkuil-cisco@xs4all.nl>
+ <20191016161417.GX25745@shell.armlinux.org.uk>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <cef1582a-7198-7331-cd2b-1b30ad8dd47b@xs4all.nl>
+Date:   Thu, 17 Oct 2019 09:03:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20190919093404.182015-1-keiichiw@chromium.org>
- <20190923085637.bsaevedklweijgya@sirius.home.kraxel.org> <CAAFQd5Ba-REZU9=rdm3J6NRqqeAUFdCV7SJ_WdO2BHyKNBN7TQ@mail.gmail.com>
- <20191014121914.lyptm3gdmekvcu6v@sirius.home.kraxel.org>
-In-Reply-To: <20191014121914.lyptm3gdmekvcu6v@sirius.home.kraxel.org>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Thu, 17 Oct 2019 15:58:16 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5CaxYoXQ6z4pmdTG3FDN8ccEk3sHMnSkoNwL2==hk6znQ@mail.gmail.com>
-Message-ID: <CAAFQd5CaxYoXQ6z4pmdTG3FDN8ccEk3sHMnSkoNwL2==hk6znQ@mail.gmail.com>
-Subject: Re: [virtio-dev] [PATCH] [RFC RESEND] vdec: Add virtio video decode
- device specification
-To:     Gerd Hoffmann <kraxel@redhat.com>
-Cc:     Keiichi Watanabe <keiichiw@chromium.org>,
-        virtio-dev@lists.oasis-open.org,
-        Alexandre Courbot <acourbot@chromium.org>,
-        alexlau@chromium.org, dgreid@chromium.org,
-        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        David Stevens <stevensd@chromium.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Daniel Vetter <daniel@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20191016161417.GX25745@shell.armlinux.org.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfG7/pMzXZLWJZ5sUkivD1zFGm+PDF1TlBah87FxgFR+5/ozixtSFRmspOp2ez4obAO28Jqs5uo5Xw7Ukhl0E2UK/kiILjwfd06M2YwKBDkBcQ/1307Ts
+ rbAcleXAiIWN9+m2b3LYZUWJhMx6f7ZYKRX1KVOY8tYfe0QbQ8nWCRtJmllcZdwoIl6MrXxe8WT+l3SHySRdj9NY1y7B+K52mfe1Ne3HQUrQp8yacQbZ/FP9
+ nN9fgxVW4YqKQlirBIDZFVBIilCj7QQfkXRC6F+ZEbujphrmcPFshEHxwh6mI//fG7gl9Ljjs4XM73Ov357R6BGIo2SyxYPM5NjwNw6B7ROwm3+lMeCkgrvC
+ YBIOJjMp6oQtR3CkMd7SDKXwTRhPBA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Oct 14, 2019 at 9:19 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> > > Well.  I think before even discussing the protocol details we need a
-> > > reasonable plan for buffer handling.  I think using virtio-gpu buffers
-> > > should be an optional optimization and not a requirement.  Also the
-> > > motivation for that should be clear (Let the host decoder write directly
-> > > to virtio-gpu resources, to display video without copying around the
-> > > decoded framebuffers from one device to another).
-> >
-> > Just to make sure we're on the same page, what would the buffers come
-> > from if we don't use this optimization?
-> >
-> > I can imagine a setup like this;
-> >  1) host device allocates host memory appropriate for usage with host
-> > video decoder,
-> >  2) guest driver allocates arbitrary guest pages for storage
-> > accessible to the guest software,
-> >  3) guest userspace writes input for the decoder to guest pages,
-> >  4) guest driver passes the list of pages for the input and output
-> > buffers to the host device
-> >  5) host device copies data from input guest pages to host buffer
-> >  6) host device runs the decoding
-> >  7) host device copies decoded frame to output guest pages
-> >  8) guest userspace can access decoded frame from those pages; back to 3
-> >
-> > Is that something you have in mind?
->
-> I don't have any specific workflow in mind.
->
-> If you want display the decoded video frames you want use dma-bufs shared
-> by video decoder and gpu, right?  So the userspace application (video
-> player probably) would create the buffers using one of the drivers,
-> export them as dma-buf, then import them into the other driver.  Just
-> like you would do on physical hardware.  So, when using virtio-gpu
-> buffers:
->
->   (1) guest app creates buffers using virtio-gpu.
->   (2) guest app exports virtio-gpu buffers buffers as dma-buf.
->   (3) guest app imports the dma-bufs into virtio-vdec.
->   (4) guest app asks the virtio-vdec driver to write the decoded
->       frames into the dma-bufs.
->   (5) guest app asks the virtio-gpu driver to display the decoded
->       frame.
->
-> The guest video decoder driver passes the dma-buf pages to the host, and
-> it is the host driver's job to fill the buffer.  How this is done
-> exactly might depend on hardware capabilities (whenever a host-allocated
-> bounce buffer is needed or whenever the hardware can decode directly to
-> the dma-buf passed by the guest driver) and is an implementation detail.
->
-> Now, with cross-device sharing added the virtio-gpu would attach some
-> kind of identifier to the dma-buf, virtio-vdec could fetch the
-> identifier and pass it to the host too, and the host virtio-vdec device
-> can use the identifier to get a host dma-buf handle for the (virtio-gpu)
-> buffer.  Ask the host video decoder driver to import the host dma-buf.
-> If it all worked fine it can ask the host hardware to decode directly to
-> the host virtio-gpu resource.
->
+On 10/16/19 6:14 PM, Russell King - ARM Linux admin wrote:
+> On Wed, Oct 16, 2019 at 03:39:15PM +0200, Hans Verkuil wrote:
+>> From: Dariusz Marcinkiewicz <darekm@google.com>
+>>
+>> Use the new cec_notifier_conn_(un)register() functions to
+>> (un)register the notifier for the HDMI connector.
+>>
+>> Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
+>> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> 
+> Please explain in detail what this mutex actually achieves.
 
-Agreed.
+Dariusz, since you're the author, can you reply to Russell?
 
-> > > Referencing virtio-gpu buffers needs a better plan than just re-using
-> > > virtio-gpu resource handles.  The handles are device-specific.  What if
-> > > there are multiple virtio-gpu devices present in the guest?
-> > >
-> > > I think we need a framework for cross-device buffer sharing.  One
-> > > possible option would be to have some kind of buffer registry, where
-> > > buffers can be registered for cross-device sharing and get a unique
-> > > id (a uuid maybe?).  Drivers would typically register buffers on
-> > > dma-buf export.
-> >
-> > This approach could possibly let us handle this transparently to
-> > importers, which would work for guest kernel subsystems that rely on
-> > the ability to handle buffers like native memory (e.g. having a
-> > sgtable or DMA address) for them.
-> >
-> > How about allocating guest physical addresses for memory corresponding
-> > to those buffers? On the virtio-gpu example, that could work like
-> > this:
-> >  - by default a virtio-gpu buffer has only a resource handle,
-> >  - VIRTIO_GPU_RESOURCE_EXPORT command could be called to have the
-> > virtio-gpu device export the buffer to a host framework (inside the
-> > VMM) that would allocate guest page addresses for it, which the
-> > command would return in a response to the guest,
->
-> Hmm, the cross-device buffer sharing framework I have in mind would
-> basically be a buffer registry.  virtio-gpu would create buffers as
-> usual, create a identifier somehow (details to be hashed out), attach
-> the identifier to the dma-buf so it can be used as outlined above.
->
-> Also note that the guest manages the address space, so the host can't
-> simply allocate guest page addresses.
+If this is going to be a delaying factor, then I'll post a new version
+without the mutex that just replaces the cec_notifier API.
 
-Is this really true? I'm not an expert in this area, but on a bare
-metal system it's the hardware or firmware that sets up the various
-physical address allocations on a hardware level and most of the time
-most of the addresses are already pre-assigned in hardware (like the
-DRAM base, various IOMEM spaces, etc.).
+Regards,
 
-I think that means that we could have a reserved region that could be
-used by the host for dynamic memory hot-plug-like operation. The
-reference to memory hot-plug here is fully intentional, we could even
-use this feature of Linux to get struct pages for such memory if we
-really wanted.
+	Hans
 
-> Mapping host virtio-gpu resources
-> into guest address space is planned, it'll most likely use a pci memory
-> bar to reserve some address space.  The host can map resources into that
-> pci bar, on guest request.
+> 
+>> ---
+>>  drivers/gpu/drm/i2c/tda998x_drv.c | 21 ++++++++++++++++-----
+>>  1 file changed, 16 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i2c/tda998x_drv.c b/drivers/gpu/drm/i2c/tda998x_drv.c
+>> index 84c6d4c91c65..8262b44b776e 100644
+>> --- a/drivers/gpu/drm/i2c/tda998x_drv.c
+>> +++ b/drivers/gpu/drm/i2c/tda998x_drv.c
+>> @@ -82,6 +82,9 @@ struct tda998x_priv {
+>>  	u8 audio_port_enable[AUDIO_ROUTE_NUM];
+>>  	struct tda9950_glue cec_glue;
+>>  	struct gpio_desc *calib;
+>> +
+>> +	/* protect cec_notify */
+>> +	struct mutex cec_notify_mutex;
+>>  	struct cec_notifier *cec_notify;
+>>  };
+>>  
+>> @@ -805,8 +808,11 @@ static irqreturn_t tda998x_irq_thread(int irq, void *data)
+>>  				tda998x_edid_delay_start(priv);
+>>  			} else {
+>>  				schedule_work(&priv->detect_work);
+>> -				cec_notifier_set_phys_addr(priv->cec_notify,
+>> -						   CEC_PHYS_ADDR_INVALID);
+>> +
+>> +				mutex_lock(&priv->cec_notify_mutex);
+>> +				cec_notifier_phys_addr_invalidate(
+>> +						priv->cec_notify);
+>> +				mutex_unlock(&priv->cec_notify_mutex);
+>>  			}
+>>  
+>>  			handled = true;
+>> @@ -1790,8 +1796,10 @@ static void tda998x_destroy(struct device *dev)
+>>  
+>>  	i2c_unregister_device(priv->cec);
+>>  
+>> -	if (priv->cec_notify)
+>> -		cec_notifier_put(priv->cec_notify);
+>> +	mutex_lock(&priv->cec_notify_mutex);
+>> +	cec_notifier_conn_unregister(priv->cec_notify);
+>> +	priv->cec_notify = NULL;
+>> +	mutex_unlock(&priv->cec_notify_mutex);
+> 
+> By the time we get here:
+> 
+> 1) The interrupt has been freed (which is a synchronous operation)
+>    tda998x_irq_thread() can't be called and can't be running, and
+>    therefore cec_notifier_phys_addr_invalidate() also can't be called
+>    or be running.
+> 2) You don't touch the cec_notifier_set_phys_addr_from_edid() site;
+>    if there's any case that _might_ possibly conflict, it is that one.
+> 3) tda998x_destroy() and tda998x_create() can't be called concurrently
+>    in any case; the driver model guarantees that ->probe and ->remove
+>    for the same device are serialised.
+> 
+>>  }
+>>  
+>>  static int tda998x_create(struct device *dev)
+>> @@ -1812,6 +1820,7 @@ static int tda998x_create(struct device *dev)
+>>  	mutex_init(&priv->mutex);	/* protect the page access */
+>>  	mutex_init(&priv->audio_mutex); /* protect access from audio thread */
+>>  	mutex_init(&priv->edid_mutex);
+>> +	mutex_init(&priv->cec_notify_mutex);
+>>  	INIT_LIST_HEAD(&priv->bridge.list);
+>>  	init_waitqueue_head(&priv->edid_delay_waitq);
+>>  	timer_setup(&priv->edid_delay_timer, tda998x_edid_delay_done, 0);
+>> @@ -1916,7 +1925,9 @@ static int tda998x_create(struct device *dev)
+>>  		cec_write(priv, REG_CEC_RXSHPDINTENA, CEC_RXSHPDLEV_HPD);
+>>  	}
+>>  
+>> -	priv->cec_notify = cec_notifier_get(dev);
+>> +	mutex_lock(&priv->cec_notify_mutex);
+>> +	priv->cec_notify = cec_notifier_conn_register(dev, NULL, NULL);
+>> +	mutex_unlock(&priv->cec_notify_mutex);
+> 
+> and:
+> 
+> 4) priv->cec_notify will be NULL here until such time that
+>    cec_notifier_conn_register() has returned.  If the mutex is trying
+>    to protect something, it's very unclear what it is.
+>    
+> Trying to guess what it's protecting against:
+> 
+> - Is it protecting against NULL priv->cec_notify?  No, because it can
+>   be NULL just before we take the lock.
+> - Is it protecting the internals of cec_notifier_conn_register()
+>   against the other calls - no, because priv->cec_notify will be NULL
+>   until the function has finished.
+> - Is it protecting the write to priv->cec_notify?  Maybe, but that
+>   doesn't need any protection - architectures are single-copy atomic,
+>   which means that a pointer is either written or it is not written.
+>   Therefore, it will either be NULL (the state before the call is made)
+>   or it will be set correctly (after the call has completed.)
+> 
+> So, all in all, I don't see what this lock is doing, and I think it
+> should be removed.
+> 
+> If it's necessary for a future change (which may or may not be merged)
+> then the lock should be part of that future change, because the change
+> proposed by this patch certainly does not need it.
+> 
+> Thanks.
+> 
 
-Sounds like a viable option too. Do you have a pointer to some
-description on how this would work on both host and guest side?
-
->
-> >  - virtio-gpu driver could then create a regular DMA-buf object for
-> > such memory, because it's just backed by pages (even though they may
-> > not be accessible to the guest; just like in the case of TrustZone
-> > memory protection on bare metal systems),
->
-> Hmm, well, pci memory bars are *not* backed by pages.  Maybe we can use
-> Documentation/driver-api/pci/p2pdma.rst though.  With that we might be
-> able to lookup buffers using device and dma address, without explicitly
-> creating some identifier.  Not investigated yet in detail.
-
-Not backed by pages as in "struct page", but those are still regular
-pages of the physical address space. That said, currently the sg_table
-interface is only able to describe physical memory using struct page
-pointers. It's been a long standing limitation affecting even bare
-metal systems, so perhaps it's just the right time to make them
-possible to use some other identifiers, like PFNs? There is at least
-one more free bit in the page_link field, which could mean that the
-field contains a PFN instead of a struct page pointer.
-
-Best regards,
-Tomasz
