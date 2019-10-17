@@ -2,136 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 38992DAF8F
-	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2019 16:14:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 851FCDB0B7
+	for <lists+linux-media@lfdr.de>; Thu, 17 Oct 2019 17:07:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2440028AbfJQOOu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 17 Oct 2019 10:14:50 -0400
-Received: from mail.kapsi.fi ([91.232.154.25]:38431 "EHLO mail.kapsi.fi"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2440012AbfJQOOr (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 17 Oct 2019 10:14:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-         s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
-        MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:Reply-To:Cc:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=CyX9z4y8fW70H+GW4iOcxykwZYlIDX2slw1f1/FbNOk=; b=SHTr3dhT+D7FJF0axZCivilzQa
-        sM5jOic7AbDh+TtzRouV2gS+ZR1WyHkNMz8grkyWDCoKDRBK6t0emN5iWWPE24O29NGc9t/zTzn50
-        y8HvyBUSrJpzq35bdsQNt1p1gduZPzEtN9khrztzp9UZdUvKW+s+HB/1xUqkUTiqDIvAsorXGEmQW
-        9B0dbP9tCmpBg+lGaX2PFF7yg1u9hBNWi602ft7VvjR/yuBeTv2EXZnwd/VvtZYQwMlWbhuFE9ku8
-        rBPrVS3K/x5gA9xymiY0Yf2VZJ48K2ILCNwFuIZMpQO0CSP0rqMBW9JFWhqOH7fLL+tOSrO4/3dJw
-        4naOEzhQ==;
-Received: from dvbz8cyyyyyyyyyyyyt3t-3.rev.dnainternet.fi ([2001:14ba:8869:c100::42f] helo=localhost.localdomain)
-        by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.89)
-        (envelope-from <crope@iki.fi>)
-        id 1iL6Y8-0000bL-8h; Thu, 17 Oct 2019 17:14:44 +0300
-Subject: Re: Logilink VG0022A firmware/si2157 probe
-To:     JP <jp@jpvw.nl>, Sean Young <sean@mess.org>,
-        linux-media@vger.kernel.org
-References: <20191017090837.GA26546@gofer.mess.org>
- <07eae3df-5df1-eda4-8142-b228dc34b16c@iki.fi>
- <9dbee108-4b8d-91a8-d858-01267389e068@jpvw.nl>
-From:   Antti Palosaari <crope@iki.fi>
-Message-ID: <b315469e-6d07-2fb3-b9ff-a3a5f97065a0@iki.fi>
-Date:   Thu, 17 Oct 2019 17:14:43 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+        id S2405291AbfJQPHN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 17 Oct 2019 11:07:13 -0400
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:37376 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389795AbfJQPHM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 17 Oct 2019 11:07:12 -0400
+Received: by mail-ed1-f66.google.com with SMTP id r4so2017902edy.4
+        for <linux-media@vger.kernel.org>; Thu, 17 Oct 2019 08:07:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=op76gnLFzYL0lfQFlC3qOADyB2guwVZxhXHWMZFfDag=;
+        b=fiY0kKd+jSKzY69vLXNWF9aiEhgGti3vKkXcBBNX4A4TtHGV+NYChKIBGMfK34xtYr
+         cN33H1sJwsvsY1en7opJfumchBWsmId/UK37rOQk2bhi22dIXH6XkVrJmZ8EJBLvgiq5
+         TlpplXl4DmaS2myq81ewGWhri9iU9xEGeMYD2LGirInmXs/9g211hOVNmNArOxOwWTLR
+         sqtbxBrEHof6gPAH8HTvFxCxCji8zPUuCJ8Q0tMcvYaouv0JeGDNLg67qGijOkWhEfC4
+         08aHJcnt7LV62BBoua4R25yav9i2LqrR3p0d2gWt3wOF8tPPiEAvMcv4r7COw/AJyxnF
+         Tc2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=op76gnLFzYL0lfQFlC3qOADyB2guwVZxhXHWMZFfDag=;
+        b=COeY6s8hqVQpFqWzSbROiINzyXk8y72nbqIYaWhUPAOSI5lc+p1nLZesKgfSoUfiq8
+         w1ilf3TgR4kbLkyPtQf3i1HMkHzpRyrzoqLBnZ/ycRbv7A2d5EbKMbN5E0DD0aHps9R9
+         2dExAiXhrFxgagZ0FGUFQkMOGT+v4Ggnx/NzYNDufAc9Pqg/F5F7tysCKNyX5cwV3msi
+         LPsgfdYCmju+kbsww8P3MZuxyLhDlBrxOaM44DSQXkUnFH0SnsRtY3zJhYrHel9i75x8
+         fCaiN0ENdQjao3tqPYNqGwkX2qadC2jQc9XoMC5uXRvI4di8Bk8MJc1Kj4a0b5fiAQsR
+         PR8Q==
+X-Gm-Message-State: APjAAAXNF1glGOhR9/cgggONzOQNP9R0oz59VDCNLOyO9Qsp0Fk2/08K
+        61AsVU2BsQtSm0MORgYzCGISUyzxX6hXbCtuWIRtMA==
+X-Google-Smtp-Source: APXvYqwl6Fx7Ev+y6/eX3M9AxLjt+Ps8POn4p0F3M8HHwcWpxcWkV9a7uhu92LyQLfyUiV8k2I6C/OmgoGxGuGL978Q=
+X-Received: by 2002:aa7:c38f:: with SMTP id k15mr4452620edq.100.1571324829879;
+ Thu, 17 Oct 2019 08:07:09 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <9dbee108-4b8d-91a8-d858-01267389e068@jpvw.nl>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:14ba:8869:c100::42f
-X-SA-Exim-Mail-From: crope@iki.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+References: <20191003101038.13732-1-stanimir.varbanov@linaro.org> <50eb3902-fe10-5952-8bdf-9b6b9ac37c62@linaro.org>
+In-Reply-To: <50eb3902-fe10-5952-8bdf-9b6b9ac37c62@linaro.org>
+From:   Loic Poulain <loic.poulain@linaro.org>
+Date:   Thu, 17 Oct 2019 17:08:29 +0200
+Message-ID: <CAMZdPi8D8WQJJ5U15_4A4HgXjJNUR2BOGZJUc85wgX+=QsTZ0w@mail.gmail.com>
+Subject: Re: [PATCH v4] venus: venc: Fix enum frameintervals
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Cc:     linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/17/19 4:46 PM, JP wrote:
-> Hi there,
-> 
-> On 10/17/19 2:15 PM, Antti Palosaari wrote:
->> Hello,
->>
->> On 10/17/19 12:08 PM, Sean Young wrote:
->>> Hi Antti,
->>>
->>> I have a Logilink VG0022A device which is an af9035.c type device (with
->>> ITE 9xxx frontned). The probe of the si2146 tuner fails and returns 
->>> 0xffs.
->>>
->>> Now I would like to work on fixing this. Mauro suggested the firmware 
->>> might
->>> be incorrect. Any tips on extracting the firmware? I can try and dump
->>> usb traffic from Windows and see what firmware is being used there. 
->>> How did
->>> you extract the firmware?
-> If the receiver has onboard firmware, isn't that the right one? Then the 
-> windows
-> driver has no need to load one. Or am I missing the point here?
+Hi Stanimir,
 
-Actually I am not even 100% sure what are used chips of that device, but 
-I expect those are:
-usb-interface: IT9303, needs firmware, cannot be loaded from the eeprom IIRC
-demodulator: Si2168 (revision B or C?), chip has rom that contains 
-firmware, but usually it is replaced newer by downloading
-tuner: Si2157 or same family, similar firmware solution than Si2168. 
-Si2157 I originally used didn't uploaded firmware update at all, later 
-there was added more and more Silabs tuner versions and firmware 
-downloading.
+On Thu, 3 Oct 2019 at 12:15, Stanimir Varbanov
+<stanimir.varbanov@linaro.org> wrote:
+>
+> I have tested this on db410c with following gst pipeline:
+>
+> gst-launch-1.0 -v videotestsrc !
+> video/x-raw,format=NV12,width=1280,height=960,framerate=24/1 !
+> v4l2h264enc
+> extra-controls="controls,h264_profile=4,h264_level="5",video_bitrate=10000000;"
+> ! filesink location=gstenc.h264
+>
+> Loic, could you give it a try on db820c too?
+>
+> Here is the info on the bug which I try to fix with current patch:
+>
+> https://bugs.96boards.org/show_bug.cgi?id=513
+>
+> On 10/3/19 1:10 PM, Stanimir Varbanov wrote:
+> > This fixes an issue when setting the encoder framerate because of
+> > missing precision. Now the frameinterval type is changed to
+> > TYPE_CONTINUOUS and step = 1. Also the math is changed when
+> > framerate property is called - the firmware side expects the
+> > framerate in Q16 values.
+> >
+> > Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+> > ---
+> >
+> > Changes since v3:
+> > Keep min/max numerator one, and divide frate(max/min) to frame
+> > factor (returned framerate max/min capabilities are in range
+> > 1 to 120fps but in Q16 i.e. 65536 to 7864320).
+> >
+> >  drivers/media/platform/qcom/venus/venc.c | 17 ++++++++++++-----
+> >  1 file changed, 12 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
+> > index 1b7fb2d5887c..133ff7eceb83 100644
+> > --- a/drivers/media/platform/qcom/venus/venc.c
+> > +++ b/drivers/media/platform/qcom/venus/venc.c
+> > @@ -22,6 +22,7 @@
+> >  #include "venc.h"
+> >
+> >  #define NUM_B_FRAMES_MAX     4
+> > +#define FRAMERATE_FACTOR     BIT(16)
+> >
+> >  /*
+> >   * Three resons to keep MPLANE formats (despite that the number of planes
+> > @@ -576,7 +577,7 @@ static int venc_enum_frameintervals(struct file *file, void *fh,
+> >       struct venus_inst *inst = to_inst(file);
+> >       const struct venus_format *fmt;
+> >
+> > -     fival->type = V4L2_FRMIVAL_TYPE_STEPWISE;
+> > +     fival->type = V4L2_FRMIVAL_TYPE_CONTINUOUS;
+> >
+> >       fmt = find_format(inst, fival->pixel_format,
+> >                         V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
+> > @@ -600,11 +601,11 @@ static int venc_enum_frameintervals(struct file *file, void *fh,
+> >               return -EINVAL;
+> >
+> >       fival->stepwise.min.numerator = 1;
+> > -     fival->stepwise.min.denominator = frate_max(inst);
+> > +     fival->stepwise.min.denominator = frate_max(inst) / FRAMERATE_FACTOR;
 
-Si2168B could be started (and it worked at the time I tested) with 
-default rom firmware by using that kind of stub firmware:
+On 820c frate_max() returns 120 set denominator to 0, and causes
+gstreamer failure.
 
-$ hexdump -C dvb-demod-si2168-b40-01.fw
-00000000  05 00 00 00 00 00 00 00                           |........|
-00000008
-
-Not sure if that works any other than just Si2168B.
-
->>>
->>>
->>> Any other suggestions for this device? You might be able to save me a 
->>> lot
->>> of time since you have experience with these types of devices, I do not.
->>
->> Extracting firmware is done almost always by following steps:
->> 1) take sniffs from the some bus (usb/i2c)
->> 2) identify firmware download section, detect it starting point and 
->> ending point ~few first and last bytes
->> 3) find that firmware binary located inside of binary driver
->>  * grep, hexeditor, etc
->>  * example LANG=C grep -obUaP "\x08\x05\x00" driver.sys
->> 4) use dd command to copy firmware blob from binary driver to separate 
->> file (you need to know firmware location and length inside binary)
->>
->>
->> It is also possible to dump firmware to file from bus sniffs too, but 
->> it requires writing some simple script. Dumping it from the binary 
->> driver is usually still most easiest way.
->>
->> At some point I downloaded bunch of drivers to find out multiple 
->> firmware versions for si2168 and made simple script to ease things. 
->> Script is attached.
->>
->>
->> After all, I suspect root of issue may be still be buggy i2c...
-> Me too.
-> 
-> 
-> Jan Pieter.
-
-It could be interesting to see from the sniffs what kind of firmwares 
-windows driver downloads to different chips AND if i2c communication is 
-working properly.
-
-regards
-Antti
-
--- 
-http://palosaari.fi/
+Regards,
+Loic
