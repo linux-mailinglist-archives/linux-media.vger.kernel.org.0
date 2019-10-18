@@ -2,48 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 67AB6DC8A9
-	for <lists+linux-media@lfdr.de>; Fri, 18 Oct 2019 17:34:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 51BEEDC8AB
+	for <lists+linux-media@lfdr.de>; Fri, 18 Oct 2019 17:34:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2410665AbfJRPcU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S2410661AbfJRPcU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Fri, 18 Oct 2019 11:32:20 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:37106 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2410644AbfJRPcR (ORCPT
+Received: from lelv0143.ext.ti.com ([198.47.23.248]:40708 "EHLO
+        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2410600AbfJRPcS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Oct 2019 11:32:17 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id x9IFWGd2064264;
-        Fri, 18 Oct 2019 10:32:16 -0500
+        Fri, 18 Oct 2019 11:32:18 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x9IFWHFJ002693;
+        Fri, 18 Oct 2019 10:32:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1571412736;
-        bh=XaY2J1yWS1REEbEhThMHL6thB9OqgQLRfS7zT7RuWRk=;
+        s=ti-com-17Q1; t=1571412737;
+        bh=fOWgVpmqUokvYHMT4mlXfALvalPrfwrOzlcnd0f6R94=;
         h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=nWU0iafnszNOgSJXKSDYx8xpzKhJk89BU42riD0hocQevm+/bMqL0SQ+1oWX/pJ28
-         jF2RW5d7Zn4HIZzndFMDrHbp46fSQv6/3MuoqMrGHwyy1uAUJBMeoVSQyB3gN4E1x1
-         /e+17jwlxIy3BHybjJRImuTwh+Xa7FVQ1xBm0y5I=
-Received: from DLEE110.ent.ti.com (dlee110.ent.ti.com [157.170.170.21])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x9IFWGjZ085121
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 18 Oct 2019 10:32:16 -0500
-Received: from DLEE114.ent.ti.com (157.170.170.25) by DLEE110.ent.ti.com
- (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
+        b=LdSLvwMjC2eEIRq+N0l9Hwc4wiAYwGpdQKt+K/Jq56PKrAm/ugExFfOLwQ/X7zyHP
+         ++MWtOC4jJX342xnugGdWx8ZlsXdsIFWm1yagj5AbJbSDt3HRbjSfi0ymTbsnBj7tc
+         zbTQYFK+zSWZacUy58VAVrHrI8Hs2WQHuSF82iY8=
+Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id x9IFWH0O105954;
+        Fri, 18 Oct 2019 10:32:17 -0500
+Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Fri, 18
- Oct 2019 10:32:15 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
+ Oct 2019 10:32:08 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Fri, 18 Oct 2019 10:32:07 -0500
+ Frontend Transport; Fri, 18 Oct 2019 10:32:17 -0500
 Received: from uda0869644b.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x9IFW15P080266;
-        Fri, 18 Oct 2019 10:32:15 -0500
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x9IFW15Q080266;
+        Fri, 18 Oct 2019 10:32:17 -0500
 From:   Benoit Parrot <bparrot@ti.com>
 To:     Hans Verkuil <hverkuil@xs4all.nl>, Rob Herring <robh+dt@kernel.org>
 CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, Benoit Parrot <bparrot@ti.com>
-Subject: [Patch 11/19] dt-bindings: media: cal: update binding to add DRA76x support
-Date:   Fri, 18 Oct 2019 10:34:29 -0500
-Message-ID: <20191018153437.20614-12-bparrot@ti.com>
+Subject: [Patch 12/19] media: ti-vpe: cal: Add DRA76x support
+Date:   Fri, 18 Oct 2019 10:34:30 -0500
+Message-ID: <20191018153437.20614-13-bparrot@ti.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191018153437.20614-1-bparrot@ti.com>
 References: <20191018153437.20614-1-bparrot@ti.com>
@@ -55,25 +54,68 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Update Device Tree bindings for the CAL driver to add DRA76x support.
+Add the needed control module register bit layout to support
+the DRA76x family of devices.
 
 Signed-off-by: Benoit Parrot <bparrot@ti.com>
 ---
- Documentation/devicetree/bindings/media/ti-cal.txt | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/media/platform/ti-vpe/cal.c | 36 +++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/media/ti-cal.txt b/Documentation/devicetree/bindings/media/ti-cal.txt
-index d43870a2324b..29fbbfb8be0d 100644
---- a/Documentation/devicetree/bindings/media/ti-cal.txt
-+++ b/Documentation/devicetree/bindings/media/ti-cal.txt
-@@ -10,6 +10,7 @@ Required properties:
- - compatible:
-  Should be "ti,dra72-cal", for DRA72 controllers
-  Should be "ti,dra72-pre-es2-cal", for DRA72 controllers pre ES2.0
-+ Should be "ti,dra76-cal", for DRA76 controllers
- - reg:	CAL Top level, Receiver Core #0, Receiver Core #1 and Camera RX
- 	control address space
- - reg-names: cal_top, cal_rx_core0, cal_rx_core1 and camerrx_control
+diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
+index c912ea82b534..f590fe712d3d 100644
+--- a/drivers/media/platform/ti-vpe/cal.c
++++ b/drivers/media/platform/ti-vpe/cal.c
+@@ -290,6 +290,38 @@ static struct cal_data dra72x_es1_cal_data = {
+ 	.flags = DRA72_CAL_PRE_ES2_LDO_DISABLE,
+ };
+ 
++static struct reg_field dra76x_ctrl_core_csi0_reg_fields[F_MAX_FIELDS] = {
++	[F_CTRLCLKEN] = REG_FIELD(0, 8, 8),
++	[F_CAMMODE] = REG_FIELD(0, 9, 10),
++	[F_CSI_MODE] = REG_FIELD(0, 11, 11),
++	[F_LANEENABLE] = REG_FIELD(0, 27, 31),
++};
++
++static struct reg_field dra76x_ctrl_core_csi1_reg_fields[F_MAX_FIELDS] = {
++	[F_CTRLCLKEN] = REG_FIELD(0, 0, 0),
++	[F_CAMMODE] = REG_FIELD(0, 1, 2),
++	[F_CSI_MODE] = REG_FIELD(0, 3, 3),
++	[F_LANEENABLE] = REG_FIELD(0, 24, 26),
++};
++
++static struct cal_csi2_phy dra76x_cal_csi_phy[] = {
++	{
++		.base_fields = dra76x_ctrl_core_csi0_reg_fields,
++		.num_lanes = 5,
++	},
++	{
++		.base_fields = dra76x_ctrl_core_csi1_reg_fields,
++		.num_lanes = 3,
++	},
++};
++
++static struct cal_data dra76x_cal_data = {
++	.csi2_phy_core = dra76x_cal_csi_phy,
++	.num_csi2_phy = ARRAY_SIZE(dra76x_cal_csi_phy),
++
++	.flags = 0,
++};
++
+ /*
+  * there is one cal_dev structure in the driver, it is shared by
+  * all instances.
+@@ -2295,6 +2327,10 @@ static const struct of_device_id cal_of_match[] = {
+ 		.compatible = "ti,dra72-pre-es2-cal",
+ 		.data = (void *)&dra72x_es1_cal_data,
+ 	},
++	{
++		.compatible = "ti,dra76-cal",
++		.data = (void *)&dra76x_cal_data,
++	},
+ 	{},
+ };
+ MODULE_DEVICE_TABLE(of, cal_of_match);
 -- 
 2.17.1
 
