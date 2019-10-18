@@ -2,156 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2965CDBC5F
-	for <lists+linux-media@lfdr.de>; Fri, 18 Oct 2019 07:05:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2044DBC80
+	for <lists+linux-media@lfdr.de>; Fri, 18 Oct 2019 07:09:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391172AbfJRFDx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Oct 2019 01:03:53 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:35099 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728559AbfJRFDx (ORCPT
+        id S2503929AbfJRFGL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Oct 2019 01:06:11 -0400
+Received: from mta-p6.oit.umn.edu ([134.84.196.206]:51072 "EHLO
+        mta-p6.oit.umn.edu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2504106AbfJRFFY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Oct 2019 01:03:53 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:2543:278b:dd1d:e41f])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id LJLqiTsILPduvLJLrixQX1; Fri, 18 Oct 2019 05:54:55 +0200
-Message-ID: <e6eb8c4e2e3d544558954abdbf6de941@smtp-cloud8.xs4all.net>
-Date:   Fri, 18 Oct 2019 05:54:54 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-X-CMAE-Envelope: MS4wfPx9SSt+uAp7zifM9Ooq/PkvdqEnam8JoyhQBnM2p9qHrKwacS5M0YehOKBBMoD/iUZxupsIL3ibATkIUoOLWsqXq17TK7VM17TWXlxNeekDU9aP/hFH
- JpIsmQ2ZOBlBAwu/tbPwPEU8+l2znkGfANXwFPTCO6waZ9k9vpUKtnxTF3ITzWMRaR5AkDPI9y0HTbXQD897aVUE3vlOVlHcmQD/L2cJQve36Mv8WXsiz/Xk
+        Fri, 18 Oct 2019 01:05:24 -0400
+X-Greylist: delayed 600 seconds by postgrey-1.27 at vger.kernel.org; Fri, 18 Oct 2019 01:05:23 EDT
+Received: from localhost (unknown [127.0.0.1])
+        by mta-p6.oit.umn.edu (Postfix) with ESMTP id 9653BCE2
+        for <linux-media@vger.kernel.org>; Fri, 18 Oct 2019 04:47:07 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at umn.edu
+Received: from mta-p6.oit.umn.edu ([127.0.0.1])
+        by localhost (mta-p6.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 9k_3-aNVIfzm for <linux-media@vger.kernel.org>;
+        Thu, 17 Oct 2019 23:47:07 -0500 (CDT)
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
+        (using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mta-p6.oit.umn.edu (Postfix) with ESMTPS id 74FB56E8
+        for <linux-media@vger.kernel.org>; Thu, 17 Oct 2019 23:47:07 -0500 (CDT)
+Received: by mail-il1-f199.google.com with SMTP id w9so1364490ilo.12
+        for <linux-media@vger.kernel.org>; Thu, 17 Oct 2019 21:47:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=umn.edu; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=EUxpZ3T7vF3Kc+2RT08v4EEjAUSgYRvb0sha4nlMD8s=;
+        b=bdTw0PeubzcFLX1DriNm0Yl8F6jO9UQoufbrtSDEs2MigRgqIOl6EgA0X//E19MR66
+         XpcdNRPB7qQNjzC43YxSWiD+KXoP8weegm1HXd7uoxT+1wgQ9KiBhqajAmyu8pEyt+fH
+         qkvk2dC0jbqXNKfd71ZkAnX1/hNKlEHhYQaOkcRslt/U5CG7CZkuukajp9Au3eF39qDP
+         IwRkhylUXdMbDkN5jqdMIUmSzuYH9W3wQ3cniFfx1nhZDFZlBDqyp61SR0djcWU0Xa8h
+         q1xO07n9Kf4GAytT3Et9g44q/7pV5QhhZ/7v8uUpvS7dcD5R2ovx/hygqf0lz2X81X/i
+         GnZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=EUxpZ3T7vF3Kc+2RT08v4EEjAUSgYRvb0sha4nlMD8s=;
+        b=ITa6wQrYcBqq2wLWEkHapHpUbDZraLhHqdy3b6MogWAzVb7TbKqFYfQzcXb8ItinFx
+         92R1ciYgV+RylXVchchd9ori0moJJgY5fZWOKfpkyyT4YTULA/iHyfmzvHLQglMAr0aw
+         5PsKG0B3lVqP5wqp+A0DG0NkyUEk/z4RZoqBxYRRwYjXE2o3hCCssrXp0nMNv2a7RJsm
+         BR+YBmas9SzsHhJLmHRtxoaNyv3eq8AC3P6dQ7yg3PdtMolVE0ZSN32NvmEbqIHyrd6/
+         x6HF95GqwsX3ZikEeUlANvzhT4OOdomSaJu0xS5PHTyU1nI2v6Z0LhyYNF3eZSdoH+xW
+         S/Uw==
+X-Gm-Message-State: APjAAAVnH+mbT7FHahopuqFicOGEVMti4hs+chgn5F6tUqnj2AaqN8mp
+        BwOsRDFirINPMYM7wIRfhxGf4hqV9gISp2rrv95zmHPkiPa5LW9ZdC3s1iyQadhazyZHzlPYFPa
+        3oPhHwYzFC9Ys0n5rQ42nV8D3lXo=
+X-Received: by 2002:a5d:8b8b:: with SMTP id p11mr6820747iol.2.1571374026858;
+        Thu, 17 Oct 2019 21:47:06 -0700 (PDT)
+X-Google-Smtp-Source: APXvYqzRFDJCsdCcPC5eb4L2SDx6043c6Gt8bq+dQz12A8oxvmQA4iLvhp+dkRZ6xTeypxz8f1Vy/g==
+X-Received: by 2002:a5d:8b8b:: with SMTP id p11mr6820730iol.2.1571374026580;
+        Thu, 17 Oct 2019 21:47:06 -0700 (PDT)
+Received: from bee.dtc.umn.edu (cs-bee-u.cs.umn.edu. [128.101.106.63])
+        by smtp.gmail.com with ESMTPSA id j2sm1968315ile.24.2019.10.17.21.47.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Oct 2019 21:47:05 -0700 (PDT)
+From:   Kangjie Lu <kjlu@umn.edu>
+To:     kjlu@umn.edu
+Cc:     Ramesh Shanmugasundaram <ramesh.shanmugasundaram@bp.renesas.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] media: rcar_drif: fix a memory disclosure
+Date:   Thu, 17 Oct 2019 23:47:00 -0500
+Message-Id: <20191018044701.4786-1-kjlu@umn.edu>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+"f->fmt.sdr.reserved" is uninitialized. As other peer drivers
+like msi2500 and airspy do, the fix initializes it to avoid
+memory disclosures.
 
-Results of the daily build of media_tree:
+Signed-off-by: Kangjie Lu <kjlu@umn.edu>
+---
+ drivers/media/platform/rcar_drif.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-date:			Fri Oct 18 05:00:13 CEST 2019
-media-tree git hash:	4b1d7c2760d26363c497b959a81f8d055ba767c1
-media_build git hash:	afb27b4820fd670aed06d56c6a1dde56318453f1
-v4l-utils git hash:	93f7d94630d3c49eed4394296e259d601d4bca52
-edid-decode git hash:	44d1587353df864f40ead960b0ac596005724b8f
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		(null): (null):0 (null)() warn: /home/hans/share/smatch/smatch_data/ is not accessible.
-(null): (null):0 (null)() warn: Use --no-data or --data to suppress this message.
-0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: fb74d4453fd4f857830399be9778a571221bee04
-host hardware:		x86_64
-host os:		5.2.0-3-amd64
+diff --git a/drivers/media/platform/rcar_drif.c b/drivers/media/platform/rcar_drif.c
+index 608e5217ccd5..0f267a237b42 100644
+--- a/drivers/media/platform/rcar_drif.c
++++ b/drivers/media/platform/rcar_drif.c
+@@ -912,6 +912,7 @@ static int rcar_drif_g_fmt_sdr_cap(struct file *file, void *priv,
+ {
+ 	struct rcar_drif_sdr *sdr = video_drvdata(file);
+ 
++	memset(f->fmt.sdr.reserved, 0, sizeof(f->fmt.sdr.reserved));
+ 	f->fmt.sdr.pixelformat = sdr->fmt->pixelformat;
+ 	f->fmt.sdr.buffersize = sdr->fmt->buffersize;
+ 
+-- 
+2.17.1
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4-rc1-i686: OK
-linux-5.4-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2327, Succeeded: 2327, Failed: 0, Warnings: 0
-sparse: OK
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
