@@ -2,108 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E9620DC88D
-	for <lists+linux-media@lfdr.de>; Fri, 18 Oct 2019 17:34:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BDB12DC891
+	for <lists+linux-media@lfdr.de>; Fri, 18 Oct 2019 17:34:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2410569AbfJRPb5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Oct 2019 11:31:57 -0400
-Received: from mail-lj1-f194.google.com ([209.85.208.194]:44329 "EHLO
-        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2410487AbfJRPb4 (ORCPT
+        id S2410584AbfJRPcE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Oct 2019 11:32:04 -0400
+Received: from lelv0143.ext.ti.com ([198.47.23.248]:40648 "EHLO
+        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2410487AbfJRPcE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Oct 2019 11:31:56 -0400
-Received: by mail-lj1-f194.google.com with SMTP id m13so6633639ljj.11
-        for <linux-media@vger.kernel.org>; Fri, 18 Oct 2019 08:31:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=rsK0qBHyUMKU/EdKwwPiap0MZv2z/RxBZXIjDQMzJ+w=;
-        b=kMKepBpN8Fx5S4KEFOReiXrYYq3RMMhi6mxaO3/sgLJZvOJlbdHUGfD0eeF+E/qRtZ
-         TdCyco+nZ7hcCmq7nJW0WsyAHIUVQ7qCiAbGW7+hWwZVGvpyMDAsZ5S8Czfp30vcF6w6
-         a5jHwzxIZh+OewhIfLb4JN8k10F33ShbeJLSyKacCuLsNDQ68IMhA1T8KomZHeNkVF+v
-         fy2EofOtFq7Ejb4RAE2v8ovMEa1FLJo72XGSe8tQaLCcwzp4j46q7izfqvzvq7VOicp6
-         QH+mwtPfwhaZ4SNtehWwoBNz6TGqi8rC0m9ADkJLQOqXIk9pVx6BB+dtTUiJBRrfYM8m
-         NKUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=rsK0qBHyUMKU/EdKwwPiap0MZv2z/RxBZXIjDQMzJ+w=;
-        b=LLLbg/LvnWhflkHA4ClOlDn53t88GhOw4iO74212Hcc0HHWf32pHYiOfWSOKjslsdk
-         pRb2D9rEwaeUCmrm0hpiwY0naZqi6uXbiGD12xgteOiWxrRd8Qyl45QAzn47BsIWxHaC
-         x/k7y6mcv59GqUNJHnmyyBXALCbBYEa6hm4gt8OtI1TZu8bJmXR3WyDhpXmqA7X6DPPs
-         4iTWWtFkQX0OTaO6UCAQj0BNpMBYh9UA+BL+iOSjqlyMHe2SB0q2bhvtTYazvpdNeJun
-         PloIR7X28RdGzo2y+H2nYsbimurFoJDEVAbMokPj9yfWKX3/KuudkAvUp8Z0TFUzzogd
-         vQow==
-X-Gm-Message-State: APjAAAXz4OwA7hGewZCVhMJD3bwZB9N3rIe4U+f4OJNg5Vrm2Tr5wxML
-        wQgHz7S/Dc2DqwInMuYXaRE=
-X-Google-Smtp-Source: APXvYqxMZ7511qsCsVxrABp8n0c6vctGwgAvK0FasCv2jEW7FUXAv0zZRDV5Yi9mzHLYMurpHXdaGQ==
-X-Received: by 2002:a2e:750c:: with SMTP id q12mr6502030ljc.138.1571412714740;
-        Fri, 18 Oct 2019 08:31:54 -0700 (PDT)
-Received: from z50.gdansk-morena.vectranet.pl (109241207190.gdansk.vectranet.pl. [109.241.207.190])
-        by smtp.gmail.com with ESMTPSA id k23sm2902060ljc.13.2019.10.18.08.31.53
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 18 Oct 2019 08:31:54 -0700 (PDT)
-From:   Janusz Krzysztofik <jmkrzyszt@gmail.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>
-Subject: [PATCH] media: v4l2-subdev: Don't use __u32 internally
-Date:   Fri, 18 Oct 2019 17:31:40 +0200
-Message-Id: <20191018153140.594-1-jmkrzyszt@gmail.com>
-X-Mailer: git-send-email 2.21.0
+        Fri, 18 Oct 2019 11:32:04 -0400
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id x9IFW2H1002558;
+        Fri, 18 Oct 2019 10:32:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1571412722;
+        bh=/YKNqD/6ZGTEd6vo7678PvL+PAspt5iQ6uoWMMZXLTI=;
+        h=From:To:CC:Subject:Date;
+        b=fGkAhBIEXOSEtrhMaII1nKgPsMipkBxkNpgwDk2MkYXcemLFIqT1yVYzq59W7audu
+         xUItnBiV5HoV/mF13iIEgnUWRjFhJdmOn8U8UobKzar7FZwVCo6wIQd1/ozQ9n1RvG
+         uq6E9YBO7tr8eu7T+tMlQGxJnLr4DzAznnvNPWMk=
+Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x9IFW15D084478
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Fri, 18 Oct 2019 10:32:02 -0500
+Received: from DFLE109.ent.ti.com (10.64.6.30) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Fri, 18
+ Oct 2019 10:31:53 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE109.ent.ti.com
+ (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Fri, 18 Oct 2019 10:31:53 -0500
+Received: from uda0869644b.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id x9IFW15E080266;
+        Fri, 18 Oct 2019 10:32:01 -0500
+From:   Benoit Parrot <bparrot@ti.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>, Rob Herring <robh+dt@kernel.org>
+CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, Benoit Parrot <bparrot@ti.com>
+Subject: [Patch 00/19] media: ti-vpe: cal: maintenance
+Date:   Fri, 18 Oct 2019 10:34:18 -0500
+Message-ID: <20191018153437.20614-1-bparrot@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Commit a8fa55078a77 ("media: v4l2-subdev: Verify arguments in
-v4l2_subdev_call()") and commit 374d62e7aa50 ("media: v4l2-subdev:
-Verify v4l2_subdev_call() pad config argument") introduced a few local
-functions, unfortunately with arguments of type __u32, reserved for use
-in Linux uAPI.  Use u32 instead.
+This a collection of backlog patches I have been carrying for the CAL
+driver.
 
-Suggested-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Signed-off-by: Janusz Krzysztofik <jmkrzyszt@gmail.com>
----
- drivers/media/v4l2-core/v4l2-subdev.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+- Add support for SoC variants.
 
-diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index f725cd9b66b9..9e987c0f840e 100644
---- a/drivers/media/v4l2-core/v4l2-subdev.c
-+++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -112,7 +112,7 @@ static int subdev_close(struct file *file)
- 	return 0;
- }
- 
--static inline int check_which(__u32 which)
-+static inline int check_which(u32 which)
- {
- 	if (which != V4L2_SUBDEV_FORMAT_TRY &&
- 	    which != V4L2_SUBDEV_FORMAT_ACTIVE)
-@@ -121,7 +121,7 @@ static inline int check_which(__u32 which)
- 	return 0;
- }
- 
--static inline int check_pad(struct v4l2_subdev *sd, __u32 pad)
-+static inline int check_pad(struct v4l2_subdev *sd, u32 pad)
- {
- #if defined(CONFIG_MEDIA_CONTROLLER)
- 	if (sd->entity.num_pads) {
-@@ -136,7 +136,7 @@ static inline int check_pad(struct v4l2_subdev *sd, __u32 pad)
- 	return 0;
- }
- 
--static int check_cfg(__u32 which, struct v4l2_subdev_pad_config *cfg)
-+static int check_cfg(u32 which, struct v4l2_subdev_pad_config *cfg)
- {
- 	if (which == V4L2_SUBDEV_FORMAT_TRY && !cfg)
- 		return -EINVAL;
+- Switches to syscon/regmap to access a system controller register for
+the DPHY configuration. This register has different bit layout depending
+on the SoC version.
+
+- It adds supports for pre ES2.0 silicon errata.
+
+- Reworked the DPHY initialization sequence to match the technical
+reference manual and provide a more robust restartability.
+
+- Adds the missing ability to power subdevice.
+
+- Update the devicetree binding and then converts it to dt-schema 
+
+Benoit Parrot (18):
+  dt-bindings: media: cal: update binding to use syscon
+  dt-bindings: media: cal: update binding example
+  media: ti-vpe: cal: Add per platform data support
+  media: ti-vpe: cal: Enable DMABUF export
+  dt-bindings: media: cal: update binding to add PHY LDO errata support
+  media: ti-vpe: cal: add CSI2 PHY LDO errata support
+  media: ti-vpe: cal: Fix ths_term/ths_settle parameters
+  media: ti-vpe: cal: Fix pixel processing parameters
+  media: ti-vpe: cal: Align DPHY init sequence with docs
+  dt-bindings: media: cal: update binding to add DRA76x support
+  media: ti-vpe: cal: Add DRA76x support
+  dt-bindings: media: cal: update binding to add AM654 support
+  media: ti-vpe: cal: Add AM654 support
+  media: ti-vpe: cal: Add subdev s_power hooks
+  media: ti-vpe: cal: Properly calculate max resolution boundary
+  media: ti-vpe: cal: Fix a WARN issued when start streaming fails
+  media: ti-vpe: cal: fix enum_mbus_code/frame_size subdev arguments
+  dt-bindings: media: cal: convert binding to yaml
+
+Nikhil Devshatwar (1):
+  media: ti-vpe: cal: Restrict DMA to avoid memory corruption
+
+ .../devicetree/bindings/media/ti,cal.yaml     | 186 +++++
+ .../devicetree/bindings/media/ti-cal.txt      |  72 --
+ drivers/media/platform/Kconfig                |   2 +-
+ drivers/media/platform/ti-vpe/cal.c           | 775 ++++++++++++++----
+ drivers/media/platform/ti-vpe/cal_regs.h      |  27 +
+ 5 files changed, 830 insertions(+), 232 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/ti,cal.yaml
+ delete mode 100644 Documentation/devicetree/bindings/media/ti-cal.txt
+
 -- 
-2.21.0
+2.17.1
 
