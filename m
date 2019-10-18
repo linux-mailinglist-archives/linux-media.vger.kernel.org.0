@@ -2,125 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FD01DC292
-	for <lists+linux-media@lfdr.de>; Fri, 18 Oct 2019 12:18:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E929DC2D1
+	for <lists+linux-media@lfdr.de>; Fri, 18 Oct 2019 12:32:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390610AbfJRKSb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Oct 2019 06:18:31 -0400
-Received: from mailout4.samsung.com ([203.254.224.34]:56099 "EHLO
-        mailout4.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388560AbfJRKSb (ORCPT
+        id S2408215AbfJRKch (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 18 Oct 2019 06:32:37 -0400
+Received: from mailout2.w1.samsung.com ([210.118.77.12]:41370 "EHLO
+        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729479AbfJRKch (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Oct 2019 06:18:31 -0400
-Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
-        by mailout4.samsung.com (KnoxPortal) with ESMTP id 20191018101829epoutp04d8698de1fc410bf1a0dbd99781a9bd19~Otm9FniW50572805728epoutp04Z
-        for <linux-media@vger.kernel.org>; Fri, 18 Oct 2019 10:18:29 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20191018101829epoutp04d8698de1fc410bf1a0dbd99781a9bd19~Otm9FniW50572805728epoutp04Z
+        Fri, 18 Oct 2019 06:32:37 -0400
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20191018103235euoutp02536fe095af93bb36db7e44805d982060~OtzRQ1VuU0503905039euoutp028
+        for <linux-media@vger.kernel.org>; Fri, 18 Oct 2019 10:32:35 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20191018103235euoutp02536fe095af93bb36db7e44805d982060~OtzRQ1VuU0503905039euoutp028
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1571393909;
-        bh=dSk8JPa5kW5kXgyEr7wIhif1EMT7yieZmQ48Y5Fzy1Q=;
-        h=From:To:Cc:Subject:Date:References:From;
-        b=XsexphU4O6zt6jOwY2SLXN4xg9xlrSWnuZefjI2TgDS9bHfZ1VcQ38XYcV11CLK95
-         T2FE8RjfoCwAicF5IQv7weSnvVuWTaKKOmpcWgDaNf9atuPvGzgCXBoJabZ9LJGrOC
-         FtrScvsVgI3kaErMoqlaawwKFXuyGeaZF+1sxZ+A=
-Received: from epsnrtp5.localdomain (unknown [182.195.42.166]) by
-        epcas1p3.samsung.com (KnoxPortal) with ESMTP id
-        20191018101828epcas1p32367e10fecd2be8cbe95e49f235dc035~Otm8Z5ieo2286322863epcas1p3H;
-        Fri, 18 Oct 2019 10:18:28 +0000 (GMT)
-Received: from epsmges1p1.samsung.com (unknown [182.195.40.154]) by
-        epsnrtp5.localdomain (Postfix) with ESMTP id 46vhnZ0rk2zMqYkW; Fri, 18 Oct
-        2019 10:18:26 +0000 (GMT)
-Received: from epcas1p1.samsung.com ( [182.195.41.45]) by
-        epsmges1p1.samsung.com (Symantec Messaging Gateway) with SMTP id
-        3A.BE.04144.27199AD5; Fri, 18 Oct 2019 19:18:26 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-        epcas1p3.samsung.com (KnoxPortal) with ESMTPA id
-        20191018101825epcas1p3fc6c1d01b4d898ebd0db64527e17b536~Otm5d5UrF2286322863epcas1p3C;
-        Fri, 18 Oct 2019 10:18:25 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-        epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-        20191018101825epsmtrp261d4a94f93dbce568dc78e92aa38b082~Otm5dMici2367223672epsmtrp2e;
-        Fri, 18 Oct 2019 10:18:25 +0000 (GMT)
-X-AuditID: b6c32a35-2c7ff70000001030-70-5da991727d46
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        46.94.04081.07199AD5; Fri, 18 Oct 2019 19:18:24 +0900 (KST)
-Received: from localhost.localdomain (unknown [10.113.221.222]) by
-        epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-        20191018101824epsmtip155e0cd0f1f8fdd9b72417a894fe2b01e~Otm5OSrx31057410574epsmtip1D;
-        Fri, 18 Oct 2019 10:18:24 +0000 (GMT)
-From:   Seung-Woo Kim <sw0312.kim@samsung.com>
-To:     linux-media@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        s.nawrocki@samsung.com, mchehab@kernel.org, krzk@kernel.org
-Cc:     sw0312.kim@samsung.com
-Subject: [PATCH] media: exynos4-is: Fix recursive locking in
+        s=mail20170921; t=1571394755;
+        bh=Ysrx07gQCp3rWiZMT5yZDjt62qpEUaWVhwuVePnhwVY=;
+        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+        b=tvVPQPIuCQEvZ4YIPfYVLFhFVmbtXsScB6GgdHCr3oTte5Sx+qXDGpmU2qgZbEBj5
+         luPlyWKdbmNxxohNzvdTODFpFteX1m/dtNCUL1x+5NjW1DI6glp0BQTj1pUnyTYBTz
+         IQl72zMiEKmD8xcRQbLW0FmXtP9rXeXBplQZxV9Q=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+        20191018103235eucas1p24f7a0c0270c9c788ed7e6fb155c3ae6b~OtzRBdFRb1997219972eucas1p2C;
+        Fri, 18 Oct 2019 10:32:35 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+        eusmges3new.samsung.com (EUCPMTA) with SMTP id AB.93.04374.2C499AD5; Fri, 18
+        Oct 2019 11:32:35 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+        20191018103234eucas1p1ca07b12d4ac2e934c8dc486c2998eef4~OtzQriZN_1739717397eucas1p1O;
+        Fri, 18 Oct 2019 10:32:34 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20191018103234eusmtrp1811badc5d6743e8dba86226eb6b7d460~OtzQq8dRP1051510515eusmtrp1j;
+        Fri, 18 Oct 2019 10:32:34 +0000 (GMT)
+X-AuditID: cbfec7f5-4f7ff70000001116-fb-5da994c2cae4
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+        eusmgms1.samsung.com (EUCPMTA) with SMTP id 50.AE.04166.2C499AD5; Fri, 18
+        Oct 2019 11:32:34 +0100 (BST)
+Received: from [106.120.51.75] (unknown [106.120.51.75]) by
+        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+        20191018103234eusmtip23193efe964e4c71a939cf28d160ae295~OtzQWlj_61038010380eusmtip2M;
+        Fri, 18 Oct 2019 10:32:34 +0000 (GMT)
+Subject: Re: [PATCH] media: exynos4-is: Fix recursive locking in
  isp_video_release()
-Date:   Fri, 18 Oct 2019 19:20:52 +0900
-Message-Id: <1571394052-24446-1-git-send-email-sw0312.kim@samsung.com>
-X-Mailer: git-send-email 1.7.4.1
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrLKsWRmVeSWpSXmKPExsWy7bCmrm7RxJWxBnv+sFicP7+B3aJnw1ZW
-        ixnn9zFZLNv0h8ni8Jt2IHfySzYHNo9NqzrZPPq2rGL0+LxJLoA5KtsmIzUxJbVIITUvOT8l
-        My/dVsk7ON453tTMwFDX0NLCXEkhLzE31VbJxSdA1y0zB2ivkkJZYk4pUCggsbhYSd/Opii/
-        tCRVISO/uMRWKbUgJafAskCvODG3uDQvXS85P9fK0MDAyBSoMCE7Y/P8z+wFv9krNkxfw9TA
-        +J6ti5GDQ0LARGLCMpMuRi4OIYEdjBId8zayQjifGCUeLW4AcjiBnG+MEp9/eoLYIA3LVz1j
-        hCjayyjRcPITC4TzhVHiyLbNjCBVbAI6EvuX/AYbJSLQyChx/dwEFpAEs4CUxLal69lAbGGB
-        IIn7l86C2SwCqhI9L3+B2bwCbhI7ZnxkhFinILHg3ls2kEESAm9ZJb5+O84OkXCRaP6/mAnC
-        FpZ4dXwLVFxK4vO7vWwQdrXE9gk/2SGaOxgletobWSASxhL7l05mAoUAs4CmxPpd+hBhRYmd
-        v+cyQhzKJ/Huaw8rJJB4JTrahCBKVCR2Hp0EDTspiVkbgiHCHhLLTl9jgYRWrMSjO8/ZJjDK
-        zkKYv4CRcRWjWGpBcW56arFhgSFyJG1iBCclLdMdjFPO+RxiFOBgVOLh3RGwIlaINbGsuDL3
-        EKMEB7OSCG+w9cpYId6UxMqq1KL8+KLSnNTiQ4ymwMCbyCwlmpwPTJh5JfGGpkbGxsYWJoZm
-        poaGSuK8jsuXxgoJpCeWpGanphakFsH0MXFwSjUwHhTd/Mp/+jon5RXq3G9MLB9/0un19/sh
-        l3NM8OfnGHlOnmc/9u7gvDP7u3Z0kWv63JOCDzacTd6TwxaSfmSb0ZwHjZIvfI1+PalO8jVg
-        sL9S+kQs/+W/1Q8rk3ed3Pc6aMu/mMWS4p6bAoOnPIzpV2j+p33LWD7+2jv7DVt73zCrL4mw
-        3fItQomlOCPRUIu5qDgRAGoUPYRgAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrNJMWRmVeSWpSXmKPExsWy7bCSnG7hxJWxBpO4Lc6f38Bu0bNhK6vF
-        jPP7mCyWbfrDZHH4TTuQO/klmwObx6ZVnWwefVtWMXp83iQXwBzFZZOSmpNZllqkb5fAlbF5
-        /mf2gt/sFRumr2FqYHzP1sXIySEhYCKxfNUzRhBbSGA3o8S8YyoQcSmJud+2A8U5gGxhicOH
-        i7sYuYBKPjFKbP83iQmkhk1AR2L/kt+sIAkRgXZGiV9bb7KDJJiBmrctXQ+2QFggQOJN52sw
-        m0VAVaLn5S8wm1fATWLHjI+MEMsUJBbce8s2gZFnASPDKkbJ1ILi3PTcYsMCw7zUcr3ixNzi
-        0rx0veT83E2M4CDR0tzBeHlJ/CFGAQ5GJR7eHQErYoVYE8uKK3MPMUpwMCuJ8AZbr4wV4k1J
-        rKxKLcqPLyrNSS0+xCjNwaIkzvs071ikkEB6YklqdmpqQWoRTJaJg1OqgdH3c9zhY7sKfi49
-        k7HlW8pHv4+PErRNgz4YS1fY8dUw/Hd/f8reQl1b66jzLWPXh2wvHjktPpzt7Pl6T+gsWdsd
-        F6a5nG98ZLq9o8/i3rGvb52Zsq/uPGpSeVnAJ+tIWEZyyZr2R6GVG85mtVyNnpd7TyRwdmDS
-        y6ANM6T9VXa803hS/dmBc4YSS3FGoqEWc1FxIgBZDc74DgIAAA==
-X-CMS-MailID: 20191018101825epcas1p3fc6c1d01b4d898ebd0db64527e17b536
+To:     Seung-Woo Kim <sw0312.kim@samsung.com>, linux-media@vger.kernel.org
+Cc:     linux-samsung-soc@vger.kernel.org, mchehab@kernel.org,
+        krzk@kernel.org
+From:   Sylwester Nawrocki <s.nawrocki@samsung.com>
+Message-ID: <88842c64-7101-2ebd-201f-9975ab69b32d@samsung.com>
+Date:   Fri, 18 Oct 2019 12:32:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+        Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <1571394052-24446-1-git-send-email-sw0312.kim@samsung.com>
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprKKsWRmVeSWpSXmKPExsWy7djP87qHp6yMNbh/hdHi/PkN7BY9G7ay
+        Wsw4v4/JYtmmP0wWMya/ZHNg9di0qpPNo2/LKkaPz5vkApijuGxSUnMyy1KL9O0SuDK+TtrC
+        VvCcuWJnz2PGBsaFzF2MnBwSAiYSd/8tZu1i5OIQEljBKLHl6ilGkISQwBdGibPXQiASnxkl
+        7v09xtLFyAHWcXlKCUR8OaNE49dZzBDOW0aJrvYP7CDdwgJhEnPav7GB2CIC7hK9Z96BxZkF
+        vCQ6dv8As9kEDCV6j/aBbeMVsJNY9v4tE4jNIqAq8W97HxvIMlGBCInTXxMhSgQlTs58wgJi
+        cwKN/LzxDtRIcYmmLytZIWx5ie1v54DdIyEwmV3iwfXF7BBvukh0XJvJCmELS7w6vgUqLiNx
+        enIPC0RDM6NEz+7b7BDOBEaJ+8cXMEJUWUscPn6RFeQiZgFNifW79CHCjhI/tq9gg4QKn8SN
+        t4IQR/BJTNo2nRkizCvR0SYEUa0i8XvVdCYIW0qi+8l/lgmMSrOQvDYLyTuzkLwzC2HvAkaW
+        VYziqaXFuempxcZ5qeV6xYm5xaV56XrJ+bmbGIGJ5fS/4193MO77k3SIUYCDUYmHd0fAilgh
+        1sSy4srcQ4wSHMxKIrzB1itjhXhTEiurUovy44tKc1KLDzFKc7AoifNWMzyIFhJITyxJzU5N
+        LUgtgskycXBKNTCG6nRc6j/Uy3LEzViwk1+m8tQ7q+UHZ3ufr5lYWfqpfDtPdabYvPfP0sqf
+        L14esEK6KZbpVpXIrWYu6+gHUsKx7NfWJLInvz7Jdf+I8Y8of+YVSya4hspVMtbmcog0GE2z
+        bZylWH1gvec9Pc4ZPxQinshMZP7a3tgQcjzTkD9w0xoVfam5hUosxRmJhlrMRcWJACgPX/Mo
+        AwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrOIsWRmVeSWpSXmKPExsVy+t/xe7qHpqyMNWh/pmJx/vwGdoueDVtZ
+        LWac38dksWzTHyaLGZNfsjmwemxa1cnm0bdlFaPH501yAcxRejZF+aUlqQoZ+cUltkrRhhZG
+        eoaWFnpGJpZ6hsbmsVZGpkr6djYpqTmZZalF+nYJehlfJ21hK3jOXLGz5zFjA+NC5i5GDg4J
+        AROJy1NKuhi5OIQEljJKnFn5kA0iLiUxv0Wpi5ETyBSW+HOtiw3EFhJ4zSixrykRxBYWCJOY
+        0/4NLC4i4C7Re+YdO8ScWYwS/yZuZAVJMAt4SXTs/sEOYrMJGEr0Hu1jBLF5Bewklr1/ywRi
+        swioSvzb3gc2SFQgQuL59htQNYISJ2c+YQGxOYEWfN54hx1iprrEn3mXmCFscYmmLyuhdslL
+        bH87h3kCo9AsJO2zkLTMQtIyC0nLAkaWVYwiqaXFuem5xYZ6xYm5xaV56XrJ+bmbGIGRtO3Y
+        z807GC9tDD7EKMDBqMTDuyNgRawQa2JZcWXuIUYJDmYlEd5g65WxQrwpiZVVqUX58UWlOanF
+        hxhNgZ6byCwlmpwPjPK8knhDU0NzC0tDc2NzYzMLJXHeDoGDMUIC6YklqdmpqQWpRTB9TByc
+        Ug2MAQsrJ6QbMYip7Hm+YM7eQ4mT5+9t/lkkcfINS0w09zr+YwHV5pblSc6Hil4/eq0593MD
+        7w7xLzE2iyeaJRTckY2ILNGbeNR3wtnkuGxH5SsSEzSP6b976fR/3bli3djybjmPB0x+7/7c
+        MrX8aKtwNEW5YJ/8oc4FCqt+iJXoe29tvbgyU9RJiaU4I9FQi7moOBEACf27w7oCAAA=
+X-CMS-MailID: 20191018103234eucas1p1ca07b12d4ac2e934c8dc486c2998eef4
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: SVC_REQ_APPROVE
-CMS-TYPE: 101P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
+X-RootMTR: 20191018101825epcas1p3fc6c1d01b4d898ebd0db64527e17b536
+X-EPHeader: CA
+CMS-TYPE: 201P
 X-CMS-RootMailID: 20191018101825epcas1p3fc6c1d01b4d898ebd0db64527e17b536
 References: <CGME20191018101825epcas1p3fc6c1d01b4d898ebd0db64527e17b536@epcas1p3.samsung.com>
+        <1571394052-24446-1-git-send-email-sw0312.kim@samsung.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From isp_video_release(), &isp->video_lock is held and subsequent
-vb2_fop_release() tries to lock vdev->lock which is same with the
-previous one. Replace vb2_fop_release() with _vb2_fop_release() to
-fix the recursive locking.
+On 10/18/19 12:20, Seung-Woo Kim wrote:
+>>From isp_video_release(), &isp->video_lock is held and subsequent
+> vb2_fop_release() tries to lock vdev->lock which is same with the
+> previous one. Replace vb2_fop_release() with _vb2_fop_release() to
+> fix the recursive locking.
+> 
+> Fixes: 1380f5754cb0 ("[media] videobuf2: Add missing lock held on vb2_fop_release")
+> Signed-off-by: Seung-Woo Kim <sw0312.kim@samsung.com>
 
-Fixes: 1380f5754cb0 ("[media] videobuf2: Add missing lock held on vb2_fop_release")
-Signed-off-by: Seung-Woo Kim <sw0312.kim@samsung.com>
----
- drivers/media/platform/exynos4-is/fimc-isp-video.c |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
-
-diff --git a/drivers/media/platform/exynos4-is/fimc-isp-video.c b/drivers/media/platform/exynos4-is/fimc-isp-video.c
-index 378cc30..d2cbcdc 100644
---- a/drivers/media/platform/exynos4-is/fimc-isp-video.c
-+++ b/drivers/media/platform/exynos4-is/fimc-isp-video.c
-@@ -313,7 +313,7 @@ static int isp_video_release(struct file *file)
- 		ivc->streaming = 0;
- 	}
- 
--	vb2_fop_release(file);
-+	_vb2_fop_release(file, NULL);
- 
- 	if (v4l2_fh_is_singular_file(file)) {
- 		fimc_pipeline_call(&ivc->ve, close);
--- 
-1.7.4.1
-
+Reviewed-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
