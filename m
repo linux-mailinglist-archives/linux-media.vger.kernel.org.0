@@ -2,156 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 048ECDD661
-	for <lists+linux-media@lfdr.de>; Sat, 19 Oct 2019 05:54:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 28385DD864
+	for <lists+linux-media@lfdr.de>; Sat, 19 Oct 2019 13:12:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727433AbfJSDyp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 18 Oct 2019 23:54:45 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:44135 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727406AbfJSDyp (ORCPT
+        id S1726129AbfJSLMu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 19 Oct 2019 07:12:50 -0400
+Received: from relay9-d.mail.gandi.net ([217.70.183.199]:34553 "EHLO
+        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725828AbfJSLMu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 18 Oct 2019 23:54:45 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:54ea:88c5:86e5:5a7e])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id LfpCicCnYPduvLfpDi3aAR; Sat, 19 Oct 2019 05:54:43 +0200
-Message-ID: <9ede9c6ac0c0698d89c902f1e117dedf@smtp-cloud8.xs4all.net>
-Date:   Sat, 19 Oct 2019 05:54:42 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: OK
-X-CMAE-Envelope: MS4wfNBPd+YJ0z4z19DxLrsaQjGA4jOr/zbTqoK/QNx331voRM/WcuZMGZok+HKDQ06WLVmbBKXTfPK1NaS3bTNrfvKqmWYu9TInlVXu0Boru4Qn+OlRwTpw
- W/0N0z4rX1+ewzvUIXVG5IUa6wQBU0du18m3H4r27QxsDKe9s/1Koemf4w/UdkzgGLkLQkSLTV8GrdHZWZaOp8gdVoJp72mj7cD+kJEG8BG2dJhEUBJfnHud
+        Sat, 19 Oct 2019 07:12:50 -0400
+Received: from webmail.gandi.net (webmail22.sd4.0x35.net [10.200.201.22])
+        (Authenticated sender: brun@services-courriers.online)
+        by relay9-d.mail.gandi.net (Postfix) with ESMTPA id C4902FF805;
+        Sat, 19 Oct 2019 11:12:39 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+Date:   Sat, 19 Oct 2019 12:12:39 +0100
+From:   HUREL Vincent <brun@services-courriers.online>
+To:     brun@services-courriers.online
+Subject: TRADING  ACCOUNT
+Organization: ABB FRANCE
+Reply-To: hurelvincent@newabb-fr.com
+Mail-Reply-To: hurelvincent@newabb-fr.com
+Message-ID: <3027f3988cb5996783c4a49aa5d0cddf@services-courriers.online>
+X-Sender: brun@services-courriers.online
+User-Agent: Roundcube Webmail/1.3.8
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Dear sir ,
 
-Results of the daily build of media_tree:
+I am M HUREL Vincent , purchasing and sales manager of ABB FRANCE . Our 
+Company specialised in Supplying computer hardware and Electronic . We 
+want to extend our supplier list because of concurrency in prices on the 
+international market . We are seeking a supplier with whom we can to 
+have  partnered long-term in order to have competitive prices .we are 
+interested to buy the products you sell and want to place an order with 
+you in big quantities.
+Can you give us payment facilities ( 14 , 30 or 60 days payment terms ) 
+?
+Could you inform us of the steps to follow to open an account with you ?
 
-date:			Sat Oct 19 05:00:19 CEST 2019
-media-tree git hash:	4b1d7c2760d26363c497b959a81f8d055ba767c1
-media_build git hash:	afb27b4820fd670aed06d56c6a1dde56318453f1
-v4l-utils git hash:	93f7d94630d3c49eed4394296e259d601d4bca52
-edid-decode git hash:	dc8afbf7e3001587e27695288ff8c259249256b1
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		(null): (null):0 (null)() warn: /home/hans/share/smatch/smatch_data/ is not accessible.
-(null): (null):0 (null)() warn: Use --no-data or --data to suppress this message.
-0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: fb74d4453fd4f857830399be9778a571221bee04
-host hardware:		x86_64
-host os:		5.2.0-3-amd64
+Waiting your feedback
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4-rc1-i686: OK
-linux-5.4-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2327, Succeeded: 2327, Failed: 0, Warnings: 0
-sparse: OK
+Cordially
 
-Detailed results are available here:
+M HUREL Vincent
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+ABB FRANCE
+5 BOULEVARD D OSNY
+95800 Cergy
+REG N° 335 146 312
+VAT N° FR 95 335146312
+TEL +33183777972
+TEL D : +33756981277
+FAX +33143381547
+https://new.abb.com
