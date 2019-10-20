@@ -2,96 +2,150 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AB700DDEF6
-	for <lists+linux-media@lfdr.de>; Sun, 20 Oct 2019 16:45:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E8239DDF43
+	for <lists+linux-media@lfdr.de>; Sun, 20 Oct 2019 17:50:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726438AbfJTOpj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 20 Oct 2019 10:45:39 -0400
-Received: from mail-il1-f179.google.com ([209.85.166.179]:36637 "EHLO
-        mail-il1-f179.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726373AbfJTOpi (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sun, 20 Oct 2019 10:45:38 -0400
-Received: by mail-il1-f179.google.com with SMTP id z2so9676735ilb.3;
-        Sun, 20 Oct 2019 07:45:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=KrDu/vgLItB32vm1EEP3scGbUZAePkFvEAZ1zExbevU=;
-        b=btkQgoY2dLnQkK3Glw0Lhic8heYwIRFyPei2+ExctEKWGhczB07QtdKlHbSUDLy5Qg
-         Glgx10NLwXuD5t0flI1hwe7aZm7TG2WR4dWz5UmbTHaGcQVNQAElzqsqo/Pf+GW2/mBD
-         dDbFvixCitFvdM7ol0kKqDeDG9jsaz7zYJrShoL3NcfWVQsyKplnhVQXk31ENoztGE2q
-         8Hs11zj72YBj1ZdjYuXaX0DltmhV5nJ6w+h9DDo54kllpQQwUtXXeeCAcuc4WYAb89dA
-         4IsR/Glvs9awxysIGPw/IL6hFEM69U2t08ksM9xWYAqvqVIVHMmRaFa+HbyF6pC9QWs3
-         0Y2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=KrDu/vgLItB32vm1EEP3scGbUZAePkFvEAZ1zExbevU=;
-        b=I9LiDBYuhajUFmTI0IE0MxPn5RgT/oKseckhbRNev3l5tNcwB7DVBBksukIFiL2Rjk
-         WcT6QNjKslQ8QKdyhDQtkoaT7NDLoIKp1rdE5JJuQY9Unqta6YwXkKh1oXxNX/m+KBfd
-         Z/+dxrJdlZjkmjM5YH2ZwHU9SoQj+I1d1fPDnwhK2xBzHeTzNnogrrGNKlDhxLn9um5a
-         qqL8BvNOW4HZSiY7fzWI0UdOFEOEmdgETnIFvupVRFVzDkyNBDJr3xv5BGaZ8DshsW0d
-         SJ0fOR8cxlmqYCChigMcs/JKU8eR02yXbI9gqyjjpJ4Ya0lJ/UKxgRoWk0INhWUH3Cw7
-         J8IA==
-X-Gm-Message-State: APjAAAXFHEgB2AXyqaSlYvGUfHbSL6ZGPdnuuSP3EhJJSYL611M5HAwi
-        afM/4NeAHfNH5aLcbxM1UShrc7hG74IpCSZG4KQhcjZT
-X-Google-Smtp-Source: APXvYqyBm2F86GArGiEOwwTNqv6zY40Tq62euFyQZ4c+oktCAZbRneHxT9PWMBSxS1xjaWIZBUX0ajPa8cD8eJDBr7w=
-X-Received: by 2002:a92:8384:: with SMTP id p4mr20362014ilk.276.1571582737214;
- Sun, 20 Oct 2019 07:45:37 -0700 (PDT)
+        id S1726482AbfJTPuD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 20 Oct 2019 11:50:03 -0400
+Received: from gofer.mess.org ([88.97.38.141]:48393 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726467AbfJTPuC (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 20 Oct 2019 11:50:02 -0400
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id B7E77C6373; Sun, 20 Oct 2019 16:50:01 +0100 (BST)
+From:   Sean Young <sean@mess.org>
+To:     linux-media@vger.kernel.org
+Subject: [PATCH v4l-utils] ir-keytable: bpf: improve rsc imon pointer decoder
+Date:   Sun, 20 Oct 2019 16:50:01 +0100
+Message-Id: <20191020155001.12778-1-sean@mess.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-From:   Adam Ford <aford173@gmail.com>
-Date:   Sun, 20 Oct 2019 09:45:25 -0500
-Message-ID: <CAHCN7xLMTDondeiYiYHwGG5HYEaRwY9S4uoqQ-Eq6b8ksSS+NA@mail.gmail.com>
-Subject: V4L2 runs out of memory when OMAP3 ISP parallel pixel clock is high
-To:     Linux-OMAP <linux-omap@vger.kernel.org>,
-        linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        "H. Nikolaus Schaller" <hns@goldelico.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-I am running a DM3730 connected to an mt9p031 sensor, and the ISP is
-running in 8-bit parallel mode.
+Sometimes the remotes sends 4 bits rather than 5. This makes the pointer
+much more reliable.
 
-I have the sensor endpoint configured as:
+Signed-off-by: Sean Young <sean@mess.org>
+---
+ utils/keytable/bpf_protocols/imon_rsc.c | 66 +++++++++++++------------
+ 1 file changed, 35 insertions(+), 31 deletions(-)
 
-mt9p031_out: endpoint {
-     input-clock-frequency = <24000000>;
-     pixel-clock-frequency = <72000000>;
-     remote-endpoint = <&ccdc_ep>;
-};
+diff --git a/utils/keytable/bpf_protocols/imon_rsc.c b/utils/keytable/bpf_protocols/imon_rsc.c
+index e395b09c..14c4ec37 100644
+--- a/utils/keytable/bpf_protocols/imon_rsc.c
++++ b/utils/keytable/bpf_protocols/imon_rsc.c
+@@ -9,7 +9,6 @@
+ 
+ enum state {
+ 	STATE_INACTIVE,
+-	STATE_HEADER_SPACE,
+ 	STATE_BITS_SPACE,
+ 	STATE_BITS_PULSE,
+ };
+@@ -33,7 +32,7 @@ struct bpf_map_def SEC("maps") decoder_state_map = {
+ // an int, so that the compiler emits a mov immediate for the address
+ // but uses it as an int. The bpf loader replaces the relocation with the
+ // actual value (either overridden or taken from the data segment).
+-int margin = 250;
++int margin = 325;
+ 
+ #define BPF_PARAM(x) (int)(&(x))
+ 
+@@ -68,7 +67,7 @@ int bpf_decoder(unsigned int *sample)
+ 	case STATE_INACTIVE:
+ 		if (pulse && (eq_margin(duration, 2000) ||
+ 			      eq_margin(duration, 3250))) {
+-			s->state = STATE_HEADER_SPACE;
++			s->state = STATE_BITS_SPACE;
+ 			s->bits = 0;
+ 			s->count = 0;
+ 		}
+@@ -80,48 +79,53 @@ int bpf_decoder(unsigned int *sample)
+ 		else
+ 			s->state = STATE_INACTIVE;
+ 		break;
+-	case STATE_HEADER_SPACE:
+-		if (!pulse && eq_margin(duration, 1875)) {
+-			s->state = STATE_BITS_PULSE;
+-			break;
+-		}
++
+ 	case STATE_BITS_SPACE:
+ 		if (pulse) {
+ 			s->state = STATE_INACTIVE;
+ 			break;
+ 		}
+ 
+-		if (s->count == 4) {
++		if (duration > 2400) {
+ 			int x = 0, y = 0;
+-			switch (s->bits) {
+-			case 0:  x = 0;  y = -4; break;
+-			case 8:  x = 0;  y =  4; break;
+-			case 4:  x = 4;  y =  0; break;
+-			case 12: x = -4; y =  0; break;
+-
+-			case 2:  x = 4;  y = -4; break;
+-			case 10: x = -4; y =  4; break;
+-			case 6:  x = 4;  y =  4; break;
+-			case 14: x = -4; y = -4; break;
+-
+-			case  1: x = 4;  y = -2; break;
+-			case  9: x = -4; y =  2; break;
+-			case  5: x = 2;  y =  4; break;
+-			case 13: x = -2; y = -4; break;
+-
+-			case 3:  x = 2;  y = -4; break;
+-			case 11: x = -2; y =  4; break;
+-			case 7:  x = 4;  y =  2; break;
+-			case 15: x = -4; y = -2; break;
++
++			if (!(s->count == 5 || s->count == 4)) {
++				s->state = STATE_INACTIVE;
++				break;
+ 			}
++
++			switch (s->bits & 0x0f) {
++			case 0x0: x =  0; y = -4; break;
++			case 0x1: x =  0; y =  4; break;
++			case 0x2: x =  4; y =  0; break;
++			case 0x3: x = -4; y =  0; break;
++
++			case 0x4: x =  4; y = -4; break;
++			case 0x5: x = -4; y =  4; break;
++			case 0x6: x =  4; y =  4; break;
++			case 0x7: x = -4; y = -4; break;
++
++			case 0xc: x =  4; y = -2; break;
++			case 0xd: x = -4; y =  2; break;
++			case 0xe: x =  2; y =  4; break;
++			case 0xf: x = -2; y = -4; break;
++
++			case 0x8: x =  2; y = -4; break;
++			case 0x9: x = -2; y =  4; break;
++			case 0xa: x =  4; y =  2; break;
++			case 0xb: x = -4; y = -2; break;
++			}
++
+ 			bpf_rc_pointer_rel(sample, x, y);
+ 
+ 			s->state = STATE_INACTIVE;
+ 			break;
+ 		}
+ 
+-		if (eq_margin(duration, 1700))
+-			s->bits |= 1 << s->count;
++		s->bits <<= 1;
++
++		if (eq_margin(duration, 1800))
++			s->bits |= 1;
+ 		else if (!eq_margin(duration, 625)) {
+ 			s->state = STATE_INACTIVE;
+ 			break;
+-- 
+2.23.0
 
-I was looking through the datasheet, and it appears as if the pixel
-clock frequency can go up to 96MHz, so I tried to increase the
-pixel-clock-frequency to 96MHz, but v4l2 seems to get an out of memory
-error.
-
-libv4l2: error turning on stream: No space left on device
-ERROR: from element /GstPipeline:pipeline0/GstV4l2Src:v4l2src0: Failed
-to allocate required memory.
-Additional debug info:
-gstv4l2src.c(658): gst_v4l2src_decide_allocation ():
-/GstPipeline:pipeline0/GstV4l2Src:v4l2src0:
-Buffer pool activation failed
-Execution ended after 0:00:00.019073486
-
-Through trial and error, I was able to get push the sensor's
-pixel-clock-frequency to work at 90MHz, but no higher.  I have also
-tried experimenting with the input clock frequency without success.
-
-If I can get the clock to run at 96MHz, which the ISP and sensor
-documentation appears to permit, I am hoping to be able to achieve a
-little higher frame rate.
-
-Is there something I need to do to allocate more memory to V4L2 or is
-there some other limitation causing the out of memory at higher pixel
-clock frequencies?
-
-
-thank you,
-
-adam
