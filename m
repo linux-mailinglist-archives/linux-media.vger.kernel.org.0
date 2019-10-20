@@ -2,57 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3409DDE02E
-	for <lists+linux-media@lfdr.de>; Sun, 20 Oct 2019 21:16:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 39E35DE059
+	for <lists+linux-media@lfdr.de>; Sun, 20 Oct 2019 22:13:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726692AbfJTTQ3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 20 Oct 2019 15:16:29 -0400
-Received: from mail-il1-f195.google.com ([209.85.166.195]:38811 "EHLO
-        mail-il1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726622AbfJTTQ2 (ORCPT
+        id S1726125AbfJTUNl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 20 Oct 2019 16:13:41 -0400
+Received: from mail-vk1-f181.google.com ([209.85.221.181]:46876 "EHLO
+        mail-vk1-f181.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725940AbfJTUNl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 20 Oct 2019 15:16:28 -0400
-Received: by mail-il1-f195.google.com with SMTP id y5so10065361ilb.5;
-        Sun, 20 Oct 2019 12:16:28 -0700 (PDT)
+        Sun, 20 Oct 2019 16:13:41 -0400
+Received: by mail-vk1-f181.google.com with SMTP id n81so703191vke.13
+        for <linux-media@vger.kernel.org>; Sun, 20 Oct 2019 13:13:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=A6Rl+yIjZcDJ6lZinhx62wc8Hg0mf3rtlyT+aTBQ+BE=;
-        b=OLpcYgYpOXdWAhWfJAtyey/htAbBJzoaRSdY9rx9OHjzFOTk/bQmJx9nbZPcBMblH3
-         lOGbI3Ish870gb0Nn/LUBX274UloOZHh83R2Adu7363TLVuI8f+I8ZdCnD5VQj7IOYph
-         6SXz6aRtOxu11zIevOWv7gYOwG8OgFcPAhtf9PdRBswg2iD4gmOSMld4zQAVimlmGif1
-         c1kkiL28sJWYTekWe3/eKw6cAL8W1mr3Og46GTPrhijNSk/YAu0HDw1JJvzV4FZ1yz13
-         X642GGHKEu+e92R7YYvQ/Dt5Mc3Tg2IDkRHvBWzJvcYbusyxBw/PwHHLlZia3LRJ9cgM
-         gvPQ==
+        bh=Md17fYHCmfiIQ3KVzxXZ2vBXD+0RHXTGIRfE5HDBp54=;
+        b=yBHcPxxsS/KYU2MwkbqTE0dezcJn5BFydFvKU7wT4VJaCr+APxlkIaLqZxUK202tmK
+         6OTfC52CiHvTKzZo4twJzA/bQ1o0WxZgwIKCvgHtICv+vrTPoxw52uEDh5ZVKKbMK8RX
+         VPgQbMwQMhs/XX5XyTuvCFSF58NfSFmVjy0RL/q5bzUboCIEz/43PuyZxJMiK2LgmjDW
+         jx3TlB17US7W9xvpv6LlK6hHdXzwmkvX10GdT1LSyMev9lc25Bb3165BnnxyQiD6tW9j
+         8EfUrJB1a61A8xhJntgkfzQFeW/Sf9Dc13tOSH5MWhFf3pncelkvWd/1prlMwK2oSbie
+         W3ZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=A6Rl+yIjZcDJ6lZinhx62wc8Hg0mf3rtlyT+aTBQ+BE=;
-        b=lrMwaAx7s8WW/8FOQUETR4wdYlV869DIsOsDCNtY4ARQKAanfjt9nD7jY2Dwn33yK+
-         KwLwDsLBxJ2yr187XRD4wmS5Bs32KxpKTzi6rmUQI4oweGXx1GGjpGZEwaMujxiFgaG+
-         DW8xoYQcRJUzhLSE9XMIRrkuOwlk0Wls1eAtrF26lFmIavSBxQUjsy78Tz697ZRG7xe4
-         sX2LN5ewmFKvLUbm5FGjYRTfskKdCqHZrc4H2YE4pw34I6ZnxacX8q70GRSzttXnuUNh
-         stY8fThP8SG/LMleGUIn503B1ShCYrNEpiCZ5n3/Fcqw9iBwev0sV9YzoG6UKdlUvjcM
-         BZQw==
-X-Gm-Message-State: APjAAAVMecankvYHmK2R6CVg+cmJjgk+81885yFCxmJ04oj7pWlr8kjr
-        CyWVX9LDKbaevTr7vFazwb5EHGzK78J9k7yTlDs=
-X-Google-Smtp-Source: APXvYqyndOpvnIdoihDg8nxsIE0hr2RVf3LZLOUDlrrsNZViW4aWPU+W+InKlNn9otDGtIZGrQCFsBMVrWSSkJKrR9g=
-X-Received: by 2002:a92:d652:: with SMTP id x18mr20928897ilp.58.1571598987457;
- Sun, 20 Oct 2019 12:16:27 -0700 (PDT)
+        bh=Md17fYHCmfiIQ3KVzxXZ2vBXD+0RHXTGIRfE5HDBp54=;
+        b=KBHCSwq4XmvPQAlusKn5NEu9vSTri4AqahDTanHWvPlDKr7q/yC3vDbZOkG68eky9t
+         bRO0wDVXDGJQm7sOBhB4nwKU8gmtrOaYx7ZfNRc4B1LdR9QoiHKM+n37DyrdT1PttlW6
+         YyM+dLKOEOsoyK9HFhANiTtgtLKYCib7Pj0ablRd+tlJuBLaYY9e3T+iM8LQHtdtWZ0B
+         GoKSFx1hjOP1tZMMWPKNCU/IowYc3iVZfthgA3IH7avBdf+cGVX1USoIF66UI1fB6aMH
+         4FmrJM4rF1fDPdjdgf/Xkvz2lxt18uQSQkUIqA891SkTnhEKt3NEIUYMZvb2W8+ayVzm
+         k91w==
+X-Gm-Message-State: APjAAAVFELZkm3ryoME2wDzx3kpsnPIAKobqMMShMIDVSKOcU4kAiMVD
+        D9LUwzukhdiIkAG2P+v689hDgzr8/txnHUGRuZHKCA==
+X-Google-Smtp-Source: APXvYqw0DU8E2PbS3GhSUSgQe6gxrYwuAXf0GXKbSIvvIS5iVp4V/VVUnIebOU2ZvhsiicxnFVvLccoFXOrvXTxSjKg=
+X-Received: by 2002:a1f:21ce:: with SMTP id h197mr1736129vkh.84.1571602419886;
+ Sun, 20 Oct 2019 13:13:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAHCN7xLMTDondeiYiYHwGG5HYEaRwY9S4uoqQ-Eq6b8ksSS+NA@mail.gmail.com>
- <20191020180248.GD11723@pendragon.ideasonboard.com>
-In-Reply-To: <20191020180248.GD11723@pendragon.ideasonboard.com>
-From:   Adam Ford <aford173@gmail.com>
-Date:   Sun, 20 Oct 2019 14:16:15 -0500
-Message-ID: <CAHCN7x+rZb5ikUeqhRAg8bVQ1vyYSc-+uVdLXcCV9RVSwt6UfQ@mail.gmail.com>
-Subject: Re: V4L2 runs out of memory when OMAP3 ISP parallel pixel clock is high
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Linux-OMAP <linux-omap@vger.kernel.org>,
-        linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>,
-        "H. Nikolaus Schaller" <hns@goldelico.com>
+References: <b5b18a86-6137-99a0-0319-d389bac01206@xs4all.nl>
+In-Reply-To: <b5b18a86-6137-99a0-0319-d389bac01206@xs4all.nl>
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date:   Sun, 20 Oct 2019 22:13:26 +0200
+Message-ID: <CAAEAJfA+ErfDTj87C7rKmo4qSqHL9+uyFEWrWecpCg8RpJ+Cpg@mail.gmail.com>
+Subject: Re: [ANN v2] Media sessions in Lyon in October: libcamera
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Daniel Gomez <daniel@qtec.com>,
+        Eugen Hristev <Eugen.Hristev@microchip.com>,
+        Dafna Hirschfeld <dafna3@gmail.com>,
+        Helen Koike <helen.koike@collabora.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Dave Stevenson <dave.stevenson@raspberrypi.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
@@ -60,97 +69,71 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Oct 20, 2019 at 1:02 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Adam,
->
-> On Sun, Oct 20, 2019 at 09:45:25AM -0500, Adam Ford wrote:
-> > I am running a DM3730 connected to an mt9p031 sensor, and the ISP is
-> > running in 8-bit parallel mode.
-> >
-> > I have the sensor endpoint configured as:
-> >
-> > mt9p031_out: endpoint {
-> >      input-clock-frequency =3D <24000000>;
-> >      pixel-clock-frequency =3D <72000000>;
-> >      remote-endpoint =3D <&ccdc_ep>;
-> > };
-> >
-> > I was looking through the datasheet, and it appears as if the pixel
-> > clock frequency can go up to 96MHz, so I tried to increase the
-> > pixel-clock-frequency to 96MHz, but v4l2 seems to get an out of memory
-> > error.
-> >
-> > libv4l2: error turning on stream: No space left on device
-> > ERROR: from element /GstPipeline:pipeline0/GstV4l2Src:v4l2src0: Failed
-> > to allocate required memory.
-> > Additional debug info:
-> > gstv4l2src.c(658): gst_v4l2src_decide_allocation ():
-> > /GstPipeline:pipeline0/GstV4l2Src:v4l2src0:
-> > Buffer pool activation failed
-> > Execution ended after 0:00:00.019073486
->
-> The error code may be misleading. ENOSPC is used here to report that the
-> maximum CCDC bandwidth has been exceeded, not that the driver is running
-> out of memory.
->
-> The check is performed in isp_video_check_external_subdevs(), and the
-> maximum CCDC bandwidth is calculated by omap3isp_ccdc_max_rate():
->
->         /*
->          * TRM says that for parallel sensors the maximum data rate
->          * should be 90% form L3/2 clock, otherwise just L3/2.
->          */
->         if (ccdc->input =3D=3D CCDC_INPUT_PARALLEL)
->                 rate =3D pipe->l3_ick / 2 * 9 / 10;
->         else
->                 rate =3D pipe->l3_ick / 2;
->
-> Could you point me to the part of the OMAP3 datasheet that you think
-> allows for 96 MHz ?
+Hello Hans,
 
-The DM3730 TRM (SPRUGN4R =E2=80=93 May 2010 =E2=80=93 Revised September 201=
-2) doesn't
-use the 90% rule mentioned above from what I can see. Maybe it's
-somewhere else, but I didn't see it.  It does state the folllowing in
-Section 6.3.1.1:
-Camera ISP Clocks Parallel interface clock domain. This frequency
-depends on the imaging sensor type and size, its frame rate and its
-blanking time. The functional clock is required to be at least 2x
-faster than the pixel clock when the bridge is disabled and a least
-equal when it is enabled.
-
-When I queried the cam_ick, it returned 100MHz, so I expected 96MHz to
-be tolerated.
-
-# cat cat /sys/kernel/debug/clk/l3_ick/clk_rate
-200000000
-
-# cat /sys/kernel/debug/clk/cam_ick/clk_rate
-100000000
-
-For what it's worth, I removed the 90% calculation and just use the L3
-/ 2.  With that done, I was able to push the camera to 96MHz, and the
-frame rate increased
-
-Can you point me to where this 90% requirement is located?
-
-adam
+On Thu, 17 Oct 2019 at 13:16, Hans Verkuil <hverkuil@xs4all.nl> wrote:
 >
-> > Through trial and error, I was able to get push the sensor's
-> > pixel-clock-frequency to work at 90MHz, but no higher.  I have also
-> > tried experimenting with the input clock frequency without success.
-> >
-> > If I can get the clock to run at 96MHz, which the ISP and sensor
-> > documentation appears to permit, I am hoping to be able to achieve a
-> > little higher frame rate.
-> >
-> > Is there something I need to do to allocate more memory to V4L2 or is
-> > there some other limitation causing the out of memory at higher pixel
-> > clock frequencies?
+> (Just updated the attendee list for this meeting, no other changes)
 >
-> --
+> Hi all,
+>
+> Since we have three separate half-day sessions for different topics I dec=
+ided
+> to split the announcement for this in three emails as well, so these thin=
+gs
+> can be discussed in separate threads.
+>
+> All sessions are in room Terreaux VIP Lounge - Level 0.
+> There is a maximum of 15 people.
+>
+> The second session deals with libcamera and is on Wednesday morning
+> from 9:00 to 13:00.
+>
+> Attendees for this session:
+>
+> Nicolas Dufresne <nicolas@ndufresne.ca>
+> Tomasz Figa <tfiga@chromium.org>
+> Ezequiel Garcia <ezequiel@collabora.com>
+> Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+
+I beliebe Dafna and I should not be on this list, and instead
+Helen Koike and Nicolas Dufresne would be attending.
+
+Thanks,
+Ezequiel
+
+> Eugen Hristev <Eugen.Hristev@microchip.com>
+> Jacopo Mondi <jacopo@jmondi.org>
+> Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Niklas S=C3=B6derlund <niklas.soderlund@ragnatech.se>
+> Dave Stevenson <dave.stevenson@raspberrypi.org>
+> Hans Verkuil <hverkuil@xs4all.nl>
+>
+> That's 10 people.
+>
+> Planning to use libcamera, but willing to give up their seat if needed:
+>
+> Daniel Gomez <daniel@qtec.com>
+> Helen Koike <helen.koike@collabora.com>
+>
+> Just interested:
+>
+> Boris Brezillon <boris.brezillon@collabora.com>
+> Alexandre Courbot <acourbot@chromium.org>
+>
+> If I missed someone, or you are on the list but won't attend after all, t=
+hen
+> please let me know.
+>
+> Attendees: it is probably useful if you let us know whether you have to
+> join this meeting because you plan to use libcamera, or if you are 'just
+> interested'. After the libcamera presentation on Tuesday afternoon we
+> should know how many of the 'just interested' list can join.
+>
+> Agenda:
+>
+> TBD by Laurent.
+>
 > Regards,
 >
-> Laurent Pinchart
+>         Hans
