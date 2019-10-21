@@ -2,214 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DC233DE875
-	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2019 11:49:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB146DE8B2
+	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2019 11:55:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727194AbfJUJtG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Oct 2019 05:49:06 -0400
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:37946 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727110AbfJUJtG (ORCPT
+        id S1728002AbfJUJyx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Oct 2019 05:54:53 -0400
+Received: from mail-lj1-f196.google.com ([209.85.208.196]:46009 "EHLO
+        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727986AbfJUJyw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Oct 2019 05:49:06 -0400
-Received: by mail-ed1-f68.google.com with SMTP id l21so9509852edr.5
-        for <linux-media@vger.kernel.org>; Mon, 21 Oct 2019 02:49:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=IqzB5Fa41i1gd2b7kA4XSv4l8ntb4CA7FK1yoBU2oSU=;
-        b=lF/fTCYCUJqwDnujGoSjMOgEEV5k43bgJeoVbnrXsInQKd5y/iVqxKGVNOqXKaG6Jg
-         aKsVoSq2GsvZc6frYuCWyJV8jKJeSH0dYtRfZQP3iC+FejGj/b/mIgrwRUjB8oEKUCRc
-         N2VkwPMvUBBn2UlEAqd4y0GgELanxjNtXkTis=
+        Mon, 21 Oct 2019 05:54:52 -0400
+Received: by mail-lj1-f196.google.com with SMTP id q64so12556617ljb.12;
+        Mon, 21 Oct 2019 02:54:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=IqzB5Fa41i1gd2b7kA4XSv4l8ntb4CA7FK1yoBU2oSU=;
-        b=B7WSXIPpvbohaa3WWXkryvr8DwR3q36S8TV3aR1Hp/8Dh2Q9uHwh7IwqzoS8X0fS37
-         6aP8qtcjjGu+4/qckw+M06Cv5oK6931GfAV25O9wtHG1Xc2g6hbllsjO8VJek8jo6GXK
-         Fy8SQ2RWeHaCUMbaoVBgW9IMJ1Q6AiWl2btav8TBCq/kHaPBeSBTAf1n0sjCowSAM5H7
-         YSZrYJpN/ho6epFOVM0JMo7vilJvHZF5PLb5fsO+laqrX7EvnixE/RFPEhbsLlCgsGbF
-         P/v075zenwMkl40U3RKyC72HT5S3jNSS8M25UcE6YdFp6FNJ0fW0aX48EOmw3PT0zWMm
-         NgUw==
-X-Gm-Message-State: APjAAAVIHCZiW3pWgEROctx85yGTHvfPswmfxZSO5Q/625zqAFgGRjVi
-        +CUN5XEeReKVKhWtAHGWqhznYANHJB6jvA==
-X-Google-Smtp-Source: APXvYqwD8XOhgSHYAcI9VOJpQMD5fZFMAiAjCI4ZTtuEaNs2hj08p/zMm+/m1VSxEQotU9AKy1orRQ==
-X-Received: by 2002:a17:906:6a8e:: with SMTP id p14mr21137771ejr.137.1571651343096;
-        Mon, 21 Oct 2019 02:49:03 -0700 (PDT)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com. [209.85.128.42])
-        by smtp.gmail.com with ESMTPSA id t30sm615403edt.91.2019.10.21.02.49.01
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Oct 2019 02:49:02 -0700 (PDT)
-Received: by mail-wm1-f42.google.com with SMTP id g24so3343114wmh.5
-        for <linux-media@vger.kernel.org>; Mon, 21 Oct 2019 02:49:01 -0700 (PDT)
-X-Received: by 2002:a1c:a516:: with SMTP id o22mr19603524wme.116.1571651341321;
- Mon, 21 Oct 2019 02:49:01 -0700 (PDT)
-MIME-Version: 1.0
-References: <20191008091119.7294-1-boris.brezillon@collabora.com>
- <20191008091119.7294-2-boris.brezillon@collabora.com> <9b289f76-6c09-b088-204d-ce5b5009bd7b@xs4all.nl>
- <CAAFQd5C7D24teYQThou+ZvZrZ7iH6-hAumSCiRi8U6tDKSdzuA@mail.gmail.com> <ce4639c3-fcae-e8ca-d2b8-dd79b14f7204@xs4all.nl>
-In-Reply-To: <ce4639c3-fcae-e8ca-d2b8-dd79b14f7204@xs4all.nl>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Mon, 21 Oct 2019 18:48:48 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5BJ9OiABCdOFPhgqv1j7=z-K4Y2DsGyH13-QzeZ-cJaAA@mail.gmail.com>
-Message-ID: <CAAFQd5BJ9OiABCdOFPhgqv1j7=z-K4Y2DsGyH13-QzeZ-cJaAA@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 1/6] media: v4l2: Extend pixel formats to unify
- single/multi-planar handling (and more)
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Boris Brezillon <boris.brezillon@collabora.com>,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=2ioAE/lCbaDrBdD3/67QZ6qtkIsHP6zYZBRbnhn/xwg=;
+        b=j+p1sKTVDy2L5WN6rZftyUjjFaVETwIaG8orrxsgNdJoAv4FZmcK8HaCIyXoWICoXP
+         YthOYHOMORvqYh4ErQLdcqU/mr5OC7K4SJLXOZlDLVVrTp5A/ienw7kQ0VgFgNIvMS2E
+         Y8aqzv5raB/1QsuJ5PpW9fWd/6zEqrec4hkbbbGO5HlKh3QSRpPvBluk9RaCZOFjFrr6
+         x2lXEUNL3FCmXKQJnbLeOVaFQoAjnx1/aYzg19mAspGlvOSlxho/y9Fy01115ZdqutDr
+         e4qEMQI9Xf/ktHr9GZzrrsXpaWH0xtv90wJUWyZE/Hh2HS5YvX02kqhMW1WDcLaveH59
+         vTGA==
+X-Gm-Message-State: APjAAAWL0D5wtlvFmWsRw/6CFVbaczsPxqr9OuZF59b6lrO8AvgoOW9+
+        rtDl2rtcTdJbTbcXdz1E2nc=
+X-Google-Smtp-Source: APXvYqwrLwkvwRh+ERVZri6+UvM2xfVCKPFTVDTPNLnM2AZOQEhfldYGPge2KvWGIkSk8YD190DGdQ==
+X-Received: by 2002:a2e:81da:: with SMTP id s26mr13975715ljg.192.1571651689431;
+        Mon, 21 Oct 2019 02:54:49 -0700 (PDT)
+Received: from xi.terra (c-51f1e055.07-184-6d6c6d4.bbcust.telenor.se. [85.224.241.81])
+        by smtp.gmail.com with ESMTPSA id c69sm11510092ljf.32.2019.10.21.02.54.48
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 21 Oct 2019 02:54:48 -0700 (PDT)
+Received: from johan by xi.terra with local (Exim 4.92.2)
+        (envelope-from <johan@kernel.org>)
+        id 1iMUOy-00005x-If; Mon, 21 Oct 2019 11:55:01 +0200
+Date:   Mon, 21 Oct 2019 11:55:00 +0200
+From:   Johan Hovold <johan@kernel.org>
+To:     Daniel Vetter <daniel@ffwll.ch>
+Cc:     Johan Hovold <johan@kernel.org>, Rob Clark <robdclark@gmail.com>,
+        Sean Paul <sean@poorly.run>,
+        Fabien Dessenne <fabien.dessenne@st.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Hirokazu Honda <hiroh@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Brian Starkey <Brian.Starkey@arm.com>, kernel@collabora.com
-Content-Type: text/plain; charset="UTF-8"
+        Harald Freudenberger <freude@linux.ibm.com>,
+        David Airlie <airlied@linux.ie>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-s390@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>
+Subject: Re: [PATCH 0/4] treewide: fix interrupted release
+Message-ID: <20191021095500.GE24768@localhost>
+References: <20191010131333.23635-1-johan@kernel.org>
+ <20191010135043.GA16989@phenom.ffwll.local>
+ <20191011093633.GD27819@localhost>
+ <20191014084847.GD11828@phenom.ffwll.local>
+ <20191014161326.GO13531@localhost>
+ <20191015140726.GN11828@phenom.ffwll.local>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191015140726.GN11828@phenom.ffwll.local>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Oct 21, 2019 at 6:38 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
->
-> On 10/21/19 11:26 AM, Tomasz Figa wrote:
-> > On Mon, Oct 21, 2019 at 5:41 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
-> >>
-> >> On 10/8/19 11:11 AM, Boris Brezillon wrote:
-> >>> This is part of the multiplanar and singleplanar unification process.
-> >>> v4l2_ext_pix_format is supposed to work for both cases.
-> >>>
-> >>> We also add the concept of modifiers already employed in DRM to expose
-> >>> HW-specific formats (like tiled or compressed formats) and allow
-> >>> exchanging this information with the DRM subsystem in a consistent way.
-> >>>
-> >>> Note that V4L2_BUF_TYPE_VIDEO[_OUTPUT]_OVERLAY and
-> >>> V4L2_BUF_TYPE_VIDEO_{CAPTURE,OUTPUT}_MPLANE types are no longer accepted
-> >>> in v4l2_ext_format and will be rejected if you use the {G,S,TRY}EXT_FMT
-> >>> ioctls. V4L2_BUF_TYPE_VIDEO_{CAPTURE,OUTPUT}_MPLANE is dropped as part
-> >>> of the multiplanar/singleplanar unification.
-> >>> V4L2_BUF_TYPE_VIDEO[_OUTPUT]_OVERLAY seems to be used mostly on old
-> >>> drivers and supporting it would require some extra rework.
-> >>>
-> >>> New hooks have been added to v4l2_ioctl_ops to support those new ioctls
-> >>> in drivers, but, in the meantime, the core takes care of converting
-> >>> {S,G,TRY}_EXT_FMT requests into {S,G,TRY}_FMT so that old drivers can
-> >>> still work if the userspace app/lib uses the new ioctls.
-> >>> The conversion is also done the other around to allow userspace
-> >>> apps/libs using {S,G,TRY}_FMT to work with drivers implementing the
-> >>> _ext_ hooks.
-> >>>
-> >>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> >>> ---
-> >>
-> >> <snip>
-> >>
-> >>>
-> >>> +#define VIDIOC_G_EXT_FMT     _IOWR('V', 104, struct v4l2_ext_format)
-> >>> +#define VIDIOC_S_EXT_FMT     _IOWR('V', 105, struct v4l2_ext_format)
-> >>> +#define VIDIOC_TRY_EXT_FMT   _IOWR('V', 106, struct v4l2_ext_format)
-> >>>  /* Reminder: when adding new ioctls please add support for them to
-> >>>     drivers/media/v4l2-core/v4l2-compat-ioctl32.c as well! */
-> >>>
-> >>>
-> >>
-> >> Since we're extending g/s/try_fmt, we should also provide a replacement for
-> >> enum_fmt, esp. given this thread:
-> >>
-> >> https://www.mail-archive.com/linux-media@vger.kernel.org/msg150871.html
-> >
-> > While that's a completely valid problem that should be addressed, I'm
-> > not sure if putting all the things in one bag would have a positive
-> > effect on solving all the problems in a reasonable timeline.
->
-> I'm not sure what you mean with this. We can't ignore this either, and if
-> we're going to add these new ioctls, then let's try to fix as much as we can.
->
+On Tue, Oct 15, 2019 at 04:07:26PM +0200, Daniel Vetter wrote:
+> On Mon, Oct 14, 2019 at 06:13:26PM +0200, Johan Hovold wrote:
+> > On Mon, Oct 14, 2019 at 10:48:47AM +0200, Daniel Vetter wrote:
 
-My point is that this series solves a completely orthogonal problem
-without a need to touch ENUM_FMT at all. Is there any reason why
-solving this particular problem separately would make solving the
-ENUM_FMT problem more difficult in the future?
+> > > Do you have a legit usecase for interruptible sleeps in fops->release?
+> > 
+> > The tty layer depends on this for example when waiting for buffered
+> > writes to complete (something which may never happen when using flow
+> > control).
+> > 
+> > > I'm not even sure killable is legit in there, since it's an fd, not a
+> > > process context ...
+> > 
+> > It will be run in process context in many cases, and for ttys we're good
+> > AFAICT.
+> 
+> Huh, read it a bit, all the ->shutdown callbacks have void return type.
+> But there's indeed interruptible sleeps in there. Doesn't this break
+> userspace that expects that a close() actually flushes the tty?
 
-> >
-> >>
-> >> So here is a preliminary suggestion:
-> >>
-> >> struct v4l2_ext_fmtdesc {
-> >>         __u32               index;             /* Format number      */
-> >>         __u32               type;              /* enum v4l2_buf_type */
-> >>         __u32               which;             /* enum v4l2_subdev_format_whence, ignored if mbus_code == 0 */
-> >>         __u32               mbus_code;         /* Mediabus Code (set to 0 if n/a) */
-> >>         __u32               flags;
-> >>         __u8                description[32];   /* Description string */
-> >>         __u32               pixelformat;       /* Format fourcc      */
-> >> };
-> >>
-> >> This would solve (I think) the issue raised in the thread since you can now get
-> >> just for formats that are valid for the given mediabus code and the which field.
-> >>
-> >
-> > Hmm, why only mbus_code? We have the same problem with mem2mem
-> > devices, where the format set on one queue affects the formats
-> > supported on another queue. Perhaps it should be defined to return
-> > formats valid with the current state of the driver? If we want to
-> > extend it to return formats for arbitrary states, perhaps we should
-> > use a mechanism similar to the TRY_FMT slot in subdevices, where we
-> > can set the configuration we want to test against and then ENUM_FMT
-> > would return the formats valid for that configuration?
->
-> Good point.
->
+This behaviour has been there since "forever" so the problem is rather
+the other way round; changing it now might break user space.
 
-We might want to keep the control'ification of the API in mind, which
-should simplify dealing with state inter-dependencies, because all the
-state would be represented in a uniform way.
+> Imo if you're ->release callbacks feels like it should do a wait to
+> guaranteed something userspace expects, then doing a
+> wait_interruptible/killable feels like a bug. Or alternatively, the wait
+> isn't really needed in the first place.
 
-> >
-> >> Other improvements that could be made is to return more information about the
-> >> format (similar to struct v4l2_format_info). In particular v4l2_pixel_encoding
-> >> and mem/comp_planes would be useful for userspace to know.
-> >
-> > An alternative would be to go away from mixing mem_planes and
-> > pixelformats and just having the "planarity" queryable and
-> > configurable separately. The existing duplicated FourCCs would have to
-> > remain for compatibility reasons, though.
->
-> Interesting idea, but I don't know if this would make the API more or less confusing.
->
+Posix says that the final tty close should cause any output to be sent.
+And as mentioned before, due to flow control this may never finish. So
+for usability reasons, you want to be able to interrupt that final
+close, while removing the flush completely would break applications
+currently expecting output to be flushed.
 
-Yeah, this definitely needs more thought. My experience with working
-with many people trying to use V4L2 in the userspace tells me that the
-existing model is confusing, though. DRM and most userspace libraries
-use FourCCs only to define the pixelformats themselves and planarity
-is a separate aspect.
+Also note that we have an interface for controlling how long to wait for
+data to be sent (typically 30 s by default, but can be set to wait
+forever).
 
-The target model that I'd see happening would be to have the
-multiple-memory plane semantics used everywhere, so all color planes
-are described as separate entities, up to having different DMA-buf
-FDs. Then the single memory plane case would be just one of the
-specific cases, where all the DMA-buf FDs point to the same buffer and
-color plane offsets are laid out contiguously, which could be enforced
-by generic code when queuing the buffer if that's a hardware
-requirement.
+> > > > The return value from release() is ignored by vfs, and adding a splat in
+> > > > __fput() to catch these buggy drivers might be overkill.
+> > > 
+> > > Ime once you have a handful of instances of a broken pattern, creating a
+> > > check for it (under a debug option only ofc) is very much justified.
+> > > Otherwise they just come back to life like the undead, all the time. And
+> > > there's a _lot_ of fops->release callbacks in the kernel.
+> > 
+> > Yeah, you have a point.
+> > 
+> > But take tty again as an example, the close tty operation called from
+> > release() is declared void so there's no propagated return value for vfs
+> > to check.
+> > 
+> > It may even be better to fix up the 100 or so callbacks potentially
+> > returning non-zero and make fops->release void so that the compiler
+> > would help us catch any future bugs and also serve as a hint for
+> > developers that returning errnos from fops->release is probably not
+> > what you want to do.
+> > 
+> > But that's a lot of churn of course.
+> 
+> Hm indeed ->release has int as return type. I guess that's needed for
+> file I/O errno and similar stuff ...
+> 
+> Still void return value doesn't catch funny stuff like doing interruptible
+> waits and occasionally failing if you have a process that likes to use
+> signals and also uses some library somewhere to do something. In graphics
+> we have that, with Xorg loving signals for various things.
 
-> >
-> >>
-> >> Finally, we can also add a new ioctl that combines ENUM_FMT/ENUM_FRAMESIZES/ENUM_FRAMEINTERVALS
-> >> and returns an array of all valid formats/sizes/intervals, requiring just a single ioctl
-> >> to obtain all this information.
-> >
-> > While it definitely sounds like a useful thing to have, it would be an
-> > interesting problem to solve given the inter-dependencies between
-> > pads, queues and other state, as in the mbus example above.
->
-> This is definitely a separate issue for further in the future.
+Right, but since there arguable are legitimate uses for interruptible
+sleep at release(), I don't see how we can catch that at runtime.
 
-Agreed.
-
-Best regards,
-Tomasz
+Johan
