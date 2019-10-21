@@ -2,86 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 952DFDE53F
-	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2019 09:24:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 684CADE54D
+	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2019 09:29:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727498AbfJUHYL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Oct 2019 03:24:11 -0400
-Received: from retiisi.org.uk ([95.216.213.190]:56962 "EHLO
-        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727047AbfJUHYL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Oct 2019 03:24:11 -0400
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id BA814634C89
-        for <linux-media@vger.kernel.org>; Mon, 21 Oct 2019 10:24:00 +0300 (EEST)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1iMS2p-0000QT-Oh
-        for linux-media@vger.kernel.org; Mon, 21 Oct 2019 10:23:59 +0300
-Date:   Mon, 21 Oct 2019 10:23:59 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
+        id S1727110AbfJUH3I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Oct 2019 03:29:08 -0400
+Received: from mga12.intel.com ([192.55.52.136]:1413 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726480AbfJUH3I (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 21 Oct 2019 03:29:08 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 Oct 2019 00:29:07 -0700
+X-IronPort-AV: E=Sophos;i="5.67,322,1566889200"; 
+   d="scan'208";a="372099874"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 21 Oct 2019 00:29:06 -0700
+Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
+        by paasikivi.fi.intel.com (Postfix) with ESMTP id 04DBE20933
+        for <linux-media@vger.kernel.org>; Mon, 21 Oct 2019 10:29:04 +0300 (EEST)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@linux.intel.com>)
+        id 1iMS86-0005TO-Ml
+        for linux-media@vger.kernel.org; Mon, 21 Oct 2019 10:29:26 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
-Subject: [GIT PULL for 5.5] SMIA patches for 5.5
-Message-ID: <20191021072359.GC864@valkosipuli.retiisi.org.uk>
+Subject: [PATCH 1/1] v4l2-fwnode: Print the node name while parsing endpoints
+Date:   Mon, 21 Oct 2019 10:29:26 +0300
+Message-Id: <20191021072926.20997-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Print the node name during endpoint parsing for better debuggability.
 
-Here's a set of cleanups, fixes and other improvements for the smiapp
-driver.
+Depends-on: ("lib/vsprintf: Add %pfw conversion specifier for printing fwnode names")
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+ drivers/media/v4l2-core/v4l2-fwnode.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Please pull.
-
-
-The following changes since commit 4b1d7c2760d26363c497b959a81f8d055ba767c1:
-
-  media: staging: media: Make use of devm_platform_ioremap_resource (2019-10-16 16:35:15 -0300)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/sailus/media_tree.git tags/smia-5.5-signed
-
-for you to fetch changes up to b87bb57778caa276f332e1fa4fc1e03345143e88:
-
-  smiapp: Rename update_mode as pll_blanking_update (2019-10-21 10:17:38 +0300)
-
-----------------------------------------------------------------
-SMIA patches for 5.5
-
-----------------------------------------------------------------
-Sakari Ailus (14):
-      smiapp: Use the BIT macro where appropriate, remove useless definition
-      smiapp: Fix error handling at NVM reading
-      smiapp: Refactor reading NVM page
-      smiapp: Add definitions for data transfer if capability bits
-      smiapp: Don't poll for NVM ready on devices that don't need it
-      smiapp: Support probing NVM size
-      dt-bindings: smia: Remove documentation of nokia,nvm-size
-      smiapp: Destroy sensor's mutex
-      smiapp: Don't get binning limits dynamically
-      smiapp: Move binning configuration to streaming start
-      smiapp: Don't update sensor configuration during power-on init
-      smiapp: Use non-binned and binned limits correctly
-      smiapp: Register sensor after enabling runtime PM on the device
-      smiapp: Rename update_mode as pll_blanking_update
-
- .../devicetree/bindings/media/i2c/nokia,smia.txt   |   2 -
- drivers/media/i2c/smiapp/smiapp-core.c             | 326 +++++++++------------
- drivers/media/i2c/smiapp/smiapp-reg.h              |  36 ++-
- drivers/media/i2c/smiapp/smiapp.h                  |   3 -
- include/media/i2c/smiapp.h                         |   1 -
- 5 files changed, 165 insertions(+), 203 deletions(-)
-
+diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
+index 3bd1888787eb3..ac2848d02a7c7 100644
+--- a/drivers/media/v4l2-core/v4l2-fwnode.c
++++ b/drivers/media/v4l2-core/v4l2-fwnode.c
+@@ -422,7 +422,7 @@ static int __v4l2_fwnode_endpoint_parse(struct fwnode_handle *fwnode,
+ 		       sizeof(*vep) - offsetof(typeof(*vep), bus));
+ 	}
+ 
+-	pr_debug("===== begin V4L2 endpoint properties\n");
++	pr_debug("===== begin parsing endpoint %pfw\n", fwnode);
+ 
+ 	/*
+ 	 * Zero the fwnode graph endpoint memory in case we don't end up parsing
+@@ -500,7 +500,7 @@ int v4l2_fwnode_endpoint_parse(struct fwnode_handle *fwnode,
+ 
+ 	ret = __v4l2_fwnode_endpoint_parse(fwnode, vep);
+ 
+-	pr_debug("===== end V4L2 endpoint properties\n");
++	pr_debug("===== end parsing endpoint %pfw\n", fwnode);
+ 
+ 	return ret;
+ }
+@@ -550,7 +550,7 @@ int v4l2_fwnode_endpoint_alloc_parse(struct fwnode_handle *fwnode,
+ 				vep->link_frequencies[i]);
+ 	}
+ 
+-	pr_debug("===== end V4L2 endpoint properties\n");
++	pr_debug("===== end parsing endpoint %pfw\n", fwnode);
+ 
+ 	return 0;
+ }
 -- 
-Sakari Ailus
+2.20.1
+
