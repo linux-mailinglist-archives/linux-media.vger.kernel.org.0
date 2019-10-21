@@ -2,57 +2,224 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E9A62DEF82
-	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2019 16:29:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 28C78DF009
+	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2019 16:38:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727111AbfJUO3v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Oct 2019 10:29:51 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:56235 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727406AbfJUO3v (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Oct 2019 10:29:51 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtp (Exim 4.84_2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1iMYgs-00031a-Rl; Mon, 21 Oct 2019 14:29:47 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1iMYhM-0005za-Mn; Mon, 21 Oct 2019 14:30:16 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.5] imon & SPDX patches
-Date:   Mon, 21 Oct 2019 14:30:16 +0000
-Message-Id: <20191021143016.22993-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191021141829.GA28605@gofer.mess.org>
-References: 
+        id S1727822AbfJUOis (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Oct 2019 10:38:48 -0400
+Received: from mailoutvs42.siol.net ([185.57.226.233]:47040 "EHLO
+        mail.siol.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727670AbfJUOis (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 21 Oct 2019 10:38:48 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.siol.net (Zimbra) with ESMTP id 8500F5225B6;
+        Mon, 21 Oct 2019 16:38:43 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at psrvmta12.zcs-production.pri
+Received: from mail.siol.net ([127.0.0.1])
+        by localhost (psrvmta12.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id vka4LJ2PZxFz; Mon, 21 Oct 2019 16:38:43 +0200 (CEST)
+Received: from mail.siol.net (localhost [127.0.0.1])
+        by mail.siol.net (Zimbra) with ESMTPS id F02C85225B4;
+        Mon, 21 Oct 2019 16:38:42 +0200 (CEST)
+Received: from jernej-laptop.localnet (cpe-86-58-59-25.static.triera.net [86.58.59.25])
+        (Authenticated sender: jernej.skrabec@siol.net)
+        by mail.siol.net (Zimbra) with ESMTPA id 367585225B6;
+        Mon, 21 Oct 2019 16:38:41 +0200 (CEST)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     mripard@kernel.org, wens@csie.org, robh+dt@kernel.org,
+        mark.rutland@arm.com, mchehab@kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-sunxi@googlegroups.com
+Subject: Re: [PATCH v4 0/6] media: Introduce Allwinner H3 deinterlace driver
+Date:   Mon, 21 Oct 2019 16:38:40 +0200
+Message-ID: <17463716.B1tr9FcWgj@jernej-laptop>
+In-Reply-To: <8fbb323d-cd36-73cb-2df8-21e2819fa5af@xs4all.nl>
+References: <20191017183738.68069-1-jernej.skrabec@siol.net> <8fbb323d-cd36-73cb-2df8-21e2819fa5af@xs4all.nl>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Dne ponedeljek, 21. oktober 2019 ob 13:16:24 CEST je Hans Verkuil napisal(a):
+> Hi Jernej,
+> 
+> I found something odd in the compliance output:
+> 
+> On 10/17/19 8:37 PM, Jernej Skrabec wrote:
+> > Starting with H3, Allwinner began to include standalone deinterlace
+> > core in multimedia oriented SoCs. This patch series introduces support
+> > for it. Note that new SoCs, like H6, have radically different (updated)
+> > deinterlace core, which will need a new driver.
+> > 
+> > v4l2-compliance report:
+> > v4l2-compliance SHA: dece02f862f38d8f866230ca9f1015cb93ddfac4, 32 bits
+> > 
+> > Compliance test for sun8i-di device /dev/video0:
+> > 
+> > Driver Info:
+> >         Driver name      : sun8i-di
+> >         Card type        : sun8i-di
+> >         Bus info         : platform:sun8i-di
+> >         Driver version   : 5.3.0
+> >         Capabilities     : 0x84208000
+> >         
+> >                 Video Memory-to-Memory
+> >                 Streaming
+> >                 Extended Pix Format
+> >                 Device Capabilities
+> >         
+> >         Device Caps      : 0x04208000
+> >         
+> >                 Video Memory-to-Memory
+> >                 Streaming
+> >                 Extended Pix Format
+> > 
+> > Required ioctls:
+> >         test VIDIOC_QUERYCAP: OK
+> > 
+> > Allow for multiple opens:
+> >         test second /dev/video0 open: OK
+> >         test VIDIOC_QUERYCAP: OK
+> >         test VIDIOC_G/S_PRIORITY: OK
+> >         test for unlimited opens: OK
+> > 
+> > Debug ioctls:
+> >         test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+> >         test VIDIOC_LOG_STATUS: OK (Not Supported)
+> > 
+> > Input ioctls:
+> >         test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+> >         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+> >         test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+> >         test VIDIOC_ENUMAUDIO: OK (Not Supported)
+> >         test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+> >         test VIDIOC_G/S_AUDIO: OK (Not Supported)
+> >         Inputs: 0 Audio Inputs: 0 Tuners: 0
+> > 
+> > Output ioctls:
+> >         test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+> >         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+> >         test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+> >         test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+> >         test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+> >         Outputs: 0 Audio Outputs: 0 Modulators: 0
+> > 
+> > Input/Output configuration ioctls:
+> >         test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+> >         test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+> >         test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+> >         test VIDIOC_G/S_EDID: OK (Not Supported)
+> > 
+> > Control ioctls:
+> >         test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+> >         test VIDIOC_QUERYCTRL: OK (Not Supported)
+> >         test VIDIOC_G/S_CTRL: OK (Not Supported)
+> >         test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+> >         test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+> >         test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+> >         Standard Controls: 0 Private Controls: 0
+> > 
+> > Format ioctls:
+> >         test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+> >         test VIDIOC_G/S_PARM: OK (Not Supported)
+> >         test VIDIOC_G_FBUF: OK (Not Supported)
+> >         test VIDIOC_G_FMT: OK
+> >         test VIDIOC_TRY_FMT: OK
+> >         test VIDIOC_S_FMT: OK
+> >         test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+> >         test Cropping: OK (Not Supported)
+> >         test Composing: OK (Not Supported)
+> >         test Scaling: OK
+> 
+> This claims that the driver supports scaling, but I don't think that is
+> right.
 
-Pull request: https://patchwork.linuxtv.org/patch/59583/
-Build log: https://builder.linuxtv.org/job/patchwork/21404/
-Build time: 00:10:03
-Link: https://lore.kernel.org/linux-media/20191021141829.GA28605@gofer.mess.org
+HW does indeed support scaling so there is no bug. I tested that and result 
+looks fine.
 
-gpg: Signature made Mon 21 Oct 2019 02:13:15 PM UTC
-gpg:                using RSA key A624251A26084A9ED9E4C8B6425F639D3960FA9E
-gpg:                issuer "sean@mess.org"
-gpg: Good signature from "Sean Young <sean@mess.org>" [full]
+Best regards,
+Jernej
 
-Summary: 1 patches and/or PDF generation with issues, being 0 at build time
+> 
+> More likely the deinterlacing part is what confuses the compliance test.
+> 
+> Can you look in v4l2-test-formats.cpp, function testBasicScaling() where it
+> sets node->can_scale to true? And see if this is due to a driver bug, or due
+> to a bug in the test?
+> 
+> Regards,
+> 
+> 	Hans
+> 
+> > Codec ioctls:
+> >         test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+> >         test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+> >         test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+> > 
+> > Buffer ioctls:
+> >         test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+> >         test VIDIOC_EXPBUF: OK
+> >         test Requests: OK (Not Supported)
+> > 
+> > Total for sun8i-di device /dev/video0: 44, Succeeded: 44, Failed: 0,
+> > Warnings: 0
+> > 
+> > Please take a look.
+> > 
+> > Best regards,
+> > Jernej
+> > 
+> > Changes from v3:
+> > - added Maxime's a-b tag
+> > - moved and fixed Kconfig entry
+> > - put clk_set_rate_exclusive() and it's counterpart in PM callbacks
+> > 
+> > Changes from v2:
+> > - added acked-by and review-by tags
+> > - fixed schema path in H3 deinterlace binding
+> > - moved busy check after format args check
+> > 
+> > Changes from v1:
+> > - updated Maxime's e-mail in DT binding
+> > - removed "items" for single item in DT binding
+> > - implemented power management
+> > - replaced regmap with direct io access
+> > - set exclusive clock rate
+> > - renamed DEINTERLACE_FRM_CTRL_COEF_CTRL to
+> > DEINTERLACE_FRM_CTRL_COEF_ACCESS> 
+> > Jernej Skrabec (6):
+> >   dt-bindings: bus: sunxi: Add H3 MBUS compatible
+> >   clk: sunxi-ng: h3: Export MBUS clock
+> >   ARM: dts: sunxi: h3/h5: Add MBUS controller node
+> >   dt-bindings: media: Add Allwinner H3 Deinterlace binding
+> >   media: sun4i: Add H3 deinterlace driver
+> >   dts: arm: sun8i: h3: Enable deinterlace unit
+> >  
+> >  .../bindings/arm/sunxi/sunxi-mbus.txt         |    1 +
+> >  .../media/allwinner,sun8i-h3-deinterlace.yaml |   75 ++
+> >  MAINTAINERS                                   |    7 +
+> >  arch/arm/boot/dts/sun8i-h3.dtsi               |   13 +
+> >  arch/arm/boot/dts/sunxi-h3-h5.dtsi            |    9 +
+> >  drivers/clk/sunxi-ng/ccu-sun8i-h3.h           |    4 -
+> >  drivers/media/platform/Kconfig                |   12 +
+> >  drivers/media/platform/sunxi/Makefile         |    1 +
+> >  .../media/platform/sunxi/sun8i-di/Makefile    |    2 +
+> >  .../media/platform/sunxi/sun8i-di/sun8i-di.c  | 1028 +++++++++++++++++
+> >  .../media/platform/sunxi/sun8i-di/sun8i-di.h  |  237 ++++
+> >  include/dt-bindings/clock/sun8i-h3-ccu.h      |    2 +-
+> >  12 files changed, 1386 insertions(+), 5 deletions(-)
+> >  create mode 100644
+> >  Documentation/devicetree/bindings/media/allwinner,sun8i-h3-deinterlace.y
+> >  aml create mode 100644 drivers/media/platform/sunxi/sun8i-di/Makefile
+> >  create mode 100644 drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
+> >  create mode 100644 drivers/media/platform/sunxi/sun8i-di/sun8i-di.h
 
-Error/warnings:
 
 
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0002-media-imon-invalid-dereference-in-imon_touch_event.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0002-media-imon-invalid-dereference-in-imon_touch_event.patch
-patches/0002-media-imon-invalid-dereference-in-imon_touch_event.patch:13: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
 
