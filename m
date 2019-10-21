@@ -2,196 +2,340 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CE40DE9D0
-	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2019 12:38:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C77CBDEA0B
+	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2019 12:49:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728160AbfJUKiJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Oct 2019 06:38:09 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:35437 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726725AbfJUKiJ (ORCPT
+        id S1727805AbfJUKtH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Oct 2019 06:49:07 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:52217 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726725AbfJUKtH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Oct 2019 06:38:09 -0400
+        Mon, 21 Oct 2019 06:49:07 -0400
 Received: from [192.168.2.10] ([46.9.232.237])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id MV4diU1Tdo1ZhMV4giLfb1; Mon, 21 Oct 2019 12:38:06 +0200
-Subject: Re: [Patch 07/19] media: ti-vpe: cal: add CSI2 PHY LDO errata support
+        id MVFEiU5ino1ZhMVFIiLiSD; Mon, 21 Oct 2019 12:49:04 +0200
+Subject: Re: [Patch 19/19] dt-bindings: media: cal: convert binding to yaml
 To:     Benoit Parrot <bparrot@ti.com>, Rob Herring <robh+dt@kernel.org>
 Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jyri Sarha <jsarha@ti.com>
+        linux-kernel@vger.kernel.org
 References: <20191018153437.20614-1-bparrot@ti.com>
- <20191018153437.20614-8-bparrot@ti.com>
+ <20191018153437.20614-20-bparrot@ti.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <68dbd926-0e37-93f7-e03e-def4b4146d32@xs4all.nl>
-Date:   Mon, 21 Oct 2019 12:38:03 +0200
+Message-ID: <e4dcb7f0-3cb0-6868-2c93-d54b21883be5@xs4all.nl>
+Date:   Mon, 21 Oct 2019 12:49:00 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191018153437.20614-8-bparrot@ti.com>
+In-Reply-To: <20191018153437.20614-20-bparrot@ti.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfN7I+pVfMgIkvnB5EwZLFJ0MzMPcjgiwikp5JFhEn8sQI3ONVzWrvTz1WXmzHqV32dd4F71xp6LHS8hxF4BjyMGFnGWLPZj+McnqgS56vq8S4Bh7FRGF
- azKBb52I+vN9gcbpc55rg0mhDafJYNqZWU6iBAh8/agM8cKH8aNp+QISlX5n1eMN87PuBq3vCtUkZ35NYta7W7tx59fugU/ozRxMXV5p4T8m7hNNkRgU/5B1
- 2hJ9cl6y+exwcglLLHA6iB9+ZUYaQeJFAohkJVQ5zAyDankwfjUCloFx9XNQTlr1LYEWiJwPDV6VuJ8fw2jlltQ7f42ztQrt0m01A2lwTbo=
+X-CMAE-Envelope: MS4wfMyrbvyYiZpANDWONppRNu23p9b0wIrKHOtmvYUsO9Jv2lFj9mza2h+sd9ke5kPdTN+G80uiIx4iA8dt1ziUUyuj9Q/mjbM6f0Os8Ew/WZQfw3BSceKi
+ frxr+dIXivL5grMlnkDAve8QKy4XSZJcTT7CZNUCgVMggjMEa/g+Wd0VJhewxL/qtj2hKLDrGIdf69sdgbeCsuSYifhra5mNq9Y5vVsIZ3i53aGcwLISJ5rO
+ EUEa3W93VPEDWvbm2GcGAtDsgPn+aq+32sVscZexljlsEwfUq/UfLTMLsc0VGY4MhzQEuRPwtgdOHBi9tmH0MA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 10/18/19 5:34 PM, Benoit Parrot wrote:
-> Apply Errata i913 every time the functional clock is enabled.
-> This should take care of suspend/resume case as well.
+> Convert ti-cal.txt to ti,cal.yaml.
 > 
 > Signed-off-by: Benoit Parrot <bparrot@ti.com>
-> Signed-off-by: Jyri Sarha <jsarha@ti.com>
-> ---
->  drivers/media/platform/ti-vpe/cal.c      | 56 +++++++++++++++++++++++-
->  drivers/media/platform/ti-vpe/cal_regs.h | 27 ++++++++++++
->  2 files changed, 82 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-> index 62aeedb705e9..3cbc4dca6de8 100644
-> --- a/drivers/media/platform/ti-vpe/cal.c
-> +++ b/drivers/media/platform/ti-vpe/cal.c
-> @@ -284,6 +284,13 @@ static struct cal_data dra72x_cal_data = {
->  	.flags = 0,
->  };
->  
-> +static struct cal_data dra72x_es1_cal_data = {
-> +	.csi2_phy_core = dra72x_cal_csi_phy,
-> +	.num_csi2_phy = ARRAY_SIZE(dra72x_cal_csi_phy),
-> +
-> +	.flags = DRA72_CAL_PRE_ES2_LDO_DISABLE,
-> +};
-> +
->  /*
->   * there is one cal_dev structure in the driver, it is shared by
->   * all instances.
-> @@ -569,9 +576,52 @@ static void cal_get_hwinfo(struct cal_dev *dev)
->  		hwinfo);
->  }
->  
-> +/*
-> + *   Errata i913: CSI2 LDO Needs to be disabled when module is powered on
-> + *
-> + *   Enabling CSI2 LDO shorts it to core supply. It is crucial the 2 CSI2
-> + *   LDOs on the device are disabled if CSI-2 module is powered on
-> + *   (0x4845 B304 | 0x4845 B384 [28:27] = 0x1) or in ULPS (0x4845 B304
-> + *   | 0x4845 B384 [28:27] = 0x2) mode. Common concerns include: high
-> + *   current draw on the module supply in active mode.
-> + *
-> + *   Errata does not apply when CSI-2 module is powered off
-> + *   (0x4845 B304 | 0x4845 B384 [28:27] = 0x0).
-> + *
-> + * SW Workaround:
-> + *	Set the following register bits to disable the LDO,
-> + *	which is essentially CSI2 REG10 bit 6:
-> + *
-> + *		Core 0:  0x4845 B828 = 0x0000 0040
-> + *		Core 1:  0x4845 B928 = 0x0000 0040
-> + */
-> +static void i913_errata(struct cal_dev *dev, unsigned int port)
-> +{
-> +	u32 reg10 = reg_read(dev->cc[port], CAL_CSI2_PHY_REG10);
-> +
-> +	set_field(&reg10, CAL_CSI2_PHY_REG0_HSCLOCKCONFIG_DISABLE,
-> +		  CAL_CSI2_PHY_REG10_I933_LDO_DISABLE_MASK);
-> +
-> +	cal_dbg(1, dev, "CSI2_%d_REG10 = 0x%08x\n", port, reg10);
-> +	reg_write(dev->cc[port], CAL_CSI2_PHY_REG10, reg10);
-> +}
-> +
->  static inline int cal_runtime_get(struct cal_dev *dev)
 
-I'd drop the 'inline' here. It doesn't seem appropriate anymore since this
-function is now more complex.
+Can you add this bindings file to MAINTAINERS as well in a separate patch?
 
-Regards,
+Thanks!
 
 	Hans
 
->  {
-> -	return pm_runtime_get_sync(&dev->pdev->dev);
-> +	int r;
+> ---
+>  .../devicetree/bindings/media/ti,cal.yaml     | 186 ++++++++++++++++++
+>  .../devicetree/bindings/media/ti-cal.txt      |  82 --------
+>  2 files changed, 186 insertions(+), 82 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/media/ti,cal.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/media/ti-cal.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/media/ti,cal.yaml b/Documentation/devicetree/bindings/media/ti,cal.yaml
+> new file mode 100644
+> index 000000000000..c3fbb22b4571
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/ti,cal.yaml
+> @@ -0,0 +1,186 @@
+> +# SPDX-License-Identifier: (GPL-2.0)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/ti,cal.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +	r = pm_runtime_get_sync(&dev->pdev->dev);
+> +title: Texas Instruments DRA72x CAMERA ADAPTATION LAYER (CAL) Device Tree Bindings
 > +
-> +	if (dev->flags & DRA72_CAL_PRE_ES2_LDO_DISABLE) {
-> +		/*
-> +		 * Apply errata on both port eveytime we (re-)enable
-> +		 * the clock
-> +		 */
-> +		i913_errata(dev, 0);
-> +		i913_errata(dev, 1);
-> +	}
+> +maintainers:
+> +  - Benoit Parrot <bparrot@ti.com>
 > +
-> +	return r;
->  }
->  
->  static inline void cal_runtime_put(struct cal_dev *dev)
-> @@ -2071,6 +2121,10 @@ static const struct of_device_id cal_of_match[] = {
->  		.compatible = "ti,dra72-cal",
->  		.data = (void *)&dra72x_cal_data,
->  	},
-> +	{
-> +		.compatible = "ti,dra72-pre-es2-cal",
-> +		.data = (void *)&dra72x_es1_cal_data,
-> +	},
->  	{},
->  };
->  MODULE_DEVICE_TABLE(of, cal_of_match);
-> diff --git a/drivers/media/platform/ti-vpe/cal_regs.h b/drivers/media/platform/ti-vpe/cal_regs.h
-> index 68cfc922b422..78d6f015c9ea 100644
-> --- a/drivers/media/platform/ti-vpe/cal_regs.h
-> +++ b/drivers/media/platform/ti-vpe/cal_regs.h
-> @@ -10,6 +10,30 @@
->  #ifndef __TI_CAL_REGS_H
->  #define __TI_CAL_REGS_H
->  
-> +/*
-> + * struct cal_dev.flags possibilities
-> + *
-> + * DRA72_CAL_PRE_ES2_LDO_DISABLE:
-> + *   Errata i913: CSI2 LDO Needs to be disabled when module is powered on
-> + *
-> + *   Enabling CSI2 LDO shorts it to core supply. It is crucial the 2 CSI2
-> + *   LDOs on the device are disabled if CSI-2 module is powered on
-> + *   (0x4845 B304 | 0x4845 B384 [28:27] = 0x1) or in ULPS (0x4845 B304
-> + *   | 0x4845 B384 [28:27] = 0x2) mode. Common concerns include: high
-> + *   current draw on the module supply in active mode.
-> + *
-> + *   Errata does not apply when CSI-2 module is powered off
-> + *   (0x4845 B304 | 0x4845 B384 [28:27] = 0x0).
-> + *
-> + * SW Workaround:
-> + *	Set the following register bits to disable the LDO,
-> + *	which is essentially CSI2 REG10 bit 6:
-> + *
-> + *		Core 0:  0x4845 B828 = 0x0000 0040
-> + *		Core 1:  0x4845 B928 = 0x0000 0040
-> + */
-> +#define DRA72_CAL_PRE_ES2_LDO_DISABLE BIT(0)
+> +description: |-
+> +  The Camera Adaptation Layer (CAL) is a key component for image capture
+> +  applications. The capture module provides the system interface and the
+> +  processing capability to connect CSI2 image-sensor modules to the
+> +  DRA72x device.
 > +
->  #define CAL_NUM_CSI2_PORTS		2
->  
->  /* CAL register offsets */
-> @@ -71,6 +95,7 @@
->  #define CAL_CSI2_PHY_REG0		0x000
->  #define CAL_CSI2_PHY_REG1		0x004
->  #define CAL_CSI2_PHY_REG2		0x008
-> +#define CAL_CSI2_PHY_REG10		0x028
->  
->  /* CAL Control Module Core Camerrx Control register offsets */
->  #define CM_CTRL_CORE_CAMERRX_CONTROL	0x000
-> @@ -458,6 +483,8 @@
->  #define CAL_CSI2_PHY_REG1_CLOCK_MISS_DETECTOR_STATUS_SUCCESS		0
->  #define CAL_CSI2_PHY_REG1_RESET_DONE_STATUS_MASK		GENMASK(29, 28)
->  
-> +#define CAL_CSI2_PHY_REG10_I933_LDO_DISABLE_MASK		BIT_MASK(6)
+> +  CAL supports 2 camera port nodes on MIPI bus. Each CSI2 camera port nodes
+> +  should contain a 'port' child node with child 'endpoint' node. Please
+> +  refer to the bindings defined in
+> +  Documentation/devicetree/bindings/media/video-interfaces.txt.
 > +
->  #define CAL_CSI2_PHY_REG2_CCP2_SYNC_PATTERN_MASK		GENMASK(23, 0)
->  #define CAL_CSI2_PHY_REG2_TRIGGER_CMD_RXTRIGESC3_MASK		GENMASK(25, 24)
->  #define CAL_CSI2_PHY_REG2_TRIGGER_CMD_RXTRIGESC2_MASK		GENMASK(27, 26)
+> +  compatible should be
+> +     "ti,dra72-cal", for DRA72 controllers
+> +     "ti,dra72-pre-es2-cal", for DRA72 controllers pre ES2.0
+> +     "ti,dra76-cal", for DRA76 controllers
+> +     "ti,am654-cal", for AM654 controllers
+> +
+> +properties:
+> +  compatible:
+> +      items:
+> +        - enum:
+> +            - ti,dra72-cal
+> +            - ti,dra72-pre-es2-cal
+> +            - ti,dra76-cal
+> +            - ti,am654-cal
+> +
+> +  reg:
+> +    minItems: 2
+> +    items:
+> +      - description: The CAL main register region
+> +      - description: The RX Core0 (DPHY0) register region
+> +      - description: The RX Core1 (DPHY1) register region
+> +
+> +  reg-names:
+> +    minItems: 2
+> +    items:
+> +      - const: cal_top
+> +      - const: cal_rx_core0
+> +      - const: cal_rx_core1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  syscon-camerrx:
+> +    maxItems: 1
+> +    items:
+> +      - description:
+> +           phandle to the device control module and offset to the
+> +           control_camerarx_core register
+> +
+> +  clocks:
+> +    maxItems: 1
+> +    description: functional clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: fck
+> +
+> +  power-domains:
+> +    description:
+> +      List of phandle and PM domain specifier as documented in
+> +      Documentation/devicetree/bindings/power/power_domain.txt
+> +    maxItems: 1
+> +
+> +  # See ./video-interfaces.txt for details
+> +  ports:
+> +    maxItems: 1
+> +    type: object
+> +    additionalProperties: false
+> +
+> +    properties:
+> +      "#address-cells":
+> +        const: 1
+> +
+> +      "#size-cells":
+> +        const: 0
+> +
+> +    patternProperties:
+> +      '^port@[0-9a-fA-F]+$':
+> +        minItems: 1
+> +        maxItems: 2
+> +        type: object
+> +        additionalProperties: false
+> +
+> +        properties:
+> +          reg:
+> +            minItems: 1
+> +            items:
+> +              - description: The port id
+> +
+> +        patternProperties:
+> +          '^endpoint@[0-9a-fA-F]+$':
+> +            minItems: 1
+> +            type: object
+> +            additionalProperties: false
+> +
+> +            properties:
+> +              clock-lanes:
+> +                maxItems: 1
+> +
+> +              data-lanes:
+> +                minItems: 1
+> +                maxItems: 4
+> +
+> +              remote-endpoint: true
+> +
+> +            required:
+> +              - remote-endpoint
+> +
+> +        required:
+> +          - reg
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - reg-names
+> +  - interrupts
+> +  - syscon-camerrx
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    cal: cal@4845b000 {
+> +        compatible = "ti,dra72-cal";
+> +        reg = <0x4845B000 0x400>,
+> +              <0x4845B800 0x40>,
+> +              <0x4845B900 0x40>;
+> +        reg-names = "cal_top",
+> +                    "cal_rx_core0",
+> +                    "cal_rx_core1";
+> +        interrupts = <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH>;
+> +        syscon-camerrx = <&scm_conf 0xE94>;
+> +
+> +        ports {
+> +              #address-cells = <1>;
+> +              #size-cells = <0>;
+> +
+> +              csi2_0: port@0 {
+> +                    reg = <0>;
+> +                    csi2_phy0: endpoint@0 {
+> +                           remote-endpoint = <&csi2_cam0>;
+> +                           clock-lanes = <0>;
+> +                           data-lanes = <1 2>;
+> +                    };
+> +              };
+> +        };
+> +    };
+> +
+> +    i2c5: i2c@4807c000 {
+> +        status = "okay";
+> +        clock-frequency = <400000>;
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        ov5640@3c {
+> +               compatible = "ovti,ov5640";
+> +               reg = <0x3c>;
+> +
+> +               clocks = <&clk_ov5640_fixed>;
+> +               clock-names = "xclk";
+> +
+> +               port {
+> +                    csi2_cam0: endpoint@0 {
+> +                            remote-endpoint = <&csi2_phy0>;
+> +                            clock-lanes = <0>;
+> +                            data-lanes = <1 2>;
+> +                    };
+> +               };
+> +        };
+> +    };
+> +
+> +...
+> diff --git a/Documentation/devicetree/bindings/media/ti-cal.txt b/Documentation/devicetree/bindings/media/ti-cal.txt
+> deleted file mode 100644
+> index b7bf8492dc2a..000000000000
+> --- a/Documentation/devicetree/bindings/media/ti-cal.txt
+> +++ /dev/null
+> @@ -1,82 +0,0 @@
+> -Texas Instruments DRA72x CAMERA ADAPTATION LAYER (CAL)
+> -------------------------------------------------------
+> -
+> -The Camera Adaptation Layer (CAL) is a key component for image capture
+> -applications. The capture module provides the system interface and the
+> -processing capability to connect CSI2 image-sensor modules to the
+> -DRA72x device.
+> -
+> -Required properties:
+> -- compatible:
+> - Should be "ti,dra72-cal", for DRA72 controllers
+> - Should be "ti,dra72-pre-es2-cal", for DRA72 controllers pre ES2.0
+> - Should be "ti,dra76-cal", for DRA76 controllers
+> - Should be "ti,am654-cal", for AM654 controllers
+> -- reg:	CAL Top level, Receiver Core #0, Receiver Core #1 and Camera RX
+> -	control address space
+> -- reg-names: cal_top, cal_rx_core0, cal_rx_core1 and camerrx_control
+> -	     registers
+> -- interrupts: should contain IRQ line for the CAL;
+> -- syscon-camerrx: phandle to the device control module and offset to the
+> -		  control_camerarx_core register
+> -		  This node is meant to replace the "camerrx_control" reg
+> -		  entry above but "camerrx_control" is still handled
+> -		  for backward compatibility.
+> -
+> -CAL supports 2 camera port nodes on MIPI bus. Each CSI2 camera port nodes
+> -should contain a 'port' child node with child 'endpoint' node. Please
+> -refer to the bindings defined in
+> -Documentation/devicetree/bindings/media/video-interfaces.txt.
+> -
+> -Example:
+> -	cal: cal@4845b000 {
+> -		compatible = "ti,dra72-cal";
+> -		reg = <0x4845B000 0x400>,
+> -		      <0x4845B800 0x40>,
+> -		      <0x4845B900 0x40>;
+> -		reg-names = "cal_top",
+> -			    "cal_rx_core0",
+> -			    "cal_rx_core1";
+> -		interrupts = <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH>;
+> -		syscon-camerrx = <&scm_conf 0xE94>;
+> -		#address-cells = <1>;
+> -		#size-cells = <0>;
+> -
+> -		ports {
+> -			#address-cells = <1>;
+> -			#size-cells = <0>;
+> -
+> -			csi2_0: port@0 {
+> -				reg = <0>;
+> -				csi2_phy0: endpoint@0 {
+> -					remote-endpoint = <&csi2_cam0>;
+> -					clock-lanes = <0>;
+> -					data-lanes = <1 2>;
+> -				};
+> -			};
+> -			csi2_1: port@1 {
+> -				reg = <1>;
+> -			};
+> -		};
+> -	};
+> -
+> -	i2c5: i2c@4807c000 {
+> -		status = "okay";
+> -		clock-frequency = <400000>;
+> -
+> -		ov5640@3c {
+> -			compatible = "ovti,ov5640";
+> -			reg = <0x3c>;
+> -
+> -			clocks = <&clk_ov5640_fixed>;
+> -			clock-names = "xclk";
+> -
+> -			port {
+> -				csi2_cam0: endpoint {
+> -					remote-endpoint = <&csi2_phy0>;
+> -					clock-lanes = <0>;
+> -					data-lanes = <1 2>;
+> -				};
+> -			};
+> -		};
+> -	};
 > 
 
