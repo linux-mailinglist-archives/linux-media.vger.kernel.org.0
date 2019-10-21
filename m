@@ -2,117 +2,256 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D9DB8DE6C8
-	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2019 10:41:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 48106DE6D6
+	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2019 10:43:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727399AbfJUIli (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Oct 2019 04:41:38 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:39989 "EHLO
+        id S1726915AbfJUInx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Oct 2019 04:43:53 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:37997 "EHLO
         lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726181AbfJUIli (ORCPT
+        by vger.kernel.org with ESMTP id S1726480AbfJUInx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Oct 2019 04:41:38 -0400
+        Mon, 21 Oct 2019 04:43:53 -0400
 Received: from [192.168.2.10] ([46.9.232.237])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id MTFqiTEA1o1ZhMTFuiL5bG; Mon, 21 Oct 2019 10:41:36 +0200
-Subject: Re: [RFC PATCH v3 1/6] media: v4l2: Extend pixel formats to unify
- single/multi-planar handling (and more)
-To:     Boris Brezillon <boris.brezillon@collabora.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Hirokazu Honda <hiroh@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Brian Starkey <Brian.Starkey@arm.com>, kernel@collabora.com
-References: <20191008091119.7294-1-boris.brezillon@collabora.com>
- <20191008091119.7294-2-boris.brezillon@collabora.com>
+        id MTI3iTF6jo1ZhMTI7iL6Eu; Mon, 21 Oct 2019 10:43:51 +0200
+Subject: Re: OMAP3 ISP v4l2 inconsistency on DM3730
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <9b289f76-6c09-b088-204d-ce5b5009bd7b@xs4all.nl>
-Date:   Mon, 21 Oct 2019 10:41:30 +0200
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Adam Ford <aford173@gmail.com>, Sakari Ailus <sakari.ailus@iki.fi>,
+        Linux-OMAP <linux-omap@vger.kernel.org>,
+        linux-media@vger.kernel.org,
+        "H. Nikolaus Schaller" <hns@goldelico.com>
+References: <CAHCN7xKiyYGhw4M5G1v8xsrJZxg1eFKEuLvrJf=nDuCKzonnJQ@mail.gmail.com>
+ <20191018210020.GG4735@valkosipuli.retiisi.org.uk>
+ <CAHCN7xJ6yphLvTo2wG4=5HHQ=t+MsBuvZBFRv4EksHYU3fnO4w@mail.gmail.com>
+ <20191018211651.GH4735@valkosipuli.retiisi.org.uk>
+ <CAHCN7xKYYStpJu91i6ReDQVxdxfZiK_jEg9AHHFiaHGvo8JC1w@mail.gmail.com>
+ <20191020053532.GC4991@pendragon.ideasonboard.com>
+ <e82419ee-1441-a1d8-4bd7-025b7999e406@xs4all.nl>
+ <20191020173915.GC11723@pendragon.ideasonboard.com>
+ <98af91c8-f5d2-9a9e-6210-641d18fdbcaa@xs4all.nl>
+Message-ID: <37092b1f-43cd-283b-3264-21f7b5a495a6@xs4all.nl>
+Date:   Mon, 21 Oct 2019 10:43:47 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191008091119.7294-2-boris.brezillon@collabora.com>
+In-Reply-To: <98af91c8-f5d2-9a9e-6210-641d18fdbcaa@xs4all.nl>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfDAjzinXp+MjgGJwUKOMMCzHERS86VKWaooxzdVZTkGgu+G7qWBdL07j9kRcEtKfzwao0dAWHcHHZjRB1YBeezyAm/SKFze07p0UqI9OKAkaDIMrA4l0
- PUrdOB8Q4BnERNwP2EXTAYjaVHcMDrETeN5Aicry1fIUzuMyABFexVlRKTB8XG1UWDqIo3PWLCL7sbxxT6fN6p3Qj/NvlGiPisOTl4r/RGLji6s6VsZBaxLz
- sbtdcvzeYoGJniJP01ZqNsR9pTwWC1J52BB0tjf4QMACjuMpwdf4GifrOMWef1ILqnGyNTYciGVtBUk4kLoTTh0w7UAS8GP3mV3DER7XNJoTHYS0+dKU0JVM
- pop3cw+rEt+FmHG/UBaNAyrUbi88a8U3xEbmqnFnpvB0yH9vZhtMq5UDiAUucaPI/Wif9KLDVH56cWM3a2LNyF6p8VMpCMs6HW3YvcnQO8vxrQsKa5Q4Tcrh
- +FDCAWK+EbZQkeNHUUlhJQox78k8C5gOFPbyOiAhnEa/1TDmNHm/79qUJco=
+X-CMAE-Envelope: MS4wfDAM4e5LIYNSWDEwmsmMvPpWEsz/YZg5zE+VcBbpm1+Mtdi3kkoXaHxySm6Kvz5O04GHZSHcx5GMmUSPbnbUtPAn+vSzKNI+C5wQQ4VzyVYFKt/LEorL
+ IfIsEv9/h2kNsD4okMqg8DzyV0Q1Ebo3BHKs+i2AFiQG66imuYlwIus6m0+8blWu85esr/4XiwU5QnsHAjPNDz93OTrLN+4oiAzlWH9zUQ9dgx+LNC2wgq/H
+ PHuZz4sj+Je44Kci3RztGoovmIt27LpqA9GzhkOo4/qefLvfav6sCUJZYU+Ry80AyvXRvi9xLvD9YFOTrHkKWaateR0gUvZ/n6AqX03QZx+h98JGK8TJ4FpN
+ QFjjDoq5
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/8/19 11:11 AM, Boris Brezillon wrote:
-> This is part of the multiplanar and singleplanar unification process.
-> v4l2_ext_pix_format is supposed to work for both cases.
+On 10/21/19 10:21 AM, Hans Verkuil wrote:
+> On 10/20/19 7:39 PM, Laurent Pinchart wrote:
+>> Hi Hans,
+>>
+>> On Sun, Oct 20, 2019 at 07:26:20PM +0200, Hans Verkuil wrote:
+>>> On 10/20/19 7:35 AM, Laurent Pinchart wrote:
+>>>> On Sat, Oct 19, 2019 at 11:14:03AM -0500, Adam Ford wrote:
+>>>>> On Fri, Oct 18, 2019 at 4:17 PM Sakari Ailus <sakari.ailus@iki.fi> wrote:
+>>>>>> On Fri, Oct 18, 2019 at 04:10:23PM -0500, Adam Ford wrote:
+>>>>>>> On Fri, Oct 18, 2019 at 4:00 PM Sakari Ailus <sakari.ailus@iki.fi> wrote:
+>>>>>>>> On Fri, Oct 18, 2019 at 02:38:57PM -0500, Adam Ford wrote:
+>>>>>>>>> I have a DM3730 with a parallel mt9p031 sensor attached.  I am trying
+>>>>>>>>> to troubleshoot some issues with streaming video with G-streamer, but
+>>>>>>>>> I I think the issue is in how the ISP driver reports the video info.
+>>>>>>>>>
+>>>>>>>>> I have the pipeline to grab from the resizer:
+>>>>>>>>>
+>>>>>>>>> media-ctl -v -V '"mt9p031 1-0048":0 [SGRBG8 1280x720
+>>>>>>>>> (664,541)/1280x720], "OMAP3 ISP CCDC":2 [SGRBG8 1280x720], "OMAP3 ISP
+>>>>>>>>> preview":1 [UYVY 1280x720], "OMAP3 ISP resizer":1 [UYVY 480x272]'
+>>>>>>>>>
+>>>>>>>>> This make /dev/video6 the output of the resizer and shows the format
+>>>>>>>>> and resolution of the output of the resizer as:
+>>>>>>>>>
+>>>>>>>>>      Setting up format UYVY8_1X16 480x272 on pad OMAP3 ISP resizer/1
+>>>>>>>>>      Format set: UYVY8_1X16 480x272
+>>>>>>>>>
+>>>>>>>>> I used 480x272 because it's the resolution of my LCD, and I was hoping
+>>>>>>>>> the resizer would be able to scale this so the ARM would not need to
+>>>>>>>>> do the work, and it appears to not have any issues with this
+>>>>>>>>> resolution.
+>>>>>>>>>
+>>>>>>>>> However, if I query the video format, I don't get UYVY:
+>>>>>>>>>
+>>>>>>>>> # v4l2-ctl  -d6 --list-formats-ext
+>>>>>>>>> ioctl: VIDIOC_ENUM_FMT
+>>>>>>>>>         Type: Video Capture
+>>>>>>>>>
+>>>>>>>>>         [0]: 'RGB3' (RGB3, emulated)
+>>>>>>>>>         [1]: 'BGR3' (BGR3, emulated)
+>>>>>>>>>         [2]: 'YU12' (YU12, emulated)
+>>>>>>>>>         [3]: 'YV12' (YV12, emulated)
+>>>>>>>>>
+>>>>>>>>> This becomes an issue when I attempt to stream video from my camera to
+>>>>>>>>> anything, include fake sink:
+>>>>>>>>>
+>>>>>>>>> gst-launch-1.0 -v v4l2src device=/dev/video6 ! fakesink
+>>>>>>>>> Tried to capture in RGB3, but device returned format UYVY
+>>>>>>>>>
+>>>>>>>>> So for some reason, when queried, it reports different values than
+>>>>>>>>> UYVY, but when attempting to set the video capture to the listed
+>>>>>>>>> formats, it returns an error.
+>>>>>>>>>
+>>>>>>>>> gst-launch-1.0 -v v4l2src device=/dev/video6 ! video/x-raw,
+>>>>>>>>> format=UYVY ! fakesink
+>>>>>>>>
+>>>>>>>> I don't have any experience on v4l2src recently but I can comment on the
+>>>>>>>> omap3isp driver.
+>>>>>>>>
+>>>>>>>> In general, the format the omap3isp may produce on a given video node
+>>>>>>>> depends on the format of data which the block associated with the video
+>>>>>>>> node is fed with.
+>>>>>>>>
+>>>>>>>> For instance, in case of the raw Bayer formats, the pixel order does not
+>>>>>>>> change, and thus the pixel order remains all the way from the sensor to the
+>>>>>>>> video node.
+>>>>>>>
+>>>>>>> From what I can tell, it looks like the output of the resizer is only
+>>>>>>> capable of two formats,
+>>>>>>> from ispresizer.c:
+>>>>>>>
+>>>>>>>      /* resizer pixel formats */
+>>>>>>>      static const unsigned int resizer_formats[] = {
+>>>>>>>      MEDIA_BUS_FMT_UYVY8_1X16,
+>>>>>>>      MEDIA_BUS_FMT_YUYV8_1X16,
+>>>>>>>      };
+>>>>>>>
+>>>>>>> Also:
+>>>>>>>
+>>>>>>>  * resizer_try_format - Handle try format by pad subdev method
+>>>>>>>  * @res   : ISP resizer device
+>>>>>>>  * @cfg: V4L2 subdev pad configuration
+>>>>>>>  * @pad   : pad num
+>>>>>>>  * @fmt   : pointer to v4l2 format structure
+>>>>>>>  * @which : wanted subdev format
+>>>>>>>
+>>>>>>> switch (pad) {
+>>>>>>> case RESZ_PAD_SINK:
+>>>>>>>      if (fmt->code != MEDIA_BUS_FMT_YUYV8_1X16 &&
+>>>>>>>          fmt->code != MEDIA_BUS_FMT_UYVY8_1X16)
+>>>>>>>               fmt->code = MEDIA_BUS_FMT_YUYV8_1X16;
+>>>>>>>
+>>>>>>> So it looks to me like if we're trying to do anything other than
+>>>>>>> either of those,we set it to MEDIA_BUS_FMT_YUYV8_1X16
+>>>>>>>
+>>>>>>> Am I missing something?
+>>>>>>
+>>>>>> I guess for this particular video node there's no need for V4L2 extensions
+>>>>>> to implement ENUM_FMT. Ideally the other nodes would support ENUM_FMT that
+>>>>>> could provide meaningful information as well.
+>>>>>
+>>>>> I applied a variation of the patch in question, and I was able to both
+>>>>> successfully use g-streamer-1.0 and I was able to see UYVY appear in
+>>>>> the list.  in fact, G-Streamer-1.0 was faster than FFPEG with less
+>>>>> lag.
+>>>>>
+>>>>> ioctl: VIDIOC_ENUM_FMT
+>>>>>         Type: Video Capture
+>>>>>
+>>>>>         [0]: 'UYVY' (UYVY 4:2:2)
+>>>>>         [1]: 'RGB3' (RGB3, emulated)
+>>>>>         [2]: 'BGR3' (BGR3, emulated)
+>>>>>         [3]: 'YU12' (YU12, emulated)
+>>>>>         [4]: 'YV12' (YV12, emulated)
+>>>>>
+>>>>> I don't know enough about VL2.  It looks like all the V4L stuff is in
+>>>>> the common isp files and not unique to the preview output, resizer
+>>>>> output or the CCDC output.  I don't have a CSI camera, so I cannot
+>>>>> test anything.
+>>>>>
+>>>>> I checked all the video outputs, and they are all showing the same
+>>>>> information.  I realize the patch I found won't be accepted upstream
+>>>>> as-is, but it would be nice to have some mechanism in place that can
+>>>>> determine which output node is being used and somehow return the
+>>>>> correct data for each node.
+>>>>>
+>>>>> I would like to do something to help improve this driver and/or make
+>>>>> it more compatible with some of the V4L tools (like G-Streamer), so if
+>>>>> someone has a recommendation on how we could move forward, I'm willing
+>>>>> work on it.
+>>>>
+>>>> While I'm not totally opposed to implementing VIDIOC_ENUM_FMT for the
+>>>> resizer video node, I'm not sure it would be the best solution to your
+>>>> problem. Sure, it will fix an existing issue, but we already know that
+>>>> it won't scale, as the other video nodes can't be supported the same
+>>>> way.
+>>>>
+>>>> So far, our position was mostly that userspace should grow support for
+>>>> MC-based devices where VIDIOC_ENUM_FMT isn't implemented. Maybe I'm
+>>>
+>>> Well, I disagree: implementing G/S/TRY_FMT without ENUM_FMT is out-of-spec.
+>>> The v4l2-compliance utility would flunk any driver that tries that.
+>>> Unfortunately, v4l2-compliance didn't exist (or was in its infancy) when
+>>> omap3isp was written.
+>>
+>> We've never agreed :-)
+>>
+>>> I didn't even know that ENUM_FMT wasn't implemented for the omap3 ISP.
+>>>
+>>> It makes no sense either: the driver is smart enough to validate the
+>>> pixelformat, but not smart enough to be able to enumerate the list of
+>>> valid formats for the current pipeline configuration?
+>>
+>> That's not the problem, the issue is that for MC-enabled drivers subdevs
+>> and video nodes are configured in isolation of each other. You thus
+>> can't enumerate formats on a video node *for the current pipeline
+>> configuration* as there's no such thing, we have no global "test"
+>> pipeline configuration. Enumerating formats for the active configuration
+>> is possible, but that will confuse userspace even more, as most
+>> applications enumerate formats first and then decide how to configure
+>> the device based on what is supported.
 > 
-> We also add the concept of modifiers already employed in DRM to expose
-> HW-specific formats (like tiled or compressed formats) and allow
-> exchanging this information with the DRM subsystem in a consistent way.
+> So it is OK not to provide ANY information about supported formats and just
+> leave it to userspace to guess? I'm happy to just say that ENUM_FMT enumerates
+> all supported formats (and allowing them to be rejected if they do not work
+> with the actual pipeline), that's already FAR better than not enumerating
+> anything at all.
 > 
-> Note that V4L2_BUF_TYPE_VIDEO[_OUTPUT]_OVERLAY and
-> V4L2_BUF_TYPE_VIDEO_{CAPTURE,OUTPUT}_MPLANE types are no longer accepted
-> in v4l2_ext_format and will be rejected if you use the {G,S,TRY}EXT_FMT
-> ioctls. V4L2_BUF_TYPE_VIDEO_{CAPTURE,OUTPUT}_MPLANE is dropped as part
-> of the multiplanar/singleplanar unification.
-> V4L2_BUF_TYPE_VIDEO[_OUTPUT]_OVERLAY seems to be used mostly on old
-> drivers and supporting it would require some extra rework.
+> It's insane that this is apparently still not sorted so long after this driver
+> was merged.
 > 
-> New hooks have been added to v4l2_ioctl_ops to support those new ioctls
-> in drivers, but, in the meantime, the core takes care of converting
-> {S,G,TRY}_EXT_FMT requests into {S,G,TRY}_FMT so that old drivers can
-> still work if the userspace app/lib uses the new ioctls.
-> The conversion is also done the other around to allow userspace
-> apps/libs using {S,G,TRY}_FMT to work with drivers implementing the
-> _ext_ hooks.
+>>
+>>> I suspect that omap3isp can use some TLC, and this would be one of the
+>>> things that need addressing.
+>>
+>> We need to address this issue in the V4L2 spec first and decide, once
+>> and for all, what set of ioctls MC-based drivers need to support, and
+>> how they should support them. There's little point in sending patches
+>> for the driver until we agree on the spec.
 > 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> ---
-
-<snip>
-
->  
-> +#define VIDIOC_G_EXT_FMT	_IOWR('V', 104, struct v4l2_ext_format)
-> +#define VIDIOC_S_EXT_FMT	_IOWR('V', 105, struct v4l2_ext_format)
-> +#define VIDIOC_TRY_EXT_FMT	_IOWR('V', 106, struct v4l2_ext_format)
->  /* Reminder: when adding new ioctls please add support for them to
->     drivers/media/v4l2-core/v4l2-compat-ioctl32.c as well! */
->  
+> Well, make an RFC. Seriously. How can you even write libcamera without this
+> being sorted?
 > 
+> Fix this!
+> 
+> I strongly recommend that you look at Boris' RFC v3 (https://patchwork.linuxtv.org/cover/59345/)
+> that will be the main discussion during the 'Future work' session in Lyon,
+> and post an RFC this week with a suggestion on how to integrate this into
+> a new API.
+> 
+> It is unlikely that this can be integrated into the existing VIDIOC_ENUM_FMT
+> since while there are reserved fields, there is no requirement for userspace
+> to zero them. They can only be used to return information from the driver.
+> (Sorry Sakari, your proposal to use a reserved field for the mediabus format
+> won't work).
+> 
+> So the best ENUM_FMT can do for these drivers is to enumerate all supported
+> pixelformats, but without any information on the mediabus formats they can
+> be used with.
 
-Since we're extending g/s/try_fmt, we should also provide a replacement for
-enum_fmt, esp. given this thread:
+Posted a proposal for a new EXT_ENUM_FMT here:
 
-https://www.mail-archive.com/linux-media@vger.kernel.org/msg150871.html
-
-So here is a preliminary suggestion:
-
-struct v4l2_ext_fmtdesc {
-        __u32               index;             /* Format number      */
-        __u32               type;              /* enum v4l2_buf_type */
-	__u32               which;             /* enum v4l2_subdev_format_whence, ignored if mbus_code == 0 */
-        __u32               mbus_code;         /* Mediabus Code (set to 0 if n/a) */
-        __u32               flags;
-        __u8                description[32];   /* Description string */
-        __u32               pixelformat;       /* Format fourcc      */
-};
-
-This would solve (I think) the issue raised in the thread since you can now get
-just for formats that are valid for the given mediabus code and the which field.
-
-Other improvements that could be made is to return more information about the
-format (similar to struct v4l2_format_info). In particular v4l2_pixel_encoding
-and mem/comp_planes would be useful for userspace to know.
-
-Finally, we can also add a new ioctl that combines ENUM_FMT/ENUM_FRAMESIZES/ENUM_FRAMEINTERVALS
-and returns an array of all valid formats/sizes/intervals, requiring just a single ioctl
-to obtain all this information.
+https://www.mail-archive.com/linux-media@vger.kernel.org/msg150908.html
 
 Regards,
 
