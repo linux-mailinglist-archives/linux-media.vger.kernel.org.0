@@ -2,73 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 080B1DE570
-	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2019 09:41:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CDE9EDE580
+	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2019 09:48:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727516AbfJUHlA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Oct 2019 03:41:00 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:53773 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727478AbfJUHk7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Oct 2019 03:40:59 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtp (Exim 4.84_2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1iMSJE-0002B5-3l; Mon, 21 Oct 2019 07:40:56 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1iMSJi-0003iZ-GR; Mon, 21 Oct 2019 07:41:26 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL for 5.5] SMIA patches for 5.5
-Date:   Mon, 21 Oct 2019 07:41:26 +0000
-Message-Id: <20191021074126.14250-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191021072359.GC864@valkosipuli.retiisi.org.uk>
-References: 
+        id S1727516AbfJUHsp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Oct 2019 03:48:45 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:38118 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726480AbfJUHso (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 21 Oct 2019 03:48:44 -0400
+Received: by mail-ot1-f65.google.com with SMTP id e11so10164105otl.5;
+        Mon, 21 Oct 2019 00:48:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=5ZskpJFZZjRWlDfk3HdlskpXJkZ/WC5DVrjGNJ7zvD8=;
+        b=h6V4JJ+H96or8MxVLqE5G3cDJUsUQoxCHrBdIEsGIjZe0/ENswTjlNmilL/X72+qYO
+         ZieV9wBuvUGIBNAqNPd+zzrqEKHT/+P4i+5tH0HeqivaMIJlH2INMBprMJt4Yk1KHMxQ
+         8C7h2Kj3/p40hM1Fj565YNV9h3woLjNbbobK96gTxCqQptL4h+EQQA0Slc0DSSzYwyy4
+         5FQuPOzmUo+jFwcMKklZ4EV6bFg/FHgUNUASH4+dRzp4/JlUYGzVhu/zlZAw3Uf50ei9
+         4Q3uWPUUnIC/4tKC1R6dJWtVchbaUECbR9mNxw/5KtJApBVe77DGGl2VQNzzYcAkR9OJ
+         TtHQ==
+X-Gm-Message-State: APjAAAVFWLzM5C1Zd2cQl7b/KHkX7OxR0qWvq3+PYXdIIJ2nNG+eEYsh
+        KZR+VNvneMkR60BrhPrO/0c6RF1hcwCPSY/TL5A=
+X-Google-Smtp-Source: APXvYqxAa1Uh4f3nMQcU7x2UilhoGASUblB6WQl63Anx5OIa9PpKN4dhON/vvS7BUxjpQxmNi8a8uNE1yYmqqr1CGHY=
+X-Received: by 2002:a05:6830:1685:: with SMTP id k5mr17476718otr.250.1571644122314;
+ Mon, 21 Oct 2019 00:48:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20191018044701.4786-1-kjlu@umn.edu>
+In-Reply-To: <20191018044701.4786-1-kjlu@umn.edu>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 21 Oct 2019 09:48:31 +0200
+Message-ID: <CAMuHMdVnsoarYww+5hs+D6+8bWv0EO_9vs81ZrSTOo5g63deAg@mail.gmail.com>
+Subject: Re: [PATCH] media: rcar_drif: fix a memory disclosure
+To:     Kangjie Lu <kjlu@umn.edu>
+Cc:     Ramesh Shanmugasundaram <rashanmu@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Hi Kangjie,
 
-Pull request: https://patchwork.linuxtv.org/patch/59575/
-Build log: https://builder.linuxtv.org/job/patchwork/21363/
-Build time: 00:05:26
-Link: https://lore.kernel.org/linux-media/20191021072359.GC864@valkosipuli.retiisi.org.uk
+On Sat, Oct 19, 2019 at 12:29 AM Kangjie Lu <kjlu@umn.edu> wrote:
+> "f->fmt.sdr.reserved" is uninitialized. As other peer drivers
+> like msi2500 and airspy do, the fix initializes it to avoid
+> memory disclosures.
+>
+> Signed-off-by: Kangjie Lu <kjlu@umn.edu>
 
-gpg: Signature made Mon 21 Oct 2019 07:18:55 AM UTC
-gpg:                using DSA key F0D0377A0D4F25A79238EFE56D40361B6E28C193
-gpg:                issuer "sakari.ailus@linux.intel.com"
-gpg: Good signature from "Sakari Ailus <sakari.ailus@linux.intel.com>" [full]
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Summary: 4 patches and/or PDF generation with issues, being 0 at build time
+> --- a/drivers/media/platform/rcar_drif.c
+> +++ b/drivers/media/platform/rcar_drif.c
+> @@ -912,6 +912,7 @@ static int rcar_drif_g_fmt_sdr_cap(struct file *file, void *priv,
+>  {
+>         struct rcar_drif_sdr *sdr = video_drvdata(file);
+>
+> +       memset(f->fmt.sdr.reserved, 0, sizeof(f->fmt.sdr.reserved));
+>         f->fmt.sdr.pixelformat = sdr->fmt->pixelformat;
+>         f->fmt.sdr.buffersize = sdr->fmt->buffersize;
 
-Error/warnings:
+I would do the memset() at the end, though, to follow declaration order of the
+struct members.
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0003-smiapp-Refactor-reading-NVM-page.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0003-smiapp-Refactor-reading-NVM-page.patch
-patches/0003-smiapp-Refactor-reading-NVM-page.patch:47: CHECK: Lines should not end with a '('
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0005-smiapp-Don-t-poll-for-NVM-ready-on-devices-that-don-.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0005-smiapp-Don-t-poll-for-NVM-ready-on-devices-that-don-.patch
-patches/0005-smiapp-Don-t-poll-for-NVM-ready-on-devices-that-don-.patch:32: CHECK: Lines should not end with a '('
-patches/0005-smiapp-Don-t-poll-for-NVM-ready-on-devices-that-don-.patch:47: CHECK: Blank lines aren't necessary before a close brace '}'
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0010-smiapp-Move-binning-configuration-to-streaming-start.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0010-smiapp-Move-binning-configuration-to-streaming-start.patch
-patches/0010-smiapp-Move-binning-configuration-to-streaming-start.patch:69: CHECK: Lines should not end with a '('
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0012-smiapp-Use-non-binned-and-binned-limits-correctly.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0012-smiapp-Use-non-binned-and-binned-limits-correctly.patch
-patches/0012-smiapp-Use-non-binned-and-binned-limits-correctly.patch:22: CHECK: Prefer kernel type 'u16' over 'uint16_t'
-patches/0012-smiapp-Use-non-binned-and-binned-limits-correctly.patch:26: WARNING: line over 80 characters
-patches/0012-smiapp-Use-non-binned-and-binned-limits-correctly.patch:27: WARNING: line over 80 characters
-patches/0012-smiapp-Use-non-binned-and-binned-limits-correctly.patch:30: WARNING: line over 80 characters
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
