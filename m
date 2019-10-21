@@ -2,220 +2,196 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C6C1DE92E
-	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2019 12:17:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CE40DE9D0
+	for <lists+linux-media@lfdr.de>; Mon, 21 Oct 2019 12:38:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727328AbfJUKRs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 21 Oct 2019 06:17:48 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:51675 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726767AbfJUKRs (ORCPT
+        id S1728160AbfJUKiJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 21 Oct 2019 06:38:09 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:35437 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726725AbfJUKiJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 21 Oct 2019 06:17:48 -0400
+        Mon, 21 Oct 2019 06:38:09 -0400
 Received: from [192.168.2.10] ([46.9.232.237])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id MUkviTtCCo1ZhMUkziLZtp; Mon, 21 Oct 2019 12:17:45 +0200
-Subject: Re: [RFC PATCH v3 1/6] media: v4l2: Extend pixel formats to unify
- single/multi-planar handling (and more)
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Boris Brezillon <boris.brezillon@collabora.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Hirokazu Honda <hiroh@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Brian Starkey <Brian.Starkey@arm.com>, kernel@collabora.com
-References: <20191008091119.7294-1-boris.brezillon@collabora.com>
- <20191008091119.7294-2-boris.brezillon@collabora.com>
- <9b289f76-6c09-b088-204d-ce5b5009bd7b@xs4all.nl>
- <CAAFQd5C7D24teYQThou+ZvZrZ7iH6-hAumSCiRi8U6tDKSdzuA@mail.gmail.com>
- <ce4639c3-fcae-e8ca-d2b8-dd79b14f7204@xs4all.nl>
- <CAAFQd5BJ9OiABCdOFPhgqv1j7=z-K4Y2DsGyH13-QzeZ-cJaAA@mail.gmail.com>
+        id MV4diU1Tdo1ZhMV4giLfb1; Mon, 21 Oct 2019 12:38:06 +0200
+Subject: Re: [Patch 07/19] media: ti-vpe: cal: add CSI2 PHY LDO errata support
+To:     Benoit Parrot <bparrot@ti.com>, Rob Herring <robh+dt@kernel.org>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Jyri Sarha <jsarha@ti.com>
+References: <20191018153437.20614-1-bparrot@ti.com>
+ <20191018153437.20614-8-bparrot@ti.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <0a6d8c2a-ab0d-873e-8a08-25a9d0df1e65@xs4all.nl>
-Date:   Mon, 21 Oct 2019 12:17:41 +0200
+Message-ID: <68dbd926-0e37-93f7-e03e-def4b4146d32@xs4all.nl>
+Date:   Mon, 21 Oct 2019 12:38:03 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <CAAFQd5BJ9OiABCdOFPhgqv1j7=z-K4Y2DsGyH13-QzeZ-cJaAA@mail.gmail.com>
+In-Reply-To: <20191018153437.20614-8-bparrot@ti.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfBppAZHoLdFeNC+7eTf15FT1YpX3Ly92/mqqAHrZV8b9xlJ8k9R+oblB9irN+IHpuG4/6vqy2g3j/AsU5O3/s4t6xsKysybpb8dhUKjiedDPJQcj+Fyf
- ffMymezdokxY3ZHAgCGSGCCUTGg6DEbDPCpjpfAzO9eXlzklKz/EqHQxr0kwj+Ajl6lklxoGe4tNQhasvRSmrCO1X5VucSVkyNz9JBevQUSXUnha1CixrcgO
- 7gXgZJNNX2BXHBhoYyXizuPeUozkEPXAO5GFVE7ZVwzb0ZCJFX3r3RV1JbKasXSUElyWkF9p15dmL0tzMAWpwK7yQLQTbBYAQRidLy/FBHqpTWoYewBlhGfP
- iFj9az29oGAACasRzqe+NmqjMUpWFehS/pUtkltnQoXkS0ypy0bt9PZkLsBE61pl8HGD8hMcz9T+DyG5cEKLx14Tkreo3D6E1+AKujykQxKriKcBiJpDrrj/
- 5nGRNRFWQzNF53Vy
+X-CMAE-Envelope: MS4wfN7I+pVfMgIkvnB5EwZLFJ0MzMPcjgiwikp5JFhEn8sQI3ONVzWrvTz1WXmzHqV32dd4F71xp6LHS8hxF4BjyMGFnGWLPZj+McnqgS56vq8S4Bh7FRGF
+ azKBb52I+vN9gcbpc55rg0mhDafJYNqZWU6iBAh8/agM8cKH8aNp+QISlX5n1eMN87PuBq3vCtUkZ35NYta7W7tx59fugU/ozRxMXV5p4T8m7hNNkRgU/5B1
+ 2hJ9cl6y+exwcglLLHA6iB9+ZUYaQeJFAohkJVQ5zAyDankwfjUCloFx9XNQTlr1LYEWiJwPDV6VuJ8fw2jlltQ7f42ztQrt0m01A2lwTbo=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/21/19 11:48 AM, Tomasz Figa wrote:
-> On Mon, Oct 21, 2019 at 6:38 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
->>
->> On 10/21/19 11:26 AM, Tomasz Figa wrote:
->>> On Mon, Oct 21, 2019 at 5:41 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
->>>>
->>>> On 10/8/19 11:11 AM, Boris Brezillon wrote:
->>>>> This is part of the multiplanar and singleplanar unification process.
->>>>> v4l2_ext_pix_format is supposed to work for both cases.
->>>>>
->>>>> We also add the concept of modifiers already employed in DRM to expose
->>>>> HW-specific formats (like tiled or compressed formats) and allow
->>>>> exchanging this information with the DRM subsystem in a consistent way.
->>>>>
->>>>> Note that V4L2_BUF_TYPE_VIDEO[_OUTPUT]_OVERLAY and
->>>>> V4L2_BUF_TYPE_VIDEO_{CAPTURE,OUTPUT}_MPLANE types are no longer accepted
->>>>> in v4l2_ext_format and will be rejected if you use the {G,S,TRY}EXT_FMT
->>>>> ioctls. V4L2_BUF_TYPE_VIDEO_{CAPTURE,OUTPUT}_MPLANE is dropped as part
->>>>> of the multiplanar/singleplanar unification.
->>>>> V4L2_BUF_TYPE_VIDEO[_OUTPUT]_OVERLAY seems to be used mostly on old
->>>>> drivers and supporting it would require some extra rework.
->>>>>
->>>>> New hooks have been added to v4l2_ioctl_ops to support those new ioctls
->>>>> in drivers, but, in the meantime, the core takes care of converting
->>>>> {S,G,TRY}_EXT_FMT requests into {S,G,TRY}_FMT so that old drivers can
->>>>> still work if the userspace app/lib uses the new ioctls.
->>>>> The conversion is also done the other around to allow userspace
->>>>> apps/libs using {S,G,TRY}_FMT to work with drivers implementing the
->>>>> _ext_ hooks.
->>>>>
->>>>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
->>>>> ---
->>>>
->>>> <snip>
->>>>
->>>>>
->>>>> +#define VIDIOC_G_EXT_FMT     _IOWR('V', 104, struct v4l2_ext_format)
->>>>> +#define VIDIOC_S_EXT_FMT     _IOWR('V', 105, struct v4l2_ext_format)
->>>>> +#define VIDIOC_TRY_EXT_FMT   _IOWR('V', 106, struct v4l2_ext_format)
->>>>>  /* Reminder: when adding new ioctls please add support for them to
->>>>>     drivers/media/v4l2-core/v4l2-compat-ioctl32.c as well! */
->>>>>
->>>>>
->>>>
->>>> Since we're extending g/s/try_fmt, we should also provide a replacement for
->>>> enum_fmt, esp. given this thread:
->>>>
->>>> https://www.mail-archive.com/linux-media@vger.kernel.org/msg150871.html
->>>
->>> While that's a completely valid problem that should be addressed, I'm
->>> not sure if putting all the things in one bag would have a positive
->>> effect on solving all the problems in a reasonable timeline.
->>
->> I'm not sure what you mean with this. We can't ignore this either, and if
->> we're going to add these new ioctls, then let's try to fix as much as we can.
->>
+On 10/18/19 5:34 PM, Benoit Parrot wrote:
+> Apply Errata i913 every time the functional clock is enabled.
+> This should take care of suspend/resume case as well.
 > 
-> My point is that this series solves a completely orthogonal problem
-> without a need to touch ENUM_FMT at all. Is there any reason why
-> solving this particular problem separately would make solving the
-> ENUM_FMT problem more difficult in the future?
-
-I do not agree with you that this is an orthogonal problem. If we are creating
-new FMT ioctls to solve various problems, then it makes sense to look at ALL the
-problems, including this. We might decide to postpone creating a EXT_ENUM_FMT
-ioctl, but during the discussion we should look at this issue as well.
-
-To take one suggestion you made: use of the active/try slots for existing non-MC
-drivers. If we decide to go into that direction (and I think it is a very interesting
-idea), then that requires that ENUM_FMT is taken into account anyway. And probably
-other ioctls such as the selection API as well.
-
-I think we need to think big here, and try to at least explore the possibility
-of creating an API that tries to limit the differences between video and subdev
-nodes.
-
+> Signed-off-by: Benoit Parrot <bparrot@ti.com>
+> Signed-off-by: Jyri Sarha <jsarha@ti.com>
+> ---
+>  drivers/media/platform/ti-vpe/cal.c      | 56 +++++++++++++++++++++++-
+>  drivers/media/platform/ti-vpe/cal_regs.h | 27 ++++++++++++
+>  2 files changed, 82 insertions(+), 1 deletion(-)
 > 
->>>
->>>>
->>>> So here is a preliminary suggestion:
->>>>
->>>> struct v4l2_ext_fmtdesc {
->>>>         __u32               index;             /* Format number      */
->>>>         __u32               type;              /* enum v4l2_buf_type */
->>>>         __u32               which;             /* enum v4l2_subdev_format_whence, ignored if mbus_code == 0 */
->>>>         __u32               mbus_code;         /* Mediabus Code (set to 0 if n/a) */
->>>>         __u32               flags;
->>>>         __u8                description[32];   /* Description string */
->>>>         __u32               pixelformat;       /* Format fourcc      */
->>>> };
->>>>
->>>> This would solve (I think) the issue raised in the thread since you can now get
->>>> just for formats that are valid for the given mediabus code and the which field.
->>>>
->>>
->>> Hmm, why only mbus_code? We have the same problem with mem2mem
->>> devices, where the format set on one queue affects the formats
->>> supported on another queue. Perhaps it should be defined to return
->>> formats valid with the current state of the driver? If we want to
->>> extend it to return formats for arbitrary states, perhaps we should
->>> use a mechanism similar to the TRY_FMT slot in subdevices, where we
->>> can set the configuration we want to test against and then ENUM_FMT
->>> would return the formats valid for that configuration?
->>
->> Good point.
->>
-> 
-> We might want to keep the control'ification of the API in mind, which
-> should simplify dealing with state inter-dependencies, because all the
-> state would be represented in a uniform way.
+> diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
+> index 62aeedb705e9..3cbc4dca6de8 100644
+> --- a/drivers/media/platform/ti-vpe/cal.c
+> +++ b/drivers/media/platform/ti-vpe/cal.c
+> @@ -284,6 +284,13 @@ static struct cal_data dra72x_cal_data = {
+>  	.flags = 0,
+>  };
+>  
+> +static struct cal_data dra72x_es1_cal_data = {
+> +	.csi2_phy_core = dra72x_cal_csi_phy,
+> +	.num_csi2_phy = ARRAY_SIZE(dra72x_cal_csi_phy),
+> +
+> +	.flags = DRA72_CAL_PRE_ES2_LDO_DISABLE,
+> +};
+> +
+>  /*
+>   * there is one cal_dev structure in the driver, it is shared by
+>   * all instances.
+> @@ -569,9 +576,52 @@ static void cal_get_hwinfo(struct cal_dev *dev)
+>  		hwinfo);
+>  }
+>  
+> +/*
+> + *   Errata i913: CSI2 LDO Needs to be disabled when module is powered on
+> + *
+> + *   Enabling CSI2 LDO shorts it to core supply. It is crucial the 2 CSI2
+> + *   LDOs on the device are disabled if CSI-2 module is powered on
+> + *   (0x4845 B304 | 0x4845 B384 [28:27] = 0x1) or in ULPS (0x4845 B304
+> + *   | 0x4845 B384 [28:27] = 0x2) mode. Common concerns include: high
+> + *   current draw on the module supply in active mode.
+> + *
+> + *   Errata does not apply when CSI-2 module is powered off
+> + *   (0x4845 B304 | 0x4845 B384 [28:27] = 0x0).
+> + *
+> + * SW Workaround:
+> + *	Set the following register bits to disable the LDO,
+> + *	which is essentially CSI2 REG10 bit 6:
+> + *
+> + *		Core 0:  0x4845 B828 = 0x0000 0040
+> + *		Core 1:  0x4845 B928 = 0x0000 0040
+> + */
+> +static void i913_errata(struct cal_dev *dev, unsigned int port)
+> +{
+> +	u32 reg10 = reg_read(dev->cc[port], CAL_CSI2_PHY_REG10);
+> +
+> +	set_field(&reg10, CAL_CSI2_PHY_REG0_HSCLOCKCONFIG_DISABLE,
+> +		  CAL_CSI2_PHY_REG10_I933_LDO_DISABLE_MASK);
+> +
+> +	cal_dbg(1, dev, "CSI2_%d_REG10 = 0x%08x\n", port, reg10);
+> +	reg_write(dev->cc[port], CAL_CSI2_PHY_REG10, reg10);
+> +}
+> +
+>  static inline int cal_runtime_get(struct cal_dev *dev)
 
-I still don't know what Laurent wants to do with that.
-
-> 
->>>
->>>> Other improvements that could be made is to return more information about the
->>>> format (similar to struct v4l2_format_info). In particular v4l2_pixel_encoding
->>>> and mem/comp_planes would be useful for userspace to know.
->>>
->>> An alternative would be to go away from mixing mem_planes and
->>> pixelformats and just having the "planarity" queryable and
->>> configurable separately. The existing duplicated FourCCs would have to
->>> remain for compatibility reasons, though.
->>
->> Interesting idea, but I don't know if this would make the API more or less confusing.
->>
-> 
-> Yeah, this definitely needs more thought. My experience with working
-> with many people trying to use V4L2 in the userspace tells me that the
-> existing model is confusing, though. DRM and most userspace libraries
-> use FourCCs only to define the pixelformats themselves and planarity
-> is a separate aspect.
-> 
-> The target model that I'd see happening would be to have the
-> multiple-memory plane semantics used everywhere, so all color planes
-> are described as separate entities, up to having different DMA-buf
-> FDs. Then the single memory plane case would be just one of the
-> specific cases, where all the DMA-buf FDs point to the same buffer and
-> color plane offsets are laid out contiguously, which could be enforced
-> by generic code when queuing the buffer if that's a hardware
-> requirement.
-
-Do you think you can come up with a rough proposal before the ELCE session?
+I'd drop the 'inline' here. It doesn't seem appropriate anymore since this
+function is now more complex.
 
 Regards,
 
 	Hans
 
-> 
->>>
->>>>
->>>> Finally, we can also add a new ioctl that combines ENUM_FMT/ENUM_FRAMESIZES/ENUM_FRAMEINTERVALS
->>>> and returns an array of all valid formats/sizes/intervals, requiring just a single ioctl
->>>> to obtain all this information.
->>>
->>> While it definitely sounds like a useful thing to have, it would be an
->>> interesting problem to solve given the inter-dependencies between
->>> pads, queues and other state, as in the mbus example above.
->>
->> This is definitely a separate issue for further in the future.
-> 
-> Agreed.
-> 
-> Best regards,
-> Tomasz
+>  {
+> -	return pm_runtime_get_sync(&dev->pdev->dev);
+> +	int r;
+> +
+> +	r = pm_runtime_get_sync(&dev->pdev->dev);
+> +
+> +	if (dev->flags & DRA72_CAL_PRE_ES2_LDO_DISABLE) {
+> +		/*
+> +		 * Apply errata on both port eveytime we (re-)enable
+> +		 * the clock
+> +		 */
+> +		i913_errata(dev, 0);
+> +		i913_errata(dev, 1);
+> +	}
+> +
+> +	return r;
+>  }
+>  
+>  static inline void cal_runtime_put(struct cal_dev *dev)
+> @@ -2071,6 +2121,10 @@ static const struct of_device_id cal_of_match[] = {
+>  		.compatible = "ti,dra72-cal",
+>  		.data = (void *)&dra72x_cal_data,
+>  	},
+> +	{
+> +		.compatible = "ti,dra72-pre-es2-cal",
+> +		.data = (void *)&dra72x_es1_cal_data,
+> +	},
+>  	{},
+>  };
+>  MODULE_DEVICE_TABLE(of, cal_of_match);
+> diff --git a/drivers/media/platform/ti-vpe/cal_regs.h b/drivers/media/platform/ti-vpe/cal_regs.h
+> index 68cfc922b422..78d6f015c9ea 100644
+> --- a/drivers/media/platform/ti-vpe/cal_regs.h
+> +++ b/drivers/media/platform/ti-vpe/cal_regs.h
+> @@ -10,6 +10,30 @@
+>  #ifndef __TI_CAL_REGS_H
+>  #define __TI_CAL_REGS_H
+>  
+> +/*
+> + * struct cal_dev.flags possibilities
+> + *
+> + * DRA72_CAL_PRE_ES2_LDO_DISABLE:
+> + *   Errata i913: CSI2 LDO Needs to be disabled when module is powered on
+> + *
+> + *   Enabling CSI2 LDO shorts it to core supply. It is crucial the 2 CSI2
+> + *   LDOs on the device are disabled if CSI-2 module is powered on
+> + *   (0x4845 B304 | 0x4845 B384 [28:27] = 0x1) or in ULPS (0x4845 B304
+> + *   | 0x4845 B384 [28:27] = 0x2) mode. Common concerns include: high
+> + *   current draw on the module supply in active mode.
+> + *
+> + *   Errata does not apply when CSI-2 module is powered off
+> + *   (0x4845 B304 | 0x4845 B384 [28:27] = 0x0).
+> + *
+> + * SW Workaround:
+> + *	Set the following register bits to disable the LDO,
+> + *	which is essentially CSI2 REG10 bit 6:
+> + *
+> + *		Core 0:  0x4845 B828 = 0x0000 0040
+> + *		Core 1:  0x4845 B928 = 0x0000 0040
+> + */
+> +#define DRA72_CAL_PRE_ES2_LDO_DISABLE BIT(0)
+> +
+>  #define CAL_NUM_CSI2_PORTS		2
+>  
+>  /* CAL register offsets */
+> @@ -71,6 +95,7 @@
+>  #define CAL_CSI2_PHY_REG0		0x000
+>  #define CAL_CSI2_PHY_REG1		0x004
+>  #define CAL_CSI2_PHY_REG2		0x008
+> +#define CAL_CSI2_PHY_REG10		0x028
+>  
+>  /* CAL Control Module Core Camerrx Control register offsets */
+>  #define CM_CTRL_CORE_CAMERRX_CONTROL	0x000
+> @@ -458,6 +483,8 @@
+>  #define CAL_CSI2_PHY_REG1_CLOCK_MISS_DETECTOR_STATUS_SUCCESS		0
+>  #define CAL_CSI2_PHY_REG1_RESET_DONE_STATUS_MASK		GENMASK(29, 28)
+>  
+> +#define CAL_CSI2_PHY_REG10_I933_LDO_DISABLE_MASK		BIT_MASK(6)
+> +
+>  #define CAL_CSI2_PHY_REG2_CCP2_SYNC_PATTERN_MASK		GENMASK(23, 0)
+>  #define CAL_CSI2_PHY_REG2_TRIGGER_CMD_RXTRIGESC3_MASK		GENMASK(25, 24)
+>  #define CAL_CSI2_PHY_REG2_TRIGGER_CMD_RXTRIGESC2_MASK		GENMASK(27, 26)
 > 
 
