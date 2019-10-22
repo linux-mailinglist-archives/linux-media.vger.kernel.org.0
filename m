@@ -2,126 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FF05E0670
-	for <lists+linux-media@lfdr.de>; Tue, 22 Oct 2019 16:30:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F7C6E0746
+	for <lists+linux-media@lfdr.de>; Tue, 22 Oct 2019 17:27:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727303AbfJVOa4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Oct 2019 10:30:56 -0400
-Received: from mail-il1-f174.google.com ([209.85.166.174]:40762 "EHLO
-        mail-il1-f174.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726955AbfJVOa4 (ORCPT
+        id S1732271AbfJVP1E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Oct 2019 11:27:04 -0400
+Received: from relay10.mail.gandi.net ([217.70.178.230]:49221 "EHLO
+        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726847AbfJVP1E (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Oct 2019 10:30:56 -0400
-Received: by mail-il1-f174.google.com with SMTP id d83so7138194ilk.7
-        for <linux-media@vger.kernel.org>; Tue, 22 Oct 2019 07:30:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=tbywtOTqIJ2u/IoqmskG3drPP9isrP6ysmiEtjh32Ks=;
-        b=fg4XAwMG6oEjzEH0iuC6QAkEZuRvpsO27i4fF+6oRgooq1qUtWOxtdJaRNWG7jq/dn
-         jIoPzFqXrJ7g314850EURH6Gp/A7tpMlNVJ1qUBDMACbq8D5zsUWbdzFBuIqC5lMo4u4
-         zx+qBgcA8CF4DZnXoQ9TixzgIVA00Rr0e6z8IoNfnAM1QijqkSfRpbh5+6zHwknhlJ5d
-         OJqPV0Y1tLzYRFUJrbFWm0B/Of4XS4nOthLHCGupHf8lru6D7xcBuZ1XWyLuWXTQEceK
-         Cq1SwWSvu6R+uuiLdaFgttPLa1INIwObbeaM723mcQ3enfHugm4wlmT1LOjAAnSl+58h
-         m4pQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=tbywtOTqIJ2u/IoqmskG3drPP9isrP6ysmiEtjh32Ks=;
-        b=Sds1+gPwJEEorZUwHy666J3oqFQGc8I9sG6wYUNuXG88geSAmfWmZc2HyGwqNRHJJC
-         /vpPZaXWQkFcy0SINJbR5VE7SxPa2sbHP8auEcIvqezi9laaUmP7V2+ev9gpYqS4j+ZM
-         qNKOfUVAOdTmztD77BOGOdNpeH5XRBkkZCbbtSobFtfDx4uUURgzLPdQQF30Q08e3Q1c
-         s29R8/vFaj9iFp5ZUjYrQxxZt7YqdGfPgCbRMhlFSVzbmK9pziz3IH0wwQAqiUY4U2Hr
-         RzWMT8q+SePhRXRebVh3dMGCBZUgmeIbt8GzJpqy059gdsbK4SdVTelDtW85hQhBYI4N
-         vyuA==
-X-Gm-Message-State: APjAAAUdWSWZunfkpH6UTL6yvEHeJzOWDuxiWtQVrpFBoatiI8U0RYX6
-        MsgbHuu/vTg8/VCi6U/AgEx+4srJLtbn/R3SFPE=
-X-Google-Smtp-Source: APXvYqwW5VVea/nzdYUhhY90J4SPiGQwGy83HZJcm7u1Ae2HVqHi8DocDIrq2beIns9tw89H7VpSp9V+doGDzvIadXg=
-X-Received: by 2002:a92:6a04:: with SMTP id f4mr32836703ilc.205.1571754653823;
- Tue, 22 Oct 2019 07:30:53 -0700 (PDT)
+        Tue, 22 Oct 2019 11:27:04 -0400
+Received: from localhost.localdomain (lfbn-1-17395-211.w86-250.abo.wanadoo.fr [86.250.200.211])
+        (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id EFBE5240011;
+        Tue, 22 Oct 2019 15:26:59 +0000 (UTC)
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-sunxi@googlegroups.com
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: [PATCH v9 0/5] HEVC/H.265 stateless support for V4L2 and Cedrus
+Date:   Tue, 22 Oct 2019 17:26:49 +0200
+Message-Id: <20191022152654.1999355-1-paul.kocialkowski@bootlin.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-References: <CAHCN7xLQkJ=4kh+a9jcMu6DXxET5BHxz6vV1GjHkEq5LcmiiRA@mail.gmail.com>
- <CAOMZO5C2O59PJAgAvNOVDP3=Nzzyp2fRRUDa2rnY7MbESXRmOA@mail.gmail.com> <be3c6bfe36f74a055e51e5cf723090205dd0df9e.camel@pengutronix.de>
-In-Reply-To: <be3c6bfe36f74a055e51e5cf723090205dd0df9e.camel@pengutronix.de>
-From:   Adam Ford <aford173@gmail.com>
-Date:   Tue, 22 Oct 2019 09:30:41 -0500
-Message-ID: <CAHCN7x+v1QXU=xWchYUu2iii-i3TX6VL2VAO=FS7UmwLBiCvNg@mail.gmail.com>
-Subject: Re: i.MX6Q + ov5640 CSI-2 Framerate (on 5.4-rc3)
-To:     Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     Fabio Estevam <festevam@gmail.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        Steve Longerbeam <slongerbeam@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Oct 21, 2019 at 3:48 AM Philipp Zabel <p.zabel@pengutronix.de> wrote:
->
-> Hi Adam, Fabio,
->
-> On Fri, 2019-10-18 at 16:00 -0300, Fabio Estevam wrote:
-> > Hi Adam,
-> >
-> > Adding Steve and Philipp in case they can help.
-> >
-> > On Tue, Oct 15, 2019 at 1:52 AM Adam Ford <aford173@gmail.com> wrote:
-> > > I have an i.MX6Q with an ov5640 connected to the mipi-csi2 interface.
-> > >
-> > > I am routing ov5640 -> ipu1_csi0_mux -> ip1_csi0 -> ip1_csi0 capture.
-> > >
-> > > I am trying to go through the steps to attempt to get 60fps at
-> > > 640x480, but the best I can appear to acheive is 30fps.
-> > >
-> > >
-> > > v4l2-ctl --all
-> > >
-> > > Streaming Parameters Video Capture:
-> > >         Capabilities     : timeperframe
-> > >         Frames per second: 30.000 (30/1)
-> > >         Read buffers     : 0
-> > >
-> > >  I have tried setting both the ov5640 and the ipu1_csi0 to 1/60 without success.
-> > >
-> > > Can someone tell me if it's even possible on this platform?  When I
-> > > stream the video to the HDMI monitor, I am only using 3% of the ARM,
-> > > so I don't think it's processor limited.
->
-> That should be possible. The sensor and dual-lane CSI-2 link can support
-> 1920x1080p30 or 1280x720p60, only the driver currently limits 60 fps
-> capture to 640x480.
+This is early support for HEVC/H.265 stateless decoding in V4L2,
+including both definitions and driver support for the Cedrus VPU
+driver, which concerns Allwinner devices.
 
-Is that an artificial limit? Looking through the driver, it appears to
-do more and more automatic calcuations to determine pixel and frame
-rate.  I wonder how hard it would be
->
-> The format has to be propagated through the media control graph from the
-> sensor to the capture device. Since the CSI-2 receiver and multiplexers
-> are not frame rate aware, the CSI has to be told the correct frame
-> interval at its input.
->
-> What does your configuration look like? I'd expect something like:
->
-> media-ctl --set-v4l2 "'ov5640 ?-00??':0[fmt:UYVY8_1X16/640x480@1/60]"
-> media-ctl --set-v4l2 "'imx6-mipi-csi2':1[fmt:UYVY8_1X16/640x480]"
-> media-ctl --set-v4l2 "'ipu1_csi0_mux':2[fmt:UYVY8_1X16/640x480]"
-> media-ctl --set-v4l2 "'ipu1_csi0':0[fmt:UYVY8_1X16/640x480@1/60]"
-> media-ctl --set-v4l2 "'ipu1_csi0':2[fmt:AYUV32/960x540@1/60]"
+A specific pixel format is introduced for the HEVC slice format and
+controls are provided to pass the bitstream metadata to the decoder.
+Some bitstream extensions are intentionally not supported at this point.
 
-Thanks for the suggestion.  I was missing the entry for "'ipu1_csi0':0
- I only listed the "'ipu1_csi0':2
+Since this is the first proposal for stateless HEVC/H.265 support in
+V4L2, reviews and comments about the controls definitions are
+particularly welcome.
 
-It's working now.
+On the Cedrus side, the H.265 implementation covers frame pictures
+with both uni-directional and bi-direction prediction modes (P/B
+slices). Field pictures (interleaved), scaling lists and 10-bit output
+are not supported at this point.
 
-Sorry for the noise.
+Changes since v8:
+* Rebased on latest media tree;
+* Fixed possibly undefined bit shifts;
+* Added a minor cosmetic change to a macro;
 
-adam
->
-> What is the output of "media-ctl --print-topology"?
->
-> regards
-> Philipp
->
+Changes since v7:
+* Rebased on latest media tree;
+* Fixed holes in structures for cacheline alignment;
+* Added decode mode and start code controls
+  (only per-slice and no start code is supported at this point).
+
+Changes since v6:
+* Rebased on latest media tree from Hans;
+* Reordered some fields to avoid holes and multi-padding;
+* Updated the documentation.
+
+Changes since v5:
+* Rebased atop latest next media tree;
+* Moved to flags instead of u8 fields;
+* Added padding to ensure 64-bit alignment
+  (tested with GDB on 32 and 64-bit architectures);
+* Reworked cedrus H.265 driver support a bit for flags;
+* Split off codec-specific control validation and init;
+* Added HEVC controls fields cleanup at std_validate to allow reliable
+  control comparison with memcmp;
+* Fixed various misc reported mistakes.
+
+Changes since v4:
+* Rebased atop latest H.254 series.
+
+Changes since v3:
+* Updated commit messages;
+* Updated CID base to avoid conflicts;
+* Used cpu_to_le32 for packed le32 data;
+* Fixed misc minor issues in the drive code;
+* Made it clear in the docs that the API will evolve;
+* Made the pixfmt private and split commits about it.
+
+Changes since v2:
+* Moved headers to non-public API;
+* Added H265 capability for A64 and H5;
+* Moved docs to ext-ctrls-codec.rst;
+* Mentionned sections of the spec in the docs;
+* Added padding to control structures for 32-bit alignment;
+* Made write function use void/size in bytes;
+* Reduced the number of arguments to helpers when possible;
+* Removed PHYS_OFFSET since we already set PFN_OFFSET;
+* Added comments where suggested;
+* Moved to timestamp for references instead of index;
+* Fixed some style issues reported by checkpatch.
+
+Changes since v1:
+* Added a H.265 capability to whitelist relevant platforms;
+* Switched over to tags instead of buffer indices in the DPB
+* Declared variable in their reduced scope as suggested;
+* Added the H.265/HEVC spec to the biblio;
+* Used in-doc references to the spec and the required APIs;
+* Removed debugging leftovers.
+
+Cheers!
+
+Paul Kocialkowski (5):
+  media: cedrus: Fix undefined shift with a SHIFT_AND_MASK_BITS macro
+  media: cedrus: Remove unnecessary parenthesis around DIV_ROUND_UP
+  media: v4l: Add definitions for HEVC stateless decoding
+  media: pixfmt: Document the HEVC slice pixel format
+  media: cedrus: Add HEVC/H.265 decoding support
+
+ Documentation/media/uapi/v4l/biblio.rst       |   9 +
+ .../media/uapi/v4l/ext-ctrls-codec.rst        | 553 +++++++++++++++-
+ .../media/uapi/v4l/pixfmt-compressed.rst      |  23 +
+ .../media/uapi/v4l/vidioc-queryctrl.rst       |  18 +
+ .../media/videodev2.h.rst.exceptions          |   3 +
+ drivers/media/v4l2-core/v4l2-ctrls.c          | 109 +++-
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
+ drivers/staging/media/sunxi/cedrus/Makefile   |   2 +-
+ drivers/staging/media/sunxi/cedrus/cedrus.c   |  52 +-
+ drivers/staging/media/sunxi/cedrus/cedrus.h   |  18 +
+ .../staging/media/sunxi/cedrus/cedrus_dec.c   |   9 +
+ .../staging/media/sunxi/cedrus/cedrus_h265.c  | 616 ++++++++++++++++++
+ .../staging/media/sunxi/cedrus/cedrus_hw.c    |   4 +
+ .../staging/media/sunxi/cedrus/cedrus_regs.h  | 302 ++++++++-
+ .../staging/media/sunxi/cedrus/cedrus_video.c |  10 +
+ include/media/hevc-ctrls.h                    | 212 ++++++
+ include/media/v4l2-ctrls.h                    |   7 +
+ 17 files changed, 1925 insertions(+), 23 deletions(-)
+ create mode 100644 drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+ create mode 100644 include/media/hevc-ctrls.h
+
+-- 
+2.23.0
+
