@@ -2,198 +2,226 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2ED53E0624
-	for <lists+linux-media@lfdr.de>; Tue, 22 Oct 2019 16:14:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC18FE0656
+	for <lists+linux-media@lfdr.de>; Tue, 22 Oct 2019 16:27:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388374AbfJVOOs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Oct 2019 10:14:48 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:34337 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727831AbfJVOOr (ORCPT
+        id S1727309AbfJVO1R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Oct 2019 10:27:17 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:39491 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727154AbfJVO1R (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Oct 2019 10:14:47 -0400
+        Tue, 22 Oct 2019 10:27:17 -0400
 Received: from [IPv6:2001:420:44c1:2577:31:9f59:b53f:5d72]
  ([IPv6:2001:420:44c1:2577:31:9f59:b53f:5d72])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id Muvpi3OTnPduvMuvsiMpfc; Tue, 22 Oct 2019 16:14:45 +0200
-Subject: Re: [PATCH v4 04/11] media: v4l2-ctrl: Document
- V4L2_CID_CAMERA_SENSOR_ROTATION
-To:     Jacopo Mondi <jacopo@jmondi.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        id Mv7ui3UH8PduvMv7xiMuSO; Tue, 22 Oct 2019 16:27:14 +0200
+Subject: Re: [PATCH v4 01/11] dt-bindings: video-interfaces: Document
+ 'location' property
+To:     Jacopo Mondi <jacopo@jmondi.org>, Pavel Machek <pavel@ucw.cz>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        tfiga@google.com, pavel@ucw.cz
-Cc:     "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
+        tfiga@google.com,
+        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
         <linux-media@vger.kernel.org>
 References: <20191007162913.250743-1-jacopo@jmondi.org>
- <20191007162913.250743-5-jacopo@jmondi.org>
+ <20191007162913.250743-2-jacopo@jmondi.org> <20191008074052.GA633@amd>
+ <20191008075828.phxf2m7237ryl6yf@uno.localdomain> <20191008080634.GC633@amd>
+ <20191008082041.476a2soclry6qn3v@uno.localdomain>
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <04decceb-688c-0db1-fd72-b44cd663f819@xs4all.nl>
-Date:   Tue, 22 Oct 2019 16:14:41 +0200
+Message-ID: <9788aa13-1bc0-02c3-33f5-a875940f2dc3@xs4all.nl>
+Date:   Tue, 22 Oct 2019 16:27:10 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20191007162913.250743-5-jacopo@jmondi.org>
+In-Reply-To: <20191008082041.476a2soclry6qn3v@uno.localdomain>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfJsyULJ9FoPK8TwEM3z0I1YKRpmPBXUaJf9POCfQ3BY6F+2/uPAa/bioFRaUFQa8DTJUWD1SafCVx+iL7wM5qYKrtghXIvAVC8Ix7fiMEFhFFZLqqxHQ
- 9N2j3b/NX94l5SBl9WngGFnqPy8RtGSoYklQl/2xUQe85YZAEovZSV/MnKakmCq2jB9rUpZUcNTfM5H3udC36nWsxM2ttkehlsY9wRpTEt6dqutcyUkQPTXs
- 7VVN8Mrtm0fX6eLU3SSllFxxklAmcQkAf6l9Eu88f5lIZ5qyOP2nsxtJa4LSqHJ8Gc3fRdnJMiHz+yDaF2Lh2gUvLfAy9K5OXQQwvO2zZw8A90KZzfMoxi28
- IFNCelBXCxBnaHD0f22R4vq6eyvoqpNVEWyVm+LbyiH96lm+llEkUcBaUgmao3jmWq9EnFC/Zbs5kt0KBoOIHRUM2xyw8TvxZZszGPyLdkJXR2ZcGnVEDlWA
- FClIUIw5NKVNR9k4
+X-CMAE-Envelope: MS4wfLGa4032Mp0XiEQuCXj8e4DLf3btuKDNk1yHGoPxPvUC/tVX2wrX3bB5VIOAjg7HzLaRREr0pJ39cm7arX3rpS2N/pI8gEIXK1YOYUQOh+dxa5z2IMl5
+ +g+6BXXGXZ39CO6UMjrlw+WuyLq352I7p+ekiyWx7qEA51XYZzzqgnvENWM+vavrRkcjLQyUyT8ymHVavnNOEc6Hetvttj7tK76tmPbD50CSpZ/O3yFm1OU8
+ Jh1xC4L78aXXYgZODGJ2Vmbx0Ekn/RC7B8HWFst2Jq0dTnxi3LA5brE+J3sZfyhgUmrkjwlg1/HvO0vv2FTBr7rlPUAsJZg0X5V7fmihgiwGTUpgEtwENBqG
+ j2a71Osqi2T7Nes6EPx4UEKRtE039fPDpX2D4zJtzDnAnuXHMRBEhm6g4Ws3tyNJINBlm8Mzk80opraFlolzjkkXiPyrMj6seHfeiXUM0hviF3W5u2XOtmCo
+ VgjwbDm3Eg+uCsYp
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/7/19 6:29 PM, Jacopo Mondi wrote:
-> Add documentation for the V4L2_CID_CAMERA_SENSOR_ROTATION camera
-> control. The newly added read-only control reports the camera device
-> mounting rotation.
+On 10/8/19 10:20 AM, Jacopo Mondi wrote:
+> On Tue, Oct 08, 2019 at 10:06:34AM +0200, Pavel Machek wrote:
+>> On Tue 2019-10-08 09:58:28, Jacopo Mondi wrote:
+>>> Pavel,
+>>>
+>>> On Tue, Oct 08, 2019 at 09:40:52AM +0200, Pavel Machek wrote:
+>>>> On Mon 2019-10-07 18:29:03, Jacopo Mondi wrote:
+>>>>> Add the 'location' device property, used to specify a device mounting
+>>>>> position. The property is particularly meaningful for mobile devices
+>>>>> with a well defined usage orientation.
+>>>>>
+>>>>> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+>>>>> ---
+>>>>>  .../devicetree/bindings/media/video-interfaces.txt    | 11 +++++++++++
+>>>>>  1 file changed, 11 insertions(+)
+>>>>>
+>>>>> diff --git a/Documentation/devicetree/bindings/media/video-interfaces.txt b/Documentation/devicetree/bindings/media/video-interfaces.txt
+>>>>> index f884ada0bffc..1211bdf80722 100644
+>>>>> --- a/Documentation/devicetree/bindings/media/video-interfaces.txt
+>>>>> +++ b/Documentation/devicetree/bindings/media/video-interfaces.txt
+>>>>> @@ -89,6 +89,17 @@ Optional properties
+>>>>>    but a number of degrees counter clockwise. Typical values are 0 and 180
+>>>>>    (upside down).
+>>>>>
+>>>>> +- location: The mount location of a device (typically an image sensor or a flash
+>>>>> +  LED) expressed as a position relative to the usage orientation of the system
+>>>>> +  where the device is installed on.
+>>>>> +  Possible values are:
+>>>>> +  0 - Front. The device is mounted on the front facing side of the system.
+>>>>> +  For mobile devices such as smartphones, tablets and laptops the front side is
+>>>>> +  the user facing side.
+>>>>> +  1 - Back. The device is mounted on the back side of the system, which is
+>>>>> +  defined as the opposite side of the front facing one.
+>>>>> +  2 - External. The device is not attached directly to the system but is
+>>>>> +  attached in a way that allows it to move freely.
+>>>>
+>>>> I explained why this is not enough, and it did not change.
+>>>
+>>> I replied to your email and you did not answered back.
+>>>
+>>> I appreciate constructive inputs but just NAK, or throwing a proposal
+>>> without following up as you did, doesn't help much in improving the end
+>>> result.
+>>>
+>>> I'll paste here my previous reply, so you get a chance to continue the
+>>> discussion. Please follow up if you're interested in contributing.
+>>
+>> Yes, you are basically saying someone can solve those problems in
+>> future :-(.
 > 
-> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> ---
->  .../media/uapi/v4l/ext-ctrls-camera.rst       | 116 ++++++++++++++++++
->  1 file changed, 116 insertions(+)
+> Not really, what I'm saying is that the property definition itself
+> leaves space for future extensions. As of now the accepted property
+> values cover the most trivial use case, but they can be expanded to
+> accommodate more complex setups, possibly with an extended parameters
+> list (in example something like "movable" with an associated rotation
+> matrix). In any case, I don't think we're tying anyone's hands by
+> adding this new property with the most basic locations that covers
+> 99% of devices.
 > 
-> diff --git a/Documentation/media/uapi/v4l/ext-ctrls-camera.rst b/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
-> index b151c016256c..e1fee4814e5b 100644
-> --- a/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
-> +++ b/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
-> @@ -542,6 +542,122 @@ enum v4l2_scene_mode -
->  
->  
->  
-> +``V4L2_CID_CAMERA_SENSOR_ROTATION (integer)``
-> +    This read-only control describes the sensor orientation expressed as
-> +    rotation in counterclockwise degrees along the axis perpendicular to the
-> +    device mounting plane, and directed away from the sensor lens. Possible
-> +    values for the control are 90, 180 and 270 degrees. To compensate for the
-> +    device mounting rotation on the captured images, a rotation of the same
-> +    amount of degrees, in the same counterclockwise rotation direction should be
-> +    applied along the axis directed from the observer to the captured image when
-> +    displayed on a screen.
-> +
-> +    To better understand the effect of the sensor rotation on the acquired
-> +    images when displayed on a screen, it is helpful to consider a fictional
-> +    scan-out sequence of the sensor's pixels, assuming the pixel array having
-> +    its top-left pixel at position (0, 0) with values on the 'x' axis increasing
-> +    towards the right direction, and values on the 'y' axis increasing towards
-> +    the bottom. The effect of sensor rotation could be easily visualized
-> +    considering the sequence of captured pixels.
-> +
-> +    Assuming the following scene has to be captured::
-> +
-> +                o
-> +               -|-
-> +               / \
-> +
-> +    An upright mounted sensor has its pixel array displaced as follow::
-> +
-> +                                   x
-> +            (0,0)------------------->
-> +              ! 0,0 0,1 0,2 ... (0,num-col)
-> +              ! 1,0 1,1 1,2 ...
-> +              ! ...
-> +              ! ...
-> +              ! (num-lines,0)...(num-col,num-lines)
-
-Hmm, how about 'max-col' and 'max-row'?
-
-num-col is wrong anyway since it would have to be num-cols - 1 because you
-start at 0. It's easier to go with max-col/row.
-
-> +            y V
-> +
-> +
-> +    Assuming pixels are scanned out from (0,0) to (num-lines,num-col)
-> +    progressively::
-> +
-> +             (0,0) ---->------------->   (0,num-col)
-> +             (1,0) ---->------------->   (1,num-col)
-> +             ( .... )-->------------->   (   ....   )
-> +             (num-lines,0)----------->(num-lines,num-col)
-> +
-> +
-> +    If a rotation of 90 degrees counterclockwise along the axis perpendicular to
-> +    the sensor's lens and directed towards the scene to be captured is applied
-> +    to the sensor, the pixel array would then be rotated as follows::
-> +
-> +            x ^ (0,num-col) ...   ...   (num-lines,num-col)
-> +              !  ....
-> +              !  0,2        1,2   ...          ...
-> +              !  0,1        1,1   ...          ...
-> +              !  0,0        1,0   ...      (num-lines,0)
-> +             (0,0)------------------------------------>
-> +                                                    y
-> +
-> +    And the pixel scan-out sequence would then proceed as follows starting
-> +    from pixel (0,0)::
-> +
-> +           (0,num-col)         (num-lines,num-col)
-> +                ^    ^   ^   ^     ^
-> +                !    !   !   !     !
-> +                !    !   !   !     !
-> +                !    !   !   !     !
-> +                !    !   !   !     !
-> +              (0,0) (1,0)....  (num-lines,0)
-> +
-> +    Which when applied to the capture scene gives::
-> +
-> +           (0,num-col)         (num-lines,num-col)
-> +                ^    ^   ^   ^     ^
-> +                !    !   0   !     !
-> +                !    !  -|- !     !
-> +                !    !  /!\  !     !
-> +                !    !   !   !     !
-> +              (0,0) (1,0)....  (num-lines,0)
-> +
-> +    Producing the following image once captured to memory and
-> +    displayed to the user::
-> +
-> +             \ !
-> +               --0
-> +             / !
-> +
-> +    Which has a rotation of the same amount of degrees applied on the opposite
-> +    rotation direction along the axis that goes from the observer to the
-> +    image when displayed on the screen.
-> +
-> +    In order to compensate the sensor mounting rotation, when expressed
-> +    as counterclockwise rotation along the axis directed from the sensor to
-> +    the captured scene, a rotation of the same amount of degrees in the
-> +    same counterclockwise rotation direction but applied along the axis
-> +    directed from the observer to the captured image, has to be applied::
-> +
-> +                +------+  90 degree counterclockwise
-> +                |   o  |  mounting rotation applied
-> +                |  -|- |  along the axis directed
-> +                |  / \ |  away from the sensor lens
-> +                +------+
-> +                    |
-> +                    V
-> +                +------+
-> +                | \ !  |  Resulting captured
-> +                |  --0 |  image when displayed
-> +                | / !  |  on screen
-> +                +------+
-> +                    |
-> +                    V
-> +                +------+
-> +                |   o  |  Rotation compensation
-> +                |  -|- |  is 90 degrees counterclockwise
-> +                |  / \ |  along the axis directed to the
-> +                +------+  displayed image
-> +
-> +
->  .. [#f1]
->     This control may be changed to a menu control in the future, if more
->     options are required.
+>>
+>> I'd add note that for camera-style devices, main sensor would be the
+>> "back" one, and that for phones, selfie sensor should be marked as a
+>> "front" one.
 > 
+> I'm not sure if 'main' or 'selfie' as concepts belongs here at all. I
+> just want to report where the camera is installed, not the intended
+> usage.
+> 
+> The most common use case is to make simple for application to pick one
+> of the cameras based on the position. The front camera in a phone will
+> likely be for selfies, but in a laptop will mostly be for
+> 'videoconference' or whatever. This is a definition that totally
+> belongs to userspace, and kernel should just report the mounting
+> location and that's it.
+> 
+>>
+>> Plus, I believe you need to add a value for moving sensors, as there
+>> are already devices that use same sensor for "front" and "back".
+> 
+> I'm skeptical about adding now a property for a device that we don't
+> support, because we -now- think it's a good idea. I might be wrong,
+> but my assumption is that when someone will want to support an
+> 'advanced' device, it's easy to add "movable" or whatever else to the
+> list of accepted properties values. Am I wrong in assuming this? As
+> long as "front" "back" and "external" will stay supported for backward
+> DTB compatibility it should be fine, right ?
 
-This gave me a headache, but you are correct w.r.t. image and mounting rotation.
+The basic rule is that you should not define things unless you KNOW that
+they will be needed. So when we actually see new devices for which
+"front", "back" or "external" does not fit, then new names can be created.
+
+It's impossible to cover all situations since we can't predict the future.
+The best we can do is to allow for future extensions.
+
+I think this looks good.
 
 Regards,
 
 	Hans
+
+> 
+> Thanks
+>    j
+> 
+>>
+>> 								Pavel
+>>
+>>
+>>> ------------------------------------------------------------------------
+>>>> I don't think this is nearly enough of description. We have phones
+>>>> with displays and cameras at both sides, where both sides can be used
+>>>> to operate the system.
+>>>>
+>>>> We have phone with display spanning both sides -- Mi Max.
+>>>>
+>>>> https://www.idnes.cz/mobil/telefony/xiaomi-mi-mix-alpha-predstaveni.A190924_105858_telefony_oma
+>>>>
+>>>> We have Galaxy Fold.
+>>>>
+>>>> https://www.samsung.com/global/galaxy/galaxy-fold/
+>>>>
+>>>> What is front side when device can be used in different
+>>>> configurations?
+>>>>
+>>>> Could we instead say that it is "main" vs "selfie" camera?
+>>>
+>>> I'm not sure the intended usage is something that belongs to DT. And
+>>> 'selfie' implies you have a device side facing you, most like the
+>>> 'front' one I have defined here.
+>>>
+>>> Not to mention again this devices are all but supported by mainline,
+>>> which is just a partial justification as they might be an indication
+>>> of a trend.
+>>>
+>>> There is no usable reference place, reference side, reference usage
+>>> mode that applies to -all- devices in the world, not one I can think
+>>> of.
+>>>
+>>> I still think defining a location property is not blocking any new
+>>> extension that accommodate more advanced use cases. It's not like we're
+>>> adding a "front-camera" property, it's a "location" and you can expand
+>>> its accepted values with "front-when-device-folded" or whatever you
+>>> need for future devices.
+>>>
+>>> In the description I mentioned the "usage orientation" to leave room
+>>> for possible device-specific details in the definition of the values
+>>> accepted by the property.
+>>>
+>>>>> +  location expressed as a position relative to the usage orientation of the
+>>>>> +  system where the device is installed on.
+>>>
+>>> 99% of devices in the world have a front and a back, as well as they
+>>> have a top and a bottom. I still don't see why if a device does not
+>>> simply has a front it cannot use something different. The property
+>>> definition allows you to do so.
+>>>
+>>> ------------------------------------------------------------------------
+>>>
+>>>>
+>>>> NAK.
+>>>> 									Pavel
+>>>>
+>>>> --
+>>>> (english) http://www.livejournal.com/~pavelmachek
+>>>> (cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blog.html
+>>>
+>>>
+>>
+>>
+>>
+>> --
+>> DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+>> HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+> 
+> 
+
