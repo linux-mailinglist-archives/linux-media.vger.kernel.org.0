@@ -2,167 +2,213 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BACEE01BF
-	for <lists+linux-media@lfdr.de>; Tue, 22 Oct 2019 12:13:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C7076E01E7
+	for <lists+linux-media@lfdr.de>; Tue, 22 Oct 2019 12:18:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731732AbfJVKNw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Oct 2019 06:13:52 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:36809 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729567AbfJVKNw (ORCPT
+        id S1731823AbfJVKSL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Oct 2019 06:18:11 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:59043 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731779AbfJVKSK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Oct 2019 06:13:52 -0400
-Received: by mail-wr1-f68.google.com with SMTP id w18so16829990wrt.3
-        for <linux-media@vger.kernel.org>; Tue, 22 Oct 2019 03:13:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=pK9/rY/JZgPtRY4Q4j81Qucr1STrAEbOo1Ua7jFI9zM=;
-        b=LGjnViclLbVNZGFF0p/oLHPt94cTigJ/L5fMYnxWxXyMQCNoVZSmcGE9LL1m5oAsCX
-         r8MRhpUvvy5RnWhHlSkmqlArjjq8RNll8e0slVKF/Eey7fufF6ppKFcm5oQ7z5WuCbk6
-         0N3VWtIxIV+7uxjOvyHvyk4/lx4OW0Zx/SqnA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to:user-agent;
-        bh=pK9/rY/JZgPtRY4Q4j81Qucr1STrAEbOo1Ua7jFI9zM=;
-        b=kqz+egOb+5rU7WULNDKc46IiX0of9UH1bm39VJSuw7PDl/qV30jdMIY+DEhzjaNTLE
-         pQLp4EelFy4dIDQ5cxVPyQ48/Ao+iT+ZDif9LLQFrnUc7AayRJuOJ48S5VfWqK0X3qgq
-         eGsSO9P4HM+3pO6zTrr7feSJ2FlHzm1iUQXt11esXdp1Wg6GcOTLRzwXzu02lQ+05OX/
-         52skV6Xzzqvptt/wVRehCqE5jAQEgbevESwZVciUfXmyC8a5ELBD1ByOyCcH0a7HdHEs
-         +GC3OLFw0nWPAlHxQ/vnV2cl+pKSAAxImsSn7W1CqNcR75Y6hG2Qk9kkFCbv/s7PO8ew
-         uzEg==
-X-Gm-Message-State: APjAAAVtece12wd5cm3EwI7/DTefBDtbViCwyYvA2YDHFEXESqDN3+FV
-        NjannWgBsaK0LUG38PD4YEBCSg==
-X-Google-Smtp-Source: APXvYqw6ghqyuE8x3VkynzKoxx3WrxUDpro08Ye4Q9v5HIS3EGVk6GwJaisS9N/lXuI15PCZStok+g==
-X-Received: by 2002:a5d:54c7:: with SMTP id x7mr2005783wrv.99.1571739230027;
-        Tue, 22 Oct 2019 03:13:50 -0700 (PDT)
-Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net. [212.51.149.96])
-        by smtp.gmail.com with ESMTPSA id t13sm24712080wra.70.2019.10.22.03.13.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Oct 2019 03:13:49 -0700 (PDT)
-Date:   Tue, 22 Oct 2019 12:13:47 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Christian =?iso-8859-1?Q?K=F6nig?= 
-        <ckoenig.leichtzumerken@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org, sumit.semwal@linaro.org,
-        linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, daniel@ffwll.ch
-Subject: Re: [PATCH 2/4] dma-buf: stop using the dmabuf->lock so much
-Message-ID: <20191022101347.GJ11828@phenom.ffwll.local>
-References: <20191021111524.14793-1-christian.koenig@amd.com>
- <20191021111524.14793-2-christian.koenig@amd.com>
+        Tue, 22 Oct 2019 06:18:10 -0400
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1iMrEk-0004Q1-Om; Tue, 22 Oct 2019 12:17:58 +0200
+Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1iMrEi-00089j-Iv; Tue, 22 Oct 2019 12:17:56 +0200
+Date:   Tue, 22 Oct 2019 12:17:56 +0200
+From:   Marco Felsch <m.felsch@pengutronix.de>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     devicetree@vger.kernel.org, kernel@pengutronix.de,
+        robh+dt@kernel.org, jacopo+renesas@jmondi.org,
+        laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com,
+        hans.verkuil@cisco.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v10 03/14] media: v4l2-fwnode: add initial connector
+ parsing support
+Message-ID: <20191022101756.7uiwdve7goywruzd@pengutronix.de>
+References: <20190830101646.6530-1-m.felsch@pengutronix.de>
+ <20190830101646.6530-4-m.felsch@pengutronix.de>
+ <20191002070303.GK896@valkosipuli.retiisi.org.uk>
+ <20191002080735.yyoxo5wg35t7k26x@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191021111524.14793-2-christian.koenig@amd.com>
-X-Operating-System: Linux phenom 5.2.0-2-amd64 
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191002080735.yyoxo5wg35t7k26x@pengutronix.de>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 12:17:19 up 157 days, 16:35, 97 users,  load average: 0.09, 0.07,
+ 0.04
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Oct 21, 2019 at 01:15:22PM +0200, Christian König wrote:
-> The attachment list is now protected by the dma_resv object.
-> So we can drop holding this lock to allow concurrent attach
-> and detach operations.
+Hi Sakari,
+
+gentle ping.
+
+On 19-10-02 10:07, Marco Felsch wrote:
+> Hi Sakari,
 > 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> ---
->  drivers/dma-buf/dma-buf.c | 16 ----------------
->  1 file changed, 16 deletions(-)
+> On 19-10-02 10:03, Sakari Ailus wrote:
+> > Hi Marco,
+> > 
+> > On Fri, Aug 30, 2019 at 12:16:35PM +0200, Marco Felsch wrote:
+> > > The patch adds the initial connector parsing code, so we can move from a
+> > > driver specific parsing code to a generic one. Currently only the
+> > > generic fields and the analog-connector specific fields are parsed. Parsing
+> > > the other connector specific fields can be added by a simple callbacks.
+> > > 
+> > > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> > > ---
+> > > [1] https://patchwork.kernel.org/cover/10794703/
+> > > 
+> > > v10:
+> > > - drop V4L2_CONN_HDMI support
+> > > - adapt pr_err msg to reflect new state (-> connector is unkown)
+> > > 
+> > > v9:
+> > > - Fix leading semicolon found by kbuild semicolon.cocci
+> > > 
+> > > v8:
+> > > - V4L2_CON_* -> V4L2_CONN_*
+> > > - tvnorms -> sdtv-standards
+> > > - adapt to new v4l2_fwnode_connector_analog member
+> > > - return error in case of V4L2_CONN_HDMI
+> > > 
+> > > v7:
+> > > @Jacopo: I dropped your r b tag becuase of the amount of changes I
+> > > made..
+> > > 
+> > > - drop unnecessary comments
+> > > - fix commet style
+> > > - s/v4l2_fwnode_connector_conv.name/v4l2_fwnode_connector_conv.compatible/
+> > > - make label size variable and drop V4L2_CONNECTOR_MAX_LABEL usage
+> > > - do not assign a default label in case of no label was specified
+> > > - remove useless /* fall through */ comments
+> > > - add support for N connector links
+> > > - rename local variables to be more meaningful
+> > > - adjust kernedoc
+> > > - add v4l2_fwnode_connector_free()
+> > > - improve error handling (use different error values)
+> > > - make use of pr_warn_once()
+> > > 
+> > > v6:
+> > > - use unsigned count var
+> > > - fix comment and style issues
+> > > - place '/* fall through */' to correct places
+> > > - fix error handling and cleanup by releasing fwnode
+> > > - drop vga and dvi parsing support as those connectors are rarely used
+> > >   these days
+> > > 
+> > > v5:
+> > > - s/strlcpy/strscpy/
+> > > 
+> > > v2-v4:
+> > > - nothing since the patch was squashed from series [1] into this
+> > >   series.
+> > > 
+> > >  drivers/media/v4l2-core/v4l2-fwnode.c | 129 ++++++++++++++++++++++++++
+> > >  include/media/v4l2-fwnode.h           |  38 ++++++++
+> > >  2 files changed, 167 insertions(+)
+> > > 
+> > > diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
+> > > index 3bd1888787eb..0bfa7cbf78df 100644
+> > > --- a/drivers/media/v4l2-core/v4l2-fwnode.c
+> > > +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
+> > > @@ -595,6 +595,135 @@ void v4l2_fwnode_put_link(struct v4l2_fwnode_link *link)
+> > >  }
+> > >  EXPORT_SYMBOL_GPL(v4l2_fwnode_put_link);
+> > >  
+> > > +static const struct v4l2_fwnode_connector_conv {
+> > > +	enum v4l2_connector_type type;
+> > > +	const char *compatible;
+> > > +} connectors[] = {
+> > > +	{
+> > > +		.type = V4L2_CONN_COMPOSITE,
+> > > +		.compatible = "composite-video-connector",
+> > > +	}, {
+> > > +		.type = V4L2_CONN_SVIDEO,
+> > > +		.compatible = "svideo-connector",
+> > > +	},
+> > > +};
+> > > +
+> > > +static enum v4l2_connector_type
+> > > +v4l2_fwnode_string_to_connector_type(const char *con_str)
+> > > +{
+> > > +	unsigned int i;
+> > > +
+> > > +	for (i = 0; i < ARRAY_SIZE(connectors); i++)
+> > > +		if (!strcmp(con_str, connectors[i].compatible))
+> > > +			return connectors[i].type;
+> > > +
+> > > +	return V4L2_CONN_UNKNOWN;
+> > > +}
+> > > +
+> > > +static int
+> > > +v4l2_fwnode_connector_parse_analog(struct fwnode_handle *fwnode,
+> > > +				   struct v4l2_fwnode_connector *vc)
+> > > +{
+> > > +	u32 stds;
+> > > +	int ret;
+> > > +
+> > > +	ret = fwnode_property_read_u32(fwnode, "sdtv-standards", &stds);
+> > > +
+> > > +	/* The property is optional. */
+> > > +	vc->connector.analog.sdtv_stds = ret ? V4L2_STD_ALL : stds;
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +void v4l2_fwnode_connector_free(struct v4l2_fwnode_connector *connector)
+> > > +{
+> > > +	unsigned int i;
+> > > +
+> > > +	if (IS_ERR_OR_NULL(connector))
+> > > +		return;
+> > > +
+> > > +	for (i = 0; i < connector->nr_of_links; i++)
+> > > +		v4l2_fwnode_put_link(&connector->links[i]);
+> > > +	kfree(connector->links);
+> > 
+> > Please assign connector->links NULL here, and nr_of_links to zero.
 > 
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index 753be84b5fd6..c736e67ae1a1 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -685,8 +685,6 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
->  	attach->dmabuf = dmabuf;
->  	attach->dynamic_mapping = dynamic_mapping;
->  
-> -	mutex_lock(&dmabuf->lock);
-> -
->  	if (dmabuf->ops->attach) {
->  		ret = dmabuf->ops->attach(dmabuf, attach);
->  		if (ret)
-> @@ -696,8 +694,6 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
->  	list_add(&attach->node, &dmabuf->attachments);
->  	dma_resv_unlock(dmabuf->resv);
->  
-> -	mutex_unlock(&dmabuf->lock);
-
-This changes the rules, now ->attach/->detach and the list manipulation
-aren't done under the same lock anymore. I don't think this matters, but
-imo good to mention in the commit message.
-
-> -
->  	/* When either the importer or the exporter can't handle dynamic
->  	 * mappings we cache the mapping here to avoid issues with the
->  	 * reservation object lock.
-> @@ -726,7 +722,6 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
->  
->  err_attach:
->  	kfree(attach);
-> -	mutex_unlock(&dmabuf->lock);
->  	return ERR_PTR(ret);
->  
->  err_unlock:
-> @@ -776,14 +771,12 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_buf_attachment *attach)
->  			dma_resv_unlock(attach->dmabuf->resv);
->  	}
->  
-> -	mutex_lock(&dmabuf->lock);
->  	dma_resv_lock(dmabuf->resv, NULL);
->  	list_del(&attach->node);
->  	dma_resv_unlock(dmabuf->resv);
->  	if (dmabuf->ops->detach)
->  		dmabuf->ops->detach(dmabuf, attach);
->  
-> -	mutex_unlock(&dmabuf->lock);
->  	kfree(attach);
->  }
->  EXPORT_SYMBOL_GPL(dma_buf_detach);
-> @@ -1247,14 +1240,6 @@ static int dma_buf_debug_show(struct seq_file *s, void *unused)
->  		   "size", "flags", "mode", "count", "ino");
->  
->  	list_for_each_entry(buf_obj, &db_list.head, list_node) {
-> -		ret = mutex_lock_interruptible(&buf_obj->lock);
-> -
-> -		if (ret) {
-> -			seq_puts(s,
-> -				 "\tERROR locking buffer object: skipping\n");
-> -			continue;
-> -		}
-> -
-
-This will mildly conflict with the revised version of patch 1 (since the
-dma_resv_lock needs to be here).
-
-With both nits addressed:
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
->  		seq_printf(s, "%08zu\t%08x\t%08x\t%08ld\t%s\t%08lu\t%s\n",
->  				buf_obj->size,
->  				buf_obj->file->f_flags, buf_obj->file->f_mode,
-> @@ -1307,7 +1292,6 @@ static int dma_buf_debug_show(struct seq_file *s, void *unused)
->  
->  		count++;
->  		size += buf_obj->size;
-> -		mutex_unlock(&buf_obj->lock);
->  	}
->  
->  	seq_printf(s, "\nTotal %d objects, %zu bytes\n", count, size);
-> -- 
-> 2.17.1
+> Okay, I can do that.
 > 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> > > +}
+> > > +EXPORT_SYMBOL_GPL(v4l2_fwnode_connector_free);
+> > > +
+> > > +int v4l2_fwnode_connector_alloc_parse(struct fwnode_handle *fwnode,
+> > > +				      struct v4l2_fwnode_connector *connector)
+> > > +{
+> > > +	struct fwnode_handle *remote_pp, *remote_ep;
+> > > +	const char *type_name;
+> > > +	unsigned int i = 0, ep_num = 0;
+> > > +	int err;
+> > > +
+> > > +	memset(connector, 0, sizeof(*connector));
+> > > +
+> > > +	remote_pp = fwnode_graph_get_remote_port_parent(fwnode);
+> > 
+> > How do you know a remote endpoint is a connector, and not another device's
+> > endpoint?
+> 
+> Well, I think that the caller won't use this function if it isn't a
+> connector. If it helps I can check if the compatible of the remote ends
+> with "-connector".
+> 
+> Regards,
+>   Marco
