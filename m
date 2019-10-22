@@ -2,256 +2,513 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D0A4E006A
-	for <lists+linux-media@lfdr.de>; Tue, 22 Oct 2019 11:10:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 721D8E016F
+	for <lists+linux-media@lfdr.de>; Tue, 22 Oct 2019 12:01:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731409AbfJVJKH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Oct 2019 05:10:07 -0400
-Received: from relay10.mail.gandi.net ([217.70.178.230]:38983 "EHLO
-        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731346AbfJVJKH (ORCPT
+        id S1729388AbfJVKBh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Oct 2019 06:01:37 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:40508 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727101AbfJVKBh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Oct 2019 05:10:07 -0400
-Received: from aptenodytes (lfbn-1-17395-211.w86-250.abo.wanadoo.fr [86.250.200.211])
-        (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 0BF77240016;
-        Tue, 22 Oct 2019 09:10:02 +0000 (UTC)
-Date:   Tue, 22 Oct 2019 11:10:02 +0200
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@siol.net>
-Cc:     mripard@kernel.org, mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        gregkh@linuxfoundation.org, wens@csie.org,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] media: cedrus: Fix decoding for some H264 videos
-Message-ID: <20191022091002.GC2651@aptenodytes>
-References: <20191002193553.1633467-1-jernej.skrabec@siol.net>
- <20191002193553.1633467-2-jernej.skrabec@siol.net>
- <20191002215442.GA24151@aptenodytes>
- <1916783.jTTlJIDQL9@jernej-laptop>
+        Tue, 22 Oct 2019 06:01:37 -0400
+Received: by mail-wm1-f65.google.com with SMTP id b24so15508445wmj.5
+        for <linux-media@vger.kernel.org>; Tue, 22 Oct 2019 03:01:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=U2a9iHO36q92qDG52T4UjZvHdzANw+1PgAIjin3qeEk=;
+        b=afDv16B3M+rtbQp+IvYayIesOvrKdGcX+p3H560lTK1gw0MtilAUAS5IgEqsS2WB+y
+         bNzCyL8jv68dMVIFfxVhXr0u/rkV2m07ZGzpFJfJXoxNzDaoMiNBAtjag1Q0nyLrD5WL
+         PkhnvB8gnVjq2YXy7C+4m+Hk5qdyKx+R13iIM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to:user-agent;
+        bh=U2a9iHO36q92qDG52T4UjZvHdzANw+1PgAIjin3qeEk=;
+        b=oYYsGCpD6/B5gqDm71kR6t54ApYDKSB6OP6sgRh2GJnSgHcrJDOXWCeDEdoGxvjgHp
+         wI+SKltWQD2z9kkPi4VorfBJS/OpH4l8+1cTUzML8chaET1qE1g7NFRtyQ0BCR2+PHuj
+         VrWgbrj4wyTJ+XwUL+sUudX0P9GUUPoA9tOPk7dNB1XXmYK95vEmh96dMQg1q51OT6lr
+         XmpisO+g36HyJ24LTWhLabLehB4p2MiQzigXKXFQsCKVjCK9o7I8kKtRV2pRAe216U0P
+         u0rbElCZi8iWoVD+O9Y+Wrl1pzU7qxFagmjOP/5rMwzEVACC2b+z9+9CA8ZkCcvbNdBm
+         CZSg==
+X-Gm-Message-State: APjAAAV8VLJGA994JjPCCRKqzKEG48+FpBy0kXHBfpVcZsOKf4YxWi8S
+        ojTYPQzMT7P3El6RlO1xHnc/jA==
+X-Google-Smtp-Source: APXvYqyLI+2DivDWk2DTuycwnsE+9H98gxSdYRvYVTTTfEGY5eWeWmRNf4XOmgd1hoJj6WV6olCWlA==
+X-Received: by 2002:a1c:7fd8:: with SMTP id a207mr1858908wmd.10.1571738492985;
+        Tue, 22 Oct 2019 03:01:32 -0700 (PDT)
+Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net. [212.51.149.96])
+        by smtp.gmail.com with ESMTPSA id 36sm16656020wrj.42.2019.10.22.03.01.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Oct 2019 03:01:32 -0700 (PDT)
+Date:   Tue, 22 Oct 2019 12:01:30 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Christian =?iso-8859-1?Q?K=F6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>
+Cc:     dri-devel@lists.freedesktop.org, sumit.semwal@linaro.org,
+        linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org, daniel@ffwll.ch
+Subject: Re: [PATCH 1/4] dma-buf: change DMA-buf locking convention v2
+Message-ID: <20191022100130.GG11828@phenom.ffwll.local>
+References: <20191021111524.14793-1-christian.koenig@amd.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="p4qYPpj5QlsIQJ0K"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <1916783.jTTlJIDQL9@jernej-laptop>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191021111524.14793-1-christian.koenig@amd.com>
+X-Operating-System: Linux phenom 5.2.0-2-amd64 
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Mon, Oct 21, 2019 at 01:15:21PM +0200, Christian König wrote:
+> This patch is a stripped down version of the locking changes
+> necessary to support dynamic DMA-buf handling.
+> 
+> It adds a dynamic flag for both importers as well as exporters
+> so that drivers can choose if they want the reservation object
+> locked or unlocked during mapping of attachments.
+> 
+> For compatibility between drivers we cache the DMA-buf mapping
+> during attaching an importer as soon as exporter/importer
+> disagree on the dynamic handling.
+> 
+> This change has gone through a lengthy discussion on dri-devel
+> and other mailing lists with at least 3-4 different attempts and
+> dead-ends until we settled on this solution. Please refer to the
+> mailing lists archives for full background on the history of
+> this change.
 
---p4qYPpj5QlsIQJ0K
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I kinda hoped for a real write-up of why we ended up here, not a "please
+read the last year or so of dri-devel" ...
 
-Hi,
+So here's what I think we need to minimally mention, pls add:
 
-On Tue 15 Oct 19, 19:16, Jernej =C5=A0krabec wrote:
-> Please understand that I was working on this on and off for almost half a=
- year=20
-> and checked many times all register values. At one point I tried libvdpau-
-> sunxi which has no problem with sample video.  Still, all relevant regist=
-er=20
-> values were the same. In a desperate attempt, I tried with HW header pars=
-ing=20
-> which magically solved the issue. After that, I reused values provided in=
-=20
-> controls and then finally I made minimal solution as suggested in this pa=
-tch.=20
+<cut>
+Issues and solutions we considered:
 
-Okay thanks for the details.
+- We can't change all existing drivers, and existing drivers have strong
+  opinions about which locks they're holding while calling
+  dma_buf_attachment_map/unmap. The solution to avoid this was to move the
+  actual map/unmap out from this call, into the attach/detach callbacks,
+  and cache the mapping. This works because drivers don't call
+  attach/detach from deep within their code callchains (like deep in
+  memory management code called from cs/execbuf ioctl), but directly from
+  the fd2handle implementation.
 
-I think I've delayed this for far too long already so I think we should get=
- it
-in without further delay.
+- The caching has some troubles on some soc drivers, which set other modes
+  than DMA_BIDIRECTIONAL. We can't have 2 incompatible mappings, and we
+  can't re-create the mapping at _map time due to the above locking fun.
+  We very carefuly step around that by only caching at attach time if the
+  dynamic mode between importer/expoert mismatches.
 
-The patch apparently no longer applies on top of media/master, but feel free
-to send out a rebased series with:
+- There's been quite some discussion on dma-buf mappings which need active
+  cache management, which would all break down when caching, plus we don't
+  have explicit flush operations on the attachment side. The solution to
+  this was to shrug and keep the current discrepancy between what the
+  dma-buf docs claim and what implementations do, with the hope that the
+  begin/end_cpu_access hooks are good enough and that all necessary
+  flushing to keep device mappings consistent will be done there.
+</cut>
+> 
+> v2: cleanup set_name merge, improve kerneldoc
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> ---
+>  drivers/dma-buf/dma-buf.c | 102 +++++++++++++++++++++++++++++++++-----
+>  include/linux/dma-buf.h   |  57 +++++++++++++++++++--
+>  2 files changed, 143 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index 433d91d710e4..753be84b5fd6 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -45,10 +45,10 @@ static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int buflen)
+>  	size_t ret = 0;
+>  
+>  	dmabuf = dentry->d_fsdata;
+> -	mutex_lock(&dmabuf->lock);
+> +	dma_resv_lock(dmabuf->resv, NULL);
+>  	if (dmabuf->name)
+>  		ret = strlcpy(name, dmabuf->name, DMA_BUF_NAME_LEN);
+> -	mutex_unlock(&dmabuf->lock);
+> +	dma_resv_unlock(dmabuf->resv);
+>  
+>  	return dynamic_dname(dentry, buffer, buflen, "/%s:%s",
+>  			     dentry->d_name.name, ret > 0 ? name : "");
+> @@ -334,7 +334,7 @@ static long dma_buf_set_name(struct dma_buf *dmabuf, const char __user *buf)
+>  	if (IS_ERR(name))
+>  		return PTR_ERR(name);
+>  
+> -	mutex_lock(&dmabuf->lock);
+> +	dma_resv_lock(dmabuf->resv, NULL);
+>  	if (!list_empty(&dmabuf->attachments)) {
+>  		ret = -EBUSY;
+>  		kfree(name);
+> @@ -344,7 +344,7 @@ static long dma_buf_set_name(struct dma_buf *dmabuf, const char __user *buf)
+>  	dmabuf->name = name;
+>  
+>  out_unlock:
+> -	mutex_unlock(&dmabuf->lock);
+> +	dma_resv_unlock(dmabuf->resv);
+>  	return ret;
+>  }
+>  
+> @@ -403,10 +403,10 @@ static void dma_buf_show_fdinfo(struct seq_file *m, struct file *file)
+>  	/* Don't count the temporary reference taken inside procfs seq_show */
+>  	seq_printf(m, "count:\t%ld\n", file_count(dmabuf->file) - 1);
+>  	seq_printf(m, "exp_name:\t%s\n", dmabuf->exp_name);
+> -	mutex_lock(&dmabuf->lock);
+> +	dma_resv_lock(dmabuf->resv, NULL);
+>  	if (dmabuf->name)
+>  		seq_printf(m, "name:\t%s\n", dmabuf->name);
+> -	mutex_unlock(&dmabuf->lock);
+> +	dma_resv_unlock(dmabuf->resv);
+>  }
+>  
+>  static const struct file_operations dma_buf_fops = {
+> @@ -525,6 +525,10 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
+>  		return ERR_PTR(-EINVAL);
+>  	}
+>  
+> +	if (WARN_ON(exp_info->ops->cache_sgt_mapping &&
+> +		    exp_info->ops->dynamic_mapping))
+> +		return ERR_PTR(-EINVAL);
+> +
+>  	if (!try_module_get(exp_info->owner))
+>  		return ERR_PTR(-ENOENT);
+>  
+> @@ -645,10 +649,11 @@ void dma_buf_put(struct dma_buf *dmabuf)
+>  EXPORT_SYMBOL_GPL(dma_buf_put);
+>  
+>  /**
+> - * dma_buf_attach - Add the device to dma_buf's attachments list; optionally,
+> + * dma_buf_dynamic_attach - Add the device to dma_buf's attachments list; optionally,
+>   * calls attach() of dma_buf_ops to allow device-specific attach functionality
+> - * @dmabuf:	[in]	buffer to attach device to.
+> - * @dev:	[in]	device to be attached.
+> + * @dmabuf:		[in]	buffer to attach device to.
+> + * @dev:		[in]	device to be attached.
+> + * @dynamic_mapping:	[in]	calling convention for map/unmap
+>   *
+>   * Returns struct dma_buf_attachment pointer for this attachment. Attachments
+>   * must be cleaned up by calling dma_buf_detach().
+> @@ -662,8 +667,9 @@ EXPORT_SYMBOL_GPL(dma_buf_put);
+>   * accessible to @dev, and cannot be moved to a more suitable place. This is
+>   * indicated with the error code -EBUSY.
+>   */
+> -struct dma_buf_attachment *dma_buf_attach(struct dma_buf *dmabuf,
+> -					  struct device *dev)
+> +struct dma_buf_attachment *
+> +dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
+> +		       bool dynamic_mapping)
+>  {
+>  	struct dma_buf_attachment *attach;
+>  	int ret;
+> @@ -677,6 +683,7 @@ struct dma_buf_attachment *dma_buf_attach(struct dma_buf *dmabuf,
+>  
+>  	attach->dev = dev;
+>  	attach->dmabuf = dmabuf;
+> +	attach->dynamic_mapping = dynamic_mapping;
+>  
+>  	mutex_lock(&dmabuf->lock);
+>  
+> @@ -685,16 +692,64 @@ struct dma_buf_attachment *dma_buf_attach(struct dma_buf *dmabuf,
+>  		if (ret)
+>  			goto err_attach;
+>  	}
+> +	dma_resv_lock(dmabuf->resv, NULL);
+>  	list_add(&attach->node, &dmabuf->attachments);
+> +	dma_resv_unlock(dmabuf->resv);
+>  
+>  	mutex_unlock(&dmabuf->lock);
+>  
+> +	/* When either the importer or the exporter can't handle dynamic
+> +	 * mappings we cache the mapping here to avoid issues with the
+> +	 * reservation object lock.
+> +	 */
+> +	if (dma_buf_attachment_is_dynamic(attach) !=
+> +	    dma_buf_is_dynamic(dmabuf)) {
+> +		struct sg_table *sgt;
+> +
+> +		if (dma_buf_is_dynamic(attach->dmabuf))
+> +			dma_resv_lock(attach->dmabuf->resv, NULL);
+> +
+> +		sgt = dmabuf->ops->map_dma_buf(attach, DMA_BIDIRECTIONAL);
+> +		if (!sgt)
+> +			sgt = ERR_PTR(-ENOMEM);
+> +		if (IS_ERR(sgt)) {
+> +			ret = PTR_ERR(sgt);
+> +			goto err_unlock;
+> +		}
+> +		if (dma_buf_is_dynamic(attach->dmabuf))
+> +			dma_resv_unlock(attach->dmabuf->resv);
+> +		attach->sgt = sgt;
+> +		attach->dir = DMA_BIDIRECTIONAL;
+> +	}
+> +
+>  	return attach;
+>  
+>  err_attach:
+>  	kfree(attach);
+>  	mutex_unlock(&dmabuf->lock);
+>  	return ERR_PTR(ret);
+> +
+> +err_unlock:
+> +	if (dma_buf_is_dynamic(attach->dmabuf))
+> +		dma_resv_unlock(attach->dmabuf->resv);
+> +
+> +	dma_buf_detach(dmabuf, attach);
+> +	return ERR_PTR(ret);
+> +}
+> +EXPORT_SYMBOL_GPL(dma_buf_dynamic_attach);
+> +
+> +/**
+> + * dma_buf_attach - Wrapper for dma_buf_dynamic_attach
+> + * @dmabuf:	[in]	buffer to attach device to.
+> + * @dev:	[in]	device to be attached.
+> + *
+> + * Wrapper to call dma_buf_dynamic_attach() for drivers which still use a static
+> + * mapping.
+> + */
+> +struct dma_buf_attachment *dma_buf_attach(struct dma_buf *dmabuf,
+> +					  struct device *dev)
+> +{
+> +	return dma_buf_dynamic_attach(dmabuf, dev, false);
+>  }
+>  EXPORT_SYMBOL_GPL(dma_buf_attach);
+>  
+> @@ -711,11 +766,20 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_buf_attachment *attach)
+>  	if (WARN_ON(!dmabuf || !attach))
+>  		return;
+>  
+> -	if (attach->sgt)
+> +	if (attach->sgt) {
+> +		if (dma_buf_is_dynamic(attach->dmabuf))
+> +			dma_resv_lock(attach->dmabuf->resv, NULL);
+> +
+>  		dmabuf->ops->unmap_dma_buf(attach, attach->sgt, attach->dir);
+>  
+> +		if (dma_buf_is_dynamic(attach->dmabuf))
+> +			dma_resv_unlock(attach->dmabuf->resv);
+> +	}
+> +
+>  	mutex_lock(&dmabuf->lock);
+> +	dma_resv_lock(dmabuf->resv, NULL);
+>  	list_del(&attach->node);
+> +	dma_resv_unlock(dmabuf->resv);
+>  	if (dmabuf->ops->detach)
+>  		dmabuf->ops->detach(dmabuf, attach);
+>  
+> @@ -749,6 +813,9 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *attach,
+>  	if (WARN_ON(!attach || !attach->dmabuf))
+>  		return ERR_PTR(-EINVAL);
+>  
+> +	if (dma_buf_attachment_is_dynamic(attach))
+> +		dma_resv_assert_held(attach->dmabuf->resv);
+> +
+>  	if (attach->sgt) {
+>  		/*
+>  		 * Two mappings with different directions for the same
+> @@ -761,6 +828,9 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *attach,
+>  		return attach->sgt;
+>  	}
+>  
+> +	if (dma_buf_is_dynamic(attach->dmabuf))
+> +		dma_resv_assert_held(attach->dmabuf->resv);
 
-Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Almost tripped me up until I noticed your check for the buf/exporter here.
+Nice check!
 
-Let's leave out 2/3 though, I think I will submit a series adding the flag
-as indication for the per-slice value in the uAPI and use it in cedrus.
+Maybe we could do an
 
-Cheers,
+	else
+		lockdep_assert_not_held()
 
-Paul
+here? Open-coded ofc (or put it into drm_utils.h, I don't want to hold up
+this patch any longer, then move it to lockdep.h later on), since
+currently doesn't exist. Just to _really_ enforce the documented contract
+here.
 
-> >=20
-> > I could try and have a look if you have an available sample for testing=
- the
-> > erroneous case!
->=20
-> Of course: http://jernej.libreelec.tv/videos/h264/test.mkv
->=20
-> >=20
-> > Another minor thing: do you have some idea of whether the udelay call a=
-dds
-> > significant delay in the process?
->=20
-> I didn't notice any issue with it. Do you have any better idea? I just di=
-dn't=20
-> want to make empty loop and udelay is the shortest delay that is provided=
- by=20
-> the kernel API.
->=20
-> Best regards,
-> Jernej
->=20
-> >=20
-> > Cheers and thanks for the patch!
-> >=20
-> > Paul
-> >=20
-> > > Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
-> > > ---
-> > >=20
-> > >  .../staging/media/sunxi/cedrus/cedrus_h264.c  | 30 +++++++++++++++++=
---
-> > >  .../staging/media/sunxi/cedrus/cedrus_regs.h  |  3 ++
-> > >  2 files changed, 30 insertions(+), 3 deletions(-)
-> > >=20
-> > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> > > b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c index
-> > > d6a782703c9b..bd848146eada 100644
-> > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> > > @@ -6,6 +6,7 @@
-> > >=20
-> > >   * Copyright (c) 2018 Bootlin
-> > >   */
-> > >=20
-> > > +#include <linux/delay.h>
-> > >=20
-> > >  #include <linux/types.h>
-> > > =20
-> > >  #include <media/videobuf2-dma-contig.h>
-> > >=20
-> > > @@ -289,6 +290,28 @@ static void cedrus_write_pred_weight_table(struct
-> > > cedrus_ctx *ctx,>=20
-> > >  	}
-> > > =20
-> > >  }
-> > >=20
-> > > +/*
-> > > + * It turns out that using VE_H264_VLD_OFFSET to skip bits is not
-> > > reliable. In + * rare cases frame is not decoded correctly. However,
-> > > setting offset to 0 and + * skipping appropriate amount of bits with
-> > > flush bits trigger always works. + */
-> > > +static void cedrus_skip_bits(struct cedrus_dev *dev, int num)
-> > > +{
-> > > +	int count =3D 0;
-> > > +
-> > > +	while (count < num) {
-> > > +		int tmp =3D min(num - count, 32);
-> > >=20
-> > > +
-> > > +		cedrus_write(dev, VE_H264_TRIGGER_TYPE,
-> > > +			     VE_H264_TRIGGER_TYPE_FLUSH_BITS |
-> > > +			     VE_H264_TRIGGER_TYPE_N_BITS(tmp));
-> > > +		while (cedrus_read(dev, VE_H264_STATUS) &=20
-> VE_H264_STATUS_VLD_BUSY)
-> > > +			udelay(1);
-> > > +
-> > > +		count +=3D tmp;
-> > > +	}
-> > > +}
-> > > +
-> > >=20
-> > >  static void cedrus_set_params(struct cedrus_ctx *ctx,
-> > > =20
-> > >  			      struct cedrus_run *run)
-> > > =20
-> > >  {
-> > >=20
-> > > @@ -299,12 +322,11 @@ static void cedrus_set_params(struct cedrus_ctx
-> > > *ctx,
-> > >=20
-> > >  	struct vb2_buffer *src_buf =3D &run->src->vb2_buf;
-> > >  	struct cedrus_dev *dev =3D ctx->dev;
-> > >  	dma_addr_t src_buf_addr;
-> > >=20
-> > > -	u32 offset =3D slice->header_bit_size;
-> > > -	u32 len =3D (slice->size * 8) - offset;
-> > > +	u32 len =3D slice->size * 8;
-> > >=20
-> > >  	u32 reg;
-> > >  =09
-> > >  	cedrus_write(dev, VE_H264_VLD_LEN, len);
-> > >=20
-> > > -	cedrus_write(dev, VE_H264_VLD_OFFSET, offset);
-> > > +	cedrus_write(dev, VE_H264_VLD_OFFSET, 0);
-> > >=20
-> > >  	src_buf_addr =3D vb2_dma_contig_plane_dma_addr(src_buf, 0);
-> > >  	cedrus_write(dev, VE_H264_VLD_END,
-> > >=20
-> > > @@ -323,6 +345,8 @@ static void cedrus_set_params(struct cedrus_ctx *=
-ctx,
-> > >=20
-> > >  	cedrus_write(dev, VE_H264_TRIGGER_TYPE,
-> > >  =09
-> > >  		     VE_H264_TRIGGER_TYPE_INIT_SWDEC);
-> > >=20
-> > > +	cedrus_skip_bits(dev, slice->header_bit_size);
-> > > +
-> > >=20
-> > >  	if (((pps->flags & V4L2_H264_PPS_FLAG_WEIGHTED_PRED) &&
-> > >  =09
-> > >  	     (slice->slice_type =3D=3D V4L2_H264_SLICE_TYPE_P ||
-> > >  	    =20
-> > >  	      slice->slice_type =3D=3D V4L2_H264_SLICE_TYPE_SP)) ||
-> > >=20
-> > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-> > > b/drivers/staging/media/sunxi/cedrus/cedrus_regs.h index
-> > > 3329f9aaf975..b52926a54025 100644
-> > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-> > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-> > > @@ -538,13 +538,16 @@
-> > >=20
-> > >  					=20
-> VE_H264_CTRL_SLICE_DECODE_INT)
-> > > =20
-> > >  #define VE_H264_TRIGGER_TYPE		0x224
-> > >=20
-> > > +#define VE_H264_TRIGGER_TYPE_N_BITS(x)		(((x) & 0x3f) << 8)
-> > >=20
-> > >  #define VE_H264_TRIGGER_TYPE_AVC_SLICE_DECODE	(8 << 0)
-> > >  #define VE_H264_TRIGGER_TYPE_INIT_SWDEC		(7 << 0)
-> > >=20
-> > > +#define VE_H264_TRIGGER_TYPE_FLUSH_BITS		(3 << 0)
-> > >=20
-> > >  #define VE_H264_STATUS			0x228
-> > >  #define VE_H264_STATUS_VLD_DATA_REQ_INT	=09
-> VE_H264_CTRL_VLD_DATA_REQ_INT
-> > >  #define VE_H264_STATUS_DECODE_ERR_INT	=09
-> VE_H264_CTRL_DECODE_ERR_INT
-> > >  #define VE_H264_STATUS_SLICE_DECODE_INT	=09
-> VE_H264_CTRL_SLICE_DECODE_INT
-> > >=20
-> > > +#define VE_H264_STATUS_VLD_BUSY			BIT(8)
-> > >=20
-> > >  #define VE_H264_STATUS_INT_MASK		=09
-> VE_H264_CTRL_INT_MASK
->=20
->=20
->=20
->=20
+> +
+>  	sg_table = attach->dmabuf->ops->map_dma_buf(attach, direction);
+>  	if (!sg_table)
+>  		sg_table = ERR_PTR(-ENOMEM);
+> @@ -793,9 +863,15 @@ void dma_buf_unmap_attachment(struct dma_buf_attachment *attach,
+>  	if (WARN_ON(!attach || !attach->dmabuf || !sg_table))
+>  		return;
+>  
+> +	if (dma_buf_attachment_is_dynamic(attach))
+> +		dma_resv_assert_held(attach->dmabuf->resv);
+> +
+>  	if (attach->sgt == sg_table)
+>  		return;
+>  
+> +	if (dma_buf_is_dynamic(attach->dmabuf))
+> +		dma_resv_assert_held(attach->dmabuf->resv);
+> +
+>  	attach->dmabuf->ops->unmap_dma_buf(attach, sg_table, direction);
+>  }
+>  EXPORT_SYMBOL_GPL(dma_buf_unmap_attachment);
+> @@ -1219,10 +1295,12 @@ static int dma_buf_debug_show(struct seq_file *s, void *unused)
+>  		seq_puts(s, "\tAttached Devices:\n");
+>  		attach_count = 0;
+>  
+> +		dma_resv_lock(buf_obj->resv, NULL);
 
---p4qYPpj5QlsIQJ0K
-Content-Type: application/pgp-signature; name="signature.asc"
+You've switched dmabuf->name to be protected by dma_resv too, so this
+needs to be moved up above the seq_printf which prints ->name.
 
------BEGIN PGP SIGNATURE-----
+>  		list_for_each_entry(attach_obj, &buf_obj->attachments, node) {
+>  			seq_printf(s, "\t%s\n", dev_name(attach_obj->dev));
+>  			attach_count++;
+>  		}
+> +		dma_resv_unlock(buf_obj->resv);
+>  
+>  		seq_printf(s, "Total %d devices attached\n\n",
+>  				attach_count);
+> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> index ec212cb27fdc..bcc0f4d0b678 100644
+> --- a/include/linux/dma-buf.h
+> +++ b/include/linux/dma-buf.h
+> @@ -42,6 +42,18 @@ struct dma_buf_ops {
+>  	  */
+>  	bool cache_sgt_mapping;
+>  
+> +	/**
+> +	 * @dynamic_mapping:
+> +	 *
+> +	 * If true the framework makes sure that the map/unmap_dma_buf
+> +	 * callbacks are always called with the dma_resv object locked.
+> +	 *
+> +	 * If false the framework makes ure that the map/unmap_dma_buf
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl2ux2oACgkQ3cLmz3+f
-v9GxNggAoUPhMks1m1yhI9h7qrbOWuYWwl/SbtO4mnSw6R/3aI6fsdBfNqwnS9lI
-kFIGM1gxkSOjPbgQ0b2U/h1EXCF1OwymUilB9PBVDB1UpaXsKFqDsYpWFVSX8XAC
-BfLuPBNd0SHD+/eS8GMgjAsNbdoTk/cArdrPI6minSnan13GEzaQ43do9VU8rZL+
-Ti24S9Jx8Nr/Y+8Xsk42FyDBElBQdb0MO11QRqIsJ43TJJ9GeWG528T9bWzmCZyV
-Egh6MMu2T4FPWeQ7iTB4DctCGZR1RhxuvF9V45WHFBDmaExEx4Rq24ixXX4X/2pv
-wfmqLhGApSVGcd3OMEmwpwj//gVE/g==
-=PWnD
------END PGP SIGNATURE-----
+s/ure/sure/
 
---p4qYPpj5QlsIQJ0K--
+> +	 * callbacks are always called without the dma_resv object locked.
+> +	 * Mutual exclusive with @cache_sgt_mapping.
+> +	 */
+> +	bool dynamic_mapping;
+> +
+>  	/**
+>  	 * @attach:
+>  	 *
+> @@ -109,6 +121,9 @@ struct dma_buf_ops {
+>  	 * any other kind of sharing that the exporter might wish to make
+>  	 * available to buffer-users.
+>  	 *
+> +	 * This is always called with the dmabuf->resv object locked when
+> +	 * the dynamic_mapping flag is true.
+> +	 *
+>  	 * Returns:
+>  	 *
+>  	 * A &sg_table scatter list of or the backing storage of the DMA buffer,
+> @@ -267,7 +282,8 @@ struct dma_buf_ops {
+>   * struct dma_buf - shared buffer object
+>   * @size: size of the buffer
+>   * @file: file pointer used for sharing buffers across, and for refcounting.
+> - * @attachments: list of dma_buf_attachment that denotes all devices attached.
+> + * @attachments: list of dma_buf_attachment that denotes all devices attached,
+> + *               protected by dma_resv lock.
+>   * @ops: dma_buf_ops associated with this buffer object.
+>   * @lock: used internally to serialize list manipulation, attach/detach and
+>   *        vmap/unmap, and accesses to name
+
+@name in dma_buf needs to be updated to mention that it's protected by
+dma_resv lock.
+
+> @@ -323,10 +339,12 @@ struct dma_buf {
+>   * struct dma_buf_attachment - holds device-buffer attachment data
+>   * @dmabuf: buffer for this attachment.
+>   * @dev: device attached to the buffer.
+> - * @node: list of dma_buf_attachment.
+> + * @node: list of dma_buf_attachment, protected by dma_resv lock of the dmabuf.
+>   * @sgt: cached mapping.
+>   * @dir: direction of cached mapping.
+>   * @priv: exporter specific attachment data.
+> + * @dynamic_mapping: true if dma_buf_map/unmap_attachment() is called with the
+> + * dma_resv lock held.
+>   *
+>   * This structure holds the attachment information between the dma_buf buffer
+>   * and its user device(s). The list contains one attachment struct per device
+> @@ -343,6 +361,7 @@ struct dma_buf_attachment {
+>  	struct list_head node;
+>  	struct sg_table *sgt;
+>  	enum dma_data_direction dir;
+> +	bool dynamic_mapping;
+>  	void *priv;
+>  };
+>  
+> @@ -394,10 +413,39 @@ static inline void get_dma_buf(struct dma_buf *dmabuf)
+>  	get_file(dmabuf->file);
+>  }
+>  
+> +/**
+> + * dma_buf_is_dynamic - check if a DMA-buf uses dynamic mappings.
+> + * @dmabuf: the DMA-buf to check
+> + *
+> + * Returns true if a DMA-buf exporter wants to be called with the dma_resv
+> + * locked, false if it doesn't wants to be called with the lock held.
+
+Maybe added "... for the map/unmap callbacks, ..." since we don't
+guarantee to hold the lock for all callbacks. You clarify this already
+below.
+
+> + */
+> +static inline bool dma_buf_is_dynamic(struct dma_buf *dmabuf)
+> +{
+> +	return dmabuf->ops->dynamic_mapping;
+> +}
+> +
+> +/**
+> + * dma_buf_attachment_is_dynamic - check if a DMA-buf attachment uses dynamic
+> + * mappinsg
+> + * @attach: the DMA-buf attachment to check
+> + *
+> + * Returns true if a DMA-buf importer wants to call the map/unmap functions with
+> + * the dma_resv lock held.
+> + */
+> +static inline bool
+> +dma_buf_attachment_is_dynamic(struct dma_buf_attachment *attach)
+> +{
+> +	return attach->dynamic_mapping;
+> +}
+> +
+>  struct dma_buf_attachment *dma_buf_attach(struct dma_buf *dmabuf,
+> -							struct device *dev);
+> +					  struct device *dev);
+> +struct dma_buf_attachment *
+> +dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
+> +		       bool dynamic_mapping);
+>  void dma_buf_detach(struct dma_buf *dmabuf,
+> -				struct dma_buf_attachment *dmabuf_attach);
+> +		    struct dma_buf_attachment *attach);
+>  
+>  struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info);
+>  
+> @@ -409,6 +457,7 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *,
+>  					enum dma_data_direction);
+>  void dma_buf_unmap_attachment(struct dma_buf_attachment *, struct sg_table *,
+>  				enum dma_data_direction);
+> +void dma_buf_move_notify(struct dma_buf *dma_buf);
+>  int dma_buf_begin_cpu_access(struct dma_buf *dma_buf,
+>  			     enum dma_data_direction dir);
+>  int dma_buf_end_cpu_access(struct dma_buf *dma_buf,
+
+With the nits all addressed:
+
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+> -- 
+> 2.17.1
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
