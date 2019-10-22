@@ -2,355 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D82CCDFE95
-	for <lists+linux-media@lfdr.de>; Tue, 22 Oct 2019 09:46:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E9ACDFEB4
+	for <lists+linux-media@lfdr.de>; Tue, 22 Oct 2019 09:52:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388000AbfJVHqj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Oct 2019 03:46:39 -0400
-Received: from retiisi.org.uk ([95.216.213.190]:39850 "EHLO
-        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726978AbfJVHqj (ORCPT
+        id S2388057AbfJVHv6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Oct 2019 03:51:58 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:38475 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387938AbfJVHv5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Oct 2019 03:46:39 -0400
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 7D475634C87;
-        Tue, 22 Oct 2019 10:46:24 +0300 (EEST)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1iMos3-0000b4-ID; Tue, 22 Oct 2019 10:46:23 +0300
-Date:   Tue, 22 Oct 2019 10:46:23 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Benoit Parrot <bparrot@ti.com>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Rob Herring <robh+dt@kernel.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [Patch 19/19] dt-bindings: media: cal: convert binding to yaml
-Message-ID: <20191022074623.GE864@valkosipuli.retiisi.org.uk>
-References: <20191018153437.20614-1-bparrot@ti.com>
- <20191018153437.20614-20-bparrot@ti.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191018153437.20614-20-bparrot@ti.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Tue, 22 Oct 2019 03:51:57 -0400
+Received: by mail-pf1-f195.google.com with SMTP id h195so10119878pfe.5
+        for <linux-media@vger.kernel.org>; Tue, 22 Oct 2019 00:51:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=mnkod33vwMuA00vH7HqY3oXGAe7uV737j+rUjwh5yfs=;
+        b=HK9ngHqwylxbOcCILTpB5lDm9UnZRbcqztWc2aQbBlgmxtd66VmfUJVlw6w4JJ9W0C
+         7sMsv4Qtyq8rqAjD8398tTgXRbe0xgsakZEB0jtCBd1mNkLL8Q6IRn4MP2YgdkcL0tjk
+         dzTGxjZqCibzAQXQFBmTOA/hDxhzrqvzEG4JBs7erWZiwR8GBcf5EGtGHd3tZRmmu540
+         5V6+ZDszmZ+ctVy4wE0Q6y7gHcikj6MQV2OYPfRmgpLP1VRhlXkgEV75uRWytQYE4W7T
+         /eJw1Y63XvAw8WVDHM1QCQH4T4EtmfwpCrYrUGmNxuQ1fHAicB7LOH4HbfUk6h6+TqHi
+         7RDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=mnkod33vwMuA00vH7HqY3oXGAe7uV737j+rUjwh5yfs=;
+        b=M9srK9to7vX5IJFfcp7xLAexZ5dPzf48OZ40cFgU2rgm9pMqmoO0JMWPiWaZ6irrle
+         m3PPKrxFakuyroAEF/AcgT6Jkb03VKH9ipT/mIhTA6TRFB1kxlSag4ysroushzcAeWJY
+         0q8lhlnokyQQdmB0QLathD20Uu36otpq4LOsHtUoYMAtDc2vWPn2No9g3BjQfeUo147V
+         LUgL52tCUtles/+Vpir7N52Zkcf/Phi//+cfNIaiH9hq7wX1+jY2cdUO8cELOhEzYOwr
+         OZgveoK2RM+zzlrN6AIcmfmSp7VRB0jwFWrBd9bF0mXG76I6iPWJva6bxQruxboSvPeP
+         vYBQ==
+X-Gm-Message-State: APjAAAW6hT9NJAE/0GOsuLnIJsYwT3d/H7xQGG7h3Dm0t98OOwmrUWYJ
+        8+gSFbDlZNR1rsC9WE4dFbzFM2xr
+X-Google-Smtp-Source: APXvYqx38UWfgdwbYwszD07PzrMSrAli0U2J9VA+g75Wb40khfuN7MNWNsgftkmmAbb+LNc0OWgTXA==
+X-Received: by 2002:a62:cf42:: with SMTP id b63mr2729215pfg.33.1571730716705;
+        Tue, 22 Oct 2019 00:51:56 -0700 (PDT)
+Received: from bnva-HP-Pavilion-g6-Notebook-PC.domain.name ([117.248.69.110])
+        by smtp.gmail.com with ESMTPSA id w6sm19611773pfw.84.2019.10.22.00.51.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Oct 2019 00:51:56 -0700 (PDT)
+From:   Vandana BN <bnvandana@gmail.com>
+To:     linux-media@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Cc:     hverkuil@xs4all.nl, Vandana BN <bnvandana@gmail.com>
+Subject: [PATCH 0/2] vivid: Support for touch device
+Date:   Tue, 22 Oct 2019 13:21:39 +0530
+Message-Id: <20191022075141.21069-1-bnvandana@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benoit,
+This patch adds support for touch devices in the vivid driver.
+Current code provides a framework for touch support and passes
+compliance tests.
+TODO: Add touch emulation.
 
-Thanks for the patch.
+Thank you.
+Regards,
+Vandana.
 
-On Fri, Oct 18, 2019 at 10:34:37AM -0500, Benoit Parrot wrote:
-> Convert ti-cal.txt to ti,cal.yaml.
-> 
-> Signed-off-by: Benoit Parrot <bparrot@ti.com>
-> ---
->  .../devicetree/bindings/media/ti,cal.yaml     | 186 ++++++++++++++++++
->  .../devicetree/bindings/media/ti-cal.txt      |  82 --------
->  2 files changed, 186 insertions(+), 82 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/media/ti,cal.yaml
->  delete mode 100644 Documentation/devicetree/bindings/media/ti-cal.txt
-> 
-> diff --git a/Documentation/devicetree/bindings/media/ti,cal.yaml b/Documentation/devicetree/bindings/media/ti,cal.yaml
-> new file mode 100644
-> index 000000000000..c3fbb22b4571
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/ti,cal.yaml
-> @@ -0,0 +1,186 @@
-> +# SPDX-License-Identifier: (GPL-2.0)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/ti,cal.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Texas Instruments DRA72x CAMERA ADAPTATION LAYER (CAL) Device Tree Bindings
-> +
-> +maintainers:
-> +  - Benoit Parrot <bparrot@ti.com>
-> +
-> +description: |-
-> +  The Camera Adaptation Layer (CAL) is a key component for image capture
-> +  applications. The capture module provides the system interface and the
-> +  processing capability to connect CSI2 image-sensor modules to the
-> +  DRA72x device.
-> +
-> +  CAL supports 2 camera port nodes on MIPI bus. Each CSI2 camera port nodes
-> +  should contain a 'port' child node with child 'endpoint' node. Please
-> +  refer to the bindings defined in
-> +  Documentation/devicetree/bindings/media/video-interfaces.txt.
-> +
-> +  compatible should be
-> +     "ti,dra72-cal", for DRA72 controllers
-> +     "ti,dra72-pre-es2-cal", for DRA72 controllers pre ES2.0
-> +     "ti,dra76-cal", for DRA76 controllers
-> +     "ti,am654-cal", for AM654 controllers
-> +
-> +properties:
-> +  compatible:
-> +      items:
-> +        - enum:
-> +            - ti,dra72-cal
-> +            - ti,dra72-pre-es2-cal
-> +            - ti,dra76-cal
-> +            - ti,am654-cal
-> +
-> +  reg:
-> +    minItems: 2
-> +    items:
-> +      - description: The CAL main register region
-> +      - description: The RX Core0 (DPHY0) register region
-> +      - description: The RX Core1 (DPHY1) register region
-> +
-> +  reg-names:
-> +    minItems: 2
-> +    items:
-> +      - const: cal_top
-> +      - const: cal_rx_core0
-> +      - const: cal_rx_core1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  syscon-camerrx:
-> +    maxItems: 1
-> +    items:
-> +      - description:
-> +           phandle to the device control module and offset to the
-> +           control_camerarx_core register
-> +
-> +  clocks:
-> +    maxItems: 1
-> +    description: functional clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: fck
-> +
-> +  power-domains:
-> +    description:
-> +      List of phandle and PM domain specifier as documented in
-> +      Documentation/devicetree/bindings/power/power_domain.txt
-> +    maxItems: 1
-> +
-> +  # See ./video-interfaces.txt for details
-> +  ports:
-> +    maxItems: 1
-> +    type: object
-> +    additionalProperties: false
-> +
-> +    properties:
-> +      "#address-cells":
-> +        const: 1
-> +
-> +      "#size-cells":
-> +        const: 0
-> +
-> +    patternProperties:
-> +      '^port@[0-9a-fA-F]+$':
-> +        minItems: 1
-> +        maxItems: 2
+Vandana BN (2):
+  v4l2-core: fix touch support in v4l_g_fmt
+  vivid: Add touch support
 
-Obviously you need a port node to connect a sensor. But can the device do
-something useful without one? I guess it may be a matter of taste whether
-you require one.
-
-> +        type: object
-> +        additionalProperties: false
-> +
-> +        properties:
-> +          reg:
-> +            minItems: 1
-> +            items:
-> +              - description: The port id
-> +
-> +        patternProperties:
-> +          '^endpoint@[0-9a-fA-F]+$':
-> +            minItems: 1
-
-The graph bindings allows for no endpoints.
-
-> +            type: object
-> +            additionalProperties: false
-> +
-> +            properties:
-> +              clock-lanes:
-> +                maxItems: 1
-
-Does the device support lane reordering? If not, you could omit the
-clock-lanes property. It wasn't documented earlier either albeit the
-example had it for some reason.
-
-> +
-> +              data-lanes:
-> +                minItems: 1
-> +                maxItems: 4
-> +
-> +              remote-endpoint: true
-> +
-> +            required:
-> +              - remote-endpoint
-> +
-> +        required:
-> +          - reg
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reg-names
-> +  - interrupts
-> +  - syscon-camerrx
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +    cal: cal@4845b000 {
-> +        compatible = "ti,dra72-cal";
-> +        reg = <0x4845B000 0x400>,
-> +              <0x4845B800 0x40>,
-> +              <0x4845B900 0x40>;
-> +        reg-names = "cal_top",
-> +                    "cal_rx_core0",
-> +                    "cal_rx_core1";
-> +        interrupts = <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH>;
-> +        syscon-camerrx = <&scm_conf 0xE94>;
-> +
-> +        ports {
-> +              #address-cells = <1>;
-> +              #size-cells = <0>;
-> +
-> +              csi2_0: port@0 {
-> +                    reg = <0>;
-> +                    csi2_phy0: endpoint@0 {
-> +                           remote-endpoint = <&csi2_cam0>;
-> +                           clock-lanes = <0>;
-> +                           data-lanes = <1 2>;
-> +                    };
-> +              };
-> +        };
-> +    };
-> +
-> +    i2c5: i2c@4807c000 {
-> +        status = "okay";
-> +        clock-frequency = <400000>;
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        ov5640@3c {
-> +               compatible = "ovti,ov5640";
-> +               reg = <0x3c>;
-> +
-> +               clocks = <&clk_ov5640_fixed>;
-> +               clock-names = "xclk";
-> +
-> +               port {
-> +                    csi2_cam0: endpoint@0 {
-> +                            remote-endpoint = <&csi2_phy0>;
-> +                            clock-lanes = <0>;
-> +                            data-lanes = <1 2>;
-> +                    };
-> +               };
-> +        };
-> +    };
-> +
-> +...
-> diff --git a/Documentation/devicetree/bindings/media/ti-cal.txt b/Documentation/devicetree/bindings/media/ti-cal.txt
-> deleted file mode 100644
-> index b7bf8492dc2a..000000000000
-> --- a/Documentation/devicetree/bindings/media/ti-cal.txt
-> +++ /dev/null
-> @@ -1,82 +0,0 @@
-> -Texas Instruments DRA72x CAMERA ADAPTATION LAYER (CAL)
-> -------------------------------------------------------
-> -
-> -The Camera Adaptation Layer (CAL) is a key component for image capture
-> -applications. The capture module provides the system interface and the
-> -processing capability to connect CSI2 image-sensor modules to the
-> -DRA72x device.
-> -
-> -Required properties:
-> -- compatible:
-> - Should be "ti,dra72-cal", for DRA72 controllers
-> - Should be "ti,dra72-pre-es2-cal", for DRA72 controllers pre ES2.0
-> - Should be "ti,dra76-cal", for DRA76 controllers
-> - Should be "ti,am654-cal", for AM654 controllers
-> -- reg:	CAL Top level, Receiver Core #0, Receiver Core #1 and Camera RX
-> -	control address space
-> -- reg-names: cal_top, cal_rx_core0, cal_rx_core1 and camerrx_control
-> -	     registers
-> -- interrupts: should contain IRQ line for the CAL;
-> -- syscon-camerrx: phandle to the device control module and offset to the
-> -		  control_camerarx_core register
-> -		  This node is meant to replace the "camerrx_control" reg
-> -		  entry above but "camerrx_control" is still handled
-> -		  for backward compatibility.
-> -
-> -CAL supports 2 camera port nodes on MIPI bus. Each CSI2 camera port nodes
-> -should contain a 'port' child node with child 'endpoint' node. Please
-> -refer to the bindings defined in
-> -Documentation/devicetree/bindings/media/video-interfaces.txt.
-> -
-> -Example:
-> -	cal: cal@4845b000 {
-> -		compatible = "ti,dra72-cal";
-> -		reg = <0x4845B000 0x400>,
-> -		      <0x4845B800 0x40>,
-> -		      <0x4845B900 0x40>;
-> -		reg-names = "cal_top",
-> -			    "cal_rx_core0",
-> -			    "cal_rx_core1";
-> -		interrupts = <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH>;
-> -		syscon-camerrx = <&scm_conf 0xE94>;
-> -		#address-cells = <1>;
-> -		#size-cells = <0>;
-> -
-> -		ports {
-> -			#address-cells = <1>;
-> -			#size-cells = <0>;
-> -
-> -			csi2_0: port@0 {
-> -				reg = <0>;
-> -				csi2_phy0: endpoint@0 {
-> -					remote-endpoint = <&csi2_cam0>;
-> -					clock-lanes = <0>;
-> -					data-lanes = <1 2>;
-> -				};
-> -			};
-> -			csi2_1: port@1 {
-> -				reg = <1>;
-> -			};
-> -		};
-> -	};
-> -
-> -	i2c5: i2c@4807c000 {
-> -		status = "okay";
-> -		clock-frequency = <400000>;
-> -
-> -		ov5640@3c {
-> -			compatible = "ovti,ov5640";
-> -			reg = <0x3c>;
-> -
-> -			clocks = <&clk_ov5640_fixed>;
-> -			clock-names = "xclk";
-> -
-> -			port {
-> -				csi2_cam0: endpoint {
-> -					remote-endpoint = <&csi2_phy0>;
-> -					clock-lanes = <0>;
-> -					data-lanes = <1 2>;
-> -				};
-> -			};
-> -		};
-> -	};
+ drivers/media/platform/vivid/Makefile         |   3 +-
+ drivers/media/platform/vivid/vivid-core.c     | 134 ++++++++++-
+ drivers/media/platform/vivid/vivid-core.h     |  18 ++
+ drivers/media/platform/vivid/vivid-ctrls.c    |  11 +
+ .../media/platform/vivid/vivid-kthread-cap.c  |   1 -
+ .../platform/vivid/vivid-kthread-touch.c      | 211 ++++++++++++++++++
+ .../platform/vivid/vivid-kthread-touch.h      |  13 ++
+ .../media/platform/vivid/vivid-touch-cap.c    | 160 +++++++++++++
+ .../media/platform/vivid/vivid-touch-cap.h    |  18 ++
+ drivers/media/v4l2-core/v4l2-ioctl.c          |  33 +--
+ 10 files changed, 578 insertions(+), 24 deletions(-)
+ create mode 100644 drivers/media/platform/vivid/vivid-kthread-touch.c
+ create mode 100644 drivers/media/platform/vivid/vivid-kthread-touch.h
+ create mode 100644 drivers/media/platform/vivid/vivid-touch-cap.c
+ create mode 100644 drivers/media/platform/vivid/vivid-touch-cap.h
 
 -- 
-Kind regards,
+2.17.1
 
-Sakari Ailus
