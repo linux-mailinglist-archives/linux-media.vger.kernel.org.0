@@ -2,156 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F6C1DFC75
-	for <lists+linux-media@lfdr.de>; Tue, 22 Oct 2019 06:07:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 32C12DFE4C
+	for <lists+linux-media@lfdr.de>; Tue, 22 Oct 2019 09:30:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726024AbfJVEHe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Oct 2019 00:07:34 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:52537 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725730AbfJVEHe (ORCPT
+        id S2387740AbfJVH3a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Oct 2019 03:29:30 -0400
+Received: from mail-qt1-f177.google.com ([209.85.160.177]:42452 "EHLO
+        mail-qt1-f177.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387723AbfJVH3a (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Oct 2019 00:07:34 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:8525:579c:dfc:8f4a])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id MlSDiz3PTPduvMlSFiJ3zv; Tue, 22 Oct 2019 06:07:31 +0200
-Message-ID: <32e311de1f6828f5a4a112e583b2a55b@smtp-cloud8.xs4all.net>
-Date:   Tue, 22 Oct 2019 06:07:29 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfDa8NSLcE2t2hUrdDZniFkMk05+vlgbMJYckKsyhaSslayKEjCsFtYFHOawnzc0KXlc94hdrkKa88eyNiyYGyb7XaO2fPNwkz0gFCEcPROR+3hzoQHGr
- rx8L9uiDyjyFBZezK4tRuwcb2JkjjiSEdBt4uZ7fpNfjXCQYJJsraW4VDwnBCG4KRdVFBKpSIMBRR+NT0lYyCDtgjZs+OrrPmDWEX8On4qplv9SKKlE3IYPG
+        Tue, 22 Oct 2019 03:29:30 -0400
+Received: by mail-qt1-f177.google.com with SMTP id w14so25303156qto.9
+        for <linux-media@vger.kernel.org>; Tue, 22 Oct 2019 00:29:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=PTLxvi63CZDnAk81X8iobU3vOJsRSiwibKLMi068GiE=;
+        b=o5UnhWQcvf2zP/7Oti+G0XAqHAPogzvPf47O4QUrYGiAxclyHr6qcLTkAMARmj1SXz
+         1IS+wQI5TN05rGwvtSU5wwudw/wvpTADcVcm6zYwiO1x9+dcHykx+N+ANzgxNG8uCvdA
+         NK8G5wb1CQ7vBSjLjgE/CmvhbFMdbv83vKigeO7vUw0lYIapn74Ovd6bRyqB8lKiMeAQ
+         kGQwzH7YuhEtkde5fWJFkvZjG1NICLmW+6XoUQjpK+H2t++aXE7dJCFSO6DJEAaXZNsK
+         E+B1mZlQHTYxGFGuwhBB0/s2v4/LR+AGLCEZYwyX3TZcRKUE9T072UFPq7rynMtnPMUf
+         xRrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=PTLxvi63CZDnAk81X8iobU3vOJsRSiwibKLMi068GiE=;
+        b=X8RkHVXGup+A9JaNyS899it2TL5IgD2sLeCeAQONMYfu1UGtw/vfFLYuNzc2yRusO1
+         GiKue946rAzsLarTL0ZeTL2fHh5RPT2biAr7KB+dDzCjfSQXrb5yEB09NwyvQl6aKhAB
+         I4zbP1l9zKMCczUB/0HpD9hwXhtTmUiGSim/0S0/wKZ5F76WLwBb+x1eyLE6HNi4cnhZ
+         uXq7y+Dz/Cg4oJaKHPXpkzygGgZAgDO2F9VVHeCvNaq91LRVVwOS23OYVsTm5hfy+v5C
+         Axkf4euyscU0LjME9QAzQ3tgBI0LGK3M2KwvSUIf8upTLgHLNzG0SB4SSidAu9scTESR
+         bpxg==
+X-Gm-Message-State: APjAAAXNut6iUVpwbOk0nTwKuRNogmau8TBKeLrLRpuU2I6NRmKBr3Ej
+        fT+vD6gPoOo9m/cQiyuVL8SmvVgLE6bZ+VQpO1p89wYkDvw=
+X-Google-Smtp-Source: APXvYqztmY7U5AHMp+fhrMkHocEL3YplwUW2ZGId0SmBImY4kjAQDtYAbH53ZbD55HDvHbkQcnZ0GV4C/eJWD3Fylco=
+X-Received: by 2002:ac8:3408:: with SMTP id u8mr1913901qtb.380.1571729368060;
+ Tue, 22 Oct 2019 00:29:28 -0700 (PDT)
+MIME-Version: 1.0
+From:   Dmitry Vyukov <dvyukov@google.com>
+Date:   Tue, 22 Oct 2019 09:29:16 +0200
+Message-ID: <CACT4Y+ZMxcvnZnDa=uYyaLQaW5r22vBpXkDuMU=CM2BVzjF_Tg@mail.gmail.com>
+Subject: adv748x: missing parens
+To:     kieran.bingham@ideasonboard.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi Kieran,
 
-Results of the daily build of media_tree:
+Building kernel with clang gives me:
 
-date:			Tue Oct 22 05:00:10 CEST 2019
-media-tree git hash:	6ce1d376d33eb775331b36a38afa28f9f08945e3
-media_build git hash:	afb27b4820fd670aed06d56c6a1dde56318453f1
-v4l-utils git hash:	18e694fbbb4022839b4cc74fbb2616eea3ab4988
-edid-decode git hash:	dc8afbf7e3001587e27695288ff8c259249256b1
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1-rc1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		(null): (null):0 (null)() warn: /home/hans/share/smatch/smatch_data/ is not accessible.
-(null): (null):0 (null)() warn: Use --no-data or --data to suppress this message.
-0.5.1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: fb74d4453fd4f857830399be9778a571221bee04
-host hardware:		x86_64
-host os:		5.2.0-3-amd64
+drivers/media/i2c/adv748x/adv748x-afe.c:452:12: warning: operator '?:'
+has lower precedence than '|'; '|' will be evaluated first
+[-Wbitwise-conditional-parentheses]
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4-rc1-i686: OK
-linux-5.4-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS: Final Summary: 2327, Succeeded: 2326, Failed: 1, Warnings: 0
-sparse: OK
+ret = sdp_clrset(state, ADV748X_SDP_FRP, ADV748X_SDP_FRP_MASK, enable
+? ctrl->val - 1 : 0);
+#define sdp_clrset(s, r, m, v) sdp_write(s, r, (sdp_read(s, r) & ~m) | v)
 
-Detailed results are available here:
+This is on linux-next commit a722f75b2923b4fd44c17e7255e822ac48fe85f0
+Date:   Tue Oct 22 16:17:17 2019 +1100
+    Add linux-next specific files for 20191022
 
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+It seems sdp_clrset needs some more parens.
