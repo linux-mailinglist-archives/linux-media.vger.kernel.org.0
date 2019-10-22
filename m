@@ -2,108 +2,198 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9188DE0611
-	for <lists+linux-media@lfdr.de>; Tue, 22 Oct 2019 16:11:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2ED53E0624
+	for <lists+linux-media@lfdr.de>; Tue, 22 Oct 2019 16:14:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730076AbfJVOLZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Oct 2019 10:11:25 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:51038 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727582AbfJVOLZ (ORCPT
+        id S2388374AbfJVOOs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Oct 2019 10:14:48 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:34337 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727831AbfJVOOr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Oct 2019 10:11:25 -0400
-Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 28709595;
-        Tue, 22 Oct 2019 16:11:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1571753483;
-        bh=PmquBevF/cwoHPStIqfgBKlA7tjw1tV0YyybpCNwuqI=;
-        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=bz49JhuLPABaTgAiE4bQhZ0qKHS2/p/HXoqfRkIe7o0jHSSEH9llSp9gmo8WDhr1G
-         KXhhUSN8mHVXYMbsATeAeTZ6NWFDpiUncX73auUfYUyv3b+SD36NmBAeF6j+op90U+
-         mG8HSwWfeuGG1Vb/gLKN5hqhwXsR9WgtFG9MxCk0=
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH] media: i2c: adv748x: Fix unsafe macros
-To:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        Tue, 22 Oct 2019 10:14:47 -0400
+Received: from [IPv6:2001:420:44c1:2577:31:9f59:b53f:5d72]
+ ([IPv6:2001:420:44c1:2577:31:9f59:b53f:5d72])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id Muvpi3OTnPduvMuvsiMpfc; Tue, 22 Oct 2019 16:14:45 +0200
+Subject: Re: [PATCH v4 04/11] media: v4l2-ctrl: Document
+ V4L2_CID_CAMERA_SENSOR_ROTATION
+To:     Jacopo Mondi <jacopo@jmondi.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Dmitry Vyukov <dvyukov@google.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20191022132522.GA12072@embeddedor>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <22780ef3-514e-d013-1da8-9576780fde1c@ideasonboard.com>
-Date:   Tue, 22 Oct 2019 15:11:20 +0100
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        tfiga@google.com, pavel@ucw.cz
+Cc:     "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
+        <linux-media@vger.kernel.org>
+References: <20191007162913.250743-1-jacopo@jmondi.org>
+ <20191007162913.250743-5-jacopo@jmondi.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <04decceb-688c-0db1-fd72-b44cd663f819@xs4all.nl>
+Date:   Tue, 22 Oct 2019 16:14:41 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20191022132522.GA12072@embeddedor>
+In-Reply-To: <20191007162913.250743-5-jacopo@jmondi.org>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfJsyULJ9FoPK8TwEM3z0I1YKRpmPBXUaJf9POCfQ3BY6F+2/uPAa/bioFRaUFQa8DTJUWD1SafCVx+iL7wM5qYKrtghXIvAVC8Ix7fiMEFhFFZLqqxHQ
+ 9N2j3b/NX94l5SBl9WngGFnqPy8RtGSoYklQl/2xUQe85YZAEovZSV/MnKakmCq2jB9rUpZUcNTfM5H3udC36nWsxM2ttkehlsY9wRpTEt6dqutcyUkQPTXs
+ 7VVN8Mrtm0fX6eLU3SSllFxxklAmcQkAf6l9Eu88f5lIZ5qyOP2nsxtJa4LSqHJ8Gc3fRdnJMiHz+yDaF2Lh2gUvLfAy9K5OXQQwvO2zZw8A90KZzfMoxi28
+ IFNCelBXCxBnaHD0f22R4vq6eyvoqpNVEWyVm+LbyiH96lm+llEkUcBaUgmao3jmWq9EnFC/Zbs5kt0KBoOIHRUM2xyw8TvxZZszGPyLdkJXR2ZcGnVEDlWA
+ FClIUIw5NKVNR9k4
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Gustavo,
-
-On 22/10/2019 14:25, Gustavo A. R. Silva wrote:
-> Enclose multiple macro parameters in parentheses in order to
-> make such macros safer and fix the Clang warning below:
+On 10/7/19 6:29 PM, Jacopo Mondi wrote:
+> Add documentation for the V4L2_CID_CAMERA_SENSOR_ROTATION camera
+> control. The newly added read-only control reports the camera device
+> mounting rotation.
 > 
-> drivers/media/i2c/adv748x/adv748x-afe.c:452:12: warning: operator '?:'
-> has lower precedence than '|'; '|' will be evaluated first
-> [-Wbitwise-conditional-parentheses]
-> 
-> ret = sdp_clrset(state, ADV748X_SDP_FRP, ADV748X_SDP_FRP_MASK, enable
-> ? ctrl->val - 1 : 0);
-> 
-> Fixes: 3e89586a64df ("media: i2c: adv748x: add adv748x driver")
-> Reported-by: Dmitry Vyukov <dvyukov@google.com>
-> Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
-
-Thanks,
-
-You beat me to posting - but that looks incredibly close (identical I
-think) to the one I had prepared.
-
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
+> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 > ---
->  drivers/media/i2c/adv748x/adv748x.h | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+>  .../media/uapi/v4l/ext-ctrls-camera.rst       | 116 ++++++++++++++++++
+>  1 file changed, 116 insertions(+)
 > 
-> diff --git a/drivers/media/i2c/adv748x/adv748x.h b/drivers/media/i2c/adv748x/adv748x.h
-> index 5042f9e94aee..fccb388ce179 100644
-> --- a/drivers/media/i2c/adv748x/adv748x.h
-> +++ b/drivers/media/i2c/adv748x/adv748x.h
-> @@ -394,10 +394,10 @@ int adv748x_write_block(struct adv748x_state *state, int client_page,
+> diff --git a/Documentation/media/uapi/v4l/ext-ctrls-camera.rst b/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
+> index b151c016256c..e1fee4814e5b 100644
+> --- a/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
+> +++ b/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
+> @@ -542,6 +542,122 @@ enum v4l2_scene_mode -
 >  
->  #define io_read(s, r) adv748x_read(s, ADV748X_PAGE_IO, r)
->  #define io_write(s, r, v) adv748x_write(s, ADV748X_PAGE_IO, r, v)
-> -#define io_clrset(s, r, m, v) io_write(s, r, (io_read(s, r) & ~m) | v)
-> +#define io_clrset(s, r, m, v) io_write(s, r, (io_read(s, r) & ~(m)) | (v))
 >  
->  #define hdmi_read(s, r) adv748x_read(s, ADV748X_PAGE_HDMI, r)
-> -#define hdmi_read16(s, r, m) (((hdmi_read(s, r) << 8) | hdmi_read(s, r+1)) & m)
-> +#define hdmi_read16(s, r, m) (((hdmi_read(s, r) << 8) | hdmi_read(s, (r)+1)) & (m))
->  #define hdmi_write(s, r, v) adv748x_write(s, ADV748X_PAGE_HDMI, r, v)
 >  
->  #define repeater_read(s, r) adv748x_read(s, ADV748X_PAGE_REPEATER, r)
-> @@ -405,11 +405,11 @@ int adv748x_write_block(struct adv748x_state *state, int client_page,
->  
->  #define sdp_read(s, r) adv748x_read(s, ADV748X_PAGE_SDP, r)
->  #define sdp_write(s, r, v) adv748x_write(s, ADV748X_PAGE_SDP, r, v)
-> -#define sdp_clrset(s, r, m, v) sdp_write(s, r, (sdp_read(s, r) & ~m) | v)
-> +#define sdp_clrset(s, r, m, v) sdp_write(s, r, (sdp_read(s, r) & ~(m)) | (v))
->  
->  #define cp_read(s, r) adv748x_read(s, ADV748X_PAGE_CP, r)
->  #define cp_write(s, r, v) adv748x_write(s, ADV748X_PAGE_CP, r, v)
-> -#define cp_clrset(s, r, m, v) cp_write(s, r, (cp_read(s, r) & ~m) | v)
-> +#define cp_clrset(s, r, m, v) cp_write(s, r, (cp_read(s, r) & ~(m)) | (v))
->  
->  #define tx_read(t, r) adv748x_read(t->state, t->page, r)
->  #define tx_write(t, r, v) adv748x_write(t->state, t->page, r, v)
+> +``V4L2_CID_CAMERA_SENSOR_ROTATION (integer)``
+> +    This read-only control describes the sensor orientation expressed as
+> +    rotation in counterclockwise degrees along the axis perpendicular to the
+> +    device mounting plane, and directed away from the sensor lens. Possible
+> +    values for the control are 90, 180 and 270 degrees. To compensate for the
+> +    device mounting rotation on the captured images, a rotation of the same
+> +    amount of degrees, in the same counterclockwise rotation direction should be
+> +    applied along the axis directed from the observer to the captured image when
+> +    displayed on a screen.
+> +
+> +    To better understand the effect of the sensor rotation on the acquired
+> +    images when displayed on a screen, it is helpful to consider a fictional
+> +    scan-out sequence of the sensor's pixels, assuming the pixel array having
+> +    its top-left pixel at position (0, 0) with values on the 'x' axis increasing
+> +    towards the right direction, and values on the 'y' axis increasing towards
+> +    the bottom. The effect of sensor rotation could be easily visualized
+> +    considering the sequence of captured pixels.
+> +
+> +    Assuming the following scene has to be captured::
+> +
+> +                o
+> +               -|-
+> +               / \
+> +
+> +    An upright mounted sensor has its pixel array displaced as follow::
+> +
+> +                                   x
+> +            (0,0)------------------->
+> +              ! 0,0 0,1 0,2 ... (0,num-col)
+> +              ! 1,0 1,1 1,2 ...
+> +              ! ...
+> +              ! ...
+> +              ! (num-lines,0)...(num-col,num-lines)
+
+Hmm, how about 'max-col' and 'max-row'?
+
+num-col is wrong anyway since it would have to be num-cols - 1 because you
+start at 0. It's easier to go with max-col/row.
+
+> +            y V
+> +
+> +
+> +    Assuming pixels are scanned out from (0,0) to (num-lines,num-col)
+> +    progressively::
+> +
+> +             (0,0) ---->------------->   (0,num-col)
+> +             (1,0) ---->------------->   (1,num-col)
+> +             ( .... )-->------------->   (   ....   )
+> +             (num-lines,0)----------->(num-lines,num-col)
+> +
+> +
+> +    If a rotation of 90 degrees counterclockwise along the axis perpendicular to
+> +    the sensor's lens and directed towards the scene to be captured is applied
+> +    to the sensor, the pixel array would then be rotated as follows::
+> +
+> +            x ^ (0,num-col) ...   ...   (num-lines,num-col)
+> +              !  ....
+> +              !  0,2        1,2   ...          ...
+> +              !  0,1        1,1   ...          ...
+> +              !  0,0        1,0   ...      (num-lines,0)
+> +             (0,0)------------------------------------>
+> +                                                    y
+> +
+> +    And the pixel scan-out sequence would then proceed as follows starting
+> +    from pixel (0,0)::
+> +
+> +           (0,num-col)         (num-lines,num-col)
+> +                ^    ^   ^   ^     ^
+> +                !    !   !   !     !
+> +                !    !   !   !     !
+> +                !    !   !   !     !
+> +                !    !   !   !     !
+> +              (0,0) (1,0)....  (num-lines,0)
+> +
+> +    Which when applied to the capture scene gives::
+> +
+> +           (0,num-col)         (num-lines,num-col)
+> +                ^    ^   ^   ^     ^
+> +                !    !   0   !     !
+> +                !    !  -|- !     !
+> +                !    !  /!\  !     !
+> +                !    !   !   !     !
+> +              (0,0) (1,0)....  (num-lines,0)
+> +
+> +    Producing the following image once captured to memory and
+> +    displayed to the user::
+> +
+> +             \ !
+> +               --0
+> +             / !
+> +
+> +    Which has a rotation of the same amount of degrees applied on the opposite
+> +    rotation direction along the axis that goes from the observer to the
+> +    image when displayed on the screen.
+> +
+> +    In order to compensate the sensor mounting rotation, when expressed
+> +    as counterclockwise rotation along the axis directed from the sensor to
+> +    the captured scene, a rotation of the same amount of degrees in the
+> +    same counterclockwise rotation direction but applied along the axis
+> +    directed from the observer to the captured image, has to be applied::
+> +
+> +                +------+  90 degree counterclockwise
+> +                |   o  |  mounting rotation applied
+> +                |  -|- |  along the axis directed
+> +                |  / \ |  away from the sensor lens
+> +                +------+
+> +                    |
+> +                    V
+> +                +------+
+> +                | \ !  |  Resulting captured
+> +                |  --0 |  image when displayed
+> +                | / !  |  on screen
+> +                +------+
+> +                    |
+> +                    V
+> +                +------+
+> +                |   o  |  Rotation compensation
+> +                |  -|- |  is 90 degrees counterclockwise
+> +                |  / \ |  along the axis directed to the
+> +                +------+  displayed image
+> +
+> +
+>  .. [#f1]
+>     This control may be changed to a menu control in the future, if more
+>     options are required.
 > 
 
+This gave me a headache, but you are correct w.r.t. image and mounting rotation.
+
+Regards,
+
+	Hans
