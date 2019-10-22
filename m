@@ -2,174 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 55F37E05C7
-	for <lists+linux-media@lfdr.de>; Tue, 22 Oct 2019 16:03:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9188DE0611
+	for <lists+linux-media@lfdr.de>; Tue, 22 Oct 2019 16:11:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388877AbfJVODD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Oct 2019 10:03:03 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:54489 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2387965AbfJVODD (ORCPT
+        id S1730076AbfJVOLZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Oct 2019 10:11:25 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:51038 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727582AbfJVOLZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Oct 2019 10:03:03 -0400
-Received: from [IPv6:2001:420:44c1:2577:31:9f59:b53f:5d72]
- ([IPv6:2001:420:44c1:2577:31:9f59:b53f:5d72])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id MukTi3IXtPduvMukWiMkLM; Tue, 22 Oct 2019 16:03:01 +0200
-Subject: Re: [PATCH v8 3/3] media: cedrus: Add HEVC/H.265 decoding support
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-sunxi@googlegroups.com,
-        Chen-Yu Tsai <wens@csie.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-References: <20190927143411.141526-1-paul.kocialkowski@bootlin.com>
- <20190927143411.141526-4-paul.kocialkowski@bootlin.com>
- <20191017095751.5a229051@coco.lan> <20191022124012.GD2651@aptenodytes>
- <20191022131751.GE2651@aptenodytes>
- <62ddccd3-38c0-89c5-7f0c-35f24494c3f9@xs4all.nl>
- <20191022140129.GA1926725@aptenodytes>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <345a6781-a5b3-1408-40ec-580873720c4a@xs4all.nl>
-Date:   Tue, 22 Oct 2019 16:02:57 +0200
+        Tue, 22 Oct 2019 10:11:25 -0400
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 28709595;
+        Tue, 22 Oct 2019 16:11:23 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1571753483;
+        bh=PmquBevF/cwoHPStIqfgBKlA7tjw1tV0YyybpCNwuqI=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=bz49JhuLPABaTgAiE4bQhZ0qKHS2/p/HXoqfRkIe7o0jHSSEH9llSp9gmo8WDhr1G
+         KXhhUSN8mHVXYMbsATeAeTZ6NWFDpiUncX73auUfYUyv3b+SD36NmBAeF6j+op90U+
+         mG8HSwWfeuGG1Vb/gLKN5hqhwXsR9WgtFG9MxCk0=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [PATCH] media: i2c: adv748x: Fix unsafe macros
+To:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Dmitry Vyukov <dvyukov@google.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20191022132522.GA12072@embeddedor>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <22780ef3-514e-d013-1da8-9576780fde1c@ideasonboard.com>
+Date:   Tue, 22 Oct 2019 15:11:20 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <20191022140129.GA1926725@aptenodytes>
+In-Reply-To: <20191022132522.GA12072@embeddedor>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfLyToBbJkvoNRLhYqBvZHVXfIm7iukgHkajVmC/txXYqaReY4el4wR3BxG5BTgxtiScGgBnV0kxhH6kDr/OEW3KJ+v+YsODAMwe5yEeEtS+FgbsHq7dV
- fdMG0VGNqYIhwjH7J7Sb+mXFSLzj4uPkGVG4X/JcZOw+OeFPvLRkzs5wJxPWAuzxPlOqry9K8/FLndsCmhzA0hYSRp/x7bP7eGayeRjAN7wu9urRBuySNMAT
- rpTuaQggdjanULe0u/fQM+fW9lb7FPpkjNuLW20PZ3ZCjRDSOdPEvMnmFWbsH3oGnI/KfL45Gi99Jdvvsn5LhBuiCxtz2/uiLE8ZTTuEPMdOPI8NWS14W+Sd
- OfoivH1DiUS0VaLSAsSbfZ0iM/q/LUE9JuCwlCWLZcVmEXv0hZ+IJzmMUiTIP0GPdwEYU3JXPstdFkz1oXZmizJhk7BzABSrYr3PM8q2I08RmiB6zgRdovHk
- lS27pzKhvOA4nbPJQDskKROYHec/bUkcDAs4xo0spMXqB70ExtmEnQpUq7oCQXCbsmvvv5SaYgnnOePA0YI3ngH2mlRuJrebfwZrJ8vPF4UHPtQT+dEGSpWw
- HpuMzANUMUE0Puthk1YVByV9ER72/ENKKACHrdmCiU89opg6jSk+365tsEvgse/moOebrKO/EyhqyTOUn5T3cTSXo6dTLb8ZCko9xT4WTOhx5obzgZcMpUzy
- SOq+0knuWhd4idM5xZhC/M2gEmyV+tPY
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/22/19 4:01 PM, Paul Kocialkowski wrote:
-> Hi,
-> 
-> On Tue 22 Oct 19, 15:37, Hans Verkuil wrote:
->> On 10/22/19 3:17 PM, Paul Kocialkowski wrote:
->>> Hi again,
->>>
->>> On Tue 22 Oct 19, 14:40, Paul Kocialkowski wrote:
->>>> Hi Mauro and thanks for the review,
->>>>
->>>> On Thu 17 Oct 19, 09:57, Mauro Carvalho Chehab wrote:
->>>>> Em Fri, 27 Sep 2019 16:34:11 +0200
->>>>> Paul Kocialkowski <paul.kocialkowski@bootlin.com> escreveu:
->>>>>
->>>>>> This introduces support for HEVC/H.265 to the Cedrus VPU driver, with
->>>>>> both uni-directional and bi-directional prediction modes supported.
->>>>>>
->>>>>> Field-coded (interlaced) pictures, custom quantization matrices and
->>>>>> 10-bit output are not supported at this point.
->>>>>>
->>>>>> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
->>>>>> ---
->>>>>
->>>>> ...
->>>>>
->>>>>> +		unsigned int ctb_size_luma =
->>>>>> +			1 << log2_max_luma_coding_block_size;
->>>>>
->>>>> Shifts like this is a little scary. "1" constant is signed. So, if
->>>>> log2_max_luma_coding_block_size is 31, the above logic has undefined
->>>>> behavior. Different archs and C compilers may handle it on different
->>>>> ways.
->>>>
->>>> I wasn't aware that it was the case, thanks for bringing this to light!
->>>> I'll make it 1UL then.
->>>>
->>>>>> +#define VE_DEC_H265_LOW_ADDR_PRIMARY_CHROMA(a) \
->>>>>> +	(((a) << 24) & GENMASK(31, 24))
->>>>>
->>>>> Same applies here and on other similar macros. You need to enforce
->>>>> (a) to be unsigned, as otherwise the behavior is undefined.
->>>>>
->>>>> Btw, this is a recurrent pattern on this file. I would define a
->>>>> macro, e. g. something like:
->>>>>
->>>>> 	#define MASK_BITS_AND_SHIFT(v, high, low) \
->>>>> 		((UL(v) << low) & GENMASK(high, low))
->>>>>
->>>>> And use it for all similar patterns here.
->>>>
->>>> Sounds good! I find that the reverse wording (SHIFT_AND_MASK_BITS) would be
->>>> a bit more explicit since the shift happens prior to the mask.
->>>
->>> Apparently the UL(v) macro just appends UL to v in preprocessor, so it won't
->>> work with anything else than direct integers.
->>>
->>> I'll replace it with a (unsigned long) cast, that seems to do the job.
->>
->> Shouldn't that be a (u32) cast? Since this is used with 32 bit registers?
-> 
-> This would work for cedrus, but I think that what Mauro had in mind was to
-> migrate this macro to linux/bits.h, where everthing else (including GENMASK)
-> is apparently defined in terms of unsigned long and not types with explicit
-> numbers of bits. So I find it more consistent to go with unsigned long.
-> 
-> In our case, 64-bit platforms that use cedrus would calculate the macro on
-> 64 bits and use it in 32-bit variables. Since we're never masking beyond the
-> lower 32 bits, I don't see how things could go wrong and the situation looks
-> fairly similar to the use of GENMASK in similar conditions.
-> 
-> Does that sound right to you or am I missing something here?
+Hi Gustavo,
 
-Ah, OK. Fair enough.
-
-Regards,
-
-	Hans
-
+On 22/10/2019 14:25, Gustavo A. R. Silva wrote:
+> Enclose multiple macro parameters in parentheses in order to
+> make such macros safer and fix the Clang warning below:
 > 
-> Cheers,
+> drivers/media/i2c/adv748x/adv748x-afe.c:452:12: warning: operator '?:'
+> has lower precedence than '|'; '|' will be evaluated first
+> [-Wbitwise-conditional-parentheses]
 > 
-> Paul
+> ret = sdp_clrset(state, ADV748X_SDP_FRP, ADV748X_SDP_FRP_MASK, enable
+> ? ctrl->val - 1 : 0);
 > 
->> Regards,
->>
->> 	Hans
->>
->>>
->>> Cheers,
->>>
->>> Paul
->>>
->>>> Also we probably need to have parenthesis around "low", right?
->>>>
->>>>> The best would be to include such macro at linux/bits.h, although some
->>>>> upstream discussion is required.
->>>>>
->>>>> So, for now, let's add it at this header file, but work upstream
->>>>> to have it merged there.
->>>>
->>>> Understood, I'll include it in that header for now and send a separate patch
->>>> for inclusion in linux/bits.h (apparently the preprocessor doesn't care about
->>>> redefinitions so we can just remove the cedrus fashion once the common one is
->>>> in).
->>>>
->>>> What do you think?
->>>>
->>>> Cheers,
->>>>
->>>> Paul
->>>
->>>
->>>
->>
+> Fixes: 3e89586a64df ("media: i2c: adv748x: add adv748x driver")
+> Reported-by: Dmitry Vyukov <dvyukov@google.com>
+> Signed-off-by: Gustavo A. R. Silva <gustavo@embeddedor.com>
+
+Thanks,
+
+You beat me to posting - but that looks incredibly close (identical I
+think) to the one I had prepared.
+
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+> ---
+>  drivers/media/i2c/adv748x/adv748x.h | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/adv748x/adv748x.h b/drivers/media/i2c/adv748x/adv748x.h
+> index 5042f9e94aee..fccb388ce179 100644
+> --- a/drivers/media/i2c/adv748x/adv748x.h
+> +++ b/drivers/media/i2c/adv748x/adv748x.h
+> @@ -394,10 +394,10 @@ int adv748x_write_block(struct adv748x_state *state, int client_page,
+>  
+>  #define io_read(s, r) adv748x_read(s, ADV748X_PAGE_IO, r)
+>  #define io_write(s, r, v) adv748x_write(s, ADV748X_PAGE_IO, r, v)
+> -#define io_clrset(s, r, m, v) io_write(s, r, (io_read(s, r) & ~m) | v)
+> +#define io_clrset(s, r, m, v) io_write(s, r, (io_read(s, r) & ~(m)) | (v))
+>  
+>  #define hdmi_read(s, r) adv748x_read(s, ADV748X_PAGE_HDMI, r)
+> -#define hdmi_read16(s, r, m) (((hdmi_read(s, r) << 8) | hdmi_read(s, r+1)) & m)
+> +#define hdmi_read16(s, r, m) (((hdmi_read(s, r) << 8) | hdmi_read(s, (r)+1)) & (m))
+>  #define hdmi_write(s, r, v) adv748x_write(s, ADV748X_PAGE_HDMI, r, v)
+>  
+>  #define repeater_read(s, r) adv748x_read(s, ADV748X_PAGE_REPEATER, r)
+> @@ -405,11 +405,11 @@ int adv748x_write_block(struct adv748x_state *state, int client_page,
+>  
+>  #define sdp_read(s, r) adv748x_read(s, ADV748X_PAGE_SDP, r)
+>  #define sdp_write(s, r, v) adv748x_write(s, ADV748X_PAGE_SDP, r, v)
+> -#define sdp_clrset(s, r, m, v) sdp_write(s, r, (sdp_read(s, r) & ~m) | v)
+> +#define sdp_clrset(s, r, m, v) sdp_write(s, r, (sdp_read(s, r) & ~(m)) | (v))
+>  
+>  #define cp_read(s, r) adv748x_read(s, ADV748X_PAGE_CP, r)
+>  #define cp_write(s, r, v) adv748x_write(s, ADV748X_PAGE_CP, r, v)
+> -#define cp_clrset(s, r, m, v) cp_write(s, r, (cp_read(s, r) & ~m) | v)
+> +#define cp_clrset(s, r, m, v) cp_write(s, r, (cp_read(s, r) & ~(m)) | (v))
+>  
+>  #define tx_read(t, r) adv748x_read(t->state, t->page, r)
+>  #define tx_write(t, r, v) adv748x_write(t->state, t->page, r, v)
 > 
 
