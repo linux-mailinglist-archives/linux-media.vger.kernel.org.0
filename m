@@ -2,172 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B945E17BD
-	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2019 12:22:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1770BE17C3
+	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2019 12:23:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404189AbfJWKWS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Oct 2019 06:22:18 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:36866 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2403810AbfJWKWR (ORCPT
+        id S2404357AbfJWKXC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Oct 2019 06:23:02 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:46911 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404312AbfJWKXB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Oct 2019 06:22:17 -0400
-Received: from pendragon.ideasonboard.com (143.121.2.93.rev.sfr.net [93.2.121.143])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 613D5814;
-        Wed, 23 Oct 2019 12:22:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1571826133;
-        bh=eGJOH1VGLoVHmq/1QUJrrmrQnHMBekaXv4x5beDzUns=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hNt1lFgV/RYMyeFBPXTgQiKb3GwPw/Wa344JMMSZWnwFmLvL/ZwSc8yFopTSs7O3V
-         3BEcvANOutiE3Uqo9EUjLPvIH0XYH9JeysLU4k3odp1PfhlVV0P9EFVjba6AUVEZTx
-         Bg5kiEXBNGIQl2WjyNDPL8rSeOPgyZ4CMk60KXUs=
-Date:   Wed, 23 Oct 2019 13:22:07 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Mark Salyzyn <salyzyn@android.com>
-Cc:     linux-kernel@vger.kernel.org, kernel-team@android.com,
-        "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Harry Wentland <harry.wentland@amd.com>,
-        Leo Li <sunpeng.li@amd.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        "David (ChunMing) Zhou" <David1.Zhou@amd.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        VMware Graphics <linux-graphics-maintainer@vmware.com>,
-        Thomas Hellstrom <thellstrom@vmware.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Trond Myklebust <trond.myklebust@hammerspace.com>,
-        Anna Schumaker <anna.schumaker@netapp.com>,
-        Alexander Aring <alex.aring@gmail.com>,
-        Jukka Rissanen <jukka.rissanen@linux.intel.com>,
-        Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
-        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Matthew Garrett <matthewgarrett@google.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        hersen wu <hersenxs.wu@amd.com>, Roman Li <Roman.Li@amd.com>,
-        Maxim Martynov <maxim@arista.com>,
-        David Ahern <dsahern@gmail.com>,
-        Francesco Ruggeri <fruggeri@arista.com>,
-        Linus =?utf-8?Q?L=C3=BCssing?= <linus.luessing@c0d3.blue>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Feng Tang <feng.tang@intel.com>,
-        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Rafael Aquini <aquini@redhat.com>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-efi@vger.kernel.org,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linux-nfs@vger.kernel.org,
-        linux-bluetooth@vger.kernel.org, linux-wpan@vger.kernel.org
-Subject: Re: [PATCH] Cleanup: replace prefered with preferred
-Message-ID: <20191023102207.GB4763@pendragon.ideasonboard.com>
-References: <20191022214208.211448-1-salyzyn@android.com>
+        Wed, 23 Oct 2019 06:23:01 -0400
+Received: by mail-lf1-f67.google.com with SMTP id t8so15582897lfc.13
+        for <linux-media@vger.kernel.org>; Wed, 23 Oct 2019 03:23:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=WpD/YljpWmTam/2MTLvoaB931r9WFg9CiXxmASdc5DQ=;
+        b=0vRbcyzUcOCGbTVvML4MSC3Ts5iUbc3+j/FQITHv1Ye8911AXQM8XilLsHmNodzadm
+         7a11Ayb96dxIES3+1zxa+xIeUygjy9vEi6I/bpuh9DyoMSfH2GpFjhZYmolPe9QJoN0m
+         gPSnkUX7npq6JyWYROx0xxiWLzRnn+eVIZKni0yEJGyzbHOrtnaoIBV0giQklGc8pbMp
+         2orFeo+JH33DveAW2XGX+au1LUn/IZyeecQ0+X67o53c4kHkDVzQwH22H4e06b8LCjlU
+         Qs4x82Arco69N32FDVXWG5zkMIo3TslQTDkl0ZB5q8tGMXe7bkFzLUlWvjsTrut/tahq
+         8a7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=WpD/YljpWmTam/2MTLvoaB931r9WFg9CiXxmASdc5DQ=;
+        b=pEdmut0BlzjrgUJkEmu8quNEm63fIRy8vw4Djh70fhZ3INzK9+slwUKC+TKnXkSLr6
+         VsZL+1YndjpW20N4PNyUivFt7kHbgb7iF/AzztCDcdXCyPphMmq5UEIryZrzpG611ASE
+         GFCQWf4+GhY5Mf/QT3AnffxR2wYa+AayGH+4JVBi57iTRNtITbQQvpFKXlXV1CmVXb7j
+         pGraHpRUKMezP+qdOOJhT2izpAGEE5zDjVqtu89aewu8ijQsX/KKGzREpXp+PDHPzRfS
+         YpQReKVIWeCCUfBBZNs8oB094hMHBH3BXFVb6AuZaSJX+3oh0dn36hUzRNTuxT0UO5XV
+         0sNg==
+X-Gm-Message-State: APjAAAXpxI08YTdxUyaH0xeuJsmHPnd1tJS403YO+0XRmQJwBx/qvY5e
+        EVRfFufpzMGnn+ag0BM97K0sIhuJYkk=
+X-Google-Smtp-Source: APXvYqwZFPy0+NNPOzFyjnXW2jeDBUWHAnyj6Au3tOYtm2bBHXB4e2ImIX0A7x5tUddTnvYwdpFmUw==
+X-Received: by 2002:a19:c354:: with SMTP id t81mr14165915lff.179.1571826179957;
+        Wed, 23 Oct 2019 03:22:59 -0700 (PDT)
+Received: from localhost (h-93-159.A463.priv.bahnhof.se. [46.59.93.159])
+        by smtp.gmail.com with ESMTPSA id z24sm6887256lfj.40.2019.10.23.03.22.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Oct 2019 03:22:59 -0700 (PDT)
+Date:   Wed, 23 Oct 2019 12:22:58 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Helen Koike <helen.koike@collabora.com>,
+        linux-media@vger.kernel.org, libcamera-devel@lists.libcamera.org
+Subject: Re: [PATCH 0/3] vimc: Allow multiple capture devices to use the same
+ sensor
+Message-ID: <20191023102258.GE5283@bigcity.dyn.berto.se>
+References: <20190518010744.15195-1-niklas.soderlund+renesas@ragnatech.se>
+ <991b7e6e-9420-ef3b-5271-fb272b97ff29@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20191022214208.211448-1-salyzyn@android.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <991b7e6e-9420-ef3b-5271-fb272b97ff29@xs4all.nl>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mark,
+Hi Hans,
 
-Thank you for the patch.
-
-On Tue, Oct 22, 2019 at 02:41:45PM -0700, Mark Salyzyn wrote:
-> Replace all occurrences of prefered with preferred to make future
-> checkpatch.pl's happy.  A few places the incorrect spelling is
-> matched with the correct spelling to preserve existing user space API.
+On 2019-10-23 09:01:40 +0200, Hans Verkuil wrote:
+> Hi Niklas,
 > 
-> Signed-off-by: Mark Salyzyn <salyzyn@android.com>
-> ---
->  Documentation/networking/ip-sysctl.txt        |   2 +-
->  .../firmware/efi/libstub/efi-stub-helper.c    |   2 +-
->  .../gpu/drm/amd/display/dc/inc/compressor.h   |   4 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_kms.c           |   2 +-
->  drivers/gpu/drm/vmwgfx/vmwgfx_kms.h           |   2 +-
->  drivers/media/usb/uvc/uvc_video.c             |   6 +-
->  fs/nfs/nfs4xdr.c                              |   2 +-
->  include/linux/ipv6.h                          |   2 +-
->  include/net/addrconf.h                        |   4 +-
->  include/net/if_inet6.h                        |   2 +-
->  include/net/ndisc.h                           |   8 +-
->  include/uapi/linux/if_addr.h                  |   5 +-
->  include/uapi/linux/ipv6.h                     |   4 +-
->  include/uapi/linux/sysctl.h                   |   4 +-
->  include/uapi/linux/usb/video.h                |   5 +-
->  kernel/sysctl_binary.c                        |   3 +-
->  net/6lowpan/ndisc.c                           |   4 +-
->  net/ipv4/devinet.c                            |  20 ++--
->  net/ipv6/addrconf.c                           | 113 ++++++++++--------
->  19 files changed, 112 insertions(+), 82 deletions(-)
+> For one reason or another this series was never reviewed/picked up and
+> it now no longer applies.
+> 
+> Combined with the big switch to a monolithic driver I am sure that this
+> series needs to be redone. So I am marking it as "Changes Requested" and
+> it is up to you to decide whether to rebase/rework this series.
 
-[snip]
+I talked to Helen about this series and she thought it could be a nice 
+candidate for a student workshop/class so I'm not planing to respin this 
+myself.
 
-> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> index 8fa77a81dd7f..0096e6aacdb4 100644
-> --- a/drivers/media/usb/uvc/uvc_video.c
-> +++ b/drivers/media/usb/uvc/uvc_video.c
-> @@ -276,13 +276,13 @@ static int uvc_get_video_ctrl(struct uvc_streaming *stream,
->  	if (size >= 34) {
->  		ctrl->dwClockFrequency = get_unaligned_le32(&data[26]);
->  		ctrl->bmFramingInfo = data[30];
-> -		ctrl->bPreferedVersion = data[31];
-> +		ctrl->bPreferredVersion = data[31];
->  		ctrl->bMinVersion = data[32];
->  		ctrl->bMaxVersion = data[33];
->  	} else {
->  		ctrl->dwClockFrequency = stream->dev->clock_frequency;
->  		ctrl->bmFramingInfo = 0;
-> -		ctrl->bPreferedVersion = 0;
-> +		ctrl->bPreferredVersion = 0;
->  		ctrl->bMinVersion = 0;
->  		ctrl->bMaxVersion = 0;
->  	}
-> @@ -325,7 +325,7 @@ static int uvc_set_video_ctrl(struct uvc_streaming *stream,
->  	if (size >= 34) {
->  		put_unaligned_le32(ctrl->dwClockFrequency, &data[26]);
->  		data[30] = ctrl->bmFramingInfo;
-> -		data[31] = ctrl->bPreferedVersion;
-> +		data[31] = ctrl->bPreferredVersion;
->  		data[32] = ctrl->bMinVersion;
->  		data[33] = ctrl->bMaxVersion;
->  	}
-
-[snip]
-
-> diff --git a/include/uapi/linux/usb/video.h b/include/uapi/linux/usb/video.h
-> index d854cb19c42c..59167f0ed5c1 100644
-> --- a/include/uapi/linux/usb/video.h
-> +++ b/include/uapi/linux/usb/video.h
-> @@ -448,7 +448,10 @@ struct uvc_streaming_control {
->  	__u32 dwMaxPayloadTransferSize;
->  	__u32 dwClockFrequency;
->  	__u8  bmFramingInfo;
-> -	__u8  bPreferedVersion;
-> +	union {
-> +		__u8 bPreferredVersion;
-> +		__u8 bPreferedVersion __attribute__((deprecated)); /* NOTYPO */
-> +	} __attribute__((__packed__));
-
-Quite interestingly this typo is part of the USB device class definition
-for video devices (UVC) specification. I thus think we should keep using
-the field name bPreferedVersion through the code, otherwise it wouldn't
-match the spec.
-
->  	__u8  bMinVersion;
->  	__u8  bMaxVersion;
->  } __attribute__((__packed__));
-
-[snip]
+> 
+> Regards,
+> 
+> 	Hans
+> 
+> On 5/18/19 3:07 AM, Niklas Söderlund wrote:
+> > Hi,
+> > 
+> > This series adds support for two (or more) capture devices to be 
+> > connected to the same senors and run simultaneously. Each capture device 
+> > can be started and stopped independent of each other.
+> > 
+> > Patch 1/3 and 2/3 deals with solving the issues that arises once two 
+> > capture devices can be part of the same pipeline. While 3/3 allows for 
+> > two capture devices to be part of the same pipeline and thus allows for 
+> > simultaneously use.
+> > 
+> > The series is based on the latest media-tree and it functionality can be 
+> > demonstrated with the following test.
+> > 
+> >>>> begin test <<<
+> > mdev=/dev/media0
+> > 
+> > media-ctl -d $mdev -l "'Debayer A':1 -> 'Scaler':0 [1]"
+> > media-ctl -d $mdev -l "'Debayer B':1 -> 'Scaler':0 [0]"
+> > 
+> > media-ctl -d $mdev -V "'Debayer A':0 [fmt:RGB888_1X24/640x480 field:none]"
+> > media-ctl -d /dev/media0 -V "'Sensor A':0 [fmt:SRGGB8_1X8/640x480 field:none]"
+> > 
+> > yavta -f RGB24 -s 1920x1440 --field none /dev/video2
+> > yavta -f SRGGB8 -s 640x480 --field none /dev/video0
+> > 
+> > yavta -f RGB24 -s 1920x1440 --field none /dev/video2 --capture=100 &
+> > yavta -f SRGGB8 -s 640x480 --field none /dev/video0 --capture=100
+> > wait
+> >>>> end test <<<
+> > 
+> > In addition to testing with this test the series is tested with multiple 
+> > qv4l2 instances controlling different capture devices connected to the 
+> > same sensor.
+> > 
+> > Niklas Söderlund (3):
+> >   vimc: Add usage count to subdevices
+> >   vimc: Serialize vimc_streamer_s_stream()
+> >   vimc: Join pipeline if one already exists
+> > 
+> >  drivers/media/platform/vimc/vimc-capture.c  | 35 ++++++++++++++++++++-
+> >  drivers/media/platform/vimc/vimc-debayer.c  |  8 +++++
+> >  drivers/media/platform/vimc/vimc-scaler.c   |  8 +++++
+> >  drivers/media/platform/vimc/vimc-sensor.c   |  7 +++++
+> >  drivers/media/platform/vimc/vimc-streamer.c | 23 +++++++++-----
+> >  5 files changed, 73 insertions(+), 8 deletions(-)
+> > 
+> 
 
 -- 
 Regards,
-
-Laurent Pinchart
+Niklas Söderlund
