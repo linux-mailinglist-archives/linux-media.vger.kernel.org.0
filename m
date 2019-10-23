@@ -2,31 +2,31 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3AB56E103E
-	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2019 04:53:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 849E8E1040
+	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2019 04:55:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389426AbfJWCw7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 22 Oct 2019 22:52:59 -0400
-Received: from mga03.intel.com ([134.134.136.65]:19903 "EHLO mga03.intel.com"
+        id S2389430AbfJWCzT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 22 Oct 2019 22:55:19 -0400
+Received: from mga18.intel.com ([134.134.136.126]:12628 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389423AbfJWCw6 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 22 Oct 2019 22:52:58 -0400
+        id S2389423AbfJWCzT (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 22 Oct 2019 22:55:19 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 22 Oct 2019 19:52:58 -0700
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 22 Oct 2019 19:55:18 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.68,219,1569308400"; 
-   d="scan'208";a="201861047"
+   d="scan'208";a="191692921"
 Received: from ipu5-build.bj.intel.com ([10.238.232.193])
-  by orsmga006.jf.intel.com with ESMTP; 22 Oct 2019 19:52:57 -0700
+  by orsmga008.jf.intel.com with ESMTP; 22 Oct 2019 19:55:17 -0700
 From:   bingbu.cao@intel.com
 To:     linux-media@vger.kernel.org
-Cc:     sakari.ailus@linux.intel.com, tfiga@chromium.org,
-        bingbu.cao@linux.intel.com, laurent.pinchart@ideasonboard.com
-Subject: [PATCH] doc-rst: ipu3: clarification on data type conversion of IEFD CU
-Date:   Wed, 23 Oct 2019 10:59:02 +0800
-Message-Id: <1571799542-19129-1-git-send-email-bingbu.cao@intel.com>
+Cc:     mchehab+samsung@kernel.org, sakari.ailus@linux.intel.com,
+        tfiga@chromium.org, bingbu.cao@linux.intel.com
+Subject: [PATCH] media: staging/intel-ipu3: remove the unnecessary compiler flags
+Date:   Wed, 23 Oct 2019 11:01:23 +0800
+Message-Id: <1571799683-19361-1-git-send-email-bingbu.cao@intel.com>
 X-Mailer: git-send-email 2.7.4
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
@@ -35,49 +35,42 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Bingbu Cao <bingbu.cao@intel.com>
 
-The data type conversion of the IEFD CU inputs in ipu3 uapi
-is ambiguities, add some clarification to help user to
-understand this conversion.
+Currently, we can build ipu3 driver code without any
+warnings with W=1, so the extra compiler flags in Makefile
+and the item in TODO file can be removed.
 
 Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
-Suggested-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Tomasz Figa <tfiga@chromium.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 ---
- drivers/staging/media/ipu3/TODO                 | 2 --
- drivers/staging/media/ipu3/include/intel-ipu3.h | 5 +++++
- 2 files changed, 5 insertions(+), 2 deletions(-)
+ drivers/staging/media/ipu3/Makefile | 6 ------
+ drivers/staging/media/ipu3/TODO     | 2 --
+ 2 files changed, 8 deletions(-)
 
+diff --git a/drivers/staging/media/ipu3/Makefile b/drivers/staging/media/ipu3/Makefile
+index cc288ae6d5f2..9def80ef28f3 100644
+--- a/drivers/staging/media/ipu3/Makefile
++++ b/drivers/staging/media/ipu3/Makefile
+@@ -10,9 +10,3 @@ ipu3-imgu-objs += \
+ 		ipu3-css.o ipu3-v4l2.o ipu3.o
+ 
+ obj-$(CONFIG_VIDEO_IPU3_IMGU) += ipu3-imgu.o
+-
+-# HACK! While this driver is in bad shape, don't enable several warnings
+-#       that would be otherwise enabled with W=1
+-ccflags-y += $(call cc-disable-warning, packed-not-aligned)
+-ccflags-y += $(call cc-disable-warning, type-limits)
+-ccflags-y += $(call cc-disable-warning, unused-const-variable)
 diff --git a/drivers/staging/media/ipu3/TODO b/drivers/staging/media/ipu3/TODO
-index 5e55baeaea1a..f2542a7a09b5 100644
+index 5e55baeaea1a..8b95e74e43a0 100644
 --- a/drivers/staging/media/ipu3/TODO
 +++ b/drivers/staging/media/ipu3/TODO
-@@ -13,8 +13,6 @@ staging directory.
-   Comments on configuring v4l2 subdevs for CIO2 and ImgU.
- 
- - uAPI documentation:
--  Further clarification on some ambiguities such as data type conversion of
--  IEFD CU inputs. (Sakari)
-   Move acronyms to doc-rst file. (Mauro)
- 
- - Switch to yavta from v4l2n in driver docs.
-diff --git a/drivers/staging/media/ipu3/include/intel-ipu3.h b/drivers/staging/media/ipu3/include/intel-ipu3.h
-index c7cd27efac8a..08eaa0bad0de 100644
---- a/drivers/staging/media/ipu3/include/intel-ipu3.h
-+++ b/drivers/staging/media/ipu3/include/intel-ipu3.h
-@@ -1217,6 +1217,11 @@ struct ipu3_uapi_shd_config {
-  *
-  * All CU inputs are unsigned, they will be converted to signed when written
-  * to register, i.e. a01 will be written to 9 bit register in s4.4 format.
-+ * The data precision s4.4 means 4 bits for integer parts and 4 bits for the
-+ * fractional part, the first bit indicates positive or negative value.
-+ * For userspace software (commonly the imaging library), the computation for
-+ * the CU slope values should be based on the slope resolution 1/16 (binary
-+ * 0.0001 - the minimal interval value), the slope value range is [-256, +255].
-  * This applies to &ipu3_uapi_iefd_cux6_ed, &ipu3_uapi_iefd_cux2_1,
-  * &ipu3_uapi_iefd_cux2_1, &ipu3_uapi_iefd_cux4 and &ipu3_uapi_iefd_cux6_rad.
-  */
+@@ -27,5 +27,3 @@ staging directory.
+ - Document different operation modes, and which buffer queues are relevant
+   in each mode. To process an image, which queues require a buffer an in
+   which ones is it optional?
+-
+-- Make sure it builds fine with no warnings with W=1
 -- 
 2.7.4
 
