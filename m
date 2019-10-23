@@ -2,73 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CACAE1DFA
-	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2019 16:20:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A859EE1E1E
+	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2019 16:27:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406380AbfJWOUY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Oct 2019 10:20:24 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:38524 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725852AbfJWOUX (ORCPT
+        id S2392219AbfJWO1V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Oct 2019 10:27:21 -0400
+Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:35510 "EHLO
+        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389521AbfJWO1V (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Oct 2019 10:20:23 -0400
-Received: from pendragon.ideasonboard.com (143.121.2.93.rev.sfr.net [93.2.121.143])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9248F71F;
-        Wed, 23 Oct 2019 16:20:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1571840421;
-        bh=ZN4esrfVTSXQCeDtJTnyp/5+MEwfIxLla+K4wvGg9Y0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Vd6gqdYnjc3QUx+9Hm1cEGKJmOsckWahI7KPz4SLSVxEGo74ctV9ftQ80ogqxu16/
-         2JcV1EmHfSj63VX7av7VEhuhQz6ZxMSA+Jz91nBGpRLCQBzIQvoiy5XakXF5qGjE86
-         vUhZFnzdjAwYRhtVRxFNkhxV2XlSKC3K2IsuOjfQ=
-Date:   Wed, 23 Oct 2019 17:20:16 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jean Delvare <jdelvare@suse.de>
-Cc:     linux-media@vger.kernel.org,
+        Wed, 23 Oct 2019 10:27:21 -0400
+Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
+        id 1AE3680222; Wed, 23 Oct 2019 16:27:02 +0200 (CEST)
+Date:   Wed, 23 Oct 2019 16:27:17 +0200
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-usb@vger.kernel.org
-Subject: Re: Logitech C270 webcam floods the log
-Message-ID: <20191023142016.GA1904@pendragon.ideasonboard.com>
-References: <20191023151859.30a8ce88@endymion>
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        tfiga@google.com,
+        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
+        <linux-media@vger.kernel.org>
+Subject: Re: [PATCH v4 01/11] dt-bindings: video-interfaces: Document
+ 'location' property
+Message-ID: <20191023142717.GA22854@duo.ucw.cz>
+References: <20191007162913.250743-1-jacopo@jmondi.org>
+ <20191007162913.250743-2-jacopo@jmondi.org>
+ <20191008074052.GA633@amd>
+ <20191008075828.phxf2m7237ryl6yf@uno.localdomain>
+ <20191008080634.GC633@amd>
+ <20191008082041.476a2soclry6qn3v@uno.localdomain>
+ <9788aa13-1bc0-02c3-33f5-a875940f2dc3@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="DocE+STaALJfprDB"
 Content-Disposition: inline
-In-Reply-To: <20191023151859.30a8ce88@endymion>
+In-Reply-To: <9788aa13-1bc0-02c3-33f5-a875940f2dc3@xs4all.nl>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jean,
 
-On Wed, Oct 23, 2019 at 03:18:59PM +0200, Jean Delvare wrote:
-> Hi all,
-> 
-> When my Logitech C270 webcam is plugged in, my kernel log gets filled
-> with this message:
-> 
-> usb 3-4.1: reset high-speed USB device number 4 using xhci_hcd
-> 
-> every 5 seconds. I have the same problem on 3 different Intel-based
-> computers (different generations), using 2 different webcams, same
-> brand "same model".
->
-> Is Logitech doing crappy hardware these days, or are we doing something
-> wrong? Is there any way to know the reason that triggers the reset?
+--DocE+STaALJfprDB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Is this before or after the uvcvideo driver gets involved ? One easy way
-to check is to move the uvcvideo.ko module out of the way so that it
-doesn't get loaded automatically (or just blacklist it in
-/etc/modprobe.d/) and then plug the camera.
+Hi!
 
-> I would be more than happy to provide any relevant debugging
-> information if anyone is able to make it stop. As it stands, I must
-> plug my webcam before using it and unplug it as soon as I'm done, which
-> isn't exactly convenient.
+> > I'm skeptical about adding now a property for a device that we don't
+> > support, because we -now- think it's a good idea. I might be wrong,
+> > but my assumption is that when someone will want to support an
+> > 'advanced' device, it's easy to add "movable" or whatever else to the
+> > list of accepted properties values. Am I wrong in assuming this? As
+> > long as "front" "back" and "external" will stay supported for backward
+> > DTB compatibility it should be fine, right ?
+>=20
+> The basic rule is that you should not define things unless you KNOW that
+> they will be needed. So when we actually see new devices for which
+> "front", "back" or "external" does not fit, then new names can be
+> created.
 
--- 
-Regards,
+> It's impossible to cover all situations since we can't predict the future.
+> The best we can do is to allow for future extensions.
 
-Laurent Pinchart
+Those devices are already being sold, and yes, they are running linux
+(with some patches probably).
+
+I believe it would be better to specify "this camera is selfie --
+takes pictures of the user" vs. "this is main camera -- takes pictures
+of what user is looking at".
+
+Best regards,
+
+								Pavel
+--=20
+(english) http://www.livejournal.com/~pavelmachek
+(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
+g.html
+
+--DocE+STaALJfprDB
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXbBjRQAKCRAw5/Bqldv6
+8tNdAKCc8CMAqHx/EQYNMo1xeFuuu8ynZwCgm0bn7w0wqbnlPmDUnp8EjCQbJi8=
+=qnpV
+-----END PGP SIGNATURE-----
+
+--DocE+STaALJfprDB--
