@@ -2,57 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 75D2CE1C2C
-	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2019 15:18:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88335E1CC5
+	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2019 15:36:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391308AbfJWNSt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Oct 2019 09:18:49 -0400
-Received: from mx2.suse.de ([195.135.220.15]:37880 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726283AbfJWNSs (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Oct 2019 09:18:48 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 5564EB59F;
-        Wed, 23 Oct 2019 13:18:47 +0000 (UTC)
-Date:   Wed, 23 Oct 2019 15:18:59 +0200
-From:   Jean Delvare <jdelvare@suse.de>
-To:     linux-media@vger.kernel.org
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-usb@vger.kernel.org
-Subject: Logitech C270 webcam floods the log
-Message-ID: <20191023151859.30a8ce88@endymion>
-Organization: SUSE Linux
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
+        id S2405903AbfJWNgK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Oct 2019 09:36:10 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:37785 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2392006AbfJWNgK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 23 Oct 2019 09:36:10 -0400
+Received: by mail-wm1-f66.google.com with SMTP id f22so19711051wmc.2
+        for <linux-media@vger.kernel.org>; Wed, 23 Oct 2019 06:36:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=dVgB2gHwyu9BrwAHrTVrhxxTLMnU+GjkCtVmW3QXNgU=;
+        b=Zp1rNYOb7wPsdMPdMbYe//+9NYjGitazC3K4MBrZR7qVyf3SurlVK/iVTX8rXrD1MV
+         duJiT6vf8/dVRyCoGAADOWO6mdvdO7LXMGSTBsL1aPHRptzHVSr6EVhNUNTbTuXzEcJM
+         CBCb+Jmcnci8Xj7Z+C2D9+RBLni3QkUE+aLyNfm640DulCjNSyCQlNWPphsu43/xiaCJ
+         jGtO0Rf565kxFLQCtlztfZCV3214dAbiLSZKIvSf0BlByQ/4iOlt67agx4AGUfiCjZMI
+         RoTZ6xCVKLtvHbzydaTmcuGrVnWq27zH7gygGQ2YGfnHqhgxkVmC2lGKxGSiWzVcr6KU
+         QN9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=dVgB2gHwyu9BrwAHrTVrhxxTLMnU+GjkCtVmW3QXNgU=;
+        b=Ecy4+9QDmCvphs+faXzZDP40PwyW2q4UVwa2nFscf5vj7rDz0N79xYwPdz8LVJf6o9
+         On7zodJJodMmDL3iyA5e/+R4k2aE7jmD4rGIkhcglsaVWKGlk34sr0W1/z7Fmv0FhsM2
+         sRkusCS8Myxj11Q4MHPCvHpEaEPezC6OcPRiQghRlDcWyUT8Sf/vBGhHJ0CB3FVFX4z5
+         nfANRgoarvXyRZaqFzBJlBup38oh0oPmQi8TUOOhfXlP4x4zaOpHfD/JhvuoL0hZA98F
+         oMLAOi3qH914MG3fb2RfFlT1ZTBltinY1tLS6oDwfFRFwIiDRtIszgzsHwZO7ZHFHTEh
+         o05w==
+X-Gm-Message-State: APjAAAUyZdfE5rzuekjTEh3MyNU7HqcouSk6e86C6NZCWaqkrLRDw8mS
+        DP6nXaLpiy0nndtZskmBR/uGB1Sn/2su4f2nfBA=
+X-Google-Smtp-Source: APXvYqzu60dP5ZzLHoNcR4C1Z90wK3ujHk4eIk60CblS8nkYpWGmu8JElmh7udCx+t1YVbQaCRFZhRaASS5NgAdsuk0=
+X-Received: by 2002:a7b:ce84:: with SMTP id q4mr4860246wmj.36.1571837768313;
+ Wed, 23 Oct 2019 06:36:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Received: by 2002:a5d:400a:0:0:0:0:0 with HTTP; Wed, 23 Oct 2019 06:36:07
+ -0700 (PDT)
+Reply-To: mrs.lisarobinson746@gmail.com
+From:   "Mrs. Lisa" <helpdesk.eit.ac.nz@gmail.com>
+Date:   Wed, 23 Oct 2019 06:36:07 -0700
+Message-ID: <CAK7Er8aKyL3H-yzE3WwHqgdy-pvjcQoKmcraD43WMg3fDh48xQ@mail.gmail.com>
+Subject: Mrs. Lisa Charity Donation
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi all,
-
-When my Logitech C270 webcam is plugged in, my kernel log gets filled
-with this message:
-
-usb 3-4.1: reset high-speed USB device number 4 using xhci_hcd
-
-every 5 seconds. I have the same problem on 3 different Intel-based
-computers (different generations), using 2 different webcams, same
-brand "same model".
-
-Is Logitech doing crappy hardware these days, or are we doing something
-wrong? Is there any way to know the reason that triggers the reset?
-
-I would be more than happy to provide any relevant debugging
-information if anyone is able to make it stop. As it stands, I must
-plug my webcam before using it and unplug it as soon as I'm done, which
-isn't exactly convenient.
-
-Thanks,
 -- 
-Jean Delvare
-SUSE L3 Support
+I am Lisa Robinson, you have a donation of $1,200,000.00 USD. Contact
+me now for more information.
