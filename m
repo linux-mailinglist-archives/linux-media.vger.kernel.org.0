@@ -2,55 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 29E5DE2025
-	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2019 18:06:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B7AEBE2067
+	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2019 18:19:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407006AbfJWQGp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Oct 2019 12:06:45 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:56108 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2407003AbfJWQGo (ORCPT
+        id S2407184AbfJWQTX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Oct 2019 12:19:23 -0400
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:41172 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391119AbfJWQTX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Oct 2019 12:06:44 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x9NG6gSm113231;
-        Wed, 23 Oct 2019 11:06:42 -0500
+        Wed, 23 Oct 2019 12:19:23 -0400
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x9NGIqF8127305;
+        Wed, 23 Oct 2019 11:18:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1571846802;
-        bh=npqB+yuDL07DZ2X9hP/YC2dWxu8GqhmNXdLWk4By9qY=;
+        s=ti-com-17Q1; t=1571847532;
+        bh=ODWaDxTjS3/SmkbHhxjbC1c6IROYHUkP3F+mSGxV+xg=;
         h=Date:From:To:CC:Subject:References:In-Reply-To;
-        b=MugD8cKKszxPQyN7JTzFLR8HfCMbw0SKkG4vaIZ1FV9q6ac+Z9Dz3u9H47tKQERos
-         39lKWfrac61V9wGEmg8zrawDLPqsVnK1eW0qwD6i/OmTzx/Deb68iZbNR2NMMuXlQq
-         DLMrVcDV/hOs8H4iMPT+DWpi2py67CtZx2dXmEZw=
-Received: from DLEE103.ent.ti.com (dlee103.ent.ti.com [157.170.170.33])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x9NG6gIN065282
+        b=Ph1xELH1URQhQ79H+YFG5m7YMm3MYNcT68OPAyY3TN5OLX1L+lRzipiW1sWvvx/mu
+         WC4+NDrgSnFXgF8KVHIh0nWuiG1ePzCXcyP0R6SLtVpQZy8lLiN3vFRO+88Q4pGTP0
+         1nVJP58wha/3x79wIpaAOjuq9E6iNDNZOPMOxYNc=
+Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x9NGIpn2122613
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 23 Oct 2019 11:06:42 -0500
-Received: from DLEE104.ent.ti.com (157.170.170.34) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+        Wed, 23 Oct 2019 11:18:51 -0500
+Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE115.ent.ti.com
+ (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Wed, 23
- Oct 2019 11:06:32 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE104.ent.ti.com
- (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
+ Oct 2019 11:18:51 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Wed, 23 Oct 2019 11:06:32 -0500
+ Frontend Transport; Wed, 23 Oct 2019 11:18:51 -0500
 Received: from ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with SMTP id x9NG6e69086555;
-        Wed, 23 Oct 2019 11:06:41 -0500
-Date:   Wed, 23 Oct 2019 11:06:36 -0500
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with SMTP id x9NGIoYC108676;
+        Wed, 23 Oct 2019 11:18:50 -0500
+Date:   Wed, 23 Oct 2019 11:18:45 -0500
 From:   Benoit Parrot <bparrot@ti.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-CC:     Rob Herring <robh+dt@kernel.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+CC:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Rob Herring <robh+dt@kernel.org>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
 Subject: Re: [Patch 19/19] dt-bindings: media: cal: convert binding to yaml
-Message-ID: <20191023160635.2phiwxdlijucwnaq@ti.com>
+Message-ID: <20191023161844.hgrxeo244krq26lz@ti.com>
 References: <20191018153437.20614-1-bparrot@ti.com>
  <20191018153437.20614-20-bparrot@ti.com>
- <e4dcb7f0-3cb0-6868-2c93-d54b21883be5@xs4all.nl>
+ <20191022074623.GE864@valkosipuli.retiisi.org.uk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <e4dcb7f0-3cb0-6868-2c93-d54b21883be5@xs4all.nl>
+In-Reply-To: <20191022074623.GE864@valkosipuli.retiisi.org.uk>
 User-Agent: NeoMutt/20171215
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-media-owner@vger.kernel.org
@@ -58,23 +60,15 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hans Verkuil <hverkuil@xs4all.nl> wrote on Mon [2019-Oct-21 12:49:00 +0200]:
-> On 10/18/19 5:34 PM, Benoit Parrot wrote:
+Sakari Ailus <sakari.ailus@iki.fi> wrote on Tue [2019-Oct-22 10:46:23 +0300]:
+> Hi Benoit,
+> 
+> Thanks for the patch.
+> 
+> On Fri, Oct 18, 2019 at 10:34:37AM -0500, Benoit Parrot wrote:
 > > Convert ti-cal.txt to ti,cal.yaml.
 > > 
 > > Signed-off-by: Benoit Parrot <bparrot@ti.com>
-> 
-> Can you add this bindings file to MAINTAINERS as well in a separate patch?
-
-Yes I can do that, no problem.
-
-Benoit
-
-> 
-> Thanks!
-> 
-> 	Hans
-> 
 > > ---
 > >  .../devicetree/bindings/media/ti,cal.yaml     | 186 ++++++++++++++++++
 > >  .../devicetree/bindings/media/ti-cal.txt      |  82 --------
@@ -180,6 +174,17 @@ Benoit
 > > +      '^port@[0-9a-fA-F]+$':
 > > +        minItems: 1
 > > +        maxItems: 2
+> 
+> Obviously you need a port node to connect a sensor. But can the device do
+> something useful without one? I guess it may be a matter of taste whether
+> you require one.
+
+In an ideal world all of these would be covered by a video-interfaces.yaml
+file I would just need to include... :)
+
+But I'll try and add some more "required" and see how much trouble it gets
+me.
+> 
 > > +        type: object
 > > +        additionalProperties: false
 > > +
@@ -192,12 +197,35 @@ Benoit
 > > +        patternProperties:
 > > +          '^endpoint@[0-9a-fA-F]+$':
 > > +            minItems: 1
+> 
+> The graph bindings allows for no endpoints.
+
+Maybe but then it is not much use.
+> 
 > > +            type: object
 > > +            additionalProperties: false
 > > +
 > > +            properties:
 > > +              clock-lanes:
 > > +                maxItems: 1
+> 
+> Does the device support lane reordering? If not, you could omit the
+> clock-lanes property. It wasn't documented earlier either albeit the
+> example had it for some reason.
+
+Not sure what you mean by lane re-ordering here, but this IP needs to know
+which lanes are used for data and which lane is the clock lane.
+
+I cannot just assume that clock lane is always lane 0, I have a sensor
+where the clock lane is #2 for instance and the data lanes are 0, 1, 3, 4.
+
+But at any rate before it was not specifically documented because I thought
+it was covered by the "see
+Documentation/devicetree/bindings/media/video-interfaces.txt" or de we need
+to duplicate that in every binding?
+
+Benoit
+> 
 > > +
 > > +              data-lanes:
 > > +                minItems: 1
@@ -362,5 +390,8 @@ Benoit
 > > -			};
 > > -		};
 > > -	};
-> > 
 > 
+> -- 
+> Kind regards,
+> 
+> Sakari Ailus
