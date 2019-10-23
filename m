@@ -2,215 +2,257 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A5A84E1317
-	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2019 09:26:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE513E1352
+	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2019 09:42:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389912AbfJWH0W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Oct 2019 03:26:22 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:51369 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2389351AbfJWH0W (ORCPT
+        id S2389993AbfJWHmQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Oct 2019 03:42:16 -0400
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:40159 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727574AbfJWHmP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Oct 2019 03:26:22 -0400
-Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id NB28iL4TEHfodNB2BizDS2; Wed, 23 Oct 2019 09:26:19 +0200
-Subject: Re: [PATCH v3 2/2] media: vimc: upon streaming, check that the
- pipeline starts with a source entity
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        linux-media@vger.kernel.org
-Cc:     helen.koike@collabora.com, ezequiel@collabora.com,
-        andre.almeida@collabora.com, skhan@linuxfoundation.org,
-        kernel@collabora.com, dafna3@gmail.com
-References: <20191009155315.14280-1-dafna.hirschfeld@collabora.com>
- <20191009155315.14280-3-dafna.hirschfeld@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <f2e70e0f-fc1a-714b-b32b-2352af3b089d@xs4all.nl>
-Date:   Wed, 23 Oct 2019 09:26:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Wed, 23 Oct 2019 03:42:15 -0400
+Received: by mail-ed1-f67.google.com with SMTP id p59so6564501edp.7;
+        Wed, 23 Oct 2019 00:42:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=AU7J2BQRMw024ECt6R6ioM/TtE1t9QijD3q41c7WeI8=;
+        b=J0A04rAQ25wa9kb8usBO7oxZNV5Izo77b9WaKzwoCLQFRsZdCaRS+cg6Q6x9kmlfU1
+         xwis1Nx1coQ4CzYU24QAMwcnRQ8I15h6TgHMr7FW4i3+l7qkRuGzR1vwkjnb4fmOsVIs
+         N8Y+cIEcI1r5T6fKoXxFgBXmncFqW18ycTJjyhhMZnEczcz72qkD0eTLJWKJn9ndOB+H
+         FzbbjlTnuKw5+t6BxEvfN1D2sXe+MxaMyoJZp/NbsncB8vBY2tNfjejOuTSuFGPkw293
+         nJRIG+9dTPnTW90XEeS1igrscTvb4XZPuPFwe+JbtMs9becH1uredSDGVmydmA1ITFgT
+         oLjA==
+X-Gm-Message-State: APjAAAVp+/p/G3By1BjgqXzx9oaYAF+RMozMydktyHKSGVPf6KkOvqdU
+        OdInZaFFxxVVVuw9tB1e3S4=
+X-Google-Smtp-Source: APXvYqyIo0zrvOx1lKVcqkD7eMOgL0LqCI6jG9oIM1xe4DZRN0Cttzr0r+JRNnfhx/l37emgBXu7/g==
+X-Received: by 2002:a17:906:1c48:: with SMTP id l8mr16067535ejg.203.1571816531653;
+        Wed, 23 Oct 2019 00:42:11 -0700 (PDT)
+Received: from pi3 ([194.230.155.217])
+        by smtp.googlemail.com with ESMTPSA id v8sm836300edi.49.2019.10.23.00.42.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Oct 2019 00:42:10 -0700 (PDT)
+Date:   Wed, 23 Oct 2019 09:42:06 +0200
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Sudeep Holla <sudeep.holla@arm.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, etnaviv@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+        freedreno@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        bcm-kernel-feedback-list@broadcom.com,
+        linux-rpi-kernel@lists.infradead.org, linux-usb@vger.kernel.org,
+        linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH v2 1/3] dt-bindings: power: Convert Generic Power Domain
+ bindings to json-schema
+Message-ID: <20191023074206.GA10189@pi3>
+References: <20191002160632.11140-1-krzk@kernel.org>
+ <20191011150339.GA16245@bogus>
 MIME-Version: 1.0
-In-Reply-To: <20191009155315.14280-3-dafna.hirschfeld@collabora.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfLWSYajh8yiFcSxY+pZypknYrANhOwwsRhuAuo/ZskvGLxPIu5aLf9Fm7jmKz3StMNGTXAKX2vIW3KNr9g5kz/Py9w+kWT4LvOFoc3aGiYdDuf/LsfTV
- f7TpAQvkiDcvkyysZehYjbNbYuCT1K/yQc0Qev4VpqMsmCmMza/F5T7R0f292xKf76pPvr1xNlV386ZrFnEtOnW87qBkTjHw7HC6jyaBp0on6BzoRDx9u3Y2
- GQxKT0jkRjbCOc7SfDkyp6rgk+F4kZRJ/uH86nj61aZrWwJ2LO7ohVDmBwTwMyKbCVRVTdpi+IELq+l1y/TA046Yv1R97f3/ZrA2JyPte2PA91rMRHL7HfA9
- xaVLY7L4lAjJqxDtbqg/WzChXiO9PR5eZCExSh46ABJvLqWB/dZbasLMKfNTX7SYyDx74XydWmdlyHWnCHI4UnX48eBYYw==
+Content-Disposition: inline
+In-Reply-To: <20191011150339.GA16245@bogus>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/9/19 5:53 PM, Dafna Hirschfeld wrote:
-> Userspace can disable links and create pipelines that
-> do not start with a source entity. Trying to stream
-> from such a pipeline should fail with -EPIPE
-> currently this is not handled and cause kernel crash.
+On Fri, Oct 11, 2019 at 10:03:39AM -0500, Rob Herring wrote:
+> On Wed, Oct 02, 2019 at 06:06:30PM +0200, Krzysztof Kozlowski wrote:
+> > Convert Generic Power Domain bindings to DT schema format using
+> > json-schema.  The consumer bindings are split to separate file.
+> > 
+> > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> > 
+> > ---
+> > 
+> > Changes since v1:
+> > 1. Select all nodes for consumers,
+> > 2. Remove from consumers duplicated properties with dt-schema,
+> > 3. Fix power domain pattern,
+> > 4. Remove unneeded types.
+> > ---
+> >  .../devicetree/bindings/arm/arm,scmi.txt      |   2 +-
+> >  .../devicetree/bindings/arm/arm,scpi.txt      |   2 +-
+> >  .../bindings/arm/freescale/fsl,scu.txt        |   2 +-
+> >  .../bindings/clock/clk-exynos-audss.txt       |   2 +-
+> >  .../bindings/clock/exynos5433-clock.txt       |   4 +-
+> >  .../bindings/clock/renesas,cpg-mssr.txt       |   2 +-
+> >  .../clock/renesas,r8a7778-cpg-clocks.txt      |   2 +-
+> >  .../clock/renesas,r8a7779-cpg-clocks.txt      |   2 +-
+> >  .../clock/renesas,rcar-gen2-cpg-clocks.txt    |   2 +-
+> >  .../bindings/clock/renesas,rz-cpg-clocks.txt  |   2 +-
+> >  .../bindings/clock/ti/davinci/psc.txt         |   2 +-
+> >  .../bindings/display/etnaviv/etnaviv-drm.txt  |   2 +-
+> >  .../devicetree/bindings/display/msm/dpu.txt   |   2 +-
+> >  .../devicetree/bindings/display/msm/mdp5.txt  |   2 +-
+> >  .../devicetree/bindings/dsp/fsl,dsp.yaml      |   2 +-
+> >  .../firmware/nvidia,tegra186-bpmp.txt         |   2 +-
+> >  .../bindings/media/imx7-mipi-csi2.txt         |   3 +-
+> >  .../bindings/media/mediatek-jpeg-decoder.txt  |   3 +-
+> >  .../bindings/media/mediatek-mdp.txt           |   3 +-
+> >  .../bindings/opp/qcom-nvmem-cpufreq.txt       |   2 +-
+> >  .../devicetree/bindings/pci/pci-keystone.txt  |   2 +-
+> >  .../bindings/phy/ti,phy-am654-serdes.txt      |   2 +-
+> >  .../bindings/power/amlogic,meson-gx-pwrc.txt  |   2 +-
+> >  .../devicetree/bindings/power/fsl,imx-gpc.txt |   2 +-
+> >  .../bindings/power/fsl,imx-gpcv2.txt          |   2 +-
+> >  .../power/power-domain-consumers.yaml         | 105 +++++++++
+> >  .../bindings/power/power-domain.yaml          | 134 ++++++++++++
+> >  .../bindings/power/power_domain.txt           | 205 ------------------
+> >  .../devicetree/bindings/power/qcom,rpmpd.txt  |   2 +-
+> >  .../bindings/power/renesas,rcar-sysc.txt      |   2 +-
+> >  .../bindings/power/renesas,sysc-rmobile.txt   |   2 +-
+> >  .../bindings/power/xlnx,zynqmp-genpd.txt      |   2 +-
+> >  .../bindings/soc/bcm/brcm,bcm2835-pm.txt      |   2 +-
+> >  .../bindings/soc/mediatek/scpsys.txt          |   2 +-
+> >  .../bindings/soc/ti/sci-pm-domain.txt         |   2 +-
+> >  .../bindings/usb/nvidia,tegra124-xusb.txt     |   4 +-
+> >  MAINTAINERS                                   |   2 +-
+> >  37 files changed, 278 insertions(+), 241 deletions(-)
+> >  create mode 100644 Documentation/devicetree/bindings/power/power-domain-consumers.yaml
+> >  create mode 100644 Documentation/devicetree/bindings/power/power-domain.yaml
+> >  delete mode 100644 Documentation/devicetree/bindings/power/power_domain.txt
 > 
-> Reproducing the crash:
-> media-ctl -d0 -l "5:1->21:0[0]" -v
-> v4l2-ctl -z platform:vimc -d "RGB/YUV Capture" -v width=1920,height=1440
-> v4l2-ctl --stream-mmap --stream-count=100 -d /dev/video2
 > 
-> Panic message:
-> [   39.078841][  T248] BUG: kernel NULL pointer dereference, address: 0000000000000000
-> [   39.079338][  T248] #PF: supervisor read access in kernel mode
-> [   39.079704][  T248] #PF: error_code(0x0000) - not-present page
-> [   39.080071][  T248] PGD 0 P4D 0
-> [   39.080279][  T248] Oops: 0000 [#1] SMP PTI
-> [   39.080546][  T248] CPU: 0 PID: 248 Comm: vimc-streamer t Not tainted 5.4.0-rc1+ #17
-> [   39.081030][  T248] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.12.0-0-ga698c8995f-prebuilt.qemu.org 04/01/2014
-> [   39.081779][  T248] RIP: 0010:vimc_sca_process_frame+0xdb/0x210 [vimc]
-> [   39.082191][  T248] Code: 44 8d 0c 28 8b 93 a4 01 00 00 48 8b 8b 98 01 00 00 85 d2 74 40 48 8b 74 24 10 8d 7a ff 4c 01 c9 31 d2 4c 01 fe eb 03 4c 89 c2 <44> 0f b6 04 16 44 88 04 11 4c 8d 42 01 48 39 fa 75 eb 8b 93 a4 01
-> [   39.083436][  T248] RSP: 0018:ffffb15a005abe90 EFLAGS: 00010246
-> [   39.083808][  T248] RAX: 0000000000000000 RBX: ffffa3fdc46d2e00 RCX: ffffb15a02579000
-> [   39.084298][  T248] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000002
-> [   39.084792][  T248] RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-> [   39.085280][  T248] R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000000
-> [   39.085770][  T248] R13: ffffa3fdc46d2ee0 R14: 0000000000000000 R15: 0000000000000000
-> [   39.086258][  T248] FS:  0000000000000000(0000) GS:ffffa3fdc7800000(0000) knlGS:0000000000000000
-> [   39.086806][  T248] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [   39.087217][  T248] CR2: 0000000000000000 CR3: 0000000003c92005 CR4: 0000000000360ef0
-> [   39.087706][  T248] Call Trace:
-> [   39.087909][  T248]  ? vimc_streamer_pipeline_terminate+0x90/0x90 [vimc]
-> [   39.088318][  T248]  vimc_streamer_thread+0x7c/0xe0 [vimc]
-> [   39.088663][  T248]  kthread+0x10d/0x130
-> [   39.088919][  T248]  ? kthread_park+0x80/0x80
-> [   39.089205][  T248]  ret_from_fork+0x35/0x40
-> [   39.089475][  T248] Modules linked in: vimc videobuf2_vmalloc videobuf2_memops v4l2_tpg videobuf2_v4l2 videobuf2_common videodev mc
-> [   39.090208][  T248] CR2: 0000000000000000
-> [   39.090463][  T248] ---[ end trace 697650fefbf78bee ]---
-> [   39.090796][  T248] RIP: 0010:vimc_sca_process_frame+0xdb/0x210 [vimc]
-> [   39.091209][  T248] Code: 44 8d 0c 28 8b 93 a4 01 00 00 48 8b 8b 98 01 00 00 85 d2 74 40 48 8b 74 24 10 8d 7a ff 4c 01 c9 31 d2 4c 01 fe eb 03 4c 89 c2 <44> 0f b6 04 16 44 88 04 11 4c 8d 42 01 48 39 fa 75 eb 8b 93 a4 01
-> [   39.092417][  T248] RSP: 0018:ffffb15a005abe90 EFLAGS: 00010246
-> [   39.092789][  T248] RAX: 0000000000000000 RBX: ffffa3fdc46d2e00 RCX: ffffb15a02579000
-> [   39.093278][  T248] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000002
-> [   39.093766][  T248] RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-> [   39.094254][  T248] R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000000
-> [   39.094742][  T248] R13: ffffa3fdc46d2ee0 R14: 0000000000000000 R15: 0000000000000000
-> [   39.095309][  T248] FS:  0000000000000000(0000) GS:ffffa3fdc7800000(0000) knlGS:0000000000000000
-> [   39.095974][  T248] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [   39.096372][  T248] CR2: 0000000000000000 CR3: 0000000003c92005 CR4: 0000000000360ef0
+> > diff --git a/Documentation/devicetree/bindings/power/power-domain-consumers.yaml b/Documentation/devicetree/bindings/power/power-domain-consumers.yaml
+> > new file mode 100644
+> > index 000000000000..f65078e1260e
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/power/power-domain-consumers.yaml
+> > @@ -0,0 +1,105 @@
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/power/power-domain-consumers.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: PM domain consumers
+> > +
+> > +maintainers:
+> > +  - Rafael J. Wysocki <rjw@rjwysocki.net>
+> > +  - Kevin Hilman <khilman@kernel.org>
+> > +  - Ulf Hansson <ulf.hansson@linaro.org>
+> > +
+> > +description: |+
+> > +  See power-domain.yaml
+> > +
+> > +select: true
+> > +
+> > +allOf:
+> > +  - $ref: /schemas/power-domain/power-domain-consumer.yaml
 > 
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> ---
->  drivers/media/platform/vimc/vimc-common.c   | 10 ++++++++
->  drivers/media/platform/vimc/vimc-common.h   |  5 ++++
->  drivers/media/platform/vimc/vimc-streamer.c | 27 ++++++++++++---------
->  3 files changed, 31 insertions(+), 11 deletions(-)
+> I don't like this split. We should move the contents of this file to the 
+> above file.
 > 
-> diff --git a/drivers/media/platform/vimc/vimc-common.c b/drivers/media/platform/vimc/vimc-common.c
-> index a3120f4f7a90..e8ad3199ffbf 100644
-> --- a/drivers/media/platform/vimc/vimc-common.c
-> +++ b/drivers/media/platform/vimc/vimc-common.c
-> @@ -164,6 +164,16 @@ static const struct vimc_pix_map vimc_pix_map_list[] = {
->  	},
->  };
->  
-> +bool vimc_is_source(struct media_entity *ent)
-> +{
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < ent->num_pads; i++)
-> +		if (ent->pads[i].flags & MEDIA_PAD_FL_SINK)
-> +			return false;
-> +	return true;
-> +}
-> +
->  const struct vimc_pix_map *vimc_pix_map_by_index(unsigned int i)
->  {
->  	if (i >= ARRAY_SIZE(vimc_pix_map_list))
-> diff --git a/drivers/media/platform/vimc/vimc-common.h b/drivers/media/platform/vimc/vimc-common.h
-> index 8349e3c68a49..112574bc3089 100644
-> --- a/drivers/media/platform/vimc/vimc-common.h
-> +++ b/drivers/media/platform/vimc/vimc-common.h
-> @@ -154,6 +154,11 @@ struct vimc_ent_config {
->  	void (*rm)(struct vimc_device *vimc, struct vimc_ent_device *ved);
->  };
->  
-> +/**
-> + * vimc_is_source - returns true iff the entity has only source pads
-> + */
-> +bool vimc_is_source(struct media_entity *ent);
-> +
->  /* prototypes for vimc_ent_config add and rm hooks */
->  struct vimc_ent_device *vimc_cap_add(struct vimc_device *vimc,
->  				     const char *vcfg_name);
-> diff --git a/drivers/media/platform/vimc/vimc-streamer.c b/drivers/media/platform/vimc/vimc-streamer.c
-> index 37150c919fcb..680614851a14 100644
-> --- a/drivers/media/platform/vimc/vimc-streamer.c
-> +++ b/drivers/media/platform/vimc/vimc-streamer.c
-> @@ -82,14 +82,12 @@ static int vimc_streamer_pipeline_init(struct vimc_stream *stream,
->  	struct media_entity *entity;
->  	struct video_device *vdev;
->  	struct v4l2_subdev *sd;
-> -	int ret = 0;
-> +	int ret = -EINVAL;
->  
->  	stream->pipe_size = 0;
->  	while (stream->pipe_size < VIMC_STREAMER_PIPELINE_MAX_SIZE) {
-> -		if (!ved) {
-> -			vimc_streamer_pipeline_terminate(stream);
-> -			return -EINVAL;
-> -		}
-> +		if (!ved)
-> +			break;
+> I checked the authorship of the relevant lines and they are all except 
+> for a small number of lines from Linaro authors (Viresh and Ulf). I have 
+> permission from Linaro to dual license Linaro authored bindings, so it's 
+> not a problem to move this. I can do that and you can just drop this file.
 
-This doesn't work, you need to set ret to -EINVAL explicitly since ret can
-be set elsewhere as well in the while loop, so there is no guarantee that
-ret is -EINVAL.
+Sure, what to do with the references to power-domain consumers part? I
+could leave the text file and do not update the references for
+consumers (like I did in last PWM bindings patch, v4).
 
->  		stream->ved_pipeline[stream->pipe_size++] = ved;
->  
->  		if (is_media_entity_v4l2_subdev(ved->ent)) {
-> @@ -98,15 +96,23 @@ static int vimc_streamer_pipeline_init(struct vimc_stream *stream,
->  			if (ret && ret != -ENOIOCTLCMD) {
->  				dev_err(ved->dev, "subdev_call error %s\n",
->  				       ved->ent->name);
-> -				vimc_streamer_pipeline_terminate(stream);
-> -				return ret;
-> +				break;
 
-And here ret can end up being -ENOIOCTLCMD, so returning 'ret' at the end
-may not be the value you expect.
+Best regards,
+Krzysztof
 
-Regards,
-
-	Hans
-
->  			}
->  		}
->  
->  		entity = vimc_get_source_entity(ved->ent);
-> -		/* Check if the end of the pipeline was reached*/
-> -		if (!entity)
-> +		/* Check if the end of the pipeline was reached */
-> +		if (!entity) {
-> +			/* the first entity of the pipe should be source only */
-> +			if (!vimc_is_source(ved->ent)) {
-> +				dev_err(ved->dev,
-> +					"first entity in the pipe '%s' is not a source\n",
-> +					ved->ent->name);
-> +				ret = -EPIPE;
-> +				break;
-> +			}
->  			return 0;
-> +		}
->  
->  		/* Get the next device in the pipeline */
->  		if (is_media_entity_v4l2_subdev(entity)) {
-> @@ -119,9 +125,8 @@ static int vimc_streamer_pipeline_init(struct vimc_stream *stream,
->  			ved = video_get_drvdata(vdev);
->  		}
->  	}
-> -
->  	vimc_streamer_pipeline_terminate(stream);
-> -	return -EINVAL;
-> +	return ret;
->  }
->  
->  /**
 > 
-
+> > +
+> > +properties:
+> > +  required-opps:
+> > +    $ref: /schemas/types.yaml#/definitions/phandle
+> > +    description:
+> > +      This contains phandle to an OPP node in another device's OPP table.
+> > +      It may contain an array of phandles, where each phandle points to an OPP
+> > +      of a different device. It should not contain multiple phandles to the OPP
+> > +      nodes in the same OPP table. This specifies the minimum required OPP
+> > +      of the device(s), whose OPP's phandle is present in this property,
+> > +      for the functioning of the current device at the current OPP (where this
+> > +      property is present).
+> > +
+> > +examples:
+> > +  - |
+> > +    leaky-device@12350000 {
+> > +      compatible = "foo,i-leak-current";
+> > +      reg = <0x12350000 0x1000>;
+> > +      power-domains = <&power 0>;
+> > +      power-domain-names = "io";
+> > +    };
+> > +
+> > +    leaky-device@12351000 {
+> > +      compatible = "foo,i-leak-current";
+> > +      reg = <0x12351000 0x1000>;
+> > +      power-domains = <&power 0>, <&power 1> ;
+> > +      power-domain-names = "io", "clk";
+> > +    };
+> > +
+> > +    // The first example above defines a typical PM domain consumer device, which is
+> > +    // located inside a PM domain with index 0 of a power controller represented by a
+> > +    // node with the label "power".
+> > +    // In the second example the consumer device are partitioned across two PM domains,
+> > +    // the first with index 0 and the second with index 1, of a power controller that
+> > +    // is represented by a node with the label "power".
+> > +
+> > +  - |
+> > +    // Example with  OPP table for domain provider that provides two domains:
+> > +
+> > +    domain0_opp_table: opp-table0 {
+> > +      compatible = "operating-points-v2";
+> > +
+> > +      domain0_opp_0: opp-1000000000 {
+> > +        opp-hz = /bits/ 64 <1000000000>;
+> > +        opp-microvolt = <975000 970000 985000>;
+> > +      };
+> > +      domain0_opp_1: opp-1100000000 {
+> > +        opp-hz = /bits/ 64 <1100000000>;
+> > +        opp-microvolt = <1000000 980000 1010000>;
+> > +      };
+> > +    };
+> > +
+> > +    domain1_opp_table: opp-table1 {
+> > +      compatible = "operating-points-v2";
+> > +
+> > +      domain1_opp_0: opp-1200000000 {
+> > +        opp-hz = /bits/ 64 <1200000000>;
+> > +        opp-microvolt = <975000 970000 985000>;
+> > +      };
+> > +      domain1_opp_1: opp-1300000000 {
+> > +        opp-hz = /bits/ 64 <1300000000>;
+> > +        opp-microvolt = <1000000 980000 1010000>;
+> > +      };
+> > +    };
+> > +
+> > +    power: power-controller@12340000 {
+> > +      compatible = "foo,power-controller";
+> > +      reg = <0x12340000 0x1000>;
+> > +      #power-domain-cells = <1>;
+> > +      operating-points-v2 = <&domain0_opp_table>, <&domain1_opp_table>;
+> > +    };
+> > +
+> > +    leaky-device0@12350000 {
+> > +      compatible = "foo,i-leak-current";
+> > +      reg = <0x12350000 0x1000>;
+> > +      power-domains = <&power 0>;
+> > +      required-opps = <&domain0_opp_0>;
+> > +    };
+> > +
+> > +    leaky-device1@12350000 {
+> > +      compatible = "foo,i-leak-current";
+> > +      reg = <0x12350000 0x1000>;
+> > +      power-domains = <&power 1>;
+> > +      required-opps = <&domain1_opp_1>;
+> > +    };
