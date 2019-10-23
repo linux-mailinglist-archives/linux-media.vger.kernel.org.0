@@ -2,96 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A859EE1E1E
-	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2019 16:27:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DCADE1F9E
+	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2019 17:42:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392219AbfJWO1V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Oct 2019 10:27:21 -0400
-Received: from atrey.karlin.mff.cuni.cz ([195.113.26.193]:35510 "EHLO
-        atrey.karlin.mff.cuni.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389521AbfJWO1V (ORCPT
+        id S2406859AbfJWPlD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Oct 2019 11:41:03 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:37546 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404283AbfJWPlC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Oct 2019 10:27:21 -0400
-Received: by atrey.karlin.mff.cuni.cz (Postfix, from userid 512)
-        id 1AE3680222; Wed, 23 Oct 2019 16:27:02 +0200 (CEST)
-Date:   Wed, 23 Oct 2019 16:27:17 +0200
-From:   Pavel Machek <pavel@ucw.cz>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Wed, 23 Oct 2019 11:41:02 -0400
+Received: by mail-pg1-f195.google.com with SMTP id p1so12380716pgi.4
+        for <linux-media@vger.kernel.org>; Wed, 23 Oct 2019 08:41:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=android.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=TI9rW32nt+i6GyURUSN10bGjthP0EG+xScjnb+pkqac=;
+        b=KBoKx5yOJdWGZz7I1M810keaJ1ZlEuvnt+HTZJAS0UmK0LTUpPmdFTkklfgcGdi73r
+         feMTzV569J5UceysOEInvWeJdRd/ZzonW6Aa3VYlqczCqXy+PY9ipoJvzLD+NWbnZ5rP
+         mW2vwJLR0Vq7sY9XP/QBVZSb/GxJx9fS5CE5Yo07sdXhMNQdYvScXxROVKhe4Esy5Cvd
+         e50H85g6521yumbQVB+PGX8SW/L7QzMUvgyanXK1Toe52me2wt2CIUN9qyd4f938PFQ7
+         rthEsivMBKI4ftQ33yVLiM1NHSBLjKlHtZVEVP38OG7iyjy4z/skVUexYga7/45kjz+T
+         6+ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=TI9rW32nt+i6GyURUSN10bGjthP0EG+xScjnb+pkqac=;
+        b=n8MT2hwKW0RVzrWf4EAMAzaZqu9RAyPoYrb+1h4eG04c96PdRH/SMWelIKJgb4XslX
+         Djwn1NZiJ6iLwXBYJnnh1RMzC63yeGLNNvuS7FimzFUPI7r2L7n8CFkTp7donKgBA9cE
+         y8izJjPIfZUg6n69tM7PrPdAQXOZE/XfO2MPEZ+WzodZUh0D2+6Qq0gn13bH3swIVdqu
+         8YcUbst4GruXw70gGT222Azho0NT/mIxq7TnM1O0onGjfGjRqzmYMBdCFlT4UKzloVI4
+         ETSSH4G8tOdxJWm3BcEQzz1RA4GCiQAyJl7nwbTFY9g5geVSPPZHdR4UJzBbWAdRE7dN
+         3AWQ==
+X-Gm-Message-State: APjAAAWTbagiEEGGQcGWBhz8aVBL3lvTfMI3xfYEMgxSlqGC7ivHue6I
+        J7/SV2kX4e+trZCPPdBrTntsPA==
+X-Google-Smtp-Source: APXvYqxpUg0BJf6IgZEek+Avbtx6SaPZVRb4CoPCBRhASaoQxSh7v/tZYoAbFxDTBg5wYPAauGUeIw==
+X-Received: by 2002:a17:90a:e987:: with SMTP id v7mr765373pjy.86.1571845261541;
+        Wed, 23 Oct 2019 08:41:01 -0700 (PDT)
+Received: from nebulus.mtv.corp.google.com ([2620:15c:211:200:5404:91ba:59dc:9400])
+        by smtp.googlemail.com with ESMTPSA id r18sm28682272pfc.3.2019.10.23.08.40.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Oct 2019 08:41:01 -0700 (PDT)
+Subject: Re: [PATCH] Cleanup: replace prefered with preferred
+To:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+Cc:     linux-kernel@vger.kernel.org, kernel-team@android.com,
+        "David S. Miller" <davem@davemloft.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Harry Wentland <harry.wentland@amd.com>,
+        Leo Li <sunpeng.li@amd.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        "David (ChunMing) Zhou" <David1.Zhou@amd.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        VMware Graphics <linux-graphics-maintainer@vmware.com>,
+        Thomas Hellstrom <thellstrom@vmware.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        tfiga@google.com,
-        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>
-Subject: Re: [PATCH v4 01/11] dt-bindings: video-interfaces: Document
- 'location' property
-Message-ID: <20191023142717.GA22854@duo.ucw.cz>
-References: <20191007162913.250743-1-jacopo@jmondi.org>
- <20191007162913.250743-2-jacopo@jmondi.org>
- <20191008074052.GA633@amd>
- <20191008075828.phxf2m7237ryl6yf@uno.localdomain>
- <20191008080634.GC633@amd>
- <20191008082041.476a2soclry6qn3v@uno.localdomain>
- <9788aa13-1bc0-02c3-33f5-a875940f2dc3@xs4all.nl>
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Trond Myklebust <trond.myklebust@hammerspace.com>,
+        Anna Schumaker <anna.schumaker@netapp.com>,
+        Alexander Aring <alex.aring@gmail.com>,
+        Jukka Rissanen <jukka.rissanen@linux.intel.com>,
+        Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
+        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Matthew Garrett <matthewgarrett@google.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        hersen wu <hersenxs.wu@amd.com>, Roman Li <Roman.Li@amd.com>,
+        Maxim Martynov <maxim@arista.com>,
+        David Ahern <dsahern@gmail.com>,
+        Francesco Ruggeri <fruggeri@arista.com>,
+        =?UTF-8?Q?Linus_L=c3=bcssing?= <linus.luessing@c0d3.blue>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Feng Tang <feng.tang@intel.com>,
+        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Rafael Aquini <aquini@redhat.com>, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-efi@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linux-nfs@vger.kernel.org,
+        linux-bluetooth@vger.kernel.org, linux-wpan@vger.kernel.org
+References: <20191022214208.211448-1-salyzyn@android.com>
+ <20191023115637.GA23733@linux.intel.com>
+From:   Mark Salyzyn <salyzyn@android.com>
+Message-ID: <fa12cb96-7a93-bf85-214d-a7bfaf8b8b0a@android.com>
+Date:   Wed, 23 Oct 2019 08:40:59 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-        protocol="application/pgp-signature"; boundary="DocE+STaALJfprDB"
-Content-Disposition: inline
-In-Reply-To: <9788aa13-1bc0-02c3-33f5-a875940f2dc3@xs4all.nl>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191023115637.GA23733@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-GB
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On 10/23/19 4:56 AM, Jarkko Sakkinen wrote:
+> On Tue, Oct 22, 2019 at 02:41:45PM -0700, Mark Salyzyn wrote:
+>> Replace all occurrences of prefered with preferred to make future
+>> checkpatch.pl's happy.  A few places the incorrect spelling is
+>> matched with the correct spelling to preserve existing user space API.
+>>
+>> Signed-off-by: Mark Salyzyn <salyzyn@android.com>
+> I'd fix such things when the code is otherwise change and scope this
+> patch only to Documentation/. There is no pragmatic benefit of doing
+> this for the code.
+>
+> /Jarkko
 
---DocE+STaALJfprDB
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The pragmatic benefit comes with the use of an ABI/API checker (which is 
+a 'distro' thing, not a top of tree kernel thing) produces its map which 
+is typically required to be co-located in the same tree as the kernel 
+repository. Quite a few ABI/API update checkins result in a 
+checkpatch.pl complaint about the misspelled elements being 
+(re-)recorded due to proximity. We have a separate task to improve how 
+it is tracked in Android to reduce milepost marker changes that result 
+in sweeping changes to the database which would reduce the occurrences.
 
-Hi!
+I will split this between pure and inert documentation/comments for now, 
+with a followup later for the code portion which understandably is more 
+controversial.
 
-> > I'm skeptical about adding now a property for a device that we don't
-> > support, because we -now- think it's a good idea. I might be wrong,
-> > but my assumption is that when someone will want to support an
-> > 'advanced' device, it's easy to add "movable" or whatever else to the
-> > list of accepted properties values. Am I wrong in assuming this? As
-> > long as "front" "back" and "external" will stay supported for backward
-> > DTB compatibility it should be fine, right ?
->=20
-> The basic rule is that you should not define things unless you KNOW that
-> they will be needed. So when we actually see new devices for which
-> "front", "back" or "external" does not fit, then new names can be
-> created.
+Cleanup is the least appreciated part of kernel maintenance ;-}.
 
-> It's impossible to cover all situations since we can't predict the future.
-> The best we can do is to allow for future extensions.
+Sincerely -- Mark Salyzyn
 
-Those devices are already being sold, and yes, they are running linux
-(with some patches probably).
-
-I believe it would be better to specify "this camera is selfie --
-takes pictures of the user" vs. "this is main camera -- takes pictures
-of what user is looking at".
-
-Best regards,
-
-								Pavel
---=20
-(english) http://www.livejournal.com/~pavelmachek
-(cesky, pictures) http://atrey.karlin.mff.cuni.cz/~pavel/picture/horses/blo=
-g.html
-
---DocE+STaALJfprDB
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCXbBjRQAKCRAw5/Bqldv6
-8tNdAKCc8CMAqHx/EQYNMo1xeFuuu8ynZwCgm0bn7w0wqbnlPmDUnp8EjCQbJi8=
-=qnpV
------END PGP SIGNATURE-----
-
---DocE+STaALJfprDB--
