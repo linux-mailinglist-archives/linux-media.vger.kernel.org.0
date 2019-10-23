@@ -2,246 +2,202 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 975BFE19E8
-	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2019 14:22:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CE61E1AAE
+	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2019 14:35:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405294AbfJWMWL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Oct 2019 08:22:11 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:38071 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405291AbfJWMWK (ORCPT
+        id S2389887AbfJWMf2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Oct 2019 08:35:28 -0400
+Received: from mail-io1-f52.google.com ([209.85.166.52]:42181 "EHLO
+        mail-io1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731301AbfJWMf1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Oct 2019 08:22:10 -0400
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1iNFeJ-0007BK-Iw; Wed, 23 Oct 2019 14:21:59 +0200
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1iNFeH-0006U1-9u; Wed, 23 Oct 2019 14:21:57 +0200
-Date:   Wed, 23 Oct 2019 14:21:57 +0200
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>, mchehab@kernel.org,
-        hans.verkuil@cisco.com, jacopo+renesas@jmondi.org,
-        robh+dt@kernel.org, laurent.pinchart@ideasonboard.com,
-        devicetree@vger.kernel.org, kernel@pengutronix.de,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v10 03/14] media: v4l2-fwnode: add initial connector
- parsing support
-Message-ID: <20191023122157.qu3eodamlye5zsax@pengutronix.de>
-References: <20190830101646.6530-1-m.felsch@pengutronix.de>
- <20190830101646.6530-4-m.felsch@pengutronix.de>
- <20191002070303.GK896@valkosipuli.retiisi.org.uk>
- <20191002080735.yyoxo5wg35t7k26x@pengutronix.de>
- <20191023105739.GN5433@paasikivi.fi.intel.com>
+        Wed, 23 Oct 2019 08:35:27 -0400
+Received: by mail-io1-f52.google.com with SMTP id i26so15370617iog.9;
+        Wed, 23 Oct 2019 05:35:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=+w0YpM/cfcuCW0XdV25Aq9hHQMDz35RkWi0hBLRFRFI=;
+        b=Wi4MdyVp9/KdLPR016K23PcaY1ovngGdF4NoN8Oq9YAUTjl6zsL0+CmDrGbj7qY5LC
+         x0UNizrQ/K79JTD/ymQOiPWKrkIzK+0gJz1kWvYmOK+D/2EHKvUX8ECft6R9qmhFbp70
+         DJf54GnontaMEd2HLmRdE3IoTtNFKyjxGkLYwtrSfzcYmQvHlDSnCI6sssb28yjFwMKy
+         MtIjKK2gDtxWiR00/3Ch8LTIKFmNra/EuKKyTGDK8CXL/uP/OuibBk7aZn4/I4fgLnHF
+         c4d5R6Y4Jnz7vqhYyAid/6f6bozZU5v9yP2VowvNCkJsuv2LcT6NAXGY/0TaQpQwrkbP
+         NSmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=+w0YpM/cfcuCW0XdV25Aq9hHQMDz35RkWi0hBLRFRFI=;
+        b=Ziz5wZTPjZHQ3qsQVviimFL3/wHxkmLm7mCWSxmyIufsuiVewb4MtWDE5GNmb1skJk
+         E0b73VCz3bmUTo2SVloQ1myBfDGk06y6ZuXJwdD2qbE0lOsZZNerpdfOacWlQGLh1AQ6
+         KlHqQ8uqdBj/YuM1fh5VUAvFG+S0E/eu653EpRNNe4R2sKS/6Ub96wL57p9VZxpRne+H
+         QjaFW8a089JSdeCalb/9dDpl+sZJTmQAY2nuXSqwuUH8rWnsEw533IctNMBVnrhofAHO
+         3Pv2wYKkm8499foXW2uM+8lVYW4KiGTejaT7dM2yrMOZ9W21/zrErMgCc1yi/n7n2Yez
+         P9rg==
+X-Gm-Message-State: APjAAAXaoOtkX7Juvq2UioJEFsmhZDNhdZYAoyH20faaWZ8kUhteCtTI
+        ZfS0/2yRJjGKUTfQvzd4k4+JEi4Ce5H7JW1t3z3G2sCT
+X-Google-Smtp-Source: APXvYqwqcJh68YGZFTDBgbDgu7eKSVSf61EiNnDFRvzzy14hGGSsXKX0i9+xmPRgU1KbiU19lR3tjE3wDTHASs0Scjo=
+X-Received: by 2002:a02:40c6:: with SMTP id n189mr9274270jaa.52.1571834124348;
+ Wed, 23 Oct 2019 05:35:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191023105739.GN5433@paasikivi.fi.intel.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 14:17:38 up 158 days, 18:35, 98 users,  load average: 0.09, 0.05,
- 0.01
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+References: <CAHCN7xLMTDondeiYiYHwGG5HYEaRwY9S4uoqQ-Eq6b8ksSS+NA@mail.gmail.com>
+ <20191020180248.GD11723@pendragon.ideasonboard.com> <CAHCN7x+rZb5ikUeqhRAg8bVQ1vyYSc-+uVdLXcCV9RVSwt6UfQ@mail.gmail.com>
+In-Reply-To: <CAHCN7x+rZb5ikUeqhRAg8bVQ1vyYSc-+uVdLXcCV9RVSwt6UfQ@mail.gmail.com>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Wed, 23 Oct 2019 07:35:13 -0500
+Message-ID: <CAHCN7x+Yzj3UJXPobCWa_VL9ONLMCz=QAghoZ0j2KQ6ZNq0K6w@mail.gmail.com>
+Subject: Re: V4L2 runs out of memory when OMAP3 ISP parallel pixel clock is high
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Linux-OMAP <linux-omap@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        "H. Nikolaus Schaller" <hns@goldelico.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+On Sun, Oct 20, 2019 at 2:16 PM Adam Ford <aford173@gmail.com> wrote:
+>
+> On Sun, Oct 20, 2019 at 1:02 PM Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+> >
+> > Hi Adam,
+> >
+> > On Sun, Oct 20, 2019 at 09:45:25AM -0500, Adam Ford wrote:
+> > > I am running a DM3730 connected to an mt9p031 sensor, and the ISP is
+> > > running in 8-bit parallel mode.
+> > >
+> > > I have the sensor endpoint configured as:
+> > >
+> > > mt9p031_out: endpoint {
+> > >      input-clock-frequency =3D <24000000>;
+> > >      pixel-clock-frequency =3D <72000000>;
+> > >      remote-endpoint =3D <&ccdc_ep>;
+> > > };
+> > >
+> > > I was looking through the datasheet, and it appears as if the pixel
+> > > clock frequency can go up to 96MHz, so I tried to increase the
+> > > pixel-clock-frequency to 96MHz, but v4l2 seems to get an out of memor=
+y
+> > > error.
+> > >
+> > > libv4l2: error turning on stream: No space left on device
+> > > ERROR: from element /GstPipeline:pipeline0/GstV4l2Src:v4l2src0: Faile=
+d
+> > > to allocate required memory.
+> > > Additional debug info:
+> > > gstv4l2src.c(658): gst_v4l2src_decide_allocation ():
+> > > /GstPipeline:pipeline0/GstV4l2Src:v4l2src0:
+> > > Buffer pool activation failed
+> > > Execution ended after 0:00:00.019073486
+> >
+> > The error code may be misleading. ENOSPC is used here to report that th=
+e
+> > maximum CCDC bandwidth has been exceeded, not that the driver is runnin=
+g
+> > out of memory.
+> >
+> > The check is performed in isp_video_check_external_subdevs(), and the
+> > maximum CCDC bandwidth is calculated by omap3isp_ccdc_max_rate():
+> >
+> >         /*
+> >          * TRM says that for parallel sensors the maximum data rate
+> >          * should be 90% form L3/2 clock, otherwise just L3/2.
+> >          */
+> >         if (ccdc->input =3D=3D CCDC_INPUT_PARALLEL)
+> >                 rate =3D pipe->l3_ick / 2 * 9 / 10;
+> >         else
+> >                 rate =3D pipe->l3_ick / 2;
+> >
+> > Could you point me to the part of the OMAP3 datasheet that you think
+> > allows for 96 MHz ?
+>
+> The DM3730 TRM (SPRUGN4R =E2=80=93 May 2010 =E2=80=93 Revised September 2=
+012) doesn't
+> use the 90% rule mentioned above from what I can see. Maybe it's
+> somewhere else, but I didn't see it.  It does state the folllowing in
+> Section 6.3.1.1:
+> Camera ISP Clocks Parallel interface clock domain. This frequency
+> depends on the imaging sensor type and size, its frame rate and its
+> blanking time. The functional clock is required to be at least 2x
+> faster than the pixel clock when the bridge is disabled and a least
+> equal when it is enabled.
+>
+> When I queried the cam_ick, it returned 100MHz, so I expected 96MHz to
+> be tolerated.
+>
+> # cat cat /sys/kernel/debug/clk/l3_ick/clk_rate
+> 200000000
+>
+> # cat /sys/kernel/debug/clk/cam_ick/clk_rate
+> 100000000
+>
+> For what it's worth, I removed the 90% calculation and just use the L3
+> / 2.  With that done, I was able to push the camera to 96MHz, and the
+> frame rate increased
+>
+> Can you point me to where this 90% requirement is located?
+>
 
-On 19-10-23 13:57, Sakari Ailus wrote:
-> Hi Marco,
-> 
-> Apologies for the delay.
+Laurent,
 
-No problem.
+I think I figured out where the 90% calculation is located, but I can
+only see it in the OMAP3530 TRM and not in the DM3730.
 
-> On Wed, Oct 02, 2019 at 10:07:35AM +0200, Marco Felsch wrote:
-> > Hi Sakari,
-> > 
-> > On 19-10-02 10:03, Sakari Ailus wrote:
-> > > Hi Marco,
-> > > 
-> > > On Fri, Aug 30, 2019 at 12:16:35PM +0200, Marco Felsch wrote:
-> > > > The patch adds the initial connector parsing code, so we can move from a
-> > > > driver specific parsing code to a generic one. Currently only the
-> > > > generic fields and the analog-connector specific fields are parsed. Parsing
-> > > > the other connector specific fields can be added by a simple callbacks.
-> > > > 
-> > > > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> > > > ---
-> > > > [1] https://patchwork.kernel.org/cover/10794703/
-> > > > 
-> > > > v10:
-> > > > - drop V4L2_CONN_HDMI support
-> > > > - adapt pr_err msg to reflect new state (-> connector is unkown)
-> > > > 
-> > > > v9:
-> > > > - Fix leading semicolon found by kbuild semicolon.cocci
-> > > > 
-> > > > v8:
-> > > > - V4L2_CON_* -> V4L2_CONN_*
-> > > > - tvnorms -> sdtv-standards
-> > > > - adapt to new v4l2_fwnode_connector_analog member
-> > > > - return error in case of V4L2_CONN_HDMI
-> > > > 
-> > > > v7:
-> > > > @Jacopo: I dropped your r b tag becuase of the amount of changes I
-> > > > made..
-> > > > 
-> > > > - drop unnecessary comments
-> > > > - fix commet style
-> > > > - s/v4l2_fwnode_connector_conv.name/v4l2_fwnode_connector_conv.compatible/
-> > > > - make label size variable and drop V4L2_CONNECTOR_MAX_LABEL usage
-> > > > - do not assign a default label in case of no label was specified
-> > > > - remove useless /* fall through */ comments
-> > > > - add support for N connector links
-> > > > - rename local variables to be more meaningful
-> > > > - adjust kernedoc
-> > > > - add v4l2_fwnode_connector_free()
-> > > > - improve error handling (use different error values)
-> > > > - make use of pr_warn_once()
-> > > > 
-> > > > v6:
-> > > > - use unsigned count var
-> > > > - fix comment and style issues
-> > > > - place '/* fall through */' to correct places
-> > > > - fix error handling and cleanup by releasing fwnode
-> > > > - drop vga and dvi parsing support as those connectors are rarely used
-> > > >   these days
-> > > > 
-> > > > v5:
-> > > > - s/strlcpy/strscpy/
-> > > > 
-> > > > v2-v4:
-> > > > - nothing since the patch was squashed from series [1] into this
-> > > >   series.
-> > > > 
-> > > >  drivers/media/v4l2-core/v4l2-fwnode.c | 129 ++++++++++++++++++++++++++
-> > > >  include/media/v4l2-fwnode.h           |  38 ++++++++
-> > > >  2 files changed, 167 insertions(+)
-> > > > 
-> > > > diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
-> > > > index 3bd1888787eb..0bfa7cbf78df 100644
-> > > > --- a/drivers/media/v4l2-core/v4l2-fwnode.c
-> > > > +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
-> > > > @@ -595,6 +595,135 @@ void v4l2_fwnode_put_link(struct v4l2_fwnode_link *link)
-> > > >  }
-> > > >  EXPORT_SYMBOL_GPL(v4l2_fwnode_put_link);
-> > > >  
-> > > > +static const struct v4l2_fwnode_connector_conv {
-> > > > +	enum v4l2_connector_type type;
-> > > > +	const char *compatible;
-> > > > +} connectors[] = {
-> > > > +	{
-> > > > +		.type = V4L2_CONN_COMPOSITE,
-> > > > +		.compatible = "composite-video-connector",
-> > > > +	}, {
-> > > > +		.type = V4L2_CONN_SVIDEO,
-> > > > +		.compatible = "svideo-connector",
-> > > > +	},
-> > > > +};
-> > > > +
-> > > > +static enum v4l2_connector_type
-> > > > +v4l2_fwnode_string_to_connector_type(const char *con_str)
-> > > > +{
-> > > > +	unsigned int i;
-> > > > +
-> > > > +	for (i = 0; i < ARRAY_SIZE(connectors); i++)
-> > > > +		if (!strcmp(con_str, connectors[i].compatible))
-> > > > +			return connectors[i].type;
-> > > > +
-> > > > +	return V4L2_CONN_UNKNOWN;
-> > > > +}
-> > > > +
-> > > > +static int
-> > > > +v4l2_fwnode_connector_parse_analog(struct fwnode_handle *fwnode,
-> > > > +				   struct v4l2_fwnode_connector *vc)
-> > > > +{
-> > > > +	u32 stds;
-> > > > +	int ret;
-> > > > +
-> > > > +	ret = fwnode_property_read_u32(fwnode, "sdtv-standards", &stds);
-> > > > +
-> > > > +	/* The property is optional. */
-> > > > +	vc->connector.analog.sdtv_stds = ret ? V4L2_STD_ALL : stds;
-> > > > +
-> > > > +	return 0;
-> > > > +}
-> > > > +
-> > > > +void v4l2_fwnode_connector_free(struct v4l2_fwnode_connector *connector)
-> > > > +{
-> > > > +	unsigned int i;
-> > > > +
-> > > > +	if (IS_ERR_OR_NULL(connector))
-> > > > +		return;
-> > > > +
-> > > > +	for (i = 0; i < connector->nr_of_links; i++)
-> > > > +		v4l2_fwnode_put_link(&connector->links[i]);
-> > > > +	kfree(connector->links);
-> > > 
-> > > Please assign connector->links NULL here, and nr_of_links to zero.
-> > 
-> > Okay, I can do that.
-> > 
-> > > > +}
-> > > > +EXPORT_SYMBOL_GPL(v4l2_fwnode_connector_free);
-> > > > +
-> > > > +int v4l2_fwnode_connector_alloc_parse(struct fwnode_handle *fwnode,
-> > > > +				      struct v4l2_fwnode_connector *connector)
-> > > > +{
-> > > > +	struct fwnode_handle *remote_pp, *remote_ep;
-> > > > +	const char *type_name;
-> > > > +	unsigned int i = 0, ep_num = 0;
-> > > > +	int err;
-> > > > +
-> > > > +	memset(connector, 0, sizeof(*connector));
-> > > > +
-> > > > +	remote_pp = fwnode_graph_get_remote_port_parent(fwnode);
-> > > 
-> > > How do you know a remote endpoint is a connector, and not another device's
-> > > endpoint?
-> > 
-> > Well, I think that the caller won't use this function if it isn't a
-> > connector. If it helps I can check if the compatible of the remote ends
-> > with "-connector".
-> 
-> The function is called by a driver. A driver shouldn't know what's at the
-> other end of the graph arc; the information should come from the firmware
-> instead.
-> 
-> On some board there could be another device where you have a connector now.
-> 
-> As the connector has its own compatible string, there could be a connector
-> driver to tell this is actually a connector, even if there's nothing to
-> control. It'd be a very tiny driver.
+In the OMAP3530, Section 12.4.6.1.1 CCDC Features:
 
-Yes I know a connector driver would be the best. This also have the
-advantage to do drop the connector handling in each subdev driver.. But
-unfortunately I haven't the time yet. Would it be okay for you too check
-that the remote is a connector and if not to exit?
+=E2=80=93 Data up to 8-bit at 130 MHz can be transferred to memory.
+=E2=80=93 Data up to 10-bit at 75 MHz can be processed by the image pipelin=
+e
+or transferred to memory.
+=E2=80=93 Data up to 12-bit at 75 MHz can be transferred to memory or
+internally converted into 10-bit data to be processed by the image
+pipeline.
 
-Regards,
-  Marco
+If we assume the L3 is running at 166, then 166/2 =3D 83 and 83 * .9 =3D 74=
+.7.
 
-> -- 
-> Regards,
-> 
-> Sakari Ailus
-> 
+Does this seem like the right place?  If so,  then my impression is
+that we should check for 10 or 12-bit mode before doing this math.  If
+we're running at 8-bit, it seems to me like we can run at 130MHz for
+the OMAP35, and potentially at 166MHz for the DM3730.
 
--- 
-Pengutronix e.K.                           |                             |
-Industrial Linux Solutions                 | http://www.pengutronix.de/  |
-Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+The Resizer has some of its own limitations, so when its invoked it
+appears to have it's own limitations per section 6.4.7.2.1:
+
+The horizontal resizer output rate must not exceed half the functional
+clock; Moreover, the horizontal resizer output rate must not exceed
+100M pixels/s. This limitation applies only for the on-the-fly
+processing input source.
+
+Either way, this is still 1/2 the clock rate of L3 and not 90% of that.
+
+If you'll permit me, I'd like to add some code to if we're an
+omap36xx.  Is so, I'd like to skip the 90% calculation for those
+devices.  I have already been able to show that with it removed, I can
+still capture paralell images at 96MHz.
+
+adam
+> adam
+> >
+> > > Through trial and error, I was able to get push the sensor's
+> > > pixel-clock-frequency to work at 90MHz, but no higher.  I have also
+> > > tried experimenting with the input clock frequency without success.
+> > >
+> > > If I can get the clock to run at 96MHz, which the ISP and sensor
+> > > documentation appears to permit, I am hoping to be able to achieve a
+> > > little higher frame rate.
+> > >
+> > > Is there something I need to do to allocate more memory to V4L2 or is
+> > > there some other limitation causing the out of memory at higher pixel
+> > > clock frequencies?
+> >
+> > --
+> > Regards,
+> >
+> > Laurent Pinchart
