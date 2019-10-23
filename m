@@ -2,59 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 88335E1CC5
-	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2019 15:36:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CACAE1DFA
+	for <lists+linux-media@lfdr.de>; Wed, 23 Oct 2019 16:20:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405903AbfJWNgK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Oct 2019 09:36:10 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:37785 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392006AbfJWNgK (ORCPT
+        id S2406380AbfJWOUY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Oct 2019 10:20:24 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:38524 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725852AbfJWOUX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Oct 2019 09:36:10 -0400
-Received: by mail-wm1-f66.google.com with SMTP id f22so19711051wmc.2
-        for <linux-media@vger.kernel.org>; Wed, 23 Oct 2019 06:36:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=dVgB2gHwyu9BrwAHrTVrhxxTLMnU+GjkCtVmW3QXNgU=;
-        b=Zp1rNYOb7wPsdMPdMbYe//+9NYjGitazC3K4MBrZR7qVyf3SurlVK/iVTX8rXrD1MV
-         duJiT6vf8/dVRyCoGAADOWO6mdvdO7LXMGSTBsL1aPHRptzHVSr6EVhNUNTbTuXzEcJM
-         CBCb+Jmcnci8Xj7Z+C2D9+RBLni3QkUE+aLyNfm640DulCjNSyCQlNWPphsu43/xiaCJ
-         jGtO0Rf565kxFLQCtlztfZCV3214dAbiLSZKIvSf0BlByQ/4iOlt67agx4AGUfiCjZMI
-         RoTZ6xCVKLtvHbzydaTmcuGrVnWq27zH7gygGQ2YGfnHqhgxkVmC2lGKxGSiWzVcr6KU
-         QN9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=dVgB2gHwyu9BrwAHrTVrhxxTLMnU+GjkCtVmW3QXNgU=;
-        b=Ecy4+9QDmCvphs+faXzZDP40PwyW2q4UVwa2nFscf5vj7rDz0N79xYwPdz8LVJf6o9
-         On7zodJJodMmDL3iyA5e/+R4k2aE7jmD4rGIkhcglsaVWKGlk34sr0W1/z7Fmv0FhsM2
-         sRkusCS8Myxj11Q4MHPCvHpEaEPezC6OcPRiQghRlDcWyUT8Sf/vBGhHJ0CB3FVFX4z5
-         nfANRgoarvXyRZaqFzBJlBup38oh0oPmQi8TUOOhfXlP4x4zaOpHfD/JhvuoL0hZA98F
-         oMLAOi3qH914MG3fb2RfFlT1ZTBltinY1tLS6oDwfFRFwIiDRtIszgzsHwZO7ZHFHTEh
-         o05w==
-X-Gm-Message-State: APjAAAUyZdfE5rzuekjTEh3MyNU7HqcouSk6e86C6NZCWaqkrLRDw8mS
-        DP6nXaLpiy0nndtZskmBR/uGB1Sn/2su4f2nfBA=
-X-Google-Smtp-Source: APXvYqzu60dP5ZzLHoNcR4C1Z90wK3ujHk4eIk60CblS8nkYpWGmu8JElmh7udCx+t1YVbQaCRFZhRaASS5NgAdsuk0=
-X-Received: by 2002:a7b:ce84:: with SMTP id q4mr4860246wmj.36.1571837768313;
- Wed, 23 Oct 2019 06:36:08 -0700 (PDT)
+        Wed, 23 Oct 2019 10:20:23 -0400
+Received: from pendragon.ideasonboard.com (143.121.2.93.rev.sfr.net [93.2.121.143])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9248F71F;
+        Wed, 23 Oct 2019 16:20:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1571840421;
+        bh=ZN4esrfVTSXQCeDtJTnyp/5+MEwfIxLla+K4wvGg9Y0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Vd6gqdYnjc3QUx+9Hm1cEGKJmOsckWahI7KPz4SLSVxEGo74ctV9ftQ80ogqxu16/
+         2JcV1EmHfSj63VX7av7VEhuhQz6ZxMSA+Jz91nBGpRLCQBzIQvoiy5XakXF5qGjE86
+         vUhZFnzdjAwYRhtVRxFNkhxV2XlSKC3K2IsuOjfQ=
+Date:   Wed, 23 Oct 2019 17:20:16 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jean Delvare <jdelvare@suse.de>
+Cc:     linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-usb@vger.kernel.org
+Subject: Re: Logitech C270 webcam floods the log
+Message-ID: <20191023142016.GA1904@pendragon.ideasonboard.com>
+References: <20191023151859.30a8ce88@endymion>
 MIME-Version: 1.0
-Received: by 2002:a5d:400a:0:0:0:0:0 with HTTP; Wed, 23 Oct 2019 06:36:07
- -0700 (PDT)
-Reply-To: mrs.lisarobinson746@gmail.com
-From:   "Mrs. Lisa" <helpdesk.eit.ac.nz@gmail.com>
-Date:   Wed, 23 Oct 2019 06:36:07 -0700
-Message-ID: <CAK7Er8aKyL3H-yzE3WwHqgdy-pvjcQoKmcraD43WMg3fDh48xQ@mail.gmail.com>
-Subject: Mrs. Lisa Charity Donation
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20191023151859.30a8ce88@endymion>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Jean,
+
+On Wed, Oct 23, 2019 at 03:18:59PM +0200, Jean Delvare wrote:
+> Hi all,
+> 
+> When my Logitech C270 webcam is plugged in, my kernel log gets filled
+> with this message:
+> 
+> usb 3-4.1: reset high-speed USB device number 4 using xhci_hcd
+> 
+> every 5 seconds. I have the same problem on 3 different Intel-based
+> computers (different generations), using 2 different webcams, same
+> brand "same model".
+>
+> Is Logitech doing crappy hardware these days, or are we doing something
+> wrong? Is there any way to know the reason that triggers the reset?
+
+Is this before or after the uvcvideo driver gets involved ? One easy way
+to check is to move the uvcvideo.ko module out of the way so that it
+doesn't get loaded automatically (or just blacklist it in
+/etc/modprobe.d/) and then plug the camera.
+
+> I would be more than happy to provide any relevant debugging
+> information if anyone is able to make it stop. As it stands, I must
+> plug my webcam before using it and unplug it as soon as I'm done, which
+> isn't exactly convenient.
+
 -- 
-I am Lisa Robinson, you have a donation of $1,200,000.00 USD. Contact
-me now for more information.
+Regards,
+
+Laurent Pinchart
