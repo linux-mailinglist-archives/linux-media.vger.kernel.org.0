@@ -2,74 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B4AF7E34B6
-	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2019 15:48:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 288F7E34F5
+	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2019 16:03:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2439528AbfJXNsh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Oct 2019 09:48:37 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:45875 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732240AbfJXNsh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Oct 2019 09:48:37 -0400
-Received: by mail-lf1-f65.google.com with SMTP id v8so18626013lfa.12;
-        Thu, 24 Oct 2019 06:48:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Eh3QeCRU+KbLxpJwL2S7uImfmKPlDkY/EBxciS/9vrY=;
-        b=VpbZ19QjrvdBp+Yp9H58aK9ZIlx0JFpcl15OdjIFnRPII+GxZwvuippqg4mUgTqKZM
-         lZJHTCmC04JPSP8pd/b6tO5EIaCZ3fSunswB7ZwXhyS2DbULmd9PHsdJyi7muqkfadHh
-         Naiu2nZlUJVuj1btOvZebSkJS12fRBvO1Dp2UvGaKmGhoCPT5k37TVzOxBkQtFxVadtB
-         p4EmetHtomv/7d3hhVCJ2t1ZtikElKN9UGmL20kCbZXRrigdyRkUxh1je/r3Fh9dxAL+
-         avZ8vSmxm4jDrIZ6BCRniEa6PlszP76M95v+e9VklbUJ6uQ72Elxa+13WItDkY3oZi7Y
-         oCbQ==
-X-Gm-Message-State: APjAAAVRzTjT6wOqTZ0hekgSbPuznkhNvC11FZ5Q5tsCjl9PEYDMsEvC
-        aWCfx2hHU6A+ynuvOSfYS1s=
-X-Google-Smtp-Source: APXvYqxrb3tBc+jJCOQUd4Kwz9IyKrxbM/t0vGxQuf45osYcRN06U8doVPUfI30LiERriv5ZqHFlhg==
-X-Received: by 2002:a19:7b16:: with SMTP id w22mr10635721lfc.114.1571924915467;
-        Thu, 24 Oct 2019 06:48:35 -0700 (PDT)
-Received: from neopili.qtec.com (cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
-        by smtp.gmail.com with ESMTPSA id j7sm11907086lfc.16.2019.10.24.06.48.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Oct 2019 06:48:34 -0700 (PDT)
-From:   Ricardo Ribalda Delgado <ribalda@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Ricardo Ribalda Delgado <ribalda@kernel.org>
-Subject: [PATCH] imx214: Remove redundant code
-Date:   Thu, 24 Oct 2019 15:48:32 +0200
-Message-Id: <20191024134832.14061-1-ribalda@kernel.org>
-X-Mailer: git-send-email 2.23.0
+        id S2388734AbfJXODV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Oct 2019 10:03:21 -0400
+Received: from mga12.intel.com ([192.55.52.136]:14218 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730547AbfJXODU (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 24 Oct 2019 10:03:20 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 24 Oct 2019 07:03:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,224,1569308400"; 
+   d="scan'208";a="210164958"
+Received: from jjackiew-mobl1.ger.corp.intel.com (HELO mara.localdomain) ([10.249.148.206])
+  by fmsmga001.fm.intel.com with ESMTP; 24 Oct 2019 07:03:19 -0700
+Received: from sailus by mara.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@linux.intel.com>)
+        id 1iNdj3-00014W-RR; Thu, 24 Oct 2019 17:04:29 +0300
+Date:   Thu, 24 Oct 2019 17:04:29 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Ricardo Ribalda Delgado <ribalda@kernel.org>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media <linux-media@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] Documentation: media: *_DEFAULT targets for subdevs
+Message-ID: <20191024140428.GF3966@mara.localdomain>
+References: <20191024123526.4778-1-ribalda@kernel.org>
+ <20191024133333.GE3966@mara.localdomain>
+ <CAPybu_2hdvq_M-8X0_-MVxSjaJ8H0x+zDRaa4Cf=b0PQtVnzmQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAPybu_2hdvq_M-8X0_-MVxSjaJ8H0x+zDRaa4Cf=b0PQtVnzmQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The pad is now checked by v4l2_subdev_call_wappers
+Hi Ricardo,
 
-call_g_frame_interval-> check_frame_interval-> check_pad
+On Thu, Oct 24, 2019 at 03:43:36PM +0200, Ricardo Ribalda Delgado wrote:
+> Hi Sakari
+> 
+> Lets say the user wants to select the active pixels. He needs to set
+> the crop and the compose.
+> 
+> 1) he gets V4L2_SEL_TGT_CROP_DEFAULT
+> 
+> 2) he sets V4L2_SEL_TGT_CROP
+> 
+> How does he knows which compose to use? What if the compose starts at
+> (0,0) instead of (32,32)....?
+> 
+> I think it is easier if
+> 
+> 3) he gets V4L2_SEL_TGT_COMPOSE_DEFAULT
+> 
+> 4) he sets V4L2_SEL_TGT_COMPOSE
+> 
+> This is similar as how we do it today with a v4l2_device. What if we
+> simply replicate that behaviour?
 
-Signed-off-by: Ricardo Ribalda Delgado <ribalda@kernel.org>
----
- drivers/media/i2c/imx214.c | 1 -
- 1 file changed, 1 deletion(-)
+The compose rectangle is relative to the crop rectangle (if there's a crop
+rectangle), and always starts at 0,0.
 
-diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
-index adcaaa8c86d1..4175d06ffd47 100644
---- a/drivers/media/i2c/imx214.c
-+++ b/drivers/media/i2c/imx214.c
-@@ -803,7 +803,6 @@ static int imx214_s_stream(struct v4l2_subdev *subdev, int enable)
- static int imx214_g_frame_interval(struct v4l2_subdev *subdev,
- 				   struct v4l2_subdev_frame_interval *fival)
- {
--	fival->pad = 0;
- 	fival->interval.numerator = 1;
- 	fival->interval.denominator = IMX214_FPS;
- 
+See:
+
+<URL:https://hverkuil.home.xs4all.nl/spec/uapi/v4l/dev-subdev.html#selections-cropping-scaling-and-composition>
+
 -- 
-2.23.0
-
+Sakari Ailus
+sakari.ailus@linux.intel.com
