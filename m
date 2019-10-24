@@ -2,80 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 288F7E34F5
-	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2019 16:03:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF970E3552
+	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2019 16:16:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388734AbfJXODV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Oct 2019 10:03:21 -0400
-Received: from mga12.intel.com ([192.55.52.136]:14218 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730547AbfJXODU (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Oct 2019 10:03:20 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 24 Oct 2019 07:03:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,224,1569308400"; 
-   d="scan'208";a="210164958"
-Received: from jjackiew-mobl1.ger.corp.intel.com (HELO mara.localdomain) ([10.249.148.206])
-  by fmsmga001.fm.intel.com with ESMTP; 24 Oct 2019 07:03:19 -0700
-Received: from sailus by mara.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@linux.intel.com>)
-        id 1iNdj3-00014W-RR; Thu, 24 Oct 2019 17:04:29 +0300
-Date:   Thu, 24 Oct 2019 17:04:29 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Ricardo Ribalda Delgado <ribalda@kernel.org>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] Documentation: media: *_DEFAULT targets for subdevs
-Message-ID: <20191024140428.GF3966@mara.localdomain>
-References: <20191024123526.4778-1-ribalda@kernel.org>
- <20191024133333.GE3966@mara.localdomain>
- <CAPybu_2hdvq_M-8X0_-MVxSjaJ8H0x+zDRaa4Cf=b0PQtVnzmQ@mail.gmail.com>
+        id S2405487AbfJXOQA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Oct 2019 10:16:00 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:53012 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726008AbfJXOP7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 24 Oct 2019 10:15:59 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dafna)
+        with ESMTPSA id 2091D2905AC
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     dafna.hirschfeld@collabora.com, helen.koike@collabora.com,
+        skhan@linuxfoundation.org, hverkuil@xs4all.nl,
+        kernel@collabora.com, dafna3@gmail.com
+Subject: [PATCH v5 0/2] upon streaming, check that the pipeline starts with a source entity
+Date:   Thu, 24 Oct 2019 16:15:52 +0200
+Message-Id: <20191024141554.15248-1-dafna.hirschfeld@collabora.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAPybu_2hdvq_M-8X0_-MVxSjaJ8H0x+zDRaa4Cf=b0PQtVnzmQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ricardo,
+The first patch in this patchset moves the dev field of each
+entity struct to the common struct vimc_ent_device.
 
-On Thu, Oct 24, 2019 at 03:43:36PM +0200, Ricardo Ribalda Delgado wrote:
-> Hi Sakari
-> 
-> Lets say the user wants to select the active pixels. He needs to set
-> the crop and the compose.
-> 
-> 1) he gets V4L2_SEL_TGT_CROP_DEFAULT
-> 
-> 2) he sets V4L2_SEL_TGT_CROP
-> 
-> How does he knows which compose to use? What if the compose starts at
-> (0,0) instead of (32,32)....?
-> 
-> I think it is easier if
-> 
-> 3) he gets V4L2_SEL_TGT_COMPOSE_DEFAULT
-> 
-> 4) he sets V4L2_SEL_TGT_COMPOSE
-> 
-> This is similar as how we do it today with a v4l2_device. What if we
-> simply replicate that behaviour?
+The second patch fixes a crashing bug when the pipeline does not start with a
+source entity.
 
-The compose rectangle is relative to the crop rectangle (if there's a crop
-rectangle), and always starts at 0,0.
+Fixes from v4:
 
-See:
+- NO changes in the first patch since v4
 
-<URL:https://hverkuil.home.xs4all.nl/spec/uapi/v4l/dev-subdev.html#selections-cropping-scaling-and-composition>
+- The function vimc_streamer_pipeline_init now gets the media_entity
+as parameter and I changed the while loop to "while(ent)" since this the
+valid behaviour: loop until the source of the pipeline.
+All other cases should return from the while loop with "goto err".
+Also, after calling v4l2_subdev_call, if  'ret' is ENOIOCTCMD then
+it is set to 0 to make sure that ret is 0 when no error occurred.
+
+Dafna Hirschfeld (2):
+  media: vimc: move the dev field of each entity to vimc_ent_dev
+  media: vimc: upon streaming, check that the pipeline starts with a
+    source entity
+
+ drivers/media/platform/vimc/vimc-capture.c  |  7 +-
+ drivers/media/platform/vimc/vimc-common.c   | 10 +++
+ drivers/media/platform/vimc/vimc-common.h   |  7 ++
+ drivers/media/platform/vimc/vimc-debayer.c  | 15 ++---
+ drivers/media/platform/vimc/vimc-scaler.c   | 11 ++--
+ drivers/media/platform/vimc/vimc-sensor.c   |  5 +-
+ drivers/media/platform/vimc/vimc-streamer.c | 73 +++++++++++++--------
+ 7 files changed, 78 insertions(+), 50 deletions(-)
 
 -- 
-Sakari Ailus
-sakari.ailus@linux.intel.com
+2.20.1
+
