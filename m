@@ -2,155 +2,224 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B4326E2931
-	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2019 05:54:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E8427E2A47
+	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2019 08:14:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403934AbfJXDyv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Oct 2019 23:54:51 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:35719 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2390933AbfJXDyv (ORCPT
+        id S2437692AbfJXGN6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Oct 2019 02:13:58 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:60414 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2404173AbfJXGN6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Oct 2019 23:54:51 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:1195:3f92:55ee:4795])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id NUCzipVL8frRWNUD0iSzQ2; Thu, 24 Oct 2019 05:54:47 +0200
-Message-ID: <244240462e2b9dd10d64989bff9d3c05@smtp-cloud8.xs4all.net>
-Date:   Thu, 24 Oct 2019 05:54:45 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfFSSZxCwPVRMKEYkE19rwdpahJ0wMk5npsuzI4ZiZrwVu+aA3g15MgTHIxkvpzIVptnI/uvqY+LeYUQrIbCbmpQzPjVy3KBFQEjdTCT4U/stvHRfgoR8
- brc9JthPxpRbVNqNmz7gDcPeyOMrGNNzW3ItlG9WQ/U9zIrrLLnsycmtZ5lg8m9yEOIctGrIGuTh4fuKecNKdsy4Bo2qN/dNoIFpcD0U8ykCyIjw/QsW3kYj
+        Thu, 24 Oct 2019 02:13:58 -0400
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 36D56634C87;
+        Thu, 24 Oct 2019 09:13:35 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1iNWNK-0000pH-4K; Thu, 24 Oct 2019 09:13:34 +0300
+Date:   Thu, 24 Oct 2019 09:13:34 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Benoit Parrot <bparrot@ti.com>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Rob Herring <robh+dt@kernel.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [Patch 19/19] dt-bindings: media: cal: convert binding to yaml
+Message-ID: <20191024061334.GA2867@valkosipuli.retiisi.org.uk>
+References: <20191018153437.20614-1-bparrot@ti.com>
+ <20191018153437.20614-20-bparrot@ti.com>
+ <20191022074623.GE864@valkosipuli.retiisi.org.uk>
+ <20191023161844.hgrxeo244krq26lz@ti.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191023161844.hgrxeo244krq26lz@ti.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi Benoit,
 
-Results of the daily build of media_tree:
+On Wed, Oct 23, 2019 at 11:18:45AM -0500, Benoit Parrot wrote:
+> Sakari Ailus <sakari.ailus@iki.fi> wrote on Tue [2019-Oct-22 10:46:23 +0300]:
+> > Hi Benoit,
+> > 
+> > Thanks for the patch.
+> > 
+> > On Fri, Oct 18, 2019 at 10:34:37AM -0500, Benoit Parrot wrote:
+> > > Convert ti-cal.txt to ti,cal.yaml.
+> > > 
+> > > Signed-off-by: Benoit Parrot <bparrot@ti.com>
+> > > ---
+> > >  .../devicetree/bindings/media/ti,cal.yaml     | 186 ++++++++++++++++++
+> > >  .../devicetree/bindings/media/ti-cal.txt      |  82 --------
+> > >  2 files changed, 186 insertions(+), 82 deletions(-)
+> > >  create mode 100644 Documentation/devicetree/bindings/media/ti,cal.yaml
+> > >  delete mode 100644 Documentation/devicetree/bindings/media/ti-cal.txt
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/media/ti,cal.yaml b/Documentation/devicetree/bindings/media/ti,cal.yaml
+> > > new file mode 100644
+> > > index 000000000000..c3fbb22b4571
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/media/ti,cal.yaml
+> > > @@ -0,0 +1,186 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/media/ti,cal.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Texas Instruments DRA72x CAMERA ADAPTATION LAYER (CAL) Device Tree Bindings
+> > > +
+> > > +maintainers:
+> > > +  - Benoit Parrot <bparrot@ti.com>
+> > > +
+> > > +description: |-
+> > > +  The Camera Adaptation Layer (CAL) is a key component for image capture
+> > > +  applications. The capture module provides the system interface and the
+> > > +  processing capability to connect CSI2 image-sensor modules to the
+> > > +  DRA72x device.
+> > > +
+> > > +  CAL supports 2 camera port nodes on MIPI bus. Each CSI2 camera port nodes
+> > > +  should contain a 'port' child node with child 'endpoint' node. Please
+> > > +  refer to the bindings defined in
+> > > +  Documentation/devicetree/bindings/media/video-interfaces.txt.
+> > > +
+> > > +  compatible should be
+> > > +     "ti,dra72-cal", for DRA72 controllers
+> > > +     "ti,dra72-pre-es2-cal", for DRA72 controllers pre ES2.0
+> > > +     "ti,dra76-cal", for DRA76 controllers
+> > > +     "ti,am654-cal", for AM654 controllers
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +      items:
+> > > +        - enum:
+> > > +            - ti,dra72-cal
+> > > +            - ti,dra72-pre-es2-cal
+> > > +            - ti,dra76-cal
+> > > +            - ti,am654-cal
+> > > +
+> > > +  reg:
+> > > +    minItems: 2
+> > > +    items:
+> > > +      - description: The CAL main register region
+> > > +      - description: The RX Core0 (DPHY0) register region
+> > > +      - description: The RX Core1 (DPHY1) register region
+> > > +
+> > > +  reg-names:
+> > > +    minItems: 2
+> > > +    items:
+> > > +      - const: cal_top
+> > > +      - const: cal_rx_core0
+> > > +      - const: cal_rx_core1
+> > > +
+> > > +  interrupts:
+> > > +    maxItems: 1
+> > > +
+> > > +  syscon-camerrx:
+> > > +    maxItems: 1
+> > > +    items:
+> > > +      - description:
+> > > +           phandle to the device control module and offset to the
+> > > +           control_camerarx_core register
+> > > +
+> > > +  clocks:
+> > > +    maxItems: 1
+> > > +    description: functional clock
+> > > +
+> > > +  clock-names:
+> > > +    items:
+> > > +      - const: fck
+> > > +
+> > > +  power-domains:
+> > > +    description:
+> > > +      List of phandle and PM domain specifier as documented in
+> > > +      Documentation/devicetree/bindings/power/power_domain.txt
+> > > +    maxItems: 1
+> > > +
+> > > +  # See ./video-interfaces.txt for details
+> > > +  ports:
+> > > +    maxItems: 1
+> > > +    type: object
+> > > +    additionalProperties: false
+> > > +
+> > > +    properties:
+> > > +      "#address-cells":
+> > > +        const: 1
+> > > +
+> > > +      "#size-cells":
+> > > +        const: 0
+> > > +
+> > > +    patternProperties:
+> > > +      '^port@[0-9a-fA-F]+$':
+> > > +        minItems: 1
+> > > +        maxItems: 2
+> > 
+> > Obviously you need a port node to connect a sensor. But can the device do
+> > something useful without one? I guess it may be a matter of taste whether
+> > you require one.
+> 
+> In an ideal world all of these would be covered by a video-interfaces.yaml
+> file I would just need to include... :)
+> 
+> But I'll try and add some more "required" and see how much trouble it gets
+> me.
+> > 
+> > > +        type: object
+> > > +        additionalProperties: false
+> > > +
+> > > +        properties:
+> > > +          reg:
+> > > +            minItems: 1
+> > > +            items:
+> > > +              - description: The port id
+> > > +
+> > > +        patternProperties:
+> > > +          '^endpoint@[0-9a-fA-F]+$':
+> > > +            minItems: 1
+> > 
+> > The graph bindings allows for no endpoints.
+> 
+> Maybe but then it is not much use.
 
-date:			Thu Oct 24 05:00:11 CEST 2019
-media-tree git hash:	6ce1d376d33eb775331b36a38afa28f9f08945e3
-media_build git hash:	afb27b4820fd670aed06d56c6a1dde56318453f1
-v4l-utils git hash:	1feaeef7061561cbde9693fec3cd4c5e6d01bb6f
-edid-decode git hash:	dc8afbf7e3001587e27695288ff8c259249256b1
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: fb74d4453fd4f857830399be9778a571221bee04
-host hardware:		x86_64
-host os:		5.2.0-3-amd64
+I guess you can require the endpoint in device bindings still. But the
+question is: do you need to?
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4-rc1-i686: OK
-linux-5.4-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2320, Succeeded: 2320, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: ERRORS
+> > 
+> > > +            type: object
+> > > +            additionalProperties: false
+> > > +
+> > > +            properties:
+> > > +              clock-lanes:
+> > > +                maxItems: 1
+> > 
+> > Does the device support lane reordering? If not, you could omit the
+> > clock-lanes property. It wasn't documented earlier either albeit the
+> > example had it for some reason.
+> 
+> Not sure what you mean by lane re-ordering here, but this IP needs to know
+> which lanes are used for data and which lane is the clock lane.
+> 
+> I cannot just assume that clock lane is always lane 0, I have a sensor
+> where the clock lane is #2 for instance and the data lanes are 0, 1, 3, 4.
+> 
+> But at any rate before it was not specifically documented because I thought
+> it was covered by the "see
+> Documentation/devicetree/bindings/media/video-interfaces.txt" or de we need
+> to duplicate that in every binding?
 
-Detailed results are available here:
+Then you should indeed have clock-lanes here as you need to know the
+position of the clock lane. Most devices either just can make use of the
+number of lanes or the order of the lanes is freely configurable (e.g. OMAP
+3 ISP). The former group just needs data-lanes.
 
-http://www.xs4all.nl/~hverkuil/logs/Thursday.log
+-- 
+Regards,
 
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Sakari Ailus
