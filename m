@@ -2,121 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A7FCE3A8A
-	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2019 20:02:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07CC8E3B4C
+	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2019 20:47:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407769AbfJXSCT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Oct 2019 14:02:19 -0400
-Received: from mail-lf1-f68.google.com ([209.85.167.68]:36980 "EHLO
-        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405818AbfJXSCT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Oct 2019 14:02:19 -0400
-Received: by mail-lf1-f68.google.com with SMTP id g21so18784188lfh.4
-        for <linux-media@vger.kernel.org>; Thu, 24 Oct 2019 11:02:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=1MT+NuL0A2d7V47il5xKhn38l4jnJHUWqOzNSUqZTmU=;
-        b=oZ22aT4v7OacrgXhNTSDZMursMGBZczVUnMPSlZ/Trsm7sPAQ/HZoQod05TDbS0DvM
-         oDCq0HtMiuBDJ5XsdPVtJq1oCRGBQW4nVjj724fZT92YXuPyodfXTYwppWz3pyOA4Xy1
-         IiXrDpZRt/3F9DRMeZV3/clMSkQEKpZZoGoeej3YZvYhUQrxgZYpbZlWzMhtyunBPN/h
-         6TWZ/935JMnZjt1MC0A/+UOQdu9/RRoKDxPTo+BHxYvAc5NkTCQN+wU4A1d0zzEyiuNs
-         sN5VUfK5DIj3z7jpjLIGpQjUfmP7XTaUbtPKunBAyF3fC/b9GcDeYAgVtCWmC1PQqstJ
-         O4Vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=1MT+NuL0A2d7V47il5xKhn38l4jnJHUWqOzNSUqZTmU=;
-        b=jsWEnhkTpAj5bLLih85xLEgJjhgLmFpqu63K8TepQtCskrCZSVc3c0oLYZgejGctfK
-         TfzQWV7RjtGMzYIK3SnUqxpZywaN0MSc2yqoTEx9DZRzk6Gi9czfnU2orEsT+GWLCjk3
-         1d126xBJyK/XaO9zFhpCrF6g4a5tKxS8j2CQn00+xU2WvNMJTyrca5zQ5HfOtd1dVedD
-         DPUM/Zme6R/8iRI6Vf3yBxdpXo7C0JxZImtKaLwxeMGEGaQTeOw9TMJweI31Z5d5thOG
-         8ypWSee/eeneGL3VmCHEayd1uPBoiVAv9LJwrrzzWVZy3Z39E4GynYJQ5w5PPUgrhKrv
-         Cemg==
-X-Gm-Message-State: APjAAAV8vBqw8JBHqajNHBG8SDeZZUZdKSrP4/eh7Kq8yD/Xpqp0YgUF
-        WDDuUNnb/rLSztYoLAxdJnXdXg==
-X-Google-Smtp-Source: APXvYqxGtlgBuxs1ObTfTUdNmXl+vqtR/s3VtCKQ9QOnG7IF5eA/FjgTQhCKWo+G3t/i5gv/UkgNZQ==
-X-Received: by 2002:a19:f813:: with SMTP id a19mr12166729lff.33.1571940136026;
-        Thu, 24 Oct 2019 11:02:16 -0700 (PDT)
-Received: from localhost (h-93-159.A463.priv.bahnhof.se. [46.59.93.159])
-        by smtp.gmail.com with ESMTPSA id m15sm10649914ljh.50.2019.10.24.11.02.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Oct 2019 11:02:15 -0700 (PDT)
-Date:   Thu, 24 Oct 2019 20:02:03 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        Biju Das <biju.das@bp.renesas.com>,
+        id S2440174AbfJXSri (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Oct 2019 14:47:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38652 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2440168AbfJXSrh (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 24 Oct 2019 14:47:37 -0400
+Received: from localhost (unknown [75.104.69.146])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4B01B20659;
+        Thu, 24 Oct 2019 18:47:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1571942856;
+        bh=P2j4bA86XgvOqRFtfCl5MtPYc2xM05N5w3nh3XKCbOU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=JXFsM9yewwErnF5S3LK+7K6bicNse77w5ov+K8sMXE1WbXMnNUxJ53lRpClS1Y1CC
+         11fXyyi93K6RL+XYzVbm018cMUVbdftXTSBMyZqzEhGJR0OX5ENyHkk/LV+cr97wvX
+         JQuzhFZ9aaA31ctCt2wdqqskCAv9tdJU2DNgNRus=
+Date:   Thu, 24 Oct 2019 14:47:28 -0400
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Mark Salyzyn <salyzyn@android.com>
+Cc:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        linux-kernel@vger.kernel.org, kernel-team@android.com,
+        "David S. Miller" <davem@davemloft.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+        Harry Wentland <harry.wentland@amd.com>,
+        Leo Li <sunpeng.li@amd.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        "David (ChunMing) Zhou" <David1.Zhou@amd.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        VMware Graphics <linux-graphics-maintainer@vmware.com>,
+        Thomas Hellstrom <thellstrom@vmware.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH] media: dt-bindings: rcar_vin: Document RZ/G1 per-board
- settings
-Message-ID: <20191024180203.GA24998@bigcity.dyn.berto.se>
-References: <20191024131423.16799-1-geert+renesas@glider.be>
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Trond Myklebust <trond.myklebust@hammerspace.com>,
+        Anna Schumaker <anna.schumaker@netapp.com>,
+        Alexander Aring <alex.aring@gmail.com>,
+        Jukka Rissanen <jukka.rissanen@linux.intel.com>,
+        Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
+        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Matthew Garrett <matthewgarrett@google.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        hersen wu <hersenxs.wu@amd.com>, Roman Li <Roman.Li@amd.com>,
+        Maxim Martynov <maxim@arista.com>,
+        David Ahern <dsahern@gmail.com>,
+        Francesco Ruggeri <fruggeri@arista.com>,
+        Linus =?iso-8859-1?Q?L=FCssing?= <linus.luessing@c0d3.blue>,
+        Feng Tang <feng.tang@intel.com>,
+        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Rafael Aquini <aquini@redhat.com>, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-efi@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linux-nfs@vger.kernel.org,
+        linux-bluetooth@vger.kernel.org, linux-wpan@vger.kernel.org
+Subject: Re: [PATCH] Cleanup: replace prefered with preferred
+Message-ID: <20191024184728.GC260560@kroah.com>
+References: <20191022214208.211448-1-salyzyn@android.com>
+ <20191023115637.GA23733@linux.intel.com>
+ <fa12cb96-7a93-bf85-214d-a7bfaf8b8b0a@android.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191024131423.16799-1-geert+renesas@glider.be>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+In-Reply-To: <fa12cb96-7a93-bf85-214d-a7bfaf8b8b0a@android.com>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Geert,
-
-Thanks for your work.
-
-On 2019-10-24 15:14:23 +0200, Geert Uytterhoeven wrote:
-> The R-Car Gen2 per-board settings apply to RZ/G1, too.
+On Wed, Oct 23, 2019 at 08:40:59AM -0700, Mark Salyzyn wrote:
+> On 10/23/19 4:56 AM, Jarkko Sakkinen wrote:
+> > On Tue, Oct 22, 2019 at 02:41:45PM -0700, Mark Salyzyn wrote:
+> > > Replace all occurrences of prefered with preferred to make future
+> > > checkpatch.pl's happy.  A few places the incorrect spelling is
+> > > matched with the correct spelling to preserve existing user space API.
+> > > 
+> > > Signed-off-by: Mark Salyzyn <salyzyn@android.com>
+> > I'd fix such things when the code is otherwise change and scope this
+> > patch only to Documentation/. There is no pragmatic benefit of doing
+> > this for the code.
+> > 
+> > /Jarkko
 > 
-> Fixes: 1d14a5eaa156b0b3 ("media: dt-bindings: media: rcar_vin: add device tree support for r8a774[35]")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> The pragmatic benefit comes with the use of an ABI/API checker (which is a
+> 'distro' thing, not a top of tree kernel thing) produces its map which is
+> typically required to be co-located in the same tree as the kernel
+> repository. Quite a few ABI/API update checkins result in a checkpatch.pl
+> complaint about the misspelled elements being (re-)recorded due to
+> proximity. We have a separate task to improve how it is tracked in Android
+> to reduce milepost marker changes that result in sweeping changes to the
+> database which would reduce the occurrences.
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Requiring checkpatch spelling warnings to be correct based on function
+names is crazy, you should fix your tools if you are requiring something
+as looney as that :)
 
-> ---
->  Documentation/devicetree/bindings/media/renesas,vin.txt | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/renesas,vin.txt b/Documentation/devicetree/bindings/media/renesas,vin.txt
-> index aa217b0962797712..221fcc416d1ac598 100644
-> --- a/Documentation/devicetree/bindings/media/renesas,vin.txt
-> +++ b/Documentation/devicetree/bindings/media/renesas,vin.txt
-> @@ -43,7 +43,7 @@ on Gen3 and RZ/G2 platforms to a CSI-2 receiver.
->  Additionally, an alias named vinX will need to be created to specify
->  which video input device this is.
->  
-> -The per-board settings Gen2 platforms:
-> +The per-board settings for Gen2 and RZ/G1 platforms:
->  
->  - port - sub-node describing a single endpoint connected to the VIN
->    from external SoC pins as described in video-interfaces.txt[1].
-> @@ -63,7 +63,7 @@ The per-board settings Gen2 platforms:
->      - data-enable-active: polarity of CLKENB signal, see [1] for
->        description. Default is active high.
->  
-> -The per-board settings Gen3 and RZ/G2 platforms:
-> +The per-board settings for Gen3 and RZ/G2 platforms:
->  
->  Gen3 and RZ/G2 platforms can support both a single connected parallel input
->  source from external SoC pins (port@0) and/or multiple parallel input sources
-> -- 
-> 2.17.1
-> 
+> I will split this between pure and inert documentation/comments for now,
+> with a followup later for the code portion which understandably is more
+> controversial.
 
--- 
-Regards,
-Niklas Söderlund
+Please break up per subsystem, like all trivial patches, as this
+isn't anything special.
+
+thanks,
+
+greg k-h
