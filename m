@@ -2,67 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DAE77E2B42
-	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2019 09:41:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3CC3CE2B7B
+	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2019 09:52:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408679AbfJXHly (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Oct 2019 03:41:54 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:46627 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2408661AbfJXHly (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Oct 2019 03:41:54 -0400
-Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id NXkjiqNDdfrRWNXkmiTNxH; Thu, 24 Oct 2019 09:41:52 +0200
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@siol.net>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.5] Add AllWinner deinterlace driver
-Message-ID: <53668630-da7b-fc23-dd05-275234d7a0d3@xs4all.nl>
-Date:   Thu, 24 Oct 2019 09:41:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S2408751AbfJXHwQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Oct 2019 03:52:16 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:42670 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2404960AbfJXHwP (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 24 Oct 2019 03:52:15 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtp (Exim 4.84_2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1iNXuh-0000Sb-00; Thu, 24 Oct 2019 07:52:07 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1iNXvC-00053Y-8Z; Thu, 24 Oct 2019 07:52:38 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.5] Add AllWinner deinterlace driver
+Date:   Thu, 24 Oct 2019 07:52:38 +0000
+Message-Id: <20191024075238.19395-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <53668630-da7b-fc23-dd05-275234d7a0d3@xs4all.nl>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfHdPBd+kQmKI2Ehcvl6w8ZCHldvvEMZ3NRT8v3OHKv6C32wN2G+RrES9vnL4m3JruhZpHDn48HFny0D2p91GoQnDzznoAQedIymt+qNnUGvNKzreN+8C
- DjHvopWtqaYc7N/iL0/WjXif7gdSUBU3yWK6HKK0WbVqUIi5PVXLDSfYEAerZWMWDUrfUhTPdnwhZAlvY/HOCxaiA0VRqe/5Xm0=
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 6ce1d376d33eb775331b36a38afa28f9f08945e3:
+From: builder@linuxtv.org
 
-  media: docs-rst: Document m2m stateless video decoder interface (2019-10-21 07:43:45 -0300)
+Pull request: https://patchwork.linuxtv.org/patch/59618/
+Build log: https://builder.linuxtv.org/job/patchwork/21797/
+Build time: 00:02:27
+Link: https://lore.kernel.org/linux-media/53668630-da7b-fc23-dd05-275234d7a0d3@xs4all.nl
 
-are available in the Git repository at:
+gpg: Signature made Thu 24 Oct 2019 07:31:02 AM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.5n
+Summary: 2 patches and/or PDF generation with issues, being 0 at build time
 
-for you to fetch changes up to 79ed94cde557d2bc7fb27b9d2ab42d40891e98d9:
+Error/warnings:
 
-  media: sun4i: Add H3 deinterlace driver (2019-10-24 09:28:00 +0200)
 
-----------------------------------------------------------------
-Tag branch
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0001-dt-bindings-media-Add-Allwinner-H3-Deinterlace-bindi.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0001-dt-bindings-media-Add-Allwinner-H3-Deinterlace-bindi.patch
+patches/0001-dt-bindings-media-Add-Allwinner-H3-Deinterlace-bindi.patch:19: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
 
-----------------------------------------------------------------
-Jernej Skrabec (2):
-      dt-bindings: media: Add Allwinner H3 Deinterlace binding
-      media: sun4i: Add H3 deinterlace driver
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0002-media-sun4i-Add-H3-deinterlace-driver.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0002-media-sun4i-Add-H3-deinterlace-driver.patch
+patches/0002-media-sun4i-Add-H3-deinterlace-driver.patch:68: WARNING: please write a paragraph that describes the config symbol fully
+patches/0002-media-sun4i-Add-H3-deinterlace-driver.patch:1222: CHECK: Prefer using the BIT macro
 
- .../devicetree/bindings/media/allwinner,sun8i-h3-deinterlace.yaml    |   76 +++
- MAINTAINERS                                                          |    8 +
- drivers/media/platform/Kconfig                                       |   13 +
- drivers/media/platform/sunxi/Makefile                                |    1 +
- drivers/media/platform/sunxi/sun8i-di/Makefile                       |    2 +
- drivers/media/platform/sunxi/sun8i-di/sun8i-di.c                     | 1028 ++++++++++++++++++++++++++++++
- drivers/media/platform/sunxi/sun8i-di/sun8i-di.h                     |  237 +++++++
- 7 files changed, 1365 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun8i-h3-deinterlace.yaml
- create mode 100644 drivers/media/platform/sunxi/sun8i-di/Makefile
- create mode 100644 drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
- create mode 100644 drivers/media/platform/sunxi/sun8i-di/sun8i-di.h
