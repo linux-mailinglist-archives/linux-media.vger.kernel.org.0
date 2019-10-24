@@ -2,26 +2,26 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A0EAE2F12
-	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2019 12:32:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 54919E2F21
+	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2019 12:32:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438816AbfJXKcN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Oct 2019 06:32:13 -0400
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:47489 "EHLO
+        id S2438842AbfJXKc4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Oct 2019 06:32:56 -0400
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:34935 "EHLO
         metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2409175AbfJXKcN (ORCPT
+        with ESMTP id S2438840AbfJXKc4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Oct 2019 06:32:13 -0400
+        Thu, 24 Oct 2019 06:32:56 -0400
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.pengutronix.de.)
         by metis.ext.pengutronix.de with esmtp (Exim 4.92)
         (envelope-from <p.zabel@pengutronix.de>)
-        id 1iNaPc-0008F0-11; Thu, 24 Oct 2019 12:32:12 +0200
+        id 1iNaQJ-0008S6-2l; Thu, 24 Oct 2019 12:32:55 +0200
 From:   Philipp Zabel <p.zabel@pengutronix.de>
 To:     linux-media@vger.kernel.org
 Cc:     kernel@pengutronix.de
-Subject: [PATCH] media: coda: fix deadlock between decoder picture run and start command
-Date:   Thu, 24 Oct 2019 12:32:11 +0200
-Message-Id: <20191024103211.22489-1-p.zabel@pengutronix.de>
+Subject: [PATCH] media: coda: request to skip kernel mapping for decoded buffers
+Date:   Thu, 24 Oct 2019 12:32:49 +0200
+Message-Id: <20191024103249.680-1-p.zabel@pengutronix.de>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -34,41 +34,33 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The BIT decoder picture run temporarily locks the bitstream mutex while
-the coda device mutex is locked, to refill the bitstream ring buffer.
-Consequently, the decoder start command, which locks both mutexes when
-flushing the bitstream ring buffer, must lock the coda device mutex
-first as well, to avoid an ABBA deadlock.
+From: Lucas Stach <l.stach@pengutronix.de>
 
-Fixes: e7fd95849b3c ("media: coda: flush bitstream ring buffer on decoder restart")
+The kernel driver never touches the decoded buffers with the CPU.
+All accesses are either done by hardware DMA masters or userspace
+mapping the buffers. This means we don't need a kernel virtual
+address mapping for those buffers at all. As those buffers are
+usually quite large, we can save a good deal of kernel vmalloc
+space by requesting to not have a kernel mapping set up for them.
+
+Signed-off-by: Lucas Stach <l.stach@pengutronix.de>
 Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
 ---
- drivers/media/platform/coda/coda-common.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/platform/coda/coda-common.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/drivers/media/platform/coda/coda-common.c b/drivers/media/platform/coda/coda-common.c
-index 73222c0615c0..834f11fe9dc2 100644
+index 834f11fe9dc2..287dc1692286 100644
 --- a/drivers/media/platform/coda/coda-common.c
 +++ b/drivers/media/platform/coda/coda-common.c
-@@ -1084,16 +1084,16 @@ static int coda_decoder_cmd(struct file *file, void *fh,
+@@ -2387,6 +2387,7 @@ int coda_decoder_queue_init(void *priv, struct vb2_queue *src_vq,
  
- 	switch (dc->cmd) {
- 	case V4L2_DEC_CMD_START:
--		mutex_lock(&ctx->bitstream_mutex);
- 		mutex_lock(&dev->coda_mutex);
-+		mutex_lock(&ctx->bitstream_mutex);
- 		coda_bitstream_flush(ctx);
--		mutex_unlock(&dev->coda_mutex);
- 		dst_vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
- 					 V4L2_BUF_TYPE_VIDEO_CAPTURE);
- 		vb2_clear_last_buffer_dequeued(dst_vq);
- 		ctx->bit_stream_param &= ~CODA_BIT_STREAM_END_FLAG;
- 		coda_fill_bitstream(ctx, NULL);
- 		mutex_unlock(&ctx->bitstream_mutex);
-+		mutex_unlock(&dev->coda_mutex);
- 		break;
- 	case V4L2_DEC_CMD_STOP:
- 		stream_end = false;
+ 	dst_vq->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+ 	dst_vq->io_modes = VB2_DMABUF | VB2_MMAP;
++	dst_vq->dma_attrs = DMA_ATTR_NO_KERNEL_MAPPING;
+ 	dst_vq->mem_ops = &vb2_dma_contig_memops;
+ 
+ 	return coda_queue_init(priv, dst_vq);
 -- 
 2.20.1
 
