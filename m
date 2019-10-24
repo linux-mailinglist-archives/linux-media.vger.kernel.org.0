@@ -2,88 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FADEE324F
-	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2019 14:26:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA0C6E3277
+	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2019 14:35:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2501898AbfJXM0r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Oct 2019 08:26:47 -0400
-Received: from mga18.intel.com ([134.134.136.126]:41113 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726360AbfJXM0q (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Oct 2019 08:26:46 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 24 Oct 2019 05:26:45 -0700
-X-IronPort-AV: E=Sophos;i="5.68,224,1569308400"; 
-   d="scan'208";a="192171083"
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 24 Oct 2019 05:26:30 -0700
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Mark Salyzyn <salyzyn@android.com>,
-        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-Cc:     linux-kernel@vger.kernel.org, kernel-team@android.com,
-        "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-        Harry Wentland <harry.wentland@amd.com>,
-        Leo Li <sunpeng.li@amd.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Christian =?utf-8?Q?K=C3=B6nig?= <christian.koenig@amd.com>,
-        "David \(ChunMing\) Zhou" <David1.Zhou@amd.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        VMware Graphics <linux-graphics-maintainer@vmware.com>,
-        Thomas Hellstrom <thellstrom@vmware.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Trond Myklebust <trond.myklebust@hammerspace.com>,
-        Anna Schumaker <anna.schumaker@netapp.com>,
-        Alexander Aring <alex.aring@gmail.com>,
-        Jukka Rissanen <jukka.rissanen@linux.intel.com>,
-        Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>,
-        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        Matthew Garrett <matthewgarrett@google.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        hersen wu <hersenxs.wu@amd.com>, Roman Li <Roman.Li@amd.com>,
-        Maxim Martynov <maxim@arista.com>,
-        David Ahern <dsahern@gmail.com>,
-        Francesco Ruggeri <fruggeri@arista.com>,
-        Linus =?utf-8?Q?L=C3=BCssing?= <linus.luessing@c0d3.blue>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Feng Tang <feng.tang@intel.com>,
-        "Steven Rostedt \(VMware\)" <rostedt@goodmis.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Rafael Aquini <aquini@redhat.com>, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-efi@vger.kernel.org,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linux-nfs@vger.kernel.org,
-        linux-bluetooth@vger.kernel.org, linux-wpan@vger.kernel.org
-Subject: Re: [PATCH] Cleanup: replace prefered with preferred
-In-Reply-To: <fa12cb96-7a93-bf85-214d-a7bfaf8b8b0a@android.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20191022214208.211448-1-salyzyn@android.com> <20191023115637.GA23733@linux.intel.com> <fa12cb96-7a93-bf85-214d-a7bfaf8b8b0a@android.com>
-Date:   Thu, 24 Oct 2019 15:26:28 +0300
-Message-ID: <875zkecosr.fsf@intel.com>
+        id S2439547AbfJXMfc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Oct 2019 08:35:32 -0400
+Received: from mail-lj1-f179.google.com ([209.85.208.179]:35461 "EHLO
+        mail-lj1-f179.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2439084AbfJXMfc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 24 Oct 2019 08:35:32 -0400
+Received: by mail-lj1-f179.google.com with SMTP id m7so24859651lji.2;
+        Thu, 24 Oct 2019 05:35:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=aw4ZEBa48VacAEFN9y8TaPTpBh5oP27JZDCSOArBGuM=;
+        b=EXNJOUaXQNeSs+lM3BY9/GJbwMJGSJ/W9Ul5uVqd3069zcB6a0HdIaXEH+Q3PC0z2I
+         n+Z0tGAo+g++yAfQEEmPHnSzV4rmRQGpYm8UDHcb+B1It+IN0GyHREKu0S1hwRyHT16H
+         dHDkndb3LFPR/k6Huj23pjVab13uSuFH8poWpt0VfH42m5vxoqtM4JrqhKiMZrewPw/k
+         nKTX8gnTsZWPXSYyrfz3SNbedOs3Y9ejAySr4Pr3oS1hrqMXzENupA1aSNxFXcs+9uZ1
+         2UUsf7a9a07Q5hlTQByHCe4qLbSsZTVM4Bkgm1GGzvWjLUnKPrXOLxX23qu25IgvKRoM
+         kfVw==
+X-Gm-Message-State: APjAAAX6r9MaQYMTUth1hKChm2hfB/2ZFOrJL7LqaEkN6fCVfTnDw5py
+        T5QQg17EDHX15OokAo24LB8Bx3ha/2g=
+X-Google-Smtp-Source: APXvYqz6rjQaTekYYaj30WYjhK/X1fIpjVJeXwvVhuTn0AWh1CyIhcwpGIrvjx0Wmp4Orba1LDrXvg==
+X-Received: by 2002:a2e:9d8d:: with SMTP id c13mr1274355ljj.220.1571920529803;
+        Thu, 24 Oct 2019 05:35:29 -0700 (PDT)
+Received: from neopili.qtec.com (cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
+        by smtp.gmail.com with ESMTPSA id 30sm3063545lju.52.2019.10.24.05.35.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Oct 2019 05:35:28 -0700 (PDT)
+From:   Ricardo Ribalda Delgado <ribalda@kernel.org>
+To:     hverkuil-cisco@xs4all.nl, sakari.ailus@linux.intel.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Ricardo Ribalda Delgado <ribalda@kernel.org>
+Subject: [PATCH v2] Documentation: media: *_DEFAULT targets for subdevs
+Date:   Thu, 24 Oct 2019 14:35:25 +0200
+Message-Id: <20191024123526.4778-1-ribalda@kernel.org>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 23 Oct 2019, Mark Salyzyn <salyzyn@android.com> wrote:
-> I will split this between pure and inert documentation/comments for now, 
-> with a followup later for the code portion which understandably is more 
-> controversial.
+Some sensors have optical blanking areas, this is, pixels that are
+painted and do not account for light, only noise.
 
-Please split by driver/subsystem too, and it'll be all around much
-easier for everyone.
+These special pixels are very useful for calibrating the sensor, but
+should not be displayed on a DEFAULT target.
 
-BR,
-Jani.
+Signed-off-by: Ricardo Ribalda Delgado <ribalda@kernel.org>
+---
 
+v2: Changes by Sakari Ailus <sakari.ailus@linux.intel.com>
 
+Only change CROP_DEFAULT
+
+ Documentation/media/uapi/v4l/v4l2-selection-targets.rst | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/media/uapi/v4l/v4l2-selection-targets.rst b/Documentation/media/uapi/v4l/v4l2-selection-targets.rst
+index f74f239b0510..41c6674ec283 100644
+--- a/Documentation/media/uapi/v4l/v4l2-selection-targets.rst
++++ b/Documentation/media/uapi/v4l/v4l2-selection-targets.rst
+@@ -38,8 +38,10 @@ of the two interfaces they are used.
+     * - ``V4L2_SEL_TGT_CROP_DEFAULT``
+       - 0x0001
+       - Suggested cropping rectangle that covers the "whole picture".
++        This includes only active pixels and excludes other non-active
++        pixels such as black pixels.
++      - Yes
+       - Yes
+-      - No
+     * - ``V4L2_SEL_TGT_CROP_BOUNDS``
+       - 0x0002
+       - Bounds of the crop rectangle. All valid crop rectangles fit inside
+@@ -61,7 +63,7 @@ of the two interfaces they are used.
+       - 0x0101
+       - Suggested composition rectangle that covers the "whole picture".
+       - Yes
+-      - No
++      - Yes
+     * - ``V4L2_SEL_TGT_COMPOSE_BOUNDS``
+       - 0x0102
+       - Bounds of the compose rectangle. All valid compose rectangles fit
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.23.0
+
