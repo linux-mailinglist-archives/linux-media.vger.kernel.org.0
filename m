@@ -2,92 +2,336 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ED240E3F4C
-	for <lists+linux-media@lfdr.de>; Fri, 25 Oct 2019 00:20:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 419A0E4059
+	for <lists+linux-media@lfdr.de>; Fri, 25 Oct 2019 01:28:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730758AbfJXWUP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Oct 2019 18:20:15 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:38347 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730365AbfJXWUP (ORCPT
+        id S1730993AbfJXX2T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Oct 2019 19:28:19 -0400
+Received: from mail-il1-f194.google.com ([209.85.166.194]:38049 "EHLO
+        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730945AbfJXX2T (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Oct 2019 18:20:15 -0400
-Received: by mail-wm1-f66.google.com with SMTP id 3so38432wmi.3
-        for <linux-media@vger.kernel.org>; Thu, 24 Oct 2019 15:20:13 -0700 (PDT)
+        Thu, 24 Oct 2019 19:28:19 -0400
+Received: by mail-il1-f194.google.com with SMTP id y5so209047ilb.5
+        for <linux-media@vger.kernel.org>; Thu, 24 Oct 2019 16:28:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=references:user-agent:from:to:cc:subject:in-reply-to:date
-         :message-id:mime-version;
-        bh=i4kWkR2DIQ769dd1FClL088PqDlU2bz/Z0/RgPWQJb0=;
-        b=Ych2xCYNbsO55XC8/z2xoGwDZUKuuA4OTQYHoWcCWF8gMlv1UmJjn3Ic+4mDg8Mylk
-         uK+2B4iesIwa6ZMxPnXluqU59xydn5BOlzxrvoQTWQQ6v1u2SRZk7piwMM7cBBUPbOyV
-         6NPwt2DwsUXRIq++OzxVcywP9WPWFYzqbZWIQaoVWahq7CI6Nt8rtV18hCCPSBUXnFvw
-         0/0rXwjGFHJBmbx8jtE0bmwzXmGsORB2irZ8YV2unMiTkmA+E3Q7kNUayhmAvH/DjVdk
-         WgShOXeGzfKEgMQcAdvjj2QUbhPbVuwlmH0NSrBF+UQ5HA5PrKntWViIHq57DkgmCVhl
-         6dtQ==
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=pSIBwyUg1HHyyq6+BfxqR5m1MAEEGfnPDVD5r5gKExE=;
+        b=ghYlD6HR+75H6N7b++tP3hhksbSiK/SssrKanIaCkD+lcFCWwlqK/Lpu/KLem+T0+s
+         c+FaOjw6NzgaJ8Z/UgBO2E+E+GD7t/40miGJ0Qrmm2yWypWO3gzPN47LfDV+vPcdBlWK
+         2yhRskSOC7kiHEGwr0xicn9dYiPRdWs6vg/+0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:references:user-agent:from:to:cc:subject
-         :in-reply-to:date:message-id:mime-version;
-        bh=i4kWkR2DIQ769dd1FClL088PqDlU2bz/Z0/RgPWQJb0=;
-        b=rGzansrVDk6r2jdEsTQO0e78++QmfT+NHdhATTo1UQCQIKkQsRtp9xUqVChgnc+4z6
-         T3pLVN9vJlNGBa+oHcR1l1ixr1gpfyAfza04p6Pn9BDJzNMgw8bZMlDjzUl0/qoFAFMK
-         d0JEouCEMJtaqVo4kxGBM3uBCIc3AhtlQv0aR8lFSSGaZq/xfL/d/2RRvZMy9kKQ+7v0
-         hr2j2vSAt1nur6nlus1LnO8yQ7VJ2RItxlHl8JnLNkoloD9VdwqwC1xeQYbGa363l+Sg
-         /ABQ/wH8OGhRO8RlC1nuD5YswccytO7ps5QcrhhXy803wIO1uPl+lI7FU4sWBu5sxNfx
-         MXHw==
-X-Gm-Message-State: APjAAAXL3q6PJFsTcGU3FNW2Tbhn02BjnDK4eBD3yPiMFiZNjoDf2gNE
-        nCHOABJXeIpk/vArOBtxjz0=
-X-Google-Smtp-Source: APXvYqxTKffgFgi4z6FSelFLh6q+MNdxZVHReuSL5AXHKVXuBLy6vEJz/IXEnMBmYPAuEsVWRy6EtQ==
-X-Received: by 2002:a7b:c74a:: with SMTP id w10mr426124wmk.173.1571955613176;
-        Thu, 24 Oct 2019 15:20:13 -0700 (PDT)
-Received: from arch-late (a109-49-46-234.cpe.netcabo.pt. [109.49.46.234])
-        by smtp.gmail.com with ESMTPSA id f18sm82266wmh.43.2019.10.24.15.20.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Oct 2019 15:20:12 -0700 (PDT)
-References: <20191024004155.32068-1-laurent.pinchart@ideasonboard.com>
- <20191024004155.32068-2-laurent.pinchart@ideasonboard.com>
- <CAOMZO5C26mtWCOE_5griYunN=PZ=dFFs5B--ADoVmKqur1yMUw@mail.gmail.com>
-User-agent: mu4e 1.2.0; emacs 27.0.50
-From:   Rui Miguel Silva <rmfrfs@gmail.com>
-To:     Fabio Estevam <festevam@gmail.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Subject: Re: [PATCH 1/7] media: imx: imx7_mipi_csis: Power off the source
- when stopping streaming
-In-reply-to: <CAOMZO5C26mtWCOE_5griYunN=PZ=dFFs5B--ADoVmKqur1yMUw@mail.gmail.com>
-Date:   Thu, 24 Oct 2019 23:20:10 +0100
-Message-ID: <m3woctdbvp.fsf@gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=pSIBwyUg1HHyyq6+BfxqR5m1MAEEGfnPDVD5r5gKExE=;
+        b=frPZmxGl2SAAvLxkLB8ZL2KXIyE0aARCMNXymAeyt8H6NfTcwWkN4H7iLm/rrgyDiT
+         ep3LMfKuEoPWuQWSqfbLae6DLpC3itnLkAvyQcgcj0fHh+YpbPs7EcUiwgfGX+M1tX/P
+         qSXfRzH4/PwSghyNmU5n+LSfoHMNvXYp49tEJd6/aXrYIY87vU/ZuHzhMXyAmjkLFgW9
+         ZUKmcaHqvNfMETMb1gMYxM/H7N82c8KSygnK6gBULAOyXMjHe74JpkyHYI2iySGW6xsz
+         1WE6Vo8uyES2TX1NxTnjz4Kk/K2Bo8STzJkbApiVKVRzC3GGpeo+hM7SESyC13OHKALB
+         L0Rg==
+X-Gm-Message-State: APjAAAU8OoPjq2lfIFRpnAfOSgzwiI/0jTfm7bo+cci8ecBpiawFbN/V
+        ZeqrTiP6biZ94mVN+gZsDZj6Yw==
+X-Google-Smtp-Source: APXvYqxQmZnyOhJEr+18qSq6bBbPq+MS9DwJ162GhmMBK7yX2lgScIy7rAnm1pcO4oEM2co/LFaScg==
+X-Received: by 2002:a92:ce83:: with SMTP id r3mr816615ilo.176.1571959698232;
+        Thu, 24 Oct 2019 16:28:18 -0700 (PDT)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id y5sm86934ill.86.2019.10.24.16.28.17
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 24 Oct 2019 16:28:17 -0700 (PDT)
+Subject: Re: [PATCH v4 1/2] media: vimc: move the dev field of each entity to
+ vimc_ent_dev
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        linux-media@vger.kernel.org
+Cc:     helen.koike@collabora.com, hverkuil@xs4all.nl,
+        kernel@collabora.com, dafna3@gmail.com,
+        Shuah Khan <skhan@linuxfoundation.org>
+References: <20191024093525.10059-1-dafna.hirschfeld@collabora.com>
+ <20191024093525.10059-2-dafna.hirschfeld@collabora.com>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <e0f24ee9-a3ca-a36f-4d6e-3378476fc3bc@linuxfoundation.org>
+Date:   Thu, 24 Oct 2019 17:28:16 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <20191024093525.10059-2-dafna.hirschfeld@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
-On Thu 24 Oct 2019 at 18:43, Fabio Estevam wrote:
-> Hi Laurent,
->
-> On Thu, Oct 24, 2019 at 2:41 PM Laurent Pinchart
-> <laurent.pinchart@ideasonboard.com> wrote:
->>
->> The .s_stream() implementation incorrectly powers on the source when
->> stopping the stream. Power it off instead.
->>
->> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->
-> Should this one have a Fixes tag?
+On 10/24/19 3:35 AM, Dafna Hirschfeld wrote:
+> Since the 'struct device *dev' field exists in each of the
+> entity structs, it can be moved to the common struct vimc_ent_devevice.
+> It is then used to replace 'pr_err' with 'dev_err' in the streamer
+> code.
+> 
 
-let me help you on this one:
-Fixes: 7807063b862b ("media: staging/imx7: add MIPI CSI-2 receiver subdev for i.MX7")
+I just see one pr_err() converted to dev_err(). Rest are all enhancing
+dev_dbg(). You can either capture the two different changes in this
+commit log or make them separate patches.
 
----
-Cheers,
-	Rui
+Also this is a big change without a good enough reason to do so.
 
+> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> ---
+>   drivers/media/platform/vimc/vimc-capture.c  |  7 +++----
+>   drivers/media/platform/vimc/vimc-common.h   |  2 ++
+>   drivers/media/platform/vimc/vimc-debayer.c  | 15 +++++++--------
+>   drivers/media/platform/vimc/vimc-scaler.c   | 11 +++++------
+>   drivers/media/platform/vimc/vimc-sensor.c   |  5 ++---
+>   drivers/media/platform/vimc/vimc-streamer.c |  2 +-
+>   6 files changed, 20 insertions(+), 22 deletions(-)
+> 
+> diff --git a/drivers/media/platform/vimc/vimc-capture.c b/drivers/media/platform/vimc/vimc-capture.c
+> index 602f80323031..d9cd6525ba22 100644
+> --- a/drivers/media/platform/vimc/vimc-capture.c
+> +++ b/drivers/media/platform/vimc/vimc-capture.c
+> @@ -15,7 +15,6 @@
+>   struct vimc_cap_device {
+>   	struct vimc_ent_device ved;
+>   	struct video_device vdev;
+> -	struct device *dev;
+>   	struct v4l2_pix_format format;
+>   	struct vb2_queue queue;
+>   	struct list_head buf_list;
+> @@ -124,7 +123,7 @@ static int vimc_cap_s_fmt_vid_cap(struct file *file, void *priv,
+>   	if (ret)
+>   		return ret;
+>   
+> -	dev_dbg(vcap->dev, "%s: format update: "
+> +	dev_dbg(vcap->ved.dev, "%s: format update: "
+>   		"old:%dx%d (0x%x, %d, %d, %d, %d) "
+>   		"new:%dx%d (0x%x, %d, %d, %d, %d)\n", vcap->vdev.name,
+>   		/* old */
+> @@ -300,7 +299,7 @@ static int vimc_cap_buffer_prepare(struct vb2_buffer *vb)
+>   	unsigned long size = vcap->format.sizeimage;
+>   
+>   	if (vb2_plane_size(vb, 0) < size) {
+> -		dev_err(vcap->dev, "%s: buffer too small (%lu < %lu)\n",
+> +		dev_err(vcap->ved.dev, "%s: buffer too small (%lu < %lu)\n",
+>   			vcap->vdev.name, vb2_plane_size(vb, 0), size);
+>   		return -EINVAL;
+>   	}
+> @@ -451,7 +450,7 @@ struct vimc_ent_device *vimc_cap_add(struct vimc_device *vimc,
+>   	vcap->ved.ent = &vcap->vdev.entity;
+>   	vcap->ved.process_frame = vimc_cap_process_frame;
+>   	vcap->ved.vdev_get_format = vimc_cap_get_format;
+> -	vcap->dev = &vimc->pdev.dev;
+> +	vcap->ved.dev = &vimc->pdev.dev;
 
->
-> Thanks
+I am not convinced this is a safe change to make.
+
+>   
+>   	/* Initialize the video_device struct */
+>   	vdev = &vcap->vdev;
+> diff --git a/drivers/media/platform/vimc/vimc-common.h b/drivers/media/platform/vimc/vimc-common.h
+> index 698db7c07645..8349e3c68a49 100644
+> --- a/drivers/media/platform/vimc/vimc-common.h
+> +++ b/drivers/media/platform/vimc/vimc-common.h
+> @@ -92,6 +92,7 @@ struct vimc_pix_map {
+>   /**
+>    * struct vimc_ent_device - core struct that represents a node in the topology
+>    *
+> + * @dev:		a pointer of the device struct of the driver
+>    * @ent:		the pointer to struct media_entity for the node
+>    * @pads:		the list of pads of the node
+>    * @process_frame:	callback send a frame to that node
+> @@ -108,6 +109,7 @@ struct vimc_pix_map {
+>    * media_entity
+>    */
+>   struct vimc_ent_device {
+> +	struct device *dev;
+>   	struct media_entity *ent;
+>   	struct media_pad *pads;
+>   	void * (*process_frame)(struct vimc_ent_device *ved,
+> diff --git a/drivers/media/platform/vimc/vimc-debayer.c b/drivers/media/platform/vimc/vimc-debayer.c
+> index feac47d79449..ff7f8b763860 100644
+> --- a/drivers/media/platform/vimc/vimc-debayer.c
+> +++ b/drivers/media/platform/vimc/vimc-debayer.c
+> @@ -34,7 +34,6 @@ struct vimc_deb_pix_map {
+>   struct vimc_deb_device {
+>   	struct vimc_ent_device ved;
+>   	struct v4l2_subdev sd;
+> -	struct device *dev;
+>   	/* The active format */
+>   	struct v4l2_mbus_framefmt sink_fmt;
+>   	u32 src_code;
+> @@ -263,7 +262,7 @@ static int vimc_deb_set_fmt(struct v4l2_subdev *sd,
+>   		/* Set the new format in the sink pad */
+>   		vimc_deb_adjust_sink_fmt(&fmt->format);
+>   
+> -		dev_dbg(vdeb->dev, "%s: sink format update: "
+> +		dev_dbg(vdeb->ved.dev, "%s: sink format update: "
+>   			"old:%dx%d (0x%x, %d, %d, %d, %d) "
+>   			"new:%dx%d (0x%x, %d, %d, %d, %d)\n", vdeb->sd.name,
+>   			/* old */
+> @@ -386,7 +385,7 @@ static void vimc_deb_calc_rgb_sink(struct vimc_deb_device *vdeb,
+>   
+>   	/* Sum the values of the colors in the mean window */
+>   
+> -	dev_dbg(vdeb->dev,
+> +	dev_dbg(vdeb->ved.dev,
+>   		"deb: %s: --- Calc pixel %dx%d, window mean %d, seek %d ---\n",
+>   		vdeb->sd.name, lin, col, vdeb->sink_fmt.height, seek);
+>   
+> @@ -419,7 +418,7 @@ static void vimc_deb_calc_rgb_sink(struct vimc_deb_device *vdeb,
+>   						 vdeb->sink_fmt.width,
+>   						 vdeb->sink_bpp);
+>   
+> -			dev_dbg(vdeb->dev,
+> +			dev_dbg(vdeb->ved.dev,
+>   				"deb: %s: RGB CALC: frame index %d, win pos %dx%d, color %d\n",
+>   				vdeb->sd.name, index, wlin, wcol, color);
+>   
+> @@ -430,21 +429,21 @@ static void vimc_deb_calc_rgb_sink(struct vimc_deb_device *vdeb,
+>   			/* Save how many values we already added */
+>   			n_rgb[color]++;
+>   
+> -			dev_dbg(vdeb->dev, "deb: %s: RGB CALC: val %d, n %d\n",
+> +			dev_dbg(vdeb->ved.dev, "deb: %s: RGB CALC: val %d, n %d\n",
+>   				vdeb->sd.name, rgb[color], n_rgb[color]);
+>   		}
+>   	}
+>   
+>   	/* Calculate the mean */
+>   	for (i = 0; i < 3; i++) {
+> -		dev_dbg(vdeb->dev,
+> +		dev_dbg(vdeb->ved.dev,
+>   			"deb: %s: PRE CALC: %dx%d Color %d, val %d, n %d\n",
+>   			vdeb->sd.name, lin, col, i, rgb[i], n_rgb[i]);
+>   
+>   		if (n_rgb[i])
+>   			rgb[i] = rgb[i] / n_rgb[i];
+>   
+> -		dev_dbg(vdeb->dev,
+> +		dev_dbg(vdeb->ved.dev,
+>   			"deb: %s: FINAL CALC: %dx%d Color %d, val %d\n",
+>   			vdeb->sd.name, lin, col, i, rgb[i]);
+>   	}
+> @@ -518,7 +517,7 @@ struct vimc_ent_device *vimc_deb_add(struct vimc_device *vimc,
+>   	}
+>   
+>   	vdeb->ved.process_frame = vimc_deb_process_frame;
+> -	vdeb->dev = &vimc->pdev.dev;
+> +	vdeb->ved.dev = &vimc->pdev.dev;
+
+I am not convinced this is a safe change to make.
+
+>   
+>   	/* Initialize the frame format */
+>   	vdeb->sink_fmt = sink_fmt_default;
+> diff --git a/drivers/media/platform/vimc/vimc-scaler.c b/drivers/media/platform/vimc/vimc-scaler.c
+> index a6a3cc5be872..9b1023525920 100644
+> --- a/drivers/media/platform/vimc/vimc-scaler.c
+> +++ b/drivers/media/platform/vimc/vimc-scaler.c
+> @@ -21,7 +21,6 @@ MODULE_PARM_DESC(sca_mult, " the image size multiplier");
+>   struct vimc_sca_device {
+>   	struct vimc_ent_device ved;
+>   	struct v4l2_subdev sd;
+> -	struct device *dev;
+>   	/* NOTE: the source fmt is the same as the sink
+>   	 * with the width and hight multiplied by mult
+>   	 */
+> @@ -171,7 +170,7 @@ static int vimc_sca_set_fmt(struct v4l2_subdev *sd,
+>   		/* Set the new format in the sink pad */
+>   		vimc_sca_adjust_sink_fmt(&fmt->format);
+>   
+> -		dev_dbg(vsca->dev, "%s: sink format update: "
+> +		dev_dbg(vsca->ved.dev, "%s: sink format update: "
+>   			"old:%dx%d (0x%x, %d, %d, %d, %d) "
+>   			"new:%dx%d (0x%x, %d, %d, %d, %d)\n", vsca->sd.name,
+>   			/* old */
+> @@ -271,7 +270,7 @@ static void vimc_sca_scale_pix(const struct vimc_sca_device *const vsca,
+>   				 vsca->bpp);
+>   	pixel = &sink_frame[index];
+>   
+> -	dev_dbg(vsca->dev,
+> +	dev_dbg(vsca->ved.dev,
+>   		"sca: %s: --- scale_pix sink pos %dx%d, index %d ---\n",
+>   		vsca->sd.name, lin, col, index);
+>   
+> @@ -281,7 +280,7 @@ static void vimc_sca_scale_pix(const struct vimc_sca_device *const vsca,
+>   	index = VIMC_FRAME_INDEX(lin * sca_mult, col * sca_mult,
+>   				 vsca->sink_fmt.width * sca_mult, vsca->bpp);
+>   
+> -	dev_dbg(vsca->dev, "sca: %s: scale_pix src pos %dx%d, index %d\n",
+> +	dev_dbg(vsca->ved.dev, "sca: %s: scale_pix src pos %dx%d, index %d\n",
+>   		vsca->sd.name, lin * sca_mult, col * sca_mult, index);
+>   
+>   	/* Repeat this pixel mult times */
+> @@ -290,7 +289,7 @@ static void vimc_sca_scale_pix(const struct vimc_sca_device *const vsca,
+>   		 * pixel repetition in a line
+>   		 */
+>   		for (j = 0; j < sca_mult * vsca->bpp; j += vsca->bpp) {
+> -			dev_dbg(vsca->dev,
+> +			dev_dbg(vsca->ved.dev,
+>   				"sca: %s: sca: scale_pix src pos %d\n",
+>   				vsca->sd.name, index + j);
+>   
+> @@ -377,7 +376,7 @@ struct vimc_ent_device *vimc_sca_add(struct vimc_device *vimc,
+>   	}
+>   
+>   	vsca->ved.process_frame = vimc_sca_process_frame;
+> -	vsca->dev = &vimc->pdev.dev;
+> +	vsca->ved.dev = &vimc->pdev.dev;
+
+I am not convinced this is a safe change to make.
+
+>   	/* Initialize the frame format */
+>   	vsca->sink_fmt = sink_fmt_default;
+> diff --git a/drivers/media/platform/vimc/vimc-sensor.c b/drivers/media/platform/vimc/vimc-sensor.c
+> index 46dc6a535abe..9921993a2b73 100644
+> --- a/drivers/media/platform/vimc/vimc-sensor.c
+> +++ b/drivers/media/platform/vimc/vimc-sensor.c
+> @@ -17,7 +17,6 @@
+>   struct vimc_sen_device {
+>   	struct vimc_ent_device ved;
+>   	struct v4l2_subdev sd;
+> -	struct device *dev;
+>   	struct tpg_data tpg;
+>   	struct task_struct *kthread_sen;
+>   	u8 *frame;
+> @@ -158,7 +157,7 @@ static int vimc_sen_set_fmt(struct v4l2_subdev *sd,
+>   	/* Set the new format */
+>   	vimc_sen_adjust_fmt(&fmt->format);
+>   
+> -	dev_dbg(vsen->dev, "%s: format update: "
+> +	dev_dbg(vsen->ved.dev, "%s: format update: "
+>   		"old:%dx%d (0x%x, %d, %d, %d, %d) "
+>   		"new:%dx%d (0x%x, %d, %d, %d, %d)\n", vsen->sd.name,
+>   		/* old */
+> @@ -368,7 +367,7 @@ struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
+>   		goto err_free_hdl;
+>   
+>   	vsen->ved.process_frame = vimc_sen_process_frame;
+> -	vsen->dev = &vimc->pdev.dev;
+> +	vsen->ved.dev = &vimc->pdev.dev;
+
+I am not convinced this is a safe change to make.
+
+>   
+>   	/* Initialize the frame format */
+>   	vsen->mbus_format = fmt_default;
+> diff --git a/drivers/media/platform/vimc/vimc-streamer.c b/drivers/media/platform/vimc/vimc-streamer.c
+> index faa2879c25df..37150c919fcb 100644
+> --- a/drivers/media/platform/vimc/vimc-streamer.c
+> +++ b/drivers/media/platform/vimc/vimc-streamer.c
+> @@ -96,7 +96,7 @@ static int vimc_streamer_pipeline_init(struct vimc_stream *stream,
+>   			sd = media_entity_to_v4l2_subdev(ved->ent);
+>   			ret = v4l2_subdev_call(sd, video, s_stream, 1);
+>   			if (ret && ret != -ENOIOCTLCMD) {
+> -				pr_err("subdev_call error %s\n",
+> +				dev_err(ved->dev, "subdev_call error %s\n",
+>   				       ved->ent->name);
+>   				vimc_streamer_pipeline_terminate(stream);
+>   				return ret;
+> 
+
