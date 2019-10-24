@@ -2,194 +2,247 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BC6F4E2D28
-	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2019 11:24:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CBB7EE2D46
+	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2019 11:27:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408818AbfJXJYA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Oct 2019 05:24:00 -0400
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:40130 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389413AbfJXJYA (ORCPT
+        id S2391251AbfJXJ1p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Oct 2019 05:27:45 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:60383 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2390225AbfJXJ1p (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Oct 2019 05:24:00 -0400
-Received: by mail-ed1-f66.google.com with SMTP id p59so9673855edp.7
-        for <linux-media@vger.kernel.org>; Thu, 24 Oct 2019 02:23:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=2Fg4OORdS56GYlEdlxxKyHlR08HjtyPW5mXDJkHAU3c=;
-        b=LErg4eJHixvsMHo3T4UdsdOcjyo5lbO9XudSeZq6rpgNnkVpGr/b0G90t4XOSP66/E
-         yPiEP9VtvxDCkUlH7d1janZhA4XnWhbkjvm/cOE2ToCJXuDoxd+uba3V89MU7eceWGgo
-         3dPD97YPgwTyy5neIrYaAT8SNNB8krsO2ClP8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=2Fg4OORdS56GYlEdlxxKyHlR08HjtyPW5mXDJkHAU3c=;
-        b=aa4HS9f4QHg589uYWiIC8ZcHou39hCU0elQhYEJ15SA2eITf4Bs3g9b+ZUnBs5Chd3
-         +K+m06b+CcymWce3n1+7Zgsszmqjtzv0CEoVPYH4ORQkgWp81+cBET4dr1O41Zeea35H
-         /bXENREf/av3PF8Speqa/g91xzMoymr1tTfA/OwY7X8wRG+HQXxcaxXrb4QB4LRH3EW9
-         W4gtAHHXFd6dev7dcC4EN+V+KGzzu2aWyDtBE81OrD/RDyrB2WIbaUU9fWbAbzcpmPa6
-         P8/h8/UKvd1Bltg57EWelg1lQ6dVLaoDF5RHpQ/Dmp5HnP1Gns/9tKe5Sgfh0tZXeZPX
-         3WtQ==
-X-Gm-Message-State: APjAAAV/oRmGzL2OsIS3rMCagJiCRp8s40Q3E0ZUqGtYiWDaIFECqRnB
-        oHCCTv9+nxVjmeSiwhz8s+4gXrGxC3bvjA==
-X-Google-Smtp-Source: APXvYqw97l5hNIiqAobIibz19XAEm0AunmDtwaB5bKsn0HwzNMOPkMe9nvYN3pC8qbIxopdj6Bjpyg==
-X-Received: by 2002:aa7:c257:: with SMTP id y23mr42195699edo.39.1571909038082;
-        Thu, 24 Oct 2019 02:23:58 -0700 (PDT)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com. [209.85.221.50])
-        by smtp.gmail.com with ESMTPSA id t24sm231381edc.56.2019.10.24.02.23.55
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Oct 2019 02:23:56 -0700 (PDT)
-Received: by mail-wr1-f50.google.com with SMTP id o28so25201690wro.7
-        for <linux-media@vger.kernel.org>; Thu, 24 Oct 2019 02:23:55 -0700 (PDT)
-X-Received: by 2002:a5d:6a42:: with SMTP id t2mr2809593wrw.155.1571909035112;
- Thu, 24 Oct 2019 02:23:55 -0700 (PDT)
+        Thu, 24 Oct 2019 05:27:45 -0400
+Received: from [IPv6:2001:420:44c1:2577:2596:d813:5034:deee]
+ ([IPv6:2001:420:44c1:2577:2596:d813:5034:deee])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id NZP8iqyAkfrRWNZPCiTnOA; Thu, 24 Oct 2019 11:27:42 +0200
+Subject: Re: [PATCH v3 2/2] media: vimc: upon streaming, check that the
+ pipeline starts with a source entity
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        linux-media@vger.kernel.org
+Cc:     helen.koike@collabora.com, ezequiel@collabora.com,
+        andre.almeida@collabora.com, skhan@linuxfoundation.org,
+        kernel@collabora.com, dafna3@gmail.com
+References: <20191009155315.14280-1-dafna.hirschfeld@collabora.com>
+ <20191009155315.14280-3-dafna.hirschfeld@collabora.com>
+ <f2e70e0f-fc1a-714b-b32b-2352af3b089d@xs4all.nl>
+ <f9b464d7-0fc0-ab0b-cb5d-1ef150162c5b@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <edce67bc-e8d8-f8a3-1d45-01775bbf546f@xs4all.nl>
+Date:   Thu, 24 Oct 2019 11:27:38 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-References: <20191017084033.28299-1-xia.jiang@mediatek.com>
- <20191017084033.28299-6-xia.jiang@mediatek.com> <20191023103945.GA41089@chromium.org>
- <1571906317.6254.64.camel@mhfsdcap03>
-In-Reply-To: <1571906317.6254.64.camel@mhfsdcap03>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Thu, 24 Oct 2019 18:23:43 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5DUF90daBAe96Vu46z9HD43AYG+9rK-_r_aWYey8GxpmQ@mail.gmail.com>
-Message-ID: <CAAFQd5DUF90daBAe96Vu46z9HD43AYG+9rK-_r_aWYey8GxpmQ@mail.gmail.com>
-Subject: Re: [PATCH v4 5/5] media: platform: Add jpeg dec/enc feature
-To:     Xia Jiang <xia.jiang@mediatek.com>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rick Chang <rick.chang@mediatek.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-devicetree <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        srv_heupstream <srv_heupstream@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <f9b464d7-0fc0-ab0b-cb5d-1ef150162c5b@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfIxP5tF/kN5NoI1ghZ1RMWYZGh9rcxBz90EpNY7TT0wKUUfxpnVCgJ4ifCs8qtoFuuvk2I7r0gn1bwqNGpejDLtHrR+puiHMD+SNd76GEV2OTRAbinps
+ s2NZfWFcJn73h0jj8mp5EeE/VwJCk9iXl7+cxjGrwGc6l6y8XoK6mpUmey3JuPyZuWLG7ZIHEzETxj22M3x8KkAYHoQlW0RVXNsP2Z/YHKgqMKRyfqtXHuyz
+ NvFFb+nzKjnUz+2upG9tjenSGRF7VeSsHzusH3B/HrVe1iZYU7AbuNrVN8tt2lrPXD3STet1RcWBrQYXct959o7LTIODPcO09iJaVhTMW9ZzJWdWuo9zMe8M
+ Kuk0u7WhBz5elZwsXnIqmY+PtdE6IHQnYciXHtMpeR3H+YXxFVkEbNeT2lYiSLBkUjSMHk6zYKxBYxBXTKb/hlXUOfhN8cInSlKGmH/zIEDHAjBh7Oo6Pnz0
+ ObX3oTzhDU33O84N4iGhxK0aS7vZVWIee3lmTxRjm9OWnwQHofJ8jrt6w4zxcFFJ6G7XtDa3GHB1moX2
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Oct 24, 2019 at 5:38 PM Xia Jiang <xia.jiang@mediatek.com> wrote:
->
-> On Wed, 2019-10-23 at 19:39 +0900, Tomasz Figa wrote:
-> > Hi Xia,
-> >
-> > On Thu, Oct 17, 2019 at 04:40:38PM +0800, Xia Jiang wrote:
-> > > Add mtk jpeg encode v4l2 driver based on jpeg decode, because that jp=
-eg
-> > > decode and encode have great similarities with function operation.
-> > >
-> > > Signed-off-by: Xia Jiang <xia.jiang@mediatek.com>
-> > > ---
-> > > v4: split mtk_jpeg_try_fmt_mplane() to two functions, one for encoder=
-,
-> > >     one for decoder.
-> > >     split mtk_jpeg_set_default_params() to two functions, one for
-> > >     encoder, one for decoder.
-> > >     add cropping support for encoder in g/s_selection ioctls.
-> > >     change exif mode support by using V4L2_JPEG_ACTIVE_MARKER_APP1.
-> > >     change MTK_JPEG_MAX_WIDTH/MTK_JPEG_MAX_HEIGH from 8192 to 65535 b=
-y
-> > >     specification.
-> > >     move width shifting operation behind aligning operation in
-> > >     mtk_jpeg_try_enc_fmt_mplane() for bug fix.
-> > >     fix user abuseing data_offset issue for DMABUF in
-> > >     mtk_jpeg_set_enc_src().
-> > >     fix kbuild warings: change MTK_JPEG_MIN_HEIGHT/MTK_JPEG_MAX_HEIGH=
-T
-> > >                         and MTK_JPEG_MIN_WIDTH/MTK_JPEG_MAX_WIDTH fro=
-m
-> > >                         'int' type to 'unsigned int' type.
-> > >                         fix msleadingly indented of 'else'.
-> > >
-> > > v3: delete Change-Id.
-> > >     only test once handler->error after the last v4l2_ctrl_new_std().
-> > >     seperate changes of v4l2-ctrls.c and v4l2-controls.h to new patch=
-.
-> > >
-> > > v2: fix compliance test fail, check created buffer size in driver.
-> > > ---
-> > >  drivers/media/platform/mtk-jpeg/Makefile      |   5 +-
-> > >  .../media/platform/mtk-jpeg/mtk_jpeg_core.c   | 731 +++++++++++++++-=
---
-> > >  .../media/platform/mtk-jpeg/mtk_jpeg_core.h   | 123 ++-
-> > >  .../media/platform/mtk-jpeg/mtk_jpeg_dec_hw.h |   7 +-
-> > >  .../media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c | 175 +++++
-> > >  .../media/platform/mtk-jpeg/mtk_jpeg_enc_hw.h |  60 ++
-> > >  .../platform/mtk-jpeg/mtk_jpeg_enc_reg.h      |  49 ++
-> > >  7 files changed, 1004 insertions(+), 146 deletions(-)
-> > >  create mode 100644 drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c
-> > >  create mode 100644 drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.h
-> > >  create mode 100644 drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_reg.=
-h
-> > >
-> >
-> > First of all, thanks for the patch!
-> >
-> > Please check my comments below.
-> >
-> > My general feeling about this code is that the encoder hardware block i=
-s
-> > completely orthogonal from the decoder block and there is very little c=
-ode
-> > reuse from the original decoder driver.
-> >
-> > Moreover, a lot of existing code now needs if (decoder) { ... } else {.=
-.. }
-> > segments, which complicates the code.
-> >
-> > Would it perhaps make sense to instead create a separate mtk-jpeg-enc
-> > driver?
-> >
-> Dear Tomasz,
->
-> Thanks for your comments.
->
-> My reasons about the architecture of jpeg enc driver are as follows:
->
-> The first internal design and realization of jpeg enc driver was a
-> separate driver, but found that mtk_jpeg_core.c and mtk_jpeg_enc_core.c
-> have lots of reuse.Because that  the core.c mainly contains realization
-> of v4L2 ioctl functions and some logic which are high similarity between
-> encoder and decoder.
->
-> The jpeg encoder and decoder are two independent hardwares exactly, so
-> the code about hardware specification(register setting) are
-> separated(mtk_jpeg_enc_hw.c and mtk_jpeg_dec_hw.c).
->
-> As for 17 existing code segments contain if(decoder){} else {}, they are
-> not complicated IMHO.The complicated(multilayer nested) functions are
-> separated in V4 version as Hans recommendation.
->
-> By the way,the upstreamed module s5p-jpeg
-> (https://elixir.bootlin.com/linux/latest/source/drivers/media/platform/s5=
-p-jpeg/jpeg-core.c#L1998) also use encoder and decoder mode in the common c=
-ore.c, but their encoder and decoder are the same hardware.Maybe our jpeg e=
-nc and dec are designed into one hardware in the future.In that case the cu=
-rrent architecture is more compatible.
->
-> So I prefer the current design.
->
+On 10/24/19 10:36 AM, Dafna Hirschfeld wrote:
+> 
+> 
+> On 10/23/19 9:26 AM, Hans Verkuil wrote:
+>> On 10/9/19 5:53 PM, Dafna Hirschfeld wrote:
+>>> Userspace can disable links and create pipelines that
+>>> do not start with a source entity. Trying to stream
+>>> from such a pipeline should fail with -EPIPE
+>>> currently this is not handled and cause kernel crash.
+>>>
+>>> Reproducing the crash:
+>>> media-ctl -d0 -l "5:1->21:0[0]" -v
+>>> v4l2-ctl -z platform:vimc -d "RGB/YUV Capture" -v width=1920,height=1440
+>>> v4l2-ctl --stream-mmap --stream-count=100 -d /dev/video2
+>>>
+>>> Panic message:
+>>> [   39.078841][  T248] BUG: kernel NULL pointer dereference, address: 0000000000000000
+>>> [   39.079338][  T248] #PF: supervisor read access in kernel mode
+>>> [   39.079704][  T248] #PF: error_code(0x0000) - not-present page
+>>> [   39.080071][  T248] PGD 0 P4D 0
+>>> [   39.080279][  T248] Oops: 0000 [#1] SMP PTI
+>>> [   39.080546][  T248] CPU: 0 PID: 248 Comm: vimc-streamer t Not tainted 5.4.0-rc1+ #17
+>>> [   39.081030][  T248] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.12.0-0-ga698c8995f-prebuilt.qemu.org 04/01/2014
+>>> [   39.081779][  T248] RIP: 0010:vimc_sca_process_frame+0xdb/0x210 [vimc]
+>>> [   39.082191][  T248] Code: 44 8d 0c 28 8b 93 a4 01 00 00 48 8b 8b 98 01 00 00 85 d2 74 40 48 8b 74 24 10 8d 7a ff 4c 01 c9 31 d2 4c 01 fe eb 03 4c 89 c2 <44> 0f b6 04 16 44 88 04 11 4c 8d 42 01 48 39 fa 75 eb 8b 93 a4 01
+>>> [   39.083436][  T248] RSP: 0018:ffffb15a005abe90 EFLAGS: 00010246
+>>> [   39.083808][  T248] RAX: 0000000000000000 RBX: ffffa3fdc46d2e00 RCX: ffffb15a02579000
+>>> [   39.084298][  T248] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000002
+>>> [   39.084792][  T248] RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+>>> [   39.085280][  T248] R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000000
+>>> [   39.085770][  T248] R13: ffffa3fdc46d2ee0 R14: 0000000000000000 R15: 0000000000000000
+>>> [   39.086258][  T248] FS:  0000000000000000(0000) GS:ffffa3fdc7800000(0000) knlGS:0000000000000000
+>>> [   39.086806][  T248] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>> [   39.087217][  T248] CR2: 0000000000000000 CR3: 0000000003c92005 CR4: 0000000000360ef0
+>>> [   39.087706][  T248] Call Trace:
+>>> [   39.087909][  T248]  ? vimc_streamer_pipeline_terminate+0x90/0x90 [vimc]
+>>> [   39.088318][  T248]  vimc_streamer_thread+0x7c/0xe0 [vimc]
+>>> [   39.088663][  T248]  kthread+0x10d/0x130
+>>> [   39.088919][  T248]  ? kthread_park+0x80/0x80
+>>> [   39.089205][  T248]  ret_from_fork+0x35/0x40
+>>> [   39.089475][  T248] Modules linked in: vimc videobuf2_vmalloc videobuf2_memops v4l2_tpg videobuf2_v4l2 videobuf2_common videodev mc
+>>> [   39.090208][  T248] CR2: 0000000000000000
+>>> [   39.090463][  T248] ---[ end trace 697650fefbf78bee ]---
+>>> [   39.090796][  T248] RIP: 0010:vimc_sca_process_frame+0xdb/0x210 [vimc]
+>>> [   39.091209][  T248] Code: 44 8d 0c 28 8b 93 a4 01 00 00 48 8b 8b 98 01 00 00 85 d2 74 40 48 8b 74 24 10 8d 7a ff 4c 01 c9 31 d2 4c 01 fe eb 03 4c 89 c2 <44> 0f b6 04 16 44 88 04 11 4c 8d 42 01 48 39 fa 75 eb 8b 93 a4 01
+>>> [   39.092417][  T248] RSP: 0018:ffffb15a005abe90 EFLAGS: 00010246
+>>> [   39.092789][  T248] RAX: 0000000000000000 RBX: ffffa3fdc46d2e00 RCX: ffffb15a02579000
+>>> [   39.093278][  T248] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000002
+>>> [   39.093766][  T248] RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+>>> [   39.094254][  T248] R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000000
+>>> [   39.094742][  T248] R13: ffffa3fdc46d2ee0 R14: 0000000000000000 R15: 0000000000000000
+>>> [   39.095309][  T248] FS:  0000000000000000(0000) GS:ffffa3fdc7800000(0000) knlGS:0000000000000000
+>>> [   39.095974][  T248] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>> [   39.096372][  T248] CR2: 0000000000000000 CR3: 0000000003c92005 CR4: 0000000000360ef0
+>>>
+>>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+>>> ---
+>>>   drivers/media/platform/vimc/vimc-common.c   | 10 ++++++++
+>>>   drivers/media/platform/vimc/vimc-common.h   |  5 ++++
+>>>   drivers/media/platform/vimc/vimc-streamer.c | 27 ++++++++++++---------
+>>>   3 files changed, 31 insertions(+), 11 deletions(-)
+>>>
+>>> diff --git a/drivers/media/platform/vimc/vimc-common.c b/drivers/media/platform/vimc/vimc-common.c
+>>> index a3120f4f7a90..e8ad3199ffbf 100644
+>>> --- a/drivers/media/platform/vimc/vimc-common.c
+>>> +++ b/drivers/media/platform/vimc/vimc-common.c
+>>> @@ -164,6 +164,16 @@ static const struct vimc_pix_map vimc_pix_map_list[] = {
+>>>   	},
+>>>   };
+>>>   
+>>> +bool vimc_is_source(struct media_entity *ent)
+>>> +{
+>>> +	unsigned int i;
+>>> +
+>>> +	for (i = 0; i < ent->num_pads; i++)
+>>> +		if (ent->pads[i].flags & MEDIA_PAD_FL_SINK)
+>>> +			return false;
+>>> +	return true;
+>>> +}
+>>> +
+>>>   const struct vimc_pix_map *vimc_pix_map_by_index(unsigned int i)
+>>>   {
+>>>   	if (i >= ARRAY_SIZE(vimc_pix_map_list))
+>>> diff --git a/drivers/media/platform/vimc/vimc-common.h b/drivers/media/platform/vimc/vimc-common.h
+>>> index 8349e3c68a49..112574bc3089 100644
+>>> --- a/drivers/media/platform/vimc/vimc-common.h
+>>> +++ b/drivers/media/platform/vimc/vimc-common.h
+>>> @@ -154,6 +154,11 @@ struct vimc_ent_config {
+>>>   	void (*rm)(struct vimc_device *vimc, struct vimc_ent_device *ved);
+>>>   };
+>>>   
+>>> +/**
+>>> + * vimc_is_source - returns true iff the entity has only source pads
+>>> + */
+>>> +bool vimc_is_source(struct media_entity *ent);
+>>> +
+>>>   /* prototypes for vimc_ent_config add and rm hooks */
+>>>   struct vimc_ent_device *vimc_cap_add(struct vimc_device *vimc,
+>>>   				     const char *vcfg_name);
+>>> diff --git a/drivers/media/platform/vimc/vimc-streamer.c b/drivers/media/platform/vimc/vimc-streamer.c
+>>> index 37150c919fcb..680614851a14 100644
+>>> --- a/drivers/media/platform/vimc/vimc-streamer.c
+>>> +++ b/drivers/media/platform/vimc/vimc-streamer.c
+>>> @@ -82,14 +82,12 @@ static int vimc_streamer_pipeline_init(struct vimc_stream *stream,
+>>>   	struct media_entity *entity;
+>>>   	struct video_device *vdev;
+>>>   	struct v4l2_subdev *sd;
+>>> -	int ret = 0;
+>>> +	int ret = -EINVAL;
+>>>   
+>>>   	stream->pipe_size = 0;
+>>>   	while (stream->pipe_size < VIMC_STREAMER_PIPELINE_MAX_SIZE) {
+>>> -		if (!ved) {
+>>> -			vimc_streamer_pipeline_terminate(stream);
+>>> -			return -EINVAL;
+>>> -		}
+>>> +		if (!ved)
+>>> +			break;
+>>
+>> This doesn't work, you need to set ret to -EINVAL explicitly since ret can
+>> be set elsewhere as well in the while loop, so there is no guarantee that
+>> ret is -EINVAL.
+>>
+>>>   		stream->ved_pipeline[stream->pipe_size++] = ved;
+>>>   
+>>>   		if (is_media_entity_v4l2_subdev(ved->ent)) {
+>>> @@ -98,15 +96,23 @@ static int vimc_streamer_pipeline_init(struct vimc_stream *stream,
+>>>   			if (ret && ret != -ENOIOCTLCMD) {
+>>>   				dev_err(ved->dev, "subdev_call error %s\n",
+>>>   				       ved->ent->name);
+>>> -				vimc_streamer_pipeline_terminate(stream);
+>>> -				return ret;
+>>> +				break;
+>>
+>> And here ret can end up being -ENOIOCTLCMD, so returning 'ret' at the end
+>> may not be the value you expect.
+>>
+> 
+> Hi,
+> But the condition "if (ret && ret != -ENOIOCTLCMD)" ensures it is not 
+> -ENOIOCTLCMD
 
-Would you be able to give some numbers to show the code reuse to
-justify using the same driver? From my observation, a new driver would
-result in a significantly cleaner code. If there is a further hardware
-architecture change, that would likely require another driver, because
-it wouldn't be compatible with existing programming model anyway.
+But if v4l2_subdev_call DID return -ENOIOCTLCMD, then ret now has that value.
+If the while now exits or ved becomes NULL, then you fall to the return ret
+which now returns -ENOIOCTLCMD.
 
-Regardless of that, if we end up with reusing the same driver, I'd
-like you to fix the issues existing in the current base before adding
-the encoder functionality.
+This code is messy w.r.t. the return value, it should be cleaned up a bit.
 
-Best regards,
-Tomasz
+Even if the code is correct (as in that the scenario I described above cannot
+actually happen in practice), it is still hard to follow.
+
+Regards,
+
+	Hans
+
+> 
+> Regards,
+> Dafna
+> 
+>> Regards,
+>>
+>> 	Hans
+>>
+>>>   			}
+>>>   		}
+>>>   
+>>>   		entity = vimc_get_source_entity(ved->ent);
+>>> -		/* Check if the end of the pipeline was reached*/
+>>> -		if (!entity)
+>>> +		/* Check if the end of the pipeline was reached */
+>>> +		if (!entity) {
+>>> +			/* the first entity of the pipe should be source only */
+>>> +			if (!vimc_is_source(ved->ent)) {
+>>> +				dev_err(ved->dev,
+>>> +					"first entity in the pipe '%s' is not a source\n",
+>>> +					ved->ent->name);
+>>> +				ret = -EPIPE;
+>>> +				break;
+>>> +			}
+>>>   			return 0;
+>>> +		}
+>>>   
+>>>   		/* Get the next device in the pipeline */
+>>>   		if (is_media_entity_v4l2_subdev(entity)) {
+>>> @@ -119,9 +125,8 @@ static int vimc_streamer_pipeline_init(struct vimc_stream *stream,
+>>>   			ved = video_get_drvdata(vdev);
+>>>   		}
+>>>   	}
+>>> -
+>>>   	vimc_streamer_pipeline_terminate(stream);
+>>> -	return -EINVAL;
+>>> +	return ret;
+>>>   }
+>>>   
+>>>   /**
+>>>
+>>
+>>
+
