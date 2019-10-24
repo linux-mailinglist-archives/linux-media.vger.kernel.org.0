@@ -2,34 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BF4A5E2765
-	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2019 02:42:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C345AE2767
+	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2019 02:42:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392853AbfJXAmH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Oct 2019 20:42:07 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:52428 "EHLO
+        id S2408085AbfJXAmJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Oct 2019 20:42:09 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:52444 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392851AbfJXAmH (ORCPT
+        with ESMTP id S2392854AbfJXAmJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Oct 2019 20:42:07 -0400
+        Wed, 23 Oct 2019 20:42:09 -0400
 Received: from pendragon.ideasonboard.com (143.121.2.93.rev.sfr.net [93.2.121.143])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7F05397D;
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BDEE19A1;
         Thu, 24 Oct 2019 02:42:05 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1571877725;
-        bh=fct2kCB0QuEcOtSb7DIkWbkqvBb8wKdLO4CaVvexYv0=;
+        bh=cFuZyCc1/MzaKEBr8N7p0S5PpSbBxxJnL5r26LSKeaM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bS4TIVJ479+zSDFbMgCp0xM4UJVRAr2hVKYNzH8/Ywe4f/AAOYLHdjYrvFIYGi1Ie
-         XKwyAPxmmFTD4pa4STcAGu8tQacIvguyLHGBE55hmCV7YDg47tfnT8IFkGHzJ3yl1X
-         fY71Y4r10feJw1TJuaLKnyAQWBvFSPIauEdFxKMI=
+        b=AQcJ9SgPuin+P8nR2OzvPU0X2oHvziedwLNKguPGzIiqIIrpFNDyrVL6ruW+sbmEv
+         1uVTPcph14pzitnPz9WOjr7VYgs9vhVJeCpnE4KdgLIZLsPWArPIJQfNJHl8C/LvIN
+         Jqbzmc5LEDyFKpw1pq2wWbBXWsl93E40GNwQ4sNE=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Rui Miguel Silva <rmfrfs@gmail.com>
-Subject: [PATCH 1/7] media: imx: imx7_mipi_csis: Power off the source when stopping streaming
-Date:   Thu, 24 Oct 2019 03:41:49 +0300
-Message-Id: <20191024004155.32068-2-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH 2/7] media: imx: imx7_mipi_csis: Print the RESOL_CH0 register
+Date:   Thu, 24 Oct 2019 03:41:50 +0300
+Message-Id: <20191024004155.32068-3-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191024004155.32068-1-laurent.pinchart@ideasonboard.com>
 References: <20191024004155.32068-1-laurent.pinchart@ideasonboard.com>
@@ -40,27 +40,27 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The .s_stream() implementation incorrectly powers on the source when
-stopping the stream. Power it off instead.
+Add the RESOL_CH0 register to the list of registers printed through the
+debugfs debug infrastructure for the driver, as it can be useful to
+verify proper configuration of the CSI-2 receiver.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/staging/media/imx/imx7-mipi-csis.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/media/imx/imx7-mipi-csis.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
-index 73d8354e618c..66407b228f8e 100644
+index 66407b228f8e..a0ba3ed00cd8 100644
 --- a/drivers/staging/media/imx/imx7-mipi-csis.c
 +++ b/drivers/staging/media/imx/imx7-mipi-csis.c
-@@ -577,7 +577,7 @@ static int mipi_csis_s_stream(struct v4l2_subdev *mipi_sd, int enable)
- 		state->flags |= ST_STREAMING;
- 	} else {
- 		v4l2_subdev_call(state->src_sd, video, s_stream, 0);
--		ret = v4l2_subdev_call(state->src_sd, core, s_power, 1);
-+		ret = v4l2_subdev_call(state->src_sd, core, s_power, 0);
- 		mipi_csis_stop_stream(state);
- 		state->flags &= ~ST_STREAMING;
- 		if (state->debug)
+@@ -303,6 +303,7 @@ static int mipi_csis_dump_regs(struct csi_state *state)
+ 		{ 0x20, "DPHYSTS" },
+ 		{ 0x10, "INTMSK" },
+ 		{ 0x40, "CONFIG_CH0" },
++		{ 0x44, "RESOL_CH0" },
+ 		{ 0xC0, "DBG_CONFIG" },
+ 		{ 0x38, "DPHYSLAVE_L" },
+ 		{ 0x3C, "DPHYSLAVE_H" },
 -- 
 Regards,
 
