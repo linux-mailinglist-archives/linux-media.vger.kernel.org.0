@@ -2,209 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A898E2DD4
-	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2019 11:44:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C7686E2EA4
+	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2019 12:18:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732349AbfJXJoT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Oct 2019 05:44:19 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:48837 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731944AbfJXJoT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Oct 2019 05:44:19 -0400
-Received: from [IPv6:2001:420:44c1:2577:2596:d813:5034:deee]
- ([IPv6:2001:420:44c1:2577:2596:d813:5034:deee])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id NZfBir3eyfrRWNZfEiTrSX; Thu, 24 Oct 2019 11:44:16 +0200
-Subject: Re: [PATCH v4 2/2] media: vimc: upon streaming, check that the
- pipeline starts with a source entity
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        linux-media@vger.kernel.org
-Cc:     helen.koike@collabora.com, skhan@linuxfoundation.org,
-        kernel@collabora.com, dafna3@gmail.com
-References: <20191024093525.10059-1-dafna.hirschfeld@collabora.com>
- <20191024093525.10059-3-dafna.hirschfeld@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <975b0a50-fad8-c9b8-1326-a63fc6796a50@xs4all.nl>
-Date:   Thu, 24 Oct 2019 11:44:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S2407358AbfJXKSy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Oct 2019 06:18:54 -0400
+Received: from mga12.intel.com ([192.55.52.136]:62818 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2407344AbfJXKSy (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 24 Oct 2019 06:18:54 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 24 Oct 2019 03:18:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,224,1569308400"; 
+   d="scan'208";a="373170458"
+Received: from jjackiew-mobl1.ger.corp.intel.com (HELO mara.localdomain) ([10.249.148.206])
+  by orsmga005.jf.intel.com with ESMTP; 24 Oct 2019 03:18:50 -0700
+Received: from sailus by mara.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@linux.intel.com>)
+        id 1iNaDo-00012x-KU; Thu, 24 Oct 2019 13:20:00 +0300
+Date:   Thu, 24 Oct 2019 13:19:59 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Ricardo Ribalda Delgado <ribalda@kernel.org>
+Cc:     hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: media: *_DEFAULT targets for subdevs
+Message-ID: <20191024101959.GA3966@mara.localdomain>
+References: <20191024084014.22424-1-ribalda@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20191024093525.10059-3-dafna.hirschfeld@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfNpXUujP0tQWGjoQcwFIfJ8xpUix1ngrHm1oEJwtTFaz+LXtOLk4sYHhuuZHYn3RJvbkn1NxUV3M0Ud1IQadC+VD46wN7eJhPULS9JZp9iJS56IOuGLE
- FRHAOKPr6FNDqtnN2AczalLf1u6vd0nX4PYG3F3YbDYkwCFqCvK/VM3WxFYi/p3mmb7XNj37xs9O6Rz5vGzgWPy9GSHauJrn3C3puYV9HthY4WP2+Q2342d1
- Q4JJ1i4F0TVG3Rp7Ac0XKEqDQXRC+C8z9xMtL92G+wmhg/A0oQuTACxyubJoF/fJfP/YlEMESKpoEWDJvm1KPpkdJ14kuK6a6AWu2az0MV++GqdTpTsP9dUL
- nf2W5EfhakpnZBeRLGCuB5ja8c69A3MLptujzMD6aur1uacLxb/PnpM6V/uQmHSq5acz9DLusfdnFm34+JxbbthM7xnV+ERqB0yKpr47xG2KVZwj4b4=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191024084014.22424-1-ribalda@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/24/19 11:35 AM, Dafna Hirschfeld wrote:
-> Userspace can disable links and create pipelines that
-> do not start with a source entity. Trying to stream
-> from such a pipeline should fail with -EPIPE
-> currently this is not handled and cause kernel crash.
+Hi Ricardo,
+
+On Thu, Oct 24, 2019 at 10:40:14AM +0200, Ricardo Ribalda Delgado wrote:
+> Some sensors have optical blanking areas, this is, pixels that are
+> painted and do not account for light, only noise.
 > 
-> Reproducing the crash:
-> media-ctl -d0 -l "5:1->21:0[0]" -v
-> v4l2-ctl -z platform:vimc -d "RGB/YUV Capture" -v width=1920,height=1440
-> v4l2-ctl --stream-mmap --stream-count=100 -d /dev/video2
+> These special pixels are very useful for calibrating the sensor, but
+> should not be displayed on a DEFAULT target.
 > 
-> Panic message:
-> [   39.078841][  T248] BUG: kernel NULL pointer dereference, address: 0000000000000000
-> [   39.079338][  T248] #PF: supervisor read access in kernel mode
-> [   39.079704][  T248] #PF: error_code(0x0000) - not-present page
-> [   39.080071][  T248] PGD 0 P4D 0
-> [   39.080279][  T248] Oops: 0000 [#1] SMP PTI
-> [   39.080546][  T248] CPU: 0 PID: 248 Comm: vimc-streamer t Not tainted 5.4.0-rc1+ #17
-> [   39.081030][  T248] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.12.0-0-ga698c8995f-prebuilt.qemu.org 04/01/2014
-> [   39.081779][  T248] RIP: 0010:vimc_sca_process_frame+0xdb/0x210 [vimc]
-> [   39.082191][  T248] Code: 44 8d 0c 28 8b 93 a4 01 00 00 48 8b 8b 98 01 00 00 85 d2 74 40 48 8b 74 24 10 8d 7a ff 4c 01 c9 31 d2 4c 01 fe eb 03 4c 89 c2 <44> 0f b6 04 16 44 88 04 11 4c 8d 42 01 48 39 fa 75 eb 8b 93 a4 01
-> [   39.083436][  T248] RSP: 0018:ffffb15a005abe90 EFLAGS: 00010246
-> [   39.083808][  T248] RAX: 0000000000000000 RBX: ffffa3fdc46d2e00 RCX: ffffb15a02579000
-> [   39.084298][  T248] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000002
-> [   39.084792][  T248] RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-> [   39.085280][  T248] R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000000
-> [   39.085770][  T248] R13: ffffa3fdc46d2ee0 R14: 0000000000000000 R15: 0000000000000000
-> [   39.086258][  T248] FS:  0000000000000000(0000) GS:ffffa3fdc7800000(0000) knlGS:0000000000000000
-> [   39.086806][  T248] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [   39.087217][  T248] CR2: 0000000000000000 CR3: 0000000003c92005 CR4: 0000000000360ef0
-> [   39.087706][  T248] Call Trace:
-> [   39.087909][  T248]  ? vimc_streamer_pipeline_terminate+0x90/0x90 [vimc]
-> [   39.088318][  T248]  vimc_streamer_thread+0x7c/0xe0 [vimc]
-> [   39.088663][  T248]  kthread+0x10d/0x130
-> [   39.088919][  T248]  ? kthread_park+0x80/0x80
-> [   39.089205][  T248]  ret_from_fork+0x35/0x40
-> [   39.089475][  T248] Modules linked in: vimc videobuf2_vmalloc videobuf2_memops v4l2_tpg videobuf2_v4l2 videobuf2_common videodev mc
-> [   39.090208][  T248] CR2: 0000000000000000
-> [   39.090463][  T248] ---[ end trace 697650fefbf78bee ]---
-> [   39.090796][  T248] RIP: 0010:vimc_sca_process_frame+0xdb/0x210 [vimc]
-> [   39.091209][  T248] Code: 44 8d 0c 28 8b 93 a4 01 00 00 48 8b 8b 98 01 00 00 85 d2 74 40 48 8b 74 24 10 8d 7a ff 4c 01 c9 31 d2 4c 01 fe eb 03 4c 89 c2 <44> 0f b6 04 16 44 88 04 11 4c 8d 42 01 48 39 fa 75 eb 8b 93 a4 01
-> [   39.092417][  T248] RSP: 0018:ffffb15a005abe90 EFLAGS: 00010246
-> [   39.092789][  T248] RAX: 0000000000000000 RBX: ffffa3fdc46d2e00 RCX: ffffb15a02579000
-> [   39.093278][  T248] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000002
-> [   39.093766][  T248] RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-> [   39.094254][  T248] R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000000
-> [   39.094742][  T248] R13: ffffa3fdc46d2ee0 R14: 0000000000000000 R15: 0000000000000000
-> [   39.095309][  T248] FS:  0000000000000000(0000) GS:ffffa3fdc7800000(0000) knlGS:0000000000000000
-> [   39.095974][  T248] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [   39.096372][  T248] CR2: 0000000000000000 CR3: 0000000003c92005 CR4: 0000000000360ef0
-> 
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> Signed-off-by: Ricardo Ribalda Delgado <ribalda@kernel.org>
 > ---
->  drivers/media/platform/vimc/vimc-common.c   | 10 +++++++
->  drivers/media/platform/vimc/vimc-common.h   |  5 ++++
->  drivers/media/platform/vimc/vimc-streamer.c | 29 ++++++++++++++-------
->  3 files changed, 34 insertions(+), 10 deletions(-)
+>  .../media/uapi/v4l/v4l2-selection-targets.rst | 24 ++++---------------
+>  1 file changed, 5 insertions(+), 19 deletions(-)
 > 
-> diff --git a/drivers/media/platform/vimc/vimc-common.c b/drivers/media/platform/vimc/vimc-common.c
-> index a3120f4f7a90..e8ad3199ffbf 100644
-> --- a/drivers/media/platform/vimc/vimc-common.c
-> +++ b/drivers/media/platform/vimc/vimc-common.c
-> @@ -164,6 +164,16 @@ static const struct vimc_pix_map vimc_pix_map_list[] = {
->  	},
->  };
+> diff --git a/Documentation/media/uapi/v4l/v4l2-selection-targets.rst b/Documentation/media/uapi/v4l/v4l2-selection-targets.rst
+> index f74f239b0510..4b356f66525e 100644
+> --- a/Documentation/media/uapi/v4l/v4l2-selection-targets.rst
+> +++ b/Documentation/media/uapi/v4l/v4l2-selection-targets.rst
+> @@ -19,7 +19,7 @@ of the two interfaces they are used.
 >  
-> +bool vimc_is_source(struct media_entity *ent)
-> +{
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < ent->num_pads; i++)
-> +		if (ent->pads[i].flags & MEDIA_PAD_FL_SINK)
-> +			return false;
-> +	return true;
-> +}
-> +
->  const struct vimc_pix_map *vimc_pix_map_by_index(unsigned int i)
->  {
->  	if (i >= ARRAY_SIZE(vimc_pix_map_list))
-> diff --git a/drivers/media/platform/vimc/vimc-common.h b/drivers/media/platform/vimc/vimc-common.h
-> index 8349e3c68a49..112574bc3089 100644
-> --- a/drivers/media/platform/vimc/vimc-common.h
-> +++ b/drivers/media/platform/vimc/vimc-common.h
-> @@ -154,6 +154,11 @@ struct vimc_ent_config {
->  	void (*rm)(struct vimc_device *vimc, struct vimc_ent_device *ved);
->  };
+>  .. _v4l2-selection-targets-table:
 >  
-> +/**
-> + * vimc_is_source - returns true iff the entity has only source pads
-> + */
-> +bool vimc_is_source(struct media_entity *ent);
-> +
->  /* prototypes for vimc_ent_config add and rm hooks */
->  struct vimc_ent_device *vimc_cap_add(struct vimc_device *vimc,
->  				     const char *vcfg_name);
-> diff --git a/drivers/media/platform/vimc/vimc-streamer.c b/drivers/media/platform/vimc/vimc-streamer.c
-> index 37150c919fcb..e7554598b34f 100644
-> --- a/drivers/media/platform/vimc/vimc-streamer.c
-> +++ b/drivers/media/platform/vimc/vimc-streamer.c
-> @@ -87,8 +87,10 @@ static int vimc_streamer_pipeline_init(struct vimc_stream *stream,
->  	stream->pipe_size = 0;
->  	while (stream->pipe_size < VIMC_STREAMER_PIPELINE_MAX_SIZE) {
+> -.. tabularcolumns:: |p{6.0cm}|p{1.4cm}|p{7.4cm}|p{1.2cm}|p{1.4cm}|
+> +.. tabularcolumns:: |p{6.0cm}|p{1.4cm}|p{10.0cm}|
+>  
+>  .. flat-table:: Selection target definitions
+>      :header-rows:  1
+> @@ -28,49 +28,35 @@ of the two interfaces they are used.
+>      * - Target name
+>        - id
+>        - Definition
+> -      - Valid for V4L2
+> -      - Valid for V4L2 subdev
+>      * - ``V4L2_SEL_TGT_CROP``
+>        - 0x0000
+>        - Crop rectangle. Defines the cropped area.
+> -      - Yes
+> -      - Yes
+>      * - ``V4L2_SEL_TGT_CROP_DEFAULT``
+>        - 0x0001
+>        - Suggested cropping rectangle that covers the "whole picture".
+> -      - Yes
+> -      - No
+> +        This includes only active pixels and excludes other non-active
+> +        pixels such as Optical Blanking.
 
-What is returned if the while condition becomes false? What will be the value
-of 'ret'? 0? -EINVAL? -ENOIOCTLCMD?
+s/Optical Blanking/black pixels/
 
+>      * - ``V4L2_SEL_TGT_CROP_BOUNDS``
+>        - 0x0002
+>        - Bounds of the crop rectangle. All valid crop rectangles fit inside
+>  	the crop bounds rectangle.
+> -      - Yes
+> -      - Yes
+>      * - ``V4L2_SEL_TGT_NATIVE_SIZE``
+>        - 0x0003
+>        - The native size of the device, e.g. a sensor's pixel array.
+>  	``left`` and ``top`` fields are zero for this target.
+> -      - Yes
+> -      - Yes
+>      * - ``V4L2_SEL_TGT_COMPOSE``
+>        - 0x0100
+>        - Compose rectangle. Used to configure scaling and composition.
+> -      - Yes
+> -      - Yes
+>      * - ``V4L2_SEL_TGT_COMPOSE_DEFAULT``
+>        - 0x0101
+>        - Suggested composition rectangle that covers the "whole picture".
+> -      - Yes
+> -      - No
+> +        This includes only active pixels and excludes other non-active
+> +        pixels such as Optical Blanking.
+
+This isn't relevant for the compose default.
+
+>      * - ``V4L2_SEL_TGT_COMPOSE_BOUNDS``
+>        - 0x0102
+>        - Bounds of the compose rectangle. All valid compose rectangles fit
+>  	inside the compose bounds rectangle.
+> -      - Yes
+> -      - Yes
+>      * - ``V4L2_SEL_TGT_COMPOSE_PADDED``
+>        - 0x0103
+>        - The active area and all padding pixels that are inserted or
+>  	modified by hardware.
+> -      - Yes
+> -      - No
+
+The padding refers to the dimensions of the memory buffer. I don't think the
+intent is to support that on sub-devices, is it?
+
+Please just change the CROP_DEFAULT, not the rest.
+
+-- 
 Regards,
 
-	Hans
-
->  		if (!ved) {
-> -			vimc_streamer_pipeline_terminate(stream);
-> -			return -EINVAL;
-> +			pr_err("%s: could not get vimc pointer of entity",
-> +			       __func__);
-> +			ret = -EINVAL;
-> +			break;
->  		}
->  		stream->ved_pipeline[stream->pipe_size++] = ved;
->  
-> @@ -96,17 +98,25 @@ static int vimc_streamer_pipeline_init(struct vimc_stream *stream,
->  			sd = media_entity_to_v4l2_subdev(ved->ent);
->  			ret = v4l2_subdev_call(sd, video, s_stream, 1);
->  			if (ret && ret != -ENOIOCTLCMD) {
-> -				dev_err(ved->dev, "subdev_call error %s\n",
-> -				       ved->ent->name);
-> -				vimc_streamer_pipeline_terminate(stream);
-> -				return ret;
-> +				dev_err(ved->dev, "s_stream of '%s' failed (%d)\n",
-> +					ved->ent->name, ret);
-> +				break;
->  			}
->  		}
->  
->  		entity = vimc_get_source_entity(ved->ent);
-> -		/* Check if the end of the pipeline was reached*/
-> -		if (!entity)
-> +		/* Check if the end of the pipeline was reached */
-> +		if (!entity) {
-> +			/* the first entity of the pipe should be source only */
-> +			if (!vimc_is_source(ved->ent)) {
-> +				dev_err(ved->dev,
-> +					"first entity in the pipe '%s' is not a source\n",
-> +					ved->ent->name);
-> +				ret = -EPIPE;
-> +				break;
-> +			}
->  			return 0;
-> +		}
->  
->  		/* Get the next device in the pipeline */
->  		if (is_media_entity_v4l2_subdev(entity)) {
-> @@ -119,9 +129,8 @@ static int vimc_streamer_pipeline_init(struct vimc_stream *stream,
->  			ved = video_get_drvdata(vdev);
->  		}
->  	}
-> -
->  	vimc_streamer_pipeline_terminate(stream);
-> -	return -EINVAL;
-> +	return ret;
->  }
->  
->  /**
-> 
-
+Sakari Ailus
+sakari.ailus@linux.intel.com
