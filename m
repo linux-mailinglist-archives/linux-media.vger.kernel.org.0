@@ -2,85 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D07DE262F
-	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2019 00:14:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 39BC6E2766
+	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2019 02:42:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436790AbfJWWOD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 23 Oct 2019 18:14:03 -0400
-Received: from mailoutvs24.siol.net ([185.57.226.215]:47660 "EHLO
-        mail.siol.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S2436743AbfJWWOB (ORCPT
+        id S2406366AbfJXAmH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 23 Oct 2019 20:42:07 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:52420 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2392817AbfJXAmH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 23 Oct 2019 18:14:01 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.siol.net (Postfix) with ESMTP id BF1F552317E;
-        Thu, 24 Oct 2019 00:13:56 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at psrvmta09.zcs-production.pri
-Received: from mail.siol.net ([127.0.0.1])
-        by localhost (psrvmta09.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id gPm0DN_dKb0U; Thu, 24 Oct 2019 00:13:56 +0200 (CEST)
-Received: from mail.siol.net (localhost [127.0.0.1])
-        by mail.siol.net (Postfix) with ESMTPS id 7F3FF523102;
-        Thu, 24 Oct 2019 00:13:56 +0200 (CEST)
-Received: from localhost.localdomain (cpe-86-58-59-25.static.triera.net [86.58.59.25])
-        (Authenticated sender: 031275009)
-        by mail.siol.net (Postfix) with ESMTPSA id 387EA52336B;
-        Thu, 24 Oct 2019 00:13:54 +0200 (CEST)
-From:   Jernej Skrabec <jernej.skrabec@siol.net>
-To:     mripard@kernel.org, wens@csie.org
-Cc:     robh+dt@kernel.org, mark.rutland@arm.com, mchehab@kernel.org,
-        hverkuil@xs4all.nl, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-sunxi@googlegroups.com
-Subject: [PATCH v5 6/6] dts: arm: sun8i: h3: Enable deinterlace unit
-Date:   Thu, 24 Oct 2019 00:13:32 +0200
-Message-Id: <20191023221332.3674175-7-jernej.skrabec@siol.net>
+        Wed, 23 Oct 2019 20:42:07 -0400
+Received: from pendragon.ideasonboard.com (143.121.2.93.rev.sfr.net [93.2.121.143])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3E27933A;
+        Thu, 24 Oct 2019 02:42:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1571877725;
+        bh=/ZxB4+cvPZfBlbkuJYgIdyxrXwR3A4UEX7sRfXtd1zI=;
+        h=From:To:Cc:Subject:Date:From;
+        b=Dx2BYily+1yTyNjcypZz7SizWWcK+a8m7QCLOct1ZxZqAgAYugeicVJO2srvh7VSc
+         XTfc/kNGbNHhVKb2ZQ+hda8EFcszLJ6cVBWxBjDYZuvIi8Suyo0CTzNTRKgf4vogyE
+         8jjOVnWVYjvSeze4jdu9DZhv70UR9E9D1NOOs3qk=
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Rui Miguel Silva <rmfrfs@gmail.com>
+Subject: [PATCH 0/7] media: imx: Miscellaneous fixes for i.MX7
+Date:   Thu, 24 Oct 2019 03:41:48 +0300
+Message-Id: <20191024004155.32068-1-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191023221332.3674175-1-jernej.skrabec@siol.net>
-References: <20191023221332.3674175-1-jernej.skrabec@siol.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Allwinner H3 SoC contains deinterlace unit, which can be used in
-combination with VPU unit to decode and process interlaced videos.
+Hello,
 
-Add a node for it.
+This patch series contains miscellaneous fixes I developed while trying
+to capture from a CSI-2 sensor on the i.MX7.
 
-Acked-by: Maxime Ripard <mripard@kernel.org>
-Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
----
- arch/arm/boot/dts/sun8i-h3.dtsi | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+Patches 1/7, 2/7 and 6/7 are small fixes or enhancements, please see
+individual commit messages. Patches 3/7, 4/7 and 5/7 add support for 10-
+and 12-bit greyscale formats (both on the i.MX7 CSI-2 receiver side and
+the CSI side). Patch 7/7 finally fixes a recent issue with video field
+handling.
 
-diff --git a/arch/arm/boot/dts/sun8i-h3.dtsi b/arch/arm/boot/dts/sun8i-h3=
-.dtsi
-index e37c30e811d3..7a59c57d2114 100644
---- a/arch/arm/boot/dts/sun8i-h3.dtsi
-+++ b/arch/arm/boot/dts/sun8i-h3.dtsi
-@@ -120,6 +120,19 @@
- 	};
-=20
- 	soc {
-+		deinterlace: deinterlace@1400000 {
-+			compatible =3D "allwinner,sun8i-h3-deinterlace";
-+			reg =3D <0x01400000 0x20000>;
-+			clocks =3D <&ccu CLK_BUS_DEINTERLACE>,
-+				 <&ccu CLK_DEINTERLACE>,
-+				 <&ccu CLK_DRAM_DEINTERLACE>;
-+			clock-names =3D "bus", "mod", "ram";
-+			resets =3D <&ccu RST_BUS_DEINTERLACE>;
-+			interrupts =3D <GIC_SPI 93 IRQ_TYPE_LEVEL_HIGH>;
-+			interconnects =3D <&mbus 9>;
-+			interconnect-names =3D "dma-mem";
-+		};
-+
- 		syscon: system-control@1c00000 {
- 			compatible =3D "allwinner,sun8i-h3-system-control";
- 			reg =3D <0x01c00000 0x1000>;
---=20
-2.23.0
+Laurent Pinchart (7):
+  media: imx: imx7_mipi_csis: Power off the source when stopping
+    streaming
+  media: imx: imx7_mipi_csis: Print the RESOL_CH0 register
+  media: imx: imx7_mipi_csis: Add greyscale formats support
+  media: imx: imx6-media-csi: Replace Y16 with Y10 and Y12
+  media: imx: imx7-media-csi: Add Y10 and Y12 formats support
+  media: imx: imx7-media-csi: Remove unneeded register read
+  media: imx: imx7-media-csi: Fix video field handling
+
+ drivers/staging/media/imx/imx-media-csi.c   |  3 ++-
+ drivers/staging/media/imx/imx-media-utils.c | 13 ++++++++-----
+ drivers/staging/media/imx/imx7-media-csi.c  | 14 +++++++++++++-
+ drivers/staging/media/imx/imx7-mipi-csis.c  | 15 ++++++++++++++-
+ 4 files changed, 37 insertions(+), 8 deletions(-)
+
+-- 
+Regards,
+
+Laurent Pinchart
 
