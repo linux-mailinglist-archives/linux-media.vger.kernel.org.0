@@ -2,216 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AEE0E3150
-	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2019 13:48:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F1A1E319B
+	for <lists+linux-media@lfdr.de>; Thu, 24 Oct 2019 13:58:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2439309AbfJXLs1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 24 Oct 2019 07:48:27 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:50754 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726389AbfJXLs1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 24 Oct 2019 07:48:27 -0400
-Received: from [IPv6:2a02:8429:8174:401:9a7f:8789:6b2c:98e] (2a02-8429-8174-0401-9a7f-8789-6b2c-098e.rev.sfr.net [IPv6:2a02:8429:8174:401:9a7f:8789:6b2c:98e])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id E775D2903D6;
-        Thu, 24 Oct 2019 12:48:24 +0100 (BST)
-Subject: Re: [PATCH v4 2/2] media: vimc: upon streaming, check that the
- pipeline starts with a source entity
-To:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
-Cc:     helen.koike@collabora.com, skhan@linuxfoundation.org,
-        kernel@collabora.com, dafna3@gmail.com
-References: <20191024093525.10059-1-dafna.hirschfeld@collabora.com>
- <20191024093525.10059-3-dafna.hirschfeld@collabora.com>
- <975b0a50-fad8-c9b8-1326-a63fc6796a50@xs4all.nl>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <786759b2-64d6-8bdf-0a96-7175a0e2a383@collabora.com>
-Date:   Thu, 24 Oct 2019 13:48:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S2409260AbfJXL57 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 24 Oct 2019 07:57:59 -0400
+Received: from mga11.intel.com ([192.55.52.93]:36153 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726298AbfJXL57 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 24 Oct 2019 07:57:59 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 24 Oct 2019 04:57:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,224,1569308400"; 
+   d="scan'208";a="210141714"
+Received: from jjackiew-mobl1.ger.corp.intel.com (HELO mara.localdomain) ([10.249.148.206])
+  by fmsmga001.fm.intel.com with ESMTP; 24 Oct 2019 04:57:55 -0700
+Received: from sailus by mara.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@linux.intel.com>)
+        id 1iNbli-00013M-EZ; Thu, 24 Oct 2019 14:59:06 +0300
+Date:   Thu, 24 Oct 2019 14:59:05 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Marco Felsch <m.felsch@pengutronix.de>
+Cc:     mchehab@kernel.org, hans.verkuil@cisco.com,
+        jacopo+renesas@jmondi.org, robh+dt@kernel.org,
+        laurent.pinchart@ideasonboard.com, devicetree@vger.kernel.org,
+        kernel@pengutronix.de, linux-media@vger.kernel.org
+Subject: Re: [PATCH v11 11/15] media: tvp5150: add s_power callback
+Message-ID: <20191024115905.GB3966@mara.localdomain>
+References: <20190930093900.16524-1-m.felsch@pengutronix.de>
+ <20190930093900.16524-12-m.felsch@pengutronix.de>
 MIME-Version: 1.0
-In-Reply-To: <975b0a50-fad8-c9b8-1326-a63fc6796a50@xs4all.nl>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190930093900.16524-12-m.felsch@pengutronix.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Marco,
 
+On Mon, Sep 30, 2019 at 11:38:56AM +0200, Marco Felsch wrote:
+> Don't en-/disable the interrupts during s_stream because someone can
+> disable the stream but wants to get informed if the stream is locked
+> again. So keep the interrupts enabled the whole time the pipeline is
+> opened.
+> 
+> Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> ---
+>  drivers/media/i2c/tvp5150.c | 23 +++++++++++++++++------
+>  1 file changed, 17 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/tvp5150.c b/drivers/media/i2c/tvp5150.c
+> index dda9f0a2995f..4afe2093b950 100644
+> --- a/drivers/media/i2c/tvp5150.c
+> +++ b/drivers/media/i2c/tvp5150.c
+> @@ -1356,11 +1356,26 @@ static const struct media_entity_operations tvp5150_sd_media_ops = {
+>  /****************************************************************************
+>  			I2C Command
+>   ****************************************************************************/
+> +static int tvp5150_s_power(struct  v4l2_subdev *sd, int on)
+> +{
+> +	struct tvp5150 *decoder = to_tvp5150(sd);
+> +	unsigned int val = 0;
+> +
+> +	if (on)
+> +		val = TVP5150_INT_A_LOCK;
+> +
+> +	if (decoder->irq)
+> +		/* Enable / Disable lock interrupt */
+> +		regmap_update_bits(decoder->regmap, TVP5150_INT_ENABLE_REG_A,
+> +				   TVP5150_INT_A_LOCK, val);
 
-On 10/24/19 11:44 AM, Hans Verkuil wrote:
-> On 10/24/19 11:35 AM, Dafna Hirschfeld wrote:
->> Userspace can disable links and create pipelines that
->> do not start with a source entity. Trying to stream
->> from such a pipeline should fail with -EPIPE
->> currently this is not handled and cause kernel crash.
->>
->> Reproducing the crash:
->> media-ctl -d0 -l "5:1->21:0[0]" -v
->> v4l2-ctl -z platform:vimc -d "RGB/YUV Capture" -v width=1920,height=1440
->> v4l2-ctl --stream-mmap --stream-count=100 -d /dev/video2
->>
->> Panic message:
->> [   39.078841][  T248] BUG: kernel NULL pointer dereference, address: 0000000000000000
->> [   39.079338][  T248] #PF: supervisor read access in kernel mode
->> [   39.079704][  T248] #PF: error_code(0x0000) - not-present page
->> [   39.080071][  T248] PGD 0 P4D 0
->> [   39.080279][  T248] Oops: 0000 [#1] SMP PTI
->> [   39.080546][  T248] CPU: 0 PID: 248 Comm: vimc-streamer t Not tainted 5.4.0-rc1+ #17
->> [   39.081030][  T248] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.12.0-0-ga698c8995f-prebuilt.qemu.org 04/01/2014
->> [   39.081779][  T248] RIP: 0010:vimc_sca_process_frame+0xdb/0x210 [vimc]
->> [   39.082191][  T248] Code: 44 8d 0c 28 8b 93 a4 01 00 00 48 8b 8b 98 01 00 00 85 d2 74 40 48 8b 74 24 10 8d 7a ff 4c 01 c9 31 d2 4c 01 fe eb 03 4c 89 c2 <44> 0f b6 04 16 44 88 04 11 4c 8d 42 01 48 39 fa 75 eb 8b 93 a4 01
->> [   39.083436][  T248] RSP: 0018:ffffb15a005abe90 EFLAGS: 00010246
->> [   39.083808][  T248] RAX: 0000000000000000 RBX: ffffa3fdc46d2e00 RCX: ffffb15a02579000
->> [   39.084298][  T248] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000002
->> [   39.084792][  T248] RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
->> [   39.085280][  T248] R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000000
->> [   39.085770][  T248] R13: ffffa3fdc46d2ee0 R14: 0000000000000000 R15: 0000000000000000
->> [   39.086258][  T248] FS:  0000000000000000(0000) GS:ffffa3fdc7800000(0000) knlGS:0000000000000000
->> [   39.086806][  T248] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->> [   39.087217][  T248] CR2: 0000000000000000 CR3: 0000000003c92005 CR4: 0000000000360ef0
->> [   39.087706][  T248] Call Trace:
->> [   39.087909][  T248]  ? vimc_streamer_pipeline_terminate+0x90/0x90 [vimc]
->> [   39.088318][  T248]  vimc_streamer_thread+0x7c/0xe0 [vimc]
->> [   39.088663][  T248]  kthread+0x10d/0x130
->> [   39.088919][  T248]  ? kthread_park+0x80/0x80
->> [   39.089205][  T248]  ret_from_fork+0x35/0x40
->> [   39.089475][  T248] Modules linked in: vimc videobuf2_vmalloc videobuf2_memops v4l2_tpg videobuf2_v4l2 videobuf2_common videodev mc
->> [   39.090208][  T248] CR2: 0000000000000000
->> [   39.090463][  T248] ---[ end trace 697650fefbf78bee ]---
->> [   39.090796][  T248] RIP: 0010:vimc_sca_process_frame+0xdb/0x210 [vimc]
->> [   39.091209][  T248] Code: 44 8d 0c 28 8b 93 a4 01 00 00 48 8b 8b 98 01 00 00 85 d2 74 40 48 8b 74 24 10 8d 7a ff 4c 01 c9 31 d2 4c 01 fe eb 03 4c 89 c2 <44> 0f b6 04 16 44 88 04 11 4c 8d 42 01 48 39 fa 75 eb 8b 93 a4 01
->> [   39.092417][  T248] RSP: 0018:ffffb15a005abe90 EFLAGS: 00010246
->> [   39.092789][  T248] RAX: 0000000000000000 RBX: ffffa3fdc46d2e00 RCX: ffffb15a02579000
->> [   39.093278][  T248] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000002
->> [   39.093766][  T248] RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
->> [   39.094254][  T248] R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000000
->> [   39.094742][  T248] R13: ffffa3fdc46d2ee0 R14: 0000000000000000 R15: 0000000000000000
->> [   39.095309][  T248] FS:  0000000000000000(0000) GS:ffffa3fdc7800000(0000) knlGS:0000000000000000
->> [   39.095974][  T248] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->> [   39.096372][  T248] CR2: 0000000000000000 CR3: 0000000003c92005 CR4: 0000000000360ef0
->>
->> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
->> ---
->>   drivers/media/platform/vimc/vimc-common.c   | 10 +++++++
->>   drivers/media/platform/vimc/vimc-common.h   |  5 ++++
->>   drivers/media/platform/vimc/vimc-streamer.c | 29 ++++++++++++++-------
->>   3 files changed, 34 insertions(+), 10 deletions(-)
->>
->> diff --git a/drivers/media/platform/vimc/vimc-common.c b/drivers/media/platform/vimc/vimc-common.c
->> index a3120f4f7a90..e8ad3199ffbf 100644
->> --- a/drivers/media/platform/vimc/vimc-common.c
->> +++ b/drivers/media/platform/vimc/vimc-common.c
->> @@ -164,6 +164,16 @@ static const struct vimc_pix_map vimc_pix_map_list[] = {
->>   	},
->>   };
->>   
->> +bool vimc_is_source(struct media_entity *ent)
->> +{
->> +	unsigned int i;
->> +
->> +	for (i = 0; i < ent->num_pads; i++)
->> +		if (ent->pads[i].flags & MEDIA_PAD_FL_SINK)
->> +			return false;
->> +	return true;
->> +}
->> +
->>   const struct vimc_pix_map *vimc_pix_map_by_index(unsigned int i)
->>   {
->>   	if (i >= ARRAY_SIZE(vimc_pix_map_list))
->> diff --git a/drivers/media/platform/vimc/vimc-common.h b/drivers/media/platform/vimc/vimc-common.h
->> index 8349e3c68a49..112574bc3089 100644
->> --- a/drivers/media/platform/vimc/vimc-common.h
->> +++ b/drivers/media/platform/vimc/vimc-common.h
->> @@ -154,6 +154,11 @@ struct vimc_ent_config {
->>   	void (*rm)(struct vimc_device *vimc, struct vimc_ent_device *ved);
->>   };
->>   
->> +/**
->> + * vimc_is_source - returns true iff the entity has only source pads
->> + */
->> +bool vimc_is_source(struct media_entity *ent);
->> +
->>   /* prototypes for vimc_ent_config add and rm hooks */
->>   struct vimc_ent_device *vimc_cap_add(struct vimc_device *vimc,
->>   				     const char *vcfg_name);
->> diff --git a/drivers/media/platform/vimc/vimc-streamer.c b/drivers/media/platform/vimc/vimc-streamer.c
->> index 37150c919fcb..e7554598b34f 100644
->> --- a/drivers/media/platform/vimc/vimc-streamer.c
->> +++ b/drivers/media/platform/vimc/vimc-streamer.c
->> @@ -87,8 +87,10 @@ static int vimc_streamer_pipeline_init(struct vimc_stream *stream,
->>   	stream->pipe_size = 0;
->>   	while (stream->pipe_size < VIMC_STREAMER_PIPELINE_MAX_SIZE) {
-> 
-> What is returned if the while condition becomes false? What will be the value
-> of 'ret'? 0? -EINVAL? -ENOIOCTLCMD?
-> 
-right, I'll fix it, according to the docs, the streamon ioctl returns EINVAL only
-if the buffer type is not supported, so I think this function should return EPIPE
-upon errors.
+Could you use runtime PM to do this instead?
 
-Dafna
+> +
+> +	return 0;
+> +}
+>  
+>  static int tvp5150_s_stream(struct v4l2_subdev *sd, int enable)
+>  {
+>  	struct tvp5150 *decoder = to_tvp5150(sd);
+> -	unsigned int mask, val = 0, int_val = 0;
+> +	unsigned int mask, val = 0;
+>  
+>  	mask = TVP5150_MISC_CTL_YCBCR_OE | TVP5150_MISC_CTL_SYNC_OE |
+>  	       TVP5150_MISC_CTL_CLOCK_OE;
+> @@ -1373,15 +1388,10 @@ static int tvp5150_s_stream(struct v4l2_subdev *sd, int enable)
+>  			val = decoder->lock ? decoder->oe : 0;
+>  		else
+>  			val = decoder->oe;
+> -		int_val = TVP5150_INT_A_LOCK;
+>  		v4l2_subdev_notify_event(&decoder->sd, &tvp5150_ev_fmt);
+>  	}
+>  
+>  	regmap_update_bits(decoder->regmap, TVP5150_MISC_CTL, mask, val);
+> -	if (decoder->irq)
+> -		/* Enable / Disable lock interrupt */
+> -		regmap_update_bits(decoder->regmap, TVP5150_INT_ENABLE_REG_A,
+> -				   TVP5150_INT_A_LOCK, int_val);
+>  
+>  	return 0;
+>  }
+> @@ -1580,6 +1590,7 @@ static const struct v4l2_subdev_core_ops tvp5150_core_ops = {
+>  	.g_register = tvp5150_g_register,
+>  	.s_register = tvp5150_s_register,
+>  #endif
+> +	.s_power = tvp5150_s_power,
+>  };
+>  
+>  static const struct v4l2_subdev_tuner_ops tvp5150_tuner_ops = {
+> -- 
+> 2.20.1
+> 
 
-> Regards,
-> 
-> 	Hans
-> 
->>   		if (!ved) {
->> -			vimc_streamer_pipeline_terminate(stream);
->> -			return -EINVAL;
->> +			pr_err("%s: could not get vimc pointer of entity",
->> +			       __func__);
->> +			ret = -EINVAL;
->> +			break;
->>   		}
->>   		stream->ved_pipeline[stream->pipe_size++] = ved;
->>   
->> @@ -96,17 +98,25 @@ static int vimc_streamer_pipeline_init(struct vimc_stream *stream,
->>   			sd = media_entity_to_v4l2_subdev(ved->ent);
->>   			ret = v4l2_subdev_call(sd, video, s_stream, 1);
->>   			if (ret && ret != -ENOIOCTLCMD) {
->> -				dev_err(ved->dev, "subdev_call error %s\n",
->> -				       ved->ent->name);
->> -				vimc_streamer_pipeline_terminate(stream);
->> -				return ret;
->> +				dev_err(ved->dev, "s_stream of '%s' failed (%d)\n",
->> +					ved->ent->name, ret);
->> +				break;
->>   			}
->>   		}
->>   
->>   		entity = vimc_get_source_entity(ved->ent);
->> -		/* Check if the end of the pipeline was reached*/
->> -		if (!entity)
->> +		/* Check if the end of the pipeline was reached */
->> +		if (!entity) {
->> +			/* the first entity of the pipe should be source only */
->> +			if (!vimc_is_source(ved->ent)) {
->> +				dev_err(ved->dev,
->> +					"first entity in the pipe '%s' is not a source\n",
->> +					ved->ent->name);
->> +				ret = -EPIPE;
->> +				break;
->> +			}
->>   			return 0;
->> +		}
->>   
->>   		/* Get the next device in the pipeline */
->>   		if (is_media_entity_v4l2_subdev(entity)) {
->> @@ -119,9 +129,8 @@ static int vimc_streamer_pipeline_init(struct vimc_stream *stream,
->>   			ved = video_get_drvdata(vdev);
->>   		}
->>   	}
->> -
->>   	vimc_streamer_pipeline_terminate(stream);
->> -	return -EINVAL;
->> +	return ret;
->>   }
->>   
->>   /**
->>
-> 
+-- 
+Sakari Ailus
+sakari.ailus@linux.intel.com
