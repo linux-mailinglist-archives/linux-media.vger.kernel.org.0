@@ -2,83 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 50E33E47B4
-	for <lists+linux-media@lfdr.de>; Fri, 25 Oct 2019 11:47:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CCECE4879
+	for <lists+linux-media@lfdr.de>; Fri, 25 Oct 2019 12:20:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438872AbfJYJrL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Oct 2019 05:47:11 -0400
-Received: from mail-lf1-f66.google.com ([209.85.167.66]:35314 "EHLO
-        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2438836AbfJYJrL (ORCPT
+        id S2409158AbfJYKUS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Oct 2019 06:20:18 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:47014 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2407901AbfJYKUS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Oct 2019 05:47:11 -0400
-Received: by mail-lf1-f66.google.com with SMTP id y6so1206889lfj.2;
-        Fri, 25 Oct 2019 02:47:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=6eirW4NBi16Kvo5Dh5yyQapiDDYkl5K/PGUWrysKXq0=;
-        b=Pu2V5WOtgvnwTDPCt1/n3ii0Y6nVoZ6H3ugc70sbV2tKC4G0JJHNb5Sx8f5pWApMnp
-         Eu4FbEyJKmLC+aSsS9Dd260N/6vaUXK9wlx2faa3TxV5uK8jUmkHRlXgsLA89AVS8Je9
-         bNpMwysi1Vvhw9+1CpqaYynsvTTUCr3bC3F53S1mfDj1wXNdVwX0YHddSj4kDIkjVIhw
-         NVSn2o2DMZFxLnz7zTpIAXEVZxPY78mQPD4pDnIxslLQPjZ06bDPvEShBDg1fugjgrGa
-         kxcQT7WZPGtvnxnH80R14wied9GYWt/BVOS3/rQ3Qvg/2vZuYjo0A4HjRZlUp7pGKTEj
-         CzJQ==
-X-Gm-Message-State: APjAAAWqanEG5mJNq3JivSyCAmE7WUSVcoWjRs2LqBoCR/dqQFlVtubS
-        qmVzNWzjBcsjryNvkq65uEM=
-X-Google-Smtp-Source: APXvYqygr8TZ9oIml7y17u/lHTi2jbAY+LwT+Q2s+sgmZ3TaMDnluE1o1RqVDkDDKjll4Fx0SBX9Ig==
-X-Received: by 2002:ac2:5deb:: with SMTP id z11mr938373lfq.35.1571996829137;
-        Fri, 25 Oct 2019 02:47:09 -0700 (PDT)
-Received: from neopili.qtec.com (cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
-        by smtp.gmail.com with ESMTPSA id o196sm573858lff.59.2019.10.25.02.47.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Oct 2019 02:47:08 -0700 (PDT)
-From:   Ricardo Ribalda Delgado <ribalda@kernel.org>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Cc:     Ricardo Ribalda Delgado <ribalda@kernel.org>
-Subject: [PATCH v4] Documentation: media: *_DEFAULT targets for subdevs
-Date:   Fri, 25 Oct 2019 11:47:06 +0200
-Message-Id: <20191025094706.6490-1-ribalda@kernel.org>
-X-Mailer: git-send-email 2.23.0
+        Fri, 25 Oct 2019 06:20:18 -0400
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 351DE33A;
+        Fri, 25 Oct 2019 12:20:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1571998815;
+        bh=CZ1kjEvWoR7EfFvii7Hgk5UMP852bJTvCb6Z2n2Tdmg=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=NrDIHKURylRCdZ0pO+c4gHoJGNziQUt/r1DOVnLRTkYJB4e22fsKQA7klVphyCUB7
+         SsGykYJ5sv1G/8f/TQKP02Z+xVXszWlC0fM6wI/efB5uklZZoKHrkNSdvvLYAusuif
+         L75GRnft5wWPqi+DiUQFcQT6FozP43Ez4gHzrdFw=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [PATCH] media: fdp1: Fix R-Car M3-N naming in debug message
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+References: <20191024130916.16444-1-geert+renesas@glider.be>
+ <05a62983-5132-0fcb-2e8e-70b95d44730f@ideasonboard.com>
+ <CAMuHMdX4xikRtojAWgWecEfqjrOw+aEGaW2HFvDkvJbwHxb1qA@mail.gmail.com>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <0d8fb393-a1ad-e4d7-5cdb-1da72a7d3110@ideasonboard.com>
+Date:   Fri, 25 Oct 2019 11:20:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdX4xikRtojAWgWecEfqjrOw+aEGaW2HFvDkvJbwHxb1qA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Some sensors have optical blanking areas, this is, pixels that are
-painted and do not account for light, only noise.
+Hi Geert,
 
-These special pixels are very useful for calibrating the sensor, but
-should not be displayed on a DEFAULT target.
+On 25/10/2019 09:46, Geert Uytterhoeven wrote:
+> Hi Kieran,
+> 
+> On Thu, Oct 24, 2019 at 6:08 PM Kieran Bingham
+> <kieran.bingham+renesas@ideasonboard.com> wrote:
+>> On 24/10/2019 14:09, Geert Uytterhoeven wrote:
+>>> The official name is "R-Car M3-N", not "R-Car M3N".
+>>>
+>>> Fixes: 4e8c120de9268fc2 ("media: fdp1: Support M3N and E3 platforms")
+>>> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+>>> ---
+>>>  drivers/media/platform/rcar_fdp1.c | 2 +-
+>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/media/platform/rcar_fdp1.c b/drivers/media/platform/rcar_fdp1.c
+>>> index cb93a13e1777a53e..97bed45360f088d0 100644
+>>> --- a/drivers/media/platform/rcar_fdp1.c
+>>> +++ b/drivers/media/platform/rcar_fdp1.c
+>>> @@ -2369,7 +2369,7 @@ static int fdp1_probe(struct platform_device *pdev)
+>>>               dprintk(fdp1, "FDP1 Version R-Car H3\n");
+>>>               break;
+>>>       case FD1_IP_M3N:
+>>
+>> Should the FD1_IP_M3N naming also be updated accordingly?
+>> I guess that's not so important.
+>>
+>> Either way, up to you.
+> 
+> Na, you can't use hyphens in preprocessor definitions ;-)> FD1_IP_M3N is consistent with FD1_IP_M3W, and not user-visible.
 
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Signed-off-by: Ricardo Ribalda Delgado <ribalda@kernel.org>
----
- Documentation/media/uapi/v4l/v4l2-selection-targets.rst | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Hahaha - of course :-D , I meant with M3_N but as we already have IP_M3W
+I think we're fine.
 
-diff --git a/Documentation/media/uapi/v4l/v4l2-selection-targets.rst b/Documentation/media/uapi/v4l/v4l2-selection-targets.rst
-index f74f239b0510..aae0c0013eb1 100644
---- a/Documentation/media/uapi/v4l/v4l2-selection-targets.rst
-+++ b/Documentation/media/uapi/v4l/v4l2-selection-targets.rst
-@@ -38,8 +38,10 @@ of the two interfaces they are used.
-     * - ``V4L2_SEL_TGT_CROP_DEFAULT``
-       - 0x0001
-       - Suggested cropping rectangle that covers the "whole picture".
-+        This includes only active pixels and excludes other non-active
-+        pixels such as black pixels.
-+      - Yes
-       - Yes
--      - No
-     * - ``V4L2_SEL_TGT_CROP_BOUNDS``
-       - 0x0002
-       - Bounds of the crop rectangle. All valid crop rectangles fit inside
--- 
-2.23.0
+
+>> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> 
+> Thanks!
+
+No worries
+
+--
+KB
+
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
 
