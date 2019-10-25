@@ -2,106 +2,329 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 69E78E4391
-	for <lists+linux-media@lfdr.de>; Fri, 25 Oct 2019 08:30:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03E86E450D
+	for <lists+linux-media@lfdr.de>; Fri, 25 Oct 2019 10:01:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391649AbfJYGaF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Oct 2019 02:30:05 -0400
-Received: from mail-ed1-f49.google.com ([209.85.208.49]:37729 "EHLO
-        mail-ed1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389669AbfJYGaF (ORCPT
+        id S2437534AbfJYIBL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Oct 2019 04:01:11 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:54111 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730337AbfJYIBL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Oct 2019 02:30:05 -0400
-Received: by mail-ed1-f49.google.com with SMTP id e12so830122edr.4
-        for <linux-media@vger.kernel.org>; Thu, 24 Oct 2019 23:30:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=KBahDbxyjykw16Smp8ssk33B7yz2Fp8/ldvWCRbG2Z4=;
-        b=QrT82WhWCShRcFq8HOk2tvnrEMKgGYiKewH6271lt5TFReEFLhYi2LZ4Y1XH2+MO3S
-         +lARuRBZaajuMm0c4fpm1CL6G8pWT/Vyq23cF6aUFgA54pT+BnDaXRzLeRKmOzY62gWF
-         xJgEMINzx0lVuzlTj1N/aIYq0JTgJofhfX4NE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=KBahDbxyjykw16Smp8ssk33B7yz2Fp8/ldvWCRbG2Z4=;
-        b=UlYKp4k+uWAFlL6loRiJJG8FKNisu+NPVMGPCGkhSEbfOhTQmxu8s9khhtaI5Yx+TO
-         8CR25XcsscwLQye+kQFfoz9yhqCodxfBBbM3UADOr+CqjhHfD2+Z9xbeJXIe9+7lDVok
-         sCEBmVbUowpcPwA2n2Sb5BvPz6HogJgy6RreUncRbLnYiW8ScbIsqiGegWpInXcxcGYA
-         H9Vn3x8oBrxVhaL0M1FEXFhYLp8Dcu1hQEp3DKji+XsZ4v21uWxeoQyrFBeU7u/tvtkO
-         +WPj294vyE+wRsOGi0cUFcSDxX9qF/o2HrqO6waSLXvKNjgvO627fyoD+sabSPtGjA24
-         sgLQ==
-X-Gm-Message-State: APjAAAXptPjD9a0vX7LpR13dII9UpT4MoGk18rWWmgK3I9kUm+UxJW7i
-        eMLqAKabP+py51natw1f72wfJ2FsiL+ShA==
-X-Google-Smtp-Source: APXvYqwHNzx9lTsmS5z58EUXwaXM3EgSs8mM+jU1fTSBovn6Xzumg5y9wQx+HKpmChYCbzT22r14Vw==
-X-Received: by 2002:a05:6402:13c5:: with SMTP id a5mr2088743edx.106.1571985003301;
-        Thu, 24 Oct 2019 23:30:03 -0700 (PDT)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com. [209.85.221.47])
-        by smtp.gmail.com with ESMTPSA id z25sm35897edl.58.2019.10.24.23.30.01
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Oct 2019 23:30:01 -0700 (PDT)
-Received: by mail-wr1-f47.google.com with SMTP id t16so916433wrr.1
-        for <linux-media@vger.kernel.org>; Thu, 24 Oct 2019 23:30:01 -0700 (PDT)
-X-Received: by 2002:a5d:6a42:: with SMTP id t2mr1209968wrw.155.1571985000947;
- Thu, 24 Oct 2019 23:30:00 -0700 (PDT)
+        Fri, 25 Oct 2019 04:01:11 -0400
+Received: from [192.168.2.10] ([46.9.232.237])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id NuWuizm1esBskNuWxiva6T; Fri, 25 Oct 2019 10:01:08 +0200
+Subject: Re: [PATCH v5 09/10] media: hantro: add initial i.MX8MQ support
+To:     Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Jonas Karlman <jonas@kwiboo.se>, devicetree@vger.kernel.org,
+        kernel@pengutronix.de
+References: <20190612093915.18973-1-p.zabel@pengutronix.de>
+ <20190612093915.18973-10-p.zabel@pengutronix.de>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <ec9812f1-7592-b5e5-aa9c-8c37c3e8f630@xs4all.nl>
+Date:   Fri, 25 Oct 2019 10:01:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20191007162913.250743-1-jacopo@jmondi.org> <20191007162913.250743-2-jacopo@jmondi.org>
- <20191008074052.GA633@amd> <20191008075828.phxf2m7237ryl6yf@uno.localdomain>
- <20191008080634.GC633@amd> <20191008082041.476a2soclry6qn3v@uno.localdomain>
- <9788aa13-1bc0-02c3-33f5-a875940f2dc3@xs4all.nl> <20191023142717.GA22854@duo.ucw.cz>
-In-Reply-To: <20191023142717.GA22854@duo.ucw.cz>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Fri, 25 Oct 2019 15:29:49 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5CjUH7QRg-oQOKB=YH9NPvSxwjrdRUPYZkYVAHgJh6dZg@mail.gmail.com>
-Message-ID: <CAAFQd5CjUH7QRg-oQOKB=YH9NPvSxwjrdRUPYZkYVAHgJh6dZg@mail.gmail.com>
-Subject: Re: [PATCH v4 01/11] dt-bindings: video-interfaces: Document
- 'location' property
-To:     Pavel Machek <pavel@ucw.cz>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190612093915.18973-10-p.zabel@pengutronix.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfDm9Cq+C/w149r/KLeBVKimXWTdJFLUxFNQTTKR3eTy9dZHTE58/4e7alf3PIHJkXyGr1YSi0kCLF9p34NzlmCPQZUXXDkLmzEFgVrHlu72s6gPrFe+q
+ O6jGpKVxoc8HcORqWP670yb0DS+s/PeGMdxfOarO8HXKmyrnsQ6TTDkdV4+RT/rAakw+uSPtm7yHLg92myhDJdEM4JAoLhX44S7Ik8I/BnhqWzkm9jbpWoL2
+ Z/vyg37McrXpPjGbGwXTNMrCva98vRUDs7yzmulV1/2ky0p9kmaVsAxDnfDitkuHCUkbufVr8EgDX8Kt4aCO9hNWAH536bdfejzkbaIv754K2ssBkacSPncd
+ 3D2VnMvCfuvMywOAzt4x1mTiJOwNDYLjwiXDg5gTQx/A5rSQaF/a5YO8iHyk+8hdRFLrhY6RNqyvZ+C7nUjVX3R2xFl3xQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Oct 23, 2019 at 11:27 PM Pavel Machek <pavel@ucw.cz> wrote:
->
-> Hi!
->
-> > > I'm skeptical about adding now a property for a device that we don't
-> > > support, because we -now- think it's a good idea. I might be wrong,
-> > > but my assumption is that when someone will want to support an
-> > > 'advanced' device, it's easy to add "movable" or whatever else to the
-> > > list of accepted properties values. Am I wrong in assuming this? As
-> > > long as "front" "back" and "external" will stay supported for backward
-> > > DTB compatibility it should be fine, right ?
-> >
-> > The basic rule is that you should not define things unless you KNOW that
-> > they will be needed. So when we actually see new devices for which
-> > "front", "back" or "external" does not fit, then new names can be
-> > created.
->
-> > It's impossible to cover all situations since we can't predict the future.
-> > The best we can do is to allow for future extensions.
->
-> Those devices are already being sold, and yes, they are running linux
-> (with some patches probably).
->
-> I believe it would be better to specify "this camera is selfie --
-> takes pictures of the user" vs. "this is main camera -- takes pictures
-> of what user is looking at".
+Hi Philipp,
 
-FWIW, Android and Chrome OS call those "user-facing" and
-"world-facing" respectively.
+I'm marking this patch and the next 10/10 patch as 'Changes Requested' in
+patchwork. Please repost once you are ready to add i.MX8 support for this.
 
-Best regards,
-Tomasz
+To be honest, I can't remember why the i.MX8MQ support hasn't been added yet.
+
+Regards,
+
+	Hans
+
+On 6/12/19 11:39 AM, Philipp Zabel wrote:
+> For now this just enables MPEG-2 decoding on the Hantro G1 on i.MX8MQ.
+> 
+> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+> --
+> Changes since v4 [1]:
+>  - Fix duplicated num_irqs initializer
+> 
+> [1] https://patchwork.linuxtv.org/patch/56802/
+> ---
+>  drivers/staging/media/hantro/Kconfig        |  16 +-
+>  drivers/staging/media/hantro/Makefile       |   3 +
+>  drivers/staging/media/hantro/hantro_drv.c   |   3 +
+>  drivers/staging/media/hantro/hantro_hw.h    |   1 +
+>  drivers/staging/media/hantro/imx8m_vpu_hw.c | 171 ++++++++++++++++++++
+>  5 files changed, 190 insertions(+), 4 deletions(-)
+>  create mode 100644 drivers/staging/media/hantro/imx8m_vpu_hw.c
+> 
+> diff --git a/drivers/staging/media/hantro/Kconfig b/drivers/staging/media/hantro/Kconfig
+> index be133bbaa68a..e0627ce454fc 100644
+> --- a/drivers/staging/media/hantro/Kconfig
+> +++ b/drivers/staging/media/hantro/Kconfig
+> @@ -1,19 +1,27 @@
+>  # SPDX-License-Identifier: GPL-2.0
+>  config VIDEO_HANTRO
+>  	tristate "Hantro VPU driver"
+> -	depends on ARCH_ROCKCHIP || COMPILE_TEST
+> +	depends on ARCH_MXC || ARCH_ROCKCHIP || COMPILE_TEST
+>  	depends on VIDEO_DEV && VIDEO_V4L2 && MEDIA_CONTROLLER
+>  	depends on MEDIA_CONTROLLER_REQUEST_API
+>  	select VIDEOBUF2_DMA_CONTIG
+>  	select VIDEOBUF2_VMALLOC
+>  	select V4L2_MEM2MEM_DEV
+>  	help
+> -	  Support for the Hantro IP based Video Processing Unit present on
+> -	  Rockchip SoC, which accelerates video and image encoding and
+> -	  decoding.
+> +	  Support for the Hantro IP based Video Processing Units present on
+> +	  Rockchip and NXP i.MX8M SoCs, which accelerate video and image
+> +	  encoding and decoding.
+>  	  To compile this driver as a module, choose M here: the module
+>  	  will be called hantro-vpu.
+>  
+> +config VIDEO_HANTRO_IMX8M
+> +	bool "Hantro VPU i.MX8M support"
+> +	depends on VIDEO_HANTRO
+> +	depends on ARCH_MXC || COMPILE_TEST
+> +	default y
+> +	help
+> +	  Enable support for i.MX8M SoCs.
+> +
+>  config VIDEO_HANTRO_ROCKCHIP
+>  	bool "Hantro VPU Rockchip support"
+>  	depends on VIDEO_HANTRO
+> diff --git a/drivers/staging/media/hantro/Makefile b/drivers/staging/media/hantro/Makefile
+> index 1584acdbf4a3..b63dbccece75 100644
+> --- a/drivers/staging/media/hantro/Makefile
+> +++ b/drivers/staging/media/hantro/Makefile
+> @@ -10,6 +10,9 @@ hantro-vpu-y += \
+>  		hantro_jpeg.o \
+>  		hantro_mpeg2.o
+>  
+> +hantro-vpu-$(CONFIG_VIDEO_HANTRO_IMX8M) += \
+> +		imx8m_vpu_hw.o
+> +
+>  hantro-vpu-$(CONFIG_VIDEO_HANTRO_ROCKCHIP) += \
+>  		rk3288_vpu_hw.o \
+>  		rk3399_vpu_hw.o
+> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+> index 1d3af881d088..8049fd9ce07a 100644
+> --- a/drivers/staging/media/hantro/hantro_drv.c
+> +++ b/drivers/staging/media/hantro/hantro_drv.c
+> @@ -418,6 +418,9 @@ static const struct of_device_id of_hantro_match[] = {
+>  #ifdef CONFIG_VIDEO_HANTRO_ROCKCHIP
+>  	{ .compatible = "rockchip,rk3399-vpu", .data = &rk3399_vpu_variant, },
+>  	{ .compatible = "rockchip,rk3288-vpu", .data = &rk3288_vpu_variant, },
+> +#endif
+> +#ifdef CONFIG_VIDEO_HANTRO_IMX8M
+> +	{ .compatible = "nxp,imx8mq-vpu", .data = &imx8mq_vpu_variant, },
+>  #endif
+>  	{ /* sentinel */ }
+>  };
+> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+> index 3c361c2e9b88..fd6ad017a1cf 100644
+> --- a/drivers/staging/media/hantro/hantro_hw.h
+> +++ b/drivers/staging/media/hantro/hantro_hw.h
+> @@ -81,6 +81,7 @@ enum hantro_enc_fmt {
+>  extern const struct hantro_variant rk3399_vpu_variant;
+>  extern const struct hantro_variant rk3328_vpu_variant;
+>  extern const struct hantro_variant rk3288_vpu_variant;
+> +extern const struct hantro_variant imx8mq_vpu_variant;
+>  
+>  void hantro_watchdog(struct work_struct *work);
+>  void hantro_run(struct hantro_ctx *ctx);
+> diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> new file mode 100644
+> index 000000000000..7377e8c7c6eb
+> --- /dev/null
+> +++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> @@ -0,0 +1,171 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Hantro VPU codec driver
+> + *
+> + * Copyright (C) 2019 Pengutronix, Philipp Zabel <kernel@pengutronix.de>
+> + */
+> +
+> +#include <linux/clk.h>
+> +#include <linux/delay.h>
+> +
+> +#include "hantro.h"
+> +#include "hantro_jpeg.h"
+> +#include "hantro_g1_regs.h"
+> +
+> +#define CTRL_SOFT_RESET		0x00
+> +#define RESET_G1		BIT(1)
+> +#define RESET_G2		BIT(0)
+> +
+> +#define CTRL_CLOCK_ENABLE	0x04
+> +#define CLOCK_G1		BIT(1)
+> +#define CLOCK_G2		BIT(0)
+> +
+> +#define CTRL_G1_DEC_FUSE	0x08
+> +#define CTRL_G1_PP_FUSE		0x0c
+> +#define CTRL_G2_DEC_FUSE	0x10
+> +
+> +static void imx8m_soft_reset(struct hantro_dev *vpu, u32 reset_bits)
+> +{
+> +	u32 val;
+> +
+> +	/* Assert */
+> +	val = readl(vpu->ctrl_base + CTRL_SOFT_RESET);
+> +	val &= ~reset_bits;
+> +	writel(val, vpu->ctrl_base + CTRL_SOFT_RESET);
+> +
+> +	udelay(2);
+> +
+> +	/* Release */
+> +	val = readl(vpu->ctrl_base + CTRL_SOFT_RESET);
+> +	val |= reset_bits;
+> +	writel(val, vpu->ctrl_base + CTRL_SOFT_RESET);
+> +}
+> +
+> +static void imx8m_clk_enable(struct hantro_dev *vpu, u32 clock_bits)
+> +{
+> +	u32 val;
+> +
+> +	val = readl(vpu->ctrl_base + CTRL_CLOCK_ENABLE);
+> +	val |= clock_bits;
+> +	writel(val, vpu->ctrl_base + CTRL_CLOCK_ENABLE);
+> +}
+> +
+> +static int imx8mq_runtime_resume(struct hantro_dev *vpu)
+> +{
+> +	int ret;
+> +
+> +	ret = clk_bulk_prepare_enable(vpu->variant->num_clocks, vpu->clocks);
+> +	if (ret) {
+> +		dev_err(vpu->dev, "Failed to enable clocks\n");
+> +		return ret;
+> +	}
+> +
+> +	imx8m_soft_reset(vpu, RESET_G1 | RESET_G2);
+> +	imx8m_clk_enable(vpu, CLOCK_G1 | CLOCK_G2);
+> +
+> +	/* Set values of the fuse registers */
+> +	writel(0xffffffff, vpu->ctrl_base + CTRL_G1_DEC_FUSE);
+> +	writel(0xffffffff, vpu->ctrl_base + CTRL_G1_PP_FUSE);
+> +	writel(0xffffffff, vpu->ctrl_base + CTRL_G2_DEC_FUSE);
+> +
+> +	clk_bulk_disable_unprepare(vpu->variant->num_clocks, vpu->clocks);
+> +
+> +	return 0;
+> +}
+> +
+> +/*
+> + * Supported formats.
+> + */
+> +
+> +static const struct hantro_fmt imx8m_vpu_dec_fmts[] = {
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_NV12,
+> +		.codec_mode = HANTRO_MODE_NONE,
+> +	},
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_MPEG2_SLICE,
+> +		.codec_mode = HANTRO_MODE_MPEG2_DEC,
+> +		.max_depth = 2,
+> +		.frmsize = {
+> +			.min_width = 48,
+> +			.max_width = 1920,
+> +			.step_width = MPEG2_MB_DIM,
+> +			.min_height = 48,
+> +			.max_height = 1088,
+> +			.step_height = MPEG2_MB_DIM,
+> +		},
+> +	},
+> +};
+> +
+> +static irqreturn_t imx8m_vpu_g1_irq(int irq, void *dev_id)
+> +{
+> +	struct hantro_dev *vpu = dev_id;
+> +	enum vb2_buffer_state state;
+> +	u32 status;
+> +
+> +	status = vdpu_read(vpu, G1_REG_INTERRUPT);
+> +	state = (status & G1_REG_INTERRUPT_DEC_RDY_INT) ?
+> +		 VB2_BUF_STATE_DONE : VB2_BUF_STATE_ERROR;
+> +
+> +	vdpu_write(vpu, 0, G1_REG_INTERRUPT);
+> +	vdpu_write(vpu, G1_REG_CONFIG_DEC_CLK_GATE_E, G1_REG_CONFIG);
+> +
+> +	hantro_irq_done(vpu, 0, state);
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +static int imx8mq_vpu_hw_init(struct hantro_dev *vpu)
+> +{
+> +	vpu->dec_base = vpu->reg_bases[0];
+> +	vpu->ctrl_base = vpu->reg_bases[vpu->variant->num_regs - 1];
+> +
+> +	return 0;
+> +}
+> +
+> +static void imx8m_vpu_g1_reset(struct hantro_ctx *ctx)
+> +{
+> +	struct hantro_dev *vpu = ctx->dev;
+> +
+> +	imx8m_soft_reset(vpu, RESET_G1);
+> +}
+> +
+> +/*
+> + * Supported codec ops.
+> + */
+> +
+> +static const struct hantro_codec_ops imx8mq_vpu_codec_ops[] = {
+> +	[HANTRO_MODE_MPEG2_DEC] = {
+> +		.run = hantro_g1_mpeg2_dec_run,
+> +		.reset = imx8m_vpu_g1_reset,
+> +		.init = hantro_mpeg2_dec_init,
+> +		.exit = hantro_mpeg2_dec_exit,
+> +	},
+> +};
+> +
+> +/*
+> + * VPU variants.
+> + */
+> +
+> +static const struct hantro_irq imx8mq_irqs[] = {
+> +	{ "g1", imx8m_vpu_g1_irq },
+> +	{ "g2", NULL /* TODO: imx8m_vpu_g2_irq */ },
+> +};
+> +
+> +static const char * const imx8mq_clk_names[] = { "g1", "g2", "bus" };
+> +static const char * const imx8mq_reg_names[] = { "g1", "g2", "ctrl" };
+> +
+> +const struct hantro_variant imx8mq_vpu_variant = {
+> +	.dec_fmts = imx8m_vpu_dec_fmts,
+> +	.num_dec_fmts = ARRAY_SIZE(imx8m_vpu_dec_fmts),
+> +	.codec = HANTRO_MPEG2_DECODER,
+> +	.codec_ops = imx8mq_vpu_codec_ops,
+> +	.init = imx8mq_vpu_hw_init,
+> +	.runtime_resume = imx8mq_runtime_resume,
+> +	.irqs = imx8mq_irqs,
+> +	.num_irqs = ARRAY_SIZE(imx8mq_irqs),
+> +	.clk_names = imx8mq_clk_names,
+> +	.num_clocks = ARRAY_SIZE(imx8mq_clk_names),
+> +	.reg_names = imx8mq_reg_names,
+> +	.num_regs = ARRAY_SIZE(imx8mq_reg_names)
+> +};
+> 
+
