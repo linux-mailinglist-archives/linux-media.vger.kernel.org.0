@@ -2,94 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7100DE461F
-	for <lists+linux-media@lfdr.de>; Fri, 25 Oct 2019 10:47:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D82AE4660
+	for <lists+linux-media@lfdr.de>; Fri, 25 Oct 2019 10:56:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408582AbfJYIrI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Oct 2019 04:47:08 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:43799 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2408566AbfJYIrG (ORCPT
+        id S2438041AbfJYI4Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Oct 2019 04:56:25 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:42962 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2393107AbfJYI4Z (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Oct 2019 04:47:06 -0400
-Received: by mail-ot1-f68.google.com with SMTP id z20so1459019otk.10;
-        Fri, 25 Oct 2019 01:47:05 -0700 (PDT)
+        Fri, 25 Oct 2019 04:56:25 -0400
+Received: by mail-lf1-f66.google.com with SMTP id z12so1068731lfj.9;
+        Fri, 25 Oct 2019 01:56:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=DoJczN+PCPEBJvD5MiZA3h3v1VZ07mO7fWjvQsmxpoo=;
-        b=GJsC8EHlADoxJqntdnjian9Wqg66KZ4+SeA83GlNj4AVuxYN45ehmdbLQZd73pcKT8
-         sGqVQOBh8OZmXQ3QBuOIyI0PhoQdFpoMEejI0F2aB/EaH65QkOHmmhL1Ob9RutdzH9A5
-         JW20/DF4EYpRH8csMBuaFm6udh8f0+NW8xUxEDNtn3HQpSkWsN9ZUk6numluRyw6WUae
-         WIwRz3W247ztlDAFHzg1D+lvmYZFipgpisCM20J0ig5XUbZTU6zdR18z6fPD8gxKe7wI
-         Sw1ghjGSOasIECGBoewrlBFKgl0x69NFcupGz5ns1w4sEzs9gqg3YkSaeYTO89wKxS/J
-         h0SQ==
-X-Gm-Message-State: APjAAAXZoOBwtYOVDJrKjav9D0M/ZrSA72uNvbKxyIxRRWVEiw7B7iUw
-        Wq96Sp/aEgBEdxUFXtcRW3/RYJXcsWJcH7sPOgoicg//
-X-Google-Smtp-Source: APXvYqxtaukGa9kru2/JTSrA7brj+MDNDbUcMU/53UF9Ll0L4Jj8XHV2gaQx3vGnSCzMhUfKBNtDoYmS+3ZYS9PxKW8=
-X-Received: by 2002:a9d:7d19:: with SMTP id v25mr1793171otn.250.1571993224673;
- Fri, 25 Oct 2019 01:47:04 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/pf+TC3UkQxsm1lp9DN6oiz74VjHhrWP2wdjdY3KIeQ=;
+        b=dg6Z2mgI4LM/ByPz6/hvLIbxlEydulkdYd2ve9gY/A6Tmp6vVaR6BEcmtBNXQcDT71
+         G4s9uXxSlqcITNWQ9jMxcKOvlvbpRzeE9MjIXP2lXijEsNtKG9mftIxNI0NadRIARYGI
+         zIdlU/e5+a1xBY/oF+WMXcthR5BLb8/riDwH0/sa3doTYewHNQjHAZc4fVIGxXXmVUPA
+         ILxDJaaXfdH752Li7+fgLDW8U7nTkue7BRtZWwzTki+1M2fGpPLuidhOsYKINBujv4hf
+         mb7PMaORdo3HTmIZQ0kEzDh68gBMl+lzIw29JX2hAFyflzeISc6Wb1/LrflpqeSxvOZ9
+         rGgw==
+X-Gm-Message-State: APjAAAWatGy0gEf8CyZfCYolDP5ii+EHEqJIibJdkGAfeGXBQZPaIWwj
+        /hi/XbsvLZOkYp09YpMNwYA=
+X-Google-Smtp-Source: APXvYqwCbByrEVJHOFUhMkGMI4Ct8W/vGu0UmSOp0hYtipIF4X5VpfmE5dL3HKd/mfD78CTGMsgwFQ==
+X-Received: by 2002:a19:ad4c:: with SMTP id s12mr1950403lfd.49.1571993782847;
+        Fri, 25 Oct 2019 01:56:22 -0700 (PDT)
+Received: from neopili.qtec.com (cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
+        by smtp.gmail.com with ESMTPSA id y135sm571393lfa.92.2019.10.25.01.56.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Oct 2019 01:56:21 -0700 (PDT)
+From:   Ricardo Ribalda Delgado <ribalda@kernel.org>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media <linux-media@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Cc:     Ricardo Ribalda Delgado <ribalda@kernel.org>
+Subject: [PATCH v3] Documentation: media: *_DEFAULT targets for subdevs
+Date:   Fri, 25 Oct 2019 10:56:16 +0200
+Message-Id: <20191025085617.23132-1-ribalda@kernel.org>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-References: <20191024130916.16444-1-geert+renesas@glider.be> <05a62983-5132-0fcb-2e8e-70b95d44730f@ideasonboard.com>
-In-Reply-To: <05a62983-5132-0fcb-2e8e-70b95d44730f@ideasonboard.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 25 Oct 2019 10:46:53 +0200
-Message-ID: <CAMuHMdX4xikRtojAWgWecEfqjrOw+aEGaW2HFvDkvJbwHxb1qA@mail.gmail.com>
-Subject: Re: [PATCH] media: fdp1: Fix R-Car M3-N naming in debug message
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Kieran,
+Some sensors have optical blanking areas, this is, pixels that are
+painted and do not account for light, only noise.
 
-On Thu, Oct 24, 2019 at 6:08 PM Kieran Bingham
-<kieran.bingham+renesas@ideasonboard.com> wrote:
-> On 24/10/2019 14:09, Geert Uytterhoeven wrote:
-> > The official name is "R-Car M3-N", not "R-Car M3N".
-> >
-> > Fixes: 4e8c120de9268fc2 ("media: fdp1: Support M3N and E3 platforms")
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> > ---
-> >  drivers/media/platform/rcar_fdp1.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/media/platform/rcar_fdp1.c b/drivers/media/platform/rcar_fdp1.c
-> > index cb93a13e1777a53e..97bed45360f088d0 100644
-> > --- a/drivers/media/platform/rcar_fdp1.c
-> > +++ b/drivers/media/platform/rcar_fdp1.c
-> > @@ -2369,7 +2369,7 @@ static int fdp1_probe(struct platform_device *pdev)
-> >               dprintk(fdp1, "FDP1 Version R-Car H3\n");
-> >               break;
-> >       case FD1_IP_M3N:
->
-> Should the FD1_IP_M3N naming also be updated accordingly?
-> I guess that's not so important.
->
-> Either way, up to you.
+These special pixels are very useful for calibrating the sensor, but
+should not be displayed on a DEFAULT target.
 
-Na, you can't use hyphens in preprocessor definitions ;-)
-FD1_IP_M3N is consistent with FD1_IP_M3W, and not user-visible.
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Signed-off-by: Ricardo Ribalda Delgado <ribalda@kernel.org>
+---
+ Documentation/media/uapi/v4l/v4l2-selection-targets.rst | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
-Thanks!
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/Documentation/media/uapi/v4l/v4l2-selection-targets.rst b/Documentation/media/uapi/v4l/v4l2-selection-targets.rst
+index f74f239b0510..a69571308a45 100644
+--- a/Documentation/media/uapi/v4l/v4l2-selection-targets.rst
++++ b/Documentation/media/uapi/v4l/v4l2-selection-targets.rst
+@@ -38,8 +38,10 @@ of the two interfaces they are used.
+     * - ``V4L2_SEL_TGT_CROP_DEFAULT``
+       - 0x0001
+       - Suggested cropping rectangle that covers the "whole picture".
++        This includes only active pixels and excludes other non-active
++        pixels such as black pixels.
++      - Yes
+       - Yes
+-      - No
+     * - ``V4L2_SEL_TGT_CROP_BOUNDS``
+       - 0x0002
+       - Bounds of the crop rectangle. All valid crop rectangles fit inside
+@@ -60,8 +62,8 @@ of the two interfaces they are used.
+     * - ``V4L2_SEL_TGT_COMPOSE_DEFAULT``
+       - 0x0101
+       - Suggested composition rectangle that covers the "whole picture".
+-      - Yes
+       - No
++      - Yes
+     * - ``V4L2_SEL_TGT_COMPOSE_BOUNDS``
+       - 0x0102
+       - Bounds of the compose rectangle. All valid compose rectangles fit
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.23.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
