@@ -2,62 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9098EE5619
-	for <lists+linux-media@lfdr.de>; Fri, 25 Oct 2019 23:43:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BFE09E561D
+	for <lists+linux-media@lfdr.de>; Fri, 25 Oct 2019 23:48:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725881AbfJYVn2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Oct 2019 17:43:28 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:51536 "EHLO
-        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725801AbfJYVn2 (ORCPT
+        id S1725897AbfJYVsn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Oct 2019 17:48:43 -0400
+Received: from mail-pl1-f195.google.com ([209.85.214.195]:33117 "EHLO
+        mail-pl1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725811AbfJYVsn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Oct 2019 17:43:28 -0400
-Received: by mail-wm1-f66.google.com with SMTP id q70so3679049wme.1
-        for <linux-media@vger.kernel.org>; Fri, 25 Oct 2019 14:43:26 -0700 (PDT)
+        Fri, 25 Oct 2019 17:48:43 -0400
+Received: by mail-pl1-f195.google.com with SMTP id y8so1987388plk.0
+        for <linux-media@vger.kernel.org>; Fri, 25 Oct 2019 14:48:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=8Uk2t6eV23xi3exVixk+pwagP2ScHihngGCqVNC+7oY=;
-        b=FEaZ8Vchi/GlXplk0unkefZnCe/jcnO+oDGvOvS6XalwkyV9FnpIfnXTEDJ/QvjmU5
-         dC6SbxILJczL7C2PpsgwfiCM4mYVbANxhSJfLbN38WBr2NOt4e9sYKZlmfCYUNTnJO8c
-         GppTat+Q9JQWK6N6hS+ovFYiXbBEve8QFmIJWefFqRBq4PyXNOPbywZfXi3MFHtLUQRJ
-         VzOFCHX7CznbJqQEFEJ4c3vqxLltXwRI02u9bDWBR+A3VRB7lEs4y+S+n8o8a1IXC8Qe
-         603b+RUypRErNuh8k2ytwWsH6UoEzZHj6LcZnWxULYkWPfHa7+qYajr+LNTuJfNManlB
-         jk2Q==
+        bh=e03BemmY7UaC7LTN3TMs21VwrRgjNdmUKr2Aw0+Pn+8=;
+        b=loLyK9IRKvOcmETwwE4+eq6GaTLFZIiHUz7h2Lb1p0DU29jrII5AB4ONZZnZRRB1hQ
+         bUrzn0XfsK+oG1irRRdA5b4Vl5I5M1vYORRMiNUaeUz3ssSUd8+3pRKeEEn3qlGp2SV9
+         CVsI1aOHgU1w96haY0Z7CEHFEJvmUkRkQh5PtbIuLQkkFAn18tTrs56m6pMwcpCzrLAj
+         GViioStV6FIaQpRkAy8h5rDqL4M2mTO3SBFEFWQHLSFZF1NeR8YFFDn20kZo036CpQVv
+         5Qr6UAAAsfnhHKuy2Q1wJ1eLSNJjxDMSmyz+za2YbJekKmO0kCgvG9M/dWj6ENlSqche
+         gwpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-transfer-encoding
          :content-language;
-        bh=8Uk2t6eV23xi3exVixk+pwagP2ScHihngGCqVNC+7oY=;
-        b=K6aa6Gef7hSWQhzZlDiSE1u2BjJfCy6COuEVqqAiI6Wk7M9dgBtFWS2RjU1WN02zaA
-         0thUESPrEIHcWOs1Fp0K5h07kkSyU3ixOF94P0aY71SjK4FoTPQD6w1vpJ4bvc8hFOM0
-         arHhFaXrTJlUvArucGEuex208nJHkPzOTBW3ViiomPMjenmdSyuxlzB4PIrjjovmP/sx
-         s2tUGhx82vLgtknUY9Ihi8ReQrwEO+IArwP36YpWiesudrayw0ETy6KV6orNu69EfO+U
-         rHN6anNWUgYo1h508QFitzPCxW4k3fbZ+UNPwjoOad81vA0RQ0IDinglvvzsQwbdNVtR
-         dj3Q==
-X-Gm-Message-State: APjAAAUHDE0KRuG8UXEREb/K5fp2IxEkqfsxZayOR5hgDEK9V5bfd310
-        9lnB0tdxDaqXkULwwv57L3A=
-X-Google-Smtp-Source: APXvYqy/0fdDRG9yqBfHPKvhsW2hojlMiiPRciX2qovVcCic7z7lvCJDffBXEc2RVbYnaoOudOHY7A==
-X-Received: by 2002:a7b:cbc5:: with SMTP id n5mr5405852wmi.65.1572039805066;
-        Fri, 25 Oct 2019 14:43:25 -0700 (PDT)
+        bh=e03BemmY7UaC7LTN3TMs21VwrRgjNdmUKr2Aw0+Pn+8=;
+        b=aDIm4Zv5ZPLtwoK79gHNmYF7TA3vom2LyDgEOg2Y751XIDEJKqOypsVqoP2QEju6qP
+         NjAnOx0qs81iqJAhTdiblh+OfCBB4zyZmzb4+EcVDwGS8i8UjDE5r8jj1Fcg/PQg/Q0i
+         z7naVn9z4BGh6I9Ojov7nXGRH9uI96nVXwHB/3phqEvdkpsWGwXlwAMBqcOyD4iNr2ur
+         /Q5JJaGYEeYJ3BtEuL161rdL0uWptwNiInAmx4K7xRs2X0aTIHSCLgsv7C6QjN9cxRTz
+         d6d3pTc45Ew9PorGV/mkOeswamzYs588rwWU/ItCSHjn0muNJEFRbb0hyymkdw0UK0rn
+         pFnA==
+X-Gm-Message-State: APjAAAV8xGq/iDIYtGW7bjUBvg5EiVTR8U4RuP1OCQOSPUxR6ezYf5UI
+        p+qK72TObBzzSYKhPUP2HiHO3U8A
+X-Google-Smtp-Source: APXvYqyxHoVB5o5Lhvu6Kflk40G+0BL6NR5ySEFl6SC22p6/4On9tPFgk0q69hHCS0Zktjk0d3YYOA==
+X-Received: by 2002:a17:902:b612:: with SMTP id b18mr4884286pls.309.1572040122239;
+        Fri, 25 Oct 2019 14:48:42 -0700 (PDT)
 Received: from [172.30.90.16] (sjewanfw1-nat.mentorg.com. [139.181.7.34])
-        by smtp.gmail.com with ESMTPSA id u1sm2848986wmc.38.2019.10.25.14.43.22
+        by smtp.gmail.com with ESMTPSA id b13sm3576492pgd.58.2019.10.25.14.48.39
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 25 Oct 2019 14:43:24 -0700 (PDT)
-Subject: Re: [PATCH 2/3] media: imx: fix and simplify pixel format enumeration
-To:     Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org
+        Fri, 25 Oct 2019 14:48:41 -0700 (PDT)
+Subject: Re: [PATCH 3/3] media: imx: fix media bus format enumeration
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-media@vger.kernel.org
 Cc:     kernel@pengutronix.de
 References: <20190912160122.5545-1-p.zabel@pengutronix.de>
- <20190912160122.5545-2-p.zabel@pengutronix.de>
+ <20190912160122.5545-3-p.zabel@pengutronix.de>
+ <d30091d5-5e45-9682-7c23-813eff2b42c5@xs4all.nl>
 From:   Steve Longerbeam <slongerbeam@gmail.com>
-Message-ID: <71d87165-e649-a477-d2b8-fdb11b201962@gmail.com>
-Date:   Fri, 25 Oct 2019 14:43:21 -0700
+Message-ID: <6547e18f-e3d5-4e80-4e20-5eaf9ee0b86c@gmail.com>
+Date:   Fri, 25 Oct 2019 14:48:37 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20190912160122.5545-2-p.zabel@pengutronix.de>
+In-Reply-To: <d30091d5-5e45-9682-7c23-813eff2b42c5@xs4all.nl>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
@@ -66,335 +69,146 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Philipp,
+Hi Hans,
 
-Thanks for this patch and the next. I agree it simplifies the code.
+On 9/27/19 12:33 AM, Hans Verkuil wrote:
+> On 9/12/19 6:01 PM, Philipp Zabel wrote:
+>> Iterate over all media bus formats, not just over the first format in
+>> each imx_media_pixfmt entry.
+>>
+>> Before:
+>>
+>>    $ v4l2-ctl -d $(media-ctl -e ipu1_csi0) --list-subdev-mbus-codes 0
+>>    ioctl: VIDIOC_SUBDEV_ENUM_MBUS_CODE (pad=0)
+>> 	0x2006: MEDIA_BUS_FMT_UYVY8_2X8
+>> 	0x2008: MEDIA_BUS_FMT_YUYV8_2X8
+>> 	0x1008: MEDIA_BUS_FMT_RGB565_2X8_LE
+>> 	0x100a: MEDIA_BUS_FMT_RGB888_1X24
+>> 	0x100d: MEDIA_BUS_FMT_ARGB8888_1X32
+>> 	0x3001: MEDIA_BUS_FMT_SBGGR8_1X8
+>> 	0x3013: MEDIA_BUS_FMT_SGBRG8_1X8
+>> 	0x3002: MEDIA_BUS_FMT_SGRBG8_1X8
+>> 	0x3014: MEDIA_BUS_FMT_SRGGB8_1X8
+>> 	0x3007: MEDIA_BUS_FMT_SBGGR10_1X10
+>> 	0x300e: MEDIA_BUS_FMT_SGBRG10_1X10
+>> 	0x300a: MEDIA_BUS_FMT_SGRBG10_1X10
+>> 	0x300f: MEDIA_BUS_FMT_SRGGB10_1X10
+>> 	0x2001: MEDIA_BUS_FMT_Y8_1X8
+>> 	0x200a: MEDIA_BUS_FMT_Y10_1X10
+>>
+>> After:
+>>
+>>    $ v4l2-ctl -d $(media-ctl -e ipu1_csi0) --list-subdev-mbus-codes 0
+>>    ioctl: VIDIOC_SUBDEV_ENUM_MBUS_CODE (pad=0)
+>> 	0x2006: MEDIA_BUS_FMT_UYVY8_2X8
+>> 	0x200f: MEDIA_BUS_FMT_UYVY8_1X16
+>> 	0x2008: MEDIA_BUS_FMT_YUYV8_2X8
+>> 	0x2011: MEDIA_BUS_FMT_YUYV8_1X16
+>> 	0x1008: MEDIA_BUS_FMT_RGB565_2X8_LE
+>> 	0x100a: MEDIA_BUS_FMT_RGB888_1X24
+>> 	0x100c: MEDIA_BUS_FMT_RGB888_2X12_LE
+>> 	0x100d: MEDIA_BUS_FMT_ARGB8888_1X32
+>> 	0x3001: MEDIA_BUS_FMT_SBGGR8_1X8
+>> 	0x3013: MEDIA_BUS_FMT_SGBRG8_1X8
+>> 	0x3002: MEDIA_BUS_FMT_SGRBG8_1X8
+>> 	0x3014: MEDIA_BUS_FMT_SRGGB8_1X8
+>> 	0x3007: MEDIA_BUS_FMT_SBGGR10_1X10
+>> 	0x3008: MEDIA_BUS_FMT_SBGGR12_1X12
+>> 	0x3019: MEDIA_BUS_FMT_SBGGR14_1X14
+>> 	0x301d: MEDIA_BUS_FMT_SBGGR16_1X16
+>> 	0x300e: MEDIA_BUS_FMT_SGBRG10_1X10
+>> 	0x3010: MEDIA_BUS_FMT_SGBRG12_1X12
+>> 	0x301a: MEDIA_BUS_FMT_SGBRG14_1X14
+>> 	0x301e: MEDIA_BUS_FMT_SGBRG16_1X16
+>> 	0x300a: MEDIA_BUS_FMT_SGRBG10_1X10
+>> 	0x3011: MEDIA_BUS_FMT_SGRBG12_1X12
+>> 	0x301b: MEDIA_BUS_FMT_SGRBG14_1X14
+>> 	0x301f: MEDIA_BUS_FMT_SGRBG16_1X16
+>> 	0x300f: MEDIA_BUS_FMT_SRGGB10_1X10
+>> 	0x3012: MEDIA_BUS_FMT_SRGGB12_1X12
+>> 	0x301c: MEDIA_BUS_FMT_SRGGB14_1X14
+>> 	0x3020: MEDIA_BUS_FMT_SRGGB16_1X16
+>> 	0x2001: MEDIA_BUS_FMT_Y8_1X8
+>> 	0x200a: MEDIA_BUS_FMT_Y10_1X10
+>> 	0x2013: MEDIA_BUS_FMT_Y12_1X12
+>>
+>> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+>> ---
+>>   drivers/staging/media/imx/imx-media-utils.c | 19 +++++++++++++++----
+>>   1 file changed, 15 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
+>> index d61a8f4533dc..5f8604db4dd4 100644
+>> --- a/drivers/staging/media/imx/imx-media-utils.c
+>> +++ b/drivers/staging/media/imx/imx-media-utils.c
+>> @@ -254,7 +254,7 @@ static int enum_format(u32 *fourcc, u32 *code, u32 index,
+>>   		       bool allow_bayer)
+>>   {
+> This function is becoming confusing. I think you should add some comments explaining
+> what the function does. Specifically the fourcc and code arguments.
+>
+> Can both be non-NULL? Or only one of the two? I think that if fourcc is non-NULL you
+> enumerate over the V4L2 pixelformats, if code is non-NULL, then you enumerate over
+> the mediabus codes.
+>
+> If so, then I think it would be easier to understand if you just make two functions:
+> enum_formats and enum_codes, rather than trying to merge them into one.
 
-Besides the compile warning caught by Hans and the kbuild test robot, I 
-have only one other suggestion. Can you change the name of the index j 
-(which becomes k in the next patch), to something like "match_index", 
-which makes it more clear that this is a count of the pixel_formats[] 
-entries that match the requested search criteria.
+I don't think the function is that confusing, but I'm fine with 
+splitting it into enum_formats() and enum_codes().
 
-For testing I made this change in my github fork of the media-tree:
+I do agree it needs some comments describing how it works. I think my 
+suggestion to rename the index that counts entries that match the search 
+criteria to "match_index" will also help to follow the code.
 
-git@github.com:slongerbeam/mediatree.git, branch imx/philipp-pixfmts-cleanup
-
-In that branch I also fixed the compile warnings.
-
-Finally, I added a patch that also moves the IPU-internal formats (YUV4 
-and BX24) into pixel_formats[] that results in similar simplifications, 
-with an additional search parameter to find_format() and enum_format() 
-to search only for IPU-internal formats or only non-IPU-internal formats.
-
-Let me know if you agree with those changes, and if so please include 
-them in next version of this series.
-
-I tested on i.MX6Q SabreSD and all is good.
 
 Steve
 
-
-On 9/12/19 9:01 AM, Philipp Zabel wrote:
-> Merge yuv_formats and rgb_formats into a single array. Always loop over
-> all entries, skipping those that are incompatible with the requested
-> enumeration. This simplifies the code, lets us get rid of the manual
-> counting of array entries, and stops accidentally ignoring some non-mbus
-> RGB formats.
 >
-> Before:
+> Patches 1 and 2 of this series look good, so I'll take those.
 >
->    $ v4l2-ctl -d /dev/video14 --list-formats-out
->    ioctl: VIDIOC_ENUM_FMT
-> 	Type: Video Output
+> Regards,
 >
-> 	[0]: 'UYVY' (UYVY 4:2:2)
-> 	[1]: 'YUYV' (YUYV 4:2:2)
-> 	[2]: 'YU12' (Planar YUV 4:2:0)
-> 	[3]: 'YV12' (Planar YVU 4:2:0)
-> 	[4]: '422P' (Planar YUV 4:2:2)
-> 	[5]: 'NV12' (Y/CbCr 4:2:0)
-> 	[6]: 'NV16' (Y/CbCr 4:2:2)
-> 	[7]: 'RGBP' (16-bit RGB 5-6-5)
-> 	[8]: 'RGB3' (24-bit RGB 8-8-8)
-> 	[9]: 'BX24' (32-bit XRGB 8-8-8-8)
+> 	Hans
 >
-> After:
->
->    $ v4l2-ctl -d /dev/video14 --list-formats-out
->    ioctl: VIDIOC_ENUM_FMT
-> 	Type: Video Output
->
-> 	[0]: 'UYVY' (UYVY 4:2:2)
-> 	[1]: 'YUYV' (YUYV 4:2:2)
-> 	[2]: 'YU12' (Planar YUV 4:2:0)
-> 	[3]: 'YV12' (Planar YVU 4:2:0)
-> 	[4]: '422P' (Planar YUV 4:2:2)
-> 	[5]: 'NV12' (Y/CbCr 4:2:0)
-> 	[6]: 'NV16' (Y/CbCr 4:2:2)
-> 	[7]: 'RGBP' (16-bit RGB 5-6-5)
-> 	[8]: 'RGB3' (24-bit RGB 8-8-8)
-> 	[9]: 'BGR3' (24-bit BGR 8-8-8)
-> 	[10]: 'BX24' (32-bit XRGB 8-8-8-8)
-> 	[11]: 'XR24' (32-bit BGRX 8-8-8-8)
-> 	[12]: 'RX24' (32-bit XBGR 8-8-8-8)
-> 	[13]: 'XB24' (32-bit RGBX 8-8-8-8)
->
-> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
-> ---
->   drivers/staging/media/imx/imx-media-utils.c | 170 ++++++--------------
->   1 file changed, 45 insertions(+), 125 deletions(-)
->
-> diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
-> index 0788a1874557..d61a8f4533dc 100644
-> --- a/drivers/staging/media/imx/imx-media-utils.c
-> +++ b/drivers/staging/media/imx/imx-media-utils.c
-> @@ -9,12 +9,9 @@
->   
->   /*
->    * List of supported pixel formats for the subdevs.
-> - *
-> - * In all of these tables, the non-mbus formats (with no
-> - * mbus codes) must all fall at the end of the table.
->    */
-> -
-> -static const struct imx_media_pixfmt yuv_formats[] = {
-> +static const struct imx_media_pixfmt pixel_formats[] = {
-> +	/*** YUV formats start here ***/
->   	{
->   		.fourcc	= V4L2_PIX_FMT_UYVY,
->   		.codes  = {
-> @@ -31,12 +28,7 @@ static const struct imx_media_pixfmt yuv_formats[] = {
->   		},
->   		.cs     = IPUV3_COLORSPACE_YUV,
->   		.bpp    = 16,
-> -	},
-> -	/***
-> -	 * non-mbus YUV formats start here. NOTE! when adding non-mbus
-> -	 * formats, NUM_NON_MBUS_YUV_FORMATS must be updated below.
-> -	 ***/
-> -	{
-> +	}, {
->   		.fourcc	= V4L2_PIX_FMT_YUV420,
->   		.cs     = IPUV3_COLORSPACE_YUV,
->   		.bpp    = 12,
-> @@ -62,13 +54,7 @@ static const struct imx_media_pixfmt yuv_formats[] = {
->   		.bpp    = 16,
->   		.planar = true,
->   	},
-> -};
-> -
-> -#define NUM_NON_MBUS_YUV_FORMATS 5
-> -#define NUM_YUV_FORMATS ARRAY_SIZE(yuv_formats)
-> -#define NUM_MBUS_YUV_FORMATS (NUM_YUV_FORMATS - NUM_NON_MBUS_YUV_FORMATS)
-> -
-> -static const struct imx_media_pixfmt rgb_formats[] = {
-> +	/*** RGB formats start here ***/
->   	{
->   		.fourcc	= V4L2_PIX_FMT_RGB565,
->   		.codes  = {MEDIA_BUS_FMT_RGB565_2X8_LE},
-> @@ -83,12 +69,28 @@ static const struct imx_media_pixfmt rgb_formats[] = {
->   		},
->   		.cs     = IPUV3_COLORSPACE_RGB,
->   		.bpp    = 24,
-> +	}, {
-> +		.fourcc	= V4L2_PIX_FMT_BGR24,
-> +		.cs     = IPUV3_COLORSPACE_RGB,
-> +		.bpp    = 24,
->   	}, {
->   		.fourcc	= V4L2_PIX_FMT_XRGB32,
->   		.codes  = {MEDIA_BUS_FMT_ARGB8888_1X32},
->   		.cs     = IPUV3_COLORSPACE_RGB,
->   		.bpp    = 32,
->   		.ipufmt = true,
-> +	}, {
-> +		.fourcc	= V4L2_PIX_FMT_XBGR32,
-> +		.cs     = IPUV3_COLORSPACE_RGB,
-> +		.bpp    = 32,
-> +	}, {
-> +		.fourcc	= V4L2_PIX_FMT_BGRX32,
-> +		.cs     = IPUV3_COLORSPACE_RGB,
-> +		.bpp    = 32,
-> +	}, {
-> +		.fourcc	= V4L2_PIX_FMT_RGBX32,
-> +		.cs     = IPUV3_COLORSPACE_RGB,
-> +		.bpp    = 32,
->   	},
->   	/*** raw bayer and grayscale formats start here ***/
->   	{
-> @@ -175,33 +177,8 @@ static const struct imx_media_pixfmt rgb_formats[] = {
->   		.bpp    = 16,
->   		.bayer  = true,
->   	},
-> -	/***
-> -	 * non-mbus RGB formats start here. NOTE! when adding non-mbus
-> -	 * formats, NUM_NON_MBUS_RGB_FORMATS must be updated below.
-> -	 ***/
-> -	{
-> -		.fourcc	= V4L2_PIX_FMT_BGR24,
-> -		.cs     = IPUV3_COLORSPACE_RGB,
-> -		.bpp    = 24,
-> -	}, {
-> -		.fourcc	= V4L2_PIX_FMT_XBGR32,
-> -		.cs     = IPUV3_COLORSPACE_RGB,
-> -		.bpp    = 32,
-> -	}, {
-> -		.fourcc	= V4L2_PIX_FMT_BGRX32,
-> -		.cs     = IPUV3_COLORSPACE_RGB,
-> -		.bpp    = 32,
-> -	}, {
-> -		.fourcc	= V4L2_PIX_FMT_RGBX32,
-> -		.cs     = IPUV3_COLORSPACE_RGB,
-> -		.bpp    = 32,
-> -	},
->   };
->   
-> -#define NUM_NON_MBUS_RGB_FORMATS 2
-> -#define NUM_RGB_FORMATS ARRAY_SIZE(rgb_formats)
-> -#define NUM_MBUS_RGB_FORMATS (NUM_RGB_FORMATS - NUM_NON_MBUS_RGB_FORMATS)
-> -
->   static const struct imx_media_pixfmt ipu_yuv_formats[] = {
->   	{
->   		.fourcc = V4L2_PIX_FMT_YUV32,
-> @@ -240,20 +217,20 @@ static void init_mbus_colorimetry(struct v4l2_mbus_framefmt *mbus,
->   }
->   
->   static const
-> -struct imx_media_pixfmt *__find_format(u32 fourcc,
-> -				       u32 code,
-> -				       bool allow_non_mbus,
-> -				       bool allow_bayer,
-> -				       const struct imx_media_pixfmt *array,
-> -				       u32 array_size)
-> +struct imx_media_pixfmt *find_format(u32 fourcc,
-> +				     u32 code,
-> +				     enum codespace_sel cs_sel,
-> +				     bool allow_non_mbus,
-> +				     bool allow_bayer)
->   {
->   	const struct imx_media_pixfmt *fmt;
->   	int i, j;
->   
-> -	for (i = 0; i < array_size; i++) {
-> -		fmt = &array[i];
-> +	for (i = 0; i < ARRAY_SIZE(pixel_formats); i++) {
-> +		fmt = &pixel_formats[i];
->   
-> -		if ((!allow_non_mbus && !fmt->codes[0]) ||
-> +		if ((cs_sel != CS_SEL_ANY && fmt->cs != cs_sel) ||
-> +		    (!allow_non_mbus && !fmt->codes[0]) ||
->   		    (!allow_bayer && fmt->bayer))
->   			continue;
->   
-> @@ -263,7 +240,7 @@ struct imx_media_pixfmt *__find_format(u32 fourcc,
->   		if (!code)
->   			continue;
->   
-> -		for (j = 0; fmt->codes[j]; j++) {
-> +		for (j = 0; j < ARRAY_SIZE(fmt->codes) && fmt->codes[j]; j++) {
->   			if (code == fmt->codes[j])
->   				return fmt;
->   		}
-> @@ -271,86 +248,29 @@ struct imx_media_pixfmt *__find_format(u32 fourcc,
->   	return NULL;
->   }
->   
-> -static const struct imx_media_pixfmt *find_format(u32 fourcc,
-> -						  u32 code,
-> -						  enum codespace_sel cs_sel,
-> -						  bool allow_non_mbus,
-> -						  bool allow_bayer)
-> -{
-> -	const struct imx_media_pixfmt *ret;
-> -
-> -	switch (cs_sel) {
-> -	case CS_SEL_YUV:
-> -		return __find_format(fourcc, code, allow_non_mbus, allow_bayer,
-> -				     yuv_formats, NUM_YUV_FORMATS);
-> -	case CS_SEL_RGB:
-> -		return __find_format(fourcc, code, allow_non_mbus, allow_bayer,
-> -				     rgb_formats, NUM_RGB_FORMATS);
-> -	case CS_SEL_ANY:
-> -		ret = __find_format(fourcc, code, allow_non_mbus, allow_bayer,
-> -				    yuv_formats, NUM_YUV_FORMATS);
-> -		if (ret)
-> -			return ret;
-> -		return __find_format(fourcc, code, allow_non_mbus, allow_bayer,
-> -				     rgb_formats, NUM_RGB_FORMATS);
-> -	default:
-> -		return NULL;
-> -	}
-> -}
-> -
->   static int enum_format(u32 *fourcc, u32 *code, u32 index,
->   		       enum codespace_sel cs_sel,
->   		       bool allow_non_mbus,
->   		       bool allow_bayer)
->   {
->   	const struct imx_media_pixfmt *fmt;
-> -	u32 mbus_yuv_sz = NUM_MBUS_YUV_FORMATS;
-> -	u32 mbus_rgb_sz = NUM_MBUS_RGB_FORMATS;
-> -	u32 yuv_sz = NUM_YUV_FORMATS;
-> -	u32 rgb_sz = NUM_RGB_FORMATS;
-> +	unsigned int i, j = 0;
->   
-> -	switch (cs_sel) {
-> -	case CS_SEL_YUV:
-> -		if (index >= yuv_sz ||
-> -		    (!allow_non_mbus && index >= mbus_yuv_sz))
-> -			return -EINVAL;
-> -		fmt = &yuv_formats[index];
-> -		break;
-> -	case CS_SEL_RGB:
-> -		if (index >= rgb_sz ||
-> -		    (!allow_non_mbus && index >= mbus_rgb_sz))
-> -			return -EINVAL;
-> -		fmt = &rgb_formats[index];
-> -		if (!allow_bayer && fmt->bayer)
-> -			return -EINVAL;
-> -		break;
-> -	case CS_SEL_ANY:
-> -		if (!allow_non_mbus) {
-> -			if (index >= mbus_yuv_sz) {
-> -				index -= mbus_yuv_sz;
-> -				if (index >= mbus_rgb_sz)
-> -					return -EINVAL;
-> -				fmt = &rgb_formats[index];
-> -				if (!allow_bayer && fmt->bayer)
-> -					return -EINVAL;
-> -			} else {
-> -				fmt = &yuv_formats[index];
-> -			}
-> -		} else {
-> -			if (index >= yuv_sz + rgb_sz)
-> -				return -EINVAL;
-> -			if (index >= yuv_sz) {
-> -				fmt = &rgb_formats[index - yuv_sz];
-> -				if (!allow_bayer && fmt->bayer)
-> -					return -EINVAL;
-> -			} else {
-> -				fmt = &yuv_formats[index];
-> -			}
-> -		}
-> -		break;
-> -	default:
-> -		return -EINVAL;
-> +	for (i = 0; i < ARRAY_SIZE(pixel_formats); i++) {
-> +		fmt = &pixel_formats[i];
-> +
-> +		if ((cs_sel != CS_SEL_ANY && fmt->cs != cs_sel) ||
-> +		    (!allow_non_mbus && !fmt->codes[0]) ||
-> +		    (!allow_bayer && fmt->bayer))
-> +			continue;
-> +
-> +		if (index == j)
-> +			break;
-> +
-> +		j++;
->   	}
-> +	if (i == ARRAY_SIZE(pixel_formats))
-> +		return -EINVAL;
->   
->   	if (fourcc)
->   		*fourcc = fmt->fourcc;
+>>   	const struct imx_media_pixfmt *fmt;
+>> -	unsigned int i, j = 0;
+>> +	unsigned int i, j, k = 0;
+>>   
+>>   	for (i = 0; i < ARRAY_SIZE(pixel_formats); i++) {
+>>   		fmt = &pixel_formats[i];
+>> @@ -264,18 +264,29 @@ static int enum_format(u32 *fourcc, u32 *code, u32 index,
+>>   		    (!allow_bayer && fmt->bayer))
+>>   			continue;
+>>   
+>> -		if (index == j)
+>> +		if (fourcc && index == k)
+>>   			break;
+>>   
+>> -		j++;
+>> +		if (!code) {
+>> +			k++;
+>> +			continue;
+>> +		}
+>> +
+>> +		for (j = 0; j < ARRAY_SIZE(fmt->codes) && fmt->codes[j]; j++) {
+>> +			if (index == k)
+>> +				goto out;
+>> +
+>> +			k++;
+>> +		}
+>>   	}
+>>   	if (i == ARRAY_SIZE(pixel_formats))
+>>   		return -EINVAL;
+>>   
+>> +out:
+>>   	if (fourcc)
+>>   		*fourcc = fmt->fourcc;
+>>   	if (code)
+>> -		*code = fmt->codes[0];
+>> +		*code = fmt->codes[j];
+>>   
+>>   	return 0;
+>>   }
+>>
 
