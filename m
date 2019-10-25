@@ -2,72 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 66F40E4C99
-	for <lists+linux-media@lfdr.de>; Fri, 25 Oct 2019 15:46:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A3AD9E4E97
+	for <lists+linux-media@lfdr.de>; Fri, 25 Oct 2019 16:10:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2504874AbfJYNqP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Oct 2019 09:46:15 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:46077 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2504878AbfJYNqO (ORCPT
+        id S2436639AbfJYOJt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Oct 2019 10:09:49 -0400
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:42130 "EHLO
+        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391324AbfJYOJt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Oct 2019 09:46:14 -0400
-Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <colin.king@canonical.com>)
-        id 1iNzuu-00050C-Ca; Fri, 25 Oct 2019 13:46:12 +0000
-From:   Colin King <colin.king@canonical.com>
-To:     Antoine Jacquet <royale@zerezo.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-usb@vger.kernel.org, linux-media@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: zr364xx: remove redundant assigmnent to idx, clean up code
-Date:   Fri, 25 Oct 2019 14:46:12 +0100
-Message-Id: <20191025134612.30703-1-colin.king@canonical.com>
-X-Mailer: git-send-email 2.20.1
+        Fri, 25 Oct 2019 10:09:49 -0400
+Received: by mail-qt1-f193.google.com with SMTP id w14so3388070qto.9
+        for <linux-media@vger.kernel.org>; Fri, 25 Oct 2019 07:09:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=RsLke/TcsWO6jJtc71TrM6981wpuQEgVefwUx2nw2dE=;
+        b=gRuczv1peu/iwI6b2uIBxtfBfUhcBD+Jy6DLYO8MeKlwsiD0OoYHXwzsyIKxh5Cqg5
+         G8xQL9aJjiLFfAN8itVzh2I9SFP+46Regla7nuVBPSOROSqpBXIhUsxMnXg70JcRl80C
+         Bq/rHDvt9ZFCW7Gw7OfBZXNRp2H3mjEeXd6EY7mem0MuNhiSDQ9ftfxumLpzeTTtxD9H
+         P303D2wOMlmJXoOFMELbm16KeDAsKar0CkO/x7l4er18FRNQLHllCELMtFzfcAQPNlvP
+         ZE03iTLzS8wwn3VelNE0vRYKCp9T0tQL0w45oR1vqGWqyfTI9VG3GPTjpkikAwdxP88u
+         Nc4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=RsLke/TcsWO6jJtc71TrM6981wpuQEgVefwUx2nw2dE=;
+        b=IT6kk1ilDXCr3QEsSrGgqkxtiYGjZfQpfDc1+FyQZ9CZdUMNKidBrvKtpdlagL7kqk
+         BzKSrJlJR7iTWoghpsDKyFOMRF+l1U+KEDjw+qj0QbZVAGgqPYKLjrEzc9pjIpFOnlij
+         jm1iqRN2gRE5yg/5wkFKc3hXfJzYoJiv1PqU/jy/j+jycOIMrOil7M2TAJfwvutzTBSz
+         ZYElgCE5Bz4DWtbdE1R1+2CHUnpCBw2gve1L/Hv0gSbKEm5n/X/QW2PbaQZtIxYaSRy9
+         +ORcB9BpYu5V3XQ4PPxffO6QUCN0bVLTFaJB9Jhh8Q/jacynAZJsRO96II/rV5CspCq8
+         Firw==
+X-Gm-Message-State: APjAAAWxX1NIsYZ8w8uozlP1vyyMnWaeIM+pD3Bz3LtoAT3Z/YFk2bd0
+        yY7uQjEQuUxBurrSttkrKM1tHuh6oEjUspVWdMU=
+X-Google-Smtp-Source: APXvYqwwTAtdKQwHYCYLni7jnhMbCeZAzKukSxqad5PjoLlZ95mrJZpbjhvHyFgvyFjnfPLI04Flx1FkjXtIYlwQiYc=
+X-Received: by 2002:aed:2986:: with SMTP id o6mr3058380qtd.320.1572012587707;
+ Fri, 25 Oct 2019 07:09:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: by 2002:ac8:67cc:0:0:0:0:0 with HTTP; Fri, 25 Oct 2019 07:09:47
+ -0700 (PDT)
+Reply-To: priscalamberth@gmail.com
+From:   "DR.OMAR KALIFA" <rasankh2@gmail.com>
+Date:   Fri, 25 Oct 2019 16:09:47 +0200
+Message-ID: <CAO7PYGLn2aO190-OoywSZ5DbE3J7d2VMfh81nNj7YmcA+xh8zg@mail.gmail.com>
+Subject: REQUEST FOR URGENT ASSISTANCE.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Colin Ian King <colin.king@canonical.com>
-
-The variable cable_type is being initialized with a value that
-is never read and is being re-assigned a little later on. Replace
-the redundant initializtion with the assignment that occurs a little
-later. Also initialize frm too rather than have a later assignment.
-
-Addresses-Coverity: ("Unused value")
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
----
- drivers/media/usb/zr364xx/zr364xx.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/media/usb/zr364xx/zr364xx.c b/drivers/media/usb/zr364xx/zr364xx.c
-index aff78d63b869..57dbcc8083bf 100644
---- a/drivers/media/usb/zr364xx/zr364xx.c
-+++ b/drivers/media/usb/zr364xx/zr364xx.c
-@@ -555,14 +555,12 @@ static int zr364xx_read_video_callback(struct zr364xx_camera *cam,
- {
- 	unsigned char *pdest;
- 	unsigned char *psrc;
--	s32 idx = -1;
--	struct zr364xx_framei *frm;
-+	s32 idx = cam->cur_frame;
-+	struct zr364xx_framei *frm = &cam->buffer.frame[idx];
- 	int i = 0;
- 	unsigned char *ptr = NULL;
- 
- 	_DBG("buffer to user\n");
--	idx = cam->cur_frame;
--	frm = &cam->buffer.frame[idx];
- 
- 	/* swap bytes if camera needs it */
- 	if (cam->method == METHOD0) {
 -- 
-2.20.1
+Hello,
 
+Compliment of the season. My name is Dr.Omar Kalifa. i work with one
+of the reputable banks here in West Africa.I have a lucrative and
+profitable business to discuse with you. Reply if you are intersted
+for more details.
+
+Regards,
+Dr.Omar Kalifa
