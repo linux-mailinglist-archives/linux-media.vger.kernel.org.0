@@ -2,180 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D8D6BE56CA
-	for <lists+linux-media@lfdr.de>; Sat, 26 Oct 2019 00:59:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B76C8E5868
+	for <lists+linux-media@lfdr.de>; Sat, 26 Oct 2019 06:01:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726196AbfJYW7i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Oct 2019 18:59:38 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:42997 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726100AbfJYW7i (ORCPT
+        id S1725821AbfJZEBn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 26 Oct 2019 00:01:43 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:42393 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725781AbfJZEBm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Oct 2019 18:59:38 -0400
-Received: by mail-wr1-f67.google.com with SMTP id r1so4039489wrs.9
-        for <linux-media@vger.kernel.org>; Fri, 25 Oct 2019 15:59:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=FjwWkiMcG8vhp4z1YYfslDTubAP0PdUKTto/GPKsY8Y=;
-        b=fkH7K8aAbC/mDoaIsH0tKYPYBIfo7eXlHmI2TW3vwz7SMuNLKXz2b9dS5ubyBUUdtj
-         6aPvt+NgoimwmK/oPAfHSUGbyQfX/0GPnM0qzZ/GCWawfZR+jyOU01xe74MOICQII3rA
-         DtJxm7Ov1vIXo8332/O91lW3rbOfMqHUc/Lnl0H1Z2riqhn8dxWHqWvxfUGG5+wppoVa
-         HtRtlbDyIGJY/moL++L4ZnTR7G5TdlNeCYwkddETkZWCMmULlqzz2pGw6/d3ThhaQSar
-         6zHbHO1blrvm2QD+PBnKk00HF1cDwBWzE6gYKeeq5qPF4e8xqCELq4B4TjL9e6yY7dN+
-         zVrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=FjwWkiMcG8vhp4z1YYfslDTubAP0PdUKTto/GPKsY8Y=;
-        b=qkFMT45EoD33lG51/S9WQuEdw9LW4dc2VV2IHuxgUn1d8/6zIQ0XNytfHxQkEgakwF
-         uGyRaWEiu/bDsalLfdT82UR8vt0R9Ay/H0cRPDdJuCU1Kb4R3SHnwCVmstj8wLKeYrta
-         OJhfa77M3Dyr1bMw9t/tIqnf6ZdF43XFG+aMBVw6ps6ryt76KTj1LxfTN1H/Sf2QghRp
-         3jNp2vrsZGxj2gaQ3BcNpYTh5q87QVvwIifYS2RspxSyuUOSIXcc73IKET1UZGqJUPHP
-         3cvwh14lG7/HoJ3zLcAeKe+2CVq/snPj3W4FbC2RACxB4tC9WLcOtC04MUclz5AB21wt
-         E4pA==
-X-Gm-Message-State: APjAAAXU+0fGNiX4SdAXHl/IhWnmoWOlureQ9eyh0ulHd2MLqZ3P4SSu
-        ToAzvZMj0x8vP6qUy/7L/NH4bGP3
-X-Google-Smtp-Source: APXvYqy2ERD0gjrJ8at5kCjlXdAk7xcHHNh3EY43AMIIyDhVohybDxeO6K1GFoMG3Rfa/ZBtGC+/uA==
-X-Received: by 2002:adf:e903:: with SMTP id f3mr5285162wrm.121.1572044376017;
-        Fri, 25 Oct 2019 15:59:36 -0700 (PDT)
-Received: from [172.30.90.16] (sjewanfw1-nat.mentorg.com. [139.181.7.34])
-        by smtp.gmail.com with ESMTPSA id a186sm4098131wmd.3.2019.10.25.15.59.34
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 25 Oct 2019 15:59:35 -0700 (PDT)
-Subject: Re: [PATCH 3/3] media: imx: fix media bus format enumeration
-From:   Steve Longerbeam <slongerbeam@gmail.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-media@vger.kernel.org
-Cc:     kernel@pengutronix.de
-References: <20190912160122.5545-1-p.zabel@pengutronix.de>
- <20190912160122.5545-3-p.zabel@pengutronix.de>
- <d30091d5-5e45-9682-7c23-813eff2b42c5@xs4all.nl>
- <6547e18f-e3d5-4e80-4e20-5eaf9ee0b86c@gmail.com>
-Message-ID: <3ec9cffd-578d-2cd7-325d-98f1f087694e@gmail.com>
-Date:   Fri, 25 Oct 2019 15:59:32 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <6547e18f-e3d5-4e80-4e20-5eaf9ee0b86c@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+        Sat, 26 Oct 2019 00:01:42 -0400
+Received: from localhost ([IPv6:2001:983:e9a7:1:65fe:9b8c:f583:cfd4])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id ODGki5YRssBskODGlizoXN; Sat, 26 Oct 2019 06:01:39 +0200
+Message-ID: <b44d0f63b27a50ae8c02e45a7522503a@smtp-cloud9.xs4all.net>
+Date:   Sat, 26 Oct 2019 06:01:38 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfHDyAs+rDt5TNVuc7UJJ9RqPlkTQxBLc0bs/CL1aRdVNNSOcNfRLUC5LubuKwFBXqeum1EyPuVF08Prwak6oeQ8o2p4ThJ7BHgRgIIFbad9E/H9JkuY+
+ nOA3hZ5bREuG/bsU7oXkQHPNGI+Yi+1BiDjEOcatUkDHfwdFT3nJU425Nt5wiCiAGjhiYiKK6N9iHno2J/R3jnb/FP6X0q5X9U0+HKALzHm+eeCxgVuSSwiS
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans, Philipp,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On 10/25/19 2:48 PM, Steve Longerbeam wrote:
-> Hi Hans,
->
-> On 9/27/19 12:33 AM, Hans Verkuil wrote:
->> On 9/12/19 6:01 PM, Philipp Zabel wrote:
->>> Iterate over all media bus formats, not just over the first format in
->>> each imx_media_pixfmt entry.
->>>
->>> Before:
->>>
->>>    $ v4l2-ctl -d $(media-ctl -e ipu1_csi0) --list-subdev-mbus-codes 0
->>>    ioctl: VIDIOC_SUBDEV_ENUM_MBUS_CODE (pad=0)
->>>     0x2006: MEDIA_BUS_FMT_UYVY8_2X8
->>>     0x2008: MEDIA_BUS_FMT_YUYV8_2X8
->>>     0x1008: MEDIA_BUS_FMT_RGB565_2X8_LE
->>>     0x100a: MEDIA_BUS_FMT_RGB888_1X24
->>>     0x100d: MEDIA_BUS_FMT_ARGB8888_1X32
->>>     0x3001: MEDIA_BUS_FMT_SBGGR8_1X8
->>>     0x3013: MEDIA_BUS_FMT_SGBRG8_1X8
->>>     0x3002: MEDIA_BUS_FMT_SGRBG8_1X8
->>>     0x3014: MEDIA_BUS_FMT_SRGGB8_1X8
->>>     0x3007: MEDIA_BUS_FMT_SBGGR10_1X10
->>>     0x300e: MEDIA_BUS_FMT_SGBRG10_1X10
->>>     0x300a: MEDIA_BUS_FMT_SGRBG10_1X10
->>>     0x300f: MEDIA_BUS_FMT_SRGGB10_1X10
->>>     0x2001: MEDIA_BUS_FMT_Y8_1X8
->>>     0x200a: MEDIA_BUS_FMT_Y10_1X10
->>>
->>> After:
->>>
->>>    $ v4l2-ctl -d $(media-ctl -e ipu1_csi0) --list-subdev-mbus-codes 0
->>>    ioctl: VIDIOC_SUBDEV_ENUM_MBUS_CODE (pad=0)
->>>     0x2006: MEDIA_BUS_FMT_UYVY8_2X8
->>>     0x200f: MEDIA_BUS_FMT_UYVY8_1X16
->>>     0x2008: MEDIA_BUS_FMT_YUYV8_2X8
->>>     0x2011: MEDIA_BUS_FMT_YUYV8_1X16
->>>     0x1008: MEDIA_BUS_FMT_RGB565_2X8_LE
->>>     0x100a: MEDIA_BUS_FMT_RGB888_1X24
->>>     0x100c: MEDIA_BUS_FMT_RGB888_2X12_LE
->>>     0x100d: MEDIA_BUS_FMT_ARGB8888_1X32
->>>     0x3001: MEDIA_BUS_FMT_SBGGR8_1X8
->>>     0x3013: MEDIA_BUS_FMT_SGBRG8_1X8
->>>     0x3002: MEDIA_BUS_FMT_SGRBG8_1X8
->>>     0x3014: MEDIA_BUS_FMT_SRGGB8_1X8
->>>     0x3007: MEDIA_BUS_FMT_SBGGR10_1X10
->>>     0x3008: MEDIA_BUS_FMT_SBGGR12_1X12
->>>     0x3019: MEDIA_BUS_FMT_SBGGR14_1X14
->>>     0x301d: MEDIA_BUS_FMT_SBGGR16_1X16
->>>     0x300e: MEDIA_BUS_FMT_SGBRG10_1X10
->>>     0x3010: MEDIA_BUS_FMT_SGBRG12_1X12
->>>     0x301a: MEDIA_BUS_FMT_SGBRG14_1X14
->>>     0x301e: MEDIA_BUS_FMT_SGBRG16_1X16
->>>     0x300a: MEDIA_BUS_FMT_SGRBG10_1X10
->>>     0x3011: MEDIA_BUS_FMT_SGRBG12_1X12
->>>     0x301b: MEDIA_BUS_FMT_SGRBG14_1X14
->>>     0x301f: MEDIA_BUS_FMT_SGRBG16_1X16
->>>     0x300f: MEDIA_BUS_FMT_SRGGB10_1X10
->>>     0x3012: MEDIA_BUS_FMT_SRGGB12_1X12
->>>     0x301c: MEDIA_BUS_FMT_SRGGB14_1X14
->>>     0x3020: MEDIA_BUS_FMT_SRGGB16_1X16
->>>     0x2001: MEDIA_BUS_FMT_Y8_1X8
->>>     0x200a: MEDIA_BUS_FMT_Y10_1X10
->>>     0x2013: MEDIA_BUS_FMT_Y12_1X12
->>>
->>> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
->>> ---
->>>   drivers/staging/media/imx/imx-media-utils.c | 19 +++++++++++++++----
->>>   1 file changed, 15 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/drivers/staging/media/imx/imx-media-utils.c 
->>> b/drivers/staging/media/imx/imx-media-utils.c
->>> index d61a8f4533dc..5f8604db4dd4 100644
->>> --- a/drivers/staging/media/imx/imx-media-utils.c
->>> +++ b/drivers/staging/media/imx/imx-media-utils.c
->>> @@ -254,7 +254,7 @@ static int enum_format(u32 *fourcc, u32 *code, 
->>> u32 index,
->>>                  bool allow_bayer)
->>>   {
->> This function is becoming confusing. I think you should add some 
->> comments explaining
->> what the function does. Specifically the fourcc and code arguments.
->>
->> Can both be non-NULL? Or only one of the two? I think that if fourcc 
->> is non-NULL you
->> enumerate over the V4L2 pixelformats, if code is non-NULL, then you 
->> enumerate over
->> the mediabus codes.
->>
->> If so, then I think it would be easier to understand if you just make 
->> two functions:
->> enum_formats and enum_codes, rather than trying to merge them into one.
->
-> I don't think the function is that confusing, but I'm fine with 
-> splitting it into enum_formats() and enum_codes().
->
-> I do agree it needs some comments describing how it works. I think my 
-> suggestion to rename the index that counts entries that match the 
-> search criteria to "match_index" will also help to follow the code.
->
+Results of the daily build of media_tree:
 
-I added a comment block for find_format() and enum_format() in my 
-media-tree github fork:
+date:			Sat Oct 26 05:00:10 CEST 2019
+media-tree git hash:	a4260ea49547aa0c84c353f9de5998a0315d89fe
+media_build git hash:	76153ae39124965191d42e064fb4bb3d35a7985c
+v4l-utils git hash:	7be954b74136a6bf31fc025c24d4f1db03630cea
+edid-decode git hash:	ad20c300d66ba55574a05ce0220ae3a6eb31925b
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: b9d1bee3709ed440e3fba64fedc2c3da80cc69b6
+host hardware:		x86_64
+host os:		5.2.0-3-amd64
 
-git@github.com:slongerbeam/mediatree.git, branch imx/philipp-pixfmts-cleanup
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: ERRORS
+linux-3.13.11-x86_64: ERRORS
+linux-3.14.79-i686: ERRORS
+linux-3.14.79-x86_64: ERRORS
+linux-3.15.10-i686: ERRORS
+linux-3.15.10-x86_64: ERRORS
+linux-3.16.63-i686: ERRORS
+linux-3.16.63-x86_64: ERRORS
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4-rc1-i686: OK
+linux-5.4-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2784, Succeeded: 2784, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: ERRORS
 
-Steve
+Detailed results are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Saturday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
