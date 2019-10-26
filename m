@@ -2,96 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C44EE5F9D
-	for <lists+linux-media@lfdr.de>; Sat, 26 Oct 2019 22:48:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D3B8E5FFE
+	for <lists+linux-media@lfdr.de>; Sun, 27 Oct 2019 01:16:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726524AbfJZUsZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 26 Oct 2019 16:48:25 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:59306 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726409AbfJZUsZ (ORCPT
+        id S1726521AbfJZXQ0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 26 Oct 2019 19:16:26 -0400
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:39350 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726473AbfJZXQ0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 26 Oct 2019 16:48:25 -0400
-Received: from pendragon.ideasonboard.com (143.121.2.93.rev.sfr.net [93.2.121.143])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 62FAF325;
-        Sat, 26 Oct 2019 22:48:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1572122903;
-        bh=ycEMw8jclVPleoiDQImdNz0BCXHXftvCkHtIXATUYZ0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ZH5z26Ywij757RNeoLW6MsFjvV9+uNENwUyeYRipHykROKld1gC7eaSUtl8pWJRRJ
-         DPrhqer3lXMK+kxpAMAFK+XBVVfMGBzK6H0UPI8CF5+z0nUrZkn9iJ5ZLURbB/xIJi
-         XhmHa8zewIWr/NR/Qcd6uC6f/EPG4q9GNLXt0zi8=
-Date:   Sat, 26 Oct 2019 23:48:15 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Pavel Machek <pavel@ucw.cz>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo@jmondi.org>,
+        Sat, 26 Oct 2019 19:16:26 -0400
+Received: by mail-qt1-f195.google.com with SMTP id t8so9009114qtc.6;
+        Sat, 26 Oct 2019 16:16:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=WembGSFsbExOh6C9xfy35r52QdLc1q9Nu1Ae4G7IdBI=;
+        b=pWkyQ1NGQb6iIZ8q127AjyQtavlLiCaXvTaXTDBO605b0pyxYH/oqDhLauXmQy1r6d
+         VzLdCYj3DxDE6D1V3JbJF2UC/geCDPQnkm+xCwH5Ddh0S4Bn2iHlFrXH2SkAVRYo+7N8
+         5Qg8AJJjFZzJJLotYEeOqLmfjvTJd6Sfx+9WABWk/eq2uRTR/w7HsohxUPcNAmopzbFx
+         VLY2hDEc1rkIXyrd94xHlmVyYWMKbVU+LsRdJ+lojihb9lV4nbEdMDShmQKc8G/J1+H6
+         jywm2KLrcgVXe+hENXm7oNZUwxzpYerV5u1zrurD9flBrdnhcHmWqXIXXWzwLrFxrGxG
+         UJBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=WembGSFsbExOh6C9xfy35r52QdLc1q9Nu1Ae4G7IdBI=;
+        b=ukVeVFHH7x6Wl60BqQWJTebmmhd22DFo2zVO8b5cyqCCM7s6UwKSn2W3awvIQYpMQ8
+         Iv95XO6tzuFazodGG0uigfpb1w7bjEaoZ/bl3CUJefQqzS/JfbhQAay3LaVB/Es4pmT0
+         LCwJ+4ujys21uivLvI+doeKEXnLNMM0zeq3BA7EYafL/nVCPhRreNYyQ2qNIn9EzeaDF
+         ul2M1W8QIhKX6/8Q5nR3vVTIJ2BpMKbKwH0Nru48PjxC0OLSz6scxaHSwtN3OnEwB+zd
+         XbCn7g32lQg00rUEg+ijucoorAQ24uwoNl49Gym1lLONA+L7ubnpriYFIg7d4fJbHJGX
+         cHEg==
+X-Gm-Message-State: APjAAAUHDBL/PxhEo+SSfiiAV+kCXr4nsXkgyluWHonSMYZkBliamCmy
+        ALy6DE3oyFaaatt77yK5CAQ=
+X-Google-Smtp-Source: APXvYqyJ5t2Ti+9RF911OfbntRMNRgN1W+sncXLrr/XZccWG7OXIn9o2GpwwABGpr4uZJtsA+5RqDw==
+X-Received: by 2002:a0c:a947:: with SMTP id z7mr10744288qva.103.1572131785586;
+        Sat, 26 Oct 2019 16:16:25 -0700 (PDT)
+Received: from cristiane-Inspiron-5420 ([131.100.148.220])
+        by smtp.gmail.com with ESMTPSA id t58sm3999075qta.78.2019.10.26.16.16.22
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 26 Oct 2019 16:16:25 -0700 (PDT)
+Date:   Sat, 26 Oct 2019 20:16:19 -0300
+From:   Cristiane Naves <cristianenavescardoso09@gmail.com>
+To:     outreachy-kernel@googlegroups.com
+Cc:     Michael Tretter <m.tretter@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>
-Subject: Re: [PATCH v4 01/11] dt-bindings: video-interfaces: Document
- 'location' property
-Message-ID: <20191026204815.GA28970@pendragon.ideasonboard.com>
-References: <20191007162913.250743-1-jacopo@jmondi.org>
- <20191007162913.250743-2-jacopo@jmondi.org>
- <20191008074052.GA633@amd>
- <20191008075828.phxf2m7237ryl6yf@uno.localdomain>
- <20191008080634.GC633@amd>
- <20191008082041.476a2soclry6qn3v@uno.localdomain>
- <9788aa13-1bc0-02c3-33f5-a875940f2dc3@xs4all.nl>
- <20191023142717.GA22854@duo.ucw.cz>
- <CAAFQd5CjUH7QRg-oQOKB=YH9NPvSxwjrdRUPYZkYVAHgJh6dZg@mail.gmail.com>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: media: allegro-dvt: remove bool comparison
+Message-ID: <20191026231619.GA14093@cristiane-Inspiron-5420>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAAFQd5CjUH7QRg-oQOKB=YH9NPvSxwjrdRUPYZkYVAHgJh6dZg@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Oct 25, 2019 at 03:29:49PM +0900, Tomasz Figa wrote:
-> On Wed, Oct 23, 2019 at 11:27 PM Pavel Machek <pavel@ucw.cz> wrote:
-> >
-> > Hi!
-> >
-> > > > I'm skeptical about adding now a property for a device that we don't
-> > > > support, because we -now- think it's a good idea. I might be wrong,
-> > > > but my assumption is that when someone will want to support an
-> > > > 'advanced' device, it's easy to add "movable" or whatever else to the
-> > > > list of accepted properties values. Am I wrong in assuming this? As
-> > > > long as "front" "back" and "external" will stay supported for backward
-> > > > DTB compatibility it should be fine, right ?
-> > >
-> > > The basic rule is that you should not define things unless you KNOW that
-> > > they will be needed. So when we actually see new devices for which
-> > > "front", "back" or "external" does not fit, then new names can be
-> > > created.
-> >
-> > > It's impossible to cover all situations since we can't predict the future.
-> > > The best we can do is to allow for future extensions.
-> >
-> > Those devices are already being sold, and yes, they are running linux
-> > (with some patches probably).
-> >
-> > I believe it would be better to specify "this camera is selfie --
-> > takes pictures of the user" vs. "this is main camera -- takes pictures
-> > of what user is looking at".
-> 
-> FWIW, Android and Chrome OS call those "user-facing" and
-> "world-facing" respectively.
+Bool tests don't need comparisons. Issue found by coccicheck.
 
-Isn't that equivalent to what Jacopo is proposing though ? If we define
-the orientation of the device relatively to its user (e.g. for all
-cellphone devices the front is defined as the side facing the user), and
-the location of the camera relative to the device, we get the same
-information.
+Signed-off-by: Cristiane Naves <cristianenavescardoso09@gmail.com>
+---
+ drivers/staging/media/allegro-dvt/nal-h264.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/staging/media/allegro-dvt/nal-h264.c b/drivers/staging/media/allegro-dvt/nal-h264.c
+index 4e14b77..bd48b88 100644
+--- a/drivers/staging/media/allegro-dvt/nal-h264.c
++++ b/drivers/staging/media/allegro-dvt/nal-h264.c
+@@ -235,7 +235,7 @@ static inline int rbsp_write_bit(struct rbsp *rbsp, bool value)
+ 
+ 	rbsp->pos++;
+ 
+-	if (value == 1 ||
++	if (value ||
+ 	    (rbsp->num_consecutive_zeros < 7 && (rbsp->pos % 8 == 0))) {
+ 		rbsp->num_consecutive_zeros = 0;
+ 	} else {
 -- 
-Regards,
+2.7.4
 
-Laurent Pinchart
