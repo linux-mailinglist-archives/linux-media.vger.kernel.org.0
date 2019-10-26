@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 29303E58FF
-	for <lists+linux-media@lfdr.de>; Sat, 26 Oct 2019 09:29:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1089CE5901
+	for <lists+linux-media@lfdr.de>; Sat, 26 Oct 2019 09:29:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726189AbfJZH24 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 26 Oct 2019 03:28:56 -0400
-Received: from mailoutvs25.siol.net ([185.57.226.216]:47072 "EHLO
+        id S1726224AbfJZH26 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 26 Oct 2019 03:28:58 -0400
+Received: from mailoutvs24.siol.net ([185.57.226.215]:47086 "EHLO
         mail.siol.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726120AbfJZH24 (ORCPT
+        with ESMTP id S1726066AbfJZH26 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 26 Oct 2019 03:28:56 -0400
+        Sat, 26 Oct 2019 03:28:58 -0400
 Received: from localhost (localhost [127.0.0.1])
-        by mail.siol.net (Postfix) with ESMTP id 32D19523640;
-        Sat, 26 Oct 2019 09:28:53 +0200 (CEST)
+        by mail.siol.net (Postfix) with ESMTP id 6A4F6523645;
+        Sat, 26 Oct 2019 09:28:55 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at psrvmta11.zcs-production.pri
 Received: from mail.siol.net ([127.0.0.1])
         by localhost (psrvmta11.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id b3kdWy_p_ya4; Sat, 26 Oct 2019 09:28:52 +0200 (CEST)
+        with ESMTP id MraZ6aiuE6lx; Sat, 26 Oct 2019 09:28:55 +0200 (CEST)
 Received: from mail.siol.net (localhost [127.0.0.1])
-        by mail.siol.net (Postfix) with ESMTPS id C23E852363D;
-        Sat, 26 Oct 2019 09:28:52 +0200 (CEST)
+        by mail.siol.net (Postfix) with ESMTPS id 19A0252367A;
+        Sat, 26 Oct 2019 09:28:55 +0200 (CEST)
 Received: from localhost.localdomain (cpe-86-58-59-25.static.triera.net [86.58.59.25])
         (Authenticated sender: 031275009)
-        by mail.siol.net (Postfix) with ESMTPSA id 623C5523640;
-        Sat, 26 Oct 2019 09:28:50 +0200 (CEST)
+        by mail.siol.net (Postfix) with ESMTPSA id C46D6523645;
+        Sat, 26 Oct 2019 09:28:52 +0200 (CEST)
 From:   Jernej Skrabec <jernej.skrabec@siol.net>
 To:     mripard@kernel.org, paul.kocialkowski@bootlin.com
 Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
@@ -33,9 +33,9 @@ Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
         linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-sunxi@googlegroups.com
-Subject: [PATCH v3 1/2] media: cedrus: Fix decoding for some H264 videos
-Date:   Sat, 26 Oct 2019 09:27:51 +0200
-Message-Id: <20191026072752.1072711-2-jernej.skrabec@siol.net>
+Subject: [PATCH v3 2/2] media: cedrus: Use helpers to access capture queue
+Date:   Sat, 26 Oct 2019 09:27:52 +0200
+Message-Id: <20191026072752.1072711-3-jernej.skrabec@siol.net>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191026072752.1072711-1-jernej.skrabec@siol.net>
 References: <20191026072752.1072711-1-jernej.skrabec@siol.net>
@@ -46,114 +46,88 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-It seems that for some H264 videos at least one bitstream parsing
-trigger must be called in order to be decoded correctly. There is no
-explanation why this helps, but it was observed that two sample videos
-with this fix are now decoded correctly and there is no regression with
-others.
+Accessing capture queue structue directly is not safe. Use helpers for
+that.
 
 Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
 ---
- .../staging/media/sunxi/cedrus/cedrus_h264.c  | 30 +++++++++++++++++--
- .../staging/media/sunxi/cedrus/cedrus_regs.h  |  3 ++
- 2 files changed, 30 insertions(+), 3 deletions(-)
+ drivers/staging/media/sunxi/cedrus/cedrus.h      | 8 ++++++--
+ drivers/staging/media/sunxi/cedrus/cedrus_h264.c | 8 ++++++--
+ 2 files changed, 12 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/s=
-taging/media/sunxi/cedrus/cedrus_h264.c
-index cd85668f9c80..db336449c4f2 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-@@ -6,6 +6,7 @@
-  * Copyright (c) 2018 Bootlin
-  */
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h b/drivers/stagin=
+g/media/sunxi/cedrus/cedrus.h
+index 986e059e3202..c45fb9a7ad07 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus.h
++++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
+@@ -197,12 +197,16 @@ static inline dma_addr_t cedrus_buf_addr(struct vb2=
+_buffer *buf,
+ static inline dma_addr_t cedrus_dst_buf_addr(struct cedrus_ctx *ctx,
+ 					     int index, unsigned int plane)
+ {
+-	struct vb2_buffer *buf;
++	struct vb2_buffer *buf =3D NULL;
++	struct vb2_queue *vq;
 =20
-+#include <linux/delay.h>
- #include <linux/types.h>
+ 	if (index < 0)
+ 		return 0;
 =20
- #include <media/videobuf2-dma-contig.h>
-@@ -289,6 +290,28 @@ static void cedrus_write_pred_weight_table(struct ce=
-drus_ctx *ctx,
- 	}
+-	buf =3D ctx->fh.m2m_ctx->cap_q_ctx.q.bufs[index];
++	vq =3D v4l2_m2m_get_vq(ctx->fh.m2m_ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE);
++	if (vq)
++		buf =3D vb2_get_buffer(vq, index);
++
+ 	return buf ? cedrus_buf_addr(buf, &ctx->dst_fmt, plane) : 0;
  }
 =20
-+/*
-+ * It turns out that using VE_H264_VLD_OFFSET to skip bits is not reliab=
-le. In
-+ * rare cases frame is not decoded correctly. However, setting offset to=
- 0 and
-+ * skipping appropriate amount of bits with flush bits trigger always wo=
-rks.
-+ */
-+static void cedrus_skip_bits(struct cedrus_dev *dev, int num)
-+{
-+	int count =3D 0;
-+
-+	while (count < num) {
-+		int tmp =3D min(num - count, 32);
-+
-+		cedrus_write(dev, VE_H264_TRIGGER_TYPE,
-+			     VE_H264_TRIGGER_TYPE_FLUSH_BITS |
-+			     VE_H264_TRIGGER_TYPE_N_BITS(tmp));
-+		while (cedrus_read(dev, VE_H264_STATUS) & VE_H264_STATUS_VLD_BUSY)
-+			udelay(1);
-+
-+		count +=3D tmp;
-+	}
-+}
-+
- static void cedrus_set_params(struct cedrus_ctx *ctx,
- 			      struct cedrus_run *run)
- {
-@@ -299,14 +322,13 @@ static void cedrus_set_params(struct cedrus_ctx *ct=
-x,
- 	struct vb2_buffer *src_buf =3D &run->src->vb2_buf;
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/s=
+taging/media/sunxi/cedrus/cedrus_h264.c
+index db336449c4f2..7487f6ab7576 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+@@ -97,7 +97,7 @@ static void cedrus_write_frame_list(struct cedrus_ctx *=
+ctx,
+ 	const struct v4l2_ctrl_h264_decode_params *decode =3D run->h264.decode_=
+params;
+ 	const struct v4l2_ctrl_h264_slice_params *slice =3D run->h264.slice_par=
+ams;
+ 	const struct v4l2_ctrl_h264_sps *sps =3D run->h264.sps;
+-	struct vb2_queue *cap_q =3D &ctx->fh.m2m_ctx->cap_q_ctx.q;
++	struct vb2_queue *cap_q;
+ 	struct cedrus_buffer *output_buf;
  	struct cedrus_dev *dev =3D ctx->dev;
- 	dma_addr_t src_buf_addr;
--	u32 offset =3D slice->header_bit_size;
--	u32 len =3D (slice->size * 8) - offset;
-+	u32 len =3D slice->size * 8;
- 	unsigned int pic_width_in_mbs;
- 	bool mbaff_pic;
- 	u32 reg;
+ 	unsigned long used_dpbs =3D 0;
+@@ -105,6 +105,8 @@ static void cedrus_write_frame_list(struct cedrus_ctx=
+ *ctx,
+ 	unsigned int output =3D 0;
+ 	unsigned int i;
 =20
- 	cedrus_write(dev, VE_H264_VLD_LEN, len);
--	cedrus_write(dev, VE_H264_VLD_OFFSET, offset);
-+	cedrus_write(dev, VE_H264_VLD_OFFSET, 0);
-=20
- 	src_buf_addr =3D vb2_dma_contig_plane_dma_addr(src_buf, 0);
- 	cedrus_write(dev, VE_H264_VLD_END,
-@@ -325,6 +347,8 @@ static void cedrus_set_params(struct cedrus_ctx *ctx,
- 	cedrus_write(dev, VE_H264_TRIGGER_TYPE,
- 		     VE_H264_TRIGGER_TYPE_INIT_SWDEC);
-=20
-+	cedrus_skip_bits(dev, slice->header_bit_size);
++	cap_q =3D v4l2_m2m_get_vq(ctx->fh.m2m_ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE)=
+;
 +
- 	if (((pps->flags & V4L2_H264_PPS_FLAG_WEIGHTED_PRED) &&
- 	     (slice->slice_type =3D=3D V4L2_H264_SLICE_TYPE_P ||
- 	      slice->slice_type =3D=3D V4L2_H264_SLICE_TYPE_SP)) ||
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h b/drivers/s=
-taging/media/sunxi/cedrus/cedrus_regs.h
-index 6fc28d21a6c7..4275a307d282 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-@@ -541,13 +541,16 @@
- 					 VE_H264_CTRL_SLICE_DECODE_INT)
+ 	memset(pic_list, 0, sizeof(pic_list));
 =20
- #define VE_H264_TRIGGER_TYPE		0x224
-+#define VE_H264_TRIGGER_TYPE_N_BITS(x)		(((x) & 0x3f) << 8)
- #define VE_H264_TRIGGER_TYPE_AVC_SLICE_DECODE	(8 << 0)
- #define VE_H264_TRIGGER_TYPE_INIT_SWDEC		(7 << 0)
-+#define VE_H264_TRIGGER_TYPE_FLUSH_BITS		(3 << 0)
+ 	for (i =3D 0; i < ARRAY_SIZE(decode->dpb); i++) {
+@@ -168,12 +170,14 @@ static void _cedrus_write_ref_list(struct cedrus_ct=
+x *ctx,
+ 				   enum cedrus_h264_sram_off sram)
+ {
+ 	const struct v4l2_ctrl_h264_decode_params *decode =3D run->h264.decode_=
+params;
+-	struct vb2_queue *cap_q =3D &ctx->fh.m2m_ctx->cap_q_ctx.q;
++	struct vb2_queue *cap_q;
+ 	struct cedrus_dev *dev =3D ctx->dev;
+ 	u8 sram_array[CEDRUS_MAX_REF_IDX];
+ 	unsigned int i;
+ 	size_t size;
 =20
- #define VE_H264_STATUS			0x228
- #define VE_H264_STATUS_VLD_DATA_REQ_INT		VE_H264_CTRL_VLD_DATA_REQ_INT
- #define VE_H264_STATUS_DECODE_ERR_INT		VE_H264_CTRL_DECODE_ERR_INT
- #define VE_H264_STATUS_SLICE_DECODE_INT		VE_H264_CTRL_SLICE_DECODE_INT
-+#define VE_H264_STATUS_VLD_BUSY			BIT(8)
++	cap_q =3D v4l2_m2m_get_vq(ctx->fh.m2m_ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE)=
+;
++
+ 	memset(sram_array, 0, sizeof(sram_array));
 =20
- #define VE_H264_STATUS_INT_MASK			VE_H264_CTRL_INT_MASK
-=20
+ 	for (i =3D 0; i < num_ref; i++) {
 --=20
 2.23.0
 
