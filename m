@@ -2,93 +2,212 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 893B2E69E8
-	for <lists+linux-media@lfdr.de>; Sun, 27 Oct 2019 23:24:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 980F5E6A31
+	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2019 00:19:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727758AbfJ0WYr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 27 Oct 2019 18:24:47 -0400
-Received: from mail-io1-f67.google.com ([209.85.166.67]:35916 "EHLO
-        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726717AbfJ0WYr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sun, 27 Oct 2019 18:24:47 -0400
-Received: by mail-io1-f67.google.com with SMTP id c16so8554175ioc.3;
-        Sun, 27 Oct 2019 15:24:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=IuRwGRk7x+c1HDFpnoYWVpNlHoOuaVBA3+hE2ZH8FK4=;
-        b=JBgbiSD94Uilc/YaI073TPNQC+ivetme2bg50jRGwxZNIu52pOarGxrn5e3QMAJhrl
-         45pDZQzkIx4TwQYH+OhQg2bGTIiiyeqOYCQRq1eurc/OwcQ2DozRS/Bryn3dm3Ef2K42
-         SEYFZAOCTMP4v0w8dMEsSWcfoW4ETrGd4Sav+0PM/cZalS/JDOdsak7252h4t1MC7Pfq
-         dq5lTv1FIj70KuTGUbUzM7ZuVhX4PPBRjRQWmO5Zg5+y6N0rTwvE46I0AQ+ORyWI7r1q
-         E2ge9V7naz/HITAsVj4XbJBQS79qyomaQHFVFhSrzv68FAY9jH9ZIjqPiy7ky/6JE8/v
-         dsSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=IuRwGRk7x+c1HDFpnoYWVpNlHoOuaVBA3+hE2ZH8FK4=;
-        b=nM9B39FEZWeU+1y5my+GeTNDvZ9vTel2tqjIM5ImAUvE6PaJz0CyfFY5cfTGVpihQ8
-         LBJ+2POfydBUxAkPipanIphAjDT5xlrCZMIzczgJbLdWy8dwbmM/T7BhfHLTyJChwT3O
-         DxBvl0VCJXwi1sOne3LTUDR/nUBAofRfnvprlw/TNqUh/5ZiOrIcZje6llPd8HqIjH1K
-         oNVHI81aNgi3VJ+rKcO0ZZjiCkC4rY5uUFAloVkPT3PIjd2DRwCXuUijFxgAzv+Pf08h
-         lPNkvZAEhkz8y7TyLTbyiI/Spsx9HbHJ17RzuDppaISumHEOCXqi0mRwnA/m3LEyY1KP
-         ugyA==
-X-Gm-Message-State: APjAAAWOKXRYnS9Tq3uQthxLTFA427Jx0bVntAIuPMbYE+nX9wVE9NqD
-        UNPlEbakgWGTbuQmwDlgLjE=
-X-Google-Smtp-Source: APXvYqzQwQ5yzAHOxcnhPUzPd9jpDS06ADygJ2qikrCjjGh/RUY/FXxt0t0pZQhoj3gdXLxvTeHqwQ==
-X-Received: by 2002:a05:6638:20a:: with SMTP id e10mr14973482jaq.27.1572215086319;
-        Sun, 27 Oct 2019 15:24:46 -0700 (PDT)
-Received: from cs-dulles.cs.umn.edu (cs-dulles.cs.umn.edu. [128.101.35.54])
-        by smtp.googlemail.com with ESMTPSA id v28sm1077021ill.74.2019.10.27.15.24.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Oct 2019 15:24:45 -0700 (PDT)
-From:   Navid Emamdoost <navid.emamdoost@gmail.com>
-Cc:     emamd001@umn.edu, kjlu@umn.edu, smccaman@umn.edu,
-        Navid Emamdoost <navid.emamdoost@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Allison Randal <allison@lohutok.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Kate Stewart <kstewart@linuxfoundation.org>,
-        Richard Fontana <rfontana@redhat.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: dvb: Fix memory leak in af9005_identify_state
-Date:   Sun, 27 Oct 2019 17:24:35 -0500
-Message-Id: <20191027222438.16208-1-navid.emamdoost@gmail.com>
-X-Mailer: git-send-email 2.17.1
-To:     unlisted-recipients:; (no To-header on input)
+        id S1727446AbfJ0XTj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 27 Oct 2019 19:19:39 -0400
+Received: from mout.gmx.net ([212.227.15.15]:43013 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727148AbfJ0XTi (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 27 Oct 2019 19:19:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1572218376;
+        bh=sgLT8b+BYaDDru+nsoIBSVVF13rGtJZYnpDQ87IFAj4=;
+        h=X-UI-Sender-Class:Date:From:Reply-To:To:Subject;
+        b=datgfr42q7ldCx7wTi9khdo4fpIhSX34JXf32NEO7UmgCPh2JveddBwZofoqzHSnX
+         F5BadQA10fxcvvZrgMU4mOP3HCVQH29U5pt5NEAMpI+hNVSDHbMKmi1ERGem1RlIdd
+         XVbkSVoB2vuXXhHnDkuiwHIsjUOmrl1DsJK+yiW0=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.0.23] ([188.103.232.62]) by mail.gmx.com (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1M89Kr-1iKCzb0igt-005IKy for
+ <linux-media@vger.kernel.org>; Mon, 28 Oct 2019 00:19:36 +0100
+Message-ID: <5DB62609.3050404@gmx.de>
+Date:   Mon, 28 Oct 2019 00:19:37 +0100
+From:   Thomas Pantzer <Thomas.Pantzer@gmx.de>
+Reply-To:  Thomas.Pantzer@gmx.de
+User-Agent: Mozilla Thunderbird 1.0.2 (X11/20060804)
+X-Accept-Language: de-DE, de, en-us, en
+MIME-Version: 1.0
+To:     linux-media@vger.kernel.org
+Subject: Support for Terratech Grabster MX150/250 and ADStech XPress USBAV-192
+Content-Type: multipart/mixed;
+ boundary="------------020004080002060708070809"
+X-Provags-ID: V03:K1:ronBenxVIA0P67lP4wrI7RaecJYcwQErUW3Q1hfHEJ9Lf4trgOF
+ 6mNCD2RZKjh/D6epgM1sJprpxFPM3weQfH1khs9kLj1pqizz58vaZ+Ubafp+4tUoI07d2hK
+ +xJWkHGAxmgihpNYydG7tdKo1XWS8/UCoXWdpXGRnEbvs0J9r3z/i8TdKfQ1/7OjO1J3z0i
+ yxCxs1p67D3XmZunVShYA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:vFPaKwRbAtQ=:MkX2LGN161PhhM9lSwtkP8
+ Q1YiWsfIxV3Bq/IBW7Qa2inc9Uy0XeI4F8dlYnT4Dk+5vA9NE4RVYYL2jKzhY+CuG2hd1ZVS7
+ 1/dP/Y143D0fDCBvz5i/d2OYXFIiZsavx5NN4EZRTDr/ry9VHWLUCmtUWaKxtIMdwM7oH8Ul/
+ CCeAGvC8HChSsbNpp037otT1S4b8p3pyzdFR/+HJ8NKbd68ZE/TzQyoKy8KEQLXxAWRXGfHxn
+ eYDZpJh87j88/kQ8VSZThwBmm2GyI9yP1LnptCwNZtttj5lwUpOLqNxX3z2LFdqWUwulLLMM3
+ noHL/by0jVaKqQtYuQgDZxg5AvcdMQXHEI3tNG9rmhzC3TgXD4oYvfVSfidd9CQdIH4K86Kbz
+ c3vfpIcaWoopB4kw1NWVw51bdWyNsI471w1v0pwCh0TBLA136RjdFeH2D0xUssx2WkWTAJp+3
+ +tk146YcfhmPb62icdz8cz1A/D5eD2pr7RJKjIBZVIKXA/hp+X6f1faq3udxifKLMmpd5Zjrm
+ jj+y9tJyt6kvgMa3PMQ2mzqJovPjst57m1yAqFPE1/2B6L0LoiZQp0AId0YTSKysMxpe2ew7W
+ cIaSl9uKPZkcCm24u4sz4nLpCf2vd6a/xJ/+FmxULGLUZJnp/N2S0xwc7friCM1vVTwllwlvm
+ kdmXdnictgXJ2YaT+h0jmamKf99C78p+5dwaa0HlMQ/T7jIVeH7t4LUByyGRUJ7d2Ai8w0xtY
+ DRRKreOij0BV5AHb1lRNSHAuL8Vv+yCsqR3NInYV82HWK5eybDwXjC/zROCa2zz7dV7T/jM6K
+ NlPFPvxNWaXrufiG+LGN3WXIy+72zQ0YcxlPdYxSdu+jVufL7D634m5BPDIPb6oOPPuOgV72O
+ n3w2WTRuh/x/UwqXC9+JVGCFdT4yFrohw6wTYUo7ty+wPP4/euRhCDJx3wbgq7IU8EU+PFvX0
+ f4BoJ0lMBVEH68BDm6M4vG7ZkcVEcmdtTfSnIbX6W3c6dwwxZ9Ox3daOaTX3+FjMLJKq4Fg8J
+ 8693u4nxpLVyXMxR4MN6wK8iBu0NchMuVJ2BnW9WCx/tWMNaICh0N/RbfZ/VL29pGUTzzd+fj
+ V1RSBO8vCPTX/vXaM62HV2quoFrKKp26qCV1Q1hIb1Srwv0Y1ainLitRaUXQdR1SxuuSPNX8S
+ b/oZyqxl7SaAvGjgS6jAIDfJKse0kyOmjhjHMUw22hwLCPZ8vz8t0bbEkwzUHf9+6M0jDJP/n
+ FjM6GGwPrxXCojaHjb06fQKPSsY6UWcFklqaOgk5ZyUFCM6EVbBskWuq5hIM=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In the implementation of af9005_identify_state() there is a memory leak
-when checking the reply of af9005_boot_packet(). Go to error path to
-release buf.
+This is a multi-part message in MIME format.
+--------------020004080002060708070809
+Content-Type: text/plain; charset=ISO-8859-15
+Content-Transfer-Encoding: 7bit
 
-Fixes: af4e067e1dcf ("V4L/DVB (5625): Add support for the AF9005 demodulator from Afatech")
-Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
+- Adds support for USB analog video/audio capture devices
+    - Terratec Grabster AV 150/250 MX 	USB-ID (0ccd:0079)
+    - ADS Tech Instant Video XPress USBAV-192  USB-ID (06e1:a192)
+
+- Bugfix: constant TM6000_MAXBOARDS off by one,
+	 Grabster was never enumerated
+
+Signed-off-by: Thomas Pantzer <kernel-org@pantzer.net>
 ---
- drivers/media/usb/dvb-usb/af9005.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/media/usb/tm6000/tm6000-cards.c | 79
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++---------------------
+ 1 file changed, 58 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/media/usb/dvb-usb/af9005.c b/drivers/media/usb/dvb-usb/af9005.c
-index 02697d86e8c1..cfaf630be4d8 100644
---- a/drivers/media/usb/dvb-usb/af9005.c
-+++ b/drivers/media/usb/dvb-usb/af9005.c
-@@ -975,8 +975,10 @@ static int af9005_identify_state(struct usb_device *udev,
- 		*cold = 1;
- 	else if (reply == 0x02)
- 		*cold = 0;
--	else
--		return -EIO;
-+	else {
-+		ret = -EIO;
-+		goto err;
-+	}
- 	deb_info("Identify state cold = %d\n", *cold);
- 
- err:
--- 
-2.17.1
+--------------020004080002060708070809
+Content-Type: text/plain;
+ name="tm6000-cards.diff"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline;
+ filename="tm6000-cards.diff"
 
+diff -bBduwp linux-3.18.16/drivers/media/usb/tm6000/tm6000-cards.c-vanilla linux/drivers/media/usb/tm6000/tm6000-cards.c
+--- linux-3.18.16/drivers/media/usb/tm6000/tm6000-cards.c-vanilla	2015-06-19 18:42:40.000000000 +0200
++++ linux/drivers/media/usb/tm6000/tm6000-cards.c	2019-10-28 00:01:45.000000000 +0100
+@@ -52,13 +52,16 @@
+ #define TM6010_BOARD_BEHOLD_WANDER_LITE		14
+ #define TM6010_BOARD_BEHOLD_VOYAGER_LITE	15
+ #define TM5600_BOARD_TERRATEC_GRABSTER		16
++#define TM5600_BOARD_ADSTECH_XPRESS_USBAV_192   17
++
+
+ #define is_generic(model) ((model == TM6000_BOARD_UNKNOWN) || \
+ 			   (model == TM5600_BOARD_GENERIC) || \
+ 			   (model == TM6000_BOARD_GENERIC) || \
+ 			   (model == TM6010_BOARD_GENERIC))
+
+-#define TM6000_MAXBOARDS        16
++#define TM6000_MAXBOARDS        18
++
+ static unsigned int card[]     = {[0 ... (TM6000_MAXBOARDS - 1)] = UNSET };
+
+ module_param_array(card,  int, NULL, 0444);
+@@ -500,25 +503,6 @@ static struct tm6000_board tm6000_boards
+ 			.amux = TM6000_AMUX_SIF1,
+ 		},
+ 	},
+-	[TM5600_BOARD_TERRATEC_GRABSTER] = {
+-		.name         = "Terratec Grabster AV 150/250 MX",
+-		.type         = TM5600,
+-		.tuner_type   = TUNER_ABSENT,
+-		.vinput = { {
+-			.type	= TM6000_INPUT_TV,
+-			.vmux	= TM6000_VMUX_VIDEO_B,
+-			.amux	= TM6000_AMUX_ADC1,
+-			}, {
+-			.type	= TM6000_INPUT_COMPOSITE1,
+-			.vmux	= TM6000_VMUX_VIDEO_A,
+-			.amux	= TM6000_AMUX_ADC2,
+-			}, {
+-			.type	= TM6000_INPUT_SVIDEO,
+-			.vmux	= TM6000_VMUX_VIDEO_AB,
+-			.amux	= TM6000_AMUX_ADC2,
+-			},
+-		},
+-	},
+ 	[TM6010_BOARD_TWINHAN_TU501] = {
+ 		.name         = "Twinhan TU501(704D1)",
+ 		.tuner_type   = TUNER_XC2028, /* has a XC3028 */
+@@ -614,6 +598,58 @@ static struct tm6000_board tm6000_boards
+ 			.amux	= TM6000_AMUX_ADC1,
+ 		},
+ 	},
++	[TM5600_BOARD_TERRATEC_GRABSTER] = {
++		.name         = "Terratec Grabster AV 150/250 MX",
++		.type         = TM5600,
++		.tuner_type   = TUNER_ABSENT,
++		.gpio = {
++			.tuner_reset    = TM6000_GPIO_1,
++			/* this GPIO configuration needs to be here due to a
++			bug elsewhere, if it is missing the driver fails to
++			load, if TUNER_ABSENT or has_tuner==0 is stated, the
++			tuner-reset configuration should be ignored */
++		},
++		.caps = {
++			.has_tuner = 0,
++			.has_eeprom = 0,
++		},
++		.vinput = { {
++			.type   = TM6000_INPUT_SVIDEO,
++			.vmux   = TM6000_VMUX_VIDEO_A,
++			.amux   = TM6000_AMUX_ADC1,
++			}, {
++			.type   = TM6000_INPUT_COMPOSITE1,
++			.vmux   = TM6000_VMUX_VIDEO_B,
++			.amux   = TM6000_AMUX_ADC2,
++			},
++		},
++	},
++	[TM5600_BOARD_ADSTECH_XPRESS_USBAV_192] = {
++		.name         = "ADStech XPress USBAV-192",
++		.type         = TM5600,
++		.tuner_type   = TUNER_ABSENT,
++		.caps = {
++			.has_eeprom	= 1,
++			.has_tuner	= 0,
++		},
++		.gpio = {
++			.tuner_reset	= TM6000_GPIO_1,
++			/* this GPIO configuration needs to be here due to a
++			bug elsewhere, if it is missing the driver fails to
++			load, if TUNER_ABSENT or has_tuner==0 is stated, the
++			tuner-reset configuration should be ignored */
++		},
++		.vinput = { {
++			.type	= TM6000_INPUT_SVIDEO,
++			.vmux	= TM6000_VMUX_VIDEO_A,
++			.amux	= TM6000_AMUX_ADC1,
++			}, {
++			.type	= TM6000_INPUT_COMPOSITE1,
++			.vmux	= TM6000_VMUX_VIDEO_B,
++			.amux	= TM6000_AMUX_ADC2,
++			},
++		},
++	},
+ };
+
+ /* table of devices that work with this driver */
+@@ -631,13 +667,14 @@ static struct usb_device_id tm6000_id_ta
+ 	{ USB_DEVICE(0x6000, 0xdec1), .driver_info = TM6010_BOARD_BEHOLD_VOYAGER },
+ 	{ USB_DEVICE(0x0ccd, 0x0086), .driver_info = TM6010_BOARD_TERRATEC_CINERGY_HYBRID_XE },
+ 	{ USB_DEVICE(0x0ccd, 0x00A5), .driver_info = TM6010_BOARD_TERRATEC_CINERGY_HYBRID_XE },
+-	{ USB_DEVICE(0x0ccd, 0x0079), .driver_info = TM5600_BOARD_TERRATEC_GRABSTER },
+ 	{ USB_DEVICE(0x13d3, 0x3240), .driver_info = TM6010_BOARD_TWINHAN_TU501 },
+ 	{ USB_DEVICE(0x13d3, 0x3241), .driver_info = TM6010_BOARD_TWINHAN_TU501 },
+ 	{ USB_DEVICE(0x13d3, 0x3243), .driver_info = TM6010_BOARD_TWINHAN_TU501 },
+ 	{ USB_DEVICE(0x13d3, 0x3264), .driver_info = TM6010_BOARD_TWINHAN_TU501 },
+ 	{ USB_DEVICE(0x6000, 0xdec2), .driver_info = TM6010_BOARD_BEHOLD_WANDER_LITE },
+ 	{ USB_DEVICE(0x6000, 0xdec3), .driver_info = TM6010_BOARD_BEHOLD_VOYAGER_LITE },
++	{ USB_DEVICE(0x0ccd, 0x0079), .driver_info = TM5600_BOARD_TERRATEC_GRABSTER },
++	{ USB_DEVICE(0x06e1, 0xa192), .driver_info = TM5600_BOARD_ADSTECH_XPRESS_USBAV_192 },
+ 	{ }
+ };
+ MODULE_DEVICE_TABLE(usb, tm6000_id_table);
+
+--------------020004080002060708070809--
