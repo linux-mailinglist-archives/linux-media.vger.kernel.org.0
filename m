@@ -2,208 +2,206 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A3710E6490
-	for <lists+linux-media@lfdr.de>; Sun, 27 Oct 2019 18:39:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AA424E6544
+	for <lists+linux-media@lfdr.de>; Sun, 27 Oct 2019 21:08:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727562AbfJ0Rj3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 27 Oct 2019 13:39:29 -0400
-Received: from mout.gmx.net ([212.227.15.18]:50723 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726930AbfJ0Rj3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 27 Oct 2019 13:39:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1572197967;
-        bh=SWv80OehDTakwBad9WDVcMLfXvrw1gasPz0xIR+HS4g=;
-        h=X-UI-Sender-Class:Date:From:Reply-To:To:Subject;
-        b=Ok0hbmvoN9orcHybvlQgG1Lmwcpewx6v8XedekHEkWQIosNNzD/6ULexWw1h42AkH
-         B5oStEt24Uja/ea8sRrMI2Rwja9THXc8hY6e7Uj6oaPEW7K6PnQTXiU0YBoksr8+y7
-         QnXCCqZqh2iSkZTsBWSgZYXFq/86yibEC/rZcgGY=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.0.23] ([188.103.232.62]) by mail.gmx.com (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MxUnz-1i4Uhr3rCr-00xrVg for
- <linux-media@vger.kernel.org>; Sun, 27 Oct 2019 18:39:27 +0100
-Message-ID: <5DB5D649.7060709@gmx.de>
-Date:   Sun, 27 Oct 2019 18:39:21 +0100
-From:   Thomas Pantzer <Thomas.Pantzer@gmx.de>
-Reply-To:  Thomas.Pantzer@gmx.de
-User-Agent: Mozilla Thunderbird 1.0.2 (X11/20060804)
-X-Accept-Language: de-DE, de, en-us, en
+        id S1727756AbfJ0UIS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 27 Oct 2019 16:08:18 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:46352 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727235AbfJ0UIR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sun, 27 Oct 2019 16:08:17 -0400
+Received: by mail-wr1-f65.google.com with SMTP id n15so7689278wrw.13;
+        Sun, 27 Oct 2019 13:08:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JHjDVXlYQwiAoE4cglFinqNu/fI+itGzM4QPPTRFWo4=;
+        b=cuMhl+y55PcWVBj2ZHyOxom1igexqesx9kTqIJhKtJmv3uuwRL+HpvzQaGaAi8NdzT
+         gUlxVTVav/TtS6qSkYbA1Pwyx2sVGSTvKn9/1t5Rv7Z8jiwVld9zRt66ZFC51NOfiH18
+         L+koAKB3f51wK4UTk3kp7qQx7vf2bL/jUQZhZAg9E+McoCydYu7Fo5fHxjRS5/ONOaZy
+         6TUmAm5ffe/zM/mEmOpgmR6/h1aYadqzpTzPCVtfLG9kHzWocfxtnYRVDVTD1tA9jm3p
+         drTBCo3NpRkrI/0Gne/+XEQXahJbKCPZ6OHsKD0cZkudAwft6NPiO84X645fxZuQFzBl
+         tPhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JHjDVXlYQwiAoE4cglFinqNu/fI+itGzM4QPPTRFWo4=;
+        b=Wa1MG1Wscoky4mg1W829d/NRWvXHLHG5yX3pgPc54YqCDj1z3KQiZNEQsTgj8YGSUc
+         Ylt17yBfpGdD5JIYDLwtAR9AUUe5pcWeOj4eypkYxoKqKqyP7sluBbaMdexkFmNcMI0i
+         JECfLqsIW/KmGvV6dgBKGarBGO3DCkYtoqRtF0bXfVrcL7Oe9lvrDZGlvjqMZY11HX6N
+         3C7gIEMElJJ6Ng6mATx+Trs8H5JJceEP6I1KMKkHFPoveeKRaswxzwVrwWsp8C5aWslB
+         JlUX9BvbdFxuSeORFr/OGpLrso5F4jO6HqwjBw7iJXCAyxP0Zid+7Qv74u7o5IF68KuR
+         zFcw==
+X-Gm-Message-State: APjAAAWYYpE8mJauNtRxG7v/TQYNmV3BeG3wIZjuyR+fPri3OoKU0cqF
+        1AlpsXonBvhZuyRg4rXN09w=
+X-Google-Smtp-Source: APXvYqwgPBWIxa4P7QHII4JbTrHsXiMvgd3gfQ3jNcNJrOx2CLIPOBo3FeNpmRirLkIIvwu0LVnAaA==
+X-Received: by 2002:adf:a4cf:: with SMTP id h15mr11978115wrb.222.1572206893835;
+        Sun, 27 Oct 2019 13:08:13 -0700 (PDT)
+Received: from localhost.localdomain ([2a01:e0a:1f1:d0f0::4e2b:d7ca])
+        by smtp.gmail.com with ESMTPSA id o11sm8539538wmh.28.2019.10.27.13.08.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 27 Oct 2019 13:08:12 -0700 (PDT)
+From:   =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>, Sean Young <sean@mess.org>,
+        Christian Hewitt <christianshewitt@gmail.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
+Subject: [PATCH 1/2] media: rc: add keymap for Beelink GS1 remote control
+Date:   Sun, 27 Oct 2019 21:07:37 +0100
+Message-Id: <20191027200738.24802-1-peron.clem@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-To:     linux-media@vger.kernel.org
-Subject: Support for Terratech Grabster MX150/250 and ADStech XPress USBAV-192
-Content-Type: multipart/mixed;
- boundary="------------060908090502060800090705"
-X-Provags-ID: V03:K1:s+6XjFO8Hz5S3nu96DQA7Msot3LmSBcm8n4Rx2M+JGhboM7P4M2
- rAF2VEwt937rjRVSY8ezduBn6selm8QYituGptcu/yEjuCrbMm2WPToy6wFgcHkbjNOXz57
- YJWeCCbP1MXpRIb3v/eq8iPpbTyjWZ9wahb2ybFE2Yc38D+Np334DtIxQX1Zd5JdS70xzR7
- uCyoZBBCpRLMWe0gj7FrA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:FvhLmPGeSr0=:BOPTSLmhNu5KpNCcj1LSt5
- hOH4ZSxRtvmEquzFyt7dGXKUPxgCYoNk2fI7UGrAc2ov3yzvUJy4Wm5Typ3wv6dUWBCRCnKj3
- FSCLcHrWstjfZ+Ap/ML8Di8c7XEjb1k8aSBrTag40oCEtjAt4eiY4BhY+pftSBYxtw61VG5PI
- t2gL2J2WN5ldjHAn0Z/GCK19zna6paJjTc5reuzDJFpiDSbhGVaveSHYAu0dxDXoRwAbRmGyG
- ppIVRaD/VAf4lWONJYwB7smyGe2z3HeAL/JqI0mFIPw56xRRg2hVdTe9Mia1fdvXXKhYrYF1+
- Bv6U+F73U+4WAgyRuVg1VO+W/UDYOmFwmQj7DVkTCeuNEQEndegGpOpGXlgCNkppbCijMKL65
- S7M8/vHI9rhpm3gza5nFUmBsNr8sohx42XMS1VG2LDTTvpNOjIuT11eLyTRA9UUsnRY4oml5V
- 08udCXydQ9XYqAmxfMUsUsH5SkHmb6R3dofW+ztqq4u5SpJXEjsQDKdbhrv+mNY029IvO4bHX
- NKHRP/wz245BvUaarOpAr5EYE4AAH/jR5FI7MdqXKbXGPPhlzKWprq9CocUtEX8YjCx6rSfyl
- hU9y8CyrGu/24FFpsnihTcl5fmqAdK7sVpZn426Tg661WttGQdG3b2KE5hsmkveRCWdHgNvd7
- r6SFV7Rx9M9n9WNBuIjOz+avxq4Ag9PzJmgbYLw7i8ADZNwrYzoiljKPqaJURfdSKt1E++NM2
- BuE7/KIIT14O7OXyos4Q4+5qAu6bxCykz/IpStun5AwVGSqn57109M3HMJO5B5gY6XT4qLjX3
- i21hr0zRz8hNDsn8a2ZJiOOwGAfIfKEJ/yBrRJbpMuSNUPDSQBFH/h/V+LqiAr9XNCg3hkeOA
- G9NFlS/C4LnybGqtDjb1RGZaMpWevHNsAB6P8Ugxjr1YL6KRTBAU0HkSNiIzohCGW56gEeszd
- XDDFRIo2+AtWXrbud3ZO8zj2jfDX8RSBAgMp+4Gvt7u+Om6NMitLI3RsWEhi7vd6XRxs5bciv
- Q+ja5aAUTIH2EPxGc6ebbf5AtavFlmgB2zztf4p+6+t7QAZrmoLOybGBDT5CMeHOhfGQa2vl5
- Wex6h6dCDASMjDS5MxR2TpFAKUMwepSc0itnQNv1nwURIExZMhu07CKGV4KQQ5BGeal36F2qs
- ZzPdU/nS8UbbLZ74TBbnh/GdKSNgoN2lpH/BYNnrKQx8OhLW77QKAGAHxqOBxRncN+usPcR2C
- t4zsyQEcReuLLtw35zpmqDm0gj65X9GbZ334AtlJR0tRF3crklfqu6pQ9CFA=
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------060908090502060800090705
-Content-Type: text/plain; charset=ISO-8859-15
-Content-Transfer-Encoding: 7bit
+Beelink GS1 Andoid TV Box ships with a simple NEC remote.
 
+Signed-off-by: Clément Péron <peron.clem@gmail.com>
+---
+ .../devicetree/bindings/media/rc.yaml         |  1 +
+ drivers/media/rc/keymaps/Makefile             |  1 +
+ drivers/media/rc/keymaps/rc-beelink-gs1.c     | 84 +++++++++++++++++++
+ include/media/rc-map.h                        |  1 +
+ 4 files changed, 87 insertions(+)
+ create mode 100644 drivers/media/rc/keymaps/rc-beelink-gs1.c
 
---------------060908090502060800090705
-Content-Type: text/plain;
- name="tm5600-patch.diff"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline;
- filename="tm5600-patch.diff"
-
-=2D-- linux-3.18.16/drivers/media/usb/tm6000/tm6000-cards.c-orig	2015-06-1=
-9 18:42:40.000000000 +0200
-+++ linux/drivers/media/usb/tm6000/tm6000-cards.c	2019-10-22 18:23:21.0000=
-00000 +0200
-@@ -52,13 +52,16 @@
- #define TM6010_BOARD_BEHOLD_WANDER_LITE		14
- #define TM6010_BOARD_BEHOLD_VOYAGER_LITE	15
- #define TM5600_BOARD_TERRATEC_GRABSTER		16
-+#define TM5600_BOARD_ADSTECH_XPRESS_USBAV_192   17
+diff --git a/Documentation/devicetree/bindings/media/rc.yaml b/Documentation/devicetree/bindings/media/rc.yaml
+index 3d5c154fd230..ceb283f7888a 100644
+--- a/Documentation/devicetree/bindings/media/rc.yaml
++++ b/Documentation/devicetree/bindings/media/rc.yaml
+@@ -39,6 +39,7 @@ properties:
+           - rc-avermedia-rm-ks
+           - rc-avertv-303
+           - rc-azurewave-ad-tu700
++          - rc-beelink-gs1
+           - rc-behold
+           - rc-behold-columbus
+           - rc-budget-ci-old
+diff --git a/drivers/media/rc/keymaps/Makefile b/drivers/media/rc/keymaps/Makefile
+index 4ab4af062abf..63261ef6380a 100644
+--- a/drivers/media/rc/keymaps/Makefile
++++ b/drivers/media/rc/keymaps/Makefile
+@@ -17,6 +17,7 @@ obj-$(CONFIG_RC_MAP) += rc-adstech-dvb-t-pci.o \
+ 			rc-avermedia-rm-ks.o \
+ 			rc-avertv-303.o \
+ 			rc-azurewave-ad-tu700.o \
++			rc-beelink-gs1.o \
+ 			rc-behold.o \
+ 			rc-behold-columbus.o \
+ 			rc-budget-ci-old.o \
+diff --git a/drivers/media/rc/keymaps/rc-beelink-gs1.c b/drivers/media/rc/keymaps/rc-beelink-gs1.c
+new file mode 100644
+index 000000000000..cedbd5d20bc7
+--- /dev/null
++++ b/drivers/media/rc/keymaps/rc-beelink-gs1.c
+@@ -0,0 +1,84 @@
++// SPDX-License-Identifier: GPL-2.0+
++// Copyright (c) 2019 Clément Péron
 +
-
- #define is_generic(model) ((model =3D=3D TM6000_BOARD_UNKNOWN) || \
- 			   (model =3D=3D TM5600_BOARD_GENERIC) || \
- 			   (model =3D=3D TM6000_BOARD_GENERIC) || \
- 			   (model =3D=3D TM6010_BOARD_GENERIC))
-
--#define TM6000_MAXBOARDS        16
-+#define TM6000_MAXBOARDS        18
++#include <media/rc-map.h>
++#include <linux/module.h>
 +
- static unsigned int card[]     =3D {[0 ... (TM6000_MAXBOARDS - 1)] =3D UN=
-SET };
++/*
++ * Keymap for the Beelink GS1 remote control
++ */
++
++static struct rc_map_table beelink_gs1_table[] = {
++	/*
++	 * TV Keys (Power, Learn and Volume)
++	 * { 0x40400d, KEY_TV },
++	 * { 0x80f1, KEY_TV },
++	 * { 0x80f3, KEY_TV },
++	 * { 0x80f4, KEY_TV },
++	 */
++
++	{ 0x8051, KEY_POWER },
++	{ 0x804d, KEY_MUTE },
++	{ 0x8040, KEY_CONFIG },
++
++	{ 0x8026, KEY_UP },
++	{ 0x8028, KEY_DOWN },
++	{ 0x8025, KEY_LEFT },
++	{ 0x8027, KEY_RIGHT },
++	{ 0x800d, KEY_OK },
++
++	{ 0x8053, KEY_HOME },
++	{ 0x80bc, KEY_MEDIA },
++	{ 0x801b, KEY_BACK },
++	{ 0x8049, KEY_MENU },
++
++	{ 0x804e, KEY_VOLUMEUP },
++	{ 0x8056, KEY_VOLUMEDOWN },
++
++	{ 0x8054, KEY_SUBTITLE }, /* Web */
++	{ 0x8052, KEY_EPG }, /* Media */
++
++	{ 0x8041, KEY_CHANNELUP },
++	{ 0x8042, KEY_CHANNELDOWN },
++
++	{ 0x8031, KEY_1 },
++	{ 0x8032, KEY_2 },
++	{ 0x8033, KEY_3 },
++
++	{ 0x8034, KEY_4 },
++	{ 0x8035, KEY_5 },
++	{ 0x8036, KEY_6 },
++
++	{ 0x8037, KEY_7 },
++	{ 0x8038, KEY_8 },
++	{ 0x8039, KEY_9 },
++
++	{ 0x8044, KEY_DELETE },
++	{ 0x8030, KEY_0 },
++	{ 0x8058, KEY_MODE }, /* # Input Method */
++};
++
++static struct rc_map_list beelink_gs1_map = {
++	.map = {
++		.scan     = beelink_gs1_table,
++		.size     = ARRAY_SIZE(beelink_gs1_table),
++		.rc_proto = RC_PROTO_NEC,
++		.name     = RC_MAP_BEELINK_GS1,
++	}
++};
++
++static int __init init_rc_map_beelink_gs1(void)
++{
++	return rc_map_register(&beelink_gs1_map);
++}
++
++static void __exit exit_rc_map_beelink_gs1(void)
++{
++	rc_map_unregister(&beelink_gs1_map);
++}
++
++module_init(init_rc_map_beelink_gs1)
++module_exit(exit_rc_map_beelink_gs1)
++
++MODULE_LICENSE("GPL");
++MODULE_AUTHOR("Clément Péron <peron.clem@gmail.com>");
+diff --git a/include/media/rc-map.h b/include/media/rc-map.h
+index 0a8669daeaaa..f99575a0d29c 100644
+--- a/include/media/rc-map.h
++++ b/include/media/rc-map.h
+@@ -168,6 +168,7 @@ struct rc_map *rc_map_get(const char *name);
+ #define RC_MAP_AVERMEDIA_RM_KS           "rc-avermedia-rm-ks"
+ #define RC_MAP_AVERTV_303                "rc-avertv-303"
+ #define RC_MAP_AZUREWAVE_AD_TU700        "rc-azurewave-ad-tu700"
++#define RC_MAP_BEELINK_GS1               "rc-beelink-gs1"
+ #define RC_MAP_BEHOLD                    "rc-behold"
+ #define RC_MAP_BEHOLD_COLUMBUS           "rc-behold-columbus"
+ #define RC_MAP_BUDGET_CI_OLD             "rc-budget-ci-old"
+-- 
+2.20.1
 
- module_param_array(card,  int, NULL, 0444);
-@@ -500,25 +503,6 @@
- 			.amux =3D TM6000_AMUX_SIF1,
- 		},
- 	},
--	[TM5600_BOARD_TERRATEC_GRABSTER] =3D {
--		.name         =3D "Terratec Grabster AV 150/250 MX",
--		.type         =3D TM5600,
--		.tuner_type   =3D TUNER_ABSENT,
--		.vinput =3D { {
--			.type	=3D TM6000_INPUT_TV,
--			.vmux	=3D TM6000_VMUX_VIDEO_B,
--			.amux	=3D TM6000_AMUX_ADC1,
--			}, {
--			.type	=3D TM6000_INPUT_COMPOSITE1,
--			.vmux	=3D TM6000_VMUX_VIDEO_A,
--			.amux	=3D TM6000_AMUX_ADC2,
--			}, {
--			.type	=3D TM6000_INPUT_SVIDEO,
--			.vmux	=3D TM6000_VMUX_VIDEO_AB,
--			.amux	=3D TM6000_AMUX_ADC2,
--			},
--		},
--	},
- 	[TM6010_BOARD_TWINHAN_TU501] =3D {
- 		.name         =3D "Twinhan TU501(704D1)",
- 		.tuner_type   =3D TUNER_XC2028, /* has a XC3028 */
-@@ -614,6 +598,50 @@
- 			.amux	=3D TM6000_AMUX_ADC1,
- 		},
- 	},
-+	[TM5600_BOARD_TERRATEC_GRABSTER] =3D {
-+		.name         =3D "Terratec Grabster AV 150/250 MX",
-+		.type         =3D TM5600,
-+		.tuner_type   =3D TUNER_ABSENT,
-+		.gpio =3D {
-+			.tuner_reset    =3D TM6000_GPIO_1,	/* this GPIO is a fake, there is no=
- tuner but we have to have a reset configuration */
-+		},
-+		.caps =3D {
-+			.has_tuner =3D 0,
-+			.has_eeprom =3D 0,
-+		},
-+		.vinput =3D { {
-+			.type   =3D TM6000_INPUT_SVIDEO,
-+			.vmux   =3D TM6000_VMUX_VIDEO_A,
-+			.amux   =3D TM6000_AMUX_ADC1,
-+			},{
-+			.type   =3D TM6000_INPUT_COMPOSITE1,
-+			.vmux   =3D TM6000_VMUX_VIDEO_B,
-+			.amux   =3D TM6000_AMUX_ADC2,
-+			},
-+		},
-+	},
-+	[TM5600_BOARD_ADSTECH_XPRESS_USBAV_192] =3D {
-+		.name         =3D "ADStech XPress USBAV-192",
-+		.type         =3D TM5600,
-+		.tuner_type   =3D TUNER_ABSENT,
-+		.caps =3D {
-+			.has_eeprom	=3D 1,
-+			.has_tuner	=3D 0,
-+		},
-+		.gpio =3D {
-+			.tuner_reset	=3D TM6000_GPIO_1,	/* fake, we dont know what this gpio a=
-ctually does, but we need a handle for the tuner reset stub */
-+		},
-+		.vinput =3D { {
-+			.type	=3D TM6000_INPUT_SVIDEO,
-+			.vmux	=3D TM6000_VMUX_VIDEO_A,
-+			.amux	=3D TM6000_AMUX_ADC1,
-+			}, {
-+			.type	=3D TM6000_INPUT_COMPOSITE1,
-+			.vmux	=3D TM6000_VMUX_VIDEO_B,
-+			.amux	=3D TM6000_AMUX_ADC2,
-+			},
-+		},
-+	},
- };
-
- /* table of devices that work with this driver */
-@@ -631,13 +659,14 @@
- 	{ USB_DEVICE(0x6000, 0xdec1), .driver_info =3D TM6010_BOARD_BEHOLD_VOYAG=
-ER },
- 	{ USB_DEVICE(0x0ccd, 0x0086), .driver_info =3D TM6010_BOARD_TERRATEC_CIN=
-ERGY_HYBRID_XE },
- 	{ USB_DEVICE(0x0ccd, 0x00A5), .driver_info =3D TM6010_BOARD_TERRATEC_CIN=
-ERGY_HYBRID_XE },
--	{ USB_DEVICE(0x0ccd, 0x0079), .driver_info =3D TM5600_BOARD_TERRATEC_GRA=
-BSTER },
- 	{ USB_DEVICE(0x13d3, 0x3240), .driver_info =3D TM6010_BOARD_TWINHAN_TU50=
-1 },
- 	{ USB_DEVICE(0x13d3, 0x3241), .driver_info =3D TM6010_BOARD_TWINHAN_TU50=
-1 },
- 	{ USB_DEVICE(0x13d3, 0x3243), .driver_info =3D TM6010_BOARD_TWINHAN_TU50=
-1 },
- 	{ USB_DEVICE(0x13d3, 0x3264), .driver_info =3D TM6010_BOARD_TWINHAN_TU50=
-1 },
- 	{ USB_DEVICE(0x6000, 0xdec2), .driver_info =3D TM6010_BOARD_BEHOLD_WANDE=
-R_LITE },
- 	{ USB_DEVICE(0x6000, 0xdec3), .driver_info =3D TM6010_BOARD_BEHOLD_VOYAG=
-ER_LITE },
-+	{ USB_DEVICE(0x0ccd, 0x0079), .driver_info =3D TM5600_BOARD_TERRATEC_GRA=
-BSTER },
-+	{ USB_DEVICE(0x06e1, 0xa192), .driver_info =3D TM5600_BOARD_ADSTECH_XPRE=
-SS_USBAV_192 },
- 	{ }
- };
- MODULE_DEVICE_TABLE(usb, tm6000_id_table);
-
---------------060908090502060800090705--
