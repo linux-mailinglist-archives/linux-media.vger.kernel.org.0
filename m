@@ -2,172 +2,209 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 46198E7144
-	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2019 13:22:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 613A3E7244
+	for <lists+linux-media@lfdr.de>; Mon, 28 Oct 2019 14:02:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729151AbfJ1MV5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Oct 2019 08:21:57 -0400
-Received: from retiisi.org.uk ([95.216.213.190]:34830 "EHLO
-        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726302AbfJ1MV5 (ORCPT
+        id S1729817AbfJ1NCL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Oct 2019 09:02:11 -0400
+Received: from mail-io1-f69.google.com ([209.85.166.69]:35597 "EHLO
+        mail-io1-f69.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729334AbfJ1NCL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Oct 2019 08:21:57 -0400
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 5727D634C87;
-        Mon, 28 Oct 2019 14:21:16 +0200 (EET)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1iP41L-0001Ir-Cg; Mon, 28 Oct 2019 14:21:15 +0200
-Date:   Mon, 28 Oct 2019 14:21:15 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc:     mchehab@kernel.org, robh+dt@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        c.barrett@framos.com, a.brela@framos.com, peter.griffin@linaro.org
-Subject: Re: [PATCH v3 1/2] dt-bindings: media: i2c: Add IMX296 CMOS sensor
- binding
-Message-ID: <20191028122115.GB4928@valkosipuli.retiisi.org.uk>
-References: <20191025175908.14260-1-manivannan.sadhasivam@linaro.org>
- <20191025175908.14260-2-manivannan.sadhasivam@linaro.org>
+        Mon, 28 Oct 2019 09:02:11 -0400
+Received: by mail-io1-f69.google.com with SMTP id g24so7546694ioc.2
+        for <linux-media@vger.kernel.org>; Mon, 28 Oct 2019 06:02:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=jz8xl1j2uKLt8ScyvhQgkFIWQqtE47psXnzDRQuYc18=;
+        b=Gw/pFHe/tqqsJyNx/ZF3C+sF66yG5RnAah25S+TlVctdtKR0TZjjT39kdPC5Aq+jjf
+         om0fSAkBE9CCPRpezSh8nKCN1ktzcG9IQy5NaJ+qJEy23XbcybaSRDFveA5gt37bIBAL
+         3ofqJ1tpE8jGxajBSGFyx7dQsdl9crktTfCmh1l+c7kRUocGSjEtYc0DWCl/JikULJCB
+         gzrZgaMG2j+36W7Wenyd+14JegNcOuThc3JI0QvVIR0UlA4XJxFr3namPrTnA08q9yyq
+         CKDZEcZxJ7I/BjUFaNiqywuAGCR4q9KA/qu21o3PzOyyxzj3AmpOR1GRJUOMvB4HT5nE
+         8hAg==
+X-Gm-Message-State: APjAAAUhWNtbB/W9Y+KciVNCCT7278BcUeO+CX1JOd9DuGl4L/Kk+sJk
+        DTP6/HttI+thuBBiFgMJEY9K3l5yXbZSJa56Ort3JJhfy+Lf
+X-Google-Smtp-Source: APXvYqy//1Z6TJg7L9QtS1YDVHSXuBfWZAserqESBK+3V3MFQd08PU3irJDL5DnKxie//iGiYXFX5QYQMsf8aLbMwC+2ab2kb+lP
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191025175908.14260-2-manivannan.sadhasivam@linaro.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Received: by 2002:a92:8394:: with SMTP id p20mr20701579ilk.73.1572267729866;
+ Mon, 28 Oct 2019 06:02:09 -0700 (PDT)
+Date:   Mon, 28 Oct 2019 06:02:09 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000087dae30595f81b6e@google.com>
+Subject: KASAN: use-after-free Read in as102_release
+From:   syzbot <syzbot+17c206675b3da3f91a29@syzkaller.appspotmail.com>
+To:     allison@lohutok.net, andreyknvl@google.com,
+        gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        mchehab@kernel.org, rfontana@redhat.com,
+        syzkaller-bugs@googlegroups.com, tglx@linutronix.de
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Manivannan,
+Hello,
 
-Thanks for the update.
+syzbot found the following crash on:
 
-On Fri, Oct 25, 2019 at 11:29:07PM +0530, Manivannan Sadhasivam wrote:
-> Add YAML devicetree binding for IMX296 CMOS image sensor.
-> 
-> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> ---
->  .../devicetree/bindings/media/i2c/imx296.yaml | 98 +++++++++++++++++++
->  1 file changed, 98 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/imx296.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/imx296.yaml b/Documentation/devicetree/bindings/media/i2c/imx296.yaml
-> new file mode 100644
-> index 000000000000..4e204fd7cf90
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/imx296.yaml
-> @@ -0,0 +1,98 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/imx296.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Sony IMX296 1/2.8-Inch CMOS Image Sensor
-> +
-> +maintainers:
-> +  - Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> +
-> +description: |-
-> +  The Sony IMX296 is a 1/2.9-Inch active pixel type CMOS Solid-state image
-> +  sensor with square pixel array and 1.58 M effective pixels. This chip
-> +  features a global shutter with variable charge-integration time. It is
-> +  programmable through I2C and 4-wire interfaces. The sensor output is
-> +  available via CSI-2 serial data output (1 Lane).
-> +
-> +properties:
-> +  compatible:
-> +    const: sony,imx296
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  clock-names:
-> +    description:
-> +      Input clock for the sensor.
-> +    items:
-> +      - const: mclk
-> +
-> +  clock-frequency:
-> +    description:
-> +      Frequency of the mclk clock in Hertz.
-> +    default: 37125000
+HEAD commit:    22be26f7 usb-fuzzer: main usb gadget fuzzer driver
+git tree:       https://github.com/google/kasan.git usb-fuzzer
+console output: https://syzkaller.appspot.com/x/log.txt?x=167d6170e00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=5fe29bc39eff9627
+dashboard link: https://syzkaller.appspot.com/bug?extid=17c206675b3da3f91a29
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
 
-I think you could omit the default.
+Unfortunately, I don't have any reproducer for this crash yet.
 
-> +
-> +  vddo-supply:
-> +    description:
-> +      Definition of the regulator used as interface power supply.
-> +    maxItems: 1
-> +
-> +  vdda-supply:
-> +    description:
-> +      Definition of the regulator used as analog power supply.
-> +    maxItems: 1
-> +
-> +  vddd-supply:
-> +    description:
-> +      Definition of the regulator used as digital power supply.
-> +    maxItems: 1
-> +
-> +  reset-gpios:
-> +    description:
-> +      The phandle and specifier for the GPIO that controls sensor reset.
-> +    maxItems: 1
-> +
-> +  # See ../video-interfaces.txt for details
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - clock-frequency
-> +  - vddo-supply
-> +  - vdda-supply
-> +  - vddd-supply
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+17c206675b3da3f91a29@syzkaller.appspotmail.com
 
-I think the port and endpoint nodes should documented here as well.
+==================================================================
+BUG: KASAN: use-after-free in atomic_read  
+include/asm-generic/atomic-instrumented.h:26 [inline]
+BUG: KASAN: use-after-free in refcount_sub_and_test_checked+0x75/0x1c0  
+lib/refcount.c:182
+Read of size 4 at addr ffff8881cf500140 by task syz-executor.1/11762
 
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    imx296: camera-sensor@1a {
-> +        compatible = "sony,imx296";
-> +        reg = <0x1a>;
-> +        reset-gpios = <&msmgpio 35 GPIO_ACTIVE_LOW>;
-> +        pinctrl-names = "default";
-> +        pinctrl-0 = <&camera_rear_default>;
-> +        clocks = <&gcc 90>;
-> +        clock-names = "mclk";
-> +        clock-frequency = <37125000>;
-> +        vddo-supply = <&camera_vddo_1v8>;
-> +        vdda-supply = <&camera_vdda_3v3>;
-> +        vddd-supply = <&camera_vddd_1v2>;
-> +
-> +        port {
-> +            imx296_ep: endpoint {
-> +                remote-endpoint = <&csiphy0_ep>;
-> +            };
-> +        };
-> +    };
-> +
-> +...
+CPU: 0 PID: 11762 Comm: syz-executor.1 Not tainted 5.4.0-rc3+ #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+Google 01/01/2011
+Call Trace:
+  __dump_stack lib/dump_stack.c:77 [inline]
+  dump_stack+0xca/0x13e lib/dump_stack.c:113
+  print_address_description.constprop.0+0x36/0x50 mm/kasan/report.c:374
+  __kasan_report.cold+0x1a/0x33 mm/kasan/report.c:506
+  kasan_report+0xe/0x20 mm/kasan/common.c:634
+  check_memory_region_inline mm/kasan/generic.c:185 [inline]
+  check_memory_region+0x128/0x190 mm/kasan/generic.c:192
+  atomic_read include/asm-generic/atomic-instrumented.h:26 [inline]
+  refcount_sub_and_test_checked+0x75/0x1c0 lib/refcount.c:182
+  kref_put include/linux/kref.h:64 [inline]
+  as102_release+0x48/0x80 drivers/media/usb/as102/as102_usb_drv.c:458
+  __fput+0x2d7/0x840 fs/file_table.c:280
+  task_work_run+0x13f/0x1c0 kernel/task_work.c:113
+  tracehook_notify_resume include/linux/tracehook.h:188 [inline]
+  exit_to_usermode_loop+0x1d2/0x200 arch/x86/entry/common.c:163
+  prepare_exit_to_usermode arch/x86/entry/common.c:194 [inline]
+  syscall_return_slowpath arch/x86/entry/common.c:274 [inline]
+  do_syscall_64+0x45f/0x580 arch/x86/entry/common.c:300
+  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+RIP: 0033:0x413ad1
+Code: 75 14 b8 03 00 00 00 0f 05 48 3d 01 f0 ff ff 0f 83 04 1b 00 00 c3 48  
+83 ec 08 e8 0a fc ff ff 48 89 04 24 b8 03 00 00 00 0f 05 <48> 8b 3c 24 48  
+89 c2 e8 53 fc ff ff 48 89 d0 48 83 c4 08 48 3d 01
+RSP: 002b:00007ffda9b2bc30 EFLAGS: 00000293 ORIG_RAX: 0000000000000003
+RAX: 0000000000000000 RBX: 0000000000000005 RCX: 0000000000413ad1
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000004
+RBP: 0000000000000001 R08: 00000000dbb17c24 R09: 00000000dbb17c28
+R10: 00007ffda9b2bd10 R11: 0000000000000293 R12: 000000000075bf20
+R13: 00000000000919fe R14: 0000000000761f98 R15: 000000000075bf2c
 
--- 
-Regards,
+Allocated by task 2794:
+  save_stack+0x1b/0x80 mm/kasan/common.c:69
+  set_track mm/kasan/common.c:77 [inline]
+  __kasan_kmalloc mm/kasan/common.c:510 [inline]
+  __kasan_kmalloc.constprop.0+0xbf/0xd0 mm/kasan/common.c:483
+  kmalloc include/linux/slab.h:556 [inline]
+  kzalloc include/linux/slab.h:690 [inline]
+  as102_usb_probe+0x4e/0x3c5 drivers/media/usb/as102/as102_usb_drv.c:350
+  usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
+  really_probe+0x281/0x6d0 drivers/base/dd.c:548
+  driver_probe_device+0x104/0x210 drivers/base/dd.c:721
+  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
+  bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+  __device_attach+0x217/0x360 drivers/base/dd.c:894
+  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+  device_add+0xae6/0x16f0 drivers/base/core.c:2201
+  usb_set_configuration+0xdf6/0x1670 drivers/usb/core/message.c:2023
+  generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
+  usb_probe_device+0x99/0x100 drivers/usb/core/driver.c:266
+  really_probe+0x281/0x6d0 drivers/base/dd.c:548
+  driver_probe_device+0x104/0x210 drivers/base/dd.c:721
+  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
+  bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+  __device_attach+0x217/0x360 drivers/base/dd.c:894
+  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+  device_add+0xae6/0x16f0 drivers/base/core.c:2201
+  usb_new_device.cold+0x6a4/0xe79 drivers/usb/core/hub.c:2536
+  hub_port_connect drivers/usb/core/hub.c:5183 [inline]
+  hub_port_connect_change drivers/usb/core/hub.c:5323 [inline]
+  port_event drivers/usb/core/hub.c:5469 [inline]
+  hub_event+0x1dd0/0x37e0 drivers/usb/core/hub.c:5551
+  process_one_work+0x92b/0x1530 kernel/workqueue.c:2269
+  worker_thread+0x96/0xe20 kernel/workqueue.c:2415
+  kthread+0x318/0x420 kernel/kthread.c:255
+  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
 
-Sakari Ailus
+Freed by task 2794:
+  save_stack+0x1b/0x80 mm/kasan/common.c:69
+  set_track mm/kasan/common.c:77 [inline]
+  kasan_set_free_info mm/kasan/common.c:332 [inline]
+  __kasan_slab_free+0x130/0x180 mm/kasan/common.c:471
+  slab_free_hook mm/slub.c:1424 [inline]
+  slab_free_freelist_hook mm/slub.c:1475 [inline]
+  slab_free mm/slub.c:3018 [inline]
+  kfree+0xe4/0x320 mm/slub.c:3967
+  as102_usb_probe.cold+0x133/0x369  
+drivers/media/usb/as102/as102_usb_drv.c:412
+  usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
+  really_probe+0x281/0x6d0 drivers/base/dd.c:548
+  driver_probe_device+0x104/0x210 drivers/base/dd.c:721
+  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
+  bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+  __device_attach+0x217/0x360 drivers/base/dd.c:894
+  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+  device_add+0xae6/0x16f0 drivers/base/core.c:2201
+  usb_set_configuration+0xdf6/0x1670 drivers/usb/core/message.c:2023
+  generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
+  usb_probe_device+0x99/0x100 drivers/usb/core/driver.c:266
+  really_probe+0x281/0x6d0 drivers/base/dd.c:548
+  driver_probe_device+0x104/0x210 drivers/base/dd.c:721
+  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
+  bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+  __device_attach+0x217/0x360 drivers/base/dd.c:894
+  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+  device_add+0xae6/0x16f0 drivers/base/core.c:2201
+  usb_new_device.cold+0x6a4/0xe79 drivers/usb/core/hub.c:2536
+  hub_port_connect drivers/usb/core/hub.c:5183 [inline]
+  hub_port_connect_change drivers/usb/core/hub.c:5323 [inline]
+  port_event drivers/usb/core/hub.c:5469 [inline]
+  hub_event+0x1dd0/0x37e0 drivers/usb/core/hub.c:5551
+  process_one_work+0x92b/0x1530 kernel/workqueue.c:2269
+  worker_thread+0x96/0xe20 kernel/workqueue.c:2415
+  kthread+0x318/0x420 kernel/kthread.c:255
+  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+
+The buggy address belongs to the object at ffff8881cf500000
+  which belongs to the cache kmalloc-4k of size 4096
+The buggy address is located 320 bytes inside of
+  4096-byte region [ffff8881cf500000, ffff8881cf501000)
+The buggy address belongs to the page:
+page:ffffea00073d4000 refcount:1 mapcount:0 mapping:ffff8881da00c280  
+index:0xffff8881cf506000 compound_mapcount: 0
+flags: 0x200000000010200(slab|head)
+raw: 0200000000010200 ffffea0007323408 ffffea0007396008 ffff8881da00c280
+raw: 0000000000000000 0000000000040004 00000001ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
+
+Memory state around the buggy address:
+  ffff8881cf500000: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+  ffff8881cf500080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> ffff8881cf500100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                                            ^
+  ffff8881cf500180: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+  ffff8881cf500200: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+==================================================================
+
+
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
