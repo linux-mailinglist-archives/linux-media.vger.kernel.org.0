@@ -2,145 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 91D9EE8941
-	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2019 14:19:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0AA16E8949
+	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2019 14:20:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388286AbfJ2NS6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Oct 2019 09:18:58 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:33441 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388166AbfJ2NS6 (ORCPT
+        id S2388406AbfJ2NUM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Oct 2019 09:20:12 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:36794 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388281AbfJ2NUM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Oct 2019 09:18:58 -0400
-Received: by mail-ot1-f66.google.com with SMTP id u13so9724582ote.0;
-        Tue, 29 Oct 2019 06:18:57 -0700 (PDT)
+        Tue, 29 Oct 2019 09:20:12 -0400
+Received: by mail-oi1-f194.google.com with SMTP id j7so8868697oib.3;
+        Tue, 29 Oct 2019 06:20:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=KgGwGRvW59wo170wBmWQwSOb4wH65WjoenOVt8nMGdo=;
-        b=qDyMuWMVJXXXIrgz0KnXFwOhttSXH6mvk75FrzSuq9ENp63Vn8Uuhx102QsHJdS6Kq
-         in/6dGYELHrqk/EEVQPmGtHhBV0SthfDAaSIshta+QWjvBLdf4t7nkIEAwuJVIXAoZHN
-         C4v6tQueeUO7/zeW3srIykSXjfca95PDlcQabE0NQvb8QVOcVKV6YOf4dU52TJ7MyPq9
-         kzVjjmpVUNbp3YkKnEZpHSBveT6rbivwBIPM/F5ohPdQWoBmy+sK/CmoSDHXcz7tWdTJ
-         F1H9baveOZj72ncuc+fjetZSVFi0fZtx+ZRwM1x7vunXomIgIJ5X0x04tjb4+Mg47WP6
-         gRjg==
-X-Gm-Message-State: APjAAAU54JfKJ1m9knrVIlmakjsYR/N2pmHHF8wJ78QEaUEr1kJc0y4M
-        sD/g4Bfc056WYyIaGCrfjg==
-X-Google-Smtp-Source: APXvYqw4wN7kGouxDpyefGMQr86JcQUC3wwIXeuWO1EbgTtORg18+oSv2PhgVLjeG4DUS4g/gwDAjw==
-X-Received: by 2002:a05:6830:ca:: with SMTP id x10mr17158606oto.221.1572355137088;
-        Tue, 29 Oct 2019 06:18:57 -0700 (PDT)
+        bh=gm3nwvKN/0SeIySyt2d2lQknnEH18/vi8nr/1HQlN/A=;
+        b=Yh/1G0rLKBLR4T2UzKY3I+Pw3XuP8IdCCdh9+oUVAu/MFOY9/70+iNnR+5RFiPVJtk
+         lqqOAzXE2UOhX+KuGl8sg68xMVEOFG7fbFkmlzERDRSnIWgSNVS1OWTcp5PUR/izhmvK
+         nT/GRQx1OZvMV9R2drH/1zJ2eLKuDDPKTS4OUYVZUyjgPiKAOBMA+dluYislhf+h8+IB
+         LEp3dOL7FVDEHq3ACz17uQZyHJ34FyHxDIb94L8TR0MPk6yZvLvPSXTmLnBiydLoJpHv
+         Eoz4wRSo3lxiUWmQZTzEkoYBbiV5tPVw1Y4lZU26jSYtpOC9QzCxxXbuZatp3bbK9wA8
+         jUGw==
+X-Gm-Message-State: APjAAAW6YTL1WmV79dOC6J5nt0NzJYsuF0skCpLhNiJMrm9zATeBAoh3
+        L1Dl0OV5PaFVlzO/lX3omGnQxmw=
+X-Google-Smtp-Source: APXvYqxBr9BcsgjN2O+ugt0h9hjx0FmQ8d4BcxJKl7dN/vF8RSg6YeaukCQFRxv8quIMLIUJZ21dqQ==
+X-Received: by 2002:aca:fd15:: with SMTP id b21mr4046413oii.11.1572355210940;
+        Tue, 29 Oct 2019 06:20:10 -0700 (PDT)
 Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id 88sm4797322otb.63.2019.10.29.06.18.56
+        by smtp.gmail.com with ESMTPSA id k10sm3805854oig.25.2019.10.29.06.20.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Oct 2019 06:18:56 -0700 (PDT)
-Date:   Tue, 29 Oct 2019 08:18:55 -0500
+        Tue, 29 Oct 2019 06:20:09 -0700 (PDT)
+Date:   Tue, 29 Oct 2019 08:20:09 -0500
 From:   Rob Herring <robh@kernel.org>
 To:     Benoit Parrot <bparrot@ti.com>
 Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [Patch 03/19] media: ti-vpe: cal: Add per platform data support
-Message-ID: <20191029131855.GA27597@bogus>
+Subject: Re: [Patch 01/19] dt-bindings: media: cal: update binding to use
+ syscon
+Message-ID: <20191029132009.GB27597@bogus>
 References: <20191018153437.20614-1-bparrot@ti.com>
- <20191018153437.20614-4-bparrot@ti.com>
+ <20191018153437.20614-2-bparrot@ti.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191018153437.20614-4-bparrot@ti.com>
+In-Reply-To: <20191018153437.20614-2-bparrot@ti.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Oct 18, 2019 at 10:34:21AM -0500, Benoit Parrot wrote:
-> First this patch adds a method to access the CTRL_CORE_CAMERRX_CONTROL
-> register to use the syscon mechanism. For backward compatibility we also
-> handle using the existing camerrx_control "reg" entry if a syscon node
-> is not found.
-> 
-> In addition the register bit layout for the CTRL_CORE_CAMERRX_CONTROL
-> changes depending on the device. In order to support this we need to use
-> a register access scheme based on data configuration instead of using
-> static macro.
-> 
-> In this case we make use of the regmap facility and create data set
-> based on the various device and phy available.
+On Fri, Oct 18, 2019 at 10:34:19AM -0500, Benoit Parrot wrote:
+> Update Device Tree bindings for the CAL driver to use syscon to access
+> the phy config register instead of trying to map it directly.
 > 
 > Signed-off-by: Benoit Parrot <bparrot@ti.com>
 > ---
->  drivers/media/platform/ti-vpe/cal.c | 281 +++++++++++++++++++++-------
->  1 file changed, 212 insertions(+), 69 deletions(-)
+>  Documentation/devicetree/bindings/media/ti-cal.txt | 14 +++++++++-----
+>  1 file changed, 9 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/ti-cal.txt b/Documentation/devicetree/bindings/media/ti-cal.txt
+> index ae9b52f37576..782f801b12a9 100644
+> --- a/Documentation/devicetree/bindings/media/ti-cal.txt
+> +++ b/Documentation/devicetree/bindings/media/ti-cal.txt
+> @@ -10,9 +10,14 @@ Required properties:
+>  - compatible: must be "ti,dra72-cal"
+>  - reg:	CAL Top level, Receiver Core #0, Receiver Core #1 and Camera RX
+>  	control address space
+> -- reg-names: cal_top, cal_rx_core0, cal_rx_core1, and camerrx_control
+> +- reg-names: cal_top, cal_rx_core0, cal_rx_core1 and camerrx_control
+>  	     registers
+>  - interrupts: should contain IRQ line for the CAL;
+> +- syscon-camerrx: phandle to the device control module and offset to the
+> +		  control_camerarx_core register
+> +		  This node is meant to replace the "camerrx_control" reg
+> +		  entry above but "camerrx_control" is still handled
+> +		  for backward compatibility.
 
+Needs a vendor prefix and drop 'syscon'.
 
-> @@ -1816,6 +1911,18 @@ static int cal_probe(struct platform_device *pdev)
->  	if (!dev)
->  		return -ENOMEM;
 >  
-> +	match = of_match_device(of_match_ptr(cal_of_match), &pdev->dev);
-
-Use of_device_get_match_data() instead.
-
-> +	if (!match)
-> +		return -ENODEV;
-> +
-> +	if (match->data) {
-> +		dev->data = (struct cal_data *)match->data;
-> +		dev->flags = dev->data->flags;
-> +	} else {
-> +		dev_err(&pdev->dev, "Could not get feature data based on compatible version\n");
-> +		return -ENODEV;
-> +	}
-> +
->  	/* set pseudo v4l2 device name so we can use v4l2_printk */
->  	strscpy(dev->v4l2_dev.name, CAL_MODULE_NAME,
->  		sizeof(dev->v4l2_dev.name));
-> @@ -1823,6 +1930,43 @@ static int cal_probe(struct platform_device *pdev)
->  	/* save pdev pointer */
->  	dev->pdev = pdev;
+>  CAL supports 2 camera port nodes on MIPI bus. Each CSI2 camera port nodes
+>  should contain a 'port' child node with child 'endpoint' node. Please
+> @@ -25,13 +30,12 @@ Example:
+>  		ti,hwmods = "cal";
+>  		reg = <0x4845B000 0x400>,
+>  		      <0x4845B800 0x40>,
+> -		      <0x4845B900 0x40>,
+> -		      <0x4A002e94 0x4>;
+> +		      <0x4845B900 0x40>;
+>  		reg-names = "cal_top",
+>  			    "cal_rx_core0",
+> -			    "cal_rx_core1",
+> -			    "camerrx_control";
+> +			    "cal_rx_core1";
+>  		interrupts = <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH>;
+> +		syscon-camerrx = <&scm_conf 0xE94>;
+>  		#address-cells = <1>;
+>  		#size-cells = <0>;
 >  
-> +	if (parent && of_property_read_bool(parent, "syscon-camerrx")) {
-> +		syscon_camerrx =
-> +			syscon_regmap_lookup_by_phandle(parent,
-> +							"syscon-camerrx");
-> +		if (IS_ERR(syscon_camerrx)) {
-> +			dev_err(&pdev->dev, "failed to get syscon-camerrx regmap\n");
-> +			return PTR_ERR(syscon_camerrx);
-> +		}
-> +
-> +		if (of_property_read_u32_index(parent, "syscon-camerrx", 1,
-> +					       &syscon_camerrx_offset)) {
-
-Kind of odd to read the property twice and using functions that don't 
-match the type. We have functions to retrieve phandle and args.
-
-> +			dev_err(&pdev->dev, "failed to get syscon-camerrx offset\n");
-> +			return -EINVAL;
-> +		}
-> +	} else {
-> +		/*
-> +		 * Backward DTS compatibility.
-> +		 * If syscon entry is not present then check if the
-> +		 * camerrx_control resource is present.
-> +		 */
-> +		syscon_camerrx = cal_get_camerarx_regmap(dev);
-> +		if (IS_ERR(syscon_camerrx)) {
-> +			dev_err(&pdev->dev, "failed to get camerrx_control regmap\n");
-> +			return PTR_ERR(syscon_camerrx);
-> +		}
-> +		/* In this case the base already point to the direct
-> +		 * CM register so no need for an offset
-> +		 */
-> +		syscon_camerrx_offset = 0;
-> +	}
-> +
-> +	dev->syscon_camerrx = syscon_camerrx;
-> +	dev->syscon_camerrx_offset = syscon_camerrx_offset;
-> +	ret = cal_camerarx_regmap_init(dev);
-> +	if (ret)
-> +		return ret;
-> +
->  	dev->res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
->  						"cal_top");
->  	dev->base = devm_ioremap_resource(&pdev->dev, dev->res);
-
+> -- 
+> 2.17.1
+> 
