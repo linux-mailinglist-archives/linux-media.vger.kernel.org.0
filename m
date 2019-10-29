@@ -2,196 +2,146 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 29AABE7D66
-	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2019 01:01:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 17F5BE7DDD
+	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2019 02:23:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729995AbfJ2ABB convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Mon, 28 Oct 2019 20:01:01 -0400
-Received: from mail-oln040092065065.outbound.protection.outlook.com ([40.92.65.65]:7758
-        "EHLO EUR01-HE1-obe.outbound.protection.outlook.com"
+        id S1728247AbfJ2BXb convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Mon, 28 Oct 2019 21:23:31 -0400
+Received: from mail-oln040092066067.outbound.protection.outlook.com ([40.92.66.67]:11566
+        "EHLO EUR01-VE1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726834AbfJ2ABB (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Oct 2019 20:01:01 -0400
+        id S1727778AbfJ2BXb (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 28 Oct 2019 21:23:31 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ju1Bz5JzX5mxicGnxLmWsFEiFzuU2IrMqDqXp1v29V6PSC2yIiWptLijh9w4iJaPr172XTMGb51WaWIZHSL6wkDq5sWxqgXQNS7APJA1d8Kvb4cOxodEMYdnxQ7LLcHGGZWamkyYQRLhykH26Me+2vdJ/b/TbJuiVPM+2Jp6GhA1jwpW0njyVSxoKt6G+3O5otYTo48VhyY9E0QKS8hqzYQVdzpNtOmyCgD2aPIgsloVVjR8zFpwFY3VeTpYbQ16oC+74eTcBnE/71DsWS4uQV/4MhJWWoDXvyvLm9zQiDP43ZbP+cY/jE1KyS+zC27QZqBKHa17d0m4omgGDDoj4w==
+ b=NMVTeyvHZIsImwo02/6U7jPctBg7+o7I2druAlh5bBHDoroCdiKbhmuO88Y4x5C70rNQBRx0nO7bb3BnyQbQhFXKgwb0Pzu2Nc8xlxlK4ach5PLsRMicIUAHyH6V2fk3Qb7tTUTt9U/clZwekKIMg2j0+6mmB1iKdoofqF88eS5mLrbvT2pO7nOlLPAkXgtFElt4lZdtvhEjFPj+TO0uDWkxsfqXG+IcJK2snSlnw8DZEU6FEP3LUHZJ63dToaJPhJtfNDZTyH8K2uBe0ekcOLAVK53EJjWHNQq/ujCTEsFEg62zxJWQ3imMRjCbW1pWIeMZGqUze/TzNXqMwZB2qw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BMl2D0+OlthSlgFyvfZCK08LnPRn19RFu0oI3f0BSQo=;
- b=UfAovlTV7xnhgIhc3KRbngwL/evspBkiLjKv1Sbq233Vc9XfFHNUz8fYr9t2asGp2I9Cwn61oZ6Oo3fnvEDfQCTIQa7YYgQKI5peqBJZ4Y+WQgzx+tTTcM9LHh8cvnftQ4/m5zJpr3D6yVaNXycSjCf44Q7S5IbzgrMrXmUGdW2NnhuAxWOz9FcmnZcCTk87O4xzGiRA1xNSyj6tGvS9ulmPuTVJhLq2AM9HSERaEclgtfs5NGYLbGmq286jL1opSl/u9ero8QAUV6jcLHfQbhtWjFwtYKdlMocp6C69aT7IGRx1qEpSmYBj3t2eOusiUumIbjOwNPW86YQuwrKDdg==
+ bh=XffVFpPPDP2pJl7bG9Wy1nJEOsKX05N0vzN1DhypToc=;
+ b=F2dEm4jRklRr3YAgKNhG7YTvMU5eEDM9U9TkazOVDh+ZYXwQOtWlOWCMsqJ2SFyGtkFSTg1bpGTL0zqVuXBvfVSMfC7beZrwankX53EZgl/Kl3oByn2fhpNtlmEpBCKBN1Nki9OWb3W5bUP1Sd5JgiuLSDctUyDFxgywsd7092BffTRciQQGpHAN97nVkWZAq/51+in11eQU7Z2+mEUBRdQJby29msDJMHRlfEeLqkSsnT7vE475tUcoLhByFMtM/Z6Ht/fxiy3kisz6GD0wNm8WnqkQwW0zOQdl8A4IKm1PWfgH1KcvDcjw+s2UbpCKHA1EkyRDADjxAhDLQYku5g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
-Received: from VE1EUR01FT033.eop-EUR01.prod.protection.outlook.com
- (10.152.2.57) by VE1EUR01HT219.eop-EUR01.prod.protection.outlook.com
- (10.152.3.237) with Microsoft SMTP Server (version=TLS1_2,
+Received: from VE1EUR01FT039.eop-EUR01.prod.protection.outlook.com
+ (10.152.2.55) by VE1EUR01HT015.eop-EUR01.prod.protection.outlook.com
+ (10.152.3.9) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.2387.20; Tue, 29 Oct
- 2019 00:00:54 +0000
-Received: from HE1PR06MB4011.eurprd06.prod.outlook.com (10.152.2.51) by
- VE1EUR01FT033.mail.protection.outlook.com (10.152.2.230) with Microsoft SMTP
+ 2019 01:23:27 +0000
+Received: from HE1PR06MB4011.eurprd06.prod.outlook.com (10.152.2.56) by
+ VE1EUR01FT039.mail.protection.outlook.com (10.152.3.35) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2387.20 via Frontend Transport; Tue, 29 Oct 2019 00:00:54 +0000
+ 15.20.2387.20 via Frontend Transport; Tue, 29 Oct 2019 01:23:27 +0000
 Received: from HE1PR06MB4011.eurprd06.prod.outlook.com
  ([fe80::b1cf:db6f:95fc:84cc]) by HE1PR06MB4011.eurprd06.prod.outlook.com
  ([fe80::b1cf:db6f:95fc:84cc%7]) with mapi id 15.20.2387.025; Tue, 29 Oct 2019
- 00:00:53 +0000
+ 01:23:27 +0000
 From:   Jonas Karlman <jonas@kwiboo.se>
 To:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+        Ezequiel Garcia <ezequiel@collabora.com>
 CC:     Jonas Karlman <jonas@kwiboo.se>, Hans Verkuil <hverkuil@xs4all.nl>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
         Boris Brezillon <boris.brezillon@collabora.com>,
         Tomasz Figa <tfiga@chromium.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 3/3] media: hantro: Do not reorder H264 scaling list
-Thread-Topic: [PATCH v2 3/3] media: hantro: Do not reorder H264 scaling list
-Thread-Index: AQHVjevu/7KXRpoZcUGJOmzIePYDDA==
-Date:   Tue, 29 Oct 2019 00:00:53 +0000
-Message-ID: <HE1PR06MB4011B2DED416807CD9C9B90EAC610@HE1PR06MB4011.eurprd06.prod.outlook.com>
-References: <HE1PR06MB4011D3B8C200D13829648D86AC660@HE1PR06MB4011.eurprd06.prod.outlook.com>
- <20191029000033.13540-1-jonas@kwiboo.se>
-In-Reply-To: <20191029000033.13540-1-jonas@kwiboo.se>
+Subject: [PATCH RFC v2 00/10] media: hantro: H264 fixes and improvements
+Thread-Topic: [PATCH RFC v2 00/10] media: hantro: H264 fixes and improvements
+Thread-Index: AQHVjfd3nRnQyPYxpEuxItiFYWopyg==
+Date:   Tue, 29 Oct 2019 01:23:27 +0000
+Message-ID: <HE1PR06MB401108289F09802C261374F8AC610@HE1PR06MB4011.eurprd06.prod.outlook.com>
 Accept-Language: sv-SE, en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-clientproxiedby: AM3PR07CA0087.eurprd07.prod.outlook.com
- (2603:10a6:207:6::21) To HE1PR06MB4011.eurprd06.prod.outlook.com
+x-clientproxiedby: HE1PR0501CA0035.eurprd05.prod.outlook.com
+ (2603:10a6:3:1a::45) To HE1PR06MB4011.eurprd06.prod.outlook.com
  (2603:10a6:7:9c::32)
-x-incomingtopheadermarker: OriginalChecksum:D4576FFCA123D6ACDC123D0D4F4AA908FB62F07E8F9E1E044ED8CE59DC327AC7;UpperCasedChecksum:9321E4B87097A97855E24D9EEAEF9A58004E6A509A6C46CAA57E76B84A880125;SizeAsReceived:7846;Count:49
+x-incomingtopheadermarker: OriginalChecksum:F4C6F7AF2937385D03B06DE8B0B745ACB4A64062428A536BAECA0EA3C379A823;UpperCasedChecksum:467EA6084040EAE1ECD16B1EEA826757C1741316BDEA50DB7BF7E536C379149B;SizeAsReceived:7429;Count:47
 x-ms-exchange-messagesentrepresentingtype: 1
 x-mailer: git-send-email 2.17.1
-x-tmn:  [lQPhitlyDiiwles6/EAoJAOFU+MEIIJI]
-x-microsoft-original-message-id: <20191029000033.13540-3-jonas@kwiboo.se>
+x-tmn:  [7U6dGqpatfCYk6ddu1BXzS0LeN19pAEl]
+x-microsoft-original-message-id: <20191029012316.24511-1-jonas@kwiboo.se>
 x-ms-publictraffictype: Email
-x-incomingheadercount: 49
+x-incomingheadercount: 47
 x-eopattributedmessage: 0
-x-ms-traffictypediagnostic: VE1EUR01HT219:
+x-ms-traffictypediagnostic: VE1EUR01HT015:
+x-ms-exchange-purlcount: 2
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: mkFKYekyxEJjdR23pdCsNs05hUHn/NVG8Cqy2WTenWai9poVgPpC2mxO80xXxmQPiVo/egFeIUpuclHlDpb1OgYRXLsBloB74NPwvfr2W8tBmr0KB8EyU7uTnvdDpfPa32FS9H2xBT1Os5aaMBxg8S/LA0RNv0TeqB93CT2XmvJGDSf7Ps1rhht62cHMaq2K
+x-microsoft-antispam-message-info: Nt/qO/2YEIMwU1pRMyjS/91pFpXjuNdWgufsuyM8oGLN7EmX6LeUtcwWUvl0Fapt914b+bCNqsBzTB0czA4/WpI41KNM4zeab3RjPB9n43wbdEnCv8/aJ2SwZE1et8+KmYsajFplLp+eNdHCUEBfXjFQHh5etGHT0vcyeOupuN9v/RuKX4jZu0RtB5Lvr+b2SZMswRKVy8eXOfAn/b0kXF63mOBvWH2yK13gOcqzRAE=
 x-ms-exchange-transport-forked: True
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
 X-OriginatorOrg: outlook.com
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: fb563c42-bbeb-450c-d0e2-08d75c0310f4
+X-MS-Exchange-CrossTenant-Network-Message-Id: e6621a09-de0c-40af-ce09-08d75c0e999b
 X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Oct 2019 00:00:53.9259
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Oct 2019 01:23:27.6354
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Internet
 X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1EUR01HT219
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1EUR01HT015
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Scaling list supplied from userspace should be in matrix order
-and can be used without applying the inverse scanning process.
+This series contains fixes and improvements for the hantro H264 decoder.
 
-The HW also only support 8x8 scaling list for the Y component, indices 0
-and 1 in the scaling list supplied from userspace.
+Patch 1-3 is updated patches from the "media: hantro: Collected fixes for v5.4"
+series.
 
-Remove reordering and write the scaling matrix in an order expected by
-the VPU, also only allocate memory for the two 8x8 lists supported.
+Patch 4-8 fixes issues and limitations observed when preparing support
+for field encoded content.
 
-Fixes: a9471e25629b ("media: hantro: Add core bits to support H264 decoding")
-Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
----
+Patch 9 introduce new DPB entry flags that is used to signal how a reference
+frame is referenced. This information is needed to correctly build a
+reference list for field encoded content.
+
+Patch 10 adds bits to handle field encoded content, this is a rough patch
+and should be reworked with proper code style and formatting.
+Please get back with feedback on how to improve this.
+
+The following samples from [1] are now playable with this series
+- H264_1080i-25-interlace_Kaesescheibchen.mkv
+- H264_10_1080i_50_AC3-Astra19.2_ProSieben_HD.ts
+- big_buck_bunny_1080p_H264_AAC_25fps_7200K.mp4
+- h264_tivo_sample.ts
+
+This series has been tested using ffmpeg v4l2 request hwaccel at [2]
+
+[1] http://kwiboo.libreelec.tv/test/samples/
+[2] https://github.com/Kwiboo/FFmpeg/compare/4.0.4-Leia-18.4...v4l2-request-hwaccel-4.0.4-hantro
+
 Changes in v2:
-  - use swab32() (Philipp)
----
- drivers/staging/media/hantro/hantro_h264.c | 51 +++++-----------------
- 1 file changed, 12 insertions(+), 39 deletions(-)
+  - scaling list changes split to its own series
+  - address feedback from Philipp and Ezequiel
 
-diff --git a/drivers/staging/media/hantro/hantro_h264.c b/drivers/staging/media/hantro/hantro_h264.c
-index 02cbe7761769..694a330f508e 100644
---- a/drivers/staging/media/hantro/hantro_h264.c
-+++ b/drivers/staging/media/hantro/hantro_h264.c
-@@ -20,7 +20,7 @@
- /* Size with u32 units. */
- #define CABAC_INIT_BUFFER_SIZE		(460 * 2)
- #define POC_BUFFER_SIZE			34
--#define SCALING_LIST_SIZE		(6 * 16 + 6 * 64)
-+#define SCALING_LIST_SIZE		(6 * 16 + 2 * 64)
- 
- #define HANTRO_CMP(a, b) ((a) < (b) ? -1 : 1)
- 
-@@ -194,23 +194,6 @@ static const u32 h264_cabac_table[] = {
- 	0x1f0c2517, 0x1f261440
- };
- 
--/*
-- * NOTE: The scaling lists are in zig-zag order, apply inverse scanning process
-- * to get the values in matrix order. In addition, the hardware requires bytes
-- * swapped within each subsequent 4 bytes. Both arrays below include both
-- * transformations.
-- */
--static const u32 zig_zag_4x4[] = {
--	3, 2, 7, 11, 6, 1, 0, 5, 10, 15, 14, 9, 4, 8, 13, 12
--};
--
--static const u32 zig_zag_8x8[] = {
--	3, 2, 11, 19, 10, 1, 0, 9, 18, 27, 35, 26, 17, 8, 7, 6,
--	15, 16, 25, 34, 43, 51, 42, 33, 24, 23, 14, 5, 4, 13, 22, 31,
--	32, 41, 50, 59, 58, 49, 40, 39, 30, 21, 12, 20, 29, 38, 47, 48,
--	57, 56, 55, 46, 37, 28, 36, 45, 54, 63, 62, 53, 44, 52, 61, 60
--};
--
- static void
- reorder_scaling_list(struct hantro_ctx *ctx)
- {
-@@ -218,33 +201,23 @@ reorder_scaling_list(struct hantro_ctx *ctx)
- 	const struct v4l2_ctrl_h264_scaling_matrix *scaling = ctrls->scaling;
- 	const size_t num_list_4x4 = ARRAY_SIZE(scaling->scaling_list_4x4);
- 	const size_t list_len_4x4 = ARRAY_SIZE(scaling->scaling_list_4x4[0]);
--	const size_t num_list_8x8 = ARRAY_SIZE(scaling->scaling_list_8x8);
- 	const size_t list_len_8x8 = ARRAY_SIZE(scaling->scaling_list_8x8[0]);
- 	struct hantro_h264_dec_priv_tbl *tbl = ctx->h264_dec.priv.cpu;
--	u8 *dst = tbl->scaling_list;
--	const u8 *src;
-+	u32 *dst = (u32 *)tbl->scaling_list;
-+	const u32 *src;
- 	int i, j;
- 
--	BUILD_BUG_ON(ARRAY_SIZE(zig_zag_4x4) != list_len_4x4);
--	BUILD_BUG_ON(ARRAY_SIZE(zig_zag_8x8) != list_len_8x8);
--	BUILD_BUG_ON(ARRAY_SIZE(tbl->scaling_list) !=
--		     num_list_4x4 * list_len_4x4 +
--		     num_list_8x8 * list_len_8x8);
--
--	src = &scaling->scaling_list_4x4[0][0];
--	for (i = 0; i < num_list_4x4; ++i) {
--		for (j = 0; j < list_len_4x4; ++j)
--			dst[zig_zag_4x4[j]] = src[j];
--		src += list_len_4x4;
--		dst += list_len_4x4;
-+	for (i = 0; i < num_list_4x4; i++) {
-+		src = (u32 *)&scaling->scaling_list_4x4[i];
-+		for (j = 0; j < list_len_4x4 / 4; j++)
-+			*dst++ = swab32(src[j]);
- 	}
- 
--	src = &scaling->scaling_list_8x8[0][0];
--	for (i = 0; i < num_list_8x8; ++i) {
--		for (j = 0; j < list_len_8x8; ++j)
--			dst[zig_zag_8x8[j]] = src[j];
--		src += list_len_8x8;
--		dst += list_len_8x8;
-+	/* Only Intra/Inter Y lists */
-+	for (i = 0; i < 2; i++) {
-+		src = (u32 *)&scaling->scaling_list_8x8[i];
-+		for (j = 0; j < list_len_8x8 / 4; j++)
-+			*dst++ = swab32(src[j]);
- 	}
- }
- 
+Regards,
+Jonas
+
+Francois Buergisser (2):
+  media: hantro: Fix motion vectors usage condition
+  media: hantro: Fix picture order count table enable
+
+Jonas Karlman (8):
+  media: hantro: Fix H264 max frmsize supported on RK3288
+  media: hantro: Fix H264 motion vector buffer offset
+  media: hantro: Reduce H264 extra space for motion vectors
+  media: hantro: Use capture buffer width and height for H264 decoding
+  media: hantro: Remove now unused H264 pic_size
+  media: hantro: Set H264 FIELDPIC_FLAG_E flag correctly
+  media: uapi: h264: Add DPB entry field reference flags
+  media: hantro: Fix H264 decoding of field encoded content
+
+ .../media/uapi/v4l/ext-ctrls-codec.rst        |  12 ++
+ .../staging/media/hantro/hantro_g1_h264_dec.c |  62 ++++-----
+ drivers/staging/media/hantro/hantro_h264.c    | 126 +++++++++++-------
+ drivers/staging/media/hantro/hantro_hw.h      |   5 +-
+ drivers/staging/media/hantro/hantro_v4l2.c    |   6 +-
+ drivers/staging/media/hantro/rk3288_vpu_hw.c  |   4 +-
+ include/media/h264-ctrls.h                    |   4 +
+ 7 files changed, 135 insertions(+), 84 deletions(-)
+
 -- 
 2.17.1
 
