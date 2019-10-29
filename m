@@ -2,155 +2,273 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 84585E7F62
-	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2019 05:54:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E9F6E8296
+	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2019 08:39:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731807AbfJ2Eyl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Oct 2019 00:54:41 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:34063 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727621AbfJ2Eyl (ORCPT
+        id S1726959AbfJ2Hjy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Oct 2019 03:39:54 -0400
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:37289 "EHLO
+        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726222AbfJ2Hjy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Oct 2019 00:54:41 -0400
-Received: from localhost ([IPv6:2001:983:e9a7:1:2147:c5cc:f602:944b])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id PJWgiH404frRWPJWhifgqd; Tue, 29 Oct 2019 05:54:39 +0100
-Message-ID: <3ce038a8c054c984c954979cb80cf778@smtp-cloud8.xs4all.net>
-Date:   Tue, 29 Oct 2019 05:54:38 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfJ7zXpoWaea/mZx07qQQfU5iDr9RMPgZvaohYvRCfp433igFsU3odTDMt3VMXNaSgaoojv49jPNEi+bZVS1sFXa/3g64gCrPMrFEeesKOH6W+QOM3y85
- NGcloF77zeUWPlKWp35y+hbUzOHJ6zjjC8yE1SIVa6B3/v/Z8FoTweBeNYy+iwwXbnUVP6JH7Up9ThOFohIYfz6sA2lV14PAh2fdFlWeY/aFTTtJ3k/1Jp1P
+        Tue, 29 Oct 2019 03:39:54 -0400
+Received: by mail-qt1-f196.google.com with SMTP id g50so18846725qtb.4
+        for <linux-media@vger.kernel.org>; Tue, 29 Oct 2019 00:39:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Wxscl9rbX8BRoI/WgHiuXS+DBs0jDeUy/iCrArGyhgs=;
+        b=NF0EVE0YYOZ/tSfdWF3zK2oaymlQKyAcLcBBYa5CYZkTBEyvAuLb+IY39vxfocSof7
+         DvCT/R6u/hTjCbr+bsA69MQtgLX1HdXUW733lyY2k0FRphXOqMkcsfPL+QjyxNyRhQTx
+         ljkZh9hYg4YSvPc2uHdmsVKRbU0EdQiRkx+Bc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Wxscl9rbX8BRoI/WgHiuXS+DBs0jDeUy/iCrArGyhgs=;
+        b=ecrQidgcXnBkJBPeyZFC5rO0V8Ic1aj8hLFyttE0EUFtGEO2KFhRaoSgYZ33kBq0cu
+         l4725MQXtI95X1mRjGW1RSbTJB0Qj5oDemPmo4GgBbLK/4LoMRNvXavOru2wO0Cdmktb
+         AOj1VTHQSOeLtSy2XAcRSGgmp6lLZWV+0lRvREzTHan366FJqQOJMrjY6EvwR8aSxmaZ
+         Fs3etpMeSliHIIkrxT8RY1FINPvfdqDX4P9+fI9ZeQMeKhEvehrjPWUWe6UYTr1s6Sxb
+         bEImo7VxyVLpHvRL/pYc8qYOlONfpTmnIJUhOwLpq5tJosgOTtVEOGchZhAxJCc5sKT/
+         K8yQ==
+X-Gm-Message-State: APjAAAUo+8aToBFoAeQ9KJKYdR1/53QJoJ03PivWCGrX7m6O8kSZLCsQ
+        ujfulOWwBGbfij4DrxtGFqxKy5+6ypgJM3a4bZ1x0Q==
+X-Google-Smtp-Source: APXvYqzlk15OHXfak3lQp/wt1qliKdeFCRpf8LFjdNlPAPFzWuHHP5URqyrLvHtWK5GLH2hIuh3XVEfHRdvaDOhfI0g=
+X-Received: by 2002:ac8:4415:: with SMTP id j21mr2774442qtn.187.1572334793196;
+ Tue, 29 Oct 2019 00:39:53 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190919093404.182015-1-keiichiw@chromium.org>
+ <4037801.MZecyecTDs@os-lin-dmo> <CAAFQd5CfNK1oisDaOWaW+9NTQOLn1EHPrPzvxMPcSxLkBgv3Ww@mail.gmail.com>
+ <15135216.K0K410U5qv@os-lin-dmo> <CAAFQd5DuChujakwmhtQ8v2CSLFqVYjLz9eGHuqrQnJ7apft+3Q@mail.gmail.com>
+ <20191017071952.s3dq2oxdiy3khp5w@sirius.home.kraxel.org> <CAAFQd5ByuyTDqwiBeT7U7cVA8omOPGRRxb2tB8=J-u7WYU-urQ@mail.gmail.com>
+ <20191017101304.pbjoj3knyveuacqm@sirius.home.kraxel.org>
+In-Reply-To: <20191017101304.pbjoj3knyveuacqm@sirius.home.kraxel.org>
+From:   David Stevens <stevensd@chromium.org>
+Date:   Tue, 29 Oct 2019 16:39:42 +0900
+Message-ID: <CAD=HUj5QMQS=Sig11vA8_D2+d=yjejAB-dYBPSbG98G444BqPw@mail.gmail.com>
+Subject: Re: [virtio-dev] [PATCH] [RFC RESEND] vdec: Add virtio video decode
+ device specification
+To:     Gerd Hoffmann <kraxel@redhat.com>
+Cc:     Tomasz Figa <tfiga@chromium.org>,
+        Dmitry Morozov <dmitry.morozov@opensynergy.com>,
+        virtio-dev@lists.oasis-open.org,
+        Keiichi Watanabe <keiichiw@chromium.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Alex Lau <alexlau@chromium.org>,
+        Dylan Reid <dgreid@chromium.org>,
+        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
+        Pawel Osciak <posciak@chromium.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+> When running drm-misc-next you should be able to test whenever that'll
+> actually work without any virtio-gpu driver changes.
 
-Results of the daily build of media_tree:
+I did some experimentation with the Chrome OS kernel-next branch
+(based on v5.4-rc3) plus drm-misc-next. I looked at both the chromeos
+downstream virtio-wayland driver as well as the virtio-vdec driver
+that was recently proposed to upstream.
 
-date:			Tue Oct 29 05:00:10 CET 2019
-media-tree git hash:	a4260ea49547aa0c84c353f9de5998a0315d89fe
-media_build git hash:	062d0d65a33aae80352df0b13ff2a458c0da977f
-v4l-utils git hash:	6c415a11fceb32067cdb5c2e33f90dbf018182a4
-edid-decode git hash:	3a6108a75be356a3dc53760d22782f1323248b6b
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: b9d1bee3709ed440e3fba64fedc2c3da80cc69b6
-host hardware:		x86_64
-host os:		5.2.0-3-amd64
+Using the dma address of buffers generally works. However, it does
+require the addition of some synchronization in the virtio-gpu driver
+to prevent races between the virtio-gpu device registering the buffer
+with the guest dma address (which happens with the ATTACH_BACKING
+command) and other virtio devices using the guest dma address as a
+buffer identifier. I've included a patch that adds this
+synchronization.
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4-rc1-i686: OK
-linux-5.4-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2784, Succeeded: 2784, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: ERRORS
+Signed-off-by: David Stevens <stevensd@chromium.org>
+---
+ drivers/gpu/drm/virtio/virtgpu_drv.h    |  2 +
+ drivers/gpu/drm/virtio/virtgpu_object.c | 15 +++++-
+ drivers/gpu/drm/virtio/virtgpu_vq.c     | 64 +++++++++++++++++++++----
+ 3 files changed, 71 insertions(+), 10 deletions(-)
 
-Detailed results are available here:
+diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h
+b/drivers/gpu/drm/virtio/virtgpu_drv.h
+index 314e02f94d9c4..00a2c0e6b6382 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_drv.h
++++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+@@ -72,6 +72,8 @@ struct virtio_gpu_object {
+        uint32_t mapped;
+        bool dumb;
+        bool created;
++
++       bool attach_backing_complete;
+ };
+ #define gem_to_virtio_gpu_obj(gobj) \
+        container_of((gobj), struct virtio_gpu_object, base.base)
+diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c
+b/drivers/gpu/drm/virtio/virtgpu_object.c
+index 017a9e0fc3bb8..812a0a48f6385 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_object.c
++++ b/drivers/gpu/drm/virtio/virtgpu_object.c
+@@ -75,13 +75,26 @@ static void virtio_gpu_free_object(struct
+drm_gem_object *obj)
+        drm_gem_shmem_free_object(obj);
+ }
 
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
++int virtio_gpu_gem_object_pin(struct drm_gem_object *obj)
++{
++       struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(obj);
++       struct virtio_gpu_device *vgdev = obj->dev->dev_private;
++
++       if (!bo->attach_backing_complete)
++               wait_event(vgdev->resp_wq, bo->attach_backing_complete);
++       if (!bo->attach_backing_complete)
++               return -EFAULT;
++
++       return drm_gem_shmem_pin(obj);
++}
++
+ static const struct drm_gem_object_funcs virtio_gpu_gem_funcs = {
+        .free = virtio_gpu_free_object,
+        .open = virtio_gpu_gem_object_open,
+        .close = virtio_gpu_gem_object_close,
 
-Detailed regression test results are available here:
+        .print_info = drm_gem_shmem_print_info,
+-       .pin = drm_gem_shmem_pin,
++       .pin = virtio_gpu_gem_object_pin,
+        .unpin = drm_gem_shmem_unpin,
+        .get_sg_table = drm_gem_shmem_get_sg_table,
+        .vmap = drm_gem_shmem_vmap,
+diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c
+b/drivers/gpu/drm/virtio/virtgpu_vq.c
+index 80176f379ad51..8bc2359a6d625 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_vq.c
++++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
+@@ -579,26 +579,42 @@ void virtio_gpu_cmd_transfer_to_host_2d(struct
+virtio_gpu_device *vgdev,
+        virtio_gpu_queue_fenced_ctrl_buffer(vgdev, vbuf, &cmd_p->hdr, fence);
+ }
 
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
++static void
++virtio_gpu_cmd_resource_attach_backing_cb(struct virtio_gpu_device *vgdev,
++                                         struct virtio_gpu_vbuffer *vbuf)
++{
++       struct virtio_gpu_object_array *objs = vbuf->objs;
++       struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(objs->objs[0]);
++
++       bo->attach_backing_complete = true;
++       wake_up_all(&vgdev->resp_wq);
++}
++
+ static void
+ virtio_gpu_cmd_resource_attach_backing(struct virtio_gpu_device *vgdev,
+-                                      uint32_t resource_id,
++                                      struct virtio_gpu_object *bo,
+                                       struct virtio_gpu_mem_entry *ents,
+                                       uint32_t nents,
++                                      struct virtio_gpu_object_array *objs,
+                                       struct virtio_gpu_fence *fence)
+ {
+        struct virtio_gpu_resource_attach_backing *cmd_p;
+        struct virtio_gpu_vbuffer *vbuf;
 
-Full logs are available here:
+-       cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
++       cmd_p = virtio_gpu_alloc_cmd_resp(
++               vgdev, virtio_gpu_cmd_resource_attach_backing_cb, &vbuf,
++               sizeof(*cmd_p), sizeof(struct virtio_gpu_ctrl_hdr), NULL);
+        memset(cmd_p, 0, sizeof(*cmd_p));
 
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
+        cmd_p->hdr.type = cpu_to_le32(VIRTIO_GPU_CMD_RESOURCE_ATTACH_BACKING);
+-       cmd_p->resource_id = cpu_to_le32(resource_id);
++       cmd_p->resource_id = cpu_to_le32(bo->hw_res_handle);
+        cmd_p->nr_entries = cpu_to_le32(nents);
 
-The Media Infrastructure API from this daily build is here:
+        vbuf->data_buf = ents;
+        vbuf->data_size = sizeof(*ents) * nents;
 
-http://www.xs4all.nl/~hverkuil/spec/index.html
++       vbuf->objs = objs;
++
+        virtio_gpu_queue_fenced_ctrl_buffer(vgdev, vbuf, &cmd_p->hdr, fence);
+ }
+
+@@ -1048,9 +1064,10 @@ int virtio_gpu_object_attach(struct
+virtio_gpu_device *vgdev,
+                             struct virtio_gpu_fence *fence)
+ {
+        bool use_dma_api = !virtio_has_iommu_quirk(vgdev->vdev);
++       struct virtio_gpu_object_array *objs = NULL;
+        struct virtio_gpu_mem_entry *ents;
+        struct scatterlist *sg;
+-       int si, nents, ret;
++       int si, nents, ret = 0;
+
+        if (WARN_ON_ONCE(!obj->created))
+                return -EINVAL;
+@@ -1063,8 +1080,8 @@ int virtio_gpu_object_attach(struct
+virtio_gpu_device *vgdev,
+
+        obj->pages = drm_gem_shmem_get_sg_table(&obj->base.base);
+        if (obj->pages == NULL) {
+-               drm_gem_shmem_unpin(&obj->base.base);
+-               return -EINVAL;
++               ret = -EINVAL;
++               goto err_unpin;
+        }
+
+        if (use_dma_api) {
+@@ -1081,7 +1098,8 @@ int virtio_gpu_object_attach(struct
+virtio_gpu_device *vgdev,
+                             GFP_KERNEL);
+        if (!ents) {
+                DRM_ERROR("failed to allocate ent list\n");
+-               return -ENOMEM;
++               ret = -ENOMEM;
++               goto err_unmap;
+        }
+
+        for_each_sg(obj->pages->sgl, sg, nents, si) {
+@@ -1092,10 +1110,38 @@ int virtio_gpu_object_attach(struct
+virtio_gpu_device *vgdev,
+                ents[si].padding = 0;
+        }
+
+-       virtio_gpu_cmd_resource_attach_backing(vgdev, obj->hw_res_handle,
++       objs = virtio_gpu_array_alloc(1);
++       if (!objs) {
++               ret = -ENOMEM;
++               goto err_free_ents;
++       }
++       virtio_gpu_array_add_obj(objs, &obj->base.base);
++
++       if (fence) {
++               ret = virtio_gpu_array_lock_resv(objs);
++               if (ret != 0)
++                       goto err_put_objs;
++       }
++
++       virtio_gpu_cmd_resource_attach_backing(vgdev, obj,
+                                               ents, nents,
+-                                              fence);
++                                              objs, fence);
+        return 0;
++
++err_put_objs:
++       virtio_gpu_array_put_free(objs);
++err_free_ents:
++       kfree(ents);
++err_unmap:
++       if (use_dma_api) {
++               dma_unmap_sg(vgdev->vdev->dev.parent,
++                            obj->pages->sgl, obj->pages->nents,
++                            DMA_TO_DEVICE);
++               obj->mapped = 0;
++       }
++err_unpin:
++       drm_gem_shmem_unpin(&obj->base.base);
++       return ret;
+ }
+
+ void virtio_gpu_object_detach(struct virtio_gpu_device *vgdev,
+--
+2.24.0.rc0.303.g954a862665-goog
