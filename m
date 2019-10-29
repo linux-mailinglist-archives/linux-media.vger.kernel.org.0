@@ -2,28 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 183C9E7DE3
-	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2019 02:25:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C13BE7DEF
+	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2019 02:26:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728581AbfJ2BYz convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Mon, 28 Oct 2019 21:24:55 -0400
-Received: from mail-oln040092064015.outbound.protection.outlook.com ([40.92.64.15]:56782
-        "EHLO EUR01-DB5-obe.outbound.protection.outlook.com"
+        id S1728845AbfJ2BZ1 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Mon, 28 Oct 2019 21:25:27 -0400
+Received: from mail-oln040092066048.outbound.protection.outlook.com ([40.92.66.48]:1507
+        "EHLO EUR01-VE1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728523AbfJ2BYy (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Oct 2019 21:24:54 -0400
+        id S1728754AbfJ2BZ1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 28 Oct 2019 21:25:27 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HwYWMTpavPJLAs26IMwPHzjSN1eU9XqP8T2UblmskOnVdxEdeYpI1jAB9AuZ8vT9rmrJ/P/1L1uC7xxIpYa9EM7bM+JSsfNIYFyrHvuDkoMxVjHb3fADNT3WwjpOLXGWu41hqTCLc+nDxQ6ZPSAe9oJ63Tc+92qAq2H0qQuyMNTcyqMlBhOJMR4dXYkkBvjZ+diLpC8YRV5ga9S3qTb6XiJ3HQU8vt7U3knwfqJy5T4j7LokdXHFSdKqpmGJ/MERfcB37aRaVmYkIqLDQKgIjersmukRz5uwWW+m8904pejSnFvFUoWVtLa7AoZpkgmZpCXx8FYKg9aERhtFS9dtKg==
+ b=cfgWIjlvzt6bg+FSZq+/mUddgeOSEjIrDzTa3nSV1S5sghGEGoPJh5pqMuPBQbKfamG+fwIwDERUl0X1LXoNLZrxtFA81YIgc3WhMin0DIXHEDtThv/HLys7frjoOAN++GhtDOx8TM5Hej5e0+xQg3wpQE4fm8dWDCn6KzyayyVz+QYnvEjvvlnKpV5GZ35Fx7XeRlWjueyBfftpbnIzBQRhg7i37YFouXOFrnNKz6Wcz4eGQf+CyTtyIt952lKq2eAdzx+5uTsepTU+SdowgMpOOs2FrOyjhpNEuaCnGkd04y7mmZeFnToF/7mFaXw2hCEeGXDkDGGVdCpufjMFtw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bNtrZ6vGbJE0ObaYJ1TCXSY1JfUNEiTWQpJIa5L7DTg=;
- b=c6ec2MU3DVsofFpYoZsTbmRpquU1GaHsDZcM2IqbvaqDmG/ZiugkKmxvCmU5g1Pf2L0LxGmB98qhKQpFVYEFBQQ64yztToJ+LOmXfLv66rnega5J9Iu+53uzbS3/BKXrJFYhMf18K7FQmzGDRKsrj7+9t1MIZXPbcOj4/RFVwBKk+O/muLrdItHUu+OK6fuwsqCFGmNyoKr+CqV3+gEC0w0fs5zuHajciqxp9d3WY1PItglWGr2Khi7iVltmAOhcfOuER29hGerZfVGPn+FD6FYk/PuZPc1YwPozMUS3SX8/FbaUUr/hp5J4z9kqj6yHxIQPD0A/F8d/jCyqn2tIXQ==
+ bh=ZWLA17RhTy/P12QWhXV/uUeryxHKqnl0eWMaGIQpmRo=;
+ b=IqQHwSqd88prj5TGFubSeCFvNX5JBvKksTJUMpKhESrgLoFlyGFL+bKikiWEtux/ExrBO11IoH/fsYNny9YfBNA9eGdK7Zy5PwjEwVj8Fr5aFghFpJYahJgJ+qNUa/mCbrt307GOpnA0kyUgfVBgXS2Fk80J9g0Dpw0Syn/7czy+X+hZtviOSCEQtt6pTeBCbeE6mLufNHNAToX8obj3htMKoq6i5cbb9bd1YJdL7HgkPn1eqshyTRhrKbUmIlSd3b/1Xg9TNpj6AktRItA9B6tm2QQrpDMikjiVmAReIK6y5WLvSYyarmRQtVFUt/Xtk0A+KhLQvq+nd817m9BTGw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 Received: from VE1EUR01FT039.eop-EUR01.prod.protection.outlook.com
- (10.152.2.52) by VE1EUR01HT233.eop-EUR01.prod.protection.outlook.com
- (10.152.3.238) with Microsoft SMTP Server (version=TLS1_2,
+ (10.152.2.55) by VE1EUR01HT182.eop-EUR01.prod.protection.outlook.com
+ (10.152.3.169) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2387.20; Tue, 29 Oct
  2019 01:24:51 +0000
 Received: from HE1PR06MB4011.eurprd06.prod.outlook.com (10.152.2.56) by
@@ -43,13 +43,11 @@ CC:     Jonas Karlman <jonas@kwiboo.se>, Hans Verkuil <hverkuil@xs4all.nl>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 06/10] media: hantro: Use capture buffer width and height
- for H264 decoding
-Thread-Topic: [PATCH v2 06/10] media: hantro: Use capture buffer width and
- height for H264 decoding
-Thread-Index: AQHVjfeo82jSI9YHWUmKxjQOPPg3vA==
-Date:   Tue, 29 Oct 2019 01:24:50 +0000
-Message-ID: <HE1PR06MB4011544CF7A6F36EF1CA47EEAC610@HE1PR06MB4011.eurprd06.prod.outlook.com>
+Subject: [PATCH v2 07/10] media: hantro: Remove now unused H264 pic_size
+Thread-Topic: [PATCH v2 07/10] media: hantro: Remove now unused H264 pic_size
+Thread-Index: AQHVjfepVNzXvr4wxEChzENhNjxOww==
+Date:   Tue, 29 Oct 2019 01:24:51 +0000
+Message-ID: <HE1PR06MB4011F0A6FB7B474D16DD7957AC610@HE1PR06MB4011.eurprd06.prod.outlook.com>
 References: <HE1PR06MB401108289F09802C261374F8AC610@HE1PR06MB4011.eurprd06.prod.outlook.com>
  <20191029012430.24566-1-jonas@kwiboo.se>
 In-Reply-To: <20191029012430.24566-1-jonas@kwiboo.se>
@@ -60,63 +58,86 @@ X-MS-TNEF-Correlator:
 x-clientproxiedby: HE1PR09CA0090.eurprd09.prod.outlook.com
  (2603:10a6:7:3d::34) To HE1PR06MB4011.eurprd06.prod.outlook.com
  (2603:10a6:7:9c::32)
-x-incomingtopheadermarker: OriginalChecksum:6AE5A82A38F502B304B0D880C8C952D97A55CE5A850562E50F39267229963BF5;UpperCasedChecksum:8C667928A0E4582A42556D31631541D59224DA590EAEE6752BEBC21BD9E4F907;SizeAsReceived:7669;Count:49
+x-incomingtopheadermarker: OriginalChecksum:DA2863AF379F9D4AC40C3B3D740CD38C289EA01DAAAA39200AD3BDE89C895BC5;UpperCasedChecksum:D54D73927F7BE65D119DCC12801521C0C0A62EB3F909A56BF22BDF47BDC7D2A9;SizeAsReceived:7620;Count:49
 x-ms-exchange-messagesentrepresentingtype: 1
 x-mailer: git-send-email 2.17.1
-x-tmn:  [gGim5ZXdx0JrTTBQtcpEMpeofKhUFehS]
-x-microsoft-original-message-id: <20191029012430.24566-6-jonas@kwiboo.se>
+x-tmn:  [/1ht+c4wAinBGu7RZ8ipog7S040cACHf]
+x-microsoft-original-message-id: <20191029012430.24566-7-jonas@kwiboo.se>
 x-ms-publictraffictype: Email
 x-incomingheadercount: 49
 x-eopattributedmessage: 0
-x-ms-traffictypediagnostic: VE1EUR01HT233:
+x-ms-traffictypediagnostic: VE1EUR01HT182:
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 78uxsjHeZbfyP6b9FAVrA/uS9Woid0VBvu66jDqwaNQ4oyIr9ZKo0K8PDko2zeamSkvbZpBUJQtik5PGQ0L1cVjpYzlMFG9NHA/w2vSsYDrwoLnipLHfYA/Xi/p8XGO7/XgDSrFzkxzW3BjBavbGFdgEEK64eMEyrStu8tlstkCNnXF4BqBlxaIgGCcKbWnA
+x-microsoft-antispam-message-info: N9Bb1jj9HaBi0RVe4ZeDxonXOSs6nopA58mr/CpG72pHR2a7mhlJAx2ROMs0b/jVoknUbMUOzCwrQyFKnVw/vXY22PT2mSIw6fnQM7IogPQMd04GxS1iWt68M7h6Jy1TO/a/Ucvhg8VXku0OovBSlkPmrQIZTN4prGp2a6D6orNUpsgsUSM1Yi/JciGJqIuW
 x-ms-exchange-transport-forked: True
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
 X-OriginatorOrg: outlook.com
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: c880f473-f168-4298-ced7-08d75c0ecb38
+X-MS-Exchange-CrossTenant-Network-Message-Id: bad8c7ea-194b-493c-77bc-08d75c0ecbad
 X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Oct 2019 01:24:50.8637
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Oct 2019 01:24:51.7002
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Internet
 X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1EUR01HT233
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1EUR01HT182
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Calculations for motion vector buffer offset is based on width and height
-from the configured capture format, lets use the same values for macroblock
-width and height hw regs.
+pic_size in hantro_h264_dec_hw_ctx struct is no longer used,
+lets remove it.
 
-Fixes: dea0a82f3d22 ("media: hantro: Add support for H264 decoding on G1")
 Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 ---
-Changes in v2:
-  - new patch split from "media: hantro: Fix H264 motion vector buffer offset"
----
- drivers/staging/media/hantro/hantro_g1_h264_dec.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/media/hantro/hantro_h264.c | 5 -----
+ drivers/staging/media/hantro/hantro_hw.h   | 3 ---
+ 2 files changed, 8 deletions(-)
 
-diff --git a/drivers/staging/media/hantro/hantro_g1_h264_dec.c b/drivers/staging/media/hantro/hantro_g1_h264_dec.c
-index 71bf162eaf73..eeed11366135 100644
---- a/drivers/staging/media/hantro/hantro_g1_h264_dec.c
-+++ b/drivers/staging/media/hantro/hantro_g1_h264_dec.c
-@@ -51,8 +51,8 @@ static void set_params(struct hantro_ctx *ctx)
- 	vdpu_write_relaxed(vpu, reg, G1_REG_DEC_CTRL0);
+diff --git a/drivers/staging/media/hantro/hantro_h264.c b/drivers/staging/media/hantro/hantro_h264.c
+index 694a330f508e..568640eab3a6 100644
+--- a/drivers/staging/media/hantro/hantro_h264.c
++++ b/drivers/staging/media/hantro/hantro_h264.c
+@@ -618,7 +618,6 @@ int hantro_h264_dec_init(struct hantro_ctx *ctx)
+ 	struct hantro_h264_dec_hw_ctx *h264_dec = &ctx->h264_dec;
+ 	struct hantro_aux_buf *priv = &h264_dec->priv;
+ 	struct hantro_h264_dec_priv_tbl *tbl;
+-	struct v4l2_pix_format_mplane pix_mp;
  
- 	/* Decoder control register 1. */
--	reg = G1_REG_DEC_CTRL1_PIC_MB_WIDTH(sps->pic_width_in_mbs_minus1 + 1) |
--	      G1_REG_DEC_CTRL1_PIC_MB_HEIGHT_P(sps->pic_height_in_map_units_minus1 + 1) |
-+	reg = G1_REG_DEC_CTRL1_PIC_MB_WIDTH(MB_WIDTH(ctx->dst_fmt.width)) |
-+	      G1_REG_DEC_CTRL1_PIC_MB_HEIGHT_P(MB_HEIGHT(ctx->dst_fmt.height)) |
- 	      G1_REG_DEC_CTRL1_REF_FRAMES(sps->max_num_ref_frames);
- 	vdpu_write_relaxed(vpu, reg, G1_REG_DEC_CTRL1);
+ 	priv->cpu = dma_alloc_coherent(vpu->dev, sizeof(*tbl), &priv->dma,
+ 				       GFP_KERNEL);
+@@ -629,9 +628,5 @@ int hantro_h264_dec_init(struct hantro_ctx *ctx)
+ 	tbl = priv->cpu;
+ 	memcpy(tbl->cabac_table, h264_cabac_table, sizeof(tbl->cabac_table));
  
+-	v4l2_fill_pixfmt_mp(&pix_mp, ctx->dst_fmt.pixelformat,
+-			    ctx->dst_fmt.width, ctx->dst_fmt.height);
+-	h264_dec->pic_size = pix_mp.plane_fmt[0].sizeimage;
+-
+ 	return 0;
+ }
+diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+index 69b88f4d3fb3..fa91dd1848b7 100644
+--- a/drivers/staging/media/hantro/hantro_hw.h
++++ b/drivers/staging/media/hantro/hantro_hw.h
+@@ -80,15 +80,12 @@ struct hantro_h264_dec_reflists {
+  * @dpb:	DPB
+  * @reflists:	P/B0/B1 reflists
+  * @ctrls:	V4L2 controls attached to a run
+- * @pic_size:	Size in bytes of decoded picture, this is needed
+- *		to pass the location of motion vectors.
+  */
+ struct hantro_h264_dec_hw_ctx {
+ 	struct hantro_aux_buf priv;
+ 	struct v4l2_h264_dpb_entry dpb[HANTRO_H264_DPB_SIZE];
+ 	struct hantro_h264_dec_reflists reflists;
+ 	struct hantro_h264_dec_ctrls ctrls;
+-	size_t pic_size;
+ };
+ 
+ /**
 -- 
 2.17.1
 
