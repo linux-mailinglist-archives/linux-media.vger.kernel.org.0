@@ -2,52 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C9A23E8F30
-	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2019 19:24:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 65C3FE8F54
+	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2019 19:32:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727656AbfJ2SYM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Oct 2019 14:24:12 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:60752 "EHLO
+        id S1731717AbfJ2ScF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Oct 2019 14:32:05 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:42186 "EHLO
         aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726923AbfJ2SYM (ORCPT
+        with ESMTP id S1725879AbfJ2ScE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Oct 2019 14:24:12 -0400
+        Tue, 29 Oct 2019 14:32:04 -0400
 Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9TI5UUe155040;
-        Tue, 29 Oct 2019 18:24:08 GMT
+        by aserp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9TIOwfb171648;
+        Tue, 29 Oct 2019 18:31:55 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
  : subject : message-id : mime-version : content-type; s=corp-2019-08-05;
- bh=CBucKVszmtDkvTv5jp3bH4K3Bhl/s5iJ0btzBQYUPTw=;
- b=Ba68fn1ARkOxtVaBzMD7fr/JplX/xSOKPF/C8n19nSMHdoAJBri7TREZRrhMlXdyjMSj
- ibEuYrI9UHQ+WevL07YZNrk7ypp1QYw9AhWP6pPUNxaaOoEvmHKVuNhwG291qG31SO91
- wViQ2OqL5UEZi533lG9U4TXW/kuj2/yYhYZObZYy0B7V+TyGwldlGYTVOcC51peRSpJ5
- qJMQ4u0Num+8VmIXSU3oKsbkl1cYQZc1cXoS1CZj9kYD1D4fQV4OJ/UVLcJU8dVioWjk
- Ha2pk3q2pjOegvuPhbO0+LDQ+Lbr9eg8t/NsdM03dvIB6KNog49EtKdLFlANjoHBUU71 Fw== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by aserp2120.oracle.com with ESMTP id 2vve3qb2wc-1
+ bh=W5i8RaPuVxfk2wF9jP1qOXUbfa1KG3Gyj6D6MLp1DEs=;
+ b=NjXdPhBDYKdqRh4Wu+tccs0Fs6vlwdxTeMtGEOX0HssoCew4FOYZNl5boTN+bpfkvgaw
+ Ms5BwxZh/ABu+16yFvwO2JzCJA2MzXZ+BAlKbuKtuWGlZ5W6vUSZG28JbZqvTcbq7UPl
+ RL4+BeXLYB6zBl4MEqGpfAmHy7flzJBtpKl2ecAarxa5fNlNdsM04eHMykTu/xAmAQ+A
+ ZtkaVVKLeDK/T/A0WwcAU+61XwOJDBZxlS714UZvCd89pluAw6z6A/Nth8nlCYxdi94U
+ 2qXOie2NUdrkIqBtailmTlHCgnMkFu/h49Yuzw4R9RBbE6e4K9d4lfLMsPniYUGiTDvt vQ== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by aserp2120.oracle.com with ESMTP id 2vve3qb4ae-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 29 Oct 2019 18:24:08 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9TI8RBT052331;
-        Tue, 29 Oct 2019 18:24:07 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-        by userp3030.oracle.com with ESMTP id 2vxj8gqc81-1
+        Tue, 29 Oct 2019 18:31:54 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x9TISme2036943;
+        Tue, 29 Oct 2019 18:29:54 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by aserp3020.oracle.com with ESMTP id 2vxpfdh4tj-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 29 Oct 2019 18:24:07 +0000
-Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
-        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x9TIO64U007303;
-        Tue, 29 Oct 2019 18:24:06 GMT
+        Tue, 29 Oct 2019 18:29:54 +0000
+Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x9TITq3g015039;
+        Tue, 29 Oct 2019 18:29:52 GMT
 Received: from mwanda (/41.57.98.10)
         by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Tue, 29 Oct 2019 11:24:06 -0700
-Date:   Tue, 29 Oct 2019 21:24:01 +0300
+        with ESMTP ; Tue, 29 Oct 2019 11:29:51 -0700
+Date:   Tue, 29 Oct 2019 21:29:43 +0300
 From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+To:     Sumit Semwal <sumit.semwal@linaro.org>,
+        John Stultz <john.stultz@linaro.org>
+Cc:     "Andrew F. Davis" <afd@ti.com>,
+        Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@redhat.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
         kernel-janitors@vger.kernel.org
-Subject: [PATCH] media: smiapp: unlock on error in smiapp_start_streaming()
-Message-ID: <20191029182401.GB17569@mwanda>
+Subject: [PATCH] dma-buf: Fix a warning message in dma_heap_buffer_destroy()
+Message-ID: <20191029182943.GD17569@mwanda>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -57,47 +63,40 @@ X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9425 signatures=6
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 malwarescore=0
  phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
  adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.0.1-1908290000 definitions=main-1910290160
+ engine=8.0.1-1908290000 definitions=main-1910290161
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9425 signatures=668685
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
  suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
  lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1908290000
- definitions=main-1910290160
+ definitions=main-1910290161
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-We added two new error paths to smiapp_start_streaming(), but we can't
-return directly without dropping the "sensor->mutex" lock.
+The first argument of WARN() is a condition so this will just print the
+function name instead of the whole warning message.
 
-Fixes: f8c4352c1bef ("media: smiapp: Move binning configuration to streaming start")
+Fixes: 7b87ea704fd9 ("dma-buf: heaps: Add heap helpers")
 Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
 ---
- drivers/media/i2c/smiapp/smiapp-core.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/dma-buf/heaps/heap-helpers.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/i2c/smiapp/smiapp-core.c b/drivers/media/i2c/smiapp/smiapp-core.c
-index 77dfce7c3be9..84f9771b5fed 100644
---- a/drivers/media/i2c/smiapp/smiapp-core.c
-+++ b/drivers/media/i2c/smiapp/smiapp-core.c
-@@ -1362,13 +1362,13 @@ static int smiapp_start_streaming(struct smiapp_sensor *sensor)
- 		rval = smiapp_write(
- 			sensor, SMIAPP_REG_U8_BINNING_TYPE, binning_type);
- 		if (rval < 0)
--			return rval;
-+			goto out;
- 
- 		binning_mode = 1;
+diff --git a/drivers/dma-buf/heaps/heap-helpers.c b/drivers/dma-buf/heaps/heap-helpers.c
+index 750bef4e902d..a31684c0d5b2 100644
+--- a/drivers/dma-buf/heaps/heap-helpers.c
++++ b/drivers/dma-buf/heaps/heap-helpers.c
+@@ -52,7 +52,7 @@ static void *dma_heap_map_kernel(struct heap_helper_buffer *buffer)
+ static void dma_heap_buffer_destroy(struct heap_helper_buffer *buffer)
+ {
+ 	if (buffer->vmap_cnt > 0) {
+-		WARN("%s: buffer still mapped in the kernel\n", __func__);
++		WARN(1, "%s: buffer still mapped in the kernel\n", __func__);
+ 		vunmap(buffer->vaddr);
  	}
- 	rval = smiapp_write(sensor, SMIAPP_REG_U8_BINNING_MODE, binning_mode);
- 	if (rval < 0)
--		return rval;
-+		goto out;
  
- 	/* Set up PLL */
- 	rval = smiapp_pll_configure(sensor);
 -- 
 2.20.1
 
