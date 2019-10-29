@@ -2,130 +2,285 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A134E8AA3
-	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2019 15:20:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 47DF5E8AB0
+	for <lists+linux-media@lfdr.de>; Tue, 29 Oct 2019 15:23:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388915AbfJ2OUl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Oct 2019 10:20:41 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:44976 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388595AbfJ2OUk (ORCPT
+        id S2389292AbfJ2OW7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Oct 2019 10:22:59 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:38990 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389221AbfJ2OW7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Oct 2019 10:20:40 -0400
-Received: from pendragon.ideasonboard.com (unknown [91.217.168.176])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E41D82BA;
-        Tue, 29 Oct 2019 15:20:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1572358838;
-        bh=uH3Lm48NZZdND2IWIyfVLaAIb3mJZXxKczrBLNDITEA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=vsTBTaPlZyGLASzNlatAoZHHeYPBp97Mlg8cdTLGSmeruCjCOYqsOus7e8vqcffWo
-         S0cNqdv8/4VA4L5ZYXUHHsMhOPs0PC5alnbxaBypk2np2GA/iRifX8qpAeIUufIFxK
-         PStc2ddYco3H+FKMEcb7veiS+jrEHOrmHdpQpE8U=
-Date:   Tue, 29 Oct 2019 16:20:29 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Daniel Gomez <daniel@qtec.com>
-Cc:     Helen Koike <helen.koike@collabora.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Eugen Hristev <Eugen.Hristev@microchip.com>,
-        Dafna Hirschfeld <dafna3@gmail.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Dave Stevenson <dave.stevenson@raspberrypi.org>
-Subject: Re: [ANN v2] Media sessions in Lyon in October: libcamera
-Message-ID: <20191029142029.GC4737@pendragon.ideasonboard.com>
-References: <b5b18a86-6137-99a0-0319-d389bac01206@xs4all.nl>
- <CAAEAJfA+ErfDTj87C7rKmo4qSqHL9+uyFEWrWecpCg8RpJ+Cpg@mail.gmail.com>
- <a774d273-fa54-d0b8-1043-48404958ca05@collabora.com>
- <CAH1Ww+S7DoMUbqX5hO_MFpM3i0H=1F8SOTRxoPXLrWf45d6RuA@mail.gmail.com>
+        Tue, 29 Oct 2019 10:22:59 -0400
+Received: by mail-ot1-f67.google.com with SMTP id t8so3773574otl.6;
+        Tue, 29 Oct 2019 07:22:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=wOvUmxaKvya7RciyrImZgOUHP7nhtqsdJJNqD2oUue8=;
+        b=ERhlw34/FocgjHb1Nv/HajfzaAUrqBC6Z51yC/7V1rQL4QRvZ4+kfEKlKLuWu8LIFd
+         Y84nbMxM9MRUXK0KFfeK8tKbWqU+KJqftDVRRvkIO0bz9YxagfayVxIEySAwu6tmNhls
+         mRGfw/Suk0C4GPviDBoMpsNLWimpqDQGBFM+xU1newKj/f2Pqc9DSUGezSp8Tipg9q/3
+         Ax0FKuKVrTZTvxqd0xLmaZwatRry4Ct8baLuMQ4NhXm0/zYp+QqI+jtX8cYNVHW8nk86
+         mZDmq4r0k4W479OIBU2cRxXKoH4RhdQOZqCD66AluBLUCSDsHVQKSj8ULyWNoSMAsWnA
+         xRtw==
+X-Gm-Message-State: APjAAAVel5ICJZFHn5FH4esXwyRg2DoHzURbAQ6uKH0OhVPCbF5LLx93
+        XzA9BpbL5pPT58JsbgMDow==
+X-Google-Smtp-Source: APXvYqzDCEcMgpQ6CPgRpHiHvSWzt3COcNrpd0Jy+QHeuHgwYDwU4yeRMhf2fepKpJY/ElaurALcKw==
+X-Received: by 2002:a9d:2dc1:: with SMTP id g59mr17448521otb.59.1572358976496;
+        Tue, 29 Oct 2019 07:22:56 -0700 (PDT)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id m205sm883891oif.10.2019.10.29.07.22.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Oct 2019 07:22:54 -0700 (PDT)
+Date:   Tue, 29 Oct 2019 09:22:53 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Benoit Parrot <bparrot@ti.com>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [Patch 19/19] dt-bindings: media: cal: convert binding to yaml
+Message-ID: <20191029142253.GA7612@bogus>
+References: <20191018153437.20614-1-bparrot@ti.com>
+ <20191018153437.20614-20-bparrot@ti.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAH1Ww+S7DoMUbqX5hO_MFpM3i0H=1F8SOTRxoPXLrWf45d6RuA@mail.gmail.com>
+In-Reply-To: <20191018153437.20614-20-bparrot@ti.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Daniel,
-
-On Mon, Oct 28, 2019 at 11:03:05PM +0100, Daniel Gomez wrote:
-> On Mon, 21 Oct 2019 at 08:36, Helen Koike <helen.koike@collabora.com> wrote:
-> > On 10/20/19 5:13 PM, Ezequiel Garcia wrote:
-> >> On Thu, 17 Oct 2019 at 13:16, Hans Verkuil <hverkuil@xs4all.nl> wrote:
-> >>>
-> >>> (Just updated the attendee list for this meeting, no other changes)
-> >>>
-> >>> Hi all,
-> >>>
-> >>> Since we have three separate half-day sessions for different topics I decided
-> >>> to split the announcement for this in three emails as well, so these things
-> >>> can be discussed in separate threads.
-> >>>
-> >>> All sessions are in room Terreaux VIP Lounge - Level 0.
-> >>> There is a maximum of 15 people.
-> >>>
-> >>> The second session deals with libcamera and is on Wednesday morning
-> >>> from 9:00 to 13:00.
-> >>>
-> >>> Attendees for this session:
-> >>>
-> >>> Nicolas Dufresne <nicolas@ndufresne.ca>
-> >>> Tomasz Figa <tfiga@chromium.org>
-> >>> Ezequiel Garcia <ezequiel@collabora.com>
-> >>> Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> >>
-> >> I beliebe Dafna and I should not be on this list, and instead
-> >> Helen Koike and Nicolas Dufresne would be attending.
-> >
-> > Yes, I'm interested in attending the libcamera session.
-> >
-> >>> Eugen Hristev <Eugen.Hristev@microchip.com>
-> >>> Jacopo Mondi <jacopo@jmondi.org>
-> >>> Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >>> Niklas Söderlund <niklas.soderlund@ragnatech.se>
-> >>> Dave Stevenson <dave.stevenson@raspberrypi.org>
-> >>> Hans Verkuil <hverkuil@xs4all.nl>
-> >>>
-> >>> That's 10 people.
-> >>>
-> >>> Planning to use libcamera, but willing to give up their seat if needed:
-> >>>
-> >>> Daniel Gomez <daniel@qtec.com>
-> >>> Helen Koike <helen.koike@collabora.com>
-> >>>
-> >>> Just interested:
-> >>>
-> >>> Boris Brezillon <boris.brezillon@collabora.com>
-> >>> Alexandre Courbot <acourbot@chromium.org>
-> >>>
-> >>> If I missed someone, or you are on the list but won't attend after all, then
-> >>> please let me know.
-> >>>
-> >>> Attendees: it is probably useful if you let us know whether you have to
-> >>> join this meeting because you plan to use libcamera, or if you are 'just
-> >>> interested'. After the libcamera presentation on Tuesday afternoon we
-> >>> should know how many of the 'just interested' list can join.
-> >>>
-> >>> Agenda:
-> >>>
-> >>> TBD by Laurent.
+On Fri, Oct 18, 2019 at 10:34:37AM -0500, Benoit Parrot wrote:
+> Convert ti-cal.txt to ti,cal.yaml.
 > 
-> I would like to know if there are more people you plan to add to the
-> attendee's list.
-> If not, I would like to be there.
+> Signed-off-by: Benoit Parrot <bparrot@ti.com>
+> ---
+>  .../devicetree/bindings/media/ti,cal.yaml     | 186 ++++++++++++++++++
+>  .../devicetree/bindings/media/ti-cal.txt      |  82 --------
+>  2 files changed, 186 insertions(+), 82 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/media/ti,cal.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/media/ti-cal.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/media/ti,cal.yaml b/Documentation/devicetree/bindings/media/ti,cal.yaml
+> new file mode 100644
+> index 000000000000..c3fbb22b4571
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/ti,cal.yaml
+> @@ -0,0 +1,186 @@
+> +# SPDX-License-Identifier: (GPL-2.0)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/ti,cal.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Texas Instruments DRA72x CAMERA ADAPTATION LAYER (CAL) Device Tree Bindings
+> +
+> +maintainers:
+> +  - Benoit Parrot <bparrot@ti.com>
+> +
+> +description: |-
+> +  The Camera Adaptation Layer (CAL) is a key component for image capture
+> +  applications. The capture module provides the system interface and the
+> +  processing capability to connect CSI2 image-sensor modules to the
+> +  DRA72x device.
+> +
+> +  CAL supports 2 camera port nodes on MIPI bus. Each CSI2 camera port nodes
+> +  should contain a 'port' child node with child 'endpoint' node. Please
+> +  refer to the bindings defined in
+> +  Documentation/devicetree/bindings/media/video-interfaces.txt.
+> +
+> +  compatible should be
+> +     "ti,dra72-cal", for DRA72 controllers
+> +     "ti,dra72-pre-es2-cal", for DRA72 controllers pre ES2.0
+> +     "ti,dra76-cal", for DRA76 controllers
+> +     "ti,am654-cal", for AM654 controllers
 
-You're certainly welcome. See you tomorrow :-)
+Drop these or add as comments to the schema below.
 
--- 
-Regards,
+> +
+> +properties:
+> +  compatible:
+> +      items:
 
-Laurent Pinchart
+You can drop 'items' here since there is only 1.
+
+> +        - enum:
+> +            - ti,dra72-cal
+> +            - ti,dra72-pre-es2-cal
+> +            - ti,dra76-cal
+> +            - ti,am654-cal
+> +
+> +  reg:
+> +    minItems: 2
+> +    items:
+> +      - description: The CAL main register region
+> +      - description: The RX Core0 (DPHY0) register region
+> +      - description: The RX Core1 (DPHY1) register region
+> +
+> +  reg-names:
+> +    minItems: 2
+> +    items:
+> +      - const: cal_top
+> +      - const: cal_rx_core0
+> +      - const: cal_rx_core1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  syscon-camerrx:
+
+Needs a type definition.
+
+> +    maxItems: 1
+> +    items:
+> +      - description:
+> +           phandle to the device control module and offset to the
+> +           control_camerarx_core register
+> +
+> +  clocks:
+> +    maxItems: 1
+> +    description: functional clock
+
+You can drop the description.
+
+> +
+> +  clock-names:
+> +    items:
+
+Drop items.
+
+> +      - const: fck
+> +
+> +  power-domains:
+> +    description:
+> +      List of phandle and PM domain specifier as documented in
+> +      Documentation/devicetree/bindings/power/power_domain.txt
+> +    maxItems: 1
+> +
+> +  # See ./video-interfaces.txt for details
+> +  ports:
+> +    maxItems: 1
+
+But ports is not an array...
+
+> +    type: object
+> +    additionalProperties: false
+> +
+> +    properties:
+> +      "#address-cells":
+> +        const: 1
+> +
+> +      "#size-cells":
+> +        const: 0
+> +
+> +    patternProperties:
+> +      '^port@[0-9a-fA-F]+$':
+
+In a device binding, you need to specify 'port@0' and 'port@1' (assuming 
+0 and 1) and say what they are.
+
+> +        minItems: 1
+> +        maxItems: 2
+
+Not valid for an object (aka node).
+
+> +        type: object
+> +        additionalProperties: false
+> +
+> +        properties:
+> +          reg:
+> +            minItems: 1
+> +            items:
+> +              - description: The port id
+> +
+> +        patternProperties:
+> +          '^endpoint@[0-9a-fA-F]+$':
+
+Just 'endpoint' is valid too.
+
+> +            minItems: 1
+> +            type: object
+> +            additionalProperties: false
+> +
+> +            properties:
+> +              clock-lanes:
+> +                maxItems: 1
+> +
+> +              data-lanes:
+> +                minItems: 1
+> +                maxItems: 4
+> +
+> +              remote-endpoint: true
+> +
+> +            required:
+> +              - remote-endpoint
+> +
+> +        required:
+> +          - reg
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - reg-names
+> +  - interrupts
+> +  - syscon-camerrx
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    cal: cal@4845b000 {
+> +        compatible = "ti,dra72-cal";
+> +        reg = <0x4845B000 0x400>,
+> +              <0x4845B800 0x40>,
+> +              <0x4845B900 0x40>;
+> +        reg-names = "cal_top",
+> +                    "cal_rx_core0",
+> +                    "cal_rx_core1";
+> +        interrupts = <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH>;
+> +        syscon-camerrx = <&scm_conf 0xE94>;
+> +
+> +        ports {
+> +              #address-cells = <1>;
+> +              #size-cells = <0>;
+> +
+> +              csi2_0: port@0 {
+> +                    reg = <0>;
+> +                    csi2_phy0: endpoint@0 {
+> +                           remote-endpoint = <&csi2_cam0>;
+> +                           clock-lanes = <0>;
+> +                           data-lanes = <1 2>;
+> +                    };
+> +              };
+> +        };
+> +    };
+> +
+> +    i2c5: i2c@4807c000 {
+> +        status = "okay";
+> +        clock-frequency = <400000>;
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        ov5640@3c {
+> +               compatible = "ovti,ov5640";
+> +               reg = <0x3c>;
+> +
+> +               clocks = <&clk_ov5640_fixed>;
+> +               clock-names = "xclk";
+> +
+> +               port {
+> +                    csi2_cam0: endpoint@0 {
+> +                            remote-endpoint = <&csi2_phy0>;
+> +                            clock-lanes = <0>;
+> +                            data-lanes = <1 2>;
+> +                    };
+> +               };
+> +        };
+> +    };
+> +
+> +...
