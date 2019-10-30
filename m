@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E70D1EA4C2
-	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2019 21:30:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 24D42EA4C4
+	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2019 21:30:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726853AbfJ3Uaj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Oct 2019 16:30:39 -0400
-Received: from mail-yb1-f196.google.com ([209.85.219.196]:36229 "EHLO
-        mail-yb1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726612AbfJ3Uai (ORCPT
+        id S1726883AbfJ3Ual (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Oct 2019 16:30:41 -0400
+Received: from mail-yw1-f65.google.com ([209.85.161.65]:35440 "EHLO
+        mail-yw1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726612AbfJ3Uak (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Oct 2019 16:30:38 -0400
-Received: by mail-yb1-f196.google.com with SMTP id c13so1468294ybq.3
-        for <linux-media@vger.kernel.org>; Wed, 30 Oct 2019 13:30:38 -0700 (PDT)
+        Wed, 30 Oct 2019 16:30:40 -0400
+Received: by mail-yw1-f65.google.com with SMTP id r134so1333778ywg.2
+        for <linux-media@vger.kernel.org>; Wed, 30 Oct 2019 13:30:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=poorly.run; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=PkjdSrZ3E9zkQ9Ztn0Eu35FRE4gi9xnr1qako38BwjY=;
-        b=bXWhFOKqFT4ecf1J8QwN8+Y/njrkZZAOULWzlmxqAyVEHq64jDkc3QDGlsqaqOTJxA
-         RU6bJ3xXxaOnBsZhKwKaPxlRqNJTjXabdzjvYZZ9QVlOQIcKXPBeFNLcaMsBRWQjLuTS
-         6pcTPLkuxNOgDV/5Sqxo7LHJ4Z1i0Z9P+EjQV1auh6+Pv3PQQqr2/HyA2eA7oKddotjj
-         bn/XKr8hUdve6/9EQJ+I0PXOG4Y0xKkaVOsU6IZs0CBjBrmRf5+zjvNAFSdFXRKTmFNt
-         w44k1rACUIKYxsoccnnr6GjrNe2tKV0R07MwGRgw52AFaVL8e8ezL4ZS8Z5A82i+eGQk
-         EmLQ==
+        bh=0iBo/bpNtAVrnbwT8ORdTsmBQ3tCsfrYh7X/5nVkhVU=;
+        b=daa0DwFs97qSaEVrqvIAVBntB/wqc3brv/BDyNmxKTkpHIGCpVMdqAHr2asWx3NyPJ
+         cZdq6cnN//jB6T3we9XQlpKYaYswqDl3UbbIwZmPnk7NlFwyjVHJcj9MpbBDlsE3zAxC
+         Ol6KtaXo7iH5iRv8yrShGd19KmwzsW4gb9ljexWdoeUqAv4bB+Wvlru0lSqW6IMRselG
+         YRKAE8vka/eblp2XQ0514amxyygBdMkIR+StWBxHSxcxTA0ECuDoIfjlHDOBu8BOETvN
+         0yhyHSAY8Kx0A4F50uf2L89nGedfK7EB+7fQSQLg7mJOBZWhfA+h9km9Do7uLz71NIGG
+         qdkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=PkjdSrZ3E9zkQ9Ztn0Eu35FRE4gi9xnr1qako38BwjY=;
-        b=PCpNISgGwWwfIJwOABi0In24T0Yr2igrhTpUBnE1471KNo4+CWZhqgpfcuqrAW/MkP
-         ngnKyZoQq9ZXGDDGhkTN+vEXQV7zBkWPJKlMZ5H+fST0nhGK0XfgxBzfrFVvHBeDCba2
-         b+Y6iZFTRukCfOJt2MfqFD99C3nuOyWoVhRMiWfY/Enrfm7+0v7XaxYsZgm066rFUlhT
-         sr8rD7eP4JhWa8dNHJ4t9co7vmtkCJFCil6/ZURZjkZRSzuHh+RNZgSwxRPLLxRgBJWw
-         z+f+LGoDTHwqYvpIkQL2euN3+xQZegZGV4kgJzAPocnuoyH0yumEFlshSoENA9cveiRO
-         Rr6Q==
-X-Gm-Message-State: APjAAAV8Pcet7ov/kMFuZ1oivLfj33P7Gcwa0zxp2vYqNSAS/0Jf3ez9
-        XLScnc0FEHvuyPJaGmcNZAZAZg==
-X-Google-Smtp-Source: APXvYqwxPm0bXgofifeJ0R7QvHZxz1P4sKd8T9IX39XjcztKk7AvxE3dV6X4teUseQWhwbXc6Z9NGw==
-X-Received: by 2002:a25:868c:: with SMTP id z12mr960656ybk.441.1572467437614;
-        Wed, 30 Oct 2019 13:30:37 -0700 (PDT)
+        bh=0iBo/bpNtAVrnbwT8ORdTsmBQ3tCsfrYh7X/5nVkhVU=;
+        b=Iu3Qr4GlnzdJuqj2cIiVqOFGAayG8xTPc8YNb1ffnS9oAQ10fjcYx33277hTNpXkF/
+         t8BuLchLtZZJl3wrjWjYyMkh2UdU2AE1Mf5RtY/iFVhm+2oEb3A4zrnLMXw65tSP2XAY
+         akWF8Sa0RU+Hv8CpR9D5qLpU77o8wYqEhxHTC4BbOz7+zAV6HzebnGIKSRO1PP+fh21C
+         U/6DvTr3vEWeKeZlagWvWNxXoDroGseuVWMwgXD5V66wRTLHHQKB5P1zTBSKrMMGKF4D
+         cYt+WI1EKmKinmlDXMEntPwQAnQ77mq4NNcT8IBor9j2xG3MAplSMnz9zyEtf14Y8sh2
+         o8gg==
+X-Gm-Message-State: APjAAAWocO70een+ar/9/AUmFtcXUQufQcCKqxOuC2paY0hNvr4U6WMB
+        PgKvEK57bHpz/1fqrwkwUjprTw==
+X-Google-Smtp-Source: APXvYqy7rZgsd+H15gO6kjJK6vT/+nsedm0Tz3xNmECn4AxRjr5B5buY0zEMWSyAeegESWU3bEsKpA==
+X-Received: by 2002:a81:7145:: with SMTP id m66mr1156673ywc.464.1572467439849;
+        Wed, 30 Oct 2019 13:30:39 -0700 (PDT)
 Received: from rosewood.cam.corp.google.com ([2620:0:1013:11:89c6:2139:5435:371d])
-        by smtp.gmail.com with ESMTPSA id h35sm416432ywk.63.2019.10.30.13.30.36
+        by smtp.gmail.com with ESMTPSA id h35sm416432ywk.63.2019.10.30.13.30.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Oct 2019 13:30:37 -0700 (PDT)
+        Wed, 30 Oct 2019 13:30:39 -0700 (PDT)
 From:   Sean Paul <sean@poorly.run>
 To:     dri-devel@lists.freedesktop.org
 Cc:     Sean Paul <seanpaul@chromium.org>,
@@ -66,9 +66,9 @@ Cc:     Sean Paul <seanpaul@chromium.org>,
         John Stultz <john.stultz@linaro.org>,
         linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
         Sean Paul <sean@poorly.run>
-Subject: [PATCH 3/5] Revert "dma-buf: heaps: Add system heap to dmabuf heaps"
-Date:   Wed, 30 Oct 2019 16:29:52 -0400
-Message-Id: <20191030203003.101156-4-sean@poorly.run>
+Subject: [PATCH 4/5] Revert "dma-buf: heaps: Add heap helpers"
+Date:   Wed, 30 Oct 2019 16:29:53 -0400
+Message-Id: <20191030203003.101156-5-sean@poorly.run>
 X-Mailer: git-send-email 2.24.0.rc0.303.g954a862665-goog
 In-Reply-To: <20191030203003.101156-1-sean@poorly.run>
 References: <20191030203003.101156-1-sean@poorly.run>
@@ -81,7 +81,7 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Sean Paul <seanpaul@chromium.org>
 
-This reverts commit 47a32f9c12266d450b92089148c6039591bd9909.
+This reverts commit 7b87ea704fd9606eaafa9150116536d72f5c4b1f.
 
 This patchset doesn't meet the UAPI requirements set out in [1] for the DRM
 subsystem. Once the userspace component is reviewed and ready for merge
@@ -89,7 +89,7 @@ we can try again.
 
 [1]- https://01.org/linuxgraphics/gfx-docs/drm/gpu/drm-uapi.html#open-source-userspace-requirements
 
-Fixes: 47a32f9c1226 ("dma-buf: heaps: Add system heap to dmabuf heaps")
+Fixes: 7b87ea704fd9 ("dma-buf: heaps: Add heap helpers")
 Cc: Laura Abbott <labbott@redhat.com>
 Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
 Cc: Sumit Semwal <sumit.semwal@linaro.org>
@@ -112,175 +112,370 @@ Cc: linux-media@vger.kernel.org
 Cc: linaro-mm-sig@lists.linaro.org
 Signed-off-by: Sean Paul <sean@poorly.run>
 ---
- drivers/dma-buf/Kconfig             |   2 -
- drivers/dma-buf/heaps/Kconfig       |   6 --
- drivers/dma-buf/heaps/Makefile      |   1 -
- drivers/dma-buf/heaps/system_heap.c | 124 ----------------------------
- 4 files changed, 133 deletions(-)
- delete mode 100644 drivers/dma-buf/heaps/Kconfig
- delete mode 100644 drivers/dma-buf/heaps/system_heap.c
+ drivers/dma-buf/Makefile             |   1 -
+ drivers/dma-buf/heaps/Makefile       |   2 -
+ drivers/dma-buf/heaps/heap-helpers.c | 268 ---------------------------
+ drivers/dma-buf/heaps/heap-helpers.h |  55 ------
+ 4 files changed, 326 deletions(-)
+ delete mode 100644 drivers/dma-buf/heaps/Makefile
+ delete mode 100644 drivers/dma-buf/heaps/heap-helpers.c
+ delete mode 100644 drivers/dma-buf/heaps/heap-helpers.h
 
-diff --git a/drivers/dma-buf/Kconfig b/drivers/dma-buf/Kconfig
-index 0613bb7770f5..bffa58fc3e6e 100644
---- a/drivers/dma-buf/Kconfig
-+++ b/drivers/dma-buf/Kconfig
-@@ -53,6 +53,4 @@ menuconfig DMABUF_HEAPS
- 	  allows userspace to allocate dma-bufs that can be shared
- 	  between drivers.
- 
--source "drivers/dma-buf/heaps/Kconfig"
--
- endmenu
-diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
-deleted file mode 100644
-index 205052744169..000000000000
---- a/drivers/dma-buf/heaps/Kconfig
-+++ /dev/null
-@@ -1,6 +0,0 @@
--config DMABUF_HEAPS_SYSTEM
--	bool "DMA-BUF System Heap"
--	depends on DMABUF_HEAPS
--	help
--	  Choose this option to enable the system dmabuf heap. The system heap
--	  is backed by pages from the buddy allocator. If in doubt, say Y.
+diff --git a/drivers/dma-buf/Makefile b/drivers/dma-buf/Makefile
+index 9c190026bfab..caee5eb3d351 100644
+--- a/drivers/dma-buf/Makefile
++++ b/drivers/dma-buf/Makefile
+@@ -2,7 +2,6 @@
+ obj-y := dma-buf.o dma-fence.o dma-fence-array.o dma-fence-chain.o \
+ 	 dma-resv.o seqno-fence.o
+ obj-$(CONFIG_DMABUF_HEAPS)	+= dma-heap.o
+-obj-$(CONFIG_DMABUF_HEAPS)	+= heaps/
+ obj-$(CONFIG_SYNC_FILE)		+= sync_file.o
+ obj-$(CONFIG_SW_SYNC)		+= sw_sync.o sync_debug.o
+ obj-$(CONFIG_UDMABUF)		+= udmabuf.o
 diff --git a/drivers/dma-buf/heaps/Makefile b/drivers/dma-buf/heaps/Makefile
-index d1808eca2581..de49898112db 100644
---- a/drivers/dma-buf/heaps/Makefile
-+++ b/drivers/dma-buf/heaps/Makefile
-@@ -1,3 +1,2 @@
- # SPDX-License-Identifier: GPL-2.0
- obj-y					+= heap-helpers.o
--obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)	+= system_heap.o
-diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
 deleted file mode 100644
-index 455782efbb32..000000000000
---- a/drivers/dma-buf/heaps/system_heap.c
+index de49898112db..000000000000
+--- a/drivers/dma-buf/heaps/Makefile
 +++ /dev/null
-@@ -1,124 +0,0 @@
+@@ -1,2 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0
+-obj-y					+= heap-helpers.o
+diff --git a/drivers/dma-buf/heaps/heap-helpers.c b/drivers/dma-buf/heaps/heap-helpers.c
+deleted file mode 100644
+index 750bef4e902d..000000000000
+--- a/drivers/dma-buf/heaps/heap-helpers.c
++++ /dev/null
+@@ -1,268 +0,0 @@
 -// SPDX-License-Identifier: GPL-2.0
+-#include <linux/device.h>
+-#include <linux/dma-buf.h>
+-#include <linux/err.h>
+-#include <linux/highmem.h>
+-#include <linux/idr.h>
+-#include <linux/list.h>
+-#include <linux/slab.h>
+-#include <linux/uaccess.h>
+-#include <linux/vmalloc.h>
+-#include <uapi/linux/dma-heap.h>
+-
+-#include "heap-helpers.h"
+-
+-void init_heap_helper_buffer(struct heap_helper_buffer *buffer,
+-			     void (*free)(struct heap_helper_buffer *))
+-{
+-	buffer->priv_virt = NULL;
+-	mutex_init(&buffer->lock);
+-	buffer->vmap_cnt = 0;
+-	buffer->vaddr = NULL;
+-	buffer->pagecount = 0;
+-	buffer->pages = NULL;
+-	INIT_LIST_HEAD(&buffer->attachments);
+-	buffer->free = free;
+-}
+-
+-struct dma_buf *heap_helper_export_dmabuf(struct heap_helper_buffer *buffer,
+-					  int fd_flags)
+-{
+-	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
+-
+-	exp_info.ops = &heap_helper_ops;
+-	exp_info.size = buffer->size;
+-	exp_info.flags = fd_flags;
+-	exp_info.priv = buffer;
+-
+-	return dma_buf_export(&exp_info);
+-}
+-
+-static void *dma_heap_map_kernel(struct heap_helper_buffer *buffer)
+-{
+-	void *vaddr;
+-
+-	vaddr = vmap(buffer->pages, buffer->pagecount, VM_MAP, PAGE_KERNEL);
+-	if (!vaddr)
+-		return ERR_PTR(-ENOMEM);
+-
+-	return vaddr;
+-}
+-
+-static void dma_heap_buffer_destroy(struct heap_helper_buffer *buffer)
+-{
+-	if (buffer->vmap_cnt > 0) {
+-		WARN("%s: buffer still mapped in the kernel\n", __func__);
+-		vunmap(buffer->vaddr);
+-	}
+-
+-	buffer->free(buffer);
+-}
+-
+-static void *dma_heap_buffer_vmap_get(struct heap_helper_buffer *buffer)
+-{
+-	void *vaddr;
+-
+-	if (buffer->vmap_cnt) {
+-		buffer->vmap_cnt++;
+-		return buffer->vaddr;
+-	}
+-	vaddr = dma_heap_map_kernel(buffer);
+-	if (IS_ERR(vaddr))
+-		return vaddr;
+-	buffer->vaddr = vaddr;
+-	buffer->vmap_cnt++;
+-	return vaddr;
+-}
+-
+-static void dma_heap_buffer_vmap_put(struct heap_helper_buffer *buffer)
+-{
+-	if (!--buffer->vmap_cnt) {
+-		vunmap(buffer->vaddr);
+-		buffer->vaddr = NULL;
+-	}
+-}
+-
+-struct dma_heaps_attachment {
+-	struct device *dev;
+-	struct sg_table table;
+-	struct list_head list;
+-};
+-
+-static int dma_heap_attach(struct dma_buf *dmabuf,
+-			   struct dma_buf_attachment *attachment)
+-{
+-	struct dma_heaps_attachment *a;
+-	struct heap_helper_buffer *buffer = dmabuf->priv;
+-	int ret;
+-
+-	a = kzalloc(sizeof(*a), GFP_KERNEL);
+-	if (!a)
+-		return -ENOMEM;
+-
+-	ret = sg_alloc_table_from_pages(&a->table, buffer->pages,
+-					buffer->pagecount, 0,
+-					buffer->pagecount << PAGE_SHIFT,
+-					GFP_KERNEL);
+-	if (ret) {
+-		kfree(a);
+-		return ret;
+-	}
+-
+-	a->dev = attachment->dev;
+-	INIT_LIST_HEAD(&a->list);
+-
+-	attachment->priv = a;
+-
+-	mutex_lock(&buffer->lock);
+-	list_add(&a->list, &buffer->attachments);
+-	mutex_unlock(&buffer->lock);
+-
+-	return 0;
+-}
+-
+-static void dma_heap_detach(struct dma_buf *dmabuf,
+-			    struct dma_buf_attachment *attachment)
+-{
+-	struct dma_heaps_attachment *a = attachment->priv;
+-	struct heap_helper_buffer *buffer = dmabuf->priv;
+-
+-	mutex_lock(&buffer->lock);
+-	list_del(&a->list);
+-	mutex_unlock(&buffer->lock);
+-
+-	sg_free_table(&a->table);
+-	kfree(a);
+-}
+-
+-static
+-struct sg_table *dma_heap_map_dma_buf(struct dma_buf_attachment *attachment,
+-				      enum dma_data_direction direction)
+-{
+-	struct dma_heaps_attachment *a = attachment->priv;
+-	struct sg_table *table;
+-
+-	table = &a->table;
+-
+-	if (!dma_map_sg(attachment->dev, table->sgl, table->nents,
+-			direction))
+-		table = ERR_PTR(-ENOMEM);
+-	return table;
+-}
+-
+-static void dma_heap_unmap_dma_buf(struct dma_buf_attachment *attachment,
+-				   struct sg_table *table,
+-				   enum dma_data_direction direction)
+-{
+-	dma_unmap_sg(attachment->dev, table->sgl, table->nents, direction);
+-}
+-
+-static vm_fault_t dma_heap_vm_fault(struct vm_fault *vmf)
+-{
+-	struct vm_area_struct *vma = vmf->vma;
+-	struct heap_helper_buffer *buffer = vma->vm_private_data;
+-
+-	vmf->page = buffer->pages[vmf->pgoff];
+-	get_page(vmf->page);
+-
+-	return 0;
+-}
+-
+-static const struct vm_operations_struct dma_heap_vm_ops = {
+-	.fault = dma_heap_vm_fault,
+-};
+-
+-static int dma_heap_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma)
+-{
+-	struct heap_helper_buffer *buffer = dmabuf->priv;
+-
+-	if ((vma->vm_flags & (VM_SHARED | VM_MAYSHARE)) == 0)
+-		return -EINVAL;
+-
+-	vma->vm_ops = &dma_heap_vm_ops;
+-	vma->vm_private_data = buffer;
+-
+-	return 0;
+-}
+-
+-static void dma_heap_dma_buf_release(struct dma_buf *dmabuf)
+-{
+-	struct heap_helper_buffer *buffer = dmabuf->priv;
+-
+-	dma_heap_buffer_destroy(buffer);
+-}
+-
+-static int dma_heap_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
+-					     enum dma_data_direction direction)
+-{
+-	struct heap_helper_buffer *buffer = dmabuf->priv;
+-	struct dma_heaps_attachment *a;
+-	int ret = 0;
+-
+-	mutex_lock(&buffer->lock);
+-
+-	if (buffer->vmap_cnt)
+-		invalidate_kernel_vmap_range(buffer->vaddr, buffer->size);
+-
+-	list_for_each_entry(a, &buffer->attachments, list) {
+-		dma_sync_sg_for_cpu(a->dev, a->table.sgl, a->table.nents,
+-				    direction);
+-	}
+-	mutex_unlock(&buffer->lock);
+-
+-	return ret;
+-}
+-
+-static int dma_heap_dma_buf_end_cpu_access(struct dma_buf *dmabuf,
+-					   enum dma_data_direction direction)
+-{
+-	struct heap_helper_buffer *buffer = dmabuf->priv;
+-	struct dma_heaps_attachment *a;
+-
+-	mutex_lock(&buffer->lock);
+-
+-	if (buffer->vmap_cnt)
+-		flush_kernel_vmap_range(buffer->vaddr, buffer->size);
+-
+-	list_for_each_entry(a, &buffer->attachments, list) {
+-		dma_sync_sg_for_device(a->dev, a->table.sgl, a->table.nents,
+-				       direction);
+-	}
+-	mutex_unlock(&buffer->lock);
+-
+-	return 0;
+-}
+-
+-static void *dma_heap_dma_buf_vmap(struct dma_buf *dmabuf)
+-{
+-	struct heap_helper_buffer *buffer = dmabuf->priv;
+-	void *vaddr;
+-
+-	mutex_lock(&buffer->lock);
+-	vaddr = dma_heap_buffer_vmap_get(buffer);
+-	mutex_unlock(&buffer->lock);
+-
+-	return vaddr;
+-}
+-
+-static void dma_heap_dma_buf_vunmap(struct dma_buf *dmabuf, void *vaddr)
+-{
+-	struct heap_helper_buffer *buffer = dmabuf->priv;
+-
+-	mutex_lock(&buffer->lock);
+-	dma_heap_buffer_vmap_put(buffer);
+-	mutex_unlock(&buffer->lock);
+-}
+-
+-const struct dma_buf_ops heap_helper_ops = {
+-	.map_dma_buf = dma_heap_map_dma_buf,
+-	.unmap_dma_buf = dma_heap_unmap_dma_buf,
+-	.mmap = dma_heap_mmap,
+-	.release = dma_heap_dma_buf_release,
+-	.attach = dma_heap_attach,
+-	.detach = dma_heap_detach,
+-	.begin_cpu_access = dma_heap_dma_buf_begin_cpu_access,
+-	.end_cpu_access = dma_heap_dma_buf_end_cpu_access,
+-	.vmap = dma_heap_dma_buf_vmap,
+-	.vunmap = dma_heap_dma_buf_vunmap,
+-};
+diff --git a/drivers/dma-buf/heaps/heap-helpers.h b/drivers/dma-buf/heaps/heap-helpers.h
+deleted file mode 100644
+index 911c931f7f06..000000000000
+--- a/drivers/dma-buf/heaps/heap-helpers.h
++++ /dev/null
+@@ -1,55 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
 -/*
-- * DMABUF System heap exporter
+- * DMABUF Heaps helper code
 - *
 - * Copyright (C) 2011 Google, Inc.
 - * Copyright (C) 2019 Linaro Ltd.
 - */
 -
--#include <linux/dma-buf.h>
--#include <linux/dma-mapping.h>
+-#ifndef _HEAP_HELPERS_H
+-#define _HEAP_HELPERS_H
+-
 -#include <linux/dma-heap.h>
--#include <linux/err.h>
--#include <linux/highmem.h>
--#include <linux/mm.h>
--#include <linux/module.h>
--#include <linux/scatterlist.h>
--#include <linux/slab.h>
--#include <linux/sched/signal.h>
--#include <asm/page.h>
+-#include <linux/list.h>
 -
--#include "heap-helpers.h"
--
--struct dma_heap *sys_heap;
--
--static void system_heap_free(struct heap_helper_buffer *buffer)
--{
--	pgoff_t pg;
--
--	for (pg = 0; pg < buffer->pagecount; pg++)
--		__free_page(buffer->pages[pg]);
--	kfree(buffer->pages);
--	kfree(buffer);
--}
--
--static int system_heap_allocate(struct dma_heap *heap,
--				unsigned long len,
--				unsigned long fd_flags,
--				unsigned long heap_flags)
--{
--	struct heap_helper_buffer *helper_buffer;
+-/**
+- * struct heap_helper_buffer - helper buffer metadata
+- * @heap:		back pointer to the heap the buffer came from
+- * @dmabuf:		backing dma-buf for this buffer
+- * @size:		size of the buffer
+- * @flags:		buffer specific flags
+- * @priv_virt		pointer to heap specific private value
+- * @lock		mutext to protect the data in this structure
+- * @vmap_cnt		count of vmap references on the buffer
+- * @vaddr		vmap'ed virtual address
+- * @pagecount		number of pages in the buffer
+- * @pages		list of page pointers
+- * @attachments		list of device attachments
+- *
+- * @free		heap callback to free the buffer
+- */
+-struct heap_helper_buffer {
+-	struct dma_heap *heap;
 -	struct dma_buf *dmabuf;
--	int ret = -ENOMEM;
--	pgoff_t pg;
+-	size_t size;
+-	unsigned long flags;
 -
--	helper_buffer = kzalloc(sizeof(*helper_buffer), GFP_KERNEL);
--	if (!helper_buffer)
--		return -ENOMEM;
+-	void *priv_virt;
+-	struct mutex lock;
+-	int vmap_cnt;
+-	void *vaddr;
+-	pgoff_t pagecount;
+-	struct page **pages;
+-	struct list_head attachments;
 -
--	init_heap_helper_buffer(helper_buffer, system_heap_free);
--	helper_buffer->flags = heap_flags;
--	helper_buffer->heap = heap;
--	helper_buffer->size = len;
--
--	helper_buffer->pagecount = len / PAGE_SIZE;
--	helper_buffer->pages = kmalloc_array(helper_buffer->pagecount,
--					     sizeof(*helper_buffer->pages),
--					     GFP_KERNEL);
--	if (!helper_buffer->pages) {
--		ret = -ENOMEM;
--		goto err0;
--	}
--
--	for (pg = 0; pg < helper_buffer->pagecount; pg++) {
--		/*
--		 * Avoid trying to allocate memory if the process
--		 * has been killed by by SIGKILL
--		 */
--		if (fatal_signal_pending(current))
--			goto err1;
--
--		helper_buffer->pages[pg] = alloc_page(GFP_KERNEL | __GFP_ZERO);
--		if (!helper_buffer->pages[pg])
--			goto err1;
--	}
--
--	/* create the dmabuf */
--	dmabuf = heap_helper_export_dmabuf(helper_buffer, fd_flags);
--	if (IS_ERR(dmabuf)) {
--		ret = PTR_ERR(dmabuf);
--		goto err1;
--	}
--
--	helper_buffer->dmabuf = dmabuf;
--
--	ret = dma_buf_fd(dmabuf, fd_flags);
--	if (ret < 0) {
--		dma_buf_put(dmabuf);
--		/* just return, as put will call release and that will free */
--		return ret;
--	}
--
--	return ret;
--
--err1:
--	while (pg > 0)
--		__free_page(helper_buffer->pages[--pg]);
--	kfree(helper_buffer->pages);
--err0:
--	kfree(helper_buffer);
--
--	return -ENOMEM;
--}
--
--static const struct dma_heap_ops system_heap_ops = {
--	.allocate = system_heap_allocate,
+-	void (*free)(struct heap_helper_buffer *buffer);
 -};
 -
--static int system_heap_create(void)
--{
--	struct dma_heap_export_info exp_info;
--	int ret = 0;
+-void init_heap_helper_buffer(struct heap_helper_buffer *buffer,
+-			     void (*free)(struct heap_helper_buffer *));
 -
--	exp_info.name = "system_heap";
--	exp_info.ops = &system_heap_ops;
--	exp_info.priv = NULL;
+-struct dma_buf *heap_helper_export_dmabuf(struct heap_helper_buffer *buffer,
+-					  int fd_flags);
 -
--	sys_heap = dma_heap_add(&exp_info);
--	if (IS_ERR(sys_heap))
--		ret = PTR_ERR(sys_heap);
--
--	return ret;
--}
--module_init(system_heap_create);
--MODULE_LICENSE("GPL v2");
+-extern const struct dma_buf_ops heap_helper_ops;
+-#endif /* _HEAP_HELPERS_H */
 -- 
 Sean Paul, Software Engineer, Google / Chromium OS
 
