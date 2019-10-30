@@ -2,55 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 45D0AE9C66
-	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2019 14:34:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F7E0E9C78
+	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2019 14:39:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726524AbfJ3NeP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Oct 2019 09:34:15 -0400
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:42422 "EHLO
-        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726239AbfJ3NeP (ORCPT
+        id S1726417AbfJ3NjE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Oct 2019 09:39:04 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:38036 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726222AbfJ3NjD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Oct 2019 09:34:15 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x9UDYDge120315;
-        Wed, 30 Oct 2019 08:34:13 -0500
+        Wed, 30 Oct 2019 09:39:03 -0400
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id x9UDd1RB083180;
+        Wed, 30 Oct 2019 08:39:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1572442453;
-        bh=riPq1EjtRAH4k2brd9erciAO5pC1LvIMZqcdS/NknfM=;
+        s=ti-com-17Q1; t=1572442741;
+        bh=m0E0eOF1LSPZXzG+mAZCqkhQOD/SqY6LyGdpA7OHVhw=;
         h=Date:From:To:CC:Subject:References:In-Reply-To;
-        b=gdmK7b/f9xsSEWH04DxtPVar7CK2ysklueV9IOK1ZpYDffekDLkk5BsSyq6tcSK+g
-         z7CnfVAcJeoIXjklxapgvhodvfgCdJ7isEFFqcW/d72iEngxGF+WiGDx8dmuo1FtGD
-         KADbjuHRe3H1uwrYpM/rNPkl3g/9tKEYPl+/FvBM=
+        b=jebgLAGxujbB70c1oVOLM7kmZZJ/hstUnKUaKDMHEGiUspy0lUpb/bxq3mGW3ADjU
+         jABd0Tx3BHPm4MvroGeInVHPZRMM9SG59y0Api02y3nJ3CZffOJ3tNkB5DhQoShlMj
+         vAt9LXAZm9NN2S3gmBI/tr4JBYsEREXuh/qKZT60=
 Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x9UDYD9N117904
+        by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x9UDd13h075201
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 30 Oct 2019 08:34:13 -0500
-Received: from DFLE104.ent.ti.com (10.64.6.25) by DFLE100.ent.ti.com
+        Wed, 30 Oct 2019 08:39:01 -0500
+Received: from DFLE101.ent.ti.com (10.64.6.22) by DFLE100.ent.ti.com
  (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Wed, 30
- Oct 2019 08:34:00 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE104.ent.ti.com
- (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
+ Oct 2019 08:38:48 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE101.ent.ti.com
+ (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Wed, 30 Oct 2019 08:34:00 -0500
+ Frontend Transport; Wed, 30 Oct 2019 08:38:48 -0500
 Received: from ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with SMTP id x9UDYCc1028496;
-        Wed, 30 Oct 2019 08:34:12 -0500
-Date:   Wed, 30 Oct 2019 08:34:12 -0500
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with SMTP id x9UDd1WZ063430;
+        Wed, 30 Oct 2019 08:39:01 -0500
+Date:   Wed, 30 Oct 2019 08:39:00 -0500
 From:   Benoit Parrot <bparrot@ti.com>
 To:     Rob Herring <robh@kernel.org>
 CC:     Hans Verkuil <hverkuil@xs4all.nl>, <linux-media@vger.kernel.org>,
         <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [Patch 03/19] media: ti-vpe: cal: Add per platform data support
-Message-ID: <20191030133412.un4w25qpn3usmcnw@ti.com>
+Subject: Re: [Patch 01/19] dt-bindings: media: cal: update binding to use
+ syscon
+Message-ID: <20191030133900.suqlaxbwqph5wji4@ti.com>
 References: <20191018153437.20614-1-bparrot@ti.com>
- <20191018153437.20614-4-bparrot@ti.com>
- <20191029131855.GA27597@bogus>
+ <20191018153437.20614-2-bparrot@ti.com>
+ <20191029132009.GB27597@bogus>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20191029131855.GA27597@bogus>
+In-Reply-To: <20191029132009.GB27597@bogus>
 User-Agent: NeoMutt/20171215
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-media-owner@vger.kernel.org
@@ -58,103 +59,60 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Rob Herring <robh@kernel.org> wrote on Tue [2019-Oct-29 08:18:55 -0500]:
-> On Fri, Oct 18, 2019 at 10:34:21AM -0500, Benoit Parrot wrote:
-> > First this patch adds a method to access the CTRL_CORE_CAMERRX_CONTROL
-> > register to use the syscon mechanism. For backward compatibility we also
-> > handle using the existing camerrx_control "reg" entry if a syscon node
-> > is not found.
-> > 
-> > In addition the register bit layout for the CTRL_CORE_CAMERRX_CONTROL
-> > changes depending on the device. In order to support this we need to use
-> > a register access scheme based on data configuration instead of using
-> > static macro.
-> > 
-> > In this case we make use of the regmap facility and create data set
-> > based on the various device and phy available.
+Rob Herring <robh@kernel.org> wrote on Tue [2019-Oct-29 08:20:09 -0500]:
+> On Fri, Oct 18, 2019 at 10:34:19AM -0500, Benoit Parrot wrote:
+> > Update Device Tree bindings for the CAL driver to use syscon to access
+> > the phy config register instead of trying to map it directly.
 > > 
 > > Signed-off-by: Benoit Parrot <bparrot@ti.com>
 > > ---
-> >  drivers/media/platform/ti-vpe/cal.c | 281 +++++++++++++++++++++-------
-> >  1 file changed, 212 insertions(+), 69 deletions(-)
+> >  Documentation/devicetree/bindings/media/ti-cal.txt | 14 +++++++++-----
+> >  1 file changed, 9 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/media/ti-cal.txt b/Documentation/devicetree/bindings/media/ti-cal.txt
+> > index ae9b52f37576..782f801b12a9 100644
+> > --- a/Documentation/devicetree/bindings/media/ti-cal.txt
+> > +++ b/Documentation/devicetree/bindings/media/ti-cal.txt
+> > @@ -10,9 +10,14 @@ Required properties:
+> >  - compatible: must be "ti,dra72-cal"
+> >  - reg:	CAL Top level, Receiver Core #0, Receiver Core #1 and Camera RX
+> >  	control address space
+> > -- reg-names: cal_top, cal_rx_core0, cal_rx_core1, and camerrx_control
+> > +- reg-names: cal_top, cal_rx_core0, cal_rx_core1 and camerrx_control
+> >  	     registers
+> >  - interrupts: should contain IRQ line for the CAL;
+> > +- syscon-camerrx: phandle to the device control module and offset to the
+> > +		  control_camerarx_core register
+> > +		  This node is meant to replace the "camerrx_control" reg
+> > +		  entry above but "camerrx_control" is still handled
+> > +		  for backward compatibility.
 > 
+> Needs a vendor prefix and drop 'syscon'.
+
+Hmm, I had chosen this syntax based on previous examples.
+But I can change it. How about "ti,camerrx_control"?
+
 > 
-> > @@ -1816,6 +1911,18 @@ static int cal_probe(struct platform_device *pdev)
-> >  	if (!dev)
-> >  		return -ENOMEM;
 > >  
-> > +	match = of_match_device(of_match_ptr(cal_of_match), &pdev->dev);
-> 
-> Use of_device_get_match_data() instead.
-
-Ok I'll change that.
-
-> 
-> > +	if (!match)
-> > +		return -ENODEV;
-> > +
-> > +	if (match->data) {
-> > +		dev->data = (struct cal_data *)match->data;
-> > +		dev->flags = dev->data->flags;
-> > +	} else {
-> > +		dev_err(&pdev->dev, "Could not get feature data based on compatible version\n");
-> > +		return -ENODEV;
-> > +	}
-> > +
-> >  	/* set pseudo v4l2 device name so we can use v4l2_printk */
-> >  	strscpy(dev->v4l2_dev.name, CAL_MODULE_NAME,
-> >  		sizeof(dev->v4l2_dev.name));
-> > @@ -1823,6 +1930,43 @@ static int cal_probe(struct platform_device *pdev)
-> >  	/* save pdev pointer */
-> >  	dev->pdev = pdev;
+> >  CAL supports 2 camera port nodes on MIPI bus. Each CSI2 camera port nodes
+> >  should contain a 'port' child node with child 'endpoint' node. Please
+> > @@ -25,13 +30,12 @@ Example:
+> >  		ti,hwmods = "cal";
+> >  		reg = <0x4845B000 0x400>,
+> >  		      <0x4845B800 0x40>,
+> > -		      <0x4845B900 0x40>,
+> > -		      <0x4A002e94 0x4>;
+> > +		      <0x4845B900 0x40>;
+> >  		reg-names = "cal_top",
+> >  			    "cal_rx_core0",
+> > -			    "cal_rx_core1",
+> > -			    "camerrx_control";
+> > +			    "cal_rx_core1";
+> >  		interrupts = <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH>;
+> > +		syscon-camerrx = <&scm_conf 0xE94>;
+> >  		#address-cells = <1>;
+> >  		#size-cells = <0>;
 > >  
-> > +	if (parent && of_property_read_bool(parent, "syscon-camerrx")) {
-> > +		syscon_camerrx =
-> > +			syscon_regmap_lookup_by_phandle(parent,
-> > +							"syscon-camerrx");
-> > +		if (IS_ERR(syscon_camerrx)) {
-> > +			dev_err(&pdev->dev, "failed to get syscon-camerrx regmap\n");
-> > +			return PTR_ERR(syscon_camerrx);
-> > +		}
-> > +
-> > +		if (of_property_read_u32_index(parent, "syscon-camerrx", 1,
-> > +					       &syscon_camerrx_offset)) {
-> 
-> Kind of odd to read the property twice and using functions that don't 
-> match the type. We have functions to retrieve phandle and args.
-
-Yeah, I wanted to make a distinction between the node being present and
-any other kind of errors, so we can have a little more precise error
-message.
-
-> 
-> > +			dev_err(&pdev->dev, "failed to get syscon-camerrx offset\n");
-> > +			return -EINVAL;
-> > +		}
-> > +	} else {
-> > +		/*
-> > +		 * Backward DTS compatibility.
-> > +		 * If syscon entry is not present then check if the
-> > +		 * camerrx_control resource is present.
-> > +		 */
-> > +		syscon_camerrx = cal_get_camerarx_regmap(dev);
-> > +		if (IS_ERR(syscon_camerrx)) {
-> > +			dev_err(&pdev->dev, "failed to get camerrx_control regmap\n");
-> > +			return PTR_ERR(syscon_camerrx);
-> > +		}
-> > +		/* In this case the base already point to the direct
-> > +		 * CM register so no need for an offset
-> > +		 */
-> > +		syscon_camerrx_offset = 0;
-> > +	}
-> > +
-> > +	dev->syscon_camerrx = syscon_camerrx;
-> > +	dev->syscon_camerrx_offset = syscon_camerrx_offset;
-> > +	ret = cal_camerarx_regmap_init(dev);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> >  	dev->res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
-> >  						"cal_top");
-> >  	dev->base = devm_ioremap_resource(&pdev->dev, dev->res);
-> 
+> > -- 
+> > 2.17.1
+> > 
