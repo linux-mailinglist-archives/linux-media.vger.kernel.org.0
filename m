@@ -2,118 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B29AE9F6E
-	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2019 16:46:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B3E01EA191
+	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2019 17:17:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726487AbfJ3Ppk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Oct 2019 11:45:40 -0400
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:34108 "EHLO
-        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726261AbfJ3Ppk (ORCPT
+        id S1727326AbfJ3QRb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Oct 2019 12:17:31 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:41062 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726800AbfJ3QR1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Oct 2019 11:45:40 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id x9UFjUGI041498;
-        Wed, 30 Oct 2019 10:45:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1572450330;
-        bh=AHoLJ8adzPwxHX1a589zAeFTY5yfqdJKods3HIWHw1s=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=IRqwZzfeVWHkrLE7mi338boJPe+azr5q5rDUMCQMkGXou6X4e9scZyROk/0ifhXzU
-         Kk/6NvmtF+8+zwpb86SZaXvNILtOH0oklzh+5KKq2VIwz900c/w9WEdI5I1iwRUkV0
-         ADbIVQu84r9nzwK31Jec9Tu1qu/T404pTE1aiknc=
-Received: from DFLE105.ent.ti.com (dfle105.ent.ti.com [10.64.6.26])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id x9UFjUZE052981
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 30 Oct 2019 10:45:30 -0500
-Received: from DFLE101.ent.ti.com (10.64.6.22) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Wed, 30
- Oct 2019 10:45:17 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE101.ent.ti.com
- (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Wed, 30 Oct 2019 10:45:17 -0500
-Received: from [10.250.45.147] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id x9UFjTAV053464;
-        Wed, 30 Oct 2019 10:45:29 -0500
-Subject: Re: [PATCH][next] dma-buf: heaps: remove redundant assignment to
- variable ret
-To:     Colin King <colin.king@canonical.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
+        Wed, 30 Oct 2019 12:17:27 -0400
+Received: by mail-ot1-f66.google.com with SMTP id 94so2604002oty.8
+        for <linux-media@vger.kernel.org>; Wed, 30 Oct 2019 09:17:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9Cj2/HXDLn8aS6ESVlsFGccn1N9mdAGQmhGwS0g3eOU=;
+        b=loU8peBfVBq5shNbsqNfvsPiuBIenx6sek1Jikn6Qw5VElJ/47se4ZkXOea0N6HeSa
+         9zAyMBnaKpBimNv0jGpE0U91oZAwjjqEThIvGbvEh/b0QLikNWo8VGlAmT/bTAHOUWmU
+         3hFjaeUV34lRbrVScSy2IsEY9nR+gpOfVN8SVAGT1gKm0KFAyNXy2TPGmcXzK4srOTZr
+         mo1wxLIuM5CHZriAkh9FZKoq3uS6L1IPsJ3HfPK0UYIMrImPc5E73qHHO11WtnN7oMrS
+         HEEsXqengkEwOOwf6HOWS0EHde8/2ZyMabv0NgJ1o0X4IcmnChdnnEdjH8uqhxt4oHel
+         4NHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9Cj2/HXDLn8aS6ESVlsFGccn1N9mdAGQmhGwS0g3eOU=;
+        b=MBJE/QFwLQnqtCE8ByzdyfbbRd1HXanVoLB3mhM8jfV64NFOQ8uK7PaMnPEs1mOUwr
+         ooeFaOzEBSv+CK/9EzbxHycYD/NcuEoY+dZECxG3R4/2nLe1jgM+7Falhk7FQqDqpI1w
+         6bp+MdvEg+lTA03hDYYh5fud5T8c0RoCfQuy4JRS+ZNbKQfQQL5PSFvqAmoKxiXb/A3B
+         wKoBEF2SZa2gqQYOEF2Ly6Rlm6OAqUJ5a47uN+e+evvRhC/cP0hEZdh20jt8faoZB/DZ
+         xypJu57/u2oGtIB9ufm+eeu9h80M9EojQ6aHwsyTHBDcT6zr7RCPgFoVVEpCPbIjfoFB
+         ucXA==
+X-Gm-Message-State: APjAAAVW3N8cuSR2512KyQVR0GPWX+L6AZdO/EC+PMA/VPQCIaqeQMls
+        j1DFCUk3FqzGt59JjhWa+Hifn5S1VG49XXiWsFudnA==
+X-Google-Smtp-Source: APXvYqyGIZXSa+DtUjwBGchbvDWoC92JPTPDAXB5UsVtXZB+/gNvTOEkAQTyhFxO7Jk/E+0BUW/SIrYMDoyFssBoOgQ=
+X-Received: by 2002:a9d:630c:: with SMTP id q12mr590885otk.332.1572452245946;
+ Wed, 30 Oct 2019 09:17:25 -0700 (PDT)
+MIME-Version: 1.0
+References: <20191029182943.GD17569@mwanda>
+In-Reply-To: <20191029182943.GD17569@mwanda>
+From:   John Stultz <john.stultz@linaro.org>
+Date:   Wed, 30 Oct 2019 09:17:14 -0700
+Message-ID: <CALAqxLU7k-z6JXbEFpK0D_7+jZz_Jdk7HxaSWm_rkBFEpQRQtg@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf: Fix a warning message in dma_heap_buffer_destroy()
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
+        "Andrew F. Davis" <afd@ti.com>,
         Benjamin Gaignard <benjamin.gaignard@linaro.org>,
         Liam Mark <lmark@codeaurora.org>,
         Laura Abbott <labbott@redhat.com>,
-        Brian Starkey <brian.starkey@arm.com>,
-        John Stultz <john.stultz@linaro.org>,
-        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <linaro-mm-sig@lists.linaro.org>
-CC:     <kernel-janitors@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20191030150253.10596-1-colin.king@canonical.com>
-From:   "Andrew F. Davis" <afd@ti.com>
-Message-ID: <673b3e8f-9211-2fa2-c408-4560b03b4700@ti.com>
-Date:   Wed, 30 Oct 2019 11:45:29 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <20191030150253.10596-1-colin.king@canonical.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+        Brian Starkey <Brian.Starkey@arm.com>,
+        linux-media@vger.kernel.org,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        kernel-janitors@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/30/19 11:02 AM, Colin King wrote:
-> From: Colin Ian King <colin.king@canonical.com>
-> 
-> The variable ret is being assigned with a value that is never
-> read, it is being re-assigned the same value on the err0 exit
-> path. The assignment is redundant and hence can be removed.
-> 
-> Addresses-Coverity: ("Unused value")
-> Fixes: 47a32f9c1226 ("dma-buf: heaps: Add system heap to dmabuf heaps")
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+On Tue, Oct 29, 2019 at 11:31 AM Dan Carpenter <dan.carpenter@oracle.com> wrote:
+>
+> The first argument of WARN() is a condition so this will just print the
+> function name instead of the whole warning message.
+>
+> Fixes: 7b87ea704fd9 ("dma-buf: heaps: Add heap helpers")
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
 > ---
+>  drivers/dma-buf/heaps/heap-helpers.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/dma-buf/heaps/heap-helpers.c b/drivers/dma-buf/heaps/heap-helpers.c
+> index 750bef4e902d..a31684c0d5b2 100644
+> --- a/drivers/dma-buf/heaps/heap-helpers.c
+> +++ b/drivers/dma-buf/heaps/heap-helpers.c
+> @@ -52,7 +52,7 @@ static void *dma_heap_map_kernel(struct heap_helper_buffer *buffer)
+>  static void dma_heap_buffer_destroy(struct heap_helper_buffer *buffer)
+>  {
+>         if (buffer->vmap_cnt > 0) {
+> -               WARN("%s: buffer still mapped in the kernel\n", __func__);
+> +               WARN(1, "%s: buffer still mapped in the kernel\n", __func__);
+>                 vunmap(buffer->vaddr);
+>         }
 
+Thanks for catching and reporting this!
 
-The root of the issue is that ret is not used in the error path, it
-should be, I suggest this fix:
+Acked-by: John Stultz <john.stultz@linaro.org>
 
-> --- a/drivers/dma-buf/heaps/system_heap.c
-> +++ b/drivers/dma-buf/heaps/system_heap.c
-> @@ -98,7 +98,7 @@ static int system_heap_allocate(struct dma_heap *heap,
->  err0:
->         kfree(helper_buffer);
->  
-> -       return -ENOMEM;
-> +       return ret;
->  }
->  
->  static const struct dma_heap_ops system_heap_ops = {
+Sumit, do you mind picking this up for drm-misc-next?
 
-Andrew
-
-
->  drivers/dma-buf/heaps/system_heap.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-> index 455782efbb32..817a1667bd57 100644
-> --- a/drivers/dma-buf/heaps/system_heap.c
-> +++ b/drivers/dma-buf/heaps/system_heap.c
-> @@ -55,10 +55,8 @@ static int system_heap_allocate(struct dma_heap *heap,
->  	helper_buffer->pages = kmalloc_array(helper_buffer->pagecount,
->  					     sizeof(*helper_buffer->pages),
->  					     GFP_KERNEL);
-> -	if (!helper_buffer->pages) {
-> -		ret = -ENOMEM;
-> +	if (!helper_buffer->pages)
->  		goto err0;
-> -	}
->  
->  	for (pg = 0; pg < helper_buffer->pagecount; pg++) {
->  		/*
-> 
+thanks
+-john
