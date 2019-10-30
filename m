@@ -2,113 +2,203 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 26D4DE999F
-	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2019 11:03:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EC8CE9A1C
+	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2019 11:39:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726175AbfJ3KDI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Oct 2019 06:03:08 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:34025 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726032AbfJ3KDI (ORCPT
+        id S1726776AbfJ3KjA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Oct 2019 06:39:00 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:55709 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726046AbfJ3KjA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Oct 2019 06:03:08 -0400
-Received: by mail-wr1-f67.google.com with SMTP id t16so1581439wrr.1;
-        Wed, 30 Oct 2019 03:03:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=FMrNiLDlAG4LHDqZ/Yl8QilQGiUU1TiZ+I44MHl2pe8=;
-        b=HNN3Pn/vNFFcDuiCrIDZIAg0jUIX3Ma1J5xZ3pi4cQbbPvRlhWTxNCRZL1BXGTPgBV
-         mZPHjz9jzkrIab3DlA5QEPaVJmy/ml4Tiz+kinEe21oAK4IzLkyNrQqRwGZjY526zI03
-         Z5/XYQ5xvo82fUpG0b99AjLqOdTD5Hy5ATzwdglzhLO2gOMRy7HmXuhcVJ4mJ9T62sQQ
-         IGOs35f/F3IXziTFj002YE8D8BG+FaADlIa+AjvOYNtyG4bUsls0rfgjy5xaOS3Ln+1r
-         GdSeKJfaSlW8NXyZh1Z+dmZ6LV0170yMWq0z9sHwaV8MAjf2aN8k+utW+vHNhwTNZuSc
-         YfSw==
-X-Gm-Message-State: APjAAAXTKukUTE41VU2SDz8W6jg53jemBoHMy4yFizvee+S+yDRsfMh2
-        5OO/oOaso980dlZW7c6YhWU=
-X-Google-Smtp-Source: APXvYqx9yWpySXQAETRsK0lzvhrydwfQ9Qwl8MxBphTqjmTCxz57hjMnqNjhMrjsPw6+qJUa5JnAIA==
-X-Received: by 2002:adf:ec4b:: with SMTP id w11mr1963541wrn.243.1572429785547;
-        Wed, 30 Oct 2019 03:03:05 -0700 (PDT)
-Received: from pi (100.50.158.77.rev.sfr.net. [77.158.50.100])
-        by smtp.gmail.com with ESMTPSA id a11sm1768504wmh.40.2019.10.30.03.03.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Oct 2019 03:03:04 -0700 (PDT)
-Received: from johan by pi with local (Exim 4.92.2)
-        (envelope-from <johan@pi>)
-        id 1iPknS-0002ZQ-F2; Wed, 30 Oct 2019 11:01:46 +0100
-Date:   Wed, 30 Oct 2019 11:01:46 +0100
-From:   Johan Hovold <johan@kernel.org>
-To:     Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
-        Daniel Vetter <daniel@ffwll.ch>
-Cc:     David Airlie <airlied@linux.ie>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-s390@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Johan Hovold <johan@kernel.org>,
-        stable <stable@vger.kernel.org>,
-        Jordan Crouse <jcrouse@codeaurora.org>,
-        Harald Freudenberger <freude@linux.ibm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Fabien Dessenne <fabien.dessenne@st.com>
-Subject: Re: [PATCH 1/4] drm/msm: fix memleak on release
-Message-ID: <20191030100146.GC4691@localhost>
-References: <20191010131333.23635-1-johan@kernel.org>
- <20191010131333.23635-2-johan@kernel.org>
+        Wed, 30 Oct 2019 06:39:00 -0400
+Received: from [172.20.50.122] ([91.217.168.176])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id PlNMiZEaKsBskPlNPiLsG2; Wed, 30 Oct 2019 11:38:57 +0100
+Subject: Re: [PATCH] dt-bindings: media: meson-ao-cec: convert to yaml
+To:     Neil Armstrong <narmstrong@baylibre.com>, robh+dt@kernel.org
+Cc:     devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20191021121131.25017-1-narmstrong@baylibre.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <d8733cd1-fca8-3aa7-8a48-8e79d0249e82@xs4all.nl>
+Date:   Wed, 30 Oct 2019 11:38:51 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191010131333.23635-2-johan@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191021121131.25017-1-narmstrong@baylibre.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfIQ2VdeGwB3P6PAcICDG9mQkN2WKp13Tk7/oBtUpSOf67QH/VGP9pPxvt49Oopz6Qm4vSECPrgX7ZQVLgpKlLNgISmpxyQBwJFLd9BAdOQ/cv1vaA4TN
+ YYzuB+p3f3BPchXc6x3xOmgODI6mEhcMDhNoAdVUYRc9jAHCeDEA+JzcJKFEAWzOm29SFD48uSQHaKuz6hfvRXx0SwwazEcFDflnaRUPOcdVaqV/pzoXtT3M
+ 8ypLdzK972vSyI1Zck283wFUvDjvGllc8x4oSDjx9TQQS2qWDHr0E0E9IcPaarP43bs2Pj6VfwAqBV9c5uXOAr6Zl+NY/ptrW7WMUnMHA/vAsRSHqwiIQPPV
+ L/QHyEYjc91sYgyCK18FtGJGNStxGU91lJcWyI9T57H/nKhLqe9gtpTMPtnLdfEAskMCRHXz4fQyEMv7BtaL/9nbR4hPEg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Oct 10, 2019 at 03:13:30PM +0200, Johan Hovold wrote:
-> If a process is interrupted while accessing the "gpu" debugfs file and
-> the drm device struct_mutex is contended, release() could return early
-> and fail to free related resources.
+Hi Neil,
+
+Can you post a new patch that updates the MAINTAINERS file?
+
+Thanks!
+
+	Hans
+
+On 10/21/19 2:11 PM, Neil Armstrong wrote:
+> Now that we have the DT validation in place, let's convert the device tree
+> bindings for the Amlogic AO-CEC controller over to a YAML schemas.
 > 
-> Note that the return value from release() is ignored.
-> 
-> Fixes: 4f776f4511c7 ("drm/msm/gpu: Convert the GPU show function to use the GPU state")
-> Cc: stable <stable@vger.kernel.org>     # 4.18
-> Cc: Jordan Crouse <jcrouse@codeaurora.org>
-> Cc: Rob Clark <robdclark@gmail.com>
-> Signed-off-by: Johan Hovold <johan@kernel.org>
+> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
 > ---
-
-Rob, Sean,
-
-Sending a reminder about this one, which is not yet in linux-next.
-
-Perhaps Daniel can pick it up otherwise?
-
-Thanks,
-Johan
-
->  drivers/gpu/drm/msm/msm_debugfs.c | 6 +-----
->  1 file changed, 1 insertion(+), 5 deletions(-)
+>   .../media/amlogic,meson-gx-ao-cec.yaml        | 91 +++++++++++++++++++
+>   .../bindings/media/meson-ao-cec.txt           | 37 --------
+>   2 files changed, 91 insertions(+), 37 deletions(-)
+>   create mode 100644 Documentation/devicetree/bindings/media/amlogic,meson-gx-ao-cec.yaml
+>   delete mode 100644 Documentation/devicetree/bindings/media/meson-ao-cec.txt
 > 
-> diff --git a/drivers/gpu/drm/msm/msm_debugfs.c b/drivers/gpu/drm/msm/msm_debugfs.c
-> index 6be879578140..1c74381a4fc9 100644
-> --- a/drivers/gpu/drm/msm/msm_debugfs.c
-> +++ b/drivers/gpu/drm/msm/msm_debugfs.c
-> @@ -47,12 +47,8 @@ static int msm_gpu_release(struct inode *inode, struct file *file)
->  	struct msm_gpu_show_priv *show_priv = m->private;
->  	struct msm_drm_private *priv = show_priv->dev->dev_private;
->  	struct msm_gpu *gpu = priv->gpu;
-> -	int ret;
+> diff --git a/Documentation/devicetree/bindings/media/amlogic,meson-gx-ao-cec.yaml b/Documentation/devicetree/bindings/media/amlogic,meson-gx-ao-cec.yaml
+> new file mode 100644
+> index 000000000000..41197578f19a
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/amlogic,meson-gx-ao-cec.yaml
+> @@ -0,0 +1,91 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +# Copyright 2019 BayLibre, SAS
+> +%YAML 1.2
+> +---
+> +$id: "http://devicetree.org/schemas/media/amlogic,meson-gx-ao-cec.yaml#"
+> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> +
+> +title: Amlogic Meson AO-CEC Controller
+> +
+> +maintainers:
+> +  - Neil Armstrong <narmstrong@baylibre.com>
+> +
+> +description: |
+> +  The Amlogic Meson AO-CEC module is present is Amlogic SoCs and its purpose is
+> +  to handle communication between HDMI connected devices over the CEC bus.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - amlogic,meson-gx-ao-cec # GXBB, GXL, GXM, G12A and SM1 AO_CEC_A module
+> +      - amlogic,meson-g12a-ao-cec # G12A AO_CEC_B module
+> +      - amlogic,meson-sm1-ao-cec # SM1 AO_CEC_B module
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  hdmi-phandle:
+> +    description: phandle to the HDMI controller
+> +    allOf:
+> +      - $ref: /schemas/types.yaml#/definitions/phandle
+> +
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - amlogic,meson-gx-ao-cec
+> +
+> +    then:
+> +      properties:
+> +        clocks:
+> +          items:
+> +            - description: AO-CEC clock
+> +
+> +        clock-names:
+> +          maxItems: 1
+> +          items:
+> +            - const: core
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - amlogic,meson-g12a-ao-cec
+> +              - amlogic,meson-sm1-ao-cec
+> +
+> +    then:
+> +      properties:
+> +        clocks:
+> +          items:
+> +            - description: AO-CEC clock generator source
+> +
+> +        clock-names:
+> +          maxItems: 1
+> +          items:
+> +            - const: oscin
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - hdmi-phandle
+> +  - clocks
+> +  - clock-names
+> +
+> +examples:
+> +  - |
+> +    cec_AO: cec@100 {
+> +        compatible = "amlogic,meson-gx-ao-cec";
+> +        reg = <0x0 0x00100 0x0 0x14>;
+> +        interrupts = <199>;
+> +        clocks = <&clkc_cec>;
+> +        clock-names = "core";
+> +        hdmi-phandle = <&hdmi_tx>;
+> +    };
+> +
+> diff --git a/Documentation/devicetree/bindings/media/meson-ao-cec.txt b/Documentation/devicetree/bindings/media/meson-ao-cec.txt
+> deleted file mode 100644
+> index ad92ee41c0dd..000000000000
+> --- a/Documentation/devicetree/bindings/media/meson-ao-cec.txt
+> +++ /dev/null
+> @@ -1,37 +0,0 @@
+> -* Amlogic Meson AO-CEC driver
 > -
-> -	ret = mutex_lock_interruptible(&show_priv->dev->struct_mutex);
-> -	if (ret)
-> -		return ret;
->  
-> +	mutex_lock(&show_priv->dev->struct_mutex);
->  	gpu->funcs->gpu_state_put(show_priv->state);
->  	mutex_unlock(&show_priv->dev->struct_mutex);
+> -The Amlogic Meson AO-CEC module is present is Amlogic SoCs and its purpose is
+> -to handle communication between HDMI connected devices over the CEC bus.
+> -
+> -Required properties:
+> -  - compatible : value should be following depending on the SoC :
+> -	For GXBB, GXL, GXM, G12A and SM1 (AO_CEC_A module) :
+> -	"amlogic,meson-gx-ao-cec"
+> -	For G12A (AO_CEC_B module) :
+> -	"amlogic,meson-g12a-ao-cec"
+> -	For SM1 (AO_CEC_B module) :
+> -	"amlogic,meson-sm1-ao-cec"
+> -
+> -  - reg : Physical base address of the IP registers and length of memory
+> -	  mapped region.
+> -
+> -  - interrupts : AO-CEC interrupt number to the CPU.
+> -  - clocks : from common clock binding: handle to AO-CEC clock.
+> -  - clock-names : from common clock binding, must contain :
+> -		For GXBB, GXL, GXM, G12A and SM1 (AO_CEC_A module) :
+> -		- "core"
+> -		For G12A, SM1 (AO_CEC_B module) :
+> -		- "oscin"
+> -		corresponding to entry in the clocks property.
+> -  - hdmi-phandle: phandle to the HDMI controller
+> -
+> -Example:
+> -
+> -cec_AO: cec@100 {
+> -	compatible = "amlogic,meson-gx-ao-cec";
+> -	reg = <0x0 0x00100 0x0 0x14>;
+> -	interrupts = <GIC_SPI 199 IRQ_TYPE_EDGE_RISING>;
+> -	clocks = <&clkc_AO CLKID_AO_CEC_32K>;
+> -	clock-names = "core";
+> -	hdmi-phandle = <&hdmi_tx>;
+> -};
+> 
+
