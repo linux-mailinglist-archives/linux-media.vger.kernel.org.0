@@ -2,353 +2,1051 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CD187E9BAA
-	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2019 13:42:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CE28E9BFF
+	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2019 14:03:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726359AbfJ3MmG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Oct 2019 08:42:06 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:34576 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726119AbfJ3MmG (ORCPT
+        id S1726119AbfJ3NDo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Oct 2019 09:03:44 -0400
+Received: from mailgw02.mediatek.com ([1.203.163.81]:24944 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726171AbfJ3NDo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Oct 2019 08:42:06 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: koike)
-        with ESMTPSA id 90D4B26B37F
-Subject: Re: [PATCH v4] media: vimc: Make capture devices and subdevices use
- different link_validates
-To:     =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
-        <nfraprado@protonmail.com>, linux-media@vger.kernel.org
-Cc:     Shuah Khan <skhan@linuxfoundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        linux-kernel@vger.kernel.org, lkcamp@lists.libreplanetbr.org
-References: <20191030122934.2154307-1-nfraprado@protonmail.com>
-From:   Helen Koike <helen.koike@collabora.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=helen.koike@collabora.com; keydata=
- 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
-Message-ID: <a61f27c8-432d-3749-9acc-e61fff6bc71a@collabora.com>
-Date:   Wed, 30 Oct 2019 13:42:00 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        Wed, 30 Oct 2019 09:03:44 -0400
+X-UUID: 818ec1708be744c39b02db144d9d0f04-20191030
+X-UUID: 818ec1708be744c39b02db144d9d0f04-20191030
+Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+        (envelope-from <dongchun.zhu@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLS)
+        with ESMTP id 2102097981; Wed, 30 Oct 2019 21:02:09 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS31N1.mediatek.inc
+ (172.27.4.69) with Microsoft SMTP Server (TLS) id 15.0.1395.4; Wed, 30 Oct
+ 2019 21:02:06 +0800
+Received: from [10.17.3.153] (172.27.4.253) by MTKCAS36.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Wed, 30 Oct 2019 21:02:05 +0800
+Message-ID: <1572440528.21623.270.camel@mhfsdcap03>
+Subject: Re: [V2, 2/2] media: i2c: Add more sensor modes for ov8856 camera
+ sensor
+From:   Dongchun Zhu <dongchun.zhu@mediatek.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+CC:     <mchehab@kernel.org>, <andriy.shevchenko@linux.intel.com>,
+        <robh+dt@kernel.org>, <mark.rutland@arm.com>,
+        <drinkcat@chromium.org>, <tfiga@chromium.org>,
+        <matthias.bgg@gmail.com>, <bingbu.cao@intel.com>,
+        <srv_heupstream@mediatek.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>, <sj.huang@mediatek.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <louis.kuo@mediatek.com>, <shengnan.wang@mediatek.com>
+Date:   Wed, 30 Oct 2019 21:02:08 +0800
+In-Reply-To: <20190913075528.GL5781@paasikivi.fi.intel.com>
+References: <20190910130446.26413-1-dongchun.zhu@mediatek.com>
+         <20190910130446.26413-3-dongchun.zhu@mediatek.com>
+         <20190913075528.GL5781@paasikivi.fi.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-In-Reply-To: <20191030122934.2154307-1-nfraprado@protonmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-TM-SNTS-SMTP: 032716CD351CC9CE8EF599FD8613DF9279C71D394481607ADDEEAD9D79A176412000:8
+X-MTK:  N
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Sakari,
+
+On Fri, 2019-09-13 at 10:55 +0300, Sakari Ailus wrote:
+> Hi Dongchun,
+> 
+> On Tue, Sep 10, 2019 at 09:04:46PM +0800, dongchun.zhu@mediatek.com wrote:
+> > From: Dongchun Zhu <dongchun.zhu@mediatek.com>
+> > 
+> > This patch mainly adds two more sensor modes for OV8856 CMOS image sensor.
+> > That is, the resolution of 1632*1224 and 3264*2448, corresponding to the bayer order of BGGR.
+> > The sensor revision also differs in some OTP register.
+> > 
+> > Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
+> > ---
+> >  drivers/media/i2c/ov8856.c | 654 +++++++++++++++++++++++++++++++++++++++++++--
+> >  1 file changed, 639 insertions(+), 15 deletions(-)
+> > 
+> > diff --git a/drivers/media/i2c/ov8856.c b/drivers/media/i2c/ov8856.c
+> > index cd347d6..9ad0b73 100644
+> > --- a/drivers/media/i2c/ov8856.c
+> > +++ b/drivers/media/i2c/ov8856.c
+> > @@ -1,12 +1,15 @@
+> >  // SPDX-License-Identifier: GPL-2.0
+> >  // Copyright (c) 2019 Intel Corporation.
+> >  
+> > +#include <linux/clk.h>
+> >  #include <asm/unaligned.h>
+> >  #include <linux/acpi.h>
+> >  #include <linux/delay.h>
+> > +#include <linux/gpio/consumer.h>
+> >  #include <linux/i2c.h>
+> >  #include <linux/module.h>
+> >  #include <linux/pm_runtime.h>
+> > +#include <linux/regulator/consumer.h>
+> >  #include <media/v4l2-ctrls.h>
+> >  #include <media/v4l2-device.h>
+> >  #include <media/v4l2-fwnode.h>
+> > @@ -18,10 +21,15 @@
+> >  #define OV8856_LINK_FREQ_360MHZ		360000000ULL
+> >  #define OV8856_LINK_FREQ_180MHZ		180000000ULL
+> >  #define OV8856_SCLK			144000000ULL
+> > -#define OV8856_MCLK			19200000
+> > +#define OV8856_XVCLK			19200000
+> > +#define OV8856_XVCLK_TYP		24000000
+> 
+> How about calling these e.g. OV8856_XCLK_19_2 and OV8856_CLK_24? Or just
+> use the plain numbers; there's nothing really special about them.
+> 
+> Ideally you'd have both in a single location in the driver --- an array of
+> modes supported on each of them as they're different.
+> 
+
+Fixed in next release.
+
+> >  #define OV8856_DATA_LANES		4
+> >  #define OV8856_RGB_DEPTH		10
+> >  
+> > +#define REG_X_ADDR_START		0x3808
+> > +#define X_OUTPUT_FULL_SIZE		0x0cc0
+> > +#define X_OUTPUT_BINNING_SIZE		0x0660
+> > +
+> >  #define OV8856_REG_CHIP_ID		0x300a
+> >  #define OV8856_CHIP_ID			0x00885a
+> >  
+> > @@ -29,6 +37,22 @@
+> >  #define OV8856_MODE_STANDBY		0x00
+> >  #define OV8856_MODE_STREAMING		0x01
+> >  
+> > +/* define 1B module revision */
+> > +#define OV8856_1B_MODULE		0x02
+> > +
+> > +/* the OTP read-out buffer is at 0x7000 and 0xf is the offset
+> > + * of the byte in the OTP that means the module revision
+> > + */
+> > +#define OV8856_MODULE_REVISION		0x700f
+> > +#define OV8856_OTP_MODE_CTRL		0x3d84
+> > +#define OV8856_OTP_LOAD_CTRL		0x3d81
+> > +#define OV8856_OTP_MODE_AUTO		0x00
+> > +#define OV8856_OTP_LOAD_CTRL_ENABLE	BIT(0)
+> > +
+> > +/* Analog control register that decided by module revision */
+> > +#define OV8856_ANAL_MODE_CTRL		0x3614
+> > +#define OV8856_ANAL_1B_VAL		0x20
+> > +
+> >  /* vertical-timings from sensor */
+> >  #define OV8856_REG_VTS			0x380e
+> >  #define OV8856_VTS_MAX			0x7fff
+> > @@ -64,6 +88,14 @@
+> >  
+> >  #define to_ov8856(_sd)			container_of(_sd, struct ov8856, sd)
+> >  
+> > +static const char * const ov8856_supply_names[] = {
+> > +	"dovdd",	/* Digital I/O power */
+> > +	"avdd",		/* Analog power */
+> > +	"dvdd",		/* Digital core power */
+> > +};
+> > +
+> > +#define OV8856_NUM_SUPPLIES ARRAY_SIZE(ov8856_supply_names)
+> > +
+> >  enum {
+> >  	OV8856_LINK_FREQ_720MBPS,
+> >  	OV8856_LINK_FREQ_360MBPS,
+> > @@ -195,11 +227,11 @@ static const struct ov8856_reg mode_3280x2464_regs[] = {
+> >  	{0x3800, 0x00},
+> >  	{0x3801, 0x00},
+> >  	{0x3802, 0x00},
+> > -	{0x3803, 0x06},
+> > +	{0x3803, 0x07},
+> >  	{0x3804, 0x0c},
+> >  	{0x3805, 0xdf},
+> >  	{0x3806, 0x09},
+> > -	{0x3807, 0xa7},
+> > +	{0x3807, 0xa6},
+> 
+> This is changing an existing sensor mode. What are the effects of the
+> change?
+> 
+> Given that this register is not documented in the driver in any way, I'd
+> expect the commit message to carry some reasoning behind the change, also
+> suggesting it belongs to a separate patch. The same applies to changes to
+> the other existing modes.
+> 
+
+Removed in next release.
+
+> >  	{0x3808, 0x0c},
+> >  	{0x3809, 0xd0},
+> >  	{0x380a, 0x09},
+> > @@ -211,7 +243,7 @@ static const struct ov8856_reg mode_3280x2464_regs[] = {
+> >  	{0x3810, 0x00},
+> >  	{0x3811, 0x00},
+> >  	{0x3812, 0x00},
+> > -	{0x3813, 0x01},
+> > +	{0x3813, 0x00},
+> >  	{0x3814, 0x01},
+> >  	{0x3815, 0x01},
+> >  	{0x3816, 0x00},
+> > @@ -316,6 +348,209 @@ static const struct ov8856_reg mode_3280x2464_regs[] = {
+> >  	{0x5e00, 0x00}
+> >  };
+> >  
+> > +static const struct ov8856_reg mode_3264x2448_regs[] = {
+> > +	{0x0103, 0x01},
+> > +	{0x0302, 0x3c},
+> > +	{0x0303, 0x01},
+> > +	{0x031e, 0x0c},
+> > +	{0x3000, 0x20},
+> > +	{0x3003, 0x08},
+> > +	{0x300e, 0x20},
+> > +	{0x3010, 0x00},
+> > +	{0x3015, 0x84},
+> > +	{0x3018, 0x72},
+> > +	{0x3021, 0x23},
+> > +	{0x3033, 0x24},
+> > +	{0x3500, 0x00},
+> > +	{0x3501, 0x9a},
+> > +	{0x3502, 0x20},
+> > +	{0x3503, 0x08},
+> > +	{0x3505, 0x83},
+> > +	{0x3508, 0x01},
+> > +	{0x3509, 0x80},
+> > +	{0x350c, 0x00},
+> > +	{0x350d, 0x80},
+> > +	{0x350e, 0x04},
+> > +	{0x350f, 0x00},
+> > +	{0x3510, 0x00},
+> > +	{0x3511, 0x02},
+> > +	{0x3512, 0x00},
+> > +	{0x3600, 0x72},
+> > +	{0x3601, 0x40},
+> > +	{0x3602, 0x30},
+> > +	{0x3610, 0xc5},
+> > +	{0x3611, 0x58},
+> > +	{0x3612, 0x5c},
+> > +	{0x3613, 0xca},
+> > +	{0x3614, 0x60},
+> > +	{0x3628, 0xff},
+> > +	{0x3629, 0xff},
+> > +	{0x362a, 0xff},
+> > +	{0x3633, 0x10},
+> > +	{0x3634, 0x10},
+> > +	{0x3635, 0x10},
+> > +	{0x3636, 0x10},
+> > +	{0x3663, 0x08},
+> > +	{0x3669, 0x34},
+> > +	{0x366d, 0x00},
+> > +	{0x366e, 0x10},
+> > +	{0x3706, 0x86},
+> > +	{0x370b, 0x7e},
+> > +	{0x3714, 0x23},
+> > +	{0x3730, 0x12},
+> > +	{0x3733, 0x10},
+> > +	{0x3764, 0x00},
+> > +	{0x3765, 0x00},
+> > +	{0x3769, 0x62},
+> > +	{0x376a, 0x2a},
+> > +	{0x376b, 0x30},
+> > +	{0x3780, 0x00},
+> > +	{0x3781, 0x24},
+> > +	{0x3782, 0x00},
+> > +	{0x3783, 0x23},
+> > +	{0x3798, 0x2f},
+> > +	{0x37a1, 0x60},
+> > +	{0x37a8, 0x6a},
+> > +	{0x37ab, 0x3f},
+> > +	{0x37c2, 0x04},
+> > +	{0x37c3, 0xf1},
+> > +	{0x37c9, 0x80},
+> > +	{0x37cb, 0x16},
+> > +	{0x37cc, 0x16},
+> > +	{0x37cd, 0x16},
+> > +	{0x37ce, 0x16},
+> > +	{0x3800, 0x00},
+> > +	{0x3801, 0x00},
+> > +	{0x3802, 0x00},
+> > +	{0x3803, 0x0c},
+> > +	{0x3804, 0x0c},
+> > +	{0x3805, 0xdf},
+> > +	{0x3806, 0x09},
+> > +	{0x3807, 0xa3},
+> > +	{0x3808, 0x0c},
+> > +	{0x3809, 0xc0},
+> > +	{0x380a, 0x09},
+> > +	{0x380b, 0x90},
+> > +	{0x380c, 0x07},
+> > +	{0x380d, 0x8c},
+> > +	{0x380e, 0x09},
+> > +	{0x380f, 0xb2},
+> > +	{0x3810, 0x00},
+> > +	{0x3811, 0x04},
+> > +	{0x3812, 0x00},
+> > +	{0x3813, 0x02},
+> > +	{0x3814, 0x01},
+> > +	{0x3815, 0x01},
+> > +	{0x3816, 0x00},
+> > +	{0x3817, 0x00},
+> > +	{0x3818, 0x00},
+> > +	{0x3819, 0x00},
+> > +	{0x3820, 0x80},
+> > +	{0x3821, 0x46},
+> > +	{0x382a, 0x01},
+> > +	{0x382b, 0x01},
+> > +	{0x3830, 0x06},
+> > +	{0x3836, 0x02},
+> > +	{0x3862, 0x04},
+> > +	{0x3863, 0x08},
+> > +	{0x3cc0, 0x33},
+> > +	{0x3d85, 0x17},
+> > +	{0x3d8c, 0x73},
+> > +	{0x3d8d, 0xde},
+> > +	{0x4001, 0xe0},
+> > +	{0x4003, 0x40},
+> > +	{0x4008, 0x00},
+> > +	{0x4009, 0x0b},
+> > +	{0x400a, 0x00},
+> > +	{0x400b, 0x84},
+> > +	{0x400f, 0x80},
+> > +	{0x4010, 0xf0},
+> > +	{0x4011, 0xff},
+> > +	{0x4012, 0x02},
+> > +	{0x4013, 0x01},
+> > +	{0x4014, 0x01},
+> > +	{0x4015, 0x01},
+> > +	{0x4042, 0x00},
+> > +	{0x4043, 0x80},
+> > +	{0x4044, 0x00},
+> > +	{0x4045, 0x80},
+> > +	{0x4046, 0x00},
+> > +	{0x4047, 0x80},
+> > +	{0x4048, 0x00},
+> > +	{0x4049, 0x80},
+> > +	{0x4041, 0x03},
+> > +	{0x404c, 0x20},
+> > +	{0x404d, 0x00},
+> > +	{0x404e, 0x20},
+> > +	{0x4203, 0x80},
+> > +	{0x4307, 0x30},
+> > +	{0x4317, 0x00},
+> > +	{0x4502, 0x50},
+> > +	{0x4503, 0x08},
+> > +	{0x4601, 0x80},
+> > +	{0x4800, 0x44},
+> > +	{0x4816, 0x53},
+> > +	{0x481b, 0x50},
+> > +	{0x481f, 0x27},
+> > +	{0x4823, 0x3c},
+> > +	{0x482b, 0x00},
+> > +	{0x4831, 0x66},
+> > +	{0x4837, 0x16},
+> > +	{0x483c, 0x0f},
+> > +	{0x484b, 0x05},
+> > +	{0x5000, 0x77},
+> > +	{0x5001, 0x0a},
+> > +	{0x5003, 0xc8},
+> > +	{0x5004, 0x04},
+> > +	{0x5006, 0x00},
+> > +	{0x5007, 0x00},
+> > +	{0x502e, 0x03},
+> > +	{0x5030, 0x41},
+> > +	{0x5780, 0x14},
+> > +	{0x5781, 0x0f},
+> > +	{0x5782, 0x44},
+> > +	{0x5783, 0x02},
+> > +	{0x5784, 0x01},
+> > +	{0x5785, 0x01},
+> > +	{0x5786, 0x00},
+> > +	{0x5787, 0x04},
+> > +	{0x5788, 0x02},
+> > +	{0x5789, 0x0f},
+> > +	{0x578a, 0xfd},
+> > +	{0x578b, 0xf5},
+> > +	{0x578c, 0xf5},
+> > +	{0x578d, 0x03},
+> > +	{0x578e, 0x08},
+> > +	{0x578f, 0x0c},
+> > +	{0x5790, 0x08},
+> > +	{0x5791, 0x04},
+> > +	{0x5792, 0x00},
+> > +	{0x5793, 0x52},
+> > +	{0x5794, 0xa3},
+> > +	{0x5795, 0x02},
+> > +	{0x5796, 0x20},
+> > +	{0x5797, 0x20},
+> > +	{0x5798, 0xd5},
+> > +	{0x5799, 0xd5},
+> > +	{0x579a, 0x00},
+> > +	{0x579b, 0x50},
+> > +	{0x579c, 0x00},
+> > +	{0x579d, 0x2c},
+> > +	{0x579e, 0x0c},
+> > +	{0x579f, 0x40},
+> > +	{0x57a0, 0x09},
+> > +	{0x57a1, 0x40},
+> > +	{0x59f8, 0x3d},
+> > +	{0x5a08, 0x02},
+> > +	{0x5b00, 0x02},
+> > +	{0x5b01, 0x10},
+> > +	{0x5b02, 0x03},
+> > +	{0x5b03, 0xcf},
+> > +	{0x5b05, 0x6c},
+> > +	{0x5e00, 0x00},
+> > +	{0x5e10, 0xfc}
+> > +};
+> > +
+> >  static const struct ov8856_reg mode_1640x1232_regs[] = {
+> >  	{0x3000, 0x20},
+> >  	{0x3003, 0x08},
+> > @@ -385,11 +620,11 @@ static const struct ov8856_reg mode_1640x1232_regs[] = {
+> >  	{0x3800, 0x00},
+> >  	{0x3801, 0x00},
+> >  	{0x3802, 0x00},
+> > -	{0x3803, 0x06},
+> > +	{0x3803, 0x07},
+> >  	{0x3804, 0x0c},
+> >  	{0x3805, 0xdf},
+> >  	{0x3806, 0x09},
+> > -	{0x3807, 0xa7},
+> > +	{0x3807, 0xa6},
+> >  	{0x3808, 0x06},
+> >  	{0x3809, 0x68},
+> >  	{0x380a, 0x04},
+> > @@ -401,7 +636,7 @@ static const struct ov8856_reg mode_1640x1232_regs[] = {
+> >  	{0x3810, 0x00},
+> >  	{0x3811, 0x00},
+> >  	{0x3812, 0x00},
+> > -	{0x3813, 0x01},
+> > +	{0x3813, 0x00},
+> >  	{0x3814, 0x03},
+> >  	{0x3815, 0x01},
+> >  	{0x3816, 0x00},
+> > @@ -506,6 +741,209 @@ static const struct ov8856_reg mode_1640x1232_regs[] = {
+> >  	{0x5e00, 0x00}
+> >  };
+> >  
+> > +static const struct ov8856_reg mode_1632x1224_regs[] = {
+> > +	{0x0103, 0x01},
+> > +	{0x0302, 0x3c},
+> > +	{0x0303, 0x01},
+> > +	{0x031e, 0x0c},
+> > +	{0x3000, 0x20},
+> > +	{0x3003, 0x08},
+> > +	{0x300e, 0x20},
+> > +	{0x3010, 0x00},
+> > +	{0x3015, 0x84},
+> > +	{0x3018, 0x72},
+> > +	{0x3021, 0x23},
+> > +	{0x3033, 0x24},
+> > +	{0x3500, 0x00},
+> > +	{0x3501, 0x4c},
+> > +	{0x3502, 0xe0},
+> > +	{0x3503, 0x08},
+> > +	{0x3505, 0x83},
+> > +	{0x3508, 0x01},
+> > +	{0x3509, 0x80},
+> > +	{0x350c, 0x00},
+> > +	{0x350d, 0x80},
+> > +	{0x350e, 0x04},
+> > +	{0x350f, 0x00},
+> > +	{0x3510, 0x00},
+> > +	{0x3511, 0x02},
+> > +	{0x3512, 0x00},
+> > +	{0x3600, 0x72},
+> > +	{0x3601, 0x40},
+> > +	{0x3602, 0x30},
+> > +	{0x3610, 0xc5},
+> > +	{0x3611, 0x58},
+> > +	{0x3612, 0x5c},
+> > +	{0x3613, 0xca},
+> > +	{0x3614, 0x60},
+> > +	{0x3628, 0xff},
+> > +	{0x3629, 0xff},
+> > +	{0x362a, 0xff},
+> > +	{0x3633, 0x10},
+> > +	{0x3634, 0x10},
+> > +	{0x3635, 0x10},
+> > +	{0x3636, 0x10},
+> > +	{0x3663, 0x08},
+> > +	{0x3669, 0x34},
+> > +	{0x366d, 0x00},
+> > +	{0x366e, 0x08},
+> > +	{0x3706, 0x86},
+> > +	{0x370b, 0x7e},
+> > +	{0x3714, 0x27},
+> > +	{0x3730, 0x12},
+> > +	{0x3733, 0x10},
+> > +	{0x3764, 0x00},
+> > +	{0x3765, 0x00},
+> > +	{0x3769, 0x62},
+> > +	{0x376a, 0x2a},
+> > +	{0x376b, 0x30},
+> > +	{0x3780, 0x00},
+> > +	{0x3781, 0x24},
+> > +	{0x3782, 0x00},
+> > +	{0x3783, 0x23},
+> > +	{0x3798, 0x2f},
+> > +	{0x37a1, 0x60},
+> > +	{0x37a8, 0x6a},
+> > +	{0x37ab, 0x3f},
+> > +	{0x37c2, 0x14},
+> > +	{0x37c3, 0xf1},
+> > +	{0x37c9, 0x80},
+> > +	{0x37cb, 0x16},
+> > +	{0x37cc, 0x16},
+> > +	{0x37cd, 0x16},
+> > +	{0x37ce, 0x16},
+> > +	{0x3800, 0x00},
+> > +	{0x3801, 0x00},
+> > +	{0x3802, 0x00},
+> > +	{0x3803, 0x0c},
+> > +	{0x3804, 0x0c},
+> > +	{0x3805, 0xdf},
+> > +	{0x3806, 0x09},
+> > +	{0x3807, 0xa3},
+> > +	{0x3808, 0x06},
+> > +	{0x3809, 0x60},
+> > +	{0x380a, 0x04},
+> > +	{0x380b, 0xc8},
+> > +	{0x380c, 0x07},
+> > +	{0x380d, 0x8c},
+> > +	{0x380e, 0x09},
+> > +	{0x380f, 0xb2},
+> > +	{0x3810, 0x00},
+> > +	{0x3811, 0x02},
+> > +	{0x3812, 0x00},
+> > +	{0x3813, 0x02},
+> > +	{0x3814, 0x03},
+> > +	{0x3815, 0x01},
+> > +	{0x3816, 0x00},
+> > +	{0x3817, 0x00},
+> > +	{0x3818, 0x00},
+> > +	{0x3819, 0x00},
+> > +	{0x3820, 0x80},
+> > +	{0x3821, 0x47},
+> > +	{0x382a, 0x03},
+> > +	{0x382b, 0x01},
+> > +	{0x3830, 0x06},
+> > +	{0x3836, 0x02},
+> > +	{0x3862, 0x04},
+> > +	{0x3863, 0x08},
+> > +	{0x3cc0, 0x33},
+> > +	{0x3d85, 0x17},
+> > +	{0x3d8c, 0x73},
+> > +	{0x3d8d, 0xde},
+> > +	{0x4001, 0xe0},
+> > +	{0x4003, 0x40},
+> > +	{0x4008, 0x00},
+> > +	{0x4009, 0x05},
+> > +	{0x400a, 0x00},
+> > +	{0x400b, 0x84},
+> > +	{0x400f, 0x80},
+> > +	{0x4010, 0xf0},
+> > +	{0x4011, 0xff},
+> > +	{0x4012, 0x02},
+> > +	{0x4013, 0x01},
+> > +	{0x4014, 0x01},
+> > +	{0x4015, 0x01},
+> > +	{0x4042, 0x00},
+> > +	{0x4043, 0x80},
+> > +	{0x4044, 0x00},
+> > +	{0x4045, 0x80},
+> > +	{0x4046, 0x00},
+> > +	{0x4047, 0x80},
+> > +	{0x4048, 0x00},
+> > +	{0x4049, 0x80},
+> > +	{0x4041, 0x03},
+> > +	{0x404c, 0x20},
+> > +	{0x404d, 0x00},
+> > +	{0x404e, 0x20},
+> > +	{0x4203, 0x80},
+> > +	{0x4307, 0x30},
+> > +	{0x4317, 0x00},
+> > +	{0x4502, 0x50},
+> > +	{0x4503, 0x08},
+> > +	{0x4601, 0x80},
+> > +	{0x4800, 0x44},
+> > +	{0x4816, 0x53},
+> > +	{0x481b, 0x50},
+> > +	{0x481f, 0x27},
+> > +	{0x4823, 0x3c},
+> > +	{0x482b, 0x00},
+> > +	{0x4831, 0x66},
+> > +	{0x4837, 0x16},
+> > +	{0x483c, 0x0f},
+> > +	{0x484b, 0x05},
+> > +	{0x5000, 0x77},
+> > +	{0x5001, 0x0a},
+> > +	{0x5003, 0xc8},
+> > +	{0x5004, 0x04},
+> > +	{0x5006, 0x00},
+> > +	{0x5007, 0x00},
+> > +	{0x502e, 0x03},
+> > +	{0x5030, 0x41},
+> > +	{0x5795, 0x00},
+> > +	{0x5796, 0x10},
+> > +	{0x5797, 0x10},
+> > +	{0x5798, 0x73},
+> > +	{0x5799, 0x73},
+> > +	{0x579a, 0x00},
+> > +	{0x579b, 0x28},
+> > +	{0x579c, 0x00},
+> > +	{0x579d, 0x16},
+> > +	{0x579e, 0x06},
+> > +	{0x579f, 0x20},
+> > +	{0x57a0, 0x04},
+> > +	{0x57a1, 0xa0},
+> > +	{0x5780, 0x14},
+> > +	{0x5781, 0x0f},
+> > +	{0x5782, 0x44},
+> > +	{0x5783, 0x02},
+> > +	{0x5784, 0x01},
+> > +	{0x5785, 0x01},
+> > +	{0x5786, 0x00},
+> > +	{0x5787, 0x04},
+> > +	{0x5788, 0x02},
+> > +	{0x5789, 0x0f},
+> > +	{0x578a, 0xfd},
+> > +	{0x578b, 0xf5},
+> > +	{0x578c, 0xf5},
+> > +	{0x578d, 0x03},
+> > +	{0x578e, 0x08},
+> > +	{0x578f, 0x0c},
+> > +	{0x5790, 0x08},
+> > +	{0x5791, 0x04},
+> > +	{0x5792, 0x00},
+> > +	{0x5793, 0x52},
+> > +	{0x5794, 0xa3},
+> > +	{0x59f8, 0x3d},
+> > +	{0x5a08, 0x02},
+> > +	{0x5b00, 0x02},
+> > +	{0x5b01, 0x10},
+> > +	{0x5b02, 0x03},
+> > +	{0x5b03, 0xcf},
+> > +	{0x5b05, 0x6c},
+> > +	{0x5e00, 0x00},
+> > +	{0x5e10, 0xfc}
+> > +};
+> > +
+> >  static const char * const ov8856_test_pattern_menu[] = {
+> >  	"Disabled",
+> >  	"Standard Color Bar",
+> > @@ -548,6 +986,18 @@ static const struct ov8856_mode supported_modes[] = {
+> >  		.link_freq_index = OV8856_LINK_FREQ_720MBPS,
+> >  	},
+> >  	{
+> > +		.width    = 3264,
+> > +		.height   = 2448,
+> > +		.hts      = 1932,
+> > +		.vts_def  = 2482,
+> > +		.vts_min  = 2482,
+> > +		.reg_list = {
+> > +			.num_of_regs = ARRAY_SIZE(mode_3264x2448_regs),
+> > +			.regs = mode_3264x2448_regs,
+> > +		},
+> > +		.link_freq_index = OV8856_LINK_FREQ_720MBPS,
+> > +	},
+> 
+> How do you guarantee that the modes are only used on the xvclk frequency
+> they're intended for?
+> 
+> I think it'd be best if you added the new modes in a separete patch.
+> 
+
+In a separate patch?
+
+> > +	{
+> >  		.width = 1640,
+> >  		.height = 1232,
+> >  		.hts = 3820,
+> > @@ -558,6 +1008,18 @@ static const struct ov8856_mode supported_modes[] = {
+> >  			.regs = mode_1640x1232_regs,
+> >  		},
+> >  		.link_freq_index = OV8856_LINK_FREQ_360MBPS,
+> > +	},
+> > +	{
+> > +		.width    = 1632,
+> > +		.height   = 1224,
+> > +		.hts      = 1932,
+> > +		.vts_def  = 2482,
+> > +		.vts_min  = 2482,
+> > +		.reg_list = {
+> > +			.num_of_regs = ARRAY_SIZE(mode_1632x1224_regs),
+> > +			.regs = mode_1632x1224_regs,
+> > +		},
+> > +		.link_freq_index = OV8856_LINK_FREQ_360MBPS,
+> >  	}
+> >  };
+> >  
+> > @@ -566,16 +1028,28 @@ struct ov8856 {
+> >  	struct media_pad pad;
+> >  	struct v4l2_ctrl_handler ctrl_handler;
+> >  
+> > +	struct clk		*xvclk;
+> > +	struct gpio_desc	*n_shutdn_gpio;
+> > +	struct regulator_bulk_data supplies[OV8856_NUM_SUPPLIES];
+> > +
+> >  	/* V4L2 Controls */
+> >  	struct v4l2_ctrl *link_freq;
+> >  	struct v4l2_ctrl *pixel_rate;
+> >  	struct v4l2_ctrl *vblank;
+> >  	struct v4l2_ctrl *hblank;
+> >  	struct v4l2_ctrl *exposure;
+> > +	struct v4l2_mbus_framefmt	fmt;
+> >  
+> >  	/* Current mode */
+> >  	const struct ov8856_mode *cur_mode;
+> >  
+> > +	/* module hardware version that can be read out from register 0x700f
+> > +	 * the register value corresponds to different hardware version
+> > +	 * 01: 2A module revision
+> > +	 * 02: 1B module revision
+> > +	 */
+> > +	bool is_1B_revision;
+> > +
+> >  	/* To serialize asynchronus callbacks */
+> >  	struct mutex mutex;
+> >  
+> > @@ -696,6 +1170,25 @@ static int ov8856_test_pattern(struct ov8856 *ov8856, u32 pattern)
+> >  				OV8856_REG_VALUE_08BIT, pattern);
+> >  }
+> >  
+> > +static int ov8856_check_revision(struct ov8856 *ov8856)
+> > +{
+> > +	int ret;
+> > +
+> > +	ret = ov8856_write_reg(ov8856, OV8856_REG_MODE_SELECT,
+> > +			       OV8856_REG_VALUE_08BIT, OV8856_MODE_STREAMING);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	ret = ov8856_write_reg(ov8856, OV8856_OTP_MODE_CTRL,
+> > +			       OV8856_REG_VALUE_08BIT, OV8856_OTP_MODE_AUTO);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	return ov8856_write_reg(ov8856, OV8856_OTP_LOAD_CTRL,
+> > +				OV8856_REG_VALUE_08BIT,
+> > +				OV8856_OTP_LOAD_CTRL_ENABLE);
+> 
+> Is it not necessary to disable streaming after reading EEPROM?
+> 
+
+These registers are provided by OV vendor.
+They need to be initialized before reading sensor revision.
+
+> > +}
+> > +
+> >  static int ov8856_set_ctrl(struct v4l2_ctrl *ctrl)
+> >  {
+> >  	struct ov8856 *ov8856 = container_of(ctrl->handler,
+> > @@ -825,7 +1318,6 @@ static void ov8856_update_pad_format(const struct ov8856_mode *mode,
+> >  {
+> >  	fmt->width = mode->width;
+> >  	fmt->height = mode->height;
+> > -	fmt->code = MEDIA_BUS_FMT_SGRBG10_1X10;
+> >  	fmt->field = V4L2_FIELD_NONE;
+> >  }
+> >  
+> > @@ -834,6 +1326,7 @@ static int ov8856_start_streaming(struct ov8856 *ov8856)
+> >  	struct i2c_client *client = v4l2_get_subdevdata(&ov8856->sd);
+> >  	const struct ov8856_reg_list *reg_list;
+> >  	int link_freq_index, ret;
+> > +	u32 h_size;
+> >  
+> >  	link_freq_index = ov8856->cur_mode->link_freq_index;
+> >  	reg_list = &link_freq_configs[link_freq_index].reg_list;
+> > @@ -850,6 +1343,29 @@ static int ov8856_start_streaming(struct ov8856 *ov8856)
+> >  		return ret;
+> >  	}
+> >  
+> > +	/* Update R3614 if the revision is 1B module */
+> > +	if (ov8856->is_1B_revision) {
+> > +		ret = ov8856_write_reg(ov8856, OV8856_ANAL_MODE_CTRL,
+> > +				       OV8856_REG_VALUE_08BIT,
+> > +				       OV8856_ANAL_1B_VAL);
+> > +		if (ret) {
+> > +			dev_err(&client->dev, "failed to set R3614");
+> > +			return ret;
+> > +		}
+> > +	}
+> > +
+> > +	ret = ov8856_read_reg(ov8856, REG_X_ADDR_START,
+> > +			      OV8856_REG_VALUE_16BIT, &h_size);
+> > +	if (ret) {
+> > +		dev_err(&client->dev, "failed to read out R3614");
+> > +		return ret;
+> > +	}
+> > +
+> > +	if (h_size == X_OUTPUT_FULL_SIZE || h_size == X_OUTPUT_BINNING_SIZE)
+> > +		ov8856->fmt.code = MEDIA_BUS_FMT_SBGGR10_1X10;
+> 
+> I wonder if this condition is right. The pixel order (and thus the media
+> bus code) is determined by cropping (and flipping and mirroring, but
+> they're not supported right now). See e.g. the smiapp driver for an
+> example.
+> 
+> The correct media bus code needs to be available to the user through the
+> regular API at all times, not only after streaming is started.
+> 
+> I'd suggest adding support for other pixel orders in a separate patch.
+> 
+
+This may need time to think out.
+Is there any recommended regular API?  
+
+> > +
+> >  	ret = __v4l2_ctrl_handler_setup(ov8856->sd.ctrl_handler);
+> >  	if (ret)
+> >  		return ret;
+> > @@ -878,6 +1394,7 @@ static int ov8856_set_stream(struct v4l2_subdev *sd, int enable)
+> >  	struct ov8856 *ov8856 = to_ov8856(sd);
+> >  	struct i2c_client *client = v4l2_get_subdevdata(sd);
+> >  	int ret = 0;
+> > +	u32 val;
+> >  
+> >  	if (ov8856->streaming == enable)
+> >  		return 0;
+> > @@ -908,6 +1425,44 @@ static int ov8856_set_stream(struct v4l2_subdev *sd, int enable)
+> >  	return ret;
+> >  }
+> >  
+> > +static int __ov8856_power_on(struct ov8856 *ov8856)
+> > +{
+> > +	struct i2c_client *client = v4l2_get_subdevdata(&ov8856->sd);
+> > +	int ret;
+> > +
+> > +	ret = clk_prepare_enable(ov8856->xvclk);
+> > +	if (ret < 0) {
+> > +		dev_err(&client->dev, "failed to enable xvclk\n");
+> > +		return ret;
+> > +	}
+> > +
+> > +	gpiod_set_value_cansleep(ov8856->n_shutdn_gpio, GPIOD_OUT_LOW);
+> > +
+> > +	ret = regulator_bulk_enable(OV8856_NUM_SUPPLIES, ov8856->supplies);
+> > +	if (ret < 0) {
+> > +		dev_err(&client->dev, "failed to enable regulators\n");
+> > +		goto disable_clk;
+> > +	}
+> > +
+> > +	gpiod_set_value_cansleep(ov8856->n_shutdn_gpio, GPIOD_OUT_HIGH);
+> 
+> ..., 1);
+> 
+> > +
+> > +	usleep_range(1400, 1500);
+> > +
+> > +	return 0;
+> > +
+> > +disable_clk:
+> > +	clk_disable_unprepare(ov8856->xvclk);
+> 
+> How about the n_shutdn GPIO?
+> 
+
+This is power up sequence function.
+When enabling regulators failed, it is required to disable the enabled
+power previously.
+Thus here we need to disable xvclk.
+But for n_shutdn GPIO, it was low state at that time.
+So we don't need to do anything for it.
+
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +static void __ov8856_power_off(struct ov8856 *ov8856)
+> > +{
+> > +	gpiod_set_value_cansleep(ov8856->n_shutdn_gpio, 1);
+> 
+> Why to inactivate xshutdn here (it already was)?
+> 
+> > +	regulator_bulk_disable(OV8856_NUM_SUPPLIES, ov8856->supplies);
+> > +	clk_disable_unprepare(ov8856->xvclk);
+> > +}
+> > +
+> >  static int __maybe_unused ov8856_suspend(struct device *dev)
+> >  {
+> >  	struct i2c_client *client = to_i2c_client(dev);
+> > @@ -951,6 +1506,7 @@ static int ov8856_set_format(struct v4l2_subdev *sd,
+> >  			     struct v4l2_subdev_format *fmt)
+> >  {
+> >  	struct ov8856 *ov8856 = to_ov8856(sd);
+> > +	struct v4l2_mbus_framefmt *mbus_fmt = &fmt->format;
+> >  	const struct ov8856_mode *mode;
+> >  	s32 vblank_def, h_blank;
+> >  
+> > @@ -960,7 +1516,9 @@ static int ov8856_set_format(struct v4l2_subdev *sd,
+> >  				      fmt->format.height);
+> >  
+> >  	mutex_lock(&ov8856->mutex);
+> > -	ov8856_update_pad_format(mode, &fmt->format);
+> > +	mbus_fmt->code = ov8856->fmt.code;
+> > +	ov8856_update_pad_format(mode, mbus_fmt);
+> > +	ov8856->fmt = fmt->format;
+> >  	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
+> >  		*v4l2_subdev_get_try_format(sd, cfg, fmt->pad) = fmt->format;
+> >  	} else {
+> > @@ -992,13 +1550,17 @@ static int ov8856_get_format(struct v4l2_subdev *sd,
+> >  			     struct v4l2_subdev_format *fmt)
+> >  {
+> >  	struct ov8856 *ov8856 = to_ov8856(sd);
+> > +	struct v4l2_mbus_framefmt *mbus_fmt = &fmt->format;
+> >  
+> >  	mutex_lock(&ov8856->mutex);
+> > -	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
+> > +	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
+> >  		fmt->format = *v4l2_subdev_get_try_format(&ov8856->sd, cfg,
+> >  							  fmt->pad);
+> > -	else
+> > -		ov8856_update_pad_format(ov8856->cur_mode, &fmt->format);
+> > +	} else {
+> > +		fmt->format = ov8856->fmt;
+> > +		ov8856_update_pad_format(ov8856->cur_mode, mbus_fmt);
+> > +		mbus_fmt->code = ov8856->fmt.code;
+> > +	}
+> >  
+> >  	mutex_unlock(&ov8856->mutex);
+> >  
+> > @@ -1009,11 +1571,12 @@ static int ov8856_enum_mbus_code(struct v4l2_subdev *sd,
+> >  				 struct v4l2_subdev_pad_config *cfg,
+> >  				 struct v4l2_subdev_mbus_code_enum *code)
+> >  {
+> > -	/* Only one bayer order GRBG is supported */
+> > +	struct ov8856 *ov8856 = to_ov8856(sd);
+> > +
+> >  	if (code->index > 0)
+> >  		return -EINVAL;
+> >  
+> > -	code->code = MEDIA_BUS_FMT_SGRBG10_1X10;
+> > +	code->code = ov8856->fmt.code;
+> >  
+> >  	return 0;
+> >  }
+> > @@ -1089,6 +1652,20 @@ static int ov8856_identify_module(struct ov8856 *ov8856)
+> >  		return -ENXIO;
+> >  	}
+> >  
+> > +	/* check sensor hardware revision */
+> > +	ret = ov8856_check_revision(ov8856);
+> > +	if (ret) {
+> > +		dev_err(&client->dev, "failed to check sensor revision");
+> > +		return ret;
+> > +	}
+> > +
+> > +	ret = ov8856_read_reg(ov8856, OV8856_MODULE_REVISION,
+> > +			      OV8856_REG_VALUE_08BIT, &val);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	ov8856->is_1B_revision = (val == OV8856_1B_MODULE) ? 1 : 0;
+> > +
+> >  	return 0;
+> >  }
+> >  
+> > @@ -1107,7 +1684,7 @@ static int ov8856_check_hwcfg(struct device *dev)
+> >  		return -ENXIO;
+> >  
+> >  	fwnode_property_read_u32(fwnode, "clock-frequency", &mclk);
+> > -	if (mclk != OV8856_MCLK) {
+> > +	if (mclk != OV8856_XVCLK) {
+> >  		dev_err(dev, "external clock %d is not supported", mclk);
+> >  		return -EINVAL;
+> >  	}
+> > @@ -1164,6 +1741,9 @@ static int ov8856_remove(struct i2c_client *client)
+> >  	media_entity_cleanup(&sd->entity);
+> >  	v4l2_ctrl_handler_free(sd->ctrl_handler);
+> >  	pm_runtime_disable(&client->dev);
+> > +	if (!pm_runtime_status_suspended(&client->dev))
+> > +		__ov8856_power_off(ov8856);
+> > +	pm_runtime_set_suspended(&client->dev);
+> >  	mutex_destroy(&ov8856->mutex);
+> >  
+> >  	return 0;
+> > @@ -1172,6 +1752,7 @@ static int ov8856_remove(struct i2c_client *client)
+> >  static int ov8856_probe(struct i2c_client *client)
+> >  {
+> >  	struct ov8856 *ov8856;
+> > +	unsigned int i;
+> >  	int ret;
+> >  
+> >  	ret = ov8856_check_hwcfg(&client->dev);
+> > @@ -1186,6 +1767,42 @@ static int ov8856_probe(struct i2c_client *client)
+> >  		return -ENOMEM;
+> >  
+> >  	v4l2_i2c_subdev_init(&ov8856->sd, client, &ov8856_subdev_ops);
+> > +	ov8856->fmt.code = MEDIA_BUS_FMT_SGRBG10_1X10;
+> > +
+> > +	ov8856->xvclk = devm_clk_get(&client->dev, "xvclk");
+> 
+> Does this work on ACPI?
+> 
+> See e.g. the smiapp driver for an example. The same applies to the rest of
+> the chunk.
+
+For ACPI, this probe should not be executed,
+as DT setting may not have compatible property.
+
+> 
+> > +	if (IS_ERR(ov8856->xvclk)) {
+> > +		dev_err(&client->dev, "failed to get xvclk\n");
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	ret = clk_set_rate(ov8856->xvclk, OV8856_XVCLK_TYP);
+> > +	if (ret < 0) {
+> > +		dev_err(&client->dev, "failed to set xvclk rate (24MHz)\n");
+> > +		return ret;
+> > +	}
+> > +	if (clk_get_rate(ov8856->xvclk) != OV8856_XVCLK_TYP)
+> > +		dev_warn(&client->dev,
+> > +			 "xvclk mismatched, modes are based on 24MHz\n");
+> > +
+> > +	ov8856->n_shutdn_gpio = devm_gpiod_get(&client->dev, "reset",
+> > +					       GPIOD_OUT_LOW);
+> > +	if (IS_ERR(ov8856->n_shutdn_gpio)) {
+> > +		dev_err(&client->dev, "failed to get reset-gpios\n");
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	for (i = 0; i < OV8856_NUM_SUPPLIES; i++)
+> > +		ov8856->supplies[i].supply = ov8856_supply_names[i];
+> > +
+> > +	ret = devm_regulator_bulk_get(&client->dev, OV8856_NUM_SUPPLIES,
+> > +				      ov8856->supplies);
+> > +	if (ret)
+> > +		dev_warn(&client->dev, "failed to get regulators\n");
+> > +
+> > +	ret = __ov8856_power_on(ov8856);
+> > +	if (ret)
+> > +		dev_warn(&client->dev, "failed to power on\n");
+> > +
+> >  	ret = ov8856_identify_module(ov8856);
+> >  	if (ret) {
+> >  		dev_err(&client->dev, "failed to find sensor: %d", ret);
+> > @@ -1251,11 +1868,18 @@ static const struct acpi_device_id ov8856_acpi_ids[] = {
+> >  MODULE_DEVICE_TABLE(acpi, ov8856_acpi_ids);
+> >  #endif
+> >  
+> > +static const struct of_device_id ov8856_of_match[] = {
+> > +	{ .compatible = "ovti,ov8856" },
+> > +	{},
+> > +};
+> > +MODULE_DEVICE_TABLE(of, ov8856_of_match);
+> > +
+> >  static struct i2c_driver ov8856_i2c_driver = {
+> >  	.driver = {
+> >  		.name = "ov8856",
+> >  		.pm = &ov8856_pm_ops,
+> >  		.acpi_match_table = ACPI_PTR(ov8856_acpi_ids),
+> > +		.of_match_table = ov8856_of_match,
+> >  	},
+> >  	.probe_new = ov8856_probe,
+> >  	.remove = ov8856_remove,
+> 
 
 
-On 10/30/19 1:30 PM, Nícolas F. R. A. Prado wrote:
-> Instead of validating the links to capture devices and subdevices with
-> the same function, use the default v4l function for links between
-> subdevices and only use a different function for validating between
-> capture device and subdevice.
-> This change should also ease future work to associate multiple mbus
-> codes for the same pixelformat in vimc_pix_map.
-> 
-> These changes were tested with
-> v4l2-compliance SHA: 3f806630e2ecbcebe31872b865c5c4b42f111a99, 64 bits
-> and passed all tests:
-> Grand Total for vimc device /dev/media0: 451, Succeeded: 451, Failed: 0, Warnings: 0
-> 
-> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@protonmail.com>
-
-Acked-by: Helen Koike <helen.koike@collabora.com>
-
-> ---
-> Changes in v4:
-> - Fix checkpatch checks "Logical continuations should be on the previous line"
-> 
-> Changes in v3:
-> - Rebase patch on current media tree
-> - Make vimc_get_pix_format() static
-> 
-> Changes in v2:
-> - Remove blank lines
-> - Rename vimc_cap_link_validate to vimc_vdev_link_validate and move it back to
->   vimc-common.c
-> - Fix style issue on vimc_get_pix_format header
-> - Remove vimc_get_pix_format declaration from vimc-common.h
-> 
->  drivers/media/platform/vimc/vimc-capture.c |  2 +-
->  drivers/media/platform/vimc/vimc-common.c  | 85 +++++++++++-----------
->  drivers/media/platform/vimc/vimc-common.h  |  4 +-
->  3 files changed, 46 insertions(+), 45 deletions(-)
-> 
-> diff --git a/drivers/media/platform/vimc/vimc-capture.c b/drivers/media/platform/vimc/vimc-capture.c
-> index a5d79fb25dff..76c015898cfd 100644
-> --- a/drivers/media/platform/vimc/vimc-capture.c
-> +++ b/drivers/media/platform/vimc/vimc-capture.c
-> @@ -322,7 +322,7 @@ static const struct vb2_ops vimc_cap_qops = {
->  };
->  
->  static const struct media_entity_operations vimc_cap_mops = {
-> -	.link_validate		= vimc_link_validate,
-> +	.link_validate		= vimc_vdev_link_validate,
->  };
->  
->  static void vimc_cap_release(struct video_device *vdev)
-> diff --git a/drivers/media/platform/vimc/vimc-common.c b/drivers/media/platform/vimc/vimc-common.c
-> index 2a0c40e9ae88..43e6fa5886da 100644
-> --- a/drivers/media/platform/vimc/vimc-common.c
-> +++ b/drivers/media/platform/vimc/vimc-common.c
-> @@ -194,35 +194,36 @@ const struct vimc_pix_map *vimc_pix_map_by_pixelformat(u32 pixelformat)
->  	return NULL;
->  }
->  
-> -static int vimc_get_mbus_format(struct media_pad *pad,
-> -				struct v4l2_subdev_format *fmt)
-> +static int vimc_get_pix_format(struct media_pad *pad,
-> +			       struct v4l2_pix_format *fmt)
->  {
->  	if (is_media_entity_v4l2_subdev(pad->entity)) {
->  		struct v4l2_subdev *sd =
->  			media_entity_to_v4l2_subdev(pad->entity);
-> +		struct v4l2_subdev_format sd_fmt;
-> +		const struct vimc_pix_map *pix_map;
->  		int ret;
->  
-> -		fmt->which = V4L2_SUBDEV_FORMAT_ACTIVE;
-> -		fmt->pad = pad->index;
-> +		sd_fmt.which = V4L2_SUBDEV_FORMAT_ACTIVE;
-> +		sd_fmt.pad = pad->index;
->  
-> -		ret = v4l2_subdev_call(sd, pad, get_fmt, NULL, fmt);
-> +		ret = v4l2_subdev_call(sd, pad, get_fmt, NULL, &sd_fmt);
->  		if (ret)
->  			return ret;
->  
-> +		v4l2_fill_pix_format(fmt, &sd_fmt.format);
-> +		pix_map = vimc_pix_map_by_code(sd_fmt.format.code);
-> +		fmt->pixelformat = pix_map->pixelformat;
->  	} else if (is_media_entity_v4l2_video_device(pad->entity)) {
->  		struct video_device *vdev = container_of(pad->entity,
->  							 struct video_device,
->  							 entity);
->  		struct vimc_ent_device *ved = video_get_drvdata(vdev);
-> -		const struct vimc_pix_map *vpix;
-> -		struct v4l2_pix_format vdev_fmt;
->  
->  		if (!ved->vdev_get_format)
->  			return -ENOIOCTLCMD;
->  
-> -		ved->vdev_get_format(ved, &vdev_fmt);
-> -		vpix = vimc_pix_map_by_pixelformat(vdev_fmt.pixelformat);
-> -		v4l2_fill_mbus_format(&fmt->format, &vdev_fmt, vpix->code);
-> +		ved->vdev_get_format(ved, fmt);
->  	} else {
->  		return -EINVAL;
->  	}
-> @@ -230,16 +231,16 @@ static int vimc_get_mbus_format(struct media_pad *pad,
->  	return 0;
->  }
->  
-> -int vimc_link_validate(struct media_link *link)
-> +int vimc_vdev_link_validate(struct media_link *link)
->  {
-> -	struct v4l2_subdev_format source_fmt, sink_fmt;
-> +	struct v4l2_pix_format source_fmt, sink_fmt;
->  	int ret;
->  
-> -	ret = vimc_get_mbus_format(link->source, &source_fmt);
-> +	ret = vimc_get_pix_format(link->source, &source_fmt);
->  	if (ret)
->  		return ret;
->  
-> -	ret = vimc_get_mbus_format(link->sink, &sink_fmt);
-> +	ret = vimc_get_pix_format(link->sink, &sink_fmt);
->  	if (ret)
->  		return ret;
->  
-> @@ -248,21 +249,21 @@ int vimc_link_validate(struct media_link *link)
->  		"%s:snk:%dx%d (0x%x, %d, %d, %d, %d)\n",
->  		/* src */
->  		link->source->entity->name,
-> -		source_fmt.format.width, source_fmt.format.height,
-> -		source_fmt.format.code, source_fmt.format.colorspace,
-> -		source_fmt.format.quantization, source_fmt.format.xfer_func,
-> -		source_fmt.format.ycbcr_enc,
-> +		source_fmt.width, source_fmt.height,
-> +		source_fmt.pixelformat, source_fmt.colorspace,
-> +		source_fmt.quantization, source_fmt.xfer_func,
-> +		source_fmt.ycbcr_enc,
->  		/* sink */
->  		link->sink->entity->name,
-> -		sink_fmt.format.width, sink_fmt.format.height,
-> -		sink_fmt.format.code, sink_fmt.format.colorspace,
-> -		sink_fmt.format.quantization, sink_fmt.format.xfer_func,
-> -		sink_fmt.format.ycbcr_enc);
-> -
-> -	/* The width, height and code must match. */
-> -	if (source_fmt.format.width != sink_fmt.format.width
-> -	    || source_fmt.format.height != sink_fmt.format.height
-> -	    || source_fmt.format.code != sink_fmt.format.code)
-> +		sink_fmt.width, sink_fmt.height,
-> +		sink_fmt.pixelformat, sink_fmt.colorspace,
-> +		sink_fmt.quantization, sink_fmt.xfer_func,
-> +		sink_fmt.ycbcr_enc);
-> +
-> +	/* The width, height and pixelformat must match. */
-> +	if (source_fmt.width != sink_fmt.width ||
-> +	    source_fmt.height != sink_fmt.height ||
-> +	    source_fmt.pixelformat != sink_fmt.pixelformat)
->  		return -EPIPE;
->  
->  	/*
-> @@ -270,43 +271,43 @@ int vimc_link_validate(struct media_link *link)
->  	 * to support interlaced hardware connected to bridges that support
->  	 * progressive formats only.
->  	 */
-> -	if (source_fmt.format.field != sink_fmt.format.field &&
-> -	    sink_fmt.format.field != V4L2_FIELD_NONE)
-> +	if (source_fmt.field != sink_fmt.field &&
-> +	    sink_fmt.field != V4L2_FIELD_NONE)
->  		return -EPIPE;
->  
->  	/*
->  	 * If colorspace is DEFAULT, then assume all the colorimetry is also
->  	 * DEFAULT, return 0 to skip comparing the other colorimetry parameters
->  	 */
-> -	if (source_fmt.format.colorspace == V4L2_COLORSPACE_DEFAULT
-> -	    || sink_fmt.format.colorspace == V4L2_COLORSPACE_DEFAULT)
-> +	if (source_fmt.colorspace == V4L2_COLORSPACE_DEFAULT ||
-> +	    sink_fmt.colorspace == V4L2_COLORSPACE_DEFAULT)
->  		return 0;
->  
->  	/* Colorspace must match. */
-> -	if (source_fmt.format.colorspace != sink_fmt.format.colorspace)
-> +	if (source_fmt.colorspace != sink_fmt.colorspace)
->  		return -EPIPE;
->  
->  	/* Colorimetry must match if they are not set to DEFAULT */
-> -	if (source_fmt.format.ycbcr_enc != V4L2_YCBCR_ENC_DEFAULT
-> -	    && sink_fmt.format.ycbcr_enc != V4L2_YCBCR_ENC_DEFAULT
-> -	    && source_fmt.format.ycbcr_enc != sink_fmt.format.ycbcr_enc)
-> +	if (source_fmt.ycbcr_enc != V4L2_YCBCR_ENC_DEFAULT &&
-> +	    sink_fmt.ycbcr_enc != V4L2_YCBCR_ENC_DEFAULT &&
-> +	    source_fmt.ycbcr_enc != sink_fmt.ycbcr_enc)
->  		return -EPIPE;
->  
-> -	if (source_fmt.format.quantization != V4L2_QUANTIZATION_DEFAULT
-> -	    && sink_fmt.format.quantization != V4L2_QUANTIZATION_DEFAULT
-> -	    && source_fmt.format.quantization != sink_fmt.format.quantization)
-> +	if (source_fmt.quantization != V4L2_QUANTIZATION_DEFAULT &&
-> +	    sink_fmt.quantization != V4L2_QUANTIZATION_DEFAULT &&
-> +	    source_fmt.quantization != sink_fmt.quantization)
->  		return -EPIPE;
->  
-> -	if (source_fmt.format.xfer_func != V4L2_XFER_FUNC_DEFAULT
-> -	    && sink_fmt.format.xfer_func != V4L2_XFER_FUNC_DEFAULT
-> -	    && source_fmt.format.xfer_func != sink_fmt.format.xfer_func)
-> +	if (source_fmt.xfer_func != V4L2_XFER_FUNC_DEFAULT &&
-> +	    sink_fmt.xfer_func != V4L2_XFER_FUNC_DEFAULT &&
-> +	    source_fmt.xfer_func != sink_fmt.xfer_func)
->  		return -EPIPE;
->  
->  	return 0;
->  }
->  
->  static const struct media_entity_operations vimc_ent_sd_mops = {
-> -	.link_validate = vimc_link_validate,
-> +	.link_validate = v4l2_subdev_link_validate,
->  };
->  
->  int vimc_ent_sd_register(struct vimc_ent_device *ved,
-> diff --git a/drivers/media/platform/vimc/vimc-common.h b/drivers/media/platform/vimc/vimc-common.h
-> index c75401a36312..bf729fcde6a9 100644
-> --- a/drivers/media/platform/vimc/vimc-common.h
-> +++ b/drivers/media/platform/vimc/vimc-common.h
-> @@ -206,12 +206,12 @@ int vimc_ent_sd_register(struct vimc_ent_device *ved,
->  			 const struct v4l2_subdev_ops *sd_ops);
->  
->  /**
-> - * vimc_link_validate - validates a media link
-> + * vimc_vdev_link_validate - validates a media link
->   *
->   * @link: pointer to &struct media_link
->   *
->   * This function calls validates if a media link is valid for streaming.
->   */
-> -int vimc_link_validate(struct media_link *link);
-> +int vimc_vdev_link_validate(struct media_link *link);
->  
->  #endif
-> 
