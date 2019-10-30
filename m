@@ -2,92 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EC8CE9A1C
-	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2019 11:39:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DB4BBE9A2F
+	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2019 11:40:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726776AbfJ3KjA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Oct 2019 06:39:00 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:55709 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726046AbfJ3KjA (ORCPT
+        id S1726832AbfJ3KkP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Oct 2019 06:40:15 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:50207 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726046AbfJ3KkP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Oct 2019 06:39:00 -0400
+        Wed, 30 Oct 2019 06:40:15 -0400
 Received: from [172.20.50.122] ([91.217.168.176])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id PlNMiZEaKsBskPlNPiLsG2; Wed, 30 Oct 2019 11:38:57 +0100
-Subject: Re: [PATCH] dt-bindings: media: meson-ao-cec: convert to yaml
-To:     Neil Armstrong <narmstrong@baylibre.com>, robh+dt@kernel.org
-Cc:     devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20191021121131.25017-1-narmstrong@baylibre.com>
+        id PlOaiZF6psBskPlOdiLsfs; Wed, 30 Oct 2019 11:40:12 +0100
+Subject: Re: [PATCH v3] dt-bindings: media: Convert stm32 cec bindings to
+ json-schema
+To:     Benjamin Gaignard <benjamin.gaignard@st.com>, mchehab@kernel.org,
+        robh+dt@kernel.org, mark.rutland@arm.com, alexandre.torgue@st.com,
+        yannick.fertre@st.com, philippe.cornu@st.com, hugues.fruchet@st.com
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20191014092021.24020-1-benjamin.gaignard@st.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <d8733cd1-fca8-3aa7-8a48-8e79d0249e82@xs4all.nl>
-Date:   Wed, 30 Oct 2019 11:38:51 +0100
+Message-ID: <e6655a20-5d87-7dc1-14e3-844f12096f0e@xs4all.nl>
+Date:   Wed, 30 Oct 2019 11:40:08 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191021121131.25017-1-narmstrong@baylibre.com>
+In-Reply-To: <20191014092021.24020-1-benjamin.gaignard@st.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfIQ2VdeGwB3P6PAcICDG9mQkN2WKp13Tk7/oBtUpSOf67QH/VGP9pPxvt49Oopz6Qm4vSECPrgX7ZQVLgpKlLNgISmpxyQBwJFLd9BAdOQ/cv1vaA4TN
- YYzuB+p3f3BPchXc6x3xOmgODI6mEhcMDhNoAdVUYRc9jAHCeDEA+JzcJKFEAWzOm29SFD48uSQHaKuz6hfvRXx0SwwazEcFDflnaRUPOcdVaqV/pzoXtT3M
- 8ypLdzK972vSyI1Zck283wFUvDjvGllc8x4oSDjx9TQQS2qWDHr0E0E9IcPaarP43bs2Pj6VfwAqBV9c5uXOAr6Zl+NY/ptrW7WMUnMHA/vAsRSHqwiIQPPV
- L/QHyEYjc91sYgyCK18FtGJGNStxGU91lJcWyI9T57H/nKhLqe9gtpTMPtnLdfEAskMCRHXz4fQyEMv7BtaL/9nbR4hPEg==
+X-CMAE-Envelope: MS4wfDQzby7iJi2ukFJgU8JHUeC09xVN/QRQKmGaOzCliVJkkKMZFTdmOnJyl8HqCfm0V2sLtB6hU6a8WD57eHRd4e5QptFvRANT17/vxFEteIhxRqmWlxup
+ yb6FF0YqO7vKcKT4RG1fHevWR/4xpUhkU3Nl0alXpEnwvsA39svrlvWADD+PNIf+RlT5UjSQ697/L9g0WIfEADln+HoYUtv/vGAQD6V+8+zHFnn4bghuqDFo
+ iC3yKvFv2A2bmLAJx65S702UAHYb0ofwwXOCkVWvZgbBoeass0tdrPNA24ThvBhi5vPsAYKvdAClQO4+qxFjJ9Y8ih9N5vkyp95mETisdI85XEghoy6iJDPt
+ rQrNQbHhZR2TFSZTf10mF+ZSgTAvZm3bsc7UWfbBgdd/uvnlRYo9aqrEjo5f5Nr25FPnKDDc4AaS7urPt+VECDT83IcrRXWBoG15fduxWlhtaM2yXVm2Lzbz
+ /+XykNPENAoFFRhLmDcLoLW6tNPVJ5rLsCWMcSjaDdO+Z2E4gAk5dUz2bBVqu4jyfwb0joC4VtW49RNsOYPyVt9tgi9GsZO6TwjyMJ7355BQWo1k2pkXK4R/
+ s00JGiNgf1Ej0c0VzZSaci2Hi6O9Q+xHZ/plQAWZVrQb7F6/pEquzv7qhj9hWO0uW+4=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Neil,
+On 10/14/19 11:20 AM, Benjamin Gaignard wrote:
+> Convert the STM32 cec binding to DT schema format using json-schema
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@st.com>
 
-Can you post a new patch that updates the MAINTAINERS file?
-
-Thanks!
+There doesn't seem to be a MAINTAINERS entry for this driver. Can you add
+one?
 
 	Hans
 
-On 10/21/19 2:11 PM, Neil Armstrong wrote:
-> Now that we have the DT validation in place, let's convert the device tree
-> bindings for the Amlogic AO-CEC controller over to a YAML schemas.
-> 
-> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
 > ---
->   .../media/amlogic,meson-gx-ao-cec.yaml        | 91 +++++++++++++++++++
->   .../bindings/media/meson-ao-cec.txt           | 37 --------
->   2 files changed, 91 insertions(+), 37 deletions(-)
->   create mode 100644 Documentation/devicetree/bindings/media/amlogic,meson-gx-ao-cec.yaml
->   delete mode 100644 Documentation/devicetree/bindings/media/meson-ao-cec.txt
+> changes in v3:
+> - use (GPL-2.0-only OR BSD-2-Clause) license
 > 
-> diff --git a/Documentation/devicetree/bindings/media/amlogic,meson-gx-ao-cec.yaml b/Documentation/devicetree/bindings/media/amlogic,meson-gx-ao-cec.yaml
+> changes in v2:
+> - use BSD-2-Clause license
+> - add additionalProperties: false
+> - remove pinctrl-names and pinctrl-[0-9]
+> 
+>   .../devicetree/bindings/media/st,stm32-cec.txt     | 19 --------
+>   .../devicetree/bindings/media/st,stm32-cec.yaml    | 54 ++++++++++++++++++++++
+>   2 files changed, 54 insertions(+), 19 deletions(-)
+>   delete mode 100644 Documentation/devicetree/bindings/media/st,stm32-cec.txt
+>   create mode 100644 Documentation/devicetree/bindings/media/st,stm32-cec.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/st,stm32-cec.txt b/Documentation/devicetree/bindings/media/st,stm32-cec.txt
+> deleted file mode 100644
+> index 6be2381c180d..000000000000
+> --- a/Documentation/devicetree/bindings/media/st,stm32-cec.txt
+> +++ /dev/null
+> @@ -1,19 +0,0 @@
+> -STMicroelectronics STM32 CEC driver
+> -
+> -Required properties:
+> - - compatible : value should be "st,stm32-cec"
+> - - reg : Physical base address of the IP registers and length of memory
+> -	 mapped region.
+> - - clocks : from common clock binding: handle to CEC clocks
+> - - clock-names : from common clock binding: must be "cec" and "hdmi-cec".
+> - - interrupts : CEC interrupt number to the CPU.
+> -
+> -Example for stm32f746:
+> -
+> -cec: cec@40006c00 {
+> -	compatible = "st,stm32-cec";
+> -	reg = <0x40006C00 0x400>;
+> -	interrupts = <94>;
+> -	clocks = <&rcc 0 STM32F7_APB1_CLOCK(CEC)>, <&rcc 1 CLK_HDMI_CEC>;
+> -	clock-names = "cec", "hdmi-cec";
+> -};
+> diff --git a/Documentation/devicetree/bindings/media/st,stm32-cec.yaml b/Documentation/devicetree/bindings/media/st,stm32-cec.yaml
 > new file mode 100644
-> index 000000000000..41197578f19a
+> index 000000000000..d75019c093a4
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/amlogic,meson-gx-ao-cec.yaml
-> @@ -0,0 +1,91 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +# Copyright 2019 BayLibre, SAS
+> +++ b/Documentation/devicetree/bindings/media/st,stm32-cec.yaml
+> @@ -0,0 +1,54 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 > +%YAML 1.2
 > +---
-> +$id: "http://devicetree.org/schemas/media/amlogic,meson-gx-ao-cec.yaml#"
-> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> +$id: http://devicetree.org/schemas/media/st,stm32-cec.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: Amlogic Meson AO-CEC Controller
+> +title: STMicroelectronics STM32 CEC bindings
 > +
 > +maintainers:
-> +  - Neil Armstrong <narmstrong@baylibre.com>
-> +
-> +description: |
-> +  The Amlogic Meson AO-CEC module is present is Amlogic SoCs and its purpose is
-> +  to handle communication between HDMI connected devices over the CEC bus.
+> +  - Benjamin Gaignard <benjamin.gaignard@st.com>
+> +  - Yannick Fertre <yannick.fertre@st.com>
 > +
 > +properties:
 > +  compatible:
-> +    enum:
-> +      - amlogic,meson-gx-ao-cec # GXBB, GXL, GXM, G12A and SM1 AO_CEC_A module
-> +      - amlogic,meson-g12a-ao-cec # G12A AO_CEC_B module
-> +      - amlogic,meson-sm1-ao-cec # SM1 AO_CEC_B module
+> +    const: st,stm32-cec
 > +
 > +  reg:
 > +    maxItems: 1
@@ -95,110 +123,37 @@ On 10/21/19 2:11 PM, Neil Armstrong wrote:
 > +  interrupts:
 > +    maxItems: 1
 > +
-> +  hdmi-phandle:
-> +    description: phandle to the HDMI controller
-> +    allOf:
-> +      - $ref: /schemas/types.yaml#/definitions/phandle
+> +  clocks:
+> +    items:
+> +      - description: Module Clock
+> +      - description: Bus Clock
 > +
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - amlogic,meson-gx-ao-cec
-> +
-> +    then:
-> +      properties:
-> +        clocks:
-> +          items:
-> +            - description: AO-CEC clock
-> +
-> +        clock-names:
-> +          maxItems: 1
-> +          items:
-> +            - const: core
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - amlogic,meson-g12a-ao-cec
-> +              - amlogic,meson-sm1-ao-cec
-> +
-> +    then:
-> +      properties:
-> +        clocks:
-> +          items:
-> +            - description: AO-CEC clock generator source
-> +
-> +        clock-names:
-> +          maxItems: 1
-> +          items:
-> +            - const: oscin
+> +  clock-names:
+> +    items:
+> +      - const: cec
+> +      - const: hdmi-cec
 > +
 > +required:
 > +  - compatible
 > +  - reg
 > +  - interrupts
-> +  - hdmi-phandle
 > +  - clocks
 > +  - clock-names
 > +
+> +additionalProperties: false
+> +
 > +examples:
 > +  - |
-> +    cec_AO: cec@100 {
-> +        compatible = "amlogic,meson-gx-ao-cec";
-> +        reg = <0x0 0x00100 0x0 0x14>;
-> +        interrupts = <199>;
-> +        clocks = <&clkc_cec>;
-> +        clock-names = "core";
-> +        hdmi-phandle = <&hdmi_tx>;
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/clock/stm32mp1-clks.h>
+> +    cec: cec@40006c00 {
+> +        compatible = "st,stm32-cec";
+> +        reg = <0x40006c00 0x400>;
+> +        interrupts = <GIC_SPI 94 IRQ_TYPE_LEVEL_HIGH>;
+> +        clocks = <&rcc CEC_K>, <&clk_lse>;
+> +        clock-names = "cec", "hdmi-cec";
 > +    };
 > +
-> diff --git a/Documentation/devicetree/bindings/media/meson-ao-cec.txt b/Documentation/devicetree/bindings/media/meson-ao-cec.txt
-> deleted file mode 100644
-> index ad92ee41c0dd..000000000000
-> --- a/Documentation/devicetree/bindings/media/meson-ao-cec.txt
-> +++ /dev/null
-> @@ -1,37 +0,0 @@
-> -* Amlogic Meson AO-CEC driver
-> -
-> -The Amlogic Meson AO-CEC module is present is Amlogic SoCs and its purpose is
-> -to handle communication between HDMI connected devices over the CEC bus.
-> -
-> -Required properties:
-> -  - compatible : value should be following depending on the SoC :
-> -	For GXBB, GXL, GXM, G12A and SM1 (AO_CEC_A module) :
-> -	"amlogic,meson-gx-ao-cec"
-> -	For G12A (AO_CEC_B module) :
-> -	"amlogic,meson-g12a-ao-cec"
-> -	For SM1 (AO_CEC_B module) :
-> -	"amlogic,meson-sm1-ao-cec"
-> -
-> -  - reg : Physical base address of the IP registers and length of memory
-> -	  mapped region.
-> -
-> -  - interrupts : AO-CEC interrupt number to the CPU.
-> -  - clocks : from common clock binding: handle to AO-CEC clock.
-> -  - clock-names : from common clock binding, must contain :
-> -		For GXBB, GXL, GXM, G12A and SM1 (AO_CEC_A module) :
-> -		- "core"
-> -		For G12A, SM1 (AO_CEC_B module) :
-> -		- "oscin"
-> -		corresponding to entry in the clocks property.
-> -  - hdmi-phandle: phandle to the HDMI controller
-> -
-> -Example:
-> -
-> -cec_AO: cec@100 {
-> -	compatible = "amlogic,meson-gx-ao-cec";
-> -	reg = <0x0 0x00100 0x0 0x14>;
-> -	interrupts = <GIC_SPI 199 IRQ_TYPE_EDGE_RISING>;
-> -	clocks = <&clkc_AO CLKID_AO_CEC_32K>;
-> -	clock-names = "core";
-> -	hdmi-phandle = <&hdmi_tx>;
-> -};
+> +...
 > 
 
