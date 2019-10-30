@@ -2,831 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 09B71E997A
-	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2019 10:50:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 26D4DE999F
+	for <lists+linux-media@lfdr.de>; Wed, 30 Oct 2019 11:03:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726621AbfJ3Juc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Oct 2019 05:50:32 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:44822 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726619AbfJ3Juc (ORCPT
+        id S1726175AbfJ3KDI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Oct 2019 06:03:08 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:34025 "EHLO
+        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726032AbfJ3KDI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Oct 2019 05:50:32 -0400
-Received: by mail-pg1-f193.google.com with SMTP id e10so1116378pgd.11
-        for <linux-media@vger.kernel.org>; Wed, 30 Oct 2019 02:50:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=CD4zZK6DI50QJCoBVdHvoH3LrnzHJkB8e0m8BKazheA=;
-        b=cw6nrtgwUbwJfEdgyiqeRILIYJG3lKh/d1hgcxFswustpmIezHPa2FEqJZEwB6S55v
-         zoCqukiiAChQjZguz+Um6NZvHOAwe1GlBcOhvVya4ndcviKU7/28kZAvBnv1G5W6T6QG
-         H++cQXCEAWidom4uIYP2l2us30ZuxGCC63OWMNo4d0Lrv8chJWeiIYbSZkifJpiqPI1j
-         klZsbMqhsJXsr1aJEQq4oCnPTM/K8mDBVOtiyVFmonMKmiOyd0RuHAOmgrozp6hT+/FR
-         Xbc9vtr0PURxothap8NFH7AIOE+veLr8q1ZUOO4BqBWTYr1D1dIQhuC3zUYfexIh1vit
-         GxDQ==
+        Wed, 30 Oct 2019 06:03:08 -0400
+Received: by mail-wr1-f67.google.com with SMTP id t16so1581439wrr.1;
+        Wed, 30 Oct 2019 03:03:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=CD4zZK6DI50QJCoBVdHvoH3LrnzHJkB8e0m8BKazheA=;
-        b=JR9FqhwTFk+F1ZjLcApJOQ6QVPyXPi9GykdHi2S6UGOV9KV8mJgWf6t7+DKkGoCrWY
-         MzgpB2vyTAADDLc3FIcTNg2Vpzr34XFzpbhRczGFdwdbl7y+A1O4phkLTWPS4jyOJVSm
-         BwrTYPKABo6UK7LOiTqRuR7Rg7d7yKa+WvHHSj7A0z8uyjWDx3U7APFL9Q91MS+RNUvm
-         HAjpwe7rLQe6XGDv0tGQuNcjSQWxD+UmOzHfRgt8669Z1eWvbZBuMtdJ4r6sNHIXNe8x
-         Ygrc351LPwY5PuYHpiqCrxuFXqvWOiYUIK5ACJ3qWhQJtshHpKMXPpk4dnGOgSugzlZt
-         BDzA==
-X-Gm-Message-State: APjAAAUXRDFodbPDQDlSrlw72G6rS4udiGreF7hWnUPe8g0Sw30EbGGH
-        bjOPlf1ga9jVpUCEkfqrJt8p
-X-Google-Smtp-Source: APXvYqxsNMKWO24IYM7Gde4fDRpTiT4j1uuv87Gsg5ZIW5yetrF0d9U7BGPRfPuKWQ84E0p1dK99Ng==
-X-Received: by 2002:a63:a05c:: with SMTP id u28mr34337162pgn.333.1572429030813;
-        Wed, 30 Oct 2019 02:50:30 -0700 (PDT)
-Received: from localhost.localdomain ([2409:4072:618e:77d9:c9fa:423a:3851:8df4])
-        by smtp.gmail.com with ESMTPSA id n23sm2301329pff.137.2019.10.30.02.50.23
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=FMrNiLDlAG4LHDqZ/Yl8QilQGiUU1TiZ+I44MHl2pe8=;
+        b=HNN3Pn/vNFFcDuiCrIDZIAg0jUIX3Ma1J5xZ3pi4cQbbPvRlhWTxNCRZL1BXGTPgBV
+         mZPHjz9jzkrIab3DlA5QEPaVJmy/ml4Tiz+kinEe21oAK4IzLkyNrQqRwGZjY526zI03
+         Z5/XYQ5xvo82fUpG0b99AjLqOdTD5Hy5ATzwdglzhLO2gOMRy7HmXuhcVJ4mJ9T62sQQ
+         IGOs35f/F3IXziTFj002YE8D8BG+FaADlIa+AjvOYNtyG4bUsls0rfgjy5xaOS3Ln+1r
+         GdSeKJfaSlW8NXyZh1Z+dmZ6LV0170yMWq0z9sHwaV8MAjf2aN8k+utW+vHNhwTNZuSc
+         YfSw==
+X-Gm-Message-State: APjAAAXTKukUTE41VU2SDz8W6jg53jemBoHMy4yFizvee+S+yDRsfMh2
+        5OO/oOaso980dlZW7c6YhWU=
+X-Google-Smtp-Source: APXvYqx9yWpySXQAETRsK0lzvhrydwfQ9Qwl8MxBphTqjmTCxz57hjMnqNjhMrjsPw6+qJUa5JnAIA==
+X-Received: by 2002:adf:ec4b:: with SMTP id w11mr1963541wrn.243.1572429785547;
+        Wed, 30 Oct 2019 03:03:05 -0700 (PDT)
+Received: from pi (100.50.158.77.rev.sfr.net. [77.158.50.100])
+        by smtp.gmail.com with ESMTPSA id a11sm1768504wmh.40.2019.10.30.03.03.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Oct 2019 02:50:30 -0700 (PDT)
-From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To:     mchehab@kernel.org, robh+dt@kernel.org, sakari.ailus@iki.fi
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        c.barrett@framos.com, a.brela@framos.com, peter.griffin@linaro.org,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: [PATCH v4 2/2] media: i2c: Add IMX296 CMOS image sensor driver
-Date:   Wed, 30 Oct 2019 15:19:02 +0530
-Message-Id: <20191030094902.32582-3-manivannan.sadhasivam@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191030094902.32582-1-manivannan.sadhasivam@linaro.org>
-References: <20191030094902.32582-1-manivannan.sadhasivam@linaro.org>
+        Wed, 30 Oct 2019 03:03:04 -0700 (PDT)
+Received: from johan by pi with local (Exim 4.92.2)
+        (envelope-from <johan@pi>)
+        id 1iPknS-0002ZQ-F2; Wed, 30 Oct 2019 11:01:46 +0100
+Date:   Wed, 30 Oct 2019 11:01:46 +0100
+From:   Johan Hovold <johan@kernel.org>
+To:     Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+        Daniel Vetter <daniel@ffwll.ch>
+Cc:     David Airlie <airlied@linux.ie>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-s390@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Johan Hovold <johan@kernel.org>,
+        stable <stable@vger.kernel.org>,
+        Jordan Crouse <jcrouse@codeaurora.org>,
+        Harald Freudenberger <freude@linux.ibm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Fabien Dessenne <fabien.dessenne@st.com>
+Subject: Re: [PATCH 1/4] drm/msm: fix memleak on release
+Message-ID: <20191030100146.GC4691@localhost>
+References: <20191010131333.23635-1-johan@kernel.org>
+ <20191010131333.23635-2-johan@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191010131333.23635-2-johan@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add driver for Sony IMX296 CMOS image sensor driver. The driver only
-supports I2C interface for programming and MIPI CSI-2 for sensor output.
+On Thu, Oct 10, 2019 at 03:13:30PM +0200, Johan Hovold wrote:
+> If a process is interrupted while accessing the "gpu" debugfs file and
+> the drm device struct_mutex is contended, release() could return early
+> and fail to free related resources.
+> 
+> Note that the return value from release() is ignored.
+> 
+> Fixes: 4f776f4511c7 ("drm/msm/gpu: Convert the GPU show function to use the GPU state")
+> Cc: stable <stable@vger.kernel.org>     # 4.18
+> Cc: Jordan Crouse <jcrouse@codeaurora.org>
+> Cc: Rob Clark <robdclark@gmail.com>
+> Signed-off-by: Johan Hovold <johan@kernel.org>
+> ---
 
-Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
----
- drivers/media/i2c/Kconfig  |  11 +
- drivers/media/i2c/Makefile |   1 +
- drivers/media/i2c/imx296.c | 715 +++++++++++++++++++++++++++++++++++++
- 3 files changed, 727 insertions(+)
- create mode 100644 drivers/media/i2c/imx296.c
+Rob, Sean,
 
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 7eee1812bba3..930db46fa2b8 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -598,6 +598,17 @@ config VIDEO_IMX274
- 	  This is a V4L2 sensor driver for the Sony IMX274
- 	  CMOS image sensor.
- 
-+config VIDEO_IMX296
-+	tristate "Sony IMX296 sensor support"
-+	depends on I2C && VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API
-+	select V4L2_FWNODE
-+	help
-+	  This is a Video4Linux2 sensor driver for the Sony
-+	  IMX296 camera sensor.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called imx296.
-+
- config VIDEO_IMX319
- 	tristate "Sony IMX319 sensor support"
- 	depends on I2C && VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API
-diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-index beb170b002dc..ed0c02bda450 100644
---- a/drivers/media/i2c/Makefile
-+++ b/drivers/media/i2c/Makefile
-@@ -112,6 +112,7 @@ obj-$(CONFIG_VIDEO_TC358743)	+= tc358743.o
- obj-$(CONFIG_VIDEO_IMX214)	+= imx214.o
- obj-$(CONFIG_VIDEO_IMX258)	+= imx258.o
- obj-$(CONFIG_VIDEO_IMX274)	+= imx274.o
-+obj-$(CONFIG_VIDEO_IMX296)	+= imx296.o
- obj-$(CONFIG_VIDEO_IMX319)	+= imx319.o
- obj-$(CONFIG_VIDEO_IMX355)	+= imx355.o
- obj-$(CONFIG_VIDEO_ST_MIPID02) += st-mipid02.o
-diff --git a/drivers/media/i2c/imx296.c b/drivers/media/i2c/imx296.c
-new file mode 100644
-index 000000000000..1e510c42c117
---- /dev/null
-+++ b/drivers/media/i2c/imx296.c
-@@ -0,0 +1,715 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Sony IMX296 CMOS Image Sensor Driver
-+ *
-+ * Copyright (C) 2019 FRAMOS GmbH.
-+ *
-+ * Copyright (C) 2019 Linaro Ltd.
-+ * Author: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-+ */
-+
-+#include <linux/clk.h>
-+#include <linux/delay.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/regmap.h>
-+#include <linux/regulator/consumer.h>
-+#include <media/media-entity.h>
-+#include <media/v4l2-ctrls.h>
-+#include <media/v4l2-device.h>
-+#include <media/v4l2-fwnode.h>
-+#include <media/v4l2-subdev.h>
-+
-+#define IMX296_STANDBY 0x3000
-+#define IMX296_REGHOLD 0x3008
-+#define IMX296_XMSTA 0x300a
-+#define IMX296_GAIN_LOW 0x3204
-+#define IMX296_GAIN_HIGH 0x3205
-+
-+#define IMX296_DEFAULT_FORMAT MEDIA_BUS_FMT_SRGGB10_1X10
-+
-+static const char * const imx296_supply_name[] = {
-+	"vdda",
-+	"vddd",
-+	"vddo",
-+};
-+
-+#define IMX296_NUM_SUPPLIES ARRAY_SIZE(imx296_supply_name)
-+
-+struct imx296_regval {
-+	u16 reg;
-+	u8 val;
-+};
-+
-+struct imx296_mode {
-+	u32 width;
-+	u32 height;
-+	u32 pixel_rate;
-+
-+	const struct imx296_regval *data;
-+	u32 data_size;
-+};
-+
-+struct imx296 {
-+	struct device *dev;
-+	struct clk *mclk;
-+	struct regmap *regmap;
-+
-+	struct v4l2_subdev sd;
-+	struct media_pad pad;
-+	struct v4l2_mbus_framefmt current_format;
-+	const struct imx296_mode *current_mode;
-+
-+	struct regulator_bulk_data supplies[IMX296_NUM_SUPPLIES];
-+	struct gpio_desc *rst_gpio;
-+
-+	struct v4l2_ctrl_handler ctrls;
-+	struct v4l2_ctrl *pixel_rate;
-+
-+	struct mutex lock;
-+};
-+
-+static const struct regmap_config imx296_regmap_config = {
-+	.reg_bits = 16,
-+	.val_bits = 8,
-+	.cache_type = REGCACHE_RBTREE,
-+};
-+
-+static const struct imx296_regval imx296_global_init_settings[] = {
-+	{ 0x3a00, 0x80 },
-+	{ 0x3005, 0xf0 },
-+	{ 0x350b, 0x0f },
-+	{ 0x300d, 0x00 },
-+	{ 0x400e, 0x58 },
-+	{ 0x3010, 0x5e },
-+	{ 0x3011, 0x04 },
-+	{ 0x3014, 0x4c },
-+	{ 0x4014, 0x1c },
-+	{ 0x3015, 0x04 },
-+	{ 0x3516, 0x77 },
-+	{ 0x321a, 0x00 },
-+	{ 0x3226, 0x02 },
-+	{ 0x3832, 0xf5 },
-+	{ 0x3833, 0x00 },
-+	{ 0x3541, 0x72 },
-+	{ 0x4041, 0x2a },
-+	{ 0x3d48, 0xa3 },
-+	{ 0x3d49, 0x00 },
-+	{ 0x3d4a, 0x85 },
-+	{ 0x3d4b, 0x00 },
-+	{ 0x3256, 0x01 },
-+	{ 0x3758, 0xa3 },
-+	{ 0x3759, 0x00 },
-+	{ 0x375a, 0x85 },
-+	{ 0x375b, 0x00 },
-+	{ 0x3165, 0x00 },
-+	{ 0x3169, 0x10 },
-+	{ 0x316a, 0x02 },
-+	{ 0x4174, 0x00 },
-+	{ 0x3079, 0x08 },
-+	{ 0x3090, 0x04 },
-+	{ 0x3094, 0x04 },
-+	{ 0x3098, 0x04 },
-+	{ 0x309e, 0x04 },
-+	{ 0x30a0, 0x04 },
-+	{ 0x30a1, 0x3c },
-+	{ 0x38a2, 0xf6 },
-+	{ 0x40a2, 0x06 },
-+	{ 0x38a3, 0x00 },
-+	{ 0x30a4, 0x5f },
-+	{ 0x30a8, 0x91 },
-+	{ 0x30ac, 0x28 },
-+	{ 0x30af, 0x09 },
-+	{ 0x40c1, 0xf6 },
-+	{ 0x40c7, 0x0f },
-+	{ 0x31c8, 0xf3 },
-+	{ 0x40c8, 0x00 },
-+	{ 0x31d0, 0xf4 },
-+	{ 0x30df, 0x00 },
-+};
-+
-+static const struct imx296_regval imx296_1440_1088_settings[] = {
-+	{ 0x300d, 0x00 },
-+	{ 0x3010, 0xcb },
-+	{ 0x3011, 0x08 },
-+	{ 0x3014, 0x4c },
-+	{ 0x3015, 0x04 },
-+	{ 0x3300, 0x03 },
-+	{ 0x3310, 0x08 },
-+	{ 0x3311, 0x00 },
-+	{ 0x3312, 0x00 },
-+	{ 0x3313, 0x00 },
-+	{ 0x3314, 0xa0 },
-+	{ 0x3315, 0x05 },
-+	{ 0x3316, 0x40 },
-+	{ 0x3317, 0x04 },
-+
-+	{ 0x3204, 0x00 },
-+	{ 0x3205, 0x00 },
-+	{ 0x3212, 0x08 },
-+	{ 0x3254, 0x3c },
-+	{ 0x3255, 0x00 },
-+	{ 0x3089, 0x80 },
-+	{ 0x308a, 0x0b },
-+	{ 0x308b, 0x80 },
-+	{ 0x308c, 0x08 },
-+	{ 0x418c, 0x74 },
-+	{ 0x308d, 0x0e },
-+	{ 0x308e, 0x00 },
-+	{ 0x308f, 0x00 },
-+};
-+
-+/* Mode configs */
-+static const struct imx296_mode imx296_modes[] = {
-+	{
-+		.width = 1440,
-+		.height = 1088,
-+		.data = imx296_1440_1088_settings,
-+		.data_size = ARRAY_SIZE(imx296_1440_1088_settings),
-+		.pixel_rate = 80000000,
-+	},
-+};
-+
-+static inline struct imx296 *to_imx296(struct v4l2_subdev *_sd)
-+{
-+	return container_of(_sd, struct imx296, sd);
-+}
-+
-+static inline int imx296_read_reg(struct imx296 *imx296, u16 addr, u8 *value)
-+{
-+	unsigned int regval;
-+	int ret;
-+
-+	ret = regmap_read(imx296->regmap, addr, &regval);
-+	if (ret) {
-+		dev_err(imx296->dev, "I2C read failed for addr: %x\n", addr);
-+		return ret;
-+	}
-+
-+	*value = regval & 0xff;
-+
-+	return 0;
-+}
-+
-+static int imx296_write_reg(struct imx296 *imx296, u16 addr, u8 value)
-+{
-+	int ret;
-+
-+	ret = regmap_write(imx296->regmap, addr, value);
-+	if (ret) {
-+		dev_err(imx296->dev, "I2C write failed for addr: %x\n", addr);
-+		return ret;
-+	}
-+
-+	return ret;
-+}
-+
-+static int imx296_set_register_array(struct imx296 *imx296,
-+				     const struct imx296_regval *settings,
-+				     unsigned int num_settings)
-+{
-+	unsigned int i;
-+	int ret;
-+
-+	for (i = 0; i < num_settings; ++i, ++settings) {
-+		ret = imx296_write_reg(imx296, settings->reg, settings->val);
-+		if (ret < 0)
-+			return ret;
-+	}
-+
-+	msleep(10);
-+
-+	return 0;
-+}
-+
-+static int imx296_write_buffered_reg(struct imx296 *imx296, u16 address_low,
-+				     u8 nr_regs, u32 value)
-+{
-+	unsigned int i;
-+	int ret;
-+
-+	ret = imx296_write_reg(imx296, IMX296_REGHOLD, 0x01);
-+	if (ret) {
-+		dev_err(imx296->dev, "Error setting hold register\n");
-+		return ret;
-+	}
-+
-+	for (i = 0; i < nr_regs; i++) {
-+		ret = imx296_write_reg(imx296, address_low + i,
-+				       (u8)(value >> (i * 8)));
-+		if (ret) {
-+			dev_err(imx296->dev, "Error writing buffered registers\n");
-+			return ret;
-+		}
-+	}
-+
-+	ret = imx296_write_reg(imx296, IMX296_REGHOLD, 0x00);
-+	if (ret) {
-+		dev_err(imx296->dev, "Error setting hold register\n");
-+		return ret;
-+	}
-+
-+	return ret;
-+}
-+
-+static inline int imx296_set_gain(struct imx296 *imx296, u32 value)
-+{
-+	return imx296_write_buffered_reg(imx296, IMX296_GAIN_LOW, 2, value);
-+}
-+
-+/* Stop streaming */
-+static int imx296_stop_streaming(struct imx296 *imx296)
-+{
-+	int ret;
-+
-+	ret = imx296_write_reg(imx296, IMX296_STANDBY, 0x01);
-+	if (ret < 0)
-+		return ret;
-+
-+	msleep(30);
-+
-+	return imx296_write_reg(imx296, IMX296_XMSTA, 0x01);
-+}
-+
-+static int imx296_set_ctrl(struct v4l2_ctrl *ctrl)
-+{
-+	struct imx296 *imx296 = container_of(ctrl->handler,
-+					     struct imx296, ctrls);
-+	int ret = 0;
-+
-+	/* V4L2 controls values will be applied only when power is already up */
-+	if (!pm_runtime_get_if_in_use(imx296->dev))
-+		return 0;
-+
-+	switch (ctrl->id) {
-+	case V4L2_CID_GAIN:
-+		ret = imx296_set_gain(imx296, ctrl->val);
-+		break;
-+	default:
-+		ret = -EINVAL;
-+		break;
-+	}
-+
-+	pm_runtime_put(imx296->dev);
-+
-+	return ret;
-+}
-+
-+static const struct v4l2_ctrl_ops imx296_ctrl_ops = {
-+	.s_ctrl = imx296_set_ctrl,
-+};
-+
-+static int imx296_enum_mbus_code(struct v4l2_subdev *sd,
-+				 struct v4l2_subdev_pad_config *cfg,
-+				 struct v4l2_subdev_mbus_code_enum *code)
-+{
-+	code->code = IMX296_DEFAULT_FORMAT;
-+
-+	return 0;
-+}
-+
-+static int imx296_get_fmt(struct v4l2_subdev *sd,
-+			  struct v4l2_subdev_pad_config *cfg,
-+			  struct v4l2_subdev_format *fmt)
-+{
-+	struct imx296 *imx296 = to_imx296(sd);
-+	struct v4l2_mbus_framefmt *framefmt;
-+
-+	mutex_lock(&imx296->lock);
-+
-+	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
-+		framefmt = v4l2_subdev_get_try_format(&imx296->sd, cfg,
-+						      fmt->pad);
-+	else
-+		framefmt = &imx296->current_format;
-+
-+	fmt->format = *framefmt;
-+
-+	mutex_unlock(&imx296->lock);
-+
-+	return 0;
-+}
-+
-+static int imx296_set_fmt(struct v4l2_subdev *sd,
-+			  struct v4l2_subdev_pad_config *cfg,
-+			  struct v4l2_subdev_format *fmt)
-+{
-+	struct imx296 *imx296 = to_imx296(sd);
-+	const struct imx296_mode *mode;
-+	struct v4l2_mbus_framefmt *format;
-+	int ret = 0;
-+
-+	mutex_lock(&imx296->lock);
-+
-+	mode = v4l2_find_nearest_size(imx296_modes,
-+				      ARRAY_SIZE(imx296_modes),
-+				      width, height,
-+				      fmt->format.width, fmt->format.height);
-+
-+	fmt->format.width = mode->width;
-+	fmt->format.height = mode->height;
-+
-+	fmt->format.code = IMX296_DEFAULT_FORMAT;
-+	fmt->format.field = V4L2_FIELD_NONE;
-+
-+	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
-+		format = v4l2_subdev_get_try_format(sd, cfg, fmt->pad);
-+	} else {
-+		format = &imx296->current_format;
-+		__v4l2_ctrl_s_ctrl_int64(imx296->pixel_rate, mode->pixel_rate);
-+
-+		imx296->current_mode = mode;
-+	}
-+
-+	*format = fmt->format;
-+
-+	mutex_unlock(&imx296->lock);
-+
-+	return ret;
-+}
-+
-+static int imx296_entity_init_cfg(struct v4l2_subdev *subdev,
-+				  struct v4l2_subdev_pad_config *cfg)
-+{
-+	struct v4l2_subdev_format fmt = { 0 };
-+
-+	fmt.which = cfg ? V4L2_SUBDEV_FORMAT_TRY : V4L2_SUBDEV_FORMAT_ACTIVE;
-+	fmt.format.width = 1440;
-+	fmt.format.height = 1088;
-+
-+	imx296_set_fmt(subdev, cfg, &fmt);
-+
-+	return 0;
-+}
-+
-+/* Start streaming */
-+static int imx296_start_streaming(struct imx296 *imx296)
-+{
-+	int ret;
-+
-+	/* Set init register settings */
-+	ret = imx296_set_register_array(imx296, imx296_global_init_settings,
-+				ARRAY_SIZE(imx296_global_init_settings));
-+	if (ret < 0) {
-+		dev_err(imx296->dev, "Could not set init registers\n");
-+		return ret;
-+	}
-+
-+	/* Apply default values of current mode */
-+	ret = imx296_set_register_array(imx296, imx296->current_mode->data,
-+					imx296->current_mode->data_size);
-+	if (ret < 0) {
-+		dev_err(imx296->dev, "Could not set current mode\n");
-+		return ret;
-+	}
-+
-+	/* Apply customized values from user */
-+	ret = v4l2_ctrl_handler_setup(imx296->sd.ctrl_handler);
-+	if (ret) {
-+		dev_err(imx296->dev, "Could not sync v4l2 controls\n");
-+		return ret;
-+	}
-+
-+	ret = imx296_write_reg(imx296, IMX296_STANDBY, 0x00);
-+	if (ret < 0)
-+		return ret;
-+
-+	msleep(30);
-+
-+	/* Start streaming */
-+	return imx296_write_reg(imx296, IMX296_XMSTA, 0x00);
-+}
-+
-+static int imx296_set_stream(struct v4l2_subdev *sd, int enable)
-+{
-+	struct imx296 *imx296 = to_imx296(sd);
-+	int ret;
-+
-+	if (enable) {
-+		ret = pm_runtime_get_sync(imx296->dev);
-+		if (ret < 0) {
-+			pm_runtime_put_noidle(imx296->dev);
-+			return ret;
-+		}
-+
-+		ret = imx296_start_streaming(imx296);
-+		if (ret) {
-+			dev_err(imx296->dev, "Start stream failed\n");
-+			pm_runtime_put(imx296->dev);
-+			return ret;
-+		}
-+	} else {
-+		imx296_stop_streaming(imx296);
-+		pm_runtime_put(imx296->dev);
-+	}
-+
-+	return 0;
-+}
-+
-+static int imx296_get_regulators(struct device *dev, struct imx296 *imx296)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < IMX296_NUM_SUPPLIES; i++)
-+		imx296->supplies[i].supply = imx296_supply_name[i];
-+
-+	return devm_regulator_bulk_get(dev, IMX296_NUM_SUPPLIES,
-+				       imx296->supplies);
-+}
-+
-+static int imx296_power_on(struct device *dev)
-+{
-+	struct i2c_client *client = to_i2c_client(dev);
-+	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct imx296 *imx296 = to_imx296(sd);
-+	int ret;
-+
-+	ret = regulator_bulk_enable(IMX296_NUM_SUPPLIES, imx296->supplies);
-+	if (ret) {
-+		dev_err(imx296->dev, "Failed to enable regulators\n");
-+		return ret;
-+	}
-+
-+	usleep_range(1, 2);
-+
-+	gpiod_set_value_cansleep(imx296->rst_gpio, 1);
-+
-+	usleep_range(1, 2);
-+
-+	ret = clk_prepare_enable(imx296->mclk);
-+	if (ret) {
-+		dev_err(imx296->dev, "Failed to enable clock\n");
-+		return ret;
-+	}
-+
-+	usleep_range(30000, 31000);
-+
-+	return 0;
-+}
-+
-+static int imx296_power_off(struct device *dev)
-+{
-+	struct i2c_client *client = to_i2c_client(dev);
-+	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct imx296 *imx296 = to_imx296(sd);
-+
-+	clk_disable_unprepare(imx296->mclk);
-+	gpiod_set_value_cansleep(imx296->rst_gpio, 0);
-+	regulator_bulk_disable(IMX296_NUM_SUPPLIES, imx296->supplies);
-+
-+	return 0;
-+}
-+
-+static const struct dev_pm_ops imx296_pm_ops = {
-+	SET_RUNTIME_PM_OPS(imx296_power_on, imx296_power_off, NULL)
-+};
-+
-+static const struct v4l2_subdev_video_ops imx296_video_ops = {
-+	.s_stream = imx296_set_stream,
-+};
-+
-+static const struct v4l2_subdev_pad_ops imx296_pad_ops = {
-+	.init_cfg = imx296_entity_init_cfg,
-+	.enum_mbus_code = imx296_enum_mbus_code,
-+	.get_fmt = imx296_get_fmt,
-+	.set_fmt = imx296_set_fmt,
-+};
-+
-+static const struct v4l2_subdev_ops imx296_subdev_ops = {
-+	.video = &imx296_video_ops,
-+	.pad = &imx296_pad_ops,
-+};
-+
-+static const struct media_entity_operations imx296_subdev_entity_ops = {
-+	.link_validate = v4l2_subdev_link_validate,
-+};
-+
-+static int imx296_probe(struct i2c_client *client)
-+{
-+	struct device *dev = &client->dev;
-+	struct fwnode_handle *endpoint;
-+	struct imx296 *imx296;
-+	struct v4l2_fwnode_endpoint ep = {
-+		.bus_type = V4L2_MBUS_CSI2_DPHY
-+	};
-+	u32 mclk_freq;
-+	int ret;
-+
-+	imx296 = devm_kzalloc(dev, sizeof(*imx296), GFP_KERNEL);
-+	if (!imx296)
-+		return -ENOMEM;
-+
-+	imx296->dev = dev;
-+	imx296->regmap = devm_regmap_init_i2c(client, &imx296_regmap_config);
-+	if (IS_ERR(imx296->regmap)) {
-+		dev_err(dev, "Unable to initialize I2C\n");
-+		return -ENODEV;
-+	}
-+
-+	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(dev), NULL);
-+	if (!endpoint) {
-+		dev_err(dev, "Endpoint node not found\n");
-+		return -EINVAL;
-+	}
-+
-+	ret = v4l2_fwnode_endpoint_alloc_parse(endpoint, &ep);
-+	fwnode_handle_put(endpoint);
-+	if (ret) {
-+		dev_err(dev, "Parsing endpoint node failed\n");
-+		goto free_err;
-+	}
-+
-+	/* Set default mode to max resolution */
-+	imx296->current_mode = &imx296_modes[0];
-+
-+	/* get system clock (mclk) */
-+	imx296->mclk = devm_clk_get(dev, "mclk");
-+	if (IS_ERR(imx296->mclk)) {
-+		dev_err(dev, "Could not get mclk");
-+		ret = PTR_ERR(imx296->mclk);
-+		goto free_err;
-+	}
-+
-+	ret = fwnode_property_read_u32(dev_fwnode(dev), "clock-frequency",
-+				       &mclk_freq);
-+	if (ret) {
-+		dev_err(dev, "Could not get mclk frequency\n");
-+		goto free_err;
-+	}
-+
-+	/* external clock must be 37.125 MHz */
-+	if (mclk_freq != 37125000) {
-+		dev_err(dev, "External clock frequency %u is not supported\n",
-+			mclk_freq);
-+		ret = -EINVAL;
-+		goto free_err;
-+	}
-+
-+	ret = clk_set_rate(imx296->mclk, mclk_freq);
-+	if (ret) {
-+		dev_err(dev, "Could not set mclk frequency\n");
-+		goto free_err;
-+	}
-+
-+	ret = imx296_get_regulators(dev, imx296);
-+	if (ret < 0) {
-+		dev_err(dev, "Cannot get regulators\n");
-+		goto free_err;
-+	}
-+
-+	imx296->rst_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_ASIS);
-+	if (IS_ERR(imx296->rst_gpio)) {
-+		dev_err(dev, "Cannot get reset gpio\n");
-+		ret = PTR_ERR(imx296->rst_gpio);
-+		goto free_err;
-+	}
-+
-+	mutex_init(&imx296->lock);
-+
-+	v4l2_ctrl_handler_init(&imx296->ctrls, 2);
-+
-+	v4l2_ctrl_new_std(&imx296->ctrls, &imx296_ctrl_ops,
-+			  V4L2_CID_GAIN, 0, 48, 1, 0);
-+
-+	imx296->pixel_rate = v4l2_ctrl_new_std(&imx296->ctrls, &imx296_ctrl_ops,
-+					       V4L2_CID_PIXEL_RATE, 1,
-+					       INT_MAX, 1,
-+					       imx296_modes[0].pixel_rate);
-+
-+	imx296->sd.ctrl_handler = &imx296->ctrls;
-+
-+	if (imx296->ctrls.error) {
-+		dev_err(dev, "Control initialization error %d\n",
-+			imx296->ctrls.error);
-+		ret = imx296->ctrls.error;
-+		goto free_ctrl;
-+	}
-+
-+	v4l2_i2c_subdev_init(&imx296->sd, client, &imx296_subdev_ops);
-+	imx296->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-+	imx296->sd.dev = &client->dev;
-+	imx296->sd.entity.ops = &imx296_subdev_entity_ops;
-+	imx296->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-+
-+	imx296->pad.flags = MEDIA_PAD_FL_SOURCE;
-+	ret = media_entity_pads_init(&imx296->sd.entity, 1, &imx296->pad);
-+	if (ret < 0) {
-+		dev_err(dev, "Could not register media entity\n");
-+		goto free_ctrl;
-+	}
-+
-+	ret = v4l2_async_register_subdev(&imx296->sd);
-+	if (ret < 0) {
-+		dev_err(dev, "Could not register v4l2 device\n");
-+		goto free_entity;
-+	}
-+
-+	/* Power on the device to match runtime PM state below */
-+	ret = imx296_power_on(dev);
-+	if (ret < 0) {
-+		dev_err(dev, "Could not power on the device\n");
-+		goto free_entity;
-+	}
-+
-+	pm_runtime_set_active(dev);
-+	pm_runtime_enable(dev);
-+	pm_runtime_idle(dev);
-+
-+	v4l2_fwnode_endpoint_free(&ep);
-+
-+	return 0;
-+
-+free_entity:
-+	media_entity_cleanup(&imx296->sd.entity);
-+free_ctrl:
-+	v4l2_ctrl_handler_free(&imx296->ctrls);
-+	mutex_destroy(&imx296->lock);
-+free_err:
-+	v4l2_fwnode_endpoint_free(&ep);
-+
-+	return ret;
-+}
-+
-+static int imx296_remove(struct i2c_client *client)
-+{
-+	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct imx296 *imx296 = to_imx296(sd);
-+
-+	v4l2_async_unregister_subdev(sd);
-+	media_entity_cleanup(&sd->entity);
-+	v4l2_ctrl_handler_free(sd->ctrl_handler);
-+
-+	mutex_destroy(&imx296->lock);
-+
-+	pm_runtime_disable(imx296->dev);
-+	if (!pm_runtime_status_suspended(imx296->dev))
-+		imx296_power_off(imx296->dev);
-+	pm_runtime_set_suspended(imx296->dev);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id imx296_of_match[] = {
-+	{ .compatible = "sony,imx296" },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, imx296_of_match);
-+
-+static struct i2c_driver imx296_i2c_driver = {
-+	.probe_new  = imx296_probe,
-+	.remove = imx296_remove,
-+	.driver = {
-+		.name  = "imx296",
-+		.pm = &imx296_pm_ops,
-+		.of_match_table = imx296_of_match,
-+	},
-+};
-+
-+module_i2c_driver(imx296_i2c_driver);
-+
-+MODULE_DESCRIPTION("Sony IMX296 CMOS Image Sensor Driver");
-+MODULE_AUTHOR("FRAMOS GmbH");
-+MODULE_AUTHOR("Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>");
-+MODULE_LICENSE("GPL v2");
--- 
-2.17.1
+Sending a reminder about this one, which is not yet in linux-next.
 
+Perhaps Daniel can pick it up otherwise?
+
+Thanks,
+Johan
+
+>  drivers/gpu/drm/msm/msm_debugfs.c | 6 +-----
+>  1 file changed, 1 insertion(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/msm_debugfs.c b/drivers/gpu/drm/msm/msm_debugfs.c
+> index 6be879578140..1c74381a4fc9 100644
+> --- a/drivers/gpu/drm/msm/msm_debugfs.c
+> +++ b/drivers/gpu/drm/msm/msm_debugfs.c
+> @@ -47,12 +47,8 @@ static int msm_gpu_release(struct inode *inode, struct file *file)
+>  	struct msm_gpu_show_priv *show_priv = m->private;
+>  	struct msm_drm_private *priv = show_priv->dev->dev_private;
+>  	struct msm_gpu *gpu = priv->gpu;
+> -	int ret;
+> -
+> -	ret = mutex_lock_interruptible(&show_priv->dev->struct_mutex);
+> -	if (ret)
+> -		return ret;
+>  
+> +	mutex_lock(&show_priv->dev->struct_mutex);
+>  	gpu->funcs->gpu_state_put(show_priv->state);
+>  	mutex_unlock(&show_priv->dev->struct_mutex);
