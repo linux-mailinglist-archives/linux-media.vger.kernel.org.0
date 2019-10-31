@@ -2,260 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 843B1EB347
-	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2019 15:58:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3789FEB371
+	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2019 16:09:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728208AbfJaO6o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 31 Oct 2019 10:58:44 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:44809 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727477AbfJaO6o (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 31 Oct 2019 10:58:44 -0400
-Received: by mail-pf1-f196.google.com with SMTP id q26so4529319pfn.11
-        for <linux-media@vger.kernel.org>; Thu, 31 Oct 2019 07:58:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=wd8Ydy5zI08ENTcanTYfVXPKw0S2sQWsullzEMfk7rQ=;
-        b=MATi3vkPvCiMr4+UiaeWs9j6XA6Ee4hxcdUFDrIZUcE960Da2PCpKrgNX3lOYJVORf
-         kjGtwykAZk1CO3SPjlEM19TYE10BGXfr6iodpfABU+PvPt8W9d/GGtXfQwaRS3cpI4t8
-         X8v8E0VU9loMbWAfNuCIeHtf41n24YolQpRSOw2aq277L3Kexz1Izu+FC01MH/amZYZS
-         6etmN7QJnMaFVEq9WMgkdq02ym+4qkl0M64AxMRuGGko2h5fWoHE7f2P/Y6nMF+xMJRa
-         90RVs5Lx07rcWPbkp4WYJ/pGMxhUsy/QHCxUoOoK4MiwSGun6H02mdjrtL1YDS3i5YSp
-         EAOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=wd8Ydy5zI08ENTcanTYfVXPKw0S2sQWsullzEMfk7rQ=;
-        b=nFJ3wHlDJ8foG5N2Iav11aT3u76bEg0Z39J+Z2n+TLCMnoqVGRa9P3PGrJzLIQyPCD
-         E02h4weT1UGxTxvzeZ8PmT7odHcswyD8U2O5lPFsFDANr2P+M15MhWKmtpmJwehVQJp4
-         nJr2POBYfs7ETwk2uzDPh7MwsCuAL4cJJ6a1zXrlacz9x0eCojE38ONfVuBrxHxJHGpc
-         p8IKWltWeSxJcu7OOJ4Yq90+wpWor6YrAQxhl9ZjVpYWq+3P7mQNv6sD7CEl/UnHEbow
-         hEyhItx9+MG/76YBx7URw8+6V6vygT8KQ9lQVcH3VrRUpebbqDCO+IQeKRWUsayYHuI6
-         WGeA==
-X-Gm-Message-State: APjAAAXJOyTouuvzOq1CLBT46eVTQqAL15Urx+AtevzMlBGDeTe5wMtl
-        Iw3uJzqKoqcJPweAi34oI/7R
-X-Google-Smtp-Source: APXvYqxM+gswwlpQxJViGySnazlj4i+t35eyJuQby6bTFIUSurtlH9D8LQqbBLKTMOWksA2rFGOkHw==
-X-Received: by 2002:a63:6581:: with SMTP id z123mr7193723pgb.367.1572533921416;
-        Thu, 31 Oct 2019 07:58:41 -0700 (PDT)
-Received: from mani ([103.59.133.81])
-        by smtp.gmail.com with ESMTPSA id fh5sm5626592pjb.2.2019.10.31.07.58.37
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 31 Oct 2019 07:58:40 -0700 (PDT)
-Date:   Thu, 31 Oct 2019 20:28:31 +0530
-From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     mchehab@kernel.org, robh+dt@kernel.org, sakari.ailus@iki.fi,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        c.barrett@framos.com, a.brela@framos.com, peter.griffin@linaro.org
-Subject: Re: [PATCH v4 1/2] dt-bindings: media: i2c: Add IMX296 CMOS sensor
- binding
-Message-ID: <20191031145831.GA27800@mani>
-References: <20191030094902.32582-1-manivannan.sadhasivam@linaro.org>
- <20191030094902.32582-2-manivannan.sadhasivam@linaro.org>
- <20191031131538.GA9170@pendragon.ideasonboard.com>
- <20191031134512.GB24273@mani>
- <20191031141141.GD5018@pendragon.ideasonboard.com>
+        id S1727904AbfJaPJd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 31 Oct 2019 11:09:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42580 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726664AbfJaPJc (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 31 Oct 2019 11:09:32 -0400
+Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D36942083E;
+        Thu, 31 Oct 2019 15:09:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1572534572;
+        bh=9tBCz/fylc7VVVgD21eF7T6KAra9agC6ZKRM9LyDwgE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=z8TnPqQT4tTuMQMa6dylinO6OKAdSfX2nsQZ4a3PLSgREOT+u/NMPEiozETqT21/8
+         W+Yilb9SMOyw49j8YNr7Y6JnaB7j+55vh6tc8+FqFlFwKC0zktIACa3WAaceFp4eeX
+         TzWO8rM1aqYeoI9oe5isljc5OgIsloqXzmcJBTOM=
+Date:   Thu, 31 Oct 2019 15:09:27 +0000
+From:   Will Deacon <will@kernel.org>
+To:     linux-media@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, andreyknvl@google.com,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Kostya Serebryany <kcc@google.com>, stable@vger.kernel.org
+Subject: Re: [RESEND PATCH] media: uvc: Avoid cyclic entity chains due to
+ malformed USB descriptors
+Message-ID: <20191031150925.GA27535@willie-the-truck>
+References: <20191016195800.22099-1-will@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191031141141.GD5018@pendragon.ideasonboard.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20191016195800.22099-1-will@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+On Wed, Oct 16, 2019 at 08:58:00PM +0100, Will Deacon wrote:
+> Add a check before adding an entity to a chain list to ensure that the
+> entity is not already part of a chain.
+> 
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: Dmitry Vyukov <dvyukov@google.com>
+> Cc: Kostya Serebryany <kcc@google.com>
+> Cc: <stable@vger.kernel.org>
+> Fixes: c0efd232929c ("V4L/DVB (8145a): USB Video Class driver")
+> Reported-by: Andrey Konovalov <andreyknvl@google.com>
+> Link: https://lore.kernel.org/linux-media/CAAeHK+z+Si69jUR+N-SjN9q4O+o5KFiNManqEa-PjUta7EOb7A@mail.gmail.com/
+> Signed-off-by: Will Deacon <will@kernel.org>
+> ---
+> 
+> Resending since I don't think any material changes are required to address
+> the comments on the previous posting:
+> 
+> http://lkml.kernel.org/r/20191002112753.21630-1-will@kernel.org
+> 
+>  drivers/media/usb/uvc/uvc_driver.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
 
-On Thu, Oct 31, 2019 at 04:11:41PM +0200, Laurent Pinchart wrote:
-> Hi Mani,
-> 
-> On Thu, Oct 31, 2019 at 07:15:12PM +0530, Manivannan Sadhasivam wrote:
-> > On Thu, Oct 31, 2019 at 03:15:38PM +0200, Laurent Pinchart wrote:
-> > > On Wed, Oct 30, 2019 at 03:19:01PM +0530, Manivannan Sadhasivam wrote:
-> > >> Add YAML devicetree binding for IMX296 CMOS image sensor. Let's also
-> > >> add MAINTAINERS entry for the binding and driver.
-> > >> 
-> > >> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> > >> ---
-> > >>  .../devicetree/bindings/media/i2c/imx296.yaml | 94 +++++++++++++++++++
-> > >>  MAINTAINERS                                   |  8 ++
-> > >>  2 files changed, 102 insertions(+)
-> > >>  create mode 100644 Documentation/devicetree/bindings/media/i2c/imx296.yaml
-> > >> 
-> > >> diff --git a/Documentation/devicetree/bindings/media/i2c/imx296.yaml b/Documentation/devicetree/bindings/media/i2c/imx296.yaml
-> > >> new file mode 100644
-> > >> index 000000000000..c04ec2203268
-> > >> --- /dev/null
-> > >> +++ b/Documentation/devicetree/bindings/media/i2c/imx296.yaml
-> > >> @@ -0,0 +1,94 @@
-> > >> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > >> +%YAML 1.2
-> > >> +---
-> > >> +$id: http://devicetree.org/schemas/media/i2c/imx296.yaml#
-> > >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > >> +
-> > >> +title: Sony IMX296 1/2.8-Inch CMOS Image Sensor
-> > >> +
-> > >> +maintainers:
-> > >> +  - Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> > >> +
-> > >> +description: |-
-> > >> +  The Sony IMX296 is a 1/2.9-Inch active pixel type CMOS Solid-state image
-> > >> +  sensor with square pixel array and 1.58 M effective pixels. This chip
-> > >> +  features a global shutter with variable charge-integration time. It is
-> > >> +  programmable through I2C and 4-wire interfaces. The sensor output is
-> > >> +  available via CSI-2 serial data output (1 Lane).
-> > >> +
-> > >> +properties:
-> > >> +  compatible:
-> > >> +    const: sony,imx296
-> > >> +
-> > >> +  reg:
-> > >> +    maxItems: 1
-> > >> +
-> > >> +  clocks:
-> > >> +    maxItems: 1
-> > >> +
-> > >> +  clock-names:
-> > >> +    description:
-> > >> +      Input clock for the sensor.
-> > >> +    items:
-> > >> +      - const: mclk
-> > > 
-> > > The pin is named INCK, let's name the clock accordingly.
-> > 
-> > Okay, I thought generic names are preferred here!
-> >  
-> > >> +  clock-frequency:
-> > >> +    description:
-> > >> +      Frequency of the mclk clock in Hertz.
-> > > 
-> > > This shouldn't be needed, you can retrieve the clock frequency at
-> > > runtime from the clock source.
-> > 
-> > Unless the clock source is a fixed one! What if the clock source comes from
-> > SoC? We need to set the rate, right?
-> 
-> In that case, if you want to hardcode the clock in DT, the preferred way
-> is to use the assigned-clock-rates property. Otherwise, if the driver
-> requires a specific clock frequency, it's better to hardcode it in the
-> driver itself. In this specific case, I think assigned-clock-rates is
-> best as the device can support three different clock frequencies.
-> 
+Gentle nudge on this patch, since I don't see it in -next and I've not
+received any comments on it for a while.
 
-Agree. assigned-clock* properties makes sense for multiple frequencies. In
-my driver, I only used one frequency so I was happy with clock-frequency :)
+Cheers,
 
-> > >> +  vddo-supply:
-> > >> +    description:
-> > >> +      Definition of the regulator used as interface power supply.
-> > >> +
-> > >> +  vdda-supply:
-> > >> +    description:
-> > >> +      Definition of the regulator used as analog power supply.
-> > >> +
-> > >> +  vddd-supply:
-> > >> +    description:
-> > >> +      Definition of the regulator used as digital power supply.
-> > > 
-> > > Do we really need three regulators ? I agree that the sensor has three
-> > > power rails, but aren't they usually powered by regulators that are
-> > > tied together, without individual control ? The IMX926 specifications
-> > > require the three power supplies to raise within 200ms, which we should
-> > > be able to ensure in software. What does your board use, does it have
-> > > multiple GPIOs to control each power supply ? If not I wonder if we
-> > > could just define vddd-supply now, and add vdda-supply and vddo-supply
-> > > later if we need to support systems that can control the supplies
-> > > individually.
-> > 
-> > The whole power supply model is a bit rotten. In my case, there are 3 different
-> > regulators used with no software control. So, I can't control the rise time
-> > (I assume that they are handled by the external power regulator itself).
-> > 
-> > So to be sane, I just documented with the assumption of fixed-regulators.
-> 
-> Should we then go for one supply, and add the other two when (and if)
-> needed ?
-> 
-
-I'm not really sure if we should use one power supply here. The single power
-supply configuration is not true for all cases. And following what other
-sensors are using, I'd prefer to have 3 individual power supplies.
-
-Thanks,
-Mani
-
-> > >> +  reset-gpios:
-> > >> +    description:
-> > >> +      The phandle and specifier for the GPIO that controls sensor reset.
-> > >> +    maxItems: 1
-> > >> +
-> > >> +  port: true
-> > >> +
-> > >> +required:
-> > >> +  - compatible
-> > >> +  - reg
-> > >> +  - clocks
-> > >> +  - clock-names
-> > >> +  - clock-frequency
-> > >> +  - vddo-supply
-> > >> +  - vdda-supply
-> > >> +  - vddd-supply
-> > >> +
-> > >> +additionalProperties: false
-> > >> +
-> > >> +examples:
-> > >> +  - |
-> > >> +    #include <dt-bindings/gpio/gpio.h>
-> > >> +
-> > >> +    imx296: camera-sensor@1a {
-> > >> +        compatible = "sony,imx296";
-> > >> +        reg = <0x1a>;
-> > >> +        reset-gpios = <&msmgpio 35 GPIO_ACTIVE_LOW>;
-> > >> +        pinctrl-names = "default";
-> > >> +        pinctrl-0 = <&camera_rear_default>;
-> > >> +        clocks = <&gcc 90>;
-> > >> +        clock-names = "mclk";
-> > >> +        clock-frequency = <37125000>;
-> > >> +        vddo-supply = <&camera_vddo_1v8>;
-> > >> +        vdda-supply = <&camera_vdda_3v3>;
-> > >> +        vddd-supply = <&camera_vddd_1v2>;
-> > >> +
-> > >> +        port {
-> > >> +            imx296_ep: endpoint {
-> > >> +                remote-endpoint = <&csiphy0_ep>;
-> > >> +            };
-> > >> +        };
-> > >> +    };
-> > >> +
-> > >> +...
-> > >> diff --git a/MAINTAINERS b/MAINTAINERS
-> > >> index 55199ef7fa74..51194bb2c392 100644
-> > >> --- a/MAINTAINERS
-> > >> +++ b/MAINTAINERS
-> > >> @@ -15140,6 +15140,14 @@ S:	Maintained
-> > >>  F:	drivers/media/i2c/imx274.c
-> > >>  F:	Documentation/devicetree/bindings/media/i2c/imx274.txt
-> > >>  
-> > >> +SONY IMX296 SENSOR DRIVER
-> > >> +M:	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> > >> +L:	linux-media@vger.kernel.org
-> > >> +T:	git git://linuxtv.org/media_tree.git
-> > >> +S:	Maintained
-> > >> +F:	drivers/media/i2c/imx296.c
-> > >> +F:	Documentation/devicetree/bindings/media/i2c/imx296.yaml
-> > >> +
-> > >>  SONY IMX319 SENSOR DRIVER
-> > >>  M:	Bingbu Cao <bingbu.cao@intel.com>
-> > >>  L:	linux-media@vger.kernel.org
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
+Will
