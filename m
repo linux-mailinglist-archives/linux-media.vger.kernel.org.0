@@ -2,88 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CF40EB437
-	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2019 16:49:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 57632EB449
+	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2019 16:54:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728469AbfJaPt2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 31 Oct 2019 11:49:28 -0400
-Received: from retiisi.org.uk ([95.216.213.190]:35032 "EHLO
-        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726664AbfJaPt2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 31 Oct 2019 11:49:28 -0400
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id AE154634C87;
-        Thu, 31 Oct 2019 17:48:34 +0200 (EET)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1iQCgb-0001mv-Nb; Thu, 31 Oct 2019 17:48:33 +0200
-Date:   Thu, 31 Oct 2019 17:48:33 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        mchehab@kernel.org, robh+dt@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        c.barrett@framos.com, a.brela@framos.com, peter.griffin@linaro.org
-Subject: Re: [PATCH v4 0/2] Add IMX296 CMOS image sensor support
-Message-ID: <20191031154833.GM6253@valkosipuli.retiisi.org.uk>
-References: <20191030094902.32582-1-manivannan.sadhasivam@linaro.org>
- <20191031131644.GA8917@pendragon.ideasonboard.com>
- <20191031132352.GA24273@mani>
- <20191031132801.GC5018@pendragon.ideasonboard.com>
+        id S1728475AbfJaPyn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 31 Oct 2019 11:54:43 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:44212 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727681AbfJaPyn (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 31 Oct 2019 11:54:43 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtp (Exim 4.84_2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1iQCmQ-0001Ua-3Q; Thu, 31 Oct 2019 15:54:34 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1iQCmy-0003gR-Ek; Thu, 31 Oct 2019 15:55:08 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL for 5.5] Ipu3 and smiapp driver patches
+Date:   Thu, 31 Oct 2019 15:55:08 +0000
+Message-Id: <20191031155508.14118-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191031153300.GL6253@valkosipuli.retiisi.org.uk>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191031132801.GC5018@pendragon.ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mani, Laurent,
+From: builder@linuxtv.org
 
-On Thu, Oct 31, 2019 at 03:28:01PM +0200, Laurent Pinchart wrote:
-> Hi Mani,
-> 
-> On Thu, Oct 31, 2019 at 06:53:52PM +0530, Manivannan Sadhasivam wrote:
-> > On Thu, Oct 31, 2019 at 03:16:44PM +0200, Laurent Pinchart wrote:
-> > > On Wed, Oct 30, 2019 at 03:19:00PM +0530, Manivannan Sadhasivam wrote:
-> > > > Hello,
-> > > > 
-> > > > This patchset adds support for IMX296 CMOS image sensor from Sony.
-> > > > Sensor can be programmed through I2C and 4-wire interface but the
-> > > > current driver only supports I2C interface. The sensor is
-> > > > capable of outputting frames in CSI2 format (1 Lane). In the case
-> > > > of sensor resolution, driver only supports 1440x1088 at 30 FPS.
-> > > > 
-> > > > The driver has been validated using Framos IMX296 module interfaced to
-> > > > 96Boards Dragonboard410c.
-> > > 
-> > > I've just been made aware of your work. I also worked on an IMX296
-> > > sensor driver in parallel, which I will post to the list. My driver
-> > > doesn't hardcode the resolution but computes register values at runtime,
-> > > so I wonder if it could be a better option. I'll post it now.
-> > 
-> > I'm fine with it. The reason the driver is simple in the first place is, that's
-> > how my usual workflow is. Start small and build it big ;-)
-> > 
-> > Anyway, I'm happy if your driver gets in.
-> 
-> My driver sometimes has trouble finding the sensor at probe time, so
-> I'll study and try your code too. It could be a problem specific to my
-> platform (I'm testing on a custom i.MX7 board).
+Pull request: https://patchwork.linuxtv.org/patch/59737/
+Build log: https://builder.linuxtv.org/job/patchwork/22852/
+Build time: 00:14:53
+Link: https://lore.kernel.org/linux-media/20191031153300.GL6253@valkosipuli.retiisi.org.uk
 
-Based on this discussion I'll mark the second patch of the set obsolete in
-Patchwork.
+gpg: Signature made Thu 31 Oct 2019 03:27:43 PM UTC
+gpg:                using DSA key F0D0377A0D4F25A79238EFE56D40361B6E28C193
+gpg:                issuer "sakari.ailus@linux.intel.com"
+gpg: Good signature from "Sakari Ailus <sakari.ailus@linux.intel.com>" [full]
 
-Laurent: please see my comments on the driver as well.
-
--- 
-Kind regards,
-
-Sakari Ailus
+Summary: no issues
