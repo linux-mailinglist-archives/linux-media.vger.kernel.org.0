@@ -2,75 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3789FEB371
-	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2019 16:09:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DBCEEEB3FD
+	for <lists+linux-media@lfdr.de>; Thu, 31 Oct 2019 16:33:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727904AbfJaPJd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 31 Oct 2019 11:09:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42580 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726664AbfJaPJc (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 31 Oct 2019 11:09:32 -0400
-Received: from willie-the-truck (236.31.169.217.in-addr.arpa [217.169.31.236])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1728376AbfJaPdy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 31 Oct 2019 11:33:54 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:34880 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727860AbfJaPdy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 31 Oct 2019 11:33:54 -0400
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D36942083E;
-        Thu, 31 Oct 2019 15:09:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1572534572;
-        bh=9tBCz/fylc7VVVgD21eF7T6KAra9agC6ZKRM9LyDwgE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=z8TnPqQT4tTuMQMa6dylinO6OKAdSfX2nsQZ4a3PLSgREOT+u/NMPEiozETqT21/8
-         W+Yilb9SMOyw49j8YNr7Y6JnaB7j+55vh6tc8+FqFlFwKC0zktIACa3WAaceFp4eeX
-         TzWO8rM1aqYeoI9oe5isljc5OgIsloqXzmcJBTOM=
-Date:   Thu, 31 Oct 2019 15:09:27 +0000
-From:   Will Deacon <will@kernel.org>
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 12295634C87
+        for <linux-media@vger.kernel.org>; Thu, 31 Oct 2019 17:33:02 +0200 (EET)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1iQCRZ-0001mb-3S
+        for linux-media@vger.kernel.org; Thu, 31 Oct 2019 17:33:01 +0200
+Date:   Thu, 31 Oct 2019 17:33:01 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
 To:     linux-media@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, andreyknvl@google.com,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Kostya Serebryany <kcc@google.com>, stable@vger.kernel.org
-Subject: Re: [RESEND PATCH] media: uvc: Avoid cyclic entity chains due to
- malformed USB descriptors
-Message-ID: <20191031150925.GA27535@willie-the-truck>
-References: <20191016195800.22099-1-will@kernel.org>
+Subject: [GIT PULL for 5.5] Ipu3 and smiapp driver patches
+Message-ID: <20191031153300.GL6253@valkosipuli.retiisi.org.uk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191016195800.22099-1-will@kernel.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Oct 16, 2019 at 08:58:00PM +0100, Will Deacon wrote:
-> Add a check before adding an entity to a chain list to ensure that the
-> entity is not already part of a chain.
-> 
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Dmitry Vyukov <dvyukov@google.com>
-> Cc: Kostya Serebryany <kcc@google.com>
-> Cc: <stable@vger.kernel.org>
-> Fixes: c0efd232929c ("V4L/DVB (8145a): USB Video Class driver")
-> Reported-by: Andrey Konovalov <andreyknvl@google.com>
-> Link: https://lore.kernel.org/linux-media/CAAeHK+z+Si69jUR+N-SjN9q4O+o5KFiNManqEa-PjUta7EOb7A@mail.gmail.com/
-> Signed-off-by: Will Deacon <will@kernel.org>
-> ---
-> 
-> Resending since I don't think any material changes are required to address
-> the comments on the previous posting:
-> 
-> http://lkml.kernel.org/r/20191002112753.21630-1-will@kernel.org
-> 
->  drivers/media/usb/uvc/uvc_driver.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
+Hi Mauro,
 
-Gentle nudge on this patch, since I don't see it in -next and I've not
-received any comments on it for a while.
+Here's a small set of ipu3 and smiapp driver patches for 5.5.
 
-Cheers,
+Please pull.
 
-Will
+
+The following changes since commit a4260ea49547aa0c84c353f9de5998a0315d89fe:
+
+  media: sun4i: Add H3 deinterlace driver (2019-10-24 19:07:59 -0300)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/sailus/media_tree.git tags/for-5.5-7-signed
+
+for you to fetch changes up to ccf9b64233bde660c2a37e3a5a6990b1accca0a2:
+
+  media: smiapp: unlock on error in smiapp_start_streaming() (2019-10-31 17:25:56 +0200)
+
+----------------------------------------------------------------
+Imgu and smiapp patches for 5.5
+
+----------------------------------------------------------------
+Bingbu Cao (3):
+      doc-rst: add more info for resolution change blocks in ipu3
+      doc-rst: ipu3: clarification on data type conversion of IEFD CU
+      media: staging/intel-ipu3: remove the unnecessary compiler flags
+
+Dan Carpenter (1):
+      media: smiapp: unlock on error in smiapp_start_streaming()
+
+ Documentation/media/v4l-drivers/ipu3.rst        |  53 +++-
+ Documentation/media/v4l-drivers/ipu3_rcb.svg    | 331 ++++++++++++++++++++++++
+ MAINTAINERS                                     |   1 +
+ drivers/media/i2c/smiapp/smiapp-core.c          |   4 +-
+ drivers/staging/media/ipu3/Makefile             |   6 -
+ drivers/staging/media/ipu3/TODO                 |   5 -
+ drivers/staging/media/ipu3/include/intel-ipu3.h |   5 +
+ 7 files changed, 384 insertions(+), 21 deletions(-)
+ create mode 100644 Documentation/media/v4l-drivers/ipu3_rcb.svg
+
+-- 
+Sakari Ailus
