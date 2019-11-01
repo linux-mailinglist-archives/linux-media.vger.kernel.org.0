@@ -2,113 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A3B6BEBB7F
-	for <lists+linux-media@lfdr.de>; Fri,  1 Nov 2019 01:48:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BDE29EBF46
+	for <lists+linux-media@lfdr.de>; Fri,  1 Nov 2019 09:37:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728857AbfKAAsr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 31 Oct 2019 20:48:47 -0400
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:10301 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727516AbfKAAsq (ORCPT
+        id S1726689AbfKAIhY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 1 Nov 2019 04:37:24 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:35515 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726636AbfKAIhY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 31 Oct 2019 20:48:46 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5dbb80eb0000>; Thu, 31 Oct 2019 17:48:43 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 31 Oct 2019 17:48:37 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 31 Oct 2019 17:48:37 -0700
-Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 1 Nov
- 2019 00:48:36 +0000
-Subject: Re: [PATCH 19/19] Documentation/vm: add pin_user_pages.rst
-To:     Ira Weiny <ira.weiny@intel.com>
-CC:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
-        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
-        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
-References: <20191030224930.3990755-1-jhubbard@nvidia.com>
- <20191030224930.3990755-20-jhubbard@nvidia.com>
- <20191031234922.GM14771@iweiny-DESK2.sc.intel.com>
-X-Nvconfidentiality: public
-From:   John Hubbard <jhubbard@nvidia.com>
-Message-ID: <8f92713c-7df8-9463-93f2-40967eba27b5@nvidia.com>
-Date:   Thu, 31 Oct 2019 17:48:36 -0700
+        Fri, 1 Nov 2019 04:37:24 -0400
+Received: from [IPv6:2001:983:e9a7:1:8c66:a727:bbe6:d244]
+ ([IPv6:2001:983:e9a7:1:8c66:a727:bbe6:d244])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id QSQRik7i3sBskQSQSiTkxp; Fri, 01 Nov 2019 09:37:22 +0100
+Subject: Re: [PATCH v2 01/10] media: hantro: Fix H264 max frmsize supported on
+ RK3288
+To:     Boris Brezillon <boris.brezillon@collabora.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     Jonas Karlman <jonas@kwiboo.se>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <HE1PR06MB401108289F09802C261374F8AC610@HE1PR06MB4011.eurprd06.prod.outlook.com>
+ <HE1PR06MB4011858F97A96AD25E75E2E1AC610@HE1PR06MB4011.eurprd06.prod.outlook.com>
+ <20191031095238.683b69d9@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <77df1d5a-5c53-00c0-3d32-063341dde55e@xs4all.nl>
+Date:   Fri, 1 Nov 2019 09:36:55 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191031234922.GM14771@iweiny-DESK2.sc.intel.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20191031095238.683b69d9@collabora.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1572569323; bh=5RHzCGcb3FFZzaA/uQgYrgLcorAAk8gLyrsrWdqCg0c=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=jb4OmT2UIK+29Kq6gyh3/B0GMYEYeQey6Q7av8aHODFF7iM3g87GXz+0+crrEhDuP
-         ES91FHKZ2TRd6nelEsvX1Ees+632xFVXWCQcNiNfBlThFOHS+Mq1DZ+VJ6HtPA43u6
-         Ynb5UhoXiX2+2DJcjRCsgJU7otXcWVOJr09yZe43vdQrzd13x1b0cKY4hBXDGaRMUL
-         j+EkbcXcmrT2jSkaz6YzKoEolu/+k4osy9BAQew7kbxk+1/wC4eflk8358pt5RFQn7
-         yh6waII5ieUtayl8B5UKc7eHNJXPir5mjj/cq3SpudLXylqcwjl1IrKdwtTrjKlzPg
-         OjOeqmfrEDTrQ==
+X-CMAE-Envelope: MS4wfB2uUZXiFXXgr2vo17Eg+w/SoGCEqJ0WHo8JmU547gcfwnCu6lvTLAEdJ7bPHEpH3w2zRrZn1ZDEmyPvnEwwLdaAC/9x+9QlAyc0WCKlEo8uxBdBGie3
+ vorMjNj2O03EEVFxPlhJ6BzDckNeIit7s6pzlCUFLQ8/jkTXf4vlZxfA4CwfxmuRVq1OW1xLd5sHNDWTbdEmTnR4zNHwZ4eJhmrMtLs50hNAsclofc5yYNKj
+ c+1lpqaCEbraOSa//0pG8mHDtFPtUYwfhZITStU/84u1yR/oVsf/xDpQloz/O4nYwEH3SIDmi4lIGUK4D3qcN/aPeSQ7zBUxDt70hFTY6WOAtuqWBtUNBpNM
+ APWbAcK6Js+jsPgjGN6iK9M3LNdGRIaVDOqJy7FYUGzZpMZF1DG6s3majRbi77J5RK6ZeUue/DDG/i9CaS6AaWWzSuTRgXyAWq/6OE3/cEqumWlEMHo9/DVe
+ zA/92x/K5aCl7tNDAPJ61nyHces0rD12k03yzcyKbC/8g65zMYk8ajc110Q=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/31/19 4:49 PM, Ira Weiny wrote:
-> On Wed, Oct 30, 2019 at 03:49:30PM -0700, John Hubbard wrote:
-...
->> +TODO: There is also a special case when the pages are DAX pages: in addition to
->> +the above flags, the caller needs something like a layout lease on the
->> +associated file. This is yet to be implemented. When it is implemented, it's
->> +expected that the lease will be a prerequisite to setting FOLL_LONGTERM.
+On 10/31/19 9:52 AM, Boris Brezillon wrote:
+> On Tue, 29 Oct 2019 01:24:47 +0000
+> Jonas Karlman <jonas@kwiboo.se> wrote:
 > 
-> For now we probably want to leave this note out until we figure out how this is
-> going to work.  Best to say something like:
+>> TRM specify supported image size 48x48 to 4096x2304 at step size 16 pixels,
+>> change frmsize max_width/max_height to match TRM at [1].
+>>
+>> This patch makes it possible to decode the 4096x2304 sample at [2].
+>>
+>> [1] http://www.t-firefly.com/download/firefly-rk3288/docs/TRM/rk3288-chapter-25-video-encoder-decoder-unit-(vcodec).pdf
+>> [2] https://4ksamples.com/puppies-bath-in-4k/
+>>
+>> Fixes: 760327930e10 ("media: hantro: Enable H264 decoding on rk3288")
+>> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 > 
-> Some pages, such as DAX pages, can't be pinned with longterm pins and will
-> fail.
+> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Tested-by: Boris Brezillon <boris.brezillon@collabora.com>
+> 
+> Let's also add
+> 
+> Cc: <stable@vger.kernel.org>
+> 
+> just in case this patch doesn't make it to 5.4.
+> 
+> 
+>> ---
+>> Changes in v2:
+>>   - updated commit message with reference to TRM and sample video
+>> ---
+>>  drivers/staging/media/hantro/rk3288_vpu_hw.c | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/staging/media/hantro/rk3288_vpu_hw.c b/drivers/staging/media/hantro/rk3288_vpu_hw.c
+>> index c0bdd6c02520..f8db6fcaad73 100644
+>> --- a/drivers/staging/media/hantro/rk3288_vpu_hw.c
+>> +++ b/drivers/staging/media/hantro/rk3288_vpu_hw.c
+>> @@ -67,10 +67,10 @@ static const struct hantro_fmt rk3288_vpu_dec_fmts[] = {
+>>  		.max_depth = 2,
+>>  		.frmsize = {
+>>  			.min_width = 48,
+>> -			.max_width = 3840,
+>> +			.max_width = 4096,
+>>  			.step_width = MB_DIM,
+>>  			.min_height = 48,
+>> -			.max_height = 2160,
+>> +			.max_height = 2304,
+>>  			.step_height = MB_DIM,
+> 
+> Hans, Mauro, we were intending to have this fix merged in 5.4 or at
+> the very least be backported to the 5.4 stable branch at some point,
+> the problem is, this patch is based on media/master which contains the
+> s/MB_DIM_H264/MB_DIM/ change. I can send a new version based on
+> media/fixes, but that means Linus will have a conflict when merging the
+> media 5.5 PR in his tree. Are you fine dealing with this conflict
+> (letting Linus know about the expected resolution or backmerging the -rc
+> containing the fix in media/master so that he doesn't even have to deal
+> with it), or should we just let this patch go in media/master and
+> backport it later?
+
+Backport it later once it is merged in mainline.
+
+This patch doesn't fix a bug, it is really an enhancement, so I think this
+can safely be delayed.
+
+Regards,
+
+	Hans
+
+> 
+>>  		},
+>>  	},
 > 
 
-OK, I have this wording queued up for the v2 patch:
-
-NOTE: Some pages, such as DAX pages, cannot be pinned with longterm pins. That's
-because DAX pages do not have a separate page cache, and so "pinning" implies
-locking down file system blocks, which is not (yet) supported in that way.
-
-
-thanks,
-
-John Hubbard
-NVIDIA
