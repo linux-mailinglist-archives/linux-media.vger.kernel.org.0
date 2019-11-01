@@ -2,123 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BDE29EBF46
-	for <lists+linux-media@lfdr.de>; Fri,  1 Nov 2019 09:37:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EFF65EBFD4
+	for <lists+linux-media@lfdr.de>; Fri,  1 Nov 2019 09:43:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726689AbfKAIhY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 1 Nov 2019 04:37:24 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:35515 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726636AbfKAIhY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 1 Nov 2019 04:37:24 -0400
-Received: from [IPv6:2001:983:e9a7:1:8c66:a727:bbe6:d244]
- ([IPv6:2001:983:e9a7:1:8c66:a727:bbe6:d244])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id QSQRik7i3sBskQSQSiTkxp; Fri, 01 Nov 2019 09:37:22 +0100
-Subject: Re: [PATCH v2 01/10] media: hantro: Fix H264 max frmsize supported on
- RK3288
-To:     Boris Brezillon <boris.brezillon@collabora.com>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     Jonas Karlman <jonas@kwiboo.se>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <HE1PR06MB401108289F09802C261374F8AC610@HE1PR06MB4011.eurprd06.prod.outlook.com>
- <HE1PR06MB4011858F97A96AD25E75E2E1AC610@HE1PR06MB4011.eurprd06.prod.outlook.com>
- <20191031095238.683b69d9@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <77df1d5a-5c53-00c0-3d32-063341dde55e@xs4all.nl>
-Date:   Fri, 1 Nov 2019 09:36:55 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1726555AbfKAIn3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 1 Nov 2019 04:43:29 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:59366 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725904AbfKAIn3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 1 Nov 2019 04:43:29 -0400
+Received: from pendragon.ideasonboard.com (unknown [109.190.253.13])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 86ADB4FF;
+        Fri,  1 Nov 2019 09:43:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1572597807;
+        bh=4HZer+bgw3Io66HHWMPfysuGO3XmlHQwp25qLz8++vY=;
+        h=Date:From:To:Cc:Subject:From;
+        b=J9g7NOZn/63xjhe3C5IaqwEZqRMU4nEPZVsEY9cT3J9nAIQfu32dFUg9FS3wfUu7l
+         3/BVzkEHTz/5UMJHTadVpOz/43jahpHs7lum2N/JklMy+GS6rxUi13eLm/v851x0K8
+         WEtydjcM+/Lhbfwwbz2OYL4rty6ark40r6+X9Ngk=
+Date:   Fri, 1 Nov 2019 10:43:18 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
+Subject: Overlay support in the i.MX7 display
+Message-ID: <20191101084318.GA8428@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <20191031095238.683b69d9@collabora.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfB2uUZXiFXXgr2vo17Eg+w/SoGCEqJ0WHo8JmU547gcfwnCu6lvTLAEdJ7bPHEpH3w2zRrZn1ZDEmyPvnEwwLdaAC/9x+9QlAyc0WCKlEo8uxBdBGie3
- vorMjNj2O03EEVFxPlhJ6BzDckNeIit7s6pzlCUFLQ8/jkTXf4vlZxfA4CwfxmuRVq1OW1xLd5sHNDWTbdEmTnR4zNHwZ4eJhmrMtLs50hNAsclofc5yYNKj
- c+1lpqaCEbraOSa//0pG8mHDtFPtUYwfhZITStU/84u1yR/oVsf/xDpQloz/O4nYwEH3SIDmi4lIGUK4D3qcN/aPeSQ7zBUxDt70hFTY6WOAtuqWBtUNBpNM
- APWbAcK6Js+jsPgjGN6iK9M3LNdGRIaVDOqJy7FYUGzZpMZF1DG6s3majRbi77J5RK6ZeUue/DDG/i9CaS6AaWWzSuTRgXyAWq/6OE3/cEqumWlEMHo9/DVe
- zA/92x/K5aCl7tNDAPJ61nyHces0rD12k03yzcyKbC/8g65zMYk8ajc110Q=
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/31/19 9:52 AM, Boris Brezillon wrote:
-> On Tue, 29 Oct 2019 01:24:47 +0000
-> Jonas Karlman <jonas@kwiboo.se> wrote:
-> 
->> TRM specify supported image size 48x48 to 4096x2304 at step size 16 pixels,
->> change frmsize max_width/max_height to match TRM at [1].
->>
->> This patch makes it possible to decode the 4096x2304 sample at [2].
->>
->> [1] http://www.t-firefly.com/download/firefly-rk3288/docs/TRM/rk3288-chapter-25-video-encoder-decoder-unit-(vcodec).pdf
->> [2] https://4ksamples.com/puppies-bath-in-4k/
->>
->> Fixes: 760327930e10 ("media: hantro: Enable H264 decoding on rk3288")
->> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-> 
-> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Tested-by: Boris Brezillon <boris.brezillon@collabora.com>
-> 
-> Let's also add
-> 
-> Cc: <stable@vger.kernel.org>
-> 
-> just in case this patch doesn't make it to 5.4.
-> 
-> 
->> ---
->> Changes in v2:
->>   - updated commit message with reference to TRM and sample video
->> ---
->>  drivers/staging/media/hantro/rk3288_vpu_hw.c | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/staging/media/hantro/rk3288_vpu_hw.c b/drivers/staging/media/hantro/rk3288_vpu_hw.c
->> index c0bdd6c02520..f8db6fcaad73 100644
->> --- a/drivers/staging/media/hantro/rk3288_vpu_hw.c
->> +++ b/drivers/staging/media/hantro/rk3288_vpu_hw.c
->> @@ -67,10 +67,10 @@ static const struct hantro_fmt rk3288_vpu_dec_fmts[] = {
->>  		.max_depth = 2,
->>  		.frmsize = {
->>  			.min_width = 48,
->> -			.max_width = 3840,
->> +			.max_width = 4096,
->>  			.step_width = MB_DIM,
->>  			.min_height = 48,
->> -			.max_height = 2160,
->> +			.max_height = 2304,
->>  			.step_height = MB_DIM,
-> 
-> Hans, Mauro, we were intending to have this fix merged in 5.4 or at
-> the very least be backported to the 5.4 stable branch at some point,
-> the problem is, this patch is based on media/master which contains the
-> s/MB_DIM_H264/MB_DIM/ change. I can send a new version based on
-> media/fixes, but that means Linus will have a conflict when merging the
-> media 5.5 PR in his tree. Are you fine dealing with this conflict
-> (letting Linus know about the expected resolution or backmerging the -rc
-> containing the fix in media/master so that he doesn't even have to deal
-> with it), or should we just let this patch go in media/master and
-> backport it later?
+Hello,
 
-Backport it later once it is merged in mainline.
+I'm looking at the available options to support overlays in the display
+pipeline of the i.MX7. The LCDIF itself unfortunaltey doesn't support
+overlays, the feature being implemented in the PXP. A driver for the PXP
+is available but only supports older SoCs whose PXP doesn't support
+overlays. This driver is implemented as a V4L2 mem2mem driver, which
+makes support of additional input channels impossible.
 
-This patch doesn't fix a bug, it is really an enhancement, so I think this
-can safely be delayed.
+Here are the options I can envision:
 
+- Extend the existing PXP driver to support multiple channels. This is
+  technically feasible, but will require moving away from the V4L2
+  mem2mem framework, which would break userspace. I don't think this
+  path could lead anywhere.
+
+- Write a new PXP driver for the i.MX7, still using V4L2, but with
+  multiple video nodes. This would allow blending multiple layers, but
+  would require writing the output to memory, while the PXP has support
+  for direct connections to the LCDIF (through small SRAM buffers).
+  Performances would thus be suboptimal. The API would also be awkward,
+  as using the PXP for display would require usage of V4L2 in
+  applications.
+
+- Extend the mxsfb driver with PXP support, and expose the PXP inputs as
+  KMS planes. The PXP would only be used when available, and would be
+  transparent to applications. This would however prevent using it
+  separately from the display (to perform multi-pass alpha blending for
+  instance).
+
+What would be the best option going forward ? Would any of you, by any
+chance, have already started work in this area ?
+
+-- 
 Regards,
 
-	Hans
-
-> 
->>  		},
->>  	},
-> 
-
+Laurent Pinchart
