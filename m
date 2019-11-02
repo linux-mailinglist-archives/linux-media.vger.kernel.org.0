@@ -2,237 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 59FAAECF12
-	for <lists+linux-media@lfdr.de>; Sat,  2 Nov 2019 15:06:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 49114ED000
+	for <lists+linux-media@lfdr.de>; Sat,  2 Nov 2019 18:35:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726574AbfKBOGP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 2 Nov 2019 10:06:15 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:46723 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726454AbfKBOGP (ORCPT
+        id S1726689AbfKBRf4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 2 Nov 2019 13:35:56 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:39249 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726454AbfKBRf4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 2 Nov 2019 10:06:15 -0400
+        Sat, 2 Nov 2019 13:35:56 -0400
 Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id Qu2Zirp2kTzKrQu2cidLLQ; Sat, 02 Nov 2019 15:06:12 +0100
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Michael Ashton <mpa@fb.com>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Daniel Gomez <daniel@qtec.com>,
-        Peter Griffin <peter.griffin@linaro.org>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Eugen Hristev <Eugen.Hristev@microchip.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        jacopo mondi <jacopo@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id QxJNiRtRq9P9bQxJSiRqVx; Sat, 02 Nov 2019 18:35:50 +0100
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [ANN] Report of Media Summit: V4L2 Future Work
-Message-ID: <756c2d9c-ef4d-9f56-d6bd-a09767ec2ae8@xs4all.nl>
-Date:   Sat, 2 Nov 2019 15:06:07 +0100
+Subject: [PATCH] vivid: media_device_cleanup was called too early
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Message-ID: <fdf13081-c446-e4ca-2097-d83163df2508@xs4all.nl>
+Date:   Sat, 2 Nov 2019 18:35:41 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfPAVGWPC+vtPPFt9HUkQ482OpPJu/kjTqQYV1a5MPPyMs3oXdrZxIdCjwAMmgJ+sEAjyAPZNn+p1Nl/tqcp7cZCU3lzDwcRym/MhcCGgUY6j3JYtXevc
- iHp++g6+FDWLYMQ9Pf4cyHzYNJj4L7ojzbyKrEyTY0WPoslgUfOepKWi6MO3sqXVrC3Pc21c/7FKY1Tvot6l2sHkTVqYxHOVWEsuq3JZUolCIwR9A3sphGwz
- shpxiEROHrj42DIpRj1Dg3CJAMyR6SHCg0op8RGD+XPIozIgfBcsC4NHZy5edRpxndtoWBVqie2AuclclPQs2PZaiyr+5aAB5qng9VudbfcS2Vab2o/MkAO0
- v4N0nKIJRWhxvZufvw+fJZYyutLAhkzA56tVFGWc44nO1BmrrJkvVuxc2JduO69DxSekmSxT6fHeGI3kHqevf1+cHQM5QRQBYG/bW3IGVdJFvdFVlVF6BcO+
- IexL7yIJ2xCPtEjGf7PsDxdDkaC2fzdYESzFqXGU4xnOT6DOLjUV609EXJRlSAEaasfNfizdJblsZbfQCd1/HzoUDlhxNFhoEVB/CzEiqoan2W+RDvhaLNOc
- USe4fO+AesqJjBqwlzS+nHuKoVO7wOcjFd06t3Q2MqGN3sx4NtAT7202kvT++14hSiMtO6EnFOtxrSP2VAEIsQ4yVSqQeVCFHk/8aBFs44nA4Eyn1vHn+Vzi
- jHgtUjIOkFynvxNm9TrofkkflKJfhUKdVd1EDDHmaxdjHT4jWUOA5Q==
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfE9nyrXI5h/UTrxcaNCoR2GLGa14WNS5nZ1GtdeZI+MC4uChCadsPRRxERpvdrZ8AwoiaDMLNDRLYspgFZI0/pBXJjgTSALmZ1vetlHP2WjHKRe2h57f
+ sBX2tT2EBTACDOs5pCvjX9/d9b65A8P5/2EMqZjSPoeMIGmqZJ8VDWXKwfnb3SUYzktT5j8dFZ+aow==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Media Summit: V4L2 Future Work
-October 30, 2019 - Lyon, France
+Running the contrib/test/test-media script in v4l-utils with the vivid argument
+will cause this kernel warning:
 
-Many thanks to the Linux Foundation for hosting this meeting. Much appreciated!
+[  104.748720] videodev: v4l2_release
+[  104.748731] ------------[ cut here ]------------
+[  104.748750] DEBUG_LOCKS_WARN_ON(lock->magic != lock)
+[  104.748790] WARNING: CPU: 6 PID: 1823 at kernel/locking/mutex.c:938 __mutex_lock+0x919/0xc10
+[  104.748800] Modules linked in: rc_cec vivid v4l2_tpg videobuf2_dma_contig cec rc_core v4l2_dv_timings videobuf2_vmalloc videobuf2_memops
+videobuf2_v4l2 videobuf2_common videodev mc vmw_balloon vmw_vmci button vmwgfx
+[  104.748845] CPU: 6 PID: 1823 Comm: sleep Not tainted 5.4.0-rc1-test-no #150
+[  104.748853] Hardware name: VMware, Inc. VMware Virtual Platform/440BX Desktop Reference Platform, BIOS 6.00 07/29/2019
+[  104.748867] RIP: 0010:__mutex_lock+0x919/0xc10
+[  104.748878] Code: 59 83 e8 9a fc 16 ff 44 8b 05 23 61 38 01 45 85 c0 0f 85 ef f7 ff ff 48 c7 c6 a0 1f 87 82 48 c7 c7 a0 1e 87 82 e8 cd bb
+f7 fe <0f> 0b e9 d5 f7 ff ff f6 c3 04 0f 84 3b fd ff ff 49 89 df 41 83 e7
+[  104.748886] RSP: 0018:ffff88811a357b80 EFLAGS: 00010286
+[  104.748895] RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
+[  104.748902] RDX: 0000000000000003 RSI: 0000000000000004 RDI: ffffed102346af62
+[  104.748910] RBP: ffff88811a357cf0 R08: ffffffff81217c91 R09: fffffbfff061c271
+[  104.748917] R10: fffffbfff061c270 R11: ffffffff830e1383 R12: ffff8881a46103c0
+[  104.748924] R13: 0000000000000000 R14: ffff8881a4614f90 R15: ffff8881a46153d0
+[  104.748933] FS:  0000000000000000(0000) GS:ffff8881b6780000(0000) knlGS:0000000000000000
+[  104.748940] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  104.748949] CR2: 00007f163fc9ca20 CR3: 0000000003013004 CR4: 00000000001606e0
+[  104.749036] Call Trace:
+[  104.749051]  ? _raw_spin_unlock+0x1f/0x30
+[  104.749067]  ? llist_add_batch+0x33/0x50
+[  104.749081]  ? tick_nohz_tick_stopped+0x19/0x30
+[  104.749130]  ? v4l2_release.cold+0x6c/0xd6 [videodev]
+[  104.749143]  ? mutex_lock_io_nested+0xb80/0xb80
+[  104.749153]  ? vprintk_emit+0xf2/0x220
+[  104.749191]  ? vivid_req_validate+0x40/0x40 [vivid]
+[  104.749201]  ? printk+0xad/0xde
+[  104.749211]  ? kmsg_dump_rewind_nolock+0x54/0x54
+[  104.749226]  ? locks_remove_file+0x78/0x2b0
+[  104.749248]  ? __fsnotify_update_child_dentry_flags.part.0+0x170/0x170
+[  104.749281]  ? vivid_req_validate+0x40/0x40 [vivid]
+[  104.749321]  ? v4l2_release.cold+0x6c/0xd6 [videodev]
+[  104.749361]  v4l2_release.cold+0x6c/0xd6 [videodev]
+[  104.749378]  __fput+0x15a/0x390
+[  104.749393]  task_work_run+0xb2/0xe0
+[  104.749407]  do_exit+0x4d0/0x1200
+[  104.749422]  ? do_user_addr_fault+0x367/0x610
+[  104.749431]  ? release_task+0x990/0x990
+[  104.749449]  ? rwsem_spin_on_owner+0x170/0x170
+[  104.749463]  ? vmacache_find+0xb2/0x100
+[  104.749476]  do_group_exit+0x85/0x130
+[  104.749487]  __x64_sys_exit_group+0x23/0x30
+[  104.749500]  do_syscall_64+0x5e/0x1c0
+[  104.749511]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+[  104.749520] RIP: 0033:0x7f163fc5c9d6
+[  104.749536] Code: Bad RIP value.
+[  104.749543] RSP: 002b:00007ffe6f3bec58 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+[  104.749553] RAX: ffffffffffffffda RBX: 00007f163fd4d760 RCX: 00007f163fc5c9d6
+[  104.749560] RDX: 0000000000000000 RSI: 000000000000003c RDI: 0000000000000000
+[  104.749567] RBP: 0000000000000000 R08: 00000000000000e7 R09: ffffffffffffff80
+[  104.749574] R10: 00007ffe6f3beb24 R11: 0000000000000246 R12: 00007f163fd4d760
+[  104.749581] R13: 0000000000000002 R14: 00007f163fd56428 R15: 0000000000000000
+[  104.749597] ---[ end trace 66f20f73fc0daf79 ]---
 
-Please reply to this report with any comments/corrections. Especially if I missed
-any action items or attendees!
+This is caused by media_device_cleanup() which destroys
+v4l2_dev->mdev->req_queue_mutex. But v4l2_release() tries to lock
+that mutex after media_device_cleanup() is called.
 
+By moving media_device_cleanup() to the v4l2_device's release function it is
+guaranteed that the mutex is valid whenever v4l2_release is called.
 
-Original announcement:
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+diff --git a/drivers/media/platform/vivid/vivid-core.c b/drivers/media/platform/vivid/vivid-core.c
+index dadfc59c92c5..b204c636dba6 100644
+--- a/drivers/media/platform/vivid/vivid-core.c
++++ b/drivers/media/platform/vivid/vivid-core.c
+@@ -648,6 +648,9 @@ static void vivid_dev_release(struct v4l2_device *v4l2_dev)
 
-https://lore.kernel.org/linux-media/2ef17f32-5957-7b52-fea3-19913ec1c7b3@xs4all.nl/T/
+ 	vivid_free_controls(dev);
+ 	v4l2_device_unregister(&dev->v4l2_dev);
++#ifdef CONFIG_MEDIA_CONTROLLER
++	media_device_cleanup(&dev->mdev);
++#endif
+ 	vfree(dev->scaled_line);
+ 	vfree(dev->blended_line);
+ 	vfree(dev->edid);
+@@ -1755,7 +1758,6 @@ static int vivid_remove(struct platform_device *pdev)
 
+ #ifdef CONFIG_MEDIA_CONTROLLER
+ 		media_device_unregister(&dev->mdev);
+-		media_device_cleanup(&dev->mdev);
+ #endif
 
-Attendees:
-
-Michael Ashton <mpa@fb.com> (Facebook/Oculus)
-Boris Brezillon <boris.brezillon@collabora.com>
-Alexandre Courbot <acourbot@chromium.org> (Google, Chrome OS)
-Nicolas Dufresne <nicolas@collabora.com>
-Tomasz Figa <tfiga@chromium.org> (Google, Chrome OS)
-Ezequiel Garcia <ezequiel@collabora.com>
-Daniel Gomez <daniel@qtec.com>
-Peter Griffin <peter.griffin@linaro.org>
-Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Eugen Hristev <eugen.hristev@microchip.com>
-Shuah Khan <skhan@linuxfoundation.org>
-Helen Koike <helen.koike@collabora.com>
-Jacopo Mondi <jacopo@jmondi.org>
-Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Niklas Söderlund <niklas.soderlund@ragnatech.se>
-Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Hans Verkuil <hverkuil@xs4all.nl> (Cisco Systems Norway)
-
-
-V4L2 Future Work
-----------------
-
-This discussion was intentionally not very structured. The goal was
-to see what the main pain points are and how to fix those.
-
-Boris Brezillon made an RFC v3 with proposed new ioctls:
-
-https://patchwork.linuxtv.org/cover/59345/
-
-
-The main blockers for drivers/userspace today with our current
-API are:
-
-- Missing format (DRM) modifier support
-- one dmabuf fd with per-plane offsets (mplane API today requires
-  separate dmabuf fds for each plane)
-- userspace cannot specify offsets of planes
-
-Note that the DRM modifiers are per frame and not per plane.
-Typically the modifiers describe tiled and/or compressed formats.
-Compressed formats are typically lossless HW compression schemes
-(often proprietary) used to reduce memory bandwidth. Compressed
-formats are considered opaque formats by userspace.
-
-EGL has a dma-buf extension that supports modifiers (see
-EXT_image_dma_buf_import_modifiers). Also see Wayland protocol:
-https://gitlab.freedesktop.org/wayland/wayland-protocols/blob/master/unstable/linux-dmabuf/linux-dmabuf-unstable-v1.xml
-
-
-While not strictly a blocker feature, it is desirable to get
-rid of the distinction between the single and multiplane APIs
-and always describe formats as multiplane. The advantage of
-the multiplane API is that bytesperline and sizeimage are
-described per plane, which is much easier to understand, and it
-does not require userspace to calculate bytesperline for the chroma
-planes.
-
-
-The RFCv3 replaces v4l2_format with a new struct, but the consensus
-was that it is much better to create a new ioctl just to replace the
-v4l2_pix_format struct and leave the other structs in the v4l2_format
-union alone. Two reasons: there is no need to change anything for the
-other VBI etc. buffer types, it's only v4l2_pix_format that no longer
-scales; and it is easy to extend a struct v4l2_pix_format_ext in the
-future. You can't really do that if it is in a union.
-
-
-If a new ENUM_FMT_EXT ioctl is created, then let it return all
-pixelformats + modifiers combinations rather than having to enumerate
-over all combinations. This reduces the number of ioctl calls that
-userspace has to do.
-
-To indicate if a format supports supports putting all planes in one
-buffer, or supports putting each plane in a separate buffer, new format
-flags are needed. Userspace needs to know this.
-
-The vb2 core should check if all planes belong to the same buffer or not,
-and validate it based on the driver requirements. I.e. in the case of
-dmabuf import it should check that all dmabuf FDs refer to the same
-memory and that the per-plane offsets are valid.
-
-The current RFCv3 drops the v4l2_timecode field. Nicolas mentioned that
-while this is not used by any mainline drivers (except virtual drivers)
-this is in fact used by out-of-tree drivers. While they don't use the
-same struct, they do return this information since it is used by broadcast
-systems. So this field needs to return.
-
-
-In the past there was a discussion of creating new fourcc codes to
-describe pixelformats for both DRM and V4L2. This didn't work out, but
-it was suggested that we just document the mapping between DRM and V4L2
-pixelformats as a reference to end-users. We can maintain that as part of
-our V4L2 documentation.
-
-
-The suggestion was made to add a channel number to the new format struct
-and to the streaming I/O ioctls to indicate support for streaming
-multiple channels. This would allow the M2M framework to support multiple
-capture and output streams per instance, something that is not possible
-today. One use-case would be support for H.264 Scalable Video Coding.
-Another is support for compositors.
-
-This would need more research, but the new API should prepare for this.
-
-
-A known outstanding issue is syncing buffers between the CPU and the
-device. Drivers that want to update the buffer before returning it
-to userspace do not make the right dmabuf calls. A patch series fixing
-this was never finished. Google offered to pick this up and give it
-another try.
-
-
-The general consensus was that these proposed new ioctls only address
-part of the problems. The complexity of modern camera pipelines creates
-too many video and v4l-subdev devices, making it very hard for userspace
-to control all of this.
-
-Ideally it should be possible to control a camera ISP through a single
-/dev/mediaX only, rather than though a myriad of other devices. This
-is however a huge change, requiring a lot of work. Quite possible a
-completely new API would be required for this. There is real interest
-in solving this problem, which includes assigning resources to work
-on this.
-
-Google will collect some requirements and report on that later this year.
-Based on that we might decide on a three day brainstorm session in
-Brussels before or after FOSDEM (Feb 1-2, 2020).
-
-
-Action Items
-------------
-
-Nicolas Dufresne:
-
-- provide more info about timecode use in userspace for Hans Verkuil
-  to verify if struct v4l2_timecode provides sufficient information.
-
-Tomasz Figa:
-
-- Check if we can drop support for using two memory banks for luma and
-  chroma planes? It's only used by the s5p architecture, and dropping
-  support for that would simplify some of the code. Note that s5p doesn't
-  support dmabuf.
-
-- Continue work on my old patch series dealing with dma_buf_begin/end_cpu_access():
-
-  https://git.linuxtv.org/hverkuil/media_tree.git/log/?h=vb2-cpu-access
-
-  This series converts most drivers to use these dmabuf functions.
-
-  See also this thread: https://patchwork.kernel.org/patch/7159871/
-  As mentioned in my last reply, the outstanding drivers that are not
-  converted are netup_unidvb, coda, exynos4-is, rcar_jpu and au0828:
-  as far as I remember I did not know how to convert coda and exynos4-is
-  and never found the time to figure that out. The others are new and need
-  to be looked at again. There are probably more drivers that need work
-  since my patch series is from September 2015.
-
-- Collect API requirements for a camera ISP API and report on that later
-  this year.
-
-Boris Brezillon:
-
-- Post an RFCv4 that takes more of these issues into accounts. Research
-  multistream support a bit more to see what would be involved adding support
-  for that.
+ 		if (dev->has_vid_cap) {
