@@ -2,124 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 49114ED000
-	for <lists+linux-media@lfdr.de>; Sat,  2 Nov 2019 18:35:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 754E3ED053
+	for <lists+linux-media@lfdr.de>; Sat,  2 Nov 2019 20:03:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726689AbfKBRf4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 2 Nov 2019 13:35:56 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:39249 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726454AbfKBRf4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 2 Nov 2019 13:35:56 -0400
-Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id QxJNiRtRq9P9bQxJSiRqVx; Sat, 02 Nov 2019 18:35:50 +0100
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] vivid: media_device_cleanup was called too early
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Message-ID: <fdf13081-c446-e4ca-2097-d83163df2508@xs4all.nl>
-Date:   Sat, 2 Nov 2019 18:35:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1726685AbfKBTDn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 2 Nov 2019 15:03:43 -0400
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:36822 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726396AbfKBTDn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 2 Nov 2019 15:03:43 -0400
+Received: by mail-lf1-f67.google.com with SMTP id a6so6053396lfo.3;
+        Sat, 02 Nov 2019 12:03:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=OwXkGlWC6FY9JCKWqS9fhbxPEPEvk7bQIiDtUDxVeTs=;
+        b=O1Yz+RC1ehoKp70tqg6wqH1fSa6eyUIOrof1nvCJ9y/LZkPhD/rS8QGJHmkKsXsIhS
+         59gIRb3K95NrVGUpCnoHgV+NlBQCP4VaMwyztFh0Ev+wvBlJTyvchkZI4SNzv3ZdGamp
+         WrwJES+qhnfCUcNctyvDR5C72Yn0SQeL3HnWqK8jK5taGZVUzKogtA04PPt6B7gAQKAZ
+         gIZMjebysofhKV3iF+7PpF/TlQ02exGC8KB11az9G0UQnCzxHZeiKKKWckOUjGcdowEe
+         NMSt5etbqyFAI6ChIraWL5pvIchNZdO1rzTGjlhYdGoRAKYNLjBjIXQPyJkCDzQJ17X+
+         nlXQ==
+X-Gm-Message-State: APjAAAU6Q7etxEC1gZQh/haxWjejOMUOtscZ4+/ZkXRsVof1lMtnKfMY
+        CHxetH1eAc+3WSb/879RIDA=
+X-Google-Smtp-Source: APXvYqxoXDEgxHyApwxHiv/FJz2JyDq5/2hgWj23wncfFQR+APHe6LpBkzVfuWzfxqx8LfwSBsCYhA==
+X-Received: by 2002:a19:41c8:: with SMTP id o191mr11564028lfa.101.1572721421272;
+        Sat, 02 Nov 2019 12:03:41 -0700 (PDT)
+Received: from hackbase.lan ([213.234.229.88])
+        by smtp.gmail.com with ESMTPSA id c3sm3989149lfi.32.2019.11.02.12.03.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 Nov 2019 12:03:40 -0700 (PDT)
+From:   Alexander Popov <alex.popov@linux.com>
+To:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Security Officers <security@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Alexander Popov <alex.popov@linux.com>
+Subject: [PATCH v3 1/1] media: vivid: Fix wrong locking that causes race conditions on streaming stop
+Date:   Sat,  2 Nov 2019 22:03:27 +0300
+Message-Id: <20191102190327.24903-1-alex.popov@linux.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfE9nyrXI5h/UTrxcaNCoR2GLGa14WNS5nZ1GtdeZI+MC4uChCadsPRRxERpvdrZ8AwoiaDMLNDRLYspgFZI0/pBXJjgTSALmZ1vetlHP2WjHKRe2h57f
- sBX2tT2EBTACDOs5pCvjX9/d9b65A8P5/2EMqZjSPoeMIGmqZJ8VDWXKwfnb3SUYzktT5j8dFZ+aow==
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Running the contrib/test/test-media script in v4l-utils with the vivid argument
-will cause this kernel warning:
+There is the same incorrect approach to locking implemented in
+vivid_stop_generating_vid_cap(), vivid_stop_generating_vid_out() and
+sdr_cap_stop_streaming().
 
-[  104.748720] videodev: v4l2_release
-[  104.748731] ------------[ cut here ]------------
-[  104.748750] DEBUG_LOCKS_WARN_ON(lock->magic != lock)
-[  104.748790] WARNING: CPU: 6 PID: 1823 at kernel/locking/mutex.c:938 __mutex_lock+0x919/0xc10
-[  104.748800] Modules linked in: rc_cec vivid v4l2_tpg videobuf2_dma_contig cec rc_core v4l2_dv_timings videobuf2_vmalloc videobuf2_memops
-videobuf2_v4l2 videobuf2_common videodev mc vmw_balloon vmw_vmci button vmwgfx
-[  104.748845] CPU: 6 PID: 1823 Comm: sleep Not tainted 5.4.0-rc1-test-no #150
-[  104.748853] Hardware name: VMware, Inc. VMware Virtual Platform/440BX Desktop Reference Platform, BIOS 6.00 07/29/2019
-[  104.748867] RIP: 0010:__mutex_lock+0x919/0xc10
-[  104.748878] Code: 59 83 e8 9a fc 16 ff 44 8b 05 23 61 38 01 45 85 c0 0f 85 ef f7 ff ff 48 c7 c6 a0 1f 87 82 48 c7 c7 a0 1e 87 82 e8 cd bb
-f7 fe <0f> 0b e9 d5 f7 ff ff f6 c3 04 0f 84 3b fd ff ff 49 89 df 41 83 e7
-[  104.748886] RSP: 0018:ffff88811a357b80 EFLAGS: 00010286
-[  104.748895] RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
-[  104.748902] RDX: 0000000000000003 RSI: 0000000000000004 RDI: ffffed102346af62
-[  104.748910] RBP: ffff88811a357cf0 R08: ffffffff81217c91 R09: fffffbfff061c271
-[  104.748917] R10: fffffbfff061c270 R11: ffffffff830e1383 R12: ffff8881a46103c0
-[  104.748924] R13: 0000000000000000 R14: ffff8881a4614f90 R15: ffff8881a46153d0
-[  104.748933] FS:  0000000000000000(0000) GS:ffff8881b6780000(0000) knlGS:0000000000000000
-[  104.748940] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  104.748949] CR2: 00007f163fc9ca20 CR3: 0000000003013004 CR4: 00000000001606e0
-[  104.749036] Call Trace:
-[  104.749051]  ? _raw_spin_unlock+0x1f/0x30
-[  104.749067]  ? llist_add_batch+0x33/0x50
-[  104.749081]  ? tick_nohz_tick_stopped+0x19/0x30
-[  104.749130]  ? v4l2_release.cold+0x6c/0xd6 [videodev]
-[  104.749143]  ? mutex_lock_io_nested+0xb80/0xb80
-[  104.749153]  ? vprintk_emit+0xf2/0x220
-[  104.749191]  ? vivid_req_validate+0x40/0x40 [vivid]
-[  104.749201]  ? printk+0xad/0xde
-[  104.749211]  ? kmsg_dump_rewind_nolock+0x54/0x54
-[  104.749226]  ? locks_remove_file+0x78/0x2b0
-[  104.749248]  ? __fsnotify_update_child_dentry_flags.part.0+0x170/0x170
-[  104.749281]  ? vivid_req_validate+0x40/0x40 [vivid]
-[  104.749321]  ? v4l2_release.cold+0x6c/0xd6 [videodev]
-[  104.749361]  v4l2_release.cold+0x6c/0xd6 [videodev]
-[  104.749378]  __fput+0x15a/0x390
-[  104.749393]  task_work_run+0xb2/0xe0
-[  104.749407]  do_exit+0x4d0/0x1200
-[  104.749422]  ? do_user_addr_fault+0x367/0x610
-[  104.749431]  ? release_task+0x990/0x990
-[  104.749449]  ? rwsem_spin_on_owner+0x170/0x170
-[  104.749463]  ? vmacache_find+0xb2/0x100
-[  104.749476]  do_group_exit+0x85/0x130
-[  104.749487]  __x64_sys_exit_group+0x23/0x30
-[  104.749500]  do_syscall_64+0x5e/0x1c0
-[  104.749511]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-[  104.749520] RIP: 0033:0x7f163fc5c9d6
-[  104.749536] Code: Bad RIP value.
-[  104.749543] RSP: 002b:00007ffe6f3bec58 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
-[  104.749553] RAX: ffffffffffffffda RBX: 00007f163fd4d760 RCX: 00007f163fc5c9d6
-[  104.749560] RDX: 0000000000000000 RSI: 000000000000003c RDI: 0000000000000000
-[  104.749567] RBP: 0000000000000000 R08: 00000000000000e7 R09: ffffffffffffff80
-[  104.749574] R10: 00007ffe6f3beb24 R11: 0000000000000246 R12: 00007f163fd4d760
-[  104.749581] R13: 0000000000000002 R14: 00007f163fd56428 R15: 0000000000000000
-[  104.749597] ---[ end trace 66f20f73fc0daf79 ]---
+These functions are called during streaming stopping with vivid_dev.mutex
+locked. And they all do the same mistake while stopping their kthreads,
+which need to lock this mutex as well. See the example from
+vivid_stop_generating_vid_cap():
+  /* shutdown control thread */
+  vivid_grab_controls(dev, false);
+  mutex_unlock(&dev->mutex);
+  kthread_stop(dev->kthread_vid_cap);
+  dev->kthread_vid_cap = NULL;
+  mutex_lock(&dev->mutex);
 
-This is caused by media_device_cleanup() which destroys
-v4l2_dev->mdev->req_queue_mutex. But v4l2_release() tries to lock
-that mutex after media_device_cleanup() is called.
+But when this mutex is unlocked, another vb2_fop_read() can lock it
+instead of vivid_thread_vid_cap() and manipulate the buffer queue.
+That causes a use-after-free access later.
 
-By moving media_device_cleanup() to the v4l2_device's release function it is
-guaranteed that the mutex is valid whenever v4l2_release is called.
+To fix those issues let's:
+  1. avoid unlocking the mutex in vivid_stop_generating_vid_cap(),
+vivid_stop_generating_vid_out() and sdr_cap_stop_streaming();
+  2. use mutex_trylock() with schedule_timeout() in the loops
+of the vivid kthread handlers.
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Alexander Popov <alex.popov@linux.com>
+Acked-by: Linus Torvalds <torvalds@linux-foundation.org>
 ---
-diff --git a/drivers/media/platform/vivid/vivid-core.c b/drivers/media/platform/vivid/vivid-core.c
-index dadfc59c92c5..b204c636dba6 100644
---- a/drivers/media/platform/vivid/vivid-core.c
-+++ b/drivers/media/platform/vivid/vivid-core.c
-@@ -648,6 +648,9 @@ static void vivid_dev_release(struct v4l2_device *v4l2_dev)
+ drivers/media/platform/vivid/vivid-kthread-cap.c | 8 +++++---
+ drivers/media/platform/vivid/vivid-kthread-out.c | 8 +++++---
+ drivers/media/platform/vivid/vivid-sdr-cap.c     | 8 +++++---
+ 3 files changed, 15 insertions(+), 9 deletions(-)
 
- 	vivid_free_controls(dev);
- 	v4l2_device_unregister(&dev->v4l2_dev);
-+#ifdef CONFIG_MEDIA_CONTROLLER
-+	media_device_cleanup(&dev->mdev);
-+#endif
- 	vfree(dev->scaled_line);
- 	vfree(dev->blended_line);
- 	vfree(dev->edid);
-@@ -1755,7 +1758,6 @@ static int vivid_remove(struct platform_device *pdev)
+diff --git a/drivers/media/platform/vivid/vivid-kthread-cap.c b/drivers/media/platform/vivid/vivid-kthread-cap.c
+index 003319d7816d..27b9c78d2d05 100644
+--- a/drivers/media/platform/vivid/vivid-kthread-cap.c
++++ b/drivers/media/platform/vivid/vivid-kthread-cap.c
+@@ -796,7 +796,11 @@ static int vivid_thread_vid_cap(void *data)
+ 		if (kthread_should_stop())
+ 			break;
+ 
+-		mutex_lock(&dev->mutex);
++		if (!mutex_trylock(&dev->mutex)) {
++			schedule_timeout(1);
++			continue;
++		}
++
+ 		cur_jiffies = jiffies;
+ 		if (dev->cap_seq_resync) {
+ 			dev->jiffies_vid_cap = cur_jiffies;
+@@ -956,8 +960,6 @@ void vivid_stop_generating_vid_cap(struct vivid_dev *dev, bool *pstreaming)
+ 
+ 	/* shutdown control thread */
+ 	vivid_grab_controls(dev, false);
+-	mutex_unlock(&dev->mutex);
+ 	kthread_stop(dev->kthread_vid_cap);
+ 	dev->kthread_vid_cap = NULL;
+-	mutex_lock(&dev->mutex);
+ }
+diff --git a/drivers/media/platform/vivid/vivid-kthread-out.c b/drivers/media/platform/vivid/vivid-kthread-out.c
+index ce5bcda2348c..a657b0d20e2f 100644
+--- a/drivers/media/platform/vivid/vivid-kthread-out.c
++++ b/drivers/media/platform/vivid/vivid-kthread-out.c
+@@ -143,7 +143,11 @@ static int vivid_thread_vid_out(void *data)
+ 		if (kthread_should_stop())
+ 			break;
+ 
+-		mutex_lock(&dev->mutex);
++		if (!mutex_trylock(&dev->mutex)) {
++			schedule_timeout(1);
++			continue;
++		}
++
+ 		cur_jiffies = jiffies;
+ 		if (dev->out_seq_resync) {
+ 			dev->jiffies_vid_out = cur_jiffies;
+@@ -301,8 +305,6 @@ void vivid_stop_generating_vid_out(struct vivid_dev *dev, bool *pstreaming)
+ 
+ 	/* shutdown control thread */
+ 	vivid_grab_controls(dev, false);
+-	mutex_unlock(&dev->mutex);
+ 	kthread_stop(dev->kthread_vid_out);
+ 	dev->kthread_vid_out = NULL;
+-	mutex_lock(&dev->mutex);
+ }
+diff --git a/drivers/media/platform/vivid/vivid-sdr-cap.c b/drivers/media/platform/vivid/vivid-sdr-cap.c
+index 9acc709b0740..590080716962 100644
+--- a/drivers/media/platform/vivid/vivid-sdr-cap.c
++++ b/drivers/media/platform/vivid/vivid-sdr-cap.c
+@@ -141,7 +141,11 @@ static int vivid_thread_sdr_cap(void *data)
+ 		if (kthread_should_stop())
+ 			break;
+ 
+-		mutex_lock(&dev->mutex);
++		if (!mutex_trylock(&dev->mutex)) {
++			schedule_timeout(1);
++			continue;
++		}
++
+ 		cur_jiffies = jiffies;
+ 		if (dev->sdr_cap_seq_resync) {
+ 			dev->jiffies_sdr_cap = cur_jiffies;
+@@ -303,10 +307,8 @@ static void sdr_cap_stop_streaming(struct vb2_queue *vq)
+ 	}
+ 
+ 	/* shutdown control thread */
+-	mutex_unlock(&dev->mutex);
+ 	kthread_stop(dev->kthread_sdr_cap);
+ 	dev->kthread_sdr_cap = NULL;
+-	mutex_lock(&dev->mutex);
+ }
+ 
+ static void sdr_cap_buf_request_complete(struct vb2_buffer *vb)
+-- 
+2.21.0
 
- #ifdef CONFIG_MEDIA_CONTROLLER
- 		media_device_unregister(&dev->mdev);
--		media_device_cleanup(&dev->mdev);
- #endif
-
- 		if (dev->has_vid_cap) {
