@@ -2,83 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F2784ED31C
-	for <lists+linux-media@lfdr.de>; Sun,  3 Nov 2019 12:24:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 52486ED369
+	for <lists+linux-media@lfdr.de>; Sun,  3 Nov 2019 14:07:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727588AbfKCLYu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 3 Nov 2019 06:24:50 -0500
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:43603 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727554AbfKCLYt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sun, 3 Nov 2019 06:24:49 -0500
-Received: from tschai.fritz.box ([46.9.232.237])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id RDzviydbGTzKrRDzzigkLE; Sun, 03 Nov 2019 12:24:47 +0100
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 8/8] mantis: fix two smatch errors
-Date:   Sun,  3 Nov 2019 12:23:38 +0100
-Message-Id: <20191103112338.22569-9-hverkuil-cisco@xs4all.nl>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191103112338.22569-1-hverkuil-cisco@xs4all.nl>
-References: <20191103112338.22569-1-hverkuil-cisco@xs4all.nl>
+        id S1727551AbfKCNHX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 3 Nov 2019 08:07:23 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:43371 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727377AbfKCNHW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 3 Nov 2019 08:07:22 -0500
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <colin.king@canonical.com>)
+        id 1iRFbE-0000Tq-OM; Sun, 03 Nov 2019 13:07:20 +0000
+From:   Colin King <colin.king@canonical.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: siano: fix spelling mistake "ENBALE" -> "ENABLE"
+Date:   Sun,  3 Nov 2019 13:07:20 +0000
+Message-Id: <20191103130720.22459-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfNNAn3hofzIq14hM2fVcja2yCx3Ix9gAlypF/SDzL7S+scT4oo/G226iEDwO2OgHb1x6yIF1Ox8NT6od6rUkbAc7G/5Ql0B8pO3Z1Io5u88Cs7usu2zZ
- DNZwglDg295YaoMnzl+C4DMXRom4AJb7LTjyw+WQl/F0KDRD4WBW3+9vQkxneaotqEH2qNvwlylKIEL7/q3Od3icsHfSVbLxOCErTT79X/aA9DmbRhiQ10ee
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Drop two dprintk's that relied on a non-NULL mantis pointer
-when it was in fact a NULL pointer.
+From: Colin Ian King <colin.king@canonical.com>
 
-Fixes:
+Macros MSG_SMS_ENBALE_TS_INTERFACE_REQ and MSG_SMS_ENBALE_TS_INTERFACE_RES
+contain a spelling mistake. Fix these by replacing ENBALE with ENABLE.
 
-drivers/media/pci/mantis/mantis_cards.c:73 mantis_irq_handler() error: we previously assumed 'mantis' could be null (see line 72)
-drivers/media/pci/mantis/hopper_cards.c:64 hopper_irq_handler() error: we previously assumed 'mantis' could be null (see line 63)
-
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
 ---
- drivers/media/pci/mantis/hopper_cards.c | 4 +---
- drivers/media/pci/mantis/mantis_cards.c | 4 +---
- 2 files changed, 2 insertions(+), 6 deletions(-)
+ drivers/media/common/siano/smscoreapi.c | 4 ++--
+ drivers/media/common/siano/smscoreapi.h | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/pci/mantis/hopper_cards.c b/drivers/media/pci/mantis/hopper_cards.c
-index 67aebe759232..c0bd5d7e148b 100644
---- a/drivers/media/pci/mantis/hopper_cards.c
-+++ b/drivers/media/pci/mantis/hopper_cards.c
-@@ -60,10 +60,8 @@ static irqreturn_t hopper_irq_handler(int irq, void *dev_id)
- 	struct mantis_ca *ca;
- 
- 	mantis = (struct mantis_pci *) dev_id;
--	if (unlikely(!mantis)) {
--		dprintk(MANTIS_ERROR, 1, "Mantis == NULL");
-+	if (unlikely(!mantis))
- 		return IRQ_NONE;
--	}
- 	ca = mantis->mantis_ca;
- 
- 	stat = mmread(MANTIS_INT_STAT);
-diff --git a/drivers/media/pci/mantis/mantis_cards.c b/drivers/media/pci/mantis/mantis_cards.c
-index deadd0b92233..906e4500d87d 100644
---- a/drivers/media/pci/mantis/mantis_cards.c
-+++ b/drivers/media/pci/mantis/mantis_cards.c
-@@ -69,10 +69,8 @@ static irqreturn_t mantis_irq_handler(int irq, void *dev_id)
- 	struct mantis_ca *ca;
- 
- 	mantis = (struct mantis_pci *) dev_id;
--	if (unlikely(mantis == NULL)) {
--		dprintk(MANTIS_ERROR, 1, "Mantis == NULL");
-+	if (unlikely(!mantis))
- 		return IRQ_NONE;
--	}
- 	ca = mantis->mantis_ca;
- 
- 	stat = mmread(MANTIS_INT_STAT);
+diff --git a/drivers/media/common/siano/smscoreapi.c b/drivers/media/common/siano/smscoreapi.c
+index 0ba51dacc580..c1511094fdc7 100644
+--- a/drivers/media/common/siano/smscoreapi.c
++++ b/drivers/media/common/siano/smscoreapi.c
+@@ -230,8 +230,8 @@ static char *siano_msgs[] = {
+ 	[MSG_SMS_FLASH_DL_REQ                        - MSG_TYPE_BASE_VAL] = "MSG_SMS_FLASH_DL_REQ",
+ 	[MSG_SMS_EXEC_TEST_1_REQ                     - MSG_TYPE_BASE_VAL] = "MSG_SMS_EXEC_TEST_1_REQ",
+ 	[MSG_SMS_EXEC_TEST_1_RES                     - MSG_TYPE_BASE_VAL] = "MSG_SMS_EXEC_TEST_1_RES",
+-	[MSG_SMS_ENBALE_TS_INTERFACE_REQ             - MSG_TYPE_BASE_VAL] = "MSG_SMS_ENBALE_TS_INTERFACE_REQ",
+-	[MSG_SMS_ENBALE_TS_INTERFACE_RES             - MSG_TYPE_BASE_VAL] = "MSG_SMS_ENBALE_TS_INTERFACE_RES",
++	[MSG_SMS_ENABLE_TS_INTERFACE_REQ             - MSG_TYPE_BASE_VAL] = "MSG_SMS_ENABLE_TS_INTERFACE_REQ",
++	[MSG_SMS_ENABLE_TS_INTERFACE_RES             - MSG_TYPE_BASE_VAL] = "MSG_SMS_ENABLE_TS_INTERFACE_RES",
+ 	[MSG_SMS_SPI_SET_BUS_WIDTH_REQ               - MSG_TYPE_BASE_VAL] = "MSG_SMS_SPI_SET_BUS_WIDTH_REQ",
+ 	[MSG_SMS_SPI_SET_BUS_WIDTH_RES               - MSG_TYPE_BASE_VAL] = "MSG_SMS_SPI_SET_BUS_WIDTH_RES",
+ 	[MSG_SMS_SEND_EMM_REQ                        - MSG_TYPE_BASE_VAL] = "MSG_SMS_SEND_EMM_REQ",
+diff --git a/drivers/media/common/siano/smscoreapi.h b/drivers/media/common/siano/smscoreapi.h
+index a2f95f4899c2..b3b793b5caf3 100644
+--- a/drivers/media/common/siano/smscoreapi.h
++++ b/drivers/media/common/siano/smscoreapi.h
+@@ -434,8 +434,8 @@ enum msg_types {
+ 	MSG_SMS_FLASH_DL_REQ = 732,
+ 	MSG_SMS_EXEC_TEST_1_REQ = 734,
+ 	MSG_SMS_EXEC_TEST_1_RES = 735,
+-	MSG_SMS_ENBALE_TS_INTERFACE_REQ = 736,
+-	MSG_SMS_ENBALE_TS_INTERFACE_RES = 737,
++	MSG_SMS_ENABLE_TS_INTERFACE_REQ = 736,
++	MSG_SMS_ENABLE_TS_INTERFACE_RES = 737,
+ 	MSG_SMS_SPI_SET_BUS_WIDTH_REQ = 738,
+ 	MSG_SMS_SPI_SET_BUS_WIDTH_RES = 739,
+ 	MSG_SMS_SEND_EMM_REQ = 740,
 -- 
-2.23.0
+2.20.1
 
