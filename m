@@ -2,106 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 76A61ED41E
-	for <lists+linux-media@lfdr.de>; Sun,  3 Nov 2019 19:15:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B03BED473
+	for <lists+linux-media@lfdr.de>; Sun,  3 Nov 2019 20:53:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727268AbfKCSPw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 3 Nov 2019 13:15:52 -0500
-Received: from mail.kmu-office.ch ([178.209.48.109]:35740 "EHLO
-        mail.kmu-office.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726719AbfKCSPw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 3 Nov 2019 13:15:52 -0500
-Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
-        by mail.kmu-office.ch (Postfix) with ESMTPSA id 9D73D5C2BE3;
-        Sun,  3 Nov 2019 19:15:50 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-        t=1572804950;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=S+/UABCDinadtw63ATNaDHAFZFEIeKGjqQ5seYW2+5Y=;
-        b=rkdAdML4+/Vshtn3Z9jw+7BAgb386KpDQ88j5k2dy+hPwteBW0OzFOKJp53xuYqM+8Prel
-        dQ03nv0vgmnJRv234NbPdwMew6kIHnRCrb7XmpvjoroZb95pi66AdYxJHlfkcs2V8djAgU
-        8r9UFsWDEqOGz8UUKzIGv37FwDQITuA=
+        id S1728141AbfKCTxp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 3 Nov 2019 14:53:45 -0500
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:9104 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727343AbfKCTxo (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 3 Nov 2019 14:53:44 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5dbf30480000>; Sun, 03 Nov 2019 11:53:45 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Sun, 03 Nov 2019 11:53:38 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Sun, 03 Nov 2019 11:53:38 -0800
+Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sun, 3 Nov
+ 2019 19:53:37 +0000
+Subject: Re: [PATCH 19/19] Documentation/vm: add pin_user_pages.rst
+To:     Andrew Morton <akpm@linux-foundation.org>
+CC:     Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
+        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
+        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
+References: <20191030224930.3990755-1-jhubbard@nvidia.com>
+ <20191030224930.3990755-20-jhubbard@nvidia.com>
+X-Nvconfidentiality: public
+From:   John Hubbard <jhubbard@nvidia.com>
+Message-ID: <58d3ef87-85ef-a69d-5cf7-1719ff356048@nvidia.com>
+Date:   Sun, 3 Nov 2019 11:53:37 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20191030224930.3990755-20-jhubbard@nvidia.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Date:   Sun, 03 Nov 2019 19:15:49 +0100
-From:   Stefan Agner <stefan@agner.ch>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Marek Vasut <marex@denx.de>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
-Subject: Re: Overlay support in the i.MX7 display
-In-Reply-To: <20191101084318.GA8428@pendragon.ideasonboard.com>
-References: <20191101084318.GA8428@pendragon.ideasonboard.com>
-Message-ID: <67057f1082886726268f346f49c23051@agner.ch>
-X-Sender: stefan@agner.ch
-User-Agent: Roundcube Webmail/1.3.9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1572810825; bh=rTG1L9aHJoAtL42CYzuRVvyOXz7jlR1h5ExQz/00LXg=;
+        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=hz45cfuI6ZB24IXq0tlVG+4gOOw0rO1aR3a1v+mNE3URSP536c/QI/nw4iVi4Q3Fg
+         ZvhfjRg3c8U4Zeed5IN0S8La0/yhKPqXLcaka8zujsYCnTFzskkYWmX6ZMKm85uc53
+         903Xo+ojBBu648JazllTkreHad3wmqcM3sQfIPNK3XPWIubatS+4uPpiaSake+maws
+         O3mb+7lTk0b/qWmINewSdXIPlnBwUrlkcxoUQTGi1jJWPWnSrL74fzVKeEWjMvAjbH
+         5wXYgJG8qyFZYCSM/zx8jBY5FMvGDHZIQbt9J9oHql6kjp+O+lMMcuF1F8/mAcyFV4
+         Yo4Vz3wx3lQSQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+On 10/30/19 3:49 PM, John Hubbard wrote:
+...
+> +* struct page may not be increased in size for this, and all fields are already
+> +  used.
+> +
+> +* Given the above, we can overload the page->_refcount field by using, sort of,
+> +  the upper bits in that field for a dma-pinned count. "Sort of", means that,
+> +  rather than dividing page->_refcount into bit fields, we simple add a medium-
+> +  large value (GUP_PIN_COUNTING_BIAS, initially chosen to be 1024: 10 bits) to
+> +  page->_refcount. This provides fuzzy behavior: if a page has get_page() called
+> +  on it 1024 times, then it will appear to have a single dma-pinned count.
+> +  And again, that's acceptable.
+> +
+> +This also leads to limitations: there are only 32-10==22 bits available for a
+> +counter that increments 10 bits at a time.
+> +
 
-On 2019-11-01 09:43, Laurent Pinchart wrote:
-> Hello,
-> 
-> I'm looking at the available options to support overlays in the display
-> pipeline of the i.MX7. The LCDIF itself unfortunaltey doesn't support
-> overlays, the feature being implemented in the PXP. A driver for the PXP
-> is available but only supports older SoCs whose PXP doesn't support
-> overlays. This driver is implemented as a V4L2 mem2mem driver, which
-> makes support of additional input channels impossible.
+The above claim is just a "bit" too optimistic, by one bit: page->_refcount, being 
+an atomic_t which uses a signed int (and we use the sign bit to check for overflow),
+only has 31 total bits available for actual counting, not 32.
 
-Thanks for bringing this up, it is a topic I have wondered too:
-Interaction between PXP and mxsfb.
+I'll adjust the documentation in v2, to account for this.
 
-I am not very familiar with the V4L2 subsystem so take my opinions with
-a grain of salt.
+thanks,
 
-> 
-> Here are the options I can envision:
-> 
-> - Extend the existing PXP driver to support multiple channels. This is
->   technically feasible, but will require moving away from the V4L2
->   mem2mem framework, which would break userspace. I don't think this
->   path could lead anywhere.
-> 
-> - Write a new PXP driver for the i.MX7, still using V4L2, but with
->   multiple video nodes. This would allow blending multiple layers, but
->   would require writing the output to memory, while the PXP has support
->   for direct connections to the LCDIF (through small SRAM buffers).
->   Performances would thus be suboptimal. The API would also be awkward,
->   as using the PXP for display would require usage of V4L2 in
->   applications.
+John Hubbard
+NVIDIA
 
-So the video nodes would be sinks? I would expect overlays to be usable
-through KMS, I guess that would then not work, correct?
-
-> 
-> - Extend the mxsfb driver with PXP support, and expose the PXP inputs as
->   KMS planes. The PXP would only be used when available, and would be
->   transparent to applications. This would however prevent using it
->   separately from the display (to perform multi-pass alpha blending for
->   instance).
-
-KMS planes are well defined and are well integrated with the KMS API, so
-I prefer this option. But is this compatible with the currently
-supported video use-case? E.g. could we make PXP available through V4L2
-and through DRM/mxsfb?
-
-Not sure what your use case is exactly, but when playing a video I
-wonder where is the higher value using PXP: Color conversion and scaling
-or compositing...? I would expect higher value in the former use case.
-
-> 
-> What would be the best option going forward ? Would any of you, by any
-> chance, have already started work in this area ?
-
-I have not worked in that area, so feel free!
-
---
-Stefan
