@@ -2,153 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BEF9EEB39
-	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2019 22:34:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A258EEB31
+	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2019 22:34:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729670AbfKDVe2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Nov 2019 16:34:28 -0500
-Received: from mga06.intel.com ([134.134.136.31]:34054 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729636AbfKDVe2 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 4 Nov 2019 16:34:28 -0500
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 04 Nov 2019 13:34:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,268,1569308400"; 
-   d="scan'208";a="195593176"
-Received: from cshanno1-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.252.41.86])
-  by orsmga008.jf.intel.com with ESMTP; 04 Nov 2019 13:34:25 -0800
-Received: by kekkonen.fi.intel.com (Postfix, from userid 1000)
-        id A3F4321FAF; Mon,  4 Nov 2019 23:30:56 +0200 (EET)
-Date:   Mon, 4 Nov 2019 23:30:56 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: Re: [PATCH] media: i2c: IMX296 camera sensor driver
-Message-ID: <20191104213056.GA13879@kekkonen.localdomain>
-References: <20191031132309.10965-1-laurent.pinchart@ideasonboard.com>
- <20191031142522.GK10211@paasikivi.fi.intel.com>
- <20191104133351.GB4913@pendragon.ideasonboard.com>
- <20191104185903.GE4913@pendragon.ideasonboard.com>
+        id S1729661AbfKDVeK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Nov 2019 16:34:10 -0500
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:10442 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728602AbfKDVeK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Nov 2019 16:34:10 -0500
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5dc099520001>; Mon, 04 Nov 2019 13:34:10 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Mon, 04 Nov 2019 13:34:05 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Mon, 04 Nov 2019 13:34:05 -0800
+Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 4 Nov
+ 2019 21:34:05 +0000
+Subject: Re: [PATCH v2 05/18] mm/gup: introduce pin_user_pages*() and FOLL_PIN
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+CC:     Jerome Glisse <jglisse@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
+        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
+        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
+References: <20191103211813.213227-6-jhubbard@nvidia.com>
+ <20191104173325.GD5134@redhat.com>
+ <be9de35c-57e9-75c3-2e86-eae50904bbdf@nvidia.com>
+ <20191104191811.GI5134@redhat.com>
+ <e9656d47-b4a1-da8a-e8cc-ebcfb8cc06d6@nvidia.com>
+ <20191104195248.GA7731@redhat.com>
+ <25ec4bc0-caaa-2a01-2ae7-2d79663a40e1@nvidia.com>
+ <20191104203153.GB7731@redhat.com> <20191104203702.GG30938@ziepe.ca>
+ <d0890a8b-c349-0515-2570-10e83979836b@nvidia.com>
+ <20191104211525.GJ30938@ziepe.ca>
+From:   John Hubbard <jhubbard@nvidia.com>
+X-Nvconfidentiality: public
+Message-ID: <caaaaf52-490b-6ce1-81d8-675013354c73@nvidia.com>
+Date:   Mon, 4 Nov 2019 13:34:04 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191104185903.GE4913@pendragon.ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191104211525.GJ30938@ziepe.ca>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1572903250; bh=vbo/OzrYq7woOdeOQXzDRocZ8qkmDZ2GrWck8Ge0GIw=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=qKL2SABndBuE0IlTwGECBEmaXKNt9+NUVq+WFlqtOQFVTiU7nDI02BQTOx0obKarz
+         gpxOM5Y6JautiKfOu0FtwOKOgDIpCUi5YMn9VF5RbTl9cVhlQsO6c44+kqa1Gmkh8J
+         VEKyKNOG6Vqk5nkQbEsBguPgBI2Ja3iUp52oe4dwNevVkVV3ApvpTePgu21U23nzfu
+         yfLLAmDkD5PCoZMaxqbgr1s6DM7hOxhvmTI1aiChbyJF4tpKtWS0fJG0BnHlBMS2gJ
+         uFSIwTdydwTYYvW23EYrvHjEOYVqNSM3f00rEJ3//HPrJcaJAle1+bmyry6JSVv/h0
+         e3DYAyiBVB40w==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+On 11/4/19 1:15 PM, Jason Gunthorpe wrote:
+...
+>> Right, and I thought about this when converting, and realized that the above 
+>> code is working around the current gup.c limitations, which are "cannot support
+>> gup remote with FOLL_LONGTERM".
+> 
+> But AFAICT it doesn't have a problem, the protection test is just too
+> strict, and I guess the control flow needs a bit of fixing..
+> 
+> The issue is this:
+> 
+> static __always_inline long __get_user_pages_locked():
+> {
+>         if (locked) {
+>                 /* if VM_FAULT_RETRY can be returned, vmas become invalid */
+>                 BUG_ON(vmas);
+>                 /* check caller initialized locked */
+>                 BUG_ON(*locked != 1);
+>         }
+> 
+> 
+> so remote could be written as:
+> 
+> if (gup_flags & FOLL_LONGTERM) {
+>    if (WARN_ON_ONCE(locked))
+>         return -EINVAL;
+>    return __gup_longterm_locked(...)
+> }
+> 
+> return __get_user_pages_locked(...)
+> 
+> ??
 
-On Mon, Nov 04, 2019 at 08:59:03PM +0200, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> On Mon, Nov 04, 2019 at 03:33:51PM +0200, Laurent Pinchart wrote:
-> > On Thu, Oct 31, 2019 at 04:25:22PM +0200, Sakari Ailus wrote:
-> > > On Thu, Oct 31, 2019 at 03:23:09PM +0200, Laurent Pinchart wrote:
-> > > > The IMX296LLR is a monochrome 1.60MP CMOS sensor from Sony. The driver
-> > > > supports cropping and binning (but not both at the same time due to
-> > > > hardware limitations) and exposure, gain, vertical blanking and test
-> > > > pattern controls.
-> > > > 
-> > > > Preliminary support is also included for the color IMX296LQR sensor.
-> > > > 
-> > > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > ---
-> > > > This driver is a parallel implementation of IMX296 support, compatible
-> > > > with the DT bindings submitted by Mani in
-> > > > https://lore.kernel.org/linux-media/20191030094902.32582-1-manivannan.sadhasivam@linaro.org/.
-> > > > 
-> > > >  drivers/media/i2c/Kconfig  |   12 +
-> > > >  drivers/media/i2c/Makefile |    1 +
-> > > >  drivers/media/i2c/imx296.c | 1026 ++++++++++++++++++++++++++++++++++++
-> > > >  3 files changed, 1039 insertions(+)
-> > > >  create mode 100644 drivers/media/i2c/imx296.c
-> 
-> [snip]
-> 
-> > > > diff --git a/drivers/media/i2c/imx296.c b/drivers/media/i2c/imx296.c
-> > > > new file mode 100644
-> > > > index 000000000000..4140637983fd
-> > > > --- /dev/null
-> > > > +++ b/drivers/media/i2c/imx296.c
-> 
-> [snip]
-> 
-> > > > +static int imx296_power_on(struct imx296 *imx)
-> > > > +{
-> > > > +	int ret;
-> > > > +
-> > > > +	ret = regulator_enable(imx->supply);
-> > > > +	if (ret < 0)
-> > > > +		return ret;
-> > > > +
-> > > > +	udelay(1);
-> > > > +
-> > > > +	ret = gpiod_direction_output(imx->reset, 0);
-> > > > +	if (ret < 0)
-> > > > +		goto err_supply;
-> > > > +
-> > > > +	udelay(1);
-> > > > +
-> > > > +	ret = clk_prepare_enable(imx->clk);
-> > > > +	if (ret < 0)
-> > > > +		goto err_reset;
-> > > > +
-> > > > +	/*
-> > > > +	 * The documentation doesn't explicitly say how much time is required
-> > > > +	 * after providing a clock and before starting I2C communication. It
-> > > > +	 * mentions a delay of 20µs in 4-wire mode, but tests showed that a
-> > > > +	 * delay of 100µs resulted in I2C communication failures, while 500µs
-> > > > +	 * seems to be enough. Be conservative.
-> > > > +	 */
-> > > > +	usleep_range(1000, 2000);
-> > > > +
-> > > > +	return 0;
-> > > > +
-> > > > +err_reset:
-> > > > +	gpiod_direction_output(imx->reset, 1);
-> > > > +err_supply:
-> > > > +	regulator_disable(imx->supply);
-> > > > +	return ret;
-> > > 
-> > > Could you switch to runtime PM? It's not hard. See e.g.
-> > > drivers/media/i2c/ov5670.c for an example. Or, for a more complete example,
-> > > the smiapp driver. :-)
-> > 
-> > I'll give it a try.
-> 
-> I was expecting the MC and V4L2 core to deal with PM but they don't seem
-> to. Do I thus understand correctly that switching to runtime PM will
-> cause the full power on sequence to happen at stream on time ? This can
-> lead to a significant delay when starting the stream.
-> 
-> Furthermore, if nothing else than the driver deals with runtime PM,
-> what's the advantage of using the runtime PM API over calling the power
-> on/off at stream on/off time manually ?
+Yes, that loosens it up just enough for the vfio case (which doesn't set 
+"locked") to get through, great! OK, I'll put that (the above plus 
+corresponding vfio fix) in a separate patch first. 
 
-Runtime PM abstracts power management for drivers, so drivers don't need,
-for instance, to know the system firmware type for its own sake. (On DT the
-driver still needs to implement runtime PM callbacks for device resume and
-suspend, for instance.)
+This should clear things up nicely.
 
-But on ACPI you effectively need runtime PM if you want some kind of
-dynamic power management to take place. Runtime PM also takes into account
-managing power for device's parents and other things there are no
-alternatives for.
 
-So there's really little excuse of not supporting runtime PM if the device
-isn't going to be always powered on.
-
+thanks,
 -- 
-Regards,
-
-Sakari Ailus
-sakari.ailus@linux.intel.com
+John Hubbard
+NVIDIA
