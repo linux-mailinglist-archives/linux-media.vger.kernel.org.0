@@ -2,48 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A5F9EE14D
-	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2019 14:34:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AB55AEE174
+	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2019 14:42:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729006AbfKDNeF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Nov 2019 08:34:05 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:53882 "EHLO
+        id S1728783AbfKDNmT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Nov 2019 08:42:19 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:53946 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727430AbfKDNeE (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Nov 2019 08:34:04 -0500
+        with ESMTP id S1728741AbfKDNmT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Nov 2019 08:42:19 -0500
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 76DA852C;
-        Mon,  4 Nov 2019 14:33:59 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CDB76A3B;
+        Mon,  4 Nov 2019 14:42:13 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1572874439;
-        bh=+63EEosXOAj5ky61FE6dkOBhpWRYkINntw3HmduseJg=;
+        s=mail; t=1572874934;
+        bh=wHBirSb1ymVo4LEvTDQVcfnm40OTthLamcb8OoowU6w=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=j/X7+BDh2+smkt2MF2V/YzU8iN7ziIYh9AORG0boL1ku/iJWDoCe1Oy3kQfZK/FhZ
-         mEdjzjc2fWUue+Oc+pF1isszFVOF1aoU2/5GovOJuwiLGyoDJ64Kv7EgD5XfPSh8HG
-         CA9ddsCn4TXd+UK4+3xU68O21Co6fTXCJ89tANL4=
-Date:   Mon, 4 Nov 2019 15:33:51 +0200
+        b=W9/LU6hskyfLeJdaMUS2Q2TLfOyY3NVywo46UcI0/0ZwEsSiP0brziKWKh0VHAZW/
+         BQtcEVQOBnexc0Qa2llTrbY/HouvoszJX5mCutUVLddZaJ8KRJcrkpYBVWGpkIzDLY
+         hrdnE0yKkeikJGmiiaKhZ1DkZ1DRofb6BdNCqOwo=
+Date:   Mon, 4 Nov 2019 15:42:06 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 Cc:     linux-media@vger.kernel.org,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Rob Herring <robh@kernel.org>
 Subject: Re: [PATCH] media: i2c: IMX296 camera sensor driver
-Message-ID: <20191104133351.GB4913@pendragon.ideasonboard.com>
+Message-ID: <20191104134206.GC4913@pendragon.ideasonboard.com>
 References: <20191031132309.10965-1-laurent.pinchart@ideasonboard.com>
- <20191031142522.GK10211@paasikivi.fi.intel.com>
+ <20191101145246.GA13101@Mani-XPS-13-9360>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191031142522.GK10211@paasikivi.fi.intel.com>
+In-Reply-To: <20191101145246.GA13101@Mani-XPS-13-9360>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Hi Mani,
 
-On Thu, Oct 31, 2019 at 04:25:22PM +0200, Sakari Ailus wrote:
+(CC'ing Rob for a DT question at the end)
+
+On Fri, Nov 01, 2019 at 08:22:46PM +0530, Manivannan Sadhasivam wrote:
+> Hi Laurent,
+> 
+> Thanks for the improved version of the driver. I haven't tested it on
+> my setup yet. Once I do, I'll add a Tested-by tag.
+> 
+> I just have few minor commments on top of Sakari's review. Overall it
+> looks good.
+> 
 > On Thu, Oct 31, 2019 at 03:23:09PM +0200, Laurent Pinchart wrote:
 > > The IMX296LLR is a monochrome 1.60MP CMOS sensor from Sony. The driver
 > > supports cropping and binning (but not both at the same time due to
@@ -78,9 +89,6 @@ On Thu, Oct 31, 2019 at 04:25:22PM +0200, Sakari Ailus wrote:
 > > +	depends on MEDIA_CAMERA_SUPPORT
 > > +	select V4L2_FWNODE
 > > +	---help---
-> 
-> s/-//g
-> 
 > > +	  This is a Video4Linux2 sensor driver for the Sony
 > > +	  IMX296 camera.
 > > +
@@ -296,6 +304,14 @@ On Thu, Oct 31, 2019 at 04:25:22PM +0200, Sakari Ailus wrote:
 > > +	struct device *dev;
 > > +	struct clk *clk;
 > > +	struct regulator *supply;
+> 
+> Any plan to use 3 power supplies as discussed in bindings patch?
+
+I'd like to reach a conclusion on that discussion first :-) Do you think
+we should add them right away, or only when needed ? There's no issue
+with backward compatibility, if we start with one power supply only the
+next two would be optional.
+
 > > +	struct gpio_desc *reset;
 > > +	struct regmap *regmap;
 > > +
@@ -330,24 +346,6 @@ On Thu, Oct 31, 2019 at 04:25:22PM +0200, Sakari Ailus wrote:
 > > +		return ret;
 > > +
 > > +	return (data[2] << 16) | (data[1] << 8) | data[0];
-> 
-> Hmm. Don't you need to cast this to a wider type to avoid limiting this to
-> an 8-bit number?
-
-The C99 standard states in section 6.5.7 "Bitwise shift operators"
-
-"The integer promotions are performed on each of the operands. The type
-of the result is that of the promoted left operand."
-
-Section 6.3.1.1 "Boolean, characters, and integers" then states
-
-"If an int can represent all values of the original type, the value is
-converted to an int; otherwise, it is converted to an unsigned int.
-These are called the integer promotions. All other types are unchanged
-by the integer promotions."
-
-No cast is thus needed.
-
 > > +}
 > > +
 > > +static int imx296_write(struct imx296 *imx, u32 addr, u32 value, int *err)
@@ -364,6 +362,11 @@ No cast is thus needed.
 > > +		dev_dbg(imx->dev, "%u-bit write to 0x%04x failed: %d\n",
 > > +			((addr >> IMX296_REG_SIZE_SHIFT) & 0x18) * 8,
 > > +			addr & IMX296_REG_ADDR_MASK, ret);
+> 
+> dev_err would be more suitable here.
+
+I'll fix that.
+
 > > +		if (err)
 > > +			*err = ret;
 > > +	}
@@ -457,6 +460,12 @@ No cast is thus needed.
 > > +{
 > > +	v4l2_ctrl_handler_init(&imx->ctrls, 4);
 > > +
+> 
+> Seems like 5 handlers are defined.
+
+The value is a hint only, but getting the hint right is best, so I'll
+fix it :-)
+
 > > +	v4l2_ctrl_new_std(&imx->ctrls, &imx296_ctrl_ops,
 > > +			  V4L2_CID_EXPOSURE, 1, 1048575, 1, 1104);
 > > +	v4l2_ctrl_new_std(&imx->ctrls, &imx296_ctrl_ops,
@@ -601,19 +610,11 @@ No cast is thus needed.
 > > +		     &ret);
 > > +
 > > +	for (i = 0; i < 4; ++i)
-> 
-> It'd be nice to have e.g. NR_IMX296_INCKSEL or something instead of 4.
-
-How about ARRAY_SIZE(imx->clk_params->incksel) ?
-
 > > +		imx296_write(imx, IMX296_INCKSEL(i),
 > > +			     imx->clk_params->incksel[i], &ret);
 > > +	imx296_write(imx, IMX296_GTTABLENUM, 0xc5, &ret);
 > > +	imx296_write(imx, IMX296_CTRL418C,
 > > +		     imx->clk_params->ctrl418c, &ret);
-> 
-> Fits on a single line.
-> 
 > > +
 > > +	imx296_write(imx, IMX296_GAINDLY, IMX296_GAINDLY_NONE, &ret);
 > > +	imx296_write(imx, IMX296_BLKLEVEL, 0x03c, &ret);
@@ -660,13 +661,6 @@ How about ARRAY_SIZE(imx->clk_params->incksel) ?
 > > +err_supply:
 > > +	regulator_disable(imx->supply);
 > > +	return ret;
-> 
-> Could you switch to runtime PM? It's not hard. See e.g.
-> drivers/media/i2c/ov5670.c for an example. Or, for a more complete example,
-> the smiapp driver. :-)
-
-I'll give it a try.
-
 > > +}
 > > +
 > > +static void imx296_power_off(struct imx296 *imx)
@@ -705,9 +699,6 @@ I'll give it a try.
 > > +done:
 > > +	mutex_unlock(imx->ctrls.lock);
 > > +	return ret;
-> 
-> And then you can remove this function.
-> 
 > > +}
 > > +
 > > +static int imx296_stream_on(struct imx296 *imx)
@@ -912,10 +903,6 @@ I'll give it a try.
 > > +	struct imx296 *imx = to_imx296(sd);
 > > +
 > > +	fmt->format = *imx296_get_pad_format(imx, cfg, fmt->pad, fmt->which);
-> 
-> You need to serialise to the data via the functions accessible through the
-> uAPI using e.g. a mutex.
-> 
 > > +
 > > +	return 0;
 > > +}
@@ -930,12 +917,6 @@ I'll give it a try.
 > > +	sel.which = cfg ? V4L2_SUBDEV_FORMAT_TRY : V4L2_SUBDEV_FORMAT_ACTIVE;
 > > +	sel.r.width = IMX296_PIXEL_ARRAY_WIDTH;
 > > +	sel.r.height = IMX296_PIXEL_ARRAY_HEIGHT;
-> 
-> It'd be nicer to set these in variable declaration. Same below.
-
-It's partly a matter of style, but as this is a new driver and you
-maintain sensor drivers, I'll switch to your preferred style here.
-
 > > +
 > > +	imx296_set_selection(sd, cfg, &sel);
 > > +
@@ -1016,6 +997,14 @@ maintain sensor drivers, I'll switch to your preferred style here.
 > > +	 * The IMX297 seems to share features with the IMX296, it may be
 > > +	 * possible to support it in the same driver.
 > > +	 */
+> 
+> If you are not sure about it, I'd suggest to remove IMX297 compatibility for
+> now.
+
+Given that case 297 returns -ENODEV, I think it's not officially
+supported :-) I'd prefer keeping the comment so that it would show up in
+a git grep.
+
 > > +	case 297:
 > > +	default:
 > > +		dev_err(imx->dev, "invalid device model 0x%04x\n", ret);
@@ -1050,6 +1039,14 @@ maintain sensor drivers, I'll switch to your preferred style here.
 > > +	struct i2c_adapter *adapter = to_i2c_adapter(client->dev.parent);
 > > +	unsigned long clk_rate;
 > > +	struct imx296 *imx;
+> 
+> imx sounds like a generic name since it may imply to some NXP SoC family too,
+> so I'd suggest using imx296.
+
+As Sakari replied this is a private variable, not visible outside of
+functions. I could rename it to sensor if you prefer (but that's a tad
+longer).
+
 > > +	unsigned int i;
 > > +	int ret;
 > > +
@@ -1064,15 +1061,6 @@ maintain sensor drivers, I'll switch to your preferred style here.
 > > +		return -ENOMEM;
 > > +
 > > +	imx->dev = &client->dev;
-> 
-> You can use &v4l2_get_subdevdata(sd)->dev to get the device, so no need for
-> the dev field.
-
-I could, but only after registering the subdev, and thus not in
-imx296_identify_model() for instance. I could pass the device pointer to
-that function, but I'd prefer accessing dev through a single method
-everywhere in the driver to make it less error-prone.
-
 > > +
 > > +	imx->supply = devm_regulator_get(&client->dev, "vddd");
 > > +	if (IS_ERR(imx->supply)) {
@@ -1087,6 +1075,16 @@ everywhere in the driver to make it less error-prone.
 > > +	if (IS_ERR(imx->reset)) {
 > > +		if (PTR_ERR(imx->reset) != -EPROBE_DEFER)
 > > +			dev_err(&client->dev, "failed to get xclr gpio (%ld)\n",
+> 
+> If you want to keep device specific naming for resources, I'd suggest using
+> `xclr` instead of `reset` in DT itself.
+
+For GPIOs I think there's an overall consensus that standard names are
+preferred, while I don't think this applies to clocks. It's a bit of a
+grey area though, so I'm open to change on or the other.
+
+Rob, any preference ?
+
 > > +				PTR_ERR(imx->reset));
 > > +		return PTR_ERR(imx->reset);
 > > +	}
@@ -1173,11 +1171,6 @@ everywhere in the driver to make it less error-prone.
 > > +	{ /* sentinel */ },
 > > +};
 > > +MODULE_DEVICE_TABLE(i2c, imx296_i2c_id);
-> 
-> Do you really need tie I²C ID table? If not, please switch to probe_new().
-
-Probably not. I'll switch.
-
 > > +
 > > +static struct i2c_driver imx296_i2c_driver = {
 > > +	.driver = {
