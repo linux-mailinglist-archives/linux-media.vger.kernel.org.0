@@ -2,96 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FA0DEEABF
-	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2019 22:09:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 691B4EEADC
+	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2019 22:15:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729137AbfKDVJL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Nov 2019 16:09:11 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52746 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728409AbfKDVJL (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 4 Nov 2019 16:09:11 -0500
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5B7BB20659
-        for <linux-media@vger.kernel.org>; Mon,  4 Nov 2019 21:09:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1572901750;
-        bh=tlRm/+9Qves2FEW2noYzb+NDpU4EfJZEYFfKipY6Cz8=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=uDrqZAq8HuR/5IEl01F9Iv/R7FdxKRfJzHLf75lzfNjeLp/T/TIU91EN2+evz0Kt/
-         GNCPQzEQvb4QWXlHE1Ktwg7kKqExOquyhkO3Gz3nBKPG+E3lQo1g9vj/NFeqf1NoIB
-         YNsuESsAnZ1EUBLF3gTvT3Dbh2VcsiqSZSym7AJw=
-Received: by mail-qt1-f175.google.com with SMTP id u22so26099170qtq.13
-        for <linux-media@vger.kernel.org>; Mon, 04 Nov 2019 13:09:10 -0800 (PST)
-X-Gm-Message-State: APjAAAUn3/TNACBxGECS5ck4JSEMyblgSEVcrDSRn/Gw0GlqfHVIftVx
-        w3BlVkpaZvXXJJnxHl77y2zdu7p2FSvy3s8YaA==
-X-Google-Smtp-Source: APXvYqz1YaNFTlIiSVckaskbkTdqJI0+BJXJEnsj0HmkOcoVQ9ZDsYtvJc48DLsTbT3agSjjip2tElNqlgWPdKigYMY=
-X-Received: by 2002:ac8:48c5:: with SMTP id l5mr14517081qtr.110.1572901749580;
- Mon, 04 Nov 2019 13:09:09 -0800 (PST)
+        id S1729651AbfKDVP2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Nov 2019 16:15:28 -0500
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:43000 "EHLO
+        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729654AbfKDVP1 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Nov 2019 16:15:27 -0500
+Received: by mail-qt1-f193.google.com with SMTP id t20so10510919qtn.9
+        for <linux-media@vger.kernel.org>; Mon, 04 Nov 2019 13:15:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=pyXNiCRfNtBczIIqZ12Au+Ud6Z68623cr8kr//yYcys=;
+        b=cdIurt3FoLPTZlK0pRWkw6/vK5VskqT2SbrzmEIJH+tJ6Ws9V4Lsgf9USo2+e2ozUc
+         YRC+b39mpReZt55//saai5UbNMBA3eXwOqYLQtfunIkTwkfTlIfn1eXp2VeIe1/orkPr
+         PDVNDgKxGvEW8/cTzBHwWhOs6aaLwvdAp8wwJznhpYiyIH9szefozZKp8Gp400JqPNGU
+         fTr/7Xjau32owsZ9g3acr0XI1ZTN6RVvcZ58S7ZMFunV92cxFdu7JBWTybRQM5KPfcgD
+         VnxEWZzKOSsxfKO36w3EM6M1OhrZPi8fZFAK54K+pX7TtJSCqY3tKZTOVsHNgsvdV+dl
+         4NyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=pyXNiCRfNtBczIIqZ12Au+Ud6Z68623cr8kr//yYcys=;
+        b=p+sy3RLrguO/iAy0loO8Fk7G+6uPFXU4ejMf1bB5olUZDoKfY+fD75GgIs8DzV7jTD
+         VY0CvJqtRn6aNqxqy/1yq7J+sfrYqYJCbPxo5bzisBo99ZFY0cFLJBXq+DmSUlncqGW4
+         1535tqOORffQgNgJ9g4GqD0J/QptQjEw4YEnyquJVJMLT+hu4EeTJgZvkxEqMHBXw3Lw
+         7AmyyKYRKarrZH6NUjRdRhj2ElKuVxLIbaSgL6TVuT19MVz8vPHeJVRYVdTcSP0D3Xmz
+         qjdlNT/69CcsnOLD9jHheDGqbEnvClpTpzC8G38gr/YEuwbHoOPXplOpr1+j/qpcQfNU
+         66KA==
+X-Gm-Message-State: APjAAAU2kYQA7Ar8eEbqkdhcsXLADAf01LoFGSHOqepdFJKD5spe4oAJ
+        v1arn6LADlQ8G9PhxHEMXKJo6w==
+X-Google-Smtp-Source: APXvYqzMR4jCE1PYixsxB/Gjs6m+eeNvSRexU+WyF4DsIRWaOdmeothP674vqn/aB1paP5wRwlCCGw==
+X-Received: by 2002:ac8:3a21:: with SMTP id w30mr14733201qte.299.1572902126035;
+        Mon, 04 Nov 2019 13:15:26 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-162-113-180.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.180])
+        by smtp.gmail.com with ESMTPSA id q1sm6459892qti.46.2019.11.04.13.15.25
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 04 Nov 2019 13:15:25 -0800 (PST)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1iRjh7-0000mG-3H; Mon, 04 Nov 2019 17:15:25 -0400
+Date:   Mon, 4 Nov 2019 17:15:25 -0400
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Jerome Glisse <jglisse@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
+        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 05/18] mm/gup: introduce pin_user_pages*() and FOLL_PIN
+Message-ID: <20191104211525.GJ30938@ziepe.ca>
+References: <20191103211813.213227-6-jhubbard@nvidia.com>
+ <20191104173325.GD5134@redhat.com>
+ <be9de35c-57e9-75c3-2e86-eae50904bbdf@nvidia.com>
+ <20191104191811.GI5134@redhat.com>
+ <e9656d47-b4a1-da8a-e8cc-ebcfb8cc06d6@nvidia.com>
+ <20191104195248.GA7731@redhat.com>
+ <25ec4bc0-caaa-2a01-2ae7-2d79663a40e1@nvidia.com>
+ <20191104203153.GB7731@redhat.com>
+ <20191104203702.GG30938@ziepe.ca>
+ <d0890a8b-c349-0515-2570-10e83979836b@nvidia.com>
 MIME-Version: 1.0
-References: <20191031132309.10965-1-laurent.pinchart@ideasonboard.com>
- <20191101145246.GA13101@Mani-XPS-13-9360> <20191104134206.GC4913@pendragon.ideasonboard.com>
-In-Reply-To: <20191104134206.GC4913@pendragon.ideasonboard.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Mon, 4 Nov 2019 15:08:57 -0600
-X-Gmail-Original-Message-ID: <CAL_Jsq+R-ndA5s93uXam1F8Bjm=SPV6z1BQvdMGzfHkyYPd2Hw@mail.gmail.com>
-Message-ID: <CAL_Jsq+R-ndA5s93uXam1F8Bjm=SPV6z1BQvdMGzfHkyYPd2Hw@mail.gmail.com>
-Subject: Re: [PATCH] media: i2c: IMX296 camera sensor driver
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d0890a8b-c349-0515-2570-10e83979836b@nvidia.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Nov 4, 2019 at 7:42 AM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Mani,
->
-> (CC'ing Rob for a DT question at the end)
->
-> On Fri, Nov 01, 2019 at 08:22:46PM +0530, Manivannan Sadhasivam wrote:
-> > Hi Laurent,
-> >
-> > Thanks for the improved version of the driver. I haven't tested it on
-> > my setup yet. Once I do, I'll add a Tested-by tag.
-> >
-> > I just have few minor commments on top of Sakari's review. Overall it
-> > looks good.
-> >
-> > On Thu, Oct 31, 2019 at 03:23:09PM +0200, Laurent Pinchart wrote:
-> > > The IMX296LLR is a monochrome 1.60MP CMOS sensor from Sony. The driver
-> > > supports cropping and binning (but not both at the same time due to
-> > > hardware limitations) and exposure, gain, vertical blanking and test
-> > > pattern controls.
-> > >
-> > > Preliminary support is also included for the color IMX296LQR sensor.
-> > >
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > ---
+On Mon, Nov 04, 2019 at 12:57:59PM -0800, John Hubbard wrote:
+> On 11/4/19 12:37 PM, Jason Gunthorpe wrote:
+> > On Mon, Nov 04, 2019 at 03:31:53PM -0500, Jerome Glisse wrote:
+> >>> Note for Jason: the (a) or (b) items are talking about the vfio case, which is
+> >>> one of the two call sites that now use pin_longterm_pages_remote(), and the
+> >>> other one is infiniband:
+> >>>
+> >>> drivers/infiniband/core/umem_odp.c:646:         npages = pin_longterm_pages_remote(owning_process, owning_mm,
+> >>> drivers/vfio/vfio_iommu_type1.c:353:            ret = pin_longterm_pages_remote(NULL, mm, vaddr, 1,
+> >>
+> >> vfio should be reverted until it can be properly implemented.
+> >> The issue is that when you fix the implementation you might
+> >> break vfio existing user and thus regress the kernel from user
+> >> point of view. So i rather have the change to vfio reverted,
+> >> i believe it was not well understood when it got upstream,
+> >> between in my 5.4 tree it is still gup_remote not longterm.
+> > 
+> > It is clearly a bug, vfio must use LONGTERM, and does right above this
+> > remote call:
+> > 
+> >         if (mm == current->mm) {
+> >                 ret = get_user_pages(vaddr, 1, flags | FOLL_LONGTERM, page,
+> >                                      vmas);
+> >         } else {
+> >                 ret = get_user_pages_remote(NULL, mm, vaddr, 1, flags, page,
+> >                                             vmas, NULL);
+> > 
+> > 
+> > I'm not even sure that it really makes any sense to build a 'if' like
+> > that, surely just always call remote??
+> > 
+> 
+> 
+> Right, and I thought about this when converting, and realized that the above 
+> code is working around the current gup.c limitations, which are "cannot support
+> gup remote with FOLL_LONGTERM".
 
-> > > +   imx->reset = devm_gpiod_get_optional(&client->dev, "reset",
-> > > +                                        GPIOD_OUT_HIGH);
-> > > +   if (IS_ERR(imx->reset)) {
-> > > +           if (PTR_ERR(imx->reset) != -EPROBE_DEFER)
-> > > +                   dev_err(&client->dev, "failed to get xclr gpio (%ld)\n",
-> >
-> > If you want to keep device specific naming for resources, I'd suggest using
-> > `xclr` instead of `reset` in DT itself.
->
-> For GPIOs I think there's an overall consensus that standard names are
-> preferred, while I don't think this applies to clocks. It's a bit of a
-> grey area though, so I'm open to change on or the other.
->
-> Rob, any preference ?
+But AFAICT it doesn't have a problem, the protection test is just too
+strict, and I guess the control flow needs a bit of fixing..
 
-If in fact that's a reset, then yes, use 'reset-gpios'. 'xclr' is an
-unusual name though.
+The issue is this:
 
-Rob
+static __always_inline long __get_user_pages_locked():
+{
+        if (locked) {
+                /* if VM_FAULT_RETRY can be returned, vmas become invalid */
+                BUG_ON(vmas);
+                /* check caller initialized locked */
+                BUG_ON(*locked != 1);
+        }
+
+
+so remote could be written as:
+
+if (gup_flags & FOLL_LONGTERM) {
+   if (WARN_ON_ONCE(locked))
+        return -EINVAL;
+   return __gup_longterm_locked(...)
+}
+
+return __get_user_pages_locked(...)
+
+??
+
+Jason
