@@ -2,1193 +2,419 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AB55AEE174
-	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2019 14:42:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 00F6FEE2ED
+	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2019 15:56:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728783AbfKDNmT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Nov 2019 08:42:19 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:53946 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728741AbfKDNmT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Nov 2019 08:42:19 -0500
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CDB76A3B;
-        Mon,  4 Nov 2019 14:42:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1572874934;
-        bh=wHBirSb1ymVo4LEvTDQVcfnm40OTthLamcb8OoowU6w=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=W9/LU6hskyfLeJdaMUS2Q2TLfOyY3NVywo46UcI0/0ZwEsSiP0brziKWKh0VHAZW/
-         BQtcEVQOBnexc0Qa2llTrbY/HouvoszJX5mCutUVLddZaJ8KRJcrkpYBVWGpkIzDLY
-         hrdnE0yKkeikJGmiiaKhZ1DkZ1DRofb6BdNCqOwo=
-Date:   Mon, 4 Nov 2019 15:42:06 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc:     linux-media@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH] media: i2c: IMX296 camera sensor driver
-Message-ID: <20191104134206.GC4913@pendragon.ideasonboard.com>
-References: <20191031132309.10965-1-laurent.pinchart@ideasonboard.com>
- <20191101145246.GA13101@Mani-XPS-13-9360>
+        id S1728392AbfKDO4R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Nov 2019 09:56:17 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:35662 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727998AbfKDO4Q (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Nov 2019 09:56:16 -0500
+Received: from localhost.localdomain (unknown [IPv6:2a02:810a:113f:a4c8::376f])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 3634328E8D9;
+        Mon,  4 Nov 2019 14:56:13 +0000 (GMT)
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     dafna.hirschfeld@collabora.com, helen.koike@collabora.com,
+        andre.almeida@collabora.com, skhan@linuxfoundation.org,
+        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com
+Subject: [PATCH] media: vimc: crash fix - add refcount to vimc entities
+Date:   Mon,  4 Nov 2019 15:55:58 +0100
+Message-Id: <20191104145558.19750-1-dafna.hirschfeld@collabora.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20191101145246.GA13101@Mani-XPS-13-9360>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mani,
+Add a kref field to the struct vimc_ent_device
+and initialize it upon creation.
+The kref is incremented before streaming
+and is decremented when stopping the streaming and
+when calling the release callback of the
+v4l2 subdevice.
+This fixes a crash that somtimes happens when
+unbinding the device while streaming.
+In this fix the vimc entities will be released
+only after streaming is over.
 
-(CC'ing Rob for a DT question at the end)
+The commands that cause the crash:
 
-On Fri, Nov 01, 2019 at 08:22:46PM +0530, Manivannan Sadhasivam wrote:
-> Hi Laurent,
-> 
-> Thanks for the improved version of the driver. I haven't tested it on
-> my setup yet. Once I do, I'll add a Tested-by tag.
-> 
-> I just have few minor commments on top of Sakari's review. Overall it
-> looks good.
-> 
-> On Thu, Oct 31, 2019 at 03:23:09PM +0200, Laurent Pinchart wrote:
-> > The IMX296LLR is a monochrome 1.60MP CMOS sensor from Sony. The driver
-> > supports cropping and binning (but not both at the same time due to
-> > hardware limitations) and exposure, gain, vertical blanking and test
-> > pattern controls.
-> > 
-> > Preliminary support is also included for the color IMX296LQR sensor.
-> > 
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> > This driver is a parallel implementation of IMX296 support, compatible
-> > with the DT bindings submitted by Mani in
-> > https://lore.kernel.org/linux-media/20191030094902.32582-1-manivannan.sadhasivam@linaro.org/.
-> > 
-> >  drivers/media/i2c/Kconfig  |   12 +
-> >  drivers/media/i2c/Makefile |    1 +
-> >  drivers/media/i2c/imx296.c | 1026 ++++++++++++++++++++++++++++++++++++
-> >  3 files changed, 1039 insertions(+)
-> >  create mode 100644 drivers/media/i2c/imx296.c
-> > 
-> > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> > index 79ce9ec6fc1b..0a2a3f145cdf 100644
-> > --- a/drivers/media/i2c/Kconfig
-> > +++ b/drivers/media/i2c/Kconfig
-> > @@ -595,6 +595,18 @@ config VIDEO_IMX274
-> >  	  This is a V4L2 sensor driver for the Sony IMX274
-> >  	  CMOS image sensor.
-> >  
-> > +config VIDEO_IMX296
-> > +	tristate "Sony IMX296 sensor support"
-> > +	depends on I2C && VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API
-> > +	depends on MEDIA_CAMERA_SUPPORT
-> > +	select V4L2_FWNODE
-> > +	---help---
-> > +	  This is a Video4Linux2 sensor driver for the Sony
-> > +	  IMX296 camera.
-> > +
-> > +	  To compile this driver as a module, choose M here: the
-> > +	  module will be called imx296.
-> > +
-> >  config VIDEO_IMX319
-> >  	tristate "Sony IMX319 sensor support"
-> >  	depends on I2C && VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API
-> > diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-> > index fd4ea86dedd5..9489ee36aa52 100644
-> > --- a/drivers/media/i2c/Makefile
-> > +++ b/drivers/media/i2c/Makefile
-> > @@ -111,6 +111,7 @@ obj-$(CONFIG_VIDEO_TC358743)	+= tc358743.o
-> >  obj-$(CONFIG_VIDEO_IMX214)	+= imx214.o
-> >  obj-$(CONFIG_VIDEO_IMX258)	+= imx258.o
-> >  obj-$(CONFIG_VIDEO_IMX274)	+= imx274.o
-> > +obj-$(CONFIG_VIDEO_IMX296)	+= imx296.o
-> >  obj-$(CONFIG_VIDEO_IMX319)	+= imx319.o
-> >  obj-$(CONFIG_VIDEO_IMX355)	+= imx355.o
-> >  obj-$(CONFIG_VIDEO_ST_MIPID02) += st-mipid02.o
-> > diff --git a/drivers/media/i2c/imx296.c b/drivers/media/i2c/imx296.c
-> > new file mode 100644
-> > index 000000000000..4140637983fd
-> > --- /dev/null
-> > +++ b/drivers/media/i2c/imx296.c
-> > @@ -0,0 +1,1026 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * Driver for IMX296 CMOS Image Sensor from Sony
-> > + *
-> > + * Copyright 2019 Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > + */
-> > +
-> > +#include <linux/clk.h>
-> > +#include <linux/gpio/consumer.h>
-> > +#include <linux/i2c.h>
-> > +#include <linux/module.h>
-> > +#include <linux/mutex.h>
-> > +#include <linux/regmap.h>
-> > +#include <linux/regulator/consumer.h>
-> > +#include <linux/slab.h>
-> > +#include <linux/videodev2.h>
-> > +
-> > +#include <media/v4l2-ctrls.h>
-> > +#include <media/v4l2-fwnode.h>
-> > +#include <media/v4l2-subdev.h>
-> > +
-> > +#define IMX296_PIXEL_ARRAY_WIDTH			1456
-> > +#define IMX296_PIXEL_ARRAY_HEIGHT			1088
-> > +
-> > +#define IMX296_REG_8BIT(n)				((1 << 16) | (n))
-> > +#define IMX296_REG_16BIT(n)				((2 << 16) | (n))
-> > +#define IMX296_REG_24BIT(n)				((3 << 16) | (n))
-> > +#define IMX296_REG_SIZE_SHIFT				16
-> > +#define IMX296_REG_ADDR_MASK				0xffff
-> > +
-> > +#define IMX296_CTRL00					IMX296_REG_8BIT(0x3000)
-> > +#define IMX296_CTRL00_STANDBY				BIT(0)
-> > +#define IMX296_CTRL08					IMX296_REG_8BIT(0x3008)
-> > +#define IMX296_CTRL08_REGHOLD				BIT(0)
-> > +#define IMX296_CTRL0A					IMX296_REG_8BIT(0x300a)
-> > +#define IMX296_CTRL0A_XMSTA				BIT(0)
-> > +#define IMX296_CTRL0B					IMX296_REG_8BIT(0x300b)
-> > +#define IMX296_CTRL0B_TRIGEN				BIT(0)
-> > +#define IMX296_CTRL0D					IMX296_REG_8BIT(0x300d)
-> > +#define IMX296_CTRL0D_WINMODE_ALL			(0 << 0)
-> > +#define IMX296_CTRL0D_WINMODE_FD_BINNING		(2 << 0)
-> > +#define IMX296_CTRL0D_HADD_ON_BINNING			BIT(5)
-> > +#define IMX296_CTRL0D_SAT_CNT				BIT(6)
-> > +#define IMX296_CTRL0E					IMX296_REG_8BIT(0x300e)
-> > +#define IMX296_CTRL0E_VREVERSE				BIT(0)
-> > +#define IMX296_CTRL0E_HREVERSE				BIT(1)
-> > +#define IMX296_VMAX					IMX296_REG_24BIT(0x3010)
-> > +#define IMX296_HMAX					IMX296_REG_16BIT(0x3014)
-> > +#define IMX296_TMDCTRL					IMX296_REG_8BIT(0x301d)
-> > +#define IMX296_TMDCTRL_LATCH				BIT(0)
-> > +#define IMX296_TMDOUT					IMX296_REG_16BIT(0x301e)
-> > +#define IMX296_TMDOUT_MASK				0x3ff
-> > +#define IMX296_WDSEL					IMX296_REG_8BIT(0x3021)
-> > +#define IMX296_WDSEL_NORMAL				(0 << 0)
-> > +#define IMX296_WDSEL_MULTI_2				(1 << 0)
-> > +#define IMX296_WDSEL_MULTI_4				(3 << 0)
-> > +#define IMX296_BLKLEVELAUTO				IMX296_REG_8BIT(0x3022)
-> > +#define IMX296_BLKLEVELAUTO_ON				0x01
-> > +#define IMX296_BLKLEVELAUTO_OFF				0xf0
-> > +#define IMX296_SST					IMX296_REG_8BIT(0x3024)
-> > +#define IMX296_SST_EN					BIT(0)
-> > +#define IMX296_CTRLTOUT					IMX296_REG_8BIT(0x3026)
-> > +#define IMX296_CTRLTOUT_TOUT1SEL_LOW			(0 << 0)
-> > +#define IMX296_CTRLTOUT_TOUT1SEL_PULSE			(3 << 0)
-> > +#define IMX296_CTRLTOUT_TOUT2SEL_LOW			(0 << 2)
-> > +#define IMX296_CTRLTOUT_TOUT2SEL_PULSE			(3 << 2)
-> > +#define IMX296_CTRLTRIG					IMX296_REG_8BIT(0x3029)
-> > +#define IMX296_CTRLTRIG_TOUT1_SEL_LOW			(0 << 0)
-> > +#define IMX296_CTRLTRIG_TOUT1_SEL_PULSE1		(1 << 0)
-> > +#define IMX296_CTRLTRIG_TOUT2_SEL_LOW			(0 << 4)
-> > +#define IMX296_CTRLTRIG_TOUT2_SEL_PULSE2		(2 << 4)
-> > +#define IMX296_SYNCSEL					IMX296_REG_8BIT(0x3036)
-> > +#define IMX296_SYNCSEL_NORMAL				0xc0
-> > +#define IMX296_SYNCSEL_HIZ				0xf0
-> > +#define IMX296_PULSE1					IMX296_REG_8BIT(0x306d)
-> > +#define IMX296_PULSE1_EN_NOR				BIT(0)
-> > +#define IMX296_PULSE1_EN_TRIG				BIT(1)
-> > +#define IMX296_PULSE1_POL_HIGH				(0 << 2)
-> > +#define IMX296_PULSE1_POL_LOW				(1 << 2)
-> > +#define IMX296_PULSE1_UP				IMX296_REG_24BIT(0x3070)
-> > +#define IMX296_PULSE1_DN				IMX296_REG_24BIT(0x3074)
-> > +#define IMX296_PULSE2					IMX296_REG_8BIT(0x3079)
-> > +#define IMX296_PULSE2_EN_NOR				BIT(0)
-> > +#define IMX296_PULSE2_EN_TRIG				BIT(1)
-> > +#define IMX296_PULSE2_POL_HIGH				(0 << 2)
-> > +#define IMX296_PULSE2_POL_LOW				(1 << 2)
-> > +#define IMX296_PULSE2_UP				IMX296_REG_24BIT(0x307c)
-> > +#define IMX296_PULSE2_DN				IMX296_REG_24BIT(0x3080)
-> > +#define IMX296_INCKSEL(n)				IMX296_REG_8BIT(0x3089 + (n))
-> > +#define IMX296_SHS1					IMX296_REG_24BIT(0x308d)
-> > +#define IMX296_SHS2					IMX296_REG_24BIT(0x3090)
-> > +#define IMX296_SHS3					IMX296_REG_24BIT(0x3094)
-> > +#define IMX296_SHS4					IMX296_REG_24BIT(0x3098)
-> > +#define IMX296_VBLANKLP					IMX296_REG_8BIT(0x309c)
-> > +#define IMX296_VBLANKLP_NORMAL				0x04
-> > +#define IMX296_VBLANKLP_LOW_POWER			0x2c
-> > +#define IMX296_EXP_CNT					IMX296_REG_8BIT(0x30a3)
-> > +#define IMX296_EXP_CNT_RESET				BIT(0)
-> > +#define IMX296_EXP_MAX					IMX296_REG_16BIT(0x30a6)
-> > +#define IMX296_VINT					IMX296_REG_8BIT(0x30aa)
-> > +#define IMX296_VINT_EN					BIT(0)
-> > +#define IMX296_LOWLAGTRG				IMX296_REG_8BIT(0x30ae)
-> > +#define IMX296_LOWLAGTRG_FAST				BIT(0)
-> > +#define IMX296_I2CCTRL					IMX296_REG_8BIT(0x30ef)
-> > +#define IMX296_I2CCTRL_I2CACKEN				BIT(0)
-> > +
-> > +#define IMX296_SENSOR_INFO				IMX296_REG_16BIT(0x3148)
-> > +#define IMX296_SENSOR_INFO_MONO				BIT(15)
-> > +#define IMX296_S_SHSA					IMX296_REG_16BIT(0x31ca)
-> > +#define IMX296_S_SHSB					IMX296_REG_16BIT(0x31d2)
-> > +/*
-> > + * Registers 0x31c8 to 0x31cd, 0x31d0 to 0x31d5, 0x31e2, 0x31e3, 0x31ea and
-> > + * 0x31eb are related to exposure mode but otherwise not documented.
-> > + */
-> > +
-> > +#define IMX296_GAINCTRL					IMX296_REG_8BIT(0x3200)
-> > +#define IMX296_GAINCTRL_WD_GAIN_MODE_NORMAL		0x01
-> > +#define IMX296_GAINCTRL_WD_GAIN_MODE_MULTI		0x41
-> > +#define IMX296_GAIN					IMX296_REG_16BIT(0x3204)
-> > +#define IMX296_GAIN_MIN					0
-> > +#define IMX296_GAIN_MAX					480
-> > +#define IMX296_GAIN1					IMX296_REG_16BIT(0x3208)
-> > +#define IMX296_GAIN2					IMX296_REG_16BIT(0x320c)
-> > +#define IMX296_GAIN3					IMX296_REG_16BIT(0x3210)
-> > +#define IMX296_GAINDLY					IMX296_REG_8BIT(0x3212)
-> > +#define IMX296_GAINDLY_NONE				0x08
-> > +#define IMX296_GAINDLY_1FRAME				0x09
-> > +#define IMX296_PGCTRL					IMX296_REG_8BIT(0x3238)
-> > +#define IMX296_PGCTRL_REGEN				BIT(0)
-> > +#define IMX296_PGCTRL_THRU				BIT(1)
-> > +#define IMX296_PGCTRL_CLKEN				BIT(2)
-> > +#define IMX296_PGCTRL_MODE(n)				((n) << 3)
-> > +#define IMX296_PGHPOS					IMX296_REG_16BIT(0x3239)
-> > +#define IMX296_PGVPOS					IMX296_REG_16BIT(0x323c)
-> > +#define IMX296_PGHPSTEP					IMX296_REG_8BIT(0x323e)
-> > +#define IMX296_PGVPSTEP					IMX296_REG_8BIT(0x323f)
-> > +#define IMX296_PGHPNUM					IMX296_REG_8BIT(0x3240)
-> > +#define IMX296_PGVPNUM					IMX296_REG_8BIT(0x3241)
-> > +#define IMX296_PGDATA1					IMX296_REG_16BIT(0x3244)
-> > +#define IMX296_PGDATA2					IMX296_REG_16BIT(0x3246)
-> > +#define IMX296_PGHGSTEP					IMX296_REG_8BIT(0x3249)
-> > +#define IMX296_BLKLEVEL					IMX296_REG_16BIT(0x3254)
-> > +
-> > +#define IMX296_FID0_ROI					IMX296_REG_8BIT(0x3300)
-> > +#define IMX296_FID0_ROIH1ON				BIT(0)
-> > +#define IMX296_FID0_ROIV1ON				BIT(1)
-> > +#define IMX296_FID0_ROIPH1				IMX296_REG_16BIT(0x3310)
-> > +#define IMX296_FID0_ROIPV1				IMX296_REG_16BIT(0x3312)
-> > +#define IMX296_FID0_ROIWH1				IMX296_REG_16BIT(0x3314)
-> > +#define IMX296_FID0_ROIWH1_MIN				80
-> > +#define IMX296_FID0_ROIWV1				IMX296_REG_16BIT(0x3316)
-> > +#define IMX296_FID0_ROIWV1_MIN				4
-> > +
-> > +#define IMX296_CM_HSST_STARTTMG				IMX296_REG_16BIT(0x4018)
-> > +#define IMX296_CM_HSST_ENDTMG				IMX296_REG_16BIT(0x401a)
-> > +#define IMX296_DA_HSST_STARTTMG				IMX296_REG_16BIT(0x404d)
-> > +#define IMX296_DA_HSST_ENDTMG				IMX296_REG_16BIT(0x4050)
-> > +#define IMX296_LM_HSST_STARTTMG				IMX296_REG_16BIT(0x4094)
-> > +#define IMX296_LM_HSST_ENDTMG				IMX296_REG_16BIT(0x4096)
-> > +#define IMX296_SST_SIEASTA1_SET				IMX296_REG_8BIT(0x40c9)
-> > +#define IMX296_SST_SIEASTA1PRE_1U			IMX296_REG_16BIT(0x40cc)
-> > +#define IMX296_SST_SIEASTA1PRE_1D			IMX296_REG_16BIT(0x40ce)
-> > +#define IMX296_SST_SIEASTA1PRE_2U			IMX296_REG_16BIT(0x40d0)
-> > +#define IMX296_SST_SIEASTA1PRE_2D			IMX296_REG_16BIT(0x40d2)
-> > +#define IMX296_HSST					IMX296_REG_8BIT(0x40dc)
-> > +#define IMX296_HSST_EN					BIT(2)
-> > +
-> > +#define IMX296_CKREQSEL					IMX296_REG_8BIT(0x4101)
-> > +#define IMX296_CKREQSEL_HS				BIT(2)
-> > +#define IMX296_GTTABLENUM				IMX296_REG_8BIT(0x4114)
-> > +#define IMX296_CTRL418C					IMX296_REG_8BIT(0x418c)
-> > +
-> > +struct imx296_clk_params {
-> > +	unsigned int freq;
-> > +	u8 incksel[4];
-> > +	u8 ctrl418c;
-> > +};
-> > +
-> > +static const struct imx296_clk_params imx296_clk_params[] = {
-> > +	{ 37125000, { 0x80, 0x0b, 0x80, 0x08 }, 116 },
-> > +	{ 54000000, { 0xb0, 0x0f, 0xb0, 0x0c }, 168 },
-> > +	{ 74250000, { 0x80, 0x0f, 0x80, 0x0c }, 232 },
-> > +};
-> > +
-> > +struct imx296 {
-> > +	struct device *dev;
-> > +	struct clk *clk;
-> > +	struct regulator *supply;
-> 
-> Any plan to use 3 power supplies as discussed in bindings patch?
+media-ctl -d platform:vimc -V '"Sensor A":0[fmt:SBGGR8_1X8/640x480]'
+media-ctl -d platform:vimc -V '"Debayer A":0[fmt:SBGGR8_1X8/640x480]'
+media-ctl -d platform:vimc -V '"Sensor B":0[fmt:SBGGR8_1X8/640x480]'
+media-ctl -d platform:vimc -V '"Debayer B":0[fmt:SBGGR8_1X8/640x480]'
+v4l2-ctl -z platform:vimc -d "RGB/YUV Capture" -v width=1920,height=1440
+v4l2-ctl -z platform:vimc -d "Raw Capture 0" -v pixelformat=BA81
+v4l2-ctl -z platform:vimc -d "Raw Capture 1" -v pixelformat=BA81
+v4l2-ctl --stream-mmap --stream-count=1000 -d /dev/video2 &
+sleep 2
+echo -n vimc.0 >/sys/bus/platform/drivers/vimc/unbind
 
-I'd like to reach a conclusion on that discussion first :-) Do you think
-we should add them right away, or only when needed ? There's no issue
-with backward compatibility, if we start with one power supply only the
-next two would be optional.
+The crash log:
+[  569.472444] device: 'v4l-subdev0': device_unregister
+[  569.475125] device: 'v4l-subdev1': device_unregister
+[  569.477611] BUG: kernel NULL pointer dereference, address: 0000000000000000
+[  569.480922] #PF: supervisor read access in kernel mode
+[  569.483097] #PF: error_code(0x0000) - not-present page
+[  569.485170] PGD 0 P4D 0
+[  569.486097] Oops: 0000 [#1] SMP PTI
+[  569.487328] CPU: 0 PID: 1326 Comm: vimc-streamer t Not tainted 5.4.0-rc1+ #38
+[  569.489688] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.12.0-1 04/01/2014
+[  569.492413] RIP: 0010:memcpy_erms+0x6/0x10
+[  569.493789] Code: 90 90 90 90 eb 1e 0f 1f 00 48 89 f8 48 89 d1 48 c1 e9 03 83 e2 07 f3 48 a5 89 d1 f3 a4 c3 66 0f 1f 44 00 00 48 89 f8 48 89 d1 <f3> a4 c3 0f 1f 80 00 00 00 00 48 89 f8 48 83 fa 20 72 7e 40 38 fe
+[  569.499655] RSP: 0018:ffff9645825f3de8 EFLAGS: 00010293
+[  569.500814] RAX: ffff964582735000 RBX: 0000000000000000 RCX: 0000000000000280
+[  569.502377] RDX: 0000000000000280 RSI: 0000000000000000 RDI: ffff964582735000
+[  569.503891] RBP: 0000000000000000 R08: 0000000000000001 R09: 0000000000000000
+[  569.505200] R10: 0000000000000000 R11: 0000000000000001 R12: ffff8addc5e28160
+[  569.506364] R13: ffff964582735000 R14: 0000000000000000 R15: 0000000000000000
+[  569.507582] FS:  0000000000000000(0000) GS:ffff8addc7800000(0000) knlGS:0000000000000000
+[  569.508923] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  569.509803] CR2: 0000000000000000 CR3: 00000000065f4006 CR4: 0000000000360ef0
+[  569.510750] Call Trace:
+[  569.511081]  tpg_fill_plane_buffer+0x97c/0xda0 [v4l2_tpg]
+[  569.511783]  ? vimc_streamer_pipeline_terminate+0x90/0x90 [vimc]
+[  569.512551]  vimc_sen_process_frame+0x1b/0x30 [vimc]
+[  569.513197]  vimc_streamer_thread+0x7c/0xe0 [vimc]
+[  569.513820]  kthread+0x10d/0x130
+[  569.514244]  ? kthread_park+0x80/0x80
+[  569.514672]  ret_from_fork+0x35/0x40
+[  569.515059] Modules linked in: vimc videobuf2_vmalloc videobuf2_memops v4l2_tpg videobuf2_v4l2 videobuf2_common videodev mc
+[  569.516240] CR2: 0000000000000000
+[  569.516603] ---[ end trace 3a3e01dfd71f334c ]---
+[  569.517139] RIP: 0010:memcpy_erms+0x6/0x10
+[  569.517597] Code: 90 90 90 90 eb 1e 0f 1f 00 48 89 f8 48 89 d1 48 c1 e9 03 83 e2 07 f3 48 a5 89 d1 f3 a4 c3 66 0f 1f 44 00 00 48 89 f8 48 89 d1 <f3> a4 c3 0f 1f 80 00 00 00 00 48 89 f8 48 83 fa 20 72 7e 40 38 fe
+[  569.519710] RSP: 0018:ffff9645825f3de8 EFLAGS: 00010293
+[  569.520259] RAX: ffff964582735000 RBX: 0000000000000000 RCX: 0000000000000280
+[  569.521002] RDX: 0000000000000280 RSI: 0000000000000000 RDI: ffff964582735000
+[  569.521751] RBP: 0000000000000000 R08: 0000000000000001 R09: 0000000000000000
+[  569.522497] R10: 0000000000000000 R11: 0000000000000001 R12: ffff8addc5e28160
+[  569.523244] R13: ffff964582735000 R14: 0000000000000000 R15: 0000000000000000
+[  569.523955] FS:  0000000000000000(0000) GS:ffff8addc7800000(0000) knlGS:0000000000000000
+[  569.524844] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  569.525452] CR2: 0000000000000000 CR3: 00000000065f4006 CR4: 0000000000360ef0
 
-> > +	struct gpio_desc *reset;
-> > +	struct regmap *regmap;
-> > +
-> > +	const struct imx296_clk_params *clk_params;
-> > +	bool mono;
-> > +
-> > +	int power_count;		/* Protected by ctrls.lock */
-> > +
-> > +	struct v4l2_subdev subdev;
-> > +	struct media_pad pad;
-> > +
-> > +	struct v4l2_ctrl_handler ctrls;
-> > +	struct v4l2_ctrl *vblank;
-> > +
-> > +	struct v4l2_mbus_framefmt format;
-> > +	struct v4l2_rect crop;
-> > +};
-> > +
-> > +static inline struct imx296 *to_imx296(struct v4l2_subdev *sd)
-> > +{
-> > +	return container_of(sd, struct imx296, subdev);
-> > +}
-> > +
-> > +static int imx296_read(struct imx296 *imx, u32 addr)
-> > +{
-> > +	u8 data[3] = { 0, 0, 0 };
-> > +	int ret;
-> > +
-> > +	ret = regmap_raw_read(imx->regmap, addr & IMX296_REG_ADDR_MASK, data,
-> > +			      (addr >> IMX296_REG_SIZE_SHIFT) & 3);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	return (data[2] << 16) | (data[1] << 8) | data[0];
-> > +}
-> > +
-> > +static int imx296_write(struct imx296 *imx, u32 addr, u32 value, int *err)
-> > +{
-> > +	u8 data[3] = { value & 0xff, (value >> 8) & 0xff, value >> 16 };
-> > +	int ret;
-> > +
-> > +	if (err && *err)
-> > +		return *err;
-> > +
-> > +	ret = regmap_raw_write(imx->regmap, addr & IMX296_REG_ADDR_MASK, data,
-> > +			       (addr >> IMX296_REG_SIZE_SHIFT) & 3);
-> > +	if (ret < 0) {
-> > +		dev_dbg(imx->dev, "%u-bit write to 0x%04x failed: %d\n",
-> > +			((addr >> IMX296_REG_SIZE_SHIFT) & 0x18) * 8,
-> > +			addr & IMX296_REG_ADDR_MASK, ret);
-> 
-> dev_err would be more suitable here.
+Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+---
+ drivers/media/platform/vimc/vimc-capture.c | 30 +++++++++++-----
+ drivers/media/platform/vimc/vimc-common.c  |  1 +
+ drivers/media/platform/vimc/vimc-common.h  |  2 ++
+ drivers/media/platform/vimc/vimc-debayer.c | 40 ++++++++++++++--------
+ drivers/media/platform/vimc/vimc-scaler.c  | 38 +++++++++++++-------
+ drivers/media/platform/vimc/vimc-sensor.c  | 32 +++++++++++------
+ 6 files changed, 96 insertions(+), 47 deletions(-)
 
-I'll fix that.
-
-> > +		if (err)
-> > +			*err = ret;
-> > +	}
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +/* -----------------------------------------------------------------------------
-> > + * Controls
-> > + */
-> > +
-> > +static const char * const imx296_test_pattern_menu[] = {
-> > +	"Disabled",
-> > +	"Multiple Pixels",
-> > +	"Sequence 1",
-> > +	"Sequence 2",
-> > +	"Gradient",
-> > +	"Row",
-> > +	"Column",
-> > +	"Cross",
-> > +	"Stripe",
-> > +	"Checks",
-> > +};
-> > +
-> > +static int imx296_s_ctrl(struct v4l2_ctrl *ctrl)
-> > +{
-> > +	struct imx296 *imx = container_of(ctrl->handler, struct imx296, ctrls);
-> > +	unsigned int vmax;
-> > +	int ret = 0;
-> > +
-> > +	if (!imx->power_count)
-> > +		return 0;
-> > +
-> > +	switch (ctrl->id) {
-> > +	case V4L2_CID_EXPOSURE:
-> > +		/* Clamp the exposure value to VMAX. */
-> > +		vmax = imx->format.height + imx->vblank->cur.val;
-> > +		ctrl->val = min_t(int, ctrl->val, vmax);
-> > +		imx296_write(imx, IMX296_SHS1, vmax - ctrl->val, &ret);
-> > +		break;
-> > +
-> > +	case V4L2_CID_GAIN:
-> > +		imx296_write(imx, IMX296_GAIN, ctrl->val, &ret);
-> > +		break;
-> > +
-> > +	case V4L2_CID_VBLANK:
-> > +		imx296_write(imx, IMX296_VMAX,
-> > +			     imx->format.height + ctrl->val, &ret);
-> > +		break;
-> > +
-> > +	case V4L2_CID_TEST_PATTERN:
-> > +		if (ctrl->val) {
-> > +			imx296_write(imx, IMX296_PGHPOS, 8, &ret);
-> > +			imx296_write(imx, IMX296_PGVPOS, 8, &ret);
-> > +			imx296_write(imx, IMX296_PGHPSTEP, 8, &ret);
-> > +			imx296_write(imx, IMX296_PGVPSTEP, 8, &ret);
-> > +			imx296_write(imx, IMX296_PGHPNUM, 100, &ret);
-> > +			imx296_write(imx, IMX296_PGVPNUM, 100, &ret);
-> > +			imx296_write(imx, IMX296_PGDATA1, 0x300, &ret);
-> > +			imx296_write(imx, IMX296_PGDATA2, 0x100, &ret);
-> > +			imx296_write(imx, IMX296_PGHGSTEP, 0, &ret);
-> > +			imx296_write(imx, IMX296_BLKLEVEL, 0, &ret);
-> > +			imx296_write(imx, IMX296_BLKLEVELAUTO,
-> > +				     IMX296_BLKLEVELAUTO_OFF, &ret);
-> > +			imx296_write(imx, IMX296_PGCTRL,
-> > +				     IMX296_PGCTRL_REGEN |
-> > +				     IMX296_PGCTRL_THRU |
-> > +				     IMX296_PGCTRL_CLKEN |
-> > +				     IMX296_PGCTRL_MODE(ctrl->val), &ret);
-> > +		} else {
-> > +			imx296_write(imx, IMX296_PGCTRL, 0, &ret);
-> > +			imx296_write(imx, IMX296_BLKLEVEL, 0x3c, &ret);
-> > +			imx296_write(imx, IMX296_BLKLEVELAUTO,
-> > +				     IMX296_BLKLEVELAUTO_ON, &ret);
-> > +		}
-> > +		break;
-> > +
-> > +	default:
-> > +		ret = -EINVAL;
-> > +		break;
-> > +	}
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static const struct v4l2_ctrl_ops imx296_ctrl_ops = {
-> > +	.s_ctrl = imx296_s_ctrl,
-> > +};
-> > +
-> > +static int imx296_ctrls_init(struct imx296 *imx)
-> > +{
-> > +	v4l2_ctrl_handler_init(&imx->ctrls, 4);
-> > +
-> 
-> Seems like 5 handlers are defined.
-
-The value is a hint only, but getting the hint right is best, so I'll
-fix it :-)
-
-> > +	v4l2_ctrl_new_std(&imx->ctrls, &imx296_ctrl_ops,
-> > +			  V4L2_CID_EXPOSURE, 1, 1048575, 1, 1104);
-> > +	v4l2_ctrl_new_std(&imx->ctrls, &imx296_ctrl_ops,
-> > +			  V4L2_CID_GAIN, IMX296_GAIN_MIN,
-> > +			  IMX296_GAIN_MAX, 1, IMX296_GAIN_MIN);
-> > +	imx->vblank = v4l2_ctrl_new_std(&imx->ctrls, &imx296_ctrl_ops,
-> > +					V4L2_CID_VBLANK, 30,
-> > +					1048575 - IMX296_PIXEL_ARRAY_HEIGHT,
-> > +					1, 30);
-> > +	/*
-> > +	 * The sensor calculates the MIPI timings internally to achieve a bit
-> > +	 * rate between 1122 and 1198 Mbps. The exact value is unfortunately not
-> > +	 * reported, at least according to the documentation. Report a nominal
-> > +	 * rate of 1188 Mbps as that is used by the datasheet in multiple
-> > +	 * examples.
-> > +	 */
-> > +	v4l2_ctrl_new_std(&imx->ctrls, NULL, V4L2_CID_PIXEL_RATE,
-> > +			  1122000000 / 10, 1198000000 / 10, 1, 1188000000 / 10);
-> > +	v4l2_ctrl_new_std_menu_items(&imx->ctrls, &imx296_ctrl_ops,
-> > +				     V4L2_CID_TEST_PATTERN,
-> > +				     ARRAY_SIZE(imx296_test_pattern_menu) - 1,
-> > +				     0, 0, imx296_test_pattern_menu);
-> > +
-> > +	if (imx->ctrls.error) {
-> > +		dev_err(imx->dev, "failed to add controls (%d)\n",
-> > +			imx->ctrls.error);
-> > +		v4l2_ctrl_handler_free(&imx->ctrls);
-> > +		return imx->ctrls.error;
-> > +	}
-> > +
-> > +	imx->subdev.ctrl_handler = &imx->ctrls;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +/* -----------------------------------------------------------------------------
-> > + * V4L2 Subdev Operations
-> > + */
-> > +
-> > +/*
-> > + * This table is extracted from vendor data that is entirely undocumented. The
-> > + * first register write is required to activate the CSI-2 output. The other
-> > + * entries may or may not be optional?
-> > + */
-> > +static const struct {
-> > +	unsigned int reg;
-> > +	unsigned int value;
-> > +} imx296_init_table[] = {
-> > +	{ IMX296_REG_8BIT(0x3005), 0xf0 },
-> > +	{ IMX296_REG_8BIT(0x309e), 0x04 },
-> > +	{ IMX296_REG_8BIT(0x30a0), 0x04 },
-> > +	{ IMX296_REG_8BIT(0x30a1), 0x3c },
-> > +	{ IMX296_REG_8BIT(0x30a4), 0x5f },
-> > +	{ IMX296_REG_8BIT(0x30a8), 0x91 },
-> > +	{ IMX296_REG_8BIT(0x30ac), 0x28 },
-> > +	{ IMX296_REG_8BIT(0x30af), 0x09 },
-> > +	{ IMX296_REG_8BIT(0x30df), 0x00 },
-> > +	{ IMX296_REG_8BIT(0x3165), 0x00 },
-> > +	{ IMX296_REG_8BIT(0x3169), 0x10 },
-> > +	{ IMX296_REG_8BIT(0x316a), 0x02 },
-> > +	{ IMX296_REG_8BIT(0x31c8), 0xf3 },	/* Exposure-related */
-> > +	{ IMX296_REG_8BIT(0x31d0), 0xf4 },	/* Exposure-related */
-> > +	{ IMX296_REG_8BIT(0x321a), 0x00 },
-> > +	{ IMX296_REG_8BIT(0x3226), 0x02 },
-> > +	{ IMX296_REG_8BIT(0x3256), 0x01 },
-> > +	{ IMX296_REG_8BIT(0x3541), 0x72 },
-> > +	{ IMX296_REG_8BIT(0x3516), 0x77 },
-> > +	{ IMX296_REG_8BIT(0x350b), 0x7f },
-> > +	{ IMX296_REG_8BIT(0x3758), 0xa3 },
-> > +	{ IMX296_REG_8BIT(0x3759), 0x00 },
-> > +	{ IMX296_REG_8BIT(0x375a), 0x85 },
-> > +	{ IMX296_REG_8BIT(0x375b), 0x00 },
-> > +	{ IMX296_REG_8BIT(0x3832), 0xf5 },
-> > +	{ IMX296_REG_8BIT(0x3833), 0x00 },
-> > +	{ IMX296_REG_8BIT(0x38a2), 0xf6 },
-> > +	{ IMX296_REG_8BIT(0x38a3), 0x00 },
-> > +	{ IMX296_REG_8BIT(0x3a00), 0x80 },
-> > +	{ IMX296_REG_8BIT(0x3d48), 0xa3 },
-> > +	{ IMX296_REG_8BIT(0x3d49), 0x00 },
-> > +	{ IMX296_REG_8BIT(0x3d4a), 0x85 },
-> > +	{ IMX296_REG_8BIT(0x3d4b), 0x00 },
-> > +	{ IMX296_REG_8BIT(0x400e), 0x58 },
-> > +	{ IMX296_REG_8BIT(0x4014), 0x1c },
-> > +	{ IMX296_REG_8BIT(0x4041), 0x2a },
-> > +	{ IMX296_REG_8BIT(0x40a2), 0x06 },
-> > +	{ IMX296_REG_8BIT(0x40c1), 0xf6 },
-> > +	{ IMX296_REG_8BIT(0x40c7), 0x0f },
-> > +	{ IMX296_REG_8BIT(0x40c8), 0x00 },
-> > +	{ IMX296_REG_8BIT(0x4174), 0x00 },
-> > +};
-> > +
-> > +static int imx296_setup(struct imx296 *imx)
-> > +{
-> > +	const struct v4l2_mbus_framefmt *format = &imx->format;
-> > +	const struct v4l2_rect *crop = &imx->crop;
-> > +	unsigned int i;
-> > +	int ret = 0;
-> > +
-> > +	for (i = 0; i < ARRAY_SIZE(imx296_init_table); ++i)
-> > +		imx296_write(imx, imx296_init_table[i].reg,
-> > +			     imx296_init_table[i].value, &ret);
-> > +
-> > +	if (crop->width != IMX296_PIXEL_ARRAY_WIDTH ||
-> > +	    crop->height != IMX296_PIXEL_ARRAY_HEIGHT) {
-> > +		imx296_write(imx, IMX296_FID0_ROI,
-> > +			     IMX296_FID0_ROIH1ON | IMX296_FID0_ROIV1ON, &ret);
-> > +		imx296_write(imx, IMX296_FID0_ROIPH1, crop->left, &ret);
-> > +		imx296_write(imx, IMX296_FID0_ROIPV1, crop->top, &ret);
-> > +		imx296_write(imx, IMX296_FID0_ROIWH1, crop->width, &ret);
-> > +		imx296_write(imx, IMX296_FID0_ROIWV1, crop->height, &ret);
-> > +	} else {
-> > +		imx296_write(imx, IMX296_FID0_ROI, 0, &ret);
-> > +	}
-> > +
-> > +	imx296_write(imx, IMX296_CTRL0D,
-> > +		     (crop->width != format->width ?
-> > +		      IMX296_CTRL0D_HADD_ON_BINNING : 0) |
-> > +		     (crop->height != format->height ?
-> > +		      IMX296_CTRL0D_WINMODE_FD_BINNING : 0),
-> > +		     &ret);
-> > +
-> > +	/*
-> > +	 * HMAX and VMAX configure horizontal and vertical blanking by
-> > +	 * specifying the total line time and frame time respectively. The line
-> > +	 * time is specified in operational clock units (which appears to be the
-> > +	 * output of an internal PLL, fixed at 74.25 MHz regardless of the
-> > +	 * exernal clock frequency), while the frame time is specified as a
-> > +	 * number of lines.
-> > +	 *
-> > +	 * In the vertical direction the sensor outputs the following:
-> > +	 *
-> > +	 * - one line for the FS packet
-> > +	 * - two lines of embedded data (DT 0x12)
-> > +	 * - six null lines (DT 0x10)
-> > +	 * - four lines of vertical effective optical black (DT 0x37)
-> > +	 * - 8 to 1088 lines of active image data (RAW10, DT 0x2b)
-> > +	 * - one line for the FE packet
-> > +	 * - 16 or more lines of vertical blanking
-> > +	 */
-> > +	imx296_write(imx, IMX296_HMAX, 1100, &ret);
-> > +	imx296_write(imx, IMX296_VMAX, format->height + imx->vblank->cur.val,
-> > +		     &ret);
-> > +
-> > +	for (i = 0; i < 4; ++i)
-> > +		imx296_write(imx, IMX296_INCKSEL(i),
-> > +			     imx->clk_params->incksel[i], &ret);
-> > +	imx296_write(imx, IMX296_GTTABLENUM, 0xc5, &ret);
-> > +	imx296_write(imx, IMX296_CTRL418C,
-> > +		     imx->clk_params->ctrl418c, &ret);
-> > +
-> > +	imx296_write(imx, IMX296_GAINDLY, IMX296_GAINDLY_NONE, &ret);
-> > +	imx296_write(imx, IMX296_BLKLEVEL, 0x03c, &ret);
-> > +
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	return __v4l2_ctrl_handler_setup(&imx->ctrls);
-> > +}
-> > +
-> > +static int imx296_power_on(struct imx296 *imx)
-> > +{
-> > +	int ret;
-> > +
-> > +	ret = regulator_enable(imx->supply);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	udelay(1);
-> > +
-> > +	ret = gpiod_direction_output(imx->reset, 0);
-> > +	if (ret < 0)
-> > +		goto err_supply;
-> > +
-> > +	udelay(1);
-> > +
-> > +	ret = clk_prepare_enable(imx->clk);
-> > +	if (ret < 0)
-> > +		goto err_reset;
-> > +
-> > +	/*
-> > +	 * The documentation doesn't explicitly say how much time is required
-> > +	 * after providing a clock and before starting I2C communication. It
-> > +	 * mentions a delay of 20µs in 4-wire mode, but tests showed that a
-> > +	 * delay of 100µs resulted in I2C communication failures, while 500µs
-> > +	 * seems to be enough. Be conservative.
-> > +	 */
-> > +	usleep_range(1000, 2000);
-> > +
-> > +	return 0;
-> > +
-> > +err_reset:
-> > +	gpiod_direction_output(imx->reset, 1);
-> > +err_supply:
-> > +	regulator_disable(imx->supply);
-> > +	return ret;
-> > +}
-> > +
-> > +static void imx296_power_off(struct imx296 *imx)
-> > +{
-> > +	clk_disable_unprepare(imx->clk);
-> > +	gpiod_direction_output(imx->reset, 1);
-> > +	regulator_disable(imx->supply);
-> > +}
-> > +
-> > +static int imx296_s_power(struct v4l2_subdev *sd, int on)
-> > +{
-> > +	struct imx296 *imx = to_imx296(sd);
-> > +	int ret = 0;
-> > +
-> > +	mutex_lock(imx->ctrls.lock);
-> > +
-> > +	if (imx->power_count == !on) {
-> > +		if (on) {
-> > +			ret = imx296_power_on(imx);
-> > +			if (ret < 0)
-> > +				goto done;
-> > +			ret = imx296_setup(imx);
-> > +			if (ret < 0) {
-> > +				imx296_power_off(imx);
-> > +				goto done;
-> > +			}
-> > +		} else {
-> > +			imx296_power_off(imx);
-> > +		}
-> > +	}
-> > +
-> > +	/* Update the power count. */
-> > +	imx->power_count += on ? 1 : -1;
-> > +	WARN_ON(imx->power_count < 0);
-> > +
-> > +done:
-> > +	mutex_unlock(imx->ctrls.lock);
-> > +	return ret;
-> > +}
-> > +
-> > +static int imx296_stream_on(struct imx296 *imx)
-> > +{
-> > +	int ret = 0;
-> > +
-> > +	imx296_write(imx, IMX296_CTRL00, 0, &ret);
-> > +	usleep_range(2000, 5000);
-> > +	imx296_write(imx, IMX296_CTRL0A, 0, &ret);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static int imx296_stream_off(struct imx296 *imx)
-> > +{
-> > +	int ret = 0;
-> > +
-> > +	imx296_write(imx, IMX296_CTRL0A, IMX296_CTRL0A_XMSTA, &ret);
-> > +	imx296_write(imx, IMX296_CTRL00, IMX296_CTRL00_STANDBY, &ret);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static int imx296_s_stream(struct v4l2_subdev *sd, int enable)
-> > +{
-> > +	struct imx296 *imx = to_imx296(sd);
-> > +
-> > +	return enable ? imx296_stream_on(imx) : imx296_stream_off(imx);
-> > +}
-> > +
-> > +static int imx296_enum_mbus_code(struct v4l2_subdev *sd,
-> > +				 struct v4l2_subdev_pad_config *cfg,
-> > +				 struct v4l2_subdev_mbus_code_enum *code)
-> > +{
-> > +	struct imx296 *imx = to_imx296(sd);
-> > +
-> > +	if (code->index != 0)
-> > +		return -EINVAL;
-> > +
-> > +	code->code = imx->mono ? MEDIA_BUS_FMT_Y10_1X10
-> > +		   : MEDIA_BUS_FMT_SBGGR10_1X10;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int imx296_enum_frame_size(struct v4l2_subdev *sd,
-> > +				  struct v4l2_subdev_pad_config *cfg,
-> > +				  struct v4l2_subdev_frame_size_enum *fse)
-> > +{
-> > +	struct imx296 *imx = to_imx296(sd);
-> > +
-> > +	if (fse->index >= 2 || fse->code != imx->format.code)
-> > +		return -EINVAL;
-> > +
-> > +	fse->min_width = IMX296_PIXEL_ARRAY_WIDTH / (fse->index + 1);
-> > +	fse->max_width = fse->min_width;
-> > +	fse->min_height = IMX296_PIXEL_ARRAY_HEIGHT / (fse->index + 1);
-> > +	fse->max_height = fse->min_height;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static struct v4l2_mbus_framefmt *
-> > +imx296_get_pad_format(struct imx296 *imx, struct v4l2_subdev_pad_config *cfg,
-> > +		      unsigned int pad, u32 which)
-> > +{
-> > +	switch (which) {
-> > +	case V4L2_SUBDEV_FORMAT_TRY:
-> > +		return v4l2_subdev_get_try_format(&imx->subdev, cfg, pad);
-> > +	case V4L2_SUBDEV_FORMAT_ACTIVE:
-> > +		return &imx->format;
-> > +	default:
-> > +		return NULL;
-> > +	}
-> > +}
-> > +
-> > +static struct v4l2_rect *
-> > +imx296_get_pad_crop(struct imx296 *imx, struct v4l2_subdev_pad_config *cfg,
-> > +		    unsigned int pad, u32 which)
-> > +{
-> > +	switch (which) {
-> > +	case V4L2_SUBDEV_FORMAT_TRY:
-> > +		return v4l2_subdev_get_try_crop(&imx->subdev, cfg, pad);
-> > +	case V4L2_SUBDEV_FORMAT_ACTIVE:
-> > +		return &imx->crop;
-> > +	default:
-> > +		return NULL;
-> > +	}
-> > +}
-> > +
-> > +static int imx296_set_format(struct v4l2_subdev *sd,
-> > +			     struct v4l2_subdev_pad_config *cfg,
-> > +			     struct v4l2_subdev_format *fmt)
-> > +{
-> > +	struct imx296 *imx = to_imx296(sd);
-> > +	struct v4l2_mbus_framefmt *format;
-> > +	struct v4l2_rect *crop;
-> > +
-> > +	crop = imx296_get_pad_crop(imx, cfg, fmt->pad, fmt->which);
-> > +	format = imx296_get_pad_format(imx, cfg, fmt->pad, fmt->which);
-> > +
-> > +	/*
-> > +	 * Binning is only allowed when cropping is disabled according to the
-> > +	 * documentation. This should be double-checked.
-> > +	 */
-> > +	if (crop->width == IMX296_PIXEL_ARRAY_WIDTH &&
-> > +	    crop->height == IMX296_PIXEL_ARRAY_HEIGHT) {
-> > +		unsigned int width;
-> > +		unsigned int height;
-> > +		unsigned int hratio;
-> > +		unsigned int vratio;
-> > +
-> > +		/* Clamp the width and height to avoid dividing by zero. */
-> > +		width = clamp_t(unsigned int, fmt->format.width,
-> > +				crop->width / 2, crop->width);
-> > +		height = clamp_t(unsigned int, fmt->format.height,
-> > +				 crop->height / 2, crop->height);
-> > +
-> > +		hratio = DIV_ROUND_CLOSEST(crop->width, width);
-> > +		vratio = DIV_ROUND_CLOSEST(crop->height, height);
-> > +
-> > +		format->width = crop->width / hratio;
-> > +		format->height = crop->height / vratio;
-> > +	} else {
-> > +		format->width = crop->width;
-> > +		format->height = crop->height;
-> > +	}
-> > +
-> > +	format->code = imx->mono ? MEDIA_BUS_FMT_Y10_1X10
-> > +		     : MEDIA_BUS_FMT_SBGGR10_1X10;
-> > +	fmt->format = *format;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int imx296_get_selection(struct v4l2_subdev *sd,
-> > +				struct v4l2_subdev_pad_config *cfg,
-> > +				struct v4l2_subdev_selection *sel)
-> > +{
-> > +	struct imx296 *imx = to_imx296(sd);
-> > +
-> > +	if (sel->target != V4L2_SEL_TGT_CROP)
-> > +		return -EINVAL;
-> > +
-> > +	sel->r = *imx296_get_pad_crop(imx, cfg, sel->pad, sel->which);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int imx296_set_selection(struct v4l2_subdev *sd,
-> > +				struct v4l2_subdev_pad_config *cfg,
-> > +				struct v4l2_subdev_selection *sel)
-> > +{
-> > +	struct imx296 *imx = to_imx296(sd);
-> > +	struct v4l2_mbus_framefmt *format;
-> > +	struct v4l2_rect *crop;
-> > +	struct v4l2_rect rect;
-> > +
-> > +	if (sel->target != V4L2_SEL_TGT_CROP)
-> > +		return -EINVAL;
-> > +
-> > +	/*
-> > +	 * Clamp the crop rectangle boundaries and align them to a multiple of 4
-> > +	 * pixels to satisfy hardware requirements.
-> > +	 */
-> > +	rect.left = clamp(ALIGN(sel->r.left, 4), 0,
-> > +			  IMX296_PIXEL_ARRAY_WIDTH - IMX296_FID0_ROIWH1_MIN);
-> > +	rect.top = clamp(ALIGN(sel->r.top, 4), 0,
-> > +			  IMX296_PIXEL_ARRAY_HEIGHT - IMX296_FID0_ROIWV1_MIN);
-> > +	rect.width = clamp_t(unsigned int, ALIGN(sel->r.width, 4),
-> > +			     IMX296_FID0_ROIWH1_MIN, IMX296_PIXEL_ARRAY_WIDTH);
-> > +	rect.height = clamp_t(unsigned int, ALIGN(sel->r.height, 4),
-> > +			      IMX296_FID0_ROIWV1_MIN, IMX296_PIXEL_ARRAY_HEIGHT);
-> > +
-> > +	rect.width = min_t(unsigned int, rect.width,
-> > +			   IMX296_PIXEL_ARRAY_WIDTH - rect.left);
-> > +	rect.height = min_t(unsigned int, rect.height,
-> > +			    IMX296_PIXEL_ARRAY_HEIGHT - rect.top);
-> > +
-> > +	crop = imx296_get_pad_crop(imx, cfg, sel->pad, sel->which);
-> > +
-> > +	if (rect.width != crop->width || rect.height != crop->height) {
-> > +		/*
-> > +		 * Reset the output image size if the crop rectangle size has
-> > +		 * been modified.
-> > +		 */
-> > +		format = imx296_get_pad_format(imx, cfg, sel->pad, sel->which);
-> > +		format->width = rect.width;
-> > +		format->height = rect.height;
-> > +	}
-> > +
-> > +	*crop = rect;
-> > +	sel->r = rect;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int imx296_get_format(struct v4l2_subdev *sd,
-> > +			     struct v4l2_subdev_pad_config *cfg,
-> > +			     struct v4l2_subdev_format *fmt)
-> > +{
-> > +	struct imx296 *imx = to_imx296(sd);
-> > +
-> > +	fmt->format = *imx296_get_pad_format(imx, cfg, fmt->pad, fmt->which);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int imx296_init_cfg(struct v4l2_subdev *sd,
-> > +			   struct v4l2_subdev_pad_config *cfg)
-> > +{
-> > +	struct v4l2_subdev_selection sel = { 0 };
-> > +	struct v4l2_subdev_format format = { 0 };
-> > +
-> > +	sel.target = V4L2_SEL_TGT_CROP;
-> > +	sel.which = cfg ? V4L2_SUBDEV_FORMAT_TRY : V4L2_SUBDEV_FORMAT_ACTIVE;
-> > +	sel.r.width = IMX296_PIXEL_ARRAY_WIDTH;
-> > +	sel.r.height = IMX296_PIXEL_ARRAY_HEIGHT;
-> > +
-> > +	imx296_set_selection(sd, cfg, &sel);
-> > +
-> > +	format.which = cfg ? V4L2_SUBDEV_FORMAT_TRY : V4L2_SUBDEV_FORMAT_ACTIVE;
-> > +	format.format.width = IMX296_PIXEL_ARRAY_WIDTH;
-> > +	format.format.height = IMX296_PIXEL_ARRAY_HEIGHT;
-> > +
-> > +	imx296_set_format(sd, cfg, &format);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static const struct v4l2_subdev_core_ops imx296_subdev_core_ops = {
-> > +	.s_power = imx296_s_power,
-> > +};
-> > +
-> > +static const struct v4l2_subdev_video_ops imx296_subdev_video_ops = {
-> > +	.s_stream = imx296_s_stream,
-> > +};
-> > +
-> > +static const struct v4l2_subdev_pad_ops imx296_subdev_pad_ops = {
-> > +	.enum_mbus_code = imx296_enum_mbus_code,
-> > +	.enum_frame_size = imx296_enum_frame_size,
-> > +	.get_fmt = imx296_get_format,
-> > +	.set_fmt = imx296_set_format,
-> > +	.get_selection = imx296_get_selection,
-> > +	.set_selection = imx296_set_selection,
-> > +	.init_cfg = imx296_init_cfg,
-> > +};
-> > +
-> > +static const struct v4l2_subdev_ops imx296_subdev_ops = {
-> > +	.core = &imx296_subdev_core_ops,
-> > +	.video = &imx296_subdev_video_ops,
-> > +	.pad = &imx296_subdev_pad_ops,
-> > +};
-> > +
-> > +/* -----------------------------------------------------------------------------
-> > + * Probe & Remove
-> > + */
-> > +
-> > +static int imx296_identify_model(struct imx296 *imx)
-> > +{
-> > +	unsigned int model;
-> > +	int ret;
-> > +
-> > +	ret = imx296_power_on(imx);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	/*
-> > +	 * While most registers can be read when the sensor is in standby, this
-> > +	 * is not the case of the sensor info register :-(
-> > +	 */
-> > +	ret = imx296_write(imx, IMX296_CTRL00, 0, NULL);
-> > +	if (ret < 0) {
-> > +		dev_err(imx->dev, "failed to get sensor out of standby (%d)\n",
-> > +			ret);
-> > +		goto done;
-> > +	}
-> > +
-> > +	ret = imx296_read(imx, IMX296_SENSOR_INFO);
-> > +	if (ret < 0) {
-> > +		dev_err(imx->dev, "failed to read sensor information (%d)\n",
-> > +			ret);
-> > +		goto done;
-> > +	}
-> > +
-> > +	model = (ret >> 6) & 0x1ff;
-> > +
-> > +	switch (model) {
-> > +	case 296:
-> > +		imx->mono = ret & IMX296_SENSOR_INFO_MONO;
-> > +		dev_info(imx->dev, "found IMX%u%s\n", model,
-> > +			 imx->mono ? "LL" : "LQ");
-> > +		ret = 0;
-> > +		break;
-> > +	/*
-> > +	 * The IMX297 seems to share features with the IMX296, it may be
-> > +	 * possible to support it in the same driver.
-> > +	 */
-> 
-> If you are not sure about it, I'd suggest to remove IMX297 compatibility for
-> now.
-
-Given that case 297 returns -ENODEV, I think it's not officially
-supported :-) I'd prefer keeping the comment so that it would show up in
-a git grep.
-
-> > +	case 297:
-> > +	default:
-> > +		dev_err(imx->dev, "invalid device model 0x%04x\n", ret);
-> > +		ret = -ENODEV;
-> > +		break;
-> > +	}
-> > +
-> > +done:
-> > +	imx296_write(imx, IMX296_CTRL00, IMX296_CTRL00_STANDBY, NULL);
-> > +	imx296_power_off(imx);
-> > +	return ret;
-> > +}
-> > +
-> > +static const struct regmap_config imx296_regmap_config = {
-> > +	.reg_bits = 16,
-> > +	.val_bits = 8,
-> > +
-> > +	.wr_table = &(const struct regmap_access_table) {
-> > +		.no_ranges = (const struct regmap_range[]) {
-> > +			{
-> > +				.range_min = IMX296_SENSOR_INFO & 0xffff,
-> > +				.range_max = (IMX296_SENSOR_INFO & 0xffff) + 1,
-> > +			},
-> > +		},
-> > +		.n_no_ranges = 1,
-> > +	},
-> > +};
-> > +
-> > +static int imx296_probe(struct i2c_client *client,
-> > +			const struct i2c_device_id *did)
-> > +{
-> > +	struct i2c_adapter *adapter = to_i2c_adapter(client->dev.parent);
-> > +	unsigned long clk_rate;
-> > +	struct imx296 *imx;
-> 
-> imx sounds like a generic name since it may imply to some NXP SoC family too,
-> so I'd suggest using imx296.
-
-As Sakari replied this is a private variable, not visible outside of
-functions. I could rename it to sensor if you prefer (but that's a tad
-longer).
-
-> > +	unsigned int i;
-> > +	int ret;
-> > +
-> > +	if (!i2c_check_functionality(adapter, I2C_FUNC_SMBUS_BYTE_DATA)) {
-> > +		dev_warn(&adapter->dev,
-> > +			 "I2C-Adapter doesn't support I2C_FUNC_SMBUS_BYTE\n");
-> > +		return -EIO;
-> > +	}
-> > +
-> > +	imx = devm_kzalloc(&client->dev, sizeof(*imx), GFP_KERNEL);
-> > +	if (!imx)
-> > +		return -ENOMEM;
-> > +
-> > +	imx->dev = &client->dev;
-> > +
-> > +	imx->supply = devm_regulator_get(&client->dev, "vddd");
-> > +	if (IS_ERR(imx->supply)) {
-> > +		if (PTR_ERR(imx->supply) != -EPROBE_DEFER)
-> > +			dev_err(&client->dev, "failed to get supply (%ld)\n",
-> > +				PTR_ERR(imx->supply));
-> > +		return PTR_ERR(imx->supply);
-> > +	}
-> > +
-> > +	imx->reset = devm_gpiod_get_optional(&client->dev, "reset",
-> > +					     GPIOD_OUT_HIGH);
-> > +	if (IS_ERR(imx->reset)) {
-> > +		if (PTR_ERR(imx->reset) != -EPROBE_DEFER)
-> > +			dev_err(&client->dev, "failed to get xclr gpio (%ld)\n",
-> 
-> If you want to keep device specific naming for resources, I'd suggest using
-> `xclr` instead of `reset` in DT itself.
-
-For GPIOs I think there's an overall consensus that standard names are
-preferred, while I don't think this applies to clocks. It's a bit of a
-grey area though, so I'm open to change on or the other.
-
-Rob, any preference ?
-
-> > +				PTR_ERR(imx->reset));
-> > +		return PTR_ERR(imx->reset);
-> > +	}
-> > +
-> > +	imx->clk = devm_clk_get(&client->dev, "inck");
-> > +	if (IS_ERR(imx->clk)) {
-> > +		if (PTR_ERR(imx->clk) != -EPROBE_DEFER)
-> > +			dev_err(&client->dev, "failed to get clock (%ld)\n",
-> > +				PTR_ERR(imx->clk));
-> > +		return PTR_ERR(imx->clk);
-> > +	}
-> > +
-> > +	clk_rate = clk_get_rate(imx->clk);
-> > +	for (i = 0; i < ARRAY_SIZE(imx296_clk_params); ++i) {
-> > +		if (clk_rate == imx296_clk_params[i].freq) {
-> > +			imx->clk_params = &imx296_clk_params[i];
-> > +			break;
-> > +		}
-> > +	}
-> > +
-> > +	if (!imx->clk_params) {
-> > +		dev_err(&client->dev, "unsupported clock rate %lu\n", clk_rate);
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	imx->regmap = devm_regmap_init_i2c(client, &imx296_regmap_config);
-> > +	if (IS_ERR(imx->regmap))
-> > +		return PTR_ERR(imx->regmap);
-> > +
-> > +	ret = imx296_identify_model(imx);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	v4l2_i2c_subdev_init(&imx->subdev, client, &imx296_subdev_ops);
-> > +
-> > +	ret = imx296_ctrls_init(imx);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> > +	imx->subdev.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> > +	imx->pad.flags = MEDIA_PAD_FL_SOURCE;
-> > +	imx->subdev.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-> > +	ret = media_entity_pads_init(&imx->subdev.entity, 1, &imx->pad);
-> > +	if (ret < 0)
-> > +		goto err_ctrls;
-> > +
-> > +	imx296_init_cfg(&imx->subdev, NULL);
-> > +
-> > +	ret = v4l2_async_register_subdev(&imx->subdev);
-> > +	if (ret < 0)
-> > +		goto err_entity;
-> > +
-> > +	return 0;
-> > +
-> > +err_entity:
-> > +	media_entity_cleanup(&imx->subdev.entity);
-> > +err_ctrls:
-> > +	v4l2_ctrl_handler_free(&imx->ctrls);
-> > +	return ret;
-> > +}
-> > +
-> > +static int imx296_remove(struct i2c_client *client)
-> > +{
-> > +	struct v4l2_subdev *subdev = i2c_get_clientdata(client);
-> > +	struct imx296 *imx = to_imx296(subdev);
-> > +
-> > +	v4l2_async_unregister_subdev(subdev);
-> > +	media_entity_cleanup(&subdev->entity);
-> > +	v4l2_ctrl_handler_free(&imx->ctrls);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +#if IS_ENABLED(CONFIG_OF)
-> > +static const struct of_device_id imx296_of_match[] = {
-> > +	{ .compatible = "sony,imx296" },
-> > +	{ /* sentinel */ },
-> > +};
-> > +MODULE_DEVICE_TABLE(of, imx296_of_match);
-> > +#endif
-> > +
-> > +static const struct i2c_device_id imx296_i2c_id[] = {
-> > +	{ "imx296", 0 },
-> > +	{ /* sentinel */ },
-> > +};
-> > +MODULE_DEVICE_TABLE(i2c, imx296_i2c_id);
-> > +
-> > +static struct i2c_driver imx296_i2c_driver = {
-> > +	.driver = {
-> > +		.of_match_table = of_match_ptr(imx296_of_match),
-> > +		.name = "imx296",
-> > +	},
-> > +	.probe = imx296_probe,
-> > +	.remove = imx296_remove,
-> > +	.id_table = imx296_i2c_id,
-> > +};
-> > +
-> > +module_i2c_driver(imx296_i2c_driver);
-> > +
-> > +MODULE_DESCRIPTION("Sony IMX969 Camera driver");
-> > +MODULE_AUTHOR("Laurent Pinchart <laurent.pinchart@ideasonboard.com>");
-> > +MODULE_LICENSE("GPL v2");
-
+diff --git a/drivers/media/platform/vimc/vimc-capture.c b/drivers/media/platform/vimc/vimc-capture.c
+index a5d79fb25dff..6f7bbfc4446d 100644
+--- a/drivers/media/platform/vimc/vimc-capture.c
++++ b/drivers/media/platform/vimc/vimc-capture.c
+@@ -239,6 +239,7 @@ static int vimc_cap_start_streaming(struct vb2_queue *vq, unsigned int count)
+ 		vimc_cap_return_all_buffers(vcap, VB2_BUF_STATE_QUEUED);
+ 		return ret;
+ 	}
++	kref_get(&vcap->ved.ref);
+ 
+ 	ret = vimc_streamer_s_stream(&vcap->stream, &vcap->ved, 1);
+ 	if (ret) {
+@@ -250,6 +251,24 @@ static int vimc_cap_start_streaming(struct vb2_queue *vq, unsigned int count)
+ 	return 0;
+ }
+ 
++static void vimc_cap_free(struct kref *kref)
++{
++	struct vimc_cap_device *vcap = container_of(kref, struct vimc_cap_device, ved.ref);
++
++	pr_debug("freeing capture: '%s'\n", vcap->vdev.name);
++	kfree(vcap);
++}
++
++static void vimc_cap_release(struct video_device *vdev)
++{
++	struct vimc_cap_device *vcap =
++		container_of(vdev, struct vimc_cap_device, vdev);
++
++	media_entity_cleanup(vcap->ved.ent);
++	kref_put(&vcap->ved.ref, vimc_cap_free);
++}
++
++
+ /*
+  * Stop the stream engine. Any remaining buffers in the stream queue are
+  * dequeued and passed on to the vb2 framework marked as STATE_ERROR.
+@@ -265,6 +284,7 @@ static void vimc_cap_stop_streaming(struct vb2_queue *vq)
+ 
+ 	/* Release all active buffers */
+ 	vimc_cap_return_all_buffers(vcap, VB2_BUF_STATE_ERROR);
++	kref_put(&vcap->ved.ref, vimc_cap_free);
+ }
+ 
+ static void vimc_cap_buf_queue(struct vb2_buffer *vb2_buf)
+@@ -325,15 +345,6 @@ static const struct media_entity_operations vimc_cap_mops = {
+ 	.link_validate		= vimc_link_validate,
+ };
+ 
+-static void vimc_cap_release(struct video_device *vdev)
+-{
+-	struct vimc_cap_device *vcap =
+-		container_of(vdev, struct vimc_cap_device, vdev);
+-
+-	media_entity_cleanup(vcap->ved.ent);
+-	kfree(vcap);
+-}
+-
+ void vimc_cap_rm(struct vimc_device *vimc, struct vimc_ent_device *ved)
+ {
+ 	struct vimc_cap_device *vcap;
+@@ -467,6 +478,7 @@ struct vimc_ent_device *vimc_cap_add(struct vimc_device *vimc,
+ 		goto err_release_queue;
+ 	}
+ 
++	kref_init(&vcap->ved.ref);
+ 	return &vcap->ved;
+ 
+ err_release_queue:
+diff --git a/drivers/media/platform/vimc/vimc-common.c b/drivers/media/platform/vimc/vimc-common.c
+index 2a0c40e9ae88..9d93c3c40d3c 100644
+--- a/drivers/media/platform/vimc/vimc-common.c
++++ b/drivers/media/platform/vimc/vimc-common.c
+@@ -351,6 +351,7 @@ int vimc_ent_sd_register(struct vimc_ent_device *ved,
+ 			name, ret);
+ 		goto err_clean_m_ent;
+ 	}
++	kref_init(&ved->ref);
+ 
+ 	return 0;
+ 
+diff --git a/drivers/media/platform/vimc/vimc-common.h b/drivers/media/platform/vimc/vimc-common.h
+index c75401a36312..a8699ac0a783 100644
+--- a/drivers/media/platform/vimc/vimc-common.h
++++ b/drivers/media/platform/vimc/vimc-common.h
+@@ -85,6 +85,7 @@ struct vimc_pix_map {
+  * @vdev_get_format:	callback that returns the current format a pad, used
+  *			only when is_media_entity_v4l2_video_device(ent) returns
+  *			true
++ * @kref		ref count
+  *
+  * Each node of the topology must create a vimc_ent_device struct. Depending on
+  * the node it will be of an instance of v4l2_subdev or video_device struct
+@@ -101,6 +102,7 @@ struct vimc_ent_device {
+ 				const void *frame);
+ 	void (*vdev_get_format)(struct vimc_ent_device *ved,
+ 			      struct v4l2_pix_format *fmt);
++	struct kref ref;
+ };
+ 
+ /**
+diff --git a/drivers/media/platform/vimc/vimc-debayer.c b/drivers/media/platform/vimc/vimc-debayer.c
+index 5d1b67d684bb..8860ca3bf400 100644
+--- a/drivers/media/platform/vimc/vimc-debayer.c
++++ b/drivers/media/platform/vimc/vimc-debayer.c
+@@ -298,6 +298,30 @@ static void vimc_deb_set_rgb_mbus_fmt_rgb888_1x24(struct vimc_deb_device *vdeb,
+ 		vdeb->src_frame[index + i] = rgb[i];
+ }
+ 
++static void vimc_deb_free(struct kref *kref)
++{
++	struct vimc_deb_device *vdeb = container_of(kref, struct vimc_deb_device, ved.ref);
++
++	pr_debug("freeing debayer '%s'", vdeb->sd.name);
++	kfree(vdeb);
++}
++
++static void vimc_deb_release(struct v4l2_subdev *sd)
++{
++	struct vimc_deb_device *vdeb =
++		container_of(sd, struct vimc_deb_device, sd);
++
++	dev_dbg(vdeb->ved.dev, "release: put debayer '%s'\n", vdeb->sd.name);
++	media_entity_cleanup(vdeb->ved.ent);
++	kref_put(&vdeb->ved.ref, vimc_deb_free);
++}
++
++
++static const struct v4l2_subdev_internal_ops vimc_deb_int_ops = {
++	.release = vimc_deb_release,
++};
++
++
+ static int vimc_deb_s_stream(struct v4l2_subdev *sd, int enable)
+ {
+ 	struct vimc_deb_device *vdeb = v4l2_get_subdevdata(sd);
+@@ -329,6 +353,7 @@ static int vimc_deb_s_stream(struct v4l2_subdev *sd, int enable)
+ 		vdeb->src_frame = vmalloc(frame_size);
+ 		if (!vdeb->src_frame)
+ 			return -ENOMEM;
++		kref_get(&vdeb->ved.ref);
+ 
+ 	} else {
+ 		if (!vdeb->src_frame)
+@@ -336,6 +361,7 @@ static int vimc_deb_s_stream(struct v4l2_subdev *sd, int enable)
+ 
+ 		vfree(vdeb->src_frame);
+ 		vdeb->src_frame = NULL;
++		kref_put(&vdeb->ved.ref, vimc_deb_free);
+ 	}
+ 
+ 	return 0;
+@@ -494,20 +520,6 @@ static const struct v4l2_ctrl_ops vimc_deb_ctrl_ops = {
+ 	.s_ctrl = vimc_deb_s_ctrl,
+ };
+ 
+-static void vimc_deb_release(struct v4l2_subdev *sd)
+-{
+-	struct vimc_deb_device *vdeb =
+-				container_of(sd, struct vimc_deb_device, sd);
+-
+-	v4l2_ctrl_handler_free(&vdeb->hdl);
+-	media_entity_cleanup(vdeb->ved.ent);
+-	kfree(vdeb);
+-}
+-
+-static const struct v4l2_subdev_internal_ops vimc_deb_int_ops = {
+-	.release = vimc_deb_release,
+-};
+-
+ void vimc_deb_rm(struct vimc_device *vimc, struct vimc_ent_device *ved)
+ {
+ 	struct vimc_deb_device *vdeb;
+diff --git a/drivers/media/platform/vimc/vimc-scaler.c b/drivers/media/platform/vimc/vimc-scaler.c
+index 2f88a7d9d67b..cb04408834b5 100644
+--- a/drivers/media/platform/vimc/vimc-scaler.c
++++ b/drivers/media/platform/vimc/vimc-scaler.c
+@@ -197,6 +197,29 @@ static const struct v4l2_subdev_pad_ops vimc_sca_pad_ops = {
+ 	.set_fmt		= vimc_sca_set_fmt,
+ };
+ 
++static void vimc_sca_free(struct kref *kref)
++{
++	struct vimc_sca_device *vsca = container_of(kref, struct vimc_sca_device, ved.ref);
++
++	pr_debug("freeing scaler '%s'", vsca->sd.name);
++	kfree(vsca);
++}
++
++static void vimc_sca_release(struct v4l2_subdev *sd)
++{
++	struct vimc_sca_device *vsca =
++		container_of(sd, struct vimc_sca_device, sd);
++
++	dev_dbg(vsca->ved.dev, "release: put scaler '%s'\n", vsca->sd.name);
++	media_entity_cleanup(vsca->ved.ent);
++	kref_put(&vsca->ved.ref, vimc_sca_free);
++}
++
++static const struct v4l2_subdev_internal_ops vimc_sca_int_ops = {
++	.release = vimc_sca_release,
++};
++
++
+ static int vimc_sca_s_stream(struct v4l2_subdev *sd, int enable)
+ {
+ 	struct vimc_sca_device *vsca = v4l2_get_subdevdata(sd);
+@@ -227,12 +250,14 @@ static int vimc_sca_s_stream(struct v4l2_subdev *sd, int enable)
+ 		if (!vsca->src_frame)
+ 			return -ENOMEM;
+ 
++		kref_get(&vsca->ved.ref);
+ 	} else {
+ 		if (!vsca->src_frame)
+ 			return 0;
+ 
+ 		vfree(vsca->src_frame);
+ 		vsca->src_frame = NULL;
++		kref_put(&vsca->ved.ref, vimc_sca_free);
+ 	}
+ 
+ 	return 0;
+@@ -331,19 +356,6 @@ static void *vimc_sca_process_frame(struct vimc_ent_device *ved,
+ 	return vsca->src_frame;
+ };
+ 
+-static void vimc_sca_release(struct v4l2_subdev *sd)
+-{
+-	struct vimc_sca_device *vsca =
+-				container_of(sd, struct vimc_sca_device, sd);
+-
+-	media_entity_cleanup(vsca->ved.ent);
+-	kfree(vsca);
+-}
+-
+-static const struct v4l2_subdev_internal_ops vimc_sca_int_ops = {
+-	.release = vimc_sca_release,
+-};
+-
+ void vimc_sca_rm(struct vimc_device *vimc, struct vimc_ent_device *ved)
+ {
+ 	struct vimc_sca_device *vsca;
+diff --git a/drivers/media/platform/vimc/vimc-sensor.c b/drivers/media/platform/vimc/vimc-sensor.c
+index 25ee89a067f7..f137ff23b892 100644
+--- a/drivers/media/platform/vimc/vimc-sensor.c
++++ b/drivers/media/platform/vimc/vimc-sensor.c
+@@ -193,6 +193,25 @@ static void *vimc_sen_process_frame(struct vimc_ent_device *ved,
+ 	return vsen->frame;
+ }
+ 
++static void vimc_sen_free(struct kref *kref)
++{
++	struct vimc_sen_device *vsen = container_of(kref, struct vimc_sen_device, ved.ref);
++
++	pr_debug("freeing sensor '%s'", vsen->sd.name);
++	v4l2_ctrl_handler_free(&vsen->hdl);
++	tpg_free(&vsen->tpg);
++	kfree(vsen);
++}
++
++static void vimc_sen_release(struct v4l2_subdev *sd)
++{
++	struct vimc_sen_device *vsen =
++		container_of(sd, struct vimc_sen_device, sd);
++
++	dev_dbg(vsen->ved.dev, "release: put sensor '%s'\n", vsen->sd.name);
++	kref_put(&vsen->ved.ref, vimc_sen_free);
++}
++
+ static int vimc_sen_s_stream(struct v4l2_subdev *sd, int enable)
+ {
+ 	struct vimc_sen_device *vsen =
+@@ -221,11 +240,13 @@ static int vimc_sen_s_stream(struct v4l2_subdev *sd, int enable)
+ 
+ 		/* configure the test pattern generator */
+ 		vimc_sen_tpg_s_format(vsen);
++		kref_get(&vsen->ved.ref);
+ 
+ 	} else {
+ 
+ 		vfree(vsen->frame);
+ 		vsen->frame = NULL;
++		kref_put(&vsen->ved.ref, vimc_sen_free);
+ 	}
+ 
+ 	return 0;
+@@ -284,17 +305,6 @@ static const struct v4l2_ctrl_ops vimc_sen_ctrl_ops = {
+ 	.s_ctrl = vimc_sen_s_ctrl,
+ };
+ 
+-static void vimc_sen_release(struct v4l2_subdev *sd)
+-{
+-	struct vimc_sen_device *vsen =
+-				container_of(sd, struct vimc_sen_device, sd);
+-
+-	v4l2_ctrl_handler_free(&vsen->hdl);
+-	tpg_free(&vsen->tpg);
+-	media_entity_cleanup(vsen->ved.ent);
+-	kfree(vsen);
+-}
+-
+ static const struct v4l2_subdev_internal_ops vimc_sen_int_ops = {
+ 	.release = vimc_sen_release,
+ };
 -- 
-Regards,
+2.20.1
 
-Laurent Pinchart
