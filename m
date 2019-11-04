@@ -2,340 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 40A2EEE53A
-	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2019 17:53:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EBC80EE54E
+	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2019 17:56:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728648AbfKDQxv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Nov 2019 11:53:51 -0500
-Received: from mailoutvs43.siol.net ([185.57.226.234]:47153 "EHLO
-        mail.siol.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728392AbfKDQxu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Nov 2019 11:53:50 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by mail.siol.net (Zimbra) with ESMTP id 82E51525510;
-        Mon,  4 Nov 2019 17:53:45 +0100 (CET)
-X-Virus-Scanned: amavisd-new at psrvmta12.zcs-production.pri
-Received: from mail.siol.net ([127.0.0.1])
-        by localhost (psrvmta12.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id h5r5Z-FvXCQO; Mon,  4 Nov 2019 17:53:44 +0100 (CET)
-Received: from mail.siol.net (localhost [127.0.0.1])
-        by mail.siol.net (Zimbra) with ESMTPS id DB135525512;
-        Mon,  4 Nov 2019 17:53:44 +0100 (CET)
-Received: from jernej-laptop.localnet (cpe-86-58-102-7.static.triera.net [86.58.102.7])
-        (Authenticated sender: jernej.skrabec@siol.net)
-        by mail.siol.net (Zimbra) with ESMTPA id 2F7425254D2;
-        Mon,  4 Nov 2019 17:53:44 +0100 (CET)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     mripard@kernel.org, mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        gregkh@linuxfoundation.org, wens@csie.org,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-sunxi@googlegroups.com
-Subject: Re: [PATCH 2/3] media: cedrus: Fix H264 4k support
-Date:   Mon, 04 Nov 2019 17:53:43 +0100
-Message-ID: <3046190.od5LHOKkzS@jernej-laptop>
-In-Reply-To: <20191104101319.GE502900@aptenodytes>
-References: <20191026074959.1073512-1-jernej.skrabec@siol.net> <20191026074959.1073512-3-jernej.skrabec@siol.net> <20191104101319.GE502900@aptenodytes>
+        id S1727998AbfKDQ4d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Nov 2019 11:56:33 -0500
+Received: from mailbnc107.isp.belgacom.be ([195.238.20.241]:8095 "EHLO
+        mailbnc107.isp.belgacom.be" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727989AbfKDQ4c (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 4 Nov 2019 11:56:32 -0500
+IronPort-SDR: LGVGpFvrQcQoFJu6syOC/XbXqkUnoOc5tL53jASbdo9/971TGr7oWJpzsRKauraqssCKGTzhUa
+ +aKRft/JU+7Yw+O3QzkBWKRzasLikjNBShxhbW9Z1bKLM70r7jHp5+RfbsxmsKVOn9bHr8n1wD
+ oCh5WP5qlaC4NTRMve7gEQu4RDjOMYtx77OzbCTU54/+wWBUvlqZCJp5rX4MUrieufHKt9+yfe
+ PvAWMx+7D2S4xxe8nNApybWuH5KBVzJwPCExWqaqXwgu6aEKU4Rb5WxxQrKyuPDz/oNmUmzgP6
+ rKo=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A2AcIwCLV8Bd/53O9C5eBQMdAQEBCQE?=
+ =?us-ascii?q?RBQUBgX0CgXIsLT91EoQLiUuGVgkFAYEyOQGJLo9bgWcJAQECAQEBAQEIIwk?=
+ =?us-ascii?q?BAgEBhDoEAgqEAyc4EwIDCwEBBQEBAQEBBQRthGtMDEIBDAGFJR0cEhEYJA8?=
+ =?us-ascii?q?lBSgiJoJDTIJSKQuzUYQ5AYRRgUIGIoEUAYwqeIEHgRCDUYQJCQENBQEIXAI?=
+ =?us-ascii?q?IgnOCLASNAhIGiD+YGYIuhxGOGQwbgjyHWoQFi0qOQoc1eZFRgWkiKggTInF?=
+ =?us-ascii?q?NIBgaBB2CbRE+JVYBg1YBAoddhUBDgTEBHggTBQUBAYVShSQVghsBAQ?=
+X-IPAS-Result: =?us-ascii?q?A2AcIwCLV8Bd/53O9C5eBQMdAQEBCQERBQUBgX0CgXIsL?=
+ =?us-ascii?q?T91EoQLiUuGVgkFAYEyOQGJLo9bgWcJAQECAQEBAQEIIwkBAgEBhDoEAgqEA?=
+ =?us-ascii?q?yc4EwIDCwEBBQEBAQEBBQRthGtMDEIBDAGFJR0cEhEYJA8lBSgiJoJDTIJSK?=
+ =?us-ascii?q?QuzUYQ5AYRRgUIGIoEUAYwqeIEHgRCDUYQJCQENBQEIXAIIgnOCLASNAhIGi?=
+ =?us-ascii?q?D+YGYIuhxGOGQwbgjyHWoQFi0qOQoc1eZFRgWkiKggTInFNIBgaBB2CbRE+J?=
+ =?us-ascii?q?VYBg1YBAoddhUBDgTEBHggTBQUBAYVShSQVghsBAQ?=
+Received: from ppp-46-244-206-157.dynamic.mnet-online.de (HELO albert) ([46.244.206.157])
+  by relay.proximus.be with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 04 Nov 2019 17:56:29 +0100
+Received: from libv by albert with local (Exim 4.84_2)
+        (envelope-from <libv@skynet.be>)
+        id 1iRfeW-0006j6-Su; Mon, 04 Nov 2019 17:56:28 +0100
+Date:   Mon, 4 Nov 2019 17:56:28 +0100
+From:   Luc Verhaegen <libv@skynet.be>
+To:     xorg-devel@lists.x.org, xorg-announce@lists.freedesktop.org,
+        mesa-dev@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        wayland-devel@lists.freedesktop.org, linux-media@vger.kernel.org
+Cc:     fosdem@lists.fosdem.org
+Subject: FOSDEM Graphics Devroom: call for speakers.
+Message-ID: <20191104165628.GA25762@skynet.be>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dne ponedeljek, 04. november 2019 ob 11:13:19 CET je Paul Kocialkowski 
-napisal(a):
-> Hi,
-> 
-> On Sat 26 Oct 19, 09:49, Jernej Skrabec wrote:
-> > H264 decoder needs additional or bigger buffers in order to decode 4k
-> > videos.
-> 
-> Thanks for the fixup, we hadn't looked into those bits at all during initial
-> bringup of H.264!
-> 
-> See a few minor comments below.
-> 
-> > Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
-> > ---
-> > 
-> >  drivers/staging/media/sunxi/cedrus/cedrus.h   |  7 ++
-> >  .../staging/media/sunxi/cedrus/cedrus_h264.c  | 83 +++++++++++++++++--
-> >  .../staging/media/sunxi/cedrus/cedrus_regs.h  | 11 +++
-> >  3 files changed, 93 insertions(+), 8 deletions(-)
-> > 
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h
-> > b/drivers/staging/media/sunxi/cedrus/cedrus.h index
-> > c45fb9a7ad07..96765555ab8a 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus.h
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
-> > @@ -116,8 +116,15 @@ struct cedrus_ctx {
-> > 
-> >  			ssize_t		mv_col_buf_size;
-> >  			void		*pic_info_buf;
-> >  			dma_addr_t	pic_info_buf_dma;
-> > 
-> > +			ssize_t		pic_info_buf_size;
-> > 
-> >  			void		*neighbor_info_buf;
-> >  			dma_addr_t	neighbor_info_buf_dma;
-> > 
-> > +			void		*deblk_buf;
-> > +			dma_addr_t	deblk_buf_dma;
-> > +			ssize_t		deblk_buf_size;
-> > +			void		*intra_pred_buf;
-> > +			dma_addr_t	intra_pred_buf_dma;
-> > +			ssize_t		intra_pred_buf_size;
-> > 
-> >  		} h264;
-> >  		struct {
-> >  		
-> >  			void		*mv_col_buf;
-> > 
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> > b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c index
-> > d2c854ecdf15..19962f4213d4 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> > @@ -39,7 +39,6 @@ struct cedrus_h264_sram_ref_pic {
-> > 
-> >  #define CEDRUS_H264_FRAME_NUM		18
-> >  
-> >  #define CEDRUS_NEIGHBOR_INFO_BUF_SIZE	(16 * SZ_1K)
-> > 
-> > -#define CEDRUS_PIC_INFO_BUF_SIZE	(128 * SZ_1K)
-> 
-> Could we keep a define with the minimum size that you are using later
-> (increased to 130 * SZ_1K)?
+Hi,
 
-Sure.
+At FOSDEM on saturday the 1st of february 2020, there will be another 
+graphics DevRoom. URL: https://fosdem.org/2020/
 
-> 
-> >  static void cedrus_h264_write_sram(struct cedrus_dev *dev,
-> >  
-> >  				   enum cedrus_h264_sram_off off,
-> > 
-> > @@ -342,6 +341,20 @@ static void cedrus_set_params(struct cedrus_ctx *ctx,
-> > 
-> >  		     VE_H264_VLD_ADDR_FIRST | VE_H264_VLD_ADDR_VALID |
-> >  		     VE_H264_VLD_ADDR_LAST);
-> > 
-> > +	if (ctx->src_fmt.width > 2048) {
-> > +		cedrus_write(dev, VE_BUF_CTRL,
-> > +			     VE_BUF_CTRL_INTRAPRED_MIXED_RAM |
-> > +			     VE_BUF_CTRL_DBLK_MIXED_RAM);
-> > +		cedrus_write(dev, VE_DBLK_DRAM_BUF_ADDR,
-> > +			     ctx->codec.h264.deblk_buf_dma);
-> > +		cedrus_write(dev, VE_INTRAPRED_DRAM_BUF_ADDR,
-> > +			     ctx->codec.h264.intra_pred_buf_dma);
-> > +	} else {
-> > +		cedrus_write(dev, VE_BUF_CTRL,
-> > +			     VE_BUF_CTRL_INTRAPRED_INT_SRAM |
-> > +			     VE_BUF_CTRL_DBLK_INT_SRAM);
-> > +	}
-> > +
-> > 
-> >  	/*
-> >  	
-> >  	 * FIXME: Since the bitstream parsing is done in software, and
-> >  	 * in userspace, this shouldn't be needed anymore. But it
-> > 
-> > @@ -502,18 +515,28 @@ static void cedrus_h264_setup(struct cedrus_ctx
-> > *ctx,
-> > 
-> >  static int cedrus_h264_start(struct cedrus_ctx *ctx)
-> >  {
-> >  
-> >  	struct cedrus_dev *dev = ctx->dev;
-> > 
-> > +	unsigned int pic_info_size;
-> > 
-> >  	unsigned int field_size;
-> >  	unsigned int mv_col_size;
-> >  	int ret;
-> 
-> Maybe add a comment here this is a half-magic sub-optimal formula?
+The focus of this DevRoom is:
+* Graphics drivers: from display to media to 3d drivers, both in 
+bootloaders, kernel or userspace. Be it part of DRM, KMS, V4L, 
+(direct)FB, Xorg, Mesa...
+* Input drivers: kernel and userspace.
+* Windowing systems: X, Wayland, Mir, directFB, ...
+* Even colour management, low level toolkit stuff, and other areas which 
+i might have overlooked above are accepted.
 
-Well, I'm not sure how much suboptimal formulas this and those below are. They 
-are taken from CedarX source. I would imagine that they didn't waste too much 
-memory. What kind of comment would be ok for you? "Formula taken from CedarX 
-source"?
+Slots will be handed out on a first come, first serve basis. The best 
+slots will go to those who apply the earliest. We have the devroom from 
+10:30 til 19:00, giving us 8h30, so eight 50 minute talks and one 20 
+minute talk are available.
 
-Best regards,
-Jernej
+Talk Submission:
+----------------
 
-> 
-> > +	if (ctx->src_fmt.width > 2048)
-> > +		pic_info_size = CEDRUS_H264_FRAME_NUM * 0x4000;
-> > +	else
-> > +		pic_info_size = CEDRUS_H264_FRAME_NUM * 0x1000;
-> > +
-> > 
-> >  	/*
-> > 
-> > -	 * FIXME: It seems that the H6 cedarX code is using a formula
-> > -	 * here based on the size of the frame, while all the older
-> > -	 * code is using a fixed size, so that might need to be
-> > -	 * changed at some point.
-> > +	 * FIXME: If V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY is set,
-> > +	 * there is no need to multiply by 2.
-> > 
-> >  	 */
-> > 
-> > +	pic_info_size += ctx->src_fmt.height * 2 * 64;
-> > +
-> > +	if (pic_info_size < 130 * SZ_1K)
-> > +		pic_info_size = 130 * SZ_1K;
-> 
-> This is where I think we could have a "minimum pic info size" define.
-> 
-> > +
-> > +	ctx->codec.h264.pic_info_buf_size = pic_info_size;
-> > 
-> >  	ctx->codec.h264.pic_info_buf =
-> > 
-> > -		dma_alloc_coherent(dev->dev, CEDRUS_PIC_INFO_BUF_SIZE,
-> > +		dma_alloc_coherent(dev->dev, ctx-
->codec.h264.pic_info_buf_size,
-> > 
-> >  				   &ctx-
->codec.h264.pic_info_buf_dma,
-> >  				   GFP_KERNEL);
-> >  	
-> >  	if (!ctx->codec.h264.pic_info_buf)
-> > 
-> > @@ -566,15 +589,51 @@ static int cedrus_h264_start(struct cedrus_ctx *ctx)
-> > 
-> >  		goto err_neighbor_buf;
-> >  	
-> >  	}
-> > 
-> > +	if (ctx->src_fmt.width > 2048) {
-> 
-> Feel free to add a comment here to explain where the 12 below comes from if
-> you have some idea, or that it's a somewhat magical value that generally
-> works.
-> > +		ctx->codec.h264.deblk_buf_size =
-> > +			ALIGN(ctx->src_fmt.width, 32) * 12;
-> > +		ctx->codec.h264.deblk_buf =
-> > +			dma_alloc_coherent(dev->dev,
-> > +					   ctx-
->codec.h264.deblk_buf_size,
-> > +					   &ctx-
->codec.h264.deblk_buf_dma,
-> > +					   GFP_KERNEL);
-> > +		if (!ctx->codec.h264.deblk_buf) {
-> > +			ret = -ENOMEM;
-> > +			goto err_mv_col_buf;
-> > +		}
-> > +
-> 
-> Same here, a comment would be welcome about the 5 value below.
-> 
-> Cheers,
-> 
-> Paul
-> 
-> > +		ctx->codec.h264.intra_pred_buf_size =
-> > +			ALIGN(ctx->src_fmt.width, 64) * 5;
-> > +		ctx->codec.h264.intra_pred_buf =
-> > +			dma_alloc_coherent(dev->dev,
-> > +					   ctx-
->codec.h264.intra_pred_buf_size,
-> > +					   &ctx-
->codec.h264.intra_pred_buf_dma,
-> > +					   GFP_KERNEL);
-> > +		if (!ctx->codec.h264.intra_pred_buf) {
-> > +			ret = -ENOMEM;
-> > +			goto err_deblk_buf;
-> > +		}
-> > +	}
-> > +
-> > 
-> >  	return 0;
-> > 
-> > +err_deblk_buf:
-> > +	dma_free_coherent(dev->dev, ctx->codec.h264.deblk_buf_size,
-> > +			  ctx->codec.h264.deblk_buf,
-> > +			  ctx->codec.h264.deblk_buf_dma);
-> > +
-> > +err_mv_col_buf:
-> > +	dma_free_coherent(dev->dev, ctx->codec.h264.mv_col_buf_size,
-> > +			  ctx->codec.h264.mv_col_buf,
-> > +			  ctx->codec.h264.mv_col_buf_dma);
-> > +
-> > 
-> >  err_neighbor_buf:
-> >  	dma_free_coherent(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
-> >  	
-> >  			  ctx->codec.h264.neighbor_info_buf,
-> >  			  ctx->codec.h264.neighbor_info_buf_dma);
-> >  
-> >  err_pic_buf:
-> > -	dma_free_coherent(dev->dev, CEDRUS_PIC_INFO_BUF_SIZE,
-> > +	dma_free_coherent(dev->dev, ctx->codec.h264.pic_info_buf_size,
-> > 
-> >  			  ctx->codec.h264.pic_info_buf,
-> >  			  ctx->codec.h264.pic_info_buf_dma);
-> >  	
-> >  	return ret;
-> > 
-> > @@ -590,9 +649,17 @@ static void cedrus_h264_stop(struct cedrus_ctx *ctx)
-> > 
-> >  	dma_free_coherent(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
-> >  	
-> >  			  ctx->codec.h264.neighbor_info_buf,
-> >  			  ctx->codec.h264.neighbor_info_buf_dma);
-> > 
-> > -	dma_free_coherent(dev->dev, CEDRUS_PIC_INFO_BUF_SIZE,
-> > +	dma_free_coherent(dev->dev, ctx->codec.h264.pic_info_buf_size,
-> > 
-> >  			  ctx->codec.h264.pic_info_buf,
-> >  			  ctx->codec.h264.pic_info_buf_dma);
-> > 
-> > +	if (ctx->codec.h264.deblk_buf_size)
-> > +		dma_free_coherent(dev->dev, ctx-
->codec.h264.deblk_buf_size,
-> > +				  ctx->codec.h264.deblk_buf,
-> > +				  ctx->codec.h264.deblk_buf_dma);
-> > +	if (ctx->codec.h264.intra_pred_buf_size)
-> > +		dma_free_coherent(dev->dev, ctx-
->codec.h264.intra_pred_buf_size,
-> > +				  ctx->codec.h264.intra_pred_buf,
-> > +				  ctx-
->codec.h264.intra_pred_buf_dma);
-> > 
-> >  }
-> >  
-> >  static void cedrus_h264_trigger(struct cedrus_ctx *ctx)
-> > 
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-> > b/drivers/staging/media/sunxi/cedrus/cedrus_regs.h index
-> > ace3d49fcd82..7beb03d3bb39 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-> > @@ -46,6 +46,17 @@
-> > 
-> >  #define VE_MODE_DEC_H264			(0x01 << 0)
-> >  #define VE_MODE_DEC_MPEG			(0x00 << 0)
-> > 
-> > +#define VE_BUF_CTRL				0x50
-> > +
-> > +#define VE_BUF_CTRL_INTRAPRED_EXT_RAM		(0x02 << 2)
-> > +#define VE_BUF_CTRL_INTRAPRED_MIXED_RAM		(0x01 << 2)
-> > +#define VE_BUF_CTRL_INTRAPRED_INT_SRAM		(0x00 << 2)
-> > +#define VE_BUF_CTRL_DBLK_EXT_RAM		(0x02 << 0)
-> > +#define VE_BUF_CTRL_DBLK_MIXED_RAM		(0x01 << 0)
-> > +#define VE_BUF_CTRL_DBLK_INT_SRAM		(0x00 << 0)
-> > +
-> > +#define VE_DBLK_DRAM_BUF_ADDR			0x54
-> > +#define VE_INTRAPRED_DRAM_BUF_ADDR		0x58
-> > 
-> >  #define VE_PRIMARY_CHROMA_BUF_LEN		0xc4
-> >  #define VE_PRIMARY_FB_LINE_STRIDE		0xc8
+The venerable pentabarf system will once again be used for talk 
+submission.
 
+https://penta.fosdem.org/submission/FOSDEM20
 
+Remember that FOSDEM is a huge, and tightly organized event with 10+k 
+visitors, full livestreaming, and a booklet which holds the schedule. So 
+put some effort in your talk submission and details, especially since 
+the schedule gets locked down well before the event starts.
 
+Since this an open source community event, please refrain from turning 
+in a talk that is purely corporate or a product commercial. Also, this 
+is a highly technical devroom on a conference aimed at developers and 
+advanced users, so only submit a talk on a subject you actually are 
+involved with. Finally, if you are unsure whether you can come or not 
+(this is FOSDEM, why are you not there anyway?), wait with submitting 
+your talk until you know for sure.
 
+When in pentabarf, spend some time on the abstract and description, for 
+both the event and the speaker. The abstract should be a shortened 
+description, and the event abstract will sometimes even be printed 
+directly in the booklet. BUT, on the website the abstract is  
+immediately followed by the full description. If your abstract is fully 
+descriptive, while terse, you might get away with just the abstract.
+
+Talks are either 50 minutes or 20 minutes long, plus 5 minutes for 
+questions.
+
+All talks will be recorded, and will be streamed out live, and will 
+later be made available as CC-BY, sometimes minutes after your talk has 
+finished.
+
+As for deadlines, the fosdem organizers want to have a finished schedule 
+by the 15th of december. Don't count on this deadline: first come first 
+serve! The worst slots will be assigned to those who come last, which 
+could be pretty dire given that there is the traditional FOSDEM beer 
+event the night before ;)
+
+Please try to re-use your accounts from the previous years. If you have 
+forgotten your password, then you can reset it here: 
+https://penta.fosdem.org/user/forgot_password
+
+If there are any questions or issues, just poke me by email or on IRC.
+
+Necessary information:
+----------------------
+
+Below is a list of what i need to see filled in in pentabarf when you 
+apply for a devroom before i consider it a valid submission. Remember: 
+first come, first serve. The best slots (which are on saturday 
+afternoon) are for the earliest submissions.
+
+On your personal page:
+* General:
+  * First and last name
+  * Nickname
+  * Image
+* Contact:
+  * email address
+  * mobile number (this is a very hard requirement as there will be no 
+other reliable form of emergency communication on the day)
+* Description:
+  * Abstract
+  * Description
+
+Create an event:
+* On the General page:
+  * Event title
+  * Event subtitle.
+  * Track: Graphics Devroom
+  * Event type: Lecture (talk) or Meeting (BoF)
+* Persons:
+  * Add yourself as speaker.
+* Description:
+  * Abstract:
+  * Full Description
+* Schedule:
+  * select your preferred talk length, either 55 or 25 minutes.
+* Links:
+  * Add relevant links.
+
+The mobile phone number is the hardest requirement, so you can be 
+contacted on-the-day when something comes up. Speakers will all receive 
+my mobile number in return.
+
+Everything else can be ignored or will be filled in by me or the FOSDEM 
+organizers. Remember, i will only schedule your talk after the basics 
+are somewhat filled in (you still can change them until december 14th).
+
+I will be keeping a keen eye on your submissions and will come back with 
+further questions or make small fixes as needed. Feel free to poke me 
+with any questions or anything, both on irc (libv@freenode) and on 
+email.
+
+That's about it. Hope to see you all at FOSDEM :)
+
+Luc Verhaegen.
