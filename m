@@ -2,96 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A445EED1C
-	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2019 23:03:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BED40EEEB0
+	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2019 23:16:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389528AbfKDWDd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Nov 2019 17:03:33 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:34726 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389517AbfKDWDc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Nov 2019 17:03:32 -0500
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8C5BB52C;
-        Mon,  4 Nov 2019 23:03:30 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1572905010;
-        bh=h3KXRmtDEIdlXTcsCYsoYkoTUu6/37PyFCoRR/oW8N0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=myTmnHU8Ci+cJErtmEM//B1xxSGcmLBdlo7ii6ugRS4UdrfuMqNT5eaWrXi3utiv2
-         9fJQj0qojfeyusRiS7CwSwliiSZu+j8Y8aaFLwWe6PgVzBYOyLJ8p2ochPbDLjfBx7
-         42o5A0PDGBBghHRtlpv9Ae52ZSr5BnjjWGBCGLZk=
-Date:   Tue, 5 Nov 2019 00:03:23 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: Re: [PATCH] media: i2c: IMX296 camera sensor driver
-Message-ID: <20191104220323.GH4913@pendragon.ideasonboard.com>
-References: <20191031132309.10965-1-laurent.pinchart@ideasonboard.com>
- <20191101145246.GA13101@Mani-XPS-13-9360>
- <20191104134206.GC4913@pendragon.ideasonboard.com>
- <CAL_Jsq+R-ndA5s93uXam1F8Bjm=SPV6z1BQvdMGzfHkyYPd2Hw@mail.gmail.com>
+        id S2389575AbfKDWDs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Nov 2019 17:03:48 -0500
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:7167 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388839AbfKDWDq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Nov 2019 17:03:46 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5dc0a0470001>; Mon, 04 Nov 2019 14:03:51 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 04 Nov 2019 14:03:44 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 04 Nov 2019 14:03:44 -0800
+Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 4 Nov
+ 2019 22:03:44 +0000
+Subject: Re: [PATCH v2 07/18] infiniband: set FOLL_PIN, FOLL_LONGTERM via
+ pin_longterm_pages*()
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+CC:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
+        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
+        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
+References: <20191103211813.213227-1-jhubbard@nvidia.com>
+ <20191103211813.213227-8-jhubbard@nvidia.com>
+ <20191104203346.GF30938@ziepe.ca>
+ <578c1760-7221-4961-9f7d-c07c22e5c259@nvidia.com>
+ <20191104205738.GH30938@ziepe.ca>
+X-Nvconfidentiality: public
+From:   John Hubbard <jhubbard@nvidia.com>
+Message-ID: <1560fa00-0c2b-0f3b-091c-d628f021ce09@nvidia.com>
+Date:   Mon, 4 Nov 2019 14:03:43 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAL_Jsq+R-ndA5s93uXam1F8Bjm=SPV6z1BQvdMGzfHkyYPd2Hw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191104205738.GH30938@ziepe.ca>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1572905031; bh=IKdbp+ZVTpqbHTn5cPPMdPyF8t8FSY9+XIKb+nTmNZA=;
+        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=Exr6wtS04dnOA7OKyG8C6jmfOJgvmOKQ4ryKtK8dYLUGAUhW1ANa3Y76nirEfKZWL
+         BfmKpwQhdZf164GA7TThLAA8XYE7rEB43E5uVykOUw8vjqq+Z5vuPr4RoWB+EBwJmI
+         82WUaxumGAw7uDlxCOHsZWA/nWll4Fj5SlWn1ViJ0PmXPDYlJ4UyJMEdDl6CCPpwkA
+         3kXnuXZEeEzWyHIHP7bnpZdIk11g5n/Fmufuu3stG/XnD2YhIKLkCmPY0tP07oCg3I
+         PY8WkQI5XHEQ8FF1wEe8DPqFUCcb0SNQiASk6Fs41GXmDSlssuX1FKG+oppzdi+q5D
+         gW3LGN7zuApVg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rob,
-
-On Mon, Nov 04, 2019 at 03:08:57PM -0600, Rob Herring wrote:
-> On Mon, Nov 4, 2019 at 7:42 AM Laurent Pinchart wrote:
-> > On Fri, Nov 01, 2019 at 08:22:46PM +0530, Manivannan Sadhasivam wrote:
-> > > Hi Laurent,
-> > >
-> > > Thanks for the improved version of the driver. I haven't tested it on
-> > > my setup yet. Once I do, I'll add a Tested-by tag.
-> > >
-> > > I just have few minor commments on top of Sakari's review. Overall it
-> > > looks good.
-> > >
-> > > On Thu, Oct 31, 2019 at 03:23:09PM +0200, Laurent Pinchart wrote:
-> > > > The IMX296LLR is a monochrome 1.60MP CMOS sensor from Sony. The driver
-> > > > supports cropping and binning (but not both at the same time due to
-> > > > hardware limitations) and exposure, gain, vertical blanking and test
-> > > > pattern controls.
-> > > >
-> > > > Preliminary support is also included for the color IMX296LQR sensor.
-> > > >
-> > > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > ---
+On 11/4/19 12:57 PM, Jason Gunthorpe wrote:
+> On Mon, Nov 04, 2019 at 12:48:13PM -0800, John Hubbard wrote:
+>> On 11/4/19 12:33 PM, Jason Gunthorpe wrote:
+>> ...
+>>>> diff --git a/drivers/infiniband/core/umem.c b/drivers/infiniband/core/umem.c
+>>>> index 24244a2f68cc..c5a78d3e674b 100644
+>>>> +++ b/drivers/infiniband/core/umem.c
+>>>> @@ -272,11 +272,10 @@ struct ib_umem *ib_umem_get(struct ib_udata *udata, unsigned long addr,
+>>>>  
+>>>>  	while (npages) {
+>>>>  		down_read(&mm->mmap_sem);
+>>>> -		ret = get_user_pages(cur_base,
+>>>> +		ret = pin_longterm_pages(cur_base,
+>>>>  				     min_t(unsigned long, npages,
+>>>>  					   PAGE_SIZE / sizeof (struct page *)),
+>>>> -				     gup_flags | FOLL_LONGTERM,
+>>>> -				     page_list, NULL);
+>>>> +				     gup_flags, page_list, NULL);
+>>>
+>>> FWIW, this one should be converted to fast as well, I think we finally
+>>> got rid of all the blockers for that?
+>>>
+>>
+>> I'm not aware of any blockers on the gup.c end, anyway. The only broken thing we
+>> have there is "gup remote + FOLL_LONGTERM". But we can do "gup fast + LONGTERM". 
 > 
-> > > > +   imx->reset = devm_gpiod_get_optional(&client->dev, "reset",
-> > > > +                                        GPIOD_OUT_HIGH);
-> > > > +   if (IS_ERR(imx->reset)) {
-> > > > +           if (PTR_ERR(imx->reset) != -EPROBE_DEFER)
-> > > > +                   dev_err(&client->dev, "failed to get xclr gpio (%ld)\n",
-> > >
-> > > If you want to keep device specific naming for resources, I'd suggest using
-> > > `xclr` instead of `reset` in DT itself.
-> >
-> > For GPIOs I think there's an overall consensus that standard names are
-> > preferred, while I don't think this applies to clocks. It's a bit of a
-> > grey area though, so I'm open to change on or the other.
-> >
-> > Rob, any preference ?
+> I mean the use of the mmap_sem here is finally in a way where we can
+> just delete the mmap_sem and use _fast
+>  
+> ie, AFAIK there is no need for the mmap_sem to be held during
+> ib_umem_add_sg_table()
 > 
-> If in fact that's a reset, then yes, use 'reset-gpios'. 'xclr' is an
-> unusual name though.
+> This should probably be a standalone patch however
+> 
 
-Vendors are always inventive :-)
+Yes. Oh, actually I guess the patch flow should be: change to 
+get_user_pages_fast() and remove the mmap_sem calls, as one patch. And then change 
+to pin_longterm_pages_fast() as the next patch. Otherwise, the internal fallback
+from _fast to slow gup would attempt to take the mmap_sem (again) in the same
+thread, which is not good. :)
 
-How about clock names ? Do you think they should be standardized too,
-should we decide on a name for the main functional clock, or should we
-use the pin name ?
+Or just defer the change until after this series. Either way is fine, let me
+know if you prefer one over the other.
 
+The patch itself is trivial, but runtime testing to gain confidence that
+it's solid is much harder. Is there a stress test you would recommend for that?
+(I'm not promising I can quickly run it yet--my local IB setup is still nascent 
+at best.)
+
+
+thanks,
 -- 
-Regards,
+John Hubbard
+NVIDIA
 
-Laurent Pinchart
