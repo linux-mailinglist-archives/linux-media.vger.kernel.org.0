@@ -2,137 +2,199 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A258EEB31
-	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2019 22:34:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 27412EEF31
+	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2019 23:19:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729661AbfKDVeK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Nov 2019 16:34:10 -0500
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:10442 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728602AbfKDVeK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Nov 2019 16:34:10 -0500
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5dc099520001>; Mon, 04 Nov 2019 13:34:10 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Mon, 04 Nov 2019 13:34:05 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Mon, 04 Nov 2019 13:34:05 -0800
-Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 4 Nov
- 2019 21:34:05 +0000
-Subject: Re: [PATCH v2 05/18] mm/gup: introduce pin_user_pages*() and FOLL_PIN
-To:     Jason Gunthorpe <jgg@ziepe.ca>
-CC:     Jerome Glisse <jglisse@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
-        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
-        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
-References: <20191103211813.213227-6-jhubbard@nvidia.com>
- <20191104173325.GD5134@redhat.com>
- <be9de35c-57e9-75c3-2e86-eae50904bbdf@nvidia.com>
- <20191104191811.GI5134@redhat.com>
- <e9656d47-b4a1-da8a-e8cc-ebcfb8cc06d6@nvidia.com>
- <20191104195248.GA7731@redhat.com>
- <25ec4bc0-caaa-2a01-2ae7-2d79663a40e1@nvidia.com>
- <20191104203153.GB7731@redhat.com> <20191104203702.GG30938@ziepe.ca>
- <d0890a8b-c349-0515-2570-10e83979836b@nvidia.com>
- <20191104211525.GJ30938@ziepe.ca>
-From:   John Hubbard <jhubbard@nvidia.com>
-X-Nvconfidentiality: public
-Message-ID: <caaaaf52-490b-6ce1-81d8-675013354c73@nvidia.com>
-Date:   Mon, 4 Nov 2019 13:34:04 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S2388894AbfKDWAi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Nov 2019 17:00:38 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:34678 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388870AbfKDWAg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Nov 2019 17:00:36 -0500
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3D50E2D1;
+        Mon,  4 Nov 2019 23:00:34 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1572904834;
+        bh=U7dc9nsQPKj1QZiCGWXXVJuwGqsni7BqpYcYhcA6cnw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=L3k5oPOcoS11AhVjBWhfs8etQATrw9dPiF6/5nWFBKt3H7eCsMUsTArKLZOXRrtwZ
+         VSOv/+m32oxlN/GXdp6h3c+rKhSzXcqMBbH9CGZwRyBqF9jV0e/PUVZQou9lsvEoBk
+         DhptT89wPTL1FqF4XOpyUlJe6x48Jn/gQR02g8YU=
+Date:   Tue, 5 Nov 2019 00:00:26 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        mchehab@kernel.org, robh+dt@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        c.barrett@framos.com, a.brela@framos.com, peter.griffin@linaro.org
+Subject: Re: [PATCH v4 1/2] dt-bindings: media: i2c: Add IMX296 CMOS sensor
+ binding
+Message-ID: <20191104220026.GG4913@pendragon.ideasonboard.com>
+References: <20191030094902.32582-1-manivannan.sadhasivam@linaro.org>
+ <20191030094902.32582-2-manivannan.sadhasivam@linaro.org>
+ <20191031131538.GA9170@pendragon.ideasonboard.com>
+ <20191031134512.GB24273@mani>
+ <20191031141141.GD5018@pendragon.ideasonboard.com>
+ <20191031142817.GK6253@valkosipuli.retiisi.org.uk>
+ <20191031165444.GE5018@pendragon.ideasonboard.com>
+ <20191031170837.GN6253@valkosipuli.retiisi.org.uk>
+ <20191104190201.GF4913@pendragon.ideasonboard.com>
+ <20191104213032.GT6253@valkosipuli.retiisi.org.uk>
 MIME-Version: 1.0
-In-Reply-To: <20191104211525.GJ30938@ziepe.ca>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1572903250; bh=vbo/OzrYq7woOdeOQXzDRocZ8qkmDZ2GrWck8Ge0GIw=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=qKL2SABndBuE0IlTwGECBEmaXKNt9+NUVq+WFlqtOQFVTiU7nDI02BQTOx0obKarz
-         gpxOM5Y6JautiKfOu0FtwOKOgDIpCUi5YMn9VF5RbTl9cVhlQsO6c44+kqa1Gmkh8J
-         VEKyKNOG6Vqk5nkQbEsBguPgBI2Ja3iUp52oe4dwNevVkVV3ApvpTePgu21U23nzfu
-         yfLLAmDkD5PCoZMaxqbgr1s6DM7hOxhvmTI1aiChbyJF4tpKtWS0fJG0BnHlBMS2gJ
-         uFSIwTdydwTYYvW23EYrvHjEOYVqNSM3f00rEJ3//HPrJcaJAle1+bmyry6JSVv/h0
-         e3DYAyiBVB40w==
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20191104213032.GT6253@valkosipuli.retiisi.org.uk>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/4/19 1:15 PM, Jason Gunthorpe wrote:
-...
->> Right, and I thought about this when converting, and realized that the above 
->> code is working around the current gup.c limitations, which are "cannot support
->> gup remote with FOLL_LONGTERM".
-> 
-> But AFAICT it doesn't have a problem, the protection test is just too
-> strict, and I guess the control flow needs a bit of fixing..
-> 
-> The issue is this:
-> 
-> static __always_inline long __get_user_pages_locked():
-> {
->         if (locked) {
->                 /* if VM_FAULT_RETRY can be returned, vmas become invalid */
->                 BUG_ON(vmas);
->                 /* check caller initialized locked */
->                 BUG_ON(*locked != 1);
->         }
-> 
-> 
-> so remote could be written as:
-> 
-> if (gup_flags & FOLL_LONGTERM) {
->    if (WARN_ON_ONCE(locked))
->         return -EINVAL;
->    return __gup_longterm_locked(...)
-> }
-> 
-> return __get_user_pages_locked(...)
-> 
-> ??
+Hi Sakari,
 
-Yes, that loosens it up just enough for the vfio case (which doesn't set 
-"locked") to get through, great! OK, I'll put that (the above plus 
-corresponding vfio fix) in a separate patch first. 
+On Mon, Nov 04, 2019 at 11:30:32PM +0200, Sakari Ailus wrote:
+> On Mon, Nov 04, 2019 at 09:02:01PM +0200, Laurent Pinchart wrote:
+> > On Thu, Oct 31, 2019 at 07:08:37PM +0200, Sakari Ailus wrote:
+> >> On Thu, Oct 31, 2019 at 06:54:44PM +0200, Laurent Pinchart wrote:
+> >>> On Thu, Oct 31, 2019 at 04:28:17PM +0200, Sakari Ailus wrote:
+> >>>> On Thu, Oct 31, 2019 at 04:11:41PM +0200, Laurent Pinchart wrote:
+> >>>>> On Thu, Oct 31, 2019 at 07:15:12PM +0530, Manivannan Sadhasivam wrote:
+> >>>>>> On Thu, Oct 31, 2019 at 03:15:38PM +0200, Laurent Pinchart wrote:
+> >>>>>>> On Wed, Oct 30, 2019 at 03:19:01PM +0530, Manivannan Sadhasivam wrote:
+> >>>>>>>> Add YAML devicetree binding for IMX296 CMOS image sensor. Let's also
+> >>>>>>>> add MAINTAINERS entry for the binding and driver.
+> >>>>>>>> 
+> >>>>>>>> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> >>>>>>>> ---
+> >>>>>>>>  .../devicetree/bindings/media/i2c/imx296.yaml | 94 +++++++++++++++++++
+> >>>>>>>>  MAINTAINERS                                   |  8 ++
+> >>>>>>>>  2 files changed, 102 insertions(+)
+> >>>>>>>>  create mode 100644 Documentation/devicetree/bindings/media/i2c/imx296.yaml
+> >>>>>>>> 
+> >>>>>>>> diff --git a/Documentation/devicetree/bindings/media/i2c/imx296.yaml b/Documentation/devicetree/bindings/media/i2c/imx296.yaml
+> >>>>>>>> new file mode 100644
+> >>>>>>>> index 000000000000..c04ec2203268
+> >>>>>>>> --- /dev/null
+> >>>>>>>> +++ b/Documentation/devicetree/bindings/media/i2c/imx296.yaml
+> >>>>>>>> @@ -0,0 +1,94 @@
+> >>>>>>>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> >>>>>>>> +%YAML 1.2
+> >>>>>>>> +---
+> >>>>>>>> +$id: http://devicetree.org/schemas/media/i2c/imx296.yaml#
+> >>>>>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> >>>>>>>> +
+> >>>>>>>> +title: Sony IMX296 1/2.8-Inch CMOS Image Sensor
+> >>>>>>>> +
+> >>>>>>>> +maintainers:
+> >>>>>>>> +  - Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> >>>>>>>> +
+> >>>>>>>> +description: |-
+> >>>>>>>> +  The Sony IMX296 is a 1/2.9-Inch active pixel type CMOS Solid-state image
+> >>>>>>>> +  sensor with square pixel array and 1.58 M effective pixels. This chip
+> >>>>>>>> +  features a global shutter with variable charge-integration time. It is
+> >>>>>>>> +  programmable through I2C and 4-wire interfaces. The sensor output is
+> >>>>>>>> +  available via CSI-2 serial data output (1 Lane).
+> >>>>>>>> +
+> >>>>>>>> +properties:
+> >>>>>>>> +  compatible:
+> >>>>>>>> +    const: sony,imx296
+> >>>>>>>> +
+> >>>>>>>> +  reg:
+> >>>>>>>> +    maxItems: 1
+> >>>>>>>> +
+> >>>>>>>> +  clocks:
+> >>>>>>>> +    maxItems: 1
+> >>>>>>>> +
+> >>>>>>>> +  clock-names:
+> >>>>>>>> +    description:
+> >>>>>>>> +      Input clock for the sensor.
+> >>>>>>>> +    items:
+> >>>>>>>> +      - const: mclk
+> >>>>>>> 
+> >>>>>>> The pin is named INCK, let's name the clock accordingly.
+> >>>>>> 
+> >>>>>> Okay, I thought generic names are preferred here!
+> >>>>>>  
+> >>>>>>>> +  clock-frequency:
+> >>>>>>>> +    description:
+> >>>>>>>> +      Frequency of the mclk clock in Hertz.
+> >>>>>>> 
+> >>>>>>> This shouldn't be needed, you can retrieve the clock frequency at
+> >>>>>>> runtime from the clock source.
+> >>>>>> 
+> >>>>>> Unless the clock source is a fixed one! What if the clock source comes from
+> >>>>>> SoC? We need to set the rate, right?
+> >>>>> 
+> >>>>> In that case, if you want to hardcode the clock in DT, the preferred way
+> >>>>> is to use the assigned-clock-rates property. Otherwise, if the driver
+> >>>>> requires a specific clock frequency, it's better to hardcode it in the
+> >>>>> driver itself. In this specific case, I think assigned-clock-rates is
+> >>>>> best as the device can support three different clock frequencies.
+> >>>> 
+> >>>> Just note that if ACPI support is added to the sensor driver, you'll need
+> >>>> the clock-frequency property again, for that's the only way how the driver
+> >>>> will get the clock frequency.
+> >>> 
+> >>> Why is so ? Why can't we implement of assigned-clock-rates for ACPI ?
+> >> 
+> >> ACPI doesn't deal with clocks as such. So there's also no ACPI defined way
+> >> to access clocks specifically, including the frequency --- instead the
+> >> clock is controlled by an AML methods which implement power on and off
+> >> sequences for the device.
+> > 
+> > It's a shortcoming of ACPI, which should be addressed at the ACPI level.
+> > We shouldn't polute the DT bindings with a clock-frequency property for
+> > this reason.
+> 
+> It's really not a shortcoming but a design decision: what belongs to the
+> scope of the firmware? And in this case system and device power management
+> implementation is included. I do not believe this will be revisited in any
+> foreseeable future, i.e. there will be no clock control interface for ACPI.
 
-This should clear things up nicely.
+I'm not saying there's a need to control clocks, but if the driver of
+the camera sensor needs to know the frequency of an externally supplied
+clock, the firmware should give a way for the operating system to
+retrieve the clock frequency. Doing so with a clock-frequency in the
+sensor node is a hack to work around a limitation of ACPI, as the Linux
+model to retrieve clock frequencies it to interogate the clock provider.
 
+> Explicitly stating the frequency also has an added benefit: the driver
+> can be certain that the given frequency is intended to be used on the
+> board. Otherwise the frequency could have been changed by e.g. another
+> driver. This does matter, as the frequency determines which link
+> frequencies can be achieved, and as the two effectively have to be
+> compliant, an unintended external clock frequency also means there will be
+> no match between possible link frequencies and configured link frequencies.
 
-thanks,
+This doesn't solve anything, quite the contrary. With
+assigned-clock-rates the frequency is set once in the firmware, the
+operating system configures the clock provider to set the frequency, and
+the sensor driver then queries the provider. There's a single source of
+clock frequency information. With clock-frequency, you have two sources
+of information, the value of the property and the value set when
+programming the clock provider in the firmware (either in the BIOS/UEFI,
+or in the ACPI DSDT AML). That's a chance to get it wrong, and we both
+know how reliable firmware is.
+
+Furthermore, the clock-frequency property requires drivers to be
+informed of firmware details. On DT-based systems they should use
+clk_get_rate(), while on ACPI-based systems they should read the
+clock-frequency property. If you want to support ACPI, this should be
+hidden by the firmware, with retrieval of clock frequency from the
+firmware handled in core code.
+
+One option would be to create fixed clocks automatically for ACPI
+devices that report clock frequency through an ACPI-specific (as in
+defined outside of the ACPI standard, through DSD for instance) mean.
+Drivers would then be able to call clk_get() and clk_get_rate().
+
+> I.e. no images to capture either.
+> 
+> That said, I don't know if this has been a practical issue in the past.
+
 -- 
-John Hubbard
-NVIDIA
+Regards,
+
+Laurent Pinchart
