@@ -2,82 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 33EC9EE9E1
-	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2019 21:40:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B950FEE9F8
+	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2019 21:41:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729690AbfKDUjH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Nov 2019 15:39:07 -0500
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:57096 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729194AbfKDUjH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Nov 2019 15:39:07 -0500
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id xA4Kd2du126451;
-        Mon, 4 Nov 2019 14:39:02 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1572899942;
-        bh=VoYslfXJH/dRezZ9Hx7G8CLZwxc7DT3fLk41RUrcppA=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=j509z0JaMgFt2l13wTLQcI7IzImIWYLAlpAx5zt+/a6fUyqK2hOkzJdcFgzud6nAd
-         Hg9+wA0DjfcNwbqRRmWOsvbxgAmmAix7YPajhIvppxedgrcMLcJvytcyHvUp2IWjG1
-         RtSba+RsaR3a6b2C6CupVzw9ev12Zi1gTT3QM0Rs=
-Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xA4Kd1DL025299
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 4 Nov 2019 14:39:02 -0600
-Received: from DLEE115.ent.ti.com (157.170.170.26) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Mon, 4 Nov
- 2019 14:38:46 -0600
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
- Frontend Transport; Mon, 4 Nov 2019 14:39:00 -0600
-Received: from ula0869644.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id xA4Kcl4q020670;
-        Mon, 4 Nov 2019 14:39:00 -0600
-From:   Benoit Parrot <bparrot@ti.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Tony Lindgren <tony@atomide.com>, Tero Kristo <t-kristo@ti.com>
-CC:     <linux-omap@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-media@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Benoit Parrot <bparrot@ti.com>
-Subject: [Patch v2 5/5] media: ti-vpe: vpe: fix compatible to match bindings
-Date:   Mon, 4 Nov 2019 14:38:41 -0600
-Message-ID: <20191104203841.3628-6-bparrot@ti.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191104203841.3628-1-bparrot@ti.com>
-References: <20191104203841.3628-1-bparrot@ti.com>
+        id S1729589AbfKDUkv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Nov 2019 15:40:51 -0500
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:2725 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728519AbfKDUku (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Nov 2019 15:40:50 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5dc08cd80000>; Mon, 04 Nov 2019 12:40:56 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 04 Nov 2019 12:40:49 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 04 Nov 2019 12:40:49 -0800
+Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 4 Nov
+ 2019 20:40:48 +0000
+Subject: Re: [PATCH v2 05/18] mm/gup: introduce pin_user_pages*() and FOLL_PIN
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+CC:     Jerome Glisse <jglisse@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
+        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
+        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
+References: <20191103211813.213227-1-jhubbard@nvidia.com>
+ <20191103211813.213227-6-jhubbard@nvidia.com>
+ <20191104173325.GD5134@redhat.com>
+ <be9de35c-57e9-75c3-2e86-eae50904bbdf@nvidia.com>
+ <20191104191811.GI5134@redhat.com>
+ <e9656d47-b4a1-da8a-e8cc-ebcfb8cc06d6@nvidia.com>
+ <20191104195248.GA7731@redhat.com>
+ <25ec4bc0-caaa-2a01-2ae7-2d79663a40e1@nvidia.com>
+ <20191104203117.GE30938@ziepe.ca>
+From:   John Hubbard <jhubbard@nvidia.com>
+X-Nvconfidentiality: public
+Message-ID: <1c428985-6ede-ef75-62bd-26ccf99f6d38@nvidia.com>
+Date:   Mon, 4 Nov 2019 12:40:48 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+In-Reply-To: <20191104203117.GE30938@ziepe.ca>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1572900056; bh=DgUGakiDqU+H/jvLHI+F9dgZlEqXtDj8YZcQ5jdUUnc=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=NHQ1Q0iautz1x5eS1rpVt2XzAK+GdsKg4fHxuWzyx4M7tJpV+1UB6d5ZpY+LJM8ME
+         TR31xYhwAxi1K+5UUf+wF2rdwAdcBiJd7g9PZ9zQdxs0smNT0eXx/EK23GNTVWWsim
+         vmxoebMT8yRD8emjw4hl+mywMz6dGLzA9qU4y5rdocqaRh8e0dGYAC8/oxGzxQkYvT
+         MWkQm/cvgwbgyxMEdYQt09KoKCaZDdAw2q8ktAtZsrow9mFYWcec570DR/POlaG1aB
+         FjnA7v+FO5AVWFmkxPStSbC6bck0U4AV8Oy7tJVJh18dLUfTlW6x2kgIg6rLYkBdDJ
+         g//zR0Vfe3smA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Update the compatible string to match the updated bindings.
+On 11/4/19 12:31 PM, Jason Gunthorpe wrote:
+> On Mon, Nov 04, 2019 at 12:09:05PM -0800, John Hubbard wrote:
+> 
+>> Note for Jason: the (a) or (b) items are talking about the vfio case, which is
+>> one of the two call sites that now use pin_longterm_pages_remote(), and the
+>> other one is infiniband:
+>>
+>> drivers/infiniband/core/umem_odp.c:646:         npages = pin_longterm_pages_remote(owning_process, owning_mm,
+> 
+> This is a mistake, it is not a longterm pin and does not need FOLL_PIN
+> semantics
 
-Signed-off-by: Benoit Parrot <bparrot@ti.com>
----
- drivers/media/platform/ti-vpe/vpe.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+OK! So it really just wants to be get_user_pages_remote() / put_page()? I'll
+change it back to that.
 
-diff --git a/drivers/media/platform/ti-vpe/vpe.c b/drivers/media/platform/ti-vpe/vpe.c
-index b54f637633a7..65c2c048b018 100644
---- a/drivers/media/platform/ti-vpe/vpe.c
-+++ b/drivers/media/platform/ti-vpe/vpe.c
-@@ -2644,7 +2644,7 @@ static int vpe_remove(struct platform_device *pdev)
- #if defined(CONFIG_OF)
- static const struct of_device_id vpe_of_match[] = {
- 	{
--		.compatible = "ti,vpe",
-+		.compatible = "ti,dra7-vpe",
- 	},
- 	{},
- };
--- 
-2.17.1
+> 
+>> Jason should weigh in on how he wants this to go, with respect to branching
+>> and merging, since it sounds like that will conflict with the hmm branch 
+> 
+> I think since you don't need to change this site things should be
+> fine?
+> 
 
+Right. 
+
+
+thanks,
+
+John Hubbard
+NVIDIA
