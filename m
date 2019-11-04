@@ -2,125 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B7364EEA23
-	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2019 21:48:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E5350EEA2F
+	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2019 21:49:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729548AbfKDUso (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Nov 2019 15:48:44 -0500
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:36934 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1729534AbfKDUso (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Nov 2019 15:48:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1572900523;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=mn5RsMcwjgSz4Uc3SsLk9u7OdhxITCoqvev72K3k0/w=;
-        b=hQ9+wUclM/gzvrwXlA0dBmvh/ki8tPcPI4NMrzUSwOoLjc6TTXi4ppLn6A8JYvsmhSCT/q
-        9xJ9ZYZR1XsNeEJ6PbCbPyMze2ZLL00duT3IgVl7S51Ld6Zf0Dtf0e8LS6qh+AhfwtBiPB
-        MvLGtYW2tZJFAys78ar8r6R6dU8re+M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-261-XtiEJ6MJOtixJceTBvorsw-1; Mon, 04 Nov 2019 15:48:39 -0500
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 279BB1800DFD;
-        Mon,  4 Nov 2019 20:48:35 +0000 (UTC)
-Received: from redhat.com (unknown [10.20.6.178])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id AEACB5C3F8;
-        Mon,  4 Nov 2019 20:48:29 +0000 (UTC)
-Date:   Mon, 4 Nov 2019 15:48:28 -0500
-From:   Jerome Glisse <jglisse@redhat.com>
-To:     David Rientjes <rientjes@google.com>
-Cc:     John Hubbard <jhubbard@nvidia.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
-        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 05/18] mm/gup: introduce pin_user_pages*() and FOLL_PIN
-Message-ID: <20191104204828.GC7731@redhat.com>
-References: <20191103211813.213227-1-jhubbard@nvidia.com>
- <20191103211813.213227-6-jhubbard@nvidia.com>
- <alpine.DEB.2.21.1911041231520.74801@chino.kir.corp.google.com>
+        id S1729620AbfKDUtG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Nov 2019 15:49:06 -0500
+Received: from lelv0143.ext.ti.com ([198.47.23.248]:51872 "EHLO
+        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728409AbfKDUtF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Nov 2019 15:49:05 -0500
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id xA4Kn0xN129162;
+        Mon, 4 Nov 2019 14:49:00 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1572900540;
+        bh=D5sprlBTgKbNeSF2xEAhxvBsav9tu+MkOC3iG0A4Lcc=;
+        h=From:To:CC:Subject:Date;
+        b=LAb1sKkNtoOjqK122Rzt0K6m8rCnli0Xdhgqnpk/gJ2GXdMfg6o4u0OOLgbEChTVK
+         cLtcXCq4MZ6wXMBVIHWvU54c6uvVWKQbT/QVoVdTvH21MuDmrr2tK058PB5o+tPzut
+         9cMrYEWbgMCrSOnqtyaGRv72kRtWOUtcJfClVLM8=
+Received: from DLEE106.ent.ti.com (dlee106.ent.ti.com [157.170.170.36])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xA4Kn0nJ129793
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 4 Nov 2019 14:49:00 -0600
+Received: from DLEE110.ent.ti.com (157.170.170.21) by DLEE106.ent.ti.com
+ (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5; Mon, 4 Nov
+ 2019 14:48:59 -0600
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE110.ent.ti.com
+ (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1713.5 via
+ Frontend Transport; Mon, 4 Nov 2019 14:48:59 -0600
+Received: from ula0869644.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id xA4Kmvxu038360;
+        Mon, 4 Nov 2019 14:48:58 -0600
+From:   Benoit Parrot <bparrot@ti.com>
+To:     Tony Lindgren <tony@atomide.com>, Tero Kristo <t-kristo@ti.com>
+CC:     <linux-omap@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-media@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Benoit Parrot <bparrot@ti.com>
+Subject: [Patch v2 00/10] ARM: dts: dra7: add cal nodes 
+Date:   Mon, 4 Nov 2019 14:48:43 -0600
+Message-ID: <20191104204853.4355-1-bparrot@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <alpine.DEB.2.21.1911041231520.74801@chino.kir.corp.google.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-MC-Unique: XtiEJ6MJOtixJceTBvorsw-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Nov 04, 2019 at 12:33:09PM -0800, David Rientjes wrote:
->=20
->=20
-> On Sun, 3 Nov 2019, John Hubbard wrote:
->=20
-> > Introduce pin_user_pages*() variations of get_user_pages*() calls,
-> > and also pin_longterm_pages*() variations.
-> >=20
-> > These variants all set FOLL_PIN, which is also introduced, and
-> > thoroughly documented.
-> >=20
-> > The pin_longterm*() variants also set FOLL_LONGTERM, in addition
-> > to FOLL_PIN:
-> >=20
-> >     pin_user_pages()
-> >     pin_user_pages_remote()
-> >     pin_user_pages_fast()
-> >=20
-> >     pin_longterm_pages()
-> >     pin_longterm_pages_remote()
-> >     pin_longterm_pages_fast()
-> >=20
-> > All pages that are pinned via the above calls, must be unpinned via
-> > put_user_page().
-> >=20
->=20
-> Hi John,
->=20
-> I'm curious what consideration is given to what pageblock migrate types=
-=20
-> that FOLL_PIN and FOLL_LONGTERM pages originate from, assuming that=20
-> longterm would want to originate from MIGRATE_UNMOVABLE pageblocks for th=
-e=20
-> purposes of anti-fragmentation?
+This patch series adds the needed clkctrl and ty-sysc nodes for CAL module.
+It also adds support for the module in related dtsi and dts for DRA72,
+DRA76 and AM654 SoC.
 
-We do not control page block, GUP can happens on _any_ page that is
-map inside a process (anonymous private vma or regular file back one).
+Changes since v1:
+- Fix clock name to make it generic
+- Updated the binding to use ti,camerrx-control instead of sycon_camerrx
+- Split off the clk code into its own patch
+- Add clk mailing list as requested
 
-Cheers,
-J=E9r=F4me
+Benoit Parrot (10):
+  clk: ti: dra7: add cam clkctrl data
+  ARM: dts: dra7: add cam clkctrl node
+  ARM: OMAP: DRA7xx: Make CAM clock domain SWSUP only
+  ARM: dts: dra7-l4: Add ti-sysc node for CAM
+  ARM: dts: DRA72: Add CAL dtsi node
+  arm: dts: dra72-evm-common: Add entries for the CSI2 cameras
+  arm: dtsi: dra76x: Add CAL dtsi node
+  arm: dts: dra76-evm: Add CAL and OV5640 nodes
+  arm64: dts: k3-am65-main Add CAL node
+  arm64: dts: k3-am654-base-board: Add CSI2 OV5640 camera
+
+ arch/arm/boot/dts/dra7-l4.dtsi                | 43 ++++++++++++++++---
+ arch/arm/boot/dts/dra72-evm-common.dtsi       | 35 +++++++++++++++
+ arch/arm/boot/dts/dra72x.dtsi                 | 43 +++++++++++++++++++
+ arch/arm/boot/dts/dra76-evm.dts               | 39 +++++++++++++++++
+ arch/arm/boot/dts/dra76x.dtsi                 | 43 +++++++++++++++++++
+ arch/arm/boot/dts/dra7xx-clocks.dtsi          | 14 ++++++
+ arch/arm/mach-omap2/clockdomains7xx_data.c    |  2 +-
+ arch/arm64/boot/dts/ti/k3-am65-main.dtsi      | 23 ++++++++++
+ .../arm64/boot/dts/ti/k3-am654-base-board.dts | 36 ++++++++++++++++
+ drivers/clk/ti/clk-7xx.c                      | 19 ++++++++
+ include/dt-bindings/clock/dra7.h              | 10 +++++
+ 11 files changed, 300 insertions(+), 7 deletions(-)
+
+-- 
+2.17.1
 
