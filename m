@@ -2,166 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 691B4EEADC
-	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2019 22:15:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 00DFEEEB26
+	for <lists+linux-media@lfdr.de>; Mon,  4 Nov 2019 22:32:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729651AbfKDVP2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Nov 2019 16:15:28 -0500
-Received: from mail-qt1-f193.google.com ([209.85.160.193]:43000 "EHLO
-        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729654AbfKDVP1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Nov 2019 16:15:27 -0500
-Received: by mail-qt1-f193.google.com with SMTP id t20so10510919qtn.9
-        for <linux-media@vger.kernel.org>; Mon, 04 Nov 2019 13:15:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=pyXNiCRfNtBczIIqZ12Au+Ud6Z68623cr8kr//yYcys=;
-        b=cdIurt3FoLPTZlK0pRWkw6/vK5VskqT2SbrzmEIJH+tJ6Ws9V4Lsgf9USo2+e2ozUc
-         YRC+b39mpReZt55//saai5UbNMBA3eXwOqYLQtfunIkTwkfTlIfn1eXp2VeIe1/orkPr
-         PDVNDgKxGvEW8/cTzBHwWhOs6aaLwvdAp8wwJznhpYiyIH9szefozZKp8Gp400JqPNGU
-         fTr/7Xjau32owsZ9g3acr0XI1ZTN6RVvcZ58S7ZMFunV92cxFdu7JBWTybRQM5KPfcgD
-         VnxEWZzKOSsxfKO36w3EM6M1OhrZPi8fZFAK54K+pX7TtJSCqY3tKZTOVsHNgsvdV+dl
-         4NyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=pyXNiCRfNtBczIIqZ12Au+Ud6Z68623cr8kr//yYcys=;
-        b=p+sy3RLrguO/iAy0loO8Fk7G+6uPFXU4ejMf1bB5olUZDoKfY+fD75GgIs8DzV7jTD
-         VY0CvJqtRn6aNqxqy/1yq7J+sfrYqYJCbPxo5bzisBo99ZFY0cFLJBXq+DmSUlncqGW4
-         1535tqOORffQgNgJ9g4GqD0J/QptQjEw4YEnyquJVJMLT+hu4EeTJgZvkxEqMHBXw3Lw
-         7AmyyKYRKarrZH6NUjRdRhj2ElKuVxLIbaSgL6TVuT19MVz8vPHeJVRYVdTcSP0D3Xmz
-         qjdlNT/69CcsnOLD9jHheDGqbEnvClpTpzC8G38gr/YEuwbHoOPXplOpr1+j/qpcQfNU
-         66KA==
-X-Gm-Message-State: APjAAAU2kYQA7Ar8eEbqkdhcsXLADAf01LoFGSHOqepdFJKD5spe4oAJ
-        v1arn6LADlQ8G9PhxHEMXKJo6w==
-X-Google-Smtp-Source: APXvYqzMR4jCE1PYixsxB/Gjs6m+eeNvSRexU+WyF4DsIRWaOdmeothP674vqn/aB1paP5wRwlCCGw==
-X-Received: by 2002:ac8:3a21:: with SMTP id w30mr14733201qte.299.1572902126035;
-        Mon, 04 Nov 2019 13:15:26 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-142-162-113-180.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.180])
-        by smtp.gmail.com with ESMTPSA id q1sm6459892qti.46.2019.11.04.13.15.25
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 04 Nov 2019 13:15:25 -0800 (PST)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1iRjh7-0000mG-3H; Mon, 04 Nov 2019 17:15:25 -0400
-Date:   Mon, 4 Nov 2019 17:15:25 -0400
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Jerome Glisse <jglisse@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
-        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 05/18] mm/gup: introduce pin_user_pages*() and FOLL_PIN
-Message-ID: <20191104211525.GJ30938@ziepe.ca>
-References: <20191103211813.213227-6-jhubbard@nvidia.com>
- <20191104173325.GD5134@redhat.com>
- <be9de35c-57e9-75c3-2e86-eae50904bbdf@nvidia.com>
- <20191104191811.GI5134@redhat.com>
- <e9656d47-b4a1-da8a-e8cc-ebcfb8cc06d6@nvidia.com>
- <20191104195248.GA7731@redhat.com>
- <25ec4bc0-caaa-2a01-2ae7-2d79663a40e1@nvidia.com>
- <20191104203153.GB7731@redhat.com>
- <20191104203702.GG30938@ziepe.ca>
- <d0890a8b-c349-0515-2570-10e83979836b@nvidia.com>
+        id S1729617AbfKDVbp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Nov 2019 16:31:45 -0500
+Received: from retiisi.org.uk ([95.216.213.190]:35740 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728741AbfKDVbp (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 4 Nov 2019 16:31:45 -0500
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 03C84634C87;
+        Mon,  4 Nov 2019 23:30:33 +0200 (EET)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1iRjvl-0002Ko-04; Mon, 04 Nov 2019 23:30:33 +0200
+Date:   Mon, 4 Nov 2019 23:30:32 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        mchehab@kernel.org, robh+dt@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        c.barrett@framos.com, a.brela@framos.com, peter.griffin@linaro.org
+Subject: Re: [PATCH v4 1/2] dt-bindings: media: i2c: Add IMX296 CMOS sensor
+ binding
+Message-ID: <20191104213032.GT6253@valkosipuli.retiisi.org.uk>
+References: <20191030094902.32582-1-manivannan.sadhasivam@linaro.org>
+ <20191030094902.32582-2-manivannan.sadhasivam@linaro.org>
+ <20191031131538.GA9170@pendragon.ideasonboard.com>
+ <20191031134512.GB24273@mani>
+ <20191031141141.GD5018@pendragon.ideasonboard.com>
+ <20191031142817.GK6253@valkosipuli.retiisi.org.uk>
+ <20191031165444.GE5018@pendragon.ideasonboard.com>
+ <20191031170837.GN6253@valkosipuli.retiisi.org.uk>
+ <20191104190201.GF4913@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d0890a8b-c349-0515-2570-10e83979836b@nvidia.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20191104190201.GF4913@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Nov 04, 2019 at 12:57:59PM -0800, John Hubbard wrote:
-> On 11/4/19 12:37 PM, Jason Gunthorpe wrote:
-> > On Mon, Nov 04, 2019 at 03:31:53PM -0500, Jerome Glisse wrote:
-> >>> Note for Jason: the (a) or (b) items are talking about the vfio case, which is
-> >>> one of the two call sites that now use pin_longterm_pages_remote(), and the
-> >>> other one is infiniband:
-> >>>
-> >>> drivers/infiniband/core/umem_odp.c:646:         npages = pin_longterm_pages_remote(owning_process, owning_mm,
-> >>> drivers/vfio/vfio_iommu_type1.c:353:            ret = pin_longterm_pages_remote(NULL, mm, vaddr, 1,
-> >>
-> >> vfio should be reverted until it can be properly implemented.
-> >> The issue is that when you fix the implementation you might
-> >> break vfio existing user and thus regress the kernel from user
-> >> point of view. So i rather have the change to vfio reverted,
-> >> i believe it was not well understood when it got upstream,
-> >> between in my 5.4 tree it is still gup_remote not longterm.
-> > 
-> > It is clearly a bug, vfio must use LONGTERM, and does right above this
-> > remote call:
-> > 
-> >         if (mm == current->mm) {
-> >                 ret = get_user_pages(vaddr, 1, flags | FOLL_LONGTERM, page,
-> >                                      vmas);
-> >         } else {
-> >                 ret = get_user_pages_remote(NULL, mm, vaddr, 1, flags, page,
-> >                                             vmas, NULL);
-> > 
-> > 
-> > I'm not even sure that it really makes any sense to build a 'if' like
-> > that, surely just always call remote??
-> > 
+Hi Laurent,
+
+On Mon, Nov 04, 2019 at 09:02:01PM +0200, Laurent Pinchart wrote:
+> Hi Sakari,
 > 
+> On Thu, Oct 31, 2019 at 07:08:37PM +0200, Sakari Ailus wrote:
+> > On Thu, Oct 31, 2019 at 06:54:44PM +0200, Laurent Pinchart wrote:
+> > > On Thu, Oct 31, 2019 at 04:28:17PM +0200, Sakari Ailus wrote:
+> > >> On Thu, Oct 31, 2019 at 04:11:41PM +0200, Laurent Pinchart wrote:
+> > >>> On Thu, Oct 31, 2019 at 07:15:12PM +0530, Manivannan Sadhasivam wrote:
+> > >>>> On Thu, Oct 31, 2019 at 03:15:38PM +0200, Laurent Pinchart wrote:
+> > >>>>> On Wed, Oct 30, 2019 at 03:19:01PM +0530, Manivannan Sadhasivam wrote:
+> > >>>>>> Add YAML devicetree binding for IMX296 CMOS image sensor. Let's also
+> > >>>>>> add MAINTAINERS entry for the binding and driver.
+> > >>>>>> 
+> > >>>>>> Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> > >>>>>> ---
+> > >>>>>>  .../devicetree/bindings/media/i2c/imx296.yaml | 94 +++++++++++++++++++
+> > >>>>>>  MAINTAINERS                                   |  8 ++
+> > >>>>>>  2 files changed, 102 insertions(+)
+> > >>>>>>  create mode 100644 Documentation/devicetree/bindings/media/i2c/imx296.yaml
+> > >>>>>> 
+> > >>>>>> diff --git a/Documentation/devicetree/bindings/media/i2c/imx296.yaml b/Documentation/devicetree/bindings/media/i2c/imx296.yaml
+> > >>>>>> new file mode 100644
+> > >>>>>> index 000000000000..c04ec2203268
+> > >>>>>> --- /dev/null
+> > >>>>>> +++ b/Documentation/devicetree/bindings/media/i2c/imx296.yaml
+> > >>>>>> @@ -0,0 +1,94 @@
+> > >>>>>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > >>>>>> +%YAML 1.2
+> > >>>>>> +---
+> > >>>>>> +$id: http://devicetree.org/schemas/media/i2c/imx296.yaml#
+> > >>>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > >>>>>> +
+> > >>>>>> +title: Sony IMX296 1/2.8-Inch CMOS Image Sensor
+> > >>>>>> +
+> > >>>>>> +maintainers:
+> > >>>>>> +  - Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> > >>>>>> +
+> > >>>>>> +description: |-
+> > >>>>>> +  The Sony IMX296 is a 1/2.9-Inch active pixel type CMOS Solid-state image
+> > >>>>>> +  sensor with square pixel array and 1.58 M effective pixels. This chip
+> > >>>>>> +  features a global shutter with variable charge-integration time. It is
+> > >>>>>> +  programmable through I2C and 4-wire interfaces. The sensor output is
+> > >>>>>> +  available via CSI-2 serial data output (1 Lane).
+> > >>>>>> +
+> > >>>>>> +properties:
+> > >>>>>> +  compatible:
+> > >>>>>> +    const: sony,imx296
+> > >>>>>> +
+> > >>>>>> +  reg:
+> > >>>>>> +    maxItems: 1
+> > >>>>>> +
+> > >>>>>> +  clocks:
+> > >>>>>> +    maxItems: 1
+> > >>>>>> +
+> > >>>>>> +  clock-names:
+> > >>>>>> +    description:
+> > >>>>>> +      Input clock for the sensor.
+> > >>>>>> +    items:
+> > >>>>>> +      - const: mclk
+> > >>>>> 
+> > >>>>> The pin is named INCK, let's name the clock accordingly.
+> > >>>> 
+> > >>>> Okay, I thought generic names are preferred here!
+> > >>>>  
+> > >>>>>> +  clock-frequency:
+> > >>>>>> +    description:
+> > >>>>>> +      Frequency of the mclk clock in Hertz.
+> > >>>>> 
+> > >>>>> This shouldn't be needed, you can retrieve the clock frequency at
+> > >>>>> runtime from the clock source.
+> > >>>> 
+> > >>>> Unless the clock source is a fixed one! What if the clock source comes from
+> > >>>> SoC? We need to set the rate, right?
+> > >>> 
+> > >>> In that case, if you want to hardcode the clock in DT, the preferred way
+> > >>> is to use the assigned-clock-rates property. Otherwise, if the driver
+> > >>> requires a specific clock frequency, it's better to hardcode it in the
+> > >>> driver itself. In this specific case, I think assigned-clock-rates is
+> > >>> best as the device can support three different clock frequencies.
+> > >> 
+> > >> Just note that if ACPI support is added to the sensor driver, you'll need
+> > >> the clock-frequency property again, for that's the only way how the driver
+> > >> will get the clock frequency.
+> > > 
+> > > Why is so ? Why can't we implement of assigned-clock-rates for ACPI ?
+> > 
+> > ACPI doesn't deal with clocks as such. So there's also no ACPI defined way
+> > to access clocks specifically, including the frequency --- instead the
+> > clock is controlled by an AML methods which implement power on and off
+> > sequences for the device.
 > 
-> Right, and I thought about this when converting, and realized that the above 
-> code is working around the current gup.c limitations, which are "cannot support
-> gup remote with FOLL_LONGTERM".
+> It's a shortcoming of ACPI, which should be addressed at the ACPI level.
+> We shouldn't polute the DT bindings with a clock-frequency property for
+> this reason.
 
-But AFAICT it doesn't have a problem, the protection test is just too
-strict, and I guess the control flow needs a bit of fixing..
+It's really not a shortcoming but a design decision: what belongs to the
+scope of the firmware? And in this case system and device power management
+implementation is included. I do not believe this will be revisited in any
+foreseeable future, i.e. there will be no clock control interface for ACPI.
 
-The issue is this:
+Explicitly stating the frequency also has an added benefit: the driver
+can be certain that the given frequency is intended to be used on the
+board. Otherwise the frequency could have been changed by e.g. another
+driver. This does matter, as the frequency determines which link
+frequencies can be achieved, and as the two effectively have to be
+compliant, an unintended external clock frequency also means there will be
+no match between possible link frequencies and configured link frequencies.
 
-static __always_inline long __get_user_pages_locked():
-{
-        if (locked) {
-                /* if VM_FAULT_RETRY can be returned, vmas become invalid */
-                BUG_ON(vmas);
-                /* check caller initialized locked */
-                BUG_ON(*locked != 1);
-        }
+I.e. no images to capture either.
 
+That said, I don't know if this has been a practical issue in the past.
 
-so remote could be written as:
+-- 
+Regards,
 
-if (gup_flags & FOLL_LONGTERM) {
-   if (WARN_ON_ONCE(locked))
-        return -EINVAL;
-   return __gup_longterm_locked(...)
-}
-
-return __get_user_pages_locked(...)
-
-??
-
-Jason
+Sakari Ailus
