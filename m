@@ -2,180 +2,189 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FE42EFED3
-	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2019 14:40:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 02C19EFEE9
+	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2019 14:46:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389006AbfKENkC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Nov 2019 08:40:02 -0500
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:36697 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388615AbfKENkC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Nov 2019 08:40:02 -0500
-Received: by mail-wm1-f68.google.com with SMTP id c22so20177371wmd.1
-        for <linux-media@vger.kernel.org>; Tue, 05 Nov 2019 05:40:00 -0800 (PST)
+        id S2389002AbfKENqO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Nov 2019 08:46:14 -0500
+Received: from mail-wm1-f43.google.com ([209.85.128.43]:53400 "EHLO
+        mail-wm1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388615AbfKENqN (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Nov 2019 08:46:13 -0500
+Received: by mail-wm1-f43.google.com with SMTP id x4so9830447wmi.3
+        for <linux-media@vger.kernel.org>; Tue, 05 Nov 2019 05:46:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=b0UuCF0aZQ2aI4sXMhK55aJLis22oaUy2VUMpSDxgso=;
-        b=CUqNwSoarPHuHTIr2+8gVOa44pJC6vMOr+Eukgv7xaoow0yLUfWXtbonm7uUT95uGl
-         Ty0tDiNpGjEFv2JuoDjxn3dkgeaH0Qig3eZ5DzDU0dpHn1lqvBffuO/33nyoBLfftQEC
-         BItIwev7gzLMrWRxQxwB22t9LlIOPoQ7xG4VAknq0PqA75hq1vbZ+pOV+WmXh5NFDtUg
-         WFmeKL4xcU8CGjSJXjheghqM35FrErJARAcRixhnt3lWXIwMzLZj2i/WpOcxJwDazwFF
-         R9phxIIAwuHqg10L25RwF3x3pvYxN8+hf5d2fESLggegKm7l69L98iesHKyKvI4cSIi4
-         E2Yw==
+        d=ffwll.ch; s=google;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=MTEfglnTSPOhC45PLjE/oQ5m/qtok/s9NBFw64ev4Tg=;
+        b=JkxN3NX/Q/mYJ7uS9k72G1xJnPrVQCbORQEGOPOaxg8VYPUgh+Heqx7wvHjpbdd+vH
+         k+iDvq4qHrs4DEJ6MRZ6ZSa/LQKXvVC9gnLdwANs4/7XxnK09qzrwLrsMMAgKnn4RWwp
+         w0V8nK2w8vZz704uBY+mQMKEAQtM5t7mNJrVQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:reply-to:subject:to:cc:references:from
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-transfer-encoding:content-language;
-        bh=b0UuCF0aZQ2aI4sXMhK55aJLis22oaUy2VUMpSDxgso=;
-        b=IJRO0jo48u7FwFG3tapFWh1SrreF499DaRwFl+mYYoT4oMl4xJDeYcQ/rWah7XZLb6
-         2QPhVeUxwXdg6h9NBiZ0MgpCQcWP5DJdibGpX3nkwrCOt39UDQ4J+VbsVCeQ2BQ26SBX
-         KA/jWnfefgCqx2hXYYukW88XIvpIfeIe0Kt7liTknEkInZOyrESAo2EmiCpucsljcBNa
-         WLfaCLVUd7xF4eiTRDGxJIn305dH8pA+j+cKKjL+D4tKW8CA6h1ZcNClX66HX21lmg3d
-         d6V9SiIiaVpbwXrtcLF4Du2c6lCRz3xKSZMmo859RPw9QQPpSvD34F07blzQWbS3rm1A
-         odJw==
-X-Gm-Message-State: APjAAAVpAjp8XYBcGrENQbyxqx7wXLr8AqkfpTTBH0Ao/E1wR9/53abN
-        Za595yqX9X9m7sa++grKOXA=
-X-Google-Smtp-Source: APXvYqzZ6sdPhnPCT5teu/ZgEP0SZG0SRu2jQT/ZQ3dDbBTGI9htRohDdc5AHqxb6x0HBdCoe6Uiag==
-X-Received: by 2002:a7b:c350:: with SMTP id l16mr4081706wmj.139.1572961199528;
-        Tue, 05 Nov 2019 05:39:59 -0800 (PST)
-Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7? ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
-        by smtp.gmail.com with ESMTPSA id h124sm21913478wmf.30.2019.11.05.05.39.58
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 05 Nov 2019 05:39:58 -0800 (PST)
-Reply-To: christian.koenig@amd.com
-Subject: Re: [PATCH 5/5] drm/amdgpu: implement amdgpu_gem_prime_move_notify
-To:     Daniel Vetter <daniel@ffwll.ch>
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to:user-agent;
+        bh=MTEfglnTSPOhC45PLjE/oQ5m/qtok/s9NBFw64ev4Tg=;
+        b=CCzuXmASqQifb7q3zu3UhmM7Wh9cB7wkevlbUK4dY3Tg6nqYNV0z+6i3GyB2ayKoCb
+         DsCBItDG1pmc20ypUk/2/2CqmR2okFsSDh48OS3vgSqzKuEk8xHeT08SWoTbDubqEvv+
+         6AN0GKvgWNPuf6EREzzNvjR36vU72xkFnPEgTJ6N+2ZM1yiVGur+lndZwU0CQ/4REkn1
+         UP2cgQXb2DbpQADOv11TqGZOkW0QNYyVCPBWQVwlHVxSoZSJcyI+PzboZOrpYhnWWh7G
+         vFtTY5hoKLVs8uVW8ui5TM9ycaV5h/48+tGRzAd/8aHIvUh2pBod53nUVY7cgHLi8Iok
+         f31Q==
+X-Gm-Message-State: APjAAAWUdBeGQrlisdu8rmnnWSCztuUaQjMkND//jKu1/bDo2YewyKTX
+        rudIHAWEa/KvpBlQmsCb/h/CDg==
+X-Google-Smtp-Source: APXvYqz7y9qIdqhlIZZBhrBaFPpsX027Pw6oBBeZ9j2OgSp2zdJ+KhDDv6C+1Aqxvubb3RgKypWyPw==
+X-Received: by 2002:a1c:64d6:: with SMTP id y205mr3981508wmb.136.1572961570525;
+        Tue, 05 Nov 2019 05:46:10 -0800 (PST)
+Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net. [212.51.149.96])
+        by smtp.gmail.com with ESMTPSA id s21sm29846720wrb.31.2019.11.05.05.46.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Nov 2019 05:46:09 -0800 (PST)
+Date:   Tue, 5 Nov 2019 14:46:07 +0100
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Christian =?iso-8859-1?Q?K=F6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>
 Cc:     dri-devel@lists.freedesktop.org, sumit.semwal@linaro.org,
         linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
         intel-gfx@lists.freedesktop.org
+Subject: Re: RFC: Unpinned DMA-buf handling
+Message-ID: <20191105134607.GH10326@phenom.ffwll.local>
 References: <20191029104049.9011-1-christian.koenig@amd.com>
- <20191029104049.9011-6-christian.koenig@amd.com>
- <20191105105252.GE10326@phenom.ffwll.local>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <0c506743-1def-2c49-886a-4fa125b33151@gmail.com>
-Date:   Tue, 5 Nov 2019 14:39:57 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191105105252.GE10326@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+In-Reply-To: <20191029104049.9011-1-christian.koenig@amd.com>
+X-Operating-System: Linux phenom 5.2.0-3-amd64 
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 05.11.19 um 11:52 schrieb Daniel Vetter:
-> On Tue, Oct 29, 2019 at 11:40:49AM +0100, Christian KÃ¶nig wrote:
->> Implement the importer side of unpinned DMA-buf handling.
->>
->> Signed-off-by: Christian KÃ¶nig <christian.koenig@amd.com>
->> ---
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 28 ++++++++++++++++++++-
->>   drivers/gpu/drm/amd/amdgpu/amdgpu_object.c  |  6 +++++
->>   2 files changed, 33 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
->> index 3629cfe53aad..af39553c51ad 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
->> @@ -456,7 +456,33 @@ amdgpu_dma_buf_create_obj(struct drm_device *dev, struct dma_buf *dma_buf)
->>   	return ERR_PTR(ret);
->>   }
->>   
->> +/**
->> + * amdgpu_dma_buf_move_notify - &attach.move_notify implementation
->> + *
->> + * @attach: the DMA-buf attachment
->> + *
->> + * Invalidate the DMA-buf attachment, making sure that the we re-create the
->> + * mapping before the next use.
->> + */
->> +static void
->> +amdgpu_dma_buf_move_notify(struct dma_buf_attachment *attach)
->> +{
->> +	struct ttm_operation_ctx ctx = { false, false };
->> +	struct drm_gem_object *obj = attach->importer_priv;
->> +	struct amdgpu_bo *bo = gem_to_amdgpu_bo(obj);
->> +	struct ttm_placement placement = {};
->> +	int r;
->> +
->> +	if (bo->tbo.mem.mem_type == TTM_PL_SYSTEM)
->> +		return;
->> +
->> +	r = ttm_bo_validate(&bo->tbo, &placement, &ctx);
->> +	if (r)
->> +		DRM_ERROR("Failed to invalidate DMA-buf import (%d))\n", r);
-> Where do you update pagetables?
->
-> The only thing I've found is in the amdgpu CS code, which is way to late
-> for this stuff here. Plus TTM doesn't handle virtual memory at all (aside
-> from the gart tt), so clearly you need to call into amdgpu code somewhere
-> for this. But I didn't find it, neither in your ->move_notify nor the
-> ->move callback in ttm_bo_driver.
->
-> How does this work?
+On Tue, Oct 29, 2019 at 11:40:44AM +0100, Christian König wrote:
+> The basic idea stayed the same since the last version of those patches.
+> The exporter can provide explicit pin/unpin functions and the importer a
+> move_notify callback. This allows us to avoid pinning buffers while
+> importers have a mapping for them.
+> 
+> In difference to the last version the locking changes were separated
+> from this patchset and committed to drm-misc-next.
+> 
+> This allows drivers to implement the new locking semantics without the
+> extra unpinned handling, but of course the changed locking semantics is
+> still a prerequisite to the unpinned handling.
+> 
+> The last time this set was send out the discussion ended by questioning
+> if the move_notify callback was really the right approach of notifying
+> the importers that a buffer is about to change its placement. A possible
+> alternative would be to add a special crafted fence object instead.
+> 
+> Let's discuss on the different approaches once more,
 
-Page tables are not updated until the next command submission, e.g. in 
-amdgpu_cs.c
+So here's my pile of higher-level thoughts on things still to discuss. I
+don't think we need a code-answer for all of these, but at least a rough
+idea to make sure we're not walling ourselves into a corner.
 
-This is save since all previous command submissions are added to the 
-dma_resv object as fences and the dma_buf can't be moved before those 
-are signaled.
+- The entire eviction fence stuff amdkfd does. It is kinda a very special
+  version of ->move_notify, except it's also passing around an active bit
+  for an entire set of buffers in an efficient way. This active bit works
+  for amdkfd where we evict the entire context (logically at least, ofc
+  all the unevicted buffers and their pagetables stay). I don't  think
+  it'll work of a more traditional execbuf driver.
 
-Christian.
+  I think we need some way to move lru/active information between drivers
+  that works. Including making sure that drivers don't spend all the time
+  walking over all the active buffers in their lru first, but also not
+  burning down too much cpu time. So either lazy lru updates, or some bulk
+  move thing, or something else. Or alternatively we spec out explicitly
+  that lru updates will _not_ happen across drivers, and that drivers need
+  to lru-bump buffers while evicting when they notice they're still busy
+  (so some kind of lazy lru update).
 
-> -Daniel
->
->> +}
->> +
->>   static const struct dma_buf_attach_ops amdgpu_dma_buf_attach_ops = {
->> +	.move_notify = amdgpu_dma_buf_move_notify
->>   };
->>   
->>   /**
->> @@ -492,7 +518,7 @@ struct drm_gem_object *amdgpu_gem_prime_import(struct drm_device *dev,
->>   		return obj;
->>   
->>   	attach = dma_buf_dynamic_attach(dma_buf, dev->dev,
->> -					&amdgpu_dma_buf_attach_ops, NULL);
->> +					&amdgpu_dma_buf_attach_ops, obj);
->>   	if (IS_ERR(attach)) {
->>   		drm_gem_object_put(obj);
->>   		return ERR_CAST(attach);
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
->> index ac776d2620eb..cfa46341c9a7 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_object.c
->> @@ -861,6 +861,9 @@ int amdgpu_bo_pin_restricted(struct amdgpu_bo *bo, u32 domain,
->>   		return 0;
->>   	}
->>   
->> +	if (bo->tbo.base.import_attach)
->> +		dma_buf_pin(bo->tbo.base.import_attach);
->> +
->>   	bo->flags |= AMDGPU_GEM_CREATE_VRAM_CONTIGUOUS;
->>   	/* force to pin into visible video ram */
->>   	if (!(bo->flags & AMDGPU_GEM_CREATE_NO_CPU_ACCESS))
->> @@ -944,6 +947,9 @@ int amdgpu_bo_unpin(struct amdgpu_bo *bo)
->>   
->>   	amdgpu_bo_subtract_pin_size(bo);
->>   
->> +	if (bo->tbo.base.import_attach)
->> +		dma_buf_unpin(bo->tbo.base.import_attach);
->> +
->>   	for (i = 0; i < bo->placement.num_placement; i++) {
->>   		bo->placements[i].lpfn = 0;
->>   		bo->placements[i].flags &= ~TTM_PL_FLAG_NO_EVICT;
->> -- 
->> 2.17.1
->>
->> _______________________________________________
->> dri-devel mailing list
->> dri-devel@lists.freedesktop.org
->> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+- How will we handle the acquire ctx? Sooner or later I expect that when
+  an importer calls into the exporter to validate the buffers we need to
+  to have something like what you added as a stall point in ttm in
 
+  commit d367bd2a5e2b12cb9135b30df94af8211196e8cf
+  Author: Christian König <christian.koenig@amd.com>
+  Date:   Wed May 22 09:51:47 2019 +0200
+
+      drm/ttm: fix busy memory to fail other user v10
+
+  Now we can do the same trick you've done of fishing out the acquire ctx
+  from the buffer we're trying to get validated, instead of an explicit
+  parameter to dma_buf_map_attachment. But the other change is that
+  callers need to be able to handle EDEADLCK, and that's a huge one. I'm
+  leaning towards requiring EDEADLCK handling for dynamic importers from
+  the go, using the fake deadlck injection debug knob to enforce it.
+  Explicit argument would be nice, but oh well.
+
+- Related, we need to have an idea for how we should handle the TODO
+  comment in ttm_mem_evict_wait_busy across drivers. Other drivers might
+  hang onto a lot of buffers they don't really need, simply because they
+  evicted them and kept them locked (i915 very likely will do that).
+
+  This is one of the questions I don't think we need to solve right away,
+  but good to have a solution in mind. I think a dma_resv->can_evict flag,
+  which allows the lru evict code to throw out locked buffers (only locked
+  by our own ctx ofc) would solve this. But not 100% sure. Also making it
+  can_evict would make it opt-in as an optimization.
+
+- ->move_notify needs to guarantee that all access stops, or we have a
+  huge leak between security domains. I think there's three ways to do
+  that:
+
+  - Preempt the entire context right away. This is what amdkfd does
+    (except with the eviction fence, not the move_notify callback). Then
+    when you reschedule the context make sure all the pagetables are up to
+    date again.
+
+  - Synchronously punch out the pagetables in ->notify_move, and let
+    gpu-side page faulting handle the fallout. Not sure anyone is doing
+    that right now, but we at least discussed that as an idea here at
+    intel.
+
+  - Add an async pagetable update job, which has the current latest job as
+    a dependency, and adds a new fence to the dma_resv object to signal
+    when the pagetables are updated. This would all be scheduled from the
+    ->notify_move callback, so would need to make sure this is officially
+    allowed.
+
+  If we don't have any of these then some later batch (which didn't
+  declare it's going to need the buffer we've evicted) could access
+  whatever new buffer has been placed at the same locations through the
+  old pagetables.
+
+  I did try to figure out how you solve this in amdgpu right now, but for
+  normal CS ioctl the only pagetable update code I could find was in the
+  cs ioctl itself. That's too late I think.
+
+- Related to the above, and since I think the ttm hack to privatize the
+  resv_object to avoid unecessary stalls: I think a last_acces fence on
+  the attachment would be really nice. That way a driver could make sure
+  it's only blocking on its own stuff and not on stuff another gpu is
+  doing. But not sure it makes sense to have that in dma-buf structures,
+  drivers can just track this on their own (and ttm would need a big
+  overhaul since right now it totally ignores that there might be multiple
+  mappings of the same underlying buffer object, that's all left to
+  drivers to wrangle).
+
+- Finally, we need to spell out the semantics of when you need to call
+  dma_buf_attachment_unmap after a notify_move. I'm kinda leaning towards
+  that you first need to unmap the old mapping, before you create a new
+  one. But that might be too tough to implement for drivers, and result in
+  stalls. So probably we need multiple mappings, and then we need to make
+  it clear whether you can do that on the same attachment, or whether you
+  need to do something else. Either way this must be really really clear.
+
+I think the above is all the big questions from the past few discussion
+rounds that we still have.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
