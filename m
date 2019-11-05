@@ -2,68 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C21BF0412
-	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2019 18:28:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ADBF6F046C
+	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2019 18:53:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731028AbfKER17 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Nov 2019 12:27:59 -0500
-Received: from mga05.intel.com ([192.55.52.43]:39804 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730943AbfKER17 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 5 Nov 2019 12:27:59 -0500
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Nov 2019 09:27:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,271,1569308400"; 
-   d="scan'208";a="195890394"
-Received: from jklimiuk-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.252.42.206])
-  by orsmga008.jf.intel.com with ESMTP; 05 Nov 2019 09:27:45 -0800
-Received: by kekkonen.fi.intel.com (Postfix, from userid 1000)
-        id 601962200C; Tue,  5 Nov 2019 19:24:15 +0200 (EET)
-Date:   Tue, 5 Nov 2019 19:24:15 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH] media: i2c: IMX296 camera sensor driver
-Message-ID: <20191105172414.GA14607@kekkonen.localdomain>
-References: <20191031132309.10965-1-laurent.pinchart@ideasonboard.com>
- <20191101145246.GA13101@Mani-XPS-13-9360>
- <20191104134206.GC4913@pendragon.ideasonboard.com>
- <20191105150355.GA674@Mani-XPS-13-9360>
+        id S2390385AbfKERx3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Nov 2019 12:53:29 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:50860 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389356AbfKERx3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Nov 2019 12:53:29 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dafna)
+        with ESMTPSA id D073B28F76D
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     dafna.hirschfeld@collabora.com, helen.koike@collabora.com,
+        andre.almeida@collabora.com, skhan@linuxfoundation.org,
+        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com
+Subject: [PATCH] media: vimc: sen: remove unused kthread_sen field
+Date:   Tue,  5 Nov 2019 18:53:17 +0100
+Message-Id: <20191105175317.14751-1-dafna.hirschfeld@collabora.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191105150355.GA674@Mani-XPS-13-9360>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Nov 05, 2019 at 08:33:55PM +0530, Manivannan Sadhasivam wrote:
-...
-> > > > +static int imx296_remove(struct i2c_client *client)
-> > > > +{
-> > > > +	struct v4l2_subdev *subdev = i2c_get_clientdata(client);
-> > > > +	struct imx296 *imx = to_imx296(subdev);
-> > > > +
-> > > > +	v4l2_async_unregister_subdev(subdev);
-> > > > +	media_entity_cleanup(&subdev->entity);
-> > > > +	v4l2_ctrl_handler_free(&imx->ctrls);
-> > > > +
-> > > > +	return 0;
-> > > > +}
-> > > > +
-> > > > +#if IS_ENABLED(CONFIG_OF)
-> 
-> I think you don't need this guard if of_match_ptr is used.
+The field kthread_sen in the vimc_sen_device is
+not set and used. So remove the field and
+the code that check if it is non NULL
 
-There's also need for of_match_ptr, it should be removed.
+Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+---
+ drivers/media/platform/vimc/vimc-sensor.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
+diff --git a/drivers/media/platform/vimc/vimc-sensor.c b/drivers/media/platform/vimc/vimc-sensor.c
+index 25ee89a067f7..32380f504591 100644
+--- a/drivers/media/platform/vimc/vimc-sensor.c
++++ b/drivers/media/platform/vimc/vimc-sensor.c
+@@ -18,7 +18,6 @@ struct vimc_sen_device {
+ 	struct vimc_ent_device ved;
+ 	struct v4l2_subdev sd;
+ 	struct tpg_data tpg;
+-	struct task_struct *kthread_sen;
+ 	u8 *frame;
+ 	/* The active format */
+ 	struct v4l2_mbus_framefmt mbus_format;
+@@ -202,10 +201,6 @@ static int vimc_sen_s_stream(struct v4l2_subdev *sd, int enable)
+ 		const struct vimc_pix_map *vpix;
+ 		unsigned int frame_size;
+ 
+-		if (vsen->kthread_sen)
+-			/* tpg is already executing */
+-			return 0;
+-
+ 		/* Calculate the frame size */
+ 		vpix = vimc_pix_map_by_code(vsen->mbus_format.code);
+ 		frame_size = vsen->mbus_format.width * vpix->bpp *
 -- 
-Sakari Ailus
-sakari.ailus@linux.intel.com
+2.20.1
+
