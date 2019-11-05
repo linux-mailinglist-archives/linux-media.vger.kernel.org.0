@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EBA1AF0120
-	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2019 16:21:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 71DD6F0123
+	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2019 16:21:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389744AbfKEPVP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Nov 2019 10:21:15 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:49062 "EHLO
+        id S2389781AbfKEPVS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Nov 2019 10:21:18 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:49070 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389286AbfKEPVP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Nov 2019 10:21:15 -0500
+        with ESMTP id S2389689AbfKEPVS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Nov 2019 10:21:18 -0500
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: dafna)
-        with ESMTPSA id 1DF3728ED23
+        with ESMTPSA id DC2A028ED26
 From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 To:     linux-media@vger.kernel.org
 Cc:     dafna.hirschfeld@collabora.com, helen.koike@collabora.com,
         andre.almeida@collabora.com, skhan@linuxfoundation.org,
         hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
         laurent.pinchart@ideasonboard.com, ezequiel@collabora.com
-Subject: [PATCH v2 1/3] media: vimc: Add the implementation for the configfs api
-Date:   Tue,  5 Nov 2019 16:20:57 +0100
-Message-Id: <20191105152059.9994-2-dafna.hirschfeld@collabora.com>
+Subject: [PATCH v2 2/3] media: vimc: use configfs instead of having hardcoded configuration
+Date:   Tue,  5 Nov 2019 16:20:58 +0100
+Message-Id: <20191105152059.9994-3-dafna.hirschfeld@collabora.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191105152059.9994-1-dafna.hirschfeld@collabora.com>
 References: <20191105152059.9994-1-dafna.hirschfeld@collabora.com>
@@ -33,1078 +33,1224 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add the code that implements the usage of configfs in order
-to create and configure a device topology from userspace.
-The code is only added in this patch but is not used.
-It will be used in next patch in the series.
+Use configfs in order to create a device and set its topology
+and remove the hardcoded device.
 
 Signed-off-by: Helen Koike <helen.koike@collabora.com>
 [refactored for upstream]
 Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 ---
- drivers/media/platform/vimc/Kconfig         |   2 +-
- drivers/media/platform/vimc/Makefile        |   2 +-
- drivers/media/platform/vimc/vimc-capture.c  |  21 +
- drivers/media/platform/vimc/vimc-common.h   |  64 ++
- drivers/media/platform/vimc/vimc-configfs.c | 711 ++++++++++++++++++++
- drivers/media/platform/vimc/vimc-configfs.h |  41 ++
- drivers/media/platform/vimc/vimc-debayer.c  |  22 +
- drivers/media/platform/vimc/vimc-scaler.c   |  22 +
- drivers/media/platform/vimc/vimc-sensor.c   |  21 +
- 9 files changed, 904 insertions(+), 2 deletions(-)
- create mode 100644 drivers/media/platform/vimc/vimc-configfs.c
- create mode 100644 drivers/media/platform/vimc/vimc-configfs.h
+ Documentation/ABI/testing/configfs-vimc    |   6 +
+ Documentation/media/v4l-drivers/vimc.dot   |  28 +-
+ Documentation/media/v4l-drivers/vimc.rst   | 296 +++++++++++++----
+ drivers/media/platform/vimc/Kconfig        |   8 +-
+ drivers/media/platform/vimc/vimc-capture.c |  21 +-
+ drivers/media/platform/vimc/vimc-common.h  |  45 ++-
+ drivers/media/platform/vimc/vimc-core.c    | 356 ++++++++++-----------
+ drivers/media/platform/vimc/vimc-debayer.c |  12 +-
+ drivers/media/platform/vimc/vimc-scaler.c  |  11 +-
+ drivers/media/platform/vimc/vimc-sensor.c  |  10 +-
+ 10 files changed, 475 insertions(+), 318 deletions(-)
+ create mode 100644 Documentation/ABI/testing/configfs-vimc
 
+diff --git a/Documentation/ABI/testing/configfs-vimc b/Documentation/ABI/testing/configfs-vimc
+new file mode 100644
+index 000000000000..101af83eb249
+--- /dev/null
++++ b/Documentation/ABI/testing/configfs-vimc
+@@ -0,0 +1,6 @@
++What:		/config/vimc
++Date:		November 2019
++KernelVersion:	//TODO
++Contact:	linux-media@vger.kernel.org
++Description:
++		Allow userspace to configure a vimc device
+diff --git a/Documentation/media/v4l-drivers/vimc.dot b/Documentation/media/v4l-drivers/vimc.dot
+index 57863a13fa39..e3b41ac2bc46 100644
+--- a/Documentation/media/v4l-drivers/vimc.dot
++++ b/Documentation/media/v4l-drivers/vimc.dot
+@@ -2,21 +2,15 @@
+ 
+ digraph board {
+ 	rankdir=TB
+-	n00000001 [label="{{} | Sensor A\n/dev/v4l-subdev0 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
+-	n00000001:port0 -> n00000005:port0 [style=bold]
+-	n00000001:port0 -> n0000000b [style=bold]
+-	n00000003 [label="{{} | Sensor B\n/dev/v4l-subdev1 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
+-	n00000003:port0 -> n00000008:port0 [style=bold]
+-	n00000003:port0 -> n0000000f [style=bold]
+-	n00000005 [label="{{<port0> 0} | Debayer A\n/dev/v4l-subdev2 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+-	n00000005:port1 -> n00000017:port0
+-	n00000008 [label="{{<port0> 0} | Debayer B\n/dev/v4l-subdev3 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+-	n00000008:port1 -> n00000017:port0 [style=dashed]
+-	n0000000b [label="Raw Capture 0\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
+-	n0000000f [label="Raw Capture 1\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
+-	n00000013 [label="RGB/YUV Input\n/dev/video2", shape=box, style=filled, fillcolor=yellow]
+-	n00000013 -> n00000017:port0 [style=dashed]
+-	n00000017 [label="{{<port0> 0} | Scaler\n/dev/v4l-subdev4 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+-	n00000017:port1 -> n0000001a [style=bold]
+-	n0000001a [label="RGB/YUV Capture\n/dev/video3", shape=box, style=filled, fillcolor=yellow]
++	n00000001 [label="cap-deb\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
++	n00000005 [label="cap-sen\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
++	n00000009 [label="cap-sca\n/dev/video2", shape=box, style=filled, fillcolor=yellow]
++	n0000000d [label="{{<port0> 0} | sca\n/dev/v4l-subdev0 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
++	n0000000d:port1 -> n00000009 [style=bold]
++	n00000010 [label="{{<port0> 0} | deb\n/dev/v4l-subdev1 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
++	n00000010:port1 -> n00000001 [style=bold]
++	n00000010:port1 -> n0000000d:port0 [style=bold]
++	n00000013 [label="{{} | sen\n/dev/v4l-subdev2 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
++	n00000013:port0 -> n00000005 [style=bold]
++	n00000013:port0 -> n00000010:port0 [style=bold]
+ }
+diff --git a/Documentation/media/v4l-drivers/vimc.rst b/Documentation/media/v4l-drivers/vimc.rst
+index 8f5d7f8d83bb..159362ffc995 100644
+--- a/Documentation/media/v4l-drivers/vimc.rst
++++ b/Documentation/media/v4l-drivers/vimc.rst
+@@ -1,99 +1,277 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
++==========================================
+ The Virtual Media Controller Driver (vimc)
+ ==========================================
+ 
+-The vimc driver emulates complex video hardware using the V4L2 API and the Media
+-API. It has a capture device and three subdevices: sensor, debayer and scaler.
+-
+-Topology
+---------
+-
+-The topology is hardcoded, although you could modify it in vimc-core and
+-recompile the driver to achieve your own topology. This is the default topology:
+-
+-.. _vimc_topology_graph:
+-
+-.. kernel-figure:: vimc.dot
+-    :alt:   Diagram of the default media pipeline topology
+-    :align: center
+-
+-    Media pipeline graph on vimc
++The vimc driver emulates complex video hardware topologies using the V4L2 API
++and the Media API. It has a capture device and three subdevices:
+ 
+-Configuring the topology
+-~~~~~~~~~~~~~~~~~~~~~~~~
++sensor, debayer and scaler. It exposes media devices through /dev/mediaX nodes,
++video capture devices through /dev/videoX and sub-devices through /dev/v4l-subdevX.
+ 
+-Each subdevice will come with its default configuration (pixelformat, height,
+-width, ...). One needs to configure the topology in order to match the
+-configuration on each linked subdevice to stream frames through the pipeline.
+-If the configuration doesn't match, the stream will fail. The ``v4l-utils``
+-package is a bundle of user-space applications, that comes with ``media-ctl`` and
+-``v4l2-ctl`` that can be used to configure the vimc configuration. This sequence
+-of commands fits for the default topology:
+-
+-.. code-block:: bash
+ 
+-        media-ctl -d platform:vimc -V '"Sensor A":0[fmt:SBGGR8_1X8/640x480]'
+-        media-ctl -d platform:vimc -V '"Debayer A":0[fmt:SBGGR8_1X8/640x480]'
+-        media-ctl -d platform:vimc -V '"Sensor B":0[fmt:SBGGR8_1X8/640x480]'
+-        media-ctl -d platform:vimc -V '"Debayer B":0[fmt:SBGGR8_1X8/640x480]'
+-        v4l2-ctl -z platform:vimc -d "RGB/YUV Capture" -v width=1920,height=1440
+-        v4l2-ctl -z platform:vimc -d "Raw Capture 0" -v pixelformat=BA81
+-        v4l2-ctl -z platform:vimc -d "Raw Capture 1" -v pixelformat=BA81
++ConfigFS API is used to dynamically configure a media device
++and its topology which can then be used for specific testing needs.
+ 
+ Subdevices
+-----------
++==========
+ 
+ Subdevices define the behavior of an entity in the topology. Depending on the
+ subdevice, the entity can have multiple pads of type source or sink.
+ 
+ vimc-sensor:
+-	Generates images in several formats using video test pattern generator.
+-	Exposes:
++Generates images in several formats using video test pattern generator.
++Exposes:
+ 
+-	* 1 Pad source
++* 1 Pad source
+ 
+ vimc-debayer:
+-	Transforms images in bayer format into a non-bayer format.
+-	Exposes:
++Transforms images in bayer format into a non-bayer format.
++Exposes:
+ 
+-	* 1 Pad sink
+-	* 1 Pad source
++* 1 Pad sink
++* 1 Pad source
+ 
+ vimc-scaler:
+-	Scale up the image by a factor of 3. E.g.: a 640x480 image becomes a
+-        1920x1440 image. (this value can be configured, see at
+-        `Module options`_).
+-	Exposes:
++Scales up the image by a factor of 3. E.g.: a 640x480 image becomes a
++1920x1440 image. (this value can be configured, see
++`Module options`_).
++Exposes:
+ 
+-	* 1 Pad sink
+-	* 1 Pad source
++* 1 Pad sink
++* 1 Pad source
+ 
+ vimc-capture:
+-	Exposes node /dev/videoX to allow userspace to capture the stream.
+-	Exposes:
++Exposes node /dev/videoX to allow userspace to capture the stream.
++Exposes:
+ 
+-	* 1 Pad sink
+-	* 1 Pad source
++* 1 Pad sink
++* 1 Pad source
+ 
+ 
+ Module options
+---------------
++==============
+ 
+ Vimc has a module parameter to configure the driver.
+ 
+ * ``sca_mult=<unsigned int>``
+ 
+-        Image size multiplier factor to be used to multiply both width and
+-        height, so the image size will be ``sca_mult^2`` bigger than the
+-        original one. Currently, only supports scaling up (the default value
+-        is 3).
++Image size multiplier factor to be used to multiply both width and
++height, so the image size will be ``sca_mult^2`` bigger than the
++original one. Currently, only supports scaling up (the default value
++is 3).
++
++
++Configuring a topology through ConfigFS (Experimental)
++======================================================
++
++.. note:: This API is under development and might change in the future.
++
++Mount configfs:
++::
++
++	CONFIGFS_ROOT=/sys/kernel/config
++	$ mkdir $CONFIGFS_ROOT
++	$ mount -t configfs none $CONFIGFS_ROOT
++
++When loading the module, you will see a folder named vimc
++::
++
++	$ tree $CONFIGFS_ROOT
++	/sys/kernel/config
++	`-- vimc
++
++Creating a media device
++-----------------------
++
++Create a folder under ``$CONFIGFS_ROOT/vimc/`` in order to create media device.
++
++Example:
++::
++
++	$ mkdir $CONFIGFS_ROOT/vimc/mdev
++	$ tree $CONFIGFS_ROOT/vimc/mdev
++	/sys/kernel/config/
++	`-- vimc
++	    `-- mdev
++	        `-- hotplug
++
++Creating entities
++-----------------
++
++In order to create an entity in the media device's topology,
++create a folder under ``$CONFIGFS_ROOT/vimc/<mdev-name>/``
++with the following format:
++
++	<entity-type>:<entity-name>
++
++Where ``<entity-type>`` is one of the following:
++
++- vimc-sensor
++- vimc-scaler
++- vimc-debayer
++- vimc-capture
++
++Example:
++::
++
++	$ mkdir $CONFIGFS_ROOT/vimc/mdev/vimc-sensor:sen
++	$ mkdir $CONFIGFS_ROOT/vimc/mdev/vimc-capture:cap-sen
++	$ tree $CONFIGFS_ROOT/
++	/sys/kernel/config/
++	`-- vimc
++	    `-- mdev
++		|-- hotplug
++		|-- vimc-capture:cap-sen
++		|   `-- sink:0
++		`-- vimc-sensor:sen
++                    `-- source:0
++
++Default folders are created under the entity directory for each pad of the entity.
++It is not possible to create two entities of different types with the same name.
++
++Creating links
++--------------
++
++In order to create a link between two entities, you should create a directory
++under the sink pad of the link and then create a symbolic link to it from the source pad:
++
++Example:
++::
++
++	$ mkdir "$CONFIGFS_ROOT/vimc/mdev/vimc-capture:cap-sen/sink:0/sen-to-cap"
++	$ ln -s "$CONFIGFS_ROOT/vimc/mdev/vimc-capture:cap-sen/sink:0/sen-to-cap" "$CONFIGFS_ROOT/vimc/mdev/vimc-sensor:sen/source:0/sen-to-cap"
++	$ tree $CONFIGFS_ROOT
++	/sys/kernel/config
++	`-- vimc
++	    `-- mdev
++        	|-- hotplug
++	        |-- vimc-capture:cap-sen
++        	|   `-- sink:0
++	        |       `-- sen-to-cap
++        	|           `-- type
++	        `-- vimc-sensor:sen
++        	    `-- source:0
++                	`-- sen-to-cap -> ../../../../../vimc/mdev/cap-sen/sink:0/sen-to-cap
++
++The ``type`` file is used to set the type of the link. It's values correspond to setting/unsetting
++the flags ``MEDIA_LNK_FL_ENABLED`` and ``MEDIA_LNK_FL_IMMUTABLE`` that are described
++in :ref:`Documentation/media/uapi/mediactl/media-types.rst <media-link-flag>`
++( seek for ``MEDIA_LNK_FL_*``)
++
++The possible values are:
++
++- "on", "enabled", "1" - to set ``MEDIA_LNK_FL_ENABLED`` and unset ``MEDIA_LNK_FL_IMMUTABLE``.
++- "off", "disabled", "0" - to unset both ``MEDIA_LNK_FL_ENABLED`` and  ``MEDIA_LNK_FL_IMMUTABLE``.
++- "immutable" - to set both ``MEDIA_LNK_FL_ENABLED`` and ``MEDIA_LNK_FL_IMMUTABLE``
++
++Example:
++::
++
++	$ echo on > $CONFIGFS_ROOT/vimc/mdev/vimc-capture:cap-sen/sink:0/sen-to-cap/type
++	$ cat $CONFIGFS_ROOT/vimc/mdev/vimc-capture:cap-sen/sink:0/sen-to-cap/type
++	enabled
++
++Activating/Deactivating device
++------------------------------
++
++You can activate the device by writing one of "plugged", "plug" or "1" to the file
++``$CONFIGFS_ROOT/vimc/<mdev-name>/hotplug``
++
++Example:
++::
++
++	$ echo 1 > $CONFIGFS_ROOT/vimc/mdev/hotplug
++
++You should see a new node ``/dev/mediaX`` in your devfs.
++
++You can deactivate the device by writing one of "unplugged", "unplug" or "0" to the file
++``$CONFIGFS_ROOT/vimc/<mdev-name>/hotplug``
++
++Example:
++::
++
++	$ echo unplugged > $CONFIGFS_ROOT/vimc/mdev/hotplug
++
++Topology Configuration - Full Example
++-------------------------------------
++
++Here is a full example of a simple topology configuration:
++
++.. code-block:: bash
++
++    # Creating the entities
++    mkdir "$CONFIGFS_ROOT/vimc/mdev"
++    mkdir "$CONFIGFS_ROOT/vimc/mdev/vimc-sensor:sen"
++    mkdir "$CONFIGFS_ROOT/vimc/mdev/vimc-debayer:deb"
++    mkdir "$CONFIGFS_ROOT/vimc/mdev/vimc-scaler:sca"
++    mkdir "$CONFIGFS_ROOT/vimc/mdev/vimc-capture:cap-sca" #/dev/video2
++    mkdir "$CONFIGFS_ROOT/vimc/mdev/vimc-capture:cap-sen" #/dev/video1
++    mkdir "$CONFIGFS_ROOT/vimc/mdev/vimc-capture:cap-deb" #/dev/video0
++
++    # Creating the links
++    #sen -> deb
++    mkdir "$CONFIGFS_ROOT/vimc/mdev/vimc-debayer:deb/sink:0/sen-to-deb"
++    ln -s "$CONFIGFS_ROOT/vimc/mdev/vimc-debayer:deb/sink:0/sen-to-deb" "$CONFIGFS_ROOT/vimc/mdev/vimc-sensor:sen/source:0/sen-to-deb"
++    echo immutable > "$CONFIGFS_ROOT/vimc/mdev/vimc-debayer:deb/sink:0/sen-to-deb/type"
++
++    #deb -> sca
++    mkdir "$CONFIGFS_ROOT/vimc/mdev/vimc-scaler:sca/sink:0/deb-to-sca"
++    ln -s "$CONFIGFS_ROOT/vimc/mdev/vimc-scaler:sca/sink:0/deb-to-sca" "$CONFIGFS_ROOT/vimc/mdev/vimc-debayer:deb/source:1/deb-to-sca"
++    echo immutable > "$CONFIGFS_ROOT/vimc/mdev/vimc-scaler:sca/sink:0/deb-to-sca/type"
++
++    #sca -> cap-sca
++    mkdir "$CONFIGFS_ROOT/vimc/mdev/vimc-capture:cap-sca/sink:0/sca-to-cap"
++    ln -s "$CONFIGFS_ROOT/vimc/mdev/vimc-capture:cap-sca/sink:0/sca-to-cap" "$CONFIGFS_ROOT/vimc/mdev/vimc-scaler:sca/source:1/sca-to-cap"
++    echo immutable > "$CONFIGFS_ROOT/vimc/mdev/vimc-capture:cap-sca/sink:0/sca-to-cap/type"
++
++    #sen -> cap-sen
++    mkdir "$CONFIGFS_ROOT/vimc/mdev/vimc-capture:cap-sen/sink:0/sen-to-cap"
++    ln -s "$CONFIGFS_ROOT/vimc/mdev/vimc-capture:cap-sen/sink:0/sen-to-cap" "$CONFIGFS_ROOT/vimc/mdev/vimc-sensor:sen/source:0/sen-to-cap"
++    echo immutable > "$CONFIGFS_ROOT/vimc/mdev/vimc-capture:cap-sen/sink:0/sen-to-cap/type"
++
++    #deb -> cap-deb
++    mkdir "$CONFIGFS_ROOT/vimc/mdev/vimc-capture:cap-deb/sink:0/deb-to-cap"
++    ln -s "$CONFIGFS_ROOT/vimc/mdev/vimc-capture:cap-deb/sink:0/deb-to-cap" "$CONFIGFS_ROOT/vimc/mdev/vimc-debayer:deb/source:1/deb-to-cap"
++    echo immutable > "$CONFIGFS_ROOT/vimc/mdev/vimc-capture:cap-deb/sink:0/deb-to-cap/type"
++
++.. _vimc_topology_graph:
++
++.. kernel-figure:: vimc.dot
++    :alt:   Diagram of the configured simple topology in the example
++    :align: center
++
++    Simple Media pipeline graph on vimc configured through configfs
++
++Configuring the pipeline formats
++================================
++
++Each subdevice has a default format configuration (pixelformat, height,
++width, ...). You should configure the formats in order to match the
++configuration on each linked subdevice to stream frames through the pipeline.
++If the configuration doesn't match, streaming will fail. The ``v4l-utils``
++package is a bundle of user-space applications, which includes ``media-ctl`` and
++``v4l2-ctl`` that can be used to configure the formats of the entities. This sequence
++of commands fits the simple topology created in the full example of topology configuration:
++
++.. code-block:: bash
++
++	media-ctl -d platform:vimc-000 -V '"sen":0[fmt:SBGGR8_1X8/640x480]'
++	media-ctl -d platform:vimc-000 -V '"deb":0[fmt:SBGGR8_1X8/640x480]'
++	media-ctl -d platform:vimc-000 -V '"deb":1[fmt:RGB888_1X24/640x480]'
++	media-ctl -d platform:vimc-000 -V '"sca":0[fmt:RGB888_1X24/640x480]'
++	media-ctl -d platform:vimc-000 -V '"sca":1[fmt:RGB888_1X24/640x480]'
++	v4l2-ctl -z platform:vimc-000 -d "cap-sen" -v pixelformat=BA81
++	v4l2-ctl -z platform:vimc-000 -d "cap-deb" -v pixelformat=RGB3
++	# The default scaling value of the scaler is 3, so need to set its capture accordingly
++	v4l2-ctl -z platform:vimc-000 -d "cap-sca" -v pixelformat=RGB3,width=1920,height=1440
+ 
+ Source code documentation
+--------------------------
++=========================
+ 
+ vimc-streamer
+-~~~~~~~~~~~~~
++-------------
+ 
+ .. kernel-doc:: drivers/media/platform/vimc/vimc-streamer.h
+    :internal:
 diff --git a/drivers/media/platform/vimc/Kconfig b/drivers/media/platform/vimc/Kconfig
-index bd221d3e1a4a..6e292f19e859 100644
+index 6e292f19e859..24eb5d661f4f 100644
 --- a/drivers/media/platform/vimc/Kconfig
 +++ b/drivers/media/platform/vimc/Kconfig
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
- config VIDEO_VIMC
- 	tristate "Virtual Media Controller Driver (VIMC)"
--	depends on VIDEO_DEV && VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API
-+	depends on VIDEO_DEV && VIDEO_V4L2 && VIDEO_V4L2_SUBDEV_API && CONFIGFS_FS
+@@ -5,11 +5,9 @@ config VIDEO_VIMC
  	select VIDEOBUF2_VMALLOC
  	select VIDEO_V4L2_TPG
  	help
-diff --git a/drivers/media/platform/vimc/Makefile b/drivers/media/platform/vimc/Makefile
-index a53b2b532e9f..eb03d487f308 100644
---- a/drivers/media/platform/vimc/Makefile
-+++ b/drivers/media/platform/vimc/Makefile
-@@ -1,6 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0
- vimc-y := vimc-core.o vimc-common.o vimc-streamer.o vimc-capture.o \
--		vimc-debayer.o vimc-scaler.o vimc-sensor.o
-+		vimc-debayer.o vimc-scaler.o vimc-sensor.o  vimc-configfs.o
+-	  Skeleton driver for Virtual Media Controller
++	  Virtual Media Controller Driver
  
- obj-$(CONFIG_VIDEO_VIMC) += vimc.o
+-	  This driver can be compared to the vivid driver for emulating
+-	  a media node that exposes a complex media topology. The topology
+-	  is hard coded for now but is meant to be highly configurable in
+-	  the future.
++	  This driver emulates a media node that exposes a complex media topology.
++	  The topology is configurable through the configfs API.
  
+ 	  When in doubt, say N.
 diff --git a/drivers/media/platform/vimc/vimc-capture.c b/drivers/media/platform/vimc/vimc-capture.c
-index 6f7bbfc4446d..a0873cb12b62 100644
+index a0873cb12b62..72577b85619d 100644
 --- a/drivers/media/platform/vimc/vimc-capture.c
 +++ b/drivers/media/platform/vimc/vimc-capture.c
-@@ -9,6 +9,7 @@
- #include <media/videobuf2-core.h>
- #include <media/videobuf2-vmalloc.h>
- 
-+#include "vimc-configfs.h"
- #include "vimc-common.h"
- #include "vimc-streamer.h"
- 
-@@ -490,3 +491,23 @@ struct vimc_ent_device *vimc_cap_add(struct vimc_device *vimc,
- 
- 	return NULL;
- }
-+
-+static void vimc_cap_create_cfs_pads(struct config_group *ent_group)
-+{
-+	vimc_cfs_add_sink_pad(ent_group, 0, VIMC_CFS_SINK_PAD_NUM(0));
-+}
-+
-+struct vimc_cfs_ent_type vimc_cap_cfs_ent_type = {
-+	.name = VIMC_CAP_NAME,
-+	.create_pads = vimc_cap_create_cfs_pads,
-+};
-+
-+void vimc_cap_exit(void)
-+{
-+	vimc_cfs_ent_type_unregister(&vimc_cap_cfs_ent_type);
-+}
-+
-+void vimc_cap_init(void)
-+{
-+	vimc_cfs_ent_type_register(&vimc_cap_cfs_ent_type);
-+}
-diff --git a/drivers/media/platform/vimc/vimc-common.h b/drivers/media/platform/vimc/vimc-common.h
-index 1c41ebb77420..d677b0d1c990 100644
---- a/drivers/media/platform/vimc/vimc-common.h
-+++ b/drivers/media/platform/vimc/vimc-common.h
-@@ -14,6 +14,7 @@
- #include <media/v4l2-device.h>
- 
- #define VIMC_PDEV_NAME "vimc"
-+#define VIMC_MAX_NAME_LEN V4L2_SUBDEV_NAME_SIZE
- 
- /* VIMC-specific controls */
- #define VIMC_CID_VIMC_BASE		(0x00f00000 | 0xf000)
-@@ -32,6 +33,11 @@
- #define VIMC_IS_SRC(pad)	(pad)
- #define VIMC_IS_SINK(pad)	(!(pad))
- 
-+#define VIMC_DEB_NAME "vimc-debayer"
-+#define VIMC_SEN_NAME "vimc-sensor"
-+#define VIMC_SCA_NAME "vimc-scaler"
-+#define VIMC_CAP_NAME "vimc-capture"
-+
- /**
-  * struct vimc_colorimetry_clamp - Adjust colorimetry parameters
-  *
-@@ -58,6 +64,20 @@ do {									\
- 		(fmt)->xfer_func = V4L2_XFER_FUNC_DEFAULT;		\
- } while (0)
- 
-+/**
-+ * struct vimc_platform_data - platform data to the core
-+ *
-+ * @topology_mutex: mutex to sync the access to the topology
-+ * @ents: list of vimc_entity_data objects allocated by the configfs
-+ * @links: list of vimc_link_data objects allocated by the configfs
-+ *
-+ */
-+struct vimc_platform_data {
-+	struct mutex topology_mutex;
-+	struct list_head ents;
-+	struct list_head links;
-+};
-+
- /**
-  * struct vimc_pix_map - maps media bus code with v4l2 pixel format
-  *
-@@ -75,6 +95,42 @@ struct vimc_pix_map {
- 	bool bayer;
+@@ -346,11 +346,12 @@ static const struct media_entity_operations vimc_cap_mops = {
+ 	.link_validate		= vimc_link_validate,
  };
  
-+/**
-+ * struct vimc_entity_data - a struct contating data about the entity
-+ *			     the data is given from userspace using configfs
-+ *
-+ * @name:	the name of the entity
-+ * @type_name:	the type of the entity
-+ * @entry:	the entry in the list 'ents' in the vimc_platform_data
-+ *
-+ */
-+struct vimc_entity_data {
-+	char name[VIMC_MAX_NAME_LEN];
-+	const char *type_name;
-+	struct list_head entry;
-+};
+-void vimc_cap_rm(struct vimc_device *vimc, struct vimc_ent_device *ved)
++void vimc_cap_rm(struct vimc_ent_device *ved)
+ {
+-	struct vimc_cap_device *vcap;
++	struct vimc_cap_device *vcap = container_of(ved,
++						    struct vimc_cap_device,
++						    ved);
+ 
+-	vcap = container_of(ved, struct vimc_cap_device, ved);
+ 	vb2_queue_release(&vcap->queue);
+ 	video_unregister_device(&vcap->vdev);
+ }
+@@ -407,10 +408,12 @@ struct vimc_ent_device *vimc_cap_add(struct vimc_device *vimc,
+ 	/* Allocate the vimc_cap_device struct */
+ 	vcap = kzalloc(sizeof(*vcap), GFP_KERNEL);
+ 	if (!vcap)
+-		return NULL;
++		return ERR_PTR(-ENOMEM);
 +
-+/**
-+ * struct vimc_link_data - a struct containing data about the link
-+ *			   the data is given from userspace using configfs
-+ *
-+ * @source:		the source of the link
-+ * @sink:		the sink of the link
-+ * @source_pad:		the source pad of the link
-+ * @sink_pad:		the sink pad of the link
-+ * @flags:		the flags of the link
-+ * @entry:		the entry in the list 'links' in the vimc_platform_data
-+ *
-+ */
-+struct vimc_link_data {
-+	struct vimc_entity_data *source;
-+	struct vimc_entity_data *sink;
-+	u16 source_pad;
-+	u16 sink_pad;
-+	u32 flags;
-+	struct list_head entry;
-+};
-+
++	strscpy(vcap->ved.data.name, vcfg_name, sizeof(vcap->ved.data.name));
+ 
+ 	/* Initialize the media entity */
+-	vcap->vdev.entity.name = vcfg_name;
++	vcap->vdev.entity.name = vcap->ved.data.name;
+ 	vcap->vdev.entity.function = MEDIA_ENT_F_IO_V4L;
+ 	vcap->pad.flags = MEDIA_PAD_FL_SINK;
+ 	ret = media_entity_pads_init(&vcap->vdev.entity,
+@@ -435,7 +438,7 @@ struct vimc_ent_device *vimc_cap_add(struct vimc_device *vimc,
+ 
+ 	ret = vb2_queue_init(q);
+ 	if (ret) {
+-		dev_err(&vimc->pdev.dev, "%s: vb2 queue init failed (err=%d)\n",
++		dev_err(vimc->mdev.dev, "%s: vb2 queue init failed (%d)\n",
+ 			vcfg_name, ret);
+ 		goto err_clean_m_ent;
+ 	}
+@@ -455,7 +458,7 @@ struct vimc_ent_device *vimc_cap_add(struct vimc_device *vimc,
+ 	vcap->ved.ent = &vcap->vdev.entity;
+ 	vcap->ved.process_frame = vimc_cap_process_frame;
+ 	vcap->ved.vdev_get_format = vimc_cap_get_format;
+-	vcap->ved.dev = &vimc->pdev.dev;
++	vcap->ved.dev = vimc->mdev.dev;
+ 
+ 	/* Initialize the video_device struct */
+ 	vdev = &vcap->vdev;
+@@ -474,7 +477,7 @@ struct vimc_ent_device *vimc_cap_add(struct vimc_device *vimc,
+ 	/* Register the video_device with the v4l2 and the media framework */
+ 	ret = video_register_device(vdev, VFL_TYPE_GRABBER, -1);
+ 	if (ret) {
+-		dev_err(&vimc->pdev.dev, "%s: video register failed (err=%d)\n",
++		dev_err(vimc->mdev.dev, "%s: video register failed (%d)\n",
+ 			vcap->vdev.name, ret);
+ 		goto err_release_queue;
+ 	}
+@@ -489,7 +492,7 @@ struct vimc_ent_device *vimc_cap_add(struct vimc_device *vimc,
+ err_free_vcap:
+ 	kfree(vcap);
+ 
+-	return NULL;
++	return ERR_PTR(ret);
+ }
+ 
+ static void vimc_cap_create_cfs_pads(struct config_group *ent_group)
+diff --git a/drivers/media/platform/vimc/vimc-common.h b/drivers/media/platform/vimc/vimc-common.h
+index d677b0d1c990..17576d60a99c 100644
+--- a/drivers/media/platform/vimc/vimc-common.h
++++ b/drivers/media/platform/vimc/vimc-common.h
+@@ -159,42 +159,39 @@ struct vimc_ent_device {
+ 	void (*vdev_get_format)(struct vimc_ent_device *ved,
+ 			      struct v4l2_pix_format *fmt);
+ 	struct kref ref;
++	struct vimc_entity_data data;
+ };
+ 
  /**
-  * struct vimc_ent_device - core struct that represents an entity in the
-  * topology
-@@ -153,18 +209,26 @@ bool vimc_is_source(struct media_entity *ent);
+  * struct vimc_device - main device for vimc driver
+  *
+- * @pdev	pointer to the platform device
+- * @pipe_cfg	pointer to the vimc pipeline configuration structure
+- * @ent_devs	array of vimc_ent_device pointers
+  * @mdev	the associated media_device parent
+  * @v4l2_dev	Internal v4l2 parent device
++ * @ents	list of vimc_ent_device objects
+  */
+ struct vimc_device {
+-	struct platform_device pdev;
+-	const struct vimc_pipeline_config *pipe_cfg;
+-	struct vimc_ent_device **ent_devs;
+ 	struct media_device mdev;
+ 	struct v4l2_device v4l2_dev;
++
++	struct list_head ents;
+ };
+ 
+ /**
+- * struct vimc_ent_config	Structure which describes individual
+- *				configuration for each entity
+- *
+- * @name			entity name
+- * @ved				pointer to vimc_ent_device (a node in the
+- *					topology)
+- * @add				subdev add hook - initializes and registers
+- *					subdev called from vimc-core
+- * @rm				subdev rm hook - unregisters and frees
+- *					subdev called from vimc-core
++ * struct ent_type		Structure for callbacks of entity type
++ * @name			entity type name
++ * @add				initializes and registers vimc entity
++ * @rm				unregisters vimc entity
++ * @init			called on driver init, used to register to configfs
++ * @exit			called on driver exit, used to unregister from configfs
+  */
+-struct vimc_ent_config {
+-	const char *name;
+-	struct vimc_ent_device *(*add)(struct vimc_device *vimc,
++
++struct vimc_ent_type {
++	const char name[VIMC_MAX_NAME_LEN];
++	struct vimc_ent_device*	(*add)(struct vimc_device *vimc,
+ 				       const char *vcfg_name);
+-	void (*rm)(struct vimc_device *vimc, struct vimc_ent_device *ved);
++	void (*rm)(struct vimc_ent_device *ent);
++	void (*init)(void);
++	void (*exit)(void);
+ };
+ 
+ /**
+@@ -208,25 +205,25 @@ bool vimc_is_source(struct media_entity *ent);
+ /* prototypes for vimc_ent_config add and rm hooks */
  struct vimc_ent_device *vimc_cap_add(struct vimc_device *vimc,
  				     const char *vcfg_name);
- void vimc_cap_rm(struct vimc_device *vimc, struct vimc_ent_device *ved);
-+void vimc_cap_init(void);
-+void vimc_cap_exit(void);
+-void vimc_cap_rm(struct vimc_device *vimc, struct vimc_ent_device *ved);
++void vimc_cap_rm(struct vimc_ent_device *ent);
+ void vimc_cap_init(void);
+ void vimc_cap_exit(void);
  
  struct vimc_ent_device *vimc_deb_add(struct vimc_device *vimc,
  				     const char *vcfg_name);
- void vimc_deb_rm(struct vimc_device *vimc, struct vimc_ent_device *ved);
-+void vimc_deb_init(void);
-+void vimc_deb_exit(void);
+-void vimc_deb_rm(struct vimc_device *vimc, struct vimc_ent_device *ved);
++void vimc_deb_rm(struct vimc_ent_device *ent);
+ void vimc_deb_init(void);
+ void vimc_deb_exit(void);
  
  struct vimc_ent_device *vimc_sca_add(struct vimc_device *vimc,
  				     const char *vcfg_name);
- void vimc_sca_rm(struct vimc_device *vimc, struct vimc_ent_device *ved);
-+void vimc_sca_init(void);
-+void vimc_sca_exit(void);
+-void vimc_sca_rm(struct vimc_device *vimc, struct vimc_ent_device *ved);
++void vimc_sca_rm(struct vimc_ent_device *ent);
+ void vimc_sca_init(void);
+ void vimc_sca_exit(void);
  
  struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
  				     const char *vcfg_name);
- void vimc_sen_rm(struct vimc_device *vimc, struct vimc_ent_device *ved);
-+void vimc_sen_init(void);
-+void vimc_sen_exit(void);
+-void vimc_sen_rm(struct vimc_device *vimc, struct vimc_ent_device *ved);
++void vimc_sen_rm(struct vimc_ent_device *ent);
+ void vimc_sen_init(void);
+ void vimc_sen_exit(void);
  
- /**
-  * vimc_pix_map_by_index - get vimc_pix_map struct by its index
-diff --git a/drivers/media/platform/vimc/vimc-configfs.c b/drivers/media/platform/vimc/vimc-configfs.c
-new file mode 100644
-index 000000000000..f7372de33de2
---- /dev/null
-+++ b/drivers/media/platform/vimc/vimc-configfs.c
-@@ -0,0 +1,711 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * vimc-configfs.c Virtual Media Controller Driver
-+ *
-+ * Copyright (C) 2018 Helen Koike <helen.koike@collabora.com>
-+ */
-+
-+#include <linux/platform_device.h>
-+
-+#include "vimc-common.h"
+diff --git a/drivers/media/platform/vimc/vimc-core.c b/drivers/media/platform/vimc/vimc-core.c
+index 97a272f3350a..c8612bfd8a2c 100644
+--- a/drivers/media/platform/vimc/vimc-core.c
++++ b/drivers/media/platform/vimc/vimc-core.c
+@@ -15,176 +15,175 @@
+ 
+ #define VIMC_MDEV_MODEL_NAME "VIMC MDEV"
+ 
+-#define VIMC_ENT_LINK(src, srcpad, sink, sinkpad, link_flags) {	\
+-	.src_ent = src,						\
+-	.src_pad = srcpad,					\
+-	.sink_ent = sink,					\
+-	.sink_pad = sinkpad,					\
+-	.flags = link_flags,					\
+-}
+-
+-/* Structure which describes links between entities */
+-struct vimc_ent_link {
+-	unsigned int src_ent;
+-	u16 src_pad;
+-	unsigned int sink_ent;
+-	u16 sink_pad;
+-	u32 flags;
+-};
+-
+-/* Structure which describes the whole topology */
+-struct vimc_pipeline_config {
+-	const struct vimc_ent_config *ents;
+-	size_t num_ents;
+-	const struct vimc_ent_link *links;
+-	size_t num_links;
+-};
+-
+-/* --------------------------------------------------------------------------
+- * Topology Configuration
+- */
 +#include "vimc-configfs.h"
-+
-+#define CHAR_SEPARATOR ':'
-+#define CFS_SUBSYS_NAME "vimc"
-+#define MAX_PAD_DIGI_NUM 4
-+
-+#define ci_err(ci, fmt, ...) \
-+	pr_err("vimc: %s: " pr_fmt(fmt), (ci)->ci_name, ##__VA_ARGS__)
-+#define cg_err(cg, ...) ci_err(&(cg)->cg_item, ##__VA_ARGS__)
-+#define ci_warn(ci, fmt, ...) \
-+	pr_warn("vimc: %s: " pr_fmt(fmt), (ci)->ci_name, ##__VA_ARGS__)
-+#define cg_warn(cg, ...) ci_warn(&(cg)->cg_item, ##__VA_ARGS__)
-+#define ci_dbg(ci, fmt, ...) \
-+	pr_debug("vimc: %s: %s:" pr_fmt(fmt), (ci)->ci_name, __func__, ##__VA_ARGS__)
-+#define cg_dbg(cg, ...) ci_dbg(&(cg)->cg_item, ##__VA_ARGS__)
-+
-+#define IS_PLUGGED(cfs) (!!(cfs)->pdev)
-+#define VIMC_MAX_CFS_NAME_LEN (VIMC_MAX_NAME_LEN * 2 + 1)
-+
-+/*
-+ * currently there is no entity with more than two pads, this will
-+ * change when adding the splitter entity
-+ */
-+#define VIMC_ENT_MAX_PADS 2
-+
-+enum vimc_cfs_hotplug_state {
-+	VIMC_CFS_HOTPLUG_STATE_UNPLUGGED = 0,
-+	VIMC_CFS_HOTPLUG_STATE_PLUGGED = 1,
-+};
-+
-+const static char *vimc_cfs_hotplug_values[2][3] = {
-+	[VIMC_CFS_HOTPLUG_STATE_UNPLUGGED] = {"unplugged\n", "unplug\n", "0\n"},
-+	[VIMC_CFS_HOTPLUG_STATE_PLUGGED] = {"plugged\n", "plug\n", "1\n"},
-+};
-+
-+static void vimc_cfs_subsys_drop_dev_item(struct config_group *group,
-+					  struct config_item *item);
-+static struct config_group *vimc_cfs_subsys_make_dev_group(
-+		struct config_group *group, const char *name);
-+
-+static struct configfs_group_operations vimc_cfs_subsys_group_ops = {
-+	.make_group	= vimc_cfs_subsys_make_dev_group,
-+	.drop_item	= vimc_cfs_subsys_drop_dev_item,
-+};
-+
-+static struct config_item_type vimc_cfs_subsys_type = {
-+	.ct_group_ops = &vimc_cfs_subsys_group_ops,
-+	.ct_owner = THIS_MODULE,
-+};
-+
-+static struct vimc_cfs_subsystem {
-+	struct configfs_subsystem subsys;
-+	struct list_head ent_types;
-+} vimc_cfs_subsys = {
-+	.subsys = {
-+		.su_group = {
-+			.cg_item = {
-+				.ci_namebuf = CFS_SUBSYS_NAME,
-+				.ci_type = &vimc_cfs_subsys_type,
-+			},
-+		},
-+		.su_mutex = __MUTEX_INITIALIZER(vimc_cfs_subsys.subsys.su_mutex),
-+	},
-+	.ent_types = LIST_HEAD_INIT(vimc_cfs_subsys.ent_types),
-+};
-+
-+/* Structure of a vimc device in configfs */
-+struct vimc_cfs_device {
-+	struct mutex pdev_mutex;
-+	struct platform_device *pdev;
-+	struct vimc_platform_data pdata;
-+	struct config_group gdev;
-+};
-+
-+/* Structure of for entity in configfs */
-+struct vimc_cfs_ent {
-+	struct vimc_entity_data ent;
-+	struct config_group cg;
-+	struct config_group pad_groups[VIMC_ENT_MAX_PADS];
-+};
-+
-+/* Structure for link in configfs */
-+struct vimc_cfs_link {
-+	struct vimc_link_data link;
-+	struct config_item ci;
-+};
-+
-+void vimc_cfs_ent_type_register(struct vimc_cfs_ent_type *c_ent_type)
+ 
+-static struct vimc_ent_config ent_config[] = {
++static const struct vimc_ent_type ent_types[] = {
+ 	{
+-		.name = "Sensor A",
++		.name = VIMC_SEN_NAME,
+ 		.add = vimc_sen_add,
+ 		.rm = vimc_sen_rm,
++		.init = vimc_sen_init,
++		.exit = vimc_sen_exit,
+ 	},
+ 	{
+-		.name = "Sensor B",
+-		.add = vimc_sen_add,
+-		.rm = vimc_sen_rm,
+-	},
+-	{
+-		.name = "Debayer A",
++		.name = VIMC_DEB_NAME,
+ 		.add = vimc_deb_add,
+ 		.rm = vimc_deb_rm,
++		.init = vimc_deb_init,
++		.exit = vimc_deb_exit,
+ 	},
+ 	{
+-		.name = "Debayer B",
+-		.add = vimc_deb_add,
+-		.rm = vimc_deb_rm,
+-	},
+-	{
+-		.name = "Raw Capture 0",
+-		.add = vimc_cap_add,
+-		.rm = vimc_cap_rm,
+-	},
+-	{
+-		.name = "Raw Capture 1",
++		.name = VIMC_CAP_NAME,
+ 		.add = vimc_cap_add,
+ 		.rm = vimc_cap_rm,
++		.init = vimc_cap_init,
++		.exit = vimc_cap_exit,
+ 	},
+ 	{
+-		/* TODO: change this to vimc-input when it is implemented */
+-		.name = "RGB/YUV Input",
+-		.add = vimc_sen_add,
+-		.rm = vimc_sen_rm,
+-	},
+-	{
+-		.name = "Scaler",
++		.name = VIMC_SCA_NAME,
+ 		.add = vimc_sca_add,
+ 		.rm = vimc_sca_rm,
++		.init = vimc_sca_init,
++		.exit = vimc_sca_exit,
+ 	},
+-	{
+-		.name = "RGB/YUV Capture",
+-		.add = vimc_cap_add,
+-		.rm = vimc_cap_rm,
+-	},
+-};
+-
+-static const struct vimc_ent_link ent_links[] = {
+-	/* Link: Sensor A (Pad 0)->(Pad 0) Debayer A */
+-	VIMC_ENT_LINK(0, 0, 2, 0, MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IMMUTABLE),
+-	/* Link: Sensor A (Pad 0)->(Pad 0) Raw Capture 0 */
+-	VIMC_ENT_LINK(0, 0, 4, 0, MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IMMUTABLE),
+-	/* Link: Sensor B (Pad 0)->(Pad 0) Debayer B */
+-	VIMC_ENT_LINK(1, 0, 3, 0, MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IMMUTABLE),
+-	/* Link: Sensor B (Pad 0)->(Pad 0) Raw Capture 1 */
+-	VIMC_ENT_LINK(1, 0, 5, 0, MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IMMUTABLE),
+-	/* Link: Debayer A (Pad 1)->(Pad 0) Scaler */
+-	VIMC_ENT_LINK(2, 1, 7, 0, MEDIA_LNK_FL_ENABLED),
+-	/* Link: Debayer B (Pad 1)->(Pad 0) Scaler */
+-	VIMC_ENT_LINK(3, 1, 7, 0, 0),
+-	/* Link: RGB/YUV Input (Pad 0)->(Pad 0) Scaler */
+-	VIMC_ENT_LINK(6, 0, 7, 0, 0),
+-	/* Link: Scaler (Pad 1)->(Pad 0) RGB/YUV Capture */
+-	VIMC_ENT_LINK(7, 1, 8, 0, MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IMMUTABLE),
+ };
+ 
+-static struct vimc_pipeline_config pipe_cfg = {
+-	.ents		= ent_config,
+-	.num_ents	= ARRAY_SIZE(ent_config),
+-	.links		= ent_links,
+-	.num_links	= ARRAY_SIZE(ent_links)
+-};
++static const struct vimc_ent_type *vimc_get_ent_type(const char *ent_type_name)
 +{
-+	pr_debug("%s: adding entity type %s\n", __func__, c_ent_type->name);
-+	list_add(&c_ent_type->entry, &vimc_cfs_subsys.ent_types);
++	int i;
+ 
+-/* -------------------------------------------------------------------------- */
++	for (i = 0; i < ARRAY_SIZE(ent_types); i++)
++		if (!strcmp(ent_type_name, ent_types[i].name))
++			return &ent_types[i];
++	return NULL;
 +}
-+
-+void vimc_cfs_ent_type_unregister(struct vimc_cfs_ent_type *c_ent_type)
-+{
-+	pr_debug("%s: removing entity type %s\n", __func__, c_ent_type->name);
-+	list_del(&c_ent_type->entry);
-+}
-+
-+/* --------------------------------------------------------------------------
-+ * Platform Device builders
-+ */
-+
-+static void vimc_cfs_device_unplug(struct vimc_cfs_device *cfs)
-+{
-+	mutex_lock(&cfs->pdev_mutex);
-+	if (!IS_PLUGGED(cfs)) {
-+		mutex_unlock(&cfs->pdev_mutex);
-+		return;
+ 
+-static void vimc_rm_links(struct vimc_device *vimc)
++struct vimc_ent_device *vimc_get_ent_dev(const struct vimc_device *vimc,
++					 const char *const name)
+ {
+-	unsigned int i;
++	struct vimc_ent_device *ent;
+ 
+-	for (i = 0; i < vimc->pipe_cfg->num_ents; i++)
+-		media_entity_remove_links(vimc->ent_devs[i]->ent);
++	list_for_each_entry(ent, &vimc->ents, data.entry) {
++		if (!strcmp(ent->data.name, name))
++			return ent;
 +	}
-+	dev_dbg(&cfs->pdev->dev, "Unplugging device\n");
-+	platform_device_unregister(cfs->pdev);
++	return NULL;
+ }
+ 
+-static int vimc_create_links(struct vimc_device *vimc)
++static int vimc_core_links_create(const struct vimc_device *vimc,
++				  const struct vimc_platform_data *pdata)
+ {
+-	unsigned int i;
+-	int ret;
++	struct vimc_link_data *link;
 +
-+	cfs->pdev = NULL;
-+	mutex_unlock(&cfs->pdev_mutex);
++	list_for_each_entry(link, &pdata->links, entry) {
++		struct vimc_ent_device *source = vimc_get_ent_dev(vimc,
++						 link->source->name);
++		struct vimc_ent_device *sink = vimc_get_ent_dev(vimc,
++					       link->sink->name);
++		int ret;
++
++		ret = media_create_pad_link(source->ent,
++					    link->source_pad,
++					    sink->ent,
++					    link->sink_pad,
++					    link->flags);
+ 
+-	/* Initialize the links between entities */
+-	for (i = 0; i < vimc->pipe_cfg->num_links; i++) {
+-		const struct vimc_ent_link *link = &vimc->pipe_cfg->links[i];
++		if (ret) {
++			dev_err(vimc->mdev.dev, "failed creating link %s:%u->%s:%u\n",
++				link->source->name,
++				link->source_pad,
++				link->sink->name,
++				link->sink_pad);
++			return ret;
++		}
++		dev_dbg(vimc->mdev.dev, "created link %s:%u->%s:%u\n",
++			link->source->name,
++			link->source_pad,
++			link->sink->name,
++			link->sink_pad);
++	}
++	return 0;
 +}
-+
-+static void vimc_cfs_platform_dev_release(struct device *dev)
+ 
+-		struct vimc_ent_device *ved_src =
+-			vimc->ent_devs[link->src_ent];
+-		struct vimc_ent_device *ved_sink =
+-			vimc->ent_devs[link->sink_ent];
++static void vimc_rm_subdevs(struct vimc_device *vimc)
 +{
-+}
-+
-+static int vimc_cfs_device_plug(struct vimc_cfs_device *cfs)
-+{
++	struct vimc_ent_device *ent;
++	struct vimc_ent_device *ent_tmp;
+ 
+-		ret = media_create_pad_link(ved_src->ent, link->src_pad,
+-					    ved_sink->ent, link->sink_pad,
+-					    link->flags);
+-		if (ret)
+-			goto err_rm_links;
+-	}
++	list_for_each_entry_safe(ent, ent_tmp, &vimc->ents, data.entry) {
+ 
+-	return 0;
++		const struct vimc_ent_type *ent_type =
++			vimc_get_ent_type(ent->data.type_name);
+ 
+-err_rm_links:
+-	vimc_rm_links(vimc);
+-	return ret;
++		WARN_ON(!ent_type);
++		dev_dbg(vimc->mdev.dev, "removing entity %s:%s\n",
++			ent->data.type_name, ent->data.name);
++		list_del(&ent->data.entry);
++		ent_type->rm(ent);
++	}
+ }
+ 
+-static int vimc_add_subdevs(struct vimc_device *vimc)
++static int vimc_add_subdevs(struct vimc_device *vimc,
++			    const struct vimc_platform_data *pdata)
+ {
+-	unsigned int i;
+-
+-	for (i = 0; i < vimc->pipe_cfg->num_ents; i++) {
+-		dev_dbg(&vimc->pdev.dev, "new entity for %s\n",
+-			vimc->pipe_cfg->ents[i].name);
+-		vimc->ent_devs[i] = vimc->pipe_cfg->ents[i].add(vimc,
+-					vimc->pipe_cfg->ents[i].name);
+-		if (!vimc->ent_devs[i]) {
+-			dev_err(&vimc->pdev.dev, "add new entity for %s\n",
+-				vimc->pipe_cfg->ents[i].name);
+-			return -EINVAL;
++	struct vimc_entity_data *ent_data;
 +	int ret;
 +
-+	cg_dbg(&cfs->gdev, "Plugging device\n");
++	list_for_each_entry(ent_data, &pdata->ents, entry) {
 +
-+	mutex_lock(&cfs->pdata.topology_mutex);
-+	if (list_empty(&cfs->pdata.ents)) {
-+		cg_warn(&cfs->gdev,
-+			"At least one entity is required to plug the device\n");
-+		mutex_unlock(&cfs->pdata.topology_mutex);
-+		return -EINVAL;
-+	}
-+	mutex_unlock(&cfs->pdata.topology_mutex);
++		const struct vimc_ent_type *ent_type =
++			vimc_get_ent_type(ent_data->type_name);
++		struct vimc_ent_device *ent_dev;
 +
-+	mutex_lock(&cfs->pdev_mutex);
-+	if (IS_PLUGGED(cfs)) {
-+		mutex_unlock(&cfs->pdev_mutex);
-+		return 0;
-+	}
++		WARN_ON(!ent_type);
 +
-+	cfs->pdev = kzalloc(sizeof(*cfs->pdev), GFP_KERNEL);
++		ent_dev = ent_type->add(vimc, ent_data->name);
++		if (IS_ERR(ent_dev)) {
++			ret = PTR_ERR(ent_dev);
++			dev_err(vimc->mdev.dev, "failed to add entity %s:%s\n",
++				ent_data->type_name, ent_data->name);
++			goto err;
+ 		}
 +
-+	if (!cfs->pdev) {
-+		mutex_unlock(&cfs->pdev_mutex);
-+		return -ENOMEM;
-+	}
++		strscpy(ent_dev->data.name, ent_data->name,
++			sizeof(ent_dev->data.name));
++		ent_dev->data.type_name = ent_data->type_name;
++		list_add(&ent_dev->data.entry, &vimc->ents);
 +
-+	cfs->pdev->name = "vimc-core";
-+	cfs->pdev->id = PLATFORM_DEVID_AUTO;
-+	cfs->pdev->dev.platform_data = &cfs->pdata;
-+	cfs->pdev->dev.release = vimc_cfs_platform_dev_release;
-+
-+	ret =  platform_device_register(cfs->pdev);
++		dev_dbg(vimc->mdev.dev, "entity %s:%s added\n",
++				ent_dev->data.type_name, ent_dev->data.name);
+ 	}
+ 	return 0;
++err:
++	vimc_rm_subdevs(vimc);
++	return ret;
+ }
+ 
+-static void vimc_rm_subdevs(struct vimc_device *vimc)
++static int vimc_core_add_topology(struct vimc_device *vimc,
++		struct vimc_platform_data *pdata)
+ {
+-	unsigned int i;
++	int ret;
+ 
+-	for (i = 0; i < vimc->pipe_cfg->num_ents; i++)
+-		if (vimc->ent_devs[i])
+-			vimc->pipe_cfg->ents[i].rm(vimc, vimc->ent_devs[i]);
++	mutex_lock(&pdata->topology_mutex);
++	ret = vimc_add_subdevs(vimc, pdata);
 +	if (ret) {
-+		kfree(cfs->pdev);
-+		cfs->pdev = NULL;
-+		mutex_unlock(&cfs->pdev_mutex);
++		mutex_unlock(&pdata->topology_mutex);
 +		return ret;
 +	}
-+	mutex_unlock(&cfs->pdev_mutex);
 +
++	ret = vimc_core_links_create(vimc, pdata);
++	if (ret) {
++		mutex_unlock(&pdata->topology_mutex);
++		vimc_rm_subdevs(vimc);
++		return ret;
++	}
++
++	mutex_unlock(&pdata->topology_mutex);
 +	return 0;
-+}
+ }
+ 
+-static int vimc_register_devices(struct vimc_device *vimc)
++static int vimc_register_devices(struct vimc_device *vimc,
++				 struct vimc_platform_data *pdata)
+ {
+ 	int ret;
+ 
+@@ -192,43 +191,30 @@ static int vimc_register_devices(struct vimc_device *vimc)
+ 	ret = v4l2_device_register(vimc->mdev.dev, &vimc->v4l2_dev);
+ 	if (ret) {
+ 		dev_err(vimc->mdev.dev,
+-			"v4l2 device register failed (err=%d)\n", ret);
++			"v4l2 device register failed (%d)\n", ret);
+ 		return ret;
+ 	}
+ 
+-	/* allocate ent_devs */
+-	vimc->ent_devs = kcalloc(vimc->pipe_cfg->num_ents,
+-				 sizeof(*vimc->ent_devs), GFP_KERNEL);
+-	if (!vimc->ent_devs) {
+-		ret = -ENOMEM;
++	ret = vimc_core_add_topology(vimc, pdata);
++	if (ret) {
++		dev_err(vimc->mdev.dev,
++			"adding topology failed (%d)\n", ret);
+ 		goto err_v4l2_unregister;
+ 	}
+ 
+-	/* Invoke entity config hooks to initialize and register subdevs */
+-	ret = vimc_add_subdevs(vimc);
+-	if (ret)
+-		/* remove sundevs that got added */
+-		goto err_rm_subdevs;
+-
+-	/* Initialize links */
+-	ret = vimc_create_links(vimc);
+-	if (ret)
+-		goto err_rm_subdevs;
+-
+ 	/* Register the media device */
+ 	ret = media_device_register(&vimc->mdev);
+ 	if (ret) {
+ 		dev_err(vimc->mdev.dev,
+-			"media device register failed (err=%d)\n", ret);
++			"media device register failed (%d)\n", ret);
+ 		goto err_rm_subdevs;
+ 	}
+ 
+-	/* Expose all subdev's nodes*/
++	/* Expose all subdev's nodes */
+ 	ret = v4l2_device_register_subdev_nodes(&vimc->v4l2_dev);
+ 	if (ret) {
+ 		dev_err(vimc->mdev.dev,
+-			"vimc subdev nodes registration failed (err=%d)\n",
+-			ret);
++			"vimc subdev nodes registration failed (%d)\n", ret);
+ 		goto err_mdev_unregister;
+ 	}
+ 
+@@ -239,29 +225,28 @@ static int vimc_register_devices(struct vimc_device *vimc)
+ 	media_device_cleanup(&vimc->mdev);
+ err_rm_subdevs:
+ 	vimc_rm_subdevs(vimc);
+-	kfree(vimc->ent_devs);
+ err_v4l2_unregister:
+ 	v4l2_device_unregister(&vimc->v4l2_dev);
+ 
+ 	return ret;
+ }
+ 
+-static void vimc_unregister(struct vimc_device *vimc)
+-{
+-	media_device_unregister(&vimc->mdev);
+-	media_device_cleanup(&vimc->mdev);
+-	v4l2_device_unregister(&vimc->v4l2_dev);
+-	kfree(vimc->ent_devs);
+-}
+-
+ static int vimc_probe(struct platform_device *pdev)
+ {
+-	struct vimc_device *vimc = container_of(pdev, struct vimc_device, pdev);
++	struct vimc_platform_data *pdata = (struct vimc_platform_data *)
++						pdev->dev.platform_data;
++	struct vimc_device *vimc;
+ 	int ret;
+ 
+-	dev_dbg(&pdev->dev, "probe");
++	dev_dbg(&pdev->dev, "probe\n");
 +
-+/* --------------------------------------------------------------------------
-+ * Links
-+ */
-+
-+static ssize_t vimc_cfs_link_type_store(struct config_item *item,
-+					   const char *buf,
-+					   size_t size)
-+{
-+	struct vimc_cfs_link *c_link =
-+		container_of(item, struct vimc_cfs_link, ci);
-+
-+	ci_dbg(item, "buf = '%s'\n", buf);
-+	if (!strcmp(buf, "disabled\n") || !strcmp(buf, "off\n") ||
-+		!strcmp(buf, "disabled") || !strcmp(buf, "off")) {
-+		c_link->link.flags &= ~MEDIA_LNK_FL_IMMUTABLE;
-+		c_link->link.flags &= ~MEDIA_LNK_FL_ENABLED;
-+	} else if (!strcmp(buf, "enabled\n") || !strcmp(buf, "on\n") ||
-+		   !strcmp(buf, "enabled") || !strcmp(buf, "on")) {
-+		c_link->link.flags &= ~MEDIA_LNK_FL_IMMUTABLE;
-+		c_link->link.flags |= MEDIA_LNK_FL_ENABLED;
-+	} else if (!strcmp(buf, "immutable\n") || !strcmp(buf, "immutable")) {
-+		c_link->link.flags |= MEDIA_LNK_FL_IMMUTABLE;
-+		c_link->link.flags |= MEDIA_LNK_FL_ENABLED;
-+	} else {
-+		ci_err(item, "'%s' is an invalid value, see vimc doc for valid values",
-+		       buf);
-+		return -EINVAL;
-+	}
-+	return strlen(buf);
-+}
-+
-+
-+static ssize_t vimc_cfs_link_type_show(struct config_item *item,
-+					  char *buf)
-+{
-+	struct vimc_cfs_link *c_link = container_of(item,
-+					struct vimc_cfs_link, ci);
-+
-+	if (c_link->link.flags & MEDIA_LNK_FL_IMMUTABLE)
-+		strcpy(buf, "immutable\n");
-+	else if (c_link->link.flags & MEDIA_LNK_FL_ENABLED)
-+		strcpy(buf, "enabled\n");
-+	else
-+		strcpy(buf, "disabled\n");
-+	return strlen(buf);
-+}
-+
-+CONFIGFS_ATTR(vimc_cfs_link_, type);
-+
-+/*
-+ * add the link to the list of links
-+ * this function assumes src and target are valid and that the su_mutex
-+ * is locked
-+ */
-+static int vimc_cfs_adding_link(struct config_item *src,
-+				struct config_item *target)
-+{
-+	struct config_item *src_ent_ci = src->ci_parent;
-+	struct config_item *trgt_ent_ci = target->ci_parent->ci_parent;
-+	struct vimc_cfs_link *c_link =
-+			container_of(target, struct vimc_cfs_link, ci);
-+	struct vimc_cfs_ent *vimc_src_ent = container_of(src_ent_ci,
-+							 struct vimc_cfs_ent,
-+							 cg.cg_item);
-+	struct vimc_cfs_ent *vimc_trgt_ent = container_of(trgt_ent_ci,
-+							 struct vimc_cfs_ent,
-+							 cg.cg_item);
-+	struct vimc_cfs_device *cfs = container_of(src_ent_ci->ci_parent,
-+							 struct vimc_cfs_device,
-+							 gdev.cg_item);
-+
-+	mutex_lock(&cfs->pdata.topology_mutex);
-+	if (c_link->link.source) {
-+		ci_warn(src, "the sink target %s is already linked\n",
-+				target->ci_name);
-+		mutex_unlock(&cfs->pdata.topology_mutex);
-+		return -EINVAL;
-+	}
-+
-+	/* src and target validation already done in the allow_link callback,
-+	 * so there is no need to check sscanf result
-+	 */
-+	sscanf(src->ci_name, VIMC_CFS_SRC_PAD "%hu",
-+	       &c_link->link.source_pad);
-+	sscanf(target->ci_parent->ci_name, VIMC_CFS_SINK_PAD "%hu",
-+	       &c_link->link.sink_pad);
-+
-+	c_link->link.source = &vimc_src_ent->ent;
-+	c_link->link.sink = &vimc_trgt_ent->ent;
-+
-+	cg_dbg(&cfs->gdev, "creating link %s:%u->%s:%u\n",
-+	       c_link->link.source->name, c_link->link.source_pad,
-+	       c_link->link.sink->name, c_link->link.sink_pad);
-+
-+	list_add(&c_link->link.entry, &cfs->pdata.links);
-+	mutex_unlock(&cfs->pdata.topology_mutex);
-+	return 0;
-+}
-+
-+static void vimc_cfs_drop_link(struct config_item *src,
-+			       struct config_item *target)
-+{
-+	struct vimc_cfs_link *c_link = container_of(target,
-+						    struct vimc_cfs_link, ci);
-+	struct config_item *src_ent_ci = src->ci_parent;
-+	struct vimc_cfs_device *cfs = container_of(src_ent_ci->ci_parent,
-+						   struct vimc_cfs_device,
-+						   gdev.cg_item);
-+
-+	mutex_lock(&cfs->pdata.topology_mutex);
-+	ci_dbg(&c_link->ci, "dropping link %s:%u->%s:%u\n",
-+	       c_link->link.source->name, c_link->link.source_pad,
-+	       c_link->link.sink->name, c_link->link.sink_pad);
-+
-+	c_link->link.source_pad = 0;
-+	c_link->link.sink_pad = 0;
-+	c_link->link.source = NULL;
-+	c_link->link.sink = NULL;
-+	list_del(&c_link->link.entry);
-+	mutex_unlock(&cfs->pdata.topology_mutex);
-+}
-+
-+static int vimc_cfs_allow_link(struct config_item *src,
-+			       struct config_item *target)
-+{
-+	struct config_item *src_vimc_dev;
-+	struct config_item *target_vimc_dev;
-+	struct config_item *tmp;
-+	struct config_item *src_ent_ci, *trgt_ent_ci;
-+	int target_depth = 0, ret = 0;
-+
-+
-+	mutex_lock(&vimc_cfs_subsys.subsys.su_mutex);
-+
-+	/* the allow_link callback exists only for dirs of the form
-+	 * $CONFIGFS/vimc/<dev>/vimc-<type>:<name>/source:<pad>/
-+	 * therefore, we can be sure that parent and grandparent are non NULL
-+	 * and that grandparent is the vimc device
-+	 */
-+	src_vimc_dev = src->ci_parent->ci_parent;
-+
-+
-+	/* the target must be of the form:
-+	 * $CONFIGFS/vimc/<dev>/vimc-<type>:<name>/sink:<pad>/<link-name>
-+	 * so we should make sure that it's depth is exactly 5
-+	 */
-+	for (tmp = target->ci_parent; tmp; tmp = tmp->ci_parent)
-+		target_depth++;
-+
-+	if (target_depth != 5) {
-+		ci_warn(src, "link target (%s) is not a sink pad\n",
-+			target->ci_name);
-+		ret = -EINVAL;
-+		goto end;
-+	}
-+
-+	/*
-+	 * make sure that the target is under a directory named
-+	 * 'sink:<pad>
-+	 */
-+	if (strncmp(target->ci_parent->ci_name, VIMC_CFS_SINK_PAD,
-+	    sizeof(VIMC_CFS_SINK_PAD) - 1)) {
-+		ci_warn(src, "link target (%s) is not a sink pad\n",
-+			target->ci_name);
-+		ret = -EINVAL;
-+		goto end;
-+	}
-+
-+	target_vimc_dev = target->ci_parent->ci_parent->ci_parent;
-+	if (src_vimc_dev != target_vimc_dev) {
-+		ci_warn(src, "linking between different vimc devices: (%s), (%s) is not allowed\n",
-+			src_vimc_dev->ci_name, target_vimc_dev->ci_name);
-+		ret = -EINVAL;
-+		goto end;
-+	}
-+	src_ent_ci = target->ci_parent;
-+	trgt_ent_ci = src->ci_parent->ci_parent;
-+	if (src_ent_ci == trgt_ent_ci) {
-+		ci_warn(src, "both pads belong to the same entity (%s) - this is not allowed\n",
-+			src_ent_ci->ci_name);
-+		ret = -EINVAL;
-+		goto end;
-+	}
-+	ret = vimc_cfs_adding_link(src, target);
++	vimc = devm_kzalloc(&pdev->dev, sizeof(*vimc),
++			GFP_KERNEL);
++	if (!vimc)
++		return -ENOMEM;
+ 
+ 	memset(&vimc->mdev, 0, sizeof(vimc->mdev));
++	INIT_LIST_HEAD(&vimc->ents);
+ 
+ 	/* Link the media device within the v4l2_device */
+ 	vimc->v4l2_dev.mdev = &vimc->mdev;
+@@ -274,74 +259,67 @@ static int vimc_probe(struct platform_device *pdev)
+ 	vimc->mdev.dev = &pdev->dev;
+ 	media_device_init(&vimc->mdev);
+ 
+-	ret = vimc_register_devices(vimc);
+-	if (ret) {
+-		media_device_cleanup(&vimc->mdev);
++	ret = vimc_register_devices(vimc, pdata);
 +	if (ret)
-+		goto end;
-+end:
-+	mutex_unlock(&vimc_cfs_subsys.subsys.su_mutex);
-+	return ret;
-+}
-+
-+static void vimc_cfs_link_target_release(struct config_item *item)
-+{
-+	struct vimc_cfs_link *c_link = container_of(item,
-+						    struct vimc_cfs_link, ci);
-+
-+	ci_dbg(item, "releasing link target '%s'", item->ci_name);
-+	kfree(c_link);
-+}
-+
-+static struct configfs_attribute *vimc_cfs_link_attrs[] = {
-+	&vimc_cfs_link_attr_type,
-+	NULL,
-+};
-+
-+static struct configfs_item_operations vimc_cfs_link_target_ops = {
-+	.release	= vimc_cfs_link_target_release,
-+};
-+
-+
-+static struct config_item_type vimc_cfs_link_target_type = {
-+	.ct_owner = THIS_MODULE,
-+	.ct_attrs = vimc_cfs_link_attrs,
-+	.ct_item_ops = &vimc_cfs_link_target_ops,
-+};
-+
-+/* --------------------------------------------------------------------------
-+ * Source pad instance
-+ */
-+
-+static void vimc_cfs_sink_pad_link_target_drop_item(
-+		struct config_group *sink_pad_group,
-+		struct config_item *c_link)
-+{
-+
-+	struct config_item *cfs_item;
-+	struct vimc_cfs_device *cfs;
-+
-+	cfs_item = sink_pad_group->cg_item.ci_parent->ci_parent;
-+	cfs = container_of(cfs_item, struct vimc_cfs_device, gdev.cg_item);
-+	cg_dbg(&cfs->gdev, "dropping link target '%s' cfs=%p\n",
-+	       c_link->ci_name, cfs);
-+	config_item_put(c_link);
-+}
-+
-+static struct config_item *vimc_cfs_sink_pad_link_target_make_item(
-+			   struct config_group *group,
-+			   const char *name)
-+{
-+	struct vimc_cfs_link *c_link = kzalloc(sizeof(*c_link), GFP_KERNEL);
-+
-+	cg_dbg(group, "link target name is '%s'\n", name);
-+	config_item_init_type_name(&c_link->ci, name,
-+				   &vimc_cfs_link_target_type);
-+	return &c_link->ci;
-+}
-+
-+static struct configfs_group_operations vimc_cfs_sink_pad_ops = {
-+	.make_item = vimc_cfs_sink_pad_link_target_make_item,
-+	.drop_item = vimc_cfs_sink_pad_link_target_drop_item,
-+};
-+
-+static struct configfs_item_operations vimc_cfs_src_pad_ops = {
-+	.allow_link = vimc_cfs_allow_link,
-+	.drop_link = vimc_cfs_drop_link,
-+};
-+
-+
-+static struct config_item_type vimc_cfs_src_pad_type = {
-+	.ct_owner = THIS_MODULE,
-+	.ct_item_ops = &vimc_cfs_src_pad_ops,
-+};
-+
-+static struct config_item_type vimc_cfs_sink_pad_type = {
-+	.ct_owner = THIS_MODULE,
-+	.ct_group_ops = &vimc_cfs_sink_pad_ops,
-+};
-+
-+
-+/* --------------------------------------------------------------------------
-+ * Device instance
-+ */
-+
-+static void vimc_cfs_ent_release(struct config_item *item)
-+{
-+	struct vimc_cfs_ent *c_ent = container_of(item, struct vimc_cfs_ent,
-+						  cg.cg_item);
-+
-+	ci_dbg(item, "releasing entity '%s' of type '%s'",
-+	       c_ent->ent.name, c_ent->ent.type_name);
-+	kfree(c_ent);
-+}
-+
-+static struct configfs_item_operations vimc_cfs_ent_item_ops = {
-+	.release	= vimc_cfs_ent_release,
-+};
-+
-+static struct config_item_type vimc_cfs_ent_type = {
-+	.ct_owner = THIS_MODULE,
-+	.ct_item_ops = &vimc_cfs_ent_item_ops,
-+};
-+
-+void vimc_cfs_add_sink_pad(struct config_group *ent_group,
-+					int pad_idx, const char *name)
-+{
-+	struct vimc_cfs_ent *c_ent = container_of(ent_group,
-+						  struct vimc_cfs_ent, cg);
-+
-+	config_group_init_type_name(&c_ent->pad_groups[pad_idx], name,
-+				    &vimc_cfs_sink_pad_type);
-+	configfs_add_default_group(&c_ent->pad_groups[pad_idx], ent_group);
-+}
-+
-+
-+void vimc_cfs_add_source_pad(struct config_group *ent_group,
-+					  int pad_idx, const char *name)
-+{
-+	struct vimc_cfs_ent *c_ent = container_of(ent_group,
-+						  struct vimc_cfs_ent, cg);
-+
-+	config_group_init_type_name(&c_ent->pad_groups[pad_idx], name,
-+				    &vimc_cfs_src_pad_type);
-+	configfs_add_default_group(&c_ent->pad_groups[pad_idx], ent_group);
-+}
-+
-+static void vimc_cfs_dev_drop_ent_item(struct config_group *dev_group,
-+				       struct config_item *ent_item)
-+{
-+	struct vimc_cfs_ent *c_ent = container_of(ent_item, struct vimc_cfs_ent,
-+						  cg.cg_item);
-+	struct vimc_cfs_device *cfs = container_of(dev_group,
-+						   struct vimc_cfs_device,
-+						   gdev);
-+
-+	cg_dbg(&cfs->gdev, "dropping entity '%s' of type '%s'",
-+	       c_ent->ent.name, c_ent->ent.type_name);
-+	mutex_lock(&cfs->pdata.topology_mutex);
-+	list_del(&c_ent->ent.entry);
-+	mutex_unlock(&cfs->pdata.topology_mutex);
-+	config_item_put(ent_item);
-+}
-+
-+static struct config_group *vimc_cfs_dev_make_ent_group(
-+			struct config_group *group, const char *name)
-+{
-+	struct vimc_cfs_device *cfs = container_of(group,
-+						   struct vimc_cfs_device,
-+						   gdev);
-+	char *type_name, *ent_name, *sep;
-+	struct vimc_cfs_ent *c_ent;
-+	struct vimc_entity_data *ent;
-+	struct vimc_cfs_ent_type *c_ent_type = NULL;
-+	char buf[VIMC_MAX_CFS_NAME_LEN];
-+
-+	cg_dbg(group, "trying to make entity '%s'\n", name);
-+	if (snprintf(buf, VIMC_MAX_CFS_NAME_LEN, "%s", name) >= sizeof(buf))
-+		return ERR_PTR(-ENAMETOOLONG);
-+
-+	/* Parse format "type_name:ent_name" */
-+	sep = strchr(buf, CHAR_SEPARATOR);
-+	if (!sep) {
-+		cg_warn(&cfs->gdev,
-+			"Could not find separator '%c'\n", CHAR_SEPARATOR);
-+		goto syntax_error;
-+	}
-+	*sep = '\0';
-+
-+	ent_name = &sep[1];
-+	type_name = buf;
-+
-+	if (!*ent_name || sep == type_name) {
-+		cg_warn(&cfs->gdev,
-+			"%s: Driver name and entity name can't be empty.\n",
-+			name);
-+		goto syntax_error;
-+	}
-+	if (strlen(ent_name) >= VIMC_MAX_NAME_LEN) {
-+		cg_err(&cfs->gdev,
-+		       "%s: Driver name length should be less than %u.\n",
-+		       name, VIMC_MAX_NAME_LEN);
-+		goto syntax_error;
-+	}
-+	mutex_lock(&cfs->pdata.topology_mutex);
-+	list_for_each_entry(ent, &cfs->pdata.ents, entry) {
-+		if (!strncmp(ent->name, ent_name, sizeof(ent->name))) {
-+			cg_err(&cfs->gdev, "entity `%s` already exist\n",
-+			       ent->name);
-+			mutex_unlock(&cfs->pdata.topology_mutex);
-+			goto syntax_error;
-+		}
-+	}
-+
-+	c_ent = kzalloc(sizeof(*c_ent), GFP_KERNEL);
-+	if (!c_ent) {
-+		mutex_unlock(&cfs->pdata.topology_mutex);
-+		return ERR_PTR(-ENOMEM);
-+	}
-+
-+	strscpy(c_ent->ent.name, ent_name, sizeof(c_ent->ent.name));
-+
-+	/* TODO: add support for hotplug at entity level */
-+	list_for_each_entry(c_ent_type, &vimc_cfs_subsys.ent_types, entry) {
-+		if (!strcmp(type_name, c_ent_type->name)) {
-+			config_group_init_type_name(&c_ent->cg, ent_name,
-+						    &vimc_cfs_ent_type);
-+			if (c_ent_type->create_pads)
-+				c_ent_type->create_pads(&c_ent->cg);
-+			c_ent->ent.type_name = c_ent_type->name;
-+			list_add(&c_ent->ent.entry, &cfs->pdata.ents);
-+			mutex_unlock(&cfs->pdata.topology_mutex);
-+			return &c_ent->cg;
-+		}
-+	}
-+	mutex_unlock(&cfs->pdata.topology_mutex);
-+	cg_warn(&cfs->gdev, "entity type '%s' not found\n", type_name);
-+	kfree(c_ent);
-+	return ERR_PTR(-EINVAL);
-+
-+syntax_error:
-+	cg_err(&cfs->gdev,
-+	       "couldn't create entity '%s' wrong syntax.", name);
-+	return ERR_PTR(-EINVAL);
-+}
-+
-+static int vimc_cfs_decode_state(const char *buf, size_t size)
-+{
-+	unsigned int i, j;
-+
-+	for (i = 0; i < ARRAY_SIZE(vimc_cfs_hotplug_values); i++) {
-+		for (j = 0; j < ARRAY_SIZE(vimc_cfs_hotplug_values[0]); j++) {
-+			if (!strncmp(buf, vimc_cfs_hotplug_values[i][j], size))
-+				return i;
-+		}
-+	}
-+	return -EINVAL;
-+}
-+
-+static ssize_t vimc_cfs_dev_hotplug_show(struct config_item *item,
-+					 char *buf)
-+{
-+	struct vimc_cfs_device *cfs = container_of(item, struct vimc_cfs_device,
-+						   gdev.cg_item);
-+
-+	cg_dbg(&cfs->gdev, "%s: cfs=%p\n", __func__, cfs);
-+	strcpy(buf, vimc_cfs_hotplug_values[IS_PLUGGED(cfs)][0]);
-+	return strlen(buf);
-+}
-+
-+static ssize_t vimc_cfs_dev_hotplug_store(struct config_item *item,
-+					  const char *buf, size_t size)
-+{
-+	struct vimc_cfs_device *cfs = container_of(item, struct vimc_cfs_device,
-+						   gdev.cg_item);
-+	int state = vimc_cfs_decode_state(buf, size);
-+
-+	cg_dbg(&cfs->gdev, "%s: cfs=%p\n", __func__, cfs);
-+	if (state == VIMC_CFS_HOTPLUG_STATE_UNPLUGGED) {
-+		vimc_cfs_device_unplug(cfs);
-+	} else if (state == VIMC_CFS_HOTPLUG_STATE_PLUGGED) {
-+		int ret = vimc_cfs_device_plug(cfs);
-+
-+		if (ret)
-+			return ret;
-+	}
-+	return size;
-+}
-+
-+CONFIGFS_ATTR(vimc_cfs_dev_, hotplug);
-+
-+static void vimc_cfs_dev_release(struct config_item *item)
-+{
-+	struct vimc_cfs_device *cfs = container_of(item, struct vimc_cfs_device,
-+						   gdev.cg_item);
-+
-+	ci_dbg(item, "releasing dev %s (%p)\n", item->ci_name, cfs);
-+	kfree(cfs);
-+}
-+
-+static struct configfs_group_operations vimc_cfs_dev_group_ops = {
-+	.make_group = vimc_cfs_dev_make_ent_group,
-+	.drop_item = vimc_cfs_dev_drop_ent_item,
-+};
-+
-+static struct configfs_item_operations vimc_cfs_dev_item_ops = {
-+	.release = vimc_cfs_dev_release,
-+};
-+
-+static struct configfs_attribute *vimc_cfs_dev_attrs[] = {
-+	&vimc_cfs_dev_attr_hotplug,
-+	NULL,
-+};
-+
-+static struct config_item_type vimc_cfs_dev_type = {
-+	.ct_group_ops = &vimc_cfs_dev_group_ops,
-+	.ct_item_ops = &vimc_cfs_dev_item_ops,
-+	.ct_attrs = vimc_cfs_dev_attrs,
-+	.ct_owner = THIS_MODULE,
-+};
-+
-+/* --------------------------------------------------------------------------
-+ * Subsystem
-+ * --------------------------------------------------------------------------
-+ */
-+
-+static void vimc_cfs_subsys_drop_dev_item(struct config_group *group,
-+				   struct config_item *item)
-+{
-+	struct vimc_cfs_device *cfs = container_of(to_config_group(item),
-+						   struct vimc_cfs_device,
-+						   gdev);
-+
-+	cg_dbg(&cfs->gdev, "dropping dev item '%s'", item->ci_name);
-+	vimc_cfs_device_unplug(cfs);
-+	config_item_put(item);
-+}
-+
-+static struct config_group *vimc_cfs_subsys_make_dev_group(
-+				struct config_group *group, const char *name)
-+{
-+	struct vimc_cfs_device *cfs = kzalloc(sizeof(*cfs), GFP_KERNEL);
-+
-+	if (!cfs)
-+		return ERR_PTR(-ENOMEM);
-+
-+	cg_dbg(&cfs->gdev, "making dev group '%s'", name);
-+	/* Configure platform data */
-+	mutex_init(&cfs->pdata.topology_mutex);
-+	INIT_LIST_HEAD(&cfs->pdata.ents);
-+	INIT_LIST_HEAD(&cfs->pdata.links);
-+	mutex_init(&cfs->pdev_mutex);
-+	config_group_init_type_name(&cfs->gdev, name, &vimc_cfs_dev_type);
-+
-+	return &cfs->gdev;
-+}
-+
-+int vimc_cfs_subsys_register(void)
-+{
-+	config_group_init(&vimc_cfs_subsys.subsys.su_group);
-+	return configfs_register_subsystem(&vimc_cfs_subsys.subsys);
-+}
-+
-+void vimc_cfs_subsys_unregister(void)
-+{
-+	configfs_unregister_subsystem(&vimc_cfs_subsys.subsys);
-+}
-diff --git a/drivers/media/platform/vimc/vimc-configfs.h b/drivers/media/platform/vimc/vimc-configfs.h
-new file mode 100644
-index 000000000000..d6789914850c
---- /dev/null
-+++ b/drivers/media/platform/vimc/vimc-configfs.h
-@@ -0,0 +1,41 @@
-+/* SPDX-License-Identifier: GPL-2.0+ */
-+/*
-+ * vimc-configfs.h Virtual Media Controller Driver
-+ *
-+ * Copyright (C) 2018 Helen Koike <helen.koike@collabora.com>
-+ */
-+
-+#ifndef _VIMC_CONFIGFS_H_
-+#define _VIMC_CONFIGFS_H_
-+
-+#include <linux/configfs.h>
-+
-+#define VIMC_CFS_SRC_PAD "source:"
-+#define VIMC_CFS_SINK_PAD "sink:"
-+
-+#define VIMC_CFS_SRC_PAD_NUM(n) "source:" #n
-+#define VIMC_CFS_SINK_PAD_NUM(n) "sink:" #n
-+
-+extern struct config_item_type vimc_default_cfs_pad_type;
-+
-+void vimc_cfs_add_source_pad(struct config_group *ent_group,
-+					int pad_idx, const char *name);
-+
-+void vimc_cfs_add_sink_pad(struct config_group *ent_group,
-+				      int pad_idx, const char *name);
-+struct vimc_cfs_ent_type {
-+	const char *name;
-+	struct list_head entry;
-+
-+	void (*const create_pads)(struct config_group *parent);
-+};
-+
-+int vimc_cfs_subsys_register(void);
-+
-+void vimc_cfs_subsys_unregister(void);
-+
-+void vimc_cfs_ent_type_register(struct vimc_cfs_ent_type *c_ent_type);
-+
-+void vimc_cfs_ent_type_unregister(struct vimc_cfs_ent_type *c_ent_type);
-+
-+#endif
+ 		return ret;
+-	}
+-
++	platform_set_drvdata(pdev, vimc);
+ 	return 0;
+ }
+ 
+ static int vimc_remove(struct platform_device *pdev)
+ {
+-	struct vimc_device *vimc = container_of(pdev, struct vimc_device, pdev);
++	struct vimc_device *vimc = platform_get_drvdata(pdev);
+ 
+-	dev_dbg(&pdev->dev, "remove");
++	dev_dbg(&pdev->dev, "remove\n");
+ 
+ 	vimc_rm_subdevs(vimc);
+-	vimc_unregister(vimc);
++	media_device_unregister(&vimc->mdev);
++	media_device_cleanup(&vimc->mdev);
++	v4l2_device_unregister(&vimc->v4l2_dev);
+ 
+ 	return 0;
+ }
+ 
+-static void vimc_dev_release(struct device *dev)
+-{
+-}
+-
+-static struct vimc_device vimc_dev = {
+-	.pipe_cfg = &pipe_cfg,
+-	.pdev = {
+-		.name = VIMC_PDEV_NAME,
+-		.dev.release = vimc_dev_release,
+-	}
+-};
+-
+ static struct platform_driver vimc_pdrv = {
+ 	.probe		= vimc_probe,
+ 	.remove		= vimc_remove,
+ 	.driver		= {
+-		.name	= VIMC_PDEV_NAME,
++		.name	= "vimc-core",
+ 	},
+ };
+ 
+ static int __init vimc_init(void)
+ {
+-	int ret;
++	int ret, i;
+ 
+-	ret = platform_device_register(&vimc_dev.pdev);
++	ret = platform_driver_register(&vimc_pdrv);
+ 	if (ret) {
+-		dev_err(&vimc_dev.pdev.dev,
+-			"platform device registration failed (err=%d)\n", ret);
++		pr_err("vimc init: platform driver register failed (%d)\n", ret);
+ 		return ret;
+ 	}
+ 
+-	ret = platform_driver_register(&vimc_pdrv);
++	ret = vimc_cfs_subsys_register();
+ 	if (ret) {
+-		dev_err(&vimc_dev.pdev.dev,
+-			"platform driver registration failed (err=%d)\n", ret);
++		pr_err("%s: configfs subsys registration failed (%d)\n",
++		       __func__, ret);
+ 		platform_driver_unregister(&vimc_pdrv);
+ 		return ret;
+ 	}
+ 
++	for (i = 0; i < ARRAY_SIZE(ent_types); i++)
++		ent_types[i].init();
+ 	return 0;
+ }
+ 
+ static void __exit vimc_exit(void)
+ {
+-	platform_driver_unregister(&vimc_pdrv);
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(ent_types); i++)
++		ent_types[i].exit();
+ 
+-	platform_device_unregister(&vimc_dev.pdev);
++	vimc_cfs_subsys_unregister();
++	platform_driver_unregister(&vimc_pdrv);
+ }
+ 
+ module_init(vimc_init);
 diff --git a/drivers/media/platform/vimc/vimc-debayer.c b/drivers/media/platform/vimc/vimc-debayer.c
-index 8860ca3bf400..715de945e3a2 100644
+index 715de945e3a2..524365410a23 100644
 --- a/drivers/media/platform/vimc/vimc-debayer.c
 +++ b/drivers/media/platform/vimc/vimc-debayer.c
-@@ -14,6 +14,7 @@
- #include <media/v4l2-subdev.h>
+@@ -521,9 +521,11 @@ static const struct v4l2_ctrl_ops vimc_deb_ctrl_ops = {
+ 	.s_ctrl = vimc_deb_s_ctrl,
+ };
  
- #include "vimc-common.h"
-+#include "vimc-configfs.h"
+-void vimc_deb_rm(struct vimc_device *vimc, struct vimc_ent_device *ved)
++void vimc_deb_rm(struct vimc_ent_device *ved)
+ {
+-	struct vimc_deb_device *vdeb;
++	struct vimc_deb_device *vdeb = container_of(ved,
++						    struct vimc_deb_device,
++						    ved);
  
- enum vimc_deb_rgb_colors {
- 	VIMC_DEB_RED = 0,
-@@ -604,3 +605,24 @@ struct vimc_ent_device *vimc_deb_add(struct vimc_device *vimc,
+ 	vdeb = container_of(ved, struct vimc_deb_device, ved);
+ 	v4l2_device_unregister_subdev(&vdeb->sd);
+@@ -557,7 +559,7 @@ struct vimc_ent_device *vimc_deb_add(struct vimc_device *vimc,
+ 	/* Allocate the vdeb struct */
+ 	vdeb = kzalloc(sizeof(*vdeb), GFP_KERNEL);
+ 	if (!vdeb)
+-		return NULL;
++		return ERR_PTR(-ENOMEM);
  
- 	return NULL;
+ 	/* Create controls: */
+ 	v4l2_ctrl_handler_init(&vdeb->hdl, 2);
+@@ -582,7 +584,7 @@ struct vimc_ent_device *vimc_deb_add(struct vimc_device *vimc,
+ 		goto err_free_hdl;
+ 
+ 	vdeb->ved.process_frame = vimc_deb_process_frame;
+-	vdeb->ved.dev = &vimc->pdev.dev;
++	vdeb->ved.dev = vimc->mdev.dev;
+ 	vdeb->mean_win_size = vimc_deb_ctrl_mean_win_size.def;
+ 
+ 	/* Initialize the frame format */
+@@ -603,7 +605,7 @@ struct vimc_ent_device *vimc_deb_add(struct vimc_device *vimc,
+ err_free_vdeb:
+ 	kfree(vdeb);
+ 
+-	return NULL;
++	return ERR_PTR(ret);
  }
-+
-+static void vimc_deb_create_cfs_pads(struct config_group *ent_group)
-+{
-+	vimc_cfs_add_source_pad(ent_group, 0, VIMC_CFS_SRC_PAD_NUM(1));
-+	vimc_cfs_add_sink_pad(ent_group, 1, VIMC_CFS_SINK_PAD_NUM(0));
-+}
-+
-+struct vimc_cfs_ent_type vimc_deb_cfs_ent_type = {
-+	.name = VIMC_DEB_NAME,
-+	.create_pads = vimc_deb_create_cfs_pads,
-+};
-+
-+void vimc_deb_exit(void)
-+{
-+	vimc_cfs_ent_type_unregister(&vimc_deb_cfs_ent_type);
-+}
-+
-+void vimc_deb_init(void)
-+{
-+	vimc_cfs_ent_type_register(&vimc_deb_cfs_ent_type);
-+}
+ 
+ static void vimc_deb_create_cfs_pads(struct config_group *ent_group)
 diff --git a/drivers/media/platform/vimc/vimc-scaler.c b/drivers/media/platform/vimc/vimc-scaler.c
-index cb04408834b5..d4d20c579bc8 100644
+index d4d20c579bc8..271558fee50c 100644
 --- a/drivers/media/platform/vimc/vimc-scaler.c
 +++ b/drivers/media/platform/vimc/vimc-scaler.c
-@@ -10,6 +10,7 @@
- #include <linux/v4l2-mediabus.h>
- #include <media/v4l2-subdev.h>
+@@ -357,9 +357,11 @@ static void *vimc_sca_process_frame(struct vimc_ent_device *ved,
+ 	return vsca->src_frame;
+ };
  
-+#include "vimc-configfs.h"
- #include "vimc-common.h"
+-void vimc_sca_rm(struct vimc_device *vimc, struct vimc_ent_device *ved)
++void vimc_sca_rm(struct vimc_ent_device *ved)
+ {
+-	struct vimc_sca_device *vsca;
++	struct vimc_sca_device *vsca = container_of(ved,
++						    struct vimc_sca_device,
++						    ved);
  
- static unsigned int sca_mult = 3;
-@@ -398,3 +399,24 @@ struct vimc_ent_device *vimc_sca_add(struct vimc_device *vimc,
+ 	vsca = container_of(ved, struct vimc_sca_device, ved);
+ 	v4l2_device_unregister_subdev(&vsca->sd);
+@@ -375,7 +377,7 @@ struct vimc_ent_device *vimc_sca_add(struct vimc_device *vimc,
+ 	/* Allocate the vsca struct */
+ 	vsca = kzalloc(sizeof(*vsca), GFP_KERNEL);
+ 	if (!vsca)
+-		return NULL;
++		return ERR_PTR(-ENOMEM);
  
- 	return &vsca->ved;
- }
-+
-+static void vimc_sca_create_cfs_pads(struct config_group *ent_group)
-+{
-+	vimc_cfs_add_source_pad(ent_group, 0, VIMC_CFS_SRC_PAD_NUM(1));
-+	vimc_cfs_add_sink_pad(ent_group, 1, VIMC_CFS_SINK_PAD_NUM(0));
-+}
-+
-+struct vimc_cfs_ent_type vimc_sca_cfs_ent_type = {
-+	.name = VIMC_SCA_NAME,
-+	.create_pads = vimc_sca_create_cfs_pads,
-+};
-+
-+void vimc_sca_exit(void)
-+{
-+	vimc_cfs_ent_type_unregister(&vimc_sca_cfs_ent_type);
-+}
-+
-+void vimc_sca_init(void)
-+{
-+	vimc_cfs_ent_type_register(&vimc_sca_cfs_ent_type);
-+}
+ 	/* Initialize ved and sd */
+ 	vsca->pads[0].flags = MEDIA_PAD_FL_SINK;
+@@ -392,8 +394,7 @@ struct vimc_ent_device *vimc_sca_add(struct vimc_device *vimc,
+ 	}
+ 
+ 	vsca->ved.process_frame = vimc_sca_process_frame;
+-	vsca->ved.dev = &vimc->pdev.dev;
+-
++	vsca->ved.dev = vimc->mdev.dev;
+ 	/* Initialize the frame format */
+ 	vsca->sink_fmt = sink_fmt_default;
+ 
 diff --git a/drivers/media/platform/vimc/vimc-sensor.c b/drivers/media/platform/vimc/vimc-sensor.c
-index f137ff23b892..4ea831c834df 100644
+index 4ea831c834df..1bb53743ccee 100644
 --- a/drivers/media/platform/vimc/vimc-sensor.c
 +++ b/drivers/media/platform/vimc/vimc-sensor.c
-@@ -12,6 +12,7 @@
- #include <media/v4l2-subdev.h>
- #include <media/tpg/v4l2-tpg.h>
+@@ -310,11 +310,11 @@ static const struct v4l2_subdev_internal_ops vimc_sen_int_ops = {
+ 	.release = vimc_sen_release,
+ };
  
-+#include "vimc-configfs.h"
- #include "vimc-common.h"
+-void vimc_sen_rm(struct vimc_device *vimc, struct vimc_ent_device *ved)
++void vimc_sen_rm(struct vimc_ent_device *ent)
+ {
+ 	struct vimc_sen_device *vsen;
  
- struct vimc_sen_device {
-@@ -401,3 +402,23 @@ struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
- 
- 	return NULL;
+-	vsen = container_of(ved, struct vimc_sen_device, ved);
++	vsen = container_of(ent, struct vimc_sen_device, ved);
+ 	v4l2_device_unregister_subdev(&vsen->sd);
  }
-+
-+static void vimc_sen_create_cfs_pads(struct config_group *ent_group)
-+{
-+	vimc_cfs_add_source_pad(ent_group, 0, VIMC_CFS_SRC_PAD_NUM(0));
-+}
-+
-+struct vimc_cfs_ent_type vimc_sen_cfs_ent_type = {
-+	.name = VIMC_SEN_NAME,
-+	.create_pads = vimc_sen_create_cfs_pads,
-+};
-+
-+void vimc_sen_exit(void)
-+{
-+	vimc_cfs_ent_type_unregister(&vimc_sen_cfs_ent_type);
-+}
-+
-+void vimc_sen_init(void)
-+{
-+	vimc_cfs_ent_type_register(&vimc_sen_cfs_ent_type);
-+}
+ 
+@@ -345,7 +345,7 @@ struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
+ 	/* Allocate the vsen struct */
+ 	vsen = kzalloc(sizeof(*vsen), GFP_KERNEL);
+ 	if (!vsen)
+-		return NULL;
++		return ERR_PTR(-ENOMEM);
+ 
+ 	v4l2_ctrl_handler_init(&vsen->hdl, 4);
+ 
+@@ -386,7 +386,7 @@ struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
+ 		goto err_free_tpg;
+ 
+ 	vsen->ved.process_frame = vimc_sen_process_frame;
+-	vsen->ved.dev = &vimc->pdev.dev;
++	vsen->ved.dev = vimc->mdev.dev;
+ 
+ 	/* Initialize the frame format */
+ 	vsen->mbus_format = fmt_default;
+@@ -400,7 +400,7 @@ struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
+ err_free_vsen:
+ 	kfree(vsen);
+ 
+-	return NULL;
++	return ERR_PTR(ret);
+ }
+ 
+ static void vimc_sen_create_cfs_pads(struct config_group *ent_group)
 -- 
 2.20.1
 
