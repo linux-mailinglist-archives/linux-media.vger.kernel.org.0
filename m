@@ -2,199 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A0434EF1D7
-	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2019 01:19:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DEF87EF2EF
+	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2019 02:44:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387621AbfKEASi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Nov 2019 19:18:38 -0500
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:17961 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387415AbfKEASh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Nov 2019 19:18:37 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5dc0bfe10001>; Mon, 04 Nov 2019 16:18:41 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 04 Nov 2019 16:18:35 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 04 Nov 2019 16:18:35 -0800
-Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 5 Nov
- 2019 00:18:34 +0000
-Subject: Re: [PATCH v2 12/18] mm/gup: track FOLL_PIN pages
-To:     Jerome Glisse <jglisse@redhat.com>
-CC:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
-        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
-        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
-References: <20191103211813.213227-1-jhubbard@nvidia.com>
- <20191103211813.213227-13-jhubbard@nvidia.com>
- <20191104185238.GG5134@redhat.com>
- <7821cf87-75a8-45e2-cf28-f85b62192416@nvidia.com>
- <20191104234920.GA18515@redhat.com>
-X-Nvconfidentiality: public
-From:   John Hubbard <jhubbard@nvidia.com>
-Message-ID: <f587647d-83dc-5bde-d244-f522ec5bda60@nvidia.com>
-Date:   Mon, 4 Nov 2019 16:18:33 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1730203AbfKEBn4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Nov 2019 20:43:56 -0500
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:45850 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728987AbfKEBnz (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Nov 2019 20:43:55 -0500
+Received: by mail-oi1-f193.google.com with SMTP id k2so16029591oij.12;
+        Mon, 04 Nov 2019 17:43:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=CUXJwWe90bW8v3xaQ2VIEMTd+WY4inmX6uoXpP0UKrU=;
+        b=r5EuhHg6f8V5uZJsgCvYIpRsKkdlXHyeuAFsuMFTXx/AMza2vM7tmvMv8IDNCxjPAH
+         my+FM0252BjXcRtI+LiYkkclhgbWHxVS3e0/kLKmdzQBfh2+if8BjwM21K1rJcjEurBf
+         NPBfTzfX5ijXxFXZqYO3qGAqQ3W3ohygPxLbv/6aGKlhRj/MyoyNxHhgI+j35UxeDyET
+         3M66xVEUyP5nt13PNOP34RUchIJMRFrjSNcylc7AXPZUHwHzzbQVAOb0bEEI+BuLBAqO
+         ffpUW+/Fc4x65T0krdgN+S7eLND6DfCGgVHJVHNudKAKZ9KQ9stxFTu37+Fybmmty9Cz
+         Hzgg==
+X-Gm-Message-State: APjAAAW5QpqcYp3dJlhnSR7JFcyHbaRyZ83JlojNYKyG+3Pn6dgnrhwQ
+        65j7Pad4L2WFnMwfTxfR9Q==
+X-Google-Smtp-Source: APXvYqzyj/IhgIcosg+V9eSDk1T7UbLbJYKj67K43VeYokAtGtiA5geqXFgLTpyjlQIlyARe5+gqiA==
+X-Received: by 2002:aca:da06:: with SMTP id r6mr1699237oig.82.1572918234843;
+        Mon, 04 Nov 2019 17:43:54 -0800 (PST)
+Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id l18sm1216351oti.11.2019.11.04.17.43.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Nov 2019 17:43:54 -0800 (PST)
+Date:   Mon, 4 Nov 2019 19:43:53 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        c.barrett@framos.com, a.brela@framos.com, peter.griffin@linaro.org
+Subject: Re: [PATCH v4 1/2] dt-bindings: media: i2c: Add IMX296 CMOS sensor
+ binding
+Message-ID: <20191105014353.GA841@bogus>
+References: <20191030094902.32582-1-manivannan.sadhasivam@linaro.org>
+ <20191030094902.32582-2-manivannan.sadhasivam@linaro.org>
+ <20191030115328.GA6253@valkosipuli.retiisi.org.uk>
+ <20191030120105.GA11432@Mani-XPS-13-9360>
 MIME-Version: 1.0
-In-Reply-To: <20191104234920.GA18515@redhat.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="windows-1252"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1572913121; bh=it/avAzbdjbPt9c7ZhR3SugLAHDAeo7qSUQnTa8Gd0Y=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=nx62lGrPMlwQBcqF9vYxqUTNBIlMwnY3v4vXnUqcAbCO2/xdO7aUYp8qclkmts9z7
-         gtH9Ov6maSgTLFms+gOL/dE2dCoQ1xMQpdGQy9Akbo7N7NyETXXQXZTJZqjI7N8kF+
-         n3RQEPIGAaiZBh6nvWW7FoLz32nqtlJ71DClIb0EMAf4xWjkAmpFYtedbKPVLxdf/b
-         tlQKPTEISDGthKQTi64XGZlvQXC4V843TbV9Pv5FMwu9POX8T7Ox5OlQOI/t1RVVuU
-         ehgOt7zOUTQcQRd6bK+4WI3VER1yK/cV2GljR29nekSSEXFENv8o9uy5i0m+683Ub0
-         piAG/LY3Z7DNw==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191030120105.GA11432@Mani-XPS-13-9360>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dan, there is a question for you further down:
-
-
-On 11/4/19 3:49 PM, Jerome Glisse wrote:
-> On Mon, Nov 04, 2019 at 02:49:18PM -0800, John Hubbard wrote:
-...
->>> Maybe add a small comment about wrap around :)
->>
->>
->> I don't *think* the count can wrap around, due to the checks in user_page_ref_inc().
->>
->> But it's true that the documentation is a little light here...What did you have 
->> in mind?
+On Wed, Oct 30, 2019 at 05:31:05PM +0530, Manivannan Sadhasivam wrote:
+> Hi Sakari,
 > 
-> About false positive case (and how unlikely they are) and that wrap
-> around is properly handle. Maybe just a pointer to the documentation
-> so that people know they can go look there for details. I know my
-> brain tend to forget where to look for things so i like to be constantly
-> reminded hey the doc is Documentations/foobar :)
+> On Wed, Oct 30, 2019 at 01:53:28PM +0200, Sakari Ailus wrote:
+> > Hi Nabuvannan,
+> > 
+> > On Wed, Oct 30, 2019 at 03:19:01PM +0530, Manivannan Sadhasivam wrote:
+> > > Add YAML devicetree binding for IMX296 CMOS image sensor. Let's also
+> > > add MAINTAINERS entry for the binding and driver.
+> > > 
+> > > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> > > ---
+> > >  .../devicetree/bindings/media/i2c/imx296.yaml | 94 +++++++++++++++++++
+> > >  MAINTAINERS                                   |  8 ++
+> > >  2 files changed, 102 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/imx296.yaml
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/media/i2c/imx296.yaml b/Documentation/devicetree/bindings/media/i2c/imx296.yaml
+> > > new file mode 100644
+> > > index 000000000000..c04ec2203268
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/media/i2c/imx296.yaml
+> > > @@ -0,0 +1,94 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/media/i2c/imx296.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Sony IMX296 1/2.8-Inch CMOS Image Sensor
+> > > +
+> > > +maintainers:
+> > > +  - Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+> > > +
+> > > +description: |-
+> > > +  The Sony IMX296 is a 1/2.9-Inch active pixel type CMOS Solid-state image
+> > > +  sensor with square pixel array and 1.58 M effective pixels. This chip
+> > > +  features a global shutter with variable charge-integration time. It is
+> > > +  programmable through I2C and 4-wire interfaces. The sensor output is
+> > > +  available via CSI-2 serial data output (1 Lane).
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    const: sony,imx296
+> > > +
+> > > +  reg:
+> > > +    maxItems: 1
+> > > +
+> > > +  clocks:
+> > > +    maxItems: 1
+> > > +
+> > > +  clock-names:
+> > > +    description:
+> > > +      Input clock for the sensor.
+> > > +    items:
+> > > +      - const: mclk
+> > > +
+> > > +  clock-frequency:
+> > > +    description:
+> > > +      Frequency of the mclk clock in Hertz.
+> > > +
+> > > +  vddo-supply:
+> > > +    description:
+> > > +      Definition of the regulator used as interface power supply.
+> > > +
+> > > +  vdda-supply:
+> > > +    description:
+> > > +      Definition of the regulator used as analog power supply.
+> > > +
+> > > +  vddd-supply:
+> > > +    description:
+> > > +      Definition of the regulator used as digital power supply.
+> > > +
+> > > +  reset-gpios:
+> > > +    description:
+> > > +      The phandle and specifier for the GPIO that controls sensor reset.
+> > > +    maxItems: 1
+> > > +
+> > > +  port: true
+> > 
+> > You're missing "type: object" under port.
+> > 
 > 
+> I did that intentionally, since there are other places where I can see the
+> "type" field not specified. So, I was not sure about that. Most of the
+> display bindings don't specify "type" and they are most available ones.
+> I don't think the "port" property differs between cameras and displays.
+> So I went with that.
 
-I see. OK, here's a version with a thoroughly overhauled comment header:
+The difference is the panel bindings have a common schema included 
+which defines 'port' at least as a node. I don't think an include would 
+help too much here, so probably best to add 'type: object' for now. 
+Either way, this may change once video-interfaces.txt is converted if 
+any of those properties apply here.
 
-/**
- * page_dma_pinned() - report if a page is pinned for DMA.
- *
- * This function checks if a page has been pinned via a call to
- * pin_user_pages*() or pin_longterm_pages*().
- *
- * The return value is partially fuzzy: false is not fuzzy, because it means
- * "definitely not pinned for DMA", but true means "probably pinned for DMA, but
- * possibly a false positive due to having at least GUP_PIN_COUNTING_BIAS worth
- * of normal page references".
- *
- * False positives are OK, because: a) it's unlikely for a page to get that many
- * refcounts, and b) all the callers of this routine are expected to be able to
- * deal gracefully with a false positive.
- *
- * For more information, please see Documentation/vm/pin_user_pages.rst.
- *
- * @page:	pointer to page to be queried.
- * @Return:	True, if it is likely that the page has been "dma-pinned".
- *		False, if the page is definitely not dma-pinned.
- */
-static inline bool page_dma_pinned(struct page *page)
+Either way:
 
+Reviewed-by: Rob Herring <robh@kernel.org>
 
->>> [...]
->>>
->>>> @@ -1930,12 +2028,20 @@ static int __gup_device_huge(unsigned long pfn, unsigned long addr,
->>>>  
->>>>  		pgmap = get_dev_pagemap(pfn, pgmap);
->>>>  		if (unlikely(!pgmap)) {
->>>> -			undo_dev_pagemap(nr, nr_start, pages);
->>>> +			undo_dev_pagemap(nr, nr_start, flags, pages);
->>>>  			return 0;
->>>>  		}
->>>>  		SetPageReferenced(page);
->>>>  		pages[*nr] = page;
->>>> -		get_page(page);
->>>> +
->>>> +		if (flags & FOLL_PIN) {
->>>> +			if (unlikely(!user_page_ref_inc(page))) {
->>>> +				undo_dev_pagemap(nr, nr_start, flags, pages);
->>>> +				return 0;
->>>> +			}
->>>
->>> Maybe add a comment about a case that should never happens ie
->>> user_page_ref_inc() fails after the second iteration of the
->>> loop as it would be broken and a bug to call undo_dev_pagemap()
->>> after the first iteration of that loop.
->>>
->>> Also i believe that this should never happens as if first
->>> iteration succeed than __page_cache_add_speculative() will
->>> succeed for all the iterations.
->>>
->>> Note that the pgmap case above follows that too ie the call to
->>> get_dev_pagemap() can only fail on first iteration of the loop,
->>> well i assume you can never have a huge device page that span
->>> different pgmap ie different devices (which is a reasonable
->>> assumption). So maybe this code needs fixing ie :
->>>
->>> 		pgmap = get_dev_pagemap(pfn, pgmap);
->>> 		if (unlikely(!pgmap))
->>> 			return 0;
->>>
->>>
->>
->> OK, yes that does make sense. And I think a comment is adequate,
->> no need to check for bugs during every tail page iteration. So how 
->> about this, as a preliminary patch:
-> 
-> Actualy i thought about it and i think that there is pgmap
-> per section and thus maybe one device can have multiple pgmap
-> and that would be an issue for page bigger than section size
-> (ie bigger than 128MB iirc). I will go double check that, but
-> maybe Dan can chime in.
-> 
-> In any case my comment above is correct for the page ref
-> increment, if the first one succeed than others will too
-> or otherwise it means someone is doing too many put_page()/
-> put_user_page() which is _bad_ :)
-> 
-
-I'll wait to hear from Dan before doing anything rash. :)
-
-
-thanks,
-
-John Hubbard
-NVIDIA
+Rob
