@@ -2,158 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DEF87EF2EF
-	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2019 02:44:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DDF4EF381
+	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2019 03:32:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730203AbfKEBn4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 Nov 2019 20:43:56 -0500
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:45850 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728987AbfKEBnz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Nov 2019 20:43:55 -0500
-Received: by mail-oi1-f193.google.com with SMTP id k2so16029591oij.12;
-        Mon, 04 Nov 2019 17:43:55 -0800 (PST)
+        id S1730436AbfKECcj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 Nov 2019 21:32:39 -0500
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:36647 "EHLO
+        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730216AbfKECci (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 Nov 2019 21:32:38 -0500
+Received: by mail-qt1-f196.google.com with SMTP id y10so20441506qto.3
+        for <linux-media@vger.kernel.org>; Mon, 04 Nov 2019 18:32:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=4urm9i82HUz7ctZoqeaJ+eDwbY+Le9I8/NmP0pY1rnA=;
+        b=RrEUUprScGGCs1P3lOuGj4a5RoiWbVbfDZ4+HpgRvyTXCYVlJAXQB+MYamRZtedVHY
+         f5+sxNxk2K5wkp7PjMMeD8HJWFAJHo3RtLYXlCrUl00LuH1GNIO+43+qB9VoRPGoMtd2
+         MhxxJSrVmcyNdw2dcAOft+ieDHmjkqcbx3xo51HlgztpG3sVxpkHZVlG9m+fgORfqdhb
+         XySrfwIPRDIjnSUQNZ9F7DSfvHrKSEQZxN/D+pZKoiFoN1H+0mMnDQ/zYc1NegbKO5Qw
+         fR/889wgnwS9AagFL4h4X1w9N0H+8w+Cg8HTo2zBy3ABWuxHxMoo0KJgJWvcNzShW5B1
+         QLlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=CUXJwWe90bW8v3xaQ2VIEMTd+WY4inmX6uoXpP0UKrU=;
-        b=r5EuhHg6f8V5uZJsgCvYIpRsKkdlXHyeuAFsuMFTXx/AMza2vM7tmvMv8IDNCxjPAH
-         my+FM0252BjXcRtI+LiYkkclhgbWHxVS3e0/kLKmdzQBfh2+if8BjwM21K1rJcjEurBf
-         NPBfTzfX5ijXxFXZqYO3qGAqQ3W3ohygPxLbv/6aGKlhRj/MyoyNxHhgI+j35UxeDyET
-         3M66xVEUyP5nt13PNOP34RUchIJMRFrjSNcylc7AXPZUHwHzzbQVAOb0bEEI+BuLBAqO
-         ffpUW+/Fc4x65T0krdgN+S7eLND6DfCGgVHJVHNudKAKZ9KQ9stxFTu37+Fybmmty9Cz
-         Hzgg==
-X-Gm-Message-State: APjAAAW5QpqcYp3dJlhnSR7JFcyHbaRyZ83JlojNYKyG+3Pn6dgnrhwQ
-        65j7Pad4L2WFnMwfTxfR9Q==
-X-Google-Smtp-Source: APXvYqzyj/IhgIcosg+V9eSDk1T7UbLbJYKj67K43VeYokAtGtiA5geqXFgLTpyjlQIlyARe5+gqiA==
-X-Received: by 2002:aca:da06:: with SMTP id r6mr1699237oig.82.1572918234843;
-        Mon, 04 Nov 2019 17:43:54 -0800 (PST)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id l18sm1216351oti.11.2019.11.04.17.43.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Nov 2019 17:43:54 -0800 (PST)
-Date:   Mon, 4 Nov 2019 19:43:53 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        c.barrett@framos.com, a.brela@framos.com, peter.griffin@linaro.org
-Subject: Re: [PATCH v4 1/2] dt-bindings: media: i2c: Add IMX296 CMOS sensor
- binding
-Message-ID: <20191105014353.GA841@bogus>
-References: <20191030094902.32582-1-manivannan.sadhasivam@linaro.org>
- <20191030094902.32582-2-manivannan.sadhasivam@linaro.org>
- <20191030115328.GA6253@valkosipuli.retiisi.org.uk>
- <20191030120105.GA11432@Mani-XPS-13-9360>
+        bh=4urm9i82HUz7ctZoqeaJ+eDwbY+Le9I8/NmP0pY1rnA=;
+        b=EY1suQPVkmgylFn6tlK+pU/3DNt/ewCNav833syMYiim3UH3BQ+Sokw5foYqX6J9fl
+         TnBp1+CXztLOc60Vu3e2s21HE5QhSeeiZ6RhEsMdYptntbu2S13ZfMaRtOMsEUlPeGKl
+         7AkgGMmmWITdn3M8HiKm7x4vgx3cYm7V5BndeKmKi/c49YuMfLmX7Hy8DLA+WQsjpsTJ
+         fngqQRYD1uSABvXrpnq/teYk6azyhwsALyqO1GDtZ+mGj1zz8OxYU0HzSE+UVo9nl1KO
+         b+Lh1ghbjrxVqSQDCxJQ2l8ODQnqHedc3T3DBMz4j1gr9Lot1EsTLuyx7K/+GoLdgXbK
+         FzXw==
+X-Gm-Message-State: APjAAAXL2xcaY2gAC9TkQvR/OpMM9f7+6fg/pQLSS0rB0BKZ+IO/Epih
+        SsTWE9p9am8D9X3RKHGAsflNKA==
+X-Google-Smtp-Source: APXvYqzymmufBg1PiSWGxkk4f7LXgsvyOrzTuuRBB+uFmwh9UO+iQP682ubsI0h94l7eDVroneUqZg==
+X-Received: by 2002:a0c:9838:: with SMTP id c53mr25556531qvd.250.1572921156814;
+        Mon, 04 Nov 2019 18:32:36 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-162-113-180.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.180])
+        by smtp.gmail.com with ESMTPSA id t65sm8907102qkh.23.2019.11.04.18.32.36
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 04 Nov 2019 18:32:36 -0800 (PST)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1iRoe3-0002uH-K9; Mon, 04 Nov 2019 22:32:35 -0400
+Date:   Mon, 4 Nov 2019 22:32:35 -0400
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
+        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 07/18] infiniband: set FOLL_PIN, FOLL_LONGTERM via
+ pin_longterm_pages*()
+Message-ID: <20191105023235.GA11093@ziepe.ca>
+References: <20191103211813.213227-1-jhubbard@nvidia.com>
+ <20191103211813.213227-8-jhubbard@nvidia.com>
+ <20191104203346.GF30938@ziepe.ca>
+ <578c1760-7221-4961-9f7d-c07c22e5c259@nvidia.com>
+ <20191104205738.GH30938@ziepe.ca>
+ <1560fa00-0c2b-0f3b-091c-d628f021ce09@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191030120105.GA11432@Mani-XPS-13-9360>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <1560fa00-0c2b-0f3b-091c-d628f021ce09@nvidia.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Oct 30, 2019 at 05:31:05PM +0530, Manivannan Sadhasivam wrote:
-> Hi Sakari,
-> 
-> On Wed, Oct 30, 2019 at 01:53:28PM +0200, Sakari Ailus wrote:
-> > Hi Nabuvannan,
+On Mon, Nov 04, 2019 at 02:03:43PM -0800, John Hubbard wrote:
+> On 11/4/19 12:57 PM, Jason Gunthorpe wrote:
+> > On Mon, Nov 04, 2019 at 12:48:13PM -0800, John Hubbard wrote:
+> >> On 11/4/19 12:33 PM, Jason Gunthorpe wrote:
+> >> ...
+> >>>> diff --git a/drivers/infiniband/core/umem.c b/drivers/infiniband/core/umem.c
+> >>>> index 24244a2f68cc..c5a78d3e674b 100644
+> >>>> +++ b/drivers/infiniband/core/umem.c
+> >>>> @@ -272,11 +272,10 @@ struct ib_umem *ib_umem_get(struct ib_udata *udata, unsigned long addr,
+> >>>>  
+> >>>>  	while (npages) {
+> >>>>  		down_read(&mm->mmap_sem);
+> >>>> -		ret = get_user_pages(cur_base,
+> >>>> +		ret = pin_longterm_pages(cur_base,
+> >>>>  				     min_t(unsigned long, npages,
+> >>>>  					   PAGE_SIZE / sizeof (struct page *)),
+> >>>> -				     gup_flags | FOLL_LONGTERM,
+> >>>> -				     page_list, NULL);
+> >>>> +				     gup_flags, page_list, NULL);
+> >>>
+> >>> FWIW, this one should be converted to fast as well, I think we finally
+> >>> got rid of all the blockers for that?
+> >>>
+> >>
+> >> I'm not aware of any blockers on the gup.c end, anyway. The only broken thing we
+> >> have there is "gup remote + FOLL_LONGTERM". But we can do "gup fast + LONGTERM". 
 > > 
-> > On Wed, Oct 30, 2019 at 03:19:01PM +0530, Manivannan Sadhasivam wrote:
-> > > Add YAML devicetree binding for IMX296 CMOS image sensor. Let's also
-> > > add MAINTAINERS entry for the binding and driver.
-> > > 
-> > > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> > > ---
-> > >  .../devicetree/bindings/media/i2c/imx296.yaml | 94 +++++++++++++++++++
-> > >  MAINTAINERS                                   |  8 ++
-> > >  2 files changed, 102 insertions(+)
-> > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/imx296.yaml
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/media/i2c/imx296.yaml b/Documentation/devicetree/bindings/media/i2c/imx296.yaml
-> > > new file mode 100644
-> > > index 000000000000..c04ec2203268
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/media/i2c/imx296.yaml
-> > > @@ -0,0 +1,94 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/media/i2c/imx296.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Sony IMX296 1/2.8-Inch CMOS Image Sensor
-> > > +
-> > > +maintainers:
-> > > +  - Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> > > +
-> > > +description: |-
-> > > +  The Sony IMX296 is a 1/2.9-Inch active pixel type CMOS Solid-state image
-> > > +  sensor with square pixel array and 1.58 M effective pixels. This chip
-> > > +  features a global shutter with variable charge-integration time. It is
-> > > +  programmable through I2C and 4-wire interfaces. The sensor output is
-> > > +  available via CSI-2 serial data output (1 Lane).
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    const: sony,imx296
-> > > +
-> > > +  reg:
-> > > +    maxItems: 1
-> > > +
-> > > +  clocks:
-> > > +    maxItems: 1
-> > > +
-> > > +  clock-names:
-> > > +    description:
-> > > +      Input clock for the sensor.
-> > > +    items:
-> > > +      - const: mclk
-> > > +
-> > > +  clock-frequency:
-> > > +    description:
-> > > +      Frequency of the mclk clock in Hertz.
-> > > +
-> > > +  vddo-supply:
-> > > +    description:
-> > > +      Definition of the regulator used as interface power supply.
-> > > +
-> > > +  vdda-supply:
-> > > +    description:
-> > > +      Definition of the regulator used as analog power supply.
-> > > +
-> > > +  vddd-supply:
-> > > +    description:
-> > > +      Definition of the regulator used as digital power supply.
-> > > +
-> > > +  reset-gpios:
-> > > +    description:
-> > > +      The phandle and specifier for the GPIO that controls sensor reset.
-> > > +    maxItems: 1
-> > > +
-> > > +  port: true
+> > I mean the use of the mmap_sem here is finally in a way where we can
+> > just delete the mmap_sem and use _fast
+> >  
+> > ie, AFAIK there is no need for the mmap_sem to be held during
+> > ib_umem_add_sg_table()
 > > 
-> > You're missing "type: object" under port.
+> > This should probably be a standalone patch however
 > > 
 > 
-> I did that intentionally, since there are other places where I can see the
-> "type" field not specified. So, I was not sure about that. Most of the
-> display bindings don't specify "type" and they are most available ones.
-> I don't think the "port" property differs between cameras and displays.
-> So I went with that.
+> Yes. Oh, actually I guess the patch flow should be: change to 
+> get_user_pages_fast() and remove the mmap_sem calls, as one patch. And then change 
+> to pin_longterm_pages_fast() as the next patch. Otherwise, the internal fallback
+> from _fast to slow gup would attempt to take the mmap_sem (again) in the same
+> thread, which is not good. :)
+> 
+> Or just defer the change until after this series. Either way is fine, let me
+> know if you prefer one over the other.
+> 
+> The patch itself is trivial, but runtime testing to gain confidence that
+> it's solid is much harder. Is there a stress test you would recommend for that?
+> (I'm not promising I can quickly run it yet--my local IB setup is still nascent 
+> at best.)
 
-The difference is the panel bindings have a common schema included 
-which defines 'port' at least as a node. I don't think an include would 
-help too much here, so probably best to add 'type: object' for now. 
-Either way, this may change once video-interfaces.txt is converted if 
-any of those properties apply here.
+If you make a patch we can probably get it tested, it is something
+we should do I keep forgetting about.
 
-Either way:
-
-Reviewed-by: Rob Herring <robh@kernel.org>
-
-Rob
+Jason
