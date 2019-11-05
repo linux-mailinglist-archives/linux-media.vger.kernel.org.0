@@ -2,90 +2,150 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CB540EF86B
-	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2019 10:17:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C13CAEFA04
+	for <lists+linux-media@lfdr.de>; Tue,  5 Nov 2019 10:49:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730574AbfKEJRm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 Nov 2019 04:17:42 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:59845 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727093AbfKEJRm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Nov 2019 04:17:42 -0500
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1iRuy3-0002KF-P4; Tue, 05 Nov 2019 10:17:39 +0100
-Message-ID: <78b6262cf5f6e9f60746559314fc9f1912365912.camel@pengutronix.de>
-Subject: Re: Overlay support in the i.MX7 display
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>
-Cc:     dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
-Date:   Tue, 05 Nov 2019 10:17:38 +0100
-In-Reply-To: <20191101084318.GA8428@pendragon.ideasonboard.com>
-References: <20191101084318.GA8428@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.30.5-1.1 
+        id S1730805AbfKEJtn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 Nov 2019 04:49:43 -0500
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:40125 "EHLO
+        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730756AbfKEJtm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 Nov 2019 04:49:42 -0500
+Received: by mail-wm1-f67.google.com with SMTP id f3so8233728wmc.5
+        for <linux-media@vger.kernel.org>; Tue, 05 Nov 2019 01:49:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=sender:date:from:to:cc:subject:message-id:mail-followup-to
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=oRi35sDRRYSuldGaopElz5IjGs2HKuOAcqpcVoq2wdY=;
+        b=KE3dP9KvcLUq0hJbOhSYMXJr4Z1Cuc2Vc3sYtj3A588K1AxiPBhNRv2jLPVvg3HpiB
+         asO9jGRsCrrAGrGXQuynbnaqIOtPdku/48txDbkC3jyEv0zbAYA99l9MmTsEF4lXmu4c
+         UlGTi/e9P81uVhAoSbMh6OU7HFW5tO869wbeU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to:user-agent;
+        bh=oRi35sDRRYSuldGaopElz5IjGs2HKuOAcqpcVoq2wdY=;
+        b=cnNVcolX+GV7I5oiC7XpcasLX+AdhkVq159fK+U915oXxsYqC5tdw1kho970Ubk9ss
+         /cpr+Pcui07KMsY6wmabA7y0Lj2GJ4uKTFyu8+nL1Zk5KGfaIviqr19Jspdw0zBFdBg8
+         YIf0k98sBw17RlZCsmphd5lKwR+TRllgGNE4axH8kqJubl/HoamjxRXmeBQfZvehz5eB
+         mApEL7WbALrq4RY3ZJotoviJWG6wmD/Q+YVJKfzed9pgsiXTWE3feaJlagdSLothAXwZ
+         epu4qWmNk7euLMqVNDC+9Fkmcxu0z13bFtoC0a+JVELG4686y4K1CcsUK71tbrSUzr1s
+         4tbw==
+X-Gm-Message-State: APjAAAU5DIPnmr3dX2GDoyoKBiSmuKhndzRR7+EG22SwkctOSf0x8hsd
+        jlrxMiYkLIuUZqsRHoVm0spABg==
+X-Google-Smtp-Source: APXvYqy+m+ZJ5zxOn/Dji3l65qB+TEfMmH5EiR/oP/iFPjGmYGokusjpTK+YoOlM7MNeuKLe8vHIRQ==
+X-Received: by 2002:a7b:c925:: with SMTP id h5mr3591415wml.115.1572947379914;
+        Tue, 05 Nov 2019 01:49:39 -0800 (PST)
+Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net. [212.51.149.96])
+        by smtp.gmail.com with ESMTPSA id j19sm25704277wre.0.2019.11.05.01.49.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Nov 2019 01:49:39 -0800 (PST)
+Date:   Tue, 5 Nov 2019 10:49:36 +0100
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Ira Weiny <ira.weiny@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
+        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 09/19] drm/via: set FOLL_PIN via pin_user_pages_fast()
+Message-ID: <20191105094936.GZ10326@phenom.ffwll.local>
+Mail-Followup-To: John Hubbard <jhubbard@nvidia.com>,
+        Ira Weiny <ira.weiny@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Chinner <david@fromorbit.com>, David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>, Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
+        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
+References: <20191030224930.3990755-1-jhubbard@nvidia.com>
+ <20191030224930.3990755-10-jhubbard@nvidia.com>
+ <20191031233628.GI14771@iweiny-DESK2.sc.intel.com>
+ <20191104181055.GP10326@phenom.ffwll.local>
+ <48d22c77-c313-59ff-4847-bc9a9813b8a7@nvidia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <48d22c77-c313-59ff-4847-bc9a9813b8a7@nvidia.com>
+X-Operating-System: Linux phenom 5.2.0-3-amd64 
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
-
-On Fri, 2019-11-01 at 10:43 +0200, Laurent Pinchart wrote:
-> Hello,
+On Mon, Nov 04, 2019 at 11:20:38AM -0800, John Hubbard wrote:
+> On 11/4/19 10:10 AM, Daniel Vetter wrote:
+> > On Thu, Oct 31, 2019 at 04:36:28PM -0700, Ira Weiny wrote:
+> >> On Wed, Oct 30, 2019 at 03:49:20PM -0700, John Hubbard wrote:
+> >>> Convert drm/via to use the new pin_user_pages_fast() call, which sets
+> >>> FOLL_PIN. Setting FOLL_PIN is now required for code that requires
+> >>> tracking of pinned pages, and therefore for any code that calls
+> >>> put_user_page().
+> >>>
+> >>
+> >> Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+> > 
+> > No one's touching the via driver anymore, so feel free to merge this
+> > through whatever tree suits best (aka I'll drop this on the floor and
+> > forget about it now).
+> > 
+> > Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > 
 > 
-> I'm looking at the available options to support overlays in the display
-> pipeline of the i.MX7. The LCDIF itself unfortunaltey doesn't support
-> overlays, the feature being implemented in the PXP. A driver for the PXP
-> is available but only supports older SoCs whose PXP doesn't support
-> overlays. This driver is implemented as a V4L2 mem2mem driver, which
-> makes support of additional input channels impossible.
-> 
-> Here are the options I can envision:
-> 
-> - Extend the existing PXP driver to support multiple channels. This is
->   technically feasible, but will require moving away from the V4L2
->   mem2mem framework, which would break userspace. I don't think this
->   path could lead anywhere.
+> OK, great. Yes, in fact, I'm hoping Andrew can just push the whole series
+> in through the mm tree, because that would allow it to be done in one 
+> shot, in 5.5
 
-I may be biased, but please don't break the V4L2 mem2mem usecase :)
-
-> - Write a new PXP driver for the i.MX7, still using V4L2, but with
->   multiple video nodes. This would allow blending multiple layers, but
->   would require writing the output to memory, while the PXP has support
->   for direct connections to the LCDIF (through small SRAM buffers).
->   Performances would thus be suboptimal. The API would also be awkward,
->   as using the PXP for display would require usage of V4L2 in
->   applications.
-
-I'm not sure V4L2 is the best API for multi-pass 2D composition,
-especially as the PXP is able to blit an overlay onto a background in
-place.
-
-> - Extend the mxsfb driver with PXP support, and expose the PXP inputs as
->   KMS planes. The PXP would only be used when available, and would be
->   transparent to applications. This would however prevent using it
->   separately from the display (to perform multi-pass alpha blending for
->   instance).
-
-For the SRAM block row buffer path to the LCDIF, I think the KMS plane
-abstraction is the way to go. The DRM and V4L2 drivers could be made to
-use a shared backend, such that only one of plane composition and V4L2
-scaling/CSC functions can work at the same time.
-
-> What would be the best option going forward ? Would any of you, by any
-> chance, have already started work in this area ?
-
-I have not worked on this.
-
-regards
-Philipp
-
+btw is there more? We should have a bunch more userptr stuff in various
+drivers, so was really surprised that drm/via is the only thing in your
+series.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
