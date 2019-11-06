@@ -2,67 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 621F7F14D1
-	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2019 12:18:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FA7BF14D5
+	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2019 12:18:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731267AbfKFLSJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Nov 2019 06:18:09 -0500
-Received: from cnc.isely.net ([75.149.91.89]:38739 "EHLO cnc.isely.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727391AbfKFLSJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 6 Nov 2019 06:18:09 -0500
-X-Greylist: delayed 309 seconds by postgrey-1.27 at vger.kernel.org; Wed, 06 Nov 2019 06:18:08 EST
-Received: from ts3-dock2.isely.net (ts3-dock2.isely.net [::ffff:192.168.23.14])
-  (AUTH: PLAIN isely, TLS: TLSv1/SSLv3,256bits,DHE-RSA-AES256-GCM-SHA384)
-  by cnc.isely.net with ESMTPSA; Wed, 06 Nov 2019 05:12:58 -0600
-  id 00000000001426BE.000000005DC2AABA.00004E8C
-Date:   Wed, 6 Nov 2019 05:12:51 -0600 (CST)
-From:   Mike Isely <isely@isely.net>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Mike Isely <isely@isely.net>
-Subject: Re: [PATCH] pvrusb2: Fix oops on tear-down when radio support is
- not present
-In-Reply-To: <5491a24e-e41a-5d11-7ac5-6d6804989550@xs4all.nl>
-Message-ID: <alpine.DEB.2.21.1911060511360.31133@sheridan.isely.net>
-References: <alpine.DEB.2.21.1911052034300.31133@sheridan.isely.net> <5491a24e-e41a-5d11-7ac5-6d6804989550@xs4all.nl>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+        id S1731296AbfKFLSf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Nov 2019 06:18:35 -0500
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:39477 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727391AbfKFLSf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 6 Nov 2019 06:18:35 -0500
+Received: from [IPv6:2001:420:44c1:2577:dd0c:75f0:7ccb:ac5a]
+ ([IPv6:2001:420:44c1:2577:dd0c:75f0:7ccb:ac5a])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id SJKWiPPkxTzKrSJKaiy8X2; Wed, 06 Nov 2019 12:18:32 +0100
+Subject: Re: [RFC PATCH 08/12] media: pci: cx88: convert to
+ i2c_new_scanned_device
+To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-i2c@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20191106095033.25182-1-wsa+renesas@sang-engineering.com>
+ <20191106095033.25182-9-wsa+renesas@sang-engineering.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <faa29a3b-c939-eec3-355e-8c0ddc873391@xs4all.nl>
+Date:   Wed, 6 Nov 2019 12:18:28 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
+MIME-Version: 1.0
+In-Reply-To: <20191106095033.25182-9-wsa+renesas@sang-engineering.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfPPrPEgl/e6PlsHQf1PVG7+t9BuDd5hPsz+YvyEUimRnm2bOxycpzj8P+U1ME9ra/joFTgu65ejIp6Qz/x9hCziSXsYqlb2pCd41b+szd7Nz++bIUZVW
+ UgSLENZrg84KbDFbnu/9dvvnn0VquEkRnAf2ZoYLAg8yFjHWlGFAdiO1nNG2GCyjFYaq5VD1nL5Gpnet1ZRif1pCfJPs+gnBj32/hP3e5P5stThk/GoTvXMK
+ sJHHAT2HXJAxloQCwGfdjRUlwlthToq0pffgDcrdVWlaylJKvwzQ+80rdjafCb9C+LzCRyLDCndZQleE5Tw0pI/v0xNs46maAsnEZu5zseLt4QsWZWH2+PS6
+ JpsIL5/KOznwTrZCHQbgO9TvoQdW8bFWhiz206Kn8RvU60aQpd2l4wKeFL38yGIT4/MVA1EbiLy+4vPjsAKudu0PxGqaHg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On 11/6/19 10:50 AM, Wolfram Sang wrote:
+> Move from the deprecated i2c_new_probed_device() to the new
+> i2c_new_scanned_device(). Make use of the new ERRPTR if suitable.
 
-Thanks for spotting that.  I think I had eliminated the from header 
-because I thought I was seeing a duplicate from header and didn't want 
-to cause confusion.  That'll teach me.
+This commit text is a bit out-of-sync with the actual patch.
 
-It's been reposted.
+This should be improved for the next version. Looks good otherwise.
 
-  -Mike
+Regards,
 
-On Wed, 6 Nov 2019, Hans Verkuil wrote:
+	Hans
 
-> Hi Mike,
 > 
-> For some reason your mailer didn't include a "From:" line, only a "Reply-To:"
-> line. This means that the patch authorship is not detected by patchwork and
-> git. Can you repost with a valid From: line in the email header?
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
 > 
-> Thanks!
+> Build tested only. RFC, please comment and/or ack, but don't apply yet.
 > 
-> 	Hans
+>  drivers/media/pci/cx88/cx88-input.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/pci/cx88/cx88-input.c b/drivers/media/pci/cx88/cx88-input.c
+> index 589f52d961eb..c7c2acd55266 100644
+> --- a/drivers/media/pci/cx88/cx88-input.c
+> +++ b/drivers/media/pci/cx88/cx88-input.c
+> @@ -613,7 +613,7 @@ void cx88_i2c_init_ir(struct cx88_core *core)
+>  	}
+>  
+>  	/*
+> -	 * We can't call i2c_new_probed_device() because it uses
+> +	 * We can't call i2c_new_scanned_device() because it uses
+>  	 * quick writes for probing and at least some RC receiver
+>  	 * devices only reply to reads.
+>  	 * Also, Hauppauge XVR needs to be specified, as address 0x71
 > 
 
-[...]
-
--- 
-
-Mike Isely
-isely @ isely (dot) net
-PGP: 03 54 43 4D 75 E5 CC 92 71 16 01 E2 B5 F5 C1 E8
