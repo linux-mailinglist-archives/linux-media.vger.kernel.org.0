@@ -2,261 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CCEC2F1CA3
-	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2019 18:41:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E387F1DBC
+	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2019 19:46:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729014AbfKFRlJ convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 6 Nov 2019 12:41:09 -0500
-Received: from mailoutvs14.siol.net ([185.57.226.205]:38440 "EHLO
-        mail.siol.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727286AbfKFRlJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Nov 2019 12:41:09 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by mail.siol.net (Postfix) with ESMTP id 68EB352577B;
-        Wed,  6 Nov 2019 18:41:03 +0100 (CET)
-X-Virus-Scanned: amavisd-new at psrvmta09.zcs-production.pri
-Received: from mail.siol.net ([127.0.0.1])
-        by localhost (psrvmta09.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id NCiG5pzMJs0s; Wed,  6 Nov 2019 18:41:02 +0100 (CET)
-Received: from mail.siol.net (localhost [127.0.0.1])
-        by mail.siol.net (Postfix) with ESMTPS id C13EF525B2D;
-        Wed,  6 Nov 2019 18:41:02 +0100 (CET)
-Received: from jernej-laptop.localnet (cpe-86-58-102-7.static.triera.net [86.58.102.7])
-        (Authenticated sender: jernej.skrabec@siol.net)
-        by mail.siol.net (Postfix) with ESMTPA id C54A6525AED;
-        Wed,  6 Nov 2019 18:41:01 +0100 (CET)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     mripard@kernel.org, mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        gregkh@linuxfoundation.org, wens@csie.org,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-sunxi@googlegroups.com
-Subject: Re: [PATCH 1/3] media: cedrus: Properly signal size in mode register
-Date:   Wed, 06 Nov 2019 18:41:01 +0100
-Message-ID: <2224545.8hcbHn5fu6@jernej-laptop>
-In-Reply-To: <20191105081034.GC584930@aptenodytes>
-References: <20191026074959.1073512-1-jernej.skrabec@siol.net> <7309638.L6IRxaGt1L@jernej-laptop> <20191105081034.GC584930@aptenodytes>
+        id S1727450AbfKFSqF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Nov 2019 13:46:05 -0500
+Received: from mail-qv1-f65.google.com ([209.85.219.65]:44344 "EHLO
+        mail-qv1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727376AbfKFSqF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Nov 2019 13:46:05 -0500
+Received: by mail-qv1-f65.google.com with SMTP id h3so1863929qvu.11;
+        Wed, 06 Nov 2019 10:46:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xqKVR8+28xX8jn1ajKOvJmCoNPe5YW5nnfJvLZP2QFA=;
+        b=mm9eG5iWo3edDJ5Q6P3hPOxVep5q2K3KjbsWIEMNuVcWmLT0v51xRqYkA+77cgFTAm
+         AkqWkSfXJILEUzBCTxogMOMUYi/kgJOs3UrW/GFbwEZtNN69rp4jt0F3SplaXx2fILs5
+         LDWHdNz/sR5YodJ7v1RQWj6VbAd/WwmyUnhwXDwGA5aT96Q/BM79AcAvNXVXyISLL1hc
+         2BsMQvg/v7UzH8JlMrqMXxJ4yyUk5QGTK39rZ0el5EIZ9SZIW8Wir1EELgTxZh7jEtpz
+         /PwNvxEhdBzRK/jqFOQG4IY6BTDfKQg4raEiDuMzq75L8OLjyImBcbiC8m94Zg/vj9P8
+         CKXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xqKVR8+28xX8jn1ajKOvJmCoNPe5YW5nnfJvLZP2QFA=;
+        b=g3u3edmWaWlRTpcr+JHJY5LPWUfGy0r1vH4xzI5TyfrqcP1PvG+TFm3nMu8rQKDsmx
+         u0rLDthm7e1lwdmwe0fFwjTxV7Ta9+TUiD1PPdKn/qLpjPaGEbyNulBSbEoc/KiVbWvF
+         cLm9fqyy/ASFUM2m1u7EnA5I6dRvgVHDLl2F+uu+L7L5U4iCs6FfqehsVTOsgid9pM5y
+         DjHCIr1fcMLBwNhvlTOjcupD3oVAYgBN1WZwj+5NfeQtASwO7Ns2F1ZP5sBioxUvaP1i
+         6dEsevdrvtszB4NVFUOk5G1xNefvn2qHyAWhK9epQNE28GQDkx9CUqnRUBh8izDTEfIZ
+         Lmpw==
+X-Gm-Message-State: APjAAAW8kuYH7LVNJWLhYH7i0zDVNEi73Vf7B92SkGTQ8imNwSsRXTM/
+        C5teGpC+pc3oEL/rkMMRA6ikBnh/SBsWcg==
+X-Google-Smtp-Source: APXvYqwcr92g+ImNjq8gjyE9YsbjIoCi8Q5957/WEcZP2A43LYQ7q7Wa7mNdy5c/Qon9X06VYNo/Og==
+X-Received: by 2002:ad4:4201:: with SMTP id k1mr3768993qvp.33.1573065964124;
+        Wed, 06 Nov 2019 10:46:04 -0800 (PST)
+Received: from localhost.localdomain ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
+        by smtp.gmail.com with ESMTPSA id o1sm13977350qtb.82.2019.11.06.10.46.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Nov 2019 10:46:03 -0800 (PST)
+From:   "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+X-Google-Original-From: Daniel W. S. Almeida
+To:     mchehab@kernel.org, rfontana@redhat.com,
+        gregkh@linuxfoundation.org, allison@lohutok.net,
+        kstewart@linuxfoundation.org, tglx@linutronix.de
+Cc:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        skhan@linuxfoundation.org
+Subject: [PATCH] media: dvb_dummy_fe: place EXPORT_SYMBOL below corresponding function
+Date:   Wed,  6 Nov 2019 15:37:16 -0300
+Message-Id: <20191106183716.29170-1-dwlsalmeida@gmail.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dne torek, 05. november 2019 ob 09:10:34 CET je Paul Kocialkowski napisal(a):
-> Hi,
-> 
-> On Mon 04 Nov 19, 17:33, Jernej Škrabec wrote:
-> > Dne ponedeljek, 04. november 2019 ob 11:02:28 CET je Paul Kocialkowski
-> > 
-> > napisal(a):
-> > > Hi Jernej,
-> > > 
-> > > On Sat 26 Oct 19, 09:49, Jernej Skrabec wrote:
-> > > > Mode register also holds information if video width is bigger than
-> > > > 2048
-> > > > and if it is equal to 4096.
-> > > > 
-> > > > Rework cedrus_engine_enable() to properly signal this properties.
-> > > 
-> > > Thanks for the patch, looks good to me!
-> > > 
-> > > Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > > 
-> > > One minor thing: maybe we should have a way to set the maximum
-> > > dimensions
-> > > depending on the generation of the engine in use and the actual maximum
-> > > supported by the hardware.
-> > > 
-> > > Maybe either as dedicated new fields in struct cedrus_variant or as
-> > > capability flags.
-> > 
-> > I was thinking about first solution, but after going trough manuals, it
-> > was
-> > unclear what are real limitations. For example, H3 manual states that it
-> > is
-> > capable of decoding H264 1080p@60Hz. However, I know for a fact that it is
-> > also capable of decoding 4k videos, but probably not at 60 Hz. I don't own
-> > anything older that A83T, so I don't know what are capabilities of those
-> > SoCs.
-> So I guess in this case we should try and see. I could try to look into it
-> at some point in the future too if you're not particulary interested.
+From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 
-Well, I can take a look at my HW, but I have only few SoCs with more or less 
-same capability.
+Suggested-by: Shuah Khan <skhan@linuxfoundation.org>
+Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+---
+ drivers/media/dvb-frontends/dvb_dummy_fe.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-> > Anyway, being slow is still ok for some tasks, like transcoding, so we
-> > can't limit decoding to 1080p just because it's slow. It is probably
-> > still faster than doing it in SW. Not to mention that it's still ok for
-> > some videos, a lot of them uses 24 fps.
-> 
-> I agree, it's best to expose the maximum supported resolution by the
-> hardware, even if it means running at a lower fps.
-> 
-> Do you know if we have a way to report some estimation of the maximum
-> supported fps to userspace? It would be useful to let userspace decide
-> whether it's a better fit than software decoding.
-
-I took a quick look at existing controls, but I don't see anything 
-appropriate.
-
-Best regards,
-Jernej
-
-> 
-> Cheers,
-> 
-> Paul
-> 
-> > Best regards,
-> > Jernej
-> > 
-> > > Anyway that can be done later since we were already hardcoding this.
-> > > 
-> > > Cheers,
-> > > 
-> > > Paul
-> > > 
-> > > > Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
-> > > > ---
-> > > > 
-> > > >  drivers/staging/media/sunxi/cedrus/cedrus_h264.c  | 2 +-
-> > > >  drivers/staging/media/sunxi/cedrus/cedrus_h265.c  | 2 +-
-> > > >  drivers/staging/media/sunxi/cedrus/cedrus_hw.c    | 9 +++++++--
-> > > >  drivers/staging/media/sunxi/cedrus/cedrus_hw.h    | 2 +-
-> > > >  drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c | 2 +-
-> > > >  drivers/staging/media/sunxi/cedrus/cedrus_regs.h  | 2 ++
-> > > >  6 files changed, 13 insertions(+), 6 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> > > > b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c index
-> > > > 7487f6ab7576..d2c854ecdf15 100644
-> > > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> > > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> > > > @@ -485,7 +485,7 @@ static void cedrus_h264_setup(struct cedrus_ctx
-> > > > *ctx,
-> > > > 
-> > > >  {
-> > > >  
-> > > >  	struct cedrus_dev *dev = ctx->dev;
-> > > > 
-> > > > -	cedrus_engine_enable(dev, CEDRUS_CODEC_H264);
-> > > > +	cedrus_engine_enable(ctx, CEDRUS_CODEC_H264);
-> > > > 
-> > > >  	cedrus_write(dev, VE_H264_SDROT_CTRL, 0);
-> > > >  	cedrus_write(dev, VE_H264_EXTRA_BUFFER1,
-> > > > 
-> > > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > > > b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c index
-> > > > 9bc921866f70..6945dc74e1d7 100644
-> > > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > > > @@ -276,7 +276,7 @@ static void cedrus_h265_setup(struct cedrus_ctx
-> > > > *ctx,
-> > > > 
-> > > >  	}
-> > > >  	
-> > > >  	/* Activate H265 engine. */
-> > > > 
-> > > > -	cedrus_engine_enable(dev, CEDRUS_CODEC_H265);
-> > > > +	cedrus_engine_enable(ctx, CEDRUS_CODEC_H265);
-> > > > 
-> > > >  	/* Source offset and length in bits. */
-> > > > 
-> > > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> > > > b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c index
-> > > > 570a9165dd5d..3acfa21bc124 100644
-> > > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> > > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> > > > @@ -30,7 +30,7 @@
-> > > > 
-> > > >  #include "cedrus_hw.h"
-> > > >  #include "cedrus_regs.h"
-> > > > 
-> > > > -int cedrus_engine_enable(struct cedrus_dev *dev, enum cedrus_codec
-> > > > codec)
-> > > > +int cedrus_engine_enable(struct cedrus_ctx *ctx, enum cedrus_codec
-> > > > codec)
-> > > > 
-> > > >  {
-> > > >  
-> > > >  	u32 reg = 0;
-> > > > 
-> > > > @@ -58,7 +58,12 @@ int cedrus_engine_enable(struct cedrus_dev *dev,
-> > > > enum
-> > > > cedrus_codec codec)>
-> > > > 
-> > > >  		return -EINVAL;
-> > > >  	
-> > > >  	}
-> > > > 
-> > > > -	cedrus_write(dev, VE_MODE, reg);
-> > > > +	if (ctx->src_fmt.width == 4096)
-> > > > +		reg |= VE_MODE_PIC_WIDTH_IS_4096;
-> > > > +	if (ctx->src_fmt.width > 2048)
-> > > > +		reg |= VE_MODE_PIC_WIDTH_MORE_2048;
-> > > > +
-> > > > +	cedrus_write(ctx->dev, VE_MODE, reg);
-> > > > 
-> > > >  	return 0;
-> > > >  
-> > > >  }
-> > > > 
-> > > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
-> > > > b/drivers/staging/media/sunxi/cedrus/cedrus_hw.h index
-> > > > 27d0882397aa..604ff932fbf5 100644
-> > > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
-> > > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
-> > > > @@ -16,7 +16,7 @@
-> > > > 
-> > > >  #ifndef _CEDRUS_HW_H_
-> > > >  #define _CEDRUS_HW_H_
-> > > > 
-> > > > -int cedrus_engine_enable(struct cedrus_dev *dev, enum cedrus_codec
-> > > > codec);
-> > > > +int cedrus_engine_enable(struct cedrus_ctx *ctx, enum cedrus_codec
-> > > > codec);
-> > > > 
-> > > >  void cedrus_engine_disable(struct cedrus_dev *dev);
-> > > >  
-> > > >  void cedrus_dst_format_set(struct cedrus_dev *dev,
-> > > > 
-> > > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c
-> > > > b/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c index
-> > > > 13c34927bad5..8bcd6b8f9e2d 100644
-> > > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c
-> > > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c
-> > > > @@ -96,7 +96,7 @@ static void cedrus_mpeg2_setup(struct cedrus_ctx
-> > > > *ctx,
-> > > > struct cedrus_run *run)>
-> > > > 
-> > > >  	quantization = run->mpeg2.quantization;
-> > > >  	
-> > > >  	/* Activate MPEG engine. */
-> > > > 
-> > > > -	cedrus_engine_enable(dev, CEDRUS_CODEC_MPEG2);
-> > > > +	cedrus_engine_enable(ctx, CEDRUS_CODEC_MPEG2);
-> > > > 
-> > > >  	/* Set intra quantization matrix. */
-> > > > 
-> > > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-> > > > b/drivers/staging/media/sunxi/cedrus/cedrus_regs.h index
-> > > > 4275a307d282..ace3d49fcd82 100644
-> > > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-> > > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-> > > > @@ -35,6 +35,8 @@
-> > > > 
-> > > >  #define VE_MODE					0x00
-> > > > 
-> > > > +#define VE_MODE_PIC_WIDTH_IS_4096		BIT(22)
-> > > > +#define VE_MODE_PIC_WIDTH_MORE_2048		BIT(21)
-> > > > 
-> > > >  #define VE_MODE_REC_WR_MODE_2MB			(0x01 << 20)
-> > > >  #define VE_MODE_REC_WR_MODE_1MB			(0x00 << 20)
-> > > >  #define VE_MODE_DDR_MODE_BW_128			(0x03 << 16)
-
-
-
+diff --git a/drivers/media/dvb-frontends/dvb_dummy_fe.c b/drivers/media/dvb-frontends/dvb_dummy_fe.c
+index 4db679cb70ad..909dac2345c4 100644
+--- a/drivers/media/dvb-frontends/dvb_dummy_fe.c
++++ b/drivers/media/dvb-frontends/dvb_dummy_fe.c
+@@ -121,6 +121,7 @@ struct dvb_frontend* dvb_dummy_fe_ofdm_attach(void)
+ 	state->frontend.demodulator_priv = state;
+ 	return &state->frontend;
+ }
++EXPORT_SYMBOL(dvb_dummy_fe_ofdm_attach);
+ 
+ static const struct dvb_frontend_ops dvb_dummy_fe_qpsk_ops;
+ 
+@@ -138,6 +139,7 @@ struct dvb_frontend *dvb_dummy_fe_qpsk_attach(void)
+ 	state->frontend.demodulator_priv = state;
+ 	return &state->frontend;
+ }
++EXPORT_SYMBOL(dvb_dummy_fe_qpsk_attach);
+ 
+ static const struct dvb_frontend_ops dvb_dummy_fe_qam_ops;
+ 
+@@ -155,6 +157,7 @@ struct dvb_frontend *dvb_dummy_fe_qam_attach(void)
+ 	state->frontend.demodulator_priv = state;
+ 	return &state->frontend;
+ }
++EXPORT_SYMBOL(dvb_dummy_fe_qam_attach);
+ 
+ static const struct dvb_frontend_ops dvb_dummy_fe_ofdm_ops = {
+ 	.delsys = { SYS_DVBT },
+@@ -253,7 +256,3 @@ static const struct dvb_frontend_ops dvb_dummy_fe_qpsk_ops = {
+ MODULE_DESCRIPTION("DVB DUMMY Frontend");
+ MODULE_AUTHOR("Emard");
+ MODULE_LICENSE("GPL");
+-
+-EXPORT_SYMBOL(dvb_dummy_fe_ofdm_attach);
+-EXPORT_SYMBOL(dvb_dummy_fe_qam_attach);
+-EXPORT_SYMBOL(dvb_dummy_fe_qpsk_attach);
+-- 
+2.24.0
 
