@@ -2,103 +2,191 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 172F2F171F
-	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2019 14:30:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7FC7EF172A
+	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2019 14:32:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730551AbfKFNak (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Nov 2019 08:30:40 -0500
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:36967 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726673AbfKFNaj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 6 Nov 2019 08:30:39 -0500
-Received: from [IPv6:2001:420:44c1:2577:dd0c:75f0:7ccb:ac5a]
- ([IPv6:2001:420:44c1:2577:dd0c:75f0:7ccb:ac5a])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id SLOMiQOJZTzKrSLOPiytWR; Wed, 06 Nov 2019 14:30:38 +0100
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Jernej Skrabec <jernej.skrabec@siol.net>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Boris Brezillon <boris.brezillon@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.5] Various fixes (mostly codec related)
-Message-ID: <b9a3b48b-ed51-a844-2384-ec5482f0650b@xs4all.nl>
-Date:   Wed, 6 Nov 2019 14:30:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        id S1730733AbfKFNcH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Nov 2019 08:32:07 -0500
+Received: from mga03.intel.com ([134.134.136.65]:35436 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726673AbfKFNcH (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 6 Nov 2019 08:32:07 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Nov 2019 05:32:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,274,1569308400"; 
+   d="scan'208";a="402355248"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 06 Nov 2019 05:32:05 -0800
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+        (envelope-from <lkp@intel.com>)
+        id 1iSLPo-000FV2-SK; Wed, 06 Nov 2019 21:32:04 +0800
+Date:   Wed, 06 Nov 2019 21:31:52 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: [ragnatech:media-tree] BUILD SUCCESS
+ d065070e009b0c0b2ab4ee09972a41b072f6ed54
+Message-ID: <5dc2cb48.DALwdHQXLgxxv8lk%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfKakt5hoLkjTZCOGH4RN9mfKiAT/YnL5nXEgsptvCbUj3cNuwFTxZDm06lioIWK80LKeRtlFuhft9nmStq/rbxA5v5txDXnfDuNvzVLEQrPAtYQtAHN0
- pOgk1hAWmNw10TxEEYI2QN8Rgi9Ak7fhztdMfszNmHE4+CI0tHRAqvqAxe/d9gEr/E8G0PIcE+sNM3Gbv7pEM6YCMdpT3OjTfwIZo3qx7RdygKcdAJ4VVIjJ
- b2mavS6NoznILxAYPKJ9gMtg44ZrR602zegEbpwaRYViqiM+890F99jRmZLC3MkTwbIc5d68Ywdp9nwPvLJ0HJMspaiWEiy16rWZ1HEVv6byrCyV9VJ2KjGS
- UKbgoN8NMbJeoFr/QwhF8ZMoMdPttSotsoxYzi94rLco3GZDt8L6iYyxeQLHQjNwKoE7Tog4
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit d065070e009b0c0b2ab4ee09972a41b072f6ed54:
+tree/branch: git://git.ragnatech.se/linux  media-tree
+branch HEAD: d065070e009b0c0b2ab4ee09972a41b072f6ed54  media: hi556: Add support for Hi-556 sensor
 
-  media: hi556: Add support for Hi-556 sensor (2019-11-05 09:12:49 -0300)
+elapsed time: 1502m
 
-are available in the Git repository at:
+configs tested: 137
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.5q
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-for you to fetch changes up to 90842e3fbaf873b0e209ac0e71883b5012d6f31c:
+ia64                             alldefconfig
+ia64                             allmodconfig
+ia64                              allnoconfig
+ia64                                defconfig
+x86_64                 randconfig-c001-201944
+x86_64                 randconfig-c002-201944
+i386                   randconfig-c001-201944
+i386                   randconfig-c004-201944
+i386                   randconfig-c003-201944
+i386                   randconfig-c002-201944
+x86_64                 randconfig-c004-201944
+x86_64                 randconfig-c003-201944
+i386                              allnoconfig
+i386                                defconfig
+i386                             alldefconfig
+i386                   randconfig-d002-201944
+x86_64                 randconfig-d002-201944
+x86_64                 randconfig-d004-201944
+i386                   randconfig-d004-201944
+x86_64                 randconfig-d003-201944
+i386                   randconfig-d003-201944
+x86_64                 randconfig-d001-201944
+i386                   randconfig-d001-201944
+x86_64                                    lkp
+x86_64                                   rhel
+x86_64                               rhel-7.6
+x86_64                              fedora-25
+x86_64                                  kexec
+mips                           32r2_defconfig
+mips                         64r6el_defconfig
+mips                             allmodconfig
+mips                              allnoconfig
+mips                      fuloong2e_defconfig
+mips                      malta_kvm_defconfig
+sparc                               defconfig
+sparc64                          allmodconfig
+sparc64                           allnoconfig
+sparc64                             defconfig
+c6x                              allyesconfig
+c6x                        evmc6678_defconfig
+nios2                         10m50_defconfig
+nios2                         3c120_defconfig
+openrisc                    or1ksim_defconfig
+openrisc                 simple_smp_defconfig
+xtensa                       common_defconfig
+xtensa                          iss_defconfig
+i386                   randconfig-b001-201944
+x86_64                 randconfig-b002-201944
+i386                   randconfig-b003-201944
+x86_64                 randconfig-b003-201944
+i386                   randconfig-b004-201944
+x86_64                 randconfig-b001-201944
+x86_64                 randconfig-b004-201944
+i386                   randconfig-b002-201944
+parisc                            allnoconfig
+parisc                         b180_defconfig
+parisc                        c3000_defconfig
+parisc                              defconfig
+um                                  defconfig
+um                             i386_defconfig
+um                           x86_64_defconfig
+x86_64                 randconfig-e004-201944
+x86_64                 randconfig-e001-201944
+x86_64                 randconfig-e003-201944
+x86_64                 randconfig-e002-201944
+i386                   randconfig-e003-201944
+i386                   randconfig-e001-201944
+i386                   randconfig-e004-201944
+i386                   randconfig-e002-201944
+i386                   randconfig-f002-201944
+i386                   randconfig-f001-201944
+x86_64                 randconfig-f003-201944
+x86_64                 randconfig-f004-201944
+x86_64                 randconfig-f002-201944
+i386                   randconfig-f003-201944
+i386                   randconfig-f004-201944
+x86_64                 randconfig-f001-201944
+x86_64                 randconfig-g002-201944
+i386                   randconfig-g004-201944
+x86_64                 randconfig-g001-201944
+i386                   randconfig-g002-201944
+x86_64                 randconfig-g004-201944
+x86_64                 randconfig-g003-201944
+i386                   randconfig-g003-201944
+i386                   randconfig-g001-201944
+sh                               allmodconfig
+sh                                allnoconfig
+sh                          rsk7269_defconfig
+sh                  sh7785lcr_32bit_defconfig
+sh                            titan_defconfig
+arm                              allmodconfig
+arm64                            allmodconfig
+arc                              allyesconfig
+arc                                 defconfig
+microblaze                      mmu_defconfig
+microblaze                    nommu_defconfig
+powerpc                           allnoconfig
+powerpc                             defconfig
+powerpc                       ppc64_defconfig
+h8300                     edosk2674_defconfig
+h8300                    h8300h-sim_defconfig
+h8300                       h8s-sim_defconfig
+m68k                             allmodconfig
+m68k                       m5475evb_defconfig
+m68k                          multi_defconfig
+m68k                           sun3_defconfig
+arm                         at91_dt_defconfig
+arm64                               defconfig
+arm                        multi_v5_defconfig
+arm64                            allyesconfig
+arm                               allnoconfig
+arm                           efm32_defconfig
+arm                           sunxi_defconfig
+arm64                             allnoconfig
+arm                          exynos_defconfig
+arm                        shmobile_defconfig
+arm                        multi_v7_defconfig
+x86_64                 randconfig-a001-201944
+x86_64                 randconfig-a002-201944
+x86_64                 randconfig-a003-201944
+x86_64                 randconfig-a004-201944
+i386                   randconfig-a001-201944
+i386                   randconfig-a002-201944
+i386                   randconfig-a003-201944
+i386                   randconfig-a004-201944
+x86_64                           allyesconfig
+i386                             allmodconfig
+alpha                               defconfig
+nds32                             allnoconfig
+nds32                               defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+x86_64                           allmodconfig
+s390                             allmodconfig
+s390                              allnoconfig
+s390                          debug_defconfig
+s390                                defconfig
 
-  media: coda: drop unused irqlock (2019-11-06 13:44:55 +0100)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Arnd Bergmann (1):
-      media: venus: remove invalid compat_ioctl32 handler
-
-Dafna Hirschfeld (1):
-      media: vimc: sen: remove unused kthread_sen field
-
-Francois Buergisser (2):
-      media: hantro: Fix motion vectors usage condition
-      media: hantro: Fix picture order count table enable
-
-Jernej Skrabec (3):
-      media: cedrus: Fix decoding for some H264 videos
-      media: cedrus: Use helpers to access capture queue
-      media: v4l2-mem2mem: Fix hold buf flag checks
-
-Jonas Karlman (4):
-      media: uapi: h264: clarify expected scaling_list_4x4/8x8 order
-      media: cedrus: Use correct H264 8x8 scaling list
-      media: hantro: Do not reorder H264 scaling list
-      media: hantro: Fix H264 max frmsize supported on RK3288
-
-Mike Isely (1):
-      pvrusb2: Fix oops on tear-down when radio support is not present
-
-Neil Armstrong (1):
-      MAINTAINERS: ao-cec: Update path for yaml bindings
-
-Philipp Zabel (1):
-      media: coda: drop unused irqlock
-
- Documentation/media/uapi/v4l/ext-ctrls-codec.rst  |  8 ++++++--
- MAINTAINERS                                       |  2 +-
- drivers/media/platform/coda/coda-common.c         |  2 --
- drivers/media/platform/coda/coda.h                |  1 -
- drivers/media/platform/qcom/venus/vdec.c          |  3 ---
- drivers/media/platform/qcom/venus/venc.c          |  3 ---
- drivers/media/platform/vimc/vimc-sensor.c         |  5 -----
- drivers/media/usb/pvrusb2/pvrusb2-v4l2.c          |  9 +++++++--
- drivers/media/v4l2-core/v4l2-mem2mem.c            |  4 ++--
- drivers/staging/media/hantro/hantro_g1_h264_dec.c | 10 ++++++----
- drivers/staging/media/hantro/hantro_h264.c        | 51 ++++++++++++---------------------------------------
- drivers/staging/media/hantro/rk3288_vpu_hw.c      |  4 ++--
- drivers/staging/media/sunxi/cedrus/cedrus.h       |  8 ++++++--
- drivers/staging/media/sunxi/cedrus/cedrus_h264.c  | 42 +++++++++++++++++++++++++++++++++++-------
- drivers/staging/media/sunxi/cedrus/cedrus_regs.h  |  3 +++
- 15 files changed, 80 insertions(+), 75 deletions(-)
+---
+0-DAY kernel test infrastructure                 Open Source Technology Center
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org Intel Corporation
