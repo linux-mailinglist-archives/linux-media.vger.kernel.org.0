@@ -2,64 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C27DFF11D1
-	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2019 10:11:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4ADD5F12E7
+	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2019 10:52:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727419AbfKFJLk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Nov 2019 04:11:40 -0500
-Received: from retiisi.org.uk ([95.216.213.190]:56104 "EHLO
-        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727041AbfKFJLk (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 6 Nov 2019 04:11:40 -0500
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 7E462634C87;
-        Wed,  6 Nov 2019 11:10:23 +0200 (EET)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1iSHKY-0002Vn-Ih; Wed, 06 Nov 2019 11:10:22 +0200
-Date:   Wed, 6 Nov 2019 11:10:22 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Benoit Parrot <bparrot@ti.com>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [Patch v2 20/20] MAINTAINERS: Add ti,cal.yaml
-Message-ID: <20191106091022.GE6253@valkosipuli.retiisi.org.uk>
-References: <20191104193140.31145-1-bparrot@ti.com>
- <20191104193140.31145-21-bparrot@ti.com>
+        id S1731824AbfKFJvX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Nov 2019 04:51:23 -0500
+Received: from sauhun.de ([88.99.104.3]:50146 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726143AbfKFJug (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 6 Nov 2019 04:50:36 -0500
+Received: from localhost (p54B33505.dip0.t-ipconnect.de [84.179.53.5])
+        by pokefinder.org (Postfix) with ESMTPSA id 65D0A2C053B;
+        Wed,  6 Nov 2019 10:50:33 +0100 (CET)
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-i2c@vger.kernel.org
+Cc:     Wolfram Sang <wsa@the-dreams.de>, dri-devel@lists.freedesktop.org,
+        linux-fbdev@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org
+Subject: [RFC PATCH 00/12] i2c: replace i2c_new_probed_device with an ERR_PTR variant
+Date:   Wed,  6 Nov 2019 10:50:18 +0100
+Message-Id: <20191106095033.25182-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191104193140.31145-21-bparrot@ti.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Nov 04, 2019 at 01:31:40PM -0600, Benoit Parrot wrote:
-> Add ti,cal.yaml to the MAINTAINERS file.
-> 
-> Signed-off-by: Benoit Parrot <bparrot@ti.com>
-> ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 8077b453f2e9..d360df48f9f2 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -16315,6 +16315,7 @@ W:	http://linuxtv.org/
->  Q:	http://patchwork.linuxtv.org/project/linux-media/list/
->  S:	Maintained
->  F:	drivers/media/platform/ti-vpe/
-> +F:	Documentation/devicetree/bindings/media/ti,cal.yaml
+From: Wolfram Sang <wsa@the-dreams.de>
 
-This should be done no later than adding the file itself.
+In the on-going mission to let i2c_new_* calls return an ERR_PTR instead
+of NULL, here is a series converting i2c_new_probed_device(). A new
+function called i2c_new_scanned_device() is introduced with the new
+retval, but for now, a compatibility helper is provided until all users
+are converted. The rest of the patches convert all current in-tree
+users.
+
+Note that these patches are RFC because I want feedback on the approach
+and hopefully collect acks on the driver conversions. If all goes well,
+I'll apply the first two patches for the next merge window. Then, once
+this dependency is upstream, I'll resend this series with all issues
+fixed and acks collected.
+
+Core changes tested on a Renesas Salvator-XS board (R-Car M3-N), driver
+patches build tested by me and buildbot.
+
+Wolfram Sang (12):
+  i2c: replace i2c_new_probed_device with an ERR_PTR variant
+  i2c: icy: convert to i2c_new_scanned_device
+  macintosh: convert to i2c_new_scanned_device
+  platform: chrome: convert to i2c_new_scanned_device
+  video: fbdev: matrox: convert to i2c_new_scanned_device
+  input: mouse: convert to i2c_new_scanned_device
+  media: pci: cx23885: convert to i2c_new_scanned_device
+  media: pci: cx88: convert to i2c_new_scanned_device
+  media: pci: bt8xx: convert to i2c_new_scanned_device
+  media: pci: cx18: convert to i2c_new_scanned_device
+  media: pci: ivtv: convert to i2c_new_scanned_device
+  media: v4l2-core: convert to i2c_new_scanned_device
+
+ Documentation/i2c/instantiating-devices.rst | 10 ++++-----
+ Documentation/i2c/writing-clients.rst       |  8 +++----
+ drivers/i2c/busses/i2c-icy.c                |  8 +++----
+ drivers/i2c/i2c-core-base.c                 | 25 ++++++++++++++++-----
+ drivers/input/mouse/psmouse-smbus.c         |  8 ++++---
+ drivers/macintosh/therm_windtunnel.c        |  4 ++--
+ drivers/media/pci/bt8xx/bttv-input.c        |  6 ++---
+ drivers/media/pci/cx18/cx18-i2c.c           |  2 +-
+ drivers/media/pci/cx23885/cx23885-i2c.c     |  4 ++--
+ drivers/media/pci/cx88/cx88-input.c         |  2 +-
+ drivers/media/pci/ivtv/ivtv-i2c.c           |  6 ++---
+ drivers/media/pci/ivtv/ivtv-i2c.h           |  2 +-
+ drivers/media/v4l2-core/v4l2-i2c.c          | 10 ++++-----
+ drivers/platform/chrome/chromeos_laptop.c   | 18 ++++++++-------
+ drivers/video/fbdev/matrox/i2c-matroxfb.c   |  4 ++--
+ include/linux/i2c.h                         | 12 +++++++---
+ 16 files changed, 76 insertions(+), 53 deletions(-)
 
 -- 
-Sakari Ailus
+2.20.1
+
