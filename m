@@ -2,24 +2,24 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C1BCF19CF
-	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2019 16:21:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7660FF19D4
+	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2019 16:21:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732020AbfKFPVE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Nov 2019 10:21:04 -0500
-Received: from inva021.nxp.com ([92.121.34.21]:51140 "EHLO inva021.nxp.com"
+        id S1732040AbfKFPVH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Nov 2019 10:21:07 -0500
+Received: from inva020.nxp.com ([92.121.34.13]:33162 "EHLO inva020.nxp.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727231AbfKFPVE (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 6 Nov 2019 10:21:04 -0500
-Received: from inva021.nxp.com (localhost [127.0.0.1])
-        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id B64B5200A3E;
-        Wed,  6 Nov 2019 16:21:01 +0100 (CET)
+        id S1732033AbfKFPVG (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 6 Nov 2019 10:21:06 -0500
+Received: from inva020.nxp.com (localhost [127.0.0.1])
+        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id C9E221A0652;
+        Wed,  6 Nov 2019 16:21:04 +0100 (CET)
 Received: from inva024.eu-rdc02.nxp.com (inva024.eu-rdc02.nxp.com [134.27.226.22])
-        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 9DF8020096F;
-        Wed,  6 Nov 2019 16:21:01 +0100 (CET)
+        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id BBBA01A064E;
+        Wed,  6 Nov 2019 16:21:04 +0100 (CET)
 Received: from fsr-ub1664-134.ea.freescale.net (fsr-ub1664-134.ea.freescale.net [10.171.74.111])
-        by inva024.eu-rdc02.nxp.com (Postfix) with ESMTP id D2F8E205EB;
-        Wed,  6 Nov 2019 16:21:00 +0100 (CET)
+        by inva024.eu-rdc02.nxp.com (Postfix) with ESMTP id E48A3205EB;
+        Wed,  6 Nov 2019 16:21:03 +0100 (CET)
 From:   Mirela Rabulea <mirela.rabulea@nxp.com>
 To:     mchehab@kernel.org, shawnguo@kernel.org, robh+dt@kernel.org
 Cc:     hverkuil-cisco@xs4all.nl, paul.kocialkowski@bootlin.com,
@@ -32,9 +32,9 @@ Cc:     hverkuil-cisco@xs4all.nl, paul.kocialkowski@bootlin.com,
         niklas.soderlund+renesas@ragnatech.se,
         dafna.hirschfeld@collabora.com,
         Mirela Rabulea <mirela.rabulea@nxp.com>
-Subject: [PATCH 1/5] media: v4l: Add packed YUV444 24bpp pixel format
-Date:   Wed,  6 Nov 2019 17:20:29 +0200
-Message-Id: <1573053633-21437-2-git-send-email-mirela.rabulea@nxp.com>
+Subject: [PATCH 2/5] firmware: imx: scu-pd: Add power domains for imx-jpeg
+Date:   Wed,  6 Nov 2019 17:20:30 +0200
+Message-Id: <1573053633-21437-3-git-send-email-mirela.rabulea@nxp.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1573053633-21437-1-git-send-email-mirela.rabulea@nxp.com>
 References: <1573053633-21437-1-git-send-email-mirela.rabulea@nxp.com>
@@ -44,99 +44,31 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The added format is V4L2_PIX_FMT_YUV24, this is a packed
-YUV 4:4:4 format, with 8 bits for each component, 24 bits
-per sample.
-
-This format is used by the i.MX 8QuadMax and i.MX 8DualXPlus/8QuadXPlus
-JPEG encoder/decoder.
+The power domains are for imx8qxp/imx8qm JPEG encoder & decoder.
+Each has 4 slots and a wrapper.
 
 Signed-off-by: Mirela Rabulea <mirela.rabulea@nxp.com>
 ---
- Documentation/media/uapi/v4l/pixfmt-packed-yuv.rst | 37 +++++++++++++++++++++-
- drivers/media/v4l2-core/v4l2-ioctl.c               |  1 +
- include/uapi/linux/videodev2.h                     |  1 +
- 3 files changed, 38 insertions(+), 1 deletion(-)
+ drivers/firmware/imx/scu-pd.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/Documentation/media/uapi/v4l/pixfmt-packed-yuv.rst b/Documentation/media/uapi/v4l/pixfmt-packed-yuv.rst
-index 41b60fa..5750ff6 100644
---- a/Documentation/media/uapi/v4l/pixfmt-packed-yuv.rst
-+++ b/Documentation/media/uapi/v4l/pixfmt-packed-yuv.rst
-@@ -17,7 +17,8 @@ Description
- ===========
- 
- Similar to the packed RGB formats these formats store the Y, Cb and Cr
--component of each pixel in one 16 or 32 bit word.
-+component of each pixel next to each other in memory. They occupy 16, 24 or 32
-+bits per pixel.
- 
- 
- .. raw:: latex
-@@ -157,6 +158,40 @@ component of each pixel in one 16 or 32 bit word.
- 
-       -  :cspan:`15`
- 
-+    * .. _V4L2-PIX-FMT-YUV24:
+diff --git a/drivers/firmware/imx/scu-pd.c b/drivers/firmware/imx/scu-pd.c
+index b556612..e7bf48a 100644
+--- a/drivers/firmware/imx/scu-pd.c
++++ b/drivers/firmware/imx/scu-pd.c
+@@ -158,6 +158,12 @@ static const struct imx_sc_pd_range imx8qxp_scu_pd_ranges[] = {
+ 	/* DC SS */
+ 	{ "dc0", IMX_SC_R_DC_0, 1, false, 0 },
+ 	{ "dc0-pll", IMX_SC_R_DC_0_PLL_0, 2, true, 0 },
 +
-+      - ``V4L2_PIX_FMT_YUV24``
-+      - 'YUV3'
-+
-+      - Y'\ :sub:`7`
-+      - Y'\ :sub:`6`
-+      - Y'\ :sub:`5`
-+      - Y'\ :sub:`4`
-+      - Y'\ :sub:`3`
-+      - Y'\ :sub:`2`
-+      - Y'\ :sub:`1`
-+      - Y'\ :sub:`0`
-+
-+      - Cb\ :sub:`7`
-+      - Cb\ :sub:`6`
-+      - Cb\ :sub:`5`
-+      - Cb\ :sub:`4`
-+      - Cb\ :sub:`3`
-+      - Cb\ :sub:`2`
-+      - Cb\ :sub:`1`
-+      - Cb\ :sub:`0`
-+
-+      - Cr\ :sub:`7`
-+      - Cr\ :sub:`6`
-+      - Cr\ :sub:`5`
-+      - Cr\ :sub:`4`
-+      - Cr\ :sub:`3`
-+      - Cr\ :sub:`2`
-+      - Cr\ :sub:`1`
-+      - Cr\ :sub:`0`
-+
-+      -  :cspan:`7`
-+
-     * .. _V4L2-PIX-FMT-YUV32:
++	/* IMAGE SS */
++	{ "img-jpegdec-mp", IMX_SC_R_MJPEG_DEC_MP, 1, false, 0 },
++	{ "img-jpegdec-s0", IMX_SC_R_MJPEG_DEC_S0, 4, true, 0 },
++	{ "img-jpegenc-mp", IMX_SC_R_MJPEG_ENC_MP, 1, false, 0 },
++	{ "img-jpegenc-s0", IMX_SC_R_MJPEG_ENC_S0, 4, true, 0 },
+ };
  
-       - ``V4L2_PIX_FMT_YUV32``
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index 315ac12..9973fdf 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -1246,6 +1246,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
- 	case V4L2_PIX_FMT_YUV444:	descr = "16-bit A/XYUV 4-4-4-4"; break;
- 	case V4L2_PIX_FMT_YUV555:	descr = "16-bit A/XYUV 1-5-5-5"; break;
- 	case V4L2_PIX_FMT_YUV565:	descr = "16-bit YUV 5-6-5"; break;
-+	case V4L2_PIX_FMT_YUV24:	descr = "24-bit YUV 4:4:4 8-8-8"; break;
- 	case V4L2_PIX_FMT_YUV32:	descr = "32-bit A/XYUV 8-8-8-8"; break;
- 	case V4L2_PIX_FMT_AYUV32:	descr = "32-bit AYUV 8-8-8-8"; break;
- 	case V4L2_PIX_FMT_XYUV32:	descr = "32-bit XYUV 8-8-8-8"; break;
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index f98bbcc..8a1d9b4 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -588,6 +588,7 @@ struct v4l2_pix_format {
- #define V4L2_PIX_FMT_YUV444  v4l2_fourcc('Y', '4', '4', '4') /* 16  xxxxyyyy uuuuvvvv */
- #define V4L2_PIX_FMT_YUV555  v4l2_fourcc('Y', 'U', 'V', 'O') /* 16  YUV-5-5-5     */
- #define V4L2_PIX_FMT_YUV565  v4l2_fourcc('Y', 'U', 'V', 'P') /* 16  YUV-5-6-5     */
-+#define V4L2_PIX_FMT_YUV24   v4l2_fourcc('Y', 'U', 'V', '3') /* 24  YUV-8-8-8     */
- #define V4L2_PIX_FMT_YUV32   v4l2_fourcc('Y', 'U', 'V', '4') /* 32  YUV-8-8-8-8   */
- #define V4L2_PIX_FMT_AYUV32  v4l2_fourcc('A', 'Y', 'U', 'V') /* 32  AYUV-8-8-8-8  */
- #define V4L2_PIX_FMT_XYUV32  v4l2_fourcc('X', 'Y', 'U', 'V') /* 32  XYUV-8-8-8-8  */
+ static const struct imx_sc_pd_soc imx8qxp_scu_pd = {
 -- 
 2.7.4
 
