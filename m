@@ -2,83 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 92E66F12CE
-	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2019 10:51:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F31DF12E9
+	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2019 10:52:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731755AbfKFJuw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Nov 2019 04:50:52 -0500
-Received: from sauhun.de ([88.99.104.3]:50228 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731691AbfKFJul (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 6 Nov 2019 04:50:41 -0500
-Received: from localhost (p54B33505.dip0.t-ipconnect.de [84.179.53.5])
-        by pokefinder.org (Postfix) with ESMTPSA id 62C1E2C054E;
-        Wed,  6 Nov 2019 10:50:40 +0100 (CET)
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-i2c@vger.kernel.org
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [RFC PATCH 12/12] media: v4l2-core: convert to i2c_new_scanned_device
-Date:   Wed,  6 Nov 2019 10:50:30 +0100
-Message-Id: <20191106095033.25182-13-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191106095033.25182-1-wsa+renesas@sang-engineering.com>
-References: <20191106095033.25182-1-wsa+renesas@sang-engineering.com>
+        id S1730975AbfKFJvb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Nov 2019 04:51:31 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:35038 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726143AbfKFJvb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Nov 2019 04:51:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1573033889;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=H07O5MhifX+SyOo7deyM1HCJTFRz437wQNK/NQ47qqU=;
+        b=VNw1p/gyo52WzY4H0xKTAvWYRzVz6vI+wzc0AJiI3oMywAYkcL++rJ1Y+Dy39fJOwY21Pb
+        52N3ogUoew78cuq3gBURsec3AHEZwa6X1lM1xSpdvJGFwJhiz96ITKtWZ5hvjqQgNQTs2m
+        6aOXHtu9nOC0uqP56rATgiE51sad9bo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-423-D2z0XxgJPDqcbsTxn64f0Q-1; Wed, 06 Nov 2019 04:51:26 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D64A107ACC3;
+        Wed,  6 Nov 2019 09:51:24 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-69.ams2.redhat.com [10.36.116.69])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id C049627064;
+        Wed,  6 Nov 2019 09:51:23 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+        id CEB7E17535; Wed,  6 Nov 2019 10:51:22 +0100 (CET)
+Date:   Wed, 6 Nov 2019 10:51:22 +0100
+From:   Gerd Hoffmann <kraxel@redhat.com>
+To:     Stefan Hajnoczi <stefanha@gmail.com>
+Cc:     geoff@hostfission.com, virtio-dev@lists.oasis-open.org,
+        Alex Lau <alexlau@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        qemu-devel@nongnu.org, Tomasz Figa <tfiga@chromium.org>,
+        Keiichi Watanabe <keiichiw@chromium.org>,
+        David Stevens <stevensd@chromium.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        =?utf-8?B?U3TDqXBoYW5l?= Marchesin <marcheu@chromium.org>,
+        Dylan Reid <dgreid@chromium.org>,
+        Gurchetan Singh <gurchetansingh@chromium.org>,
+        Dmitry Morozov <dmitry.morozov@opensynergy.com>,
+        Pawel Osciak <posciak@chromium.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: guest / host buffer sharing ...
+Message-ID: <20191106095122.jju7eo57scfoat6a@sirius.home.kraxel.org>
+References: <20191105105456.7xbhtistnbp272lj@sirius.home.kraxel.org>
+ <20191106084344.GB189998@stefanha-x1.localdomain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191106084344.GB189998@stefanha-x1.localdomain>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: D2z0XxgJPDqcbsTxn64f0Q-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Move from the deprecated i2c_new_probed_device() to the new
-i2c_new_scanned_device(). Make use of the new ERRPTR if suitable.
+  Hi,
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
----
+> > Reason is:  Meanwhile I'm wondering whenever "just use virtio-gpu
+> > resources" is really a good answer for all the different use cases
+> > we have collected over time.  Maybe it is better to have a dedicated
+> > buffer sharing virtio device?  Here is the rough idea:
+>=20
+> My concern is that buffer sharing isn't a "device".  It's a primitive
+> used in building other devices.  When someone asks for just buffer
+> sharing it's often because they do not intend to upstream a
+> specification for their device.
 
-Build tested only. RFC, please comment and/or ack, but don't apply yet.
+Well, "vsock" isn't a classic device (aka nic/storage/gpu/...) either.
+It is more a service to allow communication between host and guest
 
- drivers/media/v4l2-core/v4l2-i2c.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+That buffer sharing device falls into the same category.  Maybe it even
+makes sense to build that as virtio-vsock extension.  Not sure how well
+that would work with the multi-transport architecture of vsock though.
 
-diff --git a/drivers/media/v4l2-core/v4l2-i2c.c b/drivers/media/v4l2-core/v4l2-i2c.c
-index 5bf99e7c0c09..25ddda3b7ce6 100644
---- a/drivers/media/v4l2-core/v4l2-i2c.c
-+++ b/drivers/media/v4l2-core/v4l2-i2c.c
-@@ -74,10 +74,10 @@ struct v4l2_subdev
- 
- 	/* Create the i2c client */
- 	if (info->addr == 0 && probe_addrs)
--		client = i2c_new_probed_device(adapter, info, probe_addrs,
--					       NULL);
-+		client = i2c_new_scanned_device(adapter, info, probe_addrs,
-+					        NULL);
- 	else
--		client = i2c_new_device(adapter, info);
-+		client = i2c_new_client_device(adapter, info);
- 
- 	/*
- 	 * Note: by loading the module first we are certain that c->driver
-@@ -88,7 +88,7 @@ struct v4l2_subdev
- 	 * want to use the i2c device, so explicitly loading the module
- 	 * is the best alternative.
- 	 */
--	if (!client || !client->dev.driver)
-+	if (IS_ERR(client) || !client->dev.driver)
- 		goto error;
- 
- 	/* Lock the module so we can safely get the v4l2_subdev pointer */
-@@ -110,7 +110,7 @@ struct v4l2_subdev
- 	 * If we have a client but no subdev, then something went wrong and
- 	 * we must unregister the client.
- 	 */
--	if (client && !sd)
-+	if (!IS_ERR(client) && !sd)
- 		i2c_unregister_device(client);
- 	return sd;
- }
--- 
-2.20.1
+> If this buffer sharing device's main purpose is for building proprietary
+> devices without contributing to VIRTIO, then I don't think it makes
+> sense for the VIRTIO community to assist in its development.
+
+One possible use case would be building a wayland proxy, using vsock for
+the wayland protocol messages and virtio-buffers for the shared buffers
+(wayland client window content).
+
+It could also simplify buffer sharing between devices (feed decoded
+video frames from decoder to gpu), although in that case it is less
+clear that it'll actually simplify things because virtio-gpu is
+involved anyway.
+
+We can't prevent people from using that for proprietary stuff (same goes
+for vsock).
+
+There is the option to use virtio-gpu instead, i.e. add support to qemu
+to export dma-buf handles for virtio-gpu resources to other processes
+(such as a wayland proxy).  That would provide very similar
+functionality (and thereby create the same loophole).
+
+> VIRTIO recently gained a shared memory resource concept for access to
+> host memory.  It is being used in virtio-pmem and virtio-fs (and
+> virtio-gpu?).
+
+virtio-gpu is in progress still unfortunately (all kinds of fixes for
+the qemu drm drivers and virtio-gpu guest driver refactoring kept me
+busy for quite a while ...).
+
+> If another flavor of shared memory is required it can be
+> added to the spec and new VIRTIO device types can use it.  But it's not
+> clear why this should be its own device.
+
+This is not about host memory, buffers are in guest ram, everything else
+would make sharing those buffers between drivers inside the guest (as
+dma-buf) quite difficult.
+
+> My question would be "what is the actual problem you are trying to
+> solve?".
+
+Typical use cases center around sharing graphics data between guest
+and host.
+
+cheers,
+  Gerd
 
