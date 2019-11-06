@@ -2,119 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D26F7F19D9
-	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2019 16:21:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 85DF5F1A11
+	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2019 16:33:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732084AbfKFPVQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Nov 2019 10:21:16 -0500
-Received: from inva020.nxp.com ([92.121.34.13]:33834 "EHLO inva020.nxp.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732033AbfKFPVO (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 6 Nov 2019 10:21:14 -0500
-Received: from inva020.nxp.com (localhost [127.0.0.1])
-        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 9A5E31A0913;
-        Wed,  6 Nov 2019 16:21:12 +0100 (CET)
-Received: from inva024.eu-rdc02.nxp.com (inva024.eu-rdc02.nxp.com [134.27.226.22])
-        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 8DA2C1A0650;
-        Wed,  6 Nov 2019 16:21:12 +0100 (CET)
-Received: from fsr-ub1664-134.ea.freescale.net (fsr-ub1664-134.ea.freescale.net [10.171.74.111])
-        by inva024.eu-rdc02.nxp.com (Postfix) with ESMTP id C1645205EB;
-        Wed,  6 Nov 2019 16:21:11 +0100 (CET)
-From:   Mirela Rabulea <mirela.rabulea@nxp.com>
-To:     mchehab@kernel.org, shawnguo@kernel.org, robh+dt@kernel.org
-Cc:     hverkuil-cisco@xs4all.nl, paul.kocialkowski@bootlin.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-imx@nxp.com, s.hauer@pengutronix.de, aisheng.dong@nxp.com,
-        daniel.baluta@nxp.com, leonard.crestez@nxp.com,
-        robert.chiras@nxp.com, laurentiu.palcu@nxp.com,
-        mark.rutland@arm.com, devicetree@vger.kernel.org,
-        p.zabel@pengutronix.de, laurent.pinchart+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se,
-        dafna.hirschfeld@collabora.com,
-        Mirela Rabulea <mirela.rabulea@nxp.com>
-Subject: [PATCH 5/5] arm64: dts: imx8qxp: Add jpeg encoder/decoder nodes
-Date:   Wed,  6 Nov 2019 17:20:33 +0200
-Message-Id: <1573053633-21437-6-git-send-email-mirela.rabulea@nxp.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1573053633-21437-1-git-send-email-mirela.rabulea@nxp.com>
-References: <1573053633-21437-1-git-send-email-mirela.rabulea@nxp.com>
-X-Virus-Scanned: ClamAV using ClamSMTP
+        id S1731952AbfKFPdI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Nov 2019 10:33:08 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:5737 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728292AbfKFPdH (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 6 Nov 2019 10:33:07 -0500
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id A26C2B8C276769C42595;
+        Wed,  6 Nov 2019 23:33:05 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.175.113.25) by
+ DGGEMS405-HUB.china.huawei.com (10.3.19.205) with Microsoft SMTP Server id
+ 14.3.439.0; Wed, 6 Nov 2019 23:32:58 +0800
+From:   Wei Yongjun <weiyongjun1@huawei.com>
+To:     Jernej Skrabec <jernej.skrabec@siol.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+CC:     Wei Yongjun <weiyongjun1@huawei.com>,
+        <linux-media@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <kernel-janitors@vger.kernel.org>
+Subject: [PATCH -next] media: sun8i: Remove redundant dev_err call in deinterlace_probe()
+Date:   Wed, 6 Nov 2019 15:32:12 +0000
+Message-ID: <20191106153213.13752-1-weiyongjun1@huawei.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Type:   text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7BIT
+X-Originating-IP: [10.175.113.25]
+X-CFilter-Loop: Reflected
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add jpeg decoder/encoder nodes, for now on imx8qxp only.
-The same should work on imx8qm, but it was not tested.
+There is a error message within devm_ioremap_resource
+already, so remove the dev_err call to avoid redundant
+error message.
 
-Signed-off-by: Mirela Rabulea <mirela.rabulea@nxp.com>
+Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
 ---
- arch/arm64/boot/dts/freescale/imx8qxp-mek.dts |  8 ++++++
- arch/arm64/boot/dts/freescale/imx8qxp.dtsi    | 37 +++++++++++++++++++++++++++
- 2 files changed, 45 insertions(+)
+ drivers/media/platform/sunxi/sun8i-di/sun8i-di.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8qxp-mek.dts b/arch/arm64/boot/dts/freescale/imx8qxp-mek.dts
-index d3d26cc..3c6fe76 100644
---- a/arch/arm64/boot/dts/freescale/imx8qxp-mek.dts
-+++ b/arch/arm64/boot/dts/freescale/imx8qxp-mek.dts
-@@ -242,3 +242,11 @@
- &scu_key {
- 	status = "okay";
- };
-+
-+&jpegdec {
-+	status = "okay";
-+};
-+
-+&jpegenc {
-+	status = "okay";
-+};
-diff --git a/arch/arm64/boot/dts/freescale/imx8qxp.dtsi b/arch/arm64/boot/dts/freescale/imx8qxp.dtsi
-index 9646a41..e4eddc4 100644
---- a/arch/arm64/boot/dts/freescale/imx8qxp.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8qxp.dtsi
-@@ -598,4 +598,41 @@
- 			#clock-cells = <1>;
- 		};
- 	};
-+
-+	img_subsys: bus@58000000 {
-+		compatible = "simple-bus";
-+		#address-cells = <1>;
-+		#size-cells = <1>;
-+		ranges = <0x58000000 0x0 0x58000000 0x1000000>;
-+
-+		jpegdec: jpegdec@58400000 {
-+			compatible = "fsl,imx8-jpgdec";
-+			reg = <0x58400000 0x00050000 >;
-+			interrupts = <GIC_SPI 309 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 310 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 311 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 312 IRQ_TYPE_LEVEL_HIGH>;
-+			power-domains = <&pd IMX_SC_R_MJPEG_DEC_MP>,
-+					<&pd IMX_SC_R_MJPEG_DEC_S0>,
-+					<&pd IMX_SC_R_MJPEG_DEC_S1>,
-+					<&pd IMX_SC_R_MJPEG_DEC_S2>,
-+					<&pd IMX_SC_R_MJPEG_DEC_S3>;
-+			status = "disabled";
-+		};
-+
-+		jpegenc: jpegenc@58450000 {
-+			compatible = "fsl,imx8-jpgenc";
-+			reg = <0x58450000 0x00050000 >;
-+			interrupts = <GIC_SPI 305 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 306 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 307 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 308 IRQ_TYPE_LEVEL_HIGH>;
-+			power-domains = <&pd IMX_SC_R_MJPEG_ENC_MP>,
-+					<&pd IMX_SC_R_MJPEG_ENC_S0>,
-+					<&pd IMX_SC_R_MJPEG_ENC_S1>,
-+					<&pd IMX_SC_R_MJPEG_ENC_S2>,
-+					<&pd IMX_SC_R_MJPEG_ENC_S3>;
-+			status = "disabled";
-+		};
-+	};
- };
--- 
-2.7.4
+diff --git a/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c b/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
+index aaa1dc159ac2..b61f3dea7c93 100644
+--- a/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
++++ b/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
+@@ -834,11 +834,8 @@ static int deinterlace_probe(struct platform_device *pdev)
+ 
+ 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+ 	dev->base = devm_ioremap_resource(&pdev->dev, res);
+-	if (IS_ERR(dev->base)) {
+-		dev_err(dev->dev, "Failed to map registers\n");
+-
++	if (IS_ERR(dev->base))
+ 		return PTR_ERR(dev->base);
+-	}
+ 
+ 	dev->bus_clk = devm_clk_get(dev->dev, "bus");
+ 	if (IS_ERR(dev->bus_clk)) {
+
+
 
