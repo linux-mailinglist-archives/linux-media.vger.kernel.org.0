@@ -2,93 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D7F0F1655
-	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2019 13:50:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 172F2F171F
+	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2019 14:30:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730720AbfKFMub (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Nov 2019 07:50:31 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:29755 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727652AbfKFMub (ORCPT
+        id S1730551AbfKFNak (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Nov 2019 08:30:40 -0500
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:36967 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726673AbfKFNaj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 6 Nov 2019 07:50:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1573044630;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=S5mjYIqJLMJa3ZJWg5UFuDSjEWysvBSt/c6ng9WIu74=;
-        b=GNaC9IxbQO5IkL84GQEKpqjDkqoNj8YkhBlHU8kTLD+tZdtjFIRL/ehj2oRm1VLCUrrjz2
-        TBnJmAQdMxyUW3dbnHM7zYDZrv4xbIB1123Ah8uN4QpfATM9f52bYebOlr/WII7QbHs5Sd
-        bsphT+4wqfyEfBG2M+ut9v2ed22q2+k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-211-VbVJH6PKPki9D82kYwOOcQ-1; Wed, 06 Nov 2019 07:50:26 -0500
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DC6C8107ACC3;
-        Wed,  6 Nov 2019 12:50:24 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-69.ams2.redhat.com [10.36.116.69])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 8F32E1001B34;
-        Wed,  6 Nov 2019 12:50:24 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-        id BF0DD9D23; Wed,  6 Nov 2019 13:50:23 +0100 (CET)
-Date:   Wed, 6 Nov 2019 13:50:23 +0100
-From:   Gerd Hoffmann <kraxel@redhat.com>
-To:     Stefan Hajnoczi <stefanha@gmail.com>
-Cc:     geoff@hostfission.com, virtio-dev@lists.oasis-open.org,
-        Alex Lau <alexlau@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        qemu-devel <qemu-devel@nongnu.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Keiichi Watanabe <keiichiw@chromium.org>,
-        David Stevens <stevensd@chromium.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        =?utf-8?B?U3TDqXBoYW5l?= Marchesin <marcheu@chromium.org>,
-        Dylan Reid <dgreid@chromium.org>,
-        Gurchetan Singh <gurchetansingh@chromium.org>,
-        Dmitry Morozov <dmitry.morozov@opensynergy.com>,
-        Pawel Osciak <posciak@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: guest / host buffer sharing ...
-Message-ID: <20191106125023.uhdhtqisybilxasr@sirius.home.kraxel.org>
-References: <20191105105456.7xbhtistnbp272lj@sirius.home.kraxel.org>
- <20191106084344.GB189998@stefanha-x1.localdomain>
- <20191106095122.jju7eo57scfoat6a@sirius.home.kraxel.org>
- <CAJSP0QUJBkqtVJq17tfX5O-JuvEGcZQviP0C3tv9qSDy-P-hcg@mail.gmail.com>
+        Wed, 6 Nov 2019 08:30:39 -0500
+Received: from [IPv6:2001:420:44c1:2577:dd0c:75f0:7ccb:ac5a]
+ ([IPv6:2001:420:44c1:2577:dd0c:75f0:7ccb:ac5a])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id SLOMiQOJZTzKrSLOPiytWR; Wed, 06 Nov 2019 14:30:38 +0100
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Jernej Skrabec <jernej.skrabec@siol.net>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.5] Various fixes (mostly codec related)
+Message-ID: <b9a3b48b-ed51-a844-2384-ec5482f0650b@xs4all.nl>
+Date:   Wed, 6 Nov 2019 14:30:33 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-In-Reply-To: <CAJSP0QUJBkqtVJq17tfX5O-JuvEGcZQviP0C3tv9qSDy-P-hcg@mail.gmail.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-MC-Unique: VbVJH6PKPki9D82kYwOOcQ-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfKakt5hoLkjTZCOGH4RN9mfKiAT/YnL5nXEgsptvCbUj3cNuwFTxZDm06lioIWK80LKeRtlFuhft9nmStq/rbxA5v5txDXnfDuNvzVLEQrPAtYQtAHN0
+ pOgk1hAWmNw10TxEEYI2QN8Rgi9Ak7fhztdMfszNmHE4+CI0tHRAqvqAxe/d9gEr/E8G0PIcE+sNM3Gbv7pEM6YCMdpT3OjTfwIZo3qx7RdygKcdAJ4VVIjJ
+ b2mavS6NoznILxAYPKJ9gMtg44ZrR602zegEbpwaRYViqiM+890F99jRmZLC3MkTwbIc5d68Ywdp9nwPvLJ0HJMspaiWEiy16rWZ1HEVv6byrCyV9VJ2KjGS
+ UKbgoN8NMbJeoFr/QwhF8ZMoMdPttSotsoxYzi94rLco3GZDt8L6iYyxeQLHQjNwKoE7Tog4
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-  Hi,
+The following changes since commit d065070e009b0c0b2ab4ee09972a41b072f6ed54:
 
-> In the graphics buffer sharing use case, how does the other side
-> determine how to interpret this data?
+  media: hi556: Add support for Hi-556 sensor (2019-11-05 09:12:49 -0300)
 
-The idea is to have free form properties (name=3Dvalue, with value being
-a string) for that kind of metadata.
+are available in the Git repository at:
 
-> Shouldn't there be a VIRTIO
-> device spec for the messaging so compatible implementations can be
-> written by others?
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.5q
 
-Adding a list of common properties to the spec certainly makes sense,
-so everybody uses the same names.  Adding struct-ed properties for
-common use cases might be useful too.
+for you to fetch changes up to 90842e3fbaf873b0e209ac0e71883b5012d6f31c:
 
-cheers,
-  Gerd
+  media: coda: drop unused irqlock (2019-11-06 13:44:55 +0100)
 
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Arnd Bergmann (1):
+      media: venus: remove invalid compat_ioctl32 handler
+
+Dafna Hirschfeld (1):
+      media: vimc: sen: remove unused kthread_sen field
+
+Francois Buergisser (2):
+      media: hantro: Fix motion vectors usage condition
+      media: hantro: Fix picture order count table enable
+
+Jernej Skrabec (3):
+      media: cedrus: Fix decoding for some H264 videos
+      media: cedrus: Use helpers to access capture queue
+      media: v4l2-mem2mem: Fix hold buf flag checks
+
+Jonas Karlman (4):
+      media: uapi: h264: clarify expected scaling_list_4x4/8x8 order
+      media: cedrus: Use correct H264 8x8 scaling list
+      media: hantro: Do not reorder H264 scaling list
+      media: hantro: Fix H264 max frmsize supported on RK3288
+
+Mike Isely (1):
+      pvrusb2: Fix oops on tear-down when radio support is not present
+
+Neil Armstrong (1):
+      MAINTAINERS: ao-cec: Update path for yaml bindings
+
+Philipp Zabel (1):
+      media: coda: drop unused irqlock
+
+ Documentation/media/uapi/v4l/ext-ctrls-codec.rst  |  8 ++++++--
+ MAINTAINERS                                       |  2 +-
+ drivers/media/platform/coda/coda-common.c         |  2 --
+ drivers/media/platform/coda/coda.h                |  1 -
+ drivers/media/platform/qcom/venus/vdec.c          |  3 ---
+ drivers/media/platform/qcom/venus/venc.c          |  3 ---
+ drivers/media/platform/vimc/vimc-sensor.c         |  5 -----
+ drivers/media/usb/pvrusb2/pvrusb2-v4l2.c          |  9 +++++++--
+ drivers/media/v4l2-core/v4l2-mem2mem.c            |  4 ++--
+ drivers/staging/media/hantro/hantro_g1_h264_dec.c | 10 ++++++----
+ drivers/staging/media/hantro/hantro_h264.c        | 51 ++++++++++++---------------------------------------
+ drivers/staging/media/hantro/rk3288_vpu_hw.c      |  4 ++--
+ drivers/staging/media/sunxi/cedrus/cedrus.h       |  8 ++++++--
+ drivers/staging/media/sunxi/cedrus/cedrus_h264.c  | 42 +++++++++++++++++++++++++++++++++++-------
+ drivers/staging/media/sunxi/cedrus/cedrus_regs.h  |  3 +++
+ 15 files changed, 80 insertions(+), 75 deletions(-)
