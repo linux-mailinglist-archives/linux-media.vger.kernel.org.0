@@ -2,21 +2,21 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 269F0F15A8
-	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2019 13:02:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AE98BF15AA
+	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2019 13:02:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731496AbfKFMCN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Nov 2019 07:02:13 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:33236 "EHLO
+        id S1731490AbfKFMCU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Nov 2019 07:02:20 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:33248 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731225AbfKFMCM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Nov 2019 07:02:12 -0500
+        with ESMTP id S1731225AbfKFMCU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Nov 2019 07:02:20 -0500
 Received: from floko.floko.floko (unknown [IPv6:2804:431:c7f1:970a:5c8b:9def:467e:dc3f])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: koike)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id A63DF28FC08;
-        Wed,  6 Nov 2019 12:02:05 +0000 (GMT)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id C875628FC09;
+        Wed,  6 Nov 2019 12:02:11 +0000 (GMT)
 From:   Helen Koike <helen.koike@collabora.com>
 To:     linux-rockchip@lists.infradead.org
 Cc:     linux-media@vger.kernel.org, eddie.cai.linux@gmail.com,
@@ -26,11 +26,11 @@ Cc:     linux-media@vger.kernel.org, eddie.cai.linux@gmail.com,
         hans.verkuil@cisco.com, laurent.pinchart@ideasonboard.com,
         sakari.ailus@linux.intel.com, kernel@collabora.com,
         ezequiel@collabora.com, linux-arm-kernel@lists.infradead.org,
-        zhengsq@rock-chips.com, Jacob Chen <jacob2.chen@rock-chips.com>,
-        Helen Koike <helen.koike@collabora.com>
-Subject: [PATCH v9 1/4] media: videodev2.h, v4l2-ioctl: add rkisp1 meta buffer format
-Date:   Wed,  6 Nov 2019 09:01:29 -0300
-Message-Id: <20191106120132.6876-2-helen.koike@collabora.com>
+        zhengsq@rock-chips.com, Helen Koike <helen.koike@collabora.com>,
+        Jacob Chen <jacob2.chen@rock-chips.com>
+Subject: [PATCH v9 2/4] media: staging: phy-rockchip-dphy: add Rockchip MIPI Synopsys DPHY driver
+Date:   Wed,  6 Nov 2019 09:01:30 -0300
+Message-Id: <20191106120132.6876-3-helen.koike@collabora.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20191106120132.6876-1-helen.koike@collabora.com>
 References: <20191106120132.6876-1-helen.koike@collabora.com>
@@ -41,60 +41,517 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Shunqian Zheng <zhengsq@rock-chips.com>
+Add driver for Rockchip MIPI Synopsys DPHY
 
-Add the Rockchip ISP1 specific processing parameter format
-V4L2_META_FMT_RK_ISP1_PARAMS and metadata format
-V4L2_META_FMT_RK_ISP1_STAT_3A for 3A.
-
-Signed-off-by: Shunqian Zheng <zhengsq@rock-chips.com>
 Signed-off-by: Jacob Chen <jacob2.chen@rock-chips.com>
-Acked-by: Hans Verkuil <hans.verkuil@cisco.com>
+Signed-off-by: Shunqian Zheng <zhengsq@rock-chips.com>
+Signed-off-by: Tomasz Figa <tfiga@chromium.org>
+[migrate to phy framework]
+Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 [refactored for upstream]
 Signed-off-by: Helen Koike <helen.koike@collabora.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 ---
 
 Changes in v9:
-- Add reviewed-by tag from Laurent
+dphy
+- Move to staging
+- replace memcpy by a directly assignment
+- remove unecessary ret variable in rockchip_dphy_init
+- s/0x1/1
+- s/0x0/0
+- coding style changes
+- dphy_reg variable sizes
+- variables from int to unsigned int
+- rename functions to start with rk_
+- rename dphy0 to rx
+- fix hardcoded lane0 usage
+- disable rx on power off
+- general cleanups of unused variables
 
-Changes in v8: None
+Changes in v8:
+- Remove boiler plate license text
+
 Changes in v7:
-- s/IPU3/RK_ISP1
+- Migrate dphy specific code from
+drivers/media/platform/rockchip/isp1/mipi_dphy_sy.c
+to drivers/phy/rockchip/phy-rockchip-dphy.c
+- Drop support for rk3288
+- Drop support for dphy txrx
+- code styling and checkpatch fixes
 
- drivers/media/v4l2-core/v4l2-ioctl.c | 2 ++
- include/uapi/linux/videodev2.h       | 4 ++++
- 2 files changed, 6 insertions(+)
+ drivers/staging/media/Kconfig                 |   2 +
+ drivers/staging/media/Makefile                |   1 +
+ .../staging/media/phy-rockchip-dphy/Kconfig   |  11 +
+ .../staging/media/phy-rockchip-dphy/Makefile  |   2 +
+ drivers/staging/media/phy-rockchip-dphy/TODO  |   3 +
+ .../phy-rockchip-dphy/phy-rockchip-dphy.c     | 400 ++++++++++++++++++
+ 6 files changed, 419 insertions(+)
+ create mode 100644 drivers/staging/media/phy-rockchip-dphy/Kconfig
+ create mode 100644 drivers/staging/media/phy-rockchip-dphy/Makefile
+ create mode 100644 drivers/staging/media/phy-rockchip-dphy/TODO
+ create mode 100644 drivers/staging/media/phy-rockchip-dphy/phy-rockchip-dphy.c
 
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index 315ac12c3e0a..ade990554caf 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -1341,6 +1341,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
- 	case V4L2_META_FMT_UVC:		descr = "UVC Payload Header Metadata"; break;
- 	case V4L2_META_FMT_D4XX:	descr = "Intel D4xx UVC Metadata"; break;
- 	case V4L2_META_FMT_VIVID:       descr = "Vivid Metadata"; break;
-+	case V4L2_META_FMT_RK_ISP1_PARAMS:	descr = "Rockchip ISP1 3A params"; break;
-+	case V4L2_META_FMT_RK_ISP1_STAT_3A:	descr = "Rockchip ISP1 3A statistics"; break;
+diff --git a/drivers/staging/media/Kconfig b/drivers/staging/media/Kconfig
+index 642adc4c24d2..a47484473883 100644
+--- a/drivers/staging/media/Kconfig
++++ b/drivers/staging/media/Kconfig
+@@ -38,4 +38,6 @@ source "drivers/staging/media/ipu3/Kconfig"
  
- 	default:
- 		/* Compressed formats */
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index f98bbcced8ff..56798b09cd85 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -762,6 +762,10 @@ struct v4l2_pix_format {
- #define V4L2_META_FMT_D4XX        v4l2_fourcc('D', '4', 'X', 'X') /* D4XX Payload Header metadata */
- #define V4L2_META_FMT_VIVID	  v4l2_fourcc('V', 'I', 'V', 'D') /* Vivid Metadata */
+ source "drivers/staging/media/soc_camera/Kconfig"
  
-+/* Vendor specific - used for RK_ISP1 camera sub-system */
-+#define V4L2_META_FMT_RK_ISP1_PARAMS	v4l2_fourcc('R', 'K', '1', 'P') /* Rockchip ISP1 params */
-+#define V4L2_META_FMT_RK_ISP1_STAT_3A	v4l2_fourcc('R', 'K', '1', 'S') /* Rockchip ISP1 3A statistics */
++source "drivers/staging/media/phy-rockchip-dphy/Kconfig"
 +
- /* priv field value to indicates that subsequent fields are valid. */
- #define V4L2_PIX_FMT_PRIV_MAGIC		0xfeedcafe
- 
+ endif
+diff --git a/drivers/staging/media/Makefile b/drivers/staging/media/Makefile
+index 2f1711a8aeed..b0eae3906208 100644
+--- a/drivers/staging/media/Makefile
++++ b/drivers/staging/media/Makefile
+@@ -8,3 +8,4 @@ obj-$(CONFIG_TEGRA_VDE)		+= tegra-vde/
+ obj-$(CONFIG_VIDEO_HANTRO)	+= hantro/
+ obj-$(CONFIG_VIDEO_IPU3_IMGU)	+= ipu3/
+ obj-$(CONFIG_SOC_CAMERA)	+= soc_camera/
++obj-$(CONFIG_PHY_ROCKCHIP_DPHY)		+= phy-rockchip-dphy/
+diff --git a/drivers/staging/media/phy-rockchip-dphy/Kconfig b/drivers/staging/media/phy-rockchip-dphy/Kconfig
+new file mode 100644
+index 000000000000..7378bd75fa7c
+--- /dev/null
++++ b/drivers/staging/media/phy-rockchip-dphy/Kconfig
+@@ -0,0 +1,11 @@
++# SPDX-License-Identifier: GPL-2.0-only
++#
++# Phy drivers for Rockchip platforms
++#
++config PHY_ROCKCHIP_DPHY
++	tristate "Rockchip MIPI Synopsys DPHY driver"
++	depends on (ARCH_ROCKCHIP || COMPILE_TEST) && OF
++	select GENERIC_PHY_MIPI_DPHY
++	select GENERIC_PHY
++	help
++	  Enable this to support the Rockchip MIPI Synopsys DPHY.
+diff --git a/drivers/staging/media/phy-rockchip-dphy/Makefile b/drivers/staging/media/phy-rockchip-dphy/Makefile
+new file mode 100644
+index 000000000000..24679dc950cd
+--- /dev/null
++++ b/drivers/staging/media/phy-rockchip-dphy/Makefile
+@@ -0,0 +1,2 @@
++# SPDX-License-Identifier: GPL-2.0
++obj-$(CONFIG_PHY_ROCKCHIP_DPHY)		+= phy-rockchip-dphy.o
+diff --git a/drivers/staging/media/phy-rockchip-dphy/TODO b/drivers/staging/media/phy-rockchip-dphy/TODO
+new file mode 100644
+index 000000000000..9003af535dc3
+--- /dev/null
++++ b/drivers/staging/media/phy-rockchip-dphy/TODO
+@@ -0,0 +1,3 @@
++The major reason for keeping this in staging is because the only driver
++who uses this is rkisp1 who is also in staging. It should be moved together
++rkisp1.
+diff --git a/drivers/staging/media/phy-rockchip-dphy/phy-rockchip-dphy.c b/drivers/staging/media/phy-rockchip-dphy/phy-rockchip-dphy.c
+new file mode 100644
+index 000000000000..15eff7ca874c
+--- /dev/null
++++ b/drivers/staging/media/phy-rockchip-dphy/phy-rockchip-dphy.c
+@@ -0,0 +1,400 @@
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
++/*
++ * Rockchip MIPI Synopsys DPHY driver
++ *
++ * Based on:
++ *
++ * Copyright (C) 2016 FuZhou Rockchip Co., Ltd.
++ * Author: Yakir Yang <ykk@@rock-chips.com>
++ */
++
++#include <linux/clk.h>
++#include <linux/io.h>
++#include <linux/mfd/syscon.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/of_device.h>
++#include <linux/phy/phy.h>
++#include <linux/phy/phy-mipi-dphy.h>
++#include <linux/platform_device.h>
++#include <linux/regmap.h>
++
++#define RK3399_GRF_SOC_CON9	0x6224
++#define RK3399_GRF_SOC_CON21	0x6254
++#define RK3399_GRF_SOC_CON22	0x6258
++#define RK3399_GRF_SOC_CON23	0x625c
++#define RK3399_GRF_SOC_CON24	0x6260
++#define RK3399_GRF_SOC_CON25	0x6264
++#define RK3399_GRF_SOC_STATUS1	0xe2a4
++
++#define CLOCK_LANE_HS_RX_CONTROL		0x34
++#define LANE0_HS_RX_CONTROL			0x44
++#define LANE1_HS_RX_CONTROL			0x54
++#define LANE2_HS_RX_CONTROL			0x84
++#define LANE3_HS_RX_CONTROL			0x94
++#define HS_RX_DATA_LANES_THS_SETTLE_CONTROL	0x75
++
++#define MAX_DPHY_CLK 8
++
++#define PHY_TESTEN_ADDR			(1 << 16)
++#define PHY_TESTEN_DATA			(0 << 16)
++#define PHY_TESTCLK			(1 << 1)
++#define PHY_TESTCLR			(1 << 0)
++#define THS_SETTLE_COUNTER_THRESHOLD	0x04
++
++#define GRF_SOC_CON12                           0x0274
++
++#define GRF_EDP_REF_CLK_SEL_INTER_HIWORD_MASK   BIT(20)
++#define GRF_EDP_REF_CLK_SEL_INTER               BIT(4)
++
++#define GRF_EDP_PHY_SIDDQ_HIWORD_MASK           BIT(21)
++#define GRF_EDP_PHY_SIDDQ_ON                    0
++#define GRF_EDP_PHY_SIDDQ_OFF                   BIT(5)
++
++struct hsfreq_range {
++	u16 range_h;
++	u8 cfg_bit;
++};
++
++static const struct hsfreq_range rk3399_mipidphy_hsfreq_ranges[] = {
++	{   89, 0x00 }, {   99, 0x10 }, {  109, 0x20 }, {  129, 0x01 },
++	{  139, 0x11 }, {  149, 0x21 }, {  169, 0x02 }, {  179, 0x12 },
++	{  199, 0x22 }, {  219, 0x03 }, {  239, 0x13 }, {  249, 0x23 },
++	{  269, 0x04 }, {  299, 0x14 }, {  329, 0x05 }, {  359, 0x15 },
++	{  399, 0x25 }, {  449, 0x06 }, {  499, 0x16 }, {  549, 0x07 },
++	{  599, 0x17 }, {  649, 0x08 }, {  699, 0x18 }, {  749, 0x09 },
++	{  799, 0x19 }, {  849, 0x29 }, {  899, 0x39 }, {  949, 0x0a },
++	{  999, 0x1a }, { 1049, 0x2a }, { 1099, 0x3a }, { 1149, 0x0b },
++	{ 1199, 0x1b }, { 1249, 0x2b }, { 1299, 0x3b }, { 1349, 0x0c },
++	{ 1399, 0x1c }, { 1449, 0x2c }, { 1500, 0x3c }
++ };
++
++static const char * const rk3399_mipidphy_clks[] = {
++	"dphy-ref",
++	"dphy-cfg",
++	"grf",
++};
++
++enum dphy_reg_id {
++	GRF_DPHY_RX0_TURNDISABLE = 0,
++	GRF_DPHY_RX0_FORCERXMODE,
++	GRF_DPHY_RX0_FORCETXSTOPMODE,
++	GRF_DPHY_RX0_ENABLE,
++	GRF_DPHY_RX0_TESTCLR,
++	GRF_DPHY_RX0_TESTCLK,
++	GRF_DPHY_RX0_TESTEN,
++	GRF_DPHY_RX0_TESTDIN,
++	GRF_DPHY_RX0_TURNREQUEST,
++	GRF_DPHY_RX0_TESTDOUT,
++	GRF_DPHY_TX0_TURNDISABLE,
++	GRF_DPHY_TX0_FORCERXMODE,
++	GRF_DPHY_TX0_FORCETXSTOPMODE,
++	GRF_DPHY_TX0_TURNREQUEST,
++	GRF_DPHY_TX1RX1_TURNDISABLE,
++	GRF_DPHY_TX1RX1_FORCERXMODE,
++	GRF_DPHY_TX1RX1_FORCETXSTOPMODE,
++	GRF_DPHY_TX1RX1_ENABLE,
++	GRF_DPHY_TX1RX1_MASTERSLAVEZ,
++	GRF_DPHY_TX1RX1_BASEDIR,
++	GRF_DPHY_TX1RX1_ENABLECLK,
++	GRF_DPHY_TX1RX1_TURNREQUEST,
++	GRF_DPHY_RX1_SRC_SEL,
++	/* rk3288 only */
++	GRF_CON_DISABLE_ISP,
++	GRF_CON_ISP_DPHY_SEL,
++	GRF_DSI_CSI_TESTBUS_SEL,
++	GRF_DVP_V18SEL,
++	/* below is for rk3399 only */
++	GRF_DPHY_RX0_CLK_INV_SEL,
++	GRF_DPHY_RX1_CLK_INV_SEL,
++};
++
++struct dphy_reg {
++	u16 offset;
++	u8 mask;
++	u8 shift;
++};
++
++#define PHY_REG(_offset, _width, _shift) \
++	{ .offset = _offset, .mask = BIT(_width) - 1, .shift = _shift, }
++
++static const struct dphy_reg rk3399_grf_dphy_regs[] = {
++	[GRF_DPHY_RX0_TURNREQUEST] = PHY_REG(RK3399_GRF_SOC_CON9, 4, 0),
++	[GRF_DPHY_RX0_CLK_INV_SEL] = PHY_REG(RK3399_GRF_SOC_CON9, 1, 10),
++	[GRF_DPHY_RX1_CLK_INV_SEL] = PHY_REG(RK3399_GRF_SOC_CON9, 1, 11),
++	[GRF_DPHY_RX0_ENABLE] = PHY_REG(RK3399_GRF_SOC_CON21, 4, 0),
++	[GRF_DPHY_RX0_FORCERXMODE] = PHY_REG(RK3399_GRF_SOC_CON21, 4, 4),
++	[GRF_DPHY_RX0_FORCETXSTOPMODE] = PHY_REG(RK3399_GRF_SOC_CON21, 4, 8),
++	[GRF_DPHY_RX0_TURNDISABLE] = PHY_REG(RK3399_GRF_SOC_CON21, 4, 12),
++	[GRF_DPHY_TX0_FORCERXMODE] = PHY_REG(RK3399_GRF_SOC_CON22, 4, 0),
++	[GRF_DPHY_TX0_FORCETXSTOPMODE] = PHY_REG(RK3399_GRF_SOC_CON22, 4, 4),
++	[GRF_DPHY_TX0_TURNDISABLE] = PHY_REG(RK3399_GRF_SOC_CON22, 4, 8),
++	[GRF_DPHY_TX0_TURNREQUEST] = PHY_REG(RK3399_GRF_SOC_CON22, 4, 12),
++	[GRF_DPHY_TX1RX1_ENABLE] = PHY_REG(RK3399_GRF_SOC_CON23, 4, 0),
++	[GRF_DPHY_TX1RX1_FORCERXMODE] = PHY_REG(RK3399_GRF_SOC_CON23, 4, 4),
++	[GRF_DPHY_TX1RX1_FORCETXSTOPMODE] = PHY_REG(RK3399_GRF_SOC_CON23, 4, 8),
++	[GRF_DPHY_TX1RX1_TURNDISABLE] = PHY_REG(RK3399_GRF_SOC_CON23, 4, 12),
++	[GRF_DPHY_TX1RX1_TURNREQUEST] = PHY_REG(RK3399_GRF_SOC_CON24, 4, 0),
++	[GRF_DPHY_RX1_SRC_SEL] = PHY_REG(RK3399_GRF_SOC_CON24, 1, 4),
++	[GRF_DPHY_TX1RX1_BASEDIR] = PHY_REG(RK3399_GRF_SOC_CON24, 1, 5),
++	[GRF_DPHY_TX1RX1_ENABLECLK] = PHY_REG(RK3399_GRF_SOC_CON24, 1, 6),
++	[GRF_DPHY_TX1RX1_MASTERSLAVEZ] = PHY_REG(RK3399_GRF_SOC_CON24, 1, 7),
++	[GRF_DPHY_RX0_TESTDIN] = PHY_REG(RK3399_GRF_SOC_CON25, 8, 0),
++	[GRF_DPHY_RX0_TESTEN] = PHY_REG(RK3399_GRF_SOC_CON25, 1, 8),
++	[GRF_DPHY_RX0_TESTCLK] = PHY_REG(RK3399_GRF_SOC_CON25, 1, 9),
++	[GRF_DPHY_RX0_TESTCLR] = PHY_REG(RK3399_GRF_SOC_CON25, 1, 10),
++	[GRF_DPHY_RX0_TESTDOUT] = PHY_REG(RK3399_GRF_SOC_STATUS1, 8, 0),
++};
++
++struct dphy_drv_data {
++	const char * const *clks;
++	unsigned int num_clks;
++	const struct hsfreq_range *hsfreq_ranges;
++	unsigned int num_hsfreq_ranges;
++	const struct dphy_reg *regs;
++};
++
++struct rockchip_dphy {
++	struct device *dev;
++	struct regmap *grf;
++	struct clk_bulk_data clks[MAX_DPHY_CLK];
++
++	const struct dphy_drv_data *drv_data;
++	struct phy_configure_opts_mipi_dphy config;
++};
++
++static inline void rk_dphy_write_grf(struct rockchip_dphy *priv,
++				     unsigned int index, u8 value)
++{
++	const struct dphy_reg *reg = &priv->drv_data->regs[index];
++	/* Update high word */
++	unsigned int val = (value << reg->shift) |
++			   (reg->mask << (reg->shift + 16));
++
++	WARN_ON(!reg->offset);
++	regmap_write(priv->grf, reg->offset, val);
++}
++
++static void rk_dphy_write_rx(struct rockchip_dphy *priv,
++			     u8 test_code, u8 test_data)
++{
++	/*
++	 * With the falling edge on TESTCLK, the TESTDIN[7:0] signal content
++	 * is latched internally as the current test code. Test data is
++	 * programmed internally by rising edge on TESTCLK.
++	 */
++	rk_dphy_write_grf(priv, GRF_DPHY_RX0_TESTCLK, 1);
++	rk_dphy_write_grf(priv, GRF_DPHY_RX0_TESTDIN, test_code);
++	rk_dphy_write_grf(priv, GRF_DPHY_RX0_TESTEN, 1);
++	rk_dphy_write_grf(priv, GRF_DPHY_RX0_TESTCLK, 0);
++	rk_dphy_write_grf(priv, GRF_DPHY_RX0_TESTEN, 0);
++	rk_dphy_write_grf(priv, GRF_DPHY_RX0_TESTDIN, test_data);
++	rk_dphy_write_grf(priv, GRF_DPHY_RX0_TESTCLK, 1);
++}
++
++static void rk_dphy_rx_stream_on(struct rockchip_dphy *priv)
++{
++	const struct dphy_drv_data *drv_data = priv->drv_data;
++	struct phy_configure_opts_mipi_dphy *config = &priv->config;
++	unsigned int i, hsfreq = 0, data_rate_mbps = config->hs_clk_rate;
++
++	do_div(data_rate_mbps, 1000 * 1000);
++
++	dev_dbg(priv->dev, "%s: lanes %d - data_rate_mbps %u\n",
++		__func__, config->lanes, data_rate_mbps);
++
++	for (i = 0; i < drv_data->num_hsfreq_ranges; i++) {
++		if (drv_data->hsfreq_ranges[i].range_h >= data_rate_mbps) {
++			hsfreq = drv_data->hsfreq_ranges[i].cfg_bit;
++			break;
++		}
++	}
++
++	rk_dphy_write_grf(priv, GRF_DPHY_RX0_FORCERXMODE, 0);
++	rk_dphy_write_grf(priv, GRF_DPHY_RX0_FORCETXSTOPMODE, 0);
++
++	/* Disable lane turn around, which is ignored in receive mode */
++	rk_dphy_write_grf(priv, GRF_DPHY_RX0_TURNREQUEST, 0);
++	rk_dphy_write_grf(priv, GRF_DPHY_RX0_TURNDISABLE, 0xf);
++
++	rk_dphy_write_grf(priv, GRF_DPHY_RX0_ENABLE, GENMASK(config->lanes - 1, 0));
++
++	/* dphy start */
++	rk_dphy_write_grf(priv, GRF_DPHY_RX0_TESTCLK, 1);
++	rk_dphy_write_grf(priv, GRF_DPHY_RX0_TESTCLR, 1);
++	usleep_range(100, 150);
++	rk_dphy_write_grf(priv, GRF_DPHY_RX0_TESTCLR, 0);
++	usleep_range(100, 150);
++
++	/* set clock lane */
++	/* HS hsfreq_range & lane 0  settle bypass */
++	rk_dphy_write_rx(priv, CLOCK_LANE_HS_RX_CONTROL, 0);
++	/* HS RX Control of lane0 */
++	rk_dphy_write_rx(priv, LANE0_HS_RX_CONTROL, hsfreq << 1);
++	/* HS RX Control of lane1 */
++	rk_dphy_write_rx(priv, LANE1_HS_RX_CONTROL, hsfreq << 1);
++	/* HS RX Control of lane2 */
++	rk_dphy_write_rx(priv, LANE2_HS_RX_CONTROL, hsfreq << 1);
++	/* HS RX Control of lane3 */
++	rk_dphy_write_rx(priv, LANE3_HS_RX_CONTROL, hsfreq << 1);
++	/* HS RX Data Lanes Settle State Time Control */
++	rk_dphy_write_rx(priv, HS_RX_DATA_LANES_THS_SETTLE_CONTROL,
++			 THS_SETTLE_COUNTER_THRESHOLD);
++
++	/* Normal operation */
++	rk_dphy_write_rx(priv, 0x0, 0);
++}
++
++static int rk_dphy_configure(struct phy *phy, union phy_configure_opts *opts)
++{
++	struct rockchip_dphy *priv = phy_get_drvdata(phy);
++	int ret;
++
++	/* pass with phy_mipi_dphy_get_default_config (with pixel rate?) */
++	ret = phy_mipi_dphy_config_validate(&opts->mipi_dphy);
++	if (ret)
++		return ret;
++
++	priv->config = opts->mipi_dphy;
++
++	return 0;
++}
++
++static int rk_dphy_power_on(struct phy *phy)
++{
++	struct rockchip_dphy *priv = phy_get_drvdata(phy);
++	int ret;
++
++	ret = clk_bulk_enable(priv->drv_data->num_clks, priv->clks);
++	if (ret)
++		return ret;
++
++	rk_dphy_rx_stream_on(priv);
++
++	return 0;
++}
++
++static int rk_dphy_power_off(struct phy *phy)
++{
++	struct rockchip_dphy *priv = phy_get_drvdata(phy);
++
++	rk_dphy_write_grf(priv, GRF_DPHY_RX0_ENABLE, 0);
++
++	clk_bulk_disable(priv->drv_data->num_clks, priv->clks);
++	return 0;
++}
++
++static int rk_dphy_init(struct phy *phy)
++{
++	struct rockchip_dphy *priv = phy_get_drvdata(phy);
++
++	return clk_bulk_prepare(priv->drv_data->num_clks, priv->clks);
++}
++
++static int rk_dphy_exit(struct phy *phy)
++{
++	struct rockchip_dphy *priv = phy_get_drvdata(phy);
++
++	clk_bulk_unprepare(priv->drv_data->num_clks, priv->clks);
++	return 0;
++}
++
++static const struct phy_ops rk_dphy_ops = {
++	.power_on	= rk_dphy_power_on,
++	.power_off	= rk_dphy_power_off,
++	.init		= rk_dphy_init,
++	.exit		= rk_dphy_exit,
++	.configure	= rk_dphy_configure,
++	.owner		= THIS_MODULE,
++};
++
++static const struct dphy_drv_data rk3399_mipidphy_drv_data = {
++	.clks = rk3399_mipidphy_clks,
++	.num_clks = ARRAY_SIZE(rk3399_mipidphy_clks),
++	.hsfreq_ranges = rk3399_mipidphy_hsfreq_ranges,
++	.num_hsfreq_ranges = ARRAY_SIZE(rk3399_mipidphy_hsfreq_ranges),
++	.regs = rk3399_grf_dphy_regs,
++};
++
++static const struct of_device_id rk_dphy_dt_ids[] = {
++	{
++		.compatible = "rockchip,rk3399-mipi-dphy",
++		.data = &rk3399_mipidphy_drv_data,
++	},
++	{}
++};
++MODULE_DEVICE_TABLE(of, rk_dphy_dt_ids);
++
++static int rk_dphy_probe(struct platform_device *pdev)
++{
++	struct device *dev = &pdev->dev;
++	struct device_node *np = dev->of_node;
++	const struct dphy_drv_data *drv_data;
++	struct phy_provider *phy_provider;
++	const struct of_device_id *of_id;
++	struct rockchip_dphy *priv;
++	struct regmap *grf;
++	struct phy *phy;
++	unsigned int i;
++	int ret;
++
++	if (!dev->parent || !dev->parent->of_node)
++		return -ENODEV;
++
++	if (platform_get_resource(pdev, IORESOURCE_MEM, 0)) {
++		dev_err(dev, "Rockchip DPHY driver only suports RX mode\n");
++		return -EINVAL;
++	}
++
++	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
++	if (!priv)
++		return -ENOMEM;
++	priv->dev = dev;
++
++	grf = syscon_node_to_regmap(dev->parent->of_node);
++	if (IS_ERR(grf)) {
++		grf = syscon_regmap_lookup_by_phandle(dev->of_node,
++						      "rockchip,grf");
++		if (IS_ERR(grf)) {
++			dev_err(dev, "Can't find GRF syscon\n");
++			return -ENODEV;
++		}
++	}
++	priv->grf = grf;
++
++	of_id = of_match_device(rk_dphy_dt_ids, dev);
++	if (!of_id)
++		return -EINVAL;
++
++	drv_data = of_id->data;
++	priv->drv_data = drv_data;
++	for (i = 0; i < drv_data->num_clks; i++)
++		priv->clks[i].id = drv_data->clks[i];
++	ret = devm_clk_bulk_get(&pdev->dev, drv_data->num_clks, priv->clks);
++	if (ret)
++		return ret;
++
++	phy = devm_phy_create(dev, np, &rk_dphy_ops);
++	if (IS_ERR(phy)) {
++		dev_err(dev, "failed to create phy\n");
++		return PTR_ERR(phy);
++	}
++	phy_set_drvdata(phy, priv);
++
++	phy_provider = devm_of_phy_provider_register(dev, of_phy_simple_xlate);
++
++	return PTR_ERR_OR_ZERO(phy_provider);
++}
++
++static struct platform_driver rk_dphy_driver = {
++	.probe = rk_dphy_probe,
++	.driver = {
++		.name	= "rockchip-mipi-dphy",
++		.of_match_table = rk_dphy_dt_ids,
++	},
++};
++module_platform_driver(rk_dphy_driver);
++
++MODULE_AUTHOR("Ezequiel Garcia <ezequiel@collabora.com>");
++MODULE_DESCRIPTION("Rockchip MIPI Synopsys DPHY driver");
++MODULE_LICENSE("Dual MIT/GPL");
 -- 
 2.22.0
 
