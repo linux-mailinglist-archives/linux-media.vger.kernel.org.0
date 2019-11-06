@@ -2,24 +2,25 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AFD0DF1739
-	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2019 14:37:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DF8CF1789
+	for <lists+linux-media@lfdr.de>; Wed,  6 Nov 2019 14:44:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726971AbfKFNhD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Nov 2019 08:37:03 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:34572 "EHLO
+        id S1730165AbfKFNoP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Nov 2019 08:44:15 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:34738 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726673AbfKFNhD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Nov 2019 08:37:03 -0500
+        with ESMTP id S1727074AbfKFNoP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Nov 2019 08:44:15 -0500
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: koike)
-        with ESMTPSA id C9DE728C563
-Subject: Re: [PATCH] media: vimc: sen: remove unused kthread_sen field
+        with ESMTPSA id A500326D150
+Subject: Re: [PATCH v6] media: vimc: upon streaming, check that the pipeline
+ starts with a source entity
 To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
         linux-media@vger.kernel.org
 Cc:     andre.almeida@collabora.com, skhan@linuxfoundation.org,
         hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com
-References: <20191105175317.14751-1-dafna.hirschfeld@collabora.com>
+References: <20191101205312.9539-1-dafna.hirschfeld@collabora.com>
 From:   Helen Koike <helen.koike@collabora.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=helen.koike@collabora.com; keydata=
@@ -96,12 +97,12 @@ Autocrypt: addr=helen.koike@collabora.com; keydata=
  iR1nXfMxENVYnM5ag7mBZyD/kru5W1Uj34L6AFaDMXFPwedSCpzzqUiHb0f+nYkfOodf5xy0
  46+3THy/NUS/ZZp/rI4F7Y77+MQPVg7vARfHHX1AxYUKfRVW5j88QUB70txn8Vgi1tDrOr4J
  eD+xr0CvIGa5lKqgQacQtGkpOpJ8zY4ObSvpNubey/qYUE3DCXD0n2Xxk4muTvqlkFpOYA==
-Message-ID: <59c8189a-873f-9aec-d1af-199296b6f186@collabora.com>
-Date:   Wed, 6 Nov 2019 10:36:54 -0300
+Message-ID: <ed698bcd-4a78-aa84-a819-9b96a6cbe194@collabora.com>
+Date:   Wed, 6 Nov 2019 10:44:05 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <20191105175317.14751-1-dafna.hirschfeld@collabora.com>
+In-Reply-To: <20191101205312.9539-1-dafna.hirschfeld@collabora.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -112,40 +113,137 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 
 
-On 11/5/19 3:53 PM, Dafna Hirschfeld wrote:
-> The field kthread_sen in the vimc_sen_device is
-> not set and used. So remove the field and
-> the code that check if it is non NULL
+On 11/1/19 5:53 PM, Dafna Hirschfeld wrote:
+> Userspace can disable links and create pipelines that
+> do not start with a source entity. Trying to stream
+> from such a pipeline should fail with -EPIPE
+> currently this is not handled and cause kernel crash.
+> 
+> Reproducing the crash:
+> media-ctl -d0 -l "5:1->21:0[0]" -v
+> v4l2-ctl -z platform:vimc -d "RGB/YUV Capture" -v width=1920,height=1440
+> v4l2-ctl --stream-mmap --stream-count=100 -d /dev/video2
+> 
+> Panic message:
+> [   39.078841][  T248] BUG: kernel NULL pointer dereference, address: 0000000000000000
+> [   39.079338][  T248] #PF: supervisor read access in kernel mode
+> [   39.079704][  T248] #PF: error_code(0x0000) - not-present page
+> [   39.080071][  T248] PGD 0 P4D 0
+> [   39.080279][  T248] Oops: 0000 [#1] SMP PTI
+> [   39.080546][  T248] CPU: 0 PID: 248 Comm: vimc-streamer t Not tainted 5.4.0-rc1+ #17
+> [   39.081030][  T248] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.12.0-0-ga698c8995f-prebuilt.qemu.org 04/01/2014
+> [   39.081779][  T248] RIP: 0010:vimc_sca_process_frame+0xdb/0x210 [vimc]
+> [   39.082191][  T248] Code: 44 8d 0c 28 8b 93 a4 01 00 00 48 8b 8b 98 01 00 00 85 d2 74 40 48 8b 74 24 10 8d 7a ff 4c 01 c9 31 d2 4c 01 fe eb 03 4c 89 c2 <44> 0f b6 04 16 44 88 04 11 4c 8d 42 01 48 39 fa 75 eb 8b 93 a4 01
+> [   39.083436][  T248] RSP: 0018:ffffb15a005abe90 EFLAGS: 00010246
+> [   39.083808][  T248] RAX: 0000000000000000 RBX: ffffa3fdc46d2e00 RCX: ffffb15a02579000
+> [   39.084298][  T248] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000002
+> [   39.084792][  T248] RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+> [   39.085280][  T248] R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000000
+> [   39.085770][  T248] R13: ffffa3fdc46d2ee0 R14: 0000000000000000 R15: 0000000000000000
+> [   39.086258][  T248] FS:  0000000000000000(0000) GS:ffffa3fdc7800000(0000) knlGS:0000000000000000
+> [   39.086806][  T248] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [   39.087217][  T248] CR2: 0000000000000000 CR3: 0000000003c92005 CR4: 0000000000360ef0
+> [   39.087706][  T248] Call Trace:
+> [   39.087909][  T248]  ? vimc_streamer_pipeline_terminate+0x90/0x90 [vimc]
+> [   39.088318][  T248]  vimc_streamer_thread+0x7c/0xe0 [vimc]
+> [   39.088663][  T248]  kthread+0x10d/0x130
+> [   39.088919][  T248]  ? kthread_park+0x80/0x80
+> [   39.089205][  T248]  ret_from_fork+0x35/0x40
+> [   39.089475][  T248] Modules linked in: vimc videobuf2_vmalloc videobuf2_memops v4l2_tpg videobuf2_v4l2 videobuf2_common videodev mc
+> [   39.090208][  T248] CR2: 0000000000000000
+> [   39.090463][  T248] ---[ end trace 697650fefbf78bee ]---
+> [   39.090796][  T248] RIP: 0010:vimc_sca_process_frame+0xdb/0x210 [vimc]
+> [   39.091209][  T248] Code: 44 8d 0c 28 8b 93 a4 01 00 00 48 8b 8b 98 01 00 00 85 d2 74 40 48 8b 74 24 10 8d 7a ff 4c 01 c9 31 d2 4c 01 fe eb 03 4c 89 c2 <44> 0f b6 04 16 44 88 04 11 4c 8d 42 01 48 39 fa 75 eb 8b 93 a4 01
+> [   39.092417][  T248] RSP: 0018:ffffb15a005abe90 EFLAGS: 00010246
+> [   39.092789][  T248] RAX: 0000000000000000 RBX: ffffa3fdc46d2e00 RCX: ffffb15a02579000
+> [   39.093278][  T248] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000002
+> [   39.093766][  T248] RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
+> [   39.094254][  T248] R10: 0000000000000001 R11: 0000000000000000 R12: 0000000000000000
+> [   39.094742][  T248] R13: ffffa3fdc46d2ee0 R14: 0000000000000000 R15: 0000000000000000
+> [   39.095309][  T248] FS:  0000000000000000(0000) GS:ffffa3fdc7800000(0000) knlGS:0000000000000000
+> [   39.095974][  T248] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [   39.096372][  T248] CR2: 0000000000000000 CR3: 0000000003c92005 CR4: 0000000000360ef0
 > 
 > Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 
 Acked-by: Helen Koike <helen.koike@collabora.com>
 
+Thanks!
+Helen
+
 > ---
->  drivers/media/platform/vimc/vimc-sensor.c | 5 -----
->  1 file changed, 5 deletions(-)
+> Changes since v5:
+> 1. change the documentation of vimc_is_source
+> 2. rewrite the patch so that it has the minimal code that fixes the crash
 > 
-> diff --git a/drivers/media/platform/vimc/vimc-sensor.c b/drivers/media/platform/vimc/vimc-sensor.c
-> index 25ee89a067f7..32380f504591 100644
-> --- a/drivers/media/platform/vimc/vimc-sensor.c
-> +++ b/drivers/media/platform/vimc/vimc-sensor.c
-> @@ -18,7 +18,6 @@ struct vimc_sen_device {
->  	struct vimc_ent_device ved;
->  	struct v4l2_subdev sd;
->  	struct tpg_data tpg;
-> -	struct task_struct *kthread_sen;
->  	u8 *frame;
->  	/* The active format */
->  	struct v4l2_mbus_framefmt mbus_format;
-> @@ -202,10 +201,6 @@ static int vimc_sen_s_stream(struct v4l2_subdev *sd, int enable)
->  		const struct vimc_pix_map *vpix;
->  		unsigned int frame_size;
+> drivers/media/platform/vimc/vimc-common.c   | 10 ++++++++++
+>  drivers/media/platform/vimc/vimc-common.h   |  8 ++++++++
+>  drivers/media/platform/vimc/vimc-streamer.c | 13 +++++++++++--
+>  3 files changed, 29 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/platform/vimc/vimc-common.c b/drivers/media/platform/vimc/vimc-common.c
+> index 2a0c40e9ae88..64aa71230522 100644
+> --- a/drivers/media/platform/vimc/vimc-common.c
+> +++ b/drivers/media/platform/vimc/vimc-common.c
+> @@ -164,6 +164,16 @@ static const struct vimc_pix_map vimc_pix_map_list[] = {
+>  	},
+>  };
 >  
-> -		if (vsen->kthread_sen)
-> -			/* tpg is already executing */
-> -			return 0;
-> -
->  		/* Calculate the frame size */
->  		vpix = vimc_pix_map_by_code(vsen->mbus_format.code);
->  		frame_size = vsen->mbus_format.width * vpix->bpp *
+> +bool vimc_is_source(struct media_entity *ent)
+> +{
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < ent->num_pads; i++)
+> +		if (ent->pads[i].flags & MEDIA_PAD_FL_SINK)
+> +			return false;
+> +	return true;
+> +}
+> +
+>  const struct vimc_pix_map *vimc_pix_map_by_index(unsigned int i)
+>  {
+>  	if (i >= ARRAY_SIZE(vimc_pix_map_list))
+> diff --git a/drivers/media/platform/vimc/vimc-common.h b/drivers/media/platform/vimc/vimc-common.h
+> index c75401a36312..91375c5cdc2b 100644
+> --- a/drivers/media/platform/vimc/vimc-common.h
+> +++ b/drivers/media/platform/vimc/vimc-common.h
+> @@ -139,6 +139,14 @@ struct vimc_ent_config {
+>  	void (*rm)(struct vimc_device *vimc, struct vimc_ent_device *ved);
+>  };
+>  
+> +/**
+> + * vimc_is_source - returns true if the entity has only source pads
+> + *
+> + * @ent: pointer to &struct media_entity
+> + *
+> + */
+> +bool vimc_is_source(struct media_entity *ent);
+> +
+>  /* prototypes for vimc_ent_config add and rm hooks */
+>  struct vimc_ent_device *vimc_cap_add(struct vimc_device *vimc,
+>  				     const char *vcfg_name);
+> diff --git a/drivers/media/platform/vimc/vimc-streamer.c b/drivers/media/platform/vimc/vimc-streamer.c
+> index 1349be188a5b..cd6b55433c9e 100644
+> --- a/drivers/media/platform/vimc/vimc-streamer.c
+> +++ b/drivers/media/platform/vimc/vimc-streamer.c
+> @@ -104,9 +104,18 @@ static int vimc_streamer_pipeline_init(struct vimc_stream *stream,
+>  		}
+>  
+>  		entity = vimc_get_source_entity(ved->ent);
+> -		/* Check if the end of the pipeline was reached*/
+> -		if (!entity)
+> +		/* Check if the end of the pipeline was reached */
+> +		if (!entity) {
+> +			/* the first entity of the pipe should be source only */
+> +			if (!vimc_is_source(ved->ent)) {
+> +				dev_err(ved->dev,
+> +					"first entity in the pipe '%s' is not a source\n",
+> +					ved->ent->name);
+> +				vimc_streamer_pipeline_terminate(stream);
+> +				return -EPIPE;
+> +			}
+>  			return 0;
+> +		}
+>  
+>  		/* Get the next device in the pipeline */
+>  		if (is_media_entity_v4l2_subdev(entity)) {
 > 
