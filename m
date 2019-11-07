@@ -2,77 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3665EF2BA3
-	for <lists+linux-media@lfdr.de>; Thu,  7 Nov 2019 10:57:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AE1F0F2BAA
+	for <lists+linux-media@lfdr.de>; Thu,  7 Nov 2019 10:59:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387775AbfKGJ5G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Nov 2019 04:57:06 -0500
-Received: from us-smtp-2.mimecast.com ([207.211.31.81]:49700 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727408AbfKGJ5G (ORCPT
+        id S2387933AbfKGJ7B (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Nov 2019 04:59:01 -0500
+Received: from mx08-00178001.pphosted.com ([91.207.212.93]:36198 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1733271AbfKGJ7B (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 7 Nov 2019 04:57:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1573120625;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=kwK3dtS10PmIBywGuO8Nn3JLz9YAnC7Sxmn2cjhu5xk=;
-        b=H15o5JlHNkkZjCM3FIHrzfrjxKJzBDM/JYh/bU5s4iEbZKbgBzZOfSGKJZ5le+FkJxFhgY
-        +Vyl4h7hgWZ4aDVEKqE7LO3H6341DU1IXXhi89tH9oMzxWxCkgCn2ygeJvEL6zLLNmb8Ii
-        zJ0MO6IzKK31MUqyn9u0Z12q9VPavfY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-65-AbXpPooINvOV_gfI7s_T-A-1; Thu, 07 Nov 2019 04:57:01 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC450477;
-        Thu,  7 Nov 2019 09:56:59 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-69.ams2.redhat.com [10.36.116.69])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 38DD9271A3;
-        Thu,  7 Nov 2019 09:56:59 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-        id 22B7217535; Thu,  7 Nov 2019 10:56:57 +0100 (CET)
-Date:   Thu, 7 Nov 2019 10:56:57 +0100
-From:   Gerd Hoffmann <kraxel@redhat.com>
-To:     Dmitry Sepp <dmitry.sepp@opensynergy.com>
-Cc:     virtio-dev@lists.oasis-open.org, linux-media@vger.kernel.org,
-        tfiga@chromium.org, keiichiw@chromium.org, acourbot@chromium.org,
-        alexlau@chromium.org, dgreid@chromium.org, marcheu@chromium.org,
-        posciak@chromium.org, stevensd@chromium.org, hverkuil@xs4all.nl,
-        daniel@ffwll.ch
-Subject: Re: [virtio-dev] [RFC RESEND] virtio-video: Add virtio video device
- specification
-Message-ID: <20191107095657.72dlxzm4uz7ndkek@sirius.home.kraxel.org>
-References: <20191105191919.167345-1-dmitry.sepp@opensynergy.com>
+        Thu, 7 Nov 2019 04:59:01 -0500
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+        by mx08-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id xA79wGNs011951;
+        Thu, 7 Nov 2019 10:58:48 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-type : content-id
+ : content-transfer-encoding : mime-version; s=STMicroelectronics;
+ bh=hbVDWXJ00zmSGkN7uOVCNrHuL1TPN4pH9x85Y3/XZCw=;
+ b=fCpAJnXenkQkx5e+gKEYTy5J7ew3c0UrRs2d8pPiknmB3AorZG1sPVDJq5Ll5X9SHDaO
+ t78tOySt/RflVWyEbnOQ9l51r6ko/xpBtctpH+4EjttVbSn0zCMX6SNBS9El/D94CvSf
+ zNl4XU+88NObspeGUao5fmBhP5ysWmMrl+cHApxCDSYcA4SgupgG0v4+CG22Hmqa8RDL
+ Iq3YUX4VEPB+n255e3E/2YZKf9ri0QvYVk+pcO7A/OyKrfQRxUoXn/90Vuwz69Z5nCjg
+ 3h8hym6taUaMsCJrJSpPm25DmIcNif/josHnx9lgc8qrU5G60pcqSE83PSn/RdK8fGjF /w== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx08-00178001.pphosted.com with ESMTP id 2w41vgvey9-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 07 Nov 2019 10:58:48 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 43D4210002A;
+        Thu,  7 Nov 2019 10:58:47 +0100 (CET)
+Received: from Webmail-eu.st.com (sfhdag6node3.st.com [10.75.127.18])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 326122AA4DB;
+        Thu,  7 Nov 2019 10:58:47 +0100 (CET)
+Received: from SFHDAG6NODE3.st.com (10.75.127.18) by SFHDAG6NODE3.st.com
+ (10.75.127.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 7 Nov
+ 2019 10:58:46 +0100
+Received: from SFHDAG6NODE3.st.com ([fe80::d04:5337:ab17:b6f6]) by
+ SFHDAG6NODE3.st.com ([fe80::d04:5337:ab17:b6f6%20]) with mapi id
+ 15.00.1473.003; Thu, 7 Nov 2019 10:58:46 +0100
+From:   Patrice CHOTARD <patrice.chotard@st.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+CC:     "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] media: c8sectpfe: no need to check return value of
+ debugfs_create functions
+Thread-Topic: [PATCH] media: c8sectpfe: no need to check return value of
+ debugfs_create functions
+Thread-Index: AQHVlUi4fopZoSb/7UygbHVOP1JV06d/aI4A
+Date:   Thu, 7 Nov 2019 09:58:46 +0000
+Message-ID: <e27c1351-3ca8-ccf3-bcb6-adab33be8889@st.com>
+References: <20191107085238.GA1285658@kroah.com>
+In-Reply-To: <20191107085238.GA1285658@kroah.com>
+Accept-Language: fr-FR, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.75.127.48]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <A8395E0710B8C84BB8416781D9DD88E0@st.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-In-Reply-To: <20191105191919.167345-1-dmitry.sepp@opensynergy.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: AbXpPooINvOV_gfI7s_T-A-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+ definitions=2019-11-07_02:2019-11-07,2019-11-07 signatures=0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Nov 05, 2019 at 08:19:19PM +0100, Dmitry Sepp wrote:
-> [Resend after fixing an issue with the virtio-dev mailing list]
->=20
-> This patch proposes a virtio specification for a new virtio video
-> device.
-
-Hmm, quickly looking over this, it looks simliar to the vdec draft
-posted a few weeks ago, with other device variants added but not
-fully specified yet.
-
-So, can you clarify the relationship between the two?
-
-thanks,
-  Gerd
-
+SGkNCg0KT24gMTEvNy8xOSA5OjUyIEFNLCBHcmVnIEtyb2FoLUhhcnRtYW4gd3JvdGU6DQo+IFdo
+ZW4gY2FsbGluZyBkZWJ1Z2ZzIGZ1bmN0aW9ucywgdGhlcmUgaXMgbm8gbmVlZCB0byBldmVyIGNo
+ZWNrIHRoZQ0KPiByZXR1cm4gdmFsdWUuICBUaGUgZnVuY3Rpb24gY2FuIHdvcmsgb3Igbm90LCBi
+dXQgdGhlIGNvZGUgbG9naWMgc2hvdWxkDQo+IG5ldmVyIGRvIHNvbWV0aGluZyBkaWZmZXJlbnQg
+YmFzZWQgb24gdGhpcy4NCj4NCj4gQ2M6IFBhdHJpY2UgQ2hvdGFyZCA8cGF0cmljZS5jaG90YXJk
+QHN0LmNvbT4NCj4gQ2M6IE1hdXJvIENhcnZhbGhvIENoZWhhYiA8bWNoZWhhYkBrZXJuZWwub3Jn
+Pg0KPiBDYzogbGludXgtYXJtLWtlcm5lbEBsaXN0cy5pbmZyYWRlYWQub3JnDQo+IENjOiBsaW51
+eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmcNCj4gQ2M6IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5v
+cmcNCj4gU2lnbmVkLW9mZi1ieTogR3JlZyBLcm9haC1IYXJ0bWFuIDxncmVna2hAbGludXhmb3Vu
+ZGF0aW9uLm9yZz4NCj4gLS0tDQo+ICAuLi4vc3RpL2M4c2VjdHBmZS9jOHNlY3RwZmUtZGVidWdm
+cy5jICAgICAgICAgfCAyNiArKystLS0tLS0tLS0tLS0tLS0tDQo+ICAxIGZpbGUgY2hhbmdlZCwg
+MyBpbnNlcnRpb25zKCspLCAyMyBkZWxldGlvbnMoLSkNCj4NCj4gZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvbWVkaWEvcGxhdGZvcm0vc3RpL2M4c2VjdHBmZS9jOHNlY3RwZmUtZGVidWdmcy5jIGIvZHJp
+dmVycy9tZWRpYS9wbGF0Zm9ybS9zdGkvYzhzZWN0cGZlL2M4c2VjdHBmZS1kZWJ1Z2ZzLmMNCj4g
+aW5kZXggOGYwZGRjYmVlZDlkLi4zMDFmYTEwZjQxOWIgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMv
+bWVkaWEvcGxhdGZvcm0vc3RpL2M4c2VjdHBmZS9jOHNlY3RwZmUtZGVidWdmcy5jDQo+ICsrKyBi
+L2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vc3RpL2M4c2VjdHBmZS9jOHNlY3RwZmUtZGVidWdmcy5j
+DQo+IEBAIC0yMjUsMzYgKzIyNSwxNiBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IGRlYnVnZnNfcmVn
+MzIgZmVpX3N5c19yZWdzW10gPSB7DQo+ICANCj4gIHZvaWQgYzhzZWN0cGZlX2RlYnVnZnNfaW5p
+dChzdHJ1Y3QgYzhzZWN0cGZlaSAqZmVpKQ0KPiAgew0KPiAtCXN0cnVjdCBkZW50cnkJCSpyb290
+Ow0KPiAtCXN0cnVjdCBkZW50cnkJCSpmaWxlOw0KPiAtDQo+IC0Jcm9vdCA9IGRlYnVnZnNfY3Jl
+YXRlX2RpcigiYzhzZWN0cGZlIiwgTlVMTCk7DQo+IC0JaWYgKCFyb290KQ0KPiAtCQlnb3RvIGVy
+cjsNCj4gLQ0KPiAtCWZlaS0+cm9vdCA9IHJvb3Q7DQo+IC0NCj4gIAlmZWktPnJlZ3NldCA9ICBk
+ZXZtX2t6YWxsb2MoZmVpLT5kZXYsIHNpemVvZigqZmVpLT5yZWdzZXQpLCBHRlBfS0VSTkVMKTsN
+Cj4gIAlpZiAoIWZlaS0+cmVnc2V0KQ0KPiAtCQlnb3RvIGVycjsNCj4gKwkJcmV0dXJuOw0KPiAg
+DQo+ICAJZmVpLT5yZWdzZXQtPnJlZ3MgPSBmZWlfc3lzX3JlZ3M7DQo+ICAJZmVpLT5yZWdzZXQt
+Pm5yZWdzID0gQVJSQVlfU0laRShmZWlfc3lzX3JlZ3MpOw0KPiAgCWZlaS0+cmVnc2V0LT5iYXNl
+ID0gZmVpLT5pbzsNCj4gIA0KPiAtCWZpbGUgPSBkZWJ1Z2ZzX2NyZWF0ZV9yZWdzZXQzMigicmVn
+aXN0ZXJzIiwgU19JUlVHTywgcm9vdCwNCj4gLQkJCQlmZWktPnJlZ3NldCk7DQo+IC0JaWYgKCFm
+aWxlKSB7DQo+IC0JCWRldl9lcnIoZmVpLT5kZXYsDQo+IC0JCQkiJXMgbm90IGFibGUgdG8gY3Jl
+YXRlICdyZWdpc3RlcnMnIGRlYnVnZnNcbiINCj4gLQkJCSwgX19mdW5jX18pOw0KPiAtCQlnb3Rv
+IGVycjsNCj4gLQl9DQo+IC0NCj4gLQlyZXR1cm47DQo+IC0NCj4gLWVycjoNCj4gLQlkZWJ1Z2Zz
+X3JlbW92ZV9yZWN1cnNpdmUocm9vdCk7DQo+ICsJZmVpLT5yb290ID0gZGVidWdmc19jcmVhdGVf
+ZGlyKCJjOHNlY3RwZmUiLCBOVUxMKTsNCj4gKwlkZWJ1Z2ZzX2NyZWF0ZV9yZWdzZXQzMigicmVn
+aXN0ZXJzIiwgU19JUlVHTywgZmVpLT5yb290LCBmZWktPnJlZ3NldCk7DQo+ICB9DQo+ICANCj4g
+IHZvaWQgYzhzZWN0cGZlX2RlYnVnZnNfZXhpdChzdHJ1Y3QgYzhzZWN0cGZlaSAqZmVpKQ0KDQpS
+ZXZpZXdlZC1ieTogUGF0cmljZSBDaG90YXJkIDxwYXRyaWNlLmNob3RhcmRAc3QuY29tPg0KDQpU
+aGFua3MNCg0K
