@@ -2,122 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 67B1CF27C2
-	for <lists+linux-media@lfdr.de>; Thu,  7 Nov 2019 07:48:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 59A28F2830
+	for <lists+linux-media@lfdr.de>; Thu,  7 Nov 2019 08:41:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726467AbfKGGsb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Nov 2019 01:48:31 -0500
-Received: from us-smtp-2.mimecast.com ([205.139.110.61]:43228 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725763AbfKGGsb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 7 Nov 2019 01:48:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1573109310;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=CN2ulGtul0X2pd3Lw/bT87JsQKQsHK/UR87J4cDQl/k=;
-        b=ZteAsuAvkH7Tjja8RIMyJS50GVUYcDYaPcgcEgqHwQN3ENuEcORALC7V6TqCFFKTzZwBVk
-        9d4MTiIc5lm1Beuhgz8z176Q0LpkYZlKQQ1oKVJHQNcmT6vcxLDI2o3zKMTCIL1baceeM8
-        CxV2B7Y4lCUYTgG44xf8fczvMoVWIPU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-280-0cipqxXqMOu9hvOV8Hxp6w-1; Thu, 07 Nov 2019 01:48:23 -0500
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 057661800D6B;
-        Thu,  7 Nov 2019 06:48:21 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-69.ams2.redhat.com [10.36.116.69])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 3FE6C1A7E2;
-        Thu,  7 Nov 2019 06:48:19 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-        id 0397416E08; Thu,  7 Nov 2019 07:48:18 +0100 (CET)
-Date:   Thu, 7 Nov 2019 07:48:17 +0100
-From:   Gerd Hoffmann <kraxel@redhat.com>
-To:     Geoffrey McRae <geoff@hostfission.com>
-Cc:     David Stevens <stevensd@chromium.org>,
-        Keiichi Watanabe <keiichiw@chromium.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Dmitry Morozov <dmitry.morozov@opensynergy.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Alex Lau <alexlau@chromium.org>,
-        Dylan Reid <dgreid@chromium.org>,
-        =?utf-8?B?U3TDqXBoYW5l?= Marchesin <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Gurchetan Singh <gurchetansingh@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        virtio-dev@lists.oasis-open.org, qemu-devel@nongnu.org
-Subject: Re: guest / host buffer sharing ...
-Message-ID: <20191107064817.j3sfzl6viea4qigc@sirius.home.kraxel.org>
-References: <20191105105456.7xbhtistnbp272lj@sirius.home.kraxel.org>
- <CAD=HUj7EsxrkSubmY6HE4aYJOykVKtmGXjMjeGqnoJw1KZUc5Q@mail.gmail.com>
- <20191106124101.fsfxibdkypo4rswv@sirius.home.kraxel.org>
- <72712fe048af1489368f7416faa92c45@hostfission.com>
+        id S1726943AbfKGHlX convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Thu, 7 Nov 2019 02:41:23 -0500
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:44316 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726498AbfKGHlX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Nov 2019 02:41:23 -0500
+Received: by mail-ot1-f68.google.com with SMTP id c19so1168273otr.11;
+        Wed, 06 Nov 2019 23:41:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=G+3+98fQW0X7itXW9x+mGVW8GM+JEYa5vvhszpylUYQ=;
+        b=IUuBPTHpiHMqtMqikeB7HrkTwiIlaVTHXAZAuOLK0Ub1xAaxrCLSnNZKHmOPF+q4Ko
+         jRHyOJ2reTKCaaIbPk8J2fYftAGBrEOIRGvoaKlsC369J2QmIE8Zr4XufoEDSK8SVnIX
+         R0EPyl8iZFIEn2aKydTsVd0W8xhdLNu50KuOcschighCOTEEiluAF0PJfBjFb+a0WA0l
+         t8DcCOGTIs//GWSe4ZVeXZzUcYThyDVYfWP74BewyQTwFbXjcxKF2fT7sZpAz62PjCuq
+         U1m1EBhLHSoAZ0cbXSasuVr6wRyRQhyVpxCDFYHmiEs0OLOkNvwpYozK2uyIBBZIkKPE
+         9R0Q==
+X-Gm-Message-State: APjAAAV1T5ZZ6BDuiNoWm52QLURI9dcYcihqJhjnwBkjQqEIdEgEmtIR
+        cho8KVLr5yWwHwWV9krmeTwuMjzS0//pCyNGiXuNPnwf
+X-Google-Smtp-Source: APXvYqzHFrFnPx4rhCrsdfkWBHwbEZ4USJaePYP70BnpPsPGn1/uk7IK8JJrQ1uLmm3kgnc7O+fvnJpjcdOWt7T4b/o=
+X-Received: by 2002:a9d:73cd:: with SMTP id m13mr1739756otk.145.1573112482519;
+ Wed, 06 Nov 2019 23:41:22 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <72712fe048af1489368f7416faa92c45@hostfission.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-MC-Unique: 0cipqxXqMOu9hvOV8Hxp6w-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+References: <20191106232304.2332121-1-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20191106232304.2332121-1-niklas.soderlund+renesas@ragnatech.se>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 7 Nov 2019 08:41:11 +0100
+Message-ID: <CAMuHMdW-i+L0pQx1WRWUZ6_BWF0ujQ-4s9TXNfAM9w5OHcgR+g@mail.gmail.com>
+Subject: Re: [PATCH] rcar-vin: Limit NV12 availability to supported VIN
+ channels only
+To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-> On 2019-11-06 23:41, Gerd Hoffmann wrote:
-> > On Wed, Nov 06, 2019 at 05:36:22PM +0900, David Stevens wrote:
-> > > > (1) The virtio device
-> > > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > >
-> > > > Has a single virtio queue, so the guest can send commands to regist=
-er
-> > > > and unregister buffers.  Buffers are allocated in guest ram.  Each =
-buffer
-> > > > has a list of memory ranges for the data. Each buffer also has some
-> > >=20
-> > > Allocating from guest ram would work most of the time, but I think
-> > > it's insufficient for many use cases. It doesn't really support thing=
-s
-> > > such as contiguous allocations, allocations from carveouts or <4GB,
-> > > protected buffers, etc.
-> >=20
-> > If there are additional constrains (due to gpu hardware I guess)
-> > I think it is better to leave the buffer allocation to virtio-gpu.
->=20
-> The entire point of this for our purposes is due to the fact that we can
-> not allocate the buffer, it's either provided by the GPU driver or
-> DirectX. If virtio-gpu were to allocate the buffer we might as well forge=
-t
-> all this and continue using the ivshmem device.
+Hi Niklas,
 
-Well, virtio-gpu resources are in guest ram, like the buffers of a
-virtio-buffers device would be.  So it isn't much of a difference.  If
-the buffer provided by the (nvidia/amd/intel) gpu driver lives in ram
-you can create a virtio-gpu resource for it.
+On Thu, Nov 7, 2019 at 12:25 AM Niklas Söderlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> When adding support for NV12 it was overlooked that the pixel format is
+> only supported on some VIN channels. Fix this by adding a check to only
+> accept NV12 on the supported channels (0, 1, 4, 5, 8, 9, 12 and 13).
+>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-On the linux side that is typically handled with dma-buf, one driver
-exports the dma-buf and the other imports it.  virtio-gpu doesn't
-support that fully yet though (import is being worked on, export is done
-and will land upstream in the next merge window).
+Thanks for your patch!
 
-No clue how this looks like for windows guests ...
+> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> @@ -76,7 +76,12 @@ const struct rvin_video_format *rvin_format_from_pixel(struct rvin_dev *vin,
+>         if (vin->info->model == RCAR_M1 && pixelformat == V4L2_PIX_FMT_XBGR32)
+>                 return NULL;
+>
+> -       if (pixelformat == V4L2_PIX_FMT_NV12 && !vin->info->nv12)
+> +       /*
+> +        * If NV12 is supported it's only supported on some channels (0, 1, 4,
+> +        * 5, 8, 9, 12 and 13).
 
-> Currently IVSHMEM is used by two projects that I am aware of, Looking
-> Glass and SCREAM. While Looking Glass is solving a problem that is out of
-> scope for QEMU, SCREAM is working around the audio problems in QEMU that
-> have been present for years now.
+Is this true for all SoCs, or do you need a vin->info->model == RCAR_GEN3
+check?
 
-Side note: sound in qemu 3.1+ should be alot better than in 2.x
-versions.
+> +        */
+> +       if (pixelformat == V4L2_PIX_FMT_NV12 &&
+> +           (!vin->info->nv12 || BIT(vin->id) & 0xcccc))
+>                 return NULL;
 
-cheers,
-  Gerd
+So 0xcccc = ~(BIT(0) | BIT(1) | BIT(4) | ...)?
+What if you ever have an id larger than 15?
+Wouldn't it be safer to check for !(BIT(vin->id) & 0x3333)?
 
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
