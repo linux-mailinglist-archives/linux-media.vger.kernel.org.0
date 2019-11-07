@@ -2,138 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9EE93F2BE2
-	for <lists+linux-media@lfdr.de>; Thu,  7 Nov 2019 11:11:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E100F2CA3
+	for <lists+linux-media@lfdr.de>; Thu,  7 Nov 2019 11:36:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387817AbfKGKK6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Nov 2019 05:10:58 -0500
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:36809 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387786AbfKGKK6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Nov 2019 05:10:58 -0500
-Received: by mail-pf1-f194.google.com with SMTP id v19so2360660pfm.3
-        for <linux-media@vger.kernel.org>; Thu, 07 Nov 2019 02:10:58 -0800 (PST)
+        id S2387890AbfKGKgU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Nov 2019 05:36:20 -0500
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:37250 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387856AbfKGKgU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Nov 2019 05:36:20 -0500
+Received: by mail-wr1-f66.google.com with SMTP id t1so2427627wrv.4
+        for <linux-media@vger.kernel.org>; Thu, 07 Nov 2019 02:36:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=umQYThIuCS7c9882fJTWJaLRcdLby63dTiBGU/XLOo4=;
-        b=FvfP3DHO59Af1GlUM7aPeBB7H7WxgIS5YP1WOSD3ZobUgr1QxUERE7HZKul/eJkFCq
-         AYC4xme6fkjU8lCSc2cLPn+hHoLUzOtjllxy+9r5XOR2yG/h5cvTsBV2D2MvzZeyHvNY
-         aaiCP4p0EnCdKS20kHjpzHftOYu/zT5JD+9Rc=
+        bh=teW38WXulAIrUKBNvuumxpbZRbtrGwotg8AiJU+tjw4=;
+        b=iZcNRyt3DP47SX6ynhkUyOQ+MvqqiG2DCpTPy4uEpdf/CGYqTGawcGA+YB86s2sDN/
+         k0rMrOm9ZIg+M7fkoeNQDzl+0qmlF+eFsGk958hdenhBGS3zOe0qZYHfRXbDvEjRegk6
+         LgqPiuri7VPm9HPDo7aePyxU6GwsIemjqNaAVmwStjTQr4WxXYcDcfp0S0iIYt2xb54r
+         d4TuFYeR/4Ixj9aShZlIDJPb/iM5Pj1W5kT4rwPadGmS8d8So8VyTq2k0cGrwYeHY35N
+         xXx9fQFXQXbNqUx+HChXT+IVTAUC1eW5oU7wOnOZ7sGekBg4vICoxfmU3HbYJzhKwlqA
+         asnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=umQYThIuCS7c9882fJTWJaLRcdLby63dTiBGU/XLOo4=;
-        b=mbZlStFHpbyN+J4PWqr7kzk7HilHx9mgUIaUWyZnIBYnv98WjXN7YfISDY06d8JFgO
-         7vLcRJmiBh4mN/XlOYmOd5EmIBgij+kkUjuwSE4Ahq0DRGjQgc5t/b/U6kS6K7z0bwPJ
-         ILZd4NvL0O3t25eALW1QYeX67JG7vGLsMHcQbRyi49RrJ8p/A6KAlc+P3ER/61LJmt5Q
-         SDwVdicqYz/ja0lNBgHT044kz/oN/gWe2dIpX7+13D+AAzBLrVmyAWLaiIznAQ5mCfUG
-         nvV2iX6DmU6i5P1CqjVCkGBrpBnzynz0IYQdFdTgM4THbmaLsq7b2y6fmnUjFKjBEFeU
-         5O5A==
-X-Gm-Message-State: APjAAAXOWSQuHVO6IsyafkC7steqUSBhnaqDG8+2x5m0KJLsYeuuvJ1P
-        u9ZnJu6DQl7VFXaN76RFOD9NVQ==
-X-Google-Smtp-Source: APXvYqzB390EEhabtZNegLu+AcF5HDph81Kp+QvNUBavqnqvJD61yaAO317SbJiRCO/+mp9kk980OQ==
-X-Received: by 2002:a65:5a06:: with SMTP id y6mr3518613pgs.9.1573121457287;
-        Thu, 07 Nov 2019 02:10:57 -0800 (PST)
-Received: from pihsun-z840.tpe.corp.google.com ([2401:fa00:1:10:7889:7a43:f899:134c])
-        by smtp.googlemail.com with ESMTPSA id s11sm1465590pjp.26.2019.11.07.02.10.54
+        bh=teW38WXulAIrUKBNvuumxpbZRbtrGwotg8AiJU+tjw4=;
+        b=InSoIjDPLa2m82lYrUoKu3zkEU+3elM9v+dOkfe1IG9LCWVDhU/FtJIwmZwtRy80q2
+         ynnoTmGTu+QZYlUNZn5FxPcjRXaqhjdCzxzudufSfZvaR8gNw/P6BheBjbEMdX8bt0Ja
+         hwMUkIjFzBZM+is8397Ug9rSvGt0lAbrGpPO0HaTQ/b8PqTv1Fw8myMNTNqFicTZduOk
+         K84BP2KdTaxn49ySwNOQStUVkJ+AkGWKQ7hHHZRVhqkdCfadB8YTOVGKY+rmTarAk5kE
+         1SOT/BXbDm2hLsYZahGJiev6L1VhWoD3e8HaOlU1yV0DJSwYVWLlALzwOZesSgMHJple
+         iGOQ==
+X-Gm-Message-State: APjAAAWDE6TaAK5It7VBNv9qAXnRfll9zBQwcZwpuNuyf8QCdALdzLME
+        1ArLqLlnOw6c/D/xlpQuHayEmgG4eoqA
+X-Google-Smtp-Source: APXvYqymapv7J0ujPLALFJRUbP8bLm6eKLIIQ7g/IOqnU7Kf0+l9qECuyOxX6ZSih4OZVInSpIhaaw==
+X-Received: by 2002:a5d:4645:: with SMTP id j5mr2245480wrs.329.1573122978159;
+        Thu, 07 Nov 2019 02:36:18 -0800 (PST)
+Received: from ninjahub.lan (79-73-36-243.dynamic.dsl.as9105.com. [79.73.36.243])
+        by smtp.googlemail.com with ESMTPSA id k125sm2094922wmf.2.2019.11.07.02.36.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Nov 2019 02:10:56 -0800 (PST)
-From:   Pi-Hsun Shih <pihsun@chromium.org>
-Cc:     Pi-Hsun Shih <pihsun@chromium.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Ricardo Ribalda Delgado <ribalda@kernel.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        sumitg <sumitg@nvidia.com>,
-        linux-media@vger.kernel.org (open list:MEDIA INPUT INFRASTRUCTURE
-        (V4L/DVB)), linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] media: v4l2-ctrl: Lock main_hdl on operations of requests_queued.
-Date:   Thu,  7 Nov 2019 18:10:14 +0800
-Message-Id: <20191107101016.137186-1-pihsun@chromium.org>
-X-Mailer: git-send-email 2.24.0.rc1.363.gb1bccd3e3d-goog
+        Thu, 07 Nov 2019 02:36:17 -0800 (PST)
+From:   Jules Irenge <jbi.octave@gmail.com>
+To:     outreachy-kernel@googlegroups.com
+Cc:     sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
+        julia.lawall@lip6.fr, mchehab@kernel.org,
+        linux-media@vger.kernel.org, Jules Irenge <jbi.octave@gmail.com>
+Subject: [PATCH] staging: ipu3: replace 0 with false
+Date:   Thu,  7 Nov 2019 10:36:08 +0000
+Message-Id: <20191107103608.26598-1-jbi.octave@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There's a race condition between the list_del_init in the
-v4l2_ctrl_request_complete, and the list_add_tail in the
-v4l2_ctrl_request_queue, since they can be called in different thread
-and the requests_queued list is not protected by a lock. This can lead
-to that the v4l2_ctrl_handler is still in the requests_queued list while
-the request_is_queued is already set to false, which would cause
-use-after-free if the v4l2_ctrl_handler is later released.
+Replace 0 with false to clear
+warning of assignment of 0/1 to bool variable.
+Issue detected by coccinelle tool.
 
-Fix this by locking the ->lock of main_hdl (which is the owner of the
-requests_queued list) when doing list operations on the
-->requests_queued list.
-
-Signed-off-by: Pi-Hsun Shih <pihsun@chromium.org>
+Signed-off-by: Jules Irenge <jbi.octave@gmail.com>
 ---
- drivers/media/v4l2-core/v4l2-ctrls.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/staging/media/ipu3/ipu3-css.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-index b4caf2d4d076..22e6c82d58b9 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-@@ -3301,6 +3301,7 @@ static void v4l2_ctrl_request_queue(struct media_request_object *obj)
- 	struct v4l2_ctrl_handler *prev_hdl = NULL;
- 	struct v4l2_ctrl_ref *ref_ctrl, *ref_ctrl_prev = NULL;
- 
-+	mutex_lock(main_hdl->lock);
- 	if (list_empty(&main_hdl->requests_queued))
- 		goto queue;
- 
-@@ -3332,18 +3333,22 @@ static void v4l2_ctrl_request_queue(struct media_request_object *obj)
- queue:
- 	list_add_tail(&hdl->requests_queued, &main_hdl->requests_queued);
- 	hdl->request_is_queued = true;
-+	mutex_unlock(main_hdl->lock);
- }
- 
- static void v4l2_ctrl_request_unbind(struct media_request_object *obj)
+diff --git a/drivers/staging/media/ipu3/ipu3-css.c b/drivers/staging/media/ipu3/ipu3-css.c
+index fd1ed84c400c..f36de501edc6 100644
+--- a/drivers/staging/media/ipu3/ipu3-css.c
++++ b/drivers/staging/media/ipu3/ipu3-css.c
+@@ -1450,7 +1450,7 @@ bool imgu_css_pipe_queue_empty(struct imgu_css *css, unsigned int pipe)
+ bool imgu_css_queue_empty(struct imgu_css *css)
  {
- 	struct v4l2_ctrl_handler *hdl =
- 		container_of(obj, struct v4l2_ctrl_handler, req_obj);
-+	struct v4l2_ctrl_handler *main_hdl = obj->priv;
+ 	unsigned int pipe;
+-	bool ret = 0;
++	bool ret = false;
  
- 	list_del_init(&hdl->requests);
-+	mutex_lock(main_hdl->lock);
- 	if (hdl->request_is_queued) {
- 		list_del_init(&hdl->requests_queued);
- 		hdl->request_is_queued = false;
- 	}
-+	mutex_unlock(main_hdl->lock);
- }
- 
- static void v4l2_ctrl_request_release(struct media_request_object *obj)
-@@ -4297,9 +4302,11 @@ void v4l2_ctrl_request_complete(struct media_request *req,
- 		v4l2_ctrl_unlock(ctrl);
- 	}
- 
-+	mutex_lock(main_hdl->lock);
- 	WARN_ON(!hdl->request_is_queued);
- 	list_del_init(&hdl->requests_queued);
- 	hdl->request_is_queued = false;
-+	mutex_unlock(main_hdl->lock);
- 	media_request_object_complete(obj);
- 	media_request_object_put(obj);
- }
-
-base-commit: dcd34bd234181ec74f081c7d0025204afe6b213e
+ 	for (pipe = 0; pipe < IMGU_MAX_PIPE_NUM; pipe++)
+ 		ret &= imgu_css_pipe_queue_empty(css, pipe);
 -- 
-2.24.0.rc1.363.gb1bccd3e3d-goog
+2.23.0
 
