@@ -2,102 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EB273F2DF4
-	for <lists+linux-media@lfdr.de>; Thu,  7 Nov 2019 13:11:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CEECAF2E3C
+	for <lists+linux-media@lfdr.de>; Thu,  7 Nov 2019 13:38:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733201AbfKGMLF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Nov 2019 07:11:05 -0500
-Received: from mail-qv1-f65.google.com ([209.85.219.65]:44425 "EHLO
-        mail-qv1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726873AbfKGMLE (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Nov 2019 07:11:04 -0500
-Received: by mail-qv1-f65.google.com with SMTP id h3so657839qvu.11
-        for <linux-media@vger.kernel.org>; Thu, 07 Nov 2019 04:11:04 -0800 (PST)
+        id S2388513AbfKGMiw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Nov 2019 07:38:52 -0500
+Received: from mail-lj1-f195.google.com ([209.85.208.195]:42127 "EHLO
+        mail-lj1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726873AbfKGMiv (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Nov 2019 07:38:51 -0500
+Received: by mail-lj1-f195.google.com with SMTP id n5so2078697ljc.9;
+        Thu, 07 Nov 2019 04:38:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=BKA8s1JfODN4WpwTCWOwtgTT+YzZkjzLVM4z9feXflo=;
-        b=EKVQuk55NqGEBZhbV8BVxDQYjsoT81dzTmsRxPY6wkvHgR2201EEbrXM/f+4dt4b8x
-         MPP/nzcAMrp6SuDo7mbSGX+LcQXh9/pd9oETm1jFw8TBDLojxjDHClV4PYzZjrVoAfzl
-         csCkA+bh69AXVz2hqudiqDmMhOKR2EP2/zDBezyvS6xwXVvU6VeH4m5JKswsrvrFK8bR
-         HmHUt1XUt7m8iCpGV+8+6/RH8ExPqoITwjlgKh04ScfyEKG2NEHwTyUI4FssxUMUdT+M
-         pM9jt1TEN20IHzkT063k8iwpbZp2J6R173q2JvMGx6Bb28lCQmAMELV9z9q/3QBIxOjF
-         EIdg==
+        bh=AhA+48hCGuXsICyIDlmiLuXwLznM2g5J4GJhQPgRqp8=;
+        b=Mbk148mVLYWiwBPvoiibkQt0FyNlTskbhre5JrDvTWiABTQNh8j7SopLFOfKc+/YTS
+         yo6yXMK7gcUSw0jy+pVxBuXkSaB51OiWHgBsF25BSPub1m4uDWpu6hlfy4CEIWy3mgwH
+         E3VRHKVE+KJwgkkGp5ZxEjyoZSUdUg7Drdz2qV7EYReq3cYuAB7z5iRsMpYrhDKODJVp
+         8QCrKVCddvk/Ays9wSxAx5cRQIKPacrESoPPR1epRD0aaaEdjNrvdIAys3wS+o3o6Rn+
+         ECNYAI8VB8GEw6UQcfTACoe8vLvl9J7cktIFEAKTe5O/SqS7wtBBbaQ4zTZMEnZM0Lip
+         LLOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=BKA8s1JfODN4WpwTCWOwtgTT+YzZkjzLVM4z9feXflo=;
-        b=nWzWnLtoJND42oT08Q7ULttbm1vI81S8tyH6ialZA+cp4af+b+hmOViVa6XyT5vy3/
-         hgOKihV4zfAWMeZHI+34hVwrYdjhY5aEKiD7F32UdAmIYV42XQ0oQFhJGWZBCtEZ0IQU
-         BDh/YZ63qlVOmouIAdz7BbrHpcGjE8M4THSJZzB32i15HBnq7SlSZMfPwFaTJ4E2sIqM
-         623zzeh2AzdFV20zElEN9SasEeTDUsD3vvdVGiz9zlf2i4XPcHqrvxlbVHR4oCSw5Wpt
-         wGZlKWPWi37fsMo6mLqamJGMuseMB9lSbIVUzv87Qtm85Vikj+KfDoR9NLtGxr9zUgGv
-         t/XA==
-X-Gm-Message-State: APjAAAWLs8HWjZyP8FaVNfzAiai4numnqvPtlO3ph1mgbfqhLxT/KIaJ
-        7I9lZVuq8KzkhJokqQo2BItLnr9l9c0+3nTmm28=
-X-Google-Smtp-Source: APXvYqzsPlvpOUDn7EkcGf9rJWzzK0UmVSKgbkHC5ep6B4ucYn8RQygbhppA26x9x2LAw1qeWeDvK70JS85dMoOF3WQ=
-X-Received: by 2002:a0c:87b5:: with SMTP id 50mr3064636qvj.143.1573128663596;
- Thu, 07 Nov 2019 04:11:03 -0800 (PST)
+        bh=AhA+48hCGuXsICyIDlmiLuXwLznM2g5J4GJhQPgRqp8=;
+        b=kCo6n2GRoD77W6lNgVDYtWkv0+qtvP3XLTKKEJehSKcx44pxxAG2ieaosldBb+tqWb
+         /k5fASDJ8J4zma8PIZa3+d3UH0tj3Zr3dQWjW2F8NVs84K3zUc13eOEYkYJlR4VHP5ho
+         wpC8UWDyQ5wMS2lq7jIEyrYxja80iJGrnlib23nblB5aucUm8vLdxda0G3J/M80Jew3h
+         G1RWR1nmWYY6VHyTmH6ztwgDr3xyKAHqLOY2sYIjeTcJPYqRjgC1UCDuJ47ELtpDw2Pw
+         eOm95esWmRFIJ8Bz+jgrMzm11+7dugWZS9RVvCKFQg4eqbxxKSDKQE8Fct2rHMNleQmy
+         msPg==
+X-Gm-Message-State: APjAAAW6qFne/fPjrog6qPoC8D4OV5r60WKOFXPwby3HxlgEtcuBGe8p
+        BhmvNp7YI6/oaoBQBqFEwwfUHB0ISLItIEhB4ZBRqB2O
+X-Google-Smtp-Source: APXvYqwFQSc5YpxGKhjpxmhAksjaEPI2kFRJke8NNgiEUxnRLf9iwHicj7OoQIVvShzX1w+NdUXzUY294KZ8D+y8SzE=
+X-Received: by 2002:a2e:b007:: with SMTP id y7mr2287841ljk.69.1573130329729;
+ Thu, 07 Nov 2019 04:38:49 -0800 (PST)
 MIME-Version: 1.0
-References: <20191105105456.7xbhtistnbp272lj@sirius.home.kraxel.org>
- <20191106084344.GB189998@stefanha-x1.localdomain> <20191106095122.jju7eo57scfoat6a@sirius.home.kraxel.org>
- <CAJSP0QUJBkqtVJq17tfX5O-JuvEGcZQviP0C3tv9qSDy-P-hcg@mail.gmail.com> <20191106125023.uhdhtqisybilxasr@sirius.home.kraxel.org>
-In-Reply-To: <20191106125023.uhdhtqisybilxasr@sirius.home.kraxel.org>
-From:   Stefan Hajnoczi <stefanha@gmail.com>
-Date:   Thu, 7 Nov 2019 13:10:52 +0100
-Message-ID: <CAJSP0QXG5Z3zCnPL+Y7EQfCeey2Fb9OdPdx531Jz2Ofk63wndg@mail.gmail.com>
-Subject: Re: guest / host buffer sharing ...
-To:     Gerd Hoffmann <kraxel@redhat.com>
-Cc:     geoff@hostfission.com, virtio-dev@lists.oasis-open.org,
-        Alex Lau <alexlau@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        qemu-devel <qemu-devel@nongnu.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Keiichi Watanabe <keiichiw@chromium.org>,
-        David Stevens <stevensd@chromium.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
-        Dylan Reid <dgreid@chromium.org>,
-        Gurchetan Singh <gurchetansingh@chromium.org>,
-        Dmitry Morozov <dmitry.morozov@opensynergy.com>,
-        Pawel Osciak <posciak@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
+References: <20191003144624.17899-1-daniel@qtec.com> <CAPybu_29m_PvzfA8TQGNANgQ_QFEQbhT-=ydQkE8RPJ_G_-1uQ@mail.gmail.com>
+In-Reply-To: <CAPybu_29m_PvzfA8TQGNANgQ_QFEQbhT-=ydQkE8RPJ_G_-1uQ@mail.gmail.com>
+From:   Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Date:   Thu, 7 Nov 2019 13:38:33 +0100
+Message-ID: <CAPybu_2zLLoQaLhaBdG+1BfeeGxE42bZmds2Rgj+fStfCPehaw@mail.gmail.com>
+Subject: Re: [PATCH] media: imx214: Fix stop streaming
+To:     Daniel Gomez <daniel@qtec.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Nov 6, 2019 at 1:50 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
-> > In the graphics buffer sharing use case, how does the other side
-> > determine how to interpret this data?
->
-> The idea is to have free form properties (name=value, with value being
-> a string) for that kind of metadata.
->
-> > Shouldn't there be a VIRTIO
-> > device spec for the messaging so compatible implementations can be
-> > written by others?
->
-> Adding a list of common properties to the spec certainly makes sense,
-> so everybody uses the same names.  Adding struct-ed properties for
-> common use cases might be useful too.
+Hi Mauro,
 
-Why not define VIRTIO devices for wayland and friends?
+Did you have time to look into this patch?
 
-This new device exposes buffer sharing plus properties - effectively a
-new device model nested inside VIRTIO.  The VIRTIO device model has
-the necessary primitives to solve the buffer sharing problem so I'm
-struggling to see the purpose of this new device.
-
-Custom/niche applications that do not wish to standardize their device
-type can maintain out-of-tree VIRTIO devices.  Both kernel and
-userspace drivers can be written for the device and there is already
-VIRTIO driver code that can be reused.  They have access to the full
-VIRTIO device model, including feature negotiation and configuration
-space.
-
-Stefan
+Thanks!
+-- 
+Ricardo Ribalda
