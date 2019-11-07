@@ -2,50 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 31B2FF3008
-	for <lists+linux-media@lfdr.de>; Thu,  7 Nov 2019 14:42:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D9B27F3032
+	for <lists+linux-media@lfdr.de>; Thu,  7 Nov 2019 14:43:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389140AbfKGNmI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Nov 2019 08:42:08 -0500
-Received: from mail-io1-f70.google.com ([209.85.166.70]:50361 "EHLO
-        mail-io1-f70.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389105AbfKGNmI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Nov 2019 08:42:08 -0500
-Received: by mail-io1-f70.google.com with SMTP id t193so1842616iof.17
-        for <linux-media@vger.kernel.org>; Thu, 07 Nov 2019 05:42:06 -0800 (PST)
+        id S2389498AbfKGNnU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Nov 2019 08:43:20 -0500
+Received: from mail-il1-f200.google.com ([209.85.166.200]:38091 "EHLO
+        mail-il1-f200.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389045AbfKGNmH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Nov 2019 08:42:07 -0500
+Received: by mail-il1-f200.google.com with SMTP id f6so2669738ilg.5
+        for <linux-media@vger.kernel.org>; Thu, 07 Nov 2019 05:42:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
          :from:to;
-        bh=+84sf74G2+LtOjaIUAIm5mQgUcZUIwnjbC/PvAs6V+Y=;
-        b=GHRTVsPu5u22ieoK73qR5ucjcTN2O3VXo+5k6apeDG+4pa6fg0p5PtP3xOKXeb9jDL
-         4U3h0ZfVWVtB4QjhQPqXAMqWQvipZYbiYB3D03ISDBvjsVciWh6YLgCgHOfZB/a0svar
-         xkuM+y0MQTY/LK0oDi37EcWhTFxEwr8pD3Oty28aU4SMjC7RyoYSlWeqvsprCdhEs8UN
-         FeNdDq/M7o05iUSaaVjrHY5MpsJ3a4nGwtxOzRcHbSIkBIhUHBIgOlGowLvUSWAsJ4ge
-         u31dKTRq8txQAllqQ4N8uJQl7uCWHpjONU/THEAeHXa3dvglZBlGJDItUBtu0XWZWZyc
-         YUZA==
-X-Gm-Message-State: APjAAAUFXdk0mjecM18iUBEk7iACEqrYOactLofevKPEX8UarXvR1EfV
-        vtk8d6Xg76aXT8gtx7Q5BvIr5Tl0sjOZnlrKBPh39jlAkxYA
-X-Google-Smtp-Source: APXvYqyDXVEYlUfk7geo3GgENWWqznzoIPNLvT/v/4WhhgkMFihALxGFrTFCqPjEvWIS25EzJfmt9/ngeJ+New1kGdinWyOcoDmF
+        bh=faF2E7beRwWoi3uIIILRzqXOv61MWqBCOVzVfmKvnUo=;
+        b=ZrUNP6pA7Qn2crtlU+TuqG0fttiupANR47gcGRHiAV9BE54oHULBBk4TQFw9ZERPp/
+         38TpzU/uPU1uAZ+OTsOmY/ylWxWZlhm6DUlT3V5aCqGLeU3Oq/BAgcovJbMqDaknV4j2
+         qdzTxAYaO2qB8YbhwPg0eZOM3MePqjI27IITG6uT4+z+Z/kHSLuNuwjYnN67qvtiT/zD
+         bwmD9QV/wXM1XoAPNpahU7AVo5nkraTB3GfMp20CVGoSZPXL3khzAgoR7lcV3CLC+6Uz
+         Qp4Z8xOKj2F2gH/1fPeaqZn+E5YpNz0G79PA4F6dH3vIfItT51Fv+rmm90im2ihYaPk5
+         Yq7A==
+X-Gm-Message-State: APjAAAVS1QTsslK3oNBAZpavTcAr9/kNQxS1L33XLa0h1jkCx9BqQTIQ
+        riMFaTQe86XNY+cLx6IISDRb9dnq7BeJdXZW1kOwNKXxG5qN
+X-Google-Smtp-Source: APXvYqzVYKWM2YDzF62mA7+9NC0nUV+ZtoPDNThvpzi9h0wK92j8hN87irxPomSaO4dsmofOF+c0rPnm4WVvuK8z7Omam0qTsX8s
 MIME-Version: 1.0
-X-Received: by 2002:a6b:14ca:: with SMTP id 193mr3506977iou.140.1573134126410;
- Thu, 07 Nov 2019 05:42:06 -0800 (PST)
-Date:   Thu, 07 Nov 2019 05:42:06 -0800
-In-Reply-To: <00000000000080601805795ada2e@google.com>
+X-Received: by 2002:a5e:d716:: with SMTP id v22mr3377836iom.152.1573134127190;
+ Thu, 07 Nov 2019 05:42:07 -0800 (PST)
+Date:   Thu, 07 Nov 2019 05:42:07 -0800
+In-Reply-To: <00000000000014008b057a598671@google.com>
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000c9f0a40596c1d46b@google.com>
-Subject: Re: INFO: task hung in vivid_stop_generating_vid_cap
-From:   syzbot <syzbot+06283a66a648cd073885@syzkaller.appspotmail.com>
-To:     andy@greyhouse.net, davem@davemloft.net, dvyukov@google.com,
-        hans.verkuil@cisco.com, helen.koike@collabora.com,
-        hverkuil-cisco@xs4all.nl, hverkuil@xs4all.nl, j.vosburgh@gmail.com,
-        linux-can@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, maheshb@google.com,
-        mchehab+samsung@kernel.org, mchehab@kernel.org,
-        mchehab@s-opensource.com, netdev@vger.kernel.org,
-        syzkaller-bugs@googlegroups.com, tfiga@chromium.org,
-        vfalico@gmail.com
+Message-ID: <000000000000d5dacd0596c1d41e@google.com>
+Subject: Re: general protection fault in vb2_mmap
+From:   syzbot <syzbot+52e5bf0ebfa66092937a@syzkaller.appspotmail.com>
+To:     hansverk@cisco.com, hverkuil@xs4all.nl, kyungmin.park@samsung.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        m.szyprowski@samsung.com, mchehab+samsung@kernel.org,
+        mchehab@kernel.org, pawel@osciak.com,
+        syzkaller-bugs@googlegroups.com, tfiga@chromium.org
 Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
@@ -54,22 +50,22 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 syzbot suspects this bug was fixed by commit:
 
-commit d65842f7126aa1a87fb44b7c9980c12630ed4f33
+commit cd26d1c4d1bc947b56ae404998ae2276df7b39b7
 Author: Hans Verkuil <hverkuil@xs4all.nl>
-Date:   Mon Nov 19 11:09:00 2018 +0000
+Date:   Tue Nov 13 14:06:46 2018 +0000
 
-     media: vb2: add waiting_in_dqbuf flag
+     media: vb2: vb2_mmap: move lock up
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=1417a04a600000
-start commit:   9f51ae62 Merge git://git.kernel.org/pub/scm/linux/kernel/g..
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=101a70e2600000
+start commit:   e12e00e3 Merge tag 'kbuild-fixes-v4.20' of git://git.kerne..
 git tree:       upstream
-kernel config:  https://syzkaller.appspot.com/x/.config?x=62118286bb772a24
-dashboard link: https://syzkaller.appspot.com/bug?extid=06283a66a648cd073885
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15701a33400000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=154c8e4d400000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=8f215f21f041a0d7
+dashboard link: https://syzkaller.appspot.com/bug?extid=52e5bf0ebfa66092937a
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14c61b0b400000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=109d545d400000
 
 If the result looks correct, please mark the bug fixed by replying with:
 
-#syz fix: media: vb2: add waiting_in_dqbuf flag
+#syz fix: media: vb2: vb2_mmap: move lock up
 
 For information about bisection process see: https://goo.gl/tpsmEJ#bisection
