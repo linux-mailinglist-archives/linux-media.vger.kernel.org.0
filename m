@@ -2,112 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E51D9F2FF6
-	for <lists+linux-media@lfdr.de>; Thu,  7 Nov 2019 14:39:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 87B2BF3035
+	for <lists+linux-media@lfdr.de>; Thu,  7 Nov 2019 14:43:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388271AbfKGNjp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Nov 2019 08:39:45 -0500
-Received: from mx2.suse.de ([195.135.220.15]:38508 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727858AbfKGNjo (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 7 Nov 2019 08:39:44 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id E32DCAE12;
-        Thu,  7 Nov 2019 13:39:42 +0000 (UTC)
-Date:   Thu, 7 Nov 2019 14:39:41 +0100
-From:   Jean Delvare <jdelvare@suse.de>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-usb@vger.kernel.org
-Subject: Re: Logitech C270 webcam floods the log
-Message-ID: <20191107143941.1649db47@endymion>
-In-Reply-To: <20191023142016.GA1904@pendragon.ideasonboard.com>
-References: <20191023151859.30a8ce88@endymion>
-        <20191023142016.GA1904@pendragon.ideasonboard.com>
-Organization: SUSE Linux
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
+        id S2389504AbfKGNnX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Nov 2019 08:43:23 -0500
+Received: from mail-io1-f70.google.com ([209.85.166.70]:49418 "EHLO
+        mail-io1-f70.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389036AbfKGNmH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Nov 2019 08:42:07 -0500
+Received: by mail-io1-f70.google.com with SMTP id x1so1843977ior.16
+        for <linux-media@vger.kernel.org>; Thu, 07 Nov 2019 05:42:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=WTUaaUrmKVHorKvakIXCTTRuudk2YAQScGxgofVTkUI=;
+        b=IgyzhoH68+HoxY7VV8FHssNfGmzQ1jOJ5kGF+mNsnJ53QBtnrhnjk/TcUiFkwsbO3+
+         uxeSfvuJxo7DNRYG29Mtl1BfctNweNaVPLGB0PUw58hdrJTK7xGkTTweeNYW8Et/VoLe
+         YU29ojnjqzIDDq736NV2IekfFROQWxDGVclj8AOamguzD8iYObFRWltsy6/uYhO3GLJP
+         xLQCVB1R+BWJH8sbs3nseRjK7puPBN+opZtUG0LJ7YBaBmbIvtbUGI50hHzaPpNLkM69
+         fMApIHnU5Q0sjubKJ4Ybq24EuIsD1WW6eZumaPzNVMdVI1DNvNkhCNLPOPRRGVzxQLCe
+         AOBQ==
+X-Gm-Message-State: APjAAAWAW65eR4iMsetUAah/oIob1JLCEvuQB9Nf5ENeuZJWLfZNaWJj
+        Fk1jz0QUnWHi94HYnv8F/k0QcuTcHP4ULpDCurl0wgeHdgSv
+X-Google-Smtp-Source: APXvYqzOTbKLWUtJfV+eTnZAGIHCOihW1P53mf2MSnAtW+U2zup71yFaexRFHdR5rbJrPPIrMXY88woVwchxPC8nR165HI7yQ6Is
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-Received: by 2002:a5d:8c94:: with SMTP id g20mr3746490ion.13.1573134126988;
+ Thu, 07 Nov 2019 05:42:06 -0800 (PST)
+Date:   Thu, 07 Nov 2019 05:42:06 -0800
+In-Reply-To: <000000000000aa8703057a7ea0bb@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000d2c94e0596c1d47b@google.com>
+Subject: Re: WARNING in dma_buf_vunmap
+From:   syzbot <syzbot+a9317fe7ad261fc76b88@syzkaller.appspotmail.com>
+To:     andy@greyhouse.net, davem@davemloft.net,
+        dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org,
+        hverkuil-cisco@xs4all.nl, j.vosburgh@gmail.com,
+        kyungmin.park@samsung.com, linaro-mm-sig-owner@lists.linaro.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, m.szyprowski@samsung.com,
+        maheshb@google.com, mchehab+samsung@kernel.org, mchehab@kernel.org,
+        netdev@vger.kernel.org, pawel@osciak.com, sumit.semwal@linaro.org,
+        syzkaller-bugs@googlegroups.com, tfiga@chromium.org,
+        vfalico@gmail.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+syzbot suspects this bug was fixed by commit:
 
-Thank you very much for your quick reply and sorry for getting back to
-you only today, your message got moved to a different folder by a
-filter rule I did not remember of.
+commit 62dcb4f41836bd3c44b5b651bb6df07ea4cb1551
+Author: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Date:   Thu Nov 8 12:23:37 2018 +0000
 
-On Wed, 23 Oct 2019 17:20:16 +0300, Laurent Pinchart wrote:
-> On Wed, Oct 23, 2019 at 03:18:59PM +0200, Jean Delvare wrote:
-> > When my Logitech C270 webcam is plugged in, my kernel log gets filled
-> > with this message:
-> > 
-> > usb 3-4.1: reset high-speed USB device number 4 using xhci_hcd
-> > 
-> > every 5 seconds. I have the same problem on 3 different Intel-based
-> > computers (different generations), using 2 different webcams, same
-> > brand "same model".
-> >
-> > Is Logitech doing crappy hardware these days, or are we doing something
-> > wrong? Is there any way to know the reason that triggers the reset?  
-> 
-> Is this before or after the uvcvideo driver gets involved ? One easy way
-> to check is to move the uvcvideo.ko module out of the way so that it
-> doesn't get loaded automatically (or just blacklist it in
-> /etc/modprobe.d/) and then plug the camera.
+     media: vb2: check memory model for VIDIOC_CREATE_BUFS
 
-I did as you suggested and it turns out that the "reset high-speed USB
-device" messages are not printed originally, they start being printed
-right after the uvcvideo kernel driver gets loaded. So that would be a
-problem with the uvcvideo driver?
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=116af11c600000
+start commit:   d41217aa Merge tag 'pci-v4.20-fixes-1' of git://git.kernel..
+git tree:       upstream
+kernel config:  https://syzkaller.appspot.com/x/.config?x=4a0a89f12ca9b0f5
+dashboard link: https://syzkaller.appspot.com/bug?extid=a9317fe7ad261fc76b88
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16f7b6f5400000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=105a2783400000
 
-When unloading the uvcvideo driver, there's one more "reset high-speed
-USB device" message and then no more.
+If the result looks correct, please mark the bug fixed by replying with:
 
-For what it's worth, 2 things worth noting in the kernel log when the
-device is being detected:
+#syz fix: media: vb2: check memory model for VIDIOC_CREATE_BUFS
 
-usb 3-12: set resolution quirk: cval->res = 384
-(...)
-uvcvideo: Found UVC 1.00 device <unnamed> (046d:0825)
-
-"<unnamed>" seems weird. On the other hand lsusb properly lists it as:
-
-Bus 003 Device 004: ID 046d:0825 Logitech, Inc. Webcam C270
-
-I an older C270 webcam (3 year old, different package) connected to
-another machine, USB device ID is the same, I compared the verbose
-output of lsusb and one difference stands out:
-
-     Interface Descriptor:
-       bLength                 9
-       bDescriptorType         4
-       bInterfaceNumber        1
-       bAlternateSetting       0
-       bNumEndpoints           0
-       bInterfaceClass        14 Video
-       bInterfaceSubClass      2 Video Streaming
-       bInterfaceProtocol      0 
-       iInterface              0 
-       VideoStreaming Interface Descriptor:
-         (...)
--        bmaControls( 0)                    27
--        bmaControls( 1)                    27
--        bmaControls( 2)                    27
-+        bmaControls( 0)                     0
-+        bmaControls( 1)                     4
-+        bmaControls( 2)                     4
-
-(- is the new webcam, + is the old one)
-
-I don't know if this tells anything useful though.
-
-Thanks,
--- 
-Jean Delvare
-SUSE L3 Support
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
