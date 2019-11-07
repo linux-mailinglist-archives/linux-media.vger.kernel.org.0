@@ -2,62 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5AF80F2DC0
-	for <lists+linux-media@lfdr.de>; Thu,  7 Nov 2019 12:54:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EB273F2DF4
+	for <lists+linux-media@lfdr.de>; Thu,  7 Nov 2019 13:11:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387811AbfKGLyQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Nov 2019 06:54:16 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:53395 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727178AbfKGLyQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Nov 2019 06:54:16 -0500
-Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.pengutronix.de.)
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1iSgMg-00024d-Cd; Thu, 07 Nov 2019 12:54:14 +0100
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     linux-media@vger.kernel.org
-Cc:     kernel@pengutronix.de
-Subject: [PATCH] media: coda: disable decoder crop selections
-Date:   Thu,  7 Nov 2019 12:54:13 +0100
-Message-Id: <20191107115413.28543-1-p.zabel@pengutronix.de>
-X-Mailer: git-send-email 2.20.1
+        id S1733201AbfKGMLF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Nov 2019 07:11:05 -0500
+Received: from mail-qv1-f65.google.com ([209.85.219.65]:44425 "EHLO
+        mail-qv1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726873AbfKGMLE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Nov 2019 07:11:04 -0500
+Received: by mail-qv1-f65.google.com with SMTP id h3so657839qvu.11
+        for <linux-media@vger.kernel.org>; Thu, 07 Nov 2019 04:11:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=BKA8s1JfODN4WpwTCWOwtgTT+YzZkjzLVM4z9feXflo=;
+        b=EKVQuk55NqGEBZhbV8BVxDQYjsoT81dzTmsRxPY6wkvHgR2201EEbrXM/f+4dt4b8x
+         MPP/nzcAMrp6SuDo7mbSGX+LcQXh9/pd9oETm1jFw8TBDLojxjDHClV4PYzZjrVoAfzl
+         csCkA+bh69AXVz2hqudiqDmMhOKR2EP2/zDBezyvS6xwXVvU6VeH4m5JKswsrvrFK8bR
+         HmHUt1XUt7m8iCpGV+8+6/RH8ExPqoITwjlgKh04ScfyEKG2NEHwTyUI4FssxUMUdT+M
+         pM9jt1TEN20IHzkT063k8iwpbZp2J6R173q2JvMGx6Bb28lCQmAMELV9z9q/3QBIxOjF
+         EIdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BKA8s1JfODN4WpwTCWOwtgTT+YzZkjzLVM4z9feXflo=;
+        b=nWzWnLtoJND42oT08Q7ULttbm1vI81S8tyH6ialZA+cp4af+b+hmOViVa6XyT5vy3/
+         hgOKihV4zfAWMeZHI+34hVwrYdjhY5aEKiD7F32UdAmIYV42XQ0oQFhJGWZBCtEZ0IQU
+         BDh/YZ63qlVOmouIAdz7BbrHpcGjE8M4THSJZzB32i15HBnq7SlSZMfPwFaTJ4E2sIqM
+         623zzeh2AzdFV20zElEN9SasEeTDUsD3vvdVGiz9zlf2i4XPcHqrvxlbVHR4oCSw5Wpt
+         wGZlKWPWi37fsMo6mLqamJGMuseMB9lSbIVUzv87Qtm85Vikj+KfDoR9NLtGxr9zUgGv
+         t/XA==
+X-Gm-Message-State: APjAAAWLs8HWjZyP8FaVNfzAiai4numnqvPtlO3ph1mgbfqhLxT/KIaJ
+        7I9lZVuq8KzkhJokqQo2BItLnr9l9c0+3nTmm28=
+X-Google-Smtp-Source: APXvYqzsPlvpOUDn7EkcGf9rJWzzK0UmVSKgbkHC5ep6B4ucYn8RQygbhppA26x9x2LAw1qeWeDvK70JS85dMoOF3WQ=
+X-Received: by 2002:a0c:87b5:: with SMTP id 50mr3064636qvj.143.1573128663596;
+ Thu, 07 Nov 2019 04:11:03 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+References: <20191105105456.7xbhtistnbp272lj@sirius.home.kraxel.org>
+ <20191106084344.GB189998@stefanha-x1.localdomain> <20191106095122.jju7eo57scfoat6a@sirius.home.kraxel.org>
+ <CAJSP0QUJBkqtVJq17tfX5O-JuvEGcZQviP0C3tv9qSDy-P-hcg@mail.gmail.com> <20191106125023.uhdhtqisybilxasr@sirius.home.kraxel.org>
+In-Reply-To: <20191106125023.uhdhtqisybilxasr@sirius.home.kraxel.org>
+From:   Stefan Hajnoczi <stefanha@gmail.com>
+Date:   Thu, 7 Nov 2019 13:10:52 +0100
+Message-ID: <CAJSP0QXG5Z3zCnPL+Y7EQfCeey2Fb9OdPdx531Jz2Ofk63wndg@mail.gmail.com>
+Subject: Re: guest / host buffer sharing ...
+To:     Gerd Hoffmann <kraxel@redhat.com>
+Cc:     geoff@hostfission.com, virtio-dev@lists.oasis-open.org,
+        Alex Lau <alexlau@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        qemu-devel <qemu-devel@nongnu.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Keiichi Watanabe <keiichiw@chromium.org>,
+        David Stevens <stevensd@chromium.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
+        Dylan Reid <dgreid@chromium.org>,
+        Gurchetan Singh <gurchetansingh@chromium.org>,
+        Dmitry Morozov <dmitry.morozov@opensynergy.com>,
+        Pawel Osciak <posciak@chromium.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Disable output side crop selections for the decoder.
-This fixes the following v4l2-compliance complaint:
+On Wed, Nov 6, 2019 at 1:50 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+> > In the graphics buffer sharing use case, how does the other side
+> > determine how to interpret this data?
+>
+> The idea is to have free form properties (name=value, with value being
+> a string) for that kind of metadata.
+>
+> > Shouldn't there be a VIRTIO
+> > device spec for the messaging so compatible implementations can be
+> > written by others?
+>
+> Adding a list of common properties to the spec certainly makes sense,
+> so everybody uses the same names.  Adding struct-ed properties for
+> common use cases might be useful too.
 
-		fail: v4l2-test-formats.cpp(1576): IS_DECODER(node)
-	test Cropping: FAIL
+Why not define VIRTIO devices for wayland and friends?
 
-Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
----
- drivers/media/platform/coda/coda-common.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+This new device exposes buffer sharing plus properties - effectively a
+new device model nested inside VIRTIO.  The VIRTIO device model has
+the necessary primitives to solve the buffer sharing problem so I'm
+struggling to see the purpose of this new device.
 
-diff --git a/drivers/media/platform/coda/coda-common.c b/drivers/media/platform/coda/coda-common.c
-index e648d4819a84..c5cd080125a4 100644
---- a/drivers/media/platform/coda/coda-common.c
-+++ b/drivers/media/platform/coda/coda-common.c
-@@ -933,7 +933,8 @@ static int coda_g_selection(struct file *file, void *fh,
- 		rsel = &r;
- 		/* fallthrough */
- 	case V4L2_SEL_TGT_CROP:
--		if (s->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
-+		if (s->type != V4L2_BUF_TYPE_VIDEO_OUTPUT ||
-+		    ctx->inst_type == CODA_INST_DECODER)
- 			return -EINVAL;
- 		break;
- 	case V4L2_SEL_TGT_COMPOSE_BOUNDS:
--- 
-2.20.1
+Custom/niche applications that do not wish to standardize their device
+type can maintain out-of-tree VIRTIO devices.  Both kernel and
+userspace drivers can be written for the device and there is already
+VIRTIO driver code that can be reused.  They have access to the full
+VIRTIO device model, including feature negotiation and configuration
+space.
 
+Stefan
