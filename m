@@ -2,99 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C7AB0F2BB2
-	for <lists+linux-media@lfdr.de>; Thu,  7 Nov 2019 10:59:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9EE93F2BE2
+	for <lists+linux-media@lfdr.de>; Thu,  7 Nov 2019 11:11:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388037AbfKGJ7c (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Nov 2019 04:59:32 -0500
-Received: from mx07-00178001.pphosted.com ([62.209.51.94]:54467 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727434AbfKGJ7c (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 7 Nov 2019 04:59:32 -0500
-Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id xA79unK7010798;
-        Thu, 7 Nov 2019 10:59:18 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type : content-id
- : content-transfer-encoding : mime-version; s=STMicroelectronics;
- bh=2DOWtu8jCuxYV13WHI7tGlkOex/ugFLRvmjsqa3AGzE=;
- b=FOSRhCJjNn32aKkzEJTN3A1O5PriISPyOomQwedz3yh3T7+GKAwsi6T7C022D3PCYLlP
- 6DEsPRsy1zzYM481yuDCvMMC4Os/kjVUXZsvVet5916FDF9IXDea7cYeulbypBZkKxhv
- LNPfT43muLoFLr9WER2hxIZjtFPQxv+kL9hCbpqhlgwbiNe+Wlc9QRwehvb1KLWaNLUT
- b7l1JL7zADTysPkn5iWVkrcm7e8DNblznLSG7venTTYj5WpGwMeFopnGMcYPHeJYpZu9
- kgS+GssbIJhMInfD7SEp6iLqVrLCYoAucSKGR9BDzhpdO8Nb1hURP6pxqVRmsInOecGK fQ== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 2w41vdvdce-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 07 Nov 2019 10:59:18 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 430B910002A;
-        Thu,  7 Nov 2019 10:59:18 +0100 (CET)
-Received: from Webmail-eu.st.com (sfhdag6node2.st.com [10.75.127.17])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 347922AA4DB;
-        Thu,  7 Nov 2019 10:59:18 +0100 (CET)
-Received: from SFHDAG6NODE3.st.com (10.75.127.18) by SFHDAG6NODE2.st.com
- (10.75.127.17) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Thu, 7 Nov
- 2019 10:59:17 +0100
-Received: from SFHDAG6NODE3.st.com ([fe80::d04:5337:ab17:b6f6]) by
- SFHDAG6NODE3.st.com ([fe80::d04:5337:ab17:b6f6%20]) with mapi id
- 15.00.1473.003; Thu, 7 Nov 2019 10:59:17 +0100
-From:   Patrice CHOTARD <patrice.chotard@st.com>
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-CC:     "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 10/17] media: platform: sti: c8sectpfe: c8sectpfe-dvb:
- convert to use i2c_new_client_device()
-Thread-Topic: [PATCH 10/17] media: platform: sti: c8sectpfe: c8sectpfe-dvb:
- convert to use i2c_new_client_device()
-Thread-Index: AQHVlOgn5rnZLf3S8UOcZMZWPlClMKd/aXSA
-Date:   Thu, 7 Nov 2019 09:59:17 +0000
-Message-ID: <e4fd1be9-9406-7701-9864-56981d486f6f@st.com>
-References: <20191106212120.27983-1-wsa+renesas@sang-engineering.com>
- <20191106212120.27983-11-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20191106212120.27983-11-wsa+renesas@sang-engineering.com>
-Accept-Language: fr-FR, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.75.127.48]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <CB0A9BA7A9BF554983B74248C1130533@st.com>
-Content-Transfer-Encoding: base64
+        id S2387817AbfKGKK6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Nov 2019 05:10:58 -0500
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:36809 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387786AbfKGKK6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Nov 2019 05:10:58 -0500
+Received: by mail-pf1-f194.google.com with SMTP id v19so2360660pfm.3
+        for <linux-media@vger.kernel.org>; Thu, 07 Nov 2019 02:10:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=umQYThIuCS7c9882fJTWJaLRcdLby63dTiBGU/XLOo4=;
+        b=FvfP3DHO59Af1GlUM7aPeBB7H7WxgIS5YP1WOSD3ZobUgr1QxUERE7HZKul/eJkFCq
+         AYC4xme6fkjU8lCSc2cLPn+hHoLUzOtjllxy+9r5XOR2yG/h5cvTsBV2D2MvzZeyHvNY
+         aaiCP4p0EnCdKS20kHjpzHftOYu/zT5JD+9Rc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=umQYThIuCS7c9882fJTWJaLRcdLby63dTiBGU/XLOo4=;
+        b=mbZlStFHpbyN+J4PWqr7kzk7HilHx9mgUIaUWyZnIBYnv98WjXN7YfISDY06d8JFgO
+         7vLcRJmiBh4mN/XlOYmOd5EmIBgij+kkUjuwSE4Ahq0DRGjQgc5t/b/U6kS6K7z0bwPJ
+         ILZd4NvL0O3t25eALW1QYeX67JG7vGLsMHcQbRyi49RrJ8p/A6KAlc+P3ER/61LJmt5Q
+         SDwVdicqYz/ja0lNBgHT044kz/oN/gWe2dIpX7+13D+AAzBLrVmyAWLaiIznAQ5mCfUG
+         nvV2iX6DmU6i5P1CqjVCkGBrpBnzynz0IYQdFdTgM4THbmaLsq7b2y6fmnUjFKjBEFeU
+         5O5A==
+X-Gm-Message-State: APjAAAXOWSQuHVO6IsyafkC7steqUSBhnaqDG8+2x5m0KJLsYeuuvJ1P
+        u9ZnJu6DQl7VFXaN76RFOD9NVQ==
+X-Google-Smtp-Source: APXvYqzB390EEhabtZNegLu+AcF5HDph81Kp+QvNUBavqnqvJD61yaAO317SbJiRCO/+mp9kk980OQ==
+X-Received: by 2002:a65:5a06:: with SMTP id y6mr3518613pgs.9.1573121457287;
+        Thu, 07 Nov 2019 02:10:57 -0800 (PST)
+Received: from pihsun-z840.tpe.corp.google.com ([2401:fa00:1:10:7889:7a43:f899:134c])
+        by smtp.googlemail.com with ESMTPSA id s11sm1465590pjp.26.2019.11.07.02.10.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Nov 2019 02:10:56 -0800 (PST)
+From:   Pi-Hsun Shih <pihsun@chromium.org>
+Cc:     Pi-Hsun Shih <pihsun@chromium.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Ricardo Ribalda Delgado <ribalda@kernel.org>,
+        Pawel Osciak <posciak@chromium.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        sumitg <sumitg@nvidia.com>,
+        linux-media@vger.kernel.org (open list:MEDIA INPUT INFRASTRUCTURE
+        (V4L/DVB)), linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] media: v4l2-ctrl: Lock main_hdl on operations of requests_queued.
+Date:   Thu,  7 Nov 2019 18:10:14 +0800
+Message-Id: <20191107101016.137186-1-pihsun@chromium.org>
+X-Mailer: git-send-email 2.24.0.rc1.363.gb1bccd3e3d-goog
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-11-07_02:2019-11-07,2019-11-07 signatures=0
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGkNCg0KT24gMTEvNi8xOSAxMDoyMSBQTSwgV29sZnJhbSBTYW5nIHdyb3RlOg0KPiBVc2UgdGhl
-IG5ld2VyIEFQSSByZXR1cm5pbmcgYW4gRVJSUFRSIGFuZCB1c2UgdGhlIG5ldyBoZWxwZXIgdG8g
-YmFpbA0KPiBvdXQuDQo+DQo+IFNpZ25lZC1vZmYtYnk6IFdvbGZyYW0gU2FuZyA8d3NhK3JlbmVz
-YXNAc2FuZy1lbmdpbmVlcmluZy5jb20+DQo+IC0tLQ0KPiAgZHJpdmVycy9tZWRpYS9wbGF0Zm9y
-bS9zdGkvYzhzZWN0cGZlL2M4c2VjdHBmZS1kdmIuYyB8IDQgKystLQ0KPiAgMSBmaWxlIGNoYW5n
-ZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkNCj4NCj4gZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvbWVkaWEvcGxhdGZvcm0vc3RpL2M4c2VjdHBmZS9jOHNlY3RwZmUtZHZiLmMgYi9kcml2
-ZXJzL21lZGlhL3BsYXRmb3JtL3N0aS9jOHNlY3RwZmUvYzhzZWN0cGZlLWR2Yi5jDQo+IGluZGV4
-IGE3OTI1MGE3ZjgxMi4uMTAzODcyMjY2NTY1IDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL21lZGlh
-L3BsYXRmb3JtL3N0aS9jOHNlY3RwZmUvYzhzZWN0cGZlLWR2Yi5jDQo+ICsrKyBiL2RyaXZlcnMv
-bWVkaWEvcGxhdGZvcm0vc3RpL2M4c2VjdHBmZS9jOHNlY3RwZmUtZHZiLmMNCj4gQEAgLTE3MCw4
-ICsxNzAsOCBAQCBpbnQgYzhzZWN0cGZlX2Zyb250ZW5kX2F0dGFjaChzdHJ1Y3QgZHZiX2Zyb250
-ZW5kICoqZmUsDQo+ICANCj4gIAkJLyogYXR0YWNoIHR1bmVyICovDQo+ICAJCXJlcXVlc3RfbW9k
-dWxlKCJ0ZGExODIxMiIpOw0KPiAtCQljbGllbnQgPSBpMmNfbmV3X2RldmljZSh0c2luLT5pMmNf
-YWRhcHRlciwgJnRkYTE4MjEyX2luZm8pOw0KPiAtCQlpZiAoIWNsaWVudCB8fCAhY2xpZW50LT5k
-ZXYuZHJpdmVyKSB7DQo+ICsJCWNsaWVudCA9IGkyY19uZXdfY2xpZW50X2RldmljZSh0c2luLT5p
-MmNfYWRhcHRlciwgJnRkYTE4MjEyX2luZm8pOw0KPiArCQlpZiAoIWkyY19jbGllbnRfaGFzX2Ry
-aXZlcihjbGllbnQpKSB7DQo+ICAJCQlkdmJfZnJvbnRlbmRfZGV0YWNoKCpmZSk7DQo+ICAJCQly
-ZXR1cm4gLUVOT0RFVjsNCj4gIAkJfQ0KDQpSZXZpZXdlZC1ieTogUGF0cmljZSBDaG90YXJkIDxw
-YXRyaWNlLmNob3RhcmRAc3QuY29tPg0KDQoNClRoYW5rcw0K
+There's a race condition between the list_del_init in the
+v4l2_ctrl_request_complete, and the list_add_tail in the
+v4l2_ctrl_request_queue, since they can be called in different thread
+and the requests_queued list is not protected by a lock. This can lead
+to that the v4l2_ctrl_handler is still in the requests_queued list while
+the request_is_queued is already set to false, which would cause
+use-after-free if the v4l2_ctrl_handler is later released.
+
+Fix this by locking the ->lock of main_hdl (which is the owner of the
+requests_queued list) when doing list operations on the
+->requests_queued list.
+
+Signed-off-by: Pi-Hsun Shih <pihsun@chromium.org>
+---
+ drivers/media/v4l2-core/v4l2-ctrls.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+index b4caf2d4d076..22e6c82d58b9 100644
+--- a/drivers/media/v4l2-core/v4l2-ctrls.c
++++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+@@ -3301,6 +3301,7 @@ static void v4l2_ctrl_request_queue(struct media_request_object *obj)
+ 	struct v4l2_ctrl_handler *prev_hdl = NULL;
+ 	struct v4l2_ctrl_ref *ref_ctrl, *ref_ctrl_prev = NULL;
+ 
++	mutex_lock(main_hdl->lock);
+ 	if (list_empty(&main_hdl->requests_queued))
+ 		goto queue;
+ 
+@@ -3332,18 +3333,22 @@ static void v4l2_ctrl_request_queue(struct media_request_object *obj)
+ queue:
+ 	list_add_tail(&hdl->requests_queued, &main_hdl->requests_queued);
+ 	hdl->request_is_queued = true;
++	mutex_unlock(main_hdl->lock);
+ }
+ 
+ static void v4l2_ctrl_request_unbind(struct media_request_object *obj)
+ {
+ 	struct v4l2_ctrl_handler *hdl =
+ 		container_of(obj, struct v4l2_ctrl_handler, req_obj);
++	struct v4l2_ctrl_handler *main_hdl = obj->priv;
+ 
+ 	list_del_init(&hdl->requests);
++	mutex_lock(main_hdl->lock);
+ 	if (hdl->request_is_queued) {
+ 		list_del_init(&hdl->requests_queued);
+ 		hdl->request_is_queued = false;
+ 	}
++	mutex_unlock(main_hdl->lock);
+ }
+ 
+ static void v4l2_ctrl_request_release(struct media_request_object *obj)
+@@ -4297,9 +4302,11 @@ void v4l2_ctrl_request_complete(struct media_request *req,
+ 		v4l2_ctrl_unlock(ctrl);
+ 	}
+ 
++	mutex_lock(main_hdl->lock);
+ 	WARN_ON(!hdl->request_is_queued);
+ 	list_del_init(&hdl->requests_queued);
+ 	hdl->request_is_queued = false;
++	mutex_unlock(main_hdl->lock);
+ 	media_request_object_complete(obj);
+ 	media_request_object_put(obj);
+ }
+
+base-commit: dcd34bd234181ec74f081c7d0025204afe6b213e
+-- 
+2.24.0.rc1.363.gb1bccd3e3d-goog
+
