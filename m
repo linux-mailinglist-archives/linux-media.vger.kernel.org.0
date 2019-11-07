@@ -2,137 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BFA4EF2475
-	for <lists+linux-media@lfdr.de>; Thu,  7 Nov 2019 02:45:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CFF60F2553
+	for <lists+linux-media@lfdr.de>; Thu,  7 Nov 2019 03:25:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727994AbfKGBpR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 Nov 2019 20:45:17 -0500
-Received: from mail-qt1-f196.google.com ([209.85.160.196]:43033 "EHLO
-        mail-qt1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727772AbfKGBpR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 6 Nov 2019 20:45:17 -0500
-Received: by mail-qt1-f196.google.com with SMTP id l24so592502qtp.10;
-        Wed, 06 Nov 2019 17:45:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=sT9JhCsm7ji7ANGvO8aOX9ZWgfUj6JLCR9TWfO6QprI=;
-        b=XtTKLwu4bHiLHqcm4xyDss30UijRbtv8JirrGKJsiZ0bsGk2pvsaYtKCXSLBThlpA1
-         NwwxGXNUzfBsGkU45VjO1qj7DEhh/0FjRE/PdjdZEBYBAelAyBosPAtv9K7dG9aubMdi
-         YqKQixTNl3OIU1VdUS3wKEuSKM3QWXnh1PMOdPkoQXbsdFQbpVZ+ZvZmyelRttDweQIV
-         Pfh3vth7QDS5Z1xgPvvrAikxhVOqkhThI0wF4WAugEmY794C+MxknPKc5uKSEMsgyjQW
-         zWH66Gse0C23wp+aOrVwr2vuyahnEehEtZcwnHwWWSn/9SHOs85WV9/sa/qY+sV37iup
-         Tsvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=sT9JhCsm7ji7ANGvO8aOX9ZWgfUj6JLCR9TWfO6QprI=;
-        b=ePqRpdDRZceiUdrimU2T43y3RyPcRPA5aiO42xHFKP0ozbp4lW8AY2cpxTSSDgJYNY
-         MMmK2PO1lk5K+elODSOj6mKaSzA8wsGzaZ5oH9XjdaCLNGFppnydTcQ+dPmOvXYT8W05
-         0vBC3mzhyCk2brPLbX4kYdZ/BXqac+9I9SgvFE+5uWaJf0eaEmBuNMIiRtj1PicLrXkG
-         gUNdywK26Cr9d1Rs7fPJaojNIZC5cvsTmX8hQ334oAaUDWTrqPnCZEre+MeqN3HUf5bg
-         7lXAxvbrvVzdlyOJVP0pjqoJGwkbHUntMkEQtTzf6byqZf4e2LWuUi9VpYYfStGWMXNf
-         mZ1w==
-X-Gm-Message-State: APjAAAUpbJhUBO8nA0He22R4Zds1wKyVUqZOGBwu2bnEXj1MPUphkYYR
-        mSxueOoMDg2uFa0d+vxJF1Y=
-X-Google-Smtp-Source: APXvYqyUk/PO1CBION0aoWcHxLD0lwe3UjcGIiPjoWQdyHpIYi35jCEX+J4uoUa92p3JqbLbqyZoVQ==
-X-Received: by 2002:ac8:344a:: with SMTP id v10mr1198317qtb.323.1573091116010;
-        Wed, 06 Nov 2019 17:45:16 -0800 (PST)
-Received: from localhost.localdomain ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
-        by smtp.gmail.com with ESMTPSA id w24sm579224qta.44.2019.11.06.17.45.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Nov 2019 17:45:15 -0800 (PST)
-From:   "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-X-Google-Original-From: Daniel W. S. Almeida
-To:     mchehab@kernel.org, gregkh@linuxfoundation.org,
-        rfontana@redhat.com, kstewart@linuxfoundation.org,
-        tglx@linutronix.de
-Cc:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
-        skhan@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: dvb_dummy_fe: Add error messages in case of attach failure
-Date:   Wed,  6 Nov 2019 22:37:45 -0300
-Message-Id: <20191107013745.22147-1-dwlsalmeida@gmail.com>
-X-Mailer: git-send-email 2.24.0
+        id S1732976AbfKGCZK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 Nov 2019 21:25:10 -0500
+Received: from mga12.intel.com ([192.55.52.136]:35901 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727778AbfKGCZK (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 6 Nov 2019 21:25:10 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 06 Nov 2019 18:25:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,276,1569308400"; 
+   d="scan'208";a="227685020"
+Received: from iweiny-desk2.sc.intel.com ([10.3.52.157])
+  by fmsmga004.fm.intel.com with ESMTP; 06 Nov 2019 18:25:08 -0800
+Date:   Wed, 6 Nov 2019 18:25:08 -0800
+From:   Ira Weiny <ira.weiny@intel.com>
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Mike Rapoport <rppt@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
+        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 05/18] mm/gup: introduce pin_user_pages*() and FOLL_PIN
+Message-ID: <20191107022508.GB32084@iweiny-DESK2.sc.intel.com>
+References: <20191103211813.213227-1-jhubbard@nvidia.com>
+ <20191103211813.213227-6-jhubbard@nvidia.com>
+ <20191105131032.GG25005@rapoport-lnx>
+ <9ac948a4-59bf-2427-2007-e460aad2848a@nvidia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9ac948a4-59bf-2427-2007-e460aad2848a@nvidia.com>
+User-Agent: Mutt/1.11.1 (2018-12-01)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+> 
+> 
+> ...
+> >> +This document describes the following functions: ::
+> >> +
+> >> + pin_user_pages
+> >> + pin_user_pages_fast
+> >> + pin_user_pages_remote
+> >> +
+> >> + pin_longterm_pages
+> >> + pin_longterm_pages_fast
+> >> + pin_longterm_pages_remote
+> >> +
+> >> +Basic description of FOLL_PIN
+> >> +=============================
+> >> +
+> >> +A new flag for get_user_pages ("gup") has been added: FOLL_PIN. FOLL_PIN has
+> > 
+> > Consider reading this after, say, half a year ;-)
+> > 
+> 
+> OK, OK. I knew when I wrote that that it was not going to stay new forever, but
+> somehow failed to write the right thing anyway. :) 
+> 
+> Here's a revised set of paragraphs:
+> 
+> Basic description of FOLL_PIN
+> =============================
+> 
+> FOLL_PIN and FOLL_LONGTERM are flags that can be passed to the get_user_pages*()
+> ("gup") family of functions. FOLL_PIN has significant interactions and
+> interdependencies with FOLL_LONGTERM, so both are covered here.
+> 
+> Both FOLL_PIN and FOLL_LONGTERM are internal to gup, meaning that neither
+> FOLL_PIN nor FOLL_LONGTERM should not appear at the gup call sites. This allows
+> the associated wrapper functions  (pin_user_pages() and others) to set the
+> correct combination of these flags, and to check for problems as well.
 
-Complain if the attach functions fail, for any reason. This is helpful
-when debugging.
+I like this revision as well.
 
-Suggested-by: Shuah Khan <skhan@linuxfoundation.org>
-Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
----
- drivers/media/dvb-frontends/dvb_dummy_fe.c | 18 +++++++++++++++---
- 1 file changed, 15 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/media/dvb-frontends/dvb_dummy_fe.c b/drivers/media/dvb-frontends/dvb_dummy_fe.c
-index 4db679cb70ad..ca86857c3667 100644
---- a/drivers/media/dvb-frontends/dvb_dummy_fe.c
-+++ b/drivers/media/dvb-frontends/dvb_dummy_fe.c
-@@ -114,12 +114,16 @@ struct dvb_frontend* dvb_dummy_fe_ofdm_attach(void)
- 	/* allocate memory for the internal state */
- 	state = kzalloc(sizeof(struct dvb_dummy_fe_state), GFP_KERNEL);
- 	if (!state)
--		return NULL;
-+		goto err;
- 
- 	/* create dvb_frontend */
- 	memcpy(&state->frontend.ops, &dvb_dummy_fe_ofdm_ops, sizeof(struct dvb_frontend_ops));
- 	state->frontend.demodulator_priv = state;
- 	return &state->frontend;
-+
-+err:
-+	pr_err("%s: DVB Dummy frontend driver attach failed\n", __func__);
-+	return NULL;
- }
- 
- static const struct dvb_frontend_ops dvb_dummy_fe_qpsk_ops;
-@@ -131,12 +135,16 @@ struct dvb_frontend *dvb_dummy_fe_qpsk_attach(void)
- 	/* allocate memory for the internal state */
- 	state = kzalloc(sizeof(struct dvb_dummy_fe_state), GFP_KERNEL);
- 	if (!state)
--		return NULL;
-+		goto err;
- 
- 	/* create dvb_frontend */
- 	memcpy(&state->frontend.ops, &dvb_dummy_fe_qpsk_ops, sizeof(struct dvb_frontend_ops));
- 	state->frontend.demodulator_priv = state;
- 	return &state->frontend;
-+
-+err:
-+	pr_err("%s: DVB Dummy frontend driver attach failed\n", __func__);
-+	return NULL;
- }
- 
- static const struct dvb_frontend_ops dvb_dummy_fe_qam_ops;
-@@ -148,12 +156,16 @@ struct dvb_frontend *dvb_dummy_fe_qam_attach(void)
- 	/* allocate memory for the internal state */
- 	state = kzalloc(sizeof(struct dvb_dummy_fe_state), GFP_KERNEL);
- 	if (!state)
--		return NULL;
-+		goto err;
- 
- 	/* create dvb_frontend */
- 	memcpy(&state->frontend.ops, &dvb_dummy_fe_qam_ops, sizeof(struct dvb_frontend_ops));
- 	state->frontend.demodulator_priv = state;
- 	return &state->frontend;
-+
-+err:
-+	pr_err("%s: DVB Dummy frontend driver attach failed\n", __func__);
-+	return NULL;
- }
- 
- static const struct dvb_frontend_ops dvb_dummy_fe_ofdm_ops = {
--- 
-2.24.0
+Ira
 
