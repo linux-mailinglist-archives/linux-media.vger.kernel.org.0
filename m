@@ -2,113 +2,291 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 82CEBF28E8
-	for <lists+linux-media@lfdr.de>; Thu,  7 Nov 2019 09:13:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F2BF3F2914
+	for <lists+linux-media@lfdr.de>; Thu,  7 Nov 2019 09:29:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726829AbfKGINp convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Thu, 7 Nov 2019 03:13:45 -0500
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:40798 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726734AbfKGINo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Nov 2019 03:13:44 -0500
-Received: by mail-oi1-f196.google.com with SMTP id 22so1200811oip.7;
-        Thu, 07 Nov 2019 00:13:44 -0800 (PST)
+        id S1726832AbfKGI3V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Nov 2019 03:29:21 -0500
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:36160 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726734AbfKGI3U (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Nov 2019 03:29:20 -0500
+Received: by mail-lj1-f194.google.com with SMTP id k15so1260310lja.3
+        for <linux-media@vger.kernel.org>; Thu, 07 Nov 2019 00:29:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=a3+d5xIyhC5qVmUtjLbT1ugS5PQrplb9JVUjl46Vt94=;
+        b=AsWIvVhYw1Ae9pM1AGqKdEGeP3VxTmwqG7/8s2/4kWvM5uOqAo8h0mkFzsi/PzlD2L
+         XXFzHvreiPwdVcLURS51ucV8YCjs2mQEvIVTNAaqaziJsxHZ89JgQuric363o0/wVzeA
+         YU/2uw715c+H66cdf7cNhHvCo+gvE+6MxGS/Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=9nazdWnirCfxRXV5xY0vu3a90rtbot0vudbsckGOh3k=;
-        b=R6FLxNBT6oJsh7IS6rUSAyvdr/KK88kS5u03hbPKcL5Mp1SW81MxaFX8xf9yF8aii8
-         s5nvQaOvgTWcUwORzz2eiK3lRZtkeQaCnnUQobWFgwRPyIYCDc6JjW3qAM7pD+m4aoP9
-         fcWlo/PvJf0q1JRq1qbCrIwU98XBE7i/Yu/qvBRZ0qtZVvlSRIEggN1FgJpwBnhpSf2v
-         mlzkiNjcn7tZ8ybMLkuRuheqQQ/QPU8gCNGG9mUHfFfEbg3MYzUtKd7wXr78Hov5kq+u
-         WLGnb+kGFVVn7LyChDCVyI8FYpKybnMR5f2lQYzBO2Ogj0czy7hOaD1+TdsU13V3Yf8w
-         le8Q==
-X-Gm-Message-State: APjAAAWJRIFZVAU3H1EYHmr/mzrGVqVbwrBjylqBMnyOtYRsN3tmAzJF
-        p/A9WLvE2fQ+DtocbsX7cou0Mt4oYLOiSe/Uk2m+zTAR
-X-Google-Smtp-Source: APXvYqzG1X4VVM8A9RduBROmxxiAeni2cVDVws2za6mhTCF+gL1IaXOEdsNzB0P7I7PMf7pp/itm0o9nb1eq2VQiVZI=
-X-Received: by 2002:aca:3a86:: with SMTP id h128mr2176021oia.131.1573114423794;
- Thu, 07 Nov 2019 00:13:43 -0800 (PST)
+         :message-id:subject:to:cc;
+        bh=a3+d5xIyhC5qVmUtjLbT1ugS5PQrplb9JVUjl46Vt94=;
+        b=Z3ACNEYDz3e+U/0kO8R7l6Kx5Ee+T/T5MB4lUkeHRnNbHKQ0wTbFoKtTjKufD58RME
+         isEQH1f8GZJIYLReWQDWaQqZHjrzzQX7ol/XmWu+j4rS8kB69NUMFlhcsOFEiMR25eKc
+         edX9pGt4GWm1QIjjL3ryWVRMo74+XW+lbc/Qggf3MN6E0EA8GmZoM8B6JWDTI627MaOB
+         f5d+f1pYNFToRCZ+rrQkEFJNgWChIZ0vJk93hPBel4TJewJRrqhTnpr9VapxK1P5qkVa
+         M0roOEl+EkTqwDCrEwflGTQnNJp98H+UQOIDlKS6owb/kCK2x6ePhd0rtCmLNmFkfrw1
+         KGGg==
+X-Gm-Message-State: APjAAAXGR6XurumLxLdNyRxzMqiB7RIwoMbLsyB6DmHSOMsRh7Ty3/D+
+        PlqXPftsajsXzKtlsfKXtWAyRnpnEqOA1GxJ+jP4GA==
+X-Google-Smtp-Source: APXvYqwyno6izKTDBTZ5zNaZuA5CHF5bof1qafL4yvySM725QQi9cXuLZtbVONN+wzWSQKnBQuqYH2avw9s8AetKifo=
+X-Received: by 2002:a2e:7c10:: with SMTP id x16mr1441003ljc.120.1573115358358;
+ Thu, 07 Nov 2019 00:29:18 -0800 (PST)
 MIME-Version: 1.0
-References: <20191106232304.2332121-1-niklas.soderlund+renesas@ragnatech.se>
- <CAMuHMdW-i+L0pQx1WRWUZ6_BWF0ujQ-4s9TXNfAM9w5OHcgR+g@mail.gmail.com> <20191107074722.GH18345@bigcity.dyn.berto.se>
-In-Reply-To: <20191107074722.GH18345@bigcity.dyn.berto.se>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 7 Nov 2019 09:13:32 +0100
-Message-ID: <CAMuHMdWnt=8BDKKZco_0GMfOncT9r6CZ1P-rXZN19Dmc_ti4wA@mail.gmail.com>
-Subject: Re: [PATCH] rcar-vin: Limit NV12 availability to supported VIN
- channels only
-To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+References: <20190919093404.182015-1-keiichiw@chromium.org>
+ <4037801.MZecyecTDs@os-lin-dmo> <CAAFQd5CfNK1oisDaOWaW+9NTQOLn1EHPrPzvxMPcSxLkBgv3Ww@mail.gmail.com>
+ <15135216.K0K410U5qv@os-lin-dmo> <CAAFQd5DuChujakwmhtQ8v2CSLFqVYjLz9eGHuqrQnJ7apft+3Q@mail.gmail.com>
+ <20191017071952.s3dq2oxdiy3khp5w@sirius.home.kraxel.org> <CAAFQd5ByuyTDqwiBeT7U7cVA8omOPGRRxb2tB8=J-u7WYU-urQ@mail.gmail.com>
+ <20191017101304.pbjoj3knyveuacqm@sirius.home.kraxel.org> <CAD=HUj7-q4+L0JTauSg-CU-jVGzgWAFVdHa78QdfDUo8FH_YKw@mail.gmail.com>
+In-Reply-To: <CAD=HUj7-q4+L0JTauSg-CU-jVGzgWAFVdHa78QdfDUo8FH_YKw@mail.gmail.com>
+From:   Keiichi Watanabe <keiichiw@chromium.org>
+Date:   Thu, 7 Nov 2019 17:29:07 +0900
+Message-ID: <CAD90VcYSD8JAi_K48be5=tuKfiyfgRvt4FrQjoJRbvmLPZ9FFQ@mail.gmail.com>
+Subject: Re: [virtio-dev] [PATCH] [RFC RESEND] vdec: Add virtio video decode
+ device specification
+To:     David Stevens <stevensd@chromium.org>
+Cc:     Gerd Hoffmann <kraxel@redhat.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Dmitry Morozov <dmitry.morozov@opensynergy.com>,
+        virtio-dev@lists.oasis-open.org,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Alex Lau <alexlau@chromium.org>,
+        Dylan Reid <dgreid@chromium.org>,
+        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
+        Pawel Osciak <posciak@chromium.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+        Daniel Vetter <daniel@ffwll.ch>, nicolas.dufresne@collabora.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Niklas,
+Hi everyone,
 
-On Thu, Nov 7, 2019 at 8:47 AM Niklas Söderlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> On 2019-11-07 08:41:11 +0100, Geert Uytterhoeven wrote:
-> > On Thu, Nov 7, 2019 at 12:25 AM Niklas Söderlund
-> > <niklas.soderlund+renesas@ragnatech.se> wrote:
-> > > When adding support for NV12 it was overlooked that the pixel format is
-> > > only supported on some VIN channels. Fix this by adding a check to only
-> > > accept NV12 on the supported channels (0, 1, 4, 5, 8, 9, 12 and 13).
-> > >
-> > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> >
-> > Thanks for your patch!
-> >
-> > > --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> > > +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> > > @@ -76,7 +76,12 @@ const struct rvin_video_format *rvin_format_from_pixel(struct rvin_dev *vin,
-> > >         if (vin->info->model == RCAR_M1 && pixelformat == V4L2_PIX_FMT_XBGR32)
-> > >                 return NULL;
-> > >
-> > > -       if (pixelformat == V4L2_PIX_FMT_NV12 && !vin->info->nv12)
-> > > +       /*
-> > > +        * If NV12 is supported it's only supported on some channels (0, 1, 4,
-> > > +        * 5, 8, 9, 12 and 13).
-> >
-> > Is this true for all SoCs, or do you need a vin->info->model == RCAR_GEN3
-> > check?
+Thanks for all the comments.
+
+As Gerd created a separate thread for buffer sharing
+(https://markmail.org/message/jeh5xjjxvylyrbur), I wonder if we can start a
+discussion on the protocol details in this thread now. I think the details of
+buffer sharing shouldn't affect overall design of the virtio-vdec protocol so
+much.
+
+Any feedback would be greatly appreciated. Thanks in advance.
+
+Best regards,
+Keiichi
+
+On Thu, Oct 31, 2019 at 6:11 PM David Stevens <stevensd@chromium.org> wrote:
 >
-> NV12 is only supported by most Gen3 SoCs, but no extra check is needed
-> as vin->info->nv12 is only set for the Gen3 SoCs that can support NV12.
-
-Thanks, had missed the meaning of the vin->info->nv12 check.
-
-> > > +        */
-> > > +       if (pixelformat == V4L2_PIX_FMT_NV12 &&
-> > > +           (!vin->info->nv12 || BIT(vin->id) & 0xcccc))
-> > >                 return NULL;
-> >
-> > So 0xcccc = ~(BIT(0) | BIT(1) | BIT(4) | ...)?
+> [Resending after subscribing to virtio-dev, sorry for the noise]
 >
-> Yes.
+> > When running drm-misc-next you should be able to test whenever that'll
+> > actually work without any virtio-gpu driver changes.
 >
-> > What if you ever have an id larger than 15?
-> > Wouldn't it be safer to check for !(BIT(vin->id) & 0x3333)?
+> I did some experimentation with the Chrome OS kernel-next branch
+> (based on v5.4-rc3) plus drm-misc-next. I looked at both the chromeos
+> downstream virtio-wayland driver as well as the virtio-vdec driver
+> that was recently proposed to upstream.
 >
-> There is no SoC with more then 16 VIN instances, today... Maybe your
-> suggestion of the inverted check makes more sens. Will respin a v2.
-
-OK.  BTW, the code may look nicer if you start using a
-"switch (pixelformat) { ... }" block to handle all special cases.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> Using the dma address of buffers generally works. However, it does
+> require the addition of some synchronization in the virtio-gpu driver
+> to prevent races between the virtio-gpu device registering the buffer
+> with the guest dma address (which happens with the ATTACH_BACKING
+> command) and other virtio devices using the guest dma address as a
+> buffer identifier. I've included a patch that adds this
+> synchronization.
+>
+> Signed-off-by: David Stevens <stevensd@chromium.org>
+> ---
+>  drivers/gpu/drm/virtio/virtgpu_drv.h    |  2 +
+>  drivers/gpu/drm/virtio/virtgpu_object.c | 15 +++++-
+>  drivers/gpu/drm/virtio/virtgpu_vq.c     | 64 +++++++++++++++++++++----
+>  3 files changed, 71 insertions(+), 10 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h
+> b/drivers/gpu/drm/virtio/virtgpu_drv.h
+> index 314e02f94d9c4..00a2c0e6b6382 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_drv.h
+> +++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+> @@ -72,6 +72,8 @@ struct virtio_gpu_object {
+>         uint32_t mapped;
+>         bool dumb;
+>         bool created;
+> +
+> +       bool attach_backing_complete;
+>  };
+>  #define gem_to_virtio_gpu_obj(gobj) \
+>         container_of((gobj), struct virtio_gpu_object, base.base)
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_object.c
+> b/drivers/gpu/drm/virtio/virtgpu_object.c
+> index 017a9e0fc3bb8..812a0a48f6385 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_object.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_object.c
+> @@ -75,13 +75,26 @@ static void virtio_gpu_free_object(struct
+> drm_gem_object *obj)
+>         drm_gem_shmem_free_object(obj);
+>  }
+>
+> +int virtio_gpu_gem_object_pin(struct drm_gem_object *obj)
+> +{
+> +       struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(obj);
+> +       struct virtio_gpu_device *vgdev = obj->dev->dev_private;
+> +
+> +       if (!bo->attach_backing_complete)
+> +               wait_event(vgdev->resp_wq, bo->attach_backing_complete);
+> +       if (!bo->attach_backing_complete)
+> +               return -EFAULT;
+> +
+> +       return drm_gem_shmem_pin(obj);
+> +}
+> +
+>  static const struct drm_gem_object_funcs virtio_gpu_gem_funcs = {
+>         .free = virtio_gpu_free_object,
+>         .open = virtio_gpu_gem_object_open,
+>         .close = virtio_gpu_gem_object_close,
+>
+>         .print_info = drm_gem_shmem_print_info,
+> -       .pin = drm_gem_shmem_pin,
+> +       .pin = virtio_gpu_gem_object_pin,
+>         .unpin = drm_gem_shmem_unpin,
+>         .get_sg_table = drm_gem_shmem_get_sg_table,
+>         .vmap = drm_gem_shmem_vmap,
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c
+> b/drivers/gpu/drm/virtio/virtgpu_vq.c
+> index 80176f379ad51..8bc2359a6d625 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_vq.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
+> @@ -579,26 +579,42 @@ void virtio_gpu_cmd_transfer_to_host_2d(struct
+> virtio_gpu_device *vgdev,
+>         virtio_gpu_queue_fenced_ctrl_buffer(vgdev, vbuf, &cmd_p->hdr, fence);
+>  }
+>
+> +static void
+> +virtio_gpu_cmd_resource_attach_backing_cb(struct virtio_gpu_device *vgdev,
+> +                                         struct virtio_gpu_vbuffer *vbuf)
+> +{
+> +       struct virtio_gpu_object_array *objs = vbuf->objs;
+> +       struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(objs->objs[0]);
+> +
+> +       bo->attach_backing_complete = true;
+> +       wake_up_all(&vgdev->resp_wq);
+> +}
+> +
+>  static void
+>  virtio_gpu_cmd_resource_attach_backing(struct virtio_gpu_device *vgdev,
+> -                                      uint32_t resource_id,
+> +                                      struct virtio_gpu_object *bo,
+>                                        struct virtio_gpu_mem_entry *ents,
+>                                        uint32_t nents,
+> +                                      struct virtio_gpu_object_array *objs,
+>                                        struct virtio_gpu_fence *fence)
+>  {
+>         struct virtio_gpu_resource_attach_backing *cmd_p;
+>         struct virtio_gpu_vbuffer *vbuf;
+>
+> -       cmd_p = virtio_gpu_alloc_cmd(vgdev, &vbuf, sizeof(*cmd_p));
+> +       cmd_p = virtio_gpu_alloc_cmd_resp(
+> +               vgdev, virtio_gpu_cmd_resource_attach_backing_cb, &vbuf,
+> +               sizeof(*cmd_p), sizeof(struct virtio_gpu_ctrl_hdr), NULL);
+>         memset(cmd_p, 0, sizeof(*cmd_p));
+>
+>         cmd_p->hdr.type = cpu_to_le32(VIRTIO_GPU_CMD_RESOURCE_ATTACH_BACKING);
+> -       cmd_p->resource_id = cpu_to_le32(resource_id);
+> +       cmd_p->resource_id = cpu_to_le32(bo->hw_res_handle);
+>         cmd_p->nr_entries = cpu_to_le32(nents);
+>
+>         vbuf->data_buf = ents;
+>         vbuf->data_size = sizeof(*ents) * nents;
+>
+> +       vbuf->objs = objs;
+> +
+>         virtio_gpu_queue_fenced_ctrl_buffer(vgdev, vbuf, &cmd_p->hdr, fence);
+>  }
+>
+> @@ -1048,9 +1064,10 @@ int virtio_gpu_object_attach(struct
+> virtio_gpu_device *vgdev,
+>                              struct virtio_gpu_fence *fence)
+>  {
+>         bool use_dma_api = !virtio_has_iommu_quirk(vgdev->vdev);
+> +       struct virtio_gpu_object_array *objs = NULL;
+>         struct virtio_gpu_mem_entry *ents;
+>         struct scatterlist *sg;
+> -       int si, nents, ret;
+> +       int si, nents, ret = 0;
+>
+>         if (WARN_ON_ONCE(!obj->created))
+>                 return -EINVAL;
+> @@ -1063,8 +1080,8 @@ int virtio_gpu_object_attach(struct
+> virtio_gpu_device *vgdev,
+>
+>         obj->pages = drm_gem_shmem_get_sg_table(&obj->base.base);
+>         if (obj->pages == NULL) {
+> -               drm_gem_shmem_unpin(&obj->base.base);
+> -               return -EINVAL;
+> +               ret = -EINVAL;
+> +               goto err_unpin;
+>         }
+>
+>         if (use_dma_api) {
+> @@ -1081,7 +1098,8 @@ int virtio_gpu_object_attach(struct
+> virtio_gpu_device *vgdev,
+>                              GFP_KERNEL);
+>         if (!ents) {
+>                 DRM_ERROR("failed to allocate ent list\n");
+> -               return -ENOMEM;
+> +               ret = -ENOMEM;
+> +               goto err_unmap;
+>         }
+>
+>         for_each_sg(obj->pages->sgl, sg, nents, si) {
+> @@ -1092,10 +1110,38 @@ int virtio_gpu_object_attach(struct
+> virtio_gpu_device *vgdev,
+>                 ents[si].padding = 0;
+>         }
+>
+> -       virtio_gpu_cmd_resource_attach_backing(vgdev, obj->hw_res_handle,
+> +       objs = virtio_gpu_array_alloc(1);
+> +       if (!objs) {
+> +               ret = -ENOMEM;
+> +               goto err_free_ents;
+> +       }
+> +       virtio_gpu_array_add_obj(objs, &obj->base.base);
+> +
+> +       if (fence) {
+> +               ret = virtio_gpu_array_lock_resv(objs);
+> +               if (ret != 0)
+> +                       goto err_put_objs;
+> +       }
+> +
+> +       virtio_gpu_cmd_resource_attach_backing(vgdev, obj,
+>                                                ents, nents,
+> -                                              fence);
+> +                                              objs, fence);
+>         return 0;
+> +
+> +err_put_objs:
+> +       virtio_gpu_array_put_free(objs);
+> +err_free_ents:
+> +       kfree(ents);
+> +err_unmap:
+> +       if (use_dma_api) {
+> +               dma_unmap_sg(vgdev->vdev->dev.parent,
+> +                            obj->pages->sgl, obj->pages->nents,
+> +                            DMA_TO_DEVICE);
+> +               obj->mapped = 0;
+> +       }
+> +err_unpin:
+> +       drm_gem_shmem_unpin(&obj->base.base);
+> +       return ret;
+>  }
+>
+>  void virtio_gpu_object_detach(struct virtio_gpu_device *vgdev,
+> --
+> 2.24.0.rc0.303.g954a862665-goog
