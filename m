@@ -2,170 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C0E06F28B4
-	for <lists+linux-media@lfdr.de>; Thu,  7 Nov 2019 09:07:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 82CEBF28E8
+	for <lists+linux-media@lfdr.de>; Thu,  7 Nov 2019 09:13:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727637AbfKGIHW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Nov 2019 03:07:22 -0500
-Received: from mail.kernel.org ([198.145.29.99]:60672 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726791AbfKGIHV (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 7 Nov 2019 03:07:21 -0500
-Received: from rapoport-lnx (nesher1.haifa.il.ibm.com [195.110.40.7])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 14F2F2077C;
-        Thu,  7 Nov 2019 08:07:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573114040;
-        bh=Vs0vmuJFZJfCdBWbcef1JshwZZc9l+YrjwUdtsaNu3k=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=KypO2u9qQZOpCT97PagoJmJ05jNzzAwEOh5TQuJtaHcnw290kuyiCyRgXcpTDgoff
-         yL2r3/5Nv3OxL5iW1vDTUMldS7lvQVWUl8vBPDTErZIqUCYXU5EvD9rUB9CL4lekw9
-         M70s0IBFr/3wdhsUYXeg/j3kPNjd4MGq8LMTqoAU=
-Date:   Thu, 7 Nov 2019 10:07:07 +0200
-From:   Mike Rapoport <rppt@kernel.org>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
-        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 05/18] mm/gup: introduce pin_user_pages*() and FOLL_PIN
-Message-ID: <20191107080706.GB3239@rapoport-lnx>
-References: <20191103211813.213227-1-jhubbard@nvidia.com>
- <20191103211813.213227-6-jhubbard@nvidia.com>
- <20191105131032.GG25005@rapoport-lnx>
- <9ac948a4-59bf-2427-2007-e460aad2848a@nvidia.com>
+        id S1726829AbfKGINp convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Thu, 7 Nov 2019 03:13:45 -0500
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:40798 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726734AbfKGINo (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Nov 2019 03:13:44 -0500
+Received: by mail-oi1-f196.google.com with SMTP id 22so1200811oip.7;
+        Thu, 07 Nov 2019 00:13:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=9nazdWnirCfxRXV5xY0vu3a90rtbot0vudbsckGOh3k=;
+        b=R6FLxNBT6oJsh7IS6rUSAyvdr/KK88kS5u03hbPKcL5Mp1SW81MxaFX8xf9yF8aii8
+         s5nvQaOvgTWcUwORzz2eiK3lRZtkeQaCnnUQobWFgwRPyIYCDc6JjW3qAM7pD+m4aoP9
+         fcWlo/PvJf0q1JRq1qbCrIwU98XBE7i/Yu/qvBRZ0qtZVvlSRIEggN1FgJpwBnhpSf2v
+         mlzkiNjcn7tZ8ybMLkuRuheqQQ/QPU8gCNGG9mUHfFfEbg3MYzUtKd7wXr78Hov5kq+u
+         WLGnb+kGFVVn7LyChDCVyI8FYpKybnMR5f2lQYzBO2Ogj0czy7hOaD1+TdsU13V3Yf8w
+         le8Q==
+X-Gm-Message-State: APjAAAWJRIFZVAU3H1EYHmr/mzrGVqVbwrBjylqBMnyOtYRsN3tmAzJF
+        p/A9WLvE2fQ+DtocbsX7cou0Mt4oYLOiSe/Uk2m+zTAR
+X-Google-Smtp-Source: APXvYqzG1X4VVM8A9RduBROmxxiAeni2cVDVws2za6mhTCF+gL1IaXOEdsNzB0P7I7PMf7pp/itm0o9nb1eq2VQiVZI=
+X-Received: by 2002:aca:3a86:: with SMTP id h128mr2176021oia.131.1573114423794;
+ Thu, 07 Nov 2019 00:13:43 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9ac948a4-59bf-2427-2007-e460aad2848a@nvidia.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
+References: <20191106232304.2332121-1-niklas.soderlund+renesas@ragnatech.se>
+ <CAMuHMdW-i+L0pQx1WRWUZ6_BWF0ujQ-4s9TXNfAM9w5OHcgR+g@mail.gmail.com> <20191107074722.GH18345@bigcity.dyn.berto.se>
+In-Reply-To: <20191107074722.GH18345@bigcity.dyn.berto.se>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 7 Nov 2019 09:13:32 +0100
+Message-ID: <CAMuHMdWnt=8BDKKZco_0GMfOncT9r6CZ1P-rXZN19Dmc_ti4wA@mail.gmail.com>
+Subject: Re: [PATCH] rcar-vin: Limit NV12 availability to supported VIN
+ channels only
+To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Nov 05, 2019 at 11:00:06AM -0800, John Hubbard wrote:
-> On 11/5/19 5:10 AM, Mike Rapoport wrote:
-> ...
-> >> ---
-> >>  Documentation/vm/index.rst          |   1 +
-> >>  Documentation/vm/pin_user_pages.rst | 212 ++++++++++++++++++++++
-> > 
-> > I think it belongs to Documentation/core-api.
-> 
-> Done:
-> 
-> diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
-> index ab0eae1c153a..413f7d7c8642 100644
-> --- a/Documentation/core-api/index.rst
-> +++ b/Documentation/core-api/index.rst
-> @@ -31,6 +31,7 @@ Core utilities
->     generic-radix-tree
->     memory-allocation
->     mm-api
-> +   pin_user_pages
->     gfp_mask-from-fs-io
->     timekeeping
->     boot-time-mm
+Hi Niklas,
 
-Thanks!
- 
-> ...
-> >> diff --git a/Documentation/vm/pin_user_pages.rst b/Documentation/vm/pin_user_pages.rst
-> >> new file mode 100644
-> >> index 000000000000..3910f49ca98c
-> >> --- /dev/null
-> >> +++ b/Documentation/vm/pin_user_pages.rst
-> >> @@ -0,0 +1,212 @@
-> >> +.. SPDX-License-Identifier: GPL-2.0
-> >> +
-> >> +====================================================
-> >> +pin_user_pages() and related calls
-> >> +====================================================
-> > 
-> > I know this is too much to ask, but having pin_user_pages() a part of more
-> > general GUP description would be really great :)
-> > 
-> 
-> Yes, definitely. But until I saw the reaction to the pin_user_pages() API
-> family, I didn't want to write too much--it could have all been tossed out
-> in favor of a whole different API. But now that we've had some initial
-> reviews, I'm much more confident in being able to write about the larger 
-> API set.
-> 
-> So yes, I'll put that on my pending list.
-> 
-> 
-> ...
-> >> +This document describes the following functions: ::
-> >> +
-> >> + pin_user_pages
-> >> + pin_user_pages_fast
-> >> + pin_user_pages_remote
-> >> +
-> >> + pin_longterm_pages
-> >> + pin_longterm_pages_fast
-> >> + pin_longterm_pages_remote
-> >> +
-> >> +Basic description of FOLL_PIN
-> >> +=============================
-> >> +
-> >> +A new flag for get_user_pages ("gup") has been added: FOLL_PIN. FOLL_PIN has
-> > 
-> > Consider reading this after, say, half a year ;-)
-> > 
-> 
-> OK, OK. I knew when I wrote that that it was not going to stay new forever, but
-> somehow failed to write the right thing anyway. :) 
-> 
-> Here's a revised set of paragraphs:
-> 
-> Basic description of FOLL_PIN
-> =============================
-> 
-> FOLL_PIN and FOLL_LONGTERM are flags that can be passed to the get_user_pages*()
-> ("gup") family of functions. FOLL_PIN has significant interactions and
-> interdependencies with FOLL_LONGTERM, so both are covered here.
-> 
-> Both FOLL_PIN and FOLL_LONGTERM are internal to gup, meaning that neither
-> FOLL_PIN nor FOLL_LONGTERM should not appear at the gup call sites. This allows
-> the associated wrapper functions  (pin_user_pages() and others) to set the
-> correct combination of these flags, and to check for problems as well.
+On Thu, Nov 7, 2019 at 8:47 AM Niklas Söderlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> On 2019-11-07 08:41:11 +0100, Geert Uytterhoeven wrote:
+> > On Thu, Nov 7, 2019 at 12:25 AM Niklas Söderlund
+> > <niklas.soderlund+renesas@ragnatech.se> wrote:
+> > > When adding support for NV12 it was overlooked that the pixel format is
+> > > only supported on some VIN channels. Fix this by adding a check to only
+> > > accept NV12 on the supported channels (0, 1, 4, 5, 8, 9, 12 and 13).
+> > >
+> > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> >
+> > Thanks for your patch!
+> >
+> > > --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> > > +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> > > @@ -76,7 +76,12 @@ const struct rvin_video_format *rvin_format_from_pixel(struct rvin_dev *vin,
+> > >         if (vin->info->model == RCAR_M1 && pixelformat == V4L2_PIX_FMT_XBGR32)
+> > >                 return NULL;
+> > >
+> > > -       if (pixelformat == V4L2_PIX_FMT_NV12 && !vin->info->nv12)
+> > > +       /*
+> > > +        * If NV12 is supported it's only supported on some channels (0, 1, 4,
+> > > +        * 5, 8, 9, 12 and 13).
+> >
+> > Is this true for all SoCs, or do you need a vin->info->model == RCAR_GEN3
+> > check?
+>
+> NV12 is only supported by most Gen3 SoCs, but no extra check is needed
+> as vin->info->nv12 is only set for the Gen3 SoCs that can support NV12.
 
-Great, thanks! 
- 
-> thanks,
-> 
-> John Hubbard
-> NVIDIA
+Thanks, had missed the meaning of the vin->info->nv12 check.
+
+> > > +        */
+> > > +       if (pixelformat == V4L2_PIX_FMT_NV12 &&
+> > > +           (!vin->info->nv12 || BIT(vin->id) & 0xcccc))
+> > >                 return NULL;
+> >
+> > So 0xcccc = ~(BIT(0) | BIT(1) | BIT(4) | ...)?
+>
+> Yes.
+>
+> > What if you ever have an id larger than 15?
+> > Wouldn't it be safer to check for !(BIT(vin->id) & 0x3333)?
+>
+> There is no SoC with more then 16 VIN instances, today... Maybe your
+> suggestion of the inverted check makes more sens. Will respin a v2.
+
+OK.  BTW, the code may look nicer if you start using a
+"switch (pixelformat) { ... }" block to handle all special cases.
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Sincerely yours,
-Mike.
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
