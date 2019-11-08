@@ -2,69 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C7AF7F5236
-	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2019 18:07:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C9DAFF538E
+	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2019 19:34:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727468AbfKHRGp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Nov 2019 12:06:45 -0500
-Received: from muru.com ([72.249.23.125]:40934 "EHLO muru.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726095AbfKHRGp (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 8 Nov 2019 12:06:45 -0500
-Received: from atomide.com (localhost [127.0.0.1])
-        by muru.com (Postfix) with ESMTPS id BBC8480D4;
-        Fri,  8 Nov 2019 17:07:20 +0000 (UTC)
-Date:   Fri, 8 Nov 2019 09:06:41 -0800
-From:   Tony Lindgren <tony@atomide.com>
-To:     Benoit Parrot <bparrot@ti.com>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>, Tero Kristo <t-kristo@ti.com>,
-        linux-omap@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [Patch v2 3/5] ARM: dts: dra7: add vpe clkctrl node
-Message-ID: <20191108170641.GI5610@atomide.com>
-References: <20191104203841.3628-1-bparrot@ti.com>
- <20191104203841.3628-4-bparrot@ti.com>
- <20191108165554.GF5610@atomide.com>
- <20191108170231.ubwfu2nvcwjfabas@ti.com>
+        id S1727558AbfKHScH convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Fri, 8 Nov 2019 13:32:07 -0500
+Received: from mail-out-2.itc.rwth-aachen.de ([134.130.5.47]:65156 "EHLO
+        mail-out-2.itc.rwth-aachen.de" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726670AbfKHScH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 8 Nov 2019 13:32:07 -0500
+X-Greylist: delayed 593 seconds by postgrey-1.27 at vger.kernel.org; Fri, 08 Nov 2019 13:32:06 EST
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A2A5AADYscVd/5sagoZlGgEBAQEBAQEBA?=
+ =?us-ascii?q?QMBAQEBEQEBAQICAQEBAYFtAgEBAQELAYFKVVkJgREqCpMgghCbJwkBAQEBAQE?=
+ =?us-ascii?q?BAQEHAS0CAQGEQAKEECQ3Bg4CDgEBBQEBAQEBBQRthUOFUgEFeRACAQgOCgklD?=
+ =?us-ascii?q?wEiJQIEDgWFaQMuAQO0YYgNFYIjgTYBjBOBWT6EIz6EJQEBHoVuBI0ggjCGfZd?=
+ =?us-ascii?q?AB4E/aJVfjiaLT4QLAaQsAgICAgkCFYFoI4FYTSSDO1ARFJBujg5DMYEojS6BI?=
+ =?us-ascii?q?gGBDgEB?=
+X-IPAS-Result: =?us-ascii?q?A2A5AADYscVd/5sagoZlGgEBAQEBAQEBAQMBAQEBEQEBAQI?=
+ =?us-ascii?q?CAQEBAYFtAgEBAQELAYFKVVkJgREqCpMgghCbJwkBAQEBAQEBAQEHAS0CAQGEQ?=
+ =?us-ascii?q?AKEECQ3Bg4CDgEBBQEBAQEBBQRthUOFUgEFeRACAQgOCgklDwEiJQIEDgWFaQM?=
+ =?us-ascii?q?uAQO0YYgNFYIjgTYBjBOBWT6EIz6EJQEBHoVuBI0ggjCGfZdAB4E/aJVfjiaLT?=
+ =?us-ascii?q?4QLAaQsAgICAgkCFYFoI4FYTSSDO1ARFJBujg5DMYEojS6BIgGBDgEB?=
+X-IronPort-AV: E=Sophos;i="5.68,282,1569276000"; 
+   d="scan'208";a="94266160"
+Received: from rwthex-s2-b.rwth-ad.de ([134.130.26.155])
+  by mail-in-2.itc.rwth-aachen.de with ESMTP; 08 Nov 2019 19:22:12 +0100
+Received: from rwthex-w2-a.rwth-ad.de (2a00:8a60:1:e500::26:158) by
+ rwthex-s2-b.rwth-ad.de (2a00:8a60:1:e500::26:155) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.1779.2; Fri, 8 Nov 2019 19:22:11 +0100
+Received: from rwthex-w2-a.rwth-ad.de ([fe80::18f3:313d:3e:42ff]) by
+ rwthex-w2-a.rwth-ad.de ([fe80::18f3:313d:3e:42ff%21]) with mapi id
+ 15.01.1779.005; Fri, 8 Nov 2019 19:22:11 +0100
+From:   =?iso-8859-1?Q?Br=FCns=2C_Stefan?= <Stefan.Bruens@rwth-aachen.de>
+To:     Andrei Koshkosh <andreykosh000@mail.ru>
+CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Sean Young <sean@mess.org>,
+        "Jan Pieter van Woerkom" <jp@jpvw.nl>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Thomas Gleixner" <tglx@linutronix.de>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/1] media: dvbsky: use a single mutex and state buffers
+ for all R/W ops
+Thread-Topic: [PATCH 1/1] media: dvbsky: use a single mutex and state buffers
+ for all R/W ops
+Thread-Index: AQHVlmCKuiaBTGxAZkqb72fHR+QF9KeBhVkA
+Date:   Fri, 8 Nov 2019 18:22:11 +0000
+Message-ID: <3265129.arFHkKjftx@sbruens-linux.lcs.intern>
+References: <1573236913-16642-1-git-send-email-andreykosh000@mail.ru>
+In-Reply-To: <1573236913-16642-1-git-send-email-andreykosh000@mail.ru>
+Accept-Language: en-US, de-DE
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [78.35.13.203]
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <D7CD9F9833F4804F9B0D3B126F8FE6FE@rwth-ad.de>
+Content-Transfer-Encoding: 8BIT
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191108170231.ubwfu2nvcwjfabas@ti.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-* Benoit Parrot <bparrot@ti.com> [191108 17:00]:
-> Tony Lindgren <tony@atomide.com> wrote on Fri [2019-Nov-08 08:55:54 -0800]:
-> > Hi,
-> > 
-> > * Benoit Parrot <bparrot@ti.com> [191104 20:39]:
-> > > Add clkctrl nodes for VPE module.
-> > 
-> > Can you please add a comment describing that we currently need to
-> > use custom node names here instead of the standard naming?
-> 
-> Tony, what do you mean "custom node name" here?
-> I followed the exact same syntax that was already there... confused..
+On Freitag, 8. November 2019 19:15:13 CET Andrei Koshkosh wrote:
+> Signed-off-by: Andrei Koshkosh <andreykosh000@mail.ru>
 
-Oh sorry for being unclear. Yeah so the conclusion of the discussion was
-that we still need custom node names for now.
+Do not claim to be author of something you have not written.
 
-And for patch "[PATCH] clk: ti: add clkctrl data dra7 sgx" I added you to
-Cc, and it has this in the patch description:
-
-"Note that because of the current dts node name dependency for mapping to
- clock domain, we must still use "gpu-clkctrl@" naming instead of generic
- "clock@" naming for the node. And because of this, it's probably best to
- apply the dts node addition together along with the other clock changes."
-
-So can you please add something similar to your clock node patches too
-to explain why we cannot use standard node names there?
+This is mostly commit 7d95fb746c4e "media: dvbsky: use just one mutex for 
+serializing device R/W ops" originally from Mauro and later reverted.
 
 Regards,
 
-Tony
+Stefan
+
+> ---
+>  drivers/media/usb/dvb-usb-v2/dvbsky.c | 25 +++++++++----------------
+>  1 file changed, 9 insertions(+), 16 deletions(-)
+> 
+> diff --git a/drivers/media/usb/dvb-usb-v2/dvbsky.c
+> b/drivers/media/usb/dvb-usb-v2/dvbsky.c index c41e10b..7d36f5f 100644
+> --- a/drivers/media/usb/dvb-usb-v2/dvbsky.c
