@@ -2,132 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7AE04F410F
-	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2019 08:12:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E8F0CF413F
+	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2019 08:22:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729873AbfKHHMg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Nov 2019 02:12:36 -0500
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:34638 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726149AbfKHHMf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Nov 2019 02:12:35 -0500
-Received: by mail-pl1-f194.google.com with SMTP id k7so3494250pll.1
-        for <linux-media@vger.kernel.org>; Thu, 07 Nov 2019 23:12:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=7pnccXbop4M/TCVxdmdegnw4UV0QugzjizOP7//XPiY=;
-        b=NByuecrCmCrFgGs6mIkgnq4iarpP5qncB87GnL7I3GcovS3v1IBVoqA2Yy7ORwzkhs
-         ta8cEg7fSW4JL5IFbyu5rk718GXlIx6dtsYWoBYxERRPm/kMJTAaXgyPFanJKrpwTokn
-         ZAx2FEZHpeVxEhIp4l7JvvyKMbRNruQ2Q2fJ09Q7EQyiIEtijbNduqKqAPoepbOFlwNk
-         3VuZ2UqQI7rOp4tScP0f8DJT2ed3UJARl/pwT4f3Rz5VbtiPAAUMAzKJNm2y6LDYtJ50
-         gScF2Dt6l0/jYnGGWY71rSaaM3AWDLXn1c1ab1RffG9Btwcm/bd2ctoNvMg/mFQoD6Cd
-         ZR7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=7pnccXbop4M/TCVxdmdegnw4UV0QugzjizOP7//XPiY=;
-        b=LKmFMJrLTqrJ+ItW35GrkypPw+xI3a2RVZeAq5evmSp83ijIMDKAHaEriFdQkHci3C
-         Kdl57IRwT6Ocp7Qyrkb/Wj+TXeKL4N3KOvkKU2sxI+1lzK11JH0XxaQ3YtL+5GkRlooN
-         xjF/tD8AACZy+1bZ2cTqxpdDo8xszLzaAPV/5V0T3gcxQEUJDaw/CeNNKejCZTMNhha+
-         Ova9W0CfogWrK3ZALemB6k+4rbx0Y9GW14IReSQfDAybvBgmZVdQxzYUMeYOe7tb3QuF
-         GYveMLJgD9ju773T0avxux+6hKSy7vDtsKilw7O2Uv57OMX9sjc/oegq9xAvK7Wx2y7w
-         N5EQ==
-X-Gm-Message-State: APjAAAWXlwE7llTKRj5xdTYE9Ar5eY5bgAHYxUeSm52YwYcR4LbbIFXb
-        vDIgMTMoHVEycJnYLGBFha/ZHI4wdKk=
-X-Google-Smtp-Source: APXvYqz9Gz799muI0Y7f8lnCgC6/XB/wMCBNiSMH8YAppsXF+ZasEk3ky+tVx+W0+3iswWV+vcGD1w==
-X-Received: by 2002:a17:90a:1089:: with SMTP id c9mr11587095pja.8.1573197154850;
-        Thu, 07 Nov 2019 23:12:34 -0800 (PST)
-Received: from localhost.localdomain ([106.216.170.180])
-        by smtp.gmail.com with ESMTPSA id b128sm645578pfg.58.2019.11.07.23.12.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Nov 2019 23:12:34 -0800 (PST)
-From:   Vandana BN <bnvandana@gmail.com>
-To:     linux-media@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Cc:     hverkuil@xs4all.nl, Vandana BN <bnvandana@gmail.com>
-Subject: [PATCH] v4l2-ctl:Add Support for Touch
-Date:   Fri,  8 Nov 2019 12:42:27 +0530
-Message-Id: <20191108071227.10982-1-bnvandana@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        id S1726072AbfKHHWb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Nov 2019 02:22:31 -0500
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:24262 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725802AbfKHHWb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 8 Nov 2019 02:22:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1573197749;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Y/lLM9Z4Ow+LNPl/oIsVg/AjYSCnHzEPsAKYIkSK9z8=;
+        b=exA5FOwZ+6dFj6HE16uS3RpccNWx2EE/oxoDxh97TEtHYwFal+bhvoo1C8oq7lOpzo9VVg
+        13wxpaNm9+CGD1EisnV6YCrSkiP9etMpvY6jmZhGWhj5oHQ8S/JLEtBajrGIJHVwCETffQ
+        j/uHA83BQ1OEEin85BU4KTp4z7w88X4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-416-v1yQem93PpuTYIy_o1Hp-w-1; Fri, 08 Nov 2019 02:22:14 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF3791005500;
+        Fri,  8 Nov 2019 07:22:11 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-69.ams2.redhat.com [10.36.116.69])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 3DBFC60850;
+        Fri,  8 Nov 2019 07:22:11 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+        id 7414111AAA; Fri,  8 Nov 2019 08:22:10 +0100 (CET)
+Date:   Fri, 8 Nov 2019 08:22:10 +0100
+From:   Gerd Hoffmann <kraxel@redhat.com>
+To:     Stefan Hajnoczi <stefanha@gmail.com>
+Cc:     geoff@hostfission.com, virtio-dev@lists.oasis-open.org,
+        Alex Lau <alexlau@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        qemu-devel <qemu-devel@nongnu.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Keiichi Watanabe <keiichiw@chromium.org>,
+        David Stevens <stevensd@chromium.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        =?utf-8?B?U3TDqXBoYW5l?= Marchesin <marcheu@chromium.org>,
+        Dylan Reid <dgreid@chromium.org>,
+        Gurchetan Singh <gurchetansingh@chromium.org>,
+        Dmitry Morozov <dmitry.morozov@opensynergy.com>,
+        Pawel Osciak <posciak@chromium.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: guest / host buffer sharing ...
+Message-ID: <20191108072210.ywyneaoc2y4slth6@sirius.home.kraxel.org>
+References: <20191105105456.7xbhtistnbp272lj@sirius.home.kraxel.org>
+ <20191106084344.GB189998@stefanha-x1.localdomain>
+ <20191106095122.jju7eo57scfoat6a@sirius.home.kraxel.org>
+ <CAJSP0QUJBkqtVJq17tfX5O-JuvEGcZQviP0C3tv9qSDy-P-hcg@mail.gmail.com>
+ <20191106125023.uhdhtqisybilxasr@sirius.home.kraxel.org>
+ <CAJSP0QXG5Z3zCnPL+Y7EQfCeey2Fb9OdPdx531Jz2Ofk63wndg@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJSP0QXG5Z3zCnPL+Y7EQfCeey2Fb9OdPdx531Jz2Ofk63wndg@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: v1yQem93PpuTYIy_o1Hp-w-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add support to verify V4L2_TCH_FMT_TU16 format touch inputs.
+  Hi,
 
-Signed-off-by: Vandana BN <bnvandana@gmail.com>
----
- utils/v4l2-ctl/v4l2-ctl-streaming.cpp |  4 ++++
- utils/v4l2-ctl/v4l2-ctl-vidcap.cpp    | 29 +++++++++++++++++++++++++++
- utils/v4l2-ctl/v4l2-ctl.h             |  1 +
- 3 files changed, 34 insertions(+)
+> > Adding a list of common properties to the spec certainly makes sense,
+> > so everybody uses the same names.  Adding struct-ed properties for
+> > common use cases might be useful too.
+>=20
+> Why not define VIRTIO devices for wayland and friends?
 
-diff --git a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-index 184bfd64..191a18c5 100644
---- a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-@@ -595,6 +595,10 @@ static void print_concise_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt,
- 	if (v4l_type_is_meta(buf.g_type()) && buf.g_bytesused(0) &&
- 	    !(buf.g_flags() & V4L2_BUF_FLAG_ERROR))
- 		print_meta_buffer(f, buf, fmt, q);
-+
-+	if ((capabilities & V4L2_CAP_TOUCH) && buf.g_bytesused(0) &&
-+	    !(buf.g_flags() & V4L2_BUF_FLAG_ERROR))
-+		print_touch_buffer(f, buf, fmt, q);
- }
- 
- static void stream_buf_caps(cv4l_fd &fd, unsigned buftype)
-diff --git a/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp b/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp
-index 3a29251a..99945248 100644
---- a/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp
-@@ -358,3 +358,32 @@ void vidcap_list(cv4l_fd &fd)
- 		}
- 	}
- }
-+
-+#define VIVID_TCH_HEIGHT        24
-+#define VIVID_TCH_WIDTH         14
-+
-+struct vivid_touch_buf {
-+        __u16     buf[VIVID_TCH_WIDTH * VIVID_TCH_HEIGHT];
-+	int test_pattern;
-+};
-+
-+void print_touch_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt, cv4l_queue &q)
-+{
-+        struct vivid_touch_buf *vbuf;
-+        int i=0;
-+
-+        switch (fmt.g_pixelformat()) {
-+        case V4L2_TCH_FMT_TU16:
-+                vbuf = (vivid_touch_buf *)q.g_dataptr(buf.g_index(), 0);
-+		fprintf(f, "Test Pattern: %d\n",vbuf->test_pattern);
-+                fprintf(f, "TU16: ");
-+		for (i = 0; i < (VIVID_TCH_HEIGHT*VIVID_TCH_WIDTH); i++) {
-+			if (vbuf->buf[i])
-+			fprintf(f, "x: %d y: %d Pressure Value: %d\n",
-+				i % VIVID_TCH_WIDTH,
-+				i / VIVID_TCH_WIDTH,
-+				vbuf->buf[i]);
-+		}
-+                break;
-+	}
-+}
-diff --git a/utils/v4l2-ctl/v4l2-ctl.h b/utils/v4l2-ctl/v4l2-ctl.h
-index b0f65e9b..b31be7f5 100644
---- a/utils/v4l2-ctl/v4l2-ctl.h
-+++ b/utils/v4l2-ctl/v4l2-ctl.h
-@@ -373,6 +373,7 @@ int vidcap_get_and_update_fmt(cv4l_fd &_fd, struct v4l2_format &vfmt);
- void vidcap_set(cv4l_fd &fd);
- void vidcap_get(cv4l_fd &fd);
- void vidcap_list(cv4l_fd &fd);
-+void print_touch_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt, cv4l_queue &q);
- 
- // v4l2-ctl-vidout.cpp
- void vidout_usage(void);
--- 
-2.17.1
+There is an out-of-tree implementation of that, so yes, that surely is
+an option.
+
+Wayland needs (a) shared buffers, mostly for gfx data, and (b) a stream
+pipe as control channel.  Pretty much the same for X11, except that
+shared buffers are optional because the X protocol can also squeeze all
+display updates through the stream pipe.
+
+So, if you want allow guests talk to the host display server you can run
+the stream pipe over vsock.  But there is nothing for the shared
+buffers ...
+
+We could replicate vsock functionality elsewhere.  I think that happened
+in the out-of-tree virtio-wayland implementation.  There also was some
+discussion about adding streams to virtio-gpu, slightly pimped up so you
+can easily pass around virtio-gpu resource references for buffer
+sharing.  But given that getting vsock right isn't exactly trivial
+(consider all the fairness issues when multiplexing multiple streams
+over a virtqueue for example) I don't think this is a good plan.
+
+cheers,
+  Gerd
 
