@@ -2,290 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C1E3F42AA
-	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2019 09:59:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0404CF42D6
+	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2019 10:05:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730281AbfKHI7I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Nov 2019 03:59:08 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:51765 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727649AbfKHI7H (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Nov 2019 03:59:07 -0500
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1iT06Z-0001sk-70; Fri, 08 Nov 2019 09:58:55 +0100
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1iT06W-0004Lf-PK; Fri, 08 Nov 2019 09:58:52 +0100
-Date:   Fri, 8 Nov 2019 09:58:52 +0100
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>, mchehab@kernel.org,
-        hans.verkuil@cisco.com, jacopo+renesas@jmondi.org,
-        robh+dt@kernel.org, laurent.pinchart@ideasonboard.com,
-        devicetree@vger.kernel.org, kernel@pengutronix.de,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v10 03/14] media: v4l2-fwnode: add initial connector
- parsing support
-Message-ID: <20191108085852.rujiwio3yo43u6sy@pengutronix.de>
-References: <20190830101646.6530-1-m.felsch@pengutronix.de>
- <20190830101646.6530-4-m.felsch@pengutronix.de>
- <20191002070303.GK896@valkosipuli.retiisi.org.uk>
- <20191002080735.yyoxo5wg35t7k26x@pengutronix.de>
- <20191023105739.GN5433@paasikivi.fi.intel.com>
- <20191023122157.qu3eodamlye5zsax@pengutronix.de>
- <20191024120213.GC3966@mara.localdomain>
+        id S1730005AbfKHJFP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Nov 2019 04:05:15 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:37952 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726072AbfKHJFP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Nov 2019 04:05:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1573203913;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=mD4A52lsah+cOzVZ1YpXrVrAFd/eMh2/t+H8qY9zj2w=;
+        b=Jn85xCegY4+S43sqk+ksW13Y3A2yiA4uoXjzL0gwkxFexFWaKJd5T1rmChM9K1pnzUX6T+
+        p5rM64dd8ugrpaqeySN/Cha81LBCj2RK1T6aZS3tNRztQo0W+Te5NYrnhsrYCHhzYAL0pz
+        75IIZoTWEjJtqxaSDnkSIiD5dBSrSjI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-317-qWp3b1K1OFiP1rRdQrcJeg-1; Fri, 08 Nov 2019 04:05:09 -0500
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3F53107ACC3;
+        Fri,  8 Nov 2019 09:05:07 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-69.ams2.redhat.com [10.36.116.69])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id F111E5C3FD;
+        Fri,  8 Nov 2019 09:05:06 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+        id 2150517535; Fri,  8 Nov 2019 10:05:06 +0100 (CET)
+Date:   Fri, 8 Nov 2019 10:05:06 +0100
+From:   Gerd Hoffmann <kraxel@redhat.com>
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     Dmitry Sepp <dmitry.sepp@opensynergy.com>,
+        virtio-dev@lists.oasis-open.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Keiichi Watanabe <keiichiw@chromium.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        alexlau@chromium.org, dgreid@chromium.org,
+        =?utf-8?B?U3TDqXBoYW5l?= Marchesin <marcheu@chromium.org>,
+        Pawel Osciak <posciak@chromium.org>,
+        David Stevens <stevensd@chromium.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [virtio-dev] [RFC RESEND] virtio-video: Add virtio video device
+ specification
+Message-ID: <20191108090506.jw4t46d3o4ooy7ns@sirius.home.kraxel.org>
+References: <20191105191919.167345-1-dmitry.sepp@opensynergy.com>
+ <20191107095657.72dlxzm4uz7ndkek@sirius.home.kraxel.org>
+ <1573181413.STYvEGL1rf@os-lin-dmo>
+ <CAAFQd5CkTxCYhn70o5oiR4uLA7QyRMUw-XrRWorwZnwXGK0pDQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <CAAFQd5CkTxCYhn70o5oiR4uLA7QyRMUw-XrRWorwZnwXGK0pDQ@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-MC-Unique: qWp3b1K1OFiP1rRdQrcJeg-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
-In-Reply-To: <20191024120213.GC3966@mara.localdomain>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 09:10:22 up 174 days, 14:28, 120 users,  load average: 0.39, 0.13,
- 0.10
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+> > 1. Both the device and the driver submit requests to each other. For ea=
+ch
+> > request the response is sent as a separate request.
+>=20
+> To be more precise, in vdec there are no responses. The guest sends
+> commands to the host using one virtqueue. The host signals
+> asynchronous events, which might not have the exact earlier guest
+> request associated to them.
 
-sorry for my delay now ^^
+How do you report errors?  Is there an error event for that?
 
-On 19-10-24 15:02, Sakari Ailus wrote:
-> Hi Marco,
-> 
-> On Wed, Oct 23, 2019 at 02:21:57PM +0200, Marco Felsch wrote:
-> > Hi Sakari,
-> > 
-> > On 19-10-23 13:57, Sakari Ailus wrote:
-> > > Hi Marco,
-> > > 
-> > > Apologies for the delay.
-> > 
-> > No problem.
-> > 
-> > > On Wed, Oct 02, 2019 at 10:07:35AM +0200, Marco Felsch wrote:
-> > > > Hi Sakari,
-> > > > 
-> > > > On 19-10-02 10:03, Sakari Ailus wrote:
-> > > > > Hi Marco,
-> > > > > 
-> > > > > On Fri, Aug 30, 2019 at 12:16:35PM +0200, Marco Felsch wrote:
-> > > > > > The patch adds the initial connector parsing code, so we can move from a
-> > > > > > driver specific parsing code to a generic one. Currently only the
-> > > > > > generic fields and the analog-connector specific fields are parsed. Parsing
-> > > > > > the other connector specific fields can be added by a simple callbacks.
-> > > > > > 
-> > > > > > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> > > > > > ---
-> > > > > > [1] https://patchwork.kernel.org/cover/10794703/
-> > > > > > 
-> > > > > > v10:
-> > > > > > - drop V4L2_CONN_HDMI support
-> > > > > > - adapt pr_err msg to reflect new state (-> connector is unkown)
-> > > > > > 
-> > > > > > v9:
-> > > > > > - Fix leading semicolon found by kbuild semicolon.cocci
-> > > > > > 
-> > > > > > v8:
-> > > > > > - V4L2_CON_* -> V4L2_CONN_*
-> > > > > > - tvnorms -> sdtv-standards
-> > > > > > - adapt to new v4l2_fwnode_connector_analog member
-> > > > > > - return error in case of V4L2_CONN_HDMI
-> > > > > > 
-> > > > > > v7:
-> > > > > > @Jacopo: I dropped your r b tag becuase of the amount of changes I
-> > > > > > made..
-> > > > > > 
-> > > > > > - drop unnecessary comments
-> > > > > > - fix commet style
-> > > > > > - s/v4l2_fwnode_connector_conv.name/v4l2_fwnode_connector_conv.compatible/
-> > > > > > - make label size variable and drop V4L2_CONNECTOR_MAX_LABEL usage
-> > > > > > - do not assign a default label in case of no label was specified
-> > > > > > - remove useless /* fall through */ comments
-> > > > > > - add support for N connector links
-> > > > > > - rename local variables to be more meaningful
-> > > > > > - adjust kernedoc
-> > > > > > - add v4l2_fwnode_connector_free()
-> > > > > > - improve error handling (use different error values)
-> > > > > > - make use of pr_warn_once()
-> > > > > > 
-> > > > > > v6:
-> > > > > > - use unsigned count var
-> > > > > > - fix comment and style issues
-> > > > > > - place '/* fall through */' to correct places
-> > > > > > - fix error handling and cleanup by releasing fwnode
-> > > > > > - drop vga and dvi parsing support as those connectors are rarely used
-> > > > > >   these days
-> > > > > > 
-> > > > > > v5:
-> > > > > > - s/strlcpy/strscpy/
-> > > > > > 
-> > > > > > v2-v4:
-> > > > > > - nothing since the patch was squashed from series [1] into this
-> > > > > >   series.
-> > > > > > 
-> > > > > >  drivers/media/v4l2-core/v4l2-fwnode.c | 129 ++++++++++++++++++++++++++
-> > > > > >  include/media/v4l2-fwnode.h           |  38 ++++++++
-> > > > > >  2 files changed, 167 insertions(+)
-> > > > > > 
-> > > > > > diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
-> > > > > > index 3bd1888787eb..0bfa7cbf78df 100644
-> > > > > > --- a/drivers/media/v4l2-core/v4l2-fwnode.c
-> > > > > > +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
-> > > > > > @@ -595,6 +595,135 @@ void v4l2_fwnode_put_link(struct v4l2_fwnode_link *link)
-> > > > > >  }
-> > > > > >  EXPORT_SYMBOL_GPL(v4l2_fwnode_put_link);
-> > > > > >  
-> > > > > > +static const struct v4l2_fwnode_connector_conv {
-> > > > > > +	enum v4l2_connector_type type;
-> > > > > > +	const char *compatible;
-> > > > > > +} connectors[] = {
-> > > > > > +	{
-> > > > > > +		.type = V4L2_CONN_COMPOSITE,
-> > > > > > +		.compatible = "composite-video-connector",
-> > > > > > +	}, {
-> > > > > > +		.type = V4L2_CONN_SVIDEO,
-> > > > > > +		.compatible = "svideo-connector",
-> > > > > > +	},
-> > > > > > +};
-> > > > > > +
-> > > > > > +static enum v4l2_connector_type
-> > > > > > +v4l2_fwnode_string_to_connector_type(const char *con_str)
-> > > > > > +{
-> > > > > > +	unsigned int i;
-> > > > > > +
-> > > > > > +	for (i = 0; i < ARRAY_SIZE(connectors); i++)
-> > > > > > +		if (!strcmp(con_str, connectors[i].compatible))
-> > > > > > +			return connectors[i].type;
-> > > > > > +
-> > > > > > +	return V4L2_CONN_UNKNOWN;
-> > > > > > +}
-> > > > > > +
-> > > > > > +static int
-> > > > > > +v4l2_fwnode_connector_parse_analog(struct fwnode_handle *fwnode,
-> > > > > > +				   struct v4l2_fwnode_connector *vc)
-> > > > > > +{
-> > > > > > +	u32 stds;
-> > > > > > +	int ret;
-> > > > > > +
-> > > > > > +	ret = fwnode_property_read_u32(fwnode, "sdtv-standards", &stds);
-> > > > > > +
-> > > > > > +	/* The property is optional. */
-> > > > > > +	vc->connector.analog.sdtv_stds = ret ? V4L2_STD_ALL : stds;
-> > > > > > +
-> > > > > > +	return 0;
-> > > > > > +}
-> > > > > > +
-> > > > > > +void v4l2_fwnode_connector_free(struct v4l2_fwnode_connector *connector)
-> > > > > > +{
-> > > > > > +	unsigned int i;
-> > > > > > +
-> > > > > > +	if (IS_ERR_OR_NULL(connector))
-> > > > > > +		return;
-> > > > > > +
-> > > > > > +	for (i = 0; i < connector->nr_of_links; i++)
-> > > > > > +		v4l2_fwnode_put_link(&connector->links[i]);
-> > > > > > +	kfree(connector->links);
-> > > > > 
-> > > > > Please assign connector->links NULL here, and nr_of_links to zero.
-> > > > 
-> > > > Okay, I can do that.
-> > > > 
-> > > > > > +}
-> > > > > > +EXPORT_SYMBOL_GPL(v4l2_fwnode_connector_free);
-> > > > > > +
-> > > > > > +int v4l2_fwnode_connector_alloc_parse(struct fwnode_handle *fwnode,
-> > > > > > +				      struct v4l2_fwnode_connector *connector)
-> > > > > > +{
-> > > > > > +	struct fwnode_handle *remote_pp, *remote_ep;
-> > > > > > +	const char *type_name;
-> > > > > > +	unsigned int i = 0, ep_num = 0;
-> > > > > > +	int err;
-> > > > > > +
-> > > > > > +	memset(connector, 0, sizeof(*connector));
-> > > > > > +
-> > > > > > +	remote_pp = fwnode_graph_get_remote_port_parent(fwnode);
-> > > > > 
-> > > > > How do you know a remote endpoint is a connector, and not another device's
-> > > > > endpoint?
-> > > > 
-> > > > Well, I think that the caller won't use this function if it isn't a
-> > > > connector. If it helps I can check if the compatible of the remote ends
-> > > > with "-connector".
-> > > 
-> > > The function is called by a driver. A driver shouldn't know what's at the
-> > > other end of the graph arc; the information should come from the firmware
-> > > instead.
-> > > 
-> > > On some board there could be another device where you have a connector now.
-> > > 
-> > > As the connector has its own compatible string, there could be a connector
-> > > driver to tell this is actually a connector, even if there's nothing to
-> > > control. It'd be a very tiny driver.
-> > 
-> > Yes I know a connector driver would be the best. This also have the
-> > advantage to do drop the connector handling in each subdev driver.. But
-> > unfortunately I haven't the time yet. Would it be okay for you too check
-> > that the remote is a connector and if not to exit?
-> 
-> The current design is also problematic in the sense that it parses remote DT
-> graph endpoints (as well as device nodes) that are not under the device's
-> own scope.
+> An example of such special case could be
+> H.264 framebuffer reordering, where one might end up with a few decode
+> requests not resulting in any frames being output and then one decode
+> request that would trigger multiple accumulated frames to be returned.
 
-You are right that is not good. Would it be okay with you to parse only
-the local node so the caller must pass the connector node?
+Note: this can be done with a request/response model too, by simply
+completing the decode request when there is frame data, so in that case
+multiple decode requests simply complete at the same time.  Yes, you can
+have multiple outstanding requests in virtio.  Out-of-order completion
+is also allowed btw.
 
-> I wonder what kind of changes would that require, and how much more
-> difficult would the changes be to implement later on if a number of drivers
-> uses the newly added APIs.
-> 
-> v4l2_fwnode_parse_endpoint() should be considered as well. This is the
-> current API to parse endpoints. Could connectors be meaningfully parsed
-> within v4l2_fwnode_parse_endpoint()?
+> > 2. No support for getting/setting video stream parameters. For example
+> > (decoder): output format (NV12, I420), so the driver cannot really sele=
+ct the
+> > output format after headers have been parsed.
+>=20
+> Getting video stream parameters is there, but they are currently left
+> fully in control of the host video decoder. Ability to select between
+> multiple possible formats could be worth adding, though.
 
-I think v4l2_fwnode_endpoint_parse() isn't the correct place. Of course
-it is a endpoint but I don't think that a connector should be placed
-there. Currently the endpoint is mostly used to describe the connection
-between the isp and a sensor. I think we shouldn't add something
-unrelated just because it's an fw-endpoint. The connector just describes
-who users can interact with the device. A connector isn't connected to a
-chip using mipi or something else.
+Nice to see you agree on that one ;)
 
-> What you're doing with connectors looks very much the same as what one would
-> do with async sub-devices, and if this is re-implemented for connectors,
-> there should be a good reason to do so.
+> > 3. No support for getting plane requirements from the device (sg vs con=
+tig,
+> > size, stride alignment, plane count).
+>=20
+> There is actually a bigger difference that results in that. Vdec
+> assumes host-allocated buffers coming from a different device, e.g.
+> virtio-gpu and the host having the right knowledge to allocate the
+> buffers correctly. This is related to the fact that it's generally
+> difficult to convey all the allocation constraints in a generic
+> manner.
 
-I don't think that it has something to do with a async device because
-connectors shouldn't disappear so there is no need to probe it async.
-Also we shouldn't probe it async only because we can add a custom probe
-parse handler and furthermore we can't fill the connector struct..
+Yep, buffer handling is tricky, especially when it comes to decoding
+directly to gpu buffers and also when supporting playback of
+drm-protected streams where the guest might not be allowed to access
+the stream data.
 
-Regards,
-  Marco
+> > 5. Decoder only: new devices will be needed to support encoder, process=
+or or
+> > capture. Currently input is always a bitstream, output is always a vide=
+o
+> > frame. No way set input format (needed for encoder, see 2).
+>=20
+> The rationale for this was that this is a point of contact with the
+> host and a possible attack surface, so having a protocol as specific
+> as possible makes the attack surface smaller and is easier to validate
+> in the device implementation.
 
-> -- 
-> Kind regards,
-> 
-> Kind regards,
-> 
-> Sakari Ailus
-> sakari.ailus@linux.intel.com
-> 
+I think it certainly makes sense to support both video encoding and
+video decoding with a single device spec.
 
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+For capture (especially camera) and processor things are less clear,
+although there is at least some overlap too.  IIRC most of the spec is
+"TBD" for those anyway, so I'd suggest to drop them from the spec for
+now and focus on the video parts.
+
+cheers,
+  Gerd
+
