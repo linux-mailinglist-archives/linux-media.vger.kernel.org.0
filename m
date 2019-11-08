@@ -2,42 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E8F0CF413F
-	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2019 08:22:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E0B3F4166
+	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2019 08:35:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726072AbfKHHWb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Nov 2019 02:22:31 -0500
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:24262 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725802AbfKHHWb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 8 Nov 2019 02:22:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1573197749;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Y/lLM9Z4Ow+LNPl/oIsVg/AjYSCnHzEPsAKYIkSK9z8=;
-        b=exA5FOwZ+6dFj6HE16uS3RpccNWx2EE/oxoDxh97TEtHYwFal+bhvoo1C8oq7lOpzo9VVg
-        13wxpaNm9+CGD1EisnV6YCrSkiP9etMpvY6jmZhGWhj5oHQ8S/JLEtBajrGIJHVwCETffQ
-        j/uHA83BQ1OEEin85BU4KTp4z7w88X4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-416-v1yQem93PpuTYIy_o1Hp-w-1; Fri, 08 Nov 2019 02:22:14 -0500
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF3791005500;
-        Fri,  8 Nov 2019 07:22:11 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-116-69.ams2.redhat.com [10.36.116.69])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 3DBFC60850;
-        Fri,  8 Nov 2019 07:22:11 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-        id 7414111AAA; Fri,  8 Nov 2019 08:22:10 +0100 (CET)
-Date:   Fri, 8 Nov 2019 08:22:10 +0100
-From:   Gerd Hoffmann <kraxel@redhat.com>
-To:     Stefan Hajnoczi <stefanha@gmail.com>
+        id S1726039AbfKHHf6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Nov 2019 02:35:58 -0500
+Received: from mail-qk1-f175.google.com ([209.85.222.175]:41216 "EHLO
+        mail-qk1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725900AbfKHHf6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Nov 2019 02:35:58 -0500
+Received: by mail-qk1-f175.google.com with SMTP id m125so4419727qkd.8
+        for <linux-media@vger.kernel.org>; Thu, 07 Nov 2019 23:35:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=6yiUt1MQOuFry119FxdUeAD8xPWm7rks6SBHzQkAB0A=;
+        b=kDR7IkYjNx/mu4UGkogNa7GnejiRcP1RKwbr+68vtZos9u8d8gSCD1YvIx/f7g6tkb
+         QQmIjr1lCfC3gjJW4ajzBiGGF8gdSluNMFeQ8H+PAQxgq6/9ebmgZ5/Fb+5Fd3fwBnYk
+         DH8sUwYIVoDQcBud8fZvZK6aW74qz6YkY8UfOIjDgDxCnwjoYVlLef5t3fud7wafS0XV
+         Dy6WugnYTSj+V5Oz4gmJejKL4ki+cRfzlrrwxeaku6lODQkRB558CivtvjuYsjJkRnJX
+         y7js4NTrpOeDISrtiu0Olfmn6fApV2zU/KMz7z/d7tTlLyK7sy3r9D3YscwV3Z2t9oWx
+         TDzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6yiUt1MQOuFry119FxdUeAD8xPWm7rks6SBHzQkAB0A=;
+        b=la4SAU4c9zn2tNkxF29jgainMN/Qt7Sodffx/9gap4Ha2Hy5RhMFlXSNQxdDFbTMcu
+         g4jkHMHSfU+TzGpo5ZQ+bw/vpkSua70necFIl2Flzq+3K+ysoUJXTqoGg58VWztJhi3H
+         nvEV9Wbe5rbjK9t65qXMzNHaP9wEpajbkxgaqOlg147c/LRk1ngH4q3O2lLSAc5DTJ11
+         AhatqExhlK32TaCTrcqxX4NMWOM5TT+hknLmlrjQKFIxiBrwzRB0kfn/zbWeuNtBfDFF
+         QEpQWAqKnNV2oz6+tch1uvEsKyDpKq0bYhat0HKyd0CdobqiC1JnppV4ybUtqHFSv07z
+         +5/g==
+X-Gm-Message-State: APjAAAUj8pvbMENt8u17lRQ+DJOM7++RieMUHw/44MSLFJPJTaFhNJv0
+        bbt8sdJudsbjMA6If+b+m6pXd8vrCNrbAZGl9y4=
+X-Google-Smtp-Source: APXvYqwXeWHDPNAEqvYe6uTrBCncL/H9iFRLbo4pyxR9xfAjjMucrF+DV1aJGvcaEeZAxB8f3i2P0sRu8Uuvy++V+7o=
+X-Received: by 2002:a05:620a:14a2:: with SMTP id x2mr7566377qkj.236.1573198556068;
+ Thu, 07 Nov 2019 23:35:56 -0800 (PST)
+MIME-Version: 1.0
+References: <20191105105456.7xbhtistnbp272lj@sirius.home.kraxel.org>
+ <20191106084344.GB189998@stefanha-x1.localdomain> <20191106095122.jju7eo57scfoat6a@sirius.home.kraxel.org>
+ <CAJSP0QUJBkqtVJq17tfX5O-JuvEGcZQviP0C3tv9qSDy-P-hcg@mail.gmail.com>
+ <20191106125023.uhdhtqisybilxasr@sirius.home.kraxel.org> <CAJSP0QXG5Z3zCnPL+Y7EQfCeey2Fb9OdPdx531Jz2Ofk63wndg@mail.gmail.com>
+ <20191108072210.ywyneaoc2y4slth6@sirius.home.kraxel.org>
+In-Reply-To: <20191108072210.ywyneaoc2y4slth6@sirius.home.kraxel.org>
+From:   Stefan Hajnoczi <stefanha@gmail.com>
+Date:   Fri, 8 Nov 2019 08:35:44 +0100
+Message-ID: <CAJSP0QWZc=z56CHEKa8WVe9Cw2-EhDFU+7NeGgL+g-Go5q3K5Q@mail.gmail.com>
+Subject: Re: guest / host buffer sharing ...
+To:     Gerd Hoffmann <kraxel@redhat.com>
 Cc:     geoff@hostfission.com, virtio-dev@lists.oasis-open.org,
         Alex Lau <alexlau@chromium.org>,
         Daniel Vetter <daniel@ffwll.ch>,
@@ -47,62 +61,50 @@ Cc:     geoff@hostfission.com, virtio-dev@lists.oasis-open.org,
         Keiichi Watanabe <keiichiw@chromium.org>,
         David Stevens <stevensd@chromium.org>,
         Hans Verkuil <hverkuil@xs4all.nl>,
-        =?utf-8?B?U3TDqXBoYW5l?= Marchesin <marcheu@chromium.org>,
+        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
         Dylan Reid <dgreid@chromium.org>,
         Gurchetan Singh <gurchetansingh@chromium.org>,
         Dmitry Morozov <dmitry.morozov@opensynergy.com>,
         Pawel Osciak <posciak@chromium.org>,
         Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: guest / host buffer sharing ...
-Message-ID: <20191108072210.ywyneaoc2y4slth6@sirius.home.kraxel.org>
-References: <20191105105456.7xbhtistnbp272lj@sirius.home.kraxel.org>
- <20191106084344.GB189998@stefanha-x1.localdomain>
- <20191106095122.jju7eo57scfoat6a@sirius.home.kraxel.org>
- <CAJSP0QUJBkqtVJq17tfX5O-JuvEGcZQviP0C3tv9qSDy-P-hcg@mail.gmail.com>
- <20191106125023.uhdhtqisybilxasr@sirius.home.kraxel.org>
- <CAJSP0QXG5Z3zCnPL+Y7EQfCeey2Fb9OdPdx531Jz2Ofk63wndg@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAJSP0QXG5Z3zCnPL+Y7EQfCeey2Fb9OdPdx531Jz2Ofk63wndg@mail.gmail.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-MC-Unique: v1yQem93PpuTYIy_o1Hp-w-1
-X-Mimecast-Spam-Score: 0
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-  Hi,
+On Fri, Nov 8, 2019 at 8:22 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
+> > > Adding a list of common properties to the spec certainly makes sense,
+> > > so everybody uses the same names.  Adding struct-ed properties for
+> > > common use cases might be useful too.
+> >
+> > Why not define VIRTIO devices for wayland and friends?
+>
+> There is an out-of-tree implementation of that, so yes, that surely is
+> an option.
+>
+> Wayland needs (a) shared buffers, mostly for gfx data, and (b) a stream
+> pipe as control channel.  Pretty much the same for X11, except that
+> shared buffers are optional because the X protocol can also squeeze all
+> display updates through the stream pipe.
+>
+> So, if you want allow guests talk to the host display server you can run
+> the stream pipe over vsock.  But there is nothing for the shared
+> buffers ...
+>
+> We could replicate vsock functionality elsewhere.  I think that happened
+> in the out-of-tree virtio-wayland implementation.  There also was some
+> discussion about adding streams to virtio-gpu, slightly pimped up so you
+> can easily pass around virtio-gpu resource references for buffer
+> sharing.  But given that getting vsock right isn't exactly trivial
+> (consider all the fairness issues when multiplexing multiple streams
+> over a virtqueue for example) I don't think this is a good plan.
 
-> > Adding a list of common properties to the spec certainly makes sense,
-> > so everybody uses the same names.  Adding struct-ed properties for
-> > common use cases might be useful too.
->=20
-> Why not define VIRTIO devices for wayland and friends?
+I also think vsock isn't the right fit.
 
-There is an out-of-tree implementation of that, so yes, that surely is
-an option.
+Defining a virtio-wayland device makes sense to me: you get the guest
+RAM access via virtqueues, plus the VIRTIO infrastructure (device IDs,
+configuration space, feature bits, and existing reusable
+kernel/userspace/QEMU code).
 
-Wayland needs (a) shared buffers, mostly for gfx data, and (b) a stream
-pipe as control channel.  Pretty much the same for X11, except that
-shared buffers are optional because the X protocol can also squeeze all
-display updates through the stream pipe.
-
-So, if you want allow guests talk to the host display server you can run
-the stream pipe over vsock.  But there is nothing for the shared
-buffers ...
-
-We could replicate vsock functionality elsewhere.  I think that happened
-in the out-of-tree virtio-wayland implementation.  There also was some
-discussion about adding streams to virtio-gpu, slightly pimped up so you
-can easily pass around virtio-gpu resource references for buffer
-sharing.  But given that getting vsock right isn't exactly trivial
-(consider all the fairness issues when multiplexing multiple streams
-over a virtqueue for example) I don't think this is a good plan.
-
-cheers,
-  Gerd
-
+Stefan
