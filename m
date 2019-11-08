@@ -2,72 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 79A29F4590
-	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2019 12:20:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 15A7AF488A
+	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2019 12:58:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730151AbfKHLUn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Nov 2019 06:20:43 -0500
-Received: from gofer.mess.org ([88.97.38.141]:32995 "EHLO gofer.mess.org"
+        id S2391018AbfKHL5b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Nov 2019 06:57:31 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60210 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730144AbfKHLUn (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 8 Nov 2019 06:20:43 -0500
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 4B7E9C646D; Fri,  8 Nov 2019 11:20:42 +0000 (GMT)
-Date:   Fri, 8 Nov 2019 11:20:42 +0000
-From:   Sean Young <sean@mess.org>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v5.5] DVB/RC fixes (3nd)
-Message-ID: <20191108112041.GA14408@gofer.mess.org>
+        id S2391008AbfKHLpE (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 8 Nov 2019 06:45:04 -0500
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0CB3A222C5;
+        Fri,  8 Nov 2019 11:45:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1573213504;
+        bh=hVTmL0FORV+KWz1VpzuweX8Ats/8839pboW72CRooBI=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=tP31o3ouEF+FOpOXxu185ZZWS2t0Z9KhXST77iBY8vT43vJsAQ+N+y9P6UHYqyhLD
+         P9yL6RKUxUPymPW8Td/Y4f8kOAfbqBT3zgHLTZKRTksGK246PFqKPptU3yo/6uO9AP
+         2sdgpwbNw+H8fC6NQasTySGSqP1nWObaY3egzpqI=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Herring <robh@kernel.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.14 079/103] media: dt-bindings: adv748x: Fix decimal unit addresses
+Date:   Fri,  8 Nov 2019 06:42:44 -0500
+Message-Id: <20191108114310.14363-79-sashal@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191108114310.14363-1-sashal@kernel.org>
+References: <20191108114310.14363-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+From: Geert Uytterhoeven <geert+renesas@glider.be>
 
-This includes flexcop fixes which I had failed to pick up and the rc keymap
-for the Beelink GS1. This pull request is from signed tag.
+[ Upstream commit 27582f0ea97fe3e4a38beb98ab36cce4b6f029d5 ]
 
-Thanks
-Sean
+With recent dtc and W=1:
 
-The following changes since commit 25a55a70307da947c04b6b8d27a6bc51b0dc569a:
+    Warning (graph_port): video-receiver@70/port@10: graph node unit address error, expected "a"
+    Warning (graph_port): video-receiver@70/port@11: graph node unit address error, expected "b"
 
-  media: v4l2-device.h: fix typo: putss -> puts (2019-11-08 07:44:17 +0100)
+Unit addresses are always hexadecimal (without prefix), while the bases
+of reg property values depend on their prefixes.
 
-are available in the Git repository at:
+Fixes: e69595170b1cad85 ("media: adv748x: Add adv7481, adv7482 bindings")
 
-  git://linuxtv.org/syoung/media_tree.git tags/v5.5iv
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ Documentation/devicetree/bindings/media/i2c/adv748x.txt | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-for you to fetch changes up to 200cc4e2331a60e75bcb9cd2adeca41d2826a0c9:
+diff --git a/Documentation/devicetree/bindings/media/i2c/adv748x.txt b/Documentation/devicetree/bindings/media/i2c/adv748x.txt
+index 21ffb5ed81830..54d1d3bc18694 100644
+--- a/Documentation/devicetree/bindings/media/i2c/adv748x.txt
++++ b/Documentation/devicetree/bindings/media/i2c/adv748x.txt
+@@ -73,7 +73,7 @@ Example:
+ 			};
+ 		};
+ 
+-		port@10 {
++		port@a {
+ 			reg = <10>;
+ 
+ 			adv7482_txa: endpoint {
+@@ -83,7 +83,7 @@ Example:
+ 			};
+ 		};
+ 
+-		port@11 {
++		port@b {
+ 			reg = <11>;
+ 
+ 			adv7482_txb: endpoint {
+-- 
+2.20.1
 
-  arm64: dts: allwinner: beelink-gs1: Add rc-beelink-gs1 keymap (2019-11-08 08:57:44 +0000)
-
-----------------------------------------------------------------
-Clément Péron (2):
-      media: rc: add keymap for Beelink GS1 remote control
-      arm64: dts: allwinner: beelink-gs1: Add rc-beelink-gs1 keymap
-
-Colin Ian King (1):
-      media: flexcop-usb: ensure -EIO is returned on error condition
-
-Jan Pieter van Woerkom (1):
-      media: dvbsky: remove unused code
-
-Oliver Neukum (1):
-      media: b2c2-flexcop-usb: add sanity checking
-
- Documentation/devicetree/bindings/media/rc.yaml    |  1 +
- .../boot/dts/allwinner/sun50i-h6-beelink-gs1.dts   |  1 +
- drivers/media/rc/keymaps/Makefile                  |  1 +
- drivers/media/rc/keymaps/rc-beelink-gs1.c          | 84 ++++++++++++++++++++++
- drivers/media/usb/b2c2/flexcop-usb.c               |  5 +-
- drivers/media/usb/dvb-usb-v2/dvbsky.c              |  9 ---
- include/media/rc-map.h                             |  1 +
- 7 files changed, 92 insertions(+), 10 deletions(-)
- create mode 100644 drivers/media/rc/keymaps/rc-beelink-gs1.c
