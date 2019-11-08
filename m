@@ -2,133 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F7FCF51D0
-	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2019 18:00:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D32A3F5226
+	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2019 18:05:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729919AbfKHQ7o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Nov 2019 11:59:44 -0500
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:53160 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726199AbfKHQ7n (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Nov 2019 11:59:43 -0500
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id xA8GxU25130556;
-        Fri, 8 Nov 2019 10:59:30 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1573232370;
-        bh=1xUXTJidoS5zS0H9fZF60DudiW5gkFrHGsRnq4l/Zzo=;
-        h=Date:From:To:CC:Subject:References:In-Reply-To;
-        b=rYrCnBYAyJOlR3fxp9rU1t+7JRETaxBoNSZkqRysPcnilAbQ32+NfZMiLyPNGMizM
-         k/ID3Uo/7diNAX15r83I38SETLqVMCiKHzpaANfYrXm+kMDHcZBHFF8GfuoTqF3qr/
-         4/9Jlt/DzRI9BQjCgEbvdG6ostxSWOcGVKWeetFk=
-Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xA8GxUWi115506
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 8 Nov 2019 10:59:30 -0600
-Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Fri, 8 Nov
- 2019 10:59:13 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Fri, 8 Nov 2019 10:59:29 -0600
-Received: from ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with SMTP id xA8GxTCs028528;
-        Fri, 8 Nov 2019 10:59:29 -0600
-Date:   Fri, 8 Nov 2019 11:02:31 -0600
-From:   Benoit Parrot <bparrot@ti.com>
-To:     Tony Lindgren <tony@atomide.com>
-CC:     Hans Verkuil <hverkuil@xs4all.nl>, Tero Kristo <t-kristo@ti.com>,
-        <linux-omap@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-media@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [Patch v2 3/5] ARM: dts: dra7: add vpe clkctrl node
-Message-ID: <20191108170231.ubwfu2nvcwjfabas@ti.com>
-References: <20191104203841.3628-1-bparrot@ti.com>
- <20191104203841.3628-4-bparrot@ti.com>
- <20191108165554.GF5610@atomide.com>
+        id S1729164AbfKHREU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Nov 2019 12:04:20 -0500
+Received: from mail-il1-f199.google.com ([209.85.166.199]:55239 "EHLO
+        mail-il1-f199.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728412AbfKHREN (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Nov 2019 12:04:13 -0500
+Received: by mail-il1-f199.google.com with SMTP id t67so7464319ill.21
+        for <linux-media@vger.kernel.org>; Fri, 08 Nov 2019 09:04:11 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=fTH3wke3SUWD+KbdNuoh7OfY2dQXat+nLBYGUBMdbaU=;
+        b=XUxM6yk33XMbt2is3O0oBqsyeXLkc6nvRPPRXwjr3DYM3gSgYpwkKtR3og7lrp644F
+         Hy6xHSadql8cTT2txHOyFViocwHR4U80p4crEnxHUckHg8ttfqLHUdnderI18/OStNas
+         aA0QuLGFoasB/3J4NDs7fibKZSkNfWWR3//grJ6c+7gjK/Bi/R05ffqhgABi3mu4FYxw
+         YOb6cTC1Vf3NztOqdOmEF63PZk6uWhzR3579GMq8RhHMtpSGtgfKf7mQWiczSr++Wip7
+         /H3AAYyDG8t3WcJTfg+4Dp5K/GoQvwKf/wkvB+XFtu+PjYjEDrgjR6kaW3w9XFHIepnH
+         TlKQ==
+X-Gm-Message-State: APjAAAUl+xnFA6IS9AgPch7SPQljrRJzOjVY6KaoSBScIen7S7BUcKJS
+        PsWxK93y7C0eOLsJeeKiWPZbaqiQCG+lhX5NIVjXjBcD55cN
+X-Google-Smtp-Source: APXvYqyO/1fM9FwvUsNBAdyyysHvJoiIBXREkWYTIkJi0hcr+2f1QziBzmK5bPqiaK3viqb9n95xokid5VJiBWcBysIkvN2qTsBg
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20191108165554.GF5610@atomide.com>
-User-Agent: NeoMutt/20171215
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+X-Received: by 2002:a92:d64d:: with SMTP id x13mr13363985ilp.54.1573232650955;
+ Fri, 08 Nov 2019 09:04:10 -0800 (PST)
+Date:   Fri, 08 Nov 2019 09:04:10 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000004f3d820596d8c51c@google.com>
+Subject: KMSAN: uninit-value in digitv_rc_query
+From:   syzbot <syzbot+6bf9606ee955b646c0e1@syzkaller.appspotmail.com>
+To:     glider@google.com, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, mchehab@kernel.org,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Tony Lindgren <tony@atomide.com> wrote on Fri [2019-Nov-08 08:55:54 -0800]:
-> Hi,
-> 
-> * Benoit Parrot <bparrot@ti.com> [191104 20:39]:
-> > Add clkctrl nodes for VPE module.
-> 
-> Can you please add a comment describing that we currently need to
-> use custom node names here instead of the standard naming?
+Hello,
 
-Tony, what do you mean "custom node name" here?
-I followed the exact same syntax that was already there... confused..
+syzbot found the following crash on:
 
-Benoit
+HEAD commit:    1e76a3e5 kmsan: replace __GFP_NO_KMSAN_SHADOW with kmsan_i..
+git tree:       https://github.com/google/kmsan.git master
+console output: https://syzkaller.appspot.com/x/log.txt?x=16860a63600000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=f03c659d0830ab8d
+dashboard link: https://syzkaller.appspot.com/bug?extid=6bf9606ee955b646c0e1
+compiler:       clang version 9.0.0 (/home/glider/llvm/clang  
+80fee25776c2fb61e74c1ecb1a523375c2500b69)
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12c1101b600000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15db3cfd600000
 
-> 
-> I can queue this and other dts change once I have an immutable clock
-> changes branch from Tero.
-> 
-> Or if Tero wants to also pick up the clock node dtsi patch I can ack it,
-> up to Tero.
-> 
-> Regards,
-> 
-> Tony
-> 
-> 
-> > Signed-off-by: Benoit Parrot <bparrot@ti.com>
-> > ---
-> >  arch/arm/boot/dts/dra7xx-clocks.dtsi | 18 ++++++++++++++++--
-> >  1 file changed, 16 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/arch/arm/boot/dts/dra7xx-clocks.dtsi b/arch/arm/boot/dts/dra7xx-clocks.dtsi
-> > index 93e1eb83bed9..d1c2406ec71c 100644
-> > --- a/arch/arm/boot/dts/dra7xx-clocks.dtsi
-> > +++ b/arch/arm/boot/dts/dra7xx-clocks.dtsi
-> > @@ -1591,10 +1591,10 @@
-> >  
-> >  	rtc_cm: rtc-cm@700 {
-> >  		compatible = "ti,omap4-cm";
-> > -		reg = <0x700 0x100>;
-> > +		reg = <0x700 0x60>;
-> >  		#address-cells = <1>;
-> >  		#size-cells = <1>;
-> > -		ranges = <0 0x700 0x100>;
-> > +		ranges = <0 0x700 0x60>;
-> >  
-> >  		rtc_clkctrl: rtc-clkctrl@20 {
-> >  			compatible = "ti,clkctrl";
-> > @@ -1603,6 +1603,20 @@
-> >  		};
-> >  	};
-> >  
-> > +	vpe_cm: vpe-cm@760 {
-> > +		compatible = "ti,omap4-cm";
-> > +		reg = <0x760 0xc>;
-> > +		#address-cells = <1>;
-> > +		#size-cells = <1>;
-> > +		ranges = <0 0x760 0xc>;
-> > +
-> > +		vpe_clkctrl: vpe-clkctrl@0 {
-> > +			compatible = "ti,clkctrl";
-> > +			reg = <0x0 0xc>;
-> > +			#clock-cells = <2>;
-> > +		};
-> > +	};
-> > +
-> >  };
-> >  
-> >  &cm_core {
-> > -- 
-> > 2.17.1
-> > 
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+6bf9606ee955b646c0e1@syzkaller.appspotmail.com
+
+dvb-usb: schedule remote query interval to 1000 msecs.
+dvb-usb: Nebula Electronics uDigiTV DVB-T USB2.0) successfully initialized  
+and connected.
+dvb-usb: bulk message failed: -22 (7/0)
+dvb-usb: bulk message failed: -22 (7/0)
+dvb-usb: bulk message failed: -22 (7/-30591)
+dvb-usb: bulk message failed: -22 (7/0)
+=====================================================
+BUG: KMSAN: uninit-value in legacy_dvb_usb_read_remote_control+0x106/0x790  
+drivers/media/usb/dvb-usb/dvb-usb-remote.c:123
+CPU: 1 PID: 3844 Comm: kworker/1:2 Not tainted 5.3.0-rc7+ #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+Google 01/01/2011
+Workqueue: events legacy_dvb_usb_read_remote_control
+Call Trace:
+  __dump_stack lib/dump_stack.c:77 [inline]
+  dump_stack+0x191/0x1f0 lib/dump_stack.c:113
+  kmsan_report+0x13a/0x2b0 mm/kmsan/kmsan_report.c:108
+  __msan_warning+0x73/0xe0 mm/kmsan/kmsan_instr.c:250
+  digitv_rc_query+0x76a/0x890 drivers/media/usb/dvb-usb/digitv.c:259
+  legacy_dvb_usb_read_remote_control+0x106/0x790  
+drivers/media/usb/dvb-usb/dvb-usb-remote.c:123
+  process_one_work+0x1572/0x1ef0 kernel/workqueue.c:2269
+  worker_thread+0x111b/0x2460 kernel/workqueue.c:2415
+  kthread+0x4b5/0x4f0 kernel/kthread.c:256
+  ret_from_fork+0x35/0x40 arch/x86/entry/entry_64.S:355
+
+Local variable description: ----key@digitv_rc_query
+Variable was created at:
+  digitv_rc_query+0x78/0x890 drivers/media/usb/dvb-usb/digitv.c:234
+  legacy_dvb_usb_read_remote_control+0x106/0x790  
+drivers/media/usb/dvb-usb/dvb-usb-remote.c:123
+=====================================================
+Kernel panic - not syncing: panic_on_warn set ...
+CPU: 1 PID: 3844 Comm: kworker/1:2 Tainted: G    B             5.3.0-rc7+ #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+Google 01/01/2011
+Workqueue: events legacy_dvb_usb_read_remote_control
+Call Trace:
+  __dump_stack lib/dump_stack.c:77 [inline]
+  dump_stack+0x191/0x1f0 lib/dump_stack.c:113
+  panic+0x3c9/0xc1e kernel/panic.c:219
+  kmsan_report+0x2a2/0x2b0 mm/kmsan/kmsan_report.c:131
+  __msan_warning+0x73/0xe0 mm/kmsan/kmsan_instr.c:250
+  digitv_rc_query+0x76a/0x890 drivers/media/usb/dvb-usb/digitv.c:259
+  legacy_dvb_usb_read_remote_control+0x106/0x790  
+drivers/media/usb/dvb-usb/dvb-usb-remote.c:123
+  process_one_work+0x1572/0x1ef0 kernel/workqueue.c:2269
+  worker_thread+0x111b/0x2460 kernel/workqueue.c:2415
+  kthread+0x4b5/0x4f0 kernel/kthread.c:256
+  ret_from_fork+0x35/0x40 arch/x86/entry/entry_64.S:355
+Kernel Offset: disabled
+Rebooting in 86400 seconds..
+
+
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this bug, for details see:
+https://goo.gl/tpsmEJ#testing-patches
