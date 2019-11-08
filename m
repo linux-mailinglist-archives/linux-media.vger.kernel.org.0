@@ -2,26 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FF57F44C8
-	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2019 11:42:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 79A29F4590
+	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2019 12:20:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729896AbfKHKmA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Nov 2019 05:42:00 -0500
-Received: from gofer.mess.org ([88.97.38.141]:53237 "EHLO gofer.mess.org"
+        id S1730151AbfKHLUn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Nov 2019 06:20:43 -0500
+Received: from gofer.mess.org ([88.97.38.141]:32995 "EHLO gofer.mess.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726149AbfKHKmA (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 8 Nov 2019 05:42:00 -0500
+        id S1730144AbfKHLUn (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 8 Nov 2019 06:20:43 -0500
 Received: by gofer.mess.org (Postfix, from userid 1000)
-        id B988CC64B1; Fri,  8 Nov 2019 10:41:58 +0000 (GMT)
-Date:   Fri, 8 Nov 2019 10:41:58 +0000
+        id 4B7E9C646D; Fri,  8 Nov 2019 11:20:42 +0000 (GMT)
+Date:   Fri, 8 Nov 2019 11:20:42 +0000
 From:   Sean Young <sean@mess.org>
 To:     linux-media@vger.kernel.org
-Cc:     Oliver Neukum <oneukum@suse.com>,
-        Jan Pieter van Woerkom <jp@jpvw.nl>,
-        Colin Ian King <colin.king@canonical.com>,
-        =?iso-8859-1?Q?Cl=E9ment_P=E9ron?= <peron.clem@gmail.com>
-Subject: Re: [GIT PULL FOR v5.5] DVB/RC fixes (2nd)
-Message-ID: <20191108104158.GB14205@gofer.mess.org>
+Subject: [GIT PULL FOR v5.5] DVB/RC fixes (3nd)
+Message-ID: <20191108112041.GA14408@gofer.mess.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
