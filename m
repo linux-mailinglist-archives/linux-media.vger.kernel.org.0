@@ -2,54 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B578F5141
-	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2019 17:36:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F0128F51B1
+	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2019 17:56:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726231AbfKHQgx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Nov 2019 11:36:53 -0500
-Received: from mx2.suse.de ([195.135.220.15]:37114 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726095AbfKHQgw (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 8 Nov 2019 11:36:52 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 6A9BAB406;
-        Fri,  8 Nov 2019 16:36:51 +0000 (UTC)
-From:   Takashi Iwai <tiwai@suse.de>
-To:     linux-media@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH 2/2] media: tw686x: audio: Avoid non-standard macro usage
-Date:   Fri,  8 Nov 2019 17:36:49 +0100
-Message-Id: <20191108163649.32590-3-tiwai@suse.de>
-X-Mailer: git-send-email 2.16.4
-In-Reply-To: <20191108163649.32590-1-tiwai@suse.de>
-References: <20191108163649.32590-1-tiwai@suse.de>
+        id S1727001AbfKHQz7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Nov 2019 11:55:59 -0500
+Received: from muru.com ([72.249.23.125]:40894 "EHLO muru.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726101AbfKHQz6 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 8 Nov 2019 11:55:58 -0500
+Received: from atomide.com (localhost [127.0.0.1])
+        by muru.com (Postfix) with ESMTPS id 0355D80D4;
+        Fri,  8 Nov 2019 16:56:33 +0000 (UTC)
+Date:   Fri, 8 Nov 2019 08:55:54 -0800
+From:   Tony Lindgren <tony@atomide.com>
+To:     Benoit Parrot <bparrot@ti.com>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>, Tero Kristo <t-kristo@ti.com>,
+        linux-omap@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [Patch v2 3/5] ARM: dts: dra7: add vpe clkctrl node
+Message-ID: <20191108165554.GF5610@atomide.com>
+References: <20191104203841.3628-1-bparrot@ti.com>
+ <20191104203841.3628-4-bparrot@ti.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191104203841.3628-4-bparrot@ti.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Pass the device pointer from the PCI pointer directly, instead of a
-non-standard macro.  The macro didn't give any better readability.
+Hi,
 
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
----
- drivers/media/pci/tw686x/tw686x-audio.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+* Benoit Parrot <bparrot@ti.com> [191104 20:39]:
+> Add clkctrl nodes for VPE module.
 
-diff --git a/drivers/media/pci/tw686x/tw686x-audio.c b/drivers/media/pci/tw686x/tw686x-audio.c
-index 40373bd23381..7786e51d19ae 100644
---- a/drivers/media/pci/tw686x/tw686x-audio.c
-+++ b/drivers/media/pci/tw686x/tw686x-audio.c
-@@ -300,7 +300,7 @@ static int tw686x_snd_pcm_init(struct tw686x_dev *dev)
- 
- 	snd_pcm_lib_preallocate_pages_for_all(pcm,
- 				SNDRV_DMA_TYPE_DEV,
--				snd_dma_pci_data(dev->pci_dev),
-+				&dev->pci_dev->dev,
- 				TW686X_AUDIO_PAGE_MAX * AUDIO_DMA_SIZE_MAX,
- 				TW686X_AUDIO_PAGE_MAX * AUDIO_DMA_SIZE_MAX);
- 	return 0;
--- 
-2.16.4
+Can you please add a comment describing that we currently need to
+use custom node names here instead of the standard naming?
 
+I can queue this and other dts change once I have an immutable clock
+changes branch from Tero.
+
+Or if Tero wants to also pick up the clock node dtsi patch I can ack it,
+up to Tero.
+
+Regards,
+
+Tony
+
+
+> Signed-off-by: Benoit Parrot <bparrot@ti.com>
+> ---
+>  arch/arm/boot/dts/dra7xx-clocks.dtsi | 18 ++++++++++++++++--
+>  1 file changed, 16 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/arm/boot/dts/dra7xx-clocks.dtsi b/arch/arm/boot/dts/dra7xx-clocks.dtsi
+> index 93e1eb83bed9..d1c2406ec71c 100644
+> --- a/arch/arm/boot/dts/dra7xx-clocks.dtsi
+> +++ b/arch/arm/boot/dts/dra7xx-clocks.dtsi
+> @@ -1591,10 +1591,10 @@
+>  
+>  	rtc_cm: rtc-cm@700 {
+>  		compatible = "ti,omap4-cm";
+> -		reg = <0x700 0x100>;
+> +		reg = <0x700 0x60>;
+>  		#address-cells = <1>;
+>  		#size-cells = <1>;
+> -		ranges = <0 0x700 0x100>;
+> +		ranges = <0 0x700 0x60>;
+>  
+>  		rtc_clkctrl: rtc-clkctrl@20 {
+>  			compatible = "ti,clkctrl";
+> @@ -1603,6 +1603,20 @@
+>  		};
+>  	};
+>  
+> +	vpe_cm: vpe-cm@760 {
+> +		compatible = "ti,omap4-cm";
+> +		reg = <0x760 0xc>;
+> +		#address-cells = <1>;
+> +		#size-cells = <1>;
+> +		ranges = <0 0x760 0xc>;
+> +
+> +		vpe_clkctrl: vpe-clkctrl@0 {
+> +			compatible = "ti,clkctrl";
+> +			reg = <0x0 0xc>;
+> +			#clock-cells = <2>;
+> +		};
+> +	};
+> +
+>  };
+>  
+>  &cm_core {
+> -- 
+> 2.17.1
+> 
