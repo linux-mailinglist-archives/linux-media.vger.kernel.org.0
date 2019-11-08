@@ -2,19 +2,19 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 82F31F5059
-	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2019 16:58:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0AD59F505A
+	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2019 16:58:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727148AbfKHP6E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 Nov 2019 10:58:04 -0500
-Received: from relay11.mail.gandi.net ([217.70.178.231]:34323 "EHLO
+        id S1727149AbfKHP6G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 Nov 2019 10:58:06 -0500
+Received: from relay11.mail.gandi.net ([217.70.178.231]:45263 "EHLO
         relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726294AbfKHP6E (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Nov 2019 10:58:04 -0500
+        with ESMTP id S1726294AbfKHP6G (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 Nov 2019 10:58:06 -0500
 Received: from uno.lan (93-34-114-233.ip49.fastwebnet.it [93.34.114.233])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay11.mail.gandi.net (Postfix) with ESMTPSA id 07E22100011;
-        Fri,  8 Nov 2019 15:58:00 +0000 (UTC)
+        by relay11.mail.gandi.net (Postfix) with ESMTPSA id 31B2C10000C;
+        Fri,  8 Nov 2019 15:58:03 +0000 (UTC)
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
@@ -24,9 +24,9 @@ To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
 Cc:     Jacopo Mondi <jacopo@jmondi.org>,
         linux-media@vger.kernel.org (open list:MEDIA INPUT INFRASTRUCTURE
         (V4L/DVB))
-Subject: [PATCH v5 04/11] media: v4l2-ctrl: Document V4L2_CID_CAMERA_SENSOR_ROTATION
-Date:   Fri,  8 Nov 2019 16:59:37 +0100
-Message-Id: <20191108155944.1040883-5-jacopo@jmondi.org>
+Subject: [PATCH v5 05/11] media: v4l2-ctrls: Add camera location and rotation
+Date:   Fri,  8 Nov 2019 16:59:38 +0100
+Message-Id: <20191108155944.1040883-6-jacopo@jmondi.org>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191108155944.1040883-1-jacopo@jmondi.org>
 References: <20191108155944.1040883-1-jacopo@jmondi.org>
@@ -37,142 +37,57 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add documentation for the V4L2_CID_CAMERA_SENSOR_ROTATION camera
-control. The newly added read-only control reports the camera device
-mounting rotation.
+Add support for the newly defined V4L2_CID_CAMERA_SENSOR_LOCATION
+and V4L2_CID_CAMERA_SENSOR_ROTATION read-only controls used to report
+the camera device mounting position and orientation respectively.
 
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 ---
- .../media/uapi/v4l/ext-ctrls-camera.rst       | 116 ++++++++++++++++++
- 1 file changed, 116 insertions(+)
+ drivers/media/v4l2-core/v4l2-ctrls.c | 4 ++++
+ include/uapi/linux/v4l2-controls.h   | 7 +++++++
+ 2 files changed, 11 insertions(+)
 
-diff --git a/Documentation/media/uapi/v4l/ext-ctrls-camera.rst b/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
-index b151c016256c..3528d6a3e1c7 100644
---- a/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
-+++ b/Documentation/media/uapi/v4l/ext-ctrls-camera.rst
-@@ -542,6 +542,122 @@ enum v4l2_scene_mode -
+diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+index a565ae3ba7e4..0293135833d8 100644
+--- a/drivers/media/v4l2-core/v4l2-ctrls.c
++++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+@@ -1015,6 +1015,8 @@ const char *v4l2_ctrl_get_name(u32 id)
+ 	case V4L2_CID_PAN_SPEED:		return "Pan, Speed";
+ 	case V4L2_CID_TILT_SPEED:		return "Tilt, Speed";
+ 	case V4L2_CID_UNIT_CELL_SIZE:		return "Unit Cell Size";
++	case V4L2_CID_CAMERA_SENSOR_LOCATION:	return "Camera Sensor Location";
++	case V4L2_CID_CAMERA_SENSOR_ROTATION:	return "Camera Sensor Rotation";
  
+ 	/* FM Radio Modulator controls */
+ 	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+@@ -1341,6 +1343,8 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+ 		break;
+ 	case V4L2_CID_MIN_BUFFERS_FOR_CAPTURE:
+ 	case V4L2_CID_MIN_BUFFERS_FOR_OUTPUT:
++	case V4L2_CID_CAMERA_SENSOR_LOCATION:
++	case V4L2_CID_CAMERA_SENSOR_ROTATION:
+ 		*type = V4L2_CTRL_TYPE_INTEGER;
+ 		*flags |= V4L2_CTRL_FLAG_READ_ONLY;
+ 		break;
+diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+index 5a7bedee2b0e..2517d2f63d2f 100644
+--- a/include/uapi/linux/v4l2-controls.h
++++ b/include/uapi/linux/v4l2-controls.h
+@@ -912,6 +912,13 @@ enum v4l2_auto_focus_range {
+ #define V4L2_CID_PAN_SPEED			(V4L2_CID_CAMERA_CLASS_BASE+32)
+ #define V4L2_CID_TILT_SPEED			(V4L2_CID_CAMERA_CLASS_BASE+33)
  
++#define V4L2_CID_CAMERA_SENSOR_LOCATION		(V4L2_CID_CAMERA_CLASS_BASE+34)
++#define V4L2_LOCATION_FRONT			0
++#define V4L2_LOCATION_BACK			1
++#define V4L2_LOCATION_EXTERNAL			2
++
++#define V4L2_CID_CAMERA_SENSOR_ROTATION		(V4L2_CID_CAMERA_CLASS_BASE+35)
++
+ /* FM Modulator class control IDs */
  
-+``V4L2_CID_CAMERA_SENSOR_ROTATION (integer)``
-+    This read-only control describes the sensor orientation expressed as
-+    rotation in counterclockwise degrees along the axis perpendicular to the
-+    device mounting plane, and directed away from the sensor lens. Possible
-+    values for the control are 90, 180 and 270 degrees. To compensate for the
-+    device mounting rotation on the captured images, a rotation of the same
-+    amount of degrees, in the same counterclockwise rotation direction should be
-+    applied along the axis directed from the observer to the captured image when
-+    displayed on a screen.
-+
-+    To better understand the effect of the sensor rotation on the acquired
-+    images when displayed on a screen, it is helpful to consider a fictional
-+    scan-out sequence of the sensor's pixels, assuming the pixel array having
-+    its top-left pixel at position (0, 0) with values on the 'x' axis increasing
-+    towards the right direction, and values on the 'y' axis increasing towards
-+    the bottom. The effect of sensor rotation could be easily visualized
-+    considering the sequence of captured pixels.
-+
-+    Assuming the following scene has to be captured::
-+
-+                o
-+               -|-
-+               / \
-+
-+    An upright mounted sensor has its pixel array displaced as follow::
-+
-+                                   x
-+            (0,0)------------------->
-+              ! 0,0 0,1 0,2 ... (0,max-col)
-+              ! 1,0 1,1 1,2 ...
-+              ! ...
-+              ! ...
-+              ! (max-row,0) ... (max-col,max-row)
-+            y V
-+
-+
-+    Assuming pixels are scanned out from (0,0) to (max-row,max-col)
-+    progressively::
-+
-+             (0,0) ---->------------->   (0,max-col)
-+             (1,0) ---->------------->   (1,max-col)
-+             ( .... )-->------------->   (   ....   )
-+             (max-row,0)----------->   (max-row,max-col)
-+
-+
-+    If a rotation of 90 degrees counterclockwise along the axis perpendicular to
-+    the sensor's lens and directed towards the scene to be captured is applied
-+    to the sensor, the pixel array would then be rotated as follows::
-+
-+            x ^ (0,max-col) ...   ...   (max-row,max-col)
-+              !  ....
-+              !  0,2        1,2   ...          ...
-+              !  0,1        1,1   ...          ...
-+              !  0,0        1,0   ...      (max-row,0)
-+             (0,0)------------------------------------>
-+                                                    y
-+
-+    And the pixel scan-out sequence would then proceed as follows starting
-+    from pixel (0,0)::
-+
-+           (0,max-col)         (max-row,max-col)
-+                ^    ^   ^   ^     ^
-+                !    !   !   !     !
-+                !    !   !   !     !
-+                !    !   !   !     !
-+                !    !   !   !     !
-+              (0,0) (1,0)....  (max-row,0)
-+
-+    Which when applied to the capture scene gives::
-+
-+           (0,max-col)         (max-row,max-col)
-+                ^    ^   ^   ^     ^
-+                !    !   0   !     !
-+                !    !  -|-  !     !
-+                !    !  /!\  !     !
-+                !    !   !   !     !
-+              (0,0) (1,0)....  (max-row,0)
-+
-+    Producing the following image once captured to memory and
-+    displayed to the user::
-+
-+             \ !
-+               --0
-+             / !
-+
-+    Which has a rotation of the same amount of degrees applied on the opposite
-+    rotation direction along the axis that goes from the observer to the
-+    image when displayed on the screen.
-+
-+    In order to compensate the sensor mounting rotation, when expressed
-+    as counterclockwise rotation along the axis directed from the sensor to
-+    the captured scene, a rotation of the same amount of degrees in the
-+    same counterclockwise rotation direction but applied along the axis
-+    directed from the observer to the captured image, has to be applied::
-+
-+                +------+  90 degree counterclockwise
-+                |   o  |  mounting rotation applied
-+                |  -|- |  along the axis directed
-+                |  / \ |  away from the sensor lens
-+                +------+
-+                    |
-+                    V
-+                +------+
-+                | \ !  |  Resulting captured
-+                |  --0 |  image when displayed
-+                | / !  |  on screen
-+                +------+
-+                    |
-+                    V
-+                +------+
-+                |   o  |  Rotation compensation
-+                |  -|- |  is 90 degrees counterclockwise
-+                |  / \ |  along the axis directed to the
-+                +------+  displayed image
-+
-+
- .. [#f1]
-    This control may be changed to a menu control in the future, if more
-    options are required.
+ #define V4L2_CID_FM_TX_CLASS_BASE		(V4L2_CTRL_CLASS_FM_TX | 0x900)
 -- 
 2.23.0
 
