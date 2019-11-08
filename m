@@ -2,185 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 702ECF3EAD
-	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2019 05:06:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BBD3F3F11
+	for <lists+linux-media@lfdr.de>; Fri,  8 Nov 2019 05:54:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729501AbfKHEGP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 Nov 2019 23:06:15 -0500
-Received: from mail-qk1-f196.google.com ([209.85.222.196]:37825 "EHLO
-        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726219AbfKHEGP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 Nov 2019 23:06:15 -0500
-Received: by mail-qk1-f196.google.com with SMTP id e187so4127772qkf.4;
-        Thu, 07 Nov 2019 20:06:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=931ECh17bKARPx5mSW3Xy5DYB6gHmUTSxaJ0cO1t1L8=;
-        b=TtzrCjYIpR9sP/lnm9ytOl7kq1NU0eLidkTFn+1KyLicHBRVcvqxRMzyQI6qA/2Svs
-         l/1uRghL2zghPMJHk46DFyDK2gHm69ANfEM0/S8XXWf7Ir8aiw5P3hlNwBy/5ovFwGFM
-         G/th9Rv2IPhfFnhdE6B21sePuq3GFBDqr0o6iKbIgU/X0iT/clVGi8XpHfyyEe+ObO93
-         0zB39+OhsC+7QXuzy8/r+5oNXw9ylt895fPHhzgRqlipi02l4oLT3AfO7ee43nPthBra
-         bu8yWdiNWok0pM+oCNbxU9b+ihDz9BI7KM3jzorFrE8XbuIUqO7Rgrtm3CpqtvdaJ0Qr
-         RSKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=931ECh17bKARPx5mSW3Xy5DYB6gHmUTSxaJ0cO1t1L8=;
-        b=k3uOqUYohMJ02AbtfuPuPQx25WgLZ9LCsZDipeq98BK808SMKNEYNpVdVkmEik29DI
-         G10paw9CfELrTHLyVtw4SRgiMDCY9lRgdsFCzmklUL+gq1/ES/+sDh6z9+Hvchrj3b1Z
-         n24ma9KC39jYeN4qge/FLCWNvk5YSb55e+wy1YdEizDL2VlrhoBopybVBuH70eFP0X9b
-         EiQ9+qDSdNmcoK3vrnkQITb7NNT0o9KbuPsrnDubbcHF44veSYxUzeo1bOshGvxXR55l
-         HXrzeKEDZxeTkVpXsBzeVJDe0zk/ZhqcASwrDTLjRHwIz3g4bD/zKkUiAjngjPAthfGW
-         l9mA==
-X-Gm-Message-State: APjAAAVRom+v8doobsaTu88vxTQwxCts2KUAJ8/nwYrJRpm+C/TQeZRP
-        zInEhS+R6GQsAGF70LUJCXY=
-X-Google-Smtp-Source: APXvYqyBACBnxxwvohkR7HscGHmaY/uUCuqV0UH8jzprxfuKaoZptvweNPlK7uhOGhy69+1tYAB9ZA==
-X-Received: by 2002:a37:9d4b:: with SMTP id g72mr6779522qke.121.1573185973510;
-        Thu, 07 Nov 2019 20:06:13 -0800 (PST)
-Received: from localhost.localdomain ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
-        by smtp.gmail.com with ESMTPSA id k6sm2219884qkd.38.2019.11.07.20.06.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Nov 2019 20:06:12 -0800 (PST)
-From:   "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-X-Google-Original-From: Daniel W. S. Almeida
-To:     mchehab@kernel.org, gregkh@linuxfoundation.org,
-        rfontana@redhat.com, kstewart@linuxfoundation.org,
-        tglx@linutronix.de, allison@lohutok.net
-Cc:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
-        skhan@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: dvb_dummy_fe: Fix ERROR: POINTER_LOCATION
-Date:   Fri,  8 Nov 2019 00:58:35 -0300
-Message-Id: <20191108035835.7607-1-dwlsalmeida@gmail.com>
-X-Mailer: git-send-email 2.24.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1726618AbfKHEyr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 Nov 2019 23:54:47 -0500
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:34161 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726320AbfKHEyr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 7 Nov 2019 23:54:47 -0500
+Received: from localhost ([IPv6:2001:983:e9a7:1:f1a0:cfa9:7e42:3bbd])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id SwIDiDcUlXYiTSwIEiyxNW; Fri, 08 Nov 2019 05:54:42 +0100
+Message-ID: <f89e7f1d9ae276bf99f2924c0bf9967c@smtp-cloud8.xs4all.net>
+Date:   Fri, 08 Nov 2019 05:54:41 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfEbtFSCREkGrd1PfMg6y7s4GOYW/q/lKAhS4FCv7EEaKp6gJ8lFE5WdFZSdiBqu5j5q4a7xpQ/fafMJQw1PSFnQ7/sS0Ju1lbK+oN8oBxT52KAZ4ueDz
+ +Rr9X002V4tLaZw/wl4RgywX9v0BOFHdWakg3yXu8nbduPTAQsscLkt5qt9ou4qak+gwE6mMsLpEzAGcc60VaNFxIbhzqo0BAYrIt51pXKjCQ8pAnUntsx2t
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Change foo* bar to foo *bar to avoid ERROR: POINTER_LOCATION in checkpatch.pl
+Results of the daily build of media_tree:
 
-Suggested-by: Shuah Khan <skhan@linuxfoundation.org>
-Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
----
- drivers/media/dvb-frontends/dvb_dummy_fe.c | 24 +++++++++++-----------
- drivers/media/dvb-frontends/dvb_dummy_fe.h |  6 +++---
- 2 files changed, 15 insertions(+), 15 deletions(-)
+date:			Fri Nov  8 05:00:10 CET 2019
+media-tree git hash:	d065070e009b0c0b2ab4ee09972a41b072f6ed54
+media_build git hash:	efba365ba11b958a6bf6fb4b397942f9461cefca
+v4l-utils git hash:	255162c438c92558a9e99ee1644028d3f3506ed2
+edid-decode git hash:	3a6108a75be356a3dc53760d22782f1323248b6b
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 6903fe8f5101fc43440b3259290c97d2dd51733d
+host hardware:		x86_64
+host os:		5.2.0-3-amd64
 
-diff --git a/drivers/media/dvb-frontends/dvb_dummy_fe.c b/drivers/media/dvb-frontends/dvb_dummy_fe.c
-index 4db679cb70ad..8413038aa30b 100644
---- a/drivers/media/dvb-frontends/dvb_dummy_fe.c
-+++ b/drivers/media/dvb-frontends/dvb_dummy_fe.c
-@@ -31,25 +31,25 @@ static int dvb_dummy_fe_read_status(struct dvb_frontend *fe,
- 	return 0;
- }
- 
--static int dvb_dummy_fe_read_ber(struct dvb_frontend* fe, u32* ber)
-+static int dvb_dummy_fe_read_ber(struct dvb_frontend *fe, u32 *ber)
- {
- 	*ber = 0;
- 	return 0;
- }
- 
--static int dvb_dummy_fe_read_signal_strength(struct dvb_frontend* fe, u16* strength)
-+static int dvb_dummy_fe_read_signal_strength(struct dvb_frontend *fe, u16 *strength)
- {
- 	*strength = 0;
- 	return 0;
- }
- 
--static int dvb_dummy_fe_read_snr(struct dvb_frontend* fe, u16* snr)
-+static int dvb_dummy_fe_read_snr(struct dvb_frontend *fe, u16 *snr)
- {
- 	*snr = 0;
- 	return 0;
- }
- 
--static int dvb_dummy_fe_read_ucblocks(struct dvb_frontend* fe, u32* ucblocks)
-+static int dvb_dummy_fe_read_ucblocks(struct dvb_frontend *fe, u32 *ucblocks)
- {
- 	*ucblocks = 0;
- 	return 0;
-@@ -77,12 +77,12 @@ static int dvb_dummy_fe_set_frontend(struct dvb_frontend *fe)
- 	return 0;
- }
- 
--static int dvb_dummy_fe_sleep(struct dvb_frontend* fe)
-+static int dvb_dummy_fe_sleep(struct dvb_frontend *fe)
- {
- 	return 0;
- }
- 
--static int dvb_dummy_fe_init(struct dvb_frontend* fe)
-+static int dvb_dummy_fe_init(struct dvb_frontend *fe)
- {
- 	return 0;
- }
-@@ -99,17 +99,17 @@ static int dvb_dummy_fe_set_voltage(struct dvb_frontend *fe,
- 	return 0;
- }
- 
--static void dvb_dummy_fe_release(struct dvb_frontend* fe)
-+static void dvb_dummy_fe_release(struct dvb_frontend *fe)
- {
--	struct dvb_dummy_fe_state* state = fe->demodulator_priv;
-+	struct dvb_dummy_fe_state *state = fe->demodulator_priv;
- 	kfree(state);
- }
- 
- static const struct dvb_frontend_ops dvb_dummy_fe_ofdm_ops;
- 
--struct dvb_frontend* dvb_dummy_fe_ofdm_attach(void)
-+struct dvb_frontend *dvb_dummy_fe_ofdm_attach(void)
- {
--	struct dvb_dummy_fe_state* state = NULL;
-+	struct dvb_dummy_fe_state *state = NULL;
- 
- 	/* allocate memory for the internal state */
- 	state = kzalloc(sizeof(struct dvb_dummy_fe_state), GFP_KERNEL);
-@@ -126,7 +126,7 @@ static const struct dvb_frontend_ops dvb_dummy_fe_qpsk_ops;
- 
- struct dvb_frontend *dvb_dummy_fe_qpsk_attach(void)
- {
--	struct dvb_dummy_fe_state* state = NULL;
-+	struct dvb_dummy_fe_state *state = NULL;
- 
- 	/* allocate memory for the internal state */
- 	state = kzalloc(sizeof(struct dvb_dummy_fe_state), GFP_KERNEL);
-@@ -143,7 +143,7 @@ static const struct dvb_frontend_ops dvb_dummy_fe_qam_ops;
- 
- struct dvb_frontend *dvb_dummy_fe_qam_attach(void)
- {
--	struct dvb_dummy_fe_state* state = NULL;
-+	struct dvb_dummy_fe_state *state = NULL;
- 
- 	/* allocate memory for the internal state */
- 	state = kzalloc(sizeof(struct dvb_dummy_fe_state), GFP_KERNEL);
-diff --git a/drivers/media/dvb-frontends/dvb_dummy_fe.h b/drivers/media/dvb-frontends/dvb_dummy_fe.h
-index 526fabd7751f..35efe2ce1a88 100644
---- a/drivers/media/dvb-frontends/dvb_dummy_fe.h
-+++ b/drivers/media/dvb-frontends/dvb_dummy_fe.h
-@@ -12,9 +12,9 @@
- #include <media/dvb_frontend.h>
- 
- #if IS_REACHABLE(CONFIG_DVB_DUMMY_FE)
--extern struct dvb_frontend* dvb_dummy_fe_ofdm_attach(void);
--extern struct dvb_frontend* dvb_dummy_fe_qpsk_attach(void);
--extern struct dvb_frontend* dvb_dummy_fe_qam_attach(void);
-+extern struct dvb_frontend *dvb_dummy_fe_ofdm_attach(void);
-+extern struct dvb_frontend *dvb_dummy_fe_qpsk_attach(void);
-+extern struct dvb_frontend *dvb_dummy_fe_qam_attach(void);
- #else
- static inline struct dvb_frontend *dvb_dummy_fe_ofdm_attach(void)
- {
--- 
-2.24.0
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4-rc1-i686: OK
+linux-5.4-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2784, Succeeded: 2784, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: ERRORS
 
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
