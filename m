@@ -2,254 +2,414 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 87E6DF5ECF
-	for <lists+linux-media@lfdr.de>; Sat,  9 Nov 2019 12:46:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 028EFF5ED1
+	for <lists+linux-media@lfdr.de>; Sat,  9 Nov 2019 12:50:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726260AbfKILqd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 9 Nov 2019 06:46:33 -0500
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:33071 "EHLO
+        id S1726275AbfKILuL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 9 Nov 2019 06:50:11 -0500
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:50305 "EHLO
         lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726146AbfKILqd (ORCPT
+        by vger.kernel.org with ESMTP id S1726146AbfKILuL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 9 Nov 2019 06:46:33 -0500
+        Sat, 9 Nov 2019 06:50:11 -0500
 Received: from [192.168.2.10] ([46.9.232.237])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id TPCCiwcNLPMT8TPCGiPELQ; Sat, 09 Nov 2019 12:46:30 +0100
-Subject: Re: [PATCH v2 2/2] rcar-vin: Add support for V4L2_FIELD_SEQ_{TB,BT}
-To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org
-References: <20191009222734.1911060-1-niklas.soderlund+renesas@ragnatech.se>
- <20191009222734.1911060-3-niklas.soderlund+renesas@ragnatech.se>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <64a0d5eb-39ca-2087-a493-30ac5ce70519@xs4all.nl>
-Date:   Sat, 9 Nov 2019 12:46:24 +0100
+        id TPFkiwdH4PMT8TPFniPErj; Sat, 09 Nov 2019 12:50:08 +0100
+Subject: Re: [PATCH v4] media: vimc: Implement get/set selection in sink
+To:     Guilherme Alcarde Gallo <gagallo7@gmail.com>,
+        helen.koike@collabora.com, drocha.figueiredo@gmail.com,
+        skhan@linuxfoundation.org, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        lkcamp@lists.libreplanetbr.org, kieran.bingham@ideasonboard.com,
+        jacopo@jmondi.org, laurent.pinchart@ideasonboard.com,
+        niklas.soderlund@ragnatech.se, gabrielabittencourt00@gmail.com,
+        pedro@terraco.de
+References: <20191108024509.13067-1-gagallo7@gmail.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <012e37dc-a307-9e77-2973-e17d2abe4b2d@xs4all.nl>
+Date:   Sat, 9 Nov 2019 12:50:03 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191009222734.1911060-3-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20191108024509.13067-1-gagallo7@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfKPWr5tgiFessUz7KRHeT0F1iNUeuw3yyvR4NOwaCL+CxKGIU+7hm/TBPiN2sCyZSAJRyJfrvBwzKH2FGcxu8Mzcr5LHxdaavCH7BPLSMBMRltFpmUAJ
- X/2hfqTLjCSNT39VWaK1HQ2dZZ/5GpAVtNkD7U84ab+ebhRMUNzOwpz4qLv0DIFZz4gKlwWRegPqEoPdZrp8S/oeG8AwnLgAZTSBt9RZhiqeNIJVCn41SG++
- jAf6NZauQe5TsSDyULgnCLDGayeh1Yli3N+fkkQQduaPkAyxCI5WyN6piVoPjZ2U17KkvAiXK54yhaSSaNwkeKJL8IPieQxVNT9FW3Zq2kE=
+X-CMAE-Envelope: MS4wfAMty7BEejJt7LJqHj12qxMCd4U1OU+jjrvDUfT2ci53NdbBOuRKC5bTZrht96aLbQK1DvVzV0M1zmhRaBUvoOowHaVHqhYtJkrWRyQbDN4oQZ9bsuR2
+ 20M1VrTvWfBiONoPcaarqkB3Tpx3lEvpkuFrj1o27J9mnpaO355YEtAJ5mtZ7h4ZQEWr3WytFJMj7Im9cpKHG9er3Vk8oUMEzBuUsr11YlLPsq/6Cq+mxPrl
+ xCm8asBjOf8MMpFoT26M5SM54RgFZOmv8mAhC1x2vSZN+cM0F/MckRrGaLtM164QjgSxpJezIf4FbnHmYXYydgKkNAUDy6QdlxsNf18lIQ5fx0+PM0h42Rnq
+ yE9u8RqS0sh7IjMqDCmmGVIybUM6IYr5pIymO0O89rVukBathrep1LQTzfgX2yArT99WXghiCvFwmiF8CxUP5ZTON2D2my09eJIopmX4WphFFQ/zRGGKcQWO
+ zkphpzbe+E+qIT2TumQTHLIv7BGf+kcbhSbYCFwsKz0qbDmZpLYEieWeBCa21L7X7/Rl/p72wedkUjCISpAAo0RpjYB5LCf/LHgwNA8Q6ySYmWADswiOKLUN
+ rd6jjvR4Qs9HgrxGFysxXHb0xSN4f+dAT6//bQkZ9OsUGIJobdnT8/PL/uzsj8Vxt8zS+Ta5hRw7rq5z4i8H6UU8fHjMLJESYD+RUEAqJ25/+Q==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Niklas,
+On 11/8/19 3:45 AM, Guilherme Alcarde Gallo wrote:
+> Add support for the sink pad of scaler subdevice to respond
+> VIDIOC_G_SELECTION and VIDIOC_S_SELECTION ioctls with the following
+> targets: V4L2_SEL_TGT_COMPOSE_BOUNDS and V4L2_SEL_TGT_CROP.
+> 
+> * Add new const struct crop_rect_default to initialize subdev scaler
+>   properly.
+> * Make changes in sink pad format reflect to the crop rectangle. E.g.
+>   changing the frame format to a smaller size one can make the former
+>   crop rectangle selects a non existing frame area. To solve this
+>   situation the crop rectangle is clamped to the frame boundaries.
+> * Clamp crop rectangle respecting the sink bounds during set_selection
+>   ioctl.
+> 
+> Signed-off-by: Guilherme Alcarde Gallo <gagallo7@gmail.com>
+> Co-developed-by: Danilo Figueiredo Rocha <drocha.figueiredo@gmail.com>
+> Signed-off-by: Danilo Figueiredo Rocha <drocha.figueiredo@gmail.com>
+> Acked-by: Helen Koike <helen.koike@collabora.com>
+> 
+> ---
+> Changes in V4:
+> * Revert an unnecessary change in headers include order.
+> * Sort the declaration order for local variables in function by the size
+>   descending.
+> 
+> Changes in V3:
+> * Sort the headers in alphabetical order.
+> * Change all functions prefix to 'vimc_sca_'.
+> * Remove useless case.
+> * Change commit message subject.
+> 
+> Changes in V2:
+> * Use v4l2_rect_map_inside to clamp the crop rectangle.
+> * Do the crop rectangle clamping after changing sink format.
+> * Implement try ioctls for selection with CROP* targets.
+> * Treat tiny rectangles with area smaller than minimal dimensions of
+>   vimc frames.
+> * Allow user to get selection when the streaming is on.
+> * Reuse bound rectangle generation in a static function.
+> * Disable get_selection for Source pads as we did before with
+>   set_selection.
+> ---
+> ---
+>  drivers/media/platform/vimc/vimc-scaler.c | 168 ++++++++++++++++++++--
+>  1 file changed, 153 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/media/platform/vimc/vimc-scaler.c b/drivers/media/platform/vimc/vimc-scaler.c
+> index 2f88a7d9d67b..36425cffc0ad 100644
+> --- a/drivers/media/platform/vimc/vimc-scaler.c
+> +++ b/drivers/media/platform/vimc/vimc-scaler.c
+> @@ -8,6 +8,7 @@
+>  #include <linux/moduleparam.h>
+>  #include <linux/vmalloc.h>
+>  #include <linux/v4l2-mediabus.h>
+> +#include <media/v4l2-rect.h>
+>  #include <media/v4l2-subdev.h>
+>  
+>  #include "vimc-common.h"
+> @@ -18,6 +19,9 @@ MODULE_PARM_DESC(sca_mult, " the image size multiplier");
+>  
+>  #define MAX_ZOOM	8
+>  
+> +#define VIMC_SCA_FMT_WIDTH_DEFAULT  640
+> +#define VIMC_SCA_FMT_HEIGHT_DEFAULT 480
+> +
+>  struct vimc_sca_device {
+>  	struct vimc_ent_device ved;
+>  	struct v4l2_subdev sd;
+> @@ -25,6 +29,7 @@ struct vimc_sca_device {
+>  	 * with the width and hight multiplied by mult
+>  	 */
+>  	struct v4l2_mbus_framefmt sink_fmt;
+> +	struct v4l2_rect crop_rect;
+>  	/* Values calculated when the stream starts */
+>  	u8 *src_frame;
+>  	unsigned int src_line_size;
+> @@ -33,22 +38,64 @@ struct vimc_sca_device {
+>  };
+>  
+>  static const struct v4l2_mbus_framefmt sink_fmt_default = {
+> -	.width = 640,
+> -	.height = 480,
+> +	.width = VIMC_SCA_FMT_WIDTH_DEFAULT,
+> +	.height = VIMC_SCA_FMT_HEIGHT_DEFAULT,
+>  	.code = MEDIA_BUS_FMT_RGB888_1X24,
+>  	.field = V4L2_FIELD_NONE,
+>  	.colorspace = V4L2_COLORSPACE_DEFAULT,
+>  };
+>  
+> +static const struct v4l2_rect crop_rect_default = {
+> +	.width = VIMC_SCA_FMT_WIDTH_DEFAULT,
+> +	.height = VIMC_SCA_FMT_HEIGHT_DEFAULT,
+> +	.top = 0,
+> +	.left = 0,
+> +};
+> +
+> +static const struct v4l2_rect crop_rect_min = {
+> +	.width = VIMC_FRAME_MIN_WIDTH,
+> +	.height = VIMC_FRAME_MIN_HEIGHT,
+> +	.top = 0,
+> +	.left = 0,
+> +};
+> +
+> +static struct v4l2_rect
+> +vimc_sca_get_crop_bound_sink(const struct v4l2_mbus_framefmt *sink_fmt)
+> +{
+> +	/* Get the crop bounds to clamp the crop rectangle correctly */
+> +	struct v4l2_rect r = {
+> +		.left = 0,
+> +		.top = 0,
+> +		.width = sink_fmt->width,
+> +		.height = sink_fmt->height,
+> +	};
+> +	return r;
+> +}
+> +
+> +static void vimc_sca_adjust_sink_crop(struct v4l2_rect *r,
+> +				      const struct v4l2_mbus_framefmt *sink_fmt)
+> +{
+> +	const struct v4l2_rect sink_rect =
+> +		vimc_sca_get_crop_bound_sink(sink_fmt);
+> +
+> +	/* Disallow rectangles smaller than the minimal one. */
+> +	v4l2_rect_set_min_size(r, &crop_rect_min);
+> +	v4l2_rect_map_inside(r, &sink_rect);
+> +}
+> +
+>  static int vimc_sca_init_cfg(struct v4l2_subdev *sd,
+>  			     struct v4l2_subdev_pad_config *cfg)
+>  {
+>  	struct v4l2_mbus_framefmt *mf;
+> +	struct v4l2_rect *r;
+>  	unsigned int i;
+>  
+>  	mf = v4l2_subdev_get_try_format(sd, cfg, 0);
+>  	*mf = sink_fmt_default;
+>  
+> +	r = v4l2_subdev_get_try_crop(sd, cfg, 0);
+> +	*r = crop_rect_default;
+> +
+>  	for (i = 1; i < sd->entity.num_pads; i++) {
+>  		mf = v4l2_subdev_get_try_format(sd, cfg, i);
+>  		*mf = sink_fmt_default;
+> @@ -107,16 +154,21 @@ static int vimc_sca_get_fmt(struct v4l2_subdev *sd,
+>  			    struct v4l2_subdev_format *format)
+>  {
+>  	struct vimc_sca_device *vsca = v4l2_get_subdevdata(sd);
+> +	struct v4l2_rect *crop_rect;
+>  
+>  	/* Get the current sink format */
+> -	format->format = (format->which == V4L2_SUBDEV_FORMAT_TRY) ?
+> -			 *v4l2_subdev_get_try_format(sd, cfg, 0) :
+> -			 vsca->sink_fmt;
+> +	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
+> +		format->format = *v4l2_subdev_get_try_format(sd, cfg, 0);
+> +		crop_rect = v4l2_subdev_get_try_crop(sd, cfg, 0);
+> +	} else {
+> +		format->format = vsca->sink_fmt;
+> +		crop_rect = &vsca->crop_rect;
+> +	}
+>  
+>  	/* Scale the frame size for the source pad */
+>  	if (VIMC_IS_SRC(format->pad)) {
+> -		format->format.width = vsca->sink_fmt.width * sca_mult;
+> -		format->format.height = vsca->sink_fmt.height * sca_mult;
+> +		format->format.width = crop_rect->width * sca_mult;
+> +		format->format.height = crop_rect->height * sca_mult;
+>  	}
+>  
+>  	return 0;
+> @@ -148,6 +200,7 @@ static int vimc_sca_set_fmt(struct v4l2_subdev *sd,
+>  {
+>  	struct vimc_sca_device *vsca = v4l2_get_subdevdata(sd);
+>  	struct v4l2_mbus_framefmt *sink_fmt;
+> +	struct v4l2_rect *crop_rect;
+>  
+>  	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+>  		/* Do not change the format while stream is on */
+> @@ -155,8 +208,10 @@ static int vimc_sca_set_fmt(struct v4l2_subdev *sd,
+>  			return -EBUSY;
+>  
+>  		sink_fmt = &vsca->sink_fmt;
+> +		crop_rect = &vsca->crop_rect;
+>  	} else {
+>  		sink_fmt = v4l2_subdev_get_try_format(sd, cfg, 0);
+> +		crop_rect = v4l2_subdev_get_try_crop(sd, cfg, 0);
+>  	}
+>  
+>  	/*
+> @@ -165,8 +220,8 @@ static int vimc_sca_set_fmt(struct v4l2_subdev *sd,
+>  	 */
+>  	if (VIMC_IS_SRC(fmt->pad)) {
+>  		fmt->format = *sink_fmt;
+> -		fmt->format.width = sink_fmt->width * sca_mult;
+> -		fmt->format.height = sink_fmt->height * sca_mult;
+> +		fmt->format.width = crop_rect->width * sca_mult;
+> +		fmt->format.height = crop_rect->height * sca_mult;
+>  	} else {
+>  		/* Set the new format in the sink pad */
+>  		vimc_sca_adjust_sink_fmt(&fmt->format);
+> @@ -184,6 +239,80 @@ static int vimc_sca_set_fmt(struct v4l2_subdev *sd,
+>  			fmt->format.xfer_func, fmt->format.ycbcr_enc);
+>  
+>  		*sink_fmt = fmt->format;
+> +
+> +		/* Do the crop, but respect the current bounds */
+> +		vimc_sca_adjust_sink_crop(crop_rect, sink_fmt);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int vimc_sca_get_selection(struct v4l2_subdev *sd,
+> +				  struct v4l2_subdev_pad_config *cfg,
+> +				  struct v4l2_subdev_selection *sel)
+> +{
+> +	struct vimc_sca_device *vsca = v4l2_get_subdevdata(sd);
+> +	struct v4l2_mbus_framefmt *sink_fmt;
+> +	struct v4l2_rect *crop_rect;
+> +
+> +	if (VIMC_IS_SRC(sel->pad))
+> +		return -EINVAL;
+> +
+> +	if (sel->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+> +		sink_fmt = &vsca->sink_fmt;
+> +		crop_rect = &vsca->crop_rect;
+> +	} else {
+> +		sink_fmt = v4l2_subdev_get_try_format(sd, cfg, 0);
+> +		crop_rect = v4l2_subdev_get_try_crop(sd, cfg, 0);
+> +	}
+> +
+> +	switch (sel->target) {
+> +	case V4L2_SEL_TGT_CROP:
+> +		sel->r = *crop_rect;
+> +		break;
+> +	case V4L2_SEL_TGT_CROP_BOUNDS:
+> +		sel->r = vimc_sca_get_crop_bound_sink(sink_fmt);
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int vimc_sca_set_selection(struct v4l2_subdev *sd,
+> +				  struct v4l2_subdev_pad_config *cfg,
+> +				  struct v4l2_subdev_selection *sel)
+> +{
+> +	struct vimc_sca_device *vsca = v4l2_get_subdevdata(sd);
+> +	struct v4l2_mbus_framefmt *sink_fmt;
+> +	struct v4l2_rect *crop_rect;
+> +	struct v4l2_rect sink_rect;
+> +
+> +	if (VIMC_IS_SRC(sel->pad))
+> +		return -EINVAL;
+> +
+> +	if (sel->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+> +		/* Do not change the format while stream is on */
+> +		if (vsca->src_frame)
+> +			return -EBUSY;
+> +
+> +		crop_rect = &vsca->crop_rect;
+> +		sink_fmt = &vsca->sink_fmt;
+> +	} else {
+> +		crop_rect = v4l2_subdev_get_try_crop(sd, cfg, 0);
+> +		sink_fmt = v4l2_subdev_get_try_format(sd, cfg, 0);
+> +	}
+> +
+> +	switch (sel->target) {
+> +	case V4L2_SEL_TGT_CROP:
+> +		/* Do the crop, but respect the current bounds */
+> +		sink_rect = vimc_sca_get_crop_bound_sink(sink_fmt);
+> +		vimc_sca_adjust_sink_crop(&sel->r, sink_fmt);
+> +		*crop_rect = sel->r;
 
-On 10/10/19 12:27 AM, Niklas Söderlund wrote:
-> The hardware does not support capturing the field types
-> V4L2_FIELD_SEQ_TB and V4L2_FIELD_SEQ_BT. To capture in these formats the
-> driver needs to adjust the offset of the capture buffer and capture
-> twice to each vb2 buffer.
+drivers/media/platform/vimc/vimc-scaler.c: In function ‘vimc_sca_set_selection’:
+drivers/media/platform/vimc/vimc-scaler.c:290:19: warning: variable ‘sink_rect’ set but not used [-Wunused-but-set-variable]
+  290 |  struct v4l2_rect sink_rect;
+      |                   ^~~~~~~~~
 
-This patch no longer applies to the master branch. Can you rebase?
-
-This series looks good to me otherwise.
+Something is wrong here.
 
 Regards,
 
 	Hans
 
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
->  drivers/media/platform/rcar-vin/rcar-dma.c  | 57 ++++++++++++++++++---
->  drivers/media/platform/rcar-vin/rcar-v4l2.c |  7 ++-
->  drivers/media/platform/rcar-vin/rcar-vin.h  | 19 +++++++
->  3 files changed, 74 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-> index a9fffadc268e96ba..c46f6e90627d45fd 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-> @@ -534,7 +534,7 @@ static void rvin_crop_scale_comp_gen2(struct rvin_dev *vin)
->  
->  	/* Set scaling coefficient */
->  	crop_height = vin->crop.height;
-> -	if (V4L2_FIELD_IS_INTERLACED(vin->format.field))
-> +	if (V4L2_FIELD_HAS_BOTH(vin->format.field))
->  		crop_height *= 2;
->  
->  	ys = 0;
-> @@ -625,6 +625,8 @@ static int rvin_setup(struct rvin_dev *vin)
->  	case V4L2_FIELD_INTERLACED_BT:
->  		vnmc = VNMC_IM_FULL | VNMC_FOC;
->  		break;
-> +	case V4L2_FIELD_SEQ_TB:
-> +	case V4L2_FIELD_SEQ_BT:
->  	case V4L2_FIELD_NONE:
->  		vnmc = VNMC_IM_ODD_EVEN;
->  		progressive = true;
-> @@ -839,15 +841,23 @@ static void rvin_fill_hw_slot(struct rvin_dev *vin, int slot)
->  	struct rvin_buffer *buf;
->  	struct vb2_v4l2_buffer *vbuf;
->  	dma_addr_t phys_addr;
-> +	int prev;
->  
->  	/* A already populated slot shall never be overwritten. */
->  	if (WARN_ON(vin->buf_hw[slot].buffer != NULL))
->  		return;
->  
-> -	vin_dbg(vin, "Filling HW slot: %d\n", slot);
-> +	prev = (slot == 0 ? HW_BUFFER_NUM : slot) - 1;
->  
-> -	if (list_empty(&vin->buf_list)) {
-> +	if (vin->buf_hw[prev].type == HALF_TOP) {
-> +		vbuf = vin->buf_hw[prev].buffer;
-> +		vin->buf_hw[slot].buffer = vbuf;
-> +		vin->buf_hw[slot].type = HALF_BOTTOM;
-> +		phys_addr = vin->buf_hw[prev].phys + vin->format.sizeimage /
-> +			(vin->format.pixelformat == V4L2_PIX_FMT_NV16 ? 4 : 2);
-> +	} else if (list_empty(&vin->buf_list)) {
->  		vin->buf_hw[slot].buffer = NULL;
-> +		vin->buf_hw[slot].type = FULL;
->  		phys_addr = vin->scratch_phys;
->  	} else {
->  		/* Keep track of buffer we give to HW */
-> @@ -856,10 +866,18 @@ static void rvin_fill_hw_slot(struct rvin_dev *vin, int slot)
->  		list_del_init(to_buf_list(vbuf));
->  		vin->buf_hw[slot].buffer = vbuf;
->  
-> +		vin->buf_hw[slot].type =
-> +			V4L2_FIELD_IS_SEQUENTIAL(vin->format.field) ?
-> +			HALF_TOP : FULL;
-> +
->  		/* Setup DMA */
->  		phys_addr = vb2_dma_contig_plane_dma_addr(&vbuf->vb2_buf, 0);
+> +		break;
+> +	default:
+> +		return -EINVAL;
 >  	}
 >  
-> +	vin_dbg(vin, "Filling HW slot: %d type: %d buffer: %p\n",
-> +		slot, vin->buf_hw[slot].type, vin->buf_hw[slot].buffer);
-> +
-> +	vin->buf_hw[slot].phys = phys_addr;
->  	rvin_set_slot_addr(vin, slot, phys_addr);
->  }
->  
-> @@ -867,6 +885,11 @@ static int rvin_capture_start(struct rvin_dev *vin)
->  {
->  	int slot, ret;
->  
-> +	for (slot = 0; slot < HW_BUFFER_NUM; slot++) {
-> +		vin->buf_hw[slot].buffer = NULL;
-> +		vin->buf_hw[slot].type = FULL;
-> +	}
-> +
->  	for (slot = 0; slot < HW_BUFFER_NUM; slot++)
->  		rvin_fill_hw_slot(vin, slot);
->  
-> @@ -951,6 +974,16 @@ static irqreturn_t rvin_irq(int irq, void *data)
->  
->  	/* Capture frame */
->  	if (vin->buf_hw[slot].buffer) {
-> +		/*
-> +		 * Nothing to do but refill the hardware slot if
-> +		 * capture only filled first half of vb2 buffer.
-> +		 */
-> +		if (vin->buf_hw[slot].type == HALF_TOP) {
-> +			vin->buf_hw[slot].buffer = NULL;
-> +			rvin_fill_hw_slot(vin, slot);
-> +			goto done;
-> +		}
-> +
->  		vin->buf_hw[slot].buffer->field =
->  			rvin_get_active_field(vin, vnms);
->  		vin->buf_hw[slot].buffer->sequence = vin->sequence;
-> @@ -978,14 +1011,22 @@ static void return_all_buffers(struct rvin_dev *vin,
->  			       enum vb2_buffer_state state)
->  {
->  	struct rvin_buffer *buf, *node;
-> -	int i;
-> +	struct vb2_v4l2_buffer *freed[HW_BUFFER_NUM];
-> +	unsigned int i, n;
->  
->  	for (i = 0; i < HW_BUFFER_NUM; i++) {
-> -		if (vin->buf_hw[i].buffer) {
-> -			vb2_buffer_done(&vin->buf_hw[i].buffer->vb2_buf,
-> -					state);
-> -			vin->buf_hw[i].buffer = NULL;
-> +		freed[i] = vin->buf_hw[i].buffer;
-> +		vin->buf_hw[i].buffer = NULL;
-> +
-> +		for (n = 0; n < i; n++) {
-> +			if (freed[i] == freed[n]) {
-> +				freed[i] = NULL;
-> +				break;
-> +			}
->  		}
-> +
-> +		if (freed[i])
-> +			vb2_buffer_done(&freed[i]->vb2_buf, state);
->  	}
->  
->  	list_for_each_entry_safe(buf, node, &vin->buf_list, list) {
-> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> index 9a9b89c0dc0b3be4..cbdb0a43aa439830 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> @@ -90,7 +90,10 @@ static u32 rvin_format_bytesperline(struct rvin_dev *vin,
->  	if (WARN_ON(!fmt))
->  		return -EINVAL;
->  
-> -	align = pix->pixelformat == V4L2_PIX_FMT_NV16 ? 0x20 : 0x10;
-> +	if (V4L2_FIELD_IS_SEQUENTIAL(pix->field))
-> +		align = 0x80;
-> +	else
-> +		align = pix->pixelformat == V4L2_PIX_FMT_NV16 ? 0x20 : 0x10;
->  
->  	return ALIGN(pix->width, align) * fmt->bpp;
->  }
-> @@ -118,6 +121,8 @@ static void rvin_format_align(struct rvin_dev *vin, struct v4l2_pix_format *pix)
->  	case V4L2_FIELD_INTERLACED_BT:
->  	case V4L2_FIELD_INTERLACED:
->  	case V4L2_FIELD_ALTERNATE:
-> +	case V4L2_FIELD_SEQ_TB:
-> +	case V4L2_FIELD_SEQ_BT:
->  		break;
->  	default:
->  		pix->field = RVIN_DEFAULT_FIELD;
-> diff --git a/drivers/media/platform/rcar-vin/rcar-vin.h b/drivers/media/platform/rcar-vin/rcar-vin.h
-> index 9031fe7f569b908e..8d48894bc49e4db6 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-vin.h
-> +++ b/drivers/media/platform/rcar-vin/rcar-vin.h
-> @@ -60,6 +60,23 @@ enum rvin_dma_state {
->  	STOPPING,
+>  	return 0;
+> @@ -195,6 +324,8 @@ static const struct v4l2_subdev_pad_ops vimc_sca_pad_ops = {
+>  	.enum_frame_size	= vimc_sca_enum_frame_size,
+>  	.get_fmt		= vimc_sca_get_fmt,
+>  	.set_fmt		= vimc_sca_set_fmt,
+> +	.get_selection		= vimc_sca_get_selection,
+> +	.set_selection		= vimc_sca_set_selection,
 >  };
 >  
-> +/**
-> + * enum rvin_buffer_type
-> + *
-> + * Describes how a buffer is given to the hardware. To be able
-> + * to capture SEQ_TB/BT it's needed to capture to the same vb2
-> + * buffer twice so the type of buffer needs to be kept.
-> + *
-> + * FULL - One capture fills the whole vb2 buffer
-> + * HALF_TOP- One capture fills the top half of the vb2 buffer
-> + * HALF_BOTTOM - One capture fills the bottom half of the vb2 buffer
-> + */
-> +enum rvin_buffer_type {
-> +	FULL,
-> +	HALF_TOP,
-> +	HALF_BOTTOM,
-> +};
+>  static int vimc_sca_s_stream(struct v4l2_subdev *sd, int enable)
+> @@ -213,11 +344,11 @@ static int vimc_sca_s_stream(struct v4l2_subdev *sd, int enable)
+>  		vsca->bpp = vpix->bpp;
+>  
+>  		/* Calculate the width in bytes of the src frame */
+> -		vsca->src_line_size = vsca->sink_fmt.width *
+> +		vsca->src_line_size = vsca->crop_rect.width *
+>  				      sca_mult * vsca->bpp;
+>  
+>  		/* Calculate the frame size of the source pad */
+> -		frame_size = vsca->src_line_size * vsca->sink_fmt.height *
+> +		frame_size = vsca->src_line_size * vsca->crop_rect.height *
+>  			     sca_mult;
+>  
+>  		/* Allocate the frame buffer. Use vmalloc to be able to
+> @@ -259,9 +390,10 @@ static void vimc_sca_fill_pix(u8 *const ptr,
+>  }
+>  
+>  static void vimc_sca_scale_pix(const struct vimc_sca_device *const vsca,
+> -			       const unsigned int lin, const unsigned int col,
+> +			       unsigned int lin, unsigned int col,
+>  			       const u8 *const sink_frame)
+>  {
+> +	const struct v4l2_rect crop_rect = vsca->crop_rect;
+>  	unsigned int i, j, index;
+>  	const u8 *pixel;
+>  
+> @@ -278,8 +410,10 @@ static void vimc_sca_scale_pix(const struct vimc_sca_device *const vsca,
+>  	/* point to the place we are going to put the first pixel
+>  	 * in the scaled src frame
+>  	 */
+> +	lin -= crop_rect.top;
+> +	col -= crop_rect.left;
+>  	index = VIMC_FRAME_INDEX(lin * sca_mult, col * sca_mult,
+> -				 vsca->sink_fmt.width * sca_mult, vsca->bpp);
+> +				 crop_rect.width * sca_mult, vsca->bpp);
+>  
+>  	dev_dbg(vsca->ved.dev, "sca: %s: scale_pix src pos %dx%d, index %d\n",
+>  		vsca->sd.name, lin * sca_mult, col * sca_mult, index);
+> @@ -307,12 +441,13 @@ static void vimc_sca_scale_pix(const struct vimc_sca_device *const vsca,
+>  static void vimc_sca_fill_src_frame(const struct vimc_sca_device *const vsca,
+>  				    const u8 *const sink_frame)
+>  {
+> +	const struct v4l2_rect r = vsca->crop_rect;
+>  	unsigned int i, j;
+>  
+>  	/* Scale each pixel from the original sink frame */
+>  	/* TODO: implement scale down, only scale up is supported for now */
+> -	for (i = 0; i < vsca->sink_fmt.height; i++)
+> -		for (j = 0; j < vsca->sink_fmt.width; j++)
+> +	for (i = r.top; i < r.top + r.height; i++)
+> +		for (j = r.left; j < r.left + r.width; j++)
+>  			vimc_sca_scale_pix(vsca, i, j, sink_frame);
+>  }
+>  
+> @@ -384,5 +519,8 @@ struct vimc_ent_device *vimc_sca_add(struct vimc_device *vimc,
+>  	/* Initialize the frame format */
+>  	vsca->sink_fmt = sink_fmt_default;
+>  
+> +	/* Initialize the crop selection */
+> +	vsca->crop_rect = crop_rect_default;
 > +
->  /**
->   * struct rvin_video_format - Data format stored in memory
->   * @fourcc:	Pixelformat
-> @@ -204,6 +221,8 @@ struct rvin_dev {
->  	spinlock_t qlock;
->  	struct {
->  		struct vb2_v4l2_buffer *buffer;
-> +		enum rvin_buffer_type type;
-> +		dma_addr_t phys;
->  	} buf_hw[HW_BUFFER_NUM];
->  	struct list_head buf_list;
->  	unsigned int sequence;
+>  	return &vsca->ved;
+>  }
 > 
 
