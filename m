@@ -2,189 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D6B03F5F8C
-	for <lists+linux-media@lfdr.de>; Sat,  9 Nov 2019 15:30:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 00617F5F8D
+	for <lists+linux-media@lfdr.de>; Sat,  9 Nov 2019 15:30:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726381AbfKIOal (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 9 Nov 2019 09:30:41 -0500
-Received: from mail-qk1-f173.google.com ([209.85.222.173]:39738 "EHLO
-        mail-qk1-f173.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726289AbfKIOak (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 9 Nov 2019 09:30:40 -0500
-Received: by mail-qk1-f173.google.com with SMTP id 15so7605935qkh.6
-        for <linux-media@vger.kernel.org>; Sat, 09 Nov 2019 06:30:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=yQ0r3JEPTbHZn+LMT8Z9CJuMImSDIliuPX+hKt5umBA=;
-        b=ogB3PEThk43wwF6TguF5/N5XckUKwyz2oqEsYkH8AUhgGgK/6Wnl87CSyha1ktHefe
-         79HfaMIlli39jaNLLd0kVJXrK+tQyATwDjKPesLqrfL5tNAlqvLPSMAQPxb9mYsKa6gM
-         I8MXtYdVlw1qga5sU8YUN/ErMKEC8t23bGlL0GZ8fXWobmNTb33ziL9LtanKu0G7V00U
-         iE5/iCAe0Y0Vf0Pnn4i0TeXeppPhNAGkucA9H5FfD5Zjt4Uq5wuTZLVfEs+1AKHPBh3b
-         dDV4MkbgDFnr1lAo33NdV8XT2N82CTOfjfmHoOc/MHSR2/yaful3EMeTghsETQIxMmM3
-         6n0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=yQ0r3JEPTbHZn+LMT8Z9CJuMImSDIliuPX+hKt5umBA=;
-        b=bg1TAdm4hqkpSfATQJ4IzMKgAOK8b1yrgYaEoyR7auUNfOKB0TS7wBv5Ztuel3zi+i
-         a/DtBq+jvDSAte74LRKzGBouJQ1VqnF/PWtOwB8AE74XqVzL5cTqWf67sse6Hvr4oVhO
-         wsh/dNjD4EpO86d62ynLnQnDdudUL10wNP6XN4qJ6CQJquGhz+A8K+yeCdybSIYKf8kv
-         4uoNB3qZ2VOMyrObIe6G+4c0nQq8omw7kF1CSi1lap9nzRxxQ0vJ7utzzFGEfYz3+8FZ
-         hHbQQx+Wq8lNBiK1lC9tcokiOkUv3SDbYlYkuD7eVKLteQqw1EAzfuPFQGvzN9jQznro
-         FHbw==
-X-Gm-Message-State: APjAAAV4bXxTfROXwG1TN/inNSkJenO+z3eX607qN8zFLiJ3mnehjXVd
-        bR0LXYfaWsrZQmtOR08quBRFlg==
-X-Google-Smtp-Source: APXvYqxC01ftH5AI8UmEsJMKwVigymBGMGP/N9tY6/5KtYM8DjpPbeoiqcNzIAs8pYBCqyGeFRKhdA==
-X-Received: by 2002:a37:4ece:: with SMTP id c197mr2378046qkb.326.1573309837727;
-        Sat, 09 Nov 2019 06:30:37 -0800 (PST)
-Received: from skullcanyon ([192.222.193.21])
-        by smtp.gmail.com with ESMTPSA id y27sm5522342qtj.49.2019.11.09.06.30.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 Nov 2019 06:30:36 -0800 (PST)
-Message-ID: <b337206695b55e696ab7648f0e983ec400d2e33b.camel@ndufresne.ca>
-Subject: Re: Overlay support in the i.MX7 display
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Daniel Vetter <daniel@ffwll.ch>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Pekka Paalanen <ppaalanen@gmail.com>, Marek Vasut <marex@denx.de>,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
-Date:   Sat, 09 Nov 2019 09:30:35 -0500
-In-Reply-To: <20191104182451.GS10326@phenom.ffwll.local>
-References: <20191101084318.GA8428@pendragon.ideasonboard.com>
-         <67057f1082886726268f346f49c23051@agner.ch>
-         <20191104100947.4e198e72@eldfell.localdomain>
-         <20191104125829.GA4913@pendragon.ideasonboard.com>
-         <20191104182451.GS10326@phenom.ffwll.local>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
+        id S1726383AbfKIOam (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 9 Nov 2019 09:30:42 -0500
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:36953 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726349AbfKIOam (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sat, 9 Nov 2019 09:30:42 -0500
+Received: from [192.168.2.10] ([46.9.232.237])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id TRl6iLCwLXYiTTRl9i2rla; Sat, 09 Nov 2019 15:30:39 +0100
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCH] vim2m: media_device_cleanup was called too early
+Message-ID: <4230d3ba-b154-3f8c-38fb-3c2d2a6b3be1@xs4all.nl>
+Date:   Sat, 9 Nov 2019 15:30:36 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfPrQsj3s1hWDtL6jph+pzt7sr5P35VAuwvai6vUajHK/oua+HJGeru3vQNfENBuM0wegYZNvCWGBUPvRrsTxLVJvn35+Ae+KQcg/MXwCANjPS7G+4Egs
+ FMUtzxKT0XIXdGxRaxYbLtDIi4qGJVx13kiWs3F87ctD3qpHdwDAq3O3bpeh/ZSyymfT1CkPymA0cQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le lundi 04 novembre 2019 à 19:24 +0100, Daniel Vetter a écrit :
-> On Mon, Nov 04, 2019 at 02:58:29PM +0200, Laurent Pinchart wrote:
-> > Hello,
-> > 
-> > On Mon, Nov 04, 2019 at 10:09:47AM +0200, Pekka Paalanen wrote:
-> > > On Sun, 03 Nov 2019 19:15:49 +0100 Stefan Agner wrote:
-> > > > On 2019-11-01 09:43, Laurent Pinchart wrote:
-> > > > > Hello,
-> > > > > 
-> > > > > I'm looking at the available options to support overlays in the display
-> > > > > pipeline of the i.MX7. The LCDIF itself unfortunaltey doesn't support
-> > > > > overlays, the feature being implemented in the PXP. A driver for the PXP
-> > > > > is available but only supports older SoCs whose PXP doesn't support
-> > > > > overlays. This driver is implemented as a V4L2 mem2mem driver, which
-> > > > > makes support of additional input channels impossible.  
-> > > > 
-> > > > Thanks for bringing this up, it is a topic I have wondered too:
-> > > > Interaction between PXP and mxsfb.
-> > > > 
-> > > > I am not very familiar with the V4L2 subsystem so take my opinions with
-> > > > a grain of salt.
-> > > > 
-> > > > > Here are the options I can envision:
-> > > > > 
-> > > > > - Extend the existing PXP driver to support multiple channels. This is
-> > > > >   technically feasible, but will require moving away from the V4L2
-> > > > >   mem2mem framework, which would break userspace. I don't think this
-> > > > >   path could lead anywhere.
-> > > > > 
-> > > > > - Write a new PXP driver for the i.MX7, still using V4L2, but with
-> > > > >   multiple video nodes. This would allow blending multiple layers, but
-> > > > >   would require writing the output to memory, while the PXP has support
-> > > > >   for direct connections to the LCDIF (through small SRAM buffers).
-> > > > >   Performances would thus be suboptimal. The API would also be awkward,
-> > > > >   as using the PXP for display would require usage of V4L2 in
-> > > > >   applications.  
-> > > > 
-> > > > So the video nodes would be sinks? I would expect overlays to be usable
-> > > > through KMS, I guess that would then not work, correct?
-> > 
-> > There would be sink video nodes for the PXP inputs, and one source video
-> > node for the PXP output. The PXP can be used stand-alone, in
-> > memory-to-memory mode, and V4L2 is a good fit for that.
-> > 
-> > > > > - Extend the mxsfb driver with PXP support, and expose the PXP inputs as
-> > > > >   KMS planes. The PXP would only be used when available, and would be
-> > > > >   transparent to applications. This would however prevent using it
-> > > > >   separately from the display (to perform multi-pass alpha blending for
-> > > > >   instance).  
-> > > > 
-> > > > KMS planes are well defined and are well integrated with the KMS API, so
-> > > > I prefer this option. But is this compatible with the currently
-> > > > supported video use-case? E.g. could we make PXP available through V4L2
-> > > > and through DRM/mxsfb?
-> > 
-> > That's the issue, it's not easily doable. I think we could do so, but
-> > how to ensure mutual exclusion between the two APIs needs to be
-> > researched. I fear it will result in an awkward solution with fuzzy
-> > semantics. A module parameter could be an option, but wouldn't be very
-> > flexible.
-> > 
-> > > > Not sure what your use case is exactly, but when playing a video I
-> > > > wonder where is the higher value using PXP: Color conversion and scaling
-> > > > or compositing...? I would expect higher value in the former use case.
-> > 
-> > I think it's highly use-case-dependent.
-> > 
-> > > mind, with Wayland architecture, color conversion and scaling could be
-> > > at the same level/step as compositing, in the display server instead of
-> > > an application. Hence if the PXP capabilities were advertised as KMS
-> > > planes, there should be nothing to patch in Wayland-designed
-> > > applications to make use of them, assuming the applications did not
-> > > already rely on V4L2 M2M devices.
-> > > 
-> > > Would it not be possible to expose PXP through both uAPI interfaces? At
-> > > least KMS atomic's TEST_ONLY feature would make it easy to say "no" to
-> > > userspace if another bit of userspace already reserved the device via
-> > > e.g. V4L2.
-> > 
-> > We would also need to figure out how to do it the other way around,
-> > reporting properly through V4L2 that the device is busy. I think it's
-> > feasible, but I doubt it would result in anything usable for userspace.
-> > If the KMS device exposes multiple planes unconditionally and fails the
-> > atomic commit if the PXP is used through V4L2, I think it would be hard
-> > for Wayland to use this consistently. Given that I expect the PXP to be
-> > mostly used for display purpose I'm tempted to allocate it for display
-> > unconditionally, or, possibly, decide how to expose it through a module
-> > parameter.
-> 
-> KMS should be fine if planes are missing, userspace is supposed to be able
-> to cope with that. Not all userspace does, but welp.
->  
-> I figured the bigger issue will be on the v4l side, since "device
-> temporarily gone" is not something v4l understands as a concept?
+Running the contrib/test/test-media script in v4l-utils with the vim2m argument
+will cause this kernel warning:
 
-m2m are different, since each time you open the device you get a new
-instance. This is handled for decoders already in userspace, I really
-don't see the difference. I'm guessing application that wants to
-multiplex the PXP, will have to avoid the PXP planes for this HW, this
-might be a little tricky and seems HW specific.
+[  554.430157] ------------[ cut here ]------------
+[  554.433034] DEBUG_LOCKS_WARN_ON(lock->magic != lock)
+[  554.433064] WARNING: CPU: 0 PID: 616 at kernel/locking/mutex.c:938 __mutex_lock+0xd7a/0x1380
+[  554.439736] Modules linked in: vim2m v4l2_mem2mem vivid rc_cec videobuf2_dma_contig v4l2_dv_timings cec videobuf2_vmalloc
+videobuf2_memops v4l2_tpg videobuf2_v4l2 videobuf2_common videodev mc rc_core [last unloaded: vivid]
+[  554.445794] CPU: 0 PID: 616 Comm: sleep Not tainted 5.4.0-rc1-virtme #1
+[  554.448481] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.12.0-0-ga698c8995f-prebuilt.qemu.org 04/01/2014
+[  554.453088] RIP: 0010:__mutex_lock+0xd7a/0x1380
+[  554.454955] Code: d2 0f 85 de 05 00 00 44 8b 05 82 d9 f7 00 45 85 c0 0f 85 bf f3 ff ff 48 c7 c6 e0 30 a6 b7 48 c7 c7 e0 2e a6 b7 e8 5c 76
+36 fe <0f> 0b e9 a5 f3 ff ff 65 48 8b 1c 25 80 ef 01 00 be 08 00 00 00 48
+[  554.462836] RSP: 0018:ffff88803a4cfad0 EFLAGS: 00010282
+[  554.465129] RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffffffffb5a3d24f
+[  554.468143] RDX: 0000000000000000 RSI: 0000000000000004 RDI: ffffffffb85273f4
+[  554.471000] RBP: ffff88803a4cfc50 R08: fffffbfff701e681 R09: fffffbfff701e681
+[  554.473990] R10: fffffbfff701e680 R11: ffffffffb80f3403 R12: 0000000000000000
+[  554.476831] R13: dffffc0000000000 R14: ffffffffb9714f00 R15: ffff888053103fc8
+[  554.479622] FS:  00007fac6358a540(0000) GS:ffff88805d000000(0000) knlGS:0000000000000000
+[  554.482673] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  554.484949] CR2: 00007fac6343faf0 CR3: 0000000036c22000 CR4: 00000000003406f0
+[  554.487811] Call Trace:
+[  554.488860]  ? v4l2_release+0x1b8/0x390 [videodev]
+[  554.490818]  ? do_exit+0x946/0x2980
+[  554.492269]  ? mutex_lock_io_nested+0x1250/0x1250
+[  554.494128]  ? __lock_acquire+0xe90/0x3c30
+[  554.495774]  ? fsnotify_first_mark+0x120/0x120
+[  554.497487]  ? vim2m_device_release+0x50/0x50 [vim2m]
+[  554.499469]  ? v4l2_release+0x1b8/0x390 [videodev]
+[  554.501493]  v4l2_release+0x1b8/0x390 [videodev]
+[  554.503430]  __fput+0x256/0x790
+[  554.504711]  task_work_run+0x109/0x190
+[  554.506145]  do_exit+0x95e/0x2980
+[  554.507421]  ? vfs_lock_file+0x21/0xf0
+[  554.509013]  ? find_held_lock+0x33/0x1c0
+[  554.510382]  ? __close_fd+0xee/0x190
+[  554.511862]  ? release_task.part.21+0x1310/0x1310
+[  554.513701]  ? lock_downgrade+0x6d0/0x6d0
+[  554.515299]  do_group_exit+0xeb/0x2d0
+[  554.516862]  __x64_sys_exit_group+0x35/0x40
+[  554.518610]  do_syscall_64+0x90/0x450
+[  554.520142]  entry_SYSCALL_64_after_hwframe+0x49/0xbe
+[  554.522289] RIP: 0033:0x7fac6348ecf6
+[  554.523876] Code: Bad RIP value.
+[  554.525294] RSP: 002b:00007ffe6373dc58 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
+[  554.528555] RAX: ffffffffffffffda RBX: 00007fac6357f760 RCX: 00007fac6348ecf6
+[  554.531537] RDX: 0000000000000000 RSI: 000000000000003c RDI: 0000000000000000
+[  554.534709] RBP: 0000000000000000 R08: 00000000000000e7 R09: ffffffffffffff80
+[  554.536752] R10: 00007ffe6373db24 R11: 0000000000000246 R12: 00007fac6357f760
+[  554.538643] R13: 0000000000000002 R14: 00007fac63588428 R15: 0000000000000000
+[  554.540634] irq event stamp: 21731
+[  554.541618] hardirqs last  enabled at (21731): [<ffffffffb75b3cd4>] _raw_spin_unlock_irq+0x24/0x30
+[  554.544145] hardirqs last disabled at (21730): [<ffffffffb75b3ada>] _raw_spin_lock_irq+0xa/0x40
+[  554.547027] softirqs last  enabled at (20148): [<ffffffffb780064d>] __do_softirq+0x64d/0x906
+[  554.550385] softirqs last disabled at (19857): [<ffffffffb5926bd5>] irq_exit+0x175/0x1a0
+[  554.553668] ---[ end trace a389c80c2ca84244 ]---
 
-> 
-> But even then having one device for userspace would be best I think, just
-> a lot more reasonable (insert wish for unified video/display subsystem
-> here).
-> 
-> > We have a similar situation on Renesas R-Car Gen3 platforms, with a
-> > memory-to-memory compositor called VSP. Some VSP instances are connected
-> > to the display controller, and we allocate them for display
-> > unconditionally. Other VSP instances are exposed as V4L2 devices. We
-> > haven't heard of anyone who wanted to use the display VSP instances for
-> > unrelated purposes. If such a use case arose, exposing those instances
-> > through V4L2 would just be a matter of flipping one bit in the driver
-> > (all the infrastructure is in place), which we would likely expose as a
-> > module parameter.
-> 
-> Hm yeah I guess we could just assign them, if the use-cases are clear-cut
-> enough. Are you thinking of doing these links with dt (so at least it
-> would be patchable)?
-> -Daniel
+This is caused by media_device_cleanup() which destroys
+v4l2_dev->mdev->req_queue_mutex. But v4l2_release() tries to lock
+that mutex after media_device_cleanup() is called.
+
+By moving media_device_cleanup() to the video_device's release function it is
+guaranteed that the mutex is valid whenever v4l2_release is called.
+
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+ drivers/media/platform/vim2m.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/media/platform/vim2m.c b/drivers/media/platform/vim2m.c
+index e17792f837f8..8d6b09623d88 100644
+--- a/drivers/media/platform/vim2m.c
++++ b/drivers/media/platform/vim2m.c
+@@ -1275,6 +1275,9 @@ static void vim2m_device_release(struct video_device *vdev)
+
+ 	v4l2_device_unregister(&dev->v4l2_dev);
+ 	v4l2_m2m_release(dev->m2m_dev);
++#ifdef CONFIG_MEDIA_CONTROLLER
++	media_device_cleanup(&dev->mdev);
++#endif
+ 	kfree(dev);
+ }
+
+@@ -1399,7 +1402,6 @@ static int vim2m_remove(struct platform_device *pdev)
+ #ifdef CONFIG_MEDIA_CONTROLLER
+ 	media_device_unregister(&dev->mdev);
+ 	v4l2_m2m_unregister_media_controller(dev->m2m_dev);
+-	media_device_cleanup(&dev->mdev);
+ #endif
+ 	video_unregister_device(&dev->vfd);
+
+-- 
+2.23.0
 
