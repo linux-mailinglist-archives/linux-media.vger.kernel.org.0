@@ -2,167 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 635E4F5F08
-	for <lists+linux-media@lfdr.de>; Sat,  9 Nov 2019 13:25:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 31C40F5F37
+	for <lists+linux-media@lfdr.de>; Sat,  9 Nov 2019 13:57:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726556AbfKIMZY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 9 Nov 2019 07:25:24 -0500
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:35239 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726296AbfKIMZY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 9 Nov 2019 07:25:24 -0500
-Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id TPnqiwlDfPMT8TPntiPHlH; Sat, 09 Nov 2019 13:25:21 +0100
-Subject: Re: [PATCH v2 for 5.4 1/4] media: hantro: Fix s_fmt for dynamic
- resolution changes
-To:     Boris Brezillon <boris.brezillon@collabora.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Tomasz Figa <tfiga@chromium.org>
-Cc:     linux-media@vger.kernel.org, kernel@collabora.com,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        linux-rockchip@lists.infradead.org,
-        Heiko Stuebner <heiko@sntech.de>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        fbuergisser@chromium.org, linux-kernel@vger.kernel.org,
-        Douglas Anderson <dianders@chromium.org>
-References: <20191007174505.10681-1-ezequiel@collabora.com>
- <20191007174505.10681-2-ezequiel@collabora.com>
- <20191108111950.717db5ce@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <92cba217-4f14-a397-2ae5-8797cc931703@xs4all.nl>
-Date:   Sat, 9 Nov 2019 13:25:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1726426AbfKIM5C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 9 Nov 2019 07:57:02 -0500
+Received: from relay9-d.mail.gandi.net ([217.70.183.199]:35277 "EHLO
+        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726267AbfKIM5B (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 9 Nov 2019 07:57:01 -0500
+X-Originating-IP: 93.29.109.196
+Received: from aptenodytes (196.109.29.93.rev.sfr.net [93.29.109.196])
+        (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 72DDFFF806;
+        Sat,  9 Nov 2019 12:56:57 +0000 (UTC)
+Date:   Sat, 9 Nov 2019 13:56:57 +0100
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Stefan Monnier <monnier@iro.umontreal.ca>
+Cc:     linux-sunxi@googlegroups.com, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [linux-sunxi] Re: [PATCH 1/3] media: cedrus: Properly signal
+ size in mode register
+Message-ID: <20191109125657.GB845368@aptenodytes>
+References: <20191026074959.1073512-1-jernej.skrabec@siol.net>
+ <20191026074959.1073512-2-jernej.skrabec@siol.net>
+ <20191104100228.GD502900@aptenodytes>
+ <7309638.L6IRxaGt1L@jernej-laptop>
+ <20191105081034.GC584930@aptenodytes>
+ <jwv1ruj7on7.fsf-monnier+gmane.comp.hardware.netbook.arm.sunxi@gnu.org>
 MIME-Version: 1.0
-In-Reply-To: <20191108111950.717db5ce@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfGROjpkO0yiW5w03/71ux9rahKrV6cbjn+rBQvdzxxKlAd7Apz3kgqlYfMSaM1X1AvSlGY3BWUgDm2hTsMIcGiExG2JBDG3xI6ZsWrc5KlTEjv23wVcv
- WF9ZdhSlkpY5k+mO+RL4XL7md1ZuC9fXMy8Q9AEKLR+XiF4X+0nffcwAmBmwEdjSmw8fTTefifJR1jG89TiUph/j5Z21Vg7Yich3xBRWbxJWlKo6rn0MN6m1
- DS66pXm5P8SorW5smWfWEJ+0irwuKDyy1iR0Rszen18TNrV89Dz8BpIpLG4YnCJjkvi/CVRXsYGlIEDvSmo8upcLL2ihShFyt7JNrYYrFWZSFmaUm1cPodnk
- JXbP3DSSNvH00fdlajLwwRckkZnSPPL6znivxV9QQmEsqctTQ86SVHcFkfk/AjQqxehRpaMIGIDe8watMNGZ1YgdS78fmAsbzhDGEx+4/dyD702MQ4NrNhGA
- lkj5WDBtppIXir0H3UWU/Jnn5Lh2ZnDZoU66cm9f1CdwpMJe+K7IrgOnBOvP37aqeZkXbIjaHAxdvQU9gkdOirstHLsYRah9VVs0O98BSIjg6qoO4pjZyasz
- H0XXiWJywHgOFKzKNgy/mWaMIc+/PxOXfOsK/xA9wITtGnTo7QUSPQJQqYDLaaSPSnY=
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="gatW/ieO32f1wygP"
+Content-Disposition: inline
+In-Reply-To: <jwv1ruj7on7.fsf-monnier+gmane.comp.hardware.netbook.arm.sunxi@gnu.org>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/8/19 11:19 AM, Boris Brezillon wrote:
-> On Mon,  7 Oct 2019 14:45:02 -0300
-> Ezequiel Garcia <ezequiel@collabora.com> wrote:
-> 
->> Commit 953aaa1492c53 ("media: rockchip/vpu: Prepare things to support decoders")
->> changed the conditions under S_FMT was allowed for OUTPUT
->> CAPTURE buffers.
->>
->> However, and according to the mem-to-mem stateless decoder specification,
->> in order to support dynamic resolution changes, S_FMT should be allowed
->> even if OUTPUT buffers have been allocated.
->>
->> Relax decoder S_FMT restrictions on OUTPUT buffers, allowing a resolution
->> modification, provided the pixel format stays the same.
->>
->> Tested on RK3288 platforms using ChromiumOS Video Decode/Encode Accelerator Unittests.
->>
->> Fixes: 953aaa1492c53 ("media: rockchip/vpu: Prepare things to support decoders")
->> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
->> --
->> v2:
->> * Call try_fmt_out before using the format,
->>   pointed out by Philipp.
->>
->>  drivers/staging/media/hantro/hantro_v4l2.c | 28 +++++++++++++++-------
->>  1 file changed, 19 insertions(+), 9 deletions(-)
->>
->> diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
->> index 3dae52abb96c..586d243cc3cc 100644
->> --- a/drivers/staging/media/hantro/hantro_v4l2.c
->> +++ b/drivers/staging/media/hantro/hantro_v4l2.c
->> @@ -367,19 +367,26 @@ vidioc_s_fmt_out_mplane(struct file *file, void *priv, struct v4l2_format *f)
->>  {
->>  	struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
->>  	struct hantro_ctx *ctx = fh_to_ctx(priv);
->> +	struct vb2_queue *vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
->>  	const struct hantro_fmt *formats;
->>  	unsigned int num_fmts;
->> -	struct vb2_queue *vq;
->>  	int ret;
->>  
->> -	/* Change not allowed if queue is busy. */
->> -	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
->> -	if (vb2_is_busy(vq))
->> -		return -EBUSY;
->> +	ret = vidioc_try_fmt_out_mplane(file, priv, f);
->> +	if (ret)
->> +		return ret;
->>  
->>  	if (!hantro_is_encoder_ctx(ctx)) {
->>  		struct vb2_queue *peer_vq;
->>  
->> +		/*
->> +		 * In other to support dynamic resolution change,
-> 
-> 		      ^ order
-> 
->> +		 * the decoder admits a resolution change, as long
->> +		 * as the pixelformat remains. Can't be done if streaming.
->> +		 */
->> +		if (vb2_is_streaming(vq) || (vb2_is_busy(vq) &&
->> +		    pix_mp->pixelformat != ctx->src_fmt.pixelformat))
->> +			return -EBUSY;
-> 
-> Sorry to chime in only now, but I'm currently looking at the VP9 spec
-> and it seems the resolution is allowed to change dynamically [1] (I
-> guess the same applies to VP8). IIU the spec correctly, coded frames
-> using the new resolution can reference decoded frames using the old
-> one (can be higher or lower res BTW). If we force a streamoff to change
-> the resolution (as seems to be the case here), we'll lose those ref
-> frames (see the hantro_return_bufs() in stop streaming), right?
-> Hans, Tomasz, any idea how this dynamic resolution change could/should
-> be supported?
 
-As Tomasz also mentioned, supporting this is much more work, and probably
-requires new streaming ioctls.
+--gatW/ieO32f1wygP
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-In the meantime I think this patch is fine (with the typo fixed, I can do
-that), so is it OK if I merge this?
+Hi Stefan,
 
-Regards,
+On Thu 07 Nov 19, 09:24, Stefan Monnier wrote:
+> > Do you know if we have a way to report some estimation of the maximum s=
+upported
+> > fps to userspace? It would be useful to let userspace decide whether it=
+'s a
+> > better fit than software decoding.
+>=20
+> Even if the fps ends up too low for the player's taste, I can't imagine
+> why software decoding would be preferable: it seems it could be only
+> even (substantially) slower.  Or are there speed-up options in software
+> decoding not available in hardware decoding (such as playing only every
+> N'th frame, maybe?).
 
-	Hans
+This may be true for the Allwinner case as we know it today but not true in
+general. It could happen that the CPU is perfectly able to decode as fast a=
+s or
+faster than the hardware implementation, but userspace would still try to u=
+se
+hardware video decoding when it can provide good enough performance so that=
+ the
+CPU can do other things in the meantime.
 
-> 
->>  		/*
->>  		 * Since format change on the OUTPUT queue will reset
->>  		 * the CAPTURE queue, we can't allow doing so
->> @@ -389,12 +396,15 @@ vidioc_s_fmt_out_mplane(struct file *file, void *priv, struct v4l2_format *f)
->>  					  V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
->>  		if (vb2_is_busy(peer_vq))
->>  			return -EBUSY;
->> +	} else {
->> +		/*
->> +		 * The encoder doesn't admit a format change if
->> +		 * there are OUTPUT buffers allocated.
->> +		 */
->> +		if (vb2_is_busy(vq))
->> +			return -EBUSY;
->>  	}
->>  
->> -	ret = vidioc_try_fmt_out_mplane(file, priv, f);
->> -	if (ret)
->> -		return ret;
->> -
->>  	formats = hantro_get_formats(ctx, &num_fmts);
->>  	ctx->vpu_src_fmt = hantro_find_format(formats, num_fmts,
->>  					      pix_mp->pixelformat);
-> 
-> [1] Section "5.16 Reference frame scaling" of
->     https://storage.googleapis.com/downloads.webmproject.org/docs/vp9/vp9-bitstream-specification-v0.6-20160331-draft.pdf
-> 
+Having a good idea of the expected performance is important for userspace to
+make this kind of policy decision.
 
+This is kind of a common misconception that hardware offloading always impl=
+ies
+a performance improvment. In our cases where the CPU is a bottleneck, it is
+more often true than not, but this is by far not true in general.
+
+Cheers,
+
+Paul
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--gatW/ieO32f1wygP
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl3Gt5gACgkQ3cLmz3+f
+v9G+SQf/VkRK362zU+fWkU5EBkELTY0Sc9p6L4QbI9EJuQxHG4d6HimlPe7D2d8N
+QVMKBoyL5Sy1bH02gwOwdqiCDWLdJRhLVqT0utO102Hl0kTA4///BZPXhPg+9eLX
+Uw/gQA7tXTMH2qeT+VcP8DjcB9GKpFw4o5gpwDG1d/UE+hPBfKvqtI4zhh/GFz/l
+FfXxD/SrAlDzjJQiHjxVGWSuqXn7GI/zoxV9r/A13WT1axiLgXt96RtiMZuIXg+4
+FIS3K0LKB92gNA/eQYbwPCQjtrumoTA6r32t/zNzPDIRNE5J+fN53iSpcpB4pJfP
+41eUPKEtTNQyum2cmUj3e50dl3+wWQ==
+=/o/m
+-----END PGP SIGNATURE-----
+
+--gatW/ieO32f1wygP--
