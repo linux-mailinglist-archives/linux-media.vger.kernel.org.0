@@ -2,68 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9EECCF5FFE
-	for <lists+linux-media@lfdr.de>; Sat,  9 Nov 2019 16:20:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A9053F602C
+	for <lists+linux-media@lfdr.de>; Sat,  9 Nov 2019 17:02:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726514AbfKIPUp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 9 Nov 2019 10:20:45 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:39726 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726424AbfKIPUp (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 9 Nov 2019 10:20:45 -0500
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtp (Exim 4.84_2)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1iTSXV-0005c5-Fh; Sat, 09 Nov 2019 15:20:37 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1iTSY6-0000rb-8i; Sat, 09 Nov 2019 15:21:14 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.5] Various fixes and enhancements
-Date:   Sat,  9 Nov 2019 15:21:14 +0000
-Message-Id: <20191109152114.3278-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <ff5eacbd-f3c5-f5d9-88a1-a74ff6ff36f7@xs4all.nl>
-References: 
+        id S1726191AbfKIQB4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 9 Nov 2019 11:01:56 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:46324 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726061AbfKIQB4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 9 Nov 2019 11:01:56 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 19504290C12
+Message-ID: <6f51f8a8422f7ed073fae246ef8d617e439cc814.camel@collabora.com>
+Subject: Re: [PATCH v2 for 5.4 1/4] media: hantro: Fix s_fmt for dynamic
+ resolution changes
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Tomasz Figa <tfiga@chromium.org>
+Cc:     linux-media@vger.kernel.org, kernel@collabora.com,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        linux-rockchip@lists.infradead.org,
+        Heiko Stuebner <heiko@sntech.de>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        fbuergisser@chromium.org, linux-kernel@vger.kernel.org,
+        Douglas Anderson <dianders@chromium.org>
+Date:   Sat, 09 Nov 2019 13:01:43 -0300
+In-Reply-To: <92cba217-4f14-a397-2ae5-8797cc931703@xs4all.nl>
+References: <20191007174505.10681-1-ezequiel@collabora.com>
+         <20191007174505.10681-2-ezequiel@collabora.com>
+         <20191108111950.717db5ce@collabora.com>
+         <92cba217-4f14-a397-2ae5-8797cc931703@xs4all.nl>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Hi Hans,
 
-Pull request: https://patchwork.linuxtv.org/patch/59983/
-Build log: https://builder.linuxtv.org/job/patchwork/24142/
-Build time: 00:10:32
-Link: https://lore.kernel.org/linux-media/ff5eacbd-f3c5-f5d9-88a1-a74ff6ff36f7@xs4all.nl
+On Sat, 2019-11-09 at 13:25 +0100, Hans Verkuil wrote:
+> On 11/8/19 11:19 AM, Boris Brezillon wrote:
+> > On Mon,  7 Oct 2019 14:45:02 -0300
+> > Ezequiel Garcia <ezequiel@collabora.com> wrote:
+> > 
+> > > Commit 953aaa1492c53 ("media: rockchip/vpu: Prepare things to support decoders")
+> > > changed the conditions under S_FMT was allowed for OUTPUT
+> > > CAPTURE buffers.
+> > > 
+> > > However, and according to the mem-to-mem stateless decoder specification,
+> > > in order to support dynamic resolution changes, S_FMT should be allowed
+> > > even if OUTPUT buffers have been allocated.
+> > > 
+> > > Relax decoder S_FMT restrictions on OUTPUT buffers, allowing a resolution
+> > > modification, provided the pixel format stays the same.
+> > > 
+> > > Tested on RK3288 platforms using ChromiumOS Video Decode/Encode Accelerator Unittests.
+> > > 
+> > > Fixes: 953aaa1492c53 ("media: rockchip/vpu: Prepare things to support decoders")
+> > > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> > > --
+> > > v2:
+> > > * Call try_fmt_out before using the format,
+> > >   pointed out by Philipp.
+> > > 
+> > >  drivers/staging/media/hantro/hantro_v4l2.c | 28 +++++++++++++++-------
+> > >  1 file changed, 19 insertions(+), 9 deletions(-)
+> > > 
+> > > diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
+> > > index 3dae52abb96c..586d243cc3cc 100644
+> > > --- a/drivers/staging/media/hantro/hantro_v4l2.c
+> > > +++ b/drivers/staging/media/hantro/hantro_v4l2.c
+> > > @@ -367,19 +367,26 @@ vidioc_s_fmt_out_mplane(struct file *file, void *priv, struct v4l2_format *f)
+> > >  {
+> > >  	struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
+> > >  	struct hantro_ctx *ctx = fh_to_ctx(priv);
+> > > +	struct vb2_queue *vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
+> > >  	const struct hantro_fmt *formats;
+> > >  	unsigned int num_fmts;
+> > > -	struct vb2_queue *vq;
+> > >  	int ret;
+> > >  
+> > > -	/* Change not allowed if queue is busy. */
+> > > -	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
+> > > -	if (vb2_is_busy(vq))
+> > > -		return -EBUSY;
+> > > +	ret = vidioc_try_fmt_out_mplane(file, priv, f);
+> > > +	if (ret)
+> > > +		return ret;
+> > >  
+> > >  	if (!hantro_is_encoder_ctx(ctx)) {
+> > >  		struct vb2_queue *peer_vq;
+> > >  
+> > > +		/*
+> > > +		 * In other to support dynamic resolution change,
+> > 
+> > 		      ^ order
+> > 
+> > > +		 * the decoder admits a resolution change, as long
+> > > +		 * as the pixelformat remains. Can't be done if streaming.
+> > > +		 */
+> > > +		if (vb2_is_streaming(vq) || (vb2_is_busy(vq) &&
+> > > +		    pix_mp->pixelformat != ctx->src_fmt.pixelformat))
+> > > +			return -EBUSY;
+> > 
+> > Sorry to chime in only now, but I'm currently looking at the VP9 spec
+> > and it seems the resolution is allowed to change dynamically [1] (I
+> > guess the same applies to VP8). IIU the spec correctly, coded frames
+> > using the new resolution can reference decoded frames using the old
+> > one (can be higher or lower res BTW). If we force a streamoff to change
+> > the resolution (as seems to be the case here), we'll lose those ref
+> > frames (see the hantro_return_bufs() in stop streaming), right?
+> > Hans, Tomasz, any idea how this dynamic resolution change could/should
+> > be supported?
+> 
+> As Tomasz also mentioned, supporting this is much more work, and probably
+> requires new streaming ioctls.
+> 
+> In the meantime I think this patch is fine (with the typo fixed, I can do
+> that), so is it OK if I merge this?
+> 
 
-gpg: Signature made Sat 09 Nov 2019 02:56:59 PM UTC
-gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+Yes, please.
 
-Summary: 3 patches and/or PDF generation with issues, being 0 at build time
+I originally posted this as a v5.4 fix, so it would be nice
+if we can mark this as stable material.
 
-Error/warnings:
-
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0001-dt-bindings-sh-mobile-ceu-Remove-now-unimplemented-b.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0001-dt-bindings-sh-mobile-ceu-Remove-now-unimplemented-b.patch
-patches/0001-dt-bindings-sh-mobile-ceu-Remove-now-unimplemented-b.patch:10: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-patches/0001-dt-bindings-sh-mobile-ceu-Remove-now-unimplemented-b.patch:10: ERROR: Please use git commit description style 'commit <12+ chars of sha1> ("<title line>")' - ie: 'commit 43a445f188e1 ("media: sh_mobile_ceu_camera: remove obsolete soc_camera driver")'
-patches/0001-dt-bindings-sh-mobile-ceu-Remove-now-unimplemented-b.patch:22: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-patches/0001-dt-bindings-sh-mobile-ceu-Remove-now-unimplemented-b.patch:25: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.txt
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0015-vim2m-media_device_cleanup-was-called-too-early.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0015-vim2m-media_device_cleanup-was-called-too-early.patch
-patches/0015-vim2m-media_device_cleanup-was-called-too-early.patch:6: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0016-vicodec-media_device_cleanup-was-called-too-early.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0016-vicodec-media_device_cleanup-was-called-too-early.patch
-patches/0016-vicodec-media_device_cleanup-was-called-too-early.patch:6: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+Thanks,
+Ezequiel
 
