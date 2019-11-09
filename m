@@ -2,83 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 68547F5E97
-	for <lists+linux-media@lfdr.de>; Sat,  9 Nov 2019 12:08:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 484F2F5EB4
+	for <lists+linux-media@lfdr.de>; Sat,  9 Nov 2019 12:22:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726289AbfKILII (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 9 Nov 2019 06:08:08 -0500
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:52289 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726143AbfKILII (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 9 Nov 2019 06:08:08 -0500
-Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id TOb3iwTk7PMT8TOb6iPBE6; Sat, 09 Nov 2019 12:08:05 +0100
-Subject: Re: [PATCH] media: rockchip/rga: fix potential use after free
-To:     Pan Bian <bianpan2016@163.com>, Jacob Chen <jacob-chen@iotwrt.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Heiko Stuebner <heiko@sntech.de>
-Cc:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <1572969354-8967-1-git-send-email-bianpan2016@163.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <e89f6a90-4899-0945-e11a-67be6a28e7c0@xs4all.nl>
-Date:   Sat, 9 Nov 2019 12:08:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1726275AbfKILWp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 9 Nov 2019 06:22:45 -0500
+Received: from mail-ed1-f53.google.com ([209.85.208.53]:35646 "EHLO
+        mail-ed1-f53.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726149AbfKILWp (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 9 Nov 2019 06:22:45 -0500
+Received: by mail-ed1-f53.google.com with SMTP id r16so8073338edq.2
+        for <linux-media@vger.kernel.org>; Sat, 09 Nov 2019 03:22:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=2KJzeg38k9TKP9n2OHi7V1tXDJtLQP/OdiV4r/c9Qw4=;
+        b=YlVtrbheqLjXbAWyZhaPH6O4RntSaSg6mNxZeDNdjviC/mLwwz5yZmdchc9K7fjO5r
+         MV8hoOwJpyJkHyRuzgwyIbq1y1zftyhCam1YE8EA/XfOvhopBrdKxxZfHCChKYT8b4pd
+         9vOBEHKK8ymvr5y1m0qq80cPB4FeqvV+7V0nY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=2KJzeg38k9TKP9n2OHi7V1tXDJtLQP/OdiV4r/c9Qw4=;
+        b=RE2nUYoICPbWScO2XWX3W5JHROMAs4dmbt7DVFwUy9kqyvCP0aqJqxxbksSeIOK6j4
+         56/2O77ttWx2UAGdBVuQNPxHJ2STsOKNmlcyUJDKnd6N0WXyLgvo4sh+mwhsgWzyJ+v2
+         kyanxqRuugPtuEOGjL6acioShse30uUriZnQOZmDZ9RzMXF3x6Q/ngVZhAPKnueXiz1W
+         XWFBw/VhCP3vcG6NNdAqTPqPa8G/AGw21ASNA0AMSCYhD7jW9fmUGh56FmsCXDpaarZn
+         IESe8+MyAEcUPqZbOpqSRx76M2Tzrgr8CwWK4GthHkkjmkK0ZVo2bCrBpysagYQ/dh1p
+         ldGw==
+X-Gm-Message-State: APjAAAXnzGGk4IRzUVrlSBBWRIX3C3Ktrc5xwn+oVM1jtx4NohpTDjW3
+        0CS+jUhlWC0CHqktHEZd3kkMVK01AdnvvA==
+X-Google-Smtp-Source: APXvYqzSvmCdRJtj0T0zFJSLa8TifcGqLggxXog9XW+h8MIz/zkLRP7HpDcoFHdUsKejN5yg0BmV2Q==
+X-Received: by 2002:a50:895c:: with SMTP id f28mr15000998edf.125.1573298562775;
+        Sat, 09 Nov 2019 03:22:42 -0800 (PST)
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com. [209.85.208.54])
+        by smtp.gmail.com with ESMTPSA id d26sm287598edu.37.2019.11.09.03.22.42
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 09 Nov 2019 03:22:42 -0800 (PST)
+Received: by mail-ed1-f54.google.com with SMTP id f7so8050903edq.3
+        for <linux-media@vger.kernel.org>; Sat, 09 Nov 2019 03:22:42 -0800 (PST)
+X-Received: by 2002:a5d:4946:: with SMTP id r6mr11729096wrs.155.1573298226861;
+ Sat, 09 Nov 2019 03:17:06 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1572969354-8967-1-git-send-email-bianpan2016@163.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfAEIQNDj0MrkNwMDONLTaAveOQTV90nc/m7292hp5RhbHodvPvVOF7YABtpCI5/hudEn1y22ZqA+1Zv8Q5vySCxJngJ6HhmqrH0G4Pbt7P+WOd0lz5Y4
- 63/JBeAViow65qolHk+fGi3DH5TAgkFqMuZyXAoygqjBxjI/S2NCX4SYVCL5wvIpNseOd29oQlXoTF6BPxGwODycBm/YXesDN/5rRDPxhPSdkdkx6ze4KaX/
- rIRLjaZ0DUHD0Q5blMv6aM+rE2gn/llYsl1ETROOdfA3aHM7GZ/aBax1Vb5CFJfB/rFttkCOqDlGu0X+fH53RGgAg4cza3jzMzgoxrlYQ+9534j/mKlg7JcY
- X5BUCQK0PuMiecZaAZ4JadtiuegxK/ePgPiemh52wAr2qxgako0xpEPjqnh2HHDBtVfIUhF5tV0O+mDwtS3ikCxbAjMRyQUywTz2KwIoccd+y/+sjuoIwD+3
- MfVUAq0p1Ft5fY6e
+References: <20191105105456.7xbhtistnbp272lj@sirius.home.kraxel.org>
+ <20191106084344.GB189998@stefanha-x1.localdomain> <20191106095122.jju7eo57scfoat6a@sirius.home.kraxel.org>
+ <CAJSP0QUJBkqtVJq17tfX5O-JuvEGcZQviP0C3tv9qSDy-P-hcg@mail.gmail.com>
+ <20191106125023.uhdhtqisybilxasr@sirius.home.kraxel.org> <CAJSP0QXG5Z3zCnPL+Y7EQfCeey2Fb9OdPdx531Jz2Ofk63wndg@mail.gmail.com>
+ <20191108072210.ywyneaoc2y4slth6@sirius.home.kraxel.org> <CAJSP0QWZc=z56CHEKa8WVe9Cw2-EhDFU+7NeGgL+g-Go5q3K5Q@mail.gmail.com>
+ <CADMs+9ZrfEt4QfCM9pC243KTejvbORQ-Nzo0eHjU0FJ8y-2kwQ@mail.gmail.com> <CAJSP0QUF1YA0c7b2ENeDLo1T9OsfeTJbonOYug5Fc56--YqZJQ@mail.gmail.com>
+In-Reply-To: <CAJSP0QUF1YA0c7b2ENeDLo1T9OsfeTJbonOYug5Fc56--YqZJQ@mail.gmail.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Sat, 9 Nov 2019 20:16:52 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5C6mVEUQUP8-=GevM+rV1ksFg68kyWAjCj+cjB-iQiXaA@mail.gmail.com>
+Message-ID: <CAAFQd5C6mVEUQUP8-=GevM+rV1ksFg68kyWAjCj+cjB-iQiXaA@mail.gmail.com>
+Subject: Re: guest / host buffer sharing ...
+To:     Stefan Hajnoczi <stefanha@gmail.com>
+Cc:     =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
+        Gerd Hoffmann <kraxel@redhat.com>, geoff@hostfission.com,
+        virtio-dev@lists.oasis-open.org, Alex Lau <alexlau@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        qemu-devel <qemu-devel@nongnu.org>,
+        Keiichi Watanabe <keiichiw@chromium.org>,
+        David Stevens <stevensd@chromium.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Dylan Reid <dgreid@chromium.org>,
+        Gurchetan Singh <gurchetansingh@chromium.org>,
+        Dmitry Morozov <dmitry.morozov@opensynergy.com>,
+        Pawel Osciak <posciak@chromium.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/5/19 4:55 PM, Pan Bian wrote:
-> The variable vga->vfd is an alias for vfd. Therefore, releasing vfd and
-> then unregister vga->vfd will lead to a use after free bug. In fact, the
-> free operation and the unregister operation are reversed.
-> 
-> Signed-off-by: Pan Bian <bianpan2016@163.com>
-> ---
->  drivers/media/platform/rockchip/rga/rga.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/platform/rockchip/rga/rga.c
-> index e9ff12b6b5bb..613b868fce33 100644
-> --- a/drivers/media/platform/rockchip/rga/rga.c
-> +++ b/drivers/media/platform/rockchip/rga/rga.c
-> @@ -901,9 +901,9 @@ static int rga_probe(struct platform_device *pdev)
->  	return 0;
->  
->  rel_vdev:
-> -	video_device_release(vfd);
-> -unreg_video_dev:
->  	video_unregister_device(rga->vfd);
-> +unreg_video_dev:
-> +	video_device_release(vfd);
->  unreg_v4l2_dev:
->  	v4l2_device_unregister(&rga->v4l2_dev);
->  err_put_clk:
-> 
+On Sat, Nov 9, 2019 at 7:12 PM Stefan Hajnoczi <stefanha@gmail.com> wrote:
+>
+> On Sat, Nov 9, 2019 at 2:41 AM St=C3=A9phane Marchesin <marcheu@chromium.=
+org> wrote:
+> >
+> > On Thu, Nov 7, 2019 at 11:35 PM Stefan Hajnoczi <stefanha@gmail.com> wr=
+ote:
+> > >
+> > > On Fri, Nov 8, 2019 at 8:22 AM Gerd Hoffmann <kraxel@redhat.com> wrot=
+e:
+> > > > > > Adding a list of common properties to the spec certainly makes =
+sense,
+> > > > > > so everybody uses the same names.  Adding struct-ed properties =
+for
+> > > > > > common use cases might be useful too.
+> > > > >
+> > > > > Why not define VIRTIO devices for wayland and friends?
+> > > >
+> > > > There is an out-of-tree implementation of that, so yes, that surely=
+ is
+> > > > an option.
+> > > >
+> > > > Wayland needs (a) shared buffers, mostly for gfx data, and (b) a st=
+ream
+> > > > pipe as control channel.  Pretty much the same for X11, except that
+> > > > shared buffers are optional because the X protocol can also squeeze=
+ all
+> > > > display updates through the stream pipe.
+> > > >
+> > > > So, if you want allow guests talk to the host display server you ca=
+n run
+> > > > the stream pipe over vsock.  But there is nothing for the shared
+> > > > buffers ...
+> > > >
+> > > > We could replicate vsock functionality elsewhere.  I think that hap=
+pened
+> > > > in the out-of-tree virtio-wayland implementation.  There also was s=
+ome
+> > > > discussion about adding streams to virtio-gpu, slightly pimped up s=
+o you
+> > > > can easily pass around virtio-gpu resource references for buffer
+> > > > sharing.  But given that getting vsock right isn't exactly trivial
+> > > > (consider all the fairness issues when multiplexing multiple stream=
+s
+> > > > over a virtqueue for example) I don't think this is a good plan.
+> > >
+> > > I also think vsock isn't the right fit.
+> > >
+> >
+> > +1 we are using vsock right now and we have a few pains because of it.
+> >
+> > I think the high-level problem is that because it is a side channel,
+> > we don't see everything that happens to the buffer in one place
+> > (rendering + display) and we can't do things like reallocate the
+> > format accordingly if needed, or we can't do flushing etc. on that
+> > buffer where needed.
+>
+> Do you think a VIRTIO device designed for your use case is an
+> appropriate solution?
+>
+> I have been arguing that these use cases should be addressed with
+> dedicated VIRTIO devices, but I don't understand the use cases of
+> everyone on the CC list so maybe I'm missing something :).  If there
+> are reasons why having a VIRTIO device for your use case does not make
+> sense then it would be good to discuss them.  Blockers like "VIRTIO is
+> too heavyweight/complex for us because ...", "Our application can't
+> make use of VIRTIO devices because ...", etc would be important to
+> hear.
 
-This isn't right, you need to update the goto labels as well.
+Do you have any idea on how to model Wayland as a VIRTIO device?
 
-With this change unreg_video_dev releases the vdev, while rel_vdev
-unregisters it. Very confusing.
+Stephane mentioned that we use vsock, but in fact we have our own
+VIRTIO device, except that it's semantically almost the same as vsock,
+with a difference being the ability to pass buffers and pipes across
+the VM boundary.
 
-I'd also rename unreg_video_dev to unreg_vdev to be consistent with
-rel_vdev.
-
-Regards,
-
-	Hans
+Best regards,
+Tomasz
