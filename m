@@ -2,131 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AC371F5F9C
-	for <lists+linux-media@lfdr.de>; Sat,  9 Nov 2019 15:55:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C88B3F5F9F
+	for <lists+linux-media@lfdr.de>; Sat,  9 Nov 2019 16:02:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726394AbfKIOzo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 9 Nov 2019 09:55:44 -0500
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:56741 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726282AbfKIOzo (ORCPT
+        id S1726349AbfKIPCD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 9 Nov 2019 10:02:03 -0500
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:41301 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726282AbfKIPCD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 9 Nov 2019 09:55:44 -0500
+        Sat, 9 Nov 2019 10:02:03 -0500
 Received: from [192.168.2.10] ([46.9.232.237])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id TS9KiLIZdXYiTTS9Ni2twR; Sat, 09 Nov 2019 15:55:41 +0100
+        id TSFSiLJxCXYiTTSFVi2uYp; Sat, 09 Nov 2019 16:02:01 +0100
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] vicodec: media_device_cleanup was called too early
-Message-ID: <166d5fb5-11e6-48a3-ca66-8da28eb3e46d@xs4all.nl>
-Date:   Sat, 9 Nov 2019 15:55:38 +0100
+Subject: [GIT PULL FOR v5.5] Various fixes and enhancements
+Message-ID: <ff5eacbd-f3c5-f5d9-88a1-a74ff6ff36f7@xs4all.nl>
+Date:   Sat, 9 Nov 2019 16:01:58 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfKSbLAGAwA3LQiAQ4vB+Oe1itCugbl29KySSVMhuRzryLnEAsV0EQsP76O660dqQjbuDIY0wWC94ZH6LkDAnpz+hDQzgwYKOx36JnEGg+YKvIDj6Q7Id
- PDOuf9HQ43VoX7/DTC7Z/clK6A2zgpowl8jPcKPhcxr9jPEvO1PxyLs+dGDIhCfLQbC77e2Tmc/u5g==
+X-CMAE-Envelope: MS4wfNFH6xmtaRAyJZ8Wpd2FKuaDyV8xGujQFUOf/UAgdKWKcU/rAgvNHrtIIhd/k2zf6n9QnIeBYy+dc1t1GEPSQXyVamBOPEhJgyAvdHLnvvJPUsaZhnzS
+ zRK4KONIoYxPixdu3zeQ1neAMLXG6YYqAbRu3E6v5tsa+FsIh0SbJ1eDP9TpPDIFOaQX8Pk2DlkyeQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Running the contrib/test/test-media script in v4l-utils with the vicodec argument
-will cause this kernel warning:
+The following changes since commit b0b1c88f1c19aeedb260d1889a7d19838617c97c:
 
-[  372.298824] ------------[ cut here ]------------
-[  372.298848] DEBUG_LOCKS_WARN_ON(lock->magic != lock)
-[  372.298896] WARNING: CPU: 11 PID: 2220 at kernel/locking/mutex.c:938 __mutex_lock+0x919/0xc10
-[  372.298907] Modules linked in: vicodec v4l2_mem2mem vivid rc_cec v4l2_tpg videobuf2_dma_contig cec rc_core v4l2_dv_timings
-videobuf2_vmalloc videobuf2_memops videobuf2_v4l2 videobuf2_common videodev mc vmw_balloon vmw_vmci button vmwgfx [last unloaded: vimc]
-[  372.298961] CPU: 11 PID: 2220 Comm: sleep Not tainted 5.4.0-rc1-test-no #150
-[  372.298970] Hardware name: VMware, Inc. VMware Virtual Platform/440BX Desktop Reference Platform, BIOS 6.00 07/29/2019
-[  372.298983] RIP: 0010:__mutex_lock+0x919/0xc10
-[  372.298995] Code: 59 83 e8 9a fc 16 ff 44 8b 05 23 61 38 01 45 85 c0 0f 85 ef f7 ff ff 48 c7 c6 a0 1f 87 82 48 c7 c7 a0 1e 87 82 e8 cd bb
-f7 fe <0f> 0b e9 d5 f7 ff ff f6 c3 04 0f 84 3b fd ff ff 49 89 df 41 83 e7
-[  372.299004] RSP: 0018:ffff8881b400fb80 EFLAGS: 00010286
-[  372.299014] RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
-[  372.299022] RDX: 0000000000000003 RSI: 0000000000000004 RDI: ffffed1036801f62
-[  372.299030] RBP: ffff8881b400fcf0 R08: ffffffff81217c91 R09: fffffbfff061c271
-[  372.299038] R10: fffffbfff061c270 R11: ffffffff830e1383 R12: ffff88814761dc80
-[  372.299046] R13: 0000000000000000 R14: ffff88814761cbf0 R15: ffff88814761d030
-[  372.299055] FS:  0000000000000000(0000) GS:ffff8881b68c0000(0000) knlGS:0000000000000000
-[  372.299063] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  372.299071] CR2: 00007f606d78aa20 CR3: 0000000003013002 CR4: 00000000001606e0
-[  372.299153] Call Trace:
-[  372.299176]  ? __kasan_slab_free+0x12f/0x180
-[  372.299187]  ? kmem_cache_free+0x9b/0x250
-[  372.299200]  ? do_exit+0xcdf/0x1200
-[  372.299210]  ? do_group_exit+0x85/0x130
-[  372.299220]  ? __x64_sys_exit_group+0x23/0x30
-[  372.299231]  ? do_syscall_64+0x5e/0x1c0
-[  372.299241]  ? entry_SYSCALL_64_after_hwframe+0x44/0xa9
-[  372.299295]  ? v4l2_release+0xed/0x190 [videodev]
-[  372.299309]  ? mutex_lock_io_nested+0xb80/0xb80
-[  372.299323]  ? find_held_lock+0x85/0xa0
-[  372.299335]  ? fsnotify+0x5b0/0x600
-[  372.299351]  ? locks_remove_file+0x78/0x2b0
-[  372.299363]  ? __fsnotify_update_child_dentry_flags.part.0+0x170/0x170
-[  372.299383]  ? vidioc_querycap+0x50/0x50 [vicodec]
-[  372.299426]  ? v4l2_release+0xed/0x190 [videodev]
-[  372.299467]  v4l2_release+0xed/0x190 [videodev]
-[  372.299484]  __fput+0x15a/0x390
-[  372.299499]  task_work_run+0xb2/0xe0
-[  372.299512]  do_exit+0x4d0/0x1200
-[  372.299528]  ? do_user_addr_fault+0x367/0x610
-[  372.299538]  ? release_task+0x990/0x990
-[  372.299552]  ? rwsem_spin_on_owner+0x170/0x170
-[  372.299567]  ? vmacache_find+0xb2/0x100
-[  372.299580]  do_group_exit+0x85/0x130
-[  372.299592]  __x64_sys_exit_group+0x23/0x30
-[  372.299602]  do_syscall_64+0x5e/0x1c0
-[  372.299614]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-[  372.299624] RIP: 0033:0x7f606d74a9d6
-[  372.299640] Code: Bad RIP value.
-[  372.299648] RSP: 002b:00007fff65364468 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
-[  372.299658] RAX: ffffffffffffffda RBX: 00007f606d83b760 RCX: 00007f606d74a9d6
-[  372.299666] RDX: 0000000000000000 RSI: 000000000000003c RDI: 0000000000000000
-[  372.299673] RBP: 0000000000000000 R08: 00000000000000e7 R09: ffffffffffffff80
-[  372.299681] R10: 00007fff65364334 R11: 0000000000000246 R12: 00007f606d83b760
-[  372.299689] R13: 0000000000000002 R14: 00007f606d844428 R15: 0000000000000000
-[  372.299704] ---[ end trace add7d62ca4bc65e3 ]---
+  media: arm64: dts: allwinner: beelink-gs1: Add rc-beelink-gs1 keymap (2019-11-09 09:17:26 +0100)
 
-This is caused by media_device_cleanup() which destroys
-v4l2_dev->mdev->req_queue_mutex. But v4l2_release() tries to lock
-that mutex after media_device_cleanup() is called.
+are available in the Git repository at:
 
-By moving media_device_cleanup() to the v4l2_device's release function it is
-guaranteed that the mutex is valid whenever v4l2_release is called.
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.5r
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
- drivers/media/platform/vicodec/vicodec-core.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+for you to fetch changes up to abcad34ef8966113959c8deed3592ae661fb2f1d:
 
-diff --git a/drivers/media/platform/vicodec/vicodec-core.c b/drivers/media/platform/vicodec/vicodec-core.c
-index 0ee143ae0f6b..82350097503e 100644
---- a/drivers/media/platform/vicodec/vicodec-core.c
-+++ b/drivers/media/platform/vicodec/vicodec-core.c
-@@ -2139,6 +2139,9 @@ static void vicodec_v4l2_dev_release(struct v4l2_device *v4l2_dev)
- 	v4l2_m2m_release(dev->stateful_enc.m2m_dev);
- 	v4l2_m2m_release(dev->stateful_dec.m2m_dev);
- 	v4l2_m2m_release(dev->stateless_dec.m2m_dev);
-+#ifdef CONFIG_MEDIA_CONTROLLER
-+	media_device_cleanup(&dev->mdev);
-+#endif
- 	kfree(dev);
- }
+  vicodec: media_device_cleanup was called too early (2019-11-09 15:29:09 +0100)
 
-@@ -2250,7 +2253,6 @@ static int vicodec_remove(struct platform_device *pdev)
- 	v4l2_m2m_unregister_media_controller(dev->stateful_enc.m2m_dev);
- 	v4l2_m2m_unregister_media_controller(dev->stateful_dec.m2m_dev);
- 	v4l2_m2m_unregister_media_controller(dev->stateless_dec.m2m_dev);
--	media_device_cleanup(&dev->mdev);
- #endif
+----------------------------------------------------------------
+Tag branch
 
- 	video_unregister_device(&dev->stateful_enc.vfd);
--- 
-2.23.0
+----------------------------------------------------------------
+Chuhong Yuan (1):
+      media: si470x-i2c: add missed operations in remove
 
+Dafna Hirschfeld (1):
+      media: vimc: upon streaming, check that the pipeline starts with a source entity
+
+Hans Verkuil (3):
+      v4l2-ioctl.c: zero reserved fields for S/TRY_FMT
+      vim2m: media_device_cleanup was called too early
+      vicodec: media_device_cleanup was called too early
+
+Hirokazu Honda (1):
+      media: mtk-vcodec: Remove extra area allocation in an input buffer on encoding
+
+Jernej Skrabec (3):
+      media: cedrus: Properly signal size in mode register
+      media: cedrus: Fix H264 4k support
+      media: cedrus: Increase maximum supported size
+
+Navid Emamdoost (1):
+      media: aspeed-video: Fix memory leaks in aspeed_video_probe
+
+Philipp Zabel (2):
+      media: coda: disable encoder compose selections
+      media: coda: disable decoder crop selections
+
+Pi-Hsun Shih (1):
+      media: v4l2-ctrl: Lock main_hdl on operations of requests_queued.
+
+Pragnesh Patel (1):
+      media: dt-bindings: Fix building error for dt_binding_check
+
+Simon Horman (1):
+      dt-bindings: sh-mobile-ceu: Remove now unimplemented bindings documentation
+
+zhong jiang (1):
+      media: v4l2: Use FIELD_SIZEOF directly
+
+ Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml |  2 +-
+ Documentation/devicetree/bindings/media/sh_mobile_ceu.txt            | 17 ------
+ drivers/media/platform/aspeed-video.c                                |  3 +-
+ drivers/media/platform/coda/coda-common.c                            |  6 ++-
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c                   |  9 ++--
+ drivers/media/platform/vicodec/vicodec-core.c                        |  4 +-
+ drivers/media/platform/vim2m.c                                       |  4 +-
+ drivers/media/platform/vimc/vimc-common.c                            | 10 ++++
+ drivers/media/platform/vimc/vimc-common.h                            |  8 +++
+ drivers/media/platform/vimc/vimc-streamer.c                          | 13 ++++-
+ drivers/media/radio/si470x/radio-si470x-i2c.c                        |  2 +
+ drivers/media/v4l2-core/v4l2-ctrls.c                                 |  7 +++
+ drivers/media/v4l2-core/v4l2-ioctl.c                                 | 26 ++++-----
+ drivers/staging/media/sunxi/cedrus/cedrus.h                          |  7 +++
+ drivers/staging/media/sunxi/cedrus/cedrus_h264.c                     | 93 ++++++++++++++++++++++++++++----
+ drivers/staging/media/sunxi/cedrus/cedrus_h265.c                     |  2 +-
+ drivers/staging/media/sunxi/cedrus/cedrus_hw.c                       |  9 +++-
+ drivers/staging/media/sunxi/cedrus/cedrus_hw.h                       |  2 +-
+ drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c                    |  2 +-
+ drivers/staging/media/sunxi/cedrus/cedrus_regs.h                     | 13 +++++
+ drivers/staging/media/sunxi/cedrus/cedrus_video.c                    |  4 +-
+ 21 files changed, 183 insertions(+), 60 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/sh_mobile_ceu.txt
