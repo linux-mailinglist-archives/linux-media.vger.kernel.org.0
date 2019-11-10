@@ -2,123 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CD92BF6924
-	for <lists+linux-media@lfdr.de>; Sun, 10 Nov 2019 14:36:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA60BF6926
+	for <lists+linux-media@lfdr.de>; Sun, 10 Nov 2019 14:44:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726561AbfKJNgZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 10 Nov 2019 08:36:25 -0500
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:42909 "EHLO
+        id S1726653AbfKJNoU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 10 Nov 2019 08:44:20 -0500
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:48931 "EHLO
         lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726390AbfKJNgZ (ORCPT
+        by vger.kernel.org with ESMTP id S1726616AbfKJNoU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 10 Nov 2019 08:36:25 -0500
+        Sun, 10 Nov 2019 08:44:20 -0500
 Received: from [192.168.2.10] ([46.9.232.237])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id TnO6iPWRKXYiTTnOAi4JGW; Sun, 10 Nov 2019 14:36:22 +0100
-Subject: Re: [git:media_tree/master] media: mtk-vcodec: Remove extra area
- allocation in an input buffer on encoding
-To:     Tomasz Figa <tfiga@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linuxtv-commits@linuxtv.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Hirokazu Honda <hiroh@chromium.org>
-References: <E1iTgvs-0004qe-3k@www.linuxtv.org>
- <CAAFQd5C+X+b1BMVicwXRXWZZ=t8SCJDgFQcd3hFs2zWuzUstKg@mail.gmail.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <ef927bf9-57ad-3be0-c9af-30da4751fdb8@xs4all.nl>
-Date:   Sun, 10 Nov 2019 14:36:18 +0100
+        id TnVniPY1fXYiTTnVqi4Jrb; Sun, 10 Nov 2019 14:44:18 +0100
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Tomasz Figa <tfiga@chromium.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL v2 FOR v5.5] Various fixes
+Message-ID: <a0d43238-a7dd-5fbb-4256-3739cc9d29e8@xs4all.nl>
+Date:   Sun, 10 Nov 2019 14:44:15 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <CAAFQd5C+X+b1BMVicwXRXWZZ=t8SCJDgFQcd3hFs2zWuzUstKg@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfI71CdaPrg7pVmTkqvf6PxxQMcLIuhp6wDfDk+Em4Kl/zobfimiOaROU6ngDAI7vgnreuCDezwzVWxbBv6ErGuGoABEv1DbO3xSzaxWJ46Cu2yJFiaqh
- 8APwSQoKTiX4tn84tyjhEwG25trWXV9Ta6xPiODpFt2iolLZzgXU4HHkV9ktImHQYGhSZ4VzcOFPBDTaC6cj2yTziBMMun18d/6b46Jlvi3Vrts2BLF29+iA
- us0lDKqNMp1dFC/MwM4HFvEHNgA6j87Xw7mUPYa0bC9WLlGMXLOFett3/g4yzgoD8r8Vowj/3+WFk5VoasZ++g==
+X-CMAE-Envelope: MS4wfDGW/jfEt6eoJzJ+FqcVjcdZ7390wm+CHXAX79yL+GtBYGqZN9y6Khd8ZspTxHYsxYbuaUjntHJMLwWyj4Dlt4kImRe3TfOoA7HYh3/LvHkF98FBSPrR
+ BcAmC6ZNvtKrQXKass+mTZpbi2N6LTAg8OgYYbDj2/WzI25c3wTF6JkCP4uNNT7AKOJWc1k/GD7bVzunqYmGLcaBEDzLpuwle2c=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/10/19 2:13 PM, Tomasz Figa wrote:
-> Hi Mauro and Hans,
-> 
-> On Sun, Nov 10, 2019 at 3:42 PM Mauro Carvalho Chehab
-> <mchehab@kernel.org> wrote:
->>
->> This is an automatic generated email to let you know that the following patch were queued:
->>
->> Subject: media: mtk-vcodec: Remove extra area allocation in an input buffer on encoding
->> Author:  Hirokazu Honda <hiroh@chromium.org>
->> Date:    Sun Nov 10 07:25:34 2019 +0100
-> 
-> I asked for some more testing on different platforms in my review
-> reply and we got some offline signals that it might not work on some
-> platforms, due to some hardware prefetch. (Would be better if that was
-> reported to the mailing list instead.) We're trying to figure out the
-> exact requirements here, because half of the frame doesn't sound like
-> something reasonable. Let's hold off the patch for the time being.
+This is probably the last PR for 5.5.
 
-I'll repost my last pull request, including a revert of this patch.
+Change since the previous GIT PULL:
 
-The state of this patch in patchwork is changed back to New.
+Added:
 
-I'll wait for your feedback on what to do with this patch.
+Revert "media: mtk-vcodec: Remove extra area allocation in an input buffer on encoding"
+
+as requested by Tomasz.
 
 Regards,
 
 	Hans
 
-> 
-> Best regards,
-> Tomasz
-> 
->>
->> MediaTek encoder allocates non pixel data area for an input buffer every
->> plane. As the input buffer should be read-only, the driver should not write
->> anything in the buffer. Therefore, the extra data should be unnecessary.
->>
->> Signed-off-by: Hirokazu Honda <hiroh@chromium.org>
->> Reviewed-by: Tomasz Figa <tfiga@chromium.org>
->> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
->>
->>  drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c | 9 +++------
->>  1 file changed, 3 insertions(+), 6 deletions(-)
->>
->> ---
->>
->> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
->> index fd8de027e83e..6aad53d97d74 100644
->> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
->> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
->> @@ -332,14 +332,12 @@ static int vidioc_try_fmt(struct v4l2_format *f,
->>
->>                 pix_fmt_mp->num_planes = fmt->num_planes;
->>                 pix_fmt_mp->plane_fmt[0].sizeimage =
->> -                               pix_fmt_mp->width * pix_fmt_mp->height +
->> -                               ((ALIGN(pix_fmt_mp->width, 16) * 2) * 16);
->> +                       pix_fmt_mp->width * pix_fmt_mp->height;
->>                 pix_fmt_mp->plane_fmt[0].bytesperline = pix_fmt_mp->width;
->>
->>                 if (pix_fmt_mp->num_planes == 2) {
->>                         pix_fmt_mp->plane_fmt[1].sizeimage =
->> -                               (pix_fmt_mp->width * pix_fmt_mp->height) / 2 +
->> -                               (ALIGN(pix_fmt_mp->width, 16) * 16);
->> +                               (pix_fmt_mp->width * pix_fmt_mp->height) / 2;
->>                         pix_fmt_mp->plane_fmt[2].sizeimage = 0;
->>                         pix_fmt_mp->plane_fmt[1].bytesperline =
->>                                                         pix_fmt_mp->width;
->> @@ -347,8 +345,7 @@ static int vidioc_try_fmt(struct v4l2_format *f,
->>                 } else if (pix_fmt_mp->num_planes == 3) {
->>                         pix_fmt_mp->plane_fmt[1].sizeimage =
->>                         pix_fmt_mp->plane_fmt[2].sizeimage =
->> -                               (pix_fmt_mp->width * pix_fmt_mp->height) / 4 +
->> -                               ((ALIGN(pix_fmt_mp->width, 16) / 2) * 16);
->> +                               (pix_fmt_mp->width * pix_fmt_mp->height) / 4;
->>                         pix_fmt_mp->plane_fmt[1].bytesperline =
->>                                 pix_fmt_mp->plane_fmt[2].bytesperline =
->>                                 pix_fmt_mp->width / 2;
 
+The following changes since commit 693c5f144aeb9636ae161a3c61a838c50b2ae41c:
+
+  media: vicodec: media_device_cleanup was called too early (2019-11-10 07:45:17 +0100)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.5s
+
+for you to fetch changes up to 68b4818bde42d07c81dff4eeb448192f0d01cee1:
+
+  Revert "media: mtk-vcodec: Remove extra area allocation in an input buffer on encoding" (2019-11-10 14:30:18 +0100)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Benoit Parrot (2):
+      dt-bindings: media: ti-vpe: Document VPE driver
+      media: ti-vpe: vpe: fix compatible to match bindings
+
+Colin Ian King (1):
+      media: zr364xx: remove redundant assigmnent to idx, clean up code
+
+Ezequiel Garcia (1):
+      media: hantro: Fix s_fmt for dynamic resolution changes
+
+Hans Verkuil (1):
+      Revert "media: mtk-vcodec: Remove extra area allocation in an input buffer on encoding"
+
+Jonas Karlman (5):
+      media: hantro: Fix H264 motion vector buffer offset
+      media: hantro: Reduce H264 extra space for motion vectors
+      media: hantro: Use output buffer width and height for H264 decoding
+      media: hantro: Remove now unused H264 pic_size
+      media: hantro: Set H264 FIELDPIC_FLAG_E flag correctly
+
+Nishad Kamdar (2):
+      media: siano: Use the correct style for SPDX License Identifier
+      media: i2c: Use the correct style for SPDX License Identifier
+
+Ricardo Ribalda Delgado (1):
+      Documentation: media: *_DEFAULT targets for subdevs
+
+ Documentation/devicetree/bindings/media/ti,vpe.yaml     | 64 +++++++++++++++++++++++++++++++++++++++++++++
+ Documentation/media/uapi/v4l/v4l2-selection-targets.rst |  4 ++-
+ MAINTAINERS                                             |  1 +
+ drivers/media/common/siano/smsir.h                      |  2 +-
+ drivers/media/i2c/max2175.h                             |  4 +--
+ drivers/media/i2c/saa711x_regs.h                        |  2 +-
+ drivers/media/i2c/tda1997x_regs.h                       |  2 +-
+ drivers/media/i2c/tvp5150_reg.h                         |  2 +-
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c      |  9 ++++---
+ drivers/media/platform/ti-vpe/vpe.c                     |  2 +-
+ drivers/media/usb/zr364xx/zr364xx.c                     |  6 ++---
+ drivers/staging/media/hantro/hantro_g1_h264_dec.c       | 37 +++++++++++++++++---------
+ drivers/staging/media/hantro/hantro_h264.c              |  5 ----
+ drivers/staging/media/hantro/hantro_hw.h                |  3 ---
+ drivers/staging/media/hantro/hantro_v4l2.c              | 48 ++++++++++++++++++++++++++--------
+ 15 files changed, 145 insertions(+), 46 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/ti,vpe.yaml
