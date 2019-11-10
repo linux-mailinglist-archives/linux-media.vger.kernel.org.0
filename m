@@ -2,706 +2,303 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EF43F6899
-	for <lists+linux-media@lfdr.de>; Sun, 10 Nov 2019 11:46:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A1D0F68A0
+	for <lists+linux-media@lfdr.de>; Sun, 10 Nov 2019 11:59:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726734AbfKJKqf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 10 Nov 2019 05:46:35 -0500
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:41081 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726609AbfKJKqe (ORCPT
+        id S1726723AbfKJK7G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 10 Nov 2019 05:59:06 -0500
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:58031 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726609AbfKJK7G (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 10 Nov 2019 05:46:34 -0500
+        Sun, 10 Nov 2019 05:59:06 -0500
 Received: from [192.168.2.10] ([46.9.232.237])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id TkjkiNJnGQBsYTkjni1XlF; Sun, 10 Nov 2019 11:46:31 +0100
-Subject: Re: [PATCH 3/3] dt-bindings: rcar-vin: Convert bindings to
- json-schema
-To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        id TkvfiNN9sQBsYTkvii1Zn8; Sun, 10 Nov 2019 11:59:03 +0100
+Subject: Re: [PATCH v5 1/2] media: vimc: move the dev field of each entity to
+ vimc_ent_dev
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
         linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org
-References: <20191108021609.2584272-1-niklas.soderlund+renesas@ragnatech.se>
- <20191108021609.2584272-4-niklas.soderlund+renesas@ragnatech.se>
+Cc:     helen.koike@collabora.com, skhan@linuxfoundation.org,
+        kernel@collabora.com, dafna3@gmail.com
+References: <20191024141554.15248-1-dafna.hirschfeld@collabora.com>
+ <20191024141554.15248-2-dafna.hirschfeld@collabora.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <aca0ea95-bf76-dc62-7922-228a9fe94d78@xs4all.nl>
-Date:   Sun, 10 Nov 2019 11:46:28 +0100
+Message-ID: <4473ed34-16fc-0635-23a9-ea5edede9bf3@xs4all.nl>
+Date:   Sun, 10 Nov 2019 11:58:47 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191108021609.2584272-4-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20191024141554.15248-2-dafna.hirschfeld@collabora.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfLOOP6nieVrImAL8/Ye0qWpi2dEe+32InLlJfVjOrCQNwpYjZY0Ugq7wDIAVDvCe3XWmllD4J2sQFKN5KbNEiLBaihlXAUX+Q9X41vbnrMg6lhKegYhf
- +LngW6RNOBBwzeAQyR2Zf81wB/5tG947Fl8jc3SbvJN9IoMNJptP1Sm0nt9SMrM3nt5upa8aEbq4HVOJo9MqViIO2SUXPXXEPjfMBCi1RoDD9UArHz6Tr1/a
- wGhpbz28iHPnAejqLhIMtdznEkkr8kwYZAzPG0raGQFvFJO/EbnMsKThFu4g/7W01GICvRCXQXFP+gADEQBF9WVQW1gMUOT7xpKLKapm8xJe3fUXo4oKu7nb
- NGQUmET7
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfDRnt01wOmQ4J9CmW9Y/WYHqOxK1ULcA509MB30HTSa7QJ/CCo+w+T6kdfdTFUgg70m/8HUZZ1EzmKJmEynZVr4PgwloIy3QPIzubMWX+b30QNTul/7E
+ aonp0qk7km4OelkQ/+Yitqp4sPL2BOrLGGPUHFjzSmT+Hm4Wpa3YXpZVZd/CqKJ+xY8uGPacHQP7q5vszVch5H23NrjytiZK1dUsDmSdjdCC2bJMQOcA2lxW
+ GaCpY0el77QenSnX9D4a4UGyOv6RU2b/B7DzuJv4tfkq8C/AuEoWy3BJw2Zd3oV1T6V3MKYKNeWeGKls93GJaVc6BVtxaZJTBHy71LI6RNnSKqHQ+Txw/Mek
+ NtqX6BUR
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/8/19 3:16 AM, Niklas Söderlund wrote:
-> Convert Renesas R-Car VIN bindings documentation to json-schema.
-> 
-> As the examples in the bindings now can be tested add a new one which
-> describes how the both a parallel and a CSI-2 source can be connected on
-> Gen3 SoCs.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Hi Dafna,
 
-Same here: you forgot to update MAINTAINERS.
+I marked this v5 series as superseded in patchwork. In v5 1/2 patch was not included
+in v6, so I assume it was dropped in v6. If you think this patch is still necessary,
+then just repost.
 
 Regards,
 
 	Hans
 
-> ---
->  .../devicetree/bindings/media/renesas,vin.txt | 217 ----------
->  .../bindings/media/renesas,vin.yaml           | 409 ++++++++++++++++++
->  2 files changed, 409 insertions(+), 217 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/media/renesas,vin.txt
->  create mode 100644 Documentation/devicetree/bindings/media/renesas,vin.yaml
+On 10/24/19 4:15 PM, Dafna Hirschfeld wrote:
+> Since the 'struct device *dev' field exists in each of the
+> entity structs, it can be moved to the common struct vimc_ent_devevice.
+> It is then used to replace 'pr_err' with 'dev_err' in the streamer
+> code.
 > 
-> diff --git a/Documentation/devicetree/bindings/media/renesas,vin.txt b/Documentation/devicetree/bindings/media/renesas,vin.txt
-> deleted file mode 100644
-> index 5eefd62ac5c5b9fd..0000000000000000
-> --- a/Documentation/devicetree/bindings/media/renesas,vin.txt
-> +++ /dev/null
-> @@ -1,217 +0,0 @@
-> -Renesas R-Car Video Input driver (rcar_vin)
-> --------------------------------------------
-> -
-> -The rcar_vin device provides video input capabilities for the Renesas R-Car
-> -family of devices.
-> -
-> -Each VIN instance has a single parallel input that supports RGB and YUV video,
-> -with both external synchronization and BT.656 synchronization for the latter.
-> -Depending on the instance the VIN input is connected to external SoC pins, or
-> -on Gen3 and RZ/G2 platforms to a CSI-2 receiver.
-> -
-> - - compatible: Must be one or more of the following
-> -   - "renesas,vin-r8a7743" for the R8A7743 device
-> -   - "renesas,vin-r8a7744" for the R8A7744 device
-> -   - "renesas,vin-r8a7745" for the R8A7745 device
-> -   - "renesas,vin-r8a77470" for the R8A77470 device
-> -   - "renesas,vin-r8a774a1" for the R8A774A1 device
-> -   - "renesas,vin-r8a774b1" for the R8A774B1 device
-> -   - "renesas,vin-r8a774c0" for the R8A774C0 device
-> -   - "renesas,vin-r8a7778" for the R8A7778 device
-> -   - "renesas,vin-r8a7779" for the R8A7779 device
-> -   - "renesas,vin-r8a7790" for the R8A7790 device
-> -   - "renesas,vin-r8a7791" for the R8A7791 device
-> -   - "renesas,vin-r8a7792" for the R8A7792 device
-> -   - "renesas,vin-r8a7793" for the R8A7793 device
-> -   - "renesas,vin-r8a7794" for the R8A7794 device
-> -   - "renesas,vin-r8a7795" for the R8A7795 device
-> -   - "renesas,vin-r8a7796" for the R8A7796 device
-> -   - "renesas,vin-r8a77965" for the R8A77965 device
-> -   - "renesas,vin-r8a77970" for the R8A77970 device
-> -   - "renesas,vin-r8a77980" for the R8A77980 device
-> -   - "renesas,vin-r8a77990" for the R8A77990 device
-> -   - "renesas,vin-r8a77995" for the R8A77995 device
-> -   - "renesas,rcar-gen2-vin" for a generic R-Car Gen2 or RZ/G1 compatible
-> -     device.
-> -
-> -   When compatible with the generic version nodes must list the
-> -   SoC-specific version corresponding to the platform first
-> -   followed by the generic version.
-> -
-> - - reg: the register base and size for the device registers
-> - - interrupts: the interrupt for the device
-> - - clocks: Reference to the parent clock
-> -
-> -The per-board settings for Gen2 and RZ/G1 platforms:
-> -
-> -- port - sub-node describing a single endpoint connected to the VIN
-> -  from external SoC pins as described in video-interfaces.txt[1].
-> -  Only the first one will be considered as each vin interface has one
-> -  input port.
-> -
-> -  - Optional properties for endpoint nodes:
-> -    - hsync-active: see [1] for description. Default is active high.
-> -    - vsync-active: see [1] for description. Default is active high.
-> -      If both HSYNC and VSYNC polarities are not specified, embedded
-> -      synchronization is selected.
-> -    - field-active-even: see [1] for description. Default is active high.
-> -    - bus-width: see [1] for description. The selected bus width depends on
-> -      the SoC type and selected input image format.
-> -      Valid values are: 8, 10, 12, 16, 24 and 32.
-> -    - data-shift: see [1] for description. Valid values are 0 and 8.
-> -    - data-enable-active: polarity of CLKENB signal, see [1] for
-> -      description. Default is active high.
-> -
-> -The per-board settings for Gen3 and RZ/G2 platforms:
-> -
-> -Gen3 and RZ/G2 platforms can support both a single connected parallel input
-> -source from external SoC pins (port@0) and/or multiple parallel input sources
-> -from local SoC CSI-2 receivers (port@1) depending on SoC.
-> -
-> -- renesas,id - ID number of the VIN, VINx in the documentation.
-> -- ports
-> -    - port@0 - sub-node describing a single endpoint connected to the VIN
-> -      from external SoC pins as described in video-interfaces.txt[1].
-> -      Describing more than one endpoint in port@0 is invalid. Only VIN
-> -      instances that are connected to external pins should have port@0.
-> -
-> -      Endpoint nodes of port@0 support the optional properties listed in
-> -      the Gen2 per-board settings description.
-> -
-> -    - port@1 - sub-nodes describing one or more endpoints connected to
-> -      the VIN from local SoC CSI-2 receivers. The endpoint numbers must
-> -      use the following schema.
-> -
-> -        - endpoint@0 - sub-node describing the endpoint connected to CSI20
-> -        - endpoint@1 - sub-node describing the endpoint connected to CSI21
-> -        - endpoint@2 - sub-node describing the endpoint connected to CSI40
-> -        - endpoint@3 - sub-node describing the endpoint connected to CSI41
-> -
-> -      Endpoint nodes of port@1 do not support any optional endpoint property.
-> -
-> -Device node example for Gen2 platforms
-> ---------------------------------------
-> -
-> -        aliases {
-> -                vin0 = &vin0;
-> -        };
-> -
-> -        vin0: vin@e6ef0000 {
-> -                compatible = "renesas,vin-r8a7790", "renesas,rcar-gen2-vin";
-> -                clocks = <&mstp8_clks R8A7790_CLK_VIN0>;
-> -                reg = <0 0xe6ef0000 0 0x1000>;
-> -                interrupts = <0 188 IRQ_TYPE_LEVEL_HIGH>;
-> -                status = "disabled";
-> -        };
-> -
-> -Board setup example for Gen2 platforms (vin1 composite video input)
-> --------------------------------------------------------------------
-> -
-> -&i2c2   {
-> -        status = "okay";
-> -        pinctrl-0 = <&i2c2_pins>;
-> -        pinctrl-names = "default";
-> -
-> -        adv7180@20 {
-> -                compatible = "adi,adv7180";
-> -                reg = <0x20>;
-> -                remote = <&vin1>;
-> -
-> -                port {
-> -                        adv7180: endpoint {
-> -                                bus-width = <8>;
-> -                                remote-endpoint = <&vin1ep0>;
-> -                        };
-> -                };
-> -        };
-> -};
-> -
-> -/* composite video input */
-> -&vin1 {
-> -        pinctrl-0 = <&vin1_pins>;
-> -        pinctrl-names = "default";
-> -
-> -        status = "okay";
-> -
-> -        port {
-> -                vin1ep0: endpoint {
-> -                        remote-endpoint = <&adv7180>;
-> -                        bus-width = <8>;
-> -                };
-> -        };
-> -};
-> -
-> -Device node example for Gen3 platforms
-> ---------------------------------------
-> -
-> -        vin0: video@e6ef0000 {
-> -                compatible = "renesas,vin-r8a7795";
-> -                reg = <0 0xe6ef0000 0 0x1000>;
-> -                interrupts = <GIC_SPI 188 IRQ_TYPE_LEVEL_HIGH>;
-> -                clocks = <&cpg CPG_MOD 811>;
-> -                power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
-> -                resets = <&cpg 811>;
-> -                renesas,id = <0>;
-> -
-> -                ports {
-> -                        #address-cells = <1>;
-> -                        #size-cells = <0>;
-> -
-> -                        port@1 {
-> -                                #address-cells = <1>;
-> -                                #size-cells = <0>;
-> -
-> -                                reg = <1>;
-> -
-> -                                vin0csi20: endpoint@0 {
-> -                                        reg = <0>;
-> -                                        remote-endpoint= <&csi20vin0>;
-> -                                };
-> -                                vin0csi21: endpoint@1 {
-> -                                        reg = <1>;
-> -                                        remote-endpoint= <&csi21vin0>;
-> -                                };
-> -                                vin0csi40: endpoint@2 {
-> -                                        reg = <2>;
-> -                                        remote-endpoint= <&csi40vin0>;
-> -                                };
-> -                        };
-> -                };
-> -        };
-> -
-> -        csi20: csi2@fea80000 {
-> -                compatible = "renesas,r8a7795-csi2";
-> -                reg = <0 0xfea80000 0 0x10000>;
-> -                interrupts = <GIC_SPI 184 IRQ_TYPE_LEVEL_HIGH>;
-> -                clocks = <&cpg CPG_MOD 714>;
-> -                power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
-> -                resets = <&cpg 714>;
-> -
-> -                ports {
-> -                        #address-cells = <1>;
-> -                        #size-cells = <0>;
-> -
-> -                        port@0 {
-> -                                reg = <0>;
-> -                                csi20_in: endpoint {
-> -                                        clock-lanes = <0>;
-> -                                        data-lanes = <1>;
-> -                                        remote-endpoint = <&adv7482_txb>;
-> -                                };
-> -                        };
-> -
-> -                        port@1 {
-> -                                #address-cells = <1>;
-> -                                #size-cells = <0>;
-> -
-> -                                reg = <1>;
-> -
-> -                                csi20vin0: endpoint@0 {
-> -                                        reg = <0>;
-> -                                        remote-endpoint = <&vin0csi20>;
-> -                                };
-> -                        };
-> -                };
-> -        };
-> -
-> -[1] video-interfaces.txt common video media interface
-> diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> new file mode 100644
-> index 0000000000000000..be261d9a98d62dcd
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
-> @@ -0,0 +1,409 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +# Copyright (C) 2019 Renesas Electronics Corp.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/renesas,vin.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas R-Car Video Input (VIN)
-> +
-> +maintainers:
-> +  - Niklas Söderlund <niklas.soderlund@ragnatech.se>
-> +
-> +description: |-
-> +  The R-Car Video Input (VIN) device provides video input capabilities for the
-> +  Renesas R-Car family of devices.
-> +
-> +  Each VIN instance has a single parallel input that supports RGB and YUV video,
-> +  with both external synchronization and BT.656 synchronization for the latter.
-> +  Depending on the instance the VIN input is connected to external SoC pins, or
-> +  on Gen3 and RZ/G2 platforms to a CSI-2 receiver.
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - items:
-> +        - enum:
-> +          - renesas,vin-r8a7743  # RZ/G1M
-> +          - renesas,vin-r8a7744  # RZ/G1N
-> +          - renesas,vin-r8a7745  # RZ/G1E
-> +          - renesas,vin-r8a77470 # RZ/G1C
-> +          - renesas,vin-r8a7790  # R-Car H2
-> +          - renesas,vin-r8a7791  # R-Car M2-W
-> +          - renesas,vin-r8a7792  # R-Car V2H
-> +          - renesas,vin-r8a7793  # R-Car M2-N
-> +          - renesas,vin-r8a7794  # R-Car E2
-> +        - const: renesas,rcar-gen2-vin # Generic R-Car Gen2 or RZ/G1
-> +
-> +      - items:
-> +        - enum:
-> +          - renesas,vin-r8a774a1 # RZ/G2M
-> +          - renesas,vin-r8a774b1 # RZ/G2N
-> +          - renesas,vin-r8a774c0 # RZ/G2E
-> +          - renesas,vin-r8a7778  # R-Car M1
-> +          - renesas,vin-r8a7779  # R-Car H1
-> +          - renesas,vin-r8a7795  # R-Car H3
-> +          - renesas,vin-r8a7796  # R-Car M3-W
-> +          - renesas,vin-r8a77965 # R-Car M3-N
-> +          - renesas,vin-r8a77970 # R-Car V3M
-> +          - renesas,vin-r8a77980 # R-Car V3H
-> +          - renesas,vin-r8a77990 # R-Car E3
-> +          - renesas,vin-r8a77995 # R-Car D3
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  #The per-board settings for Gen2 and RZ/G1 platforms:
-> +  port:
-> +    type: object
-> +    description: |-
-> +      A node containing a parallel input with a singel endpoint definitions as
-> +      documented in
-> +      Documentation/devicetree/bindings/media/video-interfaces.txt
-> +
-> +    properties:
-> +      reg:
-> +        const: 1
-> +
-> +      endpoint:
-> +        type: object
-> +
-> +        properties:
-> +          hsync-active:
-> +            description: |-
-> +              Default is active high. If both HSYNC and VSYNC polarities are not
-> +              specified, embedded synchronization is selected.
-> +            enum: [ 0, 1 ]
-> +
-> +          vsync-active:
-> +            description: |-
-> +              Default is active high. If both HSYNC and VSYNC polarities are not
-> +              specified, embedded synchronization is selected.
-> +            enum: [ 0, 1 ]
-> +
-> +          field-active-even:
-> +            description: Default is active high.
-> +            enum: [ 0, 1 ]
-> +
-> +          bus-width:
-> +            enum: [ 8, 10, 12, 16, 24, 32 ]
-> +
-> +          data-shift:
-> +            enum: [ 0, 8 ]
-> +
-> +          data-enable-active:
-> +            description: Polarity of CLKENB signal, default is active high.
-> +            enum: [ 0, 1 ]
-> +
-> +          pclk-sample:
-> +            enum: [ 0, 1 ]
-> +
-> +          data-active:
-> +            enum: [ 0, 1 ]
-> +
-> +          remote-endpoint:
-> +            maxItems: 1
-> +
-> +        required:
-> +          - remote-endpoint
-> +
-> +        additionalProperties: false
-> +
-> +    additionalProperties: false
-> +
-> +  #The per-board settings for Gen3 and RZ/G2 platforms:
-> +  renesas,id:
-> +    description: VIN channel number
-> +    allOf:
-> +      - $ref: /schemas/types.yaml#/definitions/uint32
-> +      - enum: [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ]
-> +
-> +  ports:
-> +    type: object
-> +    description: |-
-> +      A node containing input nodes with endpoint definitions as documented in
-> +      Documentation/devicetree/bindings/media/video-interfaces.txt
-> +
-> +    properties:
-> +      port@0:
-> +        type: object
-> +        description: |-
-> +          Input port node, single endpoint describing a parallel input source.
-> +
-> +        properties:
-> +          reg:
-> +            const: 0
-> +
-> +          endpoint:
-> +            type: object
-> +
-> +            properties:
-> +              hsync-active:
-> +                description: |-
-> +                  Default is active high. If both HSYNC and VSYNC polarities are not
-> +                  specified, embedded synchronization is selected.
-> +                enum: [ 0, 1 ]
-> +
-> +              vsync-active:
-> +                description: |-
-> +                  Default is active high. If both HSYNC and VSYNC polarities are not
-> +                  specified, embedded synchronization is selected.
-> +                enum: [ 0, 1 ]
-> +
-> +              field-active-even:
-> +                description: Default is active high.
-> +                enum: [ 0, 1 ]
-> +
-> +              bus-width:
-> +                enum: [ 8, 10, 12, 16, 24, 32 ]
-> +
-> +              data-shift:
-> +                enum: [ 0, 8 ]
-> +
-> +              data-enable-active:
-> +                description: Polarity of CLKENB signal, default is active high.
-> +                enum: [ 0, 1 ]
-> +
-> +              pclk-sample:
-> +                enum: [ 0, 1 ]
-> +
-> +              data-active:
-> +                enum: [ 0, 1 ]
-> +
-> +              remote-endpoint:
-> +                maxItems: 1
-> +
-> +            required:
-> +              - remote-endpoint
-> +
-> +            additionalProperties: false
-> +
-> +        additionalProperties: false
-> +
-> +      port@1:
-> +        type: object
-> +        description: |-
-> +          Input port node, multiple endpoints describing all the R-Car CSI-2
-> +          modules connected the VIN.
-> +
-> +        properties:
-> +          '#address-cells':
-> +            const: 1
-> +
-> +          '#size-cells':
-> +            const: 0
-> +
-> +          reg:
-> +            const: 1
-> +
-> +          endpoint@0:
-> +            type: object
-> +            description: Endpoint connected to CSI20.
-> +
-> +            properties:
-> +              reg:
-> +                const: 0
-> +
-> +              remote-endpoint:
-> +                maxItems: 1
-> +
-> +            required:
-> +              - reg
-> +              - remote-endpoint
-> +
-> +            additionalProperties: false
-> +
-> +          endpoint@1:
-> +            type: object
-> +            description: Endpoint connected to CSI21.
-> +
-> +            properties:
-> +              reg:
-> +                const: 1
-> +
-> +              remote-endpoint:
-> +                maxItems: 1
-> +
-> +            required:
-> +              - reg
-> +              - remote-endpoint
-> +
-> +            additionalProperties: false
-> +
-> +          endpoint@2:
-> +            type: object
-> +            description: Endpoint connected to CSI40.
-> +
-> +            properties:
-> +              reg:
-> +                const: 2
-> +
-> +              remote-endpoint:
-> +                maxItems: 1
-> +
-> +            required:
-> +              - reg
-> +              - remote-endpoint
-> +
-> +            additionalProperties: false
-> +
-> +          endpoint@3:
-> +            type: object
-> +            description: Endpoint connected to CSI41.
-> +
-> +            properties:
-> +              reg:
-> +                const: 3
-> +
-> +              remote-endpoint:
-> +                maxItems: 1
-> +
-> +            required:
-> +              - reg
-> +              - remote-endpoint
-> +
-> +            additionalProperties: false
-> +
-> +        additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - power-domains
-> +  - resets
-> +
-> +if:
-> +  properties:
-> +    compatible:
-> +      contains:
-> +        anyOf:
-> +          - const: renesas,vin-r8a7778
-> +          - const: renesas,vin-r8a7779
-> +          - const: renesas,rcar-gen2-vin
-> +then:
-> +  required:
-> +    - port
-> +else:
-> +  required:
-> +    - renesas,id
-> +    - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  # Device node example for Gen2 platform
-> +  - |
-> +    #include <dt-bindings/clock/r8a7790-cpg-mssr.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/power/r8a7790-sysc.h>
-> +
-> +    vin1: vin@e6ef1000 {
-> +            compatible = "renesas,vin-r8a7790",
-> +                         "renesas,rcar-gen2-vin";
-> +            reg = <0 0xe6ef1000 0 0x1000>;
-> +            interrupts = <GIC_SPI 189 IRQ_TYPE_LEVEL_HIGH>;
-> +            clocks = <&cpg CPG_MOD 810>;
-> +            power-domains = <&sysc R8A7790_PD_ALWAYS_ON>;
-> +            resets = <&cpg 810>;
-> +
-> +            port {
-> +                    vin1ep0: endpoint {
-> +                            remote-endpoint = <&adv7180>;
-> +                            bus-width = <8>;
-> +                    };
-> +            };
-> +    };
-> +
-> +  # Device node example for Gen3 platform with only CSI-2
-> +  - |
-> +    #include <dt-bindings/clock/r8a7795-cpg-mssr.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/power/r8a7795-sysc.h>
-> +
-> +    vin0: video@e6ef0000 {
-> +            compatible = "renesas,vin-r8a7795";
-> +            reg = <0 0xe6ef0000 0 0x1000>;
-> +            interrupts = <GIC_SPI 188 IRQ_TYPE_LEVEL_HIGH>;
-> +            clocks = <&cpg CPG_MOD 811>;
-> +            power-domains = <&sysc R8A7795_PD_ALWAYS_ON>;
-> +            resets = <&cpg 811>;
-> +            renesas,id = <0>;
-> +
-> +            ports {
-> +                    #address-cells = <1>;
-> +                    #size-cells = <0>;
-> +
-> +                    port@1 {
-> +                            #address-cells = <1>;
-> +                            #size-cells = <0>;
-> +
-> +                            reg = <1>;
-> +
-> +                            vin0csi20: endpoint@0 {
-> +                                    reg = <0>;
-> +                                    remote-endpoint= <&csi20vin0>;
-> +                            };
-> +                            vin0csi40: endpoint@2 {
-> +                                    reg = <2>;
-> +                                    remote-endpoint= <&csi40vin0>;
-> +                            };
-> +                    };
-> +            };
-> +    };
-> +
-> +  # Device node example for Gen3 platform with CSI-2 and parallel
-> +  - |
-> +    #include <dt-bindings/clock/r8a77970-cpg-mssr.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/power/r8a77970-sysc.h>
-> +
-> +    vin2: video@e6ef2000 {
-> +            compatible = "renesas,vin-r8a77970";
-> +            reg = <0 0xe6ef2000 0 0x1000>;
-> +            interrupts = <GIC_SPI 190 IRQ_TYPE_LEVEL_HIGH>;
-> +            clocks = <&cpg CPG_MOD 809>;
-> +            power-domains = <&sysc R8A77970_PD_ALWAYS_ON>;
-> +            resets = <&cpg 809>;
-> +            renesas,id = <2>;
-> +
-> +            ports {
-> +                    #address-cells = <1>;
-> +                    #size-cells = <0>;
-> +
-> +                    port@0 {
-> +                            reg = <0>;
-> +
-> +                            vin2_in: endpoint {
-> +                                    remote-endpoint = <&adv7612_out>;
-> +                                    hsync-active = <0>;
-> +                                    vsync-active = <0>;
-> +                            };
-> +                    };
-> +
-> +                    port@1 {
-> +                            #address-cells = <1>;
-> +                            #size-cells = <0>;
-> +
-> +                            reg = <1>;
-> +
-> +                            vin2csi40: endpoint@2 {
-> +                                    reg = <2>;
-> +                                    remote-endpoint = <&csi40vin2>;
-> +                            };
-> +                    };
-> +            };
-> +    };
+> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> ---
+>  drivers/media/platform/vimc/vimc-capture.c  |  7 +++----
+>  drivers/media/platform/vimc/vimc-common.h   |  2 ++
+>  drivers/media/platform/vimc/vimc-debayer.c  | 15 +++++++--------
+>  drivers/media/platform/vimc/vimc-scaler.c   | 11 +++++------
+>  drivers/media/platform/vimc/vimc-sensor.c   |  5 ++---
+>  drivers/media/platform/vimc/vimc-streamer.c |  2 +-
+>  6 files changed, 20 insertions(+), 22 deletions(-)
+> 
+> diff --git a/drivers/media/platform/vimc/vimc-capture.c b/drivers/media/platform/vimc/vimc-capture.c
+> index 602f80323031..d9cd6525ba22 100644
+> --- a/drivers/media/platform/vimc/vimc-capture.c
+> +++ b/drivers/media/platform/vimc/vimc-capture.c
+> @@ -15,7 +15,6 @@
+>  struct vimc_cap_device {
+>  	struct vimc_ent_device ved;
+>  	struct video_device vdev;
+> -	struct device *dev;
+>  	struct v4l2_pix_format format;
+>  	struct vb2_queue queue;
+>  	struct list_head buf_list;
+> @@ -124,7 +123,7 @@ static int vimc_cap_s_fmt_vid_cap(struct file *file, void *priv,
+>  	if (ret)
+>  		return ret;
+>  
+> -	dev_dbg(vcap->dev, "%s: format update: "
+> +	dev_dbg(vcap->ved.dev, "%s: format update: "
+>  		"old:%dx%d (0x%x, %d, %d, %d, %d) "
+>  		"new:%dx%d (0x%x, %d, %d, %d, %d)\n", vcap->vdev.name,
+>  		/* old */
+> @@ -300,7 +299,7 @@ static int vimc_cap_buffer_prepare(struct vb2_buffer *vb)
+>  	unsigned long size = vcap->format.sizeimage;
+>  
+>  	if (vb2_plane_size(vb, 0) < size) {
+> -		dev_err(vcap->dev, "%s: buffer too small (%lu < %lu)\n",
+> +		dev_err(vcap->ved.dev, "%s: buffer too small (%lu < %lu)\n",
+>  			vcap->vdev.name, vb2_plane_size(vb, 0), size);
+>  		return -EINVAL;
+>  	}
+> @@ -451,7 +450,7 @@ struct vimc_ent_device *vimc_cap_add(struct vimc_device *vimc,
+>  	vcap->ved.ent = &vcap->vdev.entity;
+>  	vcap->ved.process_frame = vimc_cap_process_frame;
+>  	vcap->ved.vdev_get_format = vimc_cap_get_format;
+> -	vcap->dev = &vimc->pdev.dev;
+> +	vcap->ved.dev = &vimc->pdev.dev;
+>  
+>  	/* Initialize the video_device struct */
+>  	vdev = &vcap->vdev;
+> diff --git a/drivers/media/platform/vimc/vimc-common.h b/drivers/media/platform/vimc/vimc-common.h
+> index 698db7c07645..8349e3c68a49 100644
+> --- a/drivers/media/platform/vimc/vimc-common.h
+> +++ b/drivers/media/platform/vimc/vimc-common.h
+> @@ -92,6 +92,7 @@ struct vimc_pix_map {
+>  /**
+>   * struct vimc_ent_device - core struct that represents a node in the topology
+>   *
+> + * @dev:		a pointer of the device struct of the driver
+>   * @ent:		the pointer to struct media_entity for the node
+>   * @pads:		the list of pads of the node
+>   * @process_frame:	callback send a frame to that node
+> @@ -108,6 +109,7 @@ struct vimc_pix_map {
+>   * media_entity
+>   */
+>  struct vimc_ent_device {
+> +	struct device *dev;
+>  	struct media_entity *ent;
+>  	struct media_pad *pads;
+>  	void * (*process_frame)(struct vimc_ent_device *ved,
+> diff --git a/drivers/media/platform/vimc/vimc-debayer.c b/drivers/media/platform/vimc/vimc-debayer.c
+> index feac47d79449..ff7f8b763860 100644
+> --- a/drivers/media/platform/vimc/vimc-debayer.c
+> +++ b/drivers/media/platform/vimc/vimc-debayer.c
+> @@ -34,7 +34,6 @@ struct vimc_deb_pix_map {
+>  struct vimc_deb_device {
+>  	struct vimc_ent_device ved;
+>  	struct v4l2_subdev sd;
+> -	struct device *dev;
+>  	/* The active format */
+>  	struct v4l2_mbus_framefmt sink_fmt;
+>  	u32 src_code;
+> @@ -263,7 +262,7 @@ static int vimc_deb_set_fmt(struct v4l2_subdev *sd,
+>  		/* Set the new format in the sink pad */
+>  		vimc_deb_adjust_sink_fmt(&fmt->format);
+>  
+> -		dev_dbg(vdeb->dev, "%s: sink format update: "
+> +		dev_dbg(vdeb->ved.dev, "%s: sink format update: "
+>  			"old:%dx%d (0x%x, %d, %d, %d, %d) "
+>  			"new:%dx%d (0x%x, %d, %d, %d, %d)\n", vdeb->sd.name,
+>  			/* old */
+> @@ -386,7 +385,7 @@ static void vimc_deb_calc_rgb_sink(struct vimc_deb_device *vdeb,
+>  
+>  	/* Sum the values of the colors in the mean window */
+>  
+> -	dev_dbg(vdeb->dev,
+> +	dev_dbg(vdeb->ved.dev,
+>  		"deb: %s: --- Calc pixel %dx%d, window mean %d, seek %d ---\n",
+>  		vdeb->sd.name, lin, col, vdeb->sink_fmt.height, seek);
+>  
+> @@ -419,7 +418,7 @@ static void vimc_deb_calc_rgb_sink(struct vimc_deb_device *vdeb,
+>  						 vdeb->sink_fmt.width,
+>  						 vdeb->sink_bpp);
+>  
+> -			dev_dbg(vdeb->dev,
+> +			dev_dbg(vdeb->ved.dev,
+>  				"deb: %s: RGB CALC: frame index %d, win pos %dx%d, color %d\n",
+>  				vdeb->sd.name, index, wlin, wcol, color);
+>  
+> @@ -430,21 +429,21 @@ static void vimc_deb_calc_rgb_sink(struct vimc_deb_device *vdeb,
+>  			/* Save how many values we already added */
+>  			n_rgb[color]++;
+>  
+> -			dev_dbg(vdeb->dev, "deb: %s: RGB CALC: val %d, n %d\n",
+> +			dev_dbg(vdeb->ved.dev, "deb: %s: RGB CALC: val %d, n %d\n",
+>  				vdeb->sd.name, rgb[color], n_rgb[color]);
+>  		}
+>  	}
+>  
+>  	/* Calculate the mean */
+>  	for (i = 0; i < 3; i++) {
+> -		dev_dbg(vdeb->dev,
+> +		dev_dbg(vdeb->ved.dev,
+>  			"deb: %s: PRE CALC: %dx%d Color %d, val %d, n %d\n",
+>  			vdeb->sd.name, lin, col, i, rgb[i], n_rgb[i]);
+>  
+>  		if (n_rgb[i])
+>  			rgb[i] = rgb[i] / n_rgb[i];
+>  
+> -		dev_dbg(vdeb->dev,
+> +		dev_dbg(vdeb->ved.dev,
+>  			"deb: %s: FINAL CALC: %dx%d Color %d, val %d\n",
+>  			vdeb->sd.name, lin, col, i, rgb[i]);
+>  	}
+> @@ -518,7 +517,7 @@ struct vimc_ent_device *vimc_deb_add(struct vimc_device *vimc,
+>  	}
+>  
+>  	vdeb->ved.process_frame = vimc_deb_process_frame;
+> -	vdeb->dev = &vimc->pdev.dev;
+> +	vdeb->ved.dev = &vimc->pdev.dev;
+>  
+>  	/* Initialize the frame format */
+>  	vdeb->sink_fmt = sink_fmt_default;
+> diff --git a/drivers/media/platform/vimc/vimc-scaler.c b/drivers/media/platform/vimc/vimc-scaler.c
+> index a6a3cc5be872..9b1023525920 100644
+> --- a/drivers/media/platform/vimc/vimc-scaler.c
+> +++ b/drivers/media/platform/vimc/vimc-scaler.c
+> @@ -21,7 +21,6 @@ MODULE_PARM_DESC(sca_mult, " the image size multiplier");
+>  struct vimc_sca_device {
+>  	struct vimc_ent_device ved;
+>  	struct v4l2_subdev sd;
+> -	struct device *dev;
+>  	/* NOTE: the source fmt is the same as the sink
+>  	 * with the width and hight multiplied by mult
+>  	 */
+> @@ -171,7 +170,7 @@ static int vimc_sca_set_fmt(struct v4l2_subdev *sd,
+>  		/* Set the new format in the sink pad */
+>  		vimc_sca_adjust_sink_fmt(&fmt->format);
+>  
+> -		dev_dbg(vsca->dev, "%s: sink format update: "
+> +		dev_dbg(vsca->ved.dev, "%s: sink format update: "
+>  			"old:%dx%d (0x%x, %d, %d, %d, %d) "
+>  			"new:%dx%d (0x%x, %d, %d, %d, %d)\n", vsca->sd.name,
+>  			/* old */
+> @@ -271,7 +270,7 @@ static void vimc_sca_scale_pix(const struct vimc_sca_device *const vsca,
+>  				 vsca->bpp);
+>  	pixel = &sink_frame[index];
+>  
+> -	dev_dbg(vsca->dev,
+> +	dev_dbg(vsca->ved.dev,
+>  		"sca: %s: --- scale_pix sink pos %dx%d, index %d ---\n",
+>  		vsca->sd.name, lin, col, index);
+>  
+> @@ -281,7 +280,7 @@ static void vimc_sca_scale_pix(const struct vimc_sca_device *const vsca,
+>  	index = VIMC_FRAME_INDEX(lin * sca_mult, col * sca_mult,
+>  				 vsca->sink_fmt.width * sca_mult, vsca->bpp);
+>  
+> -	dev_dbg(vsca->dev, "sca: %s: scale_pix src pos %dx%d, index %d\n",
+> +	dev_dbg(vsca->ved.dev, "sca: %s: scale_pix src pos %dx%d, index %d\n",
+>  		vsca->sd.name, lin * sca_mult, col * sca_mult, index);
+>  
+>  	/* Repeat this pixel mult times */
+> @@ -290,7 +289,7 @@ static void vimc_sca_scale_pix(const struct vimc_sca_device *const vsca,
+>  		 * pixel repetition in a line
+>  		 */
+>  		for (j = 0; j < sca_mult * vsca->bpp; j += vsca->bpp) {
+> -			dev_dbg(vsca->dev,
+> +			dev_dbg(vsca->ved.dev,
+>  				"sca: %s: sca: scale_pix src pos %d\n",
+>  				vsca->sd.name, index + j);
+>  
+> @@ -377,7 +376,7 @@ struct vimc_ent_device *vimc_sca_add(struct vimc_device *vimc,
+>  	}
+>  
+>  	vsca->ved.process_frame = vimc_sca_process_frame;
+> -	vsca->dev = &vimc->pdev.dev;
+> +	vsca->ved.dev = &vimc->pdev.dev;
+>  
+>  	/* Initialize the frame format */
+>  	vsca->sink_fmt = sink_fmt_default;
+> diff --git a/drivers/media/platform/vimc/vimc-sensor.c b/drivers/media/platform/vimc/vimc-sensor.c
+> index 46dc6a535abe..9921993a2b73 100644
+> --- a/drivers/media/platform/vimc/vimc-sensor.c
+> +++ b/drivers/media/platform/vimc/vimc-sensor.c
+> @@ -17,7 +17,6 @@
+>  struct vimc_sen_device {
+>  	struct vimc_ent_device ved;
+>  	struct v4l2_subdev sd;
+> -	struct device *dev;
+>  	struct tpg_data tpg;
+>  	struct task_struct *kthread_sen;
+>  	u8 *frame;
+> @@ -158,7 +157,7 @@ static int vimc_sen_set_fmt(struct v4l2_subdev *sd,
+>  	/* Set the new format */
+>  	vimc_sen_adjust_fmt(&fmt->format);
+>  
+> -	dev_dbg(vsen->dev, "%s: format update: "
+> +	dev_dbg(vsen->ved.dev, "%s: format update: "
+>  		"old:%dx%d (0x%x, %d, %d, %d, %d) "
+>  		"new:%dx%d (0x%x, %d, %d, %d, %d)\n", vsen->sd.name,
+>  		/* old */
+> @@ -368,7 +367,7 @@ struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
+>  		goto err_free_hdl;
+>  
+>  	vsen->ved.process_frame = vimc_sen_process_frame;
+> -	vsen->dev = &vimc->pdev.dev;
+> +	vsen->ved.dev = &vimc->pdev.dev;
+>  
+>  	/* Initialize the frame format */
+>  	vsen->mbus_format = fmt_default;
+> diff --git a/drivers/media/platform/vimc/vimc-streamer.c b/drivers/media/platform/vimc/vimc-streamer.c
+> index faa2879c25df..37150c919fcb 100644
+> --- a/drivers/media/platform/vimc/vimc-streamer.c
+> +++ b/drivers/media/platform/vimc/vimc-streamer.c
+> @@ -96,7 +96,7 @@ static int vimc_streamer_pipeline_init(struct vimc_stream *stream,
+>  			sd = media_entity_to_v4l2_subdev(ved->ent);
+>  			ret = v4l2_subdev_call(sd, video, s_stream, 1);
+>  			if (ret && ret != -ENOIOCTLCMD) {
+> -				pr_err("subdev_call error %s\n",
+> +				dev_err(ved->dev, "subdev_call error %s\n",
+>  				       ved->ent->name);
+>  				vimc_streamer_pipeline_terminate(stream);
+>  				return ret;
 > 
 
