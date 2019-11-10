@@ -2,23 +2,23 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 72DDBF6887
-	for <lists+linux-media@lfdr.de>; Sun, 10 Nov 2019 11:34:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F2DE9F6886
+	for <lists+linux-media@lfdr.de>; Sun, 10 Nov 2019 11:34:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726709AbfKJKeW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1726692AbfKJKeW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Sun, 10 Nov 2019 05:34:22 -0500
-Received: from gofer.mess.org ([88.97.38.141]:40041 "EHLO gofer.mess.org"
+Received: from gofer.mess.org ([88.97.38.141]:37637 "EHLO gofer.mess.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726651AbfKJKeW (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S1726653AbfKJKeW (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Sun, 10 Nov 2019 05:34:22 -0500
 Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 597DBC637C; Sun, 10 Nov 2019 10:34:20 +0000 (GMT)
+        id 763EFC6380; Sun, 10 Nov 2019 10:34:20 +0000 (GMT)
 From:   Sean Young <sean@mess.org>
 To:     linux-media@vger.kernel.org
-Cc:     syzbot+9d42b7773d2fecd983ab@syzkaller.appspotmail.com
-Subject: [PATCH 2/3] media: af9005: uninitialized variable printked
-Date:   Sun, 10 Nov 2019 10:34:19 +0000
-Message-Id: <20191110103420.17349-2-sean@mess.org>
+Cc:     syzbot+ec869945d3dde5f33b43@syzkaller.appspotmail.com
+Subject: [PATCH 3/3] media: vp7045: do not read uninitialized values if usb transfer fails
+Date:   Sun, 10 Nov 2019 10:34:20 +0000
+Message-Id: <20191110103420.17349-3-sean@mess.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191110103420.17349-1-sean@mess.org>
 References: <20191110103420.17349-1-sean@mess.org>
@@ -29,27 +29,60 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If usb_bulk_msg() fails, actual_length can be uninitialized.
+If reading the mac address or the remote control decoder state fails,
+then this is not a fatal error.
 
-Reported-by: syzbot+9d42b7773d2fecd983ab@syzkaller.appspotmail.com
+Reported-by: syzbot+ec869945d3dde5f33b43@syzkaller.appspotmail.com
 Signed-off-by: Sean Young <sean@mess.org>
 ---
- drivers/media/usb/dvb-usb/af9005.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/usb/dvb-usb/vp7045.c | 21 ++++++++++++++-------
+ 1 file changed, 14 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/media/usb/dvb-usb/af9005.c b/drivers/media/usb/dvb-usb/af9005.c
-index ac93e88d7038..89b4b5d84cdf 100644
---- a/drivers/media/usb/dvb-usb/af9005.c
-+++ b/drivers/media/usb/dvb-usb/af9005.c
-@@ -554,7 +554,7 @@ static int af9005_boot_packet(struct usb_device *udev, int type, u8 *reply,
- 			      u8 *buf, int size)
- {
- 	u16 checksum;
--	int act_len, i, ret;
-+	int act_len = 0, i, ret;
+diff --git a/drivers/media/usb/dvb-usb/vp7045.c b/drivers/media/usb/dvb-usb/vp7045.c
+index 80c1cf05384b..2baf57216d19 100644
+--- a/drivers/media/usb/dvb-usb/vp7045.c
++++ b/drivers/media/usb/dvb-usb/vp7045.c
+@@ -96,10 +96,14 @@ static int vp7045_power_ctrl(struct dvb_usb_device *d, int onoff)
  
- 	memset(buf, 0, size);
- 	buf[0] = (u8) (FW_BULKOUT_SIZE & 0xff);
+ static int vp7045_rc_query(struct dvb_usb_device *d)
+ {
++	int ret;
+ 	u8 key;
+-	vp7045_usb_op(d,RC_VAL_READ,NULL,0,&key,1,20);
+ 
+-	deb_rc("remote query key: %x %d\n",key,key);
++	ret = vp7045_usb_op(d, RC_VAL_READ, NULL, 0, &key, 1, 20);
++	if (ret)
++		return ret;
++
++	deb_rc("remote query key: %x\n", key);
+ 
+ 	if (key != 0x44) {
+ 		/*
+@@ -115,15 +119,18 @@ static int vp7045_rc_query(struct dvb_usb_device *d)
+ 
+ static int vp7045_read_eeprom(struct dvb_usb_device *d,u8 *buf, int len, int offset)
+ {
+-	int i = 0;
+-	u8 v,br[2];
++	int i, ret;
++	u8 v, br[2];
+ 	for (i=0; i < len; i++) {
+ 		v = offset + i;
+-		vp7045_usb_op(d,GET_EE_VALUE,&v,1,br,2,5);
++		ret = vp7045_usb_op(d, GET_EE_VALUE, &v, 1, br, 2, 5);
++		if (ret)
++			return ret;
++
+ 		buf[i] = br[1];
+ 	}
+-	deb_info("VP7045 EEPROM read (offs: %d, len: %d) : ",offset, i);
+-	debug_dump(buf,i,deb_info);
++	deb_info("VP7045 EEPROM read (offs: %d, len: %d) : ", offset, i);
++	debug_dump(buf, i, deb_info);
+ 	return 0;
+ }
+ 
 -- 
 2.23.0
 
