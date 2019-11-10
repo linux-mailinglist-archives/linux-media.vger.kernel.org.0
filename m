@@ -2,110 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DA60BF6926
-	for <lists+linux-media@lfdr.de>; Sun, 10 Nov 2019 14:44:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B125DF6932
+	for <lists+linux-media@lfdr.de>; Sun, 10 Nov 2019 14:54:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726653AbfKJNoU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 10 Nov 2019 08:44:20 -0500
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:48931 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726616AbfKJNoU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sun, 10 Nov 2019 08:44:20 -0500
-Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id TnVniPY1fXYiTTnVqi4Jrb; Sun, 10 Nov 2019 14:44:18 +0100
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Tomasz Figa <tfiga@chromium.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL v2 FOR v5.5] Various fixes
-Message-ID: <a0d43238-a7dd-5fbb-4256-3739cc9d29e8@xs4all.nl>
-Date:   Sun, 10 Nov 2019 14:44:15 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        id S1726896AbfKJNyI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 10 Nov 2019 08:54:08 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:54317 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726436AbfKJNyI (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 10 Nov 2019 08:54:08 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtp (Exim 4.84_2)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1iTnfD-0005KT-RZ; Sun, 10 Nov 2019 13:54:00 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1iTnfq-0004RU-Kz; Sun, 10 Nov 2019 13:54:38 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL v2 FOR v5.5] Various fixes
+Date:   Sun, 10 Nov 2019 13:54:38 +0000
+Message-Id: <20191110135438.17035-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <a0d43238-a7dd-5fbb-4256-3739cc9d29e8@xs4all.nl>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfDGW/jfEt6eoJzJ+FqcVjcdZ7390wm+CHXAX79yL+GtBYGqZN9y6Khd8ZspTxHYsxYbuaUjntHJMLwWyj4Dlt4kImRe3TfOoA7HYh3/LvHkF98FBSPrR
- BcAmC6ZNvtKrQXKass+mTZpbi2N6LTAg8OgYYbDj2/WzI25c3wTF6JkCP4uNNT7AKOJWc1k/GD7bVzunqYmGLcaBEDzLpuwle2c=
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is probably the last PR for 5.5.
+From: builder@linuxtv.org
 
-Change since the previous GIT PULL:
+Pull request: https://patchwork.linuxtv.org/patch/59988/
+Build log: https://builder.linuxtv.org/job/patchwork/24278/
+Build time: 00:04:29
+Link: https://lore.kernel.org/linux-media/a0d43238-a7dd-5fbb-4256-3739cc9d29e8@xs4all.nl
 
-Added:
+gpg: Signature made Sun 10 Nov 2019 01:36:43 PM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
 
-Revert "media: mtk-vcodec: Remove extra area allocation in an input buffer on encoding"
+Summary: 2 patches and/or PDF generation with issues, being 0 at build time
 
-as requested by Tomasz.
-
-Regards,
-
-	Hans
+Error/warnings:
 
 
-The following changes since commit 693c5f144aeb9636ae161a3c61a838c50b2ae41c:
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0003-media-hantro-Fix-s_fmt-for-dynamic-resolution-change.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0003-media-hantro-Fix-s_fmt-for-dynamic-resolution-change.patch
+patches/0003-media-hantro-Fix-s_fmt-for-dynamic-resolution-change.patch:6: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+patches/0003-media-hantro-Fix-s_fmt-for-dynamic-resolution-change.patch:60: CHECK: Alignment should match open parenthesis
 
-  media: vicodec: media_device_cleanup was called too early (2019-11-10 07:45:17 +0100)
+Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0008-media-hantro-Fix-H264-motion-vector-buffer-offset.patch:
+$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0008-media-hantro-Fix-H264-motion-vector-buffer-offset.patch
+patches/0008-media-hantro-Fix-H264-motion-vector-buffer-offset.patch:18: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
 
-are available in the Git repository at:
-
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.5s
-
-for you to fetch changes up to 68b4818bde42d07c81dff4eeb448192f0d01cee1:
-
-  Revert "media: mtk-vcodec: Remove extra area allocation in an input buffer on encoding" (2019-11-10 14:30:18 +0100)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Benoit Parrot (2):
-      dt-bindings: media: ti-vpe: Document VPE driver
-      media: ti-vpe: vpe: fix compatible to match bindings
-
-Colin Ian King (1):
-      media: zr364xx: remove redundant assigmnent to idx, clean up code
-
-Ezequiel Garcia (1):
-      media: hantro: Fix s_fmt for dynamic resolution changes
-
-Hans Verkuil (1):
-      Revert "media: mtk-vcodec: Remove extra area allocation in an input buffer on encoding"
-
-Jonas Karlman (5):
-      media: hantro: Fix H264 motion vector buffer offset
-      media: hantro: Reduce H264 extra space for motion vectors
-      media: hantro: Use output buffer width and height for H264 decoding
-      media: hantro: Remove now unused H264 pic_size
-      media: hantro: Set H264 FIELDPIC_FLAG_E flag correctly
-
-Nishad Kamdar (2):
-      media: siano: Use the correct style for SPDX License Identifier
-      media: i2c: Use the correct style for SPDX License Identifier
-
-Ricardo Ribalda Delgado (1):
-      Documentation: media: *_DEFAULT targets for subdevs
-
- Documentation/devicetree/bindings/media/ti,vpe.yaml     | 64 +++++++++++++++++++++++++++++++++++++++++++++
- Documentation/media/uapi/v4l/v4l2-selection-targets.rst |  4 ++-
- MAINTAINERS                                             |  1 +
- drivers/media/common/siano/smsir.h                      |  2 +-
- drivers/media/i2c/max2175.h                             |  4 +--
- drivers/media/i2c/saa711x_regs.h                        |  2 +-
- drivers/media/i2c/tda1997x_regs.h                       |  2 +-
- drivers/media/i2c/tvp5150_reg.h                         |  2 +-
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c      |  9 ++++---
- drivers/media/platform/ti-vpe/vpe.c                     |  2 +-
- drivers/media/usb/zr364xx/zr364xx.c                     |  6 ++---
- drivers/staging/media/hantro/hantro_g1_h264_dec.c       | 37 +++++++++++++++++---------
- drivers/staging/media/hantro/hantro_h264.c              |  5 ----
- drivers/staging/media/hantro/hantro_hw.h                |  3 ---
- drivers/staging/media/hantro/hantro_v4l2.c              | 48 ++++++++++++++++++++++++++--------
- 15 files changed, 145 insertions(+), 46 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/media/ti,vpe.yaml
