@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F3E07F631E
-	for <lists+linux-media@lfdr.de>; Sun, 10 Nov 2019 03:49:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 73B01F631F
+	for <lists+linux-media@lfdr.de>; Sun, 10 Nov 2019 03:49:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729513AbfKJCtl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 9 Nov 2019 21:49:41 -0500
-Received: from mail.kernel.org ([198.145.29.99]:59586 "EHLO mail.kernel.org"
+        id S1729525AbfKJCto (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 9 Nov 2019 21:49:44 -0500
+Received: from mail.kernel.org ([198.145.29.99]:59704 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729509AbfKJCtk (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 9 Nov 2019 21:49:40 -0500
+        id S1729516AbfKJCtn (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 9 Nov 2019 21:49:43 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7319522593;
-        Sun, 10 Nov 2019 02:49:39 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 91B0C22583;
+        Sun, 10 Nov 2019 02:49:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573354180;
-        bh=eGfE6SgmCLBEH7KuVge+NgvgK1bshcL4bLGOD+896oU=;
+        s=default; t=1573354182;
+        bh=ZPx3Vy/86jl0wKdRxpnPl9z9J+BNHaRp+RGaA7wUUqk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Y4FO+4VzAy4Gmb+QL8DRh1pJC2ECwA9GVOK+B4bOHhVpoqIV836dwUapAFxoxl5ER
-         2E+YR/c2UNrqfxYzX35gFuLtHntjDEsizIt+oanhErWg6v3uM68/+r5uDg+DXiDpWx
-         lVxfRjja5oFFfg1189p/gtAVERMFnEyL4/jiux6A=
+        b=VuvTtdLLWUvreaqx+F13dyX/eHqBeoNpMFrw+zsU3uvfAA4J6xeD94HZHt3QVqjo2
+         Wol5xGinlZH3PxlJgUdKT+rul8CcGsMx4Eu1rJletLh+1gvVjgF83B7k54U3yeo8hN
+         ip8K2bGJ3cAwAKXFrrZxNKjrtGSlzLyTxwNEMpes=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Jia-Ju Bai <baijiaju1990@gmail.com>,
+Cc:     Brad Love <brad@nextdimension.cc>,
         Hans Verkuil <hans.verkuil@cisco.com>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 30/66] media: pci: ivtv: Fix a sleep-in-atomic-context bug in ivtv_yuv_init()
-Date:   Sat,  9 Nov 2019 21:48:09 -0500
-Message-Id: <20191110024846.32598-30-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 31/66] media: au0828: Fix incorrect error messages
+Date:   Sat,  9 Nov 2019 21:48:10 -0500
+Message-Id: <20191110024846.32598-31-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191110024846.32598-1-sashal@kernel.org>
 References: <20191110024846.32598-1-sashal@kernel.org>
@@ -44,51 +44,46 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Jia-Ju Bai <baijiaju1990@gmail.com>
+From: Brad Love <brad@nextdimension.cc>
 
-[ Upstream commit 8d11eb847de7d89c2754988c944d51a4f63e219b ]
+[ Upstream commit f347596f2bf114a3af3d80201c6e6bef538d884f ]
 
-The driver may sleep in a interrupt handler.
+Correcting red herring error messages.
 
-The function call paths (from bottom to top) in Linux-4.16 are:
+Where appropriate, replaces au0282_dev_register with:
+- au0828_analog_register
+- au0828_dvb_register
 
-[FUNC] kzalloc(GFP_KERNEL)
-drivers/media/pci/ivtv/ivtv-yuv.c, 938:
-	kzalloc in ivtv_yuv_init
-drivers/media/pci/ivtv/ivtv-yuv.c, 960:
-	ivtv_yuv_init in ivtv_yuv_next_free
-drivers/media/pci/ivtv/ivtv-yuv.c, 1126:
-	ivtv_yuv_next_free in ivtv_yuv_setup_stream_frame
-drivers/media/pci/ivtv/ivtv-irq.c, 827:
-	ivtv_yuv_setup_stream_frame in ivtv_irq_dec_data_req
-drivers/media/pci/ivtv/ivtv-irq.c, 1013:
-	ivtv_irq_dec_data_req in ivtv_irq_handler
-
-To fix this bug, GFP_KERNEL is replaced with GFP_ATOMIC.
-
-This bug is found by my static analysis tool DSAC.
-
-Signed-off-by: Jia-Ju Bai <baijiaju1990@gmail.com>
+Signed-off-by: Brad Love <brad@nextdimension.cc>
 Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/pci/ivtv/ivtv-yuv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/usb/au0828/au0828-core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/pci/ivtv/ivtv-yuv.c b/drivers/media/pci/ivtv/ivtv-yuv.c
-index f7299d3d82449..bcb51e87c72f0 100644
---- a/drivers/media/pci/ivtv/ivtv-yuv.c
-+++ b/drivers/media/pci/ivtv/ivtv-yuv.c
-@@ -935,7 +935,7 @@ static void ivtv_yuv_init(struct ivtv *itv)
+diff --git a/drivers/media/usb/au0828/au0828-core.c b/drivers/media/usb/au0828/au0828-core.c
+index 38e73ee5c8fb1..78f0bf8ee084c 100644
+--- a/drivers/media/usb/au0828/au0828-core.c
++++ b/drivers/media/usb/au0828/au0828-core.c
+@@ -639,7 +639,7 @@ static int au0828_usb_probe(struct usb_interface *interface,
+ 	/* Analog TV */
+ 	retval = au0828_analog_register(dev, interface);
+ 	if (retval) {
+-		pr_err("%s() au0282_dev_register failed to register on V4L2\n",
++		pr_err("%s() au0828_analog_register failed to register on V4L2\n",
+ 			__func__);
+ 		goto done;
  	}
+@@ -647,7 +647,7 @@ static int au0828_usb_probe(struct usb_interface *interface,
+ 	/* Digital TV */
+ 	retval = au0828_dvb_register(dev);
+ 	if (retval)
+-		pr_err("%s() au0282_dev_register failed\n",
++		pr_err("%s() au0828_dvb_register failed\n",
+ 		       __func__);
  
- 	/* We need a buffer for blanking when Y plane is offset - non-fatal if we can't get one */
--	yi->blanking_ptr = kzalloc(720 * 16, GFP_KERNEL|__GFP_NOWARN);
-+	yi->blanking_ptr = kzalloc(720 * 16, GFP_ATOMIC|__GFP_NOWARN);
- 	if (yi->blanking_ptr) {
- 		yi->blanking_dmaptr = pci_map_single(itv->pdev, yi->blanking_ptr, 720*16, PCI_DMA_TODEVICE);
- 	} else {
+ 	/* Remote controller */
 -- 
 2.20.1
 
