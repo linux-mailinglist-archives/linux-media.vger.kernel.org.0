@@ -2,73 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CFA71F6B2E
-	for <lists+linux-media@lfdr.de>; Sun, 10 Nov 2019 20:56:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EFC00F6BA9
+	for <lists+linux-media@lfdr.de>; Sun, 10 Nov 2019 22:42:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726985AbfKJT4a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 10 Nov 2019 14:56:30 -0500
-Received: from mail-io1-f67.google.com ([209.85.166.67]:36501 "EHLO
-        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726973AbfKJT4a (ORCPT
+        id S1727126AbfKJVmz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 10 Nov 2019 16:42:55 -0500
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:39807 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727116AbfKJVmz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 10 Nov 2019 14:56:30 -0500
-Received: by mail-io1-f67.google.com with SMTP id s3so12166097ioe.3
-        for <linux-media@vger.kernel.org>; Sun, 10 Nov 2019 11:56:28 -0800 (PST)
+        Sun, 10 Nov 2019 16:42:55 -0500
+Received: by mail-oi1-f196.google.com with SMTP id v138so9820229oif.6
+        for <linux-media@vger.kernel.org>; Sun, 10 Nov 2019 13:42:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=C/jfUIdXt3gBHgimwgZMAzzV7792csREG8r1wi0X5Yk=;
-        b=PL9gEj1EbKo1OVSA7QfnleWg0r5oufY6gvP31UUtl0KbNLb+5CrnSPBm58Tk/NLaJM
-         wGvF8O5l3ePk7Xh9n8fL9OtuRlDNvDbcB7WXyzsNeSWisas8GtoKuo55U+luJTBl5d8F
-         CbATAKl3q4A3P3sOZ5JP6Vn5CWbCk1IbE4R8Q/Xsu/2KjJwGmcfcHBU0VbVNkLkamfvA
-         oeAbVOnmP8Iq3nOuLpWH1JjIeKi+qOmigzh87Szrc377rW/7QyksXwMgl84tfn6YuGFo
-         ofRKl4BZUF4BgavJ3xek24NIxEmcA6gi44UCfV8uVGUivdYQauK06ZgQGGkx3I0VZhkt
-         fZ6g==
+        d=bzadverts.com; s=google;
+        h=message-id:date:from:mime-version:content-transfer-encoding:subject
+         :to:content-disposition;
+        bh=yaAq4VY5xb3WOCr8/pnzNJIsmn0E59ka8VaoRGBTY0U=;
+        b=tF5t1bdIOBhmZictCUoX/Ue5OfjYOCca9YArMSIvh6lV9jyUroGSIdA284LDVdGBrq
+         GkywhvMcHE11FB45FMmG3iFFmL3mPakYzE1FRrSl/k8cfmXBbvDeDt7l9B+WZF+Fx8F/
+         gw3B/qF4EYf8os2tB2AKi1p6L6+bEB7RASwfe27iET4GfyVccJQuyyZUlyofSrU/UE2c
+         kvTke8RUDOknyJnAoA01yYpolRPcxYdcepcI3ejX7VH7OenYXIVFzObGM4JKNeXrrLs0
+         BisiW4w+GAj5eN7pXCeJl0k0beN1KkYmCqZ2r4/p5UWwtV3NiyAp6UcsnFO50g8ooB0i
+         yVXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=C/jfUIdXt3gBHgimwgZMAzzV7792csREG8r1wi0X5Yk=;
-        b=CxjuTqLJFqk8Iujsm/Mc8W+9JKH/2utbzQHGCbCCRN+s4LYa3UliMkv43WSKqDg9ai
-         +gigiaI5t3D7FRsrpQU/TdoaNBt1PVSdGruCT/gYdB5lhl4zN56E1NNz+ZEdG1MRE78T
-         JU1VNnM4y7JhxFjGT0Y7bfEKHD8HNQqYv9uVhyuVoRt9nswHhlUQGSRp+CMubeSXRdUE
-         6u6CkPTRttHPuVNcTWQwk9bRBmzLusk+qKcCwLzTk4iL7MD2+pWBKpoHcJkVatR8ec76
-         j1GOsWcIWnxajzSlHZfdE0oiAB7qZVIWL/kU7HAkXiVuOn2wy92iV29HkLzpv0kWyKuS
-         EvGA==
-X-Gm-Message-State: APjAAAWrT4aTtGNLEupetKN1haIfWaDEpnR3vHFCxPw/WVF1kRvwCiyE
-        7KUKsh0O3lfT9xi9qhC5HDWcVU5+qR/0V2lFGv4=
-X-Google-Smtp-Source: APXvYqy4IzMfaM7R4TJBF/yfg/uLfyLP93u4c05Tug1H6XVnRN+XJ7MuAnsV0ivFot21xs3gVL3dapIpJ9dXFQc6e5E=
-X-Received: by 2002:a6b:dd16:: with SMTP id f22mr21254615ioc.272.1573415787748;
- Sun, 10 Nov 2019 11:56:27 -0800 (PST)
+        h=x-gm-message-state:message-id:date:from:mime-version
+         :content-transfer-encoding:subject:to:content-disposition;
+        bh=yaAq4VY5xb3WOCr8/pnzNJIsmn0E59ka8VaoRGBTY0U=;
+        b=oRcpEspVbcjsNQTkStlzO7EAKAi+V/TK50v+kvERAJZXZBBZ+KmJDWcJLgNrxchXkM
+         dYJyyWTUKMeqao9hFQRz5GRPUX/N0cOZIkHDAoGkh5ypqIL5ns3JNFJ43LTN+ru8pAUp
+         PhVO0Tq6PB3CKmzFzf06NjDC0FkQ0+w8Qu66sbbBfKNqEEGTS3bVsT6+81Lh9aUt5nik
+         5mw8HXjjuXVP9dt++T4bzOj4+8MOFPINRmKRdIxq7kVwNSyd3groti75vkIhDBT66pmp
+         eabiNy8Jq6+sg+bMi0dayTMfZF5WibRnyYi5XzjVbIaktWp9hqdlUqmA7woxT4IO1nT/
+         xF6Q==
+X-Gm-Message-State: APjAAAWmEXBUCUJEp3ibeRDri/qOJm8c0TaiT4YkJqLjeiOdSDCXhviN
+        ctK5sJM7FwNhCQYEPsP3JkVx3Y2RFzZ74g==
+X-Google-Smtp-Source: APXvYqxaRxPeY5Ta8P01W1Vlg6BLaQjt7Xz9tBNwb0vBR5mc7a+p7UDWXr5EVZ8Zv4ViYSYCA6cM8g==
+X-Received: by 2002:a05:6808:b04:: with SMTP id s4mr4634340oij.163.1573422174213;
+        Sun, 10 Nov 2019 13:42:54 -0800 (PST)
+Received: from [127.0.0.1] ([2600:3c00::f03c:91ff:fe50:9fcb])
+        by smtp.gmail.com with ESMTPSA id i11sm4469077otj.17.2019.11.10.13.42.53
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 10 Nov 2019 13:42:53 -0800 (PST)
+Message-ID: <5dc8845d.1c69fb81.a5a79.d9ff@mx.google.com>
+Date:   Sun, 10 Nov 2019 13:42:53 -0800 (PST)
+From:   matthew.brown@bzadverts.com
+X-Google-Original-From: root@debian
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Received: by 2002:a02:a14c:0:0:0:0:0 with HTTP; Sun, 10 Nov 2019 11:56:27
- -0800 (PST)
-Reply-To: capt.donarldlarry@yahoo.com
-From:   FACT FINDING COMMISSION <petersonrbrts1@gmail.com>
-Date:   Sun, 10 Nov 2019 11:56:27 -0800
-Message-ID: <CAFJR_bFRTKmJQeKsV7F6T3wmwqArVE9-EwQMU0PL7w2t_646vA@mail.gmail.com>
-Subject: Dear Beneficiary,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Subject: Collaboration inquiry to bootlin.com
+To:     linux-media@vger.kernel.org
+Content-Disposition: inline
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear Beneficiary,
+Hi!
 
-Following the resolution of the President and the senate to reduce our
-foreign debt profile, your payment has been listed among those to be
-released by next week and it is going to be by delivery by cash
-through the apex bank bonded courier service provider.
-In view of the above, kindly reconfirm your direct phone number and
-your address where the fund will be delivered. Note that the fund will
-be insured before delivery to avoid being declared as missing on
-transit.
+I=E2=80=99m=20an=20SEO=20manager=20.=20I=20browsed=20your=20website=20and=
+=20should=20say=20that=20I=20like=20it=20=E2=80=93=20both=20the=20style=20a=
+nd=20content=20you=20post.
 
-I await your early response.
+I=E2=80=99m=20writing=20to=20ask=20about=20some=20advert=20opportunities=20=
+and=20offers=20you=20have.
 
-Regards,
+I=E2=80=99m=20greatly=20interested=20in
+=E2=80=A2=20=20=20=20=20=20=20guest=20posts
 
-Donarld Larry.
-FACT FINDING COMMISSION
+=E2=80=A2=20=20=20=20=20=20=20link=20insertion=20(in=20the=20existing=20art=
+icle)
+
+=E2=80=A2=20=20=20=20=20=20=20homepage=20link=20placement
+
+=E2=80=A2=20=20=20=20=20=20=20banners
+
+Could=20you,=20please,=20provide=20prices=20for=20these=20kinds=20of=20adve=
+rtising?=20I=E2=80=99m=20interested=20in=20permanent=20placement=20as=20wel=
+l=20as=20per=20month.
+
+If=20you=20can=20offer=20other=20online=20platforms=20for=20advertising,=20=
+I=20will=20consider=20them=20with=20pleasure.
+
+Thank=20you=20in=20advance!
