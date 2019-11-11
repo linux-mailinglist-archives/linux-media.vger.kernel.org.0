@@ -2,111 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 322ACF73D6
-	for <lists+linux-media@lfdr.de>; Mon, 11 Nov 2019 13:26:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DC98EF7468
+	for <lists+linux-media@lfdr.de>; Mon, 11 Nov 2019 13:59:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726989AbfKKM05 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Nov 2019 07:26:57 -0500
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:46189 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726832AbfKKM05 (ORCPT
+        id S1726932AbfKKM7x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Nov 2019 07:59:53 -0500
+Received: from mail-il1-f196.google.com ([209.85.166.196]:41435 "EHLO
+        mail-il1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726811AbfKKM7w (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Nov 2019 07:26:57 -0500
-Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id U8m2iUcTIQBsYU8m5i67WH; Mon, 11 Nov 2019 13:26:54 +0100
-Subject: Re: Seeking help for getting rid of i2c_clients_command()
-To:     Wolfram Sang <wsa@the-dreams.de>
-Cc:     linux-media@vger.kernel.org, Michael Krufky <mkrufky@linuxtv.org>,
-        Brad Love <brad@nextdimension.cc>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sean Young <sean@mess.org>
-References: <20191110150553.GA8040@kunai>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <5209c59d-f0f6-c2c3-5f5a-eedef500eb39@xs4all.nl>
-Date:   Mon, 11 Nov 2019 13:26:26 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Mon, 11 Nov 2019 07:59:52 -0500
+Received: by mail-il1-f196.google.com with SMTP id q15so6876313ils.8
+        for <linux-media@vger.kernel.org>; Mon, 11 Nov 2019 04:59:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=vJO11LsW2aM7Rr48nxV2HlBaAxaKgP0N57VF7dIApLA=;
+        b=fjWJm3eeS3cnHzssTOz1MLAnv3Fm4e3Ozm2OhkhXJr4b4PluQwEghwwLPR0aYlXKjl
+         ayFyBI3uFs0HtjSLvB/jAKVtphW1WsiThgLq7hkGI0PTJtikBETnXSCkmdUQN7tGkkmA
+         eUA+p034XusXl3tsOMseZa4zopl9e3tyq3ZIDRCAZm1NqgTkcxKEW6XNInke6Skg62Zh
+         p9E5o0AvOOjrfngo4UY++Sxv4PsHt5oaIEyLMcyo+29ACwTAgIiaZqnwbz01Nb5PLJF7
+         1oYUd4bQnY+IbYXK2hi4ztGyq8dqgnr9WILexdzs01+WB0oQJ1oh8RAcf85e+wdSnMrL
+         vMyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=vJO11LsW2aM7Rr48nxV2HlBaAxaKgP0N57VF7dIApLA=;
+        b=IxK0Llb9IKHCurD247mNiMEms0EsjQ9B3OFykIYe22vRcHZXWLq9bL++5WsFph5n1o
+         KvMj2h8Ff5+s/QifRYxZiG3xkMkARJDh0vLc2ll67Fdxr/JDWeYvsiuucnTYP1oHYTFH
+         5FyIY13UVxaMagucPe/mKwShCsGBWN8Dg7bfhrMULyg4W8aj6QalSQRLxmB+bA9E0r1D
+         nmtUhEK9sMyNCrVfqSFbuSih18qGM2lmYyDJ2FbxZnSwxKMZQnkO8lJDAxdFd/kFhbGb
+         BhL0uYwpI/KszWYWD3RgsrXM7HXvdvzbdGIc9CbkxvyXFlQDI/nBZt43ge1/96BaNPUh
+         lIFQ==
+X-Gm-Message-State: APjAAAWn/KDp6OEmroaeeOUz/G6MUvxYEoqCoA5XkDPfSmj3mDqoXDjZ
+        o2gI4b3yq8Kry/zyx7hkFBUI+Vht8h3cPcXxSiU=
+X-Google-Smtp-Source: APXvYqyQr7383ERW3pOj5cJ9NHX1P93wi4/vB89eV6Irn6U5193SiaIzjW2DErYL0gPDNwih6ztxuyPRnbyfGMeYA80=
+X-Received: by 2002:a92:5899:: with SMTP id z25mr28341235ilf.187.1573477192012;
+ Mon, 11 Nov 2019 04:59:52 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191110150553.GA8040@kunai>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfODLNaZnOVBuxew/HtR3vzc/B3JSTHuJFEOOqugvRvY2I7lqN3fMtw4jB2ACjK0ogGQSdw/Pql+WnqIM28L0UdaYHf+c4fOnlRGBFRdPudn6Qyy/gHNk
- pTsHTQm4TF6Rtqc3XWnPQJukx0h1jjAGxfTNWSpFh+8RHazAKzOoOoFIG2sEtPykYZeAU7wBPg6TG4RDuWpcyBCquMyXWeFCshm6L8BOP04tdWzdQsoMR86v
- g9KyFu7y0eZHA7DUNEVwp49FkdtZ3itW33j8FL7f81qnrd1Knx0oz+cxle91/FY/xradj0SEFmYGTj3DD8EWhA==
+Received: by 2002:a92:9e0f:0:0:0:0:0 with HTTP; Mon, 11 Nov 2019 04:59:51
+ -0800 (PST)
+Reply-To: mgaddafi034@gmail.com
+From:   Mrs Aisha Gaddafi <mathewthomson746@gmail.com>
+Date:   Mon, 11 Nov 2019 04:59:51 -0800
+Message-ID: <CABEDq6=q+wEK-zTkWi9eaf0Q+DBEMxEKyarEHn0mu1=Gf-J0cQ@mail.gmail.com>
+Subject: Hello Dear
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/10/19 4:05 PM, Wolfram Sang wrote:
-> Hi Hans,
-> 
-> I know it is 13 years since you wrote that code:
-> 
-> ba8fc39954bf ("V4L/DVB (4270): Add tda9887-specific tuner configuration")
-> 
-> There, you added i2c_clients_command() which looks today like this:
-> 
-> 	i2c_clients_command(priv->i2c_props.adap, TUNER_SET_CONFIG,
-> 			    &tda9887_cfg);
-> 
-> Now, I would like to get rid of the i2c_clients_command() API, and this
-> is the one remaining user. While trying to convert it into a local
-> function, I started wondering why i2c_clients_command() is used at all.
-> Why do we need to try all devices on the bus? A few lines later we have:
-> 
-> 	tuner_i2c_xfer_send(&priv->i2c_props, buffer, 4);
-> 
-> so i2c_props.addr seems to have a valid address? Or are there multiple
-> tuners on that bus? Can you kindly shed some light on this?
+Assalamu Alaikum Wa Rahmatullahi Wa Barakatuh,
 
-Oh boy... The tuner code is awful for many reasons.
+hello dear
 
-One reason is that for a given video capture card there can be multiple
-tuner devices: Analog TV, Digital TV, Analog demodulator and/or radio.
+I came across your e-mail contact prior a private search while in need
+of your assistance. I am Aisha Al-Qaddafi, the only biological
+Daughter of Former President of Libya Col. Muammar Al-Qaddafi. Am a
+single Mother and a Widow with three Children.
 
-The TUNER_SET_CONFIG command is (AFAICT) only used to configure the
-tda9887 (demodulator), and the problem is that when this code was written
-the tuner instance that is calling TUNER_SET_CONFIG does not know on which
-i2c address the demod is.
+I have investment funds worth Twenty Seven Million Five Hundred
+Thousand United State Dollar ($27.500.000.00 ) and i need a trusted
+investment Manager/Partner because of my current refugee status,
+however, I am interested in you for investment project assistance in
+your country, may be from there, we can build business relationship in
+the nearest future.
 
-TUNER_SET_CONFIG is called whenever the TV or radio frequency is
-changed, and when that happens the demod needs to update its configuration
-as well. So the tuner_i2c_xfer_send(&priv->i2c_props, buffer, 4); is for the
-tuner itself (whose i2c address is known), but i2c_clients_command is
-basically broadcasting to anyone on the bus, and only the tda9987 will
-actually act on the TUNER_SET_CONFIG command.
+I am willing to negotiate investment/business profit sharing ratio
+with you base on the future investment earning profits.
 
-However, it looks like this code is only used by hybrid tuners (i.e.
-supporting both digital and analog TV), and that the available tuners
-are now added to a global list via hybrid_tuner_request_state().
+If you are willing to handle this project on my behalf kindly reply
+urgent to enable me provide you more information about the investment
 
-This should make it possible for tuner-simple.c to actually lookup the
-i2c address of the demod from that global list and use a direct call.
+Your Urgent Reply Will Be Appreciated with this emailaddress
+(mgaddafi034@gmail.com)
 
-I've CC-ed a bunch of people who know more about DVB than I do, so
-I hope they can double-check that I am on the right track.
-
-Wolfram, do you just want to get rid of i2c_clients_command or the i2c
-command() callback as well?
-
-Regardless, it would be nice if we can get rid of the command() callback
-in the media subsystem. If I read the code right, then you can get the
-tuner struct of an i2c_client using 'struct tuner *t = to_tuner(i2c_get_clientdata(c));'
-and from there you can get the analog_demod_ops that you need to
-configure the tda9887.
-
-So I think this would work:
-
-1) walk hybrid_tuner_instance_list to find a tuner with name "tda9887" for
-   the given i2c_adapter.
-2) get the i2c_client from the adapter with address state->i2c_props.addr.
-3) struct tuner *t = to_tuner(i2c_get_clientdata(c));
-4) if (t->fe.ops.analog_ops.set_config)
-	t->fe.ops.analog_ops.set_config(&t->fe, &config);
-
-Regards,
-
-	Hans
+Best Regards
+Mrs Aisha Al-Qaddafi
