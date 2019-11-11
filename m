@@ -2,200 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B1D35F6FB1
-	for <lists+linux-media@lfdr.de>; Mon, 11 Nov 2019 09:28:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 997F1F6FB5
+	for <lists+linux-media@lfdr.de>; Mon, 11 Nov 2019 09:29:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726808AbfKKI2K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Nov 2019 03:28:10 -0500
-Received: from mga18.intel.com ([134.134.136.126]:16907 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726768AbfKKI2K (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Nov 2019 03:28:10 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Nov 2019 00:28:09 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,292,1569308400"; 
-   d="scan'208";a="405129336"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 11 Nov 2019 00:28:08 -0800
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1iU53P-000IDa-U5; Mon, 11 Nov 2019 16:28:07 +0800
-Date:   Mon, 11 Nov 2019 16:27:44 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: [ragnatech:media-tree] BUILD SUCCESS
- dca6b3733a4a46e63603496f544ece8ace541fde
-Message-ID: <5dc91b80.xO/HSxIjKbMBkxgw%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+        id S1726819AbfKKI3O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Nov 2019 03:29:14 -0500
+Received: from mail-m972.mail.163.com ([123.126.97.2]:55062 "EHLO
+        mail-m972.mail.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726768AbfKKI3O (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 11 Nov 2019 03:29:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=From:Subject:Date:Message-Id; bh=IXLiI1+30Yp1RuwY8a
+        32SvH9+dLBFK6vlJn+vl0EBD4=; b=jhlJHk32iaOL14/7IKFs9pVbyX4D/1jRo4
+        OXp1ELbN0c78vZb76E9lhgCTrKrgTejCqJ5h8HJGTROMBBS8GW1IECYYfzQZ5FL6
+        vgfMmJax8Xs5oKHB21V1VC9ySa39QDiPTXeF1RLOSnmhE491JH2x0gtPMLuXEG90
+        OpCM8x3xQ=
+Received: from localhost.localdomain (unknown [202.112.113.212])
+        by smtp2 (Coremail) with SMTP id GtxpCgDXMCOsG8ld_t9zAg--.4268S3;
+        Mon, 11 Nov 2019 16:28:35 +0800 (CST)
+From:   Pan Bian <bianpan2016@163.com>
+To:     Jacob Chen <jacob-chen@iotwrt.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Heiko Stuebner <heiko@sntech.de>
+Cc:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Pan Bian <bianpan2016@163.com>
+Subject: [PATCH v2] media: rockchip/rga: fix potential use after free
+Date:   Mon, 11 Nov 2019 16:28:22 +0800
+Message-Id: <1573460902-18563-1-git-send-email-bianpan2016@163.com>
+X-Mailer: git-send-email 2.7.4
+X-CM-TRANSID: GtxpCgDXMCOsG8ld_t9zAg--.4268S3
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Ar4DAr4ruFW3urW8KFWUCFg_yoW8WF15pa
+        1kGa4xKFWFg3yUuwsrJr4DuFyrGa4Iya1FkrW3G34SkFy3KryDt34xJFyFqFWUZ3s7CFWa
+        yw43tr47Ca10vFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UJgA7UUUUU=
+X-Originating-IP: [202.112.113.212]
+X-CM-SenderInfo: held01tdqsiiqw6rljoofrz/xtbBZBNqclQHHkd+IQAAs6
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://git.ragnatech.se/linux  media-tree
-branch HEAD: dca6b3733a4a46e63603496f544ece8ace541fde  media: Revert "media: mtk-vcodec: Remove extra area allocation in an input buffer on encoding"
+The variable vga->vfd is an alias for vfd. Therefore, releasing vfd and
+then unregister vga->vfd will lead to a use after free bug. In fact, the
+free operation and the unregister operation are reversed.
 
-elapsed time: 891m
-
-configs tested: 146
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-um                                  defconfig
-um                             i386_defconfig
-um                           x86_64_defconfig
-c6x                              allyesconfig
-c6x                        evmc6678_defconfig
-nios2                         10m50_defconfig
-nios2                         3c120_defconfig
-openrisc                    or1ksim_defconfig
-openrisc                 simple_smp_defconfig
-xtensa                       common_defconfig
-xtensa                          iss_defconfig
-arm                              allmodconfig
-arm                               allnoconfig
-arm                         at91_dt_defconfig
-arm                           efm32_defconfig
-arm                          exynos_defconfig
-arm                        multi_v5_defconfig
-arm                        multi_v7_defconfig
-arm                        shmobile_defconfig
-arm                           sunxi_defconfig
-arm64                            allmodconfig
-arm64                             allnoconfig
-arm64                            allyesconfig
-arm64                               defconfig
-sparc                               defconfig
-sparc64                          allmodconfig
-sparc64                           allnoconfig
-sparc64                             defconfig
-parisc                            allnoconfig
-parisc                         b180_defconfig
-parisc                        c3000_defconfig
-parisc                              defconfig
-x86_64                              fedora-25
-x86_64                                  kexec
-x86_64                                    lkp
-x86_64                                   rhel
-x86_64                               rhel-7.6
-mips                           32r2_defconfig
-mips                         64r6el_defconfig
-mips                             allmodconfig
-mips                              allnoconfig
-mips                      fuloong2e_defconfig
-mips                      malta_kvm_defconfig
-i386                   randconfig-f002-201945
-i386                   randconfig-f001-201945
-x86_64                 randconfig-f003-201945
-x86_64                 randconfig-f004-201945
-x86_64                 randconfig-f002-201945
-i386                   randconfig-f003-201945
-i386                   randconfig-f004-201945
-x86_64                 randconfig-f001-201945
-arc                              allyesconfig
-arc                                 defconfig
-microblaze                      mmu_defconfig
-microblaze                    nommu_defconfig
-powerpc                           allnoconfig
-powerpc                             defconfig
-powerpc                       ppc64_defconfig
-x86_64                 randconfig-g002-201945
-i386                   randconfig-g004-201945
-x86_64                 randconfig-g001-201945
-i386                   randconfig-g002-201945
-x86_64                 randconfig-g004-201945
-x86_64                 randconfig-g003-201945
-i386                   randconfig-g003-201945
-i386                   randconfig-g001-201945
-x86_64                           allyesconfig
-i386                             allmodconfig
-sh                               allmodconfig
-sh                                allnoconfig
-sh                          rsk7269_defconfig
-sh                  sh7785lcr_32bit_defconfig
-sh                            titan_defconfig
-x86_64                           allmodconfig
-h8300                     edosk2674_defconfig
-h8300                    h8300h-sim_defconfig
-h8300                       h8s-sim_defconfig
-m68k                             allmodconfig
-m68k                       m5475evb_defconfig
-m68k                          multi_defconfig
-m68k                           sun3_defconfig
-ia64                             alldefconfig
-ia64                             allmodconfig
-ia64                              allnoconfig
-ia64                                defconfig
-x86_64                 randconfig-a001-201945
-x86_64                 randconfig-a002-201945
-x86_64                 randconfig-a003-201945
-x86_64                 randconfig-a004-201945
-i386                   randconfig-a001-201945
-i386                   randconfig-a002-201945
-i386                   randconfig-a003-201945
-i386                   randconfig-a004-201945
-i386                             alldefconfig
-i386                              allnoconfig
-i386                                defconfig
-alpha                               defconfig
-nds32                             allnoconfig
-nds32                               defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-x86_64                 randconfig-e001-201945
-x86_64                 randconfig-e002-201945
-x86_64                 randconfig-e003-201945
-x86_64                 randconfig-e004-201945
-i386                   randconfig-e001-201945
-i386                   randconfig-e002-201945
-i386                   randconfig-e003-201945
-i386                   randconfig-e004-201945
-x86_64                 randconfig-h002-201945
-x86_64                 randconfig-h001-201945
-i386                   randconfig-h004-201945
-i386                   randconfig-h003-201945
-i386                   randconfig-h002-201945
-x86_64                 randconfig-h003-201945
-i386                   randconfig-h001-201945
-x86_64                 randconfig-h004-201945
-x86_64                 randconfig-d001-201945
-x86_64                 randconfig-d002-201945
-x86_64                 randconfig-d003-201945
-x86_64                 randconfig-d004-201945
-i386                   randconfig-d001-201945
-i386                   randconfig-d002-201945
-i386                   randconfig-d003-201945
-i386                   randconfig-d004-201945
-x86_64                 randconfig-b001-201945
-x86_64                 randconfig-b002-201945
-x86_64                 randconfig-b003-201945
-x86_64                 randconfig-b004-201945
-i386                   randconfig-b001-201945
-i386                   randconfig-b002-201945
-i386                   randconfig-b003-201945
-i386                   randconfig-b004-201945
-x86_64                         rhel-7.6-kasan
-x86_64                 randconfig-c001-201945
-x86_64                 randconfig-c002-201945
-x86_64                 randconfig-c003-201945
-x86_64                 randconfig-c004-201945
-i386                   randconfig-c001-201945
-i386                   randconfig-c002-201945
-i386                   randconfig-c003-201945
-i386                   randconfig-c004-201945
-s390                             allmodconfig
-s390                              allnoconfig
-s390                          debug_defconfig
-s390                                defconfig
-
+Signed-off-by: Pan Bian <bianpan2016@163.com>
 ---
-0-DAY kernel test infrastructure                 Open Source Technology Center
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org Intel Corporation
+v2: update the goto label names consistently
+---
+ drivers/media/platform/rockchip/rga/rga.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/platform/rockchip/rga/rga.c
+index e9ff12b6b5bb..d2297abafc69 100644
+--- a/drivers/media/platform/rockchip/rga/rga.c
++++ b/drivers/media/platform/rockchip/rga/rga.c
+@@ -863,7 +863,7 @@ static int rga_probe(struct platform_device *pdev)
+ 	if (IS_ERR(rga->m2m_dev)) {
+ 		v4l2_err(&rga->v4l2_dev, "Failed to init mem2mem device\n");
+ 		ret = PTR_ERR(rga->m2m_dev);
+-		goto unreg_video_dev;
++		goto rel_vdev;
+ 	}
+ 
+ 	pm_runtime_get_sync(rga->dev);
+@@ -892,7 +892,7 @@ static int rga_probe(struct platform_device *pdev)
+ 	ret = video_register_device(vfd, VFL_TYPE_GRABBER, -1);
+ 	if (ret) {
+ 		v4l2_err(&rga->v4l2_dev, "Failed to register video device\n");
+-		goto rel_vdev;
++		goto unreg_dev;
+ 	}
+ 
+ 	v4l2_info(&rga->v4l2_dev, "Registered %s as /dev/%s\n",
+@@ -900,10 +900,10 @@ static int rga_probe(struct platform_device *pdev)
+ 
+ 	return 0;
+ 
++unreg_dev:
++	video_unregister_device(rga->vfd);
+ rel_vdev:
+ 	video_device_release(vfd);
+-unreg_video_dev:
+-	video_unregister_device(rga->vfd);
+ unreg_v4l2_dev:
+ 	v4l2_device_unregister(&rga->v4l2_dev);
+ err_put_clk:
+-- 
+2.7.4
+
