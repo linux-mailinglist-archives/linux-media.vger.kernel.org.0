@@ -2,55 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 516A7F6D88
-	for <lists+linux-media@lfdr.de>; Mon, 11 Nov 2019 05:22:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D79EEF6DAE
+	for <lists+linux-media@lfdr.de>; Mon, 11 Nov 2019 05:57:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726910AbfKKEWg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 10 Nov 2019 23:22:36 -0500
-Received: from static-dsl-170.87-197-152.telecom.sk ([87.197.152.170]:47000
-        "EHLO sldom.sldom" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726768AbfKKEWg (ORCPT
+        id S1726785AbfKKE5r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 10 Nov 2019 23:57:47 -0500
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:33931 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726768AbfKKE5q (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 10 Nov 2019 23:22:36 -0500
-Received: from 127.0.0.1 (localhost [127.0.0.1])
-        by sldom.sldom (Postfix) with SMTP id 3B69E1DD976;
-        Fri,  8 Nov 2019 13:03:33 +0100 (CET)
-Received: from (HELO kzq) [163.12.2.170] by 127.0.0.1 id <4850870-44784>; Fri, 08 Nov 2019 06:56:52 -0500
-Message-ID: <r$j64$--$660c6zys$4ary81-w5af@dt67g>
-From:   "Simon Oliver" <olivia_simon@lihat.dds-akaun.com>
-Reply-To: "Simon Oliver" <olivia_simon@lihat.dds-akaun.com>
-To:     dranzer666@azet.sk
-Subject: Seeking Investment Opportunities
-Date:   Fri, 08 Nov 19 06:56:52 GMT
-X-Mailer: eGroups Message Poster
-MIME-Version: 1.0
-Content-Type: multipart/alternative;
-        boundary="4CE82F1AC..A9CAC_"
-X-Priority: 3
-X-MSMail-Priority: Normal
+        Sun, 10 Nov 2019 23:57:46 -0500
+Received: from localhost ([IPv6:2001:983:e9a7:1:f435:744:d37e:eb51])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id U1lniSW3iXYiTU1loi5I5J; Mon, 11 Nov 2019 05:57:44 +0100
+Message-ID: <eb2cc8b88eec1a1602a802bebc975352@smtp-cloud8.xs4all.net>
+Date:   Mon, 11 Nov 2019 05:57:43 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfHxS1dGda3/1yzUsjxobYpUrrISjB8JTJCoOYgJlbjXpF+XV932daWZx9uBXiD41C4d5BEaVjaBDpaUuBP7jhheDPagieFmC4O6G3UT3ft+Vbyba1icA
+ Y9A1MeB1U8i3zFPkTjJ1rn5fS9g8ZnJLpJYZhF+vlbqjCPo4B5k1+MFxaCAjjuCjPbMs1UvU4krpljVBTszvd71/3zXUqT1Yj7tUZYKP7wsDEo11cE0Zi9BZ
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
---4CE82F1AC..A9CAC_
-Content-Type: text/plain;
-Content-Transfer-Encoding: quoted-printable
+Results of the daily build of media_tree:
 
-I consider it very important to introduce to you my client who is interest=
-ed to invest $250 million to $500 million dollars in a reputable project  =
-investment, She is well known in her country holding a political office .
+date:			Mon Nov 11 05:00:11 CET 2019
+media-tree git hash:	dca6b3733a4a46e63603496f544ece8ace541fde
+media_build git hash:	efba365ba11b958a6bf6fb4b397942f9461cefca
+v4l-utils git hash:	b9d56249d974296fd349a06563c8459d3b8ed645
+edid-decode git hash:	3a6108a75be356a3dc53760d22782f1323248b6b
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 6903fe8f5101fc43440b3259290c97d2dd51733d
+host hardware:		x86_64
+host os:		5.2.0-3-amd64
 
-She deserve a secret investment outside her country without direct involve=
-ment.  she needs an experience individual or company that can profitably i=
-nvestment and manage the above funds for the period of 15 years or more.
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4-rc1-i686: OK
+linux-5.4-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: ERRORS: Final Summary: 2784, Succeeded: 2782, Failed: 2, Warnings: 1
+sparse: WARNINGS
+smatch: WARNINGS
 
-Forward your details to me for further discussion (e.g)  Your name, Teleph=
-one number and Occupation.
+Detailed results are available here:
 
-Thank you
-Oliver Simon
+http://www.xs4all.nl/~hverkuil/logs/Monday.log
 
---4CE82F1AC..A9CAC_--
+Detailed regression test results are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
