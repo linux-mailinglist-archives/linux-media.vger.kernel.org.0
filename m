@@ -2,89 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id EFC00F6BA9
-	for <lists+linux-media@lfdr.de>; Sun, 10 Nov 2019 22:42:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 00333F6D06
+	for <lists+linux-media@lfdr.de>; Mon, 11 Nov 2019 04:04:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727126AbfKJVmz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 10 Nov 2019 16:42:55 -0500
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:39807 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727116AbfKJVmz (ORCPT
+        id S1726754AbfKKDEh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 10 Nov 2019 22:04:37 -0500
+Received: from mail-qt1-f182.google.com ([209.85.160.182]:38767 "EHLO
+        mail-qt1-f182.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726742AbfKKDEh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 10 Nov 2019 16:42:55 -0500
-Received: by mail-oi1-f196.google.com with SMTP id v138so9820229oif.6
-        for <linux-media@vger.kernel.org>; Sun, 10 Nov 2019 13:42:54 -0800 (PST)
+        Sun, 10 Nov 2019 22:04:37 -0500
+Received: by mail-qt1-f182.google.com with SMTP id p20so14165735qtq.5
+        for <linux-media@vger.kernel.org>; Sun, 10 Nov 2019 19:04:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bzadverts.com; s=google;
-        h=message-id:date:from:mime-version:content-transfer-encoding:subject
-         :to:content-disposition;
-        bh=yaAq4VY5xb3WOCr8/pnzNJIsmn0E59ka8VaoRGBTY0U=;
-        b=tF5t1bdIOBhmZictCUoX/Ue5OfjYOCca9YArMSIvh6lV9jyUroGSIdA284LDVdGBrq
-         GkywhvMcHE11FB45FMmG3iFFmL3mPakYzE1FRrSl/k8cfmXBbvDeDt7l9B+WZF+Fx8F/
-         gw3B/qF4EYf8os2tB2AKi1p6L6+bEB7RASwfe27iET4GfyVccJQuyyZUlyofSrU/UE2c
-         kvTke8RUDOknyJnAoA01yYpolRPcxYdcepcI3ejX7VH7OenYXIVFzObGM4JKNeXrrLs0
-         BisiW4w+GAj5eN7pXCeJl0k0beN1KkYmCqZ2r4/p5UWwtV3NiyAp6UcsnFO50g8ooB0i
-         yVXw==
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=s21XsScROhu9BPmbzGcegcYHTdkPFhp5GNL2cd4PxbQ=;
+        b=lHIHI7p/r0giqXhBuGIZTt9zqLjVH/cm3hvX6R3JDUCmIvBCXP4RL/iU0REkYn+lJg
+         VBwHj5196iFxzjLkbOlRgKQXcgu2EnT1sM8txIrRx6rt+5ofNp8ntZm9xXoA0UlKAUmz
+         plhdmv76n5zJLHDJ+LnpkSGmmuBrxhE8jOyww=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:date:from:mime-version
-         :content-transfer-encoding:subject:to:content-disposition;
-        bh=yaAq4VY5xb3WOCr8/pnzNJIsmn0E59ka8VaoRGBTY0U=;
-        b=oRcpEspVbcjsNQTkStlzO7EAKAi+V/TK50v+kvERAJZXZBBZ+KmJDWcJLgNrxchXkM
-         dYJyyWTUKMeqao9hFQRz5GRPUX/N0cOZIkHDAoGkh5ypqIL5ns3JNFJ43LTN+ru8pAUp
-         PhVO0Tq6PB3CKmzFzf06NjDC0FkQ0+w8Qu66sbbBfKNqEEGTS3bVsT6+81Lh9aUt5nik
-         5mw8HXjjuXVP9dt++T4bzOj4+8MOFPINRmKRdIxq7kVwNSyd3groti75vkIhDBT66pmp
-         eabiNy8Jq6+sg+bMi0dayTMfZF5WibRnyYi5XzjVbIaktWp9hqdlUqmA7woxT4IO1nT/
-         xF6Q==
-X-Gm-Message-State: APjAAAWmEXBUCUJEp3ibeRDri/qOJm8c0TaiT4YkJqLjeiOdSDCXhviN
-        ctK5sJM7FwNhCQYEPsP3JkVx3Y2RFzZ74g==
-X-Google-Smtp-Source: APXvYqxaRxPeY5Ta8P01W1Vlg6BLaQjt7Xz9tBNwb0vBR5mc7a+p7UDWXr5EVZ8Zv4ViYSYCA6cM8g==
-X-Received: by 2002:a05:6808:b04:: with SMTP id s4mr4634340oij.163.1573422174213;
-        Sun, 10 Nov 2019 13:42:54 -0800 (PST)
-Received: from [127.0.0.1] ([2600:3c00::f03c:91ff:fe50:9fcb])
-        by smtp.gmail.com with ESMTPSA id i11sm4469077otj.17.2019.11.10.13.42.53
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 10 Nov 2019 13:42:53 -0800 (PST)
-Message-ID: <5dc8845d.1c69fb81.a5a79.d9ff@mx.google.com>
-Date:   Sun, 10 Nov 2019 13:42:53 -0800 (PST)
-From:   matthew.brown@bzadverts.com
-X-Google-Original-From: root@debian
-Content-Type: text/plain; charset="utf-8"
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=s21XsScROhu9BPmbzGcegcYHTdkPFhp5GNL2cd4PxbQ=;
+        b=cGIXK6OhSIA5uYiV9bmD2f+t0lZWLEB1T5vd/2FG+02JWxJ6jTu2XY8FW+VyVpNf3O
+         LAL2JuJlpIQG8HaB9ZLd8g/BYhcvrUwLKDhHlvVoCuuh+ifLBQvLJuwQNycDSe+8g0Ec
+         sQu5KWXNHjpVsEFMws+OzBFSawqS6unZxHa45qxN2Fegfh586PbmfBFrULV3kxQLSK5Q
+         PbNhbKrYlOAC8reJUEv/XtESWb/gZs167E4AVfAiXxEFlfCR6phfz5T5NsORFEruBid1
+         isDEKcfzCsVlwYnZlL9JICaY3h0gwoPmy8HtOODJOwnGGsO+yuIl/GxXk2MMlacxW103
+         sS3w==
+X-Gm-Message-State: APjAAAVubDNu+cl4Y2Er5C8L+MZIVaY1zadpSEx3CAtDm/daHpZ6kMxx
+        s6pUdlpn/t56TsmJ13amf/4wp5vrOGIzmyA1bPmaug==
+X-Google-Smtp-Source: APXvYqzEgRqM2b1k3cEN4mloUeEOhrf8cOZLFKV98ttWSKpDVQ51Q/jYgDxVozA4BQjDVb9G2TwgPcL03Ye994sE63s=
+X-Received: by 2002:ac8:7216:: with SMTP id a22mr23844828qtp.187.1573441476623;
+ Sun, 10 Nov 2019 19:04:36 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Subject: Collaboration inquiry to bootlin.com
-To:     linux-media@vger.kernel.org
-Content-Disposition: inline
+References: <20191105105456.7xbhtistnbp272lj@sirius.home.kraxel.org> <20191106084344.GB189998@stefanha-x1.localdomain>
+In-Reply-To: <20191106084344.GB189998@stefanha-x1.localdomain>
+From:   David Stevens <stevensd@chromium.org>
+Date:   Mon, 11 Nov 2019 12:04:25 +0900
+Message-ID: <CAD=HUj41r8wHZ2-By8tLftkoqC5r_Bw=pr=zX2aZ7GTs1ESWhg@mail.gmail.com>
+Subject: Re: guest / host buffer sharing ...
+To:     Stefan Hajnoczi <stefanha@gmail.com>
+Cc:     Gerd Hoffmann <kraxel@redhat.com>,
+        Keiichi Watanabe <keiichiw@chromium.org>,
+        geoff@hostfission.com, virtio-dev@lists.oasis-open.org,
+        Alex Lau <alexlau@chromium.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        qemu-devel@nongnu.org, Tomasz Figa <tfiga@chromium.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
+        Dylan Reid <dgreid@chromium.org>,
+        Gurchetan Singh <gurchetansingh@chromium.org>,
+        Dmitry Morozov <dmitry.morozov@opensynergy.com>,
+        Pawel Osciak <posciak@chromium.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi!
+> My question would be "what is the actual problem you are trying to
+> solve?".
 
-I=E2=80=99m=20an=20SEO=20manager=20.=20I=20browsed=20your=20website=20and=
-=20should=20say=20that=20I=20like=20it=20=E2=80=93=20both=20the=20style=20a=
-nd=20content=20you=20post.
+One problem that needs to be solved is sharing buffers between
+devices. With the out-of-tree Wayland device, to share virtio-gpu
+buffers we've been using the virtio resource id. However, that
+approach isn't necessarily the right approach, especially once there
+are more devices allocating/sharing buffers. Specifically, this issue
+came up in the recent RFC about adding a virtio video decoder device.
 
-I=E2=80=99m=20writing=20to=20ask=20about=20some=20advert=20opportunities=20=
-and=20offers=20you=20have.
+Having a centralized buffer allocator device is one way to deal with
+sharing buffers, since it gives a definitive buffer identifier that
+can be used by all drivers/devices to refer to the buffer. That being
+said, I think the device as proposed is insufficient, as such a
+centralized buffer allocator should probably be responsible for
+allocating all shared buffers, not just linear guest ram buffers.
 
-I=E2=80=99m=20greatly=20interested=20in
-=E2=80=A2=20=20=20=20=20=20=20guest=20posts
-
-=E2=80=A2=20=20=20=20=20=20=20link=20insertion=20(in=20the=20existing=20art=
-icle)
-
-=E2=80=A2=20=20=20=20=20=20=20homepage=20link=20placement
-
-=E2=80=A2=20=20=20=20=20=20=20banners
-
-Could=20you,=20please,=20provide=20prices=20for=20these=20kinds=20of=20adve=
-rtising?=20I=E2=80=99m=20interested=20in=20permanent=20placement=20as=20wel=
-l=20as=20per=20month.
-
-If=20you=20can=20offer=20other=20online=20platforms=20for=20advertising,=20=
-I=20will=20consider=20them=20with=20pleasure.
-
-Thank=20you=20in=20advance!
+-David
