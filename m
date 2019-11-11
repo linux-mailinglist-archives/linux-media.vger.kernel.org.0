@@ -2,207 +2,242 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 28671F815C
-	for <lists+linux-media@lfdr.de>; Mon, 11 Nov 2019 21:38:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 34009F8167
+	for <lists+linux-media@lfdr.de>; Mon, 11 Nov 2019 21:39:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727543AbfKKUir (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Nov 2019 15:38:47 -0500
-Received: from mout.kundenserver.de ([212.227.126.133]:50135 "EHLO
+        id S1727324AbfKKUjH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Nov 2019 15:39:07 -0500
+Received: from mout.kundenserver.de ([212.227.126.133]:59485 "EHLO
         mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727170AbfKKUiq (ORCPT
+        with ESMTP id S1727200AbfKKUir (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Nov 2019 15:38:46 -0500
+        Mon, 11 Nov 2019 15:38:47 -0500
 Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
  (mreue012 [212.227.15.129]) with ESMTPA (Nemesis) id
- 1MlL5x-1i2OQc4Am5-00lqC9; Mon, 11 Nov 2019 21:38:40 +0100
+ 1MjxW4-1i1ZUG11Vg-00kT9Q; Mon, 11 Nov 2019 21:38:40 +0100
 From:   Arnd Bergmann <arnd@arndb.de>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org
 Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-kernel@vger.kernel.org,
         y2038@lists.linaro.org, Arnd Bergmann <arnd@arndb.de>
-Subject: [PATCH v4 4/8] media: v4l2-core: split out data copy from video_usercopy
-Date:   Mon, 11 Nov 2019 21:38:31 +0100
-Message-Id: <20191111203835.2260382-5-arnd@arndb.de>
+Subject: [PATCH v4 5/8] media: v4l2-core: fix VIDIOC_DQEVENT for time64 ABI
+Date:   Mon, 11 Nov 2019 21:38:32 +0100
+Message-Id: <20191111203835.2260382-6-arnd@arndb.de>
 X-Mailer: git-send-email 2.20.0
 In-Reply-To: <20191111203835.2260382-1-arnd@arndb.de>
 References: <20191111203835.2260382-1-arnd@arndb.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:XYSYE4CP2TXV0A5SoFgD7xC90DDcVn86gtgneJ99KiQ7zVJ2UsL
- 5d1PhMLzTTi9pJ4MJwArMpXoh5E3LJe1xXvzLtuPEcbxxajp6CjgvYc6nR1geKrcyAVARiw
- eMfP9R9Jer1sIbQQQ0qZDue60m5rAaQQo9/V+TtRE6czNZPGAfKtv/1qxGxliCkYmywgOMj
- NlkiM7jdlkkrluJoFjPSw==
+X-Provags-ID: V03:K1:KWZVyns7uI4Ejqxez8Csfv+bM9yXU7W10+mxfa7HGG2fSSNbpzK
+ KAB96lZ+QKg9akmwi+kwjXhEs4E9X8cBiC7DgFzunGts3GCeoyQdNh3t+sranW2ySMormI+
+ plD0HAD8Gn6+9mvQjsfpDNNuNXAhxdxEXHTmuyJxzQ5mdhj1Mb6Egk4YR/ufYDzDGKTl/iE
+ cXMN0Kw8SAiDDDGDH+kjA==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:WbYCTQEH2I8=:XkR8BsI9YP60yyNEnM2ClU
- nK+0BFpzUx0clF0GWFYdPaByYz+bzyfp5aXOtWq83abKAdHNBj7y5NueZNSAnGFMNz9pG1P2l
- TSgX7XWTSoDVMQ5GWHIlr3ZP2hRLB0xJsdwgnWUALTUxUBwVEj1Hk9p26evebkNYJaiqShyH9
- VcrNd+0UnEv2Yw4FZ8+znwkkbVbIIbPxQuZBXoEr4/lNET72lj9x3akCG3/p4SDYJiq63NGC6
- fGZ3BuLp7v64IwDBntNUsOs/h7ymFG7CTAeGqbZw+NakzX8Tum5qcB27j9d14K7MyJ0DssPJ/
- qx+csRUtyK/Lva9PRxXbzO9CGkp/FKfD4taU+PltZNAI4keRnyY3OQ5+KUs324xx/7iYbZ5ki
- LokA4uZdYqqOg7lhCIZEaJZFBTW76D4EHS+wlqkcRp31FX9Y6NupaSEbmaHnmH7zFWrKLzifO
- d9aUJc+FhKMLv+iJx77esxSN+32ss+e+fs4t4TgY+8yoGg2jcKpG7La45GdROjQDtOeDC67Cj
- SPV0oML6LPPRR5uD54hWnQ23JWDa18JV0sGBL59opmnmf+Tn3qkqbeMXUJGulv2bUaXqHkVo+
- LxZzVjYgBkYHVtC1DVXy++1r2KD6QAcOS4qv7w8G4uaRnEmN2soLHI9bqLJADWcxskq8uG79N
- H/U8BI6WwaUE32HZ9YLo6cRbvBfk3Xzpn9o4BO2N+8PRoFZuE5hn5ypz8/zRoJbbRIbwrKwKU
- 6mXd1WcCj5urjX1kmmORaCXk9/ux5w6X3TT7+VXkIpwlSBs5HLXpo8TjMAFoBZM0a5tjSZBGg
- 5c31W7QK5Ik6PlUScx1rDk1nhYQSbJY51HfXkr0KAEiZ12dWSWJMZUmocQ9sT6ctAJ62p5Dd/
- 5EbDFinEmK2zRUqo20Ig==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:mqFzTn9t+2A=:RxrvlvdLiTsR/oPT09ho58
+ UVc2t7maQM94eA3ZKx4mrjOAKQJIonQAjposr7cB+ur7nHasoYpEwzdk439G+/Hez9iw/omuF
+ jX0agnTMD62cDfdJaP5lbU6GrL4qRno66TLgZIjpMeoX/Ud+w+MCfNOP/nZ1i8C8UEq1MSgx+
+ 9e3XXCthWXu1mjmBOhg1AYk5Uqik4U/IhP2n/y8d4Bf/EB3NP6Xp++LqbyIhDjUnWAHNthnxt
+ LzsnfGH6Slfh3x4vuuZte0QzvjRLcSa1SIumSjUCctJwU5kajdAuOP/YFk3fKT2yNDpKwVWyt
+ GW9SEWxvxjDJPHo0twVRQbgMjPLvO4rL+QX4xBRGJA97bJQcUA8HYYrYesf5UD4ARlyiADTC0
+ NCs0e8YJfyny5aMykk3oRyGHpDK1Q9Pg9vcz/o8fJgKSLJGAG0i/zpc1NluikiDiA+7bDjFBq
+ AC5fCGaXHZ69y4PS8WFCHaMPL0ECX9mERvjohW4F83PZpfttja7bMZTeIniHWS9Mrs1MwLsPD
+ H+OgzIyw96hhbSy1ID/ch/R5fPK4PBXB6hx34eR2q+QLLn/RWdr2q1VzE/pCgSxxghhlGWEQW
+ JR06VnblEESGrlzbKujqcqJt0HzumIe1XAkG9elj64VWGqzgNv34Dg83ez9jw6tZgQzZrIQh/
+ KmIv1oQ9ir/X35OzYNUtLSnb28Bh5Bf0r5P0rqLSxNvzbP/TgHlN3YLvu8I4oD6qTKVe8i8pf
+ +aCDwv+FQlYp/7z1IxecPICfPVTdkdzpjSishNJx+CxEERb55rIT/OWNsZlcg9hX+LLWvXVkc
+ K+WiYdBIoiifHRvnEuGE4V/w6vo1VL3dSmShe+X+w0NGSOcDBZ515M9aN+HXk0Iq8JyRb8KRO
+ u5NJp61aZqNk9N81Rx9A==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The copy-in/out portions of video_usercopy() are about to
-get more complex, so turn then into separate functions as
-a cleanup first.
+The v4l2_event structure contains a 'struct timespec' member that is
+defined by the user space C library, creating an ABI incompatibility
+when that gets updated to a 64-bit time_t.
+
+While passing a 32-bit time_t here would be sufficient for CLOCK_MONOTONIC
+timestamps, simply redefining the structure to use the kernel's
+__kernel_old_timespec would not work for any library that uses a copy
+of the linux/videodev2.h header file rather than including the copy from
+the latest kernel headers.
+
+This means the kernel has to be changed to handle both versions of the
+structure layout on a 32-bit architecture. The easiest way to do this
+is during the copy from/to user space.
 
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/media/v4l2-core/v4l2-ioctl.c | 107 +++++++++++++++++----------
- 1 file changed, 68 insertions(+), 39 deletions(-)
+ drivers/media/v4l2-core/v4l2-event.c  |  5 ++++-
+ drivers/media/v4l2-core/v4l2-ioctl.c  | 24 ++++++++++++++++++++-
+ drivers/media/v4l2-core/v4l2-subdev.c | 20 +++++++++++++++++-
+ include/uapi/linux/videodev2.h        | 30 +++++++++++++++++++++++++++
+ 4 files changed, 76 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/media/v4l2-core/v4l2-event.c b/drivers/media/v4l2-core/v4l2-event.c
+index 9d673d113d7a..290c6b213179 100644
+--- a/drivers/media/v4l2-core/v4l2-event.c
++++ b/drivers/media/v4l2-core/v4l2-event.c
+@@ -27,6 +27,7 @@ static unsigned sev_pos(const struct v4l2_subscribed_event *sev, unsigned idx)
+ static int __v4l2_event_dequeue(struct v4l2_fh *fh, struct v4l2_event *event)
+ {
+ 	struct v4l2_kevent *kev;
++	struct timespec64 ts;
+ 	unsigned long flags;
+ 
+ 	spin_lock_irqsave(&fh->vdev->fh_lock, flags);
+@@ -44,7 +45,9 @@ static int __v4l2_event_dequeue(struct v4l2_fh *fh, struct v4l2_event *event)
+ 
+ 	kev->event.pending = fh->navailable;
+ 	*event = kev->event;
+-	event->timestamp = ns_to_timespec(kev->ts);
++	ts = ns_to_timespec64(kev->ts);
++	event->timestamp.tv_sec = ts.tv_sec;
++	event->timestamp.tv_nsec = ts.tv_nsec;
+ 	kev->sev->first = sev_pos(kev->sev, 1);
+ 	kev->sev->in_use--;
+ 
 diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index 51b912743f0f..693f9eb8e01b 100644
+index 693f9eb8e01b..1de939d11628 100644
 --- a/drivers/media/v4l2-core/v4l2-ioctl.c
 +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -3008,8 +3008,69 @@ static int check_array_args(unsigned int cmd, void *parg, size_t *array_size,
- 	return ret;
+@@ -821,7 +821,7 @@ static void v4l_print_event(const void *arg, bool write_only)
+ 	const struct v4l2_event *p = arg;
+ 	const struct v4l2_event_ctrl *c;
+ 
+-	pr_cont("type=0x%x, pending=%u, sequence=%u, id=%u, timestamp=%lu.%9.9lu\n",
++	pr_cont("type=0x%x, pending=%u, sequence=%u, id=%u, timestamp=%llu.%9.9llu\n",
+ 			p->type, p->pending, p->sequence, p->id,
+ 			p->timestamp.tv_sec, p->timestamp.tv_nsec);
+ 	switch (p->type) {
+@@ -3010,6 +3010,13 @@ static int check_array_args(unsigned int cmd, void *parg, size_t *array_size,
+ 
+ static unsigned int video_translate_cmd(unsigned int cmd)
+ {
++	switch (cmd) {
++#ifdef CONFIG_COMPAT_32BIT_TIME
++	case VIDIOC_DQEVENT_TIME32:
++		return VIDIOC_DQEVENT;
++#endif
++	}
++
+ 	return cmd;
  }
  
-+static unsigned int video_translate_cmd(unsigned int cmd)
-+{
-+	return cmd;
-+}
+@@ -3059,6 +3066,21 @@ static int video_put_user(void __user *arg, void *parg, unsigned int cmd)
+ 		return 0;
+ 
+ 	switch (cmd) {
++#ifdef CONFIG_COMPAT_32BIT_TIME
++	case VIDIOC_DQEVENT_TIME32: {
++		struct v4l2_event_time32 ev32;
++		struct v4l2_event *ev = parg;
 +
-+static int video_get_user(void __user *arg, void *parg, unsigned int cmd,
-+			  bool *always_copy)
-+{
-+	unsigned int n = _IOC_SIZE(cmd);
++	        memcpy(&ev32, ev, offsetof(struct v4l2_event, timestamp));
++	        ev32.timestamp.tv_sec = ev->timestamp.tv_sec;
++	        ev32.timestamp.tv_nsec = ev->timestamp.tv_nsec;
++	        memcpy(&ev32.id, &ev->id, sizeof(*ev) - offsetof(struct v4l2_event, id));
 +
-+	if (!(_IOC_DIR(cmd) & _IOC_WRITE)) {
-+		/* read-only ioctl */
-+		memset(parg, 0, n);
-+		return 0;
-+	}
-+
-+	switch (cmd) {
-+	default:
-+		/*
-+		 * In some cases, only a few fields are used as input,
-+		 * i.e. when the app sets "index" and then the driver
-+		 * fills in the rest of the structure for the thing
-+		 * with that index.  We only need to copy up the first
-+		 * non-input field.
-+		 */
-+		if (v4l2_is_known_ioctl(cmd)) {
-+			u32 flags = v4l2_ioctls[_IOC_NR(cmd)].flags;
-+
-+			if (flags & INFO_FL_CLEAR_MASK)
-+				n = (flags & INFO_FL_CLEAR_MASK) >> 16;
-+			*always_copy = flags & INFO_FL_ALWAYS_COPY;
-+		}
-+
-+		if (copy_from_user(parg, (void __user *)arg, n))
-+			return -EFAULT;
-+
-+		/* zero out anything we don't copy from userspace */
-+		if (n < _IOC_SIZE(cmd))
-+			memset((u8 *)parg + n, 0, _IOC_SIZE(cmd) - n);
-+		break;
-+	}
-+
-+	return 0;
-+}
-+
-+static int video_put_user(void __user *arg, void *parg, unsigned int cmd)
-+{
-+	if (!(_IOC_DIR(cmd) & _IOC_READ))
-+		return 0;
-+
-+	switch (cmd) {
-+	default:
-+		/*  Copy results into user buffer  */
-+		if (copy_to_user(arg, parg, _IOC_SIZE(cmd)))
++		if (copy_to_user(arg, &ev32, sizeof(ev32)))
 +			return -EFAULT;
 +		break;
 +	}
++#endif
+ 	default:
+ 		/*  Copy results into user buffer  */
+ 		if (copy_to_user(arg, parg, _IOC_SIZE(cmd)))
+diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+index f725cd9b66b9..45454a628e45 100644
+--- a/drivers/media/v4l2-core/v4l2-subdev.c
++++ b/drivers/media/v4l2-core/v4l2-subdev.c
+@@ -331,8 +331,8 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+ 	struct v4l2_fh *vfh = file->private_data;
+ #if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
+ 	struct v4l2_subdev_fh *subdev_fh = to_v4l2_subdev_fh(vfh);
+-	int rval;
+ #endif
++	int rval;
+ 
+ 	switch (cmd) {
+ 	case VIDIOC_QUERYCTRL:
+@@ -392,6 +392,24 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+ 
+ 		return v4l2_event_dequeue(vfh, arg, file->f_flags & O_NONBLOCK);
+ 
++	case VIDIOC_DQEVENT_TIME32: {
++		struct v4l2_event_time32 *ev32 = arg;
++		struct v4l2_event ev;
 +
-+	return 0;
-+}
++		if (!(sd->flags & V4L2_SUBDEV_FL_HAS_EVENTS))
++			return -ENOIOCTLCMD;
 +
- long
--video_usercopy(struct file *file, unsigned int cmd, unsigned long arg,
-+video_usercopy(struct file *file, unsigned int orig_cmd, unsigned long arg,
- 	       v4l2_kioctl func)
- {
- 	char	sbuf[128];
-@@ -3021,6 +3082,7 @@ video_usercopy(struct file *file, unsigned int cmd, unsigned long arg,
- 	size_t  array_size = 0;
- 	void __user *user_ptr = NULL;
- 	void	**kernel_ptr = NULL;
-+	unsigned int cmd = video_translate_cmd(orig_cmd);
- 	const size_t ioc_size = _IOC_SIZE(cmd);
- 
- 	/*  Copy arguments into temp kernel buffer  */
-@@ -3035,37 +3097,12 @@ video_usercopy(struct file *file, unsigned int cmd, unsigned long arg,
- 			parg = mbuf;
- 		}
- 
--		err = -EFAULT;
--		if (_IOC_DIR(cmd) & _IOC_WRITE) {
--			unsigned int n = ioc_size;
--
--			/*
--			 * In some cases, only a few fields are used as input,
--			 * i.e. when the app sets "index" and then the driver
--			 * fills in the rest of the structure for the thing
--			 * with that index.  We only need to copy up the first
--			 * non-input field.
--			 */
--			if (v4l2_is_known_ioctl(cmd)) {
--				u32 flags = v4l2_ioctls[_IOC_NR(cmd)].flags;
--
--				if (flags & INFO_FL_CLEAR_MASK)
--					n = (flags & INFO_FL_CLEAR_MASK) >> 16;
--				always_copy = flags & INFO_FL_ALWAYS_COPY;
--			}
--
--			if (copy_from_user(parg, (void __user *)arg, n))
--				goto out;
--
--			/* zero out anything we don't copy from userspace */
--			if (n < ioc_size)
--				memset((u8 *)parg + n, 0, ioc_size - n);
--		} else {
--			/* read-only ioctl */
--			memset(parg, 0, ioc_size);
--		}
- 	}
- 
-+	err = video_get_user((void __user *)arg, parg, orig_cmd, &always_copy);
-+	if (err)
-+		goto out;
++		rval = v4l2_event_dequeue(vfh, &ev, file->f_flags & O_NONBLOCK);
 +
- 	err = check_array_args(cmd, parg, &array_size, &user_ptr, &kernel_ptr);
- 	if (err < 0)
- 		goto out;
-@@ -3116,15 +3153,7 @@ video_usercopy(struct file *file, unsigned int cmd, unsigned long arg,
- 		goto out;
++		memcpy(ev32, &ev, offsetof(struct v4l2_event, timestamp));
++		ev32->timestamp.tv_sec = ev.timestamp.tv_sec;
++		ev32->timestamp.tv_nsec = ev.timestamp.tv_nsec;
++		memcpy(&ev32->id, &ev.id,
++		       sizeof(ev) - offsetof(struct v4l2_event, id));
++
++		return rval;
++	}
++
+ 	case VIDIOC_SUBSCRIBE_EVENT:
+ 		return v4l2_subdev_call(sd, core, subscribe_event, vfh, arg);
  
- out_array_args:
--	/*  Copy results into user buffer  */
--	switch (_IOC_DIR(cmd)) {
--	case _IOC_READ:
--	case (_IOC_WRITE | _IOC_READ):
--		if (copy_to_user((void __user *)arg, parg, ioc_size))
--			err = -EFAULT;
--		break;
--	}
--
-+	err = video_put_user((void __user *)arg, parg, orig_cmd);
- out:
- 	kvfree(mbuf);
- 	return err;
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 74d3d522f3db..1d2553d4ed5b 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -2329,11 +2329,40 @@ struct v4l2_event {
+ 	} u;
+ 	__u32				pending;
+ 	__u32				sequence;
++#ifdef __KERNEL__
++	struct __kernel_timespec	timestamp;
++#else
+ 	struct timespec			timestamp;
++#endif
+ 	__u32				id;
+ 	__u32				reserved[8];
+ };
+ 
++#ifdef __KERNEL__
++/*
++ * The user space interpretation of the 'v4l2_event' differs
++ * based on the 'time_t' definition on 32-bit architectures, so
++ * the kernel has to handle both.
++ * This is the old version for 32-bit architectures.
++ */
++struct v4l2_event_time32 {
++	__u32				type;
++	union {
++		struct v4l2_event_vsync		vsync;
++		struct v4l2_event_ctrl		ctrl;
++		struct v4l2_event_frame_sync	frame_sync;
++		struct v4l2_event_src_change	src_change;
++		struct v4l2_event_motion_det	motion_det;
++		__u8				data[64];
++	} u;
++	__u32				pending;
++	__u32				sequence;
++	struct old_timespec32		timestamp;
++	__u32				id;
++	__u32				reserved[8];
++};
++#endif
++
+ #define V4L2_EVENT_SUB_FL_SEND_INITIAL		(1 << 0)
+ #define V4L2_EVENT_SUB_FL_ALLOW_FEEDBACK	(1 << 1)
+ 
+@@ -2486,6 +2515,7 @@ struct v4l2_create_buffers {
+ #define	VIDIOC_S_DV_TIMINGS	_IOWR('V', 87, struct v4l2_dv_timings)
+ #define	VIDIOC_G_DV_TIMINGS	_IOWR('V', 88, struct v4l2_dv_timings)
+ #define	VIDIOC_DQEVENT		 _IOR('V', 89, struct v4l2_event)
++#define	VIDIOC_DQEVENT_TIME32	 _IOR('V', 89, struct v4l2_event_time32)
+ #define	VIDIOC_SUBSCRIBE_EVENT	 _IOW('V', 90, struct v4l2_event_subscription)
+ #define	VIDIOC_UNSUBSCRIBE_EVENT _IOW('V', 91, struct v4l2_event_subscription)
+ #define VIDIOC_CREATE_BUFS	_IOWR('V', 92, struct v4l2_create_buffers)
 -- 
 2.20.0
 
