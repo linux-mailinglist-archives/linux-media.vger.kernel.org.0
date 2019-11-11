@@ -2,45 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CFABF75DD
-	for <lists+linux-media@lfdr.de>; Mon, 11 Nov 2019 15:02:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F2B31F77D8
+	for <lists+linux-media@lfdr.de>; Mon, 11 Nov 2019 16:36:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726986AbfKKOCh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Nov 2019 09:02:37 -0500
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:52635 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726853AbfKKOCh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Nov 2019 09:02:37 -0500
-Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id UAH2iVJA8QBsYUAH5i6fxS; Mon, 11 Nov 2019 15:02:36 +0100
-Subject: Re: general protection fault in vb2_mmap
-To:     syzbot <syzbot+52e5bf0ebfa66092937a@syzkaller.appspotmail.com>,
-        hansverk@cisco.com, kyungmin.park@samsung.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        m.szyprowski@samsung.com, mchehab+samsung@kernel.org,
-        mchehab@kernel.org, pawel@osciak.com,
-        syzkaller-bugs@googlegroups.com, tfiga@chromium.org
-References: <000000000000d5dacd0596c1d41e@google.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <bb399b87-8a06-6edb-200b-597a43485e2f@xs4all.nl>
-Date:   Mon, 11 Nov 2019 15:02:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <000000000000d5dacd0596c1d41e@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+        id S1726877AbfKKPgr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Nov 2019 10:36:47 -0500
+Received: from mga09.intel.com ([134.134.136.24]:60068 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726832AbfKKPgq (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 11 Nov 2019 10:36:46 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 11 Nov 2019 07:36:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,293,1569308400"; 
+   d="scan'208";a="215709477"
+Received: from jlahtine-desk.ger.corp.intel.com ([10.252.20.50])
+  by orsmga002.jf.intel.com with ESMTP; 11 Nov 2019 07:36:39 -0800
+Message-ID: <c8a6b6f35664ce036c2a48ec41eab97b0f40704d.camel@linux.intel.com>
+Subject: Re: [virtio-dev] Re: guest / host buffer sharing ...
+From:   Liam Girdwood <liam.r.girdwood@linux.intel.com>
+To:     David Stevens <stevensd@chromium.org>,
+        Stefan Hajnoczi <stefanha@gmail.com>
+Cc:     Gerd Hoffmann <kraxel@redhat.com>,
+        Keiichi Watanabe <keiichiw@chromium.org>,
+        geoff@hostfission.com, virtio-dev@lists.oasis-open.org,
+        Alex Lau <alexlau@chromium.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        qemu-devel@nongnu.org, Tomasz Figa <tfiga@chromium.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        =?ISO-8859-1?Q?St=E9phane?= Marchesin <marcheu@chromium.org>,
+        Dylan Reid <dgreid@chromium.org>,
+        Gurchetan Singh <gurchetansingh@chromium.org>,
+        Dmitry Morozov <dmitry.morozov@opensynergy.com>,
+        Pawel Osciak <posciak@chromium.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Date:   Mon, 11 Nov 2019 15:36:38 +0000
+In-Reply-To: <CAD=HUj41r8wHZ2-By8tLftkoqC5r_Bw=pr=zX2aZ7GTs1ESWhg@mail.gmail.com>
+References: <20191105105456.7xbhtistnbp272lj@sirius.home.kraxel.org>
+         <20191106084344.GB189998@stefanha-x1.localdomain>
+         <CAD=HUj41r8wHZ2-By8tLftkoqC5r_Bw=pr=zX2aZ7GTs1ESWhg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfH//5xB9dRYWbf8A9gNIjxE//XTKVYNTafCC/69AuxWWQZdTybCOgi1AccejzgEB6TOO4bdaytbwY6t97xgXeJY8oVkpdvxeGiL/37FqwQZIjyaHGWQX
- WsXenighWEjK3UXPXmI1Isg/BJcz2Q+BQrEABBV51ozlt6E2x9pyi7K4gZ9nqykVvnYGmkNRWjmWwkCnZkzhP8AAY/eHow6PRQe/bfveV0L6YeoVQqgWNyNX
- q/U4E7ivlTVDsVdsJfUT4dl4mnVPSmTU0WAMppztsJjiSOg8xwxo2lEehw7V9y9Vumo0xmvr0vHE0l1vZgaZJeDGSVgahelkin4QtosBK1FeW8D8WL6wUQuI
- Mhiwkn7fNPlx845X9iM/dZO2qTii6onAyzVpk7MCVTQnLdMdkISADzKS8NsiTgv534aWpZGVQSBioLULCUZolUDuMe014tvkQqYTBJFCgGI3vwVCxUuMCLQP
- aOkDVosgwTqr+dYddbIOGAB5FO5/8tXTE4Uv/t/Gi9N1iEKVg6Ht/+s9jRnAfdFpYcD2P/ZcbnhkgVtTeel3Ib55JM8S9LXUYLILJg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-#syz fix: media: vb2: vb2_mmap: move lock up
+On Mon, 2019-11-11 at 12:04 +0900, David Stevens wrote:
+> Having a centralized buffer allocator device is one way to deal with
+> sharing buffers, since it gives a definitive buffer identifier that
+> can be used by all drivers/devices to refer to the buffer. That being
+> said, I think the device as proposed is insufficient, as such a
+> centralized buffer allocator should probably be responsible for
+> allocating all shared buffers, not just linear guest ram buffers.
+
+This would work for audio. I need to be able to :-
+
+1) Allocate buffers on guests that I can pass as SG physical pages to
+DMA engine (via privileged VM driver) for audio data. Can be any memory
+as long as it's DMA-able.
+
+2) Export hardware mailbox memory (in a real device PCI BAR) as RO to
+each guest to give guests low latency information on each audio stream.
+To support use cases like voice calls, gaming, system notifications and
+general audio processing.
+
+Liam
+
