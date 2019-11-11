@@ -2,185 +2,211 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E033FF7FE0
-	for <lists+linux-media@lfdr.de>; Mon, 11 Nov 2019 20:27:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 569BBF816C
+	for <lists+linux-media@lfdr.de>; Mon, 11 Nov 2019 21:39:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727415AbfKKT1W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Nov 2019 14:27:22 -0500
-Received: from mail-qv1-f65.google.com ([209.85.219.65]:35322 "EHLO
-        mail-qv1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727340AbfKKT1W (ORCPT
+        id S1727791AbfKKUjR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Nov 2019 15:39:17 -0500
+Received: from mout.kundenserver.de ([212.227.126.133]:41731 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726985AbfKKUiq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Nov 2019 14:27:22 -0500
-Received: by mail-qv1-f65.google.com with SMTP id y18so5362937qve.2
-        for <linux-media@vger.kernel.org>; Mon, 11 Nov 2019 11:27:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version;
-        bh=FxXPS2E+pi74/aFJO+MxmAtUY6WXRBpzxnvbYgaZAsg=;
-        b=ZRWXwqT2HAktaOF3pvvrZPt0oe4mkJpg6hmRwyhr0j+pVzN8+oi0TaHr8L6NXJ4W2s
-         TKzr8VyzMhM77gZRV+ZaHoh2gC/D9UnY/FlVqhaN/sN+LxfZGFRElaKxgsuDJzY6rzJx
-         qvA/gtSefpOhZPapK+woib//hQ8JLwdLoUZoJyDrgRmRGiRB6+cX0bI58+oyNrIn5fsC
-         DwGyQobFmGwzEqqq0PiwcqnQtnvvOw7+c72ikPcxcfBYW9AICTzGnSAROj/lkQdJccNh
-         mjUtonM5BXuSQRYhk2uImP22C5tlYdtv9V5J7vWX75118N46FTqEEue8mWxTiTRIsNiy
-         /bxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version;
-        bh=FxXPS2E+pi74/aFJO+MxmAtUY6WXRBpzxnvbYgaZAsg=;
-        b=RzJe20w1SF+GyWBnh3mH3/iJIBL2vP2kekY57VU41nJ9aby8/rrYJvI05P+RWIV0FQ
-         RqtqozCmq33epq8ijhgao1BsVLLNkdIe7lHhE2v04Eoyut6nxcacZ9rmLSE/Og0OC7Cv
-         mJMYFhHmqEgv732gNDq5BzG1d/fDqWOaCw8L/K1+CMhbyUIpN27XLtJ5BFpRlraX5aMD
-         +GjMuAYbzyZ7v1tffd2nu1OxlcMdP3yC4hpZlQMj3OdISiOpey6eX+xV0q4E86yZF9MC
-         WzpEqewCXkgIpEHJYfYPowe1t3tvsWw1vQU5wIb+kO5D4+7qZKkOscF5P0jiDMdPuels
-         W9Kw==
-X-Gm-Message-State: APjAAAVLmMsLc5/M2bi2rL6omFbfwUAQudKZ85vDwGM7YtPBQsNAiG2+
-        iVXMToswUUcZRzXAiml9Tdq8Tg==
-X-Google-Smtp-Source: APXvYqx7kRN8SYuTkQDfCv2v1BFu6Hh/BwrHyobt4HsFo3+cCQZuidhLM65/C8myY5V8T87/y0d79Q==
-X-Received: by 2002:a0c:ec01:: with SMTP id y1mr11198713qvo.90.1573500440868;
-        Mon, 11 Nov 2019 11:27:20 -0800 (PST)
-Received: from tpx230-nicolas.localdomain (marriott-chateau-champlain-montreal.sites.intello.com. [66.171.169.34])
-        by smtp.gmail.com with ESMTPSA id i186sm8043025qkc.8.2019.11.11.11.27.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Nov 2019 11:27:19 -0800 (PST)
-Message-ID: <a7c72589f55594069160afbf94613d322b55470a.camel@ndufresne.ca>
-Subject: Re: [EXT] Re: [PATCH 0/5] Add V4L2 driver for i.MX8 JPEG
- Encoder/Decoder
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mirela Rabulea <mirela.rabulea@nxp.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "shawnguo@kernel.org" <shawnguo@kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>
-Cc:     dl-linux-imx <linux-imx@nxp.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "laurent.pinchart+renesas@ideasonboard.com" 
-        <laurent.pinchart+renesas@ideasonboard.com>,
-        Aisheng Dong <aisheng.dong@nxp.com>,
-        Laurentiu Palcu <laurentiu.palcu@nxp.com>,
-        "paul.kocialkowski@bootlin.com" <paul.kocialkowski@bootlin.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Robert Chiras <robert.chiras@nxp.com>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
-        "niklas.soderlund+renesas@ragnatech.se" 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Daniel Baluta <daniel.baluta@nxp.com>,
-        Leonard Crestez <leonard.crestez@nxp.com>,
-        "dafna.hirschfeld@collabora.com" <dafna.hirschfeld@collabora.com>,
-        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>
-Date:   Mon, 11 Nov 2019 14:27:17 -0500
-In-Reply-To: <ffbc7501-bb56-b5f2-cd43-209f099be594@xs4all.nl>
-References: <1573053633-21437-1-git-send-email-mirela.rabulea@nxp.com>
-         <87d80882-b032-f332-0808-d669600f844f@xs4all.nl>
-         <1573058741.16477.18.camel@nxp.com>
-         <2ad1718b-2556-ea7c-27e0-9e60445a5b71@xs4all.nl>
-         <1573220200.16477.32.camel@nxp.com>
-         <ffbc7501-bb56-b5f2-cd43-209f099be594@xs4all.nl>
-Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature";
-        boundary="=-VUH0YJwbahd5gI0MVm8e"
-User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
+        Mon, 11 Nov 2019 15:38:46 -0500
+Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
+ (mreue012 [212.227.15.129]) with ESMTPA (Nemesis) id
+ 1Ma0HM-1iQwX50ITc-00VvyS; Mon, 11 Nov 2019 21:38:39 +0100
+From:   Arnd Bergmann <arnd@arndb.de>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-kernel@vger.kernel.org,
+        y2038@lists.linaro.org, Arnd Bergmann <arnd@arndb.de>
+Subject: [PATCH v4 0/8] y2038 safety in v4l2
+Date:   Mon, 11 Nov 2019 21:38:27 +0100
+Message-Id: <20191111203835.2260382-1-arnd@arndb.de>
+X-Mailer: git-send-email 2.20.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:HK+vSU8MWbFmRCQzio+B0y0eS2MroBevtMRKkHYLNcgGMvKpVNP
+ DjDxbV2OPIUSfUhWnJfpD/v7fu/coHW+IrnMd26BhN0crudppogBxqsuXy1tKVk9gHpoKVq
+ uN3R/KHD3l6kLTORAY0Fgp5CxRQU2xF69aeWCZ1h0NopBQGVKejQM4/TjFC/Ycc2zBHQ9V1
+ LCod0NQsAQfBOC+zgfftA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:BBguRoDGRkc=:mONTJGjsVMTzIh4r/7ubCZ
+ yyl2wzpeYy5KqUwHzC5T8x7sLDk4ONIg5T8OcH/c17sQoPiOSqx664QJ3xQ9yaezEVJgLfGXK
+ 1otOWfLMTMavSnBvNUKK68aYOfOvJgHZUCnFkFeIDwftoSLy1tx5SjPDeOdcnVieoLHdqxgvH
+ Gdo7yoC1hvgV/r354xSMLHqLgN86H5GpY29GoyH1bMpQkDaxyE9+yCr4hRyllV5PqfnmmxyId
+ +k+J82fB4l4GwxVZ3uSB+7o3LpPOo4W11RDMAjQqKQG8s3QMr6pU/kAWBM9mWP3rIMKsN8Bdx
+ d62Q4pq111zJnz5TC7csU762pRqy3SC2Bm9pTGDr9vqC01LSEptsWSwWhXP37ZWLFptqD1Vlx
+ UkuoeJa3y2qzXQBG+vd2ZtM1hbBKE/4WkdajLXH/0WkzNmO0nmAzBm0eb/7MCaaQ6vNNAWR02
+ wWxw0IzqnuZTfpXSlwalmo49c5/EJ6+XZEnNuYXrslalrQ7KaEu8nc8MQNWryCGxqic1RZOyl
+ PxqqRKfQL1VFSMzL4MBP19aFpG8rUCCiQTXwbacbZsUZmS9l7YuivTZ3nuF3nMn6OT5JOCPMT
+ 4IJHnmRoLTHYH6fItfWCGetdP1ctyvxF3NaorPHUX/8wkdLjnCvGwqh9qhqJdg/3CmPFMbk66
+ IdPsrGesJqjF/nasfqS2timv7y3CZd70K2RVGPI2lb3nYkQw3X7g7q5NNG4qAnuJCPsDlvq0o
+ 2zi4dnfNqdw/8TE1zGQCnVE1aAlVq2U5HnbzVtPTZdqyo343ehpQlOScNf1S3bxC8/NzFZ4K3
+ HApBi6Ksw1J7Rkvk1n9ew9CGsPIOi/iz0AyhMitrWM64+ml14/7wRKAK7zFIhMiQke1MrNZf5
+ qEOJ+HkTpmmQIMT0DU/g==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+I'm in the process of finishing up the last bits on y2038-unsafe
+code in the kernel, this series is for v4l2, which has no problem
+with overflow, but has multiple ioctls that break with user space
+built against a new 32-bit libc.
 
---=-VUH0YJwbahd5gI0MVm8e
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I posted similar patches as part of a series back in 2015, the
+new version was rewritten from scratch and I double-checked with
+the old version to make sure I did not miss anything I had already
+taken care of before.
 
-Le vendredi 08 novembre 2019 =C3=A0 15:06 +0100, Hans Verkuil a =C3=A9crit =
-:
-> On 11/8/19 2:36 PM, Mirela Rabulea wrote:
-> > Hi Hans,
-> >=20
-> > On Mi, 2019-11-06 at 17:52 +0100, Hans Verkuil wrote:
-> > >       test Scaling: OK
-> > > The presence of a scaler is suspicious: is the encoder indeed
-> > > capable of scaling? I suspect this is a bug.
-> >=20
-> > No, it's not capable of scaling. You suspect a bug in the driver or the
-> > tests?
->=20
-> Actually, I think that's an outstanding bug in v4l-utils. It doesn't
-> correctly handle the m2m case with respect to scaling. I think. I'll
-> look into this a bit more.
->=20
-> > > Codec ioctls:
-> > > >       test VIDIOC_(TRY_)ENCODER_CMD: OK
-> > > The presence of this...
-> > >=20
-> > > >       test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-> > > >       test VIDIOC_(TRY_)DECODER_CMD: OK
-> > > ...and this is also strange for a JPEG codec. These ioctls are
-> > > typically only
-> > > needed for MPEG/H264/etc. codecs, and not for a simple JPEG codec.
-> > >=20
-> > > The same issues are found for the JPEG decoder.
-> >=20
-> > I implemented the CMD_STOP for both encoder & decoder, because it was
-> > requested by our developer for gstreamer plugin for this codec.
-> > The context in which this was requested was for playing MJPEG videos (a
-> > concatenation of JPEG frames).
->=20
-> This ioctl makes no sense for JPEG codecs, and in fact jpeg drivers like
-> s5p-jpeg or mtk-jpeg do not implement this. This sounds like a gstreamer =
-bug.
-> Nicolas, do you know anything about this?
+Hans Verkuil worked on a different patch set in 2017, but this
+also did not get to the point of being merged.
 
-This code was added in generic bits of GStreamer. So we just always do
-CMD_STOP to drain the remaining buffers and expect EPIPE later on when
-done. We can special case this, but at the same time why ? This could
-be buried into the m2m helpers with a default implementation.
+My new version contains compat-ioctl support, which the old one
+did not and should be complete, but given its size likely contains
+bugs. I did randconfig build tests, but no runtime test, so
+careful review as well as testing would be much appreciated.
 
-If you feel like this is completely wrong and userspace should do more
-case-by-case code path for different CODEC handling, then someone will
-have to update GStreamer accordingly. This is all moving target at the
-spec just got merged.
+With this version, the newly added code takes care of the existing
+ABI, while the existing code got moved to the 64-bit time_t
+interface and is used internally. This means that testing with
+existing binaries should exercise most of the modifications
+and if that works and doesn't get shot down in review, we can
+probably live without testing the new ABI explicitly.
 
->=20
-> > > Streaming ioctls:
-> > > >       test read/write: OK (Not Supported)
-> > > >       test blocking wait: OK
-> > > >               fail: v4l2-test-buffers.cpp(254): g_field() =3D=3D
-> > > > V4L2_FIELD_ANY
-> > > The driver shall never return FIELD_ANY. This needs to be FIELD_NONE.
-> >=20
-> > Is there a "good example" of a v4l m2m driver that passes these
->=20
-> vim2m. Also drivers/media/platform/mtk-jpeg/ (although I'm not sure when
-> it was last tested with v4l2-compliance, so it might be a bit out of date=
-).
->=20
-> > streaming tests? That would save some time on my side.
-> > For the FIELD_ANY issue, I got inspired from your commit:
-> > ab7afaf3 media: vim2m: add buf_out_validate callback
-> > But there's a lot more to go...
-> >=20
-> > Thanks,
-> > Mirela
-> >=20
->=20
-> Regards,
->=20
-> 	Hans
+I'm not entirely happy with the compat-ioctl implementation that
+adds quite a bit of code duplication, but I hope this is
+acceptable anyway, as a better implementation would likely
+require a larger refactoring of the compat-ioctl file, while
+my approach simply adds support for the additional data structure
+variants.
 
---=-VUH0YJwbahd5gI0MVm8e
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
+This is a minor update compared to version 3 of this series,
+with bugfixes for small mistakes that I found or that were
+reported by automated build bots. I updated the tree at [2]
+to this version now.
 
------BEGIN PGP SIGNATURE-----
+      Arnd
 
-iF0EABECAB0WIQSScpfJiL+hb5vvd45xUwItrAaoHAUCXcm2FQAKCRBxUwItrAao
-HH/yAJ4i/zn4lovHANSysp2/fBJ+90qJgQCgp6bTO443f6uWk4bazz8NHgVEmy0=
-=zbkH
------END PGP SIGNATURE-----
+[1] https://lwn.net/Articles/657754/
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git/log/?h=y2038-v4l2
 
---=-VUH0YJwbahd5gI0MVm8e--
+Arnd Bergmann (8):
+  media: documentation: fix video_event description
+  media: v4l2: abstract timeval handling in v4l2_buffer
+  media: v4l2-core: compat: ignore native command codes
+  media: v4l2-core: split out data copy from video_usercopy
+  media: v4l2-core: fix VIDIOC_DQEVENT for time64 ABI
+  media: v4l2-core: fix v4l2_buffer handling for time64 ABI
+  media: v4l2-core: fix compat VIDIOC_DQEVENT for time64 ABI
+  media: v4l2-core: fix compat v4l2_buffer handling for time64 ABI
 
+ .../media/uapi/dvb/video-get-event.rst        |   2 +-
+ Documentation/media/uapi/dvb/video_types.rst  |   2 +-
+ .../media/common/videobuf2/videobuf2-v4l2.c   |   4 +-
+ drivers/media/pci/meye/meye.c                 |   4 +-
+ drivers/media/usb/cpia2/cpia2_v4l.c           |   4 +-
+ drivers/media/usb/stkwebcam/stk-webcam.c      |   2 +-
+ drivers/media/usb/usbvision/usbvision-video.c |   4 +-
+ drivers/media/v4l2-core/v4l2-compat-ioctl32.c | 470 +++++++++++++++---
+ drivers/media/v4l2-core/v4l2-event.c          |   5 +-
+ drivers/media/v4l2-core/v4l2-ioctl.c          | 188 +++++--
+ drivers/media/v4l2-core/v4l2-subdev.c         |  20 +-
+ drivers/media/v4l2-core/videobuf-core.c       |   4 +-
+ include/linux/videodev2.h                     |  17 +-
+ include/trace/events/v4l2.h                   |   2 +-
+ include/uapi/linux/videodev2.h                |  77 +++
+ 15 files changed, 669 insertions(+), 136 deletions(-)
+
+-- 
+2.20.0
+
+See below for the changes compared to v3:
+
+|diff --git a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
+|index a13e4849df0c..3bbf47d950e0 100644
+|--- a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
+|+++ b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
+|@@ -500,7 +500,7 @@ struct v4l2_buffer32_time32 {
+|        __u32                   bytesused;
+|        __u32                   flags;
+|        __u32                   field;  /* enum v4l2_field */
+|-       struct compat_timeval   timestamp;
+|+       struct old_timeval32    timestamp;
+|        struct v4l2_timecode    timecode;
+|        __u32                   sequence;
+| 
+|@@ -1290,7 +1290,7 @@ struct v4l2_event32_time32 {
+|        } u;
+|        __u32                           pending;
+|        __u32                           sequence;
+|-       struct compat_timespec          timestamp;
+|+       struct old_timespec32           timestamp;
+|        __u32                           id;
+|        __u32                           reserved[8];
+| };
+|@@ -1482,8 +1482,8 @@ static long do_video_ioctl(struct file *file, unsigned int cmd, unsigned long ar
+|        case VIDIOC_S_EXT_CTRLS32: ncmd = VIDIOC_S_EXT_CTRLS; break;
+|        case VIDIOC_TRY_EXT_CTRLS32: ncmd = VIDIOC_TRY_EXT_CTRLS; break;
+| #ifdef CONFIG_X86_64
+|-       case VIDIOC_DQEVENT32: cmd = VIDIOC_DQEVENT; break;
+|-       case VIDIOC_DQEVENT32_TIME32: cmd = VIDIOC_DQEVENT_TIME32; break;
+|+       case VIDIOC_DQEVENT32: ncmd = VIDIOC_DQEVENT; break;
+|+       case VIDIOC_DQEVENT32_TIME32: ncmd = VIDIOC_DQEVENT_TIME32; break;
+| #endif
+|        case VIDIOC_OVERLAY32: ncmd = VIDIOC_OVERLAY; break;
+|        case VIDIOC_STREAMON32: ncmd = VIDIOC_STREAMON; break;
+|diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+|index cd9a80960289..ad125cd4eb41 100644
+|--- a/drivers/media/v4l2-core/v4l2-ioctl.c
+|+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+|@@ -474,7 +474,7 @@ static void v4l_print_buffer(const void *arg, bool write_only)
+|        const struct v4l2_plane *plane;
+|        int i;
+| 
+|-       pr_cont("%02ld:%02d:%02d.%09ld index=%d, type=%s, request_fd=%d, flags=0x%08x, field=%s, sequence=%d, memory=%s",
+|+       pr_cont("%02d:%02d:%02d.%09ld index=%d, type=%s, request_fd=%d, flags=0x%08x, field=%s, sequence=%d, memory=%s",
+|                        (int)p->timestamp.tv_sec / 3600,
+|                        ((int)p->timestamp.tv_sec / 60) % 60,
+|                        ((int)p->timestamp.tv_sec % 60),
+|@@ -821,7 +821,7 @@ static void v4l_print_event(const void *arg, bool write_only)
+|        const struct v4l2_event *p = arg;
+|        const struct v4l2_event_ctrl *c;
+| 
+|-       pr_cont("type=0x%x, pending=%u, sequence=%u, id=%u, timestamp=%lu.%9.9lu\n",
+|+       pr_cont("type=0x%x, pending=%u, sequence=%u, id=%u, timestamp=%llu.%9.9llu\n",
+|                        p->type, p->pending, p->sequence, p->id,
+|                        p->timestamp.tv_sec, p->timestamp.tv_nsec);
+|        switch (p->type) {
+|diff --git a/include/linux/videodev2.h b/include/linux/videodev2.h
+|index 481ee3013b50..4086036e37d5 100644
+|--- a/include/linux/videodev2.h
+|+++ b/include/linux/videodev2.h
+|@@ -62,7 +62,7 @@
+| static inline u64 v4l2_buffer_get_timestamp(const struct v4l2_buffer *buf)
+| {
+|        return buf->timestamp.tv_sec * NSEC_PER_SEC +
+|-              buf->timestamp.tv_usec * NSEC_PER_USEC;
+|+              (u32)buf->timestamp.tv_usec * NSEC_PER_USEC;
+| }
+| 
+| static inline void v4l2_buffer_set_timestamp(struct v4l2_buffer *buf,
+|diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+|index 4275d6e92dae..ca10828328a5 100644
+|--- a/include/uapi/linux/videodev2.h
+|+++ b/include/uapi/linux/videodev2.h
+|@@ -1001,7 +1001,12 @@ struct v4l2_buffer {
+|        /* match glibc timeval64 format */
+|        struct {
+|                long long       tv_sec;
+|+# if defined(__sparc__) && defined(__arch64__)
+|+               int             tv_usec;
+|+               int             __pad;
+|+# else
+|                long long       tv_usec;
+|+# endif
+|        } timestamp;
+| #else
+|        struct timeval          timestamp;
+|
