@@ -2,118 +2,175 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A698F9D68
-	for <lists+linux-media@lfdr.de>; Tue, 12 Nov 2019 23:46:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FC6DF9D86
+	for <lists+linux-media@lfdr.de>; Tue, 12 Nov 2019 23:56:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727183AbfKLWqD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Nov 2019 17:46:03 -0500
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:39987 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726960AbfKLWqC (ORCPT
+        id S1726959AbfKLW4K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Nov 2019 17:56:10 -0500
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:40817 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726912AbfKLW4K (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Nov 2019 17:46:02 -0500
-Received: by mail-oi1-f196.google.com with SMTP id 22so16445981oip.7
-        for <linux-media@vger.kernel.org>; Tue, 12 Nov 2019 14:46:02 -0800 (PST)
+        Tue, 12 Nov 2019 17:56:10 -0500
+Received: by mail-lj1-f194.google.com with SMTP id q2so292514ljg.7
+        for <linux-media@vger.kernel.org>; Tue, 12 Nov 2019 14:56:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=intel-com.20150623.gappssmtp.com; s=20150623;
+        d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=7VZux41I9l8WsaFw4dnSKoQ+DL1POYbdTwXxPgsqOD8=;
-        b=g+shynx9wA4O7/ZPSOmOhvhdFUBcChFyBb7EYzal20VNZRr14tSC8CEEu8RhYVOSKP
-         ujUV0PqIhIH36zKviPook+HnkIHuRG88nmkcJhEvO3dJXo36vkvTp3d/Rv5+wpQSmOnU
-         bQU0r/Fslk/8pH+0JUylPowC6D4ZnT5PrmHiZ30JXUbKpZ1rMZQ7kmT50jl8KfJoHp7m
-         VvEK+ooBIm3vYED6+FUL9oFvr5SRhfXOEafMoAbLZrqHGNUi1aW7WiDjR5Rr2M+YKo5Q
-         1bTGao6fq7ZjCHqOdYHjYnxFv2rb5XbPoQBWE0A1WALsbQq7HL4C3F5HipXsfgbDt8Vf
-         nWjw==
+        bh=NRg/lnQIqsyAlkrMrDDQKffDJgYxXaKEgCFpr2Rfv3M=;
+        b=aL75rscQiiD8cD6SexzGZExzdpBOv6yvnXOJXgPhpIuMsXo6Hiu19CCN9vFSeTLN7a
+         XOywR7beF3VKHxHITOF/gIWFo5Ca7IkfyHk9VLRXsTD43xuyrcvZlYAjfp5trGMbOvOR
+         P6T8Uow7jlnoLSoTfkr7WcD7MgT6ln+ssAb3o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=7VZux41I9l8WsaFw4dnSKoQ+DL1POYbdTwXxPgsqOD8=;
-        b=HCwgX4AoVliaIbItFDGYgFkFuKFgyaoA+swhkk64eHJrGU0nnllcLg2En62YQkcEv4
-         DYJMvjOkv3Pmtplo+nU293SGEAz2zefCBKnoQcw4GYpFZygjsRPpChkKTwytJ5/6mMMt
-         0HFNeVUacPcsadNKNWclrfv90deJp+Yo6b+8WCcTWMJ0GlCoyQ2okaNgORejFrDwFIyz
-         n2Pi5HSgeuyRCJml92n+1ug2I+ZRYICC8To5SVE1hrrBTvnuHxk7RI1kHVB1sqDHN6EP
-         oExLzAGhkbkDM4VkvIfEQGmQpIPApPNAj+XMY2qKYg4UsC1kXb/qZs+Qs+YIZsx0KX/9
-         7O2g==
-X-Gm-Message-State: APjAAAU5ggTfJUC2OJ2lSJu4ZpJHLKJqBWCKYHShq2ae73kK7iN5HvWY
-        7akumbhDEJ/2pCV9D4IVKXQZf39YsmP2O780cT6K+Q==
-X-Google-Smtp-Source: APXvYqwYMdEjXlo/ZXkQ25Q7OqLij5wE38qfmFx+c4Kh6ETnZQ80hOGe2SgdovvfY1Nwmo4LDa9vLeLDcR91Ofxlyck=
-X-Received: by 2002:aca:ea57:: with SMTP id i84mr83905oih.73.1573598761920;
- Tue, 12 Nov 2019 14:46:01 -0800 (PST)
+        bh=NRg/lnQIqsyAlkrMrDDQKffDJgYxXaKEgCFpr2Rfv3M=;
+        b=ug1nCrrJsmO8/ZcC1ZWqRpwtxbtK2B1hxCf5CEE31Qw8Az7slHG55FsdNa1OI5ZYq8
+         Aip8/r4g/YorgPCvkHfHBDAP/TFKmscpkMVf3Bq3jnLM2GVGOFWmCpIIioU6d4M6a4ZW
+         RBw5zdIoH4w4DA/RhucTGx0J19jDjkFhmA68gzXY/bqa9lYVWi6jLxaSqcE+gvBgCsHg
+         hZRYjZSlAAF3yoYMBZgZRw2L2Sl54RdGlmpjvlJRMlriIi6N1AKBoypcqJjB+aopdb9o
+         kNI2KebWHOFUJlLWjzed8FXABm8ej1qzzKNHPRLFab5tFVVqtBKSwKoQCTzKdAwCnsLW
+         i0+w==
+X-Gm-Message-State: APjAAAWQfYUrcWshAElRrocs8PRTmSj9Yh+Ik8oFTt9YzNKdz2mexsH1
+        f5dBHMzUY6/E4ZW/Z/1iQ11mE3IHR6ts5A==
+X-Google-Smtp-Source: APXvYqza3nNhKc8eRAyv2tyx0JqhzOczxSlkHx/686nDmGLv+z7lf4jHkFYdRPUWo88PMxRs+1gWwQ==
+X-Received: by 2002:a2e:88c3:: with SMTP id a3mr160948ljk.92.1573599364377;
+        Tue, 12 Nov 2019 14:56:04 -0800 (PST)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com. [209.85.208.169])
+        by smtp.gmail.com with ESMTPSA id d4sm84569lfi.32.2019.11.12.14.56.04
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 Nov 2019 14:56:04 -0800 (PST)
+Received: by mail-lj1-f169.google.com with SMTP id p18so298084ljc.6
+        for <linux-media@vger.kernel.org>; Tue, 12 Nov 2019 14:56:04 -0800 (PST)
+X-Received: by 2002:a05:651c:1136:: with SMTP id e22mr151566ljo.182.1573599361718;
+ Tue, 12 Nov 2019 14:56:01 -0800 (PST)
 MIME-Version: 1.0
-References: <20191112000700.3455038-1-jhubbard@nvidia.com> <20191112000700.3455038-9-jhubbard@nvidia.com>
- <20191112204338.GE5584@ziepe.ca> <0db36e86-b779-01af-77e7-469af2a2e19c@nvidia.com>
-In-Reply-To: <0db36e86-b779-01af-77e7-469af2a2e19c@nvidia.com>
-From:   Dan Williams <dan.j.williams@intel.com>
-Date:   Tue, 12 Nov 2019 14:45:51 -0800
-Message-ID: <CAPcyv4hAEgw6ySNS+EFRS4yNRVGz9A3Fu1vOk=XtpjYC64kQJw@mail.gmail.com>
-Subject: Re: [PATCH v3 08/23] vfio, mm: fix get_user_pages_remote() and FOLL_LONGTERM
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Jason Gunthorpe <jgg@ziepe.ca>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
+References: <20191105105456.7xbhtistnbp272lj@sirius.home.kraxel.org>
+ <20191106084344.GB189998@stefanha-x1.localdomain> <CAD=HUj41r8wHZ2-By8tLftkoqC5r_Bw=pr=zX2aZ7GTs1ESWhg@mail.gmail.com>
+ <c8a6b6f35664ce036c2a48ec41eab97b0f40704d.camel@linux.intel.com>
+ <CAAfnVBkMWurTpseQFjcna5kk3__40n6M68=RTHLbQsu__2AFxg@mail.gmail.com> <4a5dd822e86757f004d04af62fb7dd35ba75392d.camel@linux.intel.com>
+In-Reply-To: <4a5dd822e86757f004d04af62fb7dd35ba75392d.camel@linux.intel.com>
+From:   Gurchetan Singh <gurchetansingh@chromium.org>
+Date:   Tue, 12 Nov 2019 14:55:49 -0800
+X-Gmail-Original-Message-ID: <CAAfnVB=F+HeQrrn23c=rZeOa5BfHo=9ArcG--gLf87gqBXfZ9A@mail.gmail.com>
+Message-ID: <CAAfnVB=F+HeQrrn23c=rZeOa5BfHo=9ArcG--gLf87gqBXfZ9A@mail.gmail.com>
+Subject: Re: [virtio-dev] Re: guest / host buffer sharing ...
+To:     Liam Girdwood <liam.r.girdwood@linux.intel.com>
+Cc:     David Stevens <stevensd@chromium.org>,
+        Stefan Hajnoczi <stefanha@gmail.com>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Keiichi Watanabe <keiichiw@chromium.org>,
+        geoff@hostfission.com, virtio-dev@lists.oasis-open.org,
+        Alex Lau <alexlau@chromium.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        qemu-devel@nongnu.org, Tomasz Figa <tfiga@chromium.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
         Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>, KVM list <kvm@vger.kernel.org>,
-        linux-block@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-kselftest@vger.kernel.org,
-        "Linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        Netdev <netdev@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>
+        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
+        Dylan Reid <dgreid@chromium.org>,
+        Dmitry Morozov <dmitry.morozov@opensynergy.com>,
+        Pawel Osciak <posciak@chromium.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Nov 12, 2019 at 2:43 PM John Hubbard <jhubbard@nvidia.com> wrote:
+On Tue, Nov 12, 2019 at 5:56 AM Liam Girdwood
+<liam.r.girdwood@linux.intel.com> wrote:
 >
-> On 11/12/19 12:43 PM, Jason Gunthorpe wrote:
-> ...
-> >> -            }
-> >> +    ret = get_user_pages_remote(NULL, mm, vaddr, 1, flags | FOLL_LONGTERM,
-> >> +                                page, vmas, NULL);
-> >> +    /*
-> >> +     * The lifetime of a vaddr_get_pfn() page pin is
-> >> +     * userspace-controlled. In the fs-dax case this could
-> >> +     * lead to indefinite stalls in filesystem operations.
-> >> +     * Disallow attempts to pin fs-dax pages via this
-> >> +     * interface.
-> >> +     */
-> >> +    if (ret > 0 && vma_is_fsdax(vmas[0])) {
-> >> +            ret = -EOPNOTSUPP;
-> >> +            put_page(page[0]);
-> >>      }
+> On Mon, 2019-11-11 at 16:54 -0800, Gurchetan Singh wrote:
+> > On Tue, Nov 5, 2019 at 2:55 AM Gerd Hoffmann <kraxel@redhat.com>
+> > wrote:
+> > > Each buffer also has some properties to carry metadata, some fixed
+> > > (id, size, application), but
+> > > also allow free form (name = value, framebuffers would have
+> > > width/height/stride/format for example).
 > >
-> > AFAIK this chunk is redundant now as it is some hack to emulate
-> > FOLL_LONGTERM? So vmas can be deleted too.
+> > Sounds a lot like the recently added DMA_BUF_SET_NAME ioctls:
+> >
+> > https://patchwork.freedesktop.org/patch/310349/
+> >
+> > For virtio-wayland + virtio-vdec, the problem is sharing -- not
+> > allocation.
+> >
 >
-> Let me first make sure I understand what Dan has in mind for the vma
-> checking, in the other thread...
+> Audio also needs to share buffers with firmware running on DSPs.
+>
+> > As the buffer reaches a kernel boundary, it's properties devolve into
+> > [fd, size].  Userspace can typically handle sharing metadata.  The
+> > issue is the guest dma-buf fd doesn't mean anything on the host.
+> >
+> > One scenario could be:
+> >
+> > 1) Guest userspace (say, gralloc) allocates using virtio-gpu.  When
+> > allocating, we call uuidgen() and then pass that via RESOURCE_CREATE
+> > hypercall to the host.
+> > 2) When exporting the dma-buf, we call DMA_BUF_SET_NAME (the buffer
+> > name will be "virtgpu-buffer-${UUID}").
+> > 3) When importing, virtio-{vdec, video} reads the dma-buf name in
+> > userspace, and calls fd to handle.  The name is sent to the host via
+> > a
+> > hypercall, giving host virtio-{vdec, video} enough information to
+> > identify the buffer.
+> >
+> > This solution is entirely userspace -- we can probably come up with
+> > something in kernel space [generate_random_uuid()] if need be.  We
+> > only need two universal IDs: {device ID, buffer ID}.
+> >
+>
+> I need something where I can take a guest buffer and then convert it to
+> physical scatter gather page list. I can then either pass the SG page
+> list to the DSP firmware (for DMAC IP programming) or have the host
+> driver program the DMAC directly using the page list (who programs DMAC
+> depends on DSP architecture).
 
-It's not redundant relative to upstream which does not do anything the
-FOLL_LONGTERM in the gup-slow path... but I have not looked at patches
-1-7 to see if something there made it redundant.
+So you need the HW address space from a guest allocation?  Would your
+allocation hypercalls use something like the virtio_gpu_mem_entry
+(virtio_gpu.h) and the draft virtio_video_mem_entry (draft)?
+
+struct {
+        __le64 addr;
+        __le32 length;
+        __le32 padding;
+};
+
+/* VIRTIO_GPU_CMD_RESOURCE_ATTACH_BACKING */
+struct virtio_gpu_resource_attach_backing {
+        struct virtio_gpu_ctrl_hdr hdr;
+        __le32 resource_id;
+        __le32 nr_entries;
+      *struct struct virtio_gpu_mem_entry */
+};
+
+struct virtio_video_mem_entry {
+    __le64 addr;
+    __le32 length;
+    __u8 padding[4];
+};
+
+struct virtio_video_resource_attach_backing {
+    struct virtio_video_ctrl_hdr hdr;
+    __le32 resource_id;
+    __le32 nr_entries;
+};
+
+>
+> DSP FW has no access to userspace so we would need some additional API
+> on top of DMA_BUF_SET_NAME etc to get physical hardware pages ?
+
+The dma-buf api currently can share guest memory sg-lists.
+
+>
+> Liam
+>
+>
+>
+> ---------------------------------------------------------------------
+> To unsubscribe, e-mail: virtio-dev-unsubscribe@lists.oasis-open.org
+> For additional commands, e-mail: virtio-dev-help@lists.oasis-open.org
+>
