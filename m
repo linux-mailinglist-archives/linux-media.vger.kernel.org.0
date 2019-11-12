@@ -2,142 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D07FF9E4A
-	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2019 00:43:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C41C3F9E55
+	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2019 00:46:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727065AbfKLXmx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Nov 2019 18:42:53 -0500
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:38092 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726923AbfKLXmx (ORCPT
+        id S1726983AbfKLXqj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Nov 2019 18:46:39 -0500
+Received: from mail-qv1-f67.google.com ([209.85.219.67]:46604 "EHLO
+        mail-qv1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726936AbfKLXqj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Nov 2019 18:42:53 -0500
-Received: by mail-qt1-f194.google.com with SMTP id p20so486679qtq.5
-        for <linux-media@vger.kernel.org>; Tue, 12 Nov 2019 15:42:52 -0800 (PST)
+        Tue, 12 Nov 2019 18:46:39 -0500
+Received: by mail-qv1-f67.google.com with SMTP id w11so58831qvu.13
+        for <linux-media@vger.kernel.org>; Tue, 12 Nov 2019 15:46:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=vZiC7XI6w4qmcJhiszw5fcLLfKl81FBqJhCu/q1OZew=;
-        b=it8jHl8Aeod0zYq+Skrwrg8GwHh9Iu8Lk4aklL2UU1A7NrkgqGz5TacHTvuZENKCSO
-         zX5vQsxL6WoNuMWNKkEQjxDubFJia3lLQ6vtybpi5bU815x8TqvUIIt9Kr2Uo5cBSRzI
-         2VZYj93gQX0itc+geQUWbcwpbx7dsR+jspiqHjxUKDMEHdunGEQMz6R4qhshIz6xtcbf
-         Zhwk9IxmoxlDCj68H/K3Yi1WAV8gDwI3vnoSzzJ5OjxNZ+oTEONNaXk9owbEXpdua0Ac
-         Ytg9ljas4ej2TjoNx1nr1x9pd15vss2zsUb9mCqXq0UcPC7FIXHufZoDuL/IWSFTzLDE
-         UAww==
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LiFXnli/uFRmxP0Qb8urwCqWFRBJkDJ5cbPu6CZnE4w=;
+        b=s8Ihivc0Shjyo85vG5foZIn2AElLn2PefSklSRBxgMZ44g2K17/51jzqIN5j1efAXs
+         6q31CT+0cZYmPo+6OXoTNHUKBo89P8912Hz6dKbvow9vvd/Wm//SEoU4pxPfVRCc8+7P
+         ZkNryeQvhyJS6td9wPmC4wKbai76kXNE/LXle9OwwwWfO11l7ZiCVdQEMRhiNrtyAnoa
+         L+IjONtHlqG3ZWM/+T4gSfZZBTTYfwnTU6nXJhrEpALWHaU6fHXGsJ5FuV6+1cB9IrWz
+         dgBYSOO/OEVMfS9vboFfcU1Swy+YPu6wAwtvQAGbKi+EIQFsbrkExEiP+yvnLeMXsywG
+         isKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=vZiC7XI6w4qmcJhiszw5fcLLfKl81FBqJhCu/q1OZew=;
-        b=Q4ZFf1CAfu1VCp7uEiD7Y2lBbtEj0pkrr2A5vOuof0bbi0grHdcmrG+syKeLDhNyvE
-         WFNwYodWFt7nDM/luZqaKIgGlqhpanEGQFkMySAfU4haHn7O+g0mxLR4jV1PadlBfclo
-         GglArNCd8YD9e9XUoKOoYfvZJuFrX/zzOwiuwXDaeUcroChhrLEbcZvICzOnW8PLQdS2
-         H/9pLvcubAueACNazmnoU6Z/59ll6RQajwPLRUyeEXab6ngsBmL6nso4dc9CqAHuZs3c
-         9bpCse5xHsXa/ojj/5aw8avybXeH2yEDhDjMAwIgqkNRUB15rN7Wejv+PF4k2miZqrIZ
-         lLtw==
-X-Gm-Message-State: APjAAAUuvWGU8bD2CeqDz+K/Cszyfy0Gy5w1W9IZZ61oEmTTGMs/H2hl
-        2bXXzgVaNPhWusbbTniqZR7CLQ==
-X-Google-Smtp-Source: APXvYqz3aftIVfOw8Wxd6a6UdmY0tmO8rvvaAb/aUmwkho+fgsveWFsBhLgURBNyxpICpzEXHNU+vQ==
-X-Received: by 2002:aed:26e2:: with SMTP id q89mr18576100qtd.391.1573602171951;
-        Tue, 12 Nov 2019 15:42:51 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-142-162-113-180.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.180])
-        by smtp.gmail.com with ESMTPSA id u11sm212203qtg.11.2019.11.12.15.42.51
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 12 Nov 2019 15:42:51 -0800 (PST)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1iUfoA-0005Um-OB; Tue, 12 Nov 2019 19:42:50 -0400
-Date:   Tue, 12 Nov 2019 19:42:50 -0400
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Dan Williams <dan.j.williams@intel.com>
-Cc:     John Hubbard <jhubbard@nvidia.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
-        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>, KVM list <kvm@vger.kernel.org>,
-        linux-block@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-kselftest@vger.kernel.org,
-        "Linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        Netdev <netdev@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 08/23] vfio, mm: fix get_user_pages_remote() and
- FOLL_LONGTERM
-Message-ID: <20191112234250.GA19615@ziepe.ca>
-References: <20191112000700.3455038-1-jhubbard@nvidia.com>
- <20191112000700.3455038-9-jhubbard@nvidia.com>
- <20191112204338.GE5584@ziepe.ca>
- <0db36e86-b779-01af-77e7-469af2a2e19c@nvidia.com>
- <CAPcyv4hAEgw6ySNS+EFRS4yNRVGz9A3Fu1vOk=XtpjYC64kQJw@mail.gmail.com>
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=LiFXnli/uFRmxP0Qb8urwCqWFRBJkDJ5cbPu6CZnE4w=;
+        b=JcTk7Q8p37mW/hQ7G+PXiCUZ5g+ZBfJyG861qVViJo0m1PHT66fin9yq6BQ88mNLbg
+         J91d3EgY0qP/dxBhgrjfJZYO6H6Y2r9JrOp3hjHG9EW5e8d9z7+GzXdYlb79D+Jk0Doa
+         YQw2R82KIWm9aan1sjCIh52ors/VywgQ2VhGDU2+Wa9rjLtglV7yfGoR97XU0UujcNnh
+         l2r3/GCPQRB4qkEacrfgCWgkLD1HuoxvB1B8Ve0O97NDVx6ooM5kXqkdYga61WPXBKPL
+         BEETQpb7L4ycJFl5VTfS56W0Uqcc/A3i5XH0IPK0XLB4mnSVeC0Vu8GIv1+QTAt+RaN2
+         WsYA==
+X-Gm-Message-State: APjAAAX470ZxVFKlZMHKequfyde3tAgyy81EyL/Y1a0k48E5CEVP6I7u
+        CwpHrVy+GfyEb7dKwySIx0aXzISOgxU=
+X-Google-Smtp-Source: APXvYqwd+sUOZQ3ZTRMrfb4Mi8UF0Z5SY3rrdmbiMye5/+SiyeCElqtiXGV3wrdaOR5RNMOpBiadDQ==
+X-Received: by 2002:a05:6214:13e4:: with SMTP id ch4mr243485qvb.242.1573602397714;
+        Tue, 12 Nov 2019 15:46:37 -0800 (PST)
+Received: from porthos.hq.glmx.com ([38.32.121.218])
+        by smtp.gmail.com with ESMTPSA id x65sm123817qkd.15.2019.11.12.15.46.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Nov 2019 15:46:37 -0800 (PST)
+From:   Ilia Mirkin <imirkin@alum.mit.edu>
+To:     linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl
+Cc:     Ilia Mirkin <imirkin@alum.mit.edu>
+Subject: [PATCH] edid-decode: fix typo in 1024x768i established timing
+Date:   Tue, 12 Nov 2019 18:46:28 -0500
+Message-Id: <20191112234628.3212-1-imirkin@alum.mit.edu>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAPcyv4hAEgw6ySNS+EFRS4yNRVGz9A3Fu1vOk=XtpjYC64kQJw@mail.gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Nov 12, 2019 at 02:45:51PM -0800, Dan Williams wrote:
-> On Tue, Nov 12, 2019 at 2:43 PM John Hubbard <jhubbard@nvidia.com> wrote:
-> >
-> > On 11/12/19 12:43 PM, Jason Gunthorpe wrote:
-> > ...
-> > >> -            }
-> > >> +    ret = get_user_pages_remote(NULL, mm, vaddr, 1, flags | FOLL_LONGTERM,
-> > >> +                                page, vmas, NULL);
-> > >> +    /*
-> > >> +     * The lifetime of a vaddr_get_pfn() page pin is
-> > >> +     * userspace-controlled. In the fs-dax case this could
-> > >> +     * lead to indefinite stalls in filesystem operations.
-> > >> +     * Disallow attempts to pin fs-dax pages via this
-> > >> +     * interface.
-> > >> +     */
-> > >> +    if (ret > 0 && vma_is_fsdax(vmas[0])) {
-> > >> +            ret = -EOPNOTSUPP;
-> > >> +            put_page(page[0]);
-> > >>      }
-> > >
-> > > AFAIK this chunk is redundant now as it is some hack to emulate
-> > > FOLL_LONGTERM? So vmas can be deleted too.
-> >
-> > Let me first make sure I understand what Dan has in mind for the vma
-> > checking, in the other thread...
-> 
-> It's not redundant relative to upstream which does not do anything the
-> FOLL_LONGTERM in the gup-slow path... but I have not looked at patches
-> 1-7 to see if something there made it redundant.
+Looks like this has been wrong since the dawn of time - commit ec1931fa.
+Also adjust the AR to match the "new" resolution.
 
-Oh, the hunk John had below for get_user_pages_remote() also needs to
-call __gup_longterm_locked() when FOLL_LONGTERM is specified, then
-that calls check_dax_vmas() which duplicates the vma_is_fsdax() check
-above.
+Signed-off-by: Ilia Mirkin <imirkin@alum.mit.edu>
+---
+ edid-decode.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Certainly no caller of FOLL_LONGTERM should have to do dax specific
-VMA checking.
+diff --git a/edid-decode.c b/edid-decode.c
+index 40891aa..07f8b48 100644
+--- a/edid-decode.c
++++ b/edid-decode.c
+@@ -553,7 +553,7 @@ static const struct {
+ 	{800, 600, 72, 4, 3, 48100, 50000},
+ 	{800, 600, 75, 4, 3, 46900, 49500},
+ 	{832, 624, 75, 4, 3, 49726, 57284},
+-	{1280, 768, 87, 5, 3, 35522, 44900, 1},
++	{1024, 768, 87, 4, 3, 35522, 44900, 1},
+ 	{1024, 768, 60, 4, 3, 48400, 65000},
+ 	{1024, 768, 70, 4, 3, 56500, 75000},
+ 	{1024, 768, 75, 4, 3, 60000, 78750},
+-- 
+2.23.0
 
-Jason
