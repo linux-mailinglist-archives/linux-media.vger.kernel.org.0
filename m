@@ -2,122 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DEF0F85A1
-	for <lists+linux-media@lfdr.de>; Tue, 12 Nov 2019 01:54:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AE003F879A
+	for <lists+linux-media@lfdr.de>; Tue, 12 Nov 2019 05:55:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726958AbfKLAyc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 Nov 2019 19:54:32 -0500
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:40600 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726910AbfKLAyc (ORCPT
+        id S1726939AbfKLEzh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 Nov 2019 23:55:37 -0500
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:39443 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726927AbfKLEzh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 Nov 2019 19:54:32 -0500
-Received: by mail-lj1-f196.google.com with SMTP id q2so15816350ljg.7
-        for <linux-media@vger.kernel.org>; Mon, 11 Nov 2019 16:54:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=GZou4lQN9AdmuzA4/W7pow7uT+4WHFOjtCVdWX0VDPo=;
-        b=ejAHNRdXqEG280TqIhUoNOdKc94fDbil9FkD0sphy37JpdzdIoeeBuHU0jSE7oD8mb
-         LpYjQ1/WLCEHEG/mcxT8mug01iZ6Gj6LkK7KhvWp/XrFL8URP5AdCSgMsQVeBjCU2kfu
-         ut52kG9Zc8zYvcPqNEwrzSVVK6gkT1gf0UFrQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=GZou4lQN9AdmuzA4/W7pow7uT+4WHFOjtCVdWX0VDPo=;
-        b=KRiqjGB+4MHsePjJIQ65BtYaKrnynuiHpGGceDGhr7IcdWJ8X4gHrP+EhNraz2vJVa
-         N/JB5vk2ewmm0SrXjoFiVyHmNt7L9F5CSOikRvc6UHUAoOD8LgW/8YnUf+NSEW/q4WJb
-         KQMn+ONvn1U/1We0rAjcuxA5dfLsjvTeMgYoxKjRDwpzshuCnwUSsKf4yUns8lD9ljHL
-         K+X7o1G+Sy3VrGV23KqFiF0Vv+oL9OcFg+Lwu9YQ/NsWJRVvV07FgV4yW+fnQag//NJM
-         vwTZx9n0H4Wcsf/07qKiLzBLNw3Jo1u3HuIixpckwoLblD2ppQXgJhyaoLhNVmnTBaL2
-         MYWg==
-X-Gm-Message-State: APjAAAXJLtQfsmXUzJAzf0yNoTD5IzMX/ACCZX/Oy0n3Syz/8BFPdOKI
-        9qE26vb40CCOQmHY3OIYiAyBCRLzfos6ww==
-X-Google-Smtp-Source: APXvYqwdNmz/ghWm0vxsc9fa32aFZ8jmkMDniw77Ha270YO2IgTri6s2wsnFbYTZAGMMsCOVybSxhQ==
-X-Received: by 2002:a2e:9016:: with SMTP id h22mr17866026ljg.137.1573520068719;
-        Mon, 11 Nov 2019 16:54:28 -0800 (PST)
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com. [209.85.208.178])
-        by smtp.gmail.com with ESMTPSA id d5sm1834737lfl.2.2019.11.11.16.54.27
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Nov 2019 16:54:27 -0800 (PST)
-Received: by mail-lj1-f178.google.com with SMTP id n21so15792601ljg.12
-        for <linux-media@vger.kernel.org>; Mon, 11 Nov 2019 16:54:27 -0800 (PST)
-X-Received: by 2002:a2e:b007:: with SMTP id y7mr17717532ljk.69.1573520066803;
- Mon, 11 Nov 2019 16:54:26 -0800 (PST)
-MIME-Version: 1.0
-References: <20191105105456.7xbhtistnbp272lj@sirius.home.kraxel.org>
- <20191106084344.GB189998@stefanha-x1.localdomain> <CAD=HUj41r8wHZ2-By8tLftkoqC5r_Bw=pr=zX2aZ7GTs1ESWhg@mail.gmail.com>
- <c8a6b6f35664ce036c2a48ec41eab97b0f40704d.camel@linux.intel.com>
-In-Reply-To: <c8a6b6f35664ce036c2a48ec41eab97b0f40704d.camel@linux.intel.com>
-From:   Gurchetan Singh <gurchetansingh@chromium.org>
-Date:   Mon, 11 Nov 2019 16:54:14 -0800
-X-Gmail-Original-Message-ID: <CAAfnVBkMWurTpseQFjcna5kk3__40n6M68=RTHLbQsu__2AFxg@mail.gmail.com>
-Message-ID: <CAAfnVBkMWurTpseQFjcna5kk3__40n6M68=RTHLbQsu__2AFxg@mail.gmail.com>
-Subject: Re: [virtio-dev] Re: guest / host buffer sharing ...
-To:     Liam Girdwood <liam.r.girdwood@linux.intel.com>
-Cc:     David Stevens <stevensd@chromium.org>,
-        Stefan Hajnoczi <stefanha@gmail.com>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Keiichi Watanabe <keiichiw@chromium.org>,
-        geoff@hostfission.com, virtio-dev@lists.oasis-open.org,
-        Alex Lau <alexlau@chromium.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        qemu-devel@nongnu.org, Tomasz Figa <tfiga@chromium.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
-        Dylan Reid <dgreid@chromium.org>,
-        Dmitry Morozov <dmitry.morozov@opensynergy.com>,
-        Pawel Osciak <posciak@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Mon, 11 Nov 2019 23:55:37 -0500
+Received: from localhost ([IPv6:2001:983:e9a7:1:c4e7:4a44:fce1:5373])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id UODFiYTAMXYiTUODGi8mn6; Tue, 12 Nov 2019 05:55:34 +0100
+Message-ID: <825240dbaacb48129dfc111ea18894b5@smtp-cloud8.xs4all.net>
+Date:   Tue, 12 Nov 2019 05:55:33 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfHJT5noUcUz0UvM5JXLdIX2URBRdUyqrZVBjr297cSJ1bZFar1wm0gVEnBH8qPXBwH7aXHoZdZ+PLMjxjUqMyISGPvnRNYmtgHPHBiiqsnjKuIJJE1wQ
+ 4iPHQaqdCxNeyRqpdkzPIxjtlnXi6Rm+ygQBQt2JAjtqAhg6M8imH4hjrZSQdpAUuNoFhbE7V59jTVBajBXL7R7WVc7C+r6SvP16ZYoTcS1NVH8K+0qht+Wb
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Nov 5, 2019 at 2:55 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
-> Each buffer also has some properties to carry metadata, some fixed (id, size, application), but
-> also allow free form (name = value, framebuffers would have
-> width/height/stride/format for example).
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Sounds a lot like the recently added DMA_BUF_SET_NAME ioctls:
+Results of the daily build of media_tree:
 
-https://patchwork.freedesktop.org/patch/310349/
+date:			Tue Nov 12 05:00:10 CET 2019
+media-tree git hash:	dca6b3733a4a46e63603496f544ece8ace541fde
+media_build git hash:	efba365ba11b958a6bf6fb4b397942f9461cefca
+v4l-utils git hash:	a0b1b2c1f87ca1f6a167d91632c84dbf86ebfff6
+edid-decode git hash:	3a6108a75be356a3dc53760d22782f1323248b6b
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 6903fe8f5101fc43440b3259290c97d2dd51733d
+host hardware:		x86_64
+host os:		5.2.0-3-amd64
 
-For virtio-wayland + virtio-vdec, the problem is sharing -- not allocation.
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4-rc1-i686: OK
+linux-5.4-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2784, Succeeded: 2784, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
 
-As the buffer reaches a kernel boundary, it's properties devolve into
-[fd, size].  Userspace can typically handle sharing metadata.  The
-issue is the guest dma-buf fd doesn't mean anything on the host.
+Detailed results are available here:
 
-One scenario could be:
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
 
-1) Guest userspace (say, gralloc) allocates using virtio-gpu.  When
-allocating, we call uuidgen() and then pass that via RESOURCE_CREATE
-hypercall to the host.
-2) When exporting the dma-buf, we call DMA_BUF_SET_NAME (the buffer
-name will be "virtgpu-buffer-${UUID}").
-3) When importing, virtio-{vdec, video} reads the dma-buf name in
-userspace, and calls fd to handle.  The name is sent to the host via a
-hypercall, giving host virtio-{vdec, video} enough information to
-identify the buffer.
+Detailed regression test results are available here:
 
-This solution is entirely userspace -- we can probably come up with
-something in kernel space [generate_random_uuid()] if need be.  We
-only need two universal IDs: {device ID, buffer ID}.
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
 
-> On Wed, Nov 6, 2019 at 2:28 PM Geoffrey McRae <geoff@hostfission.com> wrote:
-> The entire point of this for our purposes is due to the fact that we can
-> not allocate the buffer, it's either provided by the GPU driver or
-> DirectX. If virtio-gpu were to allocate the buffer we might as well
-> forget
-> all this and continue using the ivshmem device.
+Full logs are available here:
 
-We have a similar problem with closed source drivers.  As @lfy
-mentioned, it's possible to map memory directory into virtio-gpu's PCI
-bar and it's actually a planned feature.  Would that work for your use
-case?
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
