@@ -2,111 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A76C0F90B8
-	for <lists+linux-media@lfdr.de>; Tue, 12 Nov 2019 14:33:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3889BF9127
+	for <lists+linux-media@lfdr.de>; Tue, 12 Nov 2019 14:56:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726939AbfKLNdR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Nov 2019 08:33:17 -0500
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:33358 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725865AbfKLNdR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Nov 2019 08:33:17 -0500
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id xACDWqEC028139;
-        Tue, 12 Nov 2019 07:32:52 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1573565572;
-        bh=5Z4gxvkjzCKXoR2E/PLowayTQFLHdnvuiFx2gsQMpOw=;
-        h=Date:From:To:CC:Subject:References:In-Reply-To;
-        b=u7uD8Ksb6+SkNTw/B+CguxskxxpzqJhuWCzD1BViIVLYjjyl6h5IkXu4sceepscOt
-         dw2KPu100PEy9jPMXyfIsQ6VvHaJpPwNv0UTysey8ik3vfarPd3g4OqL3XIEY0n6f/
-         63b+XNLUiCKXDHX+xGxKrLy+Mb9P7pwhuBDao1Q0=
-Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id xACDWppt074078;
-        Tue, 12 Nov 2019 07:32:52 -0600
-Received: from DLEE114.ent.ti.com (157.170.170.25) by DLEE108.ent.ti.com
- (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Tue, 12
- Nov 2019 07:32:51 -0600
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Tue, 12 Nov 2019 07:32:34 -0600
-Received: from ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with SMTP id xACDWpgg005332;
-        Tue, 12 Nov 2019 07:32:51 -0600
-Date:   Tue, 12 Nov 2019 07:35:54 -0600
-From:   Benoit Parrot <bparrot@ti.com>
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-CC:     Hans Verkuil <hverkuil@xs4all.nl>, <linux-media@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: Re: [Patch v2 12/20] media: ti-vpe: cal: Add DRA76x support
-Message-ID: <20191112133554.u7mbv6h2bzecvakl@ti.com>
-References: <20191104193140.31145-1-bparrot@ti.com>
- <20191104193140.31145-13-bparrot@ti.com>
- <20191106085709.GB6253@valkosipuli.retiisi.org.uk>
- <20191106205839.3zxqdttlqmrzghla@ti.com>
- <20191112132811.p6xgmxp7co6ugkkn@ti.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20191112132811.p6xgmxp7co6ugkkn@ti.com>
-User-Agent: NeoMutt/20171215
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+        id S1727298AbfKLN4v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Nov 2019 08:56:51 -0500
+Received: from mga09.intel.com ([134.134.136.24]:32849 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727201AbfKLN4u (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 12 Nov 2019 08:56:50 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 12 Nov 2019 05:56:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,296,1569308400"; 
+   d="scan'208";a="194319994"
+Received: from hbenchen-mobl1.ger.corp.intel.com ([10.251.95.209])
+  by orsmga007.jf.intel.com with ESMTP; 12 Nov 2019 05:56:45 -0800
+Message-ID: <4a5dd822e86757f004d04af62fb7dd35ba75392d.camel@linux.intel.com>
+Subject: Re: [virtio-dev] Re: guest / host buffer sharing ...
+From:   Liam Girdwood <liam.r.girdwood@linux.intel.com>
+To:     Gurchetan Singh <gurchetansingh@chromium.org>
+Cc:     David Stevens <stevensd@chromium.org>,
+        Stefan Hajnoczi <stefanha@gmail.com>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Keiichi Watanabe <keiichiw@chromium.org>,
+        geoff@hostfission.com, virtio-dev@lists.oasis-open.org,
+        Alex Lau <alexlau@chromium.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        qemu-devel@nongnu.org, Tomasz Figa <tfiga@chromium.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        =?ISO-8859-1?Q?St=E9phane?= Marchesin <marcheu@chromium.org>,
+        Dylan Reid <dgreid@chromium.org>,
+        Dmitry Morozov <dmitry.morozov@opensynergy.com>,
+        Pawel Osciak <posciak@chromium.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Date:   Tue, 12 Nov 2019 13:56:43 +0000
+In-Reply-To: <CAAfnVBkMWurTpseQFjcna5kk3__40n6M68=RTHLbQsu__2AFxg@mail.gmail.com>
+References: <20191105105456.7xbhtistnbp272lj@sirius.home.kraxel.org>
+         <20191106084344.GB189998@stefanha-x1.localdomain>
+         <CAD=HUj41r8wHZ2-By8tLftkoqC5r_Bw=pr=zX2aZ7GTs1ESWhg@mail.gmail.com>
+         <c8a6b6f35664ce036c2a48ec41eab97b0f40704d.camel@linux.intel.com>
+         <CAAfnVBkMWurTpseQFjcna5kk3__40n6M68=RTHLbQsu__2AFxg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Benoit Parrot <bparrot@ti.com> wrote on Tue [2019-Nov-12 07:28:11 -0600]:
-> Benoit Parrot <bparrot@ti.com> wrote on Wed [2019-Nov-06 14:58:39 -0600]:
-> > Sakari Ailus <sakari.ailus@iki.fi> wrote on Wed [2019-Nov-06 10:57:09 +0200]:
-> > > Hi Benoit,
-> > > 
-> > > On Mon, Nov 04, 2019 at 01:31:32PM -0600, Benoit Parrot wrote:
-> > > 
-> > > ...
-> > > 
-> > > > +static struct cal_data dra76x_cal_data = {
-> > > 
-> > > const?
-> > 
-> > Hmm, most likely.
+On Mon, 2019-11-11 at 16:54 -0800, Gurchetan Singh wrote:
+> On Tue, Nov 5, 2019 at 2:55 AM Gerd Hoffmann <kraxel@redhat.com>
+> wrote:
+> > Each buffer also has some properties to carry metadata, some fixed
+> > (id, size, application), but
+> > also allow free form (name = value, framebuffers would have
+> > width/height/stride/format for example).
 > 
-> Well, it turns out they cannot be constified because we need to be able to
-> update the register offset fir the regmap used for the syscon object.
-> So I'll leave them as is.
-
-Oh I guess you meant just the "static struct cal_data" ones?
-I tried making the other one into const but obviously that didn't work.
-
-But just constifying "static struct cal_data" appears to compiled just
-fine.
-
+> Sounds a lot like the recently added DMA_BUF_SET_NAME ioctls:
 > 
-> Benoit
+> https://patchwork.freedesktop.org/patch/310349/
 > 
-> > 
-> > > 
-> > > > +	.csi2_phy_core = dra76x_cal_csi_phy,
-> > > > +	.num_csi2_phy = ARRAY_SIZE(dra76x_cal_csi_phy),
-> > > > +
-> > > 
-> > > This newline seems extra.
-> > > 
-> > > > +	.flags = 0,
-> > > 
-> > > And flags will be zero in any case, as one more struct members are assigned
-> > > to.
-> > 
-> > Is this guaranteed or compiler version dependent?
-> > 
-> > > 
-> > > > +};
-> > > 
-> > > -- 
-> > > Regards,
-> > > 
-> > > Sakari Ailus
+> For virtio-wayland + virtio-vdec, the problem is sharing -- not
+> allocation.
+> 
+
+Audio also needs to share buffers with firmware running on DSPs.
+
+> As the buffer reaches a kernel boundary, it's properties devolve into
+> [fd, size].  Userspace can typically handle sharing metadata.  The
+> issue is the guest dma-buf fd doesn't mean anything on the host.
+> 
+> One scenario could be:
+> 
+> 1) Guest userspace (say, gralloc) allocates using virtio-gpu.  When
+> allocating, we call uuidgen() and then pass that via RESOURCE_CREATE
+> hypercall to the host.
+> 2) When exporting the dma-buf, we call DMA_BUF_SET_NAME (the buffer
+> name will be "virtgpu-buffer-${UUID}").
+> 3) When importing, virtio-{vdec, video} reads the dma-buf name in
+> userspace, and calls fd to handle.  The name is sent to the host via
+> a
+> hypercall, giving host virtio-{vdec, video} enough information to
+> identify the buffer.
+> 
+> This solution is entirely userspace -- we can probably come up with
+> something in kernel space [generate_random_uuid()] if need be.  We
+> only need two universal IDs: {device ID, buffer ID}.
+> 
+
+I need something where I can take a guest buffer and then convert it to
+physical scatter gather page list. I can then either pass the SG page
+list to the DSP firmware (for DMAC IP programming) or have the host
+driver program the DMAC directly using the page list (who programs DMAC
+depends on DSP architecture).
+
+DSP FW has no access to userspace so we would need some additional API
+on top of DMA_BUF_SET_NAME etc to get physical hardware pages ?
+
+Liam
+
+
