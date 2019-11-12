@@ -2,122 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CBE1F9ADD
-	for <lists+linux-media@lfdr.de>; Tue, 12 Nov 2019 21:38:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B4AFF9AED
+	for <lists+linux-media@lfdr.de>; Tue, 12 Nov 2019 21:42:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726659AbfKLUiH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Nov 2019 15:38:07 -0500
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:42023 "EHLO
-        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727104AbfKLUiF (ORCPT
+        id S1726995AbfKLUmY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Nov 2019 15:42:24 -0500
+Received: from mail-yb1-f194.google.com ([209.85.219.194]:44108 "EHLO
+        mail-yb1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726376AbfKLUmY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Nov 2019 15:38:05 -0500
-Received: by mail-qk1-f194.google.com with SMTP id m4so15716595qke.9
-        for <linux-media@vger.kernel.org>; Tue, 12 Nov 2019 12:38:04 -0800 (PST)
+        Tue, 12 Nov 2019 15:42:24 -0500
+Received: by mail-yb1-f194.google.com with SMTP id g38so9316ybe.11
+        for <linux-media@vger.kernel.org>; Tue, 12 Nov 2019 12:42:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
+        d=poorly.run; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=GMi4xT2UOd2CFR3VJjVGTgOG1WxBYR/HDNQyyBU/zGM=;
-        b=j3NNIjPO3cADqvZd/hJQbIxM+DDhVRAEGcC+3T6+Q3fhxmcfREpCirlLaEIJBZkEdd
-         e3aBqytbSt/O1y6azCg5mzciQb9aXN7nl404GgQzXcRXFb+31Gp+DUUM20vq+CBmnlhO
-         OI6Itn853T6kP0jxgCe/92EYcvYqEI5wpO6FG/uJe2R9DweqI3FnTjwOvYkLmRQ3s4Xc
-         zG96fPghzfwVyKWk9G5BMiBAMZoSIJhIZiNOrjmRw2PjfIwZlx+LuvDRDWa51OzyNGdk
-         7PnZkzKlvewWQFyt2QF7slB5Swx6CEiwuOCbZxYFCsytkVXhCWtpdK2fshpP/jsmV8fx
-         ZjTQ==
+        bh=DjCiefqhC9NfqWC/1OWuy32sE5JWmV0rJU7JOPNgew0=;
+        b=W944HHeBKCxkA8DrDh1k5jwoR6EZOWptr72GU329mg37lMtwT4iUEUZ8MibJm1WXxY
+         mp7Vd5ttNkK4CKdk10wHGc7YF9Rmc7Qp+ybpA4tYo7/O523giEtR7c+XhEyDLATnYhVb
+         IHC5y7twtbRJyIHHZRzoKP5vi4ejGXVr27T0mo7g73zutfQIeyf6oGcvFewyLk2NPWyf
+         q8dSyuNzqh3edUolXoBkZG1uAJt7F9zXjjeQZ8cmV2aXlwTzMa1bBwazwh9AoGVjpztq
+         ROJ96zgqiMdd32cZMSWhMI6OeGD1IF1ynEhs9KMTYO6cZ/2BMyturVgRm8wJtwJzGjPa
+         d2sA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=GMi4xT2UOd2CFR3VJjVGTgOG1WxBYR/HDNQyyBU/zGM=;
-        b=hfYyfaKqsQZtslMW0BL/PwqtseBn7HMM6/An/R5TpuMG4lkax/Jkln0n5iOyQ9KoZR
-         dXzuWGqjR7WhbCXWVe9PCKdgTHG2fD7K84gGPBXN1LxBJZys7tEPTy5iN4/P0IjXwXlU
-         8y9UEHEKIHdCW9KdE6x4rMf0D3dPGSEoJFOtVZsKkPQvK0UeNIMQGH/5xEajV6i8ZYKC
-         NZaRQbyUnokeeTfIO+3Yb4MpH5P6NA4BFZRIYNNB3gXHR80o67cWRnbFs4dXBIc9v3Bt
-         kH+MnTb0S1MMVVRkdEAP8cCu1kT6/3dv30e1w6yqLeyZ55OJEMOmT1Z1khJ+bg8MA/zW
-         1lcg==
-X-Gm-Message-State: APjAAAUN0QMr+g4LctWz3EQQ4ewJcRyKfNO+Ls4G0H6lOUTH460mbvQ3
-        Utn428IVSsB1xK5QhJzhsxoa2Q==
-X-Google-Smtp-Source: APXvYqwLkTug1hfsKRZbiUckKPR5+bmE3pOvHeIup8u/vHZbKyWy6tiIbngDLXx22jZap3IUKn0tSg==
-X-Received: by 2002:a37:dc44:: with SMTP id v65mr7289252qki.72.1573591083419;
-        Tue, 12 Nov 2019 12:38:03 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-142-162-113-180.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.180])
-        by smtp.gmail.com with ESMTPSA id k40sm11983680qta.76.2019.11.12.12.38.02
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 12 Nov 2019 12:38:02 -0800 (PST)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1iUcvK-00043t-G4; Tue, 12 Nov 2019 16:38:02 -0400
-Date:   Tue, 12 Nov 2019 16:38:02 -0400
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
-        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
+        bh=DjCiefqhC9NfqWC/1OWuy32sE5JWmV0rJU7JOPNgew0=;
+        b=tVniRTTePvRad6jM/ogCvUPzqOoYvwF8f0prAqgzQ8ZwwBeA+tURQxlmjc9HljvZPT
+         xYETkTMqeRBTLkCziu0B12XLdP52K9K6OWQ4QXxvdHH75tw7H6YaXg8VeuBxRYycyaQf
+         iENUiL/U+OrtEZRKTlmib3/7fdxaaRY+CaEB5IrrClIvYZ9L/AKGFCPRn6uOZzKHqWel
+         2566/zpVUHwU0ZnKRa5eDxKwcfDunuhwQT7g4uhRPudS8rvWbXle7e6m+djQoCgc0YCK
+         CEYClhcxYkSgDymSivtzFOsxwjtd6m9dL7mqVpvEMWBujpwTwouykivlsKusQjGm4I67
+         MYIw==
+X-Gm-Message-State: APjAAAXpXYEAN/CJks+3OImXoz7Ke4PKtb2Td3WWQUZKeMQ3wSofUxqW
+        b2EIrHe97I+vYraXap/AfsvSYQ==
+X-Google-Smtp-Source: APXvYqyYtUgeVlNwdv9fMm8VoUMF8TaIvGt5yJhxR65GCBa+3/C4/0mBjyFFaaUNb80Ijg+1jMj5gA==
+X-Received: by 2002:a25:7583:: with SMTP id q125mr2877735ybc.28.1573591343192;
+        Tue, 12 Nov 2019 12:42:23 -0800 (PST)
+Received: from localhost ([2620:0:1013:11:89c6:2139:5435:371d])
+        by smtp.gmail.com with ESMTPSA id 138sm9476213ywr.46.2019.11.12.12.42.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Nov 2019 12:42:22 -0800 (PST)
+Date:   Tue, 12 Nov 2019 15:42:22 -0500
+From:   Sean Paul <sean@poorly.run>
+To:     Rob Clark <robdclark@gmail.com>
+Cc:     Daniel Vetter <daniel@ffwll.ch>, Johan Hovold <johan@kernel.org>,
+        Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        freedreno <freedreno@lists.freedesktop.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-media@vger.kernel.org, linux-s390@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        stable <stable@vger.kernel.org>,
+        Jordan Crouse <jcrouse@codeaurora.org>,
+        Harald Freudenberger <freude@linux.ibm.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
-        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 00/23] mm/gup: track dma-pinned pages: FOLL_PIN,
- FOLL_LONGTERM
-Message-ID: <20191112203802.GD5584@ziepe.ca>
-References: <20191112000700.3455038-1-jhubbard@nvidia.com>
+        Fabien Dessenne <fabien.dessenne@st.com>,
+        Dave Airlie <airlied@gmail.com>
+Subject: Re: [PATCH 1/4] drm/msm: fix memleak on release
+Message-ID: <20191112204222.GB25787@art_vandelay>
+References: <20191010131333.23635-1-johan@kernel.org>
+ <20191010131333.23635-2-johan@kernel.org>
+ <20191030100146.GC4691@localhost>
+ <20191112104001.GP11035@localhost>
+ <20191112140155.GJ23790@phenom.ffwll.local>
+ <CAF6AEGvom2wZ89434VLhhgAHCk_MMCGRbxSO+DQsX=+LPOCy8A@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191112000700.3455038-1-jhubbard@nvidia.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <CAF6AEGvom2wZ89434VLhhgAHCk_MMCGRbxSO+DQsX=+LPOCy8A@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Nov 11, 2019 at 04:06:37PM -0800, John Hubbard wrote:
-> Hi,
+On Tue, Nov 12, 2019 at 08:32:07AM -0800, Rob Clark wrote:
+> On Tue, Nov 12, 2019 at 6:01 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> >
+> > On Tue, Nov 12, 2019 at 11:40:01AM +0100, Johan Hovold wrote:
+> > > On Wed, Oct 30, 2019 at 11:01:46AM +0100, Johan Hovold wrote:
+> > > > On Thu, Oct 10, 2019 at 03:13:30PM +0200, Johan Hovold wrote:
+> > > > > If a process is interrupted while accessing the "gpu" debugfs file and
+> > > > > the drm device struct_mutex is contended, release() could return early
+> > > > > and fail to free related resources.
+> > > > >
+> > > > > Note that the return value from release() is ignored.
+> > > > >
+> > > > > Fixes: 4f776f4511c7 ("drm/msm/gpu: Convert the GPU show function to use the GPU state")
+> > > > > Cc: stable <stable@vger.kernel.org>     # 4.18
+> > > > > Cc: Jordan Crouse <jcrouse@codeaurora.org>
+> > > > > Cc: Rob Clark <robdclark@gmail.com>
+> > > > > Signed-off-by: Johan Hovold <johan@kernel.org>
+> > > > > ---
+> > > >
+> > > > Rob, Sean,
+> > > >
+> > > > Sending a reminder about this one, which is not yet in linux-next.
+> > > >
+> > > > Perhaps Daniel can pick it up otherwise?
+> > >
+> > > Another two weeks, another reminder. This one is still not in -next.
+> >
+> > Well msm is maintained in a separate tree, so the usual group maintainer
+> > fallback for when patches are stuck doesn't apply.
 > 
-> The cover letter is long, so the more important stuff is first:
+> oh, sorry, this wasn't showing up in patchwork.. or rather it did but
+> the non-msm related series subject made me overlook it.
 > 
-> * Jason, if you or someone could look at the the VFIO cleanup (patch 8)
->   and conversion to FOLL_PIN (patch 18), to make sure it's use of
->   remote and longterm gup matches what we discussed during the review
->   of v2, I'd appreciate it.
+> I've already sent a PR, but this shouldn't conflict with anything and
+> I think it can go in via drm-misc/fixes
 > 
-> * Also for Jason and IB: as noted below, in patch 11, I am (too?) boldly
->   converting from put_user_pages() to release_pages().
+> Reviewed-by: Rob Clark <robdclark@gmail.com>
 
-Why are we doing this? I think things got confused here someplace, as
-the comment still says:
+Thanks for the patch, pushed to drm-misc-next-fixes
 
-/**
- * put_user_page() - release a gup-pinned page
- * @page:            pointer to page to be released
- *
- * Pages that were pinned via get_user_pages*() must be released via
- * either put_user_page(), or one of the put_user_pages*() routines
- * below.
+Sean
 
-I feel like if put_user_pages() is not the correct way to undo
-get_user_pages() then it needs to be deleted.
+> 
+> > Rob, Sean, time to reconsider drm-misc for msm? I think there's some more
+> > oddball patches that occasionally get stuck for msm ...
+> >
+> > Also +Dave.
+> > -Daniel
+> >
+> > >
+> > > Johan
+> > >
+> > > > >  drivers/gpu/drm/msm/msm_debugfs.c | 6 +-----
+> > > > >  1 file changed, 1 insertion(+), 5 deletions(-)
+> > > > >
+> > > > > diff --git a/drivers/gpu/drm/msm/msm_debugfs.c b/drivers/gpu/drm/msm/msm_debugfs.c
+> > > > > index 6be879578140..1c74381a4fc9 100644
+> > > > > --- a/drivers/gpu/drm/msm/msm_debugfs.c
+> > > > > +++ b/drivers/gpu/drm/msm/msm_debugfs.c
+> > > > > @@ -47,12 +47,8 @@ static int msm_gpu_release(struct inode *inode, struct file *file)
+> > > > >   struct msm_gpu_show_priv *show_priv = m->private;
+> > > > >   struct msm_drm_private *priv = show_priv->dev->dev_private;
+> > > > >   struct msm_gpu *gpu = priv->gpu;
+> > > > > - int ret;
+> > > > > -
+> > > > > - ret = mutex_lock_interruptible(&show_priv->dev->struct_mutex);
+> > > > > - if (ret)
+> > > > > -         return ret;
+> > > > >
+> > > > > + mutex_lock(&show_priv->dev->struct_mutex);
+> > > > >   gpu->funcs->gpu_state_put(show_priv->state);
+> > > > >   mutex_unlock(&show_priv->dev->struct_mutex);
+> >
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
 
-Jason
+-- 
+Sean Paul, Software Engineer, Google / Chromium OS
