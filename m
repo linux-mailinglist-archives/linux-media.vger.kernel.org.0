@@ -2,31 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D5B6F88D9
-	for <lists+linux-media@lfdr.de>; Tue, 12 Nov 2019 07:52:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B5282F88FA
+	for <lists+linux-media@lfdr.de>; Tue, 12 Nov 2019 07:54:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727124AbfKLGwL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Nov 2019 01:52:11 -0500
-Received: from mailgw01.mediatek.com ([210.61.82.183]:25168 "EHLO
+        id S1727180AbfKLGwU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Nov 2019 01:52:20 -0500
+Received: from mailgw01.mediatek.com ([210.61.82.183]:8481 "EHLO
         mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725801AbfKLGwK (ORCPT
+        with ESMTP id S1727141AbfKLGwQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Nov 2019 01:52:10 -0500
-X-UUID: 83f35eb39ee94dcf9d371c373e68aa27-20191112
+        Tue, 12 Nov 2019 01:52:16 -0500
+X-UUID: 85e0b5d4ea8046d6a19b7d3172f299e5-20191112
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=bcfzYmRx9os6HtHTVejsAOTqOvBkgsxwa1TyCFdMLf8=;
-        b=FRKP57syZsCK31bgak1WRe63v0oZsgOUv+lTPeAnyPSTme/G86AO6cCCk3adf1dXY6ORultpoO+UoDMvd1q4+YDnhSt7ZoIu6BQIcH4KtJwFuXx0UmJdxaDUBM4BnJ9cJrqYMLB2WZVXnJ+TytdmOQJMdq7tjzAHCAqqHJsK4xg=;
-X-UUID: 83f35eb39ee94dcf9d371c373e68aa27-20191112
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
+        h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=ys5MvA8nUGN3ilgTDUWdh06crqeJBv9EYUtRL16pUxc=;
+        b=GchebFA6f/dfUSyISYrjpzf3CLdY/c+nJnrht0UmVotQBWxo4fV2tKDRHr9Fqkw2csYiCW5awhRPSCKMq1jQwWlhkh8V7H6F+3OTgEOjN2OIH4YdIa3KePUXuVavr7ET6+LfZguG6RmL7kv9jOI/itwcscQeVzSbeg1Xz1IS1QE=;
+X-UUID: 85e0b5d4ea8046d6a19b7d3172f299e5-20191112
+Received: from mtkcas08.mediatek.inc [(172.21.101.126)] by mailgw01.mediatek.com
         (envelope-from <chunfeng.yun@mediatek.com>)
         (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
-        with ESMTP id 34047829; Tue, 12 Nov 2019 14:52:05 +0800
+        with ESMTP id 1949361959; Tue, 12 Nov 2019 14:52:09 +0800
+Received: from mtkmbs05dr.mediatek.inc (172.21.101.97) by
+ mtkmbs08n1.mediatek.inc (172.21.101.55) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Tue, 12 Nov 2019 14:52:06 +0800
 Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Tue, 12 Nov 2019 14:52:04 +0800
+ mtkmbs05dr.mediatek.inc (172.21.101.97) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Tue, 12 Nov 2019 14:52:06 +0800
 Received: from localhost.localdomain (10.17.3.153) by mtkcas08.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Tue, 12 Nov 2019 14:52:02 +0800
+ Transport; Tue, 12 Nov 2019 14:52:04 +0800
 From:   Chunfeng Yun <chunfeng.yun@mediatek.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Felipe Balbi <balbi@kernel.org>
@@ -62,9 +65,9 @@ CC:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         <linux-usb@vger.kernel.org>,
         <linux-arm-kernel@lists.infradead.org>,
         <linux-mediatek@lists.infradead.org>
-Subject: [PATCH v2 02/13] usb: chipidea: debug: create debugfs directory under usb root
-Date:   Tue, 12 Nov 2019 14:51:48 +0800
-Message-ID: <1573541519-28488-2-git-send-email-chunfeng.yun@mediatek.com>
+Subject: [PATCH v2 03/13] usb: host: imx21: create debugfs directory under usb root
+Date:   Tue, 12 Nov 2019 14:51:49 +0800
+Message-ID: <1573541519-28488-3-git-send-email-chunfeng.yun@mediatek.com>
 X-Mailer: git-send-email 1.8.1.1.dirty
 In-Reply-To: <1573541519-28488-1-git-send-email-chunfeng.yun@mediatek.com>
 References: <1573541519-28488-1-git-send-email-chunfeng.yun@mediatek.com>
@@ -81,15 +84,15 @@ TW92ZSBpdCdzIGRpcmVjdG9yeSBmcm9tIHRoZSByb290IG9mIHRoZSBkZWJ1Z2ZzIGZpbGVzeXN0
 ZW0gaW50bw0KdGhlIHJvb3Qgb2YgdXNiDQoNClNpZ25lZC1vZmYtYnk6IENodW5mZW5nIFl1biA8
 Y2h1bmZlbmcueXVuQG1lZGlhdGVrLmNvbT4NCi0tLQ0KdjI6DQogIDEuIGFiYW5kb24gbmV3IEFQ
 SSB1c2JfZGVidWdmc19jcmVhdGVfZGlyKCksIGFuZCB1c2UgdXNiX2RlYnVnX3Jvb3QNCi0tLQ0K
-IGRyaXZlcnMvdXNiL2NoaXBpZGVhL2RlYnVnLmMgfCAyICstDQogMSBmaWxlIGNoYW5nZWQsIDEg
-aW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pDQoNCmRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9j
-aGlwaWRlYS9kZWJ1Zy5jIGIvZHJpdmVycy91c2IvY2hpcGlkZWEvZGVidWcuYw0KaW5kZXggZmNj
-OTFhMzM4ODc1Li5lMDM3NmVlNjQ2YWQgMTAwNjQ0DQotLS0gYS9kcml2ZXJzL3VzYi9jaGlwaWRl
-YS9kZWJ1Zy5jDQorKysgYi9kcml2ZXJzL3VzYi9jaGlwaWRlYS9kZWJ1Zy5jDQpAQCAtMzQyLDcg
-KzM0Miw3IEBAIERFRklORV9TSE9XX0FUVFJJQlVURShjaV9yZWdpc3RlcnMpOw0KICAqLw0KIHZv
-aWQgZGJnX2NyZWF0ZV9maWxlcyhzdHJ1Y3QgY2lfaGRyYyAqY2kpDQogew0KLQljaS0+ZGVidWdm
-cyA9IGRlYnVnZnNfY3JlYXRlX2RpcihkZXZfbmFtZShjaS0+ZGV2KSwgTlVMTCk7DQorCWNpLT5k
-ZWJ1Z2ZzID0gZGVidWdmc19jcmVhdGVfZGlyKGRldl9uYW1lKGNpLT5kZXYpLCB1c2JfZGVidWdf
-cm9vdCk7DQogDQogCWRlYnVnZnNfY3JlYXRlX2ZpbGUoImRldmljZSIsIFNfSVJVR08sIGNpLT5k
-ZWJ1Z2ZzLCBjaSwNCiAJCQkgICAgJmNpX2RldmljZV9mb3BzKTsNCi0tIA0KMi4yMy4wDQo=
+IGRyaXZlcnMvdXNiL2hvc3QvaW14MjEtZGJnLmMgfCAyICstDQogMSBmaWxlIGNoYW5nZWQsIDEg
+aW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pDQoNCmRpZmYgLS1naXQgYS9kcml2ZXJzL3VzYi9o
+b3N0L2lteDIxLWRiZy5jIGIvZHJpdmVycy91c2IvaG9zdC9pbXgyMS1kYmcuYw0KaW5kZXggN2Zj
+ZjFkOWRkN2YzLi4wMmExMzQ0ZmJkNmEgMTAwNjQ0DQotLS0gYS9kcml2ZXJzL3VzYi9ob3N0L2lt
+eDIxLWRiZy5jDQorKysgYi9kcml2ZXJzL3VzYi9ob3N0L2lteDIxLWRiZy5jDQpAQCAtNDE5LDcg
+KzQxOSw3IEBAIHN0YXRpYyB2b2lkIGNyZWF0ZV9kZWJ1Z19maWxlcyhzdHJ1Y3QgaW14MjEgKmlt
+eDIxKQ0KIHsNCiAJc3RydWN0IGRlbnRyeSAqcm9vdDsNCiANCi0Jcm9vdCA9IGRlYnVnZnNfY3Jl
+YXRlX2RpcihkZXZfbmFtZShpbXgyMS0+ZGV2KSwgTlVMTCk7DQorCXJvb3QgPSBkZWJ1Z2ZzX2Ny
+ZWF0ZV9kaXIoZGV2X25hbWUoaW14MjEtPmRldiksIHVzYl9kZWJ1Z19yb290KTsNCiAJaW14MjEt
+PmRlYnVnX3Jvb3QgPSByb290Ow0KIA0KIAlkZWJ1Z2ZzX2NyZWF0ZV9maWxlKCJzdGF0dXMiLCBT
+X0lSVUdPLCByb290LCBpbXgyMSwgJmRlYnVnX3N0YXR1c19mb3BzKTsNCi0tIA0KMi4yMy4wDQo=
 
