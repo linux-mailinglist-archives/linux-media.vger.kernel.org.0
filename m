@@ -2,51 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A77C8F9319
-	for <lists+linux-media@lfdr.de>; Tue, 12 Nov 2019 15:51:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D90CAF934F
+	for <lists+linux-media@lfdr.de>; Tue, 12 Nov 2019 15:52:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727440AbfKLOvL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Nov 2019 09:51:11 -0500
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:52562 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727429AbfKLOvL (ORCPT
+        id S1727659AbfKLOwY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Nov 2019 09:52:24 -0500
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:43606 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727164AbfKLOu6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Nov 2019 09:51:11 -0500
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id xACEorbd097992;
-        Tue, 12 Nov 2019 08:50:53 -0600
+        Tue, 12 Nov 2019 09:50:58 -0500
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id xACEoskZ052192;
+        Tue, 12 Nov 2019 08:50:54 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1573570253;
-        bh=S3rvdYTSsVnyShvPa0DbdG4o71q2iB1tvJuQ4YR2MPY=;
+        s=ti-com-17Q1; t=1573570254;
+        bh=HGUos+luy2mHX2awq1qkiRaaCxsuIOrx5Abo8eh8ShI=;
         h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=SZEGJ75VPrD7mTLwgA10i+8p7r8kyZj5knvFJVzF28E4wOKomZ4OiVESxHMsP1pXB
-         yx7q6M5AmH2E3A6EpWkKIAenF0iqs9mZ/p1FaAvqon1Zc+3eSJ1dre9Z91B/fArh5X
-         Bock45paKMNjQwKWAX+iKtDrnaXboRXU0Lk/9Ed8=
-Received: from DLEE115.ent.ti.com (dlee115.ent.ti.com [157.170.170.26])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xACEorhe058802
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 12 Nov 2019 08:50:53 -0600
-Received: from DLEE105.ent.ti.com (157.170.170.35) by DLEE115.ent.ti.com
- (157.170.170.26) with Microsoft SMTP Server (version=TLS1_2,
+        b=rPFNKKKIi4j2ZsYC5jPLputGVXUTVxCF0Tqs5i9EDRNsBedyEYnHsGsUTjoFNaVGH
+         9xXhj3/vdVtHGeHFre9ToKqeTmEZVzlNM4k8UboAgO273Q89l9fmADQ+Uigr1RRM8e
+         /iNQssboxCsjd/i0jB3XMp7IO9bGA3vS55MnxCK8=
+Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id xACEosCr070395;
+        Tue, 12 Nov 2019 08:50:54 -0600
+Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Tue, 12
- Nov 2019 08:50:53 -0600
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
+ Nov 2019 08:50:54 -0600
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Tue, 12 Nov 2019 08:50:35 -0600
+ Frontend Transport; Tue, 12 Nov 2019 08:50:36 -0600
 Received: from uda0869644b.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id xACEokes068428;
-        Tue, 12 Nov 2019 08:50:53 -0600
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id xACEoket068428;
+        Tue, 12 Nov 2019 08:50:54 -0600
 From:   Benoit Parrot <bparrot@ti.com>
 To:     Hans Verkuil <hverkuil@xs4all.nl>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Rob Herring <robh+dt@kernel.org>
 CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, Benoit Parrot <bparrot@ti.com>,
-        Jyri Sarha <jsarha@ti.com>
-Subject: [RESEND Patch v3 08/20] media: ti-vpe: cal: add CSI2 PHY LDO errata support
-Date:   Tue, 12 Nov 2019 08:53:35 -0600
-Message-ID: <20191112145347.23519-9-bparrot@ti.com>
+        <linux-kernel@vger.kernel.org>, Benoit Parrot <bparrot@ti.com>
+Subject: [RESEND Patch v3 09/20] media: ti-vpe: cal: Fix ths_term/ths_settle parameters
+Date:   Tue, 12 Nov 2019 08:53:36 -0600
+Message-ID: <20191112145347.23519-10-bparrot@ti.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191112145347.23519-1-bparrot@ti.com>
 References: <20191112145347.23519-1-bparrot@ti.com>
@@ -58,151 +56,260 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Apply Errata i913 every time the functional clock is enabled.
-This should take care of suspend/resume case as well.
+The current method to calculate the ddr clk period is wrong.
+Therefore the ths_term calculation is incorrect.
+Also it was wrongly assumed that the ths_settle parameter
+was based on the control clock instead of the pixel clock.
+
+Since the DPHY can tolerate quite a bit a of variation,
+capture was still mostly working with the 2 tested modes
+when the pixel clock was close to the control clock
+(i.e. 96 Mhz). But it would quickly stops working when
+using different modes or when customers used different
+sensors altogether.
+
+Calculating the DDRClk period needs to take into account
+the pixel bit width and the number of active data lanes.
+
+Based on the latest technical reference manual these
+parameters should now be calculated as follows:
+
+THS_TERM: Programmed value = floor(20 ns/DDRClk period)
+THS_SETTLE: Programmed value = floor(105 ns/DDRClk period) + 4
+
+Also originally 'depth' was used to represent the number of
+bits a pixel would use once stored in memory (i.e. the
+container size). To accurately calculate the THS_* parameters
+we need to use the actual number of bits per pixels coming
+in from the sensor. So we are renaming 'depth' to 'bpp' (bits
+per pixels) and update the format table to show the actual
+number of bits per pixel being received.
+
+The "container" size will be derived from the "bpp" value.
 
 Signed-off-by: Benoit Parrot <bparrot@ti.com>
-Signed-off-by: Jyri Sarha <jsarha@ti.com>
 ---
- drivers/media/platform/ti-vpe/cal.c      | 57 +++++++++++++++++++++++-
- drivers/media/platform/ti-vpe/cal_regs.h | 27 +++++++++++
- 2 files changed, 82 insertions(+), 2 deletions(-)
+ drivers/media/platform/ti-vpe/cal.c | 98 +++++++++++++----------------
+ 1 file changed, 44 insertions(+), 54 deletions(-)
 
 diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-index eb3727ba185d..3b04aff6c778 100644
+index 3b04aff6c778..51edc7bc3135 100644
 --- a/drivers/media/platform/ti-vpe/cal.c
 +++ b/drivers/media/platform/ti-vpe/cal.c
-@@ -282,6 +282,12 @@ static const struct cal_data dra72x_cal_data = {
- 	.num_csi2_phy = ARRAY_SIZE(dra72x_cal_csi_phy),
+@@ -73,8 +73,6 @@ static const struct v4l2_fract
+ #define CAL_NUM_INPUT 1
+ #define CAL_NUM_CONTEXT 2
+ 
+-#define bytes_per_line(pixel, bpp) (ALIGN(pixel * bpp, 16))
+-
+ #define reg_read(dev, offset) ioread32(dev->base + offset)
+ #define reg_write(dev, offset, val) iowrite32(val, dev->base + offset)
+ 
+@@ -93,102 +91,103 @@ static const struct v4l2_fract
+ struct cal_fmt {
+ 	u32	fourcc;
+ 	u32	code;
+-	u8	depth;
++	/* Bits per pixel */
++	u8	bpp;
  };
  
-+static const struct cal_data dra72x_es1_cal_data = {
-+	.csi2_phy_core = dra72x_cal_csi_phy,
-+	.num_csi2_phy = ARRAY_SIZE(dra72x_cal_csi_phy),
-+	.flags = DRA72_CAL_PRE_ES2_LDO_DISABLE,
-+};
-+
- /*
-  * there is one cal_dev structure in the driver, it is shared by
-  * all instances.
-@@ -567,9 +573,52 @@ static void cal_get_hwinfo(struct cal_dev *dev)
- 		hwinfo);
- }
- 
--static inline int cal_runtime_get(struct cal_dev *dev)
-+/*
-+ *   Errata i913: CSI2 LDO Needs to be disabled when module is powered on
-+ *
-+ *   Enabling CSI2 LDO shorts it to core supply. It is crucial the 2 CSI2
-+ *   LDOs on the device are disabled if CSI-2 module is powered on
-+ *   (0x4845 B304 | 0x4845 B384 [28:27] = 0x1) or in ULPS (0x4845 B304
-+ *   | 0x4845 B384 [28:27] = 0x2) mode. Common concerns include: high
-+ *   current draw on the module supply in active mode.
-+ *
-+ *   Errata does not apply when CSI-2 module is powered off
-+ *   (0x4845 B304 | 0x4845 B384 [28:27] = 0x0).
-+ *
-+ * SW Workaround:
-+ *	Set the following register bits to disable the LDO,
-+ *	which is essentially CSI2 REG10 bit 6:
-+ *
-+ *		Core 0:  0x4845 B828 = 0x0000 0040
-+ *		Core 1:  0x4845 B928 = 0x0000 0040
-+ */
-+static void i913_errata(struct cal_dev *dev, unsigned int port)
- {
--	return pm_runtime_get_sync(&dev->pdev->dev);
-+	u32 reg10 = reg_read(dev->cc[port], CAL_CSI2_PHY_REG10);
-+
-+	set_field(&reg10, CAL_CSI2_PHY_REG0_HSCLOCKCONFIG_DISABLE,
-+		  CAL_CSI2_PHY_REG10_I933_LDO_DISABLE_MASK);
-+
-+	cal_dbg(1, dev, "CSI2_%d_REG10 = 0x%08x\n", port, reg10);
-+	reg_write(dev->cc[port], CAL_CSI2_PHY_REG10, reg10);
-+}
-+
-+static int cal_runtime_get(struct cal_dev *dev)
-+{
-+	int r;
-+
-+	r = pm_runtime_get_sync(&dev->pdev->dev);
-+
-+	if (dev->flags & DRA72_CAL_PRE_ES2_LDO_DISABLE) {
-+		/*
-+		 * Apply errata on both port eveytime we (re-)enable
-+		 * the clock
-+		 */
-+		i913_errata(dev, 0);
-+		i913_errata(dev, 1);
-+	}
-+
-+	return r;
- }
- 
- static inline void cal_runtime_put(struct cal_dev *dev)
-@@ -2064,6 +2113,10 @@ static const struct of_device_id cal_of_match[] = {
- 		.compatible = "ti,dra72-cal",
- 		.data = (void *)&dra72x_cal_data,
+ static struct cal_fmt cal_formats[] = {
+ 	{
+ 		.fourcc		= V4L2_PIX_FMT_YUYV,
+ 		.code		= MEDIA_BUS_FMT_YUYV8_2X8,
+-		.depth		= 16,
++		.bpp		= 16,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_UYVY,
+ 		.code		= MEDIA_BUS_FMT_UYVY8_2X8,
+-		.depth		= 16,
++		.bpp		= 16,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_YVYU,
+ 		.code		= MEDIA_BUS_FMT_YVYU8_2X8,
+-		.depth		= 16,
++		.bpp		= 16,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_VYUY,
+ 		.code		= MEDIA_BUS_FMT_VYUY8_2X8,
+-		.depth		= 16,
++		.bpp		= 16,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_RGB565, /* gggbbbbb rrrrrggg */
+ 		.code		= MEDIA_BUS_FMT_RGB565_2X8_LE,
+-		.depth		= 16,
++		.bpp		= 16,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_RGB565X, /* rrrrrggg gggbbbbb */
+ 		.code		= MEDIA_BUS_FMT_RGB565_2X8_BE,
+-		.depth		= 16,
++		.bpp		= 16,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_RGB555, /* gggbbbbb arrrrrgg */
+ 		.code		= MEDIA_BUS_FMT_RGB555_2X8_PADHI_LE,
+-		.depth		= 16,
++		.bpp		= 16,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_RGB555X, /* arrrrrgg gggbbbbb */
+ 		.code		= MEDIA_BUS_FMT_RGB555_2X8_PADHI_BE,
+-		.depth		= 16,
++		.bpp		= 16,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_RGB24, /* rgb */
+ 		.code		= MEDIA_BUS_FMT_RGB888_2X12_LE,
+-		.depth		= 24,
++		.bpp		= 24,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_BGR24, /* bgr */
+ 		.code		= MEDIA_BUS_FMT_RGB888_2X12_BE,
+-		.depth		= 24,
++		.bpp		= 24,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_RGB32, /* argb */
+ 		.code		= MEDIA_BUS_FMT_ARGB8888_1X32,
+-		.depth		= 32,
++		.bpp		= 32,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_SBGGR8,
+ 		.code		= MEDIA_BUS_FMT_SBGGR8_1X8,
+-		.depth		= 8,
++		.bpp		= 8,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_SGBRG8,
+ 		.code		= MEDIA_BUS_FMT_SGBRG8_1X8,
+-		.depth		= 8,
++		.bpp		= 8,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_SGRBG8,
+ 		.code		= MEDIA_BUS_FMT_SGRBG8_1X8,
+-		.depth		= 8,
++		.bpp		= 8,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_SRGGB8,
+ 		.code		= MEDIA_BUS_FMT_SRGGB8_1X8,
+-		.depth		= 8,
++		.bpp		= 8,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_SBGGR10,
+ 		.code		= MEDIA_BUS_FMT_SBGGR10_1X10,
+-		.depth		= 16,
++		.bpp		= 10,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_SGBRG10,
+ 		.code		= MEDIA_BUS_FMT_SGBRG10_1X10,
+-		.depth		= 16,
++		.bpp		= 10,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_SGRBG10,
+ 		.code		= MEDIA_BUS_FMT_SGRBG10_1X10,
+-		.depth		= 16,
++		.bpp		= 10,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_SRGGB10,
+ 		.code		= MEDIA_BUS_FMT_SRGGB10_1X10,
+-		.depth		= 16,
++		.bpp		= 10,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_SBGGR12,
+ 		.code		= MEDIA_BUS_FMT_SBGGR12_1X12,
+-		.depth		= 16,
++		.bpp		= 12,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_SGBRG12,
+ 		.code		= MEDIA_BUS_FMT_SGBRG12_1X12,
+-		.depth		= 16,
++		.bpp		= 12,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_SGRBG12,
+ 		.code		= MEDIA_BUS_FMT_SGRBG12_1X12,
+-		.depth		= 16,
++		.bpp		= 12,
+ 	}, {
+ 		.fourcc		= V4L2_PIX_FMT_SRGGB12,
+ 		.code		= MEDIA_BUS_FMT_SRGGB12_1X12,
+-		.depth		= 16,
++		.bpp		= 12,
  	},
-+	{
-+		.compatible = "ti,dra72-pre-es2-cal",
-+		.data = (void *)&dra72x_es1_cal_data,
-+	},
- 	{},
  };
- MODULE_DEVICE_TABLE(of, cal_of_match);
-diff --git a/drivers/media/platform/ti-vpe/cal_regs.h b/drivers/media/platform/ti-vpe/cal_regs.h
-index 9e6afd0770c8..a40e77f3e977 100644
---- a/drivers/media/platform/ti-vpe/cal_regs.h
-+++ b/drivers/media/platform/ti-vpe/cal_regs.h
-@@ -10,6 +10,30 @@
- #ifndef __TI_CAL_REGS_H
- #define __TI_CAL_REGS_H
  
-+/*
-+ * struct cal_dev.flags possibilities
-+ *
-+ * DRA72_CAL_PRE_ES2_LDO_DISABLE:
-+ *   Errata i913: CSI2 LDO Needs to be disabled when module is powered on
-+ *
-+ *   Enabling CSI2 LDO shorts it to core supply. It is crucial the 2 CSI2
-+ *   LDOs on the device are disabled if CSI-2 module is powered on
-+ *   (0x4845 B304 | 0x4845 B384 [28:27] = 0x1) or in ULPS (0x4845 B304
-+ *   | 0x4845 B384 [28:27] = 0x2) mode. Common concerns include: high
-+ *   current draw on the module supply in active mode.
-+ *
-+ *   Errata does not apply when CSI-2 module is powered off
-+ *   (0x4845 B304 | 0x4845 B384 [28:27] = 0x0).
-+ *
-+ * SW Workaround:
-+ *	Set the following register bits to disable the LDO,
-+ *	which is essentially CSI2 REG10 bit 6:
-+ *
-+ *		Core 0:  0x4845 B828 = 0x0000 0040
-+ *		Core 1:  0x4845 B928 = 0x0000 0040
-+ */
-+#define DRA72_CAL_PRE_ES2_LDO_DISABLE BIT(0)
+@@ -870,41 +869,28 @@ static void cal_wr_dma_addr(struct cal_ctx *ctx, unsigned int dmaaddr)
+ #define TCLK_TERM	0
+ #define TCLK_MISS	1
+ #define TCLK_SETTLE	14
+-#define THS_SETTLE	15
+ 
+ static void csi2_phy_config(struct cal_ctx *ctx)
+ {
+ 	unsigned int reg0, reg1;
+ 	unsigned int ths_term, ths_settle;
+-	unsigned int ddrclkperiod_us;
++	unsigned int csi2_ddrclk_khz;
++	struct v4l2_fwnode_bus_mipi_csi2 *mipi_csi2 =
++			&ctx->endpoint.bus.mipi_csi2;
++	u32 num_lanes = mipi_csi2->num_data_lanes;
+ 
+-	/*
+-	 * THS_TERM: Programmed value = floor(20 ns/DDRClk period) - 2.
+-	 */
+-	ddrclkperiod_us = ctx->external_rate / 2000000;
+-	ddrclkperiod_us = 1000000 / ddrclkperiod_us;
+-	ctx_dbg(1, ctx, "ddrclkperiod_us: %d\n", ddrclkperiod_us);
++	/* DPHY timing configuration */
++	/* CSI-2 is DDR and we only count used lanes. */
++	csi2_ddrclk_khz = ctx->external_rate / 1000
++		/ (2 * num_lanes) * ctx->fmt->bpp;
++	ctx_dbg(1, ctx, "csi2_ddrclk_khz: %d\n", csi2_ddrclk_khz);
+ 
+-	ths_term = 20000 / ddrclkperiod_us;
+-	ths_term = (ths_term >= 2) ? ths_term - 2 : ths_term;
++	/* THS_TERM: Programmed value = floor(20 ns/DDRClk period) */
++	ths_term = 20 * csi2_ddrclk_khz / 1000000;
+ 	ctx_dbg(1, ctx, "ths_term: %d (0x%02x)\n", ths_term, ths_term);
+ 
+-	/*
+-	 * THS_SETTLE: Programmed value = floor(176.3 ns/CtrlClk period) - 1.
+-	 *	Since CtrlClk is fixed at 96Mhz then we get
+-	 *	ths_settle = floor(176.3 / 10.416) - 1 = 15
+-	 * If we ever switch to a dynamic clock then this code might be useful
+-	 *
+-	 * unsigned int ctrlclkperiod_us;
+-	 * ctrlclkperiod_us = 96000000 / 1000000;
+-	 * ctrlclkperiod_us = 1000000 / ctrlclkperiod_us;
+-	 * ctx_dbg(1, ctx, "ctrlclkperiod_us: %d\n", ctrlclkperiod_us);
+-
+-	 * ths_settle = 176300  / ctrlclkperiod_us;
+-	 * ths_settle = (ths_settle > 1) ? ths_settle - 1 : ths_settle;
+-	 */
+-
+-	ths_settle = THS_SETTLE;
++	/* THS_SETTLE: Programmed value = floor(105 ns/DDRClk period) + 4 */
++	ths_settle = (105 * csi2_ddrclk_khz / 1000000) + 4;
+ 	ctx_dbg(1, ctx, "ths_settle: %d (0x%02x)\n", ths_settle, ths_settle);
+ 
+ 	reg0 = reg_read(ctx->cc, CAL_CSI2_PHY_REG0);
+@@ -1116,6 +1102,8 @@ static int cal_calc_format_size(struct cal_ctx *ctx,
+ 				const struct cal_fmt *fmt,
+ 				struct v4l2_format *f)
+ {
++	u32 bpl;
 +
- #define CAL_NUM_CSI2_PORTS		2
+ 	if (!fmt) {
+ 		ctx_dbg(3, ctx, "No cal_fmt provided!\n");
+ 		return -EINVAL;
+@@ -1123,8 +1111,10 @@ static int cal_calc_format_size(struct cal_ctx *ctx,
  
- /* CAL register offsets */
-@@ -71,6 +95,7 @@
- #define CAL_CSI2_PHY_REG0		0x000
- #define CAL_CSI2_PHY_REG1		0x004
- #define CAL_CSI2_PHY_REG2		0x008
-+#define CAL_CSI2_PHY_REG10		0x028
- 
- /* CAL Control Module Core Camerrx Control register offsets */
- #define CM_CTRL_CORE_CAMERRX_CONTROL	0x000
-@@ -458,6 +483,8 @@
- #define CAL_CSI2_PHY_REG1_CLOCK_MISS_DETECTOR_STATUS_SUCCESS		0
- #define CAL_CSI2_PHY_REG1_RESET_DONE_STATUS_MASK		GENMASK(29, 28)
- 
-+#define CAL_CSI2_PHY_REG10_I933_LDO_DISABLE_MASK		BIT(6)
+ 	v4l_bound_align_image(&f->fmt.pix.width, 48, MAX_WIDTH, 2,
+ 			      &f->fmt.pix.height, 32, MAX_HEIGHT, 0, 0);
+-	f->fmt.pix.bytesperline = bytes_per_line(f->fmt.pix.width,
+-						 fmt->depth >> 3);
 +
- #define CAL_CSI2_PHY_REG2_CCP2_SYNC_PATTERN_MASK		GENMASK(23, 0)
- #define CAL_CSI2_PHY_REG2_TRIGGER_CMD_RXTRIGESC3_MASK		GENMASK(25, 24)
- #define CAL_CSI2_PHY_REG2_TRIGGER_CMD_RXTRIGESC2_MASK		GENMASK(27, 26)
++	bpl = (f->fmt.pix.width * ALIGN(fmt->bpp, 8)) >> 3;
++	f->fmt.pix.bytesperline = ALIGN(bpl, 16);
++
+ 	f->fmt.pix.sizeimage = f->fmt.pix.height *
+ 			       f->fmt.pix.bytesperline;
+ 
 -- 
 2.17.1
 
