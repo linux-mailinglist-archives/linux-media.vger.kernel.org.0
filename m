@@ -2,38 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A07A8FA0CF
-	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2019 02:52:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E4286FA0E4
+	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2019 02:53:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728352AbfKMBwj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Nov 2019 20:52:39 -0500
-Received: from mail.kernel.org ([198.145.29.99]:41640 "EHLO mail.kernel.org"
+        id S1728587AbfKMBx3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Nov 2019 20:53:29 -0500
+Received: from mail.kernel.org ([198.145.29.99]:43178 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728280AbfKMBwi (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Nov 2019 20:52:38 -0500
+        id S1728578AbfKMBx3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 12 Nov 2019 20:53:29 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 69722222D4;
-        Wed, 13 Nov 2019 01:52:36 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id D252B22459;
+        Wed, 13 Nov 2019 01:53:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573609957;
-        bh=mh1zORXvu0FZrYjtkaqRU48F03LGzPErdFzjrRjApG0=;
+        s=default; t=1573610008;
+        bh=N/hyzp1OWfb2l1l5eiOD5E610sSGkUzaZnDfc14bxfk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=c7iJgZ/4vypRf42RgIvfCpyuCNtFdpQzelichoQpQ0bvOcgaKo23bk5ZIQores5M/
-         b4VcPmXrIxR0iKi+sfHbOQ2sw85mhuBbLN3g4C1AeFiYj5vSgMQyI8ZCfZHSvT5XvK
-         Qf5/PSCpIjX78dVMLjgu/9pEyB8qOphRDLLd6GCk=
+        b=RzypswrEudbrDwGUjGJNpVJAOAA+19EAjxGSbndPUYnOeO6T8QweGN8/cBIRQWeh7
+         GWcsWuPZba28NEmF2X4wB52nzCvfTsXQQN94Btanni/LJX3dww0RnT+8NY5hk9bK+o
+         MyHN+c07sFcmwVC76imrWx0FoJC6gXHMWBr1pYYI=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
+Cc:     Hugues Fruchet <hugues.fruchet@st.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
-        clang-built-linux@googlegroups.com
-Subject: [PATCH AUTOSEL 4.19 090/209] media: pxa_camera: Fix check for pdev->dev.of_node
-Date:   Tue, 12 Nov 2019 20:48:26 -0500
-Message-Id: <20191113015025.9685-90-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 113/209] media: ov5640: fix framerate update
+Date:   Tue, 12 Nov 2019 20:48:49 -0500
+Message-Id: <20191113015025.9685-113-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191113015025.9685-1-sashal@kernel.org>
 References: <20191113015025.9685-1-sashal@kernel.org>
@@ -46,46 +44,47 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Nathan Chancellor <natechancellor@gmail.com>
+From: Hugues Fruchet <hugues.fruchet@st.com>
 
-[ Upstream commit 44d7f1a77d8c84f8e42789b5475b74ae0e6d4758 ]
+[ Upstream commit 0929983e49c81c1d413702cd9b83bb06c4a2555c ]
 
-Clang warns that the address of a pointer will always evaluated as true
-in a boolean context.
+Changing framerate right before streamon had no effect,
+the new framerate value was taken into account only at
+next streamon, fix this.
 
-drivers/media/platform/pxa_camera.c:2400:17: warning: address of
-'pdev->dev.of_node' will always evaluate to 'true'
-[-Wpointer-bool-conversion]
-        if (&pdev->dev.of_node && !pcdev->pdata) {
-             ~~~~~~~~~~^~~~~~~ ~~
-1 warning generated.
-
-Judging from the rest of the kernel, it seems like this was an error and
-just the value of of_node should be checked rather than the address.
-
-Reported-by: Nick Desaulniers <ndesaulniers@google.com>
-Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
-Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
+Signed-off-by: Hugues Fruchet <hugues.fruchet@st.com>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/pxa_camera.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/i2c/ov5640.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/pxa_camera.c b/drivers/media/platform/pxa_camera.c
-index b6e9e93bde7a8..406ac673ad84c 100644
---- a/drivers/media/platform/pxa_camera.c
-+++ b/drivers/media/platform/pxa_camera.c
-@@ -2397,7 +2397,7 @@ static int pxa_camera_probe(struct platform_device *pdev)
- 	pcdev->res = res;
+diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+index a3bbef682fb8e..2023df14f8282 100644
+--- a/drivers/media/i2c/ov5640.c
++++ b/drivers/media/i2c/ov5640.c
+@@ -2572,8 +2572,6 @@ static int ov5640_s_frame_interval(struct v4l2_subdev *sd,
+ 	if (frame_rate < 0)
+ 		frame_rate = OV5640_15_FPS;
  
- 	pcdev->pdata = pdev->dev.platform_data;
--	if (&pdev->dev.of_node && !pcdev->pdata) {
-+	if (pdev->dev.of_node && !pcdev->pdata) {
- 		err = pxa_camera_pdata_from_dt(&pdev->dev, pcdev, &pcdev->asd);
- 	} else {
- 		pcdev->platform_flags = pcdev->pdata->flags;
+-	sensor->current_fr = frame_rate;
+-	sensor->frame_interval = fi->interval;
+ 	mode = ov5640_find_mode(sensor, frame_rate, mode->hact,
+ 				mode->vact, true);
+ 	if (!mode) {
+@@ -2581,7 +2579,10 @@ static int ov5640_s_frame_interval(struct v4l2_subdev *sd,
+ 		goto out;
+ 	}
+ 
+-	if (mode != sensor->current_mode) {
++	if (mode != sensor->current_mode ||
++	    frame_rate != sensor->current_fr) {
++		sensor->current_fr = frame_rate;
++		sensor->frame_interval = fi->interval;
+ 		sensor->current_mode = mode;
+ 		sensor->pending_mode_change = true;
+ 	}
 -- 
 2.20.1
 
