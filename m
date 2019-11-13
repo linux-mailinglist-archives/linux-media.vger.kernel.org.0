@@ -2,168 +2,291 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 44966FBAA4
-	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2019 22:25:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ACFE9FBB35
+	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2019 23:00:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726452AbfKMVZs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Nov 2019 16:25:48 -0500
-Received: from mail-qk1-f193.google.com ([209.85.222.193]:39631 "EHLO
-        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726291AbfKMVZs (ORCPT
+        id S1727093AbfKMWAT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Nov 2019 17:00:19 -0500
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:43621 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727078AbfKMWAT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Nov 2019 16:25:48 -0500
-Received: by mail-qk1-f193.google.com with SMTP id 15so3137292qkh.6
-        for <linux-media@vger.kernel.org>; Wed, 13 Nov 2019 13:25:47 -0800 (PST)
+        Wed, 13 Nov 2019 17:00:19 -0500
+Received: by mail-oi1-f195.google.com with SMTP id l20so3275459oie.10
+        for <linux-media@vger.kernel.org>; Wed, 13 Nov 2019 14:00:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version;
-        bh=9A0k8x6LCiOQbpKbVFiIou6Hz8BO5b64kpQ7e3eJ0fs=;
-        b=R/opMvgU4mfAao+oVan5V9VTf7Ea8gnJXr6ginPi65ZDuFbttI5Fco04y5tMO2p5zA
-         7Wan1hhpZYkAzmB1YLlQTB0yAuInBqNXMa8JksAH6XCw0TlqGApGQFlAyeLASb8PIbge
-         aHr6zxUSEV4w2eCxdIupbvW41QAWwkMj9R1VB73JPX8gH4S9a14T4xRYooZa8U4+Oz9X
-         AGuBDksyEAqAJ6pNm+vxnqVdY6HGKzCEXWhiGJIZYqgFcPe8XWo+riaiyH7hzRcNb86g
-         WPB0atIB6jpj2MI572KtMYGvUmhm/aRoYMsv0NaDH3UMVSg5DaE+wkA3JPvRPjyynLC/
-         eJ6Q==
+        d=intel-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=324rHVZhrTFcjdK8aV5SZ9IVxxPo74njd/OitSvPfwI=;
+        b=JM5duNQKWOnxFmjkav9HZXH/NjP8V3EFjvRScM8H1ENfRZFMJcqKXGsOH5QH1/XkbY
+         vCD0sAE5s56t2TslzFPlVDg58PWwtwFXGXAxBMG0tsTexLa7QMLwyOZ0Gso6auFVso3Q
+         /H11R89hS1mPF9jLodhzUGt5k/XEVyO/tLKGjex6PPX1In+qTXV0N/dfIMdhxv6uG2sh
+         BZYlUR9Q3NRtsqyHW81yXHskK+nAMUQ+QwspdWneea1zKsQSEwoQhoG8lU1c4/okZPhW
+         9NJ0U93AQ6wir2C/KYTbbzItcaYUlbUWKJBV/qu+CRPugyKbqUjxjl/m3RkevX8fGpp7
+         vvSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version;
-        bh=9A0k8x6LCiOQbpKbVFiIou6Hz8BO5b64kpQ7e3eJ0fs=;
-        b=jz4BPZlD5YTDD4ZK+M1NxPMXLCBKqPJBb1Fm1A5SNqK9XQn6rIl1xCoO1ImKbHkm4n
-         pJYBNEFiZxhrc40ByFs9jw9ptOoId1IM/L9+MHNxGYtH+/tcie0L2CiIQNr5LEv6yhhd
-         1HIhlrrk/fJfDX/z+ZoWwIDiUzbIxvcRcRvQ+VPpHu2m+ELTXNL2kSZ1WafWNCp1yafV
-         OwEmO/cOuhleAqy1iSwkqbuLF7yRxgks/A9R+mDGGUepDMvaJowm2CUCQN2UVkhszMAP
-         mvLj+wW/PxawDjtZb8cB8VmGmlTke0DIbJMjVDAFi0diYZlvxz6WdQrNoAeExYVLHETn
-         N50w==
-X-Gm-Message-State: APjAAAU8L/HB+5t3ftwuZNdbIzom1exuYnu8HegpJgdapp5r4LZ+1A91
-        BJ2QcDZQb3dPwXrSc3azwVIFWw==
-X-Google-Smtp-Source: APXvYqzXoeo0u5+lj7mtG1wgC93i+esUAhYMYnMRj16arb9V/yuSslZ0rpCAEplAo4g9QKqHxlYvJw==
-X-Received: by 2002:a05:620a:a9a:: with SMTP id v26mr4449695qkg.71.1573680347227;
-        Wed, 13 Nov 2019 13:25:47 -0800 (PST)
-Received: from tpx230-nicolas ([2610:98:8005::780])
-        by smtp.gmail.com with ESMTPSA id 189sm1538181qki.10.2019.11.13.13.25.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Nov 2019 13:25:46 -0800 (PST)
-Message-ID: <5cb26c107bac785a31f4d9c9bb500aaf776e6291.camel@ndufresne.ca>
-Subject: Re: [PATCH 0/5] v4l2 JPEG helpers and CODA960 JPEG decoder
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-media@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
-        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Rick Chang <rick.chang@mediatek.com>,
-        Bin Liu <bin.liu@mediatek.com>,
-        Mirela Rabulea <mirela.rabulea@nxp.com>, kernel@pengutronix.de
-Date:   Wed, 13 Nov 2019 16:25:44 -0500
-In-Reply-To: <35d04054-0ad4-4f4b-961a-2795e6f5cfa1@gmail.com>
-References: <20191113150538.9807-1-p.zabel@pengutronix.de>
-         <e65ca03c095c99dc8482e9c36dcd099b6c69fc38.camel@collabora.com>
-         <35d04054-0ad4-4f4b-961a-2795e6f5cfa1@gmail.com>
-Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature";
-        boundary="=-UaR905rw3u/rrdB1/4Mq"
-User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=324rHVZhrTFcjdK8aV5SZ9IVxxPo74njd/OitSvPfwI=;
+        b=V85i9nV1VWp38xUyk4CJo55hr4bqk1Fpn11IgsGMuiarfJbQ/VMHdW1SKpIKQYxm57
+         pL16XV1sCrsg+YJvcHyGDSCH8X3F4La6mSg7Dtav3KXLWaC9pXsSRbSrj5LYKLI73QFb
+         CXp9Vf79codlLGPDCjPYEu8VM6pzurO5Eiu0vRQblXA3XoazqVyEhZ/X/UDwGwW15HxL
+         HZG923uNXkGXSsGFCG3Cg4P6gQwDPRLKS7QANUWPTnCV355vnmX7FwlXHM1cIgeDvRQd
+         DNkYsQ1g9JJI/whahJHF/jMfhqiF6adbl0LvDQdi70fWrs0nmYll4uPDzDOs32ebzQI9
+         rBfQ==
+X-Gm-Message-State: APjAAAUn17XHepKVw+wz7AS0Lb34FOBr3ZHeENaMre3FV7KvDFOKvhpX
+        0muu+oXsNf9npkpfnlXfRrqQBTuKGUp7uZO7p0nlKA==
+X-Google-Smtp-Source: APXvYqwVpp6U8sqm3YkFplAWvkGjJy2mawgDrQR8Ysx5PquK9pjlYrXYZlj6N+IM0+gIhTrJsrUtjBK/sbd+UEVubTA=
+X-Received: by 2002:aca:3d84:: with SMTP id k126mr726052oia.70.1573682418131;
+ Wed, 13 Nov 2019 14:00:18 -0800 (PST)
 MIME-Version: 1.0
+References: <20191113042710.3997854-1-jhubbard@nvidia.com> <20191113042710.3997854-5-jhubbard@nvidia.com>
+ <CAPcyv4gGu=G-c1czSAYJ3joTYS_ZYOJ6i9umKzCQEFzpwZMiiA@mail.gmail.com>
+In-Reply-To: <CAPcyv4gGu=G-c1czSAYJ3joTYS_ZYOJ6i9umKzCQEFzpwZMiiA@mail.gmail.com>
+From:   Dan Williams <dan.j.williams@intel.com>
+Date:   Wed, 13 Nov 2019 14:00:06 -0800
+Message-ID: <CAPcyv4hr64b-k4j7ZY796+k-+Dy11REMcvPJ+QjTsyJ3vSdfKg@mail.gmail.com>
+Subject: Re: [PATCH v4 04/23] mm: devmap: refactor 1-based refcounting for
+ ZONE_DEVICE pages
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
+        Maling list - DRI developers 
+        <dri-devel@lists.freedesktop.org>, KVM list <kvm@vger.kernel.org>,
+        linux-block@vger.kernel.org,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux-kselftest@vger.kernel.org,
+        "Linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        Netdev <netdev@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Wed, Nov 13, 2019 at 11:23 AM Dan Williams <dan.j.williams@intel.com> wr=
+ote:
+>
+> On Tue, Nov 12, 2019 at 8:27 PM John Hubbard <jhubbard@nvidia.com> wrote:
+> >
+> > An upcoming patch changes and complicates the refcounting and
+> > especially the "put page" aspects of it. In order to keep
+> > everything clean, refactor the devmap page release routines:
+> >
+> > * Rename put_devmap_managed_page() to page_is_devmap_managed(),
+> >   and limit the functionality to "read only": return a bool,
+> >   with no side effects.
+> >
+> > * Add a new routine, put_devmap_managed_page(), to handle checking
+> >   what kind of page it is, and what kind of refcount handling it
+> >   requires.
+> >
+> > * Rename __put_devmap_managed_page() to free_devmap_managed_page(),
+> >   and limit the functionality to unconditionally freeing a devmap
+> >   page.
+> >
+> > This is originally based on a separate patch by Ira Weiny, which
+> > applied to an early version of the put_user_page() experiments.
+> > Since then, J=C3=A9r=C3=B4me Glisse suggested the refactoring described=
+ above.
+> >
+> > Suggested-by: J=C3=A9r=C3=B4me Glisse <jglisse@redhat.com>
+> > Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+> > Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+> > ---
+> >  include/linux/mm.h | 27 ++++++++++++++++---
+> >  mm/memremap.c      | 67 ++++++++++++++++++++--------------------------
+> >  2 files changed, 53 insertions(+), 41 deletions(-)
+> >
+> > diff --git a/include/linux/mm.h b/include/linux/mm.h
+> > index a2adf95b3f9c..96228376139c 100644
+> > --- a/include/linux/mm.h
+> > +++ b/include/linux/mm.h
+> > @@ -967,9 +967,10 @@ static inline bool is_zone_device_page(const struc=
+t page *page)
+> >  #endif
+> >
+> >  #ifdef CONFIG_DEV_PAGEMAP_OPS
+> > -void __put_devmap_managed_page(struct page *page);
+> > +void free_devmap_managed_page(struct page *page);
+> >  DECLARE_STATIC_KEY_FALSE(devmap_managed_key);
+> > -static inline bool put_devmap_managed_page(struct page *page)
+> > +
+> > +static inline bool page_is_devmap_managed(struct page *page)
+> >  {
+> >         if (!static_branch_unlikely(&devmap_managed_key))
+> >                 return false;
+> > @@ -978,7 +979,6 @@ static inline bool put_devmap_managed_page(struct p=
+age *page)
+> >         switch (page->pgmap->type) {
+> >         case MEMORY_DEVICE_PRIVATE:
+> >         case MEMORY_DEVICE_FS_DAX:
+> > -               __put_devmap_managed_page(page);
+> >                 return true;
+> >         default:
+> >                 break;
+> > @@ -986,6 +986,27 @@ static inline bool put_devmap_managed_page(struct =
+page *page)
+> >         return false;
+> >  }
+> >
+> > +static inline bool put_devmap_managed_page(struct page *page)
+> > +{
+> > +       bool is_devmap =3D page_is_devmap_managed(page);
+> > +
+> > +       if (is_devmap) {
+> > +               int count =3D page_ref_dec_return(page);
+> > +
+> > +               /*
+> > +                * devmap page refcounts are 1-based, rather than 0-bas=
+ed: if
+> > +                * refcount is 1, then the page is free and the refcoun=
+t is
+> > +                * stable because nobody holds a reference on the page.
+> > +                */
+> > +               if (count =3D=3D 1)
+> > +                       free_devmap_managed_page(page);
+> > +               else if (!count)
+> > +                       __put_page(page);
+> > +       }
+> > +
+> > +       return is_devmap;
+> > +}
+> > +
+> >  #else /* CONFIG_DEV_PAGEMAP_OPS */
+> >  static inline bool put_devmap_managed_page(struct page *page)
+> >  {
+> > diff --git a/mm/memremap.c b/mm/memremap.c
+> > index 03ccbdfeb697..bc7e2a27d025 100644
+> > --- a/mm/memremap.c
+> > +++ b/mm/memremap.c
+> > @@ -410,48 +410,39 @@ struct dev_pagemap *get_dev_pagemap(unsigned long=
+ pfn,
+> >  EXPORT_SYMBOL_GPL(get_dev_pagemap);
+> >
+> >  #ifdef CONFIG_DEV_PAGEMAP_OPS
+> > -void __put_devmap_managed_page(struct page *page)
+> > +void free_devmap_managed_page(struct page *page)
+> >  {
+> > -       int count =3D page_ref_dec_return(page);
+> > +       /* Clear Active bit in case of parallel mark_page_accessed */
+> > +       __ClearPageActive(page);
+> > +       __ClearPageWaiters(page);
+> > +
+> > +       mem_cgroup_uncharge(page);
+>
+> Ugh, when did all this HMM specific manipulation sneak into the
+> generic ZONE_DEVICE path? It used to be gated by pgmap type with its
+> own put_zone_device_private_page(). For example it's certainly
+> unnecessary and might be broken (would need to check) to call
+> mem_cgroup_uncharge() on a DAX page. ZONE_DEVICE users are not a
+> monolith and the HMM use case leaks pages into code paths that DAX
+> explicitly avoids.
 
---=-UaR905rw3u/rrdB1/4Mq
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+It's been this way for a while and I did not react previously,
+apologies for that. I think __ClearPageActive, __ClearPageWaiters, and
+mem_cgroup_uncharge, belong behind a device-private conditional. The
+history here is:
 
-Le mercredi 13 novembre 2019 =C3=A0 21:36 +0100, Jacek Anaszewski a =C3=A9c=
-rit :
-> Hi Philipp, Ezequiel,
->=20
-> On 11/13/19 8:42 PM, Ezequiel Garcia wrote:
-> > Hi Philipp,
-> >=20
-> > Thanks a lot for working on this. I'm so glad about
-> > both efforts: the CODA JPEG support and the JPEG
-> > helpers.
-> >=20
-> > On Wed, 2019-11-13 at 16:05 +0100, Philipp Zabel wrote:
-> > > Hi,
-> > >=20
-> > > as far as I can tell we currently have three JPEG header parsers in t=
-he
-> > > media tree (in the rcar_jpu, s5p-jpeg, and mtk-jpeg drivers). I would
-> > > like to add support for the CODA960 JPEG decoder to the coda-vpu driv=
-er
-> > > without adding yet another.
-> > >=20
-> > > To this end, this patch series adds some common JPEG code to v4l2-cor=
-e.
-> > > For now this just contains header parsing helpers (I have tried to ke=
-ep
-> > > the terminology close to JPEG ITU-T.81) that should be usable for all=
- of
-> > > the current drivers. In the future we might want to move JPEG header
-> > > generation for encoders and common quantization tables in there as we=
-ll.
-> > >=20
-> >=20
-> > Indeed, moving encoders to use these helpers sounds like the right thin=
-g
-> > to do. IIRC, quantization tables are implementation defined, and not im=
-posed
-> > by anything. I believe gspca drivers use some tables that don't follow
-> > any recomendation.
-> >=20
-> > I guess it's fine to leave some drivers unconverted, without using any =
-helpers,
-> > and move others to use a helper-derived quantization table. =20
->=20
-> I fully agree here. I don't have longer access to Exynos4x12 and 3250
-> based boards to test the patches and the volume of changes allows
-> to assume that not everything will go smoothly. That can lead to
-> unpleasant hangups during decoding, caused by not arrived IRQ when
-> e.g. unsupported JPEG->raw format subsampling transition is requested.
+Move some, but not all HMM specifics to hmm_devmem_free():
+    2fa147bdbf67 mm, dev_pagemap: Do not clear ->mapping on final put
 
-My experience with the exynos jpeg decoder was that they are not very
-well tested. So better leave them like this until someone have the time
-to stabilise them and renew the code a bit.
+Remove the clearing of mapping since no upstream consumers needed it:
+    b7a523109fb5 mm: don't clear ->mapping in hmm_devmem_free
 
-regards,
-Nicolas
+Add it back in once an upstream consumer arrived:
+    7ab0ad0e74f8 mm/hmm: fix ZONE_DEVICE anon page mapping reuse
 
->=20
-> > > I have tested this on hardware only with coda-vpu, the other drivers =
-are
-> > > just compile-tested.
-> > >=20
-> > > Feedback very welcome, especially whether this actually works for the
-> > > other drivers, and if this could be structured any better. I'm a bit
-> > > unhappy with the (current) need for separate frame/scan header and
-> > > quantization/hfufman table parsing functions, but those are required
-> > > by s5p-jpeg, which splits localization and parsing of the marker
-> > > segments. Also, could this be used for i.MX8 JPEGDEC as is?
-> > >=20
-> > [..]
-> >=20
-> > Regards,
-> > Ezequiel
-> >=20
-> >=20
+We're now almost entirely free of ->page_free callbacks except for
+that weird nouveau case, can that FIXME in nouveau_dmem_page_free()
+also result in killing the ->page_free() callback altogether? In the
+meantime I'm proposing a cleanup like this:
 
---=-UaR905rw3u/rrdB1/4Mq
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
+diff --git a/drivers/nvdimm/pmem.c b/drivers/nvdimm/pmem.c
+index ad8e4df1282b..4eae441f86c9 100644
+--- a/drivers/nvdimm/pmem.c
++++ b/drivers/nvdimm/pmem.c
+@@ -337,13 +337,7 @@ static void pmem_release_disk(void *__pmem)
+        put_disk(pmem->disk);
+ }
 
------BEGIN PGP SIGNATURE-----
+-static void pmem_pagemap_page_free(struct page *page)
+-{
+-       wake_up_var(&page->_refcount);
+-}
+-
+ static const struct dev_pagemap_ops fsdax_pagemap_ops =3D {
+-       .page_free              =3D pmem_pagemap_page_free,
+        .kill                   =3D pmem_pagemap_kill,
+        .cleanup                =3D pmem_pagemap_cleanup,
+ };
+diff --git a/mm/memremap.c b/mm/memremap.c
+index 03ccbdfeb697..157edb8f7cf8 100644
+--- a/mm/memremap.c
++++ b/mm/memremap.c
+@@ -419,12 +419,6 @@ void __put_devmap_managed_page(struct page *page)
+         * holds a reference on the page.
+         */
+        if (count =3D=3D 1) {
+-               /* Clear Active bit in case of parallel mark_page_accessed =
+*/
+-               __ClearPageActive(page);
+-               __ClearPageWaiters(page);
+-
+-               mem_cgroup_uncharge(page);
+-
+                /*
+                 * When a device_private page is freed, the page->mapping f=
+ield
+                 * may still contain a (stale) mapping value. For example, =
+the
+@@ -446,10 +440,17 @@ void __put_devmap_managed_page(struct page *page)
+                 * handled differently or not done at all, so there is no n=
+eed
+                 * to clear page->mapping.
+                 */
+-               if (is_device_private_page(page))
+-                       page->mapping =3D NULL;
++               if (is_device_private_page(page)) {
++                       /* Clear Active bit in case of parallel
+mark_page_accessed */
++                       __ClearPageActive(page);
++                       __ClearPageWaiters(page);
 
-iF0EABECAB0WIQSScpfJiL+hb5vvd45xUwItrAaoHAUCXcx02AAKCRBxUwItrAao
-HMx8AJ9U/jCMlsbBw556Pu/RnXEEkY/vegCcCJBt3fvdU6IUkW4VUp5yQ4UUQ4E=
-=tQFM
------END PGP SIGNATURE-----
-
---=-UaR905rw3u/rrdB1/4Mq--
-
+-               page->pgmap->ops->page_free(page);
++                       mem_cgroup_uncharge(page);
++
++                       page->mapping =3D NULL;
++                       page->pgmap->ops->page_free(page);
++               } else
++                       wake_up_var(&page->_refcount);
+        } else if (!count)
+                __put_page(page);
+ }
