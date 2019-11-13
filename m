@@ -2,100 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C319BFB366
-	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2019 16:13:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A371FB6B6
+	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2019 18:57:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728152AbfKMPNr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Nov 2019 10:13:47 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:38483 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727452AbfKMPNq (ORCPT
+        id S1728199AbfKMR5S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Nov 2019 12:57:18 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:37956 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726105AbfKMR5S (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Nov 2019 10:13:46 -0500
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1iUuKv-0007F5-My; Wed, 13 Nov 2019 16:13:37 +0100
-Message-ID: <152f7b2bef85cec9ef107b58ba0bac153fde1379.camel@pengutronix.de>
-Subject: Re: [EXT] Re: [PATCH 4/5] media: imx-jpeg: Add V4L2 driver for
- i.MX8 JPEG Encoder/Decoder
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Mirela Rabulea <mirela.rabulea@nxp.com>,
-        "ezequiel@collabora.com" <ezequiel@collabora.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "shawnguo@kernel.org" <shawnguo@kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>
-Cc:     dl-linux-imx <linux-imx@nxp.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "laurent.pinchart+renesas@ideasonboard.com" 
-        <laurent.pinchart+renesas@ideasonboard.com>,
-        Aisheng Dong <aisheng.dong@nxp.com>,
-        Laurentiu Palcu <laurentiu.palcu@nxp.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "paul.kocialkowski@bootlin.com" <paul.kocialkowski@bootlin.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        Robert Chiras <robert.chiras@nxp.com>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "niklas.soderlund+renesas@ragnatech.se" 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
-        Daniel Baluta <daniel.baluta@nxp.com>,
-        Leonard Crestez <leonard.crestez@nxp.com>,
-        "dafna.hirschfeld@collabora.com" <dafna.hirschfeld@collabora.com>,
-        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>
-Date:   Wed, 13 Nov 2019 16:13:36 +0100
-In-Reply-To: <1573657156.16477.47.camel@nxp.com>
-References: <1573053633-21437-1-git-send-email-mirela.rabulea@nxp.com>
-         <1573053633-21437-5-git-send-email-mirela.rabulea@nxp.com>
-         <58ed179388b6f9d6caddd91dc03e411ca714157d.camel@collabora.com>
-         <1573657156.16477.47.camel@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.30.5-1.1 
+        Wed, 13 Nov 2019 12:57:18 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 168D628A9C8
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     kernel@collabora.com, Tomasz Figa <tfiga@chromium.org>,
+        linux-rockchip@lists.infradead.org,
+        Heiko Stuebner <heiko@sntech.de>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Chris Healy <cphealy@gmail.com>, linux-kernel@vger.kernel.org,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Subject: [PATCH v3 0/3] Enable Hantro G1 post-processor
+Date:   Wed, 13 Nov 2019 14:56:00 -0300
+Message-Id: <20191113175603.24742-1-ezequiel@collabora.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ezequiel, Mirela,
+Hi all,
 
-On Wed, 2019-11-13 at 14:59 +0000, Mirela Rabulea wrote:
-> Hi Ezequiel,
-> On Mi, 2019-11-13 at 11:00 -0300, Ezequiel Garcia wrote:
-> > + * default configuration stream, 64x64 yuv422
-> > > + * split by JPEG marker, so it's easier to modify & use
-> > > + */
-> > > +static const unsigned char jpeg_soi[] = {0xFF, 0xD8};
-> > > +static const unsigned char jpeg_app0[] = {0xFF, 0xE0,
-> > I think it's time to re-consider creating some common code
-> > for drivers that deal with JPEG parsing. I don't know
-> > exactly how this should be done, but it's worth a try.
-> > 
-> > Having been there, it might sound unfair to request you to
-> > take such action. However, someone has to do these kinds
-> > of cleanups and improvements, sooner or later, if we want
-> > to keep a clean codebase.
-> > 
-> > Hope this makes sense.
-> 
-> I agree, it makes sense, at least the jpeg parsing is somehow common
-> between these drivers. I'm willing to contribute to this, but I cannot
-> make a promise when, and this is something that requires collaboration
-> with other contributors who have the means to validate changes on all
-> the hardware affected.
+The Hantro G1 VPU post-processor block can be pipelined with
+the decoder hardware, allowing to perform operations such as
+color conversion, scaling, rotation, cropping, among others.
 
-I just faced the same issue for the coda-vpu driver [1]. I wonder if my
-approach would be usable as a base for i.MX8 JPEGDEC as well. Either
-way, I'd like to collaborate on this, but I can't test most of the
-drivers either.
+When the post-processor is enabled, the decoder hardware
+needs its own set of NV12 buffers (the native decoder format),
+and the post-processor is the owner of the CAPTURE buffers,
+allocated for the post-processed format.
 
-[1] https://patchwork.linuxtv.org/patch/60109/
+This way, applications obtain post-processed
+(scaled, converted, etc) buffers transparently.
 
-regards
-Philipp
+This feature is implemented by exposing the post-processed pixel
+formats on ENUM_FMT, ordered as "preferred pixelformat first":
+
+v4l2-ctl -d 1 --list-formats
+ioctl: VIDIOC_ENUM_FMT
+	Type: Video Capture Multiplanar
+
+	[0]: 'NV12' (Y/CbCr 4:2:0)
+	[1]: 'YUYV' (YUYV 4:2:2)
+
+The order of preference in ENUM_FMT can be used as a hint
+by applications. This series updates the uAPI specification
+accordingly.
+
+When the application sets a pixel format other than NV12,
+the post-processor is transparently enabled.
+
+Patch 1 is a cleanups needed to easier integrate the post-processor.
+Patch 2 introduces the post-processing support.
+Patch 3 updates the uAPI specification.
+
+This is tested on RK3288 platforms with MPEG-2, VP8 and
+H264 streams, decoding to YUY2 surfaces. For now, this series
+is only adding support for NV12-to-YUY2 conversion.
+
+Applies to media/master.
+
+Future plans
+------------
+
+It seems to me that we should start moving this driver to use
+regmap-based access to registers. However, such move is out of scope
+and not entirely related to this post-processor enablement.
+
+We'll work on that as follow-up patches.
+
+Changelog
+---------
+
+Changes v3:
+
+* After discussing with Hans and Tomasz during the media summit
+in ELCE, we decided to go back on the MC changes. The MC topology
+is now untouched. This means the series is now similar to v1,
+except we explicitly use the ENUM_FMT to hint about the post-processed
+formats.
+
+Changes v2:
+
+* The decoder->post-processor topology is now exposed
+  explicitly and applications need to configure the pipeline.
+  By default, the decoder is enabled and the post-processor
+  is disabled.
+
+* RGB post-processing output has been dropped. We might
+  add this in the future, but for now, it seems it would
+  make the code more complex without a use-case in mind.
+  RGB is much more memory-consuming so less attractive
+  than YUV, and modern GPUs and display controllers support YUV.
+
+* The post-processor implementation still supports RK3288
+  only. However, a generic register infrastructure is introduced
+  to make addition of other variants such as RK3399 really easy.
+
+Ezequiel Garcia (3):
+  media: hantro: Cleanup format negotiation helpers
+  media: hantro: Support color conversion via post-processing
+  media: vidioc-enum-fmt.rst: clarify format preference
+
+ .../media/uapi/v4l/vidioc-enum-fmt.rst        |   4 +-
+ drivers/staging/media/hantro/Makefile         |   1 +
+ drivers/staging/media/hantro/hantro.h         |  64 +++++++-
+ drivers/staging/media/hantro/hantro_drv.c     |   8 +-
+ .../staging/media/hantro/hantro_g1_h264_dec.c |   2 +-
+ .../media/hantro/hantro_g1_mpeg2_dec.c        |   2 +-
+ drivers/staging/media/hantro/hantro_g1_regs.h |  53 +++++++
+ .../staging/media/hantro/hantro_g1_vp8_dec.c  |   2 +-
+ drivers/staging/media/hantro/hantro_h264.c    |   6 +-
+ drivers/staging/media/hantro/hantro_hw.h      |  13 ++
+ .../staging/media/hantro/hantro_postproc.c    | 141 ++++++++++++++++++
+ drivers/staging/media/hantro/hantro_v4l2.c    | 105 ++++++++-----
+ drivers/staging/media/hantro/rk3288_vpu_hw.c  |  10 ++
+ 13 files changed, 366 insertions(+), 45 deletions(-)
+ create mode 100644 drivers/staging/media/hantro/hantro_postproc.c
+
+-- 
+2.22.0
 
