@@ -2,36 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5AA03FA3AD
-	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2019 03:12:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A6B7FA3A6
+	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2019 03:12:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728962AbfKMCLd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Nov 2019 21:11:33 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52724 "EHLO mail.kernel.org"
+        id S1729590AbfKMCLP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Nov 2019 21:11:15 -0500
+Received: from mail.kernel.org ([198.145.29.99]:53040 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730099AbfKMB6p (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Nov 2019 20:58:45 -0500
+        id S1730151AbfKMB6z (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 12 Nov 2019 20:58:55 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 49AAF2245A;
-        Wed, 13 Nov 2019 01:58:44 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 76189222D3;
+        Wed, 13 Nov 2019 01:58:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573610325;
-        bh=fPTTL918haYPzKywCNCsAU+vg6L7/gNh4/5v3ts11vI=;
+        s=default; t=1573610335;
+        bh=D9FF+PKLhEVyXZcKFFSveysZnUiYAUBTZCk1o2cEWVk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=1i3eadg7TxvrIskxUaOzfViwkjGytc20FBVD4GDyVH2DgM9EvyLToGgY8VVFYl40d
-         IpbaW4FKKlMOh2DSpNMLmHaHxqbPCw4iKhms+3sKGLRSGBSr9pQjO/yzlZKAOiUFEc
-         /yGb+r5GwuxXc/4mMJCW7ZB2HFZxlqxdc1sJ8k+E=
+        b=sfY/juds/7c0rLT6rlHBzTUQFFlrS3g4T7XUIRYjAiAlnJ/SxwU2Lf+Fat+jQXd/t
+         sz7s/b+flLCpmawQ08FAKZqWK5Gh0tVU6kIgTQqc0m7Yb3jFfHWfEY31Cd9g0ysH54
+         EbalyJub8hGnEGMqqH1j/9XOj5L5bR9ZaOG/X2qM=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Rajmohan Mani <rajmohan.mani@intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
+Cc:     Wenwen Wang <wang6495@umn.edu>, Hans Verkuil <hverkuil@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 086/115] media: dw9714: Fix error handling in probe function
-Date:   Tue, 12 Nov 2019 20:55:53 -0500
-Message-Id: <20191113015622.11592-86-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 092/115] media: isif: fix a NULL pointer dereference bug
+Date:   Tue, 12 Nov 2019 20:55:59 -0500
+Message-Id: <20191113015622.11592-92-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191113015622.11592-1-sashal@kernel.org>
 References: <20191113015622.11592-1-sashal@kernel.org>
@@ -44,36 +43,47 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Rajmohan Mani <rajmohan.mani@intel.com>
+From: Wenwen Wang <wang6495@umn.edu>
 
-[ Upstream commit f9a0b14240a2d0bd196d35e8aac73df6eabd6382 ]
+[ Upstream commit a26ac6c1bed951b2066cc4b2257facd919e35c0b ]
 
-Fixed the case where v4l2_async_unregister_subdev()
-is called unnecessarily in the error handling path
-in probe function.
+In isif_probe(), there is a while loop to get the ISIF base address and
+linearization table0 and table1 address. In the loop body, the function
+platform_get_resource() is called to get the resource. If
+platform_get_resource() returns NULL, the loop is terminated and the
+execution goes to 'fail_nobase_res'. Suppose the loop is terminated at the
+first iteration because platform_get_resource() returns NULL and the
+execution goes to 'fail_nobase_res'. Given that there is another while loop
+at 'fail_nobase_res' and i equals to 0, one iteration of the second while
+loop will be executed. However, the second while loop does not check the
+return value of platform_get_resource(). This can cause a NULL pointer
+dereference bug if the return value is a NULL pointer.
 
-Signed-off-by: Rajmohan Mani <rajmohan.mani@intel.com>
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+This patch avoids the above issue by adding a check in the second while
+loop after the call to platform_get_resource().
+
+Signed-off-by: Wenwen Wang <wang6495@umn.edu>
+Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/i2c/dw9714.c | 3 ++-
+ drivers/media/platform/davinci/isif.c | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/i2c/dw9714.c b/drivers/media/i2c/dw9714.c
-index 95af4fc99cd04..c1273bcd59011 100644
---- a/drivers/media/i2c/dw9714.c
-+++ b/drivers/media/i2c/dw9714.c
-@@ -182,7 +182,8 @@ static int dw9714_probe(struct i2c_client *client)
- 	return 0;
+diff --git a/drivers/media/platform/davinci/isif.c b/drivers/media/platform/davinci/isif.c
+index 5813b49391edb..90d0f13283ae9 100644
+--- a/drivers/media/platform/davinci/isif.c
++++ b/drivers/media/platform/davinci/isif.c
+@@ -1102,7 +1102,8 @@ static int isif_probe(struct platform_device *pdev)
  
- err_cleanup:
--	dw9714_subdev_cleanup(dw9714_dev);
-+	v4l2_ctrl_handler_free(&dw9714_dev->ctrls_vcm);
-+	media_entity_cleanup(&dw9714_dev->sd.entity);
- 	dev_err(&client->dev, "Probe failed: %d\n", rval);
- 	return rval;
- }
+ 	while (i >= 0) {
+ 		res = platform_get_resource(pdev, IORESOURCE_MEM, i);
+-		release_mem_region(res->start, resource_size(res));
++		if (res)
++			release_mem_region(res->start, resource_size(res));
+ 		i--;
+ 	}
+ 	vpfe_unregister_ccdc_device(&isif_hw_dev);
 -- 
 2.20.1
 
