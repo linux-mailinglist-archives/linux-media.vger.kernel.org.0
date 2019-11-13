@@ -2,38 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D9A97FA4F0
-	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2019 03:20:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FE3DFA408
+	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2019 03:16:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729488AbfKMCTy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Nov 2019 21:19:54 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46398 "EHLO mail.kernel.org"
+        id S1729863AbfKMB5l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Nov 2019 20:57:41 -0500
+Received: from mail.kernel.org ([198.145.29.99]:50980 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727973AbfKMBzE (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Nov 2019 20:55:04 -0500
+        id S1728256AbfKMB5h (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 12 Nov 2019 20:57:37 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1B394204EC;
-        Wed, 13 Nov 2019 01:55:03 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9E17D222D3;
+        Wed, 13 Nov 2019 01:57:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573610103;
-        bh=+G/Hb5yXy8J1/R9Fa07bK3eEpG/8DlxjsJp1lvjGrEM=;
+        s=default; t=1573610257;
+        bh=1CoKczlBB1iIl9HG7yyi/uWIsWV4eb00AiNisJOIj7A=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=yBBamO5DQU9+aeIQ8Cmh1a8JKUqQYHsOT2XOiy9hp/nMomR/HajDtj1m5UENruY2l
-         q4DtwYkb9P4pQqq8a6sB+rpmXe2iLOOS8VepXoh+cxYeURfJpB0zOmg/umzLl8GMEd
-         ktUfeS6zqtQHcTk5ODhBwdlJ1KJdjmZ0iuEGBCF4=
+        b=ze7Z1wEsork3kLP6WdqEPkjQFcl/NMwWcWhAp3ZOGzrirvsM8eBplIOYld3tJzRrG
+         safMVOsV2vwn9U+lxaewKGZSDEYzTZ1eTTLRlj6FoXJM0tF2SsCWMG1vwAgcJaes8m
+         fxAb8WqEjj0a5lqenCGXg2LntcdG+2ANI53lQqt4=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Wenwen Wang <wang6495@umn.edu>, Hans Verkuil <hverkuil@xs4all.nl>,
+Cc:     Matthias Reichl <hias@horus.com>, Sean Young <sean@mess.org>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 163/209] media: isif: fix a NULL pointer dereference bug
-Date:   Tue, 12 Nov 2019 20:49:39 -0500
-Message-Id: <20191113015025.9685-163-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 051/115] media: rc: ir-rc6-decoder: enable toggle bit for Kathrein RCU-676 remote
+Date:   Tue, 12 Nov 2019 20:55:18 -0500
+Message-Id: <20191113015622.11592-51-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191113015025.9685-1-sashal@kernel.org>
-References: <20191113015025.9685-1-sashal@kernel.org>
+In-Reply-To: <20191113015622.11592-1-sashal@kernel.org>
+References: <20191113015622.11592-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -43,47 +43,56 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Wenwen Wang <wang6495@umn.edu>
+From: Matthias Reichl <hias@horus.com>
 
-[ Upstream commit a26ac6c1bed951b2066cc4b2257facd919e35c0b ]
+[ Upstream commit 85e4af0a7ae2f146769b7475ae531bf8a3f3afb4 ]
 
-In isif_probe(), there is a while loop to get the ISIF base address and
-linearization table0 and table1 address. In the loop body, the function
-platform_get_resource() is called to get the resource. If
-platform_get_resource() returns NULL, the loop is terminated and the
-execution goes to 'fail_nobase_res'. Suppose the loop is terminated at the
-first iteration because platform_get_resource() returns NULL and the
-execution goes to 'fail_nobase_res'. Given that there is another while loop
-at 'fail_nobase_res' and i equals to 0, one iteration of the second while
-loop will be executed. However, the second while loop does not check the
-return value of platform_get_resource(). This can cause a NULL pointer
-dereference bug if the return value is a NULL pointer.
+The Kathrein RCU-676 remote uses the 32-bit rc6 protocol and toggles
+bit 15 (0x8000) on repeated button presses, like MCE remotes.
 
-This patch avoids the above issue by adding a check in the second while
-loop after the call to platform_get_resource().
+Add it's customer code 0x80460000 to the 32-bit rc6 toggle
+handling code to get proper scancodes and toggle reports.
 
-Signed-off-by: Wenwen Wang <wang6495@umn.edu>
-Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
+Signed-off-by: Matthias Reichl <hias@horus.com>
+Signed-off-by: Sean Young <sean@mess.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/davinci/isif.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/media/rc/ir-rc6-decoder.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/davinci/isif.c b/drivers/media/platform/davinci/isif.c
-index f924e76e2fbf8..340f8218f54d3 100644
---- a/drivers/media/platform/davinci/isif.c
-+++ b/drivers/media/platform/davinci/isif.c
-@@ -1100,7 +1100,8 @@ static int isif_probe(struct platform_device *pdev)
- 
- 	while (i >= 0) {
- 		res = platform_get_resource(pdev, IORESOURCE_MEM, i);
--		release_mem_region(res->start, resource_size(res));
-+		if (res)
-+			release_mem_region(res->start, resource_size(res));
- 		i--;
- 	}
- 	vpfe_unregister_ccdc_device(&isif_hw_dev);
+diff --git a/drivers/media/rc/ir-rc6-decoder.c b/drivers/media/rc/ir-rc6-decoder.c
+index 5d0d2fe3b7a7f..90f7930444a1a 100644
+--- a/drivers/media/rc/ir-rc6-decoder.c
++++ b/drivers/media/rc/ir-rc6-decoder.c
+@@ -40,6 +40,7 @@
+ #define RC6_6A_MCE_TOGGLE_MASK	0x8000	/* for the body bits */
+ #define RC6_6A_LCC_MASK		0xffff0000 /* RC6-6A-32 long customer code mask */
+ #define RC6_6A_MCE_CC		0x800f0000 /* MCE customer code */
++#define RC6_6A_KATHREIN_CC	0x80460000 /* Kathrein RCU-676 customer code */
+ #ifndef CHAR_BIT
+ #define CHAR_BIT 8	/* Normally in <limits.h> */
+ #endif
+@@ -252,13 +253,17 @@ static int ir_rc6_decode(struct rc_dev *dev, struct ir_raw_event ev)
+ 				toggle = 0;
+ 				break;
+ 			case 32:
+-				if ((scancode & RC6_6A_LCC_MASK) == RC6_6A_MCE_CC) {
++				switch (scancode & RC6_6A_LCC_MASK) {
++				case RC6_6A_MCE_CC:
++				case RC6_6A_KATHREIN_CC:
+ 					protocol = RC_PROTO_RC6_MCE;
+ 					toggle = !!(scancode & RC6_6A_MCE_TOGGLE_MASK);
+ 					scancode &= ~RC6_6A_MCE_TOGGLE_MASK;
+-				} else {
++					break;
++				default:
+ 					protocol = RC_PROTO_RC6_6A_32;
+ 					toggle = 0;
++					break;
+ 				}
+ 				break;
+ 			default:
 -- 
 2.20.1
 
