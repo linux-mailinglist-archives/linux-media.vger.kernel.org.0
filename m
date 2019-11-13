@@ -2,40 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5EFE2FB331
-	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2019 16:06:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C319BFB366
+	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2019 16:13:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727892AbfKMPGD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Nov 2019 10:06:03 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:46317 "EHLO
+        id S1728152AbfKMPNr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Nov 2019 10:13:47 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:38483 "EHLO
         metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727874AbfKMPGD (ORCPT
+        with ESMTP id S1727452AbfKMPNq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Nov 2019 10:06:03 -0500
-Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.pengutronix.de.)
+        Wed, 13 Nov 2019 10:13:46 -0500
+Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
         by metis.ext.pengutronix.de with esmtp (Exim 4.92)
         (envelope-from <p.zabel@pengutronix.de>)
-        id 1iUuDZ-00064Z-0p; Wed, 13 Nov 2019 16:06:01 +0100
+        id 1iUuKv-0007F5-My; Wed, 13 Nov 2019 16:13:37 +0100
+Message-ID: <152f7b2bef85cec9ef107b58ba0bac153fde1379.camel@pengutronix.de>
+Subject: Re: [EXT] Re: [PATCH 4/5] media: imx-jpeg: Add V4L2 driver for
+ i.MX8 JPEG Encoder/Decoder
 From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     linux-media@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
-        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Rick Chang <rick.chang@mediatek.com>,
-        Bin Liu <bin.liu@mediatek.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Mirela Rabulea <mirela.rabulea@nxp.com>, kernel@pengutronix.de
-Subject: [PATCH 5/5] media: mtk-jpeg: use V4L2 JPEG helpers
-Date:   Wed, 13 Nov 2019 16:05:38 +0100
-Message-Id: <20191113150538.9807-6-p.zabel@pengutronix.de>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191113150538.9807-1-p.zabel@pengutronix.de>
-References: <20191113150538.9807-1-p.zabel@pengutronix.de>
+To:     Mirela Rabulea <mirela.rabulea@nxp.com>,
+        "ezequiel@collabora.com" <ezequiel@collabora.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "shawnguo@kernel.org" <shawnguo@kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>
+Cc:     dl-linux-imx <linux-imx@nxp.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "laurent.pinchart+renesas@ideasonboard.com" 
+        <laurent.pinchart+renesas@ideasonboard.com>,
+        Aisheng Dong <aisheng.dong@nxp.com>,
+        Laurentiu Palcu <laurentiu.palcu@nxp.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "paul.kocialkowski@bootlin.com" <paul.kocialkowski@bootlin.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        Robert Chiras <robert.chiras@nxp.com>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        "niklas.soderlund+renesas@ragnatech.se" 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
+        Daniel Baluta <daniel.baluta@nxp.com>,
+        Leonard Crestez <leonard.crestez@nxp.com>,
+        "dafna.hirschfeld@collabora.com" <dafna.hirschfeld@collabora.com>,
+        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>
+Date:   Wed, 13 Nov 2019 16:13:36 +0100
+In-Reply-To: <1573657156.16477.47.camel@nxp.com>
+References: <1573053633-21437-1-git-send-email-mirela.rabulea@nxp.com>
+         <1573053633-21437-5-git-send-email-mirela.rabulea@nxp.com>
+         <58ed179388b6f9d6caddd91dc03e411ca714157d.camel@collabora.com>
+         <1573657156.16477.47.camel@nxp.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
 X-SA-Exim-Mail-From: p.zabel@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-media@vger.kernel.org
@@ -44,188 +62,40 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use the v4l2 JPEG helpers for header parsing.
+Hi Ezequiel, Mirela,
 
-Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
----
- drivers/media/platform/Kconfig                |   1 +
- .../media/platform/mtk-jpeg/mtk_jpeg_parse.c  | 138 +++---------------
- 2 files changed, 21 insertions(+), 118 deletions(-)
+On Wed, 2019-11-13 at 14:59 +0000, Mirela Rabulea wrote:
+> Hi Ezequiel,
+> On Mi, 2019-11-13 at 11:00 -0300, Ezequiel Garcia wrote:
+> > + * default configuration stream, 64x64 yuv422
+> > > + * split by JPEG marker, so it's easier to modify & use
+> > > + */
+> > > +static const unsigned char jpeg_soi[] = {0xFF, 0xD8};
+> > > +static const unsigned char jpeg_app0[] = {0xFF, 0xE0,
+> > I think it's time to re-consider creating some common code
+> > for drivers that deal with JPEG parsing. I don't know
+> > exactly how this should be done, but it's worth a try.
+> > 
+> > Having been there, it might sound unfair to request you to
+> > take such action. However, someone has to do these kinds
+> > of cleanups and improvements, sooner or later, if we want
+> > to keep a clean codebase.
+> > 
+> > Hope this makes sense.
+> 
+> I agree, it makes sense, at least the jpeg parsing is somehow common
+> between these drivers. I'm willing to contribute to this, but I cannot
+> make a promise when, and this is something that requires collaboration
+> with other contributors who have the means to validate changes on all
+> the hardware affected.
 
-diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-index 9e338bd26df2..8c0d890249f5 100644
---- a/drivers/media/platform/Kconfig
-+++ b/drivers/media/platform/Kconfig
-@@ -205,6 +205,7 @@ config VIDEO_MEDIATEK_JPEG
- 	depends on VIDEO_DEV && VIDEO_V4L2
- 	depends on ARCH_MEDIATEK || COMPILE_TEST
- 	select VIDEOBUF2_DMA_CONTIG
-+	select V4L2_JPEG_HELPER
- 	select V4L2_MEM2MEM_DEV
- 	help
- 	  Mediatek jpeg codec driver provides HW capability to decode
-diff --git a/drivers/media/platform/mtk-jpeg/mtk_jpeg_parse.c b/drivers/media/platform/mtk-jpeg/mtk_jpeg_parse.c
-index f862d38f3af7..47b27db14b97 100644
---- a/drivers/media/platform/mtk-jpeg/mtk_jpeg_parse.c
-+++ b/drivers/media/platform/mtk-jpeg/mtk_jpeg_parse.c
-@@ -7,137 +7,39 @@
- 
- #include <linux/kernel.h>
- #include <linux/videodev2.h>
-+#include <media/v4l2-jpeg.h>
- 
- #include "mtk_jpeg_parse.h"
- 
--#define TEM	0x01
--#define SOF0	0xc0
--#define RST	0xd0
--#define SOI	0xd8
--#define EOI	0xd9
--
--struct mtk_jpeg_stream {
--	u8 *addr;
--	u32 size;
--	u32 curr;
--};
--
--static int read_byte(struct mtk_jpeg_stream *stream)
--{
--	if (stream->curr >= stream->size)
--		return -1;
--	return stream->addr[stream->curr++];
--}
--
--static int read_word_be(struct mtk_jpeg_stream *stream, u32 *word)
--{
--	u32 temp;
--	int byte;
--
--	byte = read_byte(stream);
--	if (byte == -1)
--		return -1;
--	temp = byte << 8;
--	byte = read_byte(stream);
--	if (byte == -1)
--		return -1;
--	*word = (u32)byte | temp;
--
--	return 0;
--}
--
--static void read_skip(struct mtk_jpeg_stream *stream, long len)
--{
--	if (len <= 0)
--		return;
--	while (len--)
--		read_byte(stream);
--}
--
- static bool mtk_jpeg_do_parse(struct mtk_jpeg_dec_param *param, u8 *src_addr_va,
- 			      u32 src_size)
- {
--	bool notfound = true;
--	struct mtk_jpeg_stream stream;
--
--	stream.addr = src_addr_va;
--	stream.size = src_size;
--	stream.curr = 0;
--
--	while (notfound) {
--		int i, length, byte;
--		u32 word;
--
--		byte = read_byte(&stream);
--		if (byte == -1)
--			return false;
--		if (byte != 0xff)
--			continue;
--		do
--			byte = read_byte(&stream);
--		while (byte == 0xff);
--		if (byte == -1)
--			return false;
--		if (byte == 0)
--			continue;
--
--		length = 0;
--		switch (byte) {
--		case SOF0:
--			/* length */
--			if (read_word_be(&stream, &word))
--				break;
--
--			/* precision */
--			if (read_byte(&stream) == -1)
--				break;
-+	struct v4l2_jpeg_header header;
-+	int i, ret;
- 
--			if (read_word_be(&stream, &word))
--				break;
--			param->pic_h = word;
--
--			if (read_word_be(&stream, &word))
--				break;
--			param->pic_w = word;
--
--			param->comp_num = read_byte(&stream);
--			if (param->comp_num != 1 && param->comp_num != 3)
--				break;
-+	memset(&header, 0, sizeof(header));
-+	ret = v4l2_jpeg_parse_header(src_addr_va, src_size, &header);
-+	if (ret < 0)
-+		return false;
- 
--			for (i = 0; i < param->comp_num; i++) {
--				param->comp_id[i] = read_byte(&stream);
--				if (param->comp_id[i] == -1)
--					break;
-+	param->pic_h = header.frame.height;
-+	param->pic_w = header.frame.width;
-+	param->comp_num = header.frame.num_components;
- 
--				/* sampling */
--				byte = read_byte(&stream);
--				if (byte == -1)
--					break;
--				param->sampling_w[i] = (byte >> 4) & 0x0F;
--				param->sampling_h[i] = byte & 0x0F;
-+	if (param->comp_num != 1 && param->comp_num != 3)
-+		return false;
- 
--				param->qtbl_num[i] = read_byte(&stream);
--				if (param->qtbl_num[i] == -1)
--					break;
--			}
-+	for (i = 0; i < param->comp_num; i++) {
-+		struct v4l2_jpeg_frame_component_spec *component;
- 
--			notfound = !(i == param->comp_num);
--			break;
--		case RST ... RST + 7:
--		case SOI:
--		case EOI:
--		case TEM:
--			break;
--		default:
--			if (read_word_be(&stream, &word))
--				break;
--			length = (long)word - 2;
--			read_skip(&stream, length);
--			break;
--		}
-+		component = &header.frame.component[i];
-+		param->comp_id[i] = component->component_identifier;
-+		param->sampling_w[i] = component->horizontal_sampling_factor;
-+		param->sampling_h[i] = component->vertical_sampling_factor;
-+		param->qtbl_num[i] = component->quantization_table_selector;
- 	}
- 
--	return !notfound;
-+	return true;
- }
- 
- bool mtk_jpeg_parse(struct mtk_jpeg_dec_param *param, u8 *src_addr_va,
--- 
-2.20.1
+I just faced the same issue for the coda-vpu driver [1]. I wonder if my
+approach would be usable as a base for i.MX8 JPEGDEC as well. Either
+way, I'd like to collaborate on this, but I can't test most of the
+drivers either.
+
+[1] https://patchwork.linuxtv.org/patch/60109/
+
+regards
+Philipp
 
