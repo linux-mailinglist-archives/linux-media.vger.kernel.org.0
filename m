@@ -2,112 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 298BAFAC1A
-	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2019 09:31:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 75CB1FAC85
+	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2019 10:04:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726983AbfKMIbP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Nov 2019 03:31:15 -0500
-Received: from mx08-00178001.pphosted.com ([91.207.212.93]:56912 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725966AbfKMIbP (ORCPT
+        id S1727183AbfKMJEv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Nov 2019 04:04:51 -0500
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:2292 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726086AbfKMJEv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Nov 2019 03:31:15 -0500
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-        by mx08-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id xAD8LxPo007414;
-        Wed, 13 Nov 2019 09:31:09 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type : content-id
- : content-transfer-encoding : mime-version; s=STMicroelectronics;
- bh=tCwbuJ7ZZz84F+Cac8iOAH9+hr3GdXrbsKUSXJNB7YM=;
- b=rrZ+Xa90m4pT77radrMw/Nax5lGsdk24w7llmESCwPgbJiUrANEjskTPwLNLW8EdPyvC
- 0kApV8Ec84Mm78cJg4i0NYzM/B4qib/2614UBlNw2WA7wnjbylHY49Fj7ptC/+0qmLlD
- 8z7fj2WRYcV68orGbmFwEtSEAIi5o3TNVksFcPQAGsN0Wh/53VYF/rMr+HDUiefsN8SV
- 2gKmzUFCbz2KKa8b/8HF394d7AJ9KLjLXTP23SAawtUWf9Eq77IgoEtOxwv6c2WVO8fK
- JIXU8nW7JzXLP3Zu1I8e7Um9ZM7W1bkt6BZfnA+4IOQiIiBhOvA1jwIvsRZJa9CDPZEM Jg== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx08-00178001.pphosted.com with ESMTP id 2w7pstxu8e-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 13 Nov 2019 09:31:09 +0100
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id C008710002A;
-        Wed, 13 Nov 2019 09:31:08 +0100 (CET)
-Received: from Webmail-eu.st.com (sfhdag5node1.st.com [10.75.127.13])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id B35E02B187F;
-        Wed, 13 Nov 2019 09:31:08 +0100 (CET)
-Received: from SFHDAG5NODE3.st.com (10.75.127.15) by SFHDAG5NODE1.st.com
- (10.75.127.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 13 Nov
- 2019 09:31:08 +0100
-Received: from SFHDAG5NODE3.st.com ([fe80::7c09:5d6b:d2c7:5f47]) by
- SFHDAG5NODE3.st.com ([fe80::7c09:5d6b:d2c7:5f47%20]) with mapi id
- 15.00.1473.003; Wed, 13 Nov 2019 09:31:08 +0100
-From:   Fabien DESSENNE <fabien.dessenne@st.com>
-To:     Chuhong Yuan <hslester96@gmail.com>
-CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] media: bdisp: add missed destroy_workqueue in remove and
- probe failure
-Thread-Topic: [PATCH] media: bdisp: add missed destroy_workqueue in remove and
- probe failure
-Thread-Index: AQHVmezcqeNG3nZyW0iK6S5WdicKn6eItMaA
-Date:   Wed, 13 Nov 2019 08:31:08 +0000
-Message-ID: <f4af41fc-f335-9973-1861-6635cc0e123e@st.com>
-References: <20191113063730.8776-1-hslester96@gmail.com>
-In-Reply-To: <20191113063730.8776-1-hslester96@gmail.com>
-Accept-Language: fr-FR, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.75.127.50]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <5124C79677A8A147981DD104BE59B0ED@st.com>
-Content-Transfer-Encoding: base64
+        Wed, 13 Nov 2019 04:04:51 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5dcbc7300000>; Wed, 13 Nov 2019 01:04:48 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 13 Nov 2019 01:04:48 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 13 Nov 2019 01:04:48 -0800
+Received: from [10.2.160.173] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 13 Nov
+ 2019 09:04:48 +0000
+Subject: Re: [PATCH v3 00/23] mm/gup: track dma-pinned pages: FOLL_PIN,
+ FOLL_LONGTERM
+To:     Daniel Vetter <daniel@ffwll.ch>
+CC:     Jason Gunthorpe <jgg@ziepe.ca>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, bpf <bpf@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        <kvm@vger.kernel.org>, <linux-block@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
+        netdev <netdev@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
+        LKML <linux-kernel@vger.kernel.org>
+References: <20191112000700.3455038-1-jhubbard@nvidia.com>
+ <20191112203802.GD5584@ziepe.ca>
+ <02fa935c-3469-b766-b691-5660084b60b9@nvidia.com>
+ <CAKMK7uHvk+ti00mCCF2006U003w1dofFg9nSfmZ4bS2Z2pEDNQ@mail.gmail.com>
+X-Nvconfidentiality: public
+From:   John Hubbard <jhubbard@nvidia.com>
+Message-ID: <7b671bf9-4d94-f2cc-8453-863acd5a1115@nvidia.com>
+Date:   Wed, 13 Nov 2019 01:02:02 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-11-13_01:2019-11-13,2019-11-13 signatures=0
+In-Reply-To: <CAKMK7uHvk+ti00mCCF2006U003w1dofFg9nSfmZ4bS2Z2pEDNQ@mail.gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1573635888; bh=WuCLw1mNhRSSrQbzE2XtsJC46JZuOt82gJ5Z6A5sU6M=;
+        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=qgoX2qy8q+Pz4xwaUpJCPUDYqLc7AOyeowDXx94iSygezEmzpCR7ZZxo0cljsfswu
+         ukE0Cm+f0R483iPntRfn/ABXBRqJdTjYQOd5BMk3/+ahH8sNYpooo8xojMC+j2QKMp
+         YnZN0Muwss41C3UGdYFy5MS6hRmL0789DFptbHHfPd5vitO0CxsRYBJyPt01+pG4cX
+         6cPdl9NwtrthmFzBA5/mOnD1+FGwYZl+/Gsvcsk8njJ9ZjDk+S/T82e3qWgu+CaLxi
+         GAWOKJgmoqYLWXc9CemtInbG0/tG5R+23jPdDf2TY9FLXzVWhi+Ia12J1oxABZoP9Y
+         i24f/CxZw1J0Q==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGkgQ2h1aG9uZywNCg0KDQpUaGFuayB5b3UgZm9yIHRoZSBwYXRjaC4NCg0KDQpPbiAxMy8xMS8y
-MDE5IDc6MzcgQU0sIENodWhvbmcgWXVhbiB3cm90ZToNCj4gVGhlIGRyaXZlciBmb3JnZXRzIHRv
-IGNhbGwgZGVzdHJveV93b3JrcXVldWUgd2hlbiByZW1vdmUgYW5kIHByb2JlIGZhaWxzLg0KPiBB
-ZGQgdGhlIG1pc3NlZCBjYWxscyB0byBmaXggaXQuDQo+DQo+IFNpZ25lZC1vZmYtYnk6IENodWhv
-bmcgWXVhbiA8aHNsZXN0ZXI5NkBnbWFpbC5jb20+DQoNClJldmlld2VkLWJ5OiBGYWJpZW4gRGVz
-c2VubmUgPGZhYmllbi5kZXNzZW5uZUBzdC5jb20+DQoNCg0KPiAtLS0NCj4gICBkcml2ZXJzL21l
-ZGlhL3BsYXRmb3JtL3N0aS9iZGlzcC9iZGlzcC12NGwyLmMgfCAxMyArKysrKysrKystLS0tDQo+
-ICAgMSBmaWxlIGNoYW5nZWQsIDkgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkNCj4NCj4g
-ZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vc3RpL2JkaXNwL2JkaXNwLXY0bDIu
-YyBiL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vc3RpL2JkaXNwL2JkaXNwLXY0bDIuYw0KPiBpbmRl
-eCBlOTBmMWJhMzA1NzQuLjRjMGIzNjIzNmEzOCAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9tZWRp
-YS9wbGF0Zm9ybS9zdGkvYmRpc3AvYmRpc3AtdjRsMi5jDQo+ICsrKyBiL2RyaXZlcnMvbWVkaWEv
-cGxhdGZvcm0vc3RpL2JkaXNwL2JkaXNwLXY0bDIuYw0KPiBAQCAtMTI3NSw2ICsxMjc1LDggQEAg
-c3RhdGljIGludCBiZGlzcF9yZW1vdmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikNCj4g
-ICAJaWYgKCFJU19FUlIoYmRpc3AtPmNsb2NrKSkNCj4gICAJCWNsa191bnByZXBhcmUoYmRpc3At
-PmNsb2NrKTsNCj4gICANCj4gKwlkZXN0cm95X3dvcmtxdWV1ZShiZGlzcC0+d29ya19xdWV1ZSk7
-DQo+ICsNCj4gICAJZGV2X2RiZygmcGRldi0+ZGV2LCAiJXMgZHJpdmVyIHVubG9hZGVkXG4iLCBw
-ZGV2LT5uYW1lKTsNCj4gICANCj4gICAJcmV0dXJuIDA7DQo+IEBAIC0xMzE4LDIwICsxMzIwLDIy
-IEBAIHN0YXRpYyBpbnQgYmRpc3BfcHJvYmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikN
-Cj4gICAJYmRpc3AtPnJlZ3MgPSBkZXZtX2lvcmVtYXBfcmVzb3VyY2UoZGV2LCByZXMpOw0KPiAg
-IAlpZiAoSVNfRVJSKGJkaXNwLT5yZWdzKSkgew0KPiAgIAkJZGV2X2VycihkZXYsICJmYWlsZWQg
-dG8gZ2V0IHJlZ3NcbiIpOw0KPiAtCQlyZXR1cm4gUFRSX0VSUihiZGlzcC0+cmVncyk7DQo+ICsJ
-CXJldCA9IFBUUl9FUlIoYmRpc3AtPnJlZ3MpOw0KPiArCQlnb3RvIGVycl93cTsNCj4gICAJfQ0K
-PiAgIA0KPiAgIAliZGlzcC0+Y2xvY2sgPSBkZXZtX2Nsa19nZXQoZGV2LCBCRElTUF9OQU1FKTsN
-Cj4gICAJaWYgKElTX0VSUihiZGlzcC0+Y2xvY2spKSB7DQo+ICAgCQlkZXZfZXJyKGRldiwgImZh
-aWxlZCB0byBnZXQgY2xvY2tcbiIpOw0KPiAtCQlyZXR1cm4gUFRSX0VSUihiZGlzcC0+Y2xvY2sp
-Ow0KPiArCQlyZXQgPSBQVFJfRVJSKGJkaXNwLT5jbG9jayk7DQo+ICsJCWdvdG8gZXJyX3dxOw0K
-PiAgIAl9DQo+ICAgDQo+ICAgCXJldCA9IGNsa19wcmVwYXJlKGJkaXNwLT5jbG9jayk7DQo+ICAg
-CWlmIChyZXQgPCAwKSB7DQo+ICAgCQlkZXZfZXJyKGRldiwgImNsb2NrIHByZXBhcmUgZmFpbGVk
-XG4iKTsNCj4gICAJCWJkaXNwLT5jbG9jayA9IEVSUl9QVFIoLUVJTlZBTCk7DQo+IC0JCXJldHVy
-biByZXQ7DQo+ICsJCWdvdG8gZXJyX3dxOw0KPiAgIAl9DQo+ICAgDQo+ICAgCXJlcyA9IHBsYXRm
-b3JtX2dldF9yZXNvdXJjZShwZGV2LCBJT1JFU09VUkNFX0lSUSwgMCk7DQo+IEBAIC0xNDAzLDcg
-KzE0MDcsOCBAQCBzdGF0aWMgaW50IGJkaXNwX3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2Ug
-KnBkZXYpDQo+ICAgZXJyX2NsazoNCj4gICAJaWYgKCFJU19FUlIoYmRpc3AtPmNsb2NrKSkNCj4g
-ICAJCWNsa191bnByZXBhcmUoYmRpc3AtPmNsb2NrKTsNCj4gLQ0KPiArZXJyX3dxOg0KPiArCWRl
-c3Ryb3lfd29ya3F1ZXVlKGJkaXNwLT53b3JrX3F1ZXVlKTsNCj4gICAJcmV0dXJuIHJldDsNCj4g
-ICB9DQo+ICAg
+On 11/13/19 12:22 AM, Daniel Vetter wrote:
+...
+>>> Why are we doing this? I think things got confused here someplace, as
+>>
+>>
+>> Because:
+>>
+>> a) These need put_page() calls,  and
+>>
+>> b) there is no put_pages() call, but there is a release_pages() call that
+>> is, arguably, what put_pages() would be.
+>>
+>>
+>>> the comment still says:
+>>>
+>>> /**
+>>>   * put_user_page() - release a gup-pinned page
+>>>   * @page:            pointer to page to be released
+>>>   *
+>>>   * Pages that were pinned via get_user_pages*() must be released via
+>>>   * either put_user_page(), or one of the put_user_pages*() routines
+>>>   * below.
+>>
+>>
+>> Ohhh, I missed those comments. They need to all be changed over to
+>> say "pages that were pinned via pin_user_pages*() or
+>> pin_longterm_pages*() must be released via put_user_page*()."
+>>
+>> The get_user_pages*() pages must still be released via put_page.
+>>
+>> The churn is due to a fairly significant change in strategy, whis
+>> is: instead of changing all get_user_pages*() sites to call
+>> put_user_page(), change selected sites to call pin_user_pages*() or
+>> pin_longterm_pages*(), plus put_user_page().
+> 
+> Can't we call this unpin_user_page then, for some symmetry? Or is that
+> even more churn?
+> 
+> Looking from afar the naming here seems really confusing.
+
+
+That look from afar is valuable, because I'm too close to the problem to see
+how the naming looks. :)
+
+unpin_user_page() sounds symmetrical. It's true that it would cause more
+churn (which is why I started off with a proposal that avoids changing the
+names of put_user_page*() APIs). But OTOH, the amount of churn is proportional
+to the change in direction here, and it's really only 10 or 20 lines changed,
+in the end.
+
+So I'm open to changing to that naming. It would be nice to hear what others
+prefer, too...
+
+
+thanks,
+-- 
+John Hubbard
+NVIDIA
