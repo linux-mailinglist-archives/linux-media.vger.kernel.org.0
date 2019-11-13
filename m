@@ -2,206 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B0ACFB8BA
-	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2019 20:23:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 09E4DFB908
+	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2019 20:42:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726519AbfKMTXj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Nov 2019 14:23:39 -0500
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:46792 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726443AbfKMTXc (ORCPT
+        id S1726303AbfKMTm6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Nov 2019 14:42:58 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:39042 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726291AbfKMTm6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Nov 2019 14:23:32 -0500
-Received: by mail-oi1-f196.google.com with SMTP id n14so2825674oie.13
-        for <linux-media@vger.kernel.org>; Wed, 13 Nov 2019 11:23:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=intel-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=4HKVOkxUXCqQFAssnrt5HN+d13KJzjRJ1pFFkgydGzo=;
-        b=bb6122LJyN4TYG5IK7mHh5xygfwPeVWP6I4JnFmlEb2IzPnSXePzt9c7h6VlwCNKNf
-         6iTeoCZ+WCekF2UjJKYypJ3VDkp2bZI1sBd8OZia/73qpNgBlVpDNRkT98ztqaV4Pdpl
-         ZVL0JboDgCGP8I4MHVFtdYs0p8UDQrSyipyLboTogqOsqYbQVAZcsnUwAJG32rUPMPmj
-         ssxQ90TSW2CRqTDYyVFKczonUtqdX4nXBKSakXhSzcp3X5BqgSICBAOxp0Q1Cy1lQWwq
-         g444805boKvN2nKVTBF8Zd13UMFnq8mUuIPok109u72I0derPDbhoGvKrYVRikRhE4Pc
-         Y6hQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=4HKVOkxUXCqQFAssnrt5HN+d13KJzjRJ1pFFkgydGzo=;
-        b=rN/uYMJV+f9LNd0GUW2aaGdvKTGKiRKpbsIGjuRTOr4Q6CeDmMeawlumJdCQWS875Q
-         ftOwOFTTdbNxsf3DpwP1/rtJJg+dQ6foaymolYDYOVKsjebXy7xcDkB24JsJXUul2Ez0
-         5FSsDuCbh1BcJi083kBzXE6vjtEflJ4hf28wA+pESu55oh4+8088DYd8ImGDLxEkAdRn
-         eIsfR17qiD5WzmJ9pUcBYst+dNYLm4tMyiv9FZ/COjtVO68JbgO2oBngi7TexmroPVmx
-         iB4TVoyx4JUfGuPUU4CoR2rLGWCxyUAooPtHK5wa3VqMa8arDDvXiLxNqNDp+9C8jjE4
-         IXSg==
-X-Gm-Message-State: APjAAAXPM2E6KmZ79tiB4+lQtnSp8nrrcYhyNFlFKA4pyqZpakxkFTeK
-        gWp2JnVt3Qwa3wzd77i75e+WSnj5UMls7b8wf2lO2A==
-X-Google-Smtp-Source: APXvYqw/J/xJikM9Sn2uJoSKIkSXprx6L2hjLUq/51PEKKOZdQDk8LIwVzxcWXUccXtFtayP/c8+SilHtOvsl5tzGrQ=
-X-Received: by 2002:aca:ea57:: with SMTP id i84mr174326oih.73.1573673011067;
- Wed, 13 Nov 2019 11:23:31 -0800 (PST)
-MIME-Version: 1.0
-References: <20191113042710.3997854-1-jhubbard@nvidia.com> <20191113042710.3997854-5-jhubbard@nvidia.com>
-In-Reply-To: <20191113042710.3997854-5-jhubbard@nvidia.com>
-From:   Dan Williams <dan.j.williams@intel.com>
-Date:   Wed, 13 Nov 2019 11:23:19 -0800
-Message-ID: <CAPcyv4gGu=G-c1czSAYJ3joTYS_ZYOJ6i9umKzCQEFzpwZMiiA@mail.gmail.com>
-Subject: Re: [PATCH v4 04/23] mm: devmap: refactor 1-based refcounting for
- ZONE_DEVICE pages
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>, KVM list <kvm@vger.kernel.org>,
-        linux-block@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-kselftest@vger.kernel.org,
-        "Linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        Netdev <netdev@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
-        LKML <linux-kernel@vger.kernel.org>
+        Wed, 13 Nov 2019 14:42:58 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id B20A1287F0E
+Message-ID: <e65ca03c095c99dc8482e9c36dcd099b6c69fc38.camel@collabora.com>
+Subject: Re: [PATCH 0/5] v4l2 JPEG helpers and CODA960 JPEG decoder
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
+        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Rick Chang <rick.chang@mediatek.com>,
+        Bin Liu <bin.liu@mediatek.com>,
+        Mirela Rabulea <mirela.rabulea@nxp.com>, kernel@pengutronix.de
+Date:   Wed, 13 Nov 2019 16:42:48 -0300
+In-Reply-To: <20191113150538.9807-1-p.zabel@pengutronix.de>
+References: <20191113150538.9807-1-p.zabel@pengutronix.de>
+Organization: Collabora
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.34.1-2 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Nov 12, 2019 at 8:27 PM John Hubbard <jhubbard@nvidia.com> wrote:
->
-> An upcoming patch changes and complicates the refcounting and
-> especially the "put page" aspects of it. In order to keep
-> everything clean, refactor the devmap page release routines:
->
-> * Rename put_devmap_managed_page() to page_is_devmap_managed(),
->   and limit the functionality to "read only": return a bool,
->   with no side effects.
->
-> * Add a new routine, put_devmap_managed_page(), to handle checking
->   what kind of page it is, and what kind of refcount handling it
->   requires.
->
-> * Rename __put_devmap_managed_page() to free_devmap_managed_page(),
->   and limit the functionality to unconditionally freeing a devmap
->   page.
->
-> This is originally based on a separate patch by Ira Weiny, which
-> applied to an early version of the put_user_page() experiments.
-> Since then, J=C3=A9r=C3=B4me Glisse suggested the refactoring described a=
-bove.
->
-> Suggested-by: J=C3=A9r=C3=B4me Glisse <jglisse@redhat.com>
-> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
-> ---
->  include/linux/mm.h | 27 ++++++++++++++++---
->  mm/memremap.c      | 67 ++++++++++++++++++++--------------------------
->  2 files changed, 53 insertions(+), 41 deletions(-)
->
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index a2adf95b3f9c..96228376139c 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -967,9 +967,10 @@ static inline bool is_zone_device_page(const struct =
-page *page)
->  #endif
->
->  #ifdef CONFIG_DEV_PAGEMAP_OPS
-> -void __put_devmap_managed_page(struct page *page);
-> +void free_devmap_managed_page(struct page *page);
->  DECLARE_STATIC_KEY_FALSE(devmap_managed_key);
-> -static inline bool put_devmap_managed_page(struct page *page)
-> +
-> +static inline bool page_is_devmap_managed(struct page *page)
->  {
->         if (!static_branch_unlikely(&devmap_managed_key))
->                 return false;
-> @@ -978,7 +979,6 @@ static inline bool put_devmap_managed_page(struct pag=
-e *page)
->         switch (page->pgmap->type) {
->         case MEMORY_DEVICE_PRIVATE:
->         case MEMORY_DEVICE_FS_DAX:
-> -               __put_devmap_managed_page(page);
->                 return true;
->         default:
->                 break;
-> @@ -986,6 +986,27 @@ static inline bool put_devmap_managed_page(struct pa=
-ge *page)
->         return false;
->  }
->
-> +static inline bool put_devmap_managed_page(struct page *page)
-> +{
-> +       bool is_devmap =3D page_is_devmap_managed(page);
-> +
-> +       if (is_devmap) {
-> +               int count =3D page_ref_dec_return(page);
-> +
-> +               /*
-> +                * devmap page refcounts are 1-based, rather than 0-based=
-: if
-> +                * refcount is 1, then the page is free and the refcount =
-is
-> +                * stable because nobody holds a reference on the page.
-> +                */
-> +               if (count =3D=3D 1)
-> +                       free_devmap_managed_page(page);
-> +               else if (!count)
-> +                       __put_page(page);
-> +       }
-> +
-> +       return is_devmap;
-> +}
-> +
->  #else /* CONFIG_DEV_PAGEMAP_OPS */
->  static inline bool put_devmap_managed_page(struct page *page)
->  {
-> diff --git a/mm/memremap.c b/mm/memremap.c
-> index 03ccbdfeb697..bc7e2a27d025 100644
-> --- a/mm/memremap.c
-> +++ b/mm/memremap.c
-> @@ -410,48 +410,39 @@ struct dev_pagemap *get_dev_pagemap(unsigned long p=
-fn,
->  EXPORT_SYMBOL_GPL(get_dev_pagemap);
->
->  #ifdef CONFIG_DEV_PAGEMAP_OPS
-> -void __put_devmap_managed_page(struct page *page)
-> +void free_devmap_managed_page(struct page *page)
->  {
-> -       int count =3D page_ref_dec_return(page);
-> +       /* Clear Active bit in case of parallel mark_page_accessed */
-> +       __ClearPageActive(page);
-> +       __ClearPageWaiters(page);
-> +
-> +       mem_cgroup_uncharge(page);
+Hi Philipp,
 
-Ugh, when did all this HMM specific manipulation sneak into the
-generic ZONE_DEVICE path? It used to be gated by pgmap type with its
-own put_zone_device_private_page(). For example it's certainly
-unnecessary and might be broken (would need to check) to call
-mem_cgroup_uncharge() on a DAX page. ZONE_DEVICE users are not a
-monolith and the HMM use case leaks pages into code paths that DAX
-explicitly avoids.
+Thanks a lot for working on this. I'm so glad about
+both efforts: the CODA JPEG support and the JPEG
+helpers.
+
+On Wed, 2019-11-13 at 16:05 +0100, Philipp Zabel wrote:
+> Hi,
+> 
+> as far as I can tell we currently have three JPEG header parsers in the
+> media tree (in the rcar_jpu, s5p-jpeg, and mtk-jpeg drivers). I would
+> like to add support for the CODA960 JPEG decoder to the coda-vpu driver
+> without adding yet another.
+> 
+> To this end, this patch series adds some common JPEG code to v4l2-core.
+> For now this just contains header parsing helpers (I have tried to keep
+> the terminology close to JPEG ITU-T.81) that should be usable for all of
+> the current drivers. In the future we might want to move JPEG header
+> generation for encoders and common quantization tables in there as well.
+> 
+
+Indeed, moving encoders to use these helpers sounds like the right thing
+to do. IIRC, quantization tables are implementation defined, and not imposed
+by anything. I believe gspca drivers use some tables that don't follow
+any recomendation.
+
+I guess it's fine to leave some drivers unconverted, without using any helpers,
+and move others to use a helper-derived quantization table.  
+
+> I have tested this on hardware only with coda-vpu, the other drivers are
+> just compile-tested.
+> 
+> Feedback very welcome, especially whether this actually works for the
+> other drivers, and if this could be structured any better. I'm a bit
+> unhappy with the (current) need for separate frame/scan header and
+> quantization/hfufman table parsing functions, but those are required
+> by s5p-jpeg, which splits localization and parsing of the marker
+> segments. Also, could this be used for i.MX8 JPEGDEC as is?
+> 
+[..]
+
+Regards,
+Ezequiel
+
