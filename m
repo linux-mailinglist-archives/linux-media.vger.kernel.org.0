@@ -2,175 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 438C3FB0F9
-	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2019 14:02:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3912BFB205
+	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2019 15:01:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727312AbfKMNCI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Nov 2019 08:02:08 -0500
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:36197 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727015AbfKMNCG (ORCPT
+        id S1727563AbfKMOBD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Nov 2019 09:01:03 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:35330 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726010AbfKMOBC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Nov 2019 08:02:06 -0500
-Received: by mail-qt1-f194.google.com with SMTP id y10so2472641qto.3
-        for <linux-media@vger.kernel.org>; Wed, 13 Nov 2019 05:02:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=oMayMeIif+74vqoR9Hg244XFAjXhPl1nedXCyPx66Cc=;
-        b=nx3682LY4M40wGJ/sVGEu1B6oRowx3yCQZUXaDyQPZ8wp2PPM1JbbnvXpnwJ+1w7kN
-         lveYAqZtu6ZiCNE2GeOgCzqCbaPveYJh+bEnyDI89VRNGCHDXS9A7L5ZDDa96GF+3bm0
-         VmapuAT4FqF5vTUEuSGlcRA+NIY79GOrBmWnh2u551hGbiYfLURBD9nS87LvoXBLbrK0
-         o1TB/3BSIGkHlZVczCO3ubOoj5u0dVQwEYLzu7svoxCzx/+RmvcCH+ACjaNBf3sl94Zf
-         NRZR8twQGuvzHtghZ4nzQu/TUj0hyyqfJ3dXa+O6cdFNGC6w6BZNjOabe9aQdvwtecNu
-         AUCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=oMayMeIif+74vqoR9Hg244XFAjXhPl1nedXCyPx66Cc=;
-        b=jrgWweCINMUTiztFB3oCP6RD3CbSNEHJyr98RniiD/TQV0cQp0NQCelmdKdBhLRDqQ
-         e02Gab+3EvQ/MobrWM0ldtWUjkSmcXPFtwOpXlcCV3UPAwwWB5TFhEOjDXHvFp31d4nF
-         J0M3rCHnPTSpEocdXwXrtzuNutisWEPcKzvSeS0eEUBnt4g4mKZHoi6CepCAJtu0ZzyI
-         ft/8OD2utniRsMVe3rLfZ8NVYVY0zXdBNOSGjs0mLyaXgkE4PBt9jaYe3NchB6jpdfuo
-         tolz8/nnVAPcuTIJ5utnTaTD7zOxfUBQ7RAHWnZkRJzSmyFbnJWKN6ybXzNlv7NEixK7
-         y/Ng==
-X-Gm-Message-State: APjAAAUZOV5PFE8nFnHiuuge4YEntgyazeKxxWOZjbtxK0r0ibPCc4kn
-        8ag6tljfWARehVx2M02aD3wGXQ==
-X-Google-Smtp-Source: APXvYqwGbusmGQAfGHn3CXk2dU2JO4knhTY4prDGLzmyu8apMpc1WOd3WOgt9K6JkDyAWe/3c1LxDA==
-X-Received: by 2002:ac8:724f:: with SMTP id l15mr2476006qtp.234.1573650124104;
-        Wed, 13 Nov 2019 05:02:04 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-142-162-113-180.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.180])
-        by smtp.gmail.com with ESMTPSA id 187sm918223qkk.103.2019.11.13.05.02.03
-        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 13 Nov 2019 05:02:03 -0800 (PST)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1iUsHa-000767-Jc; Wed, 13 Nov 2019 09:02:02 -0400
-Date:   Wed, 13 Nov 2019 09:02:02 -0400
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
-        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
-        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 08/23] vfio, mm: fix get_user_pages_remote() and
- FOLL_LONGTERM
-Message-ID: <20191113130202.GA26068@ziepe.ca>
-References: <20191113042710.3997854-1-jhubbard@nvidia.com>
- <20191113042710.3997854-9-jhubbard@nvidia.com>
+        Wed, 13 Nov 2019 09:01:02 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 09863290CD8
+Message-ID: <58ed179388b6f9d6caddd91dc03e411ca714157d.camel@collabora.com>
+Subject: Re: [PATCH 4/5] media: imx-jpeg: Add V4L2 driver for i.MX8 JPEG
+ Encoder/Decoder
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Mirela Rabulea <mirela.rabulea@nxp.com>, mchehab@kernel.org,
+        shawnguo@kernel.org, robh+dt@kernel.org
+Cc:     hverkuil-cisco@xs4all.nl, paul.kocialkowski@bootlin.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-imx@nxp.com, s.hauer@pengutronix.de, aisheng.dong@nxp.com,
+        daniel.baluta@nxp.com, leonard.crestez@nxp.com,
+        robert.chiras@nxp.com, laurentiu.palcu@nxp.com,
+        mark.rutland@arm.com, devicetree@vger.kernel.org,
+        p.zabel@pengutronix.de, laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se,
+        dafna.hirschfeld@collabora.com
+Date:   Wed, 13 Nov 2019 11:00:35 -0300
+In-Reply-To: <1573053633-21437-5-git-send-email-mirela.rabulea@nxp.com>
+References: <1573053633-21437-1-git-send-email-mirela.rabulea@nxp.com>
+         <1573053633-21437-5-git-send-email-mirela.rabulea@nxp.com>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191113042710.3997854-9-jhubbard@nvidia.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Nov 12, 2019 at 08:26:55PM -0800, John Hubbard wrote:
-> As it says in the updated comment in gup.c: current FOLL_LONGTERM
-> behavior is incompatible with FAULT_FLAG_ALLOW_RETRY because of the
-> FS DAX check requirement on vmas.
-> 
-> However, the corresponding restriction in get_user_pages_remote() was
-> slightly stricter than is actually required: it forbade all
-> FOLL_LONGTERM callers, but we can actually allow FOLL_LONGTERM callers
-> that do not set the "locked" arg.
-> 
-> Update the code and comments accordingly, and update the VFIO caller
-> to take advantage of this, fixing a bug as a result: the VFIO caller
-> is logically a FOLL_LONGTERM user.
-> 
-> Also, remove an unnessary pair of calls that were releasing and
-> reacquiring the mmap_sem. There is no need to avoid holding mmap_sem
-> just in order to call page_to_pfn().
-> 
-> Also, move the DAX check ("if a VMA is DAX, don't allow long term
-> pinning") from the VFIO call site, all the way into the internals
-> of get_user_pages_remote() and __gup_longterm_locked(). That is:
-> get_user_pages_remote() calls __gup_longterm_locked(), which in turn
-> calls check_dax_vmas(). It's lightly explained in the comments as well.
-> 
-> Thanks to Jason Gunthorpe for pointing out a clean way to fix this,
-> and to Dan Williams for helping clarify the DAX refactoring.
-> 
-> Suggested-by: Jason Gunthorpe <jgg@ziepe.ca>
-> Cc: Dan Williams <dan.j.williams@intel.com>
-> Cc: Jerome Glisse <jglisse@redhat.com>
-> Cc: Ira Weiny <ira.weiny@intel.com>
-> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
->  drivers/vfio/vfio_iommu_type1.c | 25 ++-----------------------
->  mm/gup.c                        | 27 ++++++++++++++++++++++-----
->  2 files changed, 24 insertions(+), 28 deletions(-)
-> 
-> diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
-> index d864277ea16f..7301b710c9a4 100644
-> +++ b/drivers/vfio/vfio_iommu_type1.c
-> @@ -340,7 +340,6 @@ static int vaddr_get_pfn(struct mm_struct *mm, unsigned long vaddr,
->  {
->  	struct page *page[1];
->  	struct vm_area_struct *vma;
-> -	struct vm_area_struct *vmas[1];
->  	unsigned int flags = 0;
->  	int ret;
->  
-> @@ -348,33 +347,13 @@ static int vaddr_get_pfn(struct mm_struct *mm, unsigned long vaddr,
->  		flags |= FOLL_WRITE;
->  
->  	down_read(&mm->mmap_sem);
-> -	if (mm == current->mm) {
-> -		ret = get_user_pages(vaddr, 1, flags | FOLL_LONGTERM, page,
-> -				     vmas);
-> -	} else {
-> -		ret = get_user_pages_remote(NULL, mm, vaddr, 1, flags, page,
-> -					    vmas, NULL);
-> -		/*
-> -		 * The lifetime of a vaddr_get_pfn() page pin is
-> -		 * userspace-controlled. In the fs-dax case this could
-> -		 * lead to indefinite stalls in filesystem operations.
-> -		 * Disallow attempts to pin fs-dax pages via this
-> -		 * interface.
-> -		 */
-> -		if (ret > 0 && vma_is_fsdax(vmas[0])) {
-> -			ret = -EOPNOTSUPP;
-> -			put_page(page[0]);
-> -		}
-> -	}
-> -	up_read(&mm->mmap_sem);
-> -
-> +	ret = get_user_pages_remote(NULL, mm, vaddr, 1, flags | FOLL_LONGTERM,
-> +				    page, NULL, NULL);
->  	if (ret == 1) {
->  		*pfn = page_to_pfn(page[0]);
->  		return 0;
+Hi Mirela,
 
-Mind the return with the lock held this needs some goto unwind
+Thanks for the patch. It's nice to see support for i.MX8!
 
-Jason
+On Wed, 2019-11-06 at 17:20 +0200, Mirela Rabulea wrote:
+> V4L2 driver for the JPEG encoder/decoder from i.MX8QXP/i.MX8QM application
+> processors.
+> The multi-planar buffers API is used.
+> 
+> Baseline and extended sequential jpeg decoding is supported.
+> Progressive jpeg decoding is not supported by the IP.
+> Supports encode and decode of various formats:
+>      YUV444, YUV422, YUV420, RGB, ARGB, Gray
+> YUV420 is the only multi-planar format supported.
+> Minimum resolution is 64 x 64, maximum 8192 x 8192.
+> The alignment requirements for the resolution depend on the format,
+> multiple of 16 resolutions should work for all formats.
+> 
+> Signed-off-by: Mirela Rabulea <mirela.rabulea@nxp.com>
+> ---
+>  drivers/media/platform/Kconfig                |    2 +
+>  drivers/media/platform/Makefile               |    1 +
+>  drivers/media/platform/imx-jpeg/Kconfig       |   10 +
+>  drivers/media/platform/imx-jpeg/Makefile      |    3 +
+>  drivers/media/platform/imx-jpeg/mxc-jpeg-hw.c |  168 ++
+>  drivers/media/platform/imx-jpeg/mxc-jpeg-hw.h |  140 ++
+>  drivers/media/platform/imx-jpeg/mxc-jpeg.c    | 2266 +++++++++++++++++++++++++
+>  drivers/media/platform/imx-jpeg/mxc-jpeg.h    |  187 ++
+>  8 files changed, 2777 insertions(+)
+>  create mode 100644 drivers/media/platform/imx-jpeg/Kconfig
+>  create mode 100644 drivers/media/platform/imx-jpeg/Makefile
+>  create mode 100644 drivers/media/platform/imx-jpeg/mxc-jpeg-hw.c
+>  create mode 100644 drivers/media/platform/imx-jpeg/mxc-jpeg-hw.h
+>  create mode 100644 drivers/media/platform/imx-jpeg/mxc-jpeg.c
+>  create mode 100644 drivers/media/platform/imx-jpeg/mxc-jpeg.h
+> 
+> [..]
+
+> +};
+> +
+> +/*
+> + * default configuration stream, 64x64 yuv422
+> + * split by JPEG marker, so it's easier to modify & use
+> + */
+> +static const unsigned char jpeg_soi[] = {0xFF, 0xD8};
+> +static const unsigned char jpeg_app0[] = {0xFF, 0xE0,
+
+I think it's time to re-consider creating some common code
+for drivers that deal with JPEG parsing. I don't know
+exactly how this should be done, but it's worth a try.
+
+Having been there, it might sound unfair to request you to
+take such action. However, someone has to do these kinds
+of cleanups and improvements, sooner or later, if we want
+to keep a clean codebase.
+
+Hope this makes sense.
+
+Regards,
+Ezequiel
+
