@@ -2,38 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 98775FA510
-	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2019 03:21:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D9A97FA4F0
+	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2019 03:20:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729818AbfKMCUZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Nov 2019 21:20:25 -0500
-Received: from mail.kernel.org ([198.145.29.99]:45450 "EHLO mail.kernel.org"
+        id S1729488AbfKMCTy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Nov 2019 21:19:54 -0500
+Received: from mail.kernel.org ([198.145.29.99]:46398 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728899AbfKMByc (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Nov 2019 20:54:32 -0500
+        id S1727973AbfKMBzE (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 12 Nov 2019 20:55:04 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EA5EB222CD;
-        Wed, 13 Nov 2019 01:54:30 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1B394204EC;
+        Wed, 13 Nov 2019 01:55:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573610071;
-        bh=8xNOoACWH3K2CUyjJCpoBhrHykxp+H3DVrmXt4ZVvNI=;
+        s=default; t=1573610103;
+        bh=+G/Hb5yXy8J1/R9Fa07bK3eEpG/8DlxjsJp1lvjGrEM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=dNs1MPhNN9HgucHAddXGYtRHm3njOh3B2HgPpnHqZAh5vlew3mFjkftkM9O32KTyN
-         vW/OPY4rWePQVGTySZW5FiFdDcrLtYVVBFKiNhlNQIxS/KN+OiiRpuWwz/IUgce3tA
-         DOKHyVUHBIxRXmC+CrU2CCJdVyEtwaI4AhMI2/gQ=
+        b=yBBamO5DQU9+aeIQ8Cmh1a8JKUqQYHsOT2XOiy9hp/nMomR/HajDtj1m5UENruY2l
+         q4DtwYkb9P4pQqq8a6sB+rpmXe2iLOOS8VepXoh+cxYeURfJpB0zOmg/umzLl8GMEd
+         ktUfeS6zqtQHcTk5ODhBwdlJ1KJdjmZ0iuEGBCF4=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
+Cc:     Wenwen Wang <wang6495@umn.edu>, Hans Verkuil <hverkuil@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
-        clang-built-linux@googlegroups.com
-Subject: [PATCH AUTOSEL 4.19 150/209] media: cx18: Don't check for address of video_dev
-Date:   Tue, 12 Nov 2019 20:49:26 -0500
-Message-Id: <20191113015025.9685-150-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.19 163/209] media: isif: fix a NULL pointer dereference bug
+Date:   Tue, 12 Nov 2019 20:49:39 -0500
+Message-Id: <20191113015025.9685-163-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191113015025.9685-1-sashal@kernel.org>
 References: <20191113015025.9685-1-sashal@kernel.org>
@@ -46,48 +43,47 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Nathan Chancellor <natechancellor@gmail.com>
+From: Wenwen Wang <wang6495@umn.edu>
 
-[ Upstream commit eb1ca9a428fdc3f98be4898f6cd8bcb803878619 ]
+[ Upstream commit a26ac6c1bed951b2066cc4b2257facd919e35c0b ]
 
-Clang warns that the address of a pointer will always evaluated as true
-in a boolean context.
+In isif_probe(), there is a while loop to get the ISIF base address and
+linearization table0 and table1 address. In the loop body, the function
+platform_get_resource() is called to get the resource. If
+platform_get_resource() returns NULL, the loop is terminated and the
+execution goes to 'fail_nobase_res'. Suppose the loop is terminated at the
+first iteration because platform_get_resource() returns NULL and the
+execution goes to 'fail_nobase_res'. Given that there is another while loop
+at 'fail_nobase_res' and i equals to 0, one iteration of the second while
+loop will be executed. However, the second while loop does not check the
+return value of platform_get_resource(). This can cause a NULL pointer
+dereference bug if the return value is a NULL pointer.
 
-drivers/media/pci/cx18/cx18-driver.c:1255:23: warning: address of
-'cx->streams[i].video_dev' will always evaluate to 'true'
-[-Wpointer-bool-conversion]
-                if (&cx->streams[i].video_dev)
-                ~~   ~~~~~~~~~~~~~~~^~~~~~~~~
-1 warning generated.
+This patch avoids the above issue by adding a check in the second while
+loop after the call to platform_get_resource().
 
-Check whether v4l2_dev is null, not the address, so that the statement
-doesn't fire all the time. This check has been present since 2009,
-introduced by commit 21a278b85d3c ("V4L/DVB (11619): cx18: Simplify the
-work handler for outgoing mailbox commands")
-
-Reported-by: Nick Desaulniers <ndesaulniers@google.com>
-Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+Signed-off-by: Wenwen Wang <wang6495@umn.edu>
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/pci/cx18/cx18-driver.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/platform/davinci/isif.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/pci/cx18/cx18-driver.c b/drivers/media/pci/cx18/cx18-driver.c
-index 0c389a3fb4e5f..e64f9093cd6d3 100644
---- a/drivers/media/pci/cx18/cx18-driver.c
-+++ b/drivers/media/pci/cx18/cx18-driver.c
-@@ -1252,7 +1252,7 @@ static void cx18_cancel_out_work_orders(struct cx18 *cx)
- {
- 	int i;
- 	for (i = 0; i < CX18_MAX_STREAMS; i++)
--		if (&cx->streams[i].video_dev)
-+		if (cx->streams[i].video_dev.v4l2_dev)
- 			cancel_work_sync(&cx->streams[i].out_work_order);
- }
+diff --git a/drivers/media/platform/davinci/isif.c b/drivers/media/platform/davinci/isif.c
+index f924e76e2fbf8..340f8218f54d3 100644
+--- a/drivers/media/platform/davinci/isif.c
++++ b/drivers/media/platform/davinci/isif.c
+@@ -1100,7 +1100,8 @@ static int isif_probe(struct platform_device *pdev)
  
+ 	while (i >= 0) {
+ 		res = platform_get_resource(pdev, IORESOURCE_MEM, i);
+-		release_mem_region(res->start, resource_size(res));
++		if (res)
++			release_mem_region(res->start, resource_size(res));
+ 		i--;
+ 	}
+ 	vpfe_unregister_ccdc_device(&isif_hw_dev);
 -- 
 2.20.1
 
