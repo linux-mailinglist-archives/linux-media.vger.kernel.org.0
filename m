@@ -2,38 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A058EFA585
-	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2019 03:23:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 04777FA55A
+	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2019 03:22:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729050AbfKMCX0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 Nov 2019 21:23:26 -0500
-Received: from mail.kernel.org ([198.145.29.99]:41766 "EHLO mail.kernel.org"
+        id S1729310AbfKMCW1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 Nov 2019 21:22:27 -0500
+Received: from mail.kernel.org ([198.145.29.99]:43202 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728354AbfKMBwl (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 Nov 2019 20:52:41 -0500
+        id S1727440AbfKMBxa (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 12 Nov 2019 20:53:30 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 357A4222CA;
-        Wed, 13 Nov 2019 01:52:39 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 01F4D222CD;
+        Wed, 13 Nov 2019 01:53:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573609960;
-        bh=xLo8An/GGtaYvQusuEEVTAK6bx26bpriaCZTP8Q7WCI=;
+        s=default; t=1573610009;
+        bh=dVNRZUOppbIJs5ql/gl9Dfu+yySfO+0rBHt2dBpyjbo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=FZNCL2IMOexpRiGkCaEiZ9eSVScHdTPH+tGXp1rFt1L8yofgCiR0WivoPKQmSIf3h
-         7bF3oUqkDIzseIPbr/wZ+1vXE6pW9PE1ZvS9zgPUqHQG2WXN4dAk1gicYZcAyaiuGt
-         HWexPLj5w+bygCuuUzRnU+LnJmbQ4Z2+SjIg3g3U=
+        b=YH/Ct24kvlkeGoRV4FcQPbHgieEzYyf9DV4wTLI5Pum4uu7P+lUK45V0vooigDCFr
+         K0NGvu29OxHjHFQtuaYv6yETpCAfSgojkcoPGFAe0HL75l9rC/gugtkpq84sh3fCS2
+         MD+53ymf3wGufBDs189dKXVQPL5IzJ+cKlsPdjKM=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
+Cc:     Hans Verkuil <hans.verkuil@cisco.com>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 092/209] media: i2c: adv748x: Support probing a single output
-Date:   Tue, 12 Nov 2019 20:48:28 -0500
-Message-Id: <20191113015025.9685-92-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 114/209] media: cec-gpio: select correct Signal Free Time
+Date:   Tue, 12 Nov 2019 20:48:50 -0500
+Message-Id: <20191113015025.9685-114-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191113015025.9685-1-sashal@kernel.org>
 References: <20191113015025.9685-1-sashal@kernel.org>
@@ -46,149 +43,61 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Jacopo Mondi <jacopo+renesas@jmondi.org>
+From: Hans Verkuil <hans.verkuil@cisco.com>
 
-[ Upstream commit eccf442ce156ec2b4e06b1239d5fdcb0c732f63f ]
+[ Upstream commit c439d5c1e13dbf66cff53455432f21d4d0536c51 ]
 
-Currently the adv748x driver will fail to probe unless both of its
-output endpoints (TXA and TXB) are connected.
+If a receive is in progress or starts before the transmit has
+a chance, then lower the Signal Free Time of the upcoming transmit
+to no more than CEC_SIGNAL_FREE_TIME_NEW_INITIATOR.
 
-Make the driver support probing provided that there is at least one
-input, and one output connected and protect the clean-up function from
-accessing un-initialized fields.
+This is per the specification requirements.
 
-Following patches will fix other uses of un-initialized TXs in the driver,
-such as power management functions.
-
-Tested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/i2c/adv748x/adv748x-core.c | 25 +++++++++++++++++++++---
- drivers/media/i2c/adv748x/adv748x-csi2.c | 18 ++++++-----------
- drivers/media/i2c/adv748x/adv748x.h      |  2 ++
- 3 files changed, 30 insertions(+), 15 deletions(-)
+ drivers/media/cec/cec-pin.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/drivers/media/i2c/adv748x/adv748x-core.c b/drivers/media/i2c/adv748x/adv748x-core.c
-index 6ca88daa0ecd7..65c3024c5f76f 100644
---- a/drivers/media/i2c/adv748x/adv748x-core.c
-+++ b/drivers/media/i2c/adv748x/adv748x-core.c
-@@ -569,7 +569,8 @@ static int adv748x_parse_dt(struct adv748x_state *state)
+diff --git a/drivers/media/cec/cec-pin.c b/drivers/media/cec/cec-pin.c
+index 0496d93b2b8fa..8f987bc0dd883 100644
+--- a/drivers/media/cec/cec-pin.c
++++ b/drivers/media/cec/cec-pin.c
+@@ -936,6 +936,17 @@ static enum hrtimer_restart cec_pin_timer(struct hrtimer *timer)
+ 			/* Start bit, switch to receive state */
+ 			pin->ts = ts;
+ 			pin->state = CEC_ST_RX_START_BIT_LOW;
++			/*
++			 * If a transmit is pending, then that transmit should
++			 * use a signal free time of no more than
++			 * CEC_SIGNAL_FREE_TIME_NEW_INITIATOR since it will
++			 * have a new initiator due to the receive that is now
++			 * starting.
++			 */
++			if (pin->tx_msg.len && pin->tx_signal_free_time >
++			    CEC_SIGNAL_FREE_TIME_NEW_INITIATOR)
++				pin->tx_signal_free_time =
++					CEC_SIGNAL_FREE_TIME_NEW_INITIATOR;
+ 			break;
+ 		}
+ 		if (ktime_to_ns(pin->ts) == 0)
+@@ -1158,6 +1169,15 @@ static int cec_pin_adap_transmit(struct cec_adapter *adap, u8 attempts,
  {
- 	struct device_node *ep_np = NULL;
- 	struct of_endpoint ep;
--	bool found = false;
-+	bool out_found = false;
-+	bool in_found = false;
- 
- 	for_each_endpoint_of_node(state->dev->of_node, ep_np) {
- 		of_graph_parse_endpoint(ep_np, &ep);
-@@ -592,10 +593,17 @@ static int adv748x_parse_dt(struct adv748x_state *state)
- 		of_node_get(ep_np);
- 		state->endpoints[ep.port] = ep_np;
- 
--		found = true;
-+		/*
-+		 * At least one input endpoint and one output endpoint shall
-+		 * be defined.
-+		 */
-+		if (ep.port < ADV748X_PORT_TXA)
-+			in_found = true;
-+		else
-+			out_found = true;
- 	}
- 
--	return found ? 0 : -ENODEV;
-+	return in_found && out_found ? 0 : -ENODEV;
- }
- 
- static void adv748x_dt_cleanup(struct adv748x_state *state)
-@@ -627,6 +635,17 @@ static int adv748x_probe(struct i2c_client *client,
- 	state->i2c_clients[ADV748X_PAGE_IO] = client;
- 	i2c_set_clientdata(client, state);
+ 	struct cec_pin *pin = adap->pin;
  
 +	/*
-+	 * We can not use container_of to get back to the state with two TXs;
-+	 * Initialize the TXs's fields unconditionally on the endpoint
-+	 * presence to access them later.
++	 * If a receive is in progress, then this transmit should use
++	 * a signal free time of max CEC_SIGNAL_FREE_TIME_NEW_INITIATOR
++	 * since when it starts transmitting it will have a new initiator.
 +	 */
-+	state->txa.state = state->txb.state = state;
-+	state->txa.page = ADV748X_PAGE_TXA;
-+	state->txb.page = ADV748X_PAGE_TXB;
-+	state->txa.port = ADV748X_PORT_TXA;
-+	state->txb.port = ADV748X_PORT_TXB;
++	if (pin->state != CEC_ST_IDLE &&
++	    signal_free_time > CEC_SIGNAL_FREE_TIME_NEW_INITIATOR)
++		signal_free_time = CEC_SIGNAL_FREE_TIME_NEW_INITIATOR;
 +
- 	/* Discover and process ports declared by the Device tree endpoints */
- 	ret = adv748x_parse_dt(state);
- 	if (ret) {
-diff --git a/drivers/media/i2c/adv748x/adv748x-csi2.c b/drivers/media/i2c/adv748x/adv748x-csi2.c
-index 469be87a3761f..556e13c911a62 100644
---- a/drivers/media/i2c/adv748x/adv748x-csi2.c
-+++ b/drivers/media/i2c/adv748x/adv748x-csi2.c
-@@ -266,19 +266,10 @@ static int adv748x_csi2_init_controls(struct adv748x_csi2 *tx)
- 
- int adv748x_csi2_init(struct adv748x_state *state, struct adv748x_csi2 *tx)
- {
--	struct device_node *ep;
- 	int ret;
- 
--	/* We can not use container_of to get back to the state with two TXs */
--	tx->state = state;
--	tx->page = is_txa(tx) ? ADV748X_PAGE_TXA : ADV748X_PAGE_TXB;
--
--	ep = state->endpoints[is_txa(tx) ? ADV748X_PORT_TXA : ADV748X_PORT_TXB];
--	if (!ep) {
--		adv_err(state, "No endpoint found for %s\n",
--				is_txa(tx) ? "txa" : "txb");
--		return -ENODEV;
--	}
-+	if (!is_tx_enabled(tx))
-+		return 0;
- 
- 	/* Initialise the virtual channel */
- 	adv748x_csi2_set_virtual_channel(tx, 0);
-@@ -288,7 +279,7 @@ int adv748x_csi2_init(struct adv748x_state *state, struct adv748x_csi2 *tx)
- 			    is_txa(tx) ? "txa" : "txb");
- 
- 	/* Ensure that matching is based upon the endpoint fwnodes */
--	tx->sd.fwnode = of_fwnode_handle(ep);
-+	tx->sd.fwnode = of_fwnode_handle(state->endpoints[tx->port]);
- 
- 	/* Register internal ops for incremental subdev registration */
- 	tx->sd.internal_ops = &adv748x_csi2_internal_ops;
-@@ -321,6 +312,9 @@ int adv748x_csi2_init(struct adv748x_state *state, struct adv748x_csi2 *tx)
- 
- void adv748x_csi2_cleanup(struct adv748x_csi2 *tx)
- {
-+	if (!is_tx_enabled(tx))
-+		return;
-+
- 	v4l2_async_unregister_subdev(&tx->sd);
- 	media_entity_cleanup(&tx->sd.entity);
- 	v4l2_ctrl_handler_free(&tx->ctrl_hdl);
-diff --git a/drivers/media/i2c/adv748x/adv748x.h b/drivers/media/i2c/adv748x/adv748x.h
-index 65f83741277e1..1cf46c401664d 100644
---- a/drivers/media/i2c/adv748x/adv748x.h
-+++ b/drivers/media/i2c/adv748x/adv748x.h
-@@ -82,6 +82,7 @@ struct adv748x_csi2 {
- 	struct adv748x_state *state;
- 	struct v4l2_mbus_framefmt format;
- 	unsigned int page;
-+	unsigned int port;
- 
- 	struct media_pad pads[ADV748X_CSI2_NR_PADS];
- 	struct v4l2_ctrl_handler ctrl_hdl;
-@@ -91,6 +92,7 @@ struct adv748x_csi2 {
- 
- #define notifier_to_csi2(n) container_of(n, struct adv748x_csi2, notifier)
- #define adv748x_sd_to_csi2(sd) container_of(sd, struct adv748x_csi2, sd)
-+#define is_tx_enabled(_tx) ((_tx)->state->endpoints[(_tx)->port] != NULL)
- 
- enum adv748x_hdmi_pads {
- 	ADV748X_HDMI_SINK,
+ 	pin->tx_signal_free_time = signal_free_time;
+ 	pin->tx_extra_bytes = 0;
+ 	pin->tx_msg = *msg;
 -- 
 2.20.1
 
