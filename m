@@ -2,93 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DF0DFAA48
-	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2019 07:38:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B5CFFAADC
+	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2019 08:22:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726548AbfKMGiO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Nov 2019 01:38:14 -0500
-Received: from mail-pl1-f194.google.com ([209.85.214.194]:41431 "EHLO
-        mail-pl1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725858AbfKMGiN (ORCPT
+        id S1726165AbfKMHWF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Nov 2019 02:22:05 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:59270 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726057AbfKMHWF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Nov 2019 01:38:13 -0500
-Received: by mail-pl1-f194.google.com with SMTP id d29so635380plj.8;
-        Tue, 12 Nov 2019 22:38:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=WLiRoMZ+yFPRoCGfEsARIdmeJYcG3ERIAnLJLg5wK0c=;
-        b=vLcgQJ+JfOET6Dta9ztvWBh0hP4Cvr+nOgR+PA2feR3CwMaC2+AIzyBPquzj52BCM8
-         lFNvfz9iTm8qFQpxeoC7Nx94ccNNkrr+DrI+1yO/xHkntkc9x+Nj5ff1qotZIzVfMb1s
-         GNTTTENoiPoqV3sGuVVlTqHEzZn2haNvvdc7EwFBcW5dp5i9HPyP1stTgrabZPiIvuky
-         UV1kMOG8l6INymR34RtSe2zvGGoawgrr/Ryu/wECWhVOoRz2ya3mn9V5P9S6yniylKRN
-         4Xm0rN6ZA2FEo0cy1XFaY/TuybMrTCVdfWCI3wZ6L7qm1jbpv87SkGIWND3mdEWSPv6v
-         0A/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=WLiRoMZ+yFPRoCGfEsARIdmeJYcG3ERIAnLJLg5wK0c=;
-        b=qlkxa5Q8g2PcnyPgCZQOINr7eG2XTJoiqLYzQg8InR7mbC7iMgFcR2p7bc0JAR9zmA
-         AeFsSu/QKKCyzd/dp809HEAAzUMBQDbcapSMMk9wfpKuQKs0YH4p0/ZZc7VxURdVox13
-         hikeYh6++cDQlUiOhT8RCM2ieXWqW37IoLOG79kfJDwj2UGYjiOKrMW1pyOwe+N1gMI9
-         gUDvyPY60W0OropSjNmBT2Wg1JOmhvpvl6tfDZAAuzuCbPED5SYqRuiXdEDJSbs/OoG7
-         lav6P35zCfEGLMN7GL19y/R8lJDjFDo1sC09wzq7v5kFiCdLSH7gPx/pve1mYjqIWz6M
-         l8DQ==
-X-Gm-Message-State: APjAAAW6qra1HCoYrqt5SE1goitSfxflq80kuhkmHJaeF3DxP8kKFdSw
-        hLANa57rNxIsZQ+H40kuO2c=
-X-Google-Smtp-Source: APXvYqxkwHt/TJTAEncicU6ZqxguK637g6oSnIkIAbEXKBP7Wn/waVVv7YtupAcPuqTYaTM/YHI2cg==
-X-Received: by 2002:a17:902:aa95:: with SMTP id d21mr2041503plr.182.1573627093320;
-        Tue, 12 Nov 2019 22:38:13 -0800 (PST)
-Received: from suzukaze.ipads-lab.se.sjtu.edu.cn ([202.120.40.82])
-        by smtp.gmail.com with ESMTPSA id r13sm1290060pfg.3.2019.11.12.22.38.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Nov 2019 22:38:12 -0800 (PST)
-From:   Chuhong Yuan <hslester96@gmail.com>
-Cc:     Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-        Houlong Wei <houlong.wei@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Chuhong Yuan <hslester96@gmail.com>
-Subject: [PATCH] media: platform: mtk-mdp: add missed destroy_workqueue in remove
-Date:   Wed, 13 Nov 2019 14:37:59 +0800
-Message-Id: <20191113063759.8838-1-hslester96@gmail.com>
-X-Mailer: git-send-email 2.23.0
+        Wed, 13 Nov 2019 02:22:05 -0500
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: bbrezillon)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 66BAC2905D4;
+        Wed, 13 Nov 2019 07:22:03 +0000 (GMT)
+Date:   Wed, 13 Nov 2019 08:22:00 +0100
+From:   Boris Brezillon <boris.brezillon@collabora.com>
+To:     Alexandre Courbot <acourbot@google.com>
+Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: H264 stateless reference frames ordering lists
+Message-ID: <20191113082200.134721c3@collabora.com>
+In-Reply-To: <CAPBb6MVmUAmp5kmtqOx=V=1NJHyDyK28FD=rtoZEXdXvfZ2-9g@mail.gmail.com>
+References: <CAPBb6MWXj+PNbJ0_m6O6wnYf6Z9NcYwr49qbSowG66NB-23k2g@mail.gmail.com>
+        <20191112115343.1b1908ce@collabora.com>
+        <CAPBb6MVmUAmp5kmtqOx=V=1NJHyDyK28FD=rtoZEXdXvfZ2-9g@mail.gmail.com>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The driver misses destroying wdt_wq when remove like what is done when
-probe fails.
-Add the missed calls like what is done to job_wq to fix it.
+Hi Alexandre,
 
-Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
----
- drivers/media/platform/mtk-mdp/mtk_mdp_core.c | 3 +++
- 1 file changed, 3 insertions(+)
+On Wed, 13 Nov 2019 15:30:40 +0900
+Alexandre Courbot <acourbot@google.com> wrote:
 
-diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
-index c1e29a46ae69..aeaed2cf4458 100644
---- a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
-+++ b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
-@@ -229,6 +229,9 @@ static int mtk_mdp_remove(struct platform_device *pdev)
- 	mtk_mdp_unregister_m2m_device(mdp);
- 	v4l2_device_unregister(&mdp->v4l2_dev);
- 
-+	flush_workqueue(mdp->wdt_wq);
-+	destroy_workqueue(mdp->wdt_wq);
-+
- 	flush_workqueue(mdp->job_wq);
- 	destroy_workqueue(mdp->job_wq);
- 
--- 
-2.23.0
+> On Tue, Nov 12, 2019 at 7:53 PM Boris Brezillon
+> <boris.brezillon@collabora.com> wrote:
+> >
+> > Hi Alexandre,
+> >
+> > On Tue, 12 Nov 2019 19:14:22 +0900
+> > Alexandre Courbot <acourbot@google.com> wrote:
+> >  
+> > > Hi Boris and Ezequiel,
+> > >
+> > > Patch c3adb85745ca6 has removed the ref_pic_list_* members from the
+> > > v4l2_ctrl_h264_decode_params struct. The MT8183 stateless decoder
+> > > driver I am working on still relies on these lists and I am trying (a
+> > > bit late to the game) to remove them from the Chromium OS kernel UAPI
+> > > in order to match upstream.
+> > >
+> > > I have dug into the discussion that resulted in this removal and could
+> > > not really find how these are supposed to be reconstructed and on the
+> > > basis on which information. The commit log for the above-mentioned
+> > > patch mentions that "generic helpers will be provided for drivers that
+> > > need this list". I could not find any in the kernel so far, do you
+> > > have any code available at the moment? Or any idea on how these can be
+> > > reconstructed? The process seems to involve reading the DPB itself as
+> > > well as reordering information from the slice parameters, and seems to
+> > > be a bit involved to be done in the kernel, but maybe I am missing
+> > > something here.  
+> >
+> > The code is here [1], and it should indeed be extracted and put in a
+> > generic v4l2_h264 lib at some point (should happen soon, since we need
+> > the same logic for the rkvdec driver).
+> >
+> > Let me know if you have any questions.  
+> 
+> Thanks - not sure how I missed it. I have tried adapting the code for
+> MT8183 and it seems to be working perfectly there as well.
 
+That's great news! Note that we have a fix queued to media/master, so
+if you copy the code, take it from there.
+
+> 
+> Regarding the lib to make this code available to other drivers, I was
+> thinking about doing it on top of
+> https://patchwork.kernel.org/patch/11076405/ but is this patch still
+> being worked on?
+
+Unfortunately no. Hans was not in favor of this extra codec abstraction
+layer and suggested to provide a set of helpers instead. But after
+looking at it, there's not much that can be automated/shared if drivers
+don't all share the same base object (maybe part of the ctrls handling
+logic). Also had the same feedback from Paul K (reported privately on
+IRC), so I decided to give up on this approach.
+
+Regards,
+
+Boris
