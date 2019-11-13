@@ -2,20 +2,20 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A633FB32D
-	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2019 16:05:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 83209FB32E
+	for <lists+linux-media@lfdr.de>; Wed, 13 Nov 2019 16:06:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727680AbfKMPF5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Nov 2019 10:05:57 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:42167 "EHLO
+        id S1727845AbfKMPGA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Nov 2019 10:06:00 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:60981 "EHLO
         metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727550AbfKMPF5 (ORCPT
+        with ESMTP id S1727550AbfKMPF7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Nov 2019 10:05:57 -0500
+        Wed, 13 Nov 2019 10:05:59 -0500
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.pengutronix.de.)
         by metis.ext.pengutronix.de with esmtp (Exim 4.92)
         (envelope-from <p.zabel@pengutronix.de>)
-        id 1iUuDT-00064Z-V7; Wed, 13 Nov 2019 16:05:56 +0100
+        id 1iUuDV-00064Z-FT; Wed, 13 Nov 2019 16:05:57 +0100
 From:   Philipp Zabel <p.zabel@pengutronix.de>
 To:     linux-media@vger.kernel.org
 Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
@@ -27,9 +27,9 @@ Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Bin Liu <bin.liu@mediatek.com>,
         Ezequiel Garcia <ezequiel@collabora.com>,
         Mirela Rabulea <mirela.rabulea@nxp.com>, kernel@pengutronix.de
-Subject: [PATCH 1/5] media: add v4l2 JPEG helpers
-Date:   Wed, 13 Nov 2019 16:05:34 +0100
-Message-Id: <20191113150538.9807-2-p.zabel@pengutronix.de>
+Subject: [PATCH 2/5] media: coda: jpeg: add CODA960 JPEG decoder support
+Date:   Wed, 13 Nov 2019 16:05:35 +0100
+Message-Id: <20191113150538.9807-3-p.zabel@pengutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191113150538.9807-1-p.zabel@pengutronix.de>
 References: <20191113150538.9807-1-p.zabel@pengutronix.de>
@@ -44,817 +44,896 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add helpers for JPEG header parsing. They allow both scanning for marker
-segment positions and later parsing the segments individually, as
-required by s5p-jpeg, as well as parsing all headers in one go, as
-required by coda-vpu. The frame header is always parsed, as basically
-all decoders are interested in width, height, and number of components.
-For convenience, the JPEG chroma subsampling factors are decoded into a
-v4l2_jpeg_chroma_subsampling enum.
-
-Only baseline DCT encoded JPEGs with 8-bit precision and either
-grayscale (1 component) or YCbCr (3 components) encodings are supported,
-as current drivers do not support different formats.
+This patch adds JPEG decoding support for CODA960, handling the JPEG
+hardware directly. A separate JPEG decoder video device is created due
+to the separate hardware unit and different supported pixel formats.
+While the hardware can not change subsampling on the fly, it can decode
+4:2:2 subsampled JPEG images into YUV422P.
 
 Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+[m.felsch@pengutronix.de: fix qsequence counting by explicitly
+ checking for the !use_bit case]
+Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
 ---
- drivers/media/v4l2-core/Kconfig     |   4 +
- drivers/media/v4l2-core/Makefile    |   2 +
- drivers/media/v4l2-core/v4l2-jpeg.c | 614 ++++++++++++++++++++++++++++
- include/media/v4l2-jpeg.h           | 135 ++++++
- 4 files changed, 755 insertions(+)
- create mode 100644 drivers/media/v4l2-core/v4l2-jpeg.c
- create mode 100644 include/media/v4l2-jpeg.h
+ drivers/media/platform/Kconfig            |   1 +
+ drivers/media/platform/coda/coda-common.c | 124 ++++-
+ drivers/media/platform/coda/coda-jpeg.c   | 551 ++++++++++++++++++++++
+ drivers/media/platform/coda/coda.h        |  11 +-
+ 4 files changed, 683 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/v4l2-core/Kconfig b/drivers/media/v4l2-core/Kconfig
-index 39e3fb30ba0b..89809ec24779 100644
---- a/drivers/media/v4l2-core/Kconfig
-+++ b/drivers/media/v4l2-core/Kconfig
-@@ -45,6 +45,10 @@ config VIDEO_PCI_SKELETON
- config VIDEO_TUNER
- 	tristate
+diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+index e84f35d3a68e..c989a2a45c60 100644
+--- a/drivers/media/platform/Kconfig
++++ b/drivers/media/platform/Kconfig
+@@ -180,6 +180,7 @@ config VIDEO_CODA
+ 	select SRAM
+ 	select VIDEOBUF2_DMA_CONTIG
+ 	select VIDEOBUF2_VMALLOC
++	select V4L2_JPEG_HELPER
+ 	select V4L2_MEM2MEM_DEV
+ 	select GENERIC_ALLOCATOR
+ 	help
+diff --git a/drivers/media/platform/coda/coda-common.c b/drivers/media/platform/coda/coda-common.c
+index 9aa5aa837c4e..d8f988b207b1 100644
+--- a/drivers/media/platform/coda/coda-common.c
++++ b/drivers/media/platform/coda/coda-common.c
+@@ -159,6 +159,7 @@ static const struct coda_codec coda9_codecs[] = {
+ 	CODA_CODEC(CODA9_MODE_DECODE_H264, V4L2_PIX_FMT_H264,   V4L2_PIX_FMT_YUV420, 1920, 1088),
+ 	CODA_CODEC(CODA9_MODE_DECODE_MP2,  V4L2_PIX_FMT_MPEG2,  V4L2_PIX_FMT_YUV420, 1920, 1088),
+ 	CODA_CODEC(CODA9_MODE_DECODE_MP4,  V4L2_PIX_FMT_MPEG4,  V4L2_PIX_FMT_YUV420, 1920, 1088),
++	CODA_CODEC(CODA9_MODE_DECODE_MJPG, V4L2_PIX_FMT_JPEG,	V4L2_PIX_FMT_YUV420, 8192, 8192),
+ };
  
-+# Used by drivers that need v4l2-jpeg.ko
-+config V4L2_JPEG_HELPER
-+	tristate
-+
- # Used by drivers that need v4l2-mem2mem.ko
- config V4L2_MEM2MEM_DEV
- 	tristate
-diff --git a/drivers/media/v4l2-core/Makefile b/drivers/media/v4l2-core/Makefile
-index 786bd1ec4d1b..144564656d22 100644
---- a/drivers/media/v4l2-core/Makefile
-+++ b/drivers/media/v4l2-core/Makefile
-@@ -24,6 +24,8 @@ obj-$(CONFIG_V4L2_MEM2MEM_DEV) += v4l2-mem2mem.o
+ struct coda_video_device {
+@@ -252,6 +253,22 @@ static const struct coda_video_device coda9_jpeg_encoder = {
+ 	},
+ };
  
- obj-$(CONFIG_V4L2_FLASH_LED_CLASS) += v4l2-flash-led-class.o
- 
-+obj-$(CONFIG_V4L2_JPEG_HELPER) += v4l2-jpeg.o
-+
- obj-$(CONFIG_VIDEOBUF_GEN) += videobuf-core.o
- obj-$(CONFIG_VIDEOBUF_DMA_SG) += videobuf-dma-sg.o
- obj-$(CONFIG_VIDEOBUF_DMA_CONTIG) += videobuf-dma-contig.o
-diff --git a/drivers/media/v4l2-core/v4l2-jpeg.c b/drivers/media/v4l2-core/v4l2-jpeg.c
-new file mode 100644
-index 000000000000..f1e1a818b47c
---- /dev/null
-+++ b/drivers/media/v4l2-core/v4l2-jpeg.c
-@@ -0,0 +1,614 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * V4L2 JPEG header parser helpers.
-+ *
-+ * Copyright (C) 2019 Pengutronix, Philipp Zabel <kernel@pengutronix.de>
-+ *
-+ * For reference, see JPEG ITU-T.81 (ISO/IEC 10918-1) [1]
-+ *
-+ * [1] https://www.w3.org/Graphics/JPEG/itu-t81.pdf
-+ */
-+
-+#include <asm/unaligned.h>
-+#include <linux/errno.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/types.h>
-+#include <media/v4l2-jpeg.h>
-+
-+MODULE_DESCRIPTION("V4L2 JPEG header parser helpers");
-+MODULE_AUTHOR("Philipp Zabel <kernel@pengutronix.de>");
-+MODULE_LICENSE("GPL");
-+
-+/* Table B.1 - Marker code assignments */
-+#define SOF0	0xffc0	/* start of frame */
-+#define SOF1	0xffc1
-+#define SOF3	0xffc3
-+#define SOF5	0xffc5
-+#define SOF7	0xffc7
-+#define JPG	0xffc8	/* extensions */
-+#define SOF9	0xffc9
-+#define SOF11	0xffcb
-+#define SOF13	0xffcd
-+#define SOF15	0xffcf
-+#define DHT	0xffc4	/* huffman table */
-+#define DAC	0xffcc	/* arithmetic coding conditioning */
-+#define RST0	0xffd0	/* restart */
-+#define RST7	0xffd7
-+#define SOI	0xffd8	/* start of image */
-+#define EOI	0xffd9	/* end of image */
-+#define SOS	0xffda	/* start of stream */
-+#define DQT	0xffdb	/* quantization table */
-+#define DNL	0xffdc	/* number of lines */
-+#define DRI	0xffdd	/* restart interval */
-+#define DHP	0xffde	/* hierarchical progression */
-+#define EXP	0xffdf	/* expand reference */
-+#define APP0	0xffe0	/* application data */
-+#define APP15	0xffef
-+#define JPG0	0xfff0	/* extensions */
-+#define JPG13	0xfffd
-+#define COM	0xfffe	/* comment */
-+#define TEM	0xff01	/* temporary */
-+
-+/**
-+ * struct jpeg_stream - JPEG byte stream
-+ * @curr: current position in stream
-+ * @end: end position, after last byte
-+ */
-+struct jpeg_stream {
-+	u8 *curr;
-+	u8 *end;
++static const struct coda_video_device coda9_jpeg_decoder = {
++	.name = "coda-jpeg-decoder",
++	.type = CODA_INST_DECODER,
++	.ops = &coda9_jpeg_decode_ops,
++	.direct = true,
++	.src_formats = {
++		V4L2_PIX_FMT_JPEG,
++	},
++	.dst_formats = {
++		V4L2_PIX_FMT_NV12,
++		V4L2_PIX_FMT_YUV420,
++		V4L2_PIX_FMT_YVU420,
++		V4L2_PIX_FMT_YUV422P,
++	},
 +};
 +
-+/* returns a value that fits into u8, or negative error */
-+static int jpeg_get_byte(struct jpeg_stream *stream)
-+{
-+	if (stream->curr >= stream->end)
-+		return -EINVAL;
+ static const struct coda_video_device *codadx6_video_devices[] = {
+ 	&coda_bit_encoder,
+ };
+@@ -270,6 +287,7 @@ static const struct coda_video_device *coda7_video_devices[] = {
+ 
+ static const struct coda_video_device *coda9_video_devices[] = {
+ 	&coda9_jpeg_encoder,
++	&coda9_jpeg_decoder,
+ 	&coda_bit_encoder,
+ 	&coda_bit_decoder,
+ };
+@@ -411,6 +429,12 @@ static int coda_querycap(struct file *file, void *priv,
+ 	return 0;
+ }
+ 
++static const u32 coda_formats_420[CODA_MAX_FORMATS] = {
++		V4L2_PIX_FMT_NV12,
++		V4L2_PIX_FMT_YUV420,
++		V4L2_PIX_FMT_YVU420,
++};
 +
-+	return *stream->curr++;
-+}
+ static int coda_enum_fmt(struct file *file, void *priv,
+ 			 struct v4l2_fmtdesc *f)
+ {
+@@ -421,10 +445,31 @@ static int coda_enum_fmt(struct file *file, void *priv,
+ 
+ 	if (f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT)
+ 		formats = cvd->src_formats;
+-	else if (f->type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
++	else if (f->type == V4L2_BUF_TYPE_VIDEO_CAPTURE) {
++		struct coda_q_data *q_data_src;
++		struct vb2_queue *src_vq;
 +
-+/* returns a value that fits into u16, or negative error */
-+static int jpeg_get_word_be(struct jpeg_stream *stream)
-+{
-+	u16 word;
+ 		formats = cvd->dst_formats;
+-	else
 +
-+	if (stream->curr + sizeof(__be16) > stream->end)
-+		return -EINVAL;
-+
-+	word = get_unaligned_be16(stream->curr);
-+	stream->curr += sizeof(__be16);
-+
-+	return word;
-+}
-+
-+static int jpeg_skip(struct jpeg_stream *stream, size_t len)
-+{
-+	if (stream->curr + len > stream->end)
-+		return -EINVAL;
-+
-+	stream->curr += len;
-+
-+	return 0;
-+}
-+
-+static int jpeg_next_marker(struct jpeg_stream *stream)
-+{
-+	int byte;
-+	u16 marker = 0;
-+
-+	while ((byte = jpeg_get_byte(stream)) >= 0) {
-+		marker = (marker << 8) | byte;
-+		/* skip stuffing bytes and REServed markers */
-+		if (marker == TEM || (marker > 0xffbf && marker < 0xffff))
-+			return marker;
-+	}
-+
-+	return byte;
-+}
-+
-+/* this does not advance the current position in the stream */
-+static int jpeg_reference_segment(struct jpeg_stream *stream,
-+				  struct v4l2_jpeg_reference *segment)
-+{
-+	u16 len;
-+
-+	if (stream->curr + sizeof(__be16) > stream->end)
-+		return -EINVAL;
-+
-+	len = get_unaligned_be16(stream->curr);
-+	if (stream->curr + len > stream->end)
-+		return -EINVAL;
-+
-+	segment->start = stream->curr;
-+	segment->length = len;
-+
-+	return 0;
-+}
-+
-+static int v4l2_jpeg_decode_subsampling(u8 nf, u8 h_v)
-+{
-+	if (nf == 1)
-+		return V4L2_JPEG_CHROMA_SUBSAMPLING_GRAY;
-+
-+	switch (h_v) {
-+	case 0x11:
-+		return V4L2_JPEG_CHROMA_SUBSAMPLING_444;
-+	case 0x21:
-+		return V4L2_JPEG_CHROMA_SUBSAMPLING_422;
-+	case 0x22:
-+		return V4L2_JPEG_CHROMA_SUBSAMPLING_420;
-+	case 0x41:
-+		return V4L2_JPEG_CHROMA_SUBSAMPLING_411;
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+static int jpeg_parse_frame_header(struct jpeg_stream *stream,
-+				   struct v4l2_jpeg_frame_header *frame_header)
-+{
-+	int len = jpeg_get_word_be(stream);
-+
-+	if (len < 0)
-+		return len;
-+	/* Lf = 8 + 3 * Nf, Nf >= 1 */
-+	if (len < 8 + 3)
-+		return -EINVAL;
-+
-+	if (frame_header) {
-+		/* Table B.2 - Frame header parameter sizes and values */
-+		int p, y, x, nf;
-+		int i;
-+
-+		p = jpeg_get_byte(stream);
-+		if (p < 0)
-+			return p;
-+		/* baseline DCT only supports 8-bit precision */
-+		if (p != 8)
-+			return -EINVAL;
-+
-+		y = jpeg_get_word_be(stream);
-+		if (y < 0)
-+			return y;
-+		if (y == 0)
-+			return -EINVAL;
-+
-+		x = jpeg_get_word_be(stream);
-+		if (x < 0)
-+			return x;
-+		if (x == 0)
-+			return -EINVAL;
-+
-+		nf = jpeg_get_byte(stream);
-+		if (nf < 0)
-+			return nf;
 +		/*
-+		 * The spec allows 1 <= Nf <= 255, but we only support YCbCr
-+		 * and grayscale.
++		 * If the source format is already fixed, only allow the same
++		 * chroma subsampling.
 +		 */
-+		if (nf != 1 && nf != 3)
-+			return -EINVAL;
-+		if (len != 8 + 3 * nf)
-+			return -EINVAL;
++		q_data_src = get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_OUTPUT);
++		src_vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
++					 V4L2_BUF_TYPE_VIDEO_OUTPUT);
++		if (q_data_src->fourcc == V4L2_PIX_FMT_JPEG &&
++		    vb2_is_streaming(src_vq)) {
++			if (ctx->params.jpeg_format == 0) {
++				formats = coda_formats_420;
++			} else if (ctx->params.jpeg_format == 1) {
++				f->pixelformat = V4L2_PIX_FMT_YUV422P;
++				return f->index ? -EINVAL : 0;
++			}
++		}
++	} else {
+ 		return -EINVAL;
++	}
+ 
+ 	if (f->index >= CODA_MAX_FORMATS || formats[f->index] == 0)
+ 		return -EINVAL;
+@@ -614,12 +659,21 @@ static int coda_try_fmt_vid_cap(struct file *file, void *priv,
+ 
+ 	/*
+ 	 * If the source format is already fixed, only allow the same output
+-	 * resolution
++	 * resolution. When decoding JPEG images, we also have to make sure to
++	 * use the same chroma subsampling.
+ 	 */
+ 	src_vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, V4L2_BUF_TYPE_VIDEO_OUTPUT);
+ 	if (vb2_is_streaming(src_vq)) {
+ 		f->fmt.pix.width = q_data_src->width;
+ 		f->fmt.pix.height = q_data_src->height;
 +
-+		frame_header->precision = p;
-+		frame_header->height = y;
-+		frame_header->width = x;
-+		frame_header->num_components = nf;
-+
-+		for (i = 0; i < nf; i++) {
-+			struct v4l2_jpeg_frame_component_spec *component;
-+			int c, h_v, tq;
-+
-+			c = jpeg_get_byte(stream);
-+			if (c < 0)
-+				return c;
-+
-+			h_v = jpeg_get_byte(stream);
-+			if (h_v < 0)
-+				return h_v;
-+			if (i == 0) {
-+				int subs;
-+
-+				subs = v4l2_jpeg_decode_subsampling(nf, h_v);
-+				if (subs < 0)
-+					return subs;
-+				frame_header->subsampling = subs;
-+			} else if (h_v != 0x11) {
-+				/* all chroma sampling factors must be 1 */
-+				return -EINVAL;
++		if (q_data_src->fourcc == V4L2_PIX_FMT_JPEG) {
++			if (ctx->params.jpeg_format == 0 &&
++			    f->fmt.pix.pixelformat == V4L2_PIX_FMT_YUV422P)
++				f->fmt.pix.pixelformat = V4L2_PIX_FMT_YUV420;
++			else if (ctx->params.jpeg_format == 1)
++				f->fmt.pix.pixelformat = V4L2_PIX_FMT_YUV422P;
++		}
+ 	}
+ 
+ 	f->fmt.pix.colorspace = ctx->colorspace;
+@@ -747,6 +801,7 @@ static int coda_s_fmt(struct coda_ctx *ctx, struct v4l2_format *f,
+ 		/* else fall through */
+ 	case V4L2_PIX_FMT_YUV420:
+ 	case V4L2_PIX_FMT_YVU420:
++	case V4L2_PIX_FMT_YUV422P:
+ 		ctx->tiled_map_type = GDI_LINEAR_FRAME_MAP;
+ 		break;
+ 	default:
+@@ -1894,6 +1949,45 @@ static int coda_start_streaming(struct vb2_queue *q, unsigned int count)
+ 			}
+ 		}
+ 
++		/*
++		 * Check the first input JPEG buffer to determine chroma
++		 * subsampling.
++		 */
++		if (q_data_src->fourcc == V4L2_PIX_FMT_JPEG) {
++			buf = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
++			ret = coda_jpeg_decode_header(ctx, &buf->vb2_buf);
++			if (ret < 0) {
++				v4l2_err(v4l2_dev,
++					 "failed to decode JPEG header: %d\n",
++					 ret);
++				goto err;
 +			}
 +
-+			tq = jpeg_get_byte(stream);
-+			if (tq < 0)
-+				return tq;
-+
-+			component = &frame_header->component[i];
-+			component->component_identifier = c;
-+			component->horizontal_sampling_factor =
-+				(h_v >> 4) & 0xf;
-+			component->vertical_sampling_factor = h_v & 0xf;
-+			component->quantization_table_selector = tq;
++			q_data_dst = get_q_data(ctx,
++					V4L2_BUF_TYPE_VIDEO_CAPTURE);
++			q_data_dst->width = round_up(q_data_src->width, 16);
++			q_data_dst->bytesperline = q_data_dst->width;
++			if (ctx->params.jpeg_format == 0) {
++				q_data_dst->height =
++					round_up(q_data_src->height, 16);
++				q_data_dst->sizeimage =
++					q_data_dst->bytesperline *
++					q_data_dst->height * 3 / 2;
++				if (q_data_dst->fourcc != V4L2_PIX_FMT_YUV420)
++					q_data_dst->fourcc = V4L2_PIX_FMT_NV12;
++			} else {
++				q_data_dst->height =
++					round_up(q_data_src->height, 8);
++				q_data_dst->sizeimage =
++					q_data_dst->bytesperline *
++					q_data_dst->height * 2;
++				q_data_dst->fourcc = V4L2_PIX_FMT_YUV422P;
++			}
++			q_data_dst->rect.left = 0;
++			q_data_dst->rect.top = 0;
++			q_data_dst->rect.width = q_data_src->width;
++			q_data_dst->rect.height = q_data_src->height;
 +		}
+ 		ctx->streamon_out = 1;
+ 	} else {
+ 		ctx->streamon_cap = 1;
+@@ -2132,6 +2226,30 @@ static int coda_s_ctrl(struct v4l2_ctrl *ctrl)
+ 	case V4L2_CID_JPEG_RESTART_INTERVAL:
+ 		ctx->params.jpeg_restart_interval = ctrl->val;
+ 		break;
++	case V4L2_CID_JPEG_CHROMA_SUBSAMPLING:
++		switch (ctrl->val) {
++		case V4L2_JPEG_CHROMA_SUBSAMPLING_444:
++			ctx->params.jpeg_chroma_subsampling[0] = 0x11;
++			ctx->params.jpeg_chroma_subsampling[1] = 0x11;
++			ctx->params.jpeg_chroma_subsampling[2] = 0x11;
++			break;
++		case V4L2_JPEG_CHROMA_SUBSAMPLING_422:
++			ctx->params.jpeg_chroma_subsampling[0] = 0x21;
++			ctx->params.jpeg_chroma_subsampling[1] = 0x11;
++			ctx->params.jpeg_chroma_subsampling[2] = 0x11;
++			break;
++		case V4L2_JPEG_CHROMA_SUBSAMPLING_420:
++			ctx->params.jpeg_chroma_subsampling[0] = 0x22;
++			ctx->params.jpeg_chroma_subsampling[1] = 0x11;
++			ctx->params.jpeg_chroma_subsampling[2] = 0x11;
++			break;
++		case V4L2_JPEG_CHROMA_SUBSAMPLING_GRAY:
++			ctx->params.jpeg_chroma_subsampling[0] = 0x21;
++			ctx->params.jpeg_chroma_subsampling[1] = 0x00;
++			ctx->params.jpeg_chroma_subsampling[2] = 0x00;
++			break;
++		}
++		break;
+ 	case V4L2_CID_MPEG_VIDEO_VBV_DELAY:
+ 		ctx->params.vbv_delay = ctrl->val;
+ 		break;
+diff --git a/drivers/media/platform/coda/coda-jpeg.c b/drivers/media/platform/coda/coda-jpeg.c
+index c5cfa985c829..3a6aa027c82b 100644
+--- a/drivers/media/platform/coda/coda-jpeg.c
++++ b/drivers/media/platform/coda/coda-jpeg.c
+@@ -15,6 +15,7 @@
+ 
+ #include <media/v4l2-common.h>
+ #include <media/v4l2-fh.h>
++#include <media/v4l2-jpeg.h>
+ #include <media/v4l2-mem2mem.h>
+ #include <media/videobuf2-core.h>
+ #include <media/videobuf2-dma-contig.h>
+@@ -37,6 +38,18 @@ enum {
+ 	CODA9_JPEG_FORMAT_400,
+ };
+ 
++struct coda_huff_tab {
++	u8	dc_bits[2][16];
++	u8	dc_values[2][12 + 4]; /* padded to 32-bit */
++	u8	ac_bits[2][16];
++	u8	ac_values[2][162 + 2]; /* padded to 32-bit */
++
++	/* DC Luma, DC Chroma, AC Luma, AC Chroma */
++	s16	min[4 * 16];
++	s16	max[4 * 16];
++	s8	ptr[4 * 16];
++};
++
+ /*
+  * Typical Huffman tables for 8-bit precision luminance and
+  * chrominance from JPEG ITU-T.81 (ISO/IEC 10918-1) Annex K.3
+@@ -245,6 +258,273 @@ bool coda_jpeg_check_buffer(struct coda_ctx *ctx, struct vb2_buffer *vb)
+ 	return false;
+ }
+ 
++static int coda9_jpeg_gen_dec_huff_tab(struct coda_ctx *ctx, int tab_num);
++
++int coda_jpeg_decode_header(struct coda_ctx *ctx, struct vb2_buffer *vb)
++{
++	struct coda_dev *dev = ctx->dev;
++	u8 *buf = vb2_plane_vaddr(vb, 0);
++	size_t len = vb2_get_plane_payload(vb, 0);
++	struct v4l2_jpeg_scan_header scan_header;
++	struct v4l2_jpeg_reference quantization_tables[4] = { 0 };
++	struct v4l2_jpeg_reference huffman_tables[4] = { 0 };
++	struct v4l2_jpeg_header header = {
++		.scan = &scan_header,
++		.quantization_tables = quantization_tables,
++		.huffman_tables = huffman_tables,
++	};
++	struct coda_q_data *q_data_src;
++	struct coda_huff_tab *huff_tab;
++	int i, j, ret;
++
++	ret = v4l2_jpeg_parse_header(buf, len, &header);
++	if (ret < 0) {
++		v4l2_err(&dev->v4l2_dev, "failed to parse header\n");
++		return ret;
++	}
++
++	ctx->params.jpeg_restart_interval = header.restart_interval;
++
++	/* check frame header */
++	if (header.frame.height > ctx->codec->max_h ||
++	    header.frame.width > ctx->codec->max_w) {
++		v4l2_err(&dev->v4l2_dev, "invalid dimensions: %dx%d\n",
++			 header.frame.width, header.frame.height);
++		return -EINVAL;
++	}
++
++	q_data_src = get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_OUTPUT);
++	if (header.frame.height != q_data_src->height ||
++	    header.frame.width != q_data_src->width) {
++		v4l2_err(&dev->v4l2_dev,
++			 "dimensions don't match format: %dx%d\n",
++			 header.frame.width, header.frame.height);
++		return -EINVAL;
++	}
++
++	/* install quantization tables */
++	if (quantization_tables[3].start) {
++		v4l2_err(&dev->v4l2_dev,
++			 "only 3 quantization tables supported\n");
++		return -EINVAL;
++	}
++	for (i = 0; i < 3; i++) {
++		if (!quantization_tables[i].start)
++			continue;
++		if (!ctx->params.jpeg_qmat_tab[i])
++			ctx->params.jpeg_qmat_tab[i] = kmalloc(64, GFP_KERNEL);
++		memcpy(ctx->params.jpeg_qmat_tab[i],
++		       quantization_tables[i].start, 64);
++	}
++
++	/* install Huffman tables */
++	for (i = 0; i < 4; i++) {
++		if (!huffman_tables[i].start) {
++			v4l2_err(&dev->v4l2_dev, "missing Huffman table\n");
++			return -EINVAL;
++		}
++		if (huffman_tables[i].length != ((i & 2) ? 178 : 28)) {
++			v4l2_err(&dev->v4l2_dev,
++				 "invalid Huffman table %d length: %zu\n", i,
++				 huffman_tables[i].length);
++			return -EINVAL;
++		}
++	}
++	huff_tab = ctx->params.jpeg_huff_tab;
++	if (!huff_tab) {
++		huff_tab = kzalloc(sizeof(*huff_tab), GFP_KERNEL);
++		if (!huff_tab)
++			return -ENOMEM;
++		ctx->params.jpeg_huff_tab = huff_tab;
++	}
++	memcpy(huff_tab->dc_bits[0], huffman_tables[0].start, 16);
++	memcpy(huff_tab->dc_values[0], huffman_tables[0].start + 16, 12);
++	memcpy(huff_tab->dc_bits[1], huffman_tables[1].start, 16);
++	memcpy(huff_tab->dc_values[1], huffman_tables[1].start + 16, 12);
++	memcpy(huff_tab->ac_bits[0], huffman_tables[2].start, 16);
++	memcpy(huff_tab->ac_values[0], huffman_tables[2].start + 16, 162);
++	memcpy(huff_tab->ac_bits[1], huffman_tables[3].start, 16);
++	memcpy(huff_tab->ac_values[1], huffman_tables[3].start + 16, 162);
++
++	/* check scan header */
++	for (i = 0; i < scan_header.num_components; i++) {
++		struct v4l2_jpeg_scan_component_spec *scan_component;
++
++		scan_component = &scan_header.component[i];
++		for (j = 0; j < header.frame.num_components; j++) {
++			if (header.frame.component[j].component_identifier ==
++			    scan_component->component_selector)
++				break;
++		}
++		if (j == header.frame.num_components)
++			continue;
++
++		ctx->params.jpeg_huff_dc_index[j] =
++			scan_component->dc_entropy_coding_table_selector;
++		ctx->params.jpeg_huff_ac_index[j] =
++			scan_component->ac_entropy_coding_table_selector;
++	}
++
++	/* Generate Huffman table information */
++	for (i = 0; i < 4; i++)
++		coda9_jpeg_gen_dec_huff_tab(ctx, i);
++
++	/* start of entropy coded segment */
++	ctx->jpeg_ecs_offset = header.ecs_offset;
++
++	if (header.frame.subsampling == V4L2_JPEG_CHROMA_SUBSAMPLING_422)
++		ctx->params.jpeg_format = 1;
++
++	return 0;
++}
++
++static inline void coda9_jpeg_write_huff_values(struct coda_dev *dev, u8 *bits,
++						s8 *values, int num_values)
++{
++	int huff_length, i;
++
++	for (huff_length = 0, i = 0; i < 16; i++)
++		huff_length += bits[i];
++	for (i = huff_length; i < num_values; i++)
++		values[i] = -1;
++	for (i = 0; i < num_values; i++)
++		coda_write(dev, (s32)values[i], CODA9_REG_JPEG_HUFF_DATA);
++}
++
++static int coda9_jpeg_dec_huff_setup(struct coda_ctx *ctx)
++{
++	struct coda_huff_tab *huff_tab = ctx->params.jpeg_huff_tab;
++	struct coda_dev *dev = ctx->dev;
++	s16 *huff_min = huff_tab->min;
++	s16 *huff_max = huff_tab->max;
++	s8 *huff_ptr = huff_tab->ptr;
++	int i;
++
++	/* MIN Tables */
++	coda_write(dev, 0x003, CODA9_REG_JPEG_HUFF_CTRL);
++	coda_write(dev, 0x000, CODA9_REG_JPEG_HUFF_ADDR);
++	for (i = 0; i < 4 * 16; i++)
++		coda_write(dev, (s32)huff_min[i], CODA9_REG_JPEG_HUFF_DATA);
++
++	/* MAX Tables */
++	coda_write(dev, 0x403, CODA9_REG_JPEG_HUFF_CTRL);
++	coda_write(dev, 0x440, CODA9_REG_JPEG_HUFF_ADDR);
++	for (i = 0; i < 4 * 16; i++)
++		coda_write(dev, (s32)huff_max[i], CODA9_REG_JPEG_HUFF_DATA);
++
++	/* PTR Tables */
++	coda_write(dev, 0x803, CODA9_REG_JPEG_HUFF_CTRL);
++	coda_write(dev, 0x880, CODA9_REG_JPEG_HUFF_ADDR);
++	for (i = 0; i < 4 * 16; i++)
++		coda_write(dev, (s32)huff_ptr[i], CODA9_REG_JPEG_HUFF_DATA);
++
++	/* VAL Tables: DC Luma, DC Chroma, AC Luma, AC Chroma */
++	coda_write(dev, 0xc03, CODA9_REG_JPEG_HUFF_CTRL);
++	coda9_jpeg_write_huff_values(dev, huff_tab->dc_bits[0],
++				     huff_tab->dc_values[0], 12);
++	coda9_jpeg_write_huff_values(dev, huff_tab->dc_bits[1],
++				     huff_tab->dc_values[1], 12);
++	coda9_jpeg_write_huff_values(dev, huff_tab->ac_bits[0],
++				     huff_tab->ac_values[0], 162);
++	coda9_jpeg_write_huff_values(dev, huff_tab->ac_bits[1],
++				     huff_tab->ac_values[1], 162);
++	coda_write(dev, 0x000, CODA9_REG_JPEG_HUFF_CTRL);
++	return 0;
++}
++
++static inline void coda9_jpeg_write_qmat_tab(struct coda_dev *dev,
++					     u8 *qmat, int index)
++{
++	int i;
++
++	coda_write(dev, index | 0x3, CODA9_REG_JPEG_QMAT_CTRL);
++	for (i = 0; i < 64; i++)
++		coda_write(dev, qmat[i], CODA9_REG_JPEG_QMAT_DATA);
++	coda_write(dev, 0, CODA9_REG_JPEG_QMAT_CTRL);
++}
++
++static void coda9_jpeg_qmat_setup(struct coda_ctx *ctx)
++{
++	struct coda_dev *dev = ctx->dev;
++	int *qmat_index = ctx->params.jpeg_qmat_index;
++	u8 **qmat_tab = ctx->params.jpeg_qmat_tab;
++
++	coda9_jpeg_write_qmat_tab(dev, qmat_tab[qmat_index[0]], 0x00);
++	coda9_jpeg_write_qmat_tab(dev, qmat_tab[qmat_index[1]], 0x40);
++	coda9_jpeg_write_qmat_tab(dev, qmat_tab[qmat_index[2]], 0x80);
++}
++
++static void coda9_jpeg_dec_bbc_gbu_setup(struct coda_ctx *ctx,
++					 struct vb2_buffer *buf, u32 ecs_offset)
++{
++	struct coda_dev *dev = ctx->dev;
++	int page_ptr, word_ptr, bit_ptr;
++	u32 bbc_base_addr, end_addr;
++	int bbc_cur_pos;
++	int ret, val;
++
++	bbc_base_addr = vb2_dma_contig_plane_dma_addr(buf, 0);
++	end_addr = bbc_base_addr + vb2_get_plane_payload(buf, 0);
++
++	page_ptr = ecs_offset / 256;
++	word_ptr = (ecs_offset % 256) / 4;
++	if (page_ptr & 1)
++		word_ptr += 64;
++	bit_ptr = (ecs_offset % 4) * 8;
++	if (word_ptr & 1)
++		bit_ptr += 32;
++	word_ptr &= ~0x1;
++
++	coda_write(dev, end_addr, CODA9_REG_JPEG_BBC_WR_PTR);
++	coda_write(dev, bbc_base_addr, CODA9_REG_JPEG_BBC_BAS_ADDR);
++
++	/* Leave 3 256-byte page margin to avoid a BBC interrupt */
++	coda_write(dev, end_addr + 256 * 3 + 256, CODA9_REG_JPEG_BBC_END_ADDR);
++	val = DIV_ROUND_UP(vb2_plane_size(buf, 0), 256) + 3;
++	coda_write(dev, BIT(31) | val, CODA9_REG_JPEG_BBC_STRM_CTRL);
++
++	bbc_cur_pos = page_ptr;
++	coda_write(dev, bbc_cur_pos, CODA9_REG_JPEG_BBC_CUR_POS);
++	coda_write(dev, bbc_base_addr + (bbc_cur_pos << 8),
++		   CODA9_REG_JPEG_BBC_EXT_ADDR);
++	coda_write(dev, (bbc_cur_pos & 1) << 6, CODA9_REG_JPEG_BBC_INT_ADDR);
++	coda_write(dev, 64, CODA9_REG_JPEG_BBC_DATA_CNT);
++	coda_write(dev, 0, CODA9_REG_JPEG_BBC_COMMAND);
++	do {
++		ret = coda_read(dev, CODA9_REG_JPEG_BBC_BUSY);
++	} while (ret == 1);
++
++	bbc_cur_pos++;
++	coda_write(dev, bbc_cur_pos, CODA9_REG_JPEG_BBC_CUR_POS);
++	coda_write(dev, bbc_base_addr + (bbc_cur_pos << 8),
++		   CODA9_REG_JPEG_BBC_EXT_ADDR);
++	coda_write(dev, (bbc_cur_pos & 1) << 6, CODA9_REG_JPEG_BBC_INT_ADDR);
++	coda_write(dev, 64, CODA9_REG_JPEG_BBC_DATA_CNT);
++	coda_write(dev, 0, CODA9_REG_JPEG_BBC_COMMAND);
++	do {
++		ret = coda_read(dev, CODA9_REG_JPEG_BBC_BUSY);
++	} while (ret == 1);
++
++	bbc_cur_pos++;
++	coda_write(dev, bbc_cur_pos, CODA9_REG_JPEG_BBC_CUR_POS);
++	coda_write(dev, 1, CODA9_REG_JPEG_BBC_CTRL);
++
++	coda_write(dev, 0, CODA9_REG_JPEG_GBU_TT_CNT);
++	coda_write(dev, word_ptr, CODA9_REG_JPEG_GBU_WD_PTR);
++	coda_write(dev, 0, CODA9_REG_JPEG_GBU_BBSR);
++	coda_write(dev, 127, CODA9_REG_JPEG_GBU_BBER);
++	if (page_ptr & 1) {
++		coda_write(dev, 0, CODA9_REG_JPEG_GBU_BBIR);
++		coda_write(dev, 0, CODA9_REG_JPEG_GBU_BBHR);
 +	} else {
-+		return jpeg_skip(stream, len - 2);
++		coda_write(dev, 64, CODA9_REG_JPEG_GBU_BBIR);
++		coda_write(dev, 64, CODA9_REG_JPEG_GBU_BBHR);
 +	}
-+
-+	return 0;
++	coda_write(dev, 4, CODA9_REG_JPEG_GBU_CTRL);
++	coda_write(dev, bit_ptr, CODA9_REG_JPEG_GBU_FF_RPTR);
++	coda_write(dev, 3, CODA9_REG_JPEG_GBU_CTRL);
 +}
 +
-+static int jpeg_parse_scan_header(struct jpeg_stream *stream,
-+				  struct v4l2_jpeg_scan_header *scan_header)
+ static const int bus_req_num[] = {
+ 	[CODA9_JPEG_FORMAT_420] = 2,
+ 	[CODA9_JPEG_FORMAT_422] = 3,
+@@ -341,6 +621,71 @@ static int coda9_jpeg_gen_enc_huff_tab(struct coda_ctx *ctx, int tab_num,
+ #define DC_TABLE_INDEX1		    2
+ #define AC_TABLE_INDEX1		    3
+ 
++static u8 *coda9_jpeg_get_huff_bits(struct coda_ctx *ctx, int tab_num)
 +{
-+	size_t skip;
-+	int len = jpeg_get_word_be(stream);
++	struct coda_huff_tab *huff_tab = ctx->params.jpeg_huff_tab;
 +
-+	if (len < 0)
-+		return len;
-+	/* Ls = 8 + 3 * Ns, Ns >= 1 */
-+	if (len < 6 + 2)
++	if (!huff_tab)
++		return NULL;
++
++	switch (tab_num) {
++	case DC_TABLE_INDEX0: return huff_tab->dc_bits[0];
++	case AC_TABLE_INDEX0: return huff_tab->ac_bits[0];
++	case DC_TABLE_INDEX1: return huff_tab->dc_bits[1];
++	case AC_TABLE_INDEX1: return huff_tab->ac_bits[1];
++	}
++
++	return NULL;
++}
++
++static int coda9_jpeg_gen_dec_huff_tab(struct coda_ctx *ctx, int tab_num)
++{
++	int ptr_cnt = 0, huff_code = 0, zero_flag = 0, data_flag = 0;
++	u8 *huff_bits;
++	s16 *huff_max;
++	s16 *huff_min;
++	s8 *huff_ptr;
++	int ofs;
++	int i;
++
++	huff_bits = coda9_jpeg_get_huff_bits(ctx, tab_num);
++	if (!huff_bits)
 +		return -EINVAL;
 +
-+	if (scan_header) {
-+		int ns;
-+		int i;
++	/* DC/AC Luma, DC/AC Chroma -> DC Luma/Chroma, AC Luma/Chroma */
++	ofs = ((tab_num & 1) << 1) | ((tab_num >> 1) & 1);
++	ofs *= 16;
 +
-+		ns = jpeg_get_byte(stream);
-+		if (ns < 0)
-+			return ns;
-+		if (ns < 1 || ns > 4 || len != 6 + 2 * ns)
-+			return -EINVAL;
++	huff_ptr = ctx->params.jpeg_huff_tab->ptr + ofs;
++	huff_max = ctx->params.jpeg_huff_tab->max + ofs;
++	huff_min = ctx->params.jpeg_huff_tab->min + ofs;
 +
-+		scan_header->num_components = ns;
-+
-+		for (i = 0; i < ns; i++) {
-+			struct v4l2_jpeg_scan_component_spec *component;
-+			int cs, td_ta;
-+
-+			cs = jpeg_get_byte(stream);
-+			if (cs < 0)
-+				return cs;
-+
-+			td_ta = jpeg_get_byte(stream);
-+			if (td_ta < 0)
-+				return td_ta;
-+
-+			component = &scan_header->component[i];
-+			component->component_selector = cs;
-+			component->dc_entropy_coding_table_selector =
-+				(td_ta >> 4) & 0xf;
-+			component->ac_entropy_coding_table_selector =
-+				td_ta & 0xf;
++	for (i = 0; i < 16; i++) {
++		if (huff_bits[i]) {
++			huff_ptr[i] = ptr_cnt;
++			ptr_cnt += huff_bits[i];
++			huff_min[i] = huff_code;
++			huff_max[i] = huff_code + (huff_bits[i] - 1);
++			data_flag = 1;
++			zero_flag = 0;
++		} else {
++			huff_ptr[i] = -1;
++			huff_min[i] = -1;
++			huff_max[i] = -1;
++			zero_flag = 1;
 +		}
 +
-+		skip = 3; /* skip Ss, Se, Ah, and Al */
-+	} else {
-+		skip = len - 2;
-+	}
-+
-+	return jpeg_skip(stream, skip);
-+}
-+
-+/* B.2.4.1 Quantization table-specification syntax */
-+static int jpeg_parse_quantization_tables(struct jpeg_stream *stream,
-+					  struct v4l2_jpeg_reference *tables)
-+{
-+	int len = jpeg_get_word_be(stream);
-+
-+	if (len < 0)
-+		return len;
-+	/* Lq = 2 + n * 65 (for baseline DCT), n >= 1 */
-+	if (len < 2 + 65)
-+		return -EINVAL;
-+
-+	for (len -= 2; len >= 65; len -= 65) {
-+		u8 pq, tq, *qk;
-+		int ret;
-+		int pq_tq = jpeg_get_byte(stream);
-+
-+		if (pq_tq < 0)
-+			return pq_tq;
-+
-+		/* quantization table element precision */
-+		pq = (pq_tq >> 4) & 0xf;
-+		/* only 8-bit Qk values for baseline DCT */
-+		if (pq != 0)
-+			return -EINVAL;
-+
-+		/* quantization table destination identifier */
-+		tq = pq_tq & 0xf;
-+		if (tq > 3)
-+			return -EINVAL;
-+
-+		/* quantization table element */
-+		qk = stream->curr;
-+		ret = jpeg_skip(stream, 64);
-+		if (ret < 0)
-+			return -EINVAL;
-+
-+		if (tables) {
-+			tables[tq].start = qk;
-+			tables[tq].length = 64;
++		if (data_flag == 1) {
++			if (zero_flag == 1)
++				huff_code <<= 1;
++			else
++				huff_code = (huff_max[i] + 1) << 1;
 +		}
 +	}
 +
 +	return 0;
 +}
 +
-+/* B.2.4.2 Huffman table-specification syntax */
-+static int jpeg_parse_huffman_tables(struct jpeg_stream *stream,
-+				     struct v4l2_jpeg_reference *tables)
-+{
-+	int mt;
-+	int len = jpeg_get_word_be(stream);
+ static int coda9_jpeg_load_huff_tab(struct coda_ctx *ctx)
+ {
+ 	struct coda_dev *dev = ctx->dev;
+@@ -401,6 +746,8 @@ static inline void coda9_jpeg_write_qmat_quotients(struct coda_dev *dev,
+ 	coda_write(dev, index, CODA9_REG_JPEG_QMAT_CTRL);
+ }
+ 
++static void coda_scale_quant_table(u8 *q_tab, int scale);
 +
-+	if (len < 0)
-+		return len;
-+	/* Table B.5 - Huffman table specification parameter sizes and values */
-+	if (len < 2 + 17)
-+		return -EINVAL;
+ static int coda9_jpeg_load_qmat_tab(struct coda_ctx *ctx)
+ {
+ 	struct coda_dev *dev = ctx->dev;
+@@ -860,6 +1207,13 @@ static void coda9_jpeg_finish_encode(struct coda_ctx *ctx)
+ 	coda_dbg(1, ctx, "job finished: encoded frame (%u)%s\n",
+ 		 dst_buf->sequence,
+ 		 (dst_buf->flags & V4L2_BUF_FLAG_LAST) ? " (last)" : "");
 +
-+	for (len -= 2; len >= 17; len -= 17 + mt) {
-+		u8 tc, th, *table;
-+		int tc_th = jpeg_get_byte(stream);
-+		int i, ret;
-+
-+		if (tc_th < 0)
-+			return tc_th;
-+
-+		/* table class - 0 = DC, 1 = AC */
-+		tc = (tc_th >> 4) & 0xf;
-+		if (tc > 1)
-+			return -EINVAL;
-+
-+		/* huffman table destination identifier */
-+		th = tc_th & 0xf;
-+		/* only two Huffman tables for baseline DCT */
-+		if (th > 1)
-+			return -EINVAL;
-+
-+		/* BITS - number of Huffman codes with length i */
-+		table = stream->curr;
-+		mt = 0;
-+		for (i = 0; i < 16; i++) {
-+			int li;
-+
-+			li = jpeg_get_byte(stream);
-+			if (li < 0)
-+				return li;
-+
-+			mt += li;
-+		}
-+		/* HUFFVAL - values associated with each Huffman code */
-+		ret = jpeg_skip(stream, mt);
-+		if (ret < 0)
-+			return ret;
-+
-+		if (tables) {
-+			tables[(tc << 1) | th].start = table;
-+			tables[(tc << 1) | th].length = stream->curr - table;
-+		}
-+	}
-+
-+	return jpeg_skip(stream, len - 2);
-+}
-+
-+/* B.2.4.4 Restart interval definition syntax */
-+static int jpeg_parse_restart_interval(struct jpeg_stream *stream,
-+				       u16 *restart_interval)
-+{
-+	int len = jpeg_get_word_be(stream);
-+	int ri;
-+
-+	if (len < 0)
-+		return len;
-+	if (len != 4)
-+		return -EINVAL;
-+
-+	ri = jpeg_get_word_be(stream);
-+	if (ri < 0)
-+		return ri;
-+
-+	*restart_interval = ri;
-+
-+	return 0;
-+}
-+
-+static int jpeg_skip_segment(struct jpeg_stream *stream)
-+{
-+	int len = jpeg_get_word_be(stream);
-+
-+	if (len < 0)
-+		return len;
-+	if (len < 2)
-+		return -EINVAL;
-+
-+	return jpeg_skip(stream, len - 2);
-+}
-+
-+/**
-+ * jpeg_parse_header - locate marker segments and optionally parse headers
-+ * @buf: address of the JPEG buffer, should start with a SOI marker
-+ * @len: length of the JPEG buffer
-+ * @out: returns marker segment positions and optionally parsed headers
-+ *
-+ * The out->scan_header pointer must be initialized to NULL or point to a valid
-+ * v4l2_jpeg_scan_header structure. The out->huffman_tables and
-+ * out->quantization_tables pointers must be initialized to NULL or point to a
-+ * valid array of 4 v4l2_jpeg_reference structures each.
-+ *
-+ * Returns 0 or negative error if parsing failed.
-+ */
-+int v4l2_jpeg_parse_header(void *buf, size_t len, struct v4l2_jpeg_header *out)
-+{
-+	struct jpeg_stream stream;
-+	int marker;
-+	int ret = 0;
-+
-+	stream.curr = buf;
-+	stream.end = stream.curr + len;
-+
-+	out->num_dht = 0;
-+	out->num_dqt = 0;
-+
-+	/* the first marker must be SOI */
-+	marker = jpeg_next_marker(&stream);
-+	if (marker < 0)
-+		return marker;
-+	if (marker != SOI)
-+		return -EINVAL;
-+
-+	/* loop through marker segments */
-+	while ((marker = jpeg_next_marker(&stream)) >= 0) {
-+		switch (marker) {
-+		/* baseline DCT */
-+		case SOF0:
-+			ret = jpeg_reference_segment(&stream, &out->sof);
-+			if (ret < 0)
-+				return ret;
-+			ret = jpeg_parse_frame_header(&stream, &out->frame);
-+			break;
-+		/* extended sequential, progressive, lossless */
-+		case SOF1 ... SOF3:
-+		/* differential coding */
-+		case SOF5 ... SOF7:
-+		/* arithmetic coding */
-+		case SOF9 ... SOF11:
-+		case SOF13 ... SOF15:
-+			/* fallthrough */
-+		case DAC:
-+		case TEM:
-+			return -EINVAL;
-+
-+		case DHT:
-+			ret = jpeg_reference_segment(&stream,
-+					&out->dht[out->num_dht++ % 4]);
-+			if (ret < 0)
-+				return ret;
-+			ret = jpeg_parse_huffman_tables(&stream,
-+							out->huffman_tables);
-+			break;
-+		case DQT:
-+			ret = jpeg_reference_segment(&stream,
-+					&out->dqt[out->num_dqt++ % 4]);
-+			if (ret < 0)
-+				return ret;
-+			ret = jpeg_parse_quantization_tables(&stream,
-+					out->quantization_tables);
-+			break;
-+		case DRI:
-+			ret = jpeg_parse_restart_interval(&stream,
-+							&out->restart_interval);
-+			break;
-+
-+		case SOS:
-+			ret = jpeg_reference_segment(&stream, &out->sos);
-+			if (ret < 0)
-+				return ret;
-+			ret = jpeg_parse_scan_header(&stream, out->scan);
-+			/*
-+			 * stop parsing, the scan header marks the beginning of
-+			 * the entropy coded segment
-+			 */
-+			out->ecs_offset = stream.curr - (u8 *)buf;
-+			return ret;
-+
-+		/* markers without parameters */
-+		case RST0 ... RST7: /* restart */
-+		case SOI: /* start of image */
-+		case EOI: /* end of image */
-+			break;
-+
-+		/* skip unknown or unsupported marker segments */
-+		default:
-+			ret = jpeg_skip_segment(&stream);
-+			break;
-+		}
-+		if (ret < 0)
-+			return ret;
-+	}
-+
-+	return marker;
-+}
-+EXPORT_SYMBOL_GPL(v4l2_jpeg_parse_header);
-+
-+/**
-+ * v4l2_jpeg_parse_frame_header - parse frame header
-+ * @buf: address of the frame header, after the SOF0 marker
-+ * @len: length of the frame header
-+ * @frame_header: returns the parsed frame header
-+ *
-+ * Returns 0 or negative error if parsing failed.
-+ */
-+int v4l2_jpeg_parse_frame_header(void *buf, size_t len,
-+				 struct v4l2_jpeg_frame_header *frame_header)
-+{
-+	struct jpeg_stream stream;
-+
-+	stream.curr = buf;
-+	stream.end = stream.curr + len;
-+	return jpeg_parse_frame_header(&stream, frame_header);
-+}
-+EXPORT_SYMBOL_GPL(v4l2_jpeg_parse_frame_header);
-+
-+/**
-+ * v4l2_jpeg_parse_scan_header - parse scan header
-+ * @buf: address of the scan header, after the SOS marker
-+ * @len: length of the scan header
-+ * @scan_header: returns the parsed scan header
-+ *
-+ * Returns 0 or negative error if parsing failed.
-+ */
-+int v4l2_jpeg_parse_scan_header(void *buf, size_t len,
-+				struct v4l2_jpeg_scan_header *scan_header)
-+{
-+	struct jpeg_stream stream;
-+
-+	stream.curr = buf;
-+	stream.end = stream.curr + len;
-+	return jpeg_parse_scan_header(&stream, scan_header);
-+}
-+EXPORT_SYMBOL_GPL(v4l2_jpeg_parse_scan_header);
-+
-+/**
-+ * v4l2_jpeg_parse_quantization_tables - parse quantization tables segment
-+ * @buf: address of the quantization table segment, after the DQT marker
-+ * @len: length of the quantization table segment
-+ * @q_tables: returns four references into the buffer for the
-+ *            four possible quantization table destinations
-+ *
-+ * Returns 0 or negative error if parsing failed.
-+ */
-+int v4l2_jpeg_parse_quantization_tables(void *buf, size_t len,
-+					struct v4l2_jpeg_reference *q_tables)
-+{
-+	struct jpeg_stream stream;
-+
-+	stream.curr = buf;
-+	stream.end = stream.curr + len;
-+	return jpeg_parse_quantization_tables(&stream, q_tables);
-+}
-+EXPORT_SYMBOL_GPL(v4l2_jpeg_parse_quantization_tables);
-+
-+/**
-+ * v4l2_jpeg_parse_huffman_tables - parse huffman tables segment
-+ * @buf: address of the Huffman table segment, after the DHT marker
-+ * @len: length of the Huffman table segment
-+ * @huffman_tables: returns four references into the buffer for the
-+ *                  four possible Huffman table destinations, in
-+ *                  the order DC0, DC1, AC0, AC1
-+ *
-+ * Returns 0 or negative error if parsing failed.
-+ */
-+int v4l2_jpeg_parse_huffman_tables(void *buf, size_t len,
-+				   struct v4l2_jpeg_reference *huffman_tables)
-+{
-+	struct jpeg_stream stream;
-+
-+	stream.curr = buf;
-+	stream.end = stream.curr + len;
-+	return jpeg_parse_huffman_tables(&stream, huffman_tables);
-+}
-+EXPORT_SYMBOL_GPL(v4l2_jpeg_parse_huffman_tables);
-diff --git a/include/media/v4l2-jpeg.h b/include/media/v4l2-jpeg.h
-new file mode 100644
-index 000000000000..2f6292c75122
---- /dev/null
-+++ b/include/media/v4l2-jpeg.h
-@@ -0,0 +1,135 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
++	/*
++	 * Reset JPEG processing unit after each encode run to work
++	 * around hangups when switching context between encoder and
++	 * decoder.
++	 */
++	coda_hw_reset(ctx);
+ }
+ 
+ static void coda9_jpeg_release(struct coda_ctx *ctx)
+@@ -872,6 +1226,7 @@ static void coda9_jpeg_release(struct coda_ctx *ctx)
+ 		ctx->params.jpeg_qmat_tab[1] = NULL;
+ 	for (i = 0; i < 3; i++)
+ 		kfree(ctx->params.jpeg_qmat_tab[i]);
++	kfree(ctx->params.jpeg_huff_tab);
+ }
+ 
+ const struct coda_context_ops coda9_jpeg_encode_ops = {
+@@ -882,6 +1237,202 @@ const struct coda_context_ops coda9_jpeg_encode_ops = {
+ 	.release = coda9_jpeg_release,
+ };
+ 
 +/*
-+ * V4L2 JPEG helpers header
-+ *
-+ * Copyright (C) 2019 Pengutronix, Philipp Zabel <kernel@pengutronix.de>
-+ *
-+ * For reference, see JPEG ITU-T.81 (ISO/IEC 10918-1)
++ * Decoder context operations
 + */
 +
-+#ifndef _V4L2_JPEG_H
-+#define _V4L2_JPEG_H
++static int coda9_jpeg_start_decoding(struct coda_ctx *ctx)
++{
++	ctx->params.jpeg_qmat_index[0] = 0;
++	ctx->params.jpeg_qmat_index[1] = 1;
++	ctx->params.jpeg_qmat_index[2] = 1;
++	ctx->params.jpeg_qmat_tab[0] = luma_q;
++	ctx->params.jpeg_qmat_tab[1] = chroma_q;
++	/* nothing more to do here */
 +
-+#include <linux/v4l2-controls.h>
++	/* TODO: we could already scan the first header to get the chroma
++	 * format.
++	 */
 +
-+#define V4L2_JPEG_MAX_COMPONENTS	3
-+#define V4L2_JPEG_MAX_TABLES		4
++	return 0;
++}
 +
-+/**
-+ * struct v4l2_jpeg_reference - reference into the JPEG buffer
-+ * @start: pointer to the start of the referenced segment or table
-+ * @length: size of the referenced segment or table
-+ *
-+ * Wnen referencing marker segments, start points right after the marker code,
-+ * and length is the size of the segment parameters, excluding the marker code.
-+ */
-+struct v4l2_jpeg_reference {
-+	u8 *start;
-+	size_t length;
++static int coda9_jpeg_prepare_decode(struct coda_ctx *ctx)
++{
++	struct coda_dev *dev = ctx->dev;
++	int aligned_width, aligned_height;
++	int chroma_format;
++	int ret;
++	u32 val, dst_fourcc;
++	struct coda_q_data *q_data_dst;
++	struct vb2_v4l2_buffer *src_buf, *dst_buf;
++	int chroma_interleave;
++
++	src_buf = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
++	dst_buf = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
++	q_data_dst = get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE);
++	dst_fourcc = q_data_dst->fourcc;
++
++	if (vb2_get_plane_payload(&src_buf->vb2_buf, 0) == 0)
++		vb2_set_plane_payload(&src_buf->vb2_buf, 0,
++				      vb2_plane_size(&src_buf->vb2_buf, 0));
++
++	chroma_format = coda9_jpeg_chroma_format(q_data_dst->fourcc);
++	if (chroma_format < 0) {
++		v4l2_m2m_job_finish(ctx->dev->m2m_dev, ctx->fh.m2m_ctx);
++		return chroma_format;
++	}
++
++	/* Round image dimensions to multiple of MCU size */
++	aligned_width = round_up(q_data_dst->width, width_align[chroma_format]);
++	aligned_height = round_up(q_data_dst->height,
++				  height_align[chroma_format]);
++	if (aligned_width != q_data_dst->bytesperline) {
++		v4l2_err(&dev->v4l2_dev, "stride mismatch: %d != %d\n",
++			 aligned_width, q_data_dst->bytesperline);
++	}
++
++	coda_set_gdi_regs(ctx);
++
++	ret = coda_jpeg_decode_header(ctx, &src_buf->vb2_buf);
++	if (ret < 0) {
++		v4l2_err(&dev->v4l2_dev, "failed to decode JPEG header: %d\n",
++			 ret);
++
++		src_buf = v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
++		dst_buf = v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
++		v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_DONE);
++		v4l2_m2m_buf_done(dst_buf, VB2_BUF_STATE_DONE);
++
++		v4l2_m2m_job_finish(ctx->dev->m2m_dev, ctx->fh.m2m_ctx);
++		return ret;
++	}
++
++	val = ctx->params.jpeg_huff_ac_index[0] << 12 |
++	      ctx->params.jpeg_huff_ac_index[1] << 11 |
++	      ctx->params.jpeg_huff_ac_index[2] << 10 |
++	      ctx->params.jpeg_huff_dc_index[0] << 9 |
++	      ctx->params.jpeg_huff_dc_index[1] << 8 |
++	      ctx->params.jpeg_huff_dc_index[2] << 7;
++	if (ctx->params.jpeg_huff_tab)
++		val |= CODA9_JPEG_PIC_CTRL_USER_HUFFMAN_EN;
++	coda_write(dev, val, CODA9_REG_JPEG_PIC_CTRL);
++
++	coda_write(dev, aligned_width << 16 | aligned_height,
++		   CODA9_REG_JPEG_PIC_SIZE);
++
++	chroma_interleave = (dst_fourcc == V4L2_PIX_FMT_NV12);
++	coda_write(dev, 0, CODA9_REG_JPEG_ROT_INFO);
++	coda_write(dev, bus_req_num[chroma_format], CODA9_REG_JPEG_OP_INFO);
++	coda_write(dev, mcu_info[chroma_format], CODA9_REG_JPEG_MCU_INFO);
++	coda_write(dev, 0, CODA9_REG_JPEG_SCL_INFO);
++	coda_write(dev, chroma_interleave, CODA9_REG_JPEG_DPB_CONFIG);
++	coda_write(dev, ctx->params.jpeg_restart_interval,
++		   CODA9_REG_JPEG_RST_INTVAL);
++
++	if (ctx->params.jpeg_huff_tab) {
++		ret = coda9_jpeg_dec_huff_setup(ctx);
++		if (ret < 0) {
++			v4l2_err(&dev->v4l2_dev,
++				 "failed to set up Huffman tables: %d\n", ret);
++			v4l2_m2m_job_finish(ctx->dev->m2m_dev, ctx->fh.m2m_ctx);
++			return ret;
++		}
++	}
++
++	coda9_jpeg_qmat_setup(ctx);
++
++	coda9_jpeg_dec_bbc_gbu_setup(ctx, &src_buf->vb2_buf,
++				     ctx->jpeg_ecs_offset);
++
++	coda_write(dev, 0, CODA9_REG_JPEG_RST_INDEX);
++	coda_write(dev, 0, CODA9_REG_JPEG_RST_COUNT);
++
++	coda_write(dev, 0, CODA9_REG_JPEG_DPCM_DIFF_Y);
++	coda_write(dev, 0, CODA9_REG_JPEG_DPCM_DIFF_CB);
++	coda_write(dev, 0, CODA9_REG_JPEG_DPCM_DIFF_CR);
++
++	coda_write(dev, 0, CODA9_REG_JPEG_ROT_INFO);
++
++	coda_write(dev, 1, CODA9_GDI_CONTROL);
++	do {
++		ret = coda_read(dev, CODA9_GDI_STATUS);
++	} while (!ret);
++
++	val = (chroma_format << 17) | (chroma_interleave << 16) |
++	      q_data_dst->bytesperline;
++	if (ctx->tiled_map_type == GDI_TILED_FRAME_MB_RASTER_MAP)
++		val |= 3 << 20;
++	coda_write(dev, val, CODA9_GDI_INFO_CONTROL);
++
++	coda_write(dev, aligned_width << 16 | aligned_height,
++		   CODA9_GDI_INFO_PIC_SIZE);
++
++	coda_write_base(ctx, q_data_dst, dst_buf, CODA9_GDI_INFO_BASE_Y);
++
++	coda_write(dev, 0, CODA9_REG_JPEG_DPB_BASE00);
++	coda_write(dev, 0, CODA9_GDI_CONTROL);
++	coda_write(dev, 1, CODA9_GDI_PIC_INIT_HOST);
++
++	trace_coda_jpeg_run(ctx, src_buf);
++
++	coda_write(dev, 1, CODA9_REG_JPEG_PIC_START);
++
++	return 0;
++}
++
++static void coda9_jpeg_finish_decode(struct coda_ctx *ctx)
++{
++	struct coda_dev *dev = ctx->dev;
++	struct vb2_v4l2_buffer *dst_buf, *src_buf;
++	struct coda_q_data *q_data_dst;
++	u32 err_mb;
++
++	err_mb = coda_read(dev, CODA9_REG_JPEG_PIC_ERRMB);
++	if (err_mb)
++		v4l2_err(&dev->v4l2_dev, "ERRMB: 0x%x\n", err_mb);
++
++	coda_write(dev, 0, CODA9_REG_JPEG_BBC_FLUSH_CMD);
++
++	src_buf = v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
++	dst_buf = v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
++	dst_buf->sequence = ctx->osequence++;
++
++	trace_coda_jpeg_done(ctx, dst_buf);
++
++	dst_buf->flags &= ~(V4L2_BUF_FLAG_PFRAME | V4L2_BUF_FLAG_LAST);
++	dst_buf->flags |= V4L2_BUF_FLAG_KEYFRAME;
++	dst_buf->flags |= src_buf->flags & V4L2_BUF_FLAG_LAST;
++
++	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, false);
++
++	q_data_dst = get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE);
++	vb2_set_plane_payload(&dst_buf->vb2_buf, 0, q_data_dst->sizeimage);
++
++	v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_DONE);
++	coda_m2m_buf_done(ctx, dst_buf, err_mb ? VB2_BUF_STATE_ERROR :
++						 VB2_BUF_STATE_DONE);
++
++	coda_dbg(1, ctx, "job finished: decoded frame (%u)%s\n",
++		 dst_buf->sequence,
++		 (dst_buf->flags & V4L2_BUF_FLAG_LAST) ? " (last)" : "");
++
++	/*
++	 * Reset JPEG processing unit after each decode run to work
++	 * around hangups when switching context between encoder and
++	 * decoder.
++	 */
++	coda_hw_reset(ctx);
++}
++
++const struct coda_context_ops coda9_jpeg_decode_ops = {
++	.queue_init = coda_encoder_queue_init, /* non-bitstream operation */
++	.start_streaming = coda9_jpeg_start_decoding,
++	.prepare_run = coda9_jpeg_prepare_decode,
++	.finish_run = coda9_jpeg_finish_decode,
++	.release = coda9_jpeg_release,
 +};
 +
-+/* B.2.2 Frame header syntax */
-+
-+/**
-+ * struct v4l2_jpeg_frame_component_spec - frame component-specification
-+ * @component_identifier: C[i]
-+ * @horizontal_sampling_factor: H[i]
-+ * @vertical_sampling_factor: V[i]
-+ * @quantization_table_selector: quantization table destination selector Tq[i]
-+ */
-+struct v4l2_jpeg_frame_component_spec {
-+	u8 component_identifier;
-+	u8 horizontal_sampling_factor;
-+	u8 vertical_sampling_factor;
-+	u8 quantization_table_selector;
-+};
-+
-+/**
-+ * struct v4l2_jpeg_frame_header - JPEG frame header
-+ * @height: Y
-+ * @width: X
-+ * @precision: P
-+ * @num_components: Nf
-+ * @component: component-specification, see v4l2_jpeg_frame_component_spec
-+ * @subsampling: decoded subsampling from component-specification
-+ */
-+struct v4l2_jpeg_frame_header {
-+	u16 height;
-+	u16 width;
-+	u8 precision;
-+	u8 num_components;
-+	struct v4l2_jpeg_frame_component_spec component[V4L2_JPEG_MAX_COMPONENTS];
-+	enum v4l2_jpeg_chroma_subsampling subsampling;
-+};
-+
-+/* B.2.3 Scan header syntax */
-+
-+/**
-+ * struct v4l2_jpeg_scan_component_spec - scan component-specification
-+ * @component_selector: Cs[j]
-+ * @dc_entropy_coding_table_selector: Td[j]
-+ * @ac_entropy_coding_table_selector: Ta[j]
-+ */
-+struct v4l2_jpeg_scan_component_spec {
-+	u8 component_selector;
-+	u8 dc_entropy_coding_table_selector;
-+	u8 ac_entropy_coding_table_selector;
-+};
-+
-+/**
-+ * struct v4l2_jpeg_scan_header - JPEG scan header
-+ * @num_components: Ns
-+ * @component: component-specification, see v4l2_jpeg_scan_component_spec
-+ */
-+struct v4l2_jpeg_scan_header {
-+	u8 num_components;				/* Ns */
-+	struct v4l2_jpeg_scan_component_spec component[V4L2_JPEG_MAX_COMPONENTS];
-+	/* Ss, Se, Ah, and Al are not used by any driver */
-+};
-+
-+/**
-+ * struct v4l2_jpeg_header - parsed JPEG header
-+ * @sof: pointer to frame header and size
-+ * @sos: pointer to scan header and size
-+ * @dht: pointers to huffman tables and sizes
-+ * @dqt: pointers to quantization tables and sizes
-+ * @frame: parsed frame header
-+ * @scan: pointer to parsed scan header, optional
-+ * @quantization_tables: references to four quantization tables, optional
-+ * @huffman_tables: references to four Huffman tables in DC0, DC1, AC0, AC1
-+ *                  order, optional
-+ * @restart_interval: number of MCU per restart interval, Ri
-+ * @ecs_offset: buffer offset in bytes to the entropy coded segment
-+ *
-+ * When this structure is passed to v4l2_jpeg_parse_header, the optional scan,
-+ * quantization_tables, and huffman_tables pointers must be initialized to NULL
-+ * or point at valid memory.
-+ */
-+struct v4l2_jpeg_header {
-+	struct v4l2_jpeg_reference sof;
-+	struct v4l2_jpeg_reference sos;
-+	unsigned int num_dht;
-+	struct v4l2_jpeg_reference dht[V4L2_JPEG_MAX_TABLES];
-+	unsigned int num_dqt;
-+	struct v4l2_jpeg_reference dqt[V4L2_JPEG_MAX_TABLES];
-+
-+	struct v4l2_jpeg_frame_header frame;
-+	struct v4l2_jpeg_scan_header *scan;
-+	struct v4l2_jpeg_reference *quantization_tables;
-+	struct v4l2_jpeg_reference *huffman_tables;
-+	u16 restart_interval;
-+	size_t ecs_offset;
-+};
-+
-+int v4l2_jpeg_parse_header(void *buf, size_t len, struct v4l2_jpeg_header *out);
-+
-+int v4l2_jpeg_parse_frame_header(void *buf, size_t len,
-+				 struct v4l2_jpeg_frame_header *frame_header);
-+int v4l2_jpeg_parse_scan_header(void *buf, size_t len,
-+				struct v4l2_jpeg_scan_header *scan_header);
-+int v4l2_jpeg_parse_quantization_tables(void *buf, size_t len,
-+					struct v4l2_jpeg_reference *q_tables);
-+int v4l2_jpeg_parse_huffman_tables(void *buf, size_t len,
-+				   struct v4l2_jpeg_reference *huffman_tables);
-+
-+#endif
+ irqreturn_t coda9_jpeg_irq_handler(int irq, void *data)
+ {
+ 	struct coda_dev *dev = data;
+diff --git a/drivers/media/platform/coda/coda.h b/drivers/media/platform/coda/coda.h
+index 98af53d11c1b..80a2cc1126bd 100644
+--- a/drivers/media/platform/coda/coda.h
++++ b/drivers/media/platform/coda/coda.h
+@@ -69,7 +69,7 @@ struct coda_aux_buf {
+ 
+ struct coda_dev {
+ 	struct v4l2_device	v4l2_dev;
+-	struct video_device	vfd[5];
++	struct video_device	vfd[6];
+ 	struct device		*dev;
+ 	const struct coda_devtype *devtype;
+ 	int			firmware;
+@@ -123,9 +123,15 @@ struct coda_params {
+ 	u8			mpeg4_inter_qp;
+ 	u8			gop_size;
+ 	int			intra_refresh;
++	u8			jpeg_format;
+ 	u8			jpeg_quality;
+ 	u8			jpeg_restart_interval;
+ 	u8			*jpeg_qmat_tab[3];
++	int			jpeg_qmat_index[3];
++	int			jpeg_huff_dc_index[3];
++	int			jpeg_huff_ac_index[3];
++	struct coda_huff_tab	*jpeg_huff_tab;
++	u8			jpeg_chroma_subsampling[3];
+ 	int			codec_mode;
+ 	int			codec_mode_aux;
+ 	enum v4l2_mpeg_video_multi_slice_mode slice_mode;
+@@ -237,6 +243,7 @@ struct coda_ctx {
+ 	struct v4l2_fh			fh;
+ 	int				gopcounter;
+ 	int				runcounter;
++	int				jpeg_ecs_offset;
+ 	char				vpu_header[3][64];
+ 	int				vpu_header_size[3];
+ 	struct kfifo			bitstream_fifo;
+@@ -361,12 +368,14 @@ void coda_update_profile_level_ctrls(struct coda_ctx *ctx, u8 profile_idc,
+ 				     u8 level_idc);
+ 
+ bool coda_jpeg_check_buffer(struct coda_ctx *ctx, struct vb2_buffer *vb);
++int coda_jpeg_decode_header(struct coda_ctx *ctx, struct vb2_buffer *vb);
+ int coda_jpeg_write_tables(struct coda_ctx *ctx);
+ void coda_set_jpeg_compression_quality(struct coda_ctx *ctx, int quality);
+ 
+ extern const struct coda_context_ops coda_bit_encode_ops;
+ extern const struct coda_context_ops coda_bit_decode_ops;
+ extern const struct coda_context_ops coda9_jpeg_encode_ops;
++extern const struct coda_context_ops coda9_jpeg_decode_ops;
+ 
+ irqreturn_t coda_irq_handler(int irq, void *data);
+ irqreturn_t coda9_jpeg_irq_handler(int irq, void *data);
 -- 
 2.20.1
 
