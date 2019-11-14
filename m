@@ -2,36 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D571FC2FB
-	for <lists+linux-media@lfdr.de>; Thu, 14 Nov 2019 10:48:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 88F5AFC377
+	for <lists+linux-media@lfdr.de>; Thu, 14 Nov 2019 11:00:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726179AbfKNJsx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Nov 2019 04:48:53 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:33995 "EHLO
+        id S1726270AbfKNKAg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Nov 2019 05:00:36 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:52173 "EHLO
         metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726106AbfKNJsw (ORCPT
+        with ESMTP id S1725977AbfKNKAf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Nov 2019 04:48:52 -0500
+        Thu, 14 Nov 2019 05:00:35 -0500
 Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
         by metis.ext.pengutronix.de with esmtp (Exim 4.92)
         (envelope-from <p.zabel@pengutronix.de>)
-        id 1iVBkB-0004Cc-D5; Thu, 14 Nov 2019 10:48:51 +0100
-Message-ID: <1e1c7a0e3d25187723ccac1a8360b5aae9aed8cd.camel@pengutronix.de>
-Subject: Re: [PATCH v3 2/3] media: hantro: Support color conversion via
- post-processing
+        id 1iVBvW-0005vC-Is; Thu, 14 Nov 2019 11:00:34 +0100
+Message-ID: <e33cbcc4a95e025563059a121a4472eb6fb1d269.camel@pengutronix.de>
+Subject: Re: [PATCH 0/5] v4l2 JPEG helpers and CODA960 JPEG decoder
 From:   Philipp Zabel <p.zabel@pengutronix.de>
 To:     Ezequiel Garcia <ezequiel@collabora.com>,
         linux-media@vger.kernel.org
-Cc:     kernel@collabora.com, Tomasz Figa <tfiga@chromium.org>,
-        linux-rockchip@lists.infradead.org,
-        Heiko Stuebner <heiko@sntech.de>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Chris Healy <cphealy@gmail.com>, linux-kernel@vger.kernel.org
-Date:   Thu, 14 Nov 2019 10:48:50 +0100
-In-Reply-To: <20191113175603.24742-3-ezequiel@collabora.com>
-References: <20191113175603.24742-1-ezequiel@collabora.com>
-         <20191113175603.24742-3-ezequiel@collabora.com>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
+        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Rick Chang <rick.chang@mediatek.com>,
+        Bin Liu <bin.liu@mediatek.com>,
+        Mirela Rabulea <mirela.rabulea@nxp.com>, kernel@pengutronix.de
+Date:   Thu, 14 Nov 2019 11:00:31 +0100
+In-Reply-To: <e65ca03c095c99dc8482e9c36dcd099b6c69fc38.camel@collabora.com>
+References: <20191113150538.9807-1-p.zabel@pengutronix.de>
+         <e65ca03c095c99dc8482e9c36dcd099b6c69fc38.camel@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
@@ -47,685 +48,43 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Ezequiel,
 
-On Wed, 2019-11-13 at 14:56 -0300, Ezequiel Garcia wrote:
-> The Hantro G1 decoder is able to enable a post-processor
-> on the decoding pipeline, which can be used to perform
-> scaling and color conversion.
+On Wed, 2019-11-13 at 16:42 -0300, Ezequiel Garcia wrote:
+> Hi Philipp,
 > 
-> The post-processor is integrated to the decoder, and it's
-> possible to use it in a way that is completely transparent
-> to the user.
+> Thanks a lot for working on this. I'm so glad about
+> both efforts: the CODA JPEG support and the JPEG
+> helpers.
 > 
-> This commit enables color conversion via post-processing,
-> which means the driver now exposes YUV packed, in addition to NV12.
+> On Wed, 2019-11-13 at 16:05 +0100, Philipp Zabel wrote:
+> > Hi,
+> > 
+> > as far as I can tell we currently have three JPEG header parsers in the
+> > media tree (in the rcar_jpu, s5p-jpeg, and mtk-jpeg drivers). I would
+> > like to add support for the CODA960 JPEG decoder to the coda-vpu driver
+> > without adding yet another.
+> > 
+> > To this end, this patch series adds some common JPEG code to v4l2-core.
+> > For now this just contains header parsing helpers (I have tried to keep
+> > the terminology close to JPEG ITU-T.81) that should be usable for all of
+> > the current drivers. In the future we might want to move JPEG header
+> > generation for encoders and common quantization tables in there as well.
+> > 
 > 
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> ---
->  drivers/staging/media/hantro/Makefile         |   1 +
->  drivers/staging/media/hantro/hantro.h         |  64 +++++++-
->  drivers/staging/media/hantro/hantro_drv.c     |   8 +-
->  .../staging/media/hantro/hantro_g1_h264_dec.c |   2 +-
->  .../media/hantro/hantro_g1_mpeg2_dec.c        |   2 +-
->  drivers/staging/media/hantro/hantro_g1_regs.h |  53 +++++++
->  .../staging/media/hantro/hantro_g1_vp8_dec.c  |   2 +-
->  drivers/staging/media/hantro/hantro_h264.c    |   6 +-
->  drivers/staging/media/hantro/hantro_hw.h      |  13 ++
->  .../staging/media/hantro/hantro_postproc.c    | 141 ++++++++++++++++++
->  drivers/staging/media/hantro/hantro_v4l2.c    |  52 ++++++-
->  drivers/staging/media/hantro/rk3288_vpu_hw.c  |  10 ++
->  12 files changed, 343 insertions(+), 11 deletions(-)
->  create mode 100644 drivers/staging/media/hantro/hantro_postproc.c
-> 
-> diff --git a/drivers/staging/media/hantro/Makefile b/drivers/staging/media/hantro/Makefile
-> index 5d6b0383d280..496b30c3c396 100644
-> --- a/drivers/staging/media/hantro/Makefile
-> +++ b/drivers/staging/media/hantro/Makefile
-> @@ -3,6 +3,7 @@ obj-$(CONFIG_VIDEO_HANTRO) += hantro-vpu.o
->  hantro-vpu-y += \
->  		hantro_drv.o \
->  		hantro_v4l2.o \
-> +		hantro_postproc.o \
->  		hantro_h1_jpeg_enc.o \
->  		hantro_g1_h264_dec.o \
->  		hantro_g1_mpeg2_dec.o \
-> diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
-> index deb90ae37859..6016a1a42503 100644
-> --- a/drivers/staging/media/hantro/hantro.h
-> +++ b/drivers/staging/media/hantro/hantro.h
-> @@ -60,6 +60,8 @@ struct hantro_irq {
->   * @num_enc_fmts:		Number of encoder formats.
->   * @dec_fmts:			Decoder formats.
->   * @num_dec_fmts:		Number of decoder formats.
-> + * @postproc_fmts:		Post-processor formats.
-> + * @num_postproc_fmts:		Number of post-processor formats.
->   * @codec:			Supported codecs
->   * @codec_ops:			Codec ops.
->   * @init:			Initialize hardware.
-> @@ -70,6 +72,7 @@ struct hantro_irq {
->   * @num_clocks:			number of clocks in the array
->   * @reg_names:			array of register range names
->   * @num_regs:			number of register range names in the array
-> + * @postproc_regs:		&struct hantro_postproc_regs pointer
->   */
->  struct hantro_variant {
->  	unsigned int enc_offset;
-> @@ -78,6 +81,8 @@ struct hantro_variant {
->  	unsigned int num_enc_fmts;
->  	const struct hantro_fmt *dec_fmts;
->  	unsigned int num_dec_fmts;
-> +	const struct hantro_fmt *postproc_fmts;
-> +	unsigned int num_postproc_fmts;
->  	unsigned int codec;
->  	const struct hantro_codec_ops *codec_ops;
->  	int (*init)(struct hantro_dev *vpu);
-> @@ -88,6 +93,7 @@ struct hantro_variant {
->  	int num_clocks;
->  	const char * const *reg_names;
->  	int num_regs;
-> +	const struct hantro_postproc_regs *postproc_regs;
->  };
->  
->  /**
-> @@ -213,6 +219,7 @@ struct hantro_dev {
->   *			context, and it's called right before
->   *			calling v4l2_m2m_job_finish.
->   * @codec_ops:		Set of operations related to codec mode.
-> + * @postproc:		Post-processing context.
->   * @jpeg_enc:		JPEG-encoding context.
->   * @mpeg2_dec:		MPEG-2-decoding context.
->   * @vp8_dec:		VP8-decoding context.
-> @@ -237,6 +244,7 @@ struct hantro_ctx {
->  			  unsigned int bytesused);
->  
->  	const struct hantro_codec_ops *codec_ops;
-> +	struct hantro_postproc_ctx postproc;
->  
->  	/* Specific for particular codec modes. */
->  	union {
-> @@ -274,6 +282,23 @@ struct hantro_reg {
->  	u32 mask;
->  };
->  
-> +struct hantro_postproc_regs {
-> +	struct hantro_reg pipeline_en;
-> +	struct hantro_reg max_burst;
-> +	struct hantro_reg clk_gate;
-> +	struct hantro_reg out_swap32;
-> +	struct hantro_reg out_endian;
-> +	struct hantro_reg out_luma_base;
-> +	struct hantro_reg input_width;
-> +	struct hantro_reg input_height;
-> +	struct hantro_reg output_width;
-> +	struct hantro_reg output_height;
-> +	struct hantro_reg input_fmt;
-> +	struct hantro_reg output_fmt;
-> +	struct hantro_reg orig_width;
-> +	struct hantro_reg display_width;
-> +};
-> +
->  /* Logging helpers */
->  
->  /**
-> @@ -352,9 +377,23 @@ static inline u32 vdpu_read(struct hantro_dev *vpu, u32 reg)
->  	return val;
->  }
->  
-> -static inline void hantro_reg_write(struct hantro_dev *vpu,
-> -				    const struct hantro_reg *reg,
-> -				    u32 val)
-> +static inline void
-> +hantro_reg_write(struct hantro_dev *vpu,
-> +		 const struct hantro_reg *reg,
-> +		 u32 val)
-> +{
-> +	u32 v;
-> +
-> +	v = vdpu_read(vpu, reg->base);
-> +	v &= ~(reg->mask << reg->shift);
-> +	v |= ((val & reg->mask) << reg->shift);
-> +	vdpu_write(vpu, v, reg->base);
-> +}
+> Indeed, moving encoders to use these helpers sounds like the right thing
+> to do. IIRC, quantization tables are implementation defined, and not imposed
+> by anything. I believe gspca drivers use some tables that don't follow
+> any recomendation.
 
-This adds barriers to all the currently relaxed writes in the VP8
-decoders. Maybe split this into a separate patch and add an explanation.
+Right. I was just thinking of the default tables from Annex K.3. I'll
+have to recheck what's up with the CODA q tables, but the Huffman tables
+are identical between hantro_jpeg and coda-jpeg. I suppose we could make
+the tables userspace controlled for those drivers that support arbitrary
+ones.
 
-> +
-> +static inline void
-> +hantro_reg_write_relaxed(struct hantro_dev *vpu,
-> +			 const struct hantro_reg *reg,
-> +			 u32 val)
->  {
->  	u32 v;
->  
-> @@ -381,4 +420,23 @@ hantro_get_dst_buf(struct hantro_ctx *ctx)
->  	return v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
->  }
->  
-> +static inline bool
-> +hantro_needs_postproc(struct hantro_ctx *ctx)
-> +{
-> +	return ctx->vpu_dst_fmt->fourcc != V4L2_PIX_FMT_NV12;
-> +}
-> +
-> +static inline dma_addr_t
-> +hantro_get_dec_buf_addr(struct hantro_ctx *ctx, struct vb2_buffer *vb)
-> +{
-> +	if (hantro_needs_postproc(ctx))
-> +		return ctx->postproc.dec_q[vb->index].dma;
-> +	return vb2_dma_contig_plane_dma_addr(vb, 0);
-> +}
-> +
-> +void hantro_postproc_disable(struct hantro_ctx *ctx);
-> +void hantro_postproc_setup(struct hantro_ctx *ctx);
-> +void hantro_postproc_free(struct hantro_ctx *ctx);
-> +int hantro_postproc_alloc(struct hantro_ctx *ctx);
-> +
->  #endif /* HANTRO_H_ */
-> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-> index 26108c96b674..fb08296db168 100644
-> --- a/drivers/staging/media/hantro/hantro_drv.c
-> +++ b/drivers/staging/media/hantro/hantro_drv.c
-> @@ -53,7 +53,7 @@ dma_addr_t hantro_get_ref(struct hantro_ctx *ctx, u64 ts)
->  	if (index < 0)
->  		return 0;
->  	buf = vb2_get_buffer(q, index);
-> -	return vb2_dma_contig_plane_dma_addr(buf, 0);
-> +	return hantro_get_dec_buf_addr(ctx, buf);
->  }
->  
->  static int
-> @@ -159,12 +159,18 @@ void hantro_prepare_run(struct hantro_ctx *ctx)
->  	src_buf = hantro_get_src_buf(ctx);
->  	v4l2_ctrl_request_setup(src_buf->vb2_buf.req_obj.req,
->  				&ctx->ctrl_handler);
-> +
-> +	if (!hantro_needs_postproc(ctx))
-> +		hantro_postproc_disable(ctx);
+> I guess it's fine to leave some drivers unconverted, without using any helpers,
+> and move others to use a helper-derived quantization table.  
 
-Why isn't PP enabled in prepare_run? Does this mean the first frame is
-not post-processed?
-
->  }
->  
->  void hantro_finish_run(struct hantro_ctx *ctx)
->  {
->  	struct vb2_v4l2_buffer *src_buf;
->  
-> +	if (hantro_needs_postproc(ctx))
-> +		hantro_postproc_setup(ctx);
-> +
->  	src_buf = hantro_get_src_buf(ctx);
->  	v4l2_ctrl_request_complete(src_buf->vb2_buf.req_obj.req,
->  				   &ctx->ctrl_handler);
-> diff --git a/drivers/staging/media/hantro/hantro_g1_h264_dec.c b/drivers/staging/media/hantro/hantro_g1_h264_dec.c
-> index 70a6b5b26477..9b292722c9de 100644
-> --- a/drivers/staging/media/hantro/hantro_g1_h264_dec.c
-> +++ b/drivers/staging/media/hantro/hantro_g1_h264_dec.c
-> @@ -243,7 +243,7 @@ static void set_buffers(struct hantro_ctx *ctx)
->  	vdpu_write_relaxed(vpu, src_dma, G1_REG_ADDR_STR);
->  
->  	/* Destination (decoded frame) buffer. */
-> -	dst_dma = vb2_dma_contig_plane_dma_addr(&dst_buf->vb2_buf, 0);
-> +	dst_dma = hantro_get_dec_buf_addr(ctx, &dst_buf->vb2_buf);
->  	vdpu_write_relaxed(vpu, dst_dma, G1_REG_ADDR_DST);
->  
->  	/* Higher profiles require DMV buffer appended to reference frames. */
-> diff --git a/drivers/staging/media/hantro/hantro_g1_mpeg2_dec.c b/drivers/staging/media/hantro/hantro_g1_mpeg2_dec.c
-> index f3bf67d8a289..0abe0be2c1ad 100644
-> --- a/drivers/staging/media/hantro/hantro_g1_mpeg2_dec.c
-> +++ b/drivers/staging/media/hantro/hantro_g1_mpeg2_dec.c
-> @@ -121,7 +121,7 @@ hantro_g1_mpeg2_dec_set_buffers(struct hantro_dev *vpu, struct hantro_ctx *ctx,
->  	vdpu_write_relaxed(vpu, addr, G1_REG_RLC_VLC_BASE);
->  
->  	/* Destination frame buffer */
-> -	addr = vb2_dma_contig_plane_dma_addr(dst_buf, 0);
-> +	addr = hantro_get_dec_buf_addr(ctx, dst_buf);
->  	current_addr = addr;
->  
->  	if (picture->picture_structure == PICT_BOTTOM_FIELD)
-> diff --git a/drivers/staging/media/hantro/hantro_g1_regs.h b/drivers/staging/media/hantro/hantro_g1_regs.h
-> index 5c0ea7994336..c1756e3d5391 100644
-> --- a/drivers/staging/media/hantro/hantro_g1_regs.h
-> +++ b/drivers/staging/media/hantro/hantro_g1_regs.h
-> @@ -9,6 +9,8 @@
->  #ifndef HANTRO_G1_REGS_H_
->  #define HANTRO_G1_REGS_H_
->  
-> +#define G1_SWREG(nr)                 ((nr) * 4)
-> +
->  /* Decoder registers. */
->  #define G1_REG_INTERRUPT				0x004
->  #define     G1_REG_INTERRUPT_DEC_PIC_INF		BIT(24)
-> @@ -298,4 +300,55 @@
->  #define     G1_REG_REF_BUF_CTRL2_APF_THRESHOLD(x)	(((x) & 0x3fff) << 0)
->  #define G1_REG_SOFT_RESET				0x194
->  
-> +/* Post-processor registers. */
-> +#define G1_REG_PP_INTERRUPT		G1_SWREG(60)
-> +#define    G1_REG_PP_READY_IRQ		BIT(12)
-> +#define    G1_REG_PP_IRQ		BIT(8)
-> +#define    G1_REG_PP_IRQ_DIS		BIT(4)
-> +#define    G1_REG_PP_PIPELINE_EN	BIT(1)
-> +#define    G1_REG_PP_EXTERNAL_TRIGGER	BIT(0)
-> +#define G1_REG_PP_DEV_CONFIG		G1_SWREG(61)
-> +#define     G1_REG_PP_AXI_RD_ID(v)	(((v) << 24) & GENMASK(31, 24))
-> +#define     G1_REG_PP_AXI_WR_ID(v)	(((v) << 16) & GENMASK(23, 16))
-> +#define     G1_REG_PP_INSWAP32_E(v)	((v) ? BIT(10) : 0)
-> +#define     G1_REG_PP_DATA_DISC_E(v)	((v) ? BIT(9) : 0)
-> +#define     G1_REG_PP_CLK_GATE_E(v)	((v) ? BIT(8) : 0)
-> +#define     G1_REG_PP_IN_ENDIAN(v)	((v) ? BIT(7) : 0)
-> +#define     G1_REG_PP_OUT_ENDIAN(v)	((v) ? BIT(6) : 0)
-> +#define     G1_REG_PP_OUTSWAP32_E(v)	((v) ? BIT(5) : 0)
-> +#define     G1_REG_PP_MAX_BURST(v)	(((v) << 0) & GENMASK(4, 0))
-> +#define G1_REG_PP_IN_LUMA_BASE		G1_SWREG(63)
-> +#define G1_REG_PP_IN_CB_BASE		G1_SWREG(64)
-> +#define G1_REG_PP_IN_CR_BASE		G1_SWREG(65)
-> +#define G1_REG_PP_OUT_LUMA_BASE		G1_SWREG(66)
-> +#define G1_REG_PP_OUT_CHROMA_BASE	G1_SWREG(67)
-> +#define G1_REG_PP_CONTRAST_ADJUST	G1_SWREG(68)
-> +#define G1_REG_PP_COLOR_CONVERSION	G1_SWREG(69)
-> +#define G1_REG_PP_COLOR_CONVERSION0	G1_SWREG(70)
-> +#define G1_REG_PP_COLOR_CONVERSION1	G1_SWREG(71)
-> +#define G1_REG_PP_INPUT_SIZE		G1_SWREG(72)
-> +#define    G1_REG_PP_INPUT_SIZE_HEIGHT(v) (((v) << 9) & GENMASK(16, 9))
-> +#define    G1_REG_PP_INPUT_SIZE_WIDTH(v)  (((v) << 0) & GENMASK(8, 0))
-> +#define G1_REG_PP_SCALING0		G1_SWREG(79)
-> +#define     G1_REG_PP_PADD_R(v)	(((v) << 23) & GENMASK(27, 23))
-> +#define     G1_REG_PP_PADD_G(v)	(((v) << 18) & GENMASK(22, 18))
-> +#define     G1_REG_PP_RANGEMAP_Y(v) ((v) ? BIT(31) : 0)
-> +#define     G1_REG_PP_RANGEMAP_C(v) ((v) ? BIT(30) : 0)
-> +#define     G1_REG_PP_YCBCR_RANGE(v) ((v) ? BIT(29) : 0)
-> +#define     G1_REG_PP_RGB_16(v) ((v) ? BIT(28) : 0)
-> +#define G1_REG_PP_SCALING1		G1_SWREG(80)
-> +#define     G1_REG_PP_PADD_B(v)	(((v) << 18) & GENMASK(22, 18))
-> +#define G1_REG_PP_MASK_R		G1_SWREG(82)
-> +#define G1_REG_PP_MASK_G		G1_SWREG(83)
-> +#define G1_REG_PP_MASK_B		G1_SWREG(84)
-> +#define G1_REG_PP_CONTROL		G1_SWREG(85)
-> +#define     G1_REG_PP_CONTROL_IN_FMT(v)	(((v) << 29) & GENMASK(31, 29))
-> +#define     G1_REG_PP_CONTROL_OUT_FMT(v) (((v) << 26) & GENMASK(28, 26))
-> +#define     G1_REG_PP_CONTROL_OUT_HEIGHT(v) (((v) << 15) & GENMASK(25, 15))
-> +#define     G1_REG_PP_CONTROL_OUT_WIDTH(v) (((v) << 4) & GENMASK(14, 4))
-> +#define G1_REG_PP_MASK1_ORIG_WIDTH	G1_SWREG(88)
-> +#define     G1_REG_PP_ORIG_WIDTH(v)	(((v) << 23) & GENMASK(31, 23))
-> +#define G1_REG_PP_DISPLAY_WIDTH		G1_SWREG(92)
-> +#define G1_REG_PP_FUSE			G1_SWREG(99)
-> +
->  #endif /* HANTRO_G1_REGS_H_ */
-> diff --git a/drivers/staging/media/hantro/hantro_g1_vp8_dec.c b/drivers/staging/media/hantro/hantro_g1_vp8_dec.c
-> index cad18094fee0..e708994d1aba 100644
-> --- a/drivers/staging/media/hantro/hantro_g1_vp8_dec.c
-> +++ b/drivers/staging/media/hantro/hantro_g1_vp8_dec.c
-> @@ -422,7 +422,7 @@ static void cfg_buffers(struct hantro_ctx *ctx,
->  	}
->  	vdpu_write_relaxed(vpu, reg, G1_REG_FWD_PIC(0));
->  
-> -	dst_dma = vb2_dma_contig_plane_dma_addr(&vb2_dst->vb2_buf, 0);
-> +	dst_dma = hantro_get_dec_buf_addr(ctx, &vb2_dst->vb2_buf);
->  	vdpu_write_relaxed(vpu, dst_dma, G1_REG_ADDR_DST);
->  }
->  
-> diff --git a/drivers/staging/media/hantro/hantro_h264.c b/drivers/staging/media/hantro/hantro_h264.c
-> index 694a330f508e..5c84ebcdd0ea 100644
-> --- a/drivers/staging/media/hantro/hantro_h264.c
-> +++ b/drivers/staging/media/hantro/hantro_h264.c
-> @@ -629,7 +629,11 @@ int hantro_h264_dec_init(struct hantro_ctx *ctx)
->  	tbl = priv->cpu;
->  	memcpy(tbl->cabac_table, h264_cabac_table, sizeof(tbl->cabac_table));
->  
-> -	v4l2_fill_pixfmt_mp(&pix_mp, ctx->dst_fmt.pixelformat,
-> +	/*
-> +	 * For the decoder picture size, we want the decoder
-> +	 * native pixel format.
-> +	 */
-> +	v4l2_fill_pixfmt_mp(&pix_mp, V4L2_PIX_FMT_NV12,
->  			    ctx->dst_fmt.width, ctx->dst_fmt.height);
->  	h264_dec->pic_size = pix_mp.plane_fmt[0].sizeimage;
->  
-> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-> index 69b88f4d3fb3..18e7d9e1f469 100644
-> --- a/drivers/staging/media/hantro/hantro_hw.h
-> +++ b/drivers/staging/media/hantro/hantro_hw.h
-> @@ -28,11 +28,13 @@ struct hantro_variant;
->   * @cpu:	CPU pointer to the buffer.
->   * @dma:	DMA address of the buffer.
->   * @size:	Size of the buffer.
-> + * @attrs:	Attributes of the DMA mapping.
->   */
->  struct hantro_aux_buf {
->  	void *cpu;
->  	dma_addr_t dma;
->  	size_t size;
-> +	unsigned long attrs;
->  };
->  
->  /**
-> @@ -109,6 +111,15 @@ struct hantro_vp8_dec_hw_ctx {
->  	struct hantro_aux_buf prob_tbl;
->  };
->  
-> +/**
-> + * struct hantro_postproc_ctx
-> + *
-> + * @dec_q:		References buffers, in decoder format.
-> + */
-> +struct hantro_postproc_ctx {
-> +	struct hantro_aux_buf dec_q[VB2_MAX_FRAME];
-> +};
-> +
->  /**
->   * struct hantro_codec_ops - codec mode specific operations
->   *
-> @@ -144,6 +155,8 @@ extern const struct hantro_variant rk3399_vpu_variant;
->  extern const struct hantro_variant rk3328_vpu_variant;
->  extern const struct hantro_variant rk3288_vpu_variant;
->  
-> +extern const struct hantro_postproc_regs hantro_g1_postproc_regs;
-> +
->  extern const u32 hantro_vp8_dec_mc_filter[8][6];
->  
->  void hantro_watchdog(struct work_struct *work);
-> diff --git a/drivers/staging/media/hantro/hantro_postproc.c b/drivers/staging/media/hantro/hantro_postproc.c
-> new file mode 100644
-> index 000000000000..865435386363
-> --- /dev/null
-> +++ b/drivers/staging/media/hantro/hantro_postproc.c
-> @@ -0,0 +1,141 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Hantro G1 post-processor support
-> + *
-> + * Copyright (C) 2019 Collabora, Ltd.
-> + */
-> +
-> +#include <linux/dma-mapping.h>
-> +#include <linux/types.h>
-> +
-> +#include "hantro.h"
-> +#include "hantro_hw.h"
-> +#include "hantro_g1_regs.h"
-> +
-> +#define HANTRO_PP_REG_WRITE(vpu, reg_name, val) \
-> +	do { \
-> +		if ((vpu)->variant->postproc_regs->(reg_name).base)	\
-> +			hantro_reg_write_relaxed((vpu), \
-> +					 &(vpu)->variant->postproc_regs->(reg_name), \
-> +					 (val)); \
-> +	} while (0)
-> +
-> +#define HANTRO_PP_REG_WRITE_S(vpu, reg_name, val) \
-> +	do { \
-> +		if ((vpu)->variant->postproc_regs->(reg_name).base)	\
-> +			hantro_reg_write((vpu), \
-> +					 &(vpu)->variant->postproc_regs->(reg_name), \
-> +					 (val)); \
-> +	} while (0)
-
-Why all these checks, are any of the register fields optional?
-
-> +
-> +#define VPU_PP_IN_YUYV			0x0
-> +#define VPU_PP_IN_NV12			0x1
-> +#define VPU_PP_IN_YUV420		0x2
-> +#define VPU_PP_IN_YUV240_TILED		0x5
-> +#define VPU_PP_OUT_RGB			0x0
-> +#define VPU_PP_OUT_YUYV			0x3
-> +
-> +const struct hantro_postproc_regs hantro_g1_postproc_regs = {
-> +	.pipeline_en = {G1_REG_PP_INTERRUPT, 1, 0x1},
-> +	.max_burst = {G1_REG_PP_DEV_CONFIG, 0, 0x1f},
-> +	.clk_gate = {G1_REG_PP_DEV_CONFIG, 1, 0x1},
-> +	.out_swap32 = {G1_REG_PP_DEV_CONFIG, 5, 0x1},
-> +	.out_endian = {G1_REG_PP_DEV_CONFIG, 6, 0x1},
-> +	.out_luma_base = {G1_REG_PP_OUT_LUMA_BASE, 0, 0xffffffff},
-> +	.input_width = {G1_REG_PP_INPUT_SIZE, 0, 0x1ff},
-> +	.input_height = {G1_REG_PP_INPUT_SIZE, 9, 0x1ff},
-> +	.output_width = {G1_REG_PP_CONTROL, 4, 0x7ff},
-> +	.output_height = {G1_REG_PP_CONTROL, 15, 0x7ff},
-> +	.input_fmt = {G1_REG_PP_CONTROL, 29, 0x7},
-> +	.output_fmt = {G1_REG_PP_CONTROL, 26, 0x7},
-> +	.orig_width = {G1_REG_PP_MASK1_ORIG_WIDTH, 23, 0x1ff},
-> +	.display_width = {G1_REG_PP_DISPLAY_WIDTH, 0, 0xfff},
-> +};
-> +
-> +void hantro_postproc_setup(struct hantro_ctx *ctx)
-> +{
-> +	struct hantro_dev *vpu = ctx->dev;
-> +	struct vb2_v4l2_buffer *dst_buf;
-> +	u32 src_pp_fmt, dst_pp_fmt;
-> +	dma_addr_t dst_dma;
-> +
-> +	/* Turn on pipeline mode. Must be done first. */
-> +	HANTRO_PP_REG_WRITE_S(vpu, pipeline_en, 0x1);
-> +
-> +	src_pp_fmt = VPU_PP_IN_NV12;
-> +
-> +	switch (ctx->vpu_dst_fmt->fourcc) {
-> +	case V4L2_PIX_FMT_YUYV:
-> +		dst_pp_fmt = VPU_PP_OUT_YUYV;
-> +		break;
-> +	default:
-> +		WARN(1, "output format %d not supported by the post-processor, this wasn't expected.",
-> +		     ctx->vpu_dst_fmt->fourcc);
-> +		dst_pp_fmt = 0;
-> +		break;
-> +	}
-> +
-> +	dst_buf = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
-> +	dst_dma = vb2_dma_contig_plane_dma_addr(&dst_buf->vb2_buf, 0);
-> +
-> +	HANTRO_PP_REG_WRITE(vpu, clk_gate, 0x1);
-> +	HANTRO_PP_REG_WRITE(vpu, out_endian, 0x1);
-> +	HANTRO_PP_REG_WRITE(vpu, out_swap32, 0x1);
-> +	HANTRO_PP_REG_WRITE(vpu, max_burst, 16);
-> +	HANTRO_PP_REG_WRITE(vpu, out_luma_base, dst_dma);
-> +	HANTRO_PP_REG_WRITE(vpu, input_width, MB_WIDTH(ctx->dst_fmt.width));
-> +	HANTRO_PP_REG_WRITE(vpu, input_height, MB_HEIGHT(ctx->dst_fmt.height));
-> +	HANTRO_PP_REG_WRITE(vpu, input_fmt, src_pp_fmt);
-> +	HANTRO_PP_REG_WRITE(vpu, output_fmt, dst_pp_fmt);
-> +	HANTRO_PP_REG_WRITE(vpu, output_width, ctx->dst_fmt.width);
-> +	HANTRO_PP_REG_WRITE(vpu, output_height, ctx->dst_fmt.height);
-> +	HANTRO_PP_REG_WRITE(vpu, orig_width, MB_WIDTH(ctx->dst_fmt.width));
-> +	HANTRO_PP_REG_WRITE(vpu, display_width, ctx->dst_fmt.width);
-> +}
-> +
-> +void hantro_postproc_free(struct hantro_ctx *ctx)
-> +{
-> +	struct hantro_dev *vpu = ctx->dev;
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < VB2_MAX_FRAME; ++i) {
-> +		struct hantro_aux_buf *priv = &ctx->postproc.dec_q[i];
-> +
-> +		if (priv->cpu) {
-> +			dma_free_attrs(vpu->dev, priv->size, priv->cpu,
-> +				       priv->dma, priv->attrs);
-> +			priv->cpu = NULL;
-> +		}
-> +	}
-> +}
-> +
-> +int hantro_postproc_alloc(struct hantro_ctx *ctx)
-> +{
-> +	struct hantro_dev *vpu = ctx->dev;
-> +	unsigned int i, buf_size;
-> +
-> +	buf_size = ctx->dst_fmt.plane_fmt[0].sizeimage;
-> +
-> +	for (i = 0; i < VB2_MAX_FRAME; ++i) {
-
-If requests less than VB2_MAX_FRAME capture frames, some of those are
-unused. I think it would be better to match the amount of capture frames
-here.
-
-> +		struct hantro_aux_buf *priv = &ctx->postproc.dec_q[i];
-> +
-> +		/*
-> +		 * The buffers on this queue are meant as intermediate
-> +		 * buffers for the decoder, so no mapping is needed.
-> +		 */
-> +		priv->attrs = DMA_ATTR_NO_KERNEL_MAPPING;
-> +		priv->cpu = dma_alloc_attrs(vpu->dev, buf_size, &priv->dma,
-> +					    GFP_KERNEL, priv->attrs);
-> +		if (!priv->cpu)
-> +			return -ENOMEM;
-> +		priv->size = buf_size;
-> +	}
-> +	return 0;
-> +}
-> +
-> +void hantro_postproc_disable(struct hantro_ctx *ctx)
-> +{
-> +	struct hantro_dev *vpu = ctx->dev;
-> +
-> +	HANTRO_PP_REG_WRITE_S(vpu, pipeline_en, 0x0);
-> +}
-> diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
-> index 238e53b28f8f..ff665d4f004f 100644
-> --- a/drivers/staging/media/hantro/hantro_v4l2.c
-> +++ b/drivers/staging/media/hantro/hantro_v4l2.c
-> @@ -46,6 +46,19 @@ hantro_get_formats(const struct hantro_ctx *ctx, unsigned int *num_fmts)
->  	return formats;
->  }
->  
-> +static const struct hantro_fmt *
-> +hantro_get_postproc_formats(const struct hantro_ctx *ctx,
-> +			    unsigned int *num_fmts)
-> +{
-> +	if (hantro_is_encoder_ctx(ctx)) {
-> +		*num_fmts = 0;
-> +		return NULL;
-> +	}
-> +
-> +	*num_fmts = ctx->dev->variant->num_postproc_fmts;
-> +	return ctx->dev->variant->postproc_fmts;
-> +}
-> +
->  static const struct hantro_fmt *
->  hantro_find_format(const struct hantro_ctx *ctx, u32 fourcc)
->  {
-> @@ -57,6 +70,10 @@ hantro_find_format(const struct hantro_ctx *ctx, u32 fourcc)
->  		if (formats[i].fourcc == fourcc)
->  			return &formats[i];
->  
-> +	formats = hantro_get_postproc_formats(ctx, &num_fmts);
-> +	for (i = 0; i < num_fmts; i++)
-> +		if (formats[i].fourcc == fourcc)
-> +			return &formats[i];
->  	return NULL;
->  }
->  
-> @@ -151,6 +168,20 @@ static int vidioc_enum_fmt(struct file *file, void *priv,
->  		}
->  		++j;
->  	}
-> +
-> +	/* Enumerate post-processed formats. */
-
-I think here some of the explanation from the commit message of patch 3
-could be added: why the driver is enumerating PP formats after non-PP
-formats.
-
-> +	if (!capture)
-> +		return -EINVAL;
-> +	formats = hantro_get_postproc_formats(ctx, &num_fmts);
-> +	for (i = 0; i < num_fmts; i++) {
-> +		if (j == f->index) {
-> +			fmt = &formats[i];
-> +			f->pixelformat = fmt->fourcc;
-> +			return 0;
-> +		}
-> +		++j;
-> +	}
-> +
->  	return -EINVAL;
->  }
->  
-> @@ -241,9 +272,10 @@ static int vidioc_try_fmt(struct file *file, void *priv, struct v4l2_format *f,
->  		/*
->  		 * The H264 decoder needs extra space on the output buffers
->  		 * to store motion vectors. This is needed for reference
-> -		 * frames.
-> +		 * frames and only if the format is non-post-processed (NV12).
->  		 */
-> -		if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_H264_SLICE)
-> +		if (ctx->vpu_src_fmt->fourcc == V4L2_PIX_FMT_H264_SLICE &&
-> +		    fmt->fourcc == V4L2_PIX_FMT_NV12)
-
-If you change hantro_needs_postproc to use a struct hantro_fmt argument,
-you could use hantro_needs_postproc(fmt) here.
-
->  			pix_mp->plane_fmt[0].sizeimage +=
->  				128 * DIV_ROUND_UP(pix_mp->width, 16) *
->  				      DIV_ROUND_UP(pix_mp->height, 16);
-> @@ -611,10 +643,23 @@ static int hantro_start_streaming(struct vb2_queue *q, unsigned int count)
->  
->  		vpu_debug(4, "Codec mode = %d\n", codec_mode);
->  		ctx->codec_ops = &ctx->dev->variant->codec_ops[codec_mode];
-> -		if (ctx->codec_ops->init)
-> +		if (ctx->codec_ops->init) {
->  			ret = ctx->codec_ops->init(ctx);
-> +			if (ret)
-> +				return ret;
-> +		}
-> +
-> +		if (hantro_needs_postproc(ctx)) {
-> +			ret = hantro_postproc_alloc(ctx);
-
-Why is this done in start_streaming? Wouldn't capture side REQBUFS be a
-better place for this?
-
-> +			if (ret)
-> +				goto err_codec_exit;
-> +		}
->  	}
-> +	return ret;
->  
-> +err_codec_exit:
-> +	if (ctx->codec_ops && ctx->codec_ops->exit)
-> +		ctx->codec_ops->exit(ctx);
->  	return ret;
->  }
->  
-> @@ -641,6 +686,7 @@ static void hantro_stop_streaming(struct vb2_queue *q)
->  	struct hantro_ctx *ctx = vb2_get_drv_priv(q);
->  
->  	if (hantro_vq_is_coded(q)) {
-> +		hantro_postproc_free(ctx);
-
-Same as above, move this to capture side REQBUFS(0) ?
-
->  		if (ctx->codec_ops && ctx->codec_ops->exit)
->  			ctx->codec_ops->exit(ctx);
->  	}
-> diff --git a/drivers/staging/media/hantro/rk3288_vpu_hw.c b/drivers/staging/media/hantro/rk3288_vpu_hw.c
-> index f8db6fcaad73..2f914b37b9e5 100644
-> --- a/drivers/staging/media/hantro/rk3288_vpu_hw.c
-> +++ b/drivers/staging/media/hantro/rk3288_vpu_hw.c
-> @@ -56,6 +56,13 @@ static const struct hantro_fmt rk3288_vpu_enc_fmts[] = {
->  	},
->  };
->  
-> +static const struct hantro_fmt rk3288_vpu_postproc_fmts[] = {
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_YUYV,
-> +		.codec_mode = HANTRO_MODE_NONE,
-> +	},
-> +};
-> +
->  static const struct hantro_fmt rk3288_vpu_dec_fmts[] = {
->  	{
->  		.fourcc = V4L2_PIX_FMT_NV12,
-> @@ -215,6 +222,9 @@ const struct hantro_variant rk3288_vpu_variant = {
->  	.dec_offset = 0x400,
->  	.dec_fmts = rk3288_vpu_dec_fmts,
->  	.num_dec_fmts = ARRAY_SIZE(rk3288_vpu_dec_fmts),
-> +	.postproc_fmts = rk3288_vpu_postproc_fmts,
-> +	.num_postproc_fmts = ARRAY_SIZE(rk3288_vpu_postproc_fmts),
-> +	.postproc_regs = &hantro_g1_postproc_regs,
->  	.codec = HANTRO_JPEG_ENCODER | HANTRO_MPEG2_DECODER |
->  		 HANTRO_VP8_DECODER | HANTRO_H264_DECODER,
->  	.codec_ops = rk3288_vpu_codec_ops,
+Agreed.
 
 regards
 Philipp
