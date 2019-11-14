@@ -2,22 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BB667FBF2A
-	for <lists+linux-media@lfdr.de>; Thu, 14 Nov 2019 06:14:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F317FBF2D
+	for <lists+linux-media@lfdr.de>; Thu, 14 Nov 2019 06:14:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727234AbfKNFOY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Nov 2019 00:14:24 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:44082 "EHLO
+        id S1727272AbfKNFOa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Nov 2019 00:14:30 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:44114 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725914AbfKNFOX (ORCPT
+        with ESMTP id S1725914AbfKNFO3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Nov 2019 00:14:23 -0500
+        Thu, 14 Nov 2019 00:14:29 -0500
 Received: from floko.floko.floko (unknown [IPv6:2804:431:c7f0:da1c:a086:2727:e196:fd8a])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: koike)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 3DC52290EFF;
-        Thu, 14 Nov 2019 05:14:14 +0000 (GMT)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 292DE290F0D;
+        Thu, 14 Nov 2019 05:14:21 +0000 (GMT)
 From:   Helen Koike <helen.koike@collabora.com>
 To:     linux-rockchip@lists.infradead.org
 Cc:     mark.rutland@arm.com, devicetree@vger.kernel.org,
@@ -32,9 +32,9 @@ Cc:     mark.rutland@arm.com, devicetree@vger.kernel.org,
         zhengsq@rock-chips.com, Jacob Chen <jacob2.chen@rock-chips.com>,
         Rob Herring <robh@kernel.org>,
         Helen Koike <helen.koike@collabora.com>
-Subject: [PATCH v11 09/11] media: staging: dt-bindings: Document the Rockchip ISP1 bindings
-Date:   Thu, 14 Nov 2019 02:12:40 -0300
-Message-Id: <20191114051242.14651-10-helen.koike@collabora.com>
+Subject: [PATCH v11 10/11] media: staging: dt-bindings: Document the Rockchip MIPI RX D-PHY bindings
+Date:   Thu, 14 Nov 2019 02:12:41 -0300
+Message-Id: <20191114051242.14651-11-helen.koike@collabora.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20191114051242.14651-1-helen.koike@collabora.com>
 References: <20191114051242.14651-1-helen.koike@collabora.com>
@@ -47,7 +47,7 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Jacob Chen <jacob2.chen@rock-chips.com>
 
-Add DT bindings documentation for Rockchip ISP1
+Add DT bindings documentation for Rockchip MIPI D-PHY RX
 
 Signed-off-by: Jacob Chen <jacob2.chen@rock-chips.com>
 Reviewed-by: Rob Herring <robh@kernel.org>
@@ -56,109 +56,67 @@ Signed-off-by: Helen Koike <helen.koike@collabora.com>
 
 ---
 
-Changes in v11:
-- add clock-names values
-
+Changes in v11: None
 Changes in v10:
 - unsquash
 
 Changes in v9:
+- fix title division style
 - squash
 - move to staging
 
-Changes in v8:
-- fix title division style
-
+Changes in v8: None
 Changes in v7:
-- update document with new design and tested example
+- updated doc with new design and tested example
 
- .../bindings/media/rockchip-isp1.txt          | 77 +++++++++++++++++++
- 1 file changed, 77 insertions(+)
- create mode 100644 drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-isp1.txt
+ .../bindings/media/rockchip-mipi-dphy.txt     | 38 +++++++++++++++++++
+ 1 file changed, 38 insertions(+)
+ create mode 100644 drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-mipi-dphy.txt
 
-diff --git a/drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-isp1.txt b/drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-isp1.txt
+diff --git a/drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-mipi-dphy.txt b/drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-mipi-dphy.txt
 new file mode 100644
-index 000000000000..409b3dbe612d
+index 000000000000..0a0be7b15a59
 --- /dev/null
-+++ b/drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-isp1.txt
-@@ -0,0 +1,77 @@
-+Rockchip SoC Image Signal Processing unit v1
-+--------------------------------------------
-+
-+Rockchip ISP1 is the Camera interface for the Rockchip series of SoCs
-+which contains image processing, scaling, and compression funcitons.
++++ b/drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-mipi-dphy.txt
+@@ -0,0 +1,38 @@
++Rockchip SoC MIPI RX D-PHY
++--------------------------
 +
 +Required properties:
 +- compatible: value should be one of the following
-+	"rockchip,rk3288-cif-isp";
-+	"rockchip,rk3399-cif-isp";
-+- reg : offset and length of the register set for the device.
-+- interrupts: should contain ISP interrupt.
-+- clocks: phandle to the required clocks.
-+- clock-names: required clock name. Must include the following entries:
-+  rk3399:
-+	- clk_isp
-+	- aclk_isp
-+	- aclk_isp_wrap
-+	- hclk_isp
-+	- hclk_isp_wrap
-+- iommus: required a iommu node.
-+- phys: the phandle for the PHY port
-+- phy-names: must contain "dphy"
++	"rockchip,rk3288-mipi-dphy"
++	"rockchip,rk3399-mipi-dphy"
++- clocks : list of clock specifiers, corresponding to entries in
++	clock-names property;
++- clock-names: required clock name.
++- #phy-cells: Number of cells in a PHY specifier; Should be 0.
 +
-+port node
-+---------
++MIPI RX D-PHY use registers in "general register files", it
++should be a child of the GRF.
 +
-+The device node should contain one 'ports' child node, with children 'port'
-+with child 'endpoint'.
-+nodes, according to the bindings defined in Documentation/devicetree/bindings/
-+media/video-interfaces.txt.
-+
-+- endpoint(mipi):
-+	- remote-endpoint: Connecting to Rockchip MIPI-DPHY,
-+		which is defined in rockchip-mipi-dphy.txt.
-+
-+The port node must contain at least one endpoint, either parallel or mipi.
-+It could have multiple endpoints, but please note the hardware don't support
-+two sensors work at a time, they are supposed to work asynchronously.
++Optional properties:
++- reg: offset and length of the register set for the device.
++- rockchip,grf: MIPI TX1RX1 D-PHY not only has its own register but also
++		the GRF, so it is only necessary for MIPI TX1RX1 D-PHY.
 +
 +Device node example
 +-------------------
 +
-+	isp0: isp0@ff910000 {
-+		compatible = "rockchip,rk3399-cif-isp";
-+		reg = <0x0 0xff910000 0x0 0x4000>;
-+		interrupts = <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH 0>;
-+		clocks = <&cru SCLK_ISP0>,
-+			 <&cru ACLK_ISP0>, <&cru ACLK_ISP0_WRAPPER>,
-+			 <&cru HCLK_ISP0>, <&cru HCLK_ISP0_WRAPPER>;
-+		clock-names = "clk_isp",
-+			      "aclk_isp", "aclk_isp_wrap",
-+			      "hclk_isp", "hclk_isp_wrap";
-+		power-domains = <&power RK3399_PD_ISP0>;
-+		iommus = <&isp0_mmu>;
-+		phys = <&dphy>;
-+		phy-names = "dphy";
++grf: syscon@ff770000 {
++	compatible = "rockchip,rk3399-grf", "syscon", "simple-mfd";
 +
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
++...
 +
-+			port@0 {
-+				mipi_in_wcam: endpoint@0 {
-+					reg = <0>;
-+					remote-endpoint = <&wcam_out>;
-+					data-lanes = <1 2>;
-+				};
-+
-+				mipi_in_ucam: endpoint@1 {
-+					reg = <1>;
-+					remote-endpoint = <&ucam_out>;
-+					data-lanes = <1>;
-+				};
-+			};
-+		};
++	dphy: mipi-dphy {
++		compatible = "rockchip,rk3399-mipi-dphy";
++		clocks = <&cru SCLK_MIPIDPHY_REF>,
++			<&cru SCLK_DPHY_RX0_CFG>,
++			<&cru PCLK_VIO_GRF>;
++		clock-names = "dphy-ref", "dphy-cfg", "grf";
++		power-domains = <&power RK3399_PD_VIO>;
++		#phy-cells = <0>;
 +	};
++};
 -- 
 2.22.0
 
