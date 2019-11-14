@@ -2,153 +2,211 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A016FCABC
-	for <lists+linux-media@lfdr.de>; Thu, 14 Nov 2019 17:28:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CA37FCCEB
+	for <lists+linux-media@lfdr.de>; Thu, 14 Nov 2019 19:15:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726567AbfKNQ2M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Nov 2019 11:28:12 -0500
-Received: from mail-qv1-f68.google.com ([209.85.219.68]:37990 "EHLO
-        mail-qv1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726482AbfKNQ2M (ORCPT
+        id S1726796AbfKNSPV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Nov 2019 13:15:21 -0500
+Received: from mail-qk1-f194.google.com ([209.85.222.194]:35234 "EHLO
+        mail-qk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726533AbfKNSPV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Nov 2019 11:28:12 -0500
-Received: by mail-qv1-f68.google.com with SMTP id q19so2576498qvs.5
-        for <linux-media@vger.kernel.org>; Thu, 14 Nov 2019 08:28:11 -0800 (PST)
+        Thu, 14 Nov 2019 13:15:21 -0500
+Received: by mail-qk1-f194.google.com with SMTP id i19so5830295qki.2
+        for <linux-media@vger.kernel.org>; Thu, 14 Nov 2019 10:15:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
         h=message-id:subject:from:to:cc:date:in-reply-to:references
          :user-agent:mime-version:content-transfer-encoding;
-        bh=Wai+tSmKvkN0cOARIL7iY5strGB39aGj5Wh0+kf/GHA=;
-        b=wN+SjksjTT8x89Jca7fttFx2CB4D2G2wZQOs7gsjJ1APLzCbUrQsFlHE0t3q3JoBsW
-         mYu5IFI14BXv+CBbHfvvdTBS1EL1zzLEZpaK9++XOvUosa5ak/hwfpIv3Nmhl9xS32jB
-         h7L+HPqSNlHOYRdfLB8QjedO/AKZwTfWPr8s94yJ6BqPDyin9QsJsYOfm+V/I0kq+YFa
-         zd+q5Egj92brgvu44OFV8XoaX918vi1Ai8I6r3YaUps35XpR/pPXhKaywjkS6dG+RIzY
-         2K4QS/qOvrQQBJL0e2rgZtEX5maKctpBG8xnByIrK94oFaGImpp8QtlPFSh2PcISk43k
-         F2iQ==
+        bh=/I3xi8cQh+hSk0cTrOlUiZ8WwCAMR08gN+RReoK4lAA=;
+        b=KsMR4DbjB9xMmZzM2Ubx7xhLiybhiX8ylBxtavwqg/Jg9z1a3RrtFbWuHB9t6xSvLA
+         rR/6YGtweVbYcsE4f9lS2oCrnwZB/nkqzngAIxCfmDinIzZXSiCRfXx5Gyocjb96oKAr
+         ZrqZnn0j6UEkSFgZo++Xdm2OxAsdhYiwoQfu4chmGw22ucCtVqPGphi/KouZQ5JDYjmw
+         aaGXgQ2RxBBgcS/8Cr0H5Q8B0fmsfUdMRpp1RhquSARDO+vTgJQ+biOSvVWzJB5WVqZd
+         0qRbnMk1xQhe7PVKBG5C9E8vh444+aHPNu7zFaAXEX3HmEFYkJ+Ovnuiv4ul48JaGQKV
+         C2ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=Wai+tSmKvkN0cOARIL7iY5strGB39aGj5Wh0+kf/GHA=;
-        b=XyL2PMq8JqMBSA/zjDNeO8lA05vU0ebNcI8rwmWDVIaNYKcKknePYLSUMxWZgGuwPM
-         dT4qFTfrsf8duI93kgTaPZL9Ak0xA5Uf52X5A6SBFnLMrSf2Jm1dxsHTTsbRPA++BHGo
-         8aVNfqj7LYaV8WZpuQ6evAo89iIJyLDLqFT46TPewIP+DdsBHx2r1y8ZgXkcgCT4ZnoT
-         QIp10qLo4QUyBDo/t6xb+O0XDToKQ7hnmEmTsj79Qt8QgnCjhT1g1WPDhTy/8zJc+NiM
-         RzPOBanuiJFfDjX59OLtuDQor3+PMtRomKT834sl8E51V9CG1UU2iHHCKKgAsZ/msDfD
-         mv/Q==
-X-Gm-Message-State: APjAAAXD1DnIrYmysMMtXzAXzaJIYp1MA4/4xptVe2ctOLDHwmBAWfD0
-        eofavFDgId74q9lcuvgp/XNZ1A==
-X-Google-Smtp-Source: APXvYqxNY1L4S2uJE1b5RoDY9vMhDMSdkS7oryFwnZKD8UNRS1TFAyI3dzPrT91ZS1fXahDXJ5yEAQ==
-X-Received: by 2002:ad4:4466:: with SMTP id s6mr8805157qvt.57.1573748891250;
-        Thu, 14 Nov 2019 08:28:11 -0800 (PST)
+        bh=/I3xi8cQh+hSk0cTrOlUiZ8WwCAMR08gN+RReoK4lAA=;
+        b=uYmSL5ArejG5y2dfIeRPZ0g4tYnkVd0Aq8BlQ9OeUNZtC8L2CKrXTvcdqqMxenUleO
+         1DByHObQObTGiqFR+hZyp91XbgoILU387EEJKsdU4uHa7KS9XzkNUfoA6DAWG5hY6aWz
+         T3Y1/XT1/G2wO/tKfv9frGAKWw4pulUrmp4Tn3BH6wzYrZTheUAe6Y/fMXqbpm0F89VB
+         SEiKk7emkNyq/TAGarcWk4BXU96E4v4svL3go1AjepAHpUdLUyO6CoWLxnWxtAbPB5CW
+         YChXayKo8noWL1zmfpOFa7BFMpYEquzZv1fIyp5yT8sEotDLPWXGYl9kEAyqk/mnP5j1
+         iXxg==
+X-Gm-Message-State: APjAAAXB2pZa4XcK1KyCwwJQq+x8QPPdSwnHWjE408j0UNvsQRkGSYkV
+        9FHgpT18wNexqQxeFIAZYPc4tJ8otcYMlQ==
+X-Google-Smtp-Source: APXvYqx+BQvO8jYZSmibWnASTslIgGdK7meKyzZe4QCMUCZdmMZVXV05Cr1Wd18+cjYbdRCCBeorrw==
+X-Received: by 2002:a05:620a:4:: with SMTP id j4mr8722646qki.357.1573755319688;
+        Thu, 14 Nov 2019 10:15:19 -0800 (PST)
 Received: from skullcanyon ([192.222.193.21])
-        by smtp.gmail.com with ESMTPSA id r2sm3334674qtc.28.2019.11.14.08.28.09
+        by smtp.gmail.com with ESMTPSA id o53sm3642136qtj.91.2019.11.14.10.15.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Nov 2019 08:28:10 -0800 (PST)
-Message-ID: <c690a3c70b944261edb522316c541fbf0e7ba95c.camel@ndufresne.ca>
-Subject: Re: [ANN] Report of Media Summit: V4L2 Future Work
+        Thu, 14 Nov 2019 10:15:18 -0800 (PST)
+Message-ID: <f948c7918ea24ea2686fff72bcf813f340d55e45.camel@ndufresne.ca>
+Subject: VP9 Stateless Support (follow up of [ANN] Report of Media Summit:
+ Codecs)
 From:   Nicolas Dufresne <nicolas@ndufresne.ca>
 To:     Hans Verkuil <hverkuil@xs4all.nl>,
         Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Michael Ashton <mpa@fb.com>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
+Cc:     Boris Brezillon <boris.brezillon@collabora.com>,
         Alexandre Courbot <acourbot@chromium.org>,
         Tomasz Figa <tfiga@chromium.org>,
         Ezequiel Garcia <ezequiel@collabora.com>,
         Daniel Gomez <daniel@qtec.com>,
         Peter Griffin <peter.griffin@linaro.org>,
         Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Eugen Hristev <Eugen.Hristev@microchip.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
         Helen Koike <helen.koike@collabora.com>,
-        jacopo mondi <jacopo@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Niklas =?ISO-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Date:   Thu, 14 Nov 2019 11:28:09 -0500
-In-Reply-To: <756c2d9c-ef4d-9f56-d6bd-a09767ec2ae8@xs4all.nl>
-References: <756c2d9c-ef4d-9f56-d6bd-a09767ec2ae8@xs4all.nl>
+        Jan Schmidt <jan@centricular.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.org>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Matthew Waters <matthew@centricular.com>
+Date:   Thu, 14 Nov 2019 13:15:17 -0500
+In-Reply-To: <311a152e-b773-76d6-a17e-86112b583179@xs4all.nl>
+References: <311a152e-b773-76d6-a17e-86112b583179@xs4all.nl>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.32.4 (3.32.4-1.fc30) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le samedi 02 novembre 2019 à 15:06 +0100, Hans Verkuil a écrit :
-> Action Items
-> ------------
-> 
-> Nicolas Dufresne:
-> 
-> - provide more info about timecode use in userspace for Hans Verkuil
->   to verify if struct v4l2_timecode provides sufficient information.
+Hi all,
 
-Initial context we have:
+I hope you all had a good return back after ELCE. I'm writing in order
+to follow up and gather ideas around a blocker in our design regarding
+stateless CODECs and the VP9 CODEC. This emails provides the context,
+and I'd like, for who would like to participate, to have a chat on IRC
+#v4l at 14:30 CET for an hour at most. Hans needs to leave at 16h. If
+you can't attend, feel free to reply to this thread with ideas.
 
-   struct v4l2_timecode {
-   	__u32	type; /* This is the FPS */
-   	__u32	flags;
-   	__u8	frames;
-   	__u8	seconds;
-   	__u8	minutes;
-   	__u8	hours;
-   	__u8	userbits[4];
-   };
+Context:
+-------
 
-GStreamer on it's side exposes:
+VP9 has this concept that resolution can be changed at any frames,
+including intra-frames. The consequence of this, is that references
+frames maybe not all be of the same resolution. What happens in
+practice is that the reference frames are scaled up, or down, to the
+decoding target using a fully defined scaling algorithm.
 
-   struct _GstVideoTimeCode {
-     GstVideoTimeCodeConfig config;
+In the context of Hantro (which I need to remind is likely the only VP9
+HW decoder design in the world, considering you can get this design for
+free), this scaling is done on the fly. The references frames are
+passed in their original size.
 
-     guint hours;
-     guint minutes;
-     guint seconds;
-     guint frames;
-     guint field_count;
-   };
+Our current design for state-less decoder, is that all reference are
+held and owned by the VB queue, and referred to with a timestamp (or
+cookie). The problem is that as of today, the VB queue buffers are all
+of the same formats (despite some looking forward attempt, like
+CREATE_BUFS).
 
-   struct _GstVideoTimeCodeConfig {
-     guint fps_n;
-     guint fps_d;
-     GstVideoTimeCodeFlags flags;
-     GDateTime *latest_daily_jam;
-   };
-See https://gstreamer.freedesktop.org/documentation/video/gstvideotimecode.html?gi-language=c#GstVideoTimeCode
+Boris has implemented a proof of concept with the current API
+limitation, but we could like to find a way forward so that we can
+support VP9 compliant implementation. The following are two ideas that
+already come up, more could be discussed tomorrow of course.
 
-So the main difference is that GST allow arbitrary framerate, where
-V4L2 uses a type for this purpose. I'm not sure how things like 29.97
-is really handled in V4L2, is it exposed as 30fps and then handled with
-drop frames ? That isn't very clear, but basically it is more of less
-the same thing as Gst, and there is likely possible glue to make this
-work.
+1. CREATE_BUFS/DELETE_BUFS
+--------------------------
 
-In GStreamer, time code have been implemented when muxing into ISOMP4
-format. For H264 and HEVC, they can be encoded into the bitstream and
-extracted by the parser. We also have the ability to combine these
-timecode with the close caption data. In therm of CAPTURE and OUTPUT,
-we have support for decklink PCI card, which are SDI capture/output
-card with currently proprietary drivers and userspace on Linux [1].
+I haven't checked how this is exposed in the VB2 framework, but
+CREATE_BUFS was created with this idea that you could extend an
+existing pool of buffers, with buffers of a different format.
 
-Real usage started around GStreamer 1.12 (so it's not that old) and was
-needed for live television broadcast authoring software. The timecode
-are (to the best of my knowledge) mostly used to synchronized the
-streams together, as the streaming timestamp (e.g. RTP) might not
-correlate with the moment the recording have happened.
+In order to complete this story, we'd need a DELETE_BUF, which allow
+asking VB2 to drop it's reference to a specific chunk of memory. For
+VP9, a resolution change would looke like this (simplified):
 
-It is also used when storing the live recording to disk, so that later
-non-linear editor can align the tracks based on these timecode. There
-is likely loads of other use case I'm not aware of, it's basically
-information upon when this live recording have happened, could be few
-seconds in the past, or years for recording.
+- Userspace detect that next frame has different resolution
+- Then DELETE_BUF any buffers that are no longer relevant
+- Then TRY_FMT/CREATE_BUFS for the new resolution
 
-regards,
+As decoding continues, and references frame are no longer relevant,
+userspace will do further DELETE_BUF calls. The STREAMON/OFF calls
+are no needed anymore.
+
+Pros:
+ - It's simple to use
+ - There is prior art in the API
+Const:
+ - QUERYBUF is now insufficient, as we need the format to be returned
+ - G_FMT becomes ambiguous
+ - It's unclear what to do with buffer index, are they shifted ?
+ - Userspace and kernel need to keep managing buffer index, timestamp
+   (aka cookie) which seems quite error prone
+ - DELETE term might be off reality, maybe RELEASE ?
+
+
+2. Use a control to pass references
+
+That was an idea that came in previous discussion. We could introduce a
+controls to set the 3 references in VP9. Along with each reference, we
+could pass back the v4l2_format as it was when this reference frame was
+decoded. This would fully by-pass the timestamp/cookie mechanism. But
+would impose that VP9 only works with DMABuf, and that a
+flush/streamoff/re-alloc/streamon operation happen. It would work if
+the resolution changes are rare, e.g. not happening on consecutive
+frames.
+
+Pros:
+  - Less invasive (uAPI/Spec whise)
+Cons:
+  - It's very expensive
+  - The memory mapping cache is lost, and need to be re-implemented
+    in the driver (or some helpers need to be exposed)
+  - Is inconsistent with H264/HEVC
+
+
+3. Split buffer allocation and queue
+
+This is a bit of a crazy and unfinished idea. I'm writing it down just
+to feed some ideas, and with hope somebody with the right knowledge (no
+me) might make some sense out of it.
+
+What we could consider is to dissociate completely the queues from
+buffer allocation and their format. With this idea, the queues will
+only serve as a queue of pending operations.
+
+I believe such an allocation model would require a kernel object,
+exposed to user-space as an FD, that can wrap an DMABuf and stored all
+the relevant metadata, such as the video format for this "frame". For
+those familiar with DRM, you'll see where this is inspired from. The
+wrapper is also a good place for any caching needed when importing
+buffers. So this is no longer cached in the queue.
+
+This would require a whole new set of IOCTL to allocate, release (we
+should start thinking in term of reference count rather then
+create/delete).
+
+As a side effect, these self contained frames allow serializing the
+format changes inside a queue. In such model, the reference frames no
+longer need to be in the queue, as they can be passed using their
+wrapper. With this we basically get rid of the cookie/timestamp
+mechanism which most of us dislike. The workflow is mostly identical
+proposal 1, the difference is that reference lookup code can be
+removed. The driver no longer need to strictly track the buffers that
+has been allocated.
+
+From the queue perspective, this would need to be a totally new type of
+capture/output. The v4l2_buffer would point to a frame object rather
+then memory pointer/dmabuf/dma-offset.
+
+Pros:
+  - Much more flexible model
+  - Helps for buffer sharing
+  - No more cookie/timestamp lookup all over kernel and userspace
+  - A fully referenced count model
+Cons:
+  - This requires a lot of design, my idea is full of wholes
+  - Can it really be implemented in parallel ?
+  - Might have the same gruyere effect on the buffer index in queue
+  - The io ops need to be re-factored into something else
+
+see you tomorrow,
 Nicolas
-
-
-[1] https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/blob/master/sys/decklink/linux/DeckLinkAPI.h#L794
-
 
