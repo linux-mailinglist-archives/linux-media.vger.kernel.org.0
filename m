@@ -2,117 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 34FEAFBE47
-	for <lists+linux-media@lfdr.de>; Thu, 14 Nov 2019 04:21:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F3EDDFBEC3
+	for <lists+linux-media@lfdr.de>; Thu, 14 Nov 2019 05:54:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726995AbfKNDVV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Nov 2019 22:21:21 -0500
-Received: from mail.kernel.org ([198.145.29.99]:59584 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726491AbfKNDVV (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Nov 2019 22:21:21 -0500
-Received: from localhost (unknown [124.219.31.93])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0FC8A206F3;
-        Thu, 14 Nov 2019 03:21:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573701680;
-        bh=FmT+xIiI8fjMzRISC6E96FWJYAdkxpETep6dx0aAOFQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=2ZZqboLMJesjq8BgSJ7MoVJfF7TgnYS/cpHL36P4jLxMYovM+i28jf1w3HevubntO
-         CeDfpE3nKYFUIcb2Vwhkjbuo4IYsEvU7SVWvJfBdlElMiMJ5CCs+VgGXsWTotdq/qS
-         w53jwTQdO8muQEOIrztPV0CPbjIZ2Oh5POjkNcYQ=
-Date:   Thu, 14 Nov 2019 11:21:17 +0800
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Chunfeng Yun <chunfeng.yun@mediatek.com>
-Cc:     Felipe Balbi <balbi@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Chen <Peter.Chen@nxp.com>,
-        Minas Harutyunyan <hminas@synopsys.com>,
-        Cristian Birsan <cristian.birsan@microchip.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Kevin Cernekee <cernekee@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        bcm-kernel-feedback-list@broadcom.com,
-        Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>, Bin Liu <b-liu@ti.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Colin Ian King <colin.king@canonical.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        Yangtao Li <tiny.windzz@gmail.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH v2 12/13] usb: gadget: udc: gr_udc: create debugfs
- directory under usb root
-Message-ID: <20191114032117.GA130252@kroah.com>
-References: <1573541519-28488-1-git-send-email-chunfeng.yun@mediatek.com>
- <1573541519-28488-12-git-send-email-chunfeng.yun@mediatek.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1573541519-28488-12-git-send-email-chunfeng.yun@mediatek.com>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+        id S1726548AbfKNEyz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Nov 2019 23:54:55 -0500
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:54555 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726505AbfKNEyy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 13 Nov 2019 23:54:54 -0500
+Received: from localhost ([IPv6:2001:983:e9a7:1:bc08:315f:97b0:c55a])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id V79ei2S7qk1hcV79fiRKrf; Thu, 14 Nov 2019 05:54:52 +0100
+Message-ID: <98fc502053b794a3caf3e371fd8842df@smtp-cloud8.xs4all.net>
+Date:   Thu, 14 Nov 2019 05:54:50 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfHAGCzfsgdK9fh3FhB6FbPVW8tzNQxwwO3pcDMEJGtUpptjqb3yxBGdlfKZi6BJM4PlRiqx2exENldnk6JExlRMIGzPf2fPYr8qipkBkJiRpThsEygc+
+ Oawj7j1uOrGiktYHMgnHpGf7uI96bWJsADMvo8Bmd7kR+T0BzulrSfnBIgO51MIBA25QMvkXXc/ALJkQBxBShz3CS9ESDpBL1fQFNYx6xQ6dNUjQQ7/lJuN5
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Nov 12, 2019 at 02:51:58PM +0800, Chunfeng Yun wrote:
-> Now the USB gadget subsystem can use the USB debugfs root directory,
-> so move it's directory from the root of the debugfs filesystem into
-> the root of usb
-> 
-> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
-> ---
-> v2:
->   1. abandon new API usb_debugfs_create_dir(), and use usb_debug_root
-> ---
->  drivers/usb/gadget/udc/gr_udc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/gadget/udc/gr_udc.c b/drivers/usb/gadget/udc/gr_udc.c
-> index 7a0e9a58c2d8..5faa09a6c770 100644
-> --- a/drivers/usb/gadget/udc/gr_udc.c
-> +++ b/drivers/usb/gadget/udc/gr_udc.c
-> @@ -208,7 +208,7 @@ static void gr_dfs_create(struct gr_udc *dev)
->  {
->  	const char *name = "gr_udc_state";
->  
-> -	dev->dfs_root = debugfs_create_dir(dev_name(dev->dev), NULL);
-> +	dev->dfs_root = debugfs_create_dir(dev_name(dev->dev), usb_debug_root);
->  	debugfs_create_file(name, 0444, dev->dfs_root, dev, &gr_dfs_fops);
->  }
->  
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-This breaks the build:
-drivers/usb/gadget/udc/gr_udc.c: In function ‘gr_dfs_create’:
-drivers/usb/gadget/udc/gr_udc.c:211:57: error: ‘usb_debug_root’ undeclared (first use in this function)
-  211 |  dev->dfs_root = debugfs_create_dir(dev_name(dev->dev), usb_debug_root);
-      |                                                         ^~~~~~~~~~~~~~
-drivers/usb/gadget/udc/gr_udc.c:211:57: note: each undeclared identifier is reported only once for each function it appears in
-make[4]: *** [scripts/Makefile.build:265: drivers/usb/gadget/udc/gr_udc.o] Error 1
+Results of the daily build of media_tree:
 
-so I've dropped it from the patch series.
+date:			Thu Nov 14 05:00:10 CET 2019
+media-tree git hash:	dca6b3733a4a46e63603496f544ece8ace541fde
+media_build git hash:	efba365ba11b958a6bf6fb4b397942f9461cefca
+v4l-utils git hash:	a0b1b2c1f87ca1f6a167d91632c84dbf86ebfff6
+edid-decode git hash:	cc5a7bf9049af1bc795d5a2e432cc0044698f995
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 6903fe8f5101fc43440b3259290c97d2dd51733d
+host hardware:		x86_64
+host os:		5.2.0-3-amd64
 
-Please fix up and resend.
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4-rc1-i686: OK
+linux-5.4-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2784, Succeeded: 2784, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
 
-And of course, always test-build your patches before you send them
-out...
+Detailed results are available here:
 
-greg k-h
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
