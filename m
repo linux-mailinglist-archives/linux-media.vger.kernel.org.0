@@ -2,119 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C23E1FBC95
-	for <lists+linux-media@lfdr.de>; Thu, 14 Nov 2019 00:29:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D55DFBE41
+	for <lists+linux-media@lfdr.de>; Thu, 14 Nov 2019 04:20:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726597AbfKMX3r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 Nov 2019 18:29:47 -0500
-Received: from hqemgate15.nvidia.com ([216.228.121.64]:14354 "EHLO
-        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726363AbfKMX3r (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 Nov 2019 18:29:47 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5dcc91e90000>; Wed, 13 Nov 2019 15:29:45 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Wed, 13 Nov 2019 15:29:46 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Wed, 13 Nov 2019 15:29:46 -0800
-Received: from [10.2.160.107] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 13 Nov
- 2019 23:29:45 +0000
-Subject: Re: [PATCH v4 23/23] mm/gup: remove support for gup(FOLL_LONGTERM)
-To:     Ira Weiny <ira.weiny@intel.com>
-CC:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
+        id S1726564AbfKNDUW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 Nov 2019 22:20:22 -0500
+Received: from mail.kernel.org ([198.145.29.99]:59278 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726491AbfKNDUW (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 13 Nov 2019 22:20:22 -0500
+Received: from localhost (unknown [124.219.31.93])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id CBE25206F3;
+        Thu, 14 Nov 2019 03:20:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1573701621;
+        bh=OtP6MQL/9zqWPLBJmcEhDTenHXMX6HLpeiVYH4UmMDE=;
+        h=Date:From:To:Subject:References:In-Reply-To:From;
+        b=gQLXWXktL91SJAhfZP1kDUlvFwg3yUAhxTlw3gEyBZm+csv1Fe3nn+RAgRYOGy8zH
+         MrSA9ov5qkWicZMsu5PnaUDmANrLHTjaP2NrEUP2gsBQBdTLLG9FbXwLZ1HPjT/uxn
+         CEEBcRjEjnPcIOLb6WihxH/e2FQ07IVp9PbR/Az4=
+Date:   Thu, 14 Nov 2019 11:20:18 +0800
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Bin Liu <b-liu@ti.com>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
-        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
-        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
-References: <20191113042710.3997854-1-jhubbard@nvidia.com>
- <20191113042710.3997854-24-jhubbard@nvidia.com>
- <20191113190935.GD12947@iweiny-DESK2.sc.intel.com>
-From:   John Hubbard <jhubbard@nvidia.com>
-X-Nvconfidentiality: public
-Message-ID: <4e24c5af-bd96-e7c7-179b-0ca0f6abb852@nvidia.com>
-Date:   Wed, 13 Nov 2019 15:27:00 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Peter Chen <Peter.Chen@nxp.com>,
+        Minas Harutyunyan <hminas@synopsys.com>,
+        Cristian Birsan <cristian.birsan@microchip.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Kevin Cernekee <cernekee@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        bcm-kernel-feedback-list@broadcom.com,
+        Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+        Colin Ian King <colin.king@canonical.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        Yangtao Li <tiny.windzz@gmail.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH v2 05/13] usb: musb: create debugfs directory under usb
+ root
+Message-ID: <20191114032018.GA122287@kroah.com>
+References: <1573541519-28488-1-git-send-email-chunfeng.yun@mediatek.com>
+ <1573541519-28488-5-git-send-email-chunfeng.yun@mediatek.com>
+ <20191112152857.GA5853@uda0271908>
 MIME-Version: 1.0
-In-Reply-To: <20191113190935.GD12947@iweiny-DESK2.sc.intel.com>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1573687785; bh=9B/DbxbXL2Cu8EFiCYVZNw+MxNudIvhgmb1GMnaTmQ0=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=rJKFgq0qWlNQhEr6LwQRM7xJTWCfLcG6jdSS31KElayO6wHx7IiwFsaXOvGhplyH1
-         tCC68KrsRIXSAjoot89gKwHpedHmflDisAxv/IoMKZRuMzvzxHIp82VaySctaPBYkQ
-         hZemWLx10v7w1crWSE8+tecZBKihDudRrciOwHkYvfyXR52KB/0+nCkX8xcEjYzOgD
-         BdrgEwqj12gUt+52wZddvynAEOXEEJldAzotyUKT84BAusYTd8IMJOcdCe+okl1UqL
-         yIUM4FRTzo2XVuGeXsCxvfWydTvgqiLWMulv4eIra/tutHomq+DAZbILc3dKig7Hd1
-         UTGu99x3VirIw==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191112152857.GA5853@uda0271908>
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/13/19 11:09 AM, Ira Weiny wrote:
-...
->> diff --git a/mm/gup.c b/mm/gup.c
->> index 82e7e4ce5027..90f5f95ee7ac 100644
->> --- a/mm/gup.c
->> +++ b/mm/gup.c
->> @@ -1756,11 +1756,11 @@ long get_user_pages(unsigned long start, unsigned long nr_pages,
->>   		struct vm_area_struct **vmas)
->>   {
->>   	/*
->> -	 * FOLL_PIN must only be set internally by the pin_user_page*() and
->> -	 * pin_longterm_*() APIs, never directly by the caller, so enforce that
->> -	 * with an assertion:
->> +	 * FOLL_PIN and FOLL_LONGTERM must only be set internally by the
->> +	 * pin_user_page*() and pin_longterm_*() APIs, never directly by the
->> +	 * caller, so enforce that with an assertion:
->>   	 */
->> -	if (WARN_ON_ONCE(gup_flags & FOLL_PIN))
->> +	if (WARN_ON_ONCE(gup_flags & (FOLL_PIN | FOLL_LONGTERM)))
+On Tue, Nov 12, 2019 at 09:28:57AM -0600, Bin Liu wrote:
+> Hi,
 > 
-> Don't we want to block FOLL_LONGTERM in get_user_pages_fast() as well after all
-> this?
+> On Tue, Nov 12, 2019 at 02:51:51PM +0800, Chunfeng Yun wrote:
+> > Now the USB gadget subsystem can use the USB debugfs root directory,
+> > so move musb's directory from the root of the debugfs filesystem into
+> > the root of usb
 > 
+> My opinion is this move is unnecessary. I breaks existing debug tools or
+> documentation which is already published on Internet. 
 
-Yes. But with the latest idea to restore FOLL_LONGTERM to its original glory,
-that won't be an issue in the next version. heh.
+Having a "root" directory for a single random driver seems like you are
+making your driver a "very important" thing in the overall scheme of the
+kernel, right?  What's wrong with using the usb subdirectory like all
+other USB drivers use (after this patch series is merged)?  That feels
+like a much more "sane" way to handle the wide-open debugfs namespace.
 
+Yes, there are no rules when it comes to debugfs file names and
+locations, but let's try to be sane please.
 
 thanks,
--- 
-John Hubbard
-NVIDIA
+
+greg k-h
