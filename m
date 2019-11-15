@@ -2,201 +2,180 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 320E2FD462
-	for <lists+linux-media@lfdr.de>; Fri, 15 Nov 2019 06:31:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AA92BFD46D
+	for <lists+linux-media@lfdr.de>; Fri, 15 Nov 2019 06:33:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726550AbfKOFbh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Nov 2019 00:31:37 -0500
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:42728 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726196AbfKOFbh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Nov 2019 00:31:37 -0500
-Received: by mail-oi1-f195.google.com with SMTP id i185so7601387oif.9
-        for <linux-media@vger.kernel.org>; Thu, 14 Nov 2019 21:31:36 -0800 (PST)
+        id S1727050AbfKOFdm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Nov 2019 00:33:42 -0500
+Received: from mail-eopbgr1400100.outbound.protection.outlook.com ([40.107.140.100]:56880
+        "EHLO JPN01-TY1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725848AbfKOFdm (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 15 Nov 2019 00:33:42 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AHyMe8Qdb/jDcIyQQ3FFsQg18eP0uTejrY8N8QJSERGVVslmu0yigB4zEtK59d4CiXQKrEmx7OyWlznawXZDHtdqVIRRa3dwEsZACqcmRsmyrkF/Dhwsuup3l+kG7dKiWMnnOFvDBO2SRrPkwu6p7FGSYtQxDpEOVUkeXDI57EKZ3tn2VWV5vcr9nPOXn/DdxqMk2SKI7Ztx0kZkxkd8/NFnQe8leO9FPVLacVtVXQw8Vbw2Xk+jWdI1h9QqIum7P/YxtN9oNwQyBYPuJ7+xq2h4jFanp9QUtS+d9RUCyP0tpjJnQo7t/+NlX63PaMIJY2fML+PCplQ5NWygNKa7ww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=j/QjK9zXBEM2paHzNigaYicDA3fBZrq+OXX76JnzceQ=;
+ b=coqxvdPX48/jQerU63eQFgWsrZOBPIGwXA0l1VWGviHIQcCzX6BYp4JUqGj7a8fz2ilmNL1vbCNzvjFTg4zcYs+moCC30MEGZYCOrSbxuKkKFPY9CAwE8A0PnizdvHRPKMWKSIQheMN8x7iVStut58Iomil1Fzx9jeTlHHClbe2qhGqJqpDp/PTY1GsM/kmSRXjr2aFKgPTjgvES/FHyxdAnbg8mCBxf97SNLQK4m5xCa0PbcP7noh+5VTFozx0eMqH+6c7FLeCmDFwBNMDbawVk/iB6+G00zuNOr4zBl0Nzfka1v/NA14GCAAezJ+RUhSLuTi7bH401JaP/STWH2Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=MCNN5DQiyUg5unIl3TP6bO/3H28cldcBiZgTEqQ4VpQ=;
-        b=lzfPUgurpjNSGJpH2QGHtyjA1g1ga7AIKylE5tDvoaoFRzkNuuoAO6yFdQ2UZzrmWc
-         MUOmA3AGNN+JLkcvThQPQ+kcDNiPUwjIcYRdoxWt7FA8Q3QI8FeYKef/2UBGa1vOcALR
-         YIuAc5jKP2Dzql84qKUm09Trwc6w8B/lV2ZiY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=MCNN5DQiyUg5unIl3TP6bO/3H28cldcBiZgTEqQ4VpQ=;
-        b=bLtt0wiFZkc8osQvDtq58/0PXg3odF366A02xHHt4xrs+L+5beVKlVYwb+WXrxX58t
-         J77QiiHz0HM0IsNHkUTOx8d1PWamwFZg6RYOETabXJ00Sk92nIS64qcmm0rEdhW0Jewb
-         Ouf0/KIwJOyfIQgotnncUnfGcG3q5xYEM4HecNRmk/0SfLFQJ8Ybtu+/0v3wvQJVqD6C
-         9hY1dbDuAydLW/5SWP/XtByTu+DdJsconSLBdzaccnUANr/vUXdJhif4214gz+4mBJZP
-         myvM4p+OV65JZZ7M5ZD6bI1Vsigd0PvE50HaAmzXe+VHpAT/ioOu/PBSw7zAHGsTS1cI
-         4SSQ==
-X-Gm-Message-State: APjAAAV+dVo+f7gGfq2VNThaylCLBbZITsHX214a3dcDwAj+w3O0n9Wd
-        LQ6z0i46nDSnc7NB8OIPUIpVRxFUeg0=
-X-Google-Smtp-Source: APXvYqxdTsoG5I851C2z0pyOMqABoAosOo4DzdU/xWyigrGDW5EYaPu133KPgHJG8VK5JbHfBwv2Mg==
-X-Received: by 2002:aca:f553:: with SMTP id t80mr6417884oih.60.1573795895538;
-        Thu, 14 Nov 2019 21:31:35 -0800 (PST)
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com. [209.85.167.182])
-        by smtp.gmail.com with ESMTPSA id 94sm2598663otx.3.2019.11.14.21.31.34
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 Nov 2019 21:31:34 -0800 (PST)
-Received: by mail-oi1-f182.google.com with SMTP id s71so7569211oih.11
-        for <linux-media@vger.kernel.org>; Thu, 14 Nov 2019 21:31:34 -0800 (PST)
-X-Received: by 2002:a54:4e85:: with SMTP id c5mr6371256oiy.71.1573795893946;
- Thu, 14 Nov 2019 21:31:33 -0800 (PST)
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=j/QjK9zXBEM2paHzNigaYicDA3fBZrq+OXX76JnzceQ=;
+ b=lla8BEypY6/YMvfvnpPhKpraAytko8sjZPnxdruYcNgmI6Kfbl/fDBQ2qPUIawDpiH6ZV4N9TOoPxO7sv6lZSYMjpCwBt98riOhQb6EXbocJ18XVdyA1EJMwQEOcsVGpinRW3rpm09y1c4nhcUxhtZWyWWuy3p2SrSr8smkAO2M=
+Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com (20.179.175.203) by
+ TYAPR01MB3567.jpnprd01.prod.outlook.com (20.178.137.138) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2451.28; Fri, 15 Nov 2019 05:33:25 +0000
+Received: from TYAPR01MB4544.jpnprd01.prod.outlook.com
+ ([fe80::6998:f6cf:8cf1:2528]) by TYAPR01MB4544.jpnprd01.prod.outlook.com
+ ([fe80::6998:f6cf:8cf1:2528%5]) with mapi id 15.20.2451.024; Fri, 15 Nov 2019
+ 05:33:25 +0000
+From:   Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+To:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Felipe Balbi <balbi@kernel.org>
+CC:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Peter Chen <Peter.Chen@nxp.com>,
+        Minas Harutyunyan <hminas@synopsys.com>,
+        Cristian Birsan <cristian.birsan@microchip.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Kevin Cernekee <cernekee@gmail.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        "bcm-kernel-feedback-list@broadcom.com" 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>, Bin Liu <b-liu@ti.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Stephen Boyd <swboyd@chromium.org>,
+        Colin Ian King <colin.king@canonical.com>,
+        Biju Das <biju.das@bp.renesas.com>,
+        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        Yangtao Li <tiny.windzz@gmail.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>
+Subject: RE: [PATCH v3 10/13] usb: gadget: udc: renesas_usb3: create debugfs
+ directory under usb root
+Thread-Topic: [PATCH v3 10/13] usb: gadget: udc: renesas_usb3: create debugfs
+ directory under usb root
+Thread-Index: AQHVmtgjs6kjMfHecE2BmiNGnS0AxqeLtQfg
+Date:   Fri, 15 Nov 2019 05:33:24 +0000
+Message-ID: <TYAPR01MB454479F91B948904C213B94CD8700@TYAPR01MB4544.jpnprd01.prod.outlook.com>
+References: <1573728085-29016-1-git-send-email-chunfeng.yun@mediatek.com>
+ <1573728085-29016-10-git-send-email-chunfeng.yun@mediatek.com>
+In-Reply-To: <1573728085-29016-10-git-send-email-chunfeng.yun@mediatek.com>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=yoshihiro.shimoda.uh@renesas.com; 
+x-originating-ip: [150.249.235.54]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 24511005-60ea-49ab-79b8-08d7698d5624
+x-ms-traffictypediagnostic: TYAPR01MB3567:|TYAPR01MB3567:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <TYAPR01MB35670C3A550C1E32635DEAE8D8700@TYAPR01MB3567.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 02229A4115
+x-forefront-antispam-report: SFV:NSPM;SFS:(10019020)(4636009)(396003)(366004)(346002)(136003)(39860400002)(376002)(189003)(199004)(6246003)(9686003)(66066001)(66476007)(66446008)(6116002)(71190400001)(71200400001)(14444005)(5660300002)(256004)(64756008)(66556008)(229853002)(8676002)(54906003)(4326008)(81166006)(8936002)(99286004)(55016002)(76116006)(6436002)(316002)(52536014)(110136005)(446003)(2906002)(14454004)(476003)(33656002)(11346002)(86362001)(7416002)(81156014)(7696005)(7406005)(486006)(186003)(478600001)(66946007)(74316002)(76176011)(26005)(7736002)(3846002)(305945005)(6506007)(25786009)(102836004);DIR:OUT;SFP:1102;SCL:1;SRVR:TYAPR01MB3567;H:TYAPR01MB4544.jpnprd01.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: renesas.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: lITUcqsRnYn1Eq8AkwXsMuJODq58lGPlQ7BzIVEzJv8fbhc77IpzvaqDsr5A6YyJJ4dO3wBpj0d5ieXYSuRxMAwIw8cIVwDJL/CNWs8JmfA7RLHEU+6fneDk78YwkQGYf3CtdxWble0JaJvFLZ0SWpn9H1Fp8MKMzE01M6jPqVcPlD9FhQbWY9D1MmFK3SdpCdjPAGUuTOUvR2f84ROyCjTuGKAcUjqTF/vL03JPur8KiOaVQmQSdqOTfVCi8OsT3WxdAPSt0azxlQrHXkewTneRG0GVdF/44jnfJn/VQHMckns11A3qJlJUuBQPa01aNOvrnL3g5Y6178tgh8WXnc17kmnmMfMeun0PGdkgCFwRkGb5qVQv7fcjWbDWwuL5Sxy3VuhY2zMeztp+x5LeG6u2zdsO3YWWDyy0Q7yS7x44gsIVOpGAwyBZL5kYzAB8
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20191115035013.145152-1-acourbot@chromium.org> <20191115053630.129b473b@collabora.com>
-In-Reply-To: <20191115053630.129b473b@collabora.com>
-From:   Alexandre Courbot <acourbot@chromium.org>
-Date:   Fri, 15 Nov 2019 14:31:22 +0900
-X-Gmail-Original-Message-ID: <CAPBb6MXa_9Ji5TwEF-HqPRO5JFG9HU1VDDGJdk-+Smczg0RHZA@mail.gmail.com>
-Message-ID: <CAPBb6MXa_9Ji5TwEF-HqPRO5JFG9HU1VDDGJdk-+Smczg0RHZA@mail.gmail.com>
-Subject: Re: [PATCH] media: hantro: make update_dpb() not leave holes in DPB
-To:     Boris Brezillon <boris.brezillon@collabora.com>
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 24511005-60ea-49ab-79b8-08d7698d5624
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Nov 2019 05:33:24.8893
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 9wlpzJ/d525cY5R6Qu6qCINh/DW+snSR94J4uPnLnNnC7ujaRZuDpr0shK1TFargAj9z31jtoOoH5kYtEiuVkeN5mTLzLLLymkryYsytu8mIjwj0+dsb0kcFzlhs/bFE
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB3567
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Nov 15, 2019 at 1:36 PM Boris Brezillon
-<boris.brezillon@collabora.com> wrote:
->
-> Hi Alexandre,
->
-> On Fri, 15 Nov 2019 12:50:13 +0900
-> Alexandre Courbot <acourbot@chromium.org> wrote:
->
-> > update_dpb() reorders the DPB entries such as the same frame in two
-> > consecutive decoding requests always ends up in the same DPB slot.
-> >
-> > It first clears all the active flags in the DPB, and then checks whether
-> > the active flag is not set to decide whether an entry is a candidate for
-> > matching or not.
-> >
-> > However, this means that unused DPB entries are also candidates for
-> > matching, and an unused entry will match if we are testing it against a
-> > frame which (TopFieldOrderCount, BottomFieldOrderCount) is (0, 0).
->
-> Hm, I might be wrong but I thought we were supposed to re-use matching
-> entries even if the ref was not active on the last decoded frame. IIRC,
-> a ref can be active on specific decoding request (X), then inactive on
-> the next one (X+1) and active again on the following one (X+2).
-> Shouldn't we re-use the slot we used when decoding X for this ref when
-> decoding X+2?
+Hi Chunfeng-san,
 
-I am not sure how often this happens in practice (if at all), but
-maybe this logic would work as well. In this case we would need to
-mark DPB entries that are not used yet differently to avoid the issue
-that this patch attempts to fix.
+> From: Chunfeng Yun, Sent: Thursday, November 14, 2019 7:41 PM
+>=20
+> Now the USB gadget subsystem can use the USB debugfs root directory,
+> so move it's directory from the root of the debugfs filesystem into
+> the root of usb
+>=20
+> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
 
-To give a precise example of the issue, for a stream that only uses 3
-DPB entries at max, after an IDR frame the 4th DPB entry will
-incorrectly be matched with the IDR frame of FieldOrderCount (0, 0)
-and be the only active entry for this frame. Hantro is ok with it, but
-this is not an optimal use of the DPB and MT8183 does not like that.
+Thank you for the patch! When I apply this patch on the Greg's usb.git /
+usb-next branch, the following warning happens:
 
->
-> >
-> > As it turns out, this happens for the very first frame of a stream, but
-> > it is not a problem as it would be copied to the first entry anyway.
-> > More concerning is that after an IDR frame the Top/BottomFieldOrderCount
-> > can be reset to 0, and this time update_dpb() will match the IDR frame
-> > to the first unused entry of the DPB (and not the entry at index 0 as
-> > would be expected) because the first slots will have different values.
->
-> We could also consider resetting the DPB cache on IDR frames if that
-> works on Hantro.
+$ patch -p1 < ~/Downloads/v3-10-13-usb-gadget-udc-renesas_usb3-create-debug=
+fs-directory-under-usb-root.patch
+patching file drivers/usb/gadget/udc/renesas_usb3.c
+Hunk #1 succeeded at 2536 (offset 1 line).
 
-Maybe that could be enough indeed. Let me experiment with that a bit.
-I believe this would work since in practice the result would be the
-same as this patch, but for safety I'd rather have unused DPB entries
-be unambiguously identified rather than letting the (0, 0) match do
-the right thing by accident.
+I'm not sure we should fix it strictly though, this patch seems good to me.=
+ So,
 
->
-> >
-> > The Hantro driver is ok with this, but when trying to use the same
-> > function for another driver (MT8183) I noticed decoding artefacts caused
-> > by this hole in the DPB.
->
-> I guess this new version passes the chromium testsuite on rk-based
-> boards. If that's the case I don't have any objection to this patch.
->
-> Note that I was not planning to share the DPB caching logic as I
-> thought only Hantro G1 needed that trick. Have you tried passing the
-> DPB directly? Maybe it just works on mtk.
+Reviewed-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-Passing the DPB directly I get corrupted frames on a regular basis
-with MTK. I also confirmed that the firmware's expectations are what
-this function does. Using the same function in the MTK driver, the
-decoded stream is flawless.
+And, I tested this patch on my environment and confirmed that
+the debug file moved from /sys/kernel/debug to /sys/kernel/debug/usb. So,
 
->
-> >
-> > Fix this by maintaining a list of DPB slots that are actually in use,
-> > instead of relying on the absence of the active flag to do so. This also
-> > allows us to optimize matching a bit.
-> >
-> > Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
-> > ---
-> >  drivers/staging/media/hantro/hantro_h264.c | 18 ++++++++++++------
-> >  1 file changed, 12 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/drivers/staging/media/hantro/hantro_h264.c b/drivers/staging/media/hantro/hantro_h264.c
-> > index 568640eab3a6..2357068b0f82 100644
-> > --- a/drivers/staging/media/hantro/hantro_h264.c
-> > +++ b/drivers/staging/media/hantro/hantro_h264.c
-> > @@ -474,14 +474,19 @@ static void update_dpb(struct hantro_ctx *ctx)
-> >  {
-> >       const struct v4l2_ctrl_h264_decode_params *dec_param;
-> >       DECLARE_BITMAP(new, ARRAY_SIZE(dec_param->dpb)) = { 0, };
-> > +     DECLARE_BITMAP(in_use, ARRAY_SIZE(dec_param->dpb)) = { 0, };
-> >       DECLARE_BITMAP(used, ARRAY_SIZE(dec_param->dpb)) = { 0, };
-> >       unsigned int i, j;
-> >
-> >       dec_param = ctx->h264_dec.ctrls.decode;
-> >
-> > -     /* Disable all entries by default. */
-> > -     for (i = 0; i < ARRAY_SIZE(ctx->h264_dec.dpb); i++)
-> > +     /* Mark entries in use before disabling them. */
-> > +     for (i = 0; i < ARRAY_SIZE(ctx->h264_dec.dpb); i++) {
-> > +             if (ctx->h264_dec.dpb[i].flags &
-> > +                 V4L2_H264_DPB_ENTRY_FLAG_ACTIVE)
-> > +                     set_bit(i, in_use);
-> >               ctx->h264_dec.dpb[i].flags &= ~V4L2_H264_DPB_ENTRY_FLAG_ACTIVE;
-> > +     }
-> >
-> >       /* Try to match new DPB entries with existing ones by their POCs. */
-> >       for (i = 0; i < ARRAY_SIZE(dec_param->dpb); i++) {
-> > @@ -492,18 +497,19 @@ static void update_dpb(struct hantro_ctx *ctx)
-> >
-> >               /*
-> >                * To cut off some comparisons, iterate only on target DPB
-> > -              * entries which are not used yet.
-> > +              * entries which are already used.
-> >                */
-> > -             for_each_clear_bit(j, used, ARRAY_SIZE(ctx->h264_dec.dpb)) {
-> > +             for_each_set_bit(j, in_use, ARRAY_SIZE(ctx->h264_dec.dpb)) {
-> >                       struct v4l2_h264_dpb_entry *cdpb;
-> >
-> >                       cdpb = &ctx->h264_dec.dpb[j];
-> > -                     if (cdpb->flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE ||
-> > -                         !dpb_entry_match(cdpb, ndpb))
-> > +                     if (!dpb_entry_match(cdpb, ndpb))
-> >                               continue;
-> >
-> >                       *cdpb = *ndpb;
-> >                       set_bit(j, used);
-> > +                     /* Don't reiterate on this one. */
-> > +                     clear_bit(j, in_use);
-> >                       break;
-> >               }
-> >
->
+Tested-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+
+Best regards,
+Yoshihiro Shimoda
+
+
+> ---
+> v3: no changes
+>=20
+> v2:
+>   1. abandon new API usb_debugfs_create_dir(), and use usb_debug_root
+> ---
+>  drivers/usb/gadget/udc/renesas_usb3.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/usb/gadget/udc/renesas_usb3.c b/drivers/usb/gadget/u=
+dc/renesas_usb3.c
+> index e098f16c01cb..4dde69e7f6b1 100644
+> --- a/drivers/usb/gadget/udc/renesas_usb3.c
+> +++ b/drivers/usb/gadget/udc/renesas_usb3.c
+> @@ -2535,7 +2535,7 @@ static const struct file_operations renesas_usb3_b_=
+device_fops =3D {
+>  static void renesas_usb3_debugfs_init(struct renesas_usb3 *usb3,
+>  				      struct device *dev)
+>  {
+> -	usb3->dentry =3D debugfs_create_dir(dev_name(dev), NULL);
+> +	usb3->dentry =3D debugfs_create_dir(dev_name(dev), usb_debug_root);
+>=20
+>  	debugfs_create_file("b_device", 0644, usb3->dentry, usb3,
+>  			    &renesas_usb3_b_device_fops);
+> --
+> 2.23.0
