@@ -2,701 +2,210 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 34AE9FD504
-	for <lists+linux-media@lfdr.de>; Fri, 15 Nov 2019 06:55:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BE58FD5AD
+	for <lists+linux-media@lfdr.de>; Fri, 15 Nov 2019 07:04:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727772AbfKOFzT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Nov 2019 00:55:19 -0500
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:10740 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727476AbfKOFyC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Nov 2019 00:54:02 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5dce3d6a0001>; Thu, 14 Nov 2019 21:53:46 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 14 Nov 2019 21:53:46 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 14 Nov 2019 21:53:46 -0800
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 15 Nov
- 2019 05:53:45 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Fri, 15 Nov 2019 05:53:45 +0000
-Received: from blueforge.nvidia.com (Not Verified[10.110.48.28]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5dce3d690007>; Thu, 14 Nov 2019 21:53:45 -0800
-From:   John Hubbard <jhubbard@nvidia.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-CC:     Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
-        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
-        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
-        John Hubbard <jhubbard@nvidia.com>
-Subject: [PATCH v5 24/24] mm, tree-wide: rename put_user_page*() to unpin_user_page*()
-Date:   Thu, 14 Nov 2019 21:53:40 -0800
-Message-ID: <20191115055340.1825745-25-jhubbard@nvidia.com>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20191115055340.1825745-1-jhubbard@nvidia.com>
-References: <20191115055340.1825745-1-jhubbard@nvidia.com>
+        id S1726655AbfKOGEI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Nov 2019 01:04:08 -0500
+Received: from mail-oln040092072048.outbound.protection.outlook.com ([40.92.72.48]:52088
+        "EHLO EUR03-VE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725774AbfKOGEI (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 15 Nov 2019 01:04:08 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=F+C3ayZVJBhCC4ptHXjrcl54pGKeLDqY3oTyOfwVg4mNSWEOLjo4pXCLfFVVkxwdGLLUzjPLWgo7O1bxbgzNqzuSllWZhQuRzY6kJhXP7nZpMAGvWB0ev5Guiqz3BTp0Am4tZFfJYFz94BNCfgZbTQwpve4nWWmfndZ7q/alOLgV3i7djJ29V1yYFwvntF7gPLH5QSVHLv/Kq/EMI2blGe76ReBj6tzDSP+pWRC4RiD1+twprGNfJvJwRsGpIPjO84qgUnUXpzk+mwpAQOCE8wOoDnKLlXJ1LBeYcVsG37a9Z7Gyu1fOG7eQjQSyk23ly7QKIwWAjCpydE5a3bsw9Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/ljRdeOfRBRF75lrlc6efuQuv4Mw4k/6PgiVV5w+Yzc=;
+ b=YqyXC0lVc2Pt5XTiRQamp3d5/re2+s068L/2Dw+wghnfoqbNyP6WAypGWeJfU1X/zmf0cusi1qEUK1DFZyJbWEBrxOSsbRfpzxEhSbeAYj/nFg5NJ5Ui2afEaLkon3++b/VGU6VVp+2gW49o1NJMDnFL/+sJF9vDvNZj0pAMx5oYO3yuQn8qcJsInc/GeqZRQr5eFgTjY72NE8kDUSUAVVxmFuhuHwky/p1hLoqUeUcfTp9/VDb/g8at0lFRW/XUcOlOEZuHa+8MmO+8w8e+Q7UOas5kmHYqrgrS9pdvA2kafB2T5Wqr7fgUBWD81eURWgCg5xF6Vh1jFMAlXAS5Mg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+Received: from VE1EUR03FT020.eop-EUR03.prod.protection.outlook.com
+ (10.152.18.60) by VE1EUR03HT211.eop-EUR03.prod.protection.outlook.com
+ (10.152.18.207) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2451.23; Fri, 15 Nov
+ 2019 06:03:59 +0000
+Received: from HE1PR06MB4011.eurprd06.prod.outlook.com (10.152.18.58) by
+ VE1EUR03FT020.mail.protection.outlook.com (10.152.18.242) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2451.23 via Frontend Transport; Fri, 15 Nov 2019 06:03:59 +0000
+Received: from HE1PR06MB4011.eurprd06.prod.outlook.com
+ ([fe80::a1a9:f639:5cc7:341a]) by HE1PR06MB4011.eurprd06.prod.outlook.com
+ ([fe80::a1a9:f639:5cc7:341a%7]) with mapi id 15.20.2451.027; Fri, 15 Nov 2019
+ 06:03:59 +0000
+From:   Jonas Karlman <jonas@kwiboo.se>
+To:     Alexandre Courbot <acourbot@chromium.org>,
+        Boris Brezillon <boris.brezillon@collabora.com>
+CC:     Ezequiel Garcia <ezequiel@collabora.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] media: hantro: make update_dpb() not leave holes in DPB
+Thread-Topic: [PATCH] media: hantro: make update_dpb() not leave holes in DPB
+Thread-Index: AQHVm2fc8a5gx4h70U68OREfDJIq8qeLpbAAgAAPVACAAAkbgA==
+Date:   Fri, 15 Nov 2019 06:03:59 +0000
+Message-ID: <HE1PR06MB40113F215699A3AA5C82E47EAC700@HE1PR06MB4011.eurprd06.prod.outlook.com>
+References: <20191115035013.145152-1-acourbot@chromium.org>
+ <20191115053630.129b473b@collabora.com>
+ <CAPBb6MXa_9Ji5TwEF-HqPRO5JFG9HU1VDDGJdk-+Smczg0RHZA@mail.gmail.com>
+In-Reply-To: <CAPBb6MXa_9Ji5TwEF-HqPRO5JFG9HU1VDDGJdk-+Smczg0RHZA@mail.gmail.com>
+Accept-Language: sv-SE, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: AM0PR02CA0057.eurprd02.prod.outlook.com
+ (2603:10a6:208:d2::34) To HE1PR06MB4011.eurprd06.prod.outlook.com
+ (2603:10a6:7:9c::32)
+x-incomingtopheadermarker: OriginalChecksum:55DD47D68507C194F891A1D92843772A031788D8E2DC90B93CE6A448D32DAAF5;UpperCasedChecksum:DF15CCB7A9D84F150A2A20D6FFBF5D025697285A343D01BF896D51E994AFA971;SizeAsReceived:7555;Count:49
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tmn:  [123OYT9JMy1K9j37Q4ny3jsOASi/xLwV]
+x-microsoft-original-message-id: <e8b727a0-e204-c643-0f51-64a7386efb4c@kwiboo.se>
+x-ms-publictraffictype: Email
+x-incomingheadercount: 49
+x-eopattributedmessage: 0
+x-ms-office365-filtering-correlation-id: c4b2d156-43c2-4cc9-ccee-08d769919ad7
+x-ms-traffictypediagnostic: VE1EUR03HT211:
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 1NDiZJs8cnJoA8SmwL7LRtWjOScEqn/9K5AZZrBx0EERzd0l/NIEPKA1VoQaoxX2HOa2vYhoQfwuG5DhLQl5AoA9ExFawopMewTusH2we7l8XNWdl5PHoaKotyMRJJNkJ6zksL1RoHDolD8o1luWepNGeY0a1to8/q0J2kO6gUx8gWRy1kJNw9X36kDSx5Dy
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <C964CD9035F8804898F2D806B9AC0CCF@eurprd06.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-NVConfidentiality: public
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1573797226; bh=STzExVj+9tzBfJU2bAe+2a5wKbBXpDTeZdAEjVWwxYo=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:MIME-Version:X-NVConfidentiality:
-         Content-Transfer-Encoding:Content-Type;
-        b=fgq2HbUmLwZt8sMtmHStunjU2h2x48zs6ALgNOdkOca3A7EluDhjmi1kxykMiJZ2R
-         uawnlW9ZH9+FFbXpSIzXECa/HYO9D1OZrD7eq6opLINmSnPE+FSHcSRLyeyD50bBOi
-         DcF0GajCOlwRupOCe9dPxmZFS7Lemsm28diMyt+iI5iFiG8AMa09417uvpCBnGjslY
-         SP4jinLKAYRud8zS7dF58YuAdmTJhhjPsbSYiqANVedXTEhDXDT7hgL6dqDKiGJJuY
-         eaieXiOdzg1ikcvcOaoc5LbfMxrHc7dtbE1j8cRwSopUFEB2MMoNnVodPGol5t98sX
-         U/uSBI6N6hITw==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: c4b2d156-43c2-4cc9-ccee-08d769919ad7
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Nov 2019 06:03:59.1729
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Internet
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1EUR03HT211
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In order to provide a clearer, more symmetric API for pinning
-and unpinning DMA pages. This way, pin_user_pages*() calls
-match up with unpin_user_pages*() calls, and the API is a lot
-closer to being self-explanatory.
-
-Signed-off-by: John Hubbard <jhubbard@nvidia.com>
----
- Documentation/core-api/pin_user_pages.rst   |  2 +-
- arch/powerpc/mm/book3s64/iommu_api.c        |  6 +--
- drivers/gpu/drm/via/via_dmablit.c           |  4 +-
- drivers/infiniband/core/umem.c              |  2 +-
- drivers/infiniband/hw/hfi1/user_pages.c     |  2 +-
- drivers/infiniband/hw/mthca/mthca_memfree.c |  6 +--
- drivers/infiniband/hw/qib/qib_user_pages.c  |  2 +-
- drivers/infiniband/hw/qib/qib_user_sdma.c   |  6 +--
- drivers/infiniband/hw/usnic/usnic_uiom.c    |  2 +-
- drivers/infiniband/sw/siw/siw_mem.c         |  2 +-
- drivers/media/v4l2-core/videobuf-dma-sg.c   |  4 +-
- drivers/platform/goldfish/goldfish_pipe.c   |  4 +-
- drivers/vfio/vfio_iommu_type1.c             |  2 +-
- fs/io_uring.c                               |  4 +-
- include/linux/mm.h                          | 30 +++++++-------
- include/linux/mmzone.h                      |  2 +-
- mm/gup.c                                    | 46 ++++++++++-----------
- mm/gup_benchmark.c                          |  2 +-
- mm/process_vm_access.c                      |  4 +-
- net/xdp/xdp_umem.c                          |  2 +-
- 20 files changed, 67 insertions(+), 67 deletions(-)
-
-diff --git a/Documentation/core-api/pin_user_pages.rst b/Documentation/core=
--api/pin_user_pages.rst
-index baa288a44a77..6d93ef203561 100644
---- a/Documentation/core-api/pin_user_pages.rst
-+++ b/Documentation/core-api/pin_user_pages.rst
-@@ -220,7 +220,7 @@ since the system was booted, via two new /proc/vmstat e=
-ntries: ::
-     /proc/vmstat/nr_foll_pin_requested
-=20
- Those are both going to show zero, unless CONFIG_DEBUG_VM is set. This is
--because there is a noticeable performance drop in put_user_page(), when th=
-ey
-+because there is a noticeable performance drop in unpin_user_page(), when =
-they
- are activated.
-=20
- References
-diff --git a/arch/powerpc/mm/book3s64/iommu_api.c b/arch/powerpc/mm/book3s6=
-4/iommu_api.c
-index 196383e8e5a9..dd7aa5a4f33c 100644
---- a/arch/powerpc/mm/book3s64/iommu_api.c
-+++ b/arch/powerpc/mm/book3s64/iommu_api.c
-@@ -168,7 +168,7 @@ static long mm_iommu_do_alloc(struct mm_struct *mm, uns=
-igned long ua,
-=20
- free_exit:
- 	/* free the references taken */
--	put_user_pages(mem->hpages, pinned);
-+	unpin_user_pages(mem->hpages, pinned);
-=20
- 	vfree(mem->hpas);
- 	kfree(mem);
-@@ -211,8 +211,8 @@ static void mm_iommu_unpin(struct mm_iommu_table_group_=
-mem_t *mem)
- 		if (!page)
- 			continue;
-=20
--		put_user_pages_dirty_lock(&mem->hpages[i], 1,
--					  MM_IOMMU_TABLE_GROUP_PAGE_DIRTY);
-+		unpin_user_pages_dirty_lock(&mem->hpages[i], 1,
-+					    MM_IOMMU_TABLE_GROUP_PAGE_DIRTY);
-=20
- 		mem->hpas[i] =3D 0;
- 	}
-diff --git a/drivers/gpu/drm/via/via_dmablit.c b/drivers/gpu/drm/via/via_dm=
-ablit.c
-index 37c5e572993a..719d036c9384 100644
---- a/drivers/gpu/drm/via/via_dmablit.c
-+++ b/drivers/gpu/drm/via/via_dmablit.c
-@@ -188,8 +188,8 @@ via_free_sg_info(struct pci_dev *pdev, drm_via_sg_info_=
-t *vsg)
- 		kfree(vsg->desc_pages);
- 		/* fall through */
- 	case dr_via_pages_locked:
--		put_user_pages_dirty_lock(vsg->pages, vsg->num_pages,
--					  (vsg->direction =3D=3D DMA_FROM_DEVICE));
-+		unpin_user_pages_dirty_lock(vsg->pages, vsg->num_pages,
-+					   (vsg->direction =3D=3D DMA_FROM_DEVICE));
- 		/* fall through */
- 	case dr_via_pages_alloc:
- 		vfree(vsg->pages);
-diff --git a/drivers/infiniband/core/umem.c b/drivers/infiniband/core/umem.=
-c
-index 2c287ced3439..119a147da904 100644
---- a/drivers/infiniband/core/umem.c
-+++ b/drivers/infiniband/core/umem.c
-@@ -54,7 +54,7 @@ static void __ib_umem_release(struct ib_device *dev, stru=
-ct ib_umem *umem, int d
-=20
- 	for_each_sg_page(umem->sg_head.sgl, &sg_iter, umem->sg_nents, 0) {
- 		page =3D sg_page_iter_page(&sg_iter);
--		put_user_pages_dirty_lock(&page, 1, umem->writable && dirty);
-+		unpin_user_pages_dirty_lock(&page, 1, umem->writable && dirty);
- 	}
-=20
- 	sg_free_table(&umem->sg_head);
-diff --git a/drivers/infiniband/hw/hfi1/user_pages.c b/drivers/infiniband/h=
-w/hfi1/user_pages.c
-index 9a94761765c0..3b505006c0a6 100644
---- a/drivers/infiniband/hw/hfi1/user_pages.c
-+++ b/drivers/infiniband/hw/hfi1/user_pages.c
-@@ -118,7 +118,7 @@ int hfi1_acquire_user_pages(struct mm_struct *mm, unsig=
-ned long vaddr, size_t np
- void hfi1_release_user_pages(struct mm_struct *mm, struct page **p,
- 			     size_t npages, bool dirty)
- {
--	put_user_pages_dirty_lock(p, npages, dirty);
-+	unpin_user_pages_dirty_lock(p, npages, dirty);
-=20
- 	if (mm) { /* during close after signal, mm can be NULL */
- 		atomic64_sub(npages, &mm->pinned_vm);
-diff --git a/drivers/infiniband/hw/mthca/mthca_memfree.c b/drivers/infiniba=
-nd/hw/mthca/mthca_memfree.c
-index 8269ab040c21..78a48aea3faf 100644
---- a/drivers/infiniband/hw/mthca/mthca_memfree.c
-+++ b/drivers/infiniband/hw/mthca/mthca_memfree.c
-@@ -482,7 +482,7 @@ int mthca_map_user_db(struct mthca_dev *dev, struct mth=
-ca_uar *uar,
-=20
- 	ret =3D pci_map_sg(dev->pdev, &db_tab->page[i].mem, 1, PCI_DMA_TODEVICE);
- 	if (ret < 0) {
--		put_user_page(pages[0]);
-+		unpin_user_page(pages[0]);
- 		goto out;
- 	}
-=20
-@@ -490,7 +490,7 @@ int mthca_map_user_db(struct mthca_dev *dev, struct mth=
-ca_uar *uar,
- 				 mthca_uarc_virt(dev, uar, i));
- 	if (ret) {
- 		pci_unmap_sg(dev->pdev, &db_tab->page[i].mem, 1, PCI_DMA_TODEVICE);
--		put_user_page(sg_page(&db_tab->page[i].mem));
-+		unpin_user_page(sg_page(&db_tab->page[i].mem));
- 		goto out;
- 	}
-=20
-@@ -556,7 +556,7 @@ void mthca_cleanup_user_db_tab(struct mthca_dev *dev, s=
-truct mthca_uar *uar,
- 		if (db_tab->page[i].uvirt) {
- 			mthca_UNMAP_ICM(dev, mthca_uarc_virt(dev, uar, i), 1);
- 			pci_unmap_sg(dev->pdev, &db_tab->page[i].mem, 1, PCI_DMA_TODEVICE);
--			put_user_page(sg_page(&db_tab->page[i].mem));
-+			unpin_user_page(sg_page(&db_tab->page[i].mem));
- 		}
- 	}
-=20
-diff --git a/drivers/infiniband/hw/qib/qib_user_pages.c b/drivers/infiniban=
-d/hw/qib/qib_user_pages.c
-index 7fc4b5f81fcd..342e3172ca40 100644
---- a/drivers/infiniband/hw/qib/qib_user_pages.c
-+++ b/drivers/infiniband/hw/qib/qib_user_pages.c
-@@ -40,7 +40,7 @@
- static void __qib_release_user_pages(struct page **p, size_t num_pages,
- 				     int dirty)
- {
--	put_user_pages_dirty_lock(p, num_pages, dirty);
-+	unpin_user_pages_dirty_lock(p, num_pages, dirty);
- }
-=20
- /**
-diff --git a/drivers/infiniband/hw/qib/qib_user_sdma.c b/drivers/infiniband=
-/hw/qib/qib_user_sdma.c
-index 1a3cc2957e3a..a67599b5a550 100644
---- a/drivers/infiniband/hw/qib/qib_user_sdma.c
-+++ b/drivers/infiniband/hw/qib/qib_user_sdma.c
-@@ -317,7 +317,7 @@ static int qib_user_sdma_page_to_frags(const struct qib=
-_devdata *dd,
- 		 * the caller can ignore this page.
- 		 */
- 		if (put) {
--			put_user_page(page);
-+			unpin_user_page(page);
- 		} else {
- 			/* coalesce case */
- 			kunmap(page);
-@@ -631,7 +631,7 @@ static void qib_user_sdma_free_pkt_frag(struct device *=
-dev,
- 			kunmap(pkt->addr[i].page);
-=20
- 		if (pkt->addr[i].put_page)
--			put_user_page(pkt->addr[i].page);
-+			unpin_user_page(pkt->addr[i].page);
- 		else
- 			__free_page(pkt->addr[i].page);
- 	} else if (pkt->addr[i].kvaddr) {
-@@ -706,7 +706,7 @@ static int qib_user_sdma_pin_pages(const struct qib_dev=
-data *dd,
- 	/* if error, return all pages not managed by pkt */
- free_pages:
- 	while (i < j)
--		put_user_page(pages[i++]);
-+		unpin_user_page(pages[i++]);
-=20
- done:
- 	return ret;
-diff --git a/drivers/infiniband/hw/usnic/usnic_uiom.c b/drivers/infiniband/=
-hw/usnic/usnic_uiom.c
-index 600896727d34..bd9f944b68fc 100644
---- a/drivers/infiniband/hw/usnic/usnic_uiom.c
-+++ b/drivers/infiniband/hw/usnic/usnic_uiom.c
-@@ -75,7 +75,7 @@ static void usnic_uiom_put_pages(struct list_head *chunk_=
-list, int dirty)
- 		for_each_sg(chunk->page_list, sg, chunk->nents, i) {
- 			page =3D sg_page(sg);
- 			pa =3D sg_phys(sg);
--			put_user_pages_dirty_lock(&page, 1, dirty);
-+			unpin_user_pages_dirty_lock(&page, 1, dirty);
- 			usnic_dbg("pa: %pa\n", &pa);
- 		}
- 		kfree(chunk);
-diff --git a/drivers/infiniband/sw/siw/siw_mem.c b/drivers/infiniband/sw/si=
-w/siw_mem.c
-index e53b07dcfed5..e2061dc0b043 100644
---- a/drivers/infiniband/sw/siw/siw_mem.c
-+++ b/drivers/infiniband/sw/siw/siw_mem.c
-@@ -63,7 +63,7 @@ struct siw_mem *siw_mem_id2obj(struct siw_device *sdev, i=
-nt stag_index)
- static void siw_free_plist(struct siw_page_chunk *chunk, int num_pages,
- 			   bool dirty)
- {
--	put_user_pages_dirty_lock(chunk->plist, num_pages, dirty);
-+	unpin_user_pages_dirty_lock(chunk->plist, num_pages, dirty);
- }
-=20
- void siw_umem_release(struct siw_umem *umem, bool dirty)
-diff --git a/drivers/media/v4l2-core/videobuf-dma-sg.c b/drivers/media/v4l2=
--core/videobuf-dma-sg.c
-index 162a2633b1e3..13b65ed9e74c 100644
---- a/drivers/media/v4l2-core/videobuf-dma-sg.c
-+++ b/drivers/media/v4l2-core/videobuf-dma-sg.c
-@@ -349,8 +349,8 @@ int videobuf_dma_free(struct videobuf_dmabuf *dma)
- 	BUG_ON(dma->sglen);
-=20
- 	if (dma->pages) {
--		put_user_pages_dirty_lock(dma->pages, dma->nr_pages,
--					  dma->direction =3D=3D DMA_FROM_DEVICE);
-+		unpin_user_pages_dirty_lock(dma->pages, dma->nr_pages,
-+					    dma->direction =3D=3D DMA_FROM_DEVICE);
- 		kfree(dma->pages);
- 		dma->pages =3D NULL;
- 	}
-diff --git a/drivers/platform/goldfish/goldfish_pipe.c b/drivers/platform/g=
-oldfish/goldfish_pipe.c
-index 635a8bc1b480..bf523df2a90d 100644
---- a/drivers/platform/goldfish/goldfish_pipe.c
-+++ b/drivers/platform/goldfish/goldfish_pipe.c
-@@ -360,8 +360,8 @@ static int transfer_max_buffers(struct goldfish_pipe *p=
-ipe,
-=20
- 	*consumed_size =3D pipe->command_buffer->rw_params.consumed_size;
-=20
--	put_user_pages_dirty_lock(pipe->pages, pages_count,
--				  !is_write && *consumed_size > 0);
-+	unpin_user_pages_dirty_lock(pipe->pages, pages_count,
-+				    !is_write && *consumed_size > 0);
-=20
- 	mutex_unlock(&pipe->lock);
- 	return 0;
-diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type=
-1.c
-index 18aa36b56896..c48ac1567f14 100644
---- a/drivers/vfio/vfio_iommu_type1.c
-+++ b/drivers/vfio/vfio_iommu_type1.c
-@@ -328,7 +328,7 @@ static int put_pfn(unsigned long pfn, int prot)
- 	if (!is_invalid_reserved_pfn(pfn)) {
- 		struct page *page =3D pfn_to_page(pfn);
-=20
--		put_user_pages_dirty_lock(&page, 1, prot & IOMMU_WRITE);
-+		unpin_user_pages_dirty_lock(&page, 1, prot & IOMMU_WRITE);
- 		return 1;
- 	}
- 	return 0;
-diff --git a/fs/io_uring.c b/fs/io_uring.c
-index cff64bd00db9..75ce5b386ffd 100644
---- a/fs/io_uring.c
-+++ b/fs/io_uring.c
-@@ -3312,7 +3312,7 @@ static int io_sqe_buffer_unregister(struct io_ring_ct=
-x *ctx)
- 		struct io_mapped_ubuf *imu =3D &ctx->user_bufs[i];
-=20
- 		for (j =3D 0; j < imu->nr_bvecs; j++)
--			put_user_page(imu->bvec[j].bv_page);
-+			unpin_user_page(imu->bvec[j].bv_page);
-=20
- 		if (ctx->account_mem)
- 			io_unaccount_mem(ctx->user, imu->nr_bvecs);
-@@ -3457,7 +3457,7 @@ static int io_sqe_buffer_register(struct io_ring_ctx =
-*ctx, void __user *arg,
- 			 * release any pages we did get
- 			 */
- 			if (pret > 0)
--				put_user_pages(pages, pret);
-+				unpin_user_pages(pages, pret);
- 			if (ctx->account_mem)
- 				io_unaccount_mem(ctx->user, nr_pages);
- 			kvfree(imu->bvec);
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index db872766480f..dc5fa3df826f 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -1080,18 +1080,18 @@ static inline void put_page(struct page *page)
-  * made against the page. ("gup-pinned" is another term for the latter).
-  *
-  * With this scheme, get_user_pages() becomes special: such pages are mark=
-ed
-- * as distinct from normal pages. As such, the put_user_page() call (and i=
-ts
-+ * as distinct from normal pages. As such, the unpin_user_page() call (and=
- its
-  * variants) must be used in order to release gup-pinned pages.
-  *
-  * Choice of value:
-  *
-  * By making GUP_PIN_COUNTING_BIAS a power of two, debugging of page refer=
-ence
-- * counts with respect to get_user_pages() and put_user_page() becomes sim=
-pler,
-- * due to the fact that adding an even power of two to the page refcount h=
-as
-- * the effect of using only the upper N bits, for the code that counts up =
-using
-- * the bias value. This means that the lower bits are left for the exclusi=
-ve
-- * use of the original code that increments and decrements by one (or at l=
-east,
-- * by much smaller values than the bias value).
-+ * counts with respect to get_user_pages() and unpin_user_page() becomes
-+ * simpler, due to the fact that adding an even power of two to the page
-+ * refcount has the effect of using only the upper N bits, for the code th=
-at
-+ * counts up using the bias value. This means that the lower bits are left=
- for
-+ * the exclusive use of the original code that increments and decrements b=
-y one
-+ * (or at least, by much smaller values than the bias value).
-  *
-  * Of course, once the lower bits overflow into the upper bits (and this i=
-s
-  * OK, because subtraction recovers the original values), then visual insp=
-ection
-@@ -1106,10 +1106,10 @@ static inline void put_page(struct page *page)
-  */
- #define GUP_PIN_COUNTING_BIAS (1UL << 10)
-=20
--void put_user_page(struct page *page);
--void put_user_pages_dirty_lock(struct page **pages, unsigned long npages,
--			       bool make_dirty);
--void put_user_pages(struct page **pages, unsigned long npages);
-+void unpin_user_page(struct page *page);
-+void unpin_user_pages_dirty_lock(struct page **pages, unsigned long npages=
-,
-+				 bool make_dirty);
-+void unpin_user_pages(struct page **pages, unsigned long npages);
-=20
- /**
-  * page_dma_pinned() - report if a page is pinned for DMA.
-@@ -2660,7 +2660,7 @@ struct page *follow_page(struct vm_area_struct *vma, =
-unsigned long address,
- #define FOLL_ANON	0x8000	/* don't do file mappings */
- #define FOLL_LONGTERM	0x10000	/* mapping lifetime is indefinite: see below=
- */
- #define FOLL_SPLIT_PMD	0x20000	/* split huge pmd before returning */
--#define FOLL_PIN	0x40000	/* pages must be released via put_user_page() */
-+#define FOLL_PIN	0x40000	/* pages must be released via unpin_user_page */
-=20
- /*
-  * FOLL_PIN and FOLL_LONGTERM may be used in various combinations with eac=
-h
-@@ -2695,7 +2695,7 @@ struct page *follow_page(struct vm_area_struct *vma, =
-unsigned long address,
-  * Direct IO). This lets the filesystem know that some non-file-system ent=
-ity is
-  * potentially changing the pages' data. In contrast to FOLL_GET (whose pa=
-ges
-  * are released via put_page()), FOLL_PIN pages must be released, ultimate=
-ly, by
-- * a call to put_user_page().
-+ * a call to unpin_user_page().
-  *
-  * FOLL_PIN is similar to FOLL_GET: both of these pin pages. They use diff=
-erent
-  * and separate refcounting mechanisms, however, and that means that each =
-has
-@@ -2703,7 +2703,7 @@ struct page *follow_page(struct vm_area_struct *vma, =
-unsigned long address,
-  *
-  *     FOLL_GET: get_user_pages*() to acquire, and put_page() to release.
-  *
-- *     FOLL_PIN: pin_user_pages*() to acquire, and put_user_pages to relea=
-se.
-+ *     FOLL_PIN: pin_user_pages*() to acquire, and unpin_user_pages to rel=
-ease.
-  *
-  * FOLL_PIN and FOLL_GET are mutually exclusive for a given function call.
-  * (The underlying pages may experience both FOLL_GET-based and FOLL_PIN-b=
-ased
-@@ -2713,7 +2713,7 @@ struct page *follow_page(struct vm_area_struct *vma, =
-unsigned long address,
-  * FOLL_PIN should be set internally by the pin_user_pages*() APIs, never
-  * directly by the caller. That's in order to help avoid mismatches when
-  * releasing pages: get_user_pages*() pages must be released via put_page(=
-),
-- * while pin_user_pages*() pages must be released via put_user_page().
-+ * while pin_user_pages*() pages must be released via unpin_user_page().
-  *
-  * Please see Documentation/vm/pin_user_pages.rst for more information.
-  */
-diff --git a/include/linux/mmzone.h b/include/linux/mmzone.h
-index 0485cba38d23..d66c1fb9d45e 100644
---- a/include/linux/mmzone.h
-+++ b/include/linux/mmzone.h
-@@ -245,7 +245,7 @@ enum node_stat_item {
- 	NR_WRITTEN,		/* page writings since bootup */
- 	NR_KERNEL_MISC_RECLAIMABLE,	/* reclaimable non-slab kernel pages */
- 	NR_FOLL_PIN_REQUESTED,	/* via: pin_user_page(), gup flag: FOLL_PIN */
--	NR_FOLL_PIN_RETURNED,	/* pages returned via put_user_page() */
-+	NR_FOLL_PIN_RETURNED,	/* pages returned via unpin_user_page() */
- 	NR_VM_NODE_STAT_ITEMS
- };
-=20
-diff --git a/mm/gup.c b/mm/gup.c
-index 783cc5f23c79..9cbb72399182 100644
---- a/mm/gup.c
-+++ b/mm/gup.c
-@@ -110,15 +110,15 @@ static bool __put_devmap_managed_user_page(struct pag=
-e *page)
- #endif /* CONFIG_DEV_PAGEMAP_OPS */
-=20
- /**
-- * put_user_page() - release a dma-pinned page
-+ * unpin_user_page() - release a dma-pinned page
-  * @page:            pointer to page to be released
-  *
-  * Pages that were pinned via pin_user_pages*() must be released via eithe=
-r
-- * put_user_page(), or one of the put_user_pages*() routines. This is so t=
-hat
-- * such pages can be separately tracked and uniquely handled. In particula=
-r,
-- * interactions with RDMA and filesystems need special handling.
-+ * unpin_user_page(), or one of the unpin_user_pages*() routines. This is =
-so
-+ * that such pages can be separately tracked and uniquely handled. In
-+ * particular, interactions with RDMA and filesystems need special handlin=
-g.
-  */
--void put_user_page(struct page *page)
-+void unpin_user_page(struct page *page)
- {
- 	page =3D compound_head(page);
-=20
-@@ -136,10 +136,10 @@ void put_user_page(struct page *page)
-=20
- 	__update_proc_vmstat(page, NR_FOLL_PIN_RETURNED, 1);
- }
--EXPORT_SYMBOL(put_user_page);
-+EXPORT_SYMBOL(unpin_user_page);
-=20
- /**
-- * put_user_pages_dirty_lock() - release and optionally dirty gup-pinned p=
-ages
-+ * unpin_user_pages_dirty_lock() - release and optionally dirty gup-pinned=
- pages
-  * @pages:  array of pages to be maybe marked dirty, and definitely releas=
-ed.
-  * @npages: number of pages in the @pages array.
-  * @make_dirty: whether to mark the pages dirty
-@@ -149,19 +149,19 @@ EXPORT_SYMBOL(put_user_page);
-  *
-  * For each page in the @pages array, make that page (or its head page, if=
- a
-  * compound page) dirty, if @make_dirty is true, and if the page was previ=
-ously
-- * listed as clean. In any case, releases all pages using put_user_page(),
-- * possibly via put_user_pages(), for the non-dirty case.
-+ * listed as clean. In any case, releases all pages using unpin_user_page(=
-),
-+ * possibly via unpin_user_pages(), for the non-dirty case.
-  *
-- * Please see the put_user_page() documentation for details.
-+ * Please see the unpin_user_page() documentation for details.
-  *
-  * set_page_dirty_lock() is used internally. If instead, set_page_dirty() =
-is
-  * required, then the caller should a) verify that this is really correct,
-  * because _lock() is usually required, and b) hand code it:
-- * set_page_dirty_lock(), put_user_page().
-+ * set_page_dirty_lock(), unpin_user_page().
-  *
-  */
--void put_user_pages_dirty_lock(struct page **pages, unsigned long npages,
--			       bool make_dirty)
-+void unpin_user_pages_dirty_lock(struct page **pages, unsigned long npages=
-,
-+				 bool make_dirty)
- {
- 	unsigned long index;
-=20
-@@ -172,7 +172,7 @@ void put_user_pages_dirty_lock(struct page **pages, uns=
-igned long npages,
- 	 */
-=20
- 	if (!make_dirty) {
--		put_user_pages(pages, npages);
-+		unpin_user_pages(pages, npages);
- 		return;
- 	}
-=20
-@@ -200,21 +200,21 @@ void put_user_pages_dirty_lock(struct page **pages, u=
-nsigned long npages,
- 		 */
- 		if (!PageDirty(page))
- 			set_page_dirty_lock(page);
--		put_user_page(page);
-+		unpin_user_page(page);
- 	}
- }
--EXPORT_SYMBOL(put_user_pages_dirty_lock);
-+EXPORT_SYMBOL(unpin_user_pages_dirty_lock);
-=20
- /**
-- * put_user_pages() - release an array of gup-pinned pages.
-+ * unpin_user_pages() - release an array of gup-pinned pages.
-  * @pages:  array of pages to be marked dirty and released.
-  * @npages: number of pages in the @pages array.
-  *
-- * For each page in the @pages array, release the page using put_user_page=
-().
-+ * For each page in the @pages array, release the page using unpin_user_pa=
-ge().
-  *
-- * Please see the put_user_page() documentation for details.
-+ * Please see the unpin_user_page() documentation for details.
-  */
--void put_user_pages(struct page **pages, unsigned long npages)
-+void unpin_user_pages(struct page **pages, unsigned long npages)
- {
- 	unsigned long index;
-=20
-@@ -224,9 +224,9 @@ void put_user_pages(struct page **pages, unsigned long =
-npages)
- 	 * single operation to the head page should suffice.
- 	 */
- 	for (index =3D 0; index < npages; index++)
--		put_user_page(pages[index]);
-+		unpin_user_page(pages[index]);
- }
--EXPORT_SYMBOL(put_user_pages);
-+EXPORT_SYMBOL(unpin_user_pages);
-=20
- #ifdef CONFIG_MMU
- static struct page *no_page_table(struct vm_area_struct *vma,
-@@ -1953,7 +1953,7 @@ static void __maybe_unused undo_dev_pagemap(int *nr, =
-int nr_start,
-=20
- 		ClearPageReferenced(page);
- 		if (flags & FOLL_PIN)
--			put_user_page(page);
-+			unpin_user_page(page);
- 		else
- 			put_page(page);
- 	}
-diff --git a/mm/gup_benchmark.c b/mm/gup_benchmark.c
-index 1ac089ad815f..76d32db48af8 100644
---- a/mm/gup_benchmark.c
-+++ b/mm/gup_benchmark.c
-@@ -35,7 +35,7 @@ static void put_back_pages(int cmd, struct page **pages, =
-unsigned long nr_pages)
-=20
- 	case PIN_FAST_BENCHMARK:
- 	case PIN_BENCHMARK:
--		put_user_pages(pages, nr_pages);
-+		unpin_user_pages(pages, nr_pages);
- 		break;
- 	}
- }
-diff --git a/mm/process_vm_access.c b/mm/process_vm_access.c
-index fd20ab675b85..de41e830cdac 100644
---- a/mm/process_vm_access.c
-+++ b/mm/process_vm_access.c
-@@ -126,8 +126,8 @@ static int process_vm_rw_single_vec(unsigned long addr,
- 		pa +=3D pinned_pages * PAGE_SIZE;
-=20
- 		/* If vm_write is set, the pages need to be made dirty: */
--		put_user_pages_dirty_lock(process_pages, pinned_pages,
--					  vm_write);
-+		unpin_user_pages_dirty_lock(process_pages, pinned_pages,
-+					    vm_write);
- 	}
-=20
- 	return rc;
-diff --git a/net/xdp/xdp_umem.c b/net/xdp/xdp_umem.c
-index d071003b5e76..ac182c38f7b0 100644
---- a/net/xdp/xdp_umem.c
-+++ b/net/xdp/xdp_umem.c
-@@ -212,7 +212,7 @@ static int xdp_umem_map_pages(struct xdp_umem *umem)
-=20
- static void xdp_umem_unpin_pages(struct xdp_umem *umem)
- {
--	put_user_pages_dirty_lock(umem->pgs, umem->npgs, true);
-+	unpin_user_pages_dirty_lock(umem->pgs, umem->npgs, true);
-=20
- 	kfree(umem->pgs);
- 	umem->pgs =3D NULL;
---=20
-2.24.0
-
+T24gMjAxOS0xMS0xNSAwNjozMSwgQWxleGFuZHJlIENvdXJib3Qgd3JvdGU6DQo+IE9uIEZyaSwg
+Tm92IDE1LCAyMDE5IGF0IDE6MzYgUE0gQm9yaXMgQnJlemlsbG9uDQo+IDxib3Jpcy5icmV6aWxs
+b25AY29sbGFib3JhLmNvbT4gd3JvdGU6DQo+PiBIaSBBbGV4YW5kcmUsDQo+Pg0KPj4gT24gRnJp
+LCAxNSBOb3YgMjAxOSAxMjo1MDoxMyArMDkwMA0KPj4gQWxleGFuZHJlIENvdXJib3QgPGFjb3Vy
+Ym90QGNocm9taXVtLm9yZz4gd3JvdGU6DQo+Pg0KPj4+IHVwZGF0ZV9kcGIoKSByZW9yZGVycyB0
+aGUgRFBCIGVudHJpZXMgc3VjaCBhcyB0aGUgc2FtZSBmcmFtZSBpbiB0d28NCj4+PiBjb25zZWN1
+dGl2ZSBkZWNvZGluZyByZXF1ZXN0cyBhbHdheXMgZW5kcyB1cCBpbiB0aGUgc2FtZSBEUEIgc2xv
+dC4NCj4+Pg0KPj4+IEl0IGZpcnN0IGNsZWFycyBhbGwgdGhlIGFjdGl2ZSBmbGFncyBpbiB0aGUg
+RFBCLCBhbmQgdGhlbiBjaGVja3Mgd2hldGhlcg0KPj4+IHRoZSBhY3RpdmUgZmxhZyBpcyBub3Qg
+c2V0IHRvIGRlY2lkZSB3aGV0aGVyIGFuIGVudHJ5IGlzIGEgY2FuZGlkYXRlIGZvcg0KPj4+IG1h
+dGNoaW5nIG9yIG5vdC4NCj4+Pg0KPj4+IEhvd2V2ZXIsIHRoaXMgbWVhbnMgdGhhdCB1bnVzZWQg
+RFBCIGVudHJpZXMgYXJlIGFsc28gY2FuZGlkYXRlcyBmb3INCj4+PiBtYXRjaGluZywgYW5kIGFu
+IHVudXNlZCBlbnRyeSB3aWxsIG1hdGNoIGlmIHdlIGFyZSB0ZXN0aW5nIGl0IGFnYWluc3QgYQ0K
+Pj4+IGZyYW1lIHdoaWNoIChUb3BGaWVsZE9yZGVyQ291bnQsIEJvdHRvbUZpZWxkT3JkZXJDb3Vu
+dCkgaXMgKDAsIDApLg0KPj4gSG0sIEkgbWlnaHQgYmUgd3JvbmcgYnV0IEkgdGhvdWdodCB3ZSB3
+ZXJlIHN1cHBvc2VkIHRvIHJlLXVzZSBtYXRjaGluZw0KPj4gZW50cmllcyBldmVuIGlmIHRoZSBy
+ZWYgd2FzIG5vdCBhY3RpdmUgb24gdGhlIGxhc3QgZGVjb2RlZCBmcmFtZS4gSUlSQywNCj4+IGEg
+cmVmIGNhbiBiZSBhY3RpdmUgb24gc3BlY2lmaWMgZGVjb2RpbmcgcmVxdWVzdCAoWCksIHRoZW4g
+aW5hY3RpdmUgb24NCj4+IHRoZSBuZXh0IG9uZSAoWCsxKSBhbmQgYWN0aXZlIGFnYWluIG9uIHRo
+ZSBmb2xsb3dpbmcgb25lIChYKzIpLg0KPj4gU2hvdWxkbid0IHdlIHJlLXVzZSB0aGUgc2xvdCB3
+ZSB1c2VkIHdoZW4gZGVjb2RpbmcgWCBmb3IgdGhpcyByZWYgd2hlbg0KPj4gZGVjb2RpbmcgWCsy
+Pw0KPiBJIGFtIG5vdCBzdXJlIGhvdyBvZnRlbiB0aGlzIGhhcHBlbnMgaW4gcHJhY3RpY2UgKGlm
+IGF0IGFsbCksIGJ1dA0KPiBtYXliZSB0aGlzIGxvZ2ljIHdvdWxkIHdvcmsgYXMgd2VsbC4gSW4g
+dGhpcyBjYXNlIHdlIHdvdWxkIG5lZWQgdG8NCj4gbWFyayBEUEIgZW50cmllcyB0aGF0IGFyZSBu
+b3QgdXNlZCB5ZXQgZGlmZmVyZW50bHkgdG8gYXZvaWQgdGhlIGlzc3VlDQo+IHRoYXQgdGhpcyBw
+YXRjaCBhdHRlbXB0cyB0byBmaXguDQo+DQo+IFRvIGdpdmUgYSBwcmVjaXNlIGV4YW1wbGUgb2Yg
+dGhlIGlzc3VlLCBmb3IgYSBzdHJlYW0gdGhhdCBvbmx5IHVzZXMgMw0KPiBEUEIgZW50cmllcyBh
+dCBtYXgsIGFmdGVyIGFuIElEUiBmcmFtZSB0aGUgNHRoIERQQiBlbnRyeSB3aWxsDQo+IGluY29y
+cmVjdGx5IGJlIG1hdGNoZWQgd2l0aCB0aGUgSURSIGZyYW1lIG9mIEZpZWxkT3JkZXJDb3VudCAo
+MCwgMCkNCj4gYW5kIGJlIHRoZSBvbmx5IGFjdGl2ZSBlbnRyeSBmb3IgdGhpcyBmcmFtZS4gSGFu
+dHJvIGlzIG9rIHdpdGggaXQsIGJ1dA0KPiB0aGlzIGlzIG5vdCBhbiBvcHRpbWFsIHVzZSBvZiB0
+aGUgRFBCIGFuZCBNVDgxODMgZG9lcyBub3QgbGlrZSB0aGF0Lg0KDQpJbiBteSBSRkMgc2VyaWVz
+IHRvIGZpeCBkZWNvZGluZyBvZiBmaWVsZCBlbmNvZGVkIHZpZGVvIG9uIGhhbnRybyBbMV0sDQpJ
+IGFsc28gaW5jbHVkZSBhIGNoYW5nZSB0byB1cGRhdGVfZHBiIHRoYXQgcG9zc2libGUgYWxzbyBm
+aXhlcyB0aGlzIGlzc3VlLg0KSSBkbyBub3QgZnVsbHkgcmVtZW1iZXIgd2h5IEkgbWFkZSB0aGUg
+Y2hhbmdlcywgZGVjb2Rpbmcgd2FzIGZpeGVkDQphbmQgSSBoYXZlIG5vdCBoYWQgdGltZSB0byBm
+dWxseSBhbmFseXplIHRoZSBjaGFuZ2UgdG8gdXBkYXRlX2RwYiB5ZXQuDQoNCkFsc28gbm90ZSB0
+aGF0IGluIG9yZGVyIHRvIHN1cHBvcnQgZmllbGQgZW5jb2RlZCB2aWRlbyB0aGVyZSBhcmUgYWxz
+byBzb21lDQp1QVBJIGNoYW5nZXMgcHJvcG9zZWQgaW4gb3JkZXIgdG8gc2lnbmFsIGhvdyB0aGUg
+ZHBiIGVudHJ5IGlzIHJlZmVyZW5jZWQuDQpNYXRjaGluZyBvbiBGaWVsZE9yZGVyQ291bnQgZG9l
+cyBub3Qgd29yayBvbiBmaWVsZCBlbmNvZGVkIHZpZGVvIGJlY2F1c2UNCmZpcnN0IGZpbGVkIG1h
+eSBoYXZlIEZpZWxkT3JkZXJDb3VudCAoWCwwKSBhbmQgc2Vjb25kIEZpZWxkT3JkZXJDb3VudCAo
+WCxZKS4NCg0KWzFdIGh0dHBzOi8vcGF0Y2h3b3JrLmxpbnV4dHYub3JnL3BhdGNoLzU5Njg4Lw0K
+WzJdIGh0dHBzOi8vcGF0Y2h3b3JrLmxpbnV4dHYub3JnL3BhdGNoLzU5Njg5Lw0KDQpSZWdhcmRz
+LA0KSm9uYXMNCg0KPg0KPj4+IEFzIGl0IHR1cm5zIG91dCwgdGhpcyBoYXBwZW5zIGZvciB0aGUg
+dmVyeSBmaXJzdCBmcmFtZSBvZiBhIHN0cmVhbSwgYnV0DQo+Pj4gaXQgaXMgbm90IGEgcHJvYmxl
+bSBhcyBpdCB3b3VsZCBiZSBjb3BpZWQgdG8gdGhlIGZpcnN0IGVudHJ5IGFueXdheS4NCj4+PiBN
+b3JlIGNvbmNlcm5pbmcgaXMgdGhhdCBhZnRlciBhbiBJRFIgZnJhbWUgdGhlIFRvcC9Cb3R0b21G
+aWVsZE9yZGVyQ291bnQNCj4+PiBjYW4gYmUgcmVzZXQgdG8gMCwgYW5kIHRoaXMgdGltZSB1cGRh
+dGVfZHBiKCkgd2lsbCBtYXRjaCB0aGUgSURSIGZyYW1lDQo+Pj4gdG8gdGhlIGZpcnN0IHVudXNl
+ZCBlbnRyeSBvZiB0aGUgRFBCIChhbmQgbm90IHRoZSBlbnRyeSBhdCBpbmRleCAwIGFzDQo+Pj4g
+d291bGQgYmUgZXhwZWN0ZWQpIGJlY2F1c2UgdGhlIGZpcnN0IHNsb3RzIHdpbGwgaGF2ZSBkaWZm
+ZXJlbnQgdmFsdWVzLg0KPj4gV2UgY291bGQgYWxzbyBjb25zaWRlciByZXNldHRpbmcgdGhlIERQ
+QiBjYWNoZSBvbiBJRFIgZnJhbWVzIGlmIHRoYXQNCj4+IHdvcmtzIG9uIEhhbnRyby4NCj4gTWF5
+YmUgdGhhdCBjb3VsZCBiZSBlbm91Z2ggaW5kZWVkLiBMZXQgbWUgZXhwZXJpbWVudCB3aXRoIHRo
+YXQgYSBiaXQuDQo+IEkgYmVsaWV2ZSB0aGlzIHdvdWxkIHdvcmsgc2luY2UgaW4gcHJhY3RpY2Ug
+dGhlIHJlc3VsdCB3b3VsZCBiZSB0aGUNCj4gc2FtZSBhcyB0aGlzIHBhdGNoLCBidXQgZm9yIHNh
+ZmV0eSBJJ2QgcmF0aGVyIGhhdmUgdW51c2VkIERQQiBlbnRyaWVzDQo+IGJlIHVuYW1iaWd1b3Vz
+bHkgaWRlbnRpZmllZCByYXRoZXIgdGhhbiBsZXR0aW5nIHRoZSAoMCwgMCkgbWF0Y2ggZG8NCj4g
+dGhlIHJpZ2h0IHRoaW5nIGJ5IGFjY2lkZW50Lg0KPg0KPj4+IFRoZSBIYW50cm8gZHJpdmVyIGlz
+IG9rIHdpdGggdGhpcywgYnV0IHdoZW4gdHJ5aW5nIHRvIHVzZSB0aGUgc2FtZQ0KPj4+IGZ1bmN0
+aW9uIGZvciBhbm90aGVyIGRyaXZlciAoTVQ4MTgzKSBJIG5vdGljZWQgZGVjb2RpbmcgYXJ0ZWZh
+Y3RzIGNhdXNlZA0KPj4+IGJ5IHRoaXMgaG9sZSBpbiB0aGUgRFBCLg0KPj4gSSBndWVzcyB0aGlz
+IG5ldyB2ZXJzaW9uIHBhc3NlcyB0aGUgY2hyb21pdW0gdGVzdHN1aXRlIG9uIHJrLWJhc2VkDQo+
+PiBib2FyZHMuIElmIHRoYXQncyB0aGUgY2FzZSBJIGRvbid0IGhhdmUgYW55IG9iamVjdGlvbiB0
+byB0aGlzIHBhdGNoLg0KPj4NCj4+IE5vdGUgdGhhdCBJIHdhcyBub3QgcGxhbm5pbmcgdG8gc2hh
+cmUgdGhlIERQQiBjYWNoaW5nIGxvZ2ljIGFzIEkNCj4+IHRob3VnaHQgb25seSBIYW50cm8gRzEg
+bmVlZGVkIHRoYXQgdHJpY2suIEhhdmUgeW91IHRyaWVkIHBhc3NpbmcgdGhlDQo+PiBEUEIgZGly
+ZWN0bHk/IE1heWJlIGl0IGp1c3Qgd29ya3Mgb24gbXRrLg0KPiBQYXNzaW5nIHRoZSBEUEIgZGly
+ZWN0bHkgSSBnZXQgY29ycnVwdGVkIGZyYW1lcyBvbiBhIHJlZ3VsYXIgYmFzaXMNCj4gd2l0aCBN
+VEsuIEkgYWxzbyBjb25maXJtZWQgdGhhdCB0aGUgZmlybXdhcmUncyBleHBlY3RhdGlvbnMgYXJl
+IHdoYXQNCj4gdGhpcyBmdW5jdGlvbiBkb2VzLiBVc2luZyB0aGUgc2FtZSBmdW5jdGlvbiBpbiB0
+aGUgTVRLIGRyaXZlciwgdGhlDQo+IGRlY29kZWQgc3RyZWFtIGlzIGZsYXdsZXNzLg0KPg0KPj4+
+IEZpeCB0aGlzIGJ5IG1haW50YWluaW5nIGEgbGlzdCBvZiBEUEIgc2xvdHMgdGhhdCBhcmUgYWN0
+dWFsbHkgaW4gdXNlLA0KPj4+IGluc3RlYWQgb2YgcmVseWluZyBvbiB0aGUgYWJzZW5jZSBvZiB0
+aGUgYWN0aXZlIGZsYWcgdG8gZG8gc28uIFRoaXMgYWxzbw0KPj4+IGFsbG93cyB1cyB0byBvcHRp
+bWl6ZSBtYXRjaGluZyBhIGJpdC4NCj4+Pg0KPj4+IFNpZ25lZC1vZmYtYnk6IEFsZXhhbmRyZSBD
+b3VyYm90IDxhY291cmJvdEBjaHJvbWl1bS5vcmc+DQo+Pj4gLS0tDQo+Pj4gIGRyaXZlcnMvc3Rh
+Z2luZy9tZWRpYS9oYW50cm8vaGFudHJvX2gyNjQuYyB8IDE4ICsrKysrKysrKysrKy0tLS0tLQ0K
+Pj4+ICAxIGZpbGUgY2hhbmdlZCwgMTIgaW5zZXJ0aW9ucygrKSwgNiBkZWxldGlvbnMoLSkNCj4+
+Pg0KPj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL3N0YWdpbmcvbWVkaWEvaGFudHJvL2hhbnRyb19o
+MjY0LmMgYi9kcml2ZXJzL3N0YWdpbmcvbWVkaWEvaGFudHJvL2hhbnRyb19oMjY0LmMNCj4+PiBp
+bmRleCA1Njg2NDBlYWIzYTYuLjIzNTcwNjhiMGY4MiAxMDA2NDQNCj4+PiAtLS0gYS9kcml2ZXJz
+L3N0YWdpbmcvbWVkaWEvaGFudHJvL2hhbnRyb19oMjY0LmMNCj4+PiArKysgYi9kcml2ZXJzL3N0
+YWdpbmcvbWVkaWEvaGFudHJvL2hhbnRyb19oMjY0LmMNCj4+PiBAQCAtNDc0LDE0ICs0NzQsMTkg
+QEAgc3RhdGljIHZvaWQgdXBkYXRlX2RwYihzdHJ1Y3QgaGFudHJvX2N0eCAqY3R4KQ0KPj4+ICB7
+DQo+Pj4gICAgICAgY29uc3Qgc3RydWN0IHY0bDJfY3RybF9oMjY0X2RlY29kZV9wYXJhbXMgKmRl
+Y19wYXJhbTsNCj4+PiAgICAgICBERUNMQVJFX0JJVE1BUChuZXcsIEFSUkFZX1NJWkUoZGVjX3Bh
+cmFtLT5kcGIpKSA9IHsgMCwgfTsNCj4+PiArICAgICBERUNMQVJFX0JJVE1BUChpbl91c2UsIEFS
+UkFZX1NJWkUoZGVjX3BhcmFtLT5kcGIpKSA9IHsgMCwgfTsNCj4+PiAgICAgICBERUNMQVJFX0JJ
+VE1BUCh1c2VkLCBBUlJBWV9TSVpFKGRlY19wYXJhbS0+ZHBiKSkgPSB7IDAsIH07DQo+Pj4gICAg
+ICAgdW5zaWduZWQgaW50IGksIGo7DQo+Pj4NCj4+PiAgICAgICBkZWNfcGFyYW0gPSBjdHgtPmgy
+NjRfZGVjLmN0cmxzLmRlY29kZTsNCj4+Pg0KPj4+IC0gICAgIC8qIERpc2FibGUgYWxsIGVudHJp
+ZXMgYnkgZGVmYXVsdC4gKi8NCj4+PiAtICAgICBmb3IgKGkgPSAwOyBpIDwgQVJSQVlfU0laRShj
+dHgtPmgyNjRfZGVjLmRwYik7IGkrKykNCj4+PiArICAgICAvKiBNYXJrIGVudHJpZXMgaW4gdXNl
+IGJlZm9yZSBkaXNhYmxpbmcgdGhlbS4gKi8NCj4+PiArICAgICBmb3IgKGkgPSAwOyBpIDwgQVJS
+QVlfU0laRShjdHgtPmgyNjRfZGVjLmRwYik7IGkrKykgew0KPj4+ICsgICAgICAgICAgICAgaWYg
+KGN0eC0+aDI2NF9kZWMuZHBiW2ldLmZsYWdzICYNCj4+PiArICAgICAgICAgICAgICAgICBWNEwy
+X0gyNjRfRFBCX0VOVFJZX0ZMQUdfQUNUSVZFKQ0KPj4+ICsgICAgICAgICAgICAgICAgICAgICBz
+ZXRfYml0KGksIGluX3VzZSk7DQo+Pj4gICAgICAgICAgICAgICBjdHgtPmgyNjRfZGVjLmRwYltp
+XS5mbGFncyAmPSB+VjRMMl9IMjY0X0RQQl9FTlRSWV9GTEFHX0FDVElWRTsNCj4+PiArICAgICB9
+DQo+Pj4NCj4+PiAgICAgICAvKiBUcnkgdG8gbWF0Y2ggbmV3IERQQiBlbnRyaWVzIHdpdGggZXhp
+c3Rpbmcgb25lcyBieSB0aGVpciBQT0NzLiAqLw0KPj4+ICAgICAgIGZvciAoaSA9IDA7IGkgPCBB
+UlJBWV9TSVpFKGRlY19wYXJhbS0+ZHBiKTsgaSsrKSB7DQo+Pj4gQEAgLTQ5MiwxOCArNDk3LDE5
+IEBAIHN0YXRpYyB2b2lkIHVwZGF0ZV9kcGIoc3RydWN0IGhhbnRyb19jdHggKmN0eCkNCj4+Pg0K
+Pj4+ICAgICAgICAgICAgICAgLyoNCj4+PiAgICAgICAgICAgICAgICAqIFRvIGN1dCBvZmYgc29t
+ZSBjb21wYXJpc29ucywgaXRlcmF0ZSBvbmx5IG9uIHRhcmdldCBEUEINCj4+PiAtICAgICAgICAg
+ICAgICAqIGVudHJpZXMgd2hpY2ggYXJlIG5vdCB1c2VkIHlldC4NCj4+PiArICAgICAgICAgICAg
+ICAqIGVudHJpZXMgd2hpY2ggYXJlIGFscmVhZHkgdXNlZC4NCj4+PiAgICAgICAgICAgICAgICAq
+Lw0KPj4+IC0gICAgICAgICAgICAgZm9yX2VhY2hfY2xlYXJfYml0KGosIHVzZWQsIEFSUkFZX1NJ
+WkUoY3R4LT5oMjY0X2RlYy5kcGIpKSB7DQo+Pj4gKyAgICAgICAgICAgICBmb3JfZWFjaF9zZXRf
+Yml0KGosIGluX3VzZSwgQVJSQVlfU0laRShjdHgtPmgyNjRfZGVjLmRwYikpIHsNCj4+PiAgICAg
+ICAgICAgICAgICAgICAgICAgc3RydWN0IHY0bDJfaDI2NF9kcGJfZW50cnkgKmNkcGI7DQo+Pj4N
+Cj4+PiAgICAgICAgICAgICAgICAgICAgICAgY2RwYiA9ICZjdHgtPmgyNjRfZGVjLmRwYltqXTsN
+Cj4+PiAtICAgICAgICAgICAgICAgICAgICAgaWYgKGNkcGItPmZsYWdzICYgVjRMMl9IMjY0X0RQ
+Ql9FTlRSWV9GTEFHX0FDVElWRSB8fA0KPj4+IC0gICAgICAgICAgICAgICAgICAgICAgICAgIWRw
+Yl9lbnRyeV9tYXRjaChjZHBiLCBuZHBiKSkNCj4+PiArICAgICAgICAgICAgICAgICAgICAgaWYg
+KCFkcGJfZW50cnlfbWF0Y2goY2RwYiwgbmRwYikpDQo+Pj4gICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgY29udGludWU7DQo+Pj4NCj4+PiAgICAgICAgICAgICAgICAgICAgICAgKmNkcGIg
+PSAqbmRwYjsNCj4+PiAgICAgICAgICAgICAgICAgICAgICAgc2V0X2JpdChqLCB1c2VkKTsNCj4+
+PiArICAgICAgICAgICAgICAgICAgICAgLyogRG9uJ3QgcmVpdGVyYXRlIG9uIHRoaXMgb25lLiAq
+Lw0KPj4+ICsgICAgICAgICAgICAgICAgICAgICBjbGVhcl9iaXQoaiwgaW5fdXNlKTsNCj4+PiAg
+ICAgICAgICAgICAgICAgICAgICAgYnJlYWs7DQo+Pj4gICAgICAgICAgICAgICB9DQo+Pj4NCg0K
