@@ -2,194 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 87C97FDF2D
-	for <lists+linux-media@lfdr.de>; Fri, 15 Nov 2019 14:44:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 227F4FDFB5
+	for <lists+linux-media@lfdr.de>; Fri, 15 Nov 2019 15:08:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727513AbfKONoI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Nov 2019 08:44:08 -0500
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:38750 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727249AbfKONoH (ORCPT
+        id S1727637AbfKOOIr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Nov 2019 09:08:47 -0500
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:44314 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727647AbfKOOIp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Nov 2019 08:44:07 -0500
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id xAFDhENw021665;
-        Fri, 15 Nov 2019 07:43:14 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1573825394;
-        bh=0GMF8waTlZ/mMmEu9OdTiNMpJgRZ1U+24RV0VdCAq3s=;
-        h=Date:From:To:CC:Subject:References:In-Reply-To;
-        b=fXpOKUavZPJUxNL9lEFn7zZNVLFYuhGojcJgORZ0h/BB4qyRFo6mrlCOsH4ERQeHs
-         h9leKq2A0Fj6bzJ4IDPmzVMYiipwgHWHf4mYsJ2/6ss1dHgt4T7A8cxc/hktAUYZHd
-         PabnC59jQNgb5DLLinNwWV5dTN5f0x+2iBMNsWMU=
-Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id xAFDhELd079797
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 15 Nov 2019 07:43:14 -0600
-Received: from DFLE114.ent.ti.com (10.64.6.35) by DFLE104.ent.ti.com
- (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3; Fri, 15
- Nov 2019 07:43:14 -0600
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1847.3 via
- Frontend Transport; Fri, 15 Nov 2019 07:43:14 -0600
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with ESMTP id xAFDhEow098885;
-        Fri, 15 Nov 2019 07:43:14 -0600
-Date:   Fri, 15 Nov 2019 07:45:30 -0600
-From:   Bin Liu <b-liu@ti.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Fri, 15 Nov 2019 09:08:45 -0500
+Received: by mail-qt1-f195.google.com with SMTP id o11so10885284qtr.11
+        for <linux-media@vger.kernel.org>; Fri, 15 Nov 2019 06:08:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=8ZGdiHZxf3ZHqX3I8ydxFdLkSWkpE5WrCI0dICjPpHU=;
+        b=i+UlYqHpSoy9hrCL3gQPMJUhUw3RKIgDls07tcBvdNTrD4jl5OTOMJfNN1MASvpOc/
+         n/RUaDL07zMYWDhclWHPDZnaqTZ6YdpZfzuTyA+HrehI2Ydc75hfkUNiRgV5KLUhGbZ5
+         hwJR6j62hBrGSzy1DyO8h1zN9TlzptjO0LEx4CpgETqR3CBgJNCsKnZKRcbg5KwHic/q
+         pEIdohRRBLTVk18YHW5Vi8NX67r/lGgj0cpRlIJEz6SaDVQBInMFNoQa60kFdiQzPjma
+         xgI2yhuOWu+cTXk9NFpI3of3yS1+C6h76JgFDhrvoDw5piCzGcHI/ud3iOPSS57DuCxF
+         BfMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=8ZGdiHZxf3ZHqX3I8ydxFdLkSWkpE5WrCI0dICjPpHU=;
+        b=YbyQGLGiayLCsL+pAddLxZdEOxPjXZz6cs6nveOoQiLd7PZJcZaJe9uesHntSVqi/r
+         NDTnnJ/Bq6dyGxQBFcmkyS0XMaiX/mVl3X/5AfdcFkuez/whJOdI8AXibVrQbLyuglkn
+         k9J2eqRBXYqj54+Vz/YKuS0kpvwA74HjTZBEB4S5HIfpl91bPML2beGSDyGro8dHy83N
+         2UwBgFCL/n77o8ARhxPu0+GM1PS8OsIZwbFY41RBl9NuG68gLqCt80DZBcir6YP2OKN/
+         69dtTQd6jCWe9xzjlM9kavFUJfrFuKCDGn9reRK5nr2lslqkvolSAJZpShXnaa4W9nPT
+         5QpA==
+X-Gm-Message-State: APjAAAU8gawbqQFk9JnvNFV0YWMVJzIeC05rrt0eQEfm6kdrEiLzsKpu
+        naWp5OlD57sZzpC/scdB2cxZHQ==
+X-Google-Smtp-Source: APXvYqyXZJAB3M+2SHRriOZec9Rfd1hMhPGpVi3+hL/5cz80ckTUMXVgMRzWDvTX6XEGdZam3s9/QQ==
+X-Received: by 2002:ac8:661a:: with SMTP id c26mr13620771qtp.317.1573826923526;
+        Fri, 15 Nov 2019 06:08:43 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-162-113-180.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.180])
+        by smtp.gmail.com with ESMTPSA id s21sm5382292qtc.12.2019.11.15.06.08.42
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 15 Nov 2019 06:08:42 -0800 (PST)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1iVcHC-0002xg-A8; Fri, 15 Nov 2019 10:08:42 -0400
+Date:   Fri, 15 Nov 2019 10:08:42 -0400
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Chen <Peter.Chen@nxp.com>,
-        Minas Harutyunyan <hminas@synopsys.com>,
-        Cristian Birsan <cristian.birsan@microchip.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Kevin Cernekee <cernekee@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        <bcm-kernel-feedback-list@broadcom.com>,
-        Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Colin Ian King <colin.king@canonical.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        Yangtao Li <tiny.windzz@gmail.com>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>
-Subject: Re: [PATCH v2 05/13] usb: musb: create debugfs directory under usb
- root
-Message-ID: <20191115134530.GB12511@uda0271908>
-Mail-Followup-To: Bin Liu <b-liu@ti.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Chen <Peter.Chen@nxp.com>,
-        Minas Harutyunyan <hminas@synopsys.com>,
-        Cristian Birsan <cristian.birsan@microchip.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Kevin Cernekee <cernekee@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        bcm-kernel-feedback-list@broadcom.com,
-        Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Colin Ian King <colin.king@canonical.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        Yangtao Li <tiny.windzz@gmail.com>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-References: <1573541519-28488-1-git-send-email-chunfeng.yun@mediatek.com>
- <1573541519-28488-5-git-send-email-chunfeng.yun@mediatek.com>
- <20191112152857.GA5853@uda0271908>
- <20191114032018.GA122287@kroah.com>
- <20191114140234.GB5853@uda0271908>
- <20191115032153.GC793701@kroah.com>
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
+        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v5 09/24] vfio, mm: fix get_user_pages_remote() and
+ FOLL_LONGTERM
+Message-ID: <20191115140842.GA4055@ziepe.ca>
+References: <20191115055340.1825745-1-jhubbard@nvidia.com>
+ <20191115055340.1825745-10-jhubbard@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191115032153.GC793701@kroah.com>
+In-Reply-To: <20191115055340.1825745-10-jhubbard@nvidia.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Nov 15, 2019 at 11:21:53AM +0800, Greg Kroah-Hartman wrote:
-> On Thu, Nov 14, 2019 at 08:02:34AM -0600, Bin Liu wrote:
-> > On Thu, Nov 14, 2019 at 11:20:18AM +0800, Greg Kroah-Hartman wrote:
-> > > On Tue, Nov 12, 2019 at 09:28:57AM -0600, Bin Liu wrote:
-> > > > Hi,
-> > > > 
-> > > > On Tue, Nov 12, 2019 at 02:51:51PM +0800, Chunfeng Yun wrote:
-> > > > > Now the USB gadget subsystem can use the USB debugfs root directory,
-> > > > > so move musb's directory from the root of the debugfs filesystem into
-> > > > > the root of usb
-> > > > 
-> > > > My opinion is this move is unnecessary. I breaks existing debug tools or
-> > > > documentation which is already published on Internet. 
-> > > 
-> > > Having a "root" directory for a single random driver seems like you are
-> > > making your driver a "very important" thing in the overall scheme of the
-> > > kernel, right?  What's wrong with using the usb subdirectory like all
-> > 
-> > Agree, it wasn't the right thing to do at the first place. But now
-> > changing it adds support burden, because people very often refer to the
-> > old information on the internet which no longer matches to the new
-> > location. Basically, it is a cost of ABI change.
+On Thu, Nov 14, 2019 at 09:53:25PM -0800, John Hubbard wrote:
+> As it says in the updated comment in gup.c: current FOLL_LONGTERM
+> behavior is incompatible with FAULT_FLAG_ALLOW_RETRY because of the
+> FS DAX check requirement on vmas.
 > 
-> What information says that /sys/kernel/debug/mdev/ is the location for
-> this?  Is it in-kernel?
-
-No, they are not in-kernel, but many places mainly on https://e2e.ti.com
-and http://processors.wiki.ti.com. It basically says to get musb
-regdump, cat /sys/kernel/debug/musb-hdrc.{0,1}/regdump, or to enter test
-mode, do echo _testmode_ > /sys/kernel/debug/musb-hdrc.{0,1}/testmode...
-
-> > > other USB drivers use (after this patch series is merged)?  That feels
-> > > like a much more "sane" way to handle the wide-open debugfs namespace.
-> > 
-> > Though I commented on this musb patch, my opinion is for this whole
-> > series, either drop the whole series or apply the whole series.
+> However, the corresponding restriction in get_user_pages_remote() was
+> slightly stricter than is actually required: it forbade all
+> FOLL_LONGTERM callers, but we can actually allow FOLL_LONGTERM callers
+> that do not set the "locked" arg.
 > 
-> I've applied all but this one and 2 others that did not build properly.
-
-Okay.
-
-> > > Yes, there are no rules when it comes to debugfs file names and
-> > > locations, but let's try to be sane please.
-> > 
-> > Fine with me. I can still support questions such as "can't open
-> > /sys/kernel/debug/musb-hdrc.0/testmode: No such file or directory".
+> Update the code and comments accordingly, and update the VFIO caller
+> to take advantage of this, fixing a bug as a result: the VFIO caller
+> is logically a FOLL_LONGTERM user.
 > 
-> What tool looks for that?
+> Also, remove an unnessary pair of calls that were releasing and
+> reacquiring the mmap_sem. There is no need to avoid holding mmap_sem
+> just in order to call page_to_pfn().
+> 
+> Also, move the DAX check ("if a VMA is DAX, don't allow long term
+> pinning") from the VFIO call site, all the way into the internals
+> of get_user_pages_remote() and __gup_longterm_locked(). That is:
+> get_user_pages_remote() calls __gup_longterm_locked(), which in turn
+> calls check_dax_vmas(). It's lightly explained in the comments as well.
+> 
+> Thanks to Jason Gunthorpe for pointing out a clean way to fix this,
+> and to Dan Williams for helping clarify the DAX refactoring.
+> 
+> Suggested-by: Jason Gunthorpe <jgg@ziepe.ca>
+> Cc: Dan Williams <dan.j.williams@intel.com>
+> Cc: Jerome Glisse <jglisse@redhat.com>
+> Cc: Ira Weiny <ira.weiny@intel.com>
+> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+> ---
+>  drivers/vfio/vfio_iommu_type1.c | 30 +++++-------------------------
+>  mm/gup.c                        | 27 ++++++++++++++++++++++-----
+>  2 files changed, 27 insertions(+), 30 deletions(-)
 
-I wrote a usb diagnosis tool called chkusb.sh, which basically checks
-usb related information in
-  - /proc/config.gz
-  - /lib/modules/`uname -r`/kernel/drivers/
-  - /proc/device-tree/
-  - /sys/device/
-  - /sys/kernel/debug/
+Looks OK now  
 
-So whenever I got a report on e2e.ti.com saying that usb doesn't work, I
-just post this script and get a log which would give a clue if there was
-any fundamental mistake in kernel configuration or deployment.
-
-But not a big issue here for this tool regarding this patch set, I can
-update the script to check both locations - /sys/kernel/debug/ and
-/sys/kernel/debug/usb/.
-
--Bin.
+Reviewed-by: Jason Gunthorpe <jgg@mellanox.com>
