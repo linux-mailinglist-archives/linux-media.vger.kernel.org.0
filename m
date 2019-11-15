@@ -2,124 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 20741FDBF9
-	for <lists+linux-media@lfdr.de>; Fri, 15 Nov 2019 12:09:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 46093FDBFF
+	for <lists+linux-media@lfdr.de>; Fri, 15 Nov 2019 12:11:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727065AbfKOLJW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Nov 2019 06:09:22 -0500
-Received: from mail.kapsi.fi ([91.232.154.25]:49267 "EHLO mail.kapsi.fi"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726521AbfKOLJW (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Nov 2019 06:09:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-         s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
-        MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:Reply-To:Cc:
-        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=JyLemP6TVrGSIcG7thim+tXz3SnFSBVlXjUzJRQSidQ=; b=UtNU4486QHN4eJFFs/+SdcbL7Z
-        fhAhIqwhVQNuC5ID9YZkw5GSB1T6mJwsGYw0Zf8tH+V/Y3iLlueXI2Syv5iROnK4sjEI2MddhnYxf
-        2CVrtJRU5k1h5eMxd+QH5gzjozRbZjAn38XlsOwQKj91vTga9KF/liJRrzsNu0Nac8WGazFav7Tgu
-        xV/aG0mr/NzhySd6MIYeU2cmcoRp0uyRoXg5/YIg9dYlru6AgZBkJlIFUFkEANzV4JSars7hUwytI
-        KbyMzWH3NLslnWSkN0ZxOsphug/wMu0M3wayRP9zUeKwItO+H9+xJokSkiCG3FR6dMXhfzApzxTvm
-        fi51+Bfw==;
-Received: from dvbz8cyyyyyyyyyyyyh0y-3.rev.dnainternet.fi ([2001:14ba:8869:c100::1bc] helo=localhost.localdomain)
-        by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.89)
-        (envelope-from <crope@iki.fi>)
-        id 1iVZTc-0000vo-7u; Fri, 15 Nov 2019 13:09:20 +0200
-Subject: Re: [PATCH v3 02/14] si2157: Check error status bit on cmd execute
-To:     Brad Love <brad@nextdimension.cc>, linux-media@vger.kernel.org
-References: <20191114200408.28883-1-brad@nextdimension.cc>
- <20191114200408.28883-3-brad@nextdimension.cc>
-From:   Antti Palosaari <crope@iki.fi>
-Message-ID: <a4a871fa-5f2b-bfe6-0106-4a5c462d07ad@iki.fi>
-Date:   Fri, 15 Nov 2019 13:09:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.1.1
+        id S1727274AbfKOLLR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 Nov 2019 06:11:17 -0500
+Received: from mail-lf1-f67.google.com ([209.85.167.67]:34913 "EHLO
+        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727142AbfKOLLR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 15 Nov 2019 06:11:17 -0500
+Received: by mail-lf1-f67.google.com with SMTP id i26so7752358lfl.2
+        for <linux-media@vger.kernel.org>; Fri, 15 Nov 2019 03:11:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=OGagCI7TdPELPhIzze+Z8RA18NFVOq1Xwu9t28Iw5cU=;
+        b=SWttfy3gHu1BC/T0NtsnpLFLPWpY4X9/jvvsPc1nLRtN++G6PK4SoWEXYUhwOsAZET
+         t6Zsh1xAK33DqkYlsyS4uyXVPygGbc12Nb2EZUO3V5edV9ELxbY9v/VnEDCSfeT3caZt
+         FXXqJ0IOR5cUXj6KODJfOiArlpo2455BfpDNaFF/mACXu5LTIcJyAKTFCjT0TRhoWG+P
+         i5ziyUJjVQgCJrnnbPLJoSifqKVooMRrTOFTSQ41RYZA/fVDnJEwrw9JB1oLdXdGybow
+         fc7805yccRvaJ2xFx2DQRmUEsGhyO+w2wEo1TepVP54L5yHZ3SnGV5dKBVJvGhoHKXLT
+         RjRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=OGagCI7TdPELPhIzze+Z8RA18NFVOq1Xwu9t28Iw5cU=;
+        b=sxXsq7k5+AnJCdSl9v8QpIO4lzRilwEk8UWeTz1MgnMXyRRa2Bpngdz+Xaem9tuBhh
+         0TxnoLKcVXrSvE4SAaOoYpbNkKwocGeJNH/PCWQo9pTzKbN8tqR+nN1y7mItpkE6r9ay
+         HNoIHIXeqi0altf06R/3GpUXLRGf0kxqO5DyAR/r26QVZSELsJ0aTtkDr/6ViaGsP3Nt
+         x64IPlahyBAUBMsORkdovBdEj0jKY1TwLAOWtNU7e967cJCWAf0wznnG8VYKvBoqFcUz
+         aeCqtTBbKJq2XjGFKLgXVKWedoBUPVBYQHBymmMXqE3spHtuxVK0TSKBCkVtlh40Y6ma
+         jVxA==
+X-Gm-Message-State: APjAAAX3aXK770NPcO84EvdzqGCUZN/iPWpZRQfUnJZ3x+GlnAvhji77
+        f5NUzRyGS5SnPrdnwU2vCKcguHeDljEmWonmHzX/eg==
+X-Google-Smtp-Source: APXvYqylNd1BYvQTuX1TAn270rl8KOA5tTGXL4m88XAJFHcCOloRAvjV5Rv3ZtO18Bd4xeVxv/LpXMWRWntew46VBWs=
+X-Received: by 2002:ac2:4d10:: with SMTP id r16mr11383738lfi.70.1573816275063;
+ Fri, 15 Nov 2019 03:11:15 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191114200408.28883-3-brad@nextdimension.cc>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:14ba:8869:c100::1bc
-X-SA-Exim-Mail-From: crope@iki.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Received: by 2002:a19:905:0:0:0:0:0 with HTTP; Fri, 15 Nov 2019 03:11:14 -0800 (PST)
+From:   Vincent McIntyre <vincent.mcintyre@gmail.com>
+Date:   Fri, 15 Nov 2019 22:11:14 +1100
+Message-ID: <CAEsFdVP9FkvG8+oPLkMUuaxPNYnc2Ug1dBgnAAxZqS_fUGf77Q@mail.gmail.com>
+Subject: [PATCH] media_build: support building against a specific kernel.
+To:     linux-media <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+I find it helpful to be able to build the linux-media modules
+for a kernel other than the one I am currently running.
 
-On 11/14/19 10:03 PM, Brad Love wrote:
-> Check error status bit on command execute, if error bit is
-> set return -EAGAIN. Ignore -EAGAIN in probe during device check.
+This is a resend of the patch that appeared at
+  https://patchwork.linuxtv.org/patch/59979/
+and completely supercedes that patch.
+There are no differences in the patch, just the formatting of the
+submission email.
 
-You should open when and why this error condition happens and try to fix 
-things on first hand that error situation never appears. As you added 
-that kind of special error handling to does it mean it happens during 
-probe? If yes, then something must be wrong before probe is called. Also 
-succeeding probe on "error again" does not sound very correct.
+Signed-off-by: vincent.mcintyre@gmail.com
 
-Antti
+---
+ build | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
-> 
-> Signed-off-by: Brad Love <brad@nextdimension.cc>
-> ---
-> Since v2:
-> - Fix -EAGAIN returned by si2141 in si2157_init
-> 
->   drivers/media/tuners/si2157.c | 16 +++++++++++-----
->   1 file changed, 11 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/media/tuners/si2157.c b/drivers/media/tuners/si2157.c
-> index 12f88304ac0f..69c625eaee25 100644
-> --- a/drivers/media/tuners/si2157.c
-> +++ b/drivers/media/tuners/si2157.c
-> @@ -47,14 +47,20 @@ static int si2157_cmd_execute(struct i2c_client *client, struct si2157_cmd *cmd)
->   				break;
->   		}
->   
-> -		dev_dbg(&client->dev, "cmd execution took %d ms\n",
-> -				jiffies_to_msecs(jiffies) -
-> -				(jiffies_to_msecs(timeout) - TIMEOUT));
-> +		dev_dbg(&client->dev, "cmd execution took %d ms, status=%x\n",
-> +			jiffies_to_msecs(jiffies) -
-> +			(jiffies_to_msecs(timeout) - TIMEOUT),
-> +			cmd->args[0]);
->   
->   		if (!((cmd->args[0] >> 7) & 0x01)) {
->   			ret = -ETIMEDOUT;
->   			goto err_mutex_unlock;
->   		}
-> +		/* check error status bit */
-> +		if (cmd->args[0] & 0x40) {
-> +			ret = -EAGAIN;
-> +			goto err_mutex_unlock;
-> +		}
->   	}
->   
->   	mutex_unlock(&dev->i2c_mutex);
-> @@ -106,7 +112,7 @@ static int si2157_init(struct dvb_frontend *fe)
->   	}
->   	cmd.rlen = 1;
->   	ret = si2157_cmd_execute(client, &cmd);
-> -	if (ret)
-> +	if (ret && (dev->chiptype != SI2157_CHIPTYPE_SI2141 || ret != -EAGAIN))
->   		goto err;
->   
->   	/* Si2141 needs a second command before it answers the revision query */
-> @@ -478,7 +484,7 @@ static int si2157_probe(struct i2c_client *client,
->   	cmd.wlen = 0;
->   	cmd.rlen = 1;
->   	ret = si2157_cmd_execute(client, &cmd);
-> -	if (ret)
-> +	if (ret && ret != -EAGAIN)
->   		goto err_kfree;
->   
->   	memcpy(&fe->ops.tuner_ops, &si2157_ops, sizeof(struct dvb_tuner_ops));
-> 
+diff --git a/build b/build
+index 2f6b3f4..c2067e7 100755
+--- a/build
++++ b/build
+@@ -14,6 +14,7 @@ my $check_only = 0;
+ my $main_git = 0;
+ my $depth;
+ my @git;
++my $kernel_version = '';
 
+ my $main_git_url = "git://linuxtv.org/media_tree.git";
+ my $main_branch = "master";
+@@ -27,6 +28,7 @@ GetOptions('v|verbose' => \$level,
+           'main_git|main-git' => \$main_git,
+           'depth=i' => \$depth,
+           'git=s{2}' => \@git,
++          'version=s' => \$kernel_version,
+          ) or pod2usage(2);
+ pod2usage(1) if $help;
+ pod2usage(-exitstatus => 0, -verbose => 2) if $man;
+@@ -522,7 +524,12 @@ print "******************\n";
+ print "* Start building *\n";
+ print "******************\n";
+
+-run("make allyesconfig", "can't select all drivers");
++if ($kernel_version =~ /\S/) {
++    print "Building for kernel version $kernel_version\n";
++    run("make allyesconfig VER=$kernel_version", "can't select all drivers");
++} else {
++    run("make allyesconfig", "can't select all drivers");
++}
+ run("make", "build failed");
+
+ print "**********************************************************\n";
+@@ -539,7 +546,7 @@ build - Builds the media drivers without needing
+to compile a new kernel
+ =head1 SYNOPSIS
+
+ build [--help] [--man] [--verbose] [--check-only] [<--git> [URL] [BRANCH]]
+- [--main-git] [--depth [DEPTH]]
++ [--main-git] [--depth [DEPTH]] [--version [KERNELVERSION]]
+
+ =head1 OPTIONS
+
+@@ -579,6 +586,11 @@ depth parameter, in order to get a smaller tree.
+
+ That helps to reduce disk storage and download time.
+
++=item B<--version> [KERNELVERSION]
++
++Try to build for a particular kernel version. The format of the
++version string is the same as the output from 'uname -r'.
++
+ =back
+
+ =head1 DESCRIPTION
 -- 
-http://palosaari.fi/
+2.7.4
