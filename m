@@ -2,120 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1569AFD33F
-	for <lists+linux-media@lfdr.de>; Fri, 15 Nov 2019 04:22:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 26757FD381
+	for <lists+linux-media@lfdr.de>; Fri, 15 Nov 2019 04:50:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727083AbfKODV5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 Nov 2019 22:21:57 -0500
-Received: from mail.kernel.org ([198.145.29.99]:38084 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726533AbfKODV5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 Nov 2019 22:21:57 -0500
-Received: from localhost (unknown [104.132.150.99])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4D03720706;
-        Fri, 15 Nov 2019 03:21:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1573788116;
-        bh=8/cY/P7mOC5ZWRzkTqP24RnTXXHa15NbkFVIzTSK364=;
-        h=Date:From:To:Subject:References:In-Reply-To:From;
-        b=JR2qBG/tbs+2u/BVDVXsZprjTey36G9Dh+snSLlcAX1kxtk0l/rMWe3cwt4MlhdCq
-         5+ZfbOGgxzp29+cn8YPcISIO/YK4QCO4q0+1cz43bS73NJanBJf/fA8r/Yp3jRS/Yf
-         1RbyPZ7FUwo1BaJ36gTF8p0Kq3zbdl2nqTCaTAw0=
-Date:   Fri, 15 Nov 2019 11:21:53 +0800
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Bin Liu <b-liu@ti.com>, Chunfeng Yun <chunfeng.yun@mediatek.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Peter Chen <Peter.Chen@nxp.com>,
-        Minas Harutyunyan <hminas@synopsys.com>,
-        Cristian Birsan <cristian.birsan@microchip.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Kevin Cernekee <cernekee@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        bcm-kernel-feedback-list@broadcom.com,
-        Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Stephen Boyd <swboyd@chromium.org>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Colin Ian King <colin.king@canonical.com>,
-        Biju Das <biju.das@bp.renesas.com>,
-        Fabrizio Castro <fabrizio.castro@bp.renesas.com>,
-        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-        Yangtao Li <tiny.windzz@gmail.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH v2 05/13] usb: musb: create debugfs directory under usb
- root
-Message-ID: <20191115032153.GC793701@kroah.com>
-References: <1573541519-28488-1-git-send-email-chunfeng.yun@mediatek.com>
- <1573541519-28488-5-git-send-email-chunfeng.yun@mediatek.com>
- <20191112152857.GA5853@uda0271908>
- <20191114032018.GA122287@kroah.com>
- <20191114140234.GB5853@uda0271908>
+        id S1727063AbfKODuX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 Nov 2019 22:50:23 -0500
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:45405 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726786AbfKODuW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 14 Nov 2019 22:50:22 -0500
+Received: by mail-pl1-f193.google.com with SMTP id w7so3696759plz.12
+        for <linux-media@vger.kernel.org>; Thu, 14 Nov 2019 19:50:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=aoHM/+WaO5NdDyBd89fOija9I2bAkO5UR3LO1LNuzn0=;
+        b=dUOQQA7I7azOiR9oYN73mh4AZ7L7cneL2H8q46OW5PvCuk7dl9oV65Fc+ofLVKwnIi
+         Yy6JeJ10UHl7RfPgdOgzK+SwTxcBqZ8mj79n7+x/AWeshU0dUzIquTqScneSspZhEPoZ
+         pMpJtQLv0TFtdrkZ4M479Zl0/TRTW1wrbrXPs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=aoHM/+WaO5NdDyBd89fOija9I2bAkO5UR3LO1LNuzn0=;
+        b=TcPGRIsIuMtGpPm5FcfRQPii04KltedU1v5S0hMhNT/+vBP8kteMKWtLOW/PZ/ye6B
+         Z42dZm1CfJbbsbqQl7x0KIezgOaREfuU/y31yQQ4Vue4hQ5uDFWUFH4viCQaQAWas+RC
+         lc/YxX0MgVt7wS4qJyn9j8MYtOPwpSIdwV2YU/uvlfwt8CjwLuBhNL/S2Y8jyfdWglDI
+         r/QM5X45oBSX7BMBIRGsWCdgUH8rc0+a3nrOlgyJbFAGFteKFoax+if/9Ykj+GHEZ+UC
+         sjpbtYtou0MmxZP1QvYCmAcl6eSwDjAcnX6UsX9Ol+DREO1b02Zws309jjoFp24TwM0j
+         njgw==
+X-Gm-Message-State: APjAAAUyamXOXI8RuLChBiye/pbcc6cQ0Sir3a4wnHcQVC5AR2x56rMx
+        tLzeOEIBX4PYR5piwluwm/r2JlPDilg=
+X-Google-Smtp-Source: APXvYqx+X3ULKqDfunR2Ia4GXkAkz4kASd163UXphAsWQ45xDJIJVyxkDBfUOIorUFH8cV8xizrlWg==
+X-Received: by 2002:a17:902:6a88:: with SMTP id n8mr452520plk.226.1573789820467;
+        Thu, 14 Nov 2019 19:50:20 -0800 (PST)
+Received: from acourbot.tok.corp.google.com ([2401:fa00:8f:203:93d9:de4d:e834:3086])
+        by smtp.gmail.com with ESMTPSA id f7sm9900736pfa.150.2019.11.14.19.50.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Nov 2019 19:50:19 -0800 (PST)
+From:   Alexandre Courbot <acourbot@chromium.org>
+To:     Ezequiel Garcia <ezequiel@collabora.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Alexandre Courbot <acourbot@chromium.org>
+Subject: [PATCH] media: hantro: make update_dpb() not leave holes in DPB
+Date:   Fri, 15 Nov 2019 12:50:13 +0900
+Message-Id: <20191115035013.145152-1-acourbot@chromium.org>
+X-Mailer: git-send-email 2.24.0.432.g9d3f5f5b63-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191114140234.GB5853@uda0271908>
-User-Agent: Mutt/1.12.2 (2019-09-21)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Nov 14, 2019 at 08:02:34AM -0600, Bin Liu wrote:
-> On Thu, Nov 14, 2019 at 11:20:18AM +0800, Greg Kroah-Hartman wrote:
-> > On Tue, Nov 12, 2019 at 09:28:57AM -0600, Bin Liu wrote:
-> > > Hi,
-> > > 
-> > > On Tue, Nov 12, 2019 at 02:51:51PM +0800, Chunfeng Yun wrote:
-> > > > Now the USB gadget subsystem can use the USB debugfs root directory,
-> > > > so move musb's directory from the root of the debugfs filesystem into
-> > > > the root of usb
-> > > 
-> > > My opinion is this move is unnecessary. I breaks existing debug tools or
-> > > documentation which is already published on Internet. 
-> > 
-> > Having a "root" directory for a single random driver seems like you are
-> > making your driver a "very important" thing in the overall scheme of the
-> > kernel, right?  What's wrong with using the usb subdirectory like all
-> 
-> Agree, it wasn't the right thing to do at the first place. But now
-> changing it adds support burden, because people very often refer to the
-> old information on the internet which no longer matches to the new
-> location. Basically, it is a cost of ABI change.
+update_dpb() reorders the DPB entries such as the same frame in two
+consecutive decoding requests always ends up in the same DPB slot.
 
-What information says that /sys/kernel/debug/mdev/ is the location for
-this?  Is it in-kernel?
+It first clears all the active flags in the DPB, and then checks whether
+the active flag is not set to decide whether an entry is a candidate for
+matching or not.
 
-> > other USB drivers use (after this patch series is merged)?  That feels
-> > like a much more "sane" way to handle the wide-open debugfs namespace.
-> 
-> Though I commented on this musb patch, my opinion is for this whole
-> series, either drop the whole series or apply the whole series.
+However, this means that unused DPB entries are also candidates for
+matching, and an unused entry will match if we are testing it against a
+frame which (TopFieldOrderCount, BottomFieldOrderCount) is (0, 0).
 
-I've applied all but this one and 2 others that did not build properly.
+As it turns out, this happens for the very first frame of a stream, but
+it is not a problem as it would be copied to the first entry anyway.
+More concerning is that after an IDR frame the Top/BottomFieldOrderCount
+can be reset to 0, and this time update_dpb() will match the IDR frame
+to the first unused entry of the DPB (and not the entry at index 0 as
+would be expected) because the first slots will have different values.
 
-> > Yes, there are no rules when it comes to debugfs file names and
-> > locations, but let's try to be sane please.
-> 
-> Fine with me. I can still support questions such as "can't open
-> /sys/kernel/debug/musb-hdrc.0/testmode: No such file or directory".
+The Hantro driver is ok with this, but when trying to use the same
+function for another driver (MT8183) I noticed decoding artefacts caused
+by this hole in the DPB.
 
-What tool looks for that?
+Fix this by maintaining a list of DPB slots that are actually in use,
+instead of relying on the absence of the active flag to do so. This also
+allows us to optimize matching a bit.
 
-thanks,
+Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
+---
+ drivers/staging/media/hantro/hantro_h264.c | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
-greg k-h
+diff --git a/drivers/staging/media/hantro/hantro_h264.c b/drivers/staging/media/hantro/hantro_h264.c
+index 568640eab3a6..2357068b0f82 100644
+--- a/drivers/staging/media/hantro/hantro_h264.c
++++ b/drivers/staging/media/hantro/hantro_h264.c
+@@ -474,14 +474,19 @@ static void update_dpb(struct hantro_ctx *ctx)
+ {
+ 	const struct v4l2_ctrl_h264_decode_params *dec_param;
+ 	DECLARE_BITMAP(new, ARRAY_SIZE(dec_param->dpb)) = { 0, };
++	DECLARE_BITMAP(in_use, ARRAY_SIZE(dec_param->dpb)) = { 0, };
+ 	DECLARE_BITMAP(used, ARRAY_SIZE(dec_param->dpb)) = { 0, };
+ 	unsigned int i, j;
+ 
+ 	dec_param = ctx->h264_dec.ctrls.decode;
+ 
+-	/* Disable all entries by default. */
+-	for (i = 0; i < ARRAY_SIZE(ctx->h264_dec.dpb); i++)
++	/* Mark entries in use before disabling them. */
++	for (i = 0; i < ARRAY_SIZE(ctx->h264_dec.dpb); i++) {
++		if (ctx->h264_dec.dpb[i].flags &
++		    V4L2_H264_DPB_ENTRY_FLAG_ACTIVE)
++			set_bit(i, in_use);
+ 		ctx->h264_dec.dpb[i].flags &= ~V4L2_H264_DPB_ENTRY_FLAG_ACTIVE;
++	}
+ 
+ 	/* Try to match new DPB entries with existing ones by their POCs. */
+ 	for (i = 0; i < ARRAY_SIZE(dec_param->dpb); i++) {
+@@ -492,18 +497,19 @@ static void update_dpb(struct hantro_ctx *ctx)
+ 
+ 		/*
+ 		 * To cut off some comparisons, iterate only on target DPB
+-		 * entries which are not used yet.
++		 * entries which are already used.
+ 		 */
+-		for_each_clear_bit(j, used, ARRAY_SIZE(ctx->h264_dec.dpb)) {
++		for_each_set_bit(j, in_use, ARRAY_SIZE(ctx->h264_dec.dpb)) {
+ 			struct v4l2_h264_dpb_entry *cdpb;
+ 
+ 			cdpb = &ctx->h264_dec.dpb[j];
+-			if (cdpb->flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE ||
+-			    !dpb_entry_match(cdpb, ndpb))
++			if (!dpb_entry_match(cdpb, ndpb))
+ 				continue;
+ 
+ 			*cdpb = *ndpb;
+ 			set_bit(j, used);
++			/* Don't reiterate on this one. */
++			clear_bit(j, in_use);
+ 			break;
+ 		}
+ 
+-- 
+2.24.0.432.g9d3f5f5b63-goog
+
