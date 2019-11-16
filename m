@@ -2,155 +2,193 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CA21FFEA84
-	for <lists+linux-media@lfdr.de>; Sat, 16 Nov 2019 05:55:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E0D63FEB52
+	for <lists+linux-media@lfdr.de>; Sat, 16 Nov 2019 10:19:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727386AbfKPEzI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 Nov 2019 23:55:08 -0500
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:47115 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727378AbfKPEzI (ORCPT
+        id S1727437AbfKPJTR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 16 Nov 2019 04:19:17 -0500
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:36405 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727414AbfKPJTR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 Nov 2019 23:55:08 -0500
-Received: from localhost ([IPv6:2001:983:e9a7:1:d469:1c31:aa2d:cccd])
+        Sat, 16 Nov 2019 04:19:17 -0500
+Received: from [IPv6:2001:983:e9a7:1:a4e1:babe:5472:a07]
+ ([IPv6:2001:983:e9a7:1:a4e1:babe:5472:a07])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id Vq6yiTnysecrtVq6zirnIG; Sat, 16 Nov 2019 05:55:05 +0100
-Message-ID: <f9e7b86f62c5bdc061dc4486d67dd795@smtp-cloud8.xs4all.net>
-Date:   Sat, 16 Nov 2019 05:55:04 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfHhYVV4yW+42maKhOhAH1z430Qydl7QNiSwBxYwD89X+IrZaYGNQH5coM9KoTQ7L/l75ByvKIVi7m+dCCA5HN/wz7adP9j4cB8FQJO1CoKj0M9Aoiw8z
- 2zfV/nS7jbLdcfwCPmZuz3ccRQ8B4a/fCGfJzQCtz0++Ve4VqmiqE2QuE6CSC1E7Kmv9dh+QfOm3I/+6FNUHh7Unhy5Khfoss/vTHgYrjfySI0lotpDaN1zL
+        id VuEaiUwJIecrtVuEbis9mR; Sat, 16 Nov 2019 10:19:14 +0100
+Subject: Re: [PATCH v2 1/6] v4l2-dev/ioctl: Add default handlers for
+ VIDIOC_{G,S}_{INPUT,OUTPUT}
+To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Helen Koike <helen.koike@collabora.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org
+References: <20191115235559.806041-1-niklas.soderlund+renesas@ragnatech.se>
+ <20191115235559.806041-2-niklas.soderlund+renesas@ragnatech.se>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <735b12c7-845e-a285-074c-6db68c9aa7cd@xs4all.nl>
+Date:   Sat, 16 Nov 2019 10:19:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <20191115235559.806041-2-niklas.soderlund+renesas@ragnatech.se>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfOGzY6sqiybac39quPfiDDd67pwbUrVD8wFRXOD70/S9yomL9b+lr2BWghGc+C24ltWNiZ0ehqjS/QBOjTfmSB7hwXkQa1Jcb+PYdgjNGUwU5i7h83Lg
+ Os2foxu/nbIXN8s7Mb8wwnDk0HnI7IY4f0IWHoFW1DWE1n8AaQOOWvEZVtpB1kjy4cs7FUWGe/6APeHRPEWrKL+ND5k0rDJ3hiecveplIY8NQ5hvxLR/Z39x
+ 8+ZZv7BfyCTuSKq39v68MY1GAVK2D+r3N8PP0v64WxENrme+xvRGQEGz3twU6AZm34iALkVulC8DxXOUqayHMe3iErjReHBH13NFeGcF/GcEPQL4fCHR92kt
+ aCNu+tvQhMxX8SfKVsHNIApLNLS1mQAGmOQAueyr/y0H5GeDHqfx99MX3vKqKJ8c3VSdZ3nlMtbjYIss1hdVjapKUZyWnjn3NlJv8nv3Zus13Uo3oAnL7++b
+ chX7J6i1PgI70YZx9oOU48czpAuK53yV+MV9Og==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On 11/16/19 12:55 AM, Niklas Söderlund wrote:
+> It is very common to have just one input/output, and many drivers
+> implements the same trivial handlers. Add default handlers for
+> VIDIOC_{G,S}_{INPUT,OUTPUT} that assumes a single input/output.
+> 
+> Suggested-by: Hans Verkuil <hverkuil@xs4all.nl>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+>  drivers/media/v4l2-core/v4l2-dev.c   |  8 ++---
+>  drivers/media/v4l2-core/v4l2-ioctl.c | 44 +++++++++++++++++++++++++---
+>  2 files changed, 44 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+> index da42d172714adcb5..4293df8d664f70b3 100644
+> --- a/drivers/media/v4l2-core/v4l2-dev.c
+> +++ b/drivers/media/v4l2-core/v4l2-dev.c
+> @@ -726,8 +726,8 @@ static void determine_valid_ioctls(struct video_device *vdev)
+>  		if (is_rx) {
+>  			SET_VALID_IOCTL(ops, VIDIOC_QUERYSTD, vidioc_querystd);
+>  			SET_VALID_IOCTL(ops, VIDIOC_ENUMINPUT, vidioc_enum_input);
+> -			SET_VALID_IOCTL(ops, VIDIOC_G_INPUT, vidioc_g_input);
+> -			SET_VALID_IOCTL(ops, VIDIOC_S_INPUT, vidioc_s_input);
+> +			set_bit(_IOC_NR(VIDIOC_G_INPUT), valid_ioctls);
+> +			set_bit(_IOC_NR(VIDIOC_S_INPUT), valid_ioctls);
 
-Results of the daily build of media_tree:
+This isn't right. VIDIOC_G/S_INPUT now depends on the presence of vidioc_enum_input
+only. So this becomes:
 
-date:			Sat Nov 16 05:00:10 CET 2019
-media-tree git hash:	dca6b3733a4a46e63603496f544ece8ace541fde
-media_build git hash:	efba365ba11b958a6bf6fb4b397942f9461cefca
-v4l-utils git hash:	7ead0e1856b89f2e19369af452bb03fd0cd16793
-edid-decode git hash:	cc5a7bf9049af1bc795d5a2e432cc0044698f995
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 6903fe8f5101fc43440b3259290c97d2dd51733d
-host hardware:		x86_64
-host os:		5.2.0-3-amd64
+			SET_VALID_IOCTL(ops, VIDIOC_G_INPUT, vidioc_enum_input);
+			SET_VALID_IOCTL(ops, VIDIOC_S_INPUT, vidioc_enum_input);
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4-rc1-i686: OK
-linux-5.4-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2784, Succeeded: 2784, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
+Same elsewhere. Note that there are two places where G/S_INPUT is set: it's also
+valid for touch devices.
 
-Detailed results are available here:
+>  			SET_VALID_IOCTL(ops, VIDIOC_ENUMAUDIO, vidioc_enumaudio);
+>  			SET_VALID_IOCTL(ops, VIDIOC_G_AUDIO, vidioc_g_audio);
+>  			SET_VALID_IOCTL(ops, VIDIOC_S_AUDIO, vidioc_s_audio);
+> @@ -736,8 +736,8 @@ static void determine_valid_ioctls(struct video_device *vdev)
+>  		}
+>  		if (is_tx) {
+>  			SET_VALID_IOCTL(ops, VIDIOC_ENUMOUTPUT, vidioc_enum_output);
+> -			SET_VALID_IOCTL(ops, VIDIOC_G_OUTPUT, vidioc_g_output);
+> -			SET_VALID_IOCTL(ops, VIDIOC_S_OUTPUT, vidioc_s_output);
+> +			set_bit(_IOC_NR(VIDIOC_G_OUTPUT), valid_ioctls);
+> +			set_bit(_IOC_NR(VIDIOC_S_OUTPUT), valid_ioctls);
+>  			SET_VALID_IOCTL(ops, VIDIOC_ENUMAUDOUT, vidioc_enumaudout);
+>  			SET_VALID_IOCTL(ops, VIDIOC_G_AUDOUT, vidioc_g_audout);
+>  			SET_VALID_IOCTL(ops, VIDIOC_S_AUDOUT, vidioc_s_audout);
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index 4e700583659bac8c..4a461de28677c5a8 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1085,6 +1085,37 @@ static int v4l_querycap(const struct v4l2_ioctl_ops *ops,
+>  	return ret;
+>  }
+>  
+> +static int v4l2_ioctl_g_single_input(struct file *file, void *priv, unsigned int *i)
+> +{
+> +	*i = 0;
+> +	return 0;
+> +}
+> +#define v4l2_ioctl_g_single_output v4l2_ioctl_g_single_input
+> +
+> +static int v4l2_ioctl_s_single_input(struct file *file, void *priv, unsigned int i)
+> +{
+> +	return i ? -EINVAL : 0;
+> +}
+> +#define v4l2_ioctl_s_single_output v4l2_ioctl_s_single_input
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday.log
+There is no point to add these static functions and defines, just incorporate this
+code directly in the following functions. These are just one or two liners, after all.
+And then there is no need for the defines either (they are a bit ugly).
 
-Detailed regression test results are available here:
+> +
+> +static int v4l_g_input(const struct v4l2_ioctl_ops *ops,
+> +		       struct file *file, void *fh, void *arg)
+> +{
+> +	if (!ops->vidioc_g_input)
+> +		return v4l2_ioctl_g_single_input(file, fh, arg);
+> +
+> +	return ops->vidioc_g_input(file, fh, arg);
+> +}
+> +
+> +static int v4l_g_output(const struct v4l2_ioctl_ops *ops,
+> +		       struct file *file, void *fh, void *arg)
+> +{
+> +	if (!ops->vidioc_g_output)
+> +		return v4l2_ioctl_g_single_output(file, fh, arg);
+> +
+> +	return ops->vidioc_g_output(file, fh, arg);
+> +}
+> +
+>  static int v4l_s_input(const struct v4l2_ioctl_ops *ops,
+>  				struct file *file, void *fh, void *arg)
+>  {
+> @@ -1094,12 +1125,19 @@ static int v4l_s_input(const struct v4l2_ioctl_ops *ops,
+>  	ret = v4l_enable_media_source(vfd);
+>  	if (ret)
+>  		return ret;
+> +
+> +	if (!ops->vidioc_s_input)
+> +		return v4l2_ioctl_s_single_input(file, fh, *(unsigned int *)arg);
+> +
+>  	return ops->vidioc_s_input(file, fh, *(unsigned int *)arg);
+>  }
+>  
+>  static int v4l_s_output(const struct v4l2_ioctl_ops *ops,
+>  				struct file *file, void *fh, void *arg)
+>  {
+> +	if (!ops->vidioc_s_output)
+> +		return v4l2_ioctl_s_single_output(file, fh, *(unsigned int *)arg);
+> +
+>  	return ops->vidioc_s_output(file, fh, *(unsigned int *)arg);
+>  }
+>  
+> @@ -2678,10 +2716,8 @@ DEFINE_V4L_STUB_FUNC(expbuf)
+>  DEFINE_V4L_STUB_FUNC(g_std)
+>  DEFINE_V4L_STUB_FUNC(g_audio)
+>  DEFINE_V4L_STUB_FUNC(s_audio)
+> -DEFINE_V4L_STUB_FUNC(g_input)
+>  DEFINE_V4L_STUB_FUNC(g_edid)
+>  DEFINE_V4L_STUB_FUNC(s_edid)
+> -DEFINE_V4L_STUB_FUNC(g_output)
+>  DEFINE_V4L_STUB_FUNC(g_audout)
+>  DEFINE_V4L_STUB_FUNC(s_audout)
+>  DEFINE_V4L_STUB_FUNC(g_jpegcomp)
+> @@ -2730,11 +2766,11 @@ static const struct v4l2_ioctl_info v4l2_ioctls[] = {
+>  	IOCTL_INFO(VIDIOC_S_AUDIO, v4l_stub_s_audio, v4l_print_audio, INFO_FL_PRIO),
+>  	IOCTL_INFO(VIDIOC_QUERYCTRL, v4l_queryctrl, v4l_print_queryctrl, INFO_FL_CTRL | INFO_FL_CLEAR(v4l2_queryctrl, id)),
+>  	IOCTL_INFO(VIDIOC_QUERYMENU, v4l_querymenu, v4l_print_querymenu, INFO_FL_CTRL | INFO_FL_CLEAR(v4l2_querymenu, index)),
+> -	IOCTL_INFO(VIDIOC_G_INPUT, v4l_stub_g_input, v4l_print_u32, 0),
+> +	IOCTL_INFO(VIDIOC_G_INPUT, v4l_g_input, v4l_print_u32, 0),
+>  	IOCTL_INFO(VIDIOC_S_INPUT, v4l_s_input, v4l_print_u32, INFO_FL_PRIO),
+>  	IOCTL_INFO(VIDIOC_G_EDID, v4l_stub_g_edid, v4l_print_edid, INFO_FL_ALWAYS_COPY),
+>  	IOCTL_INFO(VIDIOC_S_EDID, v4l_stub_s_edid, v4l_print_edid, INFO_FL_PRIO | INFO_FL_ALWAYS_COPY),
+> -	IOCTL_INFO(VIDIOC_G_OUTPUT, v4l_stub_g_output, v4l_print_u32, 0),
+> +	IOCTL_INFO(VIDIOC_G_OUTPUT, v4l_g_output, v4l_print_u32, 0),
+>  	IOCTL_INFO(VIDIOC_S_OUTPUT, v4l_s_output, v4l_print_u32, INFO_FL_PRIO),
+>  	IOCTL_INFO(VIDIOC_ENUMOUTPUT, v4l_enumoutput, v4l_print_enumoutput, INFO_FL_CLEAR(v4l2_output, index)),
+>  	IOCTL_INFO(VIDIOC_G_AUDOUT, v4l_stub_g_audout, v4l_print_audioout, 0),
+> 
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
+Regards,
 
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+	Hans
