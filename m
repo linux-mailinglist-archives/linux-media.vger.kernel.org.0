@@ -2,70 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C71181001DC
-	for <lists+linux-media@lfdr.de>; Mon, 18 Nov 2019 10:55:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 83E3C100229
+	for <lists+linux-media@lfdr.de>; Mon, 18 Nov 2019 11:13:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726750AbfKRJzj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Nov 2019 04:55:39 -0500
-Received: from mail.kernel.org ([198.145.29.99]:54582 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726646AbfKRJzi (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Nov 2019 04:55:38 -0500
-Received: from localhost (lfbn-1-10718-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8677120692;
-        Mon, 18 Nov 2019 09:55:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1574070938;
-        bh=DIT4h24G/XHhTR0V9nAo1RhonfMX1ZEVQmD6dY0og4Q=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ROf1nmI0zKFPdl/tXp8JrcbFEB2obv4ynnmFI+5z780WzdjP2DEd4Y3fWN30oxeWR
-         8ScaNzVxGCgYVpEHi9k17DricDuPHfa/HJ2AVrKG/YSbtcxZFTx+553rBotMoh4odk
-         pU6aecTIAP7oL3l+zoUrfN5G1EImR1phIKxI7hpY=
-Date:   Mon, 18 Nov 2019 10:55:34 +0100
-From:   Maxime Ripard <mripard@kernel.org>
-To:     Jernej Skrabec <jernej.skrabec@siol.net>
-Cc:     wens@csie.org, robh+dt@kernel.org, mark.rutland@arm.com,
-        mchehab@kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/2] sunxi: dts: tanix-tx6: Add rc map
-Message-ID: <20191118095534.GB4345@gilmour.lan>
-References: <20191117130058.1341989-1-jernej.skrabec@siol.net>
+        id S1726552AbfKRKNf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Nov 2019 05:13:35 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:50428 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726460AbfKRKNf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 18 Nov 2019 05:13:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:Message-ID:Subject:To:From:Date:Sender:Reply-To:Cc:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=TnolOXCIORqxVE2HztBWVsacr/2apFzMEgrWZxpFGmI=; b=M8Pi5/SL+CG0ifKJnBZ0eblXS
+        gH6RCFRJaAILeAu3xYnZiAQRvwV8lnR3jJTfJRo+rTtQKDNoR3gnTtXl3jeChk6eiZXEYdDFK2B6O
+        7tpUnWCJyqGDnOEMz8OB7vZZ07LQ+xJA3BYP63ULEGbUnUGL+uc29tN0NV9Kt5MyXdVjXmgsmp1lt
+        +hhs7nMRyuj+tWKEw2KhWEx/qy+kKCYqCu56TXvi4XwBtg5JrEudeLRBOjJJRTRbecrdzWszGWtWr
+        wYK1CJ9m0PlNsjkVxgZT0XJTqt5X6dUB484yuYln8l+YWbP1eJQhLEfk9wMNl9DX4CUPr1HR1MtCG
+        qA/uqlVSQ==;
+Received: from [186.213.240.243] (helo=localhost)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1iWe2H-00036e-3R; Mon, 18 Nov 2019 10:13:34 +0000
+Date:   Mon, 18 Nov 2019 11:13:23 +0100
+From:   Mauro Carvalho Chehab <mchehab@infradead.org>
+To:     linux-media@vger.kernel.org
+Subject: [ANN] LinuxTV.org maintenance on Tuesday (2019-11-19)
+Message-ID: <20191118111323.5ccd8f27@infradead.org>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="Vs1U1/ga4WSC1iHQ"
-Content-Disposition: inline
-In-Reply-To: <20191117130058.1341989-1-jernej.skrabec@siol.net>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <mchehab@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi all,
 
---Vs1U1/ga4WSC1iHQ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Just to let you know, we'll be doing a preventive maintenance tomorrow by
+1pm-3pm (UTC). 
 
-On Sun, Nov 17, 2019 at 02:00:56PM +0100, Jernej Skrabec wrote:
-> This series adds "rc-tanix-tx5max" to rc bindings and to Tanix TX6 dts.
->
-> Superseeds https://lore.kernel.org/patchwork/patch/1143781/
+During that time, we'll be stopping the services (wiki, web, patchwork, git)
+at *.linuxtv.org.
 
-Queued for 5.6, thanks!
-Maxime
+Regards,
+Mauro
 
---Vs1U1/ga4WSC1iHQ
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXdJqlgAKCRDj7w1vZxhR
-xfg6AP4y1Y62dxMfySco9JASTErxFp505K961dKhOrNOQvIkOwD9FZZee0XDQ3Gp
-xxLthCBiNpCdk0CmqA5rcOkXsvcV7QE=
-=pilQ
------END PGP SIGNATURE-----
-
---Vs1U1/ga4WSC1iHQ--
+Cheers,
+Mauro
