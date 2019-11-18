@@ -2,136 +2,161 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 45242100919
-	for <lists+linux-media@lfdr.de>; Mon, 18 Nov 2019 17:21:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 16CB8100961
+	for <lists+linux-media@lfdr.de>; Mon, 18 Nov 2019 17:43:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726461AbfKRQVV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Nov 2019 11:21:21 -0500
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:44379 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726322AbfKRQVV (ORCPT
+        id S1726317AbfKRQnf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Nov 2019 11:43:35 -0500
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:45735 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726068AbfKRQne (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Nov 2019 11:21:21 -0500
-Received: by mail-ot1-f68.google.com with SMTP id c19so14981823otr.11
-        for <linux-media@vger.kernel.org>; Mon, 18 Nov 2019 08:21:19 -0800 (PST)
+        Mon, 18 Nov 2019 11:43:34 -0500
+Received: by mail-oi1-f196.google.com with SMTP id 14so15873336oir.12
+        for <linux-media@vger.kernel.org>; Mon, 18 Nov 2019 08:43:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=lwYyts7IR31JntCPJY2iIx3Yo8EegCwmIT2zsSl2Ef0=;
-        b=OKEbPmRhJ3i7rFStuog5LA0yGAvANB63HonQXly4rNXdxgmmxYYrBDi1L6htvHCPbK
-         Pdaos7KntWI8G8WxNKu5lV6tFLqP3DaKdfuNgOUycaSwWO7+IDxbyda3Wyoh5VR2BMaj
-         Y3LExIWFTDhRVYoQN0KA+CJebPRO5p+FflwWBC6pEh5EQMJ5zDn5jxcGLRwbF6Ltv1DI
-         UFuNRb+NpSYte9MUAe1uGLhj0iVvJTyREFRf/3jzBJ2MslI84mDhIvV0dgIN0ITQ/HgX
-         rCYtA6lvt8ao+zHwFpUSlJEVXPOTIUnqvrYwj/j0FGFsJdlsUAzuceypC1HNDT/PdGD5
-         wa5g==
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=FZILDQSV0tew8AObzihNeZvhlGxeVr+6wW5CLwLnCuc=;
+        b=jraa3NNqgaDBY8IlCxj6gU+rNWzF6m0PMfJJR8RSJIeb/VcC1q6f3XAZrrQDwQHTow
+         YiGV6jps0LM8wXFC9jQgKfjUCIG0mk3TXKiGjq2gHbIZ1Z+I8fDO2gfTd9HtpZCYsB+I
+         pf2PWx/tR+3vqcHVp/6RxC99q1jKIxfA0Oeik=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=lwYyts7IR31JntCPJY2iIx3Yo8EegCwmIT2zsSl2Ef0=;
-        b=OnIBVsizKbU3uk619H4uhPbAkW7KyAlNgEp+Q12H3Ou1S7Ap04Eoj6VK1WokgEUaYu
-         3zyfG8IiKJBST2tDCRLtvfLHLEpOK9Nse76L46le3nzZHWKhUqsbhUwJLFHHetDNQE+9
-         u5K6aIXvaRZPZw56i1/MUg+F3bOIXlYTh9pEmZh0OqC1IGg2/rwnqJRGIcMoEHWnMyuu
-         Bz/fcpUwf/Nn6NmPMGQvElvMHCmtBHCpYQxa+Xav3sE4mwbV8hHp1KKCnCcA/Su01KIU
-         xU7xV1IllaktTVhyJXvm2SIH2Ny4QS1F51fEtDMqquOf7Ad/WHsw7/twBCHz/dZtnQVh
-         4Y5g==
-X-Gm-Message-State: APjAAAVkARgelI8MR+6pSCIBWlHSYNBsgs4FYKAUDlzkSCKGUbZ9VvPF
-        7SwpIFcxsMd/F9KvOfUg3aw9rdgoLBNUc7UjBlGEH8V2UNo=
-X-Google-Smtp-Source: APXvYqy+H7GPIHey823bHM4/Si+MO5icJsZnbNqJLGWovEbyj92EZ+SQ+X9HOS+OHI8zZJ3EO1+aWBWPxFd2gon1t64=
-X-Received: by 2002:a05:6830:4a2:: with SMTP id l2mr92675otd.192.1574094078825;
- Mon, 18 Nov 2019 08:21:18 -0800 (PST)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=FZILDQSV0tew8AObzihNeZvhlGxeVr+6wW5CLwLnCuc=;
+        b=aN/KeNIrDtluYLGoH8o5cY2Msgtx29mLLC2ugYna5wbDkljYq4vraEOl/w9nanz5Tb
+         jp0WeRlcg0RgoRYWQ3BM4BbUZrMxgBneUg3mmS0KNAEC7p59KJuGFBtpxaVvdY+k3Hzy
+         /Ev06VdRxWpueWYXV0uw/3uwbertgRbWJNVAwwwTuTgw6B/DEC9sxQJD5IQ9ZwgZPRsK
+         h1rA8HcYcFbCQJ+LxOx0LsLwnDqmX3rCtpq9W0EdMx9oTPqcKWgZB6MqGWjQcKjNQ7M2
+         lUdGot2g+JBV//pe8Ie2x2OMlaGkhJ3m3jw0VaQCxop3r++Sozq/XHtdPKEG5i8bykaT
+         Wtog==
+X-Gm-Message-State: APjAAAV0BtDq0RxtahuaH3WZzuDRnjHQjrj7WsgO0c4JOIV+KUMySSfM
+        nI99aYqtI5O2psikyR4n2V8p0TswuL99qgh7XFpNog==
+X-Google-Smtp-Source: APXvYqwKF/WYageec8u6JKj3YHnGR8X6uFo4OD4ZS8dTCYL2+195u8KDVUoII+Swn8sKvcTvVKg6kK2prURn6khc4DQ=
+X-Received: by 2002:aca:39d7:: with SMTP id g206mr19842166oia.101.1574095413276;
+ Mon, 18 Nov 2019 08:43:33 -0800 (PST)
 MIME-Version: 1.0
-From:   Nick French <nickfrench@gmail.com>
-Date:   Mon, 18 Nov 2019 10:21:07 -0600
-Message-ID: <CABdg0zG8KzOBWMNDU8eDcjW_FA3zrdJBR7Fu_YQz-uwu1Gfwcg@mail.gmail.com>
-Subject: ir_kbd_i2c oops
-To:     linux-media@vger.kernel.org
+References: <20191118103536.17675-16-daniel.vetter@ffwll.ch> <201911182322.FMpIgsJE%lkp@intel.com>
+In-Reply-To: <201911182322.FMpIgsJE%lkp@intel.com>
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+Date:   Mon, 18 Nov 2019 17:43:22 +0100
+Message-ID: <CAKMK7uHDOyKgDO2UgNJtYdLjAn78L9rNKZs-nbEZDJFQvhW0mg@mail.gmail.com>
+Subject: Re: [PATCH 15/15] dma-buf: Remove kernel map/unmap hooks
+To:     kbuild test robot <lkp@intel.com>
+Cc:     kbuild-all@lists.01.org,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello all,
+On Mon, Nov 18, 2019 at 4:23 PM kbuild test robot <lkp@intel.com> wrote:
+>
+> Hi Daniel,
+>
+> I love your patch! Yet something to improve:
+>
+> [auto build test ERROR on drm-intel/for-linux-next]
+> [also build test ERROR on v5.4-rc8 next-20191115]
+> [if your patch is applied to the wrong git tree, please drop us a note to help
+> improve the system. BTW, we also suggest to use '--base' option to specify the
+> base tree in git format-patch, please see https://stackoverflow.com/a/37406982]
 
-I'm about to start trying to track down an intermittent oops in
-ir_kbd_i2c that I've been having for a long time over various recent
-kernels. It must be some kind of timing/race condition at startup,
-because I only get it about 5% of boots.
+Too old tree, on latest drm-tip this compiles since udl has lots its
+own dma-buf implementation. Also, the patch set will start to compile
+once linux-next is open for 5.6.
 
-Here's the relevant snippet from the log, if anyone has any smart
-ideas let me know. I should have better debugging data within the next
-week or so.
+Cheers, Daniel
 
-...
-Registered IR keymap rc-hauppauge
-rc rc0: Hauppauge WinTV PVR-350 as
-/devices/pci0000:00/0000:00:1e.0/0000:04:00.0/i2c-0/0-0018/rc/rc0
-input: Hauppauge WinTV PVR-350 as
-/devices/pci0000:00/0000:00:1e.0/0000:04:00.0/i2c-0/0-0018/rc/rc0/input9
-BUG: kernel NULL pointer dereference, address: 0000000000000038
-#PF: supervisor read access in kernel mode
-#PF: error_code(0x0000) - not-present page
-PGD 0 P4D 0
-Oops: 0000 [#1] SMP PTI
-CPU: 1 PID: 17 Comm: kworker/1:0 Not tainted 5.3.11-300.fc31.x86_64 #1
-Hardware name:  /DG43NB, BIOS NBG4310H.86A.0096.2009.0903.1845 09/03/2009
-Workqueue: events ir_work [ir_kbd_i2c]
-RIP: 0010:ir_lirc_scancode_event+0x3d/0xb0
-Code: a6 b4 07 00 00 49 81 c6 b8 07 00 00 55 53 e8 ba a7 9d ff 4c 89
-e7 49 89 45 00 e8 5e 7a 25 00 49 8b 1e 48 89 c5 4c 39 f3 74 58 <8b> 43
-38 8b 53 40 89 c1 2b 4b 3c 39 ca 72 41 21 d0 49 8b 7d 00 49
-RSP: 0018:ffffaae2000b3d88 EFLAGS: 00010017
-RAX: 0000000000000002 RBX: 0000000000000000 RCX: 0000000000000019
-RDX: 0000000000000001 RSI: 006e801b1f26ce6a RDI: ffff9e39797c37b4
-RBP: 0000000000000002 R08: 0000000000000001 R09: 0000000000000001
-R10: 0000000000000001 R11: 0000000000000001 R12: ffff9e39797c37b4
-R13: ffffaae2000b3db8 R14: ffff9e39797c37b8 R15: ffff9e39797c33d8
-FS:  0000000000000000(0000) GS:ffff9e397b680000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000000000000038 CR3: 0000000035844000 CR4: 00000000000006e0
-Call Trace:
-ir_do_keydown+0x8e/0x2b0
-rc_keydown+0x52/0xc0
-ir_work+0xb8/0x130 [ir_kbd_i2c]
-process_one_work+0x19d/0x340
-worker_thread+0x50/0x3b0
-kthread+0xfb/0x130
-? process_one_work+0x340/0x340
-? kthread_park+0x80/0x80
-ret_from_fork+0x35/0x40
-Modules linked in: rc_hauppauge tuner msp3400 saa7127 saa7115 ivtv(+)
-tveeprom cx2341x v4l2_common videodev mc i2c_algo_bit ir_kbd_i2c
-ip_tables firewire_ohci e1000e serio_raw firewire_core ata_generic
-crc_itu_t pata_acpi pata_jmicron fuse
-CR2: 0000000000000038
----[ end trace c67c2697a99fa74b ]---
-RIP: 0010:ir_lirc_scancode_event+0x3d/0xb0
-Code: a6 b4 07 00 00 49 81 c6 b8 07 00 00 55 53 e8 ba a7 9d ff 4c 89
-e7 49 89 45 00 e8 5e 7a 25 00 49 8b 1e 48 89 c5 4c 39 f3 74 58 <8b> 43
-38 8b 53 40 89 c1 2b 4b 3c 39 ca 72 41 21 d0 49 8b 7d 00 49
-RSP: 0018:ffffaae2000b3d88 EFLAGS: 00010017
-RAX: 0000000000000002 RBX: 0000000000000000 RCX: 0000000000000019
-RDX: 0000000000000001 RSI: 006e801b1f26ce6a RDI: ffff9e39797c37b4
-RBP: 0000000000000002 R08: 0000000000000001 R09: 0000000000000001
-R10: 0000000000000001 R11: 0000000000000001 R12: ffff9e39797c37b4
-R13: ffffaae2000b3db8 R14: ffff9e39797c37b8 R15: ffff9e39797c33d8
-FS:  0000000000000000(0000) GS:ffff9e397b680000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000000000000038 CR3: 0000000035844000 CR4: 00000000000006e0
-rc rc0: lirc_dev: driver ir_kbd_i2c registered at minor = 0, scancode
-receiver, no transmitter
-tuner-simple 0-0061: creating new instance
-tuner-simple 0-0061: type set to 2 (Philips NTSC (FI1236,FM1236 and
-compatibles))
-ivtv0: Registered device video0 for encoder MPG (4096 kB)
-ivtv0: Registered device video32 for encoder YUV (2048 kB)
-ivtv0: Registered device vbi0 for encoder VBI (1024 kB)
-ivtv0: Registered device video24 for encoder PCM (320 kB)
-ivtv0: Registered device radio0 for encoder radio
-ivtv0: Registered device video16 for decoder MPG (1024 kB)
-ivtv0: Registered device vbi8 for decoder VBI (64 kB)
-ivtv0: Registered device vbi16 for decoder VOUT
-ivtv0: Registered device video48 for decoder YUV (1024 kB)
-...
+>
+> url:    https://github.com/0day-ci/linux/commits/Daniel-Vetter/Retire-dma_buf_k-un-map/20191118-184537
+> base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+> config: m68k-allmodconfig (attached as .config)
+> compiler: m68k-linux-gcc (GCC) 7.4.0
+> reproduce:
+>         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # save the attached .config to linux build tree
+>         GCC_VERSION=7.4.0 make.cross ARCH=m68k
+>
+> If you fix the issue, kindly add following tag
+> Reported-by: kbuild test robot <lkp@intel.com>
+>
+> All errors (new ones prefixed by >>):
+>
+> >> drivers/dma-buf/udmabuf.c:114:3: error: 'const struct dma_buf_ops' has no member named 'map'; did you mean 'mmap'?
+>      .map    = kmap_udmabuf,
+>       ^~~
+>       mmap
+> >> drivers/dma-buf/udmabuf.c:114:12: error: initialization from incompatible pointer type [-Werror=incompatible-pointer-types]
+>      .map    = kmap_udmabuf,
+>                ^~~~~~~~~~~~
+>    drivers/dma-buf/udmabuf.c:114:12: note: (near initialization for 'udmabuf_ops.begin_cpu_access')
+> >> drivers/dma-buf/udmabuf.c:115:3: error: 'const struct dma_buf_ops' has no member named 'unmap'; did you mean 'vunmap'?
+>      .unmap    = kunmap_udmabuf,
+>       ^~~~~
+>       vunmap
+>    drivers/dma-buf/udmabuf.c:115:14: error: initialization from incompatible pointer type [-Werror=incompatible-pointer-types]
+>      .unmap    = kunmap_udmabuf,
+>                  ^~~~~~~~~~~~~~
+>    drivers/dma-buf/udmabuf.c:115:14: note: (near initialization for 'udmabuf_ops.end_cpu_access')
+>    cc1: some warnings being treated as errors
+> --
+> >> drivers/gpu/drm/udl/udl_dmabuf.c:169:3: error: 'const struct dma_buf_ops' has no member named 'map'; did you mean 'mmap'?
+>      .map   = udl_dmabuf_kmap,
+>       ^~~
+>       mmap
+> >> drivers/gpu/drm/udl/udl_dmabuf.c:169:11: error: initialization from incompatible pointer type [-Werror=incompatible-pointer-types]
+>      .map   = udl_dmabuf_kmap,
+>               ^~~~~~~~~~~~~~~
+>    drivers/gpu/drm/udl/udl_dmabuf.c:169:11: note: (near initialization for 'udl_dmabuf_ops.release')
+> >> drivers/gpu/drm/udl/udl_dmabuf.c:170:3: error: 'const struct dma_buf_ops' has no member named 'unmap'; did you mean 'vunmap'?
+>      .unmap   = udl_dmabuf_kunmap,
+>       ^~~~~
+>       vunmap
+>    drivers/gpu/drm/udl/udl_dmabuf.c:170:13: error: initialization from incompatible pointer type [-Werror=incompatible-pointer-types]
+>      .unmap   = udl_dmabuf_kunmap,
+>                 ^~~~~~~~~~~~~~~~~
+>    drivers/gpu/drm/udl/udl_dmabuf.c:170:13: note: (near initialization for 'udl_dmabuf_ops.begin_cpu_access')
+>    cc1: some warnings being treated as errors
+>
+> vim +114 drivers/dma-buf/udmabuf.c
+>
+> fbb0de79507819 Gerd Hoffmann 2018-08-27  109
+> a34852891ba45d Gerd Hoffmann 2018-09-11  110  static const struct dma_buf_ops udmabuf_ops = {
+> fbb0de79507819 Gerd Hoffmann 2018-08-27  111    .map_dma_buf      = map_udmabuf,
+> fbb0de79507819 Gerd Hoffmann 2018-08-27  112    .unmap_dma_buf    = unmap_udmabuf,
+> fbb0de79507819 Gerd Hoffmann 2018-08-27  113    .release          = release_udmabuf,
+> fbb0de79507819 Gerd Hoffmann 2018-08-27 @114    .map              = kmap_udmabuf,
+> fbb0de79507819 Gerd Hoffmann 2018-08-27 @115    .unmap            = kunmap_udmabuf,
+> fbb0de79507819 Gerd Hoffmann 2018-08-27  116    .mmap             = mmap_udmabuf,
+> fbb0de79507819 Gerd Hoffmann 2018-08-27  117  };
+> fbb0de79507819 Gerd Hoffmann 2018-08-27  118
+>
+> :::::: The code at line 114 was first introduced by commit
+> :::::: fbb0de795078190a9834b3409e4b009cfb18a6d4 Add udmabuf misc device
+>
+> :::::: TO: Gerd Hoffmann <kraxel@redhat.com>
+> :::::: CC: Gerd Hoffmann <kraxel@redhat.com>
+>
+> ---
+> 0-DAY kernel test infrastructure                 Open Source Technology Center
+> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org Intel Corporation
 
-- Nick
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
++41 (0) 79 365 57 48 - http://blog.ffwll.ch
