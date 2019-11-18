@@ -2,189 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E958FFB7F
-	for <lists+linux-media@lfdr.de>; Sun, 17 Nov 2019 20:40:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7268CFFD9C
+	for <lists+linux-media@lfdr.de>; Mon, 18 Nov 2019 05:54:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726104AbfKQTk3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 17 Nov 2019 14:40:29 -0500
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:40877 "EHLO
-        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726096AbfKQTk2 (ORCPT
+        id S1726345AbfKREyl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 17 Nov 2019 23:54:41 -0500
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:51571 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726314AbfKREyl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 17 Nov 2019 14:40:28 -0500
-Received: by mail-wm1-f68.google.com with SMTP id f3so16398740wmc.5
-        for <linux-media@vger.kernel.org>; Sun, 17 Nov 2019 11:40:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Lq9ZvQHp7lkFLKt/dDRyxfBj8TO9AGwHDxF/zDocuhg=;
-        b=crT/3Fzd5DvnwLC2DwtCT04BdvPldgN4iXX1DwTUTwKo3Zq9IXVui8KkvUvDAXQGSQ
-         xtQkZ4nWD+PTl89HjpQWo6Z5I9u3V9GS+mbppOY86RR+9Z7PPFGa7zLFmTpAuRsBPqak
-         Lbfl7kRxDRz0tQ/7t/Jb/MhXwSTZrozyRCsZ7qalGYpJPDUgumFvzMpxw8Qf8p+bOZ+/
-         pCvWj1J2UaOdk0GG/MM2HigEoyCErCehr6bB22sCQlZGTsHdejYIm41+08rIiG3yVOVV
-         r8rs6kmBWyyAM6JTFzbSlA1TCd8sjseM6RS2ho4Fj93hsmYzGtU0dc7eZE6fPY975zpa
-         kj1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Lq9ZvQHp7lkFLKt/dDRyxfBj8TO9AGwHDxF/zDocuhg=;
-        b=JZv6U3Sk9uo+uM/j02KpGYFM/FmJmocztQ83lFqrmMiU8u9UqVWqeFIYMttujTiRkI
-         HpzWLvpIBJX2ScGMggL7zMJW98cijK4eLUGDZF3GJULzykiitVCwm7RQ4MkgUgveUMLr
-         xT89Vj6y6whBFOQupZbH6B8RGFS7wzxfCTm4H7ZD4Ruyrp3DUaqGH3f+g6aKI0PUnh93
-         I5VM0WjhaxikOa95jB+ylD0OWZvD6+6ajoLpk1jjfakE9ahBY+CTQhHo+9aTf8aqgJ5T
-         3NA26dQWP6XDZHIG9IVXgS588YZrF+h1itabK1ZLIJeIRQnlYenFhPOvTWVcUo+eQdaM
-         e5kA==
-X-Gm-Message-State: APjAAAXgS/AzULYonzXE2xgxJYZHSWn+b8aCqjY9EMAUeEW+2CaPjhj5
-        OEvKiNjaiYyyPUkw2qXaPY9sparQer3flw==
-X-Google-Smtp-Source: APXvYqxIuO7CYVTUKDHqLl+q8eZ2iXGBgGwBrgQD1o3p2I107ciqIGiSbwQ+hzNTw085kwz/zE7/jA==
-X-Received: by 2002:a1c:64d4:: with SMTP id y203mr25582941wmb.27.1574019626211;
-        Sun, 17 Nov 2019 11:40:26 -0800 (PST)
-Received: from localhost ([37.238.189.38])
-        by smtp.gmail.com with ESMTPSA id m1sm20717620wrv.37.2019.11.17.11.40.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Nov 2019 11:40:25 -0800 (PST)
-From:   Mohammad Rasim <mohammad.rasim96@gmail.com>
-To:     linux-media@vger.kernel.org, Sean Young <sean@mess.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Mohammad Rasim <mohammad.rasim96@gmail.com>
-Subject: [PATCH]  media: rc: add keymap for Videostrong KII Pro
-Date:   Sun, 17 Nov 2019 22:40:20 +0300
-Message-Id: <20191117194020.31056-1-mohammad.rasim96@gmail.com>
-X-Mailer: git-send-email 2.23.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Sun, 17 Nov 2019 23:54:41 -0500
+Received: from localhost ([IPv6:2001:983:e9a7:1:51d2:6e2e:1293:dc69])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id WZ3di1Fj8cs92WZ3eirTTK; Mon, 18 Nov 2019 05:54:39 +0100
+Message-ID: <23975c7c85c0631188d30f1bfcfe7090@smtp-cloud7.xs4all.net>
+Date:   Mon, 18 Nov 2019 05:54:37 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfJJwsP/SmSarCiXvi6ztI3cNwoHDEvoFKX1ovyFXnxaygiYAqcQfri08Vi7BRCDk27DzsIXCGMF+P7uJArO/9Hjl4NvJgaOD23AUtT6818sxPxP7WiSH
+ pzwSjJDLrTS8DPWg93qM5p4DjEfQD6OZX0xIUkSSVfE/cfK8LQWpiSYTU63VriFmq/vo6Kap89b3RAwOY4mjUFDqNOX3B9CxRVQg3xymZ2OCGq+R07xM8kIt
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is an NEC remote control device shipped with the Videostrong KII Pro tv box as well as other devices from videostrong.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Signed-off-by: Mohammad Rasim <mohammad.rasim96@gmail.com>
----
- drivers/media/rc/keymaps/Makefile             |  1 +
- .../media/rc/keymaps/rc-videostrong-kii-pro.c | 85 +++++++++++++++++++
- include/media/rc-map.h                        |  1 +
- 3 files changed, 87 insertions(+)
- create mode 100644 drivers/media/rc/keymaps/rc-videostrong-kii-pro.c
+Results of the daily build of media_tree:
 
-diff --git a/drivers/media/rc/keymaps/Makefile b/drivers/media/rc/keymaps/Makefile
-index a56fc634d2d6..ea91a9afa6a0 100644
---- a/drivers/media/rc/keymaps/Makefile
-+++ b/drivers/media/rc/keymaps/Makefile
-@@ -117,6 +117,7 @@ obj-$(CONFIG_RC_MAP) += rc-adstech-dvb-t-pci.o \
- 			rc-videomate-m1f.o \
- 			rc-videomate-s350.o \
- 			rc-videomate-tv-pvr.o \
-+			rc-videostrong-kii-pro.o \
- 			rc-wetek-hub.o \
- 			rc-wetek-play2.o \
- 			rc-winfast.o \
-diff --git a/drivers/media/rc/keymaps/rc-videostrong-kii-pro.c b/drivers/media/rc/keymaps/rc-videostrong-kii-pro.c
-new file mode 100644
-index 000000000000..7b5808526d16
---- /dev/null
-+++ b/drivers/media/rc/keymaps/rc-videostrong-kii-pro.c
-@@ -0,0 +1,85 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+//
-+// Copyright (C) 2019 Mohammad Rasim <mohammad.rasim96@gmail.com>
-+
-+#include <media/rc-map.h>
-+#include <linux/module.h>
-+
-+//
-+// Keytable for the Videostrong KII Pro STB remote control
-+//
-+
-+static struct rc_map_table kii_pro[] = {
-+	{ 0x59, KEY_POWER },
-+	{ 0x19, KEY_MUTE },
-+	{ 0x42, KEY_RED },
-+	{ 0x40, KEY_GREEN },
-+	{ 0x00, KEY_YELLOW },
-+	{ 0x03, KEY_BLUE },
-+	{ 0x4a, KEY_BACK },
-+	{ 0x48, KEY_FORWARD },
-+	{ 0x08, KEY_PREVIOUSSONG},
-+	{ 0x0b, KEY_NEXTSONG},
-+	{ 0x46, KEY_PLAYPAUSE },
-+	{ 0x44, KEY_STOP },
-+	{ 0x1f,KEY_FAVORITES},//KEY_F5?
-+	{ 0x04,KEY_RECORD},
-+	{ 0x4d,KEY_EPG},
-+	{ 0x02,KEY_INFO},
-+	{ 0x09,KEY_SUBTITLE},
-+	{ 0x01,KEY_AUDIO},
-+	{ 0x0d,KEY_HOMEPAGE},
-+	{ 0x11,KEY_G},// DTV ?
-+	{ 0x06,KEY_UP},
-+	{ 0x5a,KEY_LEFT},
-+	{ 0x1a,KEY_ENTER},// KEY_OK ?
-+	{ 0x1b,KEY_RIGHT},
-+	{ 0x16,KEY_DOWN},
-+	
-+	{ 0x45,KEY_MENU},
-+	{ 0x05,KEY_ESC},
-+	{ 0x13, KEY_VOLUMEUP },
-+	{ 0x17, KEY_VOLUMEDOWN },
-+	{ 0x58,KEY_F6},
-+	{ 0x12,KEY_KATAKANA}, // mouse?
-+	{ 0x55,KEY_PAGEUP}, // KEY_CHANNELUP ?
-+	{ 0x15,KEY_PAGEDOWN}, //KEY_CHANNELDOWN ?
-+	{ 0x52,KEY_1},
-+	{ 0x50,KEY_2},
-+	{ 0x10,KEY_3},
-+	{ 0x56,KEY_4},
-+	{ 0x54,KEY_5},
-+	{ 0x14,KEY_6},
-+	{ 0x4e,KEY_7},
-+	{ 0x4c,KEY_8},
-+	{ 0x0c,KEY_9},
-+	{ 0x18,KEY_F7},
-+	{ 0x0f,KEY_0},
-+	{ 0x51,KEY_BACKSPACE},
-+
-+};
-+
-+static struct rc_map_list kii_pro_map = {
-+	.map = {
-+		.scan     = kii_pro,
-+		.size     = ARRAY_SIZE(kii_pro),
-+		.rc_proto = RC_PROTO_NEC,
-+		.name     = RC_MAP_KII_PRO,
-+	}
-+};
-+
-+static int __init init_rc_map_kii_pro(void)
-+{
-+	return rc_map_register(&kii_pro_map);
-+}
-+
-+static void __exit exit_rc_map_kii_pro(void)
-+{
-+	rc_map_unregister(&kii_pro_map);
-+}
-+
-+module_init(init_rc_map_kii_pro)
-+module_exit(exit_rc_map_kii_pro)
-+
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Mohammad Rasim <mohammad.rasim96@gmail.com>");
-diff --git a/include/media/rc-map.h b/include/media/rc-map.h
-index afd2ab31bdf2..b4e70d22a9d5 100644
---- a/include/media/rc-map.h
-+++ b/include/media/rc-map.h
-@@ -271,6 +271,7 @@ struct rc_map *rc_map_get(const char *name);
- #define RC_MAP_VIDEOMATE_K100            "rc-videomate-k100"
- #define RC_MAP_VIDEOMATE_S350            "rc-videomate-s350"
- #define RC_MAP_VIDEOMATE_TV_PVR          "rc-videomate-tv-pvr"
-+#define RC_MAP_KII_PRO                     "rc-videostrong-kii-pro"
- #define RC_MAP_WETEK_HUB                 "rc-wetek-hub"
- #define RC_MAP_WETEK_PLAY2               "rc-wetek-play2"
- #define RC_MAP_WINFAST                   "rc-winfast"
--- 
-2.23.0
+date:			Mon Nov 18 05:00:11 CET 2019
+media-tree git hash:	dca6b3733a4a46e63603496f544ece8ace541fde
+media_build git hash:	efba365ba11b958a6bf6fb4b397942f9461cefca
+v4l-utils git hash:	7ead0e1856b89f2e19369af452bb03fd0cd16793
+edid-decode git hash:	cc5a7bf9049af1bc795d5a2e432cc0044698f995
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 6903fe8f5101fc43440b3259290c97d2dd51733d
+host hardware:		x86_64
+host os:		5.2.0-3-amd64
 
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4-rc1-i686: OK
+linux-5.4-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2784, Succeeded: 2784, Failed: 0, Warnings: 2
+sparse: WARNINGS
+smatch: WARNINGS
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
