@@ -2,153 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CBB8D100368
-	for <lists+linux-media@lfdr.de>; Mon, 18 Nov 2019 12:02:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5BB3D100439
+	for <lists+linux-media@lfdr.de>; Mon, 18 Nov 2019 12:32:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726905AbfKRLCn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Nov 2019 06:02:43 -0500
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:34665 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726518AbfKRLCn (ORCPT
+        id S1726518AbfKRLcv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Nov 2019 06:32:51 -0500
+Received: from mail-ed1-f51.google.com ([209.85.208.51]:33439 "EHLO
+        mail-ed1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726795AbfKRLcv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Nov 2019 06:02:43 -0500
-Received: from [IPv6:2001:983:e9a7:1:51d2:6e2e:1293:dc69]
- ([IPv6:2001:983:e9a7:1:51d2:6e2e:1293:dc69])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id WenniiFCkecrtWenoix6uF; Mon, 18 Nov 2019 12:02:41 +0100
-Subject: Re: [PATCH 11/15] media/videobuf2: Drop dma_buf->k(un)map support
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        DRI Development <dri-devel@lists.freedesktop.org>
-Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Pawel Osciak <pawel@osciak.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org
-References: <20191118103536.17675-1-daniel.vetter@ffwll.ch>
- <20191118103536.17675-12-daniel.vetter@ffwll.ch>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <3c596f9f-6a9d-325c-452a-f1f89c6f7c49@xs4all.nl>
-Date:   Mon, 18 Nov 2019 12:02:39 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Mon, 18 Nov 2019 06:32:51 -0500
+Received: by mail-ed1-f51.google.com with SMTP id a24so13233498edt.0
+        for <linux-media@vger.kernel.org>; Mon, 18 Nov 2019 03:32:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=B++y5FIKNLacy6yRej4wVKd6Lm+XqX9oOEI5Tn6jnwc=;
+        b=Gpkyl1TdRPJPwKzJ8i2w0QpdWNp8B3/PF+kRRa1C477J6+vqNFZqwN7j1cHWHBru1d
+         XdpqckJ1ox6zuIbUFSZoPuj5gTZDe3aUJ+IeLRNwTMejySgChw+gano+kM1XAj6jpX++
+         3JKGsoqazH8SrbEfqJ8N1Az/k/f0okMr8uEOg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=B++y5FIKNLacy6yRej4wVKd6Lm+XqX9oOEI5Tn6jnwc=;
+        b=pf8dWFQuN6h5MVaz0JNIZOALTzycs89336eoQULDYvbO2mEyYmvC6B/3VmeKHNd3LS
+         ppAMWawk86OCxc0TUip9zrx0vmxs4amzi54HAhj81mpiRHU7L0D0bkOKo96edbpvrraA
+         HpUFZw2exJc00M2WKQvRuZqUHF1oz+Xc3X0RoSl6yA2OFyYIsBgHoR7VdNFw6Pk8xXjc
+         VQjyFvGOdJWO1MMPbdQr4c7h6TBDwOZsMKhqYu/o5OBFqMiyRpGrmsrA8bueWw76zrRh
+         rI0qqKJFZ3A+bBP9dQGhbiYLOq+uAhJosoKD5Er4iIMaIwvRqKJLLQCsakUqMhlHpGyq
+         ThXQ==
+X-Gm-Message-State: APjAAAWARHNgHZijRcwKAZ2H7i7WYTSxFZ34xvsmF0ag0KKL02SwxlAk
+        p0DwgOw1eywOv+vi8bP7IRt+5Plke+A=
+X-Google-Smtp-Source: APXvYqzE9y359OAvenOia68bG2I+lyZZygYS/SGR7dSkdmCnMVjIblSv1Namm4VRS2bfrrIT7+Je+Q==
+X-Received: by 2002:a17:906:32d3:: with SMTP id k19mr25952303ejk.75.1574076769247;
+        Mon, 18 Nov 2019 03:32:49 -0800 (PST)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com. [209.85.128.44])
+        by smtp.gmail.com with ESMTPSA id d15sm520475edj.83.2019.11.18.03.32.48
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 Nov 2019 03:32:48 -0800 (PST)
+Received: by mail-wm1-f44.google.com with SMTP id u18so17017495wmc.3
+        for <linux-media@vger.kernel.org>; Mon, 18 Nov 2019 03:32:48 -0800 (PST)
+X-Received: by 2002:a7b:ce11:: with SMTP id m17mr30699485wmc.113.1574076767780;
+ Mon, 18 Nov 2019 03:32:47 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191118103536.17675-12-daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfF9d6OadzwnyFo3iKuF59GLDdkkVTZh7P72EcJen+CG+5ZJY0ylR42hZTxroQVlWn6SXxZsps1ax+/Yqy+G5ZFdmqnduL/RN48I3fQolczp0edFbeahO
- jeSNtOMJoy8L74dwudb+VrfOmT2rsSd/yaErd5H567cgZxgrxMMraH4Exzq5gb80Z28goZxTe66+Z+SUgrNUYwu3IEdZGrdRhwOeQdTzEyjjcCyEB2WvN+NG
- MlbFrSUwrpKkpu5dNXkxXq+Cs9VMAC4OoSCMBZBs18RKE4cBx8g8dD8iDzkfSRgYszbH2o0DpYKCa6urtuVFWGMKJZt8fLncBfp84L4kXNtoMyGzpJ4w/YfC
- gVaPyR7TleJGiEDskSrzScyjdvCSAFvXJBkgsSR1evh56cExXQWlkC3ZIXl4VNLSYO6A4OKZiIeM8V8a5ojD8PWhHmOdBezYmOseGzGfSSZJBUzyYOvdlfMl
- 6mGm7H4k+cs0moEfepKW8jVUeA87vGscP3H3ehUW+lWyBIkUv96y7e7HF5A5duAoOsJRGztrN3BwKr4apehpWZw22jQWdgJv6mMXVw==
+References: <20191007162913.250743-1-jacopo@jmondi.org> <20191007162913.250743-2-jacopo@jmondi.org>
+ <20191008074052.GA633@amd> <20191008075828.phxf2m7237ryl6yf@uno.localdomain>
+ <20191008080634.GC633@amd> <20191008082041.476a2soclry6qn3v@uno.localdomain>
+ <9788aa13-1bc0-02c3-33f5-a875940f2dc3@xs4all.nl> <20191023142717.GA22854@duo.ucw.cz>
+ <CAAFQd5CjUH7QRg-oQOKB=YH9NPvSxwjrdRUPYZkYVAHgJh6dZg@mail.gmail.com> <20191026204815.GA28970@pendragon.ideasonboard.com>
+In-Reply-To: <20191026204815.GA28970@pendragon.ideasonboard.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Mon, 18 Nov 2019 20:32:35 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5BgRrtjb_WfTi+C-F+SoWhV_=JLH4TQ5_HDWogM4APiVg@mail.gmail.com>
+Message-ID: <CAAFQd5BgRrtjb_WfTi+C-F+SoWhV_=JLH4TQ5_HDWogM4APiVg@mail.gmail.com>
+Subject: Re: [PATCH v4 01/11] dt-bindings: video-interfaces: Document
+ 'location' property
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Pavel Machek <pavel@ucw.cz>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
+        <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/18/19 11:35 AM, Daniel Vetter wrote:
-> No in-tree users left.
-> 
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+On Sun, Oct 27, 2019 at 5:48 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> On Fri, Oct 25, 2019 at 03:29:49PM +0900, Tomasz Figa wrote:
+> > On Wed, Oct 23, 2019 at 11:27 PM Pavel Machek <pavel@ucw.cz> wrote:
+> > >
+> > > Hi!
+> > >
+> > > > > I'm skeptical about adding now a property for a device that we don't
+> > > > > support, because we -now- think it's a good idea. I might be wrong,
+> > > > > but my assumption is that when someone will want to support an
+> > > > > 'advanced' device, it's easy to add "movable" or whatever else to the
+> > > > > list of accepted properties values. Am I wrong in assuming this? As
+> > > > > long as "front" "back" and "external" will stay supported for backward
+> > > > > DTB compatibility it should be fine, right ?
+> > > >
+> > > > The basic rule is that you should not define things unless you KNOW that
+> > > > they will be needed. So when we actually see new devices for which
+> > > > "front", "back" or "external" does not fit, then new names can be
+> > > > created.
+> > >
+> > > > It's impossible to cover all situations since we can't predict the future.
+> > > > The best we can do is to allow for future extensions.
+> > >
+> > > Those devices are already being sold, and yes, they are running linux
+> > > (with some patches probably).
+> > >
+> > > I believe it would be better to specify "this camera is selfie --
+> > > takes pictures of the user" vs. "this is main camera -- takes pictures
+> > > of what user is looking at".
+> >
+> > FWIW, Android and Chrome OS call those "user-facing" and
+> > "world-facing" respectively.
+>
+> Isn't that equivalent to what Jacopo is proposing though ? If we define
+> the orientation of the device relatively to its user (e.g. for all
+> cellphone devices the front is defined as the side facing the user), and
+> the location of the camera relative to the device, we get the same
+> information.
 
-Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Yes, it is the same. Although having some consistency in the naming
+isn't necessarily a bad idea, is it? :)
 
-Thanks!
+That said, looks like the naming in the Android world isn't consistent
+either. The high level Java/Kotlin API uses "front" and "back":
+https://developer.android.com/reference/android/hardware/Camera.CameraInfo.html#summary
 
-	Hans
+How about making this property a string instead? It would make it more
+readable in the dts and more expressive for some weird cases in the
+future, e.g. "front+30deg", "vector" (and a vector could be given in
+another property), etc.
 
-> Cc: Pawel Osciak <pawel@osciak.com>
-> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
-> Cc: Kyungmin Park <kyungmin.park@samsung.com>
-> Cc: Tomasz Figa <tfiga@chromium.org>
-> Cc: linux-media@vger.kernel.org
-> --
-> Ack for merging this through drm trees very much appreciated.
-> -Daniel
-> ---
->  drivers/media/common/videobuf2/videobuf2-dma-contig.c | 8 --------
->  drivers/media/common/videobuf2/videobuf2-dma-sg.c     | 8 --------
->  drivers/media/common/videobuf2/videobuf2-vmalloc.c    | 8 --------
->  3 files changed, 24 deletions(-)
-> 
-> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-> index 44cd0e530bbd..d0c9dffe49e5 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-> @@ -335,13 +335,6 @@ static void vb2_dc_dmabuf_ops_release(struct dma_buf *dbuf)
->  	vb2_dc_put(dbuf->priv);
->  }
->  
-> -static void *vb2_dc_dmabuf_ops_kmap(struct dma_buf *dbuf, unsigned long pgnum)
-> -{
-> -	struct vb2_dc_buf *buf = dbuf->priv;
-> -
-> -	return buf->vaddr ? buf->vaddr + pgnum * PAGE_SIZE : NULL;
-> -}
-> -
->  static void *vb2_dc_dmabuf_ops_vmap(struct dma_buf *dbuf)
->  {
->  	struct vb2_dc_buf *buf = dbuf->priv;
-> @@ -360,7 +353,6 @@ static const struct dma_buf_ops vb2_dc_dmabuf_ops = {
->  	.detach = vb2_dc_dmabuf_ops_detach,
->  	.map_dma_buf = vb2_dc_dmabuf_ops_map,
->  	.unmap_dma_buf = vb2_dc_dmabuf_ops_unmap,
-> -	.map = vb2_dc_dmabuf_ops_kmap,
->  	.vmap = vb2_dc_dmabuf_ops_vmap,
->  	.mmap = vb2_dc_dmabuf_ops_mmap,
->  	.release = vb2_dc_dmabuf_ops_release,
-> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> index ed706b2a263c..6db60e9d5183 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> @@ -470,13 +470,6 @@ static void vb2_dma_sg_dmabuf_ops_release(struct dma_buf *dbuf)
->  	vb2_dma_sg_put(dbuf->priv);
->  }
->  
-> -static void *vb2_dma_sg_dmabuf_ops_kmap(struct dma_buf *dbuf, unsigned long pgnum)
-> -{
-> -	struct vb2_dma_sg_buf *buf = dbuf->priv;
-> -
-> -	return buf->vaddr ? buf->vaddr + pgnum * PAGE_SIZE : NULL;
-> -}
-> -
->  static void *vb2_dma_sg_dmabuf_ops_vmap(struct dma_buf *dbuf)
->  {
->  	struct vb2_dma_sg_buf *buf = dbuf->priv;
-> @@ -495,7 +488,6 @@ static const struct dma_buf_ops vb2_dma_sg_dmabuf_ops = {
->  	.detach = vb2_dma_sg_dmabuf_ops_detach,
->  	.map_dma_buf = vb2_dma_sg_dmabuf_ops_map,
->  	.unmap_dma_buf = vb2_dma_sg_dmabuf_ops_unmap,
-> -	.map = vb2_dma_sg_dmabuf_ops_kmap,
->  	.vmap = vb2_dma_sg_dmabuf_ops_vmap,
->  	.mmap = vb2_dma_sg_dmabuf_ops_mmap,
->  	.release = vb2_dma_sg_dmabuf_ops_release,
-> diff --git a/drivers/media/common/videobuf2/videobuf2-vmalloc.c b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-> index 04d51ca63223..4d5af352e249 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
-> @@ -319,13 +319,6 @@ static void vb2_vmalloc_dmabuf_ops_release(struct dma_buf *dbuf)
->  	vb2_vmalloc_put(dbuf->priv);
->  }
->  
-> -static void *vb2_vmalloc_dmabuf_ops_kmap(struct dma_buf *dbuf, unsigned long pgnum)
-> -{
-> -	struct vb2_vmalloc_buf *buf = dbuf->priv;
-> -
-> -	return buf->vaddr + pgnum * PAGE_SIZE;
-> -}
-> -
->  static void *vb2_vmalloc_dmabuf_ops_vmap(struct dma_buf *dbuf)
->  {
->  	struct vb2_vmalloc_buf *buf = dbuf->priv;
-> @@ -344,7 +337,6 @@ static const struct dma_buf_ops vb2_vmalloc_dmabuf_ops = {
->  	.detach = vb2_vmalloc_dmabuf_ops_detach,
->  	.map_dma_buf = vb2_vmalloc_dmabuf_ops_map,
->  	.unmap_dma_buf = vb2_vmalloc_dmabuf_ops_unmap,
-> -	.map = vb2_vmalloc_dmabuf_ops_kmap,
->  	.vmap = vb2_vmalloc_dmabuf_ops_vmap,
->  	.mmap = vb2_vmalloc_dmabuf_ops_mmap,
->  	.release = vb2_vmalloc_dmabuf_ops_release,
-> 
-
+Best regards,
+Tomasz
