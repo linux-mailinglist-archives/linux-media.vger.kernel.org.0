@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DD22F1005EF
-	for <lists+linux-media@lfdr.de>; Mon, 18 Nov 2019 13:52:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B3E1A1005F3
+	for <lists+linux-media@lfdr.de>; Mon, 18 Nov 2019 13:54:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726562AbfKRMwq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Nov 2019 07:52:46 -0500
-Received: from mga02.intel.com ([134.134.136.20]:33002 "EHLO mga02.intel.com"
+        id S1726575AbfKRMyj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Nov 2019 07:54:39 -0500
+Received: from mga17.intel.com ([192.55.52.151]:27375 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726506AbfKRMwq (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Nov 2019 07:52:46 -0500
+        id S1726506AbfKRMyj (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 18 Nov 2019 07:54:39 -0500
 X-Amp-Result: UNKNOWN
 X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 18 Nov 2019 04:52:45 -0800
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 18 Nov 2019 04:54:38 -0800
 X-IronPort-AV: E=Sophos;i="5.68,320,1569308400"; 
-   d="scan'208";a="209069958"
+   d="scan'208";a="231155977"
 Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 18 Nov 2019 04:52:42 -0800
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 18 Nov 2019 04:54:37 -0800
 Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 759E020731; Mon, 18 Nov 2019 14:52:40 +0200 (EET)
-Date:   Mon, 18 Nov 2019 14:52:40 +0200
+        id 5620E20731; Mon, 18 Nov 2019 14:54:35 +0200 (EET)
+Date:   Mon, 18 Nov 2019 14:54:35 +0200
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     Jacopo Mondi <jacopo@jmondi.org>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -31,15 +31,15 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         tfiga@google.com, pavel@ucw.cz,
         "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
         <linux-media@vger.kernel.org>
-Subject: Re: [PATCH v5 06/11] media: v4l2-fwnode: Add helper to parse device
+Subject: Re: [PATCH v5 09/11] media: v4l2-ctrls: Add helper to register
  properties
-Message-ID: <20191118125240.GE5391@paasikivi.fi.intel.com>
+Message-ID: <20191118125435.GF5391@paasikivi.fi.intel.com>
 References: <20191108155944.1040883-1-jacopo@jmondi.org>
- <20191108155944.1040883-7-jacopo@jmondi.org>
+ <20191108155944.1040883-10-jacopo@jmondi.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20191108155944.1040883-7-jacopo@jmondi.org>
+In-Reply-To: <20191108155944.1040883-10-jacopo@jmondi.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
@@ -48,158 +48,117 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Jacopo,
 
-On Fri, Nov 08, 2019 at 04:59:39PM +0100, Jacopo Mondi wrote:
-> Add an helper function to parse common device properties in the same
-> way as v4l2_fwnode_endpoint_parse() parses common endpoint properties.
-> 
-> Parse the 'rotation' and 'location' properties from the firmware
-> interface.
+On Fri, Nov 08, 2019 at 04:59:42PM +0100, Jacopo Mondi wrote:
+> Add an helper function to v4l2-ctrls to register controls associated
+> with a device property.
 > 
 > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 > ---
->  drivers/media/v4l2-core/v4l2-fwnode.c | 42 +++++++++++++++++++++++
->  include/media/v4l2-fwnode.h           | 48 +++++++++++++++++++++++++++
->  2 files changed, 90 insertions(+)
+>  drivers/media/v4l2-core/v4l2-ctrls.c | 40 ++++++++++++++++++++++++++++
+>  include/media/v4l2-ctrls.h           | 26 ++++++++++++++++++
+>  2 files changed, 66 insertions(+)
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
-> index 192cac076761..8af4174a2bbf 100644
-> --- a/drivers/media/v4l2-core/v4l2-fwnode.c
-> +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
-> @@ -596,6 +596,48 @@ void v4l2_fwnode_put_link(struct v4l2_fwnode_link *link)
->  }
->  EXPORT_SYMBOL_GPL(v4l2_fwnode_put_link);
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+> index 97e97c8069c9..ac1934558969 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+> @@ -16,6 +16,7 @@
+>  #include <media/v4l2-dev.h>
+>  #include <media/v4l2-device.h>
+>  #include <media/v4l2-event.h>
+> +#include <media/v4l2-fwnode.h>
+>  #include <media/v4l2-ioctl.h>
 >  
-> +int v4l2_fwnode_device_parse(struct device *dev,
-> +			     struct v4l2_fwnode_device_properties *props)
+>  #define dprintk(vdev, fmt, arg...) do {					\
+> @@ -4587,3 +4588,42 @@ __poll_t v4l2_ctrl_poll(struct file *file, struct poll_table_struct *wait)
+>  	return 0;
+>  }
+>  EXPORT_SYMBOL(v4l2_ctrl_poll);
+> +
+> +int v4l2_ctrl_new_fwnode_properties(struct v4l2_ctrl_handler *hdl,
+> +				    const struct v4l2_ctrl_ops *ctrl_ops,
+> +				    const struct v4l2_fwnode_device_properties *p)
 > +{
-> +	struct fwnode_handle *fwnode = dev_fwnode(dev);
-> +	u32 val;
-> +	int ret;
+> +	if (p->location != V4L2_FWNODE_PROPERTY_UNSET) {
+> +		u32 location_ctrl;
 > +
-> +	memset(props, 0, sizeof(*props));
-> +
-> +	props->location = V4L2_FWNODE_PROPERTY_UNSET;
-> +	ret = fwnode_property_read_u32(fwnode, "location", &val);
-> +	if (!ret) {
-> +		switch (val) {
+> +		switch (p->location) {
 > +		case V4L2_FWNODE_LOCATION_FRONT:
+> +			location_ctrl = V4L2_LOCATION_FRONT;
+> +			break;
 > +		case V4L2_FWNODE_LOCATION_BACK:
+> +			location_ctrl = V4L2_LOCATION_BACK;
+> +			break;
 > +		case V4L2_FWNODE_LOCATION_EXTERNAL:
+> +			location_ctrl = V4L2_LOCATION_EXTERNAL;
 > +			break;
 > +		default:
-> +			dev_warn(dev, "Unsupported device location: %u\n", val);
 > +			return -EINVAL;
 > +		}
-> +
-> +		props->location = val;
-> +		dev_dbg(dev, "device location: %u\n", val);
+> +		if (!v4l2_ctrl_new_std(hdl, ctrl_ops,
+> +				       V4L2_CID_CAMERA_SENSOR_LOCATION,
+> +				       location_ctrl, location_ctrl, 1,
+> +				       location_ctrl))
+> +			return hdl->error;
 > +	}
 > +
-> +	props->rotation = V4L2_FWNODE_PROPERTY_UNSET;
-> +	ret = fwnode_property_read_u32(fwnode, "rotation", &val);
-> +	if (!ret) {
-> +		if (val >= 360 || val % 90) {
-> +			dev_warn(dev, "Unsupported device rotation: %u\n", val);
-> +			return -EINVAL;
-
-In both cases, you return an error back to the user if there's a problem
-with the value of an optinoal property.
-
-It could prevent probing the driver if someone screwed up the firmware
-somehow, but also makes the matter more visible. I think it's good to start
-with this way, and hope we don't need to change it.
-
-> +		}
-> +
-> +		props->rotation = val;
-> +		dev_dbg(dev, "device rotation: %u\n", val);
+> +	if (p->rotation != V4L2_FWNODE_PROPERTY_UNSET) {
+> +		if (!v4l2_ctrl_new_std(hdl, ctrl_ops,
+> +				       V4L2_CID_CAMERA_SENSOR_ROTATION,
+> +				       p->rotation, p->rotation, 1,
+> +				       p->rotation))
+> +			return hdl->error;
 > +	}
 > +
 > +	return 0;
+
+I think you should return hdl->error also here: calling this function on a
+failed control handler should result in an error.
+
 > +}
-> +EXPORT_SYMBOL_GPL(v4l2_fwnode_device_parse);
-> +
->  static int
->  v4l2_async_notifier_fwnode_parse_endpoint(struct device *dev,
->  					  struct v4l2_async_notifier *notifier,
-> diff --git a/include/media/v4l2-fwnode.h b/include/media/v4l2-fwnode.h
-> index f6a7bcd13197..6d46d6fc3007 100644
-> --- a/include/media/v4l2-fwnode.h
-> +++ b/include/media/v4l2-fwnode.h
-> @@ -109,6 +109,36 @@ struct v4l2_fwnode_endpoint {
->  	unsigned int nr_of_link_frequencies;
->  };
->  
-> +/**
-> + * v4l2_fwnode_location - identify a non initialized property.
-> + *
-> + * All properties in &struct v4l2_fwnode_device_properties are initialized
-> + * to this value.
-> + */
-> +#define V4L2_FWNODE_PROPERTY_UNSET   (-1U)
-
-On the naming --- this is relevant for only one property at the moment, so
-I'd make it specific to that property, too. This also makes it fit for the
-enum below.
-
-> +
-> +/**
-> + * enum v4l2_fwnode_location - possible device locations
-> + * @V4L2_FWNODE_LOCATION_FRONT: device installed on the front side
-> + * @V4L2_FWNODE_LOCATION_BACK: device installed on the back side
-> + * @V4L2_FWNODE_LOCATION_EXTERNAL: device externally located
-> + */
-> +enum v4l2_fwnode_location {
-> +	V4L2_FWNODE_LOCATION_FRONT,
-> +	V4L2_FWNODE_LOCATION_BACK,
-> +	V4L2_FWNODE_LOCATION_EXTERNAL
-> +};
-> +
-> +/**
-> + * struct v4l2_fwnode_device_properties - fwnode device properties
-> + * @location: device location. See &enum v4l2_fwnode_location
-> + * @rotation: device rotation
-> + */
-> +struct v4l2_fwnode_device_properties {
-> +	enum v4l2_fwnode_location location;
-> +	unsigned int rotation;
-> +};
-> +
->  /**
->   * struct v4l2_fwnode_link - a link between two endpoints
->   * @local_node: pointer to device_node of this endpoint
-> @@ -233,6 +263,24 @@ int v4l2_fwnode_parse_link(struct fwnode_handle *fwnode,
+> +EXPORT_SYMBOL(v4l2_ctrl_new_fwnode_properties);
+> diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
+> index cf59abafb0d9..409c800ab1f5 100644
+> --- a/include/media/v4l2-ctrls.h
+> +++ b/include/media/v4l2-ctrls.h
+> @@ -30,6 +30,7 @@ struct v4l2_ctrl;
+>  struct v4l2_ctrl_handler;
+>  struct v4l2_ctrl_helper;
+>  struct v4l2_fh;
+> +struct v4l2_fwnode_device_properties;
+>  struct v4l2_subdev;
+>  struct v4l2_subscribed_event;
+>  struct video_device;
+> @@ -1417,4 +1418,29 @@ int v4l2_ctrl_subdev_subscribe_event(struct v4l2_subdev *sd, struct v4l2_fh *fh,
 >   */
->  void v4l2_fwnode_put_link(struct v4l2_fwnode_link *link);
+>  int v4l2_ctrl_subdev_log_status(struct v4l2_subdev *sd);
 >  
 > +/**
-> + * v4l2_fwnode_device_parse() - parse fwnode device properties
-> + * @dev: pointer to &struct device
-> + * @props: pointer to &struct v4l2_fwnode_device_properties where to store the
-> + *	   parsed properties values
+> + * v4l2_ctrl_new_fwnode_properties() - Register controls for the device
+> + *				       properties
 > + *
-> + * This function parses and validates the V4L2 fwnode device properties from
-> + * the firmware interface. It is responsibility of the caller to allocate a
-> + * valid @struct v4l2_fwnode_device_properties structure and provide a pointer
-> + * to it in the @props parameter.
-
-I think the latter sentence (inserted before the leading comma of the
-previous sentence) could be phrased as:
-
-"and fills the @struct v4l2_fwnode_device_properties provided by the
-caller".
-
+> + * @hdl: pointer to &struct v4l2_ctrl_handler to register controls on
+> + * @ctrl_ops: pointer to &struct v4l2_ctrl_ops to register controls with
+> + * @p: pointer to &struct v4l2_fwnode_device_properties
 > + *
-> + * Return:
-> + *	% 0 on success
-> + *	%-EINVAL if a parsed property value is not valid
+> + * This function registers controls associated to device properties, using the
+> + * property values contained in @p parameter, if the property has been set to
+> + * a value.
+> + *
+> + * Currently the following v4l2 controls are parsed and registered:
+> + * - V4L2_CID_CAMERA_SENSOR_LOCATION;
+> + * - V4L2_CID_CAMERA_SENSOR_ROTATION;
+> + *
+> + * Controls already registered by the caller with the @hdl control handler are
+> + * not overwritten. Callers should register the controls they want to handle
+> + * themselves before calling this function.
+> + *
+> + * Return: 0 on success, a negative error code on failure.
 > + */
-> +int v4l2_fwnode_device_parse(struct device *dev,
-> +			     struct v4l2_fwnode_device_properties *props);
-> +
->  /**
->   * typedef parse_endpoint_func - Driver's callback function to be called on
->   *	each V4L2 fwnode endpoint.
+> +int v4l2_ctrl_new_fwnode_properties(struct v4l2_ctrl_handler *hdl,
+> +				    const struct v4l2_ctrl_ops *ctrl_ops,
+> +				    const struct v4l2_fwnode_device_properties *p);
+>  #endif
 
 -- 
 Regards,
