@@ -2,131 +2,146 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C45AE102669
-	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2019 15:18:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0ED351026F0
+	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2019 15:36:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728423AbfKSOSX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Nov 2019 09:18:23 -0500
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:57841 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728157AbfKSOSX (ORCPT
+        id S1727631AbfKSOgP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Nov 2019 09:36:15 -0500
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:47115 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727535AbfKSOgO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Nov 2019 09:18:23 -0500
+        Tue, 19 Nov 2019 09:36:14 -0500
 Received: from [IPv6:2001:983:e9a7:1:9879:d2e2:f0e2:9c7]
  ([IPv6:2001:983:e9a7:1:9879:d2e2:f0e2:9c7])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id X4KhiEFrTcs92X4Kiizsmh; Tue, 19 Nov 2019 15:18:21 +0100
+        id X4bziENlscs92X4c0i010y; Tue, 19 Nov 2019 15:36:12 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1574173101; bh=4PrRmF0h/rtSJB8fgLw+SQ0mJio6GnAcxV/KLoXmgfE=;
-        h=Subject:From:To:Message-ID:Date:MIME-Version:Content-Type:From:
+        t=1574174172; bh=b1TRSi5R1Ws/bY8s6wtFEKJSHhN9gAOmlOEIUa6uIAI=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=iDV5k33ZGeGe7d+bBR3kfxUDgmzjw7POSdtVx1aE65gHOGlNhUd74u/b8THx8tfBa
-         vjBXsZ0kDvxp9kGzajFlpEvn1guHMfUTu73ZS3lxKkf48pRfh3uC7P52n1X2ngs580
-         VB76pI6WxqK2WkB53KX+JWaIqnAl04vhr59w40ef3JwIJQtlB2Iqi4g7nCBjou6MV2
-         HDUq7THptjy1GXjdoBoJg3r9mmFaPizLRPlIeIlwTqaZfYC1agrsIyIwPlHtqVWt7z
-         Xowm7/29Jn5Hh2m1YrYx8uN2N96n9oifNZKYL6yVmJ8d6fyoLJGS19rmw0VfqbIiuv
-         Seeg2gvEzdBhA==
-Subject: Re: [ANN] Report of Media Summit: Codecs
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Boris Brezillon <boris.brezillon@collabora.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Daniel Gomez <daniel@qtec.com>,
-        Peter Griffin <peter.griffin@linaro.org>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Helen Koike <helen.koike@collabora.com>,
-        Jan Schmidt <jan@centricular.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.org>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Matthew Waters <matthew@centricular.com>
-References: <311a152e-b773-76d6-a17e-86112b583179@xs4all.nl>
-Message-ID: <b0ddcd59-cd54-67b8-af63-e7749403f868@xs4all.nl>
-Date:   Tue, 19 Nov 2019 15:18:19 +0100
+        b=WGrhOrxR54sxvtjxTsJ/KMEnZFV89QnBwrorOA2slgRStWsg+K28vw5mUeBg0iys2
+         D/7AnSSliskPg14VSz9104sTu8YjznoHcunv2jtwyqLBr4jSkHds+CjDVJn6zztVkJ
+         p9DrJ78uQO8SaMVcGYgYY85vHfVaflnQU9lGYlR0rapaG6RgQ8gTMbKa3WFKeBr1S+
+         g7/qy6BDeN8IyXgqNOlTmuUO3biuh0+5xgfRpdOqHAo+YA9gRfGxPB/uTStJAiF+gr
+         uU+DnSKsB0lGkSfpAhHTbgFlnJH2gVyOyRLlAkvnl9JckLZv1hDL3W4rIONkk0ziOG
+         37m1LQGNMv1+g==
+Subject: Re: [PATCH 4/5] videodev2.h: add V4L2_BUF_FLAG_TOO_SMALL flag
+To:     linux-media@vger.kernel.org
+Cc:     Michael Tretter <m.tretter@pengutronix.de>
+References: <20191119113457.57833-1-hverkuil-cisco@xs4all.nl>
+ <20191119113457.57833-5-hverkuil-cisco@xs4all.nl>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <a0635d66-6415-15be-97c3-ea7b91beba10@xs4all.nl>
+Date:   Tue, 19 Nov 2019 15:36:11 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <311a152e-b773-76d6-a17e-86112b583179@xs4all.nl>
+In-Reply-To: <20191119113457.57833-5-hverkuil-cisco@xs4all.nl>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfE9AGvB6ee1iWHuAtJnPLmLu5lNM1bytSshO8o8XTsyH6yV02mK4+fMa77sMuaWuHLInkMU9MkUVxZrH5RdNKXO7ko+1nbUbi7gJ5Bom7zT6T2w2SItJ
- xUm5YRkMsu1Pal+Rv2JZAwXu2x7RxGQLmDWpWtASq4A19NjJWpstLtgiJTI1fPEH1OyH6MLProLBc4jRpWuZcxZdrlKtvnSoNGhUdQrS1VuK+l9x9PI6d/Yu
- Chirr5nd2iFQ2VbtYTanW43XObcnS3HRFCs+Ck0KN6elIYkf/btZMD6mwo3YMc72kUpAe/JoCno+jmUHKj4krteVPi8aXH6uQUBpR3K5c7hTz3Nqi1USIDvg
- 87GxqGB1Mmjn7sFYc+7xVesG7yYEiPXGK60xRI+LkUgIIklOncDuhFXq7Hl5rq079bWI9iCVPhDxGhxy0OzjwjmJmwGm/ZA+q7udCIYTT/zY+MNUTZvIzFpS
- jiheBC7pAyBlhr/rsojcI4qhof3rRqWXhjgUoOsGMR8Q0bqgT6PrHTak3IQwGyXUF5QNdhUuoVIZrsv5KzGAKSWBvJ/KqrGMSTfBAgNOvhivL1svRShhqMSH
- AGINVCgtFO3aiM2m0T+gfXnjZwzJEzH8u2PLSygLSv3KtZKXb9GekoV1pUSo0qor6xv6nHbA8P9Ewvr31aTKyaquef+bWjKMddGC/fDKTm2TNys4hNQVyo5u
- LY4FgIQU2UmXYUaRzjBVClhI88+X7dOPxHpRhTkctvlSZbW4L3vTr8z5wuIfxQOctW2HzKe+a1sfKnZZtleC7lkDmSHR0QZ+WvMCifiivQ+My68jBv/zww==
+X-CMAE-Envelope: MS4wfKMeX6DCCMyp+nBhAOLzcQfF/FV30zkce9bFwTOnUdwxsa1gu5+QUXjpUEPeTh8A81XnRQBUoI0fiovUzyypl6ZCCzJcD9r7lL3schdaCUS0fSg1NQys
+ AXTtTTYcZivrhCsxtE+FNvXEroY/yUEJiZxaMMzuWW+G7yWvX6UHuCfngWijHwVHZmVTI+eset4Oc8ijYCYUk6c7YJ5hMNqIDzjQl4e/XaXTyn5KIgO3oWjX
+ MuSoXAOBPn2gpZ7i6zMZG1a5cGkoakPQC2YrWWyhi1FjZPc5kLOFVRFNyOqNylS//tcb/FNR8/WAzEE/mTT1tA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/2/19 1:50 PM, Hans Verkuil wrote:
-
-<snip>
-
-> Action Items
-> ------------
+On 11/19/19 12:34 PM, Hans Verkuil wrote:
+> Stateful encoders need to know if V4L2_BUF_FLAG_ERROR was because
+> the capture buffer was too small or because there was another
+> error. Set this flag (always in combination with FLAG_ERROR) to
+> indicate that the buffer was too small.
 > 
-> Hans Verkuil:
+> A corresponding VB2_BUF_STATE_ERROR_TOO_SMALL vb2 state was added.
 > 
-> - Ask Cisco colleagues which bitrate-related parameters have to be per-frame for
->   an encoder
-> - make stateful encoder infrastructure + documentation for the missing bits
-> - investigate using different sizes for metadata controls in the control framework:
->   is this possible?
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> ---
+>  Documentation/media/uapi/v4l/buffer.rst         |  9 +++++++++
+>  drivers/media/common/videobuf2/videobuf2-core.c | 12 +++++++++---
+>  drivers/media/common/videobuf2/videobuf2-v4l2.c |  4 ++++
+>  include/media/videobuf2-core.h                  |  4 ++++
+>  include/uapi/linux/videodev2.h                  |  2 ++
+>  5 files changed, 28 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/media/uapi/v4l/buffer.rst b/Documentation/media/uapi/v4l/buffer.rst
+> index 9149b57728e5..64a97677ec20 100644
+> --- a/Documentation/media/uapi/v4l/buffer.rst
+> +++ b/Documentation/media/uapi/v4l/buffer.rst
+> @@ -540,6 +540,15 @@ Buffer Flags
+>  	streaming may continue as normal and the buffer may be reused
+>  	normally. Drivers set this flag when the ``VIDIOC_DQBUF`` ioctl is
+>  	called.
+> +    * .. _`V4L2-BUF-FLAG-TOO-SMALL`:
+> +
+> +      - ``V4L2_BUF_FLAG_TOO_SMALL``
+> +      - 0x00080000
+> +      - When this flag is set, the buffer has been dequeued successfully,
+> +	but no data was written since the buffer was too small. If this
+> +	flag is set, then ``V4L2_BUF_FLAG_ERROR`` was also set. This can
+> +	only happen for capture buffers. Drivers set this flag when
+> +	the ``VIDIOC_DQBUF`` ioctl is called.
+>      * .. _`V4L2-BUF-FLAG-IN-REQUEST`:
+>  
+>        - ``V4L2_BUF_FLAG_IN_REQUEST``
+> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+> index 4489744fbbd9..187a4589a7bb 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> @@ -929,6 +929,7 @@ void vb2_buffer_done(struct vb2_buffer *vb, enum vb2_buffer_state state)
+>  
+>  	if (WARN_ON(state != VB2_BUF_STATE_DONE &&
+>  		    state != VB2_BUF_STATE_ERROR &&
+> +		    state != VB2_BUF_STATE_ERROR_TOO_SMALL &&
+>  		    state != VB2_BUF_STATE_QUEUED))
+>  		state = VB2_BUF_STATE_ERROR;
+>  
+> @@ -1816,6 +1817,9 @@ int vb2_core_dqbuf(struct vb2_queue *q, unsigned int *pindex, void *pb,
+>  	case VB2_BUF_STATE_ERROR:
+>  		dprintk(3, "returning done buffer with errors\n");
+>  		break;
+> +	case VB2_BUF_STATE_ERROR_TOO_SMALL:
+> +		dprintk(3, "returning done buffer that's too small\n");
+> +		break;
+>  	default:
+>  		dprintk(1, "invalid buffer state\n");
+>  		return -EINVAL;
+> @@ -2383,8 +2387,9 @@ __poll_t vb2_core_poll(struct vb2_queue *q, struct file *file,
+>  					done_entry);
+>  	spin_unlock_irqrestore(&q->done_lock, flags);
+>  
+> -	if (vb && (vb->state == VB2_BUF_STATE_DONE
+> -			|| vb->state == VB2_BUF_STATE_ERROR)) {
+> +	if (vb && (vb->state == VB2_BUF_STATE_DONE ||
+> +		   vb->state == VB2_BUF_STATE_ERROR ||
+> +		   vb->state == VB2_BUF_STATE_ERROR_TOO_SMALL)) {
+>  		return (q->is_output) ?
+>  				EPOLLOUT | EPOLLWRNORM :
+>  				EPOLLIN | EPOLLRDNORM;
+> @@ -2812,7 +2817,8 @@ static int vb2_thread(void *data)
+>  			break;
+>  		try_to_freeze();
+>  
+> -		if (vb->state != VB2_BUF_STATE_ERROR)
+> +		if (vb->state != VB2_BUF_STATE_ERROR &&
+> +		    vb->state != VB2_BUF_STATE_ERROR_TOO_SMALL)
+>  			if (threadio->fnc(vb, threadio->priv))
+>  				break;
+>  		call_void_qop(q, wait_finish, q);
+> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> index e652f4318284..6ac19734e4a2 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> @@ -44,6 +44,7 @@ module_param(debug, int, 0644);
+>  /* Flags that are set by us */
+>  #define V4L2_BUFFER_MASK_FLAGS	(V4L2_BUF_FLAG_MAPPED | V4L2_BUF_FLAG_QUEUED | \
+>  				 V4L2_BUF_FLAG_DONE | V4L2_BUF_FLAG_ERROR | \
+> +				 V4L2_BUF_FLAG_ERROR_TOO_SMALL | \
 
-The problem is with compound arrays. struct v4l2_ext_control just provides a size field
-for the total size and so for an array there is no way to discover the actual element
-size.
+Oops, should have been V4L2_BUF_FLAG_TOO_SMALL. Sorry about that.
 
-That said, to my knowledge there are currently no compound arrays defined in the mainline
-kernel. So one option is to take the last reserved __u32 field and split it in a
-__u16 elem_size and a __u16 reserved2 field, or just use the full __u32 for the elem size
-and drop the reserved2 field.
-
-Alternatively, we prohibit compound arrays for now and postpone making any changes to
-struct v4l2_ext_control until we actually need this.
-
-As long as it is not an array, then we can safely extend these compound control structs
-later. It requires some work in the control framework, but it isn't too bad.
-
-I'm in favor of implementing this, and for now prohibiting the use of compound arrays.
-
-It is really helpful making these codec state controls at least somewhat future-proof.
-
-Comments?
+Regards,
 
 	Hans
-
-> 
-> Michael Tretter:
-> 
-> - Support the new encoder stateful controls in the driver
-> 
-> Tomasz Figa:
-> 
-> - look up AMD encoder support
-> 
-> Boris Brezillon:
-> 
-> - send v3 of hantro g1 fixes
-> 
-> Nicolas Dufresne:
-> 
-> - look into multiview and sublayers support
-> 
-> Paul Kocialkowski:
-> 
-> - check metadata controls against the standards and update the docs if needed
-> 
-> Ezequiel Garcia and Boris Brezillon:
-> 
-> - add VP9 support
-> 
-
