@@ -2,60 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 637AC102AFD
-	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2019 18:51:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 24D80102C64
+	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2019 20:13:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727302AbfKSRvX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Nov 2019 12:51:23 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:54024 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727295AbfKSRvX (ORCPT
+        id S1727205AbfKSTNR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Nov 2019 14:13:17 -0500
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:32861 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727194AbfKSTNR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Nov 2019 12:51:23 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dafna)
-        with ESMTPSA id 9FCA528FBF4
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-To:     linux-media@vger.kernel.org
-Cc:     dafna.hirschfeld@collabora.com, hverkuil@xs4all.nl,
-        dafna3@gmail.com, helen.koike@collabora.com, ezequiel@collabora.com
-Subject: [PATCH v2] media: v4l2-core: set sd->devnode = NULL in v4l2_subdev_release
-Date:   Tue, 19 Nov 2019 18:51:15 +0100
-Message-Id: <20191119175115.12385-1-dafna.hirschfeld@collabora.com>
-X-Mailer: git-send-email 2.20.1
+        Tue, 19 Nov 2019 14:13:17 -0500
+Received: by mail-oi1-f194.google.com with SMTP id m193so20067376oig.0
+        for <linux-media@vger.kernel.org>; Tue, 19 Nov 2019 11:13:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=mz5OqrqUSeG2Ec9nRC63vaTt1tA0ak8NabEWxjjWQY4=;
+        b=r2y8UZlKfSZBvIt9U1H6SOEQ2Puxbk8SQ8i30HScOjdAB4i7fJPhvShmxhV8Ovt7ci
+         VEIV54hZp9HdlEa6kKa3JEyyq1yFeGzqAYTstIPXbUroFIq72ibOWR26OEyelxdFCs15
+         28oZBmr1LW1PVzcaxuAFV0ik9y/ORBIx186sGue9ut6ZfD12E95axen0sTCX10MCFFeX
+         N9GroJW3bx3jK4Y/k9ov2+9zHiIaJg6yBCngHDgPQN0ufjqwD6mvlk4QhgJdEl9cflWc
+         PLG5JU5foIS7tf0VBWatGTsJiVKj2Zohql4Ih9QvBcW8gMnIKvIkuanFZA3yN/w7kptd
+         7KnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=mz5OqrqUSeG2Ec9nRC63vaTt1tA0ak8NabEWxjjWQY4=;
+        b=mlCBQynObtGhUQVGEe6jDCDYHAS+ZHnH6RoSZPoBhkB5zr1YZAmD9kln16GeQoXN4r
+         BsYIpwZpbrT4MsrCodMjklkYjbJtNatxf/1b+hWDjM90IlhAMD6mW6nR66H9PzZMEMFl
+         qDnRZC6YVoSyaEqvfELYBkvBGGQ6sVqurixg2lpvNtN9v53CbTq5ujv1K+cAgM4F1lV3
+         q8h9LM5HY6arc70uUzORmSf3ep3zGKRQZx46MNoTThyjkFNfRw/z6+5RJl6ZjW4fnOhP
+         e+gSWWoIDXO8UyrW/aoem7rc3YX8uBAufViTtPeroK0Y3vFKVEWVbqp1e8iuhoeNDBEg
+         Zmjg==
+X-Gm-Message-State: APjAAAWhrS4RaMWqp8KMnAT7FhERWuBnE7na9AeGFDgJTEalAHKlH8XD
+        si9pnO5iidlA9vxGgEVIH6GEs9rkV8h/Ttaljh4=
+X-Google-Smtp-Source: APXvYqy2d/ahACWh9oS1tOagc3XXxFRsfAjowhcXqSOtSZtG9hVFrhknItA2WqGf69hahJB54t/ZvC5E5urJzGIcVMw=
+X-Received: by 2002:a54:481a:: with SMTP id j26mr5771644oij.20.1574190796226;
+ Tue, 19 Nov 2019 11:13:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a4a:97ec:0:0:0:0:0 with HTTP; Tue, 19 Nov 2019 11:13:15
+ -0800 (PST)
+Reply-To: pauwilliams37@gmail.com
+From:   Williams Paul <williamsetemba@gmail.com>
+Date:   Tue, 19 Nov 2019 19:13:15 +0000
+Message-ID: <CACPABGpJOP4mfQx95Z7mBZK9sEfg4Ydtw6q1wpVsP1QKmxE-iQ@mail.gmail.com>
+Subject: SUPPLY!!
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The sd->devnode is release after calling this
-function. Therefore it should be set to NULL so that the
-subdev won't hold a pointer to a released object.
-This fixes a reference after free bug in function
-v4l2_device_unregister_subdev
-
-Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
----
-changes since v1: move the line to the funtion v4l2_subdev_release
-from the funtion v4l2_subdev_release
-
- drivers/media/v4l2-core/v4l2-device.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/media/v4l2-core/v4l2-device.c b/drivers/media/v4l2-core/v4l2-device.c
-index 63d6b147b21e..2b3595671d62 100644
---- a/drivers/media/v4l2-core/v4l2-device.c
-+++ b/drivers/media/v4l2-core/v4l2-device.c
-@@ -177,6 +177,7 @@ static void v4l2_subdev_release(struct v4l2_subdev *sd)
- {
- 	struct module *owner = !sd->owner_v4l2_dev ? sd->owner : NULL;
- 
-+	sd->devnode = NULL;
- 	if (sd->internal_ops && sd->internal_ops->release)
- 		sd->internal_ops->release(sd);
- 	module_put(owner);
 -- 
-2.20.1
 
+
+Greetings,
+I have a very profitable business I would like your company to handle
+on partnership basis.
+There is this wealthy cattle farmer who needs a very important cattle
+vaccine being sold in Europe.
+We will get the vaccine at a price of USD 575 per carton and sell to
+the farmer at USD 1250 per carton.
+He needs more than 3500 cartons now.
+
+Can you get back to me for details.
+
+regards.
+
+Mr.  Williams
