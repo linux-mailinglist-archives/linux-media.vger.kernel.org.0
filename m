@@ -2,235 +2,274 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FC7F1021D5
-	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2019 11:17:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A41BB1021EB
+	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2019 11:19:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727445AbfKSKRD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Nov 2019 05:17:03 -0500
-Received: from mail-ed1-f66.google.com ([209.85.208.66]:46110 "EHLO
-        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725798AbfKSKRD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Nov 2019 05:17:03 -0500
-Received: by mail-ed1-f66.google.com with SMTP id t11so10565650eds.13;
-        Tue, 19 Nov 2019 02:17:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=9hbii1rvXe3OjAU+9EET7g3kuyKDkNC5l9tGGg3Rr0w=;
-        b=Zak8ug59k2O1p0roRgoyW1n9sY288ZxRAFM6l3LASPNE2bU1tEjWuX/tkz4flnMmAu
-         N0deW1GLG9hcW5axTEBU/FSyf5vpihs92jZkxdcOnP2Bs18i6UXzaVoL22WNrxgopVFh
-         /eCKelOOPTL7GpSotCpSbTckD9pen8uMfHdorYfpqLBBbUhtSk8DvuBqkAc6tEW713Jn
-         QIomHlDALijSRIvcJDh5PLwBesumZ8L9GG7AgVe0UObwBRt8Sb3VtH1Gd8ev3Z8X0uxU
-         ZLbm60b4pdgJw593iGuqzjlXul3EkyHy8SUUMD4LBbJnpmJ55onltqIei/mu27INlGOh
-         yy8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=9hbii1rvXe3OjAU+9EET7g3kuyKDkNC5l9tGGg3Rr0w=;
-        b=ZVWt3tPE1MuLvA6JNneodKvZvH44+cu+YTkQowi6B1b21+3/TJr3EEMJMEz8a+4fXM
-         bMYd5IVuqtkkmGGge+mWIFalgdyM292cqaYjiQksCkk9HnvD5xNWCLMQgLxzmPa5lLKP
-         FGy10upRBXPh7VJZYdkoIDDWqqjhRxkkh162cw5+ZYaYQylC9ksbxK+HmXXoBews351Q
-         xCVTDYwYVvrhJqYcc4dpUwnHydFTTbSEeW0Ij6TtHCJTDW/HvZ0GaP3ENx0II2BhcqcV
-         5eOvmfdYnN/WpGTW9vwca6S8FjQRRQSPzRF0IHbxLKPodJQmiiUKyoQ46arDMaRH9FhM
-         fPjw==
-X-Gm-Message-State: APjAAAUy/L1Pfc+cOPzgerNm4v1CNkRTyh1OF+xu4HdzUySaJN/qKSAW
-        Go1PLGYjt3+dKa1mi5Qqg6FFtXVxR4IPTeFEZ8w=
-X-Google-Smtp-Source: APXvYqwkJxMqmg7ZsnrggMatLowQzCcmg0Qlbo3LHEuSiv/RFL5kc0e6TZc+eBNriQcNnlF72ydXy+R3Gn5WHvKUDNg=
-X-Received: by 2002:a17:906:6b01:: with SMTP id q1mr34046962ejr.162.1574158620629;
- Tue, 19 Nov 2019 02:17:00 -0800 (PST)
-MIME-Version: 1.0
-References: <20191114051242.14651-1-helen.koike@collabora.com>
- <20191114051242.14651-3-helen.koike@collabora.com> <09d4f683-d03d-46c9-e9d2-b8cceb72446e@xs4all.nl>
- <9cb116f6-64f4-1510-b128-8657d6d4889b@collabora.com>
-In-Reply-To: <9cb116f6-64f4-1510-b128-8657d6d4889b@collabora.com>
-From:   Jacob Chen <jacobchen110@gmail.com>
-Date:   Tue, 19 Nov 2019 18:16:49 +0800
-Message-ID: <CAFLEztRQfYE_Mssiq4KxK-QyJEe+KT4eTsvnLZQK5T=uVADUqA@mail.gmail.com>
-Subject: Re: [PATCH v11 02/11] media: staging: rkisp1: add document for rkisp1
- meta buffer format
-To:     Helen Koike <helen.koike@collabora.com>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        mark.rutland@arm.com, devicetree@vger.kernel.org,
-        Eddie Cai <eddie.cai.linux@gmail.com>, kernel@collabora.com,
-        Heiko Stuebner <heiko@sntech.de>,
-        Jacob Chen <jacob-chen@rock-chips.com>,
-        gregkh@linuxfoundation.org, Jeffy Chen <jeffy.chen@rock-chips.com>,
-        =?UTF-8?B?6ZKf5Lul5bSH?= <zyc@rock-chips.com>,
-        linux-kernel@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
-        robh+dt@kernel.org, Hans Verkuil <hans.verkuil@cisco.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Shunqian Zheng <zhengsq@rock-chips.com>,
+        id S1727642AbfKSKTS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Nov 2019 05:19:18 -0500
+Received: from mx2.suse.de ([195.135.220.15]:49868 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726555AbfKSKTS (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 19 Nov 2019 05:19:18 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id 737CFAE87;
+        Tue, 19 Nov 2019 10:19:13 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id D586A1E47E5; Tue, 19 Nov 2019 11:19:10 +0100 (CET)
+Date:   Tue, 19 Nov 2019 11:19:10 +0100
+From:   Jan Kara <jack@suse.cz>
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        ezequiel@collabora.com, linux-arm-kernel@lists.infradead.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
+        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>,
+        Christoph Hellwig <hch@lst.de>,
+        "Aneesh Kumar K . V" <aneesh.kumar@linux.ibm.com>
+Subject: Re: [PATCH v6 02/24] mm/gup: factor out duplicate code from four
+ routines
+Message-ID: <20191119101910.GC25605@quack2.suse.cz>
+References: <20191119081643.1866232-1-jhubbard@nvidia.com>
+ <20191119081643.1866232-3-jhubbard@nvidia.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191119081643.1866232-3-jhubbard@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Helen ,
+On Tue 19-11-19 00:16:21, John Hubbard wrote:
+> There are four locations in gup.c that have a fair amount of code
+> duplication. This means that changing one requires making the same
+> changes in four places, not to mention reading the same code four
+> times, and wondering if there are subtle differences.
+> 
+> Factor out the common code into static functions, thus reducing the
+> overall line count and the code's complexity.
+> 
+> Also, take the opportunity to slightly improve the efficiency of the
+> error cases, by doing a mass subtraction of the refcount, surrounded
+> by get_page()/put_page().
+> 
+> Also, further simplify (slightly), by waiting until the the successful
+> end of each routine, to increment *nr.
+> 
+> Reviewed-by: Jérôme Glisse <jglisse@redhat.com>
+> Cc: Jan Kara <jack@suse.cz>
+> Cc: Ira Weiny <ira.weiny@intel.com>
+> Cc: Christoph Hellwig <hch@lst.de>
+> Cc: Aneesh Kumar K.V <aneesh.kumar@linux.ibm.com>
+> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
 
-Helen Koike <helen.koike@collabora.com> =E4=BA=8E2019=E5=B9=B411=E6=9C=8814=
-=E6=97=A5=E5=91=A8=E5=9B=9B =E4=B8=8B=E5=8D=886:59=E5=86=99=E9=81=93=EF=BC=
-=9A
->
->
->
-> On 11/14/19 6:21 AM, Hans Verkuil wrote:
-> > On 11/14/19 6:12 AM, Helen Koike wrote:
-> >> From: Jacob Chen <jacob2.chen@rock-chips.com>
-> >>
-> >> This commit add document for rkisp1 meta buffer format
-> >>
-> >> Signed-off-by: Jacob Chen <jacob-chen@rock-chips.com>
-> >> [refactored for upstream]
-> >> Signed-off-by: Helen Koike <helen.koike@collabora.com>
-> >
-> > checkpatch gives me:
-> >
-> > WARNING: Missing Signed-off-by: line by nominal patch author 'Jacob Che=
-n <jacob2.chen@rock-chips.com>'
-> >
-> > Looking at this series I see duplicate Signed-off-by entries for Jacob =
-Chen and a total
-> > of three different email addresses:
-> >
-> > jacob2.chen@rock-chips.com
-> > jacob-chen@rock-chips.com
-> > cc@rock-chips.com
->
-> And I see a name in the Maintainers file as Jacob Chen <jacob-chen@iotwrt=
-.com>.
-> I was wondering if I could replace the email by jacob-chen@iotwrt.com, or=
- if I should
-> keep the original ones.
->
-> Helen
->
+Looks good to me now! You can add:
 
-"jacob2.chen@rock-chips.com"/"jacob-chen@rock-chips.com" is me and
-"cc@rock-chips.com" is another one.
-' jacob-chen@rock-chips.com' is invalid now,  so you could replace the
-email by 'jacob-chen@iotwrt.com'.
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-> >
-> > It's confusing.
-> >
-> > Regards,
-> >
-> >       Hans
-> >
-> >>
-> >> ---
-> >>
-> >> Changes in v11: None
-> >> Changes in v10:
-> >> - unsquash
-> >>
-> >> Changes in v9:
-> >> - squash
-> >> - migrate to staging
-> >> - remove meta-formats.rst update
-> >>
-> >> Changes in v8:
-> >> - Add SPDX in the header
-> >> - Remove emacs configs
-> >> - Fix doc style
-> >>
-> >> Changes in v7:
-> >> - s/correspond/corresponding
-> >> - s/use/uses
-> >> - s/docuemnt/document
-> >>
-> >>  .../uapi/v4l/pixfmt-meta-rkisp1-params.rst    | 23 ++++++++++++++++++=
-+
-> >>  .../uapi/v4l/pixfmt-meta-rkisp1-stat.rst      | 22 ++++++++++++++++++
-> >>  2 files changed, 45 insertions(+)
-> >>  create mode 100644 drivers/staging/media/rkisp1/Documentation/media/u=
-api/v4l/pixfmt-meta-rkisp1-params.rst
-> >>  create mode 100644 drivers/staging/media/rkisp1/Documentation/media/u=
-api/v4l/pixfmt-meta-rkisp1-stat.rst
-> >>
-> >> diff --git a/drivers/staging/media/rkisp1/Documentation/media/uapi/v4l=
-/pixfmt-meta-rkisp1-params.rst b/drivers/staging/media/rkisp1/Documentation=
-/media/uapi/v4l/pixfmt-meta-rkisp1-params.rst
-> >> new file mode 100644
-> >> index 000000000000..103b5cb79b7c
-> >> --- /dev/null
-> >> +++ b/drivers/staging/media/rkisp1/Documentation/media/uapi/v4l/pixfmt=
--meta-rkisp1-params.rst
-> >> @@ -0,0 +1,23 @@
-> >> +.. SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> >> +
-> >> +.. _v4l2-meta-fmt-rkisp1-params:
-> >> +
-> >> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-> >> +V4L2_META_FMT_RK_ISP1_PARAMS
-> >> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-> >> +
-> >> +Rockchip ISP1 Parameters Data
-> >> +
-> >> +Description
-> >> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >> +
-> >> +This format describes input parameters for the Rockchip ISP1.
-> >> +
-> >> +It uses c-struct :c:type:`rkisp1_isp_params_cfg`, which is defined in
-> >> +the ``linux/rkisp1-config.h`` header file.
-> >> +
-> >> +The parameters consist of multiple modules.
-> >> +The module won't be updated if the corresponding bit was not set in m=
-odule_*_update.
-> >> +
-> >> +.. kernel-doc:: include/uapi/linux/rkisp1-config.h
-> >> +   :functions: rkisp1_isp_params_cfg
-> >> diff --git a/drivers/staging/media/rkisp1/Documentation/media/uapi/v4l=
-/pixfmt-meta-rkisp1-stat.rst b/drivers/staging/media/rkisp1/Documentation/m=
-edia/uapi/v4l/pixfmt-meta-rkisp1-stat.rst
-> >> new file mode 100644
-> >> index 000000000000..4ad303f96421
-> >> --- /dev/null
-> >> +++ b/drivers/staging/media/rkisp1/Documentation/media/uapi/v4l/pixfmt=
--meta-rkisp1-stat.rst
-> >> @@ -0,0 +1,22 @@
-> >> +.. SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> >> +
-> >> +.. _v4l2-meta-fmt-rkisp1-stat:
-> >> +
-> >> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
-> >> +V4L2_META_FMT_RK_ISP1_STAT_3A
-> >> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
-> >> +
-> >> +
-> >> +Rockchip ISP1 Statistics Data
-> >> +
-> >> +Description
-> >> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >> +
-> >> +This format describes image color statistics information generated by=
- the Rockchip
-> >> +ISP1.
-> >> +
-> >> +It uses c-struct :c:type:`rkisp1_stat_buffer`, which is defined in
-> >> +the ``linux/rkisp1-config.h`` header file.
-> >> +
-> >> +.. kernel-doc:: include/uapi/linux/rkisp1-config.h
-> >> +   :functions: rkisp1_stat_buffer
-> >>
-> >
->
-> _______________________________________________
-> Linux-rockchip mailing list
-> Linux-rockchip@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-rockchip
+								Honza
+
+> ---
+>  mm/gup.c | 91 ++++++++++++++++++++++----------------------------------
+>  1 file changed, 36 insertions(+), 55 deletions(-)
+> 
+> diff --git a/mm/gup.c b/mm/gup.c
+> index 85caf76b3012..f3c7d6625817 100644
+> --- a/mm/gup.c
+> +++ b/mm/gup.c
+> @@ -1969,6 +1969,25 @@ static int __gup_device_huge_pud(pud_t pud, pud_t *pudp, unsigned long addr,
+>  }
+>  #endif
+>  
+> +static int __record_subpages(struct page *page, unsigned long addr,
+> +			     unsigned long end, struct page **pages)
+> +{
+> +	int nr;
+> +
+> +	for (nr = 0; addr != end; addr += PAGE_SIZE)
+> +		pages[nr++] = page++;
+> +
+> +	return nr;
+> +}
+> +
+> +static void put_compound_head(struct page *page, int refs)
+> +{
+> +	/* Do a get_page() first, in case refs == page->_refcount */
+> +	get_page(page);
+> +	page_ref_sub(page, refs);
+> +	put_page(page);
+> +}
+> +
+>  #ifdef CONFIG_ARCH_HAS_HUGEPD
+>  static unsigned long hugepte_addr_end(unsigned long addr, unsigned long end,
+>  				      unsigned long sz)
+> @@ -1998,32 +2017,20 @@ static int gup_hugepte(pte_t *ptep, unsigned long sz, unsigned long addr,
+>  	/* hugepages are never "special" */
+>  	VM_BUG_ON(!pfn_valid(pte_pfn(pte)));
+>  
+> -	refs = 0;
+>  	head = pte_page(pte);
+> -
+>  	page = head + ((addr & (sz-1)) >> PAGE_SHIFT);
+> -	do {
+> -		VM_BUG_ON(compound_head(page) != head);
+> -		pages[*nr] = page;
+> -		(*nr)++;
+> -		page++;
+> -		refs++;
+> -	} while (addr += PAGE_SIZE, addr != end);
+> +	refs = __record_subpages(page, addr, end, pages + *nr);
+>  
+>  	head = try_get_compound_head(head, refs);
+> -	if (!head) {
+> -		*nr -= refs;
+> +	if (!head)
+>  		return 0;
+> -	}
+>  
+>  	if (unlikely(pte_val(pte) != pte_val(*ptep))) {
+> -		/* Could be optimized better */
+> -		*nr -= refs;
+> -		while (refs--)
+> -			put_page(head);
+> +		put_compound_head(head, refs);
+>  		return 0;
+>  	}
+>  
+> +	*nr += refs;
+>  	SetPageReferenced(head);
+>  	return 1;
+>  }
+> @@ -2071,28 +2078,19 @@ static int gup_huge_pmd(pmd_t orig, pmd_t *pmdp, unsigned long addr,
+>  					     pages, nr);
+>  	}
+>  
+> -	refs = 0;
+>  	page = pmd_page(orig) + ((addr & ~PMD_MASK) >> PAGE_SHIFT);
+> -	do {
+> -		pages[*nr] = page;
+> -		(*nr)++;
+> -		page++;
+> -		refs++;
+> -	} while (addr += PAGE_SIZE, addr != end);
+> +	refs = __record_subpages(page, addr, end, pages + *nr);
+>  
+>  	head = try_get_compound_head(pmd_page(orig), refs);
+> -	if (!head) {
+> -		*nr -= refs;
+> +	if (!head)
+>  		return 0;
+> -	}
+>  
+>  	if (unlikely(pmd_val(orig) != pmd_val(*pmdp))) {
+> -		*nr -= refs;
+> -		while (refs--)
+> -			put_page(head);
+> +		put_compound_head(head, refs);
+>  		return 0;
+>  	}
+>  
+> +	*nr += refs;
+>  	SetPageReferenced(head);
+>  	return 1;
+>  }
+> @@ -2114,28 +2112,19 @@ static int gup_huge_pud(pud_t orig, pud_t *pudp, unsigned long addr,
+>  					     pages, nr);
+>  	}
+>  
+> -	refs = 0;
+>  	page = pud_page(orig) + ((addr & ~PUD_MASK) >> PAGE_SHIFT);
+> -	do {
+> -		pages[*nr] = page;
+> -		(*nr)++;
+> -		page++;
+> -		refs++;
+> -	} while (addr += PAGE_SIZE, addr != end);
+> +	refs = __record_subpages(page, addr, end, pages + *nr);
+>  
+>  	head = try_get_compound_head(pud_page(orig), refs);
+> -	if (!head) {
+> -		*nr -= refs;
+> +	if (!head)
+>  		return 0;
+> -	}
+>  
+>  	if (unlikely(pud_val(orig) != pud_val(*pudp))) {
+> -		*nr -= refs;
+> -		while (refs--)
+> -			put_page(head);
+> +		put_compound_head(head, refs);
+>  		return 0;
+>  	}
+>  
+> +	*nr += refs;
+>  	SetPageReferenced(head);
+>  	return 1;
+>  }
+> @@ -2151,28 +2140,20 @@ static int gup_huge_pgd(pgd_t orig, pgd_t *pgdp, unsigned long addr,
+>  		return 0;
+>  
+>  	BUILD_BUG_ON(pgd_devmap(orig));
+> -	refs = 0;
+> +
+>  	page = pgd_page(orig) + ((addr & ~PGDIR_MASK) >> PAGE_SHIFT);
+> -	do {
+> -		pages[*nr] = page;
+> -		(*nr)++;
+> -		page++;
+> -		refs++;
+> -	} while (addr += PAGE_SIZE, addr != end);
+> +	refs = __record_subpages(page, addr, end, pages + *nr);
+>  
+>  	head = try_get_compound_head(pgd_page(orig), refs);
+> -	if (!head) {
+> -		*nr -= refs;
+> +	if (!head)
+>  		return 0;
+> -	}
+>  
+>  	if (unlikely(pgd_val(orig) != pgd_val(*pgdp))) {
+> -		*nr -= refs;
+> -		while (refs--)
+> -			put_page(head);
+> +		put_compound_head(head, refs);
+>  		return 0;
+>  	}
+>  
+> +	*nr += refs;
+>  	SetPageReferenced(head);
+>  	return 1;
+>  }
+> -- 
+> 2.24.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
