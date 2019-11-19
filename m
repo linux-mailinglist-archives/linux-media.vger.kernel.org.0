@@ -2,170 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B1B5C102534
-	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2019 14:12:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C45AE102669
+	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2019 15:18:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726351AbfKSNM3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Nov 2019 08:12:29 -0500
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:38607 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725280AbfKSNM3 (ORCPT
+        id S1728423AbfKSOSX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Nov 2019 09:18:23 -0500
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:57841 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728157AbfKSOSX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Nov 2019 08:12:29 -0500
-Received: by mail-ed1-f68.google.com with SMTP id s10so16994321edi.5
-        for <linux-media@vger.kernel.org>; Tue, 19 Nov 2019 05:12:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=VEavlwL1+rDzs+L+hM6nx0dnrMPSn2yWoKd3exKBnKI=;
-        b=b6eiXfq4vDKE47zZ4PvxoN61Q1BY37X7wcxDr/SiVmRRP0VtNsmCMMkrX3qi2LrRtu
-         P92lSpOaIxSROrtWuDJJ0XrRgaTiZBAJJ6z6l46VSE06O0MjhbBzsnYdD72zjhau3pF3
-         WCNJR5qHibROyv1OB4bctwVa86YYWorAOoycA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=VEavlwL1+rDzs+L+hM6nx0dnrMPSn2yWoKd3exKBnKI=;
-        b=e8u7V3LvOXhVK4Bm9NKQ6q45WY5RPemBVDq8O5Zh2rVIbctLcHxrEfev0DU+U75Ld3
-         XhBh8AslWVLR7aM1Yti7rA06YzAl7lqof7pSz4qSYwNnB7HZ4mw9xiO83xKK+updO9XD
-         IU9H1DykbJThGgKZRzYA4+g6Eb/q2qIzP0xAfkHeoGM9MQ9iTc6S3NjGocgmJ8DupaB0
-         3PwvFLkwmkMC8wvLDviS8Uu/iWsnwKyM1rEK2GB6Cf2riLB/shuJBViMf/NPBRZ7Tp7N
-         7jAy+BCOpvPIYx7OqCyqu2TsaALhwMf73Cc+iUFenoQd7o1xLdLVNh/fVdp+nxVeAM4G
-         1LNQ==
-X-Gm-Message-State: APjAAAUPeIsHlUWeSPNp1aeexCnf0g8HtV4U+EUCAGGARVvkUiAvBGnD
-        GOV478LlnE9QM1Bf8046eD9dP9t25MhN3g==
-X-Google-Smtp-Source: APXvYqy8FFFTydSh0VA7TSVnDPKonyStnWFj3cddIMHl1xgYTAsilsAgVVVAtnBLMP1FMkVDeJcKnQ==
-X-Received: by 2002:a17:906:f0c9:: with SMTP id dk9mr35295511ejb.56.1574169147100;
-        Tue, 19 Nov 2019 05:12:27 -0800 (PST)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com. [209.85.221.46])
-        by smtp.gmail.com with ESMTPSA id i14sm1260398edk.65.2019.11.19.05.12.26
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Nov 2019 05:12:27 -0800 (PST)
-Received: by mail-wr1-f46.google.com with SMTP id t1so23769134wrv.4
-        for <linux-media@vger.kernel.org>; Tue, 19 Nov 2019 05:12:26 -0800 (PST)
-X-Received: by 2002:adf:e505:: with SMTP id j5mr33584239wrm.46.1574168650324;
- Tue, 19 Nov 2019 05:04:10 -0800 (PST)
-MIME-Version: 1.0
-References: <20191114051242.14651-1-helen.koike@collabora.com>
- <20191114051242.14651-3-helen.koike@collabora.com> <09d4f683-d03d-46c9-e9d2-b8cceb72446e@xs4all.nl>
- <9cb116f6-64f4-1510-b128-8657d6d4889b@collabora.com> <CAFLEztRQfYE_Mssiq4KxK-QyJEe+KT4eTsvnLZQK5T=uVADUqA@mail.gmail.com>
- <4135d35cd581b31d08b547852ac43e959957abf5.camel@collabora.com>
-In-Reply-To: <4135d35cd581b31d08b547852ac43e959957abf5.camel@collabora.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Tue, 19 Nov 2019 22:03:59 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5BPwSnY51vJboCB6Hr2Yz4jMqt4VWLNNLTpiwenGo_Wew@mail.gmail.com>
-Message-ID: <CAAFQd5BPwSnY51vJboCB6Hr2Yz4jMqt4VWLNNLTpiwenGo_Wew@mail.gmail.com>
-Subject: Re: [PATCH v11 02/11] media: staging: rkisp1: add document for rkisp1
- meta buffer format
-To:     Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     Jacob Chen <jacobchen110@gmail.com>,
+        Tue, 19 Nov 2019 09:18:23 -0500
+Received: from [IPv6:2001:983:e9a7:1:9879:d2e2:f0e2:9c7]
+ ([IPv6:2001:983:e9a7:1:9879:d2e2:f0e2:9c7])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id X4KhiEFrTcs92X4Kiizsmh; Tue, 19 Nov 2019 15:18:21 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1574173101; bh=4PrRmF0h/rtSJB8fgLw+SQ0mJio6GnAcxV/KLoXmgfE=;
+        h=Subject:From:To:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=iDV5k33ZGeGe7d+bBR3kfxUDgmzjw7POSdtVx1aE65gHOGlNhUd74u/b8THx8tfBa
+         vjBXsZ0kDvxp9kGzajFlpEvn1guHMfUTu73ZS3lxKkf48pRfh3uC7P52n1X2ngs580
+         VB76pI6WxqK2WkB53KX+JWaIqnAl04vhr59w40ef3JwIJQtlB2Iqi4g7nCBjou6MV2
+         HDUq7THptjy1GXjdoBoJg3r9mmFaPizLRPlIeIlwTqaZfYC1agrsIyIwPlHtqVWt7z
+         Xowm7/29Jn5Hh2m1YrYx8uN2N96n9oifNZKYL6yVmJ8d6fyoLJGS19rmw0VfqbIiuv
+         Seeg2gvEzdBhA==
+Subject: Re: [ANN] Report of Media Summit: Codecs
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Boris Brezillon <boris.brezillon@collabora.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Daniel Gomez <daniel@qtec.com>,
+        Peter Griffin <peter.griffin@linaro.org>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
         Helen Koike <helen.koike@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        linux-devicetree <devicetree@vger.kernel.org>,
-        Eddie Cai <eddie.cai.linux@gmail.com>, kernel@collabora.com,
-        Heiko Stuebner <heiko@sntech.de>,
-        Jacob Chen <jacob-chen@rock-chips.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Jeffy Chen <jeffy.chen@rock-chips.com>,
-        =?UTF-8?B?6ZKf5Lul5bSH?= <zyc@rock-chips.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Shunqian Zheng <zhengsq@rock-chips.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Jan Schmidt <jan@centricular.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.org>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Matthew Waters <matthew@centricular.com>
+References: <311a152e-b773-76d6-a17e-86112b583179@xs4all.nl>
+Message-ID: <b0ddcd59-cd54-67b8-af63-e7749403f868@xs4all.nl>
+Date:   Tue, 19 Nov 2019 15:18:19 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <311a152e-b773-76d6-a17e-86112b583179@xs4all.nl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfE9AGvB6ee1iWHuAtJnPLmLu5lNM1bytSshO8o8XTsyH6yV02mK4+fMa77sMuaWuHLInkMU9MkUVxZrH5RdNKXO7ko+1nbUbi7gJ5Bom7zT6T2w2SItJ
+ xUm5YRkMsu1Pal+Rv2JZAwXu2x7RxGQLmDWpWtASq4A19NjJWpstLtgiJTI1fPEH1OyH6MLProLBc4jRpWuZcxZdrlKtvnSoNGhUdQrS1VuK+l9x9PI6d/Yu
+ Chirr5nd2iFQ2VbtYTanW43XObcnS3HRFCs+Ck0KN6elIYkf/btZMD6mwo3YMc72kUpAe/JoCno+jmUHKj4krteVPi8aXH6uQUBpR3K5c7hTz3Nqi1USIDvg
+ 87GxqGB1Mmjn7sFYc+7xVesG7yYEiPXGK60xRI+LkUgIIklOncDuhFXq7Hl5rq079bWI9iCVPhDxGhxy0OzjwjmJmwGm/ZA+q7udCIYTT/zY+MNUTZvIzFpS
+ jiheBC7pAyBlhr/rsojcI4qhof3rRqWXhjgUoOsGMR8Q0bqgT6PrHTak3IQwGyXUF5QNdhUuoVIZrsv5KzGAKSWBvJ/KqrGMSTfBAgNOvhivL1svRShhqMSH
+ AGINVCgtFO3aiM2m0T+gfXnjZwzJEzH8u2PLSygLSv3KtZKXb9GekoV1pUSo0qor6xv6nHbA8P9Ewvr31aTKyaquef+bWjKMddGC/fDKTm2TNys4hNQVyo5u
+ LY4FgIQU2UmXYUaRzjBVClhI88+X7dOPxHpRhTkctvlSZbW4L3vTr8z5wuIfxQOctW2HzKe+a1sfKnZZtleC7lkDmSHR0QZ+WvMCifiivQ+My68jBv/zww==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Nov 19, 2019 at 9:56 PM Ezequiel Garcia <ezequiel@collabora.com> wr=
-ote:
->
-> Hello Jacob,
->
-> Thanks for the insight.
->
-> On Tue, 2019-11-19 at 18:16 +0800, Jacob Chen wrote:
-> > Hi Helen ,
-> >
-> > Helen Koike <helen.koike@collabora.com> =E4=BA=8E2019=E5=B9=B411=E6=9C=
-=8814=E6=97=A5=E5=91=A8=E5=9B=9B =E4=B8=8B=E5=8D=886:59=E5=86=99=E9=81=93=
-=EF=BC=9A
-> > >
-> > >
-> > > On 11/14/19 6:21 AM, Hans Verkuil wrote:
-> > > > On 11/14/19 6:12 AM, Helen Koike wrote:
-> > > > > From: Jacob Chen <jacob2.chen@rock-chips.com>
-> > > > >
-> > > > > This commit add document for rkisp1 meta buffer format
-> > > > >
-> > > > > Signed-off-by: Jacob Chen <jacob-chen@rock-chips.com>
-> > > > > [refactored for upstream]
-> > > > > Signed-off-by: Helen Koike <helen.koike@collabora.com>
-> > > >
-> > > > checkpatch gives me:
-> > > >
-> > > > WARNING: Missing Signed-off-by: line by nominal patch author 'Jacob=
- Chen <jacob2.chen@rock-chips.com>'
-> > > >
-> > > > Looking at this series I see duplicate Signed-off-by entries for Ja=
-cob Chen and a total
-> > > > of three different email addresses:
-> > > >
-> > > > jacob2.chen@rock-chips.com
-> > > > jacob-chen@rock-chips.com
-> > > > cc@rock-chips.com
-> > >
-> > > And I see a name in the Maintainers file as Jacob Chen <jacob-chen@io=
-twrt.com>.
-> > > I was wondering if I could replace the email by jacob-chen@iotwrt.com=
-, or if I should
-> > > keep the original ones.
-> > >
-> > > Helen
-> > >
-> >
-> > "jacob2.chen@rock-chips.com"/"jacob-chen@rock-chips.com" is me and
-> > "cc@rock-chips.com" is another one.
-> > ' jacob-chen@rock-chips.com' is invalid now,  so you could replace the
-> > email by 'jacob-chen@iotwrt.com'.
-> >
->
-> Authorship and SOB can't be changed freely, the original must be retained=
-,
-> because this gives proper credit to the company that sponsored the work.
->
-> I.e. if your mail used to be jacob2.chen at rock-chips.com, then I think
-> we can use that. And if cc at rock-chips.com is a different engineer,
-> also named Jacob Chen, perhaps we can mention that somewhere to reduce th=
-e
-> confusion.
+On 11/2/19 1:50 PM, Hans Verkuil wrote:
 
-Some patches have been developed by Jacob <jacob2.chen at
-rock-chips.com>, some by Jacob <cc at rock-chips.com> and some by
-both.
+<snip>
 
-Some patches have been also re-posted by Jacob after leaving Rockchip
-AFAIR, from the <jacob-chen at iotwrt.com> address. Those should have
-<jacob2.chen at rock-chips.com> as From: and include sign-offs from
-both <jacob2.chen at rock-chips.com> and <jacob-chen at iotwrt.com>.
+> Action Items
+> ------------
+> 
+> Hans Verkuil:
+> 
+> - Ask Cisco colleagues which bitrate-related parameters have to be per-frame for
+>   an encoder
+> - make stateful encoder infrastructure + documentation for the missing bits
+> - investigate using different sizes for metadata controls in the control framework:
+>   is this possible?
 
-So the conclusion is that the original sign-offs should be retained
-+/- typos fixed.
+The problem is with compound arrays. struct v4l2_ext_control just provides a size field
+for the total size and so for an array there is no way to discover the actual element
+size.
 
-For typos, was <jacob-chen at rock-chips.com> a typo of <jacob2.chen
-at rock-chips.com> or a typo of <jacob-chen at iotwrt.com>?
+That said, to my knowledge there are currently no compound arrays defined in the mainline
+kernel. So one option is to take the last reserved __u32 field and split it in a
+__u16 elem_size and a __u16 reserved2 field, or just use the full __u32 for the elem size
+and drop the reserved2 field.
 
-Best regards,
-Tomasz
+Alternatively, we prohibit compound arrays for now and postpone making any changes to
+struct v4l2_ext_control until we actually need this.
+
+As long as it is not an array, then we can safely extend these compound control structs
+later. It requires some work in the control framework, but it isn't too bad.
+
+I'm in favor of implementing this, and for now prohibiting the use of compound arrays.
+
+It is really helpful making these codec state controls at least somewhat future-proof.
+
+Comments?
+
+	Hans
+
+> 
+> Michael Tretter:
+> 
+> - Support the new encoder stateful controls in the driver
+> 
+> Tomasz Figa:
+> 
+> - look up AMD encoder support
+> 
+> Boris Brezillon:
+> 
+> - send v3 of hantro g1 fixes
+> 
+> Nicolas Dufresne:
+> 
+> - look into multiview and sublayers support
+> 
+> Paul Kocialkowski:
+> 
+> - check metadata controls against the standards and update the docs if needed
+> 
+> Ezequiel Garcia and Boris Brezillon:
+> 
+> - add VP9 support
+> 
+
