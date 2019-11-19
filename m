@@ -2,235 +2,238 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 47CBA101F0B
-	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2019 10:02:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 51D04101F84
+	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2019 10:10:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725878AbfKSJCc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Nov 2019 04:02:32 -0500
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:46131 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725306AbfKSJCc (ORCPT
+        id S1725306AbfKSJKB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Nov 2019 04:10:01 -0500
+Received: from mail-io1-f71.google.com ([209.85.166.71]:53217 "EHLO
+        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726836AbfKSJKB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Nov 2019 04:02:32 -0500
-Received: from [IPv6:2001:983:e9a7:1:9879:d2e2:f0e2:9c7]
- ([IPv6:2001:983:e9a7:1:9879:d2e2:f0e2:9c7])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id WzP2iBwIkcs92WzP3iy98U; Tue, 19 Nov 2019 10:02:29 +0100
-Subject: Re: [PATCH v7] vivid: Add touch support
-To:     Vandana BN <bnvandana@gmail.com>, linux-media@vger.kernel.org
-References: <9719685b-1b71-17e0-f43a-efbb53592e27@xs4all.nl>
- <20191118155356.29876-1-bnvandana@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <00480290-054d-3b13-2ec5-6a17e8cf0603@xs4all.nl>
-Date:   Tue, 19 Nov 2019 10:02:28 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Tue, 19 Nov 2019 04:10:01 -0500
+Received: by mail-io1-f71.google.com with SMTP id o5so15470445iob.19
+        for <linux-media@vger.kernel.org>; Tue, 19 Nov 2019 01:10:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=2U+VP01yGK5GN91C64pS6CJdl5VZIy+xQr07ya4SFr0=;
+        b=tmdn5JS7j6cQT8L29MLIkJRJoN7T8L704gAECxAKh7m8xsPHd7LVY/wdcXUcboz5hs
+         CoJyAMfS5WNNyw8HFky+Ajv0QWmx1UgSETu2Mn/9Iwh0Htf2MfnI4tWta93cVb/BdZbF
+         GWvoD8GV5E2D8BPJS1iLhUglqWVevl7Sq2pUPnu/+oMQgYYH1IEuhm5f5iIOijg6UhDr
+         NI1D7YloBlaumg3aczyB9JdMIpqohjb7NYnJmGifeAljZf9UHkztvLSsZ3z2o6eJCE8O
+         60I4um9b00zqr3rf5qLPfrQ2h+zZ7nkiom25LPrbZImKF172h7qfsuIJDRQyL2+0rvGd
+         Pdow==
+X-Gm-Message-State: APjAAAVNYL6jtA4mNQqsNOaWhrwxuDOE+d5Q2HA3q9ubOPNNYVdrMTdi
+        drzTHaoZSlRYbmF87KoSajfyUxZoxIhPXJcXgmsl5CKS9j/R
+X-Google-Smtp-Source: APXvYqxU97nEhrgWlk9v1WZFrfuMn9DYF11hBF1h9wehGgJYTQF4dADfx/NUlvTBGUY0G/VcCC10y5OJmXZV/R0EJaJ40x4O3t+l
 MIME-Version: 1.0
-In-Reply-To: <20191118155356.29876-1-bnvandana@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfP5WsifEptz0eUWUK6L9FpcqPsUP1X86BOQXYbw0TfnsT5drHmAWHLT/61yhTZMCXfXgcopjGUSLBS/y7D4n0VqPwySI9wd/ieVLgsg+8TaNVNHcALWu
- Vk2D30UMg3Y0kqYPBpnsyT0uRaPMdktKuKhXr+vKxLbXEgcvICcyWE4VkfQIkdeWllUEo97KfpD6qKc7N+G+mtFFZu7lhyfWSXP39rxuDKeN50uDhP3GsrFs
- 9s1L/Hk8S1IBvVpLYupatEiK3q3jB7jKIx4YDZpYLFJlfvGeoJw7eSDzzunHThA1kbHJ6DfSGu5B89O5e/f2/Q==
+X-Received: by 2002:a92:4804:: with SMTP id v4mr21196914ila.201.1574154600552;
+ Tue, 19 Nov 2019 01:10:00 -0800 (PST)
+Date:   Tue, 19 Nov 2019 01:10:00 -0800
+In-Reply-To: <1574084670.2698.7.camel@suse.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000c9a4d50597af6d44@google.com>
+Subject: Re: KASAN: use-after-free Read in si470x_int_in_callback (2)
+From:   syzbot <syzbot+9ca7a12fd736d93e0232@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, hverkuil@xs4all.nl,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-usb@vger.kernel.org, mchehab@kernel.org, oneukum@suse.com,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Vandana,
+Hello,
 
-On 11/18/19 4:53 PM, Vandana BN wrote:
-> Support to emulate touch devices in vivid driver.
-> It generates touch patterns simulating, single tap, double tap, triple
+syzbot has tested the proposed patch but the reproducer still triggered  
+crash:
+KASAN: use-after-free Read in si470x_int_in_callback
 
-No , after 'simulating'.
+radio-si470x 4-1:0.0: non-zero urb status (-71)
+==================================================================
+BUG: KASAN: use-after-free in si470x_int_in_callback.cold+0x27/0xbe  
+drivers/media/radio/si470x/radio-si470x-usb.c:378
+Read of size 8 at addr ffff8881d2fceab0 by task kworker/0:2/2107
 
-> tap, move from left to right, zoom in, zoom out, palm press simulating
-> large area being pressed on screen, and an invalid pattern of
+CPU: 0 PID: 2107 Comm: kworker/0:2 Not tainted 5.4.0-rc3-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+Google 01/01/2011
+Workqueue: usb_hub_wq hub_event
+Call Trace:
+  <IRQ>
+  __dump_stack lib/dump_stack.c:77 [inline]
+  dump_stack+0xca/0x13e lib/dump_stack.c:113
+  print_address_description.constprop.0+0x36/0x50 mm/kasan/report.c:374
+  __kasan_report.cold+0x1a/0x33 mm/kasan/report.c:506
+  kasan_report+0xe/0x20 mm/kasan/common.c:634
+  si470x_int_in_callback.cold+0x27/0xbe  
+drivers/media/radio/si470x/radio-si470x-usb.c:378
+  __usb_hcd_giveback_urb+0x1f2/0x470 drivers/usb/core/hcd.c:1654
+  usb_hcd_giveback_urb+0x368/0x420 drivers/usb/core/hcd.c:1719
+  dummy_timer+0x120f/0x2fa2 drivers/usb/gadget/udc/dummy_hcd.c:1966
+  call_timer_fn+0x179/0x650 kernel/time/timer.c:1404
+  expire_timers kernel/time/timer.c:1449 [inline]
+  __run_timers kernel/time/timer.c:1773 [inline]
+  __run_timers kernel/time/timer.c:1740 [inline]
+  run_timer_softirq+0x5e3/0x1490 kernel/time/timer.c:1786
+  __do_softirq+0x221/0x912 kernel/softirq.c:292
+  invoke_softirq kernel/softirq.c:373 [inline]
+  irq_exit+0x178/0x1a0 kernel/softirq.c:413
+  exiting_irq arch/x86/include/asm/apic.h:536 [inline]
+  smp_apic_timer_interrupt+0x12f/0x500 arch/x86/kernel/apic/apic.c:1137
+  apic_timer_interrupt+0xf/0x20 arch/x86/entry/entry_64.S:830
+  </IRQ>
+RIP: 0010:arch_local_irq_restore arch/x86/include/asm/irqflags.h:85 [inline]
+RIP: 0010:console_trylock_spinning kernel/printk/printk.c:1751 [inline]
+RIP: 0010:vprintk_emit+0x3cd/0x3e0 kernel/printk/printk.c:1995
+Code: 00 83 fb ff 75 d6 e9 db fc ff ff e8 fd 7a 15 00 e8 78 a7 1a 00 41 56  
+9d e9 b1 fd ff ff e8 eb 7a 15 00 e8 66 a7 1a 00 41 56 9d <e9> 2a ff ff ff  
+0f 1f 40 00 66 2e 0f 1f 84 00 00 00 00 00 55 48 89
+RSP: 0018:ffff8881cb01f238 EFLAGS: 00000293 ORIG_RAX: ffffffffffffff13
+RAX: 0000000000000007 RBX: 0000000000000200 RCX: 0000000000000006
+RDX: 0000000000000000 RSI: ffff8881cbfa08f0 RDI: ffff8881cbfa084c
+RBP: ffff8881cb01f280 R08: ffff8881cbfa0000 R09: fffffbfff11b23ae
+R10: fffffbfff11b23ad R11: ffffffff88d91d6f R12: 0000000000000034
+R13: ffff8881da24e000 R14: 0000000000000293 R15: 0000000000000000
+  vprintk_func+0x75/0x113 kernel/printk/printk_safe.c:386
+  printk+0xba/0xed kernel/printk/printk.c:2056
+  really_probe.cold+0x69/0x1de drivers/base/dd.c:628
+  driver_probe_device+0x104/0x210 drivers/base/dd.c:721
+  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
+  bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+  __device_attach+0x217/0x360 drivers/base/dd.c:894
+  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+  device_add+0xae6/0x16f0 drivers/base/core.c:2201
+  usb_set_configuration+0xdf6/0x1670 drivers/usb/core/message.c:2023
+  generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
+  usb_probe_device+0x99/0x100 drivers/usb/core/driver.c:266
+  really_probe+0x281/0x6d0 drivers/base/dd.c:548
+  driver_probe_device+0x104/0x210 drivers/base/dd.c:721
+  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
+  bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+  __device_attach+0x217/0x360 drivers/base/dd.c:894
+  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+  device_add+0xae6/0x16f0 drivers/base/core.c:2201
+  usb_new_device.cold+0x6a4/0xe79 drivers/usb/core/hub.c:2536
+  hub_port_connect drivers/usb/core/hub.c:5183 [inline]
+  hub_port_connect_change drivers/usb/core/hub.c:5323 [inline]
+  port_event drivers/usb/core/hub.c:5469 [inline]
+  hub_event+0x1dd0/0x37e0 drivers/usb/core/hub.c:5551
+  process_one_work+0x92b/0x1530 kernel/workqueue.c:2269
+  worker_thread+0x96/0xe20 kernel/workqueue.c:2415
+  kthread+0x318/0x420 kernel/kthread.c:255
+  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
 
-Drop the 'invalid': it is not invalid, just very, very unusual.
+Allocated by task 2107:
+  save_stack+0x1b/0x80 mm/kasan/common.c:69
+  set_track mm/kasan/common.c:77 [inline]
+  __kasan_kmalloc mm/kasan/common.c:510 [inline]
+  __kasan_kmalloc.constprop.0+0xbf/0xd0 mm/kasan/common.c:483
+  kmalloc include/linux/slab.h:556 [inline]
+  kzalloc include/linux/slab.h:690 [inline]
+  si470x_usb_driver_probe+0x51/0xf50  
+drivers/media/radio/si470x/radio-si470x-usb.c:573
+  usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
+  really_probe+0x281/0x6d0 drivers/base/dd.c:548
+  driver_probe_device+0x104/0x210 drivers/base/dd.c:721
+  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
+  bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+  __device_attach+0x217/0x360 drivers/base/dd.c:894
+  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+  device_add+0xae6/0x16f0 drivers/base/core.c:2201
+  usb_set_configuration+0xdf6/0x1670 drivers/usb/core/message.c:2023
+  generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
+  usb_probe_device+0x99/0x100 drivers/usb/core/driver.c:266
+  really_probe+0x281/0x6d0 drivers/base/dd.c:548
+  driver_probe_device+0x104/0x210 drivers/base/dd.c:721
+  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
+  bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+  __device_attach+0x217/0x360 drivers/base/dd.c:894
+  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+  device_add+0xae6/0x16f0 drivers/base/core.c:2201
+  usb_new_device.cold+0x6a4/0xe79 drivers/usb/core/hub.c:2536
+  hub_port_connect drivers/usb/core/hub.c:5183 [inline]
+  hub_port_connect_change drivers/usb/core/hub.c:5323 [inline]
+  port_event drivers/usb/core/hub.c:5469 [inline]
+  hub_event+0x1dd0/0x37e0 drivers/usb/core/hub.c:5551
+  process_one_work+0x92b/0x1530 kernel/workqueue.c:2269
+  worker_thread+0x96/0xe20 kernel/workqueue.c:2415
+  kthread+0x318/0x420 kernel/kthread.c:255
+  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
 
-> simulating 16 different simultaneous touch points.
-> All of these patterns are based on behavior of rmi_f54 driver.
+Freed by task 2107:
+  save_stack+0x1b/0x80 mm/kasan/common.c:69
+  set_track mm/kasan/common.c:77 [inline]
+  kasan_set_free_info mm/kasan/common.c:332 [inline]
+  __kasan_slab_free+0x130/0x180 mm/kasan/common.c:471
+  slab_free_hook mm/slub.c:1424 [inline]
+  slab_free_freelist_hook mm/slub.c:1475 [inline]
+  slab_free mm/slub.c:3018 [inline]
+  kfree+0xe4/0x320 mm/slub.c:3967
+  si470x_usb_driver_probe+0xb27/0xf50  
+drivers/media/radio/si470x/radio-si470x-usb.c:766
+  usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
+  really_probe+0x281/0x6d0 drivers/base/dd.c:548
+  driver_probe_device+0x104/0x210 drivers/base/dd.c:721
+  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
+  bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+  __device_attach+0x217/0x360 drivers/base/dd.c:894
+  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+  device_add+0xae6/0x16f0 drivers/base/core.c:2201
+  usb_set_configuration+0xdf6/0x1670 drivers/usb/core/message.c:2023
+  generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
+  usb_probe_device+0x99/0x100 drivers/usb/core/driver.c:266
+  really_probe+0x281/0x6d0 drivers/base/dd.c:548
+  driver_probe_device+0x104/0x210 drivers/base/dd.c:721
+  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
+  bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+  __device_attach+0x217/0x360 drivers/base/dd.c:894
+  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+  device_add+0xae6/0x16f0 drivers/base/core.c:2201
+  usb_new_device.cold+0x6a4/0xe79 drivers/usb/core/hub.c:2536
+  hub_port_connect drivers/usb/core/hub.c:5183 [inline]
+  hub_port_connect_change drivers/usb/core/hub.c:5323 [inline]
+  port_event drivers/usb/core/hub.c:5469 [inline]
+  hub_event+0x1dd0/0x37e0 drivers/usb/core/hub.c:5551
+  process_one_work+0x92b/0x1530 kernel/workqueue.c:2269
+  worker_thread+0x96/0xe20 kernel/workqueue.c:2415
+  kthread+0x318/0x420 kernel/kthread.c:255
+  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
 
-The patterns aren't from that driver, but the generated values are.
+The buggy address belongs to the object at ffff8881d2fce000
+  which belongs to the cache kmalloc-4k of size 4096
+The buggy address is located 2736 bytes inside of
+  4096-byte region [ffff8881d2fce000, ffff8881d2fcf000)
+The buggy address belongs to the page:
+page:ffffea00074bf200 refcount:1 mapcount:0 mapping:ffff8881da00c280  
+index:0x0 compound_mapcount: 0
+flags: 0x200000000010200(slab|head)
+raw: 0200000000010200 dead000000000100 dead000000000122 ffff8881da00c280
+raw: 0000000000000000 0000000000040004 00000001ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
 
-> 
-> Signed-off-by: Vandana BN <bnvandana@gmail.com>
-> ---
-> Changes since V6:
-> 	simplified touch pattern generation.
-> ---
->  drivers/media/platform/vivid/Makefile         |   3 +-
->  drivers/media/platform/vivid/vivid-core.c     | 164 +++++++++-
->  drivers/media/platform/vivid/vivid-core.h     |  20 ++
->  drivers/media/platform/vivid/vivid-ctrls.c    |  11 +
->  .../platform/vivid/vivid-kthread-touch.c      | 181 +++++++++++
->  .../platform/vivid/vivid-kthread-touch.h      |  13 +
->  .../media/platform/vivid/vivid-touch-cap.c    | 286 ++++++++++++++++++
->  .../media/platform/vivid/vivid-touch-cap.h    |  35 +++
->  8 files changed, 700 insertions(+), 13 deletions(-)
->  create mode 100644 drivers/media/platform/vivid/vivid-kthread-touch.c
->  create mode 100644 drivers/media/platform/vivid/vivid-kthread-touch.h
->  create mode 100644 drivers/media/platform/vivid/vivid-touch-cap.c
->  create mode 100644 drivers/media/platform/vivid/vivid-touch-cap.h
+Memory state around the buggy address:
+  ffff8881d2fce980: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+  ffff8881d2fcea00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+> ffff8881d2fcea80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                                      ^
+  ffff8881d2fceb00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+  ffff8881d2fceb80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+==================================================================
 
-<snip>
 
-> +void vivid_fillbuff_tch(struct vivid_dev *dev, struct vivid_buffer *buf)
-> +{
-> +	struct v4l2_pix_format *f = &dev->tch_format;
-> +	int size = f->width * f->height;
-> +	int index = 0, x, y, xstart, ystart;
-> +	unsigned int test_pattern, test_pat_idx, rand;
-> +
-> +	__s16 *tch_buf = vb2_plane_vaddr(&buf->vb.vb2_buf, 0);
-> +
-> +	buf->vb.sequence = dev->touch_cap_seq_count;
-> +	test_pattern = (buf->vb.sequence / 15) % TEST_CASE_MAX;
-> +	test_pat_idx = buf->vb.sequence % 15;
-> +
-> +	vivid_fill_buff_noise(tch_buf, size);
-> +
-> +	if (test_pat_idx >= 10)
+Tested on:
 
-The values 10 and 15 should be defines. That makes it easy to change later.
-
-I think it would be better to change 15 to 16 and 10 to 12: 16 helps because
-in the corner case where the sequence counter will wrap around you will get
-a smooth transition. And 12 makes each sequence just a little bit longer,
-which makes it easier to see.
-
-> +		return;
-> +
-> +	if (test_pat_idx == 0)
-> +		dev->tch_pat_random = get_random_int();
-> +	rand = dev->tch_pat_random;
-> +
-> +	switch (test_pattern) {
-> +	case SINGLE_TAP:
-> +		if (test_pat_idx == 5)
-> +			vivid_tch_buf_set(tch_buf, rand % size);
-> +		break;
-> +	case DOUBLE_TAP:
-> +		if (test_pat_idx == 3 || test_pat_idx == 6)
-> +			vivid_tch_buf_set(tch_buf, rand % size);
-> +		break;
-> +	case TRIPLE_TAP:
-> +		if (test_pat_idx == 3 || test_pat_idx == 6 || test_pat_idx == 9)
-> +			vivid_tch_buf_set(tch_buf, rand % size);
-> +		break;
-> +	case MOVE_LEFT_TO_RIGHT:
-> +		vivid_tch_buf_set(tch_buf,
-> +				  (rand % f->height) * f->width + test_pat_idx * (f->width / 10));
-
-Line too long (same in similar cases below). It's easiest to break it off after the + like this:
-
-		vivid_tch_buf_set(tch_buf,
-				  (rand % f->height) * f->width +
-				  test_pat_idx * (f->width / 10));
-
-> +		break;
-> +	case ZOOM_IN:
-> +		x = f->width / 2;
-> +		y = f->height / 2;
-
-You need extra variables for the offset from the center:
-
-		offset_x = ((9 - test_pat_idx) * x) / 10;   (10 should be a define as discussed above)
-		offset_y = ((9 - test_pat_idx) * y) / 10;
-
-> +		if (x + test_pat_idx < f->width && y + test_pat_idx < f->height) {
-
-Then this if can be dropped here as well.
-
-> +			vivid_tch_buf_set(tch_buf, (x - test_pat_idx) + f->width * (y - test_pat_idx));
-> +			vivid_tch_buf_set(tch_buf, (x + test_pat_idx) + f->width * (y + test_pat_idx));
-> +		}
-> +		break;
-> +	case ZOOM_OUT:
-> +		x = f->width / 2;
-> +		y = f->height / 2;
-> +		index = min(x, y) - test_pat_idx - 1;> +		if (x + index >= f->width / 2 && y + index >= f->height / 2) {
-
-Same here.
-
-> +			vivid_tch_buf_set(tch_buf, (x - index) + f->width * (y - index));
-> +			vivid_tch_buf_set(tch_buf, (x + index) + f->width * (y + index));
-> +		}
-> +		break;
-> +	case PALM_PRESS:
-> +		xstart = f->width - f->width / 4;
-
-Just set this to 0, so the palm covers the bottom quarter.
-
-> +		ystart = f->height - f->height / 4;
-> +		if (test_pat_idx != 5)
-> +			break;
-> +		for (x = xstart; x < f->width; x++)
-> +			for (y = ystart; y < f->height; y++)
-> +				vivid_tch_buf_set(tch_buf, x + f->width * y);
-> +		break;
-> +	case MULTIPLE_PRESS:
-> +		/* 16 pressure points */
-> +		if (test_pat_idx != 5)
-> +			break;
-> +		for (y = 0; y < 4; y++) {
-> +			for (x = 0; x < 4; x++) {
-> +				ystart = (y * f->height) / 4 + f->height / 8;
-> +				xstart = (x * f->width) / 4 + f->width / 8;
-> +				vivid_tch_buf_set(tch_buf, ystart * f->width + xstart);
-> +			}
-> +		}
-> +		break;
-> +	}
-> +}
-
-Regards,
-
-	Hans
-
-> diff --git a/drivers/media/platform/vivid/vivid-touch-cap.h b/drivers/media/platform/vivid/vivid-touch-cap.h
-> new file mode 100644
-> index 000000000000..6e83ca919f07
-> --- /dev/null
-> +++ b/drivers/media/platform/vivid/vivid-touch-cap.h
-> @@ -0,0 +1,35 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * vivid-touch-cap.h - touch support functions.
-> + */
-> +#ifndef _VIVID_TOUCH_CAP_H_
-> +#define _VIVID_TOUCH_CAP_H_
-> +
-> +#define VIVID_TCH_HEIGHT	12
-> +#define VIVID_TCH_WIDTH		21
-> +#define VIVID_MIN_PRESSURE	180
-> +
-> +enum vivid_tch_test {
-> +	SINGLE_TAP,
-> +	DOUBLE_TAP,
-> +	TRIPLE_TAP,
-> +	MOVE_LEFT_TO_RIGHT,
-> +	ZOOM_IN,
-> +	ZOOM_OUT,
-> +	PALM_PRESS,
-> +	MULTIPLE_PRESS,
-> +	TEST_CASE_MAX
-> +};
-> +
-> +extern const struct vb2_ops vivid_touch_cap_qops;
-> +
-> +int vivid_enum_fmt_tch(struct file *file, void  *priv, struct v4l2_fmtdesc *f);
-> +int vivid_g_fmt_tch(struct file *file, void *priv, struct v4l2_format *f);
-> +int vivid_enum_input_tch(struct file *file, void *priv, struct v4l2_input *inp);
-> +int vivid_g_input_tch(struct file *file, void *priv, unsigned int *i);
-> +int vivid_s_input_tch(struct file *file, void *priv, unsigned int i);
-> +void vivid_fillbuff_tch(struct vivid_dev *dev, struct vivid_buffer *buf);
-> +int vivid_set_touch(struct vivid_dev *dev, unsigned int i);
-> +int vivid_g_parm_tch(struct file *file, void *priv,
-> +		     struct v4l2_streamparm *parm);
-> +#endif
-> 
+commit:         22be26f7 usb-fuzzer: main usb gadget fuzzer driver
+git tree:       https://github.com/google/kasan.git
+console output: https://syzkaller.appspot.com/x/log.txt?x=149ed686e00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=387eccb7ac68ec5
+dashboard link: https://syzkaller.appspot.com/bug?extid=9ca7a12fd736d93e0232
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+patch:          https://syzkaller.appspot.com/x/patch.diff?x=1508a25ae00000
 
