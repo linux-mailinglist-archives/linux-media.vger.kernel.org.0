@@ -2,372 +2,192 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6190310280D
-	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2019 16:27:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CA2D10281F
+	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2019 16:31:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728252AbfKSP04 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Nov 2019 10:26:56 -0500
-Received: from mail-vs1-f65.google.com ([209.85.217.65]:40836 "EHLO
-        mail-vs1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728278AbfKSP04 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Nov 2019 10:26:56 -0500
-Received: by mail-vs1-f65.google.com with SMTP id m9so14474034vsq.7
-        for <linux-media@vger.kernel.org>; Tue, 19 Nov 2019 07:26:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ruFMyMbG2A0Sl+E2MtwfMZpZ4tIYTvoy03y2qa7f34E=;
-        b=O5QUCmS9kyUfhVz8hhtgitRHPjqoKdUJ/9SwehBHVCZC+F8kPasFctX4bpscUsBdLv
-         Y+hIQFGK/SxaOZbOE0I6BvvLUIOnSwJZr+Y29Yq/1PCJOIEcNGcJLa+CnQSuq+RwypJm
-         HXqNXAzfkJO7ajVrBURHNH2ji48BAtTKXn+EQbTacvsKMKht4Ul8NfjbkxkOvSE4T2D4
-         5Y4fE5RVnfkk24AwtEtzzzd3PGuYGMIZQjQg1nC5yPOi0NVzT31U1Rk6rTU+PjSnfP4J
-         IJV+Ttql+Iy+k7bstBmgq/Q6o81B9vYhb//h7DW5Q6A81X774CaFCbnEpk07zyfLSj3i
-         WMkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ruFMyMbG2A0Sl+E2MtwfMZpZ4tIYTvoy03y2qa7f34E=;
-        b=dmcO+AN0Wd31eVGVXFQsEbai8CoMVaAZfaRWgiAP3AKRGY1rOgYyoHZyPdp79hNmO2
-         tMNT/I+WCAFIyaSh/node8k40nBFr7KPcVuJF9h+f/+Skv6EMHG4dKwBRNGf98PEceny
-         dVd/CS8R1CHA2+DE7YSc4N7PCTgsVVobdaetPtO2YGyH2OIIiDsTx7zNBtz73NdXe9Xo
-         y6vkxXSo/Xz2J5KVgb2/tcFy9kekr1riGcNsi9vEHixMMqq60VV49/ly09+33LShlspn
-         m2N8wqLdFEtYJdbd4pSVAJpA/HV/Gh+bf9uuW0jcEJWdvvM8mJpaZZNuxnDVjFvbqGFt
-         ndQg==
-X-Gm-Message-State: APjAAAUKH60zbLcspIGzjJQ2q+rkK5GDSVwi10dMe7g20JFw8slucrGt
-        LHu4jW5gEy9zNM7fAILd44y1mOeYqGzsBrupu2fDmQ==
-X-Google-Smtp-Source: APXvYqzjmIgAqo65ZtHlzvLKQIezgt3Yysnx2zSv7S/NVt7hDgT4mebPm7ddIkvQVQ7fZBBshSpGOwXS0HaK1lReOVw=
-X-Received: by 2002:a05:6102:36d:: with SMTP id f13mr23440420vsa.34.1574177213644;
- Tue, 19 Nov 2019 07:26:53 -0800 (PST)
-MIME-Version: 1.0
-References: <20191119144315.11261-1-krzk@kernel.org>
-In-Reply-To: <20191119144315.11261-1-krzk@kernel.org>
-From:   Ulf Hansson <ulf.hansson@linaro.org>
-Date:   Tue, 19 Nov 2019 16:26:17 +0100
-Message-ID: <CAPDyKFo7KGCj1WcOomEz_dr_9m67Jps7CJ-pKo22hO9-Bn05Hw@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: power: Fix path to power-domain.txt bindings
-To:     Krzysztof Kozlowski <krzk@kernel.org>
-Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Kevin Hilman <khilman@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        DTML <devicetree@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        etnaviv@lists.freedesktop.org,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        freedreno <freedreno@lists.freedesktop.org>,
-        linux-media@vger.kernel.org, Linux PM <linux-pm@vger.kernel.org>,
-        Linux PCI <linux-pci@vger.kernel.org>,
-        Linux USB List <linux-usb@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
+        id S1728113AbfKSPbg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Nov 2019 10:31:36 -0500
+Received: from mga14.intel.com ([192.55.52.115]:4773 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727505AbfKSPbf (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 19 Nov 2019 10:31:35 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Nov 2019 07:31:33 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,324,1569308400"; 
+   d="scan'208";a="209227174"
+Received: from sstrehla-mobl1.ger.corp.intel.com ([10.252.16.202])
+  by orsmga003.jf.intel.com with ESMTP; 19 Nov 2019 07:31:28 -0800
+Message-ID: <bee3aae13f6cf69ee909aa9884926853d6123b25.camel@linux.intel.com>
+Subject: Re: [virtio-dev] Re: guest / host buffer sharing ...
+From:   Liam Girdwood <liam.r.girdwood@linux.intel.com>
+To:     Gurchetan Singh <gurchetansingh@chromium.org>
+Cc:     David Stevens <stevensd@chromium.org>,
+        Stefan Hajnoczi <stefanha@gmail.com>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Keiichi Watanabe <keiichiw@chromium.org>,
+        geoff@hostfission.com, virtio-dev@lists.oasis-open.org,
+        Alex Lau <alexlau@chromium.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        qemu-devel@nongnu.org, Tomasz Figa <tfiga@chromium.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        =?ISO-8859-1?Q?St=E9phane?= Marchesin <marcheu@chromium.org>,
+        Dylan Reid <dgreid@chromium.org>,
+        Dmitry Morozov <dmitry.morozov@opensynergy.com>,
+        Pawel Osciak <posciak@chromium.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Date:   Tue, 19 Nov 2019 15:31:27 +0000
+In-Reply-To: <CAAfnVB=F+HeQrrn23c=rZeOa5BfHo=9ArcG--gLf87gqBXfZ9A@mail.gmail.com>
+References: <20191105105456.7xbhtistnbp272lj@sirius.home.kraxel.org>
+         <20191106084344.GB189998@stefanha-x1.localdomain>
+         <CAD=HUj41r8wHZ2-By8tLftkoqC5r_Bw=pr=zX2aZ7GTs1ESWhg@mail.gmail.com>
+         <c8a6b6f35664ce036c2a48ec41eab97b0f40704d.camel@linux.intel.com>
+         <CAAfnVBkMWurTpseQFjcna5kk3__40n6M68=RTHLbQsu__2AFxg@mail.gmail.com>
+         <4a5dd822e86757f004d04af62fb7dd35ba75392d.camel@linux.intel.com>
+         <CAAfnVB=F+HeQrrn23c=rZeOa5BfHo=9ArcG--gLf87gqBXfZ9A@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 19 Nov 2019 at 15:43, Krzysztof Kozlowski <krzk@kernel.org> wrote:
->
-> With split of power domain controller bindings to power-domain.yaml, the
-> consumer part was renamed to power-domain.txt.  Update the references in
-> other bindings.
->
-> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> Fixes: abb4805e343a ("dt-bindings: power: Convert Samsung Exynos Power Domain bindings to json-schema")
-> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+On Tue, 2019-11-12 at 14:55 -0800, Gurchetan Singh wrote:
+> On Tue, Nov 12, 2019 at 5:56 AM Liam Girdwood
+> <liam.r.girdwood@linux.intel.com> wrote:
+> > 
+> > On Mon, 2019-11-11 at 16:54 -0800, Gurchetan Singh wrote:
+> > > On Tue, Nov 5, 2019 at 2:55 AM Gerd Hoffmann <kraxel@redhat.com>
+> > > wrote:
+> > > > Each buffer also has some properties to carry metadata, some
+> > > > fixed
+> > > > (id, size, application), but
+> > > > also allow free form (name = value, framebuffers would have
+> > > > width/height/stride/format for example).
+> > > 
+> > > Sounds a lot like the recently added DMA_BUF_SET_NAME ioctls:
+> > > 
+> > > https://patchwork.freedesktop.org/patch/310349/
+> > > 
+> > > For virtio-wayland + virtio-vdec, the problem is sharing -- not
+> > > allocation.
+> > > 
+> > 
+> > Audio also needs to share buffers with firmware running on DSPs.
+> > 
+> > > As the buffer reaches a kernel boundary, it's properties devolve
+> > > into
+> > > [fd, size].  Userspace can typically handle sharing
+> > > metadata.  The
+> > > issue is the guest dma-buf fd doesn't mean anything on the host.
+> > > 
+> > > One scenario could be:
+> > > 
+> > > 1) Guest userspace (say, gralloc) allocates using virtio-
+> > > gpu.  When
+> > > allocating, we call uuidgen() and then pass that via
+> > > RESOURCE_CREATE
+> > > hypercall to the host.
+> > > 2) When exporting the dma-buf, we call DMA_BUF_SET_NAME (the
+> > > buffer
+> > > name will be "virtgpu-buffer-${UUID}").
+> > > 3) When importing, virtio-{vdec, video} reads the dma-buf name in
+> > > userspace, and calls fd to handle.  The name is sent to the host
+> > > via
+> > > a
+> > > hypercall, giving host virtio-{vdec, video} enough information to
+> > > identify the buffer.
+> > > 
+> > > This solution is entirely userspace -- we can probably come up
+> > > with
+> > > something in kernel space [generate_random_uuid()] if need
+> > > be.  We
+> > > only need two universal IDs: {device ID, buffer ID}.
+> > > 
+> > 
+> > I need something where I can take a guest buffer and then convert
+> > it to
+> > physical scatter gather page list. I can then either pass the SG
+> > page
+> > list to the DSP firmware (for DMAC IP programming) or have the host
+> > driver program the DMAC directly using the page list (who programs
+> > DMAC
+> > depends on DSP architecture).
+> 
+> So you need the HW address space from a guest allocation? 
 
-Oh, I didn't noticed that the patch for conversion got queued up. From
-what tree?
+Yes.
 
-And why was the file renamed to power-domain.txt?
+>  Would your
+> allocation hypercalls use something like the virtio_gpu_mem_entry
+> (virtio_gpu.h) and the draft virtio_video_mem_entry (draft)?
 
-Reviewed-by: Ulf Hansson <ulf.hansson@linaro.org>
+IIUC, this looks like generic SG buffer allocation ?
 
-Kind regards
-Uffe
+> 
+> struct {
+>         __le64 addr;
+>         __le32 length;
+>         __le32 padding;
+> };
+> 
+> /* VIRTIO_GPU_CMD_RESOURCE_ATTACH_BACKING */
+> struct virtio_gpu_resource_attach_backing {
+>         struct virtio_gpu_ctrl_hdr hdr;
+>         __le32 resource_id;
+>         __le32 nr_entries;
+>       *struct struct virtio_gpu_mem_entry */
+> };
+> 
+> struct virtio_video_mem_entry {
+>     __le64 addr;
+>     __le32 length;
+>     __u8 padding[4];
+> };
+> 
+> struct virtio_video_resource_attach_backing {
+>     struct virtio_video_ctrl_hdr hdr;
+>     __le32 resource_id;
+>     __le32 nr_entries;
+> };
+> 
+> > 
+> > DSP FW has no access to userspace so we would need some additional
+> > API
+> > on top of DMA_BUF_SET_NAME etc to get physical hardware pages ?
+> 
+> The dma-buf api currently can share guest memory sg-lists.
 
-> ---
->  Documentation/devicetree/bindings/clock/clk-exynos-audss.txt  | 2 +-
->  Documentation/devicetree/bindings/clock/exynos5433-clock.txt  | 2 +-
->  .../devicetree/bindings/clock/renesas,r8a7778-cpg-clocks.txt  | 2 +-
->  .../devicetree/bindings/clock/renesas,r8a7779-cpg-clocks.txt  | 2 +-
->  .../bindings/clock/renesas,rcar-gen2-cpg-clocks.txt           | 2 +-
->  .../devicetree/bindings/clock/renesas,rz-cpg-clocks.txt       | 2 +-
->  .../devicetree/bindings/display/etnaviv/etnaviv-drm.txt       | 2 +-
->  Documentation/devicetree/bindings/display/msm/dpu.txt         | 2 +-
->  Documentation/devicetree/bindings/display/msm/mdp5.txt        | 2 +-
->  Documentation/devicetree/bindings/dsp/fsl,dsp.yaml            | 2 +-
->  Documentation/devicetree/bindings/media/imx7-mipi-csi2.txt    | 2 +-
->  .../devicetree/bindings/media/mediatek-jpeg-decoder.txt       | 2 +-
->  Documentation/devicetree/bindings/media/mediatek-mdp.txt      | 2 +-
->  Documentation/devicetree/bindings/opp/qcom-nvmem-cpufreq.txt  | 2 +-
->  Documentation/devicetree/bindings/pci/pci-keystone.txt        | 2 +-
->  Documentation/devicetree/bindings/phy/ti,phy-am654-serdes.txt | 2 +-
->  Documentation/devicetree/bindings/power/qcom,rpmpd.txt        | 2 +-
->  Documentation/devicetree/bindings/power/renesas,rcar-sysc.txt | 2 +-
->  .../devicetree/bindings/usb/nvidia,tegra124-xusb.txt          | 4 ++--
->  19 files changed, 20 insertions(+), 20 deletions(-)
->
-> diff --git a/Documentation/devicetree/bindings/clock/clk-exynos-audss.txt b/Documentation/devicetree/bindings/clock/clk-exynos-audss.txt
-> index 6030afb10b5c..e6c6b43e9770 100644
-> --- a/Documentation/devicetree/bindings/clock/clk-exynos-audss.txt
-> +++ b/Documentation/devicetree/bindings/clock/clk-exynos-audss.txt
-> @@ -36,7 +36,7 @@ Required Properties:
->  Optional Properties:
->
->    - power-domains: a phandle to respective power domain node as described by
-> -    generic PM domain bindings (see power/power_domain.txt for more
-> +    generic PM domain bindings (see power/power-domain.txt for more
->      information).
->
->  The following is the list of clocks generated by the controller. Each clock is
-> diff --git a/Documentation/devicetree/bindings/clock/exynos5433-clock.txt b/Documentation/devicetree/bindings/clock/exynos5433-clock.txt
-> index 183c327a7d6b..972d4e45f8c1 100644
-> --- a/Documentation/devicetree/bindings/clock/exynos5433-clock.txt
-> +++ b/Documentation/devicetree/bindings/clock/exynos5433-clock.txt
-> @@ -178,7 +178,7 @@ Required Properties:
->
->  Optional properties:
->    - power-domains: a phandle to respective power domain node as described by
-> -       generic PM domain bindings (see power/power_domain.txt for more
-> +       generic PM domain bindings (see power/power-domain.txt for more
->         information).
->
->  Each clock is assigned an identifier and client nodes can use this identifier
-> diff --git a/Documentation/devicetree/bindings/clock/renesas,r8a7778-cpg-clocks.txt b/Documentation/devicetree/bindings/clock/renesas,r8a7778-cpg-clocks.txt
-> index 7cc4c0330b53..46ecbbce277c 100644
-> --- a/Documentation/devicetree/bindings/clock/renesas,r8a7778-cpg-clocks.txt
-> +++ b/Documentation/devicetree/bindings/clock/renesas,r8a7778-cpg-clocks.txt
-> @@ -17,7 +17,7 @@ Required Properties:
->  SoC devices that are part of the CPG/MSTP Clock Domain and can be power-managed
->  through an MSTP clock should refer to the CPG device node in their
->  "power-domains" property, as documented by the generic PM domain bindings in
-> -Documentation/devicetree/bindings/power/power_domain.txt.
-> +Documentation/devicetree/bindings/power/power-domain.txt.
->
->
->  Examples
-> diff --git a/Documentation/devicetree/bindings/clock/renesas,r8a7779-cpg-clocks.txt b/Documentation/devicetree/bindings/clock/renesas,r8a7779-cpg-clocks.txt
-> index 8c81547c29f5..cb32b4f41046 100644
-> --- a/Documentation/devicetree/bindings/clock/renesas,r8a7779-cpg-clocks.txt
-> +++ b/Documentation/devicetree/bindings/clock/renesas,r8a7779-cpg-clocks.txt
-> @@ -19,7 +19,7 @@ Required Properties:
->  SoC devices that are part of the CPG/MSTP Clock Domain and can be power-managed
->  through an MSTP clock should refer to the CPG device node in their
->  "power-domains" property, as documented by the generic PM domain bindings in
-> -Documentation/devicetree/bindings/power/power_domain.txt.
-> +Documentation/devicetree/bindings/power/power-domain.txt.
->
->
->  Examples
-> diff --git a/Documentation/devicetree/bindings/clock/renesas,rcar-gen2-cpg-clocks.txt b/Documentation/devicetree/bindings/clock/renesas,rcar-gen2-cpg-clocks.txt
-> index f8c05bb4116e..58f9054704c2 100644
-> --- a/Documentation/devicetree/bindings/clock/renesas,rcar-gen2-cpg-clocks.txt
-> +++ b/Documentation/devicetree/bindings/clock/renesas,rcar-gen2-cpg-clocks.txt
-> @@ -28,7 +28,7 @@ Required Properties:
->  SoC devices that are part of the CPG/MSTP Clock Domain and can be power-managed
->  through an MSTP clock should refer to the CPG device node in their
->  "power-domains" property, as documented by the generic PM domain bindings in
-> -Documentation/devicetree/bindings/power/power_domain.txt.
-> +Documentation/devicetree/bindings/power/power-domain.txt.
->
->
->  Examples
-> diff --git a/Documentation/devicetree/bindings/clock/renesas,rz-cpg-clocks.txt b/Documentation/devicetree/bindings/clock/renesas,rz-cpg-clocks.txt
-> index 8ff3e2774ed8..9f32528e7245 100644
-> --- a/Documentation/devicetree/bindings/clock/renesas,rz-cpg-clocks.txt
-> +++ b/Documentation/devicetree/bindings/clock/renesas,rz-cpg-clocks.txt
-> @@ -21,7 +21,7 @@ Required Properties:
->  SoC devices that are part of the CPG/MSTP Clock Domain and can be power-managed
->  through an MSTP clock should refer to the CPG device node in their
->  "power-domains" property, as documented by the generic PM domain bindings in
-> -Documentation/devicetree/bindings/power/power_domain.txt.
-> +Documentation/devicetree/bindings/power/power-domain.txt.
->
->
->  Examples
-> diff --git a/Documentation/devicetree/bindings/display/etnaviv/etnaviv-drm.txt b/Documentation/devicetree/bindings/display/etnaviv/etnaviv-drm.txt
-> index 640592e8ab2e..76d25d1499f7 100644
-> --- a/Documentation/devicetree/bindings/display/etnaviv/etnaviv-drm.txt
-> +++ b/Documentation/devicetree/bindings/display/etnaviv/etnaviv-drm.txt
-> @@ -20,7 +20,7 @@ Required properties:
->
->  Optional properties:
->  - power-domains: a power domain consumer specifier according to
-> -  Documentation/devicetree/bindings/power/power_domain.txt
-> +  Documentation/devicetree/bindings/power/power-domain.txt
->  - #cooling-cells: : If used as a cooling device, must be <2>
->
->  example:
-> diff --git a/Documentation/devicetree/bindings/display/msm/dpu.txt b/Documentation/devicetree/bindings/display/msm/dpu.txt
-> index a61dd40f3792..3ef875e94845 100644
-> --- a/Documentation/devicetree/bindings/display/msm/dpu.txt
-> +++ b/Documentation/devicetree/bindings/display/msm/dpu.txt
-> @@ -13,7 +13,7 @@ Required properties:
->  - reg-names: register region names. The following region is required:
->    * "mdss"
->  - power-domains: a power domain consumer specifier according to
-> -  Documentation/devicetree/bindings/power/power_domain.txt
-> +  Documentation/devicetree/bindings/power/power-domain.txt
->  - clocks: list of clock specifiers for clocks needed by the device.
->  - clock-names: device clock names, must be in same order as clocks property.
->    The following clocks are required:
-> diff --git a/Documentation/devicetree/bindings/display/msm/mdp5.txt b/Documentation/devicetree/bindings/display/msm/mdp5.txt
-> index 4e11338548aa..1cce2a61cb8e 100644
-> --- a/Documentation/devicetree/bindings/display/msm/mdp5.txt
-> +++ b/Documentation/devicetree/bindings/display/msm/mdp5.txt
-> @@ -19,7 +19,7 @@ Required properties:
->  - #interrupt-cells: specifies the number of cells needed to encode an interrupt
->    source, should be 1.
->  - power-domains: a power domain consumer specifier according to
-> -  Documentation/devicetree/bindings/power/power_domain.txt
-> +  Documentation/devicetree/bindings/power/power-domain.txt
->  - clocks: device clocks. See ../clocks/clock-bindings.txt for details.
->  - clock-names: the following clocks are required.
->    * "iface"
-> diff --git a/Documentation/devicetree/bindings/dsp/fsl,dsp.yaml b/Documentation/devicetree/bindings/dsp/fsl,dsp.yaml
-> index f04870d84542..e71cff583cf0 100644
-> --- a/Documentation/devicetree/bindings/dsp/fsl,dsp.yaml
-> +++ b/Documentation/devicetree/bindings/dsp/fsl,dsp.yaml
-> @@ -36,7 +36,7 @@ properties:
->    power-domains:
->      description:
->        List of phandle and PM domain specifier as documented in
-> -      Documentation/devicetree/bindings/power/power_domain.txt
-> +      Documentation/devicetree/bindings/power/power-domain.txt
->      maxItems: 4
->
->    mboxes:
-> diff --git a/Documentation/devicetree/bindings/media/imx7-mipi-csi2.txt b/Documentation/devicetree/bindings/media/imx7-mipi-csi2.txt
-> index 71fd74ed3ec8..0b2bbd64d18b 100644
-> --- a/Documentation/devicetree/bindings/media/imx7-mipi-csi2.txt
-> +++ b/Documentation/devicetree/bindings/media/imx7-mipi-csi2.txt
-> @@ -17,7 +17,7 @@ Required properties:
->  - clock-names   : must contain "pclk", "wrap" and "phy" entries, matching
->                    entries in the clock property;
->  - power-domains : a phandle to the power domain, see
-> -          Documentation/devicetree/bindings/power/power_domain.txt for details.
-> +          Documentation/devicetree/bindings/power/power-domain.txt for details.
->  - reset-names   : should include following entry "mrst";
->  - resets        : a list of phandle, should contain reset entry of
->                    reset-names;
-> diff --git a/Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.txt b/Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.txt
-> index 044b11913c49..51f890c64004 100644
-> --- a/Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.txt
-> +++ b/Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.txt
-> @@ -14,7 +14,7 @@ Required properties:
->    Documentation/devicetree/bindings/clock/clock-bindings.txt for details.
->  - clock-names: must contain "jpgdec-smi" and "jpgdec".
->  - power-domains: a phandle to the power domain, see
-> -  Documentation/devicetree/bindings/power/power_domain.txt for details.
-> +  Documentation/devicetree/bindings/power/power-domain.txt for details.
->  - mediatek,larb: must contain the local arbiters in the current Socs, see
->    Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.txt
->    for details.
-> diff --git a/Documentation/devicetree/bindings/media/mediatek-mdp.txt b/Documentation/devicetree/bindings/media/mediatek-mdp.txt
-> index 0d03e3ae2be2..988898f44bac 100644
-> --- a/Documentation/devicetree/bindings/media/mediatek-mdp.txt
-> +++ b/Documentation/devicetree/bindings/media/mediatek-mdp.txt
-> @@ -17,7 +17,7 @@ Required properties (all function blocks, child node):
->  - clocks: device clocks, see
->    Documentation/devicetree/bindings/clock/clock-bindings.txt for details.
->  - power-domains: a phandle to the power domain, see
-> -  Documentation/devicetree/bindings/power/power_domain.txt for details.
-> +  Documentation/devicetree/bindings/power/power-domain.txt for details.
->
->  Required properties (DMA function blocks, child node):
->  - compatible: Should be one of
-> diff --git a/Documentation/devicetree/bindings/opp/qcom-nvmem-cpufreq.txt b/Documentation/devicetree/bindings/opp/qcom-nvmem-cpufreq.txt
-> index 4751029b9b74..de58cbee3dca 100644
-> --- a/Documentation/devicetree/bindings/opp/qcom-nvmem-cpufreq.txt
-> +++ b/Documentation/devicetree/bindings/opp/qcom-nvmem-cpufreq.txt
-> @@ -27,7 +27,7 @@ In 'cpu' nodes:
->  - power-domains: A phandle pointing to the PM domain specifier which provides
->                 the performance states available for active state management.
->                 Please refer to the power-domains bindings
-> -               Documentation/devicetree/bindings/power/power_domain.txt
-> +               Documentation/devicetree/bindings/power/power-domain.txt
->                 and also examples below.
->  - power-domain-names: Should be
->         - 'cpr' for qcs404.
-> diff --git a/Documentation/devicetree/bindings/pci/pci-keystone.txt b/Documentation/devicetree/bindings/pci/pci-keystone.txt
-> index 47202a2938f2..4c592504bb69 100644
-> --- a/Documentation/devicetree/bindings/pci/pci-keystone.txt
-> +++ b/Documentation/devicetree/bindings/pci/pci-keystone.txt
-> @@ -88,7 +88,7 @@ num-ob-windows: As specified in
->  num-lanes: As specified in
->            Documentation/devicetree/bindings/pci/designware-pcie.txt
->  power-domains: As documented by the generic PM domain bindings in
-> -              Documentation/devicetree/bindings/power/power_domain.txt.
-> +              Documentation/devicetree/bindings/power/power-domain.txt.
->  ti,syscon-pcie-mode: phandle to the device control module required to configure
->                       PCI in either RC mode or EP mode.
->
-> diff --git a/Documentation/devicetree/bindings/phy/ti,phy-am654-serdes.txt b/Documentation/devicetree/bindings/phy/ti,phy-am654-serdes.txt
-> index 64b286d2d398..3fff2c2e1500 100644
-> --- a/Documentation/devicetree/bindings/phy/ti,phy-am654-serdes.txt
-> +++ b/Documentation/devicetree/bindings/phy/ti,phy-am654-serdes.txt
-> @@ -17,7 +17,7 @@ Required properties:
->                 1 - PCIe0 Lane1
->                 2 - ICSS2 SGMII Lane1
->   - power-domains: As documented by the generic PM domain bindings in
-> -       Documentation/devicetree/bindings/power/power_domain.txt.
-> +       Documentation/devicetree/bindings/power/power-domain.txt.
->   - clocks: List of clock-specifiers representing the input to the SERDES.
->         Should have 3 items representing the left input clock, external
->         reference clock and right input clock in that order.
-> diff --git a/Documentation/devicetree/bindings/power/qcom,rpmpd.txt b/Documentation/devicetree/bindings/power/qcom,rpmpd.txt
-> index bc75bf49cdae..014be1448fab 100644
-> --- a/Documentation/devicetree/bindings/power/qcom,rpmpd.txt
-> +++ b/Documentation/devicetree/bindings/power/qcom,rpmpd.txt
-> @@ -13,7 +13,7 @@ Required Properties:
->   - #power-domain-cells: number of cells in Power domain specifier
->         must be 1.
->   - operating-points-v2: Phandle to the OPP table for the Power domain.
-> -       Refer to Documentation/devicetree/bindings/power/power_domain.txt
-> +       Refer to Documentation/devicetree/bindings/power/power-domain.txt
->         and Documentation/devicetree/bindings/opp/opp.txt for more details
->
->  Refer to <dt-bindings/power/qcom-rpmpd.h> for the level values for
-> diff --git a/Documentation/devicetree/bindings/power/renesas,rcar-sysc.txt b/Documentation/devicetree/bindings/power/renesas,rcar-sysc.txt
-> index 712caa5726f7..442768f68b49 100644
-> --- a/Documentation/devicetree/bindings/power/renesas,rcar-sysc.txt
-> +++ b/Documentation/devicetree/bindings/power/renesas,rcar-sysc.txt
-> @@ -44,7 +44,7 @@ Example:
->
->  Devices residing in a power area must refer to that power area, as documented
->  by the generic PM domain bindings in
-> -Documentation/devicetree/bindings/power/power_domain.txt.
-> +Documentation/devicetree/bindings/power/power-domain.txt.
->
->  Required properties:
->    - power-domains: A phandle and symbolic PM domain specifier, as defined in
-> diff --git a/Documentation/devicetree/bindings/usb/nvidia,tegra124-xusb.txt b/Documentation/devicetree/bindings/usb/nvidia,tegra124-xusb.txt
-> index 5bfcc0b4d6b9..ac6b272c4bbf 100644
-> --- a/Documentation/devicetree/bindings/usb/nvidia,tegra124-xusb.txt
-> +++ b/Documentation/devicetree/bindings/usb/nvidia,tegra124-xusb.txt
-> @@ -64,12 +64,12 @@ For Tegra210:
->  For Tegra210 and Tegra186:
->  - power-domains: A list of PM domain specifiers that reference each power-domain
->    used by the xHCI controller. This list must comprise of a specifier for the
-> -  XUSBA and XUSBC power-domains. See ../power/power_domain.txt and
-> +  XUSBA and XUSBC power-domains. See ../power/power-domain.txt and
->    ../arm/tegra/nvidia,tegra20-pmc.txt for details.
->  - power-domain-names: A list of names that represent each of the specifiers in
->    the 'power-domains' property. Must include 'xusb_ss' and 'xusb_host' which
->    represent the power-domains XUSBA and XUSBC, respectively. See
-> -  ../power/power_domain.txt for details.
-> +  ../power/power-domain.txt for details.
->
->  Optional properties:
->  --------------------
-> --
-> 2.17.1
->
+Ok, IIUC buffers can either be shared using the GPU proposed APIs
+(above) or using the dma-buf API to share via userspace ? My preference
+would be to use teh more direct GPU APIs sending physical page
+addresses from Guest to device driver. I guess this is your use case
+too ?
+
+Thanks
+
+Liam
+
+> 
+> > 
+> > Liam
+> > 
+> > 
+> > 
+> > -----------------------------------------------------------------
+> > ----
+> > To unsubscribe, e-mail: virtio-dev-unsubscribe@lists.oasis-open.org
+> > For additional commands, e-mail: 
+> > virtio-dev-help@lists.oasis-open.org
+> > 
+> 
+> ---------------------------------------------------------------------
+> To unsubscribe, e-mail: virtio-dev-unsubscribe@lists.oasis-open.org
+> For additional commands, e-mail: virtio-dev-help@lists.oasis-open.org
+> 
+
