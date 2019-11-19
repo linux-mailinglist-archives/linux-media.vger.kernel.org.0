@@ -2,116 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 057DD1028F4
-	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2019 17:11:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BD88102914
+	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2019 17:15:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728436AbfKSQLC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Nov 2019 11:11:02 -0500
-Received: from mail-io1-f67.google.com ([209.85.166.67]:34950 "EHLO
-        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727909AbfKSQLA (ORCPT
+        id S1728226AbfKSQPC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Nov 2019 11:15:02 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:42771 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727509AbfKSQPC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Nov 2019 11:11:00 -0500
-Received: by mail-io1-f67.google.com with SMTP id x21so23855818ior.2
-        for <linux-media@vger.kernel.org>; Tue, 19 Nov 2019 08:10:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=yxTg9Jz6CUPbj7hb+zClDPA6shnTNr7Uh8vLjm12KTA=;
-        b=oGIJW8HfkgkobB0o2Qa1NbNfnl9mEqSGpPEO2LkogyZvOuMJQ7TF55da86qlugqMCd
-         338Wge2YPFXsoEIf9RGDawq7jpCCeV3jwC0W058T6wHLBemhZJS3koszJqUTfQULDiaX
-         2B6RyRY6HS9AE+8hVENsQBKSpUdhkmyAKNXz0Nm/Cxj0QFJRN/CWS+DE/OAhOnYHg0xk
-         tK1FlPGkzCpUU1kARsuIumFoSGAGKhbP5ourqDXhrP7e5xrJzr7bWyrrGYocI1tJI7bI
-         UgAaDI7OLq1bomHv0lR8zAsfor6M3fEsHwxDtlUp7bVspKwb2e69Lw3GuCnkI9VLqTxF
-         /QFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=yxTg9Jz6CUPbj7hb+zClDPA6shnTNr7Uh8vLjm12KTA=;
-        b=jTLFnLrdUlC7nkDZNftSrRaAnCyiWDolTcVQreMk6iYdNhgbuJybecVvp0BUU8/pRx
-         dW9aNtX+Lg7BgAfBE4oF/Leov3uap3BnuXpZR5Iev61Gt/qT+4Z4oodl3K+5VyD6OiTt
-         mSGCA455lxQOGfQ+acXRFRt9oxZmrZLbs2wKJOPzTs90nA8NKK4mtKSzFwcUknzHVtEK
-         owSzxVOijC6c1/hQ2IVK6x/8nh7lbaNt4mkM35xMCL43DrOqB6tEXi7R4LBaR1GgYSK5
-         KDDDQrsk5rSMY2OHD8yNvna0ZRRV0m9CCeW8BlUYSx0TE3c0103fzq+I6rtLpTmIG99e
-         VWHQ==
-X-Gm-Message-State: APjAAAWl0MbMvy5osWyDbGQvGxEHzUptLtkD5tuUsXl/YFuh2Y9xDDpU
-        YahOliEL9drHkGDXxXUQlcHFEg==
-X-Google-Smtp-Source: APXvYqw/6l4rejQYc8a+bdmv6/89DOI3Ir5+fK0WCl1y9yQpIdn8Kiz4M9g4FLh+4h0UiHB53RA+ow==
-X-Received: by 2002:a02:140a:: with SMTP id 10mr18915165jag.72.1574179857938;
-        Tue, 19 Nov 2019 08:10:57 -0800 (PST)
-Received: from [192.168.1.159] ([65.144.74.34])
-        by smtp.gmail.com with ESMTPSA id u6sm5616560ilm.22.2019.11.19.08.10.55
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 19 Nov 2019 08:10:56 -0800 (PST)
-Subject: Re: [PATCH v6 15/24] fs/io_uring: set FOLL_PIN via pin_user_pages()
-To:     John Hubbard <jhubbard@nvidia.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
-        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
-References: <20191119081643.1866232-1-jhubbard@nvidia.com>
- <20191119081643.1866232-16-jhubbard@nvidia.com>
-From:   Jens Axboe <axboe@kernel.dk>
-Message-ID: <2ae65d1b-a3eb-74ed-afce-c493de5bbfd3@kernel.dk>
-Date:   Tue, 19 Nov 2019 09:10:54 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Tue, 19 Nov 2019 11:15:02 -0500
+Received: from litschi.hi.pengutronix.de ([2001:67c:670:100:feaa:14ff:fe6a:8db5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <m.tretter@pengutronix.de>)
+        id 1iX69d-0005vF-BY; Tue, 19 Nov 2019 17:15:01 +0100
+Date:   Tue, 19 Nov 2019 17:15:00 +0100
+From:   Michael Tretter <m.tretter@pengutronix.de>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [PATCH 0/5] Stateful Encoding: final bits
+Message-ID: <20191119171500.44006786@litschi.hi.pengutronix.de>
+In-Reply-To: <20191119113457.57833-1-hverkuil-cisco@xs4all.nl>
+References: <20191119113457.57833-1-hverkuil-cisco@xs4all.nl>
+Organization: Pengutronix
+X-Mailer: Claws Mail 3.14.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20191119081643.1866232-16-jhubbard@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:feaa:14ff:fe6a:8db5
+X-SA-Exim-Mail-From: m.tretter@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/19/19 1:16 AM, John Hubbard wrote:
-> Convert fs/io_uring to use the new pin_user_pages() call, which sets
-> FOLL_PIN. Setting FOLL_PIN is now required for code that requires
-> tracking of pinned pages, and therefore for any code that calls
-> put_user_page().
+Hi Hans,
+
+On Tue, 19 Nov 2019 12:34:52 +0100, Hans Verkuil wrote:
+> This series adds support for fractions in the control framework,
+> and a way to obtain the min and max values of compound controls
+> such as v4l2_fract.
 > 
-> In partial anticipation of this work, the io_uring code was already
-> calling put_user_page() instead of put_page(). Therefore, in order to
-> convert from the get_user_pages()/put_page() model, to the
-> pin_user_pages()/put_user_page() model, the only change required
-> here is to change get_user_pages() to pin_user_pages().
+> Next it adds the V4L2_CID_MPEG_VIDEO_ENC_FRAME_RATE control to
+> set the framerate for the encoder.
 > 
-> Reviewed-by: Jan Kara <jack@suse.cz>
-> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+> The next patch adds support for the V4L2_BUF_FLAG_TOO_SMALL flag
+> to signal that the capture buffer was too small.
+> 
+> The final patch adds the encoder spec (unchanged from v3).
+> 
+> Michael, can you add support for V4L2_CID_MPEG_VIDEO_ENC_FRAME_RATE
+> to your encoder driver? Let me know if something isn't working.
 
-You dropped my reviewed-by now... Given the file, you'd probably want
-to keep that.
+Thanks. Add will add the control and send patches.
 
--- 
-Jens Axboe
+> I need to add a test control for this to vivid as well and add support
+> for this to v4l2-ctl, that's on my TODO list.
+> 
+> Open questions:
+> 
+> 1) Existing encoder drivers use S_PARM to signal the frameperiod,
+> but as discussed in Lyon this should be the rate at which frames are
+> submitted for encoding, which can be different from
+> V4L2_CID_MPEG_VIDEO_ENC_FRAME_RATE. But given the current use-cases
+> I was wondering if calling S_PARM should set the ENC_FRAME_RATE
+> control as well, and you would need to explicitly set the control
+> after S_PARM if the two are not the same. This would mean that
+> existing applications that don't know about the control can keep working.
 
+I am slightly confused, because I thought that S_PARM and
+V4L2_CID_MPEG_VIDEO_ENC_FRAME_RATE should be used exactly the other way
+around, but it makes sense to use S_PARM for configuring the frame rate
+for producing frames in the hardware.
+
+For encoding live the rate at which frames are submitted to the encoder
+is the same as the framerate of the produced stream. They only differ
+for use cases where we want to encode faster or slower than the
+playback rate of the resulting stream. I guess assuming that they are
+by default the same and only adapt the control if necessary should be
+fine.
+
+Michael
+
+> 
+> 2) I do believe that we need a RELEASE/DEL/DESTROY_BUFS ioctl in
+> order to do proper handling of the V4L2_BUF_FLAG_TOO_SMALL case.
+> I am inclined to postpone adding this flag until we have that ioctl.
+> We can still merge the stateful encoder spec if we mention that that
+> is work in progress.
+> 
+> Regards,
+> 
+> 	Hans
+> 
+> Hans Verkuil (4):
+>   v4l2-ctrls: add support for v4l2_fract types
+>   v4l2-ctrls: add support for V4L2_CTRL_WHICH_MIN/MAX_VAL
+>   v4l2-controls.h: add V4L2_CID_MPEG_VIDEO_ENC_FRAME_RATE
+>   videodev2.h: add V4L2_BUF_FLAG_TOO_SMALL flag
+> 
+> Tomasz Figa (1):
+>   media: docs-rst: Document memory-to-memory video encoder interface
+> 
+>  Documentation/media/uapi/v4l/buffer.rst       |   9 +
+>  Documentation/media/uapi/v4l/dev-encoder.rst  | 608 ++++++++++++++++++
+>  Documentation/media/uapi/v4l/dev-mem2mem.rst  |   1 +
+>  .../media/uapi/v4l/ext-ctrls-codec.rst        |   8 +
+>  Documentation/media/uapi/v4l/pixfmt-v4l2.rst  |   5 +
+>  Documentation/media/uapi/v4l/v4l2.rst         |   2 +
+>  .../media/uapi/v4l/vidioc-encoder-cmd.rst     |  51 +-
+>  .../media/uapi/v4l/vidioc-g-ext-ctrls.rst     |  15 +-
+>  .../media/uapi/v4l/vidioc-queryctrl.rst       |   6 +
+>  .../media/videodev2.h.rst.exceptions          |   3 +
+>  .../media/common/videobuf2/videobuf2-core.c   |  12 +-
+>  .../media/common/videobuf2/videobuf2-v4l2.c   |   4 +
+>  drivers/media/i2c/imx214.c                    |   4 +-
+>  drivers/media/v4l2-core/v4l2-ctrls.c          | 222 ++++++-
+>  include/media/v4l2-ctrls.h                    |  72 ++-
+>  include/media/videobuf2-core.h                |   4 +
+>  include/uapi/linux/v4l2-controls.h            |   1 +
+>  include/uapi/linux/videodev2.h                |   6 +
+>  18 files changed, 980 insertions(+), 53 deletions(-)
+>  create mode 100644 Documentation/media/uapi/v4l/dev-encoder.rst
+> 
