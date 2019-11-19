@@ -2,134 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D7F54102375
-	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2019 12:42:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 217AE10237B
+	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2019 12:43:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727753AbfKSLms (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Nov 2019 06:42:48 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:44375 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727432AbfKSLms (ORCPT
+        id S1727529AbfKSLnz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Nov 2019 06:43:55 -0500
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:58851 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726000AbfKSLnz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Nov 2019 06:42:48 -0500
-Received: from kresse.hi.pengutronix.de ([2001:67c:670:100:1d::2a])
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <l.stach@pengutronix.de>)
-        id 1iX1uA-00012G-Nd; Tue, 19 Nov 2019 12:42:46 +0100
-Message-ID: <54e84fe8a6d1fdd6faf11e3a5c4a7314b0151474.camel@pengutronix.de>
-Subject: Re: [PATCH 2/5] input/rmi4/rmi_f54: fix various V4L2 compliance
- problems
-From:   Lucas Stach <l.stach@pengutronix.de>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org
+        Tue, 19 Nov 2019 06:43:55 -0500
+Received: from [IPv6:2001:983:e9a7:1:9879:d2e2:f0e2:9c7]
+ ([IPv6:2001:983:e9a7:1:9879:d2e2:f0e2:9c7])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id X1vEiDA1jcs92X1vFiz7Ed; Tue, 19 Nov 2019 12:43:53 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1574163833; bh=rQJlO19AWhRERux5Y3iBdKrXBzaqK0QxaeqA+280qfI=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=eO6c92NzBJ/eQWOLOY6c/ziDvifAWegNPYsh9veRluhMTbmueSUskfGiLOHrcO35H
+         3WNE3Zl6YUE3Xt6wWKyHMDms/lUeM2sdPVi5iNm8m6Em3N8FETXGMWt7iTOCT9tOz1
+         IqWZ+zzrzNpQRJqp05tgFj2SGRciOojm1612kjbGi58J41nAvV3+Gx0Vm22acS+x2K
+         dIG/yB26hPG/lwX+5PODdTzR6Yr+ayFj9S88vAnB74HsFFnkw+mZ1u0jWW1ooXGdIj
+         uZol7fPM58ea3pFfCbKOxa9AFinFb+IocxCaFToy/5JenAvebuTwxDvzYdDKqesjuu
+         XaSAR38APgKiA==
+Subject: Re: [PATCH 4/5] input/rmi4/rmi_driver: check if irq_find_mapping
+ returns 0
+To:     Lucas Stach <l.stach@pengutronix.de>, linux-media@vger.kernel.org
 Cc:     linux-input@vger.kernel.org,
         Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Nick Dyer <nick@shmanahar.org>,
         Christopher Heiny <cheiny@synaptics.com>,
         Vandana BN <bnvandana@gmail.com>
-Date:   Tue, 19 Nov 2019 12:42:46 +0100
-In-Reply-To: <20191119105118.54285-3-hverkuil-cisco@xs4all.nl>
 References: <20191119105118.54285-1-hverkuil-cisco@xs4all.nl>
-         <20191119105118.54285-3-hverkuil-cisco@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.30.5-1.1 
+ <20191119105118.54285-5-hverkuil-cisco@xs4all.nl>
+ <3f4c87125e5021622fe80cc85411c5b1d25bc427.camel@pengutronix.de>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <23edf0ed-55a1-d70d-e7ed-78a62617b1cc@xs4all.nl>
+Date:   Tue, 19 Nov 2019 12:43:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
+In-Reply-To: <3f4c87125e5021622fe80cc85411c5b1d25bc427.camel@pengutronix.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::2a
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-CMAE-Envelope: MS4wfI93dUlPV2EG3aXFLWKFlnePd6Ok+qy9oXUbPjX4k2eIKT5VGyF/myFrAHVFtvEcFVKuZzwUM5+iB/KL1PeaVI+gy1vUbATM53w1WkGWTJQmubOOksNU
+ EzTJ16xW3SFtbin6SvYCROnd2tfCpOrxGcSykVZWuP1SwbZl3ZY2Zbj5xKe9L2PzvU9am0qJVyWFdEO+BqxIxdaMugFpzm2bAQcoHeHR4cYfazgpSX9vVTp+
+ Sk8FdaIc/1nqWqvP0iWeVl9Jaf32d4Of62EwdSVloPoq4r+AUlNV/OWlZEBRYvrdqEDTI90PftRDUH49mibZ4fHs/8FP4hR4OJnUEUWOJtRvpfIrA55m83eM
+ GZMvL4fZxDLFTBABRU2jTpzvO/stL1dl7GaDM89S2R8+hg2KsvcokirRLOJ87fG1FWepGiB0IuCFb11RM8gfmYZxg4G0NSX5y0FrJPgn13su4QV5hgmglHLt
+ VZNC8QDkmFgDjn5gfALdX4kKRPRI2jUcicS+A/J+r5eZnSoSNltbs4aX9cI=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Di, 2019-11-19 at 11:51 +0100, Hans Verkuil wrote:
-> The v4l2-compliance utility reported several V4L2 API compliance
-> issues:
+On 11/19/19 12:38 PM, Lucas Stach wrote:
+> Hi Hans,
 > 
-> - the sequence counter wasn't filled in
-> - the sequence counter wasn't reset to 0 at the start of streaming
-> - the returned field value wasn't set to V4L2_FIELD_NONE
-> - the timestamp wasn't set
-> - the payload size was undefined if an error was returned
-> - min_buffers_needed doesn't need to be initialized
+> On Di, 2019-11-19 at 11:51 +0100, Hans Verkuil wrote:
+>> The irq_find_mapping() function can return 0 when called in the
+>> rmi_process_interrupt_requests() function.
+>>
+>> This causes a kernel crash. Check for a 0 value and skip calling
+>> handle_nested_irq() in that case.
+>>
+>> This was tested with the F54 function enabled on a Lenovo X1 Carbon.
+>>
+>> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>> Fixes: 24d28e4f1271 ("Input: synaptics-rmi4 - convert irq distribution to irq_domain")
 > 
-> Fix these issues.
-> 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> This is already fixed upstream by 549766ac2ac1
+> "Input: synaptics-rmi4 - clear IRQ enables for F54"
 
-Reviewed-by: Lucas Stach <l.stach@pengutronix.de
+Good news. I'm not subscribed to the linux-input ML, so I never saw that.
 
-> ---
->  drivers/input/rmi4/rmi_f54.c | 15 ++++++++++++++-
->  1 file changed, 14 insertions(+), 1 deletion(-)
+Ah, I now see that I'm missing a whole bunch of patches that were added
+after v5.4-rc1. I'll test this again next week (I don't have access to my
+Lenovo at the moment).
+
+Regards,
+
+	Hans
+
 > 
-> diff --git a/drivers/input/rmi4/rmi_f54.c
-> b/drivers/input/rmi4/rmi_f54.c
-> index 710b02595486..ebccab7a4834 100644
-> --- a/drivers/input/rmi4/rmi_f54.c
-> +++ b/drivers/input/rmi4/rmi_f54.c
-> @@ -116,6 +116,7 @@ struct f54_data {
->  	struct video_device vdev;
->  	struct vb2_queue queue;
->  	struct mutex lock;
-> +	u32 sequence;
->  	int input;
->  	enum rmi_f54_report_type inputs[F54_MAX_REPORT_TYPE];
->  };
-> @@ -290,6 +291,7 @@ static int rmi_f54_queue_setup(struct vb2_queue
-> *q, unsigned int *nbuffers,
->  
->  static void rmi_f54_buffer_queue(struct vb2_buffer *vb)
->  {
-> +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
->  	struct f54_data *f54 = vb2_get_drv_priv(vb->vb2_queue);
->  	u16 *ptr;
->  	enum vb2_buffer_state state;
-> @@ -298,6 +300,7 @@ static void rmi_f54_buffer_queue(struct
-> vb2_buffer *vb)
->  
->  	mutex_lock(&f54->status_mutex);
->  
-> +	vb2_set_plane_payload(vb, 0, 0);
->  	reptype = rmi_f54_get_reptype(f54, f54->input);
->  	if (reptype == F54_REPORT_NONE) {
->  		state = VB2_BUF_STATE_ERROR;
-> @@ -344,14 +347,25 @@ static void rmi_f54_buffer_queue(struct
-> vb2_buffer *vb)
->  data_done:
->  	mutex_unlock(&f54->data_mutex);
->  done:
-> +	vb->timestamp = ktime_get_ns();
-> +	vbuf->field = V4L2_FIELD_NONE;
-> +	vbuf->sequence = f54->sequence++;
->  	vb2_buffer_done(vb, state);
->  	mutex_unlock(&f54->status_mutex);
->  }
->  
-> +static void rmi_f54_stop_streaming(struct vb2_queue *q)
-> +{
-> +	struct f54_data *f54 = vb2_get_drv_priv(q);
-> +
-> +	f54->sequence = 0;
-> +}
-> +
->  /* V4L2 structures */
->  static const struct vb2_ops rmi_f54_queue_ops = {
->  	.queue_setup            = rmi_f54_queue_setup,
->  	.buf_queue              = rmi_f54_buffer_queue,
-> +	.stop_streaming		= rmi_f54_stop_streaming,
->  	.wait_prepare           = vb2_ops_wait_prepare,
->  	.wait_finish            = vb2_ops_wait_finish,
->  };
-> @@ -363,7 +377,6 @@ static const struct vb2_queue rmi_f54_queue = {
->  	.ops = &rmi_f54_queue_ops,
->  	.mem_ops = &vb2_vmalloc_memops,
->  	.timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC,
-> -	.min_buffers_needed = 1,
->  };
->  
->  static int rmi_f54_vidioc_querycap(struct file *file, void *priv,
+> Regards,
+> Lucas
+> 
+>> ---
+>>  drivers/input/rmi4/rmi_driver.c | 8 ++++++--
+>>  1 file changed, 6 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/input/rmi4/rmi_driver.c b/drivers/input/rmi4/rmi_driver.c
+>> index 772493b1f665..6085ec424a84 100644
+>> --- a/drivers/input/rmi4/rmi_driver.c
+>> +++ b/drivers/input/rmi4/rmi_driver.c
+>> @@ -154,8 +154,12 @@ static int rmi_process_interrupt_requests(struct rmi_device *rmi_dev)
+>>  	 */
+>>  	mutex_unlock(&data->irq_mutex);
+>>  
+>> -	for_each_set_bit(i, data->irq_status, data->irq_count)
+>> -		handle_nested_irq(irq_find_mapping(data->irqdomain, i));
+>> +	for_each_set_bit(i, data->irq_status, data->irq_count) {
+>> +		unsigned int irq = irq_find_mapping(data->irqdomain, i);
+>> +
+>> +		if (irq)
+>> +			handle_nested_irq(irq);
+>> +	}
+>>  
+>>  	if (data->input)
+>>  		input_sync(data->input);
+> 
 
