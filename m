@@ -2,192 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CA2D10281F
-	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2019 16:31:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 312D41028C8
+	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2019 17:00:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728113AbfKSPbg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Nov 2019 10:31:36 -0500
-Received: from mga14.intel.com ([192.55.52.115]:4773 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727505AbfKSPbf (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Nov 2019 10:31:35 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 19 Nov 2019 07:31:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,324,1569308400"; 
-   d="scan'208";a="209227174"
-Received: from sstrehla-mobl1.ger.corp.intel.com ([10.252.16.202])
-  by orsmga003.jf.intel.com with ESMTP; 19 Nov 2019 07:31:28 -0800
-Message-ID: <bee3aae13f6cf69ee909aa9884926853d6123b25.camel@linux.intel.com>
-Subject: Re: [virtio-dev] Re: guest / host buffer sharing ...
-From:   Liam Girdwood <liam.r.girdwood@linux.intel.com>
-To:     Gurchetan Singh <gurchetansingh@chromium.org>
-Cc:     David Stevens <stevensd@chromium.org>,
-        Stefan Hajnoczi <stefanha@gmail.com>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Keiichi Watanabe <keiichiw@chromium.org>,
-        geoff@hostfission.com, virtio-dev@lists.oasis-open.org,
-        Alex Lau <alexlau@chromium.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        qemu-devel@nongnu.org, Tomasz Figa <tfiga@chromium.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        =?ISO-8859-1?Q?St=E9phane?= Marchesin <marcheu@chromium.org>,
-        Dylan Reid <dgreid@chromium.org>,
-        Dmitry Morozov <dmitry.morozov@opensynergy.com>,
-        Pawel Osciak <posciak@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Date:   Tue, 19 Nov 2019 15:31:27 +0000
-In-Reply-To: <CAAfnVB=F+HeQrrn23c=rZeOa5BfHo=9ArcG--gLf87gqBXfZ9A@mail.gmail.com>
-References: <20191105105456.7xbhtistnbp272lj@sirius.home.kraxel.org>
-         <20191106084344.GB189998@stefanha-x1.localdomain>
-         <CAD=HUj41r8wHZ2-By8tLftkoqC5r_Bw=pr=zX2aZ7GTs1ESWhg@mail.gmail.com>
-         <c8a6b6f35664ce036c2a48ec41eab97b0f40704d.camel@linux.intel.com>
-         <CAAfnVBkMWurTpseQFjcna5kk3__40n6M68=RTHLbQsu__2AFxg@mail.gmail.com>
-         <4a5dd822e86757f004d04af62fb7dd35ba75392d.camel@linux.intel.com>
-         <CAAfnVB=F+HeQrrn23c=rZeOa5BfHo=9ArcG--gLf87gqBXfZ9A@mail.gmail.com>
+        id S1728421AbfKSQA0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Nov 2019 11:00:26 -0500
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:46179 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727509AbfKSQA0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 19 Nov 2019 11:00:26 -0500
+Received: by mail-oi1-f195.google.com with SMTP id n14so19350085oie.13;
+        Tue, 19 Nov 2019 08:00:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=lOp09REXBJlIhxRQLG3yF3pkOzVMqVXKGYr5zOkYKTU=;
+        b=tvirj1n2/8raLM1mnIsqp2gtwTG5uKIyP1xLwQY0vY3qjRyRnMTQn215elCAXasSfy
+         WSyp8Uwl85PcYNgWjZwZCCdkqTskSJ7Rg1xm3satC2WKj3DCWtIcVjDP0SHl9JfadCE7
+         iQzb2KSMDGkLqXoZ4QACKQLtKY3Q7Mxtk0GCW53GI6ZE3T4ApWiG6V6gSuFNhNyUc/Zb
+         0a/IjQe5z6lDgHz8T0LrFt3P57rYJKyytp5fk+au0tF9Mz2CIDBpgZN0BPu/OZv7iZxX
+         Rt8K5H761gL0OeumSjzBiNg5XjPK7ROO/j9j68puMeduawUwkVi0Ii3t4994/lK3JRSY
+         QfEg==
+X-Gm-Message-State: APjAAAU8JKYPSL1ZgPixnZpQwmt6hecZN3aEXOBQkZEKuEurNgWD71f2
+        JpBl0Ntpex8oGGzdJhPHeyLiWU3wsUy5mfxGH/g=
+X-Google-Smtp-Source: APXvYqyFjVcr3DV/kDkPHFaPjGoNOAPUlx3qgBTMVdhzS/Ov2hib4acxOvn1dSc2R4bN1wN/M0QqvauTflblBxgZCm8=
+X-Received: by 2002:aca:fc92:: with SMTP id a140mr4573964oii.153.1574179223502;
+ Tue, 19 Nov 2019 08:00:23 -0800 (PST)
+MIME-Version: 1.0
+References: <20191119144315.11261-1-krzk@kernel.org>
+In-Reply-To: <20191119144315.11261-1-krzk@kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 19 Nov 2019 17:00:05 +0100
+Message-ID: <CAMuHMdUnn8uYyQ+D=6rp1+R1sE_W-SS1t+EuNHm=vWaKQ9Z6tQ@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: power: Fix path to power-domain.txt bindings
+To:     Krzysztof Kozlowski <krzk@kernel.org>
+Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Kevin Hilman <khilman@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Rob Herring <robh@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-samsung-soc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        etnaviv@lists.freedesktop.org,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        freedreno@lists.freedesktop.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        linux-pci <linux-pci@vger.kernel.org>,
+        USB list <linux-usb@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 2019-11-12 at 14:55 -0800, Gurchetan Singh wrote:
-> On Tue, Nov 12, 2019 at 5:56 AM Liam Girdwood
-> <liam.r.girdwood@linux.intel.com> wrote:
-> > 
-> > On Mon, 2019-11-11 at 16:54 -0800, Gurchetan Singh wrote:
-> > > On Tue, Nov 5, 2019 at 2:55 AM Gerd Hoffmann <kraxel@redhat.com>
-> > > wrote:
-> > > > Each buffer also has some properties to carry metadata, some
-> > > > fixed
-> > > > (id, size, application), but
-> > > > also allow free form (name = value, framebuffers would have
-> > > > width/height/stride/format for example).
-> > > 
-> > > Sounds a lot like the recently added DMA_BUF_SET_NAME ioctls:
-> > > 
-> > > https://patchwork.freedesktop.org/patch/310349/
-> > > 
-> > > For virtio-wayland + virtio-vdec, the problem is sharing -- not
-> > > allocation.
-> > > 
-> > 
-> > Audio also needs to share buffers with firmware running on DSPs.
-> > 
-> > > As the buffer reaches a kernel boundary, it's properties devolve
-> > > into
-> > > [fd, size].  Userspace can typically handle sharing
-> > > metadata.  The
-> > > issue is the guest dma-buf fd doesn't mean anything on the host.
-> > > 
-> > > One scenario could be:
-> > > 
-> > > 1) Guest userspace (say, gralloc) allocates using virtio-
-> > > gpu.  When
-> > > allocating, we call uuidgen() and then pass that via
-> > > RESOURCE_CREATE
-> > > hypercall to the host.
-> > > 2) When exporting the dma-buf, we call DMA_BUF_SET_NAME (the
-> > > buffer
-> > > name will be "virtgpu-buffer-${UUID}").
-> > > 3) When importing, virtio-{vdec, video} reads the dma-buf name in
-> > > userspace, and calls fd to handle.  The name is sent to the host
-> > > via
-> > > a
-> > > hypercall, giving host virtio-{vdec, video} enough information to
-> > > identify the buffer.
-> > > 
-> > > This solution is entirely userspace -- we can probably come up
-> > > with
-> > > something in kernel space [generate_random_uuid()] if need
-> > > be.  We
-> > > only need two universal IDs: {device ID, buffer ID}.
-> > > 
-> > 
-> > I need something where I can take a guest buffer and then convert
-> > it to
-> > physical scatter gather page list. I can then either pass the SG
-> > page
-> > list to the DSP firmware (for DMAC IP programming) or have the host
-> > driver program the DMAC directly using the page list (who programs
-> > DMAC
-> > depends on DSP architecture).
-> 
-> So you need the HW address space from a guest allocation? 
+Hi Krzysztof,
 
-Yes.
+On Tue, Nov 19, 2019 at 3:43 PM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> With split of power domain controller bindings to power-domain.yaml, the
+> consumer part was renamed to power-domain.txt.  Update the references in
+> other bindings.
+>
+> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> Fixes: abb4805e343a ("dt-bindings: power: Convert Samsung Exynos Power Domain bindings to json-schema")
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 
->  Would your
-> allocation hypercalls use something like the virtio_gpu_mem_entry
-> (virtio_gpu.h) and the draft virtio_video_mem_entry (draft)?
+Thanks for your patch!
 
-IIUC, this looks like generic SG buffer allocation ?
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> 
-> struct {
->         __le64 addr;
->         __le32 length;
->         __le32 padding;
-> };
-> 
-> /* VIRTIO_GPU_CMD_RESOURCE_ATTACH_BACKING */
-> struct virtio_gpu_resource_attach_backing {
->         struct virtio_gpu_ctrl_hdr hdr;
->         __le32 resource_id;
->         __le32 nr_entries;
->       *struct struct virtio_gpu_mem_entry */
-> };
-> 
-> struct virtio_video_mem_entry {
->     __le64 addr;
->     __le32 length;
->     __u8 padding[4];
-> };
-> 
-> struct virtio_video_resource_attach_backing {
->     struct virtio_video_ctrl_hdr hdr;
->     __le32 resource_id;
->     __le32 nr_entries;
-> };
-> 
-> > 
-> > DSP FW has no access to userspace so we would need some additional
-> > API
-> > on top of DMA_BUF_SET_NAME etc to get physical hardware pages ?
-> 
-> The dma-buf api currently can share guest memory sg-lists.
+>  .../bindings/clock/renesas,rcar-gen2-cpg-clocks.txt           | 2 +-
 
-Ok, IIUC buffers can either be shared using the GPU proposed APIs
-(above) or using the dma-buf API to share via userspace ? My preference
-would be to use teh more direct GPU APIs sending physical page
-addresses from Guest to device driver. I guess this is your use case
-too ?
+Please note this file is no longer present in next.
+But robh/for-next still has it.
 
-Thanks
+Gr{oetje,eeting}s,
 
-Liam
+                        Geert
 
-> 
-> > 
-> > Liam
-> > 
-> > 
-> > 
-> > -----------------------------------------------------------------
-> > ----
-> > To unsubscribe, e-mail: virtio-dev-unsubscribe@lists.oasis-open.org
-> > For additional commands, e-mail: 
-> > virtio-dev-help@lists.oasis-open.org
-> > 
-> 
-> ---------------------------------------------------------------------
-> To unsubscribe, e-mail: virtio-dev-unsubscribe@lists.oasis-open.org
-> For additional commands, e-mail: virtio-dev-help@lists.oasis-open.org
-> 
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
