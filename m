@@ -2,28 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7587710224C
-	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2019 11:51:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 94B8B102255
+	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2019 11:52:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727675AbfKSKvW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Nov 2019 05:51:22 -0500
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:43677 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727640AbfKSKvW (ORCPT
+        id S1727683AbfKSKvY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Nov 2019 05:51:24 -0500
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:49605 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727646AbfKSKvW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Tue, 19 Nov 2019 05:51:22 -0500
 Received: from marune.fritz.box ([IPv6:2001:983:e9a7:1:9879:d2e2:f0e2:9c7])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id X16MiClSQcs92X16OiynYK; Tue, 19 Nov 2019 11:51:20 +0100
+        id X16MiClSQcs92X16OiynYV; Tue, 19 Nov 2019 11:51:20 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1574160680; bh=9U+inmzg5NrDx5i6uhSFqhpwKs50Qq/7assBwITEC2U=;
+        t=1574160680; bh=K6hYpltp/ZoW+ANAksmPQOMy+7HBkZ0IaQfGtBZ5Za0=;
         h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
-        b=HCcV+aS3b95/a481mRSNssdcmECUPmfJyV3vR3H5r3Fei8d7TIEH14tCou+6c+1aC
-         TEbw5khaiRzswxJ2ViEJtvnCEoDD9wiuoqeW5z92lk57uLlxCJ/ZvOk4F3ZehZ2caD
-         brxSWw4nMlR5oVQJo+jS5SpsZc6FnTMnWbkZBuAfpzSS+3CtWGg4cb05C8dhfbn+6K
-         FJhcSP7SiDFTRzEhqeTbPKD6AfkNG435xiE7tmoCbdaGXRVrvcAqvptSRW1N68kP/9
-         eBXNFmF9COSBFK9uGVKItc+8Lmc7nlJTjokt9eSMavCvWVY95NfScpVrYghihrAgfS
-         y+15JMo0t6ZaQ==
+        b=NUt1JnFA/XPdbnxDDH4N7+74icOwoBnc1hXVAppiZyaGuFzvg3qZUnzwx7Scepe2Z
+         F245OjL9zxvWfGaXOMNLLSugiHlGV0ZeUWLPjpT5dD4AVw6yQtHESZcGu3TvPtZGgm
+         xBv0Jkddr2ge/nCJJuwSR46E+E6PmhDNIOGjBpz+RMzVOLK1kdAyv9Bt2+LbI3dOyz
+         3AQcYm7nwX0I5bVV4PXXuAB3UCIMjtdqoA7rDwx5zIT+MbWUDUfxIH7svBlvLTHqzh
+         mQGsbSEfiMop3qXtXBWV2AZfGkOkWRTcVcu04xgcz2tGQ/ZZWhU13Qmmbl9AG4fkO0
+         4wSDfO4xVTQog==
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
 Cc:     linux-input@vger.kernel.org,
@@ -34,9 +34,9 @@ Cc:     linux-input@vger.kernel.org,
         Christopher Heiny <cheiny@synaptics.com>,
         Vandana BN <bnvandana@gmail.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 4/5] input/rmi4/rmi_driver: check if irq_find_mapping returns 0
-Date:   Tue, 19 Nov 2019 11:51:17 +0100
-Message-Id: <20191119105118.54285-5-hverkuil-cisco@xs4all.nl>
+Subject: [PATCH 5/5] input/rmi4/rmi_smbus.c: don't increment rmiaddr in rmi_smb_read_block()
+Date:   Tue, 19 Nov 2019 11:51:18 +0100
+Message-Id: <20191119105118.54285-6-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191119105118.54285-1-hverkuil-cisco@xs4all.nl>
 References: <20191119105118.54285-1-hverkuil-cisco@xs4all.nl>
@@ -52,39 +52,36 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The irq_find_mapping() function can return 0 when called in the
-rmi_process_interrupt_requests() function.
+This increment of rmi_smbus causes garbage to be returned.
+The first read of SMB_MAX_COUNT bytes is fine, but after that
+it is nonsense. Trial-and-error showed that by dropping the
+increment of rmiaddr everything is fine and the F54 function
+properly works.
 
-This causes a kernel crash. Check for a 0 value and skip calling
-handle_nested_irq() in that case.
+Even going back to the original code when F54 was added, I
+could not make it work without this patch. So I do not understand
+how this ever worked.
 
-This was tested with the F54 function enabled on a Lenovo X1 Carbon.
+My guess is that the same change is needed in rmi_smb_write_block,
+but I wouldn't know how to test this.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Fixes: 24d28e4f1271 ("Input: synaptics-rmi4 - convert irq distribution to irq_domain")
 ---
- drivers/input/rmi4/rmi_driver.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/input/rmi4/rmi_smbus.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/input/rmi4/rmi_driver.c b/drivers/input/rmi4/rmi_driver.c
-index 772493b1f665..6085ec424a84 100644
---- a/drivers/input/rmi4/rmi_driver.c
-+++ b/drivers/input/rmi4/rmi_driver.c
-@@ -154,8 +154,12 @@ static int rmi_process_interrupt_requests(struct rmi_device *rmi_dev)
- 	 */
- 	mutex_unlock(&data->irq_mutex);
+diff --git a/drivers/input/rmi4/rmi_smbus.c b/drivers/input/rmi4/rmi_smbus.c
+index 2407ea43de59..79ecea5edacc 100644
+--- a/drivers/input/rmi4/rmi_smbus.c
++++ b/drivers/input/rmi4/rmi_smbus.c
+@@ -215,7 +215,6 @@ static int rmi_smb_read_block(struct rmi_transport_dev *xport, u16 rmiaddr,
+ 		/* prepare to read next block of bytes */
+ 		cur_len -= SMB_MAX_COUNT;
+ 		databuff += SMB_MAX_COUNT;
+-		rmiaddr += SMB_MAX_COUNT;
+ 	}
  
--	for_each_set_bit(i, data->irq_status, data->irq_count)
--		handle_nested_irq(irq_find_mapping(data->irqdomain, i));
-+	for_each_set_bit(i, data->irq_status, data->irq_count) {
-+		unsigned int irq = irq_find_mapping(data->irqdomain, i);
-+
-+		if (irq)
-+			handle_nested_irq(irq);
-+	}
- 
- 	if (data->input)
- 		input_sync(data->input);
+ 	retval = 0;
 -- 
 2.23.0
 
