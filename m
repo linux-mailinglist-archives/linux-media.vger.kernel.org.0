@@ -2,262 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CD94101027
-	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2019 01:22:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EDFA31012AB
+	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2019 05:55:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727610AbfKSAWq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 Nov 2019 19:22:46 -0500
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:6982 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726952AbfKSAWp (ORCPT
+        id S1726942AbfKSEzD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 Nov 2019 23:55:03 -0500
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:47211 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726647AbfKSEzC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 Nov 2019 19:22:45 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5dd335d60001>; Mon, 18 Nov 2019 16:22:46 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 18 Nov 2019 16:22:44 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 18 Nov 2019 16:22:44 -0800
-Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 19 Nov
- 2019 00:22:43 +0000
-Subject: Re: [PATCH v5 17/24] mm/gup: track FOLL_PIN pages
-To:     Jan Kara <jack@suse.cz>
-CC:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
-        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
-        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
-References: <20191115055340.1825745-1-jhubbard@nvidia.com>
- <20191115055340.1825745-18-jhubbard@nvidia.com>
- <20191118115829.GJ17319@quack2.suse.cz>
-From:   John Hubbard <jhubbard@nvidia.com>
-X-Nvconfidentiality: public
-Message-ID: <8424f891-271d-5c34-8f7c-ebf3e3aa6664@nvidia.com>
-Date:   Mon, 18 Nov 2019 16:22:43 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
-MIME-Version: 1.0
-In-Reply-To: <20191118115829.GJ17319@quack2.suse.cz>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1574122967; bh=ip2xVJC+jxbL/7d2eWhZjqdIi4kB0uoxgzyWnYDs5q4=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=kZWTJaB6BUYpdW+z0HXxRztjdsBPgYMtIagp6++GXQ1xMYEqmDvkuTu5SJexcfc3Z
-         aqvcG/+YbvfnrntTmKpTzXcCcJ1vacUs8Vt+kkZFmecCKGt5ESA8XOWs62Cbve3dr3
-         XsCtQVKM4yFI8r3EtkYIToV94nBwkk0bzSnRfhI6IY4EfMEr9iYp9o7iElBN+PNDoe
-         GYMLDs4YJjT+MkCB6avfM8/DST4lwWHJbTQrh01mIBzcPCF4cBGDQd1OqtdqCqvly5
-         URQ6TTy1wBAC/IlVtHZs8b+E7d7tANvL2AVJcuHSx7ushKjPgli8Izd92XqBpLulsV
-         NLxmWdrhMpwGw==
+        Mon, 18 Nov 2019 23:55:02 -0500
+Received: from localhost ([IPv6:2001:983:e9a7:1:9879:d2e2:f0e2:9c7])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id WvXVinlROecrtWvXWizycH; Tue, 19 Nov 2019 05:54:58 +0100
+Message-ID: <74024d74aba50567f69c0309d40b79b6@smtp-cloud8.xs4all.net>
+Date:   Tue, 19 Nov 2019 05:54:57 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfCy4igJq8Lw2QpuMi8cc64t8VjK/SDKPabqTuyPyx1o8IdI1Ws4HVKDz69dM3ed+8rjb5fBDgzRirTM0Igou0oLCfyKeM3zfAbrt7Uzd2fO9pkTLjS0x
+ ZcdErsKxbuiBZ1paAn3BpHNN9X80p6IHpoVBYG8decFlFLNASamNyOenlbHcQOuhc2KpnZ9RkqH5gFmGTkg6IeVwwQz1L95Cp1Wo/vlSdaMgpQ+SHQp39wls
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/18/19 3:58 AM, Jan Kara wrote:
-> On Thu 14-11-19 21:53:33, John Hubbard wrote:
->> Add tracking of pages that were pinned via FOLL_PIN.
->>
->> As mentioned in the FOLL_PIN documentation, callers who effectively set
->> FOLL_PIN are required to ultimately free such pages via put_user_page().
->> The effect is similar to FOLL_GET, and may be thought of as "FOLL_GET
->> for DIO and/or RDMA use".
->>
->> Pages that have been pinned via FOLL_PIN are identifiable via a
->> new function call:
->>
->>    bool page_dma_pinned(struct page *page);
->>
->> What to do in response to encountering such a page, is left to later
->> patchsets. There is discussion about this in [1].
-> 						^^ missing this reference
-> in the changelog...
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-I'll add that.=20
+Results of the daily build of media_tree:
 
->=20
->> This also changes a BUG_ON(), to a WARN_ON(), in follow_page_mask().
->>
->> Suggested-by: Jan Kara <jack@suse.cz>
->> Suggested-by: J=C3=A9r=C3=B4me Glisse <jglisse@redhat.com>
->> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
->> ---
->> diff --git a/include/linux/mm.h b/include/linux/mm.h
->> index 6588d2e02628..db872766480f 100644
->> --- a/include/linux/mm.h
->> +++ b/include/linux/mm.h
->> @@ -1054,6 +1054,8 @@ static inline __must_check bool try_get_page(struc=
-t page *page)
->>  	return true;
->>  }
->> =20
->> +__must_check bool user_page_ref_inc(struct page *page);
->> +
->>  static inline void put_page(struct page *page)
->>  {
->>  	page =3D compound_head(page);
->> @@ -1071,29 +1073,70 @@ static inline void put_page(struct page *page)
->>  		__put_page(page);
->>  }
->> =20
->> -/**
->> - * put_user_page() - release a gup-pinned page
->> - * @page:            pointer to page to be released
->> +/*
->> + * GUP_PIN_COUNTING_BIAS, and the associated functions that use it, ove=
-rload
->> + * the page's refcount so that two separate items are tracked: the orig=
-inal page
->> + * reference count, and also a new count of how many get_user_pages() c=
-alls were
-> 							^^ pin_user_pages()
->=20
->> + * made against the page. ("gup-pinned" is another term for the latter)=
-.
->> + *
->> + * With this scheme, get_user_pages() becomes special: such pages are m=
-arked
-> 			^^^ pin_user_pages()
->=20
->> + * as distinct from normal pages. As such, the put_user_page() call (an=
-d its
->> + * variants) must be used in order to release gup-pinned pages.
->> + *
->> + * Choice of value:
->>   *
->> - * Pages that were pinned via pin_user_pages*() must be released via ei=
-ther
->> - * put_user_page(), or one of the put_user_pages*() routines. This is s=
-o that
->> - * eventually such pages can be separately tracked and uniquely handled=
-. In
->> - * particular, interactions with RDMA and filesystems need special hand=
-ling.
->> + * By making GUP_PIN_COUNTING_BIAS a power of two, debugging of page re=
-ference
->> + * counts with respect to get_user_pages() and put_user_page() becomes =
-simpler,
-> 				^^^ pin_user_pages()
->=20
+date:			Tue Nov 19 05:00:10 CET 2019
+media-tree git hash:	dca6b3733a4a46e63603496f544ece8ace541fde
+media_build git hash:	efba365ba11b958a6bf6fb4b397942f9461cefca
+v4l-utils git hash:	7ead0e1856b89f2e19369af452bb03fd0cd16793
+edid-decode git hash:	cc5a7bf9049af1bc795d5a2e432cc0044698f995
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 6903fe8f5101fc43440b3259290c97d2dd51733d
+host hardware:		x86_64
+host os:		5.2.0-3-amd64
 
-Yes.
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4-rc1-i686: OK
+linux-5.4-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2784, Succeeded: 2784, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
 
->> + * due to the fact that adding an even power of two to the page refcoun=
-t has
->> + * the effect of using only the upper N bits, for the code that counts =
-up using
->> + * the bias value. This means that the lower bits are left for the excl=
-usive
->> + * use of the original code that increments and decrements by one (or a=
-t least,
->> + * by much smaller values than the bias value).
->>   *
->> - * put_user_page() and put_page() are not interchangeable, despite this=
- early
->> - * implementation that makes them look the same. put_user_page() calls =
-must
->> - * be perfectly matched up with pin*() calls.
->> + * Of course, once the lower bits overflow into the upper bits (and thi=
-s is
->> + * OK, because subtraction recovers the original values), then visual i=
-nspection
->> + * no longer suffices to directly view the separate counts. However, fo=
-r normal
->> + * applications that don't have huge page reference counts, this won't =
-be an
->> + * issue.
->> + *
->> + * Locking: the lockless algorithm described in page_cache_get_speculat=
-ive()
->> + * and page_cache_gup_pin_speculative() provides safe operation for
->> + * get_user_pages and page_mkclean and other calls that race to set up =
-page
->> + * table entries.
->>   */
-> ...
->> @@ -2070,9 +2191,16 @@ static int gup_hugepte(pte_t *ptep, unsigned long=
- sz, unsigned long addr,
->>  	page =3D head + ((addr & (sz-1)) >> PAGE_SHIFT);
->>  	refs =3D __record_subpages(page, addr, end, pages + *nr);
->> =20
->> -	head =3D try_get_compound_head(head, refs);
->> -	if (!head)
->> -		return 0;
->> +	if (flags & FOLL_PIN) {
->> +		head =3D page;
->> +		if (unlikely(!user_page_ref_inc(head)))
->> +			return 0;
->> +		head =3D page;
->=20
-> Why do you assign 'head' twice? Also the refcounting logic is repeated
-> several times so perhaps you can factor it out in to a helper function or
-> even move it to __record_subpages()?
+Detailed results are available here:
 
-OK.
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
 
->=20
->> +	} else {
->> +		head =3D try_get_compound_head(head, refs);
->> +		if (!head)
->> +			return 0;
->> +	}
->> =20
->>  	if (unlikely(pte_val(pte) !=3D pte_val(*ptep))) {
->>  		put_compound_head(head, refs);
->=20
-> So this will do the wrong thing for FOLL_PIN. We took just one "pin"
-> reference there but here we'll release 'refs' normal references AFAICT.
-> Also the fact that you take just one pin reference for each huge page
-> substantially changes how GUP refcounting works in the huge page case.
-> Currently, FOLL_GET users can be completely agnostic of huge pages. So yo=
-u
-> can e.g. GUP whole 2 MB page, submit it as 2 different bios and then
-> drop page references from each bio completion function. With your new
-> FOLL_PIN behavior you cannot do that and I believe it will be a problem f=
-or
-> some users. So I think you have to maintain the behavior that you increas=
-e
-> the head->_refcount by (refs * GUP_PIN_COUNTING_BIAS) here.
->=20
+Detailed regression test results are available here:
 
-Yes, completely agreed, this was a (big) oversight. I went through the same
-reasoning and reached your conclusions, in __gup_device_huge(), but then
-did it wrong in these functions. Will fix.
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
 
-thanks,
---=20
-John Hubbard
-NVIDIA
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
