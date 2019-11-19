@@ -2,35 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 79240102336
-	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2019 12:35:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DAAA6102335
+	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2019 12:35:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728281AbfKSLfC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1728282AbfKSLfC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Tue, 19 Nov 2019 06:35:02 -0500
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:60337 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727638AbfKSLfB (ORCPT
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:49751 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728275AbfKSLfB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Tue, 19 Nov 2019 06:35:01 -0500
 Received: from marune.fritz.box ([IPv6:2001:983:e9a7:1:9879:d2e2:f0e2:9c7])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id X1mbiD68Hcs92X1mciz4So; Tue, 19 Nov 2019 12:34:58 +0100
+        id X1mbiD68Hcs92X1mdiz4Su; Tue, 19 Nov 2019 12:34:59 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1574163299; bh=VLMIEcuHY0nyKdvIc0Ue5wwdqJsybSDZZ1nyz4Qqa1o=;
+        t=1574163299; bh=56jGPmdjDNyAvK5Km3E2f9o8tt2iH9i97LqDuPyaDqo=;
         h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
-        b=tBugt62NPztRD3dktLugii+GmrmL+1ks6N9cwFjOi++6tGIZlCTv+5KJEGqio4GU6
-         paIdR1dGsgbveETz+QyAUdwNjRhNC0tGjeMluShS6TJkzJgwSRWTqEGplZn2DRUYnV
-         iu1wH3zBo/d8EOIrKUw6/ScQtYfT394xRBUEYNmAGbfhmAE2ebSq5FEyI6ptGZu/XQ
-         AbwItujIjkzlQ/QUd+yAr76cYUs+YcCJBicOaDgPfbBjef9om1QuY7K4a7LUgoJgj+
-         hS0zftrMklIHSFwRyvG+JkTPF47UZJpP523L+LZ6CB+ROQ8N6Bdf0HYO57/j811B0U
-         ogwsh0QKVcVbA==
+        b=iVa7k6PGsKhDAzVIWD4S47tdHukplNy7v2lxJ20rIzqxCjQ2Dl82hbGxaPkJbEyg5
+         TS5hZGUKrDYoA+0NLYTnbNxel0fdZEyrPtGVWEvVqkZr7diPrgz7+omIr/9S9JOirM
+         A03TFZEO1vHjLDQ99nTR5QeA6AUM0JdJ+oyC8SyThxgV6t2qYqNEioS84oqmOnFYsY
+         QKq7QKCOyORV06JM78auamPIWxAZucVyr5Kn0BuIat2gTH8dnjnVn/Ze0wTui3aQbv
+         I+wIvvhyE/FvEbcYY80k/bArqfLC6rCbUWD5hU2AoZtpD8Kq1GmUor12DWuaWYh6wD
+         CAD7LXbbRezaA==
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
 Cc:     Michael Tretter <m.tretter@pengutronix.de>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 1/5] v4l2-ctrls: add support for v4l2_fract types
-Date:   Tue, 19 Nov 2019 12:34:53 +0100
-Message-Id: <20191119113457.57833-2-hverkuil-cisco@xs4all.nl>
+Subject: [PATCH 2/5] v4l2-ctrls: add support for V4L2_CTRL_WHICH_MIN/MAX_VAL
+Date:   Tue, 19 Nov 2019 12:34:54 +0100
+Message-Id: <20191119113457.57833-3-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191119113457.57833-1-hverkuil-cisco@xs4all.nl>
 References: <20191119113457.57833-1-hverkuil-cisco@xs4all.nl>
@@ -44,209 +44,517 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The stateful encoder drivers need a fraction type in order to set
-the desired frame rate with the required precision.
-
-Add support for this.
+Add the capability of retrieving the min and max values of a
+compound control.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- .../media/uapi/v4l/vidioc-g-ext-ctrls.rst     |  5 +++
- .../media/uapi/v4l/vidioc-queryctrl.rst       |  6 +++
- .../media/videodev2.h.rst.exceptions          |  1 +
- drivers/media/v4l2-core/v4l2-ctrls.c          | 22 ++++++++++
- include/media/v4l2-ctrls.h                    | 44 ++++++++++++++++++-
- include/uapi/linux/videodev2.h                |  2 +
- 6 files changed, 79 insertions(+), 1 deletion(-)
+ .../media/uapi/v4l/vidioc-g-ext-ctrls.rst     |  10 +-
+ .../media/videodev2.h.rst.exceptions          |   2 +
+ drivers/media/i2c/imx214.c                    |   4 +-
+ drivers/media/v4l2-core/v4l2-ctrls.c          | 196 ++++++++++++++++--
+ include/media/v4l2-ctrls.h                    |  28 ++-
+ include/uapi/linux/videodev2.h                |   2 +
+ 6 files changed, 213 insertions(+), 29 deletions(-)
 
 diff --git a/Documentation/media/uapi/v4l/vidioc-g-ext-ctrls.rst b/Documentation/media/uapi/v4l/vidioc-g-ext-ctrls.rst
-index 271cac18afbb..fbb42e73b821 100644
+index fbb42e73b821..cdee57c8d3dc 100644
 --- a/Documentation/media/uapi/v4l/vidioc-g-ext-ctrls.rst
 +++ b/Documentation/media/uapi/v4l/vidioc-g-ext-ctrls.rst
-@@ -203,6 +203,11 @@ still cause this situation.
-       - ``p_area``
-       - A pointer to a struct :c:type:`v4l2_area`. Valid if this control is
-         of type ``V4L2_CTRL_TYPE_AREA``.
-+    * -
-+      - :c:type:`v4l2_fract` *
-+      - ``p_fract``
-+      - A pointer to a struct :c:type:`v4l2_fract`. Valid if this control is
-+        of type ``V4L2_CTRL_TYPE_FRACT``.
-     * -
-       - void *
-       - ``ptr``
-diff --git a/Documentation/media/uapi/v4l/vidioc-queryctrl.rst b/Documentation/media/uapi/v4l/vidioc-queryctrl.rst
-index 6690928e657b..d4e3d2a71f56 100644
---- a/Documentation/media/uapi/v4l/vidioc-queryctrl.rst
-+++ b/Documentation/media/uapi/v4l/vidioc-queryctrl.rst
-@@ -449,6 +449,12 @@ See also the examples in :ref:`control`.
-       - n/a
-       - A struct :c:type:`v4l2_area`, containing the width and the height
-         of a rectangular area. Units depend on the use case.
-+    * - ``V4L2_CTRL_TYPE_FRACT``
-+      - any
-+      - n/a
-+      - any
-+      - A struct :c:type:`v4l2_fract`, containing the numerator and the
-+	denominator of the fraction.
-     * - ``V4L2_CTRL_TYPE_H264_SPS``
-       - n/a
-       - n/a
+@@ -246,7 +246,9 @@ still cause this situation.
+       - Which value of the control to get/set/try.
+ 	``V4L2_CTRL_WHICH_CUR_VAL`` will return the current value of the
+ 	control, ``V4L2_CTRL_WHICH_DEF_VAL`` will return the default
+-	value of the control and ``V4L2_CTRL_WHICH_REQUEST_VAL`` indicates that
++	value of the control, ``V4L2_CTRL_WHICH_MIN_VAL`` will return the minimum
++        value of the control, ``V4L2_CTRL_WHICH_MAX_VAL`` will return the maximum
++        value of the control and ``V4L2_CTRL_WHICH_REQUEST_VAL`` indicates that
+ 	these controls have to be retrieved from a request or tried/set for
+ 	a request. In the latter case the ``request_fd`` field contains the
+ 	file descriptor of the request that should be used. If the device
+@@ -254,8 +256,10 @@ still cause this situation.
+ 
+ 	.. note::
+ 
+-	   When using ``V4L2_CTRL_WHICH_DEF_VAL`` be aware that you can only
+-	   get the default value of the control, you cannot set or try it.
++	   When using ``V4L2_CTRL_WHICH_DEF_VAL``, ``V4L2_CTRL_WHICH_MIN_VAL``
++	   or ``V4L2_CTRL_WHICH_MAX_VAL`` be aware that you can only
++	   get the default/minimum/maximum value of the control, you cannot set
++	   or try it.
+ 
+ 	For backwards compatibility you can also use a control class here
+ 	(see :ref:`ctrl-class`). In that case all controls have to
 diff --git a/Documentation/media/videodev2.h.rst.exceptions b/Documentation/media/videodev2.h.rst.exceptions
-index cb6ccf91776e..49df65d162a0 100644
+index 49df65d162a0..e6a8ae41773d 100644
 --- a/Documentation/media/videodev2.h.rst.exceptions
 +++ b/Documentation/media/videodev2.h.rst.exceptions
-@@ -145,6 +145,7 @@ replace symbol V4L2_CTRL_TYPE_HEVC_SPS :c:type:`v4l2_ctrl_type`
- replace symbol V4L2_CTRL_TYPE_HEVC_PPS :c:type:`v4l2_ctrl_type`
- replace symbol V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS :c:type:`v4l2_ctrl_type`
- replace symbol V4L2_CTRL_TYPE_AREA :c:type:`v4l2_ctrl_type`
-+replace symbol V4L2_CTRL_TYPE_FRACT :c:type:`v4l2_ctrl_type`
- 
- # V4L2 capability defines
- replace define V4L2_CAP_VIDEO_CAPTURE device-capabilities
+@@ -536,6 +536,8 @@ ignore define V4L2_CTRL_DRIVER_PRIV
+ ignore define V4L2_CTRL_MAX_DIMS
+ ignore define V4L2_CTRL_WHICH_CUR_VAL
+ ignore define V4L2_CTRL_WHICH_DEF_VAL
++ignore define V4L2_CTRL_WHICH_MIN_VAL
++ignore define V4L2_CTRL_WHICH_MAX_VAL
+ ignore define V4L2_CTRL_WHICH_REQUEST_VAL
+ ignore define V4L2_OUT_CAP_CUSTOM_TIMINGS
+ ignore define V4L2_CID_MAX_CTRLS
+diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
+index adcaaa8c86d1..72938197d745 100644
+--- a/drivers/media/i2c/imx214.c
++++ b/drivers/media/i2c/imx214.c
+@@ -1037,7 +1037,9 @@ static int imx214_probe(struct i2c_client *client)
+ 	imx214->unit_size = v4l2_ctrl_new_std_compound(&imx214->ctrls,
+ 				NULL,
+ 				V4L2_CID_UNIT_CELL_SIZE,
+-				v4l2_ctrl_ptr_create((void *)&unit_size));
++				v4l2_ctrl_ptr_create((void *)&unit_size),
++				v4l2_ctrl_ptr_create(NULL),
++				v4l2_ctrl_ptr_create(NULL));
+ 	ret = imx214->ctrls.error;
+ 	if (ret) {
+ 		dev_err(&client->dev, "%s control init failed (%d)\n",
 diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-index 2928c5e0a73d..28a5d153d18c 100644
+index 28a5d153d18c..af74609dce0a 100644
 --- a/drivers/media/v4l2-core/v4l2-ctrls.c
 +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-@@ -1716,6 +1716,7 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
- 	struct v4l2_ctrl_hevc_pps *p_hevc_pps;
- 	struct v4l2_ctrl_hevc_slice_params *p_hevc_slice_params;
- 	struct v4l2_area *area;
-+	struct v4l2_fract *fract;
- 	void *p = ptr.p + idx * ctrl->elem_size;
- 	unsigned int i;
+@@ -1590,6 +1590,28 @@ static void std_init_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+ 	}
+ }
  
-@@ -1863,6 +1864,12 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
- 			return -EINVAL;
- 		break;
- 
-+	case V4L2_CTRL_TYPE_FRACT:
-+		fract = p;
-+		if (!fract->denominator)
-+			return -EINVAL;
-+		break;
++static void std_min_compound(const struct v4l2_ctrl *ctrl, u32 idx,
++			     union v4l2_ctrl_ptr ptr)
++{
++	void *p = ptr.p + idx * ctrl->elem_size;
 +
- 	default:
++	if (ctrl->p_min.p_const)
++		memcpy(p, ctrl->p_min.p_const, ctrl->elem_size);
++	else
++		memset(p, 0, ctrl->elem_size);
++}
++
++static void std_max_compound(const struct v4l2_ctrl *ctrl, u32 idx,
++			     union v4l2_ctrl_ptr ptr)
++{
++	void *p = ptr.p + idx * ctrl->elem_size;
++
++	if (ctrl->p_max.p_const)
++		memcpy(p, ctrl->p_max.p_const, ctrl->elem_size);
++	else
++		memset(p, 0, ctrl->elem_size);
++}
++
+ static void std_init(const struct v4l2_ctrl *ctrl, u32 idx,
+ 		     union v4l2_ctrl_ptr ptr)
+ {
+@@ -1628,6 +1650,82 @@ static void std_init(const struct v4l2_ctrl *ctrl, u32 idx,
+ 	}
+ }
+ 
++static void std_minimum(const struct v4l2_ctrl *ctrl, u32 idx,
++			union v4l2_ctrl_ptr ptr)
++{
++	switch (ctrl->type) {
++	case V4L2_CTRL_TYPE_STRING:
++		idx *= ctrl->elem_size;
++		memset(ptr.p_char + idx, ' ', ctrl->minimum);
++		ptr.p_char[idx + ctrl->minimum] = '\0';
++		break;
++	case V4L2_CTRL_TYPE_INTEGER64:
++		ptr.p_s64[idx] = ctrl->minimum;
++		break;
++	case V4L2_CTRL_TYPE_INTEGER:
++	case V4L2_CTRL_TYPE_INTEGER_MENU:
++	case V4L2_CTRL_TYPE_MENU:
++	case V4L2_CTRL_TYPE_BITMASK:
++	case V4L2_CTRL_TYPE_BOOLEAN:
++		ptr.p_s32[idx] = ctrl->minimum;
++		break;
++	case V4L2_CTRL_TYPE_BUTTON:
++	case V4L2_CTRL_TYPE_CTRL_CLASS:
++		ptr.p_s32[idx] = 0;
++		break;
++	case V4L2_CTRL_TYPE_U8:
++		ptr.p_u8[idx] = ctrl->minimum;
++		break;
++	case V4L2_CTRL_TYPE_U16:
++		ptr.p_u16[idx] = ctrl->minimum;
++		break;
++	case V4L2_CTRL_TYPE_U32:
++		ptr.p_u32[idx] = ctrl->minimum;
++		break;
++	default:
++		std_min_compound(ctrl, idx, ptr);
++		break;
++	}
++}
++
++static void std_maximum(const struct v4l2_ctrl *ctrl, u32 idx,
++			union v4l2_ctrl_ptr ptr)
++{
++	switch (ctrl->type) {
++	case V4L2_CTRL_TYPE_STRING:
++		idx *= ctrl->elem_size;
++		memset(ptr.p_char + idx, ' ', ctrl->maximum);
++		ptr.p_char[idx + ctrl->maximum] = '\0';
++		break;
++	case V4L2_CTRL_TYPE_INTEGER64:
++		ptr.p_s64[idx] = ctrl->maximum;
++		break;
++	case V4L2_CTRL_TYPE_INTEGER:
++	case V4L2_CTRL_TYPE_INTEGER_MENU:
++	case V4L2_CTRL_TYPE_MENU:
++	case V4L2_CTRL_TYPE_BITMASK:
++	case V4L2_CTRL_TYPE_BOOLEAN:
++		ptr.p_s32[idx] = ctrl->maximum;
++		break;
++	case V4L2_CTRL_TYPE_BUTTON:
++	case V4L2_CTRL_TYPE_CTRL_CLASS:
++		ptr.p_s32[idx] = 0;
++		break;
++	case V4L2_CTRL_TYPE_U8:
++		ptr.p_u8[idx] = ctrl->maximum;
++		break;
++	case V4L2_CTRL_TYPE_U16:
++		ptr.p_u16[idx] = ctrl->maximum;
++		break;
++	case V4L2_CTRL_TYPE_U32:
++		ptr.p_u32[idx] = ctrl->maximum;
++		break;
++	default:
++		std_max_compound(ctrl, idx, ptr);
++		break;
++	}
++}
++
+ static void std_log(const struct v4l2_ctrl *ctrl)
+ {
+ 	union v4l2_ctrl_ptr ptr = ctrl->p_cur;
+@@ -1950,6 +2048,8 @@ static int std_validate(const struct v4l2_ctrl *ctrl, u32 idx,
+ static const struct v4l2_ctrl_type_ops std_type_ops = {
+ 	.equal = std_equal,
+ 	.init = std_init,
++	.minimum = std_minimum,
++	.maximum = std_maximum,
+ 	.log = std_log,
+ 	.validate = std_validate,
+ };
+@@ -2016,6 +2116,28 @@ static int def_to_user(struct v4l2_ext_control *c, struct v4l2_ctrl *ctrl)
+ 	return ptr_to_user(c, ctrl, ctrl->p_new);
+ }
+ 
++/* Helper function: copy the minimum control value back to the caller */
++static int min_to_user(struct v4l2_ext_control *c, struct v4l2_ctrl *ctrl)
++{
++	int idx;
++
++	for (idx = 0; idx < ctrl->elems; idx++)
++		ctrl->type_ops->minimum(ctrl, idx, ctrl->p_new);
++
++	return ptr_to_user(c, ctrl, ctrl->p_new);
++}
++
++/* Helper function: copy the maximum control value back to the caller */
++static int max_to_user(struct v4l2_ext_control *c, struct v4l2_ctrl *ctrl)
++{
++	int idx;
++
++	for (idx = 0; idx < ctrl->elems; idx++)
++		ctrl->type_ops->maximum(ctrl, idx, ctrl->p_new);
++
++	return ptr_to_user(c, ctrl, ctrl->p_new);
++}
++
+ /* Helper function: copy the caller-provider value to the given control value */
+ static int user_to_ptr(struct v4l2_ext_control *c,
+ 		       struct v4l2_ctrl *ctrl,
+@@ -2476,7 +2598,10 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
+ 			s64 min, s64 max, u64 step, s64 def,
+ 			const u32 dims[V4L2_CTRL_MAX_DIMS], u32 elem_size,
+ 			u32 flags, const char * const *qmenu,
+-			const s64 *qmenu_int, const union v4l2_ctrl_ptr p_def,
++			const s64 *qmenu_int,
++			const union v4l2_ctrl_ptr p_def,
++			const union v4l2_ctrl_ptr p_min,
++			const union v4l2_ctrl_ptr p_max,
+ 			void *priv)
+ {
+ 	struct v4l2_ctrl *ctrl;
+@@ -2599,7 +2724,7 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
+ 		sz_extra += 2 * tot_ctrl_size;
+ 
+ 	if (type >= V4L2_CTRL_COMPOUND_TYPES && p_def.p_const)
+-		sz_extra += elem_size;
++		sz_extra += elem_size * 3;
+ 
+ 	ctrl = kvzalloc(sizeof(*ctrl) + sz_extra, GFP_KERNEL);
+ 	if (ctrl == NULL) {
+@@ -2649,6 +2774,13 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
+ 		ctrl->p_def.p = ctrl->p_cur.p + tot_ctrl_size;
+ 		memcpy(ctrl->p_def.p, p_def.p_const, elem_size);
+ 	}
++	if (type >= V4L2_CTRL_COMPOUND_TYPES &&
++	    p_min.p_const && p_max.p_const) {
++		ctrl->p_min.p = ctrl->p_cur.p + 2 * tot_ctrl_size;
++		memcpy(ctrl->p_min.p, p_min.p_const, elem_size);
++		ctrl->p_max.p = ctrl->p_cur.p + 3 * tot_ctrl_size;
++		memcpy(ctrl->p_max.p, p_max.p_const, elem_size);
++	}
+ 
+ 	for (idx = 0; idx < elems; idx++) {
+ 		ctrl->type_ops->init(ctrl, idx, ctrl->p_cur);
+@@ -2701,7 +2833,8 @@ struct v4l2_ctrl *v4l2_ctrl_new_custom(struct v4l2_ctrl_handler *hdl,
+ 			type, min, max,
+ 			is_menu ? cfg->menu_skip_mask : step, def,
+ 			cfg->dims, cfg->elem_size,
+-			flags, qmenu, qmenu_int, cfg->p_def, priv);
++			flags, qmenu, qmenu_int, cfg->p_def, cfg->p_min,
++			cfg->p_max, priv);
+ 	if (ctrl)
+ 		ctrl->is_private = cfg->is_private;
+ 	return ctrl;
+@@ -2726,7 +2859,8 @@ struct v4l2_ctrl *v4l2_ctrl_new_std(struct v4l2_ctrl_handler *hdl,
+ 	}
+ 	return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
+ 			     min, max, step, def, NULL, 0,
+-			     flags, NULL, NULL, ptr_null, NULL);
++			     flags, NULL, NULL, ptr_null, ptr_null,
++			     ptr_null, NULL);
+ }
+ EXPORT_SYMBOL(v4l2_ctrl_new_std);
+ 
+@@ -2759,7 +2893,8 @@ struct v4l2_ctrl *v4l2_ctrl_new_std_menu(struct v4l2_ctrl_handler *hdl,
+ 	}
+ 	return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
+ 			     0, max, mask, def, NULL, 0,
+-			     flags, qmenu, qmenu_int, ptr_null, NULL);
++			     flags, qmenu, qmenu_int, ptr_null, ptr_null,
++			     ptr_null, NULL);
+ }
+ EXPORT_SYMBOL(v4l2_ctrl_new_std_menu);
+ 
+@@ -2791,7 +2926,8 @@ struct v4l2_ctrl *v4l2_ctrl_new_std_menu_items(struct v4l2_ctrl_handler *hdl,
+ 	}
+ 	return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
+ 			     0, max, mask, def, NULL, 0,
+-			     flags, qmenu, NULL, ptr_null, NULL);
++			     flags, qmenu, NULL, ptr_null, ptr_null,
++			     ptr_null, NULL);
+ 
+ }
+ EXPORT_SYMBOL(v4l2_ctrl_new_std_menu_items);
+@@ -2799,7 +2935,9 @@ EXPORT_SYMBOL(v4l2_ctrl_new_std_menu_items);
+ /* Helper function for standard compound controls */
+ struct v4l2_ctrl *v4l2_ctrl_new_std_compound(struct v4l2_ctrl_handler *hdl,
+ 				const struct v4l2_ctrl_ops *ops, u32 id,
+-				const union v4l2_ctrl_ptr p_def)
++				const union v4l2_ctrl_ptr p_def,
++				const union v4l2_ctrl_ptr p_min,
++				const union v4l2_ctrl_ptr p_max)
+ {
+ 	const char *name;
+ 	enum v4l2_ctrl_type type;
+@@ -2813,7 +2951,7 @@ struct v4l2_ctrl *v4l2_ctrl_new_std_compound(struct v4l2_ctrl_handler *hdl,
+ 	}
+ 	return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
+ 			     min, max, step, def, NULL, 0,
+-			     flags, NULL, NULL, p_def, NULL);
++			     flags, NULL, NULL, p_def, p_min, p_max, NULL);
+ }
+ EXPORT_SYMBOL(v4l2_ctrl_new_std_compound);
+ 
+@@ -2837,7 +2975,8 @@ struct v4l2_ctrl *v4l2_ctrl_new_int_menu(struct v4l2_ctrl_handler *hdl,
+ 	}
+ 	return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
+ 			     0, max, 0, def, NULL, 0,
+-			     flags, NULL, qmenu_int, ptr_null, NULL);
++			     flags, NULL, qmenu_int, ptr_null, ptr_null,
++			     ptr_null, NULL);
+ }
+ EXPORT_SYMBOL(v4l2_ctrl_new_int_menu);
+ 
+@@ -3479,8 +3618,8 @@ static int prepare_ext_ctrls(struct v4l2_ctrl_handler *hdl,
+ 		cs->error_idx = i;
+ 
+ 		if (cs->which &&
+-		    cs->which != V4L2_CTRL_WHICH_DEF_VAL &&
+-		    cs->which != V4L2_CTRL_WHICH_REQUEST_VAL &&
++		    (cs->which < V4L2_CTRL_WHICH_DEF_VAL ||
++		     cs->which > V4L2_CTRL_WHICH_MAX_VAL) &&
+ 		    V4L2_CTRL_ID2WHICH(id) != cs->which) {
+ 			dprintk(vdev,
+ 				"invalid which 0x%x or control id 0x%x\n",
+@@ -3578,8 +3717,8 @@ static int prepare_ext_ctrls(struct v4l2_ctrl_handler *hdl,
+    whether there are any controls at all. */
+ static int class_check(struct v4l2_ctrl_handler *hdl, u32 which)
+ {
+-	if (which == 0 || which == V4L2_CTRL_WHICH_DEF_VAL ||
+-	    which == V4L2_CTRL_WHICH_REQUEST_VAL)
++	if (which == 0 || (which >= V4L2_CTRL_WHICH_DEF_VAL &&
++			   which <= V4L2_CTRL_WHICH_MAX_VAL))
+ 		return 0;
+ 	return find_ref_lock(hdl, which | 1) ? 0 : -EINVAL;
+ }
+@@ -3593,9 +3732,7 @@ static int v4l2_g_ext_ctrls_common(struct v4l2_ctrl_handler *hdl,
+ 	struct v4l2_ctrl_helper *helpers = helper;
+ 	int ret;
+ 	int i, j;
+-	bool def_value;
+-
+-	def_value = (cs->which == V4L2_CTRL_WHICH_DEF_VAL);
++	__u32 which = cs->which;
+ 
+ 	cs->error_idx = cs->count;
+ 	cs->which = V4L2_CTRL_ID2WHICH(cs->which);
+@@ -3625,18 +3762,31 @@ static int v4l2_g_ext_ctrls_common(struct v4l2_ctrl_handler *hdl,
+ 				    struct v4l2_ctrl *ctrl);
+ 		struct v4l2_ctrl *master;
+ 
+-		ctrl_to_user = def_value ? def_to_user : cur_to_user;
+-
+ 		if (helpers[i].mref == NULL)
+ 			continue;
+ 
+ 		master = helpers[i].mref->ctrl;
+ 		cs->error_idx = i;
+ 
++		switch (which) {
++		case V4L2_CTRL_WHICH_DEF_VAL:
++			ctrl_to_user = def_to_user;
++			break;
++		case V4L2_CTRL_WHICH_MIN_VAL:
++			ctrl_to_user = min_to_user;
++			break;
++		case V4L2_CTRL_WHICH_MAX_VAL:
++			ctrl_to_user = max_to_user;
++			break;
++		default:
++			ctrl_to_user = cur_to_user;
++			break;
++		}
++
+ 		v4l2_ctrl_lock(master);
+ 
+ 		/* g_volatile_ctrl will update the new control values */
+-		if (!def_value &&
++		if (ctrl_to_user == cur_to_user &&
+ 		    ((master->flags & V4L2_CTRL_FLAG_VOLATILE) ||
+ 		    (master->has_volatiles && !is_cur_manual(master)))) {
+ 			for (j = 0; j < master->ncontrols; j++)
+@@ -3962,9 +4112,11 @@ static int try_set_ext_ctrls_common(struct v4l2_fh *fh,
+ 
+ 	cs->error_idx = cs->count;
+ 
+-	/* Default value cannot be changed */
+-	if (cs->which == V4L2_CTRL_WHICH_DEF_VAL) {
+-		dprintk(vdev, "%s: cannot change default value\n",
++	/* Default/minimum/maximum values cannot be changed */
++	if (cs->which == V4L2_CTRL_WHICH_DEF_VAL ||
++	    cs->which == V4L2_CTRL_WHICH_MIN_VAL ||
++	    cs->which == V4L2_CTRL_WHICH_MAX_VAL) {
++		dprintk(vdev, "%s: cannot change default/min/max value\n",
+ 			video_device_node_name(vdev));
  		return -EINVAL;
  	}
-@@ -2549,6 +2556,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
- 	case V4L2_CTRL_TYPE_AREA:
- 		elem_size = sizeof(struct v4l2_area);
- 		break;
-+	case V4L2_CTRL_TYPE_FRACT:
-+		elem_size = sizeof(struct v4l2_fract);
-+		break;
- 	default:
- 		if (type < V4L2_CTRL_COMPOUND_TYPES)
- 			elem_size = sizeof(s32);
-@@ -4255,6 +4265,18 @@ int __v4l2_ctrl_s_ctrl_area(struct v4l2_ctrl *ctrl,
- }
- EXPORT_SYMBOL(__v4l2_ctrl_s_ctrl_area);
- 
-+int __v4l2_ctrl_s_ctrl_fract(struct v4l2_ctrl *ctrl,
-+			     const struct v4l2_fract *fract)
-+{
-+	lockdep_assert_held(ctrl->handler->lock);
-+
-+	/* It's a driver bug if this happens. */
-+	WARN_ON(ctrl->type != V4L2_CTRL_TYPE_FRACT);
-+	*ctrl->p_new.p_fract = *fract;
-+	return set_ctrl(NULL, ctrl, 0);
-+}
-+EXPORT_SYMBOL(__v4l2_ctrl_s_ctrl_fract);
-+
- void v4l2_ctrl_request_complete(struct media_request *req,
- 				struct v4l2_ctrl_handler *main_hdl)
- {
 diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-index 7db9e719a583..aefd62831bc8 100644
+index aefd62831bc8..6372c75ddc1b 100644
 --- a/include/media/v4l2-ctrls.h
 +++ b/include/media/v4l2-ctrls.h
-@@ -54,7 +54,8 @@ struct poll_table_struct;
-  * @p_hevc_sps:			Pointer to an HEVC sequence parameter set structure.
-  * @p_hevc_pps:			Pointer to an HEVC picture parameter set structure.
-  * @p_hevc_slice_params:	Pointer to an HEVC slice parameters structure.
-- * @p_area:			Pointer to an area.
-+ * @p_area:			Pointer to a struct v4l2_area.
-+ * @p_fract:			Pointer to a struct v4l2_fract.
-  * @p:				Pointer to a compound value.
-  * @p_const:			Pointer to a constant compound value.
-  */
-@@ -78,6 +79,7 @@ union v4l2_ctrl_ptr {
- 	struct v4l2_ctrl_hevc_pps *p_hevc_pps;
- 	struct v4l2_ctrl_hevc_slice_params *p_hevc_slice_params;
- 	struct v4l2_area *p_area;
-+	struct v4l2_fract *p_fract;
- 	void *p;
- 	const void *p_const;
+@@ -122,6 +122,8 @@ struct v4l2_ctrl_ops {
+  *
+  * @equal: return true if both values are equal.
+  * @init: initialize the value.
++ * @minimum: set the value to the minimum value of the control.
++ * @maximum: set the value to the maximum value of the control.
+  * @log: log the value.
+  * @validate: validate the value. Return 0 on success and a negative value
+  *	otherwise.
+@@ -132,6 +134,10 @@ struct v4l2_ctrl_type_ops {
+ 		      union v4l2_ctrl_ptr ptr2);
+ 	void (*init)(const struct v4l2_ctrl *ctrl, u32 idx,
+ 		     union v4l2_ctrl_ptr ptr);
++	void (*minimum)(const struct v4l2_ctrl *ctrl, u32 idx,
++			union v4l2_ctrl_ptr ptr);
++	void (*maximum)(const struct v4l2_ctrl *ctrl, u32 idx,
++			union v4l2_ctrl_ptr ptr);
+ 	void (*log)(const struct v4l2_ctrl *ctrl);
+ 	int (*validate)(const struct v4l2_ctrl *ctrl, u32 idx,
+ 			union v4l2_ctrl_ptr ptr);
+@@ -228,6 +234,12 @@ typedef void (*v4l2_ctrl_notify_fnc)(struct v4l2_ctrl *ctrl, void *priv);
+  * @p_def:	The control's default value represented via a union which
+  *		provides a standard way of accessing control types
+  *		through a pointer (for compound controls only).
++ * @p_min:	The control's minimum value represented via a union which
++ *		provides a standard way of accessing control types
++ *		through a pointer (for compound controls only).
++ * @p_max:	The control's maximum value represented via a union which
++ *		provides a standard way of accessing control types
++ *		through a pointer (for compound controls only).
+  * @p_cur:	The control's current value represented via a union which
+  *		provides a standard way of accessing control types
+  *		through a pointer.
+@@ -283,6 +295,8 @@ struct v4l2_ctrl {
+ 	} cur;
+ 
+ 	union v4l2_ctrl_ptr p_def;
++	union v4l2_ctrl_ptr p_min;
++	union v4l2_ctrl_ptr p_max;
+ 	union v4l2_ctrl_ptr p_new;
+ 	union v4l2_ctrl_ptr p_cur;
  };
-@@ -1152,6 +1154,46 @@ static inline int v4l2_ctrl_s_ctrl_area(struct v4l2_ctrl *ctrl,
- 	return rval;
- }
+@@ -387,6 +401,8 @@ struct v4l2_ctrl_handler {
+  * @step:	The control's step value for non-menu controls.
+  * @def:	The control's default value.
+  * @p_def:	The control's default value for compound controls.
++ * @p_min:	The control's minimum value for compound controls.
++ * @p_max:	The control's maximum value for compound controls.
+  * @dims:	The size of each dimension.
+  * @elem_size:	The size in bytes of the control.
+  * @flags:	The control's flags.
+@@ -416,6 +432,8 @@ struct v4l2_ctrl_config {
+ 	u64 step;
+ 	s64 def;
+ 	union v4l2_ctrl_ptr p_def;
++	union v4l2_ctrl_ptr p_min;
++	union v4l2_ctrl_ptr p_max;
+ 	u32 dims[V4L2_CTRL_MAX_DIMS];
+ 	u32 elem_size;
+ 	u32 flags;
+@@ -685,15 +703,19 @@ struct v4l2_ctrl *v4l2_ctrl_new_std_menu_items(struct v4l2_ctrl_handler *hdl,
+  * @ops:       The control ops.
+  * @id:        The control ID.
+  * @p_def:     The control's default value.
++ * @p_min:     The control's minimum value.
++ * @p_max:     The control's maximum value.
+  *
+- * Sames as v4l2_ctrl_new_std(), but with support to compound controls, thanks
+- * to the @p_def field.
++ * Same as v4l2_ctrl_new_std(), but with support to compound controls, thanks
++ * to the @p_def/min/max fields.
+  *
+  */
+ struct v4l2_ctrl *v4l2_ctrl_new_std_compound(struct v4l2_ctrl_handler *hdl,
+ 					     const struct v4l2_ctrl_ops *ops,
+ 					     u32 id,
+-					     const union v4l2_ctrl_ptr p_def);
++					     const union v4l2_ctrl_ptr p_def,
++					     const union v4l2_ctrl_ptr p_min,
++					     const union v4l2_ctrl_ptr p_max);
  
-+/**
-+ * __v4l2_ctrl_s_ctrl_fract() - Unlocked variant of v4l2_ctrl_s_ctrl_fract().
-+ *
-+ * @ctrl:	The control.
-+ * @fract:	The new fraction.
-+ *
-+ * This sets the control's new fraction safely by going through the control
-+ * framework. This function assumes the control's handler is already locked,
-+ * allowing it to be used from within the &v4l2_ctrl_ops functions.
-+ *
-+ * This function is for fraction type controls only.
-+ */
-+int __v4l2_ctrl_s_ctrl_fract(struct v4l2_ctrl *ctrl,
-+			     const struct v4l2_fract *fract);
-+
-+/**
-+ * v4l2_ctrl_s_ctrl_fract() - Helper function to set a control's fraction value
-+ *	 from within a driver.
-+ *
-+ * @ctrl:	The control.
-+ * @fract:	The new fraction.
-+ *
-+ * This sets the control's new fraction safely by going through the control
-+ * framework. This function will lock the control's handler, so it cannot be
-+ * used from within the &v4l2_ctrl_ops functions.
-+ *
-+ * This function is for area type controls only.
-+ */
-+static inline int v4l2_ctrl_s_ctrl_fract(struct v4l2_ctrl *ctrl,
-+					 const struct v4l2_fract *fract)
-+{
-+	int rval;
-+
-+	v4l2_ctrl_lock(ctrl);
-+	rval = __v4l2_ctrl_s_ctrl_fract(ctrl, fract);
-+	v4l2_ctrl_unlock(ctrl);
-+
-+	return rval;
-+}
-+
- /* Internal helper functions that deal with control events. */
- extern const struct v4l2_subscribed_event_ops v4l2_ctrl_sub_ev_ops;
- 
+ /**
+  * v4l2_ctrl_new_int_menu() - Create a new standard V4L2 integer menu control.
 diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 04481c717fee..2b584c69e619 100644
+index 2b584c69e619..7aa1293ac7bc 100644
 --- a/include/uapi/linux/videodev2.h
 +++ b/include/uapi/linux/videodev2.h
-@@ -1685,6 +1685,7 @@ struct v4l2_ext_control {
- 		__u16 __user *p_u16;
- 		__u32 __user *p_u32;
- 		struct v4l2_area __user *p_area;
-+		struct v4l2_fract __user *p_fract;
- 		void __user *ptr;
- 	};
- } __attribute__ ((packed));
-@@ -1731,6 +1732,7 @@ enum v4l2_ctrl_type {
- 	V4L2_CTRL_TYPE_U16	     = 0x0101,
- 	V4L2_CTRL_TYPE_U32	     = 0x0102,
- 	V4L2_CTRL_TYPE_AREA          = 0x0106,
-+	V4L2_CTRL_TYPE_FRACT         = 0x0107,
- };
+@@ -1714,6 +1714,8 @@ struct v4l2_ext_controls {
+ #define V4L2_CTRL_WHICH_CUR_VAL   0
+ #define V4L2_CTRL_WHICH_DEF_VAL   0x0f000000
+ #define V4L2_CTRL_WHICH_REQUEST_VAL 0x0f010000
++#define V4L2_CTRL_WHICH_MIN_VAL   0x0f020000
++#define V4L2_CTRL_WHICH_MAX_VAL   0x0f030000
  
- /*  Used in the VIDIOC_QUERYCTRL ioctl for querying controls */
+ enum v4l2_ctrl_type {
+ 	V4L2_CTRL_TYPE_INTEGER	     = 1,
 -- 
 2.23.0
 
