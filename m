@@ -2,131 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C27E4102353
-	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2019 12:38:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B564A102357
+	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2019 12:38:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727995AbfKSLh6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Nov 2019 06:37:58 -0500
-Received: from mx2.suse.de ([195.135.220.15]:35362 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727557AbfKSLh5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Nov 2019 06:37:57 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 8BC3DBCC5;
-        Tue, 19 Nov 2019 11:37:52 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id 1D7961E47E5; Tue, 19 Nov 2019 12:37:46 +0100 (CET)
-Date:   Tue, 19 Nov 2019 12:37:46 +0100
-From:   Jan Kara <jack@suse.cz>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
-        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v6 17/24] mm/gup: track FOLL_PIN pages
-Message-ID: <20191119113746.GD25605@quack2.suse.cz>
-References: <20191119081643.1866232-1-jhubbard@nvidia.com>
- <20191119081643.1866232-18-jhubbard@nvidia.com>
+        id S1727640AbfKSLi1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Nov 2019 06:38:27 -0500
+Received: from metis.ext.pengutronix.de ([85.220.165.71]:52923 "EHLO
+        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727557AbfKSLi0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 19 Nov 2019 06:38:26 -0500
+Received: from kresse.hi.pengutronix.de ([2001:67c:670:100:1d::2a])
+        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <l.stach@pengutronix.de>)
+        id 1iX1px-0000Yw-8u; Tue, 19 Nov 2019 12:38:25 +0100
+Message-ID: <3f4c87125e5021622fe80cc85411c5b1d25bc427.camel@pengutronix.de>
+Subject: Re: [PATCH 4/5] input/rmi4/rmi_driver: check if irq_find_mapping
+ returns 0
+From:   Lucas Stach <l.stach@pengutronix.de>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
+Cc:     linux-input@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Nick Dyer <nick@shmanahar.org>,
+        Christopher Heiny <cheiny@synaptics.com>,
+        Vandana BN <bnvandana@gmail.com>
+Date:   Tue, 19 Nov 2019 12:38:24 +0100
+In-Reply-To: <20191119105118.54285-5-hverkuil-cisco@xs4all.nl>
+References: <20191119105118.54285-1-hverkuil-cisco@xs4all.nl>
+         <20191119105118.54285-5-hverkuil-cisco@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191119081643.1866232-18-jhubbard@nvidia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::2a
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue 19-11-19 00:16:36, John Hubbard wrote:
-> @@ -2025,6 +2149,20 @@ static int __record_subpages(struct page *page, unsigned long addr,
->  	return nr;
->  }
+Hi Hans,
+
+On Di, 2019-11-19 at 11:51 +0100, Hans Verkuil wrote:
+> The irq_find_mapping() function can return 0 when called in the
+> rmi_process_interrupt_requests() function.
+> 
+> This causes a kernel crash. Check for a 0 value and skip calling
+> handle_nested_irq() in that case.
+> 
+> This was tested with the F54 function enabled on a Lenovo X1 Carbon.
+> 
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Fixes: 24d28e4f1271 ("Input: synaptics-rmi4 - convert irq distribution to irq_domain")
+
+This is already fixed upstream by 549766ac2ac1
+"Input: synaptics-rmi4 - clear IRQ enables for F54"
+
+Regards,
+Lucas
+
+> ---
+>  drivers/input/rmi4/rmi_driver.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/input/rmi4/rmi_driver.c b/drivers/input/rmi4/rmi_driver.c
+> index 772493b1f665..6085ec424a84 100644
+> --- a/drivers/input/rmi4/rmi_driver.c
+> +++ b/drivers/input/rmi4/rmi_driver.c
+> @@ -154,8 +154,12 @@ static int rmi_process_interrupt_requests(struct rmi_device *rmi_dev)
+>  	 */
+>  	mutex_unlock(&data->irq_mutex);
 >  
-> +static bool __pin_compound_head(struct page *head, int refs, unsigned int flags)
-> +{
-
-I don't quite like the proliferation of names starting with __. I don't
-think there's a good reason for that, particularly in this case. Also 'pin'
-here is somewhat misleading as we already use term "pin" for the particular
-way of pinning the page. We could have grab_compound_head() or maybe
-nail_compound_head() :), but you're native speaker so you may come up with
-better word.
-
-> +	if (flags & FOLL_PIN) {
-> +		if (unlikely(!try_pin_compound_head(head, refs)))
-> +			return false;
-> +	} else {
-> +		head = try_get_compound_head(head, refs);
-> +		if (!head)
-> +			return false;
+> -	for_each_set_bit(i, data->irq_status, data->irq_count)
+> -		handle_nested_irq(irq_find_mapping(data->irqdomain, i));
+> +	for_each_set_bit(i, data->irq_status, data->irq_count) {
+> +		unsigned int irq = irq_find_mapping(data->irqdomain, i);
+> +
+> +		if (irq)
+> +			handle_nested_irq(irq);
 > +	}
-> +
-> +	return true;
-> +}
-> +
->  static void put_compound_head(struct page *page, int refs)
->  {
->  	/* Do a get_page() first, in case refs == page->_refcount */
+>  
+>  	if (data->input)
+>  		input_sync(data->input);
 
-put_compound_head() needs similar treatment as undo_dev_pagemap(), doesn't
-it?
-
-> @@ -968,7 +973,18 @@ struct page *follow_devmap_pmd(struct vm_area_struct *vma, unsigned long addr,
->  	if (!*pgmap)
->  		return ERR_PTR(-EFAULT);
->  	page = pfn_to_page(pfn);
-> -	get_page(page);
-> +
-> +	if (flags & FOLL_GET)
-> +		get_page(page);
-> +	else if (flags & FOLL_PIN) {
-> +		/*
-> +		 * try_pin_page() is not actually expected to fail here because
-> +		 * we hold the pmd lock so no one can unmap the pmd and free the
-> +		 * page that it points to.
-> +		 */
-> +		if (unlikely(!try_pin_page(page)))
-> +			page = ERR_PTR(-EFAULT);
-> +	}
-
-This pattern is rather common. So maybe I'd add a helper grab_page(page,
-flags) doing
-
-	if (flags & FOLL_GET)
-		get_page(page);
-	else if (flags & FOLL_PIN)
-		return try_pin_page(page);
-	return true;
-
-Otherwise the patch looks good to me now.
-
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
