@@ -2,349 +2,243 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 543851022BE
-	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2019 12:16:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 33C381022FA
+	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2019 12:25:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727764AbfKSLPm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Nov 2019 06:15:42 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:55311 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727761AbfKSLPm (ORCPT
+        id S1727730AbfKSLZp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Nov 2019 06:25:45 -0500
+Received: from relay12.mail.gandi.net ([217.70.178.232]:52837 "EHLO
+        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727351AbfKSLZo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Nov 2019 06:15:42 -0500
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1iX1Tk-00063d-Us; Tue, 19 Nov 2019 12:15:28 +0100
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1iX1Ti-0008SH-OY; Tue, 19 Nov 2019 12:15:26 +0100
-Date:   Tue, 19 Nov 2019 12:15:26 +0100
-From:   Marco Felsch <m.felsch@pengutronix.de>
+        Tue, 19 Nov 2019 06:25:44 -0500
+Received: from uno.localdomain (93-34-114-233.ip49.fastwebnet.it [93.34.114.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay12.mail.gandi.net (Postfix) with ESMTPSA id 088B3200011;
+        Tue, 19 Nov 2019 11:25:40 +0000 (UTC)
+Date:   Tue, 19 Nov 2019 12:27:43 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>, mchehab@kernel.org,
-        hans.verkuil@cisco.com, jacopo+renesas@jmondi.org,
-        robh+dt@kernel.org, laurent.pinchart@ideasonboard.com,
-        devicetree@vger.kernel.org, kernel@pengutronix.de,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v10 03/14] media: v4l2-fwnode: add initial connector
- parsing support
-Message-ID: <20191119111526.xh2gabaomia7hy7a@pengutronix.de>
-References: <20190830101646.6530-1-m.felsch@pengutronix.de>
- <20190830101646.6530-4-m.felsch@pengutronix.de>
- <20191002070303.GK896@valkosipuli.retiisi.org.uk>
- <20191002080735.yyoxo5wg35t7k26x@pengutronix.de>
- <20191023105739.GN5433@paasikivi.fi.intel.com>
- <20191023122157.qu3eodamlye5zsax@pengutronix.de>
- <20191024120213.GC3966@mara.localdomain>
- <20191108085852.rujiwio3yo43u6sy@pengutronix.de>
- <20191115230650.GA2696@mara.localdomain>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        tfiga@google.com, pavel@ucw.cz,
+        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
+        <linux-media@vger.kernel.org>
+Subject: Re: [PATCH v5 06/11] media: v4l2-fwnode: Add helper to parse device
+ properties
+Message-ID: <20191119112743.3zn6csysmp7xvezx@uno.localdomain>
+References: <20191108155944.1040883-1-jacopo@jmondi.org>
+ <20191108155944.1040883-7-jacopo@jmondi.org>
+ <20191118125240.GE5391@paasikivi.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="w2pmzuspfoo4472a"
 Content-Disposition: inline
-In-Reply-To: <20191115230650.GA2696@mara.localdomain>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 11:54:34 up 4 days,  2:13, 18 users,  load average: 0.08, 0.07, 0.09
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+In-Reply-To: <20191118125240.GE5391@paasikivi.fi.intel.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+
+--w2pmzuspfoo4472a
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+
 Hi Sakari,
 
-many thanks for the review :)
+On Mon, Nov 18, 2019 at 02:52:40PM +0200, Sakari Ailus wrote:
+> Hi Jacopo,
+>
+> On Fri, Nov 08, 2019 at 04:59:39PM +0100, Jacopo Mondi wrote:
+> > Add an helper function to parse common device properties in the same
+> > way as v4l2_fwnode_endpoint_parse() parses common endpoint properties.
+> >
+> > Parse the 'rotation' and 'location' properties from the firmware
+> > interface.
+> >
+> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > ---
+> >  drivers/media/v4l2-core/v4l2-fwnode.c | 42 +++++++++++++++++++++++
+> >  include/media/v4l2-fwnode.h           | 48 +++++++++++++++++++++++++++
+> >  2 files changed, 90 insertions(+)
+> >
+> > diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
+> > index 192cac076761..8af4174a2bbf 100644
+> > --- a/drivers/media/v4l2-core/v4l2-fwnode.c
+> > +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
+> > @@ -596,6 +596,48 @@ void v4l2_fwnode_put_link(struct v4l2_fwnode_link *link)
+> >  }
+> >  EXPORT_SYMBOL_GPL(v4l2_fwnode_put_link);
+> >
+> > +int v4l2_fwnode_device_parse(struct device *dev,
+> > +			     struct v4l2_fwnode_device_properties *props)
+> > +{
+> > +	struct fwnode_handle *fwnode = dev_fwnode(dev);
+> > +	u32 val;
+> > +	int ret;
+> > +
+> > +	memset(props, 0, sizeof(*props));
+> > +
+> > +	props->location = V4L2_FWNODE_PROPERTY_UNSET;
+> > +	ret = fwnode_property_read_u32(fwnode, "location", &val);
+> > +	if (!ret) {
+> > +		switch (val) {
+> > +		case V4L2_FWNODE_LOCATION_FRONT:
+> > +		case V4L2_FWNODE_LOCATION_BACK:
+> > +		case V4L2_FWNODE_LOCATION_EXTERNAL:
+> > +			break;
+> > +		default:
+> > +			dev_warn(dev, "Unsupported device location: %u\n", val);
+> > +			return -EINVAL;
+> > +		}
+> > +
+> > +		props->location = val;
+> > +		dev_dbg(dev, "device location: %u\n", val);
+> > +	}
+> > +
+> > +	props->rotation = V4L2_FWNODE_PROPERTY_UNSET;
+> > +	ret = fwnode_property_read_u32(fwnode, "rotation", &val);
+> > +	if (!ret) {
+> > +		if (val >= 360 || val % 90) {
+> > +			dev_warn(dev, "Unsupported device rotation: %u\n", val);
+> > +			return -EINVAL;
+>
+> In both cases, you return an error back to the user if there's a problem
+> with the value of an optinoal property.
+>
+> It could prevent probing the driver if someone screwed up the firmware
+> somehow, but also makes the matter more visible. I think it's good to start
+> with this way, and hope we don't need to change it.
+>
+> > +		}
+> > +
+> > +		props->rotation = val;
+> > +		dev_dbg(dev, "device rotation: %u\n", val);
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +EXPORT_SYMBOL_GPL(v4l2_fwnode_device_parse);
+> > +
+> >  static int
+> >  v4l2_async_notifier_fwnode_parse_endpoint(struct device *dev,
+> >  					  struct v4l2_async_notifier *notifier,
+> > diff --git a/include/media/v4l2-fwnode.h b/include/media/v4l2-fwnode.h
+> > index f6a7bcd13197..6d46d6fc3007 100644
+> > --- a/include/media/v4l2-fwnode.h
+> > +++ b/include/media/v4l2-fwnode.h
+> > @@ -109,6 +109,36 @@ struct v4l2_fwnode_endpoint {
+> >  	unsigned int nr_of_link_frequencies;
+> >  };
+> >
+> > +/**
+> > + * v4l2_fwnode_location - identify a non initialized property.
+> > + *
+> > + * All properties in &struct v4l2_fwnode_device_properties are initialized
+> > + * to this value.
+> > + */
+> > +#define V4L2_FWNODE_PROPERTY_UNSET   (-1U)
+>
+> On the naming --- this is relevant for only one property at the moment, so
+> I'd make it specific to that property, too. This also makes it fit for the
+> enum below.
 
-On 19-11-16 01:06, Sakari Ailus wrote:
-> Hi Marco,
-> 
-> On Fri, Nov 08, 2019 at 09:58:52AM +0100, Marco Felsch wrote:
-> > Hi Sakari,
-> > 
-> > sorry for my delay now ^^
-> > 
-> > On 19-10-24 15:02, Sakari Ailus wrote:
-> > > Hi Marco,
-> > > 
-> > > On Wed, Oct 23, 2019 at 02:21:57PM +0200, Marco Felsch wrote:
-> > > > Hi Sakari,
-> > > > 
-> > > > On 19-10-23 13:57, Sakari Ailus wrote:
-> > > > > Hi Marco,
-> > > > > 
-> > > > > Apologies for the delay.
-> > > > 
-> > > > No problem.
-> > > > 
-> > > > > On Wed, Oct 02, 2019 at 10:07:35AM +0200, Marco Felsch wrote:
-> > > > > > Hi Sakari,
-> > > > > > 
-> > > > > > On 19-10-02 10:03, Sakari Ailus wrote:
-> > > > > > > Hi Marco,
-> > > > > > > 
-> > > > > > > On Fri, Aug 30, 2019 at 12:16:35PM +0200, Marco Felsch wrote:
-> > > > > > > > The patch adds the initial connector parsing code, so we can move from a
-> > > > > > > > driver specific parsing code to a generic one. Currently only the
-> > > > > > > > generic fields and the analog-connector specific fields are parsed. Parsing
-> > > > > > > > the other connector specific fields can be added by a simple callbacks.
-> > > > > > > > 
-> > > > > > > > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> > > > > > > > ---
-> > > > > > > > [1] https://patchwork.kernel.org/cover/10794703/
-> > > > > > > > 
-> > > > > > > > v10:
-> > > > > > > > - drop V4L2_CONN_HDMI support
-> > > > > > > > - adapt pr_err msg to reflect new state (-> connector is unkown)
-> > > > > > > > 
-> > > > > > > > v9:
-> > > > > > > > - Fix leading semicolon found by kbuild semicolon.cocci
-> > > > > > > > 
-> > > > > > > > v8:
-> > > > > > > > - V4L2_CON_* -> V4L2_CONN_*
-> > > > > > > > - tvnorms -> sdtv-standards
-> > > > > > > > - adapt to new v4l2_fwnode_connector_analog member
-> > > > > > > > - return error in case of V4L2_CONN_HDMI
-> > > > > > > > 
-> > > > > > > > v7:
-> > > > > > > > @Jacopo: I dropped your r b tag becuase of the amount of changes I
-> > > > > > > > made..
-> > > > > > > > 
-> > > > > > > > - drop unnecessary comments
-> > > > > > > > - fix commet style
-> > > > > > > > - s/v4l2_fwnode_connector_conv.name/v4l2_fwnode_connector_conv.compatible/
-> > > > > > > > - make label size variable and drop V4L2_CONNECTOR_MAX_LABEL usage
-> > > > > > > > - do not assign a default label in case of no label was specified
-> > > > > > > > - remove useless /* fall through */ comments
-> > > > > > > > - add support for N connector links
-> > > > > > > > - rename local variables to be more meaningful
-> > > > > > > > - adjust kernedoc
-> > > > > > > > - add v4l2_fwnode_connector_free()
-> > > > > > > > - improve error handling (use different error values)
-> > > > > > > > - make use of pr_warn_once()
-> > > > > > > > 
-> > > > > > > > v6:
-> > > > > > > > - use unsigned count var
-> > > > > > > > - fix comment and style issues
-> > > > > > > > - place '/* fall through */' to correct places
-> > > > > > > > - fix error handling and cleanup by releasing fwnode
-> > > > > > > > - drop vga and dvi parsing support as those connectors are rarely used
-> > > > > > > >   these days
-> > > > > > > > 
-> > > > > > > > v5:
-> > > > > > > > - s/strlcpy/strscpy/
-> > > > > > > > 
-> > > > > > > > v2-v4:
-> > > > > > > > - nothing since the patch was squashed from series [1] into this
-> > > > > > > >   series.
-> > > > > > > > 
-> > > > > > > >  drivers/media/v4l2-core/v4l2-fwnode.c | 129 ++++++++++++++++++++++++++
-> > > > > > > >  include/media/v4l2-fwnode.h           |  38 ++++++++
-> > > > > > > >  2 files changed, 167 insertions(+)
-> > > > > > > > 
-> > > > > > > > diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
-> > > > > > > > index 3bd1888787eb..0bfa7cbf78df 100644
-> > > > > > > > --- a/drivers/media/v4l2-core/v4l2-fwnode.c
-> > > > > > > > +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
-> > > > > > > > @@ -595,6 +595,135 @@ void v4l2_fwnode_put_link(struct v4l2_fwnode_link *link)
-> > > > > > > >  }
-> > > > > > > >  EXPORT_SYMBOL_GPL(v4l2_fwnode_put_link);
-> > > > > > > >  
-> > > > > > > > +static const struct v4l2_fwnode_connector_conv {
-> > > > > > > > +	enum v4l2_connector_type type;
-> > > > > > > > +	const char *compatible;
-> > > > > > > > +} connectors[] = {
-> > > > > > > > +	{
-> > > > > > > > +		.type = V4L2_CONN_COMPOSITE,
-> > > > > > > > +		.compatible = "composite-video-connector",
-> > > > > > > > +	}, {
-> > > > > > > > +		.type = V4L2_CONN_SVIDEO,
-> > > > > > > > +		.compatible = "svideo-connector",
-> > > > > > > > +	},
-> > > > > > > > +};
-> > > > > > > > +
-> > > > > > > > +static enum v4l2_connector_type
-> > > > > > > > +v4l2_fwnode_string_to_connector_type(const char *con_str)
-> > > > > > > > +{
-> > > > > > > > +	unsigned int i;
-> > > > > > > > +
-> > > > > > > > +	for (i = 0; i < ARRAY_SIZE(connectors); i++)
-> > > > > > > > +		if (!strcmp(con_str, connectors[i].compatible))
-> > > > > > > > +			return connectors[i].type;
-> > > > > > > > +
-> > > > > > > > +	return V4L2_CONN_UNKNOWN;
-> > > > > > > > +}
-> > > > > > > > +
-> > > > > > > > +static int
-> > > > > > > > +v4l2_fwnode_connector_parse_analog(struct fwnode_handle *fwnode,
-> > > > > > > > +				   struct v4l2_fwnode_connector *vc)
-> > > > > > > > +{
-> > > > > > > > +	u32 stds;
-> > > > > > > > +	int ret;
-> > > > > > > > +
-> > > > > > > > +	ret = fwnode_property_read_u32(fwnode, "sdtv-standards", &stds);
-> > > > > > > > +
-> > > > > > > > +	/* The property is optional. */
-> > > > > > > > +	vc->connector.analog.sdtv_stds = ret ? V4L2_STD_ALL : stds;
-> > > > > > > > +
-> > > > > > > > +	return 0;
-> > > > > > > > +}
-> > > > > > > > +
-> > > > > > > > +void v4l2_fwnode_connector_free(struct v4l2_fwnode_connector *connector)
-> > > > > > > > +{
-> > > > > > > > +	unsigned int i;
-> > > > > > > > +
-> > > > > > > > +	if (IS_ERR_OR_NULL(connector))
-> > > > > > > > +		return;
-> > > > > > > > +
-> > > > > > > > +	for (i = 0; i < connector->nr_of_links; i++)
-> > > > > > > > +		v4l2_fwnode_put_link(&connector->links[i]);
-> > > > > > > > +	kfree(connector->links);
-> > > > > > > 
-> > > > > > > Please assign connector->links NULL here, and nr_of_links to zero.
-> > > > > > 
-> > > > > > Okay, I can do that.
-> > > > > > 
-> > > > > > > > +}
-> > > > > > > > +EXPORT_SYMBOL_GPL(v4l2_fwnode_connector_free);
-> > > > > > > > +
-> > > > > > > > +int v4l2_fwnode_connector_alloc_parse(struct fwnode_handle *fwnode,
-> > > > > > > > +				      struct v4l2_fwnode_connector *connector)
-> > > > > > > > +{
-> > > > > > > > +	struct fwnode_handle *remote_pp, *remote_ep;
-> > > > > > > > +	const char *type_name;
-> > > > > > > > +	unsigned int i = 0, ep_num = 0;
-> > > > > > > > +	int err;
-> > > > > > > > +
-> > > > > > > > +	memset(connector, 0, sizeof(*connector));
-> > > > > > > > +
-> > > > > > > > +	remote_pp = fwnode_graph_get_remote_port_parent(fwnode);
-> > > > > > > 
-> > > > > > > How do you know a remote endpoint is a connector, and not another device's
-> > > > > > > endpoint?
-> > > > > > 
-> > > > > > Well, I think that the caller won't use this function if it isn't a
-> > > > > > connector. If it helps I can check if the compatible of the remote ends
-> > > > > > with "-connector".
-> > > > > 
-> > > > > The function is called by a driver. A driver shouldn't know what's at the
-> > > > > other end of the graph arc; the information should come from the firmware
-> > > > > instead.
-> > > > > 
-> > > > > On some board there could be another device where you have a connector now.
-> > > > > 
-> > > > > As the connector has its own compatible string, there could be a connector
-> > > > > driver to tell this is actually a connector, even if there's nothing to
-> > > > > control. It'd be a very tiny driver.
-> > > > 
-> > > > Yes I know a connector driver would be the best. This also have the
-> > > > advantage to do drop the connector handling in each subdev driver.. But
-> > > > unfortunately I haven't the time yet. Would it be okay for you too check
-> > > > that the remote is a connector and if not to exit?
-> > > 
-> > > The current design is also problematic in the sense that it parses remote DT
-> > > graph endpoints (as well as device nodes) that are not under the device's
-> > > own scope.
-> > 
-> > You are right that is not good. Would it be okay with you to parse only
-> > the local node so the caller must pass the connector node?
-> > 
-> > > I wonder what kind of changes would that require, and how much more
-> > > difficult would the changes be to implement later on if a number of drivers
-> > > uses the newly added APIs.
-> > > 
-> > > v4l2_fwnode_parse_endpoint() should be considered as well. This is the
-> > > current API to parse endpoints. Could connectors be meaningfully parsed
-> > > within v4l2_fwnode_parse_endpoint()?
-> > 
-> > I think v4l2_fwnode_endpoint_parse() isn't the correct place. Of course
-> > it is a endpoint but I don't think that a connector should be placed
-> > there. Currently the endpoint is mostly used to describe the connection
-> > between the isp and a sensor. I think we shouldn't add something
-> > unrelated just because it's an fw-endpoint. The connector just describes
-> > who users can interact with the device. A connector isn't connected to a
-> > chip using mipi or something else.
-> 
-> If the endpoints pointing to a connector are not parsed by
-> v4l2_fwnode_endpoint_parse(), then it means that they're parsed somewhere
-> else, and that's something the caller needs to know. The fact that there is
-> a connector, is only apparent from the compatible string of the remote
-> device. That's simply not something for the caller to figure out.
+It is used also for rotation, not only for location. I need an
+"UNSET" value as a 0 degree rotation is valid. To be hones I will keep
+it generic, I do expect more properties to need it, as it will have to
+be renamed later...
 
-That is a goot point, I got that.
+>
+> > +
+> > +/**
+> > + * enum v4l2_fwnode_location - possible device locations
+> > + * @V4L2_FWNODE_LOCATION_FRONT: device installed on the front side
+> > + * @V4L2_FWNODE_LOCATION_BACK: device installed on the back side
+> > + * @V4L2_FWNODE_LOCATION_EXTERNAL: device externally located
+> > + */
+> > +enum v4l2_fwnode_location {
+> > +	V4L2_FWNODE_LOCATION_FRONT,
+> > +	V4L2_FWNODE_LOCATION_BACK,
+> > +	V4L2_FWNODE_LOCATION_EXTERNAL
+> > +};
+> > +
+> > +/**
+> > + * struct v4l2_fwnode_device_properties - fwnode device properties
+> > + * @location: device location. See &enum v4l2_fwnode_location
+> > + * @rotation: device rotation
+> > + */
+> > +struct v4l2_fwnode_device_properties {
+> > +	enum v4l2_fwnode_location location;
+> > +	unsigned int rotation;
+> > +};
+> > +
+> >  /**
+> >   * struct v4l2_fwnode_link - a link between two endpoints
+> >   * @local_node: pointer to device_node of this endpoint
+> > @@ -233,6 +263,24 @@ int v4l2_fwnode_parse_link(struct fwnode_handle *fwnode,
+> >   */
+> >  void v4l2_fwnode_put_link(struct v4l2_fwnode_link *link);
+> >
+> > +/**
+> > + * v4l2_fwnode_device_parse() - parse fwnode device properties
+> > + * @dev: pointer to &struct device
+> > + * @props: pointer to &struct v4l2_fwnode_device_properties where to store the
+> > + *	   parsed properties values
+> > + *
+> > + * This function parses and validates the V4L2 fwnode device properties from
+> > + * the firmware interface. It is responsibility of the caller to allocate a
+> > + * valid @struct v4l2_fwnode_device_properties structure and provide a pointer
+> > + * to it in the @props parameter.
+>
+> I think the latter sentence (inserted before the leading comma of the
+> previous sentence) could be phrased as:
+>
+> "and fills the @struct v4l2_fwnode_device_properties provided by the
+> caller".
 
-> Endpoints in general refer to other devices' connection points. It doesn't
-> matter what kind of a device it is, they should be treated the same way.
-> 
-> I'm still not proposing to mangle connectors with the bus properties. Still,
-> the two are mostly exclusive: if there's a connector, then any properties of
-> the signal likely have nothing to do what was described in the firmware.
-> 
-> How about adding an fwnode API function called e.g.g
-> v4l2_fwnode_is_connector(), to tell whether a given local endpoint is
-> connected to a remote which is a connector? That, I think, would be
-> sufficient to make the connectors vs. wired busses easy for drivers to work
-> with.
+Yeah, thanks, better! I'll take it in!
 
-A v4l2_fwnode_is_connector() function is nice. Just to got you right,
-you want something like:
-
-	v4l2_fwnode_endpoint_alloc_parse()
-	{
-		int rval;
-
-		if (v4l2_fwnode_is_connector())
-			return v4l2_fwnode_connector_alloc_parse();
-
-		rval = __v4l2_fwnode_endpoint_parse(fwnode, vep);
-		if (rval < 0)
-			return rval;
-
-		...
-	}
-
-If I got that right we need to squash the 'struct v4l2_fwnode_connector'
-into the 'struct v4l2_fwnode_endpoint' or we need to accept both structs.
-The first attempt can be error prone if a caller access invalid data.
-What do you think?
-
-Regards,
-  Marco
-
-> I think we'll probably have some naming rework coming up, for connectors,
-> too, are represented by endpoints. That's in-kernel only, too, so I'm not
-> worried. And to be postponed after this set obviously.
-> 
-> > 
-> > > What you're doing with connectors looks very much the same as what one would
-> > > do with async sub-devices, and if this is re-implemented for connectors,
-> > > there should be a good reason to do so.
-> > 
-> > I don't think that it has something to do with a async device because
-> > connectors shouldn't disappear so there is no need to probe it async.
-> > Also we shouldn't probe it async only because we can add a custom probe
-> > parse handler and furthermore we can't fill the connector struct..
-> 
-> There's indeed likely little to gain from using async sub-devices for the
-> connectors right now. If there would be more to do, then this probably
-> should be revisited.
-> 
-> -- 
+Thanks
+   j
+>
+> > + *
+> > + * Return:
+> > + *	% 0 on success
+> > + *	%-EINVAL if a parsed property value is not valid
+> > + */
+> > +int v4l2_fwnode_device_parse(struct device *dev,
+> > +			     struct v4l2_fwnode_device_properties *props);
+> > +
+> >  /**
+> >   * typedef parse_endpoint_func - Driver's callback function to be called on
+> >   *	each V4L2 fwnode endpoint.
+>
+> --
 > Regards,
-> 
+>
 > Sakari Ailus
-> 
 
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+--w2pmzuspfoo4472a
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl3T0a8ACgkQcjQGjxah
+Vjx1NxAAs8pBDZruIF9ctVXjkQRojbVSL1WDC92oHiWngCtetuaco7baZ8tHSXLm
+Dng3OksfE81fFxgIydX3t7mtZ2AxmVLVv9kGVMj4HEMkPsDB4Rfsp7wp/5C82lVX
+KZ4U4LMKiAFpKVvZKpcBBG5X0hiY+ibLegz3/mtGBsQDL3SW5N8+V8cu3vb7hP/m
+h+UZ/xYo7VO2tAo+dHMlg7BweTn7qc+tu+l9dh4dyU+4v/f6hoX9CKCz9zfbpgIQ
+PkADYNn3v1JjDJ7e7oSgg65Vv+/n1lr60O0xw7kSURRcBXew0rSuvBt9Kbzb3T8t
+K/rP22EeTM8iVYD39mbpkl/frVifoKNehONpViNlIFTLXe5qr4CFsqeVw9ROL4PS
+kg3QpokRgIjWA3AkW+kaHtp3mgQ8XiZZip5ji9rTX73th5haOnpMjzOuKimpbQ+i
+XrDauKeGLTrVsBnoI96sH4SqEbqMnUTEZQTS53UCuKlk8hvmVw1tBeRhikB2M5cC
+1BKsPjQx5aKQsXh90781vN7vtp/YvGSbEJ0wtd5kZ5UDmvfZN1qm31z+T2tsEHT5
+Jc0x6mbd+bT70JGNkwc09He8cPcNrmUP6GrO5wNTkDg5Bf/TguFdiVjvbOXVZhmb
+2C6dKRMwP1yMUf50tOivGfpjE6SklBC3/l/ofKmRPISCQ7ZGxaw=
+=R8hR
+-----END PGP SIGNATURE-----
+
+--w2pmzuspfoo4472a--
