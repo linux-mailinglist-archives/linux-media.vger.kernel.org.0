@@ -2,35 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C5AD102334
-	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2019 12:35:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F2210102333
+	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2019 12:35:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728285AbfKSLfC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Nov 2019 06:35:02 -0500
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:47053 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728033AbfKSLfA (ORCPT
+        id S1728279AbfKSLfB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Nov 2019 06:35:01 -0500
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:56437 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728276AbfKSLfB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Nov 2019 06:35:00 -0500
+        Tue, 19 Nov 2019 06:35:01 -0500
 Received: from marune.fritz.box ([IPv6:2001:983:e9a7:1:9879:d2e2:f0e2:9c7])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id X1mbiD68Hcs92X1mdiz4Sy; Tue, 19 Nov 2019 12:34:59 +0100
+        id X1mbiD68Hcs92X1mdiz4T2; Tue, 19 Nov 2019 12:34:59 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1574163299; bh=L0hyTpq0XQ9K6Y83XUf3xue75BrjWO04JtCr4SS+YD8=;
+        t=1574163299; bh=ab8zfkJMITpObbt1i394hW56VfOiIBp5Gr5rdYtMVrs=;
         h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
-        b=Ps2BPSYmx3VzLPHimjYhvdRXuerX35iQTdF8/M18Tfd4PBNGSOPPEkte/5BVmN9Ee
-         EFSJI+Be9MTOUt8GEZ0IPqQdrhep3bnZV77fgU1mkv8K34FdzDnMK+j8BCzuAatraS
-         vVoeD7ufGXehMsLvhAGmw/SuncW7fl9qnI6P+89Dq/NJ2sCgu1O0d9+IrGsOYNFb79
-         cYqE4KF8eAWvd8BQyFjK+ReeYjHonSnYdLDl2oci7v/uOoSjRVWVFpg78Q3rscBOv8
-         wqFbFkoW9X/fwlKjxeaARvKKwsHQwEmGrCI1NUWfZrU7Ciz/Y/N1pO/pTWrte+eehJ
-         1m7VjXxe1aB9A==
+        b=ceS+0oZChAS6Jc/kEUShkswlIuYlthq/cYAylGMqXNUjmxsMJgXSi+EtUjmSf4fV5
+         mHV79oWGrYjjqLLFv+IoqdM0uKjGVb7KpGTIoPMfEeRv/1U9oz6wWIWa4ArOHB/14J
+         gje3EDW7bsZ9UM2hZZiUru5SbRZUOIYyivLLJzHUxrVYvuvcFVWNnMdv+az2/d1P9Z
+         JrNPkcdLGitqD47FWAdP+pGQjaxkoeCV6Wt0cTDC6TP88Z3eOCIs3nfp0BacLc0df7
+         TDShYhjNiR6YuLKuXa0K7A2J2Hc9uliFBuMiK0EK8UGfhl24y8oyH8JqTu1XZdN6Sj
+         HMn5LTk5nBapg==
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
 Cc:     Michael Tretter <m.tretter@pengutronix.de>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 3/5] v4l2-controls.h: add V4L2_CID_MPEG_VIDEO_ENC_FRAME_RATE
-Date:   Tue, 19 Nov 2019 12:34:55 +0100
-Message-Id: <20191119113457.57833-4-hverkuil-cisco@xs4all.nl>
+Subject: [PATCH 4/5] videodev2.h: add V4L2_BUF_FLAG_TOO_SMALL flag
+Date:   Tue, 19 Nov 2019 12:34:56 +0100
+Message-Id: <20191119113457.57833-5-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20191119113457.57833-1-hverkuil-cisco@xs4all.nl>
 References: <20191119113457.57833-1-hverkuil-cisco@xs4all.nl>
@@ -44,75 +44,143 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add a new control to specify the frame rate that a HW encoder
-should assume. This is one of the parameters that determines the
-compression ratio.
+Stateful encoders need to know if V4L2_BUF_FLAG_ERROR was because
+the capture buffer was too small or because there was another
+error. Set this flag (always in combination with FLAG_ERROR) to
+indicate that the buffer was too small.
 
-In the past drivers used G/S_PARM for this, but that should be
-used to set the speed at which userspace sends frames to the encoder
-and it can be used to schedule encoding hardware if there are
-multiple encoder cores.
+A corresponding VB2_BUF_STATE_ERROR_TOO_SMALL vb2 state was added.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- Documentation/media/uapi/v4l/ext-ctrls-codec.rst | 8 ++++++++
- drivers/media/v4l2-core/v4l2-ctrls.c             | 4 ++++
- include/uapi/linux/v4l2-controls.h               | 1 +
- 3 files changed, 13 insertions(+)
+ Documentation/media/uapi/v4l/buffer.rst         |  9 +++++++++
+ drivers/media/common/videobuf2/videobuf2-core.c | 12 +++++++++---
+ drivers/media/common/videobuf2/videobuf2-v4l2.c |  4 ++++
+ include/media/videobuf2-core.h                  |  4 ++++
+ include/uapi/linux/videodev2.h                  |  2 ++
+ 5 files changed, 28 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-index 28313c0f4e7c..3bf11f45e20f 100644
---- a/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-+++ b/Documentation/media/uapi/v4l/ext-ctrls-codec.rst
-@@ -592,6 +592,14 @@ enum v4l2_mpeg_video_bitrate_mode -
-     the average video bitrate. It is ignored if the video bitrate mode
-     is set to constant bitrate.
+diff --git a/Documentation/media/uapi/v4l/buffer.rst b/Documentation/media/uapi/v4l/buffer.rst
+index 9149b57728e5..64a97677ec20 100644
+--- a/Documentation/media/uapi/v4l/buffer.rst
++++ b/Documentation/media/uapi/v4l/buffer.rst
+@@ -540,6 +540,15 @@ Buffer Flags
+ 	streaming may continue as normal and the buffer may be reused
+ 	normally. Drivers set this flag when the ``VIDIOC_DQBUF`` ioctl is
+ 	called.
++    * .. _`V4L2-BUF-FLAG-TOO-SMALL`:
++
++      - ``V4L2_BUF_FLAG_TOO_SMALL``
++      - 0x00080000
++      - When this flag is set, the buffer has been dequeued successfully,
++	but no data was written since the buffer was too small. If this
++	flag is set, then ``V4L2_BUF_FLAG_ERROR`` was also set. This can
++	only happen for capture buffers. Drivers set this flag when
++	the ``VIDIOC_DQBUF`` ioctl is called.
+     * .. _`V4L2-BUF-FLAG-IN-REQUEST`:
  
-+``V4L2_CID_MPEG_VIDEO_ENC_FRAME_RATE (struct)``
-+    The frame rate of the to-be-encoded frames. This information is needed
-+    by hardware encoders in order to compress the video stream correctly.
-+
-+    This control is in frames per second and is represented as a fraction.
-+    The struct :c:type:`v4l2_fract` provides the numerator and the denominator
-+    of the frame rate.
-+
- ``V4L2_CID_MPEG_VIDEO_TEMPORAL_DECIMATION (integer)``
-     For every captured frame, skip this many subsequent frames (default
-     0).
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-index af74609dce0a..863a8fdce99d 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-@@ -904,6 +904,7 @@ const char *v4l2_ctrl_get_name(u32 id)
- 	case V4L2_CID_MPEG_VIDEO_MV_V_SEARCH_RANGE:		return "Vertical MV Search Range";
- 	case V4L2_CID_MPEG_VIDEO_REPEAT_SEQ_HEADER:		return "Repeat Sequence Header";
- 	case V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME:		return "Force Key Frame";
-+	case V4L2_CID_MPEG_VIDEO_ENC_FRAME_RATE:		return "Encoder Frame Rate";
- 	case V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS:		return "MPEG-2 Slice Parameters";
- 	case V4L2_CID_MPEG_VIDEO_MPEG2_QUANTIZATION:		return "MPEG-2 Quantization Matrices";
- 	case V4L2_CID_MPEG_VIDEO_FWHT_PARAMS:			return "FWHT Stateless Parameters";
-@@ -1411,6 +1412,9 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
- 		*type = V4L2_CTRL_TYPE_AREA;
- 		*flags |= V4L2_CTRL_FLAG_READ_ONLY;
+       - ``V4L2_BUF_FLAG_IN_REQUEST``
+diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+index 4489744fbbd9..187a4589a7bb 100644
+--- a/drivers/media/common/videobuf2/videobuf2-core.c
++++ b/drivers/media/common/videobuf2/videobuf2-core.c
+@@ -929,6 +929,7 @@ void vb2_buffer_done(struct vb2_buffer *vb, enum vb2_buffer_state state)
+ 
+ 	if (WARN_ON(state != VB2_BUF_STATE_DONE &&
+ 		    state != VB2_BUF_STATE_ERROR &&
++		    state != VB2_BUF_STATE_ERROR_TOO_SMALL &&
+ 		    state != VB2_BUF_STATE_QUEUED))
+ 		state = VB2_BUF_STATE_ERROR;
+ 
+@@ -1816,6 +1817,9 @@ int vb2_core_dqbuf(struct vb2_queue *q, unsigned int *pindex, void *pb,
+ 	case VB2_BUF_STATE_ERROR:
+ 		dprintk(3, "returning done buffer with errors\n");
  		break;
-+	case V4L2_CID_MPEG_VIDEO_ENC_FRAME_RATE:
-+		*type = V4L2_CTRL_TYPE_FRACT;
++	case VB2_BUF_STATE_ERROR_TOO_SMALL:
++		dprintk(3, "returning done buffer that's too small\n");
 +		break;
  	default:
- 		*type = V4L2_CTRL_TYPE_INTEGER;
- 		break;
-diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-index 5a7bedee2b0e..e4a42e4e293e 100644
---- a/include/uapi/linux/v4l2-controls.h
-+++ b/include/uapi/linux/v4l2-controls.h
-@@ -408,6 +408,7 @@ enum v4l2_mpeg_video_multi_slice_mode {
- #define V4L2_CID_MPEG_VIDEO_MV_H_SEARCH_RANGE		(V4L2_CID_MPEG_BASE+227)
- #define V4L2_CID_MPEG_VIDEO_MV_V_SEARCH_RANGE		(V4L2_CID_MPEG_BASE+228)
- #define V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME		(V4L2_CID_MPEG_BASE+229)
-+#define V4L2_CID_MPEG_VIDEO_ENC_FRAME_RATE		(V4L2_CID_MPEG_BASE+230)
+ 		dprintk(1, "invalid buffer state\n");
+ 		return -EINVAL;
+@@ -2383,8 +2387,9 @@ __poll_t vb2_core_poll(struct vb2_queue *q, struct file *file,
+ 					done_entry);
+ 	spin_unlock_irqrestore(&q->done_lock, flags);
  
- /* CIDs for the MPEG-2 Part 2 (H.262) codec */
- #define V4L2_CID_MPEG_VIDEO_MPEG2_LEVEL			(V4L2_CID_MPEG_BASE+270)
+-	if (vb && (vb->state == VB2_BUF_STATE_DONE
+-			|| vb->state == VB2_BUF_STATE_ERROR)) {
++	if (vb && (vb->state == VB2_BUF_STATE_DONE ||
++		   vb->state == VB2_BUF_STATE_ERROR ||
++		   vb->state == VB2_BUF_STATE_ERROR_TOO_SMALL)) {
+ 		return (q->is_output) ?
+ 				EPOLLOUT | EPOLLWRNORM :
+ 				EPOLLIN | EPOLLRDNORM;
+@@ -2812,7 +2817,8 @@ static int vb2_thread(void *data)
+ 			break;
+ 		try_to_freeze();
+ 
+-		if (vb->state != VB2_BUF_STATE_ERROR)
++		if (vb->state != VB2_BUF_STATE_ERROR &&
++		    vb->state != VB2_BUF_STATE_ERROR_TOO_SMALL)
+ 			if (threadio->fnc(vb, threadio->priv))
+ 				break;
+ 		call_void_qop(q, wait_finish, q);
+diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+index e652f4318284..6ac19734e4a2 100644
+--- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
++++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+@@ -44,6 +44,7 @@ module_param(debug, int, 0644);
+ /* Flags that are set by us */
+ #define V4L2_BUFFER_MASK_FLAGS	(V4L2_BUF_FLAG_MAPPED | V4L2_BUF_FLAG_QUEUED | \
+ 				 V4L2_BUF_FLAG_DONE | V4L2_BUF_FLAG_ERROR | \
++				 V4L2_BUF_FLAG_ERROR_TOO_SMALL | \
+ 				 V4L2_BUF_FLAG_PREPARED | \
+ 				 V4L2_BUF_FLAG_IN_REQUEST | \
+ 				 V4L2_BUF_FLAG_REQUEST_FD | \
+@@ -546,6 +547,9 @@ static void __fill_v4l2_buffer(struct vb2_buffer *vb, void *pb)
+ 	case VB2_BUF_STATE_IN_REQUEST:
+ 		b->flags |= V4L2_BUF_FLAG_IN_REQUEST;
+ 		break;
++	case VB2_BUF_STATE_ERROR_TOO_SMALL:
++		b->flags |= V4L2_BUF_FLAG_TOO_SMALL;
++		/* fall through */
+ 	case VB2_BUF_STATE_ERROR:
+ 		b->flags |= V4L2_BUF_FLAG_ERROR;
+ 		/* fall through */
+diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
+index a2b2208b02da..289c3e090257 100644
+--- a/include/media/videobuf2-core.h
++++ b/include/media/videobuf2-core.h
+@@ -215,6 +215,9 @@ enum vb2_io_modes {
+  * @VB2_BUF_STATE_ERROR:	same as above, but the operation on the buffer
+  *				has ended with an error, which will be reported
+  *				to the userspace when it is dequeued.
++ * @VB2_BUF_STATE_ERROR_TOO_SMALL: same as above, but the operation on the buffer
++ *				has ended with an error because the receiving buffer
++ *				is too small.
+  */
+ enum vb2_buffer_state {
+ 	VB2_BUF_STATE_DEQUEUED,
+@@ -224,6 +227,7 @@ enum vb2_buffer_state {
+ 	VB2_BUF_STATE_ACTIVE,
+ 	VB2_BUF_STATE_DONE,
+ 	VB2_BUF_STATE_ERROR,
++	VB2_BUF_STATE_ERROR_TOO_SMALL,
+ };
+ 
+ struct vb2_queue;
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 7aa1293ac7bc..c7c1179eea65 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -1064,6 +1064,8 @@ static inline __u64 v4l2_timeval_to_ns(const struct timeval *tv)
+ #define V4L2_BUF_FLAG_TSTAMP_SRC_MASK		0x00070000
+ #define V4L2_BUF_FLAG_TSTAMP_SRC_EOF		0x00000000
+ #define V4L2_BUF_FLAG_TSTAMP_SRC_SOE		0x00010000
++/* mem2mem encoder */
++#define V4L2_BUF_FLAG_TOO_SMALL			0x00080000
+ /* mem2mem encoder/decoder */
+ #define V4L2_BUF_FLAG_LAST			0x00100000
+ /* request_fd is valid */
 -- 
 2.23.0
 
