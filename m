@@ -2,95 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 679B810379E
-	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2019 11:33:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C6B721037BD
+	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2019 11:41:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728480AbfKTKcz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Nov 2019 05:32:55 -0500
-Received: from mx2.suse.de ([195.135.220.15]:50302 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727934AbfKTKcy (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Nov 2019 05:32:54 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id B94ECB24A;
-        Wed, 20 Nov 2019 10:32:52 +0000 (UTC)
-Message-ID: <1574245969.14298.29.camel@suse.com>
-Subject: Re: KASAN: use-after-free Read in si470x_int_in_callback (2)
-From:   Oliver Neukum <oneukum@suse.com>
-To:     syzbot <syzbot+9ca7a12fd736d93e0232@syzkaller.appspotmail.com>,
-        andreyknvl@google.com, hverkuil@xs4all.nl,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-usb@vger.kernel.org, mchehab@kernel.org,
-        syzkaller-bugs@googlegroups.com
-Date:   Wed, 20 Nov 2019 11:32:49 +0100
-In-Reply-To: <000000000000f47f0b0595307ddc@google.com>
-References: <000000000000f47f0b0595307ddc@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.26.6 
-Mime-Version: 1.0
+        id S1728663AbfKTKlf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Nov 2019 05:41:35 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:53866 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728581AbfKTKlf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 20 Nov 2019 05:41:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:To:From:
+        Date:Sender:Reply-To:Cc:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=dDQU7Z8pqeLG5AASj6Zr1W7/iyiFMdMea+6NmCKvu30=; b=SInIyLuOd0gSzMZF1ZtbaMvdQ
+        wXIpAtx0UrjTGQwWnQPDyjKh+bd3N9xlgS0Uhzhtc/D4dZwJpNwKBazphUxkplEZSpGJRG6MzSsk9
+        tL/AI02y74ganZIQ1hHMDsaRbnNyM7wNyIsL33TEXD/nmsslDpKhn3y+/oNZ17L5wpT73SRYC8JmI
+        Fekv1zAkpKT7rVNADfBg70u6fPE3P1v1IzquZVTcfTTbyo4vpWorBYa7sPbC4rqcBVJqal9gzuFvi
+        YxHd0U6Josb/SPmpDX75VjOWv6Pvy6H4Nu4e5ZZx3N3nPBwLDVJUWJUacIoHLXFiBHcOopkZ73OE0
+        RyFNdJeCQ==;
+Received: from [80.156.29.194] (helo=localhost)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1iXNQU-0003LS-E3
+        for linux-media@vger.kernel.org; Wed, 20 Nov 2019 10:41:34 +0000
+Date:   Wed, 20 Nov 2019 11:41:31 +0100
+From:   Mauro Carvalho Chehab <mchehab@infradead.org>
+To:     linux-media@vger.kernel.org
+Subject: [ANN] possible LinuxTV.org maintenance on Wednesday (2019-11-20)
+Message-ID: <20191120114131.4000bb1b@infradead.org>
+In-Reply-To: <20191118111323.5ccd8f27@infradead.org>
+References: <20191118111323.5ccd8f27@infradead.org>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-Bad-Reply: References and In-Reply-To but no 'Re:' in Subject.
+X-SRS-Rewrite: SMTP reverse-path rewritten from <mchehab@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Freitag, den 18.10.2019, 07:53 -0700 schrieb syzbot:
-> Hello,
+Em Mon, 18 Nov 2019 11:13:23 +0100
+Mauro Carvalho Chehab <mchehab@infradead.org> escreveu:
+
+> Hi all,
 > 
-> syzbot found the following crash on:
+> Just to let you know, we'll be doing a preventive maintenance tomorrow by
+> 1pm-3pm (UTC). 
 > 
-> HEAD commit:    22be26f7 usb-fuzzer: main usb gadget fuzzer driver
-> git tree:       https://github.com/google/kasan.git usb-fuzzer
-> console output: https://syzkaller.appspot.com/x/log.txt?x=102b65cf600000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=387eccb7ac68ec5
-> dashboard link: https://syzkaller.appspot.com/bug?extid=9ca7a12fd736d93e0232
-> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=143b9060e00000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15d3b94b600000
-> 
-> IMPORTANT: if you fix the bug, please add the following tag to the commit:
-> Reported-by: syzbot+9ca7a12fd736d93e0232@syzkaller.appspotmail.com
+> During that time, we'll be stopping the services (wiki, web, patchwork, git)
+> at *.linuxtv.org.
 
-#syz test: https://github.com/google/kasan.git 22be26f7
+It ends that the upgrade didn't happen yesterday. So, we are trying to
+re-schedule it for today.
 
-From c322de1808b3f43b2248457281634c9d22500840 Mon Sep 17 00:00:00 2001
-From: Oliver Neukum <oneukum@suse.com>
-Date: Mon, 18 Nov 2019 14:41:51 +0100
-Subject: [PATCH] si470x: prevent resubmission
+In principle, the maintenance will happen between 1pm-3pm (UTC).
 
-Starting IO to a device is not necessarily a NOP in every error
-case. So we need to terminate all IO in every case of probe
-failure with absolute certainty.
-
-Signed-off-by: Oliver Neukum <oneukum@suse.com>
----
- drivers/media/radio/si470x/radio-si470x-usb.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/media/radio/si470x/radio-si470x-usb.c b/drivers/media/radio/si470x/radio-si470x-usb.c
-index fedff68d8c49..07e9ddbb5937 100644
---- a/drivers/media/radio/si470x/radio-si470x-usb.c
-+++ b/drivers/media/radio/si470x/radio-si470x-usb.c
-@@ -734,7 +734,8 @@ static int si470x_usb_driver_probe(struct usb_interface *intf,
- 	/* start radio */
- 	retval = si470x_start_usb(radio);
- 	if (retval < 0)
--		goto err_buf;
-+		/* the urb may be running even after an error */
-+		goto err_all;
- 
- 	/* set initial frequency */
- 	si470x_set_freq(radio, 87.5 * FREQ_MUL); /* available in all regions */
-@@ -749,7 +750,7 @@ static int si470x_usb_driver_probe(struct usb_interface *intf,
- 
- 	return 0;
- err_all:
--	usb_kill_urb(radio->int_in_urb);
-+	usb_poison_urb(radio->int_in_urb);
- err_buf:
- 	kfree(radio->buffer);
- err_ctrl:
--- 
-2.16.4
-
+Cheers,
+Mauro
