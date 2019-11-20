@@ -2,183 +2,263 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F08DF102DFA
-	for <lists+linux-media@lfdr.de>; Tue, 19 Nov 2019 22:08:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E2DD1030D8
+	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2019 01:43:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727118AbfKSVI4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Nov 2019 16:08:56 -0500
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:52392 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726711AbfKSVI4 (ORCPT
+        id S1727405AbfKTAnK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 Nov 2019 19:43:10 -0500
+Received: from mail-lf1-f68.google.com ([209.85.167.68]:45529 "EHLO
+        mail-lf1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727222AbfKTAnK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Nov 2019 16:08:56 -0500
-Received: by mail-wm1-f67.google.com with SMTP id l1so4775987wme.2
-        for <linux-media@vger.kernel.org>; Tue, 19 Nov 2019 13:08:53 -0800 (PST)
+        Tue, 19 Nov 2019 19:43:10 -0500
+Received: by mail-lf1-f68.google.com with SMTP id 203so2790543lfa.12
+        for <linux-media@vger.kernel.org>; Tue, 19 Nov 2019 16:43:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=2zlbs2pXUEmTBiqM5uPjmApb3LNff5iUPeL5FIOnQYk=;
-        b=ctaU3sXxMTMJ5J+YF5brTmEYkt8Lr8VGNpVjiIlvoDVnfpkFwRT2zYTiVRMmduytPY
-         fBE0ZX1DtprGbTrac/f5b2ZXqUDRa7rNEks7+/5DUWVD/qXNDL3URNpN8k4cuLw37RxR
-         3aXsKrgEyTsNzdYwlxwhhHU9VVrMKAXjOp7aQ=
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=SuCiKSsIRDKTbEIrlKuHNFUxZMf3N0BWgvOBBoTFOxg=;
+        b=aatNqWaL0QyzhfFvsyJVZNwE0B3j5uWP4gtCcj8hIO+DL3zX4s+xOfl1Pb2PHnepNb
+         YAAhjnh9lsk5gVv4jY4LAKfHk5UEtn+Aqq76ly7inUWooSmlMUp4o+Ozp+DPyrFCXoad
+         R2JSfxtSpuaY4HTG9QFIXSei5hjZJA573tT6E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=2zlbs2pXUEmTBiqM5uPjmApb3LNff5iUPeL5FIOnQYk=;
-        b=YPvAaqBVhi8BLbQIVQ9r0C1aYkISOyoMG799OrY5G9OJBm5UFTtBHNUgvPJO89+TjW
-         mbCfmZNWFame1gyuM3z0nwy+lpqkgQ/I1erQmDU1rIL/OLuUBeK4qwmnKTXSyarQCfn6
-         XK9yqcZJcfKH7n6srpgKJRttv2nPGaiugJNjRVeFThF0ehIPIvU9FwpWcEj65UcnYRG5
-         7sidhqep6O1bSyIVni5xpPQfhROnNZC+rWD2aMrBsH4DzKKk7Y7pLRoVwYDl+3dDePNw
-         JiC/Gxb+3rgqs5I1PDr/SxYpsw77AD+byoP2W+aPL18gWbNaPD6/57ofUp86HBp3SuJo
-         RwiA==
-X-Gm-Message-State: APjAAAV8dVw54LGmFbHQO4g84Vbjykn/K9yptUBT154ojrzWHCbO3PY+
-        p4L2AbT35AhXDUMPLZaoO7AASg==
-X-Google-Smtp-Source: APXvYqzxX3jOaHPiLm+PN11cjUpEZn6I77rrmK+0fYGUxMig2vga+11YIaGfPENiJrgAdlabNeLEyg==
-X-Received: by 2002:a1c:41c2:: with SMTP id o185mr7906751wma.34.1574197732676;
-        Tue, 19 Nov 2019 13:08:52 -0800 (PST)
-Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net. [212.51.149.96])
-        by smtp.gmail.com with ESMTPSA id z14sm28005126wrl.60.2019.11.19.13.08.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Nov 2019 13:08:52 -0800 (PST)
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-To:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>
-Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Chris Wilson <chris@chris-wilson.co.uk>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        Huang Rui <ray.huang@amd.com>, Eric Anholt <eric@anholt.net>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Rob Herring <robh@kernel.org>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Russell King <linux+etnaviv@armlinux.org.uk>,
-        Christian Gmeiner <christian.gmeiner@gmail.com>,
-        Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
-        Daniel Vetter <daniel.vetter@intel.com>
-Subject: [PATCH 2/3] dma-resv: Also prime acquire ctx for lockdep
-Date:   Tue, 19 Nov 2019 22:08:43 +0100
-Message-Id: <20191119210844.16947-3-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20191119210844.16947-1-daniel.vetter@ffwll.ch>
-References: <20191119210844.16947-1-daniel.vetter@ffwll.ch>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=SuCiKSsIRDKTbEIrlKuHNFUxZMf3N0BWgvOBBoTFOxg=;
+        b=E29BN+jKUAJDOWA0k0t0wiVBrII0ci1FAJk12AifW26kX9lOhkR6AZeO0xo59zkPa4
+         ZRlGpHvqVQVj54p5KUDsuLN5kf29Ez7zvX7oK9QE6qTS321K53Dv8BMkUSLE462fK1/n
+         P5dpuEikKyKGYpEy/oYiVhcoTBwBrI8vb42O2mrEP3DzOC6aMoT/CkoNQ7a45ANhKdVt
+         ttVnvXbsvFaLu9v5ItAUpxuazdEmnUTMIQ4w81FCoxe3G7DLD0IKA0lP/6tLl6d5BHlZ
+         481PKYjfYT+P0WMXG/RPsanxJ8PUF1/05O1/xMzILobja/sFEprUQUsmXQ0GwrxdBcf2
+         z9zQ==
+X-Gm-Message-State: APjAAAWYyc9GOzodcD9eG4eWOwhBpBoHNvpAtJg4Ec+FpKPiycaRjTfa
+        rWGKPviMN9OcSBgZYLOcJ7ssns6jKpkkNg==
+X-Google-Smtp-Source: APXvYqxwjFVb9TJ1oMcCifUNYi0KrbeEX9P6Z8nQJXfKiRsZiqZPL4P+NKm6XGw8XK2+xkJlg+ZcBw==
+X-Received: by 2002:a19:911c:: with SMTP id t28mr332354lfd.84.1574210585185;
+        Tue, 19 Nov 2019 16:43:05 -0800 (PST)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com. [209.85.208.171])
+        by smtp.gmail.com with ESMTPSA id h16sm10934747ljb.10.2019.11.19.16.43.02
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 Nov 2019 16:43:04 -0800 (PST)
+Received: by mail-lj1-f171.google.com with SMTP id 139so25499146ljf.1
+        for <linux-media@vger.kernel.org>; Tue, 19 Nov 2019 16:43:02 -0800 (PST)
+X-Received: by 2002:a2e:2e03:: with SMTP id u3mr209839lju.115.1574210581666;
+ Tue, 19 Nov 2019 16:43:01 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20191105105456.7xbhtistnbp272lj@sirius.home.kraxel.org>
+ <20191106084344.GB189998@stefanha-x1.localdomain> <CAD=HUj41r8wHZ2-By8tLftkoqC5r_Bw=pr=zX2aZ7GTs1ESWhg@mail.gmail.com>
+ <c8a6b6f35664ce036c2a48ec41eab97b0f40704d.camel@linux.intel.com>
+ <CAAfnVBkMWurTpseQFjcna5kk3__40n6M68=RTHLbQsu__2AFxg@mail.gmail.com>
+ <4a5dd822e86757f004d04af62fb7dd35ba75392d.camel@linux.intel.com>
+ <CAAfnVB=F+HeQrrn23c=rZeOa5BfHo=9ArcG--gLf87gqBXfZ9A@mail.gmail.com> <bee3aae13f6cf69ee909aa9884926853d6123b25.camel@linux.intel.com>
+In-Reply-To: <bee3aae13f6cf69ee909aa9884926853d6123b25.camel@linux.intel.com>
+From:   Gurchetan Singh <gurchetansingh@chromium.org>
+Date:   Tue, 19 Nov 2019 16:42:49 -0800
+X-Gmail-Original-Message-ID: <CAAfnVBmcBWWpvTAijg8AY-6RoKGJ84AS_qo2WqF6sgLHVsHJsw@mail.gmail.com>
+Message-ID: <CAAfnVBmcBWWpvTAijg8AY-6RoKGJ84AS_qo2WqF6sgLHVsHJsw@mail.gmail.com>
+Subject: Re: [virtio-dev] Re: guest / host buffer sharing ...
+To:     Liam Girdwood <liam.r.girdwood@linux.intel.com>
+Cc:     David Stevens <stevensd@chromium.org>,
+        Stefan Hajnoczi <stefanha@gmail.com>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Keiichi Watanabe <keiichiw@chromium.org>,
+        geoff@hostfission.com, virtio-dev@lists.oasis-open.org,
+        Alex Lau <alexlau@chromium.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        qemu-devel@nongnu.org, Tomasz Figa <tfiga@chromium.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
+        Dylan Reid <dgreid@chromium.org>,
+        Dmitry Morozov <dmitry.morozov@opensynergy.com>,
+        Pawel Osciak <posciak@chromium.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Semnatically it really doesn't matter where we grab the ticket. But
-since the ticket is a fake lockdep lock, it matters for lockdep
-validation purposes.
+On Tue, Nov 19, 2019 at 7:31 AM Liam Girdwood
+<liam.r.girdwood@linux.intel.com> wrote:
+>
+> On Tue, 2019-11-12 at 14:55 -0800, Gurchetan Singh wrote:
+> > On Tue, Nov 12, 2019 at 5:56 AM Liam Girdwood
+> > <liam.r.girdwood@linux.intel.com> wrote:
+> > >
+> > > On Mon, 2019-11-11 at 16:54 -0800, Gurchetan Singh wrote:
+> > > > On Tue, Nov 5, 2019 at 2:55 AM Gerd Hoffmann <kraxel@redhat.com>
+> > > > wrote:
+> > > > > Each buffer also has some properties to carry metadata, some
+> > > > > fixed
+> > > > > (id, size, application), but
+> > > > > also allow free form (name = value, framebuffers would have
+> > > > > width/height/stride/format for example).
+> > > >
+> > > > Sounds a lot like the recently added DMA_BUF_SET_NAME ioctls:
+> > > >
+> > > > https://patchwork.freedesktop.org/patch/310349/
+> > > >
+> > > > For virtio-wayland + virtio-vdec, the problem is sharing -- not
+> > > > allocation.
+> > > >
+> > >
+> > > Audio also needs to share buffers with firmware running on DSPs.
+> > >
+> > > > As the buffer reaches a kernel boundary, it's properties devolve
+> > > > into
+> > > > [fd, size].  Userspace can typically handle sharing
+> > > > metadata.  The
+> > > > issue is the guest dma-buf fd doesn't mean anything on the host.
+> > > >
+> > > > One scenario could be:
+> > > >
+> > > > 1) Guest userspace (say, gralloc) allocates using virtio-
+> > > > gpu.  When
+> > > > allocating, we call uuidgen() and then pass that via
+> > > > RESOURCE_CREATE
+> > > > hypercall to the host.
+> > > > 2) When exporting the dma-buf, we call DMA_BUF_SET_NAME (the
+> > > > buffer
+> > > > name will be "virtgpu-buffer-${UUID}").
+> > > > 3) When importing, virtio-{vdec, video} reads the dma-buf name in
+> > > > userspace, and calls fd to handle.  The name is sent to the host
+> > > > via
+> > > > a
+> > > > hypercall, giving host virtio-{vdec, video} enough information to
+> > > > identify the buffer.
+> > > >
+> > > > This solution is entirely userspace -- we can probably come up
+> > > > with
+> > > > something in kernel space [generate_random_uuid()] if need
+> > > > be.  We
+> > > > only need two universal IDs: {device ID, buffer ID}.
+> > > >
+> > >
+> > > I need something where I can take a guest buffer and then convert
+> > > it to
+> > > physical scatter gather page list. I can then either pass the SG
+> > > page
+> > > list to the DSP firmware (for DMAC IP programming) or have the host
+> > > driver program the DMAC directly using the page list (who programs
+> > > DMAC
+> > > depends on DSP architecture).
+> >
+> > So you need the HW address space from a guest allocation?
+>
+> Yes.
+>
+> >  Would your
+> > allocation hypercalls use something like the virtio_gpu_mem_entry
+> > (virtio_gpu.h) and the draft virtio_video_mem_entry (draft)?
+>
+> IIUC, this looks like generic SG buffer allocation ?
+>
+> >
+> > struct {
+> >         __le64 addr;
+> >         __le32 length;
+> >         __le32 padding;
+> > };
+> >
+> > /* VIRTIO_GPU_CMD_RESOURCE_ATTACH_BACKING */
+> > struct virtio_gpu_resource_attach_backing {
+> >         struct virtio_gpu_ctrl_hdr hdr;
+> >         __le32 resource_id;
+> >         __le32 nr_entries;
+> >       *struct struct virtio_gpu_mem_entry */
+> > };
+> >
+> > struct virtio_video_mem_entry {
+> >     __le64 addr;
+> >     __le32 length;
+> >     __u8 padding[4];
+> > };
+> >
+> > struct virtio_video_resource_attach_backing {
+> >     struct virtio_video_ctrl_hdr hdr;
+> >     __le32 resource_id;
+> >     __le32 nr_entries;
+> > };
+> >
+> > >
+> > > DSP FW has no access to userspace so we would need some additional
+> > > API
+> > > on top of DMA_BUF_SET_NAME etc to get physical hardware pages ?
+> >
+> > The dma-buf api currently can share guest memory sg-lists.
+>
+> Ok, IIUC buffers can either be shared using the GPU proposed APIs
+> (above) or using the dma-buf API to share via userspace ?
 
-This means stuff like grabbing a ticket and then doing
-copy_from/to_user isn't allowed anymore. This is a changed compared to
-the current ttm fault handler, which doesn't bother with having a full
-reservation. Since I'm looking into fixing the TODO entry in
-ttm_mem_evict_wait_busy() I think that'll have to change sooner or
-later anyway, better get started. A bit more context on why I'm
-looking into this: For backwards compat with existing i915 gem code I
-think we'll have to do full slowpath locking in the i915 equivalent of
-the eviction code. And with dynamic dma-buf that will leak across
-drivers, so another thing we need to standardize and make sure it's
-done the same way everyway.
+If we restrict ourselves to guest-sg lists only, then the current
+dma-buf API is sufficient to share buffers.  From example, virtio-gpu
+can allocate with the following hypercall (as it does now):
 
-Unfortunately this means another full audit of all drivers:
+struct virtio_gpu_resource_attach_backing {
+         struct virtio_gpu_ctrl_hdr hdr;
+         __le32 resource_id;
+         __le32 nr_entries;
+       *struct struct virtio_gpu_mem_entry */
+};
 
-- gem helpers: acquire_init is done right before taking locks, so no
-  problem. Same for acquire_fini and unlocking, which means nothing
-  that's not already covered by the dma_resv_lock rules will be caught
-  with this extension here to the acquire_ctx.
+Then in the guest kernel, virtio-{video, snd} can get the sg-list via
+dma_buf_map_attachment, and then have a hypercall of it's own:
 
-- etnaviv: An absolute massive amount of code is run between the
-  acquire_init and the first lock acquisition in submit_lock_objects.
-  But nothing that would touch user memory and could cause a fault.
-  Furthermore nothing that uses the ticket, so even if I missed
-  something, it would be easy to fix by pushing the acquire_init right
-  before the first use. Similar on the unlock/acquire_fini side.
+struct virtio_video_resource_import {
+         struct virtio_video_ctrl_hdr hdr;
+         __le32 video_resource_id;
+         __le32 nr_entries;
+       *struct struct virtio_gpu_mem_entry */
+};
 
-- i915: Right now (and this will likely change a lot rsn) the acquire
-  ctx and actual locks are right next to each another. No problem.
+Then it can create dmabuf on the host or get the HW address from the SG list.
 
-- msm has a problem: submit_create calls acquire_init, but then
-  submit_lookup_objects() has a bunch of copy_from_user to do the
-  object lookups. That's the only thing before submit_lock_objects
-  call dma_resv_lock(). Despite all the copypasta to etnaviv, etnaviv
-  does not have this issue since it copies all the userspace structs
-  earlier. submit_cleanup does not have any such issues.
+The complications come in from sharing host allocated buffers ... for
+that we may need a method to translate from guest fds to universal
+"virtualized" resource IDs.  I've heard talk about the need to
+translate from guest fence fds to host fence fds as well.
 
-  With the prep patch to pull out the acquire_ctx and reorder it msm
-  is going to be safe too.
+> My preference
+> would be to use teh more direct GPU APIs sending physical page
+> addresses from Guest to device driver. I guess this is your use case
+> too ?
 
-- nouveau: acquire_init is right next to ttm_bo_reserve, so all good.
-  Similar on the acquire_fini/ttm_bo_unreserve side.
+For my use case, guest memory is sufficient, especially given the
+direction towards modifiers + system memory.  For closed source
+drivers, we may need to directly map host buffers.  However, that use
+case is restricted to virtio-gpu and won't work with other virtio
+devices.
 
-- ttm execbuf utils: acquire context and locking are even in the same
-  functions here (one function to reserve everything, the other to
-  unreserve), so all good.
 
-- vc4: Another case where acquire context and locking are handled in
-  the same functions (one function to lock everything, the other to
-  unlock).
-
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: linux-media@vger.kernel.org
-Cc: linaro-mm-sig@lists.linaro.org
-Cc: Huang Rui <ray.huang@amd.com>
-Cc: Eric Anholt <eric@anholt.net>
-Cc: Ben Skeggs <bskeggs@redhat.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Rob Herring <robh@kernel.org>
-Cc: Lucas Stach <l.stach@pengutronix.de>
-Cc: Russell King <linux+etnaviv@armlinux.org.uk>
-Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
-Cc: Rob Clark <robdclark@gmail.com>
-Cc: Sean Paul <sean@poorly.run>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
----
- drivers/dma-buf/dma-resv.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-index d3c760e19991..079e38fde33a 100644
---- a/drivers/dma-buf/dma-resv.c
-+++ b/drivers/dma-buf/dma-resv.c
-@@ -100,7 +100,9 @@ static void dma_resv_list_free(struct dma_resv_list *list)
- static void __init dma_resv_lockdep(void)
- {
- 	struct mm_struct *mm = mm_alloc();
-+	struct ww_acquire_ctx ctx;
- 	struct dma_resv obj;
-+	int ret;
- 
- 	if (!mm)
- 		return;
-@@ -108,10 +110,14 @@ static void __init dma_resv_lockdep(void)
- 	dma_resv_init(&obj);
- 
- 	down_read(&mm->mmap_sem);
--	ww_mutex_lock(&obj.lock, NULL);
-+	ww_acquire_init(&ctx, &reservation_ww_class);
-+	ret = dma_resv_lock(&obj, &ctx);
-+	if (ret == -EDEADLK)
-+		dma_resv_lock_slow(&obj, &ctx);
- 	fs_reclaim_acquire(GFP_KERNEL);
- 	fs_reclaim_release(GFP_KERNEL);
- 	ww_mutex_unlock(&obj.lock);
-+	ww_acquire_fini(&ctx);
- 	up_read(&mm->mmap_sem);
- 	
- 	mmput(mm);
--- 
-2.24.0
-
+>
+> Thanks
+>
+> Liam
+>
+> >
+> > >
+> > > Liam
+> > >
+> > >
+> > >
+> > > -----------------------------------------------------------------
+> > > ----
+> > > To unsubscribe, e-mail: virtio-dev-unsubscribe@lists.oasis-open.org
+> > > For additional commands, e-mail:
+> > > virtio-dev-help@lists.oasis-open.org
+> > >
+> >
+> > ---------------------------------------------------------------------
+> > To unsubscribe, e-mail: virtio-dev-unsubscribe@lists.oasis-open.org
+> > For additional commands, e-mail: virtio-dev-help@lists.oasis-open.org
+> >
+>
+>
+> ---------------------------------------------------------------------
+> To unsubscribe, e-mail: virtio-dev-unsubscribe@lists.oasis-open.org
+> For additional commands, e-mail: virtio-dev-help@lists.oasis-open.org
+>
