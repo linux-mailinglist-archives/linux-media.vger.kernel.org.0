@@ -2,178 +2,233 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C6B03103505
-	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2019 08:17:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B98671035D3
+	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2019 09:11:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727943AbfKTHRf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Nov 2019 02:17:35 -0500
-Received: from hqemgate16.nvidia.com ([216.228.121.65]:19872 "EHLO
-        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727888AbfKTHRX (ORCPT
+        id S1727330AbfKTILB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Nov 2019 03:11:01 -0500
+Received: from mailgw01.mediatek.com ([210.61.82.183]:21271 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726038AbfKTILA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Nov 2019 02:17:23 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5dd4e87e0000>; Tue, 19 Nov 2019 23:17:18 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 19 Nov 2019 23:17:17 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 19 Nov 2019 23:17:17 -0800
-Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 20 Nov
- 2019 07:17:16 +0000
-Subject: Re: [PATCH v6 17/24] mm/gup: track FOLL_PIN pages
-To:     Jan Kara <jack@suse.cz>
-CC:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
-        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
-        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
-References: <20191119081643.1866232-1-jhubbard@nvidia.com>
- <20191119081643.1866232-18-jhubbard@nvidia.com>
- <20191119113746.GD25605@quack2.suse.cz>
-X-Nvconfidentiality: public
-From:   John Hubbard <jhubbard@nvidia.com>
-Message-ID: <92d0385a-90be-e900-e5ec-1eeafd24ff81@nvidia.com>
-Date:   Tue, 19 Nov 2019 23:17:16 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        Wed, 20 Nov 2019 03:11:00 -0500
+X-UUID: 4e2e83daeb2b4a48b4c32685c2e62189-20191120
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=Vm5saM+GW0YUbJUNwRCvnRKSP+TQW5BbAxj4dw2J4dY=;
+        b=dBCv593JHT5q6x8wGg9cEEFnlPEW6vdoHgV08dotVzQ4nd+dGQhbKXq+bh8LRvcCUmRmT1iRwwumlbL6OWAGyjks5pxOdQlLuqvUzTyi4NmFlxelzYE7pKulu7SfnxtJdI7H1H86ze4OY/C5IANY+796kSPemvTdflQ7lVW0nX4=;
+X-UUID: 4e2e83daeb2b4a48b4c32685c2e62189-20191120
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
+        (envelope-from <jerry-ch.chen@mediatek.com>)
+        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+        with ESMTP id 1204473334; Wed, 20 Nov 2019 16:10:51 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ mtkmbs08n1.mediatek.inc (172.21.101.55) with Microsoft SMTP Server (TLS) id
+ 15.0.1395.4; Wed, 20 Nov 2019 16:10:34 +0800
+Received: from [172.21.84.99] (172.21.84.99) by mtkcas08.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
+ Transport; Wed, 20 Nov 2019 16:10:49 +0800
+Message-ID: <1574237450.20087.17.camel@mtksdccf07>
+Subject: Re: [RFC PATCH V3 3/3] platform: mtk-isp: Add Mediatek FD driver
+From:   Jerry-ch Chen <Jerry-ch.Chen@mediatek.com>
+To:     Tomasz Figa <tfiga@chromium.org>
+CC:     "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "lkml@metux.net" <lkml@metux.net>,
+        CK Hu =?UTF-8?Q?=28=E8=83=A1=E4=BF=8A=E5=85=89=29?= 
+        <ck.hu@mediatek.com>, "yuzhao@chromium.org" <yuzhao@chromium.org>,
+        "zwisler@chromium.org" <zwisler@chromium.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Sean Cheng =?UTF-8?Q?=28=E9=84=AD=E6=98=87=E5=BC=98=29?= 
+        <Sean.Cheng@mediatek.com>,
+        "Sj Huang =?UTF-8?Q?=28=E9=BB=83=E4=BF=A1=E7=92=8B=29?=" 
+        <sj.huang@mediatek.com>,
+        Christie Yu =?UTF-8?Q?=28=E6=B8=B8=E9=9B=85=E6=83=A0=29?= 
+        <christie.yu@mediatek.com>,
+        Frederic Chen =?UTF-8?Q?=28=E9=99=B3=E4=BF=8A=E5=85=83=29?= 
+        <Frederic.Chen@mediatek.com>,
+        Jungo Lin =?UTF-8?Q?=28=E6=9E=97=E6=98=8E=E4=BF=8A=29?= 
+        <jungo.lin@mediatek.com>,
+        Po-Yang Huang =?UTF-8?Q?=28=E9=BB=83=E6=9F=8F=E9=99=BD=29?= 
+        <po-yang.huang@mediatek.com>,
+        Rynn Wu =?UTF-8?Q?=28=E5=90=B3=E8=82=B2=E6=81=A9=29?= 
+        <Rynn.Wu@mediatek.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "laurent.pinchart+renesas@ideasonboard.com" 
+        <laurent.pinchart+renesas@ideasonboard.com>,
+        "hans.verkuil@cisco.com" <hans.verkuil@cisco.com>
+Date:   Wed, 20 Nov 2019 16:10:50 +0800
+In-Reply-To: <20191025035211.GA67000@chromium.org>
+References: <20190906101125.3784-1-Jerry-Ch.chen@mediatek.com>
+         <20190906101125.3784-4-Jerry-Ch.chen@mediatek.com>
+         <1571109375.3706.40.camel@mtksdccf07> <20191025035211.GA67000@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.2.3-0ubuntu6 
 MIME-Version: 1.0
-In-Reply-To: <20191119113746.GD25605@quack2.suse.cz>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1574234238; bh=XS1elsnwWY0rNKRca94CapnxJDsibdDqnD818d/G+io=;
-        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=cgfFkxVckFKph83JpaLozX1BPV67pcDvc4zYdLq9ggt/6dUFhjSjEUfkPlJ6YS85y
-         Tzbfkd2Ssh+1cnbHZVu22ZxAYWyCv1b8X10VXVS5hS2byaCvY0Vg9ipA7x3Fo3odW9
-         mJ8QOlZhdrlbORb/tooq8lEuT6AxTt5cVxDPZE9pOLHClbe3whACaJnf15veA5FbxQ
-         N7Z3c9PH3VSrAZwjy0whi7ko1Q5RU1C8PJUljAOR0JzSWQ7k8UX3NdOtoVh+QLcZ15
-         DmGFCQcpIJbV8FkJKisaDhzEEJcucwABlIhBeXVZln5jK7XEYXo5n/Z8Yardu3zdea
-         jFCxWfbFbwpdA==
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/19/19 3:37 AM, Jan Kara wrote:
-> On Tue 19-11-19 00:16:36, John Hubbard wrote:
->> @@ -2025,6 +2149,20 @@ static int __record_subpages(struct page *page, unsigned long addr,
->>  	return nr;
->>  }
->>  
->> +static bool __pin_compound_head(struct page *head, int refs, unsigned int flags)
->> +{
-> 
-> I don't quite like the proliferation of names starting with __. I don't
-> think there's a good reason for that, particularly in this case. Also 'pin'
-> here is somewhat misleading as we already use term "pin" for the particular
-> way of pinning the page. We could have grab_compound_head() or maybe
-> nail_compound_head() :), but you're native speaker so you may come up with
-> better word.
+SGkgVG9tYXN6LA0KDQpPbiBGcmksIDIwMTktMTAtMjUgYXQgMTE6NTIgKzA4MDAsIFRvbWFzeiBG
+aWdhIHdyb3RlOg0KPiBPbiBUdWUsIE9jdCAxNSwgMjAxOSBhdCAxMToxNjoxNUFNICswODAwLCBK
+ZXJyeS1jaCBDaGVuIHdyb3RlOg0KPiA+IEhpIFRvbWFzeiwNCj4gPiANCj4gPiBPbiBGcmksIDIw
+MTktMDktMDYgYXQgMTg6MTEgKzA4MDAsIEplcnJ5LWNoIENoZW4gd3JvdGU6DQo+ID4gPiBGcm9t
+OiBKZXJyeS1jaCBDaGVuIDxqZXJyeS1jaC5jaGVuQG1lZGlhdGVrLmNvbT4NCj4gPiA+IA0KPiA+
+ID4gVGhpcyBwYXRjaCBhZGRzIHRoZSBkcml2ZXIgb2YgRmFjZSBEZXRlY3Rpb24gKEZEKSB1bml0
+IGluDQo+ID4gPiBNZWRpYXRlayBjYW1lcmEgc3lzdGVtLCBwcm92aWRpbmcgZmFjZSBkZXRlY3Rp
+b24gZnVuY3Rpb24uDQo+ID4gPiANCj4gPiA+IFRoZSBtdGstaXNwIGRpcmVjdG9yeSB3aWxsIGNv
+bnRhaW4gZHJpdmVycyBmb3IgbXVsdGlwbGUgSVANCj4gPiA+IGJsb2NrcyBmb3VuZCBpbiBNZWRp
+YXRlayBJU1Agc3lzdGVtLiBJdCB3aWxsIGluY2x1ZGUgSVNQIFBhc3MgMQ0KPiA+ID4gZHJpdmVy
+IChDQU0pLCBzZW5zb3IgaW50ZXJmYWNlIGRyaXZlciwgRElQIGRyaXZlciBhbmQgZmFjZQ0KPiA+
+ID4gZGV0ZWN0aW9uIGRyaXZlci4NCj4gPiA+IA0KPiA+ID4gU2lnbmVkLW9mZi1ieTogSmVycnkt
+Y2ggQ2hlbiA8amVycnktY2guY2hlbkBtZWRpYXRlay5jb20+DQo+ID4gPiAtLS0NCj4gPiA+ICBk
+cml2ZXJzL21lZGlhL3BsYXRmb3JtL0tjb25maWcgICAgICAgICAgICAgICAgfCAgICAyICsNCj4g
+PiA+ICBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL01ha2VmaWxlICAgICAgICAgICAgICAgfCAgICAy
+ICsNCj4gPiA+ICBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL210ay1pc3AvZmQvS2NvbmZpZyAgICAg
+fCAgIDE5ICsNCj4gPiA+ICBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL210ay1pc3AvZmQvTWFrZWZp
+bGUgICAgfCAgICA1ICsNCj4gPiA+ICBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL210ay1pc3AvZmQv
+bXRrX2ZkLmggICAgfCAgMTQ4ICsrDQo+ID4gPiAgZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tdGst
+aXNwL2ZkL210a19mZF80MC5jIHwgMTIxOSArKysrKysrKysrKysrKysrKw0KPiA+ID4gIGluY2x1
+ZGUvdWFwaS9saW51eC9tdGstZmQtdjRsMi1jb250cm9scy5oICAgICB8ICAgNjkgKw0KPiA+ID4g
+IGluY2x1ZGUvdWFwaS9saW51eC92NGwyLWNvbnRyb2xzLmggICAgICAgICAgICB8ICAgIDQgKw0K
+PiA+ID4gIDggZmlsZXMgY2hhbmdlZCwgMTQ2OCBpbnNlcnRpb25zKCspDQo+ID4gPiAgY3JlYXRl
+IG1vZGUgMTAwNjQ0IGRyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbXRrLWlzcC9mZC9LY29uZmlnDQo+
+ID4gPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbXRrLWlzcC9m
+ZC9NYWtlZmlsZQ0KPiA+ID4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL21lZGlhL3BsYXRm
+b3JtL210ay1pc3AvZmQvbXRrX2ZkLmgNCj4gPiA+ICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVy
+cy9tZWRpYS9wbGF0Zm9ybS9tdGstaXNwL2ZkL210a19mZF80MC5jDQo+ID4gPiAgY3JlYXRlIG1v
+ZGUgMTAwNjQ0IGluY2x1ZGUvdWFwaS9saW51eC9tdGstZmQtdjRsMi1jb250cm9scy5oDQo+ID4g
+PiANCj4gDQo+IFtzbmlwXQ0KPiANCj4gPiA+ICtzdGF0aWMgaW50IG10a19mZF9qb2JfYWJvcnQo
+c3RydWN0IG10a19mZF9kZXYgKmZkKQ0KPiA+ID4gK3sNCj4gPiA+ICsJdTMyIHJldDsNCj4gPiA+
+ICsNCj4gPiA+ICsJcmV0ID0gd2FpdF9mb3JfY29tcGxldGlvbl90aW1lb3V0KCZmZC0+ZmRfaXJx
+X2RvbmUsDQo+ID4gPiArCQkJCQkgIG1zZWNzX3RvX2ppZmZpZXMoTVRLX0ZEX0hXX1RJTUVPVVQp
+KTsNCj4gPiA+ICsJLyogUmVzZXQgRkQgSFcgKi8NCj4gPiA+ICsJaWYgKCFyZXQpIHsNCj4gPiA+
+ICsJCXN0cnVjdCBpcGlfbWVzc2FnZSBmZF9pcGlfbXNnOw0KPiA+ID4gKw0KPiA+ID4gKwkJZmRf
+aXBpX21zZy5jbWRfaWQgPSBNVEtfRkRfSVBJX0NNRF9SRVNFVDsNCj4gPiA+ICsJCWlmIChzY3Bf
+aXBpX3NlbmQoZmQtPnNjcF9wZGV2LCBTQ1BfSVBJX0ZEX0NNRCwgJmZkX2lwaV9tc2csDQo+ID4g
+PiArCQkJCSBzaXplb2YoZmRfaXBpX21zZyksIE1US19GRF9JUElfU0VORF9USU1FT1VUKSkNCj4g
+PiA+ICsJCQlkZXZfZXJyKGZkLT5kZXYsICJGRCBSZXNldCBIVyBlcnJvclxuIik7DQo+ID4gPiAr
+CQlyZXR1cm4gLUVUSU1FRE9VVDsNCj4gPiA+ICsJfQ0KPiA+ID4gKwlyZXR1cm4gMDsNCj4gPiA+
+ICt9DQo+ID4gPiArDQo+ID4gDQo+ID4gQ29udGludWUgdGhlIGRpc2N1c3Npb24gYWJvdXQgam9i
+IGFib3J0IGluIFJGQyB2MiwNCj4gPiANCj4gPiBJIHRoaW5rIHRoZSBqb2JfYWJvcnQgY2FsbGJh
+Y2sgaW4gdjRsMl9tMm1fb3BzKCkgbWlnaHQgYmUgdXNlZnVsLg0KPiA+IA0KPiA+IHJlZjoNCj4g
+PiBodHRwczovL2VsaXhpci5ib290bGluLmNvbS9saW51eC92NS40LXJjMi9zb3VyY2UvZHJpdmVy
+cy9tZWRpYS92NGwyLWNvcmUvdjRsMi1tZW0ybWVtLmMjTDM5OA0KPiA+IGh0dHBzOi8vZWxpeGly
+LmJvb3RsaW4uY29tL2xpbnV4L3Y1LjQtcmMyL3NvdXJjZS9pbmNsdWRlL21lZGlhL3Y0bDItbWVt
+Mm1lbS5oI0w0Mw0KPiA+IA0KPiA+IGluIGRyaXZlcnMvbWVkaWEvdjRsMi1jb3JlL3Y0bDItbWVt
+Mm1lbS5jICMzOTggdjRsMl9tMm1fY2FuY2VsX2pvYigpDQo+ID4gLi4uDQo+ID4gaWYgKG0ybV9j
+dHgtPmpvYl9mbGFncyAmIFRSQU5TX1JVTk5JTkcpIHsNCj4gPiAJc3Bpbl91bmxvY2tfaXJxcmVz
+dG9yZSgmbTJtX2Rldi0+am9iX3NwaW5sb2NrLCBmbGFncyk7DQo+ID4gCWlmIChtMm1fZGV2LT5t
+Mm1fb3BzLT5qb2JfYWJvcnQpDQo+ID4gCQltMm1fZGV2LT5tMm1fb3BzLT5qb2JfYWJvcnQobTJt
+X2N0eC0+cHJpdik7DQo+ID4gCWRwcmludGsoIm0ybV9jdHggJXAgcnVubmluZywgd2lsbCB3YWl0
+IHRvIGNvbXBsZXRlXG4iLCBtMm1fY3R4KTsNCj4gPiAJd2FpdF9ldmVudChtMm1fY3R4LT5maW5p
+c2hlZCwNCj4gPiAJCQkhKG0ybV9jdHgtPmpvYl9mbGFncyAmIFRSQU5TX1JVTk5JTkcpKTsNCj4g
+PiB9IC4uLg0KPiA+IA0KPiA+IElmIHRoaXMgb3BlcmF0aW9uIGlzIHNldCwgd2UgbWlnaHQgdXNl
+IHRoZSB2NGwyX20ybV9jYW5jZWxfam9iKCkgd2hlbg0KPiA+IHN1c3BlbmQsIGFuZCBpdCB3aWxs
+IGRvIG10a19mZF9qb2JfYWJvcnQoKSBoZXJlLg0KPiA+DQo+IA0KPiBUaGUgZXhwZWN0YXRpb24g
+Zm9yIC5qb2JfYWJvcnQoKSBpcyB0aGF0IHNpZ25hbHMgdGhlIGhhcmR3YXJlIHRvDQo+IGluc3Rh
+bnRseSBhYmFuZG9uIHRoZSBjdXJyZW50IGpvYi4gRG8gd2UgaGF2ZSBhIHdheSB0byB0ZWxsIHRo
+ZQ0KPiBmaXJtd2FyZS9oYXJkd2FyZSB0byBkbyBzbz8NCj4gDQo+IEFsc28sIHN1c3BlbmQgbXVz
+dCBub3QgYWJvcnQgdGhlIGN1cnJlbnQgam9iLiBBbnl0aGluZyB0aGF0IHdhcyBhbHJlYWR5DQo+
+IHJ1bm5pbmcgaXMgZXhwZWN0ZWQgdG8gY29tcGxldGUgc3VjY2Vzc2Z1bHkgYW5kIGZ1cnRoZXIg
+am9icyBzaG91bGQNCj4gY29udGludWUgZXhlY3V0aW5nIG9uY2UgdGhlIHN5c3RlbSByZXN1bWVz
+Lg0KPiANCkkgYXBwcmVjaWF0ZSB5b3VyIGNvbW1lbnRzIGFuZCBQaS1Ic3VuJ3MgcGF0Y2gsDQoN
+Ck9rLCBJIHNlZS4NCkZvciBGRDQwLCB3ZSBjYW4ndCB0ZWxsIHRoZSBmaXJtd2FyZS9oYXJkd2Fy
+ZSB0byBpbnN0YW50bHkgYWJhbmRvbiB0aGUNCmN1cnJlbnQgam9iLg0KVGhlcmVmb3JlLCBmb3Ig
+c3VzcGVuZCwgd2Ugc3RvcCBzZW5kaW5nIGZ1cnRoZXIgam9icyB0byBoYXJkd2FyZSBhbmQNCndh
+aXQgZm9yIHRoZSBjb21wbGV0aW9uIG9mIHRoZSBydW5uaW5nIGpvYi4NCkZvciByZXN1bWUsIHdl
+IGNvbnRpbnVlIHNlbmRpbmcgam9icyB0byBoYXJkd2FyZS4NCg0KPiBbc25pcF0NCj4gDQo+ID4g
+PiArDQo+ID4gPiArc3RhdGljIGludCBtdGtfZmRfc3VzcGVuZChzdHJ1Y3QgZGV2aWNlICpkZXYp
+DQo+ID4gPiArew0KPiA+ID4gKwlzdHJ1Y3QgbXRrX2ZkX2RldiAqZmQgPSBkZXZfZ2V0X2RydmRh
+dGEoZGV2KTsNCj4gPiA+ICsNCj4gPiA+ICsJaWYgKHBtX3J1bnRpbWVfc3VzcGVuZGVkKGRldikp
+DQo+ID4gPiArCQlyZXR1cm4gMDsNCj4gPiA+ICsNCj4gPiA+ICsJaWYgKGZkLT5mZF9zdHJlYW1f
+Y291bnQpDQo+ID4gPiArCQlpZiAobXRrX2ZkX2pvYl9hYm9ydChmZCkpDQo+ID4gPiArCQkJbXRr
+X2ZkX2h3X2pvYl9maW5pc2goZmQsIFZCMl9CVUZfU1RBVEVfRVJST1IpOw0KPiA+ID4gKw0KPiA+
+IA0KPiA+IFRvIGF2b2lkIG10a19mZF9od19qb2JfZmluaXNoKCkgdHJpZ2dlciB0aGUgbmV4dCBq
+b2IsDQo+ID4gSSBzdXBwb3NlIHRoYXQgd2UgY291bGQgdXNlIHY0bDJfbTJtX2NhbmNlbF9qb2Ig
+aW5zdGVhZCBvZiBqb2JfYWJvcnQgYW5kDQo+ID4gam9iX2ZpbmlzaCBoZXJlLg0KPiA+IA0KPiA+
+IC8qKg0KPiA+ICAqIHY0bDJfbTJtX2NhbmNlbF9qb2IoKSAtIGNhbmNlbCBwZW5kaW5nIGpvYnMg
+Zm9yIHRoZSBjb250ZXh0DQo+ID4gICogQG0ybV9jdHg6IG0ybSBjb250ZXh0IHdpdGggam9icyB0
+byBiZSBjYW5jZWxlZA0KPiA+ICAqDQo+ID4gICogSW4gY2FzZSBvZiBzdHJlYW1vZmYgb3IgcmVs
+ZWFzZSBjYWxsZWQgb24gYW55IGNvbnRleHQsDQo+ID4gICogMV0gSWYgdGhlIGNvbnRleHQgaXMg
+Y3VycmVudGx5IHJ1bm5pbmcsIHRoZW4gYWJvcnQgam9iIHdpbGwgYmUgY2FsbGVkDQo+ID4gICog
+Ml0gSWYgdGhlIGNvbnRleHQgaXMgcXVldWVkLCB0aGVuIHRoZSBjb250ZXh0IHdpbGwgYmUgcmVt
+b3ZlZCBmcm9tDQo+ID4gICogICAgdGhlIGpvYl9xdWV1ZQ0KPiA+ICAqLw0KPiA+IA0KPiA+IG9y
+IGFub3RoZXIgd2F5LA0KPiA+IHdlIG1heSBhZGQgYSBmbGFnIGFuZCBpbXBsZW1lbnQgbXRrX2Zk
+X2pvYl9yZWFkeSgpIHRoYXQgcmVhZHMgdGhlIGZsYWcNCj4gPiBpZiB3ZSBzdXNwZW5kLCB3ZSBz
+ZXQgdGhlIGZsYWcgYW5kIGRvIGpvYl9hYm9ydCBhbmQgam9iX2ZpbmlzaCwgZXZlbiBpZg0KPiA+
+IGl0IHRyeSBlbnF1ZXVlLCBpdCB3aWxsIHN0aWxsIG5vdCByZWFsbHkgcXVldWUgdGhlIGpvYiwg
+dW50aWwgd2UgcmVzZXQNCj4gPiB0aGUgZmxhZyBpbiBtdGtfZmRfcmVzdW1lKCkuDQo+ID4gDQo+
+ID4gaG93IGRvIHlvdSB0aGluaz8NCj4gPg0KPiANCj4gQXMgcGVyIG15IGNvbW1lbnQgYWJvdmUs
+IHN1c3BlbmQgbXVzdCBqdXN0IHBhdXNlIHRoZSBleGVjdXRpb24gb2YgdGhlDQo+IGpvYnMuIEl0
+IG11c3Qgbm90IGNhdXNlIGFueSBqb2JzIHRvIGJlIHNraXBwZWQuDQo+IA0KPiBBZnRlciBhbmFs
+eXppbmcgdGhlIG0ybSBmcmFtZXdvcmsgYW5kIGV4aXN0aW5nIG0ybSBkcml2ZXJzIEkgcmVhbGl6
+ZWQNCj4gdGhhdCB0aGV5IGN1cnJlbnRseSBwcm92aWRlIG5vIHdheSB0byBjb3JyZWN0bHkgaGFu
+ZGxlIHN1c3BlbmQvcmVzdW1lLg0KPiBQaS1Ic3VuIGhhcyBiZWVuIGxvb2tpbmcgaW50byBmaXhp
+bmcgdGhpcyBpbiBjcnJldi5jb20vYy8xODc4MTEyIGFuZA0KPiB3ZSdsbCBzZW5kIGl0IHVwc3Ry
+ZWFtIGFzIHNvb24gYXMgd2UgZ2V0IHNvbWV0aGluZyB0aGF0IHNob3VsZCBoYW5kbGUNCj4gYWxs
+IHRoZSBjYXNlcyBjb3JyZWN0bHkuDQo+IA0KT2ssIHRoYW5rcyBmb3IgdGhlIHBhdGNoZXMuDQoN
+Cj4gPiA+ICsJLyogc3VzcGVuZCBGRCBIVyAqLw0KPiA+ID4gKwl3cml0ZWwoMHgwLCBmZC0+ZmRf
+YmFzZSArIE1US19GRF9SRUdfT0ZGU0VUX0lOVF9FTik7DQo+ID4gPiArCXdyaXRlbCgweDAsIGZk
+LT5mZF9iYXNlICsgTVRLX0ZEX1JFR19PRkZTRVRfSFdfRU5BQkxFKTsNCj4gPiA+ICsJY2xrX2Rp
+c2FibGVfdW5wcmVwYXJlKGZkLT5mZF9jbGspOw0KPiA+ID4gKwlkZXZfZGJnKGRldiwgIiVzOmRp
+c2FibGUgY2xvY2tcbiIsIF9fZnVuY19fKTsNCj4gPiA+ICsNCj4gPiA+ICsJcmV0dXJuIDA7DQo+
+ID4gPiArfQ0KPiA+ID4gKw0KPiA+ID4gK3N0YXRpYyBpbnQgbXRrX2ZkX3Jlc3VtZShzdHJ1Y3Qg
+ZGV2aWNlICpkZXYpDQo+ID4gPiArew0KPiA+ID4gKwlzdHJ1Y3QgbXRrX2ZkX2RldiAqZmQgPSBk
+ZXZfZ2V0X2RydmRhdGEoZGV2KTsNCj4gPiA+ICsJaW50IHJldDsNCj4gPiA+ICsNCj4gPiA+ICsJ
+aWYgKHBtX3J1bnRpbWVfc3VzcGVuZGVkKGRldikpDQo+ID4gPiArCQlyZXR1cm4gMDsNCj4gPiA+
+ICsNCj4gPiA+ICsJcmV0ID0gY2xrX3ByZXBhcmVfZW5hYmxlKGZkLT5mZF9jbGspOw0KPiA+ID4g
+KwlpZiAocmV0IDwgMCkgew0KPiA+ID4gKwkJZGV2X2RiZyhkZXYsICJGYWlsZWQgdG8gb3BlbiBm
+ZCBjbGs6JWRcbiIsIHJldCk7DQo+ID4gPiArCQlyZXR1cm4gcmV0Ow0KPiA+ID4gKwl9DQo+ID4g
+PiArDQo+ID4gPiArCS8qIHJlc3VtZSBGRCBIVyAqLw0KPiA+ID4gKwl3cml0ZWwoTVRLX0ZEX1NF
+VF9IV19FTkFCTEUsIGZkLT5mZF9iYXNlICsgTVRLX0ZEX1JFR19PRkZTRVRfSFdfRU5BQkxFKTsN
+Cj4gPiA+ICsJd3JpdGVsKDB4MSwgZmQtPmZkX2Jhc2UgKyBNVEtfRkRfUkVHX09GRlNFVF9JTlRf
+RU4pOw0KPiA+ID4gKwlkZXZfZGJnKGRldiwgIiVzOmVuYWJsZSBjbG9ja1xuIiwgX19mdW5jX18p
+Ow0KPiANCj4gQnkgdGhlIHdheSwgd2UgbmVlZCB0byBraWNrIHRoZSBtMm0gZnJhbWV3b3JrIGhl
+cmUgdG8gc2NoZWR1bGUgZnVydGhlcg0KPiBqb2JzLiBQaS1Ic3VuJ3MgcGF0Y2ggd2lsbCBhbHNv
+IHRha2UgY2FyZSBvZiB0aGlzLg0KPiANCk9rLCBJIHNlZS4NCkkgd291bGQgbGlrZSB0byB1c2Ug
+UGktSHN1bidzIHBhdGNoLCBvdGhlcndpc2UgSSB3b3VsZCBuZWVkIHRvIGNhbGwNCnY0bDJfbTJt
+X3RyeV9ydW4oKSBoZXJlLg0KDQo+IFtzbmlwXQ0KPiANCj4gPiA+ICsvKiBTZXQgdGhlIGZhY2Ug
+YW5nbGUgYW5kIGRpcmVjdGlvbnMgdG8gYmUgZGV0ZWN0ZWQgKi8NCj4gPiA+ICsjZGVmaW5lIFY0
+TDJfQ0lEX01US19GRF9ERVRFQ1RfUE9TRQkJKFY0TDJfQ0lEX1VTRVJfTVRLX0ZEX0JBU0UgKyAx
+KQ0KPiA+ID4gKw0KPiA+ID4gKy8qIFNldCBpbWFnZSB3aWR0aHMgZm9yIGFuIGlucHV0IGltYWdl
+IHRvIGJlIHNjYWxlZCBkb3duIGZvciBmYWNlIGRldGVjdGlvbiAqLw0KPiA+ID4gKyNkZWZpbmUg
+VjRMMl9DSURfTVRLX0ZEX1NDQUxFX0RPV05fSU1HX1dJRFRICShWNEwyX0NJRF9VU0VSX01US19G
+RF9CQVNFICsgMikNCj4gPiA+ICsNCj4gPiA+ICsvKiBTZXQgaW1hZ2UgaGVpZ2h0cyBmb3IgYW4g
+aW5wdXQgaW1hZ2UgdG8gYmUgc2NhbGVkIGRvd24gZm9yIGZhY2UgZGV0ZWN0aW9uICovDQo+ID4g
+PiArI2RlZmluZSBWNEwyX0NJRF9NVEtfRkRfU0NBTEVfRE9XTl9JTUdfSEVJR0hUCShWNEwyX0NJ
+RF9VU0VSX01US19GRF9CQVNFICsgMykNCj4gPiA+ICsNCj4gPiA+ICsvKiBTZXQgdGhlIGxlbmd0
+aCBvZiBzY2FsZSBkb3duIHNpemUgYXJyYXkgKi8NCj4gPiA+ICsjZGVmaW5lIFY0TDJfQ0lEX01U
+S19GRF9TQ0FMRV9JTUdfTlVNCQkoVjRMMl9DSURfVVNFUl9NVEtfRkRfQkFTRSArIDQpDQo+ID4g
+PiArDQo+ID4gPiArLyogU2V0IHRoZSBkZXRlY3Rpb24gc3BlZWQsIHVzdWFsbHkgcmVkdWNpbmcg
+YWNjdXJhY3kuICovDQo+ID4gPiArI2RlZmluZSBWNEwyX0NJRF9NVEtfRkRfREVURUNUX1NQRUVE
+CQkoVjRMMl9DSURfVVNFUl9NVEtfRkRfQkFTRSArIDUpDQo+ID4gPiArDQo+ID4gPiArLyogU2Vs
+ZWN0IHRoZSBkZXRlY3Rpb24gbW9kZWwgb3IgYWxnb3JpdGhtIHRvIGJlIHVzZWQuICovDQo+ID4g
+PiArI2RlZmluZSBWNEwyX0NJRF9NVEtfRkRfREVURUNUSU9OX01PREVMCQkoVjRMMl9DSURfVVNF
+Ul9NVEtfRkRfQkFTRSArIDYpDQo+ID4gPiArDQo+ID4gPiArLyogV2UgcmVzZXJ2ZSAxNiBjb250
+cm9scyBmb3IgdGhpcyBkcml2ZXIuICovDQo+ID4gPiArI2RlZmluZSBWNEwyX0NJRF9NVEtfRkRf
+TUFYCQkJMTYNCj4gPiA+ICsNCj4gPiANCj4gPiBGb3IgdGhlc2UgY29udHJvbCBJRHMsIEkgdGhp
+bmsgdGhlIGZvbGxvd2luZyBzaG91bGQgYmUgcmVtYWluZWQgYXMgY2hpcA0KPiA+IHNwZWNpZmlj
+IGNvbnRyb2xzLg0KPiA+IFY0TDJfQ0lEX01US19GRF9TQ0FMRV9ET1dOX0lNR19XSURUSCwNCj4g
+PiBWNEwyX0NJRF9NVEtfRkRfU0NBTEVfRE9XTl9JTUdfSEVJR0hUIGFuZCBWNEwyX0NJRF9NVEtf
+RkRfU0NBTEVfSU1HX05VTSANCj4gPiANCj4gPiBIb3BlIHRoZXJlIHdvdWxkIGJlIHN0YW5kYXJk
+aXppbmcgZmFjZSBkZXRlY3Rpb24gYXBpIHRoYXQgY292ZXIgdGhlIHJlc3QNCj4gPiBjb250cm9s
+czogVjRMMl9DSURfTVRLX0ZEX0RFVEVDVF9QT1NFLCBWNEwyX0NJRF9NVEtfRkRfREVURUNUX1NQ
+RUVEIGFuZA0KPiA+IFY0TDJfQ0lEX01US19GRF9ERVRFQ1RJT05fTU9ERUwNCj4gPiANCj4gPiBX
+b3VsZCB5b3UgaGF2ZSBhbnkgc3VnZ2VzdGlvbnMgb24gaG93IHRvIHByb3Bvc2UgdGhlIHN0YW5k
+YXJkIGZhY2UNCj4gPiBkZXRlY3Rpb24gYXBpcz8NCj4gPiANCj4gDQo+IEdpdmVuIG5vIGZvbGxv
+dyB1cCBmZWVkYmFjayBmcm9tIHRoZSBjb21tdW5pdHksIEkgdGhpbmsgd2UgY2FuIGtlZXAgdGhl
+bQ0KPiBhcyBkcml2ZXItc3BlY2lmaWMsIGJ1dCBzaG91bGQgbWFrZSBzdXJlIHRoYXQgdGhleSBo
+YXZlIHNvbWUgcmVhc29uYWJsZQ0KPiBkZWZhdWx0IHZhbHVlcyBpbiBjYXNlIGFuIGFwcGxpY2F0
+aW9uIGRvZXNuJ3QgcmVjb2duaXplIHRoZW0uDQo+IA0KPiBCZXN0IHJlZ2FyZHMsDQo+IFRvbWFz
+eg0KPiANClNob3VsZCBJIGtlZXAgdGhlIGZpbGUgIm10ay1mZC12NGwyLWNvbnRyb2xzLmgiIHdo
+aWNoIGRlZmluZXMgdGhlDQpjb250cm9sIGlkcyB1bmRlciB0aGUgZm9sZGVyICIvaW5jbHVkZS91
+YXBpL2xpbnV4Ij8NCg0KDQpUaGFua3MgYW5kIEJlc3QgcmVnYXJkcywNCkplcnJ5DQo=
 
-
-Yes, it is ugly naming, I'll change these as follows:
-
-    __pin_compound_head() --> grab_compound_head()    
-    __record_subpages()   --> record_subpages()
-
-I loved the "nail_compound_head()" suggestion, it just seems very vivid, but
-in the end, I figured I'd better keep it relatively drab and colorless. :)
-
-> 
->> +	if (flags & FOLL_PIN) {
->> +		if (unlikely(!try_pin_compound_head(head, refs)))
->> +			return false;
->> +	} else {
->> +		head = try_get_compound_head(head, refs);
->> +		if (!head)
->> +			return false;
->> +	}
->> +
->> +	return true;
->> +}
->> +
->>  static void put_compound_head(struct page *page, int refs)
->>  {
->>  	/* Do a get_page() first, in case refs == page->_refcount */
-> 
-> put_compound_head() needs similar treatment as undo_dev_pagemap(), doesn't
-> it?
-> 
-
-Yes, will fix that up.
-
-
->> @@ -968,7 +973,18 @@ struct page *follow_devmap_pmd(struct vm_area_struct *vma, unsigned long addr,
->>  	if (!*pgmap)
->>  		return ERR_PTR(-EFAULT);
->>  	page = pfn_to_page(pfn);
->> -	get_page(page);
->> +
->> +	if (flags & FOLL_GET)
->> +		get_page(page);
->> +	else if (flags & FOLL_PIN) {
->> +		/*
->> +		 * try_pin_page() is not actually expected to fail here because
->> +		 * we hold the pmd lock so no one can unmap the pmd and free the
->> +		 * page that it points to.
->> +		 */
->> +		if (unlikely(!try_pin_page(page)))
->> +			page = ERR_PTR(-EFAULT);
->> +	}
-> 
-> This pattern is rather common. So maybe I'd add a helper grab_page(page,
-> flags) doing
-> 
-> 	if (flags & FOLL_GET)
-> 		get_page(page);
-> 	else if (flags & FOLL_PIN)
-> 		return try_pin_page(page);
-> 	return true;
-> 
-
-OK.
-
-> Otherwise the patch looks good to me now.
-> 
-> 								Honza
-
-Great! I thought I'd have a v7 out today, but fate decided to have me repair
-my test machine instead. So, soon. ha. :)
-
-thanks,
--- 
-John Hubbard
-NVIDIA
