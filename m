@@ -2,29 +2,31 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9969A103D21
-	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2019 15:18:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EB022103D1E
+	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2019 15:18:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730935AbfKTOSq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Nov 2019 09:18:46 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:44042 "EHLO www.linuxtv.org"
+        id S1730735AbfKTOSU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Nov 2019 09:18:20 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:44024 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729000AbfKTOSp (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Nov 2019 09:18:45 -0500
+        id S1729000AbfKTOST (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 20 Nov 2019 09:18:19 -0500
 Received: from builder.linuxtv.org ([140.211.167.10])
         by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1iXQoh-0001S1-RR; Wed, 20 Nov 2019 14:18:47 +0000
+        id 1iXQoH-0001S1-KE; Wed, 20 Nov 2019 14:18:21 +0000
 Received: from [127.0.0.1] (helo=builder.linuxtv.org)
         by builder.linuxtv.org with esmtp (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1iXPsw-0006h5-V6; Wed, 20 Nov 2019 13:19:06 +0000
-Date:   Wed, 20 Nov 2019 13:19:06 +0000 (UTC)
+        id 1iXQou-00074m-Go; Wed, 20 Nov 2019 14:19:00 +0000
+Date:   Wed, 20 Nov 2019 14:19:00 +0000 (UTC)
 From:   Jenkins Builder Robot <jenkins@linuxtv.org>
 To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <1735325726.3.1574255946954.JavaMail.jenkins@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #2416
+Message-ID: <1933533846.10.1574259540512.JavaMail.jenkins@builder.linuxtv.org>
+In-Reply-To: <1735325726.3.1574255946954.JavaMail.jenkins@builder.linuxtv.org>
+References: <1735325726.3.1574255946954.JavaMail.jenkins@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #2417
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
@@ -37,7 +39,7 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/2416/display/redirect>
+See <https://builder.linuxtv.org/job/media-build/2417/display/redirect>
 
 Changes:
 
@@ -53,48 +55,60 @@ Fetching changes from the remote Git repository
 Fetching upstream changes from git://linuxtv.org/media_build.git
  > git --version # timeout=10
  > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/*
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
- > git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
-Checking out Revision efba365ba11b958a6bf6fb4b397942f9461cefca (refs/remotes/origin/master)
- > git config core.sparsecheckout # timeout=10
- > git checkout -f efba365ba11b958a6bf6fb4b397942f9461cefca
-Commit message: "VIDEO_HI556 needs probe_new"
- > git rev-list --no-walk efba365ba11b958a6bf6fb4b397942f9461cefca # timeout=10
-[media-build] $ /bin/sh -xe /tmp/jenkins8368332465259138017.sh
-+ ./build
-Checking if the needed tools for Debian GNU/Linux 10 (buster) are available
-Needed package dependencies are met.
+ERROR: Error fetching remote repo 'origin'
+hudson.plugins.git.GitException: Failed to fetch from git://linuxtv.org/media_build.git
+	at hudson.plugins.git.GitSCM.fetchFrom(GitSCM.java:894)
+	at hudson.plugins.git.GitSCM.retrieveChanges(GitSCM.java:1161)
+	at hudson.plugins.git.GitSCM.checkout(GitSCM.java:1192)
+	at hudson.scm.SCM.checkout(SCM.java:504)
+	at hudson.model.AbstractProject.checkout(AbstractProject.java:1208)
+	at hudson.model.AbstractBuild$AbstractBuildExecution.defaultCheckout(AbstractBuild.java:574)
+	at jenkins.scm.SCMCheckoutStrategy.checkout(SCMCheckoutStrategy.java:86)
+	at hudson.model.AbstractBuild$AbstractBuildExecution.run(AbstractBuild.java:499)
+	at hudson.model.Run.execute(Run.java:1815)
+	at hudson.model.FreeStyleBuild.run(FreeStyleBuild.java:43)
+	at hudson.model.ResourceController.execute(ResourceController.java:97)
+	at hudson.model.Executor.run(Executor.java:429)
+Caused by: hudson.plugins.git.GitException: Command "git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/*" returned status code 128:
+stdout: 
+stderr: fatal: unable to connect to linuxtv.org:
+linuxtv.org[0: 130.149.80.248]: errno=Connection refused
 
-************************************************************
-* This script will download the latest tarball and build it*
-* Assuming that your kernel is compatible with the latest  *
-* drivers. If not, you'll need to add some extra backports,*
-* ./backports/<kernel> directory.                          *
-* It will also update this tree to be sure that all compat *
-* bits are there, to avoid compilation failures            *
-************************************************************
-************************************************************
-* All drivers and build system are under GPLv2 License     *
-* Firmware files are under the license terms found at:     *
-* http://www.linuxtv.org/downloads/firmware/               *
-* Please abort in the next 5 secs if you don't agree with  *
-* the license                                              *
-************************************************************
 
-Not aborted. It means that the licence was agreed. Proceeding...
-
-****************************
-Updating the building system
-****************************
-From git://linuxtv.org/media_build
- * branch                      master     -> FETCH_HEAD
-Already up to date.
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
---2019-11-20 13:18:34--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... failed: Connection refused.
-make: *** [Makefile:175: download] Error 4
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-Download failed at ./build line 505
-Build step 'Execute shell' marked build as failure
+	at org.jenkinsci.plugins.gitclient.CliGitAPIImpl.launchCommandIn(CliGitAPIImpl.java:2172)
+	at org.jenkinsci.plugins.gitclient.CliGitAPIImpl.launchCommandWithCredentials(CliGitAPIImpl.java:1864)
+	at org.jenkinsci.plugins.gitclient.CliGitAPIImpl.access$500(CliGitAPIImpl.java:78)
+	at org.jenkinsci.plugins.gitclient.CliGitAPIImpl$1.execute(CliGitAPIImpl.java:545)
+	at org.jenkinsci.plugins.gitclient.RemoteGitImpl$CommandInvocationHandler$1.call(RemoteGitImpl.java:153)
+	at org.jenkinsci.plugins.gitclient.RemoteGitImpl$CommandInvocationHandler$1.call(RemoteGitImpl.java:146)
+	at hudson.remoting.UserRequest.perform(UserRequest.java:212)
+	at hudson.remoting.UserRequest.perform(UserRequest.java:54)
+	at hudson.remoting.Request$2.run(Request.java:369)
+	at hudson.remoting.InterceptingExecutorService$1.call(InterceptingExecutorService.java:72)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+	Suppressed: hudson.remoting.Channel$CallSiteStackTrace: Remote call to slave1
+		at hudson.remoting.Channel.attachCallSiteStackTrace(Channel.java:1743)
+		at hudson.remoting.UserRequest$ExceptionResponse.retrieve(UserRequest.java:357)
+		at hudson.remoting.Channel.call(Channel.java:957)
+		at org.jenkinsci.plugins.gitclient.RemoteGitImpl$CommandInvocationHandler.execute(RemoteGitImpl.java:146)
+		at jdk.internal.reflect.GeneratedMethodAccessor571.invoke(Unknown Source)
+		at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+		at java.base/java.lang.reflect.Method.invoke(Method.java:566)
+		at org.jenkinsci.plugins.gitclient.RemoteGitImpl$CommandInvocationHandler.invoke(RemoteGitImpl.java:132)
+		at com.sun.proxy.$Proxy90.execute(Unknown Source)
+		at hudson.plugins.git.GitSCM.fetchFrom(GitSCM.java:892)
+		at hudson.plugins.git.GitSCM.retrieveChanges(GitSCM.java:1161)
+		at hudson.plugins.git.GitSCM.checkout(GitSCM.java:1192)
+		at hudson.scm.SCM.checkout(SCM.java:504)
+		at hudson.model.AbstractProject.checkout(AbstractProject.java:1208)
+		at hudson.model.AbstractBuild$AbstractBuildExecution.defaultCheckout(AbstractBuild.java:574)
+		at jenkins.scm.SCMCheckoutStrategy.checkout(SCMCheckoutStrategy.java:86)
+		at hudson.model.AbstractBuild$AbstractBuildExecution.run(AbstractBuild.java:499)
+		at hudson.model.Run.execute(Run.java:1815)
+		at hudson.model.FreeStyleBuild.run(FreeStyleBuild.java:43)
+		at hudson.model.ResourceController.execute(ResourceController.java:97)
+		at hudson.model.Executor.run(Executor.java:429)
+ERROR: Error fetching remote repo 'origin'
