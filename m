@@ -2,188 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C8AD1038F4
-	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2019 12:42:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 062BB10397E
+	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2019 13:05:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728636AbfKTLmA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Nov 2019 06:42:00 -0500
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:36464 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728495AbfKTLmA (ORCPT
+        id S1728225AbfKTMFp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Nov 2019 07:05:45 -0500
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:42051 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726689AbfKTMFo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Nov 2019 06:42:00 -0500
-Received: by mail-wr1-f66.google.com with SMTP id z3so850454wru.3
-        for <linux-media@vger.kernel.org>; Wed, 20 Nov 2019 03:41:59 -0800 (PST)
+        Wed, 20 Nov 2019 07:05:44 -0500
+Received: by mail-ed1-f66.google.com with SMTP id m13so20057082edv.9
+        for <linux-media@vger.kernel.org>; Wed, 20 Nov 2019 04:05:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Y2jkdqcywKKgjHMh1YbldCsDGIKnbTdhTN7oQhrMsGw=;
-        b=eV+/m5ltv5LY6X6Tk+eLbSJQ4CbCNCiM3uKuYjcnTpWBycp1HUGBtbzez0llSSCRsq
-         OA6aQe/3GD2yUQcL2tnu33amT4ENyfrgPhHR3Rq+EMprDG6Q4sYFQ8L/bMrIjTNAVq4m
-         iog1EzJOffIPxECyISTkhp7mtg/B31BnhdTcaHN+K6Q/PfvW7jp1/ZZcoFX55LDmHDvV
-         G3xzSJHBHMqi1YU9oqzJgKXB9uz1+eG31ZpokEo6f7ho8U8DXAm3rayqIGK8ie9FyQmR
-         HWEsCozUMIeOo+Cl1VG3tokjHItnBbhPtHUttq7zjmkgqmcdKwspv9c9CnXeOQKB8qND
-         e+3A==
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=EIAxtINR2+zXYlLUtuUhPt0/bKbdnOmWECKoASACwyc=;
+        b=SZBSjO0HZtPg1H6inYc7QepIwQk3r1qfPZlM7zmth9EbaNxtNZix9BUYDJEYPbOEVh
+         tTIiPAP2moqK1T7oL/xoozNlIiPmne+JM12oAf/tDk1dtDp4tiCVRPJiWvmFZWMVNmOZ
+         qY4gCVNg/YWaHQlTIAW/zPdU8URPIpxZrSjqQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Y2jkdqcywKKgjHMh1YbldCsDGIKnbTdhTN7oQhrMsGw=;
-        b=FOnXNg9aQp+GIzOBqfFIOpggBQMCTIRQatCY/abvPA6qYxdrR2dYAy0KRLbdtO7Zxk
-         4GAiBxKwjKwtOS+JJ6MjCSKRY7fcAV11hbMpkLggkeg+tqAArKncA1+7CWbjWKNM5QQH
-         pZKkQ3UPrfwZn+yOaAleiUQhYTA9pU1qZd9VZ1uyQGTrLCC9W41DID77Mzh6u95vEN/8
-         5FLS/tINWlYNbNeilNks9QUxJM5H8eLa9wrXKn1mGmy2FKIQoW9KLJPdd5T93WBSXNOm
-         AGwvL5sVOjwqJlgCxnUF4OyJtLzTS0f9B2Rb8UdZFeSsD+yGG6NVHP/SQC4RXRCD8wO9
-         0H2Q==
-X-Gm-Message-State: APjAAAXWDsea3Ne4Dw0iW4UO4cscN1Eh1VABer+bmtFsOFopB0vUgDKw
-        w4aTeFhLYEgnFOouCCYb40A5X005yfnFgQ==
-X-Google-Smtp-Source: APXvYqxsp39ex3gajlpAVuEY8B6I/DQC7B0icEXRYx4SzpJ9R6ee5rU7cqZnR3Mgy+Qhu9vW5nbghA==
-X-Received: by 2002:a5d:4142:: with SMTP id c2mr2766439wrq.60.1574250118321;
-        Wed, 20 Nov 2019 03:41:58 -0800 (PST)
-Received: from localhost ([37.238.189.2])
-        by smtp.gmail.com with ESMTPSA id b17sm31367940wru.36.2019.11.20.03.41.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Nov 2019 03:41:57 -0800 (PST)
-From:   Mohammad Rasim <mohammad.rasim96@gmail.com>
-To:     linux-media@vger.kernel.org, Sean Young <sean@mess.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Mohammad Rasim <mohammad.rasim96@gmail.com>
-Subject: [PATCH v2] media: rc: add keymap for Videostrong KII Pro
-Date:   Wed, 20 Nov 2019 14:41:53 +0300
-Message-Id: <20191120114153.17676-1-mohammad.rasim96@gmail.com>
-X-Mailer: git-send-email 2.24.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=EIAxtINR2+zXYlLUtuUhPt0/bKbdnOmWECKoASACwyc=;
+        b=toZflFmFFW0BifujeciUMZAhj772FjLP7HjNZQpQNnCxOEgKdLyfMfvMGjq7UzY49B
+         9RZuydtxGurbIrKMzvx74qg0uoSFZBYLQmXcZhVpkvJg7OjzkNSLj7+hCHUXfPxUzJlE
+         TZtwrKIr47Jek4k4LUOzqO8oBKMOfx9XWIsLHdMYt/jSNIAQr45Do/LMsZKZ4TVdC78R
+         TLZVMHeiELFdYmpBLskw2YInuHVvn54lh+ly3f2Ie53sNImdxLX4kXme+2RXF5aABfe6
+         4OhvkSKJZuorsHsoVpyLNHqfGBatw754lvP6GSWIRS/GybxZPdic4A0VcAaDKAku6uqE
+         Z3KA==
+X-Gm-Message-State: APjAAAWAMsMj+8IIUchyOApx4AlGM4SfZVV6uX0Cpq9NelVj3ID+bP0r
+        ETbLfLGlaSSmukeR+m8i2jO2H5YvKkXdjg==
+X-Google-Smtp-Source: APXvYqyzeQrKhIcTfMqyOsZw2KI9OWaKu3QL4PnoyQL7g7If+rHctDLbEmjWQojxNi52NnT8u7aTOQ==
+X-Received: by 2002:a17:906:8697:: with SMTP id g23mr5075186ejx.177.1574251542165;
+        Wed, 20 Nov 2019 04:05:42 -0800 (PST)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com. [209.85.221.52])
+        by smtp.gmail.com with ESMTPSA id v5sm1382341edd.90.2019.11.20.04.05.42
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Nov 2019 04:05:42 -0800 (PST)
+Received: by mail-wr1-f52.google.com with SMTP id l7so27840483wrp.6
+        for <linux-media@vger.kernel.org>; Wed, 20 Nov 2019 04:05:42 -0800 (PST)
+X-Received: by 2002:a5d:4946:: with SMTP id r6mr2767405wrs.155.1574251104342;
+ Wed, 20 Nov 2019 03:58:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20191105105456.7xbhtistnbp272lj@sirius.home.kraxel.org>
+ <20191106084344.GB189998@stefanha-x1.localdomain> <20191106095122.jju7eo57scfoat6a@sirius.home.kraxel.org>
+ <CAJSP0QUJBkqtVJq17tfX5O-JuvEGcZQviP0C3tv9qSDy-P-hcg@mail.gmail.com>
+ <20191106125023.uhdhtqisybilxasr@sirius.home.kraxel.org> <CAJSP0QXG5Z3zCnPL+Y7EQfCeey2Fb9OdPdx531Jz2Ofk63wndg@mail.gmail.com>
+ <CAEkmjvU8or7YT7CCBe7aUx-XQ3yJpUrY4CfBOnqk7pUH9d9RGQ@mail.gmail.com>
+In-Reply-To: <CAEkmjvU8or7YT7CCBe7aUx-XQ3yJpUrY4CfBOnqk7pUH9d9RGQ@mail.gmail.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Wed, 20 Nov 2019 20:58:11 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5ASJ0yEXY-V0j+c8nBQ1Q=k9SUU48AZ_8haLezUb_yN-A@mail.gmail.com>
+Message-ID: <CAAFQd5ASJ0yEXY-V0j+c8nBQ1Q=k9SUU48AZ_8haLezUb_yN-A@mail.gmail.com>
+Subject: Re: guest / host buffer sharing ...
+To:     Frank Yang <lfy@google.com>
+Cc:     Stefan Hajnoczi <stefanha@gmail.com>,
+        Gerd Hoffmann <kraxel@redhat.com>, geoff@hostfission.com,
+        virtio-dev@lists.oasis-open.org, Alex Lau <alexlau@chromium.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        qemu-devel <qemu-devel@nongnu.org>,
+        Keiichi Watanabe <keiichiw@chromium.org>,
+        David Stevens <stevensd@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
+        Dylan Reid <dgreid@chromium.org>,
+        Gurchetan Singh <gurchetansingh@chromium.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Dmitry Morozov <dmitry.morozov@opensynergy.com>,
+        Pawel Osciak <posciak@chromium.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Changes since v1:
-- fix styling issues
-Signed-off-by: Mohammad Rasim <mohammad.rasim96@gmail.com>
----
- drivers/media/rc/keymaps/Makefile             |  1 +
- .../media/rc/keymaps/rc-videostrong-kii-pro.c | 84 +++++++++++++++++++
- include/media/rc-map.h                        |  1 +
- 3 files changed, 86 insertions(+)
- create mode 100644 drivers/media/rc/keymaps/rc-videostrong-kii-pro.c
+Hi Frank,
 
-diff --git a/drivers/media/rc/keymaps/Makefile b/drivers/media/rc/keymaps/Makefile
-index a56fc634d2d6..ea91a9afa6a0 100644
---- a/drivers/media/rc/keymaps/Makefile
-+++ b/drivers/media/rc/keymaps/Makefile
-@@ -117,6 +117,7 @@ obj-$(CONFIG_RC_MAP) += rc-adstech-dvb-t-pci.o \
- 			rc-videomate-m1f.o \
- 			rc-videomate-s350.o \
- 			rc-videomate-tv-pvr.o \
-+			rc-videostrong-kii-pro.o \
- 			rc-wetek-hub.o \
- 			rc-wetek-play2.o \
- 			rc-winfast.o \
-diff --git a/drivers/media/rc/keymaps/rc-videostrong-kii-pro.c b/drivers/media/rc/keymaps/rc-videostrong-kii-pro.c
-new file mode 100644
-index 000000000000..2b94c28ed5d7
---- /dev/null
-+++ b/drivers/media/rc/keymaps/rc-videostrong-kii-pro.c
-@@ -0,0 +1,84 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+//
-+// Copyright (C) 2019 Mohammad Rasim <mohammad.rasim96@gmail.com>
-+
-+#include <media/rc-map.h>
-+#include <linux/module.h>
-+
-+//
-+// Keytable for the Videostrong KII Pro STB remote control
-+//
-+
-+static struct rc_map_table kii_pro[] = {
-+	{ 0x59, KEY_POWER },
-+	{ 0x19, KEY_MUTE },
-+	{ 0x42, KEY_RED },
-+	{ 0x40, KEY_GREEN },
-+	{ 0x00, KEY_YELLOW },
-+	{ 0x03, KEY_BLUE },
-+	{ 0x4a, KEY_BACK },
-+	{ 0x48, KEY_FORWARD },
-+	{ 0x08, KEY_PREVIOUSSONG},
-+	{ 0x0b, KEY_NEXTSONG},
-+	{ 0x46, KEY_PLAYPAUSE },
-+	{ 0x44, KEY_STOP },
-+	{ 0x1f, KEY_FAVORITES},	//KEY_F5?
-+	{ 0x04, KEY_RECORD},
-+	{ 0x4d, KEY_EPG},
-+	{ 0x02, KEY_INFO},
-+	{ 0x09, KEY_SUBTITLE},
-+	{ 0x01, KEY_AUDIO},
-+	{ 0x0d, KEY_HOMEPAGE},
-+	{ 0x11, KEY_G},		// DTV ?
-+	{ 0x06, KEY_UP},
-+	{ 0x5a, KEY_LEFT},
-+	{ 0x1a, KEY_ENTER},	// KEY_OK ?
-+	{ 0x1b, KEY_RIGHT},
-+	{ 0x16, KEY_DOWN},
-+	{ 0x45, KEY_MENU},
-+	{ 0x05, KEY_ESC},
-+	{ 0x13, KEY_VOLUMEUP },
-+	{ 0x17, KEY_VOLUMEDOWN },
-+	{ 0x58, KEY_F6},
-+	{ 0x12, KEY_KATAKANA},	// mouse
-+	{ 0x55, KEY_PAGEUP},	// KEY_CHANNELUP ?
-+	{ 0x15, KEY_PAGEDOWN},	//KEY_CHANNELDOWN ?
-+	{ 0x52, KEY_1},
-+	{ 0x50, KEY_2},
-+	{ 0x10, KEY_3},
-+	{ 0x56, KEY_4},
-+	{ 0x54, KEY_5},
-+	{ 0x14, KEY_6},
-+	{ 0x4e, KEY_7},
-+	{ 0x4c, KEY_8},
-+	{ 0x0c, KEY_9},
-+	{ 0x18, KEY_F7},
-+	{ 0x0f, KEY_0},
-+	{ 0x51, KEY_BACKSPACE},
-+
-+};
-+
-+static struct rc_map_list kii_pro_map = {
-+	.map = {
-+		.scan     = kii_pro,
-+		.size     = ARRAY_SIZE(kii_pro),
-+		.rc_proto = RC_PROTO_NEC,
-+		.name     = RC_MAP_KII_PRO,
-+	}
-+};
-+
-+static int __init init_rc_map_kii_pro(void)
-+{
-+	return rc_map_register(&kii_pro_map);
-+}
-+
-+static void __exit exit_rc_map_kii_pro(void)
-+{
-+	rc_map_unregister(&kii_pro_map);
-+}
-+
-+module_init(init_rc_map_kii_pro)
-+module_exit(exit_rc_map_kii_pro)
-+
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Mohammad Rasim <mohammad.rasim96@gmail.com>");
-diff --git a/include/media/rc-map.h b/include/media/rc-map.h
-index afd2ab31bdf2..c2ef3906e1cd 100644
---- a/include/media/rc-map.h
-+++ b/include/media/rc-map.h
-@@ -271,6 +271,7 @@ struct rc_map *rc_map_get(const char *name);
- #define RC_MAP_VIDEOMATE_K100            "rc-videomate-k100"
- #define RC_MAP_VIDEOMATE_S350            "rc-videomate-s350"
- #define RC_MAP_VIDEOMATE_TV_PVR          "rc-videomate-tv-pvr"
-+#define RC_MAP_KII_PRO                   "rc-videostrong-kii-pro"
- #define RC_MAP_WETEK_HUB                 "rc-wetek-hub"
- #define RC_MAP_WETEK_PLAY2               "rc-wetek-play2"
- #define RC_MAP_WINFAST                   "rc-winfast"
--- 
-2.24.0
+On Fri, Nov 8, 2019 at 12:10 AM Frank Yang <lfy@google.com> wrote:
+>
+> So I'm not really sure why people are having issues sharing buffers that =
+live on the GPU. Doesn't that show up as some integer ID on the host, and s=
+ome $GuestFramework (dmabuf, gralloc) ID on the guest, and it all works out=
+ due to maintaining the correspondence in your particular stack of virtual =
+devices? For example, if you want to do video decode in hardware on an Andr=
+oid guest, there should be a gralloc buffer whose handle contains enough in=
+formation to reconstruct the GPU buffer ID on the host, because gralloc is =
+how processes communicate gpu buffer ids to each other on Android.
 
+I don't think we really have any issues with that. :)
+
+We just need a standard for:
+a) assignment of buffer IDs that the guest can refer to,
+b) making all virtual devices understand the IDs from a) when such are
+passed to them by the guest.
+
+>
+> BTW, if we have a new device just for this, this should also be more flex=
+ible than being udmabuf on the host. There are other OSes than Linux. Keep =
+in mind, also, that across different drivers even on Linux, e.g., NVIDIA pr=
+oprietary, dmabuf might not always be available.
+>
+> As for host CPU memory that is allocated in various ways, I think Android=
+ Emulator has built a very flexible/general solution, esp if we need to sha=
+re a host CPU buffer allocated via something thats not completely under our=
+ control, such as Vulkan. We reserve a PCI BAR for that and map memory dire=
+ctly from the host Vk drier into there, via the address space device. It's
+>
+> https://android.googlesource.com/platform/external/qemu/+/refs/heads/emu-=
+master-dev/hw/pci/goldfish_address_space.c
+> https://android.googlesource.com/platform/external/qemu/+/refs/heads/emu-=
+master-dev/android/android-emu/android/emulation/address_space_device.cpp#2=
+05
+
+I recall that we already agreed on exposing host memory to the guests
+using PCI BARs. There should be work-in-progress patches for
+virtio-gpu to use that instead of shadow buffers and transfers.
+
+>
+> Number of copies is also completely under the user's control, unlike ivsh=
+mem. It also is not tied to any particular device such as gpu or codec. Sin=
+ce the memory is owned by the host and directly mapped to the guest PCI wit=
+hout any abstraction, it's contiguous, it doesn't carve out guest RAM, does=
+n't waste CMA, etc.
+
+That's one of the reasons we use host-based allocations in VMs running
+on Chrome OS. That said, I think everyone here agrees that it's a good
+optimization that should be specified and implemented.
+
+P.S. The common mailing list netiquette recommends bottom posting and
+plain text emails.
+
+Best regards,
+Tomasz
+
+>
+> On Thu, Nov 7, 2019 at 4:13 AM Stefan Hajnoczi <stefanha@gmail.com> wrote=
+:
+>>
+>> On Wed, Nov 6, 2019 at 1:50 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+>> > > In the graphics buffer sharing use case, how does the other side
+>> > > determine how to interpret this data?
+>> >
+>> > The idea is to have free form properties (name=3Dvalue, with value bei=
+ng
+>> > a string) for that kind of metadata.
+>> >
+>> > > Shouldn't there be a VIRTIO
+>> > > device spec for the messaging so compatible implementations can be
+>> > > written by others?
+>> >
+>> > Adding a list of common properties to the spec certainly makes sense,
+>> > so everybody uses the same names.  Adding struct-ed properties for
+>> > common use cases might be useful too.
+>>
+>> Why not define VIRTIO devices for wayland and friends?
+>>
+>> This new device exposes buffer sharing plus properties - effectively a
+>> new device model nested inside VIRTIO.  The VIRTIO device model has
+>> the necessary primitives to solve the buffer sharing problem so I'm
+>> struggling to see the purpose of this new device.
+>>
+>> Custom/niche applications that do not wish to standardize their device
+>> type can maintain out-of-tree VIRTIO devices.  Both kernel and
+>> userspace drivers can be written for the device and there is already
+>> VIRTIO driver code that can be reused.  They have access to the full
+>> VIRTIO device model, including feature negotiation and configuration
+>> space.
+>>
+>> Stefan
+>>
