@@ -2,111 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E897103856
-	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2019 12:14:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F20A1038B7
+	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2019 12:29:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729044AbfKTLOm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Nov 2019 06:14:42 -0500
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:54378 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729029AbfKTLOk (ORCPT
+        id S1729181AbfKTL3i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Nov 2019 06:29:38 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:55641 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1728376AbfKTL3h (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Nov 2019 06:14:40 -0500
-Received: by mail-wm1-f67.google.com with SMTP id z26so6525744wmi.4
-        for <linux-media@vger.kernel.org>; Wed, 20 Nov 2019 03:14:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=cvIKYbv02jfkUFc5yq+y3wt+kyYSZpa4lPRFM3efvsQ=;
-        b=uxjV/l32qVppX/6hMVYuLEHcOzTj2V82Am9eU53lR9/+lCm7uQx0b9YxSnHTPQ2RO2
-         kL/nKisP9MMXL2jYLueogpXsVMaPPbGFTCb/jGhjw4leb0TyI0idM0AlU2tAuOWqhNxM
-         Bqk/fIB8fJYIkxRuSMzWrXXUER86zpAKud6mSMe1uPEW+wBRA3rKKt83LHZv3tJdfkWY
-         TnWsDxjkeZ1Nd32BfTPn0Vqv9FCyLBzt5Vbaunp905EyhrTtIijoXRk7/6RgHOP/7KYx
-         lsmVWz5XokU4Yky4+lN8W8NzSRK6N3Ht8/cHS+kEb5i70Q5qlu6u6CpFJo3P6qvgeycm
-         /sGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=cvIKYbv02jfkUFc5yq+y3wt+kyYSZpa4lPRFM3efvsQ=;
-        b=iQTA7YrSpaux5lyczjT97OHxR3eJmJgOYOmqEQVb7kRVJx27xnjkCWXMhg/AcGWRRI
-         nzSGtB3Kimq9Razfilln7zj5qvnNwnxJ16xtCMG+7svRECiOtQhm2dZ9Ck4xPkHnAxst
-         wYb9/5gpo5bvmYhvn8fOqo2UvwyzJwuLSJ+U3lxUe+E7DWKSvOSkUhuSu7NhO0OdQnvN
-         SnZPtbx2NK+ZLkVoQecqV5v6km++KHslnWctCZkpCjMQdD3SzZeHFy0aqs6SAnwgvcvR
-         1M8skxuH2XVCIIIdtRQ19EanPA4ooRkcC1pzMKzgCpzzuwbQ820LcHzpm8CD48N1afNG
-         zPkw==
-X-Gm-Message-State: APjAAAWOnCpSRYaLiLiVYqNfbG/3hvhR9VqUpESo86tkr5Qcumns2t12
-        Wicw2iJNyfBK+Mfxk4VCNoZ67g==
-X-Google-Smtp-Source: APXvYqzweKOlyuKQyMd1c/pQf5Z3HB8SFvqepcvQaZ5FjDPXqF7JOhs3aoQy+ZURieFYrTLyR80vzQ==
-X-Received: by 2002:a05:600c:299:: with SMTP id 25mr2616954wmk.50.1574248477850;
-        Wed, 20 Nov 2019 03:14:37 -0800 (PST)
-Received: from bender.baylibre.local (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.gmail.com with ESMTPSA id u1sm6061748wmc.3.2019.11.20.03.14.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Nov 2019 03:14:37 -0800 (PST)
-From:   Neil Armstrong <narmstrong@baylibre.com>
-To:     mjourdan@baylibre.com
-Cc:     linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Neil Armstrong <narmstrong@baylibre.com>
-Subject: [PATCH 4/4] arm64: dts: meson-g12-common: add video decoder node
-Date:   Wed, 20 Nov 2019 12:14:30 +0100
-Message-Id: <20191120111430.29552-5-narmstrong@baylibre.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20191120111430.29552-1-narmstrong@baylibre.com>
-References: <20191120111430.29552-1-narmstrong@baylibre.com>
+        Wed, 20 Nov 2019 06:29:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1574249376;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=/frTHLbEQLohoDTF5sxBdeuJOInXS8sOQJQOPC6Pjrc=;
+        b=PluPlnuSelR90sGyGcHxeRmGLagQOLfbShl3fpX6JKuvvUIEYuCU2u9Il6eo0+ikr5/Lro
+        +te1B2rL0TpYf1w7FwLViWw9fB8sc7NsFGF7C4sN/J/FZfXEHWsxwzAEAbCS9kjzDv+pdj
+        rg+FN2c+GKijrskizyz68EsTuQzl5O4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-171-54jo2sElOAWEP-651707iw-1; Wed, 20 Nov 2019 06:29:33 -0500
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D20781074FB2;
+        Wed, 20 Nov 2019 11:29:30 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-67.ams2.redhat.com [10.36.116.67])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 570392A18A;
+        Wed, 20 Nov 2019 11:29:30 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+        id 35FC616E08; Wed, 20 Nov 2019 12:29:29 +0100 (CET)
+Date:   Wed, 20 Nov 2019 12:29:29 +0100
+From:   Gerd Hoffmann <kraxel@redhat.com>
+To:     Keiichi Watanabe <keiichiw@chromium.org>
+Cc:     Tomasz Figa <tfiga@chromium.org>,
+        Dmitry Sepp <dmitry.sepp@opensynergy.com>,
+        virtio-dev@lists.oasis-open.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Alex Lau <alexlau@chromium.org>,
+        Dylan Reid <dgreid@chromium.org>,
+        =?utf-8?B?U3TDqXBoYW5l?= Marchesin <marcheu@chromium.org>,
+        Pawel Osciak <posciak@chromium.org>,
+        David Stevens <stevensd@chromium.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [virtio-dev] [RFC RESEND] virtio-video: Add virtio video device
+ specification
+Message-ID: <20191120112929.gvsne7ykvcyw65lu@sirius.home.kraxel.org>
+References: <20191105191919.167345-1-dmitry.sepp@opensynergy.com>
+ <20191107095657.72dlxzm4uz7ndkek@sirius.home.kraxel.org>
+ <1573181413.STYvEGL1rf@os-lin-dmo>
+ <CAAFQd5CkTxCYhn70o5oiR4uLA7QyRMUw-XrRWorwZnwXGK0pDQ@mail.gmail.com>
+ <20191108090506.jw4t46d3o4ooy7ns@sirius.home.kraxel.org>
+ <CAD90Vcbr7L2KsyDxPeoKPRt6y_ai8xkJ=J0JCGsW6tGZJGH=0A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAD90Vcbr7L2KsyDxPeoKPRt6y_ai8xkJ=J0JCGsW6tGZJGH=0A@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-MC-Unique: 54jo2sElOAWEP-651707iw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Maxime Jourdan <mjourdan@baylibre.com>
+  Hi,
 
-Add the video decoder node for the Amlogic G12A and compatible SoC.
+> > > > 3. No support for getting plane requirements from the device (sg vs=
+ contig,
+> > > > size, stride alignment, plane count).
+> > >
+> > > There is actually a bigger difference that results in that. Vdec
+> > > assumes host-allocated buffers coming from a different device, e.g.
+> > > virtio-gpu and the host having the right knowledge to allocate the
+> > > buffers correctly. This is related to the fact that it's generally
+> > > difficult to convey all the allocation constraints in a generic
+> > > manner.
+> >
+> > Yep, buffer handling is tricky, especially when it comes to decoding
+> > directly to gpu buffers and also when supporting playback of
+> > drm-protected streams where the guest might not be allowed to access
+> > the stream data.
 
-Signed-off-by: Maxime Jourdan <mjourdan@baylibre.com>
-Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
----
- .../boot/dts/amlogic/meson-g12-common.dtsi    | 23 +++++++++++++++++++
- 1 file changed, 23 insertions(+)
+> Also, if we decide to have a buffer sharing device as Gerd suggested
+> in a different thread,
+> we'll get less overlaps between video codec feature and camera feature.
+> e.g. VIRTIO_VIDEO_T_RESOURCE_* would be simplified. (or removed?)
 
-diff --git a/arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi b/arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi
-index 3f39e020f74e..6fe7dead5a92 100644
---- a/arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi
-+++ b/arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi
-@@ -2152,6 +2152,29 @@
- 			};
- 		};
- 
-+		vdec: video-decoder@ff620000 {
-+			compatible = "amlogic,g12a-vdec";
-+			reg = <0x0 0xff620000 0x0 0x10000>,
-+			      <0x0 0xffd0e180 0x0 0xe4>;
-+			reg-names = "dos", "esparser";
-+			interrupts = <GIC_SPI 44 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 32 IRQ_TYPE_EDGE_RISING>;
-+			interrupt-names = "vdec", "esparser";
-+
-+			amlogic,ao-sysctrl = <&rti>;
-+			amlogic,canvas = <&canvas>;
-+
-+			clocks = <&clkc CLKID_PARSER>,
-+				 <&clkc CLKID_DOS>,
-+				 <&clkc CLKID_VDEC_1>,
-+				 <&clkc CLKID_VDEC_HEVC>,
-+				 <&clkc CLKID_VDEC_HEVCF>;
-+			clock-names = "dos_parser", "dos", "vdec_1",
-+				      "vdec_hevc", "vdec_hevcf";
-+			resets = <&reset RESET_PARSER>;
-+			reset-names = "esparser";
-+		};
-+
- 		vpu: vpu@ff900000 {
- 			compatible = "amlogic,meson-g12a-vpu";
- 			reg = <0x0 0xff900000 0x0 0x100000>,
--- 
-2.22.0
+Disclaimer: Havn't found the time yet to go over both virtio-video and
+virtio-vdec in detail.
+
+> As Tomasz said, I think virtio-vdec can be modified to support
+> encoding as well without big changes.  I'm happy to update our
+> protocol and driver implementation to support encoding if needed.
+
+I think it makes sense to have a rough plan first ;)
+Is there a virtio-video implementation too?
+
+When it comes to buffer handling:  I don't like that virtio-vdec depends
+on virtio-gpu for buffer handling.  Allowing sharing buffers between
+virtio-vdec and virtio-gpu (and possibly other devices) makes sense as
+an optional extension.  But IMO the encoder/decoder device should be
+able to operate as stand-alone device.
+
+cheers,
+  Gerd
 
