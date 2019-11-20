@@ -2,31 +2,31 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D4A6B103E24
-	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2019 16:18:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EF5B103E34
+	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2019 16:22:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728762AbfKTPSS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Nov 2019 10:18:18 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:51726 "EHLO www.linuxtv.org"
+        id S1728631AbfKTPWn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Nov 2019 10:22:43 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:52362 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728701AbfKTPSS (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Nov 2019 10:18:18 -0500
+        id S1727711AbfKTPWn (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 20 Nov 2019 10:22:43 -0500
 Received: from builder.linuxtv.org ([140.211.167.10])
         by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1iXRkK-0005Am-H6; Wed, 20 Nov 2019 15:18:20 +0000
+        id 1iXRoa-0005OX-W9; Wed, 20 Nov 2019 15:22:45 +0000
 Received: from [127.0.0.1] (helo=builder.linuxtv.org)
         by builder.linuxtv.org with esmtp (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1iXRky-0007Ml-GH; Wed, 20 Nov 2019 15:19:00 +0000
-Date:   Wed, 20 Nov 2019 15:19:00 +0000 (UTC)
+        id 1iXRpF-0007O9-7W; Wed, 20 Nov 2019 15:23:25 +0000
+Date:   Wed, 20 Nov 2019 15:23:25 +0000 (UTC)
 From:   Jenkins Builder Robot <jenkins@linuxtv.org>
 To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <194753720.17.1574263140494.JavaMail.jenkins@builder.linuxtv.org>
-In-Reply-To: <1933533846.10.1574259540512.JavaMail.jenkins@builder.linuxtv.org>
-References: <1933533846.10.1574259540512.JavaMail.jenkins@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #2418
+Message-ID: <1236076768.19.1574263405225.JavaMail.jenkins@builder.linuxtv.org>
+In-Reply-To: <194753720.17.1574263140494.JavaMail.jenkins@builder.linuxtv.org>
+References: <194753720.17.1574263140494.JavaMail.jenkins@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #2419
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
@@ -39,13 +39,13 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/2418/display/redirect>
+See <https://builder.linuxtv.org/job/media-build/2419/display/redirect>
 
 Changes:
 
 
 ------------------------------------------
-Started by timer
+Started by user Mauro Carvalho Chehab
 Running as SYSTEM
 Building remotely on slave1 in workspace <https://builder.linuxtv.org/job/media-build/ws/>
 No credentials specified
