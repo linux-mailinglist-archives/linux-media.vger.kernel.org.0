@@ -2,262 +2,337 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FD08103639
-	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2019 09:50:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 14A5D103699
+	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2019 10:28:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728039AbfKTIun (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Nov 2019 03:50:43 -0500
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:41817 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727950AbfKTIun (ORCPT
+        id S1726762AbfKTJ2c (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Nov 2019 04:28:32 -0500
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:35679 "EHLO
+        mail-ed1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726333AbfKTJ2b (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Nov 2019 03:50:43 -0500
-Received: by mail-ed1-f68.google.com with SMTP id a21so19597023edj.8
-        for <linux-media@vger.kernel.org>; Wed, 20 Nov 2019 00:50:41 -0800 (PST)
+        Wed, 20 Nov 2019 04:28:31 -0500
+Received: by mail-ed1-f66.google.com with SMTP id r16so19728712edq.2
+        for <linux-media@vger.kernel.org>; Wed, 20 Nov 2019 01:28:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Jn/9RqzChFkDSxCN5qB+QqQUago/THDFoJBxRmcC3AE=;
-        b=bV8DDyxnoa8/rTGcztrWm2RcOK2+2tZmkwpHHc6CQ1CfhaDv97NLoj5gdg7OxJPP5S
-         FxWKnU+31FsMzUYmh8x8jJ735/IR1wBCE2aHzP0hor5OOkjgvcDFI6obpZ7kVxrp/jNS
-         DO08ag6CC2DR7CcL1O9ZNRwfciErQoRiNuIWM=
+        bh=qmQfT9BiuQnO46OU7mfXnep8G6jLicKZR3ttzOnNhl0=;
+        b=EuPFRLmhgkvsFaiavhEKAt8PH+omZ/bRL5TYZtc1klAXiNjcvXV5hI6poTbwV/w8D9
+         hYATNFfrHdU8PkDmXkHYFckmGwuIn9vkJsa9USlOkuPUkTPXDdrNhC+IwxbVkD/O6bMo
+         iTOmB3dFulb4ES/bOkuReD3h78H+qzlEOAZRk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Jn/9RqzChFkDSxCN5qB+QqQUago/THDFoJBxRmcC3AE=;
-        b=qeui3p8lzGXsN4SGBgOxC36lPUJ1cXVtACXp7mSuDJKvEuLB2KotS+Y60TfYwKsU45
-         ch8zgxW4YakBfM4g5KXDjzOCy5Ub1KDzeTdjDCKfTThVwIX4YOTt+xFxCo+xjHucsmQS
-         rPpadCtNawruto1uI4TP8tLaSKWzKBM0nX46S66dfg3p7uzIO0JT28V9Si2Yy+sTMamm
-         idoLexTW0Fck0a/QHFK31ATHvZQEMVOTmomvz2T8OQV2XMM2LOdpTaz5q9+MP4kMDeLj
-         ynDWf1ih7eM1l9kDgGdWN6nWzMPl51edyosDsF2EhGI/fBizXlACqbABqzmTxJDGzzc2
-         aQ0A==
-X-Gm-Message-State: APjAAAW3jG7Gd98H71MVFB69XctN753sYaJB5TLrxKBz+JYeLpvxjg4C
-        FNUhW2OZmMIVcXspEr+Qv/LN7U3/AvjjfQ==
-X-Google-Smtp-Source: APXvYqzdRACb3+o3CE9iDAjz+uZGV5+/CknLGfinTVD9untMRXIapGeQlHanzEoRx34GM6EDWCBN+w==
-X-Received: by 2002:a17:906:4dc8:: with SMTP id f8mr3774490ejw.62.1574239839534;
-        Wed, 20 Nov 2019 00:50:39 -0800 (PST)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com. [209.85.221.46])
-        by smtp.gmail.com with ESMTPSA id z25sm390293ejb.78.2019.11.20.00.50.38
+        bh=qmQfT9BiuQnO46OU7mfXnep8G6jLicKZR3ttzOnNhl0=;
+        b=TdvTfYgYMtWp1LFVTFlEwSoUwU53vbTzs6LNErZn0+sPL8Fn63WW/iPI3/ZrPcqbB7
+         4mZ23veQGLgs8ud5AiCQteBnLdDRsfloxdvIyQ9wDtdG/gHOaMTe15kB06cI/QcH9pLl
+         7LJV6V59j66abQADUZv2yVrBcUHFrTsDssn0yiZAyotpIxy3PGKCwrzg05ZWowSXN57u
+         2S+HE1pEeXd6QHO8GXB7WouHySOxuB3wW8rNVliS3+IE45CSYKPwvMYeYIboFVKPsCPx
+         vBpMgbjesK1YzddycVnpWjqMP3He9yjyOZ0cshMFxdPC1dmvF4vBu2N8hnR0hiv+fJra
+         CqSw==
+X-Gm-Message-State: APjAAAUpjxtwnctHOQQz4f74tHEm6tTvprb4QAq/0HMQrGoZgVkLqshb
+        mrsIwlBS72XkdkYHsMnV1hDxMBbFutCETg==
+X-Google-Smtp-Source: APXvYqxDrvIRz53t1qDDLKYs9ygChlCzeixLMbdkOBwY8iHEkLqgaEdJSoGNeoKOrLre3m4vpubTvg==
+X-Received: by 2002:a17:906:404d:: with SMTP id y13mr4128796ejj.276.1574242109068;
+        Wed, 20 Nov 2019 01:28:29 -0800 (PST)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com. [209.85.221.51])
+        by smtp.gmail.com with ESMTPSA id r4sm1414866edb.82.2019.11.20.01.28.27
         for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Nov 2019 00:50:39 -0800 (PST)
-Received: by mail-wr1-f46.google.com with SMTP id b3so27098128wrs.13
-        for <linux-media@vger.kernel.org>; Wed, 20 Nov 2019 00:50:38 -0800 (PST)
-X-Received: by 2002:adf:e505:: with SMTP id j5mr1765040wrm.46.1574239837505;
- Wed, 20 Nov 2019 00:50:37 -0800 (PST)
+        Wed, 20 Nov 2019 01:28:28 -0800 (PST)
+Received: by mail-wr1-f51.google.com with SMTP id t1so27234106wrv.4
+        for <linux-media@vger.kernel.org>; Wed, 20 Nov 2019 01:28:27 -0800 (PST)
+X-Received: by 2002:a5d:62cf:: with SMTP id o15mr1924844wrv.7.1574242106960;
+ Wed, 20 Nov 2019 01:28:26 -0800 (PST)
 MIME-Version: 1.0
-References: <20191008091119.7294-1-boris.brezillon@collabora.com>
- <20191008091119.7294-2-boris.brezillon@collabora.com> <9b289f76-6c09-b088-204d-ce5b5009bd7b@xs4all.nl>
- <CAAFQd5C7D24teYQThou+ZvZrZ7iH6-hAumSCiRi8U6tDKSdzuA@mail.gmail.com>
- <ce4639c3-fcae-e8ca-d2b8-dd79b14f7204@xs4all.nl> <CAAFQd5BJ9OiABCdOFPhgqv1j7=z-K4Y2DsGyH13-QzeZ-cJaAA@mail.gmail.com>
- <0a6d8c2a-ab0d-873e-8a08-25a9d0df1e65@xs4all.nl>
-In-Reply-To: <0a6d8c2a-ab0d-873e-8a08-25a9d0df1e65@xs4all.nl>
+References: <20190906101125.3784-1-Jerry-Ch.chen@mediatek.com>
+ <20190906101125.3784-4-Jerry-Ch.chen@mediatek.com> <1571109375.3706.40.camel@mtksdccf07>
+ <20191025035211.GA67000@chromium.org> <1574237450.20087.17.camel@mtksdccf07>
+In-Reply-To: <1574237450.20087.17.camel@mtksdccf07>
 From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Wed, 20 Nov 2019 17:50:25 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5Cr754Eo4WiaY2jFMxuYsBsoQxVJiienci5tEsuL6qV9Q@mail.gmail.com>
-Message-ID: <CAAFQd5Cr754Eo4WiaY2jFMxuYsBsoQxVJiienci5tEsuL6qV9Q@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 1/6] media: v4l2: Extend pixel formats to unify
- single/multi-planar handling (and more)
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Boris Brezillon <boris.brezillon@collabora.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Hirokazu Honda <hiroh@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Brian Starkey <Brian.Starkey@arm.com>, kernel@collabora.com
+Date:   Wed, 20 Nov 2019 18:28:14 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5DPErhL0_1f6BzDMMOVhxNfJdctBsK=mcBP6oNcmw-r=w@mail.gmail.com>
+Message-ID: <CAAFQd5DPErhL0_1f6BzDMMOVhxNfJdctBsK=mcBP6oNcmw-r=w@mail.gmail.com>
+Subject: Re: [RFC PATCH V3 3/3] platform: mtk-isp: Add Mediatek FD driver
+To:     Jerry-ch Chen <Jerry-ch.Chen@mediatek.com>
+Cc:     "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "lkml@metux.net" <lkml@metux.net>,
+        =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
+        "yuzhao@chromium.org" <yuzhao@chromium.org>,
+        "zwisler@chromium.org" <zwisler@chromium.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        =?UTF-8?B?U2VhbiBDaGVuZyAo6YSt5piH5byYKQ==?= 
+        <Sean.Cheng@mediatek.com>,
+        =?UTF-8?B?U2ogSHVhbmcgKOm7g+S/oeeSiyk=?= <sj.huang@mediatek.com>,
+        =?UTF-8?B?Q2hyaXN0aWUgWXUgKOa4uOmbheaDoCk=?= 
+        <christie.yu@mediatek.com>,
+        =?UTF-8?B?RnJlZGVyaWMgQ2hlbiAo6Zmz5L+K5YWDKQ==?= 
+        <Frederic.Chen@mediatek.com>,
+        =?UTF-8?B?SnVuZ28gTGluICjmnpfmmI7kv4op?= <jungo.lin@mediatek.com>,
+        =?UTF-8?B?UG8tWWFuZyBIdWFuZyAo6buD5p+P6Zm9KQ==?= 
+        <po-yang.huang@mediatek.com>,
+        =?UTF-8?B?UnlubiBXdSAo5ZCz6IKy5oGpKQ==?= <Rynn.Wu@mediatek.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "laurent.pinchart+renesas@ideasonboard.com" 
+        <laurent.pinchart+renesas@ideasonboard.com>,
+        "hans.verkuil@cisco.com" <hans.verkuil@cisco.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Oct 21, 2019 at 7:17 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+On Wed, Nov 20, 2019 at 5:11 PM Jerry-ch Chen
+<Jerry-ch.Chen@mediatek.com> wrote:
 >
-> On 10/21/19 11:48 AM, Tomasz Figa wrote:
-> > On Mon, Oct 21, 2019 at 6:38 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
-> >>
-> >> On 10/21/19 11:26 AM, Tomasz Figa wrote:
-> >>> On Mon, Oct 21, 2019 at 5:41 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
-> >>>>
-> >>>> On 10/8/19 11:11 AM, Boris Brezillon wrote:
-> >>>>> This is part of the multiplanar and singleplanar unification process.
-> >>>>> v4l2_ext_pix_format is supposed to work for both cases.
-> >>>>>
-> >>>>> We also add the concept of modifiers already employed in DRM to expose
-> >>>>> HW-specific formats (like tiled or compressed formats) and allow
-> >>>>> exchanging this information with the DRM subsystem in a consistent way.
-> >>>>>
-> >>>>> Note that V4L2_BUF_TYPE_VIDEO[_OUTPUT]_OVERLAY and
-> >>>>> V4L2_BUF_TYPE_VIDEO_{CAPTURE,OUTPUT}_MPLANE types are no longer accepted
-> >>>>> in v4l2_ext_format and will be rejected if you use the {G,S,TRY}EXT_FMT
-> >>>>> ioctls. V4L2_BUF_TYPE_VIDEO_{CAPTURE,OUTPUT}_MPLANE is dropped as part
-> >>>>> of the multiplanar/singleplanar unification.
-> >>>>> V4L2_BUF_TYPE_VIDEO[_OUTPUT]_OVERLAY seems to be used mostly on old
-> >>>>> drivers and supporting it would require some extra rework.
-> >>>>>
-> >>>>> New hooks have been added to v4l2_ioctl_ops to support those new ioctls
-> >>>>> in drivers, but, in the meantime, the core takes care of converting
-> >>>>> {S,G,TRY}_EXT_FMT requests into {S,G,TRY}_FMT so that old drivers can
-> >>>>> still work if the userspace app/lib uses the new ioctls.
-> >>>>> The conversion is also done the other around to allow userspace
-> >>>>> apps/libs using {S,G,TRY}_FMT to work with drivers implementing the
-> >>>>> _ext_ hooks.
-> >>>>>
-> >>>>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> >>>>> ---
-> >>>>
-> >>>> <snip>
-> >>>>
-> >>>>>
-> >>>>> +#define VIDIOC_G_EXT_FMT     _IOWR('V', 104, struct v4l2_ext_format)
-> >>>>> +#define VIDIOC_S_EXT_FMT     _IOWR('V', 105, struct v4l2_ext_format)
-> >>>>> +#define VIDIOC_TRY_EXT_FMT   _IOWR('V', 106, struct v4l2_ext_format)
-> >>>>>  /* Reminder: when adding new ioctls please add support for them to
-> >>>>>     drivers/media/v4l2-core/v4l2-compat-ioctl32.c as well! */
-> >>>>>
-> >>>>>
-> >>>>
-> >>>> Since we're extending g/s/try_fmt, we should also provide a replacement for
-> >>>> enum_fmt, esp. given this thread:
-> >>>>
-> >>>> https://www.mail-archive.com/linux-media@vger.kernel.org/msg150871.html
-> >>>
-> >>> While that's a completely valid problem that should be addressed, I'm
-> >>> not sure if putting all the things in one bag would have a positive
-> >>> effect on solving all the problems in a reasonable timeline.
-> >>
-> >> I'm not sure what you mean with this. We can't ignore this either, and if
-> >> we're going to add these new ioctls, then let's try to fix as much as we can.
-> >>
+> Hi Tomasz,
+>
+> On Fri, 2019-10-25 at 11:52 +0800, Tomasz Figa wrote:
+> > On Tue, Oct 15, 2019 at 11:16:15AM +0800, Jerry-ch Chen wrote:
+> > > Hi Tomasz,
+> > >
+> > > On Fri, 2019-09-06 at 18:11 +0800, Jerry-ch Chen wrote:
+> > > > From: Jerry-ch Chen <jerry-ch.chen@mediatek.com>
+> > > >
+> > > > This patch adds the driver of Face Detection (FD) unit in
+> > > > Mediatek camera system, providing face detection function.
+> > > >
+> > > > The mtk-isp directory will contain drivers for multiple IP
+> > > > blocks found in Mediatek ISP system. It will include ISP Pass 1
+> > > > driver (CAM), sensor interface driver, DIP driver and face
+> > > > detection driver.
+> > > >
+> > > > Signed-off-by: Jerry-ch Chen <jerry-ch.chen@mediatek.com>
+> > > > ---
+> > > >  drivers/media/platform/Kconfig                |    2 +
+> > > >  drivers/media/platform/Makefile               |    2 +
+> > > >  drivers/media/platform/mtk-isp/fd/Kconfig     |   19 +
+> > > >  drivers/media/platform/mtk-isp/fd/Makefile    |    5 +
+> > > >  drivers/media/platform/mtk-isp/fd/mtk_fd.h    |  148 ++
+> > > >  drivers/media/platform/mtk-isp/fd/mtk_fd_40.c | 1219 +++++++++++++++++
+> > > >  include/uapi/linux/mtk-fd-v4l2-controls.h     |   69 +
+> > > >  include/uapi/linux/v4l2-controls.h            |    4 +
+> > > >  8 files changed, 1468 insertions(+)
+> > > >  create mode 100644 drivers/media/platform/mtk-isp/fd/Kconfig
+> > > >  create mode 100644 drivers/media/platform/mtk-isp/fd/Makefile
+> > > >  create mode 100644 drivers/media/platform/mtk-isp/fd/mtk_fd.h
+> > > >  create mode 100644 drivers/media/platform/mtk-isp/fd/mtk_fd_40.c
+> > > >  create mode 100644 include/uapi/linux/mtk-fd-v4l2-controls.h
+> > > >
 > >
-> > My point is that this series solves a completely orthogonal problem
-> > without a need to touch ENUM_FMT at all. Is there any reason why
-> > solving this particular problem separately would make solving the
-> > ENUM_FMT problem more difficult in the future?
+> > [snip]
+> >
+> > > > +static int mtk_fd_job_abort(struct mtk_fd_dev *fd)
+> > > > +{
+> > > > + u32 ret;
+> > > > +
+> > > > + ret = wait_for_completion_timeout(&fd->fd_irq_done,
+> > > > +                                   msecs_to_jiffies(MTK_FD_HW_TIMEOUT));
+> > > > + /* Reset FD HW */
+> > > > + if (!ret) {
+> > > > +         struct ipi_message fd_ipi_msg;
+> > > > +
+> > > > +         fd_ipi_msg.cmd_id = MTK_FD_IPI_CMD_RESET;
+> > > > +         if (scp_ipi_send(fd->scp_pdev, SCP_IPI_FD_CMD, &fd_ipi_msg,
+> > > > +                          sizeof(fd_ipi_msg), MTK_FD_IPI_SEND_TIMEOUT))
+> > > > +                 dev_err(fd->dev, "FD Reset HW error\n");
+> > > > +         return -ETIMEDOUT;
+> > > > + }
+> > > > + return 0;
+> > > > +}
+> > > > +
+> > >
+> > > Continue the discussion about job abort in RFC v2,
+> > >
+> > > I think the job_abort callback in v4l2_m2m_ops() might be useful.
+> > >
+> > > ref:
+> > > https://elixir.bootlin.com/linux/v5.4-rc2/source/drivers/media/v4l2-core/v4l2-mem2mem.c#L398
+> > > https://elixir.bootlin.com/linux/v5.4-rc2/source/include/media/v4l2-mem2mem.h#L43
+> > >
+> > > in drivers/media/v4l2-core/v4l2-mem2mem.c #398 v4l2_m2m_cancel_job()
+> > > ...
+> > > if (m2m_ctx->job_flags & TRANS_RUNNING) {
+> > >     spin_unlock_irqrestore(&m2m_dev->job_spinlock, flags);
+> > >     if (m2m_dev->m2m_ops->job_abort)
+> > >             m2m_dev->m2m_ops->job_abort(m2m_ctx->priv);
+> > >     dprintk("m2m_ctx %p running, will wait to complete\n", m2m_ctx);
+> > >     wait_event(m2m_ctx->finished,
+> > >                     !(m2m_ctx->job_flags & TRANS_RUNNING));
+> > > } ...
+> > >
+> > > If this operation is set, we might use the v4l2_m2m_cancel_job() when
+> > > suspend, and it will do mtk_fd_job_abort() here.
+> > >
+> >
+> > The expectation for .job_abort() is that signals the hardware to
+> > instantly abandon the current job. Do we have a way to tell the
+> > firmware/hardware to do so?
+> >
+> > Also, suspend must not abort the current job. Anything that was already
+> > running is expected to complete successfuly and further jobs should
+> > continue executing once the system resumes.
+> >
+> I appreciate your comments and Pi-Hsun's patch,
 >
-> I do not agree with you that this is an orthogonal problem. If we are creating
-> new FMT ioctls to solve various problems, then it makes sense to look at ALL the
-> problems, including this. We might decide to postpone creating a EXT_ENUM_FMT
-> ioctl, but during the discussion we should look at this issue as well.
+> Ok, I see.
+> For FD40, we can't tell the firmware/hardware to instantly abandon the
+> current job.
+> Therefore, for suspend, we stop sending further jobs to hardware and
+> wait for the completion of the running job.
+> For resume, we continue sending jobs to hardware.
 >
-> To take one suggestion you made: use of the active/try slots for existing non-MC
-> drivers. If we decide to go into that direction (and I think it is a very interesting
-> idea), then that requires that ENUM_FMT is taken into account anyway. And probably
-> other ioctls such as the selection API as well.
+> > [snip]
+> >
+> > > > +
+> > > > +static int mtk_fd_suspend(struct device *dev)
+> > > > +{
+> > > > + struct mtk_fd_dev *fd = dev_get_drvdata(dev);
+> > > > +
+> > > > + if (pm_runtime_suspended(dev))
+> > > > +         return 0;
+> > > > +
+> > > > + if (fd->fd_stream_count)
+> > > > +         if (mtk_fd_job_abort(fd))
+> > > > +                 mtk_fd_hw_job_finish(fd, VB2_BUF_STATE_ERROR);
+> > > > +
+> > >
+> > > To avoid mtk_fd_hw_job_finish() trigger the next job,
+> > > I suppose that we could use v4l2_m2m_cancel_job instead of job_abort and
+> > > job_finish here.
+> > >
+> > > /**
+> > >  * v4l2_m2m_cancel_job() - cancel pending jobs for the context
+> > >  * @m2m_ctx: m2m context with jobs to be canceled
+> > >  *
+> > >  * In case of streamoff or release called on any context,
+> > >  * 1] If the context is currently running, then abort job will be called
+> > >  * 2] If the context is queued, then the context will be removed from
+> > >  *    the job_queue
+> > >  */
+> > >
+> > > or another way,
+> > > we may add a flag and implement mtk_fd_job_ready() that reads the flag
+> > > if we suspend, we set the flag and do job_abort and job_finish, even if
+> > > it try enqueue, it will still not really queue the job, until we reset
+> > > the flag in mtk_fd_resume().
+> > >
+> > > how do you think?
+> > >
+> >
+> > As per my comment above, suspend must just pause the execution of the
+> > jobs. It must not cause any jobs to be skipped.
+> >
+> > After analyzing the m2m framework and existing m2m drivers I realized
+> > that they currently provide no way to correctly handle suspend/resume.
+> > Pi-Hsun has been looking into fixing this in crrev.com/c/1878112 and
+> > we'll send it upstream as soon as we get something that should handle
+> > all the cases correctly.
+> >
+> Ok, thanks for the patches.
 >
-> I think we need to think big here, and try to at least explore the possibility
-> of creating an API that tries to limit the differences between video and subdev
-> nodes.
+> > > > + /* suspend FD HW */
+> > > > + writel(0x0, fd->fd_base + MTK_FD_REG_OFFSET_INT_EN);
+> > > > + writel(0x0, fd->fd_base + MTK_FD_REG_OFFSET_HW_ENABLE);
+> > > > + clk_disable_unprepare(fd->fd_clk);
+> > > > + dev_dbg(dev, "%s:disable clock\n", __func__);
+> > > > +
+> > > > + return 0;
+> > > > +}
+> > > > +
+> > > > +static int mtk_fd_resume(struct device *dev)
+> > > > +{
+> > > > + struct mtk_fd_dev *fd = dev_get_drvdata(dev);
+> > > > + int ret;
+> > > > +
+> > > > + if (pm_runtime_suspended(dev))
+> > > > +         return 0;
+> > > > +
+> > > > + ret = clk_prepare_enable(fd->fd_clk);
+> > > > + if (ret < 0) {
+> > > > +         dev_dbg(dev, "Failed to open fd clk:%d\n", ret);
+> > > > +         return ret;
+> > > > + }
+> > > > +
+> > > > + /* resume FD HW */
+> > > > + writel(MTK_FD_SET_HW_ENABLE, fd->fd_base + MTK_FD_REG_OFFSET_HW_ENABLE);
+> > > > + writel(0x1, fd->fd_base + MTK_FD_REG_OFFSET_INT_EN);
+> > > > + dev_dbg(dev, "%s:enable clock\n", __func__);
+> >
+> > By the way, we need to kick the m2m framework here to schedule further
+> > jobs. Pi-Hsun's patch will also take care of this.
+> >
+> Ok, I see.
+> I would like to use Pi-Hsun's patch, otherwise I would need to call
+> v4l2_m2m_try_run() here.
 >
 
-Okay, agreed on this.
+Yes, please include Pi-Hsun's patch (with original author, sign-off +
+your sign-off added) at the beginning of the next version of your
+series.
 
+> > [snip]
 > >
-> >>>
-> >>>>
-> >>>> So here is a preliminary suggestion:
-> >>>>
-> >>>> struct v4l2_ext_fmtdesc {
-> >>>>         __u32               index;             /* Format number      */
-> >>>>         __u32               type;              /* enum v4l2_buf_type */
-> >>>>         __u32               which;             /* enum v4l2_subdev_format_whence, ignored if mbus_code == 0 */
-> >>>>         __u32               mbus_code;         /* Mediabus Code (set to 0 if n/a) */
-> >>>>         __u32               flags;
-> >>>>         __u8                description[32];   /* Description string */
-> >>>>         __u32               pixelformat;       /* Format fourcc      */
-> >>>> };
-> >>>>
-> >>>> This would solve (I think) the issue raised in the thread since you can now get
-> >>>> just for formats that are valid for the given mediabus code and the which field.
-> >>>>
-> >>>
-> >>> Hmm, why only mbus_code? We have the same problem with mem2mem
-> >>> devices, where the format set on one queue affects the formats
-> >>> supported on another queue. Perhaps it should be defined to return
-> >>> formats valid with the current state of the driver? If we want to
-> >>> extend it to return formats for arbitrary states, perhaps we should
-> >>> use a mechanism similar to the TRY_FMT slot in subdevices, where we
-> >>> can set the configuration we want to test against and then ENUM_FMT
-> >>> would return the formats valid for that configuration?
-> >>
-> >> Good point.
-> >>
+> > > > +/* Set the face angle and directions to be detected */
+> > > > +#define V4L2_CID_MTK_FD_DETECT_POSE              (V4L2_CID_USER_MTK_FD_BASE + 1)
+> > > > +
+> > > > +/* Set image widths for an input image to be scaled down for face detection */
+> > > > +#define V4L2_CID_MTK_FD_SCALE_DOWN_IMG_WIDTH     (V4L2_CID_USER_MTK_FD_BASE + 2)
+> > > > +
+> > > > +/* Set image heights for an input image to be scaled down for face detection */
+> > > > +#define V4L2_CID_MTK_FD_SCALE_DOWN_IMG_HEIGHT    (V4L2_CID_USER_MTK_FD_BASE + 3)
+> > > > +
+> > > > +/* Set the length of scale down size array */
+> > > > +#define V4L2_CID_MTK_FD_SCALE_IMG_NUM            (V4L2_CID_USER_MTK_FD_BASE + 4)
+> > > > +
+> > > > +/* Set the detection speed, usually reducing accuracy. */
+> > > > +#define V4L2_CID_MTK_FD_DETECT_SPEED             (V4L2_CID_USER_MTK_FD_BASE + 5)
+> > > > +
+> > > > +/* Select the detection model or algorithm to be used. */
+> > > > +#define V4L2_CID_MTK_FD_DETECTION_MODEL          (V4L2_CID_USER_MTK_FD_BASE + 6)
+> > > > +
+> > > > +/* We reserve 16 controls for this driver. */
+> > > > +#define V4L2_CID_MTK_FD_MAX                      16
+> > > > +
+> > >
+> > > For these control IDs, I think the following should be remained as chip
+> > > specific controls.
+> > > V4L2_CID_MTK_FD_SCALE_DOWN_IMG_WIDTH,
+> > > V4L2_CID_MTK_FD_SCALE_DOWN_IMG_HEIGHT and V4L2_CID_MTK_FD_SCALE_IMG_NUM
+> > >
+> > > Hope there would be standardizing face detection api that cover the rest
+> > > controls: V4L2_CID_MTK_FD_DETECT_POSE, V4L2_CID_MTK_FD_DETECT_SPEED and
+> > > V4L2_CID_MTK_FD_DETECTION_MODEL
+> > >
+> > > Would you have any suggestions on how to propose the standard face
+> > > detection apis?
+> > >
 > >
-> > We might want to keep the control'ification of the API in mind, which
-> > should simplify dealing with state inter-dependencies, because all the
-> > state would be represented in a uniform way.
->
-> I still don't know what Laurent wants to do with that.
->
-
-Not sure why Laurent specifically. :)
-
-On the other hand, that's a much more invasive change, so maybe better
-not to mix it with the things discussed here.
-
-> >
-> >>>
-> >>>> Other improvements that could be made is to return more information about the
-> >>>> format (similar to struct v4l2_format_info). In particular v4l2_pixel_encoding
-> >>>> and mem/comp_planes would be useful for userspace to know.
-> >>>
-> >>> An alternative would be to go away from mixing mem_planes and
-> >>> pixelformats and just having the "planarity" queryable and
-> >>> configurable separately. The existing duplicated FourCCs would have to
-> >>> remain for compatibility reasons, though.
-> >>
-> >> Interesting idea, but I don't know if this would make the API more or less confusing.
-> >>
-> >
-> > Yeah, this definitely needs more thought. My experience with working
-> > with many people trying to use V4L2 in the userspace tells me that the
-> > existing model is confusing, though. DRM and most userspace libraries
-> > use FourCCs only to define the pixelformats themselves and planarity
-> > is a separate aspect.
-> >
-> > The target model that I'd see happening would be to have the
-> > multiple-memory plane semantics used everywhere, so all color planes
-> > are described as separate entities, up to having different DMA-buf
-> > FDs. Then the single memory plane case would be just one of the
-> > specific cases, where all the DMA-buf FDs point to the same buffer and
-> > color plane offsets are laid out contiguously, which could be enforced
-> > by generic code when queuing the buffer if that's a hardware
-> > requirement.
->
-> Do you think you can come up with a rough proposal before the ELCE session?
-
-Sorry, I wasn't able to come up with anything formal, but I believe we
-discussed this well during the session and it's written down in the
-notes.
-
-Best regards,
-Tomasz
-
->
-> Regards,
->
->         Hans
->
-> >
-> >>>
-> >>>>
-> >>>> Finally, we can also add a new ioctl that combines ENUM_FMT/ENUM_FRAMESIZES/ENUM_FRAMEINTERVALS
-> >>>> and returns an array of all valid formats/sizes/intervals, requiring just a single ioctl
-> >>>> to obtain all this information.
-> >>>
-> >>> While it definitely sounds like a useful thing to have, it would be an
-> >>> interesting problem to solve given the inter-dependencies between
-> >>> pads, queues and other state, as in the mbus example above.
-> >>
-> >> This is definitely a separate issue for further in the future.
-> >
-> > Agreed.
+> > Given no follow up feedback from the community, I think we can keep them
+> > as driver-specific, but should make sure that they have some reasonable
+> > default values in case an application doesn't recognize them.
 > >
 > > Best regards,
 > > Tomasz
 > >
->
+> Should I keep the file "mtk-fd-v4l2-controls.h" which defines the
+> control ids under the folder "/include/uapi/linux"?
+
+We should define the CID base for the FD driver in v4l2-controls.h,
+but the controls themselves should be only defined inside the driver.
+
+For example:
+https://elixir.bootlin.com/linux/v5.4-rc8/source/include/uapi/linux/v4l2-controls.h#L178
+https://elixir.bootlin.com/linux/v5.4-rc8/source/drivers/media/i2c/adv7180.c#L181
+
+Best regards,
+Tomasz
