@@ -2,233 +2,262 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B98671035D3
-	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2019 09:11:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FD08103639
+	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2019 09:50:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727330AbfKTILB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Nov 2019 03:11:01 -0500
-Received: from mailgw01.mediatek.com ([210.61.82.183]:21271 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726038AbfKTILA (ORCPT
+        id S1728039AbfKTIun (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Nov 2019 03:50:43 -0500
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:41817 "EHLO
+        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727950AbfKTIun (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Nov 2019 03:11:00 -0500
-X-UUID: 4e2e83daeb2b4a48b4c32685c2e62189-20191120
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=Vm5saM+GW0YUbJUNwRCvnRKSP+TQW5BbAxj4dw2J4dY=;
-        b=dBCv593JHT5q6x8wGg9cEEFnlPEW6vdoHgV08dotVzQ4nd+dGQhbKXq+bh8LRvcCUmRmT1iRwwumlbL6OWAGyjks5pxOdQlLuqvUzTyi4NmFlxelzYE7pKulu7SfnxtJdI7H1H86ze4OY/C5IANY+796kSPemvTdflQ7lVW0nX4=;
-X-UUID: 4e2e83daeb2b4a48b4c32685c2e62189-20191120
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
-        (envelope-from <jerry-ch.chen@mediatek.com>)
-        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
-        with ESMTP id 1204473334; Wed, 20 Nov 2019 16:10:51 +0800
-Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkmbs08n1.mediatek.inc (172.21.101.55) with Microsoft SMTP Server (TLS) id
- 15.0.1395.4; Wed, 20 Nov 2019 16:10:34 +0800
-Received: from [172.21.84.99] (172.21.84.99) by mtkcas08.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1395.4 via Frontend
- Transport; Wed, 20 Nov 2019 16:10:49 +0800
-Message-ID: <1574237450.20087.17.camel@mtksdccf07>
-Subject: Re: [RFC PATCH V3 3/3] platform: mtk-isp: Add Mediatek FD driver
-From:   Jerry-ch Chen <Jerry-ch.Chen@mediatek.com>
-To:     Tomasz Figa <tfiga@chromium.org>
-CC:     "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "lkml@metux.net" <lkml@metux.net>,
-        CK Hu =?UTF-8?Q?=28=E8=83=A1=E4=BF=8A=E5=85=89=29?= 
-        <ck.hu@mediatek.com>, "yuzhao@chromium.org" <yuzhao@chromium.org>,
-        "zwisler@chromium.org" <zwisler@chromium.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Sean Cheng =?UTF-8?Q?=28=E9=84=AD=E6=98=87=E5=BC=98=29?= 
-        <Sean.Cheng@mediatek.com>,
-        "Sj Huang =?UTF-8?Q?=28=E9=BB=83=E4=BF=A1=E7=92=8B=29?=" 
-        <sj.huang@mediatek.com>,
-        Christie Yu =?UTF-8?Q?=28=E6=B8=B8=E9=9B=85=E6=83=A0=29?= 
-        <christie.yu@mediatek.com>,
-        Frederic Chen =?UTF-8?Q?=28=E9=99=B3=E4=BF=8A=E5=85=83=29?= 
-        <Frederic.Chen@mediatek.com>,
-        Jungo Lin =?UTF-8?Q?=28=E6=9E=97=E6=98=8E=E4=BF=8A=29?= 
-        <jungo.lin@mediatek.com>,
-        Po-Yang Huang =?UTF-8?Q?=28=E9=BB=83=E6=9F=8F=E9=99=BD=29?= 
-        <po-yang.huang@mediatek.com>,
-        Rynn Wu =?UTF-8?Q?=28=E5=90=B3=E8=82=B2=E6=81=A9=29?= 
-        <Rynn.Wu@mediatek.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        srv_heupstream <srv_heupstream@mediatek.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "laurent.pinchart+renesas@ideasonboard.com" 
-        <laurent.pinchart+renesas@ideasonboard.com>,
-        "hans.verkuil@cisco.com" <hans.verkuil@cisco.com>
-Date:   Wed, 20 Nov 2019 16:10:50 +0800
-In-Reply-To: <20191025035211.GA67000@chromium.org>
-References: <20190906101125.3784-1-Jerry-Ch.chen@mediatek.com>
-         <20190906101125.3784-4-Jerry-Ch.chen@mediatek.com>
-         <1571109375.3706.40.camel@mtksdccf07> <20191025035211.GA67000@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.2.3-0ubuntu6 
+        Wed, 20 Nov 2019 03:50:43 -0500
+Received: by mail-ed1-f68.google.com with SMTP id a21so19597023edj.8
+        for <linux-media@vger.kernel.org>; Wed, 20 Nov 2019 00:50:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Jn/9RqzChFkDSxCN5qB+QqQUago/THDFoJBxRmcC3AE=;
+        b=bV8DDyxnoa8/rTGcztrWm2RcOK2+2tZmkwpHHc6CQ1CfhaDv97NLoj5gdg7OxJPP5S
+         FxWKnU+31FsMzUYmh8x8jJ735/IR1wBCE2aHzP0hor5OOkjgvcDFI6obpZ7kVxrp/jNS
+         DO08ag6CC2DR7CcL1O9ZNRwfciErQoRiNuIWM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Jn/9RqzChFkDSxCN5qB+QqQUago/THDFoJBxRmcC3AE=;
+        b=qeui3p8lzGXsN4SGBgOxC36lPUJ1cXVtACXp7mSuDJKvEuLB2KotS+Y60TfYwKsU45
+         ch8zgxW4YakBfM4g5KXDjzOCy5Ub1KDzeTdjDCKfTThVwIX4YOTt+xFxCo+xjHucsmQS
+         rPpadCtNawruto1uI4TP8tLaSKWzKBM0nX46S66dfg3p7uzIO0JT28V9Si2Yy+sTMamm
+         idoLexTW0Fck0a/QHFK31ATHvZQEMVOTmomvz2T8OQV2XMM2LOdpTaz5q9+MP4kMDeLj
+         ynDWf1ih7eM1l9kDgGdWN6nWzMPl51edyosDsF2EhGI/fBizXlACqbABqzmTxJDGzzc2
+         aQ0A==
+X-Gm-Message-State: APjAAAW3jG7Gd98H71MVFB69XctN753sYaJB5TLrxKBz+JYeLpvxjg4C
+        FNUhW2OZmMIVcXspEr+Qv/LN7U3/AvjjfQ==
+X-Google-Smtp-Source: APXvYqzdRACb3+o3CE9iDAjz+uZGV5+/CknLGfinTVD9untMRXIapGeQlHanzEoRx34GM6EDWCBN+w==
+X-Received: by 2002:a17:906:4dc8:: with SMTP id f8mr3774490ejw.62.1574239839534;
+        Wed, 20 Nov 2019 00:50:39 -0800 (PST)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com. [209.85.221.46])
+        by smtp.gmail.com with ESMTPSA id z25sm390293ejb.78.2019.11.20.00.50.38
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 Nov 2019 00:50:39 -0800 (PST)
+Received: by mail-wr1-f46.google.com with SMTP id b3so27098128wrs.13
+        for <linux-media@vger.kernel.org>; Wed, 20 Nov 2019 00:50:38 -0800 (PST)
+X-Received: by 2002:adf:e505:: with SMTP id j5mr1765040wrm.46.1574239837505;
+ Wed, 20 Nov 2019 00:50:37 -0800 (PST)
 MIME-Version: 1.0
-X-MTK:  N
-Content-Transfer-Encoding: base64
+References: <20191008091119.7294-1-boris.brezillon@collabora.com>
+ <20191008091119.7294-2-boris.brezillon@collabora.com> <9b289f76-6c09-b088-204d-ce5b5009bd7b@xs4all.nl>
+ <CAAFQd5C7D24teYQThou+ZvZrZ7iH6-hAumSCiRi8U6tDKSdzuA@mail.gmail.com>
+ <ce4639c3-fcae-e8ca-d2b8-dd79b14f7204@xs4all.nl> <CAAFQd5BJ9OiABCdOFPhgqv1j7=z-K4Y2DsGyH13-QzeZ-cJaAA@mail.gmail.com>
+ <0a6d8c2a-ab0d-873e-8a08-25a9d0df1e65@xs4all.nl>
+In-Reply-To: <0a6d8c2a-ab0d-873e-8a08-25a9d0df1e65@xs4all.nl>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Wed, 20 Nov 2019 17:50:25 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5Cr754Eo4WiaY2jFMxuYsBsoQxVJiienci5tEsuL6qV9Q@mail.gmail.com>
+Message-ID: <CAAFQd5Cr754Eo4WiaY2jFMxuYsBsoQxVJiienci5tEsuL6qV9Q@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 1/6] media: v4l2: Extend pixel formats to unify
+ single/multi-planar handling (and more)
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Boris Brezillon <boris.brezillon@collabora.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Hirokazu Honda <hiroh@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Brian Starkey <Brian.Starkey@arm.com>, kernel@collabora.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGkgVG9tYXN6LA0KDQpPbiBGcmksIDIwMTktMTAtMjUgYXQgMTE6NTIgKzA4MDAsIFRvbWFzeiBG
-aWdhIHdyb3RlOg0KPiBPbiBUdWUsIE9jdCAxNSwgMjAxOSBhdCAxMToxNjoxNUFNICswODAwLCBK
-ZXJyeS1jaCBDaGVuIHdyb3RlOg0KPiA+IEhpIFRvbWFzeiwNCj4gPiANCj4gPiBPbiBGcmksIDIw
-MTktMDktMDYgYXQgMTg6MTEgKzA4MDAsIEplcnJ5LWNoIENoZW4gd3JvdGU6DQo+ID4gPiBGcm9t
-OiBKZXJyeS1jaCBDaGVuIDxqZXJyeS1jaC5jaGVuQG1lZGlhdGVrLmNvbT4NCj4gPiA+IA0KPiA+
-ID4gVGhpcyBwYXRjaCBhZGRzIHRoZSBkcml2ZXIgb2YgRmFjZSBEZXRlY3Rpb24gKEZEKSB1bml0
-IGluDQo+ID4gPiBNZWRpYXRlayBjYW1lcmEgc3lzdGVtLCBwcm92aWRpbmcgZmFjZSBkZXRlY3Rp
-b24gZnVuY3Rpb24uDQo+ID4gPiANCj4gPiA+IFRoZSBtdGstaXNwIGRpcmVjdG9yeSB3aWxsIGNv
-bnRhaW4gZHJpdmVycyBmb3IgbXVsdGlwbGUgSVANCj4gPiA+IGJsb2NrcyBmb3VuZCBpbiBNZWRp
-YXRlayBJU1Agc3lzdGVtLiBJdCB3aWxsIGluY2x1ZGUgSVNQIFBhc3MgMQ0KPiA+ID4gZHJpdmVy
-IChDQU0pLCBzZW5zb3IgaW50ZXJmYWNlIGRyaXZlciwgRElQIGRyaXZlciBhbmQgZmFjZQ0KPiA+
-ID4gZGV0ZWN0aW9uIGRyaXZlci4NCj4gPiA+IA0KPiA+ID4gU2lnbmVkLW9mZi1ieTogSmVycnkt
-Y2ggQ2hlbiA8amVycnktY2guY2hlbkBtZWRpYXRlay5jb20+DQo+ID4gPiAtLS0NCj4gPiA+ICBk
-cml2ZXJzL21lZGlhL3BsYXRmb3JtL0tjb25maWcgICAgICAgICAgICAgICAgfCAgICAyICsNCj4g
-PiA+ICBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL01ha2VmaWxlICAgICAgICAgICAgICAgfCAgICAy
-ICsNCj4gPiA+ICBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL210ay1pc3AvZmQvS2NvbmZpZyAgICAg
-fCAgIDE5ICsNCj4gPiA+ICBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL210ay1pc3AvZmQvTWFrZWZp
-bGUgICAgfCAgICA1ICsNCj4gPiA+ICBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL210ay1pc3AvZmQv
-bXRrX2ZkLmggICAgfCAgMTQ4ICsrDQo+ID4gPiAgZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tdGst
-aXNwL2ZkL210a19mZF80MC5jIHwgMTIxOSArKysrKysrKysrKysrKysrKw0KPiA+ID4gIGluY2x1
-ZGUvdWFwaS9saW51eC9tdGstZmQtdjRsMi1jb250cm9scy5oICAgICB8ICAgNjkgKw0KPiA+ID4g
-IGluY2x1ZGUvdWFwaS9saW51eC92NGwyLWNvbnRyb2xzLmggICAgICAgICAgICB8ICAgIDQgKw0K
-PiA+ID4gIDggZmlsZXMgY2hhbmdlZCwgMTQ2OCBpbnNlcnRpb25zKCspDQo+ID4gPiAgY3JlYXRl
-IG1vZGUgMTAwNjQ0IGRyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbXRrLWlzcC9mZC9LY29uZmlnDQo+
-ID4gPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbXRrLWlzcC9m
-ZC9NYWtlZmlsZQ0KPiA+ID4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL21lZGlhL3BsYXRm
-b3JtL210ay1pc3AvZmQvbXRrX2ZkLmgNCj4gPiA+ICBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVy
-cy9tZWRpYS9wbGF0Zm9ybS9tdGstaXNwL2ZkL210a19mZF80MC5jDQo+ID4gPiAgY3JlYXRlIG1v
-ZGUgMTAwNjQ0IGluY2x1ZGUvdWFwaS9saW51eC9tdGstZmQtdjRsMi1jb250cm9scy5oDQo+ID4g
-PiANCj4gDQo+IFtzbmlwXQ0KPiANCj4gPiA+ICtzdGF0aWMgaW50IG10a19mZF9qb2JfYWJvcnQo
-c3RydWN0IG10a19mZF9kZXYgKmZkKQ0KPiA+ID4gK3sNCj4gPiA+ICsJdTMyIHJldDsNCj4gPiA+
-ICsNCj4gPiA+ICsJcmV0ID0gd2FpdF9mb3JfY29tcGxldGlvbl90aW1lb3V0KCZmZC0+ZmRfaXJx
-X2RvbmUsDQo+ID4gPiArCQkJCQkgIG1zZWNzX3RvX2ppZmZpZXMoTVRLX0ZEX0hXX1RJTUVPVVQp
-KTsNCj4gPiA+ICsJLyogUmVzZXQgRkQgSFcgKi8NCj4gPiA+ICsJaWYgKCFyZXQpIHsNCj4gPiA+
-ICsJCXN0cnVjdCBpcGlfbWVzc2FnZSBmZF9pcGlfbXNnOw0KPiA+ID4gKw0KPiA+ID4gKwkJZmRf
-aXBpX21zZy5jbWRfaWQgPSBNVEtfRkRfSVBJX0NNRF9SRVNFVDsNCj4gPiA+ICsJCWlmIChzY3Bf
-aXBpX3NlbmQoZmQtPnNjcF9wZGV2LCBTQ1BfSVBJX0ZEX0NNRCwgJmZkX2lwaV9tc2csDQo+ID4g
-PiArCQkJCSBzaXplb2YoZmRfaXBpX21zZyksIE1US19GRF9JUElfU0VORF9USU1FT1VUKSkNCj4g
-PiA+ICsJCQlkZXZfZXJyKGZkLT5kZXYsICJGRCBSZXNldCBIVyBlcnJvclxuIik7DQo+ID4gPiAr
-CQlyZXR1cm4gLUVUSU1FRE9VVDsNCj4gPiA+ICsJfQ0KPiA+ID4gKwlyZXR1cm4gMDsNCj4gPiA+
-ICt9DQo+ID4gPiArDQo+ID4gDQo+ID4gQ29udGludWUgdGhlIGRpc2N1c3Npb24gYWJvdXQgam9i
-IGFib3J0IGluIFJGQyB2MiwNCj4gPiANCj4gPiBJIHRoaW5rIHRoZSBqb2JfYWJvcnQgY2FsbGJh
-Y2sgaW4gdjRsMl9tMm1fb3BzKCkgbWlnaHQgYmUgdXNlZnVsLg0KPiA+IA0KPiA+IHJlZjoNCj4g
-PiBodHRwczovL2VsaXhpci5ib290bGluLmNvbS9saW51eC92NS40LXJjMi9zb3VyY2UvZHJpdmVy
-cy9tZWRpYS92NGwyLWNvcmUvdjRsMi1tZW0ybWVtLmMjTDM5OA0KPiA+IGh0dHBzOi8vZWxpeGly
-LmJvb3RsaW4uY29tL2xpbnV4L3Y1LjQtcmMyL3NvdXJjZS9pbmNsdWRlL21lZGlhL3Y0bDItbWVt
-Mm1lbS5oI0w0Mw0KPiA+IA0KPiA+IGluIGRyaXZlcnMvbWVkaWEvdjRsMi1jb3JlL3Y0bDItbWVt
-Mm1lbS5jICMzOTggdjRsMl9tMm1fY2FuY2VsX2pvYigpDQo+ID4gLi4uDQo+ID4gaWYgKG0ybV9j
-dHgtPmpvYl9mbGFncyAmIFRSQU5TX1JVTk5JTkcpIHsNCj4gPiAJc3Bpbl91bmxvY2tfaXJxcmVz
-dG9yZSgmbTJtX2Rldi0+am9iX3NwaW5sb2NrLCBmbGFncyk7DQo+ID4gCWlmIChtMm1fZGV2LT5t
-Mm1fb3BzLT5qb2JfYWJvcnQpDQo+ID4gCQltMm1fZGV2LT5tMm1fb3BzLT5qb2JfYWJvcnQobTJt
-X2N0eC0+cHJpdik7DQo+ID4gCWRwcmludGsoIm0ybV9jdHggJXAgcnVubmluZywgd2lsbCB3YWl0
-IHRvIGNvbXBsZXRlXG4iLCBtMm1fY3R4KTsNCj4gPiAJd2FpdF9ldmVudChtMm1fY3R4LT5maW5p
-c2hlZCwNCj4gPiAJCQkhKG0ybV9jdHgtPmpvYl9mbGFncyAmIFRSQU5TX1JVTk5JTkcpKTsNCj4g
-PiB9IC4uLg0KPiA+IA0KPiA+IElmIHRoaXMgb3BlcmF0aW9uIGlzIHNldCwgd2UgbWlnaHQgdXNl
-IHRoZSB2NGwyX20ybV9jYW5jZWxfam9iKCkgd2hlbg0KPiA+IHN1c3BlbmQsIGFuZCBpdCB3aWxs
-IGRvIG10a19mZF9qb2JfYWJvcnQoKSBoZXJlLg0KPiA+DQo+IA0KPiBUaGUgZXhwZWN0YXRpb24g
-Zm9yIC5qb2JfYWJvcnQoKSBpcyB0aGF0IHNpZ25hbHMgdGhlIGhhcmR3YXJlIHRvDQo+IGluc3Rh
-bnRseSBhYmFuZG9uIHRoZSBjdXJyZW50IGpvYi4gRG8gd2UgaGF2ZSBhIHdheSB0byB0ZWxsIHRo
-ZQ0KPiBmaXJtd2FyZS9oYXJkd2FyZSB0byBkbyBzbz8NCj4gDQo+IEFsc28sIHN1c3BlbmQgbXVz
-dCBub3QgYWJvcnQgdGhlIGN1cnJlbnQgam9iLiBBbnl0aGluZyB0aGF0IHdhcyBhbHJlYWR5DQo+
-IHJ1bm5pbmcgaXMgZXhwZWN0ZWQgdG8gY29tcGxldGUgc3VjY2Vzc2Z1bHkgYW5kIGZ1cnRoZXIg
-am9icyBzaG91bGQNCj4gY29udGludWUgZXhlY3V0aW5nIG9uY2UgdGhlIHN5c3RlbSByZXN1bWVz
-Lg0KPiANCkkgYXBwcmVjaWF0ZSB5b3VyIGNvbW1lbnRzIGFuZCBQaS1Ic3VuJ3MgcGF0Y2gsDQoN
-Ck9rLCBJIHNlZS4NCkZvciBGRDQwLCB3ZSBjYW4ndCB0ZWxsIHRoZSBmaXJtd2FyZS9oYXJkd2Fy
-ZSB0byBpbnN0YW50bHkgYWJhbmRvbiB0aGUNCmN1cnJlbnQgam9iLg0KVGhlcmVmb3JlLCBmb3Ig
-c3VzcGVuZCwgd2Ugc3RvcCBzZW5kaW5nIGZ1cnRoZXIgam9icyB0byBoYXJkd2FyZSBhbmQNCndh
-aXQgZm9yIHRoZSBjb21wbGV0aW9uIG9mIHRoZSBydW5uaW5nIGpvYi4NCkZvciByZXN1bWUsIHdl
-IGNvbnRpbnVlIHNlbmRpbmcgam9icyB0byBoYXJkd2FyZS4NCg0KPiBbc25pcF0NCj4gDQo+ID4g
-PiArDQo+ID4gPiArc3RhdGljIGludCBtdGtfZmRfc3VzcGVuZChzdHJ1Y3QgZGV2aWNlICpkZXYp
-DQo+ID4gPiArew0KPiA+ID4gKwlzdHJ1Y3QgbXRrX2ZkX2RldiAqZmQgPSBkZXZfZ2V0X2RydmRh
-dGEoZGV2KTsNCj4gPiA+ICsNCj4gPiA+ICsJaWYgKHBtX3J1bnRpbWVfc3VzcGVuZGVkKGRldikp
-DQo+ID4gPiArCQlyZXR1cm4gMDsNCj4gPiA+ICsNCj4gPiA+ICsJaWYgKGZkLT5mZF9zdHJlYW1f
-Y291bnQpDQo+ID4gPiArCQlpZiAobXRrX2ZkX2pvYl9hYm9ydChmZCkpDQo+ID4gPiArCQkJbXRr
-X2ZkX2h3X2pvYl9maW5pc2goZmQsIFZCMl9CVUZfU1RBVEVfRVJST1IpOw0KPiA+ID4gKw0KPiA+
-IA0KPiA+IFRvIGF2b2lkIG10a19mZF9od19qb2JfZmluaXNoKCkgdHJpZ2dlciB0aGUgbmV4dCBq
-b2IsDQo+ID4gSSBzdXBwb3NlIHRoYXQgd2UgY291bGQgdXNlIHY0bDJfbTJtX2NhbmNlbF9qb2Ig
-aW5zdGVhZCBvZiBqb2JfYWJvcnQgYW5kDQo+ID4gam9iX2ZpbmlzaCBoZXJlLg0KPiA+IA0KPiA+
-IC8qKg0KPiA+ICAqIHY0bDJfbTJtX2NhbmNlbF9qb2IoKSAtIGNhbmNlbCBwZW5kaW5nIGpvYnMg
-Zm9yIHRoZSBjb250ZXh0DQo+ID4gICogQG0ybV9jdHg6IG0ybSBjb250ZXh0IHdpdGggam9icyB0
-byBiZSBjYW5jZWxlZA0KPiA+ICAqDQo+ID4gICogSW4gY2FzZSBvZiBzdHJlYW1vZmYgb3IgcmVs
-ZWFzZSBjYWxsZWQgb24gYW55IGNvbnRleHQsDQo+ID4gICogMV0gSWYgdGhlIGNvbnRleHQgaXMg
-Y3VycmVudGx5IHJ1bm5pbmcsIHRoZW4gYWJvcnQgam9iIHdpbGwgYmUgY2FsbGVkDQo+ID4gICog
-Ml0gSWYgdGhlIGNvbnRleHQgaXMgcXVldWVkLCB0aGVuIHRoZSBjb250ZXh0IHdpbGwgYmUgcmVt
-b3ZlZCBmcm9tDQo+ID4gICogICAgdGhlIGpvYl9xdWV1ZQ0KPiA+ICAqLw0KPiA+IA0KPiA+IG9y
-IGFub3RoZXIgd2F5LA0KPiA+IHdlIG1heSBhZGQgYSBmbGFnIGFuZCBpbXBsZW1lbnQgbXRrX2Zk
-X2pvYl9yZWFkeSgpIHRoYXQgcmVhZHMgdGhlIGZsYWcNCj4gPiBpZiB3ZSBzdXNwZW5kLCB3ZSBz
-ZXQgdGhlIGZsYWcgYW5kIGRvIGpvYl9hYm9ydCBhbmQgam9iX2ZpbmlzaCwgZXZlbiBpZg0KPiA+
-IGl0IHRyeSBlbnF1ZXVlLCBpdCB3aWxsIHN0aWxsIG5vdCByZWFsbHkgcXVldWUgdGhlIGpvYiwg
-dW50aWwgd2UgcmVzZXQNCj4gPiB0aGUgZmxhZyBpbiBtdGtfZmRfcmVzdW1lKCkuDQo+ID4gDQo+
-ID4gaG93IGRvIHlvdSB0aGluaz8NCj4gPg0KPiANCj4gQXMgcGVyIG15IGNvbW1lbnQgYWJvdmUs
-IHN1c3BlbmQgbXVzdCBqdXN0IHBhdXNlIHRoZSBleGVjdXRpb24gb2YgdGhlDQo+IGpvYnMuIEl0
-IG11c3Qgbm90IGNhdXNlIGFueSBqb2JzIHRvIGJlIHNraXBwZWQuDQo+IA0KPiBBZnRlciBhbmFs
-eXppbmcgdGhlIG0ybSBmcmFtZXdvcmsgYW5kIGV4aXN0aW5nIG0ybSBkcml2ZXJzIEkgcmVhbGl6
-ZWQNCj4gdGhhdCB0aGV5IGN1cnJlbnRseSBwcm92aWRlIG5vIHdheSB0byBjb3JyZWN0bHkgaGFu
-ZGxlIHN1c3BlbmQvcmVzdW1lLg0KPiBQaS1Ic3VuIGhhcyBiZWVuIGxvb2tpbmcgaW50byBmaXhp
-bmcgdGhpcyBpbiBjcnJldi5jb20vYy8xODc4MTEyIGFuZA0KPiB3ZSdsbCBzZW5kIGl0IHVwc3Ry
-ZWFtIGFzIHNvb24gYXMgd2UgZ2V0IHNvbWV0aGluZyB0aGF0IHNob3VsZCBoYW5kbGUNCj4gYWxs
-IHRoZSBjYXNlcyBjb3JyZWN0bHkuDQo+IA0KT2ssIHRoYW5rcyBmb3IgdGhlIHBhdGNoZXMuDQoN
-Cj4gPiA+ICsJLyogc3VzcGVuZCBGRCBIVyAqLw0KPiA+ID4gKwl3cml0ZWwoMHgwLCBmZC0+ZmRf
-YmFzZSArIE1US19GRF9SRUdfT0ZGU0VUX0lOVF9FTik7DQo+ID4gPiArCXdyaXRlbCgweDAsIGZk
-LT5mZF9iYXNlICsgTVRLX0ZEX1JFR19PRkZTRVRfSFdfRU5BQkxFKTsNCj4gPiA+ICsJY2xrX2Rp
-c2FibGVfdW5wcmVwYXJlKGZkLT5mZF9jbGspOw0KPiA+ID4gKwlkZXZfZGJnKGRldiwgIiVzOmRp
-c2FibGUgY2xvY2tcbiIsIF9fZnVuY19fKTsNCj4gPiA+ICsNCj4gPiA+ICsJcmV0dXJuIDA7DQo+
-ID4gPiArfQ0KPiA+ID4gKw0KPiA+ID4gK3N0YXRpYyBpbnQgbXRrX2ZkX3Jlc3VtZShzdHJ1Y3Qg
-ZGV2aWNlICpkZXYpDQo+ID4gPiArew0KPiA+ID4gKwlzdHJ1Y3QgbXRrX2ZkX2RldiAqZmQgPSBk
-ZXZfZ2V0X2RydmRhdGEoZGV2KTsNCj4gPiA+ICsJaW50IHJldDsNCj4gPiA+ICsNCj4gPiA+ICsJ
-aWYgKHBtX3J1bnRpbWVfc3VzcGVuZGVkKGRldikpDQo+ID4gPiArCQlyZXR1cm4gMDsNCj4gPiA+
-ICsNCj4gPiA+ICsJcmV0ID0gY2xrX3ByZXBhcmVfZW5hYmxlKGZkLT5mZF9jbGspOw0KPiA+ID4g
-KwlpZiAocmV0IDwgMCkgew0KPiA+ID4gKwkJZGV2X2RiZyhkZXYsICJGYWlsZWQgdG8gb3BlbiBm
-ZCBjbGs6JWRcbiIsIHJldCk7DQo+ID4gPiArCQlyZXR1cm4gcmV0Ow0KPiA+ID4gKwl9DQo+ID4g
-PiArDQo+ID4gPiArCS8qIHJlc3VtZSBGRCBIVyAqLw0KPiA+ID4gKwl3cml0ZWwoTVRLX0ZEX1NF
-VF9IV19FTkFCTEUsIGZkLT5mZF9iYXNlICsgTVRLX0ZEX1JFR19PRkZTRVRfSFdfRU5BQkxFKTsN
-Cj4gPiA+ICsJd3JpdGVsKDB4MSwgZmQtPmZkX2Jhc2UgKyBNVEtfRkRfUkVHX09GRlNFVF9JTlRf
-RU4pOw0KPiA+ID4gKwlkZXZfZGJnKGRldiwgIiVzOmVuYWJsZSBjbG9ja1xuIiwgX19mdW5jX18p
-Ow0KPiANCj4gQnkgdGhlIHdheSwgd2UgbmVlZCB0byBraWNrIHRoZSBtMm0gZnJhbWV3b3JrIGhl
-cmUgdG8gc2NoZWR1bGUgZnVydGhlcg0KPiBqb2JzLiBQaS1Ic3VuJ3MgcGF0Y2ggd2lsbCBhbHNv
-IHRha2UgY2FyZSBvZiB0aGlzLg0KPiANCk9rLCBJIHNlZS4NCkkgd291bGQgbGlrZSB0byB1c2Ug
-UGktSHN1bidzIHBhdGNoLCBvdGhlcndpc2UgSSB3b3VsZCBuZWVkIHRvIGNhbGwNCnY0bDJfbTJt
-X3RyeV9ydW4oKSBoZXJlLg0KDQo+IFtzbmlwXQ0KPiANCj4gPiA+ICsvKiBTZXQgdGhlIGZhY2Ug
-YW5nbGUgYW5kIGRpcmVjdGlvbnMgdG8gYmUgZGV0ZWN0ZWQgKi8NCj4gPiA+ICsjZGVmaW5lIFY0
-TDJfQ0lEX01US19GRF9ERVRFQ1RfUE9TRQkJKFY0TDJfQ0lEX1VTRVJfTVRLX0ZEX0JBU0UgKyAx
-KQ0KPiA+ID4gKw0KPiA+ID4gKy8qIFNldCBpbWFnZSB3aWR0aHMgZm9yIGFuIGlucHV0IGltYWdl
-IHRvIGJlIHNjYWxlZCBkb3duIGZvciBmYWNlIGRldGVjdGlvbiAqLw0KPiA+ID4gKyNkZWZpbmUg
-VjRMMl9DSURfTVRLX0ZEX1NDQUxFX0RPV05fSU1HX1dJRFRICShWNEwyX0NJRF9VU0VSX01US19G
-RF9CQVNFICsgMikNCj4gPiA+ICsNCj4gPiA+ICsvKiBTZXQgaW1hZ2UgaGVpZ2h0cyBmb3IgYW4g
-aW5wdXQgaW1hZ2UgdG8gYmUgc2NhbGVkIGRvd24gZm9yIGZhY2UgZGV0ZWN0aW9uICovDQo+ID4g
-PiArI2RlZmluZSBWNEwyX0NJRF9NVEtfRkRfU0NBTEVfRE9XTl9JTUdfSEVJR0hUCShWNEwyX0NJ
-RF9VU0VSX01US19GRF9CQVNFICsgMykNCj4gPiA+ICsNCj4gPiA+ICsvKiBTZXQgdGhlIGxlbmd0
-aCBvZiBzY2FsZSBkb3duIHNpemUgYXJyYXkgKi8NCj4gPiA+ICsjZGVmaW5lIFY0TDJfQ0lEX01U
-S19GRF9TQ0FMRV9JTUdfTlVNCQkoVjRMMl9DSURfVVNFUl9NVEtfRkRfQkFTRSArIDQpDQo+ID4g
-PiArDQo+ID4gPiArLyogU2V0IHRoZSBkZXRlY3Rpb24gc3BlZWQsIHVzdWFsbHkgcmVkdWNpbmcg
-YWNjdXJhY3kuICovDQo+ID4gPiArI2RlZmluZSBWNEwyX0NJRF9NVEtfRkRfREVURUNUX1NQRUVE
-CQkoVjRMMl9DSURfVVNFUl9NVEtfRkRfQkFTRSArIDUpDQo+ID4gPiArDQo+ID4gPiArLyogU2Vs
-ZWN0IHRoZSBkZXRlY3Rpb24gbW9kZWwgb3IgYWxnb3JpdGhtIHRvIGJlIHVzZWQuICovDQo+ID4g
-PiArI2RlZmluZSBWNEwyX0NJRF9NVEtfRkRfREVURUNUSU9OX01PREVMCQkoVjRMMl9DSURfVVNF
-Ul9NVEtfRkRfQkFTRSArIDYpDQo+ID4gPiArDQo+ID4gPiArLyogV2UgcmVzZXJ2ZSAxNiBjb250
-cm9scyBmb3IgdGhpcyBkcml2ZXIuICovDQo+ID4gPiArI2RlZmluZSBWNEwyX0NJRF9NVEtfRkRf
-TUFYCQkJMTYNCj4gPiA+ICsNCj4gPiANCj4gPiBGb3IgdGhlc2UgY29udHJvbCBJRHMsIEkgdGhp
-bmsgdGhlIGZvbGxvd2luZyBzaG91bGQgYmUgcmVtYWluZWQgYXMgY2hpcA0KPiA+IHNwZWNpZmlj
-IGNvbnRyb2xzLg0KPiA+IFY0TDJfQ0lEX01US19GRF9TQ0FMRV9ET1dOX0lNR19XSURUSCwNCj4g
-PiBWNEwyX0NJRF9NVEtfRkRfU0NBTEVfRE9XTl9JTUdfSEVJR0hUIGFuZCBWNEwyX0NJRF9NVEtf
-RkRfU0NBTEVfSU1HX05VTSANCj4gPiANCj4gPiBIb3BlIHRoZXJlIHdvdWxkIGJlIHN0YW5kYXJk
-aXppbmcgZmFjZSBkZXRlY3Rpb24gYXBpIHRoYXQgY292ZXIgdGhlIHJlc3QNCj4gPiBjb250cm9s
-czogVjRMMl9DSURfTVRLX0ZEX0RFVEVDVF9QT1NFLCBWNEwyX0NJRF9NVEtfRkRfREVURUNUX1NQ
-RUVEIGFuZA0KPiA+IFY0TDJfQ0lEX01US19GRF9ERVRFQ1RJT05fTU9ERUwNCj4gPiANCj4gPiBX
-b3VsZCB5b3UgaGF2ZSBhbnkgc3VnZ2VzdGlvbnMgb24gaG93IHRvIHByb3Bvc2UgdGhlIHN0YW5k
-YXJkIGZhY2UNCj4gPiBkZXRlY3Rpb24gYXBpcz8NCj4gPiANCj4gDQo+IEdpdmVuIG5vIGZvbGxv
-dyB1cCBmZWVkYmFjayBmcm9tIHRoZSBjb21tdW5pdHksIEkgdGhpbmsgd2UgY2FuIGtlZXAgdGhl
-bQ0KPiBhcyBkcml2ZXItc3BlY2lmaWMsIGJ1dCBzaG91bGQgbWFrZSBzdXJlIHRoYXQgdGhleSBo
-YXZlIHNvbWUgcmVhc29uYWJsZQ0KPiBkZWZhdWx0IHZhbHVlcyBpbiBjYXNlIGFuIGFwcGxpY2F0
-aW9uIGRvZXNuJ3QgcmVjb2duaXplIHRoZW0uDQo+IA0KPiBCZXN0IHJlZ2FyZHMsDQo+IFRvbWFz
-eg0KPiANClNob3VsZCBJIGtlZXAgdGhlIGZpbGUgIm10ay1mZC12NGwyLWNvbnRyb2xzLmgiIHdo
-aWNoIGRlZmluZXMgdGhlDQpjb250cm9sIGlkcyB1bmRlciB0aGUgZm9sZGVyICIvaW5jbHVkZS91
-YXBpL2xpbnV4Ij8NCg0KDQpUaGFua3MgYW5kIEJlc3QgcmVnYXJkcywNCkplcnJ5DQo=
+On Mon, Oct 21, 2019 at 7:17 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>
+> On 10/21/19 11:48 AM, Tomasz Figa wrote:
+> > On Mon, Oct 21, 2019 at 6:38 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+> >>
+> >> On 10/21/19 11:26 AM, Tomasz Figa wrote:
+> >>> On Mon, Oct 21, 2019 at 5:41 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+> >>>>
+> >>>> On 10/8/19 11:11 AM, Boris Brezillon wrote:
+> >>>>> This is part of the multiplanar and singleplanar unification process.
+> >>>>> v4l2_ext_pix_format is supposed to work for both cases.
+> >>>>>
+> >>>>> We also add the concept of modifiers already employed in DRM to expose
+> >>>>> HW-specific formats (like tiled or compressed formats) and allow
+> >>>>> exchanging this information with the DRM subsystem in a consistent way.
+> >>>>>
+> >>>>> Note that V4L2_BUF_TYPE_VIDEO[_OUTPUT]_OVERLAY and
+> >>>>> V4L2_BUF_TYPE_VIDEO_{CAPTURE,OUTPUT}_MPLANE types are no longer accepted
+> >>>>> in v4l2_ext_format and will be rejected if you use the {G,S,TRY}EXT_FMT
+> >>>>> ioctls. V4L2_BUF_TYPE_VIDEO_{CAPTURE,OUTPUT}_MPLANE is dropped as part
+> >>>>> of the multiplanar/singleplanar unification.
+> >>>>> V4L2_BUF_TYPE_VIDEO[_OUTPUT]_OVERLAY seems to be used mostly on old
+> >>>>> drivers and supporting it would require some extra rework.
+> >>>>>
+> >>>>> New hooks have been added to v4l2_ioctl_ops to support those new ioctls
+> >>>>> in drivers, but, in the meantime, the core takes care of converting
+> >>>>> {S,G,TRY}_EXT_FMT requests into {S,G,TRY}_FMT so that old drivers can
+> >>>>> still work if the userspace app/lib uses the new ioctls.
+> >>>>> The conversion is also done the other around to allow userspace
+> >>>>> apps/libs using {S,G,TRY}_FMT to work with drivers implementing the
+> >>>>> _ext_ hooks.
+> >>>>>
+> >>>>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> >>>>> ---
+> >>>>
+> >>>> <snip>
+> >>>>
+> >>>>>
+> >>>>> +#define VIDIOC_G_EXT_FMT     _IOWR('V', 104, struct v4l2_ext_format)
+> >>>>> +#define VIDIOC_S_EXT_FMT     _IOWR('V', 105, struct v4l2_ext_format)
+> >>>>> +#define VIDIOC_TRY_EXT_FMT   _IOWR('V', 106, struct v4l2_ext_format)
+> >>>>>  /* Reminder: when adding new ioctls please add support for them to
+> >>>>>     drivers/media/v4l2-core/v4l2-compat-ioctl32.c as well! */
+> >>>>>
+> >>>>>
+> >>>>
+> >>>> Since we're extending g/s/try_fmt, we should also provide a replacement for
+> >>>> enum_fmt, esp. given this thread:
+> >>>>
+> >>>> https://www.mail-archive.com/linux-media@vger.kernel.org/msg150871.html
+> >>>
+> >>> While that's a completely valid problem that should be addressed, I'm
+> >>> not sure if putting all the things in one bag would have a positive
+> >>> effect on solving all the problems in a reasonable timeline.
+> >>
+> >> I'm not sure what you mean with this. We can't ignore this either, and if
+> >> we're going to add these new ioctls, then let's try to fix as much as we can.
+> >>
+> >
+> > My point is that this series solves a completely orthogonal problem
+> > without a need to touch ENUM_FMT at all. Is there any reason why
+> > solving this particular problem separately would make solving the
+> > ENUM_FMT problem more difficult in the future?
+>
+> I do not agree with you that this is an orthogonal problem. If we are creating
+> new FMT ioctls to solve various problems, then it makes sense to look at ALL the
+> problems, including this. We might decide to postpone creating a EXT_ENUM_FMT
+> ioctl, but during the discussion we should look at this issue as well.
+>
+> To take one suggestion you made: use of the active/try slots for existing non-MC
+> drivers. If we decide to go into that direction (and I think it is a very interesting
+> idea), then that requires that ENUM_FMT is taken into account anyway. And probably
+> other ioctls such as the selection API as well.
+>
+> I think we need to think big here, and try to at least explore the possibility
+> of creating an API that tries to limit the differences between video and subdev
+> nodes.
+>
 
+Okay, agreed on this.
+
+> >
+> >>>
+> >>>>
+> >>>> So here is a preliminary suggestion:
+> >>>>
+> >>>> struct v4l2_ext_fmtdesc {
+> >>>>         __u32               index;             /* Format number      */
+> >>>>         __u32               type;              /* enum v4l2_buf_type */
+> >>>>         __u32               which;             /* enum v4l2_subdev_format_whence, ignored if mbus_code == 0 */
+> >>>>         __u32               mbus_code;         /* Mediabus Code (set to 0 if n/a) */
+> >>>>         __u32               flags;
+> >>>>         __u8                description[32];   /* Description string */
+> >>>>         __u32               pixelformat;       /* Format fourcc      */
+> >>>> };
+> >>>>
+> >>>> This would solve (I think) the issue raised in the thread since you can now get
+> >>>> just for formats that are valid for the given mediabus code and the which field.
+> >>>>
+> >>>
+> >>> Hmm, why only mbus_code? We have the same problem with mem2mem
+> >>> devices, where the format set on one queue affects the formats
+> >>> supported on another queue. Perhaps it should be defined to return
+> >>> formats valid with the current state of the driver? If we want to
+> >>> extend it to return formats for arbitrary states, perhaps we should
+> >>> use a mechanism similar to the TRY_FMT slot in subdevices, where we
+> >>> can set the configuration we want to test against and then ENUM_FMT
+> >>> would return the formats valid for that configuration?
+> >>
+> >> Good point.
+> >>
+> >
+> > We might want to keep the control'ification of the API in mind, which
+> > should simplify dealing with state inter-dependencies, because all the
+> > state would be represented in a uniform way.
+>
+> I still don't know what Laurent wants to do with that.
+>
+
+Not sure why Laurent specifically. :)
+
+On the other hand, that's a much more invasive change, so maybe better
+not to mix it with the things discussed here.
+
+> >
+> >>>
+> >>>> Other improvements that could be made is to return more information about the
+> >>>> format (similar to struct v4l2_format_info). In particular v4l2_pixel_encoding
+> >>>> and mem/comp_planes would be useful for userspace to know.
+> >>>
+> >>> An alternative would be to go away from mixing mem_planes and
+> >>> pixelformats and just having the "planarity" queryable and
+> >>> configurable separately. The existing duplicated FourCCs would have to
+> >>> remain for compatibility reasons, though.
+> >>
+> >> Interesting idea, but I don't know if this would make the API more or less confusing.
+> >>
+> >
+> > Yeah, this definitely needs more thought. My experience with working
+> > with many people trying to use V4L2 in the userspace tells me that the
+> > existing model is confusing, though. DRM and most userspace libraries
+> > use FourCCs only to define the pixelformats themselves and planarity
+> > is a separate aspect.
+> >
+> > The target model that I'd see happening would be to have the
+> > multiple-memory plane semantics used everywhere, so all color planes
+> > are described as separate entities, up to having different DMA-buf
+> > FDs. Then the single memory plane case would be just one of the
+> > specific cases, where all the DMA-buf FDs point to the same buffer and
+> > color plane offsets are laid out contiguously, which could be enforced
+> > by generic code when queuing the buffer if that's a hardware
+> > requirement.
+>
+> Do you think you can come up with a rough proposal before the ELCE session?
+
+Sorry, I wasn't able to come up with anything formal, but I believe we
+discussed this well during the session and it's written down in the
+notes.
+
+Best regards,
+Tomasz
+
+>
+> Regards,
+>
+>         Hans
+>
+> >
+> >>>
+> >>>>
+> >>>> Finally, we can also add a new ioctl that combines ENUM_FMT/ENUM_FRAMESIZES/ENUM_FRAMEINTERVALS
+> >>>> and returns an array of all valid formats/sizes/intervals, requiring just a single ioctl
+> >>>> to obtain all this information.
+> >>>
+> >>> While it definitely sounds like a useful thing to have, it would be an
+> >>> interesting problem to solve given the inter-dependencies between
+> >>> pads, queues and other state, as in the mbus example above.
+> >>
+> >> This is definitely a separate issue for further in the future.
+> >
+> > Agreed.
+> >
+> > Best regards,
+> > Tomasz
+> >
+>
