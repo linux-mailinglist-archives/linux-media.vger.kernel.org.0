@@ -2,107 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 89532103119
-	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2019 02:27:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A7D211034C7
+	for <lists+linux-media@lfdr.de>; Wed, 20 Nov 2019 08:03:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727471AbfKTB1H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 Nov 2019 20:27:07 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46464 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727262AbfKTB1H (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 Nov 2019 20:27:07 -0500
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 52C1E22461;
-        Wed, 20 Nov 2019 01:27:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1574213225;
-        bh=D7abHCeD4TPvV2CC5GlYUE+dpzX7mKsMT4oa0/yvIRw=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=eOnkCcpi3XzYZrccf26EVRVyjaGrzkJM2FuzIDz2a6nLVVzbAKGJvodiPcmIUpL3n
-         gvLbf/JklQkvF0ImVVa7jx4efmK2auYAzjeEnnvBU1Q65nizUJ4S0UKbhUJEeKDjdz
-         rdCWWF+ApEM0lz17r/TTjMw7fMaTerpB/fD8csH0=
-Received: by mail-lf1-f53.google.com with SMTP id d6so18745704lfc.0;
-        Tue, 19 Nov 2019 17:27:05 -0800 (PST)
-X-Gm-Message-State: APjAAAUKRq3XKE8QT0x5qE0h/21pDFj44fuQ8cctQ3kEraAAenqEU+lf
-        Qkkok+3kqgbXLelxZfNoQpnxYjfrZaZRWbKP1bY=
-X-Google-Smtp-Source: APXvYqwRCZuOLwwW4yV+7MFk/VIFl8MVP82eHlcf4qaQKdX30EKfsryD1YdVJwUyn/6jRxu7hGaF3j94H2BVMIxjCZE=
-X-Received: by 2002:a19:da1a:: with SMTP id r26mr450883lfg.60.1574213223486;
- Tue, 19 Nov 2019 17:27:03 -0800 (PST)
+        id S1727313AbfKTHDM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Nov 2019 02:03:12 -0500
+Received: from hqemgate15.nvidia.com ([216.228.121.64]:11798 "EHLO
+        hqemgate15.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725854AbfKTHDM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 20 Nov 2019 02:03:12 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate15.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5dd4e52b0000>; Tue, 19 Nov 2019 23:03:07 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 19 Nov 2019 23:03:11 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Tue, 19 Nov 2019 23:03:11 -0800
+Received: from [10.110.48.28] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 20 Nov
+ 2019 07:03:10 +0000
+Subject: Re: [PATCH v6 15/24] fs/io_uring: set FOLL_PIN via pin_user_pages()
+To:     Jens Axboe <axboe@kernel.dk>,
+        Andrew Morton <akpm@linux-foundation.org>
+CC:     Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
+        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
+        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
+References: <20191119081643.1866232-1-jhubbard@nvidia.com>
+ <20191119081643.1866232-16-jhubbard@nvidia.com>
+ <2ae65d1b-a3eb-74ed-afce-c493de5bbfd3@kernel.dk>
+X-Nvconfidentiality: public
+From:   John Hubbard <jhubbard@nvidia.com>
+Message-ID: <42c80c0a-ad2c-fe74-babd-57680882c7e2@nvidia.com>
+Date:   Tue, 19 Nov 2019 23:03:10 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-References: <20191119144315.11261-1-krzk@kernel.org> <CAL_Jsq+1hHneSW5DzLNxU00AqQJ49chTyULJ0S3JR-CqfOfTgA@mail.gmail.com>
-In-Reply-To: <CAL_Jsq+1hHneSW5DzLNxU00AqQJ49chTyULJ0S3JR-CqfOfTgA@mail.gmail.com>
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-Date:   Wed, 20 Nov 2019 09:26:51 +0800
-X-Gmail-Original-Message-ID: <CAJKOXPep1ftnw0gGEtzmSZaZBaAiyDhCsVygRfNAQ4egiJK1tA@mail.gmail.com>
-Message-ID: <CAJKOXPep1ftnw0gGEtzmSZaZBaAiyDhCsVygRfNAQ4egiJK1tA@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: power: Fix path to power-domain.txt bindings
-To:     Rob Herring <robh@kernel.org>
-Cc:     "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Kevin Hilman <khilman@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        devicetree@vger.kernel.org,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        etnaviv@lists.freedesktop.org,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        freedreno <freedreno@lists.freedesktop.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "open list:THERMAL" <linux-pm@vger.kernel.org>,
-        PCI <linux-pci@vger.kernel.org>,
-        Linux USB List <linux-usb@vger.kernel.org>,
-        linux-tegra@vger.kernel.org,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <2ae65d1b-a3eb-74ed-afce-c493de5bbfd3@kernel.dk>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1574233387; bh=ccH+u52vDWCSpx4Mj41DBPFk4Bnr7E1/buLUhbEm50I=;
+        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=aoAjA12TDjtYHcqzP6KlOL/T+xFannzF2Ut7WBeMCWKWq7l/9YzjhnMxWFHzZfpR5
+         Iws/71eVjdglCRCFx0borbQjrcWdlbhRBVNYLCTSxJhf+kal1fvOFNYQqlhw4wL9J6
+         MFYFTVnA4OaNermjnVJWu68MlONq0QSjgN/vAiaH7Huv88r7BI/N2hl/4JJ3pl29Td
+         suI6xx3hgozM4FOPwAaNkBjGwwYRC1+cHh6/xlUHPqKTdx1Jisq/17DuqUYf/0K2Yd
+         KJ8+BKNAyQOQiWBn8l76F+wCEq0it7z2sVeN/sAFeVR43NYKvAY4EyGL+PsQeLhyI4
+         eAwjKJTXDphsw==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 20 Nov 2019 at 01:02, Rob Herring <robh@kernel.org> wrote:
->
-> On Tue, Nov 19, 2019 at 8:43 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
-> >
-> > With split of power domain controller bindings to power-domain.yaml, the
-> > consumer part was renamed to power-domain.txt.  Update the references in
-> > other bindings.
-> >
-> > Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> > Fixes: abb4805e343a ("dt-bindings: power: Convert Samsung Exynos Power Domain bindings to json-schema")
-> > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> > ---
-> >  Documentation/devicetree/bindings/clock/clk-exynos-audss.txt  | 2 +-
-> >  Documentation/devicetree/bindings/clock/exynos5433-clock.txt  | 2 +-
-> >  .../devicetree/bindings/clock/renesas,r8a7778-cpg-clocks.txt  | 2 +-
-> >  .../devicetree/bindings/clock/renesas,r8a7779-cpg-clocks.txt  | 2 +-
-> >  .../bindings/clock/renesas,rcar-gen2-cpg-clocks.txt           | 2 +-
-> >  .../devicetree/bindings/clock/renesas,rz-cpg-clocks.txt       | 2 +-
-> >  .../devicetree/bindings/display/etnaviv/etnaviv-drm.txt       | 2 +-
-> >  Documentation/devicetree/bindings/display/msm/dpu.txt         | 2 +-
-> >  Documentation/devicetree/bindings/display/msm/mdp5.txt        | 2 +-
-> >  Documentation/devicetree/bindings/dsp/fsl,dsp.yaml            | 2 +-
-> >  Documentation/devicetree/bindings/media/imx7-mipi-csi2.txt    | 2 +-
-> >  .../devicetree/bindings/media/mediatek-jpeg-decoder.txt       | 2 +-
-> >  Documentation/devicetree/bindings/media/mediatek-mdp.txt      | 2 +-
-> >  Documentation/devicetree/bindings/opp/qcom-nvmem-cpufreq.txt  | 2 +-
-> >  Documentation/devicetree/bindings/pci/pci-keystone.txt        | 2 +-
-> >  Documentation/devicetree/bindings/phy/ti,phy-am654-serdes.txt | 2 +-
-> >  Documentation/devicetree/bindings/power/qcom,rpmpd.txt        | 2 +-
-> >  Documentation/devicetree/bindings/power/renesas,rcar-sysc.txt | 2 +-
-> >  .../devicetree/bindings/usb/nvidia,tegra124-xusb.txt          | 4 ++--
-> >  19 files changed, 20 insertions(+), 20 deletions(-)
->
-> Please no. Can you just undo the renaming back to power_domain.txt
+On 11/19/19 8:10 AM, Jens Axboe wrote:
+> On 11/19/19 1:16 AM, John Hubbard wrote:
+>> Convert fs/io_uring to use the new pin_user_pages() call, which sets
+>> FOLL_PIN. Setting FOLL_PIN is now required for code that requires
+>> tracking of pinned pages, and therefore for any code that calls
+>> put_user_page().
+>>
+>> In partial anticipation of this work, the io_uring code was already
+>> calling put_user_page() instead of put_page(). Therefore, in order to
+>> convert from the get_user_pages()/put_page() model, to the
+>> pin_user_pages()/put_user_page() model, the only change required
+>> here is to change get_user_pages() to pin_user_pages().
+>>
+>> Reviewed-by: Jan Kara <jack@suse.cz>
+>> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+> 
+> You dropped my reviewed-by now... Given the file, you'd probably want
+> to keep that.
 
-The renaming was done to make it consistent with yaml and other
-bindings but indeed it creates some churn... I'll send rename-undo
-then.
+Hi Jens,
 
-Best regards,
-Krzysztof
+Yes, I was being too conservative I guess. I changed the patch somewhat
+and dropped the reviewed-by because of those changes...I'm adding it
+back for v7 based on this, thanks!
+
+thanks,
+-- 
+John Hubbard
+NVIDIA
+ 
