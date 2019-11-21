@@ -2,611 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 75D6E10543E
-	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2019 15:19:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EA4F910548F
+	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2019 15:36:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726546AbfKUOTj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Nov 2019 09:19:39 -0500
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:35690 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726379AbfKUOTi (ORCPT
+        id S1727110AbfKUOgr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Nov 2019 09:36:47 -0500
+Received: from mail-qv1-f65.google.com ([209.85.219.65]:45997 "EHLO
+        mail-qv1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726970AbfKUOgr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Nov 2019 09:19:38 -0500
-Received: by mail-oi1-f195.google.com with SMTP id n16so3328881oig.2
-        for <linux-media@vger.kernel.org>; Thu, 21 Nov 2019 06:19:37 -0800 (PST)
+        Thu, 21 Nov 2019 09:36:47 -0500
+Received: by mail-qv1-f65.google.com with SMTP id g12so1462942qvy.12
+        for <linux-media@vger.kernel.org>; Thu, 21 Nov 2019 06:36:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=SMm41nTIaMQffcIgHthh0dggNuMk91SqgsY4cnQTp1w=;
-        b=Gy+ghJkcQHgGrYnh0tjzR1lao8HeCcHDw1usexBEu2Z34w3+CplT0hbcnBqxk2lIqz
-         0I0iSBpVlIb0U3FoxfAO28gPEoRi+DjG0iHM19218isUGk7Fu9Az+jk2Dt4qRHOE+xei
-         RHADPfDxHZKWi1Sg0eu1RSTEFWhYLjmGkLcCqSDOrohrKbpAoiJc0HYetxFCiiVLRx/Y
-         A4yPqWgMl3U6wWV/rt7WP1mgQCXP/rhidHqY5VjIML8JW6wS7UEI9t+2qZrVls9d/c+s
-         86BLDg9nGAxtlhokrTlYqA47pvvkXMz5R9oTtaO5x/1J68CqYdm0Astcq+J/HeXhlBvU
-         xGsQ==
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=rv5c3PJEtM2ffNdfZuVl2p9Xs+FPDxJaOjEmQ2G8DAo=;
+        b=XkP12c/ibS/aRyryTCd4qjn/PXxyYCusK1THaNAzNjypEGkjhmCt9LtT+qYEnSe3fB
+         R0spZ8YqysCDI95uGLLvFVswmZUjEqJ9cNCyHcavEFwClRwZ6y4PKDy88MyzZlAfM967
+         hisIg3vRQPZ469GZRWnqA3CNAZUY/hKDr+kXV7+2R0BibPU9CM1KGy5uODfMlNXxTJJo
+         tHEs5mFWOzUwzAdEjcr2fH3dCNIBIBIgehoNt8ki1/1o3yu01BkPAihfF+3/v5R6c6NG
+         mm7J2IKwvLhTCpGsMr85umCSjimcUeH9XgLjTylXIMq1THOPpUYiNcR9NxoGX25nyfzV
+         YKKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=SMm41nTIaMQffcIgHthh0dggNuMk91SqgsY4cnQTp1w=;
-        b=n2YyTPgje2qWYEOo8zRTeHVxh2L5lD8fZNTCViWS2UsMQ6S9wGILYYb3gPIZ4CWAG8
-         qD6UCxrxcgvgBOms+z/NqYSSUncxWplMfHEqrXGGkyCMhh4Pmbmi0cmMjOmKcB/JnQdT
-         6FQevD45pufkDyfn/jXdwjWw7OR8r32i/hKgEKJ/sLNqYrkXLjQTlXWX5D7HZHSQewZo
-         ibqFf/XUqAXlANRjqUXJu5BjUmBVS+LlYW7XaKWjGUegp4lU7UOcHrHwA+ZaOiWFXRp6
-         P5IMR19X67+/NIFnTuHks0njU6c8AZdou/AT1734TowwUhf7CKMHIbb4txd5zkhswbuc
-         nwhw==
-X-Gm-Message-State: APjAAAWd5NVDLWnDancui8gKX0ExfspJjUIew+uJcewigwMIYjVAayav
-        a6wfB2qjaHzJNwHUcdusrdtSsP8BsEMXX60c3To=
-X-Google-Smtp-Source: APXvYqyPIxK1VR5gbVokhcDUf1h/RByg34vC3WMmHT4eKNJmK43OU2pcpFMgaN/e7YRwfW4E/Qxjk1GxtFSLU0N0chg=
-X-Received: by 2002:aca:42d7:: with SMTP id p206mr7961471oia.129.1574345976795;
- Thu, 21 Nov 2019 06:19:36 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=rv5c3PJEtM2ffNdfZuVl2p9Xs+FPDxJaOjEmQ2G8DAo=;
+        b=JqnR6gRN01l7Hk55EIw+XAJxD+4Se9AH/dbSRf4Wu1k+A4iwvWrcoJkI55h4ZbwrXU
+         yGpp7WqvGnecGZKmSfOPHKZ7AnQt4Ck2RXiT1zDxLt0qHhsNwbSTjyiVY0o2dC9OiFzr
+         52O5LCRmxCHytg2l2HFFMUhFsibppSAVWNT8VGUovNR88lFvi7Qykmg+WScEphYXydqM
+         U1bGuy57Vk8H986HksNyhUNJA/2vCyLJh59Dp4dh4J0bs62nx0QXCC+mg+/qFObAoNmm
+         sCCN9MGm0C/IFTs7+WXWiQkov/iiGEGn1hKV1WLkfbRblDiqU/61DHnBR5hPQkC+o4Oy
+         dkfQ==
+X-Gm-Message-State: APjAAAU7dQykrZ3MA8MOOzl0rUQ76H7JSzWp+kIGIi4Ik0qDIKETh8yN
+        YR8lj4F5FOMsEGoSbHmeFlFNZw==
+X-Google-Smtp-Source: APXvYqxiPTD6uqfSlGreW7CNwXwCXJOA4tNSbO40QzzV7IhKLzuaPAx4PWY7OQoHdNILaiGopmJlAA==
+X-Received: by 2002:a0c:e74a:: with SMTP id g10mr8540002qvn.29.1574347005412;
+        Thu, 21 Nov 2019 06:36:45 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-162-113-180.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.180])
+        by smtp.gmail.com with ESMTPSA id 40sm1584912qtc.95.2019.11.21.06.36.44
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 21 Nov 2019 06:36:44 -0800 (PST)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1iXnZb-0004bF-SZ; Thu, 21 Nov 2019 10:36:43 -0400
+Date:   Thu, 21 Nov 2019 10:36:43 -0400
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Christoph Hellwig <hch@infradead.org>
+Cc:     John Hubbard <jhubbard@nvidia.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
+        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v7 07/24] IB/umem: use get_user_pages_fast() to pin DMA
+ pages
+Message-ID: <20191121143643.GC7448@ziepe.ca>
+References: <20191121071354.456618-1-jhubbard@nvidia.com>
+ <20191121071354.456618-8-jhubbard@nvidia.com>
+ <20191121080746.GC30991@infradead.org>
 MIME-Version: 1.0
-References: <CABdg0zG8KzOBWMNDU8eDcjW_FA3zrdJBR7Fu_YQz-uwu1Gfwcg@mail.gmail.com>
- <CABdg0zGzR=2Qt5d+VR18j-gR-5vu0=QgnjKvcDW9g4g_ceGV_w@mail.gmail.com> <20191121102455.GA30519@gofer.mess.org>
-In-Reply-To: <20191121102455.GA30519@gofer.mess.org>
-From:   Nick French <nickfrench@gmail.com>
-Date:   Thu, 21 Nov 2019 08:19:25 -0600
-Message-ID: <CABdg0zETXD82WQu8idAciDwkLT+RFaR1tHY8otrYXaPNexgiBg@mail.gmail.com>
-Subject: Re: ir_kbd_i2c oops
-To:     Sean Young <sean@mess.org>
-Cc:     linux-media@vger.kernel.org, kraxel@bytesex.org,
-        mkochano@pld.org.pl, lirc@bartelmus.de, ulrich.mueller42@web.de,
-        jarod@redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191121080746.GC30991@infradead.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Nov 21, 2019 at 4:24 AM Sean Young <sean@mess.org> wrote:
->
-> Hi Nick,
->
-> On Thu, Nov 21, 2019 at 12:44:42AM -0600, Nick French wrote:
-> > On Mon, Nov 18, 2019 at 10:21 AM Nick French <nickfrench@gmail.com> wrote:
-> > > I'm about to start trying to track down an intermittent oops in
-> > > ir_kbd_i2c that I've been having for a long time over various recent
-> > > kernels. It must be some kind of timing/race condition at startup,
-> > > because I only get it about 5% of boots.
-> > >
-> > > Here's the relevant snippet from the log, if anyone has any smart
-> > > ideas let me know. I should have better debugging data within the next
-> > > week or so.
-> > >
-> > > ...
-> > > Registered IR keymap rc-hauppauge
-> > > rc rc0: Hauppauge WinTV PVR-350 as
-> > > /devices/pci0000:00/0000:00:1e.0/0000:04:00.0/i2c-0/0-0018/rc/rc0
-> > > input: Hauppauge WinTV PVR-350 as
-> > > /devices/pci0000:00/0000:00:1e.0/0000:04:00.0/i2c-0/0-0018/rc/rc0/input9
-> > > BUG: kernel NULL pointer dereference, address: 0000000000000038
-> > > #PF: supervisor read access in kernel mode
-> > > #PF: error_code(0x0000) - not-present page
-> > > PGD 0 P4D 0
-> > > Oops: 0000 [#1] SMP PTI
-> > > CPU: 1 PID: 17 Comm: kworker/1:0 Not tainted 5.3.11-300.fc31.x86_64 #1
-> > > Hardware name:  /DG43NB, BIOS NBG4310H.86A.0096.2009.0903.1845 09/03/2009
-> > > Workqueue: events ir_work [ir_kbd_i2c]
-> > > RIP: 0010:ir_lirc_scancode_event+0x3d/0xb0
-> > > Code: a6 b4 07 00 00 49 81 c6 b8 07 00 00 55 53 e8 ba a7 9d ff 4c 89
-> > > e7 49 89 45 00 e8 5e 7a 25 00 49 8b 1e 48 89 c5 4c 39 f3 74 58 <8b> 43
-> > > 38 8b 53 40 89 c1 2b 4b 3c 39 ca 72 41 21 d0 49 8b 7d 00 49
-> > > RSP: 0018:ffffaae2000b3d88 EFLAGS: 00010017
-> > > RAX: 0000000000000002 RBX: 0000000000000000 RCX: 0000000000000019
-> > > RDX: 0000000000000001 RSI: 006e801b1f26ce6a RDI: ffff9e39797c37b4
-> > > RBP: 0000000000000002 R08: 0000000000000001 R09: 0000000000000001
-> > > R10: 0000000000000001 R11: 0000000000000001 R12: ffff9e39797c37b4
-> > > R13: ffffaae2000b3db8 R14: ffff9e39797c37b8 R15: ffff9e39797c33d8
-> > > FS:  0000000000000000(0000) GS:ffff9e397b680000(0000) knlGS:0000000000000000
-> > > CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > > CR2: 0000000000000038 CR3: 0000000035844000 CR4: 00000000000006e0
-> > > Call Trace:
-> > > ir_do_keydown+0x8e/0x2b0
-> > > rc_keydown+0x52/0xc0
-> > > ir_work+0xb8/0x130 [ir_kbd_i2c]
-> > > process_one_work+0x19d/0x340
-> > > worker_thread+0x50/0x3b0
-> > > kthread+0xfb/0x130
-> > > ? process_one_work+0x340/0x340
-> > > ? kthread_park+0x80/0x80
-> > > ret_from_fork+0x35/0x40
-> > > Modules linked in: rc_hauppauge tuner msp3400 saa7127 saa7115 ivtv(+)
-> > > tveeprom cx2341x v4l2_common videodev mc i2c_algo_bit ir_kbd_i2c
-> > > ip_tables firewire_ohci e1000e serio_raw firewire_core ata_generic
-> > > crc_itu_t pata_acpi pata_jmicron fuse
-> > > CR2: 0000000000000038
-> > > ---[ end trace c67c2697a99fa74b ]---
-> > > RIP: 0010:ir_lirc_scancode_event+0x3d/0xb0
-> > > Code: a6 b4 07 00 00 49 81 c6 b8 07 00 00 55 53 e8 ba a7 9d ff 4c 89
-> > > e7 49 89 45 00 e8 5e 7a 25 00 49 8b 1e 48 89 c5 4c 39 f3 74 58 <8b> 43
-> > > 38 8b 53 40 89 c1 2b 4b 3c 39 ca 72 41 21 d0 49 8b 7d 00 49
-> > > RSP: 0018:ffffaae2000b3d88 EFLAGS: 00010017
-> > > RAX: 0000000000000002 RBX: 0000000000000000 RCX: 0000000000000019
-> > > RDX: 0000000000000001 RSI: 006e801b1f26ce6a RDI: ffff9e39797c37b4
-> > > RBP: 0000000000000002 R08: 0000000000000001 R09: 0000000000000001
-> > > R10: 0000000000000001 R11: 0000000000000001 R12: ffff9e39797c37b4
-> > > R13: ffffaae2000b3db8 R14: ffff9e39797c37b8 R15: ffff9e39797c33d8
-> > > FS:  0000000000000000(0000) GS:ffff9e397b680000(0000) knlGS:0000000000000000
-> > > CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > > CR2: 0000000000000038 CR3: 0000000035844000 CR4: 00000000000006e0
-> > > rc rc0: lirc_dev: driver ir_kbd_i2c registered at minor = 0, scancode
-> > > receiver, no transmitter
-> > > tuner-simple 0-0061: creating new instance
-> > > tuner-simple 0-0061: type set to 2 (Philips NTSC (FI1236,FM1236 and
-> > > compatibles))
-> > > ivtv0: Registered device video0 for encoder MPG (4096 kB)
-> > > ivtv0: Registered device video32 for encoder YUV (2048 kB)
-> > > ivtv0: Registered device vbi0 for encoder VBI (1024 kB)
-> > > ivtv0: Registered device video24 for encoder PCM (320 kB)
-> > > ivtv0: Registered device radio0 for encoder radio
-> > > ivtv0: Registered device video16 for decoder MPG (1024 kB)
-> > > ivtv0: Registered device vbi8 for decoder VBI (64 kB)
-> > > ivtv0: Registered device vbi16 for decoder VOUT
-> > > ivtv0: Registered device video48 for decoder YUV (1024 kB)
-> > > ...
-> > >
-> > > - Nick
-> >
-> > I haven't been able to recreate with a debug build yet, but I think I
-> > see the problem:
-> >
-> > ir_kbd_i2c calls rc_register_device(), where the ordering of calls is this:
-> >   dev->registered = true;
-> >   rc_setup_rx_device(dev); <--calls rc_open()
-> >   ir_lirc_register(dev); <--initializes lirc_fh/lirc_fh_lock
-> >
-> > however, ir_kbd_i2c's rc_open() callback schedules work whose
-> > call-stack looks like:
-> > ir_work()
-> > ir_key_poll()
-> > rc_keydown()
-> > ir_do_keydown()
-> > ir_lirc_scancode_event() <-- uses lirc_fh/lirc_hf_lock
-> >
-> > So basically if there is a keydown detection *during* ir_kbd_i2c
-> > initialization, its going to oops accessing the uninitialized
-> > lirc_fh_lock, I think?
-> >
-> > Not sure what to do with that info though, even if correct.
-> > An 'is registered' check does no good, because the device is marked
-> > registered before rc_setup_rx_device() happens. In fact rc_open()
-> > already checks this.
-> >
-> > Hoping someone smarter than me can weigh in here...
->
-> I think you have figured it out exactly. That's a highly unlikely race
-> condition; in rc_register_device(), in between rc_setup_rx_device()
-> and ir_lirc_register() user space must open the input device, and the
-> ir_work must be scheduled and execute as well.
->
-> The comment on ir_lirc_register() alludes to the same problem, which
-> I considered for raw IR devices, but obviously not for scancode devices.
->
-> It would be very useful to have this patch tested, I have never seen
-> this race condition.
->
-> Thanks!
->
-> Sean
->
-> From d14f6695982b86b383063e74fc6a4febf29248f3 Mon Sep 17 00:00:00 2001
-> From: Sean Young <sean@mess.org>
-> Date: Thu, 21 Nov 2019 10:10:47 +0000
-> Subject: [PATCH] media: rc: ensure lirc is initialized before registering
->  input device
->
-> Once rc_open is called on the input device, lirc events can be delivered.
-> Ensure lirc is ready to do so else we might get this:
->
-> Registered IR keymap rc-hauppauge
-> rc rc0: Hauppauge WinTV PVR-350 as
-> /devices/pci0000:00/0000:00:1e.0/0000:04:00.0/i2c-0/0-0018/rc/rc0
-> input: Hauppauge WinTV PVR-350 as
-> /devices/pci0000:00/0000:00:1e.0/0000:04:00.0/i2c-0/0-0018/rc/rc0/input9
-> BUG: kernel NULL pointer dereference, address: 0000000000000038
-> PGD 0 P4D 0
-> Oops: 0000 [#1] SMP PTI
-> CPU: 1 PID: 17 Comm: kworker/1:0 Not tainted 5.3.11-300.fc31.x86_64 #1
-> Hardware name:  /DG43NB, BIOS NBG4310H.86A.0096.2009.0903.1845 09/03/2009
-> Workqueue: events ir_work [ir_kbd_i2c]
-> RIP: 0010:ir_lirc_scancode_event+0x3d/0xb0
-> Code: a6 b4 07 00 00 49 81 c6 b8 07 00 00 55 53 e8 ba a7 9d ff 4c 89
-> e7 49 89 45 00 e8 5e 7a 25 00 49 8b 1e 48 89 c5 4c 39 f3 74 58 <8b> 43
-> 38 8b 53 40 89 c1 2b 4b 3c 39 ca 72 41 21 d0 49 8b 7d 00 49
-> RSP: 0018:ffffaae2000b3d88 EFLAGS: 00010017
-> RAX: 0000000000000002 RBX: 0000000000000000 RCX: 0000000000000019
-> RDX: 0000000000000001 RSI: 006e801b1f26ce6a RDI: ffff9e39797c37b4
-> RBP: 0000000000000002 R08: 0000000000000001 R09: 0000000000000001
-> R10: 0000000000000001 R11: 0000000000000001 R12: ffff9e39797c37b4
-> R13: ffffaae2000b3db8 R14: ffff9e39797c37b8 R15: ffff9e39797c33d8
-> FS:  0000000000000000(0000) GS:ffff9e397b680000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 0000000000000038 CR3: 0000000035844000 CR4: 00000000000006e0
-> Call Trace:
-> ir_do_keydown+0x8e/0x2b0
-> rc_keydown+0x52/0xc0
-> ir_work+0xb8/0x130 [ir_kbd_i2c]
-> process_one_work+0x19d/0x340
-> worker_thread+0x50/0x3b0
-> kthread+0xfb/0x130
-> ? process_one_work+0x340/0x340
-> ? kthread_park+0x80/0x80
-> ret_from_fork+0x35/0x40
-> Modules linked in: rc_hauppauge tuner msp3400 saa7127 saa7115 ivtv(+)
-> tveeprom cx2341x v4l2_common videodev mc i2c_algo_bit ir_kbd_i2c
-> ip_tables firewire_ohci e1000e serio_raw firewire_core ata_generic
-> crc_itu_t pata_acpi pata_jmicron fuse
-> CR2: 0000000000000038
-> ---[ end trace c67c2697a99fa74b ]---
-> RIP: 0010:ir_lirc_scancode_event+0x3d/0xb0
-> Code: a6 b4 07 00 00 49 81 c6 b8 07 00 00 55 53 e8 ba a7 9d ff 4c 89
-> e7 49 89 45 00 e8 5e 7a 25 00 49 8b 1e 48 89 c5 4c 39 f3 74 58 <8b> 43
-> 38 8b 53 40 89 c1 2b 4b 3c 39 ca 72 41 21 d0 49 8b 7d 00 49
-> RSP: 0018:ffffaae2000b3d88 EFLAGS: 00010017
-> RAX: 0000000000000002 RBX: 0000000000000000 RCX: 0000000000000019
-> RDX: 0000000000000001 RSI: 006e801b1f26ce6a RDI: ffff9e39797c37b4
-> RBP: 0000000000000002 R08: 0000000000000001 R09: 0000000000000001
-> R10: 0000000000000001 R11: 0000000000000001 R12: ffff9e39797c37b4
-> R13: ffffaae2000b3db8 R14: ffff9e39797c37b8 R15: ffff9e39797c33d8
-> FS:  0000000000000000(0000) GS:ffff9e397b680000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 0000000000000038 CR3: 0000000035844000 CR4: 00000000000006e0
-> rc rc0: lirc_dev: driver ir_kbd_i2c registered at minor = 0, scancode
-> receiver, no transmitter
-> tuner-simple 0-0061: creating new instance
-> tuner-simple 0-0061: type set to 2 (Philips NTSC (FI1236,FM1236 and
-> compatibles))
-> ivtv0: Registered device video0 for encoder MPG (4096 kB)
-> ivtv0: Registered device video32 for encoder YUV (2048 kB)
-> ivtv0: Registered device vbi0 for encoder VBI (1024 kB)
-> ivtv0: Registered device video24 for encoder PCM (320 kB)
-> ivtv0: Registered device radio0 for encoder radio
-> ivtv0: Registered device video16 for decoder MPG (1024 kB)
-> ivtv0: Registered device vbi8 for decoder VBI (64 kB)
-> ivtv0: Registered device vbi16 for decoder VOUT
-> ivtv0: Registered device video48 for decoder YUV (1024 kB)
->
-> Cc: stable@vger.kernel.org
-> Reported-by: Nick French <nickfrench@gmail.com>
-> Signed-off-by: Sean Young <sean@mess.org>
-> ---
->  drivers/media/rc/rc-main.c | 20 ++++++++++----------
->  1 file changed, 10 insertions(+), 10 deletions(-)
->
-> diff --git a/drivers/media/rc/rc-main.c b/drivers/media/rc/rc-main.c
-> index 7741151606ef..f29def4f35d8 100644
-> --- a/drivers/media/rc/rc-main.c
-> +++ b/drivers/media/rc/rc-main.c
-> @@ -1891,23 +1891,23 @@ int rc_register_device(struct rc_dev *dev)
->
->         dev->registered = true;
->
-> -       if (dev->driver_type != RC_DRIVER_IR_RAW_TX) {
-> -               rc = rc_setup_rx_device(dev);
-> -               if (rc)
-> -                       goto out_dev;
-> -       }
-> -
->         /* Ensure that the lirc kfifo is setup before we start the thread */
->         if (dev->allowed_protocols != RC_PROTO_BIT_CEC) {
->                 rc = ir_lirc_register(dev);
->                 if (rc < 0)
-> -                       goto out_rx;
-> +                       goto out_dev;
-> +       }
-> +
-> +       if (dev->driver_type != RC_DRIVER_IR_RAW_TX) {
-> +               rc = rc_setup_rx_device(dev);
-> +               if (rc)
-> +                       goto out_lirc;
->         }
->
->         if (dev->driver_type == RC_DRIVER_IR_RAW) {
->                 rc = ir_raw_event_register(dev);
->                 if (rc < 0)
-> -                       goto out_lirc;
-> +                       goto out_rx;
->         }
->
->         dev_dbg(&dev->dev, "Registered rc%u (driver: %s)\n", dev->minor,
-> @@ -1915,11 +1915,11 @@ int rc_register_device(struct rc_dev *dev)
->
->         return 0;
->
-> +out_rx:
-> +       rc_free_rx_device(dev);
->  out_lirc:
->         if (dev->allowed_protocols != RC_PROTO_BIT_CEC)
->                 ir_lirc_unregister(dev);
-> -out_rx:
-> -       rc_free_rx_device(dev);
->  out_dev:
->         device_del(&dev->dev);
->  out_rx_free:
-> --
-> 2.23.0
->
+On Thu, Nov 21, 2019 at 12:07:46AM -0800, Christoph Hellwig wrote:
+> On Wed, Nov 20, 2019 at 11:13:37PM -0800, John Hubbard wrote:
+> > And get rid of the mmap_sem calls, as part of that. Note
+> > that get_user_pages_fast() will, if necessary, fall back to
+> > __gup_longterm_unlocked(), which takes the mmap_sem as needed.
+> > 
+> > Reviewed-by: Jan Kara <jack@suse.cz>
+> > Reviewed-by: Jason Gunthorpe <jgg@mellanox.com>
+> > Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+> > Signed-off-by: John Hubbard <jhubbard@nvidia.com>
+> 
+> Looks fine,
+> 
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> 
+> Jason, can you queue this up for 5.5 to reduce this patch stack a bit?
 
-(re-sending to list)
+Yes, I said I'd do this in an earlier revision. Now that it is clear this
+won't go through Andrew's tree, applied to rdma for-next
 
-Hey Sean,
-
-Thanks for the amazingly quick response.
-
-I built that patch and did a few reboots. Everything remains
-functional in my setup (1 pvr350 + 1 pchdtv5500).
-Obviously I can't verify the intermittent oopses are gone since I
-cannot intentionally recreate them, but your patch certainly passes
-the eyeball test.
-
-Tested-by: Nick French <nickfrench@gmail.com>
-
-On Thu, Nov 21, 2019 at 4:24 AM Sean Young <sean@mess.org> wrote:
->
-> Hi Nick,
->
-> On Thu, Nov 21, 2019 at 12:44:42AM -0600, Nick French wrote:
-> > On Mon, Nov 18, 2019 at 10:21 AM Nick French <nickfrench@gmail.com> wrote:
-> > > I'm about to start trying to track down an intermittent oops in
-> > > ir_kbd_i2c that I've been having for a long time over various recent
-> > > kernels. It must be some kind of timing/race condition at startup,
-> > > because I only get it about 5% of boots.
-> > >
-> > > Here's the relevant snippet from the log, if anyone has any smart
-> > > ideas let me know. I should have better debugging data within the next
-> > > week or so.
-> > >
-> > > ...
-> > > Registered IR keymap rc-hauppauge
-> > > rc rc0: Hauppauge WinTV PVR-350 as
-> > > /devices/pci0000:00/0000:00:1e.0/0000:04:00.0/i2c-0/0-0018/rc/rc0
-> > > input: Hauppauge WinTV PVR-350 as
-> > > /devices/pci0000:00/0000:00:1e.0/0000:04:00.0/i2c-0/0-0018/rc/rc0/input9
-> > > BUG: kernel NULL pointer dereference, address: 0000000000000038
-> > > #PF: supervisor read access in kernel mode
-> > > #PF: error_code(0x0000) - not-present page
-> > > PGD 0 P4D 0
-> > > Oops: 0000 [#1] SMP PTI
-> > > CPU: 1 PID: 17 Comm: kworker/1:0 Not tainted 5.3.11-300.fc31.x86_64 #1
-> > > Hardware name:  /DG43NB, BIOS NBG4310H.86A.0096.2009.0903.1845 09/03/2009
-> > > Workqueue: events ir_work [ir_kbd_i2c]
-> > > RIP: 0010:ir_lirc_scancode_event+0x3d/0xb0
-> > > Code: a6 b4 07 00 00 49 81 c6 b8 07 00 00 55 53 e8 ba a7 9d ff 4c 89
-> > > e7 49 89 45 00 e8 5e 7a 25 00 49 8b 1e 48 89 c5 4c 39 f3 74 58 <8b> 43
-> > > 38 8b 53 40 89 c1 2b 4b 3c 39 ca 72 41 21 d0 49 8b 7d 00 49
-> > > RSP: 0018:ffffaae2000b3d88 EFLAGS: 00010017
-> > > RAX: 0000000000000002 RBX: 0000000000000000 RCX: 0000000000000019
-> > > RDX: 0000000000000001 RSI: 006e801b1f26ce6a RDI: ffff9e39797c37b4
-> > > RBP: 0000000000000002 R08: 0000000000000001 R09: 0000000000000001
-> > > R10: 0000000000000001 R11: 0000000000000001 R12: ffff9e39797c37b4
-> > > R13: ffffaae2000b3db8 R14: ffff9e39797c37b8 R15: ffff9e39797c33d8
-> > > FS:  0000000000000000(0000) GS:ffff9e397b680000(0000) knlGS:0000000000000000
-> > > CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > > CR2: 0000000000000038 CR3: 0000000035844000 CR4: 00000000000006e0
-> > > Call Trace:
-> > > ir_do_keydown+0x8e/0x2b0
-> > > rc_keydown+0x52/0xc0
-> > > ir_work+0xb8/0x130 [ir_kbd_i2c]
-> > > process_one_work+0x19d/0x340
-> > > worker_thread+0x50/0x3b0
-> > > kthread+0xfb/0x130
-> > > ? process_one_work+0x340/0x340
-> > > ? kthread_park+0x80/0x80
-> > > ret_from_fork+0x35/0x40
-> > > Modules linked in: rc_hauppauge tuner msp3400 saa7127 saa7115 ivtv(+)
-> > > tveeprom cx2341x v4l2_common videodev mc i2c_algo_bit ir_kbd_i2c
-> > > ip_tables firewire_ohci e1000e serio_raw firewire_core ata_generic
-> > > crc_itu_t pata_acpi pata_jmicron fuse
-> > > CR2: 0000000000000038
-> > > ---[ end trace c67c2697a99fa74b ]---
-> > > RIP: 0010:ir_lirc_scancode_event+0x3d/0xb0
-> > > Code: a6 b4 07 00 00 49 81 c6 b8 07 00 00 55 53 e8 ba a7 9d ff 4c 89
-> > > e7 49 89 45 00 e8 5e 7a 25 00 49 8b 1e 48 89 c5 4c 39 f3 74 58 <8b> 43
-> > > 38 8b 53 40 89 c1 2b 4b 3c 39 ca 72 41 21 d0 49 8b 7d 00 49
-> > > RSP: 0018:ffffaae2000b3d88 EFLAGS: 00010017
-> > > RAX: 0000000000000002 RBX: 0000000000000000 RCX: 0000000000000019
-> > > RDX: 0000000000000001 RSI: 006e801b1f26ce6a RDI: ffff9e39797c37b4
-> > > RBP: 0000000000000002 R08: 0000000000000001 R09: 0000000000000001
-> > > R10: 0000000000000001 R11: 0000000000000001 R12: ffff9e39797c37b4
-> > > R13: ffffaae2000b3db8 R14: ffff9e39797c37b8 R15: ffff9e39797c33d8
-> > > FS:  0000000000000000(0000) GS:ffff9e397b680000(0000) knlGS:0000000000000000
-> > > CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > > CR2: 0000000000000038 CR3: 0000000035844000 CR4: 00000000000006e0
-> > > rc rc0: lirc_dev: driver ir_kbd_i2c registered at minor = 0, scancode
-> > > receiver, no transmitter
-> > > tuner-simple 0-0061: creating new instance
-> > > tuner-simple 0-0061: type set to 2 (Philips NTSC (FI1236,FM1236 and
-> > > compatibles))
-> > > ivtv0: Registered device video0 for encoder MPG (4096 kB)
-> > > ivtv0: Registered device video32 for encoder YUV (2048 kB)
-> > > ivtv0: Registered device vbi0 for encoder VBI (1024 kB)
-> > > ivtv0: Registered device video24 for encoder PCM (320 kB)
-> > > ivtv0: Registered device radio0 for encoder radio
-> > > ivtv0: Registered device video16 for decoder MPG (1024 kB)
-> > > ivtv0: Registered device vbi8 for decoder VBI (64 kB)
-> > > ivtv0: Registered device vbi16 for decoder VOUT
-> > > ivtv0: Registered device video48 for decoder YUV (1024 kB)
-> > > ...
-> > >
-> > > - Nick
-> >
-> > I haven't been able to recreate with a debug build yet, but I think I
-> > see the problem:
-> >
-> > ir_kbd_i2c calls rc_register_device(), where the ordering of calls is this:
-> >   dev->registered = true;
-> >   rc_setup_rx_device(dev); <--calls rc_open()
-> >   ir_lirc_register(dev); <--initializes lirc_fh/lirc_fh_lock
-> >
-> > however, ir_kbd_i2c's rc_open() callback schedules work whose
-> > call-stack looks like:
-> > ir_work()
-> > ir_key_poll()
-> > rc_keydown()
-> > ir_do_keydown()
-> > ir_lirc_scancode_event() <-- uses lirc_fh/lirc_hf_lock
-> >
-> > So basically if there is a keydown detection *during* ir_kbd_i2c
-> > initialization, its going to oops accessing the uninitialized
-> > lirc_fh_lock, I think?
-> >
-> > Not sure what to do with that info though, even if correct.
-> > An 'is registered' check does no good, because the device is marked
-> > registered before rc_setup_rx_device() happens. In fact rc_open()
-> > already checks this.
-> >
-> > Hoping someone smarter than me can weigh in here...
->
-> I think you have figured it out exactly. That's a highly unlikely race
-> condition; in rc_register_device(), in between rc_setup_rx_device()
-> and ir_lirc_register() user space must open the input device, and the
-> ir_work must be scheduled and execute as well.
->
-> The comment on ir_lirc_register() alludes to the same problem, which
-> I considered for raw IR devices, but obviously not for scancode devices.
->
-> It would be very useful to have this patch tested, I have never seen
-> this race condition.
->
-> Thanks!
->
-> Sean
->
-> From d14f6695982b86b383063e74fc6a4febf29248f3 Mon Sep 17 00:00:00 2001
-> From: Sean Young <sean@mess.org>
-> Date: Thu, 21 Nov 2019 10:10:47 +0000
-> Subject: [PATCH] media: rc: ensure lirc is initialized before registering
->  input device
->
-> Once rc_open is called on the input device, lirc events can be delivered.
-> Ensure lirc is ready to do so else we might get this:
->
-> Registered IR keymap rc-hauppauge
-> rc rc0: Hauppauge WinTV PVR-350 as
-> /devices/pci0000:00/0000:00:1e.0/0000:04:00.0/i2c-0/0-0018/rc/rc0
-> input: Hauppauge WinTV PVR-350 as
-> /devices/pci0000:00/0000:00:1e.0/0000:04:00.0/i2c-0/0-0018/rc/rc0/input9
-> BUG: kernel NULL pointer dereference, address: 0000000000000038
-> PGD 0 P4D 0
-> Oops: 0000 [#1] SMP PTI
-> CPU: 1 PID: 17 Comm: kworker/1:0 Not tainted 5.3.11-300.fc31.x86_64 #1
-> Hardware name:  /DG43NB, BIOS NBG4310H.86A.0096.2009.0903.1845 09/03/2009
-> Workqueue: events ir_work [ir_kbd_i2c]
-> RIP: 0010:ir_lirc_scancode_event+0x3d/0xb0
-> Code: a6 b4 07 00 00 49 81 c6 b8 07 00 00 55 53 e8 ba a7 9d ff 4c 89
-> e7 49 89 45 00 e8 5e 7a 25 00 49 8b 1e 48 89 c5 4c 39 f3 74 58 <8b> 43
-> 38 8b 53 40 89 c1 2b 4b 3c 39 ca 72 41 21 d0 49 8b 7d 00 49
-> RSP: 0018:ffffaae2000b3d88 EFLAGS: 00010017
-> RAX: 0000000000000002 RBX: 0000000000000000 RCX: 0000000000000019
-> RDX: 0000000000000001 RSI: 006e801b1f26ce6a RDI: ffff9e39797c37b4
-> RBP: 0000000000000002 R08: 0000000000000001 R09: 0000000000000001
-> R10: 0000000000000001 R11: 0000000000000001 R12: ffff9e39797c37b4
-> R13: ffffaae2000b3db8 R14: ffff9e39797c37b8 R15: ffff9e39797c33d8
-> FS:  0000000000000000(0000) GS:ffff9e397b680000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 0000000000000038 CR3: 0000000035844000 CR4: 00000000000006e0
-> Call Trace:
-> ir_do_keydown+0x8e/0x2b0
-> rc_keydown+0x52/0xc0
-> ir_work+0xb8/0x130 [ir_kbd_i2c]
-> process_one_work+0x19d/0x340
-> worker_thread+0x50/0x3b0
-> kthread+0xfb/0x130
-> ? process_one_work+0x340/0x340
-> ? kthread_park+0x80/0x80
-> ret_from_fork+0x35/0x40
-> Modules linked in: rc_hauppauge tuner msp3400 saa7127 saa7115 ivtv(+)
-> tveeprom cx2341x v4l2_common videodev mc i2c_algo_bit ir_kbd_i2c
-> ip_tables firewire_ohci e1000e serio_raw firewire_core ata_generic
-> crc_itu_t pata_acpi pata_jmicron fuse
-> CR2: 0000000000000038
-> ---[ end trace c67c2697a99fa74b ]---
-> RIP: 0010:ir_lirc_scancode_event+0x3d/0xb0
-> Code: a6 b4 07 00 00 49 81 c6 b8 07 00 00 55 53 e8 ba a7 9d ff 4c 89
-> e7 49 89 45 00 e8 5e 7a 25 00 49 8b 1e 48 89 c5 4c 39 f3 74 58 <8b> 43
-> 38 8b 53 40 89 c1 2b 4b 3c 39 ca 72 41 21 d0 49 8b 7d 00 49
-> RSP: 0018:ffffaae2000b3d88 EFLAGS: 00010017
-> RAX: 0000000000000002 RBX: 0000000000000000 RCX: 0000000000000019
-> RDX: 0000000000000001 RSI: 006e801b1f26ce6a RDI: ffff9e39797c37b4
-> RBP: 0000000000000002 R08: 0000000000000001 R09: 0000000000000001
-> R10: 0000000000000001 R11: 0000000000000001 R12: ffff9e39797c37b4
-> R13: ffffaae2000b3db8 R14: ffff9e39797c37b8 R15: ffff9e39797c33d8
-> FS:  0000000000000000(0000) GS:ffff9e397b680000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 0000000000000038 CR3: 0000000035844000 CR4: 00000000000006e0
-> rc rc0: lirc_dev: driver ir_kbd_i2c registered at minor = 0, scancode
-> receiver, no transmitter
-> tuner-simple 0-0061: creating new instance
-> tuner-simple 0-0061: type set to 2 (Philips NTSC (FI1236,FM1236 and
-> compatibles))
-> ivtv0: Registered device video0 for encoder MPG (4096 kB)
-> ivtv0: Registered device video32 for encoder YUV (2048 kB)
-> ivtv0: Registered device vbi0 for encoder VBI (1024 kB)
-> ivtv0: Registered device video24 for encoder PCM (320 kB)
-> ivtv0: Registered device radio0 for encoder radio
-> ivtv0: Registered device video16 for decoder MPG (1024 kB)
-> ivtv0: Registered device vbi8 for decoder VBI (64 kB)
-> ivtv0: Registered device vbi16 for decoder VOUT
-> ivtv0: Registered device video48 for decoder YUV (1024 kB)
->
-> Cc: stable@vger.kernel.org
-> Reported-by: Nick French <nickfrench@gmail.com>
-> Signed-off-by: Sean Young <sean@mess.org>
-> ---
->  drivers/media/rc/rc-main.c | 20 ++++++++++----------
->  1 file changed, 10 insertions(+), 10 deletions(-)
->
-> diff --git a/drivers/media/rc/rc-main.c b/drivers/media/rc/rc-main.c
-> index 7741151606ef..f29def4f35d8 100644
-> --- a/drivers/media/rc/rc-main.c
-> +++ b/drivers/media/rc/rc-main.c
-> @@ -1891,23 +1891,23 @@ int rc_register_device(struct rc_dev *dev)
->
->         dev->registered = true;
->
-> -       if (dev->driver_type != RC_DRIVER_IR_RAW_TX) {
-> -               rc = rc_setup_rx_device(dev);
-> -               if (rc)
-> -                       goto out_dev;
-> -       }
-> -
->         /* Ensure that the lirc kfifo is setup before we start the thread */
->         if (dev->allowed_protocols != RC_PROTO_BIT_CEC) {
->                 rc = ir_lirc_register(dev);
->                 if (rc < 0)
-> -                       goto out_rx;
-> +                       goto out_dev;
-> +       }
-> +
-> +       if (dev->driver_type != RC_DRIVER_IR_RAW_TX) {
-> +               rc = rc_setup_rx_device(dev);
-> +               if (rc)
-> +                       goto out_lirc;
->         }
->
->         if (dev->driver_type == RC_DRIVER_IR_RAW) {
->                 rc = ir_raw_event_register(dev);
->                 if (rc < 0)
-> -                       goto out_lirc;
-> +                       goto out_rx;
->         }
->
->         dev_dbg(&dev->dev, "Registered rc%u (driver: %s)\n", dev->minor,
-> @@ -1915,11 +1915,11 @@ int rc_register_device(struct rc_dev *dev)
->
->         return 0;
->
-> +out_rx:
-> +       rc_free_rx_device(dev);
->  out_lirc:
->         if (dev->allowed_protocols != RC_PROTO_BIT_CEC)
->                 ir_lirc_unregister(dev);
-> -out_rx:
-> -       rc_free_rx_device(dev);
->  out_dev:
->         device_del(&dev->dev);
->  out_rx_free:
-> --
-> 2.23.0
->
+Thanks,
+Jason
