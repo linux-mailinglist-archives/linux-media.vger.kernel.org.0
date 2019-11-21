@@ -2,101 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 52ACB104DBF
-	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2019 09:20:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DEAB104DDC
+	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2019 09:28:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726568AbfKUIUj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Nov 2019 03:20:39 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:34978 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726014AbfKUIUj (ORCPT
+        id S1726614AbfKUI2B (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Nov 2019 03:28:01 -0500
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:8421 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726230AbfKUI2B (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Nov 2019 03:20:39 -0500
-Received: from pendragon.ideasonboard.com (unknown [124.219.31.93])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D97FDA2B;
-        Thu, 21 Nov 2019 09:20:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1574324437;
-        bh=XnJrDFeVfKlgwTIhqIeZ8iYDIShZX+0oCiZ/fO7XWyg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hZvmjFh4wZPXuwc7EHErOnkUUgp4gbRqOZ5uDKFjRmeHPWFyN7KtqCLOTbz+MSPE/
-         ukCFDpALlhwZ2a6BgKZl2FlLBwhjIg52DbQaF4pOT+Mi6eEsPNpHddaPAnlZckTeQ+
-         20kV0mxqc78t8JDZtN2mFpxjkQhk+LT8lI+fzNt8=
-Date:   Thu, 21 Nov 2019 10:20:27 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Eugen.Hristev@microchip.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        sakari.ailus@iki.fi
-Subject: Re: [PATCH] media: i2c: mt9v032: fix enum mbus codes and frame sizes
-Message-ID: <20191121082027.GJ4958@pendragon.ideasonboard.com>
-References: <1574322901-7097-1-git-send-email-eugen.hristev@microchip.com>
+        Thu, 21 Nov 2019 03:28:01 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5dd64a8d0000>; Thu, 21 Nov 2019 00:27:58 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 21 Nov 2019 00:27:56 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Thu, 21 Nov 2019 00:27:56 -0800
+Received: from [10.2.169.101] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 21 Nov
+ 2019 08:27:56 +0000
+Subject: Re: [PATCH v7 01/24] mm/gup: pass flags arg to __gup_device_*
+ functions
+To:     Christoph Hellwig <hch@infradead.org>
+CC:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
+        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
+        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
+        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
+References: <20191121071354.456618-1-jhubbard@nvidia.com>
+ <20191121071354.456618-2-jhubbard@nvidia.com>
+ <20191121080644.GA30991@infradead.org>
+From:   John Hubbard <jhubbard@nvidia.com>
+X-Nvconfidentiality: public
+Message-ID: <72299562-df12-cbe6-b9c8-05d08625d923@nvidia.com>
+Date:   Thu, 21 Nov 2019 00:25:08 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1574322901-7097-1-git-send-email-eugen.hristev@microchip.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20191121080644.GA30991@infradead.org>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1574324878; bh=fBEs8zvhTdiK+GxG6jBbxLF9y/0PajclAlx5MVf68dY=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=qd3vyt4F6HTwKKFCyZDRI1qul9fTK80VD0HOAtpUJsLmp+uOnJP/0/mfORMpRDIWh
+         msa/9tW2R6G3NEV2vxUdIVUrSBPbm+dg7h5ks0ydjI1ZXAilO+KUn3onxdYvYd5yLN
+         th/eVTL36YxBubARAfxgWsMF5jHbNrsWfvpc1zmtToQtEJyTHI9jhj2Fav/Qg69ylO
+         Vy7wGuKCXhdmLuU5+JPthKW1n/P1IS7DJEMqLH2TUUbpLDARMfwqNpDJNlkgiwpB9C
+         7ZnSeTY/le1R03Z0KIA9sli+2LeQchnYq98ah5HhIRhjwHluG7JOQqaaQVMgGA+5Gr
+         gsPwOYerki+jg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Eugen,
-
-Thank you for the patch.
-
-On Thu, Nov 21, 2019 at 07:55:24AM +0000, Eugen.Hristev@microchip.com wrote:
-> From: Eugen Hristev <eugen.hristev@microchip.com>
+On 11/21/19 12:06 AM, Christoph Hellwig wrote:
+> On Wed, Nov 20, 2019 at 11:13:31PM -0800, John Hubbard wrote:
+>> A subsequent patch requires access to gup flags, so
+>> pass the flags argument through to the __gup_device_*
+>> functions.
 > 
-> This driver supports both the mt9v032 (color) and the mt9v022 (mono) sensors.
-> Depending on which sensor is used, the format from the sensor is different.
-> The format.code inside the dev struct holds this information.
-> The enum mbus and enum frame sizes need to take into account both type of
-> sensors, not just the color one.
-> To solve this, use the format.code in these functions instead of the
-> hardcoded bayer color format (which is only used for mt9v032).
+> Looks fine, but why not fold this into the patch using the flags.
+
+Yes, I'll do that.
+
 > 
-> Suggested-by: Wenyou Yang <wenyou.yang@microchip.com>
-> Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
->  drivers/media/i2c/mt9v032.c | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
+> Also you can use up your full 73 chars per line in the commit log.
 > 
-> diff --git a/drivers/media/i2c/mt9v032.c b/drivers/media/i2c/mt9v032.c
-> index 4b9b98c..5bd3ae82 100644
-> --- a/drivers/media/i2c/mt9v032.c
-> +++ b/drivers/media/i2c/mt9v032.c
-> @@ -428,10 +428,12 @@ static int mt9v032_enum_mbus_code(struct v4l2_subdev *subdev,
->  				  struct v4l2_subdev_pad_config *cfg,
->  				  struct v4l2_subdev_mbus_code_enum *code)
->  {
-> +	struct mt9v032 *mt9v032 = to_mt9v032(subdev);
-> +
->  	if (code->index > 0)
->  		return -EINVAL;
->  
-> -	code->code = MEDIA_BUS_FMT_SGRBG10_1X10;
-> +	code->code = mt9v032->format.code;
->  	return 0;
->  }
->  
-> @@ -439,7 +441,11 @@ static int mt9v032_enum_frame_size(struct v4l2_subdev *subdev,
->  				   struct v4l2_subdev_pad_config *cfg,
->  				   struct v4l2_subdev_frame_size_enum *fse)
->  {
-> -	if (fse->index >= 3 || fse->code != MEDIA_BUS_FMT_SGRBG10_1X10)
-> +	struct mt9v032 *mt9v032 = to_mt9v032(subdev);
-> +
-> +	if (fse->index >= 3)
-> +		return -EINVAL;
-> +	if (mt9v032->format.code != fse->code)
->  		return -EINVAL;
->  
->  	fse->min_width = MT9V032_WINDOW_WIDTH_DEF / (1 << fse->index);
 
+OK.
+
+thanks,
 -- 
-Regards,
-
-Laurent Pinchart
+John Hubbard
+NVIDIA
