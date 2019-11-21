@@ -2,197 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F2AAD1048FF
-	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2019 04:19:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C0C61049BC
+	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2019 05:55:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727262AbfKUDTn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 Nov 2019 22:19:43 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33080 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726541AbfKUDTm (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 Nov 2019 22:19:42 -0500
-Received: from PC-kkoz.proceq.com (unknown [213.160.61.66])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4C8FB20721;
-        Thu, 21 Nov 2019 03:19:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1574306381;
-        bh=lchu/KX2vsWxSi8jH1B3g1xn82G2zo0dqdm09ot22HI=;
-        h=From:To:Cc:Subject:Date:From;
-        b=1qFijktoYtNuoo2iHnx0rqjpGJjP02Yc5gPd+CW1iSG9vJLkQYbMTxMELAFtjhFPG
-         w2BhV+09JwK9X0A29WfnOZ5EbM/ylnO/95HH8edvu+yi/g6OUYQbS8pukMHE42X3Ku
-         h7ChmHewCd8fa5hjE1wV1MeRWjc8TZ7yLp5QvXAs=
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzk@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Kukjin Kim <kgene@kernel.org>, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org
-Subject: [PATCH v2] media: Fix Kconfig indentation
-Date:   Thu, 21 Nov 2019 04:19:37 +0100
-Message-Id: <1574306377-30120-1-git-send-email-krzk@kernel.org>
-X-Mailer: git-send-email 2.7.4
+        id S1726014AbfKUEzK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 Nov 2019 23:55:10 -0500
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:51257 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725842AbfKUEzK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 20 Nov 2019 23:55:10 -0500
+Received: from localhost ([IPv6:2001:983:e9a7:1:5508:612e:3a66:8440])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id XeUkiRcXCcs92XeUli88bN; Thu, 21 Nov 2019 05:55:07 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1574312107; bh=Xz9xMrR6ZszoBBS7iX8of6n2o70RgjHAV1QbyBVEv0s=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=V4txzI4wHVmHOm4FN+5TBbhrSUqZRUxTMYL5gIEhL58SGTBL6KSn11+/AmFkz0QYs
+         r0pxzCEZqa4Ih24Aj9+RE/bxE46WywCzvA2vJgV7/NUlLdsWjBqh340tvs03k+3dk3
+         N3XDKAhymx+4s9Q1aUbAY3m+isHcGwwznlR7MBg1E/pLFPQYDn7e33kfor5cacxmSg
+         Va71HhqTl9qX2iiLJCxRJpvGWBy8lUr5GFmLHYNPWnk2ba2bNV2zuUNISoOHmnINlt
+         CA+SEmhmYM0zMzdMLPAfkWu7EZfNDRigf9sxMXhMhUv29Xdx1Rvvxd6zT62GXaO5OZ
+         k+nuh+X4Db6dA==
+Message-ID: <755359f20567022ddd41f3febf0fa1f6@smtp-cloud7.xs4all.net>
+Date:   Thu, 21 Nov 2019 05:55:06 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfGEAh+n1BUB80z5a+5sKAQPTNKzdvYifLd+uEKwdGiTUBBOIyH3bchE+WowZnzCh0gBNmsGE1FunvJH/Knx9Y3Esp0kwtdue778SJQbNZrpEe0cNcZmN
+ 7oMpUolGv2GUw2kQHWKdW3M18nyCtRENoUupHdj1XpaEzeOqDciulkHwQmH4hNf6YCvBKEkUS8426HMC03NrqQhgmgaa/SoLX6dezS321HiXtP/6zTffyZOD
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Adjust indentation from spaces to tab (+optional two spaces) as in
-coding style with command like:
-	$ sed -e 's/^        /\t/' -i */Kconfig
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+Results of the daily build of media_tree:
 
----
+date:			Thu Nov 21 05:00:10 CET 2019
+media-tree git hash:	dca6b3733a4a46e63603496f544ece8ace541fde
+media_build git hash:	efba365ba11b958a6bf6fb4b397942f9461cefca
+v4l-utils git hash:	f576f5e8d54aa6c9df1672b2b0fe4af300e3d1cc
+edid-decode git hash:	8b50301f90b2eb7f9f93c19853a6bed9e6daf2c5
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 6903fe8f5101fc43440b3259290c97d2dd51733d
+host hardware:		x86_64
+host os:		5.2.0-3-amd64
 
-Changes since v1:
-1. Fix also 7-space and tab+1 space indentation issues.
----
- drivers/media/Kconfig                     |  6 +--
- drivers/media/platform/Kconfig            | 74 +++++++++++++++----------------
- drivers/media/platform/exynos4-is/Kconfig |  2 +-
- drivers/media/radio/si470x/Kconfig        |  4 +-
- 4 files changed, 43 insertions(+), 43 deletions(-)
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4-rc1-i686: OK
+linux-5.4-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2784, Succeeded: 2784, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
 
-diff --git a/drivers/media/Kconfig b/drivers/media/Kconfig
-index b36a41332867..9dfea5c4b6ab 100644
---- a/drivers/media/Kconfig
-+++ b/drivers/media/Kconfig
-@@ -208,9 +208,9 @@ config MEDIA_SUBDRV_AUTOSELECT
- 	  If unsure say Y.
- 
- config MEDIA_HIDE_ANCILLARY_SUBDRV
--        bool
--        depends on MEDIA_SUBDRV_AUTOSELECT && !COMPILE_TEST && !EXPERT
--        default y
-+	bool
-+	depends on MEDIA_SUBDRV_AUTOSELECT && !COMPILE_TEST && !EXPERT
-+	default y
- 
- config MEDIA_ATTACH
- 	bool
-diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-index e84f35d3a68e..cd977dfb1da2 100644
---- a/drivers/media/platform/Kconfig
-+++ b/drivers/media/platform/Kconfig
-@@ -610,49 +610,49 @@ config CEC_GPIO
- 	  between compatible devices.
- 
- config VIDEO_SAMSUNG_S5P_CEC
--       tristate "Samsung S5P CEC driver"
--       depends on ARCH_EXYNOS || COMPILE_TEST
--       select CEC_CORE
--       select CEC_NOTIFIER
--       help
--	 This is a driver for Samsung S5P HDMI CEC interface. It uses the
--	 generic CEC framework interface.
--	 CEC bus is present in the HDMI connector and enables communication
--	 between compatible devices.
-+	tristate "Samsung S5P CEC driver"
-+	depends on ARCH_EXYNOS || COMPILE_TEST
-+	select CEC_CORE
-+	select CEC_NOTIFIER
-+	help
-+	  This is a driver for Samsung S5P HDMI CEC interface. It uses the
-+	  generic CEC framework interface.
-+	  CEC bus is present in the HDMI connector and enables communication
-+	  between compatible devices.
- 
- config VIDEO_STI_HDMI_CEC
--       tristate "STMicroelectronics STiH4xx HDMI CEC driver"
--       depends on ARCH_STI || COMPILE_TEST
--       select CEC_CORE
--       select CEC_NOTIFIER
--       help
--	 This is a driver for STIH4xx HDMI CEC interface. It uses the
--	 generic CEC framework interface.
--	 CEC bus is present in the HDMI connector and enables communication
--	 between compatible devices.
-+	tristate "STMicroelectronics STiH4xx HDMI CEC driver"
-+	depends on ARCH_STI || COMPILE_TEST
-+	select CEC_CORE
-+	select CEC_NOTIFIER
-+	help
-+	  This is a driver for STIH4xx HDMI CEC interface. It uses the
-+	  generic CEC framework interface.
-+	  CEC bus is present in the HDMI connector and enables communication
-+	  between compatible devices.
- 
- config VIDEO_STM32_HDMI_CEC
--       tristate "STMicroelectronics STM32 HDMI CEC driver"
--       depends on ARCH_STM32 || COMPILE_TEST
--       select REGMAP
--       select REGMAP_MMIO
--       select CEC_CORE
--       help
--	 This is a driver for STM32 interface. It uses the
--	 generic CEC framework interface.
--	 CEC bus is present in the HDMI connector and enables communication
--	 between compatible devices.
-+	tristate "STMicroelectronics STM32 HDMI CEC driver"
-+	depends on ARCH_STM32 || COMPILE_TEST
-+	select REGMAP
-+	select REGMAP_MMIO
-+	select CEC_CORE
-+	help
-+	  This is a driver for STM32 interface. It uses the
-+	  generic CEC framework interface.
-+	  CEC bus is present in the HDMI connector and enables communication
-+	  between compatible devices.
- 
- config VIDEO_TEGRA_HDMI_CEC
--       tristate "Tegra HDMI CEC driver"
--       depends on ARCH_TEGRA || COMPILE_TEST
--       select CEC_CORE
--       select CEC_NOTIFIER
--       help
--	 This is a driver for the Tegra HDMI CEC interface. It uses the
--	 generic CEC framework interface.
--	 The CEC bus is present in the HDMI connector and enables communication
--	 between compatible devices.
-+	tristate "Tegra HDMI CEC driver"
-+	depends on ARCH_TEGRA || COMPILE_TEST
-+	select CEC_CORE
-+	select CEC_NOTIFIER
-+	help
-+	  This is a driver for the Tegra HDMI CEC interface. It uses the
-+	  generic CEC framework interface.
-+	  The CEC bus is present in the HDMI connector and enables communication
-+	  between compatible devices.
- 
- config VIDEO_SECO_CEC
- 	tristate "SECO Boards HDMI CEC driver"
-diff --git a/drivers/media/platform/exynos4-is/Kconfig b/drivers/media/platform/exynos4-is/Kconfig
-index 989cb34f19b1..be4effcbfe7b 100644
---- a/drivers/media/platform/exynos4-is/Kconfig
-+++ b/drivers/media/platform/exynos4-is/Kconfig
-@@ -13,7 +13,7 @@ config VIDEO_SAMSUNG_EXYNOS4_IS
- if VIDEO_SAMSUNG_EXYNOS4_IS
- 
- config VIDEO_EXYNOS4_IS_COMMON
--       tristate
-+	tristate
- 
- config VIDEO_S5P_FIMC
- 	tristate "S5P/EXYNOS4 FIMC/CAMIF camera interface driver"
-diff --git a/drivers/media/radio/si470x/Kconfig b/drivers/media/radio/si470x/Kconfig
-index 537f8e1601f3..a1ba8bc54b62 100644
---- a/drivers/media/radio/si470x/Kconfig
-+++ b/drivers/media/radio/si470x/Kconfig
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
- config RADIO_SI470X
--        tristate "Silicon Labs Si470x FM Radio Receiver support"
--        depends on VIDEO_V4L2
-+	tristate "Silicon Labs Si470x FM Radio Receiver support"
-+	depends on VIDEO_V4L2
- 	help
- 	  This is a driver for devices with the Silicon Labs SI470x
- 	  chip (either via USB or I2C buses).
--- 
-2.7.4
+Detailed results are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
