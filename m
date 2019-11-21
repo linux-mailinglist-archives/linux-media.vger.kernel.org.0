@@ -2,187 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 25C1F1054E7
-	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2019 15:55:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5500010552E
+	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2019 16:19:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726358AbfKUOz0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Nov 2019 09:55:26 -0500
-Received: from gofer.mess.org ([88.97.38.141]:58577 "EHLO gofer.mess.org"
+        id S1726613AbfKUPTH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Nov 2019 10:19:07 -0500
+Received: from mout.web.de ([212.227.15.14]:49181 "EHLO mout.web.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726546AbfKUOz0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Nov 2019 09:55:26 -0500
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 315CCC646C; Thu, 21 Nov 2019 14:55:25 +0000 (GMT)
-From:   Sean Young <sean@mess.org>
+        id S1726546AbfKUPTH (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 21 Nov 2019 10:19:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+        s=dbaedf251592; t=1574349546;
+        bh=vHrSz8JTxr9cJtjsi2oKCNygllLbwCth1bQhXL8u9kY=;
+        h=X-UI-Sender-Class:To:From:Subject:Date;
+        b=prGrdUYVfdbNopgGBsyAjGYXibtbMCmKMTGrOGOt+O9f/Rb7ZxtB24Ldiszi1HzsL
+         vNmhL8JQscVXn3qSpsULy/C6GkAbDs5rYzU5xmDw8U8oUgAXnaK0RzCz92Ib6ukTEW
+         8mM4J+AC6mQXmyWtyf0bhZxiiaiPN9QWp2OaHBgo=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from [192.168.2.214] ([85.233.38.157]) by smtp.web.de (mrweb003
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0Lhvko-1i2Itn3mrq-00n7Pb for
+ <linux-media@vger.kernel.org>; Thu, 21 Nov 2019 16:19:05 +0100
 To:     linux-media@vger.kernel.org
-Subject: [PATCH] media: cxusb: use dev_dbg() rather than hand-rolled debug
-Date:   Thu, 21 Nov 2019 14:55:25 +0000
-Message-Id: <20191121145525.3286-1-sean@mess.org>
-X-Mailer: git-send-email 2.20.1
+From:   Johann Friedrichs <johann.friedrichs@web.de>
+Subject: [PATCH] dvb-core/dvb_demux.c: Fix receiving invalid EIT-sections
+Message-ID: <d6cf94c7-f3e3-cb41-55de-e982ff9f50ab@web.de>
+Date:   Thu, 21 Nov 2019 16:19:05 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: de-DE
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:CpCqBHHy7ZfhgIrCTHsw6niQ44GGJzLAdp7pZLhE7+oFTZihQcX
+ gjg8dQYU4+WL5FtYn6VtjfMwNwzwxnLJ67BAqGDePexGAWB8JBtf3+vwb1CDz3rXNhY4A8X
+ APLFJhfnR0sWHaZndiIxksQbtD7rqAsl/PbECo19cH/2VzMJGAIJEaWjZ7pGqQC/wSlwhju
+ GOs6Ce/SOXqLf2Y50qTzA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:2lbwcgLdT/E=:K5wz4wMCWJZbW9Z3gJ9+3K
+ jZnIV0nC7Kmn0vqEAxKe5MJt7xCvq9QDwoHOx4WHxhB6Si2zjJsaC8BNLxkCl6da/WBuhCKKb
+ qaj1wnlDs7GxBMbuTmJZqnVJwfLewK1dVvRbNSds6SOZ0iKU1azbkkS36tAxlAohexcYwzqFn
+ jLvnIp2nRIZtwpWuCXcSJjr/fvXTwnExu6eqX1Q/WMMiQWupW0iyral8nJn/I0tit+kLfVEu9
+ X4Qyhw+x4F2X8Pd8s8x9pNFcm/cHw37WgjsZD0umfwuQr8yaaa3iu51j7QhMqckgkbiEJxaQM
+ bwGoVrh8PA2xbHn2MXhaWAUAN768zVYNT2EyaNsU2NAHCP1e2bh1FKvL6t3knlNf2TFABPfop
+ LxYf9mpJ3L8twk9rSAMSxnxOL3bubdKiMEwTncpgm8TmsWOATbqwF4uS9OABSXKgbpYZLagjm
+ Pxk8JChQAU1xH0JT9ptxUe4829f4HrfffzB1Cz7RUvSHO3+bxK7OvdC7pQ08hDlEfQOWqsFJV
+ IAcmANQl0xR8Y9oJyFeAIWDnpN2X54wnawAG7mab3cwKY3FdsULRbHZ4foBfgblAheAk1VzQO
+ nsh8TtRxcPSrB2Nz9eU3zQL0+GdPvKY5P+p5VdXzyrOL2AArljcm6HSXKuWwPzlga06YJn/yT
+ oOa2TiiLcNj9jBQWfU8kZAP/+5ajZucBdbFmZsxte99YY1RbNjT/bFs/0jFm2mjjZToc2QicC
+ Z5ZhE2ojbMGxhu4av7+y4xT9kytPMJJmqYw1Z0UYZTyXi7wSzix6vJzOQMQdE5epnZ8pn6/W7
+ kPicpyna073fxGbwQR1+7HZVnmJIYgXzJQSrZkrre+l1RbvTkmssuHoBbckp1WH31r6F6uzIp
+ HEmnuwNYaHhD6th3y70tn/syvB7dVzwpQzx2bTji4X+TtYux/tpCH0pA3shq6mP0lCw1C3G4X
+ tuyBBc5N7ceeSwF5IMXYDtW/0TLPtb8uF6TbVG07Wpi0pp4F0EkPU7cvrJCIozxZXD6v4xZrp
+ ixCLWXeYj/2o2UgzdmD0mFesN5nhCi1CvyvDfRphzYaozFjGb7NspLSRRng/7OJ5p4qUA/9Yv
+ Hc6v7xbapqOtTVmCjCzhCFVHRSVAPPiDFALweDW/08mSgIGft8sdpnR5H7L3JJLul5g9yjVvI
+ P1N67w/hO6BPmyKRh6A5+uaTbVIR0DxfBASAZAH/w6UpPCDR8y0ozVPvWNb/jHUrOBfM9hSCn
+ rxJUXtN+H0pxsr3JOARvvpflMkPCZHPKsjl6RjYhZ8lasLMUdGd0A0jWn+vM=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This solves the following compiler warnings:
+Signed-off-by: Johann Friedrichs <johann.friedrichs@web.de>
 
-drivers/media/usb/dvb-usb/cxusb.c: In function ‘cxusb_gpio_tuner’:
-drivers/media/usb/dvb-usb/cxusb.c:128:35: warning: suggest braces around empty body in an ‘if’ statement [-Wempty-body]
-  128 |   deb_info("gpio_write failed.\n");
-      |                                   ^
-drivers/media/usb/dvb-usb/cxusb.c: In function ‘cxusb_bluebird_gpio_rw’:
-drivers/media/usb/dvb-usb/cxusb.c:145:44: warning: suggest braces around empty body in an ‘if’ statement [-Wempty-body]
-  145 |   deb_info("bluebird_gpio_write failed.\n");
-      |                                            ^
-drivers/media/usb/dvb-usb/cxusb.c: In function ‘cxusb_i2c_xfer’:
-drivers/media/usb/dvb-usb/cxusb.c:251:42: warning: suggest braces around empty body in an ‘if’ statement [-Wempty-body]
-  251 |     deb_i2c("i2c read may have failed\n");
-      |                                          ^
-drivers/media/usb/dvb-usb/cxusb.c:274:43: warning: suggest braces around empty body in an ‘if’ statement [-Wempty-body]
-  274 |     deb_i2c("i2c write may have failed\n");
-      |                                           ^
+Resetting buf without resetting pusi_seen at a channel-switch can lead
+to copying the rest of a section to the start of buf, but treating it as
+a complete section, when the next pusi arrives.
+EIT-sections starting without valid header were randomly received during
+an EIT-scan
+on a transponder.
+=2D--
+  drivers/media/dvb-core/dvb_demux.c | 1 +
+  1 file changed, 1 insertion(+)
 
-Signed-off-by: Sean Young <sean@mess.org>
----
- drivers/media/usb/dvb-usb/cxusb.c | 31 ++++++++++++++-----------------
- 1 file changed, 14 insertions(+), 17 deletions(-)
+diff --git a/drivers/media/dvb-core/dvb_demux.c
+b/drivers/media/dvb-core/dvb_demux.c
+index 39a2c6ccf31d..5fde1d38b3e3 100644
+=2D-- a/drivers/media/dvb-core/dvb_demux.c
++++ b/drivers/media/dvb-core/dvb_demux.c
+@@ -971,6 +971,7 @@ static int dmx_section_feed_start_filtering(struct
+dmx_section_feed *feed)
+      dvbdmxfeed->feed.sec.secbuf =3D dvbdmxfeed->feed.sec.secbuf_base;
+      dvbdmxfeed->feed.sec.secbufp =3D 0;
+      dvbdmxfeed->feed.sec.seclen =3D 0;
++    dvbdmxfeed->pusi_seen =3D false;
 
-diff --git a/drivers/media/usb/dvb-usb/cxusb.c b/drivers/media/usb/dvb-usb/cxusb.c
-index fac19ec46089..b634f9e86d61 100644
---- a/drivers/media/usb/dvb-usb/cxusb.c
-+++ b/drivers/media/usb/dvb-usb/cxusb.c
-@@ -54,9 +54,6 @@ MODULE_PARM_DESC(debug, "set debugging level (see cxusb.h)."
- 
- DVB_DEFINE_MOD_OPT_ADAPTER_NR(adapter_nr);
- 
--#define deb_info(args...)   dprintk(dvb_usb_cxusb_debug, CXUSB_DBG_MISC, args)
--#define deb_i2c(args...)    dprintk(dvb_usb_cxusb_debug, CXUSB_DBG_I2C, args)
--
- enum cxusb_table_index {
- 	MEDION_MD95700,
- 	DVICO_BLUEBIRD_LG064F_COLD,
-@@ -125,7 +122,7 @@ static void cxusb_gpio_tuner(struct dvb_usb_device *d, int onoff)
- 	cxusb_ctrl_msg(d, CMD_GPIO_WRITE, o, 2, &i, 1);
- 
- 	if (i != 0x01)
--		deb_info("gpio_write failed.\n");
-+		dev_info(&d->udev->dev, "gpio_write failed.\n");
- 
- 	st->gpio_write_state[GPIO_TUNER] = onoff;
- 	st->gpio_write_refresh[GPIO_TUNER] = false;
-@@ -142,7 +139,7 @@ static int cxusb_bluebird_gpio_rw(struct dvb_usb_device *d, u8 changemask,
- 
- 	rc = cxusb_ctrl_msg(d, CMD_BLUEBIRD_GPIO_RW, o, 2, &gpio_state, 1);
- 	if (rc < 0 || (gpio_state & changemask) != (newval & changemask))
--		deb_info("bluebird_gpio_write failed.\n");
-+		dev_info(&d->udev->dev, "bluebird_gpio_write failed.\n");
- 
- 	return rc < 0 ? rc : gpio_state;
- }
-@@ -174,7 +171,7 @@ static int cxusb_d680_dmb_gpio_tuner(struct dvb_usb_device *d,
- 	if (i == 0x01)
- 		return 0;
- 
--	deb_info("gpio_write failed.\n");
-+	dev_info(&d->udev->dev, "gpio_write failed.\n");
- 	return -EIO;
- }
- 
-@@ -248,7 +245,7 @@ static int cxusb_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msg[],
- 				break;
- 
- 			if (ibuf[0] != 0x08)
--				deb_i2c("i2c read may have failed\n");
-+				dev_info(&d->udev->dev, "i2c read may have failed\n");
- 
- 			memcpy(msg[i + 1].buf, &ibuf[1], msg[i + 1].len);
- 
-@@ -271,7 +268,7 @@ static int cxusb_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msg[],
- 					   2 + msg[i].len, &ibuf, 1) < 0)
- 				break;
- 			if (ibuf != 0x08)
--				deb_i2c("i2c write may have failed\n");
-+				dev_info(&d->udev->dev, "i2c write may have failed\n");
- 		}
- 	}
- 
-@@ -299,7 +296,7 @@ static int _cxusb_power_ctrl(struct dvb_usb_device *d, int onoff)
- {
- 	u8 b = 0;
- 
--	deb_info("setting power %s\n", onoff ? "ON" : "OFF");
-+	dev_info(&d->udev->dev, "setting power %s\n", onoff ? "ON" : "OFF");
- 
- 	if (onoff)
- 		return cxusb_ctrl_msg(d, CMD_POWER_ON, &b, 1, NULL, 0);
-@@ -318,7 +315,7 @@ static int cxusb_power_ctrl(struct dvb_usb_device *d, int onoff)
- 		mutex_lock(&cxdev->open_lock);
- 
- 		if (cxdev->open_type == CXUSB_OPEN_ANALOG) {
--			deb_info("preventing DVB core from setting power OFF while we are in analog mode\n");
-+			dev_info(&d->udev->dev, "preventing DVB core from setting power OFF while we are in analog mode\n");
- 			ret = -EBUSY;
- 			goto ret_unlock;
- 		}
-@@ -754,16 +751,16 @@ static int dvico_bluebird_xc2028_callback(void *ptr, int component,
- 
- 	switch (command) {
- 	case XC2028_TUNER_RESET:
--		deb_info("%s: XC2028_TUNER_RESET %d\n", __func__, arg);
-+		dev_info(&d->udev->dev, "XC2028_TUNER_RESET %d\n", arg);
- 		cxusb_bluebird_gpio_pulse(d, 0x01, 1);
- 		break;
- 	case XC2028_RESET_CLK:
--		deb_info("%s: XC2028_RESET_CLK %d\n", __func__, arg);
-+		dev_info(&d->udev->dev, "XC2028_RESET_CLK %d\n", arg);
- 		break;
- 	case XC2028_I2C_FLUSH:
- 		break;
- 	default:
--		deb_info("%s: unknown command %d, arg %d\n", __func__,
-+		dev_info(&d->udev->dev, "unknown command %d, arg %d\n",
- 			 command, arg);
- 		return -EINVAL;
- 	}
-@@ -1444,7 +1441,7 @@ int cxusb_medion_get(struct dvb_usb_device *dvbdev,
- 
- 	if (cxdev->open_ctr == 0) {
- 		if (cxdev->open_type != open_type) {
--			deb_info("will acquire and switch to %s\n",
-+			dev_info(&dvbdev->udev->dev, "will acquire and switch to %s\n",
- 				 open_type == CXUSB_OPEN_ANALOG ?
- 				 "analog" : "digital");
- 
-@@ -1476,7 +1473,7 @@ int cxusb_medion_get(struct dvb_usb_device *dvbdev,
- 
- 			cxdev->open_type = open_type;
- 		} else {
--			deb_info("reacquired idle %s\n",
-+			dev_info(&dvbdev->udev->dev, "reacquired idle %s\n",
- 				 open_type == CXUSB_OPEN_ANALOG ?
- 				 "analog" : "digital");
- 		}
-@@ -1484,7 +1481,7 @@ int cxusb_medion_get(struct dvb_usb_device *dvbdev,
- 		cxdev->open_ctr = 1;
- 	} else if (cxdev->open_type == open_type) {
- 		cxdev->open_ctr++;
--		deb_info("acquired %s\n", open_type == CXUSB_OPEN_ANALOG ?
-+		dev_info(&dvbdev->udev->dev, "acquired %s\n", open_type == CXUSB_OPEN_ANALOG ?
- 			 "analog" : "digital");
- 	} else {
- 		ret = -EBUSY;
-@@ -1511,7 +1508,7 @@ void cxusb_medion_put(struct dvb_usb_device *dvbdev)
- 	if (!WARN_ON(cxdev->open_ctr < 1)) {
- 		cxdev->open_ctr--;
- 
--		deb_info("release %s\n",
-+		dev_info(&dvbdev->udev->dev, "release %s\n",
- 			 cxdev->open_type == CXUSB_OPEN_ANALOG ?
- 			 "analog" : "digital");
- 	}
--- 
-2.23.0
-
+      if (!dvbdmx->start_feed) {
+          mutex_unlock(&dvbdmx->mutex);
+=2D-
+2.17.1
