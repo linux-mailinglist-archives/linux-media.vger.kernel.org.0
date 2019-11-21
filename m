@@ -2,78 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A6AA1104D88
-	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2019 09:11:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 52ACB104DBF
+	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2019 09:20:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727261AbfKUIK4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Nov 2019 03:10:56 -0500
-Received: from bombadil.infradead.org ([198.137.202.133]:43306 "EHLO
-        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727219AbfKUIKx (ORCPT
+        id S1726568AbfKUIUj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Nov 2019 03:20:39 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:34978 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726014AbfKUIUj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Nov 2019 03:10:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=In-Reply-To:Content-Type:MIME-Version
-        :References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=DZddNdyW5FRrAXgTdc6w5huJMr/L+GTDCsXkrpDZQWE=; b=Mafq4UPzuRzO9+6g0idvgtn8y
-        WcDSiCT7hQFVoaJkaXestyiwMGnqfYjgbEOz0r27XeQ+Y5KvjD4Nuhy0YaDkgeX1N2nHrE2fymh9/
-        Kl6qsPzn8bgO9GwKGkSXLJ6yif29++yxYwWthonAbKTOkkQzaykODs/kBCpIPvEL9IlVjXYjhMRJE
-        HObsxeSD97VjwE1Ac50vXPpo12MNChRAcbknrDS9loF08kQwig/wzQVsPl/cwUiTKkHvJYvfDWnFU
-        FO6tlhkm1YjoPatb8/UhLvWJuQFmCn5wpi+24IGZ7mIRAGQpgH/fHbaZ8f9hs4dGNlP7WUQjseLo0
-        O4T8RJ40Q==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1iXhXf-0001ki-FW; Thu, 21 Nov 2019 08:10:19 +0000
-Date:   Thu, 21 Nov 2019 00:10:19 -0800
-From:   Christoph Hellwig <hch@infradead.org>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
-        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>,
-        Jason Gunthorpe <jgg@mellanox.com>
-Subject: Re: [PATCH v7 09/24] vfio, mm: fix get_user_pages_remote() and
- FOLL_LONGTERM
-Message-ID: <20191121081019.GF30991@infradead.org>
-References: <20191121071354.456618-1-jhubbard@nvidia.com>
- <20191121071354.456618-10-jhubbard@nvidia.com>
+        Thu, 21 Nov 2019 03:20:39 -0500
+Received: from pendragon.ideasonboard.com (unknown [124.219.31.93])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D97FDA2B;
+        Thu, 21 Nov 2019 09:20:35 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1574324437;
+        bh=XnJrDFeVfKlgwTIhqIeZ8iYDIShZX+0oCiZ/fO7XWyg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hZvmjFh4wZPXuwc7EHErOnkUUgp4gbRqOZ5uDKFjRmeHPWFyN7KtqCLOTbz+MSPE/
+         ukCFDpALlhwZ2a6BgKZl2FlLBwhjIg52DbQaF4pOT+Mi6eEsPNpHddaPAnlZckTeQ+
+         20kV0mxqc78t8JDZtN2mFpxjkQhk+LT8lI+fzNt8=
+Date:   Thu, 21 Nov 2019 10:20:27 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Eugen.Hristev@microchip.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        sakari.ailus@iki.fi
+Subject: Re: [PATCH] media: i2c: mt9v032: fix enum mbus codes and frame sizes
+Message-ID: <20191121082027.GJ4958@pendragon.ideasonboard.com>
+References: <1574322901-7097-1-git-send-email-eugen.hristev@microchip.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20191121071354.456618-10-jhubbard@nvidia.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <1574322901-7097-1-git-send-email-eugen.hristev@microchip.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Should this be two patches, one for th core infrastructure and one for
-the user?  These changes also look like another candidate to pre-load.
+Hi Eugen,
+
+Thank you for the patch.
+
+On Thu, Nov 21, 2019 at 07:55:24AM +0000, Eugen.Hristev@microchip.com wrote:
+> From: Eugen Hristev <eugen.hristev@microchip.com>
+> 
+> This driver supports both the mt9v032 (color) and the mt9v022 (mono) sensors.
+> Depending on which sensor is used, the format from the sensor is different.
+> The format.code inside the dev struct holds this information.
+> The enum mbus and enum frame sizes need to take into account both type of
+> sensors, not just the color one.
+> To solve this, use the format.code in these functions instead of the
+> hardcoded bayer color format (which is only used for mt9v032).
+> 
+> Suggested-by: Wenyou Yang <wenyou.yang@microchip.com>
+> Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  drivers/media/i2c/mt9v032.c | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/mt9v032.c b/drivers/media/i2c/mt9v032.c
+> index 4b9b98c..5bd3ae82 100644
+> --- a/drivers/media/i2c/mt9v032.c
+> +++ b/drivers/media/i2c/mt9v032.c
+> @@ -428,10 +428,12 @@ static int mt9v032_enum_mbus_code(struct v4l2_subdev *subdev,
+>  				  struct v4l2_subdev_pad_config *cfg,
+>  				  struct v4l2_subdev_mbus_code_enum *code)
+>  {
+> +	struct mt9v032 *mt9v032 = to_mt9v032(subdev);
+> +
+>  	if (code->index > 0)
+>  		return -EINVAL;
+>  
+> -	code->code = MEDIA_BUS_FMT_SGRBG10_1X10;
+> +	code->code = mt9v032->format.code;
+>  	return 0;
+>  }
+>  
+> @@ -439,7 +441,11 @@ static int mt9v032_enum_frame_size(struct v4l2_subdev *subdev,
+>  				   struct v4l2_subdev_pad_config *cfg,
+>  				   struct v4l2_subdev_frame_size_enum *fse)
+>  {
+> -	if (fse->index >= 3 || fse->code != MEDIA_BUS_FMT_SGRBG10_1X10)
+> +	struct mt9v032 *mt9v032 = to_mt9v032(subdev);
+> +
+> +	if (fse->index >= 3)
+> +		return -EINVAL;
+> +	if (mt9v032->format.code != fse->code)
+>  		return -EINVAL;
+>  
+>  	fse->min_width = MT9V032_WINDOW_WIDTH_DEF / (1 << fse->index);
+
+-- 
+Regards,
+
+Laurent Pinchart
