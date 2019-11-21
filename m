@@ -2,253 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 540E6104A67
-	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2019 06:51:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4BF8E104AD1
+	for <lists+linux-media@lfdr.de>; Thu, 21 Nov 2019 07:44:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726614AbfKUFva (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Nov 2019 00:51:30 -0500
-Received: from mail-ed1-f41.google.com ([209.85.208.41]:44100 "EHLO
-        mail-ed1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726343AbfKUFva (ORCPT
+        id S1726270AbfKUGo5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 Nov 2019 01:44:57 -0500
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:40216 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725904AbfKUGo5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Nov 2019 00:51:30 -0500
-Received: by mail-ed1-f41.google.com with SMTP id a67so1653035edf.11
-        for <linux-media@vger.kernel.org>; Wed, 20 Nov 2019 21:51:28 -0800 (PST)
+        Thu, 21 Nov 2019 01:44:57 -0500
+Received: by mail-oi1-f193.google.com with SMTP id d22so2223128oic.7
+        for <linux-media@vger.kernel.org>; Wed, 20 Nov 2019 22:44:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=2eHBuXmXmspsJPRCU+yNkYKvjiNseTm4kip/wzjn18c=;
-        b=kGnrbLYMDZeT2caToobPNwp98jJBSk3eoRepF1AtB0wyhRSehLQUMBbnoNub6UrV78
-         s4wAigChgHERrKl2hqspHpsLrwU/Op1Mui8aafjBcefN5UR9mLQ8cm1pvFejiRooXT8R
-         n4RgZD/TfPdetJrHNQboCfWLrmj8U5ig3u0RI=
+        bh=b1NWuEHKT/ZKVyznzXe6dqG/WmSBtWXohc3JHKwitvU=;
+        b=Kc0neAm2vhnvqidEsp0GbAvbv7gTpTawsmpphNDS6lWipgx2WF84f8HKl7nmhSPkON
+         rMa9o5nF4U3GaBkSVOg2AeiD84kQNXUTC5JJwBXqO45CiZOrJkpdyu5DgSPZSbGGsFe+
+         y5F1K/1/rdCz2ptjtZbG8lRNMPfjZCtEzTG152n+YantyYN44TmLIddaE4fcRE+zrdaa
+         i6SoxSfQ9rLAx+/eoH8lqynhhZKVWPafWliw+/V1f3+vHR9qyVklJlscmE5ZAFeBSjY1
+         CblJF3AC6QwICU2VVHFwPA/q6yDEWi0YYK0I1l1T5/WHCAelRvc0DHR5lehphKG6YnB3
+         DqbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=2eHBuXmXmspsJPRCU+yNkYKvjiNseTm4kip/wzjn18c=;
-        b=VNqGGYgL1U6kNSCc67/HngWp46QBxpVO0cPH75/7dXCh/2GnZKufkh8yuFgwY3GHft
-         FH64MUxP92H7UPQmIpUWlfAC/iPxwxWgx7IVVcr/H7HNTZaQyoI1uqQCLEvooZC65ue9
-         YY0QHM+7ldqqAqZyxpDzK+tlWVHpIFaNFPrJx+nYjx/VPZUtuBPZATEuZmGqpHW02A1Y
-         TDApCbPXLKRxrXsVxTvqgTGBDuzRYdRyF05Kl1It6KsEykCR30DrOjbmyCKbK+CXfxd+
-         aoU8qUa3zFHSg1z4vKSTlEO/ysde6te4lRL+WUC2+9MdbbXOFFT2rcBxSBfpXjqagcwI
-         n2Fw==
-X-Gm-Message-State: APjAAAXU+uReb+sd++VQ9Bk9JN5J88LcmofKow8OCurx2eANDEj6/FFK
-        MLbr45+ix3nTJreoxdhJM7m5Fg4K1Jk=
-X-Google-Smtp-Source: APXvYqytJYlxdTpsDwCQmJCxwMGw8X4/GfVCUngdMzQNLvoYJc56ae0eWcMuiAix2NSDkVXmxjHv7w==
-X-Received: by 2002:a17:906:601:: with SMTP id s1mr11298208ejb.287.1574315487624;
-        Wed, 20 Nov 2019 21:51:27 -0800 (PST)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com. [209.85.128.43])
-        by smtp.gmail.com with ESMTPSA id i26sm57809edq.27.2019.11.20.21.51.24
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 Nov 2019 21:51:25 -0800 (PST)
-Received: by mail-wm1-f43.google.com with SMTP id g206so2033447wme.1
-        for <linux-media@vger.kernel.org>; Wed, 20 Nov 2019 21:51:24 -0800 (PST)
-X-Received: by 2002:a1c:3c42:: with SMTP id j63mr8128845wma.90.1574315484024;
- Wed, 20 Nov 2019 21:51:24 -0800 (PST)
+        bh=b1NWuEHKT/ZKVyznzXe6dqG/WmSBtWXohc3JHKwitvU=;
+        b=rCdb53ab1p4Q+LF8KgH6KppMWSuc/wCsogaejQ3tPmBcmZ+3XISEbEM2bhCaYzbFc9
+         3NvxNQD34+aclWRMm3DGjLOilajqW+5Z9HoJ2XkO9RNFXBRL5vaSisf6uZ2YWrxEmin5
+         96Om+dCq4bnpt8/36n/w3LuHVdk11ccDgxO8GCWB6STWvIa4hUGQDuLQnsmsII1Bhfx0
+         9zG9cEEgrfgOOu6rchAMHdjPska4SMIDA8KTNhaOCJjll+Vty0CbLUld9wmTICQz6mZw
+         PaFZlNNbE9EuwfMOgpSilu/5vAKggGkmKNWvjjMxKiBWCFbNk6q2Z0jBcCzx/5pj+RE6
+         vYew==
+X-Gm-Message-State: APjAAAXTvK2mUt+uGlbtltZFXRnCH3/4JwCQP7YK0O3nBRRbocqjjE+l
+        OVmrAAvh/VIRrCWGztHXjImEDW26tEjSZ2H4Z3L3yymiCuKqpQ==
+X-Google-Smtp-Source: APXvYqzzAYi0F/fPfcesVjUyNbNzJQsZ6yU9eNtCO0lcvZEJQNstgSZkhRV7tSqmdmqqBaIi3dGM1iNnqQIfqePo6+c=
+X-Received: by 2002:aca:2811:: with SMTP id 17mr6044582oix.46.1574318693766;
+ Wed, 20 Nov 2019 22:44:53 -0800 (PST)
 MIME-Version: 1.0
-References: <20191105105456.7xbhtistnbp272lj@sirius.home.kraxel.org>
- <CAD=HUj7EsxrkSubmY6HE4aYJOykVKtmGXjMjeGqnoJw1KZUc5Q@mail.gmail.com>
- <20191106124101.fsfxibdkypo4rswv@sirius.home.kraxel.org> <72712fe048af1489368f7416faa92c45@hostfission.com>
- <CAAFQd5Cpb=3HRL3NbgxP+S259nkNEuA=u75ew1JQTzvVUU5NeQ@mail.gmail.com> <d65bec5074eda5f389668e28922c1609@hostfission.com>
-In-Reply-To: <d65bec5074eda5f389668e28922c1609@hostfission.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Thu, 21 Nov 2019 14:51:11 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5AWqYaNWfYQ2hepjg7OD8y8ehHn0guusAR8JYefc+BNaw@mail.gmail.com>
-Message-ID: <CAAFQd5AWqYaNWfYQ2hepjg7OD8y8ehHn0guusAR8JYefc+BNaw@mail.gmail.com>
-Subject: Re: guest / host buffer sharing ...
-To:     Geoffrey McRae <geoff@hostfission.com>
-Cc:     Gerd Hoffmann <kraxel@redhat.com>,
-        David Stevens <stevensd@chromium.org>,
-        Keiichi Watanabe <keiichiw@chromium.org>,
-        Dmitry Morozov <dmitry.morozov@opensynergy.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Alex Lau <alexlau@chromium.org>,
-        Dylan Reid <dgreid@chromium.org>,
-        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Gurchetan Singh <gurchetansingh@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        virtio-dev@lists.oasis-open.org, qemu-devel <qemu-devel@nongnu.org>
+References: <CABdg0zG8KzOBWMNDU8eDcjW_FA3zrdJBR7Fu_YQz-uwu1Gfwcg@mail.gmail.com>
+In-Reply-To: <CABdg0zG8KzOBWMNDU8eDcjW_FA3zrdJBR7Fu_YQz-uwu1Gfwcg@mail.gmail.com>
+From:   Nick French <nickfrench@gmail.com>
+Date:   Thu, 21 Nov 2019 00:44:42 -0600
+Message-ID: <CABdg0zGzR=2Qt5d+VR18j-gR-5vu0=QgnjKvcDW9g4g_ceGV_w@mail.gmail.com>
+Subject: Re: ir_kbd_i2c oops
+To:     linux-media@vger.kernel.org
+Cc:     kraxel@bytesex.org, mkochano@pld.org.pl, lirc@bartelmus.de,
+        ulrich.mueller42@web.de, jarod@redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Nov 21, 2019 at 6:41 AM Geoffrey McRae <geoff@hostfission.com> wrote:
+On Mon, Nov 18, 2019 at 10:21 AM Nick French <nickfrench@gmail.com> wrote:
 >
+> Hello all,
 >
+> I'm about to start trying to track down an intermittent oops in
+> ir_kbd_i2c that I've been having for a long time over various recent
+> kernels. It must be some kind of timing/race condition at startup,
+> because I only get it about 5% of boots.
 >
-> On 2019-11-20 23:13, Tomasz Figa wrote:
-> > Hi Geoffrey,
-> >
-> > On Thu, Nov 7, 2019 at 7:28 AM Geoffrey McRae <geoff@hostfission.com>
-> > wrote:
-> >>
-> >>
-> >>
-> >> On 2019-11-06 23:41, Gerd Hoffmann wrote:
-> >> > On Wed, Nov 06, 2019 at 05:36:22PM +0900, David Stevens wrote:
-> >> >> > (1) The virtio device
-> >> >> > =====================
-> >> >> >
-> >> >> > Has a single virtio queue, so the guest can send commands to register
-> >> >> > and unregister buffers.  Buffers are allocated in guest ram.  Each buffer
-> >> >> > has a list of memory ranges for the data. Each buffer also has some
-> >> >>
-> >> >> Allocating from guest ram would work most of the time, but I think
-> >> >> it's insufficient for many use cases. It doesn't really support things
-> >> >> such as contiguous allocations, allocations from carveouts or <4GB,
-> >> >> protected buffers, etc.
-> >> >
-> >> > If there are additional constrains (due to gpu hardware I guess)
-> >> > I think it is better to leave the buffer allocation to virtio-gpu.
-> >>
-> >> The entire point of this for our purposes is due to the fact that we
-> >> can
-> >> not allocate the buffer, it's either provided by the GPU driver or
-> >> DirectX. If virtio-gpu were to allocate the buffer we might as well
-> >> forget
-> >> all this and continue using the ivshmem device.
-> >
-> > I don't understand why virtio-gpu couldn't allocate those buffers.
-> > Allocation doesn't necessarily mean creating new memory. Since the
-> > virtio-gpu device on the host talks to the GPU driver (or DirectX?),
-> > why couldn't it return one of the buffers provided by those if
-> > BIND_SCANOUT is requested?
-> >
+> Here's the relevant snippet from the log, if anyone has any smart
+> ideas let me know. I should have better debugging data within the next
+> week or so.
 >
-> Because in our application we are a user-mode application in windows
-> that is provided with buffers that were allocated by the video stack in
-> windows. We are not using a virtual GPU but a physical GPU via vfio
-> passthrough and as such we are limited in what we can do. Unless I have
-> completely missed what virtio-gpu does, from what I understand it's
-> attempting to be a virtual GPU in its own right, which is not at all
-> suitable for our requirements.
-
-Not necessarily. virtio-gpu in its basic shape is an interface for
-allocating frame buffers and sending them to the host to display.
-
-It sounds to me like a PRIME-based setup similar to how integrated +
-discrete GPUs are handled on regular systems could work for you. The
-virtio-gpu device would be used like the integrated GPU that basically
-just drives the virtual screen. The guest component that controls the
-display of the guest (typically some sort of a compositor) would
-allocate the frame buffers using virtio-gpu and then import those to
-the vfio GPU when using it for compositing the parts of the screen.
-The parts of the screen themselves would be rendered beforehand by
-applications into local buffers managed fully by the vfio GPU, so
-there wouldn't be any need to involve virtio-gpu there. Only the
-compositor would have to be aware of it.
-
-Of course if your guest is not Linux, I have no idea if that can be
-handled in any reasonable way. I know those integrated + discrete GPU
-setups do work on Windows, but things are obviously 100% proprietary,
-so I don't know if one could make them work with virtio-gpu as the
-integrated GPU.
-
+> ...
+> Registered IR keymap rc-hauppauge
+> rc rc0: Hauppauge WinTV PVR-350 as
+> /devices/pci0000:00/0000:00:1e.0/0000:04:00.0/i2c-0/0-0018/rc/rc0
+> input: Hauppauge WinTV PVR-350 as
+> /devices/pci0000:00/0000:00:1e.0/0000:04:00.0/i2c-0/0-0018/rc/rc0/input9
+> BUG: kernel NULL pointer dereference, address: 0000000000000038
+> #PF: supervisor read access in kernel mode
+> #PF: error_code(0x0000) - not-present page
+> PGD 0 P4D 0
+> Oops: 0000 [#1] SMP PTI
+> CPU: 1 PID: 17 Comm: kworker/1:0 Not tainted 5.3.11-300.fc31.x86_64 #1
+> Hardware name:  /DG43NB, BIOS NBG4310H.86A.0096.2009.0903.1845 09/03/2009
+> Workqueue: events ir_work [ir_kbd_i2c]
+> RIP: 0010:ir_lirc_scancode_event+0x3d/0xb0
+> Code: a6 b4 07 00 00 49 81 c6 b8 07 00 00 55 53 e8 ba a7 9d ff 4c 89
+> e7 49 89 45 00 e8 5e 7a 25 00 49 8b 1e 48 89 c5 4c 39 f3 74 58 <8b> 43
+> 38 8b 53 40 89 c1 2b 4b 3c 39 ca 72 41 21 d0 49 8b 7d 00 49
+> RSP: 0018:ffffaae2000b3d88 EFLAGS: 00010017
+> RAX: 0000000000000002 RBX: 0000000000000000 RCX: 0000000000000019
+> RDX: 0000000000000001 RSI: 006e801b1f26ce6a RDI: ffff9e39797c37b4
+> RBP: 0000000000000002 R08: 0000000000000001 R09: 0000000000000001
+> R10: 0000000000000001 R11: 0000000000000001 R12: ffff9e39797c37b4
+> R13: ffffaae2000b3db8 R14: ffff9e39797c37b8 R15: ffff9e39797c33d8
+> FS:  0000000000000000(0000) GS:ffff9e397b680000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 0000000000000038 CR3: 0000000035844000 CR4: 00000000000006e0
+> Call Trace:
+> ir_do_keydown+0x8e/0x2b0
+> rc_keydown+0x52/0xc0
+> ir_work+0xb8/0x130 [ir_kbd_i2c]
+> process_one_work+0x19d/0x340
+> worker_thread+0x50/0x3b0
+> kthread+0xfb/0x130
+> ? process_one_work+0x340/0x340
+> ? kthread_park+0x80/0x80
+> ret_from_fork+0x35/0x40
+> Modules linked in: rc_hauppauge tuner msp3400 saa7127 saa7115 ivtv(+)
+> tveeprom cx2341x v4l2_common videodev mc i2c_algo_bit ir_kbd_i2c
+> ip_tables firewire_ohci e1000e serio_raw firewire_core ata_generic
+> crc_itu_t pata_acpi pata_jmicron fuse
+> CR2: 0000000000000038
+> ---[ end trace c67c2697a99fa74b ]---
+> RIP: 0010:ir_lirc_scancode_event+0x3d/0xb0
+> Code: a6 b4 07 00 00 49 81 c6 b8 07 00 00 55 53 e8 ba a7 9d ff 4c 89
+> e7 49 89 45 00 e8 5e 7a 25 00 49 8b 1e 48 89 c5 4c 39 f3 74 58 <8b> 43
+> 38 8b 53 40 89 c1 2b 4b 3c 39 ca 72 41 21 d0 49 8b 7d 00 49
+> RSP: 0018:ffffaae2000b3d88 EFLAGS: 00010017
+> RAX: 0000000000000002 RBX: 0000000000000000 RCX: 0000000000000019
+> RDX: 0000000000000001 RSI: 006e801b1f26ce6a RDI: ffff9e39797c37b4
+> RBP: 0000000000000002 R08: 0000000000000001 R09: 0000000000000001
+> R10: 0000000000000001 R11: 0000000000000001 R12: ffff9e39797c37b4
+> R13: ffffaae2000b3db8 R14: ffff9e39797c37b8 R15: ffff9e39797c33d8
+> FS:  0000000000000000(0000) GS:ffff9e397b680000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 0000000000000038 CR3: 0000000035844000 CR4: 00000000000006e0
+> rc rc0: lirc_dev: driver ir_kbd_i2c registered at minor = 0, scancode
+> receiver, no transmitter
+> tuner-simple 0-0061: creating new instance
+> tuner-simple 0-0061: type set to 2 (Philips NTSC (FI1236,FM1236 and
+> compatibles))
+> ivtv0: Registered device video0 for encoder MPG (4096 kB)
+> ivtv0: Registered device video32 for encoder YUV (2048 kB)
+> ivtv0: Registered device vbi0 for encoder VBI (1024 kB)
+> ivtv0: Registered device video24 for encoder PCM (320 kB)
+> ivtv0: Registered device radio0 for encoder radio
+> ivtv0: Registered device video16 for decoder MPG (1024 kB)
+> ivtv0: Registered device vbi8 for decoder VBI (64 kB)
+> ivtv0: Registered device vbi16 for decoder VOUT
+> ivtv0: Registered device video48 for decoder YUV (1024 kB)
+> ...
 >
-> This discussion seems to have moved away completely from the original
-> simple feature we need, which is to share a random block of guest
-> allocated ram with the host. While it would be nice if it's contiguous
-> ram, it's not an issue if it's not, and with udmabuf (now I understand
-> it) it can be made to appear contigous if it is so desired anyway.
->
-> vhost-user could be used for this if it is fixed to allow dynamic
-> remapping, all the other bells and whistles that are virtio-gpu are
-> useless to us.
->
+> - Nick
 
-As far as I followed the thread, my impression is that we don't want
-to have an ad-hoc interface just for sending memory to the host. The
-thread was started to look for a way to create identifiers for guest
-memory, which proper virtio devices could use to refer to the memory
-within requests sent to the host.
+I haven't been able to recreate with a debug build yet, but I think I
+see the problem:
 
-That said, I'm not really sure if there is any benefit of making it
-anything other than just the specific virtio protocol accepting
-scatterlist of guest pages directly.
+ir_kbd_i2c calls rc_register_device(), where the ordering of calls is this:
+  dev->registered = true;
+  rc_setup_rx_device(dev); <--calls rc_open()
+  ir_lirc_register(dev); <--initializes lirc_fh/lirc_fh_lock
 
-Putting the ability to obtain the shared memory itself, how do you
-trigger a copy from the guest frame buffer to the shared memory?
+however, ir_kbd_i2c's rc_open() callback schedules work whose
+call-stack looks like:
+ir_work()
+ir_key_poll()
+rc_keydown()
+ir_do_keydown()
+ir_lirc_scancode_event() <-- uses lirc_fh/lirc_hf_lock
 
-> >>
-> >> Our use case is niche, and the state of things may change if vendors
-> >> like
-> >> AMD follow through with their promises and give us SR-IOV on consumer
-> >> GPUs, but even then we would still need their support to achieve the
-> >> same
-> >> results as the same issue would still be present.
-> >>
-> >> Also don't forget that QEMU already has a non virtio generic device
-> >> (IVSHMEM). The only difference is, this device doesn't allow us to
-> >> attain
-> >> zero-copy transfers.
-> >>
-> >> Currently IVSHMEM is used by two projects that I am aware of, Looking
-> >> Glass and SCREAM. While Looking Glass is solving a problem that is out
-> >> of
-> >> scope for QEMU, SCREAM is working around the audio problems in QEMU
-> >> that
-> >> have been present for years now.
-> >>
-> >> While I don't agree with SCREAM being used this way (we really need a
-> >> virtio-sound device, and/or intel-hda needs to be fixed), it again is
-> >> an
-> >> example of working around bugs/faults/limitations in QEMU by those of
-> >> us
-> >> that are unable to fix them ourselves and seem to have low priority to
-> >> the
-> >> QEMU project.
-> >>
-> >> What we are trying to attain is freedom from dual boot Linux/Windows
-> >> systems, not migrate-able enterprise VPS configurations. The Looking
-> >> Glass project has brought attention to several other bugs/problems in
-> >> QEMU, some of which were fixed as a direct result of this project
-> >> (i8042
-> >> race, AMD NPT).
-> >>
-> >> Unless there is another solution to getting the guest GPUs
-> >> frame-buffer
-> >> back to the host, a device like this will always be required. Since
-> >> the
-> >> landscape could change at any moment, this device should not be a LG
-> >> specific device, but rather a generic device to allow for other
-> >> workarounds like LG to be developed in the future should they be
-> >> required.
-> >>
-> >> Is it optimal? no
-> >> Is there a better solution? not that I am aware of
-> >>
-> >> >
-> >> > virtio-gpu can't do that right now, but we have to improve virtio-gpu
-> >> > memory management for vulkan support anyway.
-> >> >
-> >> >> > properties to carry metadata, some fixed (id, size, application), but
-> >> >>
-> >> >> What exactly do you mean by application?
-> >> >
-> >> > Basically some way to group buffers.  A wayland proxy for example would
-> >> > add a "application=wayland-proxy" tag to the buffers it creates in the
-> >> > guest, and the host side part of the proxy could ask qemu (or another
-> >> > vmm) to notify about all buffers with that tag.  So in case multiple
-> >> > applications are using the device in parallel they don't interfere with
-> >> > each other.
-> >> >
-> >> >> > also allow free form (name = value, framebuffers would have
-> >> >> > width/height/stride/format for example).
-> >> >>
-> >> >> Is this approach expected to handle allocating buffers with
-> >> >> hardware-specific constraints such as stride/height alignment or
-> >> >> tiling? Or would there need to be some alternative channel for
-> >> >> determining those values and then calculating the appropriate buffer
-> >> >> size?
-> >> >
-> >> > No parameter negotiation.
-> >> >
-> >> > cheers,
-> >> >   Gerd
+So basically if there is a keydown detection *during* ir_kbd_i2c
+initialization, its going to oops accessing the uninitialized
+lirc_fh_lock, I think?
+
+Not sure what to do with that info though, even if correct.
+An 'is registered' check does no good, because the device is marked
+registered before rc_setup_rx_device() happens. In fact rc_open()
+already checks this.
+
+Hoping someone smarter than me can weigh in here...
+
+Thanks,
+Nick
