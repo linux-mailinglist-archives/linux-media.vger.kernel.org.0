@@ -2,95 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EBB7105F69
-	for <lists+linux-media@lfdr.de>; Fri, 22 Nov 2019 06:16:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 05A99106764
+	for <lists+linux-media@lfdr.de>; Fri, 22 Nov 2019 08:58:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726634AbfKVFQU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Nov 2019 00:16:20 -0500
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:45142 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726018AbfKVFQU (ORCPT
+        id S1726703AbfKVH6V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Nov 2019 02:58:21 -0500
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:37118 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726554AbfKVH6V (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Nov 2019 00:16:20 -0500
-Received: by mail-pf1-f196.google.com with SMTP id z4so2893683pfn.12
-        for <linux-media@vger.kernel.org>; Thu, 21 Nov 2019 21:16:18 -0800 (PST)
+        Fri, 22 Nov 2019 02:58:21 -0500
+Received: by mail-wr1-f65.google.com with SMTP id t1so7455440wrv.4
+        for <linux-media@vger.kernel.org>; Thu, 21 Nov 2019 23:58:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Pur8D56rYiQ0M1ceqnI28F7eCh0YYOJc2gZei1cSwYw=;
-        b=QUuL2c+xQxdrPyysEXsec8QavmH64GVr/WK5Xy2ffOtjwjSkRDU8nM231KQZ55gTT+
-         o95OPytdoXojkQe06wVttIqQ+d8ikveWepYkDjh3szE/vnrqQQwCVhIHbokE9ohTbJBr
-         Qir9fZmE4Y8oLlw+ShfjvkYD9U9A5TCKfg4Jw=
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=w67p8xtPdt4/A9arfHNMFL65WBSDvCsMKuFi+DGBUsw=;
+        b=GnqUaOqhAGPj1mSB54UkQHX4DC7zQbAMKGlzXTenoyFS7SJHIG7SkYKpS3E591jesy
+         icCdTroOZhl3lQG0MC4noVz3GcrSdZ3Q0UiheNxmIgcCRphi4DzocgH6+akJKPMp54rE
+         Zs9Tj8Bf38qwZUAhUiOtHylkX7OAbM9jDrZB5FWjgT724BNcW6t+rVhc+VS8nys/Yq+k
+         X83hu5TH1/dV5m34mQ8wWV4jNtwESzBy6NBTfIFEUeVfVZCMG1ar96ADpDaRKm2evh/s
+         wU/EBeaQJwE6HVdRYf8a3cY4MJpP0lZ+WrIwOTf4uiILzOSMn/yTgbEWMC2AfBJNxcrp
+         x3+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Pur8D56rYiQ0M1ceqnI28F7eCh0YYOJc2gZei1cSwYw=;
-        b=WtUADStOXzOdQ3DuiP2EO+HAgpKgnnu2p02CoVDrmXmpRxdYtrk8HKyWoC3FhKH1/N
-         UkUjyIleb/79OQTvReCnz5iSy1uZP89HGKsZJ72bT2WscQABUh0u2D6Cr20HpT9TpZl5
-         8pjPkrNEbutGl0QQXDhjyohFYl2M1wgnFIk4lQAe0tmk88t+zXcrQ+78dRVVzfHsrC/c
-         oXXwR/6YGf8Y6RDvjt4p8s+XBhDqtf/IWRw9YaomJP0K4fmf1E+N9kFL73AYw5HbNXgB
-         0G1RRsgzkE9lgHVGkEPU4uarYHjEVlYgi8nPWhKBuMPjHSF2ywuUbNQ4xePDHuwcagDO
-         OgGQ==
-X-Gm-Message-State: APjAAAUN6KquYDGDd4lxj8SlXTaU51+6ygYNErHhTQXwvA+zkCFk6eVh
-        UbcEEfgFmrakRY+CUHTRWZzqhw==
-X-Google-Smtp-Source: APXvYqwm6Bo6Fpvepq74mr6KZ7xSHs2WiOshfDeBDm7ixVWj28grrqSlnrpqRI/kf/OPwZ6eICDjRg==
-X-Received: by 2002:a63:fa0d:: with SMTP id y13mr13431599pgh.18.1574399777846;
-        Thu, 21 Nov 2019 21:16:17 -0800 (PST)
-Received: from hiroh.tok.corp.google.com ([2401:fa00:8f:2:3bf4:6372:5b56:dd4c])
-        by smtp.gmail.com with ESMTPSA id m7sm5756049pfb.153.2019.11.21.21.16.15
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=w67p8xtPdt4/A9arfHNMFL65WBSDvCsMKuFi+DGBUsw=;
+        b=WsKrDnJ5Iy+R/oCpcq5ldWubJIUwX9YH1ePiJkMzm/EKkFXE8FIYrBojJd5+K37zX0
+         VOSwsQRUUJUYAAJ1HymvtRhWcwRU36lv/fz2Ec1+PjrUzQB1s/OWrw/dxPdWcsjgCaV4
+         3br1k5AYjzVFiY3ikAHB66TkeUCStuFBgMtgJ/ZIh8zOCn2vfQO8Ddlc+LZIrR2MJPz/
+         V3j6R9e2p3VRuw7Q2qZnFPfHNjzwzkS06kLUueL6Fdoyd3AGGxvfAiMBQjY4voo77m30
+         HFMBU1SFP3oD8tDTxOErElkQqjjEcDJPJb5EUo8IULGKw2rW+nA6YqAKR/5n9yZuAytU
+         W6Kw==
+X-Gm-Message-State: APjAAAVn7IbZrHAv7/CWrBYPBBNVCLd4iwc9TpIRySyHI44pUWZUO+XD
+        0d2pFXB9RC4Bs3XiblsmwDRLQw==
+X-Google-Smtp-Source: APXvYqzcaOQ0bWkk1yg8dpRwylAawt7qFh0J8UP4pvucZ/KaMyU92DHdCC4aa6RA4P2POZCfKVRT4Q==
+X-Received: by 2002:adf:f50b:: with SMTP id q11mr16206077wro.343.1574409498689;
+        Thu, 21 Nov 2019 23:58:18 -0800 (PST)
+Received: from dell ([2.27.35.135])
+        by smtp.gmail.com with ESMTPSA id j67sm2673521wmb.43.2019.11.21.23.58.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Nov 2019 21:16:17 -0800 (PST)
-From:   Hirokazu Honda <hiroh@chromium.org>
-To:     ezequiel@collabora.com, mchehab@kernel.org,
-        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
-        tfiga@chromium.org
-Cc:     Hirokazu Honda <hiroh@chromium.org>
-Subject: [PATCH] media: hantro: Support H264 profile control
-Date:   Fri, 22 Nov 2019 14:16:08 +0900
-Message-Id: <20191122051608.128717-1-hiroh@chromium.org>
-X-Mailer: git-send-email 2.24.0.432.g9d3f5f5b63-goog
+        Thu, 21 Nov 2019 23:58:18 -0800 (PST)
+Date:   Fri, 22 Nov 2019 07:58:04 +0000
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Raul E Rangel <rrangel@chromium.org>
+Cc:     enric.balletbo@collabora.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        linux-iio@vger.kernel.org,
+        Fabien Lahoudere <fabien.lahoudere@collabora.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        linux-i2c@vger.kernel.org, Enrico Granata <egranata@chromium.org>,
+        linux-rtc@vger.kernel.org, Chanwoo Choi <cw00.choi@samsung.com>,
+        Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+        Benson Leung <bleung@chromium.org>,
+        "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Douglas Anderson <dianders@chromium.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
+        Wolfram Sang <wsa@the-dreams.de>,
+        Hartmut Knaack <knaack.h@gmx.de>,
+        Alexandru M Stan <amstan@chromium.org>,
+        Gwendal Grignou <gwendal@chromium.org>,
+        Akshu Agrawal <akshu.agrawal@amd.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        linux-kernel@vger.kernel.org,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: Re: [PATCH] platform/chrome: cros_ec: Rename cros_ec_dev to
+ cros_ec_mfd_dev
+Message-ID: <20191122075804.GB3296@dell>
+References: <20191121164458.1.Ie5c276b95210779fc2ca5651e46552236795b6b9@changeid>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20191121164458.1.Ie5c276b95210779fc2ca5651e46552236795b6b9@changeid>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The Hantro G1 decoder supports H.264 profiles from Baseline to High, with
-the exception of the Extended profile.
+On Thu, 21 Nov 2019, Raul E Rangel wrote:
 
-Expose the V4L2_CID_MPEG_VIDEO_H264_PROFILE control, so that the
-applications can query the driver for the list of supported profiles.
+> It's very confusing having cros_ec_dev and cros_ec_device. This makes it
+> clear you are dealing with the mfd device.
 
-Signed-off-by: Hirokazu Honda <hiroh@chromium.org>
----
- drivers/staging/media/hantro/hantro_drv.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+An MFD isn't really a thing. It's a Linuxisum that doesn't really
+describe anything meaningful. IMHO it would make more sense to follow
+the same hierarchical structure that platform devices use:
 
-diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-index 6d9d41170832..9387619235d8 100644
---- a/drivers/staging/media/hantro/hantro_drv.c
-+++ b/drivers/staging/media/hantro/hantro_drv.c
-@@ -355,6 +355,16 @@ static const struct hantro_ctrl controls[] = {
- 			.def = V4L2_MPEG_VIDEO_H264_START_CODE_ANNEX_B,
- 			.max = V4L2_MPEG_VIDEO_H264_START_CODE_ANNEX_B,
- 		},
-+	}, {
-+		.codec = HANTRO_H264_DECODER,
-+		.cfg = {
-+			.id = V4L2_CID_MPEG_VIDEO_H264_PROFILE,
-+			.min = V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE,
-+			.max = V4L2_MPEG_VIDEO_H264_PROFILE_HIGH,
-+			.menu_skip_mask =
-+			BIT(V4L2_MPEG_VIDEO_H264_PROFILE_EXTENDED),
-+			.def = V4L2_MPEG_VIDEO_H264_PROFILE_MAIN,
-+		}
- 	}, {
- 	},
- };
+  s/cros_ec_mfd_dev/cros_ec_parent/
+
+> Signed-off-by: Raul E Rangel <rrangel@chromium.org>
+> ---
+> This is based on top of the i2c acpi tunnel patches:
+> https://lore.kernel.org/patchwork/project/lkml/list/?series=419791
+> 
+>  drivers/i2c/busses/i2c-cros-ec-tunnel.c       |  2 +-
+>  drivers/iio/accel/cros_ec_accel_legacy.c      |  2 +-
+>  .../common/cros_ec_sensors/cros_ec_sensors.c  |  2 +-
+>  .../cros_ec_sensors/cros_ec_sensors_core.c    |  2 +-
+>  .../cros_ec_sensors/cros_ec_sensors_ring.c    |  2 +-
+>  drivers/iio/light/cros_ec_light_prox.c        |  2 +-
+>  drivers/iio/pressure/cros_ec_baro.c           |  2 +-
+>  .../media/platform/cros-ec-cec/cros-ec-cec.c  |  2 +-
+>  drivers/mfd/cros_ec_dev.c                     | 14 ++++-----
+>  drivers/platform/chrome/cros_ec_chardev.c     | 21 +++++++-------
+>  drivers/platform/chrome/cros_ec_debugfs.c     | 16 +++++-----
+>  drivers/platform/chrome/cros_ec_lightbar.c    | 29 ++++++++++---------
+>  drivers/platform/chrome/cros_ec_pd_sysfs.c    |  6 ++--
+>  drivers/platform/chrome/cros_ec_pd_update.c   | 20 ++++++-------
+>  drivers/platform/chrome/cros_ec_sysfs.c       | 16 +++++-----
+>  drivers/platform/chrome/cros_ec_vbc.c         |  8 ++---
+>  drivers/platform/chrome/cros_usbpd_logger.c   |  6 ++--
+>  drivers/power/supply/cros_usbpd-charger.c     |  6 ++--
+>  drivers/rtc/rtc-cros-ec.c                     |  2 +-
+>  include/linux/mfd/cros_ec.h                   |  8 ++---
+>  .../linux/platform_data/cros_ec_pd_update.h   |  4 +--
+>  21 files changed, 87 insertions(+), 85 deletions(-)
+
 -- 
-2.24.0.432.g9d3f5f5b63-goog
-
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
