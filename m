@@ -2,164 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9EEAD105F58
-	for <lists+linux-media@lfdr.de>; Fri, 22 Nov 2019 05:55:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EBB7105F69
+	for <lists+linux-media@lfdr.de>; Fri, 22 Nov 2019 06:16:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726554AbfKVEzN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 Nov 2019 23:55:13 -0500
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:52151 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726500AbfKVEzN (ORCPT
+        id S1726634AbfKVFQU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Nov 2019 00:16:20 -0500
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:45142 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726018AbfKVFQU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 Nov 2019 23:55:13 -0500
-Received: from localhost ([IPv6:2001:983:e9a7:1:253f:dce8:e40e:353d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id Y0yLi8UU3ecrtY0yNiA3Io; Fri, 22 Nov 2019 05:55:11 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1574398511; bh=qi/d3vu/hbZ/yDQr+9f5vXfg/q5d7YfuYkGhFL1PvO4=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=FrzCiXO07LV9/VcWHYyC5q1yvw3RvsBYrPcfkJNJLexiwVU9vjHFkJ6jjivvapXvE
-         hNWQXJ0MGy3vVCr59MJdyzjL0ef3r2inYGt0NH13jNm4l6NAhpUUNE0fZaNe+gb1Kn
-         DsdtNdqYz/FS2Wv3XXbrgm2wH0Eewgbp1Leid0GOxh/G01GGDC4sSarCwk/ZLYslg8
-         4Op9V4YNqCQEcLzk9io/Kdjxa0EcPYRKdjYFV/bIgWFFHHH3tpzaTkNTr4iMwL937B
-         kmR4xbpCMH8a2lz7cV0fWQHuicm5i6PUe1TELAagVcWFtWkU42SZQsOIDyWnJEVPEE
-         IMq9l5fce4TkQ==
-Message-ID: <3d556245801489930e9ecc7e9347f82d@smtp-cloud8.xs4all.net>
-Date:   Fri, 22 Nov 2019 05:55:09 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfF42scLg2Fxn3X4ZEjL8ny+TBurXVHt9jsEDgYAqd6EsxrDQOlJ0f96RdtsC50L2ypqoEe9gndkZprhCb8+HxKrTuynkBNbtvKj/wDsp/wqG1V3ce1x6
- ylCwuFcSkDYewbG35fUNK7n0Lh9yx0USFzECrYomSpK9JhAbKJB3ITBDRCJYtKaUnoCATMRsfD0NruUNE79foqaSERnwV1nSUXyM52PD9gf8fOWDwY53WmLR
+        Fri, 22 Nov 2019 00:16:20 -0500
+Received: by mail-pf1-f196.google.com with SMTP id z4so2893683pfn.12
+        for <linux-media@vger.kernel.org>; Thu, 21 Nov 2019 21:16:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Pur8D56rYiQ0M1ceqnI28F7eCh0YYOJc2gZei1cSwYw=;
+        b=QUuL2c+xQxdrPyysEXsec8QavmH64GVr/WK5Xy2ffOtjwjSkRDU8nM231KQZ55gTT+
+         o95OPytdoXojkQe06wVttIqQ+d8ikveWepYkDjh3szE/vnrqQQwCVhIHbokE9ohTbJBr
+         Qir9fZmE4Y8oLlw+ShfjvkYD9U9A5TCKfg4Jw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Pur8D56rYiQ0M1ceqnI28F7eCh0YYOJc2gZei1cSwYw=;
+        b=WtUADStOXzOdQ3DuiP2EO+HAgpKgnnu2p02CoVDrmXmpRxdYtrk8HKyWoC3FhKH1/N
+         UkUjyIleb/79OQTvReCnz5iSy1uZP89HGKsZJ72bT2WscQABUh0u2D6Cr20HpT9TpZl5
+         8pjPkrNEbutGl0QQXDhjyohFYl2M1wgnFIk4lQAe0tmk88t+zXcrQ+78dRVVzfHsrC/c
+         oXXwR/6YGf8Y6RDvjt4p8s+XBhDqtf/IWRw9YaomJP0K4fmf1E+N9kFL73AYw5HbNXgB
+         0G1RRsgzkE9lgHVGkEPU4uarYHjEVlYgi8nPWhKBuMPjHSF2ywuUbNQ4xePDHuwcagDO
+         OgGQ==
+X-Gm-Message-State: APjAAAUN6KquYDGDd4lxj8SlXTaU51+6ygYNErHhTQXwvA+zkCFk6eVh
+        UbcEEfgFmrakRY+CUHTRWZzqhw==
+X-Google-Smtp-Source: APXvYqwm6Bo6Fpvepq74mr6KZ7xSHs2WiOshfDeBDm7ixVWj28grrqSlnrpqRI/kf/OPwZ6eICDjRg==
+X-Received: by 2002:a63:fa0d:: with SMTP id y13mr13431599pgh.18.1574399777846;
+        Thu, 21 Nov 2019 21:16:17 -0800 (PST)
+Received: from hiroh.tok.corp.google.com ([2401:fa00:8f:2:3bf4:6372:5b56:dd4c])
+        by smtp.gmail.com with ESMTPSA id m7sm5756049pfb.153.2019.11.21.21.16.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Nov 2019 21:16:17 -0800 (PST)
+From:   Hirokazu Honda <hiroh@chromium.org>
+To:     ezequiel@collabora.com, mchehab@kernel.org,
+        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
+        tfiga@chromium.org
+Cc:     Hirokazu Honda <hiroh@chromium.org>
+Subject: [PATCH] media: hantro: Support H264 profile control
+Date:   Fri, 22 Nov 2019 14:16:08 +0900
+Message-Id: <20191122051608.128717-1-hiroh@chromium.org>
+X-Mailer: git-send-email 2.24.0.432.g9d3f5f5b63-goog
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+The Hantro G1 decoder supports H.264 profiles from Baseline to High, with
+the exception of the Extended profile.
 
-Results of the daily build of media_tree:
+Expose the V4L2_CID_MPEG_VIDEO_H264_PROFILE control, so that the
+applications can query the driver for the list of supported profiles.
 
-date:			Fri Nov 22 05:00:10 CET 2019
-media-tree git hash:	dca6b3733a4a46e63603496f544ece8ace541fde
-media_build git hash:	efba365ba11b958a6bf6fb4b397942f9461cefca
-v4l-utils git hash:	8bd4c435ce1e51f7a598074098b3f0043adc5712
-edid-decode git hash:	8b50301f90b2eb7f9f93c19853a6bed9e6daf2c5
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 6903fe8f5101fc43440b3259290c97d2dd51733d
-host hardware:		x86_64
-host os:		5.2.0-3-amd64
+Signed-off-by: Hirokazu Honda <hiroh@chromium.org>
+---
+ drivers/staging/media/hantro/hantro_drv.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4-rc1-i686: OK
-linux-5.4-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2791, Succeeded: 2791, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
+diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+index 6d9d41170832..9387619235d8 100644
+--- a/drivers/staging/media/hantro/hantro_drv.c
++++ b/drivers/staging/media/hantro/hantro_drv.c
+@@ -355,6 +355,16 @@ static const struct hantro_ctrl controls[] = {
+ 			.def = V4L2_MPEG_VIDEO_H264_START_CODE_ANNEX_B,
+ 			.max = V4L2_MPEG_VIDEO_H264_START_CODE_ANNEX_B,
+ 		},
++	}, {
++		.codec = HANTRO_H264_DECODER,
++		.cfg = {
++			.id = V4L2_CID_MPEG_VIDEO_H264_PROFILE,
++			.min = V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE,
++			.max = V4L2_MPEG_VIDEO_H264_PROFILE_HIGH,
++			.menu_skip_mask =
++			BIT(V4L2_MPEG_VIDEO_H264_PROFILE_EXTENDED),
++			.def = V4L2_MPEG_VIDEO_H264_PROFILE_MAIN,
++		}
+ 	}, {
+ 	},
+ };
+-- 
+2.24.0.432.g9d3f5f5b63-goog
 
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
