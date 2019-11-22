@@ -2,114 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 45E54106F5C
-	for <lists+linux-media@lfdr.de>; Fri, 22 Nov 2019 12:15:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B595F10748F
+	for <lists+linux-media@lfdr.de>; Fri, 22 Nov 2019 16:09:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730729AbfKVLPJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Nov 2019 06:15:09 -0500
-Received: from mx2.suse.de ([195.135.220.15]:34110 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729023AbfKVLPI (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Nov 2019 06:15:08 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 21586B2F6;
-        Fri, 22 Nov 2019 11:15:04 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id 4FA541E484C; Fri, 22 Nov 2019 12:15:02 +0100 (CET)
-Date:   Fri, 22 Nov 2019 12:15:02 +0100
-From:   Jan Kara <jack@suse.cz>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Jan Kara <jack@suse.cz>, Christoph Hellwig <hch@lst.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
-        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>,
-        "Aneesh Kumar K . V" <aneesh.kumar@linux.ibm.com>
-Subject: Re: [PATCH v7 02/24] mm/gup: factor out duplicate code from four
- routines
-Message-ID: <20191122111502.GC26721@quack2.suse.cz>
-References: <20191121071354.456618-1-jhubbard@nvidia.com>
- <20191121071354.456618-3-jhubbard@nvidia.com>
- <20191121080356.GA24784@lst.de>
- <852f6c27-8b65-547b-89e0-e8f32a4d17b9@nvidia.com>
- <20191121095411.GC18190@quack2.suse.cz>
- <9d0846af-2c4f-7cda-dfcb-1f642943afea@nvidia.com>
+        id S1727142AbfKVPJ1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Nov 2019 10:09:27 -0500
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:44658 "EHLO
+        mail-qt1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726100AbfKVPJ0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 22 Nov 2019 10:09:26 -0500
+Received: by mail-qt1-f193.google.com with SMTP id g24so1317985qtq.11
+        for <linux-media@vger.kernel.org>; Fri, 22 Nov 2019 07:09:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=g5NUe7vlbEe2wgfNr66lt2YquPFqR05ke44iUlyinlU=;
+        b=YB/UzBGOwUoXBzOrmcmzXISuMyursMtRnjg5a7p/fdYK+/DyPLb/40VRF9XWScfcGz
+         xk80Cp/0W8vxIbTT9v4P1MpvrRTk794Qd/t6gFDmn5/Fy25IDRNmEnNLkYaUgJrV6q6B
+         N/MPCdJvPY81oc1zHDlVYOi3VMQVJ2sv374uH74hYXkvjnb7/jaD+sHLy2y7MuC8odee
+         xhxVxze/dTdua7AWxfk0P4nKulmMv8VsMuxBK/Sb6M/MA79onUv4a0Yx3vaG3bu+ael1
+         kc2DY3xoyoqL3B+ZKPkPmh5TvvAAOELQusgdTguCjyWXA7UJSjw/x6+rhXWuVaWZ/xOB
+         QxFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=g5NUe7vlbEe2wgfNr66lt2YquPFqR05ke44iUlyinlU=;
+        b=g84Z5BZMg4aU1TT2YwzWz70JY3eD3QFZFJRXpFXcuyG+R4jFdJT0ZGepc9AkNoDe6f
+         M6lzxy54RSgbrgKbye3BawscBeRFZL/ydaMfNztEnAU3/61GgM4IuTzs/8CMlQ7I5XWB
+         9txBmfvxd4ucnhWeZC66vdV6Uymt425nT2yTtL1BtGHgn8hHTQt/LsS1UVk3qmfbsvmN
+         DykJidwcY46U87TVwrYZsbqXGnnZAHt19vTqgFx/Pn1SdC9PwrY9MrA1TBRFz3xKBHLO
+         X8sgxFsG3wMTcazqUaCFak48TJC1F2XjEYw+Z/GEzTS7rN2/uSiowiNxOCS1qoJ7ey/p
+         SJ4w==
+X-Gm-Message-State: APjAAAWiVO0Jqe29fvfDYoyEdC6cxr2j6YW7IdIPKdpJiNslEfNoRPwi
+        iSC+n6Zgzm9+YyupEP5UsCGLX1vkgzs=
+X-Google-Smtp-Source: APXvYqzzaa1j6TzEWV7XVpPIlvEC8vo0OuVoYXDbGKbWsl9Gpc97/tOwGGj51dxMHx/44cMCTJ0MfA==
+X-Received: by 2002:ac8:89c:: with SMTP id v28mr3765148qth.156.1574435365519;
+        Fri, 22 Nov 2019 07:09:25 -0800 (PST)
+Received: from skullcanyon ([192.222.193.21])
+        by smtp.gmail.com with ESMTPSA id c19sm3583774qtb.30.2019.11.22.07.09.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Nov 2019 07:09:24 -0800 (PST)
+Message-ID: <767528be59275265072896e5c679e97575615fdd.camel@ndufresne.ca>
+Subject: Re: [PATCH] media: hantro: Support H264 profile control
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Hirokazu Honda <hiroh@chromium.org>, ezequiel@collabora.com,
+        mchehab@kernel.org, gregkh@linuxfoundation.org,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-kernel@vger.kernel.org, tfiga@chromium.org
+Date:   Fri, 22 Nov 2019 10:09:23 -0500
+In-Reply-To: <20191122051608.128717-1-hiroh@chromium.org>
+References: <20191122051608.128717-1-hiroh@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.1 (3.34.1-1.fc31) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9d0846af-2c4f-7cda-dfcb-1f642943afea@nvidia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu 21-11-19 18:54:02, John Hubbard wrote:
-> On 11/21/19 1:54 AM, Jan Kara wrote:
-> > On Thu 21-11-19 00:29:59, John Hubbard wrote:
-> > > > 
-> > > > Otherwise this looks fine and might be a worthwhile cleanup to feed
-> > > > Andrew for 5.5 independent of the gut of the changes.
-> > > > 
-> > > > Reviewed-by: Christoph Hellwig <hch@lst.de>
-> > > > 
-> > > 
-> > > Thanks for the reviews! Say, it sounds like your view here is that this
-> > > series should be targeted at 5.6 (not 5.5), is that what you have in mind?
-> > > And get the preparatory patches (1-9, and maybe even 10-16) into 5.5?
-> > 
-> > One more note :) If you are going to push pin_user_pages() interfaces
-> > (which I'm fine with), it would probably make sense to push also the
-> > put_user_pages() -> unpin_user_pages() renaming so that that inconsistency
-> > in naming does not exist in the released upstream kernel.
-> > 
-> > 								Honza
+Le vendredi 22 novembre 2019 à 14:16 +0900, Hirokazu Honda a écrit :
+> The Hantro G1 decoder supports H.264 profiles from Baseline to High, with
+> the exception of the Extended profile.
 > 
-> Yes, that's what this patch series does. But I'm not sure if "push" here
-> means, "push out: defer to 5.6", "push (now) into 5.5", or "advocate for"?
+> Expose the V4L2_CID_MPEG_VIDEO_H264_PROFILE control, so that the
+> applications can query the driver for the list of supported profiles.
 
-I meant to include the patch in the "for 5.5" batch.
+Thanks for this patch. Do you think we could also add the LEVEL control
+so the profile/level enumeration becomes complete ?
 
-> I will note that it's not going to be easy to rename in one step, now
-> that this is being split up. Because various put_user_pages()-based items
-> are going into 5.5 via different maintainer trees now. Probably I'd need
-> to introduce unpin_user_page() alongside put_user_page()...thoughts?
+I'm thinking it would be nice if the v4l2 compliance test make sure
+that codecs do implement these controls (both stateful and stateless),
+it's essential for stack with software fallback, or multiple capable
+codec hardware but with different capabilities.
 
-Yes, I understand that moving that patch from the end of the series would
-cause fair amount of conflicts. I was hoping that you could generate the
-patch with sed/Coccinelle and then rebasing what remains for 5.6 on top of
-that patch should not be that painful so overall it should not be that much
-work. But I may be wrong so if it proves to be too tedious, let's just
-postpone the renaming to 5.6. I don't find having both unpin_user_page()
-and put_user_page() a better alternative to current state. Thanks!
+> 
+> Signed-off-by: Hirokazu Honda <hiroh@chromium.org>
+> ---
+>  drivers/staging/media/hantro/hantro_drv.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+> index 6d9d41170832..9387619235d8 100644
+> --- a/drivers/staging/media/hantro/hantro_drv.c
+> +++ b/drivers/staging/media/hantro/hantro_drv.c
+> @@ -355,6 +355,16 @@ static const struct hantro_ctrl controls[] = {
+>  			.def = V4L2_MPEG_VIDEO_H264_START_CODE_ANNEX_B,
+>  			.max = V4L2_MPEG_VIDEO_H264_START_CODE_ANNEX_B,
+>  		},
+> +	}, {
+> +		.codec = HANTRO_H264_DECODER,
+> +		.cfg = {
+> +			.id = V4L2_CID_MPEG_VIDEO_H264_PROFILE,
+> +			.min = V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE,
+> +			.max = V4L2_MPEG_VIDEO_H264_PROFILE_HIGH,
+> +			.menu_skip_mask =
+> +			BIT(V4L2_MPEG_VIDEO_H264_PROFILE_EXTENDED),
+> +			.def = V4L2_MPEG_VIDEO_H264_PROFILE_MAIN,
+> +		}
+>  	}, {
+>  	},
+>  };
 
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
