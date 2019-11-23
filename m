@@ -2,166 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 57AA6107BF6
-	for <lists+linux-media@lfdr.de>; Sat, 23 Nov 2019 01:19:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 15866107CDE
+	for <lists+linux-media@lfdr.de>; Sat, 23 Nov 2019 05:55:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726722AbfKWATm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Nov 2019 19:19:42 -0500
-Received: from mail-pf1-f194.google.com ([209.85.210.194]:38208 "EHLO
-        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726686AbfKWATm (ORCPT
+        id S1726463AbfKWEz1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Nov 2019 23:55:27 -0500
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:57161 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726357AbfKWEz1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Nov 2019 19:19:42 -0500
-Received: by mail-pf1-f194.google.com with SMTP id c13so4311564pfp.5;
-        Fri, 22 Nov 2019 16:19:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=BmTPMLW7xZlRAF+tg6lS69H830vblmYj1GtO0vAyQ3Y=;
-        b=GoUWvi/4//MTls5+pgqdV7IhxiGqIWLbG2fohDGe/ro2fxm0KT0UIEmc2X77wVZwxR
-         v5EDKMhhbszqZzZm+QDc2Wswqf+ef3ViyU1r60e7/pN7h6aROobAX8qee9AOI9whViV4
-         XDhboLMB4EccQlHtacxxnaihLSwgec+TDzYS3SVWgGBUBCr76x9jnP2mepImNdM9Qtft
-         S6GxceJv8ciOQChuFPMZyGtDtIZjRvvrfhvxA3+zqX5k/p2JYeaIEyW6eCEkPgCQ/ix4
-         +mOZi79xw+lnh9kvFVCzfcW5//8J3IQ6FAMFwiYkdKT+cM/RSX+43TNQiG6D5xneK6Js
-         1d+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=BmTPMLW7xZlRAF+tg6lS69H830vblmYj1GtO0vAyQ3Y=;
-        b=H+xYUy4nhc7HVaL5jJ2Lst1a6j97GGdRNjjhk2WNiceSPe5iZzvTHiOiqRpntzwodN
-         UUsMDu3tLYlbC41j+nJ5hkv9CKvSS1q8ZY0nmUQUTFxkh5t4pMMk+7HgTSTSphxlUgpd
-         zdfBE5E9xQkfAHanRYvWRYZpBZayrO/RygTH5p+qcRYHxqPyI/jpqEVZa6GpIi3kIovZ
-         WaqSDKcGAVjxsS+dSpaYGurtTTHdClUtmWbI9vczja2t74L3CE8kci2CqZTM4sN525Up
-         cnluwvgdb86l8KlKlhAvBE8Xj908Adx10gkdm7yuOgqqclGUFT+KHvkYM0RjTqlTBaNX
-         U1WQ==
-X-Gm-Message-State: APjAAAXQWMFLm7sSspSzmtrZDd8+3OmvZHB3I9l2eP7ftGBcQhVeGi28
-        aroKAMO1oPCGnguip7MJ0Dw=
-X-Google-Smtp-Source: APXvYqzMyqcJDHDewOKg2LcXwV6ktifDbOdDUf4VvhTlKNxhhV9bQmah+/U7YBCI4WYxtYQTTE0t/g==
-X-Received: by 2002:a63:b144:: with SMTP id g4mr18072041pgp.87.1574468380096;
-        Fri, 22 Nov 2019 16:19:40 -0800 (PST)
-Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
-        by smtp.gmail.com with ESMTPSA id z6sm54389pjd.9.2019.11.22.16.19.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Nov 2019 16:19:39 -0800 (PST)
-Date:   Fri, 22 Nov 2019 16:19:37 -0800
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Lucas Stach <l.stach@pengutronix.de>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-input@vger.kernel.org,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Nick Dyer <nick@shmanahar.org>,
-        Christopher Heiny <cheiny@synaptics.com>,
-        Vandana BN <bnvandana@gmail.com>
-Subject: Re: [PATCH 2/5] input/rmi4/rmi_f54: fix various V4L2 compliance
- problems
-Message-ID: <20191123001937.GH248138@dtor-ws>
-References: <20191119105118.54285-1-hverkuil-cisco@xs4all.nl>
- <20191119105118.54285-3-hverkuil-cisco@xs4all.nl>
- <54e84fe8a6d1fdd6faf11e3a5c4a7314b0151474.camel@pengutronix.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <54e84fe8a6d1fdd6faf11e3a5c4a7314b0151474.camel@pengutronix.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        Fri, 22 Nov 2019 23:55:27 -0500
+Received: from localhost ([IPv6:2001:983:e9a7:1:2d64:d262:3d82:887c])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id YNS7iF4MqecrtYNS9iDA6F; Sat, 23 Nov 2019 05:55:25 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1574484925; bh=0G3jCmAJM7qzNnPtqlDTURVPvKC5+/ucDjd6exa/0Fs=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=bvvc4TJEcduigImnBP7Ndh+L8Tf8ddx4QEk1xTjK9ZPcgq6I5djjnx+QxORUCicCD
+         eKA2rao8P/Ln+/7Nsv9yGTeOxLgxkXDAky7UEpHjCXZzoPu/nza4AlD6EwTmkI3EOB
+         ZbHXX6sNE6ciT8meBJvfJ7Rkbg6W38QPHg3pFjyv4A7ElqCvJ7ySPoxkynjb5qVXT5
+         SRN9d1dGNbyzW/lrKxAdQavUkjrbswEaxBv1S6GMBmJdH4MfhmblT8TCsMvDtDPJzx
+         AVQC5B/8aC8EQdrYiaCYRaK8x7i9y9LfrQrmb5h2d/prTBYgaPEFeZQf1nuab8JS8m
+         K5NJAUr848r7g==
+Message-ID: <c42752df75f49722e09a234139384827@smtp-cloud8.xs4all.net>
+Date:   Sat, 23 Nov 2019 05:55:23 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfEqxF5kkDToO+sHEPIk8qVCodmlIUYhhbmp3WYugMDFTIWC0OsNsvhZ3ypeZxiFdqRk5C5hYB161Z4ghc4PItyf+4dyeVplL/fma+WVhxC93urJp3PzA
+ LJ07yxXGxvm+FnFFe3bYlIgdJH/BypT7TET/FzJ2R+J4GJ2qpJDVXI27UmxqlTy+bzM0sbMLUBXqlo4wpTYleYsjJeJKzoWX6nOAYsgyqHPZYQpvpdjx8OWG
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Nov 19, 2019 at 12:42:46PM +0100, Lucas Stach wrote:
-> On Di, 2019-11-19 at 11:51 +0100, Hans Verkuil wrote:
-> > The v4l2-compliance utility reported several V4L2 API compliance
-> > issues:
-> > 
-> > - the sequence counter wasn't filled in
-> > - the sequence counter wasn't reset to 0 at the start of streaming
-> > - the returned field value wasn't set to V4L2_FIELD_NONE
-> > - the timestamp wasn't set
-> > - the payload size was undefined if an error was returned
-> > - min_buffers_needed doesn't need to be initialized
-> > 
-> > Fix these issues.
-> > 
-> > Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> 
-> Reviewed-by: Lucas Stach <l.stach@pengutronix.de
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Applied, thank you.
+Results of the daily build of media_tree:
 
-> 
-> > ---
-> >  drivers/input/rmi4/rmi_f54.c | 15 ++++++++++++++-
-> >  1 file changed, 14 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/input/rmi4/rmi_f54.c
-> > b/drivers/input/rmi4/rmi_f54.c
-> > index 710b02595486..ebccab7a4834 100644
-> > --- a/drivers/input/rmi4/rmi_f54.c
-> > +++ b/drivers/input/rmi4/rmi_f54.c
-> > @@ -116,6 +116,7 @@ struct f54_data {
-> >  	struct video_device vdev;
-> >  	struct vb2_queue queue;
-> >  	struct mutex lock;
-> > +	u32 sequence;
-> >  	int input;
-> >  	enum rmi_f54_report_type inputs[F54_MAX_REPORT_TYPE];
-> >  };
-> > @@ -290,6 +291,7 @@ static int rmi_f54_queue_setup(struct vb2_queue
-> > *q, unsigned int *nbuffers,
-> >  
-> >  static void rmi_f54_buffer_queue(struct vb2_buffer *vb)
-> >  {
-> > +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-> >  	struct f54_data *f54 = vb2_get_drv_priv(vb->vb2_queue);
-> >  	u16 *ptr;
-> >  	enum vb2_buffer_state state;
-> > @@ -298,6 +300,7 @@ static void rmi_f54_buffer_queue(struct
-> > vb2_buffer *vb)
-> >  
-> >  	mutex_lock(&f54->status_mutex);
-> >  
-> > +	vb2_set_plane_payload(vb, 0, 0);
-> >  	reptype = rmi_f54_get_reptype(f54, f54->input);
-> >  	if (reptype == F54_REPORT_NONE) {
-> >  		state = VB2_BUF_STATE_ERROR;
-> > @@ -344,14 +347,25 @@ static void rmi_f54_buffer_queue(struct
-> > vb2_buffer *vb)
-> >  data_done:
-> >  	mutex_unlock(&f54->data_mutex);
-> >  done:
-> > +	vb->timestamp = ktime_get_ns();
-> > +	vbuf->field = V4L2_FIELD_NONE;
-> > +	vbuf->sequence = f54->sequence++;
-> >  	vb2_buffer_done(vb, state);
-> >  	mutex_unlock(&f54->status_mutex);
-> >  }
-> >  
-> > +static void rmi_f54_stop_streaming(struct vb2_queue *q)
-> > +{
-> > +	struct f54_data *f54 = vb2_get_drv_priv(q);
-> > +
-> > +	f54->sequence = 0;
-> > +}
-> > +
-> >  /* V4L2 structures */
-> >  static const struct vb2_ops rmi_f54_queue_ops = {
-> >  	.queue_setup            = rmi_f54_queue_setup,
-> >  	.buf_queue              = rmi_f54_buffer_queue,
-> > +	.stop_streaming		= rmi_f54_stop_streaming,
-> >  	.wait_prepare           = vb2_ops_wait_prepare,
-> >  	.wait_finish            = vb2_ops_wait_finish,
-> >  };
-> > @@ -363,7 +377,6 @@ static const struct vb2_queue rmi_f54_queue = {
-> >  	.ops = &rmi_f54_queue_ops,
-> >  	.mem_ops = &vb2_vmalloc_memops,
-> >  	.timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC,
-> > -	.min_buffers_needed = 1,
-> >  };
-> >  
-> >  static int rmi_f54_vidioc_querycap(struct file *file, void *priv,
-> 
+date:			Sat Nov 23 05:00:10 CET 2019
+media-tree git hash:	dca6b3733a4a46e63603496f544ece8ace541fde
+media_build git hash:	efba365ba11b958a6bf6fb4b397942f9461cefca
+v4l-utils git hash:	8bd4c435ce1e51f7a598074098b3f0043adc5712
+edid-decode git hash:	8108c45fea0eb05c73615fbd765a1ebb80b20b6a
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 6903fe8f5101fc43440b3259290c97d2dd51733d
+host hardware:		x86_64
+host os:		5.2.0-3-amd64
 
--- 
-Dmitry
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4-rc1-i686: OK
+linux-5.4-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2791, Succeeded: 2791, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
