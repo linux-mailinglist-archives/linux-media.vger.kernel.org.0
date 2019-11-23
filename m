@@ -2,107 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 48CF4107F5A
-	for <lists+linux-media@lfdr.de>; Sat, 23 Nov 2019 17:27:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CF19107F6B
+	for <lists+linux-media@lfdr.de>; Sat, 23 Nov 2019 17:46:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726757AbfKWQ1r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 23 Nov 2019 11:27:47 -0500
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:42843 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726487AbfKWQ1q (ORCPT
+        id S1726887AbfKWQqR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 23 Nov 2019 11:46:17 -0500
+Received: from smtp-out-so.shaw.ca ([64.59.136.139]:37140 "EHLO
+        smtp-out-so.shaw.ca" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726762AbfKWQqQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 23 Nov 2019 11:27:46 -0500
-Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id YYG5iljsmcs92YYG8iKXbj; Sat, 23 Nov 2019 17:27:44 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1574526464; bh=DGM6J9o8PLZIDnbCtqEDDIgMS6Bymc7T0bSTzSjS0hA=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=Jx7WPlQZiTg09YTqb6G8KIAM2ckkMo/v/xX175ati25oqn/ETlna89i5sW5OyC0R3
-         KkxEwoS5Km/koWrKSoM4BIS8UDO2lBpIbHQ254jju9XjGwXcJfUsqdlW3wbsnDRoWV
-         h+mYdoO+arAsyKxKiB8t/xPxWtWvDjm6rmDNugf0lPX/C5L1pzPa2vYE+/WqmMVqd6
-         cnRKDY7oRic56c20qb5KnjzeLll9v8ak4qCePfhHJDwZkfkD5/yppOq4pfvn2h3hyg
-         lPk/94wkZsGyt8LTYlid4fcdnapKs7Hke7bhJIYDat+x3CPtemZNsYZ2qsVrNrT0rV
-         wrWWb2aKjmhVQ==
-Subject: [PATCHv2 5/5] input/rmi4/rmi_smbus.c: don't increment rmiaddr
-To:     linux-media@vger.kernel.org
-Cc:     linux-input@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Nick Dyer <nick@shmanahar.org>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Christopher Heiny <cheiny@synaptics.com>,
-        Vandana BN <bnvandana@gmail.com>
-References: <20191119105118.54285-1-hverkuil-cisco@xs4all.nl>
- <20191119105118.54285-6-hverkuil-cisco@xs4all.nl>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <8dd22e21-4933-8e9c-a696-d281872c8de7@xs4all.nl>
-Date:   Sat, 23 Nov 2019 17:27:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Sat, 23 Nov 2019 11:46:16 -0500
+Received: from shaw.ca ([70.71.78.228])
+        by shaw.ca with ESMTPA
+        id YYXziRYDERnrKYYY2iYY0y; Sat, 23 Nov 2019 09:46:15 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shaw.ca;
+        s=s20180605; t=1574527575;
+        bh=AQdv4G/mSkEfz7b1eoaRqAXKVimupndYiBmQr3Yo3NA=;
+        h=From:To:Cc:Subject:Date;
+        b=gxY8tlrVUPJR4+vUsOnfh4b1A7/z7JQ8Hy02fV6weTLTw0yySzWBkn1zd6+mHss5a
+         VNc3+ysFm0JUk+vilsqd9Nsy5aVDdF9O7RDnOEb1o4EFuYkE833IHzaRSr78aSy18M
+         SgCLdeQRjYF9fFm3qXgyazC+XsnN4ZUjuIH/7P7c6v2kMJ+O4vY68bsRnKfdcWRLXi
+         6FPtZHj7tsTNPgV28z99wwjyle8WYtrCKFxhbpc/6AOI07b3yZFyfMykr3PG2whjwf
+         UU1sswJ9qHm7M2lRu1NDk3rMYQpo7i9EMovBEoxTUtH9AW4nq2VlY+ZNjD6QhcOYOl
+         359auYB6qPSeg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shaw.ca;
+        s=s20180605; t=1574527575;
+        bh=AQdv4G/mSkEfz7b1eoaRqAXKVimupndYiBmQr3Yo3NA=;
+        h=From:To:Cc:Subject:Date;
+        b=gxY8tlrVUPJR4+vUsOnfh4b1A7/z7JQ8Hy02fV6weTLTw0yySzWBkn1zd6+mHss5a
+         VNc3+ysFm0JUk+vilsqd9Nsy5aVDdF9O7RDnOEb1o4EFuYkE833IHzaRSr78aSy18M
+         SgCLdeQRjYF9fFm3qXgyazC+XsnN4ZUjuIH/7P7c6v2kMJ+O4vY68bsRnKfdcWRLXi
+         6FPtZHj7tsTNPgV28z99wwjyle8WYtrCKFxhbpc/6AOI07b3yZFyfMykr3PG2whjwf
+         UU1sswJ9qHm7M2lRu1NDk3rMYQpo7i9EMovBEoxTUtH9AW4nq2VlY+ZNjD6QhcOYOl
+         359auYB6qPSeg==
+X-Authority-Analysis: v=2.3 cv=L7FjvNb8 c=1 sm=1 tr=0
+ a=qDatE6m/3wxSEG8Wq7h0zQ==:117 a=qDatE6m/3wxSEG8Wq7h0zQ==:17
+ a=Q9Rj0_lbYESmYbdiyZkA:9
+From:   joevt <joevt@shaw.ca>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, joevt <joevt@shaw.ca>
+Subject: [PATCH 00/10] edid-decode: bug fixes, additions, changes
+Date:   Sat, 23 Nov 2019 08:45:54 -0800
+Message-Id: <20191123164604.268-1-joevt@shaw.ca>
+X-Mailer: git-send-email 2.21.0 (Apple Git-122.2)
 MIME-Version: 1.0
-In-Reply-To: <20191119105118.54285-6-hverkuil-cisco@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfGT6F0rmTJb3wB29yEgY7TOoegt20SL4lATZ6w0ZhCdcTzE+nV+nEZbmpARgLv5YqHgg7ICbfxovC6xL6PAgRS4ih+TVd1OIunj3SQfmeVwttVFr/Uwm
- uzZxq8v9R3mLyUxrL5vVZwcd0uetO+eKIBVTCJmUoaGHTXKcl6T5OX2qnZRZRMQYKXy0JqZO21nPnjFoLibOWdJfhTQEv+DazR06M2nKDXRBGG/MHoXCdAFg
- QHXp5pjkWYfhtpZf2n8QFyRNSbLP57Up29Ek3Zk7koJb6L+YwmPwXbsG7fgi9LC/QSs8Shns69aIHxDoMqD/jB9sOS6Agi4Rl3Evl1PJd1m6K/SK2zWNA4mU
- 4KIDSkDGAHSipbnjdzqan4StI0pWOBelUEU4NYRZ3iB2zpy8Cp56qNO6DKKkymvbUXn3JmKV
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfOY6nnjBSesckqm77OB5dyWnLm6UQqNHBC7vZ047/8VRMvM6rNflFdVjf6nubFnhlRqoWuSaML5TpDL7gY6UtKQ9Pk5mYHLY/Ck9TSN39sE3kukH3vL+
+ 3vxf2yAYlkIAJKUDOtsw1JO9FDvEwO4CMcloVDH5RyAXMv0G7K9p+3yC/+wlJXV5bal3MLmvPjTsW9WVRaM91d6qU+HCWJvN14g=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This increment of rmi_smbus in rmi_smb_read/write_block() causes
-garbage to be read/written.
+This patchset is a set of bug-fixes, additions, and changes I've made while examining various EDIDs I have encountered.
 
-The first read of SMB_MAX_COUNT bytes is fine, but after that
-it is nonsense. Trial-and-error showed that by dropping the
-increment of rmiaddr everything is fine and the F54 function
-properly works.
+joevt (10):
+  edid-decode: change horizontal refresh rates to kHz
+  edid-decode: correct horizontal range in Monitor Ranges
+  edid-decode: correct calculation of DisplayID type 1 timings
+  edid-decode: add front porch, pulse width, and back porch
+  edid-decode: output timings for YCbCr 4:2:0 cmdb
+  edid-decode: Dump hex of unknown CTA Vendor-Specific blocks
+  edid-decode: cleanup printf format string compiler warnings
+  edid-decode: Dump hex of non-decoded extension blocks
+  edid-decode: DisplayID additions
+  edid-decode: add example EDIDs
 
-I tried a hack with rmi_smb_write_block() as well (writing to the
-same F54 touchpad data area, then reading it back), and that
-suggests that there too the rmiaddr increment has to be dropped.
-It makes sense that if it has to be dropped for read, then it has
-to be dropped for write as well.
+ data/acer-xv273k-dp1                          | Bin 0 -> 384 bytes
+ data/acer-xv273k-dp1-tile0                    | Bin 0 -> 384 bytes
+ data/acer-xv273k-dp2                          | Bin 0 -> 384 bytes
+ data/acer-xv273k-dp2-tile1                    | Bin 0 -> 384 bytes
+ data/dell-p2415q-dp-mdp                       | Bin 0 -> 256 bytes
+ data/dell-p2415q-hdmi1.4                      | Bin 0 -> 256 bytes
+ data/dell-p2415q-hdmi2.0                      | Bin 0 -> 256 bytes
+ data/dell-up2715k-dp1-tile1                   | Bin 0 -> 384 bytes
+ data/dell-up2715k-dp2-tile0                   | Bin 0 -> 256 bytes
+ data/dell-up2715k-mdp                         | Bin 0 -> 256 bytes
+ data/dell-up2715k-mdp-switchresx              | Bin 0 -> 384 bytes
+ data/kogan-kaled24144f-dp                     | Bin 0 -> 256 bytes
+ data/kogan-kaled24144f-hdmi                   | Bin 0 -> 256 bytes
+ data/lg-ultrafine-5k-v2-thunderbolt-dp1-tile0 | Bin 0 -> 384 bytes
+ data/lg-ultrafine-5k-v2-thunderbolt-dp2-tile1 | Bin 0 -> 256 bytes
+ edid-decode.c                                 | 758 ++++++++++++++++--
+ 16 files changed, 671 insertions(+), 87 deletions(-)
+ create mode 100644 data/acer-xv273k-dp1
+ create mode 100644 data/acer-xv273k-dp1-tile0
+ create mode 100644 data/acer-xv273k-dp2
+ create mode 100644 data/acer-xv273k-dp2-tile1
+ create mode 100644 data/dell-p2415q-dp-mdp
+ create mode 100644 data/dell-p2415q-hdmi1.4
+ create mode 100644 data/dell-p2415q-hdmi2.0
+ create mode 100644 data/dell-up2715k-dp1-tile1
+ create mode 100644 data/dell-up2715k-dp2-tile0
+ create mode 100644 data/dell-up2715k-mdp
+ create mode 100644 data/dell-up2715k-mdp-switchresx
+ create mode 100644 data/kogan-kaled24144f-dp
+ create mode 100644 data/kogan-kaled24144f-hdmi
+ create mode 100644 data/lg-ultrafine-5k-v2-thunderbolt-dp1-tile0
+ create mode 100644 data/lg-ultrafine-5k-v2-thunderbolt-dp2-tile1
 
-It looks like the initial work with F54 was done using i2c, not smbus,
-and it seems nobody ever tested F54 with smbus. The other functions
-all read/write less than SMB_MAX_COUNT as far as I can tell, so this
-issue was never noticed with non-F54 functions.
-
-With this change I can read out the touchpad data correctly on my
-Lenovo X1 Carbon 6th Gen laptop.
-
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
- drivers/input/rmi4/rmi_smbus.c | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/drivers/input/rmi4/rmi_smbus.c b/drivers/input/rmi4/rmi_smbus.c
-index 2407ea43de59..b313c579914f 100644
---- a/drivers/input/rmi4/rmi_smbus.c
-+++ b/drivers/input/rmi4/rmi_smbus.c
-@@ -163,7 +163,6 @@ static int rmi_smb_write_block(struct rmi_transport_dev *xport, u16 rmiaddr,
- 		/* prepare to write next block of bytes */
- 		cur_len -= SMB_MAX_COUNT;
- 		databuff += SMB_MAX_COUNT;
--		rmiaddr += SMB_MAX_COUNT;
- 	}
- exit:
- 	mutex_unlock(&rmi_smb->page_mutex);
-@@ -215,7 +214,6 @@ static int rmi_smb_read_block(struct rmi_transport_dev *xport, u16 rmiaddr,
- 		/* prepare to read next block of bytes */
- 		cur_len -= SMB_MAX_COUNT;
- 		databuff += SMB_MAX_COUNT;
--		rmiaddr += SMB_MAX_COUNT;
- 	}
-
- 	retval = 0;
 -- 
-2.24.0
-
+2.21.0 (Apple Git-122.2)
 
