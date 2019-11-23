@@ -2,84 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3115F107A64
-	for <lists+linux-media@lfdr.de>; Fri, 22 Nov 2019 23:10:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C37E7107BF1
+	for <lists+linux-media@lfdr.de>; Sat, 23 Nov 2019 01:17:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726546AbfKVWKH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 Nov 2019 17:10:07 -0500
-Received: from mail-il1-f196.google.com ([209.85.166.196]:45894 "EHLO
-        mail-il1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726089AbfKVWKH (ORCPT
+        id S1726704AbfKWARn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 Nov 2019 19:17:43 -0500
+Received: from mail-pf1-f194.google.com ([209.85.210.194]:39040 "EHLO
+        mail-pf1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726638AbfKWARn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 Nov 2019 17:10:07 -0500
-Received: by mail-il1-f196.google.com with SMTP id o18so8380864ils.12;
-        Fri, 22 Nov 2019 14:10:06 -0800 (PST)
+        Fri, 22 Nov 2019 19:17:43 -0500
+Received: by mail-pf1-f194.google.com with SMTP id x28so4307834pfo.6;
+        Fri, 22 Nov 2019 16:17:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=bBifFU+n+ullPalYVdHCIouKPhTwiN8vd2nuMuI0EP4=;
-        b=N7Owfb0ymE4k55Cz4Tylc3lGqajuxdOLCaNNOL3y3YMqPUW3gcx8W6yj+Dpbm0wi1Y
-         9DY8gf1IHSaJjwBIxHM9apHriu6PKCVWVyYNrK++aBHkQFO9JfB+ytCOwfLOYhZUqlKG
-         JRtLyAL0FaN4vVtBMhgeAMmyTPm8AhrVAyIQm0foeg1A/UFKM3MgetBxBsNo2En9mCxM
-         +8va9/9q+3jKh8fifbJLgo/lXfFEdQFEHN7aHwuL30xIygancJoCqz13j6Ij9dHgb2/I
-         W5K4QaLAe34D7CngLE5MALsc0iuXyeqfX8nR0+B7okTbb68K227iK0fzCuiqvX12wmhT
-         66wA==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=iiY6R0zRBcS0LohPlMpk2ff2+jdv+GHem5CUGt0sLyU=;
+        b=ruzFU+9LYg6SJBtYNXx4bMTfDwjthU1KKHGCc7bc41xc74FnQ1WKyOIEyXcw3Zm4wZ
+         iQ5seG7iFjvNjjen5g/AwbORnA7Vd5PisCqsqcnqNrGZ3rWB7+JxlJz7NB6ZWhgSHMJ2
+         94QJxluzxlemheDVANp396zLKtoWL2vkAA+Ys0mAfhp0/hwAAOoRVopXE4/B+iLR+Rdz
+         T/1kkwRhIwbjLm0FPBsmtVIev0LioKjEv6gcjkAxDJlYMtn+B0CfgNsMg6OhN2FOaq0R
+         3pULuNkI5jjW0MBCgL52j8RiQJLqH0jPsUaTwhKKR8yZNwvP49Yg9ClDKgRV/DfaSoB9
+         gr8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=bBifFU+n+ullPalYVdHCIouKPhTwiN8vd2nuMuI0EP4=;
-        b=Fs3xb68juJOWaHzzR34ADXE171ooHk9Nca0mZgYkrvTZC++om09JdZuzOPK7SZxAUM
-         eerd5whoGlV44zY3SuMx1xE2Tqmpvt6WST7tNvCxEvUvZIdGPZIZuy1aETlDQRVuBhvR
-         tiz9HWoyCXnXPY5uHsrxfKn56vVNHvtDehDejwKO8t8JXFMgDI2G5kZGMwkHnTlEOKGF
-         LHDJoe9a1ZXMPu3sa/7Lr++crdKSJN6lZL7b74KuBGNY2bT0qFEGw26tnvAyrleh3Xyy
-         VOHuOVbMBW4S0xECu3zBQtc+Vje+HVD09PErcFptGd0EblRU+HeZa9hufFziJ9xjcD4K
-         wjWw==
-X-Gm-Message-State: APjAAAXPshLqIZI1oKhCSSjHVNl/CtOk3VlRg2Y4LWUvjxYj5xJE27ZD
-        i7UFps6yPHaJA8wXxiT6LV8=
-X-Google-Smtp-Source: APXvYqzYxev0mehw5aRdi6YyMlpR/8LUw3GUw9sxPjIdE6W/F2xPhVpIyLMPatJ4Vp8FiB6YoHO2yw==
-X-Received: by 2002:a92:8605:: with SMTP id g5mr19067812ild.172.1574460605747;
-        Fri, 22 Nov 2019 14:10:05 -0800 (PST)
-Received: from cs-dulles.cs.umn.edu (cs-dulles.cs.umn.edu. [128.101.35.54])
-        by smtp.googlemail.com with ESMTPSA id x62sm398741ill.86.2019.11.22.14.10.05
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=iiY6R0zRBcS0LohPlMpk2ff2+jdv+GHem5CUGt0sLyU=;
+        b=irkOID9lCii6FKSPto5j+xU33BxnqqTsOqZ22sPu3P8xrSZLua+KyrkVKaDAh+it3R
+         3UegYtgAKezknHJ2DZ+e7oAL9A1AQMc4W5F1WuTgzyv8alxfRfY0VnFgRC6cZPtT0zKp
+         nOnR1UxnageWIQSshwVOPp5OjokU1kYLqe7amC5GaSje7iqN+xcWHf33m3aZTRebyB+3
+         1Si4B3+92fr9+NBwsqta+dALGazIhm/P8WaPKD+sFIRmexW7dvDfKo6EfwMwYo8cSJ1Y
+         Y5lNxm7AjLNaS0cQAMoEXLvoAuCWuavGPca8avCgxu9L32prZfRt6/6UQh76hSD4xQ27
+         uTjA==
+X-Gm-Message-State: APjAAAUh8la7LtRRb9jD7MHR8jNzJcwgGfJi4TncJ3LclptJIH2z/HaW
+        JoTHKPFeGcpWTL1de2vSTT8=
+X-Google-Smtp-Source: APXvYqxWzhfv9eQFc3QRM0i66yd0/2QMecTo1639KT0UxVZ3s530XCH7iUA0uDwR2n2NrFKK0VfhEA==
+X-Received: by 2002:a62:108:: with SMTP id 8mr20875928pfb.53.1574468260599;
+        Fri, 22 Nov 2019 16:17:40 -0800 (PST)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id p16sm8619385pfn.171.2019.11.22.16.17.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Nov 2019 14:10:05 -0800 (PST)
-From:   Navid Emamdoost <navid.emamdoost@gmail.com>
-To:     Sumit Semwal <sumit.semwal@linaro.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Cc:     emamd001@umn.edu, Navid Emamdoost <navid.emamdoost@gmail.com>
-Subject: [PATCH] dma-buf: Fix memory leak in sync_file_merge()
-Date:   Fri, 22 Nov 2019 16:09:55 -0600
-Message-Id: <20191122220957.30427-1-navid.emamdoost@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        Fri, 22 Nov 2019 16:17:39 -0800 (PST)
+Date:   Fri, 22 Nov 2019 16:17:37 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, linux-input@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Nick Dyer <nick@shmanahar.org>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Christopher Heiny <cheiny@synaptics.com>,
+        Vandana BN <bnvandana@gmail.com>
+Subject: Re: [PATCH 1/5] input/mouse/synaptics: add LEN0091 support
+Message-ID: <20191123001737.GG248138@dtor-ws>
+References: <20191119105118.54285-1-hverkuil-cisco@xs4all.nl>
+ <20191119105118.54285-2-hverkuil-cisco@xs4all.nl>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191119105118.54285-2-hverkuil-cisco@xs4all.nl>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In the implementation of sync_file_merge() the allocated sync_file is
-leaked if number of fences overflows. Release sync_file by goto err.
+On Tue, Nov 19, 2019 at 11:51:14AM +0100, Hans Verkuil wrote:
+> Some Lenovo X1 Carbon Gen 6 laptops report LEN0091. Add this
+> to the smbus_pnp_ids list.
+> 
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-Fixes: a02b9dc90d84 ("dma-buf/sync_file: refactor fence storage in struct sync_file")
-Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
----
- drivers/dma-buf/sync_file.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Applied, thank you.
 
-diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
-index 25c5c071645b..91185db9a952 100644
---- a/drivers/dma-buf/sync_file.c
-+++ b/drivers/dma-buf/sync_file.c
-@@ -221,7 +221,7 @@ static struct sync_file *sync_file_merge(const char *name, struct sync_file *a,
- 	a_fences = get_fences(a, &a_num_fences);
- 	b_fences = get_fences(b, &b_num_fences);
- 	if (a_num_fences > INT_MAX - b_num_fences)
--		return NULL;
-+		goto err;
- 
- 	num_fences = a_num_fences + b_num_fences;
- 
+> ---
+>  drivers/input/mouse/synaptics.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/input/mouse/synaptics.c b/drivers/input/mouse/synaptics.c
+> index 56fae3472114..1ae6f8bba9ae 100644
+> --- a/drivers/input/mouse/synaptics.c
+> +++ b/drivers/input/mouse/synaptics.c
+> @@ -172,6 +172,7 @@ static const char * const smbus_pnp_ids[] = {
+>  	"LEN0071", /* T480 */
+>  	"LEN0072", /* X1 Carbon Gen 5 (2017) - Elan/ALPS trackpoint */
+>  	"LEN0073", /* X1 Carbon G5 (Elantech) */
+> +	"LEN0091", /* X1 Carbon 6 */
+>  	"LEN0092", /* X1 Carbon 6 */
+>  	"LEN0093", /* T480 */
+>  	"LEN0096", /* X280 */
+> -- 
+> 2.23.0
+> 
+
 -- 
-2.17.1
-
+Dmitry
