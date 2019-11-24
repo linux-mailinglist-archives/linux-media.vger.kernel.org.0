@@ -2,157 +2,330 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D90351082DD
-	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2019 11:26:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C59E110830E
+	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2019 12:11:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726719AbfKXK0v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 24 Nov 2019 05:26:51 -0500
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:39017 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725980AbfKXK0v (ORCPT
+        id S1726713AbfKXLKk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 24 Nov 2019 06:10:40 -0500
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:48859 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726673AbfKXLKj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 24 Nov 2019 05:26:51 -0500
+        Sun, 24 Nov 2019 06:10:39 -0500
 Received: from [192.168.2.10] ([46.9.232.237])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id Yp6LiFqCmLwWdYp6OiSwsb; Sun, 24 Nov 2019 11:26:48 +0100
+        id YpmjiFzIoLwWdYpmmiT07i; Sun, 24 Nov 2019 12:10:36 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1574591208; bh=HD/JKKEdMs3W4QDS+rtaaDYQYHdNt3OyLlxuquE5Ovs=;
+        t=1574593836; bh=WMr+c7kWpBL9wXoYrNaqBYAXuTg4/QS5pGukpeDYf2c=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=bXbeVGtcFlir9qZDkZGcAR8F8VcyeclDpSMkEWcIb4Z+AqT3OmQwwlu5u7SWTYxDV
-         CYEiOMoRnSUTxo+0JjtoQITQQkQ4mtpG686t98dGXUtSYxrQYLT15zYdUlkTb3rbkX
-         gOR/Qqv4Q+M0z0vzUoolOmBaRwh7rFEvsiAiRDtWWRAen2l/iymNkFEWJSspRZIhAO
-         C8kL6ujLmUAf27kZmDstTdu4MuVAyJ/z7s4Uc1rPptdXXhmkm/qKL/1sMt3D8dh1dd
-         0+NVXRnuS87kgG57XlbKv++He8G0R4YvbFOYeux1DaYIDO1AKgNpXc5GnaXZVx8ooq
-         bDiOKSzw4R98A==
-Subject: Re: [PATCH 05/10] edid-decode: output timings for YCbCr 4:2:0 cmdb
+        b=T6AyT4ZlBxOKsGIW1IVXqY+s1hqhqq1z+t4T7adkSFaSN0dQEiS9ScvQMHlLRwV+J
+         u9oYGNwVfOrE9dqrGfzhCfeWrSuhkwXrCPgbcUh0pzMN/ROrbYtAnwmlKTazkATC0S
+         InOwGnDE/Jsh8B615Fu/sBZ4KYTJudD8tB/7wpT2u+SnWT3BXIBmFPqkNhGPmH/o/F
+         Vh0ggIDed8cvOh67+0Ae+8ZrmX20AEnPvOR8xLheKQrW6REOZkFXHtwcIQzdzeIVkP
+         xs3eKaZ9eJgMck+d5f7uEPovBVnEj0TS+V5YsaGLYOF7cRzf66FoTYzYesKRjEazxO
+         I+kE1HBPIqC/w==
+Subject: Re: [PATCH 10/10] edid-decode: add example EDIDs
 To:     joevt <joevt@shaw.ca>
 Cc:     linux-media@vger.kernel.org
 References: <20191123164604.268-1-joevt@shaw.ca>
- <20191123164604.268-6-joevt@shaw.ca>
+ <20191123164604.268-11-joevt@shaw.ca>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <94798280-18ca-31af-6544-3cd6e9447f12@xs4all.nl>
-Date:   Sun, 24 Nov 2019 11:26:45 +0100
+Message-ID: <a6eb7c7c-e718-6ef9-2516-3e3fc3d90fe0@xs4all.nl>
+Date:   Sun, 24 Nov 2019 12:10:33 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191123164604.268-6-joevt@shaw.ca>
+In-Reply-To: <20191123164604.268-11-joevt@shaw.ca>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfJeVSO0ApmzCUiWcr75Kf7syuGcxN26h+CLiskAJZ1vWLFZOifSwyJ4cvb6RMxgmXdRDHKQ+bgrqMgD3JQ89sCEd1qvCJ2Kod+xxj3xFUprbI9WEAXTD
- +Do3r8i5uNwIMc+5UE4kascv+yPQZMcAnm4795/IHwO8AwexaI0r/nHSHGUh1QKYyYJRybNtWWKjW59S1JdrWCKS9UThl5Lx1MI=
+X-CMAE-Envelope: MS4wfBRLhQr0jr4CJO7MNB+i3iMuAitTOv/oyQ2WTZ+1TnBymlW7bhsMOTtQJCVd9C+EjwSHcTEe5p0gZnRTYoYHYWcjMSc+JgBvaO+U2j0r77dFihSp+0X4
+ WUbYOi4vu8zxmL/i9BDpeTTXAsxtPWVpnVK5sLtn3E/+2nFS6+MJlf5WScHm6xpehCM8aC3gyZvgn4UnhdroMRme19jItkTyLgc=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/23/19 5:45 PM, joevt wrote:
-> - "YCbCr 4:2:0 capability map data block" now outputs the modes that support YCbCr 4:2:0 instead of just indexes of the modes. Indexes refer to timings in "Video Data Block".
-> - Warnings are included in the output if "Video Data Block" doesn't appear before "YCbCr 4:2:0 Capability Map Data Block" or if the index is outside the range defined in the "Video Data Block".
-> - Moved inner loop of cta_svd into a new function cta_svd_one so that it can be reused by cta_y420cmdb.
+On 11/23/19 5:46 PM, joevt wrote:
+> acer-xv273k*
+> - contains a broken example of "Display Interface Features Data Block" (appears to be missing the "additional combinations count" byte)
+> - contains an unknown "Vendor-Specific Data Block"
 
-This isn't sufficient. There may be multiple SVD blocks in the EDID, and that's not taken
-into account.
+Drop data/acer-xv273k-dp2 since it does not add anything. And rename
+data/acer-xv273k-dp1 to data/acer-xv273k-dp
 
-Also, I can't find any requirement in the CTA-861 spec that the YCbCr 4:2:0 Capability
-Map Data Block has to appear after all SVD blocks. So the final check if the Y420CMDB
-block references invalid SVDs should be postponed to the end of the CTA block.
+> 
+> dell-p2415q-hdmi2.0
+> - contains an example of "YCbCr 4:2:0 Capability Map Data Block". They have specified that the last two "Video Data Block" resolutions 4K50Hz and 4K60Hz support "YCbCr 4:2:0", while lower refresh rates do not support "YCbCr 4:2:0". For example, HDMI 2.0 has bandwidth for 4K60 8bpc RGB and 4:4:4, but there is not enough bandwidth for 10bpc at 60Hz so 4:2:0 is allowed for that refresh rate.
+> 
+> dell-up2715k-dp1-tile1
+> - contains an example of "Type 1 VESA DMT Timings Block"
+> 
+> lg-ultrafine-5k*
+> - contains an example of "Display Parameters Block"
+> - contains an example of "ContainerID Data Block"
+> 
+> kogan-kaled24144f-hdmi
+> - contains a type 1 timing with a negative horizontal back porch.
+> 
+> Signed-off-by: Joe van Tunen <joevt@shaw.ca>
+> ---
+>  data/acer-xv273k-dp1                          | Bin 0 -> 384 bytes
+>  data/acer-xv273k-dp1-tile0                    | Bin 0 -> 384 bytes
+>  data/acer-xv273k-dp2                          | Bin 0 -> 384 bytes
+>  data/acer-xv273k-dp2-tile1                    | Bin 0 -> 384 bytes
+>  data/dell-p2415q-dp-mdp                       | Bin 0 -> 256 bytes
 
-I also found a pre-existing bug: if length == 0 in cta_y420cmdb() then that means that
-all SVDs support 4:2:0. That should be added to cta_y420cmdb().
+Just to confirm: mdp stands for mini-DisplayPort?
+
+I prefer to drop the mdp bit and just call it -dp since it's still a
+DisplayPort, just a smaller connector.
+
+>  data/dell-p2415q-hdmi1.4                      | Bin 0 -> 256 bytes
+>  data/dell-p2415q-hdmi2.0                      | Bin 0 -> 256 bytes
+>  data/dell-up2715k-dp1-tile1                   | Bin 0 -> 384 bytes
+>  data/dell-up2715k-dp2-tile0                   | Bin 0 -> 256 bytes
+>  data/dell-up2715k-mdp                         | Bin 0 -> 256 bytes
+>  data/dell-up2715k-mdp-switchresx              | Bin 0 -> 384 bytes
+
+Same here, rename mdp to dp.
 
 Regards,
 
 	Hans
 
+>  data/kogan-kaled24144f-dp                     | Bin 0 -> 256 bytes
+>  data/kogan-kaled24144f-hdmi                   | Bin 0 -> 256 bytes
+>  data/lg-ultrafine-5k-v2-thunderbolt-dp1-tile0 | Bin 0 -> 384 bytes
+>  data/lg-ultrafine-5k-v2-thunderbolt-dp2-tile1 | Bin 0 -> 256 bytes
+>  15 files changed, 0 insertions(+), 0 deletions(-)
+>  create mode 100644 data/acer-xv273k-dp1
+>  create mode 100644 data/acer-xv273k-dp1-tile0
+>  create mode 100644 data/acer-xv273k-dp2
+>  create mode 100644 data/acer-xv273k-dp2-tile1
+>  create mode 100644 data/dell-p2415q-dp-mdp
+>  create mode 100644 data/dell-p2415q-hdmi1.4
+>  create mode 100644 data/dell-p2415q-hdmi2.0
+>  create mode 100644 data/dell-up2715k-dp1-tile1
+>  create mode 100644 data/dell-up2715k-dp2-tile0
+>  create mode 100644 data/dell-up2715k-mdp
+>  create mode 100644 data/dell-up2715k-mdp-switchresx
+>  create mode 100644 data/kogan-kaled24144f-dp
+>  create mode 100644 data/kogan-kaled24144f-hdmi
+>  create mode 100644 data/lg-ultrafine-5k-v2-thunderbolt-dp1-tile0
+>  create mode 100644 data/lg-ultrafine-5k-v2-thunderbolt-dp2-tile1
 > 
-> Signed-off-by: Joe van Tunen <joevt@shaw.ca>
-> ---
->  edid-decode.c | 44 +++++++++++++++++++++++++++++++++++---------
->  1 file changed, 35 insertions(+), 9 deletions(-)
+> diff --git a/data/acer-xv273k-dp1 b/data/acer-xv273k-dp1
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..47c1528f315725450aa703e369c8709d5d607a5a
+> GIT binary patch
+> literal 384
+> zcmZSh4+ab@MH|_I`x#n|WEfet+9*|6s|&6PG~KGk7Z9TC!O-Z?*wA>Okzp#sW`>Ig
+> z7#V#pFf8~`VAo)vV9F30pvb@=wIvNCBHzHFAi)9=VPIhR%VRL%|Nm@8E(I_Eiu_@S
+> z2s1J__J)cuDKas8d<<k{W)Tu*6_KC7&J-ILpO9#;%*oE)%*ep-h~YpkGY^9RgGGe`
+> zLjofcbA}WH10$os1ct|~j~SovGaO)e#>UQ=7$(Es)DTi&;p@Pm@Pj7|>>`Kf3|R{n
+> zWCd_2%z(Nm{}9811q(t0;I5WqI8Y!|$-uzOs4;5+W6OWO1q}KPiVXQ2b_~o6tPBsn
+> jF|gFLM*_v<fnt&jj6hK}1`c+1X66U=K+jMPrc3|;_Ayfd
 > 
-> diff --git a/edid-decode.c b/edid-decode.c
-> index b833178..4d6fe29 100644
-> --- a/edid-decode.c
-> +++ b/edid-decode.c
-> @@ -1454,13 +1454,10 @@ static const struct edid_cta_mode *vic_to_mode(unsigned char vic)
->  	return NULL;
->  }
->  
-> -static void cta_svd(const unsigned char *x, unsigned n, int for_ycbcr420)
-> +static void cta_svd_one(const unsigned char *x, int for_ycbcr420)
->  {
-> -	unsigned i;
-> -
-> -	for (i = 0; i < n; i++)  {
->  		const struct edid_cta_mode *vicmode = NULL;
-> -		unsigned char svd = x[i];
-> +		unsigned char svd = x[0];
->  		unsigned char native;
->  		unsigned char vic;
->  		const char *mode;
-> @@ -1468,7 +1465,7 @@ static void cta_svd(const unsigned char *x, unsigned n, int for_ycbcr420)
->  		unsigned clock_khz = 0;
->  
->  		if ((svd & 0x7f) == 0)
-> -			continue;
-> +			return;
->  
->  		if ((svd - 1) & 0x40) {
->  			vic = svd;
-> @@ -1511,10 +1508,23 @@ static void cta_svd(const unsigned char *x, unsigned n, int for_ycbcr420)
->  		if (vic == 1)
->  			has_cta861_vic_1 = 1;
->  	}
-> +
-> +static void cta_svd(const unsigned char *x, int n, int for_ycbcr420)
-> +{
-> +	for (unsigned i = 0; i < n; i++)  {
-> +		printf("    ");
-> +		cta_svd_one(x+i, for_ycbcr420);
-> +		printf("\n");
-> +	}
->  }
->  
-> +unsigned const char *last_cta_video_block_start = NULL;
-> +unsigned last_cta_video_block_length = 0;
-> +
->  static void cta_video_block(const unsigned char *x, unsigned length)
->  {
-> +	last_cta_video_block_start = x;
-> +	last_cta_video_block_length = length;
->  	cta_svd(x, length, 0);
->  }
->  
-> @@ -1531,9 +1541,25 @@ static void cta_y420cmdb(const unsigned char *x, unsigned length)
->  		uint8_t v = x[0 + i];
->  		unsigned j;
->  
-> -		for (j = 0; j < 8; j++)
-> -			if (v & (1 << j))
-> -				printf("    VSD Index %u\n", i * 8 + j);
-> +		for (j = 0; j < 8; j++) {
-> +			if (v & (1 << j)) {
-> +				unsigned k = i * 8 + j;
-> +				printf("    VSD Index %u", k + 1);
-> +				if (k >= last_cta_video_block_length) {
-> +					if (last_cta_video_block_start) {
-> +						printf(" (out of range)");
-> +					} else {
-> +						printf(" (missing CTA video block)");
-> +					}
-> +				}
-> +				else
-> +				{
-> +					printf(" ");
-> +					cta_svd_one(last_cta_video_block_start+k, 0);
-> +				}
-> +				printf("\n");
-> +			}
-> +		}
->  	}
->  }
->  
+> literal 0
+> HcmV?d00001
+> 
+> diff --git a/data/acer-xv273k-dp1-tile0 b/data/acer-xv273k-dp1-tile0
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..d93c5d21f10d90f86eb8af00b205537d5b6323ca
+> GIT binary patch
+> literal 384
+> zcmZSh4+ab@MH|_I`x#n|WEfet+9*|6s|&6PG~KGk7Z9TC!O-Z?*wA>Okzp#sW`>Ig
+> z7#V#pFf8~`VAo)vV9F30pvb@=wIvNCBHzHFAi)9=VPIhR%VSXS|9>_kmjW07MgA~E
+> zgc+F|dqYK-ESZ=+J_a%}vj_>ZipWo3XNrxBPe`;^=45AYW@KP^#Bd;&nTJ7u!J<Ne
+> zA%T&JIYWwpfsxUmg5fdiW5y@^3<nsVv9U8IhRHBlHAoa%=sHB`xI$bc$0*BC6nH^S
+> zAx|R|Dw2PQVZnk0p#gAL%P|BN2vssLFf(dA_{Pvu&mPI3-yqMB&mqac$iU1nYXKw6
+> zf4&7kF-4%59Z-aoL5+cfot>HaK|KS55QA8k00Tokdp-xyXABIE&Osa5z$~H(j|l*}
+> CM^ga+
+> 
+> literal 0
+> HcmV?d00001
+> 
+> diff --git a/data/acer-xv273k-dp2 b/data/acer-xv273k-dp2
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..08ac45b3a3a5013c3adef432c6eacfe3b3c65f51
+> GIT binary patch
+> literal 384
+> zcmZSh4+ab@MH|_I`x#n|WEfet+9*|6s|&6PG~KGk7Z9TC!O-Z?*wA>Okzp#sW`>Ig
+> z7#V#pFf8~`VAo)vV9F30pvb@=wIvNCBHzHFAi)9=VPIhR%VRL%|Nm@8E(I_Eiu_@S
+> z2s1J__J)cuDKas8d<<k{W)Tu*6_KC7&J-ILpO9#;%*oE)%*ep-h~YpkGY^9TgGGe`
+> zLjofcbA}WH10$os1ct|~j~SovGaO)e#>UQ=7$(Es)DTi&;p@Pm@Pj7|>>`Kf3|R{n
+> zWCd_2%z(Nm{}9811q(t0;I5Wq*iax;$-uzOs4;5+W6OWO1q}KPiVXQ2b_~o6tPBsn
+> jF|gFLM*_v<fnt&jj6hK}1`c+1X66U=K+jMPrc3|;`_WSY
+> 
+> literal 0
+> HcmV?d00001
+> 
+> diff --git a/data/acer-xv273k-dp2-tile1 b/data/acer-xv273k-dp2-tile1
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..8e41faf6cd086876bda4519bc823815ee655013b
+> GIT binary patch
+> literal 384
+> zcmZSh4+ab@MH|_I`x#n|WEfet+9*|6s|&6PG~KGk7Z9TC!O-Z?*wA>Okzp#sW`>Ig
+> z7#V#pFf8~`VAo)vV9F30pvb@=wIvNCBHzHFAi)9=VPIhR%VSXS|9>_kmjW07MgA~E
+> zgc+F|dqYK-ESZ=+J_a%}vj_>ZipWo3XNrxBPe`;^=45AYW@KP^#Bd;&nTJ7v!J<Ne
+> zA%T&JIYWwpfsxUmg5fdiW5y@^3?~?#v9U8IhRHBlHAoa%=sHB`xI$bc$0*BC6nH^S
+> zAx|R|Dw2PQVZnk0p#gAL%Q09M2vssLFf(dA_{Pvu&mPI3-yqMB&mqac$iU1nYXKw6
+> zf4&7kF-4%59Z-aoL5+cfot>HaK|KS55QA8kfB-{1dp-xyXABIE&Osa5z$~H(iwOY5
+> C$5R0S
+> 
+> literal 0
+> HcmV?d00001
+> 
+> diff --git a/data/dell-p2415q-dp-mdp b/data/dell-p2415q-dp-mdp
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..ffc77f0cbc914500564f7df3b08bddf27e315416
+> GIT binary patch
+> literal 256
+> zcmZSh4+abZYxXU0^6@cHmSSXCYARP@^~iNasPAGm?tqY`-VBBQjSVXgtaP||;330B
+> z21Z8T3k(ZB6xcP`8JIHgYbY`>NHH)l{AX}Cb}@G|v+y_Y@p0k;iu_@4arN<02rx1+
+> zG!5iZ0E+x&koA%4F=OCT00YLSOw6($0|ew1SVdTbg#?+I#6;QI7?nBY*_#;|7{cNh
+> z7A#nx8DO9Qvxdp4L88z?*C9ej6=Ja*qbx&F-~~B_JdIGO$l^4R<K!C<x_}nr0IvZ|
+> CY&!t}
+> 
+> literal 0
+> HcmV?d00001
+> 
+> diff --git a/data/dell-p2415q-hdmi1.4 b/data/dell-p2415q-hdmi1.4
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..ada8d54fa0dd28c18763f41632502207bda56392
+> GIT binary patch
+> literal 256
+> zcmZSh4+abZYYr@M^6@cHmSSXXFqNx#^~iNasPAGm?tqY`-VBBQjSVXgtaP||;2{Ge
+> z5G+n(Sn#1hzQI7jl!0GEk%2*qfq~&agS)Ydxtp1Vzk!dB6BkhA4}*)VkB>rtk%^&c
+> zAeRDA<S&D)k6e!&1D66AFivD**83Pdft7`cU5rsgUPxG7K~agBO;A*sQ=Yw<k%1wX
+> znTG+W(MEwGftiVs$*Mu3&_dTCLPr&1uN<Q+P((&d0WLC+rG&xYQ$bY2hKMexny@&A
+> R1q&8v2B5eW=olcV0swnGJOKaz
+> 
+> literal 0
+> HcmV?d00001
+> 
+> diff --git a/data/dell-p2415q-hdmi2.0 b/data/dell-p2415q-hdmi2.0
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..d9f3eca07a46223ae750a025b5bdc77242cd7b62
+> GIT binary patch
+> literal 256
+> zcmZSh4+abZYmP2(^6@cHmSSXXFqNx#^~iNasPAGm?tqY`-VBBQjSVXgtaP||;2{Ge
+> z5OBO;F!)pu)vzI=i-BK5k%2*qfq~&agS)Ydxtp1Vzk!dB6BkhA4}*)VkB>rtk%^&c
+> zAeRDA<S&D)k6e!p1D66AFs@}{cK8?}z{<kJF2*P#FC?t4ps2*mCMX&k7oV7*%qh>_
+> z%*eoy%gn<7)Lo&#kig8un0_Pn2xG+o_9y%d3<nrx8zc&4#1tZQR3R>z$5MjkHo34k
+> Vh6M{2Xa*Q4m?B&YbPNzQ0RUN@K>+{&
+> 
+> literal 0
+> HcmV?d00001
+> 
+> diff --git a/data/dell-up2715k-dp1-tile1 b/data/dell-up2715k-dp1-tile1
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..424394df2b31b89aae15440c7f11be1d1e3ef86b
+> GIT binary patch
+> literal 384
+> zcmZSh4+abZYqmKATUr<hNiwo*wNa|DDpFk&V7y(8J0L`ngQ1aOGs8uOl@5&!7Y{H3
+> zL0BBaf&~jS0}K>Q8A1aT85pD(7#RLDxEXpm`<j}B8dz8ca{)#EFu1t-_$Y)17?~TI
+> zdV@s%GRS(%Z!u%!QUC*{wM@)BAC)=T*_#;|7<?}<Ecj4h*ASqP$^$l40;@ehW2gp9
+> z3WO>d7=#$angj$G{&U)MgG~my8WI}J3^qO&7+U`G&1cYWkY~u}uw`IkU||r5WnlTw
+> l2@$jB)&PoeG91~1EEWhBV`t#vXk_4EVPIhr!0P0a69Bq!MF9W+
+> 
+> literal 0
+> HcmV?d00001
+> 
+> diff --git a/data/dell-up2715k-dp2-tile0 b/data/dell-up2715k-dp2-tile0
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..c95095fecc3962145d89efe0ae7caf7c6c1cb6cd
+> GIT binary patch
+> literal 256
+> zcmZSh4+abZYqmKATUr<hNiwo*wNa|DDpFk&V7y(8J0OICfq@YX%;yeRVDNxXz(B#2
+> zAv8ddfk6tW=s$y-p_j9-sY$4Tg=H`oP~;DTi>r^1LTG@IxuK~yNaQbrthf9YGe#~2
+> zFkqZeAXLe~AjBZnAOJLg)1Dish5@7t;u>ZK4S`q&mj9gd8T1?E8SJ?=7?>D18IJ5h
+> P77GN6fi;p!)K35az+)`|
+> 
+> literal 0
+> HcmV?d00001
+> 
+> diff --git a/data/dell-up2715k-mdp b/data/dell-up2715k-mdp
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..835aaa5e87fd431a73579319724a97f4c136db27
+> GIT binary patch
+> literal 256
+> zcmZSh4+abZYj!vUTUr<hNiwo*wNa|DDpFk&V7y(8J0L`ngQ1aOGs8uOl@5&!7Y{H3
+> zf$s%|1s@9R8VnRn8A1aT85pD(7#RLDxEXpm`<j}B8dz8ca{)#EFu1t-_$Y)17?~TI
+> zdV@s%GRS(%Z!u%!QUC+SdrZtiA6+M~Ff%bKbF#BHGcqtRSv5!$TIf1N=%_->mJ5qx
+> tSg>G$W&pxAMp=fUzzcE;c^aWmH9cGxx)dJh3JBOugNR4~Z6geh0swE*IRO9w
+> 
+> literal 0
+> HcmV?d00001
+> 
+> diff --git a/data/dell-up2715k-mdp-switchresx b/data/dell-up2715k-mdp-switchresx
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..d0d425a8d4db26170d21a92ee9e469eb7f9fc318
+> GIT binary patch
+> literal 384
+> zcmZSh4+abZYj!vUTUr<hNiwo*wNa|DDpFk&V7y(8J0L`ngQ1aOGs8uOl@5&!7Y{H3
+> zf$s%|1s@9R8VnRn8A1aT85pD(7#RLDxEXpm`<j}B8dz8ca{)#EFu1t-_$Y)17?~TI
+> zdV@s%GRS(%Z!u%!QUC*{yG+bNA6+M~Ff%bKbF#BHGcqtRSv5!$TIf1N=%_->mJ5qx
+> zSg>G$W&pxAMp=fUzzcE;c^aWmH9cGxx)dJh3JBOugNR4~Z6geh76_^^GcYrVG~_Wd
+> p{1=|jpx+?RV9y=Mz{J49z|FuFT%K8yoDq~-95IuyVPvS7007E9LjeE)
+> 
+> literal 0
+> HcmV?d00001
+> 
+> diff --git a/data/kogan-kaled24144f-dp b/data/kogan-kaled24144f-dp
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..ce340a6c2fd85e6b459b33d966ad896a2bed6c60
+> GIT binary patch
+> literal 256
+> zcmZSh4+ac6?-*1VfIvoyk!7igLWObr(<Na6^VE0)Le`&V*vv4Mp|PRyK%xK21KkH0
+> z8JMgZBnmBb9U^pG8Se53GBC&iwf<$$n6P{~7bBMf7yw27FnBxqxVjjb7@C;4aVY>r
+> z1b`R`Fdk)M<~gX$$<E%)$iSf0)DTc$;p@Pm@Po%}6;P>ESAN5S0t*KR0|iqC2Ny-4
+> K2$E)MFj)XpaxDP>
+> 
+> literal 0
+> HcmV?d00001
+> 
+> diff --git a/data/kogan-kaled24144f-hdmi b/data/kogan-kaled24144f-hdmi
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..f3d4a0f0700493d72de0e2cc8fb91214f2fbf1d6
+> GIT binary patch
+> literal 256
+> zcmZSh4+ac6?-*1VfIvoyk!6vILWN#pz_PG_1!}wjA?r^wY-X6s(Ady;pwNHif$js0
+> z3`|xH5``AJ4iP%840m}185kshTK_P3JNme~7?~KFn7DB%07d>XXiQkJK#_q<0Stg5
+> z0zixe7@L@wwLb<-U}a%uViXh-7GYx-6_Zy`=45AYW@KPUzY%+cvEl$jDl-p*0>iBO
+> zhKd3U1+b-I0g6CNyYd?r6j(So7$}%BIJf{s<TTAdBJxNgOp*)>0xpOufYdbH0NM|7
+> IDjbLd0L{=k0RR91
+> 
+> literal 0
+> HcmV?d00001
+> 
+> diff --git a/data/lg-ultrafine-5k-v2-thunderbolt-dp1-tile0 b/data/lg-ultrafine-5k-v2-thunderbolt-dp1-tile0
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..13ab607a1763bf26fc8219904f7548963e9fd851
+> GIT binary patch
+> literal 384
+> zcmZSh4+ac!xh2tutyvk^WEoku+9*{t@K0P9<h((RKOjVbfq@YXsGea6_)uWiz@Z?)
+> z5D}utz#z3anjv7p0?hz~2m=Gde+EkfGrth$C`Thpb4xCu$R7qDcZJZLlA=Vn%)C@C
+> zrh5fKmCOu`3_Nz?V!R9@4%`71els;01hzbm>%YIiIbm0bRqnr6Ojns1G*r$owEXAu
+> zXJBuTXUONU1scZA5ZA}RQqKbsV`n!8ivbCuLB#~H{Xz_4O#(pYa@uo)wYmrUmPCWR
+> e%*-HiVGjexf6n<}YwfuMf%5D`8&6Q7&;$T`UqAr>
+> 
+> literal 0
+> HcmV?d00001
+> 
+> diff --git a/data/lg-ultrafine-5k-v2-thunderbolt-dp2-tile1 b/data/lg-ultrafine-5k-v2-thunderbolt-dp2-tile1
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..abc93a47301db232ea159a68f1e5df5d64db4c27
+> GIT binary patch
+> literal 256
+> zcmZSh4+ac!xh2tutyvk^WEoku+9*{t@K0P9<h((RKOlsGfq@YX0EGmA7!_cO{AaK<
+> zF!Kv>j&d}zG`HjeD*waa<E{{zQ&N=ZmYJ8z#W=Y@sFIn1k%7lfT#T1N#DP1Y!f&P~
+> zgTR)@asBrfI4A51vC94Tis`BlgII%r0K<Pydv36$?!mq#(I7`LGl*Q+!@%*Mb3Oxm
+> TgFJ&hcOX!n9o1pDd2$l~Q#URF
+> 
+> literal 0
+> HcmV?d00001
 > 
 
