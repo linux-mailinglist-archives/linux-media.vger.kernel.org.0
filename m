@@ -2,164 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id DAD251081A7
-	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2019 05:55:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AAAF41081B9
+	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2019 06:09:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726736AbfKXEzX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 23 Nov 2019 23:55:23 -0500
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:34633 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726705AbfKXEzX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 23 Nov 2019 23:55:23 -0500
-Received: from localhost ([IPv6:2001:983:e9a7:1:70e8:2b60:1739:eb7d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id YjvaipMrtcs92YjvciLudR; Sun, 24 Nov 2019 05:55:20 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1574571320; bh=BuZ4VQVEXzvPJhnmOHvyNuOHKwZt4ppfdH6zSRGWPwE=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=dpX5WrXUF5NBBABFmUAejQUHpCQmsrJjCh4Ei9t7MJ5xtrLcPXEBEq4IvkztahcIt
-         SM2F2b0Rxmj+TEWnnKcJCV+eMpC/H9hUqwxSlcKmvUrgOMAjlWC72F3ybX0na6DKtK
-         vqQxEi2F6LZzsnke6N9MLUPsL4XISiDzO3RYm8Cdy1K9NO9tGs2p63D0GKlPCuRgVn
-         Z4X9p4ByDJNYRtbFxZcjLXylMgej3a5UDDR6HS0gS8PuAyQx+cGbbhy5gQAGX9KjL1
-         Wi5xjuSN95B0YPyT2ArtQ3KrJm+NR5awUyoKeTwx4hSOqgShymdjudND6Cd5y8QstI
-         k/CXS+yV9pTCg==
-Message-ID: <c56ea501a4359825fe5c58ecbf75629d@smtp-cloud7.xs4all.net>
-Date:   Sun, 24 Nov 2019 05:55:18 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfCfo5K+FABL4gkskTJbdqPXjAFJWy10xQlc0N29lbUadf6OBlnY0FERKNBvpf7EgvTUWcY9Zl2xsFWocOudL9+pY6fDSyXz8OGb9l/taH3djT7HHC51v
- 5AcJPizm0qiMpSeDCi/jkCB9Cda/w/CjM2nDutXNydHTqeoMndD6oCaHthWG2DRWcPHOY83A6363rUCwte7hpEAPuC5xgAuGBomPlehInPbA0jc97iTspKXH
+        id S1725790AbfKXFJM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 24 Nov 2019 00:09:12 -0500
+Received: from mail.kapsi.fi ([91.232.154.25]:49637 "EHLO mail.kapsi.fi"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725379AbfKXFJM (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 24 Nov 2019 00:09:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+         s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+        MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:Reply-To:Cc:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=EBeFQgjz/ct5xlIr9i3q5qGHLdIEsRkX9QywQWQFqm8=; b=SlLhJw6rnmbfDpf0ukqmXbPUfd
+        MdkIlshkZJnhcOUbg7JB9UvQE8wI5tnm3cCyvDsHcR17HPyZSLDaahJ3DRmaWVEOtgSGcxqAroal4
+        75ohQ4pT03gdqvt4cbIhen2E8GUVfljrMxM91+u8VfrV213fasSWvWm0gh6Lq/sxuJdXROfnsanm8
+        ogzb4l0s7m9ucZsai9xvvdR7LsDkh/2p6s7pT8bZES9NNQqQDyinamaIbPUcySKT6maTtguaaWy/X
+        6AnwY1QOnCkY1N4dlrSw8x9dCH8eCXgTw7IeJsrLcV8WlXZoTs6iCAxlKY9ArkvqPeZYRhPDL+Jgt
+        e9hFTslw==;
+Received: from dvbz8cyyyyyyyyyyyyjwt-3.rev.dnainternet.fi ([2001:14ba:8869:c100::1e5] helo=localhost.localdomain)
+        by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.89)
+        (envelope-from <crope@iki.fi>)
+        id 1iYk8z-00087Z-Uf; Sun, 24 Nov 2019 07:09:10 +0200
+Subject: Re: [PATCH v3 04/14] si2157: Add analog tuning related functions
+To:     Brad Love <brad@nextdimension.cc>, linux-media@vger.kernel.org
+References: <20191114200408.28883-1-brad@nextdimension.cc>
+ <20191114200408.28883-5-brad@nextdimension.cc>
+From:   Antti Palosaari <crope@iki.fi>
+Message-ID: <f2375be1-5bb2-ef59-ecd9-a3a8f6081b99@iki.fi>
+Date:   Sun, 24 Nov 2019 07:09:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
+MIME-Version: 1.0
+In-Reply-To: <20191114200408.28883-5-brad@nextdimension.cc>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:14ba:8869:c100::1e5
+X-SA-Exim-Mail-From: crope@iki.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On 11/14/19 10:03 PM, Brad Love wrote:
+> Include set_analog_params, get_frequency, and get_bandwidth.
+> 
+> Tested with NTSC and PAL standards via ch3/4 generator. Other standards
+> are included, but are untested due to lack of generator.
+> 
+> Signed-off-by: Brad Love <brad@nextdimension.cc>
+> ---
+> Changes since v1:
+> - remove __func__ from dev_dbg macros
 
-Results of the daily build of media_tree:
+After all it looks pretty simply, but implementation is not done that 
+simply. Crazy RF/IF offsets, impossible values and so.
 
-date:			Sun Nov 24 05:00:12 CET 2019
-media-tree git hash:	dca6b3733a4a46e63603496f544ece8ace541fde
-media_build git hash:	efba365ba11b958a6bf6fb4b397942f9461cefca
-v4l-utils git hash:	a7dd8c4407f81173388ec7a19400976c9abceac4
-edid-decode git hash:	8108c45fea0eb05c73615fbd765a1ebb80b20b6a
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 6903fe8f5101fc43440b3259290c97d2dd51733d
-host hardware:		x86_64
-host os:		5.2.0-3-amd64
+I think you need to study some tuner basics:
+* what IF frequency is, why, and so
+* IF vs. BW, what is relation, what are possible values
+* Down conversion RF to IF. OK, *on that case* firmware covers PLL, but 
+it is fundamental. So basics of integer-N and fractional-N PLL is always 
+you must to know.
+* Filtering. Especially IF filtering, which is generally low-pass 
+filtering. Think possible filters when selecting IF.
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4-rc1-i686: OK
-linux-5.4-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2791, Succeeded: 2791, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
 
-Detailed results are available here:
+regards
+Antti
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday.log
 
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+-- 
+http://palosaari.fi/
