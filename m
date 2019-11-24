@@ -2,110 +2,196 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A86C10830F
-	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2019 12:12:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9261D108491
+	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2019 20:07:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726740AbfKXLMT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 24 Nov 2019 06:12:19 -0500
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:49183 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726673AbfKXLMT (ORCPT
+        id S1726952AbfKXTHP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 24 Nov 2019 14:07:15 -0500
+Received: from mail-pf1-f182.google.com ([209.85.210.182]:37113 "EHLO
+        mail-pf1-f182.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726926AbfKXTHP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 24 Nov 2019 06:12:19 -0500
-Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id YpoMiFzf6LwWdYpoPiT0EX; Sun, 24 Nov 2019 12:12:17 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1574593937; bh=P2WDD3Hs74oOP+K2BrxQQP3KD0ndfSRIowsT5rZ7WdA=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=kn4saRXcnZ272vjBpPDbq+GfHA5iLzeYogZZWkTZdCKk+cPGLjOCjQqCk3fONy098
-         xYXIiHI+rD6on418elCwPM/nu8V2x33O5k/0dHtpUudp2YQXPUUtv7RbxpqLZqN9Km
-         +kyxKANrhdBe++dtQqqSkJdORdbuY2p1DseodB2QzzhOG0LTGVKgiJbcz5Ua1kBSKC
-         T0G8+FRkQGWNJdosLef/PlLyUmJ9f2ha7fbXpRaWpJycUUalZJK5aTCSWcBG4ako9V
-         SmYSpO2L2o3HfOu9WNqkWbR/d592HsRFL2MU8RhYdCRzg4npZ2cGKXwA/VHgOR79iw
-         GlsiOUAkPEmRA==
-Subject: Re: [PATCH 00/10] edid-decode: bug fixes, additions, changes
-To:     joevt <joevt@shaw.ca>
-Cc:     linux-media@vger.kernel.org
-References: <20191123164604.268-1-joevt@shaw.ca>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <454f6b55-1679-1997-0da3-77b140312792@xs4all.nl>
-Date:   Sun, 24 Nov 2019 12:12:14 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <20191123164604.268-1-joevt@shaw.ca>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfCowgip6D30QQF1FQrLv8GKywM2ELGPhSCRbf19vLX3K4THEqdjIhILWtQ+T5lS2eBgkZychv1GHf/hRzol00dVVFyoGFD7IzuLYvDUyaayK6W4ou/sx
- 0cAMguBAoocFCb2WdimBAXjlqhPYEUpJEh5q8HuCc8ZRmJiIB90IxxQmFQ0grcVgksirp64ToZVcS4E8d3JKerYBCnX7Z7Xk2vg=
+        Sun, 24 Nov 2019 14:07:15 -0500
+Received: by mail-pf1-f182.google.com with SMTP id p24so6152711pfn.4
+        for <linux-media@vger.kernel.org>; Sun, 24 Nov 2019 11:07:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=40X9HjDZm0yK/PQ62L7yUx8rKuu6GOc/1O+kQNF14zU=;
+        b=XkfGg/XcSKA5tpbBXJVQqPzwfnFxbt3xoCO+9SO+k8IM031ngMKcG1RgEZs49HtFyo
+         d00BfMxOgdorUBkyf39BeB8BxvhvD7zg1P92IIfazNcG92/xnKHG/ujLA+7ZimUAReJr
+         /mcarRQecOEnrOShLlnev+1upMazWKhCtXnMmrEdFu9NQjzq2uoGdQO3A1fTqoB9HqoK
+         6XPaBP2frphkhCZ0F436SweQEavdclTpkdoaAg1wy6LkT2JO917ppA8NPqtfZLYcCe9n
+         egbQ/xjWUum3TUlmIKEwVwEtMeVxVKRx2sKKt8RC0igDP15Mp7kEO7Z9WW/lyTrWdHXR
+         eLKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=40X9HjDZm0yK/PQ62L7yUx8rKuu6GOc/1O+kQNF14zU=;
+        b=p/ygN8UALh5RhGbsCgATtfxpMYqFbyepHaj5p/Ch6Zf/29AjSKTLfF7LZ8MjwfJ8jY
+         w2Ve/7tN/B+r6EDlLtsTjdTo5JoiNsZrv+CsmXkkhNJ+gMuiXP2ho3+xC82fg0jlno9o
+         /R6LzD3yaIfTLfiJP3157Ck7bxWBXqBwptmFdQyYp0WzNdBB02csv/hMI4bXw0Ymtn7D
+         TNYg9ZJ2+ZamFxM2ndlXVvPhWHFmbzWZzxcmyLhlvOW/tnsLfsJhJdjaJ0v9nFV5IrQz
+         p/22RQFjhlGwQrbML9Q0acSOZtPcdkOiM7eJd5kTYFu/14HIyg1hcUcB1eVuvr1T7iHN
+         uv7A==
+X-Gm-Message-State: APjAAAVG+K6CtE1WtAmXgXdAdYYUblIQMwHU1nPv3whCO3Ud3/tBatfw
+        KCoc8DZ6mnIiwAaLaudtT/MAllz2LhE=
+X-Google-Smtp-Source: APXvYqzZVEU7X3pkMYXXDYd19jSqzXwQNXvHgEsCjwKJJsgsI+WsdHCAIp/6Zj89z6p8aF6cggUjOA==
+X-Received: by 2002:a65:46c6:: with SMTP id n6mr27354085pgr.352.1574622433838;
+        Sun, 24 Nov 2019 11:07:13 -0800 (PST)
+Received: from majic.sklembedded.com (c-73-202-231-77.hsd1.ca.comcast.net. [73.202.231.77])
+        by smtp.googlemail.com with ESMTPSA id r20sm5367801pgo.74.2019.11.24.11.07.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 24 Nov 2019 11:07:13 -0800 (PST)
+From:   Steve Longerbeam <slongerbeam@gmail.com>
+To:     linux-media@vger.kernel.org
+Cc:     Steve Longerbeam <slongerbeam@gmail.com>
+Subject: [PATCH v2 00/23] media: imx: Create media links in bound notifiers
+Date:   Sun, 24 Nov 2019 11:06:40 -0800
+Message-Id: <20191124190703.12138-1-slongerbeam@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Joe,
+Move media link creation into the notifier bound callbacks in the
+subdevices required by imx, making use of media_entity_get_fwnode_pad().
 
-On 11/23/19 5:45 PM, joevt wrote:
-> This patchset is a set of bug-fixes, additions, and changes I've made while examining various EDIDs I have encountered.
-> 
-> joevt (10):
->   edid-decode: change horizontal refresh rates to kHz
->   edid-decode: correct horizontal range in Monitor Ranges
->   edid-decode: correct calculation of DisplayID type 1 timings
->   edid-decode: add front porch, pulse width, and back porch
->   edid-decode: output timings for YCbCr 4:2:0 cmdb
->   edid-decode: Dump hex of unknown CTA Vendor-Specific blocks
->   edid-decode: cleanup printf format string compiler warnings
->   edid-decode: Dump hex of non-decoded extension blocks
->   edid-decode: DisplayID additions
->   edid-decode: add example EDIDs
+In the process, improve the behavior of media_entity_get_fwnode_pad().
+The function is also being used inconsistently by current callers, so
+that is fixed in this serieas as well.
 
-I merged patches 1-4, and 6-8.
+The default behavior of media_entity_get_fwnode_pad() fails when
+the entity has multiple sink and/or source pads. Wrt imx, there are
+two such entities: the imx6 csi-2 receiver, and the video mux.
 
-The others need a bit more work.
+Modify the default behavior of media_entity_get_fwnode_pad() to first
+determine if the port number at the provided endpoint firmware node
+corresponds to a valid pad for the entity. That way the default behavior
+will work for any entities that implement 1:1 mappings, without requiring
+they implement the .get_fwnode_pad op.
 
-Note that I made some slight changes to some of the patches for stylistic
-reasons. It's noted in the commit log.
+In other words, the old behavior of media_entity_get_fwnode_pad() required
+entities implement .get_fwnode_pad if they have multiple sink or source pads.
+The new behavior requires entities implement .get_fwnode_pad only if they
+have multiple sink or source pads, and do not have 1:1 port:pad mappings.
 
-Regards,
+Also, as part of the above work, it was discovered that all of the
+current callers of media_entity_get_fwnode_pad() are not using that
+function in a consistent way. In all but one case the driver passes the
+firmware node of the subdevice itself to the function, not one of it
+endpoint nodes as the function expects. In more detail:
 
-	Hans
+  - Cadence MIPI-CSI2 Receiver,
+  - ST Micro MIPID02 CSI-2,
+  - Allwinner V3s CSI,
+  - Allwinner A10 CSI,
+  - STM32 DCMI:
+    These drivers call media_entity_get_fwnode_pad() in the subdev bound
+    notifier callback, but passes sd->fwnode to the function. This is
+    usually the fwnode of the subdevice itself, not one of its endpoint
+    nodes. This only works now because there are no implementations of the
+    .get_fwnode_pad op. This will break as soon as the bound subdevice
+    implements the .get_fwnode_pad op.
 
-> 
->  data/acer-xv273k-dp1                          | Bin 0 -> 384 bytes
->  data/acer-xv273k-dp1-tile0                    | Bin 0 -> 384 bytes
->  data/acer-xv273k-dp2                          | Bin 0 -> 384 bytes
->  data/acer-xv273k-dp2-tile1                    | Bin 0 -> 384 bytes
->  data/dell-p2415q-dp-mdp                       | Bin 0 -> 256 bytes
->  data/dell-p2415q-hdmi1.4                      | Bin 0 -> 256 bytes
->  data/dell-p2415q-hdmi2.0                      | Bin 0 -> 256 bytes
->  data/dell-up2715k-dp1-tile1                   | Bin 0 -> 384 bytes
->  data/dell-up2715k-dp2-tile0                   | Bin 0 -> 256 bytes
->  data/dell-up2715k-mdp                         | Bin 0 -> 256 bytes
->  data/dell-up2715k-mdp-switchresx              | Bin 0 -> 384 bytes
->  data/kogan-kaled24144f-dp                     | Bin 0 -> 256 bytes
->  data/kogan-kaled24144f-hdmi                   | Bin 0 -> 256 bytes
->  data/lg-ultrafine-5k-v2-thunderbolt-dp1-tile0 | Bin 0 -> 384 bytes
->  data/lg-ultrafine-5k-v2-thunderbolt-dp2-tile1 | Bin 0 -> 256 bytes
->  edid-decode.c                                 | 758 ++++++++++++++++--
->  16 files changed, 671 insertions(+), 87 deletions(-)
->  create mode 100644 data/acer-xv273k-dp1
->  create mode 100644 data/acer-xv273k-dp1-tile0
->  create mode 100644 data/acer-xv273k-dp2
->  create mode 100644 data/acer-xv273k-dp2-tile1
->  create mode 100644 data/dell-p2415q-dp-mdp
->  create mode 100644 data/dell-p2415q-hdmi1.4
->  create mode 100644 data/dell-p2415q-hdmi2.0
->  create mode 100644 data/dell-up2715k-dp1-tile1
->  create mode 100644 data/dell-up2715k-dp2-tile0
->  create mode 100644 data/dell-up2715k-mdp
->  create mode 100644 data/dell-up2715k-mdp-switchresx
->  create mode 100644 data/kogan-kaled24144f-dp
->  create mode 100644 data/kogan-kaled24144f-hdmi
->  create mode 100644 data/lg-ultrafine-5k-v2-thunderbolt-dp1-tile0
->  create mode 100644 data/lg-ultrafine-5k-v2-thunderbolt-dp2-tile1
-> 
+  - Renesas R-Car MIPI CSI-2 Receiver:
+    Calls media_entity_get_fwnode_pad() in the subdev bound notifier
+    callback. In this case the driver passes the async subdev descriptor
+    match fwnode. Again for most subdevices, this is the fwnode of the
+    subdevice itself, not one of its endpoint nodes. However on the
+    Salvator-X platform, the bound subdevice happens to be the ADV748x
+    CSI-2 transmitter, which does indeed place the endpoint node in the
+    asd match fwnode. But the problem is that the driver is now making
+    assumptions about what subdevices it is binding to.
+
+To resolve the above issues, this series adds a new function
+media_create_fwnode_pad_links(), which creates the media links from/to
+all pads on a remote entity, to/from a single specific local entity pad,
+using the fwnode endpoint connections between them. It's API makes it
+convenient to call from subdev bound notifier callbacks.
+
+Another function media_create_fwnode_links() is added that will create
+links from/to all pads on a remote entity, to/from all pads on a local
+entity. It's API also makes it convenient to call from subdev bound
+notifier callbacks, and can be called for entities that link to remote
+entities via multiple pads (for example the video-mux which has multiple
+sink pads that link to multiple bound subdevices).
+
+This series has been tested on i.MX6Q SabreSD, SabreLite, and SabreAuto
+platforms, and the Renesas Salvator-X platform.
+
+The series needs testing on i.MX7, Cadence, ST Micro MIPID02, STM32 DCMI,
+and Allwinner V3s and A10 platforms. Testing only needs to verify that the
+media graph is unchanged, no stream testing is required. If the media graph
+is broken, it means the subdevice(s) that bind to the drivers listed
+above need to implement the .get_fwnode_pad op.
+
+History:
+
+v2:
+- rename/move the notifier-to-state inlines in imx7-mipi-csis.c and
+  imx7-media-csi.c, suggested by Rui Silva.
+- rewrite imx_media_create_links() to only add the missing media links
+  from the imx6 MIPI CSI-2 receiver.
+
+
+Steve Longerbeam (23):
+  media: entity: Pass entity to get_fwnode_pad operation
+  media: entity: Modify default behavior of media_entity_get_fwnode_pad
+  media: entity: Convert media_entity_get_fwnode_pad() args to const
+  media: Move v4l2_fwnode_parse_link from v4l2 to driver base
+  media: entity: Add functions to convert fwnode endpoints to media
+    links
+  media: adv748x: csi2: Implement get_fwnode_pad
+  media: rcar-csi2: Fix fwnode media link creation
+  media: cadence: csi2rx: Fix fwnode media link creation
+  media: sun6i: Fix fwnode media link creation
+  media: st-mipid02: Fix fwnode media link creation
+  media: stm32-dcmi: Fix fwnode media link creation
+  media: sunxi: Fix fwnode media link creation
+  media: v4l2-fwnode: Pass notifier to
+    v4l2_async_register_fwnode_subdev()
+  media: video-mux: Create media links in bound notifier
+  media: imx: mipi csi-2: Create media links in bound notifier
+  media: imx7-mipi-csis: Create media links in bound notifier
+  media: imx7-media-csi: Create media links in bound notifier
+  media: imx: csi: Implement get_fwnode_pad
+  media: imx: csi: Embed notifier in struct csi_priv
+  media: imx: csi: Create media links in bound notifier
+  media: imx: csi: Lookup upstream endpoint with
+    imx_media_get_pad_fwnode
+  media: imx: Create missing links from CSI-2 receiver
+  media: imx: TODO: Remove media link creation todos
+
+ drivers/base/property.c                       |  63 ++++++
+ drivers/media/i2c/adv748x/adv748x-csi2.c      |  21 ++
+ drivers/media/i2c/st-mipid02.c                |  20 +-
+ drivers/media/mc/mc-entity.c                  | 209 +++++++++++++++++-
+ drivers/media/platform/cadence/cdns-csi2rx.c  |  27 +--
+ drivers/media/platform/rcar-vin/rcar-csi2.c   |  23 +-
+ drivers/media/platform/stm32/stm32-dcmi.c     |  15 +-
+ .../platform/sunxi/sun4i-csi/sun4i_csi.c      |  27 +--
+ .../platform/sunxi/sun4i-csi/sun4i_csi.h      |   1 -
+ .../platform/sunxi/sun6i-csi/sun6i_csi.c      |  36 +--
+ drivers/media/platform/video-mux.c            |  30 ++-
+ drivers/media/platform/xilinx/xilinx-vipp.c   |  69 +++---
+ drivers/media/v4l2-core/v4l2-fwnode.c         |  50 +----
+ drivers/staging/media/imx/TODO                |  29 ---
+ drivers/staging/media/imx/imx-media-csi.c     |  92 +++++---
+ .../staging/media/imx/imx-media-dev-common.c  |  60 ++---
+ drivers/staging/media/imx/imx-media-of.c      | 114 ----------
+ drivers/staging/media/imx/imx-media-utils.c   |  33 +++
+ drivers/staging/media/imx/imx-media.h         |   5 +-
+ drivers/staging/media/imx/imx6-mipi-csi2.c    |  29 ++-
+ drivers/staging/media/imx/imx7-media-csi.c    |  55 +++--
+ drivers/staging/media/imx/imx7-mipi-csis.c    |  30 ++-
+ include/linux/fwnode.h                        |  14 ++
+ include/linux/property.h                      |   5 +
+ include/media/media-entity.h                  |  99 ++++++++-
+ include/media/v4l2-fwnode.h                   |  56 +----
+ 26 files changed, 735 insertions(+), 477 deletions(-)
+
+-- 
+2.17.1
 
