@@ -2,126 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8AC27108007
-	for <lists+linux-media@lfdr.de>; Sat, 23 Nov 2019 19:36:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DAD251081A7
+	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2019 05:55:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726676AbfKWSgU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 23 Nov 2019 13:36:20 -0500
-Received: from mail-pg1-f172.google.com ([209.85.215.172]:36194 "EHLO
-        mail-pg1-f172.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726620AbfKWSgT (ORCPT
+        id S1726736AbfKXEzX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 23 Nov 2019 23:55:23 -0500
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:34633 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726705AbfKXEzX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 23 Nov 2019 13:36:19 -0500
-Received: by mail-pg1-f172.google.com with SMTP id k13so5066952pgh.3
-        for <linux-media@vger.kernel.org>; Sat, 23 Nov 2019 10:36:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=OfIDh+EvmIwR2u9sw52JxYk9mV/z+oYaTYxXDP8ivR0=;
-        b=l9uPI6NN0HCJCbgyalcT76BQxadSiF0NpKmy7MTrPt2ZW8ugY0X4hh9BedgP6Eu3dw
-         ahRiiWcRrvp9qJuSbP5oFiOBkUsVh0TwCZ9sBjADH+p0HRov5m1zBBRLjKZ2aWWZmDEM
-         Yw5kfJO8ZPxhL+zlD+Pc10QS5fHq6u3Y5tKznP9h5NjF5GittQk3LutSrcFbBNRm43EB
-         mSz4FDWH6sbcf6/fTNxLxQci6jq4Autvms/SApV5BcHQ0Tsx3/Hi9oKaa621caBE4UBB
-         MFLR1LN8E8wB4RZhPskDYh/3FX60E1T6vLIS33QODSPPPiQm5+T8aP81ZZyNUu9nxAGZ
-         2qrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=OfIDh+EvmIwR2u9sw52JxYk9mV/z+oYaTYxXDP8ivR0=;
-        b=qapgCbOwBafuudi9y3nRdvWVwUbIOtE0l448QC7I4/4u/zkOhdtuVcfTK9EQTYPKdW
-         aUb5xAgKlcPPVb0pmRuaXivWVWlsxa8RJOR2qAaEzAgnM4dI3MdsaB1C9i6h0JQNUdgI
-         9WTy65+ISRuUu7SsdWjJh4KDd5AWjdQ/Er0YGX/r6uWzCQ6/Cym2JhXl8O4aU1JpX+TQ
-         EidSUM5sJUDH6Q7f0ZJf/Ok4+tCRklwesofWgxNBgE6HlfDOsDkobwiXsZeFSU6kO/ic
-         iyTQIn77H2Skldp+QQvnfC01iVX/rDDxavG3Ix3dZhTAYcMkf/ZW7PaFH2O+xSfpxkLe
-         +a1Q==
-X-Gm-Message-State: APjAAAW6DFfSCOxBC0zWHXjgEjFWygBigh1N1tAmCcX10obU3IpW2z9i
-        7w3oUMFr+bF17F2Fn+0vtLU=
-X-Google-Smtp-Source: APXvYqwZG6fdbr68B3MWWmUZydNLjycetEHp7JSADDc5a7+V1YVP8G8KdHFDkXZeXXZqs87loj1rSA==
-X-Received: by 2002:a63:5611:: with SMTP id k17mr23446551pgb.210.1574534178744;
-        Sat, 23 Nov 2019 10:36:18 -0800 (PST)
-Received: from localhost.localdomain ([223.186.246.249])
-        by smtp.gmail.com with ESMTPSA id h9sm2725751pgk.84.2019.11.23.10.36.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Nov 2019 10:36:18 -0800 (PST)
-From:   Vandana BN <bnvandana@gmail.com>
-To:     hverkuil@xs4all.nl, linux-media@vger.kernel.org
-Cc:     Vandana BN <bnvandana@gmail.com>
-Subject: [PATCH v4] v4l2-ctl:Add Support for Touch
-Date:   Sun, 24 Nov 2019 00:06:11 +0530
-Message-Id: <20191123183611.8655-1-bnvandana@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <31f4c184-8890-cd93-8c37-36a66a71f5a3@xs4all.nl>
-References: <31f4c184-8890-cd93-8c37-36a66a71f5a3@xs4all.nl>
+        Sat, 23 Nov 2019 23:55:23 -0500
+Received: from localhost ([IPv6:2001:983:e9a7:1:70e8:2b60:1739:eb7d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id YjvaipMrtcs92YjvciLudR; Sun, 24 Nov 2019 05:55:20 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1574571320; bh=BuZ4VQVEXzvPJhnmOHvyNuOHKwZt4ppfdH6zSRGWPwE=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=dpX5WrXUF5NBBABFmUAejQUHpCQmsrJjCh4Ei9t7MJ5xtrLcPXEBEq4IvkztahcIt
+         SM2F2b0Rxmj+TEWnnKcJCV+eMpC/H9hUqwxSlcKmvUrgOMAjlWC72F3ybX0na6DKtK
+         vqQxEi2F6LZzsnke6N9MLUPsL4XISiDzO3RYm8Cdy1K9NO9tGs2p63D0GKlPCuRgVn
+         Z4X9p4ByDJNYRtbFxZcjLXylMgej3a5UDDR6HS0gS8PuAyQx+cGbbhy5gQAGX9KjL1
+         Wi5xjuSN95B0YPyT2ArtQ3KrJm+NR5awUyoKeTwx4hSOqgShymdjudND6Cd5y8QstI
+         k/CXS+yV9pTCg==
+Message-ID: <c56ea501a4359825fe5c58ecbf75629d@smtp-cloud7.xs4all.net>
+Date:   Sun, 24 Nov 2019 05:55:18 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfCfo5K+FABL4gkskTJbdqPXjAFJWy10xQlc0N29lbUadf6OBlnY0FERKNBvpf7EgvTUWcY9Zl2xsFWocOudL9+pY6fDSyXz8OGb9l/taH3djT7HHC51v
+ 5AcJPizm0qiMpSeDCi/jkCB9Cda/w/CjM2nDutXNydHTqeoMndD6oCaHthWG2DRWcPHOY83A6363rUCwte7hpEAPuC5xgAuGBomPlehInPbA0jc97iTspKXH
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add support to verify V4L2_TCH_FMT_DELTA_TD16 format touch inputs.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Signed-off-by: Vandana BN <bnvandana@gmail.com>
----
- utils/v4l2-ctl/v4l2-ctl-streaming.cpp |  5 +++++
- utils/v4l2-ctl/v4l2-ctl-vidcap.cpp    | 19 +++++++++++++++++++
- utils/v4l2-ctl/v4l2-ctl.h             |  1 +
- 3 files changed, 25 insertions(+)
+Results of the daily build of media_tree:
 
-diff --git a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-index 184bfd64..47addc41 100644
---- a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
-@@ -595,6 +595,11 @@ static void print_concise_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt,
- 	if (v4l_type_is_meta(buf.g_type()) && buf.g_bytesused(0) &&
- 	    !(buf.g_flags() & V4L2_BUF_FLAG_ERROR))
- 		print_meta_buffer(f, buf, fmt, q);
-+
-+	if ((capabilities & V4L2_CAP_TOUCH) && buf.g_bytesused(0) &&
-+	    !(buf.g_flags() & V4L2_BUF_FLAG_ERROR) &&
-+	    (fmt.g_width() < 64 ||  fmt.g_height() < 64))
-+		print_touch_buffer(f, buf, fmt, q);
- }
- 
- static void stream_buf_caps(cv4l_fd &fd, unsigned buftype)
-diff --git a/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp b/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp
-index 3a29251a..538ece3e 100644
---- a/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp
-@@ -358,3 +358,22 @@ void vidcap_list(cv4l_fd &fd)
- 		}
- 	}
- }
-+
-+void print_touch_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt, cv4l_queue &q)
-+{
-+	__s16 *vbuf = NULL;
-+	__u32 x, y;
-+
-+	switch (fmt.g_pixelformat()) {
-+	case V4L2_TCH_FMT_DELTA_TD16:
-+		vbuf = (__s16*)q.g_dataptr(buf.g_index(), 0);
-+		for (y = 0; y < fmt.g_height(); y++) {
-+			fprintf(f, "TD16:");
-+			for (x = 0; x < fmt.g_width(); x++, vbuf++) {
-+				fprintf(f, "%-3d ", (__s16)le16toh(*vbuf));
-+			}
-+			fprintf(f, "\n");
-+		}
-+		break;
-+	}
-+}
-diff --git a/utils/v4l2-ctl/v4l2-ctl.h b/utils/v4l2-ctl/v4l2-ctl.h
-index b0f65e9b..b31be7f5 100644
---- a/utils/v4l2-ctl/v4l2-ctl.h
-+++ b/utils/v4l2-ctl/v4l2-ctl.h
-@@ -373,6 +373,7 @@ int vidcap_get_and_update_fmt(cv4l_fd &_fd, struct v4l2_format &vfmt);
- void vidcap_set(cv4l_fd &fd);
- void vidcap_get(cv4l_fd &fd);
- void vidcap_list(cv4l_fd &fd);
-+void print_touch_buffer(FILE *f, cv4l_buffer &buf, cv4l_fmt &fmt, cv4l_queue &q);
- 
- // v4l2-ctl-vidout.cpp
- void vidout_usage(void);
--- 
-2.17.1
+date:			Sun Nov 24 05:00:12 CET 2019
+media-tree git hash:	dca6b3733a4a46e63603496f544ece8ace541fde
+media_build git hash:	efba365ba11b958a6bf6fb4b397942f9461cefca
+v4l-utils git hash:	a7dd8c4407f81173388ec7a19400976c9abceac4
+edid-decode git hash:	8108c45fea0eb05c73615fbd765a1ebb80b20b6a
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 6903fe8f5101fc43440b3259290c97d2dd51733d
+host hardware:		x86_64
+host os:		5.2.0-3-amd64
 
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4-rc1-i686: OK
+linux-5.4-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2791, Succeeded: 2791, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
