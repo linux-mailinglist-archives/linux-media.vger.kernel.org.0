@@ -2,54 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 95A51108499
-	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2019 20:07:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1298310849A
+	for <lists+linux-media@lfdr.de>; Sun, 24 Nov 2019 20:07:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727008AbfKXTHW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 24 Nov 2019 14:07:22 -0500
-Received: from mail-pf1-f195.google.com ([209.85.210.195]:43622 "EHLO
-        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727007AbfKXTHW (ORCPT
+        id S1727026AbfKXTHY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 24 Nov 2019 14:07:24 -0500
+Received: from mail-pl1-f193.google.com ([209.85.214.193]:42499 "EHLO
+        mail-pl1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727016AbfKXTHX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 24 Nov 2019 14:07:22 -0500
-Received: by mail-pf1-f195.google.com with SMTP id 3so6134596pfb.10
-        for <linux-media@vger.kernel.org>; Sun, 24 Nov 2019 11:07:21 -0800 (PST)
+        Sun, 24 Nov 2019 14:07:23 -0500
+Received: by mail-pl1-f193.google.com with SMTP id j12so5423567plt.9
+        for <linux-media@vger.kernel.org>; Sun, 24 Nov 2019 11:07:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=cuZoH/JLmsjVG1Yg//mGp6FIvC3w8f1MmhjZrWshNBg=;
-        b=IX4Y9Bz/oaP/VAPUGFUyK43T18l1VPj60JTc6pL0zbdvaybJfeifheGeXq4OUAX8ad
-         U4Po6D9ilLnP+P0dbpbJaY4PSyVgzYF6Q2OYIALjVuM6/fVroictl+aJdyq5r2emykwj
-         4pHyEQIOaqUrinTyNvQdHCjdgKCKCBfza7cq4mYf3UNilIzaIzBXFjvwRjg+Lv3HfjpD
-         hNbnzTclxFHzv9EDOXpN4368pwi/ct4be3Hw4vX78Ineji6i7KmuOAErKsvvcSThesX2
-         Wx2MTwthNIqm6G76MehseNrO8VvlN0fAAkiML1cExwYdHBVq/lPD0d20hJXS+IFZh5Ay
-         az6A==
+        bh=sRRyt6fc5LRoY7i647zUdzX7LInrVBsOqheBLaeBHkk=;
+        b=hHCjRYPbtfMv79iVk9WV/D5EVAhwZOtOmYgxyscvnqd06aeTql4nM7ufCioB1HVLnW
+         gPw6Jbc7sUR3iccJhzWOO9FaQgd1MBuvfwjE52uuL1eWXUcEWFbWeCmeNl8KqYMob9/p
+         w77WV+yp3KbnsbFFsjreiSFedpfNJb6hkVnzUhgRGtNG0D4n7t2WKHgdZs+qDa52pzdd
+         JuJgKwpof6m0yKusxafH0odkXK1c1LT31EXuS6nUSSD2VeHZ2KBvRoHxPRUKaChHa/44
+         DlC+bXeqVDElOeYEAa7Kb4+HSbiILM6HtgbYFOnFX8dVIQ61YJXlkm5SNjggABn6djId
+         hp6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=cuZoH/JLmsjVG1Yg//mGp6FIvC3w8f1MmhjZrWshNBg=;
-        b=W04vlpyfn70k58XC5aKerbuRtgwrmKi5T3uS8KKLoCpU4Iu1s/qzfEeSFBNdAflafl
-         kWrR2e7H1nHlOM+0nEM5Zpyb49zZi22Bnx8EZP9662rS5Lg71gsfu8768CTsiVyb27hr
-         kWHPSOY6cH3b8ZvOB/ymWMBhWwUgAUZXhTbB3qu9KyLBwqNWobWjqtONjSofEoIM2vJQ
-         PlWrt5tcjxnDRzFztS9/8ILpin2rFe4E5gAjn/Y8x0w0ZPCTdRRKlbtw2sMtDo2kzkTC
-         TWKI0syqXdcPMr7f0RqT0BeSkp1M2PQ6LfjJLoj9nnqm/Ap74HXtFKfIl0fs80a2cnKk
-         hITw==
-X-Gm-Message-State: APjAAAUzeLzipDG7XjWMwTuLFWWvslBOGpRnZHQLBI4fmAJyPOLkN7Tb
-        jTbl/xwlSq2eLiDa7gWcy87air8CMSw=
-X-Google-Smtp-Source: APXvYqx4H4sE/y5iGINvFwtgb+M0aoC+Ej9aY8Eos8fYhLzhc7CLSmjyZtwqAN5RxKdhhdT/3tHTPQ==
-X-Received: by 2002:a62:7f93:: with SMTP id a141mr30562612pfd.82.1574622441016;
-        Sun, 24 Nov 2019 11:07:21 -0800 (PST)
+        bh=sRRyt6fc5LRoY7i647zUdzX7LInrVBsOqheBLaeBHkk=;
+        b=hwVJkC0EDavRoBP5KU1xgiZPie6sGCeRKCRuOIdl/g61xbqJvqWs4KZ+679maqLfhA
+         jIcj8BrvSXhb/t5NmAdBlO0q3ALWuh4tgdsvXiyiFwSgqskQT4L81rUYVLzNn45cunpu
+         fqIZ0wEGHS0i0NmrV6JUGr8mKrhVm6xB0g3D3n81HdgWgCAoMjMmVna3GWuZtfyw6YJz
+         dW2MO97Wac2b2vuPy3oE517nFuOgCYzo6DUNhn6N72EMPD/aEKuySwzLbrFha1h+sjHV
+         bNsaskgqUJo9TEusFewNF37ssYMyInEDevxOkRzGIwmUNDuopfYL87V7kqsFB+oIGa5d
+         BYFA==
+X-Gm-Message-State: APjAAAXsjDSqHk6LN7FZtQ0vhGRRS3xrudlwV1iYqlMammEY8cOIIeMC
+        H92Zd3TrEPJ5UzIH0wORfBGBTYFRBtk=
+X-Google-Smtp-Source: APXvYqzbITRSkAAmspfJ5jYvcmr2++QY2ZLZvfvs8ByPiU/Q5Em2I+J7MQjbW+fGydkovuUfvB7aJg==
+X-Received: by 2002:a17:902:760b:: with SMTP id k11mr15152099pll.272.1574622442156;
+        Sun, 24 Nov 2019 11:07:22 -0800 (PST)
 Received: from majic.sklembedded.com (c-73-202-231-77.hsd1.ca.comcast.net. [73.202.231.77])
-        by smtp.googlemail.com with ESMTPSA id r20sm5367801pgo.74.2019.11.24.11.07.20
+        by smtp.googlemail.com with ESMTPSA id r20sm5367801pgo.74.2019.11.24.11.07.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Nov 2019 11:07:20 -0800 (PST)
+        Sun, 24 Nov 2019 11:07:21 -0800 (PST)
 From:   Steve Longerbeam <slongerbeam@gmail.com>
 To:     linux-media@vger.kernel.org
 Cc:     Steve Longerbeam <slongerbeam@gmail.com>
-Subject: [PATCH v2 08/23] media: cadence: csi2rx: Fix fwnode media link creation
-Date:   Sun, 24 Nov 2019 11:06:48 -0800
-Message-Id: <20191124190703.12138-9-slongerbeam@gmail.com>
+Subject: [PATCH v2 09/23] media: sun6i: Fix fwnode media link creation
+Date:   Sun, 24 Nov 2019 11:06:49 -0800
+Message-Id: <20191124190703.12138-10-slongerbeam@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191124190703.12138-1-slongerbeam@gmail.com>
 References: <20191124190703.12138-1-slongerbeam@gmail.com>
@@ -58,7 +58,7 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-csi2rx_async_bound() passes the bound subdev's sd->fwnode to
+sun6i_csi_link_entity() passes the bound subdev's sd->fwnode to
 media_entity_get_fwnode_pad(). This is likely not an endpoint
 fwnode as required by media_entity_get_fwnode_pad(), for most
 subdevices it is the port parent of endpoint fwnode(s). This has only
@@ -70,61 +70,59 @@ the given direction flags.
 Fix this by replacing the calls to media_entity_get_fwnode_pad() and
 media_create_pad_link() with a call to media_create_fwnode_pad_links().
 
-Fixes: 1fc3b37f34f69 ("media: v4l: cadence: Add Cadence MIPI-CSI2 RX driver")
+Fixes: 5cc7522d89655 ("media: sun6i: Add support for Allwinner CSI V3s")
 Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
 ---
- drivers/media/platform/cadence/cdns-csi2rx.c | 27 ++++++++------------
- 1 file changed, 10 insertions(+), 17 deletions(-)
+ .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 36 +++----------------
+ 1 file changed, 5 insertions(+), 31 deletions(-)
 
-diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
-index be9ec59774d6..d79345820225 100644
---- a/drivers/media/platform/cadence/cdns-csi2rx.c
-+++ b/drivers/media/platform/cadence/cdns-csi2rx.c
-@@ -83,7 +83,6 @@ struct csi2rx_priv {
- 	/* Remote source */
- 	struct v4l2_async_subdev	asd;
- 	struct v4l2_subdev		*source_subdev;
--	int				source_pad;
- };
- 
- static inline
-@@ -251,26 +250,20 @@ static int csi2rx_async_bound(struct v4l2_async_notifier *notifier,
+diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+index 055eb0b8e396..c6f51554ef67 100644
+--- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
++++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+@@ -630,37 +630,11 @@ static int sun6i_csi_link_entity(struct sun6i_csi *csi,
+ 				 struct media_entity *entity,
+ 				 struct fwnode_handle *fwnode)
  {
- 	struct v4l2_subdev *subdev = notifier->sd;
- 	struct csi2rx_priv *csi2rx = v4l2_subdev_to_csi2rx(subdev);
-+	int ret;
- 
--	csi2rx->source_pad = media_entity_get_fwnode_pad(&s_subdev->entity,
--							 s_subdev->fwnode,
--							 MEDIA_PAD_FL_SOURCE);
--	if (csi2rx->source_pad < 0) {
--		dev_err(csi2rx->dev, "Couldn't find output pad for subdev %s\n",
--			s_subdev->name);
--		return csi2rx->source_pad;
--	}
-+	ret = media_create_fwnode_pad_links(&csi2rx->subdev.entity.pads[0],
-+					    dev_fwnode(csi2rx->dev),
-+					    &s_subdev->entity,
-+					    dev_fwnode(s_subdev->dev),
-+					    MEDIA_LNK_FL_ENABLED |
-+					    MEDIA_LNK_FL_IMMUTABLE);
-+	if (ret)
-+		return ret;
- 
- 	csi2rx->source_subdev = s_subdev;
- 
--	dev_dbg(csi2rx->dev, "Bound %s pad: %d\n", s_subdev->name,
--		csi2rx->source_pad);
+-	struct media_entity *sink;
+-	struct media_pad *sink_pad;
+-	int src_pad_index;
+-	int ret;
 -
--	return media_create_pad_link(&csi2rx->source_subdev->entity,
--				     csi2rx->source_pad,
--				     &csi2rx->subdev.entity, 0,
--				     MEDIA_LNK_FL_ENABLED |
--				     MEDIA_LNK_FL_IMMUTABLE);
-+	return 0;
+-	ret = media_entity_get_fwnode_pad(entity, fwnode, MEDIA_PAD_FL_SOURCE);
+-	if (ret < 0) {
+-		dev_err(csi->dev, "%s: no source pad in external entity %s\n",
+-			__func__, entity->name);
+-		return -EINVAL;
+-	}
+-
+-	src_pad_index = ret;
+-
+-	sink = &csi->video.vdev.entity;
+-	sink_pad = &csi->video.pad;
+-
+-	dev_dbg(csi->dev, "creating %s:%u -> %s:%u link\n",
+-		entity->name, src_pad_index, sink->name, sink_pad->index);
+-	ret = media_create_pad_link(entity, src_pad_index, sink,
+-				    sink_pad->index,
+-				    MEDIA_LNK_FL_ENABLED |
+-				    MEDIA_LNK_FL_IMMUTABLE);
+-	if (ret < 0) {
+-		dev_err(csi->dev, "failed to create %s:%u -> %s:%u link\n",
+-			entity->name, src_pad_index,
+-			sink->name, sink_pad->index);
+-		return ret;
+-	}
+-
+-	return 0;
++	return media_create_fwnode_pad_links(&csi->video.pad,
++					     dev_fwnode(csi->dev),
++					     entity, fwnode,
++					     MEDIA_LNK_FL_ENABLED |
++					     MEDIA_LNK_FL_IMMUTABLE);
  }
  
- static const struct v4l2_async_notifier_operations csi2rx_notifier_ops = {
+ static int sun6i_subdev_notify_complete(struct v4l2_async_notifier *notifier)
 -- 
 2.17.1
 
