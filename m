@@ -2,37 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D4A99108B6E
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2019 11:13:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E21C108B83
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2019 11:19:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727386AbfKYKNo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Nov 2019 05:13:44 -0500
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:53079 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727360AbfKYKNo (ORCPT
+        id S1727316AbfKYKTX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Nov 2019 05:19:23 -0500
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:42135 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725828AbfKYKTW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Nov 2019 05:13:44 -0500
+        Mon, 25 Nov 2019 05:19:22 -0500
 Received: from [192.168.2.10] ([46.9.232.237])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id ZBNCiRAj7ecrtZBNFiIIGJ; Mon, 25 Nov 2019 11:13:41 +0100
+        id ZBSeiRD96ecrtZBShiIK3e; Mon, 25 Nov 2019 11:19:20 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1574676821; bh=JBWAcEvW+xe7/Y/iGtylnBIGnEL0GswGzUFCxmkBAsM=;
+        t=1574677160; bh=lXTT2fkW4KI8dhfsa+BcpNSvLf7UTawy8Nu/PMuUYxY=;
         h=Subject:From:To:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=t/3dkF5vJV+HsIvyDtgcq4xKVEKy61CmeTyi5+M9/EYWclxYdct5Q2LdExX0gj0xz
-         zTzfIqdIBphPAF3D6y1UzEiWInL0qsGKtynGmtSif04+H/1JiWL62sdhPhRY6P1HCm
-         hJj8vIkThkRTrj1TNZpwlKb53LvyB9PQoYa7pgv7KmQNMkOR07F4PkndN5CUROWBFq
-         gL95wKOtiUSxqklX0faGwZmKaJatpTXZ1J4KtgsWS0wbtf18EUnq43yUXQx4wB6wWL
-         QK6jWEjJpir1ZOwgq+mMpcpOpSruUT/48o7jTKy5Lm0FSC8CjrilnRLgkrH3DSyl/u
-         IbpOwDSa89M5A==
+        b=Ri02BxgblMcyD4HO4dmy6Pz1/sPmBsK7s50cROsau+cnX0aIDwVVpxKqEOZB2LnXw
+         PsWV8DIss+C0pVPBPzrlbBSPzintOVbISjxBw9mQ0TftxR4vEMRjFHMtuI2Qhvnkqi
+         bOj9QPCD3d2nzhHOIYeASXAzh606jCF0iQoMVKW6sCCLsA7aExjjhuCnma/hQLBjw6
+         UjfZMVcBqVcEHHZReXhajbdJel8fdGPzsieBbLH9g6OG2og/SAOvE0uKMep/7mmupM
+         sZVpYeWdv0ZPrrxUnaEe3Ec51UqCTgHEna7/ulLQPuSizH6kc9VLv1t5LN3LFQdg4I
+         CT6c8i+Id45Kw==
 Subject: Re: [PATCH v8] vivid: Add touch support
 From:   Hans Verkuil <hverkuil@xs4all.nl>
 To:     Vandana BN <bnvandana@gmail.com>, linux-media@vger.kernel.org
 References: <665e3259-e7c8-ffcd-1873-be36a12b67a3@xs4all.nl>
  <20191125042336.6205-1-bnvandana@gmail.com>
  <c2f25d01-93cc-3678-bae5-58fb13001d8d@xs4all.nl>
-Message-ID: <10ba6cbf-f21e-5009-922c-d7578c626079@xs4all.nl>
-Date:   Mon, 25 Nov 2019 11:13:38 +0100
+Message-ID: <c6bccd3b-ab1b-47b3-7e89-168b9ae024f5@xs4all.nl>
+Date:   Mon, 25 Nov 2019 11:19:16 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
@@ -40,8 +40,8 @@ In-Reply-To: <c2f25d01-93cc-3678-bae5-58fb13001d8d@xs4all.nl>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfIz1hY+XtB5RSlTmTc5KE3KtYLAPqFgvHR+IOI/9XNhR/41BfUCs9hGX1UNEd6htfo1NH7xZNiFct1GxZ4O3DrO6MFBq/Lm1nYmmm+2YAV1cYWGjIVgP
- xKINZdcEDHnhw92EKIYlfdayvbW2fcI4qbiEc5zocUldkXCt32dSFA/4KbsRsrGmf078qc3gBqglkSbG6kys4A84xau9DTORpzQ=
+X-CMAE-Envelope: MS4wfN2p4rhuo3SCGJ8fAJR/Y1AdZJkHrzuLj0CLVbu/Ex2928QOAwuIcbC3z5noBNucfGkJgFGrjm0Q5KHCt3HSMIbJGiQTMb1sNBKgC6OLb2BzDxWNpFWP
+ k3Ch5OjFD26VKsv+5TNDHMMFt4zAKBn3ISJl3w1pf6FLT+Cbg//PgY7tqX4ehTmpsBnBJHT7Ct2ukSV5UCSTNNwB3bbuU1+5kh4=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -132,6 +132,14 @@ On 11/25/19 11:02 AM, Hans Verkuil wrote:
 >> +				  test_pat_idx * (f->width / 10));
 > 
 > 10 -> TCH_PATTERN_COUNT
+
+Actually, this should be (test_pat_idx * f->width) / TCH_PATTERN_COUNT,
+otherwise you get bad rounding errors.
+
+Regards,
+
+	Hans
+
 > 
 > Regards,
 > 
@@ -164,16 +172,6 @@ On 11/25/19 11:02 AM, Hans Verkuil wrote:
 >> +		for (x = 0; x < f->width; x++)
 >> +			for (y = f->height / 2; y < f->height; y++)
 >> +				vivid_tch_buf_set(f, tch_buf, x + f->width * y);
-
-Ah, this is wrong. For this pattern you can't use vivid_tch_buf_set(). Instead
-each pixel should be set explicitly to VIVID_MIN_PRESSURE + get_random_pressure();
-
-The vivid_tch_buf_set overwrites neighboring pixels, so that doesn't work here.
-
-Regards,
-
-	Hans
-
 >> +		break;
 >> +	case MULTIPLE_PRESS:
 >> +		/* 16 pressure points */
