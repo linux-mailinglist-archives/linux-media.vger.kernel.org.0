@@ -2,157 +2,274 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D108F1090AE
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2019 16:06:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F473109157
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2019 16:52:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728462AbfKYPGv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Nov 2019 10:06:51 -0500
-Received: from mx0a-00128a01.pphosted.com ([148.163.135.77]:44816 "EHLO
-        mx0a-00128a01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728329AbfKYPGv (ORCPT
+        id S1728653AbfKYPwW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Nov 2019 10:52:22 -0500
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:59071 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728243AbfKYPwW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Nov 2019 10:06:51 -0500
-Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
-        by mx0a-00128a01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id xAPEw0Wb014998;
-        Mon, 25 Nov 2019 10:06:49 -0500
-Received: from nam01-bn3-obe.outbound.protection.outlook.com (mail-bn3nam01lp2050.outbound.protection.outlook.com [104.47.33.50])
-        by mx0a-00128a01.pphosted.com with ESMTP id 2wf2j4msj1-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 25 Nov 2019 10:06:48 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KcRw4y4FZDDueGZUaDChqIMBysHBtg2a2D/jxt6DjYtCboTHmqV0pPcTcDvEknUa92/SOXW7R4FzcjPgwyQMjq2k56CQivzBhqJHXLoYKTkvXLj0xi56Jl5B3fteybFd8BPfuz/PFfFrVfURTx//YRHh5Zf2QQUAXf1z8vyGaOGH9ayrD3wg1S3Q6wOyFG0MM+OjvQYT7EAeqXQSRGZv2B8pTD12WtUXzLRykyHn0puXHAfsOChi/jcILrUaG1BEgOgmUCibznK6fK56U/5neoKqwGDFAeAx4m9ttZHfWyR14jVa4Ey7GDt2UklncAemhr2ksW/6StL6UEPMb4g/TQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UipkQDKfEzt06+v5VSr77jxhT3EUikB5/XZ7SGrj+EU=;
- b=Czw5ufvDz7EoQ5PhH7nvqZwsG2a0ws7R2GNJIRESz3zg/UbQ1FH4ih4iy/ysoS79NCPxrcDVMYKMZ8qPUMqtT2sFRHezq4llgyKwLniOlSCT00WZDUFptFfHJHxhGubNyvQ/hwzBUJz/AnFO/WdZ8y6T5xDMo4IdIsg0ztxozvbIfQzoMJM3OIv5hdtxZ0GsKV5Phe8M/NBh8hA8euvZiiRI6Y9XPDzZYXgVk0UMJCrZ440L2kQ+y0AkacwDxlq2z62b/wYusbGt7e5GAOZ1ojg3XtN7sKQJJz/qRFR0Y2VeyB7uc1hP6VvRsMNxwEZSrlOtRUp3XSmlmDiUA5glxw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=analog.com; dmarc=pass action=none header.from=analog.com;
- dkim=pass header.d=analog.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=analog.onmicrosoft.com; s=selector2-analog-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UipkQDKfEzt06+v5VSr77jxhT3EUikB5/XZ7SGrj+EU=;
- b=SQFWeiICwcLTooP5blK/+kBNsz4JAcIz5JvzYzastET77VqyfeFZ2f97SRtrneeNlWfCLstNKQuTT2z/srfyVPU160zB47xrlJLjRM47RYFubqSGBwCRcbi9jr4CYwlNBtbOL87cKv/E1k0CfucRJ/NF2Bm8nmqVHe71dl53vz4=
-Received: from CH2PR03MB5192.namprd03.prod.outlook.com (20.180.12.152) by
- CH2PR03MB5237.namprd03.prod.outlook.com (20.180.15.145) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2474.19; Mon, 25 Nov 2019 15:06:47 +0000
-Received: from CH2PR03MB5192.namprd03.prod.outlook.com
- ([fe80::38e7:c7c5:75cc:682c]) by CH2PR03MB5192.namprd03.prod.outlook.com
- ([fe80::38e7:c7c5:75cc:682c%5]) with mapi id 15.20.2474.023; Mon, 25 Nov 2019
- 15:06:47 +0000
-From:   "Ardelean, Alexandru" <alexandru.Ardelean@analog.com>
-To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-CC:     "mchehab@kernel.org" <mchehab@kernel.org>,
-        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
-        "Bogdan, Dragos" <Dragos.Bogdan@analog.com>
-Subject: Re: [PATCH v2] media: adv7604: extend deep color mode to ADV7611
-Thread-Topic: [PATCH v2] media: adv7604: extend deep color mode to ADV7611
-Thread-Index: AQHVhadUGF5sVrtyQkGjbJFTf/w2daecOOmA
-Date:   Mon, 25 Nov 2019 15:06:47 +0000
-Message-ID: <6a524aedf79ba40f3286bf0ad4c7b320b561caf1.camel@analog.com>
-References: <20191018112157.31657-1-alexandru.ardelean@analog.com>
-         <20191018112955.13652-1-alexandru.ardelean@analog.com>
-In-Reply-To: <20191018112955.13652-1-alexandru.ardelean@analog.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [137.71.226.54]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 0b675cb1-64c5-4af2-233f-08d771b9176e
-x-ms-traffictypediagnostic: CH2PR03MB5237:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <CH2PR03MB5237E8AFDFF1872587C36563F94A0@CH2PR03MB5237.namprd03.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7691;
-x-forefront-prvs: 0232B30BBC
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(39860400002)(346002)(136003)(396003)(376002)(366004)(54534003)(199004)(189003)(6436002)(76116006)(66476007)(64756008)(6486002)(54906003)(110136005)(316002)(6116002)(7736002)(71190400001)(71200400001)(14444005)(256004)(2906002)(229853002)(66556008)(66446008)(99286004)(36756003)(66066001)(66946007)(4001150100001)(118296001)(11346002)(305945005)(102836004)(14454004)(8936002)(186003)(76176011)(81156014)(6506007)(2616005)(6512007)(8676002)(81166006)(86362001)(2501003)(4326008)(3846002)(6246003)(5660300002)(107886003)(478600001)(446003)(25786009)(26005);DIR:OUT;SFP:1101;SCL:1;SRVR:CH2PR03MB5237;H:CH2PR03MB5192.namprd03.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: analog.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Zsi+BLs1HYxPk+hGwOWv6A+NlwnDxlAEe7WQGGLheImmZYPiT5N0pD4L+e505pB6YwWLYQ1/oeOmttdyg2zSqfHrJcIvvK/Xvi9r2eUvXb5MmIaRA+NZVou6iATGVQLFYzR3KiGzdDC91KWKpbbBJp8BlVpYTk7+dlaqmjTEahwf/X5w60TTKBkN6+8Jb403UrdlX18/3pVubpHaiv2pM0EVKdEFSJ+sJsh55LQJw4qJJ8fK6AX2NflsmrzSryB3rWVki4TgZn18bdBOtiOhCfrtQUmN3GIrYaiOPU+8KIm5vn5nM9zCWWp1w1znieWidwzmSHF4ErhSMEGAfOVsq7N+Q68KJ6kgSIEl2xgCxXnlE69zfB0plvijv97qe4TbEerZR5xc8tG++59j6WwattDIrumjEkTZ1YvgdljFv7t3Ssm80povYQAovw9M7Ff3
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <341313250CC9244BA25ADD055F0C7836@namprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        Mon, 25 Nov 2019 10:52:22 -0500
+Received: from [192.168.2.10] ([46.9.232.237])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id ZGetiMftiLwWdZGexiWAZ2; Mon, 25 Nov 2019 16:52:19 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1574697139; bh=VcvMGCCf6KAUj/PLkTV4oRPJfrL42aSjyUZDhVlSV2s=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=E7jzkUUf7sPUIgq/DAh0yCKGTcp/Y6ASzcXcVLNBao3y2FqtZ2RvX2A+Sfo4cgBM2
+         PHu5rG7QR/T6atEPoE/lBhyoAkSTm4IpQ2Ssbh3Rsx6eMAxMeGHGOBWwfN3aGhYt0n
+         /RDYkQ8CsgeTrY+cT41Go8sW6+b5Rlyul2UIlGnXZ0fef/KVGN6kD6pE943f/c5aTO
+         X49iwabEU4UhdK8NQH2+Sf9YDByCDMEQVtHkudwJ2FqsyGxSRcnSME8idlyy8eU5VG
+         0wXjObY40iZUgWfYbPAg5wr18VDxWn9wUcbQsqcB+eBKYdWBniXc1p9wHZ6LLnKE16
+         Ui42fIMMZdvtQ==
+Subject: Re: [PATCH v4 2/8] media: v4l2: abstract timeval handling in
+ v4l2_buffer
+To:     Arnd Bergmann <arnd@arndb.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, y2038@lists.linaro.org
+References: <20191111203835.2260382-1-arnd@arndb.de>
+ <20191111203835.2260382-3-arnd@arndb.de>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <00fea162-508a-b6e1-84ba-1472a94f6945@xs4all.nl>
+Date:   Mon, 25 Nov 2019 16:52:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-X-OriginatorOrg: analog.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0b675cb1-64c5-4af2-233f-08d771b9176e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Nov 2019 15:06:47.0972
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: QvBHE2WzqN+1qSZb9+F+/VdAQQj4ELZzoYWzmkY2zrwUrD4JKJNJDhQuLjvkqpiqa+pL4HAD72D/TV+37BN9ezd7PJdyjU26ZM43msG+CFw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR03MB5237
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
- definitions=2019-11-25_03:2019-11-21,2019-11-25 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=999
- suspectscore=0 clxscore=1011 priorityscore=1501 mlxscore=0 spamscore=0
- impostorscore=0 lowpriorityscore=0 malwarescore=0 bulkscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-1910280000
- definitions=main-1911250136
+In-Reply-To: <20191111203835.2260382-3-arnd@arndb.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfDnIgFqVCzi279/FlChXnYDL7t8LvLXVc3QZD1lTEhj0hd0RWypsml9GJX24a8vndLlm/wAHw0iZ2AmetIF3rqzC3LAEiUD/Q7pYg527XyXtTLR+3dRI
+ mcdgsLo3X1OFoKjHdbEzSWHooc3jiR04fr6cnDW/vnbkcVJtbgVWk6vaWF/S8u8/QRuvtu/0885EUzSLPykn2qbEH05O+4lWqsMRdSX1uk5lQuQSiPPy2hRZ
+ zm0E6AP98IH8bxDGsUb5epqABIs8F1vwjxtNbQ8meYLCovzVDJAD5ls17xoIvDeD2j/50t+qoISUYSlKaAJXXA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-T24gRnJpLCAyMDE5LTEwLTE4IGF0IDE0OjI5ICswMzAwLCBBbGV4YW5kcnUgQXJkZWxlYW4gd3Jv
-dGU6DQo+IEZyb206IERyYWdvcyBCb2dkYW4gPGRyYWdvcy5ib2dkYW5AYW5hbG9nLmNvbT4NCj4g
-DQo+IFRoZSBBRDc2MTEgY2hpcCBzdXBwb3J0cyB0aGUgc2FtZSBEZWVwIENvbG9yIE1vZGUgc2V0
-dGluZ3MgYXMgdGhlIEFENzYwNC4NCj4gVGhpcyBjaGFuZ2UgZXh0ZW5kcyBzdXBwb3J0IGZvciB0
-aGlzIGZlYXR1cmUgdG8gdGhlIEFENzYxMSBieSBhZGRpbmcgYQ0KPiB3cmFwcGVyIGZ1bmN0aW9u
-IGZvciB0aGUgYHJlYWRfaGRtaV9waXhlbGNsb2NrYCBob29rIGFuZCBhZGRpbmcgdGhlIHNhbWUN
-Cj4gZnJlcXVlbmN5IGFkanVzdG1lbnQgbG9naWMuDQo+IA0KDQpwaW5nIGhlcmUNCg0KPiBTaWdu
-ZWQtb2ZmLWJ5OiBEcmFnb3MgQm9nZGFuIDxkcmFnb3MuYm9nZGFuQGFuYWxvZy5jb20+DQo+IFNp
-Z25lZC1vZmYtYnk6IEFsZXhhbmRydSBBcmRlbGVhbiA8YWxleGFuZHJ1LmFyZGVsZWFuQGFuYWxv
-Zy5jb20+DQo+IC0tLQ0KPiANCj4gQ2hhbmdlbG9nIHYxIC0+IHYyOg0KPiAqIGFkZHJlc3MgY2hl
-Y2twYXRjaCBjb21wbGFpbnRzIGFib3V0IDgwIGNvbCBsaW1pdCBhbmQNCj4gICB1c2Ugb2YgYHVu
-c2lnbmVkYCB2cyBgdW5zaWduZWQgaW50YA0KPiANCj4gIGRyaXZlcnMvbWVkaWEvaTJjL2Fkdjc2
-MDQuYyB8IDMyICsrKysrKysrKysrKysrKysrKysrKy0tLS0tLS0tLS0tDQo+ICAxIGZpbGUgY2hh
-bmdlZCwgMjEgaW5zZXJ0aW9ucygrKSwgMTEgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0
-IGEvZHJpdmVycy9tZWRpYS9pMmMvYWR2NzYwNC5jIGIvZHJpdmVycy9tZWRpYS9pMmMvYWR2NzYw
-NC5jDQo+IGluZGV4IDI4YTg0YmY5ZjhhOS4uYzZmZTNhYTY5NzMzIDEwMDY0NA0KPiAtLS0gYS9k
-cml2ZXJzL21lZGlhL2kyYy9hZHY3NjA0LmMNCj4gKysrIGIvZHJpdmVycy9tZWRpYS9pMmMvYWR2
-NzYwNC5jDQo+IEBAIC0xNTAzLDIzICsxNTAzLDE0IEBAIHN0YXRpYyB2b2lkDQo+IGFkdjc2eHhf
-ZmlsbF9vcHRpb25hbF9kdl90aW1pbmdzX2ZpZWxkcyhzdHJ1Y3QgdjRsMl9zdWJkZXYgKnNkLA0K
-PiAgDQo+ICBzdGF0aWMgdW5zaWduZWQgaW50IGFkdjc2MDRfcmVhZF9oZG1pX3BpeGVsY2xvY2so
-c3RydWN0IHY0bDJfc3ViZGV2ICpzZCkNCj4gIHsNCj4gLQl1bnNpZ25lZCBpbnQgZnJlcTsNCj4g
-IAlpbnQgYSwgYjsNCj4gIA0KPiAgCWEgPSBoZG1pX3JlYWQoc2QsIDB4MDYpOw0KPiAgCWIgPSBo
-ZG1pX3JlYWQoc2QsIDB4M2IpOw0KPiAgCWlmIChhIDwgMCB8fCBiIDwgMCkNCj4gIAkJcmV0dXJu
-IDA7DQo+IC0JZnJlcSA9ICBhICogMTAwMDAwMCArICgoYiAmIDB4MzApID4+IDQpICogMjUwMDAw
-Ow0KPiAgDQo+IC0JaWYgKGlzX2hkbWkoc2QpKSB7DQo+IC0JCS8qIGFkanVzdCBmb3IgZGVlcCBj
-b2xvciBtb2RlICovDQo+IC0JCXVuc2lnbmVkIGJpdHNfcGVyX2NoYW5uZWwgPSAoKGhkbWlfcmVh
-ZChzZCwgMHgwYikgJiAweDYwKQ0KPiA+PiA0KSArIDg7DQo+IC0NCj4gLQkJZnJlcSA9IGZyZXEg
-KiA4IC8gYml0c19wZXJfY2hhbm5lbDsNCj4gLQl9DQo+IC0NCj4gLQlyZXR1cm4gZnJlcTsNCj4g
-KwlyZXR1cm4gYSAqIDEwMDAwMDAgKyAoKGIgJiAweDMwKSA+PiA0KSAqIDI1MDAwMDsNCj4gIH0N
-Cj4gIA0KPiAgc3RhdGljIHVuc2lnbmVkIGludCBhZHY3NjExX3JlYWRfaGRtaV9waXhlbGNsb2Nr
-KHN0cnVjdCB2NGwyX3N1YmRldiAqc2QpDQo+IEBAIC0xNTMwLDkgKzE1MjEsMjggQEAgc3RhdGlj
-IHVuc2lnbmVkIGludA0KPiBhZHY3NjExX3JlYWRfaGRtaV9waXhlbGNsb2NrKHN0cnVjdCB2NGwy
-X3N1YmRldiAqc2QpDQo+ICAJYiA9IGhkbWlfcmVhZChzZCwgMHg1Mik7DQo+ICAJaWYgKGEgPCAw
-IHx8IGIgPCAwKQ0KPiAgCQlyZXR1cm4gMDsNCj4gKw0KPiAgCXJldHVybiAoKGEgPDwgMSkgfCAo
-YiA+PiA3KSkgKiAxMDAwMDAwICsgKGIgJiAweDdmKSAqIDEwMDAwMDAgLw0KPiAxMjg7DQo+ICB9
-DQo+ICANCj4gK3N0YXRpYyB1bnNpZ25lZCBpbnQgYWR2NzZ4eF9yZWFkX2hkbWlfcGl4ZWxjbG9j
-ayhzdHJ1Y3QgdjRsMl9zdWJkZXYgKnNkKQ0KPiArew0KPiArCXN0cnVjdCBhZHY3Nnh4X3N0YXRl
-ICpzdGF0ZSA9IHRvX3N0YXRlKHNkKTsNCj4gKwljb25zdCBzdHJ1Y3QgYWR2NzZ4eF9jaGlwX2lu
-Zm8gKmluZm8gPSBzdGF0ZS0+aW5mbzsNCj4gKwl1bnNpZ25lZCBpbnQgZnJlcSwgYml0c19wZXJf
-Y2hhbm5lbCwgcGl4ZWxyZXBldGl0aW9uOw0KPiArDQo+ICsJZnJlcSA9IGluZm8tPnJlYWRfaGRt
-aV9waXhlbGNsb2NrKHNkKTsNCj4gKwlpZiAoaXNfaGRtaShzZCkpIHsNCj4gKwkJLyogYWRqdXN0
-IGZvciBkZWVwIGNvbG9yIG1vZGUgYW5kIHBpeGVsIHJlcGV0aXRpb24gKi8NCj4gKwkJYml0c19w
-ZXJfY2hhbm5lbCA9ICgoaGRtaV9yZWFkKHNkLCAweDBiKSAmIDB4NjApID4+IDQpICsgODsNCj4g
-KwkJcGl4ZWxyZXBldGl0aW9uID0gKGhkbWlfcmVhZChzZCwgMHgwNSkgJiAweDBmKSArIDE7DQo+
-ICsNCj4gKwkJZnJlcSA9IGZyZXEgKiA4IC8gYml0c19wZXJfY2hhbm5lbCAvIHBpeGVscmVwZXRp
-dGlvbjsNCj4gKwl9DQo+ICsNCj4gKwlyZXR1cm4gZnJlcTsNCj4gK30NCj4gKw0KPiAgc3RhdGlj
-IGludCBhZHY3Nnh4X3F1ZXJ5X2R2X3RpbWluZ3Moc3RydWN0IHY0bDJfc3ViZGV2ICpzZCwNCj4g
-IAkJCXN0cnVjdCB2NGwyX2R2X3RpbWluZ3MgKnRpbWluZ3MpDQo+ICB7DQo+IEBAIC0xNTc5LDcg
-KzE1ODksNyBAQCBzdGF0aWMgaW50IGFkdjc2eHhfcXVlcnlfZHZfdGltaW5ncyhzdHJ1Y3QNCj4g
-djRsMl9zdWJkZXYgKnNkLA0KPiAgDQo+ICAJCWJ0LT53aWR0aCA9IHc7DQo+ICAJCWJ0LT5oZWln
-aHQgPSBoOw0KPiAtCQlidC0+cGl4ZWxjbG9jayA9IGluZm8tPnJlYWRfaGRtaV9waXhlbGNsb2Nr
-KHNkKTsNCj4gKwkJYnQtPnBpeGVsY2xvY2sgPSBhZHY3Nnh4X3JlYWRfaGRtaV9waXhlbGNsb2Nr
-KHNkKTsNCj4gIAkJYnQtPmhmcm9udHBvcmNoID0gaGRtaV9yZWFkMTYoc2QsIDB4MjAsIGluZm8t
-DQo+ID5oZnJvbnRwb3JjaF9tYXNrKTsNCj4gIAkJYnQtPmhzeW5jID0gaGRtaV9yZWFkMTYoc2Qs
-IDB4MjIsIGluZm8tPmhzeW5jX21hc2spOw0KPiAgCQlidC0+aGJhY2twb3JjaCA9IGhkbWlfcmVh
-ZDE2KHNkLCAweDI0LCBpbmZvLQ0KPiA+aGJhY2twb3JjaF9tYXNrKTsNCg==
+On 11/11/19 9:38 PM, Arnd Bergmann wrote:
+> As a preparation for adding 64-bit time_t support in the uapi,
+> change the drivers to no longer care about the format of the
+> timestamp field in struct v4l2_buffer.
+> 
+> The v4l2_timeval_to_ns() function is no longer needed in the
+> kernel after this, but there may be userspace code relying on
+> it because it is part of the uapi header.
+
+There is indeed userspace code that relies on this.
+
+> 
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  drivers/media/common/videobuf2/videobuf2-v4l2.c |  4 ++--
+>  drivers/media/pci/meye/meye.c                   |  4 ++--
+>  drivers/media/usb/cpia2/cpia2_v4l.c             |  4 ++--
+>  drivers/media/usb/stkwebcam/stk-webcam.c        |  2 +-
+>  drivers/media/usb/usbvision/usbvision-video.c   |  4 ++--
+>  drivers/media/v4l2-core/videobuf-core.c         |  4 ++--
+>  include/linux/videodev2.h                       | 17 ++++++++++++++++-
+>  include/trace/events/v4l2.h                     |  2 +-
+>  include/uapi/linux/videodev2.h                  |  2 ++
+>  9 files changed, 30 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> index 5a9ba3846f0a..9ec710878db6 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> @@ -143,7 +143,7 @@ static void __copy_timestamp(struct vb2_buffer *vb, const void *pb)
+>  		 * and the timecode field and flag if needed.
+>  		 */
+>  		if (q->copy_timestamp)
+> -			vb->timestamp = v4l2_timeval_to_ns(&b->timestamp);
+> +			vb->timestamp = v4l2_buffer_get_timestamp(b);
+>  		vbuf->flags |= b->flags & V4L2_BUF_FLAG_TIMECODE;
+>  		if (b->flags & V4L2_BUF_FLAG_TIMECODE)
+>  			vbuf->timecode = b->timecode;
+> @@ -476,7 +476,7 @@ static void __fill_v4l2_buffer(struct vb2_buffer *vb, void *pb)
+>  
+>  	b->flags = vbuf->flags;
+>  	b->field = vbuf->field;
+> -	b->timestamp = ns_to_timeval(vb->timestamp);
+> +	v4l2_buffer_set_timestamp(b, vb->timestamp);
+>  	b->timecode = vbuf->timecode;
+>  	b->sequence = vbuf->sequence;
+>  	b->reserved2 = 0;
+> diff --git a/drivers/media/pci/meye/meye.c b/drivers/media/pci/meye/meye.c
+> index 0e61c81356ef..3a4c29bc0ba5 100644
+> --- a/drivers/media/pci/meye/meye.c
+> +++ b/drivers/media/pci/meye/meye.c
+> @@ -1266,7 +1266,7 @@ static int vidioc_querybuf(struct file *file, void *fh, struct v4l2_buffer *buf)
+>  		buf->flags |= V4L2_BUF_FLAG_DONE;
+>  
+>  	buf->field = V4L2_FIELD_NONE;
+> -	buf->timestamp = ns_to_timeval(meye.grab_buffer[index].ts);
+> +	v4l2_buffer_set_timestamp(buf, meye.grab_buffer[index].ts);
+>  	buf->sequence = meye.grab_buffer[index].sequence;
+>  	buf->memory = V4L2_MEMORY_MMAP;
+>  	buf->m.offset = index * gbufsize;
+> @@ -1332,7 +1332,7 @@ static int vidioc_dqbuf(struct file *file, void *fh, struct v4l2_buffer *buf)
+>  	buf->bytesused = meye.grab_buffer[reqnr].size;
+>  	buf->flags = V4L2_BUF_FLAG_MAPPED | V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+>  	buf->field = V4L2_FIELD_NONE;
+> -	buf->timestamp = ns_to_timeval(meye.grab_buffer[reqnr].ts);
+> +	v4l2_buffer_set_timestamp(buf, meye.grab_buffer[reqnr].ts);
+>  	buf->sequence = meye.grab_buffer[reqnr].sequence;
+>  	buf->memory = V4L2_MEMORY_MMAP;
+>  	buf->m.offset = reqnr * gbufsize;
+> diff --git a/drivers/media/usb/cpia2/cpia2_v4l.c b/drivers/media/usb/cpia2/cpia2_v4l.c
+> index 626264a56517..9d3d05125d7b 100644
+> --- a/drivers/media/usb/cpia2/cpia2_v4l.c
+> +++ b/drivers/media/usb/cpia2/cpia2_v4l.c
+> @@ -800,7 +800,7 @@ static int cpia2_querybuf(struct file *file, void *fh, struct v4l2_buffer *buf)
+>  		break;
+>  	case FRAME_READY:
+>  		buf->bytesused = cam->buffers[buf->index].length;
+> -		buf->timestamp = ns_to_timeval(cam->buffers[buf->index].ts);
+> +		v4l2_buffer_set_timestamp(buf, cam->buffers[buf->index].ts);
+>  		buf->sequence = cam->buffers[buf->index].seq;
+>  		buf->flags = V4L2_BUF_FLAG_DONE;
+>  		break;
+> @@ -907,7 +907,7 @@ static int cpia2_dqbuf(struct file *file, void *fh, struct v4l2_buffer *buf)
+>  	buf->flags = V4L2_BUF_FLAG_MAPPED | V4L2_BUF_FLAG_DONE
+>  		| V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+>  	buf->field = V4L2_FIELD_NONE;
+> -	buf->timestamp = ns_to_timeval(cam->buffers[buf->index].ts);
+> +	v4l2_buffer_set_timestamp(buf, cam->buffers[buf->index].ts);
+>  	buf->sequence = cam->buffers[buf->index].seq;
+>  	buf->m.offset = cam->buffers[buf->index].data - cam->frame_buffer;
+>  	buf->length = cam->frame_size;
+> diff --git a/drivers/media/usb/stkwebcam/stk-webcam.c b/drivers/media/usb/stkwebcam/stk-webcam.c
+> index 21f90a887485..b22501f76b78 100644
+> --- a/drivers/media/usb/stkwebcam/stk-webcam.c
+> +++ b/drivers/media/usb/stkwebcam/stk-webcam.c
+> @@ -1125,7 +1125,7 @@ static int stk_vidioc_dqbuf(struct file *filp,
+>  	sbuf->v4lbuf.flags &= ~V4L2_BUF_FLAG_QUEUED;
+>  	sbuf->v4lbuf.flags |= V4L2_BUF_FLAG_DONE;
+>  	sbuf->v4lbuf.sequence = ++dev->sequence;
+> -	sbuf->v4lbuf.timestamp = ns_to_timeval(ktime_get_ns());
+> +	v4l2_buffer_set_timestamp(&sbuf->v4lbuf, ktime_get_ns());
+>  
+>  	*buf = sbuf->v4lbuf;
+>  	return 0;
+> diff --git a/drivers/media/usb/usbvision/usbvision-video.c b/drivers/media/usb/usbvision/usbvision-video.c
+> index cdc66adda755..15a423c5deb7 100644
+> --- a/drivers/media/usb/usbvision/usbvision-video.c
+> +++ b/drivers/media/usb/usbvision/usbvision-video.c
+> @@ -687,7 +687,7 @@ static int vidioc_querybuf(struct file *file,
+>  	vb->length = usbvision->curwidth *
+>  		usbvision->curheight *
+>  		usbvision->palette.bytes_per_pixel;
+> -	vb->timestamp = ns_to_timeval(usbvision->frame[vb->index].ts);
+> +	v4l2_buffer_set_timestamp(vb, usbvision->frame[vb->index].ts);
+>  	vb->sequence = usbvision->frame[vb->index].sequence;
+>  	return 0;
+>  }
+> @@ -756,7 +756,7 @@ static int vidioc_dqbuf(struct file *file, void *priv, struct v4l2_buffer *vb)
+>  		V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+>  	vb->index = f->index;
+>  	vb->sequence = f->sequence;
+> -	vb->timestamp = ns_to_timeval(f->ts);
+> +	v4l2_buffer_set_timestamp(vb, f->ts);
+>  	vb->field = V4L2_FIELD_NONE;
+>  	vb->bytesused = f->scanlength;
+>  
+> diff --git a/drivers/media/v4l2-core/videobuf-core.c b/drivers/media/v4l2-core/videobuf-core.c
+> index 939fc11cf080..ab650371c151 100644
+> --- a/drivers/media/v4l2-core/videobuf-core.c
+> +++ b/drivers/media/v4l2-core/videobuf-core.c
+> @@ -364,7 +364,7 @@ static void videobuf_status(struct videobuf_queue *q, struct v4l2_buffer *b,
+>  	}
+>  
+>  	b->field     = vb->field;
+> -	b->timestamp = ns_to_timeval(vb->ts);
+> +	v4l2_buffer_set_timestamp(b, vb->ts);
+>  	b->bytesused = vb->size;
+>  	b->sequence  = vb->field_count >> 1;
+>  }
+> @@ -578,7 +578,7 @@ int videobuf_qbuf(struct videobuf_queue *q, struct v4l2_buffer *b)
+>  		    || q->type == V4L2_BUF_TYPE_SDR_OUTPUT) {
+>  			buf->size = b->bytesused;
+>  			buf->field = b->field;
+> -			buf->ts = v4l2_timeval_to_ns(&b->timestamp);
+> +			buf->ts = v4l2_buffer_get_timestamp(b);
+>  		}
+>  		break;
+>  	case V4L2_MEMORY_USERPTR:
+> diff --git a/include/linux/videodev2.h b/include/linux/videodev2.h
+> index 16c0ed6c50a7..4086036e37d5 100644
+> --- a/include/linux/videodev2.h
+> +++ b/include/linux/videodev2.h
+> @@ -56,7 +56,22 @@
+>  #ifndef __LINUX_VIDEODEV2_H
+>  #define __LINUX_VIDEODEV2_H
+>  
+> -#include <linux/time.h>     /* need struct timeval */
+> +#include <linux/time.h>
+>  #include <uapi/linux/videodev2.h>
+>  
+> +static inline u64 v4l2_buffer_get_timestamp(const struct v4l2_buffer *buf)
+> +{
+> +	return buf->timestamp.tv_sec * NSEC_PER_SEC +
+> +	       (u32)buf->timestamp.tv_usec * NSEC_PER_USEC;
+
+Why the (u32) cast?
+
+> +}
+> +
+> +static inline void v4l2_buffer_set_timestamp(struct v4l2_buffer *buf,
+> +					     u64 timestamp)
+> +{
+> +	struct timespec64 ts = ns_to_timespec64(timestamp);
+> +
+> +	buf->timestamp.tv_sec  = ts.tv_sec;
+> +	buf->timestamp.tv_usec = ts.tv_nsec / NSEC_PER_USEC;
+> +}
+> +
+
+This does not belong in the public header. This is kernel specific,
+so media/v4l2-common.h would be a good place.
+
+Regards,
+
+	Hans
+
+>  #endif /* __LINUX_VIDEODEV2_H */
+> diff --git a/include/trace/events/v4l2.h b/include/trace/events/v4l2.h
+> index 83860de120e3..248bc09bfc99 100644
+> --- a/include/trace/events/v4l2.h
+> +++ b/include/trace/events/v4l2.h
+> @@ -130,7 +130,7 @@ DECLARE_EVENT_CLASS(v4l2_event_class,
+>  		__entry->bytesused = buf->bytesused;
+>  		__entry->flags = buf->flags;
+>  		__entry->field = buf->field;
+> -		__entry->timestamp = timeval_to_ns(&buf->timestamp);
+> +		__entry->timestamp = v4l2_buffer_get_timestamp(buf);
+>  		__entry->timecode_type = buf->timecode.type;
+>  		__entry->timecode_flags = buf->timecode.flags;
+>  		__entry->timecode_frames = buf->timecode.frames;
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 530638dffd93..74d3d522f3db 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -1010,6 +1010,7 @@ struct v4l2_buffer {
+>  	};
+>  };
+>  
+> +#ifndef __KERNEL__
+>  /**
+>   * v4l2_timeval_to_ns - Convert timeval to nanoseconds
+>   * @ts:		pointer to the timeval variable to be converted
+> @@ -1021,6 +1022,7 @@ static inline __u64 v4l2_timeval_to_ns(const struct timeval *tv)
+>  {
+>  	return (__u64)tv->tv_sec * 1000000000ULL + tv->tv_usec * 1000;
+>  }
+> +#endif
+>  
+>  /*  Flags for 'flags' field */
+>  /* Buffer is mapped (flag) */
+> 
+
