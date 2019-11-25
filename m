@@ -2,109 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F264A1091FC
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2019 17:36:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 22EE410921E
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2019 17:46:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728877AbfKYQgx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Nov 2019 11:36:53 -0500
-Received: from metis.ext.pengutronix.de ([85.220.165.71]:52933 "EHLO
-        metis.ext.pengutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728860AbfKYQgw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Nov 2019 11:36:52 -0500
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1iZHM3-0002uV-0C; Mon, 25 Nov 2019 17:36:51 +0100
-Message-ID: <c96cdd650f7250699c1f3c73ccfc28d304dbb88a.camel@pengutronix.de>
-Subject: Re: [EXT] [PATCH 1/5] media: add v4l2 JPEG helpers
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Mirela Rabulea <mirela.rabulea@nxp.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Cc:     "s.nawrocki@samsung.com" <s.nawrocki@samsung.com>,
-        "andrzejtp2010@gmail.com" <andrzejtp2010@gmail.com>,
-        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
-        "mikhail.ulyanov@cogentembedded.com" 
-        <mikhail.ulyanov@cogentembedded.com>,
-        "bin.liu@mediatek.com" <bin.liu@mediatek.com>,
-        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
-        "ezequiel@collabora.com" <ezequiel@collabora.com>,
-        "kernel@pengutronix.de" <kernel@pengutronix.de>,
-        "rick.chang@mediatek.com" <rick.chang@mediatek.com>
-Date:   Mon, 25 Nov 2019 17:36:47 +0100
-In-Reply-To: <1574681817.19906.28.camel@nxp.com>
-References: <20191113150538.9807-1-p.zabel@pengutronix.de>
-         <20191113150538.9807-2-p.zabel@pengutronix.de>
-         <1574681817.19906.28.camel@nxp.com>
+        id S1728889AbfKYQq5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Nov 2019 11:46:57 -0500
+Received: from mga18.intel.com ([134.134.136.126]:21041 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728871AbfKYQq5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 25 Nov 2019 11:46:57 -0500
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 25 Nov 2019 08:46:56 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,242,1571727600"; 
+   d="scan'208";a="202419454"
+Received: from mpawlows-mobl2.ger.corp.intel.com ([10.252.20.57])
+  by orsmga008.jf.intel.com with ESMTP; 25 Nov 2019 08:46:48 -0800
+Message-ID: <296b7d844a283996a16769ecf3daade5198ae307.camel@linux.intel.com>
+Subject: Re: [virtio-dev] Re: guest / host buffer sharing ...
+From:   Liam Girdwood <liam.r.girdwood@linux.intel.com>
+To:     Gerd Hoffmann <kraxel@redhat.com>
+Cc:     Gurchetan Singh <gurchetansingh@chromium.org>,
+        David Stevens <stevensd@chromium.org>,
+        Stefan Hajnoczi <stefanha@gmail.com>,
+        Keiichi Watanabe <keiichiw@chromium.org>,
+        geoff@hostfission.com, virtio-dev@lists.oasis-open.org,
+        Alex Lau <alexlau@chromium.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        qemu-devel@nongnu.org, Tomasz Figa <tfiga@chromium.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        =?ISO-8859-1?Q?St=E9phane?= Marchesin <marcheu@chromium.org>,
+        Dylan Reid <dgreid@chromium.org>,
+        Dmitry Morozov <dmitry.morozov@opensynergy.com>,
+        Pawel Osciak <posciak@chromium.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Date:   Mon, 25 Nov 2019 16:46:49 +0000
+In-Reply-To: <20191120095349.oobeosin3lujgcja@sirius.home.kraxel.org>
+References: <20191105105456.7xbhtistnbp272lj@sirius.home.kraxel.org>
+         <20191106084344.GB189998@stefanha-x1.localdomain>
+         <CAD=HUj41r8wHZ2-By8tLftkoqC5r_Bw=pr=zX2aZ7GTs1ESWhg@mail.gmail.com>
+         <c8a6b6f35664ce036c2a48ec41eab97b0f40704d.camel@linux.intel.com>
+         <CAAfnVBkMWurTpseQFjcna5kk3__40n6M68=RTHLbQsu__2AFxg@mail.gmail.com>
+         <4a5dd822e86757f004d04af62fb7dd35ba75392d.camel@linux.intel.com>
+         <CAAfnVB=F+HeQrrn23c=rZeOa5BfHo=9ArcG--gLf87gqBXfZ9A@mail.gmail.com>
+         <bee3aae13f6cf69ee909aa9884926853d6123b25.camel@linux.intel.com>
+         <20191120095349.oobeosin3lujgcja@sirius.home.kraxel.org>
 Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.30.5-1.1 
-MIME-Version: 1.0
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
+Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mirela,
+On Wed, 2019-11-20 at 10:53 +0100, Gerd Hoffmann wrote:
+>   Hi,
+> 
+> > > > DSP FW has no access to userspace so we would need some
+> > > > additional
+> > > > API
+> > > > on top of DMA_BUF_SET_NAME etc to get physical hardware pages ?
+> > > 
+> > > The dma-buf api currently can share guest memory sg-lists.
+> > 
+> > Ok, IIUC buffers can either be shared using the GPU proposed APIs
+> > (above) or using the dma-buf API to share via userspace ? My
+> > preference
+> > would be to use teh more direct GPU APIs sending physical page
+> > addresses from Guest to device driver. I guess this is your use
+> > case
+> > too ?
+> 
+> I'm not convinced this is useful for audio ...
+> 
+> I basically see two modes of operation which are useful:
+> 
+>   (1) send audio data via virtqueue.
+>   (2) map host audio buffers into the guest address space.
+> 
+> The audio driver api (i.e. alsa) typically allows to mmap() the audio
+> data buffers, so it is the host audio driver which handles the
+> allocation. 
 
-On Mon, 2019-11-25 at 11:36 +0000, Mirela Rabulea wrote:
-> Hi Philipp,
-> I tried using these helpers for imx8 jpeg encoder/decoder, and the main
-> issues that I have are:
-> 1. It is necessary to support ARGB (4 components)
+Yes, in regular non VM mode, it's the host driver which allocs the
+buffers.
 
-Ok. I'll add support for 4-component images. Is there a reasonable
-default color encoding for 4-component images if the APP14 marker
-segment is not present?
+My end goal is to be able to share physical SG pages from host to
+guests and HW (including DSP firmwares). 
 
-> 2. It is necessary to support extended sequential (parse SOF1)
+>  Let the audio hardware dma from/to userspace-allocated
+> buffers is not possible[1], but we would need that to allow qemu (or
+> other vmms) use guest-allocated buffers.
 
-Do you require arithmetic coding or 12-bit sample precision as well, or
-just extended sequential with Huffman coding and 8-bit sample precision?
+My misunderstanding here on how the various proposals being discussed
+all pass buffers between guests & host. I'm reading that some are
+passing buffers via userspace descriptors and this would not be
+workable for audio.
 
-> 3. It is necessary to distinguish somehow between YUV and RGB, I used
-> APP14 marker to do that
+> 
+> cheers,
+>   Gerd
+> 
+> [1] Disclaimer: It's been a while I looked at alsa more closely, so
+>     there is a chance this might have changed without /me noticing.
+> 
 
-I see you used the "APP14 marker segment for colour encoding" as
-specified in Recommendation T.872 [1]. I'll add support for this to the
-common code.
+Your all good here from audio. Disclaimer: I'm new to virtio.
 
-[1] https://www.itu.int/rec/T-REC-T.872-201206-I/en
+Liam 
 
-> 4. It is necessary to be able to modify/patch the component ID's inside
-> SOF & SOS segments; this is due to a hardware limitation that the
-> component ID's must be 0..3 or 1..4, however it is possible to decode a
-> jpeg that violates this condition, if the component ID's are patched to
-> accepted values.
-
-Interesting. I'm not sure if this is something we should do
-unconditionally in the common code. Maybe this warrants a flag.
-
-> I have a concern related to performance, about parsing the jpeg like
-> that, but I did not get to measure anything yet, as I could not fully
-> integrate imx8 jpeg driver with the helpers, I
-> used v4l2_jpeg_parse_header, but I also had to keep my old structures.
-> Please take a look in my imx8 patch, at mxc-jpeg.h, struct
-> mxc_jpeg_sof/struct mxc_jpeg_sos, these are __packed structures, they
-> work quite well via a simple cast and allow modifications too, the
-> downside is that fields bigger than u8 might require swapping. 
-
-We can't use bitfields for external data in portable code, and I'm not a
-big fan of using __be16 in the API, but we could certainly use this
-internally and see if that speeds up parsing. There are quite a few
-superfluous bounds checks right now that can be optimized away.
-I'd still like to copy the parsed headers into a structure provided by
-the caller.
-
-> Please also see below my comments.
-
-I'll take these into account for the next version. Thank you for the
-feedback!
-
-regards
-Philipp
 
