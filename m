@@ -2,155 +2,192 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 25AFC10860A
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2019 01:47:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B7D5C108620
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2019 01:54:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727123AbfKYArU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 24 Nov 2019 19:47:20 -0500
-Received: from mga03.intel.com ([134.134.136.65]:57059 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726865AbfKYArT (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 24 Nov 2019 19:47:19 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 24 Nov 2019 16:47:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,239,1571727600"; 
-   d="scan'208";a="205947547"
-Received: from shao2-debian.sh.intel.com (HELO [10.239.13.6]) ([10.239.13.6])
-  by fmsmga008.fm.intel.com with ESMTP; 24 Nov 2019 16:47:16 -0800
-Subject: Re: [kbuild-all] Re: [PATCH 15/15] dma-buf: Remove kernel map/unmap
- hooks
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        kbuild test robot <lkp@intel.com>
-Cc:     kbuild-all@lists.01.org,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>
-References: <20191118103536.17675-16-daniel.vetter@ffwll.ch>
- <201911182322.FMpIgsJE%lkp@intel.com>
- <CAKMK7uHDOyKgDO2UgNJtYdLjAn78L9rNKZs-nbEZDJFQvhW0mg@mail.gmail.com>
-From:   Rong Chen <rong.a.chen@intel.com>
-Message-ID: <426e8fe1-dff2-9632-2837-23f4af7b0937@intel.com>
-Date:   Mon, 25 Nov 2019 08:46:53 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S1727125AbfKYAxs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 24 Nov 2019 19:53:48 -0500
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:43780 "EHLO
+        mail-qt1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727020AbfKYAxs (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sun, 24 Nov 2019 19:53:48 -0500
+Received: by mail-qt1-f195.google.com with SMTP id q8so12649794qtr.10
+        for <linux-media@vger.kernel.org>; Sun, 24 Nov 2019 16:53:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=W5KvmIUsZXoQMVbzDoxYnt7yT+pQC9oHjmWUHowLIDE=;
+        b=bf4wQj5hUYAUJ6J+IG0+hDMiHwo0y37jHBHT8UdhIIsQlzBQ4CxdtIHJrRj51DxlRK
+         CKLiYZNarSFFj4FEgRzMNxy+kI0kMWkp2JP+w0At3xJ5awQQfKCflGDMEbLjgI1axJbX
+         hAKULgjdId2ND6JafSG19IZ76B47iyKuc//kc4PjYIOLOtUHlwtDFurR95sHJjXvaqXY
+         fGrur8LfkpaaQNAoNniODg3+dsAf2S2GrC+6cEhUlICPkA/CU1JiTx+UkO0BkI15CMLp
+         7s5O7Rwk6bHEYMLHf8Cgu9Ix5CmyXm+g4xBp1CqvpB7TPmrxsr5ItFDOP1iwxt6Ai6Gn
+         z9sA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=W5KvmIUsZXoQMVbzDoxYnt7yT+pQC9oHjmWUHowLIDE=;
+        b=JVl8pkTiS9SloQF2cWNxOxSu3DFK0BDAMcNFMGQbNHPNUOfaIl5RGhvg/fQ8BfhRik
+         hPunr0uLx3grrp6xfOlRTzidT1xLJCOS2Q84maUoDN2+HQxtaEVURCRwgHxRZ+o5YUqp
+         eyS/XOLyKIxP9X4CG6i8W979Wfvfprpj/4K3PwPdUtlhVdbLstZQMNEJPPyjhgk2lS5Z
+         roydtyz/RLKADGbjMbQc0wg1AVIw+Fb1uj+Xl7aXvddU/rxSDzde+Kof7Z0U35bwl30v
+         zP9/p7UI4QPoatfX6aHf6XmftqyV11AcsjGG03AKs1DJIoqw2nq7avwiMmmmPr9M21PD
+         gbjQ==
+X-Gm-Message-State: APjAAAWLrioU77Id1rkg7HUoRPc8gWLuR63ccIKFLK1w64vf4XR/9Y7k
+        PdiEp+6OWAihIMB7O9vlYnuxxw==
+X-Google-Smtp-Source: APXvYqyaLXo5MUyD+I9dO6HiLJFn2uWdH+8xt8jSkZ8bt7a48VQTUuqWsbmWyw/EGV6UxA2EsKJ0Ug==
+X-Received: by 2002:ac8:2209:: with SMTP id o9mr27065091qto.246.1574643226463;
+        Sun, 24 Nov 2019 16:53:46 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-162-113-180.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.113.180])
+        by smtp.gmail.com with ESMTPSA id o124sm2535273qkf.66.2019.11.24.16.53.45
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Sun, 24 Nov 2019 16:53:45 -0800 (PST)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1iZ2dH-00020J-3s; Sun, 24 Nov 2019 20:53:39 -0400
+Date:   Sun, 24 Nov 2019 20:53:39 -0400
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Leon Romanovsky <leon@kernel.org>,
+        Christoph Hellwig <hch@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jens Axboe <axboe@kernel.dk>, Jonathan Corbet <corbet@lwn.net>,
+        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
+        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v7 07/24] IB/umem: use get_user_pages_fast() to pin DMA
+ pages
+Message-ID: <20191125005339.GC5634@ziepe.ca>
+References: <20191121071354.456618-1-jhubbard@nvidia.com>
+ <20191121071354.456618-8-jhubbard@nvidia.com>
+ <20191121080746.GC30991@infradead.org>
+ <20191121143643.GC7448@ziepe.ca>
+ <20191124100724.GH136476@unreal>
+ <e8319590-a3f0-5ba4-af4c-65213358a742@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uHDOyKgDO2UgNJtYdLjAn78L9rNKZs-nbEZDJFQvhW0mg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e8319590-a3f0-5ba4-af4c-65213358a742@nvidia.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Sun, Nov 24, 2019 at 04:05:16PM -0800, John Hubbard wrote:
+ 
+> I looked into this, and I believe that the problem is in gup.c. There appears to
+> have been an oversight, in commit 817be129e6f2 ("mm: validate get_user_pages_fast
+> flags"), in filtering out FOLL_FORCE. There is nothing in the _fast() implementation
+> that requires that we avoid writing to the pages.
 
+I think it is too late to be doing these kinds of changes, I will
+revert the patch and this will miss this merge window.
 
-On 11/19/19 12:43 AM, Daniel Vetter wrote:
-> On Mon, Nov 18, 2019 at 4:23 PM kbuild test robot <lkp@intel.com> wrote:
->> Hi Daniel,
->>
->> I love your patch! Yet something to improve:
->>
->> [auto build test ERROR on drm-intel/for-linux-next]
->> [also build test ERROR on v5.4-rc8 next-20191115]
->> [if your patch is applied to the wrong git tree, please drop us a note to help
->> improve the system. BTW, we also suggest to use '--base' option to specify the
->> base tree in git format-patch, please see https://stackoverflow.com/a/37406982]
-> Too old tree, on latest drm-tip this compiles since udl has lots its
-> own dma-buf implementation. Also, the patch set will start to compile
-> once linux-next is open for 5.6.
->
-> Cheers, Daniel
+Jason
 
-Hi Daniel,
+From ec6cb45292d21d1af9b9d95997b8cf204bbe854c Mon Sep 17 00:00:00 2001
+From: Jason Gunthorpe <jgg@mellanox.com>
+Date: Sun, 24 Nov 2019 20:47:59 -0400
+Subject: [PATCH] Revert "IB/umem: use get_user_pages_fast() to pin DMA pages"
 
-Thanks for clarifying, we'll take a look at the wrong base.
+This reverts commit c9a7a2ed837c563f9f89743a6db732591cb4035b.
 
-Best Regards,
-Rong Chen
+This was merged before enough testing was done, and it triggers a WARN_ON()
+in get_user_pages_fast():
 
->
->> url:    https://github.com/0day-ci/linux/commits/Daniel-Vetter/Retire-dma_buf_k-un-map/20191118-184537
->> base:   git://anongit.freedesktop.org/drm-intel for-linux-next
->> config: m68k-allmodconfig (attached as .config)
->> compiler: m68k-linux-gcc (GCC) 7.4.0
->> reproduce:
->>          wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->>          chmod +x ~/bin/make.cross
->>          # save the attached .config to linux build tree
->>          GCC_VERSION=7.4.0 make.cross ARCH=m68k
->>
->> If you fix the issue, kindly add following tag
->> Reported-by: kbuild test robot <lkp@intel.com>
->>
->> All errors (new ones prefixed by >>):
->>
->>>> drivers/dma-buf/udmabuf.c:114:3: error: 'const struct dma_buf_ops' has no member named 'map'; did you mean 'mmap'?
->>       .map    = kmap_udmabuf,
->>        ^~~
->>        mmap
->>>> drivers/dma-buf/udmabuf.c:114:12: error: initialization from incompatible pointer type [-Werror=incompatible-pointer-types]
->>       .map    = kmap_udmabuf,
->>                 ^~~~~~~~~~~~
->>     drivers/dma-buf/udmabuf.c:114:12: note: (near initialization for 'udmabuf_ops.begin_cpu_access')
->>>> drivers/dma-buf/udmabuf.c:115:3: error: 'const struct dma_buf_ops' has no member named 'unmap'; did you mean 'vunmap'?
->>       .unmap    = kunmap_udmabuf,
->>        ^~~~~
->>        vunmap
->>     drivers/dma-buf/udmabuf.c:115:14: error: initialization from incompatible pointer type [-Werror=incompatible-pointer-types]
->>       .unmap    = kunmap_udmabuf,
->>                   ^~~~~~~~~~~~~~
->>     drivers/dma-buf/udmabuf.c:115:14: note: (near initialization for 'udmabuf_ops.end_cpu_access')
->>     cc1: some warnings being treated as errors
->> --
->>>> drivers/gpu/drm/udl/udl_dmabuf.c:169:3: error: 'const struct dma_buf_ops' has no member named 'map'; did you mean 'mmap'?
->>       .map   = udl_dmabuf_kmap,
->>        ^~~
->>        mmap
->>>> drivers/gpu/drm/udl/udl_dmabuf.c:169:11: error: initialization from incompatible pointer type [-Werror=incompatible-pointer-types]
->>       .map   = udl_dmabuf_kmap,
->>                ^~~~~~~~~~~~~~~
->>     drivers/gpu/drm/udl/udl_dmabuf.c:169:11: note: (near initialization for 'udl_dmabuf_ops.release')
->>>> drivers/gpu/drm/udl/udl_dmabuf.c:170:3: error: 'const struct dma_buf_ops' has no member named 'unmap'; did you mean 'vunmap'?
->>       .unmap   = udl_dmabuf_kunmap,
->>        ^~~~~
->>        vunmap
->>     drivers/gpu/drm/udl/udl_dmabuf.c:170:13: error: initialization from incompatible pointer type [-Werror=incompatible-pointer-types]
->>       .unmap   = udl_dmabuf_kunmap,
->>                  ^~~~~~~~~~~~~~~~~
->>     drivers/gpu/drm/udl/udl_dmabuf.c:170:13: note: (near initialization for 'udl_dmabuf_ops.begin_cpu_access')
->>     cc1: some warnings being treated as errors
->>
->> vim +114 drivers/dma-buf/udmabuf.c
->>
->> fbb0de79507819 Gerd Hoffmann 2018-08-27  109
->> a34852891ba45d Gerd Hoffmann 2018-09-11  110  static const struct dma_buf_ops udmabuf_ops = {
->> fbb0de79507819 Gerd Hoffmann 2018-08-27  111    .map_dma_buf      = map_udmabuf,
->> fbb0de79507819 Gerd Hoffmann 2018-08-27  112    .unmap_dma_buf    = unmap_udmabuf,
->> fbb0de79507819 Gerd Hoffmann 2018-08-27  113    .release          = release_udmabuf,
->> fbb0de79507819 Gerd Hoffmann 2018-08-27 @114    .map              = kmap_udmabuf,
->> fbb0de79507819 Gerd Hoffmann 2018-08-27 @115    .unmap            = kunmap_udmabuf,
->> fbb0de79507819 Gerd Hoffmann 2018-08-27  116    .mmap             = mmap_udmabuf,
->> fbb0de79507819 Gerd Hoffmann 2018-08-27  117  };
->> fbb0de79507819 Gerd Hoffmann 2018-08-27  118
->>
->> :::::: The code at line 114 was first introduced by commit
->> :::::: fbb0de795078190a9834b3409e4b009cfb18a6d4 Add udmabuf misc device
->>
->> :::::: TO: Gerd Hoffmann <kraxel@redhat.com>
->> :::::: CC: Gerd Hoffmann <kraxel@redhat.com>
->>
->> ---
->> 0-DAY kernel test infrastructure                 Open Source Technology Center
->> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org Intel Corporation
->
->
+  WARNING: CPU: 1 PID: 2557 at mm/gup.c:2404 get_user_pages_fast+0x115/0x180
+  Call Trace:
+   ib_umem_get+0x298/0x550 [ib_uverbs]
+   mlx5_ib_db_map_user+0xad/0x130 [mlx5_ib]
+   mlx5_ib_create_cq+0x1e8/0xaa0 [mlx5_ib]
+   create_cq+0x1c8/0x2d0 [ib_uverbs]
+   ib_uverbs_create_cq+0x70/0xa0 [ib_uverbs]
+   ib_uverbs_handler_UVERBS_METHOD_INVOKE_WRITE+0xc2/0xf0 [ib_uverbs]
+   ib_uverbs_cmd_verbs.isra.6+0x5be/0xbe0 [ib_uverbs]
+   ? uverbs_disassociate_api+0xd0/0xd0 [ib_uverbs]
+   ? kvm_clock_get_cycles+0xd/0x10
+   ? kmem_cache_alloc+0x176/0x1c0
+   ? filemap_map_pages+0x18c/0x350
+   ib_uverbs_ioctl+0xc0/0x120 [ib_uverbs]
+   do_vfs_ioctl+0xa1/0x610
+   ksys_ioctl+0x70/0x80
+   __x64_sys_ioctl+0x16/0x20
+   do_syscall_64+0x42/0x110
+   entry_SYSCALL_64_after_hwframe+0x44/0xa9
+
+2404         if (WARN_ON_ONCE(gup_flags & ~(FOLL_WRITE | FOLL_LONGTERM)))
+2405                 return -EINVAL;
+
+While we think this WARN_ON is probably bogus, resolving this will have to
+wait.
+
+Signed-off-by: Jason Gunthorpe <jgg@mellanox.com>
+---
+ drivers/infiniband/core/umem.c | 17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/infiniband/core/umem.c b/drivers/infiniband/core/umem.c
+index 214e87aa609d6e..7a3b99597eada1 100644
+--- a/drivers/infiniband/core/umem.c
++++ b/drivers/infiniband/core/umem.c
+@@ -266,13 +266,16 @@ struct ib_umem *ib_umem_get(struct ib_udata *udata, unsigned long addr,
+ 	sg = umem->sg_head.sgl;
+ 
+ 	while (npages) {
+-		ret = get_user_pages_fast(cur_base,
+-					  min_t(unsigned long, npages,
+-						PAGE_SIZE /
+-						sizeof(struct page *)),
+-					  gup_flags | FOLL_LONGTERM, page_list);
+-		if (ret < 0)
++		down_read(&mm->mmap_sem);
++		ret = get_user_pages(cur_base,
++				     min_t(unsigned long, npages,
++					   PAGE_SIZE / sizeof (struct page *)),
++				     gup_flags | FOLL_LONGTERM,
++				     page_list, NULL);
++		if (ret < 0) {
++			up_read(&mm->mmap_sem);
+ 			goto umem_release;
++		}
+ 
+ 		cur_base += ret * PAGE_SIZE;
+ 		npages   -= ret;
+@@ -280,6 +283,8 @@ struct ib_umem *ib_umem_get(struct ib_udata *udata, unsigned long addr,
+ 		sg = ib_umem_add_sg_table(sg, page_list, ret,
+ 			dma_get_max_seg_size(context->device->dma_device),
+ 			&umem->sg_nents);
++
++		up_read(&mm->mmap_sem);
+ 	}
+ 
+ 	sg_mark_end(sg);
+-- 
+2.24.0
 
