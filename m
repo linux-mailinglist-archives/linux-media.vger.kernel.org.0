@@ -2,117 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 22EE410921E
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2019 17:46:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 299791093BA
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2019 19:51:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728889AbfKYQq5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Nov 2019 11:46:57 -0500
-Received: from mga18.intel.com ([134.134.136.126]:21041 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728871AbfKYQq5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Nov 2019 11:46:57 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 25 Nov 2019 08:46:56 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,242,1571727600"; 
-   d="scan'208";a="202419454"
-Received: from mpawlows-mobl2.ger.corp.intel.com ([10.252.20.57])
-  by orsmga008.jf.intel.com with ESMTP; 25 Nov 2019 08:46:48 -0800
-Message-ID: <296b7d844a283996a16769ecf3daade5198ae307.camel@linux.intel.com>
-Subject: Re: [virtio-dev] Re: guest / host buffer sharing ...
-From:   Liam Girdwood <liam.r.girdwood@linux.intel.com>
-To:     Gerd Hoffmann <kraxel@redhat.com>
-Cc:     Gurchetan Singh <gurchetansingh@chromium.org>,
-        David Stevens <stevensd@chromium.org>,
-        Stefan Hajnoczi <stefanha@gmail.com>,
-        Keiichi Watanabe <keiichiw@chromium.org>,
-        geoff@hostfission.com, virtio-dev@lists.oasis-open.org,
-        Alex Lau <alexlau@chromium.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        qemu-devel@nongnu.org, Tomasz Figa <tfiga@chromium.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        =?ISO-8859-1?Q?St=E9phane?= Marchesin <marcheu@chromium.org>,
-        Dylan Reid <dgreid@chromium.org>,
-        Dmitry Morozov <dmitry.morozov@opensynergy.com>,
-        Pawel Osciak <posciak@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Date:   Mon, 25 Nov 2019 16:46:49 +0000
-In-Reply-To: <20191120095349.oobeosin3lujgcja@sirius.home.kraxel.org>
-References: <20191105105456.7xbhtistnbp272lj@sirius.home.kraxel.org>
-         <20191106084344.GB189998@stefanha-x1.localdomain>
-         <CAD=HUj41r8wHZ2-By8tLftkoqC5r_Bw=pr=zX2aZ7GTs1ESWhg@mail.gmail.com>
-         <c8a6b6f35664ce036c2a48ec41eab97b0f40704d.camel@linux.intel.com>
-         <CAAfnVBkMWurTpseQFjcna5kk3__40n6M68=RTHLbQsu__2AFxg@mail.gmail.com>
-         <4a5dd822e86757f004d04af62fb7dd35ba75392d.camel@linux.intel.com>
-         <CAAfnVB=F+HeQrrn23c=rZeOa5BfHo=9ArcG--gLf87gqBXfZ9A@mail.gmail.com>
-         <bee3aae13f6cf69ee909aa9884926853d6123b25.camel@linux.intel.com>
-         <20191120095349.oobeosin3lujgcja@sirius.home.kraxel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1727277AbfKYSvW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Nov 2019 13:51:22 -0500
+Received: from mail-pg1-f196.google.com ([209.85.215.196]:38895 "EHLO
+        mail-pg1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725870AbfKYSvV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 25 Nov 2019 13:51:21 -0500
+Received: by mail-pg1-f196.google.com with SMTP id t3so7182152pgl.5;
+        Mon, 25 Nov 2019 10:51:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=aiHz+U1DS3plGSVGA4dIIZPJHtpeKsop13dxvM844KA=;
+        b=hCiw9xd4cwhMo0WHdTJ5D91kTIesTR33OmEeGm1ZECd0F6p3Rim1k1lX8PUOWUxecq
+         SsF8M6lr+KNzCdHRZ1/X3mQJnLNi3hUIXw9rSo2hw8//I3HdQwLjgPTvv0X4ZhMNwpP1
+         4ieF60L1VsLBZ552L9RvDdjjOmSYggJYTNLDVXX1BtzoPD5lKnAbJ2F5+KRZjaSNkxRB
+         479KeXVYhtg5NqHdKsOMYMIDCMZP32ESgCNpqytP4qQWZD+uf+2bmm5JXNH1+LUXD/w/
+         HrPGRIqdIsWhzgcrN2LwaZQBQyeDvioTGJdD2wj2H1UvLvir+2QovwBOhDPUvfQbmphL
+         82KA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=aiHz+U1DS3plGSVGA4dIIZPJHtpeKsop13dxvM844KA=;
+        b=DBSpzY1S4e98I9kyheea0m15Pu4y0aiS1TokwylNHS37l5aI2sDJM3Qb5/JNCmfhbg
+         eJNJuLsqtZd1mgkYk5XcfcMcxv9JygAZXxKdnZTWy52DOPUVuIky2IHIfyQlE7PDKw2I
+         eaURHSeWh4rKUB51XM3D2m6QmZNAZNQxeBh4rmT0gCG+e4m7FX17Cbo0qpFMonJNOq/w
+         jZGSNYXML0/1V94YWkq1Pt0LuLohOKvOp5ZM2gZmcBkLCJjhjvVTfFSxnKZLxR/84mAA
+         xeuhvlcOhe2DorWVU5UOgguM21b3s4HZlfjcnDRdNt1fejhn3Q3mjNPmHxbdPgmhaIO0
+         /UZQ==
+X-Gm-Message-State: APjAAAWkuWEvPb440mzr1S+FazNwmBNqvz4c6ovHhXdguxD5QhPnvhqa
+        eTPh+DZB1GGjn5W3x+hu3UO1kynv
+X-Google-Smtp-Source: APXvYqych5ocZIVeEl4Q7I5NG2/0c1GC4FPBCRB3ie1NfIioi5lvdaq94j3YTHJE8kESQ9cF5G0KTQ==
+X-Received: by 2002:a62:1944:: with SMTP id 65mr484468pfz.151.1574707880861;
+        Mon, 25 Nov 2019 10:51:20 -0800 (PST)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id k4sm9486580pfa.25.2019.11.25.10.51.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Nov 2019 10:51:19 -0800 (PST)
+Date:   Mon, 25 Nov 2019 10:51:17 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, linux-input@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Nick Dyer <nick@shmanahar.org>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Christopher Heiny <cheiny@synaptics.com>,
+        Vandana BN <bnvandana@gmail.com>
+Subject: Re: [PATCH 3/5] pixfmt-tch-td16/tu16.rst: document that this is
+ little endian
+Message-ID: <20191125185117.GI248138@dtor-ws>
+References: <20191119105118.54285-1-hverkuil-cisco@xs4all.nl>
+ <20191119105118.54285-4-hverkuil-cisco@xs4all.nl>
+ <c1e0aa48-f22d-afcf-d9a1-1ab4302d0ee6@xs4all.nl>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c1e0aa48-f22d-afcf-d9a1-1ab4302d0ee6@xs4all.nl>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 2019-11-20 at 10:53 +0100, Gerd Hoffmann wrote:
->   Hi,
+Hi Hans,
+
+On Sat, Nov 23, 2019 at 05:12:43PM +0100, Hans Verkuil wrote:
+> Hi Dmitry,
 > 
-> > > > DSP FW has no access to userspace so we would need some
-> > > > additional
-> > > > API
-> > > > on top of DMA_BUF_SET_NAME etc to get physical hardware pages ?
-> > > 
-> > > The dma-buf api currently can share guest memory sg-lists.
-> > 
-> > Ok, IIUC buffers can either be shared using the GPU proposed APIs
-> > (above) or using the dma-buf API to share via userspace ? My
-> > preference
-> > would be to use teh more direct GPU APIs sending physical page
-> > addresses from Guest to device driver. I guess this is your use
-> > case
-> > too ?
-> 
-> I'm not convinced this is useful for audio ...
-> 
-> I basically see two modes of operation which are useful:
-> 
->   (1) send audio data via virtqueue.
->   (2) map host audio buffers into the guest address space.
-> 
-> The audio driver api (i.e. alsa) typically allows to mmap() the audio
-> data buffers, so it is the host audio driver which handles the
-> allocation. 
+> Is it OK with you I merge this patch via the media subsystem?
 
-Yes, in regular non VM mode, it's the host driver which allocs the
-buffers.
+Yes, absolutely. It does not touch any of the input bits so I actually
+expected it to go through media tree.
 
-My end goal is to be able to share physical SG pages from host to
-guests and HW (including DSP firmwares). 
+Thanks!
 
->  Let the audio hardware dma from/to userspace-allocated
-> buffers is not possible[1], but we would need that to allow qemu (or
-> other vmms) use guest-allocated buffers.
-
-My misunderstanding here on how the various proposals being discussed
-all pass buffers between guests & host. I'm reading that some are
-passing buffers via userspace descriptors and this would not be
-workable for audio.
-
-> 
-> cheers,
->   Gerd
-> 
-> [1] Disclaimer: It's been a while I looked at alsa more closely, so
->     there is a chance this might have changed without /me noticing.
-> 
-
-Your all good here from audio. Disclaimer: I'm new to virtio.
-
-Liam 
-
-
+-- 
+Dmitry
