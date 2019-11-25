@@ -2,110 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 13A12108AB8
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2019 10:22:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BFBF108AFA
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2019 10:34:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727172AbfKYJWf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Nov 2019 04:22:35 -0500
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:33482 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725938AbfKYJWf (ORCPT
+        id S1727360AbfKYJeG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Nov 2019 04:34:06 -0500
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:39574 "EHLO
+        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727333AbfKYJeG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Nov 2019 04:22:35 -0500
-Received: by mail-wr1-f66.google.com with SMTP id w9so17054393wrr.0
-        for <linux-media@vger.kernel.org>; Mon, 25 Nov 2019 01:22:33 -0800 (PST)
+        Mon, 25 Nov 2019 04:34:06 -0500
+Received: by mail-ed1-f68.google.com with SMTP id n26so12038823edw.6
+        for <linux-media@vger.kernel.org>; Mon, 25 Nov 2019 01:34:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=QiRSkNH09nDsKaV88CvJJn/s44TY85sod7XlDRyFXvQ=;
-        b=jI6XqUKbE97OBR/UjSAdMYh4vADo7HA8Po0z1ZkXIMS3qB0URQJUFT1wc74uDMBR9W
-         UWJa4/mNsQvrq6cMlNkpwknrPDbfv+qIYOKEH3ZWkUM7fMi2c76QIvjsxC6F7kgS6llk
-         OZyNOS7CRJFGADKBjENW/ez+cXb85ep20lVUk=
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=5hxAPhYLgkjAC0glPWrMWh5sNJUjuPwkk/Zd+BYl4dA=;
+        b=n0qMAxe/w0ZeKERleFOBgcA9JrLOVHkheN7cFtom/PmRGQrdhoib8QphXajnbHidBh
+         D3TTGA10ICGPuYSWRn+Nx6shOwHUJo4Xsr4kKkihn9TRCO6mk4UKTDY61uMzh8rBHaB1
+         ZAU1sCWOo6enIe29Pcnf4VAkh4QO7aAQBoaHI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to:user-agent;
-        bh=QiRSkNH09nDsKaV88CvJJn/s44TY85sod7XlDRyFXvQ=;
-        b=r3jSoM2rJeRp3Uhjw4+V7lEMJOTmTEdJMSvzPcD9pv42vKSGO3yJEDPhj5jGQyosIG
-         Uc+3pCKfwSs1BGVEFFE49JSN/c42IVlgNWHalYKOnYo1hJXXwEnIcE/i1kq4wC1A2HZB
-         vVdziP4ZIpTFb4Qf4hi9IvRN6bQd99H9RDpjvzZjpYF6Nj15w0gNxND2GbNb1/vSfcde
-         J5Oyl7TunzyucxPob7Rj+gSMEoEHgQJl0MyN4pXZtv+M+VkHPjGcR3Q5LxSqDUWBCCoI
-         diaGffh5My94iDkkIJ93oaAgxltmlHJrm7p1OmAqOm6rIetIgk4WyOscZGzRjriSqCSv
-         j0xQ==
-X-Gm-Message-State: APjAAAVaG9rP0vpst6pFnJbXygmpDz1LPPlKbmL/DGRJMSwMgHu3ZwKX
-        apvUljyP9pDjuTKQGxjkEHuaWw==
-X-Google-Smtp-Source: APXvYqz5j9Sk1KwP87Rie41BfxNaFxInLur5nJHL6zE3OzpkLJ4XRYQBBQiJWf93BsiUzqYndQdomA==
-X-Received: by 2002:adf:da52:: with SMTP id r18mr30554159wrl.167.1574673752986;
-        Mon, 25 Nov 2019 01:22:32 -0800 (PST)
-Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net. [212.51.149.96])
-        by smtp.gmail.com with ESMTPSA id l4sm7659664wme.4.2019.11.25.01.22.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Nov 2019 01:22:32 -0800 (PST)
-Date:   Mon, 25 Nov 2019 10:22:30 +0100
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Navid Emamdoost <navid.emamdoost@gmail.com>
-Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-        emamd001@umn.edu
-Subject: Re: [PATCH] dma-buf: Fix memory leak in sync_file_merge()
-Message-ID: <20191125092230.GJ29965@phenom.ffwll.local>
-Mail-Followup-To: Navid Emamdoost <navid.emamdoost@gmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Gustavo Padovan <gustavo@padovan.org>, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-kernel@vger.kernel.org, emamd001@umn.edu
-References: <20191122220957.30427-1-navid.emamdoost@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=5hxAPhYLgkjAC0glPWrMWh5sNJUjuPwkk/Zd+BYl4dA=;
+        b=iIf9s7RSoMwmYRoHmsEGAY64ODTDOfDR9Jfz/dd/HHGs9nG7pHQO0QWWzqijaoF7uX
+         u6hI2Rqeo+f2SRpHTpJRCRuIqJ6Lwg/45D0F8XPV8+r168eXxZNq3aBlpWEEMmHQuH/K
+         bS3gef0uGql9wmiHJOs7RFrngRtjmXgEYBW6XXTLxYah+tSfJ7fK5moQtzAW5KkOESZn
+         ZtxwQw7NujV9I5czTC4D2MrfYbpBYF6RAKca0Lyj0Y13jnC5aEda5qHdlVGzeUDysNiH
+         tfxgqT6/0lAVUdxxSHgXG+RfSHxoAkyVKlZ/zi6FTyKbUuLbVCIEKO7dE839A0jFFzVQ
+         lWhw==
+X-Gm-Message-State: APjAAAXMvMRgwBQ/D0FkMuWz5sQPMrzwCj67vW44YEXFkovELthvJNth
+        CqjJ0IW1XpRbW8qiu8IreGuDXKEJ5XwS8nFU12axfbePFVE=
+X-Google-Smtp-Source: APXvYqydDtp531AXtenv6mp5/TxUBdNXj0kZcXkFGGkNCV1naYHb2inz8WFVHVtUMbwv+kaqLxCZMeg6SBUFhIxhDSU=
+X-Received: by 2002:a17:906:b856:: with SMTP id ga22mr17027902ejb.199.1574674444048;
+ Mon, 25 Nov 2019 01:34:04 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191122220957.30427-1-navid.emamdoost@gmail.com>
-X-Operating-System: Linux phenom 5.3.0-2-amd64 
-User-Agent: Mutt/1.12.2 (2019-09-21)
+References: <20191031090213.27727-1-dongchun.zhu@mediatek.com> <20191031090213.27727-3-dongchun.zhu@mediatek.com>
+In-Reply-To: <20191031090213.27727-3-dongchun.zhu@mediatek.com>
+From:   Pi-Hsun Shih <pihsun@chromium.org>
+Date:   Mon, 25 Nov 2019 17:33:28 +0800
+Message-ID: <CANdKZ0cMCWKmFcF44M0LBgwa6a3rvD0JdqFgkcjHqVHwMUS6yg@mail.gmail.com>
+Subject: Re: [V3, 2/2] media: i2c: ov8856: Add support for more sensor modes
+To:     Dongchun Zhu <dongchun.zhu@mediatek.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        andriy.shevchenko@linux.intel.com,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        sakari.ailus@linux.intel.com,
+        Nicolas Boichat <drinkcat@chromium.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        bingbu.cao@intel.com,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, srv_heupstream@mediatek.com,
+        shengnan.wang@mediatek.com,
+        =?UTF-8?B?U2ogSHVhbmcgKOm7g+S/oeeSiyk=?= <sj.huang@mediatek.com>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>, louis.kuo@mediatek.com,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
+        <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Nov 22, 2019 at 04:09:55PM -0600, Navid Emamdoost wrote:
-> In the implementation of sync_file_merge() the allocated sync_file is
-> leaked if number of fences overflows. Release sync_file by goto err.
-> 
-> Fixes: a02b9dc90d84 ("dma-buf/sync_file: refactor fence storage in struct sync_file")
-> Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
+Hi Dongchun,
 
-Thanks for your patch, applied with a cc:stable.
--Daniel
-
+On Thu, Oct 31, 2019 at 5:12 PM Dongchun Zhu <dongchun.zhu@mediatek.com> wrote:
+>
+> This adds two more sensor modes for Omnivision ov8856 image sensor,
+> including the resolution of 1632*1224 and 3264*2448, both with the
+> Bayer Order of BGGR.
+>
+> Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
 > ---
->  drivers/dma-buf/sync_file.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
-> index 25c5c071645b..91185db9a952 100644
-> --- a/drivers/dma-buf/sync_file.c
-> +++ b/drivers/dma-buf/sync_file.c
-> @@ -221,7 +221,7 @@ static struct sync_file *sync_file_merge(const char *name, struct sync_file *a,
->  	a_fences = get_fences(a, &a_num_fences);
->  	b_fences = get_fences(b, &b_num_fences);
->  	if (a_num_fences > INT_MAX - b_num_fences)
-> -		return NULL;
-> +		goto err;
->  
->  	num_fences = a_num_fences + b_num_fences;
->  
-> -- 
-> 2.17.1
-> 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>  drivers/media/i2c/ov8856.c | 661 ++++++++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 652 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/media/i2c/ov8856.c b/drivers/media/i2c/ov8856.c
+> index 8655842..4815c26 100644
+> --- a/drivers/media/i2c/ov8856.c
+> +++ b/drivers/media/i2c/ov8856.c
+> @@ -3,10 +3,13 @@
+> [...]
+> @@ -1189,6 +1768,42 @@ static int ov8856_probe(struct i2c_client *client)
+>                 return -ENOMEM;
+>
+>         v4l2_i2c_subdev_init(&ov8856->sd, client, &ov8856_subdev_ops);
+> +       ov8856->fmt.code = MEDIA_BUS_FMT_SGRBG10_1X10;
+> +
+> +       ov8856->xvclk = devm_clk_get(&client->dev, "xvclk");
+> +       if (IS_ERR(ov8856->xvclk)) {
+> +               dev_err(&client->dev, "failed to get xvclk\n");
+> +               return -EINVAL;
+> +       }
+> +
+> +       ret = clk_set_rate(ov8856->xvclk, OV8856_XVCLK_24);
+> +       if (ret < 0) {
+> +               dev_err(&client->dev, "failed to set xvclk rate (24MHz)\n");
+> +               return ret;
+> +       }
+> +       if (clk_get_rate(ov8856->xvclk) != OV8856_XVCLK_24)
+> +               dev_warn(&client->dev,
+> +                        "xvclk mismatched, modes are based on 24MHz\n");
+> +
+> +       ov8856->n_shutdn_gpio = devm_gpiod_get(&client->dev, "reset",
+> +                                              GPIOD_OUT_LOW);
+> +       if (IS_ERR(ov8856->n_shutdn_gpio)) {
+> +               dev_err(&client->dev, "failed to get reset-gpios\n");
+> +               return -EINVAL;
+> +       }
+> +
+> +       for (i = 0; i < OV8856_NUM_SUPPLIES; i++)
+> +               ov8856->supplies[i].supply = ov8856_supply_names[i];
+> +
+> +       ret = devm_regulator_bulk_get(&client->dev, OV8856_NUM_SUPPLIES,
+> +                                     ov8856->supplies);
+> +       if (ret)
+> +               dev_warn(&client->dev, "failed to get regulators\n");
+> +
+> +       ret = __ov8856_power_on(ov8856);
+> +       if (ret)
+> +               dev_warn(&client->dev, "failed to power on\n");
+> +
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+__ov8856_power_off is missing on the error path after the __ov8856_power_on.
+
+>         ret = ov8856_identify_module(ov8856);
+>         if (ret) {
+>                 dev_err(&client->dev, "failed to find sensor: %d", ret);
+> @@ -1241,8 +1856,29 @@ static int ov8856_probe(struct i2c_client *client)
+>         return ret;
+>  }
+>
+> [...]
