@@ -2,238 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E21C108B83
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2019 11:19:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 44356108D15
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2019 12:36:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727316AbfKYKTX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Nov 2019 05:19:23 -0500
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:42135 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725828AbfKYKTW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Nov 2019 05:19:22 -0500
-Received: from [192.168.2.10] ([46.9.232.237])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id ZBSeiRD96ecrtZBShiIK3e; Mon, 25 Nov 2019 11:19:20 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1574677160; bh=lXTT2fkW4KI8dhfsa+BcpNSvLf7UTawy8Nu/PMuUYxY=;
-        h=Subject:From:To:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=Ri02BxgblMcyD4HO4dmy6Pz1/sPmBsK7s50cROsau+cnX0aIDwVVpxKqEOZB2LnXw
-         PsWV8DIss+C0pVPBPzrlbBSPzintOVbISjxBw9mQ0TftxR4vEMRjFHMtuI2Qhvnkqi
-         bOj9QPCD3d2nzhHOIYeASXAzh606jCF0iQoMVKW6sCCLsA7aExjjhuCnma/hQLBjw6
-         UjfZMVcBqVcEHHZReXhajbdJel8fdGPzsieBbLH9g6OG2og/SAOvE0uKMep/7mmupM
-         sZVpYeWdv0ZPrrxUnaEe3Ec51UqCTgHEna7/ulLQPuSizH6kc9VLv1t5LN3LFQdg4I
-         CT6c8i+Id45Kw==
-Subject: Re: [PATCH v8] vivid: Add touch support
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-To:     Vandana BN <bnvandana@gmail.com>, linux-media@vger.kernel.org
-References: <665e3259-e7c8-ffcd-1873-be36a12b67a3@xs4all.nl>
- <20191125042336.6205-1-bnvandana@gmail.com>
- <c2f25d01-93cc-3678-bae5-58fb13001d8d@xs4all.nl>
-Message-ID: <c6bccd3b-ab1b-47b3-7e89-168b9ae024f5@xs4all.nl>
-Date:   Mon, 25 Nov 2019 11:19:16 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <c2f25d01-93cc-3678-bae5-58fb13001d8d@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
+        id S1727172AbfKYLgk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Nov 2019 06:36:40 -0500
+Received: from mail-eopbgr130057.outbound.protection.outlook.com ([40.107.13.57]:50082
+        "EHLO EUR01-HE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726094AbfKYLgk (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 25 Nov 2019 06:36:40 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ij55ZDIM0F8qTcp1ei4IDXxx/E5VRnqPra/j1LfwdfbNG743c5GePfeAiP+iHT3mzVfUL8iXV9PoXAcaCp1ANkkDbfe6/lnJE7ohIx2e2UiT29ClmW0M8ezUEx2QoRS/cRUFwwnGuxTkc/EM+S65WziQOgYnteGrF8gpyG5tKlSuiZuYfVUvrfJDYjr4GB2KwXY8mQ9J+X6U7TeLBSoptEVX05DR0yWxZGpjGEjMD4pIC1bKo2yf03cSKrLB1tFVMU6ztMpdGp5/CEgdb0xhKQMvHfMNQbPtQh5/7yxQOkT1KaZ+K6RQ73iG3qn4gHM+XAMSApjQIceYvUR0pFShQw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=P9M2GeAbjKHMVw3sbyHe+mkVEwAod9QsURMmnOGcZvE=;
+ b=Paswy/hHh3Jtfy8jPXsGdTjvPqJYpmKcwg48uvX+Xlztq0uzrARGEn9fRXdJ2bmmW+sQBqmbLSZXy9D0+src8SfcAAx1+Iyg8jmR89lpiDe+Vh9jIKPdM4EOW40nzXafUnhPXgR6B8YJRQAFt0OsUSZ+vJboYuLX/LoPPWwT1FeAJlYgbMtH4b7jLfAsv8y4JL2+cff4eUL9i61OyyWiX5IQ0FIUQv87NoJpz+w8zTmf2Mq/KZ2F9xIPujft1mSwWJIwCY8nY+xVCj6FsmxYGXXSdOq5OCX1llhyZI4k6MSCB+dmQos5niRaUic2V0RXFVLjpDTo+aEqzwY6ZxEk0Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=P9M2GeAbjKHMVw3sbyHe+mkVEwAod9QsURMmnOGcZvE=;
+ b=F5lvTJJK4g3jTx987VKj/4W4iS7fM3lf4N8FOlxOVe3mEA8u5BwYOjxYDDamwmbq946/9K3ZPzqmuGndeF/SxRr602zg3uJaYWp5dUQvumdmBAkn2wq9f3SbxoMULzAxlnCgEh3pw/93yaH7XlpQTmdA6r2cs8oKxMVHnAtI2q0=
+Received: from VI1PR0402MB3918.eurprd04.prod.outlook.com (52.134.16.148) by
+ VI1PR0402MB3630.eurprd04.prod.outlook.com (52.134.6.148) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2474.23; Mon, 25 Nov 2019 11:36:36 +0000
+Received: from VI1PR0402MB3918.eurprd04.prod.outlook.com
+ ([fe80::1d41:f7cc:ffa2:270c]) by VI1PR0402MB3918.eurprd04.prod.outlook.com
+ ([fe80::1d41:f7cc:ffa2:270c%6]) with mapi id 15.20.2474.023; Mon, 25 Nov 2019
+ 11:36:35 +0000
+From:   Mirela Rabulea <mirela.rabulea@nxp.com>
+To:     "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+CC:     "s.nawrocki@samsung.com" <s.nawrocki@samsung.com>,
+        "andrzejtp2010@gmail.com" <andrzejtp2010@gmail.com>,
+        "jacek.anaszewski@gmail.com" <jacek.anaszewski@gmail.com>,
+        "mikhail.ulyanov@cogentembedded.com" 
+        <mikhail.ulyanov@cogentembedded.com>,
+        "bin.liu@mediatek.com" <bin.liu@mediatek.com>,
+        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
+        "ezequiel@collabora.com" <ezequiel@collabora.com>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        "rick.chang@mediatek.com" <rick.chang@mediatek.com>
+Subject: Re: [EXT] [PATCH 0/5] v4l2 JPEG helpers and CODA960 JPEG decoder
+Thread-Topic: [EXT] [PATCH 0/5] v4l2 JPEG helpers and CODA960 JPEG decoder
+Thread-Index: AQHVmjPeFoRgzIQFhUy6NTLWcHCJAKeb1MeA
+Date:   Mon, 25 Nov 2019 11:36:35 +0000
+Message-ID: <1574681795.19906.27.camel@nxp.com>
+References: <20191113150538.9807-1-p.zabel@pengutronix.de>
+In-Reply-To: <20191113150538.9807-1-p.zabel@pengutronix.de>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfN2p4rhuo3SCGJ8fAJR/Y1AdZJkHrzuLj0CLVbu/Ex2928QOAwuIcbC3z5noBNucfGkJgFGrjm0Q5KHCt3HSMIbJGiQTMb1sNBKgC6OLb2BzDxWNpFWP
- k3Ch5OjFD26VKsv+5TNDHMMFt4zAKBn3ISJl3w1pf6FLT+Cbg//PgY7tqX4ehTmpsBnBJHT7Ct2ukSV5UCSTNNwB3bbuU1+5kh4=
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Evolution 3.18.5.2-0ubuntu3.2 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=mirela.rabulea@nxp.com; 
+x-originating-ip: [92.121.36.197]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: e7cd3c85-3c4f-4ab7-02a2-08d7719bba8c
+x-ms-traffictypediagnostic: VI1PR0402MB3630:
+x-microsoft-antispam-prvs: <VI1PR0402MB36304EC52A42D7605465FCDE8F4A0@VI1PR0402MB3630.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 0232B30BBC
+x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(4636009)(376002)(346002)(39860400002)(366004)(136003)(396003)(189003)(199004)(4744005)(4326008)(14454004)(26005)(44832011)(3846002)(6116002)(103116003)(186003)(25786009)(4001150100001)(446003)(76176011)(76116006)(91956017)(5660300002)(2616005)(66946007)(7736002)(305945005)(99286004)(66556008)(11346002)(66476007)(2906002)(6506007)(478600001)(66446008)(64756008)(6246003)(81166006)(256004)(54906003)(81156014)(8676002)(7416002)(2501003)(6436002)(102836004)(36756003)(86362001)(6486002)(6512007)(110136005)(66066001)(316002)(8936002)(71200400001)(229853002)(71190400001)(50226002)(99106002);DIR:OUT;SFP:1101;SCL:1;SRVR:VI1PR0402MB3630;H:VI1PR0402MB3918.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+received-spf: None (protection.outlook.com: nxp.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: XX7Jdmipvri8Cfdq6EoBHP7bK/W/W6FasAU5ZGLaUc7YlT3IvBoUDA3yDq8P4lcYkgj69OfLEnEmS3lNZ1v+G/0siEKfiqpvFDcqbsvuYrGbY3hNfEASRITspQo7kvFhhWj8F2JTD2JPBCSLEkk4naQ6aqoJTVDl5DX3ACOYZbHQNvZ3/WjfttL3vZff9mlrZkuDZhMvQGQRivf2gTR3LByYEv3sXWZ8G2wFihR0I7HJYHapj9IH2A+0wdev/wNvkKU3ypFwG4cgdGSEq9kGRpFbxQeVX1f0ufZpufhDJfCyJCMzN0j6xyjBuYky8xe1Vgj13R3wD6AuQODs/udeywhX8K4zu0Ipj5t3fWYFvxxgygORWDYkhzy/+dhC/KC6S06/imbGQGDIlnNgVAvn5JqXDGbrE5zwX5hO65GUYGmzJqvBlG/xXNXFNtn9QZa5
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <392EC5DFC7AB7C46BCB055095E932E4B@eurprd04.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e7cd3c85-3c4f-4ab7-02a2-08d7719bba8c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Nov 2019 11:36:35.8912
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: zS18PqfQ6qxXrWJezvCpT5Az406fIBX4jN8nL9DT3uu4yXjhGN4wJzAdW5tKGwvkLnGtoMGQ30LCUnYv64Yzlg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0402MB3630
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/25/19 11:02 AM, Hans Verkuil wrote:
-> Hi Vandana,
-> 
-> This looks really good. I have a few very small comments (I'd have changed it
-> myself, but we're in the code freeze period so there is time for a v9):
-> 
-> On 11/25/19 5:23 AM, Vandana BN wrote:
->> Support to emulate touch devices in vivid driver.
->> It generates touch patterns simulating single tap, double tap, triple
->> tap, move from left to right, zoom in, zoom out, palm press simulating
->> large area being pressed on screen, and simulating 16 different
->> simultaneous touch points.The values generated are based on
->> behavior of the rmi_f54 driver.
->>
->> Signed-off-by: Vandana BN <bnvandana@gmail.com>
->> ---
->>  drivers/media/platform/vivid/Makefile         |   3 +-
->>  drivers/media/platform/vivid/vivid-core.c     | 164 ++++++++-
->>  drivers/media/platform/vivid/vivid-core.h     |  20 ++
->>  drivers/media/platform/vivid/vivid-ctrls.c    |  11 +
->>  .../platform/vivid/vivid-kthread-touch.c      | 181 ++++++++++
->>  .../platform/vivid/vivid-kthread-touch.h      |  13 +
->>  .../media/platform/vivid/vivid-touch-cap.c    | 320 ++++++++++++++++++
->>  .../media/platform/vivid/vivid-touch-cap.h    |  38 +++
->>  8 files changed, 737 insertions(+), 13 deletions(-)
->>  create mode 100644 drivers/media/platform/vivid/vivid-kthread-touch.c
->>  create mode 100644 drivers/media/platform/vivid/vivid-kthread-touch.h
->>  create mode 100644 drivers/media/platform/vivid/vivid-touch-cap.c
->>  create mode 100644 drivers/media/platform/vivid/vivid-touch-cap.h
->>
-> 
-> <snip>
-> 
->> +void vivid_fillbuff_tch(struct vivid_dev *dev, struct vivid_buffer *buf)
->> +{
->> +	struct v4l2_pix_format *f = &dev->tch_format;
->> +	int size = f->width * f->height;
->> +	int x, y, xstart, ystart, offset_x, offset_y;
->> +	unsigned int test_pattern, test_pat_idx, rand;
->> +
->> +	__s16 *tch_buf = vb2_plane_vaddr(&buf->vb.vb2_buf, 0);
->> +
->> +	buf->vb.sequence = dev->touch_cap_seq_count;
->> +	test_pattern = (buf->vb.sequence / TCH_SEQ_COUNT) % TEST_CASE_MAX;
->> +	test_pat_idx = buf->vb.sequence % TCH_SEQ_COUNT;
->> +
->> +	vivid_fill_buff_noise(tch_buf, size);
->> +
->> +	if (test_pat_idx >= TCH_PATTERN_COUNT)
->> +		return;
->> +
->> +	if (test_pat_idx == 0)
->> +		dev->tch_pat_random = get_random_int();
->> +	rand = dev->tch_pat_random;
->> +
->> +	switch (test_pattern) {
->> +	case SINGLE_TAP:
->> +		if (test_pat_idx == 5)
-> 
-> Let's change 5 to TCH_PATTERN_COUNT / 2
-> 
->> +			vivid_tch_buf_set(f, tch_buf, rand % size);
->> +		break;
->> +	case DOUBLE_TAP:
->> +		if (test_pat_idx == 3 || test_pat_idx == 6)
-> 
-> And 3 and 6 to:
-> 
-> 	TCH_PATTERN_COUNT / 3 and 2 * TCH_PATTERN_COUNT / 3
-> 
->> +			vivid_tch_buf_set(f, tch_buf, rand % size);
->> +		break;
->> +	case TRIPLE_TAP:
->> +		if (test_pat_idx == 3 || test_pat_idx == 6 || test_pat_idx == 9)
-> 
-> TCH_PATTERN_COUNT / 4, 2 * TCH_PATTERN_COUNT / 4, 3 * TCH_PATTERN_COUNT / 4
-> 
->> +			vivid_tch_buf_set(f, tch_buf, rand % size);
->> +		break;
->> +	case MOVE_LEFT_TO_RIGHT:
->> +		vivid_tch_buf_set(f, tch_buf,
->> +				  (rand % f->height) * f->width +
->> +				  test_pat_idx * (f->width / 10));
-> 
-> 10 -> TCH_PATTERN_COUNT
-
-Actually, this should be (test_pat_idx * f->width) / TCH_PATTERN_COUNT,
-otherwise you get bad rounding errors.
-
-Regards,
-
-	Hans
-
-> 
-> Regards,
-> 
-> 	Hans
-> 
->> +		break;
->> +	case ZOOM_IN:
->> +		x = f->width / 2;
->> +		y = f->height / 2;
->> +		offset_x = ((TCH_PATTERN_COUNT - 1 - test_pat_idx) * x) /
->> +				TCH_PATTERN_COUNT;
->> +		offset_y = ((TCH_PATTERN_COUNT - 1 - test_pat_idx) * y) /
->> +				TCH_PATTERN_COUNT;
->> +		vivid_tch_buf_set(f, tch_buf,
->> +				  (x - offset_x) + f->width * (y - offset_y));
->> +		vivid_tch_buf_set(f, tch_buf,
->> +				  (x + offset_x) + f->width * (y + offset_y));
->> +		break;
->> +	case ZOOM_OUT:
->> +		x = f->width / 2;
->> +		y = f->height / 2;
->> +		offset_x = (test_pat_idx * x) / TCH_PATTERN_COUNT;
->> +		offset_y = (test_pat_idx * y) / TCH_PATTERN_COUNT;
->> +		vivid_tch_buf_set(f, tch_buf,
->> +				  (x - offset_x) + f->width * (y - offset_y));
->> +		vivid_tch_buf_set(f, tch_buf,
->> +				  (x + offset_x) + f->width * (y + offset_y));
->> +		break;
->> +	case PALM_PRESS:
->> +		for (x = 0; x < f->width; x++)
->> +			for (y = f->height / 2; y < f->height; y++)
->> +				vivid_tch_buf_set(f, tch_buf, x + f->width * y);
->> +		break;
->> +	case MULTIPLE_PRESS:
->> +		/* 16 pressure points */
->> +		for (y = 0; y < 4; y++) {
->> +			for (x = 0; x < 4; x++) {
->> +				ystart = (y * f->height) / 4 + f->height / 8;
->> +				xstart = (x * f->width) / 4 + f->width / 8;
->> +				vivid_tch_buf_set(f, tch_buf,
->> +						  ystart * f->width + xstart);
->> +			}
->> +		}
->> +		break;
->> +	}
->> +#ifdef __BIG_ENDIAN__
->> +	for (x = 0; x < size; x++)
->> +		tch_buf[x] = (__force s16)__cpu_to_le16((u16)tch_buf[x]);
->> +#endif
->> +}
->> diff --git a/drivers/media/platform/vivid/vivid-touch-cap.h b/drivers/media/platform/vivid/vivid-touch-cap.h
->> new file mode 100644
->> index 000000000000..761050b652eb
->> --- /dev/null
->> +++ b/drivers/media/platform/vivid/vivid-touch-cap.h
->> @@ -0,0 +1,38 @@
->> +/* SPDX-License-Identifier: GPL-2.0-only */
->> +/*
->> + * vivid-touch-cap.h - touch support functions.
->> + */
->> +#ifndef _VIVID_TOUCH_CAP_H_
->> +#define _VIVID_TOUCH_CAP_H_
->> +
->> +#define VIVID_TCH_HEIGHT	12
->> +#define VIVID_TCH_WIDTH		21
->> +#define VIVID_MIN_PRESSURE	180
->> +#define VIVID_PRESSURE_LIMIT	40
->> +#define TCH_SEQ_COUNT		16
->> +#define TCH_PATTERN_COUNT	12
->> +
->> +enum vivid_tch_test {
->> +	SINGLE_TAP,
->> +	DOUBLE_TAP,
->> +	TRIPLE_TAP,
->> +	MOVE_LEFT_TO_RIGHT,
->> +	ZOOM_IN,
->> +	ZOOM_OUT,
->> +	PALM_PRESS,
->> +	MULTIPLE_PRESS,
->> +	TEST_CASE_MAX
->> +};
->> +
->> +extern const struct vb2_ops vivid_touch_cap_qops;
->> +
->> +int vivid_enum_fmt_tch(struct file *file, void  *priv, struct v4l2_fmtdesc *f);
->> +int vivid_g_fmt_tch(struct file *file, void *priv, struct v4l2_format *f);
->> +int vivid_enum_input_tch(struct file *file, void *priv, struct v4l2_input *inp);
->> +int vivid_g_input_tch(struct file *file, void *priv, unsigned int *i);
->> +int vivid_s_input_tch(struct file *file, void *priv, unsigned int i);
->> +void vivid_fillbuff_tch(struct vivid_dev *dev, struct vivid_buffer *buf);
->> +int vivid_set_touch(struct vivid_dev *dev, unsigned int i);
->> +int vivid_g_parm_tch(struct file *file, void *priv,
->> +		     struct v4l2_streamparm *parm);
->> +#endif
->>
-> 
-
+SGkgUGhpbGlwcCwNCm5pY2UgaW5pdGlhdGl2ZSA6KQ0KDQpCVFcsIEkgY291bGQgbm90IGFwcGx5
+IHRoZSBwYXRjaCBzZXJpZXMgb24gbGludXgtbmV4dCByZXBvLg0KSSBhcHBsaWVkIG1hbnVhbGx5
+IChwYXRjaCAtcDEpIHRoZSAjMSBwYXRjaC4gVGhlIHN1YnNlcXVlbnQgcGF0Y2hlcw0KZmFpbCB0
+byBhcHBseSBldmVuIG1hbnVhbGx5LiBJJ20gaW50ZXJlc3RlZCBpbiBwYXRjaCAjMSBhbmQgIzQu
+DQoNCkNvbW1lbnRzIGJlbG93Li4uDQrCoA0KT24gTWksIDIwMTktMTEtMTMgYXQgMTY6MDUgKzAx
+MDAsIFBoaWxpcHAgWmFiZWwgd3JvdGU6DQo+wqANCj4gdGhlIGN1cnJlbnQgZHJpdmVycy4gSW4g
+dGhlIGZ1dHVyZSB3ZSBtaWdodCB3YW50IHRvIG1vdmUgSlBFRyBoZWFkZXINCj4gZ2VuZXJhdGlv
+biBmb3IgZW5jb2RlcnMgYW5kIGNvbW1vbiBxdWFudGl6YXRpb24gdGFibGVzIGluIHRoZXJlIGFz
+DQo+IHdlbGwuDQpGb3IgaS5NWDgsIGl0IGlzIG5lY2Vzc2FyeSBzb21ldGltZXMgdG8gcGF0Y2gg
+dGhlIGlucHV0IGpwZWcgc3RyZWFtLA0KZXZlbiBmb3IgdGhlIGRlY29kZXIsIGR1ZSB0byBzb21l
+IGxpbWl0YXRpb25zIGluIHRoZSBoYXJkd2FyZSAoZXhhbXBsZToNCm9ubHkgY29tcG9uZW50IElE
+c8KgYmV0d2VlbiAwLTMgb3IgMS00IGFyZSBzdXBwb3J0ZWQpDQo+IA0KPiBzZWdtZW50cy4gQWxz
+bywgY291bGQgdGhpcyBiZSB1c2VkIGZvciBpLk1YOCBKUEVHREVDIGFzIGlzPw0KPiANCj4gcmVn
+YXJkcw0KPiBQaGlsaXBwDQo+IA0KDQpJdCBpcyB1c2VmdWwsIEkgdHJpZWQgaXQsIGJ1dCBpdCB3
+aWxsIG5vdCB3b3JrIGV4YWN0bHkgImFzIGlzIi4gSSdtDQpzZW5kaW5nIG15IGluaXRpYWwgdGhv
+dWdodHMgYXMgYSByZXBseSBvbiBwYXRjaCAjMQ0KDQpSZWdhcmRzLA0KTWlyZWxh
