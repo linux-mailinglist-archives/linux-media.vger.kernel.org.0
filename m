@@ -2,142 +2,227 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BFBF108AFA
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2019 10:34:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 93C20108B4B
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2019 11:02:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727360AbfKYJeG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Nov 2019 04:34:06 -0500
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:39574 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727333AbfKYJeG (ORCPT
+        id S1727266AbfKYKCN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Nov 2019 05:02:13 -0500
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:32787 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727133AbfKYKCN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Nov 2019 04:34:06 -0500
-Received: by mail-ed1-f68.google.com with SMTP id n26so12038823edw.6
-        for <linux-media@vger.kernel.org>; Mon, 25 Nov 2019 01:34:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=5hxAPhYLgkjAC0glPWrMWh5sNJUjuPwkk/Zd+BYl4dA=;
-        b=n0qMAxe/w0ZeKERleFOBgcA9JrLOVHkheN7cFtom/PmRGQrdhoib8QphXajnbHidBh
-         D3TTGA10ICGPuYSWRn+Nx6shOwHUJo4Xsr4kKkihn9TRCO6mk4UKTDY61uMzh8rBHaB1
-         ZAU1sCWOo6enIe29Pcnf4VAkh4QO7aAQBoaHI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5hxAPhYLgkjAC0glPWrMWh5sNJUjuPwkk/Zd+BYl4dA=;
-        b=iIf9s7RSoMwmYRoHmsEGAY64ODTDOfDR9Jfz/dd/HHGs9nG7pHQO0QWWzqijaoF7uX
-         u6hI2Rqeo+f2SRpHTpJRCRuIqJ6Lwg/45D0F8XPV8+r168eXxZNq3aBlpWEEMmHQuH/K
-         bS3gef0uGql9wmiHJOs7RFrngRtjmXgEYBW6XXTLxYah+tSfJ7fK5moQtzAW5KkOESZn
-         ZtxwQw7NujV9I5czTC4D2MrfYbpBYF6RAKca0Lyj0Y13jnC5aEda5qHdlVGzeUDysNiH
-         tfxgqT6/0lAVUdxxSHgXG+RfSHxoAkyVKlZ/zi6FTyKbUuLbVCIEKO7dE839A0jFFzVQ
-         lWhw==
-X-Gm-Message-State: APjAAAXMvMRgwBQ/D0FkMuWz5sQPMrzwCj67vW44YEXFkovELthvJNth
-        CqjJ0IW1XpRbW8qiu8IreGuDXKEJ5XwS8nFU12axfbePFVE=
-X-Google-Smtp-Source: APXvYqydDtp531AXtenv6mp5/TxUBdNXj0kZcXkFGGkNCV1naYHb2inz8WFVHVtUMbwv+kaqLxCZMeg6SBUFhIxhDSU=
-X-Received: by 2002:a17:906:b856:: with SMTP id ga22mr17027902ejb.199.1574674444048;
- Mon, 25 Nov 2019 01:34:04 -0800 (PST)
+        Mon, 25 Nov 2019 05:02:13 -0500
+Received: from [192.168.2.10] ([46.9.232.237])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id ZBC3iR5zqecrtZBC6iIErP; Mon, 25 Nov 2019 11:02:10 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1574676130; bh=y8kzvvMHKQl9gQg09Li5WYfY4kZ1IZhLeYsBRvL21tQ=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=Yg2tAZVHTiMry9dKpRt+zDQlfeDkbK6GecmdNkOm/lMVKpGQR9VCcg2WbHKyXddUs
+         b1qa7ZlbR7cgKorfyH+4xcNDLFSG3d6wNqS01Nb45a0DpEmMlvv3UJE2egCmcKq7yq
+         0JM2PP8iyv8Jd4T38gZPNfBDZqx+CCcyLZGJUOw4R8ZdXbsNYZQ3WpP1+O5Prjc2ab
+         SFk57cBxh3DqYZ3k4tf7r8ZtFqhbRT15FL8XTXmq7oXaC+/sC3lcg2Z/cD/Y/Ux3nv
+         j7TmULICZpG6H+TsxytOeZhJmHEjGTxKEeNq+Xtv7ltXqvEod3ntblMQ3BLM0QHwMM
+         laeRwBh9iW1YA==
+Subject: Re: [PATCH v8] vivid: Add touch support
+To:     Vandana BN <bnvandana@gmail.com>, linux-media@vger.kernel.org
+References: <665e3259-e7c8-ffcd-1873-be36a12b67a3@xs4all.nl>
+ <20191125042336.6205-1-bnvandana@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <c2f25d01-93cc-3678-bae5-58fb13001d8d@xs4all.nl>
+Date:   Mon, 25 Nov 2019 11:02:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20191031090213.27727-1-dongchun.zhu@mediatek.com> <20191031090213.27727-3-dongchun.zhu@mediatek.com>
-In-Reply-To: <20191031090213.27727-3-dongchun.zhu@mediatek.com>
-From:   Pi-Hsun Shih <pihsun@chromium.org>
-Date:   Mon, 25 Nov 2019 17:33:28 +0800
-Message-ID: <CANdKZ0cMCWKmFcF44M0LBgwa6a3rvD0JdqFgkcjHqVHwMUS6yg@mail.gmail.com>
-Subject: Re: [V3, 2/2] media: i2c: ov8856: Add support for more sensor modes
-To:     Dongchun Zhu <dongchun.zhu@mediatek.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        andriy.shevchenko@linux.intel.com,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        sakari.ailus@linux.intel.com,
-        Nicolas Boichat <drinkcat@chromium.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        bingbu.cao@intel.com,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, srv_heupstream@mediatek.com,
-        shengnan.wang@mediatek.com,
-        =?UTF-8?B?U2ogSHVhbmcgKOm7g+S/oeeSiyk=?= <sj.huang@mediatek.com>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>, louis.kuo@mediatek.com,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20191125042336.6205-1-bnvandana@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfLWDwrWfROxYZSs6PB80bDlIj/SKrkTDxo6dV0xMhcC5ZSfpYNkYKZVILRC1LUh7LlyzU8aMw1XUhbx2QmXgri9+/GnSgwm4W/2pTT5hQerFM88ffY4v
+ Nrw46mFVLoF8POlnmQy+iKiHUalHDuDnAW9JD+SGyhnOSUJ1GCUXG7tCgxt179CbvKzzj4MnOHP/dLFN9wkGMoPTuX9qOrOM5mA=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dongchun,
+Hi Vandana,
 
-On Thu, Oct 31, 2019 at 5:12 PM Dongchun Zhu <dongchun.zhu@mediatek.com> wrote:
->
-> This adds two more sensor modes for Omnivision ov8856 image sensor,
-> including the resolution of 1632*1224 and 3264*2448, both with the
-> Bayer Order of BGGR.
->
-> Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
+This looks really good. I have a few very small comments (I'd have changed it
+myself, but we're in the code freeze period so there is time for a v9):
+
+On 11/25/19 5:23 AM, Vandana BN wrote:
+> Support to emulate touch devices in vivid driver.
+> It generates touch patterns simulating single tap, double tap, triple
+> tap, move from left to right, zoom in, zoom out, palm press simulating
+> large area being pressed on screen, and simulating 16 different
+> simultaneous touch points.The values generated are based on
+> behavior of the rmi_f54 driver.
+> 
+> Signed-off-by: Vandana BN <bnvandana@gmail.com>
 > ---
->  drivers/media/i2c/ov8856.c | 661 ++++++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 652 insertions(+), 9 deletions(-)
->
-> diff --git a/drivers/media/i2c/ov8856.c b/drivers/media/i2c/ov8856.c
-> index 8655842..4815c26 100644
-> --- a/drivers/media/i2c/ov8856.c
-> +++ b/drivers/media/i2c/ov8856.c
-> @@ -3,10 +3,13 @@
-> [...]
-> @@ -1189,6 +1768,42 @@ static int ov8856_probe(struct i2c_client *client)
->                 return -ENOMEM;
->
->         v4l2_i2c_subdev_init(&ov8856->sd, client, &ov8856_subdev_ops);
-> +       ov8856->fmt.code = MEDIA_BUS_FMT_SGRBG10_1X10;
-> +
-> +       ov8856->xvclk = devm_clk_get(&client->dev, "xvclk");
-> +       if (IS_ERR(ov8856->xvclk)) {
-> +               dev_err(&client->dev, "failed to get xvclk\n");
-> +               return -EINVAL;
-> +       }
-> +
-> +       ret = clk_set_rate(ov8856->xvclk, OV8856_XVCLK_24);
-> +       if (ret < 0) {
-> +               dev_err(&client->dev, "failed to set xvclk rate (24MHz)\n");
-> +               return ret;
-> +       }
-> +       if (clk_get_rate(ov8856->xvclk) != OV8856_XVCLK_24)
-> +               dev_warn(&client->dev,
-> +                        "xvclk mismatched, modes are based on 24MHz\n");
-> +
-> +       ov8856->n_shutdn_gpio = devm_gpiod_get(&client->dev, "reset",
-> +                                              GPIOD_OUT_LOW);
-> +       if (IS_ERR(ov8856->n_shutdn_gpio)) {
-> +               dev_err(&client->dev, "failed to get reset-gpios\n");
-> +               return -EINVAL;
-> +       }
-> +
-> +       for (i = 0; i < OV8856_NUM_SUPPLIES; i++)
-> +               ov8856->supplies[i].supply = ov8856_supply_names[i];
-> +
-> +       ret = devm_regulator_bulk_get(&client->dev, OV8856_NUM_SUPPLIES,
-> +                                     ov8856->supplies);
-> +       if (ret)
-> +               dev_warn(&client->dev, "failed to get regulators\n");
-> +
-> +       ret = __ov8856_power_on(ov8856);
-> +       if (ret)
-> +               dev_warn(&client->dev, "failed to power on\n");
-> +
+>  drivers/media/platform/vivid/Makefile         |   3 +-
+>  drivers/media/platform/vivid/vivid-core.c     | 164 ++++++++-
+>  drivers/media/platform/vivid/vivid-core.h     |  20 ++
+>  drivers/media/platform/vivid/vivid-ctrls.c    |  11 +
+>  .../platform/vivid/vivid-kthread-touch.c      | 181 ++++++++++
+>  .../platform/vivid/vivid-kthread-touch.h      |  13 +
+>  .../media/platform/vivid/vivid-touch-cap.c    | 320 ++++++++++++++++++
+>  .../media/platform/vivid/vivid-touch-cap.h    |  38 +++
+>  8 files changed, 737 insertions(+), 13 deletions(-)
+>  create mode 100644 drivers/media/platform/vivid/vivid-kthread-touch.c
+>  create mode 100644 drivers/media/platform/vivid/vivid-kthread-touch.h
+>  create mode 100644 drivers/media/platform/vivid/vivid-touch-cap.c
+>  create mode 100644 drivers/media/platform/vivid/vivid-touch-cap.h
+> 
 
-__ov8856_power_off is missing on the error path after the __ov8856_power_on.
+<snip>
 
->         ret = ov8856_identify_module(ov8856);
->         if (ret) {
->                 dev_err(&client->dev, "failed to find sensor: %d", ret);
-> @@ -1241,8 +1856,29 @@ static int ov8856_probe(struct i2c_client *client)
->         return ret;
->  }
->
-> [...]
+> +void vivid_fillbuff_tch(struct vivid_dev *dev, struct vivid_buffer *buf)
+> +{
+> +	struct v4l2_pix_format *f = &dev->tch_format;
+> +	int size = f->width * f->height;
+> +	int x, y, xstart, ystart, offset_x, offset_y;
+> +	unsigned int test_pattern, test_pat_idx, rand;
+> +
+> +	__s16 *tch_buf = vb2_plane_vaddr(&buf->vb.vb2_buf, 0);
+> +
+> +	buf->vb.sequence = dev->touch_cap_seq_count;
+> +	test_pattern = (buf->vb.sequence / TCH_SEQ_COUNT) % TEST_CASE_MAX;
+> +	test_pat_idx = buf->vb.sequence % TCH_SEQ_COUNT;
+> +
+> +	vivid_fill_buff_noise(tch_buf, size);
+> +
+> +	if (test_pat_idx >= TCH_PATTERN_COUNT)
+> +		return;
+> +
+> +	if (test_pat_idx == 0)
+> +		dev->tch_pat_random = get_random_int();
+> +	rand = dev->tch_pat_random;
+> +
+> +	switch (test_pattern) {
+> +	case SINGLE_TAP:
+> +		if (test_pat_idx == 5)
+
+Let's change 5 to TCH_PATTERN_COUNT / 2
+
+> +			vivid_tch_buf_set(f, tch_buf, rand % size);
+> +		break;
+> +	case DOUBLE_TAP:
+> +		if (test_pat_idx == 3 || test_pat_idx == 6)
+
+And 3 and 6 to:
+
+	TCH_PATTERN_COUNT / 3 and 2 * TCH_PATTERN_COUNT / 3
+
+> +			vivid_tch_buf_set(f, tch_buf, rand % size);
+> +		break;
+> +	case TRIPLE_TAP:
+> +		if (test_pat_idx == 3 || test_pat_idx == 6 || test_pat_idx == 9)
+
+TCH_PATTERN_COUNT / 4, 2 * TCH_PATTERN_COUNT / 4, 3 * TCH_PATTERN_COUNT / 4
+
+> +			vivid_tch_buf_set(f, tch_buf, rand % size);
+> +		break;
+> +	case MOVE_LEFT_TO_RIGHT:
+> +		vivid_tch_buf_set(f, tch_buf,
+> +				  (rand % f->height) * f->width +
+> +				  test_pat_idx * (f->width / 10));
+
+10 -> TCH_PATTERN_COUNT
+
+Regards,
+
+	Hans
+
+> +		break;
+> +	case ZOOM_IN:
+> +		x = f->width / 2;
+> +		y = f->height / 2;
+> +		offset_x = ((TCH_PATTERN_COUNT - 1 - test_pat_idx) * x) /
+> +				TCH_PATTERN_COUNT;
+> +		offset_y = ((TCH_PATTERN_COUNT - 1 - test_pat_idx) * y) /
+> +				TCH_PATTERN_COUNT;
+> +		vivid_tch_buf_set(f, tch_buf,
+> +				  (x - offset_x) + f->width * (y - offset_y));
+> +		vivid_tch_buf_set(f, tch_buf,
+> +				  (x + offset_x) + f->width * (y + offset_y));
+> +		break;
+> +	case ZOOM_OUT:
+> +		x = f->width / 2;
+> +		y = f->height / 2;
+> +		offset_x = (test_pat_idx * x) / TCH_PATTERN_COUNT;
+> +		offset_y = (test_pat_idx * y) / TCH_PATTERN_COUNT;
+> +		vivid_tch_buf_set(f, tch_buf,
+> +				  (x - offset_x) + f->width * (y - offset_y));
+> +		vivid_tch_buf_set(f, tch_buf,
+> +				  (x + offset_x) + f->width * (y + offset_y));
+> +		break;
+> +	case PALM_PRESS:
+> +		for (x = 0; x < f->width; x++)
+> +			for (y = f->height / 2; y < f->height; y++)
+> +				vivid_tch_buf_set(f, tch_buf, x + f->width * y);
+> +		break;
+> +	case MULTIPLE_PRESS:
+> +		/* 16 pressure points */
+> +		for (y = 0; y < 4; y++) {
+> +			for (x = 0; x < 4; x++) {
+> +				ystart = (y * f->height) / 4 + f->height / 8;
+> +				xstart = (x * f->width) / 4 + f->width / 8;
+> +				vivid_tch_buf_set(f, tch_buf,
+> +						  ystart * f->width + xstart);
+> +			}
+> +		}
+> +		break;
+> +	}
+> +#ifdef __BIG_ENDIAN__
+> +	for (x = 0; x < size; x++)
+> +		tch_buf[x] = (__force s16)__cpu_to_le16((u16)tch_buf[x]);
+> +#endif
+> +}
+> diff --git a/drivers/media/platform/vivid/vivid-touch-cap.h b/drivers/media/platform/vivid/vivid-touch-cap.h
+> new file mode 100644
+> index 000000000000..761050b652eb
+> --- /dev/null
+> +++ b/drivers/media/platform/vivid/vivid-touch-cap.h
+> @@ -0,0 +1,38 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * vivid-touch-cap.h - touch support functions.
+> + */
+> +#ifndef _VIVID_TOUCH_CAP_H_
+> +#define _VIVID_TOUCH_CAP_H_
+> +
+> +#define VIVID_TCH_HEIGHT	12
+> +#define VIVID_TCH_WIDTH		21
+> +#define VIVID_MIN_PRESSURE	180
+> +#define VIVID_PRESSURE_LIMIT	40
+> +#define TCH_SEQ_COUNT		16
+> +#define TCH_PATTERN_COUNT	12
+> +
+> +enum vivid_tch_test {
+> +	SINGLE_TAP,
+> +	DOUBLE_TAP,
+> +	TRIPLE_TAP,
+> +	MOVE_LEFT_TO_RIGHT,
+> +	ZOOM_IN,
+> +	ZOOM_OUT,
+> +	PALM_PRESS,
+> +	MULTIPLE_PRESS,
+> +	TEST_CASE_MAX
+> +};
+> +
+> +extern const struct vb2_ops vivid_touch_cap_qops;
+> +
+> +int vivid_enum_fmt_tch(struct file *file, void  *priv, struct v4l2_fmtdesc *f);
+> +int vivid_g_fmt_tch(struct file *file, void *priv, struct v4l2_format *f);
+> +int vivid_enum_input_tch(struct file *file, void *priv, struct v4l2_input *inp);
+> +int vivid_g_input_tch(struct file *file, void *priv, unsigned int *i);
+> +int vivid_s_input_tch(struct file *file, void *priv, unsigned int i);
+> +void vivid_fillbuff_tch(struct vivid_dev *dev, struct vivid_buffer *buf);
+> +int vivid_set_touch(struct vivid_dev *dev, unsigned int i);
+> +int vivid_g_parm_tch(struct file *file, void *priv,
+> +		     struct v4l2_streamparm *parm);
+> +#endif
+> 
+
