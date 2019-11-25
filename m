@@ -2,373 +2,219 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 99BC5109543
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2019 22:48:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 369331096B2
+	for <lists+linux-media@lfdr.de>; Tue, 26 Nov 2019 00:13:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725938AbfKYVsB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Nov 2019 16:48:01 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:36184 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725912AbfKYVsB (ORCPT
+        id S1727247AbfKYXKu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Nov 2019 18:10:50 -0500
+Received: from hqemgate16.nvidia.com ([216.228.121.65]:11207 "EHLO
+        hqemgate16.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727217AbfKYXKs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Nov 2019 16:48:01 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id D177E289FC7
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     linux-media@vger.kernel.org
-Cc:     kernel@collabora.com, Todor Tomov <todor.too@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Maxime Ripard <mripard@kernel.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH] media: Split v4l2_pipeline_pm_use into v4l2_pipeline_pm_{get, put}
-Date:   Tue, 26 Nov 2019 06:47:45 +0900
-Message-Id: <20191125214745.15826-1-ezequiel@collabora.com>
-X-Mailer: git-send-email 2.22.0
+        Mon, 25 Nov 2019 18:10:48 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate16.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ddc5f710000>; Mon, 25 Nov 2019 15:10:41 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 25 Nov 2019 15:10:39 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 25 Nov 2019 15:10:39 -0800
+Received: from HQMAIL101.nvidia.com (172.20.187.10) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 25 Nov
+ 2019 23:10:39 +0000
+Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Mon, 25 Nov 2019 23:10:38 +0000
+Received: from blueforge.nvidia.com (Not Verified[10.110.48.28]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5ddc5f6c0003>; Mon, 25 Nov 2019 15:10:37 -0800
+From:   John Hubbard <jhubbard@nvidia.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+CC:     Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
+        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
+        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>,
+        John Hubbard <jhubbard@nvidia.com>
+Subject: [PATCH v2 00/19] pin_user_pages(): reduced-risk series for Linux 5.5
+Date:   Mon, 25 Nov 2019 15:10:16 -0800
+Message-ID: <20191125231035.1539120-1-jhubbard@nvidia.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-NVConfidentiality: public
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1574723442; bh=+fKR9i8A1AVbpAkGEFz1AM9ETJRVeSf0J2MygF32l5w=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         MIME-Version:X-NVConfidentiality:Content-Type:
+         Content-Transfer-Encoding;
+        b=ndO1kyYw+Aj7PJ1b4CON5Q8+SrIcwXlb45V4tj+JVPm5a7tM/5raJmkf+oA8o+7Gn
+         q+DZKnhL8HDAd4gc+VTmeQE/lO9R3WtF6DClR/Ox8lkKenA2hi3RkIsDbZBRb7/N9I
+         u7vqu7OPX0uJIMsnOGPaXiQsQ3livkjU+Uydd8H70Bkagfvsff/O1UWDvtASk/ZD/5
+         j3u+3hA9MXsiO5zM+Fvjg+mWEqNbbdrTimvMMM1CyULJLiNKjbxsllY9FZaTQHKnou
+         7YD0HiYvc6l3EAutS7qMBed3ruw+5cxaPaf8mdXNhpDMt5CU2G9r209+vuG622feZ3
+         9j/62y8q4ASVw==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Currently, v4l2_pipeline_pm_use() prototype is:
+Hi,
 
-  int v4l2_pipeline_pm_use(struct media_entity *entity, int use)
+Changes since v1:
 
-Where the 'use' argument shall only be set to '1' for enable/power-on,
-or to '0' for disable/power-off. The integer return is specified
-as only meaningful when 'use' is set to '1'.
+* Fixed up ppc in response to Jan Kara's review comments (thanks for
+  those!).
 
-Let's enforce this semantic by splitting the function in two:
-v4l2_pipeline_pm_get and v4l2_pipeline_pm_put. This is done
-for several reasons.
+* Fixed a kbuilt robot-detected build failure: added a stub function for
+  the !CONFIG_MMU case.
 
-It makes the API easier to use (or harder to misuse).
-It removes the constraint on the values the 'use' argument
-shall take. Also, it removes the need to constraint
-the return value, by making v4l2_pipeline_pm_put void return.
+* Cover letter: now refers to "unpin_user_page()", reflecting the name
+  change in the last patch (instead of put_user_page() ).
 
-And last, it's more consistent with other kernel APIs, such
-as the runtime pm APIs, which makes the code more symmetric.
+* Rebased onto today's linux-next: c165016bac27 ("Add linux-next
+  specific files for 20191125")
 
-Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
----
- Documentation/media/kapi/csi2.rst             |  2 +-
- drivers/media/platform/omap3isp/ispvideo.c    |  4 +-
- .../media/platform/qcom/camss/camss-video.c   |  4 +-
- drivers/media/platform/rcar-vin/rcar-v4l2.c   |  6 +--
- .../platform/sunxi/sun4i-csi/sun4i_v4l2.c     |  6 +--
- .../platform/sunxi/sun6i-csi/sun6i_video.c    |  4 +-
- drivers/media/v4l2-core/v4l2-mc.c             | 18 +++++++--
- drivers/staging/media/imx/imx-media-capture.c |  4 +-
- drivers/staging/media/omap4iss/iss_video.c    |  4 +-
- include/media/v4l2-mc.h                       | 40 ++++++++++++-------
- 10 files changed, 57 insertions(+), 35 deletions(-)
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+Here is a set of well-reviewed (expect for one patch), lower-risk  items
+that can go into Linux 5.5. (Update: the powerpc conversion patch has
+had some initial review now, since v1 was posted.)
 
-diff --git a/Documentation/media/kapi/csi2.rst b/Documentation/media/kapi/csi2.rst
-index 030a5c41ec75..e111ff7bfd3d 100644
---- a/Documentation/media/kapi/csi2.rst
-+++ b/Documentation/media/kapi/csi2.rst
-@@ -74,7 +74,7 @@ Before the receiver driver may enable the CSI-2 transmitter by using
- the :c:type:`v4l2_subdev_video_ops`->s_stream(), it must have powered
- the transmitter up by using the
- :c:type:`v4l2_subdev_core_ops`->s_power() callback. This may take
--place either indirectly by using :c:func:`v4l2_pipeline_pm_use` or
-+place either indirectly by using :c:func:`v4l2_pipeline_pm_get` or
- directly.
- 
- Formats
-diff --git a/drivers/media/platform/omap3isp/ispvideo.c b/drivers/media/platform/omap3isp/ispvideo.c
-index ee183c35ff3b..16efd18f1e88 100644
---- a/drivers/media/platform/omap3isp/ispvideo.c
-+++ b/drivers/media/platform/omap3isp/ispvideo.c
-@@ -1311,7 +1311,7 @@ static int isp_video_open(struct file *file)
- 		goto done;
- 	}
- 
--	ret = v4l2_pipeline_pm_use(&video->video.entity, 1);
-+	ret = v4l2_pipeline_pm_get(&video->video.entity);
- 	if (ret < 0) {
- 		omap3isp_put(video->isp);
- 		goto done;
-@@ -1363,7 +1363,7 @@ static int isp_video_release(struct file *file)
- 	vb2_queue_release(&handle->queue);
- 	mutex_unlock(&video->queue_lock);
- 
--	v4l2_pipeline_pm_use(&video->video.entity, 0);
-+	v4l2_pipeline_pm_put(&video->video.entity);
- 
- 	/* Release the file handle. */
- 	v4l2_fh_del(vfh);
-diff --git a/drivers/media/platform/qcom/camss/camss-video.c b/drivers/media/platform/qcom/camss/camss-video.c
-index 1d50dfbbb762..a019dbab5e04 100644
---- a/drivers/media/platform/qcom/camss/camss-video.c
-+++ b/drivers/media/platform/qcom/camss/camss-video.c
-@@ -745,7 +745,7 @@ static int video_open(struct file *file)
- 
- 	file->private_data = vfh;
- 
--	ret = v4l2_pipeline_pm_use(&vdev->entity, 1);
-+	ret = v4l2_pipeline_pm_get(&vdev->entity);
- 	if (ret < 0) {
- 		dev_err(video->camss->dev, "Failed to power up pipeline: %d\n",
- 			ret);
-@@ -771,7 +771,7 @@ static int video_release(struct file *file)
- 
- 	vb2_fop_release(file);
- 
--	v4l2_pipeline_pm_use(&vdev->entity, 0);
-+	v4l2_pipeline_pm_put(&vdev->entity);
- 
- 	file->private_data = NULL;
- 
-diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-index 9e2e63ffcc47..2a5be6334f72 100644
---- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-+++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-@@ -826,7 +826,7 @@ static int rvin_open(struct file *file)
- 		goto err_unlock;
- 
- 	if (vin->info->use_mc)
--		ret = v4l2_pipeline_pm_use(&vin->vdev.entity, 1);
-+		ret = v4l2_pipeline_pm_get(&vin->vdev.entity);
- 	else if (v4l2_fh_is_singular_file(file))
- 		ret = rvin_power_parallel(vin, true);
- 
-@@ -842,7 +842,7 @@ static int rvin_open(struct file *file)
- 	return 0;
- err_power:
- 	if (vin->info->use_mc)
--		v4l2_pipeline_pm_use(&vin->vdev.entity, 0);
-+		v4l2_pipeline_pm_put(&vin->vdev.entity);
- 	else if (v4l2_fh_is_singular_file(file))
- 		rvin_power_parallel(vin, false);
- err_open:
-@@ -870,7 +870,7 @@ static int rvin_release(struct file *file)
- 	ret = _vb2_fop_release(file, NULL);
- 
- 	if (vin->info->use_mc) {
--		v4l2_pipeline_pm_use(&vin->vdev.entity, 0);
-+		v4l2_pipeline_pm_put(&vin->vdev.entity);
- 	} else {
- 		if (fh_singular)
- 			rvin_power_parallel(vin, false);
-diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c b/drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c
-index 83a3a0257c7b..8dfc2877d4c6 100644
---- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c
-+++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c
-@@ -214,7 +214,7 @@ static int sun4i_csi_open(struct file *file)
- 	if (ret < 0)
- 		goto err_pm_put;
- 
--	ret = v4l2_pipeline_pm_use(&csi->vdev.entity, 1);
-+	ret = v4l2_pipeline_pm_get(&csi->vdev.entity);
- 	if (ret)
- 		goto err_pm_put;
- 
-@@ -227,7 +227,7 @@ static int sun4i_csi_open(struct file *file)
- 	return 0;
- 
- err_pipeline_pm_put:
--	v4l2_pipeline_pm_use(&csi->vdev.entity, 0);
-+	v4l2_pipeline_pm_put(&csi->vdev.entity);
- 
- err_pm_put:
- 	pm_runtime_put(csi->dev);
-@@ -243,7 +243,7 @@ static int sun4i_csi_release(struct file *file)
- 	mutex_lock(&csi->lock);
- 
- 	v4l2_fh_release(file);
--	v4l2_pipeline_pm_use(&csi->vdev.entity, 0);
-+	v4l2_pipeline_pm_put(&csi->vdev.entity);
- 	pm_runtime_put(csi->dev);
- 
- 	mutex_unlock(&csi->lock);
-diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
-index f0dfe68486d1..3d619ad08c9f 100644
---- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
-+++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
-@@ -474,7 +474,7 @@ static int sun6i_video_open(struct file *file)
- 	if (ret < 0)
- 		goto unlock;
- 
--	ret = v4l2_pipeline_pm_use(&video->vdev.entity, 1);
-+	ret = v4l2_pipeline_pm_get(&video->vdev.entity);
- 	if (ret < 0)
- 		goto fh_release;
- 
-@@ -507,7 +507,7 @@ static int sun6i_video_close(struct file *file)
- 
- 	_vb2_fop_release(file, NULL);
- 
--	v4l2_pipeline_pm_use(&video->vdev.entity, 0);
-+	v4l2_pipeline_pm_put(&video->vdev.entity);
- 
- 	if (last_fh)
- 		sun6i_csi_set_power(video->csi, false);
-diff --git a/drivers/media/v4l2-core/v4l2-mc.c b/drivers/media/v4l2-core/v4l2-mc.c
-index 014a2a97cadd..0fffdd3ce6a4 100644
---- a/drivers/media/v4l2-core/v4l2-mc.c
-+++ b/drivers/media/v4l2-core/v4l2-mc.c
-@@ -321,7 +321,7 @@ EXPORT_SYMBOL_GPL(v4l_vb2q_enable_media_source);
-  * use_count field stores the total number of users of all video device nodes
-  * in the pipeline.
-  *
-- * The v4l2_pipeline_pm_use() function must be called in the open() and
-+ * The v4l2_pipeline_pm_{get, put}() functions must be called in the open() and
-  * close() handlers of video device nodes. It increments or decrements the use
-  * count of all subdev entities in the pipeline.
-  *
-@@ -423,7 +423,7 @@ static int pipeline_pm_power(struct media_entity *entity, int change,
- 	return ret;
- }
- 
--int v4l2_pipeline_pm_use(struct media_entity *entity, int use)
-+static int v4l2_pipeline_pm_use(struct media_entity *entity, unsigned int use)
- {
- 	struct media_device *mdev = entity->graph_obj.mdev;
- 	int change = use ? 1 : -1;
-@@ -444,7 +444,19 @@ int v4l2_pipeline_pm_use(struct media_entity *entity, int use)
- 
- 	return ret;
- }
--EXPORT_SYMBOL_GPL(v4l2_pipeline_pm_use);
-+
-+int v4l2_pipeline_pm_get(struct media_entity *entity)
-+{
-+	return v4l2_pipeline_pm_use(entity, 1);
-+}
-+EXPORT_SYMBOL_GPL(v4l2_pipeline_pm_get);
-+
-+void v4l2_pipeline_pm_put(struct media_entity *entity)
-+{
-+	/* Powering off entities shouldn't fail. */
-+	WARN_ON(v4l2_pipeline_pm_use(entity, 0));
-+}
-+EXPORT_SYMBOL_GPL(v4l2_pipeline_pm_put);
- 
- int v4l2_pipeline_link_notify(struct media_link *link, u32 flags,
- 			      unsigned int notification)
-diff --git a/drivers/staging/media/imx/imx-media-capture.c b/drivers/staging/media/imx/imx-media-capture.c
-index 7712e7be8625..8aac4a3df7ca 100644
---- a/drivers/staging/media/imx/imx-media-capture.c
-+++ b/drivers/staging/media/imx/imx-media-capture.c
-@@ -643,7 +643,7 @@ static int capture_open(struct file *file)
- 	if (ret)
- 		v4l2_err(priv->src_sd, "v4l2_fh_open failed\n");
- 
--	ret = v4l2_pipeline_pm_use(&vfd->entity, 1);
-+	ret = v4l2_pipeline_pm_get(&vfd->entity);
- 	if (ret)
- 		v4l2_fh_release(file);
- 
-@@ -664,7 +664,7 @@ static int capture_release(struct file *file)
- 		vq->owner = NULL;
- 	}
- 
--	v4l2_pipeline_pm_use(&vfd->entity, 0);
-+	v4l2_pipeline_pm_put(&vfd->entity);
- 
- 	v4l2_fh_release(file);
- 	mutex_unlock(&priv->mutex);
-diff --git a/drivers/staging/media/omap4iss/iss_video.c b/drivers/staging/media/omap4iss/iss_video.c
-index 673aa3a5f2bd..9578b8d22f25 100644
---- a/drivers/staging/media/omap4iss/iss_video.c
-+++ b/drivers/staging/media/omap4iss/iss_video.c
-@@ -1111,7 +1111,7 @@ static int iss_video_open(struct file *file)
- 		goto done;
- 	}
- 
--	ret = v4l2_pipeline_pm_use(&video->video.entity, 1);
-+	ret = v4l2_pipeline_pm_get(&video->video.entity);
- 	if (ret < 0) {
- 		omap4iss_put(video->iss);
- 		goto done;
-@@ -1160,7 +1160,7 @@ static int iss_video_release(struct file *file)
- 	/* Disable streaming and free the buffers queue resources. */
- 	iss_video_streamoff(file, vfh, video->type);
- 
--	v4l2_pipeline_pm_use(&video->video.entity, 0);
-+	v4l2_pipeline_pm_put(&video->video.entity);
- 
- 	/* Release the videobuf2 queue */
- 	vb2_queue_release(&handle->queue);
-diff --git a/include/media/v4l2-mc.h b/include/media/v4l2-mc.h
-index 384960249f01..5e73eb8e28f6 100644
---- a/include/media/v4l2-mc.h
-+++ b/include/media/v4l2-mc.h
-@@ -86,23 +86,30 @@ int v4l_vb2q_enable_media_source(struct vb2_queue *q);
- 
- 
- /**
-- * v4l2_pipeline_pm_use - Update the use count of an entity
-- * @entity: The entity
-- * @use: Use (1) or stop using (0) the entity
-+ * v4l2_pipeline_pm_get - Increase the use count of a pipeline
-+ * @entity: The root entity of a pipeline
-  *
-- * Update the use count of all entities in the pipeline and power entities on or
-- * off accordingly.
-+ * Update the use count of all entities in the pipeline and power entities on.
-  *
-- * This function is intended to be called in video node open (use ==
-- * 1) and release (use == 0). It uses struct media_entity.use_count to
-- * track the power status. The use of this function should be paired
-- * with v4l2_pipeline_link_notify().
-+ * This function is intended to be called in video node open. It uses
-+ * struct media_entity.use_count to track the power status. The use
-+ * of this function should be paired with v4l2_pipeline_link_notify().
-  *
-- * Return 0 on success or a negative error code on failure. Powering entities
-- * off is assumed to never fail. No failure can occur when the use parameter is
-- * set to 0.
-+ * Return 0 on success or a negative error code on failure.
-  */
--int v4l2_pipeline_pm_use(struct media_entity *entity, int use);
-+int v4l2_pipeline_pm_get(struct media_entity *entity);
-+
-+/**
-+ * v4l2_pipeline_pm_put - Decrease the use count of a pipeline
-+ * @entity: The root entity of a pipeline
-+ *
-+ * Update the use count of all entities in the pipeline and power entities off.
-+ *
-+ * This function is intended to be called in video node release. It uses
-+ * struct media_entity.use_count to track the power status. The use
-+ * of this function should be paired with v4l2_pipeline_link_notify().
-+ */
-+void v4l2_pipeline_pm_put(struct media_entity *entity);
- 
- 
- /**
-@@ -114,7 +121,7 @@ int v4l2_pipeline_pm_use(struct media_entity *entity, int use);
-  * React to link management on powered pipelines by updating the use count of
-  * all entities in the source and sink sides of the link. Entities are powered
-  * on or off accordingly. The use of this function should be paired
-- * with v4l2_pipeline_pm_use().
-+ * with v4l2_pipeline_pm_{get,put}().
-  *
-  * Return 0 on success or a negative error code on failure. Powering entities
-  * off is assumed to never fail. This function will not fail for disconnection
-@@ -144,11 +151,14 @@ static inline int v4l_vb2q_enable_media_source(struct vb2_queue *q)
- 	return 0;
- }
- 
--static inline int v4l2_pipeline_pm_use(struct media_entity *entity, int use)
-+static inline int v4l2_pipeline_pm_get(struct media_entity *entity)
- {
- 	return 0;
- }
- 
-+static inline void v4l2_pipeline_pm_put(struct media_entity *entity)
-+{}
-+
- static inline int v4l2_pipeline_link_notify(struct media_link *link, u32 flags,
- 					    unsigned int notification)
- {
--- 
-2.22.0
+This is essentially a cut-down v8 of "mm/gup: track dma-pinned pages:
+FOLL_PIN" [1], and with one of the VFIO patches split into two patches.
+The idea here is to get this long list of "noise" checked into 5.5, so
+that the actual, higher-risk "track FOLL_PIN pages" (which is deferred:
+not part of this series) will be a much shorter patchset to review.
+
+For the v4l2-core changes, I've left those here (instead of sending
+them separately to the -media tree), in order to get the name change
+done now (put_user_page --> unpin_user_page). However, I've added a Cc
+stable, as recommended during the last round of reviews.
+
+Here are the relevant notes from the original cover letter, edited to
+match the current situation:
+
+This is a prerequisite to tracking dma-pinned pages. That in turn is a
+prerequisite to solving the larger problem of proper interactions
+between file-backed pages, and [R]DMA activities, as discussed in [1],
+[2], [3], and in a remarkable number of email threads since about
+2017. :)
+
+A new internal gup flag, FOLL_PIN is introduced, and thoroughly
+documented in the last patch's Documentation/vm/pin_user_pages.rst.
+
+I believe that this will provide a good starting point for doing the
+layout lease work that Ira Weiny has been working on. That's because
+these new wrapper functions provide a clean, constrained, systematically
+named set of functionality that, again, is required in order to even
+know if a page is "dma-pinned".
+
+In contrast to earlier approaches, the page tracking can be
+incrementally applied to the kernel call sites that, until now, have
+been simply calling get_user_pages() ("gup"). In other words, opt-in by
+changing from this:
+
+    get_user_pages() (sets FOLL_GET)
+    put_page()
+
+to this:
+    pin_user_pages() (sets FOLL_PIN)
+    unpin_user_page()
+
+Because there are interdependencies with FOLL_LONGTERM, a similar
+conversion as for FOLL_PIN, was applied. The change was from this:
+
+    get_user_pages(FOLL_LONGTERM) (also sets FOLL_GET)
+    put_page()
+
+to this:
+    pin_longterm_pages() (sets FOLL_PIN | FOLL_LONGTERM)
+    unpin_user_page()
+
+[1] https://lore.kernel.org/r/20191121071354.456618-1-jhubbard@nvidia.com
+
+thanks,
+John Hubbard
+NVIDIA
+
+
+Dan Williams (1):
+  mm: Cleanup __put_devmap_managed_page() vs ->page_free()
+
+John Hubbard (18):
+  mm/gup: factor out duplicate code from four routines
+  mm/gup: move try_get_compound_head() to top, fix minor issues
+  goldish_pipe: rename local pin_user_pages() routine
+  mm: fix get_user_pages_remote()'s handling of FOLL_LONGTERM
+  vfio: fix FOLL_LONGTERM use, simplify get_user_pages_remote() call
+  mm/gup: introduce pin_user_pages*() and FOLL_PIN
+  goldish_pipe: convert to pin_user_pages() and put_user_page()
+  IB/{core,hw,umem}: set FOLL_PIN via pin_user_pages*(), fix up ODP
+  mm/process_vm_access: set FOLL_PIN via pin_user_pages_remote()
+  drm/via: set FOLL_PIN via pin_user_pages_fast()
+  fs/io_uring: set FOLL_PIN via pin_user_pages()
+  net/xdp: set FOLL_PIN via pin_user_pages()
+  media/v4l2-core: set pages dirty upon releasing DMA buffers
+  media/v4l2-core: pin_user_pages (FOLL_PIN) and put_user_page()
+    conversion
+  vfio, mm: pin_user_pages (FOLL_PIN) and put_user_page() conversion
+  powerpc: book3s64: convert to pin_user_pages() and put_user_page()
+  mm/gup_benchmark: use proper FOLL_WRITE flags instead of hard-coding
+    "1"
+  mm, tree-wide: rename put_user_page*() to unpin_user_page*()
+
+ Documentation/core-api/index.rst            |   1 +
+ Documentation/core-api/pin_user_pages.rst   | 233 ++++++++++++++
+ arch/powerpc/mm/book3s64/iommu_api.c        |  12 +-
+ drivers/gpu/drm/via/via_dmablit.c           |   6 +-
+ drivers/infiniband/core/umem.c              |   4 +-
+ drivers/infiniband/core/umem_odp.c          |  13 +-
+ drivers/infiniband/hw/hfi1/user_pages.c     |   4 +-
+ drivers/infiniband/hw/mthca/mthca_memfree.c |   8 +-
+ drivers/infiniband/hw/qib/qib_user_pages.c  |   4 +-
+ drivers/infiniband/hw/qib/qib_user_sdma.c   |   8 +-
+ drivers/infiniband/hw/usnic/usnic_uiom.c    |   4 +-
+ drivers/infiniband/sw/siw/siw_mem.c         |   4 +-
+ drivers/media/v4l2-core/videobuf-dma-sg.c   |   8 +-
+ drivers/nvdimm/pmem.c                       |   6 -
+ drivers/platform/goldfish/goldfish_pipe.c   |  35 +-
+ drivers/vfio/vfio_iommu_type1.c             |  35 +-
+ fs/io_uring.c                               |   6 +-
+ include/linux/mm.h                          |  77 +++--
+ mm/gup.c                                    | 340 +++++++++++++-------
+ mm/gup_benchmark.c                          |   9 +-
+ mm/memremap.c                               |  80 ++---
+ mm/process_vm_access.c                      |  28 +-
+ net/xdp/xdp_umem.c                          |   4 +-
+ tools/testing/selftests/vm/gup_benchmark.c  |   6 +-
+ 24 files changed, 650 insertions(+), 285 deletions(-)
+ create mode 100644 Documentation/core-api/pin_user_pages.rst
+
+--=20
+2.24.0
 
