@@ -2,143 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E9752109181
-	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2019 17:02:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1181C10918E
+	for <lists+linux-media@lfdr.de>; Mon, 25 Nov 2019 17:05:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728762AbfKYQCu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 Nov 2019 11:02:50 -0500
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:37355 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728454AbfKYQCr (ORCPT
+        id S1728802AbfKYQFM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 Nov 2019 11:05:12 -0500
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:38207 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728533AbfKYQFL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 Nov 2019 11:02:47 -0500
+        Mon, 25 Nov 2019 11:05:11 -0500
 Received: from [192.168.2.10] ([46.9.232.237])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id ZGoziMmHfLwWdZGp2iWEUQ; Mon, 25 Nov 2019 17:02:45 +0100
+        id ZGrJiMniVLwWdZGrMiWFqH; Mon, 25 Nov 2019 17:05:09 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1574697765; bh=AHbEf+/uYAJZausDz9WJwqDqubKqMjahXc2wm+teEoE=;
+        t=1574697909; bh=5JK0Z6JtEdDEZ8KHXzEQxSUtkK89o7DFJUvrrUzmBKU=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=e7nznEJ8ibhxT2WAQRjTuMLhmq0cH9NN3yF18vKM5n14d8/x5jf1pmduzI0KyoQE9
-         JsArKCwxrVvZ8ByLbVXwAW2CFnE8P2dXE4IoS0q2mKilF7pffIKXF6G8sWFlt01ARp
-         L59OzlI62cpdtBEof9bKVGvH88LaX6f94BYHoYG221j4lyLr3m9D+nhho1Zic6M7S4
-         OEuUeEVlRGdKn2BF5JDiwZCISP9yPRUQuNZCadkoVx2M92mxjSV8XNHfIVzHo7IHYs
-         +vidT+Fo+MQcKSEEHls4JAWW2+9Rdrhot9WR9Tu/+qann4xvN8eDpcQjB89tAO+5tf
-         3f/fEDZPKDlAA==
-Subject: Re: [PATCH v4 0/8] y2038 safety in v4l2
-To:     Arnd Bergmann <arnd@arndb.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, y2038@lists.linaro.org
-References: <20191111203835.2260382-1-arnd@arndb.de>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <5c7bed6e-12d9-15e0-236e-d4f99710fbbd@xs4all.nl>
-Date:   Mon, 25 Nov 2019 17:02:41 +0100
+        b=SbLk8pMbfu5HpAgWmAO1v/6390pjK238R48Cv6PSr6+7suHtIAp2Z/HCPxgK5bGMw
+         vPY56Wi9WNOLyB3r1o30xP+cYodfww98+XYI/iXRprknv1dA2+rRPI7N+IHQpsHMkb
+         zfYeZdLaV1chfD8rDHibwFIVD+gSFBA0UVcyLPXEte1yyArmAqjDhqykFoPzyW3wDg
+         l4NIzfD3d4pKAz4kLhAqKfTJCPfw6TxTq/i3k7pgs5AhZvTarOpCitSb7bfZQd3tCB
+         fAIONRM1Zr9XZdlPgbwVIX/SLhz4s5arFGwOKidTct79gmW1xTjmzYX9qsF94GOhPB
+         X8TZNxq3G92Ww==
+Subject: Re: [PATCH v2] media: adv7604: extend deep color mode to ADV7611
+To:     "Ardelean, Alexandru" <alexandru.Ardelean@analog.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc:     "mchehab@kernel.org" <mchehab@kernel.org>,
+        "Bogdan, Dragos" <Dragos.Bogdan@analog.com>
+References: <20191018112157.31657-1-alexandru.ardelean@analog.com>
+ <20191018112955.13652-1-alexandru.ardelean@analog.com>
+ <6a524aedf79ba40f3286bf0ad4c7b320b561caf1.camel@analog.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <5278491a-5d48-b171-2194-fe4806397424@xs4all.nl>
+Date:   Mon, 25 Nov 2019 17:05:05 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
  Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <20191111203835.2260382-1-arnd@arndb.de>
+In-Reply-To: <6a524aedf79ba40f3286bf0ad4c7b320b561caf1.camel@analog.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfN4Wd3LR6zAOvg78glb7of3z1K8Q858nkje+p+Sv5jB2zsxa4z+pSSMN9YXOEsRiW8ZKh/QX46WFA9qObtho5Yacc6ueCmTKat4J9KrC7zRoqS8YQXq/
- 99O+IQhaBaOcB1G27c9Z05xKgMmzXIO6e72MIpU4Qwar5dn98SmVB47z0HmgDtHklHRi4UKF9vVzDOR2xdrb3gp54+Z8fP7QHUhcWVU8t50EfTpPbtYExnwb
- jg5s8dLku38hiKqAXH9SRx3cKmaPnqEFRFmC5lvAnR6i/gPdRjTUC7SyMwc+3E8QK00g3Nd7qLcnfwEU4/yt/w==
+X-CMAE-Envelope: MS4wfKrVKdJJ5SaaBumnQ1xyG6UtjZlhuG0KGRRhyKe/jGKJOwg6VN6OgfXEZFxRj2P8k+ttghoGvpx3cywUFhbtH/sFR/tlMzVYHl8mPfGywo1gR2v5oGc6
+ MpEGu7uul6w2a+vzuFaqmUG9R16YVQXvcoi2RcTx+8RGN7AZ6YfvyrGM0sTsEewZQ5b4lnmPl0KNoVKGqnFQTcQ42ZYIbF6dlBYD9G51160Qc6/7isYDjTvL
+ PweQvOyrXHhnhc6VZjCmu5FXkQxOFgtd5HE4s1yNfVFkMYzMDeW772MZR/U5+xdU4GhLfAqEMHLThtJfUTW6XgG/9qeI+CvwOGtDDtKFqk0=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Arnd,
-
-On 11/11/19 9:38 PM, Arnd Bergmann wrote:
-> I'm in the process of finishing up the last bits on y2038-unsafe
-> code in the kernel, this series is for v4l2, which has no problem
-> with overflow, but has multiple ioctls that break with user space
-> built against a new 32-bit libc.
-
-Thank you for working on this. Much appreciated!
-
-I've reviewed this v4 series and found a few issues (mostly things
-that ended up in videodev2.h that shouldn't be there).
-
-Once a v5 is posted I'll try to test this more.
-
-Is there an easy(-ish) way to test this with a time64 ABI? Do you
-have such an environment set up for testing?
-
+On 11/25/19 4:06 PM, Ardelean, Alexandru wrote:
+> On Fri, 2019-10-18 at 14:29 +0300, Alexandru Ardelean wrote:
+>> From: Dragos Bogdan <dragos.bogdan@analog.com>
+>>
+>> The AD7611 chip supports the same Deep Color Mode settings as the AD7604.
+>> This change extends support for this feature to the AD7611 by adding a
+>> wrapper function for the `read_hdmi_pixelclock` hook and adding the same
+>> frequency adjustment logic.
+>>
 > 
-> I posted similar patches as part of a series back in 2015, the
-> new version was rewritten from scratch and I double-checked with
-> the old version to make sure I did not miss anything I had already
-> taken care of before.
-> 
-> Hans Verkuil worked on a different patch set in 2017, but this
-> also did not get to the point of being merged.
-> 
-> My new version contains compat-ioctl support, which the old one
-> did not and should be complete, but given its size likely contains
-> bugs. I did randconfig build tests, but no runtime test, so
-> careful review as well as testing would be much appreciated.
-> 
-> With this version, the newly added code takes care of the existing
-> ABI, while the existing code got moved to the 64-bit time_t
-> interface and is used internally. This means that testing with
-> existing binaries should exercise most of the modifications
-> and if that works and doesn't get shot down in review, we can
-> probably live without testing the new ABI explicitly.
-> 
-> I'm not entirely happy with the compat-ioctl implementation that
-> adds quite a bit of code duplication, but I hope this is
-> acceptable anyway, as a better implementation would likely
-> require a larger refactoring of the compat-ioctl file, while
-> my approach simply adds support for the additional data structure
-> variants.
+> ping here
 
-A cleanup is indeed much more work. This y2038 code is awful, but that's
-really because the original structs are aligned in the worst possible
-way.
+Not forgotten, it's on my TODO list. But I need some time to dig a bit
+deeper into this code.
 
 Regards,
 
 	Hans
 
 > 
-> This is a minor update compared to version 3 of this series,
-> with bugfixes for small mistakes that I found or that were
-> reported by automated build bots. I updated the tree at [2]
-> to this version now.
-> 
->       Arnd
-> 
-> [1] https://lwn.net/Articles/657754/
-> [2] https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git/log/?h=y2038-v4l2
-> 
-> Arnd Bergmann (8):
->   media: documentation: fix video_event description
->   media: v4l2: abstract timeval handling in v4l2_buffer
->   media: v4l2-core: compat: ignore native command codes
->   media: v4l2-core: split out data copy from video_usercopy
->   media: v4l2-core: fix VIDIOC_DQEVENT for time64 ABI
->   media: v4l2-core: fix v4l2_buffer handling for time64 ABI
->   media: v4l2-core: fix compat VIDIOC_DQEVENT for time64 ABI
->   media: v4l2-core: fix compat v4l2_buffer handling for time64 ABI
-> 
->  .../media/uapi/dvb/video-get-event.rst        |   2 +-
->  Documentation/media/uapi/dvb/video_types.rst  |   2 +-
->  .../media/common/videobuf2/videobuf2-v4l2.c   |   4 +-
->  drivers/media/pci/meye/meye.c                 |   4 +-
->  drivers/media/usb/cpia2/cpia2_v4l.c           |   4 +-
->  drivers/media/usb/stkwebcam/stk-webcam.c      |   2 +-
->  drivers/media/usb/usbvision/usbvision-video.c |   4 +-
->  drivers/media/v4l2-core/v4l2-compat-ioctl32.c | 470 +++++++++++++++---
->  drivers/media/v4l2-core/v4l2-event.c          |   5 +-
->  drivers/media/v4l2-core/v4l2-ioctl.c          | 188 +++++--
->  drivers/media/v4l2-core/v4l2-subdev.c         |  20 +-
->  drivers/media/v4l2-core/videobuf-core.c       |   4 +-
->  include/linux/videodev2.h                     |  17 +-
->  include/trace/events/v4l2.h                   |   2 +-
->  include/uapi/linux/videodev2.h                |  77 +++
->  15 files changed, 669 insertions(+), 136 deletions(-)
-> 
+>> Signed-off-by: Dragos Bogdan <dragos.bogdan@analog.com>
+>> Signed-off-by: Alexandru Ardelean <alexandru.ardelean@analog.com>
+>> ---
+>>
+>> Changelog v1 -> v2:
+>> * address checkpatch complaints about 80 col limit and
+>>   use of `unsigned` vs `unsigned int`
+>>
+>>  drivers/media/i2c/adv7604.c | 32 +++++++++++++++++++++-----------
+>>  1 file changed, 21 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c
+>> index 28a84bf9f8a9..c6fe3aa69733 100644
+>> --- a/drivers/media/i2c/adv7604.c
+>> +++ b/drivers/media/i2c/adv7604.c
+>> @@ -1503,23 +1503,14 @@ static void
+>> adv76xx_fill_optional_dv_timings_fields(struct v4l2_subdev *sd,
+>>  
+>>  static unsigned int adv7604_read_hdmi_pixelclock(struct v4l2_subdev *sd)
+>>  {
+>> -	unsigned int freq;
+>>  	int a, b;
+>>  
+>>  	a = hdmi_read(sd, 0x06);
+>>  	b = hdmi_read(sd, 0x3b);
+>>  	if (a < 0 || b < 0)
+>>  		return 0;
+>> -	freq =  a * 1000000 + ((b & 0x30) >> 4) * 250000;
+>>  
+>> -	if (is_hdmi(sd)) {
+>> -		/* adjust for deep color mode */
+>> -		unsigned bits_per_channel = ((hdmi_read(sd, 0x0b) & 0x60)
+>>>> 4) + 8;
+>> -
+>> -		freq = freq * 8 / bits_per_channel;
+>> -	}
+>> -
+>> -	return freq;
+>> +	return a * 1000000 + ((b & 0x30) >> 4) * 250000;
+>>  }
+>>  
+>>  static unsigned int adv7611_read_hdmi_pixelclock(struct v4l2_subdev *sd)
+>> @@ -1530,9 +1521,28 @@ static unsigned int
+>> adv7611_read_hdmi_pixelclock(struct v4l2_subdev *sd)
+>>  	b = hdmi_read(sd, 0x52);
+>>  	if (a < 0 || b < 0)
+>>  		return 0;
+>> +
+>>  	return ((a << 1) | (b >> 7)) * 1000000 + (b & 0x7f) * 1000000 /
+>> 128;
+>>  }
+>>  
+>> +static unsigned int adv76xx_read_hdmi_pixelclock(struct v4l2_subdev *sd)
+>> +{
+>> +	struct adv76xx_state *state = to_state(sd);
+>> +	const struct adv76xx_chip_info *info = state->info;
+>> +	unsigned int freq, bits_per_channel, pixelrepetition;
+>> +
+>> +	freq = info->read_hdmi_pixelclock(sd);
+>> +	if (is_hdmi(sd)) {
+>> +		/* adjust for deep color mode and pixel repetition */
+>> +		bits_per_channel = ((hdmi_read(sd, 0x0b) & 0x60) >> 4) + 8;
+>> +		pixelrepetition = (hdmi_read(sd, 0x05) & 0x0f) + 1;
+>> +
+>> +		freq = freq * 8 / bits_per_channel / pixelrepetition;
+>> +	}
+>> +
+>> +	return freq;
+>> +}
+>> +
+>>  static int adv76xx_query_dv_timings(struct v4l2_subdev *sd,
+>>  			struct v4l2_dv_timings *timings)
+>>  {
+>> @@ -1579,7 +1589,7 @@ static int adv76xx_query_dv_timings(struct
+>> v4l2_subdev *sd,
+>>  
+>>  		bt->width = w;
+>>  		bt->height = h;
+>> -		bt->pixelclock = info->read_hdmi_pixelclock(sd);
+>> +		bt->pixelclock = adv76xx_read_hdmi_pixelclock(sd);
+>>  		bt->hfrontporch = hdmi_read16(sd, 0x20, info-
+>>> hfrontporch_mask);
+>>  		bt->hsync = hdmi_read16(sd, 0x22, info->hsync_mask);
+>>  		bt->hbackporch = hdmi_read16(sd, 0x24, info-
+>>> hbackporch_mask);
 
