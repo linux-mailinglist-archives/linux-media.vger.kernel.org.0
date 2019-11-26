@@ -2,157 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C7DB10A0F7
-	for <lists+linux-media@lfdr.de>; Tue, 26 Nov 2019 16:10:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EC5DA10A111
+	for <lists+linux-media@lfdr.de>; Tue, 26 Nov 2019 16:17:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727586AbfKZPKi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Nov 2019 10:10:38 -0500
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:38337 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727418AbfKZPKi (ORCPT
+        id S1728078AbfKZPRU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Nov 2019 10:17:20 -0500
+Received: from mout.kundenserver.de ([212.227.126.130]:43525 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726049AbfKZPRU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Nov 2019 10:10:38 -0500
-Received: from [IPv6:2001:420:44c1:2577:f03d:3627:b74f:a4d0]
- ([IPv6:2001:420:44c1:2577:f03d:3627:b74f:a4d0])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id ZcU3iaZJEksqeZcU7iYfh5; Tue, 26 Nov 2019 16:10:35 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1574781035; bh=y76WVidUlXSx+713+kBnOamFxobos7oe0CF4cgTQRfA=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=JWjARITxSzrlT4oLVfCBlCwlMHkqI+8GTpLfUdncPI9+6RynoEaPsH8S4x/rq5BK/
-         Juz73MzLmg9+A5lIxJbdq0RKWIzA2otWqdaeyMe/n0VnUI8pa8e4UWVGHfUbrofYFz
-         Bw3ZDvihsSY9c+aN0yYNSfssLwHAh6x7/dOsgPAv4x76wM4Oo4SHwgJ9hG3RHoEZVj
-         iZS1y+ES/YE189QBXI3NtM8eKdaBjUh/KjP4y4MVPbmfG2+MFbRJom1pb/MOusALgH
-         u2pX9ou3Nf9sMkf+rtFlYCCmkyokGMlgL6VQgv7flcGflnbQJaa+nyaJLdj+GID0lt
-         7Ub4xoH3e8ygw==
-Subject: Re: [PATCH v4 5/8] media: v4l2-core: fix VIDIOC_DQEVENT for time64
- ABI
-To:     Arnd Bergmann <arnd@arndb.de>
+        Tue, 26 Nov 2019 10:17:20 -0500
+Received: from mail-qt1-f181.google.com ([209.85.160.181]) by
+ mrelayeu.kundenserver.de (mreue010 [212.227.15.129]) with ESMTPSA (Nemesis)
+ id 1MVMuN-1iPy3M0KGt-00SOwi; Tue, 26 Nov 2019 16:17:19 +0100
+Received: by mail-qt1-f181.google.com with SMTP id g24so14935877qtq.11;
+        Tue, 26 Nov 2019 07:17:18 -0800 (PST)
+X-Gm-Message-State: APjAAAWlOMxg2m1wJLcQko27lt+38k48KbL8bLdvzsH9Uizn7Id0gdZX
+        vUQQsm5URLXWYZBpyic13JK9vSuDV3HKlBu5fUk=
+X-Google-Smtp-Source: APXvYqzUEPEopV0Ugxt4XdWNrM2MToy3D7wA7iQbahz/Jhe6h/k32GzRehmUjTN89ZFA8HW1/BzHhS3cHxV+K7Tb4iA=
+X-Received: by 2002:ac8:75c4:: with SMTP id z4mr34578070qtq.142.1574781437904;
+ Tue, 26 Nov 2019 07:17:17 -0800 (PST)
+MIME-Version: 1.0
+References: <20191111203835.2260382-1-arnd@arndb.de> <20191111203835.2260382-7-arnd@arndb.de>
+ <d54c82b5-21b7-2d5e-ad0b-206527ad2768@xs4all.nl> <CAK8P3a0rom6x4X8eH0zknfZ5=6_rrXGKGR4H+RiY4SWKbXfp=g@mail.gmail.com>
+ <2271665b-f890-802f-eba8-0da43867d81f@xs4all.nl>
+In-Reply-To: <2271665b-f890-802f-eba8-0da43867d81f@xs4all.nl>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Tue, 26 Nov 2019 16:17:01 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a35r0hEnjKOc8LQRr+v3xo-kxWQ5VhxZoT=tjQHcs4-yA@mail.gmail.com>
+Message-ID: <CAK8P3a35r0hEnjKOc8LQRr+v3xo-kxWQ5VhxZoT=tjQHcs4-yA@mail.gmail.com>
+Subject: Re: [PATCH v4 6/8] media: v4l2-core: fix v4l2_buffer handling for
+ time64 ABI
+To:     Hans Verkuil <hverkuil@xs4all.nl>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         y2038 Mailman List <y2038@lists.linaro.org>
-References: <20191111203835.2260382-1-arnd@arndb.de>
- <20191111203835.2260382-6-arnd@arndb.de>
- <272c471b-a7a9-c830-e19b-d1f19ee47073@xs4all.nl>
- <CAK8P3a3vHWBJU6EiUbRKJ01Zsv5E5Yfr+=h2Dg95atjvaHZ+Rg@mail.gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <15a1a26c-b3ad-7449-4508-1207527ab21f@xs4all.nl>
-Date:   Tue, 26 Nov 2019 16:10:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
-MIME-Version: 1.0
-In-Reply-To: <CAK8P3a3vHWBJU6EiUbRKJ01Zsv5E5Yfr+=h2Dg95atjvaHZ+Rg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfHXt42Xzu9yCtqJYE8yF9vBBOgW++AEDzbz1qafByFrqdrJjYY+s40cEl6BhSegiY/e+BkoYZpFdFKmksrSqAwfu31sbBDUrVDotPgAHFTDMsOAhje8l
- 8K36RqGQOrk/fpiqNFgTlgJbN6RjDFMgv+Hw8F9SeBge6c1mhJtlqTHZU8czBMdgmQHOdJGf1R1yDQWisUDxLglxV9DXwBMbP9DnecaN6mjAJSXdcxLfNta0
- LPy04FeAgrYLzsT/49OeXL+co0z2auN/Znm+72wikI88jF5pZ4kqWyxUWxBDinYjrAiQqHzKlCwNNqZIz3hSvb9IVydkdb12pD6wb4zUKMQy1eBOFKd00kWV
- iUs8Q2HjkFa4eN4x64mXK+Y0Rs+rb3Ton5HrsxrStl8eyL3NpWMONNpRfErU+P+i8ZpKGTL8
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:Ldv/hjNbpKdwPkiLXzdN7t4WpgL9yaZhcKpGj33mbaBNiYSRv4Q
+ StRtpIBB9/pi3ejvSbBLBCi745/3H4jJgh13a/7VtNEjNLfQ6wK6axFrKOTX3Pq4PZ28hbP
+ YDCV/8E/XD3kp0KhiseOV/obbKpGz3CX6s0mSStM1T5rjxiJQmI9ALAnCN/TC9qFUNVp6UZ
+ gZFq1d5xn1lolGBkkmhhw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:nZyQ59IwBTU=:kOxMEcV4H2vu3HgF/yosIK
+ kFYOdZvqdxff5HvQ7+Rr6G2+FFFmwQjCUrwIui2L6VgY5qr/AWRWPhQJ5thBvuL8+nSeVO79R
+ nCp0HrnmR35fEhpp4Oab0FXY/EqNN66L5RGQeDn+XIFmdBH3zcGjdCq5P/knA3mc+1uctQvH8
+ mQjbCk++171EUujLHoPTge8VfY4G4hKbAEMIJELRfqyoQqWAnCygjFeDhc3eKCUK9wtU81ZkD
+ GqCFjD3nFG3Ejj3GwkhtAOoOHgKEIB8NoIKekxhDNmbB1cuvb1ET9FlgX4nqbltKP0f5OT3KB
+ F46F4fPg31vzN24GV58hSy2ffLwYBAFZvn3uTVgqIzGVbmfWUKNUkzfL8312GARvgT22OWb9b
+ PTK+tMK5PeN8BU3fe9JtT9nsnh7Fz653bRZx3q0adgrkcTBbPjCsFzENoh9anAuPX95gmbqO2
+ qylvKPF+DXDCjYic6lrFBSE5S91hMkmisM1M6+WCHLyNgnu3utHoBlHng21MHIr1wWVnITaXT
+ X8Q+P1z8FFNFmvMDjUDLKSA1zc0t1kwZLuajcJ0u+okEgeJG89QtdRmebw1wGmB4zynRnCWrD
+ hQZUSSzpDKhIElSEQshRlyZAyi0z61jPhgCQiGOuLENoktg//YfaaZ2TobqBstzkRWcvReEam
+ aG1WXKRguS5m5ipEof690diB5Q5i578HfiOmf3n/SMo26NeepTQCSaoBeBU9PIbhbsEMvJs1i
+ Btskl0Kfu4dU6h0rYGvoB90oxBhb6dPeuJT5l7dUJ+nKOUibGxITus92kS+IERhGcfSlpvnnX
+ QSa0hnZWYO9sZbDQt/sDA/gl/qg3/K1NAsb3xXCdPQz5WPd4DRxgcdQcit6VOPAUPSL4DS/BX
+ MOeIrgzvUCkxeUoYGLMg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/26/19 3:43 PM, Arnd Bergmann wrote:
-> On Mon, Nov 25, 2019 at 3:40 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
->> On 11/11/19 9:38 PM, Arnd Bergmann wrote:
-> 
->>>       switch (cmd) {
->>> +#ifdef CONFIG_COMPAT_32BIT_TIME
->>> +     case VIDIOC_DQEVENT_TIME32: {
->>> +             struct v4l2_event_time32 ev32;
->>> +             struct v4l2_event *ev = parg;
->>> +
->>> +             memcpy(&ev32, ev, offsetof(struct v4l2_event, timestamp));
->>> +             ev32.timestamp.tv_sec = ev->timestamp.tv_sec;
->>> +             ev32.timestamp.tv_nsec = ev->timestamp.tv_nsec;
->>> +             memcpy(&ev32.id, &ev->id, sizeof(*ev) - offsetof(struct v4l2_event, id));
->>
->> This looks dangerous: due to 64-bit alignment requirements the
->> v4l2_event struct may end with a 4-byte hole at the end of the struct,
->> which you do not want to copy to ev32.
->>
->> I think it is safer to just copy id and reserved separately:
->>
->>                 ev32.id = ev->id;
->>                 memcpy(ev32.reserved, ev->reserved, sizeof(ev->reserved));
-> 
-> Actually I think it's that's also bad: The padding in *ev must already be
-> cleared here (otherwise there is a leak of stack data in the kernel
-> already), so  *not* copying the padding requires at least adding a memset
-> upfront.
-> 
-> I would do the per-member copy like I did for v4l2_buffer in my
-> other reply:
-> 
->                 struct v4l2_event *ev = parg;
->                 struct v4l2_event_time32 ev32 = {
->                         .type           = ev->type,
->                         .pending        = ev->pending,
->                         .sequence       = ev->sequence,
->                         .timestamp.tv_sec  = ev->timestamp.tv_sec,
->                         .timestamp.tv_nsec = ev->timestamp.tv_nsec,
->                         .id             = ev->id,
->                 };
-> 
->                 memcpy(ev32.u, ev->u, sizeof(ev->u));
->                 memcpy(ev32.reserved, ev->reserved, sizeof(ev->reserved));
-> 
->                 if (copy_to_user(arg, &ev32, sizeof(ev32)))
->                         return -EFAULT;
-> 
-> Unfortunately this is a little uglier because it still requires the two
-> memcpy() for the arrays, but I think it's good enough.
+On Tue, Nov 26, 2019 at 3:15 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>
+> Then use that in the struct v4l2_buffer definition:
+>
+> struct v4l2_buffer {
+> ...
+> #ifdef __KERNEL__
+>         struct __kernel_v4l2_timeval timestamp;
+> #else
+>         struct timeval               timestamp;
+> #endif
+>
+> That keeps struct v4l2_buffer fairly clean. And it also makes it
+> possible to have a bit more extensive documentation for the
+> struct __kernel_v4l2_timeval without polluting the actual struct
+> v4l2_buffer definition.
 
-I agree.
+Yes, good idea. I've added this version now:
 
-Hmm, can't you do .u = ev->u ? Or is that not allowed by this syntax?
+#ifdef __KERNEL__
+/*
+ * This corresponds to the user space version of timeval
+ * for 64-bit time_t. sparc64 is different from everyone
+ * else, using the microseconds in the wrong half of the
+ * second 64-bit word.
+ */
+struct __kernel_v4l2_timeval {
+        long long       tv_sec;
+#if defined(__sparc__) && defined(__arch64__)
+        int             tv_usec;
+        int             __pad;
+#else
+        long long       tv_usec;
+#endif
+};
+#endif
 
-> 
-> Any other ideas? Let me know if I should do a memset()
-> plus individual member copy instead.
+I briefly considered using #else #define __kernel_v4l2_timeval timeval
+to avoid the second #ifdef, but went back to your version again
+for clarify.
 
-I think we have to, unless you have a better solution. This is leaking
-information from the holes in the struct.
+> The videodev2.h header is something users of the API look at a
+> lot and having this really ugly kernel timestamp in there is
+> not acceptably IMHO. But splitting it off should work.
 
->>> +             if (!(sd->flags & V4L2_SUBDEV_FL_HAS_EVENTS))
->>> +                     return -ENOIOCTLCMD;
->>> +
->>> +             rval = v4l2_event_dequeue(vfh, &ev, file->f_flags & O_NONBLOCK);
->>> +
->>> +             memcpy(ev32, &ev, offsetof(struct v4l2_event, timestamp));
->>> +             ev32->timestamp.tv_sec = ev.timestamp.tv_sec;
->>> +             ev32->timestamp.tv_nsec = ev.timestamp.tv_nsec;
->>> +             memcpy(&ev32->id, &ev.id,
->>> +                    sizeof(ev) - offsetof(struct v4l2_event, id));
->>
->> Ditto.
-> 
-> Using the corresponding code here as well.
-> 
->>> +
->>>  #define V4L2_EVENT_SUB_FL_SEND_INITIAL               (1 << 0)
->>>  #define V4L2_EVENT_SUB_FL_ALLOW_FEEDBACK     (1 << 1)
->>>
->>> @@ -2486,6 +2515,7 @@ struct v4l2_create_buffers {
->>>  #define      VIDIOC_S_DV_TIMINGS     _IOWR('V', 87, struct v4l2_dv_timings)
->>>  #define      VIDIOC_G_DV_TIMINGS     _IOWR('V', 88, struct v4l2_dv_timings)
->>>  #define      VIDIOC_DQEVENT           _IOR('V', 89, struct v4l2_event)
->>> +#define      VIDIOC_DQEVENT_TIME32    _IOR('V', 89, struct v4l2_event_time32)
->>
->> Shouldn't this be under #ifdef __KERNEL__?
->>
->> And should this be in the public header at all? media/v4l2-ioctl.h might be a better
->> place.
-> 
-> Done.
-> 
->        Arnd
-> 
+Do you also mean moving it into a separate header file, or
+just outside of struct v4l2_buffer? Since it's hidden in #ifdef
+__KERNEL__, it could be moved to media/ioctl.h or elsewhere.
 
-Regards,
-
-	Hans
+      Arnd
