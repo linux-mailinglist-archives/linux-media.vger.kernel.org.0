@@ -2,127 +2,148 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B70F910A123
-	for <lists+linux-media@lfdr.de>; Tue, 26 Nov 2019 16:24:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E641D10A157
+	for <lists+linux-media@lfdr.de>; Tue, 26 Nov 2019 16:40:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728466AbfKZPYO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Nov 2019 10:24:14 -0500
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:34971 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728451AbfKZPYO (ORCPT
+        id S1727635AbfKZPj6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Nov 2019 10:39:58 -0500
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:38059 "EHLO
+        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725972AbfKZPj6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Nov 2019 10:24:14 -0500
-Received: from [IPv6:2001:420:44c1:2577:f03d:3627:b74f:a4d0]
- ([IPv6:2001:420:44c1:2577:f03d:3627:b74f:a4d0])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id ZchEiaf9pksqeZchHiYk5M; Tue, 26 Nov 2019 16:24:12 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1574781852; bh=4gxx5oTkKbDKoObq38O2EkaB3+LM3MYuZWGfE12bztI=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=Lc/4Sx56axK2WoXAa9kSEXqJgNkssOO05yJtLwFjv/G5nVhg+vrHm59EpCRZCfNH3
-         BIGK3FbPhUciQ3CS1TggZVniP5N6jf1eN+vL8rdnCaW/+UJeKL4kVdLNbraG95DxgO
-         trt/ul9AmFzII5hOwcQFLKjPXQxFCjcwEQ4MuEa4JkRxowZHY2LiBYo9WXNmcgxaW0
-         Abreiv+23VCw3PdGbOud8jvRgmraT9Awtp2tEYxc5wXWwE6vt3nzKajnbPyojjthPs
-         CamxbPoYDMu4Zomus4ifPcA1B7IJJib9ngkDGO5QZeS4nGpOHYewt0U0tNQ98qoitP
-         x93PodJhbf8SQ==
-Subject: Re: [PATCH v4 6/8] media: v4l2-core: fix v4l2_buffer handling for
- time64 ABI
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        y2038 Mailman List <y2038@lists.linaro.org>
-References: <20191111203835.2260382-1-arnd@arndb.de>
- <20191111203835.2260382-7-arnd@arndb.de>
- <d54c82b5-21b7-2d5e-ad0b-206527ad2768@xs4all.nl>
- <CAK8P3a0rom6x4X8eH0zknfZ5=6_rrXGKGR4H+RiY4SWKbXfp=g@mail.gmail.com>
- <2271665b-f890-802f-eba8-0da43867d81f@xs4all.nl>
- <CAK8P3a35r0hEnjKOc8LQRr+v3xo-kxWQ5VhxZoT=tjQHcs4-yA@mail.gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <c06ea07c-953a-e512-3d2b-3672d804cc82@xs4all.nl>
-Date:   Tue, 26 Nov 2019 16:24:08 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.8.0
+        Tue, 26 Nov 2019 10:39:58 -0500
+Received: by mail-qt1-f194.google.com with SMTP id 14so21865887qtf.5;
+        Tue, 26 Nov 2019 07:39:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=jqOLj+zmhCKP7Os2hVh7KNkHJtVIfRP5Fr7ygxzfC/k=;
+        b=ZryQJlQklZkrilo3PB6/3iQkzFYlNRAE83eqDldO3pYYrXbuN1qjXyaSyDg40Q3Ww5
+         r/FrUnvEAuKgvzCqaPXgOAL3PNq9MLItAvdW9jCp76ILGphb7Ljr4ZDpVQdOftgxTp7F
+         +RT9wdHGyU7YMnPBOP0zn8Kfwh7I22gbbIdHKkFpN+GiSlclJY3nPMJ5e1czT60+X2H1
+         NMP16huoRg+U4XS4O5sxylbyxdM60MhTXvMqCvW3dtDDvnw321e1QpjjghbHVJ8qY2cB
+         BzR/B9F4vMkDMy+0UwZ7YL2js25YJkFu3fbgp3wMLIv+/gYJ4KVTkKKEaEyCFMQNO+dH
+         INWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=jqOLj+zmhCKP7Os2hVh7KNkHJtVIfRP5Fr7ygxzfC/k=;
+        b=Jou5feRaC96lUcXxudDoS8sFOqBcH9WKKvaFpQtDEbB21YaD7sJhgSA008yR9Yf6Dc
+         j57hctEQZlcm+h7rqRAQpPXaBx4HJDxNLpale6kh9Oo8WsTaPzyR+Fizxpq372cvljAK
+         YKICv8ITTHTjKDHpTBp+FStJGPQKQbEXD2OeY6Mdp4aaIz5izn/Pe1cpr48VRQAetIEy
+         OfU2OxNcXFNEPQxc4atO506pynFtaoOm0WN+jGXnsL5XCq74FdSZjzzFcRf6P9kaFAus
+         aDhVDnO2fNNV8/mHweIHamukvZol5eaAXNQCTflpgMOCtM7a9c/r03wnzpU1JP4OmB96
+         2q3w==
+X-Gm-Message-State: APjAAAXtTq+ElCLD8xLqAKwUAf6CnhsURbqGqK9tUXheiD2zc5X0Sz0p
+        ESnLW3BU5+4JUHa8PTVC6UM=
+X-Google-Smtp-Source: APXvYqwRg51oIe6DA1IT2q++wUTdAqhqELpT4Qih6rNjRSxcYqDcBeXG9pFn2r75cIpoj1BsYMC0kg==
+X-Received: by 2002:ac8:690c:: with SMTP id e12mr23339115qtr.239.1574782796765;
+        Tue, 26 Nov 2019 07:39:56 -0800 (PST)
+Received: from localhost.localdomain ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
+        by smtp.gmail.com with ESMTPSA id z64sm6047532qtc.4.2019.11.26.07.39.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Nov 2019 07:39:55 -0800 (PST)
+From:   "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+X-Google-Original-From: Daniel W. S. Almeida
+To:     mchehab@kernel.org, gregkh@linuxfoundation.org,
+        rfontana@redhat.com, kstewart@linuxfoundation.org,
+        tglx@linutronix.de
+Cc:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
+        skhan@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: dummy_dvb_fe: register adapter/frontend
+Date:   Tue, 26 Nov 2019 12:31:57 -0300
+Message-Id: <20191126153157.26355-1-dwlsalmeida@gmail.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-In-Reply-To: <CAK8P3a35r0hEnjKOc8LQRr+v3xo-kxWQ5VhxZoT=tjQHcs4-yA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfMo8e49wZQjSzKPBuJzZYMQbg0THdf3vb6M4bv+ZyNrhexmkDoUtkp5lsqIC8STnw+F/uRir3VtGq4S3HqH33jiKOoe9BsYavqmBRHmpDQ2B7ff1kjPH
- 4uRSQw7upy035u9l59Qiby3ZQpYxhSxOR0Kl5dwRAboikyZbpBHUR7hfm64xb2qK60yZJu6rB0KegZh12nTKvXbL1g88JZal3rzFiFbUTiROaClcuSqt9qfg
- 9n1MX87+MQ2qbSdSQkldxzi7JTiJFBAX5c+eohEkD13hV82V4B3H8a+92W3R6Mcl2HC7G8m/waAIdjrMmGUOPDeu7sgv6P9KgSfARgP1xm/1v6OMlTsGQADr
- smoRbOW7/CCeJhzxAY58SI87t+uGQDi8j1jnjsD9+nPkbIjedYB6DC6awtbafkY7PmCcn1OH
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/26/19 4:17 PM, Arnd Bergmann wrote:
-> On Tue, Nov 26, 2019 at 3:15 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
->>
->> Then use that in the struct v4l2_buffer definition:
->>
->> struct v4l2_buffer {
->> ...
->> #ifdef __KERNEL__
->>         struct __kernel_v4l2_timeval timestamp;
->> #else
->>         struct timeval               timestamp;
->> #endif
->>
->> That keeps struct v4l2_buffer fairly clean. And it also makes it
->> possible to have a bit more extensive documentation for the
->> struct __kernel_v4l2_timeval without polluting the actual struct
->> v4l2_buffer definition.
-> 
-> Yes, good idea. I've added this version now:
-> 
-> #ifdef __KERNEL__
-> /*
->  * This corresponds to the user space version of timeval
->  * for 64-bit time_t. sparc64 is different from everyone
->  * else, using the microseconds in the wrong half of the
->  * second 64-bit word.
->  */
-> struct __kernel_v4l2_timeval {
->         long long       tv_sec;
-> #if defined(__sparc__) && defined(__arch64__)
->         int             tv_usec;
->         int             __pad;
-> #else
->         long long       tv_usec;
-> #endif
-> };
-> #endif
-> 
-> I briefly considered using #else #define __kernel_v4l2_timeval timeval
-> to avoid the second #ifdef, but went back to your version again
-> for clarify.
-> 
->> The videodev2.h header is something users of the API look at a
->> lot and having this really ugly kernel timestamp in there is
->> not acceptably IMHO. But splitting it off should work.
-> 
-> Do you also mean moving it into a separate header file, or
-> just outside of struct v4l2_buffer? Since it's hidden in #ifdef
-> __KERNEL__, it could be moved to media/ioctl.h or elsewhere.
+From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 
-I've thought about that, but that risks having to change drivers
-since they would now have to include another header to get the
-right timeval definition. In the end I don't think it is worth the
-effort.
+Before using the DTV frontend core, a bridge driver should register the
+new frontend at the subsystem and unregister it at device detach / removal.
 
-I think it is best to define __kernel_v4l2_timeval just before
-the struct v4l2_requestbuffers definition rather than before the
-struct v4l2_buffer. That way it doesn't interfere with the
-userspace structs for the buffer API.
+Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+---
+ drivers/media/dvb-frontends/dvb_dummy_fe.c | 39 ++++++++++++++++++++--
+ 1 file changed, 37 insertions(+), 2 deletions(-)
 
-Regards,
-
-	Hans
-
-> 
->       Arnd
-> 
+diff --git a/drivers/media/dvb-frontends/dvb_dummy_fe.c b/drivers/media/dvb-frontends/dvb_dummy_fe.c
+index 4db679cb70ad..1ccb58c67e8e 100644
+--- a/drivers/media/dvb-frontends/dvb_dummy_fe.c
++++ b/drivers/media/dvb-frontends/dvb_dummy_fe.c
+@@ -13,12 +13,12 @@
+ #include <media/dvb_frontend.h>
+ #include "dvb_dummy_fe.h"
+ 
++DVB_DEFINE_MOD_OPT_ADAPTER_NR(adapter_nr);
+ 
+ struct dvb_dummy_fe_state {
+ 	struct dvb_frontend frontend;
+ };
+ 
+-
+ static int dvb_dummy_fe_read_status(struct dvb_frontend *fe,
+ 				    enum fe_status *status)
+ {
+@@ -84,7 +84,36 @@ static int dvb_dummy_fe_sleep(struct dvb_frontend* fe)
+ 
+ static int dvb_dummy_fe_init(struct dvb_frontend* fe)
+ {
+-	return 0;
++	int result = 0;
++	struct dvb_adapter *adapter = fe->dvb;
++
++	result = dvb_register_adapter(adapter,
++				      KBUILD_MODNAME,
++				      THIS_MODULE,
++				      adapter->device,
++				      adapter_nr);
++
++	if (!result) {
++		pr_err("DVB_DUMMY_FE: Failed to register the adapter, errno:%d",
++			result);
++		goto err;
++	}
++
++	result = dvb_register_frontend(adapter, fe);
++	if (!result) {
++		pr_err("DVB_DUMMY_FE: Failed to register the frontend, errno:%d",
++			result);
++		goto err;
++	}
++
++	return result;
++
++err:
++	dvb_unregister_adapter(adapter);
++	dvb_unregister_frontend(fe);
++	dvb_frontend_detach(fe);
++	return result;
++
+ }
+ 
+ static int dvb_dummy_fe_set_tone(struct dvb_frontend *fe,
+@@ -102,6 +131,12 @@ static int dvb_dummy_fe_set_voltage(struct dvb_frontend *fe,
+ static void dvb_dummy_fe_release(struct dvb_frontend* fe)
+ {
+ 	struct dvb_dummy_fe_state* state = fe->demodulator_priv;
++	struct dvb_adapter *adapter = fe->dvb;
++
++	dvb_unregister_adapter(adapter);
++	dvb_unregister_frontend(fe);
++	dvb_frontend_detach(fe);
++
+ 	kfree(state);
+ }
+ 
+-- 
+2.24.0
 
