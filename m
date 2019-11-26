@@ -2,210 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E8CE310A4ED
-	for <lists+linux-media@lfdr.de>; Tue, 26 Nov 2019 20:56:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F53A10A6CA
+	for <lists+linux-media@lfdr.de>; Tue, 26 Nov 2019 23:49:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727172AbfKZTzx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Nov 2019 14:55:53 -0500
-Received: from mout.kundenserver.de ([212.227.126.135]:35157 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726036AbfKZTzx (ORCPT
+        id S1726437AbfKZWtQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Nov 2019 17:49:16 -0500
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:41177 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726103AbfKZWtQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Nov 2019 14:55:53 -0500
-Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
- (mreue009 [212.227.15.129]) with ESMTPA (Nemesis) id
- 1M89P1-1iVa4X058F-005Hn9; Tue, 26 Nov 2019 20:55:46 +0100
-From:   Arnd Bergmann <arnd@arndb.de>
-To:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     y2038@lists.linaro.org, linux-kernel@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>
-Subject: [PATCH v5.1 4/8] media: v4l2-core: split out data copy from video_usercopy
-Date:   Tue, 26 Nov 2019 20:55:38 +0100
-Message-Id: <20191126195538.4160031-1-arnd@arndb.de>
-X-Mailer: git-send-email 2.20.0
-In-Reply-To: <20191126161824.337724-1-arnd@arndb.de>
-References: <20191126161824.337724-1-arnd@arndb.de>
+        Tue, 26 Nov 2019 17:49:16 -0500
+Received: by mail-wr1-f66.google.com with SMTP id b18so24411211wrj.8
+        for <linux-media@vger.kernel.org>; Tue, 26 Nov 2019 14:49:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=j4ixgsYNsCU+9RJQ37+KgxI6EMV7c3yIzFP0xnU5Jas=;
+        b=If+Y2AdPd5l0u5oxzwygJyAr2A4UlOKbEI22YjmFKaKLPB/gCj6yBli0xil14SERea
+         dFF8v+EgCtXudoPxL74kqcGHy43wPazlB+WQm9WZXiLxUI8MhegQRkaoD+AChzykLihX
+         L207Rn21YTQP1YbqtoMG0QdGR/l8HZxbVlfSKBzLObKZ0GCVyXR3dMf56PD6GW2NbT+o
+         uIDhC2xRGdgcQh6uliu/Iw6fbMNGx29jselUTkX/kJjsJSUBQJRMj789cDyba/IQOsj8
+         e11k3cksoiIvaDiKYPf5bhyPtBZ1SeCuld7epUQ+P3348/oylHKj558cUt6zsZPI75KJ
+         Rvyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=j4ixgsYNsCU+9RJQ37+KgxI6EMV7c3yIzFP0xnU5Jas=;
+        b=p1lgNx+jsLQtwnSwA9tL5duT4qCxVs2/Ep68D2wSg931YjkEZZF89C5QAfqNPDbGYH
+         4oPs8ZSiEjSZU1ihf6P2UbJQitTqDvPuuyUfIz4MJmsQHmiiZ/u3R/p+OlOhrvd0tOlG
+         9BbGfaYVZtxQoxibw5dyq3PVje/PpiGHCme5hQWD1IbiZkunPhXuXVPRa5/zUvVdlM5G
+         4NMpT/DqfDmzMthMj5vl4xKjJAA+O3eAum9fSko35aKBAw78T/3y1NstRUoUbrWa9OBa
+         BR/61R+IQBH+/Cqsx0oXLx1t4WT5U+K8xam4OOCqAtGo5FZAGxXnLAoToqCi6rWY/TS/
+         GZ3A==
+X-Gm-Message-State: APjAAAVEBwc0NC3K2S2jyNVRmOcXWpVvi8TSS9MYD+eVsTBZN5KLa1td
+        R0l7w1xlHqG8thC4Y9d7ls8MUc2B
+X-Google-Smtp-Source: APXvYqx27ljqF//wCP/n/qS1tWfqGeIoKRI5qTK1qPd/g4Yi0MzLDW8AAhiymmiclBCrQPjRCQ/WrA==
+X-Received: by 2002:a5d:4d4a:: with SMTP id a10mr31604003wru.220.1574808552730;
+        Tue, 26 Nov 2019 14:49:12 -0800 (PST)
+Received: from arch-thunder.localdomain (a109-49-46-234.cpe.netcabo.pt. [109.49.46.234])
+        by smtp.gmail.com with ESMTPSA id c72sm4928632wmd.11.2019.11.26.14.49.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Nov 2019 14:49:11 -0800 (PST)
+Date:   Tue, 26 Nov 2019 22:49:10 +0000
+From:   Rui Miguel Silva <rmfrfs@gmail.com>
+To:     Steve Longerbeam <slongerbeam@gmail.com>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 17/23] media: imx7-media-csi: Create media links in
+ bound notifier
+Message-ID: <20191126224910.qt4ohyemvrqjyrzl@arch-thunder.localdomain>
+References: <20191124190703.12138-1-slongerbeam@gmail.com>
+ <20191124190703.12138-18-slongerbeam@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:XVWRP1o8QaB5DUD89+2m/pjduCozGfCbQfT6tZiPgI3KqyGt+fL
- s6uOTS/r7c+o1AcAKLeFhEbDpDfyc16LPV/hN8lWjTd17iLJqRMjKCnH3TgGyVpx1LH+BGy
- fik+tSBz+fI/Dviu4kfx97OsrjaQISdAIZJe5ipcVg8VdjHrahxGnoSJj9MWoByiMFw4fG9
- /Ao/bS/cN3OXN/dg/IwMQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:+qzM3W6W4dM=:sXFMvuHQqh9zObXzv2Rxi2
- 7lmcdzO+dlBCFXbPo62ynWwr9V01HoASvWOkVp13cy2LCMqUBG7hbggDsGojG4xX0oyZnSM9R
- FjnMGT48qHJB/4ryeGNPJGXdgU+N3ESqQQ9s9g9oeRV83pzoUN/KdhY4mDApjRZVjfsm6yPj6
- qldYFosTnSW1E4+m6W228eX8yOJ6zqGl3afZxBGrumRfOzBTP8l+OdTeB87/A62On/h0DzFo+
- hr9UddmMgCIz1XA0FeVOMHdXqP3IB9buqhxjypx2+kyINZhgcJhm+NfkrDAUqf6hVXaZz9nIb
- MHluJsIISqWJUP8gW81eYzf7F9X5XwksVuD/lpLbFPYvMr5dhROAKVK7Eix/H2cWjwmPYPFUL
- Lg4nk7YRBsabff+fW0YEtlMZ766Sqb9xI8HFVvkzVOUmaBUa+bsb1M2XSGV8nZEp46CMZJ9TO
- lbnRUqlQ/7bkgu/pDLloKjSpWEMKdnU3UdnWfaBM/+ynhKswSERySeeS9DB/75FKJg/7DsQi+
- ClUk4zXOApjZeIdirl6tPxvXTdGSqMBqZavtFJI8aVwP5Ay760JpT1i+tKS5tR786qKhl+ATj
- u3VpoJdVfM37Y9RW6sM7sP8Pq+YWDBI21KYGeBe92+5AdwNqQvIhIcSsFlBhck831xqI+3j2o
- YPxO5TbymC2+pfBiBaoHga38lfR6HhXsyveSdJJskyCOiQWB2ZmXHUuRXGZR18Ts/EtcY2VLa
- IwdUN0fH3AEleNmSmaegNnpPRhaD4kAcmut4qdnvefm3Z08WzoRFyiFpeLrvx1SZLFkNt8S2b
- izrHxf4WAyP4VxysoDXLpTxwlhoKEGgE34VshR5YL8Nwy3VWW48vDmM+99TMCLfyd1GtHoIgE
- nyYpzH/lRas10U5F3Slg==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191124190703.12138-18-slongerbeam@gmail.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The copy-in/out portions of video_usercopy() are about to
-get more complex, so turn then into separate functions as
-a cleanup first.
+Hi Steve,
+On Sun, Nov 24, 2019 at 11:06:57AM -0800, Steve Longerbeam wrote:
+> Implement a notifier bound op to register media links from the remote
+> sub-device's source pad(s) to the CSI sink pad.
+> 
+> Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
+> ---
+> Changes in v2:
+> Rename notifier_to_dev() to imx7_csi_notifier_to_dev() and remove
+> unnecessary inline.
+> Suggested-by: Rui Miguel Silva <rmfrfs@gmail.com>
 
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
-v5.1: fix error handling for positive return code
+Many thanks for this.
 
- drivers/media/v4l2-core/v4l2-ioctl.c | 108 +++++++++++++++++----------
- 1 file changed, 69 insertions(+), 39 deletions(-)
+Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
 
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index 4e700583659b..fe4678965e1b 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -3023,8 +3023,69 @@ static int check_array_args(unsigned int cmd, void *parg, size_t *array_size,
- 	return ret;
- }
- 
-+static unsigned int video_translate_cmd(unsigned int cmd)
-+{
-+	return cmd;
-+}
-+
-+static int video_get_user(void __user *arg, void *parg, unsigned int cmd,
-+			  bool *always_copy)
-+{
-+	unsigned int n = _IOC_SIZE(cmd);
-+
-+	if (!(_IOC_DIR(cmd) & _IOC_WRITE)) {
-+		/* read-only ioctl */
-+		memset(parg, 0, n);
-+		return 0;
-+	}
-+
-+	switch (cmd) {
-+	default:
-+		/*
-+		 * In some cases, only a few fields are used as input,
-+		 * i.e. when the app sets "index" and then the driver
-+		 * fills in the rest of the structure for the thing
-+		 * with that index.  We only need to copy up the first
-+		 * non-input field.
-+		 */
-+		if (v4l2_is_known_ioctl(cmd)) {
-+			u32 flags = v4l2_ioctls[_IOC_NR(cmd)].flags;
-+
-+			if (flags & INFO_FL_CLEAR_MASK)
-+				n = (flags & INFO_FL_CLEAR_MASK) >> 16;
-+			*always_copy = flags & INFO_FL_ALWAYS_COPY;
-+		}
-+
-+		if (copy_from_user(parg, (void __user *)arg, n))
-+			return -EFAULT;
-+
-+		/* zero out anything we don't copy from userspace */
-+		if (n < _IOC_SIZE(cmd))
-+			memset((u8 *)parg + n, 0, _IOC_SIZE(cmd) - n);
-+		break;
-+	}
-+
-+	return 0;
-+}
-+
-+static int video_put_user(void __user *arg, void *parg, unsigned int cmd)
-+{
-+	if (!(_IOC_DIR(cmd) & _IOC_READ))
-+		return 0;
-+
-+	switch (cmd) {
-+	default:
-+		/*  Copy results into user buffer  */
-+		if (copy_to_user(arg, parg, _IOC_SIZE(cmd)))
-+			return -EFAULT;
-+		break;
-+	}
-+
-+	return 0;
-+}
-+
- long
--video_usercopy(struct file *file, unsigned int cmd, unsigned long arg,
-+video_usercopy(struct file *file, unsigned int orig_cmd, unsigned long arg,
- 	       v4l2_kioctl func)
- {
- 	char	sbuf[128];
-@@ -3036,6 +3097,7 @@ video_usercopy(struct file *file, unsigned int cmd, unsigned long arg,
- 	size_t  array_size = 0;
- 	void __user *user_ptr = NULL;
- 	void	**kernel_ptr = NULL;
-+	unsigned int cmd = video_translate_cmd(orig_cmd);
- 	const size_t ioc_size = _IOC_SIZE(cmd);
- 
- 	/*  Copy arguments into temp kernel buffer  */
-@@ -3050,37 +3112,12 @@ video_usercopy(struct file *file, unsigned int cmd, unsigned long arg,
- 			parg = mbuf;
- 		}
- 
--		err = -EFAULT;
--		if (_IOC_DIR(cmd) & _IOC_WRITE) {
--			unsigned int n = ioc_size;
--
--			/*
--			 * In some cases, only a few fields are used as input,
--			 * i.e. when the app sets "index" and then the driver
--			 * fills in the rest of the structure for the thing
--			 * with that index.  We only need to copy up the first
--			 * non-input field.
--			 */
--			if (v4l2_is_known_ioctl(cmd)) {
--				u32 flags = v4l2_ioctls[_IOC_NR(cmd)].flags;
--
--				if (flags & INFO_FL_CLEAR_MASK)
--					n = (flags & INFO_FL_CLEAR_MASK) >> 16;
--				always_copy = flags & INFO_FL_ALWAYS_COPY;
--			}
--
--			if (copy_from_user(parg, (void __user *)arg, n))
--				goto out;
--
--			/* zero out anything we don't copy from userspace */
--			if (n < ioc_size)
--				memset((u8 *)parg + n, 0, ioc_size - n);
--		} else {
--			/* read-only ioctl */
--			memset(parg, 0, ioc_size);
--		}
- 	}
- 
-+	err = video_get_user((void __user *)arg, parg, orig_cmd, &always_copy);
-+	if (err)
-+		goto out;
-+
- 	err = check_array_args(cmd, parg, &array_size, &user_ptr, &kernel_ptr);
- 	if (err < 0)
- 		goto out;
-@@ -3131,15 +3168,8 @@ video_usercopy(struct file *file, unsigned int cmd, unsigned long arg,
- 		goto out;
- 
- out_array_args:
--	/*  Copy results into user buffer  */
--	switch (_IOC_DIR(cmd)) {
--	case _IOC_READ:
--	case (_IOC_WRITE | _IOC_READ):
--		if (copy_to_user((void __user *)arg, parg, ioc_size))
--			err = -EFAULT;
--		break;
--	}
--
-+	if (video_put_user((void __user *)arg, parg, orig_cmd))
-+		err = -EFAULT;
- out:
- 	kvfree(mbuf);
- 	return err;
--- 
-2.20.0
+------
+Cheers,
+    Rui
 
+> ---
+>  drivers/staging/media/imx/imx7-media-csi.c | 25 ++++++++++++++++++++++
+>  1 file changed, 25 insertions(+)
+> 
+> diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
+> index 15b08bfb5aa7..848d1286fbeb 100644
+> --- a/drivers/staging/media/imx/imx7-media-csi.c
+> +++ b/drivers/staging/media/imx/imx7-media-csi.c
+> @@ -196,6 +196,12 @@ struct imx7_csi {
+>  	struct completion last_eof_completion;
+>  };
+>  
+> +static struct imx7_csi *
+> +imx7_csi_notifier_to_dev(struct v4l2_async_notifier *n)
+> +{
+> +	return container_of(n, struct imx7_csi, notifier);
+> +}
+> +
+>  static u32 imx7_csi_reg_read(struct imx7_csi *csi, unsigned int offset)
+>  {
+>  	return readl(csi->regbase + offset);
+> @@ -1187,6 +1193,23 @@ static int imx7_csi_parse_endpoint(struct device *dev,
+>  	return fwnode_device_is_available(asd->match.fwnode) ? 0 : -EINVAL;
+>  }
+>  
+> +static int imx7_csi_notify_bound(struct v4l2_async_notifier *notifier,
+> +				 struct v4l2_subdev *sd,
+> +				 struct v4l2_async_subdev *asd)
+> +{
+> +	struct imx7_csi *csi = imx7_csi_notifier_to_dev(notifier);
+> +	struct media_pad *sink = &csi->sd.entity.pads[IMX7_CSI_PAD_SINK];
+> +
+> +	return media_create_fwnode_pad_links(sink,
+> +					     dev_fwnode(csi->sd.dev),
+> +					     &sd->entity,
+> +					     dev_fwnode(sd->dev), 0);
+> +}
+> +
+> +static const struct v4l2_async_notifier_operations imx7_csi_notify_ops = {
+> +	.bound = imx7_csi_notify_bound,
+> +};
+> +
+>  static int imx7_csi_probe(struct platform_device *pdev)
+>  {
+>  	struct device *dev = &pdev->dev;
+> @@ -1269,6 +1292,8 @@ static int imx7_csi_probe(struct platform_device *pdev)
+>  
+>  	v4l2_async_notifier_init(&csi->notifier);
+>  
+> +	csi->notifier.ops = &imx7_csi_notify_ops;
+> +
+>  	ret = v4l2_async_register_fwnode_subdev(&csi->sd, &csi->notifier,
+>  						sizeof(struct v4l2_async_subdev),
+>  						NULL, 0,
+> -- 
+> 2.17.1
+> 
