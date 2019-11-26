@@ -2,189 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FAFF109D8F
-	for <lists+linux-media@lfdr.de>; Tue, 26 Nov 2019 13:10:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FA67109E2E
+	for <lists+linux-media@lfdr.de>; Tue, 26 Nov 2019 13:42:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727595AbfKZMKi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Nov 2019 07:10:38 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:49570 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728239AbfKZMKh (ORCPT
+        id S1727303AbfKZMmj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Nov 2019 07:42:39 -0500
+Received: from mout.kundenserver.de ([217.72.192.75]:49195 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726049AbfKZMmi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Nov 2019 07:10:37 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dafna)
-        with ESMTPSA id 58021283CB0
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-To:     linux-media@vger.kernel.org
-Cc:     dafna.hirschfeld@collabora.com, hverkuil@xs4all.nl,
-        dafna3@gmail.com, helen.koike@collabora.com,
-        ezequiel@collabora.com, skhan@linuxfoundation.org,
-        kernel@collabora.com, laurent.pinchart@ideasonboard.com
-Subject: [PATCH v3 3/3] media: vimc: Add device index to the bus_info
-Date:   Tue, 26 Nov 2019 13:10:20 +0100
-Message-Id: <20191126121020.11597-4-dafna.hirschfeld@collabora.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191126121020.11597-1-dafna.hirschfeld@collabora.com>
-References: <20191126121020.11597-1-dafna.hirschfeld@collabora.com>
+        Tue, 26 Nov 2019 07:42:38 -0500
+Received: from mail-qk1-f169.google.com ([209.85.222.169]) by
+ mrelayeu.kundenserver.de (mreue108 [212.227.15.145]) with ESMTPSA (Nemesis)
+ id 1M3UdI-1ia8PH1BOE-000ddA; Tue, 26 Nov 2019 13:42:37 +0100
+Received: by mail-qk1-f169.google.com with SMTP id m125so15886140qkd.8;
+        Tue, 26 Nov 2019 04:42:37 -0800 (PST)
+X-Gm-Message-State: APjAAAUFy0bIsTlQDq/iyB2SwG7MWY+Yv3P3amlnyoRMSf+giqzL+Jl3
+        0SrWGlL2/r8Z8EKTLgkws0y3X1PFlEZY8lesClI=
+X-Google-Smtp-Source: APXvYqxZA8JxXj72K72enm4zIy+Cn5f1BRNgp5iMFZ+rSxRa/4sdIvli2XYjppzW+HXfnQSEcwiC+mIuhrCKB2uIWPg=
+X-Received: by 2002:a37:84a:: with SMTP id 71mr14953966qki.138.1574772155977;
+ Tue, 26 Nov 2019 04:42:35 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20191111203835.2260382-1-arnd@arndb.de> <20191111203835.2260382-3-arnd@arndb.de>
+ <00fea162-508a-b6e1-84ba-1472a94f6945@xs4all.nl> <CAK8P3a3dhruU1k9XtVHZsfmTxt+jL5Pf8jhT77+vce5p=h9U8w@mail.gmail.com>
+ <efdeef8a-5ce7-bbe5-8def-e4eec31f13ab@xs4all.nl>
+In-Reply-To: <efdeef8a-5ce7-bbe5-8def-e4eec31f13ab@xs4all.nl>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Tue, 26 Nov 2019 13:42:19 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a3FjD4wYv4NNQrKaGCEOte6k5gtOghWuAJRhUk5rdDxPw@mail.gmail.com>
+Message-ID: <CAK8P3a3FjD4wYv4NNQrKaGCEOte6k5gtOghWuAJRhUk5rdDxPw@mail.gmail.com>
+Subject: Re: [PATCH v4 2/8] media: v4l2: abstract timeval handling in v4l2_buffer
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        y2038 Mailman List <y2038@lists.linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:uYUiTEWZUw9CmbFYbj25ZafrTuN1dcuL19+YAVYMf3WyGb3KVkL
+ 3PtpXgKk2t/m1L38Zjk813k+tIApGqWxl1co5qWdceK7L+V5s6/uNlP6m04gL1FNVTn7yU/
+ D2IzgdiQnvsoX8P91mtwMx8amDf4I5w0gnTpaGvQLJuCiYIOotgohdY20DYESqPRr1tt72h
+ rxt1pfKUjvr8CFeqv1RyQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:xlkJjo8o5jg=:MVjuQ6SGH+XzhRm0hLY48K
+ b/I4NyknkaInVtVjm6Vc8CRUCUbxondKEsNRzHFYpZ3360u4X4SHaHHlTO306SThuzgnuxJVI
+ GPdqlxG/7ZP6zG5y34slow3LalNj+wBlsQlDPP0TElGYAEjrvasUQhAxuCcG3+XLVJFpePszF
+ NOEFapLmu7cVa/QKviRfibwyjqIgAtFcDnH9KGS3rbpN2qggZV1I5uIaGNFJoEqbfpYOY1OcU
+ bv2C6XDdbi0ftZkyTTt6FCE/aQ1ftKDQzwrrSSMmEnNP4h2FP64fvw1VI4q4xbDBkIeoLG+oa
+ rb44djCLn7dbzexUyaVb6TkaA8mSTcaF8XPkBLnYL+dmzwvfZ6FsZqtZACwm3LQyrCl/OOvqs
+ MtVi1XFr9T6s/xlwx94A1oTj7Sh9OIJiuuuEhhjJtNkPWBHM2mhmsFkNHfGIc43o+ibgmlAcm
+ 9364u0ygFO2AhdULymACk0ovu9W6dNV+ozYVHpPo9I7KQWBS0rUNj6/P+B8Kl9EuK0qUoawsy
+ V2Q8QMxYn/1hU+nY/L8UhLrD0NRibZ0EkezgV3JHz5JqjSKW6Gi4yOmYpPJCIdHvgjRI4w3it
+ PJiOQFRJTtDCa4fHhYWvgO7CQ+ps6OJbg0C9pW9tLYFJ6DxEWY+bYwcoB9hM1leFouKLaDMdh
+ k7Z7Z3CJe6el1RkbAqZTQDcyZQ9EJUxJs+W+YuvyzrZOPr8KPBzZFy25Z7TFP1d8gTkUmddbF
+ a1/ufA07IqW44jbsDUR2WFTihSWPd7cBK+lms+l+xxEpqbZsOqHlHlvQ/5XpDlmL/FrBSQPRk
+ 1ujcA7y1QF2OXcJzA7Q3u7RhxD9W5V8mtUBZmhexZm8Eh5s0pGTe5DIPdyO9vYM5BHcgrPBrL
+ OsWQzAF1p4TT2kXMMH2g==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use a bitmask to get the next available device index
-to be used for the bus_info field in the v4l2_capability
-struct in the VIDIOC_QUERYCAP ioctl
-The bitmask is a global variable in vimc-core.c. It is
-set on probe and unset when a vimc device is unregisered.
+On Tue, Nov 26, 2019 at 12:43 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+> On 11/26/19 12:34 PM, Arnd Bergmann wrote:
+> > On Mon, Nov 25, 2019 at 4:52 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+> >>>
+> >>> +static inline u64 v4l2_buffer_get_timestamp(const struct v4l2_buffer *buf)
+> >>> +{
+> >>> +     return buf->timestamp.tv_sec * NSEC_PER_SEC +
+> >>> +            (u32)buf->timestamp.tv_usec * NSEC_PER_USEC;
+> >>
+> >> Why the (u32) cast?
+> >
+> > Simple question, long answer:
+> >
+> > on 32-bit architectures, the tv_usec member may be 32-bit wide plus
+> > padding in user space when interpreted as a regular 'struct timeval',
+> > but the kernel implementation now sees it as a 64-bit member,
+> > with half of it being possibly uninitialized user space data.
+> >
+> > The 32-bit cast avoids that uninitialized data and ensures user space
+> > passing garbage in the upper half gets ignored, as it has to be on 32-bit
+> > user space.
+>
+> But that's only valid for little endian 32 bit systems, right?
+> Is this only an issue for x86 platforms?
 
-Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
----
- drivers/media/platform/vimc/vimc-capture.c |  8 +++++--
- drivers/media/platform/vimc/vimc-common.h  |  2 ++
- drivers/media/platform/vimc/vimc-core.c    | 28 +++++++++++++++++++++-
- 3 files changed, 35 insertions(+), 3 deletions(-)
+Uninitialized data is an issue on all 32-bit architectures. The layout
+of the new timeval is such that the low 32 bits of tv_sec are in the
+same place on both 32-bit and 64-bit architectures of the same
+endianess, but if an application initializes the fields individually
+without a memset before it, it may still pass invalid data.
 
-diff --git a/drivers/media/platform/vimc/vimc-capture.c b/drivers/media/platform/vimc/vimc-capture.c
-index 51772cc79508..31490d39a3a6 100644
---- a/drivers/media/platform/vimc/vimc-capture.c
-+++ b/drivers/media/platform/vimc/vimc-capture.c
-@@ -31,6 +31,7 @@ struct vimc_cap_device {
- 	u32 sequence;
- 	struct vimc_stream stream;
- 	struct media_pad pad;
-+	char bus_info[32];
- };
- 
- static const struct v4l2_pix_format fmt_default = {
-@@ -55,10 +56,12 @@ struct vimc_cap_buffer {
- static int vimc_cap_querycap(struct file *file, void *priv,
- 			     struct v4l2_capability *cap)
- {
-+	struct vimc_cap_device *vcap = video_drvdata(file);
-+
- 	strscpy(cap->driver, VIMC_PDEV_NAME, sizeof(cap->driver));
- 	strscpy(cap->card, KBUILD_MODNAME, sizeof(cap->card));
--	snprintf(cap->bus_info, sizeof(cap->bus_info),
--		 "platform:%s", VIMC_PDEV_NAME);
-+	strscpy(cap->bus_info, vcap->bus_info, sizeof(cap->bus_info));
-+
- 
- 	return 0;
- }
-@@ -447,6 +450,7 @@ struct vimc_ent_device *vimc_cap_add(struct vimc_device *vimc,
- 	vcap->ved.process_frame = vimc_cap_process_frame;
- 	vcap->ved.vdev_get_format = vimc_cap_get_format;
- 	vcap->ved.dev = vimc->mdev.dev;
-+	strscpy(vcap->bus_info, vimc->mdev.bus_info, sizeof(vcap->bus_info));
- 
- 	/* Initialize the video_device struct */
- 	vdev = &vcap->vdev;
-diff --git a/drivers/media/platform/vimc/vimc-common.h b/drivers/media/platform/vimc/vimc-common.h
-index b47ff58553db..3e6df17456c6 100644
---- a/drivers/media/platform/vimc/vimc-common.h
-+++ b/drivers/media/platform/vimc/vimc-common.h
-@@ -164,12 +164,14 @@ struct vimc_ent_device {
-  * struct vimc_device - main device for vimc driver
-  *
-  * @mdev	the associated media_device parent
-+ * @idx		the index of the device, used for info_bus
-  * @v4l2_dev	Internal v4l2 parent device
-  * @ents	list of vimc_ent_device objects
-  */
- struct vimc_device {
- 	struct media_device mdev;
- 	struct v4l2_device v4l2_dev;
-+	unsigned int idx;
- 
- 	struct list_head ents;
- };
-diff --git a/drivers/media/platform/vimc/vimc-core.c b/drivers/media/platform/vimc/vimc-core.c
-index 7431fd980f45..50aeb9cfcb43 100644
---- a/drivers/media/platform/vimc/vimc-core.c
-+++ b/drivers/media/platform/vimc/vimc-core.c
-@@ -14,9 +14,15 @@
- #include "vimc-common.h"
- 
- #define VIMC_MDEV_MODEL_NAME "VIMC MDEV"
-+#define VIMC_MAX_DEVS 64
- 
- #include "vimc-configfs.h"
- 
-+
-+
-+static DECLARE_BITMAP(used, VIMC_MAX_DEVS);
-+static DEFINE_MUTEX(vimc_dev_idx_lock);
-+
- static const struct vimc_ent_type ent_types[] = {
- 	{
- 		.name = VIMC_SEN_NAME,
-@@ -280,14 +286,26 @@ static int vimc_probe(struct platform_device *pdev)
- 						pdev->dev.platform_data;
- 	struct vimc_device *vimc;
- 	int ret;
-+	unsigned int idx;
- 
- 	dev_dbg(&pdev->dev, "probe\n");
- 
- 	vimc = kzalloc(sizeof(*vimc), GFP_KERNEL);
- 	if (!vimc)
- 		return -ENOMEM;
-+	mutex_lock(&vimc_dev_idx_lock);
-+	idx = find_first_zero_bit(used, VIMC_MAX_DEVS);
-+	if (idx == VIMC_MAX_DEVS) {
-+		mutex_unlock(&vimc_dev_idx_lock);
-+		dev_err(&pdev->dev, "there are already %u devs which is the max allowed\n",
-+			VIMC_MAX_DEVS);
-+		return -EBUSY;
-+	}
-+	set_bit(idx, used);
-+	mutex_unlock(&vimc_dev_idx_lock);
- 
- 	INIT_LIST_HEAD(&vimc->ents);
-+	vimc->idx = idx;
- 
- 	/* Link the media device within the v4l2_device */
- 	vimc->v4l2_dev.mdev = &vimc->mdev;
-@@ -296,7 +314,8 @@ static int vimc_probe(struct platform_device *pdev)
- 	strscpy(vimc->mdev.model, VIMC_MDEV_MODEL_NAME,
- 		sizeof(vimc->mdev.model));
- 	snprintf(vimc->mdev.bus_info, sizeof(vimc->mdev.bus_info),
--		 "platform:%s", VIMC_PDEV_NAME);
-+		 "platform:%s-%03u", VIMC_PDEV_NAME, idx);
-+
- 	vimc->mdev.dev = &pdev->dev;
- 	media_device_init(&vimc->mdev);
- 
-@@ -304,6 +323,9 @@ static int vimc_probe(struct platform_device *pdev)
- 	if (ret) {
- 		media_device_cleanup(&vimc->mdev);
- 		kfree(vimc);
-+		mutex_lock(&vimc_dev_idx_lock);
-+		clear_bit(idx, used);
-+		mutex_unlock(&vimc_dev_idx_lock);
- 		return ret;
- 	}
- 	/*
-@@ -319,12 +341,16 @@ static int vimc_probe(struct platform_device *pdev)
- static int vimc_remove(struct platform_device *pdev)
- {
- 	struct vimc_device *vimc = platform_get_drvdata(pdev);
-+	unsigned long idx = vimc->idx;
- 
- 	dev_dbg(&pdev->dev, "remove\n");
- 
- 	vimc_unregister(vimc);
- 	v4l2_device_put(&vimc->v4l2_dev);
- 
-+	mutex_lock(&vimc_dev_idx_lock);
-+	clear_bit(idx, used);
-+	mutex_unlock(&vimc_dev_idx_lock);
- 	return 0;
- }
- 
--- 
-2.20.1
+> > On 64-bit native user space, the tv_usec field is always 64 bit wide,
+> > so this is a change in behavior for denormalized timeval data
+> > with tv_usec > U32_MAX, but the current behavior does not appear
+> > worth preserving either.
+> >
+> > The correct way would probably be to return an error for
+> >  tv_usec >USEC_PER_SEC, but as the code never did that, this
+> > would risk a regression for user space that relies on passing
+> > invalid timestamps without getting an error.
+>
+> This long answer needs to be added to a comment to that function.
+> Because otherwise someone will come along later and remove that
+> seemingly unnecessary cast.
+>
+> It's OK if it is a long comment, it's a non-trivial reason.
 
+Added this comment now:
+
+        /*
+         * When the timestamp comes from 32-bit user space, there may be
+         * uninitialized data in tv_usec, so cast it to u32.
+         * Otherwise allow invalid input for backwards compatibility.
+         */
+
+Let me know if you prefer a more elaborate version.
+
+> >> so media/v4l2-common.h would be a good place.
+> >
+> > Ok, sounds good. I wasn't sure where to put it, and ended up
+> > with include/linux/videodev2.h as the best replacement for
+> > include/uapi/linux/videodev2.h, changed it to
+> > include/media/v4l2-common.h now.
+>
+> Never use include/linux/videodev2.h. It's just a wrapper around
+> the uapi header and should not contain any 'real' code.
+>
+> It's also why I missed that you modified that header since we never
+> touch it.
+
+Ok, got it. I now tried to remove this file completely, hoping that the
+include <linux/time.h> is no longer needed after my series, but
+it seems we still need it.
+
+       Arnd
