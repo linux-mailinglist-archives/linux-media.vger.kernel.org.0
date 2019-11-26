@@ -2,101 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7383A109CCE
-	for <lists+linux-media@lfdr.de>; Tue, 26 Nov 2019 12:13:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E787109D10
+	for <lists+linux-media@lfdr.de>; Tue, 26 Nov 2019 12:34:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727961AbfKZLNv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 Nov 2019 06:13:51 -0500
-Received: from mout.kundenserver.de ([212.227.17.24]:34367 "EHLO
+        id S1728143AbfKZLee (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 Nov 2019 06:34:34 -0500
+Received: from mout.kundenserver.de ([212.227.17.24]:33713 "EHLO
         mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725900AbfKZLNu (ORCPT
+        with ESMTP id S1727218AbfKZLee (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 Nov 2019 06:13:50 -0500
-Received: from mail-qv1-f47.google.com ([209.85.219.47]) by
+        Tue, 26 Nov 2019 06:34:34 -0500
+Received: from mail-qv1-f44.google.com ([209.85.219.44]) by
  mrelayeu.kundenserver.de (mreue109 [212.227.15.145]) with ESMTPSA (Nemesis)
- id 1MLz3X-1iHkvE0Ze5-00HxRC; Tue, 26 Nov 2019 12:13:49 +0100
-Received: by mail-qv1-f47.google.com with SMTP id cg2so7064136qvb.10;
-        Tue, 26 Nov 2019 03:13:48 -0800 (PST)
-X-Gm-Message-State: APjAAAX1zwdr5fx+EPZeDhzhhTrwEvKdjlRYIgeAnGY9lFGY5GuinElU
-        SlnwboGpPm82Ujked0J2Zet0eLFQ9QA5TuY/2/s=
-X-Google-Smtp-Source: APXvYqzSNPxcxO0jBS79Xqk2KpfHdI67st7CvuP9yaR6xOmSOSYpOarFGsOMp9CiPgvqGaJe8AVuhx5CYY2uulcMVKY=
-X-Received: by 2002:a0c:a9cc:: with SMTP id c12mr26017158qvb.222.1574766827929;
- Tue, 26 Nov 2019 03:13:47 -0800 (PST)
+ id 1MplPf-1i1Mpg0g4T-00qA97; Tue, 26 Nov 2019 12:34:33 +0100
+Received: by mail-qv1-f44.google.com with SMTP id d3so7085023qvs.11;
+        Tue, 26 Nov 2019 03:34:32 -0800 (PST)
+X-Gm-Message-State: APjAAAU+pH51GEjIlhW6eo4VkhwYVMC1FqNj7q87+1Kq5+e39faVEjNz
+        Aj6Lir6edEJywp+2W5/FVJX6XaPkCU+40ZXtdYI=
+X-Google-Smtp-Source: APXvYqyP0ubV+wbmtUnKnlLA9Dg95JHEfh5NUlQS2Rfnof25MN29f8oIJkRplALMOpCBO0IcGYxWRhEARVn65P2Yuig=
+X-Received: by 2002:a05:6214:811:: with SMTP id df17mr15089086qvb.197.1574768071947;
+ Tue, 26 Nov 2019 03:34:31 -0800 (PST)
 MIME-Version: 1.0
-References: <20191111203835.2260382-1-arnd@arndb.de> <5c7bed6e-12d9-15e0-236e-d4f99710fbbd@xs4all.nl>
-In-Reply-To: <5c7bed6e-12d9-15e0-236e-d4f99710fbbd@xs4all.nl>
+References: <20191111203835.2260382-1-arnd@arndb.de> <20191111203835.2260382-3-arnd@arndb.de>
+ <00fea162-508a-b6e1-84ba-1472a94f6945@xs4all.nl>
+In-Reply-To: <00fea162-508a-b6e1-84ba-1472a94f6945@xs4all.nl>
 From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Tue, 26 Nov 2019 12:13:31 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a2EgRZ=Gv8hhZNy+NYRLH0D3-+Vfqk+KUTBEcCxVb+egw@mail.gmail.com>
-Message-ID: <CAK8P3a2EgRZ=Gv8hhZNy+NYRLH0D3-+Vfqk+KUTBEcCxVb+egw@mail.gmail.com>
-Subject: Re: [PATCH v4 0/8] y2038 safety in v4l2
+Date:   Tue, 26 Nov 2019 12:34:15 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a3dhruU1k9XtVHZsfmTxt+jL5Pf8jhT77+vce5p=h9U8w@mail.gmail.com>
+Message-ID: <CAK8P3a3dhruU1k9XtVHZsfmTxt+jL5Pf8jhT77+vce5p=h9U8w@mail.gmail.com>
+Subject: Re: [PATCH v4 2/8] media: v4l2: abstract timeval handling in v4l2_buffer
 To:     Hans Verkuil <hverkuil@xs4all.nl>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         y2038 Mailman List <y2038@lists.linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:9u3y69ouloFLHn+SGNgv/gvCAfhM0r8xhCwznRX+/bol8QcN/Hu
- 0g3U/qUdRyv5znctqYCPlEa5s76BWFdLqbXYbmWC+CIBxrncRzNN1McY19tk362mp7/qMls
- JnCeIiK7tyVy89NZcL0I422iwO+X5pO3PVleCkDb4jVuMYJL1zExLz9mvXdimGSq4Wh1XEz
- 0Xw+J7fwhYyA75ejQjbWw==
+X-Provags-ID: V03:K1:B8Mm1ukgYdV+UTz5ZKRGto5znAMBY5Yzedr8KxBSXwWDyRZmsyV
+ s5EswmhenIXGdXlggmKO7s5D2k9vr9b/efZT6a1B5PfwdXmbhfCsp7VnIJcWUDBmZ7NNm0n
+ EBG1JSNKueZEaQZGxkqILWGH5dHwGfi23+K48Bf2ABaVywyPw0YrQoc/aZSjM1efO8hBNb3
+ vBs0ShRfPRuaCBqahmS7g==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:+6q1Wr9D9bc=:KMMGy42v4nnyaNN6gTmusN
- RshdGesygz7cGjBtpkTvcJ8wKZgqyBoqg1Z/otH5cSBerJqUgL+kL+aPGhDf16LXz9IC28ND8
- oCz3p3BwX84N80Yt8AvVkSCK5bVqJoDo1Ov3lxYD1iQnZ7mHpqqtGEQHiZBHE1CCZxx95BPJO
- xg+Jpsf+R8fPaLeqmtKRxzzhkG3/eogu9+Cs9DuWGDLSPn8rE7umjDiJqcVZfUnjAgcHi/ECR
- xIUZWLfndurPCOj0Ku5t2XpNu1iDj7V2cV2WZh+v//2T5EHkn0/fhcQWI+FPI71s7VLbr6utC
- /rtEvo7AH1ZELgxbJf5ajTz4NHV6SWbGgEZjS75cyv0tVJHgCd9ZDQbw2L99qIDT9gc3h4o47
- 7ll7AOEkKdF9v61SP+9sEBMD48sYxeyVKDHcoZHzZf4Na069TZpjb8BDJ+Ol7XspX9L4azVlW
- Slx/WrWL0QqMnb1/T3qGWA1ViVBO0sD0eUSfq1JYjlCoLSknFJmJ6R6prUrNRi7z5lm0wgxpp
- SEDHNtK4lVtmJirvF1MebS9+W44bWc/DAwM4Di7MMKn0Un0Pk7xZqyu3jFi5mQf+JhOy3f26g
- Ydxi6iHR3f0ucqMO3XUyYaA06GwmoNfBm6dF4vGN0IOYQNEcOzq5HewUB8Sd3ZJWGyTnzrJie
- H1QbMUtOloYP4nGzg/hIGdZ0nsYmAHOUdmbJuB8SpPUUwVvVNiVFH4WdqAmIy+JrEI9NGKqI1
- O74MSre+wdQlf81qGaVRvfqjsvEK4UYY2J5vWw5nyvMrDlo2RTsnCR9FYFCtYCRAXH21nfNx5
- 6jt5W40hGylNSwvsZ5QdIWOMf0REdlCkbCwdjsuv3Tkxb5ivzyqO5q0OI+4YUN6EYlmXsP2Kr
- Vq5Hiyb9So6O9EaZR/Eg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:eG/ROzqDxMQ=:suFoLOANhTR+3jeZTwNp94
+ mZfBfkPYQwicWWAj9VsTDIzOk5+EUDrrt2QFadEDK8ohz5cOuH2WbFdMOmy1+bJcEu/PX95ST
+ mn7SIMLnRhOLWAlJvviK9MaQ3xCd0s4i8mZqJrzs3G0aNz65tAr2IasFhvYY6Gkcu/+R4BkG3
+ /LuXoiqxx+EjVMMRb201/cX8LulSG1uC9gcK7cwOZOeRitFuVC0DoF6Gn7u83IhnROr5y1ZC3
+ WzAXwKY2X1Va2J56dUke3gmQ8B80fJg0vsu5LXo/KerLRi3/5Fg0iPbXYHCnKlhMFPbFZJoY5
+ NXu5cMazlTJQsQ3zbsr+37Vtk8MaeW0XlDFH/d3xfTz6bloZDUcPAgKz7Wae9xcBrSYgNzKaB
+ nLmEaKEbQouBj523WgmG+O5wL02t3SecOYHx/zY0sGBLkO7Iv4WZF4AfWewnyr0/60kuS+ong
+ BvJIF7q9keqaUnx6eLOLS8JbmpZYAepoGNrFrzpZhRkJ3EEhGSJPIn4FvVHKyyOvZkffJ5c5i
+ 7fd4DBmDiJAaVly0G4P62/qET0FpAOO0OLkb14m1rRVrZeIEqXQaj164FsvcWgTbabwsHw6cF
+ a+q+8GokLbEihtivvP6jMg4DOxF1JRgvfq7dff8XBpf1B/+FAeyxgCIKZZ5wUSLdNHC1JixFY
+ 5uDtudquWhZH+xPthMdeUFnO5Y46IyMf8KXq0F2bqPVW6DloMF5xF60qTGAP8SZYRwedJCBZR
+ dQwNndDT92ms7h8dm6hPnkq6rYId4OFJIXzbMzEdbSI6POrHqO7Cx0GpV4p7pYhFXWHEdfT78
+ o8SZ0MY+5T+rnJzK9s31TFTTKikfwtUYjWlr6mS/YPfHQsSSznTgs+Af64v3jSAuppnSLJ7zI
+ pDPqBiAJ+X904gJepheA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Nov 25, 2019 at 5:02 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
->
-> Hi Arnd,
+On Mon, Nov 25, 2019 at 4:52 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
 >
 > On 11/11/19 9:38 PM, Arnd Bergmann wrote:
-> > I'm in the process of finishing up the last bits on y2038-unsafe
-> > code in the kernel, this series is for v4l2, which has no problem
-> > with overflow, but has multiple ioctls that break with user space
-> > built against a new 32-bit libc.
+> > As a preparation for adding 64-bit time_t support in the uapi,
+> > change the drivers to no longer care about the format of the
+> > timestamp field in struct v4l2_buffer.
+> >
+> > The v4l2_timeval_to_ns() function is no longer needed in the
+> > kernel after this, but there may be userspace code relying on
+> > it because it is part of the uapi header.
 >
-> Thank you for working on this. Much appreciated!
+> There is indeed userspace code that relies on this.
+
+Ok, good to know. I rephrased the changelog text as
+
+The v4l2_timeval_to_ns() function is no longer needed in the
+kernel after this, but there is userspace code relying on
+it to be part of the uapi header.
+
+> >
+> > +static inline u64 v4l2_buffer_get_timestamp(const struct v4l2_buffer *buf)
+> > +{
+> > +     return buf->timestamp.tv_sec * NSEC_PER_SEC +
+> > +            (u32)buf->timestamp.tv_usec * NSEC_PER_USEC;
 >
-> I've reviewed this v4 series and found a few issues (mostly things
-> that ended up in videodev2.h that shouldn't be there).
+> Why the (u32) cast?
+
+Simple question, long answer:
+
+on 32-bit architectures, the tv_usec member may be 32-bit wide plus
+padding in user space when interpreted as a regular 'struct timeval',
+but the kernel implementation now sees it as a 64-bit member,
+with half of it being possibly uninitialized user space data.
+
+The 32-bit cast avoids that uninitialized data and ensures user space
+passing garbage in the upper half gets ignored, as it has to be on 32-bit
+user space.
+
+On 64-bit native user space, the tv_usec field is always 64 bit wide,
+so this is a change in behavior for denormalized timeval data
+with tv_usec > U32_MAX, but the current behavior does not appear
+worth preserving either.
+
+The correct way would probably be to return an error for
+ tv_usec >USEC_PER_SEC, but as the code never did that, this
+would risk a regression for user space that relies on passing
+invalid timestamps without getting an error.
+
+> > +static inline void v4l2_buffer_set_timestamp(struct v4l2_buffer *buf,
+> > +                                          u64 timestamp)
+> > +{
+> > +     struct timespec64 ts = ns_to_timespec64(timestamp);
+> > +
+> > +     buf->timestamp.tv_sec  = ts.tv_sec;
+> > +     buf->timestamp.tv_usec = ts.tv_nsec / NSEC_PER_USEC;
+> > +}
+> > +
 >
-> Once a v5 is posted I'll try to test this more.
+> This does not belong in the public header. This is kernel specific,
 
-Ok, great!
+Note: this is not the uapi header but the in-kernel one.
 
->
-> Is there an easy(-ish) way to test this with a time64 ABI? Do you
-> have such an environment set up for testing?
+> so media/v4l2-common.h would be a good place.
 
-If you can build your user space with musl, you can test using
-a recent snapshot from http://git.musl-libc.org/cgit/musl/.
+Ok, sounds good. I wasn't sure where to put it, and ended up
+with include/linux/videodev2.h as the best replacement for
+include/uapi/linux/videodev2.h, changed it to
+include/media/v4l2-common.h now.
 
-> > I'm not entirely happy with the compat-ioctl implementation that
-> > adds quite a bit of code duplication, but I hope this is
-> > acceptable anyway, as a better implementation would likely
-> > require a larger refactoring of the compat-ioctl file, while
-> > my approach simply adds support for the additional data structure
-> > variants.
->
-> A cleanup is indeed much more work. This y2038 code is awful, but that's
-> really because the original structs are aligned in the worst possible
-> way.
-
-Ok.
-
-         Arnd
+       Arnd
