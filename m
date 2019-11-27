@@ -2,75 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 11DAF10AB22
-	for <lists+linux-media@lfdr.de>; Wed, 27 Nov 2019 08:24:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E00C10AB59
+	for <lists+linux-media@lfdr.de>; Wed, 27 Nov 2019 08:58:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726722AbfK0HXt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Nov 2019 02:23:49 -0500
-Received: from mga07.intel.com ([134.134.136.100]:37770 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726145AbfK0HXs (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Nov 2019 02:23:48 -0500
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 26 Nov 2019 23:23:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,248,1571727600"; 
-   d="scan'208";a="383413228"
-Received: from pl-dbox.sh.intel.com (HELO intel.com) ([10.239.13.128])
-  by orsmga005.jf.intel.com with ESMTP; 26 Nov 2019 23:23:46 -0800
-Date:   Wed, 27 Nov 2019 15:30:54 +0800
-From:   Philip Li <philip.li@intel.com>
-To:     Chris Wilson <chris@chris-wilson.co.uk>
-Cc:     kernel test robot <lkp@intel.com>, LKP <lkp@lists.01.org>,
-        linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: 2989f64510 ("dma-buf: Add selftests for dma-fence"): WARNING:
- CPU: 0 PID: 1 at lib/debugobjects.c:524 __debug_object_init
-Message-ID: <20191127073054.GG30842@intel.com>
-References: <5dd63a8f.BFdOlqs/XZAJHDfR%lkp@intel.com>
- <157432116576.24852.2065478066028556019@skylake-alporthouse-com>
- <20191122013244.GC313@intel.com>
+        id S1726267AbfK0H6P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Nov 2019 02:58:15 -0500
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:41231 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726240AbfK0H6P (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 27 Nov 2019 02:58:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1574841494;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=WdcPJ0Dwg19OMCk56up1PNjeYkMKncWwty2/pCthIu0=;
+        b=BpsFZlzED/vUSdFucMqV/NuVEFJQTeZsVyGuQyHEmP91i2PYfBhQhRHjDEEkMB+7Oieu9k
+        I2EPvLvLCnBYTN6HiarcNUwOOA8klqRD4bxaBqx1SfYlx/QZZ6T4SUg4zcq0ewX4+PKIyM
+        t0+t5gi1PGLO1njNB6JdMhlN/ovbSzM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-251-HLqzj73PNTm1dOZITTNkCQ-1; Wed, 27 Nov 2019 02:58:08 -0500
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 57B34107ACE4;
+        Wed, 27 Nov 2019 07:58:05 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-67.ams2.redhat.com [10.36.116.67])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 6C8F560BE2;
+        Wed, 27 Nov 2019 07:58:04 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+        id 5BCF416E18; Wed, 27 Nov 2019 08:58:03 +0100 (CET)
+Date:   Wed, 27 Nov 2019 08:58:03 +0100
+From:   Gerd Hoffmann <kraxel@redhat.com>
+To:     Liam Girdwood <liam.r.girdwood@linux.intel.com>
+Cc:     Gurchetan Singh <gurchetansingh@chromium.org>,
+        David Stevens <stevensd@chromium.org>,
+        Stefan Hajnoczi <stefanha@gmail.com>,
+        Keiichi Watanabe <keiichiw@chromium.org>,
+        geoff@hostfission.com, virtio-dev@lists.oasis-open.org,
+        Alex Lau <alexlau@chromium.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        qemu-devel@nongnu.org, Tomasz Figa <tfiga@chromium.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        =?utf-8?B?U3TDqXBoYW5l?= Marchesin <marcheu@chromium.org>,
+        Dylan Reid <dgreid@chromium.org>,
+        Dmitry Morozov <dmitry.morozov@opensynergy.com>,
+        Pawel Osciak <posciak@chromium.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: [virtio-dev] Re: guest / host buffer sharing ...
+Message-ID: <20191127075803.e5i72nzayi4t6aw2@sirius.home.kraxel.org>
+References: <20191105105456.7xbhtistnbp272lj@sirius.home.kraxel.org>
+ <20191106084344.GB189998@stefanha-x1.localdomain>
+ <CAD=HUj41r8wHZ2-By8tLftkoqC5r_Bw=pr=zX2aZ7GTs1ESWhg@mail.gmail.com>
+ <c8a6b6f35664ce036c2a48ec41eab97b0f40704d.camel@linux.intel.com>
+ <CAAfnVBkMWurTpseQFjcna5kk3__40n6M68=RTHLbQsu__2AFxg@mail.gmail.com>
+ <4a5dd822e86757f004d04af62fb7dd35ba75392d.camel@linux.intel.com>
+ <CAAfnVB=F+HeQrrn23c=rZeOa5BfHo=9ArcG--gLf87gqBXfZ9A@mail.gmail.com>
+ <bee3aae13f6cf69ee909aa9884926853d6123b25.camel@linux.intel.com>
+ <20191120095349.oobeosin3lujgcja@sirius.home.kraxel.org>
+ <296b7d844a283996a16769ecf3daade5198ae307.camel@linux.intel.com>
 MIME-Version: 1.0
+In-Reply-To: <296b7d844a283996a16769ecf3daade5198ae307.camel@linux.intel.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-MC-Unique: HLqzj73PNTm1dOZITTNkCQ-1
+X-Mimecast-Spam-Score: 0
 Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
-In-Reply-To: <20191122013244.GC313@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Nov 22, 2019 at 09:32:45AM +0800, Philip Li wrote:
-> On Thu, Nov 21, 2019 at 07:26:05AM +0000, Chris Wilson wrote:
-> > Quoting kernel test robot (2019-11-21 07:19:43)
-> > > Greetings,
-> > > 
-> > > 0day kernel testing robot got the below dmesg and the first bad commit is
-> > > 
-> > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > > 
-> > > commit 2989f6451084aed3f8cc9992477f7a9bf57a3716
-> > > Author:     Chris Wilson <chris@chris-wilson.co.uk>
-> > > AuthorDate: Mon Aug 19 10:59:27 2019 +0100
-> > > Commit:     Chris Wilson <chris@chris-wilson.co.uk>
-> > > CommitDate: Mon Aug 19 18:09:46 2019 +0100
-> > 
-> > That's a belated report, fixed by
-> Hi Chris, thanks for the feedback, we will double check this report and
-> provide update later.
-Hi Chris, it is confirmed that this report is false positive. 6ac3a0e had
-fixed the issue. Sorry for inconvenience.
+> > I'm not convinced this is useful for audio ...
+> >=20
+> > I basically see two modes of operation which are useful:
+> >=20
+> >   (1) send audio data via virtqueue.
+> >   (2) map host audio buffers into the guest address space.
+> >=20
+> > The audio driver api (i.e. alsa) typically allows to mmap() the audio
+> > data buffers, so it is the host audio driver which handles the
+> > allocation.=20
+>=20
+> Yes, in regular non VM mode, it's the host driver which allocs the
+> buffers.
+>=20
+> My end goal is to be able to share physical SG pages from host to
+> guests and HW (including DSP firmwares).=20
 
-> 
-> > 
-> > commit 6ac3a0ebfcc2f0c75ca0ca6974389ce421aa5cbd
-> > Author: Chris Wilson <chris@chris-wilson.co.uk>
-> > Date:   Tue Aug 20 13:21:18 2019 +0100
-> > 
-> > 	dmabuf: Mark up onstack timer for selftests
-> > 
-> > No?
-> > -Chris
+Yep.  So the host driver would allocate the pages, in a way that the hw
+can access them of course.  qemu (or another vmm) would mmap() those
+buffer pages, using the usual sound app interface, which would be alsa
+on linux.
+
+Virtio got support for shared memory recently (it is in the version 1.2
+draft), virtio-pci transport uses a pci bar for the shared memory
+regions.  qemu (or other vmms) can use that to map the buffer pages into
+guest address space.
+
+There are plans use shared memory in virtio-gpu too, for pretty much the
+same reasons.  Some kinds of gpu buffers must be allocated by the host
+gpu driver, to make sure the host hardware can use the buffers as
+intended.
+
+> >  Let the audio hardware dma from/to userspace-allocated
+> > buffers is not possible[1], but we would need that to allow qemu (or
+> > other vmms) use guest-allocated buffers.
+>=20
+> My misunderstanding here on how the various proposals being discussed
+> all pass buffers between guests & host. I'm reading that some are
+> passing buffers via userspace descriptors and this would not be
+> workable for audio.
+
+Yep, dma-buf based buffer passing doesn't help much for audio.
+
+cheers,
+  Gerd
+
