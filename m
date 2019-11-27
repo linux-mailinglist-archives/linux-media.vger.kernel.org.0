@@ -2,113 +2,323 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A5CC10AD8A
-	for <lists+linux-media@lfdr.de>; Wed, 27 Nov 2019 11:27:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CBD110AF7B
+	for <lists+linux-media@lfdr.de>; Wed, 27 Nov 2019 13:21:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726292AbfK0K1t (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Nov 2019 05:27:49 -0500
-Received: from mx2.suse.de ([195.135.220.15]:47792 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726204AbfK0K1t (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Nov 2019 05:27:49 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 1B51FACE0;
-        Wed, 27 Nov 2019 10:27:47 +0000 (UTC)
-Message-ID: <1574850465.2485.10.camel@suse.com>
-Subject: Re: KASAN: use-after-free Read in si470x_int_in_callback (2)
-From:   Oliver Neukum <oneukum@suse.com>
-To:     syzbot <syzbot+9ca7a12fd736d93e0232@syzkaller.appspotmail.com>,
-        andreyknvl@google.com, hverkuil@xs4all.nl,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-usb@vger.kernel.org, mchehab@kernel.org,
-        syzkaller-bugs@googlegroups.com
-Date:   Wed, 27 Nov 2019 11:27:45 +0100
-In-Reply-To: <000000000000f47f0b0595307ddc@google.com>
-References: <000000000000f47f0b0595307ddc@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.26.6 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1726556AbfK0MV4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Nov 2019 07:21:56 -0500
+Received: from mga07.intel.com ([134.134.136.100]:18977 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726383AbfK0MV4 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 27 Nov 2019 07:21:56 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 27 Nov 2019 04:21:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,249,1571727600"; 
+   d="scan'208";a="383487601"
+Received: from monicaan-mobl.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.249.34.74])
+  by orsmga005.jf.intel.com with ESMTP; 27 Nov 2019 04:21:49 -0800
+Received: by kekkonen.fi.intel.com (Postfix, from userid 1000)
+        id E30D521EAD; Wed, 27 Nov 2019 14:21:59 +0200 (EET)
+Date:   Wed, 27 Nov 2019 14:21:59 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Marco Felsch <m.felsch@pengutronix.de>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>, mchehab@kernel.org,
+        hans.verkuil@cisco.com, jacopo+renesas@jmondi.org,
+        robh+dt@kernel.org, laurent.pinchart@ideasonboard.com,
+        devicetree@vger.kernel.org, kernel@pengutronix.de,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v10 03/14] media: v4l2-fwnode: add initial connector
+ parsing support
+Message-ID: <20191127122158.GA7220@kekkonen.localdomain>
+References: <20190830101646.6530-1-m.felsch@pengutronix.de>
+ <20190830101646.6530-4-m.felsch@pengutronix.de>
+ <20191002070303.GK896@valkosipuli.retiisi.org.uk>
+ <20191002080735.yyoxo5wg35t7k26x@pengutronix.de>
+ <20191023105739.GN5433@paasikivi.fi.intel.com>
+ <20191023122157.qu3eodamlye5zsax@pengutronix.de>
+ <20191024120213.GC3966@mara.localdomain>
+ <20191108085852.rujiwio3yo43u6sy@pengutronix.de>
+ <20191115230650.GA2696@mara.localdomain>
+ <20191119111526.xh2gabaomia7hy7a@pengutronix.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191119111526.xh2gabaomia7hy7a@pengutronix.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Freitag, den 18.10.2019, 07:53 -0700 schrieb syzbot:
-> Hello,
+Hi Marco,
+
+On Tue, Nov 19, 2019 at 12:15:26PM +0100, Marco Felsch wrote:
+> Hi Sakari,
 > 
-> syzbot found the following crash on:
+> many thanks for the review :)
 > 
-> HEAD commit:    22be26f7 usb-fuzzer: main usb gadget fuzzer driver
-> git tree:       https://github.com/google/kasan.git usb-fuzzer
-> console output: https://syzkaller.appspot.com/x/log.txt?x=102b65cf600000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=387eccb7ac68ec5
-> dashboard link: https://syzkaller.appspot.com/bug?extid=9ca7a12fd736d93e0232
-> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=143b9060e00000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=15d3b94b600000
+> On 19-11-16 01:06, Sakari Ailus wrote:
+> > Hi Marco,
+> > 
+> > On Fri, Nov 08, 2019 at 09:58:52AM +0100, Marco Felsch wrote:
+> > > Hi Sakari,
+> > > 
+> > > sorry for my delay now ^^
+> > > 
+> > > On 19-10-24 15:02, Sakari Ailus wrote:
+> > > > Hi Marco,
+> > > > 
+> > > > On Wed, Oct 23, 2019 at 02:21:57PM +0200, Marco Felsch wrote:
+> > > > > Hi Sakari,
+> > > > > 
+> > > > > On 19-10-23 13:57, Sakari Ailus wrote:
+> > > > > > Hi Marco,
+> > > > > > 
+> > > > > > Apologies for the delay.
+> > > > > 
+> > > > > No problem.
+> > > > > 
+> > > > > > On Wed, Oct 02, 2019 at 10:07:35AM +0200, Marco Felsch wrote:
+> > > > > > > Hi Sakari,
+> > > > > > > 
+> > > > > > > On 19-10-02 10:03, Sakari Ailus wrote:
+> > > > > > > > Hi Marco,
+> > > > > > > > 
+> > > > > > > > On Fri, Aug 30, 2019 at 12:16:35PM +0200, Marco Felsch wrote:
+> > > > > > > > > The patch adds the initial connector parsing code, so we can move from a
+> > > > > > > > > driver specific parsing code to a generic one. Currently only the
+> > > > > > > > > generic fields and the analog-connector specific fields are parsed. Parsing
+> > > > > > > > > the other connector specific fields can be added by a simple callbacks.
+> > > > > > > > > 
+> > > > > > > > > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> > > > > > > > > ---
+> > > > > > > > > [1] https://patchwork.kernel.org/cover/10794703/
+> > > > > > > > > 
+> > > > > > > > > v10:
+> > > > > > > > > - drop V4L2_CONN_HDMI support
+> > > > > > > > > - adapt pr_err msg to reflect new state (-> connector is unkown)
+> > > > > > > > > 
+> > > > > > > > > v9:
+> > > > > > > > > - Fix leading semicolon found by kbuild semicolon.cocci
+> > > > > > > > > 
+> > > > > > > > > v8:
+> > > > > > > > > - V4L2_CON_* -> V4L2_CONN_*
+> > > > > > > > > - tvnorms -> sdtv-standards
+> > > > > > > > > - adapt to new v4l2_fwnode_connector_analog member
+> > > > > > > > > - return error in case of V4L2_CONN_HDMI
+> > > > > > > > > 
+> > > > > > > > > v7:
+> > > > > > > > > @Jacopo: I dropped your r b tag becuase of the amount of changes I
+> > > > > > > > > made..
+> > > > > > > > > 
+> > > > > > > > > - drop unnecessary comments
+> > > > > > > > > - fix commet style
+> > > > > > > > > - s/v4l2_fwnode_connector_conv.name/v4l2_fwnode_connector_conv.compatible/
+> > > > > > > > > - make label size variable and drop V4L2_CONNECTOR_MAX_LABEL usage
+> > > > > > > > > - do not assign a default label in case of no label was specified
+> > > > > > > > > - remove useless /* fall through */ comments
+> > > > > > > > > - add support for N connector links
+> > > > > > > > > - rename local variables to be more meaningful
+> > > > > > > > > - adjust kernedoc
+> > > > > > > > > - add v4l2_fwnode_connector_free()
+> > > > > > > > > - improve error handling (use different error values)
+> > > > > > > > > - make use of pr_warn_once()
+> > > > > > > > > 
+> > > > > > > > > v6:
+> > > > > > > > > - use unsigned count var
+> > > > > > > > > - fix comment and style issues
+> > > > > > > > > - place '/* fall through */' to correct places
+> > > > > > > > > - fix error handling and cleanup by releasing fwnode
+> > > > > > > > > - drop vga and dvi parsing support as those connectors are rarely used
+> > > > > > > > >   these days
+> > > > > > > > > 
+> > > > > > > > > v5:
+> > > > > > > > > - s/strlcpy/strscpy/
+> > > > > > > > > 
+> > > > > > > > > v2-v4:
+> > > > > > > > > - nothing since the patch was squashed from series [1] into this
+> > > > > > > > >   series.
+> > > > > > > > > 
+> > > > > > > > >  drivers/media/v4l2-core/v4l2-fwnode.c | 129 ++++++++++++++++++++++++++
+> > > > > > > > >  include/media/v4l2-fwnode.h           |  38 ++++++++
+> > > > > > > > >  2 files changed, 167 insertions(+)
+> > > > > > > > > 
+> > > > > > > > > diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
+> > > > > > > > > index 3bd1888787eb..0bfa7cbf78df 100644
+> > > > > > > > > --- a/drivers/media/v4l2-core/v4l2-fwnode.c
+> > > > > > > > > +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
+> > > > > > > > > @@ -595,6 +595,135 @@ void v4l2_fwnode_put_link(struct v4l2_fwnode_link *link)
+> > > > > > > > >  }
+> > > > > > > > >  EXPORT_SYMBOL_GPL(v4l2_fwnode_put_link);
+> > > > > > > > >  
+> > > > > > > > > +static const struct v4l2_fwnode_connector_conv {
+> > > > > > > > > +	enum v4l2_connector_type type;
+> > > > > > > > > +	const char *compatible;
+> > > > > > > > > +} connectors[] = {
+> > > > > > > > > +	{
+> > > > > > > > > +		.type = V4L2_CONN_COMPOSITE,
+> > > > > > > > > +		.compatible = "composite-video-connector",
+> > > > > > > > > +	}, {
+> > > > > > > > > +		.type = V4L2_CONN_SVIDEO,
+> > > > > > > > > +		.compatible = "svideo-connector",
+> > > > > > > > > +	},
+> > > > > > > > > +};
+> > > > > > > > > +
+> > > > > > > > > +static enum v4l2_connector_type
+> > > > > > > > > +v4l2_fwnode_string_to_connector_type(const char *con_str)
+> > > > > > > > > +{
+> > > > > > > > > +	unsigned int i;
+> > > > > > > > > +
+> > > > > > > > > +	for (i = 0; i < ARRAY_SIZE(connectors); i++)
+> > > > > > > > > +		if (!strcmp(con_str, connectors[i].compatible))
+> > > > > > > > > +			return connectors[i].type;
+> > > > > > > > > +
+> > > > > > > > > +	return V4L2_CONN_UNKNOWN;
+> > > > > > > > > +}
+> > > > > > > > > +
+> > > > > > > > > +static int
+> > > > > > > > > +v4l2_fwnode_connector_parse_analog(struct fwnode_handle *fwnode,
+> > > > > > > > > +				   struct v4l2_fwnode_connector *vc)
+> > > > > > > > > +{
+> > > > > > > > > +	u32 stds;
+> > > > > > > > > +	int ret;
+> > > > > > > > > +
+> > > > > > > > > +	ret = fwnode_property_read_u32(fwnode, "sdtv-standards", &stds);
+> > > > > > > > > +
+> > > > > > > > > +	/* The property is optional. */
+> > > > > > > > > +	vc->connector.analog.sdtv_stds = ret ? V4L2_STD_ALL : stds;
+> > > > > > > > > +
+> > > > > > > > > +	return 0;
+> > > > > > > > > +}
+> > > > > > > > > +
+> > > > > > > > > +void v4l2_fwnode_connector_free(struct v4l2_fwnode_connector *connector)
+> > > > > > > > > +{
+> > > > > > > > > +	unsigned int i;
+> > > > > > > > > +
+> > > > > > > > > +	if (IS_ERR_OR_NULL(connector))
+> > > > > > > > > +		return;
+> > > > > > > > > +
+> > > > > > > > > +	for (i = 0; i < connector->nr_of_links; i++)
+> > > > > > > > > +		v4l2_fwnode_put_link(&connector->links[i]);
+> > > > > > > > > +	kfree(connector->links);
+> > > > > > > > 
+> > > > > > > > Please assign connector->links NULL here, and nr_of_links to zero.
+> > > > > > > 
+> > > > > > > Okay, I can do that.
+> > > > > > > 
+> > > > > > > > > +}
+> > > > > > > > > +EXPORT_SYMBOL_GPL(v4l2_fwnode_connector_free);
+> > > > > > > > > +
+> > > > > > > > > +int v4l2_fwnode_connector_alloc_parse(struct fwnode_handle *fwnode,
+> > > > > > > > > +				      struct v4l2_fwnode_connector *connector)
+> > > > > > > > > +{
+> > > > > > > > > +	struct fwnode_handle *remote_pp, *remote_ep;
+> > > > > > > > > +	const char *type_name;
+> > > > > > > > > +	unsigned int i = 0, ep_num = 0;
+> > > > > > > > > +	int err;
+> > > > > > > > > +
+> > > > > > > > > +	memset(connector, 0, sizeof(*connector));
+> > > > > > > > > +
+> > > > > > > > > +	remote_pp = fwnode_graph_get_remote_port_parent(fwnode);
+> > > > > > > > 
+> > > > > > > > How do you know a remote endpoint is a connector, and not another device's
+> > > > > > > > endpoint?
+> > > > > > > 
+> > > > > > > Well, I think that the caller won't use this function if it isn't a
+> > > > > > > connector. If it helps I can check if the compatible of the remote ends
+> > > > > > > with "-connector".
+> > > > > > 
+> > > > > > The function is called by a driver. A driver shouldn't know what's at the
+> > > > > > other end of the graph arc; the information should come from the firmware
+> > > > > > instead.
+> > > > > > 
+> > > > > > On some board there could be another device where you have a connector now.
+> > > > > > 
+> > > > > > As the connector has its own compatible string, there could be a connector
+> > > > > > driver to tell this is actually a connector, even if there's nothing to
+> > > > > > control. It'd be a very tiny driver.
+> > > > > 
+> > > > > Yes I know a connector driver would be the best. This also have the
+> > > > > advantage to do drop the connector handling in each subdev driver.. But
+> > > > > unfortunately I haven't the time yet. Would it be okay for you too check
+> > > > > that the remote is a connector and if not to exit?
+> > > > 
+> > > > The current design is also problematic in the sense that it parses remote DT
+> > > > graph endpoints (as well as device nodes) that are not under the device's
+> > > > own scope.
+> > > 
+> > > You are right that is not good. Would it be okay with you to parse only
+> > > the local node so the caller must pass the connector node?
+> > > 
+> > > > I wonder what kind of changes would that require, and how much more
+> > > > difficult would the changes be to implement later on if a number of drivers
+> > > > uses the newly added APIs.
+> > > > 
+> > > > v4l2_fwnode_parse_endpoint() should be considered as well. This is the
+> > > > current API to parse endpoints. Could connectors be meaningfully parsed
+> > > > within v4l2_fwnode_parse_endpoint()?
+> > > 
+> > > I think v4l2_fwnode_endpoint_parse() isn't the correct place. Of course
+> > > it is a endpoint but I don't think that a connector should be placed
+> > > there. Currently the endpoint is mostly used to describe the connection
+> > > between the isp and a sensor. I think we shouldn't add something
+> > > unrelated just because it's an fw-endpoint. The connector just describes
+> > > who users can interact with the device. A connector isn't connected to a
+> > > chip using mipi or something else.
+> > 
+> > If the endpoints pointing to a connector are not parsed by
+> > v4l2_fwnode_endpoint_parse(), then it means that they're parsed somewhere
+> > else, and that's something the caller needs to know. The fact that there is
+> > a connector, is only apparent from the compatible string of the remote
+> > device. That's simply not something for the caller to figure out.
 > 
-> IMPORTANT: if you fix the bug, please add the following tag to the commit:
-> Reported-by: syzbot+9ca7a12fd736d93e0232@syzkaller.appspotmail.com
+> That is a goot point, I got that.
+> 
+> > Endpoints in general refer to other devices' connection points. It doesn't
+> > matter what kind of a device it is, they should be treated the same way.
+> > 
+> > I'm still not proposing to mangle connectors with the bus properties. Still,
+> > the two are mostly exclusive: if there's a connector, then any properties of
+> > the signal likely have nothing to do what was described in the firmware.
+> > 
+> > How about adding an fwnode API function called e.g.g
+> > v4l2_fwnode_is_connector(), to tell whether a given local endpoint is
+> > connected to a remote which is a connector? That, I think, would be
+> > sufficient to make the connectors vs. wired busses easy for drivers to work
+> > with.
+> 
+> A v4l2_fwnode_is_connector() function is nice. Just to got you right,
+> you want something like:
+> 
+> 	v4l2_fwnode_endpoint_alloc_parse()
+> 	{
+> 		int rval;
+> 
+> 		if (v4l2_fwnode_is_connector())
+> 			return v4l2_fwnode_connector_alloc_parse();
+> 
+> 		rval = __v4l2_fwnode_endpoint_parse(fwnode, vep);
+> 		if (rval < 0)
+> 			return rval;
+> 
+> 		...
+> 	}
+> 
+> If I got that right we need to squash the 'struct v4l2_fwnode_connector'
+> into the 'struct v4l2_fwnode_endpoint' or we need to accept both structs.
+> The first attempt can be error prone if a caller access invalid data.
+> What do you think?
 
-#syz test: https://github.com/google/kasan.git 22be26f7
+I think it'd be fine for the driver to use v4l2_fwnode_is_connector()
+directly, and parse connectors if it likes. If we combine the two, then we
+need to use the current bus type to tell what's in there.
 
-From 497dce10b022c0cfbba450a47d634aa212ecafa1 Mon Sep 17 00:00:00 2001
-From: Oliver Neukum <oneukum@suse.com>
-Date: Mon, 18 Nov 2019 14:41:51 +0100
-Subject: [PATCH] si470x: prevent resubmission
-
-Starting IO to a device is not necessarily a NOP in every error
-case. So we need to terminate all IO in every case of probe
-failure and disconnect with absolute certainty.
-
-Signed-off-by: Oliver Neukum <oneukum@suse.com>
----
- drivers/media/radio/si470x/radio-si470x-usb.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/media/radio/si470x/radio-si470x-usb.c b/drivers/media/radio/si470x/radio-si470x-usb.c
-index fedff68d8c49..8663828d93a5 100644
---- a/drivers/media/radio/si470x/radio-si470x-usb.c
-+++ b/drivers/media/radio/si470x/radio-si470x-usb.c
-@@ -542,6 +542,8 @@ static int si470x_start_usb(struct si470x_device *radio)
- 		radio->int_in_running = 0;
- 	}
- 	radio->status_rssi_auto_update = radio->int_in_running;
-+	if (retval < 0)
-+		return retval;
- 
- 	/* start radio */
- 	retval = si470x_start(radio);
-@@ -734,7 +736,8 @@ static int si470x_usb_driver_probe(struct usb_interface *intf,
- 	/* start radio */
- 	retval = si470x_start_usb(radio);
- 	if (retval < 0)
--		goto err_buf;
-+		/* the urb may be running even after an error */
-+		goto err_all;
- 
- 	/* set initial frequency */
- 	si470x_set_freq(radio, 87.5 * FREQ_MUL); /* available in all regions */
-@@ -749,7 +752,7 @@ static int si470x_usb_driver_probe(struct usb_interface *intf,
- 
- 	return 0;
- err_all:
--	usb_kill_urb(radio->int_in_urb);
-+	usb_poison_urb(radio->int_in_urb);
- err_buf:
- 	kfree(radio->buffer);
- err_ctrl:
-@@ -824,7 +827,7 @@ static void si470x_usb_driver_disconnect(struct usb_interface *intf)
- 	mutex_lock(&radio->lock);
- 	v4l2_device_disconnect(&radio->v4l2_dev);
- 	video_unregister_device(&radio->videodev);
--	usb_kill_urb(radio->int_in_urb);
-+	usb_poison_urb(radio->int_in_urb);
- 	usb_set_intfdata(intf, NULL);
- 	mutex_unlock(&radio->lock);
- 	v4l2_device_put(&radio->v4l2_dev);
 -- 
-2.16.4
+Regards,
 
+Sakari Ailus
+sakari.ailus@linux.intel.com
