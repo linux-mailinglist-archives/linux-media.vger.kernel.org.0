@@ -2,125 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E01010C810
-	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2019 12:38:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6841D10C834
+	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2019 12:51:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726622AbfK1Lih (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Nov 2019 06:38:37 -0500
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:54716 "EHLO
-        mail-wm1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726320AbfK1Lig (ORCPT
+        id S1726252AbfK1Lvk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Nov 2019 06:51:40 -0500
+Received: from relay9-d.mail.gandi.net ([217.70.183.199]:53453 "EHLO
+        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726191AbfK1Lvk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Nov 2019 06:38:36 -0500
-Received: by mail-wm1-f67.google.com with SMTP id b11so10561019wmj.4
-        for <linux-media@vger.kernel.org>; Thu, 28 Nov 2019 03:38:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=7dzXAN2X2L6bGPvK4PFvG9vdURbUoCe50bDBU3Z9XwI=;
-        b=KeHVV1r+lyB6FTTM8bE+Y10Z5uaKh2EjYaJu/C5ZfN/1HDQmh8sIhqWJJNiyQZZ0/F
-         QIvpkEBOlu6tiG0p5EO/SNsYNB6jhkVdi36Wobvo3BIkF6nuBU8Kc2eoUVgDHzXZzZvS
-         eoeK4d2bMGa/NrFMyzZiH8nlZ086wekBcpicq4B0/3AFTqifl43Q3akZproFcEpY2OaR
-         nVcSH3VUGRoy95JIuOp3fxbXPsf++7WEcQgVzz1LyaRC7ACaZvwCn3NEALSTtzY5cHn1
-         4lMOV5B09daTu/aMMeCoa6ct92q29yUAV6f3s9tGZy3WFm1u+gS0UDYkZHCwHQdOCJN7
-         /c/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to:content-transfer-encoding;
-        bh=7dzXAN2X2L6bGPvK4PFvG9vdURbUoCe50bDBU3Z9XwI=;
-        b=NzTTNir5W8kotGubFiA95cRs7+feuAQ5KUsb+wyyRNzi3ebxvHnPe3lvn5r32GVVCI
-         okqDwSdSK4NRa5MzInyuJWVVF9SqNLYAJ83TGcdybQdFRQxYPL93//qMbWfuTGgQzG55
-         uomnA/1/8O7pWXOKOfMa31nZAxaKMrlL+v93sjm0mRDnpZUsNRPQxBZhV5LHkhC2iDKx
-         5s/Dy3fqs7ZlIM4nwskgrfvB/GhzVtB08YMr/J61GnNI/ETPZnK3F/PnG3/bBk77K5DA
-         x2ICKnKBZGedZhQB2129BXddb0WoMxTTQGj4AeesAN0savVEhExfPLu+M10Zi+dqrhf4
-         POwA==
-X-Gm-Message-State: APjAAAU5yfZ8J5Y758rsDqm6G2uO/cvCyV4vwx5F+EmCeLSlX/LmANg5
-        E+yJ1bsQ5AYBba9ykdVfmbFoPqAriWpPS6ZXc2M=
-X-Google-Smtp-Source: APXvYqwmrhL+T92X8GSWKUUzYbbHF9p4pljSxW3oaar+nWfgXzT3Fw3oznVN29gGWmBWKLCZETMqBOIV+bbGpEohyqA=
-X-Received: by 2002:a1c:1b15:: with SMTP id b21mr1015684wmb.104.1574941112317;
- Thu, 28 Nov 2019 03:38:32 -0800 (PST)
+        Thu, 28 Nov 2019 06:51:40 -0500
+X-Originating-IP: 2.224.242.101
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id ADE29FF808;
+        Thu, 28 Nov 2019 11:51:37 +0000 (UTC)
+Date:   Thu, 28 Nov 2019 12:53:45 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Steve Longerbeam <slongerbeam@gmail.com>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 06/23] media: adv748x: csi2: Implement get_fwnode_pad
+Message-ID: <20191128115345.k6mn6kjyleahvw7n@uno.localdomain>
+References: <20191124190703.12138-1-slongerbeam@gmail.com>
+ <20191124190703.12138-7-slongerbeam@gmail.com>
 MIME-Version: 1.0
-Reply-To: sebastient766@gmail.com
-Received: by 2002:adf:df83:0:0:0:0:0 with HTTP; Thu, 28 Nov 2019 03:38:31
- -0800 (PST)
-From:   =?UTF-8?B?TXIuU8OpYmFzdGllbiBUb25p?= <sebastient766@gmail.com>
-Date:   Thu, 28 Nov 2019 11:38:31 +0000
-X-Google-Sender-Auth: 6oKAvRkzYv1-sXc3jTH1UUVk4AE
-Message-ID: <CAOmrfMuOFbuqNzcOMA8Op8548JiM+OAXTkQp_DzWoaeWAxopOA@mail.gmail.com>
-Subject: Dear Friend,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="ggkggm5lktxz7hau"
+Content-Disposition: inline
+In-Reply-To: <20191124190703.12138-7-slongerbeam@gmail.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-FROM MR.S=C3=89BASTIEN TONI
-AUDIT& ACCOUNT MANAGER
-BANK OF AFRICA (B.O.A)
-OUAGADOUGOU BURKINA FASO
-WEST AFRICA.
 
-Dear Friend,
+--ggkggm5lktxz7hau
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-With due respect, I have decided to contact you on
-abusinesstransaction  that will be beneficial to both of us. At the
-bank last account and  auditing evaluation, my staffs came across an
-old account which was being maintained by a foreign client who we
-learn was among the deceased passengers of motor accident on
-November.2003, the deceased was unable to run this account since his
-death. Theaccount has  remained dormant without the knowledge of his
-family since it was put in a  safe deposit account in the bank for
-future investment by the client.
+Hi Steve,
 
-Since his demise, even the members of his family haven't applied for
-claims  over this fund and it has been in the safe deposit account
-until I  discovered that it cannot be claimed since our client
-isaforeign national
-and we are sure that he has no next of kin here to file claims over
-the money. As the director of the department, this  discovery was
-brought to my office so as to decide what is to bedone.I  decided to
-seek ways through which to transfer this money out of the bank  and
-out of the country too.
+On Sun, Nov 24, 2019 at 11:06:46AM -0800, Steve Longerbeam wrote:
+> If the given endpoint fwnode passed to the .get_fwnode_pad() op is
+> the adv748x-csi2 TXA/TXB source endpoint, return the associated media
+> pad index ADV748X_CSI2_SOURCE. The adv748x-csi2 has no other media pads
+> that are associated with fwnode endpoints.
+>
+> Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
+> ---
+>  drivers/media/i2c/adv748x/adv748x-csi2.c | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
+>
+> diff --git a/drivers/media/i2c/adv748x/adv748x-csi2.c b/drivers/media/i2c/adv748x/adv748x-csi2.c
+> index 2091cda50935..810085a1f2f0 100644
+> --- a/drivers/media/i2c/adv748x/adv748x-csi2.c
+> +++ b/drivers/media/i2c/adv748x/adv748x-csi2.c
+> @@ -228,6 +228,24 @@ static const struct v4l2_subdev_ops adv748x_csi2_ops = {
+>  	.pad = &adv748x_csi2_pad_ops,
+>  };
+>
+> +/* -----------------------------------------------------------------------------
+> + * media_entity_operations
+> + */
+> +
+> +static int adv748x_csi2_get_fwnode_pad(struct media_entity *entity,
+> +				       struct fwnode_endpoint *endpoint)
+> +{
+> +	struct v4l2_subdev *sd = media_entity_to_v4l2_subdev(entity);
+> +	struct adv748x_csi2 *tx = adv748x_sd_to_csi2(sd);
+> +
+> +	return endpoint->local_fwnode == tx->sd.fwnode ?
+> +		ADV748X_CSI2_SOURCE : -ENXIO;
 
-The total amount in the account is 18.6 million with my positions as
-staffs  of the bank, I am handicapped because I cannot operate foreign
-accounts and  cannot lay bonafide claim over this money. The client
-was a foreign  national and you will only be asked to act as his next
-of kin and I will  supply you with all the necessary information and
-bank data to assist you in being able to transfer this money to any
-bank of your  choice where this money could be transferred into.The
-total sum will be  shared as follows: 50% for me, 50% for you and
-expenses incidental occur  during the transfer will be incur by both
-of us. The transfer is risk free on both sides hence you are going to
-follow my instruction till the fund  transfer to your account. Since I
-work in this bank that is why you should  be confident in the success
-of this transaction because you will be updated with information as at
-when desired.
+Couldn't you check if the endpoint port is either 10 or 11, as those
+are the only port numbers that provide a CSI-2 source pad ?
 
-I will wish you to keep this transaction secret and confidential as I
-am  hoping to retire with my share of this money at the end of
-transaction  which will be when this money is safety in your account.
-I will then come over to your country for sharing according to the
-previously agreed percentages. You might even have to advise me on
-possibilities of investment in your country or elsewhere of our
-choice. May  God help you to help me to a restive retirement, Amen,And
-You have to  contact me through my private e-mail
-at(sebastient766@gmail.com)Please for further information and inquires
-feel free to contact me back immediately for more explanation and
-better  understanding I want you to assure me your capability of
-handling this  project with trust by providing me your following
-information details such as:
+In that case you could drop extending get_fwnode_pad() with th entity
+argument, as it is only used here (this one is actually the first user
+in the whole code base of this operation)
 
-(1)NAME..............
-(2)AGE:................
-(3)SEX:.....................
-(4)PHONE NUMBER:.................
-(5)OCCUPATION:.....................
-(6)YOUR COUNTRY:.....................
+> +}
+> +
+> +static const struct media_entity_operations adv748x_csi2_entity_ops = {
+> +	.get_fwnode_pad = adv748x_csi2_get_fwnode_pad,
+> +};
+> +
+>  /* -----------------------------------------------------------------------------
+>   * Subdev module and controls
+>   */
+> @@ -295,6 +313,9 @@ int adv748x_csi2_init(struct adv748x_state *state, struct adv748x_csi2 *tx)
+>  	/* Register internal ops for incremental subdev registration */
+>  	tx->sd.internal_ops = &adv748x_csi2_internal_ops;
+>
+> +	/* Register media_entity ops */
+> +	tx->sd.entity.ops = &adv748x_csi2_entity_ops;
+> +
+>  	tx->pads[ADV748X_CSI2_SINK].flags = MEDIA_PAD_FL_SINK;
+>  	tx->pads[ADV748X_CSI2_SOURCE].flags = MEDIA_PAD_FL_SOURCE;
+>
+> --
+> 2.17.1
+>
 
-Yours sincerely,
-Mr.S=C3=A9bastien Toni
+--ggkggm5lktxz7hau
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl3ftUkACgkQcjQGjxah
+VjyY/BAAk3Yl3JXlzC6d4BCpMVfi7K+1ZR3YOGwCPlfAA/rgUomTJxPwR9plQWQs
+FOOGi57JbExgLNVRyaFMPoc86WQMVA+YkyrcZ5gCa/AiG0sytWDakickcxpHEP0o
+s+pcQ3dqcmu4m4CrxsQLJJL0Ou7DWiMqHVDV6RcR6U/WPb43nu4UHKyjIX1sBVS5
+8AmIlYlX6TU2k1T2U5lQSTULpJSo88pRmX9eK0Losi1S0WLzZ1U0Ghpgad0NVxcX
+Y5+ScZFNY6BijKgW7qZjBovzGKsC0FukFccE4IOXtcWVSkxnApdpdXk6b8EOZ2Yt
+CsSY8o4XJ0JLuyy5+JT0bR2s7jqjMac3LuyO7ahXZmI70rt9eStaDy2PzKx0Q6Ny
+VNE53gUhVkg593Zm07LJCJT9O4hQoBpXe85Tbf15rA4kqhqPFtIrITQFgz5Eh+x8
+pf+q/w7kvIpRIB+PzTKTjygsnd04Z0U6k+CZd/M6Ce0FP5HgbVK5qevGAVZQBzV+
+X8xhPwITqL3bhAj2Zyuex+qNf0mjEaM8I0Hy4aLA7DLjj7bCP0YMPoWq/7/rvTGz
+dTJ8hNeGINdyacmqMZp0bGonQQEhxPMrp0HG+zfDUxALkCimWALuBcjboO8IIs46
+w0UbMe+WMU2Mb9WGbgG3172wiqtiYxlVpPTANYii6rORvA2NBD0=
+=cfEt
+-----END PGP SIGNATURE-----
+
+--ggkggm5lktxz7hau--
