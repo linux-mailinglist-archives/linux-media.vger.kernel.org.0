@@ -2,67 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 868B610BDBE
-	for <lists+linux-media@lfdr.de>; Wed, 27 Nov 2019 22:31:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A8F7A10C21A
+	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2019 03:03:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730911AbfK0UzC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 Nov 2019 15:55:02 -0500
-Received: from mail-il1-f199.google.com ([209.85.166.199]:38236 "EHLO
-        mail-il1-f199.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730570AbfK0UzB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Nov 2019 15:55:01 -0500
-Received: by mail-il1-f199.google.com with SMTP id o18so16054907ilb.5
-        for <linux-media@vger.kernel.org>; Wed, 27 Nov 2019 12:55:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=jQLnoHsKmxpPtDkOoFd6eJabpY7m6+AA5JOgA8Ybj74=;
-        b=kGsFua9JO1GTJDOmumiI/wq3JdhsirF/KcAsQiY5uSUjDaHX4ZWzhBN4iKESuC51ZQ
-         kM8Cdq8il3ejKBcZHVZHrKaFuF2j9AzvV4daCJv2ELWhhC2RdXcdUZoslLAfHf19UUBo
-         32gVogLIQBCXHvxrT79XN0xKgu73N2ZwhR60osr2mJuToz/Cj0cLMVrDGQ03i39elyIZ
-         dBB9d4O+a+V2VvcDfgJBSFviF/BzubO/yB2bJe6Ntz13ohYGWeG04XvMPi9RVAHd06Ju
-         pD6MCiz50o6/7aWs2yMpRTAcLRqQ7r4pV0jCXUxvp/Vi5i4ev5Wztq+ivUNlG1Uh5VTl
-         bHCA==
-X-Gm-Message-State: APjAAAUQkInXc55P4/nCc/Hdt76iD9jcrEqwP+TIH7QZaT1e6tDjK1Y6
-        XUiz6/o1T26J02KW+9TS/uqYQeICQJzMHjrQ3DMlfWtkIWFw
-X-Google-Smtp-Source: APXvYqz+j/dvUG9sE4PEZA0jKLg/e6cGp5QCogVMjQ5p0MyvvAZ6Ah/N2Rq/BOV+Mzxf0pLx9L1JYqP+zVSMEy27mnZ/q9ADIFgK
+        id S1728791AbfK1CDG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Nov 2019 21:03:06 -0500
+Received: from vps.xff.cz ([195.181.215.36]:35232 "EHLO vps.xff.cz"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728789AbfK1CDG (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 27 Nov 2019 21:03:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
+        t=1574906584; bh=RQDxlS9cbGfCHiTwpM+hDX9ba2b7M56PlxJbEpAHn64=;
+        h=From:To:Cc:Subject:Date:From;
+        b=HZ6ehS36f/dOdSnmk5GP4TRHuPE5bEB17WNVtwVPxZ+dU+9XgmjOztv287/Y7dPU6
+         jVbH7zLVqAMBBJN73o67NC1c0PSAdpoW5Q07s95ocjhsEOGKRZQjX7Yt84jnjY0+PU
+         BD1aJHCmMZ14EpvKQA70oEFi9rhFMBAIr4B/8VUI=
+From:   Ondrej Jirman <megous@megous.com>
+To:     linux-sunxi@googlegroups.com
+Cc:     Ondrej Jirman <megous@megous.com>,
+        Yong Deng <yong.deng@magewell.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        linux-media@vger.kernel.org (open list:CSI DRIVERS FOR ALLWINNER V3s),
+        linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner
+        sunXi SoC support), linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] media: sun6i-csi: Fix incorrect HSYNC/VSYNC/PCLK polarity configuration
+Date:   Thu, 28 Nov 2019 03:02:59 +0100
+Message-Id: <20191128020259.1338188-1-megous@megous.com>
 MIME-Version: 1.0
-X-Received: by 2002:a5e:8505:: with SMTP id i5mr6587567ioj.158.1574888100803;
- Wed, 27 Nov 2019 12:55:00 -0800 (PST)
-Date:   Wed, 27 Nov 2019 12:55:00 -0800
-In-Reply-To: <Pine.LNX.4.44L0.1911271304410.1319-100000@iolanthe.rowland.org>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000cf39d205985a35b0@google.com>
-Subject: Re: KASAN: use-after-free Read in si470x_int_in_callback (2)
-From:   syzbot <syzbot+9ca7a12fd736d93e0232@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, hverkuil@xs4all.nl,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-usb@vger.kernel.org, mchehab@kernel.org, oneukum@suse.com,
-        stern@rowland.harvard.edu, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+This was discovered by writing a new camera driver and wondering, why
+hsync/vsync polarity setting behaves in reverse to what would be
+expected. Verified by looking at the actual signals and the SoC
+user manual.
 
-syzbot has tested the proposed patch and the reproducer did not trigger  
-crash:
+Fixes: 5cc7522d8965 ("media: sun6i: Add support for Allwinner CSI V3s")
+Signed-off-by: Ondrej Jirman <megous@megous.com>
+---
+ drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Reported-and-tested-by:  
-syzbot+9ca7a12fd736d93e0232@syzkaller.appspotmail.com
+diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+index f17e5550602d..98bbcca59a90 100644
+--- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
++++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+@@ -417,12 +417,12 @@ static void sun6i_csi_setup_bus(struct sun6i_csi_dev *sdev)
+ 		if (flags & V4L2_MBUS_FIELD_EVEN_LOW)
+ 			cfg |= CSI_IF_CFG_FIELD_POSITIVE;
+ 
+-		if (flags & V4L2_MBUS_VSYNC_ACTIVE_LOW)
++		if (flags & V4L2_MBUS_VSYNC_ACTIVE_HIGH)
+ 			cfg |= CSI_IF_CFG_VREF_POL_POSITIVE;
+-		if (flags & V4L2_MBUS_HSYNC_ACTIVE_LOW)
++		if (flags & V4L2_MBUS_HSYNC_ACTIVE_HIGH)
+ 			cfg |= CSI_IF_CFG_HREF_POL_POSITIVE;
+ 
+-		if (flags & V4L2_MBUS_PCLK_SAMPLE_RISING)
++		if (flags & V4L2_MBUS_PCLK_SAMPLE_FALLING)
+ 			cfg |= CSI_IF_CFG_CLK_POL_FALLING_EDGE;
+ 		break;
+ 	case V4L2_MBUS_BT656:
+-- 
+2.24.0
 
-Tested on:
-
-commit:         22be26f7 usb-fuzzer: main usb gadget fuzzer driver
-git tree:       https://github.com/google/kasan.git
-kernel config:  https://syzkaller.appspot.com/x/.config?x=387eccb7ac68ec5
-dashboard link: https://syzkaller.appspot.com/bug?extid=9ca7a12fd736d93e0232
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=17d13f6ae00000
-
-Note: testing is done by a robot and is best-effort only.
