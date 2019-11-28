@@ -2,35 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F0C910C850
-	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2019 13:02:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B5DE10C9C5
+	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2019 14:45:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726448AbfK1MCG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Nov 2019 07:02:06 -0500
-Received: from relay3-d.mail.gandi.net ([217.70.183.195]:40589 "EHLO
+        id S1726622AbfK1Now (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Nov 2019 08:44:52 -0500
+Received: from relay3-d.mail.gandi.net ([217.70.183.195]:51237 "EHLO
         relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726227AbfK1MCG (ORCPT
+        with ESMTP id S1726561AbfK1Now (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Nov 2019 07:02:06 -0500
+        Thu, 28 Nov 2019 08:44:52 -0500
 X-Originating-IP: 2.224.242.101
 Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 86F0460007;
-        Thu, 28 Nov 2019 12:02:03 +0000 (UTC)
-Date:   Thu, 28 Nov 2019 13:04:11 +0100
+        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 7511160013;
+        Thu, 28 Nov 2019 13:44:49 +0000 (UTC)
+Date:   Thu, 28 Nov 2019 14:46:57 +0100
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Steve Longerbeam <slongerbeam@gmail.com>
 Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 02/23] media: entity: Modify default behavior of
- media_entity_get_fwnode_pad
-Message-ID: <20191128120411.x7avm62lyq36gdya@uno.localdomain>
+Subject: Re: [PATCH v2 05/23] media: entity: Add functions to convert fwnode
+ endpoints to media links
+Message-ID: <20191128134657.mlxzawiywyjlqzst@uno.localdomain>
 References: <20191124190703.12138-1-slongerbeam@gmail.com>
- <20191124190703.12138-3-slongerbeam@gmail.com>
+ <20191124190703.12138-6-slongerbeam@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="wdwotjv2merb2wut"
+        protocol="application/pgp-signature"; boundary="gcxnioxb5vvdk3wu"
 Content-Disposition: inline
-In-Reply-To: <20191124190703.12138-3-slongerbeam@gmail.com>
+In-Reply-To: <20191124190703.12138-6-slongerbeam@gmail.com>
 User-Agent: NeoMutt/20180716
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
@@ -38,169 +38,346 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---wdwotjv2merb2wut
+--gcxnioxb5vvdk3wu
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 
 Hi Steve,
 
-On Sun, Nov 24, 2019 at 11:06:42AM -0800, Steve Longerbeam wrote:
-> Modify the default behavior of media_entity_get_fwnode_pad() (when the
-> entity does not provide the get_fwnode_pad op) to first assume the entity
-> implements a 1:1 mapping between fwnode port number and media pad index.
+On Sun, Nov 24, 2019 at 11:06:45AM -0800, Steve Longerbeam wrote:
+> Adds two functions:
 >
-> If the 1:1 mapping is not valid, e.g. the port number falls outside the
-> entity's pad index range, or the pad at that port number doesn't match the
-> given direction_flags, fall-back to the previous behavior that searches
-> the entity for the first pad that matches the given direction_flags.
+> media_create_fwnode_pad_links(), which converts fwnode endpoints that
+> connect a local pad to all pads on a remote entity into media links.
 >
-> The previous default behavior can choose the wrong pad for entities with
-> multiple sink or source pads. With this change the function will choose
-> the correct pad index if the entity implements a 1:1 port to pad mapping
-> at that port.
+> media_create_fwnode_links(), which converts fwnode endpoints that
+> connect all pads from a local entity to all pads on a remote entity into
+> media links.
 >
-> Add some comments to the @get_fwnode_pad operation to make it more clear
-> under what conditions entities must implement the operation.
->
-
-I understand the rationale behind this, but this is not better than
-assuming the first pad with a matching direction flag is the right
-one imho.
-
-This should help for subdevices with multiple sink/sources, but they
-should really implement get_fwnode_pad() instead of relying on yet another
-assumption as we had "the first pad with matching direction is the right
-one" and now we also have "the pad at index endpoint.port is the right
-one". As you've been testing it, how many of the current mailine
-supported devices actually need this and could not:
-1) Implement get_fwnode_pad() as you are doing for adv748x
-2) Keep assuming the first pad with a matching flag is the correct one
-
-Thanks
-   j
 > Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
 > ---
->  drivers/media/mc/mc-entity.c | 25 ++++++++++++++++++++-----
->  include/media/media-entity.h | 21 +++++++++++++++------
->  2 files changed, 35 insertions(+), 11 deletions(-)
+> Changes in v2:
+> - fixed/improved the prototype descriptions.
+> ---
+>  drivers/media/mc/mc-entity.c | 178 +++++++++++++++++++++++++++++++++++
+>  include/media/media-entity.h |  71 ++++++++++++++
+>  2 files changed, 249 insertions(+)
 >
 > diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-> index c333320f790a..47a39d9383d8 100644
+> index e9e090244fd4..45bbd6c91019 100644
 > --- a/drivers/media/mc/mc-entity.c
 > +++ b/drivers/media/mc/mc-entity.c
-> @@ -370,22 +370,37 @@ int media_entity_get_fwnode_pad(struct media_entity *entity,
->  				unsigned long direction_flags)
->  {
->  	struct fwnode_endpoint endpoint;
-> -	unsigned int i;
->  	int ret;
+> @@ -787,6 +787,184 @@ int media_create_pad_links(const struct media_device *mdev,
+>  }
+>  EXPORT_SYMBOL_GPL(media_create_pad_links);
 >
-> +	ret = fwnode_graph_parse_endpoint(fwnode, &endpoint);
-> +	if (ret)
+> +static int __media_create_fwnode_pad_link(struct media_pad *local_pad,
+> +					struct media_entity *remote,
+> +					const struct fwnode_handle *remote_ep,
+> +					const u32 flags)
+> +{
+> +	struct media_entity *local = local_pad->entity;
+> +	unsigned long local_dir = local_pad->flags;
+> +	unsigned long remote_dir = (local_dir & MEDIA_PAD_FL_SOURCE) ?
+> +		MEDIA_PAD_FL_SINK : MEDIA_PAD_FL_SOURCE;
+> +	struct media_entity *src, *sink;
+> +	int src_pad, sink_pad;
+> +	int remote_pad;
+> +	int ret;
+> +
+> +	remote_pad = media_entity_get_fwnode_pad(remote, remote_ep,
+> +						 remote_dir);
+> +	if (remote_pad < 0)
+> +		return 0;
+> +
+> +	if (local_dir & MEDIA_PAD_FL_SOURCE) {
+> +		src = local;
+> +		src_pad = local_pad->index;
+> +		sink = remote;
+> +		sink_pad = remote_pad;
+> +	} else {
+> +		src = remote;
+> +		src_pad = remote_pad;
+> +		sink = local;
+> +		sink_pad = local_pad->index;
+> +	}
+> +
+> +	/* make sure link doesn't already exist */
+> +	if (media_entity_find_link(&src->pads[src_pad],
+> +				   &sink->pads[sink_pad]))
+> +		return 0;
+> +
+> +	ret = media_create_pad_link(src, src_pad, sink, sink_pad, flags);
+> +	if (ret) {
+> +		dev_dbg(sink->graph_obj.mdev->dev,
+> +			"%s:%d -> %s:%d failed with %d\n",
+> +			src->name, src_pad, sink->name, sink_pad,
+> +			ret);
 > +		return ret;
+> +	}
 > +
->  	if (!entity->ops || !entity->ops->get_fwnode_pad) {
-> +		unsigned int i;
+> +	dev_dbg(sink->graph_obj.mdev->dev, "%s:%d -> %s:%d\n",
+> +		src->name, src_pad, sink->name, sink_pad);
+> +
+> +	return 0;
+> +}
+> +
+> +int __media_create_fwnode_pad_links(struct media_pad *local_pad,
+> +				    const struct fwnode_handle *local_fwnode,
+> +				    struct media_entity *remote,
+> +				    const struct fwnode_handle *remote_fwnode,
+> +				    const u32 link_flags)
+> +{
+> +	struct fwnode_handle *endpoint;
+> +
+> +	fwnode_graph_for_each_endpoint(remote_fwnode, endpoint) {
+> +		struct fwnode_link link;
+> +		int ret;
+> +
+> +		ret = fwnode_graph_parse_link(endpoint, &link);
+> +		if (ret)
+> +			continue;
 > +
 > +		/*
-> +		 * for the default case, first try a 1:1 mapping between
-> +		 * fwnode port number and pad index.
+> +		 * if this endpoint does not link to the local fwnode
+> +		 * device, ignore it and continue.
 > +		 */
-> +		ret = endpoint.port;
-> +		if (ret < entity->num_pads &&
-> +		    (entity->pads[ret].flags & direction_flags))
+> +		if (link.remote_port_parent != local_fwnode) {
+> +			fwnode_graph_put_link(&link);
+> +			continue;
+> +		}
+> +
+> +		ret = __media_create_fwnode_pad_link(local_pad,
+> +						     remote, endpoint,
+> +						     link_flags);
+> +
+> +		fwnode_graph_put_link(&link);
+> +
+> +		if (ret) {
+> +			fwnode_handle_put(endpoint);
 > +			return ret;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(__media_create_fwnode_pad_links);
+> +
+> +int media_create_fwnode_pad_links(struct media_pad *local_pad,
+> +				  const struct fwnode_handle *local_fwnode,
+> +				  struct media_entity *remote,
+> +				  const struct fwnode_handle *remote_fwnode,
+> +				  const u32 link_flags)
+> +{
+> +	struct media_device *mdev = local_pad->entity->graph_obj.mdev;
+> +	int ret;
+> +
+> +	mutex_lock(&mdev->graph_mutex);
+> +	ret = __media_create_fwnode_pad_links(local_pad, local_fwnode,
+> +					      remote, remote_fwnode,
+> +					      link_flags);
+> +	mutex_unlock(&mdev->graph_mutex);
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(media_create_fwnode_pad_links);
+> +
+> +int __media_create_fwnode_links(struct media_entity *local,
+> +				const struct fwnode_handle *local_fwnode,
+> +				struct media_entity *remote,
+> +				const struct fwnode_handle *remote_fwnode,
+> +				const u32 link_flags)
+> +{
+> +	struct fwnode_handle *endpoint;
+> +
+> +	fwnode_graph_for_each_endpoint(local_fwnode, endpoint) {
+> +		struct fwnode_link link;
+> +		int local_pad;
+> +		int ret;
+> +
+> +		local_pad = media_entity_get_fwnode_pad(local, endpoint,
+> +							MEDIA_PAD_FL_SINK |
+> +							MEDIA_PAD_FL_SOURCE);
+
+I wonder.. I feel like we could have saved a lot of churn if we record
+the local endpoint on which we register an async device, likely in
+struct v4l2_async_subdev.
+
+At bound() time we would receive back the local endpoint on which the
+just bound subdev was originally registered, we could get the remote
+endpoint by parsing the fwnode_graph_link and from there we could
+provide utilities like the ones you have here, by saving testing all
+endpoints until we don't find one that matches the subdev which got
+bound.
+
+This would probably just work for V4L2_ASYNC_MATCH_FWNODE though, but
+have you considered this solution ? It would avoid trying all the
+local endpoints blindly here and it would encourage drivers to provide
+a function to do the endpoint->pad_index translation (which ideally
+they should, to avoid workarounds like the ones we have in
+media_entity_get_fwnode_pad()
+
+Thanks
+  j
+
+> +		if (local_pad < 0)
+> +			continue;
+> +
+> +		ret = fwnode_graph_parse_link(endpoint, &link);
+> +		if (ret)
+> +			continue;
 > +
 > +		/*
-> +		 * if that didn't work search the entity for the first
-> +		 * pad that matches the @direction_flags.
+> +		 * if this endpoint does not link to the remote fwnode
+> +		 * device, ignore it and continue.
 > +		 */
->  		for (i = 0; i < entity->num_pads; i++) {
->  			if (entity->pads[i].flags & direction_flags)
->  				return i;
->  		}
->
-> +		/* else fail */
->  		return -ENXIO;
->  	}
->
-> -	ret = fwnode_graph_parse_endpoint(fwnode, &endpoint);
-> -	if (ret)
-> -		return ret;
-> -
->  	ret = entity->ops->get_fwnode_pad(entity, &endpoint);
->  	if (ret < 0)
->  		return ret;
+> +		if (link.remote_port_parent != remote_fwnode) {
+> +			fwnode_graph_put_link(&link);
+> +			continue;
+> +		}
+> +
+> +		ret = __media_create_fwnode_pad_link(&local->pads[local_pad],
+> +						     remote,
+> +						     link.remote.local_fwnode,
+> +						     link_flags);
+> +
+> +		fwnode_graph_put_link(&link);
+> +
+> +		if (ret) {
+> +			fwnode_handle_put(endpoint);
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(__media_create_fwnode_links);
+> +
+> +int media_create_fwnode_links(struct media_entity *local,
+> +			      const struct fwnode_handle *local_fwnode,
+> +			      struct media_entity *remote,
+> +			      const struct fwnode_handle *remote_fwnode,
+> +			      const u32 link_flags)
+> +{
+> +	struct media_device *mdev = local->graph_obj.mdev;
+> +	int ret;
+> +
+> +	mutex_lock(&mdev->graph_mutex);
+> +	ret = __media_create_fwnode_links(local, local_fwnode,
+> +					  remote, remote_fwnode, link_flags);
+> +	mutex_unlock(&mdev->graph_mutex);
+> +
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(media_create_fwnode_links);
+> +
+>  void __media_entity_remove_links(struct media_entity *entity)
+>  {
+>  	struct media_link *link, *tmp;
 > diff --git a/include/media/media-entity.h b/include/media/media-entity.h
-> index cde80ad029b7..ed00adb4313b 100644
+> index de7fc3676b5a..100673ad83c4 100644
 > --- a/include/media/media-entity.h
 > +++ b/include/media/media-entity.h
-> @@ -199,6 +199,12 @@ struct media_pad {
->   * @get_fwnode_pad:	Return the pad number based on a fwnode endpoint or
->   *			a negative value on error. This operation can be used
->   *			to map a fwnode to a media pad number. Optional.
-> + *			Entities do not need to implement this operation
-> + *			unless two conditions are met:
-> + *			- the entity has more than one sink and/or source
-> + *			  pad, _and_
-> + *			- the entity does not implement a 1:1 mapping of
-> + *			  fwnode port numbers to pad indexes.
->   * @link_setup:		Notify the entity of link changes. The operation can
->   *			return an error, in which case link setup will be
->   *			cancelled. Optional.
-> @@ -858,21 +864,24 @@ struct media_link *media_entity_find_link(struct media_pad *source,
->  struct media_pad *media_entity_remote_pad(const struct media_pad *pad);
+> @@ -772,6 +772,77 @@ int media_create_pad_links(const struct media_device *mdev,
+>  			   u32 flags,
+>  			   const bool allow_both_undefined);
+>
+> +/**
+> + * media_create_fwnode_pad_links() - create links between a single local pad
+> + *			and a remote entity, using the fwnode endpoints
+> + *			between them.
+> + *
+> + * @local_pad: Pointer to &media_pad of the local media pad.
+> + * @local_fwnode: Pointer to the local device's firmware node.
+> + * @remote: Pointer to &media_entity of the remote device.
+> + * @remote_fwnode: Pointer to the remote device's firmware node.
+> + * @link_flags: Link flags, as defined in include/uapi/linux/media.h.
+> + *
+> + * .. note::
+> + *
+> + *    Before calling this function, media_entity_pads_init() and
+> + *    media_device_register_entity() should be called previously for
+> + *    both entities to be linked.
+> + *
+> + *    Locked (via the mdev graph_mutex) and unlocked versions of this
+> + *    function are provided. If this function is called from v4l2-async
+> + *    notifier bound handlers, the locked version should be used to
+> + *    prevent races with other subdevices loading and binding to their
+> + *    notifiers in parallel. The unlocked version can for example be
+> + *    called from v4l2-async notifier complete handlers, after all
+> + *    subdevices have loaded and bound.
+> + */
+> +int __media_create_fwnode_pad_links(struct media_pad *local_pad,
+> +				    const struct fwnode_handle *local_fwnode,
+> +				    struct media_entity *remote,
+> +				    const struct fwnode_handle *remote_fwnode,
+> +				    const u32 link_flags);
+> +int media_create_fwnode_pad_links(struct media_pad *local_pad,
+> +				  const struct fwnode_handle *local_fwnode,
+> +				  struct media_entity *remote,
+> +				  const struct fwnode_handle *remote_fwnode,
+> +				  const u32 link_flags);
+> +
+> +/**
+> + * media_create_fwnode_links() - create links between two entities, using
+> + *				the fwnode endpoints between them.
+> + *
+> + * @local: Pointer to &media_entity of the local device.
+> + * @local_fwnode: Pointer to the local device's firmware node.
+> + * @remote: Pointer to &media_entity of the remote device.
+> + * @remote_fwnode: Pointer to the remote device's firmware node.
+> + * @link_flags: Link flags, as defined in include/uapi/linux/media.h.
+> + *
+> + * .. note::
+> + *
+> + *    Before calling this function, media_entity_pads_init() and
+> + *    media_device_register_entity() should be called previously for
+> + *    both entities to be linked.
+> + *
+> + *    Locked (via the mdev graph_mutex) and unlocked versions of this
+> + *    function are provided. If this function is called from v4l2-async
+> + *    notifier bound handlers, the locked version should be used to
+> + *    prevent races with other subdevices loading and binding to their
+> + *    notifiers in parallel. The unlocked version can for example be
+> + *    called from v4l2-async notifier complete handlers, after all
+> + *    subdevices have loaded and bound.
+> + */
+> +int __media_create_fwnode_links(struct media_entity *local,
+> +				const struct fwnode_handle *local_fwnode,
+> +				struct media_entity *remote,
+> +				const struct fwnode_handle *remote_fwnode,
+> +				const u32 link_flags);
+> +int media_create_fwnode_links(struct media_entity *local,
+> +			      const struct fwnode_handle *local_fwnode,
+> +			      struct media_entity *remote,
+> +			      const struct fwnode_handle *remote_fwnode,
+> +			      const u32 link_flags);
+> +
+>  void __media_entity_remove_links(struct media_entity *entity);
 >
 >  /**
-> - * media_entity_get_fwnode_pad - Get pad number from fwnode
-> + * media_entity_get_fwnode_pad - Get pad number from an endpoint fwnode
->   *
->   * @entity: The entity
-> - * @fwnode: Pointer to the fwnode_handle which should be used to find the pad
-> + * @fwnode: Pointer to the endpoint fwnode_handle which should be used to
-> + *          find the pad
->   * @direction_flags: Expected direction of the pad, as defined in
->   *		     :ref:`include/uapi/linux/media.h <media_header>`
->   *		     (seek for ``MEDIA_PAD_FL_*``)
->   *
->   * This function can be used to resolve the media pad number from
-> - * a fwnode. This is useful for devices which use more complex
-> - * mappings of media pads.
-> + * an endpoint fwnode. This is useful for devices which use more
-> + * complex mappings of media pads.
->   *
->   * If the entity does not implement the get_fwnode_pad() operation
-> - * then this function searches the entity for the first pad that
-> - * matches the @direction_flags.
-> + * then this function first assumes the entity implements a 1:1 mapping
-> + * between fwnode port number and media pad index. If the 1:1 mapping
-> + * is not valid, then the function searches the entity for the first pad
-> + * that matches the @direction_flags.
->   *
->   * Return: returns the pad number on success or a negative error code.
->   */
 > --
 > 2.17.1
 >
 
---wdwotjv2merb2wut
+--gcxnioxb5vvdk3wu
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl3ft7sACgkQcjQGjxah
-VjxAAw//RGCmAcdR4COlNeF1piXP5h020myfb9ZXvtejESBUazQIahtjXqRN5/d0
-6HWgFwXQSyITE1nGVc9hCYHsJuaW+nbHXiuvKVgNAOMQcUTi7W+H7TrcsOmvOpTl
-5/PB665AEstFytbYnFdujMOlnk5zbil4VFRx3Fd56Hi/vhLjaMG94CRpoa5uW4N0
-iAkgN0Oag2zSlmDW7j3DsrN3n8elhRn2MgX+nc1/VB089Fwk0yuUCPoiSll8OsHF
-M/uxfGUPppsnxBVnfjdTsPK6rJp8/HdAoTM4oGbhFfA7AGsXErc5AKkbW+aFuqcC
-LlxpXuqixWquSOUit65BLBnk9rRy1Jc860sC5EZZnir6mq8le/DiVj309EL/RmLe
-+AJ4kWzGrSaKc+vNamJJSugTt6FweIoCTf42km3qUCpuNeM2AjtP4fDWXD+9mxcW
-oe/CjbRGXY1N99FrDi9n/UFP/V9V3sRlqQkLcQ2PKPkgcs1PiWJdrKkYgFK5ma1u
-85tEidAnJ60WJTDRNlDWBCTkP1t5XnwOa5KbqglUgDecHcyhaINo3a1RBmi7Z9SX
-7EUm3RHWB45l8JffX/wgrHwwRJrGA1tMzeibRlWTYDF9hqH4oxdlfrH1Le3VXlhn
-oBf3uPDWwNPiJbdw/X7OgwBFp5xvvcavVMkxMVhxDrYAT9xtGQ0=
-=8dQr
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl3fz9EACgkQcjQGjxah
+VjyiGBAAwq1enYXmYGiKedYw6kB7Fi7KYBWPKHwdXtSeGtFronufSA9TtaqkNRRO
+KsD4fo9Bv8zOruowrwz+CCEOerp2ENMFKnFge5ptq/9ESVhUV7sBLohTAr+mZjZH
+PLBPWK6dJv9Pt+M+0Y0Bdkds6r0tD/6LyPXyb8j3mSPa/4MHxL5/j9wFGZ/taBJp
+VgOfNwxZAHlykROBTJ5UTdyia9tzbbJ0deIOwymbuMf8+rLHUZj/VqsDUtZpi6Go
+V8GObQ4wis2KIU0bcF5KMtJgfI5npK8xUKcE/vPaTi35YxVm0TF6nz9tbs9HEEnj
+48QS//OXVeFvWBd/hLQg9dYYayoxjaX4MYyhjS+0uOCFLw/pr4P6tPy+o1L8FiJh
+k87syfSoCVi5koV8LgEvzbQlC2p6IFCa16LbB+CYKpOywvkv3wW8/YHZAQsVW1Kw
+pH7M+2x8RVOfpmXlvbxuk/VuSHYFnm7XiwZ1g7D2kao4dgd0RTOUr4w3pLVm9liT
+xfmGPqwkJJBX9vx1j8cL7EEsi9mU+yz1b51RkIYtq1S5VLOCsm/dyWBN/BUTgBRv
+Ryf+EJxx1Pla51iofhhi5MhMhN23ZDOk/Q+BM+3CnM+gc5usD0yI20iz0qvuP5c4
+1eoFUHNUpl19/w2FvK0I/D6CHVXgAHrtKmCbwgB7fbK7qp2tBsc=
+=/HlE
 -----END PGP SIGNATURE-----
 
---wdwotjv2merb2wut--
+--gcxnioxb5vvdk3wu--
