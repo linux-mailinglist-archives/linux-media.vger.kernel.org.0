@@ -2,223 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C564D10C32C
-	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2019 05:17:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8172910C348
+	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2019 05:55:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727171AbfK1EOz convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 27 Nov 2019 23:14:55 -0500
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:39711 "EHLO
-        mail-ed1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727113AbfK1EOz (ORCPT
+        id S1727142AbfK1Ezq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 Nov 2019 23:55:46 -0500
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:58871 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726401AbfK1Ezq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 Nov 2019 23:14:55 -0500
-Received: by mail-ed1-f65.google.com with SMTP id n26so21564073edw.6;
-        Wed, 27 Nov 2019 20:14:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:content-transfer-encoding;
-        bh=5sfODevhRJ0fpp4KUyFGDUEZZ6v0++XmlIguNOG57fk=;
-        b=SdqudRZtiXntSWYVjsD+M3Dff6R0g1PA7mcqkadkbRKalHsT8/eRvK4wI1B+RCgmjw
-         MwB8CwNpJWCH9/pWViP2rcByUVhQkZDYcxD5hPl6e6zUw5GDw2GZrWc5ApyB0jXsVLK+
-         bGt9a5YvkD8Wf1Mix9OEkwN9DNlgGSgvOLIOqwe9vJINEmTrBfq8ELTmhi1vkpBQL831
-         KTcBY20yeUwQ7LX2Rmngsf96YK5YumNBeSBDcwJQ/s5NdZjPzVkVf0yflmR+e/i+K5eU
-         HsSsltFgQhrTePmFNmiKtFkNzp+fcMhYBx4ICsXr7sAAbvCqYXHlIBURPFNbxME6cDOU
-         LCqg==
-X-Gm-Message-State: APjAAAVJOGM/4NE0Pv6zN7mHKRnK3oYNjz4YxEpx12sWRhqlJWCpYzN1
-        9WvGsCPX8L3QLvRWcZCY0qmtUzqf+8s=
-X-Google-Smtp-Source: APXvYqzgFhD+T5fxUoya/jLtBL4eHuSsChCKXqhcBOGldyYTNxMyiPTKT3ULF356xWVfVgIUv7oYwA==
-X-Received: by 2002:a17:906:31c3:: with SMTP id f3mr30077832ejf.198.1574914491795;
-        Wed, 27 Nov 2019 20:14:51 -0800 (PST)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com. [209.85.221.51])
-        by smtp.gmail.com with ESMTPSA id z69sm907335ede.88.2019.11.27.20.14.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 Nov 2019 20:14:51 -0800 (PST)
-Received: by mail-wr1-f51.google.com with SMTP id a15so29341678wrf.9;
-        Wed, 27 Nov 2019 20:14:51 -0800 (PST)
-X-Received: by 2002:adf:81e3:: with SMTP id 90mr2263793wra.23.1574914490971;
- Wed, 27 Nov 2019 20:14:50 -0800 (PST)
-MIME-Version: 1.0
-References: <20191128020259.1338188-1-megous@megous.com> <20191128102608.035cbb996c8681a6fb035336@magewell.com>
- <20191128030653.5fhcolvib6tzf4zc@core.my.home> <CAGb2v65+4LhHU5UCOhnowKqK+GUiAKzi+wcPxkmuwtJ=itv-iw@mail.gmail.com>
- <20191128035056.77554jav3eo6h7su@core.my.home>
-In-Reply-To: <20191128035056.77554jav3eo6h7su@core.my.home>
-From:   Chen-Yu Tsai <wens@csie.org>
-Date:   Thu, 28 Nov 2019 12:14:35 +0800
-X-Gmail-Original-Message-ID: <CAGb2v67Bfrn+_tSjF6Jeu0G3v9_BhrB__Sgag-yd5WwiSmztkA@mail.gmail.com>
-Message-ID: <CAGb2v67Bfrn+_tSjF6Jeu0G3v9_BhrB__Sgag-yd5WwiSmztkA@mail.gmail.com>
-Subject: Re: [linux-sunxi] [PATCH] media: sun6i-csi: Fix incorrect
- HSYNC/VSYNC/PCLK polarity configuration
-To:     =?UTF-8?Q?Ond=C5=99ej_Jirman?= <megous@megous.com>,
-        Chen-Yu Tsai <wens@csie.org>, Yong <yong.deng@magewell.com>,
-        linux-sunxi <linux-sunxi@googlegroups.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        "open list:CSI DRIVERS FOR ALLWINNER V3s" 
-        <linux-media@vger.kernel.org>,
-        "moderated list:ARM/Allwinner sunXi SoC support" 
-        <linux-arm-kernel@lists.infradead.org>,
-        open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+        Wed, 27 Nov 2019 23:55:46 -0500
+Received: from localhost ([IPv6:2001:983:e9a7:1:7108:93af:ccae:acbc])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id aBq8iSUeFjpCOaBq9iC64l; Thu, 28 Nov 2019 05:55:44 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1574916944; bh=5hh/rqmvLrCzmqtLr8hcplOTAXZIdUnVKTyfumkEHbA=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=d5FpBQQdoFpz3p61EMF91sVOQHX5e4XtPZ3N55pwleiOvcvBmPEFXe3+bhsMu7TAE
+         QLeROtdOm5EXXbH/gBs4ihstoFNsqhv8+WWTjyzv03xuhkhQRuscNKhFnuj50rZDut
+         woUHww/jAqKAGFpXj29IjwNf0l8OunuV63JKwSJKBRyTNo+yAj7RaapoU2M4+FeDmS
+         0MaE0hZqwQx0HcRDXjixnrGFu67cWXCgOUDj5eAroYjm6uuQRnLO7ANImuRIx/fkA4
+         +zpVFFseDYfbFFpyi7TSz9Vqw8gF8hOpNyVz4PkYMYA9NqOexu1gUGQUhETizw6aPP
+         MiBKgfR/7Wdcg==
+Message-ID: <848cb1ef85c5c0be8e7834b350bafdc5@smtp-cloud7.xs4all.net>
+Date:   Thu, 28 Nov 2019 05:55:40 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfKYAmKjBSijqv/o8MEOVqX5bwdLy0idVnO806aMznv5Pz3NhraNsiJEufrujSB7yTj03yV203jaBlyt7KZDIXpNda1p6X2BvM9X6BXRqvmER48lZah81
+ aZAOixX+8eZbw0zl+u58zhdcRTbjNEr4IQlL5Qf3G7a46pWVAV+nG+E3eUXPKQbNxFTjtr9z5rsBOXSAY8mAD0Tdsy/ufbkhir9D36pm136Kuzg1Acw9RHBi
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Nov 28, 2019 at 11:51 AM Ondřej Jirman <megous@megous.com> wrote:
->
-> On Thu, Nov 28, 2019 at 11:26:24AM +0800, Chen-Yu Tsai wrote:
-> > On Thu, Nov 28, 2019 at 11:06 AM Ondřej Jirman <megous@megous.com> wrote:
-> > >
-> > > Hi,
-> > >
-> > > On Thu, Nov 28, 2019 at 10:26:08AM +0800, Yong wrote:
-> > > > Hi Ondrej,
-> > > >
-> > > > This has been discussed.
-> > > > And Maxime sent a patch for this:
-> > > > https://www.mail-archive.com/linux-media@vger.kernel.org/msg127149.html
-> > >
-> > > Thanks for pointing to the previous patch. But that patch doesn't make any
-> > > sense, and breaks things for me, and doesn't even match BSP code, which
-> > > has no such reversal, and works fine with about 30 cam drivers.
-> > >
-> > > Also how do you explain my findings?
-> > >
-> > > My camera is sending correct signals, verified by looking at them actually (see
-> > > below), and CSI is not receiving the image. I have to flip HSYNC/VSYNC to be
-> > > oposite of that what CSI driver expects and I get a noisy image and if I fix
-> > > PCLK polarity too, the noise goes away, which means now I'm also sampling when
-> > > the data are stable and not when they're changing.
-> > >
-> > > Here: (output from my cam, that I configured to have VSYNC ACTIVE LOW, HSYNC
-> > > ACTIVE LOW) And the signal is clearly that, as you can see yourself:
-> > >
-> > >   https://megous.com/dl/tmp/98df81b7ed0126ec.png
-> >
-> > From the looks of things you have active-high VSYNC with active-low HREF.
-> > HREF is not the same as HSYNC, in fact quite the opposite. V/H SYNC are
-> > pulses, active only when there should be no data and the line/frame switch
-> > happens, while V/H REF are held active when there is data. I personally
-> > find these terms very confusing. :(
-> >
-> > Now the timing diagrams in the Allwinner manuals would suggest that when
-> > they are talking about H/V SYNC, they are actually referring to H/V REF.
-> > The HSYNC line is high/active when there is valid data, and the VSYNC line
-> > is high/active for the duration of the frame.
-> >
-> > I think both sides need to be checked that they are using the correct
-> > polarity, and maybe also have the media maintainers clarify how the
-> > polarity should be interpreted when the hardware uses H/V ref instead
-> > of H/V sync.
->
-> Oh my, so it's just a terminology issue? :)
->
-> This probably should be docummented somewhere. I just thought xSYNC_ACTIVE_HIGH
-> meant the respective signals are supposed to be HIGH during active phase of data
-> transmission: that is VSYNC HIGH during entire frame, and HSYNC high during row.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Unfortunately I'm having a hard time finding a definitive source for this. My
-rationale is that since the sync signal is a pulse, the active part would refer
-to the pulsing part, not the at rest part.
+Results of the daily build of media_tree:
 
-> DT bindings documentation doesn't help much either.
+date:			Thu Nov 28 05:00:17 CET 2019
+media-tree git hash:	dca6b3733a4a46e63603496f544ece8ace541fde
+media_build git hash:	efba365ba11b958a6bf6fb4b397942f9461cefca
+v4l-utils git hash:	8ae5d055c9ad60c65ef6813f925ad3719a92ccb5
+edid-decode git hash:	78a653d8b58871fd5a00d9f71a29c1e925073ac9
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 6903fe8f5101fc43440b3259290c97d2dd51733d
+host hardware:		x86_64
+host os:		5.2.0-3-amd64
 
-Yeah. I think this should be sorted out for the whole subsystem, as this not
-only affects platform drivers, but the sensor drivers as well.
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4-i686: OK
+linux-5.4-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2791, Succeeded: 2791, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
 
-> And obviously manufacturers are confused too.
->
->   https://megous.com/dl/tmp/fae07dfb4897bbb3.png
+Detailed results are available here:
 
-It seems at least OmniVision uses VSYNC + HREF. GalaxyCore seems to use VSYNC +
-HREF as well, but they call it HSYNC, and VSYNC polarity is inverted. :(
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
 
-The OV7670 sensor I was testing had an option to switch from HREF to HSYNC,
-and another one to invert HREF. Talk about confusing. And HSYNC != inverted
-HREF. They will be some PCLK cycles apart.
+Detailed regression test results are available here:
 
-> HSYNC/VSYNC "low valid" produces what you see on the previous signal capture
-> I posted. ;)
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
 
-Thanks. I don't have a scope or logic analyzer. I'll wait for the people who
-do to figure this out.
+Full logs are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
 
-Regards
-ChenYu
+The Media Infrastructure API from this daily build is here:
 
-> regards,
->         o.
->
-> >
-> > ChenYu
-> >
-> > > The above signals are received with CSI driver configured with
-> > > V4L2_MBUS_VSYNC_ACTIVE_HIGH V4L2_MBUS_HSYNC_ACTIVE_HIGH. So CSI driver is
-> > > clearly wrong.
-> > >
-> > > I think this is pretty clear the driver is buggy. At least for A83T SoC.
-> > >
-> > > I'm not sure what Maxime found out, but he should probably re-check his
-> > > findings. Maxime, can you comment on this?
-> > >
-> > > regards,
-> > >         o.
-> > >
-> > > > On Thu, 28 Nov 2019 03:02:59 +0100
-> > > > Ondrej Jirman <megous@megous.com> wrote:
-> > > >
-> > > > > This was discovered by writing a new camera driver and wondering, why
-> > > > > hsync/vsync polarity setting behaves in reverse to what would be
-> > > > > expected. Verified by looking at the actual signals and the SoC
-> > > > > user manual.
-> > > > >
-> > > > > Fixes: 5cc7522d8965 ("media: sun6i: Add support for Allwinner CSI V3s")
-> > > > > Signed-off-by: Ondrej Jirman <megous@megous.com>
-> > > > > ---
-> > > > >  drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c | 6 +++---
-> > > > >  1 file changed, 3 insertions(+), 3 deletions(-)
-> > > > >
-> > > > > diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> > > > > index f17e5550602d..98bbcca59a90 100644
-> > > > > --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> > > > > +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> > > > > @@ -417,12 +417,12 @@ static void sun6i_csi_setup_bus(struct sun6i_csi_dev *sdev)
-> > > > >             if (flags & V4L2_MBUS_FIELD_EVEN_LOW)
-> > > > >                     cfg |= CSI_IF_CFG_FIELD_POSITIVE;
-> > > > >
-> > > > > -           if (flags & V4L2_MBUS_VSYNC_ACTIVE_LOW)
-> > > > > +           if (flags & V4L2_MBUS_VSYNC_ACTIVE_HIGH)
-> > > > >                     cfg |= CSI_IF_CFG_VREF_POL_POSITIVE;
-> > > > > -           if (flags & V4L2_MBUS_HSYNC_ACTIVE_LOW)
-> > > > > +           if (flags & V4L2_MBUS_HSYNC_ACTIVE_HIGH)
-> > > > >                     cfg |= CSI_IF_CFG_HREF_POL_POSITIVE;
-> > > > >
-> > > > > -           if (flags & V4L2_MBUS_PCLK_SAMPLE_RISING)
-> > > > > +           if (flags & V4L2_MBUS_PCLK_SAMPLE_FALLING)
-> > > > >                     cfg |= CSI_IF_CFG_CLK_POL_FALLING_EDGE;
-> > > > >             break;
-> > > > >     case V4L2_MBUS_BT656:
-> > > > > --
-> > > > > 2.24.0
-> > > > >
-> > > > > --
-> > > > > You received this message because you are subscribed to the Google Groups "linux-sunxi" group.
-> > > > > To unsubscribe from this group and stop receiving emails from it, send an email to linux-sunxi+unsubscribe@googlegroups.com.
-> > > > > To view this discussion on the web, visit https://groups.google.com/d/msgid/linux-sunxi/20191128020259.1338188-1-megous%40megous.com.
-> > > >
-> > > >
-> > > > Thanks,
-> > > > Yong
-> > >
-> > > --
-> > > You received this message because you are subscribed to the Google Groups "linux-sunxi" group.
-> > > To unsubscribe from this group and stop receiving emails from it, send an email to linux-sunxi+unsubscribe@googlegroups.com.
-> > > To view this discussion on the web, visit https://groups.google.com/d/msgid/linux-sunxi/20191128030653.5fhcolvib6tzf4zc%40core.my.home.
->
-> --
-> You received this message because you are subscribed to the Google Groups "linux-sunxi" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to linux-sunxi+unsubscribe@googlegroups.com.
-> To view this discussion on the web, visit https://groups.google.com/d/msgid/linux-sunxi/20191128035056.77554jav3eo6h7su%40core.my.home.
+http://www.xs4all.nl/~hverkuil/spec/index.html
