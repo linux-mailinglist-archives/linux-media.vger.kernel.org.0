@@ -2,382 +2,895 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B5DE10C9C5
-	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2019 14:45:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B09D10C9E4
+	for <lists+linux-media@lfdr.de>; Thu, 28 Nov 2019 14:53:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726622AbfK1Now (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Nov 2019 08:44:52 -0500
-Received: from relay3-d.mail.gandi.net ([217.70.183.195]:51237 "EHLO
-        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726561AbfK1Now (ORCPT
+        id S1726971AbfK1NxC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Nov 2019 08:53:02 -0500
+Received: from mail-io1-f69.google.com ([209.85.166.69]:34768 "EHLO
+        mail-io1-f69.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726496AbfK1NxC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Nov 2019 08:44:52 -0500
-X-Originating-IP: 2.224.242.101
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 7511160013;
-        Thu, 28 Nov 2019 13:44:49 +0000 (UTC)
-Date:   Thu, 28 Nov 2019 14:46:57 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Steve Longerbeam <slongerbeam@gmail.com>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 05/23] media: entity: Add functions to convert fwnode
- endpoints to media links
-Message-ID: <20191128134657.mlxzawiywyjlqzst@uno.localdomain>
-References: <20191124190703.12138-1-slongerbeam@gmail.com>
- <20191124190703.12138-6-slongerbeam@gmail.com>
+        Thu, 28 Nov 2019 08:53:02 -0500
+Received: by mail-io1-f69.google.com with SMTP id a13so18181103iol.1
+        for <linux-media@vger.kernel.org>; Thu, 28 Nov 2019 05:53:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=HlNtWG4QLHoqNy7xSs6hxWc2ATZTr6pJooFGudGc1j0=;
+        b=NKabXMiEbnfDOOnjeMaqcF+ZWIPCV2nwR9k8K8Ur8VedG3G0Tl9gyM3OZWdNeIjn00
+         DcURHLkjnxxG4M7CEPRPNoiZX1LC4P1SdzUh6Z6G55BbndBacIIYgHAf6wdSfxsB4wC1
+         xWV4OuMh4oWNcNMLMrpUjy+R41GLz8siCbL8AAoCGzouc5qVNrHVpL8WVBmgD8zkih5G
+         EJit5PQx7lUevilGS4Sa5vPbsJ5yM60dPhHX3eDfUFmThhqPmiA4+gej4Fs2hpr2hZEm
+         NxiSBxmT/DnIGI1CKVUXKUQK1Xl9ZiWrdZhkC661Pf6s7ql6ieulIeqDdDtRknb2biyL
+         MTeQ==
+X-Gm-Message-State: APjAAAUUkocboY8mCX/jtyk6UayvLzN57I7kln9GGdZ/DJkl6nYE14tC
+        nQDKYOpre5vVyAB5XSG6DTCRNEO63D66a6X8OYPSgJur7oR4
+X-Google-Smtp-Source: APXvYqxmzCC9oDeVozKl23bF9fkflTFKNISqXLHUSKoTnBgv7WRylx34I3DYJ06Mbkh1hzBiO3e5P/VqByEpL2XN2VX7jqCOYyK+
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="gcxnioxb5vvdk3wu"
-Content-Disposition: inline
-In-Reply-To: <20191124190703.12138-6-slongerbeam@gmail.com>
-User-Agent: NeoMutt/20180716
+X-Received: by 2002:a6b:f401:: with SMTP id i1mr33495843iog.241.1574949180646;
+ Thu, 28 Nov 2019 05:53:00 -0800 (PST)
+Date:   Thu, 28 Nov 2019 05:53:00 -0800
+In-Reply-To: <1574939450.21204.7.camel@suse.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000073b7ed0598686e8d@google.com>
+Subject: Re: KASAN: use-after-free Read in si470x_int_in_callback (2)
+From:   syzbot <syzbot+9ca7a12fd736d93e0232@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, hverkuil@xs4all.nl,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-usb@vger.kernel.org, mchehab@kernel.org, oneukum@suse.com,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hello,
 
---gcxnioxb5vvdk3wu
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+syzbot has tested the proposed patch but the reproducer still triggered  
+crash:
+INFO: rcu detected stall in dummy_timer
 
-Hi Steve,
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+rcu: INFO: rcu_sched self-detected stall on CPU
+rcu: 	1-...!: (1 GPs behind) idle=82a/0/0x3 softirq=3099/3100 fqs=0
+	(t=10503 jiffies g=2445 q=28)
+rcu: rcu_sched kthread starved for 10505 jiffies! g2445 f0x0  
+RCU_GP_WAIT_FQS(5) ->state=0x0 ->cpu=0
+rcu: RCU grace-period kthread stack dump:
+rcu_sched       R  running task    29384    10      2 0x80004000
+Call Trace:
+  schedule+0xca/0x250 kernel/sched/core.c:4136
+  schedule_timeout+0x440/0xb20 kernel/time/timer.c:1895
+  rcu_gp_fqs_loop kernel/rcu/tree.c:1639 [inline]
+  rcu_gp_kthread+0xaff/0x29e0 kernel/rcu/tree.c:1799
+  kthread+0x318/0x420 kernel/kthread.c:255
+  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+NMI backtrace for cpu 1
+CPU: 1 PID: 0 Comm: swapper/1 Not tainted 5.4.0-rc3-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
+Google 01/01/2011
+Call Trace:
+  <IRQ>
+  __dump_stack lib/dump_stack.c:77 [inline]
+  dump_stack+0xca/0x13e lib/dump_stack.c:113
+  nmi_cpu_backtrace.cold+0x55/0x96 lib/nmi_backtrace.c:101
+  nmi_trigger_cpumask_backtrace+0x1b0/0x1c7 lib/nmi_backtrace.c:62
+  trigger_single_cpu_backtrace include/linux/nmi.h:164 [inline]
+  rcu_dump_cpu_stacks+0x169/0x1b3 kernel/rcu/tree_stall.h:254
+  print_cpu_stall kernel/rcu/tree_stall.h:455 [inline]
+  check_cpu_stall kernel/rcu/tree_stall.h:529 [inline]
+  rcu_pending kernel/rcu/tree.c:2795 [inline]
+  rcu_sched_clock_irq.cold+0x4da/0x936 kernel/rcu/tree.c:2244
+  update_process_times+0x25/0x60 kernel/time/timer.c:1726
+  tick_sched_handle+0x9b/0x180 kernel/time/tick-sched.c:167
+  tick_sched_timer+0x42/0x130 kernel/time/tick-sched.c:1299
+  __run_hrtimer kernel/time/hrtimer.c:1514 [inline]
+  __hrtimer_run_queues+0x303/0xc60 kernel/time/hrtimer.c:1576
+  hrtimer_interrupt+0x2e8/0x730 kernel/time/hrtimer.c:1638
+  local_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1110 [inline]
+  smp_apic_timer_interrupt+0xf5/0x500 arch/x86/kernel/apic/apic.c:1135
+  apic_timer_interrupt+0xf/0x20 arch/x86/entry/entry_64.S:830
+RIP: 0010:arch_local_irq_restore arch/x86/include/asm/irqflags.h:85 [inline]
+RIP: 0010:__raw_spin_unlock_irqrestore include/linux/spinlock_api_smp.h:160  
+[inline]
+RIP: 0010:_raw_spin_unlock_irqrestore+0x40/0x50  
+kernel/locking/spinlock.c:191
+Code: e8 95 14 b3 fb 48 89 ef e8 6d f3 b3 fb f6 c7 02 75 11 53 9d e8 61 ba  
+d0 fb 65 ff 0d a2 67 8f 7a 5b 5d c3 e8 02 be d0 fb 53 9d <eb> ed 0f 1f 40  
+00 66 2e 0f 1f 84 00 00 00 00 00 55 48 89 fd 65 ff
+RSP: 0018:ffff8881db309b08 EFLAGS: 00000206 ORIG_RAX: ffffffffffffff13
+RAX: 0000000000000007 RBX: 0000000000000206 RCX: 0000000000000002
+RDX: 0000000000000000 RSI: 0000000000000008 RDI: ffff8881da21384c
+RBP: ffff8881d50e0000 R08: ffff8881da213000 R09: fffffbfff11b23b8
+R10: fffffbfff11b23b7 R11: ffffffff88d91dbf R12: 0000000000000080
+R13: 0000000000000000 R14: dffffc0000000000 R15: ffff8881d2f05b00
+  spin_unlock_irqrestore include/linux/spinlock.h:393 [inline]
+  dummy_timer+0x131b/0x2fa2 drivers/usb/gadget/udc/dummy_hcd.c:1980
+  call_timer_fn+0x179/0x650 kernel/time/timer.c:1404
+  expire_timers kernel/time/timer.c:1449 [inline]
+  __run_timers kernel/time/timer.c:1773 [inline]
+  __run_timers kernel/time/timer.c:1740 [inline]
+  run_timer_softirq+0x5e3/0x1490 kernel/time/timer.c:1786
+  __do_softirq+0x221/0x912 kernel/softirq.c:292
+  invoke_softirq kernel/softirq.c:373 [inline]
+  irq_exit+0x178/0x1a0 kernel/softirq.c:413
+  exiting_irq arch/x86/include/asm/apic.h:536 [inline]
+  smp_apic_timer_interrupt+0x12f/0x500 arch/x86/kernel/apic/apic.c:1137
+  apic_timer_interrupt+0xf/0x20 arch/x86/entry/entry_64.S:830
+  </IRQ>
+RIP: 0010:default_idle+0x28/0x2e0 arch/x86/kernel/process.c:581
+Code: 90 90 41 56 41 55 65 44 8b 2d f4 20 8f 7a 41 54 55 53 0f 1f 44 00 00  
+e8 c6 d2 d0 fb e9 07 00 00 00 0f 00 2d ea c5 4f 00 fb f4 <65> 44 8b 2d d0  
+20 8f 7a 0f 1f 44 00 00 5b 5d 41 5c 41 5d 41 5e c3
+RSP: 0018:ffff8881da22fdc8 EFLAGS: 00000246 ORIG_RAX: ffffffffffffff13
+RAX: 0000000000000007 RBX: ffff8881da213000 RCX: 0000000000000000
+RDX: 0000000000000000 RSI: 0000000000000006 RDI: ffff8881da21384c
+RBP: ffffed103b442600 R08: ffff8881da213000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000001
+R13: 0000000000000001 R14: 0000000000000000 R15: 0000000000000000
+  cpuidle_idle_call kernel/sched/idle.c:154 [inline]
+  do_idle+0x3b6/0x500 kernel/sched/idle.c:263
+  cpu_startup_entry+0x14/0x20 kernel/sched/idle.c:355
+  start_secondary+0x27d/0x330 arch/x86/kernel/smpboot.c:264
+  secondary_startup_64+0xa4/0xb0 arch/x86/kernel/head_64.S:241
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 1-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
+radio-si470x 2-1:0.0: non-zero urb status (-71)
+In resubmit code path with result 0
 
-On Sun, Nov 24, 2019 at 11:06:45AM -0800, Steve Longerbeam wrote:
-> Adds two functions:
->
-> media_create_fwnode_pad_links(), which converts fwnode endpoints that
-> connect a local pad to all pads on a remote entity into media links.
->
-> media_create_fwnode_links(), which converts fwnode endpoints that
-> connect all pads from a local entity to all pads on a remote entity into
-> media links.
->
-> Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
-> ---
-> Changes in v2:
-> - fixed/improved the prototype descriptions.
-> ---
->  drivers/media/mc/mc-entity.c | 178 +++++++++++++++++++++++++++++++++++
->  include/media/media-entity.h |  71 ++++++++++++++
->  2 files changed, 249 insertions(+)
->
-> diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-> index e9e090244fd4..45bbd6c91019 100644
-> --- a/drivers/media/mc/mc-entity.c
-> +++ b/drivers/media/mc/mc-entity.c
-> @@ -787,6 +787,184 @@ int media_create_pad_links(const struct media_device *mdev,
->  }
->  EXPORT_SYMBOL_GPL(media_create_pad_links);
->
-> +static int __media_create_fwnode_pad_link(struct media_pad *local_pad,
-> +					struct media_entity *remote,
-> +					const struct fwnode_handle *remote_ep,
-> +					const u32 flags)
-> +{
-> +	struct media_entity *local = local_pad->entity;
-> +	unsigned long local_dir = local_pad->flags;
-> +	unsigned long remote_dir = (local_dir & MEDIA_PAD_FL_SOURCE) ?
-> +		MEDIA_PAD_FL_SINK : MEDIA_PAD_FL_SOURCE;
-> +	struct media_entity *src, *sink;
-> +	int src_pad, sink_pad;
-> +	int remote_pad;
-> +	int ret;
-> +
-> +	remote_pad = media_entity_get_fwnode_pad(remote, remote_ep,
-> +						 remote_dir);
-> +	if (remote_pad < 0)
-> +		return 0;
-> +
-> +	if (local_dir & MEDIA_PAD_FL_SOURCE) {
-> +		src = local;
-> +		src_pad = local_pad->index;
-> +		sink = remote;
-> +		sink_pad = remote_pad;
-> +	} else {
-> +		src = remote;
-> +		src_pad = remote_pad;
-> +		sink = local;
-> +		sink_pad = local_pad->index;
-> +	}
-> +
-> +	/* make sure link doesn't already exist */
-> +	if (media_entity_find_link(&src->pads[src_pad],
-> +				   &sink->pads[sink_pad]))
-> +		return 0;
-> +
-> +	ret = media_create_pad_link(src, src_pad, sink, sink_pad, flags);
-> +	if (ret) {
-> +		dev_dbg(sink->graph_obj.mdev->dev,
-> +			"%s:%d -> %s:%d failed with %d\n",
-> +			src->name, src_pad, sink->name, sink_pad,
-> +			ret);
-> +		return ret;
-> +	}
-> +
-> +	dev_dbg(sink->graph_obj.mdev->dev, "%s:%d -> %s:%d\n",
-> +		src->name, src_pad, sink->name, sink_pad);
-> +
-> +	return 0;
-> +}
-> +
-> +int __media_create_fwnode_pad_links(struct media_pad *local_pad,
-> +				    const struct fwnode_handle *local_fwnode,
-> +				    struct media_entity *remote,
-> +				    const struct fwnode_handle *remote_fwnode,
-> +				    const u32 link_flags)
-> +{
-> +	struct fwnode_handle *endpoint;
-> +
-> +	fwnode_graph_for_each_endpoint(remote_fwnode, endpoint) {
-> +		struct fwnode_link link;
-> +		int ret;
-> +
-> +		ret = fwnode_graph_parse_link(endpoint, &link);
-> +		if (ret)
-> +			continue;
-> +
-> +		/*
-> +		 * if this endpoint does not link to the local fwnode
-> +		 * device, ignore it and continue.
-> +		 */
-> +		if (link.remote_port_parent != local_fwnode) {
-> +			fwnode_graph_put_link(&link);
-> +			continue;
-> +		}
-> +
-> +		ret = __media_create_fwnode_pad_link(local_pad,
-> +						     remote, endpoint,
-> +						     link_flags);
-> +
-> +		fwnode_graph_put_link(&link);
-> +
-> +		if (ret) {
-> +			fwnode_handle_put(endpoint);
-> +			return ret;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(__media_create_fwnode_pad_links);
-> +
-> +int media_create_fwnode_pad_links(struct media_pad *local_pad,
-> +				  const struct fwnode_handle *local_fwnode,
-> +				  struct media_entity *remote,
-> +				  const struct fwnode_handle *remote_fwnode,
-> +				  const u32 link_flags)
-> +{
-> +	struct media_device *mdev = local_pad->entity->graph_obj.mdev;
-> +	int ret;
-> +
-> +	mutex_lock(&mdev->graph_mutex);
-> +	ret = __media_create_fwnode_pad_links(local_pad, local_fwnode,
-> +					      remote, remote_fwnode,
-> +					      link_flags);
-> +	mutex_unlock(&mdev->graph_mutex);
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(media_create_fwnode_pad_links);
-> +
-> +int __media_create_fwnode_links(struct media_entity *local,
-> +				const struct fwnode_handle *local_fwnode,
-> +				struct media_entity *remote,
-> +				const struct fwnode_handle *remote_fwnode,
-> +				const u32 link_flags)
-> +{
-> +	struct fwnode_handle *endpoint;
-> +
-> +	fwnode_graph_for_each_endpoint(local_fwnode, endpoint) {
-> +		struct fwnode_link link;
-> +		int local_pad;
-> +		int ret;
-> +
-> +		local_pad = media_entity_get_fwnode_pad(local, endpoint,
-> +							MEDIA_PAD_FL_SINK |
-> +							MEDIA_PAD_FL_SOURCE);
 
-I wonder.. I feel like we could have saved a lot of churn if we record
-the local endpoint on which we register an async device, likely in
-struct v4l2_async_subdev.
+Tested on:
 
-At bound() time we would receive back the local endpoint on which the
-just bound subdev was originally registered, we could get the remote
-endpoint by parsing the fwnode_graph_link and from there we could
-provide utilities like the ones you have here, by saving testing all
-endpoints until we don't find one that matches the subdev which got
-bound.
+commit:         22be26f7 usb-fuzzer: main usb gadget fuzzer driver
+git tree:       https://github.com/google/kasan.git
+console output: https://syzkaller.appspot.com/x/log.txt?x=10baff5ee00000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=387eccb7ac68ec5
+dashboard link: https://syzkaller.appspot.com/bug?extid=9ca7a12fd736d93e0232
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+patch:          https://syzkaller.appspot.com/x/patch.diff?x=164cd702e00000
 
-This would probably just work for V4L2_ASYNC_MATCH_FWNODE though, but
-have you considered this solution ? It would avoid trying all the
-local endpoints blindly here and it would encourage drivers to provide
-a function to do the endpoint->pad_index translation (which ideally
-they should, to avoid workarounds like the ones we have in
-media_entity_get_fwnode_pad()
-
-Thanks
-  j
-
-> +		if (local_pad < 0)
-> +			continue;
-> +
-> +		ret = fwnode_graph_parse_link(endpoint, &link);
-> +		if (ret)
-> +			continue;
-> +
-> +		/*
-> +		 * if this endpoint does not link to the remote fwnode
-> +		 * device, ignore it and continue.
-> +		 */
-> +		if (link.remote_port_parent != remote_fwnode) {
-> +			fwnode_graph_put_link(&link);
-> +			continue;
-> +		}
-> +
-> +		ret = __media_create_fwnode_pad_link(&local->pads[local_pad],
-> +						     remote,
-> +						     link.remote.local_fwnode,
-> +						     link_flags);
-> +
-> +		fwnode_graph_put_link(&link);
-> +
-> +		if (ret) {
-> +			fwnode_handle_put(endpoint);
-> +			return ret;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(__media_create_fwnode_links);
-> +
-> +int media_create_fwnode_links(struct media_entity *local,
-> +			      const struct fwnode_handle *local_fwnode,
-> +			      struct media_entity *remote,
-> +			      const struct fwnode_handle *remote_fwnode,
-> +			      const u32 link_flags)
-> +{
-> +	struct media_device *mdev = local->graph_obj.mdev;
-> +	int ret;
-> +
-> +	mutex_lock(&mdev->graph_mutex);
-> +	ret = __media_create_fwnode_links(local, local_fwnode,
-> +					  remote, remote_fwnode, link_flags);
-> +	mutex_unlock(&mdev->graph_mutex);
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(media_create_fwnode_links);
-> +
->  void __media_entity_remove_links(struct media_entity *entity)
->  {
->  	struct media_link *link, *tmp;
-> diff --git a/include/media/media-entity.h b/include/media/media-entity.h
-> index de7fc3676b5a..100673ad83c4 100644
-> --- a/include/media/media-entity.h
-> +++ b/include/media/media-entity.h
-> @@ -772,6 +772,77 @@ int media_create_pad_links(const struct media_device *mdev,
->  			   u32 flags,
->  			   const bool allow_both_undefined);
->
-> +/**
-> + * media_create_fwnode_pad_links() - create links between a single local pad
-> + *			and a remote entity, using the fwnode endpoints
-> + *			between them.
-> + *
-> + * @local_pad: Pointer to &media_pad of the local media pad.
-> + * @local_fwnode: Pointer to the local device's firmware node.
-> + * @remote: Pointer to &media_entity of the remote device.
-> + * @remote_fwnode: Pointer to the remote device's firmware node.
-> + * @link_flags: Link flags, as defined in include/uapi/linux/media.h.
-> + *
-> + * .. note::
-> + *
-> + *    Before calling this function, media_entity_pads_init() and
-> + *    media_device_register_entity() should be called previously for
-> + *    both entities to be linked.
-> + *
-> + *    Locked (via the mdev graph_mutex) and unlocked versions of this
-> + *    function are provided. If this function is called from v4l2-async
-> + *    notifier bound handlers, the locked version should be used to
-> + *    prevent races with other subdevices loading and binding to their
-> + *    notifiers in parallel. The unlocked version can for example be
-> + *    called from v4l2-async notifier complete handlers, after all
-> + *    subdevices have loaded and bound.
-> + */
-> +int __media_create_fwnode_pad_links(struct media_pad *local_pad,
-> +				    const struct fwnode_handle *local_fwnode,
-> +				    struct media_entity *remote,
-> +				    const struct fwnode_handle *remote_fwnode,
-> +				    const u32 link_flags);
-> +int media_create_fwnode_pad_links(struct media_pad *local_pad,
-> +				  const struct fwnode_handle *local_fwnode,
-> +				  struct media_entity *remote,
-> +				  const struct fwnode_handle *remote_fwnode,
-> +				  const u32 link_flags);
-> +
-> +/**
-> + * media_create_fwnode_links() - create links between two entities, using
-> + *				the fwnode endpoints between them.
-> + *
-> + * @local: Pointer to &media_entity of the local device.
-> + * @local_fwnode: Pointer to the local device's firmware node.
-> + * @remote: Pointer to &media_entity of the remote device.
-> + * @remote_fwnode: Pointer to the remote device's firmware node.
-> + * @link_flags: Link flags, as defined in include/uapi/linux/media.h.
-> + *
-> + * .. note::
-> + *
-> + *    Before calling this function, media_entity_pads_init() and
-> + *    media_device_register_entity() should be called previously for
-> + *    both entities to be linked.
-> + *
-> + *    Locked (via the mdev graph_mutex) and unlocked versions of this
-> + *    function are provided. If this function is called from v4l2-async
-> + *    notifier bound handlers, the locked version should be used to
-> + *    prevent races with other subdevices loading and binding to their
-> + *    notifiers in parallel. The unlocked version can for example be
-> + *    called from v4l2-async notifier complete handlers, after all
-> + *    subdevices have loaded and bound.
-> + */
-> +int __media_create_fwnode_links(struct media_entity *local,
-> +				const struct fwnode_handle *local_fwnode,
-> +				struct media_entity *remote,
-> +				const struct fwnode_handle *remote_fwnode,
-> +				const u32 link_flags);
-> +int media_create_fwnode_links(struct media_entity *local,
-> +			      const struct fwnode_handle *local_fwnode,
-> +			      struct media_entity *remote,
-> +			      const struct fwnode_handle *remote_fwnode,
-> +			      const u32 link_flags);
-> +
->  void __media_entity_remove_links(struct media_entity *entity);
->
->  /**
-> --
-> 2.17.1
->
-
---gcxnioxb5vvdk3wu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl3fz9EACgkQcjQGjxah
-VjyiGBAAwq1enYXmYGiKedYw6kB7Fi7KYBWPKHwdXtSeGtFronufSA9TtaqkNRRO
-KsD4fo9Bv8zOruowrwz+CCEOerp2ENMFKnFge5ptq/9ESVhUV7sBLohTAr+mZjZH
-PLBPWK6dJv9Pt+M+0Y0Bdkds6r0tD/6LyPXyb8j3mSPa/4MHxL5/j9wFGZ/taBJp
-VgOfNwxZAHlykROBTJ5UTdyia9tzbbJ0deIOwymbuMf8+rLHUZj/VqsDUtZpi6Go
-V8GObQ4wis2KIU0bcF5KMtJgfI5npK8xUKcE/vPaTi35YxVm0TF6nz9tbs9HEEnj
-48QS//OXVeFvWBd/hLQg9dYYayoxjaX4MYyhjS+0uOCFLw/pr4P6tPy+o1L8FiJh
-k87syfSoCVi5koV8LgEvzbQlC2p6IFCa16LbB+CYKpOywvkv3wW8/YHZAQsVW1Kw
-pH7M+2x8RVOfpmXlvbxuk/VuSHYFnm7XiwZ1g7D2kao4dgd0RTOUr4w3pLVm9liT
-xfmGPqwkJJBX9vx1j8cL7EEsi9mU+yz1b51RkIYtq1S5VLOCsm/dyWBN/BUTgBRv
-Ryf+EJxx1Pla51iofhhi5MhMhN23ZDOk/Q+BM+3CnM+gc5usD0yI20iz0qvuP5c4
-1eoFUHNUpl19/w2FvK0I/D6CHVXgAHrtKmCbwgB7fbK7qp2tBsc=
-=/HlE
------END PGP SIGNATURE-----
-
---gcxnioxb5vvdk3wu--
