@@ -2,84 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5289E10DA3A
-	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2019 20:49:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E312310DB53
+	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2019 22:47:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727092AbfK2TtO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 29 Nov 2019 14:49:14 -0500
-Received: from mail-lf1-f67.google.com ([209.85.167.67]:33893 "EHLO
-        mail-lf1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726926AbfK2TtO (ORCPT
+        id S1727235AbfK2Vro (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 29 Nov 2019 16:47:44 -0500
+Received: from hqemgate14.nvidia.com ([216.228.121.143]:6093 "EHLO
+        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727073AbfK2Vro (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 29 Nov 2019 14:49:14 -0500
-Received: by mail-lf1-f67.google.com with SMTP id l18so5381981lfc.1;
-        Fri, 29 Nov 2019 11:49:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=fBnj05Eh4vt/qckTOfX4DMzfi31Ryvk7fXMdBVIV/rY=;
-        b=KydJdq1QA2zZAeBkqhj2V46cvAvxvxGbz4MMaJ70OrWEAcZlvWx/ZVn0vwpTY/vEV+
-         16QsAODLnSTxf1gOc2XR5CCuM04rhH2mHfVTXvJrCssdT66ZW+9danUP5yU+v4Pk0ypQ
-         oXA8SymZnrZAs9/xLMcbdufTlvHxo+cEIQ6ssDaOeHqbFW7x6YhWpv4JjTg4wi42f14k
-         S1PRQh0KkGzyIGJ4AJqEqtH98nfLk/16kMifwzi2p7hxIyShW3LGdR0kHdo99Ac2//hW
-         UuAcg3bXtUuj88hu1ruw1nEWvDyxFBb89RPtXwqg40s92raZ32cIUoTVsXp3xRlfNRkI
-         mHfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=fBnj05Eh4vt/qckTOfX4DMzfi31Ryvk7fXMdBVIV/rY=;
-        b=fp0MVYdNGT0CkIgJML9UowLLaSAwSu2TnyA5Nq02GxG+P0Ok7/oCoqRiwqR1PBC2O2
-         KaSZ4l25mA176EYyJH4t8J3tQTe8NlDk6xzNj1eDaFvqumwMjYsAREkgqyR0lQwWMAS4
-         oV1qq3k8vJn7Hv7kswDCriipe+o0f+xlAVoRFohJ/4J0tq0ybiZvRwcS6wmWUhC4YDBU
-         CBlbEyst+FkZ0LiUflOw4XeVrdYapE1V8xUf3uc7fuHKumQOtcY+t+cBOdenU4ZaKRus
-         2Lw846XmHbV0W3gTpzG1uTlRUcQgX4fKyHZvOfNrMm0ktxjS1s0gP1mZ/59WOx+QwXl3
-         I+QA==
-X-Gm-Message-State: APjAAAXijtDOd7sYc+c677XC3Bqc8GmwP4yVDIXODVUmXo/UrCH1fZh1
-        9jiVteDn3/lau1asEdA79EuzfHvl0T/PRfJbLq95hQ==
-X-Google-Smtp-Source: APXvYqxtTPuuT1Vh36OW8NOSd7X7fwzEom9MD0Gh+xzrA1PUqS3z6w13CLFApoRnrIWs+eTFNITNVgOfDrryREaW5y0=
-X-Received: by 2002:a19:f80a:: with SMTP id a10mr26306239lff.107.1575056952064;
- Fri, 29 Nov 2019 11:49:12 -0800 (PST)
+        Fri, 29 Nov 2019 16:47:44 -0500
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5de192010000>; Fri, 29 Nov 2019 13:47:46 -0800
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Fri, 29 Nov 2019 13:47:42 -0800
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Fri, 29 Nov 2019 13:47:42 -0800
+Received: from [10.2.169.205] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 29 Nov
+ 2019 21:47:41 +0000
+Subject: Re: [PATCH v2 17/19] powerpc: book3s64: convert to pin_user_pages()
+ and put_user_page()
+To:     Jan Kara <jack@suse.cz>
+CC:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
+        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
+        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
+References: <20191125231035.1539120-1-jhubbard@nvidia.com>
+ <20191125231035.1539120-18-jhubbard@nvidia.com>
+ <20191129112315.GB1121@quack2.suse.cz>
+From:   John Hubbard <jhubbard@nvidia.com>
+X-Nvconfidentiality: public
+Message-ID: <cb3e2acc-0a83-4053-fbcc-6d75dc47f174@nvidia.com>
+Date:   Fri, 29 Nov 2019 13:44:53 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-References: <20191129190541.30315-1-manivannan.sadhasivam@linaro.org> <20191129190541.30315-4-manivannan.sadhasivam@linaro.org>
-In-Reply-To: <20191129190541.30315-4-manivannan.sadhasivam@linaro.org>
-From:   Fabio Estevam <festevam@gmail.com>
-Date:   Fri, 29 Nov 2019 16:49:25 -0300
-Message-ID: <CAOMZO5Btkd0NLM5RBFZHD5dryE7mR5JZRLC2X__pQNmjHGCywA@mail.gmail.com>
-Subject: Re: [PATCH 3/5] media: i2c: imx290: Add RAW12 mode support
-To:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, c.barrett@framos.com,
-        linux-kernel <linux-kernel@vger.kernel.org>, a.brela@framos.com,
-        Peter Griffin <peter.griffin@linaro.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        linux-media <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20191129112315.GB1121@quack2.suse.cz>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1575064066; bh=tMvn6asqZgJ/8yczcC9lnf1pHEf7TJzCvRVZqLzUEIk=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=P515JTdy70KP3oimNK/fSAtObgW4JDQsh/LN+dj31w7qtgH6JUdGJYKS3j5J8enBM
+         oN04vymJSqszX58P75QNc1cW3k/Ll0LB9zwNlmlBWaR7zw2qd7/o9t2Cy3EugW3wgY
+         XBlQyEsBEMcfywkDPj201lclcvfOCs5gFzs/O+2QmSmHzciD31eTMBkNB0W6VGXEOL
+         BbnrGM91l0GAwjLm+XJmL4eoGQAce5JVCz6FfueQA4/sc24hO2mmz2R1mloKHyP2Ej
+         3q1StOVbP0t0OEBFEGay8puwUyC8jwyLEftGIYNcVrkaz5szmNasFETh2Ir0Xi5Q1g
+         8xDwDUM/1ii9A==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Manivannan,
+On 11/29/19 3:23 AM, Jan Kara wrote:
+> On Mon 25-11-19 15:10:33, John Hubbard wrote:
+>> 1. Convert from get_user_pages() to pin_user_pages().
+>>
+>> 2. As required by pin_user_pages(), release these pages via
+>> put_user_page(). In this case, do so via put_user_pages_dirty_lock().
+>>
+>> That has the side effect of calling set_page_dirty_lock(), instead
+>> of set_page_dirty(). This is probably more accurate.
+> 
+> Maybe more accurate but it doesn't work for mm_iommu_unpin(). As I'm
+> checking mm_iommu_unpin() gets called from RCU callback which is executed
+> interrupt context and you cannot lock pages from such context. So you need
+> to queue work from the RCU callback and then do the real work from the
+> workqueue...
+> 
+> 								Honza
 
-On Fri, Nov 29, 2019 at 4:07 PM Manivannan Sadhasivam
-<manivannan.sadhasivam@linaro.org> wrote:
-               }
-> +
-> +               imx290->bpp = 10;
-> +
-> +               break;
-> +       case MEDIA_BUS_FMT_SRGGB12_1X12:
-> +               ret = imx290_set_register_array(imx290, imx290_12bit_settings,
-> +                                               ARRAY_SIZE(
-> +                                                       imx290_12bit_settings));
+ah yes, fixed locally. (In order to avoid  distracting people during the merge
+window, I won't post any more versions of the series until the merge window is
+over, unless a maintainer tells me that any of these patches are desired for
+5.5.)
 
-Could you please write the ARRAY_SIZE and its parameter in the same line?
+With that, we are back to a one-line diff for this part:
 
-It would improve readability.
+@@ -215,7 +214,7 @@ static void mm_iommu_unpin(struct mm_iommu_table_group_mem_t *mem)
+                 if (mem->hpas[i] & MM_IOMMU_TABLE_GROUP_PAGE_DIRTY)
+                         SetPageDirty(page);
+  
+-               put_page(page);
++               put_user_page(page);
+                 mem->hpas[i] = 0;
+         }
+  }
 
-Thanks
+btw, I'm also working on your feedback for patch 17 (mm/gup: track FOLL_PIN pages [1]),
+from a few days earlier, it's not being ignored, I'm just trying to avoid distracting
+people during the merge window.
+
+[1] https://lore.kernel.org/r/20191121093941.GA18190@quack2.suse.cz
+
+thanks,
+-- 
+John Hubbard
+NVIDIA
