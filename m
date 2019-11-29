@@ -2,195 +2,288 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9821510D6AD
-	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2019 15:11:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 735C010D7FA
+	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2019 16:40:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727007AbfK2OKq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 29 Nov 2019 09:10:46 -0500
-Received: from esa1.microchip.iphmx.com ([68.232.147.91]:54903 "EHLO
-        esa1.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726808AbfK2OKq (ORCPT
+        id S1727124AbfK2Pk0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 29 Nov 2019 10:40:26 -0500
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:37437 "EHLO
+        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727008AbfK2PkZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 29 Nov 2019 09:10:46 -0500
-Received-SPF: Pass (esa1.microchip.iphmx.com: domain of
-  Eugen.Hristev@microchip.com designates 198.175.253.82 as
-  permitted sender) identity=mailfrom;
-  client-ip=198.175.253.82; receiver=esa1.microchip.iphmx.com;
-  envelope-from="Eugen.Hristev@microchip.com";
-  x-sender="Eugen.Hristev@microchip.com";
-  x-conformance=spf_only; x-record-type="v=spf1";
-  x-record-text="v=spf1 mx a:ushub1.microchip.com
-  a:smtpout.microchip.com -exists:%{i}.spf.microchip.iphmx.com
-  include:servers.mcsv.net include:mktomail.com
-  include:spf.protection.outlook.com ~all"
-Received-SPF: None (esa1.microchip.iphmx.com: no sender
-  authenticity information available from domain of
-  postmaster@email.microchip.com) identity=helo;
-  client-ip=198.175.253.82; receiver=esa1.microchip.iphmx.com;
-  envelope-from="Eugen.Hristev@microchip.com";
-  x-sender="postmaster@email.microchip.com";
-  x-conformance=spf_only
-Authentication-Results: esa1.microchip.iphmx.com; spf=Pass smtp.mailfrom=Eugen.Hristev@microchip.com; spf=None smtp.helo=postmaster@email.microchip.com; dkim=pass (signature verified) header.i=@microchiptechnology.onmicrosoft.com; dmarc=pass (p=none dis=none) d=microchip.com
-IronPort-SDR: NWCnZC+Owtemj8H6ubG8JTxTE7Dgb0Z/21xH6r8BSQ8/8ag8hmM5MuRML3Mnp9a7TTyEv/Mtwc
- VVba8NrlLOdZXXk2OH8fhyPch1+euvsfAV2jPpxlQVcYk1ndf/MvWDYyYOABZ2Hw0Qscql6SOl
- ZxGiMCwXMGAUEFfNO9rE9/5/S8qzw8poFVeG/qfkll6Wd3xCFFHpsA3si95v2w19BFvmSHOAhB
- eI4teC8F3tYuWWEtEzyNJv2ANX6JNZfUIeN7X4L4FWvT+nsK6bbKM7HBvaNme+M+xDLObR8L28
- tBE=
-X-IronPort-AV: E=Sophos;i="5.69,257,1571727600"; 
-   d="scan'208";a="60122557"
-Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 29 Nov 2019 07:10:45 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Fri, 29 Nov 2019 07:10:44 -0700
-Received: from NAM03-DM3-obe.outbound.protection.outlook.com (10.10.215.89) by
- email.microchip.com (10.10.87.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5 via Frontend
- Transport; Fri, 29 Nov 2019 07:10:46 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WNysA1hklrzR5Ad8eKA/T1fdBRoVo+5Pkk1nR1dRFvxOoH98xb9WyDbSEkiISKH9a/HgpOCRai75Z6SP/jqqZJgVWKMK9Us/2WQdjsthWJVVX2bsoh5sUbMfW4Jnl+rrnBj00MSo9xAE1h3vcTXsfp4uPfVclkLDmz7NhEi3p3FHR5mpWG289J4ih0I+HLe/49H1v6c+Zjnx+auw+VMHU/46bJnUTHwqCGmv//6Eu5FOc7mdwWW3u7oOtOUv8Ro2lK+Nf3MID7vhK3fENco6NVtjJwzrmlPehLIMKtGtLghMJ0VrTrjp2lsnCBvAesDscVV0swQtOXGdmpzTLGFh6g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1KkVc6lk62KYhFeV+I3v24MIyQcFyg00iSxltRWJgAo=;
- b=C8IhIkr3Nx5iuKZ8HEgC/eHWL5eZxmF2M6AIPGxow28Wl8JhsXU+3XH1NI+uh6Cip8/eGBEM305NjHO4yBMMhzBKlAPBxqABZf5sKW1S8yr/mv8M0coVOgjMhnVHemLtZluLyR4yr+0wYLgZoP8N9ADdd1f+XRMG9aOLNhjrS7UiO13hGRRx7IWT/PL94XACTJaMc0xnZVZbOv2bZKR0LFSwdnGlN0AcaFEpimroAhk7LHrT6sV7p9hJH3a/ErZ6J62YUVKO6YKcYVcjv97J+f4suAzB3EPWGRNylSINxDEt9RlP1CxaU0ZHWer3UWdb8CSa+NAqqGWsK7RfIQSoRA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microchip.com; dmarc=pass action=none
- header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
+        Fri, 29 Nov 2019 10:40:25 -0500
+Received: by mail-wr1-f66.google.com with SMTP id w15so4757285wru.4
+        for <linux-media@vger.kernel.org>; Fri, 29 Nov 2019 07:40:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=microchiptechnology.onmicrosoft.com;
- s=selector2-microchiptechnology-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1KkVc6lk62KYhFeV+I3v24MIyQcFyg00iSxltRWJgAo=;
- b=t/fDwZOPXU+/U9a4hhXrPk476mj6qSDjyn/gTjyq/VYVY3ISrnwL8vIx90pplHpfuDVBO9MJob/Wgt7TYAG9u7ekjz8KNhT1z71l0Z8XWI74cbhmOyYhUYOkQIsJ6KFeVlaxi3Oyqblvm+sZhpfLXS+J8a3QT4xamEABgXvCgrw=
-Received: from DM5PR11MB1242.namprd11.prod.outlook.com (10.168.108.8) by
- DM5PR11MB1916.namprd11.prod.outlook.com (10.175.87.21) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2495.19; Fri, 29 Nov 2019 14:10:44 +0000
-Received: from DM5PR11MB1242.namprd11.prod.outlook.com
- ([fe80::9039:e0e8:9032:20c1]) by DM5PR11MB1242.namprd11.prod.outlook.com
- ([fe80::9039:e0e8:9032:20c1%12]) with mapi id 15.20.2495.014; Fri, 29 Nov
- 2019 14:10:44 +0000
-From:   <Eugen.Hristev@microchip.com>
-To:     <hverkuil@xs4all.nl>, <linux-media@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     <Eugen.Hristev@microchip.com>
-Subject: [PATCH 3/3] media: atmel: atmel-isi: initialize the try_crop for the
- pads in try_fmt
-Thread-Topic: [PATCH 3/3] media: atmel: atmel-isi: initialize the try_crop for
- the pads in try_fmt
-Thread-Index: AQHVpr7JUSMCSfNkJEikm4+56J385w==
-Date:   Fri, 29 Nov 2019 14:10:43 +0000
-Message-ID: <1575036609-11381-3-git-send-email-eugen.hristev@microchip.com>
-References: <1575036609-11381-1-git-send-email-eugen.hristev@microchip.com>
-In-Reply-To: <1575036609-11381-1-git-send-email-eugen.hristev@microchip.com>
-Accept-Language: en-US, ro-RO
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: AM0PR07CA0017.eurprd07.prod.outlook.com
- (2603:10a6:208:ac::30) To DM5PR11MB1242.namprd11.prod.outlook.com
- (2603:10b6:3:14::8)
-x-mailer: git-send-email 2.7.4
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [94.177.32.156]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 9a1aa854-65e3-4c5f-81e7-08d774d5ec2e
-x-ms-traffictypediagnostic: DM5PR11MB1916:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM5PR11MB1916EBD3DF5002F13087B5C7E8460@DM5PR11MB1916.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-forefront-prvs: 0236114672
-x-forefront-antispam-report: SFV:NSPM;SFS:(10009020)(136003)(366004)(346002)(396003)(39860400002)(376002)(199004)(189003)(66446008)(102836004)(6506007)(36756003)(71190400001)(76176011)(386003)(316002)(99286004)(71200400001)(66946007)(6512007)(110136005)(66476007)(66556008)(64756008)(3846002)(5660300002)(6116002)(107886003)(14454004)(52116002)(186003)(256004)(26005)(66066001)(478600001)(50226002)(2201001)(6436002)(2906002)(11346002)(2501003)(8936002)(305945005)(2616005)(81156014)(81166006)(446003)(86362001)(6486002)(8676002)(4326008)(7736002)(25786009);DIR:OUT;SFP:1101;SCL:1;SRVR:DM5PR11MB1916;H:DM5PR11MB1242.namprd11.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;MX:1;
-received-spf: None (protection.outlook.com: microchip.com does not designate
- permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: wvB0QvwsOWrnVLFzSNv0+HgiQhtlCbUM2nkYxBOe2SFPwMu15SKLOKvwbqKTV6kJTluChs9qs4SqMJpq30/51liVKw3OZyyKtBdoVS85BLt0fsBy4dhauxhtNIr1b/jNTfhnXIjXEzFGiKEb0U899P4O1uGiZ/4PqKSGyE7PfaOZXlEW3CSOrMFHy91td7iuhqLaySfEmUhWPRNtYvdyD6kTlTK1nUZ+Dh/HcjuYD1PeFUfTVayMCNayjuFdoueYFRK/+1NjKXW83wGqUh9YzGSDb3vpWtMn5mYAt43EWE8o9cEFHvvoPUrA+mzYfcz3tU8C4e4pACmPMYjXP85cW65sa7rj3HRADvtOlUBoyA6+Uz2yEv5GR2WBjheIQcvtrpcj70v5KVWcTHCmf3lp9Osye1eAbWIeSpfQWq/FfbdR6/Fe6aAxJSecYF6aGQz+
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=d1qlPGKEub2zxKrCwvu7wl5sgPz0ycWM4uVqvybEP3o=;
+        b=F82YmRMvls0MB5LUz2QLPFzl3BfaxgxvnOVCEJhs1lPCNqRLd1ALGX/cWTwx/odPIW
+         IemIWncQEOpg+J/XVdmZD8pa932RyfoOZV4pOcjVYPzCUl6MH1uJfvVchf6zsgyCwhxG
+         bCPE7pnQMnBdKE05ualTzpbl3MPA+ESEs8cyw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=d1qlPGKEub2zxKrCwvu7wl5sgPz0ycWM4uVqvybEP3o=;
+        b=T7RsUZaLZ/ntJcdVUqQYgprhAYQeBsU6bllgt166Yf3ZZd6mx3fqLAZOcsdsFf0RDD
+         DRs+XNZ+loJZHO2KobqK28ql/gMKZGvz0POoZerspIHsxxQzoNW69UNCOf0py5mslABD
+         AQ0JtFCIx6I6hteIXjz7CJf3WgInJEoSOR/g78ekYtTTAJchlzHeob6nQEeBqWazlPx9
+         XgBq1njV6eZhKSqjOv7at1+tpCluhGFom4jtgMIFXtuEdZPDRLi9ZeI9BVxpj4/tZXZY
+         lnpIXVh3X08P1PqcPWiNfIGxYWygSdVaqCe/tVdxIxP1uDD6DgSEhdWmR2sLmnu3wNUm
+         3Yuw==
+X-Gm-Message-State: APjAAAXItwRtn4+JSs3rtWGW3StGiSOACIdYq0+JHrKUOavOXiYKbAnk
+        jHgEJUcw6RWa441E1Db28JDhdQ==
+X-Google-Smtp-Source: APXvYqyOcTZwJaF1yb8C5yGqGrIDeDIxvzOnil0vbT94pRF4zJdnCm1UYhNHwa7P+mD1vwCUSOZm1A==
+X-Received: by 2002:adf:fa87:: with SMTP id h7mr44553361wrr.172.1575042022285;
+        Fri, 29 Nov 2019 07:40:22 -0800 (PST)
+Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net. [212.51.149.96])
+        by smtp.gmail.com with ESMTPSA id e16sm13723160wme.35.2019.11.29.07.40.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Nov 2019 07:40:21 -0800 (PST)
+Date:   Fri, 29 Nov 2019 16:40:19 +0100
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Jani Nikula <jani.nikula@intel.com>
+Cc:     dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org, ville.syrjala@linux.intel.com,
+        Andy Walls <awalls@md.metrocast.net>,
+        Bernie Thompson <bernie@plugable.com>,
+        Bruno =?iso-8859-1?Q?Pr=E9mont?= <bonbons@linux-vserver.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Jaya Kumar <jayalk@intworks.biz>,
+        Kirti Wankhede <kwankhede@nvidia.com>,
+        Miguel Ojeda Sandonis <miguel.ojeda.sandonis@gmail.com>,
+        Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
+        Robin van der Gracht <robin@protonic.nl>,
+        Steve Glendinning <steve.glendinning@shawell.net>,
+        ivtv-devel@ivtvdriver.org, kvm@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-omap@vger.kernel.org
+Subject: Re: [PATCH v2 00/14] video, drm, etc: constify fbops in struct
+ fb_info
+Message-ID: <20191129154019.GI624164@phenom.ffwll.local>
+References: <cover.1575022735.git.jani.nikula@intel.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9a1aa854-65e3-4c5f-81e7-08d774d5ec2e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Nov 2019 14:10:43.8060
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 1fUDriM36nwigRy3zOkXlJ8fIrzZPvaFPSMUPzMNQs5FS1r1uk64foOLxwvJX3f57X5KoH4NBmXqm/uE+bh6d4UFFlDuhrqPokhswfysP+8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR11MB1916
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <cover.1575022735.git.jani.nikula@intel.com>
+X-Operating-System: Linux phenom 5.3.0-2-amd64 
+User-Agent: Mutt/1.12.2 (2019-09-21)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Eugen Hristev <eugen.hristev@microchip.com>
+On Fri, Nov 29, 2019 at 12:29:30PM +0200, Jani Nikula wrote:
+> This is v2 of https://patchwork.freedesktop.org/series/70119/
+> 
+> I wanted to make our struct fb_ops const because we don't modify
+> it... and this is what I ended up with to fix it and a bunch of others.
+> 
+> I would appreciate acks to merge all this via the drm-misc tree. This is
+> especially important for patches 1-8 to reasonably get the job
+> done. Patches 9-14 are somewhat easier to merge at leisure afterwards,
+> but there really isn't much conflict potential IMO.
 
-When requesting format from sensor, some sensors call the subdev_get_try_cr=
-op
-which for ISI was not properly initialized, and this causes errors in
-determining proper image resolutions.
-To accommodate for this, when trying a format (in try_fmt), first attempt t=
-o
-obtain the framesize for this format from sensor.
-In case this fails, use the maximum ISI width/height as try_crop, otherwise
-provide the first size height/width from the sensor.
+Only patches 11-14 need acks, drivers/video is already officially
+maintained in drm-misc.
 
-Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
----
- drivers/media/platform/atmel/atmel-isi.c | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+> Daniel, please double-check me adding your Reviewed-by on the later
+> patches wasn't overzealous.
 
-diff --git a/drivers/media/platform/atmel/atmel-isi.c b/drivers/media/platf=
-orm/atmel/atmel-isi.c
-index 59d4c9f..9b904f5 100644
---- a/drivers/media/platform/atmel/atmel-isi.c
-+++ b/drivers/media/platform/atmel/atmel-isi.c
-@@ -555,6 +555,30 @@ static const struct isi_format *find_format_by_fourcc(=
-struct atmel_isi *isi,
- 	return NULL;
- }
-=20
-+static void isi_try_fse(struct atmel_isi *isi, const struct isi_format *is=
-i_fmt,
-+			struct v4l2_subdev_pad_config *pad_cfg)
-+{
-+	int ret;
-+	struct v4l2_subdev_frame_size_enum fse =3D {
-+		.code =3D isi_fmt->mbus_code,
-+		.which =3D V4L2_SUBDEV_FORMAT_TRY,
-+	};
-+
-+	ret =3D v4l2_subdev_call(isi->entity.subdev, pad, enum_frame_size,
-+			       pad_cfg, &fse);
-+	/*
-+	 * Attempt to obtain format size from subdev. If not available,
-+	 * just use the maximum ISI can receive.
-+	 */
-+	if (ret) {
-+		pad_cfg->try_crop.width =3D MAX_SUPPORT_WIDTH;
-+		pad_cfg->try_crop.height =3D MAX_SUPPORT_HEIGHT;
-+	} else {
-+		pad_cfg->try_crop.width =3D fse.max_width;
-+		pad_cfg->try_crop.height =3D fse.max_height;
-+	}
-+}
-+
- static int isi_try_fmt(struct atmel_isi *isi, struct v4l2_format *f,
- 		       const struct isi_format **current_fmt)
- {
-@@ -577,6 +601,9 @@ static int isi_try_fmt(struct atmel_isi *isi, struct v4=
-l2_format *f,
- 	pixfmt->height =3D clamp(pixfmt->height, 0U, MAX_SUPPORT_HEIGHT);
-=20
- 	v4l2_fill_mbus_format(&format.format, pixfmt, isi_fmt->mbus_code);
-+
-+	isi_try_fse(isi, isi_fmt, &pad_cfg);
-+
- 	ret =3D v4l2_subdev_call(isi->entity.subdev, pad, set_fmt,
- 			       &pad_cfg, &format);
- 	if (ret < 0)
---=20
-2.7.4
+Yeah, looks all neat&tidy.
+-Daniel
 
+> 
+> BR,
+> Jani.
+> 
+> 
+> Cc: Andy Walls <awalls@md.metrocast.net>
+> Cc: Bernie Thompson <bernie@plugable.com>
+> Cc: Bruno Prémont <bonbons@linux-vserver.org>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Hans Verkuil <hverkuil@xs4all.nl>
+> Cc: Jaya Kumar <jayalk@intworks.biz>
+> Cc: Kirti Wankhede <kwankhede@nvidia.com>
+> Cc: Miguel Ojeda Sandonis <miguel.ojeda.sandonis@gmail.com>
+> Cc: Noralf Trønnes <noralf@tronnes.org>
+> Cc: Robin van der Gracht <robin@protonic.nl>
+> Cc: Steve Glendinning <steve.glendinning@shawell.net>
+> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: ivtv-devel@ivtvdriver.org
+> Cc: kvm@vger.kernel.org
+> Cc: linux-fbdev@vger.kernel.org
+> Cc: linux-input@vger.kernel.org
+> Cc: linux-media@vger.kernel.org
+> Cc: linux-omap@vger.kernel.org
+> 
+> 
+> Jani Nikula (14):
+>   video: fb_defio: preserve user fb_ops
+>   drm/fb-helper: don't preserve fb_ops across deferred IO use
+>   video: smscufx: don't restore fb_mmap after deferred IO cleanup
+>   video: udlfb: don't restore fb_mmap after deferred IO cleanup
+>   video: fbdev: vesafb: modify the static fb_ops directly
+>   video: fbmem: use const pointer for fb_ops
+>   video: omapfb: use const pointer for fb_ops
+>   video: fbdev: make fbops member of struct fb_info a const pointer
+>   drm: constify fb ops across all drivers
+>   video: constify fb ops across all drivers
+>   HID: picoLCD: constify fb ops
+>   media: constify fb ops across all drivers
+>   samples: vfio-mdev: constify fb ops
+>   auxdisplay: constify fb ops
+> 
+>  drivers/auxdisplay/cfag12864bfb.c             |  2 +-
+>  drivers/auxdisplay/ht16k33.c                  |  2 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_fb.c        |  2 +-
+>  drivers/gpu/drm/armada/armada_fbdev.c         |  2 +-
+>  drivers/gpu/drm/drm_fb_helper.c               | 27 +++----------------
+>  drivers/gpu/drm/exynos/exynos_drm_fbdev.c     |  2 +-
+>  .../gpu/drm/hisilicon/hibmc/hibmc_drm_fbdev.c |  2 +-
+>  drivers/gpu/drm/i915/display/intel_fbdev.c    |  2 +-
+>  drivers/gpu/drm/msm/msm_fbdev.c               |  2 +-
+>  drivers/gpu/drm/nouveau/nouveau_fbcon.c       |  4 +--
+>  drivers/gpu/drm/omapdrm/omap_fbdev.c          |  2 +-
+>  drivers/gpu/drm/radeon/radeon_fb.c            |  2 +-
+>  drivers/gpu/drm/rockchip/rockchip_drm_fbdev.c |  2 +-
+>  drivers/gpu/drm/tegra/fb.c                    |  2 +-
+>  drivers/gpu/drm/vmwgfx/vmwgfx_fb.c            |  2 +-
+>  drivers/hid/hid-picolcd_fb.c                  |  3 +--
+>  drivers/media/pci/ivtv/ivtvfb.c               |  3 +--
+>  drivers/media/platform/vivid/vivid-osd.c      |  3 +--
+>  drivers/video/fbdev/68328fb.c                 |  2 +-
+>  drivers/video/fbdev/acornfb.c                 |  2 +-
+>  drivers/video/fbdev/amba-clcd.c               |  2 +-
+>  drivers/video/fbdev/amifb.c                   |  2 +-
+>  drivers/video/fbdev/arcfb.c                   |  2 +-
+>  drivers/video/fbdev/arkfb.c                   |  2 +-
+>  drivers/video/fbdev/asiliantfb.c              |  2 +-
+>  drivers/video/fbdev/atmel_lcdfb.c             |  2 +-
+>  drivers/video/fbdev/aty/aty128fb.c            |  2 +-
+>  drivers/video/fbdev/aty/atyfb_base.c          |  2 +-
+>  drivers/video/fbdev/aty/radeon_base.c         |  2 +-
+>  drivers/video/fbdev/au1100fb.c                |  2 +-
+>  drivers/video/fbdev/au1200fb.c                |  2 +-
+>  drivers/video/fbdev/broadsheetfb.c            |  2 +-
+>  drivers/video/fbdev/bw2.c                     |  2 +-
+>  drivers/video/fbdev/carminefb.c               |  2 +-
+>  drivers/video/fbdev/cg14.c                    |  2 +-
+>  drivers/video/fbdev/cg3.c                     |  2 +-
+>  drivers/video/fbdev/cg6.c                     |  2 +-
+>  drivers/video/fbdev/chipsfb.c                 |  2 +-
+>  drivers/video/fbdev/cirrusfb.c                |  2 +-
+>  drivers/video/fbdev/clps711x-fb.c             |  2 +-
+>  drivers/video/fbdev/cobalt_lcdfb.c            |  2 +-
+>  drivers/video/fbdev/controlfb.c               |  2 +-
+>  drivers/video/fbdev/core/fb_defio.c           |  3 ---
+>  drivers/video/fbdev/core/fbmem.c              | 19 ++++++++-----
+>  drivers/video/fbdev/cyber2000fb.c             |  2 +-
+>  drivers/video/fbdev/da8xx-fb.c                |  2 +-
+>  drivers/video/fbdev/dnfb.c                    |  2 +-
+>  drivers/video/fbdev/efifb.c                   |  2 +-
+>  drivers/video/fbdev/ep93xx-fb.c               |  2 +-
+>  drivers/video/fbdev/fb-puv3.c                 |  2 +-
+>  drivers/video/fbdev/ffb.c                     |  2 +-
+>  drivers/video/fbdev/fm2fb.c                   |  2 +-
+>  drivers/video/fbdev/fsl-diu-fb.c              |  2 +-
+>  drivers/video/fbdev/g364fb.c                  |  2 +-
+>  drivers/video/fbdev/gbefb.c                   |  2 +-
+>  drivers/video/fbdev/geode/gx1fb_core.c        |  2 +-
+>  drivers/video/fbdev/geode/gxfb_core.c         |  2 +-
+>  drivers/video/fbdev/geode/lxfb_core.c         |  2 +-
+>  drivers/video/fbdev/goldfishfb.c              |  2 +-
+>  drivers/video/fbdev/grvga.c                   |  2 +-
+>  drivers/video/fbdev/gxt4500.c                 |  2 +-
+>  drivers/video/fbdev/hecubafb.c                |  2 +-
+>  drivers/video/fbdev/hgafb.c                   |  2 +-
+>  drivers/video/fbdev/hitfb.c                   |  2 +-
+>  drivers/video/fbdev/hpfb.c                    |  2 +-
+>  drivers/video/fbdev/hyperv_fb.c               |  2 +-
+>  drivers/video/fbdev/i740fb.c                  |  2 +-
+>  drivers/video/fbdev/imsttfb.c                 |  2 +-
+>  drivers/video/fbdev/imxfb.c                   |  2 +-
+>  drivers/video/fbdev/intelfb/intelfbdrv.c      |  2 +-
+>  drivers/video/fbdev/kyro/fbdev.c              |  2 +-
+>  drivers/video/fbdev/leo.c                     |  2 +-
+>  drivers/video/fbdev/macfb.c                   |  2 +-
+>  drivers/video/fbdev/matrox/matroxfb_crtc2.c   |  2 +-
+>  drivers/video/fbdev/maxinefb.c                |  2 +-
+>  drivers/video/fbdev/mb862xx/mb862xxfbdrv.c    |  2 +-
+>  drivers/video/fbdev/mbx/mbxfb.c               |  2 +-
+>  drivers/video/fbdev/metronomefb.c             |  2 +-
+>  drivers/video/fbdev/mmp/fb/mmpfb.c            |  2 +-
+>  drivers/video/fbdev/mx3fb.c                   |  5 ++--
+>  drivers/video/fbdev/neofb.c                   |  2 +-
+>  drivers/video/fbdev/nvidia/nvidia.c           |  2 +-
+>  drivers/video/fbdev/ocfb.c                    |  2 +-
+>  drivers/video/fbdev/offb.c                    |  2 +-
+>  drivers/video/fbdev/omap/omapfb_main.c        |  2 +-
+>  .../video/fbdev/omap2/omapfb/omapfb-main.c    |  2 +-
+>  drivers/video/fbdev/p9100.c                   |  2 +-
+>  drivers/video/fbdev/platinumfb.c              |  2 +-
+>  drivers/video/fbdev/pm2fb.c                   |  2 +-
+>  drivers/video/fbdev/pm3fb.c                   |  2 +-
+>  drivers/video/fbdev/pmag-aa-fb.c              |  2 +-
+>  drivers/video/fbdev/pmag-ba-fb.c              |  2 +-
+>  drivers/video/fbdev/pmagb-b-fb.c              |  2 +-
+>  drivers/video/fbdev/ps3fb.c                   |  2 +-
+>  drivers/video/fbdev/pvr2fb.c                  |  2 +-
+>  drivers/video/fbdev/pxa168fb.c                |  2 +-
+>  drivers/video/fbdev/pxafb.c                   |  4 +--
+>  drivers/video/fbdev/q40fb.c                   |  2 +-
+>  drivers/video/fbdev/riva/fbdev.c              |  2 +-
+>  drivers/video/fbdev/s3c-fb.c                  |  2 +-
+>  drivers/video/fbdev/s3c2410fb.c               |  2 +-
+>  drivers/video/fbdev/s3fb.c                    |  2 +-
+>  drivers/video/fbdev/sa1100fb.c                |  2 +-
+>  drivers/video/fbdev/savage/savagefb_driver.c  |  2 +-
+>  drivers/video/fbdev/sh7760fb.c                |  2 +-
+>  drivers/video/fbdev/sh_mobile_lcdcfb.c        |  4 +--
+>  drivers/video/fbdev/simplefb.c                |  2 +-
+>  drivers/video/fbdev/sis/sis_main.c            |  2 +-
+>  drivers/video/fbdev/skeletonfb.c              |  2 +-
+>  drivers/video/fbdev/sm712fb.c                 |  2 +-
+>  drivers/video/fbdev/smscufx.c                 |  3 +--
+>  drivers/video/fbdev/ssd1307fb.c               |  2 +-
+>  drivers/video/fbdev/sstfb.c                   |  2 +-
+>  drivers/video/fbdev/stifb.c                   |  2 +-
+>  drivers/video/fbdev/sunxvr1000.c              |  2 +-
+>  drivers/video/fbdev/sunxvr2500.c              |  2 +-
+>  drivers/video/fbdev/sunxvr500.c               |  2 +-
+>  drivers/video/fbdev/tcx.c                     |  2 +-
+>  drivers/video/fbdev/tdfxfb.c                  |  2 +-
+>  drivers/video/fbdev/tgafb.c                   |  2 +-
+>  drivers/video/fbdev/tmiofb.c                  |  2 +-
+>  drivers/video/fbdev/tridentfb.c               |  2 +-
+>  drivers/video/fbdev/udlfb.c                   |  1 -
+>  drivers/video/fbdev/uvesafb.c                 |  2 +-
+>  drivers/video/fbdev/valkyriefb.c              |  2 +-
+>  drivers/video/fbdev/vesafb.c                  |  6 ++---
+>  drivers/video/fbdev/vfb.c                     |  2 +-
+>  drivers/video/fbdev/vga16fb.c                 |  2 +-
+>  drivers/video/fbdev/vt8500lcdfb.c             |  2 +-
+>  drivers/video/fbdev/vt8623fb.c                |  2 +-
+>  drivers/video/fbdev/w100fb.c                  |  2 +-
+>  drivers/video/fbdev/wm8505fb.c                |  2 +-
+>  drivers/video/fbdev/xen-fbfront.c             |  2 +-
+>  drivers/video/fbdev/xilinxfb.c                |  2 +-
+>  include/linux/fb.h                            |  2 +-
+>  samples/vfio-mdev/mdpy-fb.c                   |  2 +-
+>  136 files changed, 156 insertions(+), 175 deletions(-)
+> 
+> -- 
+> 2.20.1
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
