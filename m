@@ -2,114 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 73B0E10CFFE
-	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2019 00:55:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D10B10D026
+	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2019 01:17:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726664AbfK1XzI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 Nov 2019 18:55:08 -0500
-Received: from mail-il1-f200.google.com ([209.85.166.200]:36931 "EHLO
-        mail-il1-f200.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726657AbfK1XzI (ORCPT
+        id S1726664AbfK2ARN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 Nov 2019 19:17:13 -0500
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:44369 "EHLO
+        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726616AbfK2ARN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 Nov 2019 18:55:08 -0500
-Received: by mail-il1-f200.google.com with SMTP id q1so23418537ile.4
-        for <linux-media@vger.kernel.org>; Thu, 28 Nov 2019 15:55:06 -0800 (PST)
+        Thu, 28 Nov 2019 19:17:13 -0500
+Received: by mail-ed1-f68.google.com with SMTP id a67so24258980edf.11
+        for <linux-media@vger.kernel.org>; Thu, 28 Nov 2019 16:17:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=hKdxAEvC9giOVo+5fI8UhBseDYEwGbYsXK3mw9tmIQY=;
+        b=hVlmWmpzm8h9AJJ3dV8J/Vq5S3tr8XdfS5TULH7gtd+QDlFhFvJl5GIs3pVRxbpuAr
+         vb1xpQaVDVwJEn8ubFxWrx0Sy+N9ZDlY0LzWfmLkB4krIK6/YmWQQ+vvqvlvkaGE6nAX
+         DPJPCbcwVfWu0Kox3IVCt7MSklSiOlMkMdfDc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=0V/6lL9I0acfOSweWtVPvaIn/nUaZnoMveV6808kEXU=;
-        b=gt1RBMY4nb3BPfSpwT9c2n9rt2LA+bphqmn+52gH2s00qirii+TFLqWau6dVddyCZn
-         et2Ivnhj1MsAh5HNc0IR/LOtIzq7AabSyiNA/o9rAb2DjxWbfl8ep4C+dpMRVVm3aq8z
-         2MJdWC9VXNvzKcUx7PK/aomAulHfyWIJZ3XyipzpwCRwZrE61yC9sXB9uFptFKUrYprt
-         jz9YvCzDE2P+S5LB1qeeD9xefUtXp74FsGG2yxx34o5LULLQwaTE/0BwE+6JxCBqSapY
-         PIBcySXxp3yCd5b2eLZT5tGlejL21IFqoeOgO2jQo9w1dwHqtS3ZFCxcsWIG3frav8Ei
-         qibg==
-X-Gm-Message-State: APjAAAVnJ+J1ydJ6+usUlzX9E8c00fjO96kRZ7sP3UuMXeY0E76NJHGx
-        4ADxRZCDm/6zkmKFAepGCix7Aaf9Ysm2N2i0s5XyvVesS8Ld
-X-Google-Smtp-Source: APXvYqx4SNpkxQrj/dGNZOwA8NsJn/R79A+jFWDOYwcgaU7e3l7RSATiB7YdL4DnwNqezaFDjZpEmP8Q1XG9aT6KXeNItGuwXriM
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=hKdxAEvC9giOVo+5fI8UhBseDYEwGbYsXK3mw9tmIQY=;
+        b=EcaNOFZIqDcFQYMdKn3CCsLv9u8dlgo3nvjf40UrwBpavm8/jWpo/AOukBtqxvc278
+         4ihh8M4fiUB6ZOFQu7tYENWpX5pXhiLRBBNoz5bp2NjuetYcZ9zYFRKwb+jn208TPpWR
+         Lmfx1n+wK0Yerw20VWotCdRum500xcvpGML1//tpnjcOCltTi5p3I3uRrG70EdsxrogV
+         cWCNc27nPyhtt6e/4TK/9GiZrVCP662plNkp/B8nEymiuZr6A1MJrkLPZxxCXeE4u0OY
+         7avBp7q4LXZf1b3CEmo7y79pNVACihCUKVCXbPYkaNK2qsuj6tIUAu9fy3GcswKI5xWz
+         Elyw==
+X-Gm-Message-State: APjAAAXsAbgr3QyDvFJDSi1LfXhkBOaEfpLcr8ZDfgfm9sxDK6rnzYS8
+        R5rN4n/ZgQaWCRbcAe2BjhnrfjlYHWBeFw==
+X-Google-Smtp-Source: APXvYqwwiA0wYI+iTPAjPzTO3IMKbfZl1s3jb9gk1XN3cVDQsvM2IDI1nrkBqXprd46yNjgJ6A/Ing==
+X-Received: by 2002:aa7:d904:: with SMTP id a4mr36976254edr.44.1574986630350;
+        Thu, 28 Nov 2019 16:17:10 -0800 (PST)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com. [209.85.128.50])
+        by smtp.gmail.com with ESMTPSA id f8sm1249344edb.60.2019.11.28.16.17.09
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 28 Nov 2019 16:17:09 -0800 (PST)
+Received: by mail-wm1-f50.google.com with SMTP id l17so12495812wmh.0
+        for <linux-media@vger.kernel.org>; Thu, 28 Nov 2019 16:17:09 -0800 (PST)
+X-Received: by 2002:a1c:3c42:: with SMTP id j63mr12611006wma.90.1574986628632;
+ Thu, 28 Nov 2019 16:17:08 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 2002:a02:a889:: with SMTP id l9mr3730808jam.1.1574985306385;
- Thu, 28 Nov 2019 15:55:06 -0800 (PST)
-Date:   Thu, 28 Nov 2019 15:55:06 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000b6b450059870d703@google.com>
-Subject: KASAN: global-out-of-bounds Read in precalculate_color
-From:   syzbot <syzbot+02d9172bf4c43104cd70@syzkaller.appspotmail.com>
-To:     hverkuil-cisco@xs4all.nl, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, mchehab@kernel.org,
-        syzkaller-bugs@googlegroups.com, vivek.kasireddy@intel.com
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+References: <20191122051608.128717-1-hiroh@chromium.org> <767528be59275265072896e5c679e97575615fdd.camel@ndufresne.ca>
+ <CAAFQd5D3OpAAtX7_0ktz4-aAgWN_G4YBQMR=Vwp7JPopjvRkRA@mail.gmail.com> <f5341ed837529bd38d466d4b655e261d64065912.camel@ndufresne.ca>
+In-Reply-To: <f5341ed837529bd38d466d4b655e261d64065912.camel@ndufresne.ca>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Fri, 29 Nov 2019 09:16:57 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5Cpk8qG+VgE6+aznBmXu11YG0gNQyCRanZghds-TPKvyg@mail.gmail.com>
+Message-ID: <CAAFQd5Cpk8qG+VgE6+aznBmXu11YG0gNQyCRanZghds-TPKvyg@mail.gmail.com>
+Subject: Re: [PATCH] media: hantro: Support H264 profile control
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     Hirokazu Honda <hiroh@chromium.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        devel@driverdev.osuosl.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+On Sat, Nov 23, 2019 at 1:52 AM Nicolas Dufresne <nicolas@ndufresne.ca> wro=
+te:
+>
+> Le samedi 23 novembre 2019 =C3=A0 01:00 +0900, Tomasz Figa a =C3=A9crit :
+> > On Sat, Nov 23, 2019 at 12:09 AM Nicolas Dufresne <nicolas@ndufresne.ca=
+> wrote:
+> > > Le vendredi 22 novembre 2019 =C3=A0 14:16 +0900, Hirokazu Honda a =C3=
+=A9crit :
+> > > > The Hantro G1 decoder supports H.264 profiles from Baseline to High=
+, with
+> > > > the exception of the Extended profile.
+> > > >
+> > > > Expose the V4L2_CID_MPEG_VIDEO_H264_PROFILE control, so that the
+> > > > applications can query the driver for the list of supported profile=
+s.
+> > >
+> > > Thanks for this patch. Do you think we could also add the LEVEL contr=
+ol
+> > > so the profile/level enumeration becomes complete ?
+> > >
+> > > I'm thinking it would be nice if the v4l2 compliance test make sure
+> > > that codecs do implement these controls (both stateful and stateless)=
+,
+> > > it's essential for stack with software fallback, or multiple capable
+> > > codec hardware but with different capabilities.
+> > >
+> >
+> > Level is a difficult story, because it also specifies the number of
+> > macroblocks per second, but for decoders like this the number of
+> > macroblocks per second it can handle depends on things the driver
+> > might be not aware of - clock frequencies, DDR throughput, system
+> > load, etc.
+> >
+> > My take on this is that the decoder driver should advertise the
+> > highest resolution the decoder can handle due to hardware constraints.
+> > Performance related things depend on the integration details and
+> > should be managed elsewhere. For example Android and Chrome OS manage
+> > expected decoding performance in per-board configuration files.
+>
+> When you read datasheet, the HW is always rated to maximum level (and
+> it's a range) with the assumption of a single stream. It seems much
+> easier to expose this as-is, statically then to start doing some math
+> with data that isn't fully exposed to the user. This is about filtering
+> of multiple CODEC instances, it does not need to be rocket science,
+> specially that the amount of missing data is important (e.g. usage of
+> tiles, compression, IPP all have an impact on the final performance).
+> All we want to know in userspace is if this HW is even possibly capable
+> of LEVEL X, and if not, we'll look for another one.
+>
 
-syzbot found the following crash on:
+Agreed, one could potentially define it this way, but would it be
+really useful for the userspace and the users? I guess it could enable
+slightly faster fallback to software decoding in the extreme case of
+the hardware not supporting the level at all, but I suspect that the
+majority of cases would be the hardware just being unusably slow.
 
-HEAD commit:    d7688697 Merge tag 'for-linus' of git://git.kernel.org/pub..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=125118a2e00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=121b4285bac421fe
-dashboard link: https://syzkaller.appspot.com/bug?extid=02d9172bf4c43104cd70
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=119c517ae00000
+Also, as I mentioned before, we already return the range of supported
+resolutions, which in practice should map to the part of the level
+that may depend on hardware capabilities rather than performance, so
+exposing levels as well would add redundancy to the information
+exposed.
 
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+02d9172bf4c43104cd70@syzkaller.appspotmail.com
-
-==================================================================
-BUG: KASAN: global-out-of-bounds in precalculate_color+0x2154/0x2480  
-drivers/media/common/v4l2-tpg/v4l2-tpg-core.c:942
-Read of size 1 at addr ffffffff884787bf by task vivid-000-vid-c/8948
-
-CPU: 1 PID: 8948 Comm: vivid-000-vid-c Not tainted 5.4.0-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-Google 01/01/2011
-Call Trace:
-  __dump_stack lib/dump_stack.c:77 [inline]
-  dump_stack+0x197/0x210 lib/dump_stack.c:118
-  print_address_description.constprop.0.cold+0x5/0x30b mm/kasan/report.c:374
-  __kasan_report.cold+0x1b/0x41 mm/kasan/report.c:506
-  kasan_report+0x12/0x20 mm/kasan/common.c:634
-  __asan_report_load1_noabort+0x14/0x20 mm/kasan/generic_report.c:129
-  precalculate_color+0x2154/0x2480  
-drivers/media/common/v4l2-tpg/v4l2-tpg-core.c:942
-  tpg_precalculate_colors drivers/media/common/v4l2-tpg/v4l2-tpg-core.c:1093  
-[inline]
-  tpg_recalc+0x561/0x2850 drivers/media/common/v4l2-tpg/v4l2-tpg-core.c:2118
-  tpg_calc_text_basep+0xa1/0x290  
-drivers/media/common/v4l2-tpg/v4l2-tpg-core.c:2136
-  vivid_fillbuff+0x1a5f/0x3af0  
-drivers/media/platform/vivid/vivid-kthread-cap.c:466
-  vivid_thread_vid_cap_tick+0x8cf/0x2210  
-drivers/media/platform/vivid/vivid-kthread-cap.c:727
-  vivid_thread_vid_cap+0x5d8/0xa60  
-drivers/media/platform/vivid/vivid-kthread-cap.c:866
-  kthread+0x361/0x430 kernel/kthread.c:255
-  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
-
-The buggy address belongs to the variable:
-  sin+0x17f/0x280
-
-Memory state around the buggy address:
-  ffffffff88478680: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  ffffffff88478700: 00 00 00 00 00 00 00 00 01 fa fa fa fa fa fa fa
-> ffffffff88478780: 00 00 06 fa fa fa fa fa 04 fa fa fa fa fa fa fa
-                                         ^
-  ffffffff88478800: 05 fa fa fa fa fa fa fa 05 fa fa fa fa fa fa fa
-  ffffffff88478880: 00 00 fa fa fa fa fa fa 00 00 00 00 00 00 fa fa
-==================================================================
-
-
----
-This bug is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this bug report. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this bug, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+> >
+> > > > Signed-off-by: Hirokazu Honda <hiroh@chromium.org>
+> > > > ---
+> > > >  drivers/staging/media/hantro/hantro_drv.c | 10 ++++++++++
+> > > >  1 file changed, 10 insertions(+)
+> > > >
+> > > > diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/st=
+aging/media/hantro/hantro_drv.c
+> > > > index 6d9d41170832..9387619235d8 100644
+> > > > --- a/drivers/staging/media/hantro/hantro_drv.c
+> > > > +++ b/drivers/staging/media/hantro/hantro_drv.c
+> > > > @@ -355,6 +355,16 @@ static const struct hantro_ctrl controls[] =3D=
+ {
+> > > >                       .def =3D V4L2_MPEG_VIDEO_H264_START_CODE_ANNE=
+X_B,
+> > > >                       .max =3D V4L2_MPEG_VIDEO_H264_START_CODE_ANNE=
+X_B,
+> > > >               },
+> > > > +     }, {
+> > > > +             .codec =3D HANTRO_H264_DECODER,
+> > > > +             .cfg =3D {
+> > > > +                     .id =3D V4L2_CID_MPEG_VIDEO_H264_PROFILE,
+> > > > +                     .min =3D V4L2_MPEG_VIDEO_H264_PROFILE_BASELIN=
+E,
+> > > > +                     .max =3D V4L2_MPEG_VIDEO_H264_PROFILE_HIGH,
+> > > > +                     .menu_skip_mask =3D
+> > > > +                     BIT(V4L2_MPEG_VIDEO_H264_PROFILE_EXTENDED),
+> > > > +                     .def =3D V4L2_MPEG_VIDEO_H264_PROFILE_MAIN,
+> > > > +             }
+> > > >       }, {
+> > > >       },
+> > > >  };
