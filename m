@@ -2,113 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B5D3110D43F
-	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2019 11:35:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AE4210D4AA
+	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2019 12:23:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726791AbfK2Kfx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 29 Nov 2019 05:35:53 -0500
-Received: from mga17.intel.com ([192.55.52.151]:17471 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726215AbfK2Kfx (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 29 Nov 2019 05:35:53 -0500
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 29 Nov 2019 02:35:53 -0800
-X-IronPort-AV: E=Sophos;i="5.69,257,1571727600"; 
-   d="scan'208";a="212284321"
-Received: from jnikula-mobl3.fi.intel.com (HELO localhost) ([10.237.66.161])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 29 Nov 2019 02:35:48 -0800
-From:   Jani Nikula <jani.nikula@intel.com>
-To:     dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-Cc:     Andy Walls <awalls@md.metrocast.net>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        intel-gfx@lists.freedesktop.org, ivtv-devel@ivtvdriver.org,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
-Subject: Re: [Intel-gfx] [PATCH v2 12/14] media: constify fb ops across all drivers
-In-Reply-To: <9cfc1a171d12a52dfbd5508d737681f2d89d21df.1575022735.git.jani.nikula@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <cover.1575022735.git.jani.nikula@intel.com> <9cfc1a171d12a52dfbd5508d737681f2d89d21df.1575022735.git.jani.nikula@intel.com>
-Date:   Fri, 29 Nov 2019 12:35:44 +0200
-Message-ID: <87h82nkm0v.fsf@intel.com>
+        id S1726843AbfK2LXW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 29 Nov 2019 06:23:22 -0500
+Received: from mx2.suse.de ([195.135.220.15]:35050 "EHLO mx1.suse.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725892AbfK2LXW (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 29 Nov 2019 06:23:22 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx1.suse.de (Postfix) with ESMTP id EA9F5AC82;
+        Fri, 29 Nov 2019 11:23:17 +0000 (UTC)
+Received: by quack2.suse.cz (Postfix, from userid 1000)
+        id 4E8A01E0B6A; Fri, 29 Nov 2019 12:23:15 +0100 (CET)
+Date:   Fri, 29 Nov 2019 12:23:15 +0100
+From:   Jan Kara <jack@suse.cz>
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn.topel@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Chinner <david@fromorbit.com>,
+        David Airlie <airlied@linux.ie>,
+        "David S . Miller" <davem@davemloft.net>,
+        Ira Weiny <ira.weiny@intel.com>, Jan Kara <jack@suse.cz>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+        Magnus Karlsson <magnus.karlsson@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Paul Mackerras <paulus@samba.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>, bpf@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, kvm@vger.kernel.org,
+        linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rdma@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
+        linux-mm@kvack.org, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 17/19] powerpc: book3s64: convert to pin_user_pages()
+ and put_user_page()
+Message-ID: <20191129112315.GB1121@quack2.suse.cz>
+References: <20191125231035.1539120-1-jhubbard@nvidia.com>
+ <20191125231035.1539120-18-jhubbard@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191125231035.1539120-18-jhubbard@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 29 Nov 2019, Jani Nikula <jani.nikula@intel.com> wrote:
-> Now that the fbops member of struct fb_info is const, we can start
-> making the ops const as well.
->
-> Remove the redundant fbops assignments while at it.
->
-> v2:
-> - actually add const in vivid
-> - fix typo (Christophe de Dinechin)
->
-> Cc: Hans Verkuil <hverkuil@xs4all.nl>
-> Cc: Andy Walls <awalls@md.metrocast.net>
-> Cc: linux-media@vger.kernel.org
-> Cc: ivtv-devel@ivtvdriver.org
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
->
-> fixup-to-media
+On Mon 25-11-19 15:10:33, John Hubbard wrote:
+> 1. Convert from get_user_pages() to pin_user_pages().
+> 
+> 2. As required by pin_user_pages(), release these pages via
+> put_user_page(). In this case, do so via put_user_pages_dirty_lock().
+> 
+> That has the side effect of calling set_page_dirty_lock(), instead
+> of set_page_dirty(). This is probably more accurate.
 
-Rebase artefact, to be removed before applying...
+Maybe more accurate but it doesn't work for mm_iommu_unpin(). As I'm
+checking mm_iommu_unpin() gets called from RCU callback which is executed
+interrupt context and you cannot lock pages from such context. So you need
+to queue work from the RCU callback and then do the real work from the
+workqueue...
 
-BR,
-Jani.
+								Honza
 
+> 
+> As Christoph Hellwig put it, "set_page_dirty() is only safe if we are
+> dealing with a file backed page where we have reference on the inode it
+> hangs off." [1]
+> 
+> [1] https://lore.kernel.org/r/20190723153640.GB720@lst.de
+> 
+> Cc: Jan Kara <jack@suse.cz>
+> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
 > ---
->  drivers/media/pci/ivtv/ivtvfb.c          | 3 +--
->  drivers/media/platform/vivid/vivid-osd.c | 3 +--
->  2 files changed, 2 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/media/pci/ivtv/ivtvfb.c b/drivers/media/pci/ivtv/ivtvfb.c
-> index 95a56cce9b65..f2922b554b09 100644
-> --- a/drivers/media/pci/ivtv/ivtvfb.c
-> +++ b/drivers/media/pci/ivtv/ivtvfb.c
-> @@ -925,7 +925,7 @@ static int ivtvfb_blank(int blank_mode, struct fb_info *info)
+>  arch/powerpc/mm/book3s64/iommu_api.c | 12 +++++-------
+>  1 file changed, 5 insertions(+), 7 deletions(-)
+> 
+> diff --git a/arch/powerpc/mm/book3s64/iommu_api.c b/arch/powerpc/mm/book3s64/iommu_api.c
+> index 56cc84520577..fc1670a6fc3c 100644
+> --- a/arch/powerpc/mm/book3s64/iommu_api.c
+> +++ b/arch/powerpc/mm/book3s64/iommu_api.c
+> @@ -103,7 +103,7 @@ static long mm_iommu_do_alloc(struct mm_struct *mm, unsigned long ua,
+>  	for (entry = 0; entry < entries; entry += chunk) {
+>  		unsigned long n = min(entries - entry, chunk);
+>  
+> -		ret = get_user_pages(ua + (entry << PAGE_SHIFT), n,
+> +		ret = pin_user_pages(ua + (entry << PAGE_SHIFT), n,
+>  				FOLL_WRITE | FOLL_LONGTERM,
+>  				mem->hpages + entry, NULL);
+>  		if (ret == n) {
+> @@ -167,9 +167,8 @@ static long mm_iommu_do_alloc(struct mm_struct *mm, unsigned long ua,
 >  	return 0;
+>  
+>  free_exit:
+> -	/* free the reference taken */
+> -	for (i = 0; i < pinned; i++)
+> -		put_page(mem->hpages[i]);
+> +	/* free the references taken */
+> +	put_user_pages(mem->hpages, pinned);
+>  
+>  	vfree(mem->hpas);
+>  	kfree(mem);
+> @@ -212,10 +211,9 @@ static void mm_iommu_unpin(struct mm_iommu_table_group_mem_t *mem)
+>  		if (!page)
+>  			continue;
+>  
+> -		if (mem->hpas[i] & MM_IOMMU_TABLE_GROUP_PAGE_DIRTY)
+> -			SetPageDirty(page);
+> +		put_user_pages_dirty_lock(&page, 1,
+> +				mem->hpas[i] & MM_IOMMU_TABLE_GROUP_PAGE_DIRTY);
+>  
+> -		put_page(page);
+>  		mem->hpas[i] = 0;
+>  	}
 >  }
->  
-> -static struct fb_ops ivtvfb_ops = {
-> +static const struct fb_ops ivtvfb_ops = {
->  	.owner = THIS_MODULE,
->  	.fb_write       = ivtvfb_write,
->  	.fb_check_var   = ivtvfb_check_var,
-> @@ -1049,7 +1049,6 @@ static int ivtvfb_init_vidmode(struct ivtv *itv)
->  
->  	oi->ivtvfb_info.node = -1;
->  	oi->ivtvfb_info.flags = FBINFO_FLAG_DEFAULT;
-> -	oi->ivtvfb_info.fbops = &ivtvfb_ops;
->  	oi->ivtvfb_info.par = itv;
->  	oi->ivtvfb_info.var = oi->ivtvfb_defined;
->  	oi->ivtvfb_info.fix = oi->ivtvfb_fix;
-> diff --git a/drivers/media/platform/vivid/vivid-osd.c b/drivers/media/platform/vivid/vivid-osd.c
-> index f2e789bdf4a6..fbaec8acc161 100644
-> --- a/drivers/media/platform/vivid/vivid-osd.c
-> +++ b/drivers/media/platform/vivid/vivid-osd.c
-> @@ -244,7 +244,7 @@ static int vivid_fb_blank(int blank_mode, struct fb_info *info)
->  	return 0;
->  }
->  
-> -static struct fb_ops vivid_fb_ops = {
-> +static const struct fb_ops vivid_fb_ops = {
->  	.owner = THIS_MODULE,
->  	.fb_check_var   = vivid_fb_check_var,
->  	.fb_set_par     = vivid_fb_set_par,
-> @@ -311,7 +311,6 @@ static int vivid_fb_init_vidmode(struct vivid_dev *dev)
->  
->  	dev->fb_info.node = -1;
->  	dev->fb_info.flags = FBINFO_FLAG_DEFAULT;
-> -	dev->fb_info.fbops = &vivid_fb_ops;
->  	dev->fb_info.par = dev;
->  	dev->fb_info.var = dev->fb_defined;
->  	dev->fb_info.fix = dev->fb_fix;
-
+> -- 
+> 2.24.0
+> 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
