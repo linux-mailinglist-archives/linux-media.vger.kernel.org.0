@@ -2,134 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E312310DB53
-	for <lists+linux-media@lfdr.de>; Fri, 29 Nov 2019 22:47:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E20DC10DC5B
+	for <lists+linux-media@lfdr.de>; Sat, 30 Nov 2019 05:55:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727235AbfK2Vro (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 29 Nov 2019 16:47:44 -0500
-Received: from hqemgate14.nvidia.com ([216.228.121.143]:6093 "EHLO
-        hqemgate14.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727073AbfK2Vro (ORCPT
+        id S1727207AbfK3Ezi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 29 Nov 2019 23:55:38 -0500
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:44021 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727142AbfK3Ezi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 29 Nov 2019 16:47:44 -0500
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqemgate14.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5de192010000>; Fri, 29 Nov 2019 13:47:46 -0800
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Fri, 29 Nov 2019 13:47:42 -0800
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Fri, 29 Nov 2019 13:47:42 -0800
-Received: from [10.2.169.205] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 29 Nov
- 2019 21:47:41 +0000
-Subject: Re: [PATCH v2 17/19] powerpc: book3s64: convert to pin_user_pages()
- and put_user_page()
-To:     Jan Kara <jack@suse.cz>
-CC:     Andrew Morton <akpm@linux-foundation.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn.topel@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dave Chinner <david@fromorbit.com>,
-        David Airlie <airlied@linux.ie>,
-        "David S . Miller" <davem@davemloft.net>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Magnus Karlsson <magnus.karlsson@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michal Hocko <mhocko@suse.com>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Paul Mackerras <paulus@samba.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>, <bpf@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <kvm@vger.kernel.org>,
-        <linux-block@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        <linux-fsdevel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <netdev@vger.kernel.org>,
-        <linux-mm@kvack.org>, LKML <linux-kernel@vger.kernel.org>
-References: <20191125231035.1539120-1-jhubbard@nvidia.com>
- <20191125231035.1539120-18-jhubbard@nvidia.com>
- <20191129112315.GB1121@quack2.suse.cz>
-From:   John Hubbard <jhubbard@nvidia.com>
-X-Nvconfidentiality: public
-Message-ID: <cb3e2acc-0a83-4053-fbcc-6d75dc47f174@nvidia.com>
-Date:   Fri, 29 Nov 2019 13:44:53 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
-MIME-Version: 1.0
-In-Reply-To: <20191129112315.GB1121@quack2.suse.cz>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1575064066; bh=tMvn6asqZgJ/8yczcC9lnf1pHEf7TJzCvRVZqLzUEIk=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:X-Nvconfidentiality:
-         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
-         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
-         Content-Transfer-Encoding;
-        b=P515JTdy70KP3oimNK/fSAtObgW4JDQsh/LN+dj31w7qtgH6JUdGJYKS3j5J8enBM
-         oN04vymJSqszX58P75QNc1cW3k/Ll0LB9zwNlmlBWaR7zw2qd7/o9t2Cy3EugW3wgY
-         XBlQyEsBEMcfywkDPj201lclcvfOCs5gFzs/O+2QmSmHzciD31eTMBkNB0W6VGXEOL
-         BbnrGM91l0GAwjLm+XJmL4eoGQAce5JVCz6FfueQA4/sc24hO2mmz2R1mloKHyP2Ej
-         3q1StOVbP0t0OEBFEGay8puwUyC8jwyLEftGIYNcVrkaz5szmNasFETh2Ir0Xi5Q1g
-         8xDwDUM/1ii9A==
+        Fri, 29 Nov 2019 23:55:38 -0500
+Received: from localhost ([IPv6:2001:983:e9a7:1:88bb:556c:717:5b00])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id aun8iJEAyFc4Faun9iMOQk; Sat, 30 Nov 2019 05:55:35 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1575089735; bh=F4iswyCPN4t4p02eTIaImYG0c3mQTjutNIBvo7g9RBk=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=HI15V1Latd3pegOh1UknoEHROD+xqYtG/3UAASIviQekWrpRrTuEu9D6j06vNbxIo
+         MQ8t9pwFrQqAF+zoF31iRHRAzwmsLsL+cFVCdaCjJKLCkHHajT0euVPqCcVUxOiXhx
+         nk5YGk2fngBe9e3ake5iO/j6+hb3uoMAxk+GExyjpvLoCjQJ8dXXvZq37KuuZv1KIY
+         asxjoALypWzaflk7P3n02lPhJl+ThSBj2yaoAtvseUGAfezBa6pPDKbOtsu0T1L6xd
+         EpVxmvOTxtIWWzfEeZ+Zur1MyoSwIDUgpVMhios/uso4qmY5GGe2rkY48E3uxYLQsV
+         AeswTr8V2SPYQ==
+Message-ID: <13658d72c62f0bff7ba70889e153fb9f@smtp-cloud9.xs4all.net>
+Date:   Sat, 30 Nov 2019 05:55:34 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfGD2DHhcYJknuBaDui+5Nxea2YhZB6/tqk0WGjDcANe90w8a6Ywichps1z9+OVodfwd67AyIN8PgZXN6hNhjQO/Ry/XrgbjRsbZL48TEGvgaT/3xbu6c
+ Q9ac9w/NJlNppMKsvBFQAu5+VnAwidyiYgDKxuSkcJKMitJUoegZbfz0wGJefzB4h0f+wDhq+34bgchwfkwiIwZullgAVflxvVcva/XunN3sNCcZzRg7I4Z0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/29/19 3:23 AM, Jan Kara wrote:
-> On Mon 25-11-19 15:10:33, John Hubbard wrote:
->> 1. Convert from get_user_pages() to pin_user_pages().
->>
->> 2. As required by pin_user_pages(), release these pages via
->> put_user_page(). In this case, do so via put_user_pages_dirty_lock().
->>
->> That has the side effect of calling set_page_dirty_lock(), instead
->> of set_page_dirty(). This is probably more accurate.
-> 
-> Maybe more accurate but it doesn't work for mm_iommu_unpin(). As I'm
-> checking mm_iommu_unpin() gets called from RCU callback which is executed
-> interrupt context and you cannot lock pages from such context. So you need
-> to queue work from the RCU callback and then do the real work from the
-> workqueue...
-> 
-> 								Honza
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-ah yes, fixed locally. (In order to avoid  distracting people during the merge
-window, I won't post any more versions of the series until the merge window is
-over, unless a maintainer tells me that any of these patches are desired for
-5.5.)
+Results of the daily build of media_tree:
 
-With that, we are back to a one-line diff for this part:
+date:			Sat Nov 30 05:00:10 CET 2019
+media-tree git hash:	dca6b3733a4a46e63603496f544ece8ace541fde
+media_build git hash:	efba365ba11b958a6bf6fb4b397942f9461cefca
+v4l-utils git hash:	8021c9d3aac0f4446ef5bedd2c53f0c2afbaa752
+edid-decode git hash:	d0a1a41867e4a522b52ba0cc716eb1ca6fd2e52f
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 6903fe8f5101fc43440b3259290c97d2dd51733d
+host hardware:		x86_64
+host os:		5.2.0-3-amd64
 
-@@ -215,7 +214,7 @@ static void mm_iommu_unpin(struct mm_iommu_table_group_mem_t *mem)
-                 if (mem->hpas[i] & MM_IOMMU_TABLE_GROUP_PAGE_DIRTY)
-                         SetPageDirty(page);
-  
--               put_page(page);
-+               put_user_page(page);
-                 mem->hpas[i] = 0;
-         }
-  }
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4-i686: OK
+linux-5.4-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2791, Succeeded: 2791, Failed: 0, Warnings: 0
+sparse: WARNINGS
+smatch: WARNINGS
 
-btw, I'm also working on your feedback for patch 17 (mm/gup: track FOLL_PIN pages [1]),
-from a few days earlier, it's not being ignored, I'm just trying to avoid distracting
-people during the merge window.
+Detailed results are available here:
 
-[1] https://lore.kernel.org/r/20191121093941.GA18190@quack2.suse.cz
+http://www.xs4all.nl/~hverkuil/logs/Saturday.log
 
-thanks,
--- 
-John Hubbard
-NVIDIA
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
