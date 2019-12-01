@@ -2,164 +2,242 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B6E710E059
-	for <lists+linux-media@lfdr.de>; Sun,  1 Dec 2019 05:55:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D09E710E0FC
+	for <lists+linux-media@lfdr.de>; Sun,  1 Dec 2019 08:48:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727218AbfLAEzl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 30 Nov 2019 23:55:41 -0500
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:43091 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727169AbfLAEzl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 30 Nov 2019 23:55:41 -0500
-Received: from localhost ([IPv6:2001:983:e9a7:1:6d50:4431:d7d3:7909])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id bHGkiBzn3ksqebHGliwXc1; Sun, 01 Dec 2019 05:55:39 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1575176139; bh=BzH5xvbbZH3BKK6gxoUku+GUU3S3idD5HEYhBHBUHSg=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=OV4GBtvS/n/3Y3WGUnrsDj2pmis7dkZjv5usvT4ryRUizftNJRhFHi7Gs+/wAghzV
-         VoJp6ECvARj5lgBRIAiKop7RXvq3LkfYfbyb1XVz8DjdDhjizLajmSpCCmqRM31zmc
-         DTYW6BQsku6JvMNvbGOAE0AxYTQO80UPv0aJQ0Cemb7erNtKPkzufJRNKdX8gxWKVS
-         eDxxEB9Lzg9auT8jXhc0lb68+dgxOi5rzD5ElXEvJy8mksPe15SlfXQNNP6+J3Gs+m
-         /IIVpp54bdGztkMiUBtfCsRv6bB3m5p7RVeInbLKzm+7FCXK19Ovs9q2uzG8duT0SH
-         BW0heGjo1UHog==
-Message-ID: <d3becab687a17d3e482c273f3da4317c@smtp-cloud8.xs4all.net>
-Date:   Sun, 01 Dec 2019 05:55:38 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfCH654KJJcmFYs5N6W7Vx07LrQbqgOGAb1xtlPr0ZzP8GBqjuQmrYjpsNjM6AZdKxB5NmWGzACa+ehw/3Ur9bl3ii6QCTqA4JfODG04/XkhLRpjnvJyv
- W9L/SqWsCKXrY/mDC8iObdAXQxXrak6FmfPWurgmjGNcoqkEzxfMpnDcwpvyyfglASrdZoCKMePUl7fvHtAzpxMoynpSj9buwpx0k/vAWXYQq4roI1CX0+4z
+        id S1726256AbfLAHrj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 1 Dec 2019 02:47:39 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:48716 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725866AbfLAHri (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 1 Dec 2019 02:47:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=31ZIn5LuPfDCCSlP/VMSXAo5Pn3mOLQbdfQ8bPQa9Sg=; b=jr7ralNE8IVefG9LG2R/0zGWP
+        xv6rzjRM7IVgQoFkQ5shDctC6DSMqRKYKb+OwxvnEzSoz/4PhCN2t+hcT6BcCkcAeXezWpMmiFHg3
+        7Qj4OELKoBTSZQm9BtbuvtQj7fog6Nak+61ZUWc1PqC+w8RXmbpqwCtI7hYidbYF2WQuLNJh86L33
+        AVj2X4mO/Q0tXzJNSPAhyxWo8BsZKviL8UBxtp7q5SXyUo63hc2L2qa3kN2TndO6BoBr9RL1ZsuAk
+        h4joyVg99Hbv/lnS0ARKZ6xMoTakr0HlyJ0YXAyvgNbhWXUL/wvO4D1uh4l8n/c6uckzIo0gBzzFk
+        SkHmSQ6CQ==;
+Received: from [80.156.29.194] (helo=localhost)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1ibJx7-00025Q-B9; Sun, 01 Dec 2019 07:47:33 +0000
+Date:   Sun, 1 Dec 2019 08:47:28 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Cc:     gregkh@linuxfoundation.org, rfontana@redhat.com,
+        kstewart@linuxfoundation.org, tglx@linutronix.de,
+        skhan@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] media: dvb_dummy_fe: Fix ERROR: POINTER_LOCATION
+Message-ID: <20191201084728.17387715@kernel.org>
+In-Reply-To: <20191112125014.5604-1-dwlsalmeida@gmail.com>
+References: <20191112125014.5604-1-dwlsalmeida@gmail.com>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Em Tue, 12 Nov 2019 09:50:14 -0300
+"Daniel W. S. Almeida" <dwlsalmeida@gmail.com> escreveu:
 
-Results of the daily build of media_tree:
+> From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+> 
+> Change foo* bar to foo *bar to avoid ERROR: POINTER_LOCATION in checkpatch.pl
+> 
+> ERROR: "foo* bar" should be "foo *bar"
+> +static int dvb_dummy_fe_read_signal_strength(struct dvb_frontend* fe, u16* strength)
+> 
+> ERROR: "foo* bar" should be "foo *bar"
+> +static int dvb_dummy_fe_read_signal_strength(struct dvb_frontend* fe, u16* strength)
+> 
+> ERROR: "foo* bar" should be "foo *bar"
+> +static int dvb_dummy_fe_read_snr(struct dvb_frontend* fe, u16* snr)
+> 
+> ERROR: "foo* bar" should be "foo *bar"
+> +static int dvb_dummy_fe_read_snr(struct dvb_frontend* fe, u16* snr)
+> 
+> ERROR: "foo* bar" should be "foo *bar"
+> +static int dvb_dummy_fe_read_ucblocks(struct dvb_frontend* fe, u32* ucblocks)
+> 
+> ERROR: "foo* bar" should be "foo *bar"
+> +static int dvb_dummy_fe_read_ucblocks(struct dvb_frontend* fe, u32* ucblocks)
+> 
+> ERROR: "foo* bar" should be "foo *bar"
+> +static int dvb_dummy_fe_sleep(struct dvb_frontend* fe)
+> 
+> ERROR: "foo* bar" should be "foo *bar"
+> +static int dvb_dummy_fe_init(struct dvb_frontend* fe)
+> 
+> ERROR: "foo* bar" should be "foo *bar"
+> +static void dvb_dummy_fe_release(struct dvb_frontend* fe)
+> 
+> ERROR: "foo* bar" should be "foo *bar"
+> +	struct dvb_dummy_fe_state* state = fe->demodulator_priv;
+> 
+> ERROR: "foo* bar" should be "foo *bar"
+> +struct dvb_frontend* dvb_dummy_fe_ofdm_attach(void)
+> 
+> ERROR: "foo* bar" should be "foo *bar"
+> +	struct dvb_dummy_fe_state* state = NULL;
+> 
+> ERROR: "foo* bar" should be "foo *bar"
+> +	struct dvb_dummy_fe_state* state = NULL;
+> 
+> ERROR: "foo* bar" should be "foo *bar"
+> +	struct dvb_dummy_fe_state* state = NULL;
+> 
+> Suggested-by: Shuah Khan <skhan@linuxfoundation.org>
+> Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+> 
+> ------------------------------------------------------------
+> Changes in v2:
+> 
+> -Added checkpatch.pl previous output so it's more clear what
+> is being fixed by this patch.
+> 
+> ---
+>  drivers/media/dvb-frontends/dvb_dummy_fe.c | 24 +++++++++++-----------
+>  drivers/media/dvb-frontends/dvb_dummy_fe.h |  6 +++---
+>  2 files changed, 15 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/media/dvb-frontends/dvb_dummy_fe.c b/drivers/media/dvb-frontends/dvb_dummy_fe.c
+> index 4db679cb70ad..8413038aa30b 100644
+> --- a/drivers/media/dvb-frontends/dvb_dummy_fe.c
+> +++ b/drivers/media/dvb-frontends/dvb_dummy_fe.c
+> @@ -31,25 +31,25 @@ static int dvb_dummy_fe_read_status(struct dvb_frontend *fe,
+>  	return 0;
+>  }
+>  
+> -static int dvb_dummy_fe_read_ber(struct dvb_frontend* fe, u32* ber)
+> +static int dvb_dummy_fe_read_ber(struct dvb_frontend *fe, u32 *ber)
+>  {
+>  	*ber = 0;
+>  	return 0;
+>  }
+>  
+> -static int dvb_dummy_fe_read_signal_strength(struct dvb_frontend* fe, u16* strength)
+> +static int dvb_dummy_fe_read_signal_strength(struct dvb_frontend *fe, u16 *strength)
 
-date:			Sun Dec  1 05:00:11 CET 2019
-media-tree git hash:	dca6b3733a4a46e63603496f544ece8ace541fde
-media_build git hash:	efba365ba11b958a6bf6fb4b397942f9461cefca
-v4l-utils git hash:	8021c9d3aac0f4446ef5bedd2c53f0c2afbaa752
-edid-decode git hash:	71b0be20420bbebcaf9838933a126fe895a3b25f
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 6903fe8f5101fc43440b3259290c97d2dd51733d
-host hardware:		x86_64
-host os:		5.2.0-3-amd64
+Line too long. As you're touching on it, please also fix the long line
+warning.
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4-i686: OK
-linux-5.4-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2791, Succeeded: 2791, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
+>  {
+>  	*strength = 0;
+>  	return 0;
+>  }
+>  
+> -static int dvb_dummy_fe_read_snr(struct dvb_frontend* fe, u16* snr)
+> +static int dvb_dummy_fe_read_snr(struct dvb_frontend *fe, u16 *snr)
+>  {
+>  	*snr = 0;
+>  	return 0;
+>  }
+>  
+> -static int dvb_dummy_fe_read_ucblocks(struct dvb_frontend* fe, u32* ucblocks)
+> +static int dvb_dummy_fe_read_ucblocks(struct dvb_frontend *fe, u32 *ucblocks)
+>  {
+>  	*ucblocks = 0;
+>  	return 0;
+> @@ -77,12 +77,12 @@ static int dvb_dummy_fe_set_frontend(struct dvb_frontend *fe)
+>  	return 0;
+>  }
+>  
+> -static int dvb_dummy_fe_sleep(struct dvb_frontend* fe)
+> +static int dvb_dummy_fe_sleep(struct dvb_frontend *fe)
+>  {
+>  	return 0;
+>  }
+>  
+> -static int dvb_dummy_fe_init(struct dvb_frontend* fe)
+> +static int dvb_dummy_fe_init(struct dvb_frontend *fe)
+>  {
+>  	return 0;
+>  }
+> @@ -99,17 +99,17 @@ static int dvb_dummy_fe_set_voltage(struct dvb_frontend *fe,
+>  	return 0;
+>  }
+>  
+> -static void dvb_dummy_fe_release(struct dvb_frontend* fe)
+> +static void dvb_dummy_fe_release(struct dvb_frontend *fe)
+>  {
+> -	struct dvb_dummy_fe_state* state = fe->demodulator_priv;
+> +	struct dvb_dummy_fe_state *state = fe->demodulator_priv;
+>  	kfree(state);
+>  }
+>  
+>  static const struct dvb_frontend_ops dvb_dummy_fe_ofdm_ops;
+>  
+> -struct dvb_frontend* dvb_dummy_fe_ofdm_attach(void)
+> +struct dvb_frontend *dvb_dummy_fe_ofdm_attach(void)
+>  {
+> -	struct dvb_dummy_fe_state* state = NULL;
+> +	struct dvb_dummy_fe_state *state = NULL;
+>  
+>  	/* allocate memory for the internal state */
+>  	state = kzalloc(sizeof(struct dvb_dummy_fe_state), GFP_KERNEL);
+> @@ -126,7 +126,7 @@ static const struct dvb_frontend_ops dvb_dummy_fe_qpsk_ops;
+>  
+>  struct dvb_frontend *dvb_dummy_fe_qpsk_attach(void)
+>  {
+> -	struct dvb_dummy_fe_state* state = NULL;
+> +	struct dvb_dummy_fe_state *state = NULL;
+>  
+>  	/* allocate memory for the internal state */
+>  	state = kzalloc(sizeof(struct dvb_dummy_fe_state), GFP_KERNEL);
+> @@ -143,7 +143,7 @@ static const struct dvb_frontend_ops dvb_dummy_fe_qam_ops;
+>  
+>  struct dvb_frontend *dvb_dummy_fe_qam_attach(void)
+>  {
+> -	struct dvb_dummy_fe_state* state = NULL;
+> +	struct dvb_dummy_fe_state *state = NULL;
+>  
+>  	/* allocate memory for the internal state */
+>  	state = kzalloc(sizeof(struct dvb_dummy_fe_state), GFP_KERNEL);
+> diff --git a/drivers/media/dvb-frontends/dvb_dummy_fe.h b/drivers/media/dvb-frontends/dvb_dummy_fe.h
+> index 526fabd7751f..35efe2ce1a88 100644
+> --- a/drivers/media/dvb-frontends/dvb_dummy_fe.h
+> +++ b/drivers/media/dvb-frontends/dvb_dummy_fe.h
+> @@ -12,9 +12,9 @@
+>  #include <media/dvb_frontend.h>
+>  
+>  #if IS_REACHABLE(CONFIG_DVB_DUMMY_FE)
+> -extern struct dvb_frontend* dvb_dummy_fe_ofdm_attach(void);
+> -extern struct dvb_frontend* dvb_dummy_fe_qpsk_attach(void);
+> -extern struct dvb_frontend* dvb_dummy_fe_qam_attach(void);
+> +extern struct dvb_frontend *dvb_dummy_fe_ofdm_attach(void);
+> +extern struct dvb_frontend *dvb_dummy_fe_qpsk_attach(void);
+> +extern struct dvb_frontend *dvb_dummy_fe_qam_attach(void);
 
-Detailed results are available here:
+Don't keep the "extern" here:
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday.log
+CHECK:AVOID_EXTERNS: extern prototypes should be avoided in .h files
+#185: FILE: drivers/media/dvb-frontends/dvb_dummy_fe.h:15:
++extern struct dvb_frontend *dvb_dummy_fe_ofdm_attach(void);
 
-Detailed regression test results are available here:
+CHECK:AVOID_EXTERNS: extern prototypes should be avoided in .h files
+#186: FILE: drivers/media/dvb-frontends/dvb_dummy_fe.h:16:
++extern struct dvb_frontend *dvb_dummy_fe_qpsk_attach(void);
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
+CHECK:AVOID_EXTERNS: extern prototypes should be avoided in .h files
+#187: FILE: drivers/media/dvb-frontends/dvb_dummy_fe.h:17:
++extern struct dvb_frontend *dvb_dummy_fe_qam_attach(void);
 
-Full logs are available here:
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
+>  #else
+>  static inline struct dvb_frontend *dvb_dummy_fe_ofdm_attach(void)
+>  {
 
-The Media Infrastructure API from this daily build is here:
 
-http://www.xs4all.nl/~hverkuil/spec/index.html
+
+Cheers,
+Mauro
