@@ -2,164 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A23C910E525
-	for <lists+linux-media@lfdr.de>; Mon,  2 Dec 2019 05:55:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EB70810E57F
+	for <lists+linux-media@lfdr.de>; Mon,  2 Dec 2019 06:37:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727318AbfLBEzj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 1 Dec 2019 23:55:39 -0500
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:38211 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727308AbfLBEzj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sun, 1 Dec 2019 23:55:39 -0500
-Received: from localhost ([IPv6:2001:983:e9a7:1:9b5:45c2:36f5:e0c6])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id bdkFiSFXfFc4FbdkGiP8dg; Mon, 02 Dec 2019 05:55:36 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1575262536; bh=3+dDuIAW9uKIm+IU1CQ8BpfKKTiagepA7b8TxaSnVTU=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=UgV2652EyT3s9Hf5Qco6hbvq/KjIPfq8lVGKNZpv/l4kMVMDar6N1MziDvkbivtOW
-         pZSHe12YQglRIomOSriT1MHEn8usBZgBx3tHcvgKmxsVGR2MtkT1+bcg2I+WB3ZSUP
-         N93ejAXUbjSJop2dHb6uItajEqap9Oo9cKCH+ZCA13KhxKYrW05CZuQxnRoxuvSKke
-         KGda01KhMbV2KjL2EDPgQCQ3i1710ZDQKYjbZlgJSMaJOCG49NrgDSujoeIPrjxhoQ
-         lrH33IWS/V6v/Y2S3DuvlVqbOQczm9uYRCT6XkpARMOR94zkXPX2yhPlMmFrrE31To
-         JBQjTSVVLOSKg==
-Message-ID: <dfb9ab7184a21695fb1049eab2d59ebd@smtp-cloud9.xs4all.net>
-Date:   Mon, 02 Dec 2019 05:55:35 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfLIh+LIepsJ0ALqH+6Z0Hw13RLABLDjD/jMs4ODTdbfE/H01axZOEb+lqt8UdlG7D6nIr9h38UPHnp34tuNTaDw6VTFxELE9AtPTz8rhAg2Hgiw8UbSr
- Q80j3epSo/h/khy7r7///Huz1LrNGQ6MtWOM/T7wqNwAmjy0QGpMsudDs7CjiUMc46IRZRjWV7wRcIfsko+JzoVwjJK9G3j9Ar84Fxu1+8uR25H+IvXXk8XL
+        id S1725935AbfLBFgE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Dec 2019 00:36:04 -0500
+Received: from bombadil.infradead.org ([198.137.202.133]:43140 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725807AbfLBFgE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Dec 2019 00:36:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=zzQN8wezjT7b8g3+ghWsdGp9+x99xEeyGabO3I6sDJg=; b=U7v/I2bc5x5IaFlgbKhxfCG9/
+        3alyresmA6+o81UZ1foOF28PTS51KwKjRyhlwbda2VanIfwRh3q0+xs0PR5Pb61sWpfT7oY0RI4HA
+        BmF0XKuX9YTc0KHeMF0e1H9J/a9qQ9s0EFCn4qXa+xFJ5dEdAniVTm5RyzRCk9O3josCIR07amc4n
+        fHUKXBwc9mQgPaDLto9J0zhXIND5sXPYfHsQlQ0xUJC1eQFjCcejbwuzm1ZtLlzEMMzA5N5sFA4/X
+        jItRphDUN+6O2M/dNDs7JPp5CUdXtCm5lr7K83ptbZMotQ3Eab2VxU8xHkV/F+gOHkcfaLs7MdOQh
+        4iZRJA2YA==;
+Received: from [80.156.29.194] (helo=localhost)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1ibeNM-0007z9-8d; Mon, 02 Dec 2019 05:36:00 +0000
+Date:   Mon, 2 Dec 2019 06:35:55 +0100
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Amit Choudhary <amitchoudhary2305@gmail.com>
+Cc:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
+        gregkh@linuxfoundation.org, rfontana@redhat.com,
+        kstewart@linuxfoundation.org, tglx@linutronix.de,
+        skhan@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/6] media: dvb_dummy_fe: Fix long lines
+Message-ID: <20191202063555.0f75e68f@kernel.org>
+In-Reply-To: <CAFzckaFfmVYV_baqV9bHrnguXfOKs42DJ2VgA4C1y2Ey-+99xQ@mail.gmail.com>
+References: <20191201161542.69535-1-dwlsalmeida@gmail.com>
+        <20191201161542.69535-5-dwlsalmeida@gmail.com>
+        <CAFzckaFfmVYV_baqV9bHrnguXfOKs42DJ2VgA4C1y2Ey-+99xQ@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Em Sun, 1 Dec 2019 22:07:22 +0530
+Amit Choudhary <amitchoudhary2305@gmail.com> escreveu:
 
-Results of the daily build of media_tree:
+> +static int dvb_dummy_fe_read_signal_strength(struct dvb_frontend *fe,
+> 
+> > +                                            u16 *strength)
+> >  
+> 
+> In my opinion, the arguments on new line should be just below the start of
+> arguments on top line. Like this:
+> 
+> +static int dvb_dummy_fe_read_signal_strength(struct dvb_frontend *fe,
+> +                                                                     u16
+> *strength)
 
-date:			Mon Dec  2 05:00:11 CET 2019
-media-tree git hash:	dca6b3733a4a46e63603496f544ece8ace541fde
-media_build git hash:	efba365ba11b958a6bf6fb4b397942f9461cefca
-v4l-utils git hash:	8021c9d3aac0f4446ef5bedd2c53f0c2afbaa752
-edid-decode git hash:	5dc6e53a1a59903dd6c51126f971540cf14dc13b
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 6903fe8f5101fc43440b3259290c97d2dd51733d
-host hardware:		x86_64
-host os:		5.2.0-3-amd64
+No, that is not the way we indent. The alignment is relative to the open
+parenthesis:
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4-i686: OK
-linux-5.4-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2791, Succeeded: 2791, Failed: 0, Warnings: 0
-sparse: WARNINGS
-smatch: WARNINGS
+  foo(arg1,
+      arg2);
 
-Detailed results are available here:
+Btw, if you run checkpatch --strict, you'll see it complaining if the
+alignment is different:
 
-http://www.xs4all.nl/~hverkuil/logs/Monday.log
+	CHECK: Alignment should match open parenthesis
+	#2: FILE: a.c:2:
+	+void foo(int arg1,
+	+		int arg2)
 
-Detailed regression test results are available here:
+> +               .caps = FE_CAN_FEC_1_2 |
+> > +                       FE_CAN_FEC_2_3 |
 
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
+The alignment here is given by the first argument:
 
-Full logs are available here:
+   bitfield = BIT_1 |
+              BIT_2 |
+              BIT_3 |
+              ...
 
-http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
+or
 
-The Media Infrastructure API from this daily build is here:
+   bitfield = BIT_1
+              | BIT_2
+              | BIT_3
+              ...
 
-http://www.xs4all.nl/~hverkuil/spec/index.html
+On media, we usually prefer the first form.
+
+Cheers,
+Mauro
