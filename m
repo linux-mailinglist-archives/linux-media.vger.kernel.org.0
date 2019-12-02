@@ -2,151 +2,359 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D79C10E798
-	for <lists+linux-media@lfdr.de>; Mon,  2 Dec 2019 10:25:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 64A6B10E7EB
+	for <lists+linux-media@lfdr.de>; Mon,  2 Dec 2019 10:48:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726276AbfLBJZJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Dec 2019 04:25:09 -0500
-Received: from mail-il1-f200.google.com ([209.85.166.200]:39438 "EHLO
-        mail-il1-f200.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726210AbfLBJZH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Dec 2019 04:25:07 -0500
-Received: by mail-il1-f200.google.com with SMTP id v11so1883658ilg.6
-        for <linux-media@vger.kernel.org>; Mon, 02 Dec 2019 01:25:06 -0800 (PST)
+        id S1726469AbfLBJso (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Dec 2019 04:48:44 -0500
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:46021 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726410AbfLBJso (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Dec 2019 04:48:44 -0500
+Received: by mail-ed1-f67.google.com with SMTP id v28so6234697edw.12
+        for <linux-media@vger.kernel.org>; Mon, 02 Dec 2019 01:48:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=s1zlZMarLi4nAUCn1GIvPXbRFhUOTq04Huhogccl8tM=;
+        b=Rk9LL81AeGldv3idTvopx1eq3lGmYB1xNoBlcTAr6Gc7YipmeLPUtYeZRUxmMdxAtM
+         HmYf9gQljxw/wr8tzQlTUm/175gP09W8/L7YZ8/tdeGz73hCPKWJDVZl9TcPNFlao5H3
+         KYri1VkZSoZ/7r4sg4Q3irewd8m3kkgtWOEDU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=vlZSW3HLefI9bXNH/+u9926W8YYXQ2/ihlTh151hCYg=;
-        b=jkOye7tBjAfHN7YfxwHop2M4cXbdHj+7kK3Z/Nkn3OhXvm6RamYExGZczCfnH0HLfe
-         eNXXNgvAaFweIqKPwhh+21PqApzcNOIjgcDvIydOSLQDRRF/+/VQDPRdWXftavVtfBNm
-         BtowQWgT1E1t3+7QxeW5UOnHTqSl9yXJF8oUbrCQtuPRSp4TtQLHRFlv5t9JYDJ4WbPc
-         vdLiy36wdGIuVS3biQ/PJYROXUyODSuLQw9UGZVB5zR5DGt9pgFLfNBTywfigLAVu0RC
-         iKlXVpWmc82nVgRBklG3fUzUSJbzFsjiuRLvEN8j09E33m8J6aeHC5f3ZspK/e+kJTiB
-         d3wg==
-X-Gm-Message-State: APjAAAV5t2YbM5XQzrwOTa0Y+Aludn3LWHLQUhH/2Sgx8GWg04N5vs3n
-        +sCRzKAXa+sZ+ouSZL6LrPB9BlcT3HiF2cQblgaRHYwMRAdo
-X-Google-Smtp-Source: APXvYqzm/EPogmg2s8v0c6GN1ZO5ECxnO9ocPG0KALjtJTs4yHOrz2J8CuM+PYywU6eWy16bEFKiVcJiY4ZMK/AVSXLQES9Ibi0Z
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=s1zlZMarLi4nAUCn1GIvPXbRFhUOTq04Huhogccl8tM=;
+        b=ESGi4Xddbfh8bVHzFH03+cBP9uKHNovIxSzsUKGJ7oixqc5MVw3Lz1SkA/KJInV34n
+         Go8Dw2EZcHBAWlhGkB8ExvEIDqWOCq7gGLW0CslDfyaz2uK1/866B7U9o6tZssdeKupS
+         SeK0ioW3OWQdH2vZTzwsbh6HlmflinJP86zfe0scR3HW4JuX179FJ4+sbfYvOMtJebe4
+         ZNoX6evgaP77l5C4yWXIBmOoRX2/HhAJmw9mEpXHRNQgvSecmG26iLfwF+Im+sq48rGk
+         6xRbEUbAxPYN8aCXiH2egZIQlnitA+bT4fJOBJliccVmdqzh2AZ/BvHdbQdCavSAwy2U
+         zBdA==
+X-Gm-Message-State: APjAAAUN+ynLdcb+hjJGSfQVvdY9KvYrZZ/zZ/KoMxmFnzcG+JTObrHS
+        hKDVfzfpW25uYKdRY1TC7BFi2it+bPI=
+X-Google-Smtp-Source: APXvYqzBsapq8GdfQNIHcKGJAW9PIV1iy8brKb+sq9mpy86TMgMMGYWg7+PYiTsE7371uCrHwnxafg==
+X-Received: by 2002:aa7:ce13:: with SMTP id d19mr3568707edv.296.1575280119888;
+        Mon, 02 Dec 2019 01:48:39 -0800 (PST)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com. [209.85.221.53])
+        by smtp.gmail.com with ESMTPSA id f2sm813983ejt.88.2019.12.02.01.48.38
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 Dec 2019 01:48:38 -0800 (PST)
+Received: by mail-wr1-f53.google.com with SMTP id q10so7162375wrm.11
+        for <linux-media@vger.kernel.org>; Mon, 02 Dec 2019 01:48:38 -0800 (PST)
+X-Received: by 2002:adf:dfc1:: with SMTP id q1mr9118440wrn.155.1575280117799;
+ Mon, 02 Dec 2019 01:48:37 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 2002:a92:47c9:: with SMTP id e70mr4543272ilk.144.1575278706468;
- Mon, 02 Dec 2019 01:25:06 -0800 (PST)
-Date:   Mon, 02 Dec 2019 01:25:06 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000b8b3c10598b5274a@google.com>
-Subject: kernel BUG at drivers/media/mc/mc-entity.c:LINE!
-From:   syzbot <syzbot+8eb28ed1d916cc03eef6@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, laurent.pinchart@ideasonboard.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-usb@vger.kernel.org, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+References: <20190906101125.3784-1-Jerry-Ch.chen@mediatek.com>
+ <20190906101125.3784-4-Jerry-Ch.chen@mediatek.com> <1571109375.3706.40.camel@mtksdccf07>
+ <20191025035211.GA67000@chromium.org> <1574237450.20087.17.camel@mtksdccf07>
+ <CAAFQd5DPErhL0_1f6BzDMMOVhxNfJdctBsK=mcBP6oNcmw-r=w@mail.gmail.com> <1575046535.22859.12.camel@mtksdccf07>
+In-Reply-To: <1575046535.22859.12.camel@mtksdccf07>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Mon, 2 Dec 2019 18:48:23 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5D-F1C4RyVeTzX=z72h6x0P5Gyb2X0EsH0YRQVAP6hGmQ@mail.gmail.com>
+Message-ID: <CAAFQd5D-F1C4RyVeTzX=z72h6x0P5Gyb2X0EsH0YRQVAP6hGmQ@mail.gmail.com>
+Subject: Re: [RFC PATCH V3 3/3] platform: mtk-isp: Add Mediatek FD driver
+To:     Jerry-ch Chen <Jerry-ch.Chen@mediatek.com>
+Cc:     "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "lkml@metux.net" <lkml@metux.net>,
+        =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
+        "yuzhao@chromium.org" <yuzhao@chromium.org>,
+        "zwisler@chromium.org" <zwisler@chromium.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        =?UTF-8?B?U2VhbiBDaGVuZyAo6YSt5piH5byYKQ==?= 
+        <Sean.Cheng@mediatek.com>,
+        =?UTF-8?B?U2ogSHVhbmcgKOm7g+S/oeeSiyk=?= <sj.huang@mediatek.com>,
+        =?UTF-8?B?Q2hyaXN0aWUgWXUgKOa4uOmbheaDoCk=?= 
+        <christie.yu@mediatek.com>,
+        =?UTF-8?B?RnJlZGVyaWMgQ2hlbiAo6Zmz5L+K5YWDKQ==?= 
+        <Frederic.Chen@mediatek.com>,
+        =?UTF-8?B?SnVuZ28gTGluICjmnpfmmI7kv4op?= <jungo.lin@mediatek.com>,
+        =?UTF-8?B?UG8tWWFuZyBIdWFuZyAo6buD5p+P6Zm9KQ==?= 
+        <po-yang.huang@mediatek.com>,
+        =?UTF-8?B?UnlubiBXdSAo5ZCz6IKy5oGpKQ==?= <Rynn.Wu@mediatek.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "laurent.pinchart+renesas@ideasonboard.com" 
+        <laurent.pinchart+renesas@ideasonboard.com>,
+        "hans.verkuil@cisco.com" <hans.verkuil@cisco.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+On Sat, Nov 30, 2019 at 1:55 AM Jerry-ch Chen
+<Jerry-ch.Chen@mediatek.com> wrote:
+>
+> Hi Tomasz,
+>
+> On Wed, 2019-11-20 at 18:28 +0900, Tomasz Figa wrote:
+> > On Wed, Nov 20, 2019 at 5:11 PM Jerry-ch Chen
+> > <Jerry-ch.Chen@mediatek.com> wrote:
+> > >
+> > > Hi Tomasz,
+> > >
+> > > On Fri, 2019-10-25 at 11:52 +0800, Tomasz Figa wrote:
+> > > > On Tue, Oct 15, 2019 at 11:16:15AM +0800, Jerry-ch Chen wrote:
+> > > > > Hi Tomasz,
+> > > > >
+> > > > > On Fri, 2019-09-06 at 18:11 +0800, Jerry-ch Chen wrote:
+> > > > > > From: Jerry-ch Chen <jerry-ch.chen@mediatek.com>
+> > > > > >
+> > > > > > This patch adds the driver of Face Detection (FD) unit in
+> > > > > > Mediatek camera system, providing face detection function.
+> > > > > >
+> > > > > > The mtk-isp directory will contain drivers for multiple IP
+> > > > > > blocks found in Mediatek ISP system. It will include ISP Pass 1
+> > > > > > driver (CAM), sensor interface driver, DIP driver and face
+> > > > > > detection driver.
+> > > > > >
+> > > > > > Signed-off-by: Jerry-ch Chen <jerry-ch.chen@mediatek.com>
+> > > > > > ---
+> > > > > >  drivers/media/platform/Kconfig                |    2 +
+> > > > > >  drivers/media/platform/Makefile               |    2 +
+> > > > > >  drivers/media/platform/mtk-isp/fd/Kconfig     |   19 +
+> > > > > >  drivers/media/platform/mtk-isp/fd/Makefile    |    5 +
+> > > > > >  drivers/media/platform/mtk-isp/fd/mtk_fd.h    |  148 ++
+> > > > > >  drivers/media/platform/mtk-isp/fd/mtk_fd_40.c | 1219 +++++++++++++++++
+> > > > > >  include/uapi/linux/mtk-fd-v4l2-controls.h     |   69 +
+> > > > > >  include/uapi/linux/v4l2-controls.h            |    4 +
+> > > > > >  8 files changed, 1468 insertions(+)
+> > > > > >  create mode 100644 drivers/media/platform/mtk-isp/fd/Kconfig
+> > > > > >  create mode 100644 drivers/media/platform/mtk-isp/fd/Makefile
+> > > > > >  create mode 100644 drivers/media/platform/mtk-isp/fd/mtk_fd.h
+> > > > > >  create mode 100644 drivers/media/platform/mtk-isp/fd/mtk_fd_40.c
+> > > > > >  create mode 100644 include/uapi/linux/mtk-fd-v4l2-controls.h
+> > > > > >
+> > > >
+> > > > [snip]
+> > > >
+> > > > > > +static int mtk_fd_job_abort(struct mtk_fd_dev *fd)
+> > > > > > +{
+> > > > > > + u32 ret;
+> > > > > > +
+> > > > > > + ret = wait_for_completion_timeout(&fd->fd_irq_done,
+> > > > > > +                                   msecs_to_jiffies(MTK_FD_HW_TIMEOUT));
+> > > > > > + /* Reset FD HW */
+> > > > > > + if (!ret) {
+> > > > > > +         struct ipi_message fd_ipi_msg;
+> > > > > > +
+> > > > > > +         fd_ipi_msg.cmd_id = MTK_FD_IPI_CMD_RESET;
+> > > > > > +         if (scp_ipi_send(fd->scp_pdev, SCP_IPI_FD_CMD, &fd_ipi_msg,
+> > > > > > +                          sizeof(fd_ipi_msg), MTK_FD_IPI_SEND_TIMEOUT))
+> > > > > > +                 dev_err(fd->dev, "FD Reset HW error\n");
+> > > > > > +         return -ETIMEDOUT;
+> > > > > > + }
+> > > > > > + return 0;
+> > > > > > +}
+> > > > > > +
+> > > > >
+> > > > > Continue the discussion about job abort in RFC v2,
+> > > > >
+> > > > > I think the job_abort callback in v4l2_m2m_ops() might be useful.
+> > > > >
+> > > > > ref:
+> > > > > https://elixir.bootlin.com/linux/v5.4-rc2/source/drivers/media/v4l2-core/v4l2-mem2mem.c#L398
+> > > > > https://elixir.bootlin.com/linux/v5.4-rc2/source/include/media/v4l2-mem2mem.h#L43
+> > > > >
+> > > > > in drivers/media/v4l2-core/v4l2-mem2mem.c #398 v4l2_m2m_cancel_job()
+> > > > > ...
+> > > > > if (m2m_ctx->job_flags & TRANS_RUNNING) {
+> > > > >     spin_unlock_irqrestore(&m2m_dev->job_spinlock, flags);
+> > > > >     if (m2m_dev->m2m_ops->job_abort)
+> > > > >             m2m_dev->m2m_ops->job_abort(m2m_ctx->priv);
+> > > > >     dprintk("m2m_ctx %p running, will wait to complete\n", m2m_ctx);
+> > > > >     wait_event(m2m_ctx->finished,
+> > > > >                     !(m2m_ctx->job_flags & TRANS_RUNNING));
+> > > > > } ...
+> > > > >
+> > > > > If this operation is set, we might use the v4l2_m2m_cancel_job() when
+> > > > > suspend, and it will do mtk_fd_job_abort() here.
+> > > > >
+> > > >
+> > > > The expectation for .job_abort() is that signals the hardware to
+> > > > instantly abandon the current job. Do we have a way to tell the
+> > > > firmware/hardware to do so?
+> > > >
+> > > > Also, suspend must not abort the current job. Anything that was already
+> > > > running is expected to complete successfuly and further jobs should
+> > > > continue executing once the system resumes.
+> > > >
+> > > I appreciate your comments and Pi-Hsun's patch,
+> > >
+> > > Ok, I see.
+> > > For FD40, we can't tell the firmware/hardware to instantly abandon the
+> > > current job.
+> > > Therefore, for suspend, we stop sending further jobs to hardware and
+> > > wait for the completion of the running job.
+> > > For resume, we continue sending jobs to hardware.
+> > >
+> > > > [snip]
+> > > >
+> > > > > > +
+> > > > > > +static int mtk_fd_suspend(struct device *dev)
+> > > > > > +{
+> > > > > > + struct mtk_fd_dev *fd = dev_get_drvdata(dev);
+> > > > > > +
+> > > > > > + if (pm_runtime_suspended(dev))
+> > > > > > +         return 0;
+> > > > > > +
+> > > > > > + if (fd->fd_stream_count)
+> > > > > > +         if (mtk_fd_job_abort(fd))
+> > > > > > +                 mtk_fd_hw_job_finish(fd, VB2_BUF_STATE_ERROR);
+> > > > > > +
+> > > > >
+> > > > > To avoid mtk_fd_hw_job_finish() trigger the next job,
+> > > > > I suppose that we could use v4l2_m2m_cancel_job instead of job_abort and
+> > > > > job_finish here.
+> > > > >
+> > > > > /**
+> > > > >  * v4l2_m2m_cancel_job() - cancel pending jobs for the context
+> > > > >  * @m2m_ctx: m2m context with jobs to be canceled
+> > > > >  *
+> > > > >  * In case of streamoff or release called on any context,
+> > > > >  * 1] If the context is currently running, then abort job will be called
+> > > > >  * 2] If the context is queued, then the context will be removed from
+> > > > >  *    the job_queue
+> > > > >  */
+> > > > >
+> > > > > or another way,
+> > > > > we may add a flag and implement mtk_fd_job_ready() that reads the flag
+> > > > > if we suspend, we set the flag and do job_abort and job_finish, even if
+> > > > > it try enqueue, it will still not really queue the job, until we reset
+> > > > > the flag in mtk_fd_resume().
+> > > > >
+> > > > > how do you think?
+> > > > >
+> > > >
+> > > > As per my comment above, suspend must just pause the execution of the
+> > > > jobs. It must not cause any jobs to be skipped.
+> > > >
+> > > > After analyzing the m2m framework and existing m2m drivers I realized
+> > > > that they currently provide no way to correctly handle suspend/resume.
+> > > > Pi-Hsun has been looking into fixing this in crrev.com/c/1878112 and
+> > > > we'll send it upstream as soon as we get something that should handle
+> > > > all the cases correctly.
+> > > >
+> > > Ok, thanks for the patches.
+> > >
+> > > > > > + /* suspend FD HW */
+> > > > > > + writel(0x0, fd->fd_base + MTK_FD_REG_OFFSET_INT_EN);
+> > > > > > + writel(0x0, fd->fd_base + MTK_FD_REG_OFFSET_HW_ENABLE);
+> > > > > > + clk_disable_unprepare(fd->fd_clk);
+> > > > > > + dev_dbg(dev, "%s:disable clock\n", __func__);
+> > > > > > +
+> > > > > > + return 0;
+> > > > > > +}
+> > > > > > +
+> > > > > > +static int mtk_fd_resume(struct device *dev)
+> > > > > > +{
+> > > > > > + struct mtk_fd_dev *fd = dev_get_drvdata(dev);
+> > > > > > + int ret;
+> > > > > > +
+> > > > > > + if (pm_runtime_suspended(dev))
+> > > > > > +         return 0;
+> > > > > > +
+> > > > > > + ret = clk_prepare_enable(fd->fd_clk);
+> > > > > > + if (ret < 0) {
+> > > > > > +         dev_dbg(dev, "Failed to open fd clk:%d\n", ret);
+> > > > > > +         return ret;
+> > > > > > + }
+> > > > > > +
+> > > > > > + /* resume FD HW */
+> > > > > > + writel(MTK_FD_SET_HW_ENABLE, fd->fd_base + MTK_FD_REG_OFFSET_HW_ENABLE);
+> > > > > > + writel(0x1, fd->fd_base + MTK_FD_REG_OFFSET_INT_EN);
+> > > > > > + dev_dbg(dev, "%s:enable clock\n", __func__);
+> > > >
+> > > > By the way, we need to kick the m2m framework here to schedule further
+> > > > jobs. Pi-Hsun's patch will also take care of this.
+> > > >
+> > > Ok, I see.
+> > > I would like to use Pi-Hsun's patch, otherwise I would need to call
+> > > v4l2_m2m_try_run() here.
+> > >
+> >
+> > Yes, please include Pi-Hsun's patch (with original author, sign-off +
+> > your sign-off added) at the beginning of the next version of your
+> > series.
+> >
+> Done.
+>
+> > > > [snip]
+> > > >
+> > > > > > +/* Set the face angle and directions to be detected */
+> > > > > > +#define V4L2_CID_MTK_FD_DETECT_POSE              (V4L2_CID_USER_MTK_FD_BASE + 1)
+> > > > > > +
+> > > > > > +/* Set image widths for an input image to be scaled down for face detection */
+> > > > > > +#define V4L2_CID_MTK_FD_SCALE_DOWN_IMG_WIDTH     (V4L2_CID_USER_MTK_FD_BASE + 2)
+> > > > > > +
+> > > > > > +/* Set image heights for an input image to be scaled down for face detection */
+> > > > > > +#define V4L2_CID_MTK_FD_SCALE_DOWN_IMG_HEIGHT    (V4L2_CID_USER_MTK_FD_BASE + 3)
+> > > > > > +
+> > > > > > +/* Set the length of scale down size array */
+> > > > > > +#define V4L2_CID_MTK_FD_SCALE_IMG_NUM            (V4L2_CID_USER_MTK_FD_BASE + 4)
+> > > > > > +
+> > > > > > +/* Set the detection speed, usually reducing accuracy. */
+> > > > > > +#define V4L2_CID_MTK_FD_DETECT_SPEED             (V4L2_CID_USER_MTK_FD_BASE + 5)
+> > > > > > +
+> > > > > > +/* Select the detection model or algorithm to be used. */
+> > > > > > +#define V4L2_CID_MTK_FD_DETECTION_MODEL          (V4L2_CID_USER_MTK_FD_BASE + 6)
+> > > > > > +
+> > > > > > +/* We reserve 16 controls for this driver. */
+> > > > > > +#define V4L2_CID_MTK_FD_MAX                      16
+> > > > > > +
+> > > > >
+> > > > > For these control IDs, I think the following should be remained as chip
+> > > > > specific controls.
+> > > > > V4L2_CID_MTK_FD_SCALE_DOWN_IMG_WIDTH,
+> > > > > V4L2_CID_MTK_FD_SCALE_DOWN_IMG_HEIGHT and V4L2_CID_MTK_FD_SCALE_IMG_NUM
+> > > > >
+> > > > > Hope there would be standardizing face detection api that cover the rest
+> > > > > controls: V4L2_CID_MTK_FD_DETECT_POSE, V4L2_CID_MTK_FD_DETECT_SPEED and
+> > > > > V4L2_CID_MTK_FD_DETECTION_MODEL
+> > > > >
+> > > > > Would you have any suggestions on how to propose the standard face
+> > > > > detection apis?
+> > > > >
+> > > >
+> > > > Given no follow up feedback from the community, I think we can keep them
+> > > > as driver-specific, but should make sure that they have some reasonable
+> > > > default values in case an application doesn't recognize them.
+> > > >
+> > > > Best regards,
+> > > > Tomasz
+> > > >
+> > > Should I keep the file "mtk-fd-v4l2-controls.h" which defines the
+> > > control ids under the folder "/include/uapi/linux"?
+> >
+> > We should define the CID base for the FD driver in v4l2-controls.h,
+> > but the controls themselves should be only defined inside the driver.
+> >
+> > For example:
+> > https://elixir.bootlin.com/linux/v5.4-rc8/source/include/uapi/linux/v4l2-controls.h#L178
+> > https://elixir.bootlin.com/linux/v5.4-rc8/source/drivers/media/i2c/adv7180.c#L181
+> >
+> > Best regards,
+> > Tomasz
+>
+> Appreciate for providing the example,
+> Would it be fine for me to put the private CID in the mtk_fd.h(which is
+> similar to before...) or follow the example to define inside
+> mtk_fd_40.c??
+>
+> The next version is almost ready, maybe I can send it when I ready in a
+> few days?
 
-syzbot found the following crash on:
+Since mtk_fd_40.c is the only place the definitions from mtk_fd.h are
+used, I'd suggest just moving all the contents to the .c file.
 
-HEAD commit:    32b5e2b2 usb: gadget: add raw-gadget interface
-git tree:       https://github.com/google/kasan.git usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=101d682ae00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=d88612251f7691bd
-dashboard link: https://syzkaller.appspot.com/bug?extid=8eb28ed1d916cc03eef6
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15b9ffcee00000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=16859696e00000
-
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+8eb28ed1d916cc03eef6@syzkaller.appspotmail.com
-
-usb 1-1: New USB device found, idVendor=18cd, idProduct=cafe, bcdDevice=  
-3.bb
-usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=16
-usb 1-1: SerialNumber: syz
-usb 1-1: config 0 descriptor??
-uvcvideo: Found UVC 0.00 device <unnamed> (18cd:cafe)
-uvcvideo 1-1:0.0: Entity type for entity Output 0 was not initialized!
-------------[ cut here ]------------
-kernel BUG at drivers/media/mc/mc-entity.c:666!
-invalid opcode: 0000 [#1] SMP KASAN
-CPU: 1 PID: 22 Comm: kworker/1:1 Not tainted 5.4.0-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS  
-Google 01/01/2011
-Workqueue: usb_hub_wq hub_event
-RIP: 0010:media_create_pad_link+0x40f/0x530 drivers/media/mc/mc-entity.c:666
-Code: 83 45 3a 01 45 31 e4 e8 9f 93 59 fd 44 89 e0 48 83 c4 18 5b 5d 41 5c  
-41 5d 41 5e 41 5f c3 e8 88 93 59 fd 0f 0b e8 81 93 59 fd <0f> 0b e8 7a 93  
-59 fd 0f 0b e8 53 23 81 fd e9 91 fc ff ff e8 49 23
-RSP: 0018:ffff8881d8c2f058 EFLAGS: 00010293
-RAX: ffff8881da24e200 RBX: ffff8881cf8dc070 RCX: ffffffff83e4dd4b
-RDX: 0000000000000000 RSI: ffffffff83e4e0df RDI: 0000000000000000
-RBP: ffff8881cf8da070 R08: ffff8881da24e200 R09: ffffed1039ff2a91
-R10: ffffed1039ff2a90 R11: ffff8881cff95483 R12: 0000000000000000
-R13: 0000000000000000 R14: 0000000000000003 R15: 0000000000000000
-FS:  0000000000000000(0000) GS:ffff8881db300000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f7061237000 CR3: 00000001d148c000 CR4: 00000000001406e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
-  uvc_mc_create_links drivers/media/usb/uvc/uvc_entity.c:50 [inline]
-  uvc_mc_register_entities+0x468/0x77a drivers/media/usb/uvc/uvc_entity.c:114
-  uvc_register_chains drivers/media/usb/uvc/uvc_driver.c:2075 [inline]
-  uvc_probe.cold+0x2137/0x29de drivers/media/usb/uvc/uvc_driver.c:2201
-  usb_probe_interface+0x305/0x7a0 drivers/usb/core/driver.c:361
-  really_probe+0x281/0x6d0 drivers/base/dd.c:548
-  driver_probe_device+0x104/0x210 drivers/base/dd.c:721
-  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
-  bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
-  __device_attach+0x217/0x360 drivers/base/dd.c:894
-  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
-  device_add+0x1480/0x1c20 drivers/base/core.c:2487
-  usb_set_configuration+0xe67/0x1740 drivers/usb/core/message.c:2023
-  generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
-  usb_probe_device+0x99/0x100 drivers/usb/core/driver.c:266
-  really_probe+0x281/0x6d0 drivers/base/dd.c:548
-  driver_probe_device+0x104/0x210 drivers/base/dd.c:721
-  __device_attach_driver+0x1c2/0x220 drivers/base/dd.c:828
-  bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
-  __device_attach+0x217/0x360 drivers/base/dd.c:894
-  bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
-  device_add+0x1480/0x1c20 drivers/base/core.c:2487
-  usb_new_device.cold+0x6a4/0xe79 drivers/usb/core/hub.c:2537
-  hub_port_connect drivers/usb/core/hub.c:5184 [inline]
-  hub_port_connect_change drivers/usb/core/hub.c:5324 [inline]
-  port_event drivers/usb/core/hub.c:5470 [inline]
-  hub_event+0x1e59/0x3860 drivers/usb/core/hub.c:5552
-  process_one_work+0x92b/0x1530 kernel/workqueue.c:2264
-  worker_thread+0x96/0xe20 kernel/workqueue.c:2410
-  kthread+0x318/0x420 kernel/kthread.c:255
-  ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
-Modules linked in:
----[ end trace 4651c1a0587de7fd ]---
-RIP: 0010:media_create_pad_link+0x40f/0x530 drivers/media/mc/mc-entity.c:666
-Code: 83 45 3a 01 45 31 e4 e8 9f 93 59 fd 44 89 e0 48 83 c4 18 5b 5d 41 5c  
-41 5d 41 5e 41 5f c3 e8 88 93 59 fd 0f 0b e8 81 93 59 fd <0f> 0b e8 7a 93  
-59 fd 0f 0b e8 53 23 81 fd e9 91 fc ff ff e8 49 23
-RSP: 0018:ffff8881d8c2f058 EFLAGS: 00010293
-RAX: ffff8881da24e200 RBX: ffff8881cf8dc070 RCX: ffffffff83e4dd4b
-RDX: 0000000000000000 RSI: ffffffff83e4e0df RDI: 0000000000000000
-RBP: ffff8881cf8da070 R08: ffff8881da24e200 R09: ffffed1039ff2a91
-R10: ffffed1039ff2a90 R11: ffff8881cff95483 R12: 0000000000000000
-R13: 0000000000000000 R14: 0000000000000003 R15: 0000000000000000
-FS:  0000000000000000(0000) GS:ffff8881db300000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f7061237000 CR3: 00000001d148c000 CR4: 00000000001406e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-
-
----
-This bug is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this bug report. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this bug, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+Best regards,
+Tomasz
