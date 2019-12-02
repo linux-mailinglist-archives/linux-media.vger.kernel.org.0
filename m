@@ -2,165 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E55810EDAD
-	for <lists+linux-media@lfdr.de>; Mon,  2 Dec 2019 18:03:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 84EE110EEEE
+	for <lists+linux-media@lfdr.de>; Mon,  2 Dec 2019 19:09:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727722AbfLBRDA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Dec 2019 12:03:00 -0500
-Received: from iolanthe.rowland.org ([192.131.102.54]:34084 "HELO
-        iolanthe.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1727513AbfLBRDA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Dec 2019 12:03:00 -0500
-Received: (qmail 4189 invoked by uid 2102); 2 Dec 2019 12:02:59 -0500
-Received: from localhost (sendmail-bs@127.0.0.1)
-  by localhost with SMTP; 2 Dec 2019 12:02:59 -0500
-Date:   Mon, 2 Dec 2019 12:02:59 -0500 (EST)
-From:   Alan Stern <stern@rowland.harvard.edu>
-X-X-Sender: stern@iolanthe.rowland.org
-To:     Michael Olbrich <m.olbrich@pengutronix.de>
-cc:     Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Felipe Balbi <balbi@kernel.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "kernel@pengutronix.de" <kernel@pengutronix.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        <linux-media@vger.kernel.org>
-Subject: Re: [PATCH 2/2] usb: dwc3: gadget: restart the transfer if a isoc
- request is queued too late
-In-Reply-To: <20191202154120.o4yt266cat6uzxd7@pengutronix.de>
-Message-ID: <Pine.LNX.4.44L0.1912021103470.1559-100000@iolanthe.rowland.org>
+        id S1727870AbfLBSJo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Dec 2019 13:09:44 -0500
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:34797 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727670AbfLBSJo (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Dec 2019 13:09:44 -0500
+Received: by mail-pf1-f196.google.com with SMTP id n13so50694pff.1;
+        Mon, 02 Dec 2019 10:09:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=XdpWQGEzUI2/PkttfxgQ1A4qQFakcT1AyA73sEMtRd4=;
+        b=YEep5tx6rMSMWnGsf6pry4LnN046XAHKKJ3zGpOSbn2h1BfCQ9BfCBXQH2ZvkH1hE1
+         PrJr0sCP3pBTJZBZnrx/NzkxGZ+fdxsiebj6HocwRnyLjiFlH6vlAA8W5y5hixW8ug87
+         TmDr7zrVY+4YT141OXSUnuS7nQVYYEJIQwhb3IbGt9tNjC8LJ1Tf8g7pSrDv+ubqimkF
+         dklkBcRMJrsb+8IoALEPbuGsTRgWq+elDi4fLtAIvcUuqZrBnyGEhYwS1unCOtPBM3rb
+         tUOyypioD97mH6GX/dL9mW+S+gmVcO1unOQqu897jmykM/I9gkI+wp6TRZb8ur2k8WS+
+         gEsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=XdpWQGEzUI2/PkttfxgQ1A4qQFakcT1AyA73sEMtRd4=;
+        b=h6RkBaB+D+uOXOMq8V+4LCrqMdBs4oOuUw+mco3Ld3/L01+NDFzw87dFmgl422BRBy
+         gMgCEht3LoAMOh4ucusE0f/dfnuwiw8fNADEZ69ICRQoKCwFiiTXFWnpx9TdLhV+gazO
+         c3DhObrXyGq8hQuQp01aOwd3sTffsCdxLdBtCUlFI9oXPFZLGP0OryUMwAZ9XSIGQvpG
+         cSXpA6+TRXPjRfzCjuaT6XcVhRNTj9JapTyRk3RYKEsraQ+DrX5l0duJZXaCO34pIN/m
+         VMhrlDAxeCe9snz+qRfRVBwIH8kRSJhd1/f3Hu+zTIQyNOzy9PEfib+RaZpQn2uUItQf
+         H4/Q==
+X-Gm-Message-State: APjAAAVlXZlpJvRGL3J0eq+/yXa0XOzjKLMMsg+gi0POM8pszlF8Pnxn
+        zDIrcq50aVxRjALVVAHVUXs=
+X-Google-Smtp-Source: APXvYqwdK/O7JfUMStXj1VFEvDB1SbQJZ75ay/dlBjAnJoISxEZ6444HJ0hzcXzpjemueFul0UgU3A==
+X-Received: by 2002:a63:c250:: with SMTP id l16mr383980pgg.38.1575310182997;
+        Mon, 02 Dec 2019 10:09:42 -0800 (PST)
+Received: from dtor-ws ([2620:15c:202:201:3adc:b08c:7acc:b325])
+        by smtp.gmail.com with ESMTPSA id k10sm39005pjp.12.2019.12.02.10.09.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Dec 2019 10:09:41 -0800 (PST)
+Date:   Mon, 2 Dec 2019 10:09:39 -0800
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, linux-input@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Nick Dyer <nick@shmanahar.org>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Christopher Heiny <cheiny@synaptics.com>,
+        Vandana BN <bnvandana@gmail.com>
+Subject: Re: [PATCHv2 5/5] input/rmi4/rmi_smbus.c: don't increment rmiaddr
+Message-ID: <20191202180939.GE50317@dtor-ws>
+References: <20191119105118.54285-1-hverkuil-cisco@xs4all.nl>
+ <20191119105118.54285-6-hverkuil-cisco@xs4all.nl>
+ <8dd22e21-4933-8e9c-a696-d281872c8de7@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8dd22e21-4933-8e9c-a696-d281872c8de7@xs4all.nl>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 2 Dec 2019, Michael Olbrich wrote:
-
-> > > My current test-case is video frames with 450kB on average at 30fps. This
-> > > currently results in ~10 CPU load for the threaded interrupt handler.
-> > > At least in my test, filling the actual video data into the frame has very
-> > > little impact. So if I reserve 900kB to support occasionally larger video
-> > > frames, then I expect that this CPU load will almost double in all cases,
-> > > not just when the video frames are larger.
-> > 
-> > This is the sort of thing you need to confirm by experimenting.  It is 
-> > not at all clear that doubling the interrupt rate will also double the 
-> > CPU load, especially if half of the interrupts don't require the CPU to 
-> > do much work.
+On Sat, Nov 23, 2019 at 05:27:41PM +0100, Hans Verkuil wrote:
+> This increment of rmi_smbus in rmi_smb_read/write_block() causes
+> garbage to be read/written.
 > 
-> As I noted before, actually filling in the video data is only a small part
-> of the measured CPU load. To put in in more precise numbers:
+> The first read of SMB_MAX_COUNT bytes is fine, but after that
+> it is nonsense. Trial-and-error showed that by dropping the
+> increment of rmiaddr everything is fine and the F54 function
+> properly works.
 > 
-> From my limited understanding, there are 8000 interrupts per second
-> regardless of the bandwidth (or maybe less for very low bandwidth
-> configurations?).
-> Just queuing requests without any content (so skipping the buffer handling
-> and 'encode()' in uvc_video_complete()) results in ~17% CPU load.
-
-Can you tell dwc3 to request only 4000 interrupts per second?  Or 2000?
-Or even 60?
-
-> If I fill in the data for a video stream with ~1.8MB per frame and 30 fps
-> (and empty requests for the rest) then the CPU load goes up to ~19.5%.
-
-I assume you're talking about a SuperSpeed USB connection here, since 
-high speed can handle no more than 0.8 MB per frame at 30 fps.
-
-> This number remains the same for different bandwidths (and therefore
-> different request sizes and a different zero-length request percentage).
+> I tried a hack with rmi_smb_write_block() as well (writing to the
+> same F54 touchpad data area, then reading it back), and that
+> suggests that there too the rmiaddr increment has to be dropped.
+> It makes sense that if it has to be dropped for read, then it has
+> to be dropped for write as well.
 > 
-> With my patches the CPU load changes as expected. The 2.5% to fill the data
-> remains and the rest goes down with less interrupts.
+> It looks like the initial work with F54 was done using i2c, not smbus,
+> and it seems nobody ever tested F54 with smbus. The other functions
+> all read/write less than SMB_MAX_COUNT as far as I can tell, so this
+> issue was never noticed with non-F54 functions.
 > 
-> I am hoping that more batching will help here a bit. But either way the
-> overhead of queuing zero-length request is significant.
+> With this change I can read out the touchpad data correctly on my
+> Lenovo X1 Carbon 6th Gen laptop.
+> 
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-Hmmm.  It may be that my thinking has been prejudiced by a 
-host-centered attitude, and things may work out different on the gadget 
-side.
+Applied, thank you.
 
-There's one aspect I'm not clear on.  Suppose you decide to skip
-submitting requests for USB microframes 5 - 7 (at 8000 microframes
-per second, as you mentioned) and then submit a request to be queued
-for microframe 8.  How does the UDC driver know which microframe to use
-for that request?  Does it always use the first available microframe?
+> ---
+>  drivers/input/rmi4/rmi_smbus.c | 2 --
+>  1 file changed, 2 deletions(-)
+> 
+> diff --git a/drivers/input/rmi4/rmi_smbus.c b/drivers/input/rmi4/rmi_smbus.c
+> index 2407ea43de59..b313c579914f 100644
+> --- a/drivers/input/rmi4/rmi_smbus.c
+> +++ b/drivers/input/rmi4/rmi_smbus.c
+> @@ -163,7 +163,6 @@ static int rmi_smb_write_block(struct rmi_transport_dev *xport, u16 rmiaddr,
+>  		/* prepare to write next block of bytes */
+>  		cur_len -= SMB_MAX_COUNT;
+>  		databuff += SMB_MAX_COUNT;
+> -		rmiaddr += SMB_MAX_COUNT;
+>  	}
+>  exit:
+>  	mutex_unlock(&rmi_smb->page_mutex);
+> @@ -215,7 +214,6 @@ static int rmi_smb_read_block(struct rmi_transport_dev *xport, u16 rmiaddr,
+>  		/* prepare to read next block of bytes */
+>  		cur_len -= SMB_MAX_COUNT;
+>  		databuff += SMB_MAX_COUNT;
+> -		rmiaddr += SMB_MAX_COUNT;
+>  	}
+> 
+>  	retval = 0;
+> -- 
+> 2.24.0
+> 
+> 
 
-
-> My problem is this:
-> Let's assume a (for simplicity) that I have a video stream that fills
-> almost the full available bandwidth. And two reduce the bandwidth, two
-> interrupts will be requested for each video frame.
-
-Let's assume the video frame rate is 30 fps.  Since you say almost the
-full available bandwidth is in use, the number of USB microframes per
-video frame must be just under 8000 / 30, or around 266.
-
-> - When the first frame arrives, the whole frame is queued.
-
-Requiring 266 microframes, let's say starting at microframe 0.
-
-> - When the first half of the frame is transmitted the first interrupt
->   arrives.
-
-That would be at microframe 133.
-
-> - The second frame has not yet arrived so half a frame worth of 0-length
->   requests are queued.
-
-133 microframes, extending out to microframe 399.
-
-> - When the second half of the frame is transmitted the second interrupt
->   arrives.
-
-At the end of microframe 266.
-
-> - The second frame has still not yet arrived so another half a frame worth
->   of 0-length requests are queued.
-
-At this point, it has been about 266/8000 s = 33.25 ms since the first 
-video frame arrived.  But at a rate of 30 fps, the interval between 
-frames should be 33.33 ms.  So either something is wrong or else the 
-second frame is just about to arrive.
-
-(Since the frame rate is slightly lower than the rate of transmission
-of the USB data, it's inevitable that every so often you'll get an
-interrupt just before a frame arrives.)
-
-> - Immediately afterwards the second frame arrives from userspace. At this
->   point, almost one frame worth of 0-length requests are queued so the
->   second frame will have an extra latency of almost one frame.
-
-I see.  There is another way to approach this, however.  When you get a
-USB interrupt and no video data is available, nothing says you have to
-queue an entire frame (or half-frame) worth of 0-length packets.  
-Instead, queue a request containing 2 ms (for example) of 0-length
-packets.  Presumably the next video frame will arrive during those 2 ms
-(since it's _expected_ to arrive in no more than 0.08 ms), and from
-then on you'll be okay until once again the USB data has caught up to
-the video data.
-
-On the other hand, I don't know how the UVC driver manages the
-alignment between USB packets and video frames on the host end.  
-Perhaps it would prefer something slightly different -- that would be
-another good question to ask the UVC maintainer (CC'ed).
-
-> With my patch this does not happen and the transmission of the second
-> starts immediately.
-
-> The question is, can we do better than that? What could be done in the
-> driver if it knows that 0-length requests must be transmitted because no
-> new data is available?
-
-It does seems reasonable to require that when a UDC driver encounters a
-gap in an isochronous stream, it should associate the next request with
-the first available microframe.  If dcw3 did that then you wouldn't 
-have to worry about filling extra space with 0-length packets.
-
-But if we make this change, it should be documented in an appropriate
-place and it should apply to all UDC drivers -- not just dwc3.
-
-Alan Stern
-
+-- 
+Dmitry
