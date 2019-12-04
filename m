@@ -2,69 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B2E71135B0
-	for <lists+linux-media@lfdr.de>; Wed,  4 Dec 2019 20:27:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 51EDF11373F
+	for <lists+linux-media@lfdr.de>; Wed,  4 Dec 2019 22:51:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728789AbfLDT1O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Dec 2019 14:27:14 -0500
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:41724 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728110AbfLDT1O (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Dec 2019 14:27:14 -0500
-Received: by mail-oi1-f195.google.com with SMTP id i1so320692oie.8;
-        Wed, 04 Dec 2019 11:27:14 -0800 (PST)
+        id S1728030AbfLDVvN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Dec 2019 16:51:13 -0500
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:34726 "EHLO
+        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727989AbfLDVvN (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Dec 2019 16:51:13 -0500
+Received: by mail-wm1-f65.google.com with SMTP id f4so5808907wmj.1
+        for <linux-media@vger.kernel.org>; Wed, 04 Dec 2019 13:51:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DineaCUxtXZyF5eVfdeaHcVkj+3QG5rCu+T6TpNdzNc=;
+        b=E/Dc2fcBEXg9O7rrLFl+CUNHdg6nwQObKTEeRjxJi0gerdcWN17OB1Ea/dURi+sIk8
+         cmVlL3k2XKlvc+zkDeFbX1RK2rL500+re+kpty16NiyRNlWneVCjOVkguelrsDMleGQj
+         EmkRXniI8+E4N6dlRuEeklPKwPuyRkHSlio40=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=LV4dBd+pyosFpb8ZOXcuCmQqFB/Z1VrnDg7zb35XO+A=;
-        b=IBJ8+w0w7Sa3A4inFuSw7YQfyliV6mVwaRIYAhRjYePzoZRfYGM/lCXspQwfIfPcgU
-         Ojtf+vG5RR683jq5DXTjcy3VEw3woTNYXRfOgTcZCNIBWPBgVLQSMtPu4y265p8oZkBI
-         r7AByAlKUlBrO7AV/ZYT109qeTVviDki1VCPmJ6Zh1Ew1XTpS82KfVyh5pDB+EiLBjZt
-         S70OwCFSDmLMWUGcf0HAEjlf+e/kLBva2o/wsAl40W9NbS9mcMfXh0jjXD44M5x0TR8q
-         UG6HESkiZCNbop8k4IMQGaM3iwyYE9mfyUr/A8lAUq7TYVYgkFfRaWCS9Q8EVF1tHUgS
-         GzPQ==
-X-Gm-Message-State: APjAAAW1DM7xx4rg/PHHFHnbMzioa1uVBYR1z2POyqRKWum1OB35YI2t
-        uB8pgBoj//olgy7Z8NCipA==
-X-Google-Smtp-Source: APXvYqyWJX9gBPsev6B4b8T+yjKHMepyHXDfO09PT+6reBKfa28zaBZj1dCvX8NyEatzxLKyG/Veng==
-X-Received: by 2002:aca:3012:: with SMTP id w18mr4151923oiw.33.1575487633657;
-        Wed, 04 Dec 2019 11:27:13 -0800 (PST)
-Received: from localhost (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id v25sm2037370otk.51.2019.12.04.11.27.12
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DineaCUxtXZyF5eVfdeaHcVkj+3QG5rCu+T6TpNdzNc=;
+        b=A3u4BL9XC9w8rQc+1jntslvR7jCapOmr5lYAGHIdhf/TQulVK3Qbmih42lR//+N5sk
+         7b4gLUIbDEb2u4rIq4I5ijNM0iT5M3VxPk9ecwTk2HITCjzR+VCZeg1OyF4or6jENcq+
+         TPinKy4JkofKsdC7fL2sEfJq1+SR7YOmBIqUB+fP3zvb7KM06rO/DF9M1z/dGRRQXVxT
+         lkvEN3NXMOcJHFeYHDlzz0b2gl3urGOmKO2PJvHyovarLJWauy+Fv99/wp382JyFcWCK
+         HVOowuqQqf75FSdS9+Nx1Huhy3UOk17uOWvZprqM8pb2iTNgBVd5nAzObfMpYVUmmUtC
+         yPMQ==
+X-Gm-Message-State: APjAAAVV4D0PmH6DaTeOY4AtCRKPlYUXf/oiDXsadN23JlIWMdO3vVYZ
+        3+8LfPLplbO9L3SnPnD8BlLuOA==
+X-Google-Smtp-Source: APXvYqyveN/NM/BqCSvK0XZhdEBxg9tIPSZ8AR1TcT/KyNPk7ZmH1z0FdS7gJAgyQXflfUm0wgxS1A==
+X-Received: by 2002:a7b:c183:: with SMTP id y3mr1816299wmi.0.1575496271035;
+        Wed, 04 Dec 2019 13:51:11 -0800 (PST)
+Received: from phenom.ffwll.local (212-51-149-96.fiber7.init7.net. [212.51.149.96])
+        by smtp.gmail.com with ESMTPSA id q6sm10409464wrx.72.2019.12.04.13.51.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Dec 2019 11:27:13 -0800 (PST)
-Date:   Wed, 4 Dec 2019 13:27:12 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Neil Armstrong <narmstrong@baylibre.com>
-Cc:     mjourdan@baylibre.com, devicetree@vger.kernel.org,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] dt-bindings: media: amlogic,gx-vdec: add bindings
- for SM1 family
-Message-ID: <20191204192712.GA6599@bogus>
-References: <20191121101429.23831-1-narmstrong@baylibre.com>
- <20191121101429.23831-2-narmstrong@baylibre.com>
+        Wed, 04 Dec 2019 13:51:10 -0800 (PST)
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+To:     DRI Development <dri-devel@lists.freedesktop.org>
+Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Dave Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Rob Herring <robh@kernel.org>, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org
+Subject: [PATCH] MAINTAINERS: Match on dma_buf|fence|resv anywhere
+Date:   Wed,  4 Dec 2019 22:51:05 +0100
+Message-Id: <20191204215105.874074-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191121101429.23831-2-narmstrong@baylibre.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 21 Nov 2019 11:14:27 +0100, Neil Armstrong wrote:
-> Add bindings to support the Amlogic Video Decoder on the Amlogic SM1 family.
-> 
-> SM1 has a slightly different power management handling, thus needing a
-> separate compatible.
-> 
-> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
-> ---
->  Documentation/devicetree/bindings/media/amlogic,gx-vdec.yaml | 2 ++
->  1 file changed, 2 insertions(+)
-> 
+I've spent a bit too much time reviewing all kinds of users all over
+the kernel for this buffer sharing infrastructure. And some of it is
+at least questionable.
 
-Acked-by: Rob Herring <robh@kernel.org>
+Make sure we at least see when this stuff flies by.
+
+Acked-by: Dave Airlie <airlied@gmail.com>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Rob Herring <robh@kernel.org>
+Cc: linux-media@vger.kernel.org
+Cc: linaro-mm-sig@lists.linaro.org
+---
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 375dbea8bc88..c1e3da2c1947 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -4941,6 +4941,7 @@ F:	include/linux/dma-buf*
+ F:	include/linux/reservation.h
+ F:	include/linux/*fence.h
+ F:	Documentation/driver-api/dma-buf.rst
++K:	dma_(buf|fence|resv)
+ T:	git git://anongit.freedesktop.org/drm/drm-misc
+ 
+ DMA GENERIC OFFLOAD ENGINE SUBSYSTEM
+-- 
+2.24.0
+
