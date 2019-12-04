@@ -2,69 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 44BB4112C79
-	for <lists+linux-media@lfdr.de>; Wed,  4 Dec 2019 14:21:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A968E112C81
+	for <lists+linux-media@lfdr.de>; Wed,  4 Dec 2019 14:23:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727552AbfLDNVW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Dec 2019 08:21:22 -0500
-Received: from mail-lj1-f196.google.com ([209.85.208.196]:44118 "EHLO
-        mail-lj1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727445AbfLDNVW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Dec 2019 08:21:22 -0500
-Received: by mail-lj1-f196.google.com with SMTP id c19so8017773lji.11;
-        Wed, 04 Dec 2019 05:21:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=y33AlJcYvO1OmVMuMYOOm75WFOxK3BGRBIJ5MgkStJU=;
-        b=L3+CGCujvAvJ3rIxKujwSWlcL0ZeX+ftnnWN/2v4qqnCgP3De2nUxaIw2P42tByoGj
-         AdQSL8EP+U03ogcxjZbZyXtYDjPMue36mb9lGqd2pIIhiXUWDVsOzqgNSSDhAjvzaQ4A
-         ceon6/mIUT+GG1/JWXsYTID9U0h0Y8aUOYQ0JLgXl6cW8fRKoHKhGHGutfig5d5ER8zE
-         fh4clHbDqVgQ9VJu7qBeO1B14jaZknJ11C0gu1Ivei9s6+ZvoxYrVZmBrD2STdfcHDAK
-         j5UjJA21bRyDMZGGcLEbXno5w4m7fNRt5+72Sa3FVjDOHHYdl3uAMrqDfDwPBEJTOinZ
-         im2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=y33AlJcYvO1OmVMuMYOOm75WFOxK3BGRBIJ5MgkStJU=;
-        b=aXPXEgEaQ/y8YNQSqBqwR+uEUuYlrZ9lYR/RsyPpNeWxmpmN2RymhFTgz4hBryI1PW
-         bpLGn4hh7rY4Do35JgriN8LlVE2p4GX8+Yz2ioIw4LDu6zNnUnpmwoxVlx7nUWEQkV9O
-         AEM96+sdy3DNKwlzudnZZYUHBO0D8e/gvxfaLUM0TSykY7mo4YosgY95HPbZHdehSI2X
-         oMgdZ75t6qsvuyjGzUzCewQKrYkkI8SSYg0YCOWu++XTVCuhTjir0Aq3yUWovUzB2gGn
-         ImSsSkGogWkf1R3H7I5rHKLEXjb+fZvxteHwpRTtcrVNXwEXDSWFHzOHAjgycS/kC1Pl
-         M1yw==
-X-Gm-Message-State: APjAAAWPF22nMz1ZcdjYewwTtyJ89rxkKLokBfG/HPTHkm/8rUATVYyK
-        dwDasoANocl+DVBQRht1A74YBSlrHV+2d02XDkWWFg==
-X-Google-Smtp-Source: APXvYqwNA8Vu62EU+m5WgUKPateXfyTPiRq1VdPKGeU0ICcgTODLvKHdV6qlqEf1qISGTAM/xbjRpiD9HjRCi7Ng+cs=
-X-Received: by 2002:a2e:b532:: with SMTP id z18mr2024773ljm.239.1575465680089;
- Wed, 04 Dec 2019 05:21:20 -0800 (PST)
-MIME-Version: 1.0
-References: <20191204130907.19799-1-aford173@gmail.com>
-In-Reply-To: <20191204130907.19799-1-aford173@gmail.com>
-From:   Fabio Estevam <festevam@gmail.com>
-Date:   Wed, 4 Dec 2019 10:21:35 -0300
-Message-ID: <CAOMZO5A0XGRYmOj2Gg=b5XhVX1FYJPpu1Cs788pJLVV4TA6QiA@mail.gmail.com>
-Subject: Re: [PATCH V2] media: ov5640: Fix check for PLL1 exceeding max
- allowed rate
+        id S1727892AbfLDNXu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Dec 2019 08:23:50 -0500
+Received: from relay5-d.mail.gandi.net ([217.70.183.197]:41661 "EHLO
+        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727503AbfLDNXt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Dec 2019 08:23:49 -0500
+X-Originating-IP: 93.34.114.233
+Received: from uno.localdomain (93-34-114-233.ip49.fastwebnet.it [93.34.114.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 1981D1C000E;
+        Wed,  4 Dec 2019 13:23:46 +0000 (UTC)
+Date:   Wed, 4 Dec 2019 14:25:57 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Adam Ford <aford173@gmail.com>
-Cc:     linux-media <linux-media@vger.kernel.org>,
-        Adam Ford <adam.ford@logicpd.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
+Cc:     linux-media@vger.kernel.org, adam.ford@logicpd.com,
         Steve Longerbeam <slongerbeam@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V2] media: ov5640: Fix check for PLL1 exceeding max
+ allowed rate
+Message-ID: <20191204132557.pl6rwfprtcwewato@uno.localdomain>
+References: <20191204130907.19799-1-aford173@gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="pfnkt6rdap5wnatk"
+Content-Disposition: inline
+In-Reply-To: <20191204130907.19799-1-aford173@gmail.com>
+User-Agent: NeoMutt/20180716
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+
+--pfnkt6rdap5wnatk
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+
 Hi Adam,
 
-On Wed, Dec 4, 2019 at 10:11 AM Adam Ford <aford173@gmail.com> wrote:
->
+On Wed, Dec 04, 2019 at 07:09:07AM -0600, Adam Ford wrote:
 > The PLL calculation routine checks the wrong variable name 'rate'
 > when it should be called '_rate' when checking to see whether or
 > not the PLL1 output frequency exceeds 1GHz.
@@ -74,4 +55,54 @@ On Wed, Dec 4, 2019 at 10:11 AM Adam Ford <aford173@gmail.com> wrote:
 > Acked-by: Jacopo Mondi <jacopo@jmondi.org>
 > Signed-off-by: Adam Ford <aford173@gmail.com>
 
-Maybe add a Fixes tag too?
+Why have you dropped the fixes tag you had in v1?
+
+Fixes: aa2882481cad ("media: ov5640: Adjust the clock based on the expected rate")
+
+I'm not the one who collects patches, so maybe wait for Sakari or Hans
+to tell you if you need to resend or not :)
+
+Thanks
+   j
+
+> ---
+> V2:  No code change.  Only change commit description to be less confusing.
+>
+> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+> index 5e495c833d32..bb968e764f31 100644
+> --- a/drivers/media/i2c/ov5640.c
+> +++ b/drivers/media/i2c/ov5640.c
+> @@ -874,7 +874,7 @@ static unsigned long ov5640_calc_sys_clk(struct ov5640_dev *sensor,
+>  			 * We have reached the maximum allowed PLL1 output,
+>  			 * increase sysdiv.
+>  			 */
+> -			if (!rate)
+> +			if (!_rate)
+>  				break;
+>
+>  			/*
+> --
+> 2.20.1
+>
+
+--pfnkt6rdap5wnatk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEtcQ9SICaIIqPWDjAcjQGjxahVjwFAl3ns+UACgkQcjQGjxah
+Vjx7YQ//Sg6XzeO8UFJxAJwhfAJEh3cA00oW7HjzsxIlwH3LeNSYNjALQXhFKfhX
+pDFmF9tkj8ybix0dqaGRgB9KYbokIRIyEWhjoBDOqWkxXOrkYeZFG9l4dyGMpggg
++4B5v280dkpL3y9y1rgJEUaXJZe5P2q4t1LEElfhxuOirrfzrWFYg1WaDEPmynwF
+Zlt+zpsT0brKbouqN/okbaJmnqhnYvdIHfL2fWNOJJaokZLVKNGSBorZ3DdD6jFL
+MJ6yRy3pPbP9EsQzOGrE1FMd2LQRSCInzi7kIiwcszaTs1/1Bu2guS+F41NpT2pW
+L57uxvasgHoB/7C4OTq7XQuhJ9PYWP10kp3EvH1/joS3YSJUybkEUaqN3PvmkuKn
+uEmzBFU/Km7lSJ8pfdforEgvczhpGkeZvP5QvdZQ4uH4S3RT5mgZuCiVHlDPYf6h
+LSEw3XARKz7fyhiug+EfjrFViYuMHXCw5HVkCjbPn+ELyRefeJ4mWH9x8tIQOwqN
+rSZCWndQhQp6/QUzUH3uMvZPXZfhCXk33njwoN0uMsm7EGLNmjDqCQblz39VYe7w
+tMWQBN2V5gbZiX2V4Eq215Q5On6tlwEHTqdcJvQFRjNjGgBTC72dp9Kcyp48i1yy
+GVBf9l1/DWAkO1EuCFvDWW0gAKK7JThzWjaQVD7l/F2Zmsn54Q8=
+=9DB8
+-----END PGP SIGNATURE-----
+
+--pfnkt6rdap5wnatk--
