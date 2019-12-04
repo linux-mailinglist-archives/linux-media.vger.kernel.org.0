@@ -2,445 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 813E51128CB
-	for <lists+linux-media@lfdr.de>; Wed,  4 Dec 2019 11:04:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9004D11294B
+	for <lists+linux-media@lfdr.de>; Wed,  4 Dec 2019 11:30:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727412AbfLDKD7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Dec 2019 05:03:59 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:48752 "EHLO
+        id S1727351AbfLDKaO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Dec 2019 05:30:14 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:49398 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726893AbfLDKD7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Dec 2019 05:03:59 -0500
-Received: from [IPv6:2a02:810a:113f:ad1c::498c] (unknown [IPv6:2a02:810a:113f:ad1c::498c])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 63B9628DFCC;
-        Wed,  4 Dec 2019 10:03:55 +0000 (GMT)
-Subject: Re: [PATCH v3 RESEND] media: vimc: fla: Add virtual flash subdevice
-To:     =?UTF-8?Q?Lucas_A=2e_M=2e_Magalh=c3=a3es?= <lucmaga@gmail.com>,
-        linux-media@vger.kernel.org
-Cc:     hverkuil@xs4all.nl, linux-kernel@vger.kernel.org,
-        helen.koike@collabora.com, edusbarretto@gmail.com,
-        lkcamp@lists.libreplanetbr.org
-References: <20191203230148.2442-1-lucmaga@gmail.com>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <dba2fa57-2101-b24a-a482-97878895fb92@collabora.com>
-Date:   Wed, 4 Dec 2019 11:03:52 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        with ESMTP id S1726893AbfLDKaO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Dec 2019 05:30:14 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: aratiu)
+        with ESMTPSA id D48DD2911A6
+From:   Adrian Ratiu <adrian.ratiu@collabora.com>
+To:     Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
+        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Rick Chang <rick.chang@mediatek.com>,
+        Bin Liu <bin.liu@mediatek.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Mirela Rabulea <mirela.rabulea@nxp.com>, kernel@pengutronix.de
+Subject: Re: [PATCH 0/5] v4l2 JPEG helpers and CODA960 JPEG decoder
+In-Reply-To: <20191113150538.9807-1-p.zabel@pengutronix.de>
+References: <20191113150538.9807-1-p.zabel@pengutronix.de>
+Date:   Wed, 04 Dec 2019 12:30:38 +0200
+Message-ID: <87pnh48jsh.fsf@iwork.i-did-not-set--mail-host-address--so-tickle-me>
 MIME-Version: 1.0
-In-Reply-To: <20191203230148.2442-1-lucmaga@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; format=flowed
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi,
-Thanks for the patch
 
-On 12/4/19 12:01 AM, Lucas A. M. Magalhães wrote:
-> From: Lucas A. M. Magalhaes <lucmaga@gmail.com>
+On Wed, 13 Nov 2019, Philipp Zabel <p.zabel@pengutronix.de> wrote:
+> Hi, 
 > 
-> Add a virtual subdevice to simulate the flash control API.
-> Those are the supported controls:
-> v4l2-ctl -d /dev/v4l-subdev6 -L
-> Flash Controls
+> as far as I can tell we currently have three JPEG header parsers 
+> in the media tree (in the rcar_jpu, s5p-jpeg, and mtk-jpeg 
+> drivers). I would like to add support for the CODA960 JPEG 
+> decoder to the coda-vpu driver without adding yet another. 
 > 
->                         led_mode 0x009c0901 (menu)   : min=0 max=2 default=1 value=1
->                                  0: Off
->                                  1: Flash
->                                  2: Torch
->                    strobe_source 0x009c0902 (menu)   : min=0 max=1 default=0 value=0
->                                  0: Software
->                                  1: External
->                           strobe 0x009c0903 (button) : flags=write-only, execute-on-write
->                      stop_strobe 0x009c0904 (button) : flags=write-only, execute-on-write
->                    strobe_status 0x009c0905 (bool)   : default=0 value=0 flags=read-only
->                   strobe_timeout 0x009c0906 (int)    : min=50 max=400 step=50 default=50 value=400
->             intensity_flash_mode 0x009c0907 (int)    : min=23040 max=1499600 step=11718 default=23040 value=23040
->             intensity_torch_mode 0x009c0908 (int)    : min=2530 max=187100 step=1460 default=2530 value=2530
->              intensity_indicator 0x009c0909 (int)    : min=0 max=255 step=1 default=0 value=0
->                           faults 0x009c090a (bitmask): max=0x00000002 default=0x00000000 value=0x00000000
+> To this end, this patch series adds some common JPEG code to 
+> v4l2-core.  For now this just contains header parsing helpers (I 
+> have tried to keep the terminology close to JPEG ITU-T.81) that 
+> should be usable for all of the current drivers. In the future 
+> we might want to move JPEG header generation for encoders and 
+> common quantization tables in there as well. 
 > 
-> Co-authored-by: Eduardo Barretto <edusbarretto@gmail.com>
-> Signed-off-by: Eduardo Barretto <edusbarretto@gmail.com>
-> Signed-off-by: Lucas A. M. Magalhães <lucmaga@gmail.com>
-> 
-> ---
-> Hi,
-> 
-> I've copied some values from another driver (lm3646) to make it more
-> realistic, as suggested by Hans. All values except for
-> V4L2_CID_FLASH_INDICATOR_INTENSITY, which I couldn't find any
-> implementation.
-> 
-> The v4l-compliance is failing. From the documentation
-> V4L2_CID_FLASH_STROBE should just work if the
-> V4L2_CID_FLASH_STROBE_SOURCE is "Software" and the
-> V4L2_CID_FLASH_LED_MODE is "Flash", otherwise it should fail. With the
-> standard values configured for the V4L2_CID_FLASH_STROBE will not fail.
-> But during the tests v4l-compliance sets V4L2_CID_FLASH_LED_MODE to
-> "Torch" and V4L2_CID_FLASH_STROBE_SOURCE to "External" which makes
-> V4L2_CID_FLASH_STROBE to fail. How do I proceed? Should the
-> v4l-compliance be changed?
-> 
-> Changes in v3:
-> 	- Fix style errors
-> 	- Use more realistic numbers for the controllers
-> 	- Change from kthread to workqueue
-> 	- Change commit message for the new controllers values
-> 
-> Changes in v2:
-> 	- Fix v4l2-complience errors
-> 	- Add V4L2_CID_FLASH_STROBE_STATUS behavior
-> 	- Add V4L2_CID_FLASH_STROBE restrictions
-> 	- Remove vimc_fla_g_volatile_ctrl
-> 	- Remove unnecessarie V4L2_CID_FLASH_CLASS
-> 	- Change varables names
-> 
->   drivers/media/platform/vimc/Makefile      |   2 +-
->   drivers/media/platform/vimc/vimc-common.c |   2 +
->   drivers/media/platform/vimc/vimc-common.h |   4 +
->   drivers/media/platform/vimc/vimc-core.c   |   5 +
->   drivers/media/platform/vimc/vimc-flash.c  | 248 ++++++++++++++++++++++
->   5 files changed, 260 insertions(+), 1 deletion(-)
->   create mode 100644 drivers/media/platform/vimc/vimc-flash.c
-> 
-> diff --git a/drivers/media/platform/vimc/Makefile b/drivers/media/platform/vimc/Makefile
-> index a53b2b532e9f..e759bbb04b14 100644
-> --- a/drivers/media/platform/vimc/Makefile
-> +++ b/drivers/media/platform/vimc/Makefile
-> @@ -1,6 +1,6 @@
->   # SPDX-License-Identifier: GPL-2.0
->   vimc-y := vimc-core.o vimc-common.o vimc-streamer.o vimc-capture.o \
-> -		vimc-debayer.o vimc-scaler.o vimc-sensor.o
-> +		vimc-debayer.o vimc-scaler.o vimc-sensor.o vimc-flash.o
->   
->   obj-$(CONFIG_VIDEO_VIMC) += vimc.o
->   
-> diff --git a/drivers/media/platform/vimc/vimc-common.c b/drivers/media/platform/vimc/vimc-common.c
-> index a3120f4f7a90..cb786de75573 100644
-> --- a/drivers/media/platform/vimc/vimc-common.c
-> +++ b/drivers/media/platform/vimc/vimc-common.c
-> @@ -203,6 +203,8 @@ struct media_pad *vimc_pads_init(u16 num_pads, const unsigned long *pads_flag)
->   	struct media_pad *pads;
->   	unsigned int i;
->   
-> +	if (!num_pads)
-> +		return NULL;
-Please rebase on top of latest master,
-this function was removed in patch 'media: vimc: embed the pads of entities in the entities' structs'
+> I have tested this on hardware only with coda-vpu, the other 
+> drivers are just compile-tested.
 
->   	/* Allocate memory for the pads */
->   	pads = kcalloc(num_pads, sizeof(*pads), GFP_KERNEL);
->   	if (!pads)
-> diff --git a/drivers/media/platform/vimc/vimc-common.h b/drivers/media/platform/vimc/vimc-common.h
-> index 698db7c07645..19815f0f4d40 100644
-> --- a/drivers/media/platform/vimc/vimc-common.h
-> +++ b/drivers/media/platform/vimc/vimc-common.h
-> @@ -169,6 +169,10 @@ struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
->   				     const char *vcfg_name);
->   void vimc_sen_rm(struct vimc_device *vimc, struct vimc_ent_device *ved);
->   
-> +struct vimc_ent_device *vimc_fla_add(struct vimc_device *vimc,
-> +				     const char *vcfg_name);
-This should be lined with the opening '('
+Tested-by: Adrian Ratiu <adrian.ratiu@collabora.com>
 
-> +void vimc_fla_rm(struct vimc_device *vimc, struct vimc_ent_device *ved);
-> +
->   /**
->    * vimc_pads_init - initialize pads
->    *
-> diff --git a/drivers/media/platform/vimc/vimc-core.c b/drivers/media/platform/vimc/vimc-core.c
-> index 6e3e5c91ae39..5f6c750d3d8d 100644
-> --- a/drivers/media/platform/vimc/vimc-core.c
-> +++ b/drivers/media/platform/vimc/vimc-core.c
-> @@ -91,6 +91,11 @@ static struct vimc_ent_config ent_config[] = {
->   		.add = vimc_cap_add,
->   		.rm = vimc_cap_rm,
->   	},
-> +	{
-> +		.name = "Flash Controller",
-> +		.add = vimc_fla_add,
-> +		.rm = vimc_fla_rm,
-> +	}
->   };
->   
->   static const struct vimc_ent_link ent_links[] = {
-> diff --git a/drivers/media/platform/vimc/vimc-flash.c b/drivers/media/platform/vimc/vimc-flash.c
-> new file mode 100644
-> index 000000000000..3918beecec57
-> --- /dev/null
-> +++ b/drivers/media/platform/vimc/vimc-flash.c
-> @@ -0,0 +1,248 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * vimc-flash.c Virtual Media Controller Driver
-> + *
-> + * Copyright (C) 2019
-> + * Contributors: Lucas A. M. Magalhães <lamm@lucmaga.dev>
-> + *               Eduardo Barretto <edusbarretto@gmail.com>
-> + *
-> + */
-> +
-> +#include <linux/delay.h>
-> +#include <linux/workqueue.h>
-> +#include <linux/sched.h>
-> +#include <linux/vmalloc.h>
-> +#include <media/v4l2-ctrls.h>
-> +#include <media/v4l2-event.h>
-> +#include <media/v4l2-subdev.h>
-> +
-> +#include "vimc-common.h"
-> +
-> +/*
-> + * Flash timeout in ms
-> + */
-> +#define VIMC_FLASH_TIMEOUT_MS_MIN 50
-> +#define VIMC_FLASH_TIMEOUT_MS_MAX 400
-> +#define VIMC_FLASH_TIMEOUT_MS_STEP 50
-> +
-> +/*
-> + * Torch intencity in uA
-> + */
-> +#define VIMC_FLASH_TORCH_UA_MIN 2530
-> +#define VIMC_FLASH_TORCH_UA_MAX 187100
-> +#define VIMC_FLASH_TORCH_UA_STEP 1460
-> +
-> +/*
-> + * Flash intencity in uA
-> + */
-> +#define VIMC_FLASH_FLASH_UA_MIN 23040
-> +#define VIMC_FLASH_FLASH_UA_MAX 1499600
-> +#define VIMC_FLASH_FLASH_UA_STEP 11718
-> +
-> +struct vimc_fla_device {
-> +	struct vimc_ent_device ved;
-> +	struct v4l2_subdev sd;
-> +	struct v4l2_ctrl_handler hdl;
-> +	int strobe_source;
-> +	bool is_strobe;
-> +	int led_mode;
-> +	int indicator_intensity;
-> +	int torch_intensity;
-> +	int flash_intensity;
-> +	u64 timeout;
-> +	u64 last_strobe;
-> +	struct workqueue_struct *wq;
-> +	struct work_struct work;
-> +	struct v4l2_ctrl *strobe_status_ctl;
-> +};
-> +
-> +static void vimc_fla_strobe_work(struct work_struct *work)
-> +{
-> +	struct vimc_fla_device *vfla =
-> +		container_of(work, struct vimc_fla_device, work);
-> +	v4l2_ctrl_s_ctrl(vfla->strobe_status_ctl, true);
-> +	vfla->last_strobe = ktime_get_ns();
-> +	while (vfla->is_strobe &&
-> +	       vfla->last_strobe + vfla->timeout > ktime_get_ns()) {
-> +		msleep_interruptible(VIMC_FLASH_TIMEOUT_MS_STEP);
-> +	}
-> +	v4l2_ctrl_s_ctrl(vfla->strobe_status_ctl, false);
-> +}
-> +
-> +static int vimc_fla_s_ctrl(struct v4l2_ctrl *c)
-> +{
-> +	struct vimc_fla_device *vfla =
-> +		container_of(c->handler, struct vimc_fla_device, hdl);
-> +
-> +	switch (c->id) {
-> +	case V4L2_CID_FLASH_LED_MODE:
-> +		vfla->led_mode = c->val;
-> +		return 0;
-> +	case V4L2_CID_FLASH_STROBE_SOURCE:
-> +		vfla->strobe_source = c->val;
-> +		return 0;
-> +	case V4L2_CID_FLASH_STROBE:
-> +		if (vfla->led_mode != V4L2_FLASH_LED_MODE_FLASH ||
-> +		    vfla->strobe_source != V4L2_FLASH_STROBE_SOURCE_SOFTWARE){
-you can add error/warning debug here,
-if you choose not to, then the parentheses are redundant.
-Additionally, the opening '{' should come after a space
-You can run srctipts/checkpatch.pl before submitting to catch such issues
-
-> +			return -EINVAL;
-> +		}
-> +		queue_work(vfla->wq, &vfla->work);
-> +		return 0;
-> +	case V4L2_CID_FLASH_STROBE_STATUS:
-> +		vfla->is_strobe = c->val;
-> +		return 0;
-> +	case V4L2_CID_FLASH_STROBE_STOP:
-> +		vfla->is_strobe = false;
-> +		return 0;
-> +	case V4L2_CID_FLASH_TIMEOUT:
-> +		vfla->timeout = c->val * 1000000; /* MS to NS */
-> +		return 0;
-> +	case V4L2_CID_FLASH_INTENSITY:
-> +		vfla->flash_intensity = c->val;
-> +		return 0;
-> +	case V4L2_CID_FLASH_TORCH_INTENSITY:
-> +		vfla->torch_intensity = c->val;
-> +		return 0;
-> +	case V4L2_CID_FLASH_INDICATOR_INTENSITY:
-> +		vfla->indicator_intensity = c->val;
-> +		return 0;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +	return 0;
-> +}
-> +
-> +static const struct v4l2_ctrl_ops vimc_fla_ctrl_ops = {
-> +	.s_ctrl = vimc_fla_s_ctrl,
-> +};
-> +
-> +static const struct v4l2_subdev_core_ops vimc_fla_core_ops = {
-> +	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
-> +	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
-> +};
-> +
-> +static const struct v4l2_subdev_ops vimc_fla_ops = {
-> +	.core = &vimc_fla_core_ops,
-> +};
-> +
-> +static void vimc_fla_release(struct v4l2_subdev *sd)
-> +{
-> +	struct vimc_fla_device *vfla =
-> +				container_of(sd, struct vimc_fla_device, sd);
-one tab is enough
-> +
-> +	v4l2_ctrl_handler_free(&vfla->hdl);
-> +	kfree(vfla);
-> +}
-> +
-> +static const struct v4l2_subdev_internal_ops vimc_fla_int_ops = {
-> +	.release = vimc_fla_release,
-> +};
-> +
-> +/* initialize device */
-> +struct vimc_ent_device *vimc_fla_add(struct vimc_device *vimc,
-> +				     const char *vcfg_name)
-> +{
-> +	struct v4l2_device *v4l2_dev = &vimc->v4l2_dev;
-> +	struct vimc_fla_device *vfla;
-> +	int ret;
-> +
-> +	/* Allocate the vfla struct */
-> +	vfla = kzalloc(sizeof(*vfla), GFP_KERNEL);
-> +	if (!vfla)
-> +		return NULL;
-I think it is better to change the return values of the .add calbbacks
-to return ERR_PTR upon error and not just NULL so that different types of
-errors can be distinguished.
-(This is not related specifically to this patch),
-If you want you can send a patch fixing that.
-
-> +
-> +	v4l2_ctrl_handler_init(&vfla->hdl, 4);
-> +	v4l2_ctrl_new_std_menu(&vfla->hdl, &vimc_fla_ctrl_ops,
-> +			       V4L2_CID_FLASH_LED_MODE,
-> +			       V4L2_FLASH_LED_MODE_TORCH, ~0x7,
-> +			       V4L2_FLASH_LED_MODE_FLASH);
-> +	v4l2_ctrl_new_std_menu(&vfla->hdl, &vimc_fla_ctrl_ops,
-> +			       V4L2_CID_FLASH_STROBE_SOURCE, 0x1, ~0x3,
-> +			       V4L2_FLASH_STROBE_SOURCE_SOFTWARE);
-> +	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
-> +			  V4L2_CID_FLASH_STROBE, 0, 0, 0, 0);
-> +	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
-> +			  V4L2_CID_FLASH_STROBE_STOP, 0, 0, 0, 0);
-> +	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
-> +			  V4L2_CID_FLASH_TIMEOUT, VIMC_FLASH_TIMEOUT_MS_MIN,
-> +			  VIMC_FLASH_TIMEOUT_MS_MAX,
-> +			  VIMC_FLASH_TIMEOUT_MS_STEP,
-> +			  VIMC_FLASH_TIMEOUT_MS_MIN);
-> +	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
-> +			  V4L2_CID_FLASH_TORCH_INTENSITY,
-> +			  VIMC_FLASH_TORCH_UA_MIN,
-> +			  VIMC_FLASH_TORCH_UA_MAX,
-> +			  VIMC_FLASH_TORCH_UA_STEP,
-> +			  VIMC_FLASH_TORCH_UA_MIN);
-> +	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
-> +			  V4L2_CID_FLASH_INTENSITY,
-> +			  VIMC_FLASH_FLASH_UA_MIN,
-> +			  VIMC_FLASH_FLASH_UA_MAX,
-> +			  VIMC_FLASH_FLASH_UA_STEP,
-> +			  VIMC_FLASH_FLASH_UA_MIN);
-> +	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
-> +			  V4L2_CID_FLASH_INDICATOR_INTENSITY,
-> +			  0,
-> +			  255,
-> +			  1,
-> +			  0);
-why not having one line with "0,255,1,0);" ?
-
-> +	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
-> +			  V4L2_CID_FLASH_STROBE_STATUS, 0, 1, 1, 0);
-> +	v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
-> +			  V4L2_CID_FLASH_FAULT, 0,
-> +			  V4L2_FLASH_FAULT_TIMEOUT, 0, 0);
-> +	vfla->sd.ctrl_handler = &vfla->hdl;
-> +	if (vfla->hdl.error) {
-> +		ret = vfla->hdl.error;
-> +		goto err_free_vfla;
-> +	}
-> +	vfla->strobe_status_ctl = v4l2_ctrl_find(&vfla->hdl,
-> +						 V4L2_CID_FLASH_STROBE_STATUS);
-> +
-> +	/* Initialize ved and sd */
-> +	ret = vimc_ent_sd_register(&vfla->ved, &vfla->sd, v4l2_dev,
-> +				   vcfg_name,
-> +				   MEDIA_ENT_F_FLASH, 0, NULL,
-> +				   &vimc_fla_int_ops, &vimc_fla_ops);
-> +	if (ret)
-> +		goto err_free_hdl;
-> +
-> +	/* Create processing workqueue */
-> +	vfla->wq = alloc_workqueue("%s", 0, 0, "vimc-flash thread");
-> +	if (!vfla->wq)
-> +		goto err_unregister;
-> +
-> +	INIT_WORK(&vfla->work, vimc_fla_strobe_work);
-> +	/* Initialize standard values */
-> +	vfla->indicator_intensity = 0;
-> +	vfla->torch_intensity = 0;
-> +	vfla->flash_intensity = 0;
-> +	vfla->is_strobe = false;
-> +	vfla->timeout = 0;
-> +	vfla->last_strobe = 0;
-> +	vfla->strobe_source = V4L2_FLASH_STROBE_SOURCE_SOFTWARE;
-> +	vfla->led_mode = V4L2_FLASH_LED_MODE_FLASH;
-> +
-> +	return &vfla->ved;
-> +
-> +err_unregister:
-> +	vimc_ent_sd_unregister(&vfla->ved, &vfla->sd);
-> +err_free_hdl:
-> +	v4l2_ctrl_handler_free(&vfla->hdl);
-> +err_free_vfla:
-> +	kfree(vfla);
-> +
-> +	return NULL;
-> +}
-> +
-> +void vimc_fla_rm(struct vimc_device *vimc, struct vimc_ent_device *ved)
-> +{
-> +	struct vimc_fla_device *vfla;
-> +
-> +	if (!ved)
-> +		return;
-> +
-> +	vfla = container_of(ved, struct vimc_fla_device, ved);
-> +	destroy_workqueue(vfla->wq);
-> +	vimc_ent_sd_unregister(ved, &vfla->sd);
-> +}
-> 
-Not sure but I think there are indentation issues in this patch, a tab should be 8 spaces
+I'm testing this series on some i.MX 6 boards I have laying around 
+and it works well: the new dev nodes appear once the patched coda 
+driver is loaded and gstreamer1.0-plugins-good-jpeg uses them for 
+dec/enc.
 
 Thanks,
-Dafna
+Adrian
+
+>
+> Feedback very welcome, especially whether this actually works for the
+> other drivers, and if this could be structured any better. I'm a bit
+> unhappy with the (current) need for separate frame/scan header and
+> quantization/hfufman table parsing functions, but those are required
+> by s5p-jpeg, which splits localization and parsing of the marker
+> segments. Also, could this be used for i.MX8 JPEGDEC as is?
+>
+> regards
+> Philipp
+>
+> Philipp Zabel (5):
+>   media: add v4l2 JPEG helpers
+>   media: coda: jpeg: add CODA960 JPEG decoder support
+>   media: rcar_jpu: use V4L2 JPEG helpers
+>   media: s5p-jpeg: use v4l2 JPEG helpers
+>   media: mtk-jpeg: use V4L2 JPEG helpers
+>
+>  drivers/media/platform/Kconfig                |   4 +
+>  drivers/media/platform/coda/coda-common.c     | 124 +++-
+>  drivers/media/platform/coda/coda-jpeg.c       | 551 ++++++++++++++++
+>  drivers/media/platform/coda/coda.h            |  11 +-
+>  .../media/platform/mtk-jpeg/mtk_jpeg_parse.c  | 138 +---
+>  drivers/media/platform/rcar_jpu.c             |  94 +--
+>  drivers/media/platform/s5p-jpeg/jpeg-core.c   | 388 +++--------
+>  drivers/media/platform/s5p-jpeg/jpeg-core.h   |  14 +-
+>  drivers/media/v4l2-core/Kconfig               |   4 +
+>  drivers/media/v4l2-core/Makefile              |   2 +
+>  drivers/media/v4l2-core/v4l2-jpeg.c           | 614 ++++++++++++++++++
+>  include/media/v4l2-jpeg.h                     | 135 ++++
+>  12 files changed, 1580 insertions(+), 499 deletions(-)
+>  create mode 100644 drivers/media/v4l2-core/v4l2-jpeg.c
+>  create mode 100644 include/media/v4l2-jpeg.h
+>
+> -- 
+> 2.20.1
