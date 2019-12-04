@@ -2,19 +2,19 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A477111268A
-	for <lists+linux-media@lfdr.de>; Wed,  4 Dec 2019 10:08:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 59B1511268B
+	for <lists+linux-media@lfdr.de>; Wed,  4 Dec 2019 10:09:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726313AbfLDJI5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Dec 2019 04:08:57 -0500
-Received: from relay11.mail.gandi.net ([217.70.178.231]:51721 "EHLO
+        id S1726599AbfLDJJA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Dec 2019 04:09:00 -0500
+Received: from relay11.mail.gandi.net ([217.70.178.231]:35299 "EHLO
         relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725922AbfLDJI5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Dec 2019 04:08:57 -0500
+        with ESMTP id S1725922AbfLDJJA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Dec 2019 04:09:00 -0500
 Received: from uno.lan (93-34-114-233.ip49.fastwebnet.it [93.34.114.233])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay11.mail.gandi.net (Postfix) with ESMTPSA id 38B3110000D;
-        Wed,  4 Dec 2019 09:08:54 +0000 (UTC)
+        by relay11.mail.gandi.net (Postfix) with ESMTPSA id 4B2BF100013;
+        Wed,  4 Dec 2019 09:08:55 +0000 (UTC)
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
@@ -23,11 +23,14 @@ To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         tfiga@google.com, pavel@ucw.cz
 Cc:     Jacopo Mondi <jacopo@jmondi.org>,
         linux-media@vger.kernel.org (open list:MEDIA INPUT INFRASTRUCTURE
-        (V4L/DVB))
-Subject: [PATCH v6 00/11] media: Report camera sensor properties
-Date:   Wed,  4 Dec 2019 10:10:45 +0100
-Message-Id: <20191204091056.4842-1-jacopo@jmondi.org>
+        (V4L/DVB)), devicetree@vger.kernel.org,
+        Rob Herring <robh@kernel.org>, Tomasz Figa <tfiga@chromium.org>
+Subject: [PATCH v6 01/11] dt-bindings: video-interfaces: Document 'location' property
+Date:   Wed,  4 Dec 2019 10:10:46 +0100
+Message-Id: <20191204091056.4842-2-jacopo@jmondi.org>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20191204091056.4842-1-jacopo@jmondi.org>
+References: <20191204091056.4842-1-jacopo@jmondi.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -35,69 +38,39 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
-   this last iteration adds Rob's tag to the dt-bindings patches, Tomasz ack
-to the introduction of 'location' property and addresses some minor issues
-pointed out by Sakari.
+Add the 'location' device property, used to specify a device mounting
+position. The property is particularly meaningful for mobile devices
+with a well defined usage orientation.
 
-I would be glad if this series could be finally collected, as it has been
-extensively discussed already.
+Reviewed-by: Rob Herring <robh@kernel.org>
+Acked-by: Tomasz Figa <tfiga@chromium.org>
+Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+---
+ .../devicetree/bindings/media/video-interfaces.txt    | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-v5 -> v6:
-- Add Rob's and Tomasz's tags
-- Return hdl->error from v4l2_ctrl_new_fwnode_properties() as suggested by
-  Sakari
-- Update v4l2_fwnode_device_parse() documentation as suggested by Sakari
+diff --git a/Documentation/devicetree/bindings/media/video-interfaces.txt b/Documentation/devicetree/bindings/media/video-interfaces.txt
+index f884ada0bffc..1211bdf80722 100644
+--- a/Documentation/devicetree/bindings/media/video-interfaces.txt
++++ b/Documentation/devicetree/bindings/media/video-interfaces.txt
+@@ -89,6 +89,17 @@ Optional properties
+   but a number of degrees counter clockwise. Typical values are 0 and 180
+   (upside down).
 
-v4 -> v5:
-- cc device tree mailing list on relevant patches
-- s/num-cols/max-col and s/num-lines/max-row in 4/11
++- location: The mount location of a device (typically an image sensor or a flash
++  LED) expressed as a position relative to the usage orientation of the system
++  where the device is installed on.
++  Possible values are:
++  0 - Front. The device is mounted on the front facing side of the system.
++  For mobile devices such as smartphones, tablets and laptops the front side is
++  the user facing side.
++  1 - Back. The device is mounted on the back side of the system, which is
++  defined as the opposite side of the front facing one.
++  2 - External. The device is not attached directly to the system but is
++  attached in a way that allows it to move freely.
 
-v3 -> v4:
-- Minor reword in documentation of location and rotation properties
-- Fix V4L2_CID_CAMERA_SENSOR_ROTATION control documentation
-- Renamed helper in v4l2_ctrl_new_fwnode_properties()
-
-v2->v3:
-- Expand 'rotation' property description
-- s/device/system in properties description to make them applicable to
-  cameras and flash LEDs
-- Expand the rotation control description
-- Split helper to parse properties and helper to register properties
-- Drop the example coreboot patch that add properties to the Soraka device
-  ACPI tables
-
-Patches for the coreboot provided ACPI tables for two example sensors:
-https://jmondi.org/cgit/coreboot/commit/?id=53a5fc6450bd45992f14a41848b72350f257c151
-https://jmondi.org/cgit/coreboot/commit/?id=2a6b9b51f0e2e7b4ca5f4eadf21df8468ebc1b3f
-
-Thanks
-   j
-
-Jacopo Mondi (11):
-  dt-bindings: video-interfaces: Document 'location' property
-  media: v4l2-ctrl: Document V4L2_CID_CAMERA_SENSOR_LOCATION
-  dt-bindings: video-interface: Expand rotation description
-  media: v4l2-ctrl: Document V4L2_CID_CAMERA_SENSOR_ROTATION
-  media: v4l2-ctrls: Add camera location and rotation
-  media: v4l2-fwnode: Add helper to parse device properties
-  include: v4l2-ctrl: Sort forward declarations
-  media: v4l2-ctrls: Sort includes alphabetically
-  media: v4l2-ctrls: Add helper to register properties
-  media: i2c: ov5670: Parse and register properties
-  media: i2c: ov13858: Parse and register properties
-
- .../bindings/media/video-interfaces.txt       |  21 ++-
- .../media/uapi/v4l/ext-ctrls-camera.rst       | 148 ++++++++++++++++++
- drivers/media/i2c/ov13858.c                   |  11 ++
- drivers/media/i2c/ov5670.c                    |  12 ++
- drivers/media/v4l2-core/v4l2-ctrls.c          |  52 +++++-
- drivers/media/v4l2-core/v4l2-fwnode.c         |  42 +++++
- include/media/v4l2-ctrls.h                    |  34 +++-
- include/media/v4l2-fwnode.h                   |  47 ++++++
- include/uapi/linux/v4l2-controls.h            |   7 +
- 9 files changed, 362 insertions(+), 12 deletions(-)
-
+ Optional endpoint properties
+ ----------------------------
 --
 2.23.0
 
