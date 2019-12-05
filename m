@@ -2,18 +2,18 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C05611429C
-	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2019 15:25:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F21EA1142A3
+	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2019 15:25:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729750AbfLEOZZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Dec 2019 09:25:25 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:49408 "EHLO
+        id S1729473AbfLEOZb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Dec 2019 09:25:31 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:49420 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729165AbfLEOZY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Dec 2019 09:25:24 -0500
+        with ESMTP id S1729498AbfLEOZ2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Dec 2019 09:25:28 -0500
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id 72F0329224A
+        with ESMTPSA id 2314A292243
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     linux-media@vger.kernel.org
 Cc:     kernel@collabora.com, Tomasz Figa <tfiga@chromium.org>,
@@ -24,9 +24,9 @@ Cc:     kernel@collabora.com, Tomasz Figa <tfiga@chromium.org>,
         Boris Brezillon <boris.brezillon@collabora.com>,
         Chris Healy <cphealy@gmail.com>, linux-kernel@vger.kernel.org,
         Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH v4 2/4] media: hantro: Cleanup format negotiation helpers
-Date:   Thu,  5 Dec 2019 11:24:41 -0300
-Message-Id: <20191205142443.1298-3-ezequiel@collabora.com>
+Subject: [PATCH v4 3/4] hantro: Rename {prepare,finish}_run to {start,end}_prepare_run
+Date:   Thu,  5 Dec 2019 11:24:42 -0300
+Message-Id: <20191205142443.1298-4-ezequiel@collabora.com>
 X-Mailer: git-send-email 2.22.0
 In-Reply-To: <20191205142443.1298-1-ezequiel@collabora.com>
 References: <20191205142443.1298-1-ezequiel@collabora.com>
@@ -37,171 +37,218 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Format negotiation helpers, hantro_find_format()
-and hantro_get_default_fmt() can be simplified,
-making the code a little bit clearer.
-
-More importantly, this change is preparation work
-for the post-processor usage.
+hantro_prepare_run() and hantro_finish_run() are
+slightly misleading, so let's rename it to something
+a bit more clear.
 
 Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 ---
- drivers/staging/media/hantro/hantro_v4l2.c | 53 ++++++++--------------
- 1 file changed, 20 insertions(+), 33 deletions(-)
+ drivers/staging/media/hantro/hantro_drv.c              | 4 ++--
+ drivers/staging/media/hantro/hantro_g1_h264_dec.c      | 2 +-
+ drivers/staging/media/hantro/hantro_g1_mpeg2_dec.c     | 4 ++--
+ drivers/staging/media/hantro/hantro_g1_vp8_dec.c       | 4 ++--
+ drivers/staging/media/hantro/hantro_h1_jpeg_enc.c      | 4 ++--
+ drivers/staging/media/hantro/hantro_h264.c             | 2 +-
+ drivers/staging/media/hantro/hantro_hw.h               | 4 ++--
+ drivers/staging/media/hantro/rk3399_vpu_hw_jpeg_enc.c  | 4 ++--
+ drivers/staging/media/hantro/rk3399_vpu_hw_mpeg2_dec.c | 4 ++--
+ drivers/staging/media/hantro/rk3399_vpu_hw_vp8_dec.c   | 4 ++--
+ 10 files changed, 18 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
-index 1dae76f20034..af27edd58a0b 100644
---- a/drivers/staging/media/hantro/hantro_v4l2.c
-+++ b/drivers/staging/media/hantro/hantro_v4l2.c
-@@ -47,23 +47,26 @@ hantro_get_formats(const struct hantro_ctx *ctx, unsigned int *num_fmts)
+diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+index 26108c96b674..974ac0a11dd1 100644
+--- a/drivers/staging/media/hantro/hantro_drv.c
++++ b/drivers/staging/media/hantro/hantro_drv.c
+@@ -152,7 +152,7 @@ void hantro_watchdog(struct work_struct *work)
+ 	}
  }
  
- static const struct hantro_fmt *
--hantro_find_format(const struct hantro_fmt *formats, unsigned int num_fmts,
--		   u32 fourcc)
-+hantro_find_format(const struct hantro_ctx *ctx, u32 fourcc)
+-void hantro_prepare_run(struct hantro_ctx *ctx)
++void hantro_start_prepare_run(struct hantro_ctx *ctx)
  {
--	unsigned int i;
-+	const struct hantro_fmt *formats;
-+	unsigned int i, num_fmts;
+ 	struct vb2_v4l2_buffer *src_buf;
  
-+	formats = hantro_get_formats(ctx, &num_fmts);
- 	for (i = 0; i < num_fmts; i++)
- 		if (formats[i].fourcc == fourcc)
- 			return &formats[i];
-+
- 	return NULL;
+@@ -161,7 +161,7 @@ void hantro_prepare_run(struct hantro_ctx *ctx)
+ 				&ctx->ctrl_handler);
  }
  
- static const struct hantro_fmt *
--hantro_get_default_fmt(const struct hantro_fmt *formats, unsigned int num_fmts,
--		       bool bitstream)
-+hantro_get_default_fmt(const struct hantro_ctx *ctx, bool bitstream)
+-void hantro_finish_run(struct hantro_ctx *ctx)
++void hantro_end_prepare_run(struct hantro_ctx *ctx)
  {
--	unsigned int i;
-+	const struct hantro_fmt *formats;
-+	unsigned int i, num_fmts;
+ 	struct vb2_v4l2_buffer *src_buf;
  
-+	formats = hantro_get_formats(ctx, &num_fmts);
- 	for (i = 0; i < num_fmts; i++) {
- 		if (bitstream == (formats[i].codec_mode !=
- 				  HANTRO_MODE_NONE))
-@@ -89,8 +92,7 @@ static int vidioc_enum_framesizes(struct file *file, void *priv,
- 				  struct v4l2_frmsizeenum *fsize)
- {
- 	struct hantro_ctx *ctx = fh_to_ctx(priv);
--	const struct hantro_fmt *formats, *fmt;
--	unsigned int num_fmts;
-+	const struct hantro_fmt *fmt;
+diff --git a/drivers/staging/media/hantro/hantro_g1_h264_dec.c b/drivers/staging/media/hantro/hantro_g1_h264_dec.c
+index 3cd40a8f0daa..887dc5210447 100644
+--- a/drivers/staging/media/hantro/hantro_g1_h264_dec.c
++++ b/drivers/staging/media/hantro/hantro_g1_h264_dec.c
+@@ -288,7 +288,7 @@ void hantro_g1_h264_dec_run(struct hantro_ctx *ctx)
+ 	set_ref(ctx);
+ 	set_buffers(ctx);
  
- 	if (fsize->index != 0) {
- 		vpu_debug(0, "invalid frame size index (expected 0, got %d)\n",
-@@ -98,8 +100,7 @@ static int vidioc_enum_framesizes(struct file *file, void *priv,
- 		return -EINVAL;
- 	}
+-	hantro_finish_run(ctx);
++	hantro_end_prepare_run(ctx);
  
--	formats = hantro_get_formats(ctx, &num_fmts);
--	fmt = hantro_find_format(formats, num_fmts, fsize->pixel_format);
-+	fmt = hantro_find_format(ctx, fsize->pixel_format);
- 	if (!fmt) {
- 		vpu_debug(0, "unsupported bitstream format (%08x)\n",
- 			  fsize->pixel_format);
-@@ -196,8 +197,7 @@ static int vidioc_try_fmt(struct file *file, void *priv, struct v4l2_format *f,
- {
- 	struct hantro_ctx *ctx = fh_to_ctx(priv);
- 	struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
--	const struct hantro_fmt *formats, *fmt, *vpu_fmt;
--	unsigned int num_fmts;
-+	const struct hantro_fmt *fmt, *vpu_fmt;
- 	bool coded;
+ 	/* Start decoding! */
+ 	vdpu_write_relaxed(vpu,
+diff --git a/drivers/staging/media/hantro/hantro_g1_mpeg2_dec.c b/drivers/staging/media/hantro/hantro_g1_mpeg2_dec.c
+index f3bf67d8a289..d6dde70f20b4 100644
+--- a/drivers/staging/media/hantro/hantro_g1_mpeg2_dec.c
++++ b/drivers/staging/media/hantro/hantro_g1_mpeg2_dec.c
+@@ -168,7 +168,7 @@ void hantro_g1_mpeg2_dec_run(struct hantro_ctx *ctx)
+ 	dst_buf = hantro_get_dst_buf(ctx);
  
- 	coded = capture == hantro_is_encoder_ctx(ctx);
-@@ -208,10 +208,9 @@ static int vidioc_try_fmt(struct file *file, void *priv, struct v4l2_format *f,
- 		  (pix_mp->pixelformat >> 16) & 0x7f,
- 		  (pix_mp->pixelformat >> 24) & 0x7f);
+ 	/* Apply request controls if any */
+-	hantro_prepare_run(ctx);
++	hantro_start_prepare_run(ctx);
  
--	formats = hantro_get_formats(ctx, &num_fmts);
--	fmt = hantro_find_format(formats, num_fmts, pix_mp->pixelformat);
-+	fmt = hantro_find_format(ctx, pix_mp->pixelformat);
- 	if (!fmt) {
--		fmt = hantro_get_default_fmt(formats, num_fmts, coded);
-+		fmt = hantro_get_default_fmt(ctx, coded);
- 		f->fmt.pix_mp.pixelformat = fmt->fourcc;
- 	}
+ 	slice_params = hantro_get_ctrl(ctx,
+ 				       V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS);
+@@ -244,7 +244,7 @@ void hantro_g1_mpeg2_dec_run(struct hantro_ctx *ctx)
+ 					&dst_buf->vb2_buf,
+ 					sequence, picture, slice_params);
  
-@@ -306,12 +305,10 @@ hantro_reset_fmt(struct v4l2_pix_format_mplane *fmt,
- static void
- hantro_reset_encoded_fmt(struct hantro_ctx *ctx)
- {
--	const struct hantro_fmt *vpu_fmt, *formats;
-+	const struct hantro_fmt *vpu_fmt;
- 	struct v4l2_pix_format_mplane *fmt;
--	unsigned int num_fmts;
+-	hantro_finish_run(ctx);
++	hantro_end_prepare_run(ctx);
  
--	formats = hantro_get_formats(ctx, &num_fmts);
--	vpu_fmt = hantro_get_default_fmt(formats, num_fmts, true);
-+	vpu_fmt = hantro_get_default_fmt(ctx, true);
+ 	reg = G1_REG_DEC_E(1);
+ 	vdpu_write(vpu, reg, G1_SWREG(1));
+diff --git a/drivers/staging/media/hantro/hantro_g1_vp8_dec.c b/drivers/staging/media/hantro/hantro_g1_vp8_dec.c
+index cad18094fee0..a2333d35305d 100644
+--- a/drivers/staging/media/hantro/hantro_g1_vp8_dec.c
++++ b/drivers/staging/media/hantro/hantro_g1_vp8_dec.c
+@@ -435,7 +435,7 @@ void hantro_g1_vp8_dec_run(struct hantro_ctx *ctx)
+ 	u32 mb_width, mb_height;
+ 	u32 reg;
  
- 	if (hantro_is_encoder_ctx(ctx)) {
- 		ctx->vpu_dst_fmt = vpu_fmt;
-@@ -332,12 +329,10 @@ hantro_reset_encoded_fmt(struct hantro_ctx *ctx)
- static void
- hantro_reset_raw_fmt(struct hantro_ctx *ctx)
- {
--	const struct hantro_fmt *raw_vpu_fmt, *formats;
-+	const struct hantro_fmt *raw_vpu_fmt;
- 	struct v4l2_pix_format_mplane *raw_fmt, *encoded_fmt;
--	unsigned int num_fmts;
+-	hantro_prepare_run(ctx);
++	hantro_start_prepare_run(ctx);
  
--	formats = hantro_get_formats(ctx, &num_fmts);
--	raw_vpu_fmt = hantro_get_default_fmt(formats, num_fmts, false);
-+	raw_vpu_fmt = hantro_get_default_fmt(ctx, false);
+ 	hdr = hantro_get_ctrl(ctx, V4L2_CID_MPEG_VIDEO_VP8_FRAME_HEADER);
+ 	if (WARN_ON(!hdr))
+@@ -496,7 +496,7 @@ void hantro_g1_vp8_dec_run(struct hantro_ctx *ctx)
+ 	cfg_ref(ctx, hdr);
+ 	cfg_buffers(ctx, hdr);
  
- 	if (hantro_is_encoder_ctx(ctx)) {
- 		ctx->vpu_src_fmt = raw_vpu_fmt;
-@@ -384,8 +379,6 @@ vidioc_s_fmt_out_mplane(struct file *file, void *priv, struct v4l2_format *f)
- 	struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
- 	struct hantro_ctx *ctx = fh_to_ctx(priv);
- 	struct vb2_queue *vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
--	const struct hantro_fmt *formats;
--	unsigned int num_fmts;
- 	int ret;
+-	hantro_finish_run(ctx);
++	hantro_end_prepare_run(ctx);
  
- 	ret = vidioc_try_fmt_out_mplane(file, priv, f);
-@@ -421,9 +414,7 @@ vidioc_s_fmt_out_mplane(struct file *file, void *priv, struct v4l2_format *f)
- 			return -EBUSY;
- 	}
+ 	vdpu_write(vpu, G1_REG_INTERRUPT_DEC_E, G1_REG_INTERRUPT);
+ }
+diff --git a/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c b/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
+index 938b48d4d3d9..0d8afc3e5d71 100644
+--- a/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
++++ b/drivers/staging/media/hantro/hantro_h1_jpeg_enc.c
+@@ -87,7 +87,7 @@ void hantro_h1_jpeg_enc_run(struct hantro_ctx *ctx)
+ 	src_buf = hantro_get_src_buf(ctx);
+ 	dst_buf = hantro_get_dst_buf(ctx);
  
--	formats = hantro_get_formats(ctx, &num_fmts);
--	ctx->vpu_src_fmt = hantro_find_format(formats, num_fmts,
--					      pix_mp->pixelformat);
-+	ctx->vpu_src_fmt = hantro_find_format(ctx, pix_mp->pixelformat);
- 	ctx->src_fmt = *pix_mp;
+-	hantro_prepare_run(ctx);
++	hantro_start_prepare_run(ctx);
  
- 	/*
-@@ -457,9 +448,7 @@ static int vidioc_s_fmt_cap_mplane(struct file *file, void *priv,
- {
- 	struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
- 	struct hantro_ctx *ctx = fh_to_ctx(priv);
--	const struct hantro_fmt *formats;
- 	struct vb2_queue *vq;
--	unsigned int num_fmts;
- 	int ret;
+ 	memset(&jpeg_ctx, 0, sizeof(jpeg_ctx));
+ 	jpeg_ctx.buffer = vb2_plane_vaddr(&dst_buf->vb2_buf, 0);
+@@ -122,7 +122,7 @@ void hantro_h1_jpeg_enc_run(struct hantro_ctx *ctx)
+ 		| H1_REG_ENC_PIC_INTRA
+ 		| H1_REG_ENC_CTRL_EN_BIT;
  
- 	/* Change not allowed if queue is busy. */
-@@ -488,9 +477,7 @@ static int vidioc_s_fmt_cap_mplane(struct file *file, void *priv,
- 	if (ret)
- 		return ret;
+-	hantro_finish_run(ctx);
++	hantro_end_prepare_run(ctx);
  
--	formats = hantro_get_formats(ctx, &num_fmts);
--	ctx->vpu_dst_fmt = hantro_find_format(formats, num_fmts,
--					      pix_mp->pixelformat);
-+	ctx->vpu_dst_fmt = hantro_find_format(ctx, pix_mp->pixelformat);
- 	ctx->dst_fmt = *pix_mp;
+ 	vepu_write(vpu, reg, H1_REG_ENC_CTRL);
+ }
+diff --git a/drivers/staging/media/hantro/hantro_h264.c b/drivers/staging/media/hantro/hantro_h264.c
+index 568640eab3a6..f2d3e81fb6ce 100644
+--- a/drivers/staging/media/hantro/hantro_h264.c
++++ b/drivers/staging/media/hantro/hantro_h264.c
+@@ -562,7 +562,7 @@ int hantro_h264_dec_prepare_run(struct hantro_ctx *ctx)
+ 	struct hantro_h264_dec_ctrls *ctrls = &h264_ctx->ctrls;
+ 	struct hantro_h264_reflist_builder reflist_builder;
  
- 	/*
+-	hantro_prepare_run(ctx);
++	hantro_start_prepare_run(ctx);
+ 
+ 	ctrls->scaling =
+ 		hantro_get_ctrl(ctx, V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX);
+diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+index fa91dd1848b7..71de44bdb1e4 100644
+--- a/drivers/staging/media/hantro/hantro_hw.h
++++ b/drivers/staging/media/hantro/hantro_hw.h
+@@ -147,8 +147,8 @@ void hantro_watchdog(struct work_struct *work);
+ void hantro_run(struct hantro_ctx *ctx);
+ void hantro_irq_done(struct hantro_dev *vpu, unsigned int bytesused,
+ 		     enum vb2_buffer_state result);
+-void hantro_prepare_run(struct hantro_ctx *ctx);
+-void hantro_finish_run(struct hantro_ctx *ctx);
++void hantro_start_prepare_run(struct hantro_ctx *ctx);
++void hantro_end_prepare_run(struct hantro_ctx *ctx);
+ 
+ void hantro_h1_jpeg_enc_run(struct hantro_ctx *ctx);
+ void rk3399_vpu_jpeg_enc_run(struct hantro_ctx *ctx);
+diff --git a/drivers/staging/media/hantro/rk3399_vpu_hw_jpeg_enc.c b/drivers/staging/media/hantro/rk3399_vpu_hw_jpeg_enc.c
+index 067892345b5d..4c2d43fb6fd1 100644
+--- a/drivers/staging/media/hantro/rk3399_vpu_hw_jpeg_enc.c
++++ b/drivers/staging/media/hantro/rk3399_vpu_hw_jpeg_enc.c
+@@ -118,7 +118,7 @@ void rk3399_vpu_jpeg_enc_run(struct hantro_ctx *ctx)
+ 	src_buf = hantro_get_src_buf(ctx);
+ 	dst_buf = hantro_get_dst_buf(ctx);
+ 
+-	hantro_prepare_run(ctx);
++	hantro_start_prepare_run(ctx);
+ 
+ 	memset(&jpeg_ctx, 0, sizeof(jpeg_ctx));
+ 	jpeg_ctx.buffer = vb2_plane_vaddr(&dst_buf->vb2_buf, 0);
+@@ -156,6 +156,6 @@ void rk3399_vpu_jpeg_enc_run(struct hantro_ctx *ctx)
+ 		| VEPU_REG_ENCODE_ENABLE;
+ 
+ 	/* Kick the watchdog and start encoding */
+-	hantro_finish_run(ctx);
++	hantro_end_prepare_run(ctx);
+ 	vepu_write(vpu, reg, VEPU_REG_ENCODE_START);
+ }
+diff --git a/drivers/staging/media/hantro/rk3399_vpu_hw_mpeg2_dec.c b/drivers/staging/media/hantro/rk3399_vpu_hw_mpeg2_dec.c
+index b40d2cdf832f..7e9aad671489 100644
+--- a/drivers/staging/media/hantro/rk3399_vpu_hw_mpeg2_dec.c
++++ b/drivers/staging/media/hantro/rk3399_vpu_hw_mpeg2_dec.c
+@@ -169,7 +169,7 @@ void rk3399_vpu_mpeg2_dec_run(struct hantro_ctx *ctx)
+ 	src_buf = hantro_get_src_buf(ctx);
+ 	dst_buf = hantro_get_dst_buf(ctx);
+ 
+-	hantro_prepare_run(ctx);
++	hantro_start_prepare_run(ctx);
+ 
+ 	slice_params = hantro_get_ctrl(ctx,
+ 				       V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS);
+@@ -250,7 +250,7 @@ void rk3399_vpu_mpeg2_dec_run(struct hantro_ctx *ctx)
+ 					 sequence, picture, slice_params);
+ 
+ 	/* Kick the watchdog and start decoding */
+-	hantro_finish_run(ctx);
++	hantro_end_prepare_run(ctx);
+ 
+ 	reg = vdpu_read(vpu, VDPU_SWREG(57)) | VDPU_REG_DEC_E(1);
+ 	vdpu_write(vpu, reg, VDPU_SWREG(57));
+diff --git a/drivers/staging/media/hantro/rk3399_vpu_hw_vp8_dec.c b/drivers/staging/media/hantro/rk3399_vpu_hw_vp8_dec.c
+index 76d7ed3fd69a..a4a792f00b11 100644
+--- a/drivers/staging/media/hantro/rk3399_vpu_hw_vp8_dec.c
++++ b/drivers/staging/media/hantro/rk3399_vpu_hw_vp8_dec.c
+@@ -513,7 +513,7 @@ void rk3399_vpu_vp8_dec_run(struct hantro_ctx *ctx)
+ 	u32 mb_width, mb_height;
+ 	u32 reg;
+ 
+-	hantro_prepare_run(ctx);
++	hantro_start_prepare_run(ctx);
+ 
+ 	hdr = hantro_get_ctrl(ctx, V4L2_CID_MPEG_VIDEO_VP8_FRAME_HEADER);
+ 	if (WARN_ON(!hdr))
+@@ -587,7 +587,7 @@ void rk3399_vpu_vp8_dec_run(struct hantro_ctx *ctx)
+ 	cfg_ref(ctx, hdr);
+ 	cfg_buffers(ctx, hdr);
+ 
+-	hantro_finish_run(ctx);
++	hantro_end_prepare_run(ctx);
+ 
+ 	hantro_reg_write(vpu, &vp8_dec_start_dec, 1);
+ }
 -- 
 2.22.0
 
