@@ -2,164 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F932115B06
-	for <lists+linux-media@lfdr.de>; Sat,  7 Dec 2019 05:55:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A32E115B56
+	for <lists+linux-media@lfdr.de>; Sat,  7 Dec 2019 07:32:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726465AbfLGEzm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Dec 2019 23:55:42 -0500
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:36109 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726400AbfLGEzm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 6 Dec 2019 23:55:42 -0500
-Received: from localhost ([IPv6:2001:983:e9a7:1:1de4:8bca:2810:78bf])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id dS82i9agu85rjdS83iCAtI; Sat, 07 Dec 2019 05:55:40 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1575694540; bh=8klbDElybqBGmBBEKLJQQpBaTCngYEBK77deK0jmCO8=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=VvAsHDsNpy//66BIhxo55+1uxjfef6ete8hbdB6KAPan92lcT60LFnJEAp/L1W7XY
-         Qq2ejdtJS0yVmLfl+By7ARKbJeW/G+6pn8O8uStewakVWCXdQFekJzPIfRsRgtZkn6
-         ENvfYA6Khzr94gYuIFXcKcE++XEvEfJ+TSaLLSIa9X6BB7rSls6dRqdLXbmWbAdXiS
-         mT0NXQ0Ui6v/UjBxF5IdDghck7ypul44qCssedcBw0dCFvFuoI06NsdSajN/WaIVq9
-         MTYZM6+V74oLo9BOWxSfdQZrajVMPof6BrkfEDiZrcu7o6Ni11IdWxgOA2E2KLCcrW
-         1+2LwEkScXLiA==
-Message-ID: <db79ce4ae4eec4fcbb34dafcdde86be5@smtp-cloud8.xs4all.net>
-Date:   Sat, 07 Dec 2019 05:55:38 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfJocvArkXuPBucHUAyDDE9oscVNnaVKBBUslLYFZFISD5YYrGFiQ7/fQ0P9OdlpueJFRDI7yF0ykPGdZ8L0+f9OoY7q6tBlbbFOoU2DUyxDueKCKpPCg
- nmFXdD9hLsMvao0P+7NWY0tUXvAt5vufEewMsSYJlECmfJdcjQU3G3n07muFlPCUAMg2DqXl57q/FK+QD/1eLftjP+zVMDGdivLq6t4/qBxrc+rHohONXYUj
+        id S1725935AbfLGGc3 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Sat, 7 Dec 2019 01:32:29 -0500
+Received: from mail.ekon.np.gov.ua ([212.1.124.140]:54592 "EHLO
+        mail.ekon.np.gov.ua" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725869AbfLGGc3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 7 Dec 2019 01:32:29 -0500
+X-Greylist: delayed 61034 seconds by postgrey-1.27 at vger.kernel.org; Sat, 07 Dec 2019 01:32:28 EST
+Received: from localhost (localhost [127.0.0.1])
+        by mail.ekon.np.gov.ua (Postfix) with ESMTP id 61D7E263E0B;
+        Fri,  6 Dec 2019 05:48:13 +0200 (EET)
+Received: from mail.ekon.np.gov.ua ([127.0.0.1])
+        by localhost (mail.ekon.np.gov.ua [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id M8btieG2A1E3; Fri,  6 Dec 2019 05:48:08 +0200 (EET)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.ekon.np.gov.ua (Postfix) with ESMTP id B381F26A034;
+        Thu,  5 Dec 2019 21:02:03 +0200 (EET)
+X-Virus-Scanned: amavisd-new at ekon.np.gov.ua
+Received: from mail.ekon.np.gov.ua ([127.0.0.1])
+        by localhost (mail.ekon.np.gov.ua [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id laXIljeVjfQI; Thu,  5 Dec 2019 21:02:01 +0200 (EET)
+Received: from [10.220.12.216] (unknown [94.206.63.149])
+        by mail.ekon.np.gov.ua (Postfix) with ESMTPSA id E9CDE26186D;
+        Thu,  5 Dec 2019 18:18:25 +0200 (EET)
+Content-Type: text/plain; charset="iso-8859-1"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: Re
+To:     Recipients <rozbitskiy.andrey@ekon.np.gov.ua>
+From:   "Smadar Barber-Tsadik " <rozbitskiy.andrey@ekon.np.gov.ua>
+Date:   Thu, 05 Dec 2019 08:17:32 -0800
+Reply-To: 1933154744@qq.com
+Message-Id: <20191205161826.E9CDE26186D@mail.ekon.np.gov.ua>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Sorry to break into your privacy in this manner, 
+I'm Smadar Barber-Tsadik, Deputy Chief Executive Officer 
+of First International Bank of Israel Ltd (FIBI). 
+I am getting in touch with you regarding an extremely 
+important and urgent matter. If you would oblige me the 
+opportunity, I shall provide you with details upon your 
+response.
 
-Results of the daily build of media_tree:
-
-date:			Sat Dec  7 05:00:13 CET 2019
-media-tree git hash:	dca6b3733a4a46e63603496f544ece8ace541fde
-media_build git hash:	efba365ba11b958a6bf6fb4b397942f9461cefca
-v4l-utils git hash:	cb0ec2fd537333a62fa0d8e4acded7442851e956
-edid-decode git hash:	77700d6171b5c7eb4145de3283d36a033ab3322d
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 6903fe8f5101fc43440b3259290c97d2dd51733d
-host hardware:		x86_64
-host os:		5.2.0-3-amd64
-
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4-i686: OK
-linux-5.4-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2793, Succeeded: 2793, Failed: 0, Warnings: 2
-sparse: WARNINGS
-smatch: WARNINGS
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Faithfully,
+Smadar Barber-Tsadik
