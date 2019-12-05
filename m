@@ -2,507 +2,302 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B12BE114674
-	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2019 19:01:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 13F2A114702
+	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2019 19:40:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729808AbfLESBp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Dec 2019 13:01:45 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:53718 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729154AbfLESBp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Dec 2019 13:01:45 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dafna)
-        with ESMTPSA id 0AC2728A9C9
-Subject: Re: [PATCH v3 RESEND] media: vimc: fla: Add virtual flash subdevice
-To:     =?UTF-8?Q?Lucas_Magalh=c3=a3es?= <lucmaga@gmail.com>
-Cc:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        linux-kernel@vger.kernel.org,
-        Helen Koike <helen.koike@collabora.com>,
-        Eduardo Barretto <edusbarretto@gmail.com>,
-        lkcamp@lists.libreplanetbr.org
-References: <20191203230148.2442-1-lucmaga@gmail.com>
- <dba2fa57-2101-b24a-a482-97878895fb92@collabora.com>
- <CAK0xOaELnX_axasmBaqanWfaoj+AF3kFZjLdzxjEgnHtzFkX5A@mail.gmail.com>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <e0d05406-9ceb-ed7c-162d-4d98e34522a6@collabora.com>
-Date:   Thu, 5 Dec 2019 19:01:37 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+        id S1729709AbfLESko (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Dec 2019 13:40:44 -0500
+Received: from mail-qk1-f195.google.com ([209.85.222.195]:40886 "EHLO
+        mail-qk1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726028AbfLESko (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Dec 2019 13:40:44 -0500
+Received: by mail-qk1-f195.google.com with SMTP id a137so4206804qkc.7
+        for <linux-media@vger.kernel.org>; Thu, 05 Dec 2019 10:40:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version;
+        bh=qNywU4SuN1/j02xrDEkCFwu3QGTs/dxNT1LnQRfHtF8=;
+        b=SWsbU0RX9ejp98wgbcUO3NGwdBv2+KoYM3HfmeqAgo8nCEfWewtIInTnZUSYZIek7X
+         M6XLBVGdTI+ewA74G5hKH4aOqZoxm9bhxZaMBgR7hR/Xpfcs1mc2Yb+vAZjjJJTS7JQB
+         QE32m7U20m4tLxwCDz9x056pCb686+kGalOthXrJgEY8Y4iTot3KxsG63fUJtg1GnOvk
+         6IQvCFh2GXQ8yVzWCma9yNbTgJXhTO3YhAblGG3QI6fSau/BCJucFOBrVzUI6k5FOgF6
+         jzb2hIZwKpm4vSTl2GsTvp8lIJNh9p0LOdFTemNptMOly+ho6idb7VVmIR6bVJw9AYjR
+         KjyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version;
+        bh=qNywU4SuN1/j02xrDEkCFwu3QGTs/dxNT1LnQRfHtF8=;
+        b=nOQ/+zfLISo47Fip7nyF2o9MCrFQh3Uqq0lHb5lFfow5kQ2YDbIxg8h1Or+xPLADkc
+         i63PFQsEUbsoNBjxZfuYJDY6GsCvStVPP0rSwF52BZjz+sngpPe7Rqa8Y69f+a2wpsbN
+         3Xc/cJtlyV8AWU394BYMFZY4YZT0591onlCbfLS8FGW9p213h6EQmHThjy3v76TBLp3z
+         bc4Sq7oGoyXuXD1RcGlM02D/z1dRuUqCzIyBTuxZ0IwQALZ0SXqQEFK+hPBlZS3P1gau
+         51PFgNZX9R3+Qh08Nd9TmcC2kvIfBtfs7dFLN5Ho+Pk7+AZHrgMzyLvh08nvXEJ6nKU6
+         Eg7A==
+X-Gm-Message-State: APjAAAXqQmd1cu561z2DeLirs6oRxD4ZpRoeplL/6zM/ulmuoJZISwI8
+        nQ213VEPeUT/qHjxMeeUZB2xzw==
+X-Google-Smtp-Source: APXvYqysLcRjcDifiharFt6ZbX+CalXc/vNS0LASHBpDag8561+j3VZG6UcBTwQL3KvSwnUZvv7oEA==
+X-Received: by 2002:a05:620a:1366:: with SMTP id d6mr10102265qkl.86.1575571242801;
+        Thu, 05 Dec 2019 10:40:42 -0800 (PST)
+Received: from tpx230-nicolas ([2610:98:8005::650])
+        by smtp.gmail.com with ESMTPSA id 13sm5118928qke.85.2019.12.05.10.40.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Dec 2019 10:40:41 -0800 (PST)
+Message-ID: <63a630f0760083d735ae02f5797ecd00530c7608.camel@ndufresne.ca>
+Subject: Re: [PATCH 4/5] media: meson: vdec: add VP9 input support
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Neil Armstrong <narmstrong@baylibre.com>, mchehab@kernel.org,
+        hans.verkuil@cisco.com
+Cc:     Maxime Jourdan <mjourdan@baylibre.com>,
+        linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Date:   Thu, 05 Dec 2019 13:40:39 -0500
+In-Reply-To: <20191205092639.26330-1-narmstrong@baylibre.com>
+References: <20191205092454.26075-1-narmstrong@baylibre.com>
+         <20191205092639.26330-1-narmstrong@baylibre.com>
+Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature";
+        boundary="=-CCHdCL4ad1Oj02aHxg2r"
+User-Agent: Evolution 3.34.1 (3.34.1-1.fc31) 
 MIME-Version: 1.0
-In-Reply-To: <CAK0xOaELnX_axasmBaqanWfaoj+AF3kFZjLdzxjEgnHtzFkX5A@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi
 
-On 12/5/19 12:12 AM, Lucas Magalhães wrote:
-> Hi Dafna,
-> Thanks for the review.
-> 
-> On Wed, Dec 4, 2019 at 7:03 AM Dafna Hirschfeld
-> <dafna.hirschfeld@collabora.com> wrote:
->>
->> Hi,
->> Thanks for the patch
->>
->> On 12/4/19 12:01 AM, Lucas A. M. Magalhães wrote:
->>> From: Lucas A. M. Magalhaes <lucmaga@gmail.com>
->>>
->>> Add a virtual subdevice to simulate the flash control API.
->>> Those are the supported controls:
->>> v4l2-ctl -d /dev/v4l-subdev6 -L
->>> Flash Controls
->>>
->>>                          led_mode 0x009c0901 (menu)   : min=0 max=2 default=1 value=1
->>>                                   0: Off
->>>                                   1: Flash
->>>                                   2: Torch
->>>                     strobe_source 0x009c0902 (menu)   : min=0 max=1 default=0 value=0
->>>                                   0: Software
->>>                                   1: External
->>>                            strobe 0x009c0903 (button) : flags=write-only, execute-on-write
->>>                       stop_strobe 0x009c0904 (button) : flags=write-only, execute-on-write
->>>                     strobe_status 0x009c0905 (bool)   : default=0 value=0 flags=read-only
->>>                    strobe_timeout 0x009c0906 (int)    : min=50 max=400 step=50 default=50 value=400
->>>              intensity_flash_mode 0x009c0907 (int)    : min=23040 max=1499600 step=11718 default=23040 value=23040
->>>              intensity_torch_mode 0x009c0908 (int)    : min=2530 max=187100 step=1460 default=2530 value=2530
->>>               intensity_indicator 0x009c0909 (int)    : min=0 max=255 step=1 default=0 value=0
->>>                            faults 0x009c090a (bitmask): max=0x00000002 default=0x00000000 value=0x00000000
->>>
->>> Co-authored-by: Eduardo Barretto <edusbarretto@gmail.com>
->>> Signed-off-by: Eduardo Barretto <edusbarretto@gmail.com>
->>> Signed-off-by: Lucas A. M. Magalhães <lucmaga@gmail.com>
->>>
->>> ---
->>> Hi,
->>>
->>> I've copied some values from another driver (lm3646) to make it more
->>> realistic, as suggested by Hans. All values except for
->>> V4L2_CID_FLASH_INDICATOR_INTENSITY, which I couldn't find any
->>> implementation.
->>>
->>> The v4l-compliance is failing. From the documentation
->>> V4L2_CID_FLASH_STROBE should just work if the
->>> V4L2_CID_FLASH_STROBE_SOURCE is "Software" and the
->>> V4L2_CID_FLASH_LED_MODE is "Flash", otherwise it should fail. With the
->>> standard values configured for the V4L2_CID_FLASH_STROBE will not fail.
->>> But during the tests v4l-compliance sets V4L2_CID_FLASH_LED_MODE to
->>> "Torch" and V4L2_CID_FLASH_STROBE_SOURCE to "External" which makes
->>> V4L2_CID_FLASH_STROBE to fail. How do I proceed? Should the
->>> v4l-compliance be changed?
->>>
->>> Changes in v3:
->>>        - Fix style errors
->>>        - Use more realistic numbers for the controllers
->>>        - Change from kthread to workqueue
->>>        - Change commit message for the new controllers values
->>>
->>> Changes in v2:
->>>        - Fix v4l2-complience errors
->>>        - Add V4L2_CID_FLASH_STROBE_STATUS behavior
->>>        - Add V4L2_CID_FLASH_STROBE restrictions
->>>        - Remove vimc_fla_g_volatile_ctrl
->>>        - Remove unnecessarie V4L2_CID_FLASH_CLASS
->>>        - Change varables names
->>>
->>>    drivers/media/platform/vimc/Makefile      |   2 +-
->>>    drivers/media/platform/vimc/vimc-common.c |   2 +
->>>    drivers/media/platform/vimc/vimc-common.h |   4 +
->>>    drivers/media/platform/vimc/vimc-core.c   |   5 +
->>>    drivers/media/platform/vimc/vimc-flash.c  | 248 ++++++++++++++++++++++
->>>    5 files changed, 260 insertions(+), 1 deletion(-)
->>>    create mode 100644 drivers/media/platform/vimc/vimc-flash.c
->>>
->>> diff --git a/drivers/media/platform/vimc/Makefile b/drivers/media/platform/vimc/Makefile
->>> index a53b2b532e9f..e759bbb04b14 100644
->>> --- a/drivers/media/platform/vimc/Makefile
->>> +++ b/drivers/media/platform/vimc/Makefile
->>> @@ -1,6 +1,6 @@
->>>    # SPDX-License-Identifier: GPL-2.0
->>>    vimc-y := vimc-core.o vimc-common.o vimc-streamer.o vimc-capture.o \
->>> -             vimc-debayer.o vimc-scaler.o vimc-sensor.o
->>> +             vimc-debayer.o vimc-scaler.o vimc-sensor.o vimc-flash.o
->>>
->>>    obj-$(CONFIG_VIDEO_VIMC) += vimc.o
->>>
->>> diff --git a/drivers/media/platform/vimc/vimc-common.c b/drivers/media/platform/vimc/vimc-common.c
->>> index a3120f4f7a90..cb786de75573 100644
->>> --- a/drivers/media/platform/vimc/vimc-common.c
->>> +++ b/drivers/media/platform/vimc/vimc-common.c
->>> @@ -203,6 +203,8 @@ struct media_pad *vimc_pads_init(u16 num_pads, const unsigned long *pads_flag)
->>>        struct media_pad *pads;
->>>        unsigned int i;
->>>
->>> +     if (!num_pads)
->>> +             return NULL;
->> Please rebase on top of latest master,
->> this function was removed in patch 'media: vimc: embed the pads of entities in the entities' structs'
->>
-> Ok.
-> 
->>>        /* Allocate memory for the pads */
->>>        pads = kcalloc(num_pads, sizeof(*pads), GFP_KERNEL);
->>>        if (!pads)
->>> diff --git a/drivers/media/platform/vimc/vimc-common.h b/drivers/media/platform/vimc/vimc-common.h
->>> index 698db7c07645..19815f0f4d40 100644
->>> --- a/drivers/media/platform/vimc/vimc-common.h
->>> +++ b/drivers/media/platform/vimc/vimc-common.h
->>> @@ -169,6 +169,10 @@ struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
->>>                                     const char *vcfg_name);
->>>    void vimc_sen_rm(struct vimc_device *vimc, struct vimc_ent_device *ved);
->>>
->>> +struct vimc_ent_device *vimc_fla_add(struct vimc_device *vimc,
->>> +                                  const char *vcfg_name);
->> This should be lined with the opening '('
->>
-> That's strange. I'm sure it's not like this here. Maybe my smtp is alterating
-> my code for some reason. I will look this.
-Hi, apparently it is my email client that does not show the alignment correctly
-sorry for the false comment
+--=-CCHdCL4ad1Oj02aHxg2r
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> 
->>> +void vimc_fla_rm(struct vimc_device *vimc, struct vimc_ent_device *ved);
->>> +
->>>    /**
->>>     * vimc_pads_init - initialize pads
->>>     *
->>> diff --git a/drivers/media/platform/vimc/vimc-core.c b/drivers/media/platform/vimc/vimc-core.c
->>> index 6e3e5c91ae39..5f6c750d3d8d 100644
->>> --- a/drivers/media/platform/vimc/vimc-core.c
->>> +++ b/drivers/media/platform/vimc/vimc-core.c
->>> @@ -91,6 +91,11 @@ static struct vimc_ent_config ent_config[] = {
->>>                .add = vimc_cap_add,
->>>                .rm = vimc_cap_rm,
->>>        },
->>> +     {
->>> +             .name = "Flash Controller",
->>> +             .add = vimc_fla_add,
->>> +             .rm = vimc_fla_rm,
->>> +     }
->>>    };
->>>
->>>    static const struct vimc_ent_link ent_links[] = {
->>> diff --git a/drivers/media/platform/vimc/vimc-flash.c b/drivers/media/platform/vimc/vimc-flash.c
->>> new file mode 100644
->>> index 000000000000..3918beecec57
->>> --- /dev/null
->>> +++ b/drivers/media/platform/vimc/vimc-flash.c
->>> @@ -0,0 +1,248 @@
->>> +// SPDX-License-Identifier: GPL-2.0+
->>> +/*
->>> + * vimc-flash.c Virtual Media Controller Driver
->>> + *
->>> + * Copyright (C) 2019
->>> + * Contributors: Lucas A. M. Magalhães <lamm@lucmaga.dev>
->>> + *               Eduardo Barretto <edusbarretto@gmail.com>
->>> + *
->>> + */
->>> +
->>> +#include <linux/delay.h>
->>> +#include <linux/workqueue.h>
->>> +#include <linux/sched.h>
->>> +#include <linux/vmalloc.h>
->>> +#include <media/v4l2-ctrls.h>
->>> +#include <media/v4l2-event.h>
->>> +#include <media/v4l2-subdev.h>
->>> +
->>> +#include "vimc-common.h"
->>> +
->>> +/*
->>> + * Flash timeout in ms
->>> + */
->>> +#define VIMC_FLASH_TIMEOUT_MS_MIN 50
->>> +#define VIMC_FLASH_TIMEOUT_MS_MAX 400
->>> +#define VIMC_FLASH_TIMEOUT_MS_STEP 50
->>> +
->>> +/*
->>> + * Torch intencity in uA
->>> + */
->>> +#define VIMC_FLASH_TORCH_UA_MIN 2530
->>> +#define VIMC_FLASH_TORCH_UA_MAX 187100
->>> +#define VIMC_FLASH_TORCH_UA_STEP 1460
->>> +
->>> +/*
->>> + * Flash intencity in uA
->>> + */
->>> +#define VIMC_FLASH_FLASH_UA_MIN 23040
->>> +#define VIMC_FLASH_FLASH_UA_MAX 1499600
->>> +#define VIMC_FLASH_FLASH_UA_STEP 11718
->>> +
->>> +struct vimc_fla_device {
->>> +     struct vimc_ent_device ved;
->>> +     struct v4l2_subdev sd;
->>> +     struct v4l2_ctrl_handler hdl;
->>> +     int strobe_source;
->>> +     bool is_strobe;
->>> +     int led_mode;
->>> +     int indicator_intensity;
->>> +     int torch_intensity;
->>> +     int flash_intensity;
->>> +     u64 timeout;
->>> +     u64 last_strobe;
->>> +     struct workqueue_struct *wq;
->>> +     struct work_struct work;
->>> +     struct v4l2_ctrl *strobe_status_ctl;
->>> +};
->>> +
->>> +static void vimc_fla_strobe_work(struct work_struct *work)
->>> +{
->>> +     struct vimc_fla_device *vfla =
->>> +             container_of(work, struct vimc_fla_device, work);
->>> +     v4l2_ctrl_s_ctrl(vfla->strobe_status_ctl, true);
->>> +     vfla->last_strobe = ktime_get_ns();
->>> +     while (vfla->is_strobe &&
->>> +            vfla->last_strobe + vfla->timeout > ktime_get_ns()) {
->>> +             msleep_interruptible(VIMC_FLASH_TIMEOUT_MS_STEP);
->>> +     }
->>> +     v4l2_ctrl_s_ctrl(vfla->strobe_status_ctl, false);
->>> +}
->>> +
->>> +static int vimc_fla_s_ctrl(struct v4l2_ctrl *c)
->>> +{
->>> +     struct vimc_fla_device *vfla =
->>> +             container_of(c->handler, struct vimc_fla_device, hdl);
->>> +
->>> +     switch (c->id) {
->>> +     case V4L2_CID_FLASH_LED_MODE:
->>> +             vfla->led_mode = c->val;
->>> +             return 0;
->>> +     case V4L2_CID_FLASH_STROBE_SOURCE:
->>> +             vfla->strobe_source = c->val;
->>> +             return 0;
->>> +     case V4L2_CID_FLASH_STROBE:
->>> +             if (vfla->led_mode != V4L2_FLASH_LED_MODE_FLASH ||
->>> +                 vfla->strobe_source != V4L2_FLASH_STROBE_SOURCE_SOFTWARE){
->> you can add error/warning debug here,
->> if you choose not to, then the parentheses are redundant.
->> Additionally, the opening '{' should come after a space
->> You can run srctipts/checkpatch.pl before submitting to catch such issues
->>
->>> +                     return -EINVAL;
->>> +             }
->>> +             queue_work(vfla->wq, &vfla->work);
->>> +             return 0;
->>> +     case V4L2_CID_FLASH_STROBE_STATUS:
->>> +             vfla->is_strobe = c->val;
->>> +             return 0;
->>> +     case V4L2_CID_FLASH_STROBE_STOP:
->>> +             vfla->is_strobe = false;
->>> +             return 0;
->>> +     case V4L2_CID_FLASH_TIMEOUT:
->>> +             vfla->timeout = c->val * 1000000; /* MS to NS */
->>> +             return 0;
->>> +     case V4L2_CID_FLASH_INTENSITY:
->>> +             vfla->flash_intensity = c->val;
->>> +             return 0;
->>> +     case V4L2_CID_FLASH_TORCH_INTENSITY:
->>> +             vfla->torch_intensity = c->val;
->>> +             return 0;
->>> +     case V4L2_CID_FLASH_INDICATOR_INTENSITY:
->>> +             vfla->indicator_intensity = c->val;
->>> +             return 0;
->>> +     default:
->>> +             return -EINVAL;
->>> +     }
->>> +     return 0;
->>> +}
->>> +
->>> +static const struct v4l2_ctrl_ops vimc_fla_ctrl_ops = {
->>> +     .s_ctrl = vimc_fla_s_ctrl,
->>> +};
->>> +
->>> +static const struct v4l2_subdev_core_ops vimc_fla_core_ops = {
->>> +     .subscribe_event = v4l2_ctrl_subdev_subscribe_event,
->>> +     .unsubscribe_event = v4l2_event_subdev_unsubscribe,
->>> +};
->>> +
->>> +static const struct v4l2_subdev_ops vimc_fla_ops = {
->>> +     .core = &vimc_fla_core_ops,
->>> +};
->>> +
->>> +static void vimc_fla_release(struct v4l2_subdev *sd)
->>> +{
->>> +     struct vimc_fla_device *vfla =
->>> +                             container_of(sd, struct vimc_fla_device, sd);
->> one tab is enough
->>> +
->>> +     v4l2_ctrl_handler_free(&vfla->hdl);
->>> +     kfree(vfla);
->>> +}
->>> +
->>> +static const struct v4l2_subdev_internal_ops vimc_fla_int_ops = {
->>> +     .release = vimc_fla_release,
->>> +};
->>> +
->>> +/* initialize device */
->>> +struct vimc_ent_device *vimc_fla_add(struct vimc_device *vimc,
->>> +                                  const char *vcfg_name)
->>> +{
->>> +     struct v4l2_device *v4l2_dev = &vimc->v4l2_dev;
->>> +     struct vimc_fla_device *vfla;
->>> +     int ret;
->>> +
->>> +     /* Allocate the vfla struct */
->>> +     vfla = kzalloc(sizeof(*vfla), GFP_KERNEL);
->>> +     if (!vfla)
->>> +             return NULL;
->> I think it is better to change the return values of the .add calbbacks
->> to return ERR_PTR upon error and not just NULL so that different types of
->> errors can be distinguished.
->> (This is not related specifically to this patch),
->> If you want you can send a patch fixing that.
->>
-> 
-> Sure. I will change it.
-cool, thanks
-> 
->>> +
->>> +     v4l2_ctrl_handler_init(&vfla->hdl, 4);
->>> +     v4l2_ctrl_new_std_menu(&vfla->hdl, &vimc_fla_ctrl_ops,
->>> +                            V4L2_CID_FLASH_LED_MODE,
->>> +                            V4L2_FLASH_LED_MODE_TORCH, ~0x7,
->>> +                            V4L2_FLASH_LED_MODE_FLASH);
->>> +     v4l2_ctrl_new_std_menu(&vfla->hdl, &vimc_fla_ctrl_ops,
->>> +                            V4L2_CID_FLASH_STROBE_SOURCE, 0x1, ~0x3,
->>> +                            V4L2_FLASH_STROBE_SOURCE_SOFTWARE);
->>> +     v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
->>> +                       V4L2_CID_FLASH_STROBE, 0, 0, 0, 0);
->>> +     v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
->>> +                       V4L2_CID_FLASH_STROBE_STOP, 0, 0, 0, 0);
->>> +     v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
->>> +                       V4L2_CID_FLASH_TIMEOUT, VIMC_FLASH_TIMEOUT_MS_MIN,
->>> +                       VIMC_FLASH_TIMEOUT_MS_MAX,
->>> +                       VIMC_FLASH_TIMEOUT_MS_STEP,
->>> +                       VIMC_FLASH_TIMEOUT_MS_MIN);
->>> +     v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
->>> +                       V4L2_CID_FLASH_TORCH_INTENSITY,
->>> +                       VIMC_FLASH_TORCH_UA_MIN,
->>> +                       VIMC_FLASH_TORCH_UA_MAX,
->>> +                       VIMC_FLASH_TORCH_UA_STEP,
->>> +                       VIMC_FLASH_TORCH_UA_MIN);
->>> +     v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
->>> +                       V4L2_CID_FLASH_INTENSITY,
->>> +                       VIMC_FLASH_FLASH_UA_MIN,
->>> +                       VIMC_FLASH_FLASH_UA_MAX,
->>> +                       VIMC_FLASH_FLASH_UA_STEP,
->>> +                       VIMC_FLASH_FLASH_UA_MIN);
->>> +     v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
->>> +                       V4L2_CID_FLASH_INDICATOR_INTENSITY,
->>> +                       0,
->>> +                       255,
->>> +                       1,
->>> +                       0);
->> why not having one line with "0,255,1,0);" ?
->>
->>> +     v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
->>> +                       V4L2_CID_FLASH_STROBE_STATUS, 0, 1, 1, 0);
->>> +     v4l2_ctrl_new_std(&vfla->hdl, &vimc_fla_ctrl_ops,
->>> +                       V4L2_CID_FLASH_FAULT, 0,
->>> +                       V4L2_FLASH_FAULT_TIMEOUT, 0, 0);
->>> +     vfla->sd.ctrl_handler = &vfla->hdl;
->>> +     if (vfla->hdl.error) {
->>> +             ret = vfla->hdl.error;
->>> +             goto err_free_vfla;
->>> +     }
->>> +     vfla->strobe_status_ctl = v4l2_ctrl_find(&vfla->hdl,
->>> +                                              V4L2_CID_FLASH_STROBE_STATUS);
->>> +
->>> +     /* Initialize ved and sd */
->>> +     ret = vimc_ent_sd_register(&vfla->ved, &vfla->sd, v4l2_dev,
->>> +                                vcfg_name,
->>> +                                MEDIA_ENT_F_FLASH, 0, NULL,
->>> +                                &vimc_fla_int_ops, &vimc_fla_ops);
->>> +     if (ret)
->>> +             goto err_free_hdl;
->>> +
->>> +     /* Create processing workqueue */
->>> +     vfla->wq = alloc_workqueue("%s", 0, 0, "vimc-flash thread");
->>> +     if (!vfla->wq)
->>> +             goto err_unregister;
->>> +
->>> +     INIT_WORK(&vfla->work, vimc_fla_strobe_work);
->>> +     /* Initialize standard values */
->>> +     vfla->indicator_intensity = 0;
->>> +     vfla->torch_intensity = 0;
->>> +     vfla->flash_intensity = 0;
->>> +     vfla->is_strobe = false;
->>> +     vfla->timeout = 0;
->>> +     vfla->last_strobe = 0;
->>> +     vfla->strobe_source = V4L2_FLASH_STROBE_SOURCE_SOFTWARE;
->>> +     vfla->led_mode = V4L2_FLASH_LED_MODE_FLASH;
->>> +
->>> +     return &vfla->ved;
->>> +
->>> +err_unregister:
->>> +     vimc_ent_sd_unregister(&vfla->ved, &vfla->sd);
->>> +err_free_hdl:
->>> +     v4l2_ctrl_handler_free(&vfla->hdl);
->>> +err_free_vfla:
->>> +     kfree(vfla);
->>> +
->>> +     return NULL;
->>> +}
->>> +
->>> +void vimc_fla_rm(struct vimc_device *vimc, struct vimc_ent_device *ved)
->>> +{
->>> +     struct vimc_fla_device *vfla;
->>> +
->>> +     if (!ved)
->>> +             return;
->>> +
->>> +     vfla = container_of(ved, struct vimc_fla_device, ved);
->>> +     destroy_workqueue(vfla->wq);
->>> +     vimc_ent_sd_unregister(ved, &vfla->sd);
->>> +}
->>>
->> Not sure but I think there are indentation issues in this patch, a tab should be 8 spaces
-> 
-> This is strange. I already had style issues on the v2 so I runned the
-> checkpatch.pl on the
-> patch before sent and it didn't point this identation issues.
-> 
-> Here is the checkpatch.pl output. It could be the case that my smtp is
-> alterating the
-> it before transmission.
-Sorry, as I wrote, this is my thunderbird client
+Le jeudi 05 d=C3=A9cembre 2019 =C3=A0 10:26 +0100, Neil Armstrong a =C3=A9c=
+rit :
+> From: Maxime Jourdan <mjourdan@baylibre.com>
+>=20
+> Amlogic VP9 decoder requires an additional 16-byte payload before every
+> frame header.
 
-Dafna
+When I first saw this patch, I assumed data_offset was to be used (like
+for venus), but I think what I'm reading is that the bitstream is
+bounce into another buffer (ring buffer ?) and for this reason such an
+offset is not needed. Maybe worth referring to how the header is being
+added (e.g. while copying the data) ?=20
 
-> 
-> $ scripts/checkpatch.pl
-> patchset/0001-media-vimc-fla-Add-virtual-flash-subdevice.patch
-> WARNING: Possible unwrapped commit description (prefer a maximum 75
-> chars per line)
-> #14:
->                         led_mode 0x009c0901 (menu)   : min=0 max=2
-> default=1 value=1
-> 
-> WARNING: Non-standard signature: Co-authored-by:
-> #30:
-> Co-authored-by: Eduardo Barretto <edusbarretto@gmail.com>
-> 
-> WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-> #131:
-> new file mode 100644
-> 
-> total: 0 errors, 3 warnings, 284 lines checked
-> 
-> NOTE: For some of the reported defects, checkpatch may be able to
->        mechanically convert to the typical style using --fix or --fix-inplace.
-> 
-> patchset/0001-media-vimc-fla-Add-virtual-flash-subdevice.patch has
-> style problems, please review.
-> 
-> NOTE: If any of the errors are false positives, please report
->        them to the maintainer, see CHECKPATCH in MAINTAINERS.
-> 
-> 
-> Thanks,
-> Lucas
-> 
+>=20
+> Signed-off-by: Maxime Jourdan <mjourdan@baylibre.com>
+> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+> ---
+>  drivers/staging/media/meson/vdec/esparser.c | 142 +++++++++++++++++++-
+>  1 file changed, 138 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/staging/media/meson/vdec/esparser.c b/drivers/stagin=
+g/media/meson/vdec/esparser.c
+> index adc5c1e81a4c..aeb68f6c732a 100644
+> --- a/drivers/staging/media/meson/vdec/esparser.c
+> +++ b/drivers/staging/media/meson/vdec/esparser.c
+> @@ -52,6 +52,7 @@
+>  #define PARSER_VIDEO_HOLE	0x90
+> =20
+>  #define SEARCH_PATTERN_LEN	512
+> +#define VP9_HEADER_SIZE		16
+> =20
+>  static DECLARE_WAIT_QUEUE_HEAD(wq);
+>  static int search_done;
+> @@ -74,14 +75,121 @@ static irqreturn_t esparser_isr(int irq, void *dev)
+>  	return IRQ_HANDLED;
+>  }
+> =20
+> +/**
+> + * VP9 frame headers need to be appended by a 16-byte long
+
+nit: Maybe the use of "appending" is not appropriate as the header is
+documented in the commit as being "before every frame header" ?
+
+> + * Amlogic custom header
+> + */
+> +static int vp9_update_header(struct amvdec_core *core, struct vb2_buffer=
+ *buf)
+> +{
+> +	u8 *dp;
+> +	u8 marker;
+> +	int dsize;
+> +	int num_frames, cur_frame;
+> +	int cur_mag, mag, mag_ptr;
+> +	int frame_size[8], tot_frame_size[8];
+> +	int total_datasize =3D 0;
+> +	int new_frame_size;
+> +	unsigned char *old_header =3D NULL;
+> +
+> +	dp =3D (uint8_t *)vb2_plane_vaddr(buf, 0);
+> +	dsize =3D vb2_get_plane_payload(buf, 0);
+> +
+> +	if (dsize =3D=3D vb2_plane_size(buf, 0)) {
+> +		dev_warn(core->dev, "%s: unable to update header\n", __func__);
+> +		return 0;
+> +	}
+> +
+> +	marker =3D dp[dsize - 1];
+> +	if ((marker & 0xe0) =3D=3D 0xc0) {
+> +		num_frames =3D (marker & 0x7) + 1;
+> +		mag =3D ((marker >> 3) & 0x3) + 1;
+> +		mag_ptr =3D dsize - mag * num_frames - 2;
+> +		if (dp[mag_ptr] !=3D marker)
+> +			return 0;
+> +
+> +		mag_ptr++;
+> +		for (cur_frame =3D 0; cur_frame < num_frames; cur_frame++) {
+> +			frame_size[cur_frame] =3D 0;
+> +			for (cur_mag =3D 0; cur_mag < mag; cur_mag++) {
+> +				frame_size[cur_frame] |=3D
+> +					(dp[mag_ptr] << (cur_mag * 8));
+> +				mag_ptr++;
+> +			}
+> +			if (cur_frame =3D=3D 0)
+> +				tot_frame_size[cur_frame] =3D
+> +					frame_size[cur_frame];
+> +			else
+> +				tot_frame_size[cur_frame] =3D
+> +					tot_frame_size[cur_frame - 1] +
+> +					frame_size[cur_frame];
+> +			total_datasize +=3D frame_size[cur_frame];
+> +		}
+> +	} else {
+> +		num_frames =3D 1;
+> +		frame_size[0] =3D dsize;
+> +		tot_frame_size[0] =3D dsize;
+> +		total_datasize =3D dsize;
+> +	}
+> +
+> +	new_frame_size =3D total_datasize + num_frames * VP9_HEADER_SIZE;
+> +
+> +	if (new_frame_size >=3D vb2_plane_size(buf, 0)) {
+> +		dev_warn(core->dev, "%s: unable to update header\n", __func__);
+> +		return 0;
+> +	}
+> +
+> +	for (cur_frame =3D num_frames - 1; cur_frame >=3D 0; cur_frame--) {
+> +		int framesize =3D frame_size[cur_frame];
+> +		int framesize_header =3D framesize + 4;
+> +		int oldframeoff =3D tot_frame_size[cur_frame] - framesize;
+> +		int outheaderoff =3D  oldframeoff + cur_frame * VP9_HEADER_SIZE;
+> +		u8 *fdata =3D dp + outheaderoff;
+> +		u8 *old_framedata =3D dp + oldframeoff;
+> +
+> +		memmove(fdata + VP9_HEADER_SIZE, old_framedata, framesize);
+> +
+> +		fdata[0] =3D (framesize_header >> 24) & 0xff;
+> +		fdata[1] =3D (framesize_header >> 16) & 0xff;
+> +		fdata[2] =3D (framesize_header >> 8) & 0xff;
+> +		fdata[3] =3D (framesize_header >> 0) & 0xff;
+> +		fdata[4] =3D ((framesize_header >> 24) & 0xff) ^ 0xff;
+> +		fdata[5] =3D ((framesize_header >> 16) & 0xff) ^ 0xff;
+> +		fdata[6] =3D ((framesize_header >> 8) & 0xff) ^ 0xff;
+> +		fdata[7] =3D ((framesize_header >> 0) & 0xff) ^ 0xff;
+> +		fdata[8] =3D 0;
+> +		fdata[9] =3D 0;
+> +		fdata[10] =3D 0;
+> +		fdata[11] =3D 1;
+> +		fdata[12] =3D 'A';
+> +		fdata[13] =3D 'M';
+> +		fdata[14] =3D 'L';
+> +		fdata[15] =3D 'V';
+> +
+> +		if (!old_header) {
+> +			/* nothing */
+> +		} else if (old_header > fdata + 16 + framesize) {
+> +			dev_dbg(core->dev, "%s: data has gaps, setting to 0\n",
+> +				__func__);
+> +			memset(fdata + 16 + framesize, 0,
+> +			       (old_header - fdata + 16 + framesize));
+> +		} else if (old_header < fdata + 16 + framesize) {
+> +			dev_err(core->dev, "%s: data overwritten\n", __func__);
+> +		}
+> +		old_header =3D fdata;
+> +	}
+> +
+> +	return new_frame_size;
+> +}
+> +
+>  /* Pad the packet to at least 4KiB bytes otherwise the VDEC unit won't t=
+rigger
+>   * ISRs.
+>   * Also append a start code 000001ff at the end to trigger
+>   * the ESPARSER interrupt.
+>   */
+> -static u32 esparser_pad_start_code(struct amvdec_core *core, struct vb2_=
+buffer *vb)
+> +static u32 esparser_pad_start_code(struct amvdec_core *core,
+> +				   struct vb2_buffer *vb,
+> +				   u32 payload_size)
+>  {
+> -	u32 payload_size =3D vb2_get_plane_payload(vb, 0);
+>  	u32 pad_size =3D 0;
+>  	u8 *vaddr =3D vb2_plane_vaddr(vb, 0);
+> =20
+> @@ -186,13 +294,27 @@ esparser_queue(struct amvdec_session *sess, struct =
+vb2_v4l2_buffer *vbuf)
+>  	int ret;
+>  	struct vb2_buffer *vb =3D &vbuf->vb2_buf;
+>  	struct amvdec_core *core =3D sess->core;
+> +	struct amvdec_codec_ops *codec_ops =3D sess->fmt_out->codec_ops;
+>  	u32 payload_size =3D vb2_get_plane_payload(vb, 0);
+>  	dma_addr_t phy =3D vb2_dma_contig_plane_dma_addr(vb, 0);
+> +	u32 num_dst_bufs =3D 0;
+>  	u32 offset;
+>  	u32 pad_size;
+> =20
+> -	if (esparser_vififo_get_free_space(sess) < payload_size)
+> +	if (sess->fmt_out->pixfmt =3D=3D V4L2_PIX_FMT_VP9) {
+> +		if (codec_ops->num_pending_bufs)
+> +			num_dst_bufs =3D codec_ops->num_pending_bufs(sess);
+> +
+> +		num_dst_bufs +=3D v4l2_m2m_num_dst_bufs_ready(sess->m2m_ctx);
+> +		if (sess->fmt_out->pixfmt =3D=3D V4L2_PIX_FMT_VP9)
+> +			num_dst_bufs -=3D 2;
+> +
+> +		if (esparser_vififo_get_free_space(sess) < payload_size ||
+> +		    atomic_read(&sess->esparser_queued_bufs) >=3D num_dst_bufs)
+> +			return -EAGAIN;
+> +	} else if (esparser_vififo_get_free_space(sess) < payload_size) {
+>  		return -EAGAIN;
+> +	}
+> =20
+>  	v4l2_m2m_src_buf_remove_by_buf(sess->m2m_ctx, vbuf);
+> =20
+> @@ -206,7 +328,19 @@ esparser_queue(struct amvdec_session *sess, struct v=
+b2_v4l2_buffer *vbuf)
+>  	vbuf->field =3D V4L2_FIELD_NONE;
+>  	vbuf->sequence =3D sess->sequence_out++;
+> =20
+> -	pad_size =3D esparser_pad_start_code(core, vb);
+> +	if (sess->fmt_out->pixfmt =3D=3D V4L2_PIX_FMT_VP9) {
+> +		payload_size =3D vp9_update_header(core, vb);
+> +
+> +		/* If unable to alter buffer to add headers */
+> +		if (payload_size =3D=3D 0) {
+> +			amvdec_remove_ts(sess, vb->timestamp);
+> +			v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_ERROR);
+> +
+> +			return 0;
+> +		}
+> +	}
+> +
+> +	pad_size =3D esparser_pad_start_code(core, vb, payload_size);
+>  	ret =3D esparser_write_data(core, phy, payload_size + pad_size);
+> =20
+>  	if (ret <=3D 0) {
+
+--=-CCHdCL4ad1Oj02aHxg2r
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQSScpfJiL+hb5vvd45xUwItrAaoHAUCXelPKAAKCRBxUwItrAao
+HC3dAJ9ZJcMZtCud2LJf6EsofUzyD1VMDACgtXrUCNYTbD33BQoqjB8YK0nxcmU=
+=7K0z
+-----END PGP SIGNATURE-----
+
+--=-CCHdCL4ad1Oj02aHxg2r--
+
