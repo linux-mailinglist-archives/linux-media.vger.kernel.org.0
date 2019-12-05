@@ -2,59 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 05E9511422B
-	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2019 15:03:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 833F91142A2
+	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2019 15:25:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729260AbfLEODW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Dec 2019 09:03:22 -0500
-Received: from mail-io1-f45.google.com ([209.85.166.45]:34856 "EHLO
-        mail-io1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729236AbfLEODV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Dec 2019 09:03:21 -0500
-Received: by mail-io1-f45.google.com with SMTP id v18so3728116iol.2
-        for <linux-media@vger.kernel.org>; Thu, 05 Dec 2019 06:03:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=GvTtkeSxwtg7bNOTW6mJhlP7ByhbdsxcU4N3KTqQ1NM=;
-        b=ikdKhvaCIELDhhzZhNMcuuPCS+ZXJ/LIJFxq2ioH/U6qXcd6P3uh67nAfgVWR/pkOx
-         0BUY1CnfJuAJCA9uvUz4p2wPuAaBTV4PjbPqMzlNiI7InyRqBxNjjJ2AafWvLxyq1uqv
-         mTxW4b+md0PNJNDqiQb86o0ePElbcf27ztqTC9a+qgCLqf1CE9NHNLngFRvGswNYl3M4
-         Th5R8j2bEU+NwGaPXs23IJ8Km6ArLPV7o7l0xSHNgYHvE9uw42vLzikdJ6nbXpYvEd8K
-         o8Hv5omVQ1c+BNrg47dvun8fxE9PNhSb9JcLgWDUnHyzGVUYbwJWVB5l6us46xFIredk
-         ls9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=GvTtkeSxwtg7bNOTW6mJhlP7ByhbdsxcU4N3KTqQ1NM=;
-        b=AWKVtf5OLvpk8LqP1n/sIpB1TPwvM6bElwctoAg1dHlmcWDQfqAr/X/PanxO60aeWn
-         UzDzEc8omKzseLCp0dDUBi7inuXvwv67yFMeQL+ZV2y++LZLmqhAzsIHwvXfHiTlfN3d
-         1ucBbXdDwN/VTw19p0j+0CdVNP3fLywcUHbJKGJL4T+xJivtyTyiMpWXJRa4nYPcHcKn
-         o1b1LLLg+x4nLWxGIoJ+Iqx+4DoCzXb7EBdypLfkigZX5cuNlFRxbOEJAKQQZl3yYlYY
-         73U2kGqBqhPa9dyXjudKoz5RAYUy3sY3K2ERRBiMqVgOmlmXjKEYcOLLHZsA5p9Z053I
-         irUg==
-X-Gm-Message-State: APjAAAWYCWi9rCSdWCl6nSi07Bpa/qV2j8blmmPpazbForWV/osFC95z
-        n2/uo3eP4FRkM65ZfRqL0OiAX6XiP8b038jhlFM=
-X-Google-Smtp-Source: APXvYqwvI4aruET6hhYcxvIKfxm7ykLJxXoG/G+JFd9Z02DUq/qXCJvolE8iZKXUT6wFj7TvIL3yooA6g7fdPTwcdeA=
-X-Received: by 2002:a6b:c007:: with SMTP id q7mr4241985iof.58.1575554600715;
- Thu, 05 Dec 2019 06:03:20 -0800 (PST)
+        id S1729706AbfLEOZR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Dec 2019 09:25:17 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:49382 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729684AbfLEOZR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Dec 2019 09:25:17 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 60AFC292243
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     kernel@collabora.com, Tomasz Figa <tfiga@chromium.org>,
+        linux-rockchip@lists.infradead.org,
+        Heiko Stuebner <heiko@sntech.de>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Chris Healy <cphealy@gmail.com>, linux-kernel@vger.kernel.org,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Subject: [PATCH v4 0/4] Enable Hantro G1 post-processor
+Date:   Thu,  5 Dec 2019 11:24:39 -0300
+Message-Id: <20191205142443.1298-1-ezequiel@collabora.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-From:   Adam Ford <aford173@gmail.com>
-Date:   Thu, 5 Dec 2019 08:03:09 -0600
-Message-ID: <CAHCN7xJwz_DXupkHzyaD5+s8NoTrb16-GwNU8JRgrqLTx7WHrg@mail.gmail.com>
-Subject: i.XM8M Mini CSI and DSI drivers
-To:     NXP Linux Team <linux-imx@nxp.com>,
-        linux-media <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-NXP Linux Team,
+Hi all,
 
-I was just curious to know if any efforts have been made to take the
-DSI and CSI drivers for the i.MX8M Mini that were provided in the NXP
-distribution and push them upstream to the mainline kernel.
+The Hantro G1 VPU post-processor block can be pipelined with
+the decoder hardware, allowing to perform operations such as
+color conversion, scaling, rotation, cropping, among others.
 
-adam
+When the post-processor is enabled, the decoder hardware
+needs its own set of NV12 buffers (the native decoder format),
+and the post-processor is the owner of the CAPTURE buffers,
+allocated for the post-processed format.
+
+This way, applications obtain post-processed
+(scaled, converted, etc) buffers transparently.
+
+This feature is implemented by exposing the post-processed pixel
+formats on ENUM_FMT, ordered as "preferred pixelformat first":
+
+v4l2-ctl -d 1 --list-formats
+ioctl: VIDIOC_ENUM_FMT
+	Type: Video Capture Multiplanar
+
+	[0]: 'NV12' (Y/CbCr 4:2:0)
+	[1]: 'YUYV' (YUYV 4:2:2)
+
+The order of preference in ENUM_FMT can be used as a hint
+by applications. This series updates the uAPI specification
+accordingly.
+
+When the application sets a pixel format other than NV12,
+the post-processor is transparently enabled.
+
+Patch 1 updates the uAPI specification.
+Patch 2 and 3 are cleanups to easier integrate the post-processor.
+Patch 4 introduces the post-processing support.
+
+This is tested on RK3288 platforms with MPEG-2, VP8 and
+H264 streams, decoding to YUY2 surfaces. For now, this series
+is only adding support for NV12-to-YUY2 conversion.
+
+Applies to media/master.
+
+Changelog
+---------
+
+Changes v4:
+
+* Make the post-proc queue as deep as the capture queue.
+* Rework the mmio read/write/relaxed helpers to avoid impacting
+  the VP8 implementation.
+* Rename prepare/finish_run to avoid confusion.
+* Remove HANTRO_PP_REG_WRITE unneeded checks. 
+* Add a comment in vidioc_enum_fmt regarding the format enumeration
+  order.
+
+Changes v3:
+
+* After discussing with Hans and Tomasz during the media summit
+in ELCE, we decided to go back on the MC changes. The MC topology
+is now untouched. This means the series is now similar to v1,
+except we explicitly use the ENUM_FMT to hint about the post-processed
+formats.
+
+Changes v2:
+
+* The decoder->post-processor topology is now exposed
+  explicitly and applications need to configure the pipeline.
+  By default, the decoder is enabled and the post-processor
+  is disabled.
+
+* RGB post-processing output has been dropped. We might
+  add this in the future, but for now, it seems it would
+  make the code more complex without a use-case in mind.
+  RGB is much more memory-consuming so less attractive
+  than YUV, and modern GPUs and display controllers support YUV.
+
+* The post-processor implementation still supports RK3288
+  only. However, a generic register infrastructure is introduced
+  to make addition of other variants such as RK3399 really easy.
+
+Ezequiel Garcia (4):
+  media: vidioc-enum-fmt.rst: clarify format preference
+  media: hantro: Cleanup format negotiation helpers
+  hantro: Rename {prepare,finish}_run to {start,end}_prepare_run
+  media: hantro: Support color conversion via post-processing
+
+ .../media/uapi/v4l/vidioc-enum-fmt.rst        |   4 +-
+ drivers/staging/media/hantro/Makefile         |   1 +
+ drivers/staging/media/hantro/hantro.h         |  66 +++++++-
+ drivers/staging/media/hantro/hantro_drv.c     |  11 +-
+ .../staging/media/hantro/hantro_g1_h264_dec.c |   4 +-
+ .../media/hantro/hantro_g1_mpeg2_dec.c        |   6 +-
+ drivers/staging/media/hantro/hantro_g1_regs.h |  53 +++++++
+ .../staging/media/hantro/hantro_g1_vp8_dec.c  |   6 +-
+ .../staging/media/hantro/hantro_h1_jpeg_enc.c |   4 +-
+ drivers/staging/media/hantro/hantro_h264.c    |   2 +-
+ drivers/staging/media/hantro/hantro_hw.h      |  17 ++-
+ .../staging/media/hantro/hantro_postproc.c    | 142 ++++++++++++++++++
+ drivers/staging/media/hantro/hantro_v4l2.c    | 109 +++++++++-----
+ drivers/staging/media/hantro/rk3288_vpu_hw.c  |  10 ++
+ .../media/hantro/rk3399_vpu_hw_jpeg_enc.c     |   4 +-
+ .../media/hantro/rk3399_vpu_hw_mpeg2_dec.c    |   4 +-
+ .../media/hantro/rk3399_vpu_hw_vp8_dec.c      |   4 +-
+ 17 files changed, 384 insertions(+), 63 deletions(-)
+ create mode 100644 drivers/staging/media/hantro/hantro_postproc.c
+
+-- 
+2.22.0
+
