@@ -2,129 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1889F114453
-	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2019 17:03:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B33F0114484
+	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2019 17:11:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729896AbfLEQDF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Dec 2019 11:03:05 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:51578 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726028AbfLEQDF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Dec 2019 11:03:05 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 6395D2923CC
-Message-ID: <9dc26a0a51fe60206265cc1495b63e1f1d5e661d.camel@collabora.com>
-Subject: Re: [PATCH v3 2/3] media: hantro: Support color conversion via
- post-processing
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org
-Cc:     kernel@collabora.com, Tomasz Figa <tfiga@chromium.org>,
-        linux-rockchip@lists.infradead.org,
-        Heiko Stuebner <heiko@sntech.de>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Chris Healy <cphealy@gmail.com>, linux-kernel@vger.kernel.org
-Date:   Thu, 05 Dec 2019 13:02:54 -0300
-In-Reply-To: <2d2524129c6287c13e9d83d1d885046483e75117.camel@pengutronix.de>
-References: <20191113175603.24742-1-ezequiel@collabora.com>
-         <20191113175603.24742-3-ezequiel@collabora.com>
-         <1e1c7a0e3d25187723ccac1a8360b5aae9aed8cd.camel@pengutronix.de>
-         <dc637b43a4ef4609f9200f3fc91ee76fef75f64a.camel@collabora.com>
-         <88a48cb78843458b55896eeb3af2f46488d42744.camel@collabora.com>
-         <2d2524129c6287c13e9d83d1d885046483e75117.camel@pengutronix.de>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.1-2 
+        id S1729901AbfLEQLr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Dec 2019 11:11:47 -0500
+Received: from plasma6.jpberlin.de ([80.241.56.68]:51361 "EHLO
+        plasma6.jpberlin.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729406AbfLEQLr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Dec 2019 11:11:47 -0500
+Received: from hefe.heinlein-support.de (hefe.heinlein-support.de [91.198.250.172])
+        by plasma.jpberlin.de (Postfix) with ESMTP id F3C6BBA10A;
+        Thu,  5 Dec 2019 17:11:40 +0100 (CET)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from plasma.jpberlin.de ([91.198.250.140])
+        by hefe.heinlein-support.de (hefe.heinlein-support.de [91.198.250.172]) (amavisd-new, port 10030)
+        with ESMTP id Fb2yUIUPxfdf; Thu,  5 Dec 2019 17:11:39 +0100 (CET)
+Received: from webmail.opensynergy.com (unknown [217.66.60.5])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "webmail.opensynergy.com", Issuer "GeoTrust EV RSA CA 2018" (not verified))
+        (Authenticated sender: opensynergy@jpberlin.de)
+        by plasma.jpberlin.de (Postfix) with ESMTPSA id 778D3A06C4;
+        Thu,  5 Dec 2019 17:11:38 +0100 (CET)
+Received: from os-lin-dmo.localnet (10.25.255.1) by MXS02.open-synergy.com
+ (10.25.10.18) with Microsoft SMTP Server (TLS) id 14.3.468.0; Thu, 5 Dec 2019
+ 17:11:38 +0100
+From:   Dmitry Sepp <dmitry.sepp@opensynergy.com>
+To:     <linux-media@vger.kernel.org>
+CC:     <virtio-dev@lists.oasis-open.org>, <kraxel@redhat.com>,
+        <tfiga@chromium.org>, <keiichiw@chromium.org>,
+        <acourbot@chromium.org>, <hverkuil@xs4all.nl>,
+        <posciak@chromium.org>, <marcheu@chromium.org>,
+        <stevensd@chromium.org>, <dgreid@chromium.org>, <daniel@ffwll.ch>,
+        <egranata@google.com>
+Subject: [RFC] virtio video driver
+Date:   Thu, 5 Dec 2019 17:11:37 +0100
+Message-ID: <4595464.3jghpSLKuc@os-lin-dmo>
+Organization: OpenSynergy
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Originating-IP: [10.25.255.1]
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 2019-12-05 at 15:46 +0100, Philipp Zabel wrote:
-> On Thu, 2019-12-05 at 11:33 -0300, Ezequiel Garcia wrote:
-> > Hello Philipp,
-> > 
-> > On Fri, 2019-11-15 at 12:44 -0300, Ezequiel Garcia wrote:
-> > > Hello Philipp,
-> > > 
-> > > Thanks for reviewing.
-> > > 
-> > > On Thu, 2019-11-14 at 10:48 +0100, Philipp Zabel wrote:
-> > > > Hi Ezequiel,
-> > > > 
-> > > > On Wed, 2019-11-13 at 14:56 -0300, Ezequiel Garcia wrote:
-> > > > > The Hantro G1 decoder is able to enable a post-processor
-> > > > > on the decoding pipeline, which can be used to perform
-> > > > > scaling and color conversion.
-> > > > > 
-> > > > > The post-processor is integrated to the decoder, and it's
-> > > > > possible to use it in a way that is completely transparent
-> > > > > to the user.
-> > > > > 
-> > > > > This commit enables color conversion via post-processing,
-> > > > > which means the driver now exposes YUV packed, in addition to NV12.
-> > > > > 
-> > > > > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > > > > ---
-> > > > >  drivers/staging/media/hantro/Makefile         |   1 +
-> > > > >  drivers/staging/media/hantro/hantro.h         |  64 +++++++-
-> > > > >  drivers/staging/media/hantro/hantro_drv.c     |   8 +-
-> > > > >  .../staging/media/hantro/hantro_g1_h264_dec.c |   2 +-
-> > > > >  .../media/hantro/hantro_g1_mpeg2_dec.c        |   2 +-
-> > > > >  drivers/staging/media/hantro/hantro_g1_regs.h |  53 +++++++
-> > > > >  .../staging/media/hantro/hantro_g1_vp8_dec.c  |   2 +-
-> > > > >  drivers/staging/media/hantro/hantro_h264.c    |   6 +-
-> > > > >  drivers/staging/media/hantro/hantro_hw.h      |  13 ++
-> > > > >  .../staging/media/hantro/hantro_postproc.c    | 141 ++++++++++++++++++
-> > > > >  drivers/staging/media/hantro/hantro_v4l2.c    |  52 ++++++-
-> > > > >  drivers/staging/media/hantro/rk3288_vpu_hw.c  |  10 ++
-> > > > >  12 files changed, 343 insertions(+), 11 deletions(-)
-> > > > >  create mode 100644 drivers/staging/media/hantro/hantro_postproc.c
-> > > > > 
-> > > > > 
-> > [..]
-> > > > >  			pix_mp->plane_fmt[0].sizeimage +=
-> > > > >  				128 * DIV_ROUND_UP(pix_mp->width, 16) *
-> > > > >  				      DIV_ROUND_UP(pix_mp->height, 16);
-> > > > > @@ -611,10 +643,23 @@ static int hantro_start_streaming(struct vb2_queue *q, unsigned int count)
-> > > > >  
-> > > > >  		vpu_debug(4, "Codec mode = %d\n", codec_mode);
-> > > > >  		ctx->codec_ops = &ctx->dev->variant->codec_ops[codec_mode];
-> > > > > -		if (ctx->codec_ops->init)
-> > > > > +		if (ctx->codec_ops->init) {
-> > > > >  			ret = ctx->codec_ops->init(ctx);
-> > > > > +			if (ret)
-> > > > > +				return ret;
-> > > > > +		}
-> > > > > +
-> > > > > +		if (hantro_needs_postproc(ctx)) {
-> > > > > +			ret = hantro_postproc_alloc(ctx);
-> > > > 
-> > > > Why is this done in start_streaming? Wouldn't capture side REQBUFS be a
-> > > > better place for this?
-> > > > 
-> > > 
-> > > Yes, makes sense as well.
-> > > 
-> > 
-> > This didn't work so well, so I have decided to leave it as-is in the
-> > just submitted v4 series.
-> > 
-> > The vb2 framework provides two mechanism for drivers to allocate
-> > buffers, REQBUFS and CREATEBUFS, so the bounce buffer allocation
-> > has to be hooked on both of them.
-> 
-> That is a good point, now that we don't allocate VB2_MAX_FRAME bounce
-> buffers at start_streaming time anymore, what happens if additional
-> capture buffers are created with CREATEBUFS while streaming?
-> 
+Hello,
 
-If I understand vb2 logic correctly, then I do not think anything
-will happen, because the newly created buffers won't be queued. 
+My apologies for the long delay. The driver code is now available and provided 
+as a follow-up to the discussion from this thread [1].
 
-Regards,
-Ezequiel
+The reference Linux kernel 5.4 driver implementation is located here:
+https://github.com/OpenSynergy/linux/tree/virtio-video-draft-v1
+
+The driver is implemented using the V4L2 API. It allocates a v4l2 device for 
+each probed virtio device and then creates a video device for each function 
+within the respective virtio device. The driver implements the stateful 
+decoder interface [2] and the stateful encoder interface (WIP) [3].
+
+The DMA SG memory allocator tries to map buffers right away. As it is not 
+always suitable, and some implementations might need just a physical address, 
+we had to introduce a set of simple dma ops directly in the driver.
+
+The driver is in the RFC state and currently a bit ahead of the spec that was 
+proposed in the discussion mentioned above. On the other hand, the driver 
+unfortunately does not yet include changes proposed in the recent comments 
+[4]. The driver currently supports encoder and decoder functions. Also, it 
+does not fully pass the v4l2-compliance yet, it has been a bit out of the 
+focus so far.
+
+Any feedback and contribution would be greatly appreciated.
+
+[1] https://markmail.org/message/gc6h25acct22niut
+[2] https://www.kernel.org/doc/html/v5.4/media/uapi/v4l/dev-decoder.html
+[3] https://hverkuil.home.xs4all.nl/codec-api/uapi/v4l/dev-encoder.html
+[4] https://markmail.org/message/yy67elx2adbivdsp
+
+Best regards,
+Dmitry.
+
+
 
