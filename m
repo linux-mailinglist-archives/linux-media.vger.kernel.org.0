@@ -2,70 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 042E6113C6A
-	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2019 08:34:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BB825113CBA
+	for <lists+linux-media@lfdr.de>; Thu,  5 Dec 2019 09:02:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728862AbfLEHeU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Dec 2019 02:34:20 -0500
-Received: from smtp-out-so.shaw.ca ([64.59.136.139]:50071 "EHLO
-        smtp-out-so.shaw.ca" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726255AbfLEHeT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Dec 2019 02:34:19 -0500
-Received: from shaw.ca ([70.71.78.228])
-        by shaw.ca with ESMTPA
-        id cleQi8c1NRnrKcleUi9Y2X; Thu, 05 Dec 2019 00:34:18 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shaw.ca;
-        s=s20180605; t=1575531258;
-        bh=9jgLmRUJppl8fTv8RqvEy6Yj+h0K2PiErNbGyAsLog0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=P5jax9qB7LqrAiWB1L7bHOzUgvjst1gAM7UuK8HmRd50M6oPPxNWdhXDZdrp1T5ir
-         D1O2qycMzPzbAni3QyZxliYDhXZFeGsqHpNig8RwSxVh6KVm1RJuZfAVM8gKBZkZnc
-         eoFMj6PA2boSb5B43UcV/lnNE3UyAEwZ83xbXteMuwxssDdgr5wXzdkLg6KHmqFcHq
-         KkWgzMqJB+ASevCMaSnGRipBuna3WhQHEy8O7gwK5NnioosCA6ivYaUrvJ2BOb8x7x
-         4qkzReIpIfZyFDcc5bKCQThTarj5oGsHLj1Y440ggWvqA4vii5OqTVSZ1mNyECrwYz
-         hPoX9btYeqE/g==
-X-Authority-Analysis: v=2.3 cv=L7FjvNb8 c=1 sm=1 tr=0
- a=qDatE6m/3wxSEG8Wq7h0zQ==:117 a=qDatE6m/3wxSEG8Wq7h0zQ==:17
- a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=_Dj-zB-qAAAA:8 a=4RC6wy0rsmmAbLfipA8A:9
- a=c-cOe7UV8MviEfHuAVEQ:22
-From:   joevt <joevt@shaw.ca>
+        id S1726043AbfLEICy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Dec 2019 03:02:54 -0500
+Received: from mga12.intel.com ([192.55.52.136]:27420 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725974AbfLEICy (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 5 Dec 2019 03:02:54 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Dec 2019 00:02:53 -0800
+X-IronPort-AV: E=Sophos;i="5.69,280,1571727600"; 
+   d="scan'208";a="243159554"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 05 Dec 2019 00:02:52 -0800
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 1E8D220976; Thu,  5 Dec 2019 10:02:50 +0200 (EET)
+Date:   Thu, 5 Dec 2019 10:02:50 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org
-Subject: [PATCH 5/5] edid-decode: add missing space
-Date:   Wed,  4 Dec 2019 23:34:14 -0800
-Message-Id: <20191205073414.53672-5-joevt@shaw.ca>
-X-Mailer: git-send-email 2.21.0 (Apple Git-122.2)
-In-Reply-To: <20191205073414.53672-1-joevt@shaw.ca>
-References: <20191205073414.53672-1-joevt@shaw.ca>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Andy Walls <awalls@md.metrocast.net>
+Subject: Re: [PATCH] ivtv/cx18: remove ivtvdriver.org references
+Message-ID: <20191205080249.GB5536@paasikivi.fi.intel.com>
+References: <09ed5e97-084d-17a2-e22f-0817527ebcdc@xs4all.nl>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfNRI+2yjonfkxDYFUh+DoQZcda613OpF0rHNVmDO9sa+XCCITWfYq1AbNTewEU5yr7FjT9a/mz74d5y3Tr70uw8baeFfGUQiqgKY8696Niy2pyHU1dfD
- 6ZmCgEa8Mlb1HQMLkq6niES9CIK05wGDz/04Cbm/SYRVlhRmFNAAboAcVUolDAS+FLPEQn2xb6UaVQ==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <09ed5e97-084d-17a2-e22f-0817527ebcdc@xs4all.nl>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Space character was missing from error message.
+On Wed, Dec 04, 2019 at 12:57:10PM +0100, Hans Verkuil wrote:
+> That URL is no longer valid, so either remove references to it or
+> replace it with linuxtv.org.
+> 
+> Rather than updating the URL I've just dropped the cx18.rst driver
+> documentation since it was really out of date.
+> 
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-Signed-off-by: Joe van Tunen <joevt@shaw.ca>
----
- parse-cta-block.cpp | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks!
 
-diff --git a/parse-cta-block.cpp b/parse-cta-block.cpp
-index e52822a..5c1a679 100644
---- a/parse-cta-block.cpp
-+++ b/parse-cta-block.cpp
-@@ -1480,7 +1480,7 @@ void edid_state::parse_cta_block(const unsigned char *x)
- 		fail("Both the serial number and the serial string are set\n");
- 	if (!has_cta861_vic_1 && !has_640x480p60_est_timing)
- 		fail("Required 640x480p60 timings are missing in the established timings"
--		     "and the SVD list (VIC 1)\n");
-+		     " and the SVD list (VIC 1)\n");
- 	if ((supported_hdmi_vic_vsb_codes & supported_hdmi_vic_codes) !=
- 	    supported_hdmi_vic_codes)
- 		fail("HDMI VIC Codes must have their CTA-861 VIC equivalents in the VSB\n");
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+
 -- 
-2.21.0 (Apple Git-122.2)
-
+Sakari Ailus
