@@ -2,98 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id ECE1A114E18
-	for <lists+linux-media@lfdr.de>; Fri,  6 Dec 2019 10:18:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 20D54114E1B
+	for <lists+linux-media@lfdr.de>; Fri,  6 Dec 2019 10:20:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726262AbfLFJSu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Dec 2019 04:18:50 -0500
-Received: from mail-lj1-f175.google.com ([209.85.208.175]:41422 "EHLO
-        mail-lj1-f175.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726168AbfLFJSt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Dec 2019 04:18:49 -0500
-Received: by mail-lj1-f175.google.com with SMTP id h23so6871020ljc.8
-        for <linux-media@vger.kernel.org>; Fri, 06 Dec 2019 01:18:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=qtec.com; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=d2i4UOsA5Su/C/Zzrjd7fBbotpOpRVWBJ+lKAYxIu7s=;
-        b=r4OyxNxwxuL+k0zycKJzXVYmwAF//QBxO9ivkOjwJRYZzEqd4hIl8MKx0pDiwb0vEK
-         AQH0VHMcEDrq2ecGfHiZxmNzAjgXL0YtMZld2WfHwTx03aCDCcircjqUQYXsnPRrmqQp
-         o8ZxO9CRukkoyLoUG+0LZ7Z/RCADnZQh538kk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=d2i4UOsA5Su/C/Zzrjd7fBbotpOpRVWBJ+lKAYxIu7s=;
-        b=TukVPcxPQpndLgPGCtpeyb5ZIQAEtZEDyH4e7vUvthjZyCFIzn1TpCGXktLRdLGD9j
-         XFTlXhOIO2i2pO4wFf9XhSZNZcNR+F+yDD/6bpcjeMOavV+p8gd/zSn8hivqK0rqZr4N
-         fux1MOopIqcC1QYhUUYj2OndwlG/NL83MNh8scQ4lqTgT0aQzeqXh46V4MuiFqUU6iei
-         p6llOGIdE/dOdEJdotAG1lgltW1HPwiy+0HugLbL/+4eK6T2nphO2pPp/c7kf/rZL9dR
-         2PVyMk+a0eXyvToYztPZQ9NIsA2xxd5k3yD52hUqFbjedbdimGjqS/5mzLScfIuilUO3
-         910Q==
-X-Gm-Message-State: APjAAAXUHZ6duhE3zhV9d+o3928ZggZ06yTWy27q+S7ZdGKGdQnLWNUG
-        EOO5TrzTERRE2kPs1tiTbNlqnQ==
-X-Google-Smtp-Source: APXvYqyQtTeFvrdIv7pVAHmMNvia2KFDl7UueO9bWJEvIKUyCFBRZgzTuHWLVXvB7WdLhclzW2yFwQ==
-X-Received: by 2002:a2e:b056:: with SMTP id d22mr8249065ljl.73.1575623927737;
-        Fri, 06 Dec 2019 01:18:47 -0800 (PST)
-Received: from turia.qtec.com (cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
-        by smtp.gmail.com with ESMTPSA id s22sm6361405ljm.41.2019.12.06.01.18.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Dec 2019 01:18:47 -0800 (PST)
-From:   Daniel Gomez <daniel@qtec.com>
-To:     sakari.ailus@iki.fi, Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Daniel Gomez <daniel@qtec.com>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2] media: v4l2: Fix fourcc names for 12b and 14b packed bayer
-Date:   Fri,  6 Dec 2019 10:18:21 +0100
-Message-Id: <20191206091822.6877-1-daniel@qtec.com>
-X-Mailer: git-send-email 2.24.0.rc1
+        id S1726195AbfLFJUL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Dec 2019 04:20:11 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:38772 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726088AbfLFJUL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Dec 2019 04:20:11 -0500
+Received: from [IPv6:2800:810:439:4b9::1004] (unknown [IPv6:2800:810:439:4b9::1004])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: ezequiel)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id D24EB2925C4;
+        Fri,  6 Dec 2019 09:20:06 +0000 (GMT)
+Message-ID: <a9448f56a067ed82aa3ce29492a02eb03dff32d0.camel@collabora.com>
+Subject: Re: [PATCH] media: davinci/vpfe_capture.c: Avoid BUG_ON for
+ register failure
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Aditya Pakki <pakki001@umn.edu>
+Cc:     kjlu@umn.edu, "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Fri, 06 Dec 2019 06:20:00 -0300
+In-Reply-To: <20191206010029.14265-1-pakki001@umn.edu>
+References: <20191206010029.14265-1-pakki001@umn.edu>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fix documentation fourcc names for the 12-bit and 14-bit packed Bayer formats.
+Hello Aditya,
 
-Signed-off-by: Daniel Gomez <daniel@qtec.com>
----
-Changelog v2:
-* Fix fourcc names for 14-bit packed bayer formats.
-* Fix fourcc name V4L2_PIX_FMT_SRGGB12P.
+Thanks for the patch.
 
- Documentation/media/uapi/v4l/pixfmt-srggb12p.rst | 2 +-
- Documentation/media/uapi/v4l/pixfmt-srggb14p.rst | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+On Thu, 2019-12-05 at 19:00 -0600, Aditya Pakki wrote:
+> In vpfe_register_ccdc_device(), failure to allocate dev->hw_ops
+> invokes calls to BUG_ON(). This patch returns the error to callers
+> instead of crashing.
+> 
 
-diff --git a/Documentation/media/uapi/v4l/pixfmt-srggb12p.rst b/Documentation/media/uapi/v4l/pixfmt-srggb12p.rst
-index 960851275f23..045540bc0d86 100644
---- a/Documentation/media/uapi/v4l/pixfmt-srggb12p.rst
-+++ b/Documentation/media/uapi/v4l/pixfmt-srggb12p.rst
-@@ -13,7 +13,7 @@
- .. _v4l2-pix-fmt-sgrbg12p:
+I'm curious, are you actually getting this type of crash?
 
- *******************************************************************************************************************************
--V4L2_PIX_FMT_SRGGB12P ('pRAA'), V4L2_PIX_FMT_SGRBG12P ('pgAA'), V4L2_PIX_FMT_SGBRG12P ('pGAA'), V4L2_PIX_FMT_SBGGR12P ('pBAA'),
-+V4L2_PIX_FMT_SRGGB12P ('pRCC'), V4L2_PIX_FMT_SGRBG12P ('pgCC'), V4L2_PIX_FMT_SGBRG12P ('pGCC'), V4L2_PIX_FMT_SBGGR12P ('pBCC'),
- *******************************************************************************************************************************
+> Signed-off-by: Aditya Pakki <pakki001@umn.edu>
+> ---
+>  drivers/media/platform/davinci/vpfe_capture.c | 21 ++++++-------------
+>  1 file changed, 6 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/media/platform/davinci/vpfe_capture.c b/drivers/media/platform/davinci/vpfe_capture.c
+> index 916ed743d716..6d394a006977 100644
+> --- a/drivers/media/platform/davinci/vpfe_capture.c
+> +++ b/drivers/media/platform/davinci/vpfe_capture.c
+> @@ -168,21 +168,11 @@ int vpfe_register_ccdc_device(const struct ccdc_hw_device *dev)
+>  	int ret = 0;
+>  	printk(KERN_NOTICE "vpfe_register_ccdc_device: %s\n", dev->name);
+>  
+> -	BUG_ON(!dev->hw_ops.open);
+> -	BUG_ON(!dev->hw_ops.enable);
+> -	BUG_ON(!dev->hw_ops.set_hw_if_params);
+> -	BUG_ON(!dev->hw_ops.configure);
+> -	BUG_ON(!dev->hw_ops.set_buftype);
+> -	BUG_ON(!dev->hw_ops.get_buftype);
+> -	BUG_ON(!dev->hw_ops.enum_pix);
+> -	BUG_ON(!dev->hw_ops.set_frame_format);
+> -	BUG_ON(!dev->hw_ops.get_frame_format);
+> -	BUG_ON(!dev->hw_ops.get_pixel_format);
+> -	BUG_ON(!dev->hw_ops.set_pixel_format);
+> -	BUG_ON(!dev->hw_ops.set_image_window);
+> -	BUG_ON(!dev->hw_ops.get_image_window);
+> -	BUG_ON(!dev->hw_ops.get_line_length);
+> -	BUG_ON(!dev->hw_ops.getfid);
+> +	if (!dev->hw_ops) {
+> +		printk(KERN_ERR "could not allocate hw_ops\n");
 
+I'd drop this error message, as hw_ops is not really allocated here.
 
-diff --git a/Documentation/media/uapi/v4l/pixfmt-srggb14p.rst b/Documentation/media/uapi/v4l/pixfmt-srggb14p.rst
-index 1a988d7e7ff8..051ae3d05bc3 100644
---- a/Documentation/media/uapi/v4l/pixfmt-srggb14p.rst
-+++ b/Documentation/media/uapi/v4l/pixfmt-srggb14p.rst
-@@ -13,7 +13,7 @@
- .. _v4l2-pix-fmt-sgrbg14p:
+> +		ret = -EINVAL;
+> +		goto rvalue;
 
- *******************************************************************************************************************************
--V4L2_PIX_FMT_SRGGB14P ('pRCC'), V4L2_PIX_FMT_SGRBG14P ('pgCC'), V4L2_PIX_FMT_SGBRG14P ('pGCC'), V4L2_PIX_FMT_SBGGR14P ('pBCC'),
-+V4L2_PIX_FMT_SRGGB14P ('pREE'), V4L2_PIX_FMT_SGRBG14P ('pgEE'), V4L2_PIX_FMT_SGBRG14P ('pGEE'), V4L2_PIX_FMT_SBGGR14P ('pBEE'),
- *******************************************************************************************************************************
+Instead of a goto to a return, just return -EINVAL here.
 
- *man V4L2_PIX_FMT_SRGGB14P(2)*
---
-2.24.0.rc1
+> +	}
+>  
+>  	mutex_lock(&ccdc_lock);
+>  	if (!ccdc_cfg) {
+> @@ -211,6 +201,7 @@ int vpfe_register_ccdc_device(const struct ccdc_hw_device *dev)
+>  	ccdc_dev = dev;
+>  unlock:
+>  	mutex_unlock(&ccdc_lock);
+> +rvalue:
+>  	return ret;
+>  }
+>  EXPORT_SYMBOL(vpfe_register_ccdc_device);
+
+With those changes, the patch looks good.
+
+Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
+
+Thanks,
+Ezequiel
 
