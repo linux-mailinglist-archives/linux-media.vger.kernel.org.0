@@ -2,164 +2,200 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D947F114BC0
-	for <lists+linux-media@lfdr.de>; Fri,  6 Dec 2019 05:56:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B149B114CA9
+	for <lists+linux-media@lfdr.de>; Fri,  6 Dec 2019 08:32:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726043AbfLFEz7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Dec 2019 23:55:59 -0500
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:55199 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726020AbfLFEz7 (ORCPT
+        id S1726264AbfLFHcM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Dec 2019 02:32:12 -0500
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:49873 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726184AbfLFHcM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 5 Dec 2019 23:55:59 -0500
-Received: from localhost ([IPv6:2001:983:e9a7:1:9981:264c:cf64:d437])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id d5eli41CW85rjd5emi9QJm; Fri, 06 Dec 2019 05:55:56 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1575608156; bh=ynNioM3prGu/WGbHfE/TiU5uivnA5rwbZJhfCyRHUz4=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=vb8jB3OQr2Y1kQYN2D+pdsT+jppM6bxGFBGjsJNysW2WGC1m8Lsjc2N6kVZoWSBWw
-         gKiSffBt9oLCesQnE2zmWJ+BVuOMD1Nqfd3W3cFLFIYqsiE0BHcd3aAF+v20gn77Ml
-         cMwvZWVjTfj4kPbltb6rHlE7Hq+RwG9/mQqVL8KlxPRtIpQagCA2GvrROBXdXR/g6H
-         iWd8Vu7agCaA7TORYqluMwfUFSIbw4JWnkSxTYOmlygXenn78QzhTuj699d38SB9VM
-         O0mc0+H4qb40s+Vu6ZQi8/OsOxEL5pfmK8H8nue4RQw/V8nuntXP0/9t/EfMUNtEBz
-         a29TQ0g97erjA==
-Message-ID: <ff47f199a1220a31973a9cb76eacfdcc@smtp-cloud8.xs4all.net>
-Date:   Fri, 06 Dec 2019 05:55:55 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfI3tcFy4xNxwgGStGReLgKtNJmfDSNFCw+UkV40Kdz7f2qU/t412EmlkLiA+26i3Yg3pjl07RP20+IQcuOXR3kD75DfxyXN0TNudRxPJhpdYX50B1xjj
- RguYW794XZPL55HP7YgkajiQivk0kj6gUtobqSZIf0LGs1r5hiWvdXoH51Bzz2PhrTEfWZeJ+kvsEZvi3VtsOv3M2+b/1gVQTjMA8aehZrxp/TrZ3KiHXLxI
+        Fri, 6 Dec 2019 02:32:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1575617531;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=fgvU3ge84yD+8UbbqgUeqbPHxhOgQkWyMPmSswsCZwM=;
+        b=dKSp3r50KzJXtG7Tb2NVAkMYDsIfQleOPp0WmcJlp5w4w48C5HAgJLZsArRbGVTMACQT0B
+        ZchvCMnj1ksp/hjC0hKBrmcezT0vGUkq5aMAsLmfJj6sRGQyWi8trdNhxHez0rJnSgjlyn
+        IUzd/0h+V7F4ODOYqtVV1H9WGK5f31I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-421-6T_FzXo6MVmIfpIHiXrnvw-1; Fri, 06 Dec 2019 02:32:10 -0500
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F250DBE5;
+        Fri,  6 Dec 2019 07:32:07 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-67.ams2.redhat.com [10.36.116.67])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 83C22608E5;
+        Fri,  6 Dec 2019 07:32:06 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+        id 573AB16E18; Fri,  6 Dec 2019 08:32:05 +0100 (CET)
+Date:   Fri, 6 Dec 2019 08:32:05 +0100
+From:   Gerd Hoffmann <kraxel@redhat.com>
+To:     Keiichi Watanabe <keiichiw@chromium.org>
+Cc:     Enrico Granata <egranata@google.com>,
+        Dmitry Sepp <dmitry.sepp@opensynergy.com>,
+        virtio-dev@lists.oasis-open.org, Tomasz Figa <tfiga@chromium.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Alex Lau <alexlau@chromium.org>,
+        Dylan Reid <dgreid@chromium.org>,
+        =?utf-8?B?U3TDqXBoYW5l?= Marchesin <marcheu@chromium.org>,
+        Pawel Osciak <posciak@chromium.org>,
+        David Stevens <stevensd@chromium.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [virtio-dev] [RFC RESEND] virtio-video: Add virtio video device
+ specification
+Message-ID: <20191206073205.4f3bbqbyeyxeipsx@sirius.home.kraxel.org>
+References: <20191105191919.167345-1-dmitry.sepp@opensynergy.com>
+ <CAD90Vcbr7L2KsyDxPeoKPRt6y_ai8xkJ=J0JCGsW6tGZJGH=0A@mail.gmail.com>
+ <20191120112929.gvsne7ykvcyw65lu@sirius.home.kraxel.org>
+ <7736193.Whgddqjo8n@os-lin-dmo>
+ <CAD90VcbYAhk9CiagSEi=ouNMioR4v71uc40rRHGMe_+wvAm+0g@mail.gmail.com>
+ <20191204091620.zpnd7jttkpkduort@sirius.home.kraxel.org>
+ <CAPR809uYEjSGqPA57HiDgTf7MESrXnsCKwvSEQQ8LfMvCJwaaQ@mail.gmail.com>
+ <CAD90VcaTWvos-PPrniZn_AfFQrCEkMHNXvhR56ApD8kfdTSG9g@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAD90VcaTWvos-PPrniZn_AfFQrCEkMHNXvhR56ApD8kfdTSG9g@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-MC-Unique: 6T_FzXo6MVmIfpIHiXrnvw-1
+X-Mimecast-Spam-Score: 0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+  Hi,
 
-Results of the daily build of media_tree:
+> > > > > +\subsection{Device ID}\label{sec:Device Types / Video Device / D=
+evice ID}
+> > > > > +
+> > > > > +TBD.
+> > > >
+> > > > I'm wondering how and when we can determine and reserve this ID?
+> > >
+> > > Grab the next free, update the spec accordingly, submit the one-line
+> > > patch.
+>=20
+> Thanks. I will do so at the next version of the patch.
 
-date:			Fri Dec  6 05:00:11 CET 2019
-media-tree git hash:	dca6b3733a4a46e63603496f544ece8ace541fde
-media_build git hash:	efba365ba11b958a6bf6fb4b397942f9461cefca
-v4l-utils git hash:	17640cb6820a33ec4651598452d9f4e5798fd6b6
-edid-decode git hash:	2ae93f10ba705415c0283f441e6e858cc518c1f0
-gcc version:		i686-linux-gcc (GCC) 9.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 6903fe8f5101fc43440b3259290c97d2dd51733d
-host hardware:		x86_64
-host os:		5.2.0-3-amd64
+No.  Submit as separate one-liner patch which does nothing but grabbing
+an ID.
 
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-multi: OK
-linux-git-arm-pxa: OK
-linux-git-arm-stm32: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.63-i686: OK
-linux-3.16.63-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.167-i686: OK
-linux-4.4.167-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.162-i686: OK
-linux-4.9.162-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.105-i686: OK
-linux-4.14.105-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.28-i686: OK
-linux-4.19.28-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4-i686: OK
-linux-5.4-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2793, Succeeded: 2793, Failed: 0, Warnings: 4
-sparse: WARNINGS
-smatch: WARNINGS
+> > > > I'm wondering if we can use FOURCC instead. So, we can avoid reinve=
+nting a
+> > > > mapping from formats to integers.
+> > > > Also, I suppose the word "pixel formats" means only raw (decoded) f=
+ormats.
+> > > > But, it can be encoded format like H.264. So, I guess "image format=
+" or
+> > > > "fourcc" is a better word choice.
+> > >
+> > > Use separate pixel_format (fourcc) and stream_format (H.264 etc.) enu=
+ms?
+> > >
+>=20
+> Fourcc is used for both raw and coded formats.
+> I'm not sure if it makes much sense to define different enums for raw
+> and coded formats, as
+> we reuse any other structs for both types of formats.
+>=20
+> What I'd suggest is like this:
+>=20
+> #define FOURCC(a,b,c,d) (a | (b << 8) | (c << 16) | (d << 24))
+>=20
+> enum virtio_video_fourcc {
+>     VIRTIO_VIDEO_FOURCC_UNDEFINED =3D 0,
+>=20
+>     /* Coded formats */
+>     VIRTIO_VIDEO_FOURCC_H264 =3D FOURCC('H', '2', '6', '4'),
+>     ...
+>=20
+>     /* Raw formats */
+>     VIRTIO_VIDEO_FOURCC_NV12 =3D FOURCC('N', 'V', '1', '2'),
+>     ...
+> }
 
-Detailed results are available here:
+Ok, that'll work.
 
-http://www.xs4all.nl/~hverkuil/logs/Friday.log
+I've linked fourcc to drm fourcc codes in my head, and drm hasn't codes
+for the compressed formats.
 
-Detailed regression test results are available here:
+When defining things this way we should of course make sure that the raw
+format codes are identical to the ones drm uses.
 
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+Is there a formal standard for these codes btw?
 
-Full logs are available here:
+> > As an interim solution, this form of "manual resource backing-store
+> > management" could be specified as a feature flag.
+> > Once there is an established solution for buffer sharing, we would
+> > then go ahead and introduce a new feature flag for "works with the
+> > buffer sharing mechanism", as an alternative to this manual mechanism.
+> >
+> > wdyt?
+>=20
+> It'd be a good idea to change buffer management method by a feature flag.
 
-http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
+I don't think so.  A device might want support multiple kinds of buffer
+management, most notably both their own buffers and imported buffers.
+Indicating which methods are available can be done with feature flags,
+but actually picking one not.
 
-The Media Infrastructure API from this daily build is here:
+> > > Well.  For buffer management there are a bunch of options.
+> > >
+> > >  (1) Simply stick the buffers (well, pointers to the buffer pages) in=
+to
+> > >      the virtqueue.  This is the standard virtio way.
+> > >
+> > >  (2) Create resources, then put the resource ids into the virtqueue.
+> > >      virtio-gpu uses that model.  First, because virtio-gpu needs an =
+id
+> > >      to reference resources in the rendering command stream
+> > >      (virtio-video doesn't need this).  Also because (some kinds of)
+> > >      resources are around for a long time and the guest-physical ->
+> > >      host-virtual mapping needs to be done only once that way (which
+> > >      I think would be the case for virtio-video too because v4l2
+> > >      re-uses buffers in robin-round fashion).  Drawback is this
+> > >      assumes shared memory between host and guest (which is the case
+> > >      in typical use cases but it is not mandated by the virtio spec).
+> > >
+> > >  (3) Import external resources (from virtio-gpu for example).
+> > >      Out of scope for now, will probably added as optional feature
+> > >      later.
+> > >
+> > > I guess long-term we want support either (1)+(3) or (2)+(3).
+> > >
+>=20
+> In the first version of spec, we might want to support the minimal workab=
+le set
+> of controls. Then, we'll be able to add additional controls with a new fe=
+ature
+> flag as Enrico suggested.
+>=20
+> So, the problem is what's the simplest scenario and which types of contro=
+ls are
+> required there. I guess it's enough for (1) and (2) if we have T_RESOURCE=
+_CREATE
+> and T_RESOURCE_DESTROY.
 
-http://www.xs4all.nl/~hverkuil/spec/index.html
+For (1) you'll simply do a QUEUE_BUFFER.  The command carries references
+to the buffer pages.  No resource management needed.
+
+For (2) you'll have RESOURCE_CREATE + RESOURCE_DESTROY + QUEUE_RESOURCE,
+where RESOURCE_CREATE passes the scatter list of buffer pages to the
+host and QUEUE_RESOURCE will carry just the resource id.
+
+For (3) you'll have RESOURCE_IMPORT + RESOURCE_DESTROY + QUEUE_RESOURCE.
+
+cheers,
+  Gerd
+
