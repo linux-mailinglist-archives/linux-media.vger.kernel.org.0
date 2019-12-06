@@ -2,125 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id B1763114A57
-	for <lists+linux-media@lfdr.de>; Fri,  6 Dec 2019 02:07:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D947F114BC0
+	for <lists+linux-media@lfdr.de>; Fri,  6 Dec 2019 05:56:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726037AbfLFBHR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Dec 2019 20:07:17 -0500
-Received: from mta-p7.oit.umn.edu ([134.84.196.207]:41474 "EHLO
-        mta-p7.oit.umn.edu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725959AbfLFBHR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Dec 2019 20:07:17 -0500
-X-Greylist: delayed 402 seconds by postgrey-1.27 at vger.kernel.org; Thu, 05 Dec 2019 20:07:16 EST
-Received: from localhost (unknown [127.0.0.1])
-        by mta-p7.oit.umn.edu (Postfix) with ESMTP id 47TZ5G4QGCz9vcHW
-        for <linux-media@vger.kernel.org>; Fri,  6 Dec 2019 01:00:34 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at umn.edu
-Received: from mta-p7.oit.umn.edu ([127.0.0.1])
-        by localhost (mta-p7.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id h9P9E1aQG3SL for <linux-media@vger.kernel.org>;
-        Thu,  5 Dec 2019 19:00:34 -0600 (CST)
-Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com [209.85.219.199])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mta-p7.oit.umn.edu (Postfix) with ESMTPS id 47TZ5G31Hdz9vcH9
-        for <linux-media@vger.kernel.org>; Thu,  5 Dec 2019 19:00:34 -0600 (CST)
-Received: by mail-yb1-f199.google.com with SMTP id d191so1299098ybc.17
-        for <linux-media@vger.kernel.org>; Thu, 05 Dec 2019 17:00:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=umn.edu; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=n838+sn4bG9Uk+EUak61BRvfIERSwMTFakidd6XsXRg=;
-        b=gL5WcT4Mc0H8rePtZqFSwH1R6vC2OZAqlrtr8KDt6orBDMV46jVFTGxRTyV2ujEFJz
-         gSS0SUfMwRB47vPHryM1EH6SejcdhhmNwcg/v3D++KlJ5dWoxjJ5sdCF7HaJHJvcX6Xg
-         eMnfXSNd+uoEHLE8PC9ae9K0mdbL+EqHbwzXYsxJHCqMltL5JmzktEQEsR6TCw12id1a
-         +8L2Kp9vt0naxloHBBzJmm6A7sPTzfGue2FqPGKsiMqluJdu8dn0tL97IwpnAArOc16b
-         au8VP1YkUI3dWmiffTTvsoi0VPpFJb9w+JrSAcb1SG/ZmdDDmSCJ2zLxiECF4h72LD6B
-         no2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=n838+sn4bG9Uk+EUak61BRvfIERSwMTFakidd6XsXRg=;
-        b=q2P3kq11/8Kujk7qlfYpxAWg7LWf6G5BXEb4J4WjZ6wnSAh9qYYWcH+ksHrR86yZjp
-         Lb65m7t0yRJulZZd5XXkV4ZvAhHo30JmeUv2wfv7DD26YvBEUn7d+VCeXcdU34LLuMYj
-         uIALQP1Q8PLscwacN0g3iLUmIrz7x0XTAch8I7zn4Mw/J/tk9RiqWNk7OKjgCAkZrFUA
-         hPUI6eNTefPZunG5EP/cr0C24VGiS8DvRuvb7yfCMRsaVGw1j81ziXjCXxCjmP1tiQRg
-         a9J6O0mK3s2Tu5TRq5o5Yw4Oaxi7AhDqCIWbObqhhn6zhTaV2CPqUNr26+AgZ+UuNfWV
-         yggA==
-X-Gm-Message-State: APjAAAWe+IKrwnsLx0SmLP3hD705+FQ+AELtSCrlL6jhORHc4JOpQcAR
-        sOa5VGyjgcVFEU4JaoXFDVhfON4SMfXv/ZsYvwvwm68gSKhGfXCQ/Eq/brYN6zMPheGssRlLFKd
-        MN20TPuUJyh5MXmOVqiAVvY1HYQ4=
-X-Received: by 2002:a81:9bc4:: with SMTP id s187mr8306894ywg.285.1575594033842;
-        Thu, 05 Dec 2019 17:00:33 -0800 (PST)
-X-Google-Smtp-Source: APXvYqzIMImCE7iR91PGFys8iHvLY0Z0Z84gHtI2rM2xFVcCXCRRE1hLDFaC7Nzy3+dB8iGSwEDWjA==
-X-Received: by 2002:a81:9bc4:: with SMTP id s187mr8306879ywg.285.1575594033599;
-        Thu, 05 Dec 2019 17:00:33 -0800 (PST)
-Received: from cs-u-syssec1.dtc.umn.edu (cs-u-syssec1.cs.umn.edu. [128.101.106.66])
-        by smtp.gmail.com with ESMTPSA id d80sm5567735ywa.58.2019.12.05.17.00.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Dec 2019 17:00:33 -0800 (PST)
-From:   Aditya Pakki <pakki001@umn.edu>
-To:     pakki001@umn.edu
-Cc:     kjlu@umn.edu, "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: davinci/vpfe_capture.c: Avoid BUG_ON for register failure
-Date:   Thu,  5 Dec 2019 19:00:29 -0600
-Message-Id: <20191206010029.14265-1-pakki001@umn.edu>
-X-Mailer: git-send-email 2.17.1
+        id S1726043AbfLFEz7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Dec 2019 23:55:59 -0500
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:55199 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726020AbfLFEz7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 5 Dec 2019 23:55:59 -0500
+Received: from localhost ([IPv6:2001:983:e9a7:1:9981:264c:cf64:d437])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id d5eli41CW85rjd5emi9QJm; Fri, 06 Dec 2019 05:55:56 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1575608156; bh=ynNioM3prGu/WGbHfE/TiU5uivnA5rwbZJhfCyRHUz4=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=vb8jB3OQr2Y1kQYN2D+pdsT+jppM6bxGFBGjsJNysW2WGC1m8Lsjc2N6kVZoWSBWw
+         gKiSffBt9oLCesQnE2zmWJ+BVuOMD1Nqfd3W3cFLFIYqsiE0BHcd3aAF+v20gn77Ml
+         cMwvZWVjTfj4kPbltb6rHlE7Hq+RwG9/mQqVL8KlxPRtIpQagCA2GvrROBXdXR/g6H
+         iWd8Vu7agCaA7TORYqluMwfUFSIbw4JWnkSxTYOmlygXenn78QzhTuj699d38SB9VM
+         O0mc0+H4qb40s+Vu6ZQi8/OsOxEL5pfmK8H8nue4RQw/V8nuntXP0/9t/EfMUNtEBz
+         a29TQ0g97erjA==
+Message-ID: <ff47f199a1220a31973a9cb76eacfdcc@smtp-cloud8.xs4all.net>
+Date:   Fri, 06 Dec 2019 05:55:55 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfI3tcFy4xNxwgGStGReLgKtNJmfDSNFCw+UkV40Kdz7f2qU/t412EmlkLiA+26i3Yg3pjl07RP20+IQcuOXR3kD75DfxyXN0TNudRxPJhpdYX50B1xjj
+ RguYW794XZPL55HP7YgkajiQivk0kj6gUtobqSZIf0LGs1r5hiWvdXoH51Bzz2PhrTEfWZeJ+kvsEZvi3VtsOv3M2+b/1gVQTjMA8aehZrxp/TrZ3KiHXLxI
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In vpfe_register_ccdc_device(), failure to allocate dev->hw_ops
-invokes calls to BUG_ON(). This patch returns the error to callers
-instead of crashing.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Signed-off-by: Aditya Pakki <pakki001@umn.edu>
----
- drivers/media/platform/davinci/vpfe_capture.c | 21 ++++++-------------
- 1 file changed, 6 insertions(+), 15 deletions(-)
+Results of the daily build of media_tree:
 
-diff --git a/drivers/media/platform/davinci/vpfe_capture.c b/drivers/media/platform/davinci/vpfe_capture.c
-index 916ed743d716..6d394a006977 100644
---- a/drivers/media/platform/davinci/vpfe_capture.c
-+++ b/drivers/media/platform/davinci/vpfe_capture.c
-@@ -168,21 +168,11 @@ int vpfe_register_ccdc_device(const struct ccdc_hw_device *dev)
- 	int ret = 0;
- 	printk(KERN_NOTICE "vpfe_register_ccdc_device: %s\n", dev->name);
- 
--	BUG_ON(!dev->hw_ops.open);
--	BUG_ON(!dev->hw_ops.enable);
--	BUG_ON(!dev->hw_ops.set_hw_if_params);
--	BUG_ON(!dev->hw_ops.configure);
--	BUG_ON(!dev->hw_ops.set_buftype);
--	BUG_ON(!dev->hw_ops.get_buftype);
--	BUG_ON(!dev->hw_ops.enum_pix);
--	BUG_ON(!dev->hw_ops.set_frame_format);
--	BUG_ON(!dev->hw_ops.get_frame_format);
--	BUG_ON(!dev->hw_ops.get_pixel_format);
--	BUG_ON(!dev->hw_ops.set_pixel_format);
--	BUG_ON(!dev->hw_ops.set_image_window);
--	BUG_ON(!dev->hw_ops.get_image_window);
--	BUG_ON(!dev->hw_ops.get_line_length);
--	BUG_ON(!dev->hw_ops.getfid);
-+	if (!dev->hw_ops) {
-+		printk(KERN_ERR "could not allocate hw_ops\n");
-+		ret = -EINVAL;
-+		goto rvalue;
-+	}
- 
- 	mutex_lock(&ccdc_lock);
- 	if (!ccdc_cfg) {
-@@ -211,6 +201,7 @@ int vpfe_register_ccdc_device(const struct ccdc_hw_device *dev)
- 	ccdc_dev = dev;
- unlock:
- 	mutex_unlock(&ccdc_lock);
-+rvalue:
- 	return ret;
- }
- EXPORT_SYMBOL(vpfe_register_ccdc_device);
--- 
-2.17.1
+date:			Fri Dec  6 05:00:11 CET 2019
+media-tree git hash:	dca6b3733a4a46e63603496f544ece8ace541fde
+media_build git hash:	efba365ba11b958a6bf6fb4b397942f9461cefca
+v4l-utils git hash:	17640cb6820a33ec4651598452d9f4e5798fd6b6
+edid-decode git hash:	2ae93f10ba705415c0283f441e6e858cc518c1f0
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 6903fe8f5101fc43440b3259290c97d2dd51733d
+host hardware:		x86_64
+host os:		5.2.0-3-amd64
 
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4-i686: OK
+linux-5.4-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2793, Succeeded: 2793, Failed: 0, Warnings: 4
+sparse: WARNINGS
+smatch: WARNINGS
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
