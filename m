@@ -2,70 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FBA2115AA6
-	for <lists+linux-media@lfdr.de>; Sat,  7 Dec 2019 02:30:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F932115B06
+	for <lists+linux-media@lfdr.de>; Sat,  7 Dec 2019 05:55:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726407AbfLGBaB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Dec 2019 20:30:01 -0500
-Received: from mail-il1-f200.google.com ([209.85.166.200]:38680 "EHLO
-        mail-il1-f200.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726371AbfLGBaB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Dec 2019 20:30:01 -0500
-Received: by mail-il1-f200.google.com with SMTP id o18so6681303ilb.5
-        for <linux-media@vger.kernel.org>; Fri, 06 Dec 2019 17:30:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=HNhXiE6HePkhSCnwQ3V/NPWMZ1Hpm58RJpGnE6ed2EU=;
-        b=BT6sQirUbg8PGgN8zUFlhHmOOpKaCcJUdl1Ue4xMXkgN9vWkOOkDOzQNoLkh+3lWsg
-         Dj3llfu32RB+ImzrBgy4aV+GZ9UtKVgxZnBoiUB9SQ0rGJa/ivm5bf6Ee5Hw/ydV5qBl
-         wen0poGN8ZZY48CIiMk6pL9SXhh3kdGjI24tuQB3MAorxzIQTK2lDk2elV23QJBaV0CP
-         hGfTbFgx3DGSsUIjh07sLsRmuDWaYZUXfQ0Qg5jTPBq0vy9XZUV996v3dpsfmvbXgi+R
-         97xELd6zm/7Pr7RTYvDaauKNVUdfhbyPfHuzzm3ZJaUWPGjtS5fXh9TZhGSS4YI7Y5af
-         S04g==
-X-Gm-Message-State: APjAAAXAhjHzfDvVNK2jBvOjeT6GTeTVj+jx12Ze0oPBZxA0otS5/Nyu
-        fPczdnDKPMe/XPSJOs/BMbgHnjMF+2rVTNALNkB3zBoL+1s/
-X-Google-Smtp-Source: APXvYqxz9KBPD51VM3KJ5gnxGMtw4DWz8VDuRdv+40oCBMIhFEk1AOET+26mMuYYk8RExBPPeHQ+h/6hZNb57eiZ5RaZKKFaaCCq
-MIME-Version: 1.0
-X-Received: by 2002:a92:9f9c:: with SMTP id z28mr17483689ilk.239.1575682200860;
- Fri, 06 Dec 2019 17:30:00 -0800 (PST)
-Date:   Fri, 06 Dec 2019 17:30:00 -0800
-In-Reply-To: <00000000000057e614057a9abcd3@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000dc7fc70599131995@google.com>
-Subject: Re: KASAN: null-ptr-deref Read in refcount_sub_and_test_checked (2)
-From:   syzbot <syzbot+0468b73bdbb243217224@syzkaller.appspotmail.com>
-To:     hverkuil-cisco@xs4all.nl, kyungmin.park@samsung.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        m.szyprowski@samsung.com, mchehab+samsung@kernel.org,
-        mchehab@kernel.org, pawel@osciak.com,
-        syzkaller-bugs@googlegroups.com, tfiga@chromium.org
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+        id S1726465AbfLGEzm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Dec 2019 23:55:42 -0500
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:36109 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726400AbfLGEzm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 6 Dec 2019 23:55:42 -0500
+Received: from localhost ([IPv6:2001:983:e9a7:1:1de4:8bca:2810:78bf])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id dS82i9agu85rjdS83iCAtI; Sat, 07 Dec 2019 05:55:40 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1575694540; bh=8klbDElybqBGmBBEKLJQQpBaTCngYEBK77deK0jmCO8=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=VvAsHDsNpy//66BIhxo55+1uxjfef6ete8hbdB6KAPan92lcT60LFnJEAp/L1W7XY
+         Qq2ejdtJS0yVmLfl+By7ARKbJeW/G+6pn8O8uStewakVWCXdQFekJzPIfRsRgtZkn6
+         ENvfYA6Khzr94gYuIFXcKcE++XEvEfJ+TSaLLSIa9X6BB7rSls6dRqdLXbmWbAdXiS
+         mT0NXQ0Ui6v/UjBxF5IdDghck7ypul44qCssedcBw0dCFvFuoI06NsdSajN/WaIVq9
+         MTYZM6+V74oLo9BOWxSfdQZrajVMPof6BrkfEDiZrcu7o6Ni11IdWxgOA2E2KLCcrW
+         1+2LwEkScXLiA==
+Message-ID: <db79ce4ae4eec4fcbb34dafcdde86be5@smtp-cloud8.xs4all.net>
+Date:   Sat, 07 Dec 2019 05:55:38 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfJocvArkXuPBucHUAyDDE9oscVNnaVKBBUslLYFZFISD5YYrGFiQ7/fQ0P9OdlpueJFRDI7yF0ykPGdZ8L0+f9OoY7q6tBlbbFOoU2DUyxDueKCKpPCg
+ nmFXdD9hLsMvao0P+7NWY0tUXvAt5vufEewMsSYJlECmfJdcjQU3G3n07muFlPCUAMg2DqXl57q/FK+QD/1eLftjP+zVMDGdivLq6t4/qBxrc+rHohONXYUj
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-syzbot suspects this bug was fixed by commit:
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-commit 62dcb4f41836bd3c44b5b651bb6df07ea4cb1551
-Author: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Date:   Thu Nov 8 12:23:37 2018 +0000
+Results of the daily build of media_tree:
 
-     media: vb2: check memory model for VIDIOC_CREATE_BUFS
+date:			Sat Dec  7 05:00:13 CET 2019
+media-tree git hash:	dca6b3733a4a46e63603496f544ece8ace541fde
+media_build git hash:	efba365ba11b958a6bf6fb4b397942f9461cefca
+v4l-utils git hash:	cb0ec2fd537333a62fa0d8e4acded7442851e956
+edid-decode git hash:	77700d6171b5c7eb4145de3283d36a033ab3322d
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 6903fe8f5101fc43440b3259290c97d2dd51733d
+host hardware:		x86_64
+host os:		5.2.0-3-amd64
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=14972e41e00000
-start commit:   ccda4af0 Linux 4.20-rc2
-git tree:       upstream
-kernel config:  https://syzkaller.appspot.com/x/.config?x=4a0a89f12ca9b0f5
-dashboard link: https://syzkaller.appspot.com/bug?extid=0468b73bdbb243217224
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16d20893400000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=118f5a2b400000
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4-i686: OK
+linux-5.4-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2793, Succeeded: 2793, Failed: 0, Warnings: 2
+sparse: WARNINGS
+smatch: WARNINGS
 
-If the result looks correct, please mark the bug fixed by replying with:
+Detailed results are available here:
 
-#syz fix: media: vb2: check memory model for VIDIOC_CREATE_BUFS
+http://www.xs4all.nl/~hverkuil/logs/Saturday.log
 
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
