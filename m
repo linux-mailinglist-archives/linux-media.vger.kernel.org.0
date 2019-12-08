@@ -2,147 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 92830115F9D
-	for <lists+linux-media@lfdr.de>; Sat,  7 Dec 2019 23:49:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B182116049
+	for <lists+linux-media@lfdr.de>; Sun,  8 Dec 2019 05:20:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727178AbfLGWtF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 7 Dec 2019 17:49:05 -0500
-Received: from mail.kernel.org ([198.145.29.99]:44836 "EHLO mail.kernel.org"
+        id S1726465AbfLHEU1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 7 Dec 2019 23:20:27 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:35860 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726421AbfLGWtE (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 7 Dec 2019 17:49:04 -0500
-Received: from ziggy.de (unknown [95.169.229.25])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 105EB2467E;
-        Sat,  7 Dec 2019 22:48:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1575758943;
-        bh=2c1gUv8XKvS1eMqQrdyjBwQRMHyDf9x2WLP/L/N/oYk=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Ex+aJfRsACjZ28NTdSFjpsnEX8XGNmUrxtA8psb1ayWYzB3TuieejguY2nD2Roc2F
-         G6kC8Ox+SbgCLvviz1viCFs0nmHzWSfR8Ay8XHFq9B4CjOP9/gbN2zjTyRHbss9zB3
-         DbBUR8OiMXk4Q4QZ1Hale5vP6GR60CkbihW9mY4M=
-From:   matthias.bgg@kernel.org
-To:     robh+dt@kernel.org, mark.rutland@arm.com, ck.hu@mediatek.com,
-        p.zabel@pengutronix.de, airlied@linux.ie, mturquette@baylibre.com,
-        sboyd@kernel.org, ulrich.hecht+renesas@gmail.com,
-        laurent.pinchart@ideasonboard.com, enric.balletbo@collabora.com
-Cc:     sean.wang@mediatek.com, sean.wang@kernel.org,
-        rdunlap@infradead.org, wens@csie.org, hsinyi@chromium.org,
-        frank-w@public-files.de, drinkcat@chromium.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org, mbrugger@suse.com,
-        matthias.bgg@kernel.org
-Subject: [resend PATCH v6 12/12] drm/mediatek: Add support for mmsys through a pdev
-Date:   Sat,  7 Dec 2019 23:47:40 +0100
-Message-Id: <20191207224740.24536-13-matthias.bgg@kernel.org>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20191207224740.24536-1-matthias.bgg@kernel.org>
-References: <20191207224740.24536-1-matthias.bgg@kernel.org>
+        id S1726421AbfLHEU1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 7 Dec 2019 23:20:27 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1ido3G-003vHo-Nc; Sun, 08 Dec 2019 04:20:10 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1ido4L-0004ec-02; Sun, 08 Dec 2019 04:21:17 +0000
+Date:   Sun, 8 Dec 2019 04:21:16 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <2084199844.23.1575778876989.JavaMail.jenkins@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #2841
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: media-build
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Matthias Brugger <mbrugger@suse.com>
+See <https://builder.linuxtv.org/job/media-build/2841/display/redirect>
 
-The MMSYS subsystem includes clocks and drm components.
-This patch adds an initailization path through a platform device
-for the clock part, so that both drivers get probed from the same
-device tree compatible.
+Changes:
 
-Signed-off-by: Matthias Brugger <mbrugger@suse.com>
----
- drivers/gpu/drm/mediatek/mtk_drm_drv.c | 24 ++++++++++++++++++++++++
- drivers/gpu/drm/mediatek/mtk_drm_drv.h |  2 ++
- 2 files changed, 26 insertions(+)
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 210455e9f46c..5ada74d8d0c9 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -186,6 +186,7 @@ static const struct mtk_mmsys_driver_data mt2701_mmsys_driver_data = {
- 	.ext_path = mt2701_mtk_ddp_ext,
- 	.ext_len = ARRAY_SIZE(mt2701_mtk_ddp_ext),
- 	.shadow_register = true,
-+	.clk_drv_name = "clk-mt2701-mm",
- };
- 
- static const struct mtk_mmsys_driver_data mt2712_mmsys_driver_data = {
-@@ -195,6 +196,7 @@ static const struct mtk_mmsys_driver_data mt2712_mmsys_driver_data = {
- 	.ext_len = ARRAY_SIZE(mt2712_mtk_ddp_ext),
- 	.third_path = mt2712_mtk_ddp_third,
- 	.third_len = ARRAY_SIZE(mt2712_mtk_ddp_third),
-+	.clk_drv_name = "clk-mt2712-mm",
- };
- 
- static const struct mtk_mmsys_driver_data mt8173_mmsys_driver_data = {
-@@ -202,6 +204,7 @@ static const struct mtk_mmsys_driver_data mt8173_mmsys_driver_data = {
- 	.main_len = ARRAY_SIZE(mt8173_mtk_ddp_main),
- 	.ext_path = mt8173_mtk_ddp_ext,
- 	.ext_len = ARRAY_SIZE(mt8173_mtk_ddp_ext),
-+	.clk_drv_name = "clk-mt8173-mm",
- };
- 
- static int mtk_drm_kms_init(struct drm_device *drm)
-@@ -499,6 +502,24 @@ static int mtk_drm_probe(struct platform_device *pdev)
- 	INIT_WORK(&private->commit.work, mtk_atomic_work);
- 	private->data = of_device_get_match_data(dev);
- 
-+	/*
-+	 * MMSYS includes apart from components management a block providing
-+	 * clocks for the subsystem. We probe this clock driver via a platform
-+	 * device.
-+	 */
-+	if (private->data->clk_drv_name) {
-+		private->clk_dev = platform_device_register_data(dev,
-+						private->data->clk_drv_name, -1,
-+						NULL, 0);
-+
-+		if (IS_ERR(private->clk_dev)) {
-+			dev_err(dev, "failed to register %s platform device\n",
-+				private->data->clk_drv_name);
-+
-+			return PTR_ERR(private->clk_dev);
-+		}
-+	}
-+
- 	private->config_regs = syscon_node_to_regmap(dev->of_node);
- 	if (IS_ERR(private->config_regs))
- 		return PTR_ERR(private->config_regs);
-@@ -605,6 +626,9 @@ static int mtk_drm_remove(struct platform_device *pdev)
- 	for (i = 0; i < DDP_COMPONENT_ID_MAX; i++)
- 		of_node_put(private->comp_node[i]);
- 
-+	if (private->clk_dev)
-+		platform_device_unregister(private->clk_dev);
-+
- 	return 0;
- }
- 
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.h b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
-index 63a121577dcb..8fe9136adc38 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.h
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
-@@ -29,11 +29,13 @@ struct mtk_mmsys_driver_data {
- 	unsigned int third_len;
- 
- 	bool shadow_register;
-+	const char *clk_drv_name;
- };
- 
- struct mtk_drm_private {
- 	struct drm_device *drm;
- 	struct device *dma_dev;
-+	struct platform_device *clk_dev;
- 
- 	unsigned int num_pipes;
- 
--- 
-2.24.0
+------------------------------------------
+Started by timer
+Running as SYSTEM
+Building remotely on slave1 in workspace <https://builder.linuxtv.org/job/media-build/ws/>
+No credentials specified
+ > git rev-parse --is-inside-work-tree # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
+Fetching upstream changes from git://linuxtv.org/media_build.git
+ > git --version # timeout=10
+ > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/*
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+ > git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
+Checking out Revision efba365ba11b958a6bf6fb4b397942f9461cefca (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f efba365ba11b958a6bf6fb4b397942f9461cefca
+Commit message: "VIDEO_HI556 needs probe_new"
+ > git rev-list --no-walk efba365ba11b958a6bf6fb4b397942f9461cefca # timeout=10
+[media-build] $ /bin/sh -xe /tmp/jenkins10986090624908030724.sh
++ ./build
+Checking if the needed tools for Debian GNU/Linux 10 (buster) are available
+Needed package dependencies are met.
 
+************************************************************
+* This script will download the latest tarball and build it*
+* Assuming that your kernel is compatible with the latest  *
+* drivers. If not, you'll need to add some extra backports,*
+* ./backports/<kernel> directory.                          *
+* It will also update this tree to be sure that all compat *
+* bits are there, to avoid compilation failures            *
+************************************************************
+************************************************************
+* All drivers and build system are under GPLv2 License     *
+* Firmware files are under the license terms found at:     *
+* http://www.linuxtv.org/downloads/firmware/               *
+* Please abort in the next 5 secs if you don't agree with  *
+* the license                                              *
+************************************************************
+
+Not aborted. It means that the licence was agreed. Proceeding...
+
+****************************
+Updating the building system
+****************************
+fatal: unable to connect to linuxtv.org:
+linuxtv.org[0: 130.149.80.248]: errno=Connection timed out
+
+Can't clone tree from linuxtv.org at ./build line 502
+Build step 'Execute shell' marked build as failure
