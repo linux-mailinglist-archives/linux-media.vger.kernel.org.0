@@ -2,133 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 948A611614A
-	for <lists+linux-media@lfdr.de>; Sun,  8 Dec 2019 10:44:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E00621163D2
+	for <lists+linux-media@lfdr.de>; Sun,  8 Dec 2019 22:13:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726220AbfLHJoV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 8 Dec 2019 04:44:21 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:50234 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725878AbfLHJoV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 8 Dec 2019 04:44:21 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id AA5A728A186
-Message-ID: <c6b45437882f01892b29b6660a9ddabf29f5ff80.camel@collabora.com>
-Subject: Re: [PATCH] media: davinci/vpfe_capture.c: Avoid BUG_ON for
- register failure
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Aditya Pakki <pakki001@umn.edu>
-Cc:     kjlu@umn.edu, "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Sun, 08 Dec 2019 06:44:11 -0300
-In-Reply-To: <a9448f56a067ed82aa3ce29492a02eb03dff32d0.camel@collabora.com>
-References: <20191206010029.14265-1-pakki001@umn.edu>
-         <a9448f56a067ed82aa3ce29492a02eb03dff32d0.camel@collabora.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.1-2 
+        id S1726728AbfLHVNr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 8 Dec 2019 16:13:47 -0500
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:37571 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725554AbfLHVNr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 8 Dec 2019 16:13:47 -0500
+Received: by mail-ot1-f66.google.com with SMTP id k14so10495072otn.4;
+        Sun, 08 Dec 2019 13:13:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=0kwV+KswtHN7mYaC55RJRRsqfRs6Nx3Ld51+tu4vFoQ=;
+        b=HQjxQZbnHf+jlQhInZKQ+e1iABi36NuPsOr4suD1ytiVAWqgvu/W7LRx1NgoepTw8j
+         Z1rv9heWIOYCPxULSnCSR0DgvItmztDLABRtRbxqphZGpgeVeqEE+eaxJWWnWz2ERR95
+         cGDbPyfH+RJVuATL4CMm/9Uv6GGVyQxO2bfvHgzNqd93GxKlEZX43LSPhVApi5o9X9jT
+         im2oanflYmwpnIT5ORHJmHEi7BzHxi78oXaju1LFQRwXdkvqucP/ndJ6YOoCTyqvaHO1
+         HJ//4A6Hw6+3ECp8DgneeZnyoUOPb5NQs54Yyx8e3qBg3/oPz/WFrsQa2J8n0coJN2Qt
+         5yAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=0kwV+KswtHN7mYaC55RJRRsqfRs6Nx3Ld51+tu4vFoQ=;
+        b=pITilW3+eXRBnoma9oo96+9W9VVKI/cTBJGYGv0eXRNYBo/tquXilX6QvRYoIttUS2
+         CX8f1PsGgFaD5LvfYRYH4V4Jr5Pr5ufPEDOb64Qg9OYG62r9vvkit/HPHt/2s0oqsQJa
+         XweAHGGYsem/7q4BmoS6xWZ2fXVNAjTijSq8jgND85N7T4I5JgZvQkHbmKCem4BiNgKl
+         HRpcRcYHWgbhgMzdsN+rm+O/rdXGshw961JfG6Fw7qASTikBFgMr/0N66wKuD/sXcmP+
+         CBoRxl0Sr3T/bYyYZOauo1upExL2M8qSRKt5jXDBuxUl1hLj1Ytzu4PSOycuy5nA2qfg
+         fyzA==
+X-Gm-Message-State: APjAAAUlyhJzzdIgQq/33jRP9Xti19j1s/P6Si+wOw6k0fQlzSApf5OL
+        Gd/AcROqpVpsXe+0fo28Z8c=
+X-Google-Smtp-Source: APXvYqy7bZUrmTKtzvftWC/PbGIijpAIJL/5cklq+ZEYSotaEgnaQ+SE80XCvspKE8h+QUbEWABNJQ==
+X-Received: by 2002:a9d:5552:: with SMTP id h18mr18315822oti.122.1575839626207;
+        Sun, 08 Dec 2019 13:13:46 -0800 (PST)
+Received: from localhost.localdomain ([2604:1380:4111:8b00::1])
+        by smtp.gmail.com with ESMTPSA id e65sm6099639otb.62.2019.12.08.13.13.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Dec 2019 13:13:45 -0800 (PST)
+From:   Nathan Chancellor <natechancellor@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Nick Desaulniers <ndesaulniers@google.com>
+Subject: [PATCH v3] media: v4l2-device.h: Explicitly compare grp{id,mask} to zero in v4l2_device macros
+Date:   Sun,  8 Dec 2019 14:11:40 -0700
+Message-Id: <20191208211139.18514-1-natechancellor@gmail.com>
+X-Mailer: git-send-email 2.24.0
+In-Reply-To: <20191105045907.26123-1-natechancellor@gmail.com>
+References: <20191105045907.26123-1-natechancellor@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+X-Patchwork-Bot: notify
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Aditya,
+When building with Clang + -Wtautological-constant-compare, several of
+the ivtv and cx18 drivers warn along the lines of:
 
-On Fri, 2019-12-06 at 06:20 -0300, Ezequiel Garcia wrote:
-> Hello Aditya,
-> 
-> Thanks for the patch.
-> 
-> On Thu, 2019-12-05 at 19:00 -0600, Aditya Pakki wrote:
-> > In vpfe_register_ccdc_device(), failure to allocate dev->hw_ops
-> > invokes calls to BUG_ON(). This patch returns the error to callers
-> > instead of crashing.
-> > 
-> 
-> I'm curious, are you actually getting this type of crash?
-> 
+ drivers/media/pci/cx18/cx18-driver.c:1005:21: warning: converting the
+ result of '<<' to a boolean always evaluates to true
+ [-Wtautological-constant-compare]
+                         cx18_call_hw(cx, CX18_HW_GPIO_RESET_CTRL,
+                                         ^
+ drivers/media/pci/cx18/cx18-cards.h:18:37: note: expanded from macro
+ 'CX18_HW_GPIO_RESET_CTRL'
+ #define CX18_HW_GPIO_RESET_CTRL         (1 << 6)
+                                           ^
+ 1 warning generated.
 
-Oops, it seems I was too fast to say this looked good.
+This warning happens because the shift operation is implicitly converted
+to a boolean in v4l2_device_mask_call_all before being negated. This can
+be solved by just comparing the mask result to 0 explicitly so that
+there is no boolean conversion. The ultimate goal is to enable
+-Wtautological-compare globally because there are several subwarnings
+that would be helpful to have.
 
-The driver is not dynamically allocating dev->hw_ops;
-as you can see hw_ops is not a pointer.
+For visual consistency and avoidance of these warnings in the future,
+all of the implicitly boolean conversions in the v4l2_device macros
+are converted to explicit ones as well.
 
-struct ccdc_hw_device {
-        /* ccdc device name */
-        char name[32];
-        /* module owner */
-        struct module *owner;
-        /* hw ops */
-        struct ccdc_hw_ops hw_ops;
-};
+Link: https://github.com/ClangBuiltLinux/linux/issues/752
+Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
+Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+---
 
-Please, don't submit patches without testing, at the very
-least compile testing.
+v1 -> v2: https://lore.kernel.org/lkml/20191024201240.49063-1-natechancellor@gmail.com/
 
-Thanks,
-Ezequiel
+* Fix typo in commit message
+* Add Nick's Reviewed-by.
 
-> > Signed-off-by: Aditya Pakki <pakki001@umn.edu>
-> > ---
-> >  drivers/media/platform/davinci/vpfe_capture.c | 21 ++++++-------------
-> >  1 file changed, 6 insertions(+), 15 deletions(-)
-> > 
-> > diff --git a/drivers/media/platform/davinci/vpfe_capture.c b/drivers/media/platform/davinci/vpfe_capture.c
-> > index 916ed743d716..6d394a006977 100644
-> > --- a/drivers/media/platform/davinci/vpfe_capture.c
-> > +++ b/drivers/media/platform/davinci/vpfe_capture.c
-> > @@ -168,21 +168,11 @@ int vpfe_register_ccdc_device(const struct ccdc_hw_device *dev)
-> >  	int ret = 0;
-> >  	printk(KERN_NOTICE "vpfe_register_ccdc_device: %s\n", dev->name);
-> >  
-> > -	BUG_ON(!dev->hw_ops.open);
-> > -	BUG_ON(!dev->hw_ops.enable);
-> > -	BUG_ON(!dev->hw_ops.set_hw_if_params);
-> > -	BUG_ON(!dev->hw_ops.configure);
-> > -	BUG_ON(!dev->hw_ops.set_buftype);
-> > -	BUG_ON(!dev->hw_ops.get_buftype);
-> > -	BUG_ON(!dev->hw_ops.enum_pix);
-> > -	BUG_ON(!dev->hw_ops.set_frame_format);
-> > -	BUG_ON(!dev->hw_ops.get_frame_format);
-> > -	BUG_ON(!dev->hw_ops.get_pixel_format);
-> > -	BUG_ON(!dev->hw_ops.set_pixel_format);
-> > -	BUG_ON(!dev->hw_ops.set_image_window);
-> > -	BUG_ON(!dev->hw_ops.get_image_window);
-> > -	BUG_ON(!dev->hw_ops.get_line_length);
-> > -	BUG_ON(!dev->hw_ops.getfid);
-> > +	if (!dev->hw_ops) {
-> > +		printk(KERN_ERR "could not allocate hw_ops\n");
-> 
-> I'd drop this error message, as hw_ops is not really allocated here.
-> 
-> > +		ret = -EINVAL;
-> > +		goto rvalue;
-> 
-> Instead of a goto to a return, just return -EINVAL here.
-> 
-> > +	}
-> >  
-> >  	mutex_lock(&ccdc_lock);
-> >  	if (!ccdc_cfg) {
-> > @@ -211,6 +201,7 @@ int vpfe_register_ccdc_device(const struct ccdc_hw_device *dev)
-> >  	ccdc_dev = dev;
-> >  unlock:
-> >  	mutex_unlock(&ccdc_lock);
-> > +rvalue:
-> >  	return ret;
-> >  }
-> >  EXPORT_SYMBOL(vpfe_register_ccdc_device);
-> 
-> With those changes, the patch looks good.
-> 
-> Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
-> 
-> Thanks,
-> Ezequiel
-> 
+v2 -> v3: https://lore.kernel.org/lkml/20191105045907.26123-1-natechancellor@gmail.com/
 
+* Improve reasoning for change (Ezequiel)
+* Patch all implicit boolean conversions (Ezequiel)
+* Add Ezequiel's reviewed-by.
+
+ include/media/v4l2-device.h | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/include/media/v4l2-device.h b/include/media/v4l2-device.h
+index 5f36e0d2ede6..95353ae476a1 100644
+--- a/include/media/v4l2-device.h
++++ b/include/media/v4l2-device.h
+@@ -371,7 +371,7 @@ static inline bool v4l2_device_supports_requests(struct v4l2_device *v4l2_dev)
+ 		struct v4l2_subdev *__sd;				\
+ 									\
+ 		__v4l2_device_call_subdevs_p(v4l2_dev, __sd,		\
+-			!(grpid) || __sd->grp_id == (grpid), o, f ,	\
++			(grpid) == 0 || __sd->grp_id == (grpid), o, f ,	\
+ 			##args);					\
+ 	} while (0)
+ 
+@@ -403,7 +403,7 @@ static inline bool v4l2_device_supports_requests(struct v4l2_device *v4l2_dev)
+ ({									\
+ 	struct v4l2_subdev *__sd;					\
+ 	__v4l2_device_call_subdevs_until_err_p(v4l2_dev, __sd,		\
+-			!(grpid) || __sd->grp_id == (grpid), o, f ,	\
++			(grpid) == 0 || __sd->grp_id == (grpid), o, f ,	\
+ 			##args);					\
+ })
+ 
+@@ -431,8 +431,8 @@ static inline bool v4l2_device_supports_requests(struct v4l2_device *v4l2_dev)
+ 		struct v4l2_subdev *__sd;				\
+ 									\
+ 		__v4l2_device_call_subdevs_p(v4l2_dev, __sd,		\
+-			!(grpmsk) || (__sd->grp_id & (grpmsk)), o, f ,	\
+-			##args);					\
++			(grpmsk) == 0 || (__sd->grp_id & (grpmsk)), o,	\
++			f , ##args);					\
+ 	} while (0)
+ 
+ /**
+@@ -462,8 +462,8 @@ static inline bool v4l2_device_supports_requests(struct v4l2_device *v4l2_dev)
+ ({									\
+ 	struct v4l2_subdev *__sd;					\
+ 	__v4l2_device_call_subdevs_until_err_p(v4l2_dev, __sd,		\
+-			!(grpmsk) || (__sd->grp_id & (grpmsk)), o, f ,	\
+-			##args);					\
++			(grpmsk) == 0 || (__sd->grp_id & (grpmsk)), o,	\
++			f , ##args);					\
+ })
+ 
+ 
+-- 
+2.24.0
 
