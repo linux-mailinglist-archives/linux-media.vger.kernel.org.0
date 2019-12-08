@@ -2,92 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B182116049
-	for <lists+linux-media@lfdr.de>; Sun,  8 Dec 2019 05:20:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DF31116069
+	for <lists+linux-media@lfdr.de>; Sun,  8 Dec 2019 05:55:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726465AbfLHEU1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 7 Dec 2019 23:20:27 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:35860 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726421AbfLHEU1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 7 Dec 2019 23:20:27 -0500
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1ido3G-003vHo-Nc; Sun, 08 Dec 2019 04:20:10 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1ido4L-0004ec-02; Sun, 08 Dec 2019 04:21:17 +0000
-Date:   Sun, 8 Dec 2019 04:21:16 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <2084199844.23.1575778876989.JavaMail.jenkins@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #2841
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: media-build
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
+        id S1726475AbfLHEzs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 7 Dec 2019 23:55:48 -0500
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:59661 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726465AbfLHEzs (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sat, 7 Dec 2019 23:55:48 -0500
+Received: from localhost ([IPv6:2001:983:e9a7:1:cd3c:1063:f250:5e4f])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id dobeiqkgwU9wBdobfi7JyC; Sun, 08 Dec 2019 05:55:45 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1575780945; bh=PTNC4weZ7UmTlmEywXFcTlxdHwEFGCT2bqST6TGtwbs=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=CRV4W/vGxp74Z03laCvEmoUXVIB7zkwCu7opvTwGlY+c3cfE7zYC4AftH66ffV20V
+         klAV5u3JvMbW1yctNxvknr1V10PcEqvkC/WV+TU9CVZ9fhfnUXTOrrc47b9AWVWg1+
+         1U/95UKqNEKbCpsR0gfeE9nlNOAE1SZcF3kyLK1NL5QBvTRsB/TexR8Ej0LK3HCaOh
+         lazkvls6KkAv1lMiC5pAj8RxjF+FnmlnMYkCnw6BvQGKlri7kWtbLogMRoClsD5IV3
+         B8sqGurf8KU94LF4gZstOxvhbDEjJu5cZBhgI7WYY0cm0b5SEW4EsgXW1xeWCjESBT
+         rAspCMA2AR+Jw==
+Message-ID: <f17b3f6eed1bc742a3359276ac4ff3ab@smtp-cloud7.xs4all.net>
+Date:   Sun, 08 Dec 2019 05:55:42 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfHjlwqgHku6kN68Z0sQdpBNRGAdp9etuBmhR2vux9+C/nICIFsqp9DfgY+MAU5jTvZlcP2YN9jDl2hGbwNABiw/HtJSRCf0HPt8i32Gq24VJRruSPLhI
+ 8f9qi048GO80Pk+e9PlCEcSuBNEm/3vkFW4cWN1ucbZanSqv3pLm7kIAA0LP1JqaVmGIYh3PUZxSOiwWqhEGBwClMvL9awEjsQ3T9qkuv82StlxRSpUb56c3
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/2841/display/redirect>
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Changes:
+Results of the daily build of media_tree:
 
+date:			Sun Dec  8 05:00:14 CET 2019
+media-tree git hash:	dca6b3733a4a46e63603496f544ece8ace541fde
+media_build git hash:	efba365ba11b958a6bf6fb4b397942f9461cefca
+v4l-utils git hash:	cb0ec2fd537333a62fa0d8e4acded7442851e956
+edid-decode git hash:	46a0691551e44d49a2c3951a7d944786131c97c3
+gcc version:		i686-linux-gcc (GCC) 9.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 6903fe8f5101fc43440b3259290c97d2dd51733d
+host hardware:		x86_64
+host os:		5.2.0-3-amd64
 
-------------------------------------------
-Started by timer
-Running as SYSTEM
-Building remotely on slave1 in workspace <https://builder.linuxtv.org/job/media-build/ws/>
-No credentials specified
- > git rev-parse --is-inside-work-tree # timeout=10
-Fetching changes from the remote Git repository
- > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/media_build.git
- > git --version # timeout=10
- > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/*
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
- > git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
-Checking out Revision efba365ba11b958a6bf6fb4b397942f9461cefca (refs/remotes/origin/master)
- > git config core.sparsecheckout # timeout=10
- > git checkout -f efba365ba11b958a6bf6fb4b397942f9461cefca
-Commit message: "VIDEO_HI556 needs probe_new"
- > git rev-list --no-walk efba365ba11b958a6bf6fb4b397942f9461cefca # timeout=10
-[media-build] $ /bin/sh -xe /tmp/jenkins10986090624908030724.sh
-+ ./build
-Checking if the needed tools for Debian GNU/Linux 10 (buster) are available
-Needed package dependencies are met.
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-multi: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-sh: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.63-i686: OK
+linux-3.16.63-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.167-i686: OK
+linux-4.4.167-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.162-i686: OK
+linux-4.9.162-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.105-i686: OK
+linux-4.14.105-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.28-i686: OK
+linux-4.19.28-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4-i686: OK
+linux-5.4-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2793, Succeeded: 2793, Failed: 0, Warnings: 2
+sparse: WARNINGS
+smatch: WARNINGS
 
-************************************************************
-* This script will download the latest tarball and build it*
-* Assuming that your kernel is compatible with the latest  *
-* drivers. If not, you'll need to add some extra backports,*
-* ./backports/<kernel> directory.                          *
-* It will also update this tree to be sure that all compat *
-* bits are there, to avoid compilation failures            *
-************************************************************
-************************************************************
-* All drivers and build system are under GPLv2 License     *
-* Firmware files are under the license terms found at:     *
-* http://www.linuxtv.org/downloads/firmware/               *
-* Please abort in the next 5 secs if you don't agree with  *
-* the license                                              *
-************************************************************
+Detailed results are available here:
 
-Not aborted. It means that the licence was agreed. Proceeding...
+http://www.xs4all.nl/~hverkuil/logs/Sunday.log
 
-****************************
-Updating the building system
-****************************
-fatal: unable to connect to linuxtv.org:
-linuxtv.org[0: 130.149.80.248]: errno=Connection timed out
+Detailed regression test results are available here:
 
-Can't clone tree from linuxtv.org at ./build line 502
-Build step 'Execute shell' marked build as failure
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
